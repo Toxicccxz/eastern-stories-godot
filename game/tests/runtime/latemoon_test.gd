@@ -73,16 +73,10 @@ func _test_data() -> void:
 	_check(catalog.service(&"latemoon.latemoon3.tea").kind == &"water" and catalog.service(&"latemoon.room.bathroom.pool").kind == &"water", "resource/water: the teapot, the pool")
 
 
-## Reminders: what 晚月庄 B, C and D port is not there yet. Each check fails once its
-## package lands, which must replace it with the real one.
+## Reminders: what 晚月庄 C and D port is not there yet (B is latemoon_quarters_test). Each
+## check fails once its package lands, which must replace it with the real one.
 func _test_waiting() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
-	# B: the women's quarters and the rooms' own commands.
-	for id: StringName in [&"latemoon.npc.room.shinyu", &"latemoon.npc.room.shaoin", &"latemoon.npc.room.yuchoun", &"latemoon.npc.room.yushou", &"latemoon.npc.room.fireangel", &"latemoon.npc.upstar.statue"]:
-		_check(not catalog.npc(id).talk().has_greeting(), "B waits: %s's greeting() (kick, powder, closing the door, the stare)" % id)
-	_check(catalog.landmark(&"latemoon.park.moonc.landmark.flower").policy == &"look" and catalog.landmark(&"latemoon.latemoon2.landmark.closet").policy == &"look", "B waits: pick flower, take cloth")
-	_check(catalog.exit_rules_between(&"latemoon.room.bathroom1", &"latemoon.room.flower1").is_empty(), "B waits: the changing room's powder (valid_leave)")
-	_check(not catalog.item(&"es2:d/latemoon/obj/skirt").female_only, "B waits: the skirts' own wear() (only a 女性)")
 	# C: the secrets.
 	for id: StringName in [&"latemoon.npc.funlin", &"latemoon.npc.shaowei", &"latemoon.npc.room.old"]:
 		_check(catalog.npc(id).dealings().object_rules.is_empty(), "C waits: %s's accept_object()" % id)

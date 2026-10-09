@@ -55,7 +55,7 @@
 			"greeting": {
 				"one_of": [
 					{ "line": "雨梅对你微笑，和善的对你说：\n  这位$RESPECT，你好！欢迎来到晚月庄。请坐！" },
-					{ "line": "雨梅对你微笑，纤细的双手捧著茶，\n 说道：这位$RESPECT，你好！欢迎来到晚月庄。请用茶！" }
+					{ "steps": [{ "line": "雨梅对你微笑，纤细的双手捧著茶，\n 说道：这位$RESPECT，你好！欢迎来到晚月庄。请用茶！" }, { "give": "es2:d/latemoon/obj/teacup", "unless_temp": "latemoon/茶", "lines": [{ "line": "这是上等金轩茶!您品尝一下。\n" }] }] }
 				]
 			}
 		},
@@ -262,7 +262,12 @@
 				{ "item": "es2:d/latemoon/room/npc/obj/earring", "source": "d/latemoon/room/npc/obj/earring.c", "equip": "wear" },
 				{ "item": "es2:d/latemoon/room/npc/obj/brooch", "source": "d/latemoon/room/npc/obj/brooch.c", "equip": "wear" }
 			],
-			"apply": { "armor": 100 }
+			"apply": { "armor": 100 },
+			"greeting": {
+				"rules": [
+					{ "steps": [{ "close_door": true }, { "line": "阁下! 这里是庄内后厅厢房。不方便男客进入哦! \n请随手关门，并保持安静! 谢谢! \n" }] }
+				]
+			}
 		},
 		{
 			"id": "latemoon.npc.room.old",
@@ -475,7 +480,13 @@
 				{ "item": "es2:d/latemoon/obj/skirt3", "source": "d/latemoon/obj/skirt3.c", "equip": "wear" },
 				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 1 }
 			],
-			"apply": { "armor": 70 }
+			"apply": { "armor": 70 },
+			"greeting": {
+				"rules": [
+					{ "gender": "男性", "steps": [{ "line": "琼衣很礼貌的向你微笑! \n", "color": "HIY" }, { "line": "说道：请保持安静哦! \n", "color": "HIY" }, { "damage": { "sen": 10 } }, { "npc_force": 50 }, { "close_door": true }] },
+					{ "steps": [{ "close_door": true }] }
+				]
+			}
 		},
 		{
 			"id": "latemoon.npc.room.shaoin",
@@ -499,6 +510,12 @@
 				"below": 20,
 				"message": "你觉得被打中的地方一阵麻痒！",
 				"color": "HIG"
+			},
+			"greeting": {
+				"rules": [
+					{ "gender": "男性", "steps": [{ "line": "韶吟惊慌生气的怒斥： 喂! 兄台不要乱闯! \n", "color": "HIY" }, { "line": "她的眼神骤变，隐约中似乎让人神智渐模糊! \n", "color": "HIM" }, { "damage": { "sen": 20 } }, { "condition": "rose_poison", "duration": 2 }, { "npc_force": 50 }, { "close_door": true }] },
+					{ "steps": [{ "close_door": true }] }
+				]
 			}
 		},
 		{
@@ -516,7 +533,13 @@
 			"force_factor": 20,
 			"attitude": "friendly",
 			"skills": { "unarmed": 20, "dodge": 100, "spring-blade": 100, "blade": 100, "force": 100 },
-			"skill_map": { "blade": "spring-blade" }
+			"skill_map": { "blade": "spring-blade" },
+			"greeting": {
+				"rules": [
+					{ "gender": "男性", "steps": [{ "line": "欣郁大喊： 喂! 兄台! 这不准男人进来! \n", "color": "HIY" }, { "line": "欣郁从袖里取出一把粉红色细粉泼撒出去。\n", "color": "HIR" }, { "line": "欣郁一脚往闯入者踢了出去。\n", "color": "HIY" }, { "close_door": true }, { "condition": "rose_poison", "duration": 10 }, { "damage": { "gin": 50, "kee": 100, "sen": 50 } }, { "move": "latemoon.room.flower1", "point": "latemoon.room.flower1.kicked_out" }] },
+					{ "steps": [{ "close_door": true }] }
+				]
+			}
 		},
 		{
 			"id": "latemoon.npc.room.fireangel",
@@ -540,7 +563,12 @@
 				"force": 100
 			},
 			"skill_map": { "force": "iceforce", "dodge": "stormdance", "unarmed": "tenderzhi" },
-			"apply": { "armor": 100 }
+			"apply": { "armor": 100 },
+			"greeting": {
+				"rules": [
+					{ "gender": "男性", "steps": [{ "line": "神像眼神骤变，幻化成七彩凤凰，出现金色光芒。\n", "color": "HIY" }, { "kill": true }] }
+				]
+			}
 		},
 		{
 			"id": "latemoon.npc.room.eton",
@@ -783,7 +811,12 @@
 				"force": 100
 			},
 			"skill_map": { "force": "iceforce", "dodge": "stormdance", "unarmed": "tenderzhi" },
-			"apply": { "armor": 100 }
+			"apply": { "armor": 100 },
+			"greeting": {
+				"rules": [
+					{ "not_class": "dancer", "steps": [{ "line": "你有一种奇特的感觉，彷佛有人在盯著你看。\n", "color": "HIY" }, { "damage": { "sen": 20 } }] }
+				]
+			}
 		},
 		{
 			"id": "latemoon.npc.upstar.bird",

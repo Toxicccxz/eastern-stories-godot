@@ -2,10 +2,11 @@ class_name ServiceDefinition
 extends RefCounted
 
 ## Something the player can use at one spot of a zone: an ES2 room's own command
-## (bank convert, work, pawn shop, water source, a dance floor). The kind picks the rules;
+## (bank convert, work, pawn shop, water source, a dance floor, a command that acts on
+## the player: `act`, RoomActDefinition). The kind picks the rules;
 ## the scene places it with a WorldServicePoint of the same ID. What an NPC offers
 ## (goods, teaching) is on its NPC record and goes with its body (NpcService).
-const KINDS: Array[StringName] = [&"bank", &"work", &"hockshop", &"water", &"dance"]
+const KINDS: Array[StringName] = [&"bank", &"work", &"hockshop", &"water", &"dance", &"act"]
 
 var _service_id: StringName
 var _kind: StringName
@@ -15,6 +16,7 @@ var _display_name: String
 var _reach: int
 var _legacy_source: String
 var _dance: DanceDefinition
+var _act: RoomActDefinition
 
 var service_id: StringName:
 	get:
@@ -42,6 +44,10 @@ var legacy_source: String:
 var dance: DanceDefinition:
 	get:
 		return _dance
+## The `act` kind's command (RoomActDefinition); null for any other kind.
+var act: RoomActDefinition:
+	get:
+		return _act
 
 
 func _init(
@@ -75,9 +81,14 @@ static func from_record(reader: ContentRecordReader) -> ServiceDefinition:
 	var dance: ContentRecordReader = reader.child("dance")
 	if dance != null:
 		definition._dance = DanceDefinition.from_record(dance)
+	var act: ContentRecordReader = reader.child("act")
+	if act != null:
+		definition._act = RoomActDefinition.from_record(act)
 	reader.finish()
 	if (definition.kind == &"dance") != (definition._dance != null):
 		reader.fail("dance", "a dance service and only one has its dance")
+	if (definition.kind == &"act") != (definition._act != null):
+		reader.fail("act", "an act service and only one has its act")
 	if not KINDS.has(definition.kind):
 		reader.fail("kind", "unsupported service kind '%s'" % definition.kind)
 	if definition.reach <= 0:
@@ -89,4 +100,5 @@ static func from_record(reader: ContentRecordReader) -> ServiceDefinition:
 func with_map(map_id: StringName) -> ServiceDefinition:
 	var copy := ServiceDefinition.new(_service_id, _kind, map_id, _zone_id, _display_name, _reach, _legacy_source)
 	copy._dance = _dance
+	copy._act = _act
 	return copy

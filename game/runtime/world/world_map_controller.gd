@@ -24,6 +24,7 @@ var npc_life: WorldMapNpcLife = WorldMapNpcLife.new(self)
 var hostilities: WorldMapHostilities = WorldMapHostilities.new(self)
 var combat_lifecycle: WorldMapCombatLifecycle = WorldMapCombatLifecycle.new(self)
 var spells: WorldMapSpells = WorldMapSpells.new(self)
+var acts: WorldMapActs = WorldMapActs.new(self)
 var _definition: MapDefinition
 var _initialized: bool = false
 var _initialization_count: int = 0
@@ -372,6 +373,8 @@ func accept_zone_presence(zone: WorldPhysicalZoneArea2D) -> bool:
 	var refusal: ZoneExitRuleDefinition = _exit_refusal(current.zone_id, zone.zone_id)
 	if refusal != null:
 		_refuse_exit(refusal, current.zone_id)
+		if refusal.asks:
+			_ask_way_in(refusal, _enter_after_asking.bind(refusal))
 		return false
 	_tell_passing(current.zone_id, zone.zone_id)
 	if session != null:
@@ -431,6 +434,8 @@ func leave_by_passage(portal: PortalDefinition, passage: WorldPassageArea2D) -> 
 	var refusal: ZoneExitRuleDefinition = _exit_refusal(portal.source_zone_id, portal.destination_zone_id)
 	if refusal != null:
 		_refuse_passage(refusal, portal.source_zone_id, passage)
+		if refusal.asks:
+			_ask_way_in(refusal, _pass_after_asking.bind(refusal, portal))
 		return false
 	_tell_passing(portal.source_zone_id, portal.destination_zone_id)
 	if not portal.set_mark.is_empty():
@@ -468,6 +473,8 @@ func _refuse_exit(rule: ZoneExitRuleDefinition, from_zone_id: StringName) -> voi
 
 
 func _tell_refusal(rule: ZoneExitRuleDefinition) -> void:
+	if rule.asks:
+		return
 	var now: int = Time.get_ticks_msec()
 	if rule.knocks_out or rule.rule_id != _last_exit_refusal or now - _last_exit_refusal_ms > EXIT_REFUSAL_REPEAT_MS:
 		var lines: Array[String] = []
@@ -482,15 +489,81 @@ func _tell_refusal(rule: ZoneExitRuleDefinition) -> void:
 		player_fall_below_zero()
 
 
+## An `ask` rule stopped the player at the way in (owner, 晚月庄 plan Q2): the
+## question, while they stay in the room it asks from; `go` takes them in.
+func _ask_way_in(rule: ZoneExitRuleDefinition, go: Callable) -> void:
+	player_body.quarantine_current_movement_input()
+	if hud() == null or hud().is_asking():
+		return
+	var still_here: Callable = func() -> bool:
+		return _player != null and _player.world_location().zone_id == rule.from_zone_id and can_act(false)
+	hud().ask_first(tr(rule.ask), tr(rule.choice), go, still_here)
+
+
+## The player chose to walk in: they are put inside, as a walk would (the way's
+## valid_leave() lines, the room traps).
+func _enter_after_asking(rule: ZoneExitRuleDefinition) -> void:
+	if _player == null or _player.world_location().zone_id != rule.from_zone_id:
+		return
+	_tell_passing(rule.from_zone_id, rule.to_zone_id)
+	if session != null:
+		session.player_leaving_zone(rule.from_zone_id, rule.to_zone_id)
+	if relocate_player(rule.to_zone_id, rule.point_id):
+		_drop_selection_left_behind()
+
+
+func _pass_after_asking(rule: ZoneExitRuleDefinition, portal: PortalDefinition) -> void:
+	if _player == null or _player.world_location().zone_id != rule.from_zone_id:
+		return
+	_tell_passing(portal.source_zone_id, portal.destination_zone_id)
+	WorldLandmarkPolicy.move_through(self, portal)
+
+
 ## What the room's valid_leave() tells one who goes through (book_room1.c's
-## message_vision()), before the next room's text.
+## message_vision()), before the next room's text, and what it takes back
+## (latemoon3.c: the tea cup goes back to 雨梅).
 func _tell_passing(from_zone_id: StringName, to_zone_id: StringName) -> void:
 	var lines: Array[String] = []
 	for rule: ZoneExitRuleDefinition in GameContent.catalog().exit_rules_between(from_zone_id, to_zone_id):
+		if rule.condition == ZoneExitRuleDefinition.Condition.TAKES_BACK:
+			_take_back(rule)
+			continue
 		for line: String in rule.pass_lines:
 			lines.append(tr(line))
 	if not lines.is_empty() and hud() != null:
 		hud().append_log_lines(lines)
+
+
+## latemoon3.c valid_leave(): present("tea cup", me) among the player's own things;
+## with the flag it goes back (destruct()) and the flag goes; without one at all the
+## player reads `without`.
+func _take_back(rule: ZoneExitRuleDefinition) -> void:
+	var carried := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)
+	var held: StringName = &""
+	for item_id: StringName in inventory_state().direct_children(carried):
+		var item: ItemInstance = item_instance_index().resolve(item_id)
+		if item != null and item.item_definition_id == rule.item_id:
+			held = item_id
+			break
+	if held.is_empty():
+		var without: Array[String] = []
+		for line: String in rule.without:
+			without.append(tr(line))
+		if hud() != null:
+			hud().append_log_lines(without)
+		return
+	if _player.temp_marks.get(rule.temp, 0) == 0:
+		return
+	_player.temp_marks.erase(rule.temp)
+	if not floor_items.use_up_one(held, ItemLifecycleOwnerContext.new(_player.character_id, _player.state.equipment, _player.armor)):
+		push_error("handing back %s failed: the item state is inconsistent" % held)
+	if hud() != null:
+		var taken: Array[ColoredLine] = []
+		for line: NpcLine in rule.taken:
+			taken.append(line.colored("", ""))
+		hud().append_colored_lines(taken)
+		if hud().inventory_is_open():
+			hud().show_inventory(session.player_inventory_rows())
 
 
 func freeze_world_gameplay(id: StringName) -> bool:

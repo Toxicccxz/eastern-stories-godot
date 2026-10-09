@@ -13,7 +13,13 @@ extends RefCounted
 ## next zone or a passage (portal) from `from_zone` to `to_zone`. `pass_lines` are what
 ## the room's message_vision() tells one who goes through (book_room1.c's 拉开门大步走了
 ## 出去); a rule `never` refuses nobody and only says them.
-enum Condition { WEAPON_IN_HAND, COMBAT_EXP_BELOW, NOT_APPRENTICE_OF, NOT_FAMILY, KAR_SLIP, NEVER }
+## `ask` is no valid_leave(): the owner's question before a way in that can kill (晚月庄
+## plan Q2: a man walking into the changing room). Anyone not of `unless_gender` is
+## stopped and asked (`ask`, `choice`); one who chooses to go is put at `point` inside.
+## `takes_back` (d/latemoon/latemoon3.c) refuses nobody: one who carries the `item` and
+## the set_temp() flag `temp` hands it back (`taken`, the flag deleted); one who carries
+## none reads `without`; one who carries it without the flag keeps it, without a word.
+enum Condition { WEAPON_IN_HAND, COMBAT_EXP_BELOW, NOT_APPRENTICE_OF, NOT_FAMILY, KAR_SLIP, NEVER, ASK, TAKES_BACK }
 
 const CONDITIONS: Dictionary[String, Condition] = {
 	"weapon_in_hand": Condition.WEAPON_IN_HAND,
@@ -22,6 +28,8 @@ const CONDITIONS: Dictionary[String, Condition] = {
 	"not_family": Condition.NOT_FAMILY,
 	"kar_slip": Condition.KAR_SLIP,
 	"never": Condition.NEVER,
+	"ask": Condition.ASK,
+	"takes_back": Condition.TAKES_BACK,
 }
 
 var rule_id: StringName
@@ -39,10 +47,24 @@ var family_id: StringName
 var lines: Array[String] = []
 var pass_lines: Array[String] = []
 var legacy_source_path: String
+## ask: who walks in unasked, the question, its button and where the player is put.
+var unless_gender: StringName = &""
+var ask: String = ""
+var choice: String = ""
+var point_id: StringName = &""
+## takes_back: the item, the flag, what the hand-back says and what leaving without it says.
+var item_id: StringName = &""
+var temp: String = ""
+var taken: Array[NpcLine] = []
+var without: Array[String] = []
 
 ## kar_slip: the refused leaver also falls unconscious (unconcious()).
 var knocks_out: bool:
 	get: return condition == Condition.KAR_SLIP
+
+## ask: the way is asked about first (the rule stops one who has not chosen to go yet).
+var asks: bool:
+	get: return condition == Condition.ASK
 
 
 ## What a rule looks at when the player tries to leave. `draw` is MudOS random(n) on
@@ -56,10 +78,11 @@ class Leaver:
 	## query("kar"): the attribute as set, without karma_modifier.
 	var kar: int
 	var draw: Callable
+	var gender: StringName = &""
 
 	func _init(
 		p_weapon_in_hand: bool = false, p_combat_exp: int = 0, p_master_id: StringName = &"",
-		p_family_id: StringName = &"", p_kar: int = 0, p_draw: Callable = Callable(),
+		p_family_id: StringName = &"", p_kar: int = 0, p_draw: Callable = Callable(), p_gender: StringName = &"",
 	) -> void:
 		weapon_in_hand = p_weapon_in_hand
 		combat_exp = p_combat_exp
@@ -67,11 +90,13 @@ class Leaver:
 		family_id = p_family_id
 		kar = p_kar
 		draw = p_draw
+		gender = p_gender
 
 	static func of(state: CharacterState, p_draw: Callable = Callable()) -> Leaver:
 		return Leaver.new(
 			not state.equipment.is_primary_hand_empty(), state.progression.combat_experience,
 			state.apprenticeship.master_teacher_id, state.family.family_id, state.attributes.karma, p_draw,
+			state.gender,
 		)
 
 
@@ -91,12 +116,16 @@ func refuses(leaver: Leaver, present: bool) -> bool:
 			# random(n) with n <= 0 is 0 without a draw (DECISIONS' global rule).
 			var drawn: int = 0 if leaver.kar <= 0 or not leaver.draw.is_valid() else int(leaver.draw.call(leaver.kar))
 			return drawn < value
+		Condition.ASK:
+			return leaver.gender != unless_gender
 	return false
 
 
 ## {id, room, from_zone, to_zone, when, lines: [line], pass_lines?: [line], legacy_source}
 ## and per `when`: weapon_in_hand {present: npc id}, combat_exp_below {value},
-## not_apprentice_of {npc}, not_family {family}, kar_slip {value}, never (pass_lines only).
+## not_apprentice_of {npc}, not_family {family}, kar_slip {value}, never (pass_lines only),
+## ask {unless_gender, ask, choice, point; no lines}, takes_back {item, temp, taken:
+## [NpcLine record], without: [line]; no lines}.
 static func from_record(reader: ContentRecordReader) -> ZoneExitRuleDefinition:
 	var rule := ZoneExitRuleDefinition.new()
 	rule.rule_id = StringName(reader.required_text("id"))
@@ -118,11 +147,30 @@ static func from_record(reader: ContentRecordReader) -> ZoneExitRuleDefinition:
 			rule.npc_id = StringName(reader.required_text("npc"))
 		Condition.NOT_FAMILY:
 			rule.family_id = StringName(reader.required_text("family"))
+		Condition.ASK:
+			rule.unless_gender = StringName(reader.required_text("unless_gender"))
+			rule.ask = reader.required_text("ask")
+			rule.choice = reader.required_text("choice")
+			rule.point_id = StringName(reader.required_text("point"))
+		Condition.TAKES_BACK:
+			rule.item_id = StringName(reader.required_text("item"))
+			rule.temp = reader.required_text("temp")
+			for record: ContentRecordReader in reader.children("taken"):
+				var line: NpcLine = NpcLine.from_record(record)
+				record.finish()
+				if line != null:
+					rule.taken.append(line)
+			rule.without.assign(reader.text_list("without"))
 	rule.lines.assign(reader.text_list("lines"))
 	rule.pass_lines.assign(reader.text_list("pass_lines"))
 	if rule.condition == Condition.NEVER:
 		if not rule.lines.is_empty() or rule.pass_lines.is_empty():
 			reader.fail("pass_lines", "a rule that never refuses only says its pass_lines")
+	elif rule.condition == Condition.ASK or rule.condition == Condition.TAKES_BACK:
+		if not rule.lines.is_empty() or not rule.pass_lines.is_empty():
+			reader.fail("lines", "an ask or takes_back rule says only its own lines")
+		if rule.condition == Condition.TAKES_BACK and rule.taken.is_empty():
+			reader.fail("taken", "the hand-back is told")
 	elif rule.lines.is_empty():
 		reader.fail("lines", "a refusal says why")
 	rule.legacy_source_path = reader.required_text("legacy_source")

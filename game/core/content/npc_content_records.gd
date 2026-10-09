@@ -142,9 +142,10 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 ## {"rules": [NpcInquiryRule]}}, `relay_say` {phrase: [{"say" | "emote" | "line" | "whisper"}]}, `chat_chance`
 ## with `chat_msg` [line | {"say", "color"} | {"action": "random_move"} | {"action": "drink",
 ## ...} | a special], `chat_chance_combat` with `chat_msg_combat` [line | {"say", "color"} |
-## a special] (NpcSpecialAction: perform, cast, exert, surrender) and `greeting` {"say"} or
-## {"one_of": [{"say" | "emote" | "line"}], "out_of"?: n} (switch(random(n)); a draw past
-## the lines says nothing).
+## a special] (NpcSpecialAction: perform, cast, exert, surrender) and `greeting` {"say"},
+## {"one_of": [{"say" | "emote" | "line"} | act], "out_of"?: n} (switch(random(n)); a draw
+## past the lines says nothing) or {"rules": [act]} (the first that is for the player), an
+## act being a ScriptedAct record (its `steps`).
 static func _talk(reader: ContentRecordReader) -> NpcTalk:
 	var inquiry: Dictionary[String, PackedStringArray] = {}
 	var kee_answers: Dictionary[String, Array] = {}
@@ -203,24 +204,30 @@ static func _talk(reader: ContentRecordReader) -> NpcTalk:
 	var combat_chance: int = reader.integer("chat_chance_combat")
 	if reader.has("chat_chance_combat") != reader.has("chat_msg_combat"):
 		reader.fail("chat_chance_combat", "chat_chance_combat and chat_msg_combat come together")
-	var greeting: Array[NpcLine] = []
+	var greeting: Array[ScriptedAct] = []
 	var greeting_out_of: int = 0
 	var greet: ContentRecordReader = reader.child("greeting")
 	if greet != null:
 		greeting_out_of = greet.integer("out_of")
-		if greet.has("say") == greet.has("one_of"):
-			greet.fail("", "needs exactly one of say and one_of")
+		if int(greet.has("say")) + int(greet.has("one_of")) + int(greet.has("rules")) != 1:
+			greet.fail("", "needs exactly one of say, one_of and rules")
 		elif greet.has("say"):
-			greeting.append(NpcLine.new(false, greet.required_text("say")))
+			greeting.append(ScriptedAct.of_line(NpcLine.new(false, greet.required_text("say"))))
+		# A choice is a line, or an act (ScriptedAct) when it has steps.
 		for choice: ContentRecordReader in greet.children("one_of"):
+			if choice.has("steps"):
+				greeting.append(ScriptedAct.from_record(choice))
+				continue
 			var line: NpcLine = NpcLine.from_record(choice)
 			choice.finish()
 			if line != null:
-				greeting.append(line)
+				greeting.append(ScriptedAct.of_line(line))
+		for rule: ContentRecordReader in greet.children("rules"):
+			greeting.append(ScriptedAct.from_record(rule))
 		greet.finish()
 		if greet.has("out_of") and (not greet.has("one_of") or greeting_out_of <= greeting.size()):
 			greet.fail("out_of", "needs one_of and more draws than lines")
-	return NpcTalk.new(inquiry, chance, entries, greeting, kee_answers, combat_chance, combat_entries).with_greeting_out_of(greeting_out_of).with_actions(answer_marks, rules, relay_say)
+	return NpcTalk.new(inquiry, chance, entries, greeting, kee_answers, combat_chance, combat_entries).with_greeting_out_of(greeting_out_of, greet != null and greet.has("rules")).with_actions(answer_marks, rules, relay_say)
 
 
 ## npc.c chat() entries: lines, coloured lines and chat functions; random_move and

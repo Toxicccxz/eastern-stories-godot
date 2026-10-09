@@ -310,6 +310,8 @@ func _resolve_npc_dealings() -> void:
 					_errors.append("%s.inquiry.%s.gives: unknown item '%s'" % [origin, topic, inquiry_rule.gives])
 				if not inquiry_rule.hands_over.is_empty() and not _items.has(inquiry_rule.hands_over):
 					_errors.append("%s.inquiry.%s.hands_over: unknown item '%s'" % [origin, topic, inquiry_rule.hands_over])
+		for act: ScriptedAct in talk.greeting_choices():
+			_check_act(act, "%s.greeting" % origin)
 		var teaching: NpcTeaching = definition.teaching()
 		if teaching == null:
 			continue
@@ -454,6 +456,9 @@ func _resolve_services() -> void:
 			_errors.append("%s.zone: unknown zone '%s'" % [origin, definition.zone_id])
 			continue
 		_services[service_id] = definition.with_map(zone.map_id)
+		if definition.act != null:
+			for act: ScriptedAct in definition.act.acts:
+				_check_act(act, "%s.act" % origin)
 		if definition.dance == null:
 			continue
 		# A dance moves the dancer through a portal leaving the dance floor's room.
@@ -532,6 +537,24 @@ func _check_exit_rules() -> void:
 			_errors.append("%s.npc: unknown NPC '%s'" % [origin, rule.npc_id])
 		if rule.condition == ZoneExitRuleDefinition.Condition.NOT_FAMILY and not _families.has(rule.family_id):
 			_errors.append("%s.family: unknown family '%s'" % [origin, rule.family_id])
+		if rule.condition == ZoneExitRuleDefinition.Condition.TAKES_BACK and not _items.has(rule.item_id):
+			_errors.append("%s.item: unknown item '%s'" % [origin, rule.item_id])
+
+
+## What a ScriptedAct names exists: the item it gives, the zone it moves the player to,
+## the condition it applies. (Spawn points are the scene's: the map checks them.)
+func _check_act(act: ScriptedAct, origin: String) -> void:
+	for step: ScriptedAct.Step in act.steps:
+		match step.kind:
+			ScriptedAct.Kind.GIVE:
+				if not _items.has(step.item_id):
+					_errors.append("%s.give: unknown item '%s'" % [origin, step.item_id])
+			ScriptedAct.Kind.MOVE:
+				if not _zones.has(step.zone_id):
+					_errors.append("%s.move: unknown zone '%s'" % [origin, step.zone_id])
+			ScriptedAct.Kind.CONDITION:
+				if not ConditionIds.ALL.has(step.condition_id):
+					_errors.append("%s.condition: unknown condition '%s'" % [origin, step.condition_id])
 
 
 ## A landmark's portals leave from its own zone; a hidden passage's second

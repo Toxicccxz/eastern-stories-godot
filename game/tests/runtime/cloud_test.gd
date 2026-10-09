@@ -85,7 +85,7 @@ func _test_data() -> void:
 	_check(catalog.npc(&"cloud.npc.monk").dealings().is_fight_deferred() and not catalog.npc(&"cloud.npc.god").dealings().is_fight_deferred() and not catalog.npc(&"cloud.npc.jiading").dealings().is_fight_deferred(), "the monk waits for his arts; 朱鸿雪 (雪影剑法 since 晚月庄 A) and the 家丁 (春风快意刀) can be fought")
 	_check(catalog.npc(&"cloud.npc.bfighter").talk().has_chat(), "趟子手 shouts and wanders ((:random_move :) without a space)")
 	var greet: NpcTalk = catalog.npc(&"cloud.npc.book_seller").talk()
-	_check(greet.greeting_choices().size() == 3 and greet.greeting_draws() == 4 and greet.greeting_choices()[1].as_written, "潘若秋 greets with one of three lines out of random(4), as written")
+	_check(greet.greeting_choices().size() == 3 and greet.greeting_draws() == 4 and greet.greeting_choices()[1].steps[0].line.as_written, "潘若秋 greets with one of three lines out of random(4), as written")
 	var room_gua: NpcDefinition = catalog.npc(&"cloud.npc.room_gua")
 	_check(room_gua.talk().answer("碧玉刀") == PackedStringArray(["这刀可是个宝物, 据说是当年张家老祖宗退隐时皇上赐的。"]), "the archive's hard wrap inside a string is gone: " + str(room_gua.talk().answer("碧玉刀")))
 

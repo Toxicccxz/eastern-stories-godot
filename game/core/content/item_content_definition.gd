@@ -50,6 +50,7 @@ var _no_get: bool
 var _female_only: bool
 var _no_drop: bool
 var _no_drop_line: String
+var _wear_refusal: String = ""
 var _max_encumbrance: int
 var _weapon_definition: WeaponDefinition
 var _weapon_damage: int
@@ -110,9 +111,13 @@ var value: int:
 ## LPC set("no_get"): get.c refuses it (这个东西拿不起来。).
 var no_get: bool:
 	get: return _no_get
-## LPC set("female_only"): wear.c lets only a 女性 character wear it.
+## LPC set("female_only"): wear.c lets only a 女性 character wear it; also an item whose
+## own wear() refuses anyone else (d/latemoon/obj/skirt.c).
 var female_only: bool:
 	get: return _female_only
+## That wear()'s own notify_fail() ("" for wear.c's 这是女人的衣衫，……羞也不羞？).
+var wear_refusal: String:
+	get: return _wear_refusal
 ## LPC set("no_drop"): drop.c, give.c and put.c refuse it.
 var no_drop: bool:
 	get: return _no_drop
@@ -213,6 +218,9 @@ static func from_record(reader: ContentRecordReader) -> ItemContentDefinition:
 		reader.fail("value", "must not be negative")
 	definition._no_get = reader.boolean("no_get", false)
 	definition._female_only = reader.boolean("female_only", false)
+	definition._wear_refusal = reader.text("wear_refusal")
+	if not definition._wear_refusal.is_empty() and not definition._female_only:
+		reader.fail("wear_refusal", "only a female_only item refuses with its own line")
 	if reader.has("no_drop"):
 		definition._no_drop = true
 		if reader.is_text("no_drop"):

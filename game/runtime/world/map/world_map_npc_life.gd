@@ -14,6 +14,8 @@ var _times_caught: Dictionary[StringName, int] = {}
 var walker: WorldNpcWalker
 ## The player's place as the NPCs' init() last saw it; another one is an arrival.
 var arrival_zone_id: StringName = &""
+## Where the player was before that arrival: the door they came in by (close.c's door).
+var came_from_zone_id: StringName = &""
 
 # The map's authorities, read as the controller reads them.
 var session: WorldSessionController:
@@ -172,6 +174,7 @@ func _note_player_arrival() -> void:
 		return
 	var left: StringName = arrival_zone_id
 	arrival_zone_id = zone_id
+	came_from_zone_id = left
 	# go.c calls follow_me() when the player walks out by an exit: into a neighbouring
 	# room. Being moved (reincarnation, a relocation) takes nobody along.
 	if not left.is_empty() and not zone_id.is_empty() and GameContent.catalog().zones_adjacent(left, zone_id):
@@ -225,21 +228,17 @@ func _followers_follow(left_zone_id: StringName, zone_id: StringName) -> void:
 		# room (_note_player_arrival() goes on with it there), once.
 
 
-## keeper.c and waiter.c greeting(): said only if the player is still there; the
-## waiter picks one of its lines then (switch(random(3))); a draw past the lines
-## (switch(random(4)) with fewer cases) says nothing.
+## keeper.c and waiter.c greeting(): only if the player is still there (present(),
+## which finds one lying unconscious too: what it does is done, its lines go unread);
+## the waiter picks one of its lines then (switch(random(3))); a draw past the lines
+## (switch(random(4)) with fewer cases) says nothing. d/latemoon's greetings act by
+## the player's gender and class (ScriptedAct, WorldMapActs).
 func _greet(npc: NpcRuntimeState) -> void:
-	if npc == null or not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or not player_hears(npc):
+	if npc == null or not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or not player_shares_zone(npc):
 		return
-	var choices: Array[NpcLine] = npc.definition().talk().greeting_choices()
-	if choices.is_empty():
-		return
-	var draws: int = npc.definition().talk().greeting_draws()
-	var drawn: int = 0 if draws == 1 else ambience.random().legacy_random(draws)
-	if drawn >= choices.size():
-		return
-	var respect: String = RankWords.query_respect(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id)
-	_map.hud().append_log_lines([choices[clampi(drawn, 0, choices.size() - 1)].sentence(npc.definition().display_name, respect)])
+	var act: ScriptedAct = npc.definition().talk().choose_greeting(_player.state.gender, _player.state.affiliation.class_id, ambience.random().legacy_random)
+	if act != null:
+		_map.acts.run(act, npc, ambience.random().legacy_random)
 
 
 ## interactive(ob) in the NPC's room: an unconscious player still counts.

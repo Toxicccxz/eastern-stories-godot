@@ -140,14 +140,37 @@
 		{ "id": "latemoon.latemoon3.tea", "kind": "water", "zone": "latemoon.latemoon3", "name": "茶壶", "reach": 90, "legacy_source": "d/latemoon/latemoon3.c" },
 		{ "id": "latemoon.room.bathroom.pool", "kind": "water", "zone": "latemoon.room.bathroom", "name": "小花池", "reach": 120, "legacy_source": "d/latemoon/room/bathroom.c" },
 		{ "id": "latemoon.latemoon8.dance", "kind": "dance", "zone": "latemoon.latemoon8", "name": "八卦图", "reach": 120, "legacy_source": "d/latemoon/latemoon8.c", "dance": {"costs": [{"gender": "男性", "at_least": 100, "sen": 50}, {"gender": "女性", "at_least": 50, "sen": 30}], "tired": "你现在的神太少了，无法专注跳出舞步！", "clumsy": "你在卦象中跳起舞来。但似乎不得要领！", "steps": [{"name": "有凤来仪", "mark": "dance_yu_fong", "sen": 50, "portal": "latemoon.latemoon8.dance_yu_fong", "line": "$N在卦象中跳起舞来..一曲「 有凤来仪 」突然..."}, {"name": "西出阳关", "mark": "dance_out", "portal": "latemoon.latemoon8.dance_out", "line": "$N在卦象中跳起舞来..一曲「 西出阳关 」突然..."}]} },
-		{ "id": "latemoon.miroom.dance", "kind": "dance", "zone": "latemoon.miroom", "name": "八卦图", "reach": 120, "legacy_source": "d/latemoon/miroom.c", "dance": {"costs": [{"gender": "男性", "at_least": 100, "sen": 80}, {"gender": "女性", "at_least": 50, "sen": 50}], "tired": "你现在的神太少了，无法专注跳出舞步！", "clumsy": "你在卦象中跳起舞来。但似乎不得要领！", "steps": [{"name": "西出阳关", "mark": "dance_out", "always": true, "portal": "latemoon.miroom.dance_out", "line": "$N在卦象中跳起舞来..一曲「 西出阳关 」突然..."}]} }
+		{ "id": "latemoon.miroom.dance", "kind": "dance", "zone": "latemoon.miroom", "name": "八卦图", "reach": 120, "legacy_source": "d/latemoon/miroom.c", "dance": {"costs": [{"gender": "男性", "at_least": 100, "sen": 80}, {"gender": "女性", "at_least": 50, "sen": 50}], "tired": "你现在的神太少了，无法专注跳出舞步！", "clumsy": "你在卦象中跳起舞来。但似乎不得要领！", "steps": [{"name": "西出阳关", "mark": "dance_out", "always": true, "portal": "latemoon.miroom.dance_out", "line": "$N在卦象中跳起舞来..一曲「 西出阳关 」突然..."}]} },
+		{ "id": "latemoon.room.bathroom.bath", "kind": "act", "zone": "latemoon.room.bathroom", "name": "小花池", "reach": 120, "legacy_source": "d/latemoon/room/bathroom.c", "act": { "verb": "沐浴", "acts": [
+			{ "not_gender": "女性", "ask": "此处是禁止男性进入！男人下池沐浴会中火玫瑰毒：毒发时不断伤神，伤得重了会丧命。\n确定要下池沐浴吗？", "choice": "确定沐浴", "steps": [
+				{ "condition": "rose_poison", "duration": 15 },
+				{ "line": "你觉得池水好像有种奇特的沁凉！\n", "color": "HIG" }
+			] },
+			{ "steps": [
+				{ "line": "你在池子中尽情沐浴，舒服的泡在池中。\n" },
+				{ "damage": { "gin": 10 } },
+				{ "heal": "sen", "base": 5, "random": 5 }
+			] }
+		] } },
+		{ "id": "latemoon.upstar.uproom3.ponder", "kind": "act", "zone": "latemoon.upstar.uproom3", "name": "缀芳阁", "reach": 120, "legacy_source": "d/latemoon/upstar/uproom3.c", "act": { "verb": "静修", "acts": [
+			{ "steps": [
+				{ "line": "你双手合掌，安静的坐在地上。\n" },
+				{ "damage": { "sen": 50 } },
+				{ "calm": 7 },
+				{ "line": "你彷佛变的较为祥合慈善了! \n" }
+			] }
+		] } }
 	],
 	"landmarks": [
 		{ "id": "latemoon.gate.landmark.lantern", "zone": "latemoon.gate", "name": "灯笼", "policy": "look", "long": "灯笼上几个娟秀的字迹写著：\n晚霞西照人影依稀 \n月影高挂和风婉约 \n", "legacy_source": "d/latemoon/gate.c" },
 		{ "id": "latemoon.latemoon6.landmark.wall", "zone": "latemoon.latemoon6", "name": "墙", "policy": "look", "long": "    你仔细观看石墙，突然发现原本单调的墙上隐隐约约出现了\n一幅渺渺茫茫，似有似无的景像。彷佛是幻境，但又似真实，你\n清楚的看到一首词：「梦里消魂无说处，觉来惆怅消魂误。」\n", "legacy_source": "d/latemoon/latemoon6.c" },
-		{ "id": "latemoon.latemoon2.landmark.closet", "zone": "latemoon.latemoon2", "name": "碧纱橱", "policy": "look", "long": "这是一个上等木材作成的小橱子，里面放了一些物品。\n你看到一件件的美丽衣饰，真想取出(take cloth)看看。\n", "legacy_source": "d/latemoon/latemoon2.c" },
+		{ "id": "latemoon.latemoon2.landmark.closet", "zone": "latemoon.latemoon2", "name": "碧纱橱", "action": "取出衣服", "policy": "take", "limit": 2, "items": { "reward": "es2:d/latemoon/obj/skirt" }, "messages": { "take": "你从橱子内取出布裙。", "empty": "橱子内的衣服好像被拿光了。" }, "long": "这是一个上等木材作成的小橱子，里面放了一些物品。\n你看到一件件的美丽衣饰，真想取出(take cloth)看看。\n", "legacy_source": "d/latemoon/latemoon2.c" },
 		{ "id": "latemoon.latebook.landmark.picture", "zone": "latemoon.latebook", "name": "湘绣舞曲图", "policy": "look", "long": "这是一幅湘绣的彩图，上有几名貌美的女子，以不同的姿态\n舞著，其漫妙之处让你著迷。图旁另绣有一曲名『西出阳关』\n(dancing out)与『有凤来仪 』\n", "legacy_source": "d/latemoon/latebook.c", "teaches": ["dance_out", "dance_yu_fong"] },
-		{ "id": "latemoon.park.moonc.landmark.flower", "zone": "latemoon.park.moonc", "name": "西府海棠", "policy": "look", "long": "    你仔细看这是一棵形状有些奇特的西府海棠，有一淡淡\n的奇异香气。原来在旁边还有一朵不太起眼，但是略成金黄\n色的小花蕊，你的直觉告诉你它似乎是一种珍贵药材。你想\n把它摘下(pick)。\n", "legacy_source": "d/latemoon/park/moonc.c" },
+		{ "id": "latemoon.park.moonc.landmark.flower", "zone": "latemoon.park.moonc", "name": "西府海棠", "action": "摘花蕊", "policy": "take", "limit": 2, "items": { "reward": "es2:d/latemoon/park/npc/obj/flower" }, "messages": { "take": "你从西府海棠中摘下一朵小花蕊。", "empty": "西府海棠上的小花蕊已经被摘光了。" }, "long": "    你仔细看这是一棵形状有些奇特的西府海棠，有一淡淡\n的奇异香气。原来在旁边还有一朵不太起眼，但是略成金黄\n色的小花蕊，你的直觉告诉你它似乎是一种珍贵药材。你想\n把它摘下(pick)。\n", "legacy_source": "d/latemoon/park/moonc.c" },
 		{ "id": "latemoon.park.paroad2.landmark.sign", "zone": "latemoon.park.paroad2", "name": "石牌", "policy": "look", "long": "\n 「六神」、「四鬼」、「三灵」 \n\n         旋芒震日月\n         宝剑护河山\n\n", "legacy_source": "d/latemoon/park/paroad2.c" }
+	],
+	"exit_rules": [
+		{ "id": "latemoon.room.flower1.changing_room", "room": "es2:d/latemoon/room/flower1", "from_zone": "latemoon.room.flower1", "to_zone": "latemoon.room.bathroom1", "when": "ask", "unless_gender": "女性", "ask": "此处是禁止男性进入！闯进去的男人会被晚月庄的女弟子撒下火玫瑰毒、一脚踢出来：毒发时不断伤神，伤得重了会丧命。\n确定要进去吗？", "choice": "确定进去", "point": "latemoon.room.bathroom1.curtain_arrival", "legacy_source": "d/latemoon/room/bathroom1.c" },
+		{ "id": "latemoon.latemoon3.teacup", "room": "es2:d/latemoon/latemoon3", "from_zone": "latemoon.latemoon3", "to_zone": "latemoon.latemoon1", "when": "takes_back", "item": "es2:d/latemoon/obj/teacup", "temp": "latemoon/茶", "taken": [{ "line": "你将瓷杯交回给雨梅。\n", "color": "HIC" }], "without": ["你起身往南离开!"], "legacy_source": "d/latemoon/latemoon3.c" }
 	]
 }

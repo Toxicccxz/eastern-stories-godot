@@ -567,6 +567,23 @@ mouse_filter = 2
 text = "小花池 · 装水"
 horizontal_alignment = 1
 
+[node name="Bath" type="Marker2D" parent="."]
+position = Vector2(1264, 2320)
+script = ExtResource("service")
+service_id = &"latemoon.room.bathroom.bath"
+
+[node name="Visual" type="Polygon2D" parent="Bath"]
+polygon = PackedVector2Array(0, -20, 16, 8, 0, 20, -16, 8)
+color = Color(0.5, 0.85, 1, 1)
+
+[node name="Label" type="Label" parent="Bath"]
+offset_left = -100.0
+offset_top = 26.0
+offset_right = 100.0
+mouse_filter = 2
+text = "小花池 · 沐浴"
+horizontal_alignment = 1
+
 [node name="BaguaFloor" type="Marker2D" parent="."]
 position = Vector2(416, 720)
 script = ExtResource("service")
@@ -1039,6 +1056,16 @@ spawn_point_id = &"latemoon.entrance.cloud_entry"
 position = Vector2(1344, 464)
 script = ExtResource("marker")
 spawn_point_id = &"latemoon.front_yard.garden_return"
+
+[node name="Flower1KickedOut" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(832, 2240)
+script = ExtResource("marker")
+spawn_point_id = &"latemoon.room.flower1.kicked_out"
+
+[node name="Bathroom1CurtainArrival" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(960, 2224)
+script = ExtResource("marker")
+spawn_point_id = &"latemoon.room.bathroom1.curtain_arrival"
 
 [node name="EntranceLmGuard1" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(1744, 344)

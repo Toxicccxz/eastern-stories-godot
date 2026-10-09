@@ -1173,7 +1173,13 @@ func _unwield_item(id: StringName) -> void:
 func _wear_item(id: StringName) -> void:
 	var result: OldPineArmorInteractionResult = _session.wear_player_item(id)
 	if result != null and result.outcome == OldPineArmorInteractionResult.Outcome.FEMALE_ONLY:
-		append_log_lines([tr("这是女人的衣衫，你一个大男人也想穿，羞也不羞？")])
+		# wear.c's line, or the item's own wear() (d/latemoon/obj/skirt.c).
+		var item: ItemInstance = _session.item_instance_index().resolve(id)
+		var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
+		if content != null and not content.wear_refusal.is_empty():
+			append_log_lines([tr(content.wear_refusal).strip_edges()])
+		else:
+			append_log_lines([tr("这是女人的衣衫，你一个大男人也想穿，羞也不羞？")])
 	open_inventory()
 
 

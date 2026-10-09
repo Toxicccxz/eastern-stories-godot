@@ -30,7 +30,9 @@
 			"unit": "件",
 			"material": "cloth",
 			"weight": 1000,
-			"armor": { "type": "waist", "props": { "armor": 1 }, "weight_dodge": "armor" }
+			"armor": { "type": "waist", "props": { "armor": 1 }, "weight_dodge": "armor" },
+			"female_only": true,
+			"wear_refusal": "只有女生才可穿哦!你变态呀! \n"
 		},
 		{
 			"id": "es2:d/latemoon/obj/skirt3",
@@ -63,7 +65,9 @@
 			"material": "cloth",
 			"weight": 1000,
 			"value": 700,
-			"armor": { "type": "waist", "props": { "armor": 2 }, "weight_dodge": "armor" }
+			"armor": { "type": "waist", "props": { "armor": 2 }, "weight_dodge": "armor" },
+			"female_only": true,
+			"wear_refusal": "只有女生才可穿哦!你变态呀! \n"
 		},
 		{
 			"id": "es2:d/latemoon/obj/yu_blade",
@@ -309,7 +313,9 @@
 			"material": "cloth",
 			"weight": 1000,
 			"value": 700,
-			"armor": { "type": "waist", "props": { "armor": 2 }, "weight_dodge": "armor" }
+			"armor": { "type": "waist", "props": { "armor": 2 }, "weight_dodge": "armor" },
+			"female_only": true,
+			"wear_refusal": "只有女生才可穿哦!你变态呀! \n"
 		},
 		{
 			"id": "es2:d/latemoon/park/npc/obj/amulet",
@@ -373,6 +379,27 @@
 			"unit": "把",
 			"combined": { "base_unit": "粒", "base_weight": 1, "amount": 10 },
 			"weapon": { "skill": "throwing", "damage": 1 }
+		},
+		{
+			"id": "es2:d/latemoon/park/npc/obj/flower",
+			"legacy_sources": ["d/latemoon/park/npc/obj/flower.c"],
+			"name": "小花蕊",
+			"aliases": ["pistil"],
+			"long": "这是一朵金黄色的奇特花蕊，有一种淡淡香气。\n",
+			"unit": "朵",
+			"combined": { "base_unit": "株", "base_weight": 20, "amount": 1 },
+			"apply": "rose_pistil"
+		},
+		{
+			"id": "es2:d/latemoon/obj/teacup",
+			"legacy_sources": ["d/latemoon/obj/teacup.c", "d/latemoon/npc/obj/teacup.c"],
+			"name": "玉瓷茶杯",
+			"aliases": ["tea cup", "cup"],
+			"long": "这是一杯香味浓郁上等好茶。是招待贵宾品茗的。\n你闻了闻，好香好香哦!\n",
+			"unit": "杯",
+			"weight": 1000,
+			"value": 20,
+			"liquid": { "max_liquid": 5, "name": "金轩茶", "remaining": 5, "type": "water" }
 		}
 	]
 }

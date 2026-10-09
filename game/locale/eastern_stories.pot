@@ -142,9 +142,13 @@ msgstr ""
 #. temple.npc.taoist_guard1 gender
 #. temple.npc.taoist_guard2 gender
 #. temple.npc.taoist_guard3 gender
+#. latemoon.npc.room.yuchoun greeting.rules.gender
+#. latemoon.npc.room.shaoin greeting.rules.gender
+#. latemoon.npc.room.shinyu greeting.rules.gender
+#. latemoon.npc.room.fireangel greeting.rules.gender
 #. latemoon.latemoon8.dance dance.costs.gender
 #. latemoon.miroom.dance dance.costs.gender
-#: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/world.json
+#: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json
 msgid "男性"
 msgstr ""
 
@@ -991,6 +995,7 @@ msgstr ""
 
 #. es2:d/latemoon/room/bathroom short
 #. latemoon.room.bathroom.pool name
+#. latemoon.room.bathroom.bath name
 #: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json data/latemoon/world.json
 msgid "小花池"
 msgstr ""
@@ -1009,6 +1014,10 @@ msgstr ""
 
 #: scenes/world/latemoon/latemoon_manor.tscn
 msgid "小花池 · 装水"
+msgstr ""
+
+#: scenes/world/latemoon/latemoon_manor.tscn
+msgid "小花池 · 沐浴"
 msgstr ""
 
 #: scenes/world/latemoon/latemoon_manor.tscn scenes/world/latemoon/latemoon_secret.tscn
@@ -1049,8 +1058,13 @@ msgid "观景台"
 msgstr ""
 
 #. es2:d/latemoon/upstar/uproom3 short
-#: scenes/world/latemoon/latemoon_upper.tscn data/latemoon/rooms.json
+#. latemoon.upstar.uproom3.ponder name
+#: scenes/world/latemoon/latemoon_upper.tscn data/latemoon/rooms.json data/latemoon/world.json
 msgid "缀芳阁"
+msgstr ""
+
+#: scenes/world/latemoon/latemoon_upper.tscn
+msgid "缀芳阁 · 静修"
 msgstr ""
 
 #. es2:d/oldpine/passage short
@@ -2350,6 +2364,14 @@ msgid "$N深深地吸一口气，开始发出有如猛虎般的啸声！"
 msgstr ""
 
 #: core/items/item_apply_functions.gd
+msgid "吃"
+msgstr ""
+
+#: core/items/item_apply_functions.gd
+msgid "使用"
+msgstr ""
+
+#: core/items/item_apply_functions.gd
 msgid "你没有中蛇毒。"
 msgstr ""
 
@@ -2381,6 +2403,14 @@ msgstr ""
 
 #: core/items/item_apply_functions.gd
 msgid "你敷上金疮药 ."
+msgstr ""
+
+#: core/items/item_apply_functions.gd
+msgid "你拿出一朵小花蕊，一口给吞了下去。"
+msgstr ""
+
+#: core/items/item_apply_functions.gd
+msgid "只见你脸上泛起一阵红晕，整个人看起来好多了!"
 msgstr ""
 
 #. es2:obj/example/wineskin liquid.name
@@ -3708,15 +3738,15 @@ msgstr ""
 msgid "用 {force} 点内力恢复{track}"
 msgstr ""
 
-#: presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd
+#: presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd
 msgid "气"
 msgstr ""
 
-#: presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd
+#: presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd
 msgid "神"
 msgstr ""
 
-#: presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd
+#: presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd
 msgid "精"
 msgstr ""
 
@@ -4681,6 +4711,11 @@ msgstr ""
 msgid "{action}：{landmark}"
 msgstr ""
 
+#. close.c: an NPC ({npc}) shuts a door ({door}) in the player's room.
+#: runtime/world/map/world_map_acts.gd
+msgid "{npc}将{door}关上。"
+msgstr ""
+
 #. weapond.c throw_weapon(): the last of a thrown weapon (飞刀) is gone.
 #: runtime/world/map/world_map_combat_lifecycle.gd
 msgid "你的%s用完了！"
@@ -4921,6 +4956,25 @@ msgstr ""
 
 #: runtime/world/player_martial_arts.gd
 msgid "需要先学会基本法术，灵力才能增长。"
+msgstr ""
+
+#: runtime/world/services/act_service.gd
+msgid ""
+"{verb}要耗去{cost}，你现在撑不住，会当场昏过去。\n"
+"确定要{verb}吗？"
+msgstr ""
+
+#: runtime/world/services/act_service.gd
+msgid " {amount} 点{resource}"
+msgstr ""
+
+#. the button that goes ahead with a room's command ({verb}: 静修).
+#: runtime/world/services/act_service.gd
+msgid "确定{verb}"
+msgstr ""
+
+#: runtime/world/services/act_service.gd
+msgid "和"
 msgstr ""
 
 #: runtime/world/services/bank_service.gd ui/bank/bank_exchange_panel.gd
@@ -5830,10 +5884,6 @@ msgstr ""
 
 #: ui/world/player_inventory_panel.gd
 msgid "吹奏"
-msgstr ""
-
-#: ui/world/player_inventory_panel.gd
-msgid "使用"
 msgstr ""
 
 #: ui/world/player_inventory_panel.gd
@@ -11351,6 +11401,14 @@ msgstr ""
 msgid "布裙"
 msgstr ""
 
+#. es2:d/latemoon/obj/skirt wear_refusal
+#. es2:d/latemoon/obj/skirt5 wear_refusal
+#. es2:d/latemoon/obj/skirt4 wear_refusal
+#: data/latemoon/items.json
+msgid ""
+"只有女生才可穿哦!你变态呀! \n"
+msgstr ""
+
 #. es2:d/latemoon/obj/skirt3 name
 #: data/latemoon/items.json
 msgid "绿罗裙"
@@ -11651,6 +11709,49 @@ msgstr ""
 #. es2:d/latemoon/park/npc/obj/guihua combined.base_unit
 #: data/latemoon/items.json
 msgid "粒"
+msgstr ""
+
+#. es2:d/latemoon/park/npc/obj/flower name
+#: data/latemoon/items.json
+msgid "小花蕊"
+msgstr ""
+
+#. es2:d/latemoon/park/npc/obj/flower long
+#: data/latemoon/items.json
+msgid ""
+"这是一朵金黄色的奇特花蕊，有一种淡淡香气。\n"
+msgstr ""
+
+#. es2:d/latemoon/park/npc/obj/flower unit
+#: data/latemoon/items.json
+msgid "朵"
+msgstr ""
+
+#. es2:d/latemoon/park/npc/obj/flower combined.base_unit
+#: data/latemoon/items.json
+msgid "株"
+msgstr ""
+
+#. es2:d/latemoon/obj/teacup name
+#: data/latemoon/items.json
+msgid "玉瓷茶杯"
+msgstr ""
+
+#. es2:d/latemoon/obj/teacup long
+#: data/latemoon/items.json
+msgid ""
+"这是一杯香味浓郁上等好茶。是招待贵宾品茗的。\n"
+"你闻了闻，好香好香哦!\n"
+msgstr ""
+
+#. es2:d/latemoon/obj/teacup unit
+#: data/latemoon/items.json
+msgid "杯"
+msgstr ""
+
+#. es2:d/latemoon/obj/teacup liquid.name
+#: data/latemoon/items.json
+msgid "金轩茶"
 msgstr ""
 
 #. es2:d/choyin/obj/grass name
@@ -14965,11 +15066,17 @@ msgid ""
 "  这位$RESPECT，你好！欢迎来到晚月庄。请坐！"
 msgstr ""
 
-#. latemoon.npc.yumay greeting.one_of.line
+#. latemoon.npc.yumay greeting.one_of.steps.line
 #: data/latemoon/npcs.json
 msgid ""
 "雨梅对你微笑，纤细的双手捧著茶，\n"
 " 说道：这位$RESPECT，你好！欢迎来到晚月庄。请用茶！"
+msgstr ""
+
+#. latemoon.npc.yumay greeting.one_of.steps.lines.line
+#: data/latemoon/npcs.json
+msgid ""
+"这是上等金轩茶!您品尝一下。\n"
 msgstr ""
 
 #. latemoon.npc.funlin long
@@ -15222,6 +15329,13 @@ msgid ""
 "又隐含著女孩子有的娇柔。\n"
 msgstr ""
 
+#. latemoon.npc.room.yushou greeting.rules.steps.line
+#: data/latemoon/npcs.json
+msgid ""
+"阁下! 这里是庄内后厅厢房。不方便男客进入哦! \n"
+"请随手关门，并保持安静! 谢谢! \n"
+msgstr ""
+
 #. latemoon.npc.room.old name
 #: data/latemoon/npcs.json
 msgid "无名老妇"
@@ -15336,6 +15450,18 @@ msgstr ""
 msgid "晚月庄弟子"
 msgstr ""
 
+#. latemoon.npc.room.yuchoun greeting.rules.steps.line
+#: data/latemoon/npcs.json
+msgid ""
+"琼衣很礼貌的向你微笑! \n"
+msgstr ""
+
+#. latemoon.npc.room.yuchoun greeting.rules.steps.line
+#: data/latemoon/npcs.json
+msgid ""
+"说道：请保持安静哦! \n"
+msgstr ""
+
 #. latemoon.npc.room.shaoin name
 #: data/latemoon/npcs.json
 msgid "龙韶吟"
@@ -15346,9 +15472,39 @@ msgstr ""
 msgid "你觉得被打中的地方一阵麻痒！"
 msgstr ""
 
+#. latemoon.npc.room.shaoin greeting.rules.steps.line
+#: data/latemoon/npcs.json
+msgid ""
+"韶吟惊慌生气的怒斥： 喂! 兄台不要乱闯! \n"
+msgstr ""
+
+#. latemoon.npc.room.shaoin greeting.rules.steps.line
+#: data/latemoon/npcs.json
+msgid ""
+"她的眼神骤变，隐约中似乎让人神智渐模糊! \n"
+msgstr ""
+
 #. latemoon.npc.room.shinyu name
 #: data/latemoon/npcs.json
 msgid "阮欣郁"
+msgstr ""
+
+#. latemoon.npc.room.shinyu greeting.rules.steps.line
+#: data/latemoon/npcs.json
+msgid ""
+"欣郁大喊： 喂! 兄台! 这不准男人进来! \n"
+msgstr ""
+
+#. latemoon.npc.room.shinyu greeting.rules.steps.line
+#: data/latemoon/npcs.json
+msgid ""
+"欣郁从袖里取出一把粉红色细粉泼撒出去。\n"
+msgstr ""
+
+#. latemoon.npc.room.shinyu greeting.rules.steps.line
+#: data/latemoon/npcs.json
+msgid ""
+"欣郁一脚往闯入者踢了出去。\n"
 msgstr ""
 
 #. latemoon.npc.room.fireangel name
@@ -15366,6 +15522,12 @@ msgstr ""
 msgid ""
 "火神「凤凰」乃勇士寒于的魂魄所化成的十三个精灵之一。\n"
 "由于其奇异神迹，被晚月庄供奉为护庄神兽。\n"
+msgstr ""
+
+#. latemoon.npc.room.fireangel greeting.rules.steps.line
+#: data/latemoon/npcs.json
+msgid ""
+"神像眼神骤变，幻化成七彩凤凰，出现金色光芒。\n"
 msgstr ""
 
 #. latemoon.npc.room.eton name
@@ -15603,6 +15765,12 @@ msgid ""
 "人灵「区冥」乃勇士寒于的魂魄所化成的十三个精灵之一。\n"
 "晚月庄的开山先辈，传说是其后裔子孙。故其为\n"
 "晚月庄的祖先神位。\n"
+msgstr ""
+
+#. latemoon.npc.upstar.statue greeting.rules.steps.line
+#: data/latemoon/npcs.json
+msgid ""
+"你有一种奇特的感觉，彷佛有人在盯著你看。\n"
 msgstr ""
 
 #. es2:d/latemoon/entrance long
@@ -16226,6 +16394,52 @@ msgstr ""
 msgid "$N在卦象中跳起舞来..一曲「 西出阳关 」突然..."
 msgstr ""
 
+#. latemoon.room.bathroom.bath act.verb
+#: data/latemoon/world.json
+msgid "沐浴"
+msgstr ""
+
+#. latemoon.room.bathroom.bath act.acts.ask
+#: data/latemoon/world.json
+msgid ""
+"此处是禁止男性进入！男人下池沐浴会中火玫瑰毒：毒发时不断伤神，伤得重了会丧命。\n"
+"确定要下池沐浴吗？"
+msgstr ""
+
+#. latemoon.room.bathroom.bath act.acts.choice
+#: data/latemoon/world.json
+msgid "确定沐浴"
+msgstr ""
+
+#. latemoon.room.bathroom.bath act.acts.steps.line
+#: data/latemoon/world.json
+msgid ""
+"你觉得池水好像有种奇特的沁凉！\n"
+msgstr ""
+
+#. latemoon.room.bathroom.bath act.acts.steps.line
+#: data/latemoon/world.json
+msgid ""
+"你在池子中尽情沐浴，舒服的泡在池中。\n"
+msgstr ""
+
+#. latemoon.upstar.uproom3.ponder act.verb
+#: data/latemoon/world.json
+msgid "静修"
+msgstr ""
+
+#. latemoon.upstar.uproom3.ponder act.acts.steps.line
+#: data/latemoon/world.json
+msgid ""
+"你双手合掌，安静的坐在地上。\n"
+msgstr ""
+
+#. latemoon.upstar.uproom3.ponder act.acts.steps.line
+#: data/latemoon/world.json
+msgid ""
+"你彷佛变的较为祥合慈善了! \n"
+msgstr ""
+
 #. latemoon.gate.landmark.lantern name
 #: data/latemoon/world.json
 msgid "灯笼"
@@ -16257,6 +16471,21 @@ msgstr ""
 msgid "碧纱橱"
 msgstr ""
 
+#. latemoon.latemoon2.landmark.closet action
+#: data/latemoon/world.json
+msgid "取出衣服"
+msgstr ""
+
+#. latemoon.latemoon2.landmark.closet messages.take
+#: data/latemoon/world.json
+msgid "你从橱子内取出布裙。"
+msgstr ""
+
+#. latemoon.latemoon2.landmark.closet messages.empty
+#: data/latemoon/world.json
+msgid "橱子内的衣服好像被拿光了。"
+msgstr ""
+
 #. latemoon.latemoon2.landmark.closet long
 #: data/latemoon/world.json
 msgid ""
@@ -16282,6 +16511,21 @@ msgstr ""
 msgid "西府海棠"
 msgstr ""
 
+#. latemoon.park.moonc.landmark.flower action
+#: data/latemoon/world.json
+msgid "摘花蕊"
+msgstr ""
+
+#. latemoon.park.moonc.landmark.flower messages.take
+#: data/latemoon/world.json
+msgid "你从西府海棠中摘下一朵小花蕊。"
+msgstr ""
+
+#. latemoon.park.moonc.landmark.flower messages.empty
+#: data/latemoon/world.json
+msgid "西府海棠上的小花蕊已经被摘光了。"
+msgstr ""
+
 #. latemoon.park.moonc.landmark.flower long
 #: data/latemoon/world.json
 msgid ""
@@ -16305,4 +16549,27 @@ msgid ""
 "         旋芒震日月\n"
 "         宝剑护河山\n"
 "\n"
+msgstr ""
+
+#. latemoon.room.flower1.changing_room ask
+#: data/latemoon/world.json
+msgid ""
+"此处是禁止男性进入！闯进去的男人会被晚月庄的女弟子撒下火玫瑰毒、一脚踢出来：毒发时不断伤神，伤得重了会丧命。\n"
+"确定要进去吗？"
+msgstr ""
+
+#. latemoon.room.flower1.changing_room choice
+#: data/latemoon/world.json
+msgid "确定进去"
+msgstr ""
+
+#. latemoon.latemoon3.teacup taken.line
+#: data/latemoon/world.json
+msgid ""
+"你将瓷杯交回给雨梅。\n"
+msgstr ""
+
+#. latemoon.latemoon3.teacup without
+#: data/latemoon/world.json
+msgid "你起身往南离开!"
 msgstr ""

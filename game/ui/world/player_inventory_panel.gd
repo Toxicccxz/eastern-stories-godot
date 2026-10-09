@@ -203,7 +203,7 @@ func _build_row(row: PlayerInventoryRowProjection) -> BoxContainer:
 	if content != null and not content.apply.is_empty():
 		var apply_button: Button = Button.new()
 		apply_button.name = "Apply"
-		apply_button.text = "使用"
+		apply_button.text = ItemApplyFunctions.verb(content.apply)
 		apply_button.pressed.connect(func() -> void: apply_requested.emit(row.item_instance_id))
 		container.add_child(apply_button)
 	# rope.c add_action("hang_self", "hang").

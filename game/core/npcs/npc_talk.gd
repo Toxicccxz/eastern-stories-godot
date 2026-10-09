@@ -29,10 +29,13 @@ var _chat_entries: Array = []
 var _combat_chat_chance: int = 0
 ## As _chat_entries, without RANDOM_MOVE and NpcDrinkAction.
 var _combat_chat_entries: Array = []
-var _greeting: Array[NpcLine] = []
+## What greeting() does (ScriptedAct): one of them drawn by switch(random(n)), or with
+## `_greeting_by_rule` the first that is for the player (shinyu.c: a man, anyone else).
+var _greeting: Array[ScriptedAct] = []
 ## switch(random(n)) in greeting(): n, of which only the first lines say something
 ## (書局 random(4) with three cases); 0 when every draw says one of the lines.
 var _greeting_out_of: int = 0
+var _greeting_by_rule: bool = false
 
 var chat_chance: int:
 	get:
@@ -59,7 +62,7 @@ func _init(
 	p_inquiry: Dictionary[String, PackedStringArray] = {},
 	p_chat_chance: int = 0,
 	p_chat_entries: Array = [],
-	p_greeting: Array[NpcLine] = [],
+	p_greeting: Array[ScriptedAct] = [],
 	p_kee_answers: Dictionary[String, Array] = {},
 	p_combat_chat_chance: int = 0,
 	p_combat_chat_entries: Array = [],
@@ -164,8 +167,9 @@ func has_greeting() -> bool:
 	return not _greeting.is_empty()
 
 
-## The lines one greeting chooses from (waiter.c switch(random(3))); one for keeper.c.
-func greeting_choices() -> Array[NpcLine]:
+## What one greeting chooses from (waiter.c switch(random(3))); one for keeper.c; the
+## branches in order when it goes by rule.
+func greeting_choices() -> Array[ScriptedAct]:
 	return _greeting.duplicate()
 
 
@@ -174,9 +178,30 @@ func greeting_draws() -> int:
 	return maxi(_greeting_out_of, _greeting.size())
 
 
-## greeting `out_of`. Called once by the loader.
-func with_greeting_out_of(value: int) -> NpcTalk:
+## The greeting picks its branch by whom it is for (the first that is), drawing nothing.
+func greeting_by_rule() -> bool:
+	return _greeting_by_rule
+
+
+## What greeting() does for a player of this gender and class: the first branch that
+## is for them, or the one `draw` (MudOS random(n)) picks; null when it does nothing.
+## One way to draw draws nothing.
+func choose_greeting(gender: StringName, class_id: StringName, draw: Callable) -> ScriptedAct:
+	if _greeting.is_empty():
+		return null
+	if _greeting_by_rule:
+		return ScriptedAct.first_for(_greeting, gender, class_id)
+	var draws: int = greeting_draws()
+	var drawn: int = 0 if draws == 1 else int(draw.call(draws))
+	if drawn >= _greeting.size() or not _greeting[drawn].applies_to(gender, class_id):
+		return null
+	return _greeting[drawn]
+
+
+## greeting `out_of` and `rules`. Called once by the loader.
+func with_greeting_out_of(value: int, by_rule: bool = false) -> NpcTalk:
 	_greeting_out_of = value
+	_greeting_by_rule = by_rule
 	return self
 
 
@@ -214,9 +239,12 @@ func is_valid() -> bool:
 	for phrase: String in _relay_say:
 		if phrase.strip_edges().is_empty():
 			return false
-	for greeting: NpcLine in _greeting:
-		if greeting == null or line(greeting.text).is_empty():
+	for greeting: ScriptedAct in _greeting:
+		if greeting == null or greeting.steps.is_empty():
 			return false
+		for step: ScriptedAct.Step in greeting.steps:
+			if step.kind == ScriptedAct.Kind.LINE and (step.line == null or line(step.line.text).is_empty()):
+				return false
 	return true
 
 

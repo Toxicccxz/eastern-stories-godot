@@ -7,11 +7,81 @@
 	"items": [
 		"d/latemoon/obj/needle.c",
 		"d/latemoon/room/npc/obj/needle.c",
-		"d/latemoon/park/npc/obj/guihua.c"
+		"d/latemoon/park/npc/obj/guihua.c",
+		"d/latemoon/park/npc/obj/flower.c",
+		"d/latemoon/obj/teacup.c"
 	],
 	"set": {
 		"es2:d/latemoon/obj/wine": {
 			"liquid": { "max_liquid": 30, "name": "红酒", "remaining": 30, "type": "alcohol" }
+		},
+		"es2:d/latemoon/obj/skirt": { "female_only": true, "wear_refusal": "只有女生才可穿哦!你变态呀! \n" },
+		"es2:d/latemoon/obj/skirt4": { "female_only": true, "wear_refusal": "只有女生才可穿哦!你变态呀! \n" },
+		"es2:d/latemoon/obj/skirt5": { "female_only": true, "wear_refusal": "只有女生才可穿哦!你变态呀! \n" },
+		"es2:d/latemoon/park/npc/obj/flower": { "apply": "rose_pistil" },
+		"latemoon.npc.room.shinyu": {
+			"greeting": { "rules": [
+				{ "gender": "男性", "steps": [
+					{ "line": "欣郁大喊： 喂! 兄台! 这不准男人进来! \n", "color": "HIY" },
+					{ "line": "欣郁从袖里取出一把粉红色细粉泼撒出去。\n", "color": "HIR" },
+					{ "line": "欣郁一脚往闯入者踢了出去。\n", "color": "HIY" },
+					{ "close_door": true },
+					{ "condition": "rose_poison", "duration": 10 },
+					{ "damage": { "gin": 50, "kee": 100, "sen": 50 } },
+					{ "move": "latemoon.room.flower1", "point": "latemoon.room.flower1.kicked_out" }
+				] },
+				{ "steps": [ { "close_door": true } ] }
+			] }
+		},
+		"latemoon.npc.room.shaoin": {
+			"hit_ob": { "condition": "rose_poison", "duration": 10, "below": 20, "message": "你觉得被打中的地方一阵麻痒！", "color": "HIG" },
+			"greeting": { "rules": [
+				{ "gender": "男性", "steps": [
+					{ "line": "韶吟惊慌生气的怒斥： 喂! 兄台不要乱闯! \n", "color": "HIY" },
+					{ "line": "她的眼神骤变，隐约中似乎让人神智渐模糊! \n", "color": "HIM" },
+					{ "damage": { "sen": 20 } },
+					{ "condition": "rose_poison", "duration": 2 },
+					{ "npc_force": 50 },
+					{ "close_door": true }
+				] },
+				{ "steps": [ { "close_door": true } ] }
+			] }
+		},
+		"latemoon.npc.room.yuchoun": {
+			"greeting": { "rules": [
+				{ "gender": "男性", "steps": [
+					{ "line": "琼衣很礼貌的向你微笑! \n", "color": "HIY" },
+					{ "line": "说道：请保持安静哦! \n", "color": "HIY" },
+					{ "damage": { "sen": 10 } },
+					{ "npc_force": 50 },
+					{ "close_door": true }
+				] },
+				{ "steps": [ { "close_door": true } ] }
+			] }
+		},
+		"latemoon.npc.room.yushou": {
+			"greeting": { "rules": [
+				{ "steps": [
+					{ "close_door": true },
+					{ "line": "阁下! 这里是庄内后厅厢房。不方便男客进入哦! \n请随手关门，并保持安静! 谢谢! \n" }
+				] }
+			] }
+		},
+		"latemoon.npc.room.fireangel": {
+			"greeting": { "rules": [
+				{ "gender": "男性", "steps": [
+					{ "line": "神像眼神骤变，幻化成七彩凤凰，出现金色光芒。\n", "color": "HIY" },
+					{ "kill": true }
+				] }
+			] }
+		},
+		"latemoon.npc.upstar.statue": {
+			"greeting": { "rules": [
+				{ "not_class": "dancer", "steps": [
+					{ "line": "你有一种奇特的感觉，彷佛有人在盯著你看。\n", "color": "HIY" },
+					{ "damage": { "sen": 20 } }
+				] }
+			] }
 		},
 		"common.npc.dancer.master": {
 			"chat_chance_combat": 60,
@@ -41,7 +111,10 @@
 			"greeting": {
 				"one_of": [
 					{ "line": "雨梅对你微笑，和善的对你说：\n  这位$RESPECT，你好！欢迎来到晚月庄。请坐！" },
-					{ "line": "雨梅对你微笑，纤细的双手捧著茶，\n 说道：这位$RESPECT，你好！欢迎来到晚月庄。请用茶！" }
+					{ "steps": [
+						{ "line": "雨梅对你微笑，纤细的双手捧著茶，\n 说道：这位$RESPECT，你好！欢迎来到晚月庄。请用茶！" },
+						{ "give": "es2:d/latemoon/obj/teacup", "unless_temp": "latemoon/茶", "lines": [ { "line": "这是上等金轩茶!您品尝一下。\n" } ] }
+					] }
 				]
 			}
 		},
@@ -95,9 +168,6 @@
 				{ "item": "es2:d/latemoon/room/npc/obj/longsword", "source": "d/latemoon/room/npc/obj/longsword.c", "equip": "wield" }
 			]
 		},
-		"latemoon.npc.room.shaoin": {
-			"hit_ob": { "condition": "rose_poison", "duration": 10, "below": 20, "message": "你觉得被打中的地方一阵麻痒！", "color": "HIG" }
-		},
 		"latemoon.npc.park.dodo1": {
 			"chat_chance": 15,
 			"chat_msg": [
@@ -130,16 +200,16 @@
 			"call_other": "the dancers' bulletin board is for players' posts: not ported (single player)"
 		},
 		"d/latemoon/latemoon2.c": {
-			"set item_desc": "a look-only landmark (碧纱橱) in world.json; taking a 布裙 from it comes with 晚月庄 B",
+			"set item_desc": "a landmark (碧纱橱) in world.json, policy take: its 取出衣服 gives a 布裙",
 			"create_door": "world.json doors: latemoon.latemoon4.door (仪门, DOOR_CLOSED)",
-			"function init": "B (take cloth) and C (search bracelet)",
-			"function reset": "B: take_available 2 a reset (make_cockroach: see do_take)",
-			"function do_take": "B: take cloth gives a 布裙 while take_available lasts; any other word made a 大蟑螂, which nothing in the game types (owner: not placed)",
+			"function init": "take cloth: the landmark latemoon.latemoon2.landmark.closet (policy take); search bracelet: C",
+			"function reset": "take_available 2: the landmark's limit, counted since the room's reset (make_cockroach: see do_take)",
+			"function do_take": "take cloth: a 布裙 while take_available lasts, then 橱子内的衣服好像被拿光了。; any other word made a 大蟑螂, which nothing in the game types (owner: not placed)",
 			"function do_search": "C: search bracelet after 芳绫's secret (moon/问题二)"
 		},
 		"d/latemoon/latemoon3.c": {
 			"set resource/water": "world.json services: latemoon.latemoon3.tea (kind water: the teapot on the table)",
-			"function valid_leave": "B: the tea cup goes back to 雨梅 on leaving south"
+			"function valid_leave": "world.json exit_rules latemoon.latemoon3.teacup (takes_back): the cup goes back with the flag latemoon/茶; without a cup 你起身往南离开!"
 		},
 		"d/latemoon/latemoon4.c": { "create_door": "world.json doors: latemoon.latemoon4.door" },
 		"d/latemoon/latemoon5.c": { "create_door": "world.json doors: latemoon.latemoon5.door (铜门, DOOR_CLOSED)" },
@@ -167,7 +237,7 @@
 		"d/latemoon/npc/yumay.c": {
 			"statement in create()": "ob = carry_object(needle); ob->set_amount(30); ob->wield(): carry (set latemoon.npc.yumay)",
 			"function init": "greeting (set latemoon.npc.yumay): one second after the player arrives",
-			"function greeting": "greeting (set latemoon.npc.yumay): random(2)'s two lines; the tea cup of the second comes with B"
+			"function greeting": "greeting (set latemoon.npc.yumay): random(2)'s two lines; the second gives the 玉瓷茶杯 unless the temp latemoon/茶 is set (command(\"smile\") prints nothing)"
 		},
 		"d/latemoon/npc/zauron.c": {
 			"function init": "greeting (set latemoon.npc.zauron)",
@@ -191,7 +261,14 @@
 		},
 		"d/latemoon/obj/skirt.c": {
 			"set wear_msg": "wear messages are not shown yet",
-			"function wear": "B: only a 女性 wears it (只有女生才可穿哦!你变态呀!)"
+			"function wear": "set es2:d/latemoon/obj/skirt: female_only with wear()'s own refusal (wear_refusal)"
+		},
+		"d/latemoon/park/npc/obj/flower.c": {
+			"function init": "eat pistil: apply rose_pistil (set es2:d/latemoon/park/npc/obj/flower), the 吃 button",
+			"function do_eat": "ItemApplyFunctions.rose_pistil: sen back 50, rose_poison 10 less (0 below 10); one not poisoned stays so (默认: ES2 set rose_poison 0, which flared once)"
+		},
+		"d/latemoon/obj/teacup.c": {
+			"set liquid_type": "nothing reads liquid_type (feature/liquid.c reads liquid/type, imported as liquid.type)"
 		},
 		"d/latemoon/obj/skirt2.c": {
 			"set rmor_prop/dodge": "a misspelt armor_prop/dodge: nothing reads it, the skirt gives no dodge (as LPC)",
@@ -200,11 +277,11 @@
 		"d/latemoon/obj/skirt3.c": { "set wear_msg": "wear messages are not shown yet" },
 		"d/latemoon/obj/skirt4.c": {
 			"set wear_msg": "wear messages are not shown yet",
-			"function wear": "B: only a 女性 wears it"
+			"function wear": "set es2:d/latemoon/obj/skirt4: female_only with wear()'s own refusal (wear_refusal)"
 		},
 		"d/latemoon/obj/skirt5.c": {
 			"set wear_msg": "wear messages are not shown yet",
-			"function wear": "B: only a 女性 wears it"
+			"function wear": "set es2:d/latemoon/obj/skirt5: female_only with wear()'s own refusal (wear_refusal)"
 		},
 		"d/latemoon/obj/belt.c": { "set wear_msg": "wear messages are not shown yet" },
 		"d/latemoon/obj/clasp.c": { "set wear_msg": "wear messages are not shown yet" },
@@ -262,12 +339,12 @@
 		"d/latemoon/room/flower1.c": { "create_door": "world.json doors: latemoon.room.corridor7.door and latemoon.room.flower1.door (小帘门)" },
 		"d/latemoon/room/bathroom1.c": {
 			"create_door": "world.json doors: latemoon.room.flower1.door (小帘门, DOOR_CLOSED)",
-			"function valid_leave": "B: whoever is not a 女性 is sprinkled with rose_poison 5 on leaving"
+			"function valid_leave": "dead code: create() ends in replace_program(ROOM), which drops it, so ES2 never powdered anyone leaving (owner, 晚月庄 B: not ported). A man walking in is asked first: world.json exit_rules latemoon.room.flower1.changing_room (ask)"
 		},
 		"d/latemoon/room/bathroom.c": {
 			"set resource/water": "world.json services: latemoon.room.bathroom.pool (kind water)",
-			"function init": "B (take bath)",
-			"function do_takebath": "B: a 女性 bathes (gin 10, sen back random(5)+5), anyone else gets rose_poison 15 (owner: asked first)"
+			"function init": "take bath: world.json services latemoon.room.bathroom.bath (kind act)",
+			"function do_takebath": "the act: a 女性 bathes (gin 10, sen back random(5)+5), anyone else gets rose_poison 15 and is asked first (owner, plan Q2)"
 		},
 		"d/latemoon/room/npc/servant.c": {
 			"statement in create()": "ob = carry_object(needle); ob->set_amount(30): carry (set latemoon.npc.room.servant)"
@@ -291,32 +368,32 @@
 			"function attempt_apprentice": "D: she refuses everyone (拜师! 不敢当…): 东方神教 has no master who takes apprentices"
 		},
 		"d/latemoon/room/npc/yushou.c": {
-			"function init": "B",
-			"function greeting": "B: closes her room's door and asks guests to keep quiet"
+			"function init": "greeting (set latemoon.npc.room.yushou): one second after the player arrives",
+			"function greeting": "greeting (set latemoon.npc.room.yushou): she closes the door and asks anyone to keep quiet"
 		},
 		"d/latemoon/room/npc/yuchoun.c": {
-			"function init": "B",
-			"function greeting": "B: a man loses 10 sen, she 50 force more; she closes the door"
+			"function init": "greeting (set latemoon.npc.room.yuchoun)",
+			"function greeting": "greeting (set latemoon.npc.room.yuchoun): a man loses 10 sen, she 50 force more; she closes the door"
 		},
 		"d/latemoon/room/npc/shaoin.c": {
-			"function init": "B",
-			"function greeting": "B: a man loses 20 sen and gets rose_poison 2, she 50 force more; she closes the door",
+			"function init": "greeting (set latemoon.npc.room.shaoin)",
+			"function greeting": "greeting (set latemoon.npc.room.shaoin): a man loses 20 sen and gets rose_poison 2, she 50 force more; she closes the door",
 			"function hit_ob": "hit_ob (set latemoon.npc.room.shaoin): random(damage_bonus) over apply/armor and rose_poison below 20 set it to 10 (NpcHitCondition)"
 		},
 		"d/latemoon/room/npc/shinyu.c": {
-			"function init": "B",
-			"function greeting": "B: kicks a man out to 内厅穿堂 (gin 50, kee 100, sen 50, rose_poison 10; owner: walking in is asked first); she closes the door"
+			"function init": "greeting (set latemoon.npc.room.shinyu)",
+			"function greeting": "greeting (set latemoon.npc.room.shinyu): kicks a man out to 内厅穿堂 (gin 50, kee 100, sen 50, rose_poison 10; owner: walking in is asked first); she closes the door"
 		},
 		"d/latemoon/room/npc/fireangel.c": {
 			"set nick": "a misspelt nickname: nothing reads nick",
-			"function init": "B",
-			"function greeting": "B: kill_ob() on a man"
+			"function init": "greeting (set latemoon.npc.room.fireangel)",
+			"function greeting": "greeting (set latemoon.npc.room.fireangel): kill_ob() on a man"
 		},
 		"d/latemoon/park/moonc.c": {
-			"set item_desc": "a look-only landmark (西府海棠) in world.json; picking its pistils comes with B",
-			"function init": "B (pick flower)",
-			"function reset": "B: pick_available 2 a reset",
-			"function do_pick": "B: a 小花蕊 while pick_available lasts"
+			"set item_desc": "a landmark (西府海棠) in world.json, policy take: its 摘花蕊 gives a 小花蕊",
+			"function init": "pick flower: the landmark latemoon.park.moonc.landmark.flower (policy take)",
+			"function reset": "pick_available 2: the landmark's limit, counted since the room's reset",
+			"function do_pick": "a 小花蕊 while pick_available lasts; after that ES2 said nothing (owner, 晚月庄 B: a line)"
 		},
 		"d/latemoon/park/paroad2.c": {
 			"set item_desc": "a look-only landmark (石牌) in world.json",
@@ -337,8 +414,8 @@
 			"function do_reply": "C"
 		},
 		"d/latemoon/upstar/npc/statue.c": {
-			"function init": "B",
-			"function greeting": "B: one not of the dancers' class loses 20 sen"
+			"function init": "greeting (set latemoon.npc.upstar.statue)",
+			"function greeting": "greeting (set latemoon.npc.upstar.statue): one not of the dancers' class loses 20 sen"
 		},
 		"d/latemoon/upstar/upcenter.c": { "create_door": "world.json doors: latemoon.upstar.upcenter.door (檀香木门, DOOR_CLOSED)" },
 		"d/latemoon/upstar/uproom.c": { "create_door": "world.json doors: latemoon.upstar.upcenter.door" },
@@ -347,8 +424,8 @@
 		"d/latemoon/upstar/upstar3.c": { "create_door": "world.json doors: latemoon.upstar.upstar3.door (木门, DOOR_CLOSED)" },
 		"d/latemoon/upstar/uproom3.c": {
 			"create_door": "world.json doors: latemoon.upstar.upstar3.door",
-			"function init": "B (ponder)",
-			"function do_ponder": "B: 50 sen; bellicosity above 0 goes down random(kar) + 7"
+			"function init": "ponder: world.json services latemoon.upstar.uproom3.ponder (kind act)",
+			"function do_ponder": "the act: 50 sen (asked first when it would knock the player out); bellicosity above 0 goes down random(kar) + 7"
 		},
 		"d/latemoon/upstar/upstarc.c": { "create_door": "world.json doors: latemoon.upstar.upstarc.door (楼门, DOOR_CLOSED)" },
 		"d/latemoon/upstar/uplook.c": { "create_door": "world.json doors: latemoon.upstar.upstarc.door" }
