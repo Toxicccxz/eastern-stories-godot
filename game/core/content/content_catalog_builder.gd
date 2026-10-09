@@ -483,7 +483,8 @@ func _check_item_acts() -> void:
 		if item.act != null:
 			for act: ScriptedAct in item.act.acts:
 				_check_act(act, "%s.act" % origin)
-		if item.study != null and not _skills.has(item.study.skill_id):
+		# A catalog built without skills (a test's partial one) has none to check against.
+		if item.study != null and not _skills.is_empty() and not _skills.has(item.study.skill_id):
 			_errors.append("%s.study: unknown skill '%s'" % [origin, item.study.skill_id])
 
 
