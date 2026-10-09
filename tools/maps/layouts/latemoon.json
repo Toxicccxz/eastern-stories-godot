@@ -365,7 +365,7 @@
 			}
 		},
 		"hills": {
-			"note": "Outside the back gate: the narrow path through waist-high grass winds south-east under a cliff, east along it and south past the slope (the tunnel east toward 山烟寺, closed until that region exists) into the bamboo grove; the grove is five clearings in the bamboo, alike, each way out a passage to the clearing its exit names (the first one's west leads back into itself); the dance 「西出阳关」 sets the dancer down in the middle one.",
+			"note": "Outside the back gate: the narrow path through waist-high grass winds south-east under a cliff, east along it and south past the slope (the tunnel east to 山烟寺) into the bamboo grove; the grove is five clearings in the bamboo, alike, each way out a passage to the clearing its exit names (the first one's west leads back into itself); the dance 「西出阳关」 sets the dancer down in the middle one.",
 			"file": "latemoon_hills.tscn",
 			"draw": {
 				"technique": "canvas", "base": "forest", "bounds": [0, 0, 1664, 2368],
@@ -396,8 +396,9 @@
 						["path", 1152, 224, 1216, 448],
 						["grass", 1088, 448, 1280, 704, "sroad5: the slope to the east, the grove to the west"],
 						["path", 1152, 448, 1216, 704],
-						["path", 1216, 544, 1312, 608, "the way east to the tunnel (closed)"],
-						["rock", 1312, 528, 1344, 624, "the tunnel's mouth"],
+						["path", 1216, 544, 1344, 608, "the way east into the tunnel to 山烟寺"],
+						["cliff", 1312, 512, 1344, 544, "the tunnel's mouth in the slope"],
+						["cliff", 1312, 608, 1344, 640],
 						["forest_floor", 1072, 704, 1296, 992, "bamboo3: a clearing in the bamboo"],
 						["forest_floor", 1024, 816, 1072, 880],
 						["forest_floor", 1296, 816, 1344, 880],
@@ -448,6 +449,7 @@
 					{"node": "caption", "name": "GardenLabel", "at": [280, 70], "text": "北 · 晚月庄后门", "size": 14},
 					{"node": "caption", "name": "TunnelLabel", "at": [1352, 560], "text": "东 · 山烟寺", "size": 14},
 					{"node": "passage", "name": "GardenPassage", "id": "latemoon.sroad1.north", "at": [240, 80], "shape": "Rect_64_32"},
+					{"node": "passage", "name": "TunnelPassage", "id": "latemoon.sroad5.east", "at": [1320, 576], "shape": "Rect_32_64"},
 					{"node": "passage", "name": "Bamboo3WestPassage", "id": "latemoon.bamboo3.west", "at": [1040, 848], "shape": "Rect_32_64"},
 					{"node": "passage", "name": "Bamboo3EastPassage", "id": "latemoon.bamboo3.east", "at": [1328, 848], "shape": "Rect_32_64"},
 					{"node": "passage", "name": "Bamboo3SouthPassage", "id": "latemoon.bamboo3.south", "at": [1184, 1008], "shape": "Rect_64_32"},
@@ -471,6 +473,7 @@
 				"zones": [{"generated": "zones"}],
 				"spawn_points": [
 					{"name": "Sroad1GardenArrival", "at": [240, 160], "id": "latemoon.sroad1.garden_arrival"},
+					{"name": "Sroad5TunnelReturn", "at": [1256, 576], "id": "latemoon.sroad5.tunnel_return"},
 					{"name": "Sroad4Butterfly1", "at": [1088, 352], "id": "latemoon.sroad4.butterfly.1"},
 					{"name": "Sroad5Butterfly1", "at": [1120, 640], "id": "latemoon.sroad5.butterfly.1"},
 					{"name": "Bamboo3SouthArrival", "at": [1184, 944], "id": "latemoon.bamboo3.south_arrival"},

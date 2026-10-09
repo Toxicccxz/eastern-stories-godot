@@ -26,6 +26,7 @@
 		"goathill/rooms.json",
 		"goathill/world.json",
 		"latemoon/items.json",
+		"sanyen/items.json",
 		"choyin/items.json",
 		"cloud/items.json",
 		"cloud/npcs.json",
@@ -53,6 +54,10 @@
 		"latemoon/spawns.json",
 		"latemoon/item_spawns.json",
 		"latemoon/rooms.json",
-		"latemoon/world.json"
+		"latemoon/world.json",
+		"sanyen/npcs.json",
+		"sanyen/spawns.json",
+		"sanyen/rooms.json",
+		"sanyen/world.json"
 	]
 }

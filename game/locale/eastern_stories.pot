@@ -64,6 +64,7 @@ msgstr ""
 #. common.npc.juechen.master gender
 #. common.npc.taoist.taolord gender
 #. common.npc.taoist.taolord apprentice.requires.gender
+#. common.npc.bonze.master gender
 #. oldpine.npc.bandit gender
 #. oldpine.npc.tall_bandit gender
 #. oldpine.npc.fat_bandit gender
@@ -113,6 +114,7 @@ msgstr ""
 #. cloud.npc.jiading gender
 #. cloud.npc.worker gender
 #. cloud.npc.chess_player gender
+#. cloud.npc.monk_guard gender
 #. waterfog.npc.guard gender
 #. waterfog.npc.watcher gender
 #. waterfog.npc.servant gender
@@ -148,7 +150,15 @@ msgstr ""
 #. latemoon.npc.room.fireangel greeting.rules.gender
 #. latemoon.latemoon8.dance dance.costs.gender
 #. latemoon.miroom.dance dance.costs.gender
-#: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json
+#. sanyen.npc.greeting gender
+#. sanyen.npc.monk gender
+#. sanyen.npc.bonze gender
+#. sanyen.npc.cripple gender
+#. sanyen.npc.drug_bonze gender
+#. sanyen.npc.cook_bonze gender
+#. sanyen.npc.little_bonze gender
+#. sanyen.npc.work_bonze gender
+#: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json
 msgid "男性"
 msgstr ""
 
@@ -471,7 +481,7 @@ msgstr ""
 msgid "镖局"
 msgstr ""
 
-#: scenes/world/cloud/cloud_outdoor.tscn
+#: scenes/world/cloud/cloud_outdoor.tscn scenes/world/sanyen/sunhill_mountain.tscn
 msgid "西 · 晚月庄"
 msgstr ""
 
@@ -518,7 +528,9 @@ msgstr ""
 #. es2:d/green/mpath1 short
 #. es2:d/green/mpath2 short
 #. es2:d/latemoon/sroad1 short
-#: scenes/world/goathill/goathill_mountain.tscn scenes/world/green/green_mountain.tscn scenes/world/latemoon/latemoon_hills.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json data/goathill/rooms.json data/green/rooms.json data/latemoon/rooms.json
+#. es2:d/sanyen/sroad1 short
+#. es2:d/sanyen/sroad2 short
+#: scenes/world/goathill/goathill_mountain.tscn scenes/world/green/green_mountain.tscn scenes/world/latemoon/latemoon_hills.tscn scenes/world/sanyen/sunhill_mountain.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json data/goathill/rooms.json data/green/rooms.json data/latemoon/rooms.json data/sanyen/rooms.json
 msgid "山路"
 msgstr ""
 
@@ -1205,6 +1217,140 @@ msgstr ""
 msgid "大松树上"
 msgstr ""
 
+#. es2:d/sanyen/kitchen short
+#: scenes/world/sanyen/sanyen_temple.tscn data/sanyen/rooms.json
+msgid "香积厨"
+msgstr ""
+
+#. es2:d/temple/temple2 short
+#. es2:d/sanyen/back_temple short
+#: scenes/world/sanyen/sanyen_temple.tscn scenes/world/temple/temple_grounds.tscn data/temple/rooms.json data/sanyen/rooms.json
+msgid "后殿"
+msgstr ""
+
+#. es2:d/sanyen/tower short
+#: scenes/world/sanyen/sanyen_temple.tscn data/sanyen/rooms.json
+msgid "塔林"
+msgstr ""
+
+#. es2:d/sanyen/corridor short
+#. es2:d/sanyen/corridor1 short
+#: scenes/world/sanyen/sanyen_temple.tscn data/sanyen/rooms.json
+msgid "走廊"
+msgstr ""
+
+#. es2:d/sanyen/heal_room short
+#: scenes/world/sanyen/sanyen_temple.tscn data/sanyen/rooms.json
+msgid "流云轩"
+msgstr ""
+
+#. es2:d/sanyen/inner_yard short
+#: scenes/world/sanyen/sanyen_temple.tscn data/sanyen/rooms.json
+msgid "庭园"
+msgstr ""
+
+#. es2:d/sanyen/temple short
+#: scenes/world/sanyen/sanyen_temple.tscn data/sanyen/rooms.json
+msgid "大雄宝殿"
+msgstr ""
+
+#. es2:d/sanyen/drug_field short
+#: scenes/world/sanyen/sanyen_temple.tscn data/sanyen/rooms.json
+msgid "药圃"
+msgstr ""
+
+#. es2:d/sanyen/road1 short
+#: scenes/world/sanyen/sanyen_temple.tscn data/sanyen/rooms.json
+msgid "石板大道"
+msgstr ""
+
+#. es2:d/sanyen/road2 short
+#: scenes/world/sanyen/sanyen_temple.tscn data/sanyen/rooms.json
+msgid "石板小径"
+msgstr ""
+
+#. es2:d/sanyen/door short
+#: scenes/world/sanyen/sanyen_temple.tscn data/sanyen/rooms.json
+msgid "山烟寺寺门"
+msgstr ""
+
+#. es2:d/sanyen/front_yard short
+#: scenes/world/sanyen/sanyen_temple.tscn data/sanyen/rooms.json
+msgid "山烟寺前广场"
+msgstr ""
+
+#: scenes/world/sanyen/sanyen_temple.tscn scenes/world/temple/temple_grounds.tscn
+msgid "南 · 山门"
+msgstr ""
+
+#: scenes/world/sanyen/sanyen_temple.tscn
+msgid "蒸笼 · 打开"
+msgstr ""
+
+#. es2:u/cloud/sunhill/northriver short
+#: scenes/world/sanyen/sunhill_mountain.tscn data/sanyen/rooms.json
+msgid "泓水北侧"
+msgstr ""
+
+#. es2:u/cloud/sunhill/midriver short
+#: scenes/world/sanyen/sunhill_mountain.tscn data/sanyen/rooms.json
+msgid "江心"
+msgstr ""
+
+#. es2:u/cloud/sunhill/southriver short
+#: scenes/world/sanyen/sunhill_mountain.tscn data/sanyen/rooms.json
+msgid "泓水南侧"
+msgstr ""
+
+#. es2:u/cloud/sunhill/dukou short
+#: scenes/world/sanyen/sunhill_mountain.tscn data/sanyen/rooms.json
+msgid "江南渡口"
+msgstr ""
+
+#. es2:u/cloud/sunhill/road1 short
+#: scenes/world/sanyen/sunhill_mountain.tscn data/sanyen/rooms.json
+msgid "山脚小路"
+msgstr ""
+
+#. es2:u/cloud/sunhill/road2 short
+#. es2:u/cloud/sunhill/road3 short
+#. es2:u/cloud/sunhill/road4 short
+#: scenes/world/sanyen/sunhill_mountain.tscn data/sanyen/rooms.json
+msgid "盘山小径"
+msgstr ""
+
+#. es2:d/sanyen/gate short
+#: scenes/world/sanyen/sunhill_mountain.tscn data/sanyen/rooms.json
+msgid "山烟寺山门"
+msgstr ""
+
+#. es2:d/sanyen/tunnele short
+#: scenes/world/sanyen/sunhill_mountain.tscn data/sanyen/rooms.json
+msgid "隧道口"
+msgstr ""
+
+#. es2:d/sanyen/tunnel short
+#: scenes/world/sanyen/sunhill_mountain.tscn data/sanyen/rooms.json
+msgid "隧道"
+msgstr ""
+
+#: scenes/world/sanyen/sunhill_mountain.tscn
+msgid "北 · 江北渡口"
+msgstr ""
+
+#: scenes/world/sanyen/sunhill_mountain.tscn
+msgid "东 · 乔阴县城"
+msgstr ""
+
+#. family.sanyen name
+#. common.npc.bonze.master family.name
+#. cloud.npc.monk inquiry topic
+#. cloud.npc.monk_guard inquiry topic
+#. sanyen name
+#: scenes/world/sanyen/sunhill_mountain.tscn data/common/families.json data/common/npcs.json data/cloud/npcs.json data/sanyen/world.json
+msgid "山烟寺"
+msgstr ""
+
 #. es2:d/snow/secret_storage short
 #: scenes/world/snow/snow_cellar.tscn data/snow/rooms.json
 msgid "地下密室"
@@ -1469,11 +1615,6 @@ msgstr ""
 msgid "练功房"
 msgstr ""
 
-#. es2:d/temple/temple2 short
-#: scenes/world/temple/temple_grounds.tscn data/temple/rooms.json
-msgid "后殿"
-msgstr ""
-
 #. es2:d/temple/restroom1 short
 #. es2:d/temple/restroom2 short
 #: scenes/world/temple/temple_grounds.tscn data/temple/rooms.json
@@ -1499,10 +1640,6 @@ msgstr ""
 #. es2:d/temple/square short
 #: scenes/world/temple/temple_grounds.tscn data/temple/rooms.json
 msgid "灵心观广场"
-msgstr ""
-
-#: scenes/world/temple/temple_grounds.tscn
-msgid "南 · 山门"
 msgstr ""
 
 #: scenes/world/temple/temple_grounds.tscn
@@ -2682,6 +2819,10 @@ msgstr ""
 
 #: core/npcs/npc_random_move.gd
 msgid "{npc}往{direction}离开。"
+msgstr ""
+
+#: core/npcs/npc_random_move.gd
+msgid "{npc}往{direction}落荒而逃了。"
 msgstr ""
 
 #: core/npcs/npc_spar_consent.gd
@@ -3935,6 +4076,10 @@ msgid "你借遁术脱离了战斗。"
 msgstr ""
 
 #: presentation/battle/battle_feedback_reader.gd
+msgid "战斗结束。"
+msgstr ""
+
+#: presentation/battle/battle_feedback_reader.gd
 msgid "双方都停了手，战斗结束。"
 msgstr ""
 
@@ -3960,10 +4105,6 @@ msgstr ""
 
 #: presentation/battle/battle_feedback_reader.gd
 msgid "战斗出错，已中止。"
-msgstr ""
-
-#: presentation/battle/battle_feedback_reader.gd
-msgid "战斗结束。"
 msgstr ""
 
 #. combatd.c announce("unconcious"): {name} falls unconscious in the fight.
@@ -6378,6 +6519,8 @@ msgstr ""
 #. es2:d/latemoon/obj/skirt2 unit
 #. es2:d/latemoon/obj/blue_dress unit
 #. es2:d/latemoon/obj/skirt4 unit
+#. es2:d/sanyen/obj/monk_cloth unit
+#. es2:d/sanyen/obj/cloth unit
 #. es2:u/cloud/obj/npc/monk/jiasha unit
 #. es2:u/cloud/obj/npc/lm_guard/color_cloth unit
 #. es2:u/cloud/obj/cloth/black_cloth unit
@@ -6389,7 +6532,7 @@ msgstr ""
 #. es2:d/temple/obj/robe unit
 #. es2:d/temple/obj/old_robe unit
 #. es2:d/temple/npc/obj/robe1 unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json data/latemoon/items.json data/cloud/items.json data/waterfog/items.json data/temple/items.json
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/latemoon/items.json data/sanyen/items.json data/cloud/items.json data/waterfog/items.json data/temple/items.json
 msgid "件"
 msgstr ""
 
@@ -6414,9 +6557,10 @@ msgstr ""
 #. es2:d/latemoon/park/npc/obj/ring unit
 #. es2:d/latemoon/park/npc/obj/amulet unit
 #. es2:d/latemoon/obj/dragonfly unit
+#. es2:d/sanyen/obj/maintal unit
 #. es2:d/green/npc/obj/ricewine unit
 #. es2:d/green/obj/jade unit
-#: data/common/items.json data/snow/items.json data/latemoon/items.json data/green/items.json
+#: data/common/items.json data/snow/items.json data/latemoon/items.json data/sanyen/items.json data/green/items.json
 msgid "个"
 msgstr ""
 
@@ -6513,6 +6657,7 @@ msgstr ""
 #. es2:d/latemoon/obj/bamboo_sword unit
 #. es2:d/latemoon/room/npc/obj/longsword unit
 #. es2:d/latemoon/park/npc/obj/guihua unit
+#. es2:d/sanyen/obj/broom unit
 #. es2:u/cloud/obj/npc/butcher/knife unit
 #. es2:u/cloud/obj/npc/tailor/ruler unit
 #. es2:u/cloud/obj/npc/tailor/scissors unit
@@ -6524,7 +6669,7 @@ msgstr ""
 #. es2:d/green/obj/hammer unit
 #. es2:d/green/obj/windsword unit
 #. es2:d/temple/obj/broom unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/cloud/items.json data/waterfog/items.json data/green/items.json data/temple/items.json
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/sanyen/items.json data/cloud/items.json data/waterfog/items.json data/green/items.json data/temple/items.json
 msgid "把"
 msgstr ""
 
@@ -6644,9 +6789,11 @@ msgstr ""
 #. es2:d/goathill/obj/steel_blade unit
 #. es2:d/goathill/obj/hand_axe unit
 #. es2:d/latemoon/obj/yu_blade unit
+#. es2:d/sanyen/obj/blade unit
+#. es2:d/sanyen/obj/carver unit
 #. es2:u/cloud/obj/npc/gangster/blade unit
 #. es2:d/temple/obj/whip unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/cloud/items.json data/temple/items.json
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/sanyen/items.json data/cloud/items.json data/temple/items.json
 msgid "柄"
 msgstr ""
 
@@ -6677,12 +6824,14 @@ msgstr ""
 #. es2:daemon/class/juechen/jingang_staff unit
 #. es2:daemon/class/dancer/echowhip unit
 #. es2:daemon/class/dancer/gold_belt unit
+#. es2:daemon/class/bonze/buddha_staff unit
 #. es2:d/latemoon/obj/whip unit
 #. es2:d/latemoon/obj/belt unit
 #. es2:d/latemoon/obj/redbelt unit
 #. es2:u/cloud/obj/npc/butcher/skin_belt unit
 #. es2:u/cloud/obj/etc/rope unit
 #. es2:u/cloud/obj/npc/lm_guard/whip unit
+#. es2:u/cloud/obj/npc/monk/stick unit
 #. es2:d/waterfog/obj/iron_staff unit
 #: data/common/items.json data/latemoon/items.json data/cloud/items.json data/waterfog/items.json
 msgid "条"
@@ -6852,9 +7001,10 @@ msgstr ""
 #. es2:d/snow/obj/sandals unit
 #. es2:d/snow/obj/shoe unit
 #. es2:d/goathill/obj/boots unit
+#. es2:d/sanyen/obj/shoe unit
 #. es2:d/waterfog/obj/leather_boot unit
 #. es2:d/temple/obj/boots unit
-#: data/common/items.json data/snow/items.json data/goathill/items.json data/waterfog/items.json data/temple/items.json
+#: data/common/items.json data/snow/items.json data/goathill/items.json data/sanyen/items.json data/waterfog/items.json data/temple/items.json
 msgid "双"
 msgstr ""
 
@@ -6907,6 +7057,17 @@ msgstr ""
 #. es2:daemon/class/dancer/bloody_dress name
 #: data/common/items.json
 msgid "紫霜血蝉衣"
+msgstr ""
+
+#. es2:daemon/class/bonze/buddha_staff name
+#: data/common/items.json
+msgid "菩提禅杖"
+msgstr ""
+
+#. es2:daemon/class/bonze/buddha_staff long
+#: data/common/items.json
+msgid ""
+"一条又粗又长，非常沈重的黄铜禅杖，上面镶著六个铜环。\n"
 msgstr ""
 
 #. unarmed improved_line
@@ -7624,44 +7785,97 @@ msgid "金刚杖法"
 msgstr ""
 
 #. jingang-staff practice.weapon_fail
+#. cloudstaff practice.weapon_fail
 #: data/common/skills.json
 msgid "你必须先找一根木杖或者是类似的武器，才能练杖法。"
 msgstr ""
 
 #. jingang-staff practice.fail
+#. cloudstaff practice.fail
 #: data/common/skills.json
 msgid "你的体力不够练这门杖法，还是先休息休息吧。"
 msgstr ""
 
 #. jingang-staff valid_learn.strength
+#. cloudstaff valid_learn.strength
 #: data/common/skills.json
 msgid "你的膂力还不够，也许该练一练内力来增强力量。"
 msgstr ""
 
 #. jingang-staff actions.action
+#. cloudstaff actions.action
 #: data/common/skills.json
 msgid "$N使一招「天光乍现」，手中$w扫向$n下盘！"
 msgstr ""
 
 #. jingang-staff actions.damage_type
+#. cloudstaff actions.damage_type
 #. actions.damage_type
 #: data/common/skills.json data/common/combat_actions.json
 msgid "挫伤"
 msgstr ""
 
 #. jingang-staff actions.action
+#. cloudstaff actions.action
 #: data/common/skills.json
 msgid "$N挥起$w，一招「雨後初晴」攻向$n$l！"
 msgstr ""
 
 #. jingang-staff actions.action
+#. cloudstaff actions.action
 #: data/common/skills.json
 msgid "$N横过手中$w，使出「浮云写意」击向$n$l！"
 msgstr ""
 
 #. jingang-staff actions.action
+#. cloudstaff actions.action
 #: data/common/skills.json
 msgid "$N使出一招「游龙穿云」，$w一挺撞向$n$l！"
+msgstr ""
+
+#. cloudstaff name
+#: data/common/skills.json
+msgid "流云杖法"
+msgstr ""
+
+#. lotusforce name
+#: data/common/skills.json
+msgid "莲华心法"
+msgstr ""
+
+#. lotusforce practice.fail
+#: data/common/skills.json
+msgid "莲华心法只能用学的，或是从运用(exert)中增加熟练度。"
+msgstr ""
+
+#. lotusforce valid_learn.effective_skill
+#: data/common/skills.json
+msgid "你的大乘佛法修为不够，无法领会更高深的莲华心法。"
+msgstr ""
+
+#. buddhism name
+#: data/common/skills.json
+msgid "大乘佛法"
+msgstr ""
+
+#. buddhism valid_learn.max_bellicosity
+#: data/common/skills.json
+msgid "你的杀气太重，无法修炼大乘佛法。"
+msgstr ""
+
+#. chanting name
+#: data/common/skills.json
+msgid "诵经"
+msgstr ""
+
+#. essencemagic name
+#: data/common/skills.json
+msgid "八识神通"
+msgstr ""
+
+#. essencemagic valid_learn.effective_skill
+#: data/common/skills.json
+msgid "你的佛法修为还不够高深，无法学习八识神通。"
 msgstr ""
 
 #. whip name
@@ -8792,6 +9006,26 @@ msgstr ""
 msgid "$N暧昧地抚摸著$n的脸，说道：特别是像你这样的女孩 ...."
 msgstr ""
 
+#. common.npc.bonze.master name
+#: data/common/npcs.json
+msgid "玄智和尚"
+msgstr ""
+
+#. common.npc.bonze.master family.title
+#: data/common/npcs.json
+msgid "住持"
+msgstr ""
+
+#. common.npc.bonze.master accept_fight.say
+#: data/common/npcs.json
+msgid "阿弥陀佛！出家人戒逞强恶斗！老衲不敢违反清规。"
+msgstr ""
+
+#. common.npc.bonze.master accept_fight.say
+#: data/common/npcs.json
+msgid "施主既然身负绝艺，老衲佩服便是，也不必较量了。"
+msgstr ""
+
 #. quests.target
 #. snow.npc.beggar name
 #: data/common/quests.json data/snow/npcs.json
@@ -8811,7 +9045,8 @@ msgid "宝官"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. sanyen.npc.greeting name
+#: data/common/quests.json data/sanyen/npcs.json
 msgid "知客僧"
 msgstr ""
 
@@ -8858,7 +9093,8 @@ msgid "王铁匠"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. sanyen.npc.work_bonze name
+#: data/common/quests.json data/sanyen/npcs.json
 msgid "扫地僧"
 msgstr ""
 
@@ -8921,7 +9157,8 @@ msgid "金丝雀"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. sanyen.npc.drug_bonze name
+#: data/common/quests.json data/sanyen/npcs.json
 msgid "药僧"
 msgstr ""
 
@@ -9015,7 +9252,8 @@ msgid "樵夫"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. cloud.npc.monk_guard name
+#: data/common/quests.json data/cloud/npcs.json
 msgid "护寺武僧"
 msgstr ""
 
@@ -9050,7 +9288,8 @@ msgid "惜春"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. sanyen.npc.cripple name
+#: data/common/quests.json data/sanyen/npcs.json
 msgid "跛僧人"
 msgstr ""
 
@@ -9190,7 +9429,8 @@ msgid "清玄"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. sanyen.npc.monk name
+#: data/common/quests.json data/sanyen/npcs.json
 msgid "独眼头陀"
 msgstr ""
 
@@ -11924,6 +12164,78 @@ msgid ""
 "前面有关鞭法的总纲与精义倒是不少。\n"
 msgstr ""
 
+#. es2:d/sanyen/obj/blade name
+#: data/sanyen/items.json
+msgid "戒刀"
+msgstr ""
+
+#. es2:d/sanyen/obj/blade long
+#: data/sanyen/items.json
+msgid ""
+"这是一把僧人练武用的戒刀，份量大约四、五斤重。\n"
+msgstr ""
+
+#. es2:d/sanyen/obj/monk_cloth name
+#: data/sanyen/items.json
+msgid "灰布僧衣"
+msgstr ""
+
+#. es2:d/sanyen/obj/eye_patch name
+#: data/sanyen/items.json
+msgid "黑眼罩"
+msgstr ""
+
+#. es2:d/sanyen/obj/eye_patch unit
+#: data/sanyen/items.json
+msgid "副"
+msgstr ""
+
+#. es2:d/sanyen/obj/shoe name
+#: data/sanyen/items.json
+msgid "僧鞋"
+msgstr ""
+
+#. es2:d/sanyen/obj/cloth name
+#: data/sanyen/items.json
+msgid "青布僧衣"
+msgstr ""
+
+#. es2:d/sanyen/obj/carver name
+#. es2:d/green/npc/obj/knife name
+#: data/sanyen/items.json data/green/items.json
+msgid "菜刀"
+msgstr ""
+
+#. es2:d/sanyen/obj/carver long
+#: data/sanyen/items.json
+msgid ""
+"一把不很利的菜刀, 不过拿来切菜砍肉还是绰绰有馀的。\n"
+msgstr ""
+
+#. es2:d/sanyen/obj/broom name
+#. es2:d/temple/obj/broom name
+#: data/sanyen/items.json data/temple/items.json
+msgid "竹扫把"
+msgstr ""
+
+#. es2:d/sanyen/obj/broom long
+#. es2:d/temple/obj/broom long
+#: data/sanyen/items.json data/temple/items.json
+msgid ""
+"一把快秃了头的竹扫把。\n"
+msgstr ""
+
+#. es2:d/sanyen/obj/maintal name
+#: data/sanyen/items.json
+msgid "馒头"
+msgstr ""
+
+#. es2:d/sanyen/obj/maintal long
+#: data/sanyen/items.json
+msgid ""
+"一个香喷喷、热腾腾的大馒头。\n"
+msgstr ""
+
 #. es2:d/choyin/obj/grass name
 #. cloud.npc.b_header inquiry topic
 #: data/choyin/items.json data/cloud/npcs.json
@@ -12147,6 +12459,17 @@ msgstr ""
 #. es2:u/cloud/obj/npc/lm_guard/whip name
 #: data/cloud/items.json
 msgid "拂柳鞭"
+msgstr ""
+
+#. es2:u/cloud/obj/npc/monk/stick name
+#: data/cloud/items.json
+msgid "僧棍"
+msgstr ""
+
+#. es2:u/cloud/obj/npc/monk/stick long
+#: data/cloud/items.json
+msgid ""
+"一条又粗又长僧棍，表面已被磨得十分光滑。\n"
 msgstr ""
 
 #. cloud.npc.gangster long
@@ -12497,11 +12820,6 @@ msgid ""
 "和尚道：我佛慈悲，望住持不会怪罪我。\n"
 msgstr ""
 
-#. cloud.npc.monk inquiry topic
-#: data/cloud/npcs.json
-msgid "山烟寺"
-msgstr ""
-
 #. cloud.npc.monk inquiry.山烟寺
 #: data/cloud/npcs.json
 msgid "贫僧即是山烟寺来的，从此南行便是。"
@@ -12511,6 +12829,11 @@ msgstr ""
 #: data/cloud/npcs.json
 msgid ""
 "和尚说道：多谢这位$RESPECT，佛祖一定会保佑你的。\n"
+msgstr ""
+
+#. cloud.npc.monk accept_fight.say
+#: data/cloud/npcs.json
+msgid "阿弥陀佛！出家人戒逞强恶斗！贫僧不敢违反清规。"
 msgstr ""
 
 #. cloud.npc.monk accept_fight.say
@@ -12598,6 +12921,24 @@ msgstr ""
 #. cloud.npc.boater inquiry topic
 #: data/cloud/npcs.json
 msgid "摆渡"
+msgstr ""
+
+#. cloud.npc.boater accept_object.lines.line
+#: data/cloud/npcs.json
+msgid ""
+"船夫说：客官可以过江啦！\n"
+msgstr ""
+
+#. cloud.npc.boater accept_object.lines.line
+#: data/cloud/npcs.json
+msgid ""
+"船夫拉过条小船，你走了上去。\n"
+msgstr ""
+
+#. cloud.npc.boater accept_object.line
+#: data/cloud/npcs.json
+msgid ""
+"这么少？我还要养家呀！\n"
 msgstr ""
 
 #. cloud.npc.mother long
@@ -13008,6 +13349,28 @@ msgstr ""
 #. cloud.npc.lm_guard inquiry.晚月庄
 #: data/cloud/npcs.json
 msgid "庄主吩咐过，不许乱讲。"
+msgstr ""
+
+#. cloud.npc.monk_guard long
+#: data/cloud/npcs.json
+msgid ""
+"    知客僧伫立在佛像前，那虚闭的双眼中似乎透出一道仁慈而有力的\n"
+"光芒。\n"
+msgstr ""
+
+#. cloud.npc.monk_guard inquiry.山烟寺
+#: data/cloud/npcs.json
+msgid "这里就是山烟寺，施主有何贵干?"
+msgstr ""
+
+#. cloud.npc.monk_guard accept_fight.say
+#: data/cloud/npcs.json
+msgid "你身为佛家弟子，竟敢违反清规！"
+msgstr ""
+
+#. cloud.npc.monk_guard accept_fight.say
+#: data/cloud/npcs.json
+msgid "佛门圣地也是可随意骚扰的么！"
 msgstr ""
 
 #. es2:u/cloud/dragonhill/nroad long
@@ -13830,11 +14193,6 @@ msgstr ""
 msgid "米酒"
 msgstr ""
 
-#. es2:d/green/npc/obj/knife name
-#: data/green/items.json
-msgid "菜刀"
-msgstr ""
-
 #. es2:d/green/npc/obj/knife long
 #: data/green/items.json
 msgid ""
@@ -14634,17 +14992,6 @@ msgstr ""
 #. green.outdoor.seal lines
 #: data/green/world.json
 msgid "入口被魔法封住了！"
-msgstr ""
-
-#. es2:d/temple/obj/broom name
-#: data/temple/items.json
-msgid "竹扫把"
-msgstr ""
-
-#. es2:d/temple/obj/broom long
-#: data/temple/items.json
-msgid ""
-"一把快秃了头的竹扫把。\n"
 msgstr ""
 
 #. es2:d/temple/obj/robe name
@@ -16927,4 +17274,395 @@ msgstr ""
 #. latemoon.latemoon3.teacup without
 #: data/latemoon/world.json
 msgid "你起身往南离开!"
+msgstr ""
+
+#. sanyen.npc.greeting long
+#: data/sanyen/npcs.json
+msgid ""
+"这个知客僧脸色和蔼，虽然在寺中的地位不高，但是他总是让人有一种\n"
+"值得信赖的感觉。\n"
+msgstr ""
+
+#. sanyen.npc.greeting accept_fight.say
+#: data/sanyen/npcs.json
+msgid "阿弥陀佛！小僧武功低微，认输便是。"
+msgstr ""
+
+#. sanyen.npc.monk long
+#: data/sanyen/npcs.json
+msgid ""
+"瞧这个头陀的模样与服色，似乎不是山烟寺的僧人，但是他大喇喇地站在\n"
+"这里，一副不可一世的样子。\n"
+msgstr ""
+
+#. sanyen.npc.bonze name
+#: data/sanyen/npcs.json
+msgid "僧人"
+msgstr ""
+
+#. sanyen.npc.bonze long
+#: data/sanyen/npcs.json
+msgid ""
+"一个笑咪咪的僧人对著你微微颔首。\n"
+msgstr ""
+
+#. sanyen.npc.bonze accept_fight.say
+#. sanyen.npc.work_bonze accept_fight.say
+#: data/sanyen/npcs.json
+msgid "阿弥陀佛！贫僧武功低微，施主不要开这种玩笑。"
+msgstr ""
+
+#. sanyen.npc.cripple long
+#: data/sanyen/npcs.json
+msgid ""
+"这个僧人跛了右腿，脸上没有什么表情，一副若有所思的样子。\n"
+msgstr ""
+
+#. sanyen.npc.cripple accept_fight.say
+#: data/sanyen/npcs.json
+msgid "阿弥陀佛！贫僧武功低微，又是个残废，施主不要开这种玩笑。"
+msgstr ""
+
+#. sanyen.npc.drug_bonze long
+#: data/sanyen/npcs.json
+msgid ""
+"一位长得相当精壮的年轻僧人, 他正在整理药材。\n"
+msgstr ""
+
+#. sanyen.npc.cook_bonze name
+#: data/sanyen/npcs.json
+msgid "烧饭僧"
+msgstr ""
+
+#. sanyen.npc.cook_bonze long
+#: data/sanyen/npcs.json
+msgid ""
+"一位长得肥肥胖胖, 福福泰泰的中年僧人。\n"
+msgstr ""
+
+#. sanyen.npc.cook_bonze accept_fight.say
+#: data/sanyen/npcs.json
+msgid "阿弥陀佛 !! 贫僧的菜刀是用来切菜的, 不是用来砍人的。"
+msgstr ""
+
+#. sanyen.npc.little_bonze name
+#: data/sanyen/npcs.json
+msgid "小沙弥"
+msgstr ""
+
+#. sanyen.npc.little_bonze long
+#: data/sanyen/npcs.json
+msgid ""
+"一个天真无邪的小和尚, 一颗圆滚滚光溜溜可爱的小光头, 让人看了\n"
+"就十分的喜欢他。他正在为油灯添上香油。\n"
+msgstr ""
+
+#. sanyen.npc.little_bonze accept_fight.say
+#: data/sanyen/npcs.json
+msgid "师父! 救命啊!!  啊....不要打我..:("
+msgstr ""
+
+#. sanyen.npc.work_bonze long
+#: data/sanyen/npcs.json
+msgid ""
+"一个肥肥胖胖的僧人, 看他拿著扫把有一下没一下的扫著, 就知道他\n"
+"平常也是摸鱼大王。\n"
+msgstr ""
+
+#. es2:u/cloud/sunhill/northriver long
+#: data/sanyen/rooms.json
+msgid ""
+"这里已靠近北岸，江水齐胸深，偶尔一个湍流卷过来，仿佛要将人\n"
+"打入江底似的。\n"
+msgstr ""
+
+#. es2:u/cloud/sunhill/midriver long
+#: data/sanyen/rooms.json
+msgid ""
+"这里虽说是泓水最窄的地方，可泓水在这里转了个弯，所以常有暗\n"
+"流出现。常有过往船只在这里沉入江底，连水性了得的船夫们也不敢在\n"
+"风大浪急时过江。\n"
+msgstr ""
+
+#. es2:u/cloud/sunhill/southriver long
+#: data/sanyen/rooms.json
+msgid ""
+"这里靠近南岸，江水甚是寒冷。从这儿已能望到山烟寺的一角。\n"
+msgstr ""
+
+#. es2:u/cloud/sunhill/dukou long
+#: data/sanyen/rooms.json
+msgid ""
+"这里是泓水南岸，再往南不远就是日照山了。\n"
+msgstr ""
+
+#. es2:u/cloud/sunhill/road1 long
+#: data/sanyen/rooms.json
+msgid ""
+"这是条崎岖的黄土小径，北面通向渡口，往南小路蜿蜒而上，通往\n"
+"山顶。\n"
+msgstr ""
+
+#. es2:u/cloud/sunhill/road2 long
+#. es2:u/cloud/sunhill/road3 long
+#. es2:u/cloud/sunhill/road4 long
+#: data/sanyen/rooms.json
+msgid ""
+"这是条崎岖的黄土小径。\n"
+msgstr ""
+
+#. es2:d/sanyen/sroad1 long
+#: data/sanyen/rooms.json
+msgid ""
+"这是一条铺著生满青苔大石的山路，但是路面大概常有人行走，因\n"
+"此倒也并不湿滑，往南是一段石阶缓缓下山，往北则是通往山中的山路\n"
+"，东面的山壁上刻著「山烟寺」几个大字，看起来岁月已经颇久了。\n"
+msgstr ""
+
+#. es2:d/sanyen/sroad2 long
+#: data/sanyen/rooms.json
+msgid ""
+"这条山路到这里转了个弯，往东穿过一个山壁上凿出来的隧道，往\n"
+"南则顺著山势缓缓下山。\n"
+msgstr ""
+
+#. es2:d/sanyen/gate long
+#: data/sanyen/rooms.json
+msgid ""
+"这里是往山烟寺的山门，山烟寺在你的西面不远，由于寺中的老方丈\n"
+"玄智和尚医术通神，不少受过恩惠的各地富豪将山烟寺修整得金碧辉煌，\n"
+"庄严雄伟，因此山烟寺规模虽然不及京城的白象禅院，但是名气却是\n"
+"大得多了。\n"
+msgstr ""
+
+#. es2:d/sanyen/tunnele long
+#: data/sanyen/rooms.json
+msgid ""
+"你走进了一个凿穿山壁开成的隧道，东边是隧道的出口，往西不远\n"
+"处也可以从这里瞧见西边的出口，一股硫磺的味道从隧道壁中传来，想\n"
+"必左近便有温泉或是火山。\n"
+msgstr ""
+
+#. es2:d/sanyen/tunnel long
+#: data/sanyen/rooms.json
+msgid ""
+"你走进了一个凿穿山壁开成的隧道，隧道也不甚长，约七、八丈左\n"
+"右，西边就是隧道的出口，隧道中你可以闻到一股硫磺的味道，想必左\n"
+"近便有温泉或是火山。\n"
+msgstr ""
+
+#. es2:d/sanyen/front_yard long
+#: data/sanyen/rooms.json
+msgid ""
+"这里是山烟寺前的空地，平日僧人们就在这里练武强身，空地四周\n"
+"种了一排白杨树，靠北边的地方放了一堆用来锻链膂力的砖头，寺门就\n"
+"在你的北边, 东边则是山门。\n"
+msgstr ""
+
+#. es2:d/sanyen/door long
+#: data/sanyen/rooms.json
+msgid ""
+"出现在眼前的是一座宏伟壮丽的寺门, 上方覆著镶金的瓦片, 瓦\n"
+"片的下方挂著一方翡翠匾额, 上面写著『山烟寺』三个烫金大字。正\n"
+"中的大门正紧紧关闭著, 只有在迎接大人物时才会开启。现在只开著\n"
+"两旁的偏门。\n"
+msgstr ""
+
+#. es2:d/sanyen/road1 long
+#: data/sanyen/rooms.json
+msgid ""
+"一条铺著青石板的大道, 两旁种植一排芍药。北方就是大雄宝殿\n"
+", 一座上覆金瓦的雄伟建筑, 屋檐的四个角落雕就著四只栩栩如的金\n"
+"龙, 屋檐下还各挂著一串金风铃, 清风吹来, 发出阵阵清脆的铃声。\n"
+"东边有条小一点的石板路, 阵阵的药香就从东边传来。\n"
+msgstr ""
+
+#. es2:d/sanyen/road2 long
+#: data/sanyen/rooms.json
+msgid ""
+"你正走在一条青石板铺造的小径上, 两旁种植著一排芍药。阵阵\n"
+"药香随风送了过来, 原来北边是片广大的药圃。\n"
+msgstr ""
+
+#. es2:d/sanyen/drug_field long
+#: data/sanyen/rooms.json
+msgid ""
+"一片广阔的药圃, 药香就是从这里散发出来的。这里似乎经过详\n"
+"细的规划, 一块一块的, 哪边种当归, 哪边种枸杞, 绝不会混在一起\n"
+"。只是看来看去都只是些寻常的药材, 看不到比较珍贵特殊的。\n"
+msgstr ""
+
+#. es2:d/sanyen/temple long
+#: data/sanyen/rooms.json
+msgid ""
+"一阵耀眼的金光向你袭来, 你定神一看原来是座一丈八尺的如来\n"
+"佛祖金身, 坐在一座三尺高的莲台上, 前方的香炉里香烟缓缓飘上天\n"
+"。这整座山烟寺都是由上好的桧木搭建而成, 南方则是两扇敞开的金\n"
+"门, 价值不菲, 气势不凡, 在佛像的右侧有道黄布幔, 布幔后似乎是\n"
+"条通道。西边则传来阵阵的流水声。\n"
+msgstr ""
+
+#. es2:d/sanyen/inner_yard long
+#: data/sanyen/rooms.json
+msgid ""
+"你正站在山烟寺的庭园里, 这庭园里不但花草茂盛, 而且小桥流\n"
+"水, 假山凉亭, 应有尽有, 气派非凡。北边有间雅房, 东边穿过拱门\n"
+"则是大殿。\n"
+msgstr ""
+
+#. es2:d/sanyen/heal_room long
+#: data/sanyen/rooms.json
+msgid ""
+"你走进这里, 一阵刺鼻药味向你扑了过来。这是一间相当宽敞的\n"
+"的大房间, 是玄智方丈为人看病的地方, 也是存放药草的地方。与屋\n"
+"顶齐高的木柜, 画分成许多抽屉, 里面分别摆放著药材。两侧的墙璧\n"
+"上挂了许许多多的檀木扁额(plaque)。\n"
+msgstr ""
+
+#. es2:d/sanyen/corridor long
+#: data/sanyen/rooms.json
+msgid ""
+"你正走在一条长廊上, 两旁种植著一排月桂树。南边的布幔后是\n"
+"大殿, 北方则是后殿。东边是个不小的广场, 广场上正晒著一些不知\n"
+"名的药草。\n"
+msgstr ""
+
+#. es2:d/sanyen/corridor1 long
+#: data/sanyen/rooms.json
+msgid ""
+"你正走在一条长廊上, 两旁分别是流云轩及后殿的外墙, 墙上画\n"
+"著大慈大悲观世音菩萨救苦救难的事迹。长廊往东西两边延伸, 西边\n"
+"的尽是一间相当大的房屋。\n"
+msgstr ""
+
+#. es2:d/sanyen/kitchen long
+#: data/sanyen/rooms.json
+msgid ""
+"一间整理相乾净的厨房, 西北边的角落里砌了两个大灶, 灶里正\n"
+"燃著熊熊大火, 灶上分别放著一个大锅(pot) 及一个蒸笼(steampot)\n"
+"。锅子及蒸笼正冒著阵阵的热气以及香气, 你忍不住想打开来看看。\n"
+msgstr ""
+
+#. es2:d/sanyen/back_temple long
+#: data/sanyen/rooms.json
+msgid ""
+"一间宽大的后殿, 正中有一尊药师如来的金身塑像。四周的墙上\n"
+"唯妙唯肖地彩绘著十八罗汉, 每个罗汉的旁边并写著他得道升天的过\n"
+"程。\n"
+msgstr ""
+
+#. es2:d/sanyen/tower long
+#: data/sanyen/rooms.json
+msgid ""
+"你正站在两座高塔前, 左边这一座名曰: 『明心塔』, 右方名叫\n"
+"『见性塔』。历来, 当山烟寺中的高僧涅盘后, 遗体火化后所得的舍\n"
+"利子就存放在这两座塔里。\n"
+msgstr ""
+
+#. sunhill name
+#: data/sanyen/world.json
+msgid "日照山"
+msgstr ""
+
+#. sanyen.road1.door name
+#: data/sanyen/world.json
+msgid "金门"
+msgstr ""
+
+#. sanyen.heal_room.landmark.plaque name
+#: data/sanyen/world.json
+msgid "檀木扁额"
+msgstr ""
+
+#. sanyen.heal_room.landmark.plaque long
+#: data/sanyen/world.json
+msgid ""
+"┌————————┐ ┌————————┐ ┌————————┐\n"
+"│                │ │                │ │                │\n"
+"│ 妙  手  回  春 │ │ 华  陀  再  世 │ │ 扁  鹊  重  生 │\n"
+"│                │ │                │ │                │\n"
+"│    发呆部部长  │ │    打混部部长  │ │    摸鱼部部长  │\n"
+"│    兼奸商部部长│ │    兼强盗部部长│ │    兼奸商部次长│\n"
+"│         Elon 赠│ │     风火血舞 赠│ │       梦忆柔 赠│\n"
+"└————————┘ └————————┘ └————————┘\n"
+"┌————————┐ ┌————————┐ ┌————————┐\n"
+"│                │ │                │ │                │\n"
+"│ 药  到  病  除 │ │ 仁  心  德  术 │ │ 杏  坛  佳  话 │\n"
+"│                │ │                │ │                │\n"
+"│                │ │                │ │                │\n"
+"│    插花部部长  │ │    无言部部长  │ │    发呆部次长  │\n"
+"│     雷神之子 赠│ │     上官逸倩 赠│ │       克某某 赠│\n"
+"└————————┘ └————————┘ └————————┘\n"
+"┌————————┐ ┌————————┐ ┌————————┐\n"
+"│                │ │                │ │                │\n"
+"│ 悬  壶  济  世 │ │ 技  惊  关  羽 │ │ 医  界  圣  手 │\n"
+"│                │ │ 吓  死  曹  操 │ │                │\n"
+"│    打混部次长  │ │                │ │                │\n"
+"│    兼强盗部次长│ │    摸鱼部次长  │ │    发呆部食客  │\n"
+"│      托佛尼亚赠│ │         陈平 赠│ │         悟明 赠│\n"
+"└————————┘ └————————┘ └————————┘\n"
+"          ┌———————————————————┐ \n"
+"          │                                      │ \n"
+"          │      全      是      放      屁      │ \n"
+"          │                                      │ \n"
+"          │                                      │ \n"
+"          │                超  级  打  屁  大  神│ \n"
+"          │                  安 尼 席 洛 特 尔 赠│ \n"
+"          └———————————————————┘ \n"
+msgstr ""
+
+#. sanyen.kitchen.landmark.pot name
+#: data/sanyen/world.json
+msgid "大锅"
+msgstr ""
+
+#. sanyen.kitchen.landmark.pot long
+#: data/sanyen/world.json
+msgid ""
+"一个冒著腾腾的热气的黑色大铁锅, 里头正煮著小米粥。\n"
+msgstr ""
+
+#. sanyen.kitchen.landmark.steampot name
+#. sanyen.kitchen.steampot name
+#: data/sanyen/world.json
+msgid "蒸笼"
+msgstr ""
+
+#. sanyen.kitchen.landmark.steampot action
+#: data/sanyen/world.json
+msgid "拿馒头"
+msgstr ""
+
+#. sanyen.kitchen.landmark.steampot messages.take
+#: data/sanyen/world.json
+msgid "你从蒸笼里拿出一粒热乎乎的馒头。"
+msgstr ""
+
+#. sanyen.kitchen.landmark.steampot messages.empty
+#: data/sanyen/world.json
+msgid "突然房间里好像传来梦忆柔的声音说拿太多小心吃到噎著哦!!"
+msgstr ""
+
+#. sanyen.kitchen.landmark.steampot long
+#: data/sanyen/world.json
+msgid ""
+"一个竹藤编成的蒸笼, 阵阵的香味使你想打开(open)来瞧一瞧。\n"
+msgstr ""
+
+#. sanyen.kitchen.steampot act.verb
+#: data/sanyen/world.json
+msgid "打开"
+msgstr ""
+
+#. sanyen.kitchen.steampot act.acts.steps.line
+#: data/sanyen/world.json
+msgid ""
+"烧饭僧说:阿弥陀佛 !! 施主请勿动手动脚, 妨碍贫僧煮饭。\n"
+msgstr ""
+
+#. sanyen.kitchen.steampot act.acts.steps.line
+#: data/sanyen/world.json
+msgid ""
+"你打开蒸笼的盖子, 一股热气冒向你的脸上。\n"
+"你仔细一看, 只见蒸笼里排著一粒粒又白又Ｑ的大馒头(maintal)。\n"
 msgstr ""

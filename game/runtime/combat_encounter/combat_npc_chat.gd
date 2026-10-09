@@ -13,6 +13,7 @@ var _wield_item_for: Callable
 var _age_for: Callable
 var _partner_for: Callable
 var _summon_for: Callable
+var _leave_for: Callable
 
 
 ## `npc_for`: (character_id: StringName) -> NpcRuntimeState, null for the player.
@@ -44,6 +45,14 @@ func with_summons(summon_for: Callable) -> CombatNpcChat:
 	return self
 
 
+## npc.c random_move() in a fight (d/sanyen's cripple and 独眼头陀). `leave_for`:
+## (character ID, draw: Callable) -> NpcRandomMove.Move the NPC makes from where it
+## fights now, or null when go.c fails (a closed door, beyond its range).
+func with_leaving(leave_for: Callable) -> CombatNpcChat:
+	_leave_for = leave_for
+	return self
+
+
 ## What the NPC's chat() did this beat, or null when it did nothing visible.
 func beat(
 	actor: CombatSliceCharacterBinding,
@@ -68,6 +77,8 @@ func beat(
 		return CombatNpcChatResult.new([VisionLine.new(entry, actor.character_id)])
 	if entry is ColoredLine:
 		return CombatNpcChatResult.new([VisionLine.new(entry.text, actor.character_id, &"", entry.color)])
+	if entry is StringName and entry == NpcTalk.RANDOM_MOVE:
+		return _walk_out(actor, npc, random_source)
 	if entry is NpcWeaponMatch:
 		return _match_weapon(entry, actor, npc, enemies)
 	if entry is NpcFightChat.Wield:
@@ -96,6 +107,19 @@ func beat(
 	if context.lines.is_empty() and context.damaged.is_empty():
 		return null
 	return CombatNpcChatResult.new(context.lines, context.damaged).with_joins(joins)
+
+
+## go.c for one fighting: `往<dir>落荒而逃了。`, then remove_all_enemy(); the fight
+## goes on without it (CombatEncounterResolution.depart()). A go that fails (go.c: busy,
+## a shut door, beyond its range) says nothing.
+func _walk_out(actor: CombatSliceCharacterBinding, npc: NpcRuntimeState, random_source: CombatRandomSource) -> CombatNpcChatResult:
+	if not _leave_for.is_valid() or actor.busy.is_busy():
+		return null
+	var move: NpcRandomMove.Move = _leave_for.call(actor.character_id, random_source.legacy_random)
+	if move == null:
+		return null
+	var line := VisionLine.new(move.flee_line(npc.definition().display_name), actor.character_id)
+	return CombatNpcChatResult.new([line]).with_departure(move.to_zone_id)
 
 
 ## heaven_soldier.c invocation(caster): each soldier kill_ob()s the caster's living

@@ -417,12 +417,7 @@ func _drop_selection_left_behind() -> void:
 func _exit_refusal(from_zone_id: StringName, to_zone_id: StringName) -> ZoneExitRuleDefinition:
 	var leaver: ZoneExitRuleDefinition.Leaver = ZoneExitRuleDefinition.Leaver.of(_player.state, _world_interaction_random.legacy_random)
 	for rule: ZoneExitRuleDefinition in GameContent.catalog().exit_rules_between(from_zone_id, to_zone_id):
-		var present: bool = false
-		for npc: NpcRuntimeState in npcs.residents:
-			present = present or (
-				npc.definition().definition_id == rule.present_npc_id and npc.exists_in_map
-				and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD and npc.world_location().zone_id == from_zone_id
-			)
+		var present: bool = not rule.present_npc_id.is_empty() and npcs.npc_present_in_zone(rule.present_npc_id, from_zone_id)
 		if rule.refuses(leaver, present):
 			return rule
 	return null

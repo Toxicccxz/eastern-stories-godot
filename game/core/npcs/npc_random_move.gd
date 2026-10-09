@@ -36,6 +36,13 @@ class Move:
 			"direction": TranslationServer.translate(DIRECTION_NAMES.get(direction, direction)),
 		})
 
+	## go.c for one who is fighting: `<name>往<dir>落荒而逃了。`.
+	func flee_line(name: String) -> String:
+		return TranslationServer.translate("{npc}往{direction}落荒而逃了。").format({
+			"npc": TranslationServer.translate(name),
+			"direction": TranslationServer.translate(DIRECTION_NAMES.get(direction, direction)),
+		})
+
 
 ## The move one random_move() makes, or null. `door_closed(from, to)` answers
 ## room.c valid_leave() for a door between the two zones.
@@ -46,15 +53,28 @@ static func choose(
 	random: WorldInteractionRandomSource,
 	door_closed: Callable,
 ) -> Move:
+	if random == null:
+		return null
+	return choose_with(catalog, zone_id, home_zone_id, random.legacy_random, door_closed)
+
+
+## choose() with the draw a fight makes (its random source's legacy_random).
+static func choose_with(
+	catalog: ContentCatalog,
+	zone_id: StringName,
+	home_zone_id: StringName,
+	draw: Callable,
+	door_closed: Callable,
+) -> Move:
 	var zone: ZoneDefinition = null if catalog == null else catalog.zone(zone_id)
-	if zone == null or zone.room_ids().is_empty() or random == null:
+	if zone == null or zone.room_ids().is_empty() or not draw.is_valid():
 		return null
 	var exits: Dictionary[String, StringName] = catalog.room(zone.room_ids()[0]).exits()
 	if exits.is_empty():
 		return null
 	var directions: Array[String] = []
 	directions.assign(exits.keys())
-	var drawn: int = random.legacy_random(directions.size())
+	var drawn: int = int(draw.call(directions.size()))
 	if drawn < 0 or drawn >= directions.size():
 		return null
 	var direction: String = directions[drawn]

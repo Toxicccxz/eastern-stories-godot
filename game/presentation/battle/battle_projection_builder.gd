@@ -15,6 +15,9 @@ static func build(session: WorldSessionController) -> BattlePresentationProjecti
 	var participants: Array[BattleParticipantProjection] = []
 	var bindings: Array[CombatSliceCharacterBinding] = session.encounter_combat_bindings(encounter)
 	for participant: CombatParticipant in encounter.participants():
+		# go.c: one who walked out of the fight is no longer in it.
+		if coordinator.walked_out_of_active_fight(participant.participant_id):
+			continue
 		for binding: CombatSliceCharacterBinding in bindings:
 			if binding.character_id != participant.participant_id:
 				continue

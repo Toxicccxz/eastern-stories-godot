@@ -25,8 +25,8 @@ class Line:
 		text = p_text
 
 
-## Who asks: gender, age and class give the words rankd.c picks; family and gender
-## are what per-NPC rules test.
+## Who asks: gender, age and class give the words rankd.c picks; family, gender and
+## class are what per-NPC rules test.
 class Challenger:
 	extends RefCounted
 	var gender: StringName
@@ -53,7 +53,7 @@ static func decide(npc: NpcRuntimeState, challenger: Challenger, attitude: int =
 	var rules: Array[NpcFightRule] = definition.fight_rules()
 	if not rules.is_empty():
 		for rule: NpcFightRule in rules:
-			if not rule.matches(challenger.family_id, challenger.gender):
+			if not rule.matches(challenger.family_id, challenger.gender, challenger.class_id):
 				continue
 			if not rule.emote.is_empty():
 				result.lines.append(Line.new(true, rule.emote))

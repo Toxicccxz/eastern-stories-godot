@@ -21,6 +21,8 @@ var _opening_warnings: Array[String] = []
 ## has moved them there (no new fight starts meanwhile); and which fight they left so.
 var _departure: StringName = &""
 var _departed_encounter_id: StringName = &""
+## The last fight an NPC walked out of (go.c in a fight, CombatNpcChat._walk_out()).
+var _walked_out_encounter_id: StringName = &""
 
 ## Fights aborted by a failure (see _abort_failed_resolution) since the last take.
 ## SuiteResult turns any untaken abort into a test failure.
@@ -56,6 +58,16 @@ func finish_departure() -> void:
 ## Whether the player left `encounter_id` by a spell that took them away.
 func departed(encounter_id: StringName) -> bool:
 	return not encounter_id.is_empty() and encounter_id == _departed_encounter_id
+
+
+## Whether `encounter_id` ended with an NPC walking out of it (go.c's 落荒而逃).
+func npc_walked_out(encounter_id: StringName) -> bool:
+	return not encounter_id.is_empty() and encounter_id == _walked_out_encounter_id
+
+
+## Whether `character_id` walked out of the active fight (it is no longer in it).
+func walked_out_of_active_fight(character_id: StringName) -> bool:
+	return _active_encounter != null and _resolution != null and _resolution.walked_out().has(character_id)
 
 
 ## The active fight ends with the player gone (dun.c): those left behind are not heard.
@@ -637,7 +649,7 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 	## NPC-only scripted encounters retain CXR3 behavior, with no player queue API.
 	if encounter.participant_for(_session.player_runtime().character_id) != null:
 		scheduler.configure_player_tactics(_session.player_runtime().character_id, _tactical_registry)
-	scheduler.configure_npc_chat(CombatNpcChat.new(_resident_npc, _npc_wield, _respect_of).with_villagers(_npc_wield_item, _age_of, _idle_partner).with_summons(_summon_beside))
+	scheduler.configure_npc_chat(CombatNpcChat.new(_resident_npc, _npc_wield, _respect_of).with_villagers(_npc_wield_item, _age_of, _idle_partner).with_summons(_summon_beside).with_leaving(_walk_out_move))
 	if not _world_gate.acquire(encounter_id):
 		return _start_failure(
 			CombatEncounterStartResult.Outcome.WORLD_FREEZE_FAILED,
@@ -705,6 +717,12 @@ func _no_magic(character_id: StringName) -> bool:
 func _summon_beside(caster_id: StringName, definition_id: StringName) -> StringName:
 	var map: WorldMapController = _session.active_map() as WorldMapController
 	return &"" if map == null else map.summon_beside(caster_id, definition_id)
+
+
+## npc.c random_move() for an NPC in the fight: the way go.c would take it now, or null.
+func _walk_out_move(character_id: StringName, draw: Callable) -> NpcRandomMove.Move:
+	var map: WorldMapController = _session.active_map() as WorldMapController
+	return null if map == null else map.npc_life.walk_out_move(character_id, draw)
 
 
 ## RANK_D->query_respect() of a participant, in the shown language.
@@ -803,6 +821,17 @@ func _return_world(result: CombatEncounterResult) -> CombatEncounterCompletionRe
 	if _resolution != null and not _resolution.departure.is_empty():
 		_departure = _resolution.departure
 		_departed_encounter_id = encounter_id
+	# go.c: who walked out of the fight is now where it went.
+	var walked: Dictionary[StringName, StringName] = {}
+	if _resolution != null:
+		walked = _resolution.walked_out()
+	if not walked.is_empty():
+		if _resolution.ended_by_walking():
+			_walked_out_encounter_id = encounter_id
+		var map: WorldMapController = _session.active_map() as WorldMapController
+		for character_id: StringName in walked:
+			if map == null or not map.npc_life.walk_out(character_id, walked[character_id]):
+				push_error("%s could not walk out to %s" % [character_id, walked[character_id]])
 	_active_scheduler = null
 	_active_encounter = null
 	return _last_completion

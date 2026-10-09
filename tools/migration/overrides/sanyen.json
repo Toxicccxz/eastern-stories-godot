@@ -1,0 +1,141 @@
+{
+	"source_fixes": {
+		"d/sanyen/front_yard.c": [
+			{ "find": "__DIR__\"npc/monk_guard\"", "replace": "\"/u/cloud/npc/monk_guard\"", "why": "the yard names d/sanyen/npc/monk_guard.c, which does not exist: ES2's reset() failed and the yard stood empty, so 朱鸿雪's 护寺武僧 could never be found; the monk is u/cloud/npc/monk_guard.c (owner, 山烟寺 plan Q2: fixed as a deviation)" }
+		]
+	},
+	"items": [
+		"d/sanyen/npc/obj/maintal.c"
+	],
+	"set": {
+		"common.npc.bonze.master": {
+			"accept_fight": [
+				{ "class": "bonze", "say": "阿弥陀佛！出家人戒逞强恶斗！老衲不敢违反清规。", "accept": false },
+				{ "say": "施主既然身负绝艺，老衲佩服便是，也不必较量了。", "accept": false }
+			]
+		},
+		"cloud.npc.monk_guard": {
+			"accept_fight": [
+				{ "class": "bonze", "say": "你身为佛家弟子，竟敢违反清规！", "accept": true },
+				{ "say": "佛门圣地也是可随意骚扰的么！", "accept": true }
+			]
+		},
+		"sanyen.npc.greeting": {
+			"accept_fight": [
+				{ "say": "阿弥陀佛！小僧武功低微，认输便是。", "accept": false }
+			]
+		},
+		"sanyen.npc.bonze": {
+			"accept_fight": [
+				{ "say": "阿弥陀佛！贫僧武功低微，施主不要开这种玩笑。", "accept": false }
+			]
+		},
+		"sanyen.npc.cripple": {
+			"chat_chance_combat": 20,
+			"chat_msg_combat": [
+				{ "action": "random_move" },
+				{ "action": "emote", "verb": "sigh" }
+			],
+			"accept_fight": [
+				{ "say": "阿弥陀佛！贫僧武功低微，又是个残废，施主不要开这种玩笑。", "accept": false }
+			]
+		},
+		"sanyen.npc.cook_bonze": {
+			"accept_fight": [
+				{ "say": "阿弥陀佛 !! 贫僧的菜刀是用来切菜的, 不是用来砍人的。", "accept": false }
+			]
+		},
+		"sanyen.npc.little_bonze": {
+			"accept_fight": [
+				{ "say": "师父! 救命啊!!  啊....不要打我..:(", "accept": false }
+			]
+		},
+		"sanyen.npc.work_bonze": {
+			"accept_fight": [
+				{ "say": "阿弥陀佛！贫僧武功低微，施主不要开这种玩笑。", "accept": false }
+			]
+		},
+		"sanyen.npc.monk": {
+			"chat_chance_combat": 30,
+			"chat_msg_combat": [
+				{ "action": "random_move" },
+				{ "action": "emote", "verb": "hehe" }
+			]
+		}
+	},
+	"review": {
+		"u/cloud/sunhill/northriver.c": {
+			"function init": "dead: create() ends in replace_program(ROOM), which drops init(), cross_river() and no_boat(); ES2's river was waded both ways (owner, 山烟寺 plan Q1: the boater's boat carries whoever pays, cloud.npc.boater)",
+			"function cross_river": "dead (replace_program(ROOM)); it also read the room's own marks/船夫, which nothing sets",
+			"function no_boat": "dead (replace_program(ROOM))"
+		},
+		"d/sanyen/road1.c": {
+			"create_door": "world.json doors: sanyen.road1.door (金门, open: road1.c creates it without DOOR_CLOSED)"
+		},
+		"d/sanyen/temple.c": {
+			"create_door": "world.json doors: sanyen.road1.door; temple.c's DOOR_CLOSED loses to road1.c's open side, which whoever comes by the road loads first (check_door() takes the loaded side's status), as the hall's 两扇敞开的金门 says (默认)",
+			"call_other": "the monks' bulletin board is for players' posts: not ported (single player)"
+		},
+		"d/sanyen/heal_room.c": {
+			"set item_desc": "a look-only landmark (檀木扁额) in world.json, word for word; the donor 克□□ lost two characters in the Big5 conversion and reads 克某某 (默认)"
+		},
+		"d/sanyen/kitchen.c": {
+			"set item_desc": "look-only 大锅 and the 蒸笼 landmark in world.json",
+			"function init": "open steampot: the service sanyen.kitchen.steampot (蒸笼 · 打开); take maintal: the 蒸笼 landmark's take (拿馒头)",
+			"function do_open": "service sanyen.kitchen.steampot: refused while the cook is present() (an act branch `present`), else the steamer's two lines",
+			"function do_take": "the 蒸笼 landmark (policy take, limit 5, `guard` the cook): present(\"cook bonze\") refuses first, then 梦忆柔's voice once five were taken",
+			"function reset": "the take landmark's count starts again at the room's reset"
+		},
+		"d/sanyen/npc/greeting.c": { "function accept_fight": "accept_fight rule in set: always refuses" },
+		"d/sanyen/npc/bonze.c": { "function accept_fight": "accept_fight rule in set: always refuses" },
+		"d/sanyen/npc/cripple.c": {
+			"set chat_chance_combat": "in set",
+			"set chat_msg_combat": "in set: random_move walks out of the fight (go.c: 往X落荒而逃了。), sigh is an emote (prints nothing)",
+			"function accept_fight": "accept_fight rule in set: always refuses"
+		},
+		"d/sanyen/npc/cook_bonze.c": { "function accept_fight": "accept_fight rule in set: always refuses" },
+		"d/sanyen/npc/little_bonze.c": { "function accept_fight": "accept_fight rule in set: always refuses" },
+		"d/sanyen/npc/work_bonze.c": { "function accept_fight": "accept_fight rule in set: always refuses" },
+		"d/sanyen/npc/monk.c": {
+			"set_temp aplpy/defense": "a misspelt apply/defense: nothing reads it, so the 独眼头陀 gets no defense bonus",
+			"set pursuer": "following who flees is not modelled yet (as 县城官兵's, 黄霸's and 安惜迩's); a reminder test lists the pursuers",
+			"set chat_chance_combat": "in set",
+			"set chat_msg_combat": "in set: random_move walks out of the fight (go.c: 往X落荒而逃了。), hehe is an emote (prints nothing)"
+		},
+		"u/cloud/npc/monk_guard.c": {
+			"function accept_fight": "accept_fight rules in set: a monk is scolded as one breaking the rules, anyone else for troubling the temple; both accepted (return 1)"
+		},
+		"daemon/class/bonze/master.c": {
+			"inquiry 剃度": "ask_for_join(): 剃度 and 跪下受戒 come with 山烟寺 B (the family)",
+			"inquiry 出家": "ask_for_join(): with 山烟寺 B",
+			"set apprentice_available": "never runs out: recruit_apprentice() lowers the misspelt apprentice_availavble (as 林忌's and 蓝止萍's); with 山烟寺 B",
+			"function init": "kneel: 跪下受戒, with 山烟寺 B",
+			"function ask_for_join": "with 山烟寺 B",
+			"function do_kneel": "with 山烟寺 B",
+			"function attempt_apprentice": "with 山烟寺 B (his two-second answer)",
+			"function do_recruit": "with 山烟寺 B",
+			"function recruit_apprentice": "with 山烟寺 B (class bonze)",
+			"function accept_fight": "accept_fight rules in set by the challenger's class (bonze or not): always refuses"
+		},
+		"daemon/class/bonze/buddha_staff.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"d/sanyen/obj/blade.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"d/sanyen/obj/broom.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"d/sanyen/obj/carver.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"u/cloud/obj/npc/monk/stick.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		}
+	}
+}

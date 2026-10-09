@@ -1,0 +1,196 @@
+{
+	"npcs": [
+		{
+			"id": "sanyen.npc.greeting",
+			"legacy_source": "d/sanyen/npc/greeting.c",
+			"name": "知客僧",
+			"aliases": ["greeting bonze", "bonze"],
+			"class": "bonze",
+			"gender": "男性",
+			"age": 37,
+			"long": "这个知客僧脸色和蔼，虽然在寺中的地位不高，但是他总是让人有一种\n值得信赖的感觉。\n",
+			"attributes": { "str": 26, "cor": 22, "cps": 26, "int": 23 },
+			"resources": { "max_force": 300, "force": 300 },
+			"combat_exp": 2000,
+			"force_factor": 3,
+			"attitude": "friendly",
+			"skills": { "force": 40, "unarmed": 40, "dodge": 40 },
+			"accept_fight": [
+				{ "say": "阿弥陀佛！小僧武功低微，认输便是。", "accept": false }
+			]
+		},
+		{
+			"id": "sanyen.npc.monk",
+			"legacy_source": "d/sanyen/npc/monk.c",
+			"name": "独眼头陀",
+			"aliases": ["one-eyed monk", "monk"],
+			"class": "bonze",
+			"gender": "男性",
+			"age": 46,
+			"long": "瞧这个头陀的模样与服色，似乎不是山烟寺的僧人，但是他大喇喇地站在\n这里，一副不可一世的样子。\n",
+			"attributes": { "str": 26, "cor": 24, "cps": 12, "int": 20 },
+			"resources": { "max_force": 1700, "force": 1700 },
+			"combat_exp": 60000,
+			"force_factor": 3,
+			"attitude": "heroism",
+			"skills": { "force": 90, "unarmed": 80, "dodge": 80, "blade": 80, "lotusforce": 90, "move": 60 },
+			"skill_map": { "force": "lotusforce" },
+			"carry": [
+				{ "item": "es2:d/sanyen/obj/blade", "source": "d/sanyen/npc/obj/blade.c", "equip": "wield" },
+				{ "item": "es2:d/sanyen/obj/monk_cloth", "source": "d/sanyen/npc/obj/monk_cloth.c", "equip": "wear" },
+				{ "item": "es2:d/sanyen/obj/eye_patch", "source": "d/sanyen/npc/obj/eye_patch.c", "equip": "wear" },
+				{ "item": "es2:d/sanyen/obj/shoe", "source": "d/sanyen/npc/obj/shoe.c", "equip": "wear" }
+			],
+			"apply": { "attack": 60, "dodge": 70 },
+			"chat_chance_combat": 30,
+			"chat_msg_combat": [
+				{ "action": "random_move" },
+				{ "action": "emote", "verb": "hehe" }
+			]
+		},
+		{
+			"id": "sanyen.npc.bonze",
+			"legacy_source": "d/sanyen/npc/bonze.c",
+			"name": "僧人",
+			"aliases": ["bonze"],
+			"class": "bonze",
+			"gender": "男性",
+			"age": 52,
+			"long": "一个笑咪咪的僧人对著你微微颔首。\n",
+			"attributes": { "str": 26, "cor": 14, "cps": 29, "int": 25 },
+			"resources": { "max_force": 500, "force": 500 },
+			"combat_exp": 6000,
+			"force_factor": 5,
+			"attitude": "friendly",
+			"skills": { "force": 60, "unarmed": 50, "dodge": 60 },
+			"carry": [
+				{ "item": "es2:d/sanyen/obj/cloth", "source": "d/sanyen/npc/obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:d/sanyen/obj/shoe", "source": "d/sanyen/npc/obj/shoe.c", "equip": "wear" }
+			],
+			"accept_fight": [
+				{ "say": "阿弥陀佛！贫僧武功低微，施主不要开这种玩笑。", "accept": false }
+			]
+		},
+		{
+			"id": "sanyen.npc.cripple",
+			"legacy_source": "d/sanyen/npc/cripple.c",
+			"name": "跛僧人",
+			"aliases": ["cripple bonze", "bonze"],
+			"class": "bonze",
+			"gender": "男性",
+			"age": 36,
+			"long": "这个僧人跛了右腿，脸上没有什么表情，一副若有所思的样子。\n",
+			"attributes": { "str": 26, "cor": 24, "cps": 12, "int": 20 },
+			"resources": { "max_force": 1300, "force": 1300 },
+			"combat_exp": 4000,
+			"force_factor": 3,
+			"attitude": "friendly",
+			"skills": { "force": 90, "unarmed": 30, "dodge": 30, "buddhism": 60, "lotusforce": 90 },
+			"skill_map": { "force": "lotusforce" },
+			"carry": [
+				{ "item": "es2:d/sanyen/obj/cloth", "source": "d/sanyen/npc/obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:d/sanyen/obj/shoe", "source": "d/sanyen/npc/obj/shoe.c", "equip": "wear" }
+			],
+			"chat_chance_combat": 20,
+			"chat_msg_combat": [
+				{ "action": "random_move" },
+				{ "action": "emote", "verb": "sigh" }
+			],
+			"accept_fight": [
+				{ "say": "阿弥陀佛！贫僧武功低微，又是个残废，施主不要开这种玩笑。", "accept": false }
+			]
+		},
+		{
+			"id": "sanyen.npc.drug_bonze",
+			"legacy_source": "d/sanyen/npc/drug_bonze.c",
+			"name": "药僧",
+			"aliases": ["drug bonze", "bonze"],
+			"class": "bonze",
+			"gender": "男性",
+			"age": 25,
+			"long": "一位长得相当精壮的年轻僧人, 他正在整理药材。\n",
+			"attributes": { "str": 30, "int": 28 },
+			"resources": { "max_force": 1000, "force": 1000 },
+			"combat_exp": 1800,
+			"force_factor": 3,
+			"attitude": "heroism",
+			"skills": { "force": 50, "unarmed": 55, "dodge": 45, "buddhism": 60, "lotusforce": 58 },
+			"skill_map": { "force": "lotusforce" },
+			"carry": [
+				{ "item": "es2:d/sanyen/obj/cloth", "source": "d/sanyen/npc/obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:d/sanyen/obj/shoe", "source": "d/sanyen/npc/obj/shoe.c", "equip": "wear" }
+			]
+		},
+		{
+			"id": "sanyen.npc.cook_bonze",
+			"legacy_source": "d/sanyen/npc/cook_bonze.c",
+			"name": "烧饭僧",
+			"aliases": ["cook bonze", "bonze"],
+			"class": "bonze",
+			"gender": "男性",
+			"age": 35,
+			"long": "一位长得肥肥胖胖, 福福泰泰的中年僧人。\n",
+			"resources": { "max_force": 800, "force": 800 },
+			"combat_exp": 1100,
+			"force_factor": 2,
+			"attitude": "friendly",
+			"skills": { "force": 40, "unarmed": 40, "blade": 45, "dodge": 35, "buddhism": 40, "lotusforce": 50 },
+			"skill_map": { "force": "lotusforce" },
+			"carry": [
+				{ "item": "es2:d/sanyen/obj/carver", "source": "d/sanyen/npc/obj/carver.c", "equip": "wield" },
+				{ "item": "es2:d/sanyen/obj/cloth", "source": "d/sanyen/npc/obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:d/sanyen/obj/shoe", "source": "d/sanyen/npc/obj/shoe.c", "equip": "wear" }
+			],
+			"accept_fight": [
+				{ "say": "阿弥陀佛 !! 贫僧的菜刀是用来切菜的, 不是用来砍人的。", "accept": false }
+			]
+		},
+		{
+			"id": "sanyen.npc.little_bonze",
+			"legacy_source": "d/sanyen/npc/little_bonze.c",
+			"name": "小沙弥",
+			"aliases": ["bonze"],
+			"class": "bonze",
+			"gender": "男性",
+			"age": 15,
+			"long": "一个天真无邪的小和尚, 一颗圆滚滚光溜溜可爱的小光头, 让人看了\n就十分的喜欢他。他正在为油灯添上香油。\n",
+			"resources": { "max_force": 400, "force": 600 },
+			"combat_exp": 800,
+			"force_factor": 1,
+			"attitude": "friendly",
+			"skills": { "force": 30, "unarmed": 20, "dodge": 25, "buddhism": 50, "lotusforce": 30 },
+			"skill_map": { "force": "lotusforce" },
+			"carry": [
+				{ "item": "es2:d/sanyen/obj/cloth", "source": "d/sanyen/npc/obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:d/sanyen/obj/shoe", "source": "d/sanyen/npc/obj/shoe.c", "equip": "wear" }
+			],
+			"accept_fight": [
+				{ "say": "师父! 救命啊!!  啊....不要打我..:(", "accept": false }
+			]
+		},
+		{
+			"id": "sanyen.npc.work_bonze",
+			"legacy_source": "d/sanyen/npc/work_bonze.c",
+			"name": "扫地僧",
+			"aliases": ["work bonze", "bonze"],
+			"class": "bonze",
+			"gender": "男性",
+			"age": 26,
+			"long": "一个肥肥胖胖的僧人, 看他拿著扫把有一下没一下的扫著, 就知道他\n平常也是摸鱼大王。\n",
+			"attributes": { "str": 16, "cor": 24, "cps": 12, "int": 20 },
+			"resources": { "max_force": 300, "force": 300 },
+			"combat_exp": 200,
+			"attitude": "friendly",
+			"skills": { "force": 20, "unarmed": 25, "staff": 20, "cloudstaff": 15, "dodge": 10, "lotusforce": 15 },
+			"skill_map": { "force": "lotusforce", "staff": "cloudstaff" },
+			"carry": [
+				{ "item": "es2:d/sanyen/obj/broom", "source": "d/sanyen/npc/obj/broom.c", "equip": "wield" },
+				{ "item": "es2:d/sanyen/obj/monk_cloth", "source": "d/sanyen/npc/obj/monk_cloth.c", "equip": "wear" },
+				{ "item": "es2:d/sanyen/obj/shoe", "source": "d/sanyen/npc/obj/shoe.c", "equip": "wear" }
+			],
+			"accept_fight": [
+				{ "say": "阿弥陀佛！贫僧武功低微，施主不要开这种玩笑。", "accept": false }
+			]
+		}
+	]
+}

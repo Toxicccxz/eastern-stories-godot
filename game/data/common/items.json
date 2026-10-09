@@ -535,6 +535,18 @@
 			"weight": 7000,
 			"value": 400,
 			"weapon": { "skill": "sword", "damage": 25, "weight_dodge": "equip" }
+		},
+		{
+			"id": "es2:daemon/class/bonze/buddha_staff",
+			"legacy_sources": ["daemon/class/bonze/buddha_staff.c"],
+			"name": "菩提禅杖",
+			"aliases": ["buddha staff", "staff"],
+			"long": "一条又粗又长，非常沈重的黄铜禅杖，上面镶著六个铜环。\n",
+			"unit": "条",
+			"material": "brass",
+			"weight": 80000,
+			"value": 6200,
+			"weapon": { "skill": "staff", "damage": 93, "weight_dodge": "equip" }
 		}
 	]
 }

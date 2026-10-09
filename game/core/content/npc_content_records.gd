@@ -230,8 +230,9 @@ static func _talk(reader: ContentRecordReader) -> NpcTalk:
 	return NpcTalk.new(inquiry, chance, entries, greeting, kee_answers, combat_chance, combat_entries).with_greeting_out_of(greeting_out_of, greet != null and greet.has("rules")).with_actions(answer_marks, rules, relay_say)
 
 
-## npc.c chat() entries: lines, coloured lines and chat functions; random_move and
-## drink only outside a fight, match_weapon (萧辟尘's consider()) only in one.
+## npc.c chat() entries: lines, coloured lines and chat functions; drink only outside a
+## fight, match_weapon (萧辟尘's consider()) only in one; random_move in a fight walks out
+## of it (d/sanyen's cripple and 独眼头陀, go.c).
 static func _chat_entries(reader: ContentRecordReader, key: String, in_fight: bool) -> Array:
 	var entries: Array = []
 	for entry: Variant in reader.strings_or_children(key):
@@ -249,7 +250,7 @@ static func _chat_entries(reader: ContentRecordReader, key: String, in_fight: bo
 		var action: String = record.required_text("action")
 		if NpcSpecialAction.KINDS.has(action):
 			entries.append(NpcSpecialAction.from_record(record, action))
-		elif action == "random_move" and not in_fight:
+		elif action == "random_move":
 			entries.append(NpcTalk.RANDOM_MOVE)
 		elif action == "drink" and not in_fight:
 			entries.append(NpcDrinkAction.from_record(record))
@@ -257,13 +258,13 @@ static func _chat_entries(reader: ContentRecordReader, key: String, in_fight: bo
 			entries.append(NpcWeaponMatch.from_record(record))
 		elif NpcFightChat.is_action(action) and in_fight:
 			entries.append(NpcFightChat.from_record(record, action))
-		elif action == "emote" and not in_fight:
+		elif action == "emote":
 			# An emote command(): data/emoted.o is not in the mudlib, so it prints nothing.
 			record.required_text("verb")
 			entries.append(NpcTalk.SILENT_EMOTE)
 		else:
 			record.fail("action", "'%s' is not a %s action (%s)" % [action, key,
-				"perform, cast, exert, surrender, match_weapon, wield, call_partner, say_by_age, poison" if in_fight else "random_move, drink, emote, perform, cast, exert, surrender"])
+				"perform, cast, exert, surrender, match_weapon, wield, call_partner, say_by_age, poison, random_move, emote" if in_fight else "random_move, drink, emote, perform, cast, exert, surrender"])
 		record.finish()
 	return entries
 
@@ -294,11 +295,12 @@ static func spawn_from_record(reader: ContentRecordReader) -> NpcSpawnDefinition
 	return definition
 
 
-## One `accept_fight` rule: {"family"?, "gender"?, "emote"?, "say"?, "accept", "kill"?}.
+## One `accept_fight` rule: {"family"?, "gender"?, "class"?, "emote"?, "say"?, "accept", "kill"?}.
 static func _fight_rule(reader: ContentRecordReader) -> NpcFightRule:
 	var rule := NpcFightRule.new(
 		StringName(reader.text("family")), StringName(reader.text("gender")),
 		reader.text("emote"), reader.text("say"), reader.boolean("accept", false), reader.boolean("kill", false),
+		StringName(reader.text("class")),
 	)
 	if rule.kill and not rule.accept:
 		reader.fail("kill", "only an accepted spar becomes a kill")

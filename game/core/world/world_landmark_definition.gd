@@ -25,7 +25,9 @@ extends RefCounted
 ## landmark may `teach` marks: what it tells the player now know (d/latemoon/latebook.c's
 ## picture names two dances). `take` (park/moonc.c do_pick(), latemoon2.c do_take("cloth"))
 ## gives the `reward` item while fewer than `limit` were taken since the room's reset
-## (`take`); after that it says `empty`.
+## (`take`); after that it says `empty`. A `take` landmark may have a `guard`: while an
+## NPC of that definition is present() in the zone (standing or lying unconscious) it
+## says `guarded` and gives nothing (d/sanyen/kitchen.c's cook).
 const POLICIES: Dictionary[StringName, Dictionary] = {
 	&"portal": {"portals": 1, "messages": [], "optional_messages": ["use"], "settings": [], "items": []},
 	&"vine": {"portals": 2, "messages": ["hold", "fall", "fall_observer", "climb", "climb_observer"], "settings": [], "items": []},
@@ -36,7 +38,7 @@ const POLICIES: Dictionary[StringName, Dictionary] = {
 	&"push_stone": {"portals": 1, "messages": ["weak", "push", "rolled"], "settings": ["force", "max_force", "force_factor", "gin", "kee", "sen", "random"], "items": []},
 	&"search": {"portals": 0, "messages": ["search", "found", "nothing"], "settings": ["random"], "items": ["reward"], "mark": true},
 	&"look_spawn": {"portals": 0, "messages": ["spawn"], "settings": ["limit"], "items": [], "no_action": true, "spawn": true},
-	&"take": {"portals": 0, "messages": ["take", "empty"], "settings": ["limit"], "items": ["reward"]},
+	&"take": {"portals": 0, "messages": ["take", "empty"], "optional_messages": ["guarded"], "settings": ["limit"], "items": ["reward"]},
 }
 ## Every setting some policy names (an integer field of the record).
 const SETTINGS: Array[String] = ["pushes", "open_seconds", "force", "max_force", "force_factor", "gin", "kee", "sen", "random", "limit"]
@@ -57,6 +59,7 @@ var _class_id: StringName = &""
 var _mark: String = ""
 var _spawn_id: StringName = &""
 var _teaches: Array[String] = []
+var _guard_npc_id: StringName = &""
 var _legacy_source_path: String
 
 var landmark_id: StringName:
@@ -107,6 +110,10 @@ var spawn_id: StringName:
 var teaches: Array[String]:
 	get:
 		return _teaches.duplicate()
+## The NPC whose presence keeps a `take` landmark from giving (kitchen.c's cook).
+var guard_npc_id: StringName:
+	get:
+		return _guard_npc_id
 
 
 func _init(
@@ -166,6 +173,7 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 	definition._mark = reader.text("mark")
 	definition._spawn_id = StringName(reader.text("spawn"))
 	definition._teaches = reader.text_list("teaches")
+	definition._guard_npc_id = StringName(reader.text("guard"))
 	var item_reader: ContentRecordReader = reader.child("items")
 	if item_reader != null:
 		for key: String in item_reader.keys():
@@ -186,6 +194,10 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 		reader.fail("spawn", "only a look_spawn landmark names a spawn, and it must")
 	if not definition._teaches.is_empty() and definition.policy != &"look":
 		reader.fail("teaches", "only a look landmark teaches marks")
+	if not definition._guard_npc_id.is_empty() and definition.policy != &"take":
+		reader.fail("guard", "only a take landmark has a guard")
+	if definition._guard_npc_id.is_empty() == messages.has("guarded") and definition.policy == &"take":
+		reader.fail("messages", "a guard says `guarded`, and only a guard")
 	if portal_ids.size() != int(rule["portals"]):
 		reader.fail("portals", "policy '%s' needs %d portal(s)" % [definition.policy, rule["portals"]])
 	var keys: Array = messages.keys()
@@ -223,6 +235,7 @@ func with_map(map_id: StringName) -> WorldLandmarkDefinition:
 	copy._mark = _mark
 	copy._spawn_id = _spawn_id
 	copy._teaches = _teaches.duplicate()
+	copy._guard_npc_id = _guard_npc_id
 	return copy
 
 

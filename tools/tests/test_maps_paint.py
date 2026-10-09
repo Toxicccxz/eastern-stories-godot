@@ -24,6 +24,7 @@ GENERATED = {
     'green': ['green_village.tscn', 'green_mountain.tscn', 'green_maze.tscn'],
     'temple': ['temple_mountain.tscn', 'temple_grounds.tscn', 'temple_library.tscn'],
     'latemoon': ['latemoon_manor.tscn', 'latemoon_secret.tscn', 'latemoon_garden.tscn', 'latemoon_upper.tscn', 'latemoon_hills.tscn'],
+    'sanyen': ['sunhill_mountain.tscn', 'sanyen_temple.tscn'],
 }
 
 

@@ -15,13 +15,19 @@ func _init(controller: WorldMapController) -> void:
 
 
 ## What a branch may ask of the player (ScriptedAct.Facts): their marks, set_temp()
-## flags and the ids of what they carry directly (present(id, me)).
+## flags, the ids of what they carry directly (present(id, me)) and the NPCs standing
+## where they stand (present(); one lying unconscious says nothing: 默认).
 func facts() -> ScriptedAct.Facts:
 	var known := ScriptedAct.Facts.new()
 	if _player == null:
 		return known
 	known.marks = _player.state.marks
 	known.temps = _player.temp_marks
+	var here: StringName = _player.world_location().zone_id
+	for npc: NpcRuntimeState in _map.npcs.residents:
+		var id: StringName = npc.definition().definition_id
+		if not known.present_npcs.has(id) and _map.npcs.npc_present_in_zone(id, here, true):
+			known.present_npcs.append(id)
 	var carried := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)
 	for item_id: StringName in _map.inventory_state().direct_children(carried):
 		var item: ItemInstance = _map.item_instance_index().resolve(item_id)
@@ -80,7 +86,7 @@ func run(act: ScriptedAct, npc: NpcRuntimeState, draw: Callable) -> void:
 				var zone: ZoneDefinition = GameContent.catalog().zone(step.zone_id)
 				if zone != null and zone.map_id != _map.map_id() and npc != null:
 					push_error("%s's greeting cannot move the player off its map to %s" % [npc_name, step.zone_id])
-				elif not _move_player(step.zone_id, step.point_id):
+				elif not move_player(step.zone_id, step.point_id):
 					push_error("%s could not move the player to %s at %s" % [npc_name, step.zone_id, step.point_id])
 				else:
 					moved_away = zone.map_id != _map.map_id()
@@ -119,7 +125,7 @@ func run(act: ScriptedAct, npc: NpcRuntimeState, draw: Callable) -> void:
 
 ## ob->move(room): within this map the player is put at `point_id`; another map's room is
 ## a handoff there. Whether the player is there now.
-func _move_player(zone_id: StringName, point_id: StringName) -> bool:
+func move_player(zone_id: StringName, point_id: StringName) -> bool:
 	var zone: ZoneDefinition = GameContent.catalog().zone(zone_id)
 	if zone == null:
 		return false

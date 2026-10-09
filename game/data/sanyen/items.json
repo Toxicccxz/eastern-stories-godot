@@ -1,0 +1,92 @@
+{
+	"items": [
+		{
+			"id": "es2:d/sanyen/obj/blade",
+			"legacy_sources": ["d/sanyen/obj/blade.c", "d/sanyen/npc/obj/blade.c"],
+			"name": "戒刀",
+			"aliases": ["blade"],
+			"long": "这是一把僧人练武用的戒刀，份量大约四、五斤重。\n",
+			"unit": "柄",
+			"material": "iron",
+			"weight": 4000,
+			"value": 300,
+			"weapon": { "skill": "blade", "damage": 18, "weight_dodge": "equip" }
+		},
+		{
+			"id": "es2:d/sanyen/obj/monk_cloth",
+			"legacy_sources": ["d/sanyen/obj/monk_cloth.c", "d/sanyen/npc/obj/monk_cloth.c"],
+			"name": "灰布僧衣",
+			"aliases": ["cloth"],
+			"unit": "件",
+			"material": "cloth",
+			"weight": 3000,
+			"armor": { "type": "cloth", "props": { "armor": 2 }, "weight_dodge": "armor" }
+		},
+		{
+			"id": "es2:d/sanyen/obj/eye_patch",
+			"legacy_sources": ["d/sanyen/obj/eye_patch.c", "d/sanyen/npc/obj/eye_patch.c"],
+			"name": "黑眼罩",
+			"aliases": ["eye patch", "patch"],
+			"unit": "副",
+			"material": "cloth",
+			"weight": 300,
+			"value": 30,
+			"armor": { "type": "head", "props": { "attack": 3, "defense": -3 }, "weight_dodge": "armor" }
+		},
+		{
+			"id": "es2:d/sanyen/obj/shoe",
+			"legacy_sources": ["d/sanyen/obj/shoe.c", "d/sanyen/npc/obj/shoe.c"],
+			"name": "僧鞋",
+			"aliases": ["shoes"],
+			"unit": "双",
+			"material": "cloth",
+			"weight": 800,
+			"armor": { "type": "boots", "props": { "move": 1 }, "weight_dodge": "armor" }
+		},
+		{
+			"id": "es2:d/sanyen/obj/cloth",
+			"legacy_sources": ["d/sanyen/obj/cloth.c", "d/sanyen/npc/obj/cloth.c"],
+			"name": "青布僧衣",
+			"aliases": ["cloth"],
+			"unit": "件",
+			"material": "cloth",
+			"weight": 3000,
+			"armor": { "type": "cloth", "props": { "armor": 1, "dodge": 1 }, "weight_dodge": "armor" }
+		},
+		{
+			"id": "es2:d/sanyen/obj/carver",
+			"legacy_sources": ["d/sanyen/obj/carver.c", "d/sanyen/npc/obj/carver.c"],
+			"name": "菜刀",
+			"aliases": ["carver"],
+			"long": "一把不很利的菜刀, 不过拿来切菜砍肉还是绰绰有馀的。\n",
+			"unit": "柄",
+			"material": "iron",
+			"weight": 2000,
+			"value": 300,
+			"weapon": { "skill": "blade", "damage": 10, "weight_dodge": "equip" }
+		},
+		{
+			"id": "es2:d/sanyen/obj/broom",
+			"legacy_sources": ["d/sanyen/obj/broom.c", "d/sanyen/npc/obj/broom.c"],
+			"name": "竹扫把",
+			"aliases": ["bamboo broom", "broom"],
+			"long": "一把快秃了头的竹扫把。\n",
+			"unit": "把",
+			"material": "bamboo",
+			"weight": 1000,
+			"value": 50,
+			"weapon": { "skill": "staff", "damage": 3, "weight_dodge": "equip" }
+		},
+		{
+			"id": "es2:d/sanyen/obj/maintal",
+			"legacy_sources": ["d/sanyen/obj/maintal.c", "d/sanyen/npc/obj/maintal.c"],
+			"name": "馒头",
+			"aliases": ["maintal"],
+			"long": "一个香喷喷、热腾腾的大馒头。\n",
+			"unit": "个",
+			"weight": 80,
+			"value": 15,
+			"food": { "remaining": 4, "supply": 50 }
+		}
+	]
+}
