@@ -391,6 +391,16 @@ func _question_for(id: StringName) -> PackedStringArray:
 		var conjured: NpcRuntimeState = _conjured_enemy()
 		if conjured != null:
 			return PackedStringArray([tr(CONJURED_SUMMON_QUESTION).format({"npc": tr(conjured.definition().display_name)}), choice])
+	# kill.c at the player's own master (beside the zombie a sheet sent): 弑师, as 攻击 asks.
+	if id == CombatKillTacticalPolicy.ACTION_ID:
+		var map := _session.active_map() as WorldMapController
+		var victim: NpcRuntimeState = null if map == null else map.find_resident_npc(_session.combat_encounter_coordinator().kill_target())
+		if victim != null and PlayerKillerReward.is_own_master(state, victim.definition()):
+			var family: FamilyDefinition = GameContent.catalog().family(victim.definition().teaching().family_id)
+			return PackedStringArray([tr(SharedGameplayUI.MASTER_ATTACK_WARNING).format({
+				"master": tr(victim.definition().display_name), "family": tr(family.display_name) if family != null else "",
+				"score": state.progression.score, "next": state.apprenticeship.betrayer_count + 1,
+			}), "确定攻击"])
 	match CombatExertTacticalPolicy.function_for(id):
 		&"roar":
 			if RoarExertFunction.would_run(state, true):

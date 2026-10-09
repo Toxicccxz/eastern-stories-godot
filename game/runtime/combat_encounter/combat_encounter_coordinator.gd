@@ -367,6 +367,7 @@ func _init(
 	_world_gate = p_world_gate
 	_tactical_registry.register_policy(CombatFleeTacticalPolicy.new())
 	_tactical_registry.register_policy(CombatSurrenderTacticalPolicy.new(_player_age))
+	_tactical_registry.register_policy(CombatKillTacticalPolicy.new(kill_target, _kill_refusal, _kill_words, kill_warning))
 	for function_id: StringName in ExertFunctions.ORDER:
 		_tactical_registry.register_policy(CombatExertTacticalPolicy.new(function_id, _exert_room, kill_warning))
 	for function_id: StringName in SpecialFunctions.PERFORMS:
@@ -397,6 +398,42 @@ func _exert_room(actor_id: StringName, bindings: Array[CombatSliceCharacterBindi
 func kill_warning(character_id: StringName) -> String:
 	var npc: NpcRuntimeState = _resident_npc(character_id)
 	return tr("看起来%s想杀死你！") % (String(character_id) if npc == null else tr(npc.definition().display_name))
+
+
+## kill.c's present(arg) for a player who stands in the running fight fighting nobody
+## (beside the NPC a 僵尸追魂符 sent): the first one of the other side, standing or lying
+## unconscious (kill.c takes either), whom someone of the player's side fights, or "".
+func kill_target() -> StringName:
+	if _active_encounter == null or _active_encounter.mode != CombatEncounterMode.Value.LETHAL or _session == null or _session.player_runtime() == null:
+		return &""
+	var me: CombatParticipant = _active_encounter.participant_for(_session.player_runtime().character_id)
+	if me == null or me.binding.relationship.is_fighting():
+		return &""
+	var participants: Array[CombatParticipant] = _active_encounter.participants()
+	for other: CombatParticipant in participants:
+		if other.side_id == me.side_id or not _session.encounter_participant_is_available(other.participant_id, true):
+			continue
+		for ally: CombatParticipant in participants:
+			if ally.side_id == me.side_id and ally.binding.relationship.has_opponent(other.participant_id):
+				return other.participant_id
+	return &""
+
+
+## kill.c's no_fight check for the player's room: 这里不准战斗。, or "".
+func _kill_refusal() -> String:
+	var location: WorldLocationState = null if _session == null or _session.player_runtime() == null else _session.resolve_encounter_location(_session.player_runtime().character_id)
+	return tr("这里不准战斗。") if location != null and GameContent.catalog().zone_forbids_fighting(location.zone_id) else ""
+
+
+## kill.c's words from the player to `character_id`: 你对著X喝道：「<rude>！今日不是你死就是我活！」
+func _kill_words(character_id: StringName) -> String:
+	var npc: NpcRuntimeState = _resident_npc(character_id)
+	if npc == null:
+		return ""
+	return tr("你对著{npc}喝道：「{rude}！今日不是你死就是我活！」").format({
+		"npc": tr(npc.definition().display_name),
+		"rude": tr(RankWords.query_rude(npc.character_state.gender, npc.age, npc.definition().class_id)),
+	})
 
 
 func _player_age() -> int:

@@ -79,7 +79,7 @@ player's 茅山道术 in a fight and its practice (观想虫; done); D the zombi
 | zombie.c dispell(): say(), destruct() | its line to its room; gone, no corpse |
 | obj/paper_seal.c; d/snow/temple.c's `"/obj/paper_seal": 2` | es2:obj/paper_seal (a combined item, 叠 of 张, `scribe`); two lie in Snow's 城隍庙, a stack of one on each point |
 | cmds/std/scribe.c, then haunt.c scribe() | ScribeService and HauntScribe: 画追魂符 on a 桃符纸 row for the selected NPC (skills.json `scribe`); scribe.c's checks (fight, 30 sen, spells enabled), haunt.c's (fight, 20 mana, a name); 20 mana, 10 + 30 sen, 1 kee wounded; one paper becomes 僵尸追魂符（name） (a catalog item for each NPC) |
-| cmds/std/attach.c, do_scribe_haunt(), do_haunt() | 贴到…身上 on the sheet's row: the selected zombie standing here, else the first; the named NPC present() in its room: the sheet is used up, its line (RED), kill_ob() and the named one's fight_ob() (a fight the player stands by in: CombatTriggerCause SERVANT_KILL), end_tag (FLAG_SENT), set_leader(dest) (it follows the player no more) |
+| cmds/std/attach.c, do_scribe_haunt(), do_haunt() | 贴到…身上 on the sheet's row: the selected zombie standing here, else the first; the named NPC present() in its room: the sheet is used up, its line (RED), kill_ob() and the named one's fight_ob() (a fight the player stands by in: CombatTriggerCause SERVANT_KILL; the battle panel's 攻击 is kill.c at them, CombatKillTacticalPolicy), end_tag (FLAG_SENT), set_leader(dest) (it follows the player no more) |
 | do_haunt()'s is_zombie() and query("possessed") | always so: only zombies take a sheet, and every one is the player's |
 
 ## Source anomalies
