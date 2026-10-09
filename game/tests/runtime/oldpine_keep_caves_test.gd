@@ -96,7 +96,7 @@ func _test_data() -> void:
 	_check(maniac.bellicosity() == 10000 and maniac.score == 8000 and Berserk.applies_to(maniac), "疯老头子: not aggressive, bellicosity 10000 over score 8000")
 	_check(not Berserk.applies_to(catalog.npc(&"oldpine.npc.bandit_guard")) and not Berserk.applies_to(catalog.npc(&"oldpine.npc.butterfly")), "aggressive guards and peaceful butterflies never go berserk")
 	_check(maniac.talk().combat_chat_chance == 60 and maniac.talk().combat_chat_entries().size() == 3, "疯老头子 casts in 60% of his fight beats")
-	_check(catalog.skill(&"necromancy").cast_functions == [&"drainerbolt", &"feeblebolt", &"netherbolt", &"invocation"] and SpecialFunctions.cast(&"netherbolt") != null, "necromancy casts netherbolt too")
+	_check(catalog.skill(&"necromancy").cast_functions.has(&"netherbolt") and SpecialFunctions.cast(&"netherbolt") != null, "necromancy casts netherbolt too")
 	var skeleton: ItemContentDefinition = catalog.item(SKELETON)
 	_check(skeleton != null and skeleton.no_get and catalog.item_spawn(&"oldpine.caves.cave5.skeleton") != null, "a skeleton lies in cave5, not to be picked up")
 	var book: ItemContentDefinition = catalog.item(PARRYBOOK)

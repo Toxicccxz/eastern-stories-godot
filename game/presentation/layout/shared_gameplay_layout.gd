@@ -163,6 +163,7 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	ui.ask_button = _button(contexts, "Ask", "打听", Callable())
 	ui.portal_button = _button(contexts, "Traverse", "通行", Callable())
 	ui.open_loot_button = _button(contexts, "Loot", "拾取", Callable())
+	ui.animate_button = _button(contexts, "Animate", AnimateSpell.WORLD_LABEL, Callable())
 	# Context controls appear only once the HUD knows what is here.
 	contexts.hide()
 	for button: Node in contexts.get_children():

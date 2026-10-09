@@ -23,6 +23,7 @@ var npcs: WorldMapNpcs = WorldMapNpcs.new(self)
 var npc_life: WorldMapNpcLife = WorldMapNpcLife.new(self)
 var hostilities: WorldMapHostilities = WorldMapHostilities.new(self)
 var combat_lifecycle: WorldMapCombatLifecycle = WorldMapCombatLifecycle.new(self)
+var spells: WorldMapSpells = WorldMapSpells.new(self)
 var _definition: MapDefinition
 var _initialized: bool = false
 var _initialization_count: int = 0
@@ -841,6 +842,49 @@ func open_selected_loot() -> bool:
 
 func take_selected_loot_item(item_instance_id: StringName) -> CorpseLootTransferResult:
 	return corpses.take_selected_loot_item(item_instance_id)
+
+
+# --- forwarded to WorldMapSpells (spells) ---
+
+
+func animatable_corpse() -> CorpseState:
+	return spells.animatable_corpse()
+
+
+func animate_knocks_out() -> bool:
+	return spells.animate_knocks_out()
+
+
+func animate_selected_corpse() -> bool:
+	return spells.animate_selected_corpse()
+
+
+func scribable_npc() -> NpcRuntimeState:
+	return spells.scribable_npc()
+
+
+func scribe_knocks_out() -> bool:
+	return spells.scribe_knocks_out()
+
+
+func scribe_kills() -> bool:
+	return spells.scribe_kills()
+
+
+func scribe_on(paper_id: StringName) -> bool:
+	return spells.scribe_on(paper_id)
+
+
+func sheet_carrier() -> NpcRuntimeState:
+	return spells.sheet_carrier()
+
+
+func sheet_target(sheet_id: StringName) -> NpcRuntimeState:
+	return spells.sheet_target(sheet_id)
+
+
+func attach_sheet(sheet_id: StringName) -> bool:
+	return spells.attach_sheet(sheet_id)
 
 
 # --- forwarded to WorldMapFloorItems (floor_items) ---

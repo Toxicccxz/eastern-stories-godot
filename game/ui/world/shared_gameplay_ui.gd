@@ -26,6 +26,8 @@ var spar_button: Button
 var ask_button: Button
 var portal_button: Button
 var open_loot_button: Button
+## 驱尸 (necromancy/animate.c) on the selected corpse, when the player's spells reach it.
+var animate_button: Button
 var inventory_button: Button
 var inspection_text: RichTextLabel
 var combat_log: RichTextLabel
@@ -50,6 +52,16 @@ const ARMED_STRONGER_SPAR_WARNING: String = "{npc}看起来比你强得多，而
 const DISSOLVE_WARNING: String = "化尸粉会把{name}的尸体连同里面的 {count} 件物品一起化成一滩黄水，化掉的东西再也找不回来。\n确定要化掉吗？"
 # TRANSLATORS: asked before the rope's 上吊 (rope.c hang_self(): die()): the character dies as in a fight.
 const HANG_WARNING: String = "把绳子往脖子上一套，就是寻死：你会就此死去，和战死一样付出死亡的代价。\n确定要上吊吗？"
+# TRANSLATORS: asked before 驱尸 (animate.c) when its 30 神 ({sen}) would leave the player below zero: they faint.
+const ANIMATE_FAINT_WARNING: String = "施法驱尸要耗去 {sen} 点神，你现在撑不住，会当场昏过去。\n确定要施法吗？"
+# TRANSLATORS: asked before 画符 (scribe.c, haunt.c) when its 40 神 ({sen}) would leave the player below zero: they faint.
+const SCRIBE_FAINT_WARNING: String = "画这道符要耗去 {sen} 点神，你现在撑不住，会当场昏过去。\n确定要画吗？"
+# TRANSLATORS: asked before 画符 (scribe.c) when the drop of blood it is drawn in (1 point of 气 off its effective value) would kill the badly wounded player.
+const SCRIBE_DEATH_WARNING: String = "你伤得太重了：画符要咬破手指流血，这一点血就会要了你的命。\n确定要画吗？"
+# TRANSLATORS: asked before a 僵尸追魂符 sends the player's zombie ({zombie}) after their own master ({master}): its kill counts as the player's (killer_reward()). {family}, {score}, {next} as in the 攻击 question.
+const HAUNT_MASTER_WARNING: String = "{master}是你的师父。{zombie}会追杀{master}，它若得手，就算你弑师，等同背叛师门：\n· 被逐出{family}，门派、师父和称号都没有了。\n· 综合评价清零（现在是 {score}）。\n· 背叛师门的次数变成 {next} 次。\n确定要贴上这道符吗？"
+# TRANSLATORS: the 驱尸 button's tooltip: animate.c's 50 mana and 30 sen; the zombie lives on the player's 灵力 (zombie.c heal_up()).
+const ANIMATE_HINT: String = "施法「驱尸」：让这具尸体站起来跟着你（50 法力、30 神）。僵尸靠吸你的灵力维持，灵力不足时就会倒下化为血水。"
 
 var _player: WorldPlayerRuntimeType
 var _selected_target: NpcRuntimeState
@@ -106,6 +118,8 @@ func _ready() -> void:
 	ask_button.pressed.connect(_ask_context)
 	portal_button.pressed.connect(_traverse_context)
 	open_loot_button.pressed.connect(_loot_context)
+	animate_button.pressed.connect(_animate_context)
+	animate_button.tooltip_text = ANIMATE_HINT
 	inventory_button.pressed.connect(open_inventory)
 	loot_panel.take_requested.connect(_take_context)
 	inventory_panel.inspect_requested.connect(_inspect_item)
@@ -121,6 +135,8 @@ func _ready() -> void:
 	inventory_panel.dissolve_requested.connect(_dissolve_with)
 	inventory_panel.hang_requested.connect(_hang_with)
 	inventory_panel.pour_requested.connect(_pour_item)
+	inventory_panel.scribe_requested.connect(_scribe_on)
+	inventory_panel.attach_requested.connect(_attach_sheet)
 	confirm_prompt.confirmed.connect(_on_prompt_confirmed)
 	confirm_prompt.cancelled.connect(_on_prompt_cancelled)
 	_presentation_layout.character.arts.configure(_session)
@@ -307,6 +323,10 @@ func show_inventory(rows: Array[PlayerInventoryRowProjection]) -> void:
 			container = map.floor_item_view(container_id).display_name
 	inventory_panel.set_handling_targets(give_target, container)
 	inventory_panel.set_dissolvable_corpse(map.dissolvable_corpse_name() if map != null and map.can_handle_items() else "")
+	# scribe.c on a paper for the selected NPC; attach.c on the zombie here.
+	var scribed: NpcRuntimeState = map.scribable_npc() if map != null and map.can_handle_items() else null
+	var carrier: NpcRuntimeState = map.sheet_carrier() if map != null and map.can_handle_items() else null
+	inventory_panel.set_spell_targets("" if scribed == null else scribed.definition().display_name, "" if carrier == null else carrier.definition().display_name)
 	var pour_targets: Array = []
 	if map != null and map.can_handle_items():
 		for id: StringName in map.pour_targets():
@@ -379,6 +399,8 @@ func refresh_live_state() -> void:
 		or not _selected_corpse_in_range
 		or not player_available
 	)
+	var map := _bound_map as WorldMapController
+	animate_button.disabled = not corpse_available or _selected_floor_item or not player_available or map == null or map.animatable_corpse() == null
 	inventory_button.disabled = not player_available
 	portal_button.disabled = (
 		not landmark_available
@@ -752,6 +774,7 @@ func refresh_exploration() -> void:
 	ask_button.visible = local_target and not ask_button.disabled
 	portal_button.visible = local_target and not portal_button.disabled
 	open_loot_button.visible = local_target and not open_loot_button.disabled
+	animate_button.visible = local_target and not animate_button.disabled
 	selected_target_label.visible = local_target
 	_presentation_layout.target_section.visible = local_target
 	var context: String = context_title()
@@ -1026,6 +1049,58 @@ func _dissolve_with(id: StringName) -> void:
 			open_inventory()
 	# 取消 goes back to the 背包 the question came from.
 	ask_first(tr(DISSOLVE_WARNING).format({"name": tr(map.dissolvable_corpse_name()), "count": count}), "确定化掉", dissolve, Callable(), open_inventory)
+
+
+## 驱尸 on the selected corpse; asked first when its 30 sen would knock the player out.
+func _animate_context() -> void:
+	var map := _session.active_map() as WorldMapController
+	if map == null:
+		return
+	if not map.animate_knocks_out():
+		map.animate_selected_corpse()
+		return
+	ask_first(tr(ANIMATE_FAINT_WARNING).format({"sen": AnimateSpell.SEN_COST}), "确定施法", map.animate_selected_corpse, func() -> bool: return map.animatable_corpse() != null)
+
+
+## 画符 on a 桃符纸 for the selected NPC; asked first when its cost would kill the player or
+## knock them out. 取消 goes back to the 背包.
+func _scribe_on(id: StringName) -> void:
+	var map := _session.active_map() as WorldMapController
+	if map == null:
+		return
+	var warning: String = ""
+	if map.scribe_kills():
+		warning = tr(SCRIBE_DEATH_WARNING)
+	elif map.scribe_knocks_out():
+		warning = tr(SCRIBE_FAINT_WARNING).format({"sen": ScribeService.SEN_COST + HauntScribe.SEN_COST})
+	if warning.is_empty():
+		map.scribe_on(id)
+		return
+	var scribe: Callable = func() -> void:
+		map.scribe_on(id)
+	ask_first(warning, "确定画符", scribe, Callable(), open_inventory)
+
+
+## 贴符 on the zombie here; asked first when it would go after the player's own master
+## (its kill is the player's: 弑师, as 攻击 asks). 取消 goes back to the 背包.
+func _attach_sheet(id: StringName) -> void:
+	var map := _session.active_map() as WorldMapController
+	if map == null:
+		return
+	var target: NpcRuntimeState = map.sheet_target(id)
+	var carrier: NpcRuntimeState = map.sheet_carrier()
+	if target == null or carrier == null or not PlayerKillerReward.is_own_master(_player.state, target.definition()):
+		map.attach_sheet(id)
+		return
+	var teaching: NpcTeaching = target.definition().teaching()
+	var family: FamilyDefinition = GameContent.catalog().family(teaching.family_id)
+	var attach: Callable = func() -> void:
+		map.attach_sheet(id)
+	ask_first(tr(HAUNT_MASTER_WARNING).format({
+		"master": tr(target.definition().display_name), "zombie": tr(carrier.definition().display_name),
+		"family": tr(family.display_name) if family != null else "",
+		"score": _player.state.progression.score, "next": _player.state.apprenticeship.betrayer_count + 1,
+	}), "确定贴符", attach, Callable(), open_inventory)
 
 
 ## rope.c hang: deadly, so asked first (owner); 取消 goes back to the 背包. Outdoors

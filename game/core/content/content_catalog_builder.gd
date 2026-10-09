@@ -129,6 +129,7 @@ func add_document(document: Variant, origin: String) -> void:
 func build() -> ContentCatalog:
 	_add_broken_weapons()
 	_add_leftovers()
+	_add_haunting_sheets()
 	_check_money()
 	_check_npc_loadouts()
 	_resolve_npc_dealings()
@@ -172,6 +173,19 @@ func _add_leftovers() -> void:
 		if not item.leftover_id().is_empty():
 			var left: ItemContentDefinition = ItemContentDefinition.leftover(item)
 			_items[left.item_definition_id] = left
+
+
+## A 僵尸追魂符 for every NPC on every paper one draws 符 on (necromancy/haunt.c scribe()),
+## so a drawn sheet keeps the name written on it. A raised NPC's name is its corpse's: no
+## sheet names one.
+func _add_haunting_sheets() -> void:
+	for paper: ItemContentDefinition in _items.values().duplicate():
+		if not paper.scribe:
+			continue
+		for npc: NpcDefinition in _npcs.values():
+			if npc.raising() == null:
+				var sheet: ItemContentDefinition = ItemContentDefinition.haunting_sheet(paper, npc)
+				_items[sheet.item_definition_id] = sheet
 
 
 ## Every weapon's broken form (weapond.c bash_weapon()), so a broken one keeps its identity.
@@ -351,9 +365,6 @@ func _check_spawns() -> void:
 		var item: ItemContentDefinition = _items.get(definition.item_definition_id)
 		if item == null:
 			_errors.append("%s.item: unknown item '%s'" % [origin, definition.item_definition_id])
-		elif item.is_stack:
-			# A combined item lies as one stack with an amount, which the floor does not hold yet.
-			_errors.append("%s.item: '%s' is a combined item" % [origin, definition.item_definition_id])
 		for point_id: StringName in definition.spawn_point_ids():
 			if point_owners.has(point_id):
 				_errors.append("%s.points: '%s' is already used by %s" % [

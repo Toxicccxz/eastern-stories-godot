@@ -158,6 +158,50 @@ func start_production(initiator: CombatSliceCharacterBinding, target: CombatSlic
 	_restore_entry_relationship(target.relationship, second_opponents, second_lethal)
 	return receipt
 
+## haunt.c do_haunt(): the NPC the player raised (`servant`) kill_ob()s `target`, who only
+## fights it back (dest->fight_ob(who)); the player stands by on the servant's side, in
+## no fight of their own (they may flee, as from any fight). present() finds one lying
+## unconscious too: the first wound kills it. Rolls back as start_production() does.
+func start_servant_kill(servant: CombatSliceCharacterBinding, target: CombatSliceCharacterBinding) -> CombatSliceInitiationResult:
+	if not is_valid() or not _session.application_gameplay_allows_encounter_advance() or has_active_encounter() or not _world_gate.is_open() or not _departure.is_empty() or _entry_sequence == 9223372036854775807:
+		return CombatSliceInitiationResult.new()
+	var player_id: StringName = _session.player_runtime().character_id
+	if (
+		servant == null or target == null or servant.character_id == player_id or target.character_id == player_id
+		or not _session.encounter_participant_is_available(player_id)
+		or not _session.encounter_participant_is_available(servant.character_id)
+		or not _session.encounter_participant_is_available(target.character_id, true)
+	):
+		return CombatSliceInitiationResult.new()
+	for binding: CombatSliceCharacterBinding in [servant, target]:
+		var current: CombatEncounterAuthorityBinding = _session.resolve_encounter_binding(binding.character_id)
+		if current == null or binding.state != current.state or binding.relationship != current.relationship or binding.busy != current.busy or binding.armor != current.armor:
+			return CombatSliceInitiationResult.new()
+		for opponent_id: StringName in binding.relationship.opponent_ids():
+			if opponent_id not in [servant.character_id, target.character_id]:
+				return CombatSliceInitiationResult.new()
+	var first_opponents: Array[StringName] = servant.relationship.opponent_ids()
+	var first_lethal: Array[StringName] = servant.relationship.lethal_target_ids()
+	var second_opponents: Array[StringName] = target.relationship.opponent_ids()
+	var second_lethal: Array[StringName] = target.relationship.lethal_target_ids()
+	var receipt: CombatSliceInitiationResult = CombatSliceOpportunityExecutor.initiate_directed_kill(servant, target)
+	if receipt.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
+		_entry_sequence += 1
+		var candidates: Array[CombatTriggerCandidate] = [
+			CombatTriggerCandidate.new(player_id, &"player"),
+			CombatTriggerCandidate.new(servant.character_id, &"player"),
+			CombatTriggerCandidate.new(target.character_id, &"enemies"),
+		]
+		var trigger := CombatTrigger.new(StringName("production:%d" % _entry_sequence), CombatTriggerCause.Value.SERVANT_KILL,
+			CombatEncounterMode.Value.LETHAL, servant.character_id, candidates, _session.resolve_encounter_location(servant.character_id))
+		if start(trigger).succeeded():
+			return receipt
+		receipt._outcome = CombatSliceInitiationResult.Outcome.ENCOUNTER_START_FAILED
+	_restore_entry_relationship(servant.relationship, first_opponents, first_lethal)
+	_restore_entry_relationship(target.relationship, second_opponents, second_lethal)
+	return receipt
+
+
 ## World collects and revalidates synchronously; no caller-supplied eligible list.
 ## Player first, enemies in stable lexical CharacterId order; one existing engine.
 func start_complete_production(cause: int, requested_target: StringName = &"") -> CombatSliceInitiationResult:
@@ -497,8 +541,11 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 				trigger,
 			)
 		# kill.c: the player's 攻击 may be at one lying unconscious (the production entries
-		# admit only the one it names).
-		var downed: bool = trigger.cause == CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK and candidate.participant_id != trigger.initiator_id
+		# admit only the one it names), and so may a servant's (haunt.c: its sheet's name).
+		var downed: bool = (
+			(trigger.cause == CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK and candidate.participant_id != trigger.initiator_id)
+			or (trigger.cause == CombatTriggerCause.Value.SERVANT_KILL and candidate.side_id == &"enemies")
+		)
 		if not _session.encounter_participant_is_available(candidate.participant_id, downed):
 			return _start_failure(
 				CombatEncounterStartResult.Outcome.PARTICIPANT_UNAVAILABLE,
@@ -523,7 +570,9 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 			CombatEncounterStartResult.Outcome.RELATIONSHIP_TOPOLOGY_MISSING,
 			trigger,
 		)
-	if trigger.cause != CombatTriggerCause.Value.SCRIPTED and not _connected_to_initiator(trigger.initiator_id, participants):
+	# A servant's fight has the player standing by: in it, fighting nobody.
+	var standing_by: StringName = _session.player_runtime().character_id if trigger.cause == CombatTriggerCause.Value.SERVANT_KILL else &""
+	if trigger.cause != CombatTriggerCause.Value.SCRIPTED and not _connected_to_initiator(trigger.initiator_id, participants, standing_by):
 		return _start_failure(CombatEncounterStartResult.Outcome.RELATIONSHIP_TOPOLOGY_MISSING, trigger)
 	var encounter_id := StringName(ENCOUNTER_ID_PREFIX + String(trigger.trigger_id))
 	var encounter := CombatEncounter.new(encounter_id, trigger, participants, hostilities)
@@ -734,8 +783,11 @@ func _location_matches_trigger(
 
 ## Side hostility is not proof that each individual participates. Follow actual
 ## directed opponent edges in either direction; do not invent reciprocal fights.
-func _connected_to_initiator(id: StringName, participants: Array[CombatParticipant]) -> bool:
+## `standing_by`: one who is in the fight without an edge (the player beside their servant).
+func _connected_to_initiator(id: StringName, participants: Array[CombatParticipant], standing_by: StringName = &"") -> bool:
 	var reached: Array[StringName] = [id]
+	if not standing_by.is_empty() and standing_by != id:
+		reached.append(standing_by)
 	var cursor: int = 0
 	while cursor < reached.size():
 		for actor: CombatParticipant in participants:

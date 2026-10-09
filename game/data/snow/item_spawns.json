@@ -26,6 +26,15 @@
 			"points": ["snow.secret_storage.shield.1"],
 			"legacy_room": "d/snow/secret_storage.c",
 			"legacy_quantity": 1
+		},
+		{
+			"id": "snow.outdoor.temple.paper_seals",
+			"item": "es2:obj/paper_seal",
+			"map": "snow.outdoor",
+			"zone": "snow.temple",
+			"points": ["snow.temple.paper_seal.1", "snow.temple.paper_seal.2"],
+			"legacy_room": "d/snow/temple.c",
+			"legacy_quantity": 2
 		}
 	]
 }

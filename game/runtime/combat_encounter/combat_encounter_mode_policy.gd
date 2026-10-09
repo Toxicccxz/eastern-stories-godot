@@ -9,7 +9,7 @@ static func supports(trigger: CombatTrigger) -> bool:
 			return trigger.requested_mode == CombatEncounterMode.Value.SCRIPTED
 		CombatTriggerCause.Value.PLAYER_SPAR, CombatTriggerCause.Value.NPC_SPAR:
 			return trigger.requested_mode == CombatEncounterMode.Value.SPAR
-		CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK, CombatTriggerCause.Value.NPC_AGGRESSION, CombatTriggerCause.Value.VENDETTA_HOSTILITY:
+		CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK, CombatTriggerCause.Value.NPC_AGGRESSION, CombatTriggerCause.Value.VENDETTA_HOSTILITY, CombatTriggerCause.Value.SERVANT_KILL:
 			return trigger.requested_mode == CombatEncounterMode.Value.LETHAL
 	return false
 
@@ -19,7 +19,7 @@ static func relationships_match(trigger: CombatTrigger, participants: Array[Comb
 		return true # Preserve CXR3 controlled authored topology boundary.
 	if trigger.cause in [CombatTriggerCause.Value.PLAYER_SPAR, CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK] and trigger.initiator_id != player_id:
 		return false
-	if trigger.cause in [CombatTriggerCause.Value.NPC_AGGRESSION, CombatTriggerCause.Value.NPC_SPAR] and trigger.initiator_id == player_id:
+	if trigger.cause in [CombatTriggerCause.Value.NPC_AGGRESSION, CombatTriggerCause.Value.NPC_SPAR, CombatTriggerCause.Value.SERVANT_KILL] and trigger.initiator_id == player_id:
 		return false
 	var initiator_fact: bool = false
 	for actor: CombatParticipant in participants:

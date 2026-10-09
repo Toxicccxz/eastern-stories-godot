@@ -58,6 +58,11 @@ func advance_npc_heartbeat(delta: float) -> void:
 		for template: String in npc_heartbeat.room_lines[character_id]:
 			lines.append(tr(template).format({"name": tr(seen.definition().display_name)}))
 		_map.hud().append_log_lines(lines)
+	# zombie.c's heal_up() does more than heal.
+	for character_id: StringName in npc_heartbeat.heal_ups:
+		var raised: NpcRuntimeState = _map.npcs.find_resident_npc(character_id)
+		if raised != null and raised.definition().raising() != null:
+			_map.spells.raised_heal_up(raised, npc_heartbeat.heal_ups[character_id])
 	_advance_ambience(delta)
 
 
@@ -76,6 +81,8 @@ func _advance_ambience(delta: float) -> void:
 		_steal_step(_map.npcs.find_resident_npc(character_id))
 	for character_id: StringName in ambience.due_calls(delta, NpcAmbience.RECRUIT):
 		_answer_apprentice(_map.npcs.find_resident_npc(character_id))
+	for character_id: StringName in ambience.due_calls(delta, WorldMapSpells.DISPELL):
+		_map.spells.dispell(_map.npcs.find_resident_npc(character_id))
 	for beat: int in ambience.due_beats(delta):
 		if beat > 0:
 			# char.c heart_beat() falls before it chats, on each of several beats too.

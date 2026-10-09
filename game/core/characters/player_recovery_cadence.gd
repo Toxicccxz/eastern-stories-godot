@@ -88,6 +88,8 @@ func advance(delta: float, character: CharacterState, busy: ActionBusyState, con
 		)
 		result.last_update_count = CharacterRecovery.apply_tick(character, skills, _is_player_character, conditions.no_heal_up, _recovery_gain, _water_use)
 		result.opportunities += 1
+		if not conditions.no_heal_up:
+			result.heal_ups += 1
 		# A condition that left the character below zero ends the advance here: the
 		# caller lets it fall (char.c heart_beat checks at the start of the next beat).
 		if character.life_threshold() != CharacterState.LifeThreshold.ACTIVE:

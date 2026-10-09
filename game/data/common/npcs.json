@@ -486,6 +486,32 @@
 				"killed_by_owner": ["你杀死了你的观想兽，并且从中悟到了一些咒术的道理。"],
 				"killed_by_other": ["你的观想兽被人杀死了！", "你觉得一阵天旋地转...."]
 			}
+		},
+		{
+			"id": "common.npc.zombie",
+			"legacy_source": "obj/npc/zombie.c",
+			"name": "僵尸",
+			"aliases": ["zombie"],
+			"long": "这是一具被人用符咒控制的僵尸，从它苍白的脸上看不出任何喜怒哀乐。\n",
+			"attributes": { "str": 60, "cor": 40 },
+			"resources": {
+				"max_gin": 400,
+				"max_kee": 400,
+				"max_sen": 60,
+				"max_atman": 100,
+				"atman": 100,
+				"max_mana": 100,
+				"mana": 100
+			},
+			"skills": { "unarmed": 30, "dodge": 30 },
+			"apply": { "damage": 15 },
+			"raised": {
+				"name": "{name}的僵尸",
+				"drain": { "above": 10, "atman": 10, "gin": 1 },
+				"tell": "$N告诉你：我...需...要...你...的...力...量...",
+				"color": "HIR",
+				"dissolve": "$N缓缓地倒了下来，化为一滩血水。"
+			}
 		}
 	]
 }

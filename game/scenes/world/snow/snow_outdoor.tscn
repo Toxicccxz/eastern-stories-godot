@@ -1297,6 +1297,16 @@ position = Vector2(528, -736)
 script = ExtResource("marker")
 spawn_point_id = &"snow.weapon_storage.bamboo_sword.1"
 
+[node name="TemplePaperSeal1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(384, 32)
+script = ExtResource("marker")
+spawn_point_id = &"snow.temple.paper_seal.1"
+
+[node name="TemplePaperSeal2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(416, 32)
+script = ExtResource("marker")
+spawn_point_id = &"snow.temple.paper_seal.2"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

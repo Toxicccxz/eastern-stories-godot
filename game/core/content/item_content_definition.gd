@@ -69,11 +69,20 @@ var _pour: PourDefinition
 var _unique: bool = false
 ## A weapon weapond.c bash_weapon() broke: the original's name (shown as 断掉的<name>).
 var _broken_from_name: String = ""
+## cmds/std/scribe.c draws 符 on it: the 桃符纸 (owner, DECISIONS 茅山 A: only on it).
+var _scribe: bool = false
+## A 僵尸追魂符 drawn on it (necromancy/haunt.c scribe()): the NPC definition whose name
+## is written on it and that name; empty for anything else.
+var _haunts: StringName = &""
+var _haunts_name: String = ""
 
 var item_definition_id: StringName:
 	get: return _item_definition_id
 var display_name: String:
 	get:
+		if not _haunts.is_empty():
+			# TRANSLATORS: haunt.c scribe(): a 桃符纸 with 僵尸追魂符 drawn on it and someone's name ({name}) written on it.
+			return TranslationServer.translate("僵尸追魂符（{name}）").format({"name": TranslationServer.translate(_haunts_name)})
 		if _broken_from_name.is_empty():
 			return _display_name
 		# TRANSLATORS: weapond.c bash_weapon(): a weapon broken in two, set("name", "断掉的" + name).
@@ -133,6 +142,12 @@ var play: StringName:
 ## rope.c add_action("hang_self", "hang"): one can hang oneself with it.
 var hang: bool:
 	get: return _hang
+## cmds/std/scribe.c: 符 can be drawn on it (the 桃符纸).
+var scribe: bool:
+	get: return _scribe
+## The NPC definition whose name a 僵尸追魂符 carries (haunt.c), or empty.
+var haunts: StringName:
+	get: return _haunts
 ## combined.c: the amount create() gives a new one (set_amount); 1 for anything else.
 var default_amount: int:
 	get: return _default_amount
@@ -186,6 +201,7 @@ static func from_record(reader: ContentRecordReader) -> ItemContentDefinition:
 	if not definition._apply.is_empty() and not ItemApplyFunctions.has(definition._apply):
 		reader.fail("apply", "unknown apply '%s'" % definition._apply)
 	definition._dissolves = reader.boolean("dissolve", false)
+	definition._scribe = reader.boolean("scribe", false)
 	definition._unique = reader.boolean("unique", false)
 	var pour: ContentRecordReader = reader.child("pour")
 	if pour != null:
@@ -291,6 +307,43 @@ static func broken_weapon(source: ItemContentDefinition) -> ItemContentDefinitio
 			source._stack_definition.base_weight,
 		)
 	return broken
+
+
+## The ID the catalog gives a 僵尸追魂符 drawn on a paper (HAUNT_SUFFIX and the NPC's ID
+## after the paper's).
+const HAUNT_SUFFIX: String = "#haunt="
+
+
+## necromancy/haunt.c scribe() on a 桃符纸 for `npc`: set_name("僵尸追魂符", ({ "sheet" })),
+## the paper's long, unit and weight unchanged. The written name is part of what it is:
+## sheets for one name stack together, for another they do not.
+static func haunting_sheet(paper: ItemContentDefinition, npc: NpcDefinition) -> ItemContentDefinition:
+	var sheet := ItemContentDefinition.new()
+	sheet._item_definition_id = haunting_sheet_id(paper._item_definition_id, npc.definition_id)
+	sheet._legacy_source_paths = paper._legacy_source_paths.duplicate()
+	sheet._display_name = paper._display_name
+	sheet._haunts = npc.definition_id
+	sheet._haunts_name = npc.display_name
+	sheet._aliases.assign(["sheet"])
+	sheet._description = paper._description
+	sheet._default_long = paper._default_long
+	sheet._unit = paper._unit
+	sheet._material = paper._material
+	sheet._own_weight = paper._own_weight
+	sheet._value = paper._value
+	if paper._stack_definition != null:
+		sheet._base_unit = paper._base_unit
+		sheet._default_amount = 1
+		sheet._stack_definition = CombinedStackDefinition.new(
+			sheet._item_definition_id,
+			StringName(String(paper._stack_definition.stack_compatibility_id) + HAUNT_SUFFIX + String(npc.definition_id)),
+			paper._stack_definition.base_weight,
+		)
+	return sheet
+
+
+static func haunting_sheet_id(paper_id: StringName, npc_definition_id: StringName) -> StringName:
+	return StringName(String(paper_id) + HAUNT_SUFFIX + String(npc_definition_id))
 
 
 ## The ID of `id`'s broken form (every weapon has one in the catalog).

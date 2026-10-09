@@ -121,9 +121,6 @@
 			}
 		}
 	},
-	"spawn_skip": {
-		"d/snow/temple.c": { "/obj/paper_seal": "桃符纸 (a combined item) draws seals with spells (magic): with the player's spells (ROADMAP #5)" }
-	},
 	"review": {
 		"d/snow/inn.c": {
 			"set item_desc": "look targets are not data yet",

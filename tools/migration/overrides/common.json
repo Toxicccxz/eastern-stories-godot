@@ -1,6 +1,6 @@
 {
-	"items": ["obj/money/coin.c", "obj/money/silver.c", "obj/money/gold.c", "obj/cloth.c"],
-	"npcs": ["obj/npc/heaven_soldier.c", "obj/npc/hell_guard.c", "obj/npc/mind_bug.c", "obj/npc/mind_beast.c"],
+	"items": ["obj/money/coin.c", "obj/money/silver.c", "obj/money/gold.c", "obj/cloth.c", "obj/paper_seal.c"],
+	"npcs": ["obj/npc/heaven_soldier.c", "obj/npc/hell_guard.c", "obj/npc/mind_bug.c", "obj/npc/mind_beast.c", "obj/npc/zombie.c"],
 	"set": {
 		"common.npc.heaven_soldier": {
 			"name": "天甲神兵",
@@ -33,6 +33,18 @@
 				"killed_by_owner": ["你杀死了你的观想兽，并且从中悟到了一些咒术的道理。"],
 				"killed_by_other": ["你的观想兽被人杀死了！", "你觉得一阵天旋地转...."]
 			}
+		},
+		"common.npc.zombie": {
+			"raised": {
+				"name": "{name}的僵尸",
+				"drain": { "above": 10, "atman": 10, "gin": 1 },
+				"tell": "$N告诉你：我...需...要...你...的...力...量...",
+				"color": "HIR",
+				"dissolve": "$N缓缓地倒了下来，化为一滩血水。"
+			}
+		},
+		"es2:obj/paper_seal": {
+			"scribe": true
 		}
 	},
 	"review": {
@@ -59,6 +71,15 @@
 		"obj/npc/mind_beast.c": {
 			"condition in create()": "conjured in set: combat_exp is query_skill(\"spells\", 1) * 2000 and bellicosity the owner's",
 			"function die": "conjured in set: killed by its owner, improve_skill(\"spells\", random(spi) + 1); by anyone else, the owner falls unconscious"
+		},
+		"obj/npc/zombie.c": {
+			"set chat_chance": "chat_chance with no chat_msg: npc.c chat() says nothing out of a fight",
+			"set chat_msg_combat": "never fires: zombie.c sets no chat_chance_combat, so npc.c chat() returns 0 in a fight (its 荷荷 lines and do_bite() never come)",
+			"function is_zombie": "raised in set: the NPC 驱尸 (animate.c) makes of a corpse; a 僵尸追魂符 goes only on one",
+			"function animate": "raised in set: set(\"possessed\", who) is its summoner, set_leader(who) FLAG_FOLLOWS_PLAYER; it follows the player across maps and is not saved (DECISIONS 茅山 A)",
+			"function dispell": "raised.dissolve in set: said to its room, then destruct() (no corpse)",
+			"function heal_up": "raised.drain in set: each heal_up() out of a fight takes atman and gin from its master and tells them; at 10 atman or less, or after its sheet's fight (end_tag), it dispells a second later",
+			"function do_bite": "never called: chat_msg_combat never fires"
 		},
 		"obj/npc/obj/golden_sword.c": {
 			"set wield_msg": "wield/unwield messages are not shown yet",

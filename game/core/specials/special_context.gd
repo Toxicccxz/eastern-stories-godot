@@ -29,6 +29,10 @@ var summons: Array[StringName] = []
 ## The room the file moved `me` to (dun.c's me->move("/d/snow/temple")), or empty: the
 ## fight lets `me` go and the world takes them there.
 var departure: StringName
+## The corpse the cast names (cast animate on corpse), or null.
+var corpse: CorpseState
+## The file raised `corpse` (corpse.c animate()): the world makes it the raised NPC.
+var raised: bool = false
 ## Keeps the object `random` calls alive (a Callable does not).
 var _random_source: Object
 

@@ -154,6 +154,49 @@ func _dissolve_line(who: String, victim_name: String) -> String:
 
 ## destruct(corpse) with all it holds, then add_amount(-1) on the 化尸粉.
 func _dissolve_corpse(corpse: CorpseState, dust_id: StringName, dust_owner: ItemLifecycleOwnerContext) -> bool:
+	return _destruct_corpse(corpse) and _map.floor_items.use_up_one(dust_id, dust_owner)
+
+
+## The selected corpse when it lies in the player's place (present("corpse",
+## environment(me))), or null.
+func selected_corpse_here() -> CorpseState:
+	var corpse: CorpseState = _selected_corpse()
+	if _player == null or corpse == null or not corpse_is_live_in_world(corpse) or not _corpse_in_location(corpse, _player.world_location()):
+		return null
+	return corpse
+
+
+## The name a corpse goes by (chard.c make_corpse(): 某某的尸体), in the shown language.
+func corpse_name(corpse: CorpseState) -> String:
+	return tr("%s的尸体") % tr(corpse.victim_display_name)
+
+
+## Where a corpse lies on the map (its view), or Vector2.INF.
+func lying_at(corpse: CorpseState) -> Vector2:
+	var view: CombatSliceCorpseView = _corpse_views.get(corpse.corpse_item_instance_id)
+	return Vector2.INF if view == null else view.global_position
+
+
+## corpse.c animate()'s destruct(this_object()) once the zombie stands: the corpse is
+## gone and what it held falls where it lay (owner, DECISIONS 茅山 A; ES2 destructs it
+## with the corpse). False when the item state is inconsistent.
+func raise_corpse(corpse: CorpseState) -> bool:
+	var corpse_id: StringName = corpse.corpse_item_instance_id
+	var location: WorldLocationState = corpse_world_location(corpse_id)
+	var position: Vector2 = lying_at(corpse)
+	if location == null or position == Vector2.INF:
+		return false
+	var floor := InventoryTransferDestination.new(WorldMapFloorItems.floor_endpoint(location), true, true, _map.WORLD_CAPACITY)
+	for item_id: StringName in _inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse_id)):
+		if not CorpseContentTransferService.transfer_out(corpse, _inventory, item_id, floor).succeeded:
+			return false
+		if not _map.floor_items.add_dropped_item_view(item_id, location, _map.floor_items.at_feet(location, position, true)):
+			return false
+	return _destruct_corpse(corpse)
+
+
+## destruct(corpse) with what it still holds: its item, state, view and selection go.
+func _destruct_corpse(corpse: CorpseState) -> bool:
 	var corpse_id: StringName = corpse.corpse_item_instance_id
 	var removal: ItemLifecycleResult = ItemLifecycleService.destroy_item(_inventory, _stacks, corpse_id, ItemLifecycleResult.ChildDisposition.DESTROY_SUBTREE)
 	if not (
@@ -174,7 +217,7 @@ func _dissolve_corpse(corpse: CorpseState, dust_id: StringName, dust_owner: Item
 		_map.hud().set_selected_corpse("", 0, false, true)
 		if _map.hud().loot_is_open():
 			_map.hud().close_loot()
-	return _map.floor_items.use_up_one(dust_id, dust_owner)
+	return true
 
 
 ## A corpse lies where its body fell. It is wider than the body, so beside a wall it is

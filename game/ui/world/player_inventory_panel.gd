@@ -17,6 +17,9 @@ signal dissolve_requested(item_instance_id: StringName)
 signal hang_requested(item_instance_id: StringName)
 ## pour <powder> in <container> (std/medicine/powder.c do_pour()).
 signal pour_requested(item_instance_id: StringName, container_id: StringName)
+## scribe haunt on a paper for the selected NPC (scribe.c); attach a 僵尸追魂符 (attach.c).
+signal scribe_requested(item_instance_id: StringName)
+signal attach_requested(item_instance_id: StringName)
 
 ## Words for the item kinds the inspection names (category, weapon_prop skill_type, armor_type).
 const CATEGORY_WORDS: Dictionary[StringName, String] = {
@@ -44,6 +47,10 @@ var _container: String = ""
 var _corpse: String = ""
 ## The carried liquid containers a powder can be poured into: [id, shown name] pairs.
 var _pour_targets: Array = []
+## Whose name a 符 on a paper would carry (the selected NPC here), and the zombie here a
+## 僵尸追魂符 goes on; empty when there is none.
+var _scribe_target: String = ""
+var _sheet_carrier: String = ""
 
 
 func set_handling_targets(give_target: String, container: String) -> void:
@@ -53,6 +60,11 @@ func set_handling_targets(give_target: String, container: String) -> void:
 
 func set_dissolvable_corpse(victim_name: String) -> void:
 	_corpse = victim_name
+
+
+func set_spell_targets(scribe_target: String, sheet_carrier: String) -> void:
+	_scribe_target = scribe_target
+	_sheet_carrier = sheet_carrier
 
 
 ## `targets`: [item id, container name] pairs, in carried order.
@@ -199,6 +211,22 @@ func _build_row(row: PlayerInventoryRowProjection) -> BoxContainer:
 		dissolve_button.text = tr("化去{corpse}").format({"corpse": tr("%s的尸体") % tr(_corpse)})
 		dissolve_button.pressed.connect(func() -> void: dissolve_requested.emit(row.item_instance_id))
 		container.add_child(dissolve_button)
+	# scribe.c: 僵尸追魂符 on a 桃符纸, with the selected NPC's name (haunt.c).
+	if content != null and content.scribe and not _scribe_target.is_empty():
+		var scribe_button: Button = Button.new()
+		scribe_button.name = "Scribe"
+		# TRANSLATORS: draw a 僵尸追魂符 on the paper with someone's name ({name}) on it (scribe.c, haunt.c).
+		scribe_button.text = tr("画追魂符：{name}").format({"name": tr(_scribe_target)})
+		scribe_button.pressed.connect(func() -> void: scribe_requested.emit(row.item_instance_id))
+		container.add_child(scribe_button)
+	# attach.c: put the sheet on the zombie here.
+	if content != null and not content.haunts.is_empty() and not _sheet_carrier.is_empty():
+		var attach_button: Button = Button.new()
+		attach_button.name = "Attach"
+		# TRANSLATORS: put the 僵尸追魂符 on the zombie ({zombie}) here (attach.c).
+		attach_button.text = tr("贴到{zombie}身上").format({"zombie": tr(_sheet_carrier)})
+		attach_button.pressed.connect(func() -> void: attach_requested.emit(row.item_instance_id))
+		container.add_child(attach_button)
 	if content != null and content.pour != null:
 		var names: Array[String] = []
 		for target: Array in _pour_targets:

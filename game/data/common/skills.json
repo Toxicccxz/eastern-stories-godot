@@ -144,7 +144,8 @@
 					"standing": "你的魂魄还没有全部收回，赶快杀死你的$N吧！"
 				}
 			},
-			"cast": ["drainerbolt", "feeblebolt", "netherbolt", "invocation"]
+			"cast": ["drainerbolt", "feeblebolt", "netherbolt", "invocation", "animate"],
+			"scribe": ["haunt"]
 		},
 		{
 			"id": "taoism", "name": "天师正道", "kind": "basic", "type": "knowledge",

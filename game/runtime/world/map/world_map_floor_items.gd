@@ -58,10 +58,13 @@ func place_floor_item(spawn: ItemSpawnDefinition, point_id: StringName) -> bool:
 		return false
 	var item: ItemInstance = ItemInstance.new(ItemSpawnDefinition.item_instance_id(_item_id_allocator.scope, point_id), content.item_definition_id)
 	if (
-		not _inventory.register_item(item, content.own_weight)
+		not _inventory.register_item(item, 0 if content.is_stack else content.own_weight)
 		or not _item_index.register_snapshot(item)
 		or not ItemRoleStates.register_fresh(content, item.item_instance_id, _foods, _liquids)
 	):
+		return false
+	# combined.c: each one a room's objects make comes with create()'s set_amount() (桃符纸: one 张).
+	if content.is_stack and not CombinedStackService.register_stack(_stacks, _inventory, item, content.stack_definition(), content.default_amount).accepted:
 		return false
 	var placed: InventoryTransferResult = InventoryTransferService.new().transfer(
 		_inventory,

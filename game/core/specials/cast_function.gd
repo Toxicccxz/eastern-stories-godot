@@ -10,6 +10,9 @@ var label: String
 ## Its name when the player casts it at themselves (dun.c's 遁 to Snow's temple);
 ## empty for a file that does nothing different at its caster.
 var self_label: String
+## Its name when the player casts it outside a fight at something in the world (animate.c's
+## 驱尸 at a corpse, on the HUD); empty for a spell cast only in a fight.
+var world_label: String
 
 
 func cast(_context: SpecialContext) -> bool:

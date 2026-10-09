@@ -67,6 +67,11 @@ var _name_pick: Array[String] = []
 var _summoning: NpcSummoning
 ## What a practice conjures up against its owner (NpcConjuring); null for any other NPC.
 var _conjuring: NpcConjuring
+## What a spell raises from a corpse (NpcRaising); null for any other NPC.
+var _raising: NpcRaising
+## The victim a raised NPC was (corpse.c's query("victim_name")): its name follows
+## NpcRaising.name_template; empty for any other NPC.
+var _raised_from: String = ""
 
 var definition_id: StringName:
 	get:
@@ -76,7 +81,10 @@ var legacy_source_path: String:
 		return _legacy_source_path
 var display_name: String:
 	get:
-		return _display_name
+		if _raised_from.is_empty() or _raising == null:
+			return _display_name
+		# A raised NPC's name is made of its victim's (流氓的僵尸), in the shown language.
+		return TranslationServer.translate(_raising.name_template).format({"name": TranslationServer.translate(_raised_from)})
 var description: String:
 	get:
 		return _description
@@ -331,6 +339,25 @@ func conjuring() -> NpcConjuring:
 	return _conjuring
 
 
+## A raised NPC's facts (zombie.c, corpse.c animate()). Called once by the loader.
+func with_raising(p_raising: NpcRaising) -> NpcDefinition:
+	_raising = p_raising
+	return self
+
+
+## null: no spell raises this NPC from a corpse.
+func raising() -> NpcRaising:
+	return _raising
+
+
+## corpse.c animate(): the same definition named after the corpse's victim
+## (set_name(query("victim_name") + "的僵尸")). Shares everything else.
+func raised_as(victim_display_name: String) -> NpcDefinition:
+	var copy: NpcDefinition = renamed(_display_name)
+	copy._raised_from = victim_display_name
+	return copy
+
+
 ## The same definition under another name: the one an NPC drew (name_pick()). Shares
 ## everything else, which is read-only once loaded.
 func renamed(p_display_name: String) -> NpcDefinition:
@@ -353,7 +380,7 @@ func can_speak() -> bool:
 ## feature/apprentice.c assign_apprentice() gives it (封山剑派第十三代掌门人).
 ## In the shown language.
 func short_name() -> String:
-	var name: String = TranslationServer.translate(_display_name)
+	var name: String = TranslationServer.translate(display_name)
 	# TRANSLATORS: name.c short(): a nickname before the name, 「风雨双侠」柳淳风.
 	var text: String = name if _nickname.is_empty() else TranslationServer.translate("「{nickname}」{name}").format({
 		"nickname": TranslationServer.translate(_nickname), "name": name,
@@ -443,6 +470,9 @@ const FLAG_FOLLOWS_PLAYER: StringName = &"follows_player"
 ## the player): attack.c init()'s hatred attacks the player on sight until the player
 ## dies before it (damage.c die(): remove_killer()). An object variable.
 const FLAG_HUNTS_PLAYER: StringName = &"hunts_player"
+## haunt.c do_haunt()'s set("end_tag", 1): a raised NPC a 僵尸追魂符 sent after someone;
+## its first heal_up() out of a fight dispells it (zombie.c). An object variable.
+const FLAG_SENT: StringName = &"sent"
 
 
 ## Whether it starts a fight when the player comes into contact: its hatred, attitude

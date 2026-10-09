@@ -4,7 +4,7 @@ How 茅山 comes from `reference/es2/mudlib/d/temple/` and `daemon/class/taoist/
 LPC says that the code does not. Decisions are in [DECISIONS](DECISIONS.md). Package A places
 the rooms and the people; B 茅山派 (林忌's apprentices, 谷衣心法, 天师剑法, 天师正道; done); C the
 player's 茅山道术 in a fight and its practice (观想虫; done); D the zombies and the sheets (驱尸,
-桃符纸, 僵尸追魂符).
+桃符纸, 僵尸追魂符; done).
 
 ## Placed (A)
 
@@ -68,6 +68,20 @@ player's 茅山道术 in a fight and its practice (观想虫; done); D the zombi
 | kill.c at an NPC lying unconscious | 攻击 starts the fight; the first wound kills it (char.c). The HUD offered 攻击 there before and nothing happened |
 | combatd.c start_hatred(): catch_hunt_msg, kill_ob() | met again (the player came back into its reach), one of the seven lines (world's interaction stream) and a fight in which it alone kills |
 
+## LPC → native (D: 驱尸 and the sheets)
+
+| LPC | Native |
+|---|---|
+| necromancy/animate.c cast(): not in a fight, a corpse (is_corpse()), 50 mana, its line, then 50 mana and 30 sen | AnimateSpell, cast outside a fight only: the HUD's 驱尸 on the selected corpse in the player's room (no battle-panel button); $n is 某某的尸体 |
+| corpse.c animate(): new("/obj/npc/zombie"), set_name(victim_name + "的僵尸"), moved into the room, destruct(corpse) | NpcDefinition.raised_as(): a summoned NPC (SummonedNpc) where the corpse lay, clear of the player's body; the corpse is gone, what it held falls there (owner) |
+| zombie.c animate(): set("possessed", who), set_leader(who) | its summoner (killer_reward() passes its kills to the player); FLAG_FOLLOWS_PLAYER: it walks after the player, onto another map too (owner) |
+| zombie.c heal_up(): tell, 10 atman and 1 gin while the master has more than 10, else call_out("dispell", 1); end_tag out of a fight: call_out("dispell", 1) | npcs.json `raised` (NpcRaising), run on each heal_up() of the NPC heart beat (nothing taken from a master lying unconscious: DECISIONS); the dispell an NpcAmbience call (`dispell`) |
+| zombie.c dispell(): say(), destruct() | its line to its room; gone, no corpse |
+| obj/paper_seal.c; d/snow/temple.c's `"/obj/paper_seal": 2` | es2:obj/paper_seal (a combined item, 叠 of 张, `scribe`); two lie in Snow's 城隍庙, a stack of one on each point |
+| cmds/std/scribe.c, then haunt.c scribe() | ScribeService and HauntScribe: 画追魂符 on a 桃符纸 row for the selected NPC (skills.json `scribe`); scribe.c's checks (fight, 30 sen, spells enabled), haunt.c's (fight, 20 mana, a name); 20 mana, 10 + 30 sen, 1 kee wounded; one paper becomes 僵尸追魂符（name） (a catalog item for each NPC) |
+| cmds/std/attach.c, do_scribe_haunt(), do_haunt() | 贴到…身上 on the sheet's row: the selected zombie standing here, else the first; the named NPC present() in its room: the sheet is used up, its line (RED), kill_ob() and the named one's fight_ob() (a fight the player stands by in: CombatTriggerCause SERVANT_KILL), end_tag (FLAG_SENT), set_leader(dest) (it follows the player no more) |
+| do_haunt()'s is_zombie() and query("possessed") | always so: only zombies take a sheet, and every one is the player's |
+
 ## Source anomalies
 
 
@@ -89,6 +103,19 @@ player's 茅山道术 in a fight and its practice (观想虫; done); D the zombi
 - necromancy/astral_vision.c sets apply/astral_vision, which nothing in the mudlib reads.
 - earth-warp.c's sheet sets `attach_func`, which attach.c does not call (it knows only
   do_scribe_haunt); attach.c moves the sheet to /obj/void first, so the sheet is lost.
+- attach.c moves every sheet to /obj/void before do_scribe_haunt() runs: one that finds no
+  zombie (你往哪儿贴？) or whose call fails is lost too. do_haunt() finds the name anywhere
+  (find_player(), find_living()); a name nobody answers to sends the zombie at whoever
+  attached it (杀....杀....杀....). scribe.c draws on any carried item and renames a whole
+  stack of 桃符纸.
+- scribe.c asks for 30 sen and takes 40 with haunt.c's 10, so a player with 30–39 faints;
+  animate.c asks only for mana and takes 30 sen.
+- daemon/class/taoist/animate.c and haunt.c (outside necromancy/) and d/skill/necromancy/ are
+  older copies nothing reaches: necromancy.c's cast_spell_file() and scribe_spell_file() name
+  daemon/class/taoist/necromancy/.
+- zombie.c animate()'s `time` (spells × 3 + 30) is never read.
+- corpse.c decay()'s first case has no break: every rotten corpse would be 腐烂的尸体 (corpses
+  do not decay in the game yet).
 - old_taoist.c's long says 观心观 (the temple is 灵心观): kept as written.
 - trainroom.c's short 练功\房 and taoist.c's 运功\导气 are Big5 artifacts; MudOS reads `\房`
   as 房.
