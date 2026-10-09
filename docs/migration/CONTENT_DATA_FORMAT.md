@@ -29,7 +29,9 @@ The override file holds every hand decision: `vendors` and `items` (extra roots)
 (`{room: {object: why}}`), `vendor_skip` (`{vendor: {goods key: why}}`), `vendor_goods`
 (`{vendor: {goods key: {item, price}}}`: goods a vendor sells through its own `buy_object()`
 instead of `set("vendor_goods")`, read by hand), `set`/`drop`
-(`{record id: …}`) and `review` (`{lpc source: {finding: decision}}`). A finding is an LPC fact
+(`{record id: …}`), `review` (`{lpc source: {finding: decision}}`) and `source_fixes`
+(`{lpc source: [{find, replace, why}]}`: a file ES2 could not compile, repaired before it is
+read; each `find` must occur exactly once, and each fix is a recorded deviation). A finding is an LPC fact
 that did not become data — another function, a closure, a condition, a field the game does not
 model yet. `--check` (and `tools/tests/test_content_import.py`) fails when a generated file
 differs or a finding has no decision; `build/import/review.md` lists findings and per-NPC counts.
@@ -50,9 +52,10 @@ A room's `set("objects")` may name a class daemon's NPC (`CLASS_D("swordsman") +
 | `unit`, `material`, `value` | `set(...)` | `value` absent = 0 |
 | `no_get` | `set("no_get", 1)` | `true`: get.c refuses it (这个东西拿不起来。) |
 | `female_only` | `set("female_only", 1)` | `true`: wear.c lets only a 女性 character wear it |
+| `no_drop` | `set("no_drop", 1 \| "line")` | `true` or drop.c's own line: drop.c, give.c and put.c refuse it |
 | `max_encumbrance` | `set_max_encumbrance(n)` | a container: put.c puts things in while their weight fits, get.c takes them out (功德箱 10000) |
 | `weight` | `set_weight()` | omitted for money; 0 when the LPC never sets it (`feature/move.c`) |
-| `weapon` | `init_sword(damage, flags)` etc. | `{skill, damage, flags: ["secondary", "two_handed"], apply?, weight_dodge?}`; `apply` is `weapon_prop/*` other than damage (attack, defense, dodge, courage, intelligence, karma, personality, spells, spirituality), added to the wielder's `apply/*` (equip.c); `weight_dodge: "equip"` when create() calls std/equip.c's setup() (std/weapon/<kind>.c, not throwing.c): from 3000 weight a weapon without its own dodge gets `dodge = -weight/3000` |
+| `weapon` | `init_sword(damage, flags)` etc. | `{skill, damage, flags: ["secondary", "two_handed"], apply?, weight_dodge?}`; `apply` is `weapon_prop/*` other than damage (attack, defense, dodge, courage, intelligence, karma, personality, spells, spirituality), added to the wielder's `apply/*` (equip.c); `weight_dodge: "equip"` when create() calls std/equip.c's setup() (std/weapon/<kind>.c, not throwing.c): from 3000 weight a weapon without its own dodge gets `dodge = -weight/3000`; `rigidity` (`set("rigidity")`) is added to the weapon's side in weapond.c bash_weapon() |
 | `armor` | `inherit CLOTH` + `armor_prop/*`, or `inherit EQUIP` + `set("armor_type")` | `{type, props, weight_dodge?}`; the setup() create() calls: `"armor"` (the eleven `std/armor/<type>.c`): over 3000 weight `dodge = -weight/3000`, replacing the armor's own; `"equip"` (`std/equip.c`): from 3000 weight, only without its own dodge; absent: no setup() call, no cost |
 | `food` | `food_remaining`, `food_supply` | `{remaining, supply}`; not yet combinable with `weapon`, `armor` or `money` |
 | `hang` | rope.c `add_action("hang_self", "hang")` | `true`: the 上吊 button (asked first): refused in an `outdoors` room, else die() |
@@ -67,7 +70,7 @@ The corpse (`obj/corpse.c`) is created by the death rules and is not an item rec
 
 | Field | LPC source | Notes |
 |---|---|---|
-| `id` | — | native ID `<region>.npc.<name>`; saved in save files |
+| `id` | — | native ID `<region>.npc.<name>`, `<region>.npc.<subdirectory>.<name>` for a file under a region's subdirectory (d/latemoon/room/npc/servant.c: `latemoon.npc.room.servant`); saved in save files |
 | `legacy_source` | file path | |
 | `name`, `aliases`, `long` | `set_name`, `set("long")` | |
 | `title` | `set("title")` | shown before the name, as `short()` does |
@@ -88,13 +91,13 @@ The corpse (`obj/corpse.c`) is created by the death rules and is not an item rec
 | `capabilities` | — | native behaviour tags, e.g. `aggressive_on_player_presence` |
 | `accept_fight` | the NPC's own `accept_fight()` | ordered rules `{family?, gender?, emote?, say?, accept, kill?}`; the first matching rule decides; `kill` (with `accept`): the NPC answers with `kill_ob()` (annihir.c) and fights to kill, the challenger only fights back; `say` may use `$RESPECT`/`$SELF` (rankd.c). Hand-written in the override file's `set` |
 | `inquiry` | `set("inquiry")` | `{topic: [line, ...]}` in authored order; ask.c says each line as `<name>说道：<line>`. Strings of an answer array only (ask.c skips 0 and functions); a topic answered by a function is a finding `inquiry <topic>`. A topic may instead be `{eff_kee_percent: [{at_least, say}]}` (herbalist.c heal_me(), judged on the asker; none matching leaves ask.c's own answer) |
-| `chat_chance`, `chat_msg` | `set("chat_chance")`, `set("chat_msg")` | npc.c chat(): `chat_msg` entries are lines (said as written), `{"action": "random_move"}`, `{"action": "drink", sated_water, dry_say, dry_clears?}` (drunk.c do_drink()) or `{"action": "emote", "verb"}` (an emote: prints nothing). Generated only when every entry is a line or random_move; otherwise both stay findings. `chat_msg_combat` also takes `{"action": "wield", "item", "say"?, "chat_chance_combat"?}`, `{"action": "call_partner", "partner", "emote"\|"say"\|"line"}` (ask_for_help()) and `{"action": "say_by_age", "younger", "otherwise"}` |
+| `chat_chance`, `chat_msg` | `set("chat_chance")`, `set("chat_msg")` | npc.c chat(): `chat_msg` entries are lines (said as written), `{"action": "random_move"}`, `{"action": "drink", sated_water, dry_say, dry_clears?}` (drunk.c do_drink()) or `{"action": "emote", "verb"}` (an emote: prints nothing). Generated only when every entry is a line or random_move; otherwise both stay findings. `chat_msg_combat` also takes `{"action": "wield", "item", "say"?, "chat_chance_combat"?}`, `{"action": "call_partner", "partner", "emote"\|"say"\|"line"}` (ask_for_help()), `{"action": "say_by_age", "younger", "otherwise"}` and `{"action": "poison", "condition", "duration", "tell"}` (daemon/class/dancer/master.c use_poison(): a random enemy without the condition is told, and random(the NPC's combat_exp) over its own sets it) |
 | `greeting` | the NPC's init()/greeting() | `{say}` (said as `<name>说道：<say>`) or `{one_of: [{say} \| {emote}]}`, one drawn when it is said (waiter.c `random(3)`; an `emote` follows the name), one second after the player arrives (`$RESPECT` the player). Hand-written in the override file's `set` |
 | `vendor` | the override's `vendors` | a vendors[] ID: the NPC sells these goods from its body (buy.c finds it with `present()`) |
 | `accept_object` | the NPC's own `accept_object()` | ordered rules, first match decides; conditions `value_at_least`, `value_at_most`, `liquid` (`alcohol`/`water`), `liquid_remaining_at_most`, `npc_flag`, `giver_mark`; outcome `say`/`emote`, `accept`, `mark_giver` (marks/<name>), `set_npc_flag`, `effect` (`temple_donation`: keeper.c). No rule matching, or no rules, refuses (give.c). Hand-written in `set` |
 | `flags` | object variables `create()` sets | e.g. `["has_alcohol"]` (drunk.c); rules test and set them; not saved |
 | `fight_deferred` | — | why the NPC cannot be fought yet (its mapped skills have no ported actions); no 攻击/切磋 |
-| `family` | `create_family(name, generation, title)` | `{name, generation, title}`; the name must be in `families.json`; privileges -1 |
+| `family` | `create_family(name, generation, title)` | `{name, generation, title}`; the name must be in `families.json`; privileges -1; generation 0 is a founder's (瑷伦) |
 | `f_master` | `inherit F_MASTER` | `true`: std/char/master.c prevent_learn() limits what it teaches |
 | `recognize_apprentice` | the NPC's own `recognize_apprentice()` | ordered rules `{family?, giver_mark?, say?, emote?, fail?, accept}`; `fail` replaces learn.c's polite refusal. Hand-written in `set` |
 | `apprentice` | the master's `attempt_apprentice()`/`recruit_apprentice()` | `{requires: {cor?, cps?}, refuse_say, accept_say, class}` (effective attributes); needs `family`. Hand-written in `set` |
@@ -193,7 +196,11 @@ region's file.
 `{id, kind, zone, name, reach, legacy_source}` — a room's own command, used standing within
 `reach` pixels of its service point in `zone`. `kind` picks the rules (`WorldServiceKinds`): `bank`
 (convert), `work`, `hockshop` (value/sell), `water` (ES2 `set("resource/water", 1)`: a wineskin
-can be filled here from the supplies panel). The context button reads `name · verb`, e.g. 钱庄 ·
+can be filled here from the supplies panel), `dance` (d/latemoon/latemoon8.c and miroom.c
+do_dancing(), with its `dance`: `{costs: [{gender, at_least, sen}], tired, clumsy, steps:
+[{name, mark, sen?, portal, line}]}`: the gender's sen check and cost, then a step the player
+knows (its mark) plays its line, spends its sen and moves them through its portal, which leaves
+the service's zone; the player's own dance is `clumsy`). The context button reads `name · verb`, e.g. 钱庄 ·
 兑换; `hockshop` also requires an idle, non-fighting player. Goods and teaching belong to NPCs
 (`vendor`, teaching fields): the map binds them to the NPC's body, reached within 96 pixels of it
 (店小二 · 购买, 柳淳风 · 请教).
@@ -221,7 +228,8 @@ until the landmark opens them, and no other landmark may use them.
 `weak`; else it costs `gin`, `kee` and `sen` (`push`) and random(`random`) 0 rolls the stone away
 (`rolled`) through its one portal. `search` (water.c): with the record's `mark`, random(`random`)
 other than 0 gives the `reward` item (`found`, the mark stays), else the mark goes (`search`,
-`nothing`). `look_spawn` (house3.c) has no action: looking calls one NPC of its summoned `spawn`
+`nothing`). A `look` landmark may `teach` marks (`teaches`: d/latemoon/latebook.c's picture names two
+dances). `look_spawn` (house3.c) has no action: looking calls one NPC of its summoned `spawn`
 in (`spawn`) while fewer than `limit` came since its room's reset and a point is free; else the
 look reads `long`.
 
@@ -250,8 +258,11 @@ enable, the character panel's name; to_chinese()'s dictionary is not in the mudl
 authored). A specialized skill names the uses it can be enabled for. `actions` is the skill's
 `action` table (query_action): `{id, action, damage_type, damage?, force?, weapon?}`, the ID being
 `es2:<legacy_source without .c>/<id>`; combatd.c reads no other key, so `dodge`/`parry` stay in the
-LPC. `hit_ob: true` marks a skill with its own `hit_ob()` (iceforce, spicyclaw, ts-fist): not
-ported, so a fight that would call it stops. `dodge_messages` (query_dodge_msg) and `parry_messages` `{armed, unarmed}`
+LPC. `hit_ob: true` marks a skill with its own `hit_ob()` (spicyclaw, ts-fist): not
+ported, so a fight that would call it stops. `force_hit_wound` `{condition, factor_divisor,
+message}` (iceforce.c, with `standard_force_hit`): after std/force.c's number, random(the
+skill's query_skill()) over damage_bonus plus it wounds the victim's kee by that sum, sets the
+condition to force_factor / `factor_divisor` and adds nothing (its line joins the blow's). `dodge_messages` (query_dodge_msg) and `parry_messages` `{armed, unarmed}`
 (parry.c, which combatd.c always asks) are its lines. `standard_force_hit`: it inherits
 std/force.c and keeps its `hit_ob()`. `practice` is its `practice_skill()` (practice.c):
 `{kee?, force?, mana?, sen?, done?, fail?, mana_fail?, sen_fail?, conjure?, refuses?}` — each at

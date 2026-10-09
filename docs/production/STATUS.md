@@ -4,13 +4,10 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**Equipment weight dodge** (`phase/equip-weight-dodge`, DECISIONS A1): a heavy weapon or armor
-costs 轻功 as ES2's setup() does (std/equip.c: weapons from 3000 weight without a dodge of their
-own; the eleven std/armor/<type>.c: armor above 3000, over its own), for the player and every
-NPC; the item details show 轻功：−N and the 武学 page's effective level follows. 茅山 (region #6)
-is done.
-
-Next: region #7 晚月庄 (`d/latemoon`).
+**晚月庄 A** (`phase/latemoon-a`, region #7, DECISIONS「晚月庄 A」): all 74 rooms on five maps,
+the 37 kinds of NPC with the arts they fight with, rose_poison and iceshock, the dances in the
+two 密室. Next: 晚月庄 B (the women's quarters and the rooms' own commands), then C (the secrets)
+and D (晚月庄 the family).
 
 ## 待决定
 
@@ -116,6 +113,24 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   name (20 mana, 40 sen and a drop of blood); put on the zombie, it goes after that one while the
   player stands by or joins in with the battle panel's 攻击 (its kill is theirs), then falls
   apart. Asked first: when the cost would knock the player out, and against their own master.
+* **晚月庄**: west of 绮云镇's west end, all 74 rooms on five maps: the cobbled path and the 拱门
+  (two 彩衣少女), the forecourt and its lanterns, the front garden; the hall (蓝止萍, 晚月庄主), the
+  reception room (雨梅, the teapot), the plum courtyard and its galleries, the punishment room
+  behind the 铜门 (芳绫), the study (昭仪, the 湘绣舞曲图 that names two dances), the 密室 behind
+  the 石门 with its 八卦图, the inner hall behind the 仪门 (昭蓉); the dining halls and kitchen, the
+  guest wing (芙云, 梦玉楼), the rear hall behind its great door, the studies (无名老妇 and the
+  蒙面杀手), the east and west wings (瑷伦, 安妮儿), behind the 垂花门 the women's passage, the
+  changing room (no_fight) and the flower pool (凤凰, the water), and one way south into two
+  secret rooms (蓝筱薇, the 丝罗巾); the 湘园 with its pond, bridges and pavilion, the osmanthus
+  garden, 稻香榭, 暖香榭 and the back gate; the front tower's upper floor (区冥's 佛堂, 翠湘阁,
+  缀芳阁, the 观景台 to jump down from); the path beyond the back gate and the bamboo grove's five
+  clearings (the tunnel east to 山烟寺 is closed). The fourteen doors start shut. Dancing on a
+  八卦图 (the dances one heard named: 雨梅's 学舞, 昭仪, the picture): 「有凤来仪」 to the second
+  密室, 「西出阳关」 out to the grove, anything else 不得要领; asked first when it would knock
+  the player out. They fight with 柔虹指, 寒雪鞭法 (whips with rigidity), 雪影剑法 and 心法, 七宝天岚舞
+  and 意寒功, whose blows can leave 意寒掌毒; 蓝止萍 stares (意寒睨) and poisons (火玫瑰毒), 龙韶吟's
+  touch poisons. 朱鸿雪 can be fought now. Not yet: the women's quarters' rules (B), the secrets
+  (C), joining 晚月庄 (D).
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from
@@ -130,8 +145,8 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
 * Placeholder visuals: flat-colour terrain tiles; characters and objects are still coloured boxes.
   No art or audio yet.
 
-Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 228/551 rooms, 107/286 NPC
-types, 5/10 joinable families, 18/36 special and 13/25 basic martial arts, 50/84 quest targets.
+Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 302/551 rooms, 144/286 NPC
+types, 5/9 joinable families, 23/36 special and 14/25 basic martial arts, 63/84 quest targets.
 
 ## Known issues
 
@@ -154,7 +169,7 @@ Code:
 * A zone that merges several rooms shows only its first room's text.
 * 绮云镇: 牛腿 is a hammer only (food that is also a weapon is not supported), so it leaves no
   牛腿骨; 熟牛肉 is not in the game (nobody sells it in ES2); a carried 布袋 is not opened.
-  朱鸿雪 and 化缘和尚 cannot be fought until their arts are ported (#7, #8).
+  化缘和尚 cannot be fought until his arts are ported (#8).
 * Persistence classes keep `OldPine*` / `oldpine_*` names (20 classes, some 130 files) and the session
   scene is still `scenes/world/oldpine/oldpine_world_session.tscn`, although they cover every map
   (the Session itself is `WorldSessionController` since the map-controller split); pre-B2 Old Pine
