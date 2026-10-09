@@ -18,6 +18,10 @@ var _lifecycles: Array[CombatSliceLifecycleResult] = []
 var _announcements: Array[CombatLifecycleAnnouncement] = []
 var _failed_special: SpecialReport
 var _departure: StringName
+## NPCs that walked out (go.c in a fight): character ID -> the zone they went to.
+var _walked_out: Dictionary[StringName, StringName] = {}
+## The fight ended because a side's last one walked out (not because nobody fought on).
+var _ended_by_walking: bool = false
 
 var failure: Failure:
 	get: return _failure
@@ -33,6 +37,14 @@ var departure: StringName:
 func _init(session: WorldSessionController, encounter: CombatEncounter) -> void:
 	_session = session
 	_encounter = encounter
+
+## The NPCs that walked out of this fight and where to (character ID -> zone).
+func walked_out() -> Dictionary[StringName, StringName]:
+	return _walked_out.duplicate()
+
+## Whether the result came because a side's last one walked out.
+func ended_by_walking() -> bool:
+	return _ended_by_walking
 
 func lifecycles() -> Array[CombatSliceLifecycleResult]:
 	return _lifecycles.duplicate()
@@ -177,6 +189,39 @@ func _admit_ally(
 	return true
 
 
+## go.c in a fight: the NPC left the room, so it and everyone here stop fighting each
+## other for good (as everyone does here when a fight ends: ES2's remove_all_enemy() and
+## clean_up_enemy() kept the killer marks); the fight goes on without it, it counts for
+## no side, and it is in the room it went to at once (whatever reaches the room, roar.c,
+## ask_for_help(), no longer finds it). Its body walks there once the fight is over.
+func depart(bindings: Array[CombatSliceCharacterBinding], character_id: StringName, zone_id: StringName) -> void:
+	if _failure != Failure.NONE or _result != null or _encounter.phase != CombatEncounterLifecycle.Value.ACTIVE:
+		return
+	var leaver: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(bindings, character_id)
+	if leaver == null or _session.player_runtime().character_id == character_id:
+		return
+	for other: CombatSliceCharacterBinding in bindings:
+		if other == leaver:
+			continue
+		other.relationship.remove_lethal_relation(character_id)
+		leaver.relationship.remove_lethal_relation(other.character_id)
+	leaver.relationship.set_guarding(false)
+	_walked_out[character_id] = zone_id
+	var map: WorldMapController = _session.active_map() as WorldMapController
+	var npc: NpcRuntimeState = null if map == null else map.find_resident_npc(character_id)
+	if npc != null:
+		npc.set_world_location(map.location_for_zone(zone_id))
+
+
+## Those still here: an NPC that walked out is in no side's count.
+func _present(bindings: Array[CombatSliceCharacterBinding]) -> Array[CombatSliceCharacterBinding]:
+	var here: Array[CombatSliceCharacterBinding] = []
+	for binding: CombatSliceCharacterBinding in bindings:
+		if not _walked_out.has(binding.character_id):
+			here.append(binding)
+	return here
+
+
 ## A relationship back as it was (an admission that could not be completed).
 static func _restore(state: CombatRelationshipState, opponents: Array, lethal: Array) -> void:
 	for target_id: StringName in state.lethal_target_ids():
@@ -231,7 +276,7 @@ func inspect(
 			_announcements.append(CombatLifecycleAnnouncement.new(victim.character_id, CombatLifecycleAnnouncement.UNCONSCIOUS))
 		elif receipt.outcome == CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE:
 			_announcements.append(CombatLifecycleAnnouncement.new(victim.character_id, CombatLifecycleAnnouncement.DEAD))
-	_derive_result(bindings)
+	_derive_result(_present(bindings))
 	return _result == null
 
 ## What a special file did since the last check: a timed apply's remove_effect()
@@ -330,9 +375,15 @@ func _derive_result(bindings: Array[CombatSliceCharacterBinding]) -> void:
 		return
 	for side: StringName in _encounter.side_ids():
 		var side_active: bool = false
+		var side_here: bool = false
 		for binding: CombatSliceCharacterBinding in bindings:
 			if _encounter.participant_for(binding.character_id).side_id == side:
+				side_here = true
 				side_active = side_active or (binding.exists_in_encounter and binding.life_status == CombatSliceLifeStatus.Value.ACTIVE and binding.combat_available)
+		# A side whose every member walked out neither won nor lost.
+		if not side_here:
+			_ended_by_walking = true
+			continue
 		if side_active:
 			winners.append(side)
 		else:

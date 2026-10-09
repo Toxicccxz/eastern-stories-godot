@@ -27,7 +27,7 @@ var _chat_chance: int = 0
 ## text as authored), RANDOM_MOVE, an NpcDrinkAction or an NpcSpecialAction.
 var _chat_entries: Array = []
 var _combat_chat_chance: int = 0
-## As _chat_entries, without RANDOM_MOVE and NpcDrinkAction.
+## As _chat_entries, without NpcDrinkAction; RANDOM_MOVE walks out of the fight.
 var _combat_chat_entries: Array = []
 ## What greeting() does (ScriptedAct): one of them drawn by switch(random(n)), or with
 ## `_greeting_by_rule` the first that is for the player (shinyu.c: a man, anyone else).
@@ -220,6 +220,7 @@ func is_valid() -> bool:
 	for entry: Variant in _combat_chat_entries:
 		if not (
 			_is_valid_said(entry) or (entry is NpcWeaponMatch and (entry as NpcWeaponMatch).is_valid())
+			or (entry is StringName and (entry == RANDOM_MOVE or entry == SILENT_EMOTE))
 			or (entry is NpcFightChat.Wield and entry.is_valid()) or (entry is NpcFightChat.CallPartner and entry.is_valid())
 			or (entry is NpcFightChat.SayByAge and entry.is_valid()) or (entry is NpcFightChat.Poison and entry.is_valid())
 		):

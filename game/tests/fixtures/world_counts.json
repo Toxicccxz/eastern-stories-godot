@@ -31,9 +31,11 @@
 		"latemoon.secret",
 		"latemoon.garden",
 		"latemoon.upper",
-		"latemoon.hills"
+		"latemoon.hills",
+		"sunhill.mountain",
+		"sanyen.grounds"
 	],
-	"rooms": 303,
+	"rooms": 329,
 	"snow_outdoor_portals": [
 		"snow.square.west",
 		"snow.eroad3.south",
@@ -201,11 +203,21 @@
 		"latemoon.upper.uplook.birds",
 		"latemoon.upper.uproom3.huei",
 		"latemoon.hills.sroad4.butterfly",
-		"latemoon.hills.sroad5.butterfly"
+		"latemoon.hills.sroad5.butterfly",
+		"sunhill.mountain.gate.greetings",
+		"sanyen.grounds.front_yard.monk_guards",
+		"sanyen.grounds.road1.monk",
+		"sanyen.grounds.road2.bonze",
+		"sanyen.grounds.temple.master",
+		"sanyen.grounds.inner_yard.cripple",
+		"sanyen.grounds.heal_room.drug_bonze",
+		"sanyen.grounds.kitchen.cook_bonze",
+		"sanyen.grounds.back_temple.little_bonze",
+		"sanyen.grounds.tower.work_bonze"
 	],
-	"world_npcs": 247,
-	"resident_maps": 32,
-	"new_game_items": 447,
+	"world_npcs": 259,
+	"resident_maps": 34,
+	"new_game_items": 470,
 	"snow_outdoor_passages": 8,
-	"npc_draws_after_oldpine": 1291
+	"npc_draws_after_oldpine": 1339
 }

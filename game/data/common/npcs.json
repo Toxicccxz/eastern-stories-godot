@@ -574,6 +574,57 @@
 				"busy_say": "慢著，一个一个来。",
 				"class": "dancer"
 			}
+		},
+		{
+			"id": "common.npc.bonze.master",
+			"legacy_source": "daemon/class/bonze/master.c",
+			"name": "玄智和尚",
+			"aliases": ["master bonze", "master", "bonze"],
+			"class": "bonze",
+			"gender": "男性",
+			"age": 74,
+			"attributes": { "str": 17, "int": 30, "spi": 30, "con": 30, "cps": 30, "cor": 20 },
+			"resources": {
+				"atman": 2000,
+				"max_atman": 2000,
+				"force": 1500,
+				"max_force": 1500,
+				"mana": 600,
+				"max_mana": 600
+			},
+			"combat_exp": 1000000,
+			"score": 9000,
+			"force_factor": 5,
+			"family": { "name": "山烟寺", "generation": 26, "title": "住持" },
+			"f_master": true,
+			"attitude": "peaceful",
+			"skills": {
+				"staff": 100,
+				"unarmed": 80,
+				"force": 100,
+				"dodge": 30,
+				"literate": 60,
+				"chanting": 100,
+				"parry": 50,
+				"magic": 100,
+				"cloudstaff": 100,
+				"lotusforce": 100,
+				"buddhism": 100,
+				"essencemagic": 100
+			},
+			"skill_map": {
+				"staff": "cloudstaff",
+				"parry": "cloudstaff",
+				"force": "lotusforce",
+				"magic": "essencemagic"
+			},
+			"carry": [
+				{ "item": "es2:daemon/class/bonze/buddha_staff", "source": "daemon/class/bonze/buddha_staff.c", "equip": "wield" }
+			],
+			"accept_fight": [
+				{ "class": "bonze", "say": "阿弥陀佛！出家人戒逞强恶斗！老衲不敢违反清规。", "accept": false },
+				{ "say": "施主既然身负绝艺，老衲佩服便是，也不必较量了。", "accept": false }
+			]
 		}
 	]
 }

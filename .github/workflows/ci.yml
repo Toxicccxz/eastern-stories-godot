@@ -21,7 +21,8 @@ jobs:
       github.event_name != 'pull_request' ||
       github.event.pull_request.draft == false
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    # The gameplay suites take ~25 of the runner's 4-way minutes and grow with each region.
+    timeout-minutes: 45
     steps:
       - name: Check out repository
         uses: actions/checkout@v4

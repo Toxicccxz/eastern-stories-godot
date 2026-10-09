@@ -19,6 +19,8 @@ extends RefCounted
 ## (NpcMaking: shaowei.c's 竹蜻蜓). `lines` are said in order, each in its colour, after
 ## the `line`/`emote`/`say`/`whisper` shorthands. Effect `pass_force` is old.c's: a
 ## giver below `giver_max_force_below` max_force gets some of it (pass_force()).
+## `move` (a zone, on any map) to `point` takes the giver there once the gift is
+## taken: the boater's boat to 江南渡口 (u/cloud/npc/boater.c, owner: 山烟寺 plan Q1).
 const EFFECT_TEMPLE_DONATION: StringName = &"temple_donation"
 const EFFECT_WAGER: StringName = &"wager"
 const EFFECT_PASS_FORCE: StringName = &"pass_force"
@@ -56,6 +58,8 @@ var make: NpcMaking
 var set_npc_flag: StringName = &""
 var effect: StringName = &""
 var kill: bool = false
+var move_zone_id: StringName = &""
+var move_point_id: StringName = &""
 
 
 ## What give.c knows about the gift and the two sides when it asks.
@@ -154,13 +158,17 @@ static func from_record(reader: ContentRecordReader) -> NpcObjectRule:
 		rule.make = NpcMaking.from_record(make)
 	rule.set_npc_flag = StringName(reader.text("set_npc_flag"))
 	rule.effect = StringName(reader.text("effect"))
+	rule.move_zone_id = StringName(reader.text("move"))
+	rule.move_point_id = StringName(reader.text("point"))
+	if rule.move_zone_id.is_empty() != rule.move_point_id.is_empty():
+		reader.fail("move", "a move names its zone and its point")
 	if not reader.has("accept"):
 		reader.fail("accept", "is required")
 	if not rule.effect.is_empty() and not EFFECTS.has(rule.effect):
 		reader.fail("effect", "unsupported effect '%s'" % rule.effect)
 	if not rule.liquid_type.is_empty() and not LiquidState.LEGACY_TYPES.has(rule.liquid_type):
 		reader.fail("liquid", "unsupported liquid type '%s'" % rule.liquid_type)
-	if not rule.accept and (not rule.mark_giver.is_empty() or not rule.set_npc_flag.is_empty() or not rule.effect.is_empty() or not rule.gives.is_empty() or not rule.set_temps.is_empty() or rule.make != null):
+	if not rule.accept and (not rule.mark_giver.is_empty() or not rule.set_npc_flag.is_empty() or not rule.effect.is_empty() or not rule.gives.is_empty() or not rule.set_temps.is_empty() or rule.make != null or not rule.move_zone_id.is_empty()):
 		reader.fail("accept", "a refusal changes nothing but the giver's flags it deletes")
 	if rule.kill and rule.accept:
 		reader.fail("kill", "only a refusal attacks the giver")

@@ -8,8 +8,9 @@ extends RefCounted
 ## `gender`, `not_gender` and `not_class` say whom the branch is for (the player's
 ## query("gender") and query("class")); `temp` and `not_temp` a set_temp() flag the player
 ## has or lacks, `mark` a saved mark they have and `carries` an id something they carry
-## answers to (present(id, me): letter.c's 火摺). The first branch that is for the player
-## acts. `ask` is the owner's question before a choice that can kill (a man walking into
+## answers to (present(id, me): letter.c's 火摺), `present` an NPC standing in the room
+## (present("cook bonze"): d/sanyen/kitchen.c; one lying unconscious says nothing, 默认). The first branch that is for
+## the player acts. `ask` is the owner's question before a choice that can kill (a man walking into
 ## the bath, DECISIONS 晚月庄 A), with `choice` its button. The steps run in order:
 ## - a line (NpcLine: say, emote, line, whisper, in its colour; a room's message_vision()
 ##   written as the player reads it, 你 for $N);
@@ -37,18 +38,22 @@ var temp: String = ""
 var not_temp: String = ""
 var mark: String = ""
 var carries: String = ""
+## An NPC definition present() in the room.
+var present: StringName = &""
 var ask: String = ""
 var choice: String = ""
 var steps: Array[Step] = []
 
 
 ## What a branch may ask of the player besides gender and class: their saved marks, their
-## set_temp() flags and the ids of what they carry directly (present(id, me)).
+## set_temp() flags, the ids of what they carry directly (present(id, me)) and the NPCs
+## standing where they stand (present(), by definition).
 class Facts:
 	extends RefCounted
 	var marks: Dictionary[String, int] = {}
 	var temps: Dictionary[String, int] = {}
 	var carried: Array[String] = []
+	var present_npcs: Array[StringName] = []
 
 
 class Step:
@@ -89,6 +94,7 @@ func applies_to(player_gender: StringName, class_id: StringName, facts: Facts = 
 		and (not_temp.is_empty() or known.temps.get(not_temp, 0) == 0)
 		and (mark.is_empty() or known.marks.get(mark, 0) != 0)
 		and (carries.is_empty() or known.carried.has(carries))
+		and (present.is_empty() or known.present_npcs.has(present))
 	)
 
 
@@ -130,7 +136,7 @@ static func resource_of(state: CharacterState, key: String) -> CharacterResource
 	return state.spirit
 
 
-## {gender?, not_gender?, not_class?, temp?, not_temp?, mark?, carries?, ask?, choice?, steps: [step]}.
+## {gender?, not_gender?, not_class?, temp?, not_temp?, mark?, carries?, present?, ask?, choice?, steps: [step]}.
 static func from_record(reader: ContentRecordReader) -> ScriptedAct:
 	var act := ScriptedAct.new()
 	act.gender = StringName(reader.text("gender"))
@@ -140,6 +146,7 @@ static func from_record(reader: ContentRecordReader) -> ScriptedAct:
 	act.not_temp = reader.text("not_temp")
 	act.mark = reader.text("mark")
 	act.carries = reader.text("carries")
+	act.present = StringName(reader.text("present"))
 	act.ask = reader.text("ask")
 	act.choice = reader.text("choice")
 	if act.ask.is_empty() != act.choice.is_empty():

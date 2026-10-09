@@ -258,6 +258,18 @@
 			"weight": 7000,
 			"value": 3000,
 			"weapon": { "skill": "whip", "damage": 23, "rigidity": 30, "weight_dodge": "equip" }
+		},
+		{
+			"id": "es2:u/cloud/obj/npc/monk/stick",
+			"legacy_sources": ["u/cloud/obj/npc/monk/stick.c"],
+			"name": "僧棍",
+			"aliases": ["monk stick", "stick"],
+			"long": "一条又粗又长僧棍，表面已被磨得十分光滑。\n",
+			"unit": "条",
+			"material": "wood",
+			"weight": 3000,
+			"value": 100,
+			"weapon": { "skill": "staff", "damage": 13, "weight_dodge": "equip" }
 		}
 	]
 }

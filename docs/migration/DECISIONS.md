@@ -111,6 +111,54 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 - #27 牛皮酒袋照原名显示，不另起短名。
 - 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
 
+## 山烟寺 A: 泓水, 日照山 and the temple (2026-10-09)
+
+Owner-approved plan (按照你推荐的来, 2026-10-09): three packages — A places the region (the
+maps, the people with their arts, the boat, the kitchen), B 山烟寺 the family (剃度, 玄智's
+teaching, the player's 大乘佛法, 诵经, 流云杖法, 莲华心法 with 疗伤他人, learning 八识神通), C the
+player's 神通 (空识, 心识, 游识). The plan's three questions, answered with their
+recommendations: **the boat carries whoever pays** (Q1, below); **front_yard.c is repaired**
+(Q2: it names d/sanyen/npc/monk_guard.c, which does not exist, so ES2's yard stood empty and
+朱鸿雪's 护寺武僧 could never be found; the two 护寺武僧 of u/cloud/npc/monk_guard.c stand there,
+their look a 知客僧's word for word); **游识神通 goes to an NPC the player has seen** (Q3, C).
+Defaults of the plan (owner may veto): 剃度 gives the player a 法名 (asked first, B); the names
+流云杖法 and 诵经; the lost characters (请你到尼庵, 震荡, the donor 克某某); the plaques and
+梦忆柔's voice word for word; the cook guards the steamer; 心识 and 空识 asked first when they can
+knock the player out (C); not ported: the bulletin board, valid_startroom, monk_waiter.c and
+the 黄铜禅杖 (placed by nothing), the 独眼头陀's pursuer.
+What each room and LPC function became is in [SANYEN_CONTENT](SANYEN_CONTENT.md); it follows
+the LPC except:
+- **Owner (Q1): the boatman's boat takes whoever pays across** (deviation). ES2 waded the
+  river both ways (northriver.c's ferry is dropped by replace_program(ROOM)); boater.c took
+  anything worth 2 coins, said 客官可以过江啦！ and 船夫拉过条小船，你走了上去。 and left the payer
+  on the dock. Here the same fare (his 过江 still says five taels) puts the player at 江南渡口
+  after his lines; less is refused with 这么少？我还要养家呀！. The mark is not kept: each crossing
+  one fare. The river is still waded both ways; no boat waits on the south bank (none in ES2).
+- **默认: the 金门 starts open.** road1.c creates it open, temple.c DOOR_CLOSED; check_door()
+  gives the room loaded second the first one's state, and whoever comes up the road loads
+  road1.c first; the hall's text says 两扇敞开的金门.
+- **Global rule: an NPC's random_move() in a fight walks out of it** (go.c; d/sanyen's 跛僧人
+  and 独眼头陀): 往X落荒而逃了。, then it and everyone in the fight stop fighting each other for
+  good (ES2's remove_all_enemy() kept the killer marks, so one killing it attacked again on
+  meeting: here, as for every NPC but a conjured one, a fight's end forgets them). It is in
+  the room it went to at once, so nothing that reaches the room (a roar, a call for help)
+  finds it and the battle panel drops it; its body walks there once the fight is over. The
+  fight goes on without it, and it counts for no side. A way go.c refuses (busy, a shut door,
+  beyond its range) says nothing. A fight its walking out ends reads 战斗结束。 (not
+  双方都停了手). An emote in a fight prints nothing, as outside one.
+- **accept_fight rules test the challenger's class**: 玄智, the 护寺武僧 and 化缘和尚 answer a monk
+  otherwise. **化缘和尚 can be fought** (流云杖法, 莲华心法).
+- **The steamer** (kitchen.c): open and take are refused while the cook stands there; five
+  馒头 a reset, then 梦忆柔's voice. **默认: a cook lying unconscious says nothing and stops
+  nobody** (present() found him, and his 施主偷东西是不好的行为哦 was said by a man out cold:
+  a line that contradicts what happens); in ES2 only killing him opened the steamer.
+- **Two regions**: 日照山 (the river, the south bank, the path, the gate, the tunnel) and 山烟寺
+  (inside the gate); the place reads 日照山 · 江南渡口.
+- **默认: the skills' names** (to_chinese()'s dictionary is not in the mudlib): cloudstaff 流云杖法
+  (流云轩, its 浮云 and 穿云 moves), chanting 诵经; 大乘佛法, 莲华心法 and 八识神通 are the source's.
+- **Save**: world content revision `SOURCE_ENTRY_SANYEN_V1`; older development saves need a
+  New Game.
+
 ## 晚月庄 D: 晚月庄 the family (2026-10-09)
 
 What each LPC function became is in [LATEMOON_CONTENT](LATEMOON_CONTENT.md); it carries out the

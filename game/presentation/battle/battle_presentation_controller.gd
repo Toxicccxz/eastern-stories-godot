@@ -150,8 +150,10 @@ func _present_completed_result() -> void:
 	var receipt: CombatEncounterCompletionResult = _session.combat_encounter_coordinator().last_completion()
 	if receipt == null or receipt.encounter_id == _reported_completion_id:
 		return
+	var coordinator: CombatEncounterCoordinator = _session.combat_encounter_coordinator()
 	var text: String = BattleFeedbackReader.completion_text(
-		receipt, _session.player_runtime().life_status, _session.combat_encounter_coordinator().departed(receipt.encounter_id),
+		receipt, _session.player_runtime().life_status, coordinator.departed(receipt.encounter_id),
+		coordinator.npc_walked_out(receipt.encounter_id),
 	)
 	if text.is_empty():
 		return

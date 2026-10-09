@@ -1,0 +1,94 @@
+{
+	"spawns": [
+		{
+			"id": "sunhill.mountain.gate.greetings",
+			"npc": "sanyen.npc.greeting",
+			"map": "sunhill.mountain",
+			"zone": "sanyen.gate",
+			"points": ["sanyen.gate.greeting.1", "sanyen.gate.greeting.2"],
+			"legacy_room": "d/sanyen/gate.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "sanyen.grounds.front_yard.monk_guards",
+			"npc": "cloud.npc.monk_guard",
+			"map": "sanyen.grounds",
+			"zone": "sanyen.front_yard",
+			"points": ["sanyen.front_yard.monk_guard.1", "sanyen.front_yard.monk_guard.2"],
+			"legacy_room": "d/sanyen/front_yard.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "sanyen.grounds.road1.monk",
+			"npc": "sanyen.npc.monk",
+			"map": "sanyen.grounds",
+			"zone": "sanyen.road1",
+			"points": ["sanyen.road1.monk.1"],
+			"legacy_room": "d/sanyen/road1.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "sanyen.grounds.road2.bonze",
+			"npc": "sanyen.npc.bonze",
+			"map": "sanyen.grounds",
+			"zone": "sanyen.road2",
+			"points": ["sanyen.road2.bonze.1"],
+			"legacy_room": "d/sanyen/road2.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "sanyen.grounds.temple.master",
+			"npc": "common.npc.bonze.master",
+			"map": "sanyen.grounds",
+			"zone": "sanyen.temple",
+			"points": ["sanyen.temple.master.1"],
+			"legacy_room": "d/sanyen/temple.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "sanyen.grounds.inner_yard.cripple",
+			"npc": "sanyen.npc.cripple",
+			"map": "sanyen.grounds",
+			"zone": "sanyen.inner_yard",
+			"points": ["sanyen.inner_yard.cripple.1"],
+			"legacy_room": "d/sanyen/inner_yard.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "sanyen.grounds.heal_room.drug_bonze",
+			"npc": "sanyen.npc.drug_bonze",
+			"map": "sanyen.grounds",
+			"zone": "sanyen.heal_room",
+			"points": ["sanyen.heal_room.drug_bonze.1"],
+			"legacy_room": "d/sanyen/heal_room.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "sanyen.grounds.kitchen.cook_bonze",
+			"npc": "sanyen.npc.cook_bonze",
+			"map": "sanyen.grounds",
+			"zone": "sanyen.kitchen",
+			"points": ["sanyen.kitchen.cook_bonze.1"],
+			"legacy_room": "d/sanyen/kitchen.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "sanyen.grounds.back_temple.little_bonze",
+			"npc": "sanyen.npc.little_bonze",
+			"map": "sanyen.grounds",
+			"zone": "sanyen.back_temple",
+			"points": ["sanyen.back_temple.little_bonze.1"],
+			"legacy_room": "d/sanyen/back_temple.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "sanyen.grounds.tower.work_bonze",
+			"npc": "sanyen.npc.work_bonze",
+			"map": "sanyen.grounds",
+			"zone": "sanyen.tower",
+			"points": ["sanyen.tower.work_bonze.1"],
+			"legacy_room": "d/sanyen/tower.c",
+			"legacy_quantity": 1
+		}
+	]
+}

@@ -69,7 +69,8 @@ class GeneratedDataTest(unittest.TestCase):
         pursuers = sorted(source for source, key in decisions if key == 'set pursuer')
         self.assertEqual(pursuers, [
             'd/goathill/npc/bandit_hwang.c', 'd/latemoon/room/npc/killer.c', 'd/oldpine/npc/venomsnake.c',
-            'd/snow/npc/annihir.c', 'd/temple/npc/tfighter.c', 'obj/npc/garrison.c', 'u/cloud/npc/bfighter.c',
+            'd/sanyen/npc/monk.c', 'd/snow/npc/annihir.c', 'd/temple/npc/tfighter.c', 'obj/npc/garrison.c',
+            'u/cloud/npc/bfighter.c',
         ])
 
     def test_generated_files_are_loaded(self) -> None:

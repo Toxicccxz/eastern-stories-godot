@@ -64,6 +64,32 @@ func walk_into(character_id: StringName, body: Node2D, from_zone: WorldPhysicalZ
 	return false
 
 
+## A spot in `to_zone` as walk_into() draws one, the body put there at once: for a move
+## that must happen though no path leads there (a doorway the grid keeps shut, a body in
+## the way). False when the zone has no room.
+func place_into(character_id: StringName, body: Node2D, to_zone: WorldPhysicalZoneArea2D, random: WorldInteractionRandomSource) -> bool:
+	if body == null or to_zone == null or random == null:
+		return false
+	var grid: Grid = Grid.new(_map, to_zone.global_rect())
+	var candidates: Array[Vector2i] = []
+	var others: Array[Vector2] = _occupied(character_id)
+	for cell: Vector2i in grid.free_cells_in(to_zone.global_rect()):
+		if others.all(func(other: Vector2) -> bool: return other.distance_to(grid.center_of(cell)) >= KEEP_CLEAR):
+			candidates.append(cell)
+	candidates = _off_seams(grid, to_zone, candidates)
+	for attempt: int in range(mini(DESTINATION_TRIES, candidates.size())):
+		var index: int = random.legacy_random(candidates.size())
+		if index < 0 or index >= candidates.size():
+			return false
+		var spot: Vector2 = grid.center_of(candidates[index])
+		candidates.remove_at(index)
+		if MapPlacementValidator.is_valid_character_position(_map, to_zone.zone_id, spot):
+			cancel(character_id)
+			body.global_position = spot
+			return true
+	return false
+
+
 ## A standing NPC the player keeps pushing into steps aside (owner, polish, A5): to the
 ## nearest free spot of its own zone across the player's way, off the zone's seams, drawn
 ## from no random stream. Its place does not change; false when there is no such spot.

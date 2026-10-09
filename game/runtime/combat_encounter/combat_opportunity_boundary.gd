@@ -22,3 +22,7 @@ func accept_tactical(_result: CombatTacticalExecutionResult) -> void:
 ## take them in before anyone else acts, appending their bindings to `bindings`.
 func admit(_bindings: Array[CombatSliceCharacterBinding], _tactical: CombatTacticalExecutionResult) -> void:
 	pass
+
+## An NPC walked out of the fight to `zone_id` (go.c, random_move() in its chat).
+func depart(_bindings: Array[CombatSliceCharacterBinding], _character_id: StringName, _zone_id: StringName) -> void:
+	pass

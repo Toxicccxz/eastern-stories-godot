@@ -292,6 +292,21 @@ func npc_wield_item(character_id: StringName, item_definition_id: StringName) ->
 	return false
 
 
+## present(<id>, room): an NPC of `definition_id` in `zone_id` that has not died
+## (standing or lying unconscious; a corpse is another object). `standing`: only a
+## conscious one, for an NPC that speaks up (kitchen.c's cook: 默认, one lying there
+## says nothing and stops nobody).
+func npc_present_in_zone(definition_id: StringName, zone_id: StringName, standing: bool = false) -> bool:
+	for npc: NpcRuntimeState in residents:
+		if (
+			npc.definition().definition_id == definition_id and npc.exists_in_map
+			and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD and npc.world_location().zone_id == zone_id
+			and (not standing or npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE)
+		):
+			return true
+	return false
+
+
 ## present(<partner>, environment(npc)): an NPC of `definition_id` in the same room,
 ## standing (living()) and not fighting; null when there is none.
 func idle_npc_beside(character_id: StringName, definition_id: StringName) -> NpcRuntimeState:

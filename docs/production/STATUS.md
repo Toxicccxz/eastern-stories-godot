@@ -4,10 +4,11 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**晚月庄 D** (`phase/latemoon-d`, region #7, DECISIONS「晚月庄 D」): 晚月庄 the family — 蓝止萍's
-two-second answer (women only, class dancer), 瑷伦's three lashes (100000 combat_exp, women,
-commoners only; 晚月庄第一代弟子), the members teaching, the player's 柔虹指, 寒雪鞭法 and 意寒功 with
-意寒睨 on the battle panel. With it 晚月庄 is complete. Next: region #8 泓水南岸 + 山烟寺 (plan first).
+**山烟寺 A** (`phase/sunhill-a`, region #8, DECISIONS「山烟寺 A」): 泓水, 日照山 and the temple —
+all 26 rooms on two maps, the ways in from 江北渡口 (waded, or the boatman's boat for a fare:
+owner, Q1) and 晚月庄's tunnel, the monks with their 流云杖法 and 莲华心法 (the 护寺武僧 of the
+repaired yard: owner, Q2), the steamer in the kitchen, NPCs that walk out of a fight. Next:
+山烟寺 B (the family: 剃度, 玄智's teaching, the player's arts), then C (八识神通's 神通).
 
 ## 待决定
 
@@ -154,6 +155,19 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   and 意寒功 (learnt or used only): 运功意寒睨 on the battle panel stares at the current target
   (else a random enemy) for 50 force and 20 sen, and the player's blows carry its cold
   (iceshock).
+* **泓水南岸 + 山烟寺**: south of 绮云镇's 江北渡口 and east through 晚月庄's tunnel, all 26 rooms on
+  two maps: the ford across 泓水 (泓水北侧, 江心, 泓水南侧; wade it either way, or give the 船夫 two
+  coins or more and his boat puts you in at 江南渡口: owner, Q1), the path up 日照山 (the road east
+  to 乔阴县城 closed until #9), the mossy 山路, the 山门 with two 知客僧, the tunnel west through
+  the cliff to 晚月庄's bamboo hills; inside the gate the yard where two 护寺武僧 train (front_yard.c
+  repaired: owner, Q2), the gate house, the flagstones (独眼头陀) to the 大雄宝殿 and its open 金门
+  (玄智和尚), the herb path (僧人) and plots, the garden (跛僧人), 流云轩 (药僧, its plaques to look
+  at), the walkways to the 香积厨 (烧饭僧: while he is there he stops the steamer's lid and the
+  馒头; without him five a reset), the 后殿 (小沙弥) and the 塔林 (扫地僧). The monks fight with
+  流云杖法 (the broom, 玄智's 菩提禅杖) and 莲华心法; most will not spar (each its own line, 玄智
+  and the 护寺武僧 otherwise to a monk); the 跛僧人 and the 独眼头陀 may walk out of a fight
+  (往X落荒而逃了。) and are found in the next room. 化缘和尚 in 绮云镇 can be fought now. Not yet:
+  剃度 and 山烟寺 the family (B), the player's 神通 (C).
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from
@@ -168,8 +182,8 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
 * Placeholder visuals: flat-colour terrain tiles; characters and objects are still coloured boxes.
   No art or audio yet.
 
-Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 302/551 rooms, 144/286 NPC
-types, 5/9 joinable families, 23/36 special and 16/25 basic martial arts, 63/84 quest targets.
+Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 328/551 rooms, 154/286 NPC
+types, 5/9 joinable families, 25/36 special and 16/25 basic martial arts, 70/84 quest targets.
 
 ## Known issues
 

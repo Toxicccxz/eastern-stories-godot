@@ -61,7 +61,8 @@
 		{ "id": "cloud.jiyuan2.down", "from_zone": "cloud.jiyuan2", "to_zone": "cloud.jiyuan", "to_spawn": "cloud.jiyuan.stairs_return", "legacy_room": "es2:u/cloud/jiyuan2", "legacy_command": "down" },
 		{ "id": "cloud.duchang.up", "from_zone": "cloud.duchang", "to_zone": "cloud.duchang2", "to_spawn": "cloud.duchang2.stairs_arrival", "legacy_room": "es2:u/cloud/duchang", "legacy_command": "up" },
 		{ "id": "cloud.duchang2.down", "from_zone": "cloud.duchang2", "to_zone": "cloud.duchang", "to_spawn": "cloud.duchang.stairs_return", "legacy_room": "es2:u/cloud/duchang2", "legacy_command": "down" },
-		{ "id": "cloud.wroad0.west", "from_zone": "cloud.wroad0", "to_zone": "latemoon.entrance", "to_spawn": "latemoon.entrance.cloud_entry", "legacy_room": "es2:u/cloud/wroad0", "legacy_command": "west" }
+		{ "id": "cloud.wroad0.west", "from_zone": "cloud.wroad0", "to_zone": "latemoon.entrance", "to_spawn": "latemoon.entrance.cloud_entry", "legacy_room": "es2:u/cloud/wroad0", "legacy_command": "west" },
+		{ "id": "cloud.dukou.south", "from_zone": "cloud.dukou", "to_zone": "sunhill.northriver", "to_spawn": "sunhill.northriver.dukou_arrival", "legacy_room": "es2:u/cloud/dukou", "legacy_command": "south" }
 	],
 	"doors": [
 		{ "id": "cloud.tearoom.door", "name": "木雕门", "zones": ["cloud.tearoom", "cloud.tea_corridor"], "reach": 90, "legacy_room": "es2:u/cloud/tearoom" },

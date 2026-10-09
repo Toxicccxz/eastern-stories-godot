@@ -260,6 +260,9 @@ func advance(
 			var said: CombatNpcChatResult = chat.chat
 			if boundary != null and said != null and not said.joins().is_empty():
 				boundary.admit(bindings, CombatTacticalExecutionResult.new(CombatTacticalExecutionResult.Outcome.APPLIED).with_joins(said.joins()))
+			# go.c: the NPC walked out of the room and out of the fight.
+			if boundary != null and said != null and not said.departure_zone_id().is_empty():
+				boundary.depart(bindings, chat.actor_id, said.departure_zone_id())
 			if boundary != null and not _inspect(boundary, bindings, chat):
 				return CombatSchedulerAdvanceResult.new(
 					CombatSchedulerAdvanceResult.Outcome.ADVANCED, processed_cycles, emitted,

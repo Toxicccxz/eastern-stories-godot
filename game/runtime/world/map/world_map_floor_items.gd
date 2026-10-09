@@ -578,6 +578,12 @@ func give_to_selected(item_id: StringName, amount: int = 0) -> ItemHandlingResul
 			result.lines.append(at_feet)
 	if not attacks:
 		_report_item_handling(result)
+		# boater.c: the boat takes the one who paid (owner, 山烟寺 plan Q1).
+		if result.done() and result.rule != null and result.rule.accept and not result.rule.move_zone_id.is_empty():
+			if _map.hud() != null:
+				_map.hud().close_inventory()
+			if not _map.acts.move_player(result.rule.move_zone_id, result.rule.move_point_id):
+				push_error("%s could not take the player to %s" % [npc.definition().display_name, result.rule.move_zone_id])
 		return result
 	# gangster.c accept_object(): too little, and kill_passenger() kill_ob()s the giver,
 	# this one NPC, wherever in the room the player stands. Its say() and kill_ob()'s

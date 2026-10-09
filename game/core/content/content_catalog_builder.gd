@@ -304,6 +304,8 @@ func _resolve_npc_dealings() -> void:
 				_errors.append("%s.accept_object: no item named '%s'" % [origin, rule.item_name])
 			if not rule.gives.is_empty() and not _items.has(rule.gives):
 				_errors.append("%s.accept_object.gives: unknown item '%s'" % [origin, rule.gives])
+			if not rule.move_zone_id.is_empty() and not _zones.has(rule.move_zone_id):
+				_errors.append("%s.accept_object.move: unknown zone '%s'" % [origin, rule.move_zone_id])
 			if rule.make != null and not _items.has(rule.make.gives):
 				_errors.append("%s.accept_object.make: unknown item '%s'" % [origin, rule.make.gives])
 			if not rule.item_alias.is_empty() and not _answers_to(rule.item_alias):
@@ -569,12 +571,15 @@ func _check_exit_rules() -> void:
 
 
 ## What a ScriptedAct names exists: the item it gives, the zone it moves the player to,
-## the condition it applies, an item that answers to what it `carries`. Only an NPC's
+## the condition it applies, an item that answers to what it `carries`, the NPC it asks
+## to be `present`. Only an NPC's
 ## greeting (`by_npc`) closes doors, attacks or gains force; a move to another map ends an
 ## act, so it is its last step. (Spawn points are the scene's: the map checks them.)
 func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false) -> void:
 	if not act.carries.is_empty() and not _answers_to(act.carries):
 		_errors.append("%s.carries: no item answers to '%s'" % [origin, act.carries])
+	if not act.present.is_empty() and not _npcs.has(act.present):
+		_errors.append("%s.present: unknown NPC '%s'" % [origin, act.present])
 	for index: int in act.steps.size():
 		var step: ScriptedAct.Step = act.steps[index]
 		if not by_npc and step.kind in [ScriptedAct.Kind.CLOSE_DOOR, ScriptedAct.Kind.KILL, ScriptedAct.Kind.NPC_FORCE]:
@@ -629,6 +634,8 @@ func _resolve_landmarks() -> void:
 		for role: String in ["buried", "reward"]:
 			if not definition.item(role).is_empty() and not _items.has(definition.item(role)):
 				_errors.append("%s.items: unknown item '%s'" % [origin, definition.item(role)])
+		if not definition.guard_npc_id.is_empty() and not _npcs.has(definition.guard_npc_id):
+			_errors.append("%s.guard: unknown NPC '%s'" % [origin, definition.guard_npc_id])
 		if not definition.spawn_id.is_empty():
 			var spawn: NpcSpawnDefinition = _spawns.get(definition.spawn_id)
 			if spawn == null or not spawn.summoned or spawn.zone_id != definition.zone_id:

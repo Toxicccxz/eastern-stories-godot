@@ -8,6 +8,7 @@ extends RefCounted
 var _lines: Array[VisionLine] = []
 var _damaged: Array[StringName] = []
 var _joins: Array[CombatJoin] = []
+var _departure_zone_id: StringName = &""
 
 
 func _init(p_lines: Array[VisionLine] = [], p_damaged: Array[StringName] = []) -> void:
@@ -18,6 +19,17 @@ func _init(p_lines: Array[VisionLine] = [], p_damaged: Array[StringName] = []) -
 func with_joins(p_joins: Array[CombatJoin]) -> CombatNpcChatResult:
 	_joins = p_joins.duplicate()
 	return self
+
+
+## random_move() in a fight: the NPC walked out to this zone (go.c's remove_all_enemy()).
+func with_departure(zone_id: StringName) -> CombatNpcChatResult:
+	_departure_zone_id = zone_id
+	return self
+
+
+## The zone the NPC walked out to, or empty when it stayed.
+func departure_zone_id() -> StringName:
+	return _departure_zone_id
 
 
 func joins() -> Array[CombatJoin]:

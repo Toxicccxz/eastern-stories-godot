@@ -81,7 +81,9 @@
           ["forest", 2400, 1760, 2688, 1776, "茶场: rows of tea bushes"],
           ["forest", 2400, 1856, 2688, 1872],
           ["forest", 2400, 2016, 2688, 2032],
-          ["water", 1280, 2464, 1600, 2560, "江北渡口: the river"],
+          ["water", 1280, 2464, 1392, 2560, "江北渡口: the river"],
+          ["shallow_water", 1392, 2464, 1488, 2560, "the ford into 泓水 (山烟寺 A)"],
+          ["water", 1488, 2464, 1600, 2560],
           ["blocked", 544, 1136, 560, 1264, "shop counters at the back walls"],
           ["blocked", 1328, 1168, 1488, 1184],
           ["blocked", 1712, 1376, 1728, 1472],
@@ -152,7 +154,7 @@
         "nodes": [
           {"generated": "captions"},
           {"node": "caption", "name": "LatemoonLabel", "at": [440, 1872], "text": "西 · 晚月庄", "size": 14},
-          {"node": "caption", "name": "Closed1Label", "at": [1500, 2500], "text": "南 · 泓水", "size": 14},
+          {"node": "caption", "name": "RiverLabel", "at": [1500, 2500], "text": "南 · 泓水", "size": 14},
           {"node": "caption", "name": "SnowLabel", "at": [856, 4], "text": "北 · 雪亭镇", "size": 14},
           {"node": "group", "name": "DoorWalls", "type": "StaticBody2D", "parent": "Terrain"},
           {"generated": "door_walls"},
@@ -165,6 +167,7 @@
             "shape": "Rect_64_32"
           },
           {"node": "passage", "name": "LatemoonPassage", "id": "cloud.wroad0.west", "at": [560, 1904], "shape": "Rect_32_64"},
+          {"node": "passage", "name": "RiverPassage", "id": "cloud.dukou.south", "at": [1440, 2528], "shape": "Rect_64_32"},
           {"generated": "stairs"},
           {"generated": "doors"}
         ],
@@ -173,6 +176,7 @@
           {"generated": "stair_markers"},
           {"name": "SnowEntry", "at": [816, 96], "id": "cloud.dragonhill.nroad.snow_entry"},
           {"name": "LatemoonReturn", "at": [640, 1904], "id": "cloud.wroad0.latemoon_return"},
+          {"name": "RiverReturn", "at": [1440, 2432], "id": "cloud.dukou.river_return"},
           {"generated": "markers"}
         ]
       }

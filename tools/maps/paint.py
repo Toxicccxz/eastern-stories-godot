@@ -11,6 +11,7 @@ These maps are generated, never edited by hand:
     green:   green_village, green_mountain, green_maze
     temple:  temple_mountain, temple_grounds, temple_library
     latemoon: latemoon_manor, latemoon_secret, latemoon_garden, latemoon_upper, latemoon_hills
+    sanyen:  sunhill_mountain (泓水 and 日照山), sanyen_temple
 
 Each region has one layout file, tools/maps/layouts/<region>.json; to change a map, edit its
 layout and rerun the painter. tools/tests/test_maps_paint.py fails when a committed scene differs

@@ -5,11 +5,14 @@ extends WorldLandmarkPolicy
 ## `limit` were taken since the room's reset (reset(): pick_available 2, take_available
 ## 2), the `reward` item goes to the player (`take`); after that `empty` (latemoon2.c's
 ## 橱子内的衣服好像被拿光了。; moonc.c said nothing: owner, 晚月庄 B, a line). Counted as
-## look_spawn's calls are: not saved.
+## look_spawn's calls are: not saved. d/sanyen/kitchen.c do_take(): while the
+## landmark's `guard` stands in the room, `guarded` comes first and nothing is taken or
+## counted (默认: present() found him lying unconscious too, and his line was said).
 class Result:
 	extends RefCounted
 	var taken_item_id: StringName = &""
 	var empty: bool = false
+	var guarded: bool = false
 
 
 func use(map: WorldMapController, landmark: WorldLandmarkDefinition) -> RefCounted:
@@ -24,6 +27,10 @@ func use(map: WorldMapController, landmark: WorldLandmarkDefinition) -> RefCount
 	if location == null or location.zone_id != landmark.zone_id:
 		return result
 	var hud: SharedGameplayUI = session.shared_ui()
+	if not landmark.guard_npc_id.is_empty() and map.npcs.npc_present_in_zone(landmark.guard_npc_id, landmark.zone_id, true):
+		result.guarded = true
+		hud.append_log_lines([TranslationServer.translate(landmark.message("guarded"))])
+		return result
 	if map.landmark_uses(landmark.landmark_id) >= landmark.setting("limit"):
 		result.empty = true
 		hud.append_log_lines([TranslationServer.translate(landmark.message("empty"))])

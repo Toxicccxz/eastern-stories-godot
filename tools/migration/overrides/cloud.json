@@ -166,9 +166,9 @@
 				{ "effect": "temple_donation", "line": "和尚说道：多谢这位$RESPECT，佛祖一定会保佑你的。\n", "accept": true }
 			],
 			"accept_fight": [
+				{ "class": "bonze", "say": "阿弥陀佛！出家人戒逞强恶斗！贫僧不敢违反清规。", "accept": false },
 				{ "say": "施主既然身负绝艺，贫僧佩服便是，也不必较量了。", "accept": false }
-			],
-			"fight_deferred": "cloudstaff and lotusforce are not ported yet (山烟寺, region plan #8)"
+			]
 		},
 		"cloud.npc.god": {
 			"accept_fight": [
@@ -177,7 +177,11 @@
 			"quest_giver": true
 		},
 		"cloud.npc.boater": {
-			"inquiry": { "过江": ["交五两银子"], "摆渡": ["交五两银子"] }
+			"inquiry": { "过江": ["交五两银子"], "摆渡": ["交五两银子"] },
+			"accept_object": [
+				{ "value_at_least": 2, "lines": [ { "line": "船夫说：客官可以过江啦！\n" }, { "line": "船夫拉过条小船，你走了上去。\n" } ], "accept": true, "move": "sunhill.dukou", "point": "sunhill.dukou.ferry_arrival" },
+				{ "line": "这么少？我还要养家呀！\n", "accept": false }
+			]
 		},
 		"cloud.npc.thief": {
 			"steal": { "what": "silver", "chance_below": 2 },
@@ -299,7 +303,7 @@
 		"u/cloud/npc/boater.c": {
 			"inquiry 过江": "cross_river() returns a constant: inquiry (set cloud.npc.boater)",
 			"inquiry 摆渡": "cross_river() returns a constant: inquiry (set cloud.npc.boater)",
-			"function accept_object": "paying the ferry (marks/船夫): with the crossing, region plan #8; he takes nothing until then",
+			"function accept_object": "accept_object rules (set cloud.npc.boater): anything worth 2 coins is the fare and the boat takes the payer to 江南渡口 (owner, 山烟寺 plan Q1: ES2 set marks/船夫, which nothing read, and left the payer on the dock); less is refused with his say(). The mark is not kept, so his 多谢 branch (a gift while marked) never comes",
 			"function cross_river": "cross_river() returns a constant: inquiry (set cloud.npc.boater)"
 		},
 		"u/cloud/npc/book_seller.c": {
@@ -349,7 +353,7 @@
 			"function do_unmarry": "marry/unmarry: the partner must be another player (find_player); not offered (DECISIONS 3D)"
 		},
 		"u/cloud/npc/monk.c": {
-			"function accept_fight": "accept_fight (set cloud.npc.monk); the bonze branch needs 山烟寺's class (region plan #8)",
+			"function accept_fight": "accept_fight rules (set cloud.npc.monk) by the challenger's class (bonze or not): always refuses",
 			"function greeting": "nothing calls it (monk.c has no init())",
 			"function accept_object": "accept_object: temple_donation, keeper.c's formula (set cloud.npc.monk); a gift of no value is refused by give.c's own line, which replaces its notify_fail"
 		},
