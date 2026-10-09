@@ -4,7 +4,7 @@ How 晚月庄 comes from `reference/es2/mudlib/d/latemoon/`, `daemon/class/dance
 `u/cloud/npc/lm_guard.c`, and what the LPC says that the code does not. Decisions are in
 [DECISIONS](DECISIONS.md). Package A places the rooms and the people with the arts they fight
 with, and the dances in the two 密室 (the only way out of the second one); B the women's
-quarters and the rooms' own commands; C the secrets (竹蜻蜓 and 玛瑙手镯, 舞曲谱, 杀手令牌,
+quarters and the rooms' own commands (done); C the secrets (竹蜻蜓 and 玛瑙手镯, 舞曲谱, 杀手令牌,
 芙云's 密函); D 晚月庄 (蓝止萍 and 瑷伦, the teachers, the player's arts).
 
 ## Placed (A)
@@ -17,7 +17,7 @@ quarters and the rooms' own commands; C the secrets (竹蜻蜓 and 玛瑙手镯,
 | latemoon1 (大厅), latemoon3 (傍厅) | 婢女 ×2, 蓝止萍; 蓝雨梅 | the hall (tables, screen), the reception room (the teapot: water) |
 | latemoonc (大厅后院), latemoon5/7 (后院走道) | — | the plum courtyard and the galleries round it |
 | latemoon6 (禁闭房), latebook (后院书房), latemoon8 (密室) | 芳绫; 昭仪 | behind the 铜门 (the wall: look); the study (the 湘绣舞曲图: look, names both dances); behind the 石门 the 密室 (its 八卦图: the dances) |
-| latemoon4 (内厅穿堂), latemoon2 (内厅) | —; 昭蓉 | the passage; behind the 仪门 the inner hall (the closet: look) |
+| latemoon4 (内厅穿堂), latemoon2 (内厅) | —; 昭蓉 | the passage; behind the 仪门 the inner hall (the closet: B) |
 | room/twoc (仪门), two1/two2 (夹道), guest1/guest2 | 芙云; 梦玉楼 | the crossing; the guest wing |
 | room/eat1, eat2, kitchen | 宫保鸡丁, 水饺 ×2; 女儿红, 脆皮烤鸭; 曲馥琪, 火摺 | the dining halls and the kitchen |
 | room/lcenter (后厅), lstudio, room4 (内书房) | 圆春, 苗郁淑; 无名老妇, 杀手; 婢女, 惜春 | the rear hall behind its great door, the two studies |
@@ -53,6 +53,24 @@ quarters and the rooms' own commands; C the secrets (竹蜻蜓 and 玛瑙手镯,
 | resource/water (latemoon3, bathroom) | water services |
 | skills tenderzhi, snowwhip, iceforce, snowshade-force, snowshade-sword, whip | skills.json (their valid_learn policies were already in code) |
 
+## LPC → native (B)
+
+| LPC | Native |
+|---|---|
+| greeting() by gender and class (shinyu.c, shaoin.c, yuchoun.c, yushou.c, fireangel.c, upstar/npc/statue.c) | npcs.json `greeting.rules`: the first branch for the player (ScriptedAct: `gender`, `not_gender`, `not_class`) and its steps in order, run by WorldMapActs one second after the player arrives |
+| say() in HIY/HIR/HIM | a step's `line` with its `color` (NpcLine) |
+| receive_damage(), apply_condition(), this_object()->add("force") | steps `damage`, `condition` (replaces the one there), `npc_force` |
+| command("close door") (cmds/std/close.c) | step `close_door`: the door between the room and the one the player came from, else the room's first; one already shut stays so |
+| ob->move("/d/latemoon/room/flower1") | step `move` to the spot `latemoon.room.flower1.kicked_out` |
+| kill_ob(ob); ob->fight_ob() | step `kill` (WorldMapHostilities.npc_kills) |
+| yumay.c's teacup and set_temp("latemoon/茶") | step `give` with `unless_temp`; the player's `temp_marks` (not saved) |
+| latemoon3.c valid_leave() | world.json `exit_rules` `takes_back` (the cup and the flag; 你起身往南离开! without a cup) |
+| bathroom.c do_takebath(), upstar/uproom3.c do_ponder() | world.json services of kind `act` (RoomActDefinition, ActService): the branch for the player; a man asked before bathing; a cost that would knock the player out asked first |
+| moonc.c do_pick(), latemoon2.c do_take("cloth") with reset()'s counts | landmarks of policy `take` (`limit` 2 since the room's reset, `reward`, `take`, `empty`) |
+| flower.c do_eat() | items.json `apply: rose_pistil` (ItemApplyFunctions, the 吃 button) |
+| skirt.c, skirt4.c, skirt5.c wear() | items.json `female_only` with `wear_refusal` (只有女生才可穿哦!你变态呀!) |
+| a man walking into bathroom1 (owner, plan Q2) | world.json `exit_rules` `ask`: stopped in 内厅穿堂, asked with 此处是禁止男性进入, put at `latemoon.room.bathroom1.curtain_arrival` on 确定进去 |
+
 ## Source anomalies
 
 - sroad1.c does not compile (a missing quote): ES2's back gate and the path's north-west led
@@ -81,13 +99,20 @@ quarters and the rooms' own commands; C the secrets (竹蜻蜓 and 玛瑙手镯,
 - bracelet.c's pray tells its arrival to /d/snow/inn and moves the player to /d/snow/temple
   (C).
 - The two 密室 (latemoon8.c, miroom.c) share their text; miroom2.c shares corridor7.c's.
+- bathroom1.c's valid_leave() (rose_poison 5 for whoever is not a 女性 leaving) is dead:
+  create() ends in replace_program(ROOM), which drops the file's own functions. ES2 never
+  powdered anyone leaving the changing room (owner: not ported).
+- flower.c sets rose_poison to 0 for anyone below 10, and rose_poison.c makes a 0 flare once:
+  eaten by one not poisoned, the cure gave a bout (the native default leaves them unpoisoned).
+- shaoin.c's apply_condition() replaces: a man kicked out by 阮欣郁 (rose_poison 10) and
+  greeted by 龙韶吟 after is left with 2.
+- skirt.c's wear() reads this_player(): an NPC that wears one at its creation in a room a man
+  loaded would have gone without it. The wearer is the one who wears it here.
 
-## Waits for B, C and D
+## Waits for C and D
 
 `tests/runtime/latemoon_test.gd` `_test_waiting()` fails once each of these is ported:
-the women's quarters' greetings (阮欣郁, 龙韶吟, 虞琼衣, 苗郁淑, 凤凰, 区冥), the bath, the
-powder, the closet, the 海棠's pistils, 缀芳阁's ponder and the skirts' own wear() (B); 芳绫's,
-筱薇's and 无名老妇's accept_object() and 莫欣芳's 舞曲谱 (C); 蓝止萍's and 瑷伦's apprentices (D).
-With D: the player's 意寒睨 needs its target (ExertService sets no ExertContext.offensive, nor
-the target's name for its lines) and 柔虹指's practice checks sen before force (tenderzhi.c;
-VitalityInnerForcePracticePolicy checks force first).
+芳绫's, 筱薇's and 无名老妇's accept_object() and 莫欣芳's 舞曲谱 (C); 蓝止萍's and 瑷伦's
+apprentices (D). With D: the player's 意寒睨 needs its target (ExertService sets no
+ExertContext.offensive, nor the target's name for its lines) and 柔虹指's practice checks sen
+before force (tenderzhi.c; VitalityInnerForcePracticePolicy checks force first).

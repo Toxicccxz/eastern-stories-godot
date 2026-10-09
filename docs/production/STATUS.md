@@ -4,10 +4,10 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**晚月庄 A** (`phase/latemoon-a`, region #7, DECISIONS「晚月庄 A」): all 74 rooms on five maps,
-the 37 kinds of NPC with the arts they fight with, rose_poison and iceshock, the dances in the
-two 密室. Next: 晚月庄 B (the women's quarters and the rooms' own commands), then C (the secrets)
-and D (晚月庄 the family).
+**晚月庄 B** (`phase/latemoon-b`, region #7, DECISIONS「晚月庄 B」): the women's quarters' greetings
+by gender and class, a man asked before the changing room and the bath, the bath, the 海棠's
+pistils, 缀芳阁's ponder, the closet's skirts, 雨梅's tea cup. Next: 晚月庄 C (the secrets),
+then D (晚月庄 the family).
 
 ## 待决定
 
@@ -129,8 +129,13 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   密室, 「西出阳关」 out to the grove, anything else 不得要领; asked first when it would knock
   the player out. They fight with 柔虹指, 寒雪鞭法 (whips with rigidity), 雪影剑法 and 心法, 七宝天岚舞
   and 意寒功, whose blows can leave 意寒掌毒; 蓝止萍 stares (意寒睨) and poisons (火玫瑰毒), 龙韶吟's
-  touch poisons. 朱鸿雪 can be fought now. Not yet: the women's quarters' rules (B), the secrets
-  (C), joining 晚月庄 (D).
+  touch poisons. 朱鸿雪 can be fought now. Behind the 垂花门 the women shut the door one came by;
+  a man is stared at (虞琼衣), powdered (龙韶吟), asked before the changing room and kicked out
+  of it by 阮欣郁 (rose_poison, a blow to gin, kee and sen), asked before bathing (poison) and
+  attacked to the death by 凤凰 at the pool; a woman bathes (sen back). 区冥 in the 佛堂 stares
+  at whoever is no dancer; 缀芳阁's 静修 calms bellicosity for 50 sen; the 碧纱橱 gives two 布裙
+  and the 西府海棠 two 小花蕊 (the cure for 火玫瑰毒) a reset; 雨梅 serves tea in a cup she
+  takes back; the skirts refuse a man. Not yet: the secrets (C), joining 晚月庄 (D).
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from

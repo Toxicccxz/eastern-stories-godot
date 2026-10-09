@@ -111,6 +111,26 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 - #27 牛皮酒袋照原名显示，不另起短名。
 - 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
 
+## 晚月庄 B: the women's quarters and the rooms' own commands (2026-10-09)
+
+What each LPC function became is in [LATEMOON_CONTENT](LATEMOON_CONTENT.md); it follows the
+LPC except:
+- **Owner: no powder on leaving the changing room.** bathroom1.c's valid_leave() (rose_poison
+  5 for whoever is not a 女性) is dropped by the replace_program(ROOM) that ends its create(),
+  so ES2 never ran it (as northriver.c's ferry). 阮欣郁's own powder and kick are ported.
+- **A man is asked first** (owner, plan Q2) walking from 内厅穿堂 into the changing room and
+  before bathing, with the room's 此处是禁止男性进入; on 确定进去 he is put just inside the
+  curtain. Other rooms are not asked. Ponder is asked first when its 50 sen would knock the
+  player out (plan default).
+- **Owner: the pistils gone** say 西府海棠上的小花蕊已经被摘光了。 (moonc.c said nothing).
+- **默认: a pistil eaten by one not poisoned gives no poison.** flower.c set rose_poison to 0
+  for anyone below 10, and rose_poison.c makes a 0 flare once (20 sen of wound) right after
+  the cure; one poisoned below 10 still has that last bout.
+- **A greeting acts on a player lying unconscious** (present() finds them), its lines unread;
+  before, nobody greeted an unconscious player.
+- 雨梅's latemoon/茶 is a temp: not saved, so after a Continue she gives another cup and a cup
+  carried out without the flag is kept (the plan's temps).
+
 ## 晚月庄 A: the manor, the garden, the tower and the paths (2026-10-09)
 
 Owner-approved plan (同意，都按你推荐的来, 2026-10-09): four packages — A places the region,
