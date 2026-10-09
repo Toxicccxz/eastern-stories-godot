@@ -401,8 +401,8 @@ func kill_warning(character_id: StringName) -> String:
 
 
 ## kill.c's present(arg) for a player who stands in the running fight fighting nobody
-## (beside the NPC a 僵尸追魂符 sent): the first one of the other side still standing
-## whom someone of the player's side fights, or "".
+## (beside the NPC a 僵尸追魂符 sent): the first one of the other side, standing or lying
+## unconscious (kill.c takes either), whom someone of the player's side fights, or "".
 func kill_target() -> StringName:
 	if _active_encounter == null or _active_encounter.mode != CombatEncounterMode.Value.LETHAL or _session == null or _session.player_runtime() == null:
 		return &""
@@ -411,7 +411,7 @@ func kill_target() -> StringName:
 		return &""
 	var participants: Array[CombatParticipant] = _active_encounter.participants()
 	for other: CombatParticipant in participants:
-		if other.side_id == me.side_id or not _session.encounter_participant_is_available(other.participant_id):
+		if other.side_id == me.side_id or not _session.encounter_participant_is_available(other.participant_id, true):
 			continue
 		for ally: CombatParticipant in participants:
 			if ally.side_id == me.side_id and ally.binding.relationship.has_opponent(other.participant_id):

@@ -3,7 +3,8 @@ extends CombatTacticalActionPolicy
 
 ## cmds/std/kill.c from the battle panel, for a player who stands in a fight fighting
 ## nobody (beside the NPC they raised, which a 僵尸追魂符 sent after someone): the first
-## one of the other side still standing whom the player's side fights (`victim`). kill.c's
+## one of the other side, standing or lying unconscious, whom the player's side fights
+## (`victim`). kill.c's
 ## room check (这里不准战斗。), its words, me->kill_ob(obj) and the NPC's obj->kill_ob(me):
 ## the two fight to the death, and the one fought now has two enemies (attack.c
 ## select_opponent()). It waits while the player is busy, as 投降 does.

@@ -425,6 +425,10 @@ func _test_flee(tree: SceneTree, session: WorldSessionController, zombie: NpcRun
 	if not coordinator.has_active_encounter():
 		return
 	_check(_offered(coordinator, CombatKillTacticalPolicy.ACTION_ID), "攻击 is offered here too")
+	xuanzhen.character_state.vitality.current = -1 # TEST-ONLY: knocked out; the zombie would finish her
+	coordinator.advance_scheduler(0.0)
+	_check(xuanzhen.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS and coordinator.has_active_encounter(), "玄真 lies there; the zombie's fight goes on")
+	_check(coordinator.kill_target() == xuanzhen.character_id and _offered(coordinator, CombatKillTacticalPolicy.ACTION_ID), "攻击 is still at her: kill.c takes one lying unconscious")
 	var result: CombatTacticalResult = coordinator.submit_player_action(CombatTacticalRequest.new(&"flee:1", coordinator.active_encounter().encounter_id, player.character_id, CombatFleeTacticalPolicy.ACTION_ID, CombatTacticalRequest.Category.FLEE))
 	_check(result.code == CombatTacticalResult.Code.ACCEPTED, "逃跑 is offered to one who fights nobody")
 	for _round: int in range(20):
@@ -434,7 +438,7 @@ func _test_flee(tree: SceneTree, session: WorldSessionController, zombie: NpcRun
 	_refresh(session)
 	await tree.process_frame
 	_check(not coordinator.has_active_encounter() and CombatEncounterCoordinator.take_aborted_total() == 0 and coordinator.last_completion().terminal_result.kind == CombatEncounterResultKind.Value.FLED, "fled: the fight is over for all")
-	_check(xuanzhen.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and not xuanzhen.relationship.is_fighting() and not zombie.relationship.is_fighting(), "玄真 lives; nobody fights on")
+	_check(xuanzhen.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS and not xuanzhen.relationship.is_fighting() and not zombie.relationship.is_fighting(), "玄真 lives, lying there; nobody fights on")
 	_check(zombie.has_flag(NpcDefinition.FLAG_SENT) and not zombie.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER) and map.find_resident_npc(zombie.character_id) == zombie, "it is done with, and stands there until its next heal_up")
 
 
