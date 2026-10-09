@@ -58,6 +58,12 @@ func _execute_passage_request(portal: PortalDefinition, source: WorldResidentMap
 	handoff_to(portal.destination_map_id, target.zone_id, target.combat_location_id, portal.destination_spawn_point_id)
 
 
+## A Session overrides this narrow hook: who follows the player out of `left` on `source`
+## comes onto `destination` with them. A physical-only fixture has nobody to bring.
+func _carry_followers(_source: WorldResidentMapController, _destination: WorldResidentMapController, _left: WorldLocationState) -> void:
+	pass
+
+
 ## A Session overrides this narrow hook with its existing relationship cleanup.
 ## A physical-only fixture has no NPCs or encounter relationships to reconcile.
 func _reconcile_active_residents() -> bool:
@@ -219,6 +225,7 @@ func _handoff_to_impl(
 		return result
 	result._relationship_reconciled = true
 	destination.resume_after_relationship_reconciliation()
+	_carry_followers(source, destination, source_location)
 	source.player_departed()
 	result._outcome = OldPineMapHandoffResult.Outcome.COMPLETED
 	result._failure_stage = OldPineMapHandoffResult.FailureStage.NONE

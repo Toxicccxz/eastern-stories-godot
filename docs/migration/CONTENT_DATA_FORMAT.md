@@ -56,6 +56,7 @@ A room's `set("objects")` may name a class daemon's NPC (`CLASS_D("swordsman") +
 | `armor` | `inherit CLOTH` + `armor_prop/*`, or `inherit EQUIP` + `set("armor_type")` | `{type, props}`; cloth over 3000 weight gets `dodge = -weight/3000` (`std/armor/cloth.c`) |
 | `food` | `food_remaining`, `food_supply` | `{remaining, supply}`; not yet combinable with `weapon`, `armor` or `money` |
 | `hang` | rope.c `add_action("hang_self", "hang")` | `true`: the 上吊 button (asked first): refused in an `outdoors` room, else die() |
+| `scribe` | cmds/std/scribe.c's paper (obj/paper_seal.c) | `true`: 符 are drawn on it (owner: only on it). The catalog makes a 僵尸追魂符 of it for every NPC that is not raised (`<id>#haunt=<npc id>`, haunt.c), stacking only with sheets for the same name. Hand-written in `set` |
 | `liquid` | `max_liquid` + `set("liquid", ...)` | `{max_liquid, type, name, remaining, drunk_apply}`; only `alcohol` and `water` are modelled; drinking gives +30 water (`feature/liquid.c`) |
 | `study` | `set("skill", ([...]))` | `{skill, exp_required, sen_cost, difficulty, max_skill}`: study.c teaches the skill from it (the LPC `name` key is `skill`) |
 | `money` | `money_id`, `base_value`, `base_unit`, `base_weight` | makes the item a stack and a currency; merge key is `/<first legacy source without .c>`; `coin`, `silver` and `gold` must all exist |
@@ -98,6 +99,7 @@ The corpse (`obj/corpse.c`) is created by the death rules and is not an item rec
 | `recognize_apprentice` | the NPC's own `recognize_apprentice()` | ordered rules `{family?, giver_mark?, say?, emote?, fail?, accept}`; `fail` replaces learn.c's polite refusal. Hand-written in `set` |
 | `apprentice` | the master's `attempt_apprentice()`/`recruit_apprentice()` | `{requires: {cor?, cps?}, refuse_say, accept_say, class}` (effective attributes); needs `family`. Hand-written in `set` |
 | `conjured` | mind_bug.c's `create()` reading `this_player()` and `die()` | `{skill, combat_exp_per_level, spi_divisor, killed_by_owner: [line], killed_by_other: [line]}`: an NPC a skill's practice conjures (never placed by a room, carries nothing). Hand-written in `set` |
+| `raised` | corpse.c `animate()` and zombie.c `heal_up()`, `dispell()` | `{name, drain: {above, atman, gin}, tell, color?, dissolve}`: an NPC a spell raises from a corpse, named `name` with `{name}` the victim's; each heal_up() it `tell`s its master and takes `atman` and `gin` while they have more than `above` atman, else it `dissolve`s a second later ($N its name). Never placed by a room, not saved. Hand-written in `set` |
 
 `age`, `combat_exp` and `score` may be a rule `create()` draws: `{"base": 600, "plus_random": 400}`
 is `600+random(400)`, `"minus_random"` subtracts. `gender` may be
@@ -129,8 +131,10 @@ IDs. Append new spawns; do not reorder existing ones without expecting a New Gam
 places (room.c `make_inventory()`): one item lies on each of `points` when the world is created.
 The item instance ID follows from the point, so a save records only that the item is still in that
 zone's WORLD (Continue puts it back on its marker). `legacy_room`'s reset lays it there again once
-that item no longer exists. Combined items cannot be authored on a floor; dropped ones lie there
-(drop.c), and a save keeps every dropped item's zone and position (`floor_items`).
+that item no longer exists. A combined item lies as a stack of its `amount` (combined.c's
+set_amount(): one 桃符纸 a point); one merged into another stack is gone, so a reset lays it again.
+Dropped items lie there too (drop.c), and a save keeps every dropped item's zone and position
+(`floor_items`).
 
 ## vendors
 
@@ -255,6 +259,9 @@ least the amount, then all spent; `done` what it writes, `fail` its notify_fail(
 `sen_fail` a check's own); `conjure` `{below, skill, npcs: [{npc, below?}], came, caught,
 standing}` is necromancy.c's 观想虫 (random(sen) under `below` conjures one of the `conjured`
 NPCs instead); `refuses: true` never lets it happen (fonxanforce). No `practice`: the daemon has none and practice never progresses.
+`exert`, `perform`, `cast` and `scribe` list the files its exert_function_file(),
+perform_action_file(), cast_spell_file() and scribe_spell_file() reach (ExertFunctions,
+SpecialFunctions: `animate` is cast at a corpse outside a fight, `haunt` drawn on a `scribe` paper).
 `valid_learn` maps the rule that refused (`max_force`, `mapped`, `weapon`, `empty_hands`) to
 valid_learn()'s notify_fail(), which learn.c, practice.c and study.c then print. `improved_line`
 and `improved_color` (HIR/HIY/HIC/HIW): `skill_improved()`'s line when its effect applies.

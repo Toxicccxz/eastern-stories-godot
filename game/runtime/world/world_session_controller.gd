@@ -1025,6 +1025,17 @@ func _on_resident_map_tree_exiting(map_id: StringName) -> void:
 		call_deferred("queue_free")
 
 
+## go.c's follow_me() across maps: a raised NPC following the player out of the room they
+## left by its exit (one next to where they arrived) comes along (WorldMapSpells).
+func _carry_followers(source: WorldResidentMapController, destination: WorldResidentMapController, left: WorldLocationState) -> void:
+	var from_map := source as WorldMapController
+	var to_map := destination as WorldMapController
+	if from_map == null or to_map == null or left == null or _player == null:
+		return
+	if GameContent.catalog().zones_adjacent(left.zone_id, _player.world_location().zone_id):
+		from_map.spells.carry_followers(to_map, left.zone_id)
+
+
 func _reconcile_active_residents() -> bool:
 	if not _reconcile_relationship(_player.relationship):
 		return false

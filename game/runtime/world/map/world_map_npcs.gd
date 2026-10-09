@@ -557,8 +557,6 @@ func conjure_beside_player(definition_id: StringName) -> NpcRuntimeState:
 ## One NPC of `definition`, no room's, made beside `caster_id` (SummonedNpc). Null when
 ## it could not come.
 func _new_beside(caster_id: StringName, definition: NpcDefinition) -> NpcRuntimeState:
-	var catalog: ContentCatalog = GameContent.catalog()
-	var definition_id: StringName = definition.definition_id
 	var caster: NpcRuntimeState = find_resident_npc(caster_id)
 	var location: WorldLocationState = null
 	if caster != null:
@@ -568,6 +566,32 @@ func _new_beside(caster_id: StringName, definition: NpcDefinition) -> NpcRuntime
 	var body: WorldCharacterBody2D = runtime_body_for_character(caster_id)
 	if not _initialized or location == null or body == null or location.map_id != map:
 		return null
+	# Clear of the caller's body (34 px), so neither is pushed when the world moves again.
+	return _new_summoned(definition, location, _map.floor_items.at_feet(location, body.global_position, false, BESIDE), caster_id)
+
+
+## corpse.c animate(): new("/obj/npc/zombie"), named after the corpse's victim
+## (NpcDefinition.raised_as()), moved where the corpse lay (`position` in `location`);
+## zombie.c animate() makes `caster_id` its master (set("possessed")) and its leader
+## (set_leader(): it follows the player, FLAG_FOLLOWS_PLAYER). Null when it could not come.
+func raise_at(caster_id: StringName, definition_id: StringName, victim_display_name: String, location: WorldLocationState, position: Vector2) -> NpcRuntimeState:
+	var definition: NpcDefinition = GameContent.catalog().npc(definition_id)
+	if not _initialized or definition == null or definition.raising() == null or location == null or location.map_id != map:
+		return null
+	var npc: NpcRuntimeState = _new_summoned(definition.raised_as(victim_display_name), location, position, caster_id)
+	if npc == null:
+		return null
+	summoners[npc.character_id] = caster_id
+	if _player != null and caster_id == _player.character_id:
+		npc.set_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER, true)
+	return npc
+
+
+## One NPC of `definition`, no room's (SummonedNpc), standing at `position` in `location`.
+## Null when it could not come.
+func _new_summoned(definition: NpcDefinition, location: WorldLocationState, position: Vector2, caster_id: StringName) -> NpcRuntimeState:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var definition_id: StringName = definition.definition_id
 	var allocation: SessionItemIdAllocationResult = _item_id_allocator.allocate(_inventory)
 	if not allocation.succeeded:
 		return null
@@ -587,8 +611,7 @@ func _new_beside(caster_id: StringName, definition: NpcDefinition) -> NpcRuntime
 		_take_away(npc)
 		return null
 	_summon_spawns[spawn.spawn_id] = spawn
-	# Clear of the caller's body (34 px), so neither is pushed when the world moves again.
-	if not _add_npc_body(npc, _map.floor_items.at_feet(location, body.global_position, false, BESIDE)):
+	if not _add_npc_body(npc, position):
 		push_error("could not summon %s beside %s" % [definition_id, caster_id])
 		_take_away(npc)
 		_summon_spawns.erase(spawn.spawn_id)
@@ -603,18 +626,59 @@ func summoner_of(character_id: StringName) -> StringName:
 	return summoners.get(character_id, &"")
 
 
+## A summoned NPC goes with the player onto another map (a raised one following them):
+## it leaves this map, body and all, and keeps its state and what it carries. Returns
+## who called it ("" when it was not here).
+func release(npc: NpcRuntimeState) -> StringName:
+	if npc == null or find_resident_npc(npc.character_id) == null or not SummonedNpc.is_summoned(npc.character_id):
+		return &""
+	var caster_id: StringName = summoners.get(npc.character_id, &"")
+	_summon_spawns.erase(npc.spawn_id)
+	summoners.erase(npc.character_id)
+	_drop_npc(npc)
+	return caster_id
+
+
+## ...and comes onto this map, the same NPC, at `position` in `location`, still called
+## by `caster_id`. False when it could not.
+func admit(npc: NpcRuntimeState, caster_id: StringName, location: WorldLocationState, position: Vector2) -> bool:
+	if not _initialized or npc == null or location == null or location.map_id != map or find_resident_npc(npc.character_id) != null:
+		return false
+	var definition_id: StringName = SummonedNpc.definition_id_of(npc.character_id)
+	var spawn: NpcSpawnDefinition = SummonedNpc.spawn(npc.spawn_point_id, definition_id, map, location.zone_id)
+	_summon_spawns[spawn.spawn_id] = spawn
+	if not npc.set_world_location(location) or not _add_npc_body(npc, position):
+		_summon_spawns.erase(spawn.spawn_id)
+		return false
+	if not caster_id.is_empty():
+		summoners[npc.character_id] = caster_id
+	return true
+
+
+## zombie.c dispell(): destruct() a summoned NPC where it stands: no corpse, what it
+## carries goes with it.
+func destruct_summoned(npc: NpcRuntimeState) -> void:
+	if npc == null or find_resident_npc(npc.character_id) == null or not SummonedNpc.is_summoned(npc.character_id):
+		return
+	_take_away(npc)
+	_summon_spawns.erase(npc.spawn_id)
+	summoners.erase(npc.character_id)
+	_drop_npc(npc)
+
+
 ## heaven_soldier.c heal_up() once it is not fighting: call_out("leave", 1), its leave
 ## lines where the player is (and can read them), then destruct() with all it carries.
 ## Here every summoned NPC still standing leaves as the fight it came into ends (its
 ## lines after the fight's result, unless the player left it by a spell: gone before
 ## it says them); a dead one is forgotten and its corpse stays. A conjured one (the
-## 观想虫) stays until it dies, as in ES2.
+## 观想虫) stays until it dies, as in ES2, and so does a raised one (the zombie; it has its
+## own end, WorldMapSpells).
 func dismiss_summoned() -> void:
 	var departing: bool = session != null and session.combat_encounter_coordinator() != null and session.combat_encounter_coordinator().player_departing()
 	for npc: NpcRuntimeState in residents.duplicate():
 		if not SummonedNpc.is_summoned(npc.character_id):
 			continue
-		if npc.definition().conjuring() != null and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
+		if (npc.definition().conjuring() != null or npc.definition().raising() != null) and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
 			continue
 		if npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
 			var summoning: NpcSummoning = npc.definition().summoning()

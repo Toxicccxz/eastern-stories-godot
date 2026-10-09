@@ -114,7 +114,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await tree.process_frame
 	_check(entry.zone_history == [&"snow.inn.main_floor", &"snow.square", &"snow.sroad1", &"snow.eroad1", &"snow.eroad2", &"snow.eroad3", &"snow.eroad2", &"snow.eroad1", &"snow.sroad1", &"snow.square", &"snow.inn.main_floor"], "complete physical zone order, no extra map load: " + str(entry.zone_history))
 	_check(entry._player.state.recovery.food == 400 and entry._player.state.recovery.water == 400 and entry._player.state.progression.combat_experience == 0, "walking consumes no invented food/RNG/progression")
-	_check(entry.allocator.next_dynamic_sequence == 1 and entry.birth.inventory.registered_item_ids().size() == 47, "one cloth plus the NPC loadouts and the floor items, still exact on round trip")
+	_check(entry.allocator.next_dynamic_sequence == 1 and entry.birth.inventory.registered_item_ids().size() == 49, "one cloth plus the NPC loadouts and the floor items (the temple's two 桃符纸 since 茅山 D), still exact on round trip")
 	_check(entry.inn.initialization_count() == 1 and entry.outdoor.initialization_count() == 1, "no scene reinitialization during physical route")
 	# Spawning Snow's NPCs drew 215 times (see snow_oldpine_connection_test); walking draws nothing.
 	var spawn_draws: GodotNpcInitializationRandomSource = GodotNpcInitializationRandomSource.new(21, true)

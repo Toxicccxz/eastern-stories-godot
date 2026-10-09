@@ -92,11 +92,14 @@ static func inspect(
 ## A conjured NPC still standing (the 观想虫 of a practice: NpcConjuring) does not stop
 ## a save; the save leaves it out, and Continue starts without it and without the
 ## player's set_temp("mind_bug"), as ES2's relogin (DECISIONS 茅山 C). It carries nothing.
+## Nor does a raised one (the zombie of 驱尸: NpcRaising), whose master is gone after a
+## relogin, so it would dispell (DECISIONS 茅山 A); a corpse it left is kept.
 static func left_out(npc: NpcRuntimeState) -> bool:
-	return (
-		SummonedNpc.is_summoned(npc.character_id) and npc.definition().conjuring() != null
-		and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD
-	)
+	if not SummonedNpc.is_summoned(npc.character_id):
+		return false
+	if npc.definition().raising() != null:
+		return true
+	return npc.definition().conjuring() != null and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD
 
 
 static func _summoned(npc: NpcRuntimeState) -> bool:

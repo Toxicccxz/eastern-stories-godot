@@ -18,6 +18,9 @@ var _revive_remainder_ms: Dictionary[StringName, float] = {}
 var _timed_remainder_ms: Dictionary[StringName, float] = {}
 ## The last advance's room lines of each NPC's conditions ({name} templates).
 var room_lines: Dictionary[StringName, Array] = {}
+## The last advance's heal_up() calls of each NPC that made any (zombie.c's heal_up()
+## does more: WorldMapSpells).
+var heal_ups: Dictionary[StringName, int] = {}
 
 
 func _init(random: RecoveryCadenceRandomSource) -> void:
@@ -28,6 +31,7 @@ func _init(random: RecoveryCadenceRandomSource) -> void:
 func advance(delta: float, npcs: Array[NpcRuntimeState]) -> Array[NpcRuntimeState]:
 	var woke: Array[NpcRuntimeState] = []
 	room_lines.clear()
+	heal_ups.clear()
 	if _random == null or not is_finite(delta) or delta < 0.0:
 		return woke
 	for npc: NpcRuntimeState in npcs:
@@ -47,6 +51,8 @@ func advance(delta: float, npcs: Array[NpcRuntimeState]) -> Array[NpcRuntimeStat
 				)
 				if not beat.room_lines.is_empty():
 					room_lines[npc.character_id] = beat.room_lines
+				if beat.heal_ups > 0:
+					heal_ups[npc.character_id] = beat.heal_ups
 		if npc.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS and _count_down(npc, delta):
 			npc.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
 			woke.append(npc)

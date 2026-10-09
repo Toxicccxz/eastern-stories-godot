@@ -129,8 +129,8 @@ func _test_labels() -> void:
 	_check(CombatCastTacticalPolicy.function_for(VANISH) == &"dun" and CombatCastTacticalPolicy.is_self(VANISH) and not CombatCastTacticalPolicy.is_self(TRAP), "cast.dun.self is dun at oneself")
 
 
-## Every spell of a skill some NPC teaches has a name on the battle panel (林忌 and
-## his disciples teach 茅山道术: its bolts and 召护法).
+## Every spell of a skill some NPC teaches has a name on the battle panel or, cast outside a
+## fight, on the HUD (林忌 and his disciples teach 茅山道术: its bolts, 召护法 and 驱尸).
 func _test_labels_of_taught_spells() -> void:
 	var unnamed: Array[String] = []
 	for npc: NpcDefinition in _catalog.npcs():
@@ -138,7 +138,8 @@ func _test_labels_of_taught_spells() -> void:
 			continue
 		for skill_id: StringName in NpcTeacher.teachable_skills(npc, _catalog):
 			for function_id: StringName in _catalog.skill(skill_id).cast_functions:
-				if SpecialFunctions.cast(function_id).label.is_empty():
+				var spell: CastFunction = SpecialFunctions.cast(function_id)
+				if spell.label.is_empty() and spell.self_label.is_empty() and spell.world_label.is_empty():
 					unnamed.append("%s/%s" % [skill_id, function_id])
 	_check(unnamed.is_empty(), "every spell a teacher gives has a 施法 name: %s" % [unnamed])
 

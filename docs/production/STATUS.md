@@ -4,16 +4,15 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**茅山 C** (`phase/maoshan-c`, region #6, plan approved 2026-10-08: A places the region (#81),
-B 茅山派 (#82), C the player's 茅山道术 in a fight and its practice, D zombies and 桃符纸):
-practising 茅山道术 (10 mana, 30 sen; the 观想虫 or 观想兽 it may conjure, killed by the player's
-hand for 基本咒文, by anyone else knocking the player out), 召护法 asked first in a spar and
-against one's own 观想虫, 攻击 at an NPC lying unconscious. The map controller is split into
-seven components under `game/runtime/world/map/` (#78): new code for one of those areas goes
-into its component.
+**茅山 D** (`phase/maoshan-d`, region #6, plan approved 2026-10-08: A places the region (#81),
+B 茅山派 (#82), C the player's 茅山道术 in a fight and its practice (#83), D zombies and 桃符纸):
+驱尸 on a corpse raises the victim's zombie, which follows the player (onto other maps too),
+lives on their 灵力 and is left out of a save; 桃符纸 (two in Snow's 城隍庙) take a 僵尸追魂符
+with the selected NPC's name, and put on the zombie it goes after them while the player stands
+by in the fight. With D, region #6 is done. The map controller's components live under
+`game/runtime/world/map/` (#78); the player's spells outside a fight are `world_map_spells.gd`.
 
-Next: 茅山 D (驱尸 and the zombie that follows, 桃符纸 and 僵尸追魂符); the equipment weight
-dodge (A1) is its own PR, independent of 茅山.
+Next: the equipment weight dodge (A1, its own PR), then region #7 晚月庄 (`d/latemoon`).
 
 ## 待决定
 
@@ -111,7 +110,14 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   茅山道术 costs 10 mana and 30 sen; a mind astray (random(sen) below 5) conjures a 观想虫 (or,
   with more 基本咒文, a 观想兽) that attacks at once and stays until it dies, blocking practice;
   killed by the player's own hand it teaches 基本咒文, killed by anyone else (the 天将 or 阴鬼卒
-  of 召护法, asked first) it knocks the player out. A save leaves it out.
+  of 召护法, asked first) it knocks the player out. A save leaves it out. 驱尸 (50 mana, 30 sen)
+  raises a selected corpse as its victim's zombie, whose things fall where it lay: it follows the
+  player from room to room and map to map, and each heal_up takes 10 灵力 and 1 精 from them
+  (我...需...要...你...的...力...量...) until they are down to 10, when it falls apart into blood.
+  On a 桃符纸 (two lie in Snow's 城隍庙) the player draws a 僵尸追魂符 with the selected NPC's
+  name (20 mana, 40 sen and a drop of blood); put on the zombie, it goes after that one while the
+  player stands by (its kill is theirs), then falls apart. Asked first: when the cost would knock
+  the player out, and against their own master.
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from
@@ -137,8 +143,8 @@ Code:
   cause still has to be fixed in the content or rule that tripped it.
 * Beasts cannot be asked to spar (ES2's `fight` on a beast is a one-sided kill); attack them.
 * 刘安禄's 刘老三/血手刘三 are not listed until his reveal is ported. The Inn's travellers stay in
-  the Inn (its exits all lead to other maps; NPCs do not cross maps yet). Corpses never decay, so the
-  corpses of NPCs that came back stay. 桃符纸 (the temple) is not placed: it comes with 茅山 D.
+  the Inn (its exits all lead to other maps; only the player's zombie follows them onto another map). Corpses never decay, so the
+  corpses of NPCs that came back stay.
   NPCs never flee a losing fight (`wimpy`) and do not follow who flees (`pursuer`).
   The dog takes no bone (no
   chicken leg, no following); nothing can be put into a corpse.

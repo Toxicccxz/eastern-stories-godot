@@ -464,6 +464,16 @@
 			"weight": 30000,
 			"value": 3400,
 			"weapon": { "skill": "fork", "damage": 50 }
+		},
+		{
+			"id": "es2:obj/paper_seal",
+			"legacy_sources": ["obj/paper_seal.c"],
+			"name": "桃符纸",
+			"aliases": ["paper seal", "seal", "paper"],
+			"long": "这是道士们用来画符的符纸，具有封存法力的功用。\n",
+			"unit": "叠",
+			"combined": { "base_unit": "张", "base_weight": 5, "amount": 1 },
+			"scribe": true
 		}
 	]
 }

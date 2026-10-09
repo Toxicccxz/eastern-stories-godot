@@ -1767,6 +1767,11 @@ msgid ""
 "{name}({id})。\n"
 msgstr ""
 
+#. haunt.c scribe(): a 桃符纸 with 僵尸追魂符 drawn on it and someone's name ({name}) written on it.
+#: core/content/item_content_definition.gd
+msgid "僵尸追魂符（{name}）"
+msgstr ""
+
 #. weapond.c bash_weapon(): a weapon broken in two, set("name", "断掉的" + name).
 #: core/content/item_content_definition.gd
 msgid "断掉的{weapon}"
@@ -1817,7 +1822,7 @@ msgstr ""
 
 #. message_vision(): the actor of an exert line, for its $N.
 #. message_vision(): the player, for $N/$n/$P/$p in the ES2 combat lines.
-#: core/internal_power/exert_function.gd presentation/battle/battle_narrator.gd presentation/battle/battle_participant_card.gd runtime/world/map/world_map_combat_lifecycle.gd runtime/world/map/world_map_corpses.gd runtime/world/map/world_map_hostilities.gd
+#: core/internal_power/exert_function.gd presentation/battle/battle_narrator.gd presentation/battle/battle_participant_card.gd runtime/world/map/world_map_combat_lifecycle.gd runtime/world/map/world_map_corpses.gd runtime/world/map/world_map_hostilities.gd runtime/world/map/world_map_spells.gd
 msgid "你"
 msgstr ""
 
@@ -2459,6 +2464,10 @@ msgstr ""
 msgid "恭喜您成为{family}的第{generation}代弟子。"
 msgstr ""
 
+#: core/skills/skill_definition.gd
+msgid "no 符 %s (expected %s)"
+msgstr ""
+
 #: core/skills/skill_use_ids.gd
 msgid "拳脚"
 msgstr ""
@@ -2515,6 +2524,26 @@ msgstr ""
 msgid "鞭法"
 msgstr ""
 
+#: core/specials/animate_spell.gd
+msgid "驱尸"
+msgstr ""
+
+#: core/specials/animate_spell.gd core/specials/haunt_scribe.gd
+msgid "你正在战斗中！"
+msgstr ""
+
+#: core/specials/animate_spell.gd runtime/world/map/world_map_spells.gd
+msgid "你要驱动哪一具尸体？"
+msgstr ""
+
+#: core/specials/animate_spell.gd core/specials/haunt_scribe.gd core/specials/invocation_spell.gd core/specials/saveme_spell.gd
+msgid "你的法力不够了！"
+msgstr ""
+
+#: core/specials/animate_spell.gd
+msgid "$N对著地上的$n喃喃地念了几句咒语，$n抽搐了几下竟站了起来！"
+msgstr ""
+
 #: core/specials/bolt_spell.gd core/specials/dun_spell.gd
 msgid "你失败了。"
 msgstr ""
@@ -2543,7 +2572,7 @@ msgstr ""
 msgid "这里不准念咒文。"
 msgstr ""
 
-#: core/specials/cast_service.gd
+#: core/specials/cast_service.gd core/specials/scribe_service.gd
 msgid "你请先用 enable 指令选择你要使用的咒文系。"
 msgstr ""
 
@@ -2663,16 +2692,20 @@ msgstr ""
 msgid "$N突然对$n发出奋力一击！"
 msgstr ""
 
+#: core/specials/haunt_scribe.gd
+msgid "$N眼睛忽然睁开，喃喃地说道：杀....死....$n...."
+msgstr ""
+
+#: core/specials/haunt_scribe.gd
+msgid "你要在这张符上写谁的名字？"
+msgstr ""
+
 #: core/specials/invocation_spell.gd presentation/battle/battle_presentation_controller.gd
 msgid "召护法"
 msgstr ""
 
 #: core/specials/invocation_spell.gd core/specials/saveme_spell.gd
 msgid "只有战斗中才能召唤天将！"
-msgstr ""
-
-#: core/specials/invocation_spell.gd core/specials/saveme_spell.gd
-msgid "你的法力不够了！"
 msgstr ""
 
 #: core/specials/invocation_spell.gd core/specials/saveme_spell.gd
@@ -2701,6 +2734,18 @@ msgstr ""
 
 #: core/specials/saveme_spell.gd
 msgid "召天将"
+msgstr ""
+
+#: core/specials/scribe_service.gd
+msgid "战斗时不能画符！"
+msgstr ""
+
+#: core/specials/scribe_service.gd
+msgid "你的精神太差了，无法画符。"
+msgstr ""
+
+#: core/specials/scribe_service.gd
+msgid "你所学的法术没有这种符。"
 msgstr ""
 
 #: core/specials/special_functions.gd
@@ -4316,7 +4361,7 @@ msgid "%s慢慢睁开眼睛，清醒了过来。"
 msgstr ""
 
 #. go.c: someone ({name}) comes into the player's room.
-#: runtime/world/map/world_map_npc_life.gd
+#: runtime/world/map/world_map_npc_life.gd runtime/world/map/world_map_spells.gd
 msgid "{name}走了过来。"
 msgstr ""
 
@@ -4393,6 +4438,16 @@ msgstr ""
 
 #: runtime/world/map/world_map_selection.gd
 msgid "打开%s"
+msgstr ""
+
+#. scribe.c: the player draws 僵尸追魂符 in their blood on a 桃符纸 ({paper}) and writes a name ({name}) on it.
+#: runtime/world/map/world_map_spells.gd
+msgid "你咬破手指，用鲜血在{paper}上画了一道僵尸追魂符，写上了{name}的名字。"
+msgstr ""
+
+#. cast.c's 这里没有…: the one ({name}) a 僵尸追魂符 names is not here; the sheet stays.
+#: runtime/world/map/world_map_spells.gd
+msgid "这里没有{name}。"
 msgstr ""
 
 #: runtime/world/player_inventory_row_projection.gd
@@ -5318,6 +5373,16 @@ msgstr ""
 msgid "化去{corpse}"
 msgstr ""
 
+#. draw a 僵尸追魂符 on the paper with someone's name ({name}) on it (scribe.c, haunt.c).
+#: ui/world/player_inventory_panel.gd
+msgid "画追魂符：{name}"
+msgstr ""
+
+#. put the 僵尸追魂符 on the zombie ({zombie}) here (attach.c).
+#: ui/world/player_inventory_panel.gd
+msgid "贴到{zombie}身上"
+msgstr ""
+
 #. pour the powder into a carried drink ({container}: 牛皮酒袋).
 #: ui/world/player_inventory_panel.gd
 msgid "倒进{container}"
@@ -5500,6 +5565,28 @@ msgid ""
 "确定要上吊吗？"
 msgstr ""
 
+#. asked before 驱尸 (animate.c) or 画符 (scribe.c) when its cost in 神 ({sen}) or 气 would leave the player below zero: they faint.
+#: ui/world/shared_gameplay_ui.gd
+msgid ""
+"这一下要耗去你 {sen} 点神（画符还要咬破手指流 1 点气），你撑不住，会当场昏过去。\n"
+"确定要这样做吗？"
+msgstr ""
+
+#. asked before a 僵尸追魂符 sends the player's zombie ({zombie}) after their own master ({master}): its kill counts as the player's (killer_reward()). {family}, {score}, {next} as in the 攻击 question.
+#: ui/world/shared_gameplay_ui.gd
+msgid ""
+"{master}是你的师父。{zombie}会追杀{master}，它若得手，就算你弑师，等同背叛师门：\n"
+"· 被逐出{family}，门派、师父和称号都没有了。\n"
+"· 综合评价清零（现在是 {score}）。\n"
+"· 背叛师门的次数变成 {next} 次。\n"
+"确定要贴上这道符吗？"
+msgstr ""
+
+#. the 驱尸 button's tooltip: animate.c's 50 mana and 30 sen; the zombie lives on the player's 灵力 (zombie.c heal_up()).
+#: ui/world/shared_gameplay_ui.gd
+msgid "施法「驱尸」：让这具尸体站起来跟着你（50 法力、30 神）。僵尸靠吸你的灵力维持，灵力不足时就会倒下化为血水。"
+msgstr ""
+
 #: ui/world/shared_gameplay_ui.gd
 msgid "{name}的尸体 · {count}件物品"
 msgstr ""
@@ -5609,6 +5696,18 @@ msgstr ""
 
 #: ui/world/shared_gameplay_ui.gd
 msgid "确定化掉"
+msgstr ""
+
+#: ui/world/shared_gameplay_ui.gd
+msgid "确定施法"
+msgstr ""
+
+#: ui/world/shared_gameplay_ui.gd
+msgid "确定画符"
+msgstr ""
+
+#: ui/world/shared_gameplay_ui.gd
+msgid "确定贴符"
 msgstr ""
 
 #: ui/world/shared_gameplay_ui.gd
@@ -6178,6 +6277,27 @@ msgstr ""
 #. es2:obj/npc/obj/steel_fork name
 #: data/common/items.json
 msgid "五股钢叉"
+msgstr ""
+
+#. es2:obj/paper_seal name
+#: data/common/items.json
+msgid "桃符纸"
+msgstr ""
+
+#. es2:obj/paper_seal long
+#: data/common/items.json
+msgid ""
+"这是道士们用来画符的符纸，具有封存法力的功用。\n"
+msgstr ""
+
+#. es2:obj/paper_seal unit
+#: data/common/items.json
+msgid "叠"
+msgstr ""
+
+#. es2:obj/paper_seal combined.base_unit
+#: data/common/items.json
+msgid "张"
 msgstr ""
 
 #. unarmed improved_line
@@ -7711,6 +7831,32 @@ msgstr ""
 #. common.npc.mind_beast conjured.killed_by_other
 #: data/common/npcs.json
 msgid "你的观想兽被人杀死了！"
+msgstr ""
+
+#. common.npc.zombie name
+#: data/common/npcs.json
+msgid "僵尸"
+msgstr ""
+
+#. common.npc.zombie long
+#: data/common/npcs.json
+msgid ""
+"这是一具被人用符咒控制的僵尸，从它苍白的脸上看不出任何喜怒哀乐。\n"
+msgstr ""
+
+#. common.npc.zombie raised.name
+#: data/common/npcs.json
+msgid "{name}的僵尸"
+msgstr ""
+
+#. common.npc.zombie raised.tell
+#: data/common/npcs.json
+msgid "$N告诉你：我...需...要...你...的...力...量..."
+msgstr ""
+
+#. common.npc.zombie raised.dissolve
+#: data/common/npcs.json
+msgid "$N缓缓地倒了下来，化为一滩血水。"
 msgstr ""
 
 #. quests.target

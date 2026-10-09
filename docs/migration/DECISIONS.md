@@ -104,6 +104,33 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 - #27 牛皮酒袋照原名显示，不另起短名。
 - 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
 
+## 茅山 D: 驱尸 and the sheets (2026-10-08)
+
+What each LPC function became is in [TEMPLE_CONTENT](TEMPLE_CONTENT.md); it carries out
+茅山 A's answers and defaults and follows the LPC except:
+- **The zombie is the player's wherever it goes** (茅山 A): it walks after them into a
+  neighbouring room on any map (go.c's follow_me(), however they got there, as the dog), its
+  dispell call_out going along, and Continue starts without it. NPC heart beats run only on
+  the player's map and outside fights, so its feeding does too (ES2: wherever it stands).
+- **Its corpse's things fall where it lay** and **符 go only on 桃符纸, one at a time** (茅山 A,
+  默认): ES2 destructs them with the corpse, draws on any carried thing and renames a whole stack.
+- **The name on a sheet is someone in the room** (茅山 A): the selected NPC (not a raised one,
+  nor one whose fight is not ported yet); put on, the sheet finds the first of that kind in the
+  zombie's room; none there: 这里没有…。 and the sheet stays. ES2 throws the sheet away first and
+  looks for the name in the whole world, else sends the zombie at whoever put it on.
+- **The sheet's fight has the player in it, standing by** on the zombie's side: the world stands
+  still as in any fight and the battle panel shows it; fleeing ends it for all; the zombie's kill
+  is the player's (killer_reward()). In ES2 it is fought beside a player free to walk away.
+  set_leader(dest) only ends its following the player: it falls apart once the fight is over.
+- **Asked first** (owner's rule on choices that knock out or betray): 驱尸 when its 30 sen, and
+  画符 when its 40 sen or 1 kee, would knock the player out (animate.c checks only mana, scribe.c
+  asks for 30 sen); 贴符 sending the zombie after the player's own master (弑师, as 攻击 asks).
+- **Native lines**: a drawn sheet says 你咬破手指，用鲜血在桃符纸上画了一道僵尸追魂符，写上了…的名字。
+  (scribe.c prints nothing; its help tells of the blood); 驱尸's button tells its cost and that
+  the zombie lives on 灵力.
+- **A combined item on a room's floor** (global rule): an item spawn of one lays a stack of its
+  amount on each point (combined.c's set_amount()): Snow's 城隍庙 has its two 桃符纸.
+
 ## 茅山 C: 茅山道术's practice and the 观想虫 (2026-10-08)
 
 What each LPC function became is in [TEMPLE_CONTENT](TEMPLE_CONTENT.md); it follows the LPC

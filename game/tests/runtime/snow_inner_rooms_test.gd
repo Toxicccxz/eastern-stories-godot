@@ -54,11 +54,11 @@ func _test_data() -> void:
 	var rats: NpcSpawnDefinition = catalog.spawn(&"snow.inn_upstairs.inn_2f.rats")
 	_check(rats != null and rats.quantity == 6 and catalog.npc(&"snow.npc.rat").race_id == &"beast", "inn_2f.c: six rats (beasts)")
 	_check(catalog.spawn(&"snow.outdoor.nyard.girl") != null and catalog.spawn(&"snow.outdoor.nyard.girl").zone_id == &"snow.nyard", "柳绘心 stands in the study (offense/defense routes)")
-	var items: Dictionary[StringName, StringName] = {}
+	var items: Array[String] = []
 	for map_id: StringName in [&"snow.outdoor", &"snow.cellar", &"snow.inn_upstairs"]:
 		for spawn: ItemSpawnDefinition in catalog.item_spawns_for_map(map_id):
-			items[spawn.zone_id] = spawn.item_definition_id
-	_check(items == {&"snow.temple": &"es2:d/snow/obj/denotation", &"snow.weapon_storage": &"es2:d/snow/obj/bamboo_sword", &"snow.secret_storage": &"es2:d/snow/obj/shield"}, "items on the floor: 功德箱, 竹剑, 牛皮盾 (no 桃符纸 yet): %s" % items)
+			items.append("%s %s ×%d" % [spawn.zone_id, spawn.item_definition_id, spawn.spawn_point_ids().size()])
+	_check(items == ["snow.temple es2:d/snow/obj/denotation ×1", "snow.weapon_storage es2:d/snow/obj/bamboo_sword ×1", "snow.temple es2:obj/paper_seal ×2", "snow.secret_storage es2:d/snow/obj/shield ×1"], "items on the floor: 功德箱, 竹剑, 牛皮盾, two 桃符纸 (茅山 D): %s" % [items])
 	var box: ItemContentDefinition = catalog.item(&"es2:d/snow/obj/denotation")
 	_check(box.no_get and box.own_weight == 0 and box.unit == "个", "功德箱: no_get, weight 0 (move.c default)")
 	var shield: ItemContentDefinition = catalog.item(&"es2:d/snow/obj/shield")
@@ -298,8 +298,9 @@ func _test_continue_below(tree: SceneTree, session: WorldSessionController) -> v
 	var stairs: WorldPassageArea2D = fresh.world_map_of(&"snow.cellar").get_node("StairsUp") as WorldPassageArea2D
 	_check(fresh.hidden_passages().state(SHELF).is_open and stairs.is_open() and stairs.visible and not (stairs.get_node("CollisionShape2D") as CollisionShape2D).disabled, "Continue below: the way up is open, its shape on")
 	var scope: StringName = fresh.item_id_allocator().scope
-	_check(fresh.world_map_of(&"snow.outdoor").floor_item_ids() == [ItemSpawnDefinition.item_instance_id(scope, &"snow.temple.denotation.1")]
-		and fresh.world_map_of(&"snow.cellar").floor_item_ids().is_empty(), "Continue: only the box still lies on the floor")
+	var lying: Array[StringName] = [ItemSpawnDefinition.item_instance_id(scope, &"snow.temple.denotation.1"), ItemSpawnDefinition.item_instance_id(scope, &"snow.temple.paper_seal.1"), ItemSpawnDefinition.item_instance_id(scope, &"snow.temple.paper_seal.2")]
+	_check(fresh.world_map_of(&"snow.outdoor").floor_item_ids() == lying
+		and fresh.world_map_of(&"snow.cellar").floor_item_ids().is_empty(), "Continue: only the box and the temple's 桃符纸 still lie on the floor: %s" % [fresh.world_map_of(&"snow.outdoor").floor_item_ids()])
 	fresh.free()
 	await tree.process_frame
 
