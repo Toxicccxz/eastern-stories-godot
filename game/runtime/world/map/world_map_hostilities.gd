@@ -208,7 +208,8 @@ func npc_kills_player(npc: NpcRuntimeState, lines: Array[String] = []) -> bool:
 	return npc_kills(npc, lines).outcome == CombatSliceInitiationResult.Outcome.COMPLETED
 
 
-func npc_kills(npc: NpcRuntimeState, lines: Array[String]) -> CombatSliceInitiationResult:
+## `colored`, when given, is how the log shows `lines` (shinyu.c's HIY say()).
+func npc_kills(npc: NpcRuntimeState, lines: Array[String], colored: Array[ColoredLine] = []) -> CombatSliceInitiationResult:
 	if npc == null or _player == null or session == null:
 		return CombatSliceInitiationResult.new()
 	var participants: Array[CombatSliceCharacterBinding] = _map.combat_lifecycle.build_participants()
@@ -220,7 +221,7 @@ func npc_kills(npc: NpcRuntimeState, lines: Array[String]) -> CombatSliceInitiat
 		npc_binding, player_binding, CombatTriggerCause.Value.NPC_AGGRESSION, true,
 	)
 	if started.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
-		announce_fight(lines, npc.character_id)
+		announce_fight(lines, npc.character_id, colored)
 	return started
 
 
@@ -447,7 +448,8 @@ func initiate_lethal_combat(initiator_id: StringName, target_id: StringName, lin
 ## combatd.c start_aggressive(), annihir.c accept_fight()). The battle log opens
 ## with the same lines and keeps the warnings pinned while the panel covers the log.
 ## `first_id`: the NPC whose kill_ob() came first (kill.c's target), when one did.
-func announce_fight(lines: Array[String], first_id: StringName = &"") -> void:
+## `colored` (optional): the same lines in their colours, for the log.
+func announce_fight(lines: Array[String], first_id: StringName = &"", colored: Array[ColoredLine] = []) -> void:
 	_note_toll_fights()
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var encounter: CombatEncounter = coordinator.active_encounter()
@@ -461,7 +463,9 @@ func announce_fight(lines: Array[String], first_id: StringName = &"") -> void:
 					warnings.push_front(warning)
 				else:
 					warnings.append(warning)
-	if not lines.is_empty():
+	if not colored.is_empty():
+		_map.hud().append_colored_lines(colored)
+	elif not lines.is_empty():
 		_map.hud().append_log_lines(lines)
 	if not warnings.is_empty():
 		_map.hud().append_log_lines(warnings, true)

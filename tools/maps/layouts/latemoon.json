@@ -139,6 +139,7 @@
 					{"node": "passage", "name": "SecretPassage", "id": "latemoon.room.flower1.south", "at": [704, 2352], "shape": "Rect_64_32"},
 					{"node": "service", "name": "TeaPot", "id": "latemoon.latemoon3.tea", "at": [1040, 112], "text": "茶壶 · 装水"},
 					{"node": "service", "name": "Pool", "id": "latemoon.room.bathroom.pool", "at": [1328, 2320], "text": "小花池 · 装水"},
+					{"node": "service", "name": "Bath", "id": "latemoon.room.bathroom.bath", "at": [1256, 2240], "text": "小花池 · 沐浴"},
 					{"node": "service", "name": "BaguaFloor", "id": "latemoon.latemoon8.dance", "at": [416, 720], "text": "八卦图 · 跳舞"},
 					{"generated": "stairs"},
 					{"generated": "doors"}
@@ -148,6 +149,8 @@
 					{"generated": "stair_markers"},
 					{"name": "EntranceCloudEntry", "at": [1872, 400], "id": "latemoon.entrance.cloud_entry"},
 					{"name": "FrontYardGardenReturn", "at": [1344, 464], "id": "latemoon.front_yard.garden_return"},
+					{"name": "Flower1KickedOut", "at": [832, 2240], "id": "latemoon.room.flower1.kicked_out"},
+					{"name": "Bathroom1CurtainArrival", "at": [960, 2224], "id": "latemoon.room.bathroom1.curtain_arrival"},
 					{"generated": "markers"}
 				],
 				"interactions": [
@@ -347,6 +350,7 @@
 					{"generated": "door_walls"},
 					{"generated": "shutters"},
 					{"node": "passage", "name": "JumpPassage", "id": "latemoon.upstar.uplook.jump", "at": [960, 592], "shape": "Rect_32_64"},
+					{"node": "service", "name": "Ponder", "id": "latemoon.upstar.uproom3.ponder", "at": [608, 1088], "text": "缀芳阁 · 静修"},
 					{"generated": "stairs"},
 					{"generated": "doors"}
 				],

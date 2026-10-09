@@ -12,6 +12,7 @@ const SCRIPTS: Dictionary[StringName, Script] = {
 	&"push_stone": preload("res://runtime/world/landmarks/push_stone_landmark_policy.gd"),
 	&"search": preload("res://runtime/world/landmarks/search_landmark_policy.gd"),
 	&"look_spawn": preload("res://runtime/world/landmarks/look_spawn_landmark_policy.gd"),
+	&"take": preload("res://runtime/world/landmarks/take_landmark_policy.gd"),
 }
 
 

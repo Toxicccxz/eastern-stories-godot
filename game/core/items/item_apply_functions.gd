@@ -7,7 +7,9 @@ extends RefCounted
 ## Lines are translated, with 你 for $N (message_vision as the player sees it).
 const SNAKE_DRUG: StringName = &"snake_drug"
 const HURT_DRUG: StringName = &"hurt_drug"
-const IDS: Array[StringName] = [SNAKE_DRUG, HURT_DRUG]
+## d/latemoon/park/npc/obj/flower.c do_eat(): `eat pistil`, not apply.
+const ROSE_PISTIL: StringName = &"rose_pistil"
+const IDS: Array[StringName] = [SNAKE_DRUG, HURT_DRUG, ROSE_PISTIL]
 
 
 class Result:
@@ -23,12 +25,19 @@ static func has(apply_id: StringName) -> bool:
 	return IDS.has(apply_id)
 
 
+## The item's button: 吃 for what ES2 eats (flower.c add_action("do_eat", "eat")), else 使用.
+static func verb(apply_id: StringName) -> String:
+	return "吃" if apply_id == ROSE_PISTIL else "使用"
+
+
 static func apply(apply_id: StringName, character: CharacterState, fighting: bool) -> Result:
 	match apply_id:
 		SNAKE_DRUG:
 			return _snake_drug(character)
 		HURT_DRUG:
 			return _hurt_drug(character, fighting)
+		ROSE_PISTIL:
+			return _rose_pistil(character)
 	var unknown := Result.new()
 	return unknown
 
@@ -68,6 +77,23 @@ static func _hurt_drug(character: CharacterState, fighting: bool) -> Result:
 	var value: int = mini(20, diff)
 	result.lines.append(TranslationServer.translate("你敷上金疮药 ."))
 	character.vitality.effective += value
+	result.accepted = true
+	result.used_up = true
+	return result
+
+
+## flower.c do_eat(): sen back 50 (receive_heal) and rose_poison 10 less, or 0 below 10
+## (apply_condition: a 0 still flares once, rose_poison.c). Deviation (**默认**, 晚月庄 B):
+## one not poisoned stays so; ES2 gave them that 0, and its one bout (你中的火玫瑰毒发作了！,
+## 20 sen of wound) came right after the cure.
+static func _rose_pistil(character: CharacterState) -> Result:
+	var result := Result.new()
+	result.lines.append(TranslationServer.translate("你拿出一朵小花蕊，一口给吞了下去。"))
+	result.lines.append(TranslationServer.translate("只见你脸上泛起一阵红晕，整个人看起来好多了!"))
+	character.spirit.heal(50)
+	if character.conditions.has_condition(ConditionIds.ROSE_POISON):
+		var poison: int = _duration(character, ConditionIds.ROSE_POISON)
+		character.conditions.add_or_replace_duration(ConditionIds.ROSE_POISON, 0 if poison < 10 else poison - 10)
 	result.accepted = true
 	result.used_up = true
 	return result

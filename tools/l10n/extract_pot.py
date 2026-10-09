@@ -46,14 +46,14 @@ TEXT_KEYS = frozenset({
     "damage_type", "done", "weapon_fail", "improved_line", "message", "line",
     "target", "quest_type", "ask_say", "again_say", "oath", "ask_tell", "success", "force_fail",
     "whisper", "commoners_only", "busy_say", "mana_fail", "sen_fail", "came", "caught", "standing",
-    "tell", "dissolve", "tired", "clumsy",
+    "tell", "dissolve", "tired", "clumsy", "ask", "choice", "wear_refusal",
 })
 TEXT_LIST_KEYS = frozenset({"limbs", "name_pick", "killed_by_owner", "killed_by_other"})
 # Inside lines and messages `action` names a chat function (random_move, drink, perform...), not a label.
 LINE_KEYS = (TEXT_KEYS - {"action"}) | frozenset({
     "open", "close", "push", "hold", "fall", "climb", "climb_observer", "fall_observer",
     "use", "bury", "book", "paper", "shout", "shut", "joined", "refused",
-    "weak", "rolled", "search", "found", "nothing", "spawn", "list",
+    "weak", "rolled", "search", "found", "nothing", "spawn", "list", "take", "empty",
 })
 # Lists of identifiers inside walked text (an inquiry rule's marks), never shown.
 ID_LIST_KEYS = frozenset({"asker_marks", "unmark_giver"})
@@ -354,8 +354,13 @@ def _walk_json(node: object, relative: str, record_id: str, catalog: Catalog, pa
                 if has_chinese(topic):
                     catalog.add(topic, relative, note=f"{record_id} inquiry topic")
                 _walk_text(answer, relative, f"{record_id} inquiry.{topic}", catalog)
-        elif key in ("messages", "chat_msg", "chat_msg_combat", "dodge_messages", "parry_messages", "lines", "pass_lines", "shop_front", "summoned"):
+        elif key in ("messages", "chat_msg", "chat_msg_combat", "dodge_messages", "parry_messages", "lines", "pass_lines", "without", "shop_front", "summoned"):
             _walk_text(value, relative, note, catalog)
+        elif key == "act" and isinstance(value, dict):
+            # A room's own command (RoomActDefinition): its button's verb, then its acts.
+            if isinstance(value.get("verb"), str):
+                catalog.add(value["verb"], relative, note=f"{note}.verb")
+            _walk_json(value, relative, record_id, catalog, here)
         elif key == "relay_say" and isinstance(value, dict):
             # What the player can say beside the NPC (the 接话 button), and its answers.
             for phrase, answer in value.items():

@@ -44,8 +44,9 @@ func _test_data() -> void:
 	_check(traveller.chat_chance == 40 and traveller.chat_entries() == [NpcTalk.RANDOM_MOVE], "旅客: random_move at 40")
 	var dog: NpcTalk = catalog.npc(&"snow.npc.dog").talk()
 	_check(dog.chat_chance == 6 and dog.chat_entries().size() == 5 and dog.chat_entries()[0] == NpcTalk.RANDOM_MOVE, "野狗: random_move and four lines at 6")
-	var greeting: Array[NpcLine] = catalog.npc(&"snow.npc.keeper").talk().greeting_choices()
-	_check(greeting.size() == 1 and not greeting[0].emote and greeting[0].text == "这位$RESPECT，捐点香火钱积点阴德吧。", "庙祝 greets")
+	var greeting: Array[ScriptedAct] = catalog.npc(&"snow.npc.keeper").talk().greeting_choices()
+	var said: NpcLine = greeting[0].steps[0].line if greeting.size() == 1 and greeting[0].steps.size() == 1 else null
+	_check(said != null and not said.emote and said.text == "这位$RESPECT，捐点香火钱积点阴德吧。", "庙祝 greets")
 	_check(catalog.npc(&"oldpine.npc.fat_bandit").talk().chat_chance == 0, "矮胖子土匪: a chance without chat_msg is nothing")
 
 

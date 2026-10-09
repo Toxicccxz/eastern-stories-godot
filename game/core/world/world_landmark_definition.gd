@@ -23,7 +23,9 @@ extends RefCounted
 ## call_spider()) is looked at: while fewer than `limit` came since the room's reset
 ## and its summoned `spawn` has a free point, a look calls one in (`spawn`). A `look`
 ## landmark may `teach` marks: what it tells the player now know (d/latemoon/latebook.c's
-## picture names two dances).
+## picture names two dances). `take` (park/moonc.c do_pick(), latemoon2.c do_take("cloth"))
+## gives the `reward` item while fewer than `limit` were taken since the room's reset
+## (`take`); after that it says `empty`.
 const POLICIES: Dictionary[StringName, Dictionary] = {
 	&"portal": {"portals": 1, "messages": [], "optional_messages": ["use"], "settings": [], "items": []},
 	&"vine": {"portals": 2, "messages": ["hold", "fall", "fall_observer", "climb", "climb_observer"], "settings": [], "items": []},
@@ -34,6 +36,7 @@ const POLICIES: Dictionary[StringName, Dictionary] = {
 	&"push_stone": {"portals": 1, "messages": ["weak", "push", "rolled"], "settings": ["force", "max_force", "force_factor", "gin", "kee", "sen", "random"], "items": []},
 	&"search": {"portals": 0, "messages": ["search", "found", "nothing"], "settings": ["random"], "items": ["reward"], "mark": true},
 	&"look_spawn": {"portals": 0, "messages": ["spawn"], "settings": ["limit"], "items": [], "no_action": true, "spawn": true},
+	&"take": {"portals": 0, "messages": ["take", "empty"], "settings": ["limit"], "items": ["reward"]},
 }
 ## Every setting some policy names (an integer field of the record).
 const SETTINGS: Array[String] = ["pushes", "open_seconds", "force", "max_force", "force_factor", "gin", "kee", "sen", "random", "limit"]

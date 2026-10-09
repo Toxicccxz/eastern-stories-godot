@@ -120,8 +120,8 @@ func _test_talk() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var yumay: NpcTalk = catalog.npc(&"latemoon.npc.yumay").talk()
 	var lines: Array[String] = []
-	for line: NpcLine in yumay.greeting_choices():
-		lines.append(line.sentence("蓝雨梅", "姑娘"))
+	for act: ScriptedAct in yumay.greeting_choices():
+		lines.append(act.steps[0].line.sentence("蓝雨梅", "姑娘"))
 	_check(lines.size() == 2 and lines[0].begins_with("雨梅对你微笑，和善的对你说：") and lines[0].contains("这位姑娘，你好！欢迎来到晚月庄。请坐！") and lines[1].contains("请用茶！"), "雨梅's two greetings: %s" % [lines])
 	_check(catalog.npc(&"latemoon.npc.zauron").talk().greeting_choices().size() == 2 and catalog.npc(&"latemoon.npc.shaowei").talk().greeting_choices().size() == 2, "昭蓉's and 筱薇's random(2) greetings")
 	var master: NpcTalk = catalog.npc(MASTER).talk()

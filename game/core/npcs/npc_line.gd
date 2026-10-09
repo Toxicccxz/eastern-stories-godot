@@ -7,10 +7,12 @@ extends RefCounted
 ## and `whisper` is whisper.c to the player ("<name>在你的耳边悄声说道：<text>", in GRN;
 ## the room only sees that something was whispered).
 ## The text may hold $RESPECT (rankd.c query_respect() of whoever the NPC speaks to).
+## A line may have its ES2 colour (`color`: shinyu.c's HIY say()); one colour a line.
 var emote: bool
 var text: String
 var as_written: bool
 var whisper: bool
+var authored_color: StringName = ColoredLine.PLAIN
 
 
 func _init(p_emote: bool = false, p_text: String = "", p_as_written: bool = false, p_whisper: bool = false) -> void:
@@ -36,9 +38,9 @@ func sentence(npc_name: String, respect: String) -> String:
 	return TranslationServer.translate("{npc}说道：{line}").format({"npc": npc, "line": body})
 
 
-## The colour ES2 prints it in: whisper.c's GRN, else plain.
+## The colour ES2 prints it in: whisper.c's GRN, else its authored colour.
 func color() -> StringName:
-	return ColoredLine.GRN if whisper else ColoredLine.PLAIN
+	return ColoredLine.GRN if whisper else authored_color
 
 
 ## The sentence in its colour.
@@ -46,18 +48,26 @@ func colored(npc_name: String, respect: String) -> ColoredLine:
 	return ColoredLine.new(sentence(npc_name, respect), color())
 
 
-## A record with exactly one of `say`, `emote`, `line` and `whisper`; null (and a
-## reported failure) otherwise.
-static func from_record(reader: ContentRecordReader) -> NpcLine:
+## A record with exactly one of `say`, `emote`, `line` and `whisper`, and where the line
+## is shown in colour (`colored`: ScriptedAct steps, an exit rule's hand-back) an optional
+## `color` (not for a whisper); null (and a reported failure) otherwise.
+static func from_record(reader: ContentRecordReader, colored: bool = false) -> NpcLine:
 	var kinds: int = int(reader.has("say")) + int(reader.has("emote")) + int(reader.has("line")) + int(reader.has("whisper"))
 	if kinds != 1:
 		reader.fail("", "needs exactly one of say, emote, line and whisper")
 		return null
+	var parsed: NpcLine
 	if reader.has("line"):
-		return NpcLine.new(false, reader.required_text("line"), true)
-	if reader.has("whisper"):
-		return NpcLine.new(false, reader.required_text("whisper"), false, true)
-	return NpcLine.new(reader.has("emote"), reader.required_text("emote" if reader.has("emote") else "say"))
+		parsed = NpcLine.new(false, reader.required_text("line"), true)
+	elif reader.has("whisper"):
+		parsed = NpcLine.new(false, reader.required_text("whisper"), false, true)
+	else:
+		parsed = NpcLine.new(reader.has("emote"), reader.required_text("emote" if reader.has("emote") else "say"))
+	if colored and reader.has("color"):
+		parsed.authored_color = StringName(reader.required_text("color"))
+		if not ColoredLine.COLORS.has(parsed.authored_color) or parsed.whisper:
+			reader.fail("color", "expected one of %s, and no colour on a whisper" % [ColoredLine.COLORS])
+	return parsed
 
 
 ## The optional `line`, `say`, `emote` and `whisper` of a rule record: a line as

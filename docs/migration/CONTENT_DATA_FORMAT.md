@@ -51,7 +51,7 @@ A room's `set("objects")` may name a class daemon's NPC (`CLASS_D("swordsman") +
 | `long` | `set("long")` | optional; default is `name(Capitalized first alias)。\n` as in `feature/name.c` |
 | `unit`, `material`, `value` | `set(...)` | `value` absent = 0 |
 | `no_get` | `set("no_get", 1)` | `true`: get.c refuses it (这个东西拿不起来。) |
-| `female_only` | `set("female_only", 1)` | `true`: wear.c lets only a 女性 character wear it |
+| `female_only`, `wear_refusal` | `set("female_only", 1)`; an own wear() (d/latemoon/obj/skirt.c) | `true`: wear.c lets only a 女性 character wear it; `wear_refusal` is the item's own wear() line instead of wear.c's |
 | `no_drop` | `set("no_drop", 1 \| "line")` | `true` or drop.c's own line: drop.c, give.c and put.c refuse it |
 | `max_encumbrance` | `set_max_encumbrance(n)` | a container: put.c puts things in while their weight fits, get.c takes them out (功德箱 10000) |
 | `weight` | `set_weight()` | omitted for money; 0 when the LPC never sets it (`feature/move.c`) |
@@ -92,7 +92,7 @@ The corpse (`obj/corpse.c`) is created by the death rules and is not an item rec
 | `accept_fight` | the NPC's own `accept_fight()` | ordered rules `{family?, gender?, emote?, say?, accept, kill?}`; the first matching rule decides; `kill` (with `accept`): the NPC answers with `kill_ob()` (annihir.c) and fights to kill, the challenger only fights back; `say` may use `$RESPECT`/`$SELF` (rankd.c). Hand-written in the override file's `set` |
 | `inquiry` | `set("inquiry")` | `{topic: [line, ...]}` in authored order; ask.c says each line as `<name>说道：<line>`. Strings of an answer array only (ask.c skips 0 and functions); a topic answered by a function is a finding `inquiry <topic>`. A topic may instead be `{eff_kee_percent: [{at_least, say}]}` (herbalist.c heal_me(), judged on the asker; none matching leaves ask.c's own answer) |
 | `chat_chance`, `chat_msg` | `set("chat_chance")`, `set("chat_msg")` | npc.c chat(): `chat_msg` entries are lines (said as written), `{"action": "random_move"}`, `{"action": "drink", sated_water, dry_say, dry_clears?}` (drunk.c do_drink()) or `{"action": "emote", "verb"}` (an emote: prints nothing). Generated only when every entry is a line or random_move; otherwise both stay findings. `chat_msg_combat` also takes `{"action": "wield", "item", "say"?, "chat_chance_combat"?}`, `{"action": "call_partner", "partner", "emote"\|"say"\|"line"}` (ask_for_help()), `{"action": "say_by_age", "younger", "otherwise"}` and `{"action": "poison", "condition", "duration", "tell"}` (daemon/class/dancer/master.c use_poison(): a random enemy without the condition is told, and random(the NPC's combat_exp) over its own sets it) |
-| `greeting` | the NPC's init()/greeting() | `{say}` (said as `<name>说道：<say>`) or `{one_of: [{say} \| {emote}]}`, one drawn when it is said (waiter.c `random(3)`; an `emote` follows the name), one second after the player arrives (`$RESPECT` the player). Hand-written in the override file's `set` |
+| `greeting` | the NPC's init()/greeting() | `{say}` (said as `<name>说道：<say>`), `{one_of: [{say} \| {emote} \| {line} \| act]}`, one drawn when it is said (waiter.c `random(3)`; an `emote` follows the name), or `{rules: [act]}`, the first act for the player; one second after the player arrives (`$RESPECT` the player). An act is `{gender?, not_gender?, not_class?, ask?, choice?, steps}` (ScriptedAct): each step one of a line (`say`, `emote`, `line`, `whisper`, with an optional `color`), `damage` `{gin, kee, sen}`, `heal` (`gin`/`kee`/`sen`, `base`, `random`), `condition` with `duration`, `calm` (bellicosity above 0 less random(kar) + n), `npc_force`, `close_door` (the door the player came by), `move` (a zone) with `point`, `kill`, `give` (an item) with `unless_temp` and `lines`. Hand-written in the override file's `set` |
 | `vendor` | the override's `vendors` | a vendors[] ID: the NPC sells these goods from its body (buy.c finds it with `present()`) |
 | `accept_object` | the NPC's own `accept_object()` | ordered rules, first match decides; conditions `value_at_least`, `value_at_most`, `liquid` (`alcohol`/`water`), `liquid_remaining_at_most`, `npc_flag`, `giver_mark`; outcome `say`/`emote`, `accept`, `mark_giver` (marks/<name>), `set_npc_flag`, `effect` (`temple_donation`: keeper.c). No rule matching, or no rules, refuses (give.c). Hand-written in `set` |
 | `flags` | object variables `create()` sets | e.g. `["has_alcohol"]` (drunk.c); rules test and set them; not saved |
@@ -200,7 +200,9 @@ can be filled here from the supplies panel), `dance` (d/latemoon/latemoon8.c and
 do_dancing(), with its `dance`: `{costs: [{gender, at_least, sen}], tired, clumsy, steps:
 [{name, mark, sen?, always?, portal, line}]}`: the gender's sen check and cost, then a step the
 player knows (its mark, or `always`: the room's only way out) plays its line, spends its sen and moves them through its portal, which leaves
-the service's zone; the player's own dance is `clumsy`). The context button reads `name · verb`, e.g. 钱庄 ·
+the service's zone; the player's own dance is `clumsy`), `act` (bathroom.c take bath, uproom3.c ponder,
+with its `act`: `{verb, acts: [act]}` as a greeting's acts: the first for the player runs; one with
+`ask` is asked first, and so is one whose `damage` would knock the player out). The context button reads `name · verb`, e.g. 钱庄 ·
 兑换; `hockshop` also requires an idle, non-fighting player. Goods and teaching belong to NPCs
 (`vendor`, teaching fields): the map binds them to the NPC's body, reached within 96 pixels of it
 (店小二 · 购买, 柳淳风 · 请教).
@@ -231,7 +233,8 @@ other than 0 gives the `reward` item (`found`, the mark stays), else the mark go
 `nothing`). A `look` landmark may `teach` marks (`teaches`: d/latemoon/latebook.c's picture names two
 dances). `look_spawn` (house3.c) has no action: looking calls one NPC of its summoned `spawn`
 in (`spawn`) while fewer than `limit` came since its room's reset and a point is free; else the
-look reads `long`.
+look reads `long`. `take` (moonc.c do_pick(), latemoon2.c do_take()) gives the `reward` item
+(`take`) while fewer than `limit` were taken since the room's reset, then says `empty`.
 
 ## exit_rules
 
@@ -240,7 +243,12 @@ walk into the next zone or a passage between the two: `when` `weapon_in_hand` (w
 NPC that must stand in the room), `combat_exp_below` (with `value`), `not_apprentice_of` (with
 `npc`, the master's definition), `not_family` (with `family`), `kar_slip` (random(kar) below
 `value`: the leaver also falls unconscious) or `never` (refuses nobody, only says `pass_lines`).
-The player stays and reads `lines`; one who goes through reads `pass_lines`.
+The player stays and reads `lines`; one who goes through reads `pass_lines`. Two are not refusals:
+`ask` (with `unless_gender`, `ask`, `choice`, `point`; no `lines`) stops anyone else and asks
+(owner's rule on choices that can kill); one who goes on is put at `point` in `to_zone`. It
+guards a walk between two zones of one map, never a passage.
+`takes_back` (latemoon3.c, with `item`, `temp`, `taken`, `without`) lets everyone through: one
+carrying the item with the temp flag hands it back (`taken`), one carrying none reads `without`.
 
 ## pacing
 

@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://runtime/world/world_passage_area_2d.gd" id="passage"]
 [ext_resource type="Script" path="res://runtime/world/world_physical_zone_area_2d.gd" id="zone"]
 [ext_resource type="Script" path="res://runtime/world/world_door.gd" id="door"]
+[ext_resource type="Script" path="res://runtime/world/world_service_point.gd" id="service"]
 [ext_resource type="TileSet" path="res://scenes/world/common/placeholder_terrain_tileset.tres" id="terrain_tiles"]
 
 [sub_resource type="RectangleShape2D" id="Rect_32_64"]
@@ -174,6 +175,23 @@ portal_id = &"latemoon.upstar.uplook.jump"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="JumpPassage"]
 shape = SubResource("Rect_32_64")
+
+[node name="Ponder" type="Marker2D" parent="."]
+position = Vector2(608, 1088)
+script = ExtResource("service")
+service_id = &"latemoon.upstar.uproom3.ponder"
+
+[node name="Visual" type="Polygon2D" parent="Ponder"]
+polygon = PackedVector2Array(0, -20, 16, 8, 0, 20, -16, 8)
+color = Color(0.5, 0.85, 1, 1)
+
+[node name="Label" type="Label" parent="Ponder"]
+offset_left = -100.0
+offset_top = 26.0
+offset_right = 100.0
+mouse_filter = 2
+text = "缀芳阁 · 静修"
+horizontal_alignment = 1
 
 [node name="Upstar1StairsDown" type="Area2D" parent="."]
 position = Vector2(304, 272)
