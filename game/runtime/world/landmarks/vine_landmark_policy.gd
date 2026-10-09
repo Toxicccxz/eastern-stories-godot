@@ -49,8 +49,9 @@ func use(map: WorldMapController, landmark: WorldLandmarkDefinition) -> RefCount
 	hud.append_log_lines([TranslationServer.translate(landmark.message("hold"))])
 	result._source_presentation_reached = true
 	result._reached_stage = VineTraversalResult.ReachedStage.SOURCE_PRESENTATION
-	var armor_dodge: int = player.armor.aggregate_numeric_modifiers().dodge
-	result._effective_dodge = player.state.skills.effective_level(DODGE_SKILL_ID, armor_dodge)
+	# query_skill("dodge"): apply/dodge is the worn armor's, the wielded weapon's and powerup's.
+	var apply_dodge: int = PlayerMartialArts.apply_of(player.state, player.armor, DODGE_SKILL_ID)
+	result._effective_dodge = player.state.skills.effective_level(DODGE_SKILL_ID, apply_dodge)
 	var portals: Array[StringName] = landmark.portal_ids()
 	result._policy_result = VineTraversalPolicy.new(portals[0], portals[1]).evaluate(
 		result._effective_dodge, random_source,

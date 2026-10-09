@@ -87,7 +87,7 @@ func _test_default_waterfall_branch(tree: SceneTree) -> void:
 	)
 	var world_random: ObservingWorldInteractionRandomSource = (
 		ObservingWorldInteractionRandomSource.new(
-			[4],
+			[2],
 			outdoor.session.shared_ui(),
 			session.player_runtime(),
 			vine_definition.message("hold"),
@@ -103,7 +103,7 @@ func _test_default_waterfall_branch(tree: SceneTree) -> void:
 	player.busy.start_busy(7, 2)
 	var resources_before: Array[int] = _resource_snapshot(player.state)
 	var npc_rng_identity: NpcInitializationRandomSource = session.npc_random_source()
-	_assert_eq(_effective_dodge(player), 5, "fresh player current effective dodge is exactly five")
+	_assert_eq(_effective_dodge(player), 3, "fresh player current effective dodge is exactly 10/2 and the long sword's -2 (equip.c)")
 	_assert_true(outdoor.select_landmark(&"oldpine.outdoor.landmark.epath2_vine"), "Vine is selectable as LANDMARK")
 	_assert_true(outdoor.inspect_selected(), "Vine Inspect succeeds")
 	_assert_true(outdoor.session.shared_ui().inspection_display().contains("高约百丈的山涧深谷"), "HUD renders authored Vine Inspect")
@@ -111,10 +111,10 @@ func _test_default_waterfall_branch(tree: SceneTree) -> void:
 	_assert_false(outdoor.session.shared_ui().attack_is_enabled(), "Vine selection is not a fake attack target")
 	var hold_log_start: int = outdoor.session.shared_ui().log_lines().size()
 	var result: VineTraversalResult = outdoor.traverse_selected_portal()
-	_assert_eq(result.outcome, VineTraversalResult.Outcome.COMPLETED_WATERFALL, "bound five draw four selects Waterfall")
-	_assert_eq(result.effective_dodge, 5, "outer result retains current effective dodge")
-	_assert_eq(result.policy_result.random_bound, 5, "fresh player uses exact bound five")
-	_assert_eq(result.policy_result.draw_value, 4, "upper valid bound-five draw retained")
+	_assert_eq(result.outcome, VineTraversalResult.Outcome.COMPLETED_WATERFALL, "bound three draw two selects Waterfall")
+	_assert_eq(result.effective_dodge, 3, "outer result retains current effective dodge")
+	_assert_eq(result.policy_result.random_bound, 3, "fresh player uses exact bound three")
+	_assert_eq(result.policy_result.draw_value, 2, "upper valid bound-three draw retained")
 	_assert_true(result.source_presentation_reached, "source presentation precedes random")
 	_assert_true(result.branch_presentation_reached, "Waterfall presentation precedes movement")
 	# The pool lies on the gorge map below the bridge (DECISIONS 3B5): the fall is a handoff.
@@ -167,23 +167,27 @@ func _test_live_dodge_and_armor(tree: SceneTree) -> void:
 	var session: WorldSessionController = await _session(tree, 10_101)
 	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	var world_random: ScriptedWorldInteractionRandomSource = ScriptedWorldInteractionRandomSource.new([4, 2, 4, 5])
+	var world_random: ScriptedWorldInteractionRandomSource = ScriptedWorldInteractionRandomSource.new([4, 2, 4, 2, 5])
 	var combat_random: ScriptedCombatRandomSource = ScriptedCombatRandomSource.new([])
 	session.configure_world_interaction_random_source(world_random)
 	session.configure_combat_random_source(combat_random)
 	var leather_id: StringName = &"phase9b3b2.player-leather"
 	_assert_true(_add_owned_leather(outdoor, leather_id), "live test adds one canonical owned leather instance")
+	var sword_id: StringName = player.state.equipment.primary_weapon().instance_id
+	_assert_true(session.unwield_player_item(sword_id).succeeded, "the player puts the long sword away")
 	_assert_eq(_attempt_from_east(outdoor).effective_dodge, 5, "unworn leather does not affect first current bound")
 	_assert_true(OldPineTestMap.wear(outdoor, leather_id).succeeded, "player wears live leather")
 	_assert_eq(_attempt_from_east(outdoor).effective_dodge, 3, "worn leather immediately applies dodge minus two")
 	_assert_true(OldPineTestMap.remove(outdoor, leather_id).succeeded, "player removes live leather")
 	_assert_eq(_attempt_from_east(outdoor).effective_dodge, 5, "removed leather restores next current bound")
-	player.state.skills.set_raw_level(&"dodge", 12)
+	_assert_true(session.wield_player_item(sword_id).succeeded, "the player wields the long sword again")
+	_assert_eq(_attempt_from_east(outdoor).effective_dodge, 3, "the wielded long sword's -2 counts (query_skill: apply/dodge)")
+	player.state.skills.set_raw_level(&"dodge", 16)
 	var success: VineTraversalResult = _attempt_from_east(outdoor)
-	_assert_eq(success.effective_dodge, 6, "skill change is read at execution, not selection time")
+	_assert_eq(success.effective_dodge, 6, "skill change is read at execution, not selection time (16/2 - 2)")
 	_assert_eq(success.outcome, VineTraversalResult.Outcome.COMPLETED_PASSAGE, "bound six draw five selects Passage")
-	_assert_eq(player.state.skills.raw_level(&"dodge"), 12, "Vine evaluation mutates no raw skill")
-	_assert_eq(world_random.requested_bounds(), [5, 3, 5, 6], "live armor and skill facts define each exact bound")
+	_assert_eq(player.state.skills.raw_level(&"dodge"), 16, "Vine evaluation mutates no raw skill")
+	_assert_eq(world_random.requested_bounds(), [5, 3, 5, 3, 6], "live armor, weapon and skill facts define each exact bound")
 	_assert_eq(combat_random.call_count(), 0, "Wear/Remove/Vine consume no Combat RNG")
 	await _free_session(session, tree)
 
@@ -193,7 +197,7 @@ func _test_passage_roundtrip(tree: SceneTree) -> void:
 	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var cave: WorldMapController = session.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	player.state.skills.set_raw_level(&"dodge", 12)
+	player.state.skills.set_raw_level(&"dodge", 16)
 	var victim: NpcRuntimeState = outdoor.npc_runtimes()[1]
 	var corpse: CorpseState = await _kill_bandit(outdoor, victim, tree)
 	_assert_true(corpse != null, "Vine roundtrip fixture creates one resident Outdoor corpse")
@@ -241,7 +245,7 @@ func _test_passage_roundtrip(tree: SceneTree) -> void:
 	_assert_true(_add_owned_leather(outdoor, leather_id), "roundtrip adds one canonical player-owned leather instance")
 	_assert_true(OldPineTestMap.wear(outdoor, leather_id).succeeded, "roundtrip wears leather through the production adapter")
 	_assert_true(player.armor.is_worn(leather_id), "roundtrip fixture records the exact WORN armor ref")
-	player.state.skills.set_raw_level(&"dodge", 16)
+	player.state.skills.set_raw_level(&"dodge", 20)
 	var opponent: NpcRuntimeState = outdoor.npc_runtimes()[0]
 	opponent.character_state.vitality.current -= 7
 	var altered_vitality: int = opponent.character_state.vitality.current
@@ -388,7 +392,7 @@ func _test_reactivated_zone_contacts(tree: SceneTree) -> void:
 				if session.player_runtime().world_location().zone_id != OldPineWorldDefinitions.CLIFFSIDE_ZONE_ID:
 					stale_locations.append(session.player_runtime().world_location().zone_id)
 		)
-		session.player_runtime().state.skills.set_raw_level(&"dodge", 12)
+		session.player_runtime().state.skills.set_raw_level(&"dodge", 16)
 		session.configure_world_interaction_random_source(ScriptedWorldInteractionRandomSource.new([5]))
 		_assert_true(_attempt_from_east(outdoor).succeeded(), "contact fixture uses normal Vine handoff")
 		await _physically_enter_south_exit(session.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID), tree)
@@ -449,7 +453,7 @@ func _test_invalid_and_partial_boundaries(tree: SceneTree) -> void:
 	_assert_eq(world_random.call_count(), 0, "non-ACTIVE player consumes zero World RNG")
 	session.player_runtime().set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
 	outdoor.select_landmark(&"oldpine.outdoor.landmark.epath2_vine")
-	session.player_runtime().state.skills.set_raw_level(&"dodge", 12)
+	session.player_runtime().state.skills.set_raw_level(&"dodge", 16)
 	var invalid_random: ScriptedWorldInteractionRandomSource = ScriptedWorldInteractionRandomSource.new([6])
 	session.configure_world_interaction_random_source(invalid_random)
 	outdoor.select_landmark(&"oldpine.outdoor.landmark.epath2_vine")
@@ -476,7 +480,7 @@ func _test_invalid_and_partial_boundaries(tree: SceneTree) -> void:
 	var handoff_session: WorldSessionController = await _session(tree, 10_302)
 	var handoff_outdoor: WorldMapController = handoff_session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var handoff_cave: WorldMapController = handoff_session.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID)
-	handoff_session.player_runtime().state.skills.set_raw_level(&"dodge", 12)
+	handoff_session.player_runtime().state.skills.set_raw_level(&"dodge", 16)
 	var handoff_random: ScriptedWorldInteractionRandomSource = ScriptedWorldInteractionRandomSource.new([5])
 	handoff_session.configure_world_interaction_random_source(handoff_random)
 	_move_player(handoff_outdoor, OldPineWorldDefinitions.EAST_BRIDGE_ZONE_ID, Vector2(1200, 300))
@@ -499,7 +503,7 @@ func _test_committed_partial_after_vine_draw(tree: SceneTree) -> void:
 		ScriptedWorldInteractionRandomSource.new([5])
 	)
 	session.configure_world_interaction_random_source(random)
-	session.player_runtime().state.skills.set_raw_level(&"dodge", 12)
+	session.player_runtime().state.skills.set_raw_level(&"dodge", 16)
 	outdoor.tree_exiting.connect(
 		func() -> void: cave._initialized = false,
 		CONNECT_ONE_SHOT,
@@ -529,7 +533,7 @@ func _test_south_exit_failure_recovery(tree: SceneTree) -> void:
 		ScriptedWorldInteractionRandomSource.new([5, 5])
 	)
 	session.configure_world_interaction_random_source(random)
-	session.player_runtime().state.skills.set_raw_level(&"dodge", 12)
+	session.player_runtime().state.skills.set_raw_level(&"dodge", 16)
 	_assert_true(_attempt_from_east(outdoor).succeeded(), "SouthExit recovery fixture reaches Cave")
 	var waterfall_marker: WorldSpawnMarker2D = session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID).resolve_spawn_marker(
 		OldPineWorldDefinitions.WATERFALL_LANDING_SPAWN_POINT_ID
@@ -572,7 +576,7 @@ func _test_physical_interaction_and_exit_deduplication(tree: SceneTree) -> void:
 	click.pressed = true
 	vine_area._input_event(outdoor.get_viewport(), click, 0)
 	_assert_eq(selected_ids, [&"oldpine.outdoor.landmark.epath2_vine"], "actual Vine Area click emits exact LANDMARK ID")
-	session.player_runtime().state.skills.set_raw_level(&"dodge", 12)
+	session.player_runtime().state.skills.set_raw_level(&"dodge", 16)
 	session.configure_world_interaction_random_source(ScriptedWorldInteractionRandomSource.new([5]))
 	var result: VineTraversalResult = _attempt_from_east(outdoor)
 	_assert_true(result.succeeded(), "physical-exit fixture reaches Cave")
@@ -659,7 +663,7 @@ func _move_player(
 func _effective_dodge(player: WorldPlayerRuntimeState) -> int:
 	return player.state.skills.effective_level(
 		&"dodge",
-		player.armor.aggregate_numeric_modifiers().dodge,
+		PlayerMartialArts.apply_of(player.state, player.armor, &"dodge"),
 	)
 
 
