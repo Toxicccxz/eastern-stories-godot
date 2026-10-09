@@ -87,6 +87,21 @@ class GameplaySuiteTests(unittest.TestCase):
             ["res://tests/core/b_test.gd", "res://tests/runtime/a_test.gd"], verify.discover_suites(game)
         )
 
+    def test_slowest_suites_start_first(self) -> None:
+        suites = [
+            "res://tests/core/a_test.gd", "res://tests/runtime/b_test.gd",
+            "res://tests/runtime/world_soak_test.gd", "res://tests/runtime/versioned_source_save_test.gd",
+        ]
+        self.assertEqual(
+            verify.suite_order(suites),
+            ["res://tests/runtime/versioned_source_save_test.gd", "res://tests/runtime/world_soak_test.gd",
+             "res://tests/runtime/b_test.gd", "res://tests/core/a_test.gd"],
+        )
+
+    def test_the_slowest_suites_exist(self) -> None:
+        suites = verify.discover_suites(verify.REPOSITORY / "game")
+        self.assertEqual([suite for suite in verify.SLOWEST_SUITES if suite not in suites], [])
+
     def test_passing_suite_counts_its_assertions(self) -> None:
         run = self._judge(f"{self.SUITE}  92 assertions, 0 failures, 4116 ms\nPASS: 1 suite(s), 92 assertions, 0 failure(s)\n")
         self.assertTrue(run.passed)

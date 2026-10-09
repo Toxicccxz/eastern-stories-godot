@@ -27,7 +27,7 @@ from prepare_release_project import prepare_release_project, validate_release_pr
 
 
 # A step that outlives its budget has hung (e.g. a GDScript error that stops a SceneTree
-# script before it can quit); fail it instead of waiting forever. CI's job limit (30 min)
+# script before it can quit); fail it instead of waiting forever. CI's job limit (45 min)
 # bounds the whole run. Gameplay suites run one Godot process each, so their budget is per
 # suite; the slowest takes a few minutes.
 TOOLING_TIMEOUT_SECONDS = 10 * 60
@@ -36,6 +36,19 @@ SUITE_TIMEOUT_SECONDS = 10 * 60
 SCRIPT_ERROR_MARKER = "SCRIPT ERROR"
 SUITE_RUNNER = "res://tests/run_suite.gd"
 SLOW_SUITE_PREFIXES = ("res://tests/runtime/", "res://tests/application/")
+# The slowest suites on CI (PR #91, 4 at a time), slowest first: each starts at once, so
+# none of them runs alone at the end. versioned_source_save_test alone took 9.6 min of
+# the 29.5 when it started 20 min in.
+SLOWEST_SUITES = (
+    "res://tests/runtime/versioned_source_save_test.gd",
+    "res://tests/runtime/world_soak_test.gd",
+    "res://tests/application/mobile_lifecycle_test.gd",
+    "res://tests/application/application_shell_test.gd",
+    "res://tests/runtime/snow_finance_test.gd",
+    "res://tests/runtime/player_recovery_cadence_test.gd",
+    "res://tests/runtime/snow_water_test.gd",
+    "res://tests/application/public_source_new_game_test.gd",
+)
 SUITE_SUMMARY = re.compile(r"^(PASS|FAIL): (\d+) suite\(s\), (\d+) assertions, (\d+) failure\(s\)$")
 
 
@@ -138,6 +151,16 @@ class SuiteRun:
 def discover_suites(game: Path) -> list[str]:
     """Every *_test.gd under game/tests as a res:// path: a new suite needs no registration."""
     return sorted("res://" + path.relative_to(game).as_posix() for path in (game / "tests").rglob("*_test.gd"))
+
+
+def suite_order(suites: list[str]) -> list[str]:
+    """The order suites start in: the known slowest first (SLOWEST_SUITES), then the other
+    world suites (a minute or more each), then the core suites (seconds)."""
+    def key(suite: str) -> tuple[int, int, str]:
+        if suite in SLOWEST_SUITES:
+            return (0, SLOWEST_SUITES.index(suite), suite)
+        return (1 if suite.startswith(SLOW_SUITE_PREFIXES) else 2, 0, suite)
+    return sorted(suites, key=key)
 
 
 def default_jobs() -> int:
@@ -274,9 +297,9 @@ def run_gameplay_suites(godot: Path, jobs: int, timeout: float = SUITE_TIMEOUT_S
     pool = ThreadPoolExecutor(max_workers=jobs)
     try:
         futures = []
-        # World suites take up to a minute or more each, core suites seconds: starting them
-        # first keeps one slow suite from running alone at the end.
-        for suite in sorted(suites, key=lambda suite: not suite.startswith(SLOW_SUITE_PREFIXES)):
+        # The slowest first, then world suites (a minute or more each), then core suites
+        # (seconds): no slow suite runs alone at the end.
+        for suite in suite_order(suites):
             name = suite.removeprefix("res://tests/").removesuffix(".gd").replace("/", "__")
             env = _godot_environment(work_root / "env" / name)
             log = work_root / "logs" / f"{name}.log"
