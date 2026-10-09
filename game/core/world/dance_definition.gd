@@ -5,7 +5,8 @@ extends RefCounted
 ## sen it needs and spends before anything else (too little: `tired`, nothing spent); then a
 ## dance the room knows plays its line, may spend more sen and moves the dancer through
 ## its portal; any other dance is `clumsy` (the sen stays spent). The game offers the
-## dances the player heard named (a mark each) and one dance of their own (the clumsy one).
+## dances the player heard named (a mark each) and one dance of their own (the clumsy one);
+## a dance that is its room's only way out (miroom.c's 西出阳关) is offered `always`.
 
 class Cost:
 	extends RefCounted
@@ -20,6 +21,8 @@ class Step:
 	var name: String
 	## The mark that makes the player know it (who taught it set it).
 	var mark: String
+	## Offered without the mark: the room's only way out (owner's default: no trap).
+	var always: bool = false
 	## receive_damage("sen") after the line (有凤来仪's 50).
 	var sen: int
 	var portal_id: StringName
@@ -51,11 +54,11 @@ func cost_for(gender: String) -> Cost:
 	return null
 
 
-## The dances `marks` know, in the room's order.
+## The dances `marks` know, and those offered `always`, in the room's order.
 func known_steps(marks: Dictionary[String, int]) -> Array[Step]:
 	var known: Array[Step] = []
 	for step: Step in steps:
-		if marks.get(step.mark, 0) != 0:
+		if step.always or marks.get(step.mark, 0) != 0:
 			known.append(step)
 	return known
 
@@ -93,7 +96,7 @@ func dance(state: CharacterState, step: Step) -> Result:
 
 
 ## `dance`: {costs: [{gender, at_least, sen}], tired, clumsy, steps: [{name, mark, sen?,
-## portal, line}]}.
+## always?, portal, line}]}.
 static func from_record(reader: ContentRecordReader) -> DanceDefinition:
 	var definition := DanceDefinition.new()
 	for entry: ContentRecordReader in reader.children("costs"):
@@ -110,6 +113,7 @@ static func from_record(reader: ContentRecordReader) -> DanceDefinition:
 		step.name = entry.required_text("name")
 		step.mark = entry.required_text("mark")
 		step.sen = entry.integer("sen")
+		step.always = entry.boolean("always", false)
 		step.portal_id = StringName(entry.required_text("portal"))
 		step.line = entry.required_text("line")
 		entry.finish()

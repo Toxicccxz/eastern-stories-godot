@@ -133,7 +133,10 @@ What each room and LPC function became is in [LATEMOON_CONTENT](LATEMOON_CONTENT
   gender's sen check and cost (男 100/50, 女 50/30; miroom 男 100/80, 女 50/50), then the
   dance's line, 有凤来仪's 50 sen more and the move, or 不得要领. The dances are known from
   雨梅's 学舞 and 昭仪's 有凤来仪 (`mark_asker`) and the 书房's 湘绣舞曲图 (a look landmark that
-  `teaches` both). Only 有凤来仪 can knock a woman out (30 + 50 from 50).
+  `teaches` both). Only 有凤来仪 can knock a woman out (30 + 50 from 50). **The second 密室's
+  八卦图 offers 西出阳关 to anyone** (**默认**, a step `always`): it is the room's only way out,
+  and one who walked south from 内厅穿堂 or danced 有凤来仪 without hearing of it would be shut in
+  for good (ES2 let anyone type `dancing out`).
 - **Five maps**: the manor (front and rear halls, 36 rooms), the two secret rooms (one way
   in from 内厅穿堂), the 湘园, the front tower's upper floor (stairs from both rear corridors,
   the 观景台's jump down to the 湘园's forecourt) and the hills (the paths and the bamboo

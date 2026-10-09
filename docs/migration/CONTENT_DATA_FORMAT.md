@@ -198,8 +198,8 @@ region's file.
 (convert), `work`, `hockshop` (value/sell), `water` (ES2 `set("resource/water", 1)`: a wineskin
 can be filled here from the supplies panel), `dance` (d/latemoon/latemoon8.c and miroom.c
 do_dancing(), with its `dance`: `{costs: [{gender, at_least, sen}], tired, clumsy, steps:
-[{name, mark, sen?, portal, line}]}`: the gender's sen check and cost, then a step the player
-knows (its mark) plays its line, spends its sen and moves them through its portal, which leaves
+[{name, mark, sen?, always?, portal, line}]}`: the gender's sen check and cost, then a step the
+player knows (its mark, or `always`: the room's only way out) plays its line, spends its sen and moves them through its portal, which leaves
 the service's zone; the player's own dance is `clumsy`). The context button reads `name · verb`, e.g. 钱庄 ·
 兑换; `hockshop` also requires an idle, non-fighting player. Goods and teaching belong to NPCs
 (`vendor`, teaching fields): the map binds them to the NPC's body, reached within 96 pixels of it

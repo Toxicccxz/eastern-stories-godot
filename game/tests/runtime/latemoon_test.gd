@@ -88,7 +88,7 @@ func _test_waiting() -> void:
 		_check(catalog.npc(id).dealings().object_rules.is_empty(), "C waits: %s's accept_object()" % id)
 	_check(not catalog.npc(&"latemoon.npc.upstar.shinfun").talk().inquiry_topics().has("舞曲谱"), "C waits: 莫欣芳's 舞曲谱")
 	# D: 晚月庄.
-	_check(catalog.npc(&"common.npc.dancer.master").teaching().apprentice == null and catalog.npc(&"latemoon.npc.room.elon").teaching().apprentice == null, "D waits: 蓝止萍's and 瑷伦's attempt_apprentice()")
+	_check(catalog.npc(&"common.npc.dancer.master").teaching().apprentice == null and catalog.npc(&"latemoon.npc.room.elon").teaching().apprentice == null, "D waits: 蓝止萍's and 瑷伦's attempt_apprentice(). With them, the player's 意寒睨 needs its offensive target and the target's name (ExertService sets no ExertContext.offensive) and 柔虹指's practice must check sen before force (tenderzhi.c)")
 
 
 func _test_way_in(tree: SceneTree, session: WorldSessionController) -> void:
@@ -208,6 +208,15 @@ func _test_secret_rooms(tree: SceneTree, session: WorldSessionController) -> voi
 	_check(await MapPlaces.drive(tree, secret, MapPlaces.door_spot(secret, &"latemoon.miroom2.door", &"latemoon.miroom2")) and secret.open_door(&"latemoon.miroom2.door"), "the 垂花门 opens")
 	_check(await MapPlaces.drive_to_zone(tree, secret, &"latemoon.miroom"), "into the second 密室")
 	_check(Work.capture(session) != null, "Save in the secret rooms")
+	# One who walked in knowing no dance is not trapped: the floor that is the room's only way
+	# out offers its dance all the same (owner's default).
+	var marks: Dictionary[String, int] = session.player_runtime().state.marks
+	marks.erase("dance_out") # TEST-ONLY: never heard of 西出阳关
+	marks.erase("dance_yu_fong")
+	var floor_mi: DanceService = secret.service(&"latemoon.miroom.dance") as DanceService
+	_check(floor_mi.known_steps().size() == 1 and floor_mi.known_steps()[0].name == "西出阳关", "miroom's 八卦图 offers 西出阳关 to anyone")
+	var floor_8: DanceDefinition = GameContent.catalog().service(&"latemoon.latemoon8.dance").dance
+	_check(floor_8.known_steps(marks).is_empty(), "latemoon8's dances still need hearing of (it has its door)")
 
 
 ## drop.c, give.c, put.c: set("no_drop") refuses each.

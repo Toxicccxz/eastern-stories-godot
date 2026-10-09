@@ -88,3 +88,6 @@ quarters and the rooms' own commands; C the secrets (竹蜻蜓 and 玛瑙手镯,
 the women's quarters' greetings (阮欣郁, 龙韶吟, 虞琼衣, 苗郁淑, 凤凰, 区冥), the bath, the
 powder, the closet, the 海棠's pistils, 缀芳阁's ponder and the skirts' own wear() (B); 芳绫's,
 筱薇's and 无名老妇's accept_object() and 莫欣芳's 舞曲谱 (C); 蓝止萍's and 瑷伦's apprentices (D).
+With D: the player's 意寒睨 needs its target (ExertService sets no ExertContext.offensive, nor
+the target's name for its lines) and 柔虹指's practice checks sen before force (tenderzhi.c;
+VitalityInnerForcePracticePolicy checks force first).
