@@ -241,8 +241,9 @@ Code:
 * 绮云镇: 牛腿 is a hammer only (food that is also a weapon is not supported), so it leaves no
   牛腿骨; 熟牛肉 is not in the game (nobody sells it in ES2); a carried 布袋 is not opened.
 * 乔阴: the cranes cannot be fought until 乔阴 B (a beast without verbs); 风泉剑灵's chant stops
-  when the player leaves the map or continues a save (call_outs are not saved); the 采药老者's
-  growth lasts only as long as he does (his save file is not ported).
+  when the player leaves the map or continues a save (call_outs are not saved), and only one
+  stands at a time (骆云舟 killed again while it stands keeps his sword); the 采药老者's growth
+  lasts only as long as he does (his save file is not ported).
 * Persistence classes keep `OldPine*` / `oldpine_*` names (20 classes, some 130 files) and the session
   scene is still `scenes/world/oldpine/oldpine_world_session.tscn`, although they cover every map
   (the Session itself is `WorldSessionController` since the map-controller split); pre-B2 Old Pine
