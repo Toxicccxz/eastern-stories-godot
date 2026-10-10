@@ -58,7 +58,7 @@ func _test_data() -> void:
 	_check(catalog.npc(GOD).dealings().quest_giver and catalog.npc(GARRISON).dealings().vendetta_mark == "authority", "朱鸿雪 gives quests; garrison.c's vendetta_mark")
 	_check(catalog.quest_target_available("乞丐") and catalog.quest_target_available("县城官兵"), "placed, fightable targets are available")
 	_check(catalog.quest_target_available("化缘和尚") and catalog.quest_target_available("知客僧") and catalog.quest_target_available("护寺武僧"), "化缘和尚 (fightable since 山烟寺 A), 知客僧 and 护寺武僧 (山烟寺)")
-	_check(not catalog.quest_target_available("守城官兵"), "not 守城官兵 (乔阴县城, #9)")
+	_check(catalog.quest_target_available("守城官兵"), "守城官兵 (乔阴 A)")
 	_check(catalog.quest_target_available("朱鸿雪"), "a placed, fightable name counts whether or not a qlist names it (朱鸿雪, fightable since 晚月庄 A)")
 
 
@@ -116,7 +116,7 @@ func _test_tiers() -> void:
 		var draws := ScriptedWorldInteractionRandomSource.new([0])
 		var result: QuestGiver.Result = _give(state, draws)
 		_check(result.outcome == QuestGiver.Outcome.GIVEN and draws.requested_bounds() == [_available(case[2]).size()] and state.quest.current.target == _available(case[2])[0], "exp %d, tfinished %d: tier %d (%s)" % [case[0], case[1], LEVELS[case[2]], draws.requested_bounds()])
-	_check(_available(12) == ["独眼头陀", "芙云", "梦玉楼", "清云", "清玄"] and _available(11).has("趟子手"), "qlist60000.c: 山烟寺's 独眼头陀, 晚月庄's 芙云 and 梦玉楼, 茅山's 清云 and 清玄; qlist50000.c has 趟子手: %s" % [_available(12)])
+	_check(_available(12) == ["守城官兵", "独眼头陀", "芙云", "梦玉楼", "清云", "清玄"] and _available(11).has("趟子手"), "qlist60000.c: 乔阴's 守城官兵, 山烟寺's 独眼头陀, 晚月庄's 芙云 and 梦玉楼, 茅山's 清云 and 清玄; qlist50000.c has 趟子手: %s" % [_available(12)])
 	var state := _fresh()
 	state.progression.combat_experience = 60000
 	var draws := ScriptedWorldInteractionRandomSource.new([0])
