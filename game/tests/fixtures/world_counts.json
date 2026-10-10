@@ -47,9 +47,12 @@
 		"choyin.crown",
 		"choyin.cliff_cave",
 		"choyin.summit",
-		"choyin.valley"
+		"choyin.valley",
+		"canyon.clifftop",
+		"canyon.pass",
+		"canyon.armory"
 	],
-	"rooms": 390,
+	"rooms": 407,
 	"snow_outdoor_portals": [
 		"snow.square.west",
 		"snow.eroad3.south",
@@ -58,6 +61,7 @@
 		"snow.sroad1.south",
 		"snow.eroad3.east",
 		"snow.sroad5.west",
+		"snow.sroad4.southwest",
 		"snow.weapon_storage.down"
 	],
 	"spawn_order": [
@@ -271,11 +275,22 @@
 		"choyin.town.tree_tomb.yamen_po",
 		"choyin.town.n_street3.yamen_po",
 		"choyin.town.n_street1.yamen_po",
-		"choyin.town.n_gate.yamen_po"
+		"choyin.town.n_gate.yamen_po",
+		"canyon.pass.camp1.door_guards",
+		"canyon.pass.camp3.guard1s",
+		"canyon.pass.camp4.guard1s",
+		"canyon.pass.camp4.guard2",
+		"canyon.pass.camp5.leader1s",
+		"canyon.pass.camp6.captain",
+		"canyon.pass.camp6.leader2",
+		"canyon.pass.camp7.vice_general",
+		"canyon.pass.camp8.general",
+		"canyon.pass.camp8.adviser",
+		"canyon.armory.blackmarket.seller"
 	],
-	"world_npcs": 336,
-	"resident_maps": 48,
-	"new_game_items": 608,
-	"snow_outdoor_passages": 8,
-	"npc_draws_after_oldpine": 1757
+	"world_npcs": 351,
+	"resident_maps": 51,
+	"new_game_items": 622,
+	"snow_outdoor_passages": 9,
+	"npc_draws_after_oldpine": 1849
 }

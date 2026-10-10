@@ -5,6 +5,8 @@ extends RefCounted
 ## accept_object(): call_out("make_stage", 2, who, 0)): every `every` seconds it tells
 ## the giver the next of its `lines` (make_stage()'s tell_object()), and with the last
 ## the `gives` item is new()'d and moved to them (obj->move(who)), wherever they are.
+## Without `gives` it only tells: d/canyon/npc/captain.c's story (tell_story(), the same
+## make_stage() call_outs).
 var every: float = 0.0
 var lines: Array[NpcLine] = []
 var gives: StringName = &""
@@ -19,7 +21,7 @@ static func from_record(reader: ContentRecordReader) -> NpcMaking:
 		record.finish()
 		if said != null:
 			making.lines.append(said)
-	making.gives = StringName(reader.required_text("gives"))
+	making.gives = StringName(reader.text("gives"))
 	reader.finish()
 	if making.every <= 0.0:
 		reader.fail("every", "must be positive")

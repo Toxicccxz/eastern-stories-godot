@@ -63,6 +63,8 @@ class Answer:
 	var vendor_list: bool = false
 	## delete("inquiry/<topic>"): the topics the NPC no longer answers (NpcRuntimeState).
 	var forgets: Array[String] = []
+	## What the NPC tells over the next seconds (the caller starts its call_outs).
+	var make: NpcMaking
 
 	func texts() -> Array[String]:
 		return ColoredLine.texts(lines)
@@ -179,6 +181,7 @@ static func answer(
 		result.gives = rule.gives
 		result.vendor_list = rule.vendor_list
 		result.forgets = rule.forgets
+		result.make = rule.make
 		if not rule.temp_asker.is_empty():
 			result.temps.append(rule.temp_asker)
 		if rule.gives.is_empty() and not rule.mark_asker.is_empty():

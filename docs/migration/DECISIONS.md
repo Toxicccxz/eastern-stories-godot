@@ -111,6 +111,44 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 - #27 牛皮酒袋照原名显示，不另起短名。
 - 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
 
+## 天驼关 A: the pass, the camp and its people (2026-10-10)
+
+Plan (owner, 2026-10-10: 按你的推荐来): A the clifftop, the pass, the camp and the people; B the
+印鉴 chain (the 军师's secret, the swear, the 后备兵's two seals, the 古剑); C the side way west of the
+pass. What each LPC function became is in [CANYON_CONTENT](CANYON_CONTENT.md); it follows the LPC
+except:
+- **Owner (Q1): the 竹林道 is repaired** (C). stone_forest1.c leads east to canyon2.c, which has no
+  way west, and nothing else leads in, so ES2's players never saw the 黄石穿林路, the mirror, the
+  竹林道 or the stone room; its 悟疾风劲竹书 inherits F_UNIQUE, which the mudlib never defines (the
+  search would have failed too). canyon2.c gets the west exit; the book is an item flagged `unique`
+  (as 青石村's jade); dream/tmp.c and evil/tmp.c (整修中，请往回走:P) are not placed.
+- **Owner (Q2): 大队长's toll adds up.** captain.c judged each gift alone and kept any under 3000
+  (30 两) with 你的诚意不够喔，再多缴点吧。, so three gifts of 10 两 were lost and listed nobody:
+  what the player gives him is counted (counters `tally/军营`) until it reaches 3000, then marks/军营
+  and the count is settled. The 军师's 钱太少了吧！没收。 stays (he says so).
+- **Owner (Q3): the swear is a button** (B): once 赫造基 told the secret, 发誓：我爱东方故事II at
+  the smooth wall (青石村 B's 接话 precedent); ES2 wanted the oath typed.
+- **The clifftop is a map of its own**: the chain is no walk (Old Pine's one map per height).
+  Snow's 青石官道 opens south-west where its layout had a "not open" cliff.
+- **默认 (plan): the chain is asked first only when it would knock the player out** (owner's rule
+  on such choices); going on, they arrive below zero and faint on the heart beat, as ES2.
+- **默认 (plan): 大队长's story has no 没听说过 before it** (tell_story() returns 0; 青石村 B: an
+  answer that acts ends the asking). Correction to the plan, which said the story stops when the
+  player leaves the map: make_stage() tells the asker wherever they are, so leaving the map tells
+  the rest at once, as 筱薇's 竹蜻蜓 (晚月庄 C); asking again starts it over (ES2 ran two at once).
+- **李信's greeting** comes a second after the player walks in (the greeting delay; ES2's call_out
+  was 0) and throws out only one without marks/军营, never while he fights.
+- **Obvious slip:** canyon6.c's item_desc key is `mechine` while its long says (machine): the winch
+  is looked at.
+- **□:** 这里 (裡), 里面, 威风凛凛, 睿智 (叡); 鼎 among the 将军营帐's vessels and 挡点钱来花花 are
+  uncertain (**默认**).
+- **Stays as ES2:** the soldiers do not join one another's fights (nothing in the LPC; a garrison
+  that turns on the player together belongs to the faction work after the regions, WORLD_RELATIONS).
+- **Global (data):** an accept_object rule's `tally`; an inquiry rule's `make` (NpcMaking that only
+  tells: `gives` optional); a ScriptedAct's `not_mark`.
+- **Save:** world content revision `SOURCE_ENTRY_CANYON_V1` (a new region); older development
+  saves need a New Game.
+
 ## 乔阴 D: 花紫会, stealing and the 县衙 (2026-10-10)
 
 The plan's D (「乔阴 A」 below): 陆得财's 拜师 and teaching, the player's 油流麻香手 and 伏蛟功, the

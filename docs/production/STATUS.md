@@ -4,15 +4,13 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**乔阴 D** (`phase/choyin-d`, region #9, DECISIONS「乔阴 D」): 花紫会, stealing and the 县衙.
-陆得财 takes only one who carries less than a silver (as a beggar) and teaches his eleven skills;
-the player's 油流麻香手 and 伏蛟功 (practised where there is water). The player steals (偷窃 on
-the selected NPC: what it wears or wields, or 随手摸一样; asked first from the clearly
-stronger); caught, the NPC fights to the death and the player is marked a thief. The 县衙
-repaired (owner, Q1): eight 巡捕 patrol the main street, catch a thief seven times in ten and
-lead them to the 大堂, where 程不平 has them beaten by his formula and lets them go at the
-衙门口; ten gold on the way buys them free. With D, 乔阴县城 is done but for 北冥大鹏 and the 石室
-(as ES2). Next: region #10 天驼关 (plan first).
+**天驼关 A** (`phase/canyon-a`, region #10, DECISIONS「天驼关 A」): the pass, the camp and its
+people. Snow's 青石官道 opens south-west onto the clifftop; the chain down to the 黄石隘口 (and up)
+costs gin, kee and sen and is asked first when it would knock the player out. The pass winds south
+past the garrison's camp to the raised iron gate and the valley (玉螺湖村 is #11). 大队长 lists
+one who has paid him thirty taels in all (owner, Q2: the gifts add up) and tells the 隘口's story
+when asked; 李信 throws the unlisted out of his tent, and only the listed reach 严廷殷 and his 军师.
+Plan: B the 印鉴 chain (the swear as a button, Q3), C the 竹林道 west of the pass (repaired, Q1).
 
 ## 待决定
 
@@ -31,7 +29,7 @@ lead them to the 大堂, where 程不平 has them beaten by his formula and lets
 Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game / Continue).
 
 * **Snow (雪亭镇)**: source-valid New Game in the Inn; the Inn's upper floor, square, streets,
-  temple, the south road to the closed exits toward 天驼关 and 水烟阁, the school (书院), the
+  temple, the south road toward 天驼关 and 水烟阁, the school (书院), the
   west-side shops, 淳风武馆 with its inner rooms and weapon storage, and the secret storage below
   (37 of 38 rooms; 药铺密室 has no entrance); items on the floor to pick up; Work income; physical coins/silver/gold and Bank exchange; Inn food/drink;
   herbshop (金疮药, 蛇药) and smithy (铁锤) bought from their keepers; Hockshop value/sell and its
@@ -247,6 +245,19 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   killed, and three at 1 knock them out), the crime cleared, and puts them out at the 衙门口.
   On the way 行贿 on the 巡捕: ten gold or more frees them, less is refused (a crime more);
   killing a 巡捕 is five crimes; no Save while led.
+* **天驼关**: south-west from Snow's 青石官道 (sroad4), 17 of 27 rooms on three maps: the gravel
+  path on the clifftop to the mound where the iron chain hangs down (爬下去: 20 gin, 30 kee, 10
+  sen; 爬上去 from below: 30, 40, 20; asked first when it would knock the player out), the
+  黄石隘口 winding south between its walls (the west wall of 隘口中道 strangely smooth), the
+  raised iron gate and its winch, the valley of 天驼关 (south to 玉螺湖村 not open yet); east of the
+  path the garrison's camp behind its palisade: two 小兵 at the gate, the soldiers' tents (four
+  小兵 and the 老兵, who chat), the camp fire and its well, the squad leaders' tents (two 小队长;
+  大队长 and 老队长), 李信's tent and 严廷殷's with his 军师 赫造基 (天邪派's arts for the two
+  generals, 茅山's spells for the 军师). 大队长 answers 允许 with 先给钱再说吧; what he is given adds
+  up, and thirty taels in all list the player (owner); asked about 黄石隘口 he tells of the late
+  emperor and the young one, a line every two seconds. 李信 throws anyone unlisted out to the camp
+  fire (大胆狂徒，竟私闯此地，给我滚出去); the 将军营帐 lets in only the listed. The 兵器库 (the
+  后备兵) is drawn; its way in is the swear (天驼关 B).
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from

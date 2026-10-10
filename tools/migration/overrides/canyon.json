@@ -1,0 +1,103 @@
+{
+	"set": {
+		"canyon.npc.captain": {
+			"inquiry": {
+				"允许": ["先给钱再说吧。\n"],
+				"兵器库": ["喔！那是我们厉害的军师所设的阵法。\n"],
+				"黄石隘口": { "rules": [
+					{ "make": { "every": 2, "lines": [
+						{ "line": "二十多年前，先帝将大将军们调来这里驻守隘口。\n", "color": "HIG" },
+						{ "line": "京城的也就因隘口的巩固而获得安全。\n", "color": "HIG" },
+						{ "line": "事隔多年，先帝也死了，换上的是位我们不甚认识的小皇帝。\n", "color": "HIG" },
+						{ "line": "看来他只忙著找剑，也没什么大作为，大家也不太服他。\n", "color": "HIG" },
+						{ "line": "皇帝看到大将军还要敬畏三分ㄌㄟ。\n", "color": "HIG" },
+						{ "line": "反正啊，将军和军师是超强的，你可要好好的乌西我们才行。\n", "color": "HIG" },
+						{ "line": "知道了，就快缴钱。\n", "color": "HIG" }
+					] } }
+				] }
+			},
+			"accept_object": [
+				{ "value_at_most": 0, "say": "ㄟ....Ｔhank Ｙou!!!", "accept": true },
+				{ "giver_mark": "军营", "line": "大队长说道:哦喔！还真有心啊，真是谢谢你了。\n", "accept": true },
+				{ "tally": "军营", "value_at_least": 3000, "line": "大队长说道:我已帮你列入名册了，从今天你可自由地出入营区了。\n", "mark_giver": "军营", "accept": true },
+				{ "tally": "军营", "line": "大队长说道:你的诚意不够喔，再多缴点吧。\n", "accept": true }
+			]
+		},
+		"canyon.npc.vice_general": {
+			"greeting": { "rules": [
+				{ "not_mark": "军营", "steps": [
+					{ "say": "大胆狂徒，竟私闯此地，给我滚出去" },
+					{ "move": "canyon.camp2", "point": "canyon.camp2.tent_return" }
+				] }
+			] }
+		}
+	},
+	"review": {
+		"d/canyon/road.c": {
+			"set item_desc": "a look-only landmark in world.json (canyon.road.landmark.chain), word for word",
+			"function init": "climb chain: the act service canyon.road.chain (铁索 · 爬下去)",
+			"function do_climb": "service canyon.road.chain: its message_vision(), receive_damage() 20 gin, 30 kee, 10 sen, then the move to canyon1 whatever is left (one taken below zero faints on the heart beat there; asked first when it would, owner's rule on choices that knock out); the tell_room() lines are for the others in canyon1"
+		},
+		"d/canyon/canyon1.c": {
+			"set item_desc": "a look-only landmark in world.json (canyon.canyon1.landmark.chain), word for word",
+			"function init": "climb chain: the act service canyon.canyon1.chain (铁索 · 爬上去)",
+			"function do_climb": "service canyon.canyon1.chain: 30 gin, 40 kee, 20 sen, then the move up to road.c, as do_climb() going down"
+		},
+		"d/canyon/canyon4.c": {
+			"function init": "天驼关 B: swear at the smooth wall (canyon plan Q3: a 发誓 button once 赫造基 told the secret)",
+			"function do_swear": "天驼关 B: the 发誓 act, the lightning lines and the move into the 兵器库 (canyon.armory)"
+		},
+		"d/canyon/canyon5.c": {
+			"set item_desc": "a look-only landmark in world.json (canyon.canyon5.landmark.door), word for word"
+		},
+		"d/canyon/canyon6.c": {
+			"set item_desc": "a look-only landmark in world.json (canyon.canyon6.landmark.machine): its key is misspelt mechine, so ES2's look machine (the long's word) found nothing; looked at as the long names it (obvious slip, 默认)"
+		},
+		"d/canyon/camp2.c": {
+			"set resource/water": "world.json services: canyon.camp2.well (kind water: a wineskin is filled at the well)"
+		},
+		"d/canyon/camp7.c": {
+			"function valid_leave": "world.json exit_rules: canyon.camp7.east (no_mark 军营)"
+		},
+		"d/canyon/npc/captain.c": {
+			"inquiry 黄石隘口": "an inquiry rule in set with make: the story told every two seconds (make_stage()); tell_story() returns 0, so ES2 printed ask.c's 没听说过 first, which an answer that acts no longer does (DECISIONS 青石村 B)",
+			"function tell_story": "the inquiry rule's make (NpcMaking without gives): call_out(\"make_stage\", 2, who, 0)",
+			"function make_stage": "NpcMaking: a line to the asker every two seconds, wherever they are; leaving the map tells the rest at once (DECISIONS 晚月庄 C)",
+			"function accept_object": "accept_object rules in set; owner (canyon plan Q2): what the giver paid adds up (tally 军营) until it reaches 3000, ES2 judged each gift alone and kept it; say() lines shown as written (DECISIONS 水烟阁 B); command(\"grin\") prints nothing (no emote daemon)"
+		},
+		"d/canyon/npc/vice_general.c": {
+			"function init": "greeting in set: one second after the player comes in (the greeting delay), not while he fights",
+			"function greeting": "greeting rule in set: one without marks/军营 is told off and moved to camp2 (ob->move(PATH))"
+		},
+		"d/canyon/npc/general.c": {
+			"function accept_object": "天驼关 B: the 印鉴 chain (the real seal for the 古剑, the fake one gets the giver thrown out)"
+		},
+		"d/canyon/npc/adviser.c": {
+			"set mana_factor": "only hp.c and score.c read it (a player's own sheet): nothing for an NPC",
+			"function accept_object": "天驼关 B: the secret of the smooth wall for 8 taels"
+		},
+		"d/canyon/npc/seller.c": {
+			"function accept_object": "天驼关 B: the fake 印鉴 for exactly 3 gold, the real one for the fake"
+		},
+		"d/canyon/npc/obj/blade.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"d/canyon/npc/obj/sword.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"d/canyon/npc/obj/fan_sword.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"d/canyon/npc/obj/broken_sword.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet",
+			"set replica_ob": "read only by F_UNIQUE, which the file comments out (and the mudlib never defines): unused"
+		},
+		"d/canyon/npc/obj/cloud_armor.c": {
+			"set replica_ob": "read only by F_UNIQUE, which the file comments out (and the mudlib never defines): unused"
+		}
+	}
+}

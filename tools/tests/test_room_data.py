@@ -50,8 +50,9 @@ class RoomDataTest(unittest.TestCase):
                 short = re.sub(r'\\(?=[^\x00-\x7f])', '', source)
                 # A colour macro may come before it (d/latemoon/miroom.c's HIY "密室" NOR).
                 self.assertRegex(short, r'set\s*\(\s*"short"\s*,\s*(?:[A-Z]+\s+)?"' + re.escape(room["short"]) + '"')
-                # The long text is a @LONG ... LONG block: every line verbatim, in order.
-                block = re.search(r"@(\w+)\n(.*?)\n\1\b", source, re.DOTALL)
+                # The long text is a @LONG ... LONG block: every line verbatim, in order (spaces
+                # may follow the opening delimiter: d/canyon/canyon2.c).
+                block = re.search(r"@(\w+)[ \t]*\n(.*?)\n\1\b", source, re.DOTALL)
                 self.assertIsNotNone(block, "no @LONG block")
                 self.assertEqual(room["long"], block.group(2) + "\n")
                 for direction, target in room.get("exits", {}).items():

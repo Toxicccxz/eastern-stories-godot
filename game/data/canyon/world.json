@@ -1,0 +1,59 @@
+{
+	"regions": [
+		{ "id": "canyon", "name": "天驼关" }
+	],
+	"maps": [
+		{ "id": "canyon.clifftop", "region": "canyon", "scene": "res://scenes/world/canyon/canyon_clifftop.tscn", "entry": "canyon.road.snow_arrival" },
+		{ "id": "canyon.pass", "region": "canyon", "scene": "res://scenes/world/canyon/canyon_pass.tscn", "entry": "canyon.canyon1.chain_arrival" },
+		{ "id": "canyon.armory", "region": "canyon", "scene": "res://scenes/world/canyon/canyon_armory.tscn", "entry": "canyon.blackmarket.swear_arrival" }
+	],
+	"zones": [
+		{ "id": "canyon.road", "map": "canyon.clifftop", "rooms": ["es2:d/canyon/road"] },
+		{ "id": "canyon.canyon1", "map": "canyon.pass", "rooms": ["es2:d/canyon/canyon1"] },
+		{ "id": "canyon.canyon2", "map": "canyon.pass", "rooms": ["es2:d/canyon/canyon2"] },
+		{ "id": "canyon.canyon3", "map": "canyon.pass", "rooms": ["es2:d/canyon/canyon3"] },
+		{ "id": "canyon.canyon4", "map": "canyon.pass", "rooms": ["es2:d/canyon/canyon4"] },
+		{ "id": "canyon.canyon5", "map": "canyon.pass", "rooms": ["es2:d/canyon/canyon5"] },
+		{ "id": "canyon.canyon6", "map": "canyon.pass", "rooms": ["es2:d/canyon/canyon6"] },
+		{ "id": "canyon.canyon7", "map": "canyon.pass", "rooms": ["es2:d/canyon/canyon7"] },
+		{ "id": "canyon.camp1", "map": "canyon.pass", "rooms": ["es2:d/canyon/camp1"] },
+		{ "id": "canyon.camp2", "map": "canyon.pass", "rooms": ["es2:d/canyon/camp2"] },
+		{ "id": "canyon.camp3", "map": "canyon.pass", "rooms": ["es2:d/canyon/camp3"] },
+		{ "id": "canyon.camp4", "map": "canyon.pass", "rooms": ["es2:d/canyon/camp4"] },
+		{ "id": "canyon.camp5", "map": "canyon.pass", "rooms": ["es2:d/canyon/camp5"] },
+		{ "id": "canyon.camp6", "map": "canyon.pass", "rooms": ["es2:d/canyon/camp6"] },
+		{ "id": "canyon.camp7", "map": "canyon.pass", "rooms": ["es2:d/canyon/camp7"] },
+		{ "id": "canyon.camp8", "map": "canyon.pass", "rooms": ["es2:d/canyon/camp8"] },
+		{ "id": "canyon.blackmarket", "map": "canyon.armory", "rooms": ["es2:d/canyon/blackmarket"] }
+	],
+	"portals": [
+		{ "id": "canyon.road.northeast", "from_zone": "canyon.road", "to_zone": "snow.sroad4", "to_spawn": "snow.sroad4.canyon_return", "legacy_room": "es2:d/canyon/road", "legacy_command": "northeast" },
+		{ "id": "canyon.blackmarket.east", "from_zone": "canyon.blackmarket", "to_zone": "canyon.canyon4", "to_spawn": "canyon.canyon4.armory_return", "legacy_room": "es2:d/canyon/blackmarket", "legacy_command": "east" }
+	],
+	"exit_rules": [
+		{ "id": "canyon.camp7.east", "room": "es2:d/canyon/camp7", "from_zone": "canyon.camp7", "to_zone": "canyon.camp8", "when": "no_mark", "mark": "军营", "lines": ["你还没被允许进入喔。"], "legacy_source": "d/canyon/camp7.c" }
+	],
+	"landmarks": [
+		{ "id": "canyon.road.landmark.chain", "zone": "canyon.road", "name": "铁索", "policy": "look", "long": "    一长条铁索缘山壁而下，或许你可以试著攀爬(climb)。\n", "legacy_source": "d/canyon/road.c" },
+		{ "id": "canyon.canyon1.landmark.chain", "zone": "canyon.canyon1", "name": "铁索", "policy": "look", "long": "    一长条铁索缘山壁而上，若无绝佳的体力就好不要轻意攀爬(climb)。\n", "legacy_source": "d/canyon/canyon1.c" },
+		{ "id": "canyon.canyon5.landmark.door", "zone": "canyon.canyon5", "name": "铁门", "policy": "look", "long": "这巨大的铁门锈迹斑斑，它是上下开合的，现在已经高高的抬起，\n若它失控砸下，可能什么东西都会被砸扁。\n", "legacy_source": "d/canyon/canyon5.c" },
+		{ "id": "canyon.canyon6.landmark.machine", "zone": "canyon.canyon6", "name": "机械装置", "policy": "look", "long": "这是个很大的绞盘，可能是开关铁门用的。\n", "legacy_source": "d/canyon/canyon6.c" }
+	],
+	"services": [
+		{ "id": "canyon.road.chain", "kind": "act", "zone": "canyon.road", "name": "铁索", "reach": 96, "legacy_source": "d/canyon/road.c", "act": { "verb": "爬下去", "acts": [
+			{ "steps": [
+				{ "line": "你手脚并用，努力地沿著铁索向下攀爬而去。\n" },
+				{ "damage": { "gin": 20, "kee": 30, "sen": 10 } },
+				{ "move": "canyon.canyon1", "point": "canyon.canyon1.chain_arrival" }
+			] }
+		] } },
+		{ "id": "canyon.canyon1.chain", "kind": "act", "zone": "canyon.canyon1", "name": "铁索", "reach": 96, "legacy_source": "d/canyon/canyon1.c", "act": { "verb": "爬上去", "acts": [
+			{ "steps": [
+				{ "line": "你手脚并用，努力地沿著铁索向上攀缘上去了\n" },
+				{ "damage": { "gin": 30, "kee": 40, "sen": 20 } },
+				{ "move": "canyon.road", "point": "canyon.road.chain_return" }
+			] }
+		] } },
+		{ "id": "canyon.camp2.well", "kind": "water", "zone": "canyon.camp2", "name": "水井", "reach": 96, "legacy_source": "d/canyon/camp2.c" }
+	]
+}

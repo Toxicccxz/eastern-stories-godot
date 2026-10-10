@@ -28,6 +28,7 @@
 		"latemoon/items.json",
 		"sanyen/items.json",
 		"choyin/items.json",
+		"canyon/items.json",
 		"cloud/items.json",
 		"cloud/npcs.json",
 		"cloud/spawns.json",
@@ -64,6 +65,10 @@
 		"choyin/item_spawns.json",
 		"choyin/vendors.json",
 		"choyin/rooms.json",
-		"choyin/world.json"
+		"choyin/world.json",
+		"canyon/npcs.json",
+		"canyon/spawns.json",
+		"canyon/rooms.json",
+		"canyon/world.json"
 	]
 }

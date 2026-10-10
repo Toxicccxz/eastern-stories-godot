@@ -374,7 +374,7 @@ func _resolve_npc_dealings() -> void:
 					_errors.append("%s.accept_object.forgets: no inquiry '%s'" % [origin, topic])
 			if not rule.move_zone_id.is_empty() and not _zones.has(rule.move_zone_id):
 				_errors.append("%s.accept_object.move: unknown zone '%s'" % [origin, rule.move_zone_id])
-			if rule.make != null and not _items.has(rule.make.gives):
+			if rule.make != null and (rule.make.gives.is_empty() or not _items.has(rule.make.gives)):
 				_errors.append("%s.accept_object.make: unknown item '%s'" % [origin, rule.make.gives])
 			if not rule.item_alias.is_empty() and not _answers_to(rule.item_alias):
 				_errors.append("%s.accept_object: no item answers to '%s'" % [origin, rule.item_alias])
@@ -398,6 +398,8 @@ func _resolve_npc_dealings() -> void:
 				for forgotten: String in inquiry_rule.forgets:
 					if not talk.inquiry_topics().has(forgotten):
 						_errors.append("%s.inquiry.%s.forgets: no inquiry '%s'" % [origin, topic, forgotten])
+				if inquiry_rule.make != null and not inquiry_rule.make.gives.is_empty() and not _items.has(inquiry_rule.make.gives):
+					_errors.append("%s.inquiry.%s.make: unknown item '%s'" % [origin, topic, inquiry_rule.make.gives])
 				if not inquiry_rule.hands_over.is_empty() and not _items.has(inquiry_rule.hands_over):
 					_errors.append("%s.inquiry.%s.hands_over: unknown item '%s'" % [origin, topic, inquiry_rule.hands_over])
 		for act: ScriptedAct in talk.greeting_choices():

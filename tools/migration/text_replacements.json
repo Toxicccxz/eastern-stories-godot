@@ -17,6 +17,14 @@
 		{"find": "彩□江水纹", "replace": "彩霞江水纹", "where": "d/latemoon/obj/redbelt.c (碧玉红裎带's long)", "why": "uncertain: an embroidered pattern of coloured clouds over waves"},
 		{"find": "一切□ ", "replace": "一切，", "where": "d/latemoon/upstar/upcenter.c (佛堂门前's long; a replacement character in the file)", "why": "lost punctuation between two clauses"},
 		{"find": "神□佛像", "replace": "神龛佛像", "where": "d/latemoon/upstar/uproom.c (佛堂's long)", "why": "uncertain: a shrine's niches and statues"},
-		{"find": "□\n盘塔磬", "replace": "供\n盘塔磬", "where": "d/latemoon/upstar/uproom.c (佛堂's long)", "why": "uncertain: offering plates, pagodas and chime stones"}
+		{"find": "□\n盘塔磬", "replace": "供\n盘塔磬", "where": "d/latemoon/upstar/uproom.c (佛堂's long)", "why": "uncertain: offering plates, pagodas and chime stones"},
+		{"find": "这□", "replace": "这里", "where": "d/canyon (road.c, canyon2-4.c, camp4-7.c; captain.c, leader2.c, general.c)", "why": "裡 in the source: 这裡 is 这里"},
+		{"find": "这\n□的守军", "replace": "这\n里的守军", "where": "d/canyon/npc/guard1.c, guard2.c (小兵's and 老兵's long)", "why": "the same 这裡, broken over a line"},
+		{"find": "，□面只有", "replace": "，里面只有", "where": "d/canyon/camp3.c (小兵营帐's long)", "why": "裡面"},
+		{"find": "营帐□赌博", "replace": "营帐里赌博", "where": "d/canyon/camp3.c (小兵营帐's long)", "why": "营帐裡"},
+		{"find": "威风□□", "replace": "威风凛凛", "where": "d/canyon/npc/general.c (严廷殷's long)", "why": "the set phrase"},
+		{"find": "□智不言而现", "replace": "睿智不言而现", "where": "d/canyon/npc/adviser.c (赫造基's long)", "why": "叡智, a character outside GB2312"},
+		{"find": "□、簋、爵", "replace": "鼎、簋、爵", "where": "d/canyon/camp8.c (将军营帐's long)", "why": "uncertain: the bronze vessels set out in the tent; the 鼎 heads such a list"},
+		{"find": "挡点□来花花", "replace": "挡点钱来花花", "where": "d/canyon/npc/guard2.c (老兵's chat)", "why": "uncertain: he is asking for money (有没有钱啊？)"}
 	]
 }

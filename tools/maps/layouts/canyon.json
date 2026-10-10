@@ -1,0 +1,423 @@
+{
+  "maps": {
+    "clifftop": {
+      "note": "碎石小路 on the clifftop: from the 青石官道 (north-east, Snow's map) a gravel path crosses the barren, empty clifftop to the half-round mound of earth at its end, where the iron chain hangs down the cliff to the 黄石隘口 seventeen or eighteen 丈 below (the pass is a map of its own).",
+      "file": "canyon_clifftop.tscn",
+      "draw": {
+        "technique": "town",
+        "base": "boundary",
+        "bounds": [-32, -32, 544, 352],
+        "ground": [
+          ["cliff", -32, 256, 544, 352, "the cliff edge, the pass far below"]
+        ],
+        "zones": {
+          "canyon.road": [0, 0, 512, 256, "open", "path", null]
+        },
+        "roads": [],
+        "props": [
+          ["blocked", 224, 208, 288, 256, "the half-round mound of earth at the path's end; the chain hangs from it down the cliff"],
+          ["blocked", 32, 32, 64, 64, "loose rocks along the gravel path"],
+          ["blocked", 96, 176, 128, 208],
+          ["blocked", 416, 192, 448, 224],
+          ["blocked", 0, 0, 32, 256, "the barren slope west of the path"]
+        ],
+        "reach_from": "RoadSnowArrival",
+        "markers_in_middle": [],
+        "placed": {}
+      },
+      "scene": {
+        "style": "map",
+        "root": "CanyonClifftop",
+        "map": "canyon.clifftop",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_32_64": [32, 64],
+          "Rect_64_32": [64, 32]
+        },
+        "nodes": [
+          {
+            "generated": "captions"
+          },
+          {
+            "node": "caption",
+            "name": "SnowLabel",
+            "at": [400, -24],
+            "text": "东北 · 雪亭镇",
+            "size": 14
+          },
+          {
+            "node": "caption",
+            "name": "ChainLabel",
+            "at": [300, 272],
+            "text": "铁索",
+            "size": 12
+          },
+          {
+            "node": "passage",
+            "name": "SnowPassage",
+            "id": "canyon.road.northeast",
+            "at": [496, 64],
+            "shape": "Rect_32_64"
+          },
+          {
+            "node": "service",
+            "name": "RoadChain",
+            "id": "canyon.road.chain",
+            "at": [256, 192],
+            "text": "铁索 · 爬下去"
+          }
+        ],
+        "zones": [
+          {"generated": "zones"}
+        ],
+        "spawn_points": [
+          {
+            "name": "RoadSnowArrival",
+            "at": [432, 64],
+            "id": "canyon.road.snow_arrival"
+          },
+          {
+            "name": "RoadChainReturn",
+            "at": [256, 144],
+            "id": "canyon.road.chain_return"
+          },
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": [
+          {
+            "name": "RoadChainInteraction",
+            "id": "canyon.road.landmark.chain",
+            "at": [256, 232],
+            "shape": "Rect_64_32"
+          }
+        ]
+      }
+    },
+    "pass": {
+      "note": "天驼关: from the 青石官道 (Snow's map) a gravel path runs south-west over the barren clifftop to a half-round mound at the cliff's edge; an iron chain hangs from it seventeen or eighteen 丈 down the rock face to the tail of the 黄石隘口, which the chain is the only way into. The yellow-earth path winds south-west, then south between ever steeper walls; east of it the garrison's camp behind its iron palisade: the gate (two soldiers on duty), the soldiers' tents north and south of it, the camp fire and its well beyond, the squad leaders' tents either side, the vice general's tent, rich with tiger skins and silver, and the general's beyond it. Further south the west wall grows strangely smooth, the wind blows harder by the camp's gate, the iron gate of 天驼关 stands raised over the path with its great winch behind it, and the valley between the two cliffs, shaped like a camel's humps, leads south toward 京师 (not open yet).",
+      "file": "canyon_pass.tscn",
+      "draw": {
+        "technique": "town",
+        "base": "boundary",
+        "bounds": [0, 384, 2624, 2304],
+        "ground": [
+          ["cliff", 0, 384, 2624, 2304, "barren mountains either side, high as the clouds"]
+        ],
+        "zones": {
+          "canyon.canyon1": [960, 448, 1344, 704, "open", "path", null],
+          "canyon.canyon2": [704, 704, 1088, 960, "open", "path", null],
+          "canyon.canyon3": [704, 960, 1088, 1216, "open", "path", null],
+          "canyon.canyon4": [704, 1216, 1088, 1472, "open", "path", null],
+          "canyon.canyon5": [704, 1472, 1088, 1728, "open", "path", null],
+          "canyon.canyon6": [704, 1728, 1088, 1984, "open", "path", null],
+          "canyon.canyon7": [704, 1984, 1088, 2240, "open", "path", null],
+          "canyon.camp3": [1088, 960, 1408, 1216, "enclosed", "town_ground", "wall_wood"],
+          "canyon.camp1": [1088, 1216, 1408, 1472, "open", "floor_yard", null],
+          "canyon.camp4": [1088, 1472, 1408, 1728, "enclosed", "town_ground", "wall_wood"],
+          "canyon.camp5": [1408, 960, 1728, 1216, "enclosed", "town_ground", "wall_wood"],
+          "canyon.camp2": [1408, 1216, 1728, 1472, "open", "floor_yard", null],
+          "canyon.camp6": [1408, 1472, 1728, 1728, "enclosed", "town_ground", "wall_wood"],
+          "canyon.camp7": [1728, 1152, 2112, 1536, "enclosed", "floor_wood", "wall_wood"],
+          "canyon.camp8": [2112, 1088, 2560, 1600, "enclosed", "floor_wood", "wall_wood"]
+        },
+        "roads": [],
+        "props": [
+          ["cliff", 960, 448, 1152, 480],
+          ["cliff", 1280, 448, 1344, 480],
+          ["cliff", 960, 480, 1152, 512],
+          ["cliff", 1280, 480, 1344, 512],
+          ["cliff", 960, 512, 1088, 544],
+          ["cliff", 1296, 512, 1344, 544],
+          ["cliff", 960, 544, 1056, 576],
+          ["cliff", 1296, 544, 1344, 576],
+          ["cliff", 960, 576, 1008, 608],
+          ["cliff", 1280, 576, 1344, 608],
+          ["cliff", 960, 608, 992, 640],
+          ["cliff", 1232, 608, 1344, 640],
+          ["cliff", 960, 640, 976, 672],
+          ["cliff", 1184, 640, 1344, 672],
+          ["cliff", 1088, 672, 1344, 704],
+          ["cliff", 704, 704, 960, 736],
+          ["cliff", 704, 736, 864, 768],
+          ["cliff", 704, 768, 816, 800],
+          ["cliff", 704, 800, 800, 832],
+          ["cliff", 1040, 800, 1088, 832],
+          ["cliff", 704, 832, 816, 864],
+          ["cliff", 992, 832, 1088, 864],
+          ["cliff", 704, 864, 832, 896],
+          ["cliff", 976, 864, 1088, 896],
+          ["cliff", 704, 896, 800, 928],
+          ["cliff", 976, 896, 1088, 928],
+          ["cliff", 704, 928, 784, 960],
+          ["cliff", 992, 928, 1088, 960],
+          ["cliff", 704, 960, 768, 992],
+          ["blocked", 1056, 960, 1088, 992],
+          ["cliff", 704, 992, 784, 1024],
+          ["blocked", 1056, 992, 1088, 1024],
+          ["cliff", 704, 1024, 784, 1056],
+          ["blocked", 1056, 1024, 1088, 1056],
+          ["cliff", 704, 1056, 768, 1088],
+          ["blocked", 1056, 1056, 1088, 1088],
+          ["cliff", 704, 1088, 768, 1120],
+          ["blocked", 1056, 1088, 1088, 1120],
+          ["cliff", 704, 1120, 784, 1152],
+          ["blocked", 1056, 1120, 1088, 1152],
+          ["cliff", 704, 1152, 800, 1184],
+          ["blocked", 1056, 1152, 1088, 1184],
+          ["cliff", 704, 1184, 816, 1216],
+          ["blocked", 1056, 1184, 1088, 1216],
+          ["cliff", 704, 1216, 800, 1248],
+          ["blocked", 1056, 1216, 1088, 1248],
+          ["cliff", 704, 1248, 784, 1280],
+          ["blocked", 1056, 1248, 1088, 1280],
+          ["wall", 704, 1280, 720, 1312],
+          ["blocked", 1056, 1280, 1088, 1312],
+          ["wall", 704, 1312, 720, 1344],
+          ["wall", 704, 1344, 720, 1376],
+          ["wall", 704, 1376, 720, 1408],
+          ["wall", 704, 1408, 720, 1440],
+          ["blocked", 1056, 1408, 1088, 1440],
+          ["cliff", 704, 1440, 800, 1472],
+          ["blocked", 1056, 1440, 1088, 1472],
+          ["cliff", 704, 1472, 768, 1504],
+          ["blocked", 1056, 1472, 1088, 1504],
+          ["cliff", 704, 1504, 784, 1536],
+          ["blocked", 1056, 1504, 1088, 1536],
+          ["cliff", 704, 1536, 784, 1568],
+          ["blocked", 1056, 1536, 1088, 1568],
+          ["cliff", 704, 1568, 768, 1600],
+          ["blocked", 1056, 1568, 1088, 1600],
+          ["cliff", 704, 1600, 752, 1632],
+          ["blocked", 1056, 1600, 1088, 1632],
+          ["cliff", 704, 1632, 768, 1664],
+          ["blocked", 1056, 1632, 1088, 1664],
+          ["cliff", 704, 1664, 784, 1696],
+          ["blocked", 1056, 1664, 1088, 1696],
+          ["cliff", 704, 1696, 800, 1728],
+          ["blocked", 1056, 1696, 1088, 1728],
+          ["cliff", 704, 1728, 800, 1760],
+          ["cliff", 992, 1728, 1088, 1760],
+          ["cliff", 704, 1760, 784, 1792],
+          ["cliff", 1008, 1760, 1088, 1792],
+          ["cliff", 704, 1792, 768, 1824],
+          ["cliff", 1024, 1792, 1088, 1824],
+          ["cliff", 704, 1824, 784, 1856],
+          ["cliff", 1008, 1824, 1088, 1856],
+          ["cliff", 704, 1856, 816, 1888],
+          ["cliff", 992, 1856, 1088, 1888],
+          ["cliff", 704, 1888, 832, 1920],
+          ["cliff", 976, 1888, 1088, 1920],
+          ["cliff", 704, 1920, 816, 1952],
+          ["cliff", 992, 1920, 1088, 1952],
+          ["cliff", 704, 1952, 800, 1984],
+          ["cliff", 1008, 1952, 1088, 1984],
+          ["cliff", 704, 1984, 784, 2016],
+          ["cliff", 1024, 1984, 1088, 2016],
+          ["cliff", 704, 2016, 800, 2048],
+          ["cliff", 1008, 2016, 1088, 2048],
+          ["cliff", 704, 2048, 800, 2080],
+          ["cliff", 1008, 2048, 1088, 2080],
+          ["cliff", 704, 2080, 784, 2112],
+          ["cliff", 1024, 2080, 1088, 2112],
+          ["cliff", 704, 2112, 768, 2144],
+          ["cliff", 1024, 2112, 1088, 2144],
+          ["cliff", 704, 2144, 784, 2176],
+          ["cliff", 1008, 2144, 1088, 2176],
+          ["cliff", 704, 2176, 800, 2208],
+          ["cliff", 992, 2176, 1088, 2208],
+          ["cliff", 704, 2208, 816, 2240],
+          ["cliff", 976, 2208, 1088, 2240],
+          ["blocked", 1088, 1216, 1104, 1296, "the camp's gate in the palisade"],
+          ["blocked", 1088, 1392, 1104, 1472],
+          ["blocked", 784, 1712, 816, 1744, "the iron gate, raised high; its frame either side"],
+          ["blocked", 976, 1712, 1008, 1744],
+          ["blocked", 976, 1792, 1024, 1856, "canyon6: the great winch behind the gate"],
+          ["blocked", 784, 2224, 1008, 2240, "the road south to 玉螺湖村 and 京师 (not open yet)"],
+          ["blocked", 1312, 1600, 1376, 1664, "camp4: the table piled with dice, stools and tea"],
+          ["blocked", 1312, 1008, 1344, 1040, "camp3: a few bedrolls of rough cloth"],
+          ["blocked", 1552, 1328, 1584, 1360, "camp2: the camp fire, scraps of food about it"],
+          ["blocked", 1664, 1248, 1696, 1280, "the well"],
+          ["blocked", 1488, 1008, 1520, 1040, "camp5: two cane chairs on the north side"],
+          ["blocked", 1616, 1008, 1648, 1040],
+          ["blocked", 1488, 1664, 1520, 1696, "camp6: two simple cane chairs"],
+          ["blocked", 1616, 1664, 1648, 1696],
+          ["blocked", 1888, 1200, 1952, 1232, "camp7: blades, swords and staffs hung on the north side"],
+          ["blocked", 1856, 1296, 1952, 1344, "the obsidian table set with silver; the tiger-skin chair"],
+          ["blocked", 2176, 1136, 2208, 1168, "camp8: the dragon pillars reaching the roof"],
+          ["blocked", 2464, 1136, 2496, 1168],
+          ["blocked", 2272, 1152, 2400, 1200, "the gold chair and silver table, the painting of two dragons behind"],
+          ["blocked", 2160, 1488, 2240, 1536, "chime, drum, pipes and flutes; brushes and ink"]
+        ],
+        "reach_from": "CanyonChainArrival",
+        "markers_in_middle": ["canyon.camp2"],
+        "placed": {
+          "canyon.camp1.door_guard.1": [1152, 1264],
+          "canyon.camp1.door_guard.2": [1152, 1424],
+          "canyon.camp6.captain.1": [1504, 1584],
+          "canyon.camp6.leader2.1": [1632, 1584]
+        }
+      },
+      "scene": {
+        "style": "map",
+        "root": "CanyonPass",
+        "map": "canyon.pass",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_32_64": [32, 64],
+          "Rect_64_32": [64, 32],
+          "Rect_32_32": [32, 32],
+          "Rect_64_64": [64, 64]
+        },
+        "nodes": [
+          {
+            "generated": "captions"
+          },
+          {
+            "node": "caption",
+            "name": "ChainLabel",
+            "at": [1196, 400],
+            "text": "铁索",
+            "size": 12
+          },
+          {
+            "node": "caption",
+            "name": "WallLabel",
+            "at": [724, 1324],
+            "text": "光滑的山壁",
+            "size": 12
+          },
+          {
+            "node": "caption",
+            "name": "GateLabel",
+            "at": [832, 1688],
+            "text": "铁门",
+            "size": 12
+          },
+          {
+            "node": "service",
+            "name": "CanyonChain",
+            "id": "canyon.canyon1.chain",
+            "at": [1216, 480],
+            "text": "铁索 · 爬上去"
+          },
+          {
+            "node": "service",
+            "name": "CampWell",
+            "id": "canyon.camp2.well",
+            "at": [1680, 1296],
+            "text": "水井 · 装水"
+          }
+        ],
+        "zones": [
+          {"generated": "zones"}
+        ],
+        "spawn_points": [
+          {
+            "name": "CanyonChainArrival",
+            "at": [1216, 544],
+            "id": "canyon.canyon1.chain_arrival"
+          },
+          {
+            "name": "CanyonArmoryReturn",
+            "at": [784, 1344],
+            "id": "canyon.canyon4.armory_return"
+          },
+          {
+            "name": "CampTentReturn",
+            "at": [1664, 1344],
+            "id": "canyon.camp2.tent_return"
+          },
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": [
+          {
+            "name": "CanyonChainInteraction",
+            "id": "canyon.canyon1.landmark.chain",
+            "at": [1216, 464],
+            "shape": "Rect_64_32"
+          },
+          {
+            "name": "GateInteraction",
+            "id": "canyon.canyon5.landmark.door",
+            "at": [800, 1728],
+            "shape": "Rect_32_32"
+          },
+          {
+            "name": "MachineInteraction",
+            "id": "canyon.canyon6.landmark.machine",
+            "at": [992, 1824],
+            "shape": "Rect_64_64"
+          }
+        ]
+      }
+    },
+    "armory": {
+      "note": "兵器库: a chamber cut into the rock behind 隘口中道's smooth west wall; weapons of every kind hang on its walls, a great 「武」 written on the north one; its one door opens east onto the pass.",
+      "file": "canyon_armory.tscn",
+      "draw": {
+        "technique": "town",
+        "base": "boundary",
+        "bounds": [-32, -32, 416, 352],
+        "ground": [],
+        "zones": {
+          "canyon.blackmarket": [0, 0, 384, 320, "enclosed", "floor_shop", "wall"]
+        },
+        "roads": [],
+        "props": [
+          ["blocked", 48, 32, 336, 48, "weapons hung along the north wall, under the great 「武」"],
+          ["blocked", 32, 64, 48, 256, "racks along the west wall"],
+          ["blocked", 64, 272, 288, 288, "racks along the south wall"]
+        ],
+        "reach_from": "BlackmarketSwearArrival",
+        "markers_in_middle": [],
+        "placed": {}
+      },
+      "scene": {
+        "style": "map",
+        "root": "CanyonArmory",
+        "map": "canyon.armory",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_32_64": [32, 64]
+        },
+        "nodes": [
+          {
+            "generated": "captions"
+          },
+          {
+            "node": "caption",
+            "name": "WuLabel",
+            "at": [180, 52],
+            "text": "武",
+            "size": 20
+          },
+          {
+            "node": "passage",
+            "name": "EastPassage",
+            "id": "canyon.blackmarket.east",
+            "at": [336, 160],
+            "shape": "Rect_32_64"
+          }
+        ],
+        "zones": [
+          {"generated": "zones"}
+        ],
+        "spawn_points": [
+          {
+            "name": "BlackmarketSwearArrival",
+            "at": [176, 160],
+            "id": "canyon.blackmarket.swear_arrival"
+          },
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": []
+      }
+    }
+  }
+}
