@@ -334,11 +334,20 @@ func _resolve_npc_dealings() -> void:
 				_errors.append("%s.accept_object.make: unknown item '%s'" % [origin, rule.make.gives])
 			if not rule.item_alias.is_empty() and not _answers_to(rule.item_alias):
 				_errors.append("%s.accept_object: no item answers to '%s'" % [origin, rule.item_alias])
+		var hooks: NpcHooks = definition.hooks()
+		if hooks != null and not hooks.die_item_id.is_empty():
+			if not _items.has(hooks.die_item_id):
+				_errors.append("%s.die_carries: unknown item '%s'" % [origin, hooks.die_item_id])
+			elif hooks.die_item_master and not _items.has(ItemContentDefinition.master_id(hooks.die_item_id)):
+				_errors.append("%s.die_carries: '%s' records no master" % [origin, hooks.die_item_id])
 		var talk: NpcTalk = definition.talk()
 		for topic: String in talk.inquiry_topics():
 			for inquiry_rule: NpcInquiryRule in talk.inquiry_rules(topic):
 				if not inquiry_rule.gives.is_empty() and not _items.has(inquiry_rule.gives):
 					_errors.append("%s.inquiry.%s.gives: unknown item '%s'" % [origin, topic, inquiry_rule.gives])
+				for forgotten: String in inquiry_rule.forgets:
+					if not talk.inquiry_topics().has(forgotten):
+						_errors.append("%s.inquiry.%s.forgets: no inquiry '%s'" % [origin, topic, forgotten])
 				if not inquiry_rule.hands_over.is_empty() and not _items.has(inquiry_rule.hands_over):
 					_errors.append("%s.inquiry.%s.hands_over: unknown item '%s'" % [origin, topic, inquiry_rule.hands_over])
 		for act: ScriptedAct in talk.greeting_choices():

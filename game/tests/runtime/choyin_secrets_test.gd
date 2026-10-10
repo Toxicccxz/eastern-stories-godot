@@ -184,12 +184,18 @@ func _test_lion(tree: SceneTree, session: WorldSessionController) -> void:
 			break
 		await tree.physics_frame
 	_check(lion != null and coordinator.has_active_encounter(), "the 护草神兽 attacks at once (its reach is the cave)")
-	lion.character_state.vitality.apply_wound(lion.character_state.vitality.effective + 1) # TEST-ONLY: the last blow
+	lion.character_state.vitality.current = 1 # TEST-ONLY: one blow from its end
+	var courage: int = player.state.attributes.courage
+	player.state.attributes.courage = 1000 # TEST-ONLY: the player strikes every turn (fight()'s courage roll)
+	var combat: CombatRandomSource = session.combat_random_source()
+	session.configure_combat_random_source(Highest.new()) # TEST-ONLY: the blow lands
 	var rounds: int = 0
 	while coordinator.has_active_encounter() and rounds < 20:
 		coordinator.advance_scheduler(1.0)
 		rounds += 1
-	_check(lion.life_status == CharacterRuntimeLifeStatus.Value.DEAD and CombatEncounterCoordinator.take_aborted_total() == 0, "the 护草神兽 dies")
+	session.configure_combat_random_source(combat)
+	player.state.attributes.courage = courage
+	_check(lion.life_status == CharacterRuntimeLifeStatus.Value.DEAD and lion.relationship.last_damage_from_id == player.character_id and CombatEncounterCoordinator.take_aborted_total() == 0, "the 护草神兽 dies of the player's blow (last_damage_from)")
 	var grass: StringName = &""
 	var corpse_id: StringName = &""
 	for corpse: CorpseState in cave.corpse_states():
@@ -217,7 +223,7 @@ func _test_lion(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(hud.log_lines().has("一阵怪风骤然刮起，你仿佛腾云驾雾般。"), "the wind's line")
 	var town: WorldMapController = session.active_map() as WorldMapController
 	var chen: NpcRuntimeState = _npc(town, B_HEADER)
-	_check(chen != null and town.relocate_player(&"cloud.biaoju", chen.spawn_point_id), "beside 陈剑秋")
+	_check(chen != null and town.place_player(&"cloud.biaoju", MapPlaces.spot(town, &"cloud.biaoju", town.runtime_body_for_character(chen.character_id).global_position, 96.0)), "beside 陈剑秋 (a free spot: Save refuses one inside a body)")
 	await tree.physics_frame
 	await tree.physics_frame
 	town.select_npc(chen.character_id)
@@ -229,6 +235,7 @@ func _test_lion(tree: SceneTree, session: WorldSessionController) -> void:
 	var refused: ItemHandlingResult = town.floor_items.give_to_selected(plain)
 	_check(not refused.done() and refused.lines.has("陈剑秋笑了笑说：“这不是你得到的吧？”。") and not _carried(session, GRASS).is_empty(), "one the player did not get: 这不是你得到的吧, and it stays with them")
 	player.state.family.family_id = &"" # TEST-ONLY
+	await _round_trip(tree, session, [ItemContentDefinition.master_id(LETTER), ItemContentDefinition.master_id(GRASS)])
 	# Back into the cave without a grass: 放弃 wakes the player in the Inn.
 	_drop_all(session, GRASS) # TEST-ONLY
 	_check(session.handoff_to(&"choyin.lion_cave", &"choyin.lionroom", &"choyin.lionroom", &"choyin.lionroom.fall_arrival").succeeded(), "in the cave again")
@@ -254,6 +261,9 @@ func _test_hollow(tree: SceneTree, session: WorldSessionController) -> void:
 	for ghost: NpcRuntimeState in _all(map, GHOST):
 		var body: WorldCharacterBody2D = map.runtime_body_for_character(ghost.character_id)
 		_check(body != null and not body.visible and not body.input_pickable and not map.select_npc(ghost.character_id), "the 孤魂野鬼 at %s is unseen and cannot be picked" % ghost.world_location().zone_id)
+	var sword: StringName = _give(session, &"es2:daemon/class/taoist/sword") # TEST-ONLY: 林忌's sword
+	_check(session.wield_player_item(sword).succeeded, "the player wields the 咒剑王禅")
+	player.state.recovery.atman = CharacterInternalResourceState.new(100, 100) # TEST-ONLY: random(max_atman) has room
 	var hole: StringName = &"choyin.tree_tomb.landmark.hole"
 	_check(map.place_player(&"choyin.tree_tomb", MapPlaces.spot(map, &"choyin.tree_tomb", map.landmark_areas[hole].global_position)) and map.select_landmark(hole), "at the stump's hole")
 	await tree.physics_frame
@@ -287,6 +297,26 @@ func _test_hollow(tree: SceneTree, session: WorldSessionController) -> void:
 	for shadow: NpcRuntimeState in shadows:
 		if shadow.relationship.is_fighting():
 			fighting = shadow
+	_check(fighting != null and not coordinator.player_can_target(fighting.character_id), "a ghost cannot be picked as the battle target")
+	# The 咒剑王禅 in hand (wielded before the hole), seen with perception: sword.c hit_ob().
+	player.state.skills.set_raw_level(&"perception", 500) # TEST-ONLY: random(600) at least 100
+	var courage: int = player.state.attributes.courage
+	player.state.attributes.courage = 1000 # TEST-ONLY: the player strikes every turn
+	var combat: CombatRandomSource = session.combat_random_source()
+	session.configure_combat_random_source(Highest.new()) # TEST-ONLY: the blow lands, random(max_atman) 99
+	var bane: int = -1
+	for second: int in 6:
+		for event: CombatSchedulerEvent in coordinator.advance_scheduler(1.0).events():
+			var forward: CombatSingleAttackExecutionResult = null if event.resolution == null else event.resolution.forward_result
+			var base: CombatAttackResult = null if forward == null or forward.ordinary_attack_result == null or not forward.ordinary_attack_result.has_base_result else forward.ordinary_attack_result.base_result
+			if event.actor_id == player.character_id and base != null and base.calculation.weapon_bane != null:
+				bane = base.calculation.weapon_bane_amount
+		if bane >= 0:
+			break
+	session.configure_combat_random_source(combat)
+	player.state.attributes.courage = courage
+	player.state.skills.set_raw_level(&"perception", 0)
+	_check(bane == player.state.attributes.spirituality + 30, "咒剑王禅 against a 朦胧鬼影: its line, query_spi() (spi + the sword's 30) = %d" % bane)
 	fighting.character_state.vitality.apply_wound(fighting.character_state.vitality.effective + 1) # TEST-ONLY: the last blow
 	var rounds: int = 0
 	while fighting.life_status != CharacterRuntimeLifeStatus.Value.DEAD and rounds < 10:
@@ -326,7 +356,8 @@ func _test_lovers(tree: SceneTree, session: WorldSessionController) -> void:
 	await tree.physics_frame
 	await tree.physics_frame
 	map.select_npc(girl.character_id)
-	_check(map.ask_topics_selected().has("游晋"), "she can be asked about 游晋")
+	_check(map.ask_topics_selected().has("游晋") and map.ask_topics_selected().has("闺名"), "she can be asked about 游晋 and her 闺名")
+	_check(map.ask_selected("名字").has("官家小姐说道：我 ... ？ 你们外地人都做兴这么问陌生姑娘的闺名吗？"), "her own answer to 名字")
 	var said: Array[String] = map.ask_selected("游晋")
 	_check(said.has("官家小姐说道：小女子有一事相求 ... 请您将这个交给游 ... 游公子。") and said.has("官家小姐给你一个紫罗鸳鸯荷包。") and not _carried(session, SILK_BAG).is_empty(), "the 荷包: %s" % [said])
 	_check(not map.ask_topics_selected().has("游晋"), "given once (默认)")
@@ -362,7 +393,7 @@ func _test_hermit(tree: SceneTree, session: WorldSessionController) -> void:
 	scratch.interact()
 	var book: StringName = _carried_kind(session, [BOOK1, BOOK2])
 	var content: ItemContentDefinition = null if book.is_empty() else GameContent.catalog().item(session.item_instance_index().resolve(book).item_definition_id)
-	_check(hud.log_lines().has("你乘人不备，抓起一本书藏入怀中。") and content != null and content.display_name.begins_with("「") and content.study != null and session.player_runtime().temp_marks.get("choyin/书", 0) == 1, "a hermit's book, named: %s" % ("" if content == null else content.display_name))
+	_check(hud.log_lines().has("你乘人不备，抓起一本书藏入怀中。") and content != null and String(content.item_definition_id).contains(ItemContentDefinition.NAME_SUFFIX) and content.study != null and session.player_runtime().temp_marks.get("choyin/书", 0) == 1, "a hermit's book, its name drawn: %s" % ("" if content == null else content.display_name))
 	var bracelet: StringName = _give(session, BRACELET) # TEST-ONLY
 	var sen: int = session.player_runtime().state.spirit.current
 	_check(map.floor_items.act_with_item(bracelet) and hud.log_lines()[-1] == "也不知道隐士怎么弄的，你的玛瑙手镯不灵验了。" and session.player_runtime().state.spirit.current == sen and session.player_runtime().world_location().zone_id == &"choyin.club", "the 玛瑙手镯 fails in the 草堂")
@@ -502,6 +533,39 @@ func _take_floor(tree: SceneTree, map: WorldMapController, definition_id: String
 		return false
 	map.floor_items.take_selected_floor_item()
 	return not _carried(map.session, definition_id).is_empty()
+
+
+## Save, encode, decode and Continue in a fresh session: these item forms are still somewhere
+## (carried or held by an NPC), and the capture again is the same file.
+func _round_trip(tree: SceneTree, source: WorldSessionController, forms: Array[StringName]) -> void:
+	# TEST-ONLY: Continue recomputes max gin, kee and sen (race/human.c): the 1000000 of _full() go first.
+	var state: CharacterState = source.player_runtime().state
+	CharacterDerivedValues.refresh_human_player_maxima(state, source.player_runtime().facts.age)
+	state.essence = CharacterResourceState.new(state.essence.maximum, state.essence.maximum, state.essence.maximum)
+	state.vitality = CharacterResourceState.new(state.vitality.maximum, state.vitality.maximum, state.vitality.maximum)
+	state.spirit = CharacterResourceState.new(state.spirit.maximum, state.spirit.maximum, state.spirit.maximum)
+	var snapshot: GameSaveSnapshot = Work.capture(source)
+	_check(snapshot != null, "Save with the master forms")
+	if snapshot == null:
+		return
+	var encoded: GameSaveResult = GameSaveJsonCodec.encode(snapshot)
+	var decoded: GameSaveResult = GameSaveJsonCodec.decode(encoded.text)
+	var restored: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(decoded.snapshot, tree.root)
+	_check(encoded.succeeded() and decoded.succeeded() and restored.succeeded(), "Continue builds: %s" % restored.path)
+	if not restored.succeeded():
+		return
+	var fresh: WorldSessionController = restored.candidate
+	_check(fresh.activate_restore_candidate(), "Continue activates")
+	var found: Array[StringName] = []
+	for id: StringName in fresh.item_instance_index().snapshot_ids():
+		var item: ItemInstance = fresh.item_instance_index().resolve(id)
+		if item != null and forms.has(item.item_definition_id) and not found.has(item.item_definition_id):
+			found.append(item.item_definition_id)
+	_check(found.size() == forms.size(), "the master forms come back: %s" % [found])
+	var after: GameSaveSnapshot = Work.capture(fresh)
+	_check(after != null and GameSaveJsonCodec.encode(after).text == encoded.text, "Save again: the same file")
+	fresh.free()
+	await tree.process_frame
 
 
 func _service(map: WorldMapController, service_id: StringName) -> WorldService:

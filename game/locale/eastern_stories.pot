@@ -19351,6 +19351,27 @@ msgid ""
 "一个看起来像是有钱人家的女子，正在这里游湖。\n"
 msgstr ""
 
+#. choyin.npc.girl inquiry.name
+#: data/choyin/npcs.json
+msgid "我 ... ？ 你们外地人都做兴这么问陌生姑娘的闺名吗？"
+msgstr ""
+
+#. choyin.npc.girl inquiry.here
+#. choyin.npc.maid inquiry.here
+#: data/choyin/npcs.json
+msgid "这里啊？这里就是乔阴县有名的翠柳湖啊！"
+msgstr ""
+
+#. choyin.npc.girl inquiry topic
+#: data/choyin/npcs.json
+msgid "闺名"
+msgstr ""
+
+#. choyin.npc.girl inquiry.闺名
+#: data/choyin/npcs.json
+msgid "真是没有礼貌的家伙，我才不告诉你！"
+msgstr ""
+
 #. choyin.npc.girl inquiry topic
 #. choyin.npc.girl inquiry.游晋.rules.forgets
 #: data/choyin/npcs.json
@@ -19371,11 +19392,6 @@ msgstr ""
 #: data/choyin/npcs.json
 msgid ""
 "一个服侍有钱人家小姐的丫鬟，正无聊地玩弄著衣角。\n"
-msgstr ""
-
-#. choyin.npc.maid inquiry.here
-#: data/choyin/npcs.json
-msgid "这里啊？这里就是乔阴县有名的翠柳湖啊！"
 msgstr ""
 
 #. choyin.npc.judgeman name
@@ -20198,6 +20214,16 @@ msgstr ""
 msgid "乔阴东郊"
 msgstr ""
 
+#. choyin.club refuses.pray
+#: data/choyin/world.json
+msgid "也不知道隐士怎么弄的，你的玛瑙手镯不灵验了。"
+msgstr ""
+
+#. choyin.club refuses.dancing
+#: data/choyin/world.json
+msgid "也不知道隐士怎么弄的，你无法跳出专注的舞步。"
+msgstr ""
+
 #. choyin.yamen.door name
 #: data/choyin/world.json
 msgid "铜钉大门"
@@ -20232,11 +20258,21 @@ msgstr ""
 msgid "举"
 msgstr ""
 
+#. choyin.w_street1.landmark.statue messages.lift
+#: data/choyin/world.json
+msgid "你努力地抬着石狮子，试图抬起一点点。"
+msgstr ""
+
 #. choyin.w_street1.landmark.statue messages.open
 #: data/choyin/world.json
 msgid ""
 "石狮子竟然向左移动了尺许，漏出向下的洞穴。\n"
 "你从洞口掉了下去。"
+msgstr ""
+
+#. choyin.w_street1.landmark.statue messages.closed
+#: data/choyin/world.json
+msgid "石狮子又缓缓地向右移动了尺许，正好盖住洞口。"
 msgstr ""
 
 #. choyin.w_street1.landmark.statue long

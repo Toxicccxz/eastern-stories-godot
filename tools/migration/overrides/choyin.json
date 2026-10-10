@@ -69,9 +69,14 @@
 			]
 		},
 		"choyin.npc.girl": {
-			"inquiry": { "游晋": { "rules": [
-				{ "say": "小女子有一事相求 ... 请您将这个交给游 ... 游公子。", "gives": "es2:d/choyin/npc/obj/silk_bag", "forgets": ["游晋"] }
-			] } }
+			"inquiry": {
+				"name": ["我 ... ？ 你们外地人都做兴这么问陌生姑娘的闺名吗？"],
+				"here": ["这里啊？这里就是乔阴县有名的翠柳湖啊！"],
+				"闺名": ["真是没有礼貌的家伙，我才不告诉你！"],
+				"游晋": { "rules": [
+					{ "say": "小女子有一事相求 ... 请您将这个交给游 ... 游公子。", "gives": "es2:d/choyin/npc/obj/silk_bag", "forgets": ["游晋"] }
+				] }
+			}
 		},
 		"es2:d/choyin/obj/silver_clasp": {
 			"armor": { "type": "head", "props": { "armor": 1, "personality": 2 }, "weight_dodge": "armor" }

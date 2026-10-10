@@ -247,12 +247,14 @@ func destroy_floor_item(item_id: StringName) -> bool:
 ## create() draws its name (d/choyin/npc/obj/book1.c) is made as one of its named forms.
 func place_new_floor_item(item_definition_id: StringName) -> StringName:
 	var content: ItemContentDefinition = GameContent.catalog().item(item_definition_id)
-	var names: Array[StringName] = [] if content == null else content.name_pick_ids()
-	if not names.is_empty():
-		content = GameContent.catalog().item(names[_world_interaction_random.legacy_random(names.size())])
 	var location: WorldLocationState = null if _player == null else _player.world_location()
 	if content == null or location == null or location.map_id != map:
 		return &""
+	var names: Array[StringName] = content.name_pick_ids()
+	if not names.is_empty():
+		content = GameContent.catalog().item(names[clampi(_world_interaction_random.legacy_random(names.size()), 0, names.size() - 1)])
+		if content == null:
+			return &""
 	var allocation: SessionItemIdAllocationResult = _item_id_allocator.allocate(_inventory)
 	if not allocation.succeeded:
 		return &""
@@ -320,7 +322,13 @@ func give_new_item_to(npc: NpcRuntimeState, item_definition_id: StringName) -> S
 	var moved: InventoryTransferResult = InventoryTransferService.new().transfer(
 		_inventory, item.item_instance_id, InventoryTransferDestination.new(holder, true, true, npc.maximum_encumbrance),
 	)
-	return item.item_instance_id if moved.succeeded else &""
+	if moved.succeeded:
+		return item.item_instance_id
+	# Too heavy for it: the new item is gone again rather than left without a holder.
+	var removal: ItemLifecycleResult = ItemLifecycleService.destroy_item(_inventory, _stacks, item.item_instance_id, ItemLifecycleResult.ChildDisposition.REQUIRE_LEAF)
+	if not (removal.succeeded and _item_index.forget_destroyed_snapshots(removal.removed_instance_ids, _inventory)):
+		push_error("new %s could not be undone" % item.item_instance_id)
+	return &""
 
 
 ## How many times a `look_spawn` landmark called something in since its room's reset
