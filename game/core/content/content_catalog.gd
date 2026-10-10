@@ -361,6 +361,14 @@ func services_for_map(map_id: StringName) -> Array[ServiceDefinition]:
 	return result
 
 
+## The zone has a water service (a room with resource/water: serpentforce.c's practice).
+func zone_has_water(zone_id: StringName) -> bool:
+	for definition: ServiceDefinition in _services.values():
+		if definition.kind == &"water" and definition.zone_id == zone_id:
+			return true
+	return false
+
+
 func door(door_id: StringName) -> DoorDefinition:
 	return _doors.get(door_id)
 

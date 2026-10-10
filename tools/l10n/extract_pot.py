@@ -47,8 +47,10 @@ TEXT_KEYS = frozenset({
     "target", "quest_type", "ask_say", "again_say", "oath", "ask_tell", "success", "force_fail",
     "whisper", "commoners_only", "busy_say", "mana_fail", "sen_fail", "came", "caught", "standing",
     "tell", "dissolve", "tired", "clumsy", "ask", "choice", "wear_refusal",
+    "water_fail", "catch_say", "escape_line", "deliver_say", "refused_line", "beat_line", "warn_line",
+    "sorry_line",
 })
-TEXT_LIST_KEYS = frozenset({"limbs", "name_pick", "killed_by_owner", "killed_by_other"})
+TEXT_LIST_KEYS = frozenset({"limbs", "name_pick", "killed_by_owner", "killed_by_other", "taken_lines", "faint_lines"})
 # Inside lines and messages `action` names a chat function (random_move, drink, perform...), not a label.
 LINE_KEYS = (TEXT_KEYS - {"action"}) | frozenset({
     "open", "close", "push", "hold", "fall", "climb", "climb_observer", "fall_observer",

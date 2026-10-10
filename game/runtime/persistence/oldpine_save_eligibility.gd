@@ -41,6 +41,10 @@ static func inspect(
 			session.player_runtime().character_id,
 			"player is unconscious or dead",
 		)
+	# A constable leads the player to the court, or the magistrate is about to sentence them
+	# (WorldMapPatrols): short, and not saved.
+	if session.player_runtime() != null and session.player_runtime().in_custody():
+		return Result.block(Result.Outcome.BUSY, session.player_runtime().character_id, "player is in custody")
 	var maps: Array[WorldMapController] = session.world_maps()
 	if maps.is_empty():
 		return Result.block(Result.Outcome.SESSION_NOT_READY)

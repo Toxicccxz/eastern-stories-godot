@@ -127,6 +127,7 @@ func add_document(document: Variant, origin: String) -> void:
 
 
 func build() -> ContentCatalog:
+	_add_named_npcs()
 	_add_named_items()
 	_add_mastered_items()
 	_add_broken_weapons()
@@ -189,6 +190,20 @@ func _add_haunting_sheets() -> void:
 			if npc.raising() == null:
 				var sheet: ItemContentDefinition = ItemContentDefinition.haunting_sheet(paper, npc)
 				_items[sheet.item_definition_id] = sheet
+
+
+## Each name a placed NPC's create() may draw (yamen_po.c) as a form of its own, so the name
+## kept is saved (a save names the NPC's definition). A summoned one is never saved.
+func _add_named_npcs() -> void:
+	for spawn: NpcSpawnDefinition in _spawns.values():
+		var npc: NpcDefinition = _npcs.get(spawn.npc_definition_id)
+		if npc == null or spawn.summoned or npc.name_pick().is_empty() or npc.names_kept():
+			continue
+		npc.keep_names()
+		for index: int in range(npc.name_pick().size()):
+			var named: NpcDefinition = npc.named(index)
+			_npcs[named.definition_id] = named
+			_origins[named.definition_id] = _origins.get(npc.definition_id, "")
 
 
 ## Each name an item's create() may draw (book.c) as a form of its own, so the name kept is saved.
@@ -388,9 +403,6 @@ func _check_spawns() -> void:
 		var origin: String = _origins[definition.spawn_id]
 		if not _npcs.has(definition.npc_definition_id):
 			_errors.append("%s.npc: unknown NPC '%s'" % [origin, definition.npc_definition_id])
-		elif not _npcs[definition.npc_definition_id].name_pick().is_empty():
-			# A save keeps no drawn name: only a spell's summoned NPC, gone once its fight is, draws one.
-			_errors.append("%s.npc: '%s' draws its name and is only summoned" % [origin, definition.npc_definition_id])
 		elif _npcs[definition.npc_definition_id].conjuring() != null:
 			# Its create() reads who practised, and a save keeps none standing (NpcConjuring).
 			_errors.append("%s.npc: '%s' is only conjured by a practice" % [origin, definition.npc_definition_id])

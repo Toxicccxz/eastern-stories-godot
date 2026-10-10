@@ -205,9 +205,13 @@ static func _restore_npc_ledger(
 				)
 			var saved: Values.NpcSpawnStateSnapshot = saved_by_point[point_id]
 			var path: String = "npc_spawn_states.%s" % String(point_id)
+			# One that drew its name is saved as that named form (NpcDefinition.named()).
+			var made: NpcDefinition = GameContent.catalog().npc(saved.npc_definition_id)
 			if (
 				saved.spawn_id != spawn.spawn_id
-				or saved.npc_definition_id != spawn.npc_definition_id
+				or made == null
+				or NpcDefinition.unnamed_id(saved.npc_definition_id) != spawn.npc_definition_id
+				or (saved.npc_definition_id != spawn.npc_definition_id and definition.name_pick().is_empty())
 				or NpcGeneration.of(saved.character_id, point_id) == 0
 				or not _location_is_current(saved.world_location)
 				or saved.world_location.map_id != spawn.map_id
@@ -266,7 +270,7 @@ static func _restore_npc_ledger(
 				loadout.append(item_index.resolve(item_id))
 			var runtime: NpcRuntimeState = NpcRuntimeState.new(
 				saved.character_id,
-				definition,
+				made,
 				saved.spawn_id,
 				saved.spawn_point_id,
 				state,
@@ -515,7 +519,8 @@ static func _replaced_npc_definition(snapshot: GameSaveSnapshot, victim_id: Stri
 	for npc: Values.NpcSpawnStateSnapshot in snapshot.npc_spawn_states:
 		var earlier: int = NpcGeneration.of(victim_id, npc.spawn_point_id)
 		if earlier > 0 and earlier < NpcGeneration.of(npc.character_id, npc.spawn_point_id):
-			return GameContent.catalog().npc(npc.npc_definition_id)
+			# Of a spawn whose NPC draws its name: the replacement may have drawn another.
+			return GameContent.catalog().npc(NpcDefinition.unnamed_id(npc.npc_definition_id))
 	return null
 
 

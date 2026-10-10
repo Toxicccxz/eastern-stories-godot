@@ -9,6 +9,8 @@ extends RefCounted
 
 ## npc.c random_move(), one chat function that is data; NpcDrinkAction is another.
 const RANDOM_MOVE: StringName = &"random_move"
+## d/choyin/npc/yamen_po.c's (: call_out, "patrol", 0 :): one step along its route (NpcPatrol).
+const PATROL: StringName = &"patrol"
 ## An emote command() among the chat functions (oldman2.c's sigh): data/emoted.o is
 ## not in the mudlib, so it shows nothing, but it is one of the entries drawn.
 const SILENT_EMOTE: StringName = &"emote"
@@ -225,7 +227,7 @@ func is_valid() -> bool:
 	for entry: Variant in _chat_entries:
 		if not (
 			_is_valid_said(entry)
-			or (entry is StringName and (entry == RANDOM_MOVE or entry == SILENT_EMOTE))
+			or (entry is StringName and (entry == RANDOM_MOVE or entry == SILENT_EMOTE or entry == PATROL))
 			or (entry is NpcDrinkAction and (entry as NpcDrinkAction).is_valid())
 		):
 			return false

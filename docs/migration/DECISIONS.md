@@ -111,6 +111,52 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 - #27 牛皮酒袋照原名显示，不另起短名。
 - 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
 
+## 乔阴 D: 花紫会, stealing and the 县衙 (2026-10-10)
+
+The plan's D (「乔阴 A」 below): 陆得财's 拜师 and teaching, the player's 油流麻香手 and 伏蛟功, the
+player's steal, the 县衙's arrest repaired (Q1). What each LPC function became is in
+[CHOYIN_CONTENT](CHOYIN_CONTENT.md); it follows the LPC except:
+- **Q1 as approved: the 县衙's arrest repaired.** yamen.c's eight 巡捕 stand on the main street
+  (the 大堂 is a map of its own) and walk it, from the 衙门口 to the 北门 and back, a zone each time
+  their chat calls patrol(), wherever the player is on the map (ES2 stopped an NPC's heart beat
+  away from players; BigWay ran on past the 北门 into other regions and skipped s_street3). One
+  meeting a player with a caught steal on record catches them when random(10) < 7: crime_lv + 3,
+  thief − 1; the player reads its say, 你 for their name (say() left the thief out of it), and a
+  native hint; it leads them back along the street a zone a step, their own walking refused
+  (嘿嘿, 还想往哪逃?!), and at the 衙门口 takes them into the 大堂 (老爷，人犯已带到，小人巡街去了。).
+  Two seconds later 程不平 beats them crime_lv strokes by settle_lawsuit()'s formula, clears the
+  crime and puts them out at the 衙门口. On the way ten gold or more (base_value × amount ≥
+  100000) frees them, crime_lv − 3; less is refused, crime_lv + 1. Killing a 巡捕 is crime_lv + 5.
+  Its gangster and 野羊山寨三寨主 checks name NPCs that never come here; 卧龙岗's marks/强盗 is no
+  crime; the drum and charge are not ported; one who flees its fight gets away (pursuer is not
+  modelled).
+- **Obvious slips fixed in settle_lawsuit():** a value it left at 1 (its effective value below the
+  stroke) still took the stroke (receive_wound() to −1: the next heart_beat killed the one its
+  lines carry out): it stays at 1; the beating ends when all three are left so (the faint); its
+  warning (再敢犯案, 定斩不饶!) is said once, after the strokes (ES2: after each).
+- **默认 (plan): stealing is asked first from one clearly stronger** (A10), as one caught is
+  attacked to the death; the 偷窃 list offers what the NPC is seen to wear or wield (look.c shows
+  only those) and 随手摸一样 (steal.c's pick when the name matches nothing). The steal's three
+  seconds run on the map's time: they wait in a fight and end when the player leaves the map.
+- **默认 (plan): 陆得财 counts only the money carried** (can_afford(): gold, silver and coins on
+  the player; a bank deposit does not count); he looks the student over first (look.c's
+  正盯著你看); his nod prints nothing.
+- **Custody is not saved:** Save waits (战斗中或动作还没完成时不能存档。) while a 巡捕 leads the
+  player and until the sentence; dying ends it.
+- **伏蛟功's exerts:** serpentforce.c's exert files do not exist, so exert.c falls back to the basic
+  force's (恢复气, 恢复神, 恢复精), as 步玄心法's; the plan's "no exert at all" was wrong. It is
+  practised only in a room with resource/water: Old Pine's mountain stream (riverbank1.c,
+  riverbank2.c) had lost its water in the port and has it back (a wineskin fills there too).
+- **obj/user.c reset()** runs for the player on the rooms' schedule: a caught steal is forgotten
+  and, as ES2, a point of potential comes while less than 100 is unspent (not ported before).
+- **Global (data):** a placed NPC that draws its name keeps it in a save as one of its named forms
+  (`<id>#name=<n>`, as items); apprentice checks `cannot_afford` (the money carried) and `looks`,
+  a requirements master's empty accept_say; the chat action `patrol`, an NPC's `patrol` (route and
+  `arrest`) and `sentence`; a practice's `water_fail`; thief and crime_lv in the character's
+  counters (CrimeRecord); rank 惯窃 above ten caught steals.
+- **Save:** world content revision `SOURCE_ENTRY_CHOYIN_D_V1` (new spawns); older development
+  saves need a New Game.
+
 ## 乔阴 C: 步玄派 (2026-10-10)
 
 The plan's C (「乔阴 A」 below): 骆云舟's 拜师 by the 桃林's mark, the 桃林's notes and ways, his

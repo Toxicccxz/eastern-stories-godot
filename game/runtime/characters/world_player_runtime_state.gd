@@ -20,6 +20,17 @@ var conjured_npc_id: StringName = &""
 ## The player's set_temp() flags that NPCs and rooms read (d/latemoon's latemoon/茶, the
 ## 竹蜻蜓 chain): saved (owner: ES2's relogin forgot them; a Continue is no relogin).
 var temp_marks: Dictionary[String, int] = {}
+## The constable leading the player to the 县衙 (d/choyin/npc/yamen_po.c catchyou(): being_caught,
+## set_leader()), by character ID; &"" when free. Not saved: Save waits until it is over.
+var led_by: StringName = &""
+## Delivered to the 大堂, before the magistrate's settle_lawsuit() (NpcSentence). Not saved.
+var awaiting_sentence: bool = false
+
+
+## In the law's hands: led by a constable or waiting for the sentence. Their walking is
+## refused, and Save waits.
+func in_custody() -> bool:
+	return not led_by.is_empty() or awaiting_sentence
 
 var facts: PlayerIdentityFacts:
 	get: return _facts

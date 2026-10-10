@@ -283,7 +283,15 @@
 			],
 			"accept_fight": [
 				{ "say": "这是衙门，快回去吧。", "accept": false }
-			]
+			],
+			"sentence": {
+				"after": 2,
+				"beat_line": "来人哪！把$N拖下去打{boards}大板！",
+				"faint_lines": ["哎, 早知今日,何必当初?", "来人呀, 把$N给我抬出去!", "...退...堂...!"],
+				"warn_line": "$N对$n说道: 再敢犯案, 定斩不饶!",
+				"sorry_line": "真是对不起, 下人办事不周, 让您受委屈了.",
+				"out": { "zone": "choyin.court1", "point": "choyin.court1.yamen_return" }
+			}
 		},
 		{
 			"id": "choyin.npc.lady",
@@ -542,6 +550,81 @@
 			"apply": { "attack": 30, "damage": 10, "armor": 50, "dodge": 40 },
 			"capabilities": ["aggressive_on_player_presence"],
 			"die_carries": { "item": "es2:d/choyin/obj/grass", "master": true }
+		},
+		{
+			"id": "choyin.npc.yamen_po",
+			"legacy_source": "d/choyin/npc/yamen_po.c",
+			"aliases": ["yamen police", "yamen", "police"],
+			"gender": "男性",
+			"age": 25,
+			"long": "     巡捕个个身手矫健，强盗、山贼无不闻风丧胆。\n",
+			"attributes": { "str": 45, "cor": 50, "cps": 35, "int": 20, "per": 20, "kar": 15 },
+			"combat_exp": 500000,
+			"attitude": "heroism",
+			"skills": {
+				"blade": 100,
+				"parry": 90,
+				"dodge": 70,
+				"perception": 50,
+				"pyrobat-steps": 60,
+				"spring-blade": 100
+			},
+			"skill_map": { "blade": "spring-blade", "dodge": "pyrobat-steps" },
+			"carry": [
+				{ "item": "es2:d/choyin/obj/blade", "source": "d/choyin/npc/obj/blade.c", "equip": "wield" },
+				{ "item": "es2:d/choyin/obj/cloth", "source": "d/choyin/npc/obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:d/choyin/obj/amulet", "source": "d/choyin/npc/obj/amulet.c" },
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 30 }
+			],
+			"chat_chance_combat": 40,
+			"chat_msg_combat": [
+				"巡捕说道：你想干什么? 还不跟我去县衙受审!?\n",
+				"巡捕说道：大胆! 居然敢当街拒捕! 想造反？\n",
+				"巡捕手中的刀越砍越快，让你应接不暇。\n",
+				"巡捕说道：别胡闹了，还是乖乖的跟我走吧。\n"
+			],
+			"inquiry": {
+				"贿赂": ["说哪里话来，县太爷清贫廉正，我们作手下的岂能辱没他的名声？\n收起你的钱吧！\n"],
+				"年饷": ["哎，老爷俸银微薄，我们的年饷自然更少了......\n"],
+				"钱": ["说实在的，我也想要钱。但要是让老爷知道了我收受贿赂，\n不死也得扒层皮\n"]
+			},
+			"name": "慕容巡捕",
+			"name_pick": ["慕容巡捕", "西门巡捕", "公孙巡捕", "上官巡捕", "南宫巡捕", "欧阳巡捕", "司徒巡捕"],
+			"chat_chance": 99,
+			"chat_msg": [
+				{ "action": "patrol" }
+			],
+			"patrol": {
+				"route": [
+					"choyin.court1",
+					"choyin.crossroad",
+					"choyin.s_street5",
+					"choyin.s_street4",
+					"choyin.s_street1",
+					"choyin.s_street2",
+					"choyin.s_street3",
+					"choyin.tree_tomb",
+					"choyin.n_street3",
+					"choyin.n_street2",
+					"choyin.n_street1",
+					"choyin.n_gate"
+				],
+				"arrest": {
+					"catch_below": 7,
+					"out_of": 10,
+					"catch_say": "闹了半天原来{name}是个贼啊! 我走一趟吧!",
+					"crime": 3,
+					"escape_line": "嘿嘿, 还想往哪逃?!",
+					"deliver_say": "老爷，人犯已带到，小人巡街去了。",
+					"court": { "zone": "choyin.yamen", "point": "choyin.yamen.hall_entry" },
+					"bribe_at": 100000,
+					"taken_lines": ["这怎么好?......要是让老爷知道了......", "盛情难却....我就收下了.."],
+					"refused_line": "你这是什么意思?......谁稀罕你的钱?!",
+					"bribe_crime": 1,
+					"pardon": 3,
+					"killed_crime": 5
+				}
+			}
 		}
 	]
 }

@@ -68,7 +68,8 @@
 		{
 			"id": "serpentforce", "name": "伏蛟功", "kind": "specialized", "type": "martial", "enable": ["force"],
 			"legacy_source": "daemon/skill/serpentforce.c",
-			"standard_force_hit": true
+			"standard_force_hit": true,
+			"practice": { "water_fail": "伏蛟功只能在有水的地方练。", "kee": 30, "force": 10, "fail": "你的气不够。", "force_fail": "你的内力不够" }
 		},
 		{
 			"id": "spring-blade", "name": "春风快意刀", "kind": "specialized", "type": "martial", "enable": ["blade", "parry"],
@@ -207,6 +208,10 @@
 		{
 			"id": "perception", "name": "听风辨器之术", "kind": "basic", "type": "martial",
 			"legacy_source": "daemon/skill/perception.c"
+		},
+		{
+			"id": "stealing", "name": "偷窃", "kind": "basic", "type": "martial",
+			"legacy_source": "daemon/skill/stealing.c"
 		},
 		{
 			"id": "celestrike", "name": "天邪神掌", "kind": "specialized", "type": "martial", "enable": ["unarmed"],
@@ -440,6 +445,8 @@
 		{
 			"id": "spicyclaw", "name": "油流麻香手", "kind": "specialized", "type": "martial", "enable": ["unarmed"],
 			"legacy_source": "daemon/skill/spicyclaw.c",
+			"practice": { "kee": 25, "force": 3, "fail": "你的体力不够了，休息一下再练吧。", "force_fail": "你的内力不够了，休息一下再练吧。" },
+			"valid_learn": { "empty_hands": "练油流麻香手必须空手。", "max_force": "你的内力太弱，无法练油流麻香手。" },
 			"hit_wound": {
 				"at_least": 100,
 				"messages": [

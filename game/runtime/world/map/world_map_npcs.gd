@@ -400,7 +400,7 @@ func reset_room(legacy_room: String) -> void:
 				continue
 			# oldman.c reset(): set("pills", 9).
 			npc.pills_left = -1
-			if npc.world_location().zone_id != spawn.zone_id:
+			if npc.world_location().zone_id != spawn.zone_id and not _map.patrols.keeps_out(npc):
 				return_home(npc)
 	for spawn: ItemSpawnDefinition in catalog.item_spawns_for_map(map):
 		if spawn.legacy_source_room_path != legacy_room:

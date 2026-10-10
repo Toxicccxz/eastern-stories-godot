@@ -6,6 +6,8 @@ const CharacterStateType := preload("res://core/characters/character_state.gd")
 var skill_id: StringName
 ## What the practice may conjure once paid for (necromancy.c's 观想虫); null for none.
 var conjuring: PracticeConjuring
+## serpentforce.c: only where the room has resource/water (PracticeService's `at_water`).
+var needs_water: bool = false
 
 
 func _init(p_skill_id: StringName = &"") -> void:

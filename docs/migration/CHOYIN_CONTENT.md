@@ -3,7 +3,7 @@
 How the region comes from `reference/es2/mudlib/d/choyin/`, `d/jail/`, `daemon/class/scholar/`
 (步玄派) and `daemon/class/beggar/` (花紫会), and what the LPC says that the code does not.
 Decisions are in [DECISIONS](DECISIONS.md) (「乔阴 A」 holds the plan, the owner's answers and the
-defaults; 「乔阴 B」 and 「乔阴 C」 their own). Package A draws every map and places the people with the arts they
+defaults; 「乔阴 B」, 「乔阴 C」 and 「乔阴 D」 their own). Package A draws every map and places the people with the arts they
 fight with; B the town's secrets and 姑射山 (the lion, the hole under the 树王坟, the ghosts, the
 vines, the 缚仙绳, the 云台 and the 丹炉, the 寒谷's orchid, the hermit's books, the 荷包); C 步玄派
 (the 桃林's poem maze, 骆云舟's teaching, the player's arts and 玄羽乱舞); D 花紫会, stealing and the
@@ -133,10 +133,42 @@ People elsewhere: 武官 (the chest, the 白杨经), 官家小姐 (the 荷包), 
 | hasten.c through perform.c `move.hasten` | PerformService.martial_for(): a file no weapon use reaches is reached through 行动 or 轻功; the battle panel's 使出「玄羽乱舞」 (query_skill("mysterrier") / 20 + 2 rounds: query_skill is half the raw level) |
 | sword_soul.c chant_sword()'s call_outs | NpcRuntimeState chant_stage and chant_left on the map's running time; memory `chant` {stage, left_ms} in the save (owner: option A) |
 
+## Placed (D)
+
+| Map | What D adds | Ways |
+|---|---|---|
+| choyin.town | eight 巡捕 (yamen.c's eight: world.json spawns on the main street, each drawing one of seven surnames) walking the beat 衙门口 – 十字路口 – 承安街 – 南门广场 – market street – 树王坟 – 福林大街 – 北门 and back | a thief led to the 衙门口 is taken into the 大堂 (`choyin.yamen.hall_entry`) |
+| choyin.yamen_compound | 程不平 sentences who is brought in | out at the 衙门口 (`choyin.court1.yamen_return`) |
+| oldpine.gorge | the mountain stream's water (riverbank1.c, riverbank2.c resource/water: missing before) | — |
+
+## LPC → native (D)
+
+| LPC | Native |
+|---|---|
+| daemon/class/beggar/master.c attempt_apprentice() | apprentice rule: `looks` (look.c's 正盯著你看 to the student), a check `cannot_afford` 100 (feature/finance.c can_afford(): gold, silver and coins carried; plan default) with his say; nod prints nothing (an emote, `accept_say` empty); recruit, class beggar |
+| feature/finance.c can_afford() | WorldMapController.player_can_afford() (MoneyPaymentService.can_afford(): AFFORDABLE or DENOMINATION_REJECTED, ES2's 1 and 2), set on NpcApprenticeship.affords by its callers |
+| spicyclaw.c valid_learn(), practice_skill() | the learn registry's empty hands and max_force 80 with its two lines; practice 25 kee, 3 force (its two lines) |
+| serpentforce.c practice_skill() | practice `water_fail` first (PracticePolicy.needs_water; PracticeService's `at_water` from ContentCatalog.zone_has_water(): a water service in the player's zone), then 30 kee, 10 force (你的内力不够, as written) |
+| serpentforce.c exert_function_file() | a directory that does not exist: exert.c falls back to the basic force's (恢复气, 恢复神, 恢复精) |
+| daemon/skill/stealing.c | skills.json `stealing` 偷窃 (basic, martial; the plan's name) |
+| cmds/std/steal.c main(), compelete_steal() | WorldMapThefts with NpcSteal's odds; HUD 偷窃 on the selected NPC (here, awake or not): StealPanel lists what it wears or wields (look.c) and 随手摸一样 (the pick when the name matches nothing); asked first from one clearly stronger (RelativeStrength, plan default); its lines; the call_out 3 s on the map's running time; caught: kill_ob() (npc_kills), busy 5, thief + 1; improve_skill random(int) when taken from one awake, 1 when caught |
+| query("thief"), query("crime_lv") | CrimeRecord in CharacterState.counters (saved) |
+| obj/user.c reset() | PlayerObjectReset on the session's own schedule (WorldRoomResets, the rooms' period): potential + 1 below 100 unspent, thief - 1 |
+| combatd.c killer_reward() thief / 2 | PlayerDeathRules |
+| rankd.c thief > 10 | RankWords.query_rank(): 【 惯  窃 】 before the class |
+| yamen_po.c set_name(surname[random(7)] + "巡捕") | `name_pick` on a placed NPC: a named form per name in the catalog (`<id>#name=<n>`, NpcDefinition.named()), saved by its ID |
+| yamen_po.c BigWay, patrol(), mygo() | `patrol` route (NpcPatrol) and the chat action `patrol` (chat_chance 99): WorldMapPatrols.step(), a zone each, turning at either end (FLAG_BACK, its `direction`, saved with its memory); its beat beats wherever the player is on the map (WorldMapNpcLife._chats()); a room's reset leaves one on its beat there |
+| yamen_po.c init() (thief branch), catchyou() | WorldMapPatrols.meet() from the player's arrival, its walking in and npc_arrived(): random(10) < 7 (`arrest`, NpcArrest), its say with 你 for the thief's name, a native hint, crime_lv + 3, thief - 1, the player's led_by; it is selected |
+| set_leader(), do_go() | WorldPlayerRuntimeState.led_by: WorldCharacterBody2D.held refuses the player's walking (嘿嘿, 还想往哪逃?! at most every 2 s); each step it takes back toward the 衙门 the walker walks the player after it |
+| init() at BigWay's 0 (the 衙门口) | WorldMapPatrols._deliver(): handoff to the 大堂, 老爷，人犯已带到，小人巡街去了。, the player awaiting_sentence, it goes back to its beat |
+| accept_bribery() | HUD 行贿 on the one leading the player (BribePanel: a money stack and how much): base_value × amount ≥ 100000 frees them (its two lines, the money its, crime_lv - 3), less refused (its line, crime_lv + 1); grin prints nothing |
+| yamen_po.c die() | WorldMapPatrols.died() from the combat lifecycle: crime_lv + 5 for the player (or one they called), the one led is free |
+| do_quit() | nothing to quit; Save waits while in custody (OldPineSaveEligibility: BUSY) |
+| judgeman.c settle_lawsuit() | `sentence` (NpcSentence): two seconds after the delivery (NpcAmbience kind `sentence`), its lines, NpcSentence.beat() by crime_lv, the crime cleared, out at the 衙门口; the knock-out after the move (heart_beat()) |
+| judgeman.c test_crime(), do_charge(); magistra.c's drum | not ported (owner Q1) |
+
 ## Not done (and where it goes)
 
-- D: 陆得财's attempt_apprentice() (can_afford(100)), his teaching, 油流麻香手 and 伏蛟功 for the
-  player, steal, the 巡捕's patrol and arrest, 程不平's boards (plan Q1).
 - #12: 陈天星 takes 陈剑秋's letter (reminder test in choyin_secrets_test).
 - #13: the 孤魂野鬼's 布条 (a ghost sees ghosts).
 
@@ -168,3 +200,12 @@ People elsewhere: 武官 (the chest, the 白杨经), 官家小姐 (the 荷包), 
 - taolin.c counts only `go <dir>` (the aliases); a bare direction goes to go.c directly.
 - master.c's says end in \n (say.c prints an empty line after them); entrance.c casts the
   int marks/书生 to a string (no effect in MudOS).
+- daemon/class/beggar/wineskin.c is a copy of soulimpaler.c (邪剑穿灵); 陆得财's 皮酒囊 does not exist.
+- serpentforce.c's exert files (daemon/class/beggar/serpentforce/) do not exist.
+- yamen_po.c's patrol fails at its first step (patrol() from the 大堂, off BigWay, reads the
+  amulet's map, which amulet.c never sets); BigWay skips s_street3 and runs on past the 北门 to
+  水烟阁's road; its init() say()s to everyone in the room but the thief.
+- judgeman.c's test_crime() runs only with a player in the 大堂, which no exit reaches; its
+  settle_lawsuit() sets a value to 1 and then wounds it below 0 (the next heart_beat kills), beats
+  on after the faint, says its warning after every stroke and leaves crime_lv as it was.
+- oldpine/riverbank1.c and riverbank2.c had resource/water, the port no water there (now added).

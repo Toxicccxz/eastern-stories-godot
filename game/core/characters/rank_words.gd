@@ -20,10 +20,12 @@ static func query_self(gender: StringName, age: int, class_id: StringName) -> St
 	return "在下" if age < 50 else "老头子"
 
 
-## rankd.c query_rank() for a player (score.c's first line): by class and gender.
-## Not here: the ghost's (a dead player reincarnates at once), 杀人魔 (other players
-## killed: none in single player) and 惯窃 (the player does not steal yet).
-static func query_rank(gender: StringName, class_id: StringName) -> String:
+## rankd.c query_rank() for a player (score.c's first line): 惯窃 for more than ten caught
+## steals (`thief`, CrimeRecord), else by class and gender. Not here: the ghost's (a dead
+## player reincarnates at once) and 杀人魔 (other players killed: none in single player).
+static func query_rank(gender: StringName, class_id: StringName, thief: int = 0) -> String:
+	if thief > CrimeRecord.HABITUAL_ABOVE:
+		return "【 惯  窃 】"
 	var female: bool = gender == CharacterState.GENDER_FEMALE
 	match class_id:
 		&"bonze":

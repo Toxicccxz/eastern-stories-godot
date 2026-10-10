@@ -5,6 +5,8 @@ const PLAYER_ID: StringName = &"oldpine.player"
 ## Retained internal Old Pine/CXR regression bootstrap, not public New Game
 ## or an LPC formula. SOURCE_ENTRY and RESTORE never enter this initializer.
 const NEW_GAME_COMBAT_EXPERIENCE: int = 600
+## The player object's own reset() (obj/user.c), scheduled as a room's.
+const PLAYER_RESET: String = "obj/user"
 const WorldPlayerRuntimeType := preload(
 	"res://runtime/characters/world_player_runtime_state.gd"
 )
@@ -62,6 +64,8 @@ var _departure_due: bool = false
 var _hidden_passages: WorldHiddenPassages
 var _room_traps: WorldRoomTraps
 var _room_resets: WorldRoomResets
+## obj/user.c reset() of the player object, on a schedule of its own (WorldRoomResets).
+var _player_resets: WorldRoomResets
 
 
 func _ready() -> void:
@@ -282,6 +286,9 @@ func advance_room_resets(delta: float) -> void:
 	if _room_resets != null and npc_world_time_allowed():
 		for room: String in _room_resets.advance(delta):
 			reset_room(room)
+	if _player_resets != null and npc_world_time_allowed() and _player != null:
+		for _due: String in _player_resets.advance(delta):
+			PlayerObjectReset.apply(_player.state)
 
 
 ## std/room.c reset() of one ES2 room: its spawns on whichever map holds them, and
@@ -380,6 +387,7 @@ func initialize_session() -> bool:
 		_hidden_passages.open_for_player_below()
 		_room_traps = WorldRoomTraps.new(self)
 		_room_resets = WorldRoomResets.new(WorldRoomResets.resetting_rooms(), GameContent.catalog().pacing().room_reset_seconds, npc_ambience_random_source())
+		_player_resets = WorldRoomResets.new([PLAYER_RESET], GameContent.catalog().pacing().room_reset_seconds, npc_ambience_random_source())
 	return ready
 
 
@@ -1206,6 +1214,9 @@ func on_player_lifecycle(lifecycle: CombatSliceLifecycleResult, has_killer: bool
 				GameContent.catalog().pacing().player_wake_seconds,
 			)
 		CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE:
+			# The dead are out of the law's hands (a constable's catch, a court's).
+			_player.led_by = &""
+			_player.awaiting_sentence = false
 			_life_flow.begin_death(PlayerDeathRules.die(_player.state, has_killer), place_name(location), lifecycle.corpse_item_instance_id)
 
 

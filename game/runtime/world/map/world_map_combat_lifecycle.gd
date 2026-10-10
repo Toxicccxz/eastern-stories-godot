@@ -283,6 +283,10 @@ func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunit
 	if receipt.completed() and receipt.outcome == CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE:
 		for item_id: StringName in comes:
 			_owner_killed_comes(item_id, location)
+		if victim_npc != null:
+			# yamen_po.c die(): last_damage_from (the player, or one they called) gets crime_lv.
+			var by_player: bool = killer != null and _player != null and _map.npcs.summoners.get(killer.character_id, killer.character_id) == _player.character_id
+			_map.patrols.died(victim_npc, by_player)
 	if receipt.completed() and receipt.outcome == CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE and killer != null:
 		_map.corpses.killed_enemy(killer_npc, killer_heard)
 		# combatd.c killer_reward(): a possessed killer's reward goes to who called it (its

@@ -26,6 +26,8 @@ var combat_lifecycle: WorldMapCombatLifecycle = WorldMapCombatLifecycle.new(self
 var spells: WorldMapSpells = WorldMapSpells.new(self)
 var acts: WorldMapActs = WorldMapActs.new(self)
 var mazes: WorldMapMazes = WorldMapMazes.new(self)
+var patrols: WorldMapPatrols = WorldMapPatrols.new(self)
+var thefts: WorldMapThefts = WorldMapThefts.new(self)
 var _definition: MapDefinition
 var _initialized: bool = false
 var _initialization_count: int = 0
@@ -369,6 +371,8 @@ func _zone_exited(body: Node2D, zone: WorldPhysicalZoneArea2D) -> void:
 
 
 func _physics_process(_delta: float) -> void:
+	if _initialized and player_body != null and player_body.player_controlled:
+		patrols.hold_player()
 	if not _initialized or not _zone_check_pending or not player_body.player_controlled or _world_simulation_gate.is_frozen():
 		return
 	# Only re-evaluate Areas reported by physics, while straddling their boundary.
@@ -864,6 +868,13 @@ func player_near(zone_ids: Array[StringName], point: Vector2, reach: int) -> boo
 		and player_body.global_position.distance_squared_to(point) <= float(reach * reach)
 		and MapPlacementValidator.is_valid_character_position(self, zone_id, player_body.global_position)
 	)
+
+
+## feature/finance.c can_afford(price) for the player: the money they carry (gold, silver
+## and coins) comes to `price` or more, whether or not in the right coins.
+func player_can_afford(price: int) -> bool:
+	var outcome: MoneyAffordabilityResult.Outcome = MoneyPaymentService.can_afford(floor_items.item_authorities().context, price).outcome
+	return outcome == MoneyAffordabilityResult.Outcome.AFFORDABLE or outcome == MoneyAffordabilityResult.Outcome.DENOMINATION_REJECTED
 
 
 ## A water source (resource/water) is within reach.

@@ -37,6 +37,10 @@ var _offers: Dictionary[StringName, bool] = {}
 var lines: Array[String] = []
 ## The master's channel line after `lines` when it took the player for a traitor, else "".
 var chat_line: String = ""
+## feature/finance.c can_afford(price) of the student, from the money they carry: a Callable
+## (int) -> bool the caller sets before asking (a master's cannot_afford check reads it);
+## unset, the student can afford nothing.
+var affords: Callable = Callable()
 
 
 func is_pending() -> bool:
@@ -100,19 +104,22 @@ static func would_change_master(student: CharacterState, master: NpcDefinition) 
 	)
 
 
-## The master's attempt_apprentice() requirements hold for `student`.
-static func qualifies(student: CharacterState, rule: NpcTeaching.ApprenticeRule) -> bool:
-	return refusal(student, rule) == null
+## The master's attempt_apprentice() requirements hold for `student` (`affords` as the
+## member's).
+static func qualifies(student: CharacterState, rule: NpcTeaching.ApprenticeRule, student_affords: Callable = Callable()) -> bool:
+	return refusal(student, rule, student_affords) == null
 
 
 ## The first of the master's checks `student` falls short of, or null.
-static func refusal(student: CharacterState, rule: NpcTeaching.ApprenticeRule) -> NpcTeaching.RequirementCheck:
+static func refusal(student: CharacterState, rule: NpcTeaching.ApprenticeRule, student_affords: Callable = Callable()) -> NpcTeaching.RequirementCheck:
 	for check: NpcTeaching.RequirementCheck in rule.checks:
 		if not check.gender.is_empty() and String(student.gender) != check.gender:
 			return check
 		if not check.class_id.is_empty() and student.affiliation.class_id != check.class_id:
 			return check
 		if not check.mark.is_empty() and student.marks.get(check.mark, 0) == 0:
+			return check
+		if check.cannot_afford > 0 and student_affords.is_valid() and bool(student_affords.call(check.cannot_afford)):
 			return check
 		for key: StringName in check.requires:
 			if _requirement_value(student, key) < check.requires[key]:
@@ -143,7 +150,7 @@ func would_attack(student: CharacterState, master: NpcDefinition, student_title:
 		return false
 	var rule: NpcTeaching.ApprenticeRule = teaching.apprentice
 	return (
-		(rule.kind == NpcTeaching.Kind.REQUIREMENTS or (rule.kind == NpcTeaching.Kind.TRIAL and qualifies(student, rule)))
+		(rule.kind == NpcTeaching.Kind.REQUIREMENTS or (rule.kind == NpcTeaching.Kind.TRIAL and qualifies(student, rule, affords)))
 		and not rule.commoners_only.is_empty() and student_title != COMMONER_TITLE
 		and not is_master_of(student, master) and not is_offered(master.definition_id)
 		and not is_pending_with(master.definition_id)
@@ -161,7 +168,7 @@ func takes_at_once(student: CharacterState, master: NpcDefinition, student_title
 	if is_offered(master.definition_id):
 		return true
 	return (
-		teaching.apprentice.kind == NpcTeaching.Kind.REQUIREMENTS and qualifies(student, teaching.apprentice)
+		teaching.apprentice.kind == NpcTeaching.Kind.REQUIREMENTS and qualifies(student, teaching.apprentice, affords)
 		and not is_pending_with(master.definition_id) and not would_attack(student, master, student_title)
 	)
 
@@ -264,7 +271,7 @@ func request(student: CharacterState, master: NpcDefinition, family: FamilyDefin
 		return Outcome.QUALIFICATION_REJECTED
 	if rule.kind == NpcTeaching.Kind.TRIAL:
 		# elon.c attempt_apprentice(): its checks, then a family's member is a traitor.
-		var refused: NpcTeaching.RequirementCheck = refusal(student, rule)
+		var refused: NpcTeaching.RequirementCheck = refusal(student, rule, affords)
 		if refused != null:
 			_say(npc, refused.refuse_say, respect)
 			_mark_refused(student, refused)
@@ -287,7 +294,10 @@ func request(student: CharacterState, master: NpcDefinition, family: FamilyDefin
 	if _traitor(rule, student_title, shown_title, student_name, npc):
 		end_request(master.definition_id)
 		return Outcome.ATTACKED
-	var short: NpcTeaching.RequirementCheck = refusal(student, rule)
+	if rule.looks:
+		# TRANSLATORS: look.c, to the one looked at: {npc} looks them over.
+		lines.append(_t("{npc}正盯著你看，不知道打些什麽主意。").format({"npc": npc}))
+	var short: NpcTeaching.RequirementCheck = refusal(student, rule, affords)
 	if short != null:
 		_say(npc, short.refuse_say, respect)
 		_mark_refused(student, short)
@@ -326,9 +336,11 @@ func _traitor(rule: NpcTeaching.ApprenticeRule, student_title: String, shown_tit
 	return true
 
 
-## The master's accept_say, then master.c's message_vision() for a young beauty.
+## The master's accept_say (none: beggar/master.c only nods), then master.c's
+## message_vision() for a young beauty.
 func _accept(npc: String, rule: NpcTeaching.ApprenticeRule, respect: String, student: CharacterState, age: int) -> void:
-	_say(npc, rule.accept_say, respect)
+	if not rule.accept_say.is_empty():
+		_say(npc, rule.accept_say, respect)
 	if rule.accept_vision != null and rule.accept_vision.applies(student.attributes.personality, age):
 		# TRANSLATORS: message_vision() in ES2 lines: $N the actor, $n the one who reads it (你).
 		lines.append(_t(rule.accept_vision.line).replace("$N", npc).replace("$n", _t("你")))
@@ -347,7 +359,7 @@ func answer(student: CharacterState, master: NpcDefinition, family: FamilyDefini
 	if student == null or teaching == null or teaching.apprentice == null or teaching.apprentice.answer_after <= 0.0 or family == null or entry_time_utc < 0:
 		return Outcome.AUTHORITY_FAILURE
 	var npc: String = _t(master.display_name)
-	var short: NpcTeaching.RequirementCheck = refusal(student, teaching.apprentice)
+	var short: NpcTeaching.RequirementCheck = refusal(student, teaching.apprentice, affords)
 	if short != null:
 		if awake:
 			_say(npc, short.refuse_say, respect)
@@ -374,7 +386,7 @@ func answer_unheard(student: CharacterState, master: NpcDefinition) -> Outcome:
 	var teaching: NpcTeaching = null if master == null else master.teaching()
 	if student == null or teaching == null or teaching.apprentice == null or teaching.apprentice.answer_after <= 0.0:
 		return Outcome.AUTHORITY_FAILURE
-	var short: NpcTeaching.RequirementCheck = refusal(student, teaching.apprentice)
+	var short: NpcTeaching.RequirementCheck = refusal(student, teaching.apprentice, affords)
 	if short != null:
 		_mark_refused(student, short)
 		end_request(master.definition_id)

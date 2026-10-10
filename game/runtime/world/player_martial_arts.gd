@@ -147,12 +147,14 @@ func practice(use_id: StringName) -> PracticeResult:
 	var state: CharacterState = _state()
 	var special: SkillDefinition = GameContent.catalog().skill(state.skills.mapped_skill(use_id))
 	var standing: NpcRuntimeState = standing_conjured()
+	var location: WorldLocationState = _session.player_runtime().world_location()
 	var result: PracticeResult = PracticeService.practice(
 		state, use_id,
 		null if special == null else special.practice_policy(),
 		null if special == null else _learn_policies.policy_for(special.skill_id),
 		_fighting(), true, _effects(), _session.world_interaction_random_source().legacy_random,
 		"" if standing == null else standing.definition().display_name,
+		location != null and GameContent.catalog().zone_has_water(location.zone_id),
 	)
 	if result.failure_reason == PracticeResult.FailureReason.PRACTICE_CONJURED:
 		_conjure(result, special)

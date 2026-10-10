@@ -401,8 +401,47 @@ func raised_as(victim_display_name: String) -> NpcDefinition:
 	return copy
 
 
-## The same definition under another name: the one an NPC drew (name_pick()). Shares
-## everything else, which is read-only once loaded.
+## The ID the catalog gives the form of an NPC whose create() draws its name
+## (NAME_SUFFIX and the name's place in name_pick), so a save keeps the name drawn.
+const NAME_SUFFIX: String = "#name="
+## A room places this NPC (a save keeps it): the name it draws is one of its named forms,
+## which the catalog holds. A spell's summoned NPC, never saved, draws one under its own ID.
+var _names_kept: bool = false
+
+
+func names_kept() -> bool:
+	return _names_kept
+
+
+## Set by the catalog builder for an NPC a room places.
+func keep_names() -> void:
+	_names_kept = true
+
+
+static func named_id(id: StringName, index: int) -> StringName:
+	return StringName(String(id) + NAME_SUFFIX + str(index))
+
+
+## The NPC a named form is of (`id` itself for anything else).
+static func unnamed_id(id: StringName) -> StringName:
+	var text: String = String(id)
+	var at: int = text.find(NAME_SUFFIX)
+	return StringName(text.left(at)) if at >= 0 else id
+
+
+## The NPC as made with the `index`-th of its drawn names (yamen_po.c's surname + 巡捕): a
+## form of its own when its names are kept (names_kept()), everything else the NPC's.
+func named(index: int) -> NpcDefinition:
+	var copy: NpcDefinition = renamed(_name_pick[index])
+	if not _names_kept:
+		return copy
+	copy._definition_id = named_id(_definition_id, index)
+	copy._name_pick = []
+	return copy
+
+
+## The same definition under another name (a raised NPC's). Shares everything else, which is
+## read-only once loaded.
 func renamed(p_display_name: String) -> NpcDefinition:
 	var copy := NpcDefinition.new()
 	for property: Dictionary in get_property_list():

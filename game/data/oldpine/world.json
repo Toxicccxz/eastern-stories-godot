@@ -162,6 +162,10 @@
 		{
 			"id": "oldpine.gorge.lake.water", "kind": "water", "zone": "oldpine.gorge.lake",
 			"name": "湖水", "reach": 96, "legacy_source": "d/oldpine/lake.c"
+		},
+		{
+			"id": "oldpine.gorge.river.water", "kind": "water", "zone": "oldpine.gorge.river",
+			"name": "泉水", "reach": 96, "legacy_source": "d/oldpine/riverbank1.c"
 		}
 	],
 	"doors": [

@@ -1122,6 +1122,46 @@ position = Vector2(2568, 2464)
 script = ExtResource("marker")
 spawn_point_id = &"choyin.entrance.sword_soul.1"
 
+[node name="CrossroadYamenPo1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(544, 2144)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.crossroad.yamen_po.1"
+
+[node name="SStreet4YamenPo1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1056, 2144)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.s_street4.yamen_po.1"
+
+[node name="SStreet1YamenPo1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1392, 2080)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.s_street1.yamen_po.1"
+
+[node name="SStreet3YamenPo1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1568, 1568)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.s_street3.yamen_po.1"
+
+[node name="TreeTombYamenPo1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1568, 1184)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.tree_tomb.yamen_po.1"
+
+[node name="NStreet3YamenPo1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1608, 928)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.n_street3.yamen_po.1"
+
+[node name="NStreet1YamenPo1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1648, 416)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.n_street1.yamen_po.1"
+
+[node name="NGateYamenPo1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1416, 160)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.n_gate.yamen_po.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]
