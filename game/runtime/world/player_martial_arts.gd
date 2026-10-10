@@ -96,6 +96,28 @@ func exert(function_id: StringName) -> ExertResult:
 	return result
 
 
+## The functions exert.c reaches with the enabled force that work on the one named
+## (lifeheal): the HUD offers them on the selected NPC.
+func exert_at_functions() -> Array[StringName]:
+	return ExertService.offered_at(_state(), GameContent.catalog())
+
+
+## exert <function> <npc>, outside a fight, on an NPC in the player's place.
+func exert_at(function_id: StringName, npc: NpcRuntimeState) -> ExertResult:
+	if not available() or npc == null or not exert_at_functions().has(function_id):
+		return null
+	var target := SpecialSide.new(npc.character_id, npc.character_state, npc.busy, npc.relationship)
+	target.living = npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+	target.age = npc.age
+	var result: ExertResult = ExertService.exert(
+		_state(), function_id, GameContent.catalog(), force_level(), false,
+		_session.player_runtime().busy, _session.world_interaction_random_source().legacy_random, _effects(),
+		_session.player_runtime().character_id, [], Callable(), Callable(), target, tr(npc.definition().display_name),
+	)
+	_say(result.lines)
+	return result
+
+
 ## enable <use> <skill>.
 func enable(use_id: StringName, skill_id: StringName) -> bool:
 	if not available():

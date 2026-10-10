@@ -107,6 +107,8 @@ static func refusal(student: CharacterState, rule: NpcTeaching.ApprenticeRule) -
 	for check: NpcTeaching.RequirementCheck in rule.checks:
 		if not check.gender.is_empty() and String(student.gender) != check.gender:
 			return check
+		if not check.class_id.is_empty() and student.affiliation.class_id != check.class_id:
+			return check
 		for key: StringName in check.requires:
 			if _requirement_value(student, key) < check.requires[key]:
 				return check

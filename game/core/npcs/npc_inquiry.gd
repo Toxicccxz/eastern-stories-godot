@@ -43,13 +43,14 @@ class Asker:
 
 
 ## What asking did: the lines the player reads (in their colours: a whisper is GRN),
-## the marks to set on the asker and the item the NPC hands over (`gives`: the caller
-## makes it and tells give.c's line), with the mark set only once it was handed over
-## (`mark_on_give`: had_jade).
+## the marks to set on the asker, the temps to set on them (set_temp(): not saved) and
+## the item the NPC hands over (`gives`: the caller makes it and tells give.c's line),
+## with the mark set only once it was handed over (`mark_on_give`: had_jade).
 class Answer:
 	extends RefCounted
 	var lines: Array[ColoredLine] = []
 	var marks: Array[String] = []
+	var temps: Array[String] = []
 	var gives: StringName = &""
 	var mark_on_give: String = ""
 	## Something the NPC carries that it hands over (NpcInquiryRule.hands_over), how
@@ -153,7 +154,7 @@ static func answer(
 	# Deviation (青石村 B): once it has said or given something, ask.c's 没听说过 that
 	# followed its 0 does not follow; a function that does nothing (command("?")) still
 	# leaves ask.c to its own lines.
-	var rule: NpcInquiryRule = NpcInquiryRule.decide(talk.inquiry_rules(key), asker.marks, random)
+	var rule: NpcInquiryRule = NpcInquiryRule.decide(talk.inquiry_rules(key), asker.marks, random, asker.class_id, asker.gender)
 	if rule != null:
 		_with(result, lines)
 		var asker_respect: String = RankWords.query_respect(asker.gender, asker.age, asker.class_id)
@@ -169,6 +170,8 @@ static func answer(
 		for line: NpcLine in rule.after_empty:
 			result.after_empty.append(line.colored(name, asker_respect))
 		result.gives = rule.gives
+		if not rule.temp_asker.is_empty():
+			result.temps.append(rule.temp_asker)
 		if rule.gives.is_empty() and not rule.mark_asker.is_empty():
 			result.marks.append(rule.mark_asker)
 		elif not rule.mark_asker.is_empty():

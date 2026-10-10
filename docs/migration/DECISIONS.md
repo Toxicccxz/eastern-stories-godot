@@ -111,6 +111,28 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 - #27 牛皮酒袋照原名显示，不另起短名。
 - 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
 
+## 山烟寺 B: 山烟寺 the family (2026-10-09)
+
+What each LPC function became is in [SANYEN_CONTENT](SANYEN_CONTENT.md); it carries out the
+plan's defaults (山烟寺 A: 剃度 gives a 法名, asked first; 请你到尼庵 and 震荡 for the lost
+characters) and follows the LPC except:
+- **Owner: 剃度 is asked first**, saying the name becomes a 法名 (one of 空明圆净虚悟方渡慧法 at
+  random before the first character of the name: ES2's name[0..1] was one character in its
+  double-byte text; a name in letters gives its first letter, where ES2's two bytes took two). 跪下受戒 is a button on 玄智's 打听 panel once 剃度 or 出家 asked him to
+  kneel; the flag it needs (pending/join_bonze) is a temp, forgotten by Continue (晚月庄 A).
+  The 法名 and class bonze are saved.
+- **默认: 跪下受戒 needs 玄智 awake.** ES2's kneel was an add_action: one could kneel before a
+  master lying unconscious, be shaved and renamed while his say printed nothing.
+- **玄智's ten a day never run out** (plan): recruit_apprentice() lowers the misspelt
+  apprentice_availavble, so 老纳今天已经收了十个弟子 is never said (as 林忌's and 蓝止萍's).
+- **Owner: 疗伤他人 works on the selected NPC** (a HUD button beside 驱尸's place, shown when
+  莲华心法 is the enabled force), neither side in a fight. ES2's `exert lifeheal` without a name
+  worked on oneself (exert_function()'s default target); doc/skill/lotusforce gives it as
+  医治他人所受的伤, and the game does not offer it on oneself, on the 武学 page or in a fight.
+- **八识神通** is learnt and enabled as 法术 now; practising it gives nothing (essencemagic.c
+  has no practice_skill()), and its 神通 come with 山烟寺 C (a reminder check in
+  sanyen_family_test fails when C adds them).
+
 ## 山烟寺 A: 泓水, 日照山 and the temple (2026-10-09)
 
 Owner-approved plan (按照你推荐的来, 2026-10-09): three packages — A places the region (the

@@ -28,6 +28,8 @@ var portal_button: Button
 var open_loot_button: Button
 ## 驱尸 (necromancy/animate.c) on the selected corpse, when the player's spells reach it.
 var animate_button: Button
+## 疗伤他人 (lotusforce/lifeheal.c) on the selected NPC, when the player's force reaches it.
+var lifeheal_button: Button
 var inventory_button: Button
 var inspection_text: RichTextLabel
 var combat_log: RichTextLabel
@@ -60,6 +62,10 @@ const SCRIBE_FAINT_WARNING: String = "画这道符要耗去 {sen} 点神，你�
 const SCRIBE_DEATH_WARNING: String = "你伤得太重了：画符要咬破手指流血，这一点血就会要了你的命。\n确定要画吗？"
 # TRANSLATORS: asked before a 僵尸追魂符 sends the player's zombie ({zombie}) after their own master ({master}): its kill counts as the player's (killer_reward()). {family}, {score}, {next} as in the 攻击 question.
 const HAUNT_MASTER_WARNING: String = "{master}是你的师父。{zombie}会追杀{master}，它若得手，就算你弑师，等同背叛师门：\n· 被逐出{family}，门派、师父和称号都没有了。\n· 综合评价清零（现在是 {score}）。\n· 背叛师门的次数变成 {next} 次。\n确定要贴上这道符吗？"
+# TRANSLATORS: asked before 跪下受戒 (daemon/class/bonze/master.c do_kneel()): {npc} the master, {prefixes} the characters a 法名 begins with (空明圆净虚悟方渡慧法), {first} the first character of the player's name, {example} one 法名 it could make.
+const ORDINATION_WARNING: String = "跪下受戒就是剃度出家：{npc}会剃去你的头发，你从此是僧人。\n你的名字会改成法名：「{prefixes}」中随机一字，加上你名字的第一个字「{first}」（例如「{example}」），原来的名字从此不再使用。\n确定要跪下受戒吗？"
+# TRANSLATORS: the 疗伤他人 button's tooltip (lotusforce/lifeheal.c): 150 force, which must be 150 above the maximum; neither side in a fight.
+const LIFEHEAL_HINT: String = "运功「疗伤他人」：把真气输入对方体内，为他疗伤（耗 150 点内力，内力须比最大内力多 150 以上；双方都不能在战斗中）。"
 # TRANSLATORS: the 驱尸 button's tooltip: animate.c's 50 mana and 30 sen; the zombie lives on the player's 灵力 (zombie.c heal_up()).
 const ANIMATE_HINT: String = "施法「驱尸」：让这具尸体站起来跟着你（50 法力、30 神）。僵尸靠吸你的灵力维持，灵力不足时就会倒下化为血水。"
 
@@ -120,6 +126,8 @@ func _ready() -> void:
 	open_loot_button.pressed.connect(_loot_context)
 	animate_button.pressed.connect(_animate_context)
 	animate_button.tooltip_text = ANIMATE_HINT
+	lifeheal_button.pressed.connect(_lifeheal_context)
+	lifeheal_button.tooltip_text = LIFEHEAL_HINT
 	inventory_button.pressed.connect(open_inventory)
 	loot_panel.take_requested.connect(_take_context)
 	inventory_panel.inspect_requested.connect(_inspect_item)
@@ -402,6 +410,10 @@ func refresh_live_state() -> void:
 	)
 	var map := _bound_map as WorldMapController
 	animate_button.disabled = not corpse_available or _selected_floor_item or not player_available or map == null or map.animatable_corpse() == null
+	lifeheal_button.disabled = (
+		not target_available or not player_available or map == null or map.selected_npc_here() != _selected_target
+		or not _session.martial_arts().exert_at_functions().has(&"lifeheal")
+	)
 	inventory_button.disabled = not player_available
 	portal_button.disabled = (
 		not landmark_available
@@ -548,6 +560,11 @@ func open_ask() -> void:
 		_ask_relay.add_theme_constant_override("h_separation", 8)
 		_ask_relay.add_theme_constant_override("v_separation", 8)
 		_ask_panel.add_child(_ask_relay)
+		_ask_verbs = HFlowContainer.new()
+		_ask_verbs.name = "Verbs"
+		_ask_verbs.add_theme_constant_override("h_separation", 8)
+		_ask_verbs.add_theme_constant_override("v_separation", 8)
+		_ask_panel.add_child(_ask_verbs)
 		_ask_answer = Label.new()
 		_ask_answer.name = "Answer"
 		_ask_answer.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -574,6 +591,7 @@ func open_ask() -> void:
 		say.pressed.connect(_say_beside.bind(phrase))
 		_ask_relay.add_child(say)
 	_ask_relay.visible = not map.relay_phrases_selected().is_empty()
+	_refresh_ask_verbs(map)
 	_ask_answer.text = ""
 	_open_panel_with_lines(tr("打听 · %s") % tr(_selected_target.definition().display_name), _ask_panel, _selected_npc_askable)
 	_presentation_layout.refresh_rows()
@@ -596,6 +614,52 @@ func _ask_topic(topic: String) -> void:
 	var map := _session.active_map() as WorldMapController
 	if map != null:
 		_ask_answer.text = "\n".join(map.ask_selected(topic))
+		_refresh_ask_verbs(map)
+		_presentation_layout.refresh_rows()
+
+
+## The kneel command of a master whose 剃度 the player asked for (daemon/class/bonze/master.c).
+func _refresh_ask_verbs(map: WorldMapController) -> void:
+	for child: Node in _ask_verbs.get_children():
+		child.queue_free()
+	if map.ordination_selected() != null:
+		var kneel := Button.new()
+		kneel.name = "Kneel"
+		kneel.text = tr(NpcOrdination.LABEL)
+		kneel.custom_minimum_size = Vector2(80, 40)
+		kneel.pressed.connect(_kneel)
+		_ask_verbs.add_child(kneel)
+	_ask_verbs.visible = map.ordination_selected() != null
+
+
+## The NPC commands the open 打听 panel offers (as shown).
+func ask_verbs_shown() -> Array[String]:
+	var result: Array[String] = []
+	if _ask_verbs != null and _presentation_layout._content == _ask_panel:
+		for child: Node in _ask_verbs.get_children():
+			if not child.is_queued_for_deletion():
+				result.append((child as Button).text)
+	return result
+
+
+## kneel (do_kneel()), asked first: the player's name becomes a 法名 for good (owner).
+## 取消 goes back to the 打听 panel.
+func _kneel() -> void:
+	var map := _session.active_map() as WorldMapController
+	var ordination: NpcOrdination = null if map == null else map.ordination_selected()
+	if ordination == null:
+		# The master was knocked out (or the like) while the panel stood open: the button goes.
+		if map != null and _presentation_layout._content == _ask_panel:
+			_refresh_ask_verbs(map)
+		return
+	var first: String = _player.facts.display_name.substr(0, 1)
+	var text: String = tr(ORDINATION_WARNING).format({
+		"npc": tr(_selected_target.definition().display_name), "prefixes": "".join(ordination.prefixes),
+		"first": first, "example": ordination.prefixes[0] + first,
+	})
+	var kneel: Callable = func() -> void:
+		map.kneel_selected()
+	ask_first(text, "确定受戒", kneel, func() -> bool: return map.ordination_selected() != null, open_ask)
 
 
 func _say_beside(phrase: String) -> void:
@@ -682,6 +746,8 @@ var _panel_shows_lines: bool = false
 var _ask_panel: VBoxContainer
 var _ask_topics: HFlowContainer
 var _ask_relay: HFlowContainer
+## The NPC's own commands the player can use beside it now (跪下受戒).
+var _ask_verbs: HFlowContainer
 var _ask_answer: Label
 
 
@@ -776,6 +842,7 @@ func refresh_exploration() -> void:
 	portal_button.visible = local_target and not portal_button.disabled
 	open_loot_button.visible = local_target and not open_loot_button.disabled
 	animate_button.visible = local_target and not animate_button.disabled
+	lifeheal_button.visible = local_target and not lifeheal_button.disabled
 	selected_target_label.visible = local_target
 	_presentation_layout.target_section.visible = local_target
 	var context: String = context_title()
@@ -1066,6 +1133,13 @@ func _animate_context() -> void:
 		map.animate_selected_corpse()
 		return
 	ask_first(tr(ANIMATE_FAINT_WARNING).format({"sen": AnimateSpell.SEN_COST}), "确定施法", map.animate_selected_corpse, func() -> bool: return map.animatable_corpse() != null)
+
+
+## exert lifeheal <the selected NPC> (疗伤他人): no question, it costs only force.
+func _lifeheal_context() -> void:
+	var map := _session.active_map() as WorldMapController
+	if map != null and map.selected_npc_here() != null:
+		_session.martial_arts().exert_at(&"lifeheal", map.selected_npc_here())
 
 
 ## 画符 on a 桃符纸 for the selected NPC; asked first when its cost would kill the player or

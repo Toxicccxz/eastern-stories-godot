@@ -65,6 +65,7 @@ msgstr ""
 #. common.npc.taoist.taolord gender
 #. common.npc.taoist.taolord apprentice.requires.gender
 #. common.npc.bonze.master gender
+#. common.npc.bonze.master apprentice.requires.gender
 #. oldpine.npc.bandit gender
 #. oldpine.npc.tall_bandit gender
 #. oldpine.npc.fat_bandit gender
@@ -2394,13 +2395,18 @@ msgstr ""
 #. message_vision() in ES2 lines: $N the actor, $n the one who reads it (你).
 #. message_vision(): the dancer ($N) as they read it.
 #. message_vision(): the player, for $N/$n/$P/$p in the ES2 combat lines.
-#: core/internal_power/exert_context.gd core/internal_power/exert_function.gd core/relationships/npc_apprenticeship.gd core/world/dance_definition.gd presentation/battle/battle_narrator.gd presentation/battle/battle_participant_card.gd runtime/world/map/world_map_combat_lifecycle.gd runtime/world/map/world_map_corpses.gd runtime/world/map/world_map_hostilities.gd runtime/world/map/world_map_spells.gd
+#. message_vision(): the one kneeling, for the $N of a 剃度 line.
+#: core/internal_power/exert_context.gd core/internal_power/exert_function.gd core/relationships/npc_apprenticeship.gd core/world/dance_definition.gd presentation/battle/battle_narrator.gd presentation/battle/battle_participant_card.gd runtime/world/map/world_map_combat_lifecycle.gd runtime/world/map/world_map_corpses.gd runtime/world/map/world_map_hostilities.gd runtime/world/map/world_map_selection.gd runtime/world/map/world_map_spells.gd
 msgid "你"
 msgstr ""
 
 #. snow.npc.herbalist inquiry topic
 #: core/internal_power/exert_functions.gd data/snow/npcs.json
 msgid "疗伤"
+msgstr ""
+
+#: core/internal_power/exert_functions.gd
+msgid "疗伤他人"
 msgstr ""
 
 #: core/internal_power/exert_functions.gd
@@ -2475,7 +2481,7 @@ msgstr ""
 msgid "战斗中运功疗伤？找死吗？"
 msgstr ""
 
-#: core/internal_power/heal_exert_function.gd
+#: core/internal_power/heal_exert_function.gd core/internal_power/lifeheal_exert_function.gd
 msgid "你的真气不够。"
 msgstr ""
 
@@ -2485,6 +2491,27 @@ msgstr ""
 
 #: core/internal_power/heal_exert_function.gd
 msgid "你全身放松，坐下来开始运功疗伤。"
+msgstr ""
+
+#: core/internal_power/lifeheal_exert_function.gd
+msgid "$N坐了下来运起内功，将手掌贴在$n背心，缓缓地将真气输入$n体内...."
+msgstr ""
+
+#: core/internal_power/lifeheal_exert_function.gd
+msgid "过了不久，$N额头上冒出豆大的汗珠，$n吐出一口瘀血，脸色看起来红润多了。"
+msgstr ""
+
+#: core/internal_power/lifeheal_exert_function.gd
+msgid "你要用真气为谁疗伤？"
+msgstr ""
+
+#: core/internal_power/lifeheal_exert_function.gd
+msgid "战斗中无法运功疗伤！"
+msgstr ""
+
+#. lifeheal.c's refusal: {name} the one too badly hurt for it.
+#: core/internal_power/lifeheal_exert_function.gd
+msgid "{name}已经受伤过重，经受不起你的真气震荡！"
 msgstr ""
 
 #: core/internal_power/powerfade_exert_function.gd core/internal_power/powerup_exert_function.gd
@@ -2751,6 +2778,11 @@ msgstr ""
 #. what an NPC does, after its name: {npc}笑咪咪地说道：……
 #: core/npcs/npc_line.gd runtime/world/map/world_map_selection.gd
 msgid "{npc}{action}"
+msgstr ""
+
+#. the button for the kneel command a temple's master adds (daemon/class/bonze/master.c: 跪下(kneel)受戒).
+#: core/npcs/npc_ordination.gd
+msgid "跪下受戒"
 msgstr ""
 
 #: core/npcs/npc_random_move.gd
@@ -6282,6 +6314,19 @@ msgid ""
 "确定要贴上这道符吗？"
 msgstr ""
 
+#. asked before 跪下受戒 (daemon/class/bonze/master.c do_kneel()): {npc} the master, {prefixes} the characters a 法名 begins with (空明圆净虚悟方渡慧法), {first} the first character of the player's name, {example} one 法名 it could make.
+#: ui/world/shared_gameplay_ui.gd
+msgid ""
+"跪下受戒就是剃度出家：{npc}会剃去你的头发，你从此是僧人。\n"
+"你的名字会改成法名：「{prefixes}」中随机一字，加上你名字的第一个字「{first}」（例如「{example}」），原来的名字从此不再使用。\n"
+"确定要跪下受戒吗？"
+msgstr ""
+
+#. the 疗伤他人 button's tooltip (lotusforce/lifeheal.c): 150 force, which must be 150 above the maximum; neither side in a fight.
+#: ui/world/shared_gameplay_ui.gd
+msgid "运功「疗伤他人」：把真气输入对方体内，为他疗伤（耗 150 点内力，内力须比最大内力多 150 以上；双方都不能在战斗中）。"
+msgstr ""
+
 #. the 驱尸 button's tooltip: animate.c's 50 mana and 30 sen; the zombie lives on the player's 灵力 (zombie.c heal_up()).
 #: ui/world/shared_gameplay_ui.gd
 msgid "施法「驱尸」：让这具尸体站起来跟着你（50 法力、30 神）。僵尸靠吸你的灵力维持，灵力不足时就会倒下化为血水。"
@@ -6321,6 +6366,10 @@ msgstr ""
 
 #: ui/world/shared_gameplay_ui.gd
 msgid "打听 · %s"
+msgstr ""
+
+#: ui/world/shared_gameplay_ui.gd
+msgid "确定受戒"
 msgstr ""
 
 #. a resource bar's tooltip: current / effective / maximum.
@@ -8728,6 +8777,7 @@ msgstr ""
 
 #. common.npc.taoist.taolord apprentice.busy_say
 #. common.npc.dancer.master apprentice.busy_say
+#. common.npc.bonze.master apprentice.busy_say
 #: data/common/npcs.json
 msgid "慢著，一个一个来。"
 msgstr ""
@@ -9024,6 +9074,67 @@ msgstr ""
 #. common.npc.bonze.master accept_fight.say
 #: data/common/npcs.json
 msgid "施主既然身负绝艺，老衲佩服便是，也不必较量了。"
+msgstr ""
+
+#. common.npc.bonze.master inquiry topic
+#: data/common/npcs.json
+msgid "剃度"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.剃度.rules.say
+#. common.npc.bonze.master inquiry.出家.rules.say
+#: data/common/npcs.json
+msgid ""
+"阿弥陀佛！你我同是出家人，何故跟老衲开这等玩笑？\n"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.剃度.rules.say
+#. common.npc.bonze.master inquiry.出家.rules.say
+#: data/common/npcs.json
+msgid ""
+"阿弥陀佛！女施主，这里是寺庙，请你到尼庵去剃度吧。\n"
+msgstr ""
+
+#. common.npc.bonze.master inquiry.剃度.rules.say
+#. common.npc.bonze.master inquiry.出家.rules.say
+#: data/common/npcs.json
+msgid ""
+"阿弥陀佛！善哉！善哉！施主若真心皈依我佛，请跪下(kneel)受戒。\n"
+msgstr ""
+
+#. common.npc.bonze.master inquiry topic
+#: data/common/npcs.json
+msgid "出家"
+msgstr ""
+
+#. common.npc.bonze.master ordination.lines
+#: data/common/npcs.json
+msgid "$N双手合十，恭恭敬敬地跪了下来。"
+msgstr ""
+
+#. common.npc.bonze.master ordination.lines
+#: data/common/npcs.json
+msgid "$n伸出手掌，在$N头顶轻轻地摩挲了几下，将$N的头发尽数剃去。"
+msgstr ""
+
+#. common.npc.bonze.master ordination.say
+#: data/common/npcs.json
+msgid "从今以後你的法名叫做{name}。"
+msgstr ""
+
+#. common.npc.bonze.master apprentice.requires.refuse_say
+#: data/common/npcs.json
+msgid "阿弥陀佛，女施主不要跟老纳开玩笑。"
+msgstr ""
+
+#. common.npc.bonze.master apprentice.requires.refuse_say
+#: data/common/npcs.json
+msgid "阿弥陀佛，施主愿入佛门，请先到小寺剃度出家。"
+msgstr ""
+
+#. common.npc.bonze.master apprentice.accept_say
+#: data/common/npcs.json
+msgid "阿弥陀佛，善哉！善哉！"
 msgstr ""
 
 #. quests.target
