@@ -7,7 +7,9 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 **乔阴 B** (`phase/choyin-b`, region #9, DECISIONS「乔阴 B」): the town's secrets and 姑射山 —
 the stone lion's cave, its 护草神兽 and the 忘忧草 for 陈剑秋's letter, the hollow under the
 树王坟 and its unseen 朦胧鬼影, the 武官's chest, the vines, the cranes, the 缚仙绳, the 云台 and
-the 丹炉, the 寒谷's orchid, the hermit's books, the 荷包. Next: 乔阴 C (步玄派).
+the 丹炉, the 寒谷's orchid, the hermit's books, the 荷包. NPCs' memory is saved now (owner):
+Continue finds every NPC remembering what it did (the 武官's chest, a robber that fought you, a
+dog following you). Next: 乔阴 C (步玄派).
 
 ## 待决定
 
@@ -253,8 +255,7 @@ Code:
   牛腿骨; 熟牛肉 is not in the game (nobody sells it in ES2); a carried 布袋 is not opened.
 * 乔阴: 风泉剑灵's chant stops when the player leaves the map or continues a save (call_outs are
   not saved), and only one stands at a time (骆云舟 killed again while it stands keeps his
-  sword); the 采药老者's growth lasts only as long as he does (his save file is not ported); the
-  武官's chest, the 荷包 and the topics they end are an NPC's own memory, gone with a Continue.
+  sword); the 采药老者's growth lasts only as long as he does (his save file is not ported).
 * Persistence classes keep `OldPine*` / `oldpine_*` names (20 classes, some 130 files) and the session
   scene is still `scenes/world/oldpine/oldpine_world_session.tscn`, although they cover every map
   (the Session itself is `WorldSessionController` since the map-controller split); pre-B2 Old Pine

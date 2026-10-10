@@ -346,6 +346,9 @@ func _test_hollow(tree: SceneTree, session: WorldSessionController) -> void:
 	var second_chest: StringName = _give(session, CHEST) # TEST-ONLY: another chest
 	var again: ItemHandlingResult = map.floor_items.give_to_selected(second_chest)
 	_check(not again.done() and not _carried(session, CHEST).is_empty(), "a second chest is not taken (chest_found)")
+	# Owner (乔阴 B): an NPC's memory is saved; Continue finds the 武官 remembering.
+	var remembered: NpcRuntimeState = await _continued_npc(tree, session, sergeant.character_id)
+	_check(remembered != null and remembered.has_flag(&"chest_found") and remembered.forgotten_topics().has("桃木箱子") and remembered.forgotten_topics().has("rumors"), "after Continue the 武官 still has his chest and asks after none")
 
 
 ## girl.c's 游晋: the 荷包, once (默认); youngman.c takes it, his 心事 is told.
@@ -566,6 +569,32 @@ func _round_trip(tree: SceneTree, source: WorldSessionController, forms: Array[S
 	_check(after != null and GameSaveJsonCodec.encode(after).text == encoded.text, "Save again: the same file")
 	fresh.free()
 	await tree.process_frame
+
+
+## Save, Continue in a fresh session and the NPC of `character_id` there (TEST-ONLY: the
+## fresh session is freed once read; the original goes on).
+func _continued_npc(tree: SceneTree, source: WorldSessionController, character_id: StringName) -> NpcRuntimeState:
+	var state: CharacterState = source.player_runtime().state
+	CharacterDerivedValues.refresh_human_player_maxima(state, source.player_runtime().facts.age)
+	state.essence = CharacterResourceState.new(state.essence.maximum, state.essence.maximum, state.essence.maximum)
+	state.vitality = CharacterResourceState.new(state.vitality.maximum, state.vitality.maximum, state.vitality.maximum)
+	state.spirit = CharacterResourceState.new(state.spirit.maximum, state.spirit.maximum, state.spirit.maximum)
+	var snapshot: GameSaveSnapshot = Work.capture(source)
+	if snapshot == null:
+		return null
+	var decoded: GameSaveResult = GameSaveJsonCodec.decode(GameSaveJsonCodec.encode(snapshot).text)
+	var restored: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(decoded.snapshot, tree.root)
+	if not restored.succeeded() or not restored.candidate.activate_restore_candidate():
+		return null
+	var fresh: WorldSessionController = restored.candidate
+	var found: NpcRuntimeState = null
+	for npc: NpcRuntimeState in fresh.world_npcs():
+		if npc.character_id == character_id:
+			found = npc
+	fresh.free()
+	await tree.process_frame
+	_full(source.player_runtime())
+	return found
 
 
 func _service(map: WorldMapController, service_id: StringName) -> WorldService:

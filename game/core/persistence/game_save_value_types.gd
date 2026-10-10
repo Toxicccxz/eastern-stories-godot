@@ -507,6 +507,14 @@ class NpcSpawnStateSnapshot extends RefCounted:
 		get: return _live_loadout_item_ids.duplicate()
 	## An unconscious NPC's pending revive, in ms; 0 when none is pending.
 	var revive_in_ms: int = 0
+	## What the NPC remembers (its object variables, NpcRuntimeState): its flags by name (true
+	## or false), a chat chance a function changed (-1: the definition's), the pills it has
+	## left (-1: not counted yet) and how often a thief was caught.
+	var flags: Dictionary[StringName, bool] = {}
+	var combat_chat_chance: int = -1
+	var pills_left: int = -1
+	## thief.c query("thief"): times caught (0: never).
+	var times_caught: int = 0
 
 	func _init(
 		p_spawn_id: StringName = &"", p_spawn_point_id: StringName = &"",
@@ -536,7 +544,16 @@ class NpcSpawnStateSnapshot extends RefCounted:
 		_live_loadout_item_ids.sort_custom(func(left: StringName, right: StringName) -> bool: return String(left) < String(right))
 
 	func duplicate_snapshot() -> NpcSpawnStateSnapshot:
-		return NpcSpawnStateSnapshot.new(spawn_id, spawn_point_id, npc_definition_id, character_id, exists_in_world, life_status, combat_available, character, age, body_weight, maximum_encumbrance, world_location, map_position, _live_loadout_item_ids, revive_in_ms)
+		var copy := NpcSpawnStateSnapshot.new(spawn_id, spawn_point_id, npc_definition_id, character_id, exists_in_world, life_status, combat_available, character, age, body_weight, maximum_encumbrance, world_location, map_position, _live_loadout_item_ids, revive_in_ms)
+		copy.flags = flags.duplicate()
+		copy.combat_chat_chance = combat_chat_chance
+		copy.pills_left = pills_left
+		copy.times_caught = times_caught
+		return copy
+
+	## Whether there is any memory to write (a fresh NPC remembers nothing).
+	func has_memory() -> bool:
+		return not flags.is_empty() or combat_chat_chance >= 0 or pills_left >= 0 or times_caught > 0
 
 
 class CorpseWornItemSnapshot extends RefCounted:

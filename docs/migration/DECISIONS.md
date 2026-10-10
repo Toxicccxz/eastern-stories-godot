@@ -130,16 +130,26 @@ into the 寒谷 does no harm); the 荷包 is given once. What each room and func
   你看不见对手，无从下手。 (the owner's native line; ES2 said nothing); dead, a ghost leaves no
   corpse and what it carried falls (chard.c). As ES2, go.c's lines name a 孤魂野鬼 that wanders in
   or out (only look and present() hide it), and its 布条 cannot be reached before 鬼门关 (#13).
-- **默认: the 仙鹤's attack** (crane.c has no verbs): beast.c's default action 攻击$n的%s，%s
+- **Owner: the 仙鹤's attack** (crane.c has no verbs): beast.c's default action 攻击$n的%s，%s
   never filled its two %s (combatd.c replaces only $N, $n, $l, $w): the first is the limb hit, the
   second is left out (仙鹤攻击你的左臂！); no damage, no damage type (伤害).
-- **默认: only the hermit's books go back** as the player walks out of the 草堂, whatever they did
+- **Owner: only the hermit's books go back** as the player walks out of the 草堂, whatever they did
   before; with none, 你离开草堂!. ES2's valid_leave() took every `book` once one had been
   scratched (its set_temp("choyin/\112\151", 0) clears another flag than choyin/书) and
   looped forever on one carried without that flag.
-- **The 武官 takes one 桃木箱 in his life** (chest_found, an object variable: not saved, 4E);
-  another is not taken (accept_object() returned 0); his rumors, 箱子 and 桃木箱子 answers go
-  with the first, as the 荷包's 游晋 and 心事 do (delete("inquiry/…"), not saved either).
+- **The 武官 takes one 桃木箱 in his life** (chest_found, an object variable); another is not
+  taken (accept_object() returned 0); his rumors, 箱子 and 桃木箱子 answers go with the first,
+  as the 荷包's 游晋 and 心事 do (delete("inquiry/…")).
+- **Owner: an NPC's memory is saved** (Save/Continue restores exact state). What an NPC's
+  object variables hold goes into its save record (`memory`): every flag as it stands (the
+  武官's chest_found, a deleted topic, a toll-taker that fought the player, a dog following
+  since its bone, the drunk's has_alcohol, a hunting 观想虫's hatred), a chat chance a
+  function changed (woman1.c), the 采药老者's pills left and a thief's times caught. One made
+  anew (its room's reset after it died) starts from create() again, as ES2. This replaces
+  "object variables count anew" (4E) and the "Continue forgets" of the dog (A11), the
+  robbers and the thief (3A) and the drunk (青石村 B). Unchanged: the player's set_temp()
+  flags (晚月庄 A), a call_out under way (a greeting, a making, the 剑灵's chant), room
+  counters and doors.
 - **Obvious slips fixed:** lionroom.c's smell lacked braces (the first thing in any pack blew
   its carrier out, the line only for the grass): only the 忘忧草 does it, else
   你身上没有忘忧草啊。; goldenrope.c's tie lacked them too (the plan's 仙鹤 default covers it).

@@ -592,7 +592,7 @@ func _take_back(rule: ZoneExitRuleDefinition) -> void:
 
 
 ## club.c valid_leave(): while present("book", me) the hermit's book goes back (destruct(),
-## HIC 你将书放回到矮几。 each); with none, 你离开草堂!. Only his own books (默认, 乔阴 B): ES2
+## HIC 你将书放回到矮几。 each); with none, 你离开草堂!. Only his own books (owner, 乔阴 B): ES2
 ## took any book once one was scratched, and looped forever on one without the flag.
 func _take_back_all(rule: ZoneExitRuleDefinition, carried: ContainmentEndpoint) -> void:
 	var held: Array[StringName] = []

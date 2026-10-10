@@ -9,8 +9,6 @@ var npc_heartbeat: NpcHeartbeat
 var ambience: NpcAmbience
 ## steal.c between main() and compelete_steal(): {item, sp, dp} by thief.
 var pending_steals: Dictionary[StringName, Dictionary] = {}
-## query("thief") of each thief: how often it was caught (not saved, as NPCs are made anew).
-var _times_caught: Dictionary[StringName, int] = {}
 ## make_stage() between its call_outs: {making: NpcMaking, stage: int} by maker. Not saved,
 ## as call_outs are not.
 var makings: Dictionary[StringName, Dictionary] = {}
@@ -457,7 +455,7 @@ func _start_stealing(npc: NpcRuntimeState) -> void:
 	var thief_fighting: bool = npc.relationship.is_fighting()
 	var sp: int = NpcSteal.thief_odds(
 		npc.character_state.skills.effective_level(&"stealing"), npc.character_state.attributes.karma,
-		_times_caught.get(npc.character_id, 0), thief_fighting,
+		npc.times_caught, thief_fighting,
 	)
 	if thief_fighting:
 		npc.busy.start_busy(3)
@@ -504,7 +502,7 @@ func _complete_stealing(npc: NpcRuntimeState, pending: Dictionary) -> void:
 				}),
 				tr("你喝道：「干什麽！」"),
 			]
-			_times_caught[npc.character_id] = _times_caught.get(npc.character_id, 0) + 1
+			npc.times_caught += 1
 			var participants: Array[CombatSliceCharacterBinding] = _map.combat_lifecycle.build_participants()
 			var started: CombatSliceInitiationResult = session.combat_encounter_coordinator().start_production(
 				CombatSliceProjectionBuilder.find_binding(participants, _player.character_id),

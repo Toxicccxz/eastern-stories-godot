@@ -188,6 +188,25 @@ func _encode_npc(value: Values.NpcSpawnStateSnapshot) -> Dictionary[String, Vari
 	# Only a pending revive is written, so saves without one keep their shape.
 	if value.revive_in_ms > 0:
 		record["revive_in_ms"] = _i(value.revive_in_ms)
+	# The NPC's memory (owner, 乔阴 B), only when it has some: flags in name order.
+	if value.has_memory():
+		var memory: Dictionary[String, Variant] = {}
+		if not value.flags.is_empty():
+			var names: Array[String] = []
+			for flag: StringName in value.flags:
+				names.append(String(flag))
+			names.sort()
+			var flags: Dictionary[String, Variant] = {}
+			for name: String in names:
+				flags[name] = value.flags[StringName(name)]
+			memory["flags"] = flags
+		if value.combat_chat_chance >= 0:
+			memory["combat_chat_chance"] = _i(value.combat_chat_chance)
+		if value.pills_left >= 0:
+			memory["pills_left"] = _i(value.pills_left)
+		if value.times_caught > 0:
+			memory["times_caught"] = _i(value.times_caught)
+		record["memory"] = memory
 	return record
 
 
@@ -561,12 +580,50 @@ func _decode_npc(value: Variant, path: String) -> Values.NpcSpawnStateSnapshot:
 	var fields: Array[String] = ["spawn_id", "spawn_point_id", "npc_definition_id", "character_id", "exists_in_world", "life_status", "combat_available", "character", "age", "body_weight", "maximum_encumbrance", "world_location", "map_position", "live_loadout_item_ids"]
 	if value is Dictionary and value.has("revive_in_ms"):
 		fields.append("revive_in_ms")
+	if value is Dictionary and value.has("memory"):
+		fields.append("memory")
 	var object: Dictionary = _obj(value, path, fields)
 	if _error: return null
 	var ids: Array[StringName] = _decode_id_array(object["live_loadout_item_ids"], path + ".live_loadout_item_ids")
 	var revive_in_ms: int = _int64(object["revive_in_ms"], path + ".revive_in_ms") if object.has("revive_in_ms") else 0
 	if revive_in_ms < 0 or (object.has("revive_in_ms") and revive_in_ms == 0): _fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".revive_in_ms", "expected a positive count")
-	return Values.NpcSpawnStateSnapshot.new(StringName(_string(object["spawn_id"], path + ".spawn_id")), StringName(_string(object["spawn_point_id"], path + ".spawn_point_id")), StringName(_string(object["npc_definition_id"], path + ".npc_definition_id")), StringName(_string(object["character_id"], path + ".character_id")), _bool(object["exists_in_world"], path + ".exists_in_world"), StringName(_string(object["life_status"], path + ".life_status")), _bool(object["combat_available"], path + ".combat_available"), _decode_character(object["character"], path + ".character"), _int64(object["age"], path + ".age"), _int64(object["body_weight"], path + ".body_weight"), _int64(object["maximum_encumbrance"], path + ".maximum_encumbrance"), _decode_location(object["world_location"], path + ".world_location"), _decode_position(object["map_position"], path + ".map_position"), ids, revive_in_ms)
+	var decoded := Values.NpcSpawnStateSnapshot.new(StringName(_string(object["spawn_id"], path + ".spawn_id")), StringName(_string(object["spawn_point_id"], path + ".spawn_point_id")), StringName(_string(object["npc_definition_id"], path + ".npc_definition_id")), StringName(_string(object["character_id"], path + ".character_id")), _bool(object["exists_in_world"], path + ".exists_in_world"), StringName(_string(object["life_status"], path + ".life_status")), _bool(object["combat_available"], path + ".combat_available"), _decode_character(object["character"], path + ".character"), _int64(object["age"], path + ".age"), _int64(object["body_weight"], path + ".body_weight"), _int64(object["maximum_encumbrance"], path + ".maximum_encumbrance"), _decode_location(object["world_location"], path + ".world_location"), _decode_position(object["map_position"], path + ".map_position"), ids, revive_in_ms)
+	if object.has("memory"):
+		_decode_memory(object["memory"], path + ".memory", decoded)
+	return decoded
+
+
+## An NPC's memory: {flags?: {name: bool}, combat_chat_chance?, pills_left?, times_caught?},
+## never empty.
+func _decode_memory(value: Variant, path: String, into: Values.NpcSpawnStateSnapshot) -> void:
+	var keys: Array[String] = []
+	if value is Dictionary:
+		for key: String in ["flags", "combat_chat_chance", "pills_left", "times_caught"]:
+			if value.has(key):
+				keys.append(key)
+	var object: Dictionary = _obj(value, path, keys)
+	if _error: return
+	if keys.is_empty():
+		_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path, "an empty memory is not written")
+		return
+	if object.has("flags"):
+		if typeof(object["flags"]) != TYPE_DICTIONARY or (object["flags"] as Dictionary).is_empty():
+			_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".flags", "expected a non-empty object")
+			return
+		for name: Variant in (object["flags"] as Dictionary).keys():
+			if typeof(name) != TYPE_STRING or (name as String).is_empty():
+				_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".flags", "expected flag names")
+				return
+			into.flags[StringName(name)] = _bool(object["flags"][name], path + ".flags." + name)
+	if object.has("combat_chat_chance"):
+		into.combat_chat_chance = _int64(object["combat_chat_chance"], path + ".combat_chat_chance")
+		if into.combat_chat_chance < 0: _fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".combat_chat_chance", "expected a chance")
+	if object.has("pills_left"):
+		into.pills_left = _int64(object["pills_left"], path + ".pills_left")
+		if into.pills_left < 0: _fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".pills_left", "expected a count")
+	if object.has("times_caught"):
+		into.times_caught = _int64(object["times_caught"], path + ".times_caught")
+		if into.times_caught <= 0: _fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".times_caught", "expected a positive count")
 
 
 func _decode_corpse(value: Variant, path: String) -> Values.CorpseSnapshot:
