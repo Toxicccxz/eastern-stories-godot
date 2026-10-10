@@ -95,6 +95,7 @@ static func prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 			Result.Outcome.RECONSTRUCTION_FAILED,
 			"player",
 		)
+	player.temp_marks = snapshot.player.temps.duplicate()
 
 	var npc_result: OldPineWorldRestoreResult = _restore_npc_ledger(
 		snapshot,

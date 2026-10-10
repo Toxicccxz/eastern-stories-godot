@@ -113,6 +113,8 @@ func capture(
 			Values.PlayerBodySnapshot.new(player.body_facts.body_weight, player.maximum_encumbrance),
 		)
 	)
+	# The player's set_temp() flags (owner): a quest chain's steps survive Continue.
+	player_snapshot.temps = player.temp_marks.duplicate()
 
 	var npc_snapshots: Array[Values.NpcSpawnStateSnapshot] = []
 	for npc: NpcRuntimeState in session.world_npcs():

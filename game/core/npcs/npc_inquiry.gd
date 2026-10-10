@@ -43,7 +43,7 @@ class Asker:
 
 
 ## What asking did: the lines the player reads (in their colours: a whisper is GRN),
-## the marks to set on the asker, the temps to set on them (set_temp(): not saved) and
+## the marks to set on the asker, the temps to set on them (set_temp(): saved too) and
 ## the item the NPC hands over (`gives`: the caller makes it and tells give.c's line),
 ## with the mark set only once it was handed over (`mark_on_give`: had_jade).
 class Answer:

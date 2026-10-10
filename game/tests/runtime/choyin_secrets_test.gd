@@ -347,7 +347,8 @@ func _test_hollow(tree: SceneTree, session: WorldSessionController) -> void:
 	var again: ItemHandlingResult = map.floor_items.give_to_selected(second_chest)
 	_check(not again.done() and not _carried(session, CHEST).is_empty(), "a second chest is not taken (chest_found)")
 	# Owner (乔阴 B): an NPC's memory is saved; Continue finds the 武官 remembering.
-	var remembered: NpcRuntimeState = await _continued_npc(tree, session, sergeant.character_id)
+	var after: Array = await _continued(tree, session, sergeant.character_id)
+	var remembered: NpcRuntimeState = null if after.is_empty() else after[0]
 	_check(remembered != null and remembered.has_flag(&"chest_found") and remembered.forgotten_topics().has("桃木箱子") and remembered.forgotten_topics().has("rumors"), "after Continue the 武官 still has his chest and asks after none")
 
 
@@ -400,6 +401,9 @@ func _test_hermit(tree: SceneTree, session: WorldSessionController) -> void:
 	var bracelet: StringName = _give(session, BRACELET) # TEST-ONLY
 	var sen: int = session.player_runtime().state.spirit.current
 	_check(map.floor_items.act_with_item(bracelet) and hud.log_lines()[-1] == "也不知道隐士怎么弄的，你的玛瑙手镯不灵验了。" and session.player_runtime().state.spirit.current == sen and session.player_runtime().world_location().zone_id == &"choyin.club", "the 玛瑙手镯 fails in the 草堂")
+	# Owner (after 乔阴 B): the player's set_temp() flags are saved too.
+	var continued: Array = await _continued(tree, session, &"")
+	_check(not continued.is_empty() and (continued[1] as Dictionary).get("choyin/书", 0) == 1, "after Continue the player still has the 草堂's choyin/书")
 	_check(await MapPlaces.drive_to_zone(tree, map, &"choyin.fence"), "out east to the bamboo")
 	_check(_carried_kind(session, [BOOK1, BOOK2]).is_empty() and hud.log_lines().has("你将书放回到矮几。"), "the book goes back")
 	_check(await MapPlaces.drive_to_zone(tree, map, &"choyin.club"), "back in")
@@ -571,9 +575,9 @@ func _round_trip(tree: SceneTree, source: WorldSessionController, forms: Array[S
 	await tree.process_frame
 
 
-## Save, Continue in a fresh session and the NPC of `character_id` there (TEST-ONLY: the
-## fresh session is freed once read; the original goes on).
-func _continued_npc(tree: SceneTree, source: WorldSessionController, character_id: StringName) -> NpcRuntimeState:
+## Save, Continue in a fresh session: [the NPC of `character_id` there (or null), the player's
+## temps there] (TEST-ONLY: the fresh session is freed once read; the original goes on).
+func _continued(tree: SceneTree, source: WorldSessionController, character_id: StringName) -> Array:
 	var state: CharacterState = source.player_runtime().state
 	CharacterDerivedValues.refresh_human_player_maxima(state, source.player_runtime().facts.age)
 	state.essence = CharacterResourceState.new(state.essence.maximum, state.essence.maximum, state.essence.maximum)
@@ -581,20 +585,21 @@ func _continued_npc(tree: SceneTree, source: WorldSessionController, character_i
 	state.spirit = CharacterResourceState.new(state.spirit.maximum, state.spirit.maximum, state.spirit.maximum)
 	var snapshot: GameSaveSnapshot = Work.capture(source)
 	if snapshot == null:
-		return null
+		return []
 	var decoded: GameSaveResult = GameSaveJsonCodec.decode(GameSaveJsonCodec.encode(snapshot).text)
 	var restored: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(decoded.snapshot, tree.root)
 	if not restored.succeeded() or not restored.candidate.activate_restore_candidate():
-		return null
+		return []
 	var fresh: WorldSessionController = restored.candidate
 	var found: NpcRuntimeState = null
 	for npc: NpcRuntimeState in fresh.world_npcs():
 		if npc.character_id == character_id:
 			found = npc
+	var temps: Dictionary = fresh.player_runtime().temp_marks.duplicate()
 	fresh.free()
 	await tree.process_frame
 	_full(source.player_runtime())
-	return found
+	return [found, temps]
 
 
 func _service(map: WorldMapController, service_id: StringName) -> WorldService:

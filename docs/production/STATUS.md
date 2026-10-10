@@ -9,7 +9,8 @@ the stone lion's cave, its 护草神兽 and the 忘忧草 for 陈剑秋's letter
 树王坟 and its unseen 朦胧鬼影, the 武官's chest, the vines, the cranes, the 缚仙绳, the 云台 and
 the 丹炉, the 寒谷's orchid, the hermit's books, the 荷包. NPCs' memory is saved now (owner):
 Continue finds every NPC remembering what it did (the 武官's chest, a robber that fought you, a
-dog following you). Next: 乔阴 C (步玄派).
+dog following you), and the player's own steps in a chain (芳绫's secret, 雨梅's cup). Next:
+乔阴 C (步玄派).
 
 ## 待决定
 

@@ -178,6 +178,15 @@ func _encode_player(value: Values.PlayerRuntimeSnapshot) -> Dictionary[String, V
 	var result: Dictionary[String, Variant] = {"character_id": String(value.character_id), "character": _encode_character(value.character), "life_status": String(value.life_status), "exists_in_world": value.exists_in_world, "combat_available": value.combat_available, "world_location": _encode_location(value.world_location), "map_position": {"x": value.map_position.x, "y": value.map_position.y}}
 	result["identity"] = {"display_name": value.identity.display_name, "title": value.identity.title, "age": _i(value.identity.age), "race_id": String(value.identity.race_id)}
 	result["body_facts"] = {"body_weight": _i(value.body_facts.body_weight), "maximum_encumbrance": _i(value.body_facts.maximum_encumbrance)}
+	# The player's set_temp() flags (owner), only when there are some, in name order.
+	if not value.temps.is_empty():
+		var names: Array[String] = []
+		names.assign(value.temps.keys())
+		names.sort()
+		var temps: Dictionary[String, Variant] = {}
+		for name: String in names:
+			temps[name] = _i(value.temps[name])
+		result["temps"] = temps
 	return result
 
 
@@ -567,14 +576,27 @@ func _decode_condition(value: Variant, path: String) -> Values.ConditionSnapshot
 
 
 func _decode_player(value: Variant, path: String) -> Values.PlayerRuntimeSnapshot:
-	var object: Dictionary = _obj(value, path, ["character_id", "character", "life_status", "exists_in_world", "combat_available", "world_location", "map_position", "identity", "body_facts"])
+	var fields: Array[String] = ["character_id", "character", "life_status", "exists_in_world", "combat_available", "world_location", "map_position", "identity", "body_facts"]
+	if value is Dictionary and value.has("temps"):
+		fields.append("temps")
+	var object: Dictionary = _obj(value, path, fields)
 	if _error: return null
 	var i: Dictionary = _obj(object["identity"], path + ".identity", ["display_name", "title", "age", "race_id"])
 	var b: Dictionary = _obj(object["body_facts"], path + ".body_facts", ["body_weight", "maximum_encumbrance"])
 	if _error: return null
 	var identity := Values.PlayerIdentitySnapshot.new(_string(i["display_name"], path + ".identity.display_name"), _string(i["title"], path + ".identity.title"), _int64(i["age"], path + ".identity.age"), StringName(_string(i["race_id"], path + ".identity.race_id")))
 	var body := Values.PlayerBodySnapshot.new(_int64(b["body_weight"], path + ".body_facts.body_weight"), _int64(b["maximum_encumbrance"], path + ".body_facts.maximum_encumbrance"))
-	return Values.PlayerRuntimeSnapshot.new(StringName(_string(object["character_id"], path + ".character_id")), _decode_character(object["character"], path + ".character"), StringName(_string(object["life_status"], path + ".life_status")), _bool(object["exists_in_world"], path + ".exists_in_world"), _bool(object["combat_available"], path + ".combat_available"), _decode_location(object["world_location"], path + ".world_location"), _decode_position(object["map_position"], path + ".map_position"), identity, body)
+	var player := Values.PlayerRuntimeSnapshot.new(StringName(_string(object["character_id"], path + ".character_id")), _decode_character(object["character"], path + ".character"), StringName(_string(object["life_status"], path + ".life_status")), _bool(object["exists_in_world"], path + ".exists_in_world"), _bool(object["combat_available"], path + ".combat_available"), _decode_location(object["world_location"], path + ".world_location"), _decode_position(object["map_position"], path + ".map_position"), identity, body)
+	if object.has("temps"):
+		if typeof(object["temps"]) != TYPE_DICTIONARY or (object["temps"] as Dictionary).is_empty():
+			_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".temps", "expected a non-empty object (none are not written)")
+			return player
+		for name: Variant in (object["temps"] as Dictionary).keys():
+			if typeof(name) != TYPE_STRING or (name as String).is_empty():
+				_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".temps", "expected flag names")
+				return player
+			player.temps[name] = _int64(object["temps"][name], path + ".temps." + name)
+	return player
 
 func _decode_npc(value: Variant, path: String) -> Values.NpcSpawnStateSnapshot:
 	var fields: Array[String] = ["spawn_id", "spawn_point_id", "npc_definition_id", "character_id", "exists_in_world", "life_status", "combat_available", "character", "age", "body_weight", "maximum_encumbrance", "world_location", "map_position", "live_loadout_item_ids"]

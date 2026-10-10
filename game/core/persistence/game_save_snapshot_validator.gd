@@ -33,6 +33,7 @@ static func validate(snapshot: GameSaveSnapshot) -> GameSaveResult:
 		return _invalid("player.identity", "invalid supported Player identity")
 	if snapshot.world_content_revision == WorldContentRevision.Value.LEGACY_OLDPINE_V1 and not identity.is_legacy_technical():
 		return _invalid("player.identity", "identity incompatible with legacy world contract")
+	if snapshot.player.temps.has(""): return _invalid("player.temps", "named flags")
 	if snapshot.player.body_facts == null:
 		return _invalid("player.body_facts", "missing independent body facts")
 	var player_result: GameSaveResult = _validate_runtime_character(snapshot.player.character, snapshot.player.life_status, snapshot.player.exists_in_world, snapshot.player.world_location, snapshot.player.map_position, "player")

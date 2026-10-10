@@ -111,6 +111,17 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 - #27 牛皮酒袋照原名显示，不另起短名。
 - 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
 
+## Save: the player's set_temp() flags (2026-10-10)
+
+**Owner** (after 乔阴 B): the player's set_temp() flags are saved. ES2 cleared them at logout,
+leaving a multi-player world; a single-player Continue only resumes, and losing a chain's
+progress there read as a bug (芳绫's 手镯 secret gone, the 竹蜻蜓 to make again; a second
+bracelet from the 碧纱橱; 雨梅's cup kept; 玄智's 跪下受戒 to ask again). They are written in
+the player's save record (`temps`, only when there are some). This replaces the rule of
+晚月庄 A (temps not saved) and its uses since (山烟寺 B's pending/join_bonze). Unchanged:
+set_temp("mind_bug"), the link to a 观想虫 a save leaves out (茅山 C), and a 拜师 answer under
+way.
+
 ## 乔阴 B: the town's secrets and 姑射山 (2026-10-10)
 
 The plan's B (「乔阴 A」 above) with the owner's Q2 and Q3 as approved and the plan's defaults:
@@ -148,8 +159,8 @@ into the 寒谷 does no harm); the 荷包 is given once. What each room and func
   anew (its room's reset after it died) starts from create() again, as ES2. This replaces
   "object variables count anew" (4E) and the "Continue forgets" of the dog (A11), the
   robbers and the thief (3A) and the drunk (青石村 B). Unchanged: the player's set_temp()
-  flags (晚月庄 A), a call_out under way (a greeting, a making, the 剑灵's chant), room
-  counters and doors.
+  flags (晚月庄 A; saved too since, see above), a call_out under way (a greeting, a making,
+  the 剑灵's chant), room counters and doors.
 - **Obvious slips fixed:** lionroom.c's smell lacked braces (the first thing in any pack blew
   its carrier out, the line only for the grass): only the 忘忧草 does it, else
   你身上没有忘忧草啊。; goldenrope.c's tie lacked them too (the plan's 仙鹤 default covers it).
