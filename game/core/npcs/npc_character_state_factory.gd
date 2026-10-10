@@ -293,7 +293,7 @@ func create_one(
 	var armor_state: ArmorStateType = ArmorStateType.new()
 	# carry_object() and add_money() after setup() draw their own (worker2.c's hammer or
 	# rope, the children's coins), in entry order.
-	var entries: Array[NpcLoadoutEntry] = _resolve_loadout(definition, random_source)
+	var entries: Array[NpcLoadoutEntry] = _resolve_loadout(definition, random_source, loadout_content)
 	if entries.size() != definition.loadout_entries().size():
 		return null
 	var loadout_items: Array[ItemInstance] = _apply_loadout(
@@ -368,8 +368,9 @@ static func _draw_with_offset(
 
 
 ## The definition's carry entries as this NPC gets them: a choice drawn to one side,
-## a drawn amount set. Fewer entries than authored when a draw is out of range.
-static func _resolve_loadout(definition: NpcDefinitionType, random_source: RandomSourceType) -> Array[NpcLoadoutEntry]:
+## a drawn amount set, a drawn name (book.c's names[random(sizeof(names))], as the item
+## is made). Fewer entries than authored when a draw is out of range.
+static func _resolve_loadout(definition: NpcDefinitionType, random_source: RandomSourceType, loadout_content: Array[NpcLoadoutItemDefinition] = []) -> Array[NpcLoadoutEntry]:
 	var result: Array[NpcLoadoutEntry] = []
 	for entry: NpcLoadoutEntry in definition.loadout_entries():
 		var chosen: NpcLoadoutEntry = entry
@@ -382,6 +383,13 @@ static func _resolve_loadout(definition: NpcDefinitionType, random_source: Rando
 			if amount == null or int(amount) <= 0:
 				return result
 			chosen = NpcLoadoutEntry.new(chosen.item_definition_id, int(amount), chosen.equipment_intent, chosen.legacy_source_path)
+		var content: NpcLoadoutItemDefinition = _find_content(chosen.item_definition_id, loadout_content)
+		var named: Array[StringName] = [] if content == null else content.name_pick_ids()
+		if not named.is_empty():
+			var pick: int = random_source.legacy_random(named.size())
+			if pick < 0 or pick >= named.size():
+				return result
+			chosen = NpcLoadoutEntry.new(named[pick], chosen.quantity, chosen.equipment_intent, chosen.legacy_source_path)
 		result.append(chosen)
 	return result
 

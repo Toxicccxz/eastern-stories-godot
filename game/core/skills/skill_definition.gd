@@ -26,6 +26,8 @@ var standard_force_hit: bool = false
 var has_own_hit_ob: bool = false
 ## What its hit_ob() adds after std/force.c's (iceforce.c's wound and iceshock), or null.
 var force_hit_wound: ForceHitWound
+## A martial art's own hit_ob() that wounds (spicyclaw.c's broken bones), or null.
+var martial_hit_wound: MartialHitWound
 ## query_dodge_msg(): what a dodge with this skill looks like ($n dodges $N).
 var dodge_messages: Array[String] = []
 ## parry.c query_parry_msg(weapon): against an armed and an unarmed attacker.
@@ -160,6 +162,11 @@ static func from_record(reader: ContentRecordReader) -> SkillDefinition:
 		definition.force_hit_wound = ForceHitWound.from_record(wound)
 		if not definition.standard_force_hit:
 			reader.fail("force_hit_wound", "goes after std/force.c's hit_ob(): needs standard_force_hit")
+	var hit_wound: ContentRecordReader = reader.child("hit_wound")
+	if hit_wound != null:
+		definition.martial_hit_wound = MartialHitWound.from_record(hit_wound)
+		if definition.standard_force_hit or definition.has_own_hit_ob:
+			reader.fail("hit_wound", "is a martial art's own hit_ob(): neither std/force.c's nor an unported one")
 	definition.dodge_messages = reader.text_list("dodge_messages")
 	var parry: ContentRecordReader = reader.child("parry_messages")
 	if parry != null:

@@ -12,11 +12,13 @@ enum Value {
 	DRIVER_AMBIGUITY,
 	## The attacker's own hit_ob() sets a condition (NpcHitCondition); the damage is unchanged.
 	CONDITION_ON_HIT,
+	## The mapped martial art's own hit_ob() may wound (MartialHitWound: spicyclaw.c).
+	MARTIAL_WOUND,
 }
 
 
 static func is_valid(value: int) -> bool:
-	return value >= Value.NOT_APPLICABLE and value <= Value.CONDITION_ON_HIT
+	return value >= Value.NOT_APPLICABLE and value <= Value.MARTIAL_WOUND
 
 
 static func is_non_force_valid(value: int) -> bool:

@@ -18,6 +18,7 @@ var _projected_force_skill_type: StringName
 var _effective_force_skill_level: int
 var _current_inner_force: int
 var _armor_vs_force: int
+var _strength: int
 
 var character_id: StringName:
 	get:
@@ -67,6 +68,10 @@ var current_inner_force: int:
 var armor_vs_force: int:
 	get:
 		return _armor_vs_force
+## query_str() (feature/attribute.c): what spicyclaw.c's hit_ob() measures its roll against.
+var strength: int:
+	get:
+		return _strength
 
 
 func _init(
@@ -87,6 +92,7 @@ func _init(
 	p_effective_force_skill_level: int = 0,
 	p_current_inner_force: int = 0,
 	p_armor_vs_force: int = 0,
+	p_strength: int = 0,
 ) -> void:
 	_character_id = p_character_id
 	_living = p_living
@@ -105,6 +111,7 @@ func _init(
 	_effective_force_skill_level = p_effective_force_skill_level
 	_current_inner_force = p_current_inner_force
 	_armor_vs_force = p_armor_vs_force
+	_strength = p_strength
 
 
 func limbs() -> Array[StringName]:
@@ -134,4 +141,5 @@ func duplicate_snapshot() -> CombatDefenderSnapshot:
 		_effective_force_skill_level,
 		_current_inner_force,
 		_armor_vs_force,
+		_strength,
 	)

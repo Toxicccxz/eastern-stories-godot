@@ -397,7 +397,10 @@ func reset_room(legacy_room: String) -> void:
 				continue
 			if npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
 				_respawn_npc(spawn, npc)
-			elif npc.world_location().zone_id != spawn.zone_id:
+				continue
+			# oldman.c reset(): set("pills", 9).
+			npc.pills_left = -1
+			if npc.world_location().zone_id != spawn.zone_id:
 				return_home(npc)
 	for spawn: ItemSpawnDefinition in catalog.item_spawns_for_map(map):
 		if spawn.legacy_source_room_path != legacy_room:
@@ -706,6 +709,21 @@ func dismiss_summoned() -> void:
 		_summon_spawns.erase(npc.spawn_id)
 		summoners.erase(npc.character_id)
 		_drop_npc(npc)
+
+
+## destruct() of an NPC a room placed (oldman.c kill_ob()): it is gone with all it
+## carries and leaves no corpse; its room's reset makes a new one, as for one that died.
+func vanish(npc: NpcRuntimeState) -> void:
+	if npc == null or find_resident_npc(npc.character_id) == null:
+		return
+	_take_away(npc)
+	npc.set_life_status(CharacterRuntimeLifeStatus.Value.DEAD)
+	npc.set_exists_in_map(false)
+	if _map.selection.selected_character_id() == npc.character_id:
+		_map.selection.selected_target = null
+	var body: WorldCharacterBody2D = runtime_body_for_character(npc.character_id)
+	if body != null:
+		body.refresh_runtime_state()
 
 
 ## destruct(): what a summoned NPC carries goes with it.

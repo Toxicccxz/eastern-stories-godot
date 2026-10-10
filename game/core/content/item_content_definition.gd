@@ -38,6 +38,7 @@ const WEAPON_APPLY_KEYS: Array[String] = [
 var _item_definition_id: StringName
 var _legacy_source_paths: Array[String] = []
 var _display_name: String
+var _name_pick: Array[String] = []
 var _aliases: Array[String] = []
 var _description: String
 ## No authored long: the description is feature/name.c's default.
@@ -78,6 +79,12 @@ var _act: RoomActDefinition
 var _dissolves: bool = false
 var _pour: PourDefinition
 var _unique: bool = false
+## owner_is_killed() (daemon/class/scholar/windspring.c): when its holder dies (chard.c
+## make_corpse()), unless the holder is `_owner_killed_unless`, the item is gone and the
+## NPC `_owner_killed_npc` stands where the killer is, the room reading `_owner_killed_lines`.
+var _owner_killed_npc: StringName = &""
+var _owner_killed_unless: StringName = &""
+var _owner_killed_lines: Array[String] = []
 ## A weapon weapond.c bash_weapon() broke: the original's name (shown as 断掉的<name>).
 var _broken_from_name: String = ""
 ## cmds/std/scribe.c draws 符 on it: the 桃符纸 (owner, DECISIONS 茅山 A: only on it).
@@ -215,6 +222,9 @@ static func from_record(reader: ContentRecordReader) -> ItemContentDefinition:
 	if definition._legacy_source_paths.is_empty():
 		reader.fail("legacy_sources", "needs at least one LPC source path")
 	definition._display_name = reader.required_text("name")
+	definition._name_pick = reader.text_list("name_pick")
+	if not definition._name_pick.is_empty() and not definition._name_pick.has(definition._display_name):
+		reader.fail("name_pick", "names the item's own name among them")
 	definition._aliases = reader.text_list("aliases")
 	definition._unit = reader.text("unit")
 	definition._material = reader.text("material")
@@ -243,6 +253,12 @@ static func from_record(reader: ContentRecordReader) -> ItemContentDefinition:
 	definition._dissolves = reader.boolean("dissolve", false)
 	definition._scribe = reader.boolean("scribe", false)
 	definition._unique = reader.boolean("unique", false)
+	var killed: ContentRecordReader = reader.child("owner_is_killed")
+	if killed != null:
+		definition._owner_killed_npc = StringName(killed.required_text("npc"))
+		definition._owner_killed_unless = StringName(killed.text("unless_holder"))
+		definition._owner_killed_lines.assign(killed.text_list("lines"))
+		killed.finish()
 	var pour: ContentRecordReader = reader.child("pour")
 	if pour != null:
 		definition._pour = PourDefinition.from_record(pour)
@@ -286,8 +302,59 @@ static func from_record(reader: ContentRecordReader) -> ItemContentDefinition:
 	# The food rules (hockshop value, save validation) assume a plain item.
 	if food != null and (weapon != null or armor != null or money != null or combined != null):
 		reader.fail("food", "food that is also a weapon, armor or money is not supported yet")
+	# A named form shares everything but its ID and name: equipment and stacks carry their ID.
+	if not definition._name_pick.is_empty() and (weapon != null or armor != null or money != null or combined != null):
+		reader.fail("name_pick", "only a plain item draws its name yet")
 	reader.finish()
 	return definition
+
+
+## The ID the catalog gives the form of an item whose create() draws its name
+## (NAME_SUFFIX and the name's place in name_pick after the item's own).
+const NAME_SUFFIX: String = "#name="
+
+
+## owner_is_killed(): the NPC that comes when the holder dies, empty for none.
+func owner_killed_npc() -> StringName:
+	return _owner_killed_npc
+
+
+## The holder whose death changes nothing (sword_soul.c's own sword), or empty.
+func owner_killed_unless() -> StringName:
+	return _owner_killed_unless
+
+
+## What the killer's room reads as it comes.
+func owner_killed_lines() -> Array[String]:
+	return _owner_killed_lines.duplicate()
+
+
+## The names create() draws from (book.c's names[random(sizeof(names))]); empty for one name.
+func name_pick() -> Array[String]:
+	return _name_pick.duplicate()
+
+
+static func named_id(id: StringName, index: int) -> StringName:
+	return StringName(String(id) + NAME_SUFFIX + str(index))
+
+
+## The item a named form is of (`id` itself for anything else).
+static func unnamed_id(id: StringName) -> StringName:
+	var text: String = String(id)
+	var at: int = text.find(NAME_SUFFIX)
+	return StringName(text.left(at)) if at >= 0 else id
+
+
+## The item as made with the `index`-th of its drawn names: everything else is the item's.
+static func named(source: ItemContentDefinition, index: int) -> ItemContentDefinition:
+	var made := ItemContentDefinition.new()
+	for property: Dictionary in source.get_property_list():
+		if property["usage"] & PROPERTY_USAGE_SCRIPT_VARIABLE and String(property["name"]).begins_with("_"):
+			made.set(property["name"], source.get(property["name"]))
+	made._item_definition_id = named_id(source._item_definition_id, index)
+	made._display_name = source._name_pick[index]
+	made._name_pick = []
+	return made
 
 
 ## The ID the catalog gives what a food leaves once eaten (LEFTOVER_SUFFIX after its own).
@@ -487,7 +554,15 @@ func loadout_item_definition() -> NpcLoadoutItemDefinition:
 		_currency_definition,
 		_legacy_source_paths,
 		_armor_definition,
+		_named_ids(),
 	)
+
+
+func _named_ids() -> Array[StringName]:
+	var ids: Array[StringName] = []
+	for index: int in range(_name_pick.size()):
+		ids.append(named_id(_item_definition_id, index))
+	return ids
 
 
 func is_valid() -> bool:

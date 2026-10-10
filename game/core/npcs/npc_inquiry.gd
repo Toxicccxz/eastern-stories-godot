@@ -59,6 +59,8 @@ class Answer:
 	var hands_over_amount: int = 0
 	var after: Array[ColoredLine] = []
 	var after_empty: Array[ColoredLine] = []
+	## do_vendor_list(): the caller writes the NPC's goods list after the lines.
+	var vendor_list: bool = false
 
 	func texts() -> Array[String]:
 		return ColoredLine.texts(lines)
@@ -170,12 +172,22 @@ static func answer(
 		for line: NpcLine in rule.after_empty:
 			result.after_empty.append(line.colored(name, asker_respect))
 		result.gives = rule.gives
+		result.vendor_list = rule.vendor_list
 		if not rule.temp_asker.is_empty():
 			result.temps.append(rule.temp_asker)
 		if rule.gives.is_empty() and not rule.mark_asker.is_empty():
 			result.marks.append(rule.mark_asker)
 		elif not rule.mark_asker.is_empty():
 			result.mark_on_give = rule.mark_asker
+		return result
+	# relay_ask() (d/choyin/npc/crone.c; no mudlib code calls it, owner: said as its author
+	# meant, DECISIONS 乔阴 A): a topic it has no answer for.
+	var relay: Array[NpcLine] = talk.relay_ask()
+	if not relay.is_empty():
+		_with(result, lines)
+		var relay_respect: String = RankWords.query_respect(asker.gender, asker.age, asker.class_id)
+		for line: NpcLine in relay:
+			result.lines.append(line.colored(name, relay_respect))
 		return result
 	if key == name or key == "name" or key == NAME:
 		match npc_definition.attitude:
@@ -192,12 +204,12 @@ static func answer(
 				# The EMOTE_D "sigh" that follows prints nothing: data/emoted.o is not in the mudlib.
 				lines.append(_t("{npc}对你作了一揖：这位{respect}可真会开玩笑，怎么会突然问起{self}的名字？").format({
 					"npc": npc, "respect": _t(RankWords.query_respect(asker.gender, asker.age, asker.class_id)),
-					"self": _t(RankWords.query_self(npc_gender, npc_age, npc_definition.class_id)),
+					"self": _t(npc_definition.query_self(npc_gender, npc_age)),
 				}))
 		return _with(result, lines)
 	if key == "here" or key == HERE:
 		lines.append(_t("{npc}对你说道：这里是{place}，至于其它的，{self}不便多说。").format({
-			"npc": npc, "place": _t(room_short), "self": _t(RankWords.query_self(npc_gender, npc_age, npc_definition.class_id)),
+			"npc": npc, "place": _t(room_short), "self": _t(npc_definition.query_self(npc_gender, npc_age)),
 		}))
 		return _with(result, lines)
 	var drawn: int = random.legacy_random(DUNNO.size())

@@ -4,7 +4,7 @@ extends RefCounted
 ## Immutable definition projection, not mutable skills/equipment or an action VM.
 ## A beast's limbs and verbs, and the set_temp("apply/...") values an NPC sets on
 ## itself in create() (serpent.c, the bandit chiefs).
-const APPLY_KEYS: Array[StringName] = [&"attack", &"damage", &"armor", &"dodge", &"defense", &"parry"]
+const APPLY_KEYS: Array[StringName] = [&"attack", &"damage", &"armor", &"dodge", &"defense", &"parry", &"armor_vs_force"]
 
 var _limbs: Array[String] = []
 var _verbs: Array[StringName] = []

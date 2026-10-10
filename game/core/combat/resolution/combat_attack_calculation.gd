@@ -45,6 +45,9 @@ var _hit_condition_applied: bool = false
 var _hit_condition: NpcHitCondition
 var _force_wound: int = 0
 var _force_hit_wound: ForceHitWound
+var _martial_wound: int = 0
+var _martial_hit_wound: MartialHitWound
+var _martial_message: String = ""
 var _random_upper_bounds: Array[int] = []
 var _random_draws: Array[int] = []
 
@@ -112,6 +115,19 @@ var force_wound: int:
 var force_hit_wound: ForceHitWound:
 	get:
 		return _force_hit_wound
+## The kee the mapped martial art's hit_ob() wounded the victim by (spicyclaw.c), 0 when it
+## did not.
+var martial_wound: int:
+	get:
+		return _martial_wound
+## The MartialHitWound that cracked a bone, or null.
+var martial_hit_wound: MartialHitWound:
+	get:
+		return _martial_hit_wound
+## The line its hit_ob() returned (one of its messages, drawn), "" when it returned 0.
+var martial_message: String:
+	get:
+		return _martial_message
 var reached_stage: int:
 	get:
 		return _reached_stage
@@ -154,6 +170,9 @@ func duplicate_snapshot() -> CombatAttackCalculation:
 	copy._hit_condition = _hit_condition
 	copy._force_wound = _force_wound
 	copy._force_hit_wound = _force_hit_wound
+	copy._martial_wound = _martial_wound
+	copy._martial_hit_wound = _martial_hit_wound
+	copy._martial_message = _martial_message
 	copy._random_upper_bounds = _random_upper_bounds.duplicate()
 	copy._random_draws = _random_draws.duplicate()
 	return copy

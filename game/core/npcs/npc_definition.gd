@@ -56,6 +56,8 @@ var _fight_rules: Array[NpcFightRule] = []
 var _talk: NpcTalk
 var _nickname: String = ""
 var _rank_respect: String = ""
+## LPC set("rank_info/self"): how it calls itself (rankd.c query_self()), e.g. 小的.
+var _rank_self: String = ""
 var _class_id: StringName = &""
 var _dealings: NpcDealings
 var _teaching: NpcTeaching
@@ -70,6 +72,8 @@ var _conjuring: NpcConjuring
 ## What a spell raises from a corpse (NpcRaising); null for any other NPC.
 var _raising: NpcRaising
 var _ordination: NpcOrdination
+## Its own functions run as data (NpcHooks: oldman.c, sword_soul.c); null for none.
+var _hooks: NpcHooks
 ## The victim a raised NPC was (corpse.c's query("victim_name")): its name follows
 ## NpcRaising.name_template; empty for any other NPC.
 var _raised_from: String = ""
@@ -252,6 +256,16 @@ func with_naming(p_nickname: String, p_rank_respect: String, p_class_id: StringN
 	return self
 
 
+func with_rank_self(value: String) -> NpcDefinition:
+	_rank_self = value
+	return self
+
+
+## rankd.c query_self() for this NPC: its rank_info/self, else by gender, age and class.
+func query_self(gender: StringName, age: int) -> String:
+	return _rank_self if not _rank_self.is_empty() else RankWords.query_self(gender, age, _class_id)
+
+
 ## Vendor goods, accept_object(), object flags, fights deferred (NpcDealings).
 func with_dealings(value: NpcDealings) -> NpcDefinition:
 	_dealings = value
@@ -360,6 +374,18 @@ func with_ordination(p_ordination: NpcOrdination) -> NpcDefinition:
 ## null: nobody kneels before this NPC to be ordained.
 func ordination() -> NpcOrdination:
 	return _ordination
+
+
+## Its receive_damage(), kill_ob(), revive(), defeated_enemy() and chant() (NpcHooks).
+## Called once by the loader.
+func with_hooks(p_hooks: NpcHooks) -> NpcDefinition:
+	_hooks = p_hooks
+	return self
+
+
+## null: none of them.
+func hooks() -> NpcHooks:
+	return _hooks
 
 
 ## corpse.c animate(): the same definition named after the corpse's victim

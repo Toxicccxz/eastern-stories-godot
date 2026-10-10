@@ -250,6 +250,19 @@ func advance(
 				return CombatSchedulerAdvanceResult.new(
 					CombatSchedulerAdvanceResult.Outcome.ADVANCED, processed_cycles, emitted,
 				)
+			# oldman.c receive_damage(): the one hit says its own after the blow.
+			var hurt: CombatSchedulerEvent = _hurt_after(event, bindings, random_source)
+			if hurt != null:
+				_events.append(hurt)
+				emitted.append(hurt)
+				_next_event_sequence += 1
+				var felt: CombatNpcChatResult = hurt.chat
+				if boundary != null and not felt.departure_zone_id().is_empty():
+					boundary.depart(bindings, hurt.actor_id, felt.departure_zone_id())
+				if boundary != null and not _inspect(boundary, bindings, hurt):
+					return CombatSchedulerAdvanceResult.new(
+						CombatSchedulerAdvanceResult.Outcome.ADVANCED, processed_cycles, emitted,
+					)
 			var chat: CombatSchedulerEvent = _chat_after(event, bindings, random_source, effect_registry)
 			if chat == null:
 				continue
@@ -384,6 +397,56 @@ func _remove_effect(
 		null,
 		report,
 	)
+
+
+## An NPC's own receive_damage() (NpcHooks: oldman.c) after a blow of this opportunity drew
+## kee from it: its lines, its walk out of the fight, a pill (CombatNpcChat.hurt()).
+func _hurt_after(
+	event: CombatSchedulerEvent,
+	bindings: Array[CombatSliceCharacterBinding],
+	random_source: CombatRandomSource,
+) -> CombatSchedulerEvent:
+	if _npc_chat == null or event == null or event.kind != CombatSchedulerEvent.Kind.ORDINARY_OPPORTUNITY_RESOLVED or event.resolution == null:
+		return null
+	var blows: Array = []
+	var forward: CombatSingleAttackExecutionResult = event.resolution.forward_result
+	if forward != null:
+		blows.append(_blow(forward.ordinary_attack_result))
+	var chain: CombatAttackChainResult = event.resolution.chain_result
+	if chain != null and chain.reverse_execution_reached:
+		blows.append(_blow(chain.reverse_ordinary_result))
+	for blow: Array in blows:
+		if blow.is_empty():
+			continue
+		var victim: CombatSliceCharacterBinding = _find_binding(bindings, blow[0])
+		if victim == null or victim.life_status != CombatSliceLifeStatus.Value.ACTIVE:
+			continue
+		var result: CombatNpcChatResult = _npc_chat.hurt(victim, blow[1], random_source)
+		if result == null:
+			continue
+		return CombatSchedulerEvent.new(
+			_next_event_sequence,
+			_logical_cycle,
+			logical_time_seconds,
+			CombatSchedulerEvent.Kind.NPC_CHAT,
+			CombatSchedulerEvent.SkipReason.NONE,
+			victim.character_id,
+			&"",
+			null,
+			_progression_order.take(),
+			result,
+		)
+	return null
+
+
+## [victim, damage] of a blow that drew kee, or [] for one that did not.
+static func _blow(ordinary: CombatOrdinaryAttackResult) -> Array:
+	if ordinary == null or not ordinary.has_base_result:
+		return []
+	var base: CombatAttackResult = ordinary.base_result
+	if base.outcome != CombatAttackResult.Outcome.HIT or base.resource_mutation == null or base.resource_mutation.requested_damage <= 0:
+		return []
+	return [base.defender_id, base.resource_mutation.requested_damage]
 
 
 ## npc.c chat() after the attack of an NPC that is still fighting (CombatNpcChat),
