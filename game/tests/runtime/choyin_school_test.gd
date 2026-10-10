@@ -300,16 +300,28 @@ func _test_grove(tree: SceneTree, session: WorldSessionController) -> void:
 	var shown: WorldLandmarkDefinition.MazeNote = map.mazes.note(note)
 	_check(hud.log_lines()[-1] == "你看见:" + shown.text and player.world_location().zone_id == TAOLIN, "读: 你看见:%s" % shown.text)
 	var wrong: String = WAYS[0] if String(shown.way) != WAYS[0] else WAYS[1]
+	var draws: int = session.world_interaction_random_source().capture_random_state().state
 	_check(await MapPlaces.take_same_map_passage(tree, map, StringName("choyin.taolin." + wrong)), "a wrong way (%s)" % wrong)
+	_check(session.world_interaction_random_source().capture_random_state().state != draws and map.mazes.shown().has(NOTE), "the note drawn anew after the way")
 	_check(player.world_location().zone_id == TAOLIN and player.state.counters.get(STEPS, 0) == 6 and hud.log_lines().has("你来到桃林。"), "back in the grove, the way out three further: %d" % player.state.counters.get(STEPS, 0))
 	await tree.physics_frame
 	await tree.physics_frame
 	var snapshot: GameSaveSnapshot = Work.capture(session)
 	var encoded: GameSaveResult = GameSaveJsonCodec.encode(snapshot)
 	_check(encoded.succeeded() and encoded.text.contains("\"counters\"") and encoded.text.contains("\"taolin_steps\""), "the save holds taolin_steps")
+	_check(snapshot.maze_notes == {NOTE: map.mazes.shown()[NOTE]} and encoded.text.contains("\"maze_notes\""), "and the note the 字条 shows (默认)")
 	var walker: RefCounted = Work.new()
 	await walker.round_trip(tree, session, snapshot, "乔阴 C in the 桃林")
 	_check(walker._failures.is_empty(), "Save/Continue in the 桃林 restores exactly: " + str(walker._failures))
+	var restored: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(GameSaveJsonCodec.decode(encoded.text).snapshot, tree.root)
+	_check(restored.succeeded() and restored.candidate.activate_restore_candidate(), "Continue in the 桃林")
+	if restored.succeeded():
+		var fresh: WorldSessionController = restored.candidate
+		fresh.set_process(false)
+		var grove: WorldMapController = fresh.active_map() as WorldMapController
+		_check(grove.mazes.note(note).text == map.mazes.note(note).text and fresh.player_runtime().state.counters.get(STEPS, 0) == 6, "after Continue the 字条 reads the same line, the way out still six off")
+		fresh.free()
+		await tree.process_frame
 
 
 ## 放弃 (plan default): the Inn.
@@ -428,9 +440,11 @@ func _test_chant(tree: SceneTree, session: WorldSessionController) -> void:
 		_check(fresh.shared_ui().log_lines().has("风泉剑灵说道：剑心内敛 ...") and again.chant_stage == 2, "剑心内敛 ... three seconds after Continue")
 	fresh.free()
 	await tree.process_frame
-	soul.set_life_status(CharacterRuntimeLifeStatus.Value.DEAD) # TEST-ONLY: out of the way
-	map.npc_life._advance_ambience(0.0)
-	_check(soul.chant_stage < 0, "a dead chanter's chant goes with it")
+	soul.chant_left = 2.007 # TEST-ONLY: a time ms do not hold exactly as seconds
+	var odd: RefCounted = Work.new()
+	await odd.round_trip(tree, session, Work.capture(session), "乔阴 C chanting 2.007 s")
+	_check(odd._failures.is_empty(), "2007 ms left: Save, Continue, Save writes 2007 again: " + str(odd._failures))
+	soul.chant_left = 3.0
 
 
 ## 「玄羽乱舞」 on the battle panel with 步玄七诀 enabled as 轻功, against a 书生.
@@ -470,6 +484,15 @@ func _test_hasten(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(text.contains("你使出步玄七诀第一式「玄羽乱舞」，身法陡然加快！") and text.contains("你迅捷无伦地在书生身旁绕了一圈 ..."), "its lines in the battle log")
 	_check(state.recovery.inner_force.current == 300 - 30 and player.busy.busy_value == 3, "three rounds (query_skill 20 / 20 + 2): 30 force; busy 3 (%d)" % state.recovery.inner_force.current)
 	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "nothing aborted: " + coordinator.last_abort_detail())
+	# The 剑灵's chant on the 曼雩台 waits while the fight lasts (the map's time stands still).
+	var soul: NpcRuntimeState = _first(map, SOUL)
+	var left: float = -1.0 if soul == null else soul.chant_left
+	session.advance_npc_heartbeat(10.0)
+	_check(soul != null and soul.chant_stage == 1 and is_equal_approx(soul.chant_left, left), "in a fight the chant waits (the session's heartbeat): %s" % [left])
+	if soul != null:
+		soul.set_life_status(CharacterRuntimeLifeStatus.Value.DEAD) # TEST-ONLY: out of the way
+		map.npc_life._advance_chants(0.0) # the fight holds the ambience: its chant step alone
+		_check(soul.chant_stage < 0, "a dead chanter's chant goes with it")
 
 
 # --- Helpers ------------------------------------------------------------------------

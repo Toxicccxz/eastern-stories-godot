@@ -60,6 +60,12 @@ func _encode_root(snapshot: GameSaveSnapshot) -> Dictionary[String, Variant]:
 		floor_items.append({"item_instance_id": String(record.item_instance_id), "world_location": _encode_location(record.world_location), "map_position": {"x": record.map_position.x, "y": record.map_position.y}})
 	if not floor_items.is_empty():
 		root["floor_items"] = floor_items
+	# The notes the note mazes show: written only when one was drawn.
+	if not snapshot.maze_notes.is_empty():
+		var notes: Dictionary[String, Variant] = {}
+		for landmark_id: StringName in snapshot.maze_notes:
+			notes[String(landmark_id)] = _i(snapshot.maze_notes[landmark_id])
+		root["maze_notes"] = notes
 	return root
 
 
@@ -294,6 +300,8 @@ func _decode_root(value: Variant) -> GameSaveSnapshot:
 	var root_keys: Array[String] = ["metadata", "session_kind", "item_id_allocator", "player", "npc_spawn_states", "corpses", "items", "rng", "world_content_revision"]
 	if root.has("floor_items"):
 		root_keys.append("floor_items")
+	if root.has("maze_notes"):
+		root_keys.append("maze_notes")
 	var revision: WorldContentRevision.Value = WorldContentRevision.Value.LEGACY_OLDPINE_V1
 	root = _obj(value, "root", root_keys)
 	if _error: return null
@@ -347,9 +355,15 @@ func _decode_root(value: Variant) -> GameSaveSnapshot:
 			var record: Dictionary = _obj(floor_values[index], path, ["item_instance_id", "world_location", "map_position"])
 			if _error: return null
 			floor_items.append(Values.FloorItemSnapshot.new(StringName(_string(record["item_instance_id"], path + ".item_instance_id")), _decode_location(record["world_location"], path + ".world_location"), _decode_position(record["map_position"], path + ".map_position")))
+	var maze_notes: Dictionary[StringName, int] = {}
+	if root.has("maze_notes"):
+		var indices: Dictionary[String, int] = _decode_values(root["maze_notes"], "maze_notes")
+		for key: String in indices:
+			maze_notes[StringName(key)] = indices[key]
+			if indices[key] < 0: _fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, "maze_notes." + key, "expected an index")
 	var rng_object: Dictionary = _obj(root["rng"], "rng", ["combat", "npc_initialization", "world_interaction"])
 	if _error: return null
-	return GameSaveSnapshot.new(metadata, StringName(_string(root["session_kind"], "session_kind")), allocator, _decode_player(root["player"], "player"), npcs, corpses, _decode_items(root["items"], "items"), _decode_rng(rng_object["combat"], "rng.combat"), _decode_rng(rng_object["npc_initialization"], "rng.npc_initialization"), _decode_rng(rng_object["world_interaction"], "rng.world_interaction"), revision).with_floor_items(floor_items)
+	return GameSaveSnapshot.new(metadata, StringName(_string(root["session_kind"], "session_kind")), allocator, _decode_player(root["player"], "player"), npcs, corpses, _decode_items(root["items"], "items"), _decode_rng(rng_object["combat"], "rng.combat"), _decode_rng(rng_object["npc_initialization"], "rng.npc_initialization"), _decode_rng(rng_object["world_interaction"], "rng.world_interaction"), revision).with_floor_items(floor_items).with_maze_notes(maze_notes)
 
 
 func _decode_character(value: Variant, path: String) -> Values.CharacterStateSnapshot:

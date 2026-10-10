@@ -267,6 +267,7 @@ func request(student: CharacterState, master: NpcDefinition, family: FamilyDefin
 		var refused: NpcTeaching.RequirementCheck = refusal(student, rule)
 		if refused != null:
 			_say(npc, refused.refuse_say, respect)
+			_mark_refused(student, refused)
 			end_request(master.definition_id)
 			return Outcome.QUALIFICATION_REJECTED
 		if _traitor(rule, student_title, shown_title, student_name, npc):
@@ -373,7 +374,9 @@ func answer_unheard(student: CharacterState, master: NpcDefinition) -> Outcome:
 	var teaching: NpcTeaching = null if master == null else master.teaching()
 	if student == null or teaching == null or teaching.apprentice == null or teaching.apprentice.answer_after <= 0.0:
 		return Outcome.AUTHORITY_FAILURE
-	if refusal(student, teaching.apprentice) != null:
+	var short: NpcTeaching.RequirementCheck = refusal(student, teaching.apprentice)
+	if short != null:
+		_mark_refused(student, short)
 		end_request(master.definition_id)
 		return Outcome.QUALIFICATION_REJECTED
 	return Outcome.PENDING

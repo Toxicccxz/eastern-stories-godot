@@ -339,7 +339,7 @@
 		},
 		"d/choyin/taolin.c": {
 			"set item_desc": "the note_maze landmark choyin.taolin.landmark.note (字条 · 读), its look text verbatim",
-			"statement in create()": "msg_no = random(sizeof(Note_Msg)): WorldMapMazes draws the note when it is first read or walked by (the room's: not saved)",
+			"statement in create()": "msg_no = random(sizeof(Note_Msg)): WorldMapMazes draws the note when it is first read or walked by; saved (maze_notes, 默认)",
 			"function init": "read note: the landmark's 读; go: each of the six ways (portals choyin.taolin.<way>, passages back into the grove) is judged",
 			"function do_read": "NoteMazeLandmarkPolicy: 你看见: and the note",
 			"function do_go": "WorldMapMazes.take_way(): the note's way with taolin_steps <= 1 leads out (你走出了桃林, the counter deleted, marks/桃林, portal choyin.taolin.out to the 曼雩台); else the note's way one nearer, any other three further; the note drawn anew after each. ES2 counted only `go <dir>` (the n/e/s/w aliases), not a bare direction: every walk counts here",

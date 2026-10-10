@@ -3,9 +3,10 @@ extends RefCounted
 ## Rooms whose ways all lead back into them, and the note that names the way out
 ## (WorldLandmarkDefinition policy note_maze, d/choyin/taolin.c): which note each shows and
 ## how a way taken counts. The note is the room's (msg_no, drawn by create() and anew after
-## each go): not saved, as room counters are not; it is drawn when first read or walked by,
-## so a map that is only made draws nothing. The steps are the character's (set("taolin_steps"),
-## CharacterState.counters: saved).
+## each go): drawn when first read or walked by, so a map that is only made draws nothing, and
+## saved (默认, DECISIONS 乔阴 C: Continue shows the note the player read; other room state is
+## not saved). The steps are the character's (set("taolin_steps"), CharacterState.counters:
+## saved).
 
 var _map: WorldMapController
 ## The note each note_maze shows now, by landmark: an index into its notes.
@@ -14,6 +15,21 @@ var _shown: Dictionary[StringName, int] = {}
 
 func _init(controller: WorldMapController) -> void:
 	_map = controller
+
+
+## The notes drawn so far, by landmark (the save's maze_notes).
+func shown() -> Dictionary[StringName, int]:
+	return _shown.duplicate()
+
+
+## Continue: the notes the save holds for this map's mazes.
+func restore() -> bool:
+	var notes: Dictionary[StringName, int] = _map.session.restored_maze_notes()
+	for landmark_id: StringName in notes:
+		var maze: WorldLandmarkDefinition = GameContent.catalog().landmark(landmark_id)
+		if maze != null and maze.map_id == _map.map_id():
+			_shown[landmark_id] = notes[landmark_id]
+	return true
 
 
 ## The note_maze landmark of `zone_id` on this map, or null.
@@ -50,7 +66,8 @@ func entering(portal: PortalDefinition, state: CharacterState) -> void:
 ## counter deleted, the mark given, `out` told first). null when the zone is no maze.
 func take_way(portal: PortalDefinition, state: CharacterState) -> PortalDefinition:
 	var maze: WorldLandmarkDefinition = maze_in(portal.source_zone_id)
-	if maze == null or portal.portal_id == maze.portal_id:
+	# Only its ways (taolin.c's exits, each back into the room) are judged.
+	if maze == null or portal.destination_zone_id != portal.source_zone_id:
 		return null
 	var right: bool = StringName(portal.legacy_command) == note(maze).way
 	var steps: int = state.counters.get(maze.counter, 0)

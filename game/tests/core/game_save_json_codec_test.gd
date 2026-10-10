@@ -51,7 +51,7 @@ func _test_counters_and_chant() -> void:
 	var npc: GameSaveValueTypes.NpcSpawnStateSnapshot = source.npc_spawn_states[0]
 	npc.chant_stage = 2
 	npc.chant_left_ms = 12500
-	var with_both := GameSaveSnapshot.new(source.metadata, source.session_kind, source.item_id_allocator, player, [npc], source.corpses, source.items, source.combat_rng, source.npc_initialization_rng, source.world_interaction_rng)
+	var with_both := GameSaveSnapshot.new(source.metadata, source.session_kind, source.item_id_allocator, player, [npc], source.corpses, source.items, source.combat_rng, source.npc_initialization_rng, source.world_interaction_rng).with_maze_notes({&"choyin.taolin.landmark.note": 4})
 	var encoded: GameSaveResult = GameSaveJsonCodec.encode(with_both)
 	var decoded: GameSaveResult = GameSaveJsonCodec.decode(encoded.text)
 	_assert_true(encoded.succeeded() and decoded.succeeded(), "a save with counters and a chant encodes and decodes")
@@ -60,6 +60,8 @@ func _test_counters_and_chant() -> void:
 	var back: GameSaveValueTypes.NpcSpawnStateSnapshot = decoded.snapshot.npc_spawn_states[0]
 	_assert_eq(decoded.snapshot.player.character.counters, {"taolin_steps": 6}, "taolin_steps comes back")
 	_assert_eq([back.chant_stage, back.chant_left_ms], [2, 12500], "the chant's stage and time come back")
+	_assert_eq(decoded.snapshot.maze_notes, {&"choyin.taolin.landmark.note": 4}, "the 字条's note comes back (默认)")
+	_assert_false(plain.contains("\"maze_notes\""), "no note drawn: no maze_notes written")
 	_assert_eq(GameSaveJsonCodec.encode(decoded.snapshot).text, encoded.text, "both re-encode the same")
 	var root: Dictionary = JSON.parse_string(encoded.text)
 	root["player"]["character"]["counters"] = {}
@@ -69,6 +71,11 @@ func _test_counters_and_chant() -> void:
 	_assert_false(_decode_root(root).succeeded(), "a chant without a stage is refused")
 	root["npc_spawn_states"][0]["memory"]["chant"] = {"stage": "1"}
 	_assert_false(_decode_root(root).succeeded(), "a chant without its time is refused")
+	root = JSON.parse_string(encoded.text)
+	root["maze_notes"] = {"choyin.taolin.landmark.note": "-1"}
+	_assert_false(_decode_root(root).succeeded(), "a negative note is refused")
+	root["maze_notes"] = {}
+	_assert_false(_decode_root(root).succeeded(), "empty maze_notes are refused (never written)")
 
 
 ## An NPC's memory (owner, 乔阴 B): written only when it has some, its flags in name order,

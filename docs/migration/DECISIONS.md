@@ -131,8 +131,10 @@ became is in [CHOYIN_CONTENT](CHOYIN_CONTENT.md); it follows the LPC except:
 - **Every walk out of the clearing is a step.** ES2 counted only `go <dir>` (its n/e/s/w
   aliases): a bare `east` went to go.c directly and changed nothing, which a walked map cannot
   show.
-- **The note is the room's** (msg_no, drawn anew after each way): not saved, as room counters
-  are not, so after Continue it may name another way; taolin_steps is the character's (set(),
+- **默认 (review): the note the 字条 shows is saved** (msg_no, the room's, drawn anew after each
+  way; a save record `maze_notes`), so Continue shows the line the player read; ES2 drew a new
+  one when the room loaded again, and a way walked on the old line silently cost three steps.
+  Other room state (counters, doors) is still not saved. taolin_steps is the character's (set(),
   saved: CharacterState `counters`).
 - **默认 (plan): 放弃 in the 桃林 wakes the player in the Inn**, as in the 神秘洞穴 and 绝地.
 - **As ES2:** his refusal (你还是先走一趟东边的桃林吧) marks 书生 and ends the request (山烟寺 C);
@@ -147,8 +149,8 @@ became is in [CHOYIN_CONTENT](CHOYIN_CONTENT.md); it follows the LPC except:
   sets, the step rule, the way out and its mark); an apprentice check on a saved mark, with the
   marks a refusal gives and those the recruit clears; a town map's neighbours may be joined by a
   passage on the map instead of a shared edge.
-- **Save**: the player's `counters` and an NPC's `memory.chant` are optional records; no new
-  revision. An older save standing where the 桃林 used to be (now woods) fails to load (New Game).
+- **Save**: the player's `counters`, an NPC's `memory.chant` and the root's `maze_notes` are
+  optional records; no new revision. An older save standing where the 桃林 used to be (now woods) fails to load (New Game).
 
 ## Save: the player's set_temp() flags (2026-10-10)
 

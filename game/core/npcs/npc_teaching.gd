@@ -86,7 +86,8 @@ class ApprenticeRule:
 	var ask_tell: String = ""
 	var blows: Array[TrialBlow] = []
 	var success: String = ""
-	## The marks whom it takes loses (ob->set("marks/书生", 0)).
+	## The marks whom attempt_apprentice() takes loses (ob->set("marks/书生", 0)); a requirements
+	## master's only. An offer taken (apprentice.c's first branch) never calls it: nothing goes.
 	var unmarks: Array[String] = []
 
 

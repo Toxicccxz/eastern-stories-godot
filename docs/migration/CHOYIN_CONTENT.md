@@ -123,7 +123,7 @@ People elsewhere: 武官 (the chest, the 白杨经), 官家小姐 (the 荷包), 
 | entrance.c valid_leave() east | exit rule `choyin.entrance.taolin` on the passage `choyin.entrance.east`; set("taolin_steps", 3): the note maze's `enter` and `steps` (CharacterState `counters`, saved) |
 | taolin.c exits (six, all to itself) | portals `choyin.taolin.<way>` (north, south, west, east, northwest, southeast), each a passage into the clearing from its far side |
 | taolin.c item_desc note, do_read() | landmark `choyin.taolin.landmark.note`, policy note_maze (NoteMazeLandmarkPolicy): 读 → 你看见: and the note |
-| taolin.c Note_Msg, msg_no, Get_Dir() | the landmark's `notes` (text and way); WorldMapMazes draws msg_no when first needed and anew after each way (the room's: not saved) |
+| taolin.c Note_Msg, msg_no, Get_Dir() | the landmark's `notes` (text and way); WorldMapMazes draws msg_no when first needed and anew after each way; saved as `maze_notes` (默认: Continue shows the line read) |
 | taolin.c do_go() | WorldMapMazes.take_way(): the note's way with taolin_steps <= 1 (`nearer`) leads out (你走出了桃林, the counter deleted, marks/桃林, portal `choyin.taolin.out`); otherwise one nearer or three further (`further`) |
 | 放弃 in the 桃林 (plan default) | landmark `choyin.taolin.landmark.grove`: portal `choyin.taolin.give_up` to the Inn |
 | mysterrier.c practice_skill(), valid_learn() | skills.json practice (20 kee, 20 sen, its fail line) and valid_learn (`mapped` mystforce, `effective_skill` music at least half) |
