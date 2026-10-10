@@ -216,7 +216,7 @@ func _test_landmarks_water_and_pacing() -> void:
 	for service: ServiceDefinition in catalog.services_for_map(OldPineWorld.GORGE_MAP_ID):
 		water.append(service.service_id)
 		_assert_eq(service.kind, &"water", "%s is a water source (resource/water)" % service.service_id)
-	_assert_eq(water.size(), 2, "waterfall and lake are water sources")
+	_assert_eq(water.size(), 3, "waterfall, stream and lake are water sources (乔阴 D: riverbank1.c's resource/water)")
 	_assert_eq(catalog.zone(OldPineWorld.LAKE_ZONE_ID).combat_entry, &"complete_set", "Lake serpents enter as one set")
 	_assert_eq(catalog.zone(OldPineWorld.SLOPE_ZONE_ID).combat_entry, &"pair", "elsewhere fights start one pair at a time")
 	_assert_eq(catalog.spawn(&"oldpine.gorge.lake.serpents").presence_radius, 210, "serpent presence radius")

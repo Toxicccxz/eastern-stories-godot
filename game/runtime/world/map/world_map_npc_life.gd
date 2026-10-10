@@ -128,6 +128,9 @@ func _advance_ambience(delta: float) -> void:
 			# char.c heart_beat() falls before it chats, on each of several beats too.
 			_map.combat_lifecycle.fall_below_zero()
 		for npc: NpcRuntimeState in _map.npcs.residents.duplicate():
+			# A constable's delivery took the player to another map in this beat: this one stops.
+			if session.active_map() != _map:
+				return
 			if _chats(npc):
 				_act(npc, ambience.chat(npc.definition().talk()))
 	npc_walker().advance(delta)
@@ -171,6 +174,7 @@ func player_left() -> void:
 		ambience.clear_calls()
 	pending_steals.clear()
 	_map.thefts.player_left()
+	_map.patrols.player_left()
 
 
 ## shaowei.c accept_object(): call_out("make_stage", every, who, 0).

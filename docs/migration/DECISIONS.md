@@ -128,8 +128,10 @@ player's steal, the 县衙's arrest repaired (Q1). What each LPC function became
   crime and puts them out at the 衙门口. On the way ten gold or more (base_value × amount ≥
   100000) frees them, crime_lv − 3; less is refused, crime_lv + 1. Killing a 巡捕 is crime_lv + 5.
   Its gangster and 野羊山寨三寨主 checks name NPCs that never come here; 卧龙岗's marks/强盗 is no
-  crime; the drum and charge are not ported; one who flees its fight gets away (pursuer is not
-  modelled).
+  crime; the drum and charge are not ported. One led who flees a fight gets away (go.c's do_flee()
+  took them out of the room, past its do_go(); pursuer is not modelled), and so does one who
+  reaches another map (a hole, 游识); a leader knocked out holds nobody (ES2 left them stuck behind
+  its do_go() until it woke).
 - **Obvious slips fixed in settle_lawsuit():** a value it left at 1 (its effective value below the
   stroke) still took the stroke (receive_wound() to −1: the next heart_beat killed the one its
   lines carry out): it stays at 1; the beating ends when all three are left so (the faint); its

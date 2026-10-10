@@ -63,6 +63,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_patrol(tree, session)
 	await _test_bribe(tree, session)
 	await _test_court(tree, session)
+	await _test_custody_ends(tree, session)
 	await _test_killed(tree, session)
 	await _test_save(tree, session)
 	session.free()
@@ -408,6 +409,13 @@ func _test_bribe(tree: SceneTree, session: WorldSessionController) -> void:
 	var crime: int = CrimeRecord.crime(player.state)
 	map.patrols.bribe(&"test.gold", 9)
 	_check(player.led_by == police.character_id and CrimeRecord.crime(player.state) == crime + 1 and hud.log_lines()[-1] == "你这是什么意思?......谁稀罕你的钱?!" and Finance.amount(context, CurrencyDenomination.Value.GOLD) == 12, "nine gold: refused, crime_lv + 1, the money kept")
+	_check(map.patrols.last_lines == ["你这是什么意思?......谁稀罕你的钱?!"], "the panel's line under its rows (the log may be full)")
+	# A step ahead of the player (its place changes as its walk starts): still bribable.
+	map.patrols.step(police)
+	_check(police.world_location().zone_id != player.world_location().zone_id and map.patrols.can_bribe(police), "a step ahead of the one it leads: 行贿 still at hand")
+	for _frame: int in range(240):
+		await tree.physics_frame
+		map.npc_life.npc_walker().advance(1.0 / 60.0)
 	var gold: StringName = context.select(CurrencyDenomination.Value.GOLD).item_id
 	map.patrols.bribe(gold, 10)
 	_check(not player.in_custody() and CrimeRecord.crime(player.state) == crime + 1 - 3 and hud.log_lines().slice(-2) == ["这怎么好?......要是让老爷知道了......", "盛情难却....我就收下了.."] and Finance.amount(context, CurrencyDenomination.Value.GOLD) == 2, "ten gold: free, crime_lv - 3, the gold his")
@@ -466,6 +474,71 @@ func _test_court(tree: SceneTree, session: WorldSessionController) -> void:
 	_restore(state, kept) # Continue recomputes the maxima: no TEST-ONLY ones in the save
 
 
+## The custody ends when the leader is knocked out (it holds nobody) and when the player gets
+## to another map some other way (a hole, a lift: set_leader() holds in one room).
+func _test_custody_ends(tree: SceneTree, session: WorldSessionController) -> void:
+	var map: WorldMapController = session.active_map() as WorldMapController
+	var player: WorldPlayerRuntimeState = session.player_runtime()
+	var police: NpcRuntimeState = map.find_resident_npc(&"choyin.tree_tomb.yamen_po.1.character")
+	if police == null:
+		_check(false, "the 树王坟's 巡捕")
+		return
+	await _beside(tree, session, map, police)
+	CrimeRecord.add_thief(player.state, 2) # TEST-ONLY
+	session.configure_npc_ambience_random_source(Lowest.new()) # TEST-ONLY
+	map.patrols.meet(police)
+	session.configure_npc_ambience_random_source(SouthRoad.Still.new())
+	_check(player.led_by == police.character_id, "caught at the 树王坟")
+	police.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY: knocked out
+	map.patrols.hold_player()
+	_check(not player.in_custody() and not map.runtime_player_body().held, "its leader knocked out: free")
+	police.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
+	session.configure_npc_ambience_random_source(Lowest.new()) # TEST-ONLY
+	map.patrols.meet(police)
+	session.configure_npc_ambience_random_source(SouthRoad.Still.new())
+	map.patrols.hold_player()
+	_check(player.led_by == police.character_id and map.runtime_player_body().held, "caught again, held")
+	_check(session.handoff_to(&"choyin.temple_altar", &"choyin.altar", &"choyin.altar", &"choyin.altar.stairs_arrival").succeeded(), "TEST-ONLY: to another map")
+	await tree.physics_frame
+	_check(not player.in_custody() and not map.runtime_player_body().held, "on another map: whoever led them stays behind")
+	_check(session.handoff_to(&"choyin.town", &"choyin.n_gate", &"choyin.n_gate", &"choyin.n_gate.road_arrival").succeeded(), "TEST-ONLY: back in the town")
+	await tree.physics_frame
+	await tree.physics_frame
+	# Led, the player attacks it and flees: away (go.c's do_flee()).
+	map = session.active_map() as WorldMapController
+	police = map.find_resident_npc(&"choyin.tree_tomb.yamen_po.1.character")
+	await _beside(tree, session, map, police)
+	CrimeRecord.add_thief(player.state, 1) # TEST-ONLY
+	session.configure_npc_ambience_random_source(Lowest.new()) # TEST-ONLY
+	map.patrols.meet(police)
+	session.configure_npc_ambience_random_source(SouthRoad.Still.new())
+	map.select_npc(police.character_id)
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	_check(player.led_by == police.character_id and map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "led, the player attacks it (拒捕)")
+	var police_kee: CharacterResourceState = police.character_state.vitality
+	var kept: Array = _kept(player.state)
+	police.character_state.vitality = CharacterResourceState.new(100000, 100000, 100000) # TEST-ONLY: the fight lasts
+	player.state.vitality = CharacterResourceState.new(100000, 100000, player.state.vitality.maximum + 100000)
+	var rounds: int = 0
+	while coordinator.has_active_encounter() and rounds < 600:
+		var info: CombatTacticalActionInfo = coordinator.action_infos()[0]
+		coordinator.submit_player_action(CombatTacticalRequest.new(info.action_id, coordinator.active_encounter().encounter_id, player.character_id, info.action_id, info.category))
+		coordinator.advance_scheduler(1.0)
+		rounds += 1
+	_check(not coordinator.has_active_encounter() and coordinator.last_completion() != null and coordinator.last_completion().terminal_result.kind == CombatEncounterResultKind.Value.FLED, "fled the fight")
+	map.patrols.hold_player()
+	_check(not player.in_custody() and not map.runtime_player_body().held, "fled: away from the one leading them")
+	session.shared_ui().dismiss_current_panel()
+	for opponent_id: StringName in player.relationship.opponent_ids(): # TEST-ONLY: as walking away would
+		player.relationship.remove_lethal_relation(opponent_id)
+		player.relationship.remove_opponent(opponent_id)
+	for opponent_id: StringName in police.relationship.opponent_ids():
+		police.relationship.remove_lethal_relation(opponent_id)
+		police.relationship.remove_opponent(opponent_id)
+	police.character_state.vitality = police_kee
+	_restore(player.state, kept)
+
+
 ## yamen_po.c die(): its killer gets crime_lv + 5.
 func _test_killed(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
@@ -477,6 +550,7 @@ func _test_killed(tree: SceneTree, session: WorldSessionController) -> void:
 	await _beside(tree, session, map, police)
 	map.select_npc(police.character_id)
 	player.state.progression.combat_experience = 100000 # TEST-ONLY
+	var crime: int = CrimeRecord.crime(player.state)
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	_check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the player attacks a 巡捕")
 	police.character_state.vitality.apply_wound(police.character_state.vitality.effective + 1) # TEST-ONLY: the last blow
@@ -484,7 +558,7 @@ func _test_killed(tree: SceneTree, session: WorldSessionController) -> void:
 	while coordinator.has_active_encounter() and rounds < 30:
 		coordinator.advance_scheduler(1.0)
 		rounds += 1
-	_check(police.life_status == CharacterRuntimeLifeStatus.Value.DEAD and CrimeRecord.crime(player.state) == 5 and CombatEncounterCoordinator.take_aborted_total() == 0, "killed: crime_lv 5")
+	_check(police.life_status == CharacterRuntimeLifeStatus.Value.DEAD and CrimeRecord.crime(player.state) == crime + 5 and CombatEncounterCoordinator.take_aborted_total() == 0, "killed: crime_lv + 5")
 	session.shared_ui().dismiss_current_panel()
 	await tree.physics_frame
 

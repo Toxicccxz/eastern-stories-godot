@@ -263,11 +263,19 @@
 		"choyin.town.e_gate.ghost",
 		"choyin.tree_hollow.tomb1.shadows",
 		"choyin.lion_cave.lionroom.lion",
-		"choyin.town.entrance.sword_soul"
+		"choyin.town.entrance.sword_soul",
+		"choyin.town.crossroad.yamen_po",
+		"choyin.town.s_street4.yamen_po",
+		"choyin.town.s_street1.yamen_po",
+		"choyin.town.s_street3.yamen_po",
+		"choyin.town.tree_tomb.yamen_po",
+		"choyin.town.n_street3.yamen_po",
+		"choyin.town.n_street1.yamen_po",
+		"choyin.town.n_gate.yamen_po"
 	],
-	"world_npcs": 328,
+	"world_npcs": 336,
 	"resident_maps": 48,
-	"new_game_items": 576,
+	"new_game_items": 608,
 	"snow_outdoor_passages": 8,
-	"npc_draws_after_oldpine": 1733
+	"npc_draws_after_oldpine": 1757
 }

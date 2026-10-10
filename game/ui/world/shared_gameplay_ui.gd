@@ -1331,13 +1331,10 @@ func _bribe(item_id: StringName, amount: int) -> void:
 	var map := _session.active_map() as WorldMapController
 	if map == null:
 		return
-	var before: int = _log_lines.size()
 	if not map.patrols.bribe(item_id, amount):
 		return
 	if map.patrols.can_bribe(_selected_target):
-		var lines: Array[String] = []
-		lines.assign(_log_lines.slice(before))
-		_bribe_context(lines)
+		_bribe_context(map.patrols.last_lines)
 	elif _presentation_layout._content == bribe_panel:
 		_presentation_layout.close_panel()
 

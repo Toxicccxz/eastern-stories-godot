@@ -325,6 +325,35 @@ func _check_npc_loadouts() -> void:
 
 
 ## A vendor NPC's goods exist; a family an NPC heads or rules test is defined.
+## A constable's beat: known zones on one map, each next to the one before (a room's exit
+## between them); its court a known zone.
+func _check_patrol(origin: String, patrol: NpcPatrol) -> void:
+	var map_id: StringName = &""
+	for index: int in range(patrol.route.size()):
+		var zone: ZoneDefinition = _zones.get(patrol.route[index])
+		if zone == null:
+			_errors.append("%s.patrol.route: unknown zone '%s'" % [origin, patrol.route[index]])
+			return
+		if map_id.is_empty():
+			map_id = zone.map_id
+		elif zone.map_id != map_id:
+			_errors.append("%s.patrol.route: '%s' is not on %s" % [origin, zone.zone_id, map_id])
+		if index > 0 and not _rooms_lead_between(_zones[patrol.route[index - 1]], zone):
+			_errors.append("%s.patrol.route: no exit between '%s' and '%s'" % [origin, patrol.route[index - 1], zone.zone_id])
+	if not _zones.has(patrol.arrest.court_zone_id):
+		_errors.append("%s.patrol.arrest.court: unknown zone '%s'" % [origin, patrol.arrest.court_zone_id])
+
+
+func _rooms_lead_between(a: ZoneDefinition, b: ZoneDefinition) -> bool:
+	for pair: Array in [[a, b], [b, a]]:
+		var to_rooms: Array[StringName] = (pair[1] as ZoneDefinition).room_ids()
+		for room_id: StringName in (pair[0] as ZoneDefinition).room_ids():
+			var room: RoomDefinition = _rooms.get(room_id)
+			if room != null and room.exits().values().any(func(target: StringName) -> bool: return to_rooms.has(target)):
+				return true
+	return false
+
+
 func _resolve_npc_dealings() -> void:
 	for definition: NpcDefinition in _npcs.values():
 		var origin: String = _origins[definition.definition_id]
@@ -349,6 +378,12 @@ func _resolve_npc_dealings() -> void:
 				_errors.append("%s.accept_object.make: unknown item '%s'" % [origin, rule.make.gives])
 			if not rule.item_alias.is_empty() and not _answers_to(rule.item_alias):
 				_errors.append("%s.accept_object: no item answers to '%s'" % [origin, rule.item_alias])
+		var patrol: NpcPatrol = definition.dealings().patrol
+		if patrol != null:
+			_check_patrol(origin, patrol)
+		var sentence: NpcSentence = definition.dealings().sentence
+		if sentence != null and not _zones.has(sentence.out_zone_id):
+			_errors.append("%s.sentence.out: unknown zone '%s'" % [origin, sentence.out_zone_id])
 		var hooks: NpcHooks = definition.hooks()
 		if hooks != null and not hooks.die_item_id.is_empty():
 			if not _items.has(hooks.die_item_id):
