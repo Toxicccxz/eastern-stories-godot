@@ -4,10 +4,11 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**山烟寺 C** (`phase/sunhill-c`, region #8, DECISIONS「山烟寺 C」): 八识神通's 神通 — 空识 and
-游识 on the 武学 page, 心识 on the HUD for one lying unconscious (asked first), 游识 to an NPC
-the player has met (owner, Q3; the NPCs met are saved); a refused 拜师 is over (默认, #94).
-With C, region #8 is complete. Next: region #9 乔阴县城 (plan first).
+**乔阴 A** (`phase/choyin-a`, region #9, DECISIONS「乔阴 A」): 乔阴县城 and its outskirts on
+fourteen maps (every room but the doorless 石室, the ones only verbs reach included), the
+people with their arts (步玄七诀 and 玄羽乱舞, 小步玄剑, 步玄心法, 油流麻香手 and its broken bones,
+短歌刀法, 秋风步), the vendors, the well, the hotel guards' and the 红衣武士's protection, the
+采药老者, 风泉剑灵, six quest targets. Next: 乔阴 B (the town's secrets and 姑射山).
 
 ## 待决定
 
@@ -157,7 +158,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
 * **泓水南岸 + 山烟寺**: south of 绮云镇's 江北渡口 and east through 晚月庄's tunnel, all 26 rooms on
   two maps: the ford across 泓水 (泓水北侧, 江心, 泓水南侧; wade it either way, or give the 船夫 two
   coins or more and his boat puts you in at 江南渡口: owner, Q1), the path up 日照山 (the road east
-  to 乔阴县城 closed until #9), the mossy 山路, the 山门 with two 知客僧, the tunnel west through
+  to 乔阴县城), the mossy 山路, the 山门 with two 知客僧, the tunnel west through
   the cliff to 晚月庄's bamboo hills; inside the gate the yard where two 护寺武僧 train (front_yard.c
   repaired: owner, Q2), the gate house, the flagstones (独眼头陀) to the 大雄宝殿 and its open 金门
   (玄智和尚), the herb path (僧人) and plots, the garden (跛僧人), 流云轩 (药僧, its plaques to look
@@ -181,6 +182,26 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   75 灵力 and 30 精: the names of the NPCs the player has met, and it goes beside one of that
   name, across maps; a strong 灵力 or a clumsy hand fails). A refused 拜师 is over: asking
   again asks anew (every master).
+* **乔阴县城**: east from 泓水南岸's foot of the hill to the 北门 (its road north into the pines
+  goes nowhere, as ES2), 61 of 62 rooms on fourteen maps: the 福林大街 (卖饼大叔, 卖包子的, 陆得财
+  wandering) to the raised 树王坟 (the stump's hole and the little shrine to look at), the 西大街
+  to the standing stone lion, the 东大街 to the 东城门, the market street to the 福林楼 (汤掌柜, the
+  武官; upstairs 贵公子 and three 家丁; the guest rooms' three 酒楼守卫: none spars, and attack one
+  and the others join and the hotel calls the law: 守城官兵 and 县城官兵 attack you on sight after,
+  you are told so) and the 南门广场 (its well: 喝水 and 装水; 卖糖葫芦的, 卖包子的); the 承安街 to the
+  县府衙门's gate (four 衙役, two 带刀侍卫; its courts, 程不平 and six more 带刀侍卫, have no way
+  in yet), the 南门 (守城官兵), the 火龙将军庙 (the crone's 平安符 and 红龟; deaf to anything else she
+  is asked; the 妇人 on the terrace above, the 功德箱), the zigzag bridge over 翠柳湖 (游客, 书生
+  with their books, the 官家小姐 and her maids) to the 曼雩台 (骆云舟; the 桃林 behind him only
+  for those he sends); the vendors list their goods when asked about them. East of the town the
+  road to the 云梦大泽 (four 黑冠巨蟒, aggressive) and 桐柏山 past the 青石峪 (the 采药老者 gives
+  you a 山药蛋; attack him and he tells you of your death and is gone till his room resets; in a
+  spar he eats his nine pills and may flee), the bamboo and the hermit's 草堂; south of the 南门
+  the road to 姑射山's 绝壁 (its tree and vines to look at). The rooms only verbs reach (the 树冠's
+  cranes, the 山洞, the 云台's two 紫衣童子, the 寒谷, the 丹炉, the 神秘洞穴, the hollow under the
+  stump) are drawn; their ways in are 乔阴 B. Kill 骆云舟 and 风泉剑灵 rises from his sword,
+  chanting itself stronger every two minutes; its sword is in its corpse. 水烟阁's 红衣武士 now
+  defend each other and hold a grudge when attacked (owner).
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from
@@ -195,8 +216,8 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
 * Placeholder visuals: flat-colour terrain tiles; characters and objects are still coloured boxes.
   No art or audio yet.
 
-Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 328/551 rooms, 154/286 NPC
-types, 6/9 joinable families, 26/36 special and 16/25 basic martial arts, 70/84 quest targets.
+Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 389/551 rooms, 179/286 NPC
+types, 6/9 joinable families, 32/36 special and 16/25 basic martial arts, 76/84 quest targets.
 
 ## Known issues
 
@@ -219,7 +240,9 @@ Code:
 * A zone that merges several rooms shows only its first room's text.
 * 绮云镇: 牛腿 is a hammer only (food that is also a weapon is not supported), so it leaves no
   牛腿骨; 熟牛肉 is not in the game (nobody sells it in ES2); a carried 布袋 is not opened.
-  化缘和尚 cannot be fought until his arts are ported (#8).
+* 乔阴: the cranes cannot be fought until 乔阴 B (a beast without verbs); 风泉剑灵's chant stops
+  when the player leaves the map or continues a save (call_outs are not saved); the 采药老者's
+  growth lasts only as long as he does (his save file is not ported).
 * Persistence classes keep `OldPine*` / `oldpine_*` names (20 classes, some 130 files) and the session
   scene is still `scenes/world/oldpine/oldpine_world_session.tscn`, although they cover every map
   (the Session itself is `WorldSessionController` since the map-controller split); pre-B2 Old Pine

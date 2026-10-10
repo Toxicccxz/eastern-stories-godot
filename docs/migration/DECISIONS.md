@@ -111,6 +111,67 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 - #27 牛皮酒袋照原名显示，不另起短名。
 - 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
 
+## 乔阴 A: the town, its outskirts and its people (2026-10-10)
+
+Owner-approved plan (2026-10-10, 「Q1Q2Q3都按推荐的来」): four packages — A draws every map and
+places the people with their arts; B the town's secrets and 姑射山; C 步玄派; D 花紫会, stealing
+and the 县衙. The plan's three questions, answered with their recommendations:
+- **Q1 (D): the 县衙's arrest is repaired.** ES2's never caught anyone (the 巡捕's patrol fails
+  at its first step; 程不平's search runs only with a player in the unreachable 大堂). The 巡捕
+  patrol the main street; one meeting a 「贼」 (a failed steal: −1 a reset, halved at death)
+  catches them seven times in ten and leads them to the 大堂; 程不平's boards by his formula, then
+  the crime is cleared and they are put out at the 衙门口; ten gold or more frees them, less adds
+  a crime. Paying the 卧龙岗 toll is no crime (modern fix: its line says one killed). The drum and
+  charge are not ported.
+- **Q2 (B): the 树王坟's hole is repaired**: a way down to the hollow, and up again; the 武官's
+  桃木箱 there gives the 白杨经.
+- **Q3 (B): ghosts stay unseen, as ES2**: not drawn or selectable; listed on the battle panel when
+  they attack; perception decides the player's turns (native line 你看不见对手，无从下手。); the
+  孤魂野鬼's shroud stays out of reach until #13.
+Defaults of the plan (owner may veto): 放弃 (wake in the Inn) in the 桃林 and the 神秘洞穴, so the
+lift is not asked; the lift's lines fixed (你从洞口掉了下去); the statue's lost character 「举」
+(uncertain); the 云幡 takes the player down to the 丹炉 (ES2 opened the way for one second); the
+缚仙绳 only where a 仙鹤 is, asked first when its 50 sen would knock the player out; the vine not
+asked; the 草堂 takes back only the hermit's books; the 荷包 given once; stealing asked first from
+one clearly stronger (A10), the things seen plus 随手摸一样; 陆得财 counts only the money carried;
+the 老者's growth not saved; the 剑灵's chant stops when the player leaves the map; the names
+短歌刀法, 乐器, 偷窃; wimpy still not modelled. Not placed: 北冥大鹏, the 石室, d/jail's guard,
+beggar/wineskin.c.
+
+**Owner, in the A session (three plan claims rested on dead LPC):**
+- **The 北门's north stays shut, as ES2.** n_gate.c's north and oldpine/spath4.c's south are both
+  commented out (the plan said one way); the 1995 map put 乔阴 south of the pines, the later
+  南岸 took the way in.
+- **The hotel guards' accept_kill() runs as meant** (no mudlib code calls it; deviation): when
+  the player attacks one, the others of its kind there say 干什么？！ and join; it calls for the
+  law (有强人打劫哪... 快去报官！), the player gets vendetta/authority (守城官兵 and 县城官兵 attack
+  on sight) and a native hint says so. **The 红衣武士 likewise** (水烟阁 A had kept its
+  accept_kill() dead): his line and powerup, the other guard there joins, and every 红衣武士 holds
+  the grudge (vendetta/waterfog_guard, their vendetta_mark; killing one marks too), with a hint.
+- **The crone's relay_ask() is said** (called by nothing in ES2; deviation): a topic she has no
+  answer for (名字, 传闻) gets the deaf line and the basket; 年龄, 这里 and 忘忧草 as authored.
+
+What each room and LPC function became is in [CHOYIN_CONTENT](CHOYIN_CONTENT.md); A follows the
+LPC except:
+- **Obvious slips fixed:** 玄羽乱舞's 但是$N找不到机会出手！ follows only a round without a blow
+  (hasten.c tests a void fight() and printed it every round); the 老者's doubled 说道 and his ghost
+  story's full-width ＄N (reads 你).
+- **The vendors' lists leave out the English ids** that `list` printed (大饼：25文钱).
+- **The 银簪 is worn in the hair** (inherit HEAD and F_DAGGER: one item both armor and weapon is not
+  modelled; the girl and the lady wear it).
+- **默认: the cranes cannot be fought yet**: a beast without verbs gets beast.c's default action
+  with two unfilled %s (攻击$n的%s，%s); B decides it with the 树冠.
+- **风泉剑灵 comes at the 曼雩台** (its master never leaves it): a summoned spawn there, saved as any
+  NPC; its chant does not survive Continue (call_outs are not saved).
+- **Global (data):** an item's drawn name (book.c) is a named form of its own (`name_pick`); a
+  martial art's own hit_ob() that wounds (spicyclaw.c) is data (`hit_wound`); an NPC's chat
+  special that attacks (hasten.c) attacks as the player's perform does.
+- **Maps (painter):** fourteen; the 衙门's courts, the hollow under the stump and every room only
+  a verb reaches (树冠, 山洞, 云台, 寒谷, 丹炉, 神秘洞穴) on maps of their own; the 桃林 east of the
+  曼雩台, behind 骆云舟 (no_mark 书生).
+- **Save**: world content revision `SOURCE_ENTRY_CHOYIN_V1`; older development saves need a New
+  Game.
+
 ## 山烟寺 C: 八识神通's 神通 (2026-10-09)
 
 What each LPC function became is in [SANYEN_CONTENT](SANYEN_CONTENT.md); it carries out the
