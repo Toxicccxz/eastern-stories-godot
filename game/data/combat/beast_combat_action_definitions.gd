@@ -28,7 +28,7 @@ static func action(verb: StringName) -> CombatActionDefinition:
 ## beast.c setup_beast() for a beast without verbs (d/choyin/npc/crane.c): default_actions
 ## ([ "action": "$N攻击$n的%s，%s\n" ]), no damage, no damage_type (damage_msg()'s 伤害).
 ## Its two %s are never filled (combatd.c only replaces $N, $n, $l, $w): ES2 printed them.
-## Deviation (默认, 乔阴 B): the first is the limb hit ($l), the second is left out.
+## Deviation (owner, 乔阴 B): the first is the limb hit ($l), the second is left out.
 static func default_action() -> CombatActionDefinition:
 	return _entry(&"default", 0, &"", "$N攻击$n的$l")
 

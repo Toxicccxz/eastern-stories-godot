@@ -156,7 +156,7 @@ func _toll_due(npc: NpcRuntimeState) -> bool:
 ## gangster.c kill_passenger() sets attitude "aggressive", and attack.c's hatred
 ## follows whoever it fights: a toll-taker that fights the player (its aggression, a
 ## refused toll, the player's 攻击 or 切磋) attacks on sight from then on, mark or not,
-## until a reset makes it anew. An object variable: Continue forgets it.
+## until a reset makes it anew. An object variable, saved with the NPC's memory.
 func _note_toll_fights() -> void:
 	for npc: NpcRuntimeState in _map.npcs.residents:
 		if not npc.definition().dealings().attack_unless_mark.is_empty() and npc.relationship.is_fighting():

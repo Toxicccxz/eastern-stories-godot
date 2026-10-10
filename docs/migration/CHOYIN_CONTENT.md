@@ -97,7 +97,7 @@ People elsewhere: 武官 (the chest, the 白杨经), 官家小姐 (the 荷包), 
 | youngman.c accept_object() | accept_object rule `###silk bag###`: two lines, his say, `forgets` 心事 (jump prints nothing) |
 | club.c do_scratch() | act service `choyin.club.scratch` (书卷 · 拿书): the line, `give_one_of` book1, book1, book2 (random(3)), set_temp choyin/书 |
 | book1.c, book2.c set_name(names[random()]) | `name_pick`; place_new_floor_item() draws the name |
-| club.c valid_leave() | exit_rules `choyin.club.east_books` / `west_books`: `takes_back` `items` (默认: only the hermit's books, without the flag) |
+| club.c valid_leave() | exit_rules `choyin.club.east_books` / `west_books`: `takes_back` `items` (owner: only the hermit's books, without the flag) |
 | club.c do_pray(), do_dance() | zone `refuses` pray and dancing (RoomActDefinition.command of the 玛瑙手镯 and the 舞曲谱) |
 | guyehill.c do_climb() | landmark tree, policy portal `choyin.guyehill.climb` (爬树) |
 | guyehill.c do_hold() | landmark vine, policy vine with `below` 30: `hold_fall` to the 寒谷 or `hold_climb` to the 山洞 |
@@ -105,7 +105,7 @@ People elsewhere: 武官 (the chest, the 白杨经), 官家小姐 (the 荷包), 
 | platform.c do_touch(), close_passage(), thounder() | landmark flag, policy portal `choyin.platform.touch` (碰云幡): its two lines, the 丹炉 |
 | tablet.c do_eat() | ItemApplyFunctions `tablet` (吃): the line, receive_heal 5 gin, 30 kee, 5 sen, one gone |
 | hollow3.c do_interject() | landmark vase, policy portal `choyin.hollow3.interject` (插幽兰) to latemoon.bamboo.dance_arrival |
-| crane.c (no verbs), beast.c default_actions | BeastCombatActionDefinitions.default_action(): $N攻击$n的$l (默认) |
+| crane.c (no verbs), beast.c default_actions | BeastCombatActionDefinitions.default_action(): $N攻击$n的$l (owner) |
 | taoist/sword.c hit_ob() | item `ghost_bane` (WeaponGhostBane, CombatHitPolicyStatus.GHOST_BANE) |
 
 ## Not done (and where it goes)

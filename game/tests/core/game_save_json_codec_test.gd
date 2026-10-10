@@ -14,7 +14,37 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_finite_position_and_duplicate_failures()
 	_test_known_condition_payload_compatibility()
 	_test_input_arrays_are_defensive()
+	_test_npc_memory()
 	return {"assertions": _assertion_count, "failures": _failures.duplicate()}
+
+
+## An NPC's memory (owner, 乔阴 B): written only when it has some, its flags in name order,
+## a false flag kept (drunk.c's has_alcohol drunk dry), and read back exactly.
+func _test_npc_memory() -> void:
+	var source: GameSaveSnapshot = Fixture.substantial()
+	var plain: String = GameSaveJsonCodec.encode(source).text
+	_assert_false(plain.contains("\"memory\""), "an NPC that remembers nothing writes no memory")
+	var npc: GameSaveValueTypes.NpcSpawnStateSnapshot = source.npc_spawn_states[0]
+	npc.flags = {&"inquiry_deleted/桃木箱子": true, &"chest_found": true, &"has_alcohol": false}
+	npc.combat_chat_chance = 10
+	npc.pills_left = 3
+	npc.times_caught = 2
+	var remembering := GameSaveSnapshot.new(source.metadata, source.session_kind, source.item_id_allocator, source.player, [npc], source.corpses, source.items, source.combat_rng, source.npc_initialization_rng, source.world_interaction_rng)
+	var encoded: GameSaveResult = GameSaveJsonCodec.encode(remembering)
+	_assert_true(encoded.succeeded() and encoded.text.contains("\"memory\"") and encoded.text.find("chest_found") < encoded.text.find("has_alcohol"), "the memory is written, flags in name order")
+	var decoded: GameSaveResult = GameSaveJsonCodec.decode(encoded.text)
+	_assert_true(decoded.succeeded(), "a save with memory decodes")
+	if not decoded.succeeded():
+		return
+	var back: GameSaveValueTypes.NpcSpawnStateSnapshot = decoded.snapshot.npc_spawn_states[0]
+	_assert_eq(back.flags, {&"chest_found": true, &"has_alcohol": false, &"inquiry_deleted/桃木箱子": true}, "flags come back, the false one too")
+	_assert_eq([back.combat_chat_chance, back.pills_left, back.times_caught], [10, 3, 2], "the chat chance, the pills and times caught come back")
+	_assert_eq(GameSaveJsonCodec.encode(decoded.snapshot).text, encoded.text, "memory re-encodes the same")
+	var root: Dictionary = JSON.parse_string(encoded.text)
+	root["npc_spawn_states"][0]["memory"] = {}
+	_assert_false(_decode_root(root).succeeded(), "an empty memory is refused (it is never written)")
+	root["npc_spawn_states"][0]["memory"] = {"pills_left": "-2"}
+	_assert_false(_decode_root(root).succeeded(), "a negative count is refused")
 
 
 func _test_decimal_int64_contract() -> void:
