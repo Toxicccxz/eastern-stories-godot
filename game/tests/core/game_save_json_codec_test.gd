@@ -15,7 +15,27 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_known_condition_payload_compatibility()
 	_test_input_arrays_are_defensive()
 	_test_npc_memory()
+	_test_player_temps()
 	return {"assertions": _assertion_count, "failures": _failures.duplicate()}
+
+
+## The player's set_temp() flags (owner): written only when there are some, read back exactly.
+func _test_player_temps() -> void:
+	var source: GameSaveSnapshot = Fixture.substantial()
+	_assert_false(GameSaveJsonCodec.encode(source).text.contains("\"temps\""), "no flags, no temps written")
+	var player: GameSaveValueTypes.PlayerRuntimeSnapshot = source.player
+	player.temps = {"moon/问题二": 1, "latemoon/茶": 1}
+	var with_temps := GameSaveSnapshot.new(source.metadata, source.session_kind, source.item_id_allocator, player, source.npc_spawn_states, source.corpses, source.items, source.combat_rng, source.npc_initialization_rng, source.world_interaction_rng)
+	var encoded: GameSaveResult = GameSaveJsonCodec.encode(with_temps)
+	var decoded: GameSaveResult = GameSaveJsonCodec.decode(encoded.text)
+	_assert_true(encoded.succeeded() and decoded.succeeded(), "a save with temps encodes and decodes")
+	if not decoded.succeeded():
+		return
+	_assert_eq(decoded.snapshot.player.temps, {"latemoon/茶": 1, "moon/问题二": 1}, "the flags come back")
+	_assert_eq(GameSaveJsonCodec.encode(decoded.snapshot).text, encoded.text, "temps re-encode the same")
+	var root: Dictionary = JSON.parse_string(encoded.text)
+	root["player"]["temps"] = {}
+	_assert_false(_decode_root(root).succeeded(), "empty temps are refused (never written)")
 
 
 ## An NPC's memory (owner, 乔阴 B): written only when it has some, its flags in name order,

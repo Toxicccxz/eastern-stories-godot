@@ -466,6 +466,9 @@ class PlayerRuntimeSnapshot extends RefCounted:
 	var body_facts: PlayerBodySnapshot
 	var world_location: WorldLocationSnapshot
 	var map_position: MapPositionSnapshot
+	## The player's set_temp() flags (WorldPlayerRuntimeState.temp_marks): a quest chain's
+	## steps (晚月庄's 竹蜻蜓 secret), a cup in hand; empty when there are none.
+	var temps: Dictionary[String, int] = {}
 
 	func _init(
 		p_character_id: StringName = &"", p_character: CharacterStateSnapshot = null,
@@ -485,7 +488,9 @@ class PlayerRuntimeSnapshot extends RefCounted:
 		map_position = MapPositionSnapshot.new() if p_map_position == null else p_map_position.duplicate_snapshot()
 
 	func duplicate_snapshot() -> PlayerRuntimeSnapshot:
-		return PlayerRuntimeSnapshot.new(character_id, character, life_status, exists_in_world, combat_available, world_location, map_position, identity, body_facts)
+		var copy := PlayerRuntimeSnapshot.new(character_id, character, life_status, exists_in_world, combat_available, world_location, map_position, identity, body_facts)
+		copy.temps = temps.duplicate()
+		return copy
 
 
 class NpcSpawnStateSnapshot extends RefCounted:

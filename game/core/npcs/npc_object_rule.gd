@@ -14,7 +14,7 @@ extends RefCounted
 ## set_temp() flags of d/green's 玉佩 chain (DECISIONS 青石村 B): `mark_giver` sets one,
 ## `unmark_giver` deletes some (shen.c's 想骗我啊?, also on a refusal), and `gives` is
 ## an item the NPC makes and hands to the giver (shen.c's 蒙汗药). d/latemoon's chain keeps
-## its set_temp() flags as temps (not saved, DECISIONS 晚月庄 A): `giver_temp` asks one,
+## its set_temp() flags as temps (saved since the owner's ruling after 乔阴 B): `giver_temp` asks one,
 ## `set_temps` sets them. `make` is what the NPC makes over the next seconds and hands over
 ## (NpcMaking: shaowei.c's 竹蜻蜓). `lines` are said in order, each in its colour, after
 ## the `line`/`emote`/`say`/`whisper` shorthands. Effect `pass_force` is old.c's: a

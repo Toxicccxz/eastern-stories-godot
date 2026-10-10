@@ -17,8 +17,8 @@ var apprenticeship_request: NpcApprenticeship = NpcApprenticeship.new()
 ## the player's practice conjured, until it dies. A temp: Continue forgets it, as a
 ## save keeps no conjured NPC.
 var conjured_npc_id: StringName = &""
-## The player's set_temp() flags that NPCs and rooms read (d/latemoon's latemoon/茶):
-## not saved, so Continue forgets them as ES2's relogin did (DECISIONS 晚月庄 A).
+## The player's set_temp() flags that NPCs and rooms read (d/latemoon's latemoon/茶, the
+## 竹蜻蜓 chain): saved (owner: ES2's relogin forgot them; a Continue is no relogin).
 var temp_marks: Dictionary[String, int] = {}
 
 var facts: PlayerIdentityFacts:

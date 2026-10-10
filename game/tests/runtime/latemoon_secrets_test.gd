@@ -139,7 +139,7 @@ func _test_bamboo(tree: SceneTree, session: WorldSessionController) -> void:
 	map.npc_life._advance_ambience(10.0)
 	_check(_count_carried(session, DRAGONFLY) == 1, "no second 竹蜻蜓")
 	# Killed while she is at it, she takes her call_out along (destruct).
-	player.temp_marks.erase("moon/竹子") # TEST-ONLY: a Continue forgets the temp
+	player.temp_marks.erase("moon/竹子") # TEST-ONLY: as if she had never made one
 	_check(map.give_to_selected(_new_item(session, BAMBOO)).done(), "a 竹子 again")
 	map.npc_life._advance_ambience(2.0)
 	wei.set_life_status(CharacterRuntimeLifeStatus.Value.DEAD) # TEST-ONLY: as a fight would leave her
@@ -313,7 +313,7 @@ func _test_letter(tree: SceneTree, session: WorldSessionController) -> void:
 	await tree.process_frame
 
 
-## The chain's set_temp() flags go with Continue; marks/dance-book stays.
+## The chain's set_temp() flags and marks/dance-book survive Continue (owner, after 乔阴 B).
 func _test_continue(tree: SceneTree, session: WorldSessionController) -> void:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	player.state.marks["dance-book"] = 1
@@ -335,7 +335,8 @@ func _test_continue(tree: SceneTree, session: WorldSessionController) -> void:
 		return
 	var fresh: WorldSessionController = restored.candidate
 	_check(fresh.activate_restore_candidate(), "activated")
-	_check(fresh.player_runtime().temp_marks.is_empty() and fresh.player_runtime().state.marks.get("dance-book", 0) == 1, "the temps are gone, the mark stays")
+	# Owner (after 乔阴 B): the set_temp() flags are saved too; 芳绫's secret survives Continue.
+	_check(fresh.player_runtime().temp_marks.has("moon/问题二") and fresh.player_runtime().temp_marks.has("latemoon/手镯") and fresh.player_runtime().state.marks.get("dance-book", 0) == 1, "the temps and the mark stay")
 	fresh.free()
 	await tree.process_frame
 	var walker: RefCounted = Work.new()

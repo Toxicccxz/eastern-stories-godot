@@ -27,7 +27,7 @@ extends RefCounted
 ## - `give` (an item) `unless_temp`: the item new()'d to the player, unless they carry the
 ##   set_temp() flag already (which the gift sets), then its `lines`; `give_one_of` (items)
 ##   new()s the one random(how many) picks (d/choyin/club.c's switch(random(3)));
-## - `set_temp` a flag: set_temp(flag, 1) on the player (not saved);
+## - `set_temp` a flag: set_temp(flag, 1) on the player (saved, as all of them);
 ## - `unmark` a mark: delete("mark/<mark>") (latemoon8.c's dance-book);
 ## - `water` n: add("water", n) (s_street1.c's well; above the capacity too, as add() does).
 enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, UNMARK, WATER }

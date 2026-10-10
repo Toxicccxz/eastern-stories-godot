@@ -152,7 +152,7 @@ func _test_tea(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not cup.is_empty(), "back in: another cup")
 	map.npc_life._advance_ambience(1.0)
 	_check(_count_carried(session, TEACUP) == 1, "she gives no second while the first is out")
-	player.temp_marks.erase("latemoon/茶") # TEST-ONLY: a Continue forgets the temp
+	player.temp_marks.erase("latemoon/茶") # TEST-ONLY: a cup carried without the flag (a save from before the flags were kept)
 	_check(await MapPlaces.drive_to_zone(tree, map, &"latemoon.latemoon1"), "out with it")
 	_check(not _carried(session, TEACUP).is_empty() and not hud.log_lines().slice(-3).has("你将瓷杯交回给雨梅。"), "without the flag the cup stays, without a word")
 	map.floor_items.use_up_one(_carried(session, TEACUP), ItemLifecycleOwnerContext.new(player.character_id, player.state.equipment, player.armor)) # TEST-ONLY
