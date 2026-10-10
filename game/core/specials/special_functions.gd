@@ -8,9 +8,13 @@ const PERFORMS: Array[StringName] = [&"counterattack", &"swordjab", &"fakefault"
 const CASTS: Array[StringName] = [&"drainerbolt", &"feeblebolt", &"netherbolt", &"invocation", &"dun", &"saveme", &"animate"]
 ## The 符 a spells skill's scribe_spell_file() reaches (scribe.c): HauntScribe.
 const SCRIBES: Array[StringName] = [&"haunt"]
+## The 神通 a magic skill's conjure_magic_file() reaches (conjure.c), in doc/skill/essencemagic's
+## order: the three of its eight that daemon/class/bonze/essencemagic/ holds.
+const CONJURES: Array[StringName] = [&"heart_sense", &"drift_sense", &"void_sense"]
 
 static var _performs: Dictionary[StringName, PerformFunction] = {}
 static var _casts: Dictionary[StringName, CastFunction] = {}
+static var _conjures: Dictionary[StringName, ConjureFunction] = {}
 
 
 static func perform(function_id: StringName) -> PerformFunction:
@@ -59,3 +63,10 @@ static func cast(function_id: StringName) -> CastFunction:
 		for spell: CastFunction in [drainer, feeble, nether, InvocationSpell.new(), DunSpell.new(), SavemeSpell.new(), AnimateSpell.new()]:
 			_casts[spell.id] = spell
 	return _casts.get(function_id)
+
+
+static func conjure(function_id: StringName) -> ConjureFunction:
+	if _conjures.is_empty():
+		for function: ConjureFunction in [HeartSenseConjure.new(), DriftSenseConjure.new(), VoidSenseConjure.new()]:
+			_conjures[function.id] = function
+	return _conjures.get(function_id)

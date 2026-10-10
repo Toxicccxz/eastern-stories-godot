@@ -191,7 +191,7 @@ func _test_apprentice_rule() -> void:
 	var outcome: NpcApprenticeship.Outcome = request.request(member, master, family, 1, "壮士", "封山剑派第十四代弟子", "封山剑派第十四代弟子", "阿青")
 	_check(outcome == NpcApprenticeship.Outcome.ATTACKED and request.lines == ["你想要拜绝尘子为师。"] and request.chat_line == "绝尘子大声喝道：封山剑派第十四代弟子阿青要叛师！！！", "a traitor: the chat line: %s" % request.chat_line)
 	_check(member.family.family_id == &"family.fonxan" and member.progression.score == 0 and member.apprenticeship.betrayer_count == 0, "nothing else changes")
-	_check(request.request(member, master, family, 1, "壮士", "封山剑派第十四代弟子") == NpcApprenticeship.Outcome.PENDING and not request.would_attack(member, master, "封山剑派第十四代弟子"), "asked again: 对方还没有答应 (apprentice.c), no second attack")
+	_check(not request.is_pending() and request.would_attack(member, master, "封山剑派第十四代弟子"), "the attack ends the request (默认, DECISIONS 山烟寺 C): asked again, he would attack again (asked first)")
 
 
 # --- The session --------------------------------------------------------------------

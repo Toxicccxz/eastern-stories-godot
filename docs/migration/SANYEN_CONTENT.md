@@ -5,7 +5,7 @@ How the region comes from `reference/es2/mudlib/u/cloud/sunhill/`, `d/sanyen/`,
 not. Decisions are in [DECISIONS](DECISIONS.md). Package A places the rooms and the people with
 the arts they fight with, the boat and the kitchen; B 山烟寺 the family (剃度, 玄智's teaching,
 the player's 大乘佛法, 诵经, 流云杖法, 莲华心法 and its 疗伤他人, learning 八识神通); C the player's
-神通 (空识, 心识, 游识).
+神通 (空识, 心识, 游识) and the end of a refused 拜师.
 
 ## Placed (A)
 
@@ -53,6 +53,17 @@ the player's 大乘佛法, 诵经, 流云杖法, 莲华心法 and its 疗伤他�
 | lotusforce/heal.c | heal (fonxanforce's, word for word) |
 | lotusforce/lifeheal.c | LifehealExertFunction (`targets_other`): the HUD's 疗伤他人 on the selected NPC (PlayerMartialArts.exert_at()) |
 
+## LPC → native (C)
+
+| LPC | Native |
+|---|---|
+| cmds/std/conjure.c, std/skill.c conjure_magic(), essencemagic.c conjure_magic_file() | ConjureService (busy, no_magic, the magic skill enabled, the file it reaches); skills.json `conjure` (SkillDefinition.conjure_functions, SpecialFunctions.CONJURES) |
+| essencemagic/void_sense.c | VoidSenseConjure: the 武学 page's 空识神通 (PlayerEssenceMagic.void_sense()); asked first below 50 gin |
+| essencemagic/heart_sense.c | HeartSenseConjure: the HUD's 心识神通 on the selected NPC lying unconscious (always asked first, with HeartSenseConjure.faint_percent()); revive() is WorldMapNpcLife.revive(), unconcious() fall_unconscious() |
+| essencemagic/drift_sense.c conjure(), input_to(select_target) | DriftSenseConjure.conjure() and select_target(): the 武学 page's 游识神通 opens DriftSensePanel (the names in CharacterState.seen_npcs, 中止施法); asked first below 30 gin |
+| find_living(name), me->move(environment(ob)) | PlayerEssenceMagic.drift_target() (seen kinds, the player's map first) and handoff_to_point() / place_player() beside the NPC |
+| an NPC's init() for the player, its own move in (who is met) | WorldMapNpcLife._note_player_arrival() and npc_arrived(): PlayerEssenceMagic.meet() |
+
 ## Source anomalies
 
 - front_yard.c places `d/sanyen/npc/monk_guard`, which does not exist (the 护寺武僧 is
@@ -80,4 +91,8 @@ the player's 大乘佛法, 诵经, 流云杖法, 莲华心法 and its 疗伤他�
 - essencemagic.c has no practice_skill(): practising 八识神通 says 并没有任何进步.
 - d/sanyen/obj/ copies npc/obj/ byte for byte; 黄铜禅杖 (brass_staff.c) and monk_waiter.c are
   placed by nothing. The temple's bulletin board (bonze_b) is for players' posts.
-- `doc/skill/essencemagic` names eight 识; essencemagic/ holds three (drift, heart, void) (C).
+- `doc/skill/essencemagic` names eight 识; essencemagic/ holds three (drift, heart, void): the
+  other five (神识, 光识, 灵识, 隐识, 寂识) have no file, and conjure says 你所选用的法术系中没有这种法术.
+- heart_sense.c's 天灵盖\上: the backslash doubled the second byte of Big5 蓋 (0x5C); the line
+  reads 天灵盖上. It "revives" a target that is awake too (combatd.c says 慢慢睁开眼睛 of them).
+- drift_sense.c checks is_ghost() after the cost: nobody conjures as a ghost here.

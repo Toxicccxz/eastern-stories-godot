@@ -19,6 +19,9 @@ var walker: WorldNpcWalker
 var arrival_zone_id: StringName = &""
 ## Where the player was before that arrival: the door they came in by (close.c's door).
 var came_from_zone_id: StringName = &""
+## The room Continue put the player back in, until its first arrival note: its people were
+## met before the save, so a save right after Continue writes what was loaded.
+var restored_zone_id: StringName = &""
 
 # The map's authorities, read as the controller reads them.
 var session: WorldSessionController:
@@ -48,12 +51,7 @@ func advance_npc_heartbeat(delta: float) -> void:
 	_map.combat_lifecycle.fall_below_zero()
 	_map.corpses.advance_pending_dissolves(delta)
 	for npc: NpcRuntimeState in npc_heartbeat.advance(delta, _map.npcs.npc_runtimes()):
-		var body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(npc.character_id)
-		if body != null:
-			body.refresh_runtime_state()
-		# combatd.c announce("revive"), heard in the same room.
-		if player_hears(npc):
-			_map.hud().append_log_lines([tr("%s慢慢睁开眼睛，清醒了过来。") % tr(npc.definition().display_name)])
+		_woke(npc)
 	# What the NPCs' conditions show their room (drunk.c, slumber_drug.c).
 	for character_id: StringName in npc_heartbeat.room_lines:
 		var seen: NpcRuntimeState = _map.npcs.find_resident_npc(character_id)
@@ -69,6 +67,27 @@ func advance_npc_heartbeat(delta: float) -> void:
 		if raised != null and raised.definition().raising() != null:
 			_map.spells.raised_heal_up(raised, npc_heartbeat.heal_ups[character_id])
 	_advance_ambience(delta)
+
+
+## feature/damage.c revive() called on an NPC lying unconscious (heart_sense.c's
+## target->revive()): it wakes now, its revive call_out gone.
+func revive(npc: NpcRuntimeState) -> void:
+	if npc == null or npc.life_status != CharacterRuntimeLifeStatus.Value.UNCONSCIOUS:
+		return
+	npc.set_revive_in_ms(0)
+	npc.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
+	if npc_heartbeat != null:
+		npc_heartbeat.forget_revive(npc.character_id)
+	_woke(npc)
+
+
+## An NPC woke: its body stands up, and combatd.c announce("revive") is heard in its room.
+func _woke(npc: NpcRuntimeState) -> void:
+	var body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(npc.character_id)
+	if body != null:
+		body.refresh_runtime_state()
+	if player_hears(npc):
+		_map.hud().append_log_lines([tr("%s慢慢睁开眼睛，清醒了过来。") % tr(npc.definition().display_name)])
 
 
 ## npc.c chat() and random_move(), and greetings, on NPC heart_beat time (NpcAmbience).
@@ -240,8 +259,12 @@ func _note_player_arrival() -> void:
 		):
 			ambience.start_greeting(npc.character_id)
 	var here: Array[NpcRuntimeState] = []
+	var resumed: bool = zone_id == restored_zone_id
+	restored_zone_id = &""
 	for npc: NpcRuntimeState in _map.npcs.residents:
 		if npc.world_location().zone_id == zone_id:
+			if not resumed:
+				_meet(npc)
 			_consider_stealing(npc)
 			here.append(npc)
 	_map.hostilities.player_init(here)
@@ -317,8 +340,15 @@ func npc_arrived(npc: NpcRuntimeState) -> void:
 	):
 		ambience.start_greeting(npc.character_id)
 	if ambience != null and player_shares_zone(npc):
+		_meet(npc)
 		_consider_stealing(npc)
 		_map.hostilities.player_init([npc])
+
+
+## The player meets `npc` in their room (游识神通's list).
+func _meet(npc: NpcRuntimeState) -> void:
+	if _player != null and _player.exists_in_world:
+		PlayerEssenceMagic.meet(_player.state, npc, not _map.npcs.summoner_of(npc.character_id).is_empty())
 
 
 ## thief.c init(): a player coming into its place (or it into theirs) is robbed one

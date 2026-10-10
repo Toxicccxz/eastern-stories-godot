@@ -111,6 +111,39 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 - #27 牛皮酒袋照原名显示，不另起短名。
 - 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
 
+## 山烟寺 C: 八识神通's 神通 (2026-10-09)
+
+What each LPC function became is in [SANYEN_CONTENT](SANYEN_CONTENT.md); it carries out the
+plan's defaults (山烟寺 A: Q3, 心识 only on one lying unconscious, 心识 and 空识 asked first) and
+the three questions #94 left unanswered, and follows the LPC except:
+- **默认 (#94 Q1, global): a master's refusal ends the 拜师 request.** apprentice.c kept a
+  refused request pending for every master, so asking again (after doing what the refusal
+  said, e.g. 剃度) only heard 对方还没有答应 until 取消拜师请求. Now a check the student falls
+  short of (at once or in a later answer), a master that refuses everyone (安妮儿) or one that
+  takes the student for a traitor (绝尘子, 瑷伦) ends it; the next 拜师 asks anew (and the
+  traitor's attack is asked first again).
+- **默认 (#94 Q2, Q3)**: 跪下受戒 needs 玄智 awake, and 疗伤他人 is for others only (both as
+  built in B; lifeheal.c without a name healed its caster).
+- **Owner (Q3): 游识 offers the NPCs the player has met.** A kind of NPC met in the player's
+  room (an NPC's init() seeing them, or it coming in) joins CharacterState.seen_npcs, saved, in
+  the order met; one conjured, raised or summoned does not. The question lists their names,
+  one button each, and 中止施法; a name goes to one of that name in the world now (conscious or
+  not), on the player's map first, then map by map, beside it (also in a room with no spawn
+  marker). ES2 asked for an id and find_living() searched the whole world. Nobody of that name
+  now (dead, not come back): 你无法感受到这个人的灵力 and the question again, as ES2.
+- **默认: the 神通 are used outside fights.** conjure.c lets 空识 and 心识 run in one (游识
+  refuses): 空识 would spend the turn on potential, and 心识 could only wake the enemy being
+  killed, as a monk has nobody on their side. The battle panel offers neither; heart_sense.c's
+  busy 3 in a fight is ported but not reached.
+- **默认 (plan): 心识 only on one lying unconscious.** heart_sense.c also "revived" one awake,
+  and combatd.c then said 慢慢睁开眼睛 of them. It is asked first every time (it may always
+  fail, and below 102 max_atman always does), with the odds and its cost.
+- **Owner's rule: 游识 is asked first when its 30 gin would knock the player out** (the plan
+  named 心识 and 空识; drift_sense.c takes the gin once the name is found).
+- The lights the room sees (一道耀眼的光芒…) are the others' lines: the player reads their own
+  line and then the room they arrive in, as in ES2.
+- **Save**: seen_npcs is written only when there are some; older saves load (no revision bump).
+
 ## 山烟寺 B: 山烟寺 the family (2026-10-09)
 
 What each LPC function became is in [SANYEN_CONTENT](SANYEN_CONTENT.md); it carries out the
@@ -130,8 +163,7 @@ characters) and follows the LPC except:
   worked on oneself (exert_function()'s default target); doc/skill/lotusforce gives it as
   医治他人所受的伤, and the game does not offer it on oneself, on the 武学 page or in a fight.
 - **八识神通** is learnt and enabled as 法术 now; practising it gives nothing (essencemagic.c
-  has no practice_skill()), and its 神通 come with 山烟寺 C (a reminder check in
-  sanyen_family_test fails when C adds them).
+  has no practice_skill()); its 神通 came with 山烟寺 C.
 
 ## 山烟寺 A: 泓水, 日照山 and the temple (2026-10-09)
 

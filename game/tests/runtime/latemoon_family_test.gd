@@ -157,7 +157,8 @@ func _test_elon_rule() -> void:
 	request = NpcApprenticeship.new()
 	_check(request.would_attack(member, elon, "晚月庄第二代弟子") and not request.takes_at_once(member, elon), "蓝止萍's apprentice would be taken for a traitor")
 	_check(request.request(member, elon, family, 1, "姑娘", "晚月庄第二代弟子", "晚月庄第二代弟子", "晚客") == NpcApprenticeship.Outcome.ATTACKED and request.lines == [ELON_ASKED] and request.chat_line == "瑷伦大声喝道：晚月庄第二代弟子晚客要叛师！！！", "要叛师: %s" % request.chat_line)
-	_check(request.is_pending_with(ELON) and NpcApprenticeship.is_master_of(member, _catalog.npc(LAN)), "the request stays (apprentice.c set it first); still 蓝止萍's")
+	_check(not request.is_pending() and NpcApprenticeship.is_master_of(member, _catalog.npc(LAN)), "the attack ends the request (默认, DECISIONS 山烟寺 C); still 蓝止萍's")
+	_check(request.would_attack(member, elon, "晚月庄第二代弟子"), "asked again, she would attack again (asked first)")
 	var girl: CharacterState = _fresh(CharacterState.GENDER_FEMALE)
 	girl.progression.combat_experience = 100000 # TEST-ONLY
 	var class_before: StringName = girl.affiliation.class_id
@@ -437,7 +438,7 @@ func _test_elon_lashes(tree: SceneTree, session: WorldSessionController) -> void
 	ui.close_panel()
 
 
-## 安妮儿's 拜师: no question, her say; the request waits until withdrawn.
+## 安妮儿's 拜师: no question, her say; the refusal ends the request (默认, DECISIONS 山烟寺 C).
 func _test_annihi_in_wing(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
@@ -451,9 +452,7 @@ func _test_annihi_in_wing(tree: SceneTree, session: WorldSessionController) -> v
 	ui.apprentice_button.pressed.emit()
 	_check(not ui.is_confirming() and service.last_lines == ["你想要拜安妮儿为师。", "安妮儿说道：" + GO_TO_LAN] and session.shared_ui().log_lines()[-1] == "安妮儿说道：" + GO_TO_LAN, "no question; her say: %s" % [service.last_lines])
 	ui.refresh()
-	_check(ui.cancel_button.visible and player.apprenticeship_request.is_pending_with(ANNIHI) and NpcApprenticeship.is_master_of(player.state, _catalog.npc(ELON)), "the request waits (取消拜师请求); still 瑷伦's")
-	ui.cancel_button.pressed.emit()
-	_check(not player.apprenticeship_request.is_pending(), "withdrawn")
+	_check(not ui.cancel_button.visible and not player.apprenticeship_request.is_pending() and NpcApprenticeship.is_master_of(player.state, _catalog.npc(ELON)), "the request is over (no 取消拜师请求); still 瑷伦's")
 	ui.close_panel()
 
 

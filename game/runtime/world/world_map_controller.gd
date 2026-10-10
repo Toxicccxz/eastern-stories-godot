@@ -216,8 +216,12 @@ func resolve_spawn_marker(id: StringName) -> WorldSpawnMarker2D:
 
 func spawn_matches_zone(id: StringName, zone_id: StringName) -> bool:
 	var marker: WorldSpawnMarker2D = resolve_spawn_marker(id)
+	return marker != null and point_in_zone(marker.global_position, zone_id)
+
+
+func point_in_zone(point: Vector2, zone_id: StringName) -> bool:
 	var zone: WorldPhysicalZoneArea2D = physical_zone(zone_id)
-	return marker != null and zone != null and zone.contains_center(marker.global_position)
+	return zone != null and zone.contains_center(point)
 
 
 func _zone_at(point: Vector2) -> WorldPhysicalZoneArea2D:
@@ -264,14 +268,24 @@ func resolve_location(zone_id: StringName, combat_id: StringName) -> WorldLocati
 ## Puts the player at a spawn point of a zone on this map; `even_unconscious` moves one
 ## lying unconscious too (ob->move(): d/latemoon shinyu.c's kick).
 func relocate_player(zone_id: StringName, spawn_point_id: StringName, even_unconscious: bool = false) -> bool:
+	if not _initialized:
+		return false
+	var marker: WorldSpawnMarker2D = resolve_spawn_marker(spawn_point_id)
+	if marker == null or not spawn_matches_zone(spawn_point_id, zone_id):
+		return false
+	return place_player(zone_id, marker.global_position, even_unconscious)
+
+
+## relocate_player() to a spot of the zone instead of a marker (drift_sense.c's move to
+## where someone stands). False when the spot is not in the zone.
+func place_player(zone_id: StringName, point: Vector2, even_unconscious: bool = false) -> bool:
 	var lying: bool = even_unconscious and _player != null and _player.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS
 	if not _initialized or _player == null or (_player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE and not lying):
 		return false
-	var marker: WorldSpawnMarker2D = resolve_spawn_marker(spawn_point_id)
 	var location: WorldLocationState = location_for_zone(zone_id)
-	if marker == null or location == null or not spawn_matches_zone(spawn_point_id, zone_id):
+	if location == null or not point_in_zone(point, zone_id):
 		return false
-	player_body.global_position = marker.global_position
+	player_body.global_position = point
 	if not _player.set_world_location(location):
 		return false
 	player_body.refresh_runtime_state()
@@ -285,10 +299,14 @@ func prepare_for_activation(spawn_id: StringName) -> bool:
 	if not _initialized:
 		return false
 	var marker: WorldSpawnMarker2D = resolve_spawn_marker(spawn_id)
-	if marker == null:
+	return marker != null and prepare_for_activation_at(marker.global_position)
+
+
+func prepare_for_activation_at(point: Vector2) -> bool:
+	if not _initialized or not point.is_finite():
 		return false
 	prepare_for_deactivation()
-	player_body.global_position = marker.global_position
+	player_body.global_position = point
 	return true
 
 

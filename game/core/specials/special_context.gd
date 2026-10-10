@@ -33,6 +33,12 @@ var departure: StringName
 var corpse: CorpseState
 ## The file raised `corpse` (corpse.c animate()): the world makes it the raised NPC.
 var raised: bool = false
+## The file woke `target` (heart_sense.c target->revive()): the world wakes them.
+var revived: bool = false
+## The file knocked `me` out (heart_sense.c me->unconcious()): the world lets them fall.
+var fainted: bool = false
+## The file moved `me` to `target`'s room (drift_sense.c me->move(environment(ob))).
+var drifted: bool = false
 ## Keeps the object `random` calls alive (a Callable does not).
 var _random_source: Object
 
@@ -83,9 +89,9 @@ func say(template: String, target_id: StringName = &"", color: StringName = Colo
 
 
 ## write(template): only `me` reads it, so it is shown only when `me` is the player.
-func write(template: String) -> void:
+func write(template: String, color: StringName = ColoredLine.PLAIN) -> void:
 	if me.is_user:
-		lines.append(VisionLine.new(template, me.character_id))
+		lines.append(VisionLine.new(template, me.character_id, &"", color))
 
 
 ## combatd.c do_attack(attacker, victim, attacker's weapon), after the lines said so

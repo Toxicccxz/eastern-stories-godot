@@ -30,6 +30,11 @@ var open_loot_button: Button
 var animate_button: Button
 ## 疗伤他人 (lotusforce/lifeheal.c) on the selected NPC, when the player's force reaches it.
 var lifeheal_button: Button
+## 心识神通 (essencemagic/heart_sense.c) on the selected NPC lying unconscious, when the
+## player's magic reaches it.
+var heart_sense_button: Button
+## 游识神通's question (DriftSensePanel), opened from the 武学 page.
+var drift_panel: DriftSensePanel
 var inventory_button: Button
 var inspection_text: RichTextLabel
 var combat_log: RichTextLabel
@@ -66,6 +71,20 @@ const HAUNT_MASTER_WARNING: String = "{master}是你的师父。{zombie}会追�
 const ORDINATION_WARNING: String = "跪下受戒就是剃度出家：{npc}会剃去你的头发，你从此是僧人。\n你的名字会改成法名：「{prefixes}」中随机一字，加上你名字的第一个字「{first}」（例如「{example}」），原来的名字从此不再使用。\n确定要跪下受戒吗？"
 # TRANSLATORS: the 疗伤他人 button's tooltip (lotusforce/lifeheal.c): 150 force, which must be 150 above the maximum; neither side in a fight.
 const LIFEHEAL_HINT: String = "运功「疗伤他人」：把真气输入对方体内，为他疗伤（耗 150 点内力，内力须比最大内力多 150 以上；双方都不能在战斗中）。"
+# TRANSLATORS: the 心识神通 button's tooltip (essencemagic/heart_sense.c): its 50 atman and 30 sen; random(max_atman) must be above 100, else the caster falls unconscious.
+const HEART_SENSE_HINT: String = "施展「心识神通」：救醒昏迷的人（50 灵力、30 神）。最大灵力不过 101 必定失败，失败时你自己会昏倒。"
+# TRANSLATORS: asked before every 心识神通 (heart_sense.c), which knocks the caster out when it fails: {npc} the one lying unconscious, {atman} and {sen} its cost, {max_atman} the player's maximum atman, {odds} one of the three lines below.
+const HEART_SENSE_WARNING: String = "心识神通要耗去 {atman} 点灵力和 {sen} 点神。能否救醒{npc}，全看你的灵力修为（最大灵力 {max_atman}）：{odds}\n确定要施展吗？"
+# TRANSLATORS: {odds} in the 心识神通 question when the player's maximum atman is 101 or less (random(max_atman) > 100 cannot happen).
+const HEART_SURE_FAIL: String = "最大灵力不过 101 必定失败，失败时你自己会当场昏过去。"
+# TRANSLATORS: {odds} in the 心识神通 question: {percent} the chance in a hundred that random(max_atman) is 100 or less.
+const HEART_MAY_FAIL: String = "约有 {percent}% 的机会失败，失败时你自己会当场昏过去。"
+# TRANSLATORS: {odds} in the 心识神通 question when its 30 sen alone would knock the player out.
+const HEART_SPENT: String = "而你的神撑不住这一下，无论成败都会当场昏过去。"
+# TRANSLATORS: asked before 空识神通 (void_sense.c) when its 50 gin ({gin}) would knock the player out.
+const VOID_FAINT_WARNING: String = "空识神通要耗去 {gin} 点精，你现在撑不住，会当场昏过去。\n确定要施展吗？"
+# TRANSLATORS: asked before 游识神通 goes to the one chosen (drift_sense.c) when its 30 gin ({gin}) would knock the player out.
+const DRIFT_FAINT_WARNING: String = "游识神通要耗去 {gin} 点精，你现在撑不住，施展完就会昏过去。\n确定要施展吗？"
 # TRANSLATORS: the 驱尸 button's tooltip: animate.c's 50 mana and 30 sen; the zombie lives on the player's 灵力 (zombie.c heal_up()).
 const ANIMATE_HINT: String = "施法「驱尸」：让这具尸体站起来跟着你（50 法力、30 神）。僵尸靠吸你的灵力维持，灵力不足时就会倒下化为血水。"
 
@@ -128,6 +147,10 @@ func _ready() -> void:
 	animate_button.tooltip_text = ANIMATE_HINT
 	lifeheal_button.pressed.connect(_lifeheal_context)
 	lifeheal_button.tooltip_text = LIFEHEAL_HINT
+	heart_sense_button.pressed.connect(_heart_sense_context)
+	heart_sense_button.tooltip_text = HEART_SENSE_HINT
+	drift_panel.chosen.connect(_drift_choose)
+	drift_panel.cancelled.connect(_drift_cancel)
 	inventory_button.pressed.connect(open_inventory)
 	loot_panel.take_requested.connect(_take_context)
 	inventory_panel.inspect_requested.connect(_inspect_item)
@@ -413,6 +436,9 @@ func refresh_live_state() -> void:
 	lifeheal_button.disabled = (
 		not target_available or not player_available or map == null or map.selected_npc_here() != _selected_target
 		or not _session.martial_arts().exert_at_functions().has(&"lifeheal")
+	)
+	heart_sense_button.disabled = (
+		not target_available or not player_available or map == null or _session.essence_magic().heart_target() != _selected_target
 	)
 	inventory_button.disabled = not player_available
 	portal_button.disabled = (
@@ -843,6 +869,7 @@ func refresh_exploration() -> void:
 	open_loot_button.visible = local_target and not open_loot_button.disabled
 	animate_button.visible = local_target and not animate_button.disabled
 	lifeheal_button.visible = local_target and not lifeheal_button.disabled
+	heart_sense_button.visible = local_target and not heart_sense_button.disabled
 	selected_target_label.visible = local_target
 	_presentation_layout.target_section.visible = local_target
 	var context: String = context_title()
@@ -1140,6 +1167,77 @@ func _lifeheal_context() -> void:
 	var map := _session.active_map() as WorldMapController
 	if map != null and map.selected_npc_here() != null:
 		_session.martial_arts().exert_at(&"lifeheal", map.selected_npc_here())
+
+
+## 心识神通 on the selected NPC lying unconscious: asked first whenever it goes ahead, as
+## a failure knocks the player out (owner's rule; DECISIONS 山烟寺 A). A refusal (too little
+## atman, busy, a no_magic room) asks nothing.
+func _heart_sense_context() -> void:
+	var magic: PlayerEssenceMagic = _session.essence_magic()
+	var npc: NpcRuntimeState = magic.heart_target()
+	if npc == null:
+		return
+	if not magic.heart_asks():
+		magic.heart_sense()
+		return
+	var state: CharacterState = _player.state
+	var odds: String = tr(HEART_SPENT)
+	if state.spirit.current >= HeartSenseConjure.SEN_COST:
+		var percent: int = HeartSenseConjure.faint_percent(state.recovery.atman.maximum)
+		odds = tr(HEART_SURE_FAIL) if percent >= 100 else tr(HEART_MAY_FAIL).format({"percent": percent})
+	var question: String = tr(HEART_SENSE_WARNING).format({
+		"atman": HeartSenseConjure.ATMAN_COST, "sen": HeartSenseConjure.SEN_COST, "npc": tr(npc.definition().display_name),
+		"max_atman": state.recovery.atman.maximum, "odds": odds,
+	})
+	ask_first(question, "确定施展", magic.heart_sense, func() -> bool: return magic.heart_target() == npc)
+
+
+## 空识神通 from the 武学 page; asked first when its gin would knock the player out.
+## 取消 goes back to the page.
+func conjure_void_sense() -> void:
+	var magic: PlayerEssenceMagic = _session.essence_magic()
+	if not magic.void_knocks_out():
+		magic.void_sense()
+		return
+	ask_first(tr(VOID_FAINT_WARNING).format({"gin": VoidSenseConjure.GIN_COST}), "确定施展", magic.void_sense, magic.available, open_martial_arts)
+
+
+## 游识神通 from the 武学 page: conjure.c's and the file's checks, then its question with
+## the names the player may go to; a refusal is only logged.
+func open_drift_sense() -> void:
+	if _session.essence_magic().drift_begin():
+		_show_drift_question()
+
+
+func _show_drift_question(lines: Array[ColoredLine] = []) -> void:
+	var magic: PlayerEssenceMagic = _session.essence_magic()
+	drift_panel.show_names(magic.drift_names(), lines)
+	_presentation_layout.open_panel(tr(DriftSenseConjure.LABEL), drift_panel, magic.available)
+
+
+## A name answered: asked first when the 30 gin would knock the player out.
+func _drift_choose(npc_name: String) -> void:
+	var magic: PlayerEssenceMagic = _session.essence_magic()
+	if magic.drift_knocks_out(npc_name):
+		ask_first(tr(DRIFT_FAINT_WARNING).format({"gin": DriftSenseConjure.GIN_COST}), "确定施展", _drift_to.bind(npc_name), magic.available, _show_drift_question)
+		return
+	_drift_to(npc_name)
+
+
+## select_target(): over, the question closes; nobody of that name now, it asks again.
+func _drift_to(npc_name: String) -> void:
+	var magic: PlayerEssenceMagic = _session.essence_magic()
+	if magic.drift_to(npc_name):
+		if _presentation_layout._content == drift_panel:
+			_presentation_layout.close_panel()
+		return
+	_show_drift_question(magic.last_lines)
+
+
+## 中止施法 (an empty answer): its line, and back to the 武学 page.
+func _drift_cancel() -> void:
+	append_log_lines([tr(DriftSenseConjure.CANCELLED)])
+	open_martial_arts()
 
 
 ## 画符 on a 桃符纸 for the selected NPC; asked first when its cost would kill the player or

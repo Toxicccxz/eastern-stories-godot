@@ -124,6 +124,12 @@ func _encode_character(value: Values.CharacterStateSnapshot) -> Dictionary[Strin
 		for key: String in value.applies:
 			applies[key] = _i(value.applies[key])
 		result["applies"] = applies
+	# The NPCs met, in order: written only when there are some.
+	if not value.seen_npcs.is_empty():
+		var seen: Dictionary[String, Variant] = {}
+		for key: String in value.seen_npcs:
+			seen[key] = _i(value.seen_npcs[key])
+		result["seen_npcs"] = seen
 	# 朱鸿雪's task, quest_factor and tfinished: written only when one is set.
 	if not value.quest.is_default():
 		result["quest"] = _encode_quest(value.quest)
@@ -318,7 +324,7 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 		fields.append("marks")
 	if value is Dictionary and value.has("timed_applies"):
 		fields.append("timed_applies")
-	for optional: String in ["quest", "vendetta", "applies"]:
+	for optional: String in ["quest", "vendetta", "applies", "seen_npcs"]:
 		if value is Dictionary and value.has(optional):
 			fields.append(optional)
 	var object: Dictionary = _obj(value, path, fields)
@@ -386,11 +392,14 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 	var applies: Dictionary[String, int] = {}
 	if object.has("applies"):
 		applies = _decode_values(object["applies"], path + ".applies")
+	var seen: Dictionary[String, int] = {}
+	if object.has("seen_npcs"):
+		seen = _decode_counts(object["seen_npcs"], path + ".seen_npcs")
 	var quest := CharacterQuestState.new()
 	if object.has("quest"):
 		quest = _decode_quest(object["quest"], path + ".quest")
 	if _error: return null
-	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed).with_quest(quest).with_vendetta(vendetta).with_applies(applies)
+	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen)
 
 
 ## A non-empty {name: integer} object (create()'s drawn apply/<key>).
@@ -407,7 +416,7 @@ func _decode_values(value: Variant, path: String) -> Dictionary[String, int]:
 	return result
 
 
-## A non-empty {name: count above 0} object (vendetta/<mark>).
+## A non-empty {name: count above 0} object (vendetta/<mark>, the order NPCs were met in).
 func _decode_counts(value: Variant, path: String) -> Dictionary[String, int]:
 	var result: Dictionary[String, int] = {}
 	if typeof(value) != TYPE_DICTIONARY or (value as Dictionary).is_empty():
