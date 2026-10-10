@@ -185,6 +185,19 @@ func pass_sentence(judge: NpcRuntimeState) -> void:
 	here.player_fall_below_zero()
 
 
+## The player in custody tries a way that would take them elsewhere (a landmark's hole or vine,
+## a carried thing's or a room's command that moves them, 游识): the chain holds them (the hint
+## promises only 行贿 and a fight). The leader's do_go() line; true when refused.
+func refuses_move() -> bool:
+	if _player == null or not _player.in_custody():
+		return false
+	var npc: NpcRuntimeState = _map.npcs.find_resident_npc(_player.led_by)
+	var patrol: NpcPatrol = null if npc == null else npc.definition().dealings().patrol
+	if patrol != null and _map.hud() != null:
+		_map.hud().append_log_lines([tr(patrol.arrest.escape_line)])
+	return true
+
+
 ## The constable leading the player, both awake (accept_bribery()'s being_caught; it is with the
 ## one it leads, set_leader(), though a step ahead of them while they are walked after it).
 func can_bribe(npc: NpcRuntimeState) -> bool:

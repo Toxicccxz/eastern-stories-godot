@@ -799,7 +799,7 @@ func traverse_selected_portal() -> RefCounted:
 		return WorldPortalTraversalResult.new()
 	var landmark: WorldLandmarkDefinition = GameContent.catalog().landmark(selection.selected_target.target_id)
 	var policy: WorldLandmarkPolicy = null if landmark == null else WorldLandmarkPolicies.create(landmark.policy)
-	if policy == null:
+	if policy == null or patrols.refuses_move():
 		return WorldPortalTraversalResult.new()
 	# The policy reports a wrong source zone itself; only the physical reach is checked here.
 	if landmark.requires_contact and not _inside_area(landmark_areas[landmark.landmark_id], player_body.global_position):

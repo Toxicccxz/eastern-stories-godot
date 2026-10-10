@@ -498,9 +498,15 @@ func _test_custody_ends(tree: SceneTree, session: WorldSessionController) -> voi
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new())
 	map.patrols.hold_player()
 	_check(player.led_by == police.character_id and map.runtime_player_body().held, "caught again, held")
-	_check(session.handoff_to(&"choyin.temple_altar", &"choyin.altar", &"choyin.altar", &"choyin.altar.stairs_arrival").succeeded(), "TEST-ONLY: to another map")
+	# The 树王坟's hole is no way out while led (the hint promises 行贿 and a fight only).
+	_check(map.select_landmark(&"choyin.tree_tomb.landmark.hole"), "the hole selected")
+	map.traverse_selected_portal()
+	_check(player.led_by == police.character_id and player.world_location().zone_id == &"choyin.tree_tomb" and session.shared_ui().log_lines()[-1] == "嘿嘿, 还想往哪逃?!", "爬下去 while led: refused, 嘿嘿, 还想往哪逃?!")
+	_check(not session.essence_magic().drift_begin() or not player.in_custody(), "游识 while led: refused")
+	map.select_npc(police.character_id)
+	_check(session.handoff_to(&"choyin.temple_altar", &"choyin.altar", &"choyin.altar", &"choyin.altar.stairs_arrival").succeeded(), "TEST-ONLY: moved to another map all the same")
 	await tree.physics_frame
-	_check(not player.in_custody() and not map.runtime_player_body().held, "on another map: whoever led them stays behind")
+	_check(not player.in_custody() and not map.runtime_player_body().held, "on another map: whoever led them stays behind (a safety net)")
 	_check(session.handoff_to(&"choyin.town", &"choyin.n_gate", &"choyin.n_gate", &"choyin.n_gate.road_arrival").succeeded(), "TEST-ONLY: back in the town")
 	await tree.physics_frame
 	await tree.physics_frame

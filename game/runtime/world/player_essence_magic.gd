@@ -70,6 +70,9 @@ func void_sense() -> bool:
 func drift_begin() -> bool:
 	if not available():
 		return false
+	var map := _session.active_map() as WorldMapController
+	if map != null and map.patrols.refuses_move():
+		return false
 	var context: SpecialContext = _context()
 	var asks: bool = ConjureService.conjure(context, DRIFT_SENSE, _no_magic())
 	if not asks:
