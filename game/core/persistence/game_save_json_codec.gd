@@ -60,6 +60,12 @@ func _encode_root(snapshot: GameSaveSnapshot) -> Dictionary[String, Variant]:
 		floor_items.append({"item_instance_id": String(record.item_instance_id), "world_location": _encode_location(record.world_location), "map_position": {"x": record.map_position.x, "y": record.map_position.y}})
 	if not floor_items.is_empty():
 		root["floor_items"] = floor_items
+	# The notes the note mazes show: written only when one was drawn.
+	if not snapshot.maze_notes.is_empty():
+		var notes: Dictionary[String, Variant] = {}
+		for landmark_id: StringName in snapshot.maze_notes:
+			notes[String(landmark_id)] = _i(snapshot.maze_notes[landmark_id])
+		root["maze_notes"] = notes
 	return root
 
 
@@ -130,6 +136,12 @@ func _encode_character(value: Values.CharacterStateSnapshot) -> Dictionary[Strin
 		for key: String in value.seen_npcs:
 			seen[key] = _i(value.seen_npcs[key])
 		result["seen_npcs"] = seen
+	# set("<name>", n) a room keeps (taolin_steps): written only when there are some.
+	if not value.counters.is_empty():
+		var counters: Dictionary[String, Variant] = {}
+		for key: String in value.counters:
+			counters[key] = _i(value.counters[key])
+		result["counters"] = counters
 	# 朱鸿雪's task, quest_factor and tfinished: written only when one is set.
 	if not value.quest.is_default():
 		result["quest"] = _encode_quest(value.quest)
@@ -215,6 +227,8 @@ func _encode_npc(value: Values.NpcSpawnStateSnapshot) -> Dictionary[String, Vari
 			memory["pills_left"] = _i(value.pills_left)
 		if value.times_caught > 0:
 			memory["times_caught"] = _i(value.times_caught)
+		if value.chant_stage >= 0:
+			memory["chant"] = {"stage": _i(value.chant_stage), "left_ms": _i(value.chant_left_ms)}
 		record["memory"] = memory
 	return record
 
@@ -286,6 +300,8 @@ func _decode_root(value: Variant) -> GameSaveSnapshot:
 	var root_keys: Array[String] = ["metadata", "session_kind", "item_id_allocator", "player", "npc_spawn_states", "corpses", "items", "rng", "world_content_revision"]
 	if root.has("floor_items"):
 		root_keys.append("floor_items")
+	if root.has("maze_notes"):
+		root_keys.append("maze_notes")
 	var revision: WorldContentRevision.Value = WorldContentRevision.Value.LEGACY_OLDPINE_V1
 	root = _obj(value, "root", root_keys)
 	if _error: return null
@@ -314,6 +330,7 @@ func _decode_root(value: Variant) -> GameSaveSnapshot:
 		"SOURCE_ENTRY_SANYEN_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_SANYEN_V1
 		"SOURCE_ENTRY_CHOYIN_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_CHOYIN_V1
 		"SOURCE_ENTRY_CHOYIN_B_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_CHOYIN_B_V1
+		"SOURCE_ENTRY_CHOYIN_C_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_CHOYIN_C_V1
 		_: _fail(GameSaveResult.Outcome.UNKNOWN_WORLD_REVISION, "world_content_revision")
 	if _error == null and _current_public_only:
 		var support: GameSaveResult = WorldContentRevision.public_support(revision)
@@ -339,9 +356,15 @@ func _decode_root(value: Variant) -> GameSaveSnapshot:
 			var record: Dictionary = _obj(floor_values[index], path, ["item_instance_id", "world_location", "map_position"])
 			if _error: return null
 			floor_items.append(Values.FloorItemSnapshot.new(StringName(_string(record["item_instance_id"], path + ".item_instance_id")), _decode_location(record["world_location"], path + ".world_location"), _decode_position(record["map_position"], path + ".map_position")))
+	var maze_notes: Dictionary[StringName, int] = {}
+	if root.has("maze_notes"):
+		var indices: Dictionary[String, int] = _decode_values(root["maze_notes"], "maze_notes")
+		for key: String in indices:
+			maze_notes[StringName(key)] = indices[key]
+			if indices[key] < 0: _fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, "maze_notes." + key, "expected an index")
 	var rng_object: Dictionary = _obj(root["rng"], "rng", ["combat", "npc_initialization", "world_interaction"])
 	if _error: return null
-	return GameSaveSnapshot.new(metadata, StringName(_string(root["session_kind"], "session_kind")), allocator, _decode_player(root["player"], "player"), npcs, corpses, _decode_items(root["items"], "items"), _decode_rng(rng_object["combat"], "rng.combat"), _decode_rng(rng_object["npc_initialization"], "rng.npc_initialization"), _decode_rng(rng_object["world_interaction"], "rng.world_interaction"), revision).with_floor_items(floor_items)
+	return GameSaveSnapshot.new(metadata, StringName(_string(root["session_kind"], "session_kind")), allocator, _decode_player(root["player"], "player"), npcs, corpses, _decode_items(root["items"], "items"), _decode_rng(rng_object["combat"], "rng.combat"), _decode_rng(rng_object["npc_initialization"], "rng.npc_initialization"), _decode_rng(rng_object["world_interaction"], "rng.world_interaction"), revision).with_floor_items(floor_items).with_maze_notes(maze_notes)
 
 
 func _decode_character(value: Variant, path: String) -> Values.CharacterStateSnapshot:
@@ -354,7 +377,7 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 		fields.append("marks")
 	if value is Dictionary and value.has("timed_applies"):
 		fields.append("timed_applies")
-	for optional: String in ["quest", "vendetta", "applies", "seen_npcs"]:
+	for optional: String in ["quest", "vendetta", "applies", "seen_npcs", "counters"]:
 		if value is Dictionary and value.has(optional):
 			fields.append(optional)
 	var object: Dictionary = _obj(value, path, fields)
@@ -425,14 +448,17 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 	var seen: Dictionary[String, int] = {}
 	if object.has("seen_npcs"):
 		seen = _decode_counts(object["seen_npcs"], path + ".seen_npcs")
+	var counters: Dictionary[String, int] = {}
+	if object.has("counters"):
+		counters = _decode_values(object["counters"], path + ".counters")
 	var quest := CharacterQuestState.new()
 	if object.has("quest"):
 		quest = _decode_quest(object["quest"], path + ".quest")
 	if _error: return null
-	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen)
+	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen).with_counters(counters)
 
 
-## A non-empty {name: integer} object (create()'s drawn apply/<key>).
+## A non-empty {name: integer} object (create()'s drawn apply/<key>, a room's counters).
 func _decode_values(value: Variant, path: String) -> Dictionary[String, int]:
 	var result: Dictionary[String, int] = {}
 	if typeof(value) != TYPE_DICTIONARY or (value as Dictionary).is_empty():
@@ -615,12 +641,12 @@ func _decode_npc(value: Variant, path: String) -> Values.NpcSpawnStateSnapshot:
 	return decoded
 
 
-## An NPC's memory: {flags?: {name: bool}, combat_chat_chance?, pills_left?, times_caught?},
-## never empty.
+## An NPC's memory: {flags?: {name: bool}, combat_chat_chance?, pills_left?, times_caught?,
+## chant?: {stage, left_ms}}, never empty.
 func _decode_memory(value: Variant, path: String, into: Values.NpcSpawnStateSnapshot) -> void:
 	var keys: Array[String] = []
 	if value is Dictionary:
-		for key: String in ["flags", "combat_chat_chance", "pills_left", "times_caught"]:
+		for key: String in ["flags", "combat_chat_chance", "pills_left", "times_caught", "chant"]:
 			if value.has(key):
 				keys.append(key)
 	var object: Dictionary = _obj(value, path, keys)
@@ -646,6 +672,12 @@ func _decode_memory(value: Variant, path: String, into: Values.NpcSpawnStateSnap
 	if object.has("times_caught"):
 		into.times_caught = _int64(object["times_caught"], path + ".times_caught")
 		if into.times_caught <= 0: _fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".times_caught", "expected a positive count")
+	if object.has("chant"):
+		var chant: Dictionary = _obj(object["chant"], path + ".chant", ["stage", "left_ms"])
+		if _error: return
+		into.chant_stage = _int64(chant["stage"], path + ".chant.stage")
+		into.chant_left_ms = _int64(chant["left_ms"], path + ".chant.left_ms")
+		if into.chant_stage < 0 or into.chant_left_ms < 0: _fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".chant", "expected a stage and the time left")
 
 
 func _decode_corpse(value: Variant, path: String) -> Values.CorpseSnapshot:

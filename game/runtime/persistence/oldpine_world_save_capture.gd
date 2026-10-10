@@ -162,6 +162,10 @@ func capture(
 		npc_snapshot.combat_chat_chance = npc.combat_chat_chance
 		npc_snapshot.pills_left = npc.pills_left
 		npc_snapshot.times_caught = npc.times_caught
+		# Its chant under way (owner, 乔阴 C): the next stage and the time till it.
+		var chanting: bool = npc.chant_stage >= 0 and npc.exists_in_map and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD
+		npc_snapshot.chant_stage = npc.chant_stage if chanting else -1
+		npc_snapshot.chant_left_ms = maxi(0, roundi(npc.chant_left * 1000.0)) if chanting else 0
 		npc_snapshots.append(npc_snapshot)
 
 	var corpse_snapshots: Array[Values.CorpseSnapshot] = []
@@ -207,6 +211,10 @@ func capture(
 			)
 		)
 
+	# The note each note maze shows (默认, 乔阴 C: the 字条 the player read).
+	var maze_notes: Dictionary[StringName, int] = {}
+	for map: WorldMapController in session.world_maps():
+		maze_notes.merge(map.mazes.shown())
 	var floor_snapshots: Array[Values.FloorItemSnapshot] = []
 	for map: WorldMapController in session.world_maps():
 		for item_id: StringName in map.dropped_item_ids():
@@ -235,7 +243,7 @@ func capture(
 		session.npc_random_source().capture_random_state(),
 		session.world_interaction_random_source().capture_random_state(),
 		session.world_content_revision(),
-	).with_floor_items(floor_snapshots)
+	).with_floor_items(floor_snapshots).with_maze_notes(maze_notes)
 	var root_validation: GameSaveResult = GameSaveSnapshotValidator.validate(snapshot)
 	if not root_validation.succeeded():
 		return Result.failure(
@@ -363,7 +371,7 @@ func _character_snapshot(
 			state.apprenticeship.betrayer_count,
 		),
 		state.affiliation,
-	).with_marks(state.marks).with_timed_applies(state.timed_applies.entries()).with_quest(state.quest).with_vendetta(state.vendetta).with_applies(state.applies).with_seen_npcs(state.seen_npcs)
+	).with_marks(state.marks).with_timed_applies(state.timed_applies.entries()).with_quest(state.quest).with_vendetta(state.vendetta).with_applies(state.applies).with_seen_npcs(state.seen_npcs).with_counters(state.counters)
 
 
 func _character_failure() -> OldPineWorldCaptureResult:

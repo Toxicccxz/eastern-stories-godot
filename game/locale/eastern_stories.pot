@@ -547,7 +547,8 @@ msgid "曼雩台"
 msgstr ""
 
 #. es2:d/choyin/taolin short
-#: scenes/world/choyin/choyin_town.tscn data/choyin/rooms.json
+#. choyin.taolin.landmark.grove name
+#: scenes/world/choyin/choyin_town.tscn data/choyin/rooms.json data/choyin/world.json
 msgid "桃林"
 msgstr ""
 
@@ -569,6 +570,10 @@ msgstr ""
 
 #: scenes/world/choyin/choyin_town.tscn
 msgid "翠柳湖"
+msgstr ""
+
+#: scenes/world/choyin/choyin_town.tscn
+msgid "东 · 桃林"
 msgstr ""
 
 #: scenes/world/choyin/choyin_town.tscn
@@ -7892,6 +7897,7 @@ msgstr ""
 #. scratching practice.weapon_fail
 #. six-chaos-sword valid_learn.weapon
 #. snowshade-sword valid_learn.weapon
+#. mystsword valid_learn.weapon
 #: data/common/skills.json
 msgid "你必须先找一把剑才能练剑法。"
 msgstr ""
@@ -8149,6 +8155,11 @@ msgstr ""
 #. music improved_line
 #: data/common/skills.json
 msgid "由於你学习音律之学有成，你的灵性提高了"
+msgstr ""
+
+#. instruments name
+#: data/common/skills.json
+msgid "乐器"
 msgstr ""
 
 #. move name
@@ -8702,6 +8713,21 @@ msgstr ""
 msgid "步玄七诀"
 msgstr ""
 
+#. mysterrier practice.fail
+#: data/common/skills.json
+msgid "你的气或神不够，不能练步玄七诀。"
+msgstr ""
+
+#. mysterrier valid_learn.mapped
+#: data/common/skills.json
+msgid "步玄七诀必须配合步玄心法使用。"
+msgstr ""
+
+#. mysterrier valid_learn.effective_skill
+#: data/common/skills.json
+msgid "你的音律之学修为不够，无法领悟更高深的步玄七诀。"
+msgstr ""
+
 #. mysterrier dodge_messages
 #: data/common/skills.json
 msgid "$n身影一转，轻易地避开了这一招。"
@@ -8732,9 +8758,34 @@ msgstr ""
 msgid "步玄心法"
 msgstr ""
 
+#. mystforce practice.fail
+#: data/common/skills.json
+msgid "步玄心法只能学，或是从运用(exert)中增加熟练度。"
+msgstr ""
+
 #. mystsword name
 #: data/common/skills.json
 msgid "小步玄剑"
+msgstr ""
+
+#. mystsword practice.done
+#: data/common/skills.json
+msgid "你按著所学练了一遍小步玄剑。"
+msgstr ""
+
+#. mystsword practice.fail
+#: data/common/skills.json
+msgid "你的内力或气不够，没有办法练习小步玄剑。"
+msgstr ""
+
+#. mystsword valid_learn.raw_skill
+#: data/common/skills.json
+msgid "你的步玄心法火候还不够。"
+msgstr ""
+
+#. mystsword valid_learn.max_force
+#: data/common/skills.json
+msgid "你的内力不够，没有办法练小步玄剑。"
 msgstr ""
 
 #. mystsword actions.action
@@ -9972,6 +10023,18 @@ msgid ""
 "四处游荡，遂自号「云舟」，四处游山玩水，结交豪杰异人。数年前继承\n"
 "其父骆易而成为步玄派的新任掌门，但是喜爱飘泊的个性仍然不改，令门\n"
 "中耆宿头痛不已。\n"
+msgstr ""
+
+#. common.npc.scholar.master apprentice.requires.refuse_say
+#: data/common/npcs.json
+msgid ""
+"你还是先走一趟东边的桃林吧。\n"
+msgstr ""
+
+#. common.npc.scholar.master apprentice.accept_say
+#: data/common/npcs.json
+msgid ""
+"很好，$RESPECT多加努力，他日必定有成。\n"
 msgstr ""
 
 #. common.npc.scholar.sword_soul name
@@ -16288,6 +16351,7 @@ msgstr ""
 
 #. green.closed.landmark.fog action
 #. choyin.lionroom.landmark.dark action
+#. choyin.taolin.landmark.grove action
 #: data/green/world.json data/choyin/world.json
 msgid "放弃"
 msgstr ""
@@ -20445,6 +20509,98 @@ msgstr ""
 #: data/choyin/world.json
 msgid ""
 "洞内黑漆漆的，四下摸索，却摸不到任何出口。\n"
+msgstr ""
+
+#. choyin.taolin.landmark.note name
+#: data/choyin/world.json
+msgid "字条"
+msgstr ""
+
+#. choyin.taolin.landmark.note action
+#: data/choyin/world.json
+msgid "读"
+msgstr ""
+
+#. choyin.taolin.landmark.note notes.text
+#: data/choyin/world.json
+msgid "欲将愁心附明月,随君直到夜郎--"
+msgstr ""
+
+#. choyin.taolin.landmark.note notes.text
+#: data/choyin/world.json
+msgid "问君能有几多愁,恰似一江春水向--流"
+msgstr ""
+
+#. choyin.taolin.landmark.note notes.text
+#: data/choyin/world.json
+msgid "自笑堂堂汉使,得似洋洋河水,依旧只流--"
+msgstr ""
+
+#. choyin.taolin.landmark.note notes.text
+#: data/choyin/world.json
+msgid "--朝四百八十寺,多少楼台烟雨中"
+msgstr ""
+
+#. choyin.taolin.landmark.note notes.text
+#: data/choyin/world.json
+msgid "孔雀--飞,五里一徘徊"
+msgstr ""
+
+#. choyin.taolin.landmark.note notes.text
+#: data/choyin/world.json
+msgid "帘卷--风,人比黄花叟"
+msgstr ""
+
+#. choyin.taolin.landmark.note notes.text
+#: data/choyin/world.json
+msgid "醉别--楼醒不记,春梦秋云,聚散真容易"
+msgstr ""
+
+#. choyin.taolin.landmark.note notes.text
+#: data/choyin/world.json
+msgid "春草绿色,春水碧波,送君--埔,伤之如何"
+msgstr ""
+
+#. choyin.taolin.landmark.note notes.text
+#: data/choyin/world.json
+msgid "--望，射天狼"
+msgstr ""
+
+#. choyin.taolin.landmark.note notes.text
+#: data/choyin/world.json
+msgid "--风卷地白草折，胡天八月即飞雪"
+msgstr ""
+
+#. choyin.taolin.landmark.note notes.text
+#: data/choyin/world.json
+msgid "青山横--郭，白水绕东城"
+msgstr ""
+
+#. choyin.taolin.landmark.note messages.read
+#: data/choyin/world.json
+msgid "你看见:{note}"
+msgstr ""
+
+#. choyin.taolin.landmark.note messages.out
+#: data/choyin/world.json
+msgid "你走出了桃林"
+msgstr ""
+
+#. choyin.taolin.landmark.note long
+#: data/choyin/world.json
+msgid ""
+"这是一张指示路径的字条.似乎可以读(read)它.\n"
+msgstr ""
+
+#. choyin.taolin.landmark.grove messages.use
+#: data/choyin/world.json
+msgid "你在桃林里苦等良久，终于昏昏沉沉地睡了过去……醒来时，你已经躺在雪亭镇的饮风客栈里。"
+msgstr ""
+
+#. choyin.taolin.landmark.grove long
+#: data/choyin/world.json
+msgid ""
+"桃树一株挨着一株，阡陌纵横，每条小路看来都差不多。找不到出路的话，就只能在这里等下去了。\n"
 msgstr ""
 
 #. choyin.s_street1.well name

@@ -25,6 +25,7 @@ var hostilities: WorldMapHostilities = WorldMapHostilities.new(self)
 var combat_lifecycle: WorldMapCombatLifecycle = WorldMapCombatLifecycle.new(self)
 var spells: WorldMapSpells = WorldMapSpells.new(self)
 var acts: WorldMapActs = WorldMapActs.new(self)
+var mazes: WorldMapMazes = WorldMapMazes.new(self)
 var _definition: MapDefinition
 var _initialized: bool = false
 var _initialization_count: int = 0
@@ -443,7 +444,8 @@ func _exit_refusal(from_zone_id: StringName, to_zone_id: StringName) -> ZoneExit
 
 ## valid_leave() for a passage (d/green/entrance.c east into the 迷阵): a refusal keeps
 ## the player out of the passage, back in the room, and says why; a way that marks
-## whoever takes it (eight7.c set("八卦阵")) marks the player as they go.
+## whoever takes it (eight7.c set("八卦阵")) marks the player as they go, and the way into
+## a note maze (d/choyin/entrance.c east) sets how far its way out is.
 func leave_by_passage(portal: PortalDefinition, passage: WorldPassageArea2D) -> bool:
 	if portal == null or _player == null:
 		return false
@@ -454,6 +456,7 @@ func leave_by_passage(portal: PortalDefinition, passage: WorldPassageArea2D) -> 
 	_tell_passing(portal.source_zone_id, portal.destination_zone_id)
 	if not portal.set_mark.is_empty():
 		_player.state.marks[portal.set_mark] = 1
+	mazes.entering(portal, _player.state)
 	return true
 
 
@@ -812,10 +815,14 @@ func last_landmark_use() -> RefCounted:
 
 
 ## WorldPassageArea2D calls this (deferred) for a portal that stays on this map: the
-## 迷阵's exits and 青石村's one-way ways (stoneroom.c west, water.c west).
+## 迷阵's exits and 青石村's one-way ways (stoneroom.c west, water.c west). A way out of a
+## note maze (the 桃林) is judged first, and the right last one leads out instead.
 func traverse_same_map_passage(portal: PortalDefinition) -> void:
 	if not gameplay_open() or portal == null or not is_passage_current(portal):
 		return
+	var way: PortalDefinition = mazes.take_way(portal, _player.state)
+	if way != null:
+		portal = way
 	_last_passage_traversal = WorldLandmarkPolicy.move_through(self, portal)
 	var traversal: WorldPortalTraversalResult = _last_passage_traversal as WorldPortalTraversalResult
 	if traversal != null and traversal.completed() and session != null:

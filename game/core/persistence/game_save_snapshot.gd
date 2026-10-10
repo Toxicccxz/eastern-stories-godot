@@ -20,6 +20,9 @@ var _combat_rng: RandomStreamSnapshot
 var _npc_initialization_rng: RandomStreamSnapshot
 var _world_interaction_rng: RandomStreamSnapshot
 var _floor_items: Array[ValueTypes.FloorItemSnapshot] = []
+## The note each note_maze landmark shows (WorldMapMazes), by landmark ID: an index into its
+## notes. Only those drawn are written (默认, 乔阴 C).
+var _maze_notes: Dictionary[StringName, int] = {}
 
 var metadata: ValueTypes.GameSaveMetadata:
 	get: return _metadata.duplicate_snapshot()
@@ -52,6 +55,9 @@ var corpses: Array[ValueTypes.CorpseSnapshot]:
 		for record: ValueTypes.CorpseSnapshot in _corpses:
 			result.append(null if record == null else record.duplicate_snapshot())
 		return result
+var maze_notes: Dictionary[StringName, int]:
+	get:
+		return _maze_notes.duplicate()
 ## Items lying on the floor away from their spawn markers (dropped).
 var floor_items: Array[ValueTypes.FloorItemSnapshot]:
 	get:
@@ -95,10 +101,15 @@ func _init(
 
 
 func duplicate_snapshot() -> GameSaveSnapshot:
-	return GameSaveSnapshot.new(_metadata, _session_kind, _item_id_allocator, _player, _npc_spawn_states, _corpses, _items, _combat_rng, _npc_initialization_rng, _world_interaction_rng, _world_content_revision).with_floor_items(_floor_items)
+	return GameSaveSnapshot.new(_metadata, _session_kind, _item_id_allocator, _player, _npc_spawn_states, _corpses, _items, _combat_rng, _npc_initialization_rng, _world_interaction_rng, _world_content_revision).with_floor_items(_floor_items).with_maze_notes(_maze_notes)
 
 
 ## The dropped items (ordered by item ID); a save without any has none.
+func with_maze_notes(notes: Dictionary[StringName, int]) -> GameSaveSnapshot:
+	_maze_notes = notes.duplicate()
+	return self
+
+
 func with_floor_items(records: Array[ValueTypes.FloorItemSnapshot]) -> GameSaveSnapshot:
 	_floor_items.clear()
 	for record: ValueTypes.FloorItemSnapshot in records:

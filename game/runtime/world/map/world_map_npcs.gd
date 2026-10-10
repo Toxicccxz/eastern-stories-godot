@@ -116,7 +116,7 @@ func restore_actors() -> bool:
 	var authored_npc_count: int = 0
 	for spawn: NpcSpawnDefinition in GameContent.catalog().spawns_for_map(map):
 		authored_npc_count += spawn.quantity
-	return residents.size() == authored_npc_count and _map.floor_items.restore_floor_items()
+	return residents.size() == authored_npc_count and _map.floor_items.restore_floor_items() and _map.mazes.restore()
 
 
 ## A body for `npc` at `position`; `at` keeps a respawned NPC in its spawn order.

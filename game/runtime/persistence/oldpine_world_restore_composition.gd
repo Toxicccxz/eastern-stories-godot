@@ -151,6 +151,12 @@ static func prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 		)
 	)
 	preparation.floor_items = snapshot.floor_items
+	# A note maze's note: a note_maze landmark and one of its notes.
+	for landmark_id: StringName in snapshot.maze_notes:
+		var maze: WorldLandmarkDefinition = GameContent.catalog().landmark(landmark_id)
+		if maze == null or maze.policy != &"note_maze" or snapshot.maze_notes[landmark_id] >= maze.notes.size():
+			return Result.failure(Result.Outcome.INVALID_SNAPSHOT, "maze_notes.%s" % String(landmark_id), "no such note")
+	preparation.maze_notes = snapshot.maze_notes
 	if not preparation.is_valid():
 		return Result.failure(
 			Result.Outcome.RECONSTRUCTION_FAILED,
@@ -288,6 +294,12 @@ static func _restore_npc_ledger(
 				runtime.combat_chat_chance = saved.combat_chat_chance
 				runtime.pills_left = saved.pills_left
 				runtime.times_caught = saved.times_caught
+				runtime.chant_stage = saved.chant_stage
+				runtime.chant_left = saved.chant_left_ms / 1000.0
+				# A chant under way is one of its NPC's stages (sword_soul.c chant_sword()).
+				var hooks: NpcHooks = definition.hooks()
+				if saved.chant_stage >= 0 and (hooks == null or saved.chant_stage >= hooks.chant_stages.size()):
+					return Result.failure(Result.Outcome.INVALID_SNAPSHOT, path + ".memory.chant", "not one of its chant's stages")
 			entries.append(OldPineRestoredNpcEntry.new(
 				runtime,
 				Vector2(saved.map_position.x, saved.map_position.y),

@@ -742,7 +742,15 @@
 			"chat_msg_combat": [
 				{ "action": "exert", "function": "recover" },
 				{ "action": "perform", "skill": "move", "function": "hasten" }
-			]
+			],
+			"apprentice": {
+				"requires": [
+					{ "mark": "桃林", "refuse_say": "你还是先走一趟东边的桃林吧。\n", "refuse_marks": ["书生"] }
+				],
+				"accept_say": "很好，$RESPECT多加努力，他日必定有成。\n",
+				"unmarks": ["书生", "桃林"],
+				"class": "scholar"
+			}
 		},
 		{
 			"id": "common.npc.scholar.sword_soul",

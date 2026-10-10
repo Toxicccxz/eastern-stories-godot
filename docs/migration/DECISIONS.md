@@ -111,6 +111,49 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 - #27 牛皮酒袋照原名显示，不另起短名。
 - 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
 
+## 乔阴 C: 步玄派 (2026-10-10)
+
+The plan's C (「乔阴 A」 below): 骆云舟's 拜师 by the 桃林's mark, the 桃林's notes and ways, his
+teaching, the player's 步玄七诀, 小步玄剑, 步玄心法 and 「玄羽乱舞」. What each room and function
+became is in [CHOYIN_CONTENT](CHOYIN_CONTENT.md); it follows the LPC except:
+- **Owner (option A, asked in #100): 风泉剑灵's chant is saved.** Its place (the stage it says
+  next and the seconds till then) is kept on the NPC and goes into its memory record; it counts
+  on its map's running time only, so it waits while the player is on another map, in a fight
+  (as every NPC call_out) or out of the game, and goes on where it stopped after Continue, the
+  time away not counted. ES2's call_out ran on while the player was elsewhere and was lost with
+  a reboot. This replaces 乔阴 A's "does not survive Continue" and the plan's "stops when the
+  player leaves the map"; for the other call_outs 茅山 B's rule stands.
+- **The 桃林 lies apart in the peach woods** (painter): a clearing with taolin.c's six ways
+  (north, south, west, east, northwest, southeast), each a path that leads back into the
+  clearing from its far side, the 字条 on the tree in its middle; the way in is a path off the
+  曼雩台's east edge, and the woods keep the platform out of sight. taolin.c's exits all name the
+  room itself, west too: there is no walking back to the platform.
+- **Every walk out of the clearing is a step.** ES2 counted only `go <dir>` (its n/e/s/w
+  aliases): a bare `east` went to go.c directly and changed nothing, which a walked map cannot
+  show.
+- **默认 (review): the note the 字条 shows is saved** (msg_no, the room's, drawn anew after each
+  way; a save record `maze_notes`), so Continue shows the line the player read; ES2 drew a new
+  one when the room loaded again, and a way walked on the old line silently cost three steps.
+  Other room state (counters, doors) is still not saved. taolin_steps is the character's (set(),
+  saved: CharacterState `counters`).
+- **默认 (plan): 放弃 in the 桃林 wakes the player in the Inn**, as in the 神秘洞穴 and 绝地.
+- **As ES2:** his refusal (你还是先走一趟东边的桃林吧) marks 书生 and ends the request (山烟寺 C);
+  whom he takes loses marks/书生 and marks/桃林, so the way east is shut again for his own; his
+  smile is an emote (nothing printed). 「玄羽乱舞」 needs kee 70 and force 70 above max_force.
+- **perform.c's `<martial>.` form** (global): a file no weapon use reaches is offered through
+  行动 or 轻功 (help perform: perform move.reflexion; 骆云舟's perform move.hasten), so
+  「玄羽乱舞」 is on the battle panel with 步玄七诀 enabled for either, whatever is in hand. The
+  weapon arts' 字诀 stay offered only with what is in hand (封山剑法 bare-handed as 招架 offers
+  nothing, as before).
+- **Global (data):** a `note_maze` landmark (the notes and their ways, the counter its way in
+  sets, the step rule, the way out and its mark); an apprentice check on a saved mark, with the
+  marks a refusal gives and those the recruit clears; a town map's neighbours may be joined by a
+  passage on the map instead of a shared edge.
+- **Save**: the player's `counters`, an NPC's `memory.chant` and the root's `maze_notes` are
+  optional records; world content revision `SOURCE_ENTRY_CHOYIN_C_V1` (the 桃林 moved: a save
+  standing where it was would only fail as an invalid position); older development saves need a
+  New Game.
+
 ## Save: the player's set_temp() flags (2026-10-10)
 
 **Owner** (after 乔阴 B): the player's set_temp() flags are saved. ES2 cleared them at logout,
@@ -159,8 +202,8 @@ into the 寒谷 does no harm); the 荷包 is given once. What each room and func
   anew (its room's reset after it died) starts from create() again, as ES2. This replaces
   "object variables count anew" (4E) and the "Continue forgets" of the dog (A11), the
   robbers and the thief (3A) and the drunk (青石村 B). Unchanged: the player's set_temp()
-  flags (晚月庄 A; saved too since, see above), a call_out under way (a greeting, a making,
-  the 剑灵's chant), room counters and doors.
+  flags (晚月庄 A; saved too since, see above), a call_out under way (a greeting, a making;
+  the 剑灵's chant is saved since 乔阴 C), room counters and doors.
 - **Obvious slips fixed:** lionroom.c's smell lacked braces (the first thing in any pack blew
   its carrier out, the line only for the grass): only the 忘忧草 does it, else
   你身上没有忘忧草啊。; goldenrope.c's tie lacked them too (the plan's 仙鹤 default covers it).
@@ -203,7 +246,8 @@ lift is not asked; the lift's lines fixed (你从洞口掉了下去); the statue
 缚仙绳 only where a 仙鹤 is, asked first when its 50 sen would knock the player out; the vine not
 asked; the 草堂 takes back only the hermit's books; the 荷包 given once; stealing asked first from
 one clearly stronger (A10), the things seen plus 随手摸一样; 陆得财 counts only the money carried;
-the 老者's growth not saved; the 剑灵's chant stops when the player leaves the map; the names
+the 老者's growth not saved; the 剑灵's chant stops when the player leaves the map (owner, 乔阴 C:
+it waits and is saved instead); the names
 短歌刀法, 乐器, 偷窃; wimpy still not modelled. Not placed: 北冥大鹏, the 石室, d/jail's guard,
 beggar/wineskin.c.
 
@@ -237,7 +281,8 @@ LPC except:
 - **默认: the cranes cannot be fought yet**: a beast without verbs gets beast.c's default action
   with two unfilled %s (攻击$n的%s，%s); B decides it with the 树冠.
 - **风泉剑灵 comes at the 曼雩台** (its master never leaves it): a summoned spawn there, saved as any
-  NPC; its chant does not survive Continue (call_outs are not saved). **默认: one at a time**:
+  NPC; its chant does not survive Continue (call_outs are not saved; owner, 乔阴 C: it is now).
+  **默认: one at a time**:
   while it stands, 骆云舟 killed again keeps his sword in his corpse (ES2 made a second soul); a
   player killed holding the sword in the town brings it to the 曼雩台, on another map the sword
   stays in their corpse (ES2: a soul where the killer stood; a lasting NPC cannot yet come off a
@@ -552,7 +597,8 @@ What each LPC function became (林忌's two-second answer, the women's refusal, 
   the thief's steal) runs on its map's world time, which stands still in a fight and while the
   player is on another map. One that comes due in a fight waits for its end; leaving the map
   drops them all, since ES2's would come while the player is away and find nobody (recruit.c's
-  present(), steal_it()).
+  present(), steal_it()). Except 风泉剑灵's chant (owner, 乔阴 C): it says nothing to anyone in
+  particular, so it waits, kept on the NPC and saved, and goes on when the player is back.
 - **The question before 拜师** (first master, betrayal) is asked at the 拜师, as with 柳淳风 and
   绝尘子, though with 林忌 the change itself comes with his answer two seconds later.
 

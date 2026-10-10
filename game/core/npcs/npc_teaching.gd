@@ -49,7 +49,9 @@ class RecognizeRule:
 ##   seconds later (call_out("do_recruit", 2)): its checks, its say and its recruit come
 ##   then, and one asking while that answer is due hears `busy_say` (find_call_out()).
 ##   daemon/class/dancer/master.c adds a message_vision() after its say for a young beauty
-##   (`accept_vision`).
+##   (`accept_vision`). daemon/class/scholar/master.c takes only one with a mark (marks/桃林);
+##   its refusal marks the student (marks/书生: the way east is open), and whom it takes loses
+##   both marks (`unmarks`).
 ## - oath (daemon/class/fighter/master.c): it asks for an oath (ask_say; again_say
 ##   when one is already asked), and the player's swear of `oath` makes it say
 ##   accept_say and recruit.
@@ -84,19 +86,25 @@ class ApprenticeRule:
 	var ask_tell: String = ""
 	var blows: Array[TrialBlow] = []
 	var success: String = ""
+	## The marks whom attempt_apprentice() takes loses (ob->set("marks/书生", 0)); a requirements
+	## master's only. An offer taken (apprentice.c's first branch) never calls it: nothing goes.
+	var unmarks: Array[String] = []
 
 
 ## One check of attempt_apprentice(): the minimums it requires, cor and cps as
 ## query_cor() and query_cps() have them, spi as set (query("spi")) and combat_exp, the
 ## gender it takes ("" any; query("gender") != "男性" in taolord.c), the class it takes
-## ("" any; query("class") != "bonze" in daemon/class/bonze/master.c) and what it says
-## when one is short.
+## ("" any; query("class") != "bonze" in daemon/class/bonze/master.c), the saved mark it
+## needs ("" none; query("marks/桃林") in daemon/class/scholar/master.c), what it says when
+## one is short and the marks its refusal gives (set("marks/书生", 1)).
 class RequirementCheck:
 	extends RefCounted
 	var requires: Dictionary[StringName, int] = {}
 	var gender: String = ""
 	var class_id: StringName = &""
+	var mark: String = ""
 	var refuse_say: String = ""
+	var refuse_marks: Array[String] = []
 
 
 ## One blow of a trial: said before it, and said when the student did not stand it ("":
@@ -208,6 +216,7 @@ static func from_record(reader: ContentRecordReader) -> NpcTeaching:
 				rule.accept_vision.age_below = vision.required_integer("age_below")
 				vision.finish()
 			rule.commoners_only = apprentice.text("commoners_only")
+			rule.unmarks = apprentice.text_list("unmarks")
 			rule.answer_after = float(apprentice.integer("answer_after", 0))
 			if rule.answer_after < 0.0:
 				apprentice.fail("answer_after", "must not be negative")
@@ -247,8 +256,8 @@ static func from_record(reader: ContentRecordReader) -> NpcTeaching:
 	return teaching
 
 
-## `requires` as [{<key>: minimum, ..., "gender"?, "class"?, "refuse_say"}]: checked in
-## turn, each with its say.
+## `requires` as [{<key>: minimum, ..., "gender"?, "class"?, "mark"?, "refuse_say",
+## "refuse_marks"?}]: checked in turn, each with its say.
 static func _read_checks(apprentice: ContentRecordReader, rule: ApprenticeRule) -> void:
 	for record: ContentRecordReader in apprentice.children("requires"):
 		var check := RequirementCheck.new()
@@ -262,6 +271,12 @@ static func _read_checks(apprentice: ContentRecordReader, rule: ApprenticeRule) 
 				continue
 			if key == "class":
 				check.class_id = StringName(record.required_text("class"))
+				continue
+			if key == "mark":
+				check.mark = record.required_text("mark")
+				continue
+			if key == "refuse_marks":
+				check.refuse_marks = record.text_list("refuse_marks")
 				continue
 			if not REQUIREMENTS.has(StringName(key)):
 				record.fail(key, "unsupported requirement")

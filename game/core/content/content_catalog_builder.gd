@@ -640,6 +640,21 @@ func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false) -> void:
 					_errors.append("%s.condition: unknown condition '%s'" % [origin, step.condition_id])
 
 
+## A note_maze's enter portal leads into its zone, and each note names a way out of it: a
+## portal from the zone back into it on its map (its legacy_command the way).
+func _resolve_note_maze(definition: WorldLandmarkDefinition, origin: String) -> void:
+	var enter: PortalDefinition = _portals.get(definition.enter_portal_id)
+	if enter == null or enter.destination_zone_id != definition.zone_id:
+		_errors.append("%s.enter: '%s' must be a portal into %s" % [origin, definition.enter_portal_id, definition.zone_id])
+	var ways: Array[StringName] = []
+	for portal: PortalDefinition in _portals.values():
+		if portal.source_zone_id == definition.zone_id and portal.destination_zone_id == definition.zone_id:
+			ways.append(StringName(portal.legacy_command))
+	for note: WorldLandmarkDefinition.MazeNote in definition.notes:
+		if not ways.has(note.way):
+			_errors.append("%s.notes: no way '%s' leads out of %s" % [origin, note.way, definition.zone_id])
+
+
 ## A landmark's portals leave from its own zone; a hidden passage's second
 ## portal is the way back, from where the first leads to the landmark's zone.
 func _resolve_landmarks() -> void:
@@ -676,6 +691,8 @@ func _resolve_landmarks() -> void:
 				_errors.append("%s.items: unknown item '%s'" % [origin, definition.item(role)])
 		if not definition.guard_npc_id.is_empty() and not _npcs.has(definition.guard_npc_id):
 			_errors.append("%s.guard: unknown NPC '%s'" % [origin, definition.guard_npc_id])
+		if definition.policy == &"note_maze":
+			_resolve_note_maze(definition, origin)
 		if not definition.spawn_id.is_empty():
 			var spawn: NpcSpawnDefinition = _spawns.get(definition.spawn_id)
 			if spawn == null or not spawn.summoned or spawn.zone_id != definition.zone_id:

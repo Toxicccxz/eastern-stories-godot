@@ -13,7 +13,10 @@ each zone a room exit joins them to.
 
 Rooms that share an edge must be neighbours (room exits in game/data) and every walkable step
 from the reach marker stays between neighbours; a body must reach every room and what the player
-uses must be within reach (canvas.within_reach, with every marker the map places). Doors `between`
+uses must be within reach (canvas.within_reach, with every marker the map places). Neighbours
+share an edge unless a passage on this map joins them (a jump, as on canvas maps: reaching its
+rectangle reaches its arrival marker): d/choyin/taolin.c's grove lies apart in the trees, and its
+ways lead back into itself. Doors `between`
 two zones sit in their doorway: across the shared edge between two buildings, in the building's
 wall when one side is a street.
 Generated: `zones`, `captions` (top left of open zones, bottom left inside enclosed ones) and
@@ -26,7 +29,7 @@ from __future__ import annotations
 from collections import deque
 
 from . import scene as sc
-from .canvas import Canvas, within_reach
+from .canvas import Canvas, jumps as passage_jumps, within_reach
 from .region import Drawn, explicit_markers, fill_row, zone_node_name
 from .tiles import ATLAS, T, Tiles
 
@@ -35,10 +38,11 @@ OPEN, ENCLOSED = 'open', 'enclosed'
 
 def draw(region, entry: dict) -> Drawn:
     d, scene = entry['draw'], entry['scene']
-    town = Town(region, d, scene)
+    jumps = passage_jumps(region, scene, explicit_markers(scene), d['zones'])
+    town = Town(region, d, scene, jumps)
     tiles = Tiles()
     gaps = town.paint(tiles)
-    reached, bad = town.reach(tiles, explicit_markers(scene)[d['reach_from']])
+    reached, bad = town.reach(tiles, explicit_markers(scene)[d['reach_from']], jumps)
     assert not bad, ('walkable between rooms that are not neighbours', bad)
     missing = set(town.zones) - reached
     assert not missing, ('cut off', missing)
@@ -53,7 +57,7 @@ def draw(region, entry: dict) -> Drawn:
     fragments = {'zones': zones, 'captions': captions, 'markers': town.markers(tiles, gaps)}
     named = explicit_markers(scene)
     body = town.canvas(tiles)
-    seen = body.reach(named[d['reach_from']], town.pairs)
+    seen = body.reach(named[d['reach_from']], town.pairs, jumps)
     missing = set(town.zones) - {body.zone_at(x * T + 8, y * T + 8) for x, y in seen}
     assert not missing, ('no way for a body into', missing)
     within_reach(body, seen, scene, {**named, **town.spots}, region.service_reach(), region.contact_landmarks(),
@@ -63,10 +67,16 @@ def draw(region, entry: dict) -> Drawn:
 
 
 class Town:
-    def __init__(self, region, d: dict, scene: dict) -> None:
+    def __init__(self, region, d: dict, scene: dict, jumps=()) -> None:
         self.region = region
         self.d = d
         self.zones = {z: tuple(v) for z, v in d['zones'].items()}
+        # Neighbour pairs a passage on this map joins: they need not share an edge.
+        self.jumped = set()
+        for (x0, y0, x1, y1), arrival in jumps:
+            ends = (self.zone_of_point((x0 + x1) / 2, (y0 + y1) / 2), self.zone_of_point(*arrival))
+            if None not in ends and ends[0] != ends[1]:
+                self.jumped.add(tuple(sorted(ends)))
         self.gap_at = {(row[0], row[1]): row[2] for row in d.get('gap_at', [])}
         self.stairs = scene.get('stairs', [])
         self.style = scene['style']
@@ -77,7 +87,7 @@ class Town:
     def check(self) -> None:
         """Every neighbour pair shares an edge; no two zones overlap."""
         for a, b in self.pairs:
-            assert self.shared_edge(a, b) is not None, ('neighbours apart', a, b)
+            assert self.shared_edge(a, b) is not None or (a, b) in self.jumped, ('neighbours apart', a, b)
         ids = sorted(self.zones)
         for i, a in enumerate(ids):
             for b in ids[i + 1:]:
@@ -143,6 +153,8 @@ class Town:
         for a, b in sorted(self.pairs):
             if self.zones[a][4] == OPEN and self.zones[b][4] == OPEN:
                 continue
+            if self.shared_edge(a, b) is None:
+                continue
             vertical, edge, centre = self.gap(a, b)
             for zone_id in (a, b):
                 x0, y0, x1, y1, mode, ground, _ = self.zones[zone_id]
@@ -162,14 +174,27 @@ class Town:
                 return zone_id
         return None
 
-    def reach(self, tiles: Tiles, start_point):
-        """Walkable cells from a point, never crossing between rooms that are not neighbours."""
+    def reach(self, tiles: Tiles, start_point, jumps=()):
+        """Walkable cells from a point, never crossing between rooms that are not neighbours;
+        a jump's arrival is reached once its box is."""
         cells = tiles.walkable_cells()
         start = (start_point[0] // 16, start_point[1] // 16)
         seen = {start}
         queue = deque([start])
         bad = set()
-        while queue:
+        pending = list(jumps)
+        while queue or pending:
+            if not queue:
+                landed = [j for j in pending if any(j[0][0] <= x * 16 + 8 <= j[0][2] and j[0][1] <= y * 16 + 8 <= j[0][3] for x, y in seen)]
+                if not landed:
+                    break
+                for jump in landed:
+                    pending.remove(jump)
+                    cell = (int(jump[1][0]) // 16, int(jump[1][1]) // 16)
+                    if cell not in seen:
+                        seen.add(cell)
+                        queue.append(cell)
+                continue
             cx, cy = queue.popleft()
             here = self.zone_of_point(cx * 16 + 8, cy * 16 + 8)
             for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):

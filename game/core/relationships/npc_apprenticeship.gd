@@ -112,6 +112,8 @@ static func refusal(student: CharacterState, rule: NpcTeaching.ApprenticeRule) -
 			return check
 		if not check.class_id.is_empty() and student.affiliation.class_id != check.class_id:
 			return check
+		if not check.mark.is_empty() and student.marks.get(check.mark, 0) == 0:
+			return check
 		for key: StringName in check.requires:
 			if _requirement_value(student, key) < check.requires[key]:
 				return check
@@ -265,6 +267,7 @@ func request(student: CharacterState, master: NpcDefinition, family: FamilyDefin
 		var refused: NpcTeaching.RequirementCheck = refusal(student, rule)
 		if refused != null:
 			_say(npc, refused.refuse_say, respect)
+			_mark_refused(student, refused)
 			end_request(master.definition_id)
 			return Outcome.QUALIFICATION_REJECTED
 		if _traitor(rule, student_title, shown_title, student_name, npc):
@@ -287,12 +290,26 @@ func request(student: CharacterState, master: NpcDefinition, family: FamilyDefin
 	var short: NpcTeaching.RequirementCheck = refusal(student, rule)
 	if short != null:
 		_say(npc, short.refuse_say, respect)
+		_mark_refused(student, short)
 		end_request(master.definition_id)
 		return Outcome.QUALIFICATION_REJECTED
 	_accept(npc, rule, respect, student, student_age)
 	# recruit.c: the student's pending/apprentice is this master.
 	_recruit(student, master, family, entry_time_utc, false)
+	_unmark(student, rule)
 	return Outcome.RECRUITED
+
+
+## What the refusal sets on the student (scholar/master.c: marks/书生, the way to the 桃林).
+static func _mark_refused(student: CharacterState, check: NpcTeaching.RequirementCheck) -> void:
+	for mark: String in check.refuse_marks:
+		student.marks[mark] = 1
+
+
+## What the master's taking them clears (scholar/master.c: marks/书生 and marks/桃林 set to 0).
+static func _unmark(student: CharacterState, rule: NpcTeaching.ApprenticeRule) -> void:
+	for mark: String in rule.unmarks:
+		student.marks.erase(mark)
 
 
 ## A master that takes only commoners and a student titled otherwise: its chat line in
@@ -334,6 +351,7 @@ func answer(student: CharacterState, master: NpcDefinition, family: FamilyDefini
 	if short != null:
 		if awake:
 			_say(npc, short.refuse_say, respect)
+		_mark_refused(student, short)
 		end_request(master.definition_id)
 		return Outcome.QUALIFICATION_REJECTED
 	if not awake:
@@ -342,7 +360,10 @@ func answer(student: CharacterState, master: NpcDefinition, family: FamilyDefini
 		_offers[master.definition_id] = true
 		return Outcome.OFFERED
 	_accept(npc, teaching.apprentice, respect, student, student_age)
-	return _npc_recruit(student, master, family, entry_time_utc)
+	var answered: Outcome = _npc_recruit(student, master, family, entry_time_utc)
+	if answered == Outcome.RECRUITED:
+		_unmark(student, teaching.apprentice)
+	return answered
 
 
 ## The answer `answer_after` seconds on while the student is not before the master: its
@@ -353,7 +374,9 @@ func answer_unheard(student: CharacterState, master: NpcDefinition) -> Outcome:
 	var teaching: NpcTeaching = null if master == null else master.teaching()
 	if student == null or teaching == null or teaching.apprentice == null or teaching.apprentice.answer_after <= 0.0:
 		return Outcome.AUTHORITY_FAILURE
-	if refusal(student, teaching.apprentice) != null:
+	var short: NpcTeaching.RequirementCheck = refusal(student, teaching.apprentice)
+	if short != null:
+		_mark_refused(student, short)
 		end_request(master.definition_id)
 		return Outcome.QUALIFICATION_REJECTED
 	return Outcome.PENDING

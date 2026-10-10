@@ -449,6 +449,12 @@ func restored_floor_items() -> Array[GameSaveValueTypes.FloorItemSnapshot]:
 	return [] if _restore_preparation == null else _restore_preparation.floor_items.duplicate()
 
 
+## The notes the note mazes showed, while Continue builds the maps.
+func restored_maze_notes() -> Dictionary[StringName, int]:
+	var none: Dictionary[StringName, int] = {}
+	return none if _restore_preparation == null else _restore_preparation.maze_notes.duplicate()
+
+
 func activate_restore_candidate() -> bool:
 	if (
 		_bootstrap_mode != BootstrapMode.RESTORE

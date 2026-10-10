@@ -92,6 +92,16 @@
 				"lines": ["你看到风泉之剑掉落在地上 ...", "不 ... 它飘了起来！一个人形忽然浮现，手中正握著风泉之剑！"]
 			}
 		},
+		"common.npc.scholar.master": {
+			"apprentice": {
+				"requires": [
+					{ "mark": "桃林", "refuse_say": "你还是先走一趟东边的桃林吧。\n", "refuse_marks": ["书生"] }
+				],
+				"accept_say": "很好，$RESPECT多加努力，他日必定有成。\n",
+				"unmarks": ["书生", "桃林"],
+				"class": "scholar"
+			}
+		},
 		"common.npc.scholar.sword_soul": {
 			"chant": {
 				"stages": [
@@ -258,8 +268,8 @@
 			"function recruit_apprentice": "乔阴 D: class beggar"
 		},
 		"daemon/class/scholar/master.c": {
-			"function attempt_apprentice": "乔阴 C: 步玄派 (the 桃林's mark)",
-			"function recruit_apprentice": "乔阴 C: class scholar"
+			"function attempt_apprentice": "apprentice rule in set: marks/桃林 takes the student (smile, an emote: nothing; the say, the recruit; marks/书生 and marks/桃林 cleared: unmarks); without it the say and marks/书生 (refuse_marks), the way east open",
+			"function recruit_apprentice": "class scholar: apprentice.class in set"
 		},
 		"daemon/class/scholar/windspring.c": {
 			"set wield_msg": "wield/unwield messages are not shown yet",
@@ -325,15 +335,15 @@
 			"set env/wimpy": "NPCs never flee a losing fight yet (wimpy)"
 		},
 		"d/choyin/entrance.c": {
-			"function valid_leave": "world.json exit_rules choyin.entrance.taolin (no_mark 书生: 东行的道路被骆云舟挡住了.); its taolin_steps = 3 is the 桃林's, 乔阴 C"
+			"function valid_leave": "world.json exit_rules choyin.entrance.taolin (no_mark 书生: 东行的道路被骆云舟挡住了.) on the path east (portal choyin.entrance.east); set(\"taolin_steps\", 3): the note_maze landmark choyin.taolin.landmark.note's enter and steps (CharacterState.counters, saved)"
 		},
 		"d/choyin/taolin.c": {
-			"set item_desc": "乔阴 C: the 字条 (read)",
-			"statement in create()": "乔阴 C: the poem the note shows",
-			"function init": "乔阴 C: read note and the 桃林's ways",
-			"function do_read": "乔阴 C",
-			"function do_go": "乔阴 C: a right way brings the way out a step nearer, a wrong one three further; out at last with marks/桃林",
-			"function Get_Dir": "乔阴 C"
+			"set item_desc": "the note_maze landmark choyin.taolin.landmark.note (字条 · 读), its look text verbatim",
+			"statement in create()": "msg_no = random(sizeof(Note_Msg)): WorldMapMazes draws the note when it is first read or walked by; saved (maze_notes, 默认)",
+			"function init": "read note: the landmark's 读; go: each of the six ways (portals choyin.taolin.<way>, passages back into the grove) is judged",
+			"function do_read": "NoteMazeLandmarkPolicy: 你看见: and the note",
+			"function do_go": "WorldMapMazes.take_way(): the note's way with taolin_steps <= 1 leads out (你走出了桃林, the counter deleted, marks/桃林, portal choyin.taolin.out to the 曼雩台); else the note's way one nearer, any other three further; the note drawn anew after each. ES2 counted only `go <dir>` (the n/e/s/w aliases), not a bare direction: every walk counts here",
+			"function Get_Dir": "the notes' ways in the landmark's notes (dir_<way>)"
 		},
 		"d/choyin/yamen_yard.c": {
 			"create_door": "world.json doors: choyin.yamen.door (铜钉大门, shut)"

@@ -14,6 +14,8 @@ var _npc_entries: Array[OldPineRestoredNpcEntry] = []
 var _corpse_entries: Array[OldPineRestoredCorpseEntry] = []
 ## Dropped items and where they lie (GameSaveSnapshot.floor_items).
 var floor_items: Array[GameSaveValueTypes.FloorItemSnapshot] = []
+## The note each note maze shows (GameSaveSnapshot.maze_notes).
+var maze_notes: Dictionary[StringName, int] = {}
 
 
 func _init(

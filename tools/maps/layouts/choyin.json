@@ -1,7 +1,7 @@
 {
 	"maps": {
 		"town": {
-			"note": "乔阴县城: the 福林大街 runs from the 北门 (its stone arch, two stone lions; the yellow road north into the pines, which goes nowhere now, and west to 泓水南岸's foot of the hill) south past the 老姚布庄 and a three-storey tavern to the ring of flagstones round the 树王坟's raised terrace (the huge stump with its hole, the little shrine on its south side, steps down on all four sides); the 西大街 west past shops to the standing stone lion before the closed 西门 (the bookshop south of it), the 东大街 east between houses to the 东城门 and its iron lion; south the market street to the 福林楼 (east) and the 南门广场 with its great well, the willows of 翠柳湖 east of it. West along the 承安街 to the 十字路口: north the 县府衙门's gate (stone lions, the drum; its courts are a map of their own), south the rebuilt 南门 outside the city wall, then east under the 火龙将军庙 (the road runs through it below the statue's terrace) and along the lake shore back up to the square. From the square the zigzag bridge crosses the lake's lilies to the 曼雩台 and the peach grove east of it.",
+			"note": "乔阴县城: the 福林大街 runs from the 北门 (its stone arch, two stone lions; the yellow road north into the pines, which goes nowhere now, and west to 泓水南岸's foot of the hill) south past the 老姚布庄 and a three-storey tavern to the ring of flagstones round the 树王坟's raised terrace (the huge stump with its hole, the little shrine on its south side, steps down on all four sides); the 西大街 west past shops to the standing stone lion before the closed 西门 (the bookshop south of it), the 东大街 east between houses to the 东城门 and its iron lion; south the market street to the 福林楼 (east) and the 南门广场 with its great well, the willows of 翠柳湖 east of it. West along the 承安街 to the 十字路口: north the 县府衙门's gate (stone lions, the drum; its courts are a map of their own), south the rebuilt 南门 outside the city wall, then east under the 火龙将军庙 (the road runs through it below the statue's terrace) and along the lake shore back up to the square. From the square the zigzag bridge crosses the lake's lilies to the 曼雩台; a path leads east off it into the peach woods, where the 桃林 lies deep in the trees: a clearing whose six paths all lead back into it, the 字条 on the tree in its middle.",
 			"file": "choyin_town.tscn",
 			"draw": {
 				"technique": "town",
@@ -9,7 +9,7 @@
 				"bounds": [
 					416,
 					64,
-					3328,
+					4352,
 					2880
 				],
 				"ground": [
@@ -168,6 +168,14 @@
 						2368,
 						512,
 						2432
+					],
+					[
+						"forest",
+						2752,
+						1920,
+						4352,
+						2880,
+						"桃林: the peach woods east of the 曼雩台, the grove deep in them"
 					]
 				],
 				"zones": {
@@ -433,9 +441,9 @@
 						null
 					],
 					"choyin.taolin": [
-						2752,
+						3776,
 						2304,
-						3264,
+						4288,
 						2816,
 						"open",
 						"grass",
@@ -734,81 +742,110 @@
 					],
 					[
 						"forest",
-						2816,
-						2352,
-						2864,
-						2400,
-						"桃林: peach trees, paths every way"
-					],
-					[
-						"forest",
-						2944,
-						2352,
-						2992,
-						2400
-					],
-					[
-						"forest",
-						3088,
+						3888,
+						2304,
+						3984,
 						2368,
-						3136,
-						2416
+						"桃林: peach trees between the clearing and its six paths (taolin.c: every way leads back into it)"
 					],
 					[
 						"forest",
-						2864,
-						2480,
-						2912,
-						2528
+						4080,
+						2304,
+						4288,
+						2448
 					],
 					[
 						"forest",
-						3008,
+						3968,
+						2368,
+						3984,
+						2448
+					],
+					[
+						"forest",
+						3776,
+						2416,
+						3840,
+						2496
+					],
+					[
+						"forest",
+						4144,
+						2448,
+						4288,
+						2512
+					],
+					[
+						"forest",
+						3776,
 						2496,
-						3056,
-						2544
+						3920,
+						2512
 					],
 					[
 						"forest",
-						3152,
-						2528,
-						3200,
-						2576
+						3776,
+						2608,
+						3920,
+						2672
 					],
 					[
 						"forest",
-						2800,
-						2640,
-						2848,
-						2688
+						4144,
+						2608,
+						4288,
+						2624
 					],
 					[
 						"forest",
-						2944,
-						2656,
-						2992,
+						4224,
+						2624,
+						4288,
 						2704
 					],
 					[
 						"forest",
-						3088,
+						3776,
 						2672,
-						3136,
-						2720
+						3984,
+						2816
 					],
 					[
 						"forest",
-						2880,
-						2752,
-						2928,
-						2784
+						4080,
+						2672,
+						4096,
+						2752
 					],
 					[
 						"forest",
-						3040,
+						4080,
 						2752,
-						3088,
-						2784
+						4176,
+						2816
+					],
+					[
+						"forest",
+						4016,
+						2544,
+						4048,
+						2576,
+						"the peach tree the 字条 hangs on"
+					],
+					[
+						"forest",
+						3936,
+						2640,
+						3968,
+						2672
+					],
+					[
+						"forest",
+						4112,
+						2448,
+						4144,
+						2480
 					]
 				],
 				"reach_from": "NGateRoadArrival",
@@ -1094,6 +1131,86 @@
 						"shape": "Rect_96_32"
 					},
 					{
+						"node": "caption",
+						"name": "GroveLabel",
+						"at": [
+							2660,
+							2500
+						],
+						"text": "东 · 桃林",
+						"size": 14
+					},
+					{
+						"node": "passage",
+						"name": "GrovePassage",
+						"id": "choyin.entrance.east",
+						"at": [
+							2712,
+							2560
+						],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "TaolinNorthPassage",
+						"id": "choyin.taolin.north",
+						"at": [
+							4032,
+							2336
+						],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "TaolinSouthPassage",
+						"id": "choyin.taolin.south",
+						"at": [
+							4032,
+							2784
+						],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "TaolinWestPassage",
+						"id": "choyin.taolin.west",
+						"at": [
+							3808,
+							2560
+						],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "TaolinEastPassage",
+						"id": "choyin.taolin.east",
+						"at": [
+							4256,
+							2560
+						],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "TaolinNorthwestPassage",
+						"id": "choyin.taolin.northwest",
+						"at": [
+							3816,
+							2344
+						],
+						"shape": "Rect_32_32"
+					},
+					{
+						"node": "passage",
+						"name": "TaolinSoutheastPassage",
+						"id": "choyin.taolin.southeast",
+						"at": [
+							4248,
+							2776
+						],
+						"shape": "Rect_32_32"
+					},
+					{
 						"node": "service",
 						"name": "WellWater",
 						"id": "choyin.s_street1.well",
@@ -1161,6 +1278,62 @@
 						"id": "choyin.tree_tomb.hole_return"
 					},
 					{
+						"name": "EntranceGroveReturn",
+						"at": [
+							2640,
+							2560
+						],
+						"id": "choyin.entrance.grove_return"
+					},
+					{
+						"name": "TaolinSouthArrival",
+						"at": [
+							4032,
+							2720
+						],
+						"id": "choyin.taolin.south_arrival"
+					},
+					{
+						"name": "TaolinNorthArrival",
+						"at": [
+							4032,
+							2400
+						],
+						"id": "choyin.taolin.north_arrival"
+					},
+					{
+						"name": "TaolinEastArrival",
+						"at": [
+							4192,
+							2560
+						],
+						"id": "choyin.taolin.east_arrival"
+					},
+					{
+						"name": "TaolinWestArrival",
+						"at": [
+							3872,
+							2560
+						],
+						"id": "choyin.taolin.west_arrival"
+					},
+					{
+						"name": "TaolinSoutheastArrival",
+						"at": [
+							4160,
+							2688
+						],
+						"id": "choyin.taolin.southeast_arrival"
+					},
+					{
+						"name": "TaolinNorthwestArrival",
+						"at": [
+							3904,
+							2432
+						],
+						"id": "choyin.taolin.northwest_arrival"
+					},
+					{
 						"generated": "stair_markers"
 					},
 					{
@@ -1194,6 +1367,24 @@
 							1480
 						],
 						"shape": "Rect_64_32"
+					},
+					{
+						"name": "NoteInteraction",
+						"id": "choyin.taolin.landmark.note",
+						"at": [
+							4032,
+							2512
+						],
+						"shape": "Rect_64_32"
+					},
+					{
+						"name": "GroveInteraction",
+						"id": "choyin.taolin.landmark.grove",
+						"at": [
+							3808,
+							2464
+						],
+						"shape": "Rect_32_64"
 					}
 				]
 			}
