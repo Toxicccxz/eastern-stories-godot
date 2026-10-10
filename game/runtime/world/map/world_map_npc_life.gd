@@ -101,18 +101,8 @@ func _revive_growth(npc: NpcRuntimeState) -> void:
 	var hooks: NpcHooks = npc.definition().hooks()
 	if hooks == null or not hooks.has_revive():
 		return
-	var progression: CharacterProgressionState = npc.character_state.progression
-	@warning_ignore("integer_division")
-	progression.combat_experience += progression.combat_experience / hooks.revive_exp_divisor + hooks.revive_exp_plus
+	hooks.revive_growth(npc.character_state)
 	npc.pills_left = -1
-	var learn: int = progression.potential - progression.potential_spent
-	if learn > 0:
-		@warning_ignore("integer_division")
-		var share: int = learn / hooks.revive_apply_divisor
-		var applies: Dictionary = npc.character_state.applies
-		for key: String in ["attack", "dodge", "damage"]:
-			applies[key] = int(applies.get(key, 0)) + share
-		progression.potential_spent += share * hooks.revive_apply_divisor
 
 
 ## npc.c chat() and random_move(), and greetings, on NPC heart_beat time (NpcAmbience).

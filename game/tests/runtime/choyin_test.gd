@@ -147,7 +147,7 @@ func _test_talk(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(crone != null and map.select_npc(crone.character_id), "the crone")
 	_check(map.ask_selected("年龄").has("乾瘪老太婆说道：老身今年七十有八啦。"), "her age")
 	said = map.ask_selected("名字")
-	_check(said.size() == 3 and said[1].begins_with("乾瘪老太婆说道：对不起，老婆子耳背，") and said[1].ends_with("您是想买东西吧？这儿有价钱(list) ....") and said[2] == "老太婆打开竹篓，盖子上贴了张纸片。", "deaf to her name: %s" % [said])
+	_check(said.size() == 3 and said[1].begins_with("乾瘪老太婆说道：对不起，老婆子耳背，") and said[1].ends_with("您是想买东西吧？这儿有价钱 ....") and said[2] == "老太婆打开竹篓，盖子上贴了张纸片。", "deaf to her name: %s" % [said])
 	var vendor: VendorDefinition = GameContent.catalog().vendor(crone.definition().dealings().vendor_id)
 	_check(vendor.goods_keys().size() == 2 and vendor.item_definition_id("amulet") == &"es2:d/choyin/obj/amulet" and vendor.item_definition_id("red guay") == &"es2:d/choyin/npc/obj/red_guay", "平安符 and 红龟")
 	_check(GameContent.catalog().item(&"es2:d/choyin/npc/obj/red_guay").display_name == "红龟", "红龟 (the room copy's 红龟□ is npc/obj's 红龟)")

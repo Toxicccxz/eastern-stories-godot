@@ -9,6 +9,7 @@ extends RefCounted
 ## 风泉剑灵 when 骆云舟 dies, and its chant; a 书生's book drawn among ten names; every kind
 ## fought to the end. TEST-ONLY fixtures are marked.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
+const Finance := preload("res://tests/runtime/snow_finance_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const MASTER: StringName = &"common.npc.scholar.master"
@@ -43,6 +44,15 @@ class Highest:
 
 	func next_below(bound: int) -> int:
 		return maxi(bound - 1, 0)
+
+
+## Every draw 0 but random(2), 1: an NPC's fight chat comes (random(100) < chance) and picks
+## its second entry (骆云舟's perform move.hasten).
+class SecondChat:
+	extends CombatRandomSource
+
+	func next_below(bound: int) -> int:
+		return 1 if bound == 2 else 0
 
 
 ## hasten.c's fight()s as the test wants them: "hit", "guard" or "none" in turn.
@@ -87,6 +97,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_elite_guards(tree, session)
 	await _test_sword_soul(tree, session)
 	await _test_fights(tree, session)
+	await _test_player_holder(tree, session)
 	session.free()
 	await tree.process_frame
 	return {"assertions": _count, "failures": _failures}
@@ -282,6 +293,39 @@ func _test_oldman(tree: SceneTree, session: WorldSessionController) -> void:
 	map.reset_room("d/choyin/rockyu.c")
 	var fresh: NpcRuntimeState = _npc(map, OLDMAN)
 	_check(fresh != null and fresh != oldman and fresh.exists_in_map and fresh.pills() == 9, "his room makes him anew, nine pills")
+	await _spar_oldman(tree, session, fresh)
+
+
+## A spar: his receive_damage() runs inside the player's blow, before combatd.c ends the spar
+## on it and before anyone falls: the line, his walk out, a pill.
+func _spar_oldman(tree: SceneTree, session: WorldSessionController, oldman: NpcRuntimeState) -> void:
+	var map: WorldMapController = session.active_map() as WorldMapController
+	var player: WorldPlayerRuntimeState = session.player_runtime()
+	_full(player)
+	player.state.applies["damage"] = 400 # TEST-ONLY: a blow above his max_kee / 5 and his kee
+	var courage: int = player.state.attributes.courage
+	player.state.attributes.courage = 1000 # TEST-ONLY: the courage draw always strikes
+	var random: CombatRandomSource = session.combat_random_source()
+	session.configure_combat_random_source(Highest.new()) # TEST-ONLY: the player's blow lands
+	_check(map.place_player(&"choyin.rockyu", MapPlaces.spot(map, &"choyin.rockyu", oldman_body(map, oldman))), "beside the new one")
+	await tree.physics_frame
+	map.select_npc(oldman.character_id)
+	_check(map.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "a spar with him")
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	var felt: Array[String] = []
+	for second: int in 10:
+		if not coordinator.has_active_encounter():
+			break
+		for event: CombatSchedulerEvent in coordinator.advance_scheduler(1.0).events():
+			if event.kind == CombatSchedulerEvent.Kind.NPC_CHAT and event.actor_id == oldman.character_id:
+				for line: VisionLine in event.chat.lines():
+					felt.append(line.template)
+	_check(felt.size() == 3 and felt[0] == "老者捂著受伤的地方，白发散乱，勉强稳住身行。" and felt[1].ends_with("落荒而逃了。") and felt[2] == "老者从口袋摸出一粒象小山药蛋的仙豆吞了下去。", "his line, his walk out, a pill: %s" % [felt])
+	_check(not coordinator.has_active_encounter() and oldman.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and oldman.pills() == 8 and oldman.character_state.vitality.current == oldman.character_state.vitality.effective, "the spar is over, he stands with eight pills, kee back to eff_kee")
+	session.configure_combat_random_source(random)
+	player.state.applies.erase("damage")
+	player.state.attributes.courage = courage
+	session.shared_ui().dismiss_current_panel()
 
 
 ## guard.c accept_kill() (owner: as meant): the other two say 干什么？！ and join, the one
@@ -392,6 +436,21 @@ func _test_sword_soul(tree: SceneTree, session: WorldSessionController) -> void:
 	map.npc_life._advance_ambience(1.5)
 	_check(hud.log_lines()[-1] == "风泉剑灵说道：剑气指天 ...", "and again")
 	_check(Work.capture(session) != null, "Save with the 剑灵 standing")
+	# 默认: one 剑灵 at a time. 骆云舟 made anew and killed again while it stands: his sword
+	# stays in his corpse and no second one comes.
+	map.reset_room("d/choyin/entrance.c")
+	var again: NpcRuntimeState = _npc(map, MASTER)
+	_check(again != null and again != master, "骆云舟 again (his room's reset)")
+	var floated: int = _floated(hud)
+	map.select_npc(again.character_id)
+	_check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the player attacks him again")
+	again.character_state.vitality.apply_wound(again.character_state.vitality.effective + 1) # TEST-ONLY: the last blow
+	rounds = 0
+	while coordinator.has_active_encounter() and rounds < 20:
+		coordinator.advance_scheduler(1.0)
+		rounds += 1
+	_check(again.life_status == CharacterRuntimeLifeStatus.Value.DEAD and _corpse_swords(session, map) == 1 and _floated(hud) == floated and _souls(map) == 1, "his sword in his corpse, no lines, one 剑灵")
+	_finish_fight(session)
 	map.select_npc(soul.character_id)
 	_check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the player attacks the 剑灵")
 	soul.character_state.vitality.apply_wound(soul.character_state.vitality.effective + 1) # TEST-ONLY: the last blow
@@ -406,7 +465,71 @@ func _test_sword_soul(tree: SceneTree, session: WorldSessionController) -> void:
 			if session.item_instance_index().resolve(item_id).item_definition_id == WINDSPRING:
 				dropped += 1
 	_check(soul.life_status == CharacterRuntimeLifeStatus.Value.DEAD and map.npc_life.chants.is_empty() and _npc(map, SOUL) == null, "the 剑灵 falls; its chant with it")
-	_check(dropped == 1, "its 风泉之剑 lies in its corpse")
+	_check(dropped == 2, "its 风泉之剑 lies in its corpse (and 骆云舟's second)")
+
+
+## A player killed holding 风泉之剑 in the town: the sword is gone and the 剑灵 comes on the
+## 曼雩台 (its summoned spawn; on a map without one the sword stays in the corpse, 默认).
+func _test_player_holder(tree: SceneTree, session: WorldSessionController) -> void:
+	_check(session.handoff_to(&"choyin.town", &"choyin.n_gate", &"choyin.n_gate", &"choyin.n_gate.road_arrival").succeeded(), "in the town to die")
+	await tree.physics_frame
+	var map: WorldMapController = session.active_map() as WorldMapController
+	var player: WorldPlayerRuntimeState = session.player_runtime()
+	_full(player)
+	var sword: StringName = _give(session, WINDSPRING)
+	var guard: NpcRuntimeState = _npc(map, &"common.npc.garrison")
+	_check(map.relocate_player(guard.world_location().zone_id, guard.spawn_point_id), "beside a 守城官兵")
+	await tree.physics_frame
+	await tree.physics_frame
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	if not coordinator.has_active_encounter():
+		map.select_npc(guard.character_id)
+		map.attack_selected()
+	player.state.vitality.apply_wound(player.state.vitality.effective + 1) # TEST-ONLY: the player's last breath
+	var rounds: int = 0
+	while coordinator.has_active_encounter() and rounds < 20:
+		coordinator.advance_scheduler(1.0)
+		rounds += 1
+	var soul: NpcRuntimeState = _npc(map, SOUL)
+	_check(player.life_status == CharacterRuntimeLifeStatus.Value.DEAD and session.item_instance_index().resolve(sword) == null and soul != null and soul.world_location().zone_id == &"choyin.entrance", "the player dies, the sword is gone, the 剑灵 stands on the 曼雩台")
+
+
+## The windspring.c lines read so far.
+func _floated(hud: SharedGameplayUI) -> int:
+	var lines: Array[String] = hud.log_lines()
+	for line: ColoredLine in hud._after_fight_lines:
+		lines.append(line.text)
+	return lines.count("不 ... 它飘了起来！一个人形忽然浮现，手中正握著风泉之剑！")
+
+
+func _souls(map: WorldMapController) -> int:
+	var souls: int = 0
+	for npc: NpcRuntimeState in map.resident_npcs():
+		if npc.definition().definition_id == SOUL and npc.exists_in_map and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
+			souls += 1
+	return souls
+
+
+func _corpse_swords(session: WorldSessionController, map: WorldMapController) -> int:
+	var swords: int = 0
+	for corpse: CorpseState in map.corpse_states():
+		for item_id: StringName in session.inventory_state().direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse.corpse_item_instance_id)):
+			if session.item_instance_index().resolve(item_id).item_definition_id == WINDSPRING:
+				swords += 1
+	return swords
+
+
+## TEST-ONLY: an item of `definition_id` in the player's pack.
+func _give(session: WorldSessionController, definition_id: StringName) -> StringName:
+	var context: MoneyInventoryContext = Finance.session_context(session)
+	var content: ItemContentDefinition = GameContent.catalog().item(definition_id)
+	var allocation: SessionItemIdAllocationResult = session.item_id_allocator().allocate(context.inventory)
+	var item := ItemInstance.new(allocation.item_instance_id, definition_id)
+	assert(context.inventory.register_item(item, content.own_weight))
+	assert(context.index.register_snapshot(item))
+	var destination := InventoryTransferDestination.new(context.endpoint(), true, true, 1000000)
+	assert(InventoryTransferService.new().transfer(context.inventory, item.item_instance_id, destination).succeeded)
+	return item.item_instance_id
 
 
 ## Every kind fights to the end without the fight stopping.
@@ -442,11 +565,31 @@ func _fight(tree: SceneTree, session: WorldSessionController, map: WorldMapContr
 		map.select_npc(npc.character_id)
 		var started: CombatSliceInitiationResult = map.attack_selected()
 		_check(started.outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the player attacks %s: %s %s" % [name, CombatSliceInitiationResult.Outcome.find_key(started.outcome), session.shared_ui().log_lines().slice(-2)])
+	if npc.definition().definition_id == MASTER:
+		_hasten_live(session, npc)
 	coordinator.advance_scheduler(30.0)
 	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "%s: thirty seconds of fighting without a stop" % name)
 	_finish_fight(session)
 	player.state.vendetta.clear() # TEST-ONLY: the guards' report
 	await tree.physics_frame
+
+
+## 骆云舟's fight chat in a real fight: perform move.hasten, 玄羽乱舞's line and its rounds.
+func _hasten_live(session: WorldSessionController, master: NpcRuntimeState) -> void:
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	var random: CombatRandomSource = session.combat_random_source()
+	session.configure_combat_random_source(SecondChat.new()) # TEST-ONLY: his chat comes, the second entry
+	var hasted: bool = false
+	for second: int in 6:
+		if hasted or not coordinator.has_active_encounter():
+			break
+		for event: CombatSchedulerEvent in coordinator.advance_scheduler(1.0).events():
+			if event.kind != CombatSchedulerEvent.Kind.NPC_CHAT or event.actor_id != master.character_id or event.chat == null or event.chat.special() == null:
+				continue
+			for line: VisionLine in event.chat.special().lines():
+				hasted = hasted or line.template.contains("「玄羽乱舞」")
+	session.configure_combat_random_source(random)
+	_check(hasted, "骆云舟 performs 玄羽乱舞 in a real fight")
 
 
 ## TEST-ONLY: away from the fight, by fleeing as often as it takes.

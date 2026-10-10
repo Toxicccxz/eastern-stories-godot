@@ -265,8 +265,8 @@ func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunit
 	# chard.c make_corpse(): owner_is_killed() of what it carries (windspring.c) before the
 	# corpse takes the rest: the item is gone, its NPC comes once the death is done.
 	var comes: Array[StringName] = []
-	if victim_npc != null and opportunity != null and opportunity.outcome == CombatSliceOpportunityResult.Outcome.LIFECYCLE_REQUIRED_DEATH:
-		comes = _owner_is_killed(victim_npc)
+	if (victim_npc != null or is_player) and opportunity != null and opportunity.outcome == CombatSliceOpportunityResult.Outcome.LIFECYCLE_REQUIRED_DEATH:
+		comes = _owner_is_killed(victim, &"" if victim_npc == null else victim_npc.definition().definition_id)
 	var receipt: CombatSliceLifecycleResult = _execute_lifecycle(victim, opportunity, participants, killer)
 	_last_lifecycle_results.append(receipt)
 	# mind_bug.c die() runs its own lines before ::die()'s killer_reward().
@@ -305,16 +305,21 @@ func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunit
 	return receipt
 
 
-## owner_is_killed() of each item `victim` carries that has one (ItemContentDefinition), unless
-## the holder is the item's own NPC (sword_soul.c's sword): the item is destroyed now.
-## Returns the item definitions whose NPC is to come.
-func _owner_is_killed(victim: NpcRuntimeState) -> Array[StringName]:
+## owner_is_killed() of each item `victim` (an NPC of `definition_id`, or the player: "")
+## carries that has one (ItemContentDefinition), unless the holder is the item's own NPC
+## (sword_soul.c's sword): the item is destroyed now. Returns the item definitions whose
+## NPC is to come. Its NPC is one summoned spawn on this map; while that one stands, or on
+## a map without it, none can come and the item stays with the dead (默认: ES2 made another
+## where the killer stood).
+func _owner_is_killed(victim: CombatSliceCharacterBinding, definition_id: StringName) -> Array[StringName]:
 	var comes: Array[StringName] = []
-	var owner := ItemLifecycleOwnerContext.new(victim.character_id, victim.character_state.equipment, victim.armor)
+	var owner := ItemLifecycleOwnerContext.new(victim.character_id, victim.state.equipment, victim.armor)
 	for item_id: StringName in _inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, victim.character_id)):
 		var item: ItemInstance = _item_index.resolve(item_id)
 		var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
-		if content == null or content.owner_killed_npc().is_empty() or content.owner_killed_unless() == victim.definition().definition_id:
+		if content == null or content.owner_killed_npc().is_empty() or content.owner_killed_unless() == definition_id:
+			continue
+		if not _map.npcs.can_summon_one(_owner_killed_spawn(content.owner_killed_npc())):
 			continue
 		var removal: ItemLifecycleResult = ItemLifecycleService.destroy_item(_inventory, _stacks, item_id, ItemLifecycleResult.ChildDisposition.DESTROY_SUBTREE, owner)
 		if not (removal.succeeded and _item_index.forget_destroyed_snapshots(removal.removed_instance_ids, _inventory)):
@@ -329,11 +334,7 @@ func _owner_is_killed(victim: NpcRuntimeState) -> Array[StringName]:
 ## chant() starts.
 func _owner_killed_comes(item_definition_id: StringName, location: WorldLocationState) -> void:
 	var content: ItemContentDefinition = GameContent.catalog().item(item_definition_id)
-	var came: NpcRuntimeState = null
-	for spawn: NpcSpawnDefinition in GameContent.catalog().spawns_for_map(_map.map_id()):
-		if spawn.summoned and spawn.npc_definition_id == content.owner_killed_npc():
-			came = _map.npcs.summon_one(spawn.spawn_id)
-			break
+	var came: NpcRuntimeState = _map.npcs.summon_one(_owner_killed_spawn(content.owner_killed_npc()))
 	if came == null:
 		return
 	if _player != null and location != null and _player.world_location().shares_combat_location(location) and _map.hud() != null:
@@ -342,6 +343,14 @@ func _owner_killed_comes(item_definition_id: StringName, location: WorldLocation
 			lines.append(ColoredLine.new(tr(line)))
 		_map.hud().append_after_fight(lines)
 	_map.npc_life.start_chant(came)
+
+
+## The summoned spawn of `npc_definition_id` on this map ("" when none).
+func _owner_killed_spawn(npc_definition_id: StringName) -> StringName:
+	for spawn: NpcSpawnDefinition in GameContent.catalog().spawns_for_map(_map.map_id()):
+		if spawn.summoned and spawn.npc_definition_id == npc_definition_id:
+			return spawn.spawn_id
+	return &""
 
 
 ## std/char.c heart_beat(): an NPC whose gin, kee or sen went below zero outside a

@@ -127,20 +127,15 @@ func hurt(victim: CombatSliceCharacterBinding, damage: int, random_source: Comba
 	var lines: Array[VisionLine] = []
 	var departure: StringName = &""
 	var state: CharacterState = victim.state
-	@warning_ignore("integer_division")
-	if hooks.hurt_divisor > 0 and damage > state.vitality.maximum / hooks.hurt_divisor:
+	if hooks.hurts(damage, state.vitality.maximum):
 		lines.append(VisionLine.new(hooks.hurt_say, victim.character_id, &"", hooks.hurt_color))
 		if random_source.legacy_random(state.vitality.current) < damage:
 			var walked: CombatNpcChatResult = _walk_out(victim, npc, random_source)
 			if walked != null:
 				lines.append_array(walked.lines())
 				departure = walked.departure_zone_id()
-	var below: int = hooks.pill_below
-	if npc.pills() > 0 and (state.vitality.current < below or state.essence.current < below or state.spirit.current < below):
+	if hooks.takes_pill(state, npc.pills()):
 		lines.append(VisionLine.new(hooks.pill_line, victim.character_id, &"", hooks.pill_color))
-		state.essence.current = state.essence.effective
-		state.vitality.current = state.vitality.effective
-		state.spirit.current = state.spirit.effective
 		npc.pills_left = npc.pills() - 1
 	if lines.is_empty():
 		return null

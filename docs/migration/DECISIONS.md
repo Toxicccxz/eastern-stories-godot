@@ -156,13 +156,26 @@ LPC except:
 - **Obvious slips fixed:** 玄羽乱舞's 但是$N找不到机会出手！ follows only a round without a blow
   (hasten.c tests a void fight() and printed it every round); the 老者's doubled 说道 and his ghost
   story's full-width ＄N (reads 你).
-- **The vendors' lists leave out the English ids** that `list` printed (大饼：25文钱).
+- **Asking a vendor about its goods (大饼, 包子, 糖葫芦) lists them, as the code means** (the 4D
+  precedent, guard.c ask_me): dbase.c calls do_vendor_list() with the vendor itself, so
+  get_vendor_list()'s id() check failed and ES2 printed only ask.c's line.
+- **The vendors' lists leave out the English ids** that `list` printed (大饼：25文钱); 游晋's English
+  topic `trouble` reads 心事 (the player picks topics from a list); the 老者's ghost story shows its
+  fake room without English (出口是北边和南边, 黑无常); the crone's (list) is dropped from her line, as
+  萧辟尘's command hints were (the 价钱 is the topic list).
 - **The 银簪 is worn in the hair** (inherit HEAD and F_DAGGER: one item both armor and weapon is not
   modelled; the girl and the lady wear it).
 - **默认: the cranes cannot be fought yet**: a beast without verbs gets beast.c's default action
   with two unfilled %s (攻击$n的%s，%s); B decides it with the 树冠.
 - **风泉剑灵 comes at the 曼雩台** (its master never leaves it): a summoned spawn there, saved as any
-  NPC; its chant does not survive Continue (call_outs are not saved).
+  NPC; its chant does not survive Continue (call_outs are not saved). **默认: one at a time**:
+  while it stands, 骆云舟 killed again keeps his sword in his corpse (ES2 made a second soul); a
+  player killed holding the sword in the town brings it to the 曼雩台, on another map the sword
+  stays in their corpse (ES2: a soul where the killer stood; a lasting NPC cannot yet come off a
+  spawn).
+- **The 老者's growth** (the plan's "not saved"): his save() file is not ported, so his room's
+  reset makes a fresh one; Save/Continue keeps his combat_exp and applies like any NPC's, while
+  his pills, an object variable, count anew (4E).
 - **Global (data):** an item's drawn name (book.c) is a named form of its own (`name_pick`); a
   martial art's own hit_ob() that wounds (spicyclaw.c) is data (`hit_wound`); an NPC's chat
   special that attacks (hasten.c) attacks as the player's perform does.

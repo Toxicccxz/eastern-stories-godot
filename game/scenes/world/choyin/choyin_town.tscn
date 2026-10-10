@@ -471,7 +471,7 @@ portal_id = &"choyin.s_gate.south"
 shape = SubResource("Rect_96_32")
 
 [node name="WellWater" type="Marker2D" parent="."]
-position = Vector2(1632, 2288)
+position = Vector2(1664, 2240)
 script = ExtResource("service")
 service_id = &"choyin.s_street1.well"
 
@@ -488,7 +488,7 @@ text = "大井 · 装水"
 horizontal_alignment = 1
 
 [node name="WellDrink" type="Marker2D" parent="."]
-position = Vector2(1568, 2288)
+position = Vector2(1536, 2240)
 script = ExtResource("service")
 service_id = &"choyin.s_street1.drink"
 

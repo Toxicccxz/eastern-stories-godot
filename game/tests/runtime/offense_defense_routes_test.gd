@@ -64,7 +64,8 @@ func _test_validation() -> void:
 	for expected: String in ["race_actions: no moves for race 'human'", "weapon_actions: no 'slash' action", "skills: 'dodge' needs dodge_messages", "skills: 'parry' needs parry_messages armed and unarmed"]:
 		_check(builder.errors().has(expected), "a game catalog needs its fallback moves and lines: " + expected)
 	_check(CombatSliceProjectionBuilder._martial_hit_policy(&"liuh-ken", GameContent.catalog().skill(&"liuh-ken").action_set()) == CombatHitPolicyStatus.Value.PROVEN_NO_AUTHORED_EFFECT, "柳家拳 has no hit_ob()")
-	_check(CombatSliceProjectionBuilder._martial_hit_policy(&"spicyclaw", null) == CombatHitPolicyStatus.Value.AUTHORED_POLICY_UNAVAILABLE, "an unported mapped skill stops the fight")
+	_check(CombatSliceProjectionBuilder._martial_hit_policy(&"spicyclaw", GameContent.catalog().skill(&"spicyclaw").action_set()) == CombatHitPolicyStatus.Value.MARTIAL_WOUND, "油流麻香手's hit_ob() wounds (MartialHitWound)")
+	_check(CombatSliceProjectionBuilder._martial_hit_policy(&"t:unported", GameContent.catalog().skill(&"liuh-ken").action_set()) == CombatHitPolicyStatus.Value.AUTHORED_POLICY_UNAVAILABLE, "a mapped skill the game does not hold stops the fight")
 
 
 func _test_attack_tables() -> void:

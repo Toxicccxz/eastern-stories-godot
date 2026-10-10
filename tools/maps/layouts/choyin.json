@@ -1098,8 +1098,8 @@
 						"name": "WellWater",
 						"id": "choyin.s_street1.well",
 						"at": [
-							1632,
-							2288
+							1664,
+							2240
 						],
 						"text": "大井 · 装水"
 					},
@@ -1108,8 +1108,8 @@
 						"name": "WellDrink",
 						"id": "choyin.s_street1.drink",
 						"at": [
-							1568,
-							2288
+							1536,
+							2240
 						],
 						"text": "大井 · 喝水"
 					}

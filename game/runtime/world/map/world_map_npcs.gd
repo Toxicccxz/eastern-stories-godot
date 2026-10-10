@@ -468,17 +468,30 @@ func _appear(npc: NpcRuntimeState, spawn: NpcSpawnDefinition, arrive: bool = tru
 ## the first whose point is free, absent or dead (made anew). Null when every one
 ## stands here already.
 func summon_one(spawn_id: StringName) -> NpcRuntimeState:
+	var npc: NpcRuntimeState = _summonable(spawn_id)
+	if npc == null:
+		return null
+	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(spawn_id)
+	if npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
+		return _npc_at_point(npc.spawn_point_id) if _respawn_npc(spawn, npc) else null
+	return npc if _appear(npc, spawn) else null
+
+
+## Whether summon_one() would bring one in.
+func can_summon_one(spawn_id: StringName) -> bool:
+	return _summonable(spawn_id) != null
+
+
+## The NPC of the summoned spawn that summon_one() brings: the first on a point that is
+## dead or absent. Null when every one stands here already.
+func _summonable(spawn_id: StringName) -> NpcRuntimeState:
 	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(spawn_id)
 	if not _initialized or spawn == null or not spawn.summoned or spawn.map_id != map:
 		return null
 	for point_id: StringName in spawn.spawn_point_ids():
 		var npc: NpcRuntimeState = _npc_at_point(point_id)
-		if npc == null:
-			continue
-		if npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
-			return _npc_at_point(point_id) if _respawn_npc(spawn, npc) else null
-		if not npc.exists_in_map:
-			return npc if _appear(npc, spawn) else null
+		if npc != null and (npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD or not npc.exists_in_map):
+			return npc
 	return null
 
 

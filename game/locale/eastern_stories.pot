@@ -17033,7 +17033,8 @@ msgid "这里是书房，有些鞭法教材存放在这儿。"
 msgstr ""
 
 #. latemoon.npc.room.old inquiry topic
-#: data/latemoon/npcs.json
+#. choyin.npc.youngman inquiry topic
+#: data/latemoon/npcs.json data/choyin/npcs.json
 msgid "心事"
 msgstr ""
 
@@ -19033,7 +19034,7 @@ msgstr ""
 
 #. choyin.npc.crone relay_ask.say
 #: data/choyin/npcs.json
-msgid "对不起，老婆子耳背，$RESPECT您是想买东西吧？这儿有价钱(list) ...."
+msgid "对不起，老婆子耳背，$RESPECT您是想买东西吧？这儿有价钱 ...."
 msgstr ""
 
 #. choyin.npc.crone relay_ask.line
@@ -19162,17 +19163,17 @@ msgstr ""
 msgid "这里是乔阴县城，您是外地来的吧？"
 msgstr ""
 
-#. choyin.npc.youngman inquiry.trouble
+#. choyin.npc.youngman inquiry.心事
 #: data/choyin/npcs.json
 msgid "实不相瞒，在下仰慕前面曲桥上赏莲的姑娘已久 ..."
 msgstr ""
 
-#. choyin.npc.youngman inquiry.trouble
+#. choyin.npc.youngman inquiry.心事
 #: data/choyin/npcs.json
 msgid "但是一直不知那位姑娘芳名 ..."
 msgstr ""
 
-#. choyin.npc.youngman inquiry.trouble
+#. choyin.npc.youngman inquiry.心事
 #: data/choyin/npcs.json
 msgid "唉 ..."
 msgstr ""
@@ -19300,12 +19301,12 @@ msgstr ""
 
 #. choyin.npc.oldman kill_ob.lines.line
 #: data/choyin/npcs.json
-msgid "    这里明显的出口是 north 和 south。"
+msgid "    这里明显的出口是北边和南边。"
 msgstr ""
 
 #. choyin.npc.oldman kill_ob.lines.line
 #: data/choyin/npcs.json
-msgid "黑无常(black gargoyle)"
+msgid "黑无常"
 msgstr ""
 
 #. choyin.npc.oldman kill_ob.lines.line

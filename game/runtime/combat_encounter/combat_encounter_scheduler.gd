@@ -205,6 +205,8 @@ func advance(
 			return CombatSchedulerAdvanceResult.new(CombatSchedulerAdvanceResult.Outcome.ADVANCED_NO_OPPORTUNITY)
 	if boundary != null and tactical_result != null and not (tactical_result.joiners.is_empty() and tactical_result.allies.is_empty() and tactical_result.joins.is_empty()):
 		boundary.admit(bindings, tactical_result)
+	if tactical_result != null and tactical_result.special != null:
+		_hurts(_report_blows(tactical_result.special), bindings, random_source, boundary)
 	# A perform's attacks fell nobody yet: char.c heart_beat() does, here.
 	if boundary != null and not _inspect(boundary, bindings, null, tactical_result):
 		return CombatSchedulerAdvanceResult.new()
@@ -246,23 +248,12 @@ func advance(
 				_events.append(event)
 				emitted.append(event)
 				_next_event_sequence += 1
+				if event.kind == CombatSchedulerEvent.Kind.ORDINARY_OPPORTUNITY_RESOLVED and event.resolution != null:
+					emitted.append_array(_hurts(_blows(event.resolution.forward_result, event.resolution.chain_result), bindings, random_source, boundary))
 			if boundary != null and not _inspect(boundary, bindings, event):
 				return CombatSchedulerAdvanceResult.new(
 					CombatSchedulerAdvanceResult.Outcome.ADVANCED, processed_cycles, emitted,
 				)
-			# oldman.c receive_damage(): the one hit says its own after the blow.
-			var hurt: CombatSchedulerEvent = _hurt_after(event, bindings, random_source)
-			if hurt != null:
-				_events.append(hurt)
-				emitted.append(hurt)
-				_next_event_sequence += 1
-				var felt: CombatNpcChatResult = hurt.chat
-				if boundary != null and not felt.departure_zone_id().is_empty():
-					boundary.depart(bindings, hurt.actor_id, felt.departure_zone_id())
-				if boundary != null and not _inspect(boundary, bindings, hurt):
-					return CombatSchedulerAdvanceResult.new(
-						CombatSchedulerAdvanceResult.Outcome.ADVANCED, processed_cycles, emitted,
-					)
 			var chat: CombatSchedulerEvent = _chat_after(event, bindings, random_source, effect_registry)
 			if chat == null:
 				continue
@@ -271,6 +262,8 @@ func advance(
 			_next_event_sequence += 1
 			# ask_for_help(): the partner's kill_ob() brings it in before anyone acts on.
 			var said: CombatNpcChatResult = chat.chat
+			if said != null and said.special() != null:
+				emitted.append_array(_hurts(_report_blows(said.special()), bindings, random_source, boundary))
 			if boundary != null and said != null and not said.joins().is_empty():
 				boundary.admit(bindings, CombatTacticalExecutionResult.new(CombatTacticalExecutionResult.Outcome.APPLIED).with_joins(said.joins()))
 			# go.c: the NPC walked out of the room and out of the fight.
@@ -399,32 +392,28 @@ func _remove_effect(
 	)
 
 
-## An NPC's own receive_damage() (NpcHooks: oldman.c) after a blow of this opportunity drew
-## kee from it: its lines, its walk out of the fight, a pill (CombatNpcChat.hurt()).
-func _hurt_after(
-	event: CombatSchedulerEvent,
+## An NPC's own receive_damage() (NpcHooks: oldman.c) for each of `blows` ([victim, kee
+## damage]) that reached a hooked NPC still standing: its lines, its walk out of the fight, a
+## pill (CombatNpcChat.hurt()), recorded as they happen. It runs inside the blow in ES2:
+## before combatd.c ends a spar on it and before char.c heart_beat() fells anyone, so the
+## caller inspects the fight after these.
+func _hurts(
+	blows: Array,
 	bindings: Array[CombatSliceCharacterBinding],
 	random_source: CombatRandomSource,
-) -> CombatSchedulerEvent:
-	if _npc_chat == null or event == null or event.kind != CombatSchedulerEvent.Kind.ORDINARY_OPPORTUNITY_RESOLVED or event.resolution == null:
-		return null
-	var blows: Array = []
-	var forward: CombatSingleAttackExecutionResult = event.resolution.forward_result
-	if forward != null:
-		blows.append(_blow(forward.ordinary_attack_result))
-	var chain: CombatAttackChainResult = event.resolution.chain_result
-	if chain != null and chain.reverse_execution_reached:
-		blows.append(_blow(chain.reverse_ordinary_result))
+	boundary: CombatOpportunityBoundary,
+) -> Array[CombatSchedulerEvent]:
+	var felt: Array[CombatSchedulerEvent] = []
+	if _npc_chat == null:
+		return felt
 	for blow: Array in blows:
-		if blow.is_empty():
-			continue
 		var victim: CombatSliceCharacterBinding = _find_binding(bindings, blow[0])
 		if victim == null or victim.life_status != CombatSliceLifeStatus.Value.ACTIVE:
 			continue
 		var result: CombatNpcChatResult = _npc_chat.hurt(victim, blow[1], random_source)
 		if result == null:
 			continue
-		return CombatSchedulerEvent.new(
+		var hurt := CombatSchedulerEvent.new(
 			_next_event_sequence,
 			_logical_cycle,
 			logical_time_seconds,
@@ -436,10 +425,35 @@ func _hurt_after(
 			_progression_order.take(),
 			result,
 		)
-	return null
+		_events.append(hurt)
+		_next_event_sequence += 1
+		felt.append(hurt)
+		if boundary != null and not result.departure_zone_id().is_empty():
+			boundary.depart(bindings, victim.character_id, result.departure_zone_id())
+	return felt
 
 
-## [victim, damage] of a blow that drew kee, or [] for one that did not.
+## The kee each hit of an attack (and its chain's reverse blow) drew: [victim, damage].
+static func _blows(forward: CombatSingleAttackExecutionResult, chain: CombatAttackChainResult) -> Array:
+	var blows: Array = []
+	if forward != null:
+		blows.append(_blow(forward.ordinary_attack_result))
+	if chain != null and chain.reverse_execution_reached:
+		blows.append(_blow(chain.reverse_ordinary_result))
+	return blows.filter(func(blow: Array) -> bool: return not blow.is_empty())
+
+
+## A special file's attacks' blows, then those it hurt itself (a spell: no kee damage known,
+## the pill still checked).
+static func _report_blows(report: SpecialReport) -> Array:
+	var blows: Array = []
+	for attack: SpecialAttack in report.attacks():
+		blows.append_array(_blows(attack.forward, attack.chain))
+	for character_id: StringName in report.damaged():
+		blows.append([character_id, 0])
+	return blows
+
+
 static func _blow(ordinary: CombatOrdinaryAttackResult) -> Array:
 	if ordinary == null or not ordinary.has_base_result:
 		return []

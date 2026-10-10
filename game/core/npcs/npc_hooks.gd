@@ -60,6 +60,39 @@ func has_chant() -> bool:
 	return not chant_stages.is_empty()
 
 
+## receive_damage: a blow of `damage` kee says the hurt line.
+func hurts(damage: int, max_kee: int) -> bool:
+	@warning_ignore("integer_division")
+	return hurt_divisor > 0 and damage > max_kee / hurt_divisor
+
+
+## receive_damage: with `left` pills and gin, kee or sen below `pill_below`, it swallows one:
+## all three come back to their eff_. True when it did (the caller counts the pill).
+func takes_pill(state: CharacterState, left: int) -> bool:
+	if left <= 0 or not (state.vitality.current < pill_below or state.essence.current < pill_below or state.spirit.current < pill_below):
+		return false
+	state.essence.current = state.essence.effective
+	state.vitality.current = state.vitality.effective
+	state.spirit.current = state.spirit.effective
+	return true
+
+
+## revive: combat_exp grows by a third and `exp_plus`; reset() gives the potential gained
+## since the last time, a third each to apply/attack, apply/dodge and apply/damage.
+func revive_growth(state: CharacterState) -> void:
+	var progression: CharacterProgressionState = state.progression
+	@warning_ignore("integer_division")
+	progression.combat_experience += progression.combat_experience / revive_exp_divisor + revive_exp_plus
+	var learn: int = progression.potential - progression.potential_spent
+	if learn <= 0:
+		return
+	@warning_ignore("integer_division")
+	var share: int = learn / revive_apply_divisor
+	for key: String in ["attack", "dodge", "damage"]:
+		state.applies[key] = int(state.applies.get(key, 0)) + share
+	progression.potential_spent += share * revive_apply_divisor
+
+
 static func _color(reader: ContentRecordReader, key: String) -> StringName:
 	var color := StringName(reader.text(key))
 	if color != ColoredLine.PLAIN and not ColoredLine.COLORS.has(color):

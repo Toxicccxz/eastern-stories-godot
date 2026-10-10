@@ -41,19 +41,20 @@ d/jail/cityguard.c (a copy of the 守城官兵 no room places), daemon/class/beg
 | cloudpool.c resource/water | service `choyin.cloudpool.water` (no drink command in that room) |
 | w_street1.c, tree_tomb.c, fence.c, club.c, guyehill.c, platform.c, hollow3.c item_desc | look landmarks; the statue's lost 「□」 reads 「举」 (默认, uncertain) |
 | yamen.c / yamen_yard.c, fence.c, club.c create_door() | doors 铜钉大门, 柴门 ×2, shut |
-| vendors' `(: do_vendor_list :)` topics | inquiry rule `vendor_list`: the goods and price_string() prices after ask.c's line (the English ids `list` printed are left out) |
-| crone.c relay_ask() | NpcTalk `relay_ask` (owner: said as meant): her ? (an emote, nothing), the deaf line, the basket |
+| vendors' `(: do_vendor_list :)` topics | inquiry rule `vendor_list` (as the code means: ES2 printed nothing, see DECISIONS): the goods and price_string() prices after ask.c's line (the English ids `list` printed are left out) |
+| youngman.c inquiry `trouble` | topic 心事 (an English topic would show in the list); B's 荷包 removes it |
+| crone.c relay_ask() | NpcTalk `relay_ask` (owner: said as meant): her ? (an emote, nothing), the deaf line (its (list) dropped), the basket |
 | cake_vendor.c rank_info/self 小的 | `rank_info.self` (NpcDefinition.query_self()) |
 | guard.c accept_kill(), help_hotel_guard() | dealings `accept_kill` (NpcAcceptKill; owner: as meant): the others of its kind here say 干什么？！ and join, the report, vendetta/authority, a native hint |
 | d/waterfog/npc/elite_guard.c accept_kill() | the same (owner): his line, his powerup, the other guard joins, vendetta/waterfog_guard (vendetta_mark: every 红衣武士 attacks on sight, a killer of one is marked too), a hint |
 | oldman.c create() inside `if (!restore())` | its fields in set (his save file is not ported: a new one at each reset starts fresh) |
 | oldman.c init(), greeting() | greeting rules: carries tomatoo → 我给你的山药蛋好吃吗??; else the long line (its doubled 说道 one), give the 山药蛋, set_temp choyin/山药蛋 |
-| oldman.c receive_damage() | NpcHooks `receive_damage` (CombatNpcChat.hurt() after a blow, in the fight's log): the hurt line above max_kee / 5 and random_move() on random(kee) < damage; a pill below 20 gin, kee or sen (nine, counted anew at his room's reset and when he wakes) |
-| oldman.c kill_ob() | NpcHooks `kill_ob`: the attack shows kill.c's line and his ghost story ($N 你; the full-width ＄N reads 你) instead of a fight; WorldMapNpcs.vanish(): no corpse, his room makes him anew |
+| oldman.c receive_damage() | NpcHooks `receive_damage` (CombatNpcChat.hurt() inside each blow, a perform's too, before the fight is judged: a spar ends after it; a spell's harm checks the pill only, its kee unreported): the hurt line above max_kee / 5 and random_move() on random(kee) < damage; a pill below 20 gin, kee or sen (nine, counted anew at his room's reset and when he wakes) |
+| oldman.c kill_ob() | NpcHooks `kill_ob`: the attack shows kill.c's line and his ghost story ($N 你; the full-width ＄N reads 你; the fake room's exits and 黑无常 without English) instead of a fight; WorldMapNpcs.vanish(): no corpse, his room makes him anew |
 | oldman.c revive(), reset() | NpcHooks `revive`: combat_exp + /3 + 10, the pills, a third of new potential each to apply attack, dodge, damage (save() not ported) |
 | oldman.c defeated_enemy() (winner_reward() from damage.c unconcious()) | NpcHooks `defeated_enemy`: his line after the fight when the player falls with him the last to hurt them |
 | oldman.c accept_fight() | an accept rule; his refusal while he fights someone else cannot happen in single player |
-| windspring.c owner_is_killed() (chard.c make_corpse()) | item `owner_is_killed`: the sword is destroyed before the corpse takes the rest, the summoned spawn `choyin.town.entrance.sword_soul` comes in with its lines (after the fight) |
+| windspring.c owner_is_killed() (chard.c make_corpse()) | item `owner_is_killed` (an NPC's or the player's death in a fight): the sword is destroyed before the corpse takes the rest, the summoned spawn `choyin.town.entrance.sword_soul` comes in with its lines (after the fight); while it stands, or off the town map, the sword stays with the dead (默认) |
 | sword_soul.c chant(), chant_sword() | NpcHooks `chant` (NpcAmbience CHANT call_out): the four sayings 20 s apart, +100000 combat_exp with the fourth, again 60 s later; leaving the map drops it (DECISIONS 茅山 B) |
 | scholar/mysterrier/hasten.c (骆云舟's fight chat `perform move.hasten`) | HastenPerform; an NPC chat special's attacks run through CombatSpecialAttackSource (fight(), select_opponent()) and are told and judged as the player's perform's |
 | spicyclaw.c hit_ob() | skills.json `hit_wound` (MartialHitWound; CombatHitPolicyStatus MARTIAL_WOUND): the bone line after the force hit's |
@@ -81,6 +82,7 @@ d/jail/cityguard.c (a copy of the 守城官兵 no room places), daemon/class/beg
   newbie help still put 乔阴 south of the pine forest.
 - guard.c's and elite_guard.c's accept_kill(), crone.c's relay_ask() are called by no mudlib
   code (owner: run as meant).
+- The vendors' do_vendor_list() topics print nothing (dbase.c passes the vendor as `arg`).
 - hasten.c tests the void COMBAT_D->fight(): 但是$N找不到机会出手！ after every round.
 - shortsong-blade.c's parry lines are never asked (combatd.c asks parry.c's).
 - fall-steps.c's effective_level(), learn_bonus() and the like are read by nothing.
