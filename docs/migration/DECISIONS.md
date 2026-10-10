@@ -118,7 +118,7 @@ plan's defaults (山烟寺 A: 剃度 gives a 法名, asked first; 请你到尼�
 characters) and follows the LPC except:
 - **Owner: 剃度 is asked first**, saying the name becomes a 法名 (one of 空明圆净虚悟方渡慧法 at
   random before the first character of the name: ES2's name[0..1] was one character in its
-  double-byte text). 跪下受戒 is a button on 玄智's 打听 panel once 剃度 or 出家 asked him to
+  double-byte text; a name in letters gives its first letter, where ES2's two bytes took two). 跪下受戒 is a button on 玄智's 打听 panel once 剃度 or 出家 asked him to
   kneel; the flag it needs (pending/join_bonze) is a temp, forgotten by Continue (晚月庄 A).
   The 法名 and class bonze are saved.
 - **默认: 跪下受戒 needs 玄智 awake.** ES2's kneel was an add_action: one could kneel before a

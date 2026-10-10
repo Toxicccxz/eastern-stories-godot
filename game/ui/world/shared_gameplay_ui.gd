@@ -648,6 +648,9 @@ func _kneel() -> void:
 	var map := _session.active_map() as WorldMapController
 	var ordination: NpcOrdination = null if map == null else map.ordination_selected()
 	if ordination == null:
+		# The master was knocked out (or the like) while the panel stood open: the button goes.
+		if map != null and _presentation_layout._content == _ask_panel:
+			_refresh_ask_verbs(map)
 		return
 	var first: String = _player.facts.display_name.substr(0, 1)
 	var text: String = tr(ORDINATION_WARNING).format({

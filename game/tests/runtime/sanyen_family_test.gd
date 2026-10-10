@@ -290,9 +290,10 @@ func _test_not_ordained(tree: SceneTree, session: WorldSessionController) -> voi
 	ui.close_panel()
 
 
-## The 打听 panel: 剃度 brings 跪下受戒; it asks first (取消 goes back to the panel); kneeling
-## shaves and renames him, a monk now; asking again: 你我同是出家人. An unconscious 玄智 takes
-## nobody's vows.
+## The 打听 panel: 剃度 brings 跪下受戒 (not to a woman); it asks first (取消 goes back to the
+## panel); kneeling shaves and renames him, a monk now; asking again: 你我同是出家人. An
+## unconscious 玄智 takes nobody's vows: a button left standing goes when pressed, and a
+## question left open is closed. Save/Continue keeps the 法名 and the class.
 func _test_kneel(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
@@ -300,6 +301,11 @@ func _test_kneel(tree: SceneTree, session: WorldSessionController) -> void:
 	var master: NpcRuntimeState = _first(map, MASTER)
 	await _beside(tree, session, map, master)
 	map.select_npc(master.character_id)
+	player.state.gender = CharacterState.GENDER_FEMALE # TEST-ONLY
+	hud.open_ask()
+	_press_topic(hud, "剃度")
+	_check(hud.ask_answer_text().ends_with(WOMAN_SAY) and hud.ask_verbs_shown().is_empty() and not player.temp_marks.has(TEMP), "a woman: 请你到尼庵去剃度吧, nothing to kneel for")
+	player.state.gender = CharacterState.GENDER_MALE # TEST-ONLY
 	hud.open_ask()
 	_check(hud.ask_topics_shown().has("剃度") and hud.ask_topics_shown().has("出家") and hud.ask_verbs_shown().is_empty(), "剃度 and 出家 to ask; nothing to kneel for yet")
 	_press_topic(hud, "剃度")
@@ -307,6 +313,15 @@ func _test_kneel(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(hud.ask_verbs_shown() == ["跪下受戒"], "the panel offers 跪下受戒: %s" % [hud.ask_verbs_shown()])
 	master.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY
 	_check(map.ordination_selected() == null and map.kneel_selected().is_empty() and player.facts.display_name == "雪工", "玄智 lying unconscious: no kneeling (默认)")
+	_press_kneel(hud)
+	_check(not hud.is_asking() and hud.ask_verbs_shown().is_empty(), "the button left standing goes when pressed, nothing asked")
+	master.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
+	hud.open_ask()
+	_press_kneel(hud)
+	_check(hud.is_asking(), "awake again: asked first")
+	master.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY: knocked out while it asks
+	hud._presentation_layout.validate_open_panel()
+	_check(not hud.is_asking() and player.facts.display_name == "雪工", "the question closes: he can take no vows now")
 	master.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
 	hud.open_ask()
 	_press_kneel(hud)
@@ -330,6 +345,10 @@ func _test_kneel(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(hud.ask_answer_text().ends_with(MONK_SAY) and hud.ask_verbs_shown().is_empty() and not player.temp_marks.has(TEMP), "asked again: 你我同是出家人, nothing to kneel for")
 	hud.dismiss_current_panel()
 	await tree.physics_frame
+	await tree.physics_frame
+	var walker: RefCounted = Work.new()
+	await walker.round_trip(tree, session, Work.capture(session), "山烟寺 B ordained")
+	_check(walker._failures.is_empty(), "Save/Continue right after 剃度 (a monk with no family) restores exactly: " + str(walker._failures))
 
 
 ## A monk's 拜师: asked first (a first master), then 善哉 two seconds later; he learns.
