@@ -323,7 +323,7 @@
 			"id": "lotusforce", "name": "莲华心法", "kind": "specialized", "type": "martial", "enable": ["force"],
 			"legacy_source": "daemon/skill/lotusforce.c",
 			"standard_force_hit": true,
-			"exert": ["heal"],
+			"exert": ["heal", "lifeheal"],
 			"practice": { "refuses": true, "fail": "莲华心法只能用学的，或是从运用(exert)中增加熟练度。" },
 			"valid_learn": { "effective_skill": "你的大乘佛法修为不够，无法领会更高深的莲华心法。" }
 		},

@@ -192,6 +192,12 @@ func _life_status() -> int:
 	return CharacterRuntimeLifeStatus.Value.DEAD
 
 
+## The name over the player's body again (their 法名 after 剃度).
+func refresh_label() -> void:
+	if _player != null:
+		_update_label(_player.facts.display_name)
+
+
 func _update_label(value: String) -> void:
 	var label: Label = get_node_or_null("NameLabel") as Label
 	if label != null:

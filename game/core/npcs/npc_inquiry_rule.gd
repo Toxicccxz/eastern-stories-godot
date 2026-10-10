@@ -13,9 +13,15 @@ extends RefCounted
 ## order the function prints them (say, write, say). `hands_over` is something the NPC
 ## carries (command("give …")), `amount` of it, told by give.c's line; `after` is said
 ## once it was handed over, `after_empty` when the NPC has none left.
+## daemon/class/bonze/master.c ask_for_join() asks the asker's query("class") and
+## query("gender") (`asker_class`, `asker_gender`: "" any) and set_temp()s a flag
+## (`temp_asker`: a temp, not kept by a save, DECISIONS 晚月庄 A).
 var asker_marks: Array[String] = []
+var asker_class: StringName = &""
+var asker_gender: StringName = &""
 var lines: Array[NpcLine] = []
 var mark_asker: String = ""
+var temp_asker: String = ""
 var gives: StringName = &""
 var taken_lines: Array[NpcLine] = []
 var chance_below: int = 0
@@ -26,16 +32,18 @@ var after: Array[NpcLine] = []
 var after_empty: Array[NpcLine] = []
 
 
-func matches(marks: Dictionary[String, int]) -> bool:
+func matches(marks: Dictionary[String, int], class_id: StringName = &"", gender: StringName = &"") -> bool:
+	if (not asker_class.is_empty() and class_id != asker_class) or (not asker_gender.is_empty() and gender != asker_gender):
+		return false
 	for mark: String in asker_marks:
 		if marks.get(mark, 0) == 0:
 			return false
 	return true
 
 
-static func decide(rules: Array[NpcInquiryRule], marks: Dictionary[String, int], random: WorldInteractionRandomSource = null) -> NpcInquiryRule:
+static func decide(rules: Array[NpcInquiryRule], marks: Dictionary[String, int], random: WorldInteractionRandomSource = null, class_id: StringName = &"", gender: StringName = &"") -> NpcInquiryRule:
 	for rule: NpcInquiryRule in rules:
-		if not rule.matches(marks):
+		if not rule.matches(marks, class_id, gender):
 			continue
 		if rule.chance_of > 0 and (random == null or random.legacy_random(rule.chance_of) >= rule.chance_below):
 			continue
@@ -46,6 +54,10 @@ static func decide(rules: Array[NpcInquiryRule], marks: Dictionary[String, int],
 static func from_record(reader: ContentRecordReader) -> NpcInquiryRule:
 	var rule := NpcInquiryRule.new()
 	rule.asker_marks = reader.text_list("asker_marks")
+	rule.asker_class = StringName(reader.text("asker_class"))
+	rule.asker_gender = StringName(reader.text("asker_gender"))
+	if not rule.asker_gender.is_empty() and not NpcTeaching.GENDERS.has(rule.asker_gender):
+		reader.fail("asker_gender", "expected one of %s" % [NpcTeaching.GENDERS])
 	if reader.has("lines"):
 		for line: ContentRecordReader in reader.children("lines"):
 			var parsed: NpcLine = NpcLine.from_record(line)
@@ -78,6 +90,7 @@ static func from_record(reader: ContentRecordReader) -> NpcInquiryRule:
 	if rule.hands_over.is_empty() and (rule.amount != 0 or not rule.after.is_empty() or not rule.after_empty.is_empty()):
 		reader.fail("hands_over", "amount, after and after_empty go with hands_over")
 	rule.mark_asker = reader.text("mark_asker")
+	rule.temp_asker = reader.text("temp_asker")
 	rule.gives = StringName(reader.text("gives"))
 	var taken: ContentRecordReader = reader.child("taken")
 	if taken != null:

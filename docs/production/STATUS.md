@@ -4,11 +4,11 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**山烟寺 A** (`phase/sunhill-a`, region #8, DECISIONS「山烟寺 A」): 泓水, 日照山 and the temple —
-all 26 rooms on two maps, the ways in from 江北渡口 (waded, or the boatman's boat for a fare:
-owner, Q1) and 晚月庄's tunnel, the monks with their 流云杖法 and 莲华心法 (the 护寺武僧 of the
-repaired yard: owner, Q2), the steamer in the kitchen, NPCs that walk out of a fight. Next:
-山烟寺 B (the family: 剃度, 玄智's teaching, the player's arts), then C (八识神通's 神通).
+**山烟寺 B** (`phase/sunhill-b`, region #8, DECISIONS「山烟寺 B」): 山烟寺 the family — 剃度
+(asked first; the player takes a 法名 and becomes a monk), 玄智's two-second answer to a 拜师
+(monks only), his twelve skills, and the player's 大乘佛法, 诵经, 流云杖法, 莲华心法 (疗伤, and
+疗伤他人 on the selected NPC) and 八识神通 (learnt and enabled). Next: 山烟寺 C (八识神通's 神通:
+空识, 心识, 游识).
 
 ## 待决定
 
@@ -166,8 +166,17 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   馒头; without him five a reset), the 后殿 (小沙弥) and the 塔林 (扫地僧). The monks fight with
   流云杖法 (the broom, 玄智's 菩提禅杖) and 莲华心法; most will not spar (each its own line, 玄智
   and the 护寺武僧 otherwise to a monk); the 跛僧人 and the 独眼头陀 may walk out of a fight
-  (往X落荒而逃了。) and are found in the next room. 化缘和尚 in 绮云镇 can be fought now. Not yet:
-  剃度 and 山烟寺 the family (B), the player's 神通 (C).
+  (往X落荒而逃了。) and are found in the next room. 化缘和尚 in 绮云镇 can be fought now.
+  剃度: a man asking 玄智 about 剃度 or 出家 is asked to kneel; 跪下受戒 (on the 打听 panel, asked
+  first) shaves him, names him (one of 空明圆净虚悟方渡慧法 and the first character of his name)
+  and makes him a monk (a monk and a woman each hear their line instead). 山烟寺 the family:
+  玄智 answers a 拜师 two seconds later (慢著，一个一个来 meanwhile; a woman and one not ordained
+  hear their lines), takes a monk as 山烟寺第二十七代弟子 and teaches his own his twelve skills.
+  The player's 大乘佛法 (杀气 100 at most), 诵经, 流云杖法 (str + max_force / 10 at least 50;
+  practised with a staff, 60 kee), 莲华心法 (大乘佛法 at least its level; learnt or used only:
+  疗伤, and 疗伤他人 on the HUD for the selected NPC: 150 force above the maximum, neither side
+  fighting, the other's eff_kee at least a fifth) and 八识神通 (enabled as 法术). Not yet: the
+  player's 神通 (C).
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from
@@ -183,7 +192,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   No art or audio yet.
 
 Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 328/551 rooms, 154/286 NPC
-types, 5/9 joinable families, 25/36 special and 16/25 basic martial arts, 70/84 quest targets.
+types, 6/9 joinable families, 25/36 special and 16/25 basic martial arts, 70/84 quest targets.
 
 ## Known issues
 

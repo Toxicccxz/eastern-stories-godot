@@ -69,6 +69,7 @@ var _summoning: NpcSummoning
 var _conjuring: NpcConjuring
 ## What a spell raises from a corpse (NpcRaising); null for any other NPC.
 var _raising: NpcRaising
+var _ordination: NpcOrdination
 ## The victim a raised NPC was (corpse.c's query("victim_name")): its name follows
 ## NpcRaising.name_template; empty for any other NPC.
 var _raised_from: String = ""
@@ -348,6 +349,17 @@ func with_raising(p_raising: NpcRaising) -> NpcDefinition:
 ## null: no spell raises this NPC from a corpse.
 func raising() -> NpcRaising:
 	return _raising
+
+
+## Its 剃度 (daemon/class/bonze/master.c do_kneel()). Called once by the loader.
+func with_ordination(p_ordination: NpcOrdination) -> NpcDefinition:
+	_ordination = p_ordination
+	return self
+
+
+## null: nobody kneels before this NPC to be ordained.
+func ordination() -> NpcOrdination:
+	return _ordination
 
 
 ## corpse.c animate(): the same definition named after the corpse's victim

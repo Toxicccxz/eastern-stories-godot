@@ -142,6 +142,11 @@ func take_title(title: String) -> void:
 	_facts = PlayerIdentityFacts.new(_facts.display_name, title, _facts.age)
 
 
+## set("name", ...): a temple master's 剃度 gives the player a 法名 (NpcOrdination); a save keeps it.
+func take_name(display_name: String) -> void:
+	_facts = PlayerIdentityFacts.new(display_name, _facts.title, _facts.age)
+
+
 ## The title as the player reads it. A family member's is assign_apprentice()'s put
 ## together again in the shown language; the one kept (and saved) stays as ES2 wrote it.
 func shown_title() -> String:

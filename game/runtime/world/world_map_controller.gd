@@ -1158,6 +1158,18 @@ func say_beside_selected(phrase: String) -> Array[String]:
 	return selection.say_beside_selected(phrase)
 
 
+func selected_npc_here() -> NpcRuntimeState:
+	return selection.selected_npc_here()
+
+
+func ordination_selected() -> NpcOrdination:
+	return selection.ordination_selected()
+
+
+func kneel_selected() -> Array[String]:
+	return selection.kneel_selected()
+
+
 func interaction_title() -> String:
 	return selection.interaction_title()
 
