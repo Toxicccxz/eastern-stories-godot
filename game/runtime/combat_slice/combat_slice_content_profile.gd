@@ -37,10 +37,12 @@ var _authored: NpcAuthoredCombatFacts
 var _weapon_apply: Dictionary[StringName, int] = {}
 ## The NPC's own hit_ob() (null: none, combatd.c's call has no effect).
 var _hit_condition: NpcHitCondition
+## is_ghost() (NpcHooks.ghost): unseen by whoever is no ghost.
+var _ghost: bool = false
 
-var target_visible: bool:
+var is_ghost: bool:
 	get:
-		return true
+		return _ghost
 
 
 func _init(
@@ -80,10 +82,13 @@ func _init(
 		if _beast_facts != null:
 			for limb: String in _beast_facts.limbs():
 				_limbs.append(StringName(limb))
-			# beast.c query_action(): combat_action[verbs[random(sizeof(verbs))]].
+			# beast.c query_action(): combat_action[verbs[random(sizeof(verbs))]]; without
+			# verbs, setup_beast()'s default_actions.
 			var verb_actions: Array[CombatActionDefinition] = []
 			for verb: StringName in _beast_facts.verbs():
 				verb_actions.append(BeastCombatActionDefinitions.action(verb))
+			if verb_actions.is_empty():
+				verb_actions.append(BeastCombatActionDefinitions.default_action())
 			if not verb_actions.is_empty() and not verb_actions.has(null):
 				_unarmed_action = verb_actions[0]
 				_unarmed_action_set = CombatActionSet.new(verb_actions)
@@ -98,7 +103,13 @@ func for_npc_definition(definition: NpcDefinition) -> CombatSliceContentProfile:
 		definition.authored_combat_facts() if definition != null else null,
 	)
 	profile._hit_condition = definition.hit_condition() if definition != null else null
+	profile._ghost = definition != null and definition.is_ghost()
 	return profile
+
+
+## char.c visible(victim): a ghost is seen only by a ghost (apply/astral_vision is not ported).
+func sees(victim: CombatSliceContentProfile) -> bool:
+	return victim == null or not victim.is_ghost or _ghost
 
 
 func hit_condition() -> NpcHitCondition:
@@ -122,7 +133,8 @@ func readiness() -> Readiness:
 				return Readiness.INVALID_LIMB
 		var verbs: Array[StringName] = _beast_facts.verbs()
 		if verbs.is_empty():
-			return Readiness.EMPTY_VERBS
+			if _unarmed_action_set.size() != 1 or not _same_action(_unarmed_action_set.action_at(0), BeastCombatActionDefinitions.default_action()):
+				return Readiness.INVALID_ACTION_DATA
 		var seen: Dictionary[StringName, bool] = {}
 		for verb: StringName in verbs:
 			if BeastCombatActionDefinitions.action(verb) == null:
@@ -131,7 +143,7 @@ func readiness() -> Readiness:
 				# A repeated verb weights the draw; not modelled yet.
 				return Readiness.UNSUPPORTED_VERB_DISTRIBUTION
 			seen[verb] = true
-		if _unarmed_action_set.size() != verbs.size():
+		if not verbs.is_empty() and _unarmed_action_set.size() != verbs.size():
 			return Readiness.INVALID_ACTION_DATA
 		for index: int in range(verbs.size()):
 			if not _same_action(_unarmed_action_set.action_at(index), BeastCombatActionDefinitions.action(verbs[index])):

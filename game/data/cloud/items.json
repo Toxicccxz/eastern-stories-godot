@@ -270,6 +270,18 @@
 			"weight": 3000,
 			"value": 100,
 			"weapon": { "skill": "staff", "damage": 13, "weight_dodge": "equip" }
+		},
+		{
+			"id": "es2:u/cloud/npc/obj/letter",
+			"legacy_sources": ["u/cloud/npc/obj/letter.c"],
+			"name": "信件",
+			"aliases": ["letter"],
+			"long": "师叔：\n    小徒在我这里学满，欲求教于您老，敬请收纳他为徒。\n                                侄：剑秋 敬上\n",
+			"unit": "封",
+			"material": "paper",
+			"weight": 50,
+			"value": 100,
+			"master": true
 		}
 	]
 }

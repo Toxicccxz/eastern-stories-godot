@@ -308,6 +308,43 @@
 			"points": ["choyin.platform.lboy.1", "choyin.platform.lboy.2"],
 			"legacy_room": "d/choyin/platform.c",
 			"legacy_quantity": 2
+		},
+		{
+			"id": "choyin.town.n_gate.ghost",
+			"npc": "choyin.npc.ghost",
+			"map": "choyin.town",
+			"zone": "choyin.n_gate",
+			"points": ["choyin.n_gate.ghost.1"],
+			"legacy_room": "d/choyin/n_gate.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "choyin.town.e_gate.ghost",
+			"npc": "choyin.npc.ghost",
+			"map": "choyin.town",
+			"zone": "choyin.e_gate",
+			"points": ["choyin.e_gate.ghost.1"],
+			"legacy_room": "d/choyin/e_gate.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "choyin.tree_hollow.tomb1.shadows",
+			"npc": "choyin.npc.shadow",
+			"map": "choyin.tree_hollow",
+			"zone": "choyin.tomb1",
+			"points": ["choyin.tomb1.shadow.1", "choyin.tomb1.shadow.2", "choyin.tomb1.shadow.3"],
+			"legacy_room": "d/choyin/tomb1.c",
+			"legacy_quantity": 3
+		},
+		{
+			"id": "choyin.lion_cave.lionroom.lion",
+			"npc": "choyin.npc.lion",
+			"map": "choyin.lion_cave",
+			"zone": "choyin.lionroom",
+			"points": ["choyin.lionroom.lion.1"],
+			"legacy_room": "d/choyin/lionroom.c",
+			"legacy_quantity": 1,
+			"presence_radius": 400
 		}
 	]
 }

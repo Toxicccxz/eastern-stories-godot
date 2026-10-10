@@ -19,6 +19,13 @@ extends RefCounted
 ## - `chant` (sword_soul.c chant()): from the moment it is made, `stages` follow one another,
 ##   each `after` seconds of world time: its say (and a line, $N itself) and combat_exp it
 ##   gains; after the last the first comes again `repeat_after` seconds later.
+## - `ghost` (d/choyin/npc/ghost.c, shadow.c is_ghost()): char.c visible() hides it from one
+##   who is no ghost: it is not drawn nor picked, and who fights it may miss their turn
+##   (combatd.c fight(): random(100 + perception) < 100); chard.c make_corpse() leaves no
+##   corpse, what it carried falls where it died.
+## - `die_carries` (d/choyin/npc/lion.c die()): the `item` new()'d into it as it dies, so its
+##   corpse holds it; with `master` it records its killer (set("master_id")): the item's
+##   master form when the player struck last (ItemContentDefinition.MASTER_SUFFIX).
 var hurt_divisor: int = 0
 var hurt_say: String = ""
 var hurt_color: StringName = ColoredLine.PLAIN
@@ -34,6 +41,9 @@ var defeated_say: String = ""
 var defeated_color: StringName = ColoredLine.PLAIN
 var chant_stages: Array[Stage] = []
 var chant_repeat_after: int = 0
+var ghost: bool = false
+var die_item_id: StringName = &""
+var die_item_master: bool = false
 
 
 class Stage:
@@ -102,8 +112,8 @@ static func _color(reader: ContentRecordReader, key: String) -> StringName:
 
 ## The NPC record's `receive_damage` {hurt?: {divisor, line, color?}, pills?: {count, below,
 ## line, color?}}, `kill_ob` {lines}, `revive` {exp_divisor, exp_plus, apply_divisor},
-## `defeated_enemy` {line, color?} (each line as say() prints it, the NPC's name in it) and `chant` {stages: [{after, say, line?, combat_exp?}],
-## repeat_after}; null when it has none of them.
+## `defeated_enemy` {line, color?} (each line as say() prints it, the NPC's name in it), `chant` {stages: [{after, say, line?, combat_exp?}],
+## repeat_after}, `ghost` true and `die_carries` {item, master?}; null when it has none of them.
 static func from_record(reader: ContentRecordReader) -> NpcHooks:
 	var hooks := NpcHooks.new()
 	var found: bool = false
@@ -173,4 +183,15 @@ static func from_record(reader: ContentRecordReader) -> NpcHooks:
 		chant.finish()
 		if hooks.chant_stages.is_empty() or hooks.chant_repeat_after <= 0:
 			reader.fail("chant", "needs stages and a positive repeat_after")
+	if reader.has("ghost"):
+		found = true
+		hooks.ghost = reader.boolean("ghost", false)
+		if not hooks.ghost:
+			reader.fail("ghost", "only a ghost says so")
+	var dies: ContentRecordReader = reader.child("die_carries")
+	if dies != null:
+		found = true
+		hooks.die_item_id = StringName(dies.required_text("item"))
+		hooks.die_item_master = dies.boolean("master", false)
+		dies.finish()
 	return hooks if found else null

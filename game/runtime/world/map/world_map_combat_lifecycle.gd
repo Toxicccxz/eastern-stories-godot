@@ -267,6 +267,8 @@ func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunit
 	var comes: Array[StringName] = []
 	if (victim_npc != null or is_player) and opportunity != null and opportunity.outcome == CombatSliceOpportunityResult.Outcome.LIFECYCLE_REQUIRED_DEATH:
 		comes = _owner_is_killed(victim, &"" if victim_npc == null else victim_npc.definition().definition_id)
+		if victim_npc != null:
+			_die_carries(victim_npc, killer)
 	var receipt: CombatSliceLifecycleResult = _execute_lifecycle(victim, opportunity, participants, killer)
 	_last_lifecycle_results.append(receipt)
 	# mind_bug.c die() runs its own lines before ::die()'s killer_reward().
@@ -327,6 +329,19 @@ func _owner_is_killed(victim: CombatSliceCharacterBinding, definition_id: String
 			continue
 		comes.append(item.item_definition_id)
 	return comes
+
+
+## d/choyin/npc/lion.c die(): before ::die() makes the corpse, a new 忘忧草 goes into the NPC
+## with set("master_id") of last_damage_from: the item's master form when that is the player.
+func _die_carries(npc: NpcRuntimeState, killer: CombatSliceCharacterBinding) -> void:
+	var hooks: NpcHooks = npc.definition().hooks()
+	if hooks == null or hooks.die_item_id.is_empty():
+		return
+	var item_id: StringName = hooks.die_item_id
+	if hooks.die_item_master and killer != null and _player != null and killer.character_id == _player.character_id:
+		item_id = ItemContentDefinition.master_id(item_id)
+	if _map.floor_items.give_new_item_to(npc, item_id).is_empty():
+		push_error("%s's die(): %s could not be made" % [npc.definition().display_name, item_id])
 
 
 ## windspring.c owner_is_killed(): its NPC comes into the killer's place (the summoned spawn
@@ -469,6 +484,7 @@ func _execute_lifecycle(victim: CombatSliceCharacterBinding, opportunity: Combat
 	var death_position: Vector2 = Vector2.ZERO if body == null else body.global_position
 	var death_location: WorldLocationState = _location_for_character(victim.character_id)
 	var destination: InventoryTransferDestination = _world_destination_for(victim.character_id)
+	var carried: Array[StringName] = _inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, victim.character_id))
 	var allocation: SessionItemIdAllocationResult = _item_id_allocator.allocate(_inventory)
 	if not allocation.succeeded:
 		return CombatSliceLifecycleResult.new()
@@ -492,6 +508,11 @@ func _execute_lifecycle(victim: CombatSliceCharacterBinding, opportunity: Combat
 			body.refresh_runtime_state()
 	var corpse: CorpseState = null if lifecycle.death_inventory_result == null else lifecycle.death_inventory_result.corpse_state
 	if corpse == null:
+		# chard.c make_corpse() of a ghost: no corpse, what it carried falls where it died.
+		if lifecycle.outcome == CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE and death_location != null and destination != null:
+			for item_id: StringName in carried:
+				if _inventory.is_direct_child(item_id, destination.endpoint) and not _map.floor_items.add_dropped_item_view(item_id, death_location, _map.floor_items.at_feet(death_location, death_position, true)):
+					push_error("%s fell from a ghost and has no view" % item_id)
 		return lifecycle
 	var view: CombatSliceCorpseView = _map.corpses.add_corpse_view(corpse, _map.corpses.corpse_position(death_position, death_location), death_location)
 	if view == null:
@@ -518,6 +539,7 @@ func _death_context_for(victim: CombatSliceCharacterBinding, killer: CombatSlice
 	var body_weight: int = CharacterDerivedValues.human_weight(strength)
 	var maximum_encumbrance: int = CharacterDerivedValues.maximum_encumbrance(strength)
 	var npc: NpcRuntimeState = _map.npcs.find_resident_npc(victim.character_id)
+	var ghost: bool = npc != null and npc.definition().is_ghost()
 	if npc != null:
 		display_name = npc.definition().display_name
 		age = npc.age
@@ -526,7 +548,7 @@ func _death_context_for(victim: CombatSliceCharacterBinding, killer: CombatSlice
 		maximum_encumbrance = npc.maximum_encumbrance
 	return DeathContext.new(
 		victim.character_id,
-		false,
+		ghost,
 		false,
 		destination,
 		ItemLifecycleOwnerContext.new(victim.character_id, victim.state.equipment, victim.armor),

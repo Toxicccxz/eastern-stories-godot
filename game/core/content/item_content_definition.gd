@@ -93,6 +93,12 @@ var _scribe: bool = false
 ## is written on it and that name; empty for anything else.
 var _haunts: StringName = &""
 var _haunts_name: String = ""
+## set("master_id") (d/choyin/obj/grass.c by lion.c die(), u/cloud's letter by b_header.c):
+## the item records who got it (`master`); its master form (`_mastered`) is the player's.
+var _masters: bool = false
+var _mastered: bool = false
+## A weapon's own hit_ob() against a ghost (daemon/class/taoist/sword.c); null for most.
+var _ghost_bane: WeaponGhostBane
 
 var item_definition_id: StringName:
 	get: return _item_definition_id
@@ -200,6 +206,15 @@ var pour: PourDefinition:
 ## F_UNIQUE: only one of it may exist in the world (violate_unique()).
 var unique: bool:
 	get: return _unique
+## The item records who got it (set("master_id")): the catalog has its master form.
+var masters: bool:
+	get: return _masters
+## This is the master form: the player got it (query("master_id") is theirs).
+var mastered: bool:
+	get: return _mastered
+## The weapon's own hit_ob() against a ghost (咒剑王禅); null for most.
+var ghost_bane: WeaponGhostBane:
+	get: return _ghost_bane
 var category: StringName:
 	get:
 		if _currency_definition != null:
@@ -253,6 +268,7 @@ static func from_record(reader: ContentRecordReader) -> ItemContentDefinition:
 	definition._dissolves = reader.boolean("dissolve", false)
 	definition._scribe = reader.boolean("scribe", false)
 	definition._unique = reader.boolean("unique", false)
+	definition._masters = reader.boolean("master", false)
 	var killed: ContentRecordReader = reader.child("owner_is_killed")
 	if killed != null:
 		definition._owner_killed_npc = StringName(killed.required_text("npc"))
@@ -287,6 +303,11 @@ static func from_record(reader: ContentRecordReader) -> ItemContentDefinition:
 	var weapon: ContentRecordReader = reader.child("weapon")
 	if weapon != null:
 		definition._read_weapon(weapon)
+	var bane: ContentRecordReader = reader.child("ghost_bane")
+	if bane != null:
+		definition._ghost_bane = WeaponGhostBane.from_record(bane)
+		if weapon == null:
+			reader.fail("ghost_bane", "only a weapon's hit_ob() is one")
 	var armor: ContentRecordReader = reader.child("armor")
 	if armor != null:
 		definition._read_armor(armor)
@@ -305,6 +326,8 @@ static func from_record(reader: ContentRecordReader) -> ItemContentDefinition:
 	# A named form shares everything but its ID and name: equipment and stacks carry their ID.
 	if not definition._name_pick.is_empty() and (weapon != null or armor != null or money != null or combined != null):
 		reader.fail("name_pick", "only a plain item draws its name yet")
+	if definition._masters and (weapon != null or armor != null or money != null or combined != null or not definition._name_pick.is_empty()):
+		reader.fail("master", "only a plain item of one name records its master yet")
 	reader.finish()
 	return definition
 
@@ -354,6 +377,27 @@ static func named(source: ItemContentDefinition, index: int) -> ItemContentDefin
 	made._item_definition_id = named_id(source._item_definition_id, index)
 	made._display_name = source._name_pick[index]
 	made._name_pick = []
+	return made
+
+
+## The ID the catalog gives an item's master form (MASTER_SUFFIX after its own).
+const MASTER_SUFFIX: String = "#master"
+
+
+static func master_id(id: StringName) -> StringName:
+	return StringName(String(id) + MASTER_SUFFIX)
+
+
+## The item as the player got it (set("master_id", <the player's id>)): everything else is
+## the item's, so it looks and weighs the same.
+static func mastered_form(source: ItemContentDefinition) -> ItemContentDefinition:
+	var made := ItemContentDefinition.new()
+	for property: Dictionary in source.get_property_list():
+		if property["usage"] & PROPERTY_USAGE_SCRIPT_VARIABLE and String(property["name"]).begins_with("_"):
+			made.set(property["name"], source.get(property["name"]))
+	made._item_definition_id = master_id(source._item_definition_id)
+	made._masters = false
+	made._mastered = true
 	return made
 
 
@@ -556,6 +600,11 @@ func loadout_item_definition() -> NpcLoadoutItemDefinition:
 		_armor_definition,
 		_named_ids(),
 	)
+
+
+## The IDs of the named forms create() draws among (empty: one name).
+func name_pick_ids() -> Array[StringName]:
+	return _named_ids()
 
 
 func _named_ids() -> Array[StringName]:

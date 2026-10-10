@@ -74,6 +74,7 @@ static func give(
 	offer.giver_family = player.state.family.family_id
 	offer.giver_temps = player.temp_marks
 	offer.giver_max_force = player.state.recovery.inner_force.maximum
+	offer.item_mastered = content.mastered
 	var liquid: LiquidState = authorities.liquids.state(id)
 	if liquid != null:
 		offer.liquid_type = LiquidState.legacy_type(liquid.content)
@@ -355,7 +356,7 @@ static func _destroy(authorities: Authorities, id: StringName) -> bool:
 
 
 ## What an accepted gift changes: marks/<name> and set_temp() flags on the giver, an
-## object variable of the NPC, keeper.c's donation, which may lower the giver's
+## object variable of the NPC and the topics it forgets, keeper.c's donation, which may lower the giver's
 ## bellicosity, and old.c's max_force passed to the giver (force 0 after).
 @warning_ignore("integer_division")
 static func _apply_acceptance(rule: NpcObjectRule, player: WorldPlayerRuntimeState, npc: NpcRuntimeState, value: int, random: WorldInteractionRandomSource) -> void:
@@ -372,6 +373,8 @@ static func _apply_acceptance(rule: NpcObjectRule, player: WorldPlayerRuntimeSta
 		CharacterDerivedValues.refresh_human_player_maxima(player.state, player.facts.age)
 	if not rule.set_npc_flag.is_empty():
 		npc.set_flag(rule.set_npc_flag, true)
+	for topic: String in rule.forgets:
+		npc.forget_topic(topic)
 	if rule.effect == NpcObjectRule.EFFECT_TEMPLE_DONATION and value > 100:
 		var attributes: CharacterBaseAttributes = player.state.attributes
 		if attributes.bellicosity > 0 and random.legacy_random(value / 10) > attributes.karma:

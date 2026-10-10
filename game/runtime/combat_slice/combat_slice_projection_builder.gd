@@ -47,7 +47,7 @@ static func build_fight_facts(
 	return CombatFightDecisionFacts.new(
 		attacker.character_id,
 		attacker.life_status == CombatSliceLifeStatus.Value.ACTIVE,
-		attacker.content.target_visible,
+		attacker.content.sees(victim.content),
 		CombatPerceptionSkillProjection.new(
 			PERCEPTION_SKILL_ID,
 			attacker.state.skills.effective_level(PERCEPTION_SKILL_ID),
@@ -120,13 +120,21 @@ static func build_attack_input(
 	var weapon_profile: WeaponCombatProfile = null
 	if primary != null:
 		var weapon_policy: int = CombatHitPolicyStatus.Value.AUTHORED_POLICY_UNAVAILABLE
+		var weapon_content: ItemContentDefinition = GameContent.catalog().item(primary.weapon_id)
 		if attacker.content.is_verified_primary(primary):
 			weapon_policy = CombatHitPolicyStatus.Value.PROVEN_NO_AUTHORED_EFFECT
+			if weapon_content != null and weapon_content.ghost_bane != null:
+				weapon_policy = CombatHitPolicyStatus.Value.GHOST_BANE
 		weapon_profile = WeaponCombatProfile.new(
 			primary.weapon_id,
 			primary.skill_type,
 			weapon_policy,
 		)
+		if weapon_policy == CombatHitPolicyStatus.Value.GHOST_BANE:
+			weapon_profile.ghost_bane = weapon_content.ghost_bane
+			weapon_profile.wielder_max_atman = attacker.state.recovery.atman.maximum
+			# attribute.c query_spi(): spi and apply/spirituality (the sword's own 30).
+			weapon_profile.wielder_spirituality = attacker.state.attributes.spirituality + _apply(attacker, attacker_armor, &"spirituality")
 	var attacker_snapshot: CombatAttackerSnapshot = CombatAttackerSnapshot.new(
 		attacker.character_id,
 		attacker.life_status == CombatSliceLifeStatus.Value.ACTIVE,
@@ -197,6 +205,8 @@ static func build_attack_input(
 			defender.state.attributes.strength_modifier,
 		)),
 	)
+	if defender.content != null and defender.content.is_ghost:
+		defender_snapshot.ghost_atman = defender.state.recovery.atman.current
 	return CombatAttackInput.new(attacker_snapshot, defender_snapshot, selected_action, approved_actions)
 
 

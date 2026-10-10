@@ -5,14 +5,17 @@ const WATERFALL_THRESHOLD: int = 5
 
 var _waterfall_portal_id: StringName
 var _passage_portal_id: StringName
+var _below: int = WATERFALL_THRESHOLD
 
 
 func _init(
 	waterfall_portal_id: StringName = &"",
 	passage_portal_id: StringName = &"",
+	below: int = WATERFALL_THRESHOLD,
 ) -> void:
 	_waterfall_portal_id = waterfall_portal_id
 	_passage_portal_id = passage_portal_id
+	_below = below
 
 
 func evaluate(
@@ -39,7 +42,7 @@ func evaluate(
 		return result
 
 	result._reached_stage = VineTraversalPolicyResult.ReachedStage.BRANCH_SELECTED
-	if result._draw_value < WATERFALL_THRESHOLD:
+	if result._draw_value < _below:
 		result._outcome = VineTraversalPolicyResult.Outcome.WATERFALL_BRANCH
 		result._selected_branch = VineTraversalPolicyResult.Branch.WATERFALL
 		result._selected_portal_id = _waterfall_portal_id

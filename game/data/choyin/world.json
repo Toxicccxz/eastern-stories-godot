@@ -68,7 +68,10 @@
 		{ "id": "choyin.rockpath1", "map": "choyin.east", "rooms": ["es2:d/choyin/rockpath1"] },
 		{ "id": "choyin.rockyu", "map": "choyin.east", "rooms": ["es2:d/choyin/rockyu"] },
 		{ "id": "choyin.fence", "map": "choyin.east", "rooms": ["es2:d/choyin/fence"] },
-		{ "id": "choyin.club", "map": "choyin.east", "rooms": ["es2:d/choyin/club"] },
+		{ "id": "choyin.club", "map": "choyin.east", "rooms": ["es2:d/choyin/club"], "refuses": {
+			"pray": "也不知道隐士怎么弄的，你的玛瑙手镯不灵验了。",
+			"dancing": "也不知道隐士怎么弄的，你无法跳出专注的舞步。"
+		} },
 		{ "id": "choyin.yard", "map": "choyin.east", "rooms": ["es2:d/choyin/yard"] },
 		{ "id": "choyin.tongbhill", "map": "choyin.east", "rooms": ["es2:d/choyin/tongbhill"] },
 		{ "id": "choyin.stove", "map": "choyin.furnace", "rooms": ["es2:d/choyin/stove"] },
@@ -99,7 +102,15 @@
 		{ "id": "choyin.tomb1.up", "from_zone": "choyin.tomb1", "to_zone": "choyin.tree_tomb", "to_spawn": "choyin.tree_tomb.hole_return", "legacy_room": "es2:d/choyin/tomb1", "legacy_command": "up" },
 		{ "id": "choyin.craneroom.down", "from_zone": "choyin.craneroom", "to_zone": "choyin.guyehill", "to_spawn": "choyin.guyehill.tree_return", "legacy_room": "es2:d/choyin/craneroom", "legacy_command": "down" },
 		{ "id": "choyin.halfhole.down", "from_zone": "choyin.halfhole", "to_zone": "choyin.guyehill", "to_spawn": "choyin.guyehill.vine_return", "legacy_room": "es2:d/choyin/halfhole", "legacy_command": "down" },
-		{ "id": "choyin.stove.out", "from_zone": "choyin.stove", "to_zone": "choyin.tongbhill", "to_spawn": "choyin.tongbhill.furnace_return", "legacy_room": "es2:d/choyin/stove", "legacy_command": "out" }
+		{ "id": "choyin.stove.out", "from_zone": "choyin.stove", "to_zone": "choyin.tongbhill", "to_spawn": "choyin.tongbhill.furnace_return", "legacy_room": "es2:d/choyin/stove", "legacy_command": "out" },
+		{ "id": "choyin.w_street1.lift", "from_zone": "choyin.w_street1", "to_zone": "choyin.lionroom", "to_spawn": "choyin.lionroom.fall_arrival", "legacy_room": "es2:d/choyin/w_street1", "legacy_command": "lift statue" },
+		{ "id": "choyin.lionroom.give_up", "from_zone": "choyin.lionroom", "to_zone": "snow.inn.main_floor", "to_spawn": "snow.inn.main_floor.player_birth", "legacy_room": "es2:d/choyin/lionroom", "legacy_command": "quit" },
+		{ "id": "choyin.tree_tomb.down", "from_zone": "choyin.tree_tomb", "to_zone": "choyin.tomb1", "to_spawn": "choyin.tomb1.hole_arrival", "legacy_room": "es2:d/choyin/tree_tomb", "legacy_command": "down" },
+		{ "id": "choyin.guyehill.climb", "from_zone": "choyin.guyehill", "to_zone": "choyin.craneroom", "to_spawn": "choyin.craneroom.climb_arrival", "legacy_room": "es2:d/choyin/guyehill", "legacy_command": "climb tree" },
+		{ "id": "choyin.guyehill.hold_fall", "from_zone": "choyin.guyehill", "to_zone": "choyin.hollow", "to_spawn": "choyin.hollow.fall_arrival", "legacy_room": "es2:d/choyin/guyehill", "legacy_command": "hold vine" },
+		{ "id": "choyin.guyehill.hold_climb", "from_zone": "choyin.guyehill", "to_zone": "choyin.halfhole", "to_spawn": "choyin.halfhole.vine_arrival", "legacy_room": "es2:d/choyin/guyehill", "legacy_command": "hold vine" },
+		{ "id": "choyin.platform.touch", "from_zone": "choyin.platform", "to_zone": "choyin.stove", "to_spawn": "choyin.stove.platform_arrival", "legacy_room": "es2:d/choyin/platform", "legacy_command": "touch flag" },
+		{ "id": "choyin.hollow3.interject", "from_zone": "choyin.hollow3", "to_zone": "latemoon.bamboo", "to_spawn": "latemoon.bamboo.dance_arrival", "legacy_room": "es2:d/choyin/hollow3", "legacy_command": "interject orchid" }
 	],
 	"doors": [
 		{ "id": "choyin.yamen.door", "name": "铜钉大门", "zones": ["choyin.yamen_yard", "choyin.yamen"], "reach": 90, "legacy_room": "es2:d/choyin/yamen" },
@@ -107,19 +118,30 @@
 		{ "id": "choyin.club.door", "name": "柴门", "zones": ["choyin.club", "choyin.yard"], "reach": 90, "legacy_room": "es2:d/choyin/club" }
 	],
 	"exit_rules": [
-		{ "id": "choyin.entrance.taolin", "room": "es2:d/choyin/entrance", "from_zone": "choyin.entrance", "to_zone": "choyin.taolin", "when": "no_mark", "mark": "书生", "lines": ["东行的道路被骆云舟挡住了."], "legacy_source": "d/choyin/entrance.c" }
+		{ "id": "choyin.entrance.taolin", "room": "es2:d/choyin/entrance", "from_zone": "choyin.entrance", "to_zone": "choyin.taolin", "when": "no_mark", "mark": "书生", "lines": ["东行的道路被骆云舟挡住了."], "legacy_source": "d/choyin/entrance.c" },
+		{ "id": "choyin.club.east_books", "room": "es2:d/choyin/club", "from_zone": "choyin.club", "to_zone": "choyin.fence", "when": "takes_back", "items": ["es2:d/choyin/npc/obj/book1", "es2:d/choyin/npc/obj/book2"], "taken": [{ "line": "你将书放回到矮几。\n", "color": "HIC" }], "without": ["你离开草堂!"], "legacy_source": "d/choyin/club.c" },
+		{ "id": "choyin.club.west_books", "room": "es2:d/choyin/club", "from_zone": "choyin.club", "to_zone": "choyin.yard", "when": "takes_back", "items": ["es2:d/choyin/npc/obj/book1", "es2:d/choyin/npc/obj/book2"], "taken": [{ "line": "你将书放回到矮几。\n", "color": "HIC" }], "without": ["你离开草堂!"], "legacy_source": "d/choyin/club.c" }
 	],
 	"landmarks": [
-		{ "id": "choyin.w_street1.landmark.statue", "zone": "choyin.w_street1", "name": "石狮", "policy": "look", "long": "这尊石狮跟一般寻常人家放在门口镇宅避邪的石狮颇有不同，姿势是立\n著的，而且大小要大得多，只怕有几万斤重，从来没见过谁能举起它。\n你注意到石狮的额头上刻著一个「举」字，不知是何用意？\n", "legacy_source": "d/choyin/w_street1.c" },
-		{ "id": "choyin.tree_tomb.landmark.hole", "zone": "choyin.tree_tomb", "name": "大洞", "policy": "look", "long": "一个黑漆漆的大洞，看来像是什么蛀虫蛀出来的，可是天底下哪里\n有这么大的蛀虫？这个洞连人也进得去。\n", "legacy_source": "d/choyin/tree_tomb.c" },
+		{ "id": "choyin.w_street1.landmark.statue", "zone": "choyin.w_street1", "name": "石狮", "action": "举", "policy": "lift", "portals": ["choyin.w_street1.lift"], "limit": 10, "divisor": 5, "messages": {
+			"lift": "你努力地抬着石狮子，试图抬起一点点。",
+			"open": "石狮子竟然向左移动了尺许，漏出向下的洞穴。\n你从洞口掉了下去。",
+			"closed": "石狮子又缓缓地向右移动了尺许，正好盖住洞口。"
+		}, "long": "这尊石狮跟一般寻常人家放在门口镇宅避邪的石狮颇有不同，姿势是立\n著的，而且大小要大得多，只怕有几万斤重，从来没见过谁能举起它。\n你注意到石狮的额头上刻著一个「举」字，不知是何用意？\n", "legacy_source": "d/choyin/w_street1.c" },
+		{ "id": "choyin.tree_tomb.landmark.hole", "zone": "choyin.tree_tomb", "name": "大洞", "action": "爬下去", "portals": ["choyin.tree_tomb.down"], "messages": { "use": "你攀著粗糙的洞壁，爬进了树桩中间的大洞。" }, "long": "一个黑漆漆的大洞，看来像是什么蛀虫蛀出来的，可是天底下哪里\n有这么大的蛀虫？这个洞连人也进得去。\n", "legacy_source": "d/choyin/tree_tomb.c" },
 		{ "id": "choyin.tree_tomb.landmark.shrine", "zone": "choyin.tree_tomb", "name": "小庙", "policy": "look", "long": "一间砖砌的小庙，庙里供奉的当然就是「树王公」，你注意到庙里\n树王公的神像左手残缺不全，木刻的神像竟然有一条条白蚁的痕迹，和\n一般庙里金身神像给人的印象不太一样。\n", "legacy_source": "d/choyin/tree_tomb.c" },
 		{ "id": "choyin.fence.landmark.fence", "zone": "choyin.fence", "name": "竹篱", "policy": "look", "long": "篱笆依地势而曲折延伸，你注意到柴门里面有一间草堂。\n", "legacy_source": "d/choyin/fence.c" },
 		{ "id": "choyin.club.landmark.books", "zone": "choyin.club", "name": "书卷", "policy": "look", "long": "几上的书信手而放，装帧古朴，竟是宋版书，还有几卷汉碑原拓。你按捺不住好奇心想拿\n起来(scratch)仔细研究一番。\n", "legacy_source": "d/choyin/club.c" },
-		{ "id": "choyin.guyehill.landmark.vine", "zone": "choyin.guyehill", "name": "藤蔓", "policy": "look", "long": "其中有一根藤蔓距离你比较近，你可以试著抓住(hold)藤蔓\n", "legacy_source": "d/choyin/guyehill.c" },
-		{ "id": "choyin.guyehill.landmark.tree", "zone": "choyin.guyehill", "name": "古树", "policy": "look", "long": "这是一株万年古树，寻常人等休想爬得上去.\n", "legacy_source": "d/choyin/guyehill.c" },
+		{ "id": "choyin.guyehill.landmark.vine", "zone": "choyin.guyehill", "name": "藤蔓", "action": "抓住藤蔓", "policy": "vine", "portals": ["choyin.guyehill.hold_fall", "choyin.guyehill.hold_climb"], "below": 30, "messages": {
+			"hold": "你伸手往不远处的一根藤蔓抓去....",
+			"fall": "只听见一声杀猪般的惨叫，你已坠落深谷。。",
+			"climb": "你手脚俐落地攀附著藤蔓，慢慢地爬近山洞。"
+		}, "long": "其中有一根藤蔓距离你比较近，你可以试著抓住(hold)藤蔓\n", "legacy_source": "d/choyin/guyehill.c" },
+		{ "id": "choyin.guyehill.landmark.tree", "zone": "choyin.guyehill", "name": "古树", "action": "爬树", "portals": ["choyin.guyehill.climb"], "messages": { "use": "你七手八脚地爬上了古树。" }, "long": "这是一株万年古树，寻常人等休想爬得上去.\n", "legacy_source": "d/choyin/guyehill.c" },
 		{ "id": "choyin.platform.landmark.platform", "zone": "choyin.platform", "name": "云台", "policy": "look", "long": "一座精雕细琢的玉台,放有一矮几;几上立有玉瓶,几株寒谷幽兰\n绽放其中.台旁置一云幡(flag),可是仙家宝物.\n", "legacy_source": "d/choyin/platform.c" },
-		{ "id": "choyin.platform.landmark.flag", "zone": "choyin.platform", "name": "云幡", "policy": "look", "long": "此幡可翻云覆雨,最好不要碰(touch)它.\n", "legacy_source": "d/choyin/platform.c" },
-		{ "id": "choyin.hollow3.landmark.vase", "zone": "choyin.hollow3", "name": "空穴", "policy": "look", "long": "石穴呈瓶状,想是用来插(interject)什么东东的.\n", "legacy_source": "d/choyin/hollow3.c" }
+		{ "id": "choyin.platform.landmark.flag", "zone": "choyin.platform", "name": "云幡", "action": "碰云幡", "portals": ["choyin.platform.touch"], "messages": { "use": "你碰了云幡,云幡动了一下.....\n白光一闪,云台忽地裂开" }, "long": "此幡可翻云覆雨,最好不要碰(touch)它.\n", "legacy_source": "d/choyin/platform.c" },
+		{ "id": "choyin.hollow3.landmark.vase", "zone": "choyin.hollow3", "name": "空穴", "action": "插幽兰", "portals": ["choyin.hollow3.interject"], "messages": { "use": "寒谷幽兰忽地绽放,幻出七色光华.你轻轻地飘起..." }, "long": "石穴呈瓶状,想是用来插(interject)什么东东的.\n", "legacy_source": "d/choyin/hollow3.c" },
+		{ "id": "choyin.lionroom.landmark.dark", "zone": "choyin.lionroom", "name": "洞穴", "action": "放弃", "portals": ["choyin.lionroom.give_up"], "messages": { "use": "你在洞里苦等良久，终于昏昏沉沉地睡了过去……醒来时，你已经躺在雪亭镇的饮风客栈里。" }, "long": "洞内黑漆漆的，四下摸索，却摸不到任何出口。\n", "legacy_source": "d/choyin/lionroom.c" }
 	],
 	"spawns": [
 		{
@@ -139,6 +161,13 @@
 			{ "thirsty": true, "steps": [ { "line": "你在井边用杯子舀起井水喝了几口。\n" }, { "water": 20 } ] },
 			{ "steps": [ { "line": "你已经再也喝不下一滴水了。\n" } ] }
 		] } },
-		{ "id": "choyin.cloudpool.water", "kind": "water", "zone": "choyin.cloudpool", "name": "大泽", "reach": 160, "legacy_source": "d/choyin/cloudpool.c" }
+		{ "id": "choyin.cloudpool.water", "kind": "water", "zone": "choyin.cloudpool", "name": "大泽", "reach": 160, "legacy_source": "d/choyin/cloudpool.c" },
+		{ "id": "choyin.lionroom.smell", "kind": "act", "zone": "choyin.lionroom", "name": "洞穴", "reach": 400, "legacy_source": "d/choyin/lionroom.c", "act": { "verb": "闻忘忧草", "acts": [
+			{ "carries": "grass", "steps": [ { "line": "一阵怪风骤然刮起，你仿佛腾云驾雾般。\n" }, { "move": "cloud.biaoju", "point": "cloud.biaoju.wind_arrival" } ] },
+			{ "steps": [ { "line": "你身上没有忘忧草啊。\n" } ] }
+		] } },
+		{ "id": "choyin.club.scratch", "kind": "act", "zone": "choyin.club", "name": "书卷", "reach": 120, "legacy_source": "d/choyin/club.c", "act": { "verb": "拿书", "acts": [
+			{ "steps": [ { "line": "你乘人不备，抓起一本书藏入怀中。\n" }, { "give_one_of": ["es2:d/choyin/npc/obj/book1", "es2:d/choyin/npc/obj/book1", "es2:d/choyin/npc/obj/book2"] }, { "set_temp": "choyin/书" } ] }
+		] } }
 	]
 }

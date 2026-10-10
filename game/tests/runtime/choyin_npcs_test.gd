@@ -125,7 +125,7 @@ func _test_people() -> void:
 	var book: ItemContentDefinition = catalog.item(BOOK)
 	_check(book.name_pick().size() == 10 and catalog.item(ItemContentDefinition.named_id(BOOK, 3)).display_name == "「梁父文集」" and catalog.item(ItemContentDefinition.named_id(BOOK, 3)).study != null, "the book's ten names, each a form of its own (study literate to 50)")
 	_check(catalog.item(WINDSPRING).owner_killed_npc() == SOUL and catalog.item(WINDSPRING).owner_killed_unless() == SOUL, "风泉之剑: 风泉剑灵 when its holder dies, not when the 剑灵 does")
-	_check(catalog.npc(&"choyin.npc.crane").dealings().is_fight_deferred(), "the cranes wait for 乔阴 B (a beast without verbs)")
+	_check(not catalog.npc(&"choyin.npc.crane").dealings().is_fight_deferred(), "the cranes can be fought (乔阴 B: beast.c's default action)")
 	_check(catalog.item(&"es2:d/choyin/obj/silver_clasp").armor_definition() != null and catalog.item(&"es2:d/choyin/obj/silver_clasp").weapon_definition() == null, "the 银簪 is worn in the hair")
 
 

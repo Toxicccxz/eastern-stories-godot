@@ -6,7 +6,9 @@ extends RefCounted
 ## How aggressive NPCs start a fight here: `pair` (one at a time) or
 ## `complete_set` (every aggressive NPC in contact joins one encounter).
 ## `distinct`: a room of its own that shares its name with a neighbour (the hall of
-## 老松寨, cave5): its text is shown on arrival even from that neighbour.
+## 老松寨, cave5): its text is shown on arrival even from that neighbour. `refuses`: a
+## carried item's command (RoomActDefinition.command) the room's own add_action() answers
+## instead, with its line (d/choyin/club.c: pray and dancing fail in the hermit's hall).
 const COMBAT_ENTRIES: Array[StringName] = [&"pair", &"complete_set"]
 
 var _zone_id: StringName
@@ -16,6 +18,7 @@ var _primary_room: RoomDefinition
 var _combat_entry: StringName = &"pair"
 var _link_ids: Array[StringName] = []
 var _distinct: bool = false
+var _refusals: Dictionary[String, String] = {}
 
 var zone_id: StringName:
 	get:
@@ -78,6 +81,7 @@ static func from_record(reader: ContentRecordReader) -> ZoneDefinition:
 		link_ids,
 		reader.boolean("distinct", false),
 	)
+	definition._refusals = reader.text_map("refuses")
 	reader.finish()
 	if not COMBAT_ENTRIES.has(definition.combat_entry):
 		reader.fail("combat_entry", "unsupported combat entry '%s'" % definition.combat_entry)
@@ -86,7 +90,14 @@ static func from_record(reader: ContentRecordReader) -> ZoneDefinition:
 
 ## Copy whose text comes from the resolved primary room.
 func with_primary_room(room: RoomDefinition) -> ZoneDefinition:
-	return ZoneDefinition.new(_zone_id, _map_id, _room_ids, room, _combat_entry, _link_ids, _distinct)
+	var copy := ZoneDefinition.new(_zone_id, _map_id, _room_ids, room, _combat_entry, _link_ids, _distinct)
+	copy._refusals = _refusals.duplicate()
+	return copy
+
+
+## What the room answers instead of a carried item's `command` ("" when it lets it be).
+func refusal(command: String) -> String:
+	return "" if command.is_empty() else _refusals.get(command, "")
 
 
 func room_ids() -> Array[StringName]:

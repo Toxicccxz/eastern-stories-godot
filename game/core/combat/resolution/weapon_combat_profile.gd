@@ -7,6 +7,11 @@ extends RefCounted
 var _weapon_id: StringName
 var _skill_type: StringName
 var _hit_policy_status: int
+## GHOST_BANE: the weapon's hit_ob() and what it reads of its wielder (query("max_atman"),
+## query_spi()).
+var ghost_bane: WeaponGhostBane
+var wielder_max_atman: int = 0
+var wielder_spirituality: int = 0
 
 var weapon_id: StringName:
 	get:
@@ -35,12 +40,17 @@ func is_valid() -> bool:
 		and not _skill_type.is_empty()
 		and CombatHitPolicyStatus.is_non_force_valid(_hit_policy_status)
 		and _hit_policy_status != CombatHitPolicyStatus.Value.NOT_APPLICABLE
+		and (_hit_policy_status == CombatHitPolicyStatus.Value.GHOST_BANE) == (ghost_bane != null)
 	)
 
 
 func duplicate_snapshot() -> WeaponCombatProfile:
-	return WeaponCombatProfile.new(
+	var copy := WeaponCombatProfile.new(
 		_weapon_id,
 		_skill_type,
 		_hit_policy_status,
 	)
+	copy.ghost_bane = ghost_bane
+	copy.wielder_max_atman = wielder_max_atman
+	copy.wielder_spirituality = wielder_spirituality
+	return copy

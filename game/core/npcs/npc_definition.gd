@@ -388,6 +388,11 @@ func hooks() -> NpcHooks:
 	return _hooks
 
 
+## is_ghost() (NpcHooks.ghost): unseen by whoever is no ghost (char.c visible()).
+func is_ghost() -> bool:
+	return _hooks != null and _hooks.ghost
+
+
 ## corpse.c animate(): the same definition named after the corpse's victim
 ## (set_name(query("victim_name") + "的僵尸")). Shares everything else.
 func raised_as(victim_display_name: String) -> NpcDefinition:

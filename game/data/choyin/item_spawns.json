@@ -8,6 +8,48 @@
 			"points": ["choyin.altar.denotation.1"],
 			"legacy_room": "d/choyin/altar.c",
 			"legacy_quantity": 1
+		},
+		{
+			"id": "choyin.tree_hollow.tomb3.chest",
+			"item": "es2:d/choyin/obj/chest",
+			"map": "choyin.tree_hollow",
+			"zone": "choyin.tomb3",
+			"points": ["choyin.tomb3.chest.1"],
+			"legacy_room": "d/choyin/tomb3.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "choyin.furnace.stove.tablets",
+			"item": "es2:d/choyin/obj/tablet",
+			"map": "choyin.furnace",
+			"zone": "choyin.stove",
+			"points": [
+				"choyin.stove.tablet.1",
+				"choyin.stove.tablet.2",
+				"choyin.stove.tablet.3",
+				"choyin.stove.tablet.4",
+				"choyin.stove.tablet.5"
+			],
+			"legacy_room": "d/choyin/stove.c",
+			"legacy_quantity": 5
+		},
+		{
+			"id": "choyin.cliff_cave.halfhole.goldenrope",
+			"item": "es2:d/choyin/obj/goldenrope",
+			"map": "choyin.cliff_cave",
+			"zone": "choyin.halfhole",
+			"points": ["choyin.halfhole.goldenrope.1"],
+			"legacy_room": "d/choyin/halfhole.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "choyin.valley.hollow3.orchid",
+			"item": "es2:d/choyin/obj/orchid",
+			"map": "choyin.valley",
+			"zone": "choyin.hollow3",
+			"points": ["choyin.hollow3.orchid.1"],
+			"legacy_room": "d/choyin/hollow3.c",
+			"legacy_quantity": 1
 		}
 	]
 }

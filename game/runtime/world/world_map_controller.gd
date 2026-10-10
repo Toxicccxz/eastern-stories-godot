@@ -561,6 +561,9 @@ func _tell_passing(from_zone_id: StringName, to_zone_id: StringName) -> void:
 ## player reads `without`.
 func _take_back(rule: ZoneExitRuleDefinition) -> void:
 	var carried := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)
+	if not rule.item_ids.is_empty():
+		_take_back_all(rule, carried)
+		return
 	var held: StringName = &""
 	for item_id: StringName in inventory_state().direct_children(carried):
 		var item: ItemInstance = item_instance_index().resolve(item_id)
@@ -586,6 +589,35 @@ func _take_back(rule: ZoneExitRuleDefinition) -> void:
 		hud().append_colored_lines(taken)
 		if hud().inventory_is_open():
 			hud().show_inventory(session.player_inventory_rows())
+
+
+## club.c valid_leave(): while present("book", me) the hermit's book goes back (destruct(),
+## HIC 你将书放回到矮几。 each); with none, 你离开草堂!. Only his own books (默认, 乔阴 B): ES2
+## took any book once one was scratched, and looped forever on one without the flag.
+func _take_back_all(rule: ZoneExitRuleDefinition, carried: ContainmentEndpoint) -> void:
+	var held: Array[StringName] = []
+	for item_id: StringName in inventory_state().direct_children(carried):
+		var item: ItemInstance = item_instance_index().resolve(item_id)
+		if item != null and rule.item_ids.has(ItemContentDefinition.unnamed_id(item.item_definition_id)):
+			held.append(item_id)
+	if hud() == null:
+		return
+	if held.is_empty():
+		var without: Array[String] = []
+		for line: String in rule.without:
+			without.append(tr(line))
+		hud().append_log_lines(without)
+		return
+	var taken: Array[ColoredLine] = []
+	for item_id: StringName in held:
+		if not floor_items.use_up_one(item_id, ItemLifecycleOwnerContext.new(_player.character_id, _player.state.equipment, _player.armor)):
+			push_error("putting back %s failed: the item state is inconsistent" % item_id)
+			continue
+		for line: NpcLine in rule.taken:
+			taken.append(line.colored("", ""))
+	hud().append_colored_lines(taken)
+	if hud().inventory_is_open():
+		hud().show_inventory(session.player_inventory_rows())
 
 
 func freeze_world_gameplay(id: StringName) -> bool:

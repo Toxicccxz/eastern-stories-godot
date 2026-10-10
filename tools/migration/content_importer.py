@@ -60,7 +60,8 @@ ATTRIBUTES = ['str', 'cor', 'int', 'spi', 'cps', 'per', 'con', 'kar']
 RESOURCES = [prefix + track for track in ('gin', 'kee', 'sen') for prefix in ('', 'eff_', 'max_')]
 # Internal power has no eff_ tier (force, atman, mana).
 RESOURCES += [prefix + track for track in ('force', 'atman', 'mana') for prefix in ('', 'max_')]
-APPLY_KEYS = ['attack', 'damage', 'armor', 'dodge', 'defense', 'parry', 'armor_vs_force']
+# A skill's own key (shadow.c apply/blade) adds to it in char.c query_skill().
+APPLY_KEYS = ['attack', 'damage', 'armor', 'dodge', 'defense', 'parry', 'armor_vs_force', 'blade']
 ATTITUDES = {'peaceful', 'friendly', 'heroism', 'aggressive'}
 # NPC fields whose create()-time random draws the loader models.
 RANDOM_INTEGER_KEYS = {'set age', 'set combat_exp', 'set score'}

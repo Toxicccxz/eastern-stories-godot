@@ -410,7 +410,8 @@ func npc_arrived(npc: NpcRuntimeState) -> void:
 
 ## The player meets `npc` in their room (游识神通's list).
 func _meet(npc: NpcRuntimeState) -> void:
-	if _player != null and _player.exists_in_world:
+	# A ghost is never seen (char.c visible()), so never met.
+	if _player != null and _player.exists_in_world and not npc.definition().is_ghost():
 		PlayerEssenceMagic.meet(_player.state, npc, not _map.npcs.summoner_of(npc.character_id).is_empty())
 
 

@@ -413,7 +413,8 @@
 			"material": "steel",
 			"weight": 7000,
 			"value": 18000,
-			"weapon": { "skill": "sword", "damage": 44, "apply": { "spirituality": 30 }, "weight_dodge": "equip" }
+			"weapon": { "skill": "sword", "damage": 44, "apply": { "spirituality": 30 }, "weight_dodge": "equip" },
+			"ghost_bane": { "line": "王禅剑发出一股金色的罡气，流遍$N的全身。", "color": "HIY" }
 		},
 		{
 			"id": "es2:daemon/class/taoist/robe",

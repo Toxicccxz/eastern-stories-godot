@@ -104,7 +104,8 @@ func run(act: ScriptedAct, npc: NpcRuntimeState, draw: Callable) -> void:
 			ScriptedAct.Kind.GIVE:
 				if not step.unless_temp.is_empty() and _player.temp_marks.get(step.unless_temp, 0) != 0:
 					continue
-				_map.give_new_item_to_player(step.item_id)
+				var made: StringName = step.item_id if step.pick.is_empty() else step.pick[int(draw.call(step.pick.size()))]
+				_map.give_new_item_to_player(made)
 				if not step.unless_temp.is_empty():
 					_player.temp_marks[step.unless_temp] = 1
 				for line: NpcLine in step.lines:

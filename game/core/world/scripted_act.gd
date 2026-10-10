@@ -25,7 +25,8 @@ extends RefCounted
 ## - `move` (a zone, on any map) to `point`: ob->move(), the player taken there;
 ## - `kill`: kill_ob(player) and the player's fight_ob(): a fight to the death;
 ## - `give` (an item) `unless_temp`: the item new()'d to the player, unless they carry the
-##   set_temp() flag already (which the gift sets), then its `lines`;
+##   set_temp() flag already (which the gift sets), then its `lines`; `give_one_of` (items)
+##   new()s the one random(how many) picks (d/choyin/club.c's switch(random(3)));
 ## - `set_temp` a flag: set_temp(flag, 1) on the player (not saved);
 ## - `unmark` a mark: delete("mark/<mark>") (latemoon8.c's dance-book);
 ## - `water` n: add("water", n) (s_street1.c's well; above the capacity too, as add() does).
@@ -80,8 +81,9 @@ class Step:
 	## move: where to.
 	var zone_id: StringName = &""
 	var point_id: StringName = &""
-	## give: the item, the set_temp() flag, what is said after.
+	## give: the item, the set_temp() flag, what is said after; give_one_of: the items drawn among.
 	var item_id: StringName = &""
+	var pick: Array[StringName] = []
 	var unless_temp: String = ""
 	var lines: Array[NpcLine] = []
 	## set_temp, unmark: the flag or mark.
@@ -186,7 +188,7 @@ static func _step(reader: ContentRecordReader) -> Step:
 	var kinds: Array[String] = []
 	if ["say", "emote", "line", "whisper"].any(func(key: String) -> bool: return reader.has(key)):
 		kinds.append("line")
-	for key: String in ["damage", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "set_temp", "unmark", "water"]:
+	for key: String in ["damage", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "unmark", "water"]:
 		if reader.has(key):
 			kinds.append(key)
 	if kinds.size() != 1:
@@ -240,9 +242,15 @@ static func _step(reader: ContentRecordReader) -> Step:
 			step.kind = Kind.KILL
 			if not reader.boolean("kill", false):
 				reader.fail("kill", "is true when present")
-		"give":
+		"give", "give_one_of":
 			step.kind = Kind.GIVE
-			step.item_id = StringName(reader.required_text("give"))
+			if kinds[0] == "give":
+				step.item_id = StringName(reader.required_text("give"))
+			else:
+				for id: String in reader.text_list("give_one_of"):
+					step.pick.append(StringName(id))
+				if step.pick.size() < 2:
+					reader.fail("give_one_of", "draws among two items or more")
 			step.unless_temp = reader.text("unless_temp")
 			for record: ContentRecordReader in reader.children("lines"):
 				var said: NpcLine = NpcLine.from_record(record, true)

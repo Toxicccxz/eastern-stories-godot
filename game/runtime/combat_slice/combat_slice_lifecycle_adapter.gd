@@ -81,8 +81,10 @@ func execute(
 			return result
 	## feature/damage.c performs this second move before remove_all_killer().
 	## A failed move therefore preserves all preceding inventory/corpse mutation
-	## without committing the terminal encounter transition.
-	if (
+	## without committing the terminal encounter transition. A ghost leaves no corpse
+	## (chard.c make_corpse() returns 0): there is nothing to move.
+	var ghost: bool = result._death_inventory_result.branch == DeathInventoryResult.Branch.GHOST
+	if not ghost and (
 		result._second_corpse_placement_result == null
 		or not result._second_corpse_placement_result.succeeded
 	):

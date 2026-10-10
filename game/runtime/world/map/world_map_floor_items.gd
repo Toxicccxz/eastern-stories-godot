@@ -243,9 +243,13 @@ func destroy_floor_item(item_id: StringName) -> bool:
 
 
 ## new(item)->move(room): a new item lying at the player's feet in their zone
-## (cave5.c's book falling from the roof); kept in the save as a dropped one.
+## (cave5.c's book falling from the roof); kept in the save as a dropped one. An item whose
+## create() draws its name (d/choyin/npc/obj/book1.c) is made as one of its named forms.
 func place_new_floor_item(item_definition_id: StringName) -> StringName:
 	var content: ItemContentDefinition = GameContent.catalog().item(item_definition_id)
+	var names: Array[StringName] = [] if content == null else content.name_pick_ids()
+	if not names.is_empty():
+		content = GameContent.catalog().item(names[_world_interaction_random.legacy_random(names.size())])
 	var location: WorldLocationState = null if _player == null else _player.world_location()
 	if content == null or location == null or location.map_id != map:
 		return &""
@@ -292,6 +296,31 @@ func give_new_item_to_player(item_definition_id: StringName) -> StringName:
 	if taken.succeeded:
 		_forget_floor_item(item_id)
 	return item_id
+
+
+## new(item)->move(npc): a new item in the NPC's hands (lion.c die()'s 忘忧草), registered
+## like any other. Empty when nothing was made or the NPC cannot hold it.
+func give_new_item_to(npc: NpcRuntimeState, item_definition_id: StringName) -> StringName:
+	var content: ItemContentDefinition = GameContent.catalog().item(item_definition_id)
+	if content == null or npc == null:
+		return &""
+	var allocation: SessionItemIdAllocationResult = _item_id_allocator.allocate(_inventory)
+	if not allocation.succeeded:
+		return &""
+	var item: ItemInstance = ItemInstance.new(allocation.item_instance_id, content.item_definition_id)
+	if (
+		not _inventory.register_item(item, 0 if content.is_stack else content.own_weight)
+		or not _item_index.register_snapshot(item)
+		or not ItemRoleStates.register_fresh(content, item.item_instance_id, _foods, _liquids)
+	):
+		return &""
+	if content.is_stack and not CombinedStackService.register_stack(_stacks, _inventory, item, content.stack_definition(), content.default_amount).accepted:
+		return &""
+	var holder := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, npc.character_id)
+	var moved: InventoryTransferResult = InventoryTransferService.new().transfer(
+		_inventory, item.item_instance_id, InventoryTransferDestination.new(holder, true, true, npc.maximum_encumbrance),
+	)
+	return item.item_instance_id if moved.succeeded else &""
 
 
 ## How many times a `look_spawn` landmark called something in since its room's reset
@@ -453,6 +482,13 @@ func act_with_item(item_id: StringName) -> bool:
 	var carried := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)
 	if content == null or content.act == null or not _inventory.is_direct_child(item_id, carried):
 		return false
+	# The room's own add_action() of the same verb comes first (club.c do_pray(), do_dance()).
+	var here: ZoneDefinition = GameContent.catalog().zone(_player.world_location().zone_id)
+	var refused: String = "" if here == null else here.refusal(content.act.command)
+	if not refused.is_empty():
+		if _map.hud() != null:
+			_map.hud().append_log_lines([tr(refused)])
+		return true
 	var act: ScriptedAct = content.act.act_for(_player.state.gender, _player.state.affiliation.class_id, _map.acts.facts())
 	if act == null:
 		return false
@@ -569,10 +605,12 @@ func give_to_selected(item_id: StringName, amount: int = 0) -> ItemHandlingResul
 	# gift; a gift too heavy for her stays with the player and the making goes on.
 	if result.rule != null and result.rule.accept and result.rule.make != null:
 		_map.npc_life.start_making(npc, result.rule.make)
-	# shen.c accept_object(): drug->move(this_player()), told by the rule's own line.
+	# shen.c accept_object(): drug->move(this_player()), told by the rule's own line; b_header.c's
+	# letter is the giver's (set("master_id")).
 	if result.done() and result.rule != null and not result.rule.gives.is_empty():
-		var gift: StringName = give_new_item_to_player(result.rule.gives)
-		var gift_content: ItemContentDefinition = GameContent.catalog().item(result.rule.gives)
+		var made: StringName = ItemContentDefinition.master_id(result.rule.gives) if result.rule.gives_master else result.rule.gives
+		var gift: StringName = give_new_item_to_player(made)
+		var gift_content: ItemContentDefinition = GameContent.catalog().item(made)
 		var at_feet: String = "" if gift.is_empty() or gift_content == null else at_feet_line(gift, gift_content)
 		if not at_feet.is_empty():
 			result.lines.append(at_feet)

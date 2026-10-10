@@ -76,7 +76,7 @@ func _test_data() -> void:
 	for id: StringName in [&"choyin.yamen.door", &"choyin.fence.door", &"choyin.club.door"]:
 		_check(catalog.door(id) != null and not catalog.door(id).starts_open, "%s shut" % id)
 	var statue: WorldLandmarkDefinition = catalog.landmark(&"choyin.w_street1.landmark.statue")
-	_check(statue.policy == &"look" and statue.description.contains("「举」字") and not statue.description.contains("□"), "the stone lion's 「举」 (默认)")
+	_check(statue.policy == &"lift" and statue.description.contains("「举」字") and not statue.description.contains("□"), "the stone lion's 「举」 (默认), lifted (乔阴 B)")
 	_check(catalog.service(&"choyin.s_street1.well").kind == &"water" and catalog.service(&"choyin.cloudpool.water").kind == &"water", "the well and the marsh fill a wineskin")
 	var soul: NpcSpawnDefinition = catalog.spawn(&"choyin.town.entrance.sword_soul")
 	_check(soul != null and soul.summoned and soul.npc_definition_id == &"common.npc.scholar.sword_soul", "风泉剑灵 waits absent by 骆云舟")

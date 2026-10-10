@@ -27,10 +27,14 @@ extends RefCounted
 ## gives the `reward` item while fewer than `limit` were taken since the room's reset
 ## (`take`); after that it says `empty`. A `take` landmark may have a `guard`: while an
 ## NPC of that definition is present() in the zone (standing or lying unconscious) it
-## says `guarded` and gives nothing (d/sanyen/kitchen.c's cook).
+## says `guarded` and gives nothing (d/sanyen/kitchen.c's cook). A `vine` may set `below`,
+## the dodge draw that falls (5 when unset: epath2.c; d/choyin/guyehill.c 30), and needs no
+## observer lines where nobody else hears the fall. `lift` (d/choyin/w_street1.c do_lift())
+## counts each lift since the room's reset (`lift`); once that count and str / `divisor`
+## reach `limit` it opens (`open`) and the player falls through its portal (`closed` there).
 const POLICIES: Dictionary[StringName, Dictionary] = {
 	&"portal": {"portals": 1, "messages": [], "optional_messages": ["use"], "settings": [], "items": []},
-	&"vine": {"portals": 2, "messages": ["hold", "fall", "fall_observer", "climb", "climb_observer"], "settings": [], "items": []},
+	&"vine": {"portals": 2, "messages": ["hold", "fall", "climb"], "optional_messages": ["fall_observer", "climb_observer"], "settings": [], "optional_settings": ["below"], "items": []},
 	&"hidden_passage": {"portals": 2, "messages": ["push", "open", "close"], "settings": ["pushes", "open_seconds"], "items": []},
 	&"bury": {"portals": 1, "messages": ["bury", "book", "paper", "fall"], "settings": [], "items": ["buried", "reward"]},
 	&"look": {"portals": 0, "messages": [], "settings": [], "items": [], "no_action": true},
@@ -39,9 +43,10 @@ const POLICIES: Dictionary[StringName, Dictionary] = {
 	&"search": {"portals": 0, "messages": ["search", "found", "nothing"], "settings": ["random"], "items": ["reward"], "mark": true},
 	&"look_spawn": {"portals": 0, "messages": ["spawn"], "settings": ["limit"], "items": [], "no_action": true, "spawn": true},
 	&"take": {"portals": 0, "messages": ["take", "empty"], "optional_messages": ["guarded"], "settings": ["limit"], "items": ["reward"]},
+	&"lift": {"portals": 1, "messages": ["lift", "open", "closed"], "settings": ["limit", "divisor"], "items": []},
 }
 ## Every setting some policy names (an integer field of the record).
-const SETTINGS: Array[String] = ["pushes", "open_seconds", "force", "max_force", "force_factor", "gin", "kee", "sen", "random", "limit"]
+const SETTINGS: Array[String] = ["pushes", "open_seconds", "force", "max_force", "force_factor", "gin", "kee", "sen", "random", "limit", "divisor", "below"]
 
 var _landmark_id: StringName
 var _map_id: StringName
@@ -215,6 +220,8 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 	if item_keys != expected_items:
 		reader.fail("items", "policy '%s' needs exactly the items %s" % [definition.policy, expected_items])
 	var setting_keys: Array = settings.keys()
+	for optional: String in rule.get("optional_settings", []):
+		setting_keys.erase(optional)
 	setting_keys.sort()
 	var expected_settings: Array = (rule["settings"] as Array).duplicate()
 	expected_settings.sort()

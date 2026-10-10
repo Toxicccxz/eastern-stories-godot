@@ -6,26 +6,73 @@
 		"d/choyin/npc/crone.c"
 	],
 	"items": [
-		"d/choyin/npc/obj/tomatoo.c"
+		"d/choyin/npc/obj/tomatoo.c",
+		"d/choyin/npc/obj/magic_book.c",
+		"d/choyin/npc/obj/silk_bag.c",
+		"d/choyin/npc/obj/book1.c",
+		"d/choyin/npc/obj/book2.c"
 	],
 	"npcs": [
 		"daemon/class/scholar/sword_soul.c"
 	],
 	"spawn_skip": {
-		"d/choyin/n_gate.c": { "d/choyin/npc/ghost.c": "乔阴 B: the ghosts are unseen (choyin plan Q3), placed with that" },
-		"d/choyin/e_gate.c": { "d/choyin/npc/ghost.c": "乔阴 B: the ghosts are unseen (choyin plan Q3), placed with that" },
-		"d/choyin/tomb1.c": { "d/choyin/npc/shadow.c": "乔阴 B: the 朦胧鬼影 are unseen (Q3) and the hole is opened then (Q2)" },
-		"d/choyin/lionroom.c": { "d/choyin/npc/lion.c": "乔阴 B: the 护草神兽 and the 忘忧草 its die() makes" },
-		"d/choyin/yamen.c": { "d/choyin/npc/yamen_po.c": "乔阴 D: the 巡捕 draw their names and patrol (choyin plan Q1); a placed NPC cannot draw its name yet" },
-		"d/choyin/tomb3.c": { "d/choyin/obj/chest.c": "乔阴 B: the 桃木箱 for 武官 (choyin plan Q2)" },
-		"d/choyin/halfhole.c": { "d/choyin/obj/goldenrope.c": "乔阴 B: the 缚仙绳 and its tie" },
-		"d/choyin/hollow3.c": { "d/choyin/obj/orchid.c": "乔阴 B: the 寒谷幽兰 and its interject" },
-		"d/choyin/stove.c": { "d/choyin/obj/tablet.c": "乔阴 B: the 仙丹 and their eat" }
+		"d/choyin/yamen.c": { "d/choyin/npc/yamen_po.c": "乔阴 D: the 巡捕 draw their names and patrol (choyin plan Q1); a placed NPC cannot draw its name yet" }
 	},
 	"drop": {
 		"es2:d/choyin/obj/silver_clasp": ["weapon"]
 	},
 	"set": {
+		"choyin.npc.ghost": {
+			"ghost": true
+		},
+		"choyin.npc.shadow": {
+			"ghost": true
+		},
+		"choyin.lion_cave.lionroom.lion": {
+			"presence_radius": 400
+		},
+		"choyin.npc.lion": {
+			"die_carries": { "item": "es2:d/choyin/obj/grass", "master": true }
+		},
+		"es2:d/choyin/obj/grass": {
+			"master": true
+		},
+		"es2:d/choyin/obj/tablet": {
+			"apply": "tablet"
+		},
+		"es2:d/choyin/obj/goldenrope": {
+			"act": { "verb": "缚", "command": "tie", "acts": [
+				{ "present": "choyin.npc.crane", "steps": [
+					{ "line": "你双手合掌，随风而起，落于仙鹤背上......\n" },
+					{ "damage": { "sen": 50 } },
+					{ "move": "choyin.platform", "point": "choyin.platform.crane_arrival" }
+				] },
+				{ "steps": [ { "line": "你要缚何物? \n" } ] }
+			] }
+		},
+		"es2:d/choyin/npc/obj/book1": {
+			"name": "「笑傲江湖」",
+			"name_pick": ["「笑傲江湖」", "「天龙八部」", "「七剑下天山」", "「游侠郭解传」", "「七种武器」", "「楚留香传奇之血海飘香」", "「四大名捕」", "「洪武剑侠图」"]
+		},
+		"es2:d/choyin/npc/obj/book2": {
+			"name": "「秘传八步赶蝉」",
+			"name_pick": ["「秘传八步赶蝉」", "「陆地飞行之法」", "「寒梅弄影之法」", "「穿花绕树要诀」", "「八卦步法」"]
+		},
+		"choyin.npc.sergeant": {
+			"accept_object": [
+				{ "item_alias": "peach chest", "unless_npc_flag": "chest_found", "set_npc_flag": "chest_found", "accept": true, "lines": [
+					{ "say": "太好了！就是这个箱子！" },
+					{ "say": "在下出门在外，没有携带太多银两 ... " },
+					{ "say": "如果您不嫌弃的话，这本古书便请笑纳。" },
+					{ "line": "武官给你一本「白杨经」。" }
+				], "gives": "es2:d/choyin/obj/magic_book", "forgets": ["rumors", "箱子", "桃木箱子"] }
+			]
+		},
+		"choyin.npc.girl": {
+			"inquiry": { "游晋": { "rules": [
+				{ "say": "小女子有一事相求 ... 请您将这个交给游 ... 游公子。", "gives": "es2:d/choyin/npc/obj/silk_bag", "forgets": ["游晋"] }
+			] } }
+		},
 		"es2:d/choyin/obj/silver_clasp": {
 			"armor": { "type": "head", "props": { "armor": 1, "personality": 2 }, "weight_dodge": "armor" }
 		},
@@ -53,9 +100,6 @@
 		},
 		"choyin.npc.cake_vendor": {
 			"inquiry": { "大饼": { "rules": [ { "vendor_list": true } ] } }
-		},
-		"choyin.npc.crane": {
-			"fight_deferred": "a beast without verbs: race/beast.c gives it a default action whose two %s are never filled (攻击$n的%s，%s); 乔阴 B decides it with the 树冠"
 		},
 		"choyin.npc.dumpling_seller": {
 			"inquiry": { "包子": { "rules": [ { "vendor_list": true } ] } }
@@ -90,7 +134,14 @@
 				"here": ["这里是乔阴县城，您是外地来的吧？"],
 				"心事": ["实不相瞒，在下仰慕前面曲桥上赏莲的姑娘已久 ...", "但是一直不知那位姑娘芳名 ...", "唉 ..."],
 				"姑娘": ["就是那位绿裙黄衫的姑娘 ..."]
-			}
+			},
+			"accept_object": [
+				{ "item_alias": "###silk bag###", "accept": true, "lines": [
+					{ "line": "贵公子一眼瞥见荷包上的鸳鸯图案，立刻一把抢了过去。" },
+					{ "line": "贵公子随即从怀中掏出一方手帕，上面竟也绣著一幅相同的鸳鸯图。" },
+					{ "say": "原来爹爹替我主张的婚事，竟然是 ..." }
+				], "forgets": ["心事"] }
+			]
 		},
 		"choyin.npc.oldman": {
 			"long": "他白发苍苍,老态龙钟.\n他终年采药于深山，当有些不同凡响之处。\n他宽五尺，高三尺.你实在无法理解他怎么这么的胖。\n",
@@ -147,6 +198,32 @@
 		}
 	},
 	"review": {
+		"d/choyin/npc/ghost.c": {
+			"set env/wimpy": "NPCs never flee a losing fight yet (wimpy)",
+			"function is_ghost": "ghost in set (NpcHooks.ghost): unseen (char.c visible(), owner: 乔阴 plan Q3): not drawn or picked; it cannot be fought, so its 布条 stays out of reach until 鬼门关 (#13)"
+		},
+		"d/choyin/npc/shadow.c": {
+			"function is_ghost": "ghost in set: unseen (Q3); it attacks, the player's turns pass on perception (combatd.c fight()) with a native line; dead, no corpse (chard.c), its blade falls"
+		},
+		"d/choyin/npc/lion.c": {
+			"function die": "die_carries in set: a 忘忧草 new()'d into it before ::die(), set(\"master_id\") of last_damage_from: its master form when the player struck last (b_header.c's letter asks it)"
+		},
+		"d/choyin/obj/tablet.c": {
+			"function init": "eat: the item's apply tablet, 吃 (only while carried, as ES2)",
+			"function do_eat": "ItemApplyFunctions tablet: the line, receive_heal() 5 gin, 30 kee, 5 sen, one gone"
+		},
+		"d/choyin/obj/goldenrope.c": {
+			"function init": "tie: the item's act (set es2:d/choyin/obj/goldenrope), the 缚 button",
+			"function do_tie": "the act, only where a 仙鹤 stands (默认; the braces are missing: ES2 took any word, the line only for crane): the line, 50 sen (asked first when it would knock the player out), the 云台; tell_room() lines are for others; else 你要缚何物?"
+		},
+		"d/choyin/npc/obj/book1.c": {
+			"set_name": "name and name_pick in set: names[random(sizeof(names))], drawn as one is made (place_new_floor_item())",
+			"statement in create()": "string *names: the eight names of name_pick"
+		},
+		"d/choyin/npc/obj/book2.c": {
+			"set_name": "name and name_pick in set: names[random(sizeof(names))], drawn as one is made",
+			"statement in create()": "string *names: the five names of name_pick"
+		},
 		"daemon/class/scholar/sword_soul.c": {
 			"function chant": "chant in set: call_out(\"chant_sword\", 20, 1), from the moment owner_is_killed() makes it",
 			"function chant_sword": "chant in set: the four sayings 20 s apart, +100000 combat_exp with the last, then again 60 s later; leaving the map drops the call_out (DECISIONS 茅山 B)"
@@ -186,20 +263,20 @@
 			"function owner_is_killed": "owner_is_killed in set: when 骆云舟 dies (chard.c make_corpse()) the sword is gone and 风泉剑灵 stands where the killer is, the room reading its lines; not when the holder is the 剑灵 itself (its sword lies in its corpse)"
 		},
 		"d/choyin/w_street1.c": {
-			"set item_desc": "the statue: look-only landmark choyin.w_street1.landmark.statue; its lost 「□」 reads 「举」 (默认, uncertain)",
-			"function init": "乔阴 B: lift statue (and check, a wizard's debug print)",
+			"set item_desc": "the statue: landmark choyin.w_street1.landmark.statue (policy lift); its lost 「□」 reads 「举」 (默认, uncertain)",
+			"function init": "lift statue: the landmark's 举 (LiftLandmarkPolicy); check is a wizard's debug print",
 			"function do_check": "a wizard's debug print of liftid: not ported",
-			"function check_trigger": "乔阴 B: the lift into the 神秘洞穴",
-			"function do_lift": "乔阴 B: the lift",
-			"function reset": "乔阴 B: the lift count starts again at the room's reset"
+			"function check_trigger": "LiftLandmarkPolicy: lifts since the reset + str / 5 reaching 10 open the hole (portal choyin.w_street1.lift); the lines fixed (默认): the faller reads them, the closing in the cave without $N",
+			"function do_lift": "LiftLandmarkPolicy: 你努力地抬着石狮子 each time, counted; liftid's check (its first lifter lying in the cave) cannot hold in single player",
+			"function reset": "the landmark's count is counted since the room's reset (landmark_uses, not saved)"
 		},
 		"d/choyin/tree_tomb.c": {
-			"set item_desc": "look-only landmarks choyin.tree_tomb.landmark.hole and .shrine; the way down the hole is 乔阴 B (choyin plan Q2)"
+			"set item_desc": "landmarks choyin.tree_tomb.landmark.hole (policy portal: 爬下去 to the hollow, choyin plan Q2: ES2 had no way down) and .shrine (look)"
 		},
 		"d/choyin/npc/sergeant.c": {
 			"set env/wimpy": "NPCs never flee a losing fight yet (wimpy)",
 			"set pursuer": "following who flees is not modelled yet (as 县城官兵's and 独眼头陀's)",
-			"function accept_object": "乔阴 B: the 桃木箱 for the 白杨经 (choyin plan Q2)"
+			"function accept_object": "accept_object (set choyin.npc.sergeant): the 桃木箱 while chest_found is unset (an object variable: not saved, DECISIONS 4E): his three says, give.c's line, the 白杨经, inquiries rumors, 箱子 and 桃木箱子 deleted (forgets); another chest is not taken"
 		},
 		"d/choyin/s_street1.c": {
 			"set resource/water": "world.json services: choyin.s_street1.well (kind water: a wineskin is filled there)",
@@ -235,9 +312,9 @@
 			"set wield_msg": "wield/unwield messages are not shown yet"
 		},
 		"d/choyin/npc/girl.c": {
-			"inquiry 游晋": "乔阴 B: ask_youngman() gives the 荷包 (once, 默认)",
+			"inquiry 游晋": "an inquiry rule (set choyin.npc.girl): ask_youngman() moves the 荷包 to the asker and its return is said; its delete(\"inquiry/游晋\") after the return never ran: once (forgets, 默认)",
 			"set env/wimpy": "NPCs never flee a losing fight yet (wimpy)",
-			"function ask_youngman": "乔阴 B: the 荷包"
+			"function ask_youngman": "the 游晋 inquiry rule (set choyin.npc.girl); last_asker is commented out"
 		},
 		"d/choyin/npc/maid.c": {
 			"set env/wimpy": "NPCs never flee a losing fight yet (wimpy)"
@@ -280,7 +357,7 @@
 		"d/choyin/npc/youngman.c": {
 			"inquiry trouble": "inquiry in set as 心事 (the English topic would show in the list): ask.c says the three strings and skips the (: command, \"hmm\" :) among them",
 			"set env/wimpy": "NPCs never flee a losing fight yet (wimpy)",
-			"function accept_object": "乔阴 B: the 荷包"
+			"function accept_object": "accept_object (set choyin.npc.youngman): id ###silk bag###: the two message() lines with his name() (贵公子), his say; jump is an emote (prints nothing); trouble (心事) deleted (forgets); kept"
 		},
 		"d/choyin/npc/servant.c": {
 			"set env/wimpy": "NPCs never flee a losing fight yet (wimpy)"
@@ -291,8 +368,8 @@
 			"function help_hotel_guard": "accept_kill in set: fellows (the others of its kind here say 干什么？！ and kill_ob() the attacker)"
 		},
 		"d/choyin/lionroom.c": {
-			"function init": "乔阴 B: smell grass",
-			"function do_smell": "乔阴 B: the 忘忧草's wind to 振远镖局"
+			"function init": "smell grass: world.json services choyin.lionroom.smell (kind act, 闻忘忧草)",
+			"function do_smell": "the act: carrying the 忘忧草 (carries grass) the wind's line and the move to u/cloud/biaoju; else 你身上没有忘忧草啊。. The braces are missing (any first item in the inventory moved one, and the line only showed for the grass): an obvious slip fixed (DECISIONS 乔阴 B)"
 		},
 		"d/choyin/cloudpool.c": {
 			"set resource/water": "world.json services: choyin.cloudpool.water (kind water)"
@@ -315,42 +392,42 @@
 			"create_door": "world.json doors: choyin.fence.door (柴门, shut)"
 		},
 		"d/choyin/club.c": {
-			"set item_desc": "look-only landmark choyin.club.landmark.books; scratch is 乔阴 B",
+			"set item_desc": "look-only landmark choyin.club.landmark.books",
 			"create_door": "world.json doors: choyin.club.door (柴门 west to the yard, shut; club.c names the far side west, an obvious slip)",
-			"function init": "乔阴 B: pray and dancing fail here, scratch books",
-			"function do_dance": "乔阴 B",
-			"function do_pray": "乔阴 B",
-			"function do_scratch": "乔阴 B: one of the hermit's books",
-			"function valid_leave": "乔阴 B: the hermit's books go back on leaving (only his, 默认)"
+			"function init": "scratch books: world.json services choyin.club.scratch (kind act, 拿书); pray and dancing: the zone's refuses",
+			"function do_dance": "zone refuses dancing (the 舞曲谱's 跳「春宫怨」, RoomActDefinition.command): its line instead",
+			"function do_pray": "zone refuses pray (the 玛瑙手镯's 祈祷): its line instead",
+			"function do_scratch": "the act: the line, then book1, book1 or book2 by random(3) (give_one_of), each drawing its name; set_temp choyin/书 is read by valid_leave only",
+			"function valid_leave": "world.json exit_rules choyin.club.east_books / west_books (takes_back items): every hermit's book carried goes back (HIC 你将书放回到矮几。 each), none: 你离开草堂!; only his books and without the flag (默认: ES2 took any book once one was scratched and looped forever on one without it; its set_temp(\"choyin/\\112\\151\", 0) cleared nothing)"
 		},
 		"d/choyin/stove.c": {
 			"set no-magic": "a misspelt no_magic: cast.c reads no_magic, so magic works here as in ES2",
-			"tell_room": "create() tells 桐柏山 of the flame when the room loads (whoever is there, at the first visit): 乔阴 B with the way in"
+			"tell_room": "create() tells 桐柏山 of the flame when the room loads; only the 云幡's way in loads it, so whoever hears it is never the one who walks in: nobody, in single player"
 		},
 		"d/choyin/guyehill.c": {
-			"set item_desc": "look-only landmarks choyin.guyehill.landmark.vine and .tree; climb and hold are 乔阴 B",
-			"function init": "乔阴 B: climb tree, hold vine",
-			"function do_climb": "乔阴 B: up to the 树冠",
-			"function do_hold": "乔阴 B: random(dodge) < 30 falls into the 寒谷, else up to the 山洞"
+			"set item_desc": "landmarks choyin.guyehill.landmark.vine (policy vine, below 30) and .tree (policy portal)",
+			"function init": "climb tree, hold vine: the two landmarks' actions",
+			"function do_climb": "landmark tree: 爬树 up to the 树冠 (portal choyin.guyehill.climb); tell_room() to the 树冠 is for others",
+			"function do_hold": "landmark vine (VineLandmarkPolicy, below 30): random(dodge) < 30 falls into the 寒谷 (no harm), else up to the 山洞; not asked (默认)"
 		},
 		"d/choyin/npc/crane.c": {
 			"set unit": "an NPC's unit is not shown anywhere yet",
 			"set env/wimpy": "NPCs never flee a losing fight yet (wimpy)"
 		},
 		"d/choyin/platform.c": {
-			"set item_desc": "look-only landmarks choyin.platform.landmark.platform and .flag; touch is 乔阴 B",
-			"function init": "乔阴 B: touch flag",
-			"function thounder": "乔阴 B: the thunder on who stays (默认: the flag takes the player down to the 丹炉)",
-			"function close_passage": "乔阴 B",
-			"function do_touch": "乔阴 B"
+			"set item_desc": "landmarks choyin.platform.landmark.platform (look) and .flag (policy portal: 碰云幡)",
+			"function init": "touch flag: the flag landmark's action",
+			"function thounder": "never reaches the player: the flag takes them down to the 丹炉 at once (默认; ES2 opened the way for one second), and its call_out strikes only one still on the 云台",
+			"function close_passage": "the way down is the flag's portal (choyin.platform.touch), not an exit left open",
+			"function do_touch": "landmark flag: its two lines, then the 丹炉"
 		},
 		"d/choyin/npc/lboy.c": {
 			"set per": "30 - random(15): an NPC's per is read by nothing ported (look.c's looks are not shown)"
 		},
 		"d/choyin/hollow3.c": {
-			"set item_desc": "look-only landmark choyin.hollow3.landmark.vase; interject is 乔阴 B",
-			"function init": "乔阴 B: interject orchid",
-			"function do_interject": "乔阴 B: to 晚月庄's bamboo grove"
+			"set item_desc": "landmark choyin.hollow3.landmark.vase (policy portal: 插幽兰)",
+			"function init": "interject orchid: the vase landmark's action",
+			"function do_interject": "landmark vase: the line and 晚月庄's bamboo grove (latemoon.bamboo, where 西出阳关 sets one down); it asks for no orchid, as ES2 (the 寒谷's only way out); tell_room() there is for others"
 		}
 	}
 }
