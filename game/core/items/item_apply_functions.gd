@@ -9,7 +9,9 @@ const SNAKE_DRUG: StringName = &"snake_drug"
 const HURT_DRUG: StringName = &"hurt_drug"
 ## d/latemoon/park/npc/obj/flower.c do_eat(): `eat pistil`, not apply.
 const ROSE_PISTIL: StringName = &"rose_pistil"
-const IDS: Array[StringName] = [SNAKE_DRUG, HURT_DRUG, ROSE_PISTIL]
+## d/choyin/obj/tablet.c do_eat(): `eat tablet`, not apply.
+const TABLET: StringName = &"tablet"
+const IDS: Array[StringName] = [SNAKE_DRUG, HURT_DRUG, ROSE_PISTIL, TABLET]
 
 
 class Result:
@@ -25,9 +27,9 @@ static func has(apply_id: StringName) -> bool:
 	return IDS.has(apply_id)
 
 
-## The item's button: 吃 for what ES2 eats (flower.c add_action("do_eat", "eat")), else 使用.
+## The item's button: 吃 for what ES2 eats (flower.c, tablet.c add_action("do_eat", "eat")), else 使用.
 static func verb(apply_id: StringName) -> String:
-	return "吃" if apply_id == ROSE_PISTIL else "使用"
+	return "吃" if apply_id in [ROSE_PISTIL, TABLET] else "使用"
 
 
 static func apply(apply_id: StringName, character: CharacterState, fighting: bool) -> Result:
@@ -38,6 +40,8 @@ static func apply(apply_id: StringName, character: CharacterState, fighting: boo
 			return _hurt_drug(character, fighting)
 		ROSE_PISTIL:
 			return _rose_pistil(character)
+		TABLET:
+			return _tablet(character)
 	var unknown := Result.new()
 	return unknown
 
@@ -94,6 +98,19 @@ static func _rose_pistil(character: CharacterState) -> Result:
 	if character.conditions.has_condition(ConditionIds.ROSE_POISON):
 		var poison: int = _duration(character, ConditionIds.ROSE_POISON)
 		character.conditions.add_or_replace_duration(ConditionIds.ROSE_POISON, 0 if poison < 10 else poison - 10)
+	result.accepted = true
+	result.used_up = true
+	return result
+
+
+## tablet.c do_eat(): the line, then receive_heal() of 5 gin, 30 kee and 5 sen (up to their
+## eff_), and one 仙丹 of the stack is gone (add_amount(-1)).
+static func _tablet(character: CharacterState) -> Result:
+	var result := Result.new()
+	result.lines.append(TranslationServer.translate("你拿出一粒仙丹，纳入口中. 吃的太急, 鼻涕眼泪流了满脸.."))
+	character.essence.heal(5)
+	character.vitality.heal(30)
+	character.spirit.heal(5)
 	result.accepted = true
 	result.used_up = true
 	return result

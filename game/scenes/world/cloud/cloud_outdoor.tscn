@@ -1011,6 +1011,11 @@ position = Vector2(1440, 2432)
 script = ExtResource("marker")
 spawn_point_id = &"cloud.dukou.river_return"
 
+[node name="BiaojuWindArrival" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1952, 2144)
+script = ExtResource("marker")
+spawn_point_id = &"cloud.biaoju.wind_arrival"
+
 [node name="DragonhillHummockGangster1" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(736, 544)
 script = ExtResource("marker")

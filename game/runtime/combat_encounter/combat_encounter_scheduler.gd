@@ -124,12 +124,16 @@ func record_target_change() -> void:
 	_target_events.append(CombatOrderedTargetEvent.new(value, _progression_order.take()))
 
 
+## The player may pick `target_id`; one they cannot see (a ghost: char.c visible(), name.c
+## id()) cannot be named, though fight() may still turn on it.
 func can_target(actor_id: StringName, target_id: StringName, bindings: Array[CombatSliceCharacterBinding]) -> bool:
 	var actor: CombatSliceCharacterBinding = _find_binding(bindings, actor_id)
+	var target: CombatSliceCharacterBinding = _find_binding(bindings, target_id)
 	return (
 		actor != null and actor.exists_in_encounter and actor.combat_available
 		and actor.life_status == CombatSliceLifeStatus.Value.ACTIVE
 		and _target_is_currently_eligible(actor, target_id, bindings)
+		and (target == null or actor.content == null or actor.content.sees(target.content))
 	)
 
 

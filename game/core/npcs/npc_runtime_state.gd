@@ -13,6 +13,8 @@ const BusyStateType := preload("res://core/combat/busy/action_busy_state.gd")
 const ArmorStateType := preload("res://core/armor/armor_state.gd")
 const WorldLocationStateType := preload("res://core/world/world_location_state.gd")
 const ItemInstanceType := preload("res://core/items/item_instance.gd")
+## The flag prefix of an inquiry topic the NPC deleted (forget_topic()).
+const FORGOTTEN_TOPIC: String = "inquiry_deleted/"
 
 var _character_id: StringName
 var _definition: NpcDefinitionType
@@ -186,6 +188,21 @@ func has_flag(flag: StringName) -> bool:
 
 func set_flag(flag: StringName, value: bool) -> void:
 	_flags[flag] = value
+
+
+## delete("inquiry/<topic>"): the NPC no longer answers it (an object variable, made anew
+## with the NPC: not saved, DECISIONS 4E).
+func forget_topic(topic: String) -> void:
+	_flags[StringName(FORGOTTEN_TOPIC + topic)] = true
+
+
+## The inquiry topics this NPC deleted.
+func forgotten_topics() -> Array[String]:
+	var topics: Array[String] = []
+	for flag: StringName in _flags:
+		if _flags[flag] and String(flag).begins_with(FORGOTTEN_TOPIC):
+			topics.append(String(flag).trim_prefix(FORGOTTEN_TOPIC))
+	return topics
 
 
 func set_revive_in_ms(value: int) -> void:

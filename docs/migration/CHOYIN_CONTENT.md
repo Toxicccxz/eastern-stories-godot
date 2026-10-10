@@ -3,10 +3,11 @@
 How the region comes from `reference/es2/mudlib/d/choyin/`, `d/jail/`, `daemon/class/scholar/`
 (步玄派) and `daemon/class/beggar/` (花紫会), and what the LPC says that the code does not.
 Decisions are in [DECISIONS](DECISIONS.md) (「乔阴 A」 holds the plan, the owner's answers and the
-defaults). Package A draws every map and places the people with the arts they fight with; B the
-town's secrets and 姑射山 (the lion, the hole under the 树王坟, the ghosts, the vines, the 缚仙绳,
-the 云台 and the 丹炉, the 寒谷's orchid, the hermit's books, the 荷包); C 步玄派 (the 桃林's poem
-maze, 骆云舟's teaching, the player's arts and 玄羽乱舞); D 花紫会, stealing and the 县衙.
+defaults; 「乔阴 B」 its own). Package A draws every map and places the people with the arts they
+fight with; B the town's secrets and 姑射山 (the lion, the hole under the 树王坟, the ghosts, the
+vines, the 缚仙绳, the 云台 and the 丹炉, the 寒谷's orchid, the hermit's books, the 荷包); C 步玄派
+(the 桃林's poem maze, 骆云舟's teaching, the player's arts and 玄羽乱舞); D 花紫会, stealing and the
+县衙.
 
 ## Placed (A)
 
@@ -62,19 +63,59 @@ d/jail/cityguard.c (a copy of the 守城官兵 no room places), daemon/class/beg
 | silver_clasp.c inherit HEAD + F_DAGGER | worn on the head only (armor in set, weapon dropped) |
 | sword_soul.c apply/armor_vs_force | NPC `apply` takes armor_vs_force |
 
-## Not done in A (and where it goes)
+## Placed (B)
 
-- B: lift (w_street1.c) and the 神秘洞穴, the lion's die() and the 忘忧草's smell; the hole into
-  the 树王坟 (plan Q2) and its 朦胧鬼影, the 桃木箱 for the 武官 (白杨经); the ghosts unseen (Q3);
-  climb, hold (random(dodge) < 30 falls into the 寒谷), the 缚仙绳's tie (only where a 仙鹤 is),
-  the 云台's flag, the 丹炉's 仙丹, the 寒谷's orchid to 晚月庄; the hermit's books (scratch,
-  pray and dancing failing there); 游晋 and the 荷包; the cranes' fights (a beast without verbs:
-  beast.c's default action has two unfilled %s; `fight_deferred` until then); stove.c's flame
-  told to 桐柏山.
+| Map | What B adds | Ways |
+|---|---|---|
+| choyin.town | 孤魂野鬼 at the 北门 and the 东城门 (unseen, wandering) | the 石狮's 举 down to the 神秘洞穴; the stump's hole (爬下去) to the hollow |
+| choyin.lion_cave | 护草神兽 (its reach is the cave), the 忘忧草 in its corpse | 闻忘忧草 to 振远镖局 (u/cloud/biaoju); 放弃: the Inn |
+| choyin.tree_hollow | 朦胧鬼影 ×3 (unseen), the 桃木箱 in tomb3 | up the 洞壁 (A) |
+| choyin.east | the 草堂's books (拿书), put back on leaving; pray and dancing refused | — |
+| choyin.guye | — | 爬树 to the 树冠; 抓住藤蔓: the 寒谷 or the 山洞 |
+| choyin.crown, cliff_cave | the cranes fought; the 缚仙绳 in the 山洞 | 缚 on a 仙鹤 to the 云台 |
+| choyin.summit, furnace | five 仙丹 | 碰云幡 down to the 丹炉, out to 桐柏山 (A) |
+| choyin.valley | the 寒谷幽兰 | 插幽兰 at the vase to 晚月庄's bamboo grove |
+
+People elsewhere: 武官 (the chest, the 白杨经), 官家小姐 (the 荷包), 贵公子 (takes it), 陈剑秋 in
+绮云镇 (his letter for 陈天星).
+
+## LPC → native (B)
+
+| LPC | Native |
+|---|---|
+| w_street1.c do_lift(), check_trigger(), reset() | landmark policy `lift` (LiftLandmarkPolicy): each lift told and counted since the reset; count + str / 5 reaching 10 opens portal `choyin.w_street1.lift`; the lines told to the faller (默认) |
+| lionroom.c do_smell() | act service `choyin.lionroom.smell` (洞穴 · 闻忘忧草): carrying `grass`, the wind and cloud.biaoju.wind_arrival; else 你身上没有忘忧草啊。 (braces fixed) |
+| 放弃 in the 神秘洞穴 (plan default, 绝地 precedent) | landmark `choyin.lionroom.landmark.dark`: portal `choyin.lionroom.give_up` to the Inn |
+| lion.c die() | NpcHooks `die_carries` (WorldMapCombatLifecycle._die_carries): the 忘忧草 made into it before the corpse; its master form when the player struck last |
+| grass.c / letter.c set("master_id") | item `master`: the catalog's master form `<id>#master` is the player's (NpcObjectRule `item_master`, `gives_master`) |
+| b_header.c accept_object() | first rule: a 振远镖局 member's own 忘忧草: his four lines and the letter (the giver's); someone else's: 这不是你得到的吧 (handed back, modern fixes) |
+| tree_tomb.c (no way down: plan Q2) | landmark hole, policy portal `choyin.tree_tomb.down` (爬下去, a native line) |
+| ghost.c, shadow.c is_ghost(); char.c visible(); combatd.c fight(); chard.c make_corpse() | NpcHooks `ghost`: body hidden and passed through, not picked (WorldCharacterBody2D, select_npc()) nor chosen as the battle target (CombatEncounterScheduler.can_target()); CombatSliceContentProfile.sees() → fight()'s perception roll; BattleNarrator's 你看不见对手，无从下手。 (owner); DeathContext ghost branch: no corpse, its things fall (CombatSliceLifecycleAdapter skips the corpse move) |
+| shadow.c set_temp("apply/blade", 80) | NPC `apply` takes `blade` (query_skill()) |
+| sergeant.c accept_object() | accept_object rule: `peach chest` unless chest_found; three says, give.c's line, the 白杨经 (magic to 20); `forgets` rumors, 箱子, 桃木箱子 |
+| girl.c ask_youngman() | inquiry rule 游晋: say, the 荷包 (give.c's line), `forgets` 游晋 (默认: once) |
+| youngman.c accept_object() | accept_object rule `###silk bag###`: two lines, his say, `forgets` 心事 (jump prints nothing) |
+| club.c do_scratch() | act service `choyin.club.scratch` (书卷 · 拿书): the line, `give_one_of` book1, book1, book2 (random(3)), set_temp choyin/书 |
+| book1.c, book2.c set_name(names[random()]) | `name_pick`; place_new_floor_item() draws the name |
+| club.c valid_leave() | exit_rules `choyin.club.east_books` / `west_books`: `takes_back` `items` (默认: only the hermit's books, without the flag) |
+| club.c do_pray(), do_dance() | zone `refuses` pray and dancing (RoomActDefinition.command of the 玛瑙手镯 and the 舞曲谱) |
+| guyehill.c do_climb() | landmark tree, policy portal `choyin.guyehill.climb` (爬树) |
+| guyehill.c do_hold() | landmark vine, policy vine with `below` 30: `hold_fall` to the 寒谷 or `hold_climb` to the 山洞 |
+| goldenrope.c do_tie() | item act 缚 (command tie): `present` a 仙鹤: the line, 50 sen (asked first when it knocks out), the 云台; else 你要缚何物? |
+| platform.c do_touch(), close_passage(), thounder() | landmark flag, policy portal `choyin.platform.touch` (碰云幡): its two lines, the 丹炉 |
+| tablet.c do_eat() | ItemApplyFunctions `tablet` (吃): the line, receive_heal 5 gin, 30 kee, 5 sen, one gone |
+| hollow3.c do_interject() | landmark vase, policy portal `choyin.hollow3.interject` (插幽兰) to latemoon.bamboo.dance_arrival |
+| crane.c (no verbs), beast.c default_actions | BeastCombatActionDefinitions.default_action(): $N攻击$n的$l (默认) |
+| taoist/sword.c hit_ob() | item `ghost_bane` (WeaponGhostBane, CombatHitPolicyStatus.GHOST_BANE) |
+
+## Not done (and where it goes)
+
 - C: 骆云舟's attempt_apprentice() (marks 书生 and 桃林), the 桃林's notes and ways, his teaching,
   the player's 步玄七诀 (practice, valid_learn), 小步玄剑, 步玄心法, 玄羽乱舞 on the battle panel.
 - D: 陆得财's attempt_apprentice() (can_afford(100)), his teaching, 油流麻香手 and 伏蛟功 for the
   player, steal, the 巡捕's patrol and arrest, 程不平's boards (plan Q1).
+- #12: 陈天星 takes 陈剑秋's letter (reminder test in choyin_secrets_test).
+- #13: the 孤魂野鬼's 布条 (a ghost sees ghosts).
 
 ## Source anomalies
 
@@ -89,6 +130,14 @@ d/jail/cityguard.c (a copy of the 守城官兵 no room places), daemon/class/beg
 - oldman.c's chat_msg_coombat is misspelt (never said); his greeting says 说道 twice; his ghost
   story has a full-width ＄N; set("short") changes are not shown.
 - girl.c deletes 游晋 after return (B: given once, 默认).
+- lionroom.c's do_smell() and goldenrope.c's do_tie() lack braces: the move happens for anything
+  (the first item of any pack; any word), the line only for the grass or the crane.
+- club.c's valid_leave() clears set_temp("choyin/\112\151") (octal for another flag): choyin/书
+  stays, so every later `book` is taken, and one carried without it loops forever.
+- hollow3.c's interject asks for no orchid; hollow1.c's south leads into itself.
+- beast.c's default action for a beast without verbs (crane.c) keeps two %s nobody fills.
+- platform.c's thunder strikes only one still on the 云台 15 s after the flag.
+- stove.c tells 桐柏山 of the flame in create(), loaded only by the one walking in from the 云台.
 - stove.c's no-magic is misspelt (magic works there).
 - e_gate.c's arch says 「北门」.
 - red_guay.c in obj/ lost a character (红龟□); the crone sells npc/obj's 红龟.

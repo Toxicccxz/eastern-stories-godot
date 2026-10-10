@@ -9,7 +9,8 @@
 			"unit": "棵",
 			"material": "paper",
 			"weight": 200,
-			"value": 10000
+			"value": 10000,
+			"master": true
 		},
 		{
 			"id": "es2:d/choyin/obj/blade",
@@ -149,6 +150,116 @@
 			"weight": 130,
 			"value": 25,
 			"food": { "remaining": 5, "supply": 10 }
+		},
+		{
+			"id": "es2:d/choyin/obj/cloth_piece",
+			"legacy_sources": ["d/choyin/obj/cloth_piece.c", "d/choyin/npc/obj/cloth_piece.c"],
+			"name": "从寿衣撕下的布条",
+			"aliases": ["shroud piece", "piece", "shroud"],
+			"long": "这条布条是从一件寿衣上撕下来的，上面密密麻麻写了许多字。\n",
+			"unit": "条",
+			"material": "cloth",
+			"study": { "skill": "spells", "exp_required": 0, "sen_cost": 60, "difficulty": 25, "max_skill": 40 },
+			"weight": 200
+		},
+		{
+			"id": "es2:d/choyin/obj/chest",
+			"legacy_sources": ["d/choyin/obj/chest.c", "d/choyin/npc/obj/chest.c"],
+			"name": "桃木箱",
+			"aliases": ["peach chest", "chest"],
+			"long": "一个刻工相刚精细的桃木箱，也许是用来装首饰用的。\n",
+			"unit": "个",
+			"material": "wood",
+			"weight": 1400,
+			"value": 300
+		},
+		{
+			"id": "es2:d/choyin/obj/tablet",
+			"legacy_sources": ["d/choyin/obj/tablet.c"],
+			"name": "仙丹",
+			"aliases": ["tablet"],
+			"long": "这是一粒仙丹，服食可位列仙班。\n",
+			"unit": "粒",
+			"value": 100,
+			"combined": { "base_unit": "粒", "base_weight": 10000, "amount": 1 },
+			"apply": "tablet"
+		},
+		{
+			"id": "es2:d/choyin/obj/goldenrope",
+			"legacy_sources": ["d/choyin/obj/goldenrope.c"],
+			"name": "缚仙绳",
+			"aliases": ["golden rope", "rope"],
+			"long": "这是一条由上等金丝编成的绳索, 可缚(tie)禽兽鬼怪。上刻有无数咒文，发出耀目金光.\n",
+			"unit": "条",
+			"no_drop": true,
+			"weight": 600,
+			"value": 1000,
+			"act": {
+				"verb": "缚",
+				"command": "tie",
+				"acts": [
+					{ "present": "choyin.npc.crane", "steps": [{ "line": "你双手合掌，随风而起，落于仙鹤背上......\n" }, { "damage": { "sen": 50 } }, { "move": "choyin.platform", "point": "choyin.platform.crane_arrival" }] },
+					{ "steps": [{ "line": "你要缚何物? \n" }] }
+				]
+			}
+		},
+		{
+			"id": "es2:d/choyin/obj/orchid",
+			"legacy_sources": ["d/choyin/obj/orchid.c"],
+			"name": "寒谷幽兰",
+			"aliases": ["orchid"],
+			"long": "一株寒谷幽兰，散发着淡淡的香气, 你似乎在晚月庄闻到过.\n",
+			"unit": "株",
+			"material": "paper",
+			"weight": 200,
+			"value": 10000
+		},
+		{
+			"id": "es2:d/choyin/obj/magic_book",
+			"legacy_sources": ["d/choyin/obj/magic_book.c", "d/choyin/npc/obj/magic_book.c"],
+			"name": "「白杨经」",
+			"aliases": ["book"],
+			"long": "这是一本讲述吐纳、养生之法的古书，现在已经不多见了。\n",
+			"unit": "本",
+			"study": { "skill": "magic", "exp_required": 0, "sen_cost": 25, "difficulty": 20, "max_skill": 20 },
+			"weight": 600,
+			"value": 200
+		},
+		{
+			"id": "es2:d/choyin/npc/obj/silk_bag",
+			"legacy_sources": ["d/choyin/npc/obj/silk_bag.c"],
+			"name": "紫罗鸳鸯荷包",
+			"aliases": ["silk bag", "bag", "###silk bag###"],
+			"long": "一个绣工十分精细的紫色丝绸荷包，上面绣著一对鸳鸯。\n",
+			"unit": "个",
+			"material": "silk",
+			"weight": 200,
+			"value": 0,
+			"max_encumbrance": 3000
+		},
+		{
+			"id": "es2:d/choyin/npc/obj/book1",
+			"legacy_sources": ["d/choyin/npc/obj/book1.c"],
+			"aliases": ["book"],
+			"long": "这是隐士们常看的书籍。\n",
+			"unit": "本",
+			"study": { "skill": "unarmed", "exp_required": 100, "sen_cost": 20, "difficulty": 30, "max_skill": 80 },
+			"weight": 600,
+			"value": 100,
+			"name": "「笑傲江湖」",
+			"name_pick": ["「笑傲江湖」", "「天龙八部」", "「七剑下天山」", "「游侠郭解传」", "「七种武器」", "「楚留香传奇之血海飘香」", "「四大名捕」", "「洪武剑侠图」"]
+		},
+		{
+			"id": "es2:d/choyin/npc/obj/book2",
+			"legacy_sources": ["d/choyin/npc/obj/book2.c"],
+			"aliases": ["book"],
+			"long": "这是隐士们常看的书籍。\n",
+			"unit": "本",
+			"study": { "skill": "dodge", "exp_required": 100, "sen_cost": 20, "difficulty": 30, "max_skill": 80 },
+			"weight": 600,
+			"value": 100,
+			"name": "「秘传八步赶蝉」",
+			"name_pick": ["「秘传八步赶蝉」", "「陆地飞行之法」", "「寒梅弄影之法」", "「穿花绕树要诀」", "「八卦步法」"]
 		}
 	]
 }

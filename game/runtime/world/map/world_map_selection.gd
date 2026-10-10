@@ -45,7 +45,8 @@ func select_npc(character_id: StringName) -> bool:
 	if not _map.gameplay_open() or session == null:
 		return false
 	var npc: NpcRuntimeState = _map.npcs.find_resident_npc(character_id)
-	if npc == null or not npc.exists_in_map or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
+	# name.c id() fails for one the player cannot see (a ghost): present() finds nothing.
+	if npc == null or not npc.exists_in_map or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD or npc.definition().is_ghost():
 		return false
 	selected_target = WorldInteractionTarget.character(character_id)
 	_map.hud().set_selected_target(npc)
@@ -287,7 +288,7 @@ static func _kee_percent(state: CharacterState) -> int:
 func ask_topics_selected() -> Array[String]:
 	var topics: Array[String] = []
 	if can_ask_selected():
-		topics = NpcInquiry.topics(selected_npc().definition())
+		topics = NpcInquiry.topics(selected_npc().definition(), selected_npc().forgotten_topics())
 	return topics
 
 
@@ -304,9 +305,12 @@ func ask_selected(topic: String) -> Array[String]:
 		target.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE,
 		NpcInquiry.Asker.new(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id, _kee_percent(_player.state), _player.state.marks),
 		topic, "" if zone == null else zone.display_name, _world_interaction_random, _map.floor_items.violates_unique,
+		target.forgotten_topics(),
 	)
 	if answer.vendor_list:
 		_vendor_list(target, answer)
+	for forgotten: String in answer.forgets:
+		target.forget_topic(forgotten)
 	for mark: String in answer.marks:
 		_player.state.marks[mark] = 1
 	for temp: String in answer.temps:

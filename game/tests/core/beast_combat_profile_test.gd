@@ -47,7 +47,7 @@ func _test_readiness() -> void:
 	_eq(_profile(null).unarmed_action(), null, "missing facts no punch")
 	_eq(_profile(NpcAuthoredCombatFacts.new([], [&"bite"])).readiness(), CombatSliceContentProfile.Readiness.EMPTY_LIMBS, "empty limbs")
 	_eq(_profile(NpcAuthoredCombatFacts.new([""], [&"bite"])).readiness(), CombatSliceContentProfile.Readiness.INVALID_LIMB, "invalid limb")
-	_eq(_profile(NpcAuthoredCombatFacts.new(["头部"], [])).readiness(), CombatSliceContentProfile.Readiness.EMPTY_VERBS, "empty verbs")
+	_eq(_profile(NpcAuthoredCombatFacts.new(["头部"], [])).readiness(), CombatSliceContentProfile.Readiness.READY, "no verbs: beast.c's default action (d/choyin/npc/crane.c)")
 	_eq(_profile(NpcAuthoredCombatFacts.new(["头部"], [&"unknown"])).readiness(), CombatSliceContentProfile.Readiness.UNSUPPORTED_VERB, "verb outside beast.c explicit")
 	for verb: StringName in [&"claw", &"hoof", &"poke"]:
 		_eq(_profile(NpcAuthoredCombatFacts.new(["头部"], [verb])).readiness(), CombatSliceContentProfile.Readiness.READY, "beast.c verb ready: %s" % verb)

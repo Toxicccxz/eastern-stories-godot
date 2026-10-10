@@ -34,6 +34,16 @@ func opportunity(event: CombatSchedulerEvent, cast: BattlePresentationProjection
 			lines.append(BattleNarrationLine.new(vision(
 				tr(Es2CombatMessages.GUARD[decision.guard_presentation_index]), event.actor_id, event.target_id, cast)))
 		return lines
+	# combatd.c fight(): the player cannot see the one they fight (a ghost) and loses the turn
+	# without a word; owner (乔阴 plan Q3): a native line says so.
+	if (
+		result.outcome == CombatSliceOpportunityResult.Outcome.FIGHT_NO_ACTION and event.actor_id == cast.player_id
+		and result.fight_decision_result != null
+		and result.fight_decision_result.outcome == CombatFightDecisionResult.Outcome.TARGET_NOT_PERCEIVED
+	):
+		# TRANSLATORS: the player's turn passes: the one they fight is unseen (a ghost).
+		lines.append(BattleNarrationLine.new(tr("你看不见对手，无从下手。")))
+		return lines
 	if result.forward_result == null:
 		return lines
 	return attack_chain(result.forward_result, result.chain_result, cast, result.post_action_lines(), result.reverse_post_action_lines())
@@ -104,6 +114,10 @@ func _attack(
 	if not base.calculation.martial_message.is_empty():
 		# spicyclaw.c hit_ob() returns its line after the force hit's.
 		lines.append(BattleNarrationLine.new(vision(_limb_and_weapon(tr(base.calculation.martial_message), limb, weapon), me, victim, cast)))
+	if base.calculation.weapon_bane != null:
+		# sword.c hit_ob() returns its line at the weapon's turn, after the martial art's.
+		var bane: WeaponGhostBane = base.calculation.weapon_bane
+		lines.append(BattleNarrationLine.new(vision(tr(bane.line), me, victim, cast), -1, bane.color))
 	var damage: int = -1
 	var outcome: String
 	match base.outcome:

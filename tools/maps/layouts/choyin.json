@@ -1903,7 +1903,20 @@
 				],
 				"reach_from": "Tomb1HoleArrival",
 				"markers_in_middle": [],
-				"placed": {}
+				"placed": {
+					"choyin.tomb1.shadow.1": [
+						344,
+						408
+					],
+					"choyin.tomb1.shadow.2": [
+						440,
+						384
+					],
+					"choyin.tomb1.shadow.3": [
+						376,
+						344
+					]
+				}
 			},
 			"scene": {
 				"style": "map",
@@ -1962,7 +1975,7 @@
 			}
 		},
 		"lion_cave": {
-			"note": "The dark cave under the 西大街's stone lion: no way out but the 忘忧草's wind (乔阴 B).",
+			"note": "The dark cave under the 西大街's stone lion, the 护草神兽 in its corner: no way out but the 忘忧草's wind, or giving up (wake in the Inn).",
 			"file": "choyin_lion_cave.tscn",
 			"draw": {
 				"technique": "town",
@@ -1998,7 +2011,12 @@
 				],
 				"reach_from": "LionroomFallArrival",
 				"markers_in_middle": [],
-				"placed": {}
+				"placed": {
+					"choyin.lionroom.lion.1": [
+						264,
+						112
+					]
+				}
 			},
 			"scene": {
 				"style": "map",
@@ -2030,6 +2048,16 @@
 					},
 					{
 						"generated": "stairs"
+					},
+					{
+						"node": "service",
+						"name": "CaveSmell",
+						"id": "choyin.lionroom.smell",
+						"at": [
+							192,
+							224
+						],
+						"text": "洞穴 · 闻忘忧草"
 					}
 				],
 				"zones": [
@@ -2053,7 +2081,17 @@
 						"generated": "markers"
 					}
 				],
-				"interactions": []
+				"interactions": [
+					{
+						"name": "DarkInteraction",
+						"id": "choyin.lionroom.landmark.dark",
+						"at": [
+							192,
+							128
+						],
+						"shape": "Rect_64_32"
+					}
+				]
 			}
 		},
 		"east": {
@@ -2669,6 +2707,16 @@
 							432
 						],
 						"text": "大泽 · 装水"
+					},
+					{
+						"node": "service",
+						"name": "HermitBooks",
+						"id": "choyin.club.scratch",
+						"at": [
+							304,
+							1792
+						],
+						"text": "书卷 · 拿书"
 					},
 					{
 						"generated": "doors"

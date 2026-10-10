@@ -128,6 +128,7 @@ func add_document(document: Variant, origin: String) -> void:
 
 func build() -> ContentCatalog:
 	_add_named_items()
+	_add_mastered_items()
 	_add_broken_weapons()
 	_add_leftovers()
 	_add_haunting_sheets()
@@ -196,6 +197,15 @@ func _add_named_items() -> void:
 		for index: int in range(item.name_pick().size()):
 			var named: ItemContentDefinition = ItemContentDefinition.named(item, index)
 			_items[named.item_definition_id] = named
+
+
+## The master form of each item that records who got it (set("master_id")), so the
+## player's 忘忧草 stays theirs in a save.
+func _add_mastered_items() -> void:
+	for item: ItemContentDefinition in _items.values().duplicate():
+		if item.masters:
+			var form: ItemContentDefinition = ItemContentDefinition.mastered_form(item)
+			_items[form.item_definition_id] = form
 
 
 ## Every weapon's broken form (weapond.c bash_weapon()), so a broken one keeps its identity.
@@ -313,17 +323,31 @@ func _resolve_npc_dealings() -> void:
 				_errors.append("%s.accept_object: no item named '%s'" % [origin, rule.item_name])
 			if not rule.gives.is_empty() and not _items.has(rule.gives):
 				_errors.append("%s.accept_object.gives: unknown item '%s'" % [origin, rule.gives])
+			if rule.gives_master and not _items.has(ItemContentDefinition.master_id(rule.gives)):
+				_errors.append("%s.accept_object.gives_master: '%s' records no master" % [origin, rule.gives])
+			for topic: String in rule.forgets:
+				if not definition.talk().inquiry_topics().has(topic):
+					_errors.append("%s.accept_object.forgets: no inquiry '%s'" % [origin, topic])
 			if not rule.move_zone_id.is_empty() and not _zones.has(rule.move_zone_id):
 				_errors.append("%s.accept_object.move: unknown zone '%s'" % [origin, rule.move_zone_id])
 			if rule.make != null and not _items.has(rule.make.gives):
 				_errors.append("%s.accept_object.make: unknown item '%s'" % [origin, rule.make.gives])
 			if not rule.item_alias.is_empty() and not _answers_to(rule.item_alias):
 				_errors.append("%s.accept_object: no item answers to '%s'" % [origin, rule.item_alias])
+		var hooks: NpcHooks = definition.hooks()
+		if hooks != null and not hooks.die_item_id.is_empty():
+			if not _items.has(hooks.die_item_id):
+				_errors.append("%s.die_carries: unknown item '%s'" % [origin, hooks.die_item_id])
+			elif hooks.die_item_master and not _items.has(ItemContentDefinition.master_id(hooks.die_item_id)):
+				_errors.append("%s.die_carries: '%s' records no master" % [origin, hooks.die_item_id])
 		var talk: NpcTalk = definition.talk()
 		for topic: String in talk.inquiry_topics():
 			for inquiry_rule: NpcInquiryRule in talk.inquiry_rules(topic):
 				if not inquiry_rule.gives.is_empty() and not _items.has(inquiry_rule.gives):
 					_errors.append("%s.inquiry.%s.gives: unknown item '%s'" % [origin, topic, inquiry_rule.gives])
+				for forgotten: String in inquiry_rule.forgets:
+					if not talk.inquiry_topics().has(forgotten):
+						_errors.append("%s.inquiry.%s.forgets: no inquiry '%s'" % [origin, topic, forgotten])
 				if not inquiry_rule.hands_over.is_empty() and not _items.has(inquiry_rule.hands_over):
 					_errors.append("%s.inquiry.%s.hands_over: unknown item '%s'" % [origin, topic, inquiry_rule.hands_over])
 		for act: ScriptedAct in talk.greeting_choices():
@@ -575,8 +599,11 @@ func _check_exit_rules() -> void:
 			_errors.append("%s.npc: unknown NPC '%s'" % [origin, rule.npc_id])
 		if rule.condition == ZoneExitRuleDefinition.Condition.NOT_FAMILY and not _families.has(rule.family_id):
 			_errors.append("%s.family: unknown family '%s'" % [origin, rule.family_id])
-		if rule.condition == ZoneExitRuleDefinition.Condition.TAKES_BACK and not _items.has(rule.item_id):
+		if rule.condition == ZoneExitRuleDefinition.Condition.TAKES_BACK and rule.item_ids.is_empty() and not _items.has(rule.item_id):
 			_errors.append("%s.item: unknown item '%s'" % [origin, rule.item_id])
+		for item_id: StringName in rule.item_ids:
+			if not _items.has(item_id):
+				_errors.append("%s.items: unknown item '%s'" % [origin, item_id])
 
 
 ## What a ScriptedAct names exists: the item it gives, the zone it moves the player to,
@@ -599,8 +626,12 @@ func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false) -> void:
 			_errors.append("%s: a move is the act's last step" % origin)
 		match step.kind:
 			ScriptedAct.Kind.GIVE:
-				if not _items.has(step.item_id):
-					_errors.append("%s.give: unknown item '%s'" % [origin, step.item_id])
+				var given: Array[StringName] = step.pick.duplicate()
+				if given.is_empty():
+					given.append(step.item_id)
+				for item_id: StringName in given:
+					if not _items.has(item_id):
+						_errors.append("%s.give: unknown item '%s'" % [origin, item_id])
 			ScriptedAct.Kind.MOVE:
 				if not _zones.has(step.zone_id):
 					_errors.append("%s.move: unknown zone '%s'" % [origin, step.zone_id])

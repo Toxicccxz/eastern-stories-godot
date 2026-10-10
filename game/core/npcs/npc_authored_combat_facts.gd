@@ -3,8 +3,9 @@ extends RefCounted
 
 ## Immutable definition projection, not mutable skills/equipment or an action VM.
 ## A beast's limbs and verbs, and the set_temp("apply/...") values an NPC sets on
-## itself in create() (serpent.c, the bandit chiefs).
-const APPLY_KEYS: Array[StringName] = [&"attack", &"damage", &"armor", &"dodge", &"defense", &"parry", &"armor_vs_force"]
+## itself in create() (serpent.c, the bandit chiefs). A skill's own key (shadow.c's
+## apply/blade) adds to that skill as char.c query_skill() does.
+const APPLY_KEYS: Array[StringName] = [&"attack", &"damage", &"armor", &"dodge", &"defense", &"parry", &"armor_vs_force", &"blade"]
 
 var _limbs: Array[String] = []
 var _verbs: Array[StringName] = []

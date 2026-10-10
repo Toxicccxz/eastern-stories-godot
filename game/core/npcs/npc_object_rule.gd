@@ -21,6 +21,11 @@ extends RefCounted
 ## giver below `giver_max_force_below` max_force gets some of it (pass_force()).
 ## `move` (a zone, on any map) to `point` takes the giver there once the gift is
 ## taken: the boater's boat to 江南渡口 (u/cloud/npc/boater.c, owner: 山烟寺 plan Q1).
+## `unless_npc_flag` is an object variable of the NPC that must not be set (sergeant.c's
+## chest_found); `forgets` are inquiry topics the NPC deletes (delete("inquiry/<topic>"),
+## NpcRuntimeState.forget_topic()). `item_master` asks that the gift be the giver's own
+## (query("master_id") == who->query("id"): the item's master form); `gives_master` makes
+## the item the NPC hands over the giver's (letter->set("master_id", who->query("id"))).
 const EFFECT_TEMPLE_DONATION: StringName = &"temple_donation"
 const EFFECT_WAGER: StringName = &"wager"
 const EFFECT_PASS_FORCE: StringName = &"pass_force"
@@ -60,6 +65,10 @@ var effect: StringName = &""
 var kill: bool = false
 var move_zone_id: StringName = &""
 var move_point_id: StringName = &""
+var unless_npc_flag: StringName = &""
+var forgets: Array[String] = []
+var item_master: bool = false
+var gives_master: bool = false
 
 
 ## What give.c knows about the gift and the two sides when it asks.
@@ -80,6 +89,8 @@ class Offer:
 	var giver_family: StringName = &""
 	var giver_temps: Dictionary[String, int] = {}
 	var giver_max_force: int = 0
+	## The gift is the giver's own (its master form).
+	var item_mastered: bool = false
 
 	func _init(p_value: int = 0, p_liquid_type: StringName = &"", p_liquid_remaining: int = 0, p_npc_flags: Dictionary[StringName, bool] = {}, p_giver_marks: Dictionary[String, int] = {}) -> void:
 		value = p_value
@@ -96,6 +107,8 @@ func matches(offer: Offer) -> bool:
 		and (liquid_type.is_empty() or offer.liquid_type == liquid_type)
 		and (liquid_remaining_at_most == NO_BOUND or (not offer.liquid_type.is_empty() and offer.liquid_remaining <= liquid_remaining_at_most))
 		and (npc_flag.is_empty() or offer.npc_flags.get(npc_flag, false))
+		and (unless_npc_flag.is_empty() or not offer.npc_flags.get(unless_npc_flag, false))
+		and (not item_master or offer.item_mastered)
 		and (giver_mark.is_empty() or offer.giver_marks.get(giver_mark, 0) != 0)
 		and (giver_gender.is_empty() or offer.giver_gender == giver_gender)
 		and (giver_per_below == NO_BOUND or offer.giver_per < giver_per_below)
@@ -160,6 +173,12 @@ static func from_record(reader: ContentRecordReader) -> NpcObjectRule:
 	rule.effect = StringName(reader.text("effect"))
 	rule.move_zone_id = StringName(reader.text("move"))
 	rule.move_point_id = StringName(reader.text("point"))
+	rule.unless_npc_flag = StringName(reader.text("unless_npc_flag"))
+	rule.forgets = reader.text_list("forgets")
+	rule.item_master = reader.boolean("item_master", false)
+	rule.gives_master = reader.boolean("gives_master", false)
+	if rule.gives_master and rule.gives.is_empty():
+		reader.fail("gives_master", "names what is given")
 	if rule.move_zone_id.is_empty() != rule.move_point_id.is_empty():
 		reader.fail("move", "a move names its zone and its point")
 	if not reader.has("accept"):
@@ -168,7 +187,7 @@ static func from_record(reader: ContentRecordReader) -> NpcObjectRule:
 		reader.fail("effect", "unsupported effect '%s'" % rule.effect)
 	if not rule.liquid_type.is_empty() and not LiquidState.LEGACY_TYPES.has(rule.liquid_type):
 		reader.fail("liquid", "unsupported liquid type '%s'" % rule.liquid_type)
-	if not rule.accept and (not rule.mark_giver.is_empty() or not rule.set_npc_flag.is_empty() or not rule.effect.is_empty() or not rule.gives.is_empty() or not rule.set_temps.is_empty() or rule.make != null or not rule.move_zone_id.is_empty()):
+	if not rule.accept and (not rule.mark_giver.is_empty() or not rule.set_npc_flag.is_empty() or not rule.effect.is_empty() or not rule.gives.is_empty() or not rule.set_temps.is_empty() or rule.make != null or not rule.move_zone_id.is_empty() or not rule.forgets.is_empty()):
 		reader.fail("accept", "a refusal changes nothing but the giver's flags it deletes")
 	if rule.kill and rule.accept:
 		reader.fail("kill", "only a refusal attacks the giver")

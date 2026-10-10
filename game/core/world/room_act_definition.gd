@@ -5,8 +5,10 @@ extends RefCounted
 ## d/latemoon/room/bathroom.c `take bath` (a 女性 bathes, anyone else is poisoned),
 ## upstar/uproom3.c `ponder`, latemoon2.c `search bracelet`; obj/bracelet.c `pray start`,
 ## obj/book.c `dancing home`, room/npc/obj/letter.c `fire`. `verb` is the button's word;
-## the first branch that is for the player acts.
+## the first branch that is for the player acts. `command` is the LPC verb a carried item's
+## add_action() names (pray, dancing): a room may answer it instead (ZoneDefinition.refusal()).
 var verb: String = ""
+var command: String = ""
 var acts: Array[ScriptedAct] = []
 
 
@@ -19,6 +21,7 @@ func act_for(gender: StringName, class_id: StringName, facts: ScriptedAct.Facts 
 static func from_record(reader: ContentRecordReader) -> RoomActDefinition:
 	var definition := RoomActDefinition.new()
 	definition.verb = reader.required_text("verb")
+	definition.command = reader.text("command")
 	for record: ContentRecordReader in reader.children("acts"):
 		definition.acts.append(ScriptedAct.from_record(record))
 	reader.finish()

@@ -92,7 +92,10 @@
 				"箱子": ["对，是桃木做成的箱子。"],
 				"桃木箱子": ["如果你见著了，麻烦送还给我，在下定当重重报答。"],
 				"陈显祖": ["不敢，正是在下，不知阁下有何指教？"]
-			}
+			},
+			"accept_object": [
+				{ "item_alias": "peach chest", "unless_npc_flag": "chest_found", "set_npc_flag": "chest_found", "accept": true, "lines": [{ "say": "太好了！就是这个箱子！" }, { "say": "在下出门在外，没有携带太多银两 ... " }, { "say": "如果您不嫌弃的话，这本古书便请笑纳。" }, { "line": "武官给你一本「白杨经」。" }], "gives": "es2:d/choyin/obj/magic_book", "forgets": ["rumors", "箱子", "桃木箱子"] }
+			]
 		},
 		{
 			"id": "choyin.npc.cucurbit_seller",
@@ -219,7 +222,12 @@
 			"inquiry": {
 				"name": ["我 ... ？ 你们外地人都做兴这么问陌生姑娘的闺名吗？"],
 				"here": ["这里啊？这里就是乔阴县有名的翠柳湖啊！"],
-				"闺名": ["真是没有礼貌的家伙，我才不告诉你！"]
+				"闺名": ["真是没有礼貌的家伙，我才不告诉你！"],
+				"游晋": {
+					"rules": [
+						{ "say": "小女子有一事相求 ... 请您将这个交给游 ... 游公子。", "gives": "es2:d/choyin/npc/obj/silk_bag", "forgets": ["游晋"] }
+					]
+				}
 			}
 		},
 		{
@@ -314,7 +322,10 @@
 				"here": ["这里是乔阴县城，您是外地来的吧？"],
 				"心事": ["实不相瞒，在下仰慕前面曲桥上赏莲的姑娘已久 ...", "但是一直不知那位姑娘芳名 ...", "唉 ..."],
 				"姑娘": ["就是那位绿裙黄衫的姑娘 ..."]
-			}
+			},
+			"accept_object": [
+				{ "item_alias": "###silk bag###", "accept": true, "lines": [{ "line": "贵公子一眼瞥见荷包上的鸳鸯图案，立刻一把抢了过去。" }, { "line": "贵公子随即从怀中掏出一方手帕，上面竟也绣著一幅相同的鸳鸯图。" }, { "say": "原来爹爹替我主张的婚事，竟然是 ..." }], "forgets": ["心事"] }
+			]
 		},
 		{
 			"id": "choyin.npc.servant",
@@ -448,8 +459,7 @@
 			"combat_exp": 1000000,
 			"attitude": "peaceful",
 			"skills": { "parry": 10, "dodge": 150, "move": 150 },
-			"limbs": ["翅"],
-			"fight_deferred": "a beast without verbs: race/beast.c gives it a default action whose two %s are never filled (攻击$n的%s，%s); 乔阴 B decides it with the 树冠"
+			"limbs": ["翅"]
 		},
 		{
 			"id": "choyin.npc.lboy",
@@ -470,6 +480,68 @@
 			"chat_chance_combat": 10,
 			"chat_msg_combat": ["紫衣童子拧眉说道：你欺负我年纪小是吗？\n", "紫衣童子笑道：你杀不死我的。\n", "紫衣童子冲你一龇牙, 说道: 您盗过古墓吗?\n"],
 			"inquiry": { "仙人": ["只度有缘人。"] }
+		},
+		{
+			"id": "choyin.npc.ghost",
+			"legacy_source": "d/choyin/npc/ghost.c",
+			"name": "孤魂野鬼",
+			"aliases": ["wandering ghost", "ghost"],
+			"age": 45,
+			"attributes": { "str": 24, "cor": 26 },
+			"carry": [
+				{ "item": "es2:d/choyin/obj/cloth_piece", "source": "d/choyin/npc/obj/cloth_piece.c" }
+			],
+			"apply": { "attack": 10, "armor": 3 },
+			"chat_chance": 10,
+			"chat_msg": [
+				{ "action": "random_move" }
+			],
+			"ghost": true
+		},
+		{
+			"id": "choyin.npc.shadow",
+			"legacy_source": "d/choyin/npc/shadow.c",
+			"name": "朦胧鬼影",
+			"aliases": ["shadow"],
+			"age": 91,
+			"long": "一个高大的身影，看起来像是个人，不过 ....\n",
+			"attributes": { "str": 44, "cor": 37 },
+			"resources": { "max_gin": 400, "max_kee": 600, "max_sen": 400 },
+			"combat_exp": 200000,
+			"attitude": "aggressive",
+			"carry": [
+				{ "item": "es2:d/choyin/obj/blade", "source": "d/choyin/npc/obj/blade.c", "equip": "wield" }
+			],
+			"apply": {
+				"attack": 80,
+				"blade": 80,
+				"parry": 80,
+				"armor": 70,
+				"damage": 30,
+				"dodge": 70,
+				"armor_vs_force": 1000
+			},
+			"capabilities": ["aggressive_on_player_presence"],
+			"ghost": true
+		},
+		{
+			"id": "choyin.npc.lion",
+			"legacy_source": "d/choyin/npc/lion.c",
+			"name": "护草神兽",
+			"aliases": ["guarder"],
+			"race": "beast",
+			"age": 100,
+			"long": "看守忘忧草的护草神兽。\n",
+			"attributes": { "str": 30, "cor": 70, "spi": 20, "int": 10 },
+			"resources": { "max_gin": 300, "max_kee": 1000, "max_sen": 300 },
+			"combat_exp": 100000,
+			"score": 1000,
+			"attitude": "aggressive",
+			"limbs": ["头部", "躯干", "尾巴"],
+			"verbs": ["bite"],
+			"apply": { "attack": 30, "damage": 10, "armor": 50, "dodge": 40 },
+			"capabilities": ["aggressive_on_player_presence"],
+			"die_carries": { "item": "es2:d/choyin/obj/grass", "master": true }
 		}
 	]
 }

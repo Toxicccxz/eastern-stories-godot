@@ -115,6 +115,11 @@ position = Vector2(128, 384)
 script = ExtResource("marker")
 spawn_point_id = &"choyin.hollow.fall_arrival"
 
+[node name="Hollow3Orchid1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(568, 56)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.hollow3.orchid.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

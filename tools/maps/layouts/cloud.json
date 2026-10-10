@@ -177,6 +177,7 @@
           {"name": "SnowEntry", "at": [816, 96], "id": "cloud.dragonhill.nroad.snow_entry"},
           {"name": "LatemoonReturn", "at": [640, 1904], "id": "cloud.wroad0.latemoon_return"},
           {"name": "RiverReturn", "at": [1440, 2432], "id": "cloud.dukou.river_return"},
+          {"name": "BiaojuWindArrival", "at": [1952, 2144], "id": "cloud.biaoju.wind_arrival"},
           {"generated": "markers"}
         ]
       }

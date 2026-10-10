@@ -15,7 +15,8 @@ extends RefCounted
 ## once it was handed over, `after_empty` when the NPC has none left.
 ## daemon/class/bonze/master.c ask_for_join() asks the asker's query("class") and
 ## query("gender") (`asker_class`, `asker_gender`: "" any) and set_temp()s a flag
-## (`temp_asker`: a temp, not kept by a save, DECISIONS 晚月庄 A).
+## (`temp_asker`: a temp, not kept by a save, DECISIONS 晚月庄 A). `forgets` are the topics
+## the NPC deletes once it answered (d/choyin/npc/girl.c's delete("inquiry/游晋")).
 var asker_marks: Array[String] = []
 var asker_class: StringName = &""
 var asker_gender: StringName = &""
@@ -33,6 +34,7 @@ var after_empty: Array[NpcLine] = []
 ## feature/vendor.c do_vendor_list() (a vendor's `(: do_vendor_list :)` topic): the
 ## vendor's goods and prices, write()n to the asker.
 var vendor_list: bool = false
+var forgets: Array[String] = []
 
 
 func matches(marks: Dictionary[String, int], class_id: StringName = &"", gender: StringName = &"") -> bool:
@@ -96,6 +98,7 @@ static func from_record(reader: ContentRecordReader) -> NpcInquiryRule:
 	rule.mark_asker = reader.text("mark_asker")
 	rule.temp_asker = reader.text("temp_asker")
 	rule.gives = StringName(reader.text("gives"))
+	rule.forgets = reader.text_list("forgets")
 	var taken: ContentRecordReader = reader.child("taken")
 	if taken != null:
 		rule.taken_lines = NpcLine.optional_lines(taken)

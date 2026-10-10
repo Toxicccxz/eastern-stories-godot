@@ -14,11 +14,13 @@ enum Value {
 	CONDITION_ON_HIT,
 	## The mapped martial art's own hit_ob() may wound (MartialHitWound: spicyclaw.c).
 	MARTIAL_WOUND,
+	## The weapon's own hit_ob() against a ghost (WeaponGhostBane: daemon/class/taoist/sword.c).
+	GHOST_BANE,
 }
 
 
 static func is_valid(value: int) -> bool:
-	return value >= Value.NOT_APPLICABLE and value <= Value.MARTIAL_WOUND
+	return value >= Value.NOT_APPLICABLE and value <= Value.GHOST_BANE
 
 
 static func is_non_force_valid(value: int) -> bool:

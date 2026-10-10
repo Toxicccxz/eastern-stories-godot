@@ -20,6 +20,9 @@ var _movement_input_quarantined: bool = false
 var _suppressed_collision_layer: int = 0
 var _suppressed_collision_mask: int = 0
 var _collision_suppressed: bool = false
+## A ghost (NpcDefinition.is_ghost()): the player, no ghost, does not see it (char.c
+## visible()): not drawn, not picked, walked through. Its presence still meets the player.
+var _unseen: bool = false
 
 var character_id: StringName:
 	get: return _character_id
@@ -42,6 +45,7 @@ func bind_npc(value: NpcRuntimeState) -> bool:
 	_npc = value
 	_player = null
 	_character_id = value.character_id
+	_unseen = value.definition().is_ghost()
 	_update_label(value.definition().display_name)
 	refresh_runtime_state()
 	return true
@@ -74,13 +78,14 @@ func set_world_location(value: WorldLocationState) -> bool:
 func refresh_runtime_state() -> void:
 	var exists: bool = _exists()
 	var dead: bool = _life_status() == CharacterRuntimeLifeStatus.Value.DEAD
-	visible = exists and not dead
+	visible = exists and not dead and not _unseen
 	input_pickable = (
 		not player_controlled
 		and exists
 		and not dead
+		and not _unseen
 	)
-	if not exists or dead:
+	if not exists or dead or _unseen:
 		velocity = Vector2.ZERO
 		if not _collision_suppressed:
 			_suppressed_collision_layer = collision_layer
@@ -165,6 +170,7 @@ func _input_event(
 		and (_world_simulation_gate == null or _world_simulation_gate.is_open())
 		and _exists()
 		and _life_status() != CharacterRuntimeLifeStatus.Value.DEAD
+		and not _unseen
 	):
 		selection_requested.emit(_character_id)
 

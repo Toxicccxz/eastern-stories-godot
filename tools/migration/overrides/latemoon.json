@@ -236,14 +236,14 @@
 			}
 		},
 		"es2:d/latemoon/obj/bracelet": {
-			"act": { "verb": "祈祷", "acts": [ { "steps": [
+			"act": { "verb": "祈祷", "command": "pray", "acts": [ { "steps": [
 				{ "line": "你双手合掌，虔诚的祈祷。\n手上的镯子嗡嗡作响。 突然一阵烟雾.... \n" },
 				{ "damage": { "sen": 50 } },
 				{ "move": "snow.temple", "point": "snow.temple.revive" }
 			] } ] }
 		},
 		"es2:d/latemoon/obj/book": {
-			"act": { "verb": "跳「春宫怨」", "acts": [ { "steps": [
+			"act": { "verb": "跳「春宫怨」", "command": "dancing", "acts": [ { "steps": [
 				{ "line": "你双手合掌，脚步轻盈。一曲『 春宫怨 』......\n" },
 				{ "damage": { "sen": 50 } },
 				{ "move": "latemoon.latemoon1", "point": "latemoon.latemoon1.dance_arrival" }

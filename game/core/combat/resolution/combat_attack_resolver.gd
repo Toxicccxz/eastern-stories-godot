@@ -370,7 +370,12 @@ static func resolve(
 	calculation._reached_stage = CombatAttackCalculation.ReachedStage.MARTIAL_HOOK_PASSED
 
 	var terminal_policy_result: CombatAttackResult
-	if weapon != null:
+	if weapon != null and weapon.hit_policy_status == CombatHitPolicyStatus.Value.GHOST_BANE:
+		terminal_policy_result = _weapon_ghost_bane(
+			weapon, attacker, defender, action, calculation, mutation, standard_force_result, defender_essence,
+			attacker_essence, attacker_vitality, attacker_spirit, random_source,
+		)
+	elif weapon != null:
 		terminal_policy_result = _policy_gate_result(
 			weapon.hit_policy_status,
 			CombatAttackResult.FailureStage.WEAPON_HIT_POLICY,
@@ -667,6 +672,55 @@ static func _martial_hit_wound(
 	calculation._martial_wound = amount
 	calculation._martial_hit_wound = wound
 	calculation._martial_message = wound.messages[pick]
+	return null
+
+
+## sword.c hit_ob(me, victim, damage_bonus) against a ghost: random(max_atman) above the
+## ghost's atman / 2 wounds its gin by query_spi() and heals the wielder's gin, kee and sen by
+## as much (receive_heal(): up to their eff_), returning the line; otherwise random(query_spi())
+## adds to damage_bonus. Against anyone else it returns 0. random(n) with n <= 0 is 0.
+static func _weapon_ghost_bane(
+	weapon: WeaponCombatProfile,
+	attacker: CombatAttackerSnapshot,
+	defender: CombatDefenderSnapshot,
+	action: CombatActionDefinition,
+	calculation: CombatAttackCalculation,
+	mutation: CombatResourceMutationResult,
+	standard_force_result: StandardForceHitResult,
+	defender_essence: CharacterResourceState,
+	attacker_essence: CharacterResourceState,
+	attacker_vitality: CharacterResourceState,
+	attacker_spirit: CharacterResourceState,
+	random_source: CombatRandomSource,
+) -> CombatAttackResult:
+	if defender.ghost_atman < 0:
+		return null
+	var bound: int = weapon.wielder_max_atman
+	var roll: int = _draw(random_source, bound, calculation) if bound > 0 else 0
+	if not _is_valid_draw(roll, bound):
+		return _invalid_draw_result(
+			CombatAttackResult.FailureStage.WEAPON_HIT_POLICY, attacker, defender, action, calculation, mutation,
+			standard_force_result,
+		)
+	@warning_ignore("integer_division")
+	var half: int = defender.ghost_atman / 2
+	if roll > half:
+		var amount: int = weapon.wielder_spirituality
+		defender_essence.apply_wound(amount)
+		for resource: CharacterResourceState in [attacker_essence, attacker_vitality, attacker_spirit]:
+			if resource != null:
+				resource.heal(amount)
+		calculation._weapon_bane = weapon.ghost_bane
+		calculation._weapon_bane_amount = amount
+		return null
+	var spirit: int = weapon.wielder_spirituality
+	var bonus: int = _draw(random_source, spirit, calculation) if spirit > 0 else 0
+	if not _is_valid_draw(bonus, spirit):
+		return _invalid_draw_result(
+			CombatAttackResult.FailureStage.WEAPON_HIT_POLICY, attacker, defender, action, calculation, mutation,
+			standard_force_result,
+		)
+	calculation._final_strength_bonus += bonus
 	return null
 
 

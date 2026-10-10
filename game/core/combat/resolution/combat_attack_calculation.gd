@@ -48,6 +48,8 @@ var _force_hit_wound: ForceHitWound
 var _martial_wound: int = 0
 var _martial_hit_wound: MartialHitWound
 var _martial_message: String = ""
+var _weapon_bane: WeaponGhostBane
+var _weapon_bane_amount: int = 0
 var _random_upper_bounds: Array[int] = []
 var _random_draws: Array[int] = []
 
@@ -128,6 +130,14 @@ var martial_hit_wound: MartialHitWound:
 var martial_message: String:
 	get:
 		return _martial_message
+## The weapon's hit_ob() against a ghost that returned its line (咒剑王禅), or null.
+var weapon_bane: WeaponGhostBane:
+	get:
+		return _weapon_bane
+## The gin it took from the ghost and gave back to its wielder (query_spi()), 0 when none.
+var weapon_bane_amount: int:
+	get:
+		return _weapon_bane_amount
 var reached_stage: int:
 	get:
 		return _reached_stage
@@ -173,6 +183,8 @@ func duplicate_snapshot() -> CombatAttackCalculation:
 	copy._martial_wound = _martial_wound
 	copy._martial_hit_wound = _martial_hit_wound
 	copy._martial_message = _martial_message
+	copy._weapon_bane = _weapon_bane
+	copy._weapon_bane_amount = _weapon_bane_amount
 	copy._random_upper_bounds = _random_upper_bounds.duplicate()
 	copy._random_draws = _random_draws.duplicate()
 	return copy

@@ -21,6 +21,8 @@ extends RefCounted
 ## `takes_back` (d/latemoon/latemoon3.c) refuses nobody: one who carries the `item` and
 ## the set_temp() flag `temp` hands it back (`taken`, the flag deleted); one who carries
 ## none reads `without`; one who carries it without the flag keeps it, without a word.
+## With `items` instead (d/choyin/club.c: the hermit's books, any of their drawn names) and
+## no flag, every one carried goes back, each told by `taken`.
 ## `no_mark` (d/choyin/entrance.c: east into the 桃林 only with marks/书生) refuses one without
 ## the saved `mark`.
 enum Condition { WEAPON_IN_HAND, COMBAT_EXP_BELOW, NOT_APPRENTICE_OF, NOT_FAMILY, KAR_SLIP, NEVER, ASK, TAKES_BACK, NO_MARK }
@@ -57,8 +59,10 @@ var unless_gender: StringName = &""
 var ask: String = ""
 var choice: String = ""
 var point_id: StringName = &""
-## takes_back: the item, the flag, what the hand-back says and what leaving without it says.
+## takes_back: the item, the flag, what the hand-back says and what leaving without it says;
+## `items`: all of these go back (named forms too), no flag asked.
 var item_id: StringName = &""
+var item_ids: Array[StringName] = []
 var temp: String = ""
 var taken: Array[NpcLine] = []
 var without: Array[String] = []
@@ -137,7 +141,7 @@ func refuses(leaver: Leaver, present: bool) -> bool:
 ## {id, room, from_zone, to_zone, when, lines: [line], pass_lines?: [line], legacy_source}
 ## and per `when`: weapon_in_hand {present: npc id}, combat_exp_below {value},
 ## not_apprentice_of {npc}, not_family {family}, kar_slip {value}, no_mark {mark}, never (pass_lines only),
-## ask {unless_gender, ask, choice, point; no lines}, takes_back {item, temp, taken:
+## ask {unless_gender, ask, choice, point; no lines}, takes_back {item, temp | items, taken:
 ## [NpcLine record], without: [line]; no lines}.
 static func from_record(reader: ContentRecordReader) -> ZoneExitRuleDefinition:
 	var rule := ZoneExitRuleDefinition.new()
@@ -168,8 +172,13 @@ static func from_record(reader: ContentRecordReader) -> ZoneExitRuleDefinition:
 			rule.choice = reader.required_text("choice")
 			rule.point_id = StringName(reader.required_text("point"))
 		Condition.TAKES_BACK:
-			rule.item_id = StringName(reader.required_text("item"))
-			rule.temp = reader.required_text("temp")
+			for id: String in reader.text_list("items"):
+				rule.item_ids.append(StringName(id))
+			if rule.item_ids.is_empty():
+				rule.item_id = StringName(reader.required_text("item"))
+				rule.temp = reader.required_text("temp")
+			elif reader.has("item") or reader.has("temp"):
+				reader.fail("items", "items go back without item or temp")
 			for record: ContentRecordReader in reader.children("taken"):
 				var line: NpcLine = NpcLine.from_record(record, true)
 				record.finish()

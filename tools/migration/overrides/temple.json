@@ -4,6 +4,9 @@
 		"d/temple/npc/taoist_guard1.c", "d/temple/npc/taoist_guard2.c", "d/temple/npc/taoist_guard3.c"
 	],
 	"set": {
+		"es2:daemon/class/taoist/sword": {
+			"ghost_bane": { "line": "王禅剑发出一股金色的罡气，流遍$N的全身。", "color": "HIY" }
+		},
 		"common.npc.taoist.taolord": {
 			"apprentice": {
 				"requires": [
@@ -55,7 +58,7 @@
 		"daemon/class/taoist/sword.c": {
 			"set wield_msg": "wield/unwield messages are not shown yet",
 			"set unequip_msg": "wield/unwield messages are not shown yet",
-			"function hit_ob": "only against a ghost (is_ghost()): no ghost stands in the game yet (乔阴, 鬼门关); a reminder test fails once one does"
+			"function hit_ob": "ghost_bane in set (WeaponGhostBane, 乔阴 B): against a ghost (乔阴's 朦胧鬼影) random(max_atman) over its atman / 2 wounds its gin by query_spi() and heals the wielder as much (HIY line), else random(query_spi()) to damage_bonus; anyone else: 0"
 		},
 		"d/temple/square.c": {
 			"set item_desc": "the door's look_door(): world.json doors temple.square.door",

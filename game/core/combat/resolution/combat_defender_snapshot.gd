@@ -19,6 +19,8 @@ var _effective_force_skill_level: int
 var _current_inner_force: int
 var _armor_vs_force: int
 var _strength: int
+## A ghost's query("atman") (is_ghost(): WeaponGhostBane reads it); -1 for anyone else.
+var ghost_atman: int = -1
 
 var character_id: StringName:
 	get:
@@ -123,7 +125,7 @@ func is_valid() -> bool:
 
 
 func duplicate_snapshot() -> CombatDefenderSnapshot:
-	return CombatDefenderSnapshot.new(
+	var copy := CombatDefenderSnapshot.new(
 		_character_id,
 		_living,
 		_busy,
@@ -143,3 +145,5 @@ func duplicate_snapshot() -> CombatDefenderSnapshot:
 		_armor_vs_force,
 		_strength,
 	)
+	copy.ghost_atman = ghost_atman
+	return copy

@@ -61,6 +61,8 @@ class Answer:
 	var after_empty: Array[ColoredLine] = []
 	## do_vendor_list(): the caller writes the NPC's goods list after the lines.
 	var vendor_list: bool = false
+	## delete("inquiry/<topic>"): the topics the NPC no longer answers (NpcRuntimeState).
+	var forgets: Array[String] = []
 
 	func texts() -> Array[String]:
 		return ColoredLine.texts(lines)
@@ -69,13 +71,14 @@ class Answer:
 		lines.append(ColoredLine.new(text))
 
 
-## What the player can ask `definition` about, in ES2's listing order.
-static func topics(definition: NpcDefinition) -> Array[String]:
+## What the player can ask `definition` about, in ES2's listing order; a topic the NPC
+## deleted (`forgotten`) is gone, though 这里, 名字 and 传闻 are always there to ask.
+static func topics(definition: NpcDefinition, forgotten: Array[String] = []) -> Array[String]:
 	var result: Array[String] = DEFAULT_TOPICS.duplicate()
 	if definition == null:
 		return result
 	for topic: String in definition.talk().inquiry_topics():
-		if not result.has(topic) and not ENGLISH_TOPICS.values().has(topic):
+		if not result.has(topic) and not ENGLISH_TOPICS.values().has(topic) and not forgotten.has(topic):
 			result.append(topic)
 	return result
 
@@ -105,7 +108,7 @@ static func ask(
 
 ## ask() with what the answer does. `violates_unique` tells whether an item definition
 ## is F_UNIQUE and one already exists somewhere in the world (violate_unique());
-## without it none does.
+## without it none does. A topic in `forgotten` the NPC deleted: ask.c's own lines.
 static func answer(
 	npc_definition: NpcDefinition,
 	npc_gender: StringName,
@@ -116,6 +119,7 @@ static func answer(
 	room_short: String,
 	random: WorldInteractionRandomSource,
 	violates_unique: Callable = Callable(),
+	forgotten: Array[String] = [],
 ) -> Answer:
 	var result := Answer.new()
 	var lines: Array[String] = []
@@ -144,8 +148,9 @@ static func answer(
 		return _with(result, lines)
 	var talk: NpcTalk = npc_definition.talk()
 	var said: PackedStringArray = talk.answer(key, asker.kee_percent)
+	var deleted: bool = forgotten.has(key)
 	# An answer function that returns 0 leaves ask.c to its own lines.
-	if talk.has_answer(key) and not (said.is_empty() and talk.answers_by_kee(key)):
+	if not deleted and talk.has_answer(key) and not (said.is_empty() and talk.answers_by_kee(key)):
 		var asker_respect: String = _t(RankWords.query_respect(asker.gender, asker.age, asker.class_id))
 		for text: String in said:
 			lines.append(_t("{npc}说道：{line}").format({"npc": npc, "line": NpcTalk.line(text).replace("$RESPECT", asker_respect)}))
@@ -156,7 +161,7 @@ static func answer(
 	# Deviation (青石村 B): once it has said or given something, ask.c's 没听说过 that
 	# followed its 0 does not follow; a function that does nothing (command("?")) still
 	# leaves ask.c to its own lines.
-	var rule: NpcInquiryRule = NpcInquiryRule.decide(talk.inquiry_rules(key), asker.marks, random, asker.class_id, asker.gender)
+	var rule: NpcInquiryRule = null if deleted else NpcInquiryRule.decide(talk.inquiry_rules(key), asker.marks, random, asker.class_id, asker.gender)
 	if rule != null:
 		_with(result, lines)
 		var asker_respect: String = RankWords.query_respect(asker.gender, asker.age, asker.class_id)
@@ -173,6 +178,7 @@ static func answer(
 			result.after_empty.append(line.colored(name, asker_respect))
 		result.gives = rule.gives
 		result.vendor_list = rule.vendor_list
+		result.forgets = rule.forgets
 		if not rule.temp_asker.is_empty():
 			result.temps.append(rule.temp_asker)
 		if rule.gives.is_empty() and not rule.mark_asker.is_empty():

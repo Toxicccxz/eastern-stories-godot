@@ -3,7 +3,8 @@ extends WorldLandmarkPolicy
 
 ## epath2.c do_hold_vine(): after the hold message, `random(dodge) < 5` drops
 ## the player into the waterfall pool (portals[0]); otherwise they climb down
-## the vine to the passage behind it (portals[1]).
+## the vine to the passage behind it (portals[1]). d/choyin/guyehill.c do_hold() is
+## the same with its own `below` (30): the 寒谷, or up to the 山洞.
 const DODGE_SKILL_ID: StringName = &"dodge"
 
 
@@ -53,7 +54,8 @@ func use(map: WorldMapController, landmark: WorldLandmarkDefinition) -> RefCount
 	var apply_dodge: int = PlayerMartialArts.apply_of(player.state, player.armor, DODGE_SKILL_ID)
 	result._effective_dodge = player.state.skills.effective_level(DODGE_SKILL_ID, apply_dodge)
 	var portals: Array[StringName] = landmark.portal_ids()
-	result._policy_result = VineTraversalPolicy.new(portals[0], portals[1]).evaluate(
+	var below: int = landmark.setting("below") if landmark.setting("below") > 0 else VineTraversalPolicy.WATERFALL_THRESHOLD
+	result._policy_result = VineTraversalPolicy.new(portals[0], portals[1], below).evaluate(
 		result._effective_dodge, random_source,
 	)
 	result._reached_stage = VineTraversalResult.ReachedStage.POLICY

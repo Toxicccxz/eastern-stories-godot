@@ -121,6 +121,26 @@ position = Vector2(392, 440)
 script = ExtResource("marker")
 spawn_point_id = &"choyin.tomb1.hole_arrival"
 
+[node name="Tomb1Shadow1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(344, 408)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.tomb1.shadow.1"
+
+[node name="Tomb1Shadow2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(440, 384)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.tomb1.shadow.2"
+
+[node name="Tomb1Shadow3" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(376, 344)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.tomb1.shadow.3"
+
+[node name="Tomb3Chest1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(312, 56)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.tomb3.chest.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

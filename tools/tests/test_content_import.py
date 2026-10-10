@@ -50,17 +50,21 @@ class GeneratedDataTest(unittest.TestCase):
                     found.append(f'{path.relative_to(REPOSITORY).as_posix()}:{number}')
         self.assertEqual(found, [], 'decide the character in tools/migration/text_replacements.json')
 
-    def test_ghosts_wait_for_the_taoist_sword(self) -> None:
-        # Reminder (茅山 A): daemon/class/taoist/sword.c's hit_ob() (林忌's 咒剑王禅) acts
-        # only on a victim whose is_ghost() is true, and no NPC in the game is one yet.
-        # The region that places a ghost (乔阴's ghost.c and shadow.c, 鬼门关) ports it.
+    def test_ghosts_and_the_taoist_sword(self) -> None:
+        # daemon/class/taoist/sword.c's hit_ob() (林忌's 咒剑王禅) acts only on a victim whose
+        # is_ghost() is true. 乔阴 B placed the first ghosts (ghost.c, shadow.c) and ported it
+        # (ghost_bane); every NPC whose source defines is_ghost() is one (ghost in its record).
         ghosts = []
         for path in sorted(ci.DATA.rglob('npcs.json')):
             for record in json.loads(path.read_text(encoding='utf-8')).get('npcs', []):
                 source = ci.MUDLIB / record['legacy_source']
-                if 'is_ghost' in source.read_text(encoding='utf-8', errors='replace'):
+                if 'is_ghost' in source.read_text(encoding='utf-8', errors='replace') and not record.get('ghost'):
                     ghosts.append(record['id'])
-        self.assertEqual(ghosts, [], 'port daemon/class/taoist/sword.c hit_ob() with these ghosts')
+        self.assertEqual(ghosts, [], 'these define is_ghost(): set ghost in their records')
+        swords = [item for path in sorted(ci.DATA.rglob('items.json'))
+                  for item in json.loads(path.read_text(encoding='utf-8')).get('items', [])
+                  if item['id'] == 'es2:daemon/class/taoist/sword']
+        self.assertTrue(swords and 'ghost_bane' in swords[0], 'the 咒剑王禅 keeps its hit_ob() against ghosts')
 
     def test_pursuers_wait_for_following(self) -> None:
         # set("pursuer", 1): an NPC that follows who flees from it. Not modelled yet; each one

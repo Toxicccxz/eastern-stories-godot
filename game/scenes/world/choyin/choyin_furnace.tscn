@@ -77,6 +77,31 @@ position = Vector2(192, 232)
 script = ExtResource("marker")
 spawn_point_id = &"choyin.stove.platform_arrival"
 
+[node name="StoveTablet1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(48, 48)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.stove.tablet.1"
+
+[node name="StoveTablet2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(88, 48)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.stove.tablet.2"
+
+[node name="StoveTablet3" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(128, 48)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.stove.tablet.3"
+
+[node name="StoveTablet4" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(168, 48)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.stove.tablet.4"
+
+[node name="StoveTablet5" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(208, 48)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.stove.tablet.5"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

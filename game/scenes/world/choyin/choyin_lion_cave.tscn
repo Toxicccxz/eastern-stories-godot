@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://runtime/world/world_landmark_area_2d.gd" id="landmark"]
 [ext_resource type="Script" path="res://runtime/world/world_passage_area_2d.gd" id="passage"]
 [ext_resource type="Script" path="res://runtime/world/world_physical_zone_area_2d.gd" id="zone"]
+[ext_resource type="Script" path="res://runtime/world/world_service_point.gd" id="service"]
 [ext_resource type="TileSet" path="res://scenes/world/common/placeholder_terrain_tileset.tres" id="terrain_tiles"]
 
 [sub_resource type="RectangleShape2D" id="StairsShape"]
@@ -49,6 +50,23 @@ mouse_filter = 2
 theme_override_font_sizes/font_size = 14
 text = "神秘洞穴"
 
+[node name="CaveSmell" type="Marker2D" parent="."]
+position = Vector2(192, 224)
+script = ExtResource("service")
+service_id = &"choyin.lionroom.smell"
+
+[node name="Visual" type="Polygon2D" parent="CaveSmell"]
+polygon = PackedVector2Array(0, -20, 16, 8, 0, 20, -16, 8)
+color = Color(0.5, 0.85, 1, 1)
+
+[node name="Label" type="Label" parent="CaveSmell"]
+offset_left = -100.0
+offset_top = 26.0
+offset_right = 100.0
+mouse_filter = 2
+text = "洞穴 · 闻忘忧草"
+horizontal_alignment = 1
+
 [node name="Zones" type="Node2D" parent="."]
 
 [node name="LionroomZone" type="Area2D" parent="Zones"]
@@ -66,6 +84,11 @@ shape = SubResource("Rect_384_320")
 position = Vector2(96, 240)
 script = ExtResource("marker")
 spawn_point_id = &"choyin.lionroom.fall_arrival"
+
+[node name="LionroomLion1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(264, 112)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.lionroom.lion.1"
 
 [node name="Characters" type="Node2D" parent="."]
 
@@ -103,4 +126,13 @@ position_smoothing_speed = 6.0
 [node name="CorpseLayer" type="Node2D" parent="."]
 
 [node name="Interactions" type="Node2D" parent="."]
+
+[node name="DarkInteraction" type="Area2D" parent="Interactions"]
+position = Vector2(192, 128)
+collision_layer = 2
+script = ExtResource("landmark")
+landmark_id = &"choyin.lionroom.landmark.dark"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/DarkInteraction"]
+shape = SubResource("Rect_64_32")
 

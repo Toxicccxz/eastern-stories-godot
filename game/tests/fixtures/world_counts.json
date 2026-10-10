@@ -259,11 +259,15 @@
 		"choyin.east.rockyu.oldman",
 		"choyin.crown.craneroom.cranes",
 		"choyin.summit.platform.lboys",
+		"choyin.town.n_gate.ghost",
+		"choyin.town.e_gate.ghost",
+		"choyin.tree_hollow.tomb1.shadows",
+		"choyin.lion_cave.lionroom.lion",
 		"choyin.town.entrance.sword_soul"
 	],
-	"world_npcs": 322,
+	"world_npcs": 328,
 	"resident_maps": 48,
-	"new_game_items": 563,
+	"new_game_items": 576,
 	"snow_outdoor_passages": 8,
-	"npc_draws_after_oldpine": 1700
+	"npc_draws_after_oldpine": 1733
 }
