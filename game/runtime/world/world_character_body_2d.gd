@@ -15,6 +15,9 @@ var _npc: NpcRuntimeState
 var _character_id: StringName = &""
 var _world_simulation_gate: WorldSimulationGate
 var _movement_input_quarantined: bool = false
+## The player is in custody (WorldMapPatrols): their own walking does nothing; a walk the
+## world makes for them (being led) still moves the body.
+var held: bool = false
 ## Collision in effect before a death/absence removed it; restored when the
 ## character comes back to life.
 var _suppressed_collision_layer: int = 0
@@ -124,6 +127,11 @@ func _physics_process(delta: float) -> void:
 		if not _movement_input_is_pressed():
 			_movement_input_quarantined = false
 		return
+	if held:
+		velocity = Vector2.ZERO
+		_push_target = null
+		_push_seconds = 0.0
+		return
 	var direction: Vector2 = Input.get_vector(
 		"move_left",
 		"move_right",
@@ -173,6 +181,10 @@ func _input_event(
 		and not _unseen
 	):
 		selection_requested.emit(_character_id)
+
+
+func movement_input_is_pressed() -> bool:
+	return _movement_input_is_pressed()
 
 
 func _movement_input_is_pressed() -> bool:

@@ -89,20 +89,26 @@ class ApprenticeRule:
 	## The marks whom attempt_apprentice() takes loses (ob->set("marks/书生", 0)); a requirements
 	## master's only. An offer taken (apprentice.c's first branch) never calls it: nothing goes.
 	var unmarks: Array[String] = []
+	## attempt_apprentice() first looks the student over (command("look " + id): look.c tells
+	## them 正盯著你看); a requirements master's only.
+	var looks: bool = false
 
 
 ## One check of attempt_apprentice(): the minimums it requires, cor and cps as
 ## query_cor() and query_cps() have them, spi as set (query("spi")) and combat_exp, the
 ## gender it takes ("" any; query("gender") != "男性" in taolord.c), the class it takes
 ## ("" any; query("class") != "bonze" in daemon/class/bonze/master.c), the saved mark it
-## needs ("" none; query("marks/桃林") in daemon/class/scholar/master.c), what it says when
-## one is short and the marks its refusal gives (set("marks/书生", 1)).
+## needs ("" none; query("marks/桃林") in daemon/class/scholar/master.c), the price the
+## student must not be able to pay (0 none; daemon/class/beggar/master.c refuses one who
+## can_afford(100): the money they carry), what it says when one is short and the marks its
+## refusal gives (set("marks/书生", 1)).
 class RequirementCheck:
 	extends RefCounted
 	var requires: Dictionary[StringName, int] = {}
 	var gender: String = ""
 	var class_id: StringName = &""
 	var mark: String = ""
+	var cannot_afford: int = 0
 	var refuse_say: String = ""
 	var refuse_marks: Array[String] = []
 
@@ -207,7 +213,9 @@ static func from_record(reader: ContentRecordReader) -> NpcTeaching:
 					check.requires[StringName(key)] = requires[key]
 				check.refuse_say = apprentice.required_text("refuse_say")
 				rule.checks.append(check)
-			rule.accept_say = apprentice.required_text("accept_say")
+			# beggar/master.c only nods (an emote: nothing printed) before its recruit.
+			rule.accept_say = apprentice.text("accept_say")
+			rule.looks = apprentice.boolean("looks", false)
 			var vision: ContentRecordReader = apprentice.child("accept_vision")
 			if vision != null:
 				rule.accept_vision = AcceptVision.new()
@@ -256,8 +264,8 @@ static func from_record(reader: ContentRecordReader) -> NpcTeaching:
 	return teaching
 
 
-## `requires` as [{<key>: minimum, ..., "gender"?, "class"?, "mark"?, "refuse_say",
-## "refuse_marks"?}]: checked in turn, each with its say.
+## `requires` as [{<key>: minimum, ..., "gender"?, "class"?, "mark"?, "cannot_afford"?,
+## "refuse_say", "refuse_marks"?}]: checked in turn, each with its say.
 static func _read_checks(apprentice: ContentRecordReader, rule: ApprenticeRule) -> void:
 	for record: ContentRecordReader in apprentice.children("requires"):
 		var check := RequirementCheck.new()
@@ -277,6 +285,11 @@ static func _read_checks(apprentice: ContentRecordReader, rule: ApprenticeRule) 
 				continue
 			if key == "refuse_marks":
 				check.refuse_marks = record.text_list("refuse_marks")
+				continue
+			if key == "cannot_afford":
+				check.cannot_afford = record.required_integer("cannot_afford")
+				if check.cannot_afford < 1:
+					record.fail("cannot_afford", "a price of at least 1")
 				continue
 			if not REQUIREMENTS.has(StringName(key)):
 				record.fail(key, "unsupported requirement")

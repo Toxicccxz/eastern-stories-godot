@@ -170,6 +170,7 @@ msgstr ""
 #. choyin.npc.judgeman gender
 #. choyin.npc.oldman gender
 #. choyin.npc.lboy gender
+#. choyin.npc.yamen_po gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json
 msgid "男性"
 msgstr ""
@@ -1458,6 +1459,10 @@ msgstr ""
 msgid "岸边取水"
 msgstr ""
 
+#: scenes/world/oldpine/oldpine_gorge.tscn
+msgid "涧中取水"
+msgstr ""
+
 #. es2:d/oldpine/npath1 short
 #. es2:d/oldpine/npath2 short
 #. es2:d/oldpine/npath3 short
@@ -2340,6 +2345,10 @@ msgid "老头子"
 msgstr ""
 
 #: core/characters/rank_words.gd
+msgid "【 惯  窃 】"
+msgstr ""
+
+#: core/characters/rank_words.gd
 msgid "【 尼  姑 】"
 msgstr ""
 
@@ -2709,7 +2718,7 @@ msgstr ""
 #. message_vision(): the dancer ($N) as they read it.
 #. message_vision(): the player, for $N/$n/$P/$p in the ES2 combat lines.
 #. message_vision(): the one kneeling, for the $N of a 剃度 line.
-#: core/internal_power/exert_context.gd core/internal_power/exert_function.gd core/relationships/npc_apprenticeship.gd core/world/dance_definition.gd presentation/battle/battle_narrator.gd presentation/battle/battle_participant_card.gd runtime/world/map/world_map_combat_lifecycle.gd runtime/world/map/world_map_corpses.gd runtime/world/map/world_map_hostilities.gd runtime/world/map/world_map_selection.gd runtime/world/map/world_map_spells.gd runtime/world/player_essence_magic.gd
+#: core/internal_power/exert_context.gd core/internal_power/exert_function.gd core/relationships/npc_apprenticeship.gd core/world/dance_definition.gd presentation/battle/battle_narrator.gd presentation/battle/battle_participant_card.gd runtime/world/map/world_map_combat_lifecycle.gd runtime/world/map/world_map_corpses.gd runtime/world/map/world_map_hostilities.gd runtime/world/map/world_map_patrols.gd runtime/world/map/world_map_selection.gd runtime/world/map/world_map_spells.gd runtime/world/player_essence_magic.gd
 msgid "你"
 msgstr ""
 
@@ -3357,6 +3366,11 @@ msgstr ""
 
 #: core/relationships/npc_apprenticeship.gd
 msgid "你想要拜%s为师。"
+msgstr ""
+
+#. look.c, to the one looked at: {npc} looks them over.
+#: core/relationships/npc_apprenticeship.gd
+msgid "{npc}正盯著你看，不知道打些什麽主意。"
 msgstr ""
 
 #. what ES2 put on its chat channel, shouted in the room: {who} is who shouts (绝尘子), {line} what.
@@ -5122,12 +5136,12 @@ msgid "中性神"
 msgstr ""
 
 #. a man named in the third person (gender.c).
-#: presentation/battle/es2_combat_messages.gd ui/teacher/teacher_panel.gd
+#: presentation/battle/es2_combat_messages.gd runtime/world/map/world_map_thefts.gd ui/teacher/teacher_panel.gd
 msgid "他"
 msgstr ""
 
 #. a woman named in the third person (gender.c).
-#: presentation/battle/es2_combat_messages.gd ui/teacher/teacher_panel.gd
+#: presentation/battle/es2_combat_messages.gd runtime/world/map/world_map_thefts.gd ui/teacher/teacher_panel.gd
 msgid "她"
 msgstr ""
 
@@ -5177,6 +5191,16 @@ msgstr ""
 
 #: presentation/layout/shared_gameplay_layout.gd
 msgid "拾取"
+msgstr ""
+
+#. stealing name
+#: presentation/layout/shared_gameplay_layout.gd ui/world/shared_gameplay_ui.gd data/common/skills.json
+msgid "偷窃"
+msgstr ""
+
+#. hands the chosen sum to the constable (accept_bribery()).
+#: presentation/layout/shared_gameplay_layout.gd ui/world/bribe_panel.gd ui/world/shared_gameplay_ui.gd
+msgid "行贿"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
@@ -5503,7 +5527,7 @@ msgid "%s慢慢睁开眼睛，清醒了过来。"
 msgstr ""
 
 #. go.c: someone ({name}) comes into the player's room.
-#: runtime/world/map/world_map_npc_life.gd runtime/world/map/world_map_spells.gd
+#: runtime/world/map/world_map_npc_life.gd runtime/world/map/world_map_patrols.gd runtime/world/map/world_map_spells.gd
 msgid "{name}走了过来。"
 msgstr ""
 
@@ -5527,6 +5551,11 @@ msgstr ""
 
 #: runtime/world/map/world_map_npcs.gd
 msgid "%s急急忙忙地离开了。"
+msgstr ""
+
+#. native hint after a constable ({npc}) catches the player for stealing (yamen_po.c catchyou()).
+#: runtime/world/map/world_map_patrols.gd
+msgid "（{npc}要把你押到县衙受审：被押着走不开；可以向他行贿，也可以拒捕跟他动手。）"
 msgstr ""
 
 #: runtime/world/map/world_map_selection.gd
@@ -5590,6 +5619,63 @@ msgstr ""
 #. cast.c's 这里没有…: the one ({name}) a 僵尸追魂符 names is not here; the sheet stays.
 #: runtime/world/map/world_map_spells.gd
 msgid "这里没有{name}。"
+msgstr ""
+
+#: runtime/world/map/world_map_thefts.gd
+msgid "这里禁止行窃。"
+msgstr ""
+
+#: runtime/world/map/world_map_thefts.gd
+msgid "你已经在找机会下手了！"
+msgstr ""
+
+#: runtime/world/map/world_map_thefts.gd
+msgid "你想行窃的对象不在这里。"
+msgstr ""
+
+#: runtime/world/map/world_map_thefts.gd
+msgid "{npc}身上看起来没有什麽值钱的东西好偷。"
+msgstr ""
+
+#: runtime/world/map/world_map_thefts.gd
+msgid "你不动声色地慢慢靠近{npc}，等待机会下手 ..."
+msgstr ""
+
+#: runtime/world/map/world_map_thefts.gd
+msgid "太可惜了，你下手的目标已经走了。"
+msgstr ""
+
+#: runtime/world/map/world_map_thefts.gd
+msgid "你摸到{item}，可是对你而言太重了，不得不放弃。"
+msgstr ""
+
+#: runtime/world/map/world_map_thefts.gd
+msgid "得手了！"
+msgstr ""
+
+#: runtime/world/map/world_map_thefts.gd
+msgid "你成功地偷到{item}！"
+msgstr ""
+
+#: runtime/world/map/world_map_thefts.gd
+msgid "{npc}不经意地一转头，你急忙将手缩了回去！"
+msgstr ""
+
+#: runtime/world/map/world_map_thefts.gd
+msgid "还好，没有被发现。"
+msgstr ""
+
+#: runtime/world/map/world_map_thefts.gd
+msgid "糟糕！你失手了！"
+msgstr ""
+
+#. steal.c's message_vision() as the player reads it: {npc} the one stolen from, {pronoun} 他 or 她, {item} what the player's hand is on.
+#: runtime/world/map/world_map_thefts.gd
+msgid "{npc}一回头，正好发现你的手正抓著{pronoun}身上的{item}！"
+msgstr ""
+
+#: runtime/world/map/world_map_thefts.gd
+msgid "{npc}喝道：「干什麽！」"
 msgstr ""
 
 #: runtime/world/player_inventory_row_projection.gd
@@ -6201,6 +6287,22 @@ msgstr ""
 
 #: ui/teacher/teacher_panel.gd
 msgid "无法计算"
+msgstr ""
+
+#. the 行贿 panel when the player carries no money.
+#: ui/world/bribe_panel.gd
+msgid "你身上没有钱。"
+msgstr ""
+
+#. closes the 行贿 panel without bribing.
+#. closes the 偷窃 list without stealing.
+#: ui/world/bribe_panel.gd ui/world/steal_panel.gd
+msgid "算了"
+msgstr ""
+
+#. the 行贿 panel's question: {npc} the constable leading the player.
+#: ui/world/bribe_panel.gd
+msgid "拿多少钱塞给{npc}？"
 msgstr ""
 
 #. common.npc.fighter.champion inquiry topic
@@ -6858,6 +6960,23 @@ msgid ""
 "确定要施展吗？"
 msgstr ""
 
+#. the 偷窃 button's tooltip (cmds/std/steal.c): caught at it, the one robbed fights to the death and the town's constables know the player for a thief.
+#: ui/world/shared_gameplay_ui.gd
+msgid "偷窃：从对方身上偷一样东西（三秒后见分晓）。失手被发现，对方会和你拼命，城里的巡捕也会把你当贼抓。"
+msgstr ""
+
+#. the 行贿 button's tooltip (yamen_po.c accept_bribery()): money to the constable leading the player.
+#: ui/world/shared_gameplay_ui.gd
+msgid "行贿：塞钱给押着你的巡捕，钱给够了他就放你走；给少了反倒罪加一等。"
+msgstr ""
+
+#. asked before 偷窃 from an NPC ({npc}) clearly stronger than the player (plan default, A10): one caught at it is attacked to the death (steal.c kill_ob()).
+#: ui/world/shared_gameplay_ui.gd
+msgid ""
+"{npc}看起来比你强得多：要是失手被发现，{npc}会和你拼个你死我活。\n"
+"确定要下手吗？"
+msgstr ""
+
 #. the 驱尸 button's tooltip: animate.c's 50 mana and 30 sen; the zombie lives on the player's 灵力 (zombie.c heal_up()).
 #: ui/world/shared_gameplay_ui.gd
 msgid "施法「驱尸」：让这具尸体站起来跟着你（50 法力、30 神）。僵尸靠吸你的灵力维持，灵力不足时就会倒下化为血水。"
@@ -6987,6 +7106,10 @@ msgid "确定施展"
 msgstr ""
 
 #: ui/world/shared_gameplay_ui.gd
+msgid "确定下手"
+msgstr ""
+
+#: ui/world/shared_gameplay_ui.gd
 msgid "确定画符"
 msgstr ""
 
@@ -7010,8 +7133,19 @@ msgstr ""
 msgid "确定切磋"
 msgstr ""
 
+#. the 偷窃 list's choice for no thing in particular: steal.c takes one of everything the NPC carries.
+#: ui/world/steal_panel.gd
+msgid "随手摸一样"
+msgstr ""
+
+#. the 偷窃 list's question: {npc} the one the player means to steal from.
+#: ui/world/steal_panel.gd
+msgid "想从{npc}身上偷什么？"
+msgstr ""
+
 #. es2:obj/money/coin name
-#: data/common/items.json
+#. choyin.npc.yamen_po inquiry topic
+#: data/common/items.json data/choyin/npcs.json
 msgid "钱"
 msgstr ""
 
@@ -7774,6 +7908,7 @@ msgstr ""
 
 #. liuh-ken practice.fail
 #. celestrike practice.fail
+#. spicyclaw practice.fail
 #: data/common/skills.json
 msgid "你的体力不够了，休息一下再练吧。"
 msgstr ""
@@ -7816,6 +7951,21 @@ msgstr ""
 #. serpentforce name
 #: data/common/skills.json
 msgid "伏蛟功"
+msgstr ""
+
+#. serpentforce practice.water_fail
+#: data/common/skills.json
+msgid "伏蛟功只能在有水的地方练。"
+msgstr ""
+
+#. serpentforce practice.fail
+#: data/common/skills.json
+msgid "你的气不够。"
+msgstr ""
+
+#. serpentforce practice.force_fail
+#: data/common/skills.json
+msgid "你的内力不够"
 msgstr ""
 
 #. spring-blade name
@@ -8188,6 +8338,7 @@ msgid "天邪神掌"
 msgstr ""
 
 #. celestrike practice.force_fail
+#. spicyclaw practice.force_fail
 #: data/common/skills.json
 msgid "你的内力不够了，休息一下再练吧。"
 msgstr ""
@@ -8811,6 +8962,16 @@ msgstr ""
 #. spicyclaw name
 #: data/common/skills.json
 msgid "油流麻香手"
+msgstr ""
+
+#. spicyclaw valid_learn.empty_hands
+#: data/common/skills.json
+msgid "练油流麻香手必须空手。"
+msgstr ""
+
+#. spicyclaw valid_learn.max_force
+#: data/common/skills.json
+msgid "你的内力太弱，无法练油流麻香手。"
 msgstr ""
 
 #. spicyclaw hit_wound.messages
@@ -10009,6 +10170,12 @@ msgstr ""
 #. common.npc.beggar.master family.title
 #: data/common/npcs.json
 msgid "龙头"
+msgstr ""
+
+#. common.npc.beggar.master apprentice.requires.refuse_say
+#: data/common/npcs.json
+msgid ""
+"我们花紫会只收化子，$RESPECT您还是回去享福吧。\n"
 msgstr ""
 
 #. common.npc.scholar.master name
@@ -12217,6 +12384,11 @@ msgstr ""
 #. oldpine.gorge.lake.water name
 #: data/oldpine/world.json
 msgid "湖水"
+msgstr ""
+
+#. oldpine.gorge.river.water name
+#: data/oldpine/world.json
+msgid "泉水"
 msgstr ""
 
 #. oldpine.keep.gate name
@@ -19480,6 +19652,36 @@ msgstr ""
 msgid "这是衙门，快回去吧。"
 msgstr ""
 
+#. choyin.npc.judgeman sentence.beat_line
+#: data/choyin/npcs.json
+msgid "来人哪！把$N拖下去打{boards}大板！"
+msgstr ""
+
+#. choyin.npc.judgeman sentence.faint_lines
+#: data/choyin/npcs.json
+msgid "哎, 早知今日,何必当初?"
+msgstr ""
+
+#. choyin.npc.judgeman sentence.faint_lines
+#: data/choyin/npcs.json
+msgid "来人呀, 把$N给我抬出去!"
+msgstr ""
+
+#. choyin.npc.judgeman sentence.faint_lines
+#: data/choyin/npcs.json
+msgid "...退...堂...!"
+msgstr ""
+
+#. choyin.npc.judgeman sentence.warn_line
+#: data/choyin/npcs.json
+msgid "$N对$n说道: 再敢犯案, 定斩不饶!"
+msgstr ""
+
+#. choyin.npc.judgeman sentence.sorry_line
+#: data/choyin/npcs.json
+msgid "真是对不起, 下人办事不周, 让您受委屈了."
+msgstr ""
+
 #. choyin.npc.lady long
 #: data/choyin/npcs.json
 msgid ""
@@ -19810,6 +20012,132 @@ msgstr ""
 #: data/choyin/npcs.json
 msgid ""
 "看守忘忧草的护草神兽。\n"
+msgstr ""
+
+#. choyin.npc.yamen_po long
+#: data/choyin/npcs.json
+msgid ""
+"     巡捕个个身手矫健，强盗、山贼无不闻风丧胆。\n"
+msgstr ""
+
+#. choyin.npc.yamen_po chat_msg_combat
+#: data/choyin/npcs.json
+msgid ""
+"巡捕说道：你想干什么? 还不跟我去县衙受审!?\n"
+msgstr ""
+
+#. choyin.npc.yamen_po chat_msg_combat
+#: data/choyin/npcs.json
+msgid ""
+"巡捕说道：大胆! 居然敢当街拒捕! 想造反？\n"
+msgstr ""
+
+#. choyin.npc.yamen_po chat_msg_combat
+#: data/choyin/npcs.json
+msgid ""
+"巡捕手中的刀越砍越快，让你应接不暇。\n"
+msgstr ""
+
+#. choyin.npc.yamen_po chat_msg_combat
+#: data/choyin/npcs.json
+msgid ""
+"巡捕说道：别胡闹了，还是乖乖的跟我走吧。\n"
+msgstr ""
+
+#. choyin.npc.yamen_po inquiry topic
+#: data/choyin/npcs.json
+msgid "贿赂"
+msgstr ""
+
+#. choyin.npc.yamen_po inquiry.贿赂
+#: data/choyin/npcs.json
+msgid ""
+"说哪里话来，县太爷清贫廉正，我们作手下的岂能辱没他的名声？\n"
+"收起你的钱吧！\n"
+msgstr ""
+
+#. choyin.npc.yamen_po inquiry topic
+#: data/choyin/npcs.json
+msgid "年饷"
+msgstr ""
+
+#. choyin.npc.yamen_po inquiry.年饷
+#: data/choyin/npcs.json
+msgid ""
+"哎，老爷俸银微薄，我们的年饷自然更少了......\n"
+msgstr ""
+
+#. choyin.npc.yamen_po inquiry.钱
+#: data/choyin/npcs.json
+msgid ""
+"说实在的，我也想要钱。但要是让老爷知道了我收受贿赂，\n"
+"不死也得扒层皮\n"
+msgstr ""
+
+#. choyin.npc.yamen_po name
+#. choyin.npc.yamen_po name_pick
+#: data/choyin/npcs.json
+msgid "慕容巡捕"
+msgstr ""
+
+#. choyin.npc.yamen_po name_pick
+#: data/choyin/npcs.json
+msgid "西门巡捕"
+msgstr ""
+
+#. choyin.npc.yamen_po name_pick
+#: data/choyin/npcs.json
+msgid "公孙巡捕"
+msgstr ""
+
+#. choyin.npc.yamen_po name_pick
+#: data/choyin/npcs.json
+msgid "上官巡捕"
+msgstr ""
+
+#. choyin.npc.yamen_po name_pick
+#: data/choyin/npcs.json
+msgid "南宫巡捕"
+msgstr ""
+
+#. choyin.npc.yamen_po name_pick
+#: data/choyin/npcs.json
+msgid "欧阳巡捕"
+msgstr ""
+
+#. choyin.npc.yamen_po name_pick
+#: data/choyin/npcs.json
+msgid "司徒巡捕"
+msgstr ""
+
+#. choyin.npc.yamen_po patrol.arrest.catch_say
+#: data/choyin/npcs.json
+msgid "闹了半天原来{name}是个贼啊! 我走一趟吧!"
+msgstr ""
+
+#. choyin.npc.yamen_po patrol.arrest.escape_line
+#: data/choyin/npcs.json
+msgid "嘿嘿, 还想往哪逃?!"
+msgstr ""
+
+#. choyin.npc.yamen_po patrol.arrest.deliver_say
+#: data/choyin/npcs.json
+msgid "老爷，人犯已带到，小人巡街去了。"
+msgstr ""
+
+#. choyin.npc.yamen_po patrol.arrest.taken_lines
+#: data/choyin/npcs.json
+msgid "这怎么好?......要是让老爷知道了......"
+msgstr ""
+
+#. choyin.npc.yamen_po patrol.arrest.taken_lines
+#: data/choyin/npcs.json
+msgid "盛情难却....我就收下了.."
+msgstr ""
+
+#. choyin.npc.yamen_po patrol.arrest.refused_line
+#: data/choyin/npcs.json
+msgid "你这是什么意思?......谁稀罕你的钱?!"
 msgstr ""
 
 #. es2:d/choyin/n_gate long

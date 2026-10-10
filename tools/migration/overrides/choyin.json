@@ -13,10 +13,11 @@
 		"d/choyin/npc/obj/book2.c"
 	],
 	"npcs": [
-		"daemon/class/scholar/sword_soul.c"
+		"daemon/class/scholar/sword_soul.c",
+		"d/choyin/npc/yamen_po.c"
 	],
 	"spawn_skip": {
-		"d/choyin/yamen.c": { "d/choyin/npc/yamen_po.c": "乔阴 D: the 巡捕 draw their names and patrol (choyin plan Q1); a placed NPC cannot draw its name yet" }
+		"d/choyin/yamen.c": { "d/choyin/npc/yamen_po.c": "乔阴 D: the eight 巡捕 stand on the town's main street (world.json spawns, legacy_room yamen.c), which they patrol (choyin plan Q1): the 大堂 is a map of its own they could not walk out of" }
 	},
 	"drop": {
 		"es2:d/choyin/obj/silver_clasp": ["weapon"]
@@ -92,6 +93,15 @@
 				"lines": ["你看到风泉之剑掉落在地上 ...", "不 ... 它飘了起来！一个人形忽然浮现，手中正握著风泉之剑！"]
 			}
 		},
+		"common.npc.beggar.master": {
+			"apprentice": {
+				"requires": [
+					{ "cannot_afford": 100, "refuse_say": "我们花紫会只收化子，$RESPECT您还是回去享福吧。\n" }
+				],
+				"looks": true,
+				"class": "beggar"
+			}
+		},
 		"common.npc.scholar.master": {
 			"apprentice": {
 				"requires": [
@@ -141,7 +151,44 @@
 		"choyin.npc.judgeman": {
 			"accept_fight": [
 				{ "say": "这是衙门，快回去吧。", "accept": false }
-			]
+			],
+			"sentence": {
+				"after": 2,
+				"beat_line": "来人哪！把$N拖下去打{boards}大板！",
+				"faint_lines": ["哎, 早知今日,何必当初?", "来人呀, 把$N给我抬出去!", "...退...堂...!"],
+				"warn_line": "$N对$n说道: 再敢犯案, 定斩不饶!",
+				"sorry_line": "真是对不起, 下人办事不周, 让您受委屈了.",
+				"out": { "zone": "choyin.court1", "point": "choyin.court1.yamen_return" }
+			}
+		},
+		"choyin.npc.yamen_po": {
+			"name": "慕容巡捕",
+			"name_pick": ["慕容巡捕", "西门巡捕", "公孙巡捕", "上官巡捕", "南宫巡捕", "欧阳巡捕", "司徒巡捕"],
+			"chat_chance": 99,
+			"chat_msg": [{ "action": "patrol" }],
+			"inquiry": {
+				"贿赂": ["说哪里话来，县太爷清贫廉正，我们作手下的岂能辱没他的名声？\n收起你的钱吧！\n"],
+				"年饷": ["哎，老爷俸银微薄，我们的年饷自然更少了......\n"],
+				"钱": ["说实在的，我也想要钱。但要是让老爷知道了我收受贿赂，\n不死也得扒层皮\n"]
+			},
+			"patrol": {
+				"route": ["choyin.court1", "choyin.crossroad", "choyin.s_street5", "choyin.s_street4", "choyin.s_street1", "choyin.s_street2", "choyin.s_street3", "choyin.tree_tomb", "choyin.n_street3", "choyin.n_street2", "choyin.n_street1", "choyin.n_gate"],
+				"arrest": {
+					"catch_below": 7,
+					"out_of": 10,
+					"catch_say": "闹了半天原来{name}是个贼啊! 我走一趟吧!",
+					"crime": 3,
+					"escape_line": "嘿嘿, 还想往哪逃?!",
+					"deliver_say": "老爷，人犯已带到，小人巡街去了。",
+					"court": { "zone": "choyin.yamen", "point": "choyin.yamen.hall_entry" },
+					"bribe_at": 100000,
+					"taken_lines": ["这怎么好?......要是让老爷知道了......", "盛情难却....我就收下了.."],
+					"refused_line": "你这是什么意思?......谁稀罕你的钱?!",
+					"bribe_crime": 1,
+					"pardon": 3,
+					"killed_crime": 5
+				}
+			}
 		},
 		"choyin.npc.youngman": {
 			"inquiry": {
@@ -264,8 +311,8 @@
 		},
 		"daemon/class/beggar/master.c": {
 			"set env/wimpy": "NPCs never flee a losing fight yet (wimpy)",
-			"function attempt_apprentice": "乔阴 D: 花紫会 (can_afford(100) refuses one with money)",
-			"function recruit_apprentice": "乔阴 D: class beggar"
+			"function attempt_apprentice": "apprentice rule in set: looks (look.c's 正盯著你看 to the student), then a check cannot_afford 100 (can_afford(100): the money carried, plan default) with his say; nod is an emote (nothing), then the recruit",
+			"function recruit_apprentice": "class beggar: apprentice.class in set"
 		},
 		"daemon/class/scholar/master.c": {
 			"function attempt_apprentice": "apprentice rule in set: marks/桃林 takes the student (smile, an emote: nothing; the say, the recruit; marks/书生 and marks/桃林 cleared: unmarks); without it the say and marks/书生 (refuse_marks), the way east open",
@@ -351,16 +398,33 @@
 		"d/choyin/yamen.c": {
 			"create_door": "world.json doors: choyin.yamen.door"
 		},
+		"d/choyin/npc/yamen_po.c": {
+			"set_name": "name and name_pick in set: surname[random(7)] + 巡捕, drawn as the NPC is made (a named form per name in the catalog, saved by its ID)",
+			"statement in create()": "the seven surnames: name_pick in set",
+			"set status": "WorldMapPatrols: patrolling, or leading the thief it caught (the player's custody)",
+			"set CatchWho": "WorldMapPatrols: the player it leads (WorldPlayerRuntimeState.led_by)",
+			"set chat_chance": "99: its chat's patrol step (chat_chance in set)",
+			"set chat_msg": "chat_msg in set: { action: patrol }, a step along its route each time it comes up, wherever the player is (owner Q1: they patrol the street)",
+			"set pursuer": "following who flees is not modelled yet (as 守城官兵's and 县城官兵's)",
+			"function init": "WorldMapPatrols.meet(): a patrolling one meeting a player with thief, random(10) < 7 (arrest in set): its say (read by the player: say() left them out), crime_lv + 3, thief - 1, and it leads them; the gangster and 野羊山寨三寨主 checks need NPCs that never come here; marks/强盗 is no crime (owner Q1)",
+			"function patrol": "WorldMapPatrols.step(): one zone along patrol.route, turning at either end (BigWay went on past the 北门 into other regions and skipped s_street3: owner Q1, the town's main street); the amulet branch was broken (amulet.c has no map)",
+			"function catchyou": "WorldMapPatrols: the player is led (set_leader): their walking is refused, and each step it takes back toward the 衙门 they are walked after it",
+			"function mygo": "WorldMapPatrols: its body walks into the next zone",
+			"function do_go": "arrest.escape_line in set: a led player who tries to walk away reads it",
+			"function do_quit": "nothing to quit in single player; Save waits while the player is led",
+			"function die": "arrest.killed_crime in set: its killer gets crime_lv + 5 and goes free",
+			"function accept_bribery": "the 行贿 button on the one leading the player (a money stack and how much): bribe_at 100000 (ten gold) or more frees them (taken_lines, the money its, crime_lv - 3 or deleted, back to its beat; grin is an emote), less is refused (refused_line, crime_lv + 1)"
+		},
 		"d/choyin/npc/judgeman.c": {
 			"set env/wimpy": "NPCs never flee a losing fight yet (wimpy)",
 			"set atman_factor": "a spell factor nothing he does reads",
 			"set mana_factor": "a spell factor nothing he does reads",
-			"set chat_chance": "乔阴 D: test_crime() (choyin plan Q1)",
-			"set chat_msg": "乔阴 D: test_crime() (choyin plan Q1)",
-			"function init": "乔阴 D: charge is not ported (choyin plan Q1: only another player could be charged)",
+			"set chat_chance": "test_crime() only: it sends nobody (owner Q1: the 巡捕 catch thieves on their beat)",
+			"set chat_msg": "test_crime() only: see set chat_chance",
+			"function init": "charge is not ported (choyin plan Q1: only another player could be charged)",
 			"function accept_fight": "accept_fight rule in set: always refuses (scowl prints nothing)",
-			"function settle_lawsuit": "乔阴 D: the boards by formula (choyin plan Q1)",
-			"function test_crime": "乔阴 D (choyin plan Q1)",
+			"function settle_lawsuit": "sentence in set (NpcSentence, WorldMapPatrols): two seconds after the delivery the boards by crime_lv, its lines, the crime cleared (owner Q1) and out at the 衙门口; a value left at 1 takes no stroke after it (ES2's receive_wound() then killed), the beating ends when it knocks one out and the warning is said once (obvious slips, DECISIONS 乔阴 D)",
+			"function test_crime": "not ported: it only made a 巡捕 catch who the patrol catches (owner Q1)",
 			"function do_charge": "not ported (choyin plan Q1)"
 		},
 		"d/choyin/obj/denotation.c": {

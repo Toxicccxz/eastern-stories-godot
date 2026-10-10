@@ -694,7 +694,14 @@
 			"chat_chance": 30,
 			"chat_msg": [
 				{ "action": "random_move" }
-			]
+			],
+			"apprentice": {
+				"requires": [
+					{ "cannot_afford": 100, "refuse_say": "我们花紫会只收化子，$RESPECT您还是回去享福吧。\n" }
+				],
+				"looks": true,
+				"class": "beggar"
+			}
 		},
 		{
 			"id": "common.npc.scholar.master",

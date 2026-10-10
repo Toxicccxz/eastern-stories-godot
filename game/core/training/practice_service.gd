@@ -22,6 +22,7 @@ const EffectResultType := preload(
 ## Deterministic translation of cmds/std/practice.c after text parsing. A policy that
 ## conjures (PracticeConjuring) draws with `random` (a legacy_random()) and refuses while
 ## `standing_conjured` (the name of the one an earlier practice conjured) still stands.
+## `at_water`: the practiser's room has resource/water (serpentforce.c asks it first).
 static func practice(
 	character: CharacterStateType,
 	basic_skill_id: StringName,
@@ -32,6 +33,7 @@ static func practice(
 	effect_registry: EffectRegistryType = null,
 	random: Callable = Callable(),
 	standing_conjured: String = "",
+	at_water: bool = true,
 ) -> PracticeResultType:
 	if is_fighting:
 		return _failure(PracticeResultType.FailureReason.IN_COMBAT, basic_skill_id)
@@ -115,7 +117,10 @@ static func practice(
 
 	var learned_before: int = character.skills.learned_progress(special_skill_id)
 	var refusal: StringName = practice_policy.refusal(character)
-	if not practice_policy.practice(character):
+	var dry: bool = practice_policy.needs_water and not at_water
+	if dry:
+		refusal = &"water"
+	if dry or not practice_policy.practice(character):
 		var reason: int = PracticeResultType.FailureReason.PRACTICE_HOOK_REJECTED
 		if refusal == &"weapon":
 			reason = PracticeResultType.FailureReason.PRACTICE_WEAPON_REJECTED

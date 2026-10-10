@@ -266,6 +266,8 @@ static func _chat_entries(reader: ContentRecordReader, key: String, in_fight: bo
 			entries.append(NpcSpecialAction.from_record(record, action))
 		elif action == "random_move":
 			entries.append(NpcTalk.RANDOM_MOVE)
+		elif action == "patrol" and not in_fight:
+			entries.append(NpcTalk.PATROL)
 		elif action == "drink" and not in_fight:
 			entries.append(NpcDrinkAction.from_record(record))
 		elif action == "match_weapon" and in_fight:
@@ -278,7 +280,7 @@ static func _chat_entries(reader: ContentRecordReader, key: String, in_fight: bo
 			entries.append(NpcTalk.SILENT_EMOTE)
 		else:
 			record.fail("action", "'%s' is not a %s action (%s)" % [action, key,
-				"perform, cast, exert, surrender, match_weapon, wield, call_partner, say_by_age, poison, random_move, emote" if in_fight else "random_move, drink, emote, perform, cast, exert, surrender"])
+				"perform, cast, exert, surrender, match_weapon, wield, call_partner, say_by_age, poison, random_move, emote" if in_fight else "random_move, patrol, drink, emote, perform, cast, exert, surrender"])
 		record.finish()
 	return entries
 

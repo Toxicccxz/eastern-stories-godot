@@ -183,7 +183,15 @@
 			"legacy_room": "d/choyin/entrance.c",
 			"legacy_quantity": 1,
 			"summoned": true
-		}
+		},
+		{ "id": "choyin.town.crossroad.yamen_po", "npc": "choyin.npc.yamen_po", "map": "choyin.town", "zone": "choyin.crossroad", "points": ["choyin.crossroad.yamen_po.1"], "legacy_room": "d/choyin/yamen.c", "legacy_quantity": 1 },
+		{ "id": "choyin.town.s_street4.yamen_po", "npc": "choyin.npc.yamen_po", "map": "choyin.town", "zone": "choyin.s_street4", "points": ["choyin.s_street4.yamen_po.1"], "legacy_room": "d/choyin/yamen.c", "legacy_quantity": 1 },
+		{ "id": "choyin.town.s_street1.yamen_po", "npc": "choyin.npc.yamen_po", "map": "choyin.town", "zone": "choyin.s_street1", "points": ["choyin.s_street1.yamen_po.1"], "legacy_room": "d/choyin/yamen.c", "legacy_quantity": 1 },
+		{ "id": "choyin.town.s_street3.yamen_po", "npc": "choyin.npc.yamen_po", "map": "choyin.town", "zone": "choyin.s_street3", "points": ["choyin.s_street3.yamen_po.1"], "legacy_room": "d/choyin/yamen.c", "legacy_quantity": 1 },
+		{ "id": "choyin.town.tree_tomb.yamen_po", "npc": "choyin.npc.yamen_po", "map": "choyin.town", "zone": "choyin.tree_tomb", "points": ["choyin.tree_tomb.yamen_po.1"], "legacy_room": "d/choyin/yamen.c", "legacy_quantity": 1 },
+		{ "id": "choyin.town.n_street3.yamen_po", "npc": "choyin.npc.yamen_po", "map": "choyin.town", "zone": "choyin.n_street3", "points": ["choyin.n_street3.yamen_po.1"], "legacy_room": "d/choyin/yamen.c", "legacy_quantity": 1 },
+		{ "id": "choyin.town.n_street1.yamen_po", "npc": "choyin.npc.yamen_po", "map": "choyin.town", "zone": "choyin.n_street1", "points": ["choyin.n_street1.yamen_po.1"], "legacy_room": "d/choyin/yamen.c", "legacy_quantity": 1 },
+		{ "id": "choyin.town.n_gate.yamen_po", "npc": "choyin.npc.yamen_po", "map": "choyin.town", "zone": "choyin.n_gate", "points": ["choyin.n_gate.yamen_po.1"], "legacy_room": "d/choyin/yamen.c", "legacy_quantity": 1 }
 	],
 	"services": [
 		{ "id": "choyin.s_street1.well", "kind": "water", "zone": "choyin.s_street1", "name": "大井", "reach": 96, "legacy_source": "d/choyin/s_street1.c" },

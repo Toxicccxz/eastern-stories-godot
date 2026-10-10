@@ -34,6 +34,9 @@ func interact() -> void:
 ## `run` at once, or after the player's yes when `act` asks (its `ask`) or what it costs
 ## would knock them out; `still_valid` keeps the question open, `on_cancel` follows 取消.
 static func ask_first_or_run(on: WorldMapController, act: ScriptedAct, verb_text: String, run: Callable, still_valid: Callable, on_cancel: Callable = Callable()) -> void:
+	# Led by a constable, nothing takes the player away (WorldMapPatrols.refuses_move()).
+	if act.moves_player() and on.patrols.refuses_move():
+		return
 	if not act.ask.is_empty():
 		on.session.shared_ui().ask_first(TranslationServer.translate(act.ask), TranslationServer.translate(act.choice), run, still_valid, on_cancel)
 		return

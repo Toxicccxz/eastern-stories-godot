@@ -422,7 +422,8 @@
           {"node": "rect", "name": "BridgeOverhead", "rect": [960, 1296, 1488, 1328], "color": "Color(0.45, 0.42, 0.36, 0.35)"},
           {"node": "rect", "name": "RiverbankCliffLandmark", "rect": [1456, 1872, 1480, 2008], "color": "Color(0.41568628, 0.3882353, 0.34509805, 1)"},
           {"node": "service", "name": "WaterfallWaterPoint", "id": "oldpine.gorge.waterfall.water", "at": [1200, 700], "text": "瀑布清水 · 靠近装水"},
-          {"node": "service", "name": "LakeWaterPoint", "id": "oldpine.gorge.lake.water", "at": [1250, 2250], "text": "岸边取水"}
+          {"node": "service", "name": "LakeWaterPoint", "id": "oldpine.gorge.lake.water", "at": [1250, 2250], "text": "岸边取水"},
+          {"node": "service", "name": "RiverWaterPoint", "id": "oldpine.gorge.river.water", "at": [1200, 1700], "text": "涧中取水"}
         ],
         "zones": [{"generated": "zones"}],
         "spawn_points": [

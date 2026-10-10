@@ -44,6 +44,20 @@ class Move:
 		})
 
 
+## The move through the exit of `zone_id`'s room that leads into `to_zone_id` (yamen_po.c's
+## mygo(dir) along its beat), or null when none does.
+static func toward(catalog: ContentCatalog, zone_id: StringName, to_zone_id: StringName) -> Move:
+	var zone: ZoneDefinition = null if catalog == null else catalog.zone(zone_id)
+	if zone == null or zone.room_ids().is_empty():
+		return null
+	var exits: Dictionary[String, StringName] = catalog.room(zone.room_ids()[0]).exits()
+	for direction: String in exits:
+		var to_zone: ZoneDefinition = catalog.zone_of_room(exits[direction])
+		if to_zone != null and to_zone.zone_id == to_zone_id:
+			return Move.new(direction, to_zone_id)
+	return null
+
+
 ## The move one random_move() makes, or null. `door_closed(from, to)` answers
 ## room.c valid_leave() for a door between the two zones.
 static func choose(

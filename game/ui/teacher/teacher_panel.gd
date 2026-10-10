@@ -214,6 +214,7 @@ func request_apprentice() -> void:
 	# or its requirements hold) and no request already waits on him (apprentice.c then
 	# only says he has not answered).
 	var awake: bool = _contact.npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+	player.apprenticeship_request.affords = _contact.map.player_can_afford
 	# juechen/master.c: a family's member is attacked for it; asked first (owner).
 	if awake and player.would_be_attacked_by(master):
 		_ask(tr(TRAITOR_WARNING).format({"master": tr(master.display_name), "pronoun": _pronoun(master), "title": player.shown_title()}), "确定拜师", "不拜了", _request_apprentice_now)

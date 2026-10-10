@@ -16,7 +16,10 @@ extends RefCounted
 ## whether it gives quests (`quest_giver`, u/cloud/npc/god.c give_quest()) and the bets
 ## it takes (`wager`, NpcWager: u/cloud/npc/judge.c, through an `effect: wager` rule),
 ## and its own list and buy where it sells nothing (`shop_front`, NpcShopFront: shen.c), and
-## its accept_kill() when the player attacks it (`accept_kill`, NpcAcceptKill).
+## its accept_kill() when the player attacks it (`accept_kill`, NpcAcceptKill), the beat it
+## patrols and the thieves it catches there (`patrol`, NpcPatrol: d/choyin/npc/yamen_po.c),
+## and the sentence it passes on one brought before it (`sentence`, NpcSentence:
+## d/choyin/npc/judgeman.c).
 var vendor_id: StringName = &""
 var object_rules: Array[NpcObjectRule] = []
 var initial_flags: Array[StringName] = []
@@ -29,6 +32,8 @@ var quest_giver: bool = false
 var wager: NpcWager
 var shop_front: NpcShopFront
 var accept_kill: NpcAcceptKill
+var patrol: NpcPatrol
+var sentence: NpcSentence
 
 
 func is_fight_deferred() -> bool:
@@ -60,6 +65,12 @@ static func from_record(reader: ContentRecordReader) -> NpcDealings:
 	var killed: ContentRecordReader = reader.child("accept_kill")
 	if killed != null:
 		dealings.accept_kill = NpcAcceptKill.from_record(killed)
+	var beat: ContentRecordReader = reader.child("patrol")
+	if beat != null:
+		dealings.patrol = NpcPatrol.from_record(beat)
+	var judging: ContentRecordReader = reader.child("sentence")
+	if judging != null:
+		dealings.sentence = NpcSentence.from_record(judging)
 	var front: ContentRecordReader = reader.child("shop_front")
 	if front != null:
 		dealings.shop_front = NpcShopFront.from_record(front)

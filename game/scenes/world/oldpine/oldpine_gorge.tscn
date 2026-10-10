@@ -121,6 +121,23 @@ mouse_filter = 2
 text = "岸边取水"
 horizontal_alignment = 1
 
+[node name="RiverWaterPoint" type="Marker2D" parent="."]
+position = Vector2(1200, 1700)
+script = ExtResource("service")
+service_id = &"oldpine.gorge.river.water"
+
+[node name="Visual" type="Polygon2D" parent="RiverWaterPoint"]
+polygon = PackedVector2Array(0, -20, 16, 8, 0, 20, -16, 8)
+color = Color(0.5, 0.85, 1, 1)
+
+[node name="Label" type="Label" parent="RiverWaterPoint"]
+offset_left = -100.0
+offset_top = 26.0
+offset_right = 100.0
+mouse_filter = 2
+text = "涧中取水"
+horizontal_alignment = 1
+
 [node name="Zones" type="Node2D" parent="."]
 
 [node name="WaterfallZone" type="Area2D" parent="Zones"]

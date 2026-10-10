@@ -117,6 +117,9 @@ func _advance_ambience(delta: float) -> void:
 		_answer_apprentice(_map.npcs.find_resident_npc(character_id))
 	for character_id: StringName in ambience.due_calls(delta, NpcAmbience.MAKE):
 		_make_stage(character_id)
+	for character_id: StringName in ambience.due_calls(delta, WorldMapPatrols.SENTENCE):
+		_map.patrols.pass_sentence(_map.npcs.find_resident_npc(character_id))
+	_map.thefts.advance(delta)
 	_advance_chants(delta)
 	for character_id: StringName in ambience.due_calls(delta, WorldMapSpells.DISPELL):
 		_map.spells.dispell(_map.npcs.find_resident_npc(character_id))
@@ -125,6 +128,9 @@ func _advance_ambience(delta: float) -> void:
 			# char.c heart_beat() falls before it chats, on each of several beats too.
 			_map.combat_lifecycle.fall_below_zero()
 		for npc: NpcRuntimeState in _map.npcs.residents.duplicate():
+			# A constable's delivery took the player to another map in this beat: this one stops.
+			if session.active_map() != _map:
+				return
 			if _chats(npc):
 				_act(npc, ambience.chat(npc.definition().talk()))
 	npc_walker().advance(delta)
@@ -167,6 +173,8 @@ func player_left() -> void:
 	if ambience != null:
 		ambience.clear_calls()
 	pending_steals.clear()
+	_map.thefts.player_left()
+	_map.patrols.player_left()
 
 
 ## shaowei.c accept_object(): call_out("make_stage", every, who, 0).
@@ -287,6 +295,7 @@ func _answer_apprentice(npc: NpcRuntimeState) -> void:
 	if not player_shares_zone(npc):
 		# Said to an empty room: a refusal still ends the request (DECISIONS 山烟寺 C).
 		if _player.apprenticeship_request.is_pending_with(npc.definition().definition_id):
+			_player.apprenticeship_request.affords = _map.player_can_afford
 			_player.apprenticeship_request.answer_unheard(_player.state, npc.definition())
 		return
 	for service: WorldService in _map.service_nodes:
@@ -336,6 +345,7 @@ func _note_player_arrival() -> void:
 			if not resumed:
 				_meet(npc)
 			_consider_stealing(npc)
+			_map.patrols.meet(npc)
 			here.append(npc)
 	_map.hostilities.player_init(here)
 
@@ -412,7 +422,15 @@ func npc_arrived(npc: NpcRuntimeState) -> void:
 	if ambience != null and player_shares_zone(npc):
 		_meet(npc)
 		_consider_stealing(npc)
+		_map.patrols.meet(npc)
 		_map.hostilities.player_init([npc])
+
+
+## The player's init() for one who walks into their place, and its own (a constable's catch).
+func npc_walked_in(npc: NpcRuntimeState) -> void:
+	_meet(npc)
+	_map.hostilities.player_init([npc])
+	_map.patrols.meet(npc)
 
 
 ## The player meets `npc` in their room (游识神通's list).
@@ -548,11 +566,14 @@ func _item_content(item_id: StringName) -> ItemContentDefinition:
 ## fighting, and beats while the player is in its place. A walking NPC is still
 ## making its last move. Deviation: an unconscious NPC says nothing (DECISIONS 4D).
 ## The player need not be conscious; only what they read is (`_player_hears`).
+## A constable on its beat (NpcPatrol) beats wherever the player is on its map (owner,
+## 乔阴 A Q1: they patrol the street).
 func _chats(npc: NpcRuntimeState) -> bool:
 	return (
 		npc.exists_in_map and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
 		and not npc.relationship.is_fighting() and not npc.busy.is_busy()
-		and npc.definition().talk().has_chat() and player_shares_zone(npc)
+		and npc.definition().talk().has_chat()
+		and (player_shares_zone(npc) or npc.definition().dealings().patrol != null)
 		and not npc_walker().is_walking(npc.character_id)
 	)
 
@@ -566,6 +587,8 @@ func _act(npc: NpcRuntimeState, entry: Variant) -> void:
 			_map.hud().append_colored_lines([ColoredLine.new(NpcTalk.line(entry.text), entry.color)])
 	elif entry is StringName and entry == NpcTalk.RANDOM_MOVE:
 		random_move(npc)
+	elif entry is StringName and entry == NpcTalk.PATROL:
+		_map.patrols.step(npc)
 	elif entry is NpcDrinkAction:
 		_drink(npc, entry)
 	elif entry is NpcSpecialAction:

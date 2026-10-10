@@ -200,6 +200,11 @@ func set_flag(flag: StringName, value: bool) -> void:
 	_flags[flag] = value
 
 
+## delete() of an object variable: as never set.
+func clear_flag(flag: StringName) -> void:
+	_flags.erase(flag)
+
+
 ## delete("inquiry/<topic>"): the NPC no longer answers it (an object variable: saved, made
 ## anew with the NPC).
 func forget_topic(topic: String) -> void:

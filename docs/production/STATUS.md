@@ -4,14 +4,15 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**乔阴 C** (`phase/choyin-c`, region #9, DECISIONS「乔阴 C」): 步玄派. 骆云舟 sends whoever asks
-to be his apprentice to the 桃林 first; the 桃林 lies deep in the peach woods east of the 曼雩台,
-a clearing whose six paths all lead back into it: its 字条 reads a line of verse with the
-direction left out, the way it names brings the way out a step nearer and any other three
-further. Out of it, 骆云舟 takes the player (步玄派第八代弟子, a scholar) and teaches his thirteen
-skills; the player's 步玄七诀, 小步玄剑 and 步玄心法, and 玄羽乱舞 on the battle panel. 风泉剑灵's
-chant now waits while the player is away and is saved (owner). Next: 乔阴 D (花紫会, stealing,
-the 县衙).
+**乔阴 D** (`phase/choyin-d`, region #9, DECISIONS「乔阴 D」): 花紫会, stealing and the 县衙.
+陆得财 takes only one who carries less than a silver (as a beggar) and teaches his eleven skills;
+the player's 油流麻香手 and 伏蛟功 (practised where there is water). The player steals (偷窃 on
+the selected NPC: what it wears or wields, or 随手摸一样; asked first from the clearly
+stronger); caught, the NPC fights to the death and the player is marked a thief. The 县衙
+repaired (owner, Q1): eight 巡捕 patrol the main street, catch a thief seven times in ten and
+lead them to the 大堂, where 程不平 has them beaten by his formula and lets them go at the
+衙门口; ten gold on the way buys them free. With D, 乔阴县城 is done but for 北冥大鹏 and the 石室
+(as ES2). Next: region #10 天驼关 (plan first).
 
 ## 待决定
 
@@ -229,7 +230,23 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   enabled, 音律 half its level; practice 20 kee and 20 sen), 小步玄剑 (步玄心法 30, max_force 100,
   a sword; 30 kee and 5 force) and 步玄心法 (learnt only); with 步玄七诀 enabled for 轻功 or 行动,
   使出「玄羽乱舞」 on the battle panel (kee 70, force 70 above max_force; rounds of 10 kee and
-  10 force, busy 3).
+  10 force, busy 3). 花紫会 the family: 陆得财, wandering the 福林大街, looks a student over and
+  sends one who carries a silver's worth or more home (我们花紫会只收化子); anyone poorer he takes
+  as 花紫会第五代弟子, a beggar (叫化子), and teaches his eleven skills (偷窃 among them). The
+  player's 油流麻香手 (empty hands, max_force 80; practice 25 kee, 3 force; its blows break bones)
+  and 伏蛟功 (practised only where there is water: the well, the 云梦大泽, 晚月庄's teapot and pool,
+  Old Pine's waterfall, lake and now its stream; 30 kee, 10 force; the basic force's 恢复 exerts).
+  偷窃 on the selected NPC (steal.c): its list is what the NPC wears or wields, and 随手摸一样;
+  asked first from one clearly stronger; three seconds later 得手了！ (the thing is the player's),
+  unnoticed, or 失手了！ (it fights to the death, the player busy, and a thief: one mark forgotten
+  each reset, halved at death, 【 惯  窃 】 above ten). The 县衙: eight 巡捕 (each a drawn
+  surname) walk the main street from the 衙门口 to the 北门 and back; one meeting a marked thief
+  catches them seven times in ten (闹了半天原来你是个贼啊!) and leads them back along the street,
+  their own walking refused (嘿嘿, 还想往哪逃?!), into the 大堂; two seconds on 程不平 has them
+  beaten (十 boards a crime: gin, kee and sen less 10 − maximum / 100 each; left at 1 rather than
+  killed, and three at 1 knock them out), the crime cleared, and puts them out at the 衙门口.
+  On the way 行贿 on the 巡捕: ten gold or more frees them, less is refused (a crime more);
+  killing a 巡捕 is five crimes; no Save while led.
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from
@@ -244,8 +261,8 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
 * Placeholder visuals: flat-colour terrain tiles; characters and objects are still coloured boxes.
   No art or audio yet.
 
-Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 389/551 rooms, 182/286 NPC
-types, 8/9 joinable families, 32/36 special and 16/25 basic martial arts, 76/84 quest targets.
+Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 389/551 rooms, 183/286 NPC
+types, 9/9 joinable families, 32/36 special and 17/25 basic martial arts, 76/84 quest targets.
 
 ## Known issues
 

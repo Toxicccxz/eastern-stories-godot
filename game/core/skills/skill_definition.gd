@@ -137,7 +137,7 @@ func valid_learn_line(result: SkillLearnPolicyResult) -> String:
 ## A skills.json record: {id, name, kind basic|specialized, type martial|knowledge,
 ## enable?: [use], legacy_source, actions?: [action], dodge_messages?: [line],
 ## parry_messages?: {armed, unarmed}, standard_force_hit?, force_hit_wound?: ForceHitWound, hit_ob?,
-## practice?: {kee?, force?, mana?, sen?, sen_first?, weapon?, done?, fail?, force_fail?, mana_fail?, sen_fail?, weapon_fail?,
+## practice?: {kee?, force?, mana?, sen?, sen_first?, weapon?, done?, fail?, force_fail?, mana_fail?, sen_fail?, weapon_fail?, water_fail?,
 ## refuses?, conjure?: PracticeConjuring}, valid_learn?: {key: line},
 ## improved_line?, improved_color?, improved_every?, exert?: [function], perform?: [action], cast?: [spell]}.
 static func from_record(reader: ContentRecordReader) -> SkillDefinition:
@@ -209,6 +209,11 @@ static func from_record(reader: ContentRecordReader) -> SkillDefinition:
 			if sen_first and sen <= 0:
 				practice.fail("sen_first", "goes with sen")
 			definition._practice = VitalityInnerForcePracticePolicy.new(definition.skill_id, kee, kee, force, force, weapon).with_mana(mana, mana).with_spirit(sen, sen).with_spirit_first(sen_first)
+			# serpentforce.c: environment(me)->query("resource/water") before anything else.
+			var water_line: String = practice.text("water_fail")
+			if not water_line.is_empty():
+				definition._practice.needs_water = true
+				definition.practice_refusal_lines[&"water"] = water_line
 			var conjure: ContentRecordReader = practice.child("conjure")
 			if conjure != null:
 				definition._practice.conjuring = PracticeConjuring.from_record(conjure)

@@ -127,6 +127,7 @@ func add_document(document: Variant, origin: String) -> void:
 
 
 func build() -> ContentCatalog:
+	_add_named_npcs()
 	_add_named_items()
 	_add_mastered_items()
 	_add_broken_weapons()
@@ -189,6 +190,20 @@ func _add_haunting_sheets() -> void:
 			if npc.raising() == null:
 				var sheet: ItemContentDefinition = ItemContentDefinition.haunting_sheet(paper, npc)
 				_items[sheet.item_definition_id] = sheet
+
+
+## Each name a placed NPC's create() may draw (yamen_po.c) as a form of its own, so the name
+## kept is saved (a save names the NPC's definition). A summoned one is never saved.
+func _add_named_npcs() -> void:
+	for spawn: NpcSpawnDefinition in _spawns.values():
+		var npc: NpcDefinition = _npcs.get(spawn.npc_definition_id)
+		if npc == null or spawn.summoned or npc.name_pick().is_empty() or npc.names_kept():
+			continue
+		npc.keep_names()
+		for index: int in range(npc.name_pick().size()):
+			var named: NpcDefinition = npc.named(index)
+			_npcs[named.definition_id] = named
+			_origins[named.definition_id] = _origins.get(npc.definition_id, "")
 
 
 ## Each name an item's create() may draw (book.c) as a form of its own, so the name kept is saved.
@@ -310,6 +325,35 @@ func _check_npc_loadouts() -> void:
 
 
 ## A vendor NPC's goods exist; a family an NPC heads or rules test is defined.
+## A constable's beat: known zones on one map, each next to the one before (a room's exit
+## between them); its court a known zone.
+func _check_patrol(origin: String, patrol: NpcPatrol) -> void:
+	var map_id: StringName = &""
+	for index: int in range(patrol.route.size()):
+		var zone: ZoneDefinition = _zones.get(patrol.route[index])
+		if zone == null:
+			_errors.append("%s.patrol.route: unknown zone '%s'" % [origin, patrol.route[index]])
+			return
+		if map_id.is_empty():
+			map_id = zone.map_id
+		elif zone.map_id != map_id:
+			_errors.append("%s.patrol.route: '%s' is not on %s" % [origin, zone.zone_id, map_id])
+		if index > 0 and not _rooms_lead_between(_zones[patrol.route[index - 1]], zone):
+			_errors.append("%s.patrol.route: no exit between '%s' and '%s'" % [origin, patrol.route[index - 1], zone.zone_id])
+	if not _zones.has(patrol.arrest.court_zone_id):
+		_errors.append("%s.patrol.arrest.court: unknown zone '%s'" % [origin, patrol.arrest.court_zone_id])
+
+
+func _rooms_lead_between(a: ZoneDefinition, b: ZoneDefinition) -> bool:
+	for pair: Array in [[a, b], [b, a]]:
+		var to_rooms: Array[StringName] = (pair[1] as ZoneDefinition).room_ids()
+		for room_id: StringName in (pair[0] as ZoneDefinition).room_ids():
+			var room: RoomDefinition = _rooms.get(room_id)
+			if room != null and room.exits().values().any(func(target: StringName) -> bool: return to_rooms.has(target)):
+				return true
+	return false
+
+
 func _resolve_npc_dealings() -> void:
 	for definition: NpcDefinition in _npcs.values():
 		var origin: String = _origins[definition.definition_id]
@@ -334,6 +378,12 @@ func _resolve_npc_dealings() -> void:
 				_errors.append("%s.accept_object.make: unknown item '%s'" % [origin, rule.make.gives])
 			if not rule.item_alias.is_empty() and not _answers_to(rule.item_alias):
 				_errors.append("%s.accept_object: no item answers to '%s'" % [origin, rule.item_alias])
+		var patrol: NpcPatrol = definition.dealings().patrol
+		if patrol != null:
+			_check_patrol(origin, patrol)
+		var sentence: NpcSentence = definition.dealings().sentence
+		if sentence != null and not _zones.has(sentence.out_zone_id):
+			_errors.append("%s.sentence.out: unknown zone '%s'" % [origin, sentence.out_zone_id])
 		var hooks: NpcHooks = definition.hooks()
 		if hooks != null and not hooks.die_item_id.is_empty():
 			if not _items.has(hooks.die_item_id):
@@ -388,9 +438,6 @@ func _check_spawns() -> void:
 		var origin: String = _origins[definition.spawn_id]
 		if not _npcs.has(definition.npc_definition_id):
 			_errors.append("%s.npc: unknown NPC '%s'" % [origin, definition.npc_definition_id])
-		elif not _npcs[definition.npc_definition_id].name_pick().is_empty():
-			# A save keeps no drawn name: only a spell's summoned NPC, gone once its fight is, draws one.
-			_errors.append("%s.npc: '%s' draws its name and is only summoned" % [origin, definition.npc_definition_id])
 		elif _npcs[definition.npc_definition_id].conjuring() != null:
 			# Its create() reads who practised, and a save keeps none standing (NpcConjuring).
 			_errors.append("%s.npc: '%s' is only conjured by a practice" % [origin, definition.npc_definition_id])

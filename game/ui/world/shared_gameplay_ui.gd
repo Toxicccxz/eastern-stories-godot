@@ -35,6 +35,12 @@ var lifeheal_button: Button
 var heart_sense_button: Button
 ## 游识神通's question (DriftSensePanel), opened from the 武学 page.
 var drift_panel: DriftSensePanel
+## steal <item> from the selected NPC (cmds/std/steal.c): its list (StealPanel).
+var steal_button: Button
+var steal_panel: StealPanel
+## bribe the constable leading the player (d/choyin/npc/yamen_po.c accept_bribery()): BribePanel.
+var bribe_button: Button
+var bribe_panel: BribePanel
 var inventory_button: Button
 var inspection_text: RichTextLabel
 var combat_log: RichTextLabel
@@ -85,6 +91,12 @@ const HEART_SPENT: String = "你现在的神撑不住这一下，无论成败都
 const VOID_FAINT_WARNING: String = "空识神通要耗去 {gin} 点精，你现在撑不住，会当场昏过去。\n确定要施展吗？"
 # TRANSLATORS: asked before 游识神通 goes to the one chosen (drift_sense.c) when its 30 gin ({gin}) would knock the player out.
 const DRIFT_FAINT_WARNING: String = "游识神通要耗去 {gin} 点精，你现在撑不住，施展完就会昏过去。\n确定要施展吗？"
+# TRANSLATORS: the 偷窃 button's tooltip (cmds/std/steal.c): caught at it, the one robbed fights to the death and the town's constables know the player for a thief.
+const STEAL_HINT: String = "偷窃：从对方身上偷一样东西（三秒后见分晓）。失手被发现，对方会和你拼命，城里的巡捕也会把你当贼抓。"
+# TRANSLATORS: the 行贿 button's tooltip (yamen_po.c accept_bribery()): money to the constable leading the player.
+const BRIBE_HINT: String = "行贿：塞钱给押着你的巡捕，钱给够了他就放你走；给少了反倒罪加一等。"
+# TRANSLATORS: asked before 偷窃 from an NPC ({npc}) clearly stronger than the player (plan default, A10): one caught at it is attacked to the death (steal.c kill_ob()).
+const STRONGER_STEAL_WARNING: String = "{npc}看起来比你强得多：要是失手被发现，{npc}会和你拼个你死我活。\n确定要下手吗？"
 # TRANSLATORS: the 驱尸 button's tooltip: animate.c's 50 mana and 30 sen; the zombie lives on the player's 灵力 (zombie.c heal_up()).
 const ANIMATE_HINT: String = "施法「驱尸」：让这具尸体站起来跟着你（50 法力、30 神）。僵尸靠吸你的灵力维持，灵力不足时就会倒下化为血水。"
 
@@ -149,6 +161,14 @@ func _ready() -> void:
 	lifeheal_button.tooltip_text = LIFEHEAL_HINT
 	heart_sense_button.pressed.connect(_heart_sense_context)
 	heart_sense_button.tooltip_text = HEART_SENSE_HINT
+	steal_button.pressed.connect(_steal_context)
+	steal_button.tooltip_text = STEAL_HINT
+	steal_panel.chosen.connect(_steal_choose)
+	steal_panel.cancelled.connect(_close_panel_of.bind(steal_panel))
+	bribe_button.pressed.connect(_bribe_context)
+	bribe_button.tooltip_text = BRIBE_HINT
+	bribe_panel.bribed.connect(_bribe)
+	bribe_panel.cancelled.connect(_close_panel_of.bind(bribe_panel))
 	drift_panel.chosen.connect(_drift_choose)
 	drift_panel.cancelled.connect(_drift_cancel)
 	inventory_button.pressed.connect(open_inventory)
@@ -440,6 +460,11 @@ func refresh_live_state() -> void:
 	heart_sense_button.disabled = (
 		not target_available or not player_available or map == null or _session.essence_magic().heart_target() != _selected_target
 	)
+	steal_button.disabled = (
+		not target_available or not player_available or map == null or map.selected_npc_here() != _selected_target
+		or not map.thefts.can_steal_selected()
+	)
+	bribe_button.disabled = not target_available or not player_available or map == null or not map.patrols.can_bribe(_selected_target)
 	inventory_button.disabled = not player_available
 	portal_button.disabled = (
 		not landmark_available
@@ -870,6 +895,8 @@ func refresh_exploration() -> void:
 	animate_button.visible = local_target and not animate_button.disabled
 	lifeheal_button.visible = local_target and not lifeheal_button.disabled
 	heart_sense_button.visible = local_target and not heart_sense_button.disabled
+	steal_button.visible = local_target and not steal_button.disabled
+	bribe_button.visible = local_target and not bribe_button.disabled
 	selected_target_label.visible = local_target
 	_presentation_layout.target_section.visible = local_target
 	var context: String = context_title()
@@ -987,7 +1014,7 @@ func _refresh_character() -> void:
 	# TRANSLATORS: the character sheet (score): name, gender, age, rank (rankd.c, 【 武  者 】) and title, then 精/气/神 as current / effective / maximum, food and water, experience, potential and the attributes.
 	var lines: Array[String] = [tr("{name} · {gender} · {age}岁\n{rank}{title}\n\n当前 / 有效 / 最大\n精 {gin}\n气 {kee}\n神 {sen}\n\n食物 {food} · 饮水 {water}\n实战经验 {exp} · 潜能 {potential}（已用 {spent}）\n\n膂力 {str} · 胆识 {cor} · 悟性 {int} · 灵性 {spi}\n定力 {cps} · 容貌 {per} · 根骨 {con} · 福缘 {kar}\n").format({
 		"name": _player.facts.display_name, "gender": tr(state.gender), "age": _player.facts.age, "title": _player.shown_title(),
-		"rank": tr(RankWords.query_rank(state.gender, state.affiliation.class_id)),
+		"rank": tr(RankWords.query_rank(state.gender, state.affiliation.class_id, CrimeRecord.thief(state))),
 		"gin": _resource_text(state.essence), "kee": _resource_text(state.vitality), "sen": _resource_text(state.spirit),
 		"food": state.recovery.food, "water": state.recovery.water, "exp": state.progression.combat_experience,
 		"potential": state.progression.potential, "spent": state.progression.potential_spent,
@@ -1232,6 +1259,89 @@ func _drift_to(npc_name: String) -> void:
 			_presentation_layout.close_panel()
 		return
 	_show_drift_question(magic.last_lines)
+
+
+## 偷窃 on the selected NPC: the list of what it is seen to wear or wield, and 随手摸一样.
+func _steal_context() -> void:
+	var map := _session.active_map() as WorldMapController
+	if map != null and map.thefts.can_steal_selected():
+		_show_steal_question()
+
+
+func _show_steal_question() -> void:
+	var map := _session.active_map() as WorldMapController
+	var npc: NpcRuntimeState = null if map == null else map.selected_npc_here()
+	if npc == null:
+		return
+	var ids: Array[StringName] = map.thefts.seen_items(npc)
+	var names: Array[String] = []
+	for id: StringName in ids:
+		names.append(map.thefts.item_name(id))
+	steal_panel.show_items(tr(npc.definition().display_name), ids, names)
+	var npc_id: StringName = npc.character_id
+	_presentation_layout.open_panel(tr("偷窃"), steal_panel, func() -> bool: return map.thefts.can_steal_selected() and map.selected_character_id() == npc_id)
+	_presentation_layout.refresh_rows()
+
+
+## A thing (or 随手摸一样) chosen: asked first from one clearly stronger; 取消 shows the list again.
+func _steal_choose(item_id: StringName) -> void:
+	var map := _session.active_map() as WorldMapController
+	var npc: NpcRuntimeState = null if map == null else map.selected_npc_here()
+	if npc == null:
+		return
+	var npc_id: StringName = npc.character_id
+	if map.thefts.asks_first(npc):
+		ask_first(tr(STRONGER_STEAL_WARNING).format({"npc": tr(npc.definition().display_name)}), "确定下手", _steal_now.bind(npc_id, item_id), func() -> bool: return map.thefts.can_steal_selected() and map.selected_character_id() == npc_id, _show_steal_question)
+		return
+	_steal_now(npc_id, item_id)
+
+
+func _steal_now(npc_id: StringName, item_id: StringName) -> void:
+	var map := _session.active_map() as WorldMapController
+	if map == null:
+		return
+	if _presentation_layout._content == steal_panel:
+		_presentation_layout.close_panel()
+	map.thefts.begin(map.npcs.find_resident_npc(npc_id), item_id)
+
+
+## 行贿 to the constable leading the player: the money they carry, how much of each.
+func _bribe_context(lines: Array[String] = []) -> void:
+	var map := _session.active_map() as WorldMapController
+	if map == null or not map.patrols.can_bribe(_selected_target):
+		return
+	var npc: NpcRuntimeState = _selected_target
+	var ids: Array[StringName] = []
+	var names: Array[String] = []
+	var amounts: Array[int] = []
+	for row: PlayerInventoryRowProjection in _session.player_inventory_rows():
+		var content: ItemContentDefinition = GameContent.catalog().item(row.item_definition_id)
+		if content != null and content.currency_base_value > 0 and row.amount > 0:
+			ids.append(row.item_instance_id)
+			names.append(tr(content.display_name))
+			amounts.append(row.amount)
+	bribe_panel.show_money(tr(npc.definition().display_name), ids, names, amounts, lines)
+	var npc_id: StringName = npc.character_id
+	_presentation_layout.open_panel(tr("行贿"), bribe_panel, func() -> bool: return map.patrols.can_bribe(map.npcs.find_resident_npc(npc_id)))
+	_presentation_layout.refresh_rows()
+
+
+## accept_bribery(): taken, the panel closes (they are free); refused, it shows again with the line.
+func _bribe(item_id: StringName, amount: int) -> void:
+	var map := _session.active_map() as WorldMapController
+	if map == null:
+		return
+	if not map.patrols.bribe(item_id, amount):
+		return
+	if map.patrols.can_bribe(_selected_target):
+		_bribe_context(map.patrols.last_lines)
+	elif _presentation_layout._content == bribe_panel:
+		_presentation_layout.close_panel()
+
+
+func _close_panel_of(panel: Control) -> void:
+	if _presentation_layout._content == panel:
+		_presentation_layout.close_panel()
 
 
 ## 中止施法 (an empty answer): its line, and back to the 武学 page.

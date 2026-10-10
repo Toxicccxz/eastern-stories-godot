@@ -58,6 +58,7 @@ func request_apprentice() -> NpcApprenticeship.Outcome:
 		return NpcApprenticeship.Outcome.AUTHORITY_FAILURE
 	var player: WorldPlayerRuntimeState = map.player_runtime()
 	var request: NpcApprenticeship = player.apprenticeship_request
+	request.affords = map.player_can_afford
 	var outcome: NpcApprenticeship.Outcome = player.request_apprenticeship(
 		npc.definition(), GameContent.catalog().family(teaching().family_id), int(Time.get_unix_time_from_system()),
 		map.npc_life.apprentice_answer_due(npc),
@@ -86,6 +87,7 @@ func answer_apprentice(awake: bool = true) -> NpcApprenticeship.Outcome:
 	if not takes_apprentices():
 		return NpcApprenticeship.Outcome.AUTHORITY_FAILURE
 	var player: WorldPlayerRuntimeState = map.player_runtime()
+	player.apprenticeship_request.affords = map.player_can_afford
 	var outcome: NpcApprenticeship.Outcome = player.apprenticeship_answer(
 		npc.definition(), GameContent.catalog().family(teaching().family_id), int(Time.get_unix_time_from_system()), awake,
 	)

@@ -166,6 +166,8 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	ui.animate_button = _button(contexts, "Animate", AnimateSpell.WORLD_LABEL, Callable())
 	ui.lifeheal_button = _button(contexts, "Lifeheal", ExertFunctions.LABELS[&"lifeheal"], Callable())
 	ui.heart_sense_button = _button(contexts, "HeartSense", HeartSenseConjure.LABEL, Callable())
+	ui.steal_button = _button(contexts, "Steal", "偷窃", Callable())
+	ui.bribe_button = _button(contexts, "Bribe", "行贿", Callable())
 	# Context controls appear only once the HUD knows what is here.
 	contexts.hide()
 	for button: Node in contexts.get_children():
@@ -227,6 +229,10 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	holding.add_child(ui.confirm_prompt)
 	ui.drift_panel = DriftSensePanel.new()
 	holding.add_child(ui.drift_panel)
+	ui.steal_panel = StealPanel.new()
+	holding.add_child(ui.steal_panel)
+	ui.bribe_panel = BribePanel.new()
+	holding.add_child(ui.bribe_panel)
 	# Last, so they draw above the card and the frame (they take no input).
 	toasts = MessageToasts.new()
 	overlay.add_child(toasts)
