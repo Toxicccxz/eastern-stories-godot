@@ -189,6 +189,10 @@
 			"improved_line": "由於你学习音律之学有成，你的灵性提高了", "improved_color": "HIW"
 		},
 		{
+			"id": "instruments", "name": "乐器", "kind": "basic", "type": "knowledge",
+			"legacy_source": "daemon/skill/instruments.c"
+		},
+		{
 			"id": "move", "name": "基本行动", "kind": "basic", "type": "martial",
 			"legacy_source": "daemon/skill/move.c"
 		},
@@ -406,6 +410,8 @@
 			"id": "mysterrier", "name": "步玄七诀", "kind": "specialized", "type": "martial", "enable": ["dodge", "move"],
 			"legacy_source": "daemon/skill/mysterrier.c",
 			"perform": ["hasten"],
+			"practice": { "kee": 20, "sen": 20, "fail": "你的气或神不够，不能练步玄七诀。" },
+			"valid_learn": { "mapped": "步玄七诀必须配合步玄心法使用。", "effective_skill": "你的音律之学修为不够，无法领悟更高深的步玄七诀。" },
 			"dodge_messages": [
 				"$n身影一转，轻易地避开了这一招。",
 				"$n身法飘忽，左一点，右一顿，早已闪在一旁。",
@@ -416,11 +422,14 @@
 		},
 		{
 			"id": "mystforce", "name": "步玄心法", "kind": "specialized", "type": "martial", "enable": ["force"],
-			"legacy_source": "daemon/skill/mystforce.c", "standard_force_hit": true
+			"legacy_source": "daemon/skill/mystforce.c", "standard_force_hit": true,
+			"practice": { "refuses": true, "fail": "步玄心法只能学，或是从运用(exert)中增加熟练度。" }
 		},
 		{
 			"id": "mystsword", "name": "小步玄剑", "kind": "specialized", "type": "martial", "enable": ["sword", "parry"],
 			"legacy_source": "daemon/skill/mystsword.c",
+			"practice": { "kee": 30, "force": 5, "done": "你按著所学练了一遍小步玄剑。", "fail": "你的内力或气不够，没有办法练习小步玄剑。" },
+			"valid_learn": { "raw_skill": "你的步玄心法火候还不够。", "max_force": "你的内力不够，没有办法练小步玄剑。", "weapon": "你必须先找一把剑才能练剑法。" },
 			"actions": [
 				{ "id": "mu-xue-san-tan", "action": "$N使一招「暮雪三叹」，手中$w急如骤雨般地刺向$n$l", "damage": 60, "damage_type": "刺伤" },
 				{ "id": "chu-zi-nong-di", "action": "$N身形一晃，一招「处子弄笛」向$n$l刺出一剑", "damage": 80, "damage_type": "刺伤" },

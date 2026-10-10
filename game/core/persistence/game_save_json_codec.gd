@@ -130,6 +130,12 @@ func _encode_character(value: Values.CharacterStateSnapshot) -> Dictionary[Strin
 		for key: String in value.seen_npcs:
 			seen[key] = _i(value.seen_npcs[key])
 		result["seen_npcs"] = seen
+	# set("<name>", n) a room keeps (taolin_steps): written only when there are some.
+	if not value.counters.is_empty():
+		var counters: Dictionary[String, Variant] = {}
+		for key: String in value.counters:
+			counters[key] = _i(value.counters[key])
+		result["counters"] = counters
 	# 朱鸿雪's task, quest_factor and tfinished: written only when one is set.
 	if not value.quest.is_default():
 		result["quest"] = _encode_quest(value.quest)
@@ -215,6 +221,8 @@ func _encode_npc(value: Values.NpcSpawnStateSnapshot) -> Dictionary[String, Vari
 			memory["pills_left"] = _i(value.pills_left)
 		if value.times_caught > 0:
 			memory["times_caught"] = _i(value.times_caught)
+		if value.chant_stage >= 0:
+			memory["chant"] = {"stage": _i(value.chant_stage), "left_ms": _i(value.chant_left_ms)}
 		record["memory"] = memory
 	return record
 
@@ -354,7 +362,7 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 		fields.append("marks")
 	if value is Dictionary and value.has("timed_applies"):
 		fields.append("timed_applies")
-	for optional: String in ["quest", "vendetta", "applies", "seen_npcs"]:
+	for optional: String in ["quest", "vendetta", "applies", "seen_npcs", "counters"]:
 		if value is Dictionary and value.has(optional):
 			fields.append(optional)
 	var object: Dictionary = _obj(value, path, fields)
@@ -425,14 +433,17 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 	var seen: Dictionary[String, int] = {}
 	if object.has("seen_npcs"):
 		seen = _decode_counts(object["seen_npcs"], path + ".seen_npcs")
+	var counters: Dictionary[String, int] = {}
+	if object.has("counters"):
+		counters = _decode_values(object["counters"], path + ".counters")
 	var quest := CharacterQuestState.new()
 	if object.has("quest"):
 		quest = _decode_quest(object["quest"], path + ".quest")
 	if _error: return null
-	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen)
+	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen).with_counters(counters)
 
 
-## A non-empty {name: integer} object (create()'s drawn apply/<key>).
+## A non-empty {name: integer} object (create()'s drawn apply/<key>, a room's counters).
 func _decode_values(value: Variant, path: String) -> Dictionary[String, int]:
 	var result: Dictionary[String, int] = {}
 	if typeof(value) != TYPE_DICTIONARY or (value as Dictionary).is_empty():
@@ -615,12 +626,12 @@ func _decode_npc(value: Variant, path: String) -> Values.NpcSpawnStateSnapshot:
 	return decoded
 
 
-## An NPC's memory: {flags?: {name: bool}, combat_chat_chance?, pills_left?, times_caught?},
-## never empty.
+## An NPC's memory: {flags?: {name: bool}, combat_chat_chance?, pills_left?, times_caught?,
+## chant?: {stage, left_ms}}, never empty.
 func _decode_memory(value: Variant, path: String, into: Values.NpcSpawnStateSnapshot) -> void:
 	var keys: Array[String] = []
 	if value is Dictionary:
-		for key: String in ["flags", "combat_chat_chance", "pills_left", "times_caught"]:
+		for key: String in ["flags", "combat_chat_chance", "pills_left", "times_caught", "chant"]:
 			if value.has(key):
 				keys.append(key)
 	var object: Dictionary = _obj(value, path, keys)
@@ -646,6 +657,12 @@ func _decode_memory(value: Variant, path: String, into: Values.NpcSpawnStateSnap
 	if object.has("times_caught"):
 		into.times_caught = _int64(object["times_caught"], path + ".times_caught")
 		if into.times_caught <= 0: _fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".times_caught", "expected a positive count")
+	if object.has("chant"):
+		var chant: Dictionary = _obj(object["chant"], path + ".chant", ["stage", "left_ms"])
+		if _error: return
+		into.chant_stage = _int64(chant["stage"], path + ".chant.stage")
+		into.chant_left_ms = _int64(chant["left_ms"], path + ".chant.left_ms")
+		if into.chant_stage < 0 or into.chant_left_ms < 0: _fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".chant", "expected a stage and the time left")
 
 
 func _decode_corpse(value: Variant, path: String) -> Values.CorpseSnapshot:

@@ -46,6 +46,12 @@ var combat_chat_chance: int = -1
 var pills_left: int = -1
 ## thief.c query("thief"): how often the player caught it stealing (NpcSteal). Saved with the flags.
 var times_caught: int = 0
+## sword_soul.c chant_sword(stage)'s next call_out: the stage it says next (NpcHooks chant,
+## from 0; -1 while it does not chant) and the seconds till then. They count down on its
+## map's running time only, so the chant waits while the player is on another map or out of
+## the game and goes on where it stopped (owner, 乔阴 C: no catch-up). Saved with the flags.
+var chant_stage: int = -1
+var chant_left: float = 0.0
 
 
 ## The pills it has now (its hooks' count when not counted yet).

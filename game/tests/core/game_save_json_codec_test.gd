@@ -16,6 +16,7 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_input_arrays_are_defensive()
 	_test_npc_memory()
 	_test_player_temps()
+	_test_counters_and_chant()
 	return {"assertions": _assertion_count, "failures": _failures.duplicate()}
 
 
@@ -36,6 +37,38 @@ func _test_player_temps() -> void:
 	var root: Dictionary = JSON.parse_string(encoded.text)
 	root["player"]["temps"] = {}
 	_assert_false(_decode_root(root).succeeded(), "empty temps are refused (never written)")
+
+
+## The player's set("taolin_steps") (CharacterState.counters) and an NPC's chant under way
+## (owner, 乔阴 C: its stage and the time left): written only when there are some, read back
+## exactly; empty or negative ones are refused.
+func _test_counters_and_chant() -> void:
+	var source: GameSaveSnapshot = Fixture.substantial()
+	var plain: String = GameSaveJsonCodec.encode(source).text
+	_assert_false(plain.contains("\"counters\"") or plain.contains("\"chant\""), "none set: neither is written")
+	var player: GameSaveValueTypes.PlayerRuntimeSnapshot = source.player
+	player.character.counters = {"taolin_steps": 6}
+	var npc: GameSaveValueTypes.NpcSpawnStateSnapshot = source.npc_spawn_states[0]
+	npc.chant_stage = 2
+	npc.chant_left_ms = 12500
+	var with_both := GameSaveSnapshot.new(source.metadata, source.session_kind, source.item_id_allocator, player, [npc], source.corpses, source.items, source.combat_rng, source.npc_initialization_rng, source.world_interaction_rng)
+	var encoded: GameSaveResult = GameSaveJsonCodec.encode(with_both)
+	var decoded: GameSaveResult = GameSaveJsonCodec.decode(encoded.text)
+	_assert_true(encoded.succeeded() and decoded.succeeded(), "a save with counters and a chant encodes and decodes")
+	if not decoded.succeeded():
+		return
+	var back: GameSaveValueTypes.NpcSpawnStateSnapshot = decoded.snapshot.npc_spawn_states[0]
+	_assert_eq(decoded.snapshot.player.character.counters, {"taolin_steps": 6}, "taolin_steps comes back")
+	_assert_eq([back.chant_stage, back.chant_left_ms], [2, 12500], "the chant's stage and time come back")
+	_assert_eq(GameSaveJsonCodec.encode(decoded.snapshot).text, encoded.text, "both re-encode the same")
+	var root: Dictionary = JSON.parse_string(encoded.text)
+	root["player"]["character"]["counters"] = {}
+	_assert_false(_decode_root(root).succeeded(), "empty counters are refused (never written)")
+	root = JSON.parse_string(encoded.text)
+	root["npc_spawn_states"][0]["memory"]["chant"] = {"stage": "-1", "left_ms": "0"}
+	_assert_false(_decode_root(root).succeeded(), "a chant without a stage is refused")
+	root["npc_spawn_states"][0]["memory"]["chant"] = {"stage": "1"}
+	_assert_false(_decode_root(root).succeeded(), "a chant without its time is refused")
 
 
 ## An NPC's memory (owner, 乔阴 B): written only when it has some, its flags in name order,

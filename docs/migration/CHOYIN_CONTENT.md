@@ -3,7 +3,7 @@
 How the region comes from `reference/es2/mudlib/d/choyin/`, `d/jail/`, `daemon/class/scholar/`
 (步玄派) and `daemon/class/beggar/` (花紫会), and what the LPC says that the code does not.
 Decisions are in [DECISIONS](DECISIONS.md) (「乔阴 A」 holds the plan, the owner's answers and the
-defaults; 「乔阴 B」 its own). Package A draws every map and places the people with the arts they
+defaults; 「乔阴 B」 and 「乔阴 C」 their own). Package A draws every map and places the people with the arts they
 fight with; B the town's secrets and 姑射山 (the lion, the hole under the 树王坟, the ghosts, the
 vines, the 缚仙绳, the 云台 and the 丹炉, the 寒谷's orchid, the hermit's books, the 荷包); C 步玄派
 (the 桃林's poem maze, 骆云舟's teaching, the player's arts and 玄羽乱舞); D 花紫会, stealing and the
@@ -56,7 +56,7 @@ d/jail/cityguard.c (a copy of the 守城官兵 no room places), daemon/class/beg
 | oldman.c defeated_enemy() (winner_reward() from damage.c unconcious()) | NpcHooks `defeated_enemy`: his line after the fight when the player falls with him the last to hurt them |
 | oldman.c accept_fight() | an accept rule; his refusal while he fights someone else cannot happen in single player |
 | windspring.c owner_is_killed() (chard.c make_corpse()) | item `owner_is_killed` (an NPC's or the player's death in a fight): the sword is destroyed before the corpse takes the rest, the summoned spawn `choyin.town.entrance.sword_soul` comes in with its lines (after the fight); while it stands, or off the town map, the sword stays with the dead (默认) |
-| sword_soul.c chant(), chant_sword() | NpcHooks `chant` (NpcAmbience CHANT call_out): the four sayings 20 s apart, +100000 combat_exp with the fourth, again 60 s later; leaving the map drops it (DECISIONS 茅山 B) |
+| sword_soul.c chant(), chant_sword() | NpcHooks `chant`: the four sayings 20 s apart, +100000 combat_exp with the fourth, again 60 s later; kept on the NPC and saved since C (owner, option A: it waits while the player is away) |
 | scholar/mysterrier/hasten.c (骆云舟's fight chat `perform move.hasten`) | HastenPerform; an NPC chat special's attacks run through CombatSpecialAttackSource (fight(), select_opponent()) and are told and judged as the player's perform's |
 | spicyclaw.c hit_ob() | skills.json `hit_wound` (MartialHitWound; CombatHitPolicyStatus MARTIAL_WOUND): the bone line after the force hit's |
 | d/choyin/obj/book.c set_name(names[random(sizeof(names))]) | item `name_pick`: a named form per name in the catalog (`<id>#name=<n>`), drawn as an NPC's loadout is made, saved by its ID |
@@ -108,10 +108,33 @@ People elsewhere: 武官 (the chest, the 白杨经), 官家小姐 (the 荷包), 
 | crane.c (no verbs), beast.c default_actions | BeastCombatActionDefinitions.default_action(): $N攻击$n的$l (owner) |
 | taoist/sword.c hit_ob() | item `ghost_bane` (WeaponGhostBane, CombatHitPolicyStatus.GHOST_BANE) |
 
+## Placed (C)
+
+| Map | What C adds | Ways |
+|---|---|---|
+| choyin.town | the 桃林 moved deep into the peach woods east of the 曼雩台 (a clearing, the 字条 on its middle tree, six paths); 骆云舟 takes apprentices | the path off the 曼雩台's east edge (`choyin.entrance.east`, marks/书生); the six ways back into the clearing; out to the 曼雩台 (`choyin.taolin.out`, the note's last right way); 放弃: the Inn |
+
+## LPC → native (C)
+
+| LPC | Native |
+|---|---|
+| daemon/class/scholar/master.c attempt_apprentice() | apprentice rule (requirements): a check on mark 桃林 (`mark`) whose refusal says 你还是先走一趟东边的桃林吧 and sets 书生 (`refuse_marks`); the say 很好，$RESPECT多加努力，他日必定有成, recruit, then 书生 and 桃林 cleared (`unmarks`); smile prints nothing |
+| master.c recruit_apprentice() | class scholar (apprentice.class) |
+| entrance.c valid_leave() east | exit rule `choyin.entrance.taolin` on the passage `choyin.entrance.east`; set("taolin_steps", 3): the note maze's `enter` and `steps` (CharacterState `counters`, saved) |
+| taolin.c exits (six, all to itself) | portals `choyin.taolin.<way>` (north, south, west, east, northwest, southeast), each a passage into the clearing from its far side |
+| taolin.c item_desc note, do_read() | landmark `choyin.taolin.landmark.note`, policy note_maze (NoteMazeLandmarkPolicy): 读 → 你看见: and the note |
+| taolin.c Note_Msg, msg_no, Get_Dir() | the landmark's `notes` (text and way); WorldMapMazes draws msg_no when first needed and anew after each way (the room's: not saved) |
+| taolin.c do_go() | WorldMapMazes.take_way(): the note's way with taolin_steps <= 1 (`nearer`) leads out (你走出了桃林, the counter deleted, marks/桃林, portal `choyin.taolin.out`); otherwise one nearer or three further (`further`) |
+| 放弃 in the 桃林 (plan default) | landmark `choyin.taolin.landmark.grove`: portal `choyin.taolin.give_up` to the Inn |
+| mysterrier.c practice_skill(), valid_learn() | skills.json practice (20 kee, 20 sen, its fail line) and valid_learn (`mapped` mystforce, `effective_skill` music at least half) |
+| mystsword.c practice_skill(), valid_learn() | practice (30 kee, 5 force, its done and fail lines); valid_learn (`raw_skill` mystforce 30, `max_force` 100, `weapon` a sword) |
+| mystforce.c practice_skill(), valid_learn(); its exert_function_file() commented out | practice refuses with its line; valid_learn() 1; exert: the basic force's (恢复气 and the like, exert.c's fallback) |
+| instruments.c | skills.json `instruments` 乐器 (knowledge; the plan's name) |
+| hasten.c through perform.c `move.hasten` | PerformService.martial_for(): a file no weapon use reaches is reached through 行动 or 轻功; the battle panel's 使出「玄羽乱舞」 (query_skill("mysterrier") / 20 + 2 rounds: query_skill is half the raw level) |
+| sword_soul.c chant_sword()'s call_outs | NpcRuntimeState chant_stage and chant_left on the map's running time; memory `chant` {stage, left_ms} in the save (owner: option A) |
+
 ## Not done (and where it goes)
 
-- C: 骆云舟's attempt_apprentice() (marks 书生 and 桃林), the 桃林's notes and ways, his teaching,
-  the player's 步玄七诀 (practice, valid_learn), 小步玄剑, 步玄心法, 玄羽乱舞 on the battle panel.
 - D: 陆得财's attempt_apprentice() (can_afford(100)), his teaching, 油流麻香手 and 伏蛟功 for the
   player, steal, the 巡捕's patrol and arrest, 程不平's boards (plan Q1).
 - #12: 陈天星 takes 陈剑秋's letter (reminder test in choyin_secrets_test).
@@ -142,3 +165,6 @@ People elsewhere: 武官 (the chest, the 白杨经), 官家小姐 (the 荷包), 
 - e_gate.c's arch says 「北门」.
 - red_guay.c in obj/ lost a character (红龟□); the crone sells npc/obj's 红龟.
 - sergeant.c sets pursuer (following who flees is not modelled yet).
+- taolin.c counts only `go <dir>` (the aliases); a bare direction goes to go.c directly.
+- master.c's says end in \n (say.c prints an empty line after them); entrance.c casts the
+  int marks/书生 to a string (no effect in MudOS).

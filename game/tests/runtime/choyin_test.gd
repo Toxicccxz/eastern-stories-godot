@@ -153,18 +153,25 @@ func _test_talk(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(GameContent.catalog().item(&"es2:d/choyin/npc/obj/red_guay").display_name == "红龟", "红龟 (the room copy's 红龟□ is npc/obj's 红龟)")
 
 
-## entrance.c valid_leave(): east only with marks/书生, which 骆云舟 gives (乔阴 C).
+## entrance.c valid_leave(): east only with marks/书生, which 骆云舟 gives; the 桃林's ways
+## are choyin_school_test's.
 func _test_taolin(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
+	var player: WorldPlayerRuntimeState = session.player_runtime()
 	_check(await MapPlaces.drive_through(tree, map, [&"choyin.sw_road1", &"choyin.s_street1", &"choyin.bridge1", &"choyin.bridge2", &"choyin.bridge3", &"choyin.bridge4", &"choyin.bridge5", &"choyin.entrance"]), "over the zigzag bridge to the 曼雩台")
 	_check(_npc(map, &"common.npc.scholar.master").world_location().zone_id == &"choyin.entrance", "骆云舟 on the 曼雩台")
-	await MapPlaces.drive(tree, map, MapPlaces.zone_centre(map, &"choyin.taolin"))
-	_check(session.player_runtime().world_location().zone_id == &"choyin.entrance" and hud.log_lines().has("东行的道路被骆云舟挡住了."), "东行的道路被骆云舟挡住了.")
-	session.player_runtime().state.marks["书生"] = 1 # TEST-ONLY: as 骆云舟's 拜师 will (乔阴 C)
-	_check(await MapPlaces.drive_to_zone(tree, map, &"choyin.taolin"), "with the mark, into the peach grove")
-	session.player_runtime().state.marks.erase("书生")
-	_check(await MapPlaces.drive_to_zone(tree, map, &"choyin.entrance"), "and back")
+	_check(not await MapPlaces.take_same_map_passage(tree, map, &"choyin.entrance.east", 240), "the path east does not take the player")
+	_check(player.world_location().zone_id == &"choyin.entrance" and hud.log_lines().has("东行的道路被骆云舟挡住了.") and not player.state.counters.has("taolin_steps"), "东行的道路被骆云舟挡住了.")
+	player.state.marks["书生"] = 1 # TEST-ONLY: as 骆云舟's refusal does
+	_check(await MapPlaces.take_same_map_passage(tree, map, &"choyin.entrance.east"), "with the mark, into the peach grove")
+	_check(player.world_location().zone_id == &"choyin.taolin" and player.state.counters.get("taolin_steps", 0) == 3, "in the 桃林, the way out three steps off")
+	# TEST-ONLY: back on the 曼雩台 without walking the grove.
+	player.state.marks.erase("书生")
+	player.state.counters.erase("taolin_steps")
+	_check(map.relocate_player(&"choyin.entrance", &"choyin.entrance.grove_return"), "TEST-ONLY: back on the 曼雩台")
+	await tree.physics_frame
+	await tree.physics_frame
 
 
 ## The temple's terrace and the 福林楼's two floors.

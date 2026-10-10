@@ -54,7 +54,7 @@ LINE_KEYS = (TEXT_KEYS - {"action"}) | frozenset({
     "open", "close", "push", "hold", "fall", "climb", "climb_observer", "fall_observer",
     "use", "bury", "book", "paper", "shout", "shut", "joined", "refused",
     "weak", "rolled", "search", "found", "nothing", "spawn", "list", "take", "empty",
-    "lift", "closed",
+    "lift", "closed", "read", "out",
 })
 # Lists of identifiers inside walked text (an inquiry rule's marks), never shown.
 ID_LIST_KEYS = frozenset({"asker_marks", "unmark_giver"})
@@ -373,6 +373,11 @@ def _walk_json(node: object, relative: str, record_id: str, catalog: Catalog, pa
             for command, line in value.items():
                 if isinstance(line, str):
                     catalog.add(line, relative, note=f"{note}.{command}")
+        elif key == "notes" and isinstance(value, list):
+            # A note_maze's notes (d/choyin/taolin.c): what each reads; its way is an ID.
+            for item in value:
+                if isinstance(item, dict) and isinstance(item.get("text"), str):
+                    catalog.add(item["text"], relative, note=f"{note}.text")
         elif key == "valid_learn" and isinstance(value, dict):
             # A skill's valid_learn() lines, keyed by the rule that refuses.
             for rule, line in value.items():

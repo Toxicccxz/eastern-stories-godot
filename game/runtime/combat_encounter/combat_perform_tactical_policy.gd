@@ -55,7 +55,8 @@ func reaches_downed_target() -> bool:
 	return true
 
 
-## Shown only when what is in hand reaches the file (a sword with 封山剑法 enabled).
+## Shown only when what is in hand reaches the file (a sword with 封山剑法 enabled), or
+## 行动 or 轻功 does (步玄七诀's 「玄羽乱舞」: perform move.hasten).
 func offered_to(state: CharacterState) -> bool:
 	return state != null and PerformService.offered(state, GameContent.catalog()).has(_function_id)
 

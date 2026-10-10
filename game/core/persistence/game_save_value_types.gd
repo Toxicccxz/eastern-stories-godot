@@ -318,6 +318,8 @@ class CharacterStateSnapshot extends RefCounted:
 	var applies: Dictionary[String, int] = {}
 	## CharacterState.seen_npcs (游识神通's list); empty for NPCs.
 	var seen_npcs: Dictionary[String, int] = {}
+	## CharacterState.counters (taolin_steps); empty for most characters.
+	var counters: Dictionary[String, int] = {}
 
 	func _init(
 		p_gender: StringName = &"", p_attributes: BaseAttributesSnapshot = null,
@@ -343,7 +345,7 @@ class CharacterStateSnapshot extends RefCounted:
 		affiliation = CharacterAffiliationState.legacy(not family.family_id.is_empty() or not apprenticeship.master_teacher_id.is_empty()) if p_affiliation == null else p_affiliation.duplicate_snapshot()
 
 	func duplicate_snapshot() -> CharacterStateSnapshot:
-		return CharacterStateSnapshot.new(gender, attributes, gin, kee, sen, internal_resources, progression, skills, _conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed_applies).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen_npcs)
+		return CharacterStateSnapshot.new(gender, attributes, gin, kee, sen, internal_resources, progression, skills, _conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed_applies).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen_npcs).with_counters(counters)
 
 	func with_marks(p_marks: Dictionary[String, int]) -> CharacterStateSnapshot:
 		marks = p_marks.duplicate()
@@ -363,6 +365,10 @@ class CharacterStateSnapshot extends RefCounted:
 
 	func with_seen_npcs(p_seen: Dictionary[String, int]) -> CharacterStateSnapshot:
 		seen_npcs = p_seen.duplicate()
+		return self
+
+	func with_counters(p_counters: Dictionary[String, int]) -> CharacterStateSnapshot:
+		counters = p_counters.duplicate()
 		return self
 
 	func with_timed_applies(p_entries: Array[CharacterTimedApplies.Entry]) -> CharacterStateSnapshot:
@@ -520,6 +526,9 @@ class NpcSpawnStateSnapshot extends RefCounted:
 	var pills_left: int = -1
 	## thief.c query("thief"): times caught (0: never).
 	var times_caught: int = 0
+	## sword_soul.c's chant under way: the stage it says next (-1: none) and the ms till then.
+	var chant_stage: int = -1
+	var chant_left_ms: int = 0
 
 	func _init(
 		p_spawn_id: StringName = &"", p_spawn_point_id: StringName = &"",
@@ -554,11 +563,13 @@ class NpcSpawnStateSnapshot extends RefCounted:
 		copy.combat_chat_chance = combat_chat_chance
 		copy.pills_left = pills_left
 		copy.times_caught = times_caught
+		copy.chant_stage = chant_stage
+		copy.chant_left_ms = chant_left_ms
 		return copy
 
 	## Whether there is any memory to write (a fresh NPC remembers nothing).
 	func has_memory() -> bool:
-		return not flags.is_empty() or combat_chat_chance >= 0 or pills_left >= 0 or times_caught > 0
+		return not flags.is_empty() or combat_chat_chance >= 0 or pills_left >= 0 or times_caught > 0 or chant_stage >= 0
 
 
 class CorpseWornItemSnapshot extends RefCounted:

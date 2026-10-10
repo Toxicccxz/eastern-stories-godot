@@ -32,6 +32,13 @@ extends RefCounted
 ## observer lines where nobody else hears the fall. `lift` (d/choyin/w_street1.c do_lift())
 ## counts each lift since the room's reset (`lift`); once that count and str / `divisor`
 ## reach `limit` it opens (`open`) and the player falls through its portal (`closed` there).
+## `note_maze` (d/choyin/taolin.c) is the note whose line (`read`) names the way out of a
+## room whose ways all lead back into it: one of its `notes`, drawn anew after each way taken.
+## Its `enter` portal sets the character's `counter` to `steps`; each way taken (a passage of
+## this map out of the zone, its legacy_command the way) is judged against the note: the way
+## it names brings the way out `nearer` steps closer, any other `further` steps further, and
+## the right way taken with no more than `nearer` left leads out (`out`, the counter gone,
+## the `mark` given) through its one portal.
 const POLICIES: Dictionary[StringName, Dictionary] = {
 	&"portal": {"portals": 1, "messages": [], "optional_messages": ["use"], "settings": [], "items": []},
 	&"vine": {"portals": 2, "messages": ["hold", "fall", "climb"], "optional_messages": ["fall_observer", "climb_observer"], "settings": [], "optional_settings": ["below"], "items": []},
@@ -44,9 +51,17 @@ const POLICIES: Dictionary[StringName, Dictionary] = {
 	&"look_spawn": {"portals": 0, "messages": ["spawn"], "settings": ["limit"], "items": [], "no_action": true, "spawn": true},
 	&"take": {"portals": 0, "messages": ["take", "empty"], "optional_messages": ["guarded"], "settings": ["limit"], "items": ["reward"]},
 	&"lift": {"portals": 1, "messages": ["lift", "open", "closed"], "settings": ["limit", "divisor"], "items": []},
+	&"note_maze": {"portals": 1, "messages": ["read", "out"], "settings": ["steps", "nearer", "further"], "items": [], "mark": true, "maze": true},
 }
 ## Every setting some policy names (an integer field of the record).
-const SETTINGS: Array[String] = ["pushes", "open_seconds", "force", "max_force", "force_factor", "gin", "kee", "sen", "random", "limit", "divisor", "below"]
+const SETTINGS: Array[String] = ["pushes", "open_seconds", "force", "max_force", "force_factor", "gin", "kee", "sen", "random", "limit", "divisor", "below", "steps", "nearer", "further"]
+
+
+## One of a note_maze's notes: what it reads and the way it names (a portal's legacy_command).
+class MazeNote:
+	extends RefCounted
+	var text: String = ""
+	var way: StringName = &""
 
 var _landmark_id: StringName
 var _map_id: StringName
@@ -65,6 +80,9 @@ var _mark: String = ""
 var _spawn_id: StringName = &""
 var _teaches: Array[String] = []
 var _guard_npc_id: StringName = &""
+var _notes: Array[MazeNote] = []
+var _counter: String = ""
+var _enter_portal_id: StringName = &""
 var _legacy_source_path: String
 
 var landmark_id: StringName:
@@ -119,6 +137,18 @@ var teaches: Array[String]:
 var guard_npc_id: StringName:
 	get:
 		return _guard_npc_id
+## A note_maze's notes, in authored order.
+var notes: Array[MazeNote]:
+	get:
+		return _notes.duplicate()
+## The CharacterState.counters name a note_maze counts its steps in (taolin_steps).
+var counter: String:
+	get:
+		return _counter
+## The portal into a note_maze's zone that sets its counter (entrance.c east).
+var enter_portal_id: StringName:
+	get:
+		return _enter_portal_id
 
 
 func _init(
@@ -179,6 +209,14 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 	definition._spawn_id = StringName(reader.text("spawn"))
 	definition._teaches = reader.text_list("teaches")
 	definition._guard_npc_id = StringName(reader.text("guard"))
+	for record: ContentRecordReader in reader.children("notes"):
+		var note := MazeNote.new()
+		note.text = record.required_text("text")
+		note.way = StringName(record.required_text("way"))
+		record.finish()
+		definition._notes.append(note)
+	definition._counter = reader.text("counter")
+	definition._enter_portal_id = StringName(reader.text("enter"))
 	var item_reader: ContentRecordReader = reader.child("items")
 	if item_reader != null:
 		for key: String in item_reader.keys():
@@ -194,7 +232,10 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 	if definition.class_id.is_empty() == bool(rule.get("class", false)):
 		reader.fail("class", "only a join_class landmark names a class, and it must")
 	if definition.mark.is_empty() == bool(rule.get("mark", false)):
-		reader.fail("mark", "only a search landmark names a mark, and it must")
+		reader.fail("mark", "only a search or note_maze landmark names a mark, and it must")
+	var maze: bool = rule.get("maze", false)
+	if definition._notes.is_empty() == maze or definition._counter.is_empty() == maze or definition._enter_portal_id.is_empty() == maze:
+		reader.fail("notes", "only a note_maze landmark has notes, a counter and an enter portal, and it must")
 	if definition.spawn_id.is_empty() == bool(rule.get("spawn", false)):
 		reader.fail("spawn", "only a look_spawn landmark names a spawn, and it must")
 	if not definition._teaches.is_empty() and definition.policy != &"look":
@@ -243,6 +284,9 @@ func with_map(map_id: StringName) -> WorldLandmarkDefinition:
 	copy._spawn_id = _spawn_id
 	copy._teaches = _teaches.duplicate()
 	copy._guard_npc_id = _guard_npc_id
+	copy._notes = _notes.duplicate()
+	copy._counter = _counter
+	copy._enter_portal_id = _enter_portal_id
 	return copy
 
 
@@ -258,6 +302,18 @@ func message(key: String) -> String:
 ## A policy's authored number (see POLICIES), e.g. `pushes`; 0 when absent.
 func setting(key: String) -> int:
 	return _settings.get(key, 0)
+
+
+## taolin.c do_go(): whether taking a way with `steps` left leads out (the note's way, no
+## more than `nearer` left).
+func leads_out(steps: int, right: bool) -> bool:
+	return right and steps <= setting("nearer")
+
+
+## The steps left after a way that does not lead out: `nearer` fewer for the note's way,
+## `further` more for any other.
+func steps_after(steps: int, right: bool) -> int:
+	return steps - setting("nearer") if right else steps + setting("further")
 
 
 ## A policy's item by role (see POLICIES), e.g. `reward`; empty when absent.

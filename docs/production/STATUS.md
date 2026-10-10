@@ -4,13 +4,14 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**乔阴 B** (`phase/choyin-b`, region #9, DECISIONS「乔阴 B」): the town's secrets and 姑射山 —
-the stone lion's cave, its 护草神兽 and the 忘忧草 for 陈剑秋's letter, the hollow under the
-树王坟 and its unseen 朦胧鬼影, the 武官's chest, the vines, the cranes, the 缚仙绳, the 云台 and
-the 丹炉, the 寒谷's orchid, the hermit's books, the 荷包. NPCs' memory is saved now (owner):
-Continue finds every NPC remembering what it did (the 武官's chest, a robber that fought you, a
-dog following you), and the player's own steps in a chain (芳绫's secret, 雨梅's cup). Next:
-乔阴 C (步玄派).
+**乔阴 C** (`phase/choyin-c`, region #9, DECISIONS「乔阴 C」): 步玄派. 骆云舟 sends whoever asks
+to be his apprentice to the 桃林 first; the 桃林 lies deep in the peach woods east of the 曼雩台,
+a clearing whose six paths all lead back into it: its 字条 reads a line of verse with the
+direction left out, the way it names brings the way out a step nearer and any other three
+further. Out of it, 骆云舟 takes the player (步玄派第八代弟子, a scholar) and teaches his thirteen
+skills; the player's 步玄七诀, 小步玄剑 and 步玄心法, and 玄羽乱舞 on the battle panel. 风泉剑灵's
+chant now waits while the player is away and is saved (owner). Next: 乔阴 D (花紫会, stealing,
+the 县衙).
 
 ## 待决定
 
@@ -202,7 +203,8 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   the road to 姑射山's 绝壁 (its tree and vines to look at). The rooms only verbs reach (the 树冠's
   cranes, the 山洞, the 云台's two 紫衣童子, the 寒谷, the 丹炉, the 神秘洞穴, the hollow under the
   stump) are drawn. Kill 骆云舟 and 风泉剑灵 rises from his sword, chanting itself stronger
-  every two minutes; its sword is in its corpse. 水烟阁's 红衣武士 now defend each other and hold
+  every two minutes (the chant waits while the player is on another map or out of the game, and
+  goes on after Continue where it stopped: owner); its sword is in its corpse. 水烟阁's 红衣武士 now defend each other and hold
   a grudge when attacked (owner). The secrets: lift the 西大街's stone lion (举, more often the
   weaker one is) and fall into the 神秘洞穴, where the 护草神兽 attacks; killed by the player it
   leaves their own 忘忧草, whose smell blows them to 振远镖局 (放弃 instead wakes them in the
@@ -215,7 +217,19 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   which carries one on a crane's back to the 云台 (50 sen); the 云幡 there opens the way down to
   the 丹炉 and its five 仙丹 (5 gin, 30 kee, 5 sen each). The hermit's 草堂 lends a book (unarmed
   or dodge to 80, studied there) and takes it back at the door; the 玛瑙手镯 and the dance book do
-  not work in it. The 官家小姐 sends 游晋 her 荷包; 咒剑王禅 burns ghosts.
+  not work in it. The 官家小姐 sends 游晋 her 荷包; 咒剑王禅 burns ghosts. 步玄派 the family:
+  骆云舟 answers a 拜师 with 你还是先走一趟东边的桃林吧, which opens the path east off the 曼雩台
+  into the peach woods; the 桃林 there is a clearing with six paths (north, south, west, east,
+  northwest, southeast) that all lead back into it, and the 字条 on its middle tree (读) shows
+  one of eleven lines of verse with the direction left out (夜郎-- is west); its way brings the
+  way out a step nearer, any other three further, the note changes after every path, and three
+  right ones from the start lead out to the 曼雩台 (你走出了桃林); 放弃 wakes the player in the
+  Inn. Then 骆云舟 takes the player (asked first; a scholar, 步玄派第八代弟子) and the way east is
+  shut again; he teaches his thirteen skills (乐器 among them). The player's 步玄七诀 (步玄心法
+  enabled, 音律 half its level; practice 20 kee and 20 sen), 小步玄剑 (步玄心法 30, max_force 100,
+  a sword; 30 kee and 5 force) and 步玄心法 (learnt only); with 步玄七诀 enabled for 轻功 or 行动,
+  使出「玄羽乱舞」 on the battle panel (kee 70, force 70 above max_force; rounds of 10 kee and
+  10 force, busy 3).
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from
@@ -231,7 +245,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   No art or audio yet.
 
 Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 389/551 rooms, 182/286 NPC
-types, 6/9 joinable families, 32/36 special and 16/25 basic martial arts, 76/84 quest targets.
+types, 8/9 joinable families, 32/36 special and 16/25 basic martial arts, 76/84 quest targets.
 
 ## Known issues
 
@@ -254,9 +268,10 @@ Code:
 * A zone that merges several rooms shows only its first room's text.
 * 绮云镇: 牛腿 is a hammer only (food that is also a weapon is not supported), so it leaves no
   牛腿骨; 熟牛肉 is not in the game (nobody sells it in ES2); a carried 布袋 is not opened.
-* 乔阴: 风泉剑灵's chant stops when the player leaves the map or continues a save (call_outs are
-  not saved), and only one stands at a time (骆云舟 killed again while it stands keeps his
-  sword); the 采药老者's growth lasts only as long as he does (his save file is not ported).
+* 乔阴: only one 风泉剑灵 stands at a time (骆云舟 killed again while it stands keeps his
+  sword); the 采药老者's growth lasts only as long as he does (his save file is not ported); the
+  桃林's 字条 is drawn anew after Continue (room state is not saved), so it may name another
+  way than the one read before the save.
 * Persistence classes keep `OldPine*` / `oldpine_*` names (20 classes, some 130 files) and the session
   scene is still `scenes/world/oldpine/oldpine_world_session.tscn`, although they cover every map
   (the Session itself is `WorldSessionController` since the map-controller split); pre-B2 Old Pine

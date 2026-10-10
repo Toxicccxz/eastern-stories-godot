@@ -288,6 +288,8 @@ static func _restore_npc_ledger(
 				runtime.combat_chat_chance = saved.combat_chat_chance
 				runtime.pills_left = saved.pills_left
 				runtime.times_caught = saved.times_caught
+				runtime.chant_stage = saved.chant_stage
+				runtime.chant_left = saved.chant_left_ms / 1000.0
 			entries.append(OldPineRestoredNpcEntry.new(
 				runtime,
 				Vector2(saved.map_position.x, saved.map_position.y),

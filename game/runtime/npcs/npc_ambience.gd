@@ -10,11 +10,10 @@ extends RefCounted
 
 const GREETING_DELAY_SECONDS: float = 1.0
 ## The kinds of other call_outs: thief.c steal_it and steal.c compelete_steal; taolord.c
-## do_recruit; shaowei.c make_stage; sword_soul.c chant_sword.
+## do_recruit; shaowei.c make_stage. sword_soul.c chant_sword is kept on the NPC (saved).
 const STEAL: StringName = &"steal"
 const RECRUIT: StringName = &"recruit"
 const MAKE: StringName = &"make"
-const CHANT: StringName = &"chant"
 
 var _random: WorldInteractionRandomSource
 var _remainder: float = 0.0

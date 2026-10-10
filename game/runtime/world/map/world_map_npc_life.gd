@@ -12,9 +12,6 @@ var pending_steals: Dictionary[StringName, Dictionary] = {}
 ## make_stage() between its call_outs: {making: NpcMaking, stage: int} by maker. Not saved,
 ## as call_outs are not.
 var makings: Dictionary[StringName, Dictionary] = {}
-## chant_sword(stage) between its call_outs: the next stage by chanter (NpcHooks chant). Not
-## saved, as call_outs are not; leaving the map drops it (DECISIONS 茅山 B).
-var chants: Dictionary[StringName, int] = {}
 var walker: WorldNpcWalker
 ## The player's place as the NPCs' init() last saw it; another one is an arrival.
 var arrival_zone_id: StringName = &""
@@ -120,8 +117,7 @@ func _advance_ambience(delta: float) -> void:
 		_answer_apprentice(_map.npcs.find_resident_npc(character_id))
 	for character_id: StringName in ambience.due_calls(delta, NpcAmbience.MAKE):
 		_make_stage(character_id)
-	for character_id: StringName in ambience.due_calls(delta, NpcAmbience.CHANT):
-		_chant_stage(character_id)
+	_advance_chants(delta)
 	for character_id: StringName in ambience.due_calls(delta, WorldMapSpells.DISPELL):
 		_map.spells.dispell(_map.npcs.find_resident_npc(character_id))
 	for beat: int in ambience.due_beats(delta):
@@ -171,7 +167,6 @@ func player_left() -> void:
 	if ambience != null:
 		ambience.clear_calls()
 	pending_steals.clear()
-	chants.clear()
 
 
 ## shaowei.c accept_object(): call_out("make_stage", every, who, 0).
@@ -221,23 +216,37 @@ func start_chant(npc: NpcRuntimeState) -> void:
 	var hooks: NpcHooks = null if npc == null else npc.definition().hooks()
 	if hooks == null or not hooks.has_chant():
 		return
-	chants[npc.character_id] = 0
-	npc_ambience().start_call(npc.character_id, hooks.chant_stages[0].after, NpcAmbience.CHANT)
+	npc.chant_stage = 0
+	npc.chant_left = hooks.chant_stages[0].after
+
+
+## The chanters' call_outs on this map's running time (a fight and the player's absence stop
+## it, as every NPC call_out's; the chant is kept on the NPC, NpcRuntimeState.chant_stage).
+func _advance_chants(delta: float) -> void:
+	if not is_finite(delta) or delta < 0.0:
+		return
+	for npc: NpcRuntimeState in _map.npcs.residents.duplicate():
+		if npc.chant_stage < 0:
+			continue
+		if not npc.exists_in_map or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
+			# destruct() took its call_out along.
+			npc.chant_stage = -1
+			continue
+		npc.chant_left -= delta
+		if npc.chant_left <= 0.0:
+			_chant_stage(npc)
 
 
 ## chant_sword(stage): the stage's say (and its line) where the player hears it, the
 ## combat_exp it adds, then the next call_out; after the last stage the first comes again
 ## `repeat_after` seconds later. A chanter killed took its call_out along (destruct()); one
 ## lying unconscious still chants (command() says nothing then).
-func _chant_stage(character_id: StringName) -> void:
-	if not chants.has(character_id):
-		return
-	var npc: NpcRuntimeState = _map.npcs.find_resident_npc(character_id)
-	if npc == null or not npc.exists_in_map or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
-		chants.erase(character_id)
-		return
+func _chant_stage(npc: NpcRuntimeState) -> void:
 	var hooks: NpcHooks = npc.definition().hooks()
-	var stage: NpcHooks.Stage = hooks.chant_stages[chants[character_id]]
+	if not npc.exists_in_map or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD or hooks == null or npc.chant_stage >= hooks.chant_stages.size():
+		npc.chant_stage = -1
+		return
+	var stage: NpcHooks.Stage = hooks.chant_stages[npc.chant_stage]
 	var name: String = tr(npc.definition().display_name)
 	if npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and player_hears(npc):
 		var lines: Array[String] = [tr("{npc}说道：{line}").format({"npc": name, "line": tr(stage.say)})]
@@ -245,15 +254,15 @@ func _chant_stage(character_id: StringName) -> void:
 			lines.append(tr(stage.line).replace("$N", name))
 		_map.hud().append_log_lines(lines)
 	npc.character_state.progression.combat_experience += stage.combat_exp
-	var next: int = chants[character_id] + 1
+	var next: int = npc.chant_stage + 1
 	var wait: float = 0.0
 	if next >= hooks.chant_stages.size():
 		next = 0
 		wait = hooks.chant_repeat_after
 	else:
 		wait = hooks.chant_stages[next].after
-	chants[character_id] = next
-	npc_ambience().start_call(character_id, wait, NpcAmbience.CHANT)
+	npc.chant_stage = next
+	npc.chant_left = wait
 
 
 ## A master that answers 拜师 later (taolord.c): call_out("do_recruit", seconds).

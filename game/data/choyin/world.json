@@ -110,7 +110,16 @@
 		{ "id": "choyin.guyehill.hold_fall", "from_zone": "choyin.guyehill", "to_zone": "choyin.hollow", "to_spawn": "choyin.hollow.fall_arrival", "legacy_room": "es2:d/choyin/guyehill", "legacy_command": "hold vine" },
 		{ "id": "choyin.guyehill.hold_climb", "from_zone": "choyin.guyehill", "to_zone": "choyin.halfhole", "to_spawn": "choyin.halfhole.vine_arrival", "legacy_room": "es2:d/choyin/guyehill", "legacy_command": "hold vine" },
 		{ "id": "choyin.platform.touch", "from_zone": "choyin.platform", "to_zone": "choyin.stove", "to_spawn": "choyin.stove.platform_arrival", "legacy_room": "es2:d/choyin/platform", "legacy_command": "touch flag" },
-		{ "id": "choyin.hollow3.interject", "from_zone": "choyin.hollow3", "to_zone": "latemoon.bamboo", "to_spawn": "latemoon.bamboo.dance_arrival", "legacy_room": "es2:d/choyin/hollow3", "legacy_command": "interject orchid" }
+		{ "id": "choyin.hollow3.interject", "from_zone": "choyin.hollow3", "to_zone": "latemoon.bamboo", "to_spawn": "latemoon.bamboo.dance_arrival", "legacy_room": "es2:d/choyin/hollow3", "legacy_command": "interject orchid" },
+		{ "id": "choyin.entrance.east", "from_zone": "choyin.entrance", "to_zone": "choyin.taolin", "to_spawn": "choyin.taolin.west_arrival", "legacy_room": "es2:d/choyin/entrance", "legacy_command": "east" },
+		{ "id": "choyin.taolin.north", "from_zone": "choyin.taolin", "to_zone": "choyin.taolin", "to_spawn": "choyin.taolin.south_arrival", "legacy_room": "es2:d/choyin/taolin", "legacy_command": "north" },
+		{ "id": "choyin.taolin.south", "from_zone": "choyin.taolin", "to_zone": "choyin.taolin", "to_spawn": "choyin.taolin.north_arrival", "legacy_room": "es2:d/choyin/taolin", "legacy_command": "south" },
+		{ "id": "choyin.taolin.west", "from_zone": "choyin.taolin", "to_zone": "choyin.taolin", "to_spawn": "choyin.taolin.east_arrival", "legacy_room": "es2:d/choyin/taolin", "legacy_command": "west" },
+		{ "id": "choyin.taolin.east", "from_zone": "choyin.taolin", "to_zone": "choyin.taolin", "to_spawn": "choyin.taolin.west_arrival", "legacy_room": "es2:d/choyin/taolin", "legacy_command": "east" },
+		{ "id": "choyin.taolin.northwest", "from_zone": "choyin.taolin", "to_zone": "choyin.taolin", "to_spawn": "choyin.taolin.southeast_arrival", "legacy_room": "es2:d/choyin/taolin", "legacy_command": "northwest" },
+		{ "id": "choyin.taolin.southeast", "from_zone": "choyin.taolin", "to_zone": "choyin.taolin", "to_spawn": "choyin.taolin.northwest_arrival", "legacy_room": "es2:d/choyin/taolin", "legacy_command": "southeast" },
+		{ "id": "choyin.taolin.out", "from_zone": "choyin.taolin", "to_zone": "choyin.entrance", "to_spawn": "choyin.entrance.grove_return", "legacy_room": "es2:d/choyin/taolin", "legacy_command": "go" },
+		{ "id": "choyin.taolin.give_up", "from_zone": "choyin.taolin", "to_zone": "snow.inn.main_floor", "to_spawn": "snow.inn.main_floor.player_birth", "legacy_room": "es2:d/choyin/taolin", "legacy_command": "quit" }
 	],
 	"doors": [
 		{ "id": "choyin.yamen.door", "name": "铜钉大门", "zones": ["choyin.yamen_yard", "choyin.yamen"], "reach": 90, "legacy_room": "es2:d/choyin/yamen" },
@@ -141,7 +150,28 @@
 		{ "id": "choyin.platform.landmark.platform", "zone": "choyin.platform", "name": "云台", "policy": "look", "long": "一座精雕细琢的玉台,放有一矮几;几上立有玉瓶,几株寒谷幽兰\n绽放其中.台旁置一云幡(flag),可是仙家宝物.\n", "legacy_source": "d/choyin/platform.c" },
 		{ "id": "choyin.platform.landmark.flag", "zone": "choyin.platform", "name": "云幡", "action": "碰云幡", "portals": ["choyin.platform.touch"], "messages": { "use": "你碰了云幡,云幡动了一下.....\n白光一闪,云台忽地裂开" }, "long": "此幡可翻云覆雨,最好不要碰(touch)它.\n", "legacy_source": "d/choyin/platform.c" },
 		{ "id": "choyin.hollow3.landmark.vase", "zone": "choyin.hollow3", "name": "空穴", "action": "插幽兰", "portals": ["choyin.hollow3.interject"], "messages": { "use": "寒谷幽兰忽地绽放,幻出七色光华.你轻轻地飘起..." }, "long": "石穴呈瓶状,想是用来插(interject)什么东东的.\n", "legacy_source": "d/choyin/hollow3.c" },
-		{ "id": "choyin.lionroom.landmark.dark", "zone": "choyin.lionroom", "name": "洞穴", "action": "放弃", "portals": ["choyin.lionroom.give_up"], "messages": { "use": "你在洞里苦等良久，终于昏昏沉沉地睡了过去……醒来时，你已经躺在雪亭镇的饮风客栈里。" }, "long": "洞内黑漆漆的，四下摸索，却摸不到任何出口。\n", "legacy_source": "d/choyin/lionroom.c" }
+		{ "id": "choyin.lionroom.landmark.dark", "zone": "choyin.lionroom", "name": "洞穴", "action": "放弃", "portals": ["choyin.lionroom.give_up"], "messages": { "use": "你在洞里苦等良久，终于昏昏沉沉地睡了过去……醒来时，你已经躺在雪亭镇的饮风客栈里。" }, "long": "洞内黑漆漆的，四下摸索，却摸不到任何出口。\n", "legacy_source": "d/choyin/lionroom.c" },
+		{
+			"id": "choyin.taolin.landmark.note", "zone": "choyin.taolin", "name": "字条", "action": "读", "policy": "note_maze",
+			"portals": ["choyin.taolin.out"], "enter": "choyin.entrance.east", "counter": "taolin_steps", "mark": "桃林",
+			"steps": 3, "nearer": 1, "further": 3,
+			"notes": [
+				{ "text": "欲将愁心附明月,随君直到夜郎--", "way": "west" },
+				{ "text": "问君能有几多愁,恰似一江春水向--流", "way": "east" },
+				{ "text": "自笑堂堂汉使,得似洋洋河水,依旧只流--", "way": "east" },
+				{ "text": "--朝四百八十寺,多少楼台烟雨中", "way": "south" },
+				{ "text": "孔雀--飞,五里一徘徊", "way": "southeast" },
+				{ "text": "帘卷--风,人比黄花叟", "way": "west" },
+				{ "text": "醉别--楼醒不记,春梦秋云,聚散真容易", "way": "west" },
+				{ "text": "春草绿色,春水碧波,送君--埔,伤之如何", "way": "south" },
+				{ "text": "--望，射天狼", "way": "northwest" },
+				{ "text": "--风卷地白草折，胡天八月即飞雪", "way": "north" },
+				{ "text": "青山横--郭，白水绕东城", "way": "north" }
+			],
+			"messages": { "read": "你看见:{note}", "out": "你走出了桃林" },
+			"long": "这是一张指示路径的字条.似乎可以读(read)它.\n", "legacy_source": "d/choyin/taolin.c"
+		},
+		{ "id": "choyin.taolin.landmark.grove", "zone": "choyin.taolin", "name": "桃林", "action": "放弃", "portals": ["choyin.taolin.give_up"], "messages": { "use": "你在桃林里苦等良久，终于昏昏沉沉地睡了过去……醒来时，你已经躺在雪亭镇的饮风客栈里。" }, "long": "桃树一株挨着一株，阡陌纵横，每条小路看来都差不多。找不到出路的话，就只能在这里等下去了。\n", "legacy_source": "d/choyin/taolin.c" }
 	],
 	"spawns": [
 		{

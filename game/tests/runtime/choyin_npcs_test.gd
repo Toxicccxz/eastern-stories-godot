@@ -464,7 +464,7 @@ func _test_sword_soul(tree: SceneTree, session: WorldSessionController) -> void:
 		for item_id: StringName in session.inventory_state().direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse.corpse_item_instance_id)):
 			if session.item_instance_index().resolve(item_id).item_definition_id == WINDSPRING:
 				dropped += 1
-	_check(soul.life_status == CharacterRuntimeLifeStatus.Value.DEAD and map.npc_life.chants.is_empty() and _npc(map, SOUL) == null, "the 剑灵 falls; its chant with it")
+	_check(soul.life_status == CharacterRuntimeLifeStatus.Value.DEAD and soul.chant_stage < 0 and _npc(map, SOUL) == null, "the 剑灵 falls; its chant with it")
 	_check(dropped == 2, "its 风泉之剑 lies in its corpse (and 骆云舟's second)")
 
 

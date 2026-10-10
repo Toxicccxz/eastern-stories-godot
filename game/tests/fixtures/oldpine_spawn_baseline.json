@@ -66,6 +66,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -229,6 +230,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -392,6 +394,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -555,6 +558,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": false,
@@ -791,6 +795,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -1019,6 +1024,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": null,
 						"_secondary_weapon": null
@@ -1164,6 +1170,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": null,
 						"_secondary_weapon": null
@@ -1310,6 +1317,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -1473,6 +1481,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -1636,6 +1645,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -1799,6 +1809,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -1962,6 +1973,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -2125,6 +2137,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -2361,6 +2374,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": false,
@@ -2597,6 +2611,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": false,
@@ -2833,6 +2848,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": false,
@@ -3069,6 +3085,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": false,
@@ -3381,6 +3398,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": false,
@@ -3545,6 +3563,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -3708,6 +3727,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -3871,6 +3891,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -4034,6 +4055,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -4197,6 +4219,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -4351,6 +4374,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": null,
 						"_secondary_weapon": null
@@ -4488,6 +4512,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": null,
 						"_secondary_weapon": null
@@ -4625,6 +4650,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": null,
 						"_secondary_weapon": null
@@ -4762,6 +4788,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": null,
 						"_secondary_weapon": null
@@ -4899,6 +4926,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": null,
 						"_secondary_weapon": null
@@ -5036,6 +5064,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": null,
 						"_secondary_weapon": null
@@ -5173,6 +5202,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": null,
 						"_secondary_weapon": null
@@ -5310,6 +5340,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": null,
 						"_secondary_weapon": null
@@ -5447,6 +5478,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": null,
 						"_secondary_weapon": null
@@ -5584,6 +5616,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": null,
 						"_secondary_weapon": null
@@ -5721,6 +5754,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": null,
 						"_secondary_weapon": null
@@ -5940,6 +5974,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": false,
@@ -6096,6 +6131,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": null,
 						"_secondary_weapon": null
@@ -6247,6 +6283,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -6410,6 +6447,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -6573,6 +6611,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -6736,6 +6775,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": false,
@@ -6972,6 +7012,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -7200,6 +7241,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": null,
 						"_secondary_weapon": null
@@ -7345,6 +7387,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": null,
 						"_secondary_weapon": null
@@ -7491,6 +7534,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -7654,6 +7698,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -7817,6 +7862,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -7980,6 +8026,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -8143,6 +8190,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -8306,6 +8354,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -8542,6 +8591,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": false,
@@ -8778,6 +8828,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": false,
@@ -9014,6 +9065,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": false,
@@ -9250,6 +9302,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": false,
@@ -9562,6 +9615,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": false,
@@ -9726,6 +9780,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -9889,6 +9944,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -10052,6 +10108,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -10215,6 +10272,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -10378,6 +10436,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": true,
@@ -10532,6 +10591,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": null,
 						"_secondary_weapon": null
@@ -10669,6 +10729,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": null,
 						"_secondary_weapon": null
@@ -10806,6 +10867,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": null,
 						"_secondary_weapon": null
@@ -10943,6 +11005,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": null,
 						"_secondary_weapon": null
@@ -11080,6 +11143,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": null,
 						"_secondary_weapon": null
@@ -11217,6 +11281,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": null,
 						"_secondary_weapon": null
@@ -11354,6 +11419,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": null,
 						"_secondary_weapon": null
@@ -11491,6 +11557,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": null,
 						"_secondary_weapon": null
@@ -11628,6 +11695,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": null,
 						"_secondary_weapon": null
@@ -11765,6 +11833,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": null,
 						"_secondary_weapon": null
@@ -11902,6 +11971,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": null,
 						"_secondary_weapon": null
@@ -12121,6 +12191,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": {
 							"_can_wield_as_secondary": false,
@@ -12277,6 +12348,7 @@
 					"conditions": {
 						"_conditions": {}
 					},
+					"counters": {},
 					"equipment": {
 						"_primary_weapon": null,
 						"_secondary_weapon": null
