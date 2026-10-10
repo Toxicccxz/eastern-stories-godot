@@ -255,6 +255,18 @@ func can_ask_selected() -> bool:
 	)
 
 
+## The selected NPC when it is in the player's place (present()), alive: one an exert
+## that names its target works on (lifeheal.c), awake or not.
+func selected_npc_here() -> NpcRuntimeState:
+	var target: NpcRuntimeState = selected_npc() if _map.gameplay_open() else null
+	if (
+		target == null or not target.exists_in_map or target.life_status == CharacterRuntimeLifeStatus.Value.DEAD
+		or _player == null or not target.world_location().shares_combat_location(_player.world_location())
+	):
+		return null
+	return target
+
+
 ## eff_kee * 100 / max_kee (herbalist.c heal_me()).
 @warning_ignore("integer_division")
 static func _kee_percent(state: CharacterState) -> int:
@@ -285,6 +297,8 @@ func ask_selected(topic: String) -> Array[String]:
 	)
 	for mark: String in answer.marks:
 		_player.state.marks[mark] = 1
+	for temp: String in answer.temps:
+		_player.temp_marks[temp] = 1
 	if not answer.hands_over.is_empty():
 		_hand_over(target, answer)
 	if not answer.gives.is_empty():
@@ -369,6 +383,39 @@ func say_beside_selected(phrase: String) -> Array[String]:
 		var respect: String = RankWords.query_respect(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id)
 		for line: NpcLine in target.definition().talk().relay_answer(phrase):
 			lines.append(line.colored(target.definition().display_name, respect))
+	_map.hud().append_colored_lines(lines)
+	return ColoredLine.texts(lines)
+
+
+## The selected NPC's 剃度 when the player can kneel before it now (the kneel command
+## daemon/class/bonze/master.c's init() adds): its ask_for_join() marked them and it is
+## here and awake. 默认 (DECISIONS 山烟寺 B): ES2's add_action also shaved one before a
+## master lying unconscious, whose say does nothing; here he must be awake.
+func ordination_selected() -> NpcOrdination:
+	var target: NpcRuntimeState = selected_npc() if can_ask_selected() else null
+	var ordination: NpcOrdination = null if target == null else target.definition().ordination()
+	if ordination == null or target.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or _player.temp_marks.get(ordination.temp, 0) == 0:
+		return null
+	return ordination
+
+
+## kneel before the selected NPC (do_kneel()): its lines, its say with the new name,
+## then the player's 法名 and class; the temp is gone. The lines go to the log too.
+func kneel_selected() -> Array[String]:
+	var ordination: NpcOrdination = ordination_selected()
+	if ordination == null:
+		return []
+	var npc: String = tr(selected_npc().definition().display_name)
+	var lines: Array[ColoredLine] = []
+	for line: String in ordination.lines:
+		# TRANSLATORS: message_vision(): the one kneeling, for the $N of a 剃度 line.
+		lines.append(ColoredLine.new(tr(line).replace("$N", tr("你")).replace("$n", npc), ordination.color))
+	var dharma_name: String = ordination.dharma_name(_player.facts.display_name, _world_interaction_random.legacy_random)
+	lines.append(ColoredLine.new(tr("{npc}说道：{line}").format({"npc": npc, "line": NpcTalk.line(ordination.say).format({"name": dharma_name})})))
+	_player.temp_marks.erase(ordination.temp)
+	_player.take_name(dharma_name)
+	_player.state.affiliation.class_id = ordination.class_id
+	_map.player_body.refresh_label()
 	_map.hud().append_colored_lines(lines)
 	return ColoredLine.texts(lines)
 

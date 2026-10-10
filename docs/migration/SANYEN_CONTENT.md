@@ -40,6 +40,19 @@ the player's 大乘佛法, 诵经, 流云杖法, 莲华心法 and its 疗伤他�
 | cripple.c, monk.c chat_msg_combat `(: random_move :)`, `(: command, "sigh"/"hehe" :)` | chat_msg_combat `random_move` (CombatNpcChat._walk_out(): not while busy, NpcRandomMove.choose_with() on the fight's draws, go.c's 往X落荒而逃了。; CombatEncounterResolution.depart(): out of the fight and in the next room at once; after the fight WorldMapNpcLife.walk_out() walks the body there) and `emote` (nothing) |
 | skills cloudstaff, lotusforce, buddhism, chanting, essencemagic | skills.json (their valid_learn policies were already in code); 莲华心法's exert heal is std heal.c's |
 
+## LPC → native (B)
+
+| LPC | Native |
+|---|---|
+| master.c ask_for_join() (剃度, 出家) | inquiry rules (NpcInquiryRule `asker_class`, `asker_gender`, `temp_asker`): a monk, a woman, else the temp pending/join_bonze |
+| master.c init() kneel, do_kneel() | npcs.json `ordination` (NpcOrdination): the 跪下受戒 button on the 打听 panel (asked first), its HIC lines, the say with the 法名, name (WorldPlayerRuntimeState.take_name()) and class bonze |
+| master.c attempt_apprentice(), do_recruit(), recruit_apprentice() | apprentice rule: answer_after 2, busy_say, checks gender 男性 then `class` bonze (RequirementCheck.class_id), class bonze |
+| std/char/master.c prevent_learn(), learn.c | f_master and the family as in A: he teaches his twelve skills to his own |
+| buddhism.c, essencemagic.c, lotusforce.c, cloudstaff.c valid_learn() | SkillLearnPolicyRegistry (already in A) |
+| cloudstaff.c, lotusforce.c practice_skill() | skills.json practice (a staff and 60 kee; 莲华心法 refuses) |
+| lotusforce/heal.c | heal (fonxanforce's, word for word) |
+| lotusforce/lifeheal.c | LifehealExertFunction (`targets_other`): the HUD's 疗伤他人 on the selected NPC (PlayerMartialArts.exert_at()) |
+
 ## Source anomalies
 
 - front_yard.c places `d/sanyen/npc/monk_guard`, which does not exist (the 护寺武僧 is
@@ -58,9 +71,13 @@ the player's 大乘佛法, 诵经, 流云杖法, 莲华心法 and its 疗伤他�
   front_yard.c 东边则是山门 (south), sroad1.c's south and north, sroad2.c's east tunnel (the
   tunnel is west of the gate). The maps follow the exits; the words stay.
 - monk.c sets `aplpy/defense` (misspelt): no defense bonus. Its `pursuer` is not modelled yet.
-- master.c's recruit_apprentice() lowers the misspelt `apprentice_availavble` (B).
-- Lost characters: master.c's 请□到尼庵 (妳, B), lifeheal.c's 震□ (盪, B), heal_room.c's donor
-  克□□ (written 克某某).
+- master.c's recruit_apprentice() lowers the misspelt `apprentice_availavble`: his ten a day
+  never run out.
+- Lost characters: master.c's 请□到尼庵 (妳: 请你), lifeheal.c's 震□ (盪: 震荡), heal_room.c's
+  donor 克□□ (written 克某某).
+- daemon/class/lama/master.c (龙若法王, placed by nothing) copies master.c's 剃度 word for word
+  inside a /* */ block: dead in ES2.
+- essencemagic.c has no practice_skill(): practising 八识神通 says 并没有任何进步.
 - d/sanyen/obj/ copies npc/obj/ byte for byte; 黄铜禅杖 (brass_staff.c) and monk_waiter.c are
   placed by nothing. The temple's bulletin board (bonze_b) is for players' posts.
 - `doc/skill/essencemagic` names eight 识; essencemagic/ holds three (drift, heart, void) (C).

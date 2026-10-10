@@ -88,12 +88,14 @@ class ApprenticeRule:
 
 ## One check of attempt_apprentice(): the minimums it requires, cor and cps as
 ## query_cor() and query_cps() have them, spi as set (query("spi")) and combat_exp, the
-## gender it takes ("" any; query("gender") != "男性" in taolord.c), and what it says when
-## one is short.
+## gender it takes ("" any; query("gender") != "男性" in taolord.c), the class it takes
+## ("" any; query("class") != "bonze" in daemon/class/bonze/master.c) and what it says
+## when one is short.
 class RequirementCheck:
 	extends RefCounted
 	var requires: Dictionary[StringName, int] = {}
 	var gender: String = ""
+	var class_id: StringName = &""
 	var refuse_say: String = ""
 
 
@@ -245,8 +247,8 @@ static func from_record(reader: ContentRecordReader) -> NpcTeaching:
 	return teaching
 
 
-## `requires` as [{<key>: minimum, ..., "gender"?, "refuse_say"}]: checked in turn, each
-## with its say.
+## `requires` as [{<key>: minimum, ..., "gender"?, "class"?, "refuse_say"}]: checked in
+## turn, each with its say.
 static func _read_checks(apprentice: ContentRecordReader, rule: ApprenticeRule) -> void:
 	for record: ContentRecordReader in apprentice.children("requires"):
 		var check := RequirementCheck.new()
@@ -257,6 +259,9 @@ static func _read_checks(apprentice: ContentRecordReader, rule: ApprenticeRule) 
 				check.gender = record.required_text("gender")
 				if not GENDERS.has(StringName(check.gender)):
 					record.fail("gender", "expected one of %s" % [GENDERS])
+				continue
+			if key == "class":
+				check.class_id = StringName(record.required_text("class"))
 				continue
 			if not REQUIREMENTS.has(StringName(key)):
 				record.fail(key, "unsupported requirement")

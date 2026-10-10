@@ -12,6 +12,9 @@ var id: StringName
 var fight_only: bool = false
 ## The file works on another: `if( !target || target==me ) target = offensive_target(me)`.
 var aims: bool = false
+## The file works on the one the command names (lifeheal.c): the game offers it on the
+## selected NPC (ExertService.offered_at()), never among the functions used on oneself.
+var targets_other: bool = false
 ## The file refuses in any fight with this line (heal.c): the battle panel shows the
 ## action greyed with it instead of letting it fail (owner, modern fixes II).
 var fight_refusal: String = ""

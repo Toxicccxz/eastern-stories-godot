@@ -28,6 +28,10 @@ var killers: Array[StringName] = []
 ## or the target the command named: returns a SpecialSide (SpecialContext.offensive_target()
 ## or target_or_offensive()); none: no target.
 var offensive: Callable
+## The one `exert <function> <target>` names (lifeheal.c), its name as the character
+## reads it in `target_name`; null when the command names none.
+var target: SpecialSide
+var target_name: String = ""
 ## (character_id) -> String: another's name as the character reads it, for the lines it
 ## reads ($n of vision_at(), $N of vision_by()); none leaves it out (an NPC's lines are
 ## seen through `vision_lines`).

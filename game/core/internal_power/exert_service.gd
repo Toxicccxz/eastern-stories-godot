@@ -16,7 +16,8 @@ const BASIC_ROLL_MULTIPLIER: int = 4
 ## The functions `exert` reaches with the enabled force, in ExertFunctions order;
 ## none without one. Only the player is offered functions (NPCs exert from their chat).
 ## Outside a fight a function that only works in one (roar) is not offered: its file
-## would refuse whatever the player had.
+## would refuse whatever the player had. One that works on another (lifeheal) is
+## offered on the selected NPC instead (offered_at()).
 static func offered(character: CharacterState, catalog: ContentCatalog, fighting: bool = false) -> Array[StringName]:
 	var out: Array[StringName] = []
 	var mapped: StringName = character.skills.mapped_skill(BASIC_FORCE)
@@ -25,7 +26,23 @@ static func offered(character: CharacterState, catalog: ContentCatalog, fighting
 	for function_id: StringName in ExertFunctions.ORDER:
 		if not fighting and ExertFunctions.find(function_id).fight_only:
 			continue
+		if ExertFunctions.find(function_id).targets_other:
+			continue
 		if _has(catalog.skill(mapped), function_id) or _has(catalog.skill(BASIC_FORCE), function_id):
+			out.append(function_id)
+	return out
+
+
+## The functions the enabled force reaches that work on the one the command names
+## (exert lifeheal <someone>), in ExertFunctions order: the HUD offers them on the
+## selected NPC.
+static func offered_at(character: CharacterState, catalog: ContentCatalog) -> Array[StringName]:
+	var out: Array[StringName] = []
+	var mapped: StringName = character.skills.mapped_skill(BASIC_FORCE)
+	if mapped.is_empty():
+		return out
+	for function_id: StringName in ExertFunctions.ORDER:
+		if ExertFunctions.find(function_id).targets_other and (_has(catalog.skill(mapped), function_id) or _has(catalog.skill(BASIC_FORCE), function_id)):
 			out.append(function_id)
 	return out
 
@@ -34,6 +51,8 @@ static func offered(character: CharacterState, catalog: ContentCatalog, fighting
 ## random(n) (n <= 0 gives 0 without a draw). `actor_id` is the character's ID and
 ## `room` the others in its room (roar.c), with their fights. `offensive` gives the one a
 ## file that aims works on (ExertContext.offensive), `name_of` names others in its lines.
+## `target` is the one `exert <function> <target>` names (lifeheal.c), `target_name` its
+## name as the character reads it.
 static func exert(
 	character: CharacterState,
 	function_id: StringName,
@@ -47,6 +66,8 @@ static func exert(
 	room: Array[SpecialSide] = [],
 	offensive: Callable = Callable(),
 	name_of: Callable = Callable(),
+	target: SpecialSide = null,
+	target_name: String = "",
 ) -> ExertResult:
 	var result := ExertResult.new(function_id)
 	if busy.is_busy():
@@ -57,6 +78,8 @@ static func exert(
 	var context := ExertContext.new(character, force_level, is_fighting, busy, actor_id, random, room)
 	context.offensive = offensive
 	context.name_of = name_of
+	context.target = target
+	context.target_name = target_name
 	context.fail_line = _t("你所学的内功中没有这种功能。")
 	var function: ExertFunction = ExertFunctions.find(function_id)
 	if function != null and _has(catalog.skill(mapped), function_id) and function.exert(context):
