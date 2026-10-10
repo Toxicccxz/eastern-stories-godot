@@ -14,6 +14,9 @@ var _times_caught: Dictionary[StringName, int] = {}
 ## make_stage() between its call_outs: {making: NpcMaking, stage: int} by maker. Not saved,
 ## as call_outs are not.
 var makings: Dictionary[StringName, Dictionary] = {}
+## chant_sword(stage) between its call_outs: the next stage by chanter (NpcHooks chant). Not
+## saved, as call_outs are not; leaving the map drops it (DECISIONS 茅山 B).
+var chants: Dictionary[StringName, int] = {}
 var walker: WorldNpcWalker
 ## The player's place as the NPCs' init() last saw it; another one is an arrival.
 var arrival_zone_id: StringName = &""
@@ -83,11 +86,23 @@ func revive(npc: NpcRuntimeState) -> void:
 
 ## An NPC woke: its body stands up, and combatd.c announce("revive") is heard in its room.
 func _woke(npc: NpcRuntimeState) -> void:
+	_revive_growth(npc)
 	var body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(npc.character_id)
 	if body != null:
 		body.refresh_runtime_state()
 	if player_hears(npc):
 		_map.hud().append_log_lines([tr("%s慢慢睁开眼睛，清醒了过来。") % tr(npc.definition().display_name)])
+
+
+## oldman.c revive(): combat_exp + combat_exp / 3 + 10, then reset(): the pills again, and
+## the potential gained since the last reset a third each to apply/attack, apply/dodge and
+## apply/damage (learned_points grows by what it spent).
+func _revive_growth(npc: NpcRuntimeState) -> void:
+	var hooks: NpcHooks = npc.definition().hooks()
+	if hooks == null or not hooks.has_revive():
+		return
+	hooks.revive_growth(npc.character_state)
+	npc.pills_left = -1
 
 
 ## npc.c chat() and random_move(), and greetings, on NPC heart_beat time (NpcAmbience).
@@ -107,6 +122,8 @@ func _advance_ambience(delta: float) -> void:
 		_answer_apprentice(_map.npcs.find_resident_npc(character_id))
 	for character_id: StringName in ambience.due_calls(delta, NpcAmbience.MAKE):
 		_make_stage(character_id)
+	for character_id: StringName in ambience.due_calls(delta, NpcAmbience.CHANT):
+		_chant_stage(character_id)
 	for character_id: StringName in ambience.due_calls(delta, WorldMapSpells.DISPELL):
 		_map.spells.dispell(_map.npcs.find_resident_npc(character_id))
 	for beat: int in ambience.due_beats(delta):
@@ -156,6 +173,7 @@ func player_left() -> void:
 	if ambience != null:
 		ambience.clear_calls()
 	pending_steals.clear()
+	chants.clear()
 
 
 ## shaowei.c accept_object(): call_out("make_stage", every, who, 0).
@@ -198,6 +216,46 @@ func _make_stage(character_id: StringName) -> void:
 		hud.append_log_lines([at_feet])
 	if hud != null and hud.inventory_is_open():
 		hud.show_inventory(session.player_inventory_rows())
+
+
+## sword_soul.c chant(): call_out("chant_sword", 20, 1), and on from there.
+func start_chant(npc: NpcRuntimeState) -> void:
+	var hooks: NpcHooks = null if npc == null else npc.definition().hooks()
+	if hooks == null or not hooks.has_chant():
+		return
+	chants[npc.character_id] = 0
+	npc_ambience().start_call(npc.character_id, hooks.chant_stages[0].after, NpcAmbience.CHANT)
+
+
+## chant_sword(stage): the stage's say (and its line) where the player hears it, the
+## combat_exp it adds, then the next call_out; after the last stage the first comes again
+## `repeat_after` seconds later. A chanter killed took its call_out along (destruct()); one
+## lying unconscious still chants (command() says nothing then).
+func _chant_stage(character_id: StringName) -> void:
+	if not chants.has(character_id):
+		return
+	var npc: NpcRuntimeState = _map.npcs.find_resident_npc(character_id)
+	if npc == null or not npc.exists_in_map or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
+		chants.erase(character_id)
+		return
+	var hooks: NpcHooks = npc.definition().hooks()
+	var stage: NpcHooks.Stage = hooks.chant_stages[chants[character_id]]
+	var name: String = tr(npc.definition().display_name)
+	if npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and player_hears(npc):
+		var lines: Array[String] = [tr("{npc}说道：{line}").format({"npc": name, "line": tr(stage.say)})]
+		if not stage.line.is_empty():
+			lines.append(tr(stage.line).replace("$N", name))
+		_map.hud().append_log_lines(lines)
+	npc.character_state.progression.combat_experience += stage.combat_exp
+	var next: int = chants[character_id] + 1
+	var wait: float = 0.0
+	if next >= hooks.chant_stages.size():
+		next = 0
+		wait = hooks.chant_repeat_after
+	else:
+		wait = hooks.chant_stages[next].after
+	chants[character_id] = next
+	npc_ambience().start_call(character_id, wait, NpcAmbience.CHANT)
 
 
 ## A master that answers 拜师 later (taolord.c): call_out("do_recruit", seconds).

@@ -1,0 +1,475 @@
+{
+	"npcs": [
+		{
+			"id": "choyin.npc.cityguard",
+			"legacy_source": "d/choyin/npc/cityguard.c",
+			"name": "守城官兵",
+			"aliases": ["town guard", "guard"],
+			"long": "这是个正在这里站岗的守城官兵，虽然和许多武林人物比起来，官兵\n们的武功实在稀松平常，但是他们是有组织、有纪律的战士，谁也不\n轻易地招惹他们。\n",
+			"attributes": { "str": 27, "cor": 26, "cps": 25 },
+			"combat_exp": 100000,
+			"vendetta_mark": "authority",
+			"attitude": "peaceful",
+			"skills": { "unarmed": 70, "sword": 70, "parry": 70, "dodge": 70, "move": 100 },
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/longsword", "source": "obj/longsword.c", "equip": "wield" }
+			],
+			"apply": { "attack": 70, "defense": 70, "damage": 30, "armor": 70 },
+			"chat_chance_combat": 15,
+			"chat_msg_combat": ["守城官兵喝道：还不快放下武器束手就缚？\n", "守城官兵喝道：大胆刁民！竟敢杀官造反？\n"]
+		},
+		{
+			"id": "choyin.npc.cake_vendor",
+			"legacy_source": "d/choyin/npc/cake_vendor.c",
+			"name": "卖饼大叔",
+			"aliases": ["cake vendor", "vendor"],
+			"gender": "男性",
+			"age": 42,
+			"long": "一个相貌朴实的卖饼大叔，憨厚的脸上挂著和蔼的笑容。\n",
+			"combat_exp": 30,
+			"rank_info": { "respect": "大叔", "self": "小的" },
+			"vendor": "choyin.vendor.cake_vendor",
+			"attitude": "friendly",
+			"chat_chance": 13,
+			"chat_msg": ["卖饼大叔吆喝道：卖饼哟！又香又脆的大饼哟！\n", "卖饼大叔掀开蒸笼，伸手探了探温度。\n", "卖饼大叔吆喝道：刚出炉的大饼哟！热呼呼的大饼哟！\n"],
+			"inquiry": { "大饼": { "rules": [{ "vendor_list": true }] } }
+		},
+		{
+			"id": "choyin.npc.dumpling_seller",
+			"legacy_source": "d/choyin/npc/dumpling_seller.c",
+			"name": "卖包子的",
+			"aliases": ["dumpling seller", "seller"],
+			"gender": "男性",
+			"age": 33,
+			"long": "这个卖包子的小贩对你微微一笑，说道：热腾腾的包子，来一笼吧？\n",
+			"combat_exp": 30,
+			"vendor": "choyin.vendor.dumpling_seller",
+			"attitude": "friendly",
+			"chat_chance": 15,
+			"chat_msg": ["卖包子的吆喝道：包子！热腾腾的包子！\n"],
+			"inquiry": { "包子": { "rules": [{ "vendor_list": true }] } }
+		},
+		{
+			"id": "choyin.npc.boss",
+			"legacy_source": "d/choyin/npc/boss.c",
+			"name": "汤掌柜",
+			"aliases": ["boss tang", "tang", "boss"],
+			"age": 46,
+			"long": "汤掌柜是这家大酒楼的主人，别看他只是一个小小的酒楼老板，乔阴\n县境内除了知县老爷以外，恐怕就属他最财大势大。\n",
+			"combat_exp": 1000,
+			"attitude": "peaceful",
+			"carry": [
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 15 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"inquiry": {
+				"name": ["在下姓汤单名一个业字。\n"],
+				"here": ["此处便是福林酒楼，客倌如要点菜，吩咐店里的小二一声便可。\n"],
+				"汤业": ["不敢，在下便是汤业，不知客倌有何吩咐？\n"],
+				"福林酒楼": ["这里就是，客倌是第一次来吗？\n"]
+			}
+		},
+		{
+			"id": "choyin.npc.sergeant",
+			"legacy_source": "d/choyin/npc/sergeant.c",
+			"name": "武官",
+			"aliases": ["sergeant"],
+			"age": 29,
+			"long": "一位相貌威武的武官，独自一个人站在这里发呆，似乎正有什么\n事困扰著他。\n",
+			"attributes": { "str": 28, "cor": 28, "cps": 28 },
+			"combat_exp": 250000,
+			"skills": { "dodge": 70, "unarmed": 60, "parry": 70, "sword": 75 },
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/longsword", "source": "obj/longsword.c", "equip": "wield" }
+			],
+			"apply": { "attack": 60, "defense": 60, "damage": 30 },
+			"inquiry": {
+				"name": ["在下姓陈，名显祖，阁下是？"],
+				"here": ["真是不巧，我也是外地来的，对这个地方并不熟悉。"],
+				"rumors": ["在下失落了一件重要物事，是装在一个桃木箱子里，不知你有没有看见？"],
+				"箱子": ["对，是桃木做成的箱子。"],
+				"桃木箱子": ["如果你见著了，麻烦送还给我，在下定当重重报答。"],
+				"陈显祖": ["不敢，正是在下，不知阁下有何指教？"]
+			}
+		},
+		{
+			"id": "choyin.npc.cucurbit_seller",
+			"legacy_source": "d/choyin/npc/cucurbit_seller.c",
+			"name": "卖糖葫芦的",
+			"aliases": ["cucurbit chapman", "chapman"],
+			"gender": "男性",
+			"age": 42,
+			"combat_exp": 30,
+			"vendor": "choyin.vendor.cucurbit_seller",
+			"attitude": "friendly",
+			"chat_chance": 15,
+			"chat_msg": ["卖糖葫芦的吆喝道：糖葫芦！好甜好香的糖葫芦！\n"],
+			"inquiry": { "糖葫芦": { "rules": [{ "vendor_list": true }] } }
+		},
+		{
+			"id": "choyin.npc.judge_gu",
+			"legacy_source": "d/choyin/npc/judge_gu.c",
+			"name": "衙役",
+			"aliases": ["judge guard", "guard"],
+			"gender": "男性",
+			"age": 24,
+			"long": "衙役精明强干, 满脸正气. \n",
+			"attributes": { "str": 18, "cor": 18, "cps": 21, "int": 25, "per": 27 },
+			"combat_exp": 8000,
+			"attitude": "heroism",
+			"skills": { "staff": 40, "unarmed": 40, "dodge": 80, "liuh-ken": 80, "fall-steps": 80 },
+			"skill_map": { "unarmed": "liuh-ken", "dodge": "fall-steps" },
+			"chat_chance_combat": 15,
+			"chat_msg_combat": [
+				"衙役说道：你当这里是什么地方，敢来这里骚扰？\n",
+				"衙役说道：你要是再无理取闹，当心捕头把你抓去坐牢!\n",
+				"衙役手中的刀越砍越快，让你应接不暇。\n",
+				"衙役说道：衙门岂是你放肆的地方？！\n"
+			]
+		},
+		{
+			"id": "choyin.npc.magistra",
+			"legacy_source": "d/choyin/npc/magistra.c",
+			"name": "带刀侍卫",
+			"aliases": ["magistrate waiter", "waiter"],
+			"gender": "男性",
+			"age": 44,
+			"long": "带刀侍卫皆为槐阳王程老王爷麾下骁将,身负绝艺.\n",
+			"attributes": { "str": 45, "cor": 28, "cps": 18, "int": 10, "per": 10 },
+			"combat_exp": 1000000,
+			"attitude": "heroism",
+			"skills": { "blade": 120, "parry": 80, "dodge": 120, "fall-steps": 120, "shortsong-blade": 150 },
+			"skill_map": { "blade": "shortsong-blade", "dodge": "fall-steps" },
+			"carry": [
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 40 },
+				{ "item": "es2:d/choyin/obj/blade", "source": "d/choyin/npc/obj/blade.c", "equip": "wield" },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			]
+		},
+		{
+			"id": "choyin.npc.crone",
+			"legacy_source": "d/choyin/npc/crone.c",
+			"name": "乾瘪老太婆",
+			"aliases": ["crone"],
+			"gender": "女性",
+			"age": 73,
+			"long": "这个老太婆怀中抱了个竹篓，似乎在卖什么东西，也许你可以跟她问问\n价钱？\n",
+			"vendor": "choyin.vendor.crone",
+			"attitude": "friendly",
+			"inquiry": { "年龄": ["老身今年七十有八啦。\n"], "here": ["这一带我可熟了。\n"], "忘忧草": ["老身隐隐约约地听说过什么‘草’啊，‘狮子’的，具体的也就不知了。\n"] },
+			"relay_ask": [
+				{ "say": "对不起，老婆子耳背，$RESPECT您是想买东西吧？这儿有价钱 ...." },
+				{ "line": "老太婆打开竹篓，盖子上贴了张纸片。" }
+			]
+		},
+		{
+			"id": "choyin.npc.visitor",
+			"legacy_source": "d/choyin/npc/visitor.c",
+			"name": "游客",
+			"aliases": ["visitor"],
+			"gender": { "random": 10, "below": 7, "then": "男性", "else": "女性" },
+			"age": { "base": 15, "plus_random": 50 },
+			"long": "这是一位来乔阴县游玩的游客。\n",
+			"attributes": { "str": 20, "cor": 50 },
+			"resources": { "max_kee": 1000 },
+			"combat_exp": 5000,
+			"attitude": "friendly",
+			"skills": { "dodge": 90, "unarmed": 76 },
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 5 }
+			],
+			"apply": { "armor": 30 },
+			"inquiry": { "here": ["我游历过大半个中国，小小的乔阴县对我能有什么秘密？\n"], "忘忧草": ["这个。。好象是给狮子衔去了。\n"] }
+		},
+		{
+			"id": "choyin.npc.scholar",
+			"legacy_source": "d/choyin/npc/scholar.c",
+			"name": "书生",
+			"aliases": ["scholar"],
+			"age": 23,
+			"long": "一个看起来相当斯文的书生，正拿著一本书摇头晃脑地读著。\n",
+			"combat_exp": 10,
+			"attitude": "peaceful",
+			"carry": [
+				{ "item": "es2:d/choyin/obj/book", "source": "d/choyin/npc/obj/book.c" },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"chat_chance": 10,
+			"chat_msg": [
+				{ "action": "random_move" }
+			]
+		},
+		{
+			"id": "choyin.npc.girl",
+			"legacy_source": "d/choyin/npc/girl.c",
+			"name": "官家小姐",
+			"aliases": ["girl"],
+			"gender": "女性",
+			"age": 23,
+			"long": "一个看起来像是有钱人家的女子，正在这里游湖。\n",
+			"combat_exp": 10,
+			"attitude": "peaceful",
+			"carry": [
+				{ "item": "es2:d/choyin/obj/lady_dress", "source": "d/choyin/npc/obj/lady_dress.c", "equip": "wear" },
+				{ "item": "es2:d/choyin/obj/silver_clasp", "source": "d/choyin/npc/obj/silver_clasp.c", "equip": "wear" }
+			],
+			"inquiry": {
+				"name": ["我 ... ？ 你们外地人都做兴这么问陌生姑娘的闺名吗？"],
+				"here": ["这里啊？这里就是乔阴县有名的翠柳湖啊！"],
+				"闺名": ["真是没有礼貌的家伙，我才不告诉你！"]
+			}
+		},
+		{
+			"id": "choyin.npc.maid",
+			"legacy_source": "d/choyin/npc/maid.c",
+			"name": "丫鬟",
+			"aliases": ["maid"],
+			"gender": "女性",
+			"age": 17,
+			"long": "一个服侍有钱人家小姐的丫鬟，正无聊地玩弄著衣角。\n",
+			"combat_exp": 10,
+			"attitude": "peaceful",
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"inquiry": { "here": ["这里啊？这里就是乔阴县有名的翠柳湖啊！"] }
+		},
+		{
+			"id": "choyin.npc.judgeman",
+			"legacy_source": "d/choyin/npc/judgeman.c",
+			"name": "程不平",
+			"aliases": ["county magistrate", "magistrate"],
+			"title": "乔阴县县官",
+			"gender": "男性",
+			"age": 22,
+			"long": "他虽然出身望族，然攻读刻苦，榜中探花，如今已是才高八斗，满腹\n经纶，还略通佛理。为官数年清贫廉正，人人敬仰。\n",
+			"attributes": { "str": 22, "cor": 25, "cps": 20, "int": 30, "per": 23, "con": 24, "spi": 15, "kar": 25 },
+			"resources": {
+				"max_atman": 1000,
+				"atman": 1000,
+				"max_force": 1000,
+				"force": 1000,
+				"max_mana": 1000,
+				"mana": 1000
+			},
+			"combat_exp": 5000000,
+			"force_factor": 100,
+			"attitude": "friendly",
+			"skills": {
+				"buddhism": 90,
+				"unarmed": 100,
+				"literate": 100,
+				"parry": 100,
+				"dodge": 100,
+				"pyrobat-steps": 100,
+				"force": 100,
+				"spells": 100
+			},
+			"skill_map": { "dodge": "pyrobat-steps" },
+			"carry": [
+				{ "item": "es2:obj/money/gold", "source": "obj/money/gold.c", "amount": 100 },
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 100 }
+			],
+			"accept_fight": [
+				{ "say": "这是衙门，快回去吧。", "accept": false }
+			]
+		},
+		{
+			"id": "choyin.npc.lady",
+			"legacy_source": "d/choyin/npc/lady.c",
+			"name": "妇人",
+			"aliases": ["lady"],
+			"gender": "女性",
+			"age": 32,
+			"long": "一个衣饰华丽的妇人正跪在这里虔诚地膜拜著。\n",
+			"combat_exp": 10,
+			"attitude": "peaceful",
+			"carry": [
+				{ "item": "es2:d/choyin/obj/lady_dress", "source": "d/choyin/npc/obj/lady_dress.c", "equip": "wear" },
+				{ "item": "es2:d/choyin/obj/silver_clasp", "source": "d/choyin/npc/obj/silver_clasp.c", "equip": "wear" },
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 10 }
+			]
+		},
+		{
+			"id": "choyin.npc.youngman",
+			"legacy_source": "d/choyin/npc/youngman.c",
+			"name": "贵公子",
+			"aliases": ["youngman"],
+			"age": 22,
+			"long": "一个相貌俊美的年轻贵公子正优雅地欣赏著窗外的景物。\n",
+			"attributes": { "str": 20, "cor": 26, "cps": 26, "per": 29 },
+			"combat_exp": 2500,
+			"attitude": "peaceful",
+			"skills": { "dodge": 40, "unarmed": 40, "parry": 40, "sword": 40 },
+			"carry": [
+				{ "item": "es2:d/choyin/obj/hat", "source": "d/choyin/npc/obj/hat.c", "equip": "wear" },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/longsword", "source": "obj/longsword.c", "equip": "wield" }
+			],
+			"inquiry": {
+				"name": ["在下姓游，单名一个晋字，不知阁下如何称呼？"],
+				"here": ["这里是乔阴县城，您是外地来的吧？"],
+				"心事": ["实不相瞒，在下仰慕前面曲桥上赏莲的姑娘已久 ...", "但是一直不知那位姑娘芳名 ...", "唉 ..."],
+				"姑娘": ["就是那位绿裙黄衫的姑娘 ..."]
+			}
+		},
+		{
+			"id": "choyin.npc.servant",
+			"legacy_source": "d/choyin/npc/servant.c",
+			"name": "家丁",
+			"aliases": ["servant"],
+			"age": 32,
+			"long": "一个穿著家人服色的男子，必恭必敬地垂手站在一旁。\n",
+			"attributes": { "str": 23, "cor": 17, "cps": 22 },
+			"combat_exp": 500,
+			"attitude": "peaceful",
+			"skills": { "dodge": 10, "unarmed": 10, "parry": 10 },
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			]
+		},
+		{
+			"id": "choyin.npc.guard",
+			"legacy_source": "d/choyin/npc/guard.c",
+			"name": "酒楼守卫",
+			"aliases": ["hotel guard", "guard"],
+			"age": 29,
+			"long": "一个身穿蓝布衣的人，从他锐利的眼神跟神情，显然是个练家子。\n",
+			"resources": { "force": 1000, "max_force": 500 },
+			"combat_exp": 100000,
+			"bellicosity": 400,
+			"force_factor": 15,
+			"attitude": "peaceful",
+			"skills": { "sword": 60, "parry": 60, "dodge": 70, "force": 65 },
+			"carry": [
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 120 },
+				{ "item": "es2:obj/longsword", "source": "obj/longsword.c", "equip": "wield" },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"apply": { "attack": 60, "defense": 60, "damage": 20 },
+			"accept_fight": [
+				{ "say": "掌柜的有交代，不准任何人在这里打架！", "accept": false }
+			],
+			"accept_kill": {
+				"fellows": { "say": "干什么？！" },
+				"report": { "say": "有强人打劫哪... 快去报官！", "vendetta": "authority" },
+				"hint": "（福林酒楼报了官：从此守城官兵和县城官兵见到你就会动手。）"
+			}
+		},
+		{
+			"id": "choyin.npc.serpent",
+			"legacy_source": "d/choyin/npc/serpent.c",
+			"name": "黑冠巨蟒",
+			"aliases": ["serpent"],
+			"race": "beast",
+			"age": 400,
+			"long": "一只乌黑油亮的巨蟒，头上生著一个大肉瘤。\n",
+			"attributes": { "str": 40, "cor": 70, "spi": 20, "int": 10 },
+			"resources": { "max_gin": 900, "max_kee": 1800, "max_sen": 500 },
+			"combat_exp": 500000,
+			"score": 1000,
+			"attitude": "aggressive",
+			"limbs": ["头部", "躯干", "尾巴"],
+			"verbs": ["bite"],
+			"apply": { "attack": 60, "damage": 20, "armor": 90, "dodge": 80 },
+			"capabilities": ["aggressive_on_player_presence"]
+		},
+		{
+			"id": "choyin.npc.oldman",
+			"legacy_source": "d/choyin/npc/oldman.c",
+			"name": "老者",
+			"aliases": ["old man", "man", "old"],
+			"carry": [
+				{ "item": "es2:d/choyin/obj/cloth", "source": "d/choyin/npc/obj/cloth.c", "equip": "wear" }
+			],
+			"long": "他白发苍苍,老态龙钟.\n他终年采药于深山，当有些不同凡响之处。\n他宽五尺，高三尺.你实在无法理解他怎么这么的胖。\n",
+			"gender": "男性",
+			"age": 99,
+			"attributes": { "str": 44, "cor": 24, "cps": 18, "per": 24, "int": 42 },
+			"skills": { "unarmed": 1, "dodge": 150, "force": 1, "parry": 1 },
+			"apply": { "attack": 10, "dodge": 10, "damage": 5 },
+			"chat_chance": 70,
+			"chat_msg": [
+				{ "action": "random_move" },
+				{ "say": "老者说道：哎。。。你这可怜的孩子，饿得面黄肌瘦的。", "color": "CYN" },
+				{ "say": "老者抚摸着你的头，老泪纵横。", "color": "CYN" },
+				{ "say": "老者拈起衣角擦了擦眼角的浊泪。", "color": "CYN" }
+			],
+			"greeting": {
+				"rules": [
+					{ "carries": "tomatoo", "steps": [{ "line": "我给你的山药蛋好吃吗??" }] },
+					{ "steps": [{ "line": "老者抚摸着你的头，老泪纵横。\n说道：哎。。。你这可怜的孩子，饿得面黄肌瘦的。\n老者哆哆嗦嗦从怀里拿出个小布包，打开一层又一层，打开一层又一层..最后拿出个小山药蛋塞到你手里。" }, { "give": "es2:d/choyin/npc/obj/tomatoo" }, { "set_temp": "choyin/山药蛋" }] }
+				]
+			},
+			"accept_fight": [
+				{ "accept": true }
+			],
+			"receive_damage": {
+				"hurt": { "divisor": 5, "line": "老者捂著受伤的地方，白发散乱，勉强稳住身行。", "color": "CYN" },
+				"pills": { "count": 9, "below": 20, "line": "老者从口袋摸出一粒象小山药蛋的仙豆吞了下去。", "color": "HIY" }
+			},
+			"kill_ob": {
+				"lines": [
+					{ "line": "采药老者眼放异光，说道：你真的不喜欢山药蛋吗??" },
+					{ "line": "沉吟半响道：既然如此，老头子今天豁出去了，纳命来！" },
+					{ "line": "山药蛋双手一招，一团黑雾涌起......" },
+					{ "line": "只听见「砰」地一声，你像一捆稻草般飞了出去！！" },
+					{ "line": "你死了。" },
+					{ "line": "鬼门关 ", "color": "HIW" },
+					{ "line": "    这里就是著名的阴间入口「鬼门关」，在你面前矗立著一座高大的\n黑色城楼，许多亡魂正哭哭啼啼地列队前进，因为一进鬼门关就无法再\n回阳间了。", "color": "HIW" },
+					{ "line": "    这里明显的出口是北边和南边。", "color": "HIW" },
+					{ "line": "黑无常", "color": "HIW" },
+					{ "line": "黑无常发出一阵像呻吟的声音，当他发现你正注视著他的时候，瞪了你一眼。", "color": "HIW" },
+					{ "line": "黑无常说道：喂！新来的，你叫什么名字？ ", "color": "HIW" },
+					{ "line": "黑无常「哼」的一声，从袖中掏出一本像帐册的东西翻看著。", "color": "HIW" },
+					{ "line": "黑无常阁上册子，说道：咦？阳寿未尽？怎么可能？", "color": "HIW" },
+					{ "line": "黑无常搔了搔头，叹道：罢了罢了，你走吧。", "color": "HIW" },
+					{ "line": "一股阴冷的浓雾突然出现，很快地包围了你。", "color": "HIW" },
+					{ "line": "你觉得有什么地方不对了，使劲掐了一下自己，你惨叫了一声:哇，好痛啊～～～～～～", "color": "HIW" },
+					{ "line": "你出窍的真魂绕了一大圈，终于归位了。", "color": "HIW" },
+					{ "line": "黑雾慢慢消散了", "color": "HIW" },
+					{ "line": "山药蛋就地一滚，没入土中不见了......", "color": "HIW" }
+				]
+			},
+			"revive": { "exp_divisor": 3, "exp_plus": 10, "apply_divisor": 3 },
+			"defeated_enemy": { "line": "老者骨碌碌就地打了个滚，说道：我赢了！", "color": "CYN" }
+		},
+		{
+			"id": "choyin.npc.crane",
+			"legacy_source": "d/choyin/npc/crane.c",
+			"name": "仙鹤",
+			"aliases": ["crane"],
+			"race": "beast",
+			"long": "白羽如雪，不似凡间之物。 \n",
+			"resources": { "max_gin": 300, "max_kee": 900, "max_sen": 900 },
+			"combat_exp": 1000000,
+			"attitude": "peaceful",
+			"skills": { "parry": 10, "dodge": 150, "move": 150 },
+			"limbs": ["翅"],
+			"fight_deferred": "a beast without verbs: race/beast.c gives it a default action whose two %s are never filled (攻击$n的%s，%s); 乔阴 B decides it with the 树冠"
+		},
+		{
+			"id": "choyin.npc.lboy",
+			"legacy_source": "d/choyin/npc/lboy.c",
+			"name": "紫衣童子",
+			"aliases": ["boy"],
+			"gender": "男性",
+			"age": 15,
+			"long": "紫衣童子是乔阴县的小孩，从小孤苦零丁。仙人怜之，带入云台。\n",
+			"resources": { "force": 500, "max_force": 500 },
+			"combat_exp": 1200000,
+			"force_factor": 0,
+			"attitude": "friendly",
+			"skills": { "dodge": 150, "unarmed": 150, "mysterrier": 150, "force": 15 },
+			"skill_map": { "dodge": "mysterrier" },
+			"chat_chance": 2,
+			"chat_msg": ["紫衣童子躬身一揖。 \n", "童子说道：仙人 ，只在此山中，云深不知处。\n"],
+			"chat_chance_combat": 10,
+			"chat_msg_combat": ["紫衣童子拧眉说道：你欺负我年纪小是吗？\n", "紫衣童子笑道：你杀不死我的。\n", "紫衣童子冲你一龇牙, 说道: 您盗过古墓吗?\n"],
+			"inquiry": { "仙人": ["只度有缘人。"] }
+		}
+	]
+}

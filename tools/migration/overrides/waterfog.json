@@ -6,7 +6,15 @@
 					"say": "这位$RESPECT，在下正在执行勤务，恕不奉陪。",
 					"accept": false
 				}
-			]
+			],
+			"accept_kill": {
+				"say": "哼 ... 原来阁下是找麻烦来著？",
+				"exert": "powerup",
+				"fellows": {},
+				"grudge": "waterfog_guard",
+				"hint": "（水烟阁的红衣武士从此都把你当作敌人，见到你就会动手。）"
+			},
+			"vendetta_mark": "waterfog_guard"
 		},
 		"common.npc.fighter.master": {
 			"chat_chance_combat": 80,
@@ -111,7 +119,7 @@
 		},
 		"d/waterfog/npc/elite_guard.c": {
 			"function accept_fight": "accept_fight in set: the refusal, said",
-			"function accept_kill": "no mudlib code calls accept_kill(): never said (as ES2)",
+			"function accept_kill": "no mudlib code calls accept_kill(); owner (乔阴 A): it runs as meant, and the other guard here joins and every 红衣武士 holds the grudge (accept_kill and vendetta_mark waterfog_guard in set, with a native hint)",
 			"function return_home": "::return_home() and command(\"guard <dir>\"), a command the mudlib does not have: the ordinary return home"
 		},
 		"d/waterfog/obj/sorrowfire.c": {

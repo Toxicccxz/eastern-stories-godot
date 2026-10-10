@@ -22,6 +22,7 @@ var _answer_marks: Dictionary[String, Array] = {}
 var _inquiry_rules: Dictionary[String, Array] = {}
 ## relay_say(): what the NPC answers when the player says a line beside it.
 var _relay_say: Dictionary[String, Array] = {}
+var _relay_ask: Array[NpcLine] = []
 var _chat_chance: int = 0
 ## Each entry is a String (said as written), a ColoredLine (said in its colour, the
 ## text as authored), RANDOM_MOVE, an NpcDrinkAction or an NpcSpecialAction.
@@ -119,6 +120,17 @@ func relay_answer(phrase: String) -> Array[NpcLine]:
 	var lines: Array[NpcLine] = []
 	lines.assign(_relay_say.get(phrase, []))
 	return lines
+
+
+## relay_ask() (d/choyin/npc/crone.c): what it says to a topic it has no answer for, in
+## place of ask.c's own lines; empty for an NPC without one.
+func relay_ask() -> Array[NpcLine]:
+	return _relay_ask.duplicate()
+
+
+func with_relay_ask(lines: Array[NpcLine]) -> NpcTalk:
+	_relay_ask = lines.duplicate()
+	return self
 
 
 ## Answer marks, inquiry rules and relay_say. Called once by the loader.

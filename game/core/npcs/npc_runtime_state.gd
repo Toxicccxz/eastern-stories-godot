@@ -37,6 +37,17 @@ var _flags: Dictionary[StringName, bool] = {}
 ## set("chat_chance_combat") a chat function changed (woman1.c wield_weapon(): 10);
 ## -1 while the definition's holds. Not saved, as flags are not.
 var combat_chat_chance: int = -1
+## oldman.c set("pills", 9): the pills it has left (NpcHooks), counted anew at its room's
+## reset and when it wakes; -1 until first counted. An object variable: not saved.
+var pills_left: int = -1
+
+
+## The pills it has now (its hooks' count when not counted yet).
+func pills() -> int:
+	var hooks: NpcHooks = _definition.hooks() if _definition != null else null
+	if hooks == null or hooks.pills <= 0:
+		return 0
+	return hooks.pills if pills_left < 0 else pills_left
 
 var character_id: StringName:
 	get:

@@ -284,6 +284,8 @@ func inspect(
 static func _special_of(event: CombatSchedulerEvent, tactical: CombatTacticalExecutionResult) -> SpecialReport:
 	if event != null and event.special != null:
 		return event.special
+	if event != null and event.chat != null and event.chat.special() != null:
+		return event.chat.special()
 	return null if tactical == null else tactical.special
 
 
@@ -293,6 +295,8 @@ static func _special_of(event: CombatSchedulerEvent, tactical: CombatTacticalExe
 static func last_hitter(event: CombatSchedulerEvent, victim_id: StringName) -> StringName:
 	if event != null and event.special != null:
 		return event.special.last_hitter(victim_id)
+	if event != null and event.chat != null and event.chat.special() != null:
+		return event.chat.special().last_hitter(victim_id)
 	if event != null and event.chat != null:
 		return event.actor_id if event.chat.damaged(victim_id) else &""
 	if event == null or event.resolution == null:

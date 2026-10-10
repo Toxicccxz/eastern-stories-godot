@@ -1,0 +1,313 @@
+{
+	"spawns": [
+		{
+			"id": "choyin.town.n_gate.cityguards",
+			"npc": "choyin.npc.cityguard",
+			"map": "choyin.town",
+			"zone": "choyin.n_gate",
+			"points": ["choyin.n_gate.cityguard.1", "choyin.n_gate.cityguard.2"],
+			"legacy_room": "d/choyin/n_gate.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "choyin.town.n_gate.garrisons",
+			"npc": "common.npc.garrison",
+			"map": "choyin.town",
+			"zone": "choyin.n_gate",
+			"points": ["choyin.n_gate.garrison.1", "choyin.n_gate.garrison.2"],
+			"legacy_room": "d/choyin/n_gate.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "choyin.town.n_street1.cake_vendor",
+			"npc": "choyin.npc.cake_vendor",
+			"map": "choyin.town",
+			"zone": "choyin.n_street1",
+			"points": ["choyin.n_street1.cake_vendor.1"],
+			"legacy_room": "d/choyin/n_street1.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "choyin.town.n_street1.master",
+			"npc": "common.npc.beggar.master",
+			"map": "choyin.town",
+			"zone": "choyin.n_street1",
+			"points": ["choyin.n_street1.master.1"],
+			"legacy_room": "d/choyin/n_street1.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "choyin.town.n_street3.dumpling_seller",
+			"npc": "choyin.npc.dumpling_seller",
+			"map": "choyin.town",
+			"zone": "choyin.n_street3",
+			"points": ["choyin.n_street3.dumpling_seller.1"],
+			"legacy_room": "d/choyin/n_street3.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "choyin.town.e_gate.cityguards",
+			"npc": "choyin.npc.cityguard",
+			"map": "choyin.town",
+			"zone": "choyin.e_gate",
+			"points": ["choyin.e_gate.cityguard.1", "choyin.e_gate.cityguard.2"],
+			"legacy_room": "d/choyin/e_gate.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "choyin.town.hotel1.boss",
+			"npc": "choyin.npc.boss",
+			"map": "choyin.town",
+			"zone": "choyin.hotel1",
+			"points": ["choyin.hotel1.boss.1"],
+			"legacy_room": "d/choyin/hotel1.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "choyin.town.hotel1.sergeant",
+			"npc": "choyin.npc.sergeant",
+			"map": "choyin.town",
+			"zone": "choyin.hotel1",
+			"points": ["choyin.hotel1.sergeant.1"],
+			"legacy_room": "d/choyin/hotel1.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "choyin.town.s_street1.cucurbit_seller",
+			"npc": "choyin.npc.cucurbit_seller",
+			"map": "choyin.town",
+			"zone": "choyin.s_street1",
+			"points": ["choyin.s_street1.cucurbit_seller.1"],
+			"legacy_room": "d/choyin/s_street1.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "choyin.town.s_street1.dumpling_seller",
+			"npc": "choyin.npc.dumpling_seller",
+			"map": "choyin.town",
+			"zone": "choyin.s_street1",
+			"points": ["choyin.s_street1.dumpling_seller.1"],
+			"legacy_room": "d/choyin/s_street1.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "choyin.town.court1.judge_gus",
+			"npc": "choyin.npc.judge_gu",
+			"map": "choyin.town",
+			"zone": "choyin.court1",
+			"points": [
+				"choyin.court1.judge_gu.1",
+				"choyin.court1.judge_gu.2",
+				"choyin.court1.judge_gu.3",
+				"choyin.court1.judge_gu.4"
+			],
+			"legacy_room": "d/choyin/court1.c",
+			"legacy_quantity": 4
+		},
+		{
+			"id": "choyin.town.court1.magistras",
+			"npc": "choyin.npc.magistra",
+			"map": "choyin.town",
+			"zone": "choyin.court1",
+			"points": ["choyin.court1.magistra.1", "choyin.court1.magistra.2"],
+			"legacy_room": "d/choyin/court1.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "choyin.town.s_gate.cityguards",
+			"npc": "choyin.npc.cityguard",
+			"map": "choyin.town",
+			"zone": "choyin.s_gate",
+			"points": ["choyin.s_gate.cityguard.1", "choyin.s_gate.cityguard.2"],
+			"legacy_room": "d/choyin/s_gate.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "choyin.town.dragon_temple.crone",
+			"npc": "choyin.npc.crone",
+			"map": "choyin.town",
+			"zone": "choyin.dragon_temple",
+			"points": ["choyin.dragon_temple.crone.1"],
+			"legacy_room": "d/choyin/dragon_temple.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "choyin.town.bridge1.visitors",
+			"npc": "choyin.npc.visitor",
+			"map": "choyin.town",
+			"zone": "choyin.bridge1",
+			"points": [
+				"choyin.bridge1.visitor.1",
+				"choyin.bridge1.visitor.2",
+				"choyin.bridge1.visitor.3",
+				"choyin.bridge1.visitor.4"
+			],
+			"legacy_room": "d/choyin/bridge1.c",
+			"legacy_quantity": 4
+		},
+		{
+			"id": "choyin.town.bridge2.scholars",
+			"npc": "choyin.npc.scholar",
+			"map": "choyin.town",
+			"zone": "choyin.bridge2",
+			"points": ["choyin.bridge2.scholar.1", "choyin.bridge2.scholar.2"],
+			"legacy_room": "d/choyin/bridge2.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "choyin.town.bridge3.visitors",
+			"npc": "choyin.npc.visitor",
+			"map": "choyin.town",
+			"zone": "choyin.bridge3",
+			"points": [
+				"choyin.bridge3.visitor.1",
+				"choyin.bridge3.visitor.2",
+				"choyin.bridge3.visitor.3",
+				"choyin.bridge3.visitor.4"
+			],
+			"legacy_room": "d/choyin/bridge3.c",
+			"legacy_quantity": 4
+		},
+		{
+			"id": "choyin.town.bridge4.girl",
+			"npc": "choyin.npc.girl",
+			"map": "choyin.town",
+			"zone": "choyin.bridge4",
+			"points": ["choyin.bridge4.girl.1"],
+			"legacy_room": "d/choyin/bridge4.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "choyin.town.bridge4.maids",
+			"npc": "choyin.npc.maid",
+			"map": "choyin.town",
+			"zone": "choyin.bridge4",
+			"points": ["choyin.bridge4.maid.1", "choyin.bridge4.maid.2"],
+			"legacy_room": "d/choyin/bridge4.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "choyin.town.entrance.master",
+			"npc": "common.npc.scholar.master",
+			"map": "choyin.town",
+			"zone": "choyin.entrance",
+			"points": ["choyin.entrance.master.1"],
+			"legacy_room": "d/choyin/entrance.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "choyin.yamen_compound.yamen_yard.magistras",
+			"npc": "choyin.npc.magistra",
+			"map": "choyin.yamen_compound",
+			"zone": "choyin.yamen_yard",
+			"points": [
+				"choyin.yamen_yard.magistra.1",
+				"choyin.yamen_yard.magistra.2",
+				"choyin.yamen_yard.magistra.3",
+				"choyin.yamen_yard.magistra.4"
+			],
+			"legacy_room": "d/choyin/yamen_yard.c",
+			"legacy_quantity": 4
+		},
+		{
+			"id": "choyin.yamen_compound.yamen.judgeman",
+			"npc": "choyin.npc.judgeman",
+			"map": "choyin.yamen_compound",
+			"zone": "choyin.yamen",
+			"points": ["choyin.yamen.judgeman.1"],
+			"legacy_room": "d/choyin/yamen.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "choyin.yamen_compound.yamen.magistras",
+			"npc": "choyin.npc.magistra",
+			"map": "choyin.yamen_compound",
+			"zone": "choyin.yamen",
+			"points": ["choyin.yamen.magistra.1", "choyin.yamen.magistra.2"],
+			"legacy_room": "d/choyin/yamen.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "choyin.temple_altar.altar.lady",
+			"npc": "choyin.npc.lady",
+			"map": "choyin.temple_altar",
+			"zone": "choyin.altar",
+			"points": ["choyin.altar.lady.1"],
+			"legacy_room": "d/choyin/altar.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "choyin.hotel_2f.hotel2.youngman",
+			"npc": "choyin.npc.youngman",
+			"map": "choyin.hotel_2f",
+			"zone": "choyin.hotel2",
+			"points": ["choyin.hotel2.youngman.1"],
+			"legacy_room": "d/choyin/hotel2.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "choyin.hotel_2f.hotel2.servants",
+			"npc": "choyin.npc.servant",
+			"map": "choyin.hotel_2f",
+			"zone": "choyin.hotel2",
+			"points": ["choyin.hotel2.servant.1", "choyin.hotel2.servant.2", "choyin.hotel2.servant.3"],
+			"legacy_room": "d/choyin/hotel2.c",
+			"legacy_quantity": 3
+		},
+		{
+			"id": "choyin.hotel_3f.hotel3.guards",
+			"npc": "choyin.npc.guard",
+			"map": "choyin.hotel_3f",
+			"zone": "choyin.hotel3",
+			"points": ["choyin.hotel3.guard.1", "choyin.hotel3.guard.2", "choyin.hotel3.guard.3"],
+			"legacy_room": "d/choyin/hotel3.c",
+			"legacy_quantity": 3
+		},
+		{
+			"id": "choyin.east.cloudpool.serpents",
+			"npc": "choyin.npc.serpent",
+			"map": "choyin.east",
+			"zone": "choyin.cloudpool",
+			"points": [
+				"choyin.cloudpool.serpent.1",
+				"choyin.cloudpool.serpent.2",
+				"choyin.cloudpool.serpent.3",
+				"choyin.cloudpool.serpent.4"
+			],
+			"legacy_room": "d/choyin/cloudpool.c",
+			"legacy_quantity": 4
+		},
+		{
+			"id": "choyin.east.rockyu.oldman",
+			"npc": "choyin.npc.oldman",
+			"map": "choyin.east",
+			"zone": "choyin.rockyu",
+			"points": ["choyin.rockyu.oldman.1"],
+			"legacy_room": "d/choyin/rockyu.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "choyin.crown.craneroom.cranes",
+			"npc": "choyin.npc.crane",
+			"map": "choyin.crown",
+			"zone": "choyin.craneroom",
+			"points": [
+				"choyin.craneroom.crane.1",
+				"choyin.craneroom.crane.2",
+				"choyin.craneroom.crane.3",
+				"choyin.craneroom.crane.4"
+			],
+			"legacy_room": "d/choyin/craneroom.c",
+			"legacy_quantity": 4
+		},
+		{
+			"id": "choyin.summit.platform.lboys",
+			"npc": "choyin.npc.lboy",
+			"map": "choyin.summit",
+			"zone": "choyin.platform",
+			"points": ["choyin.platform.lboy.1", "choyin.platform.lboy.2"],
+			"legacy_room": "d/choyin/platform.c",
+			"legacy_quantity": 2
+		}
+	]
+}

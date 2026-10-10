@@ -23,6 +23,7 @@ func facts() -> ScriptedAct.Facts:
 		return known
 	known.marks = _player.state.marks
 	known.temps = _player.temp_marks
+	known.thirsty = _player.state.recovery.water < CharacterRecovery.maximum_water_capacity(_player.body_facts.body_weight)
 	var here: StringName = _player.world_location().zone_id
 	for npc: NpcRuntimeState in _map.npcs.residents:
 		var id: StringName = npc.definition().definition_id
@@ -112,6 +113,8 @@ func run(act: ScriptedAct, npc: NpcRuntimeState, draw: Callable) -> void:
 				_player.temp_marks[step.flag] = 1
 			ScriptedAct.Kind.UNMARK:
 				state.marks.erase(step.flag)
+			ScriptedAct.Kind.WATER:
+				state.recovery.water += step.value
 	_show(said, hears)
 	var hud: SharedGameplayUI = _map.hud()
 	if hud != null and hud.inventory_is_open():

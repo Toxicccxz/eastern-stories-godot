@@ -171,6 +171,7 @@ static func build_attack_input(
 		attacker.content.hit_condition() if primary == null else null,
 		_force_hit_wound(mapped_force_id),
 		0 if mapped_force_id.is_empty() else attacker.state.skills.effective_level(mapped_force_id, _apply(attacker, attacker_armor, mapped_force_id)),
+		_martial_hit_wound(mapped_attack_id, approved_actions),
 	)
 	var defender_snapshot: CombatDefenderSnapshot = CombatDefenderSnapshot.new(
 		defender.character_id,
@@ -190,6 +191,11 @@ static func build_attack_input(
 		defender.state.skills.effective_level(FORCE_SKILL_ID, _apply(defender, defender_armor, FORCE_SKILL_ID)),
 		defender.state.recovery.inner_force.current,
 		_apply(defender, defender_armor, &"armor_vs_force"),
+		CombatMath.effective_strength(CombatStrengthProjection.new(
+			defender.state.attributes.strength,
+			defender.state.attributes.force_factor,
+			defender.state.attributes.strength_modifier,
+		)),
 	)
 	return CombatAttackInput.new(attacker_snapshot, defender_snapshot, selected_action, approved_actions)
 
@@ -338,9 +344,18 @@ static func _force_hit_wound(mapped_force_id: StringName) -> ForceHitWound:
 ## moves are data and that does not define one (skills.json `hit_ob`).
 static func _martial_hit_policy(mapped_attack_id: StringName, approved_actions: CombatActionSet) -> CombatHitPolicyStatus.Value:
 	var skill: SkillDefinition = GameContent.catalog().skill(mapped_attack_id)
+	if approved_actions != null and skill != null and skill.martial_hit_wound != null:
+		return CombatHitPolicyStatus.Value.MARTIAL_WOUND
 	if approved_actions != null and skill != null and not skill.has_own_hit_ob:
 		return CombatHitPolicyStatus.Value.PROVEN_NO_AUTHORED_EFFECT
 	return CombatHitPolicyStatus.Value.AUTHORED_POLICY_UNAVAILABLE
+
+
+## The mapped martial art's own hit_ob() that wounds (spicyclaw.c), or null.
+static func _martial_hit_wound(mapped_attack_id: StringName, approved_actions: CombatActionSet) -> MartialHitWound:
+	if mapped_attack_id.is_empty() or _martial_hit_policy(mapped_attack_id, approved_actions) != CombatHitPolicyStatus.Value.MARTIAL_WOUND:
+		return null
+	return GameContent.catalog().skill(mapped_attack_id).martial_hit_wound
 
 
 static func find_binding(

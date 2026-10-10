@@ -127,6 +127,7 @@ func add_document(document: Variant, origin: String) -> void:
 
 
 func build() -> ContentCatalog:
+	_add_named_items()
 	_add_broken_weapons()
 	_add_leftovers()
 	_add_haunting_sheets()
@@ -187,6 +188,14 @@ func _add_haunting_sheets() -> void:
 			if npc.raising() == null:
 				var sheet: ItemContentDefinition = ItemContentDefinition.haunting_sheet(paper, npc)
 				_items[sheet.item_definition_id] = sheet
+
+
+## Each name an item's create() may draw (book.c) as a form of its own, so the name kept is saved.
+func _add_named_items() -> void:
+	for item: ItemContentDefinition in _items.values().duplicate():
+		for index: int in range(item.name_pick().size()):
+			var named: ItemContentDefinition = ItemContentDefinition.named(item, index)
+			_items[named.item_definition_id] = named
 
 
 ## Every weapon's broken form (weapond.c bash_weapon()), so a broken one keeps its identity.

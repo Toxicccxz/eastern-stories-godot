@@ -262,11 +262,25 @@ func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunit
 	var killer_npc: NpcRuntimeState = null if killer == null else _map.npcs.find_resident_npc(killer.character_id)
 	var killer_heard: bool = killer_npc != null and (_map.npc_life.player_hears(killer_npc) or (is_player and _map.npc_life.player_shares_zone(killer_npc)))
 	var victim_npc: NpcRuntimeState = null if is_player else _map.npcs.find_resident_npc(victim.character_id)
+	# chard.c make_corpse(): owner_is_killed() of what it carries (windspring.c) before the
+	# corpse takes the rest: the item is gone, its NPC comes once the death is done.
+	var comes: Array[StringName] = []
+	if (victim_npc != null or is_player) and opportunity != null and opportunity.outcome == CombatSliceOpportunityResult.Outcome.LIFECYCLE_REQUIRED_DEATH:
+		comes = _owner_is_killed(victim, &"" if victim_npc == null else victim_npc.definition().definition_id)
 	var receipt: CombatSliceLifecycleResult = _execute_lifecycle(victim, opportunity, participants, killer)
 	_last_lifecycle_results.append(receipt)
 	# mind_bug.c die() runs its own lines before ::die()'s killer_reward().
 	if receipt.completed() and receipt.outcome == CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE and victim_npc != null:
 		_conjured_died(victim_npc, killer, participants)
+	# damage.c unconcious(): winner_reward() on the last to hurt the one who falls, before the
+	# dark (oldman.c defeated_enemy(): his line).
+	if receipt.completed() and receipt.outcome == CombatSliceLifecycleResult.Outcome.UNCONSCIOUS_COMPLETE and is_player and killer_npc != null:
+		var hooks: NpcHooks = killer_npc.definition().hooks()
+		if hooks != null and not hooks.defeated_say.is_empty() and _map.hud() != null:
+			_map.hud().append_after_fight([ColoredLine.new(tr(hooks.defeated_say), hooks.defeated_color)])
+	if receipt.completed() and receipt.outcome == CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE:
+		for item_id: StringName in comes:
+			_owner_killed_comes(item_id, location)
 	if receipt.completed() and receipt.outcome == CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE and killer != null:
 		_map.corpses.killed_enemy(killer_npc, killer_heard)
 		# combatd.c killer_reward(): a possessed killer's reward goes to who called it (its
@@ -289,6 +303,54 @@ func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunit
 		if npc != null:
 			npc.set_revive_in_ms(1000 * UnconsciousReviveDelay.seconds(npc.character_state.attributes.constitution, session.npc_revive_random_source()))
 	return receipt
+
+
+## owner_is_killed() of each item `victim` (an NPC of `definition_id`, or the player: "")
+## carries that has one (ItemContentDefinition), unless the holder is the item's own NPC
+## (sword_soul.c's sword): the item is destroyed now. Returns the item definitions whose
+## NPC is to come. Its NPC is one summoned spawn on this map; while that one stands, or on
+## a map without it, none can come and the item stays with the dead (默认: ES2 made another
+## where the killer stood).
+func _owner_is_killed(victim: CombatSliceCharacterBinding, definition_id: StringName) -> Array[StringName]:
+	var comes: Array[StringName] = []
+	var owner := ItemLifecycleOwnerContext.new(victim.character_id, victim.state.equipment, victim.armor)
+	for item_id: StringName in _inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, victim.character_id)):
+		var item: ItemInstance = _item_index.resolve(item_id)
+		var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
+		if content == null or content.owner_killed_npc().is_empty() or content.owner_killed_unless() == definition_id:
+			continue
+		if not _map.npcs.can_summon_one(_owner_killed_spawn(content.owner_killed_npc())):
+			continue
+		var removal: ItemLifecycleResult = ItemLifecycleService.destroy_item(_inventory, _stacks, item_id, ItemLifecycleResult.ChildDisposition.DESTROY_SUBTREE, owner)
+		if not (removal.succeeded and _item_index.forget_destroyed_snapshots(removal.removed_instance_ids, _inventory)):
+			push_error("owner_is_killed: %s could not be destroyed" % item_id)
+			continue
+		comes.append(item.item_definition_id)
+	return comes
+
+
+## windspring.c owner_is_killed(): its NPC comes into the killer's place (the summoned spawn
+## of that NPC on this map, where its master stood), the room reads its lines, and its
+## chant() starts.
+func _owner_killed_comes(item_definition_id: StringName, location: WorldLocationState) -> void:
+	var content: ItemContentDefinition = GameContent.catalog().item(item_definition_id)
+	var came: NpcRuntimeState = _map.npcs.summon_one(_owner_killed_spawn(content.owner_killed_npc()))
+	if came == null:
+		return
+	if _player != null and location != null and _player.world_location().shares_combat_location(location) and _map.hud() != null:
+		var lines: Array[ColoredLine] = []
+		for line: String in content.owner_killed_lines():
+			lines.append(ColoredLine.new(tr(line)))
+		_map.hud().append_after_fight(lines)
+	_map.npc_life.start_chant(came)
+
+
+## The summoned spawn of `npc_definition_id` on this map ("" when none).
+func _owner_killed_spawn(npc_definition_id: StringName) -> StringName:
+	for spawn: NpcSpawnDefinition in GameContent.catalog().spawns_for_map(_map.map_id()):
+		if spawn.summoned and spawn.npc_definition_id == npc_definition_id:
+			return spawn.spawn_id
+	return &""
 
 
 ## std/char.c heart_beat(): an NPC whose gin, kee or sen went below zero outside a

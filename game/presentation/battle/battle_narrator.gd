@@ -20,6 +20,8 @@ func _init(rng: RandomNumberGenerator = null) -> void:
 func opportunity(event: CombatSchedulerEvent, cast: BattlePresentationProjection) -> Array[BattleNarrationLine]:
 	var lines: Array[BattleNarrationLine] = []
 	if event.kind == CombatSchedulerEvent.Kind.NPC_CHAT and event.chat != null:
+		if event.chat.special() != null:
+			return special(event.chat.special(), cast)
 		return seen(event.chat.lines(), cast)
 	if event.kind == CombatSchedulerEvent.Kind.SPECIAL_EFFECT_ENDED and event.special != null:
 		return special(event.special, cast)
@@ -99,6 +101,9 @@ func _attack(
 	if base.calculation.force_wound > 0 and base.calculation.force_hit_wound != null:
 		# iceforce.c hit_ob() returns its line in place of the force hit's number.
 		lines.append(BattleNarrationLine.new(vision(tr(base.calculation.force_hit_wound.message), me, victim, cast)))
+	if not base.calculation.martial_message.is_empty():
+		# spicyclaw.c hit_ob() returns its line after the force hit's.
+		lines.append(BattleNarrationLine.new(vision(_limb_and_weapon(tr(base.calculation.martial_message), limb, weapon), me, victim, cast)))
 	var damage: int = -1
 	var outcome: String
 	match base.outcome:
@@ -138,7 +143,12 @@ func special(report: SpecialReport, cast: BattlePresentationProjection) -> Array
 	var next: int = 0
 	for index: int in range(said.size() + 1):
 		while next < attacks.size() and attacks[next].line_index <= index:
-			lines.append_array(attack_chain(attacks[next].forward, attacks[next].chain, cast, attacks[next].told, attacks[next].reverse_told))
+			var attack: SpecialAttack = attacks[next]
+			if attack.attacked():
+				lines.append_array(attack_chain(attack.forward, attack.chain, cast, attack.told, attack.reverse_told))
+			elif attack.guard_index >= 0:
+				# fight() guarded instead (hasten.c): its guard_msg.
+				lines.append(BattleNarrationLine.new(vision(tr(Es2CombatMessages.GUARD[attack.guard_index]), attack.attacker_id, attack.victim_id, cast)))
 			next += 1
 		if index < said.size():
 			lines.append_array(seen([said[index]], cast))

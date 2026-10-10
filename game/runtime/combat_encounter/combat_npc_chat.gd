@@ -102,11 +102,45 @@ func beat(
 	var context := SpecialContext.new(
 		side_of(actor, npc), enemy_sides, random_source.legacy_random, GameContent.catalog(), effects, other_sides,
 	)
+	# A perform's own attacks (hasten.c's fight()s) run in the fight like the player's.
+	var everyone: Array[CombatSliceCharacterBinding] = [actor]
+	everyone.append_array(others)
+	context.attack_source = CombatSpecialAttackSource.new(everyone, random_source, effects)
 	NpcSpecials.run(entry, context)
 	var joins: Array[CombatJoin] = _summon(actor, context)
-	if context.lines.is_empty() and context.damaged.is_empty():
+	if context.lines.is_empty() and context.damaged.is_empty() and context.attacks.is_empty():
 		return null
-	return CombatNpcChatResult.new(context.lines, context.damaged).with_joins(joins)
+	var said := CombatNpcChatResult.new(context.lines, context.damaged).with_joins(joins)
+	return said.with_special(context.report()) if not context.attacks.is_empty() else said
+
+
+## oldman.c receive_damage(type, pts) after a blow took `damage` kee from `victim`
+## (NpcHooks): above max_kee / divisor its hurt line, and when random(kee) is below the
+## damage it walks out of the fight (random_move()); then, while it has pills and gin, kee
+## or sen is below `pill_below`, its pill line, gin, kee and sen back to their eff_, a pill
+## less. Null when it does nothing.
+func hurt(victim: CombatSliceCharacterBinding, damage: int, random_source: CombatRandomSource) -> CombatNpcChatResult:
+	var npc: NpcRuntimeState = _npc(victim.character_id)
+	var hooks: NpcHooks = null if npc == null or npc.definition() == null else npc.definition().hooks()
+	if hooks == null or not hooks.has_receive_damage():
+		return null
+	var lines: Array[VisionLine] = []
+	var departure: StringName = &""
+	var state: CharacterState = victim.state
+	if hooks.hurts(damage, state.vitality.maximum):
+		lines.append(VisionLine.new(hooks.hurt_say, victim.character_id, &"", hooks.hurt_color))
+		if random_source.legacy_random(state.vitality.current) < damage:
+			var walked: CombatNpcChatResult = _walk_out(victim, npc, random_source)
+			if walked != null:
+				lines.append_array(walked.lines())
+				departure = walked.departure_zone_id()
+	if hooks.takes_pill(state, npc.pills()):
+		lines.append(VisionLine.new(hooks.pill_line, victim.character_id, &"", hooks.pill_color))
+		npc.pills_left = npc.pills() - 1
+	if lines.is_empty():
+		return null
+	var result := CombatNpcChatResult.new(lines)
+	return result.with_departure(departure) if not departure.is_empty() else result
 
 
 ## go.c for one fighting: `往<dir>落荒而逃了。`, then remove_all_enemy(); the fight

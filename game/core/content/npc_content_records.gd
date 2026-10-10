@@ -28,10 +28,14 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 	var nickname: String = reader.text("nickname")
 	var class_id: StringName = StringName(reader.text("class"))
 	var rank_respect: String = ""
+	var rank_self: String = ""
 	var rank_info: ContentRecordReader = reader.child("rank_info")
 	if rank_info != null:
-		rank_respect = rank_info.required_text("respect")
+		rank_respect = rank_info.text("respect")
+		rank_self = rank_info.text("self")
 		rank_info.finish()
+		if rank_respect.is_empty() and rank_self.is_empty():
+			reader.fail("rank_info", "needs respect or self")
 	var has_gender: bool = reader.has("gender")
 	var gender_roll: NpcRandomText = _random_text(reader, "gender")
 	var gender: String = gender_roll.first_choice() if gender_roll != null else reader.text("gender")
@@ -105,6 +109,7 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 	var raising: NpcRaising = NpcRaising.from_record(raised_reader) if raised_reader != null else null
 	var ordination_reader: ContentRecordReader = reader.child("ordination")
 	var ordination: NpcOrdination = NpcOrdination.from_record(ordination_reader) if ordination_reader != null else null
+	var hooks: NpcHooks = NpcHooks.from_record(reader)
 	reader.finish()
 	var definition: NpcDefinition = NpcDefinition.new(
 		StringName(definition_id),
@@ -126,7 +131,7 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 		capabilities,
 		description,
 		combat_facts,
-	).with_creation_facts(title, skill_map, gender_roll, age_roll, combat_experience_roll, score_roll).with_fight_rules(fight_rules).with_talk(talk).with_naming(nickname, rank_respect, class_id).with_dealings(dealings).with_teaching(teaching).with_internal_power(internal_power).with_bellicosity(bellicosity).with_combat_hooks(hit_condition, killed_enemy).with_rolls(apply_rolls, attitude_roll).with_summoning(name_pick, summoning).with_conjuring(conjuring).with_raising(raising).with_ordination(ordination)
+	).with_creation_facts(title, skill_map, gender_roll, age_roll, combat_experience_roll, score_roll).with_fight_rules(fight_rules).with_talk(talk).with_naming(nickname, rank_respect, class_id).with_dealings(dealings).with_teaching(teaching).with_internal_power(internal_power).with_bellicosity(bellicosity).with_combat_hooks(hit_condition, killed_enemy).with_rolls(apply_rolls, attitude_roll).with_summoning(name_pick, summoning).with_conjuring(conjuring).with_raising(raising).with_ordination(ordination).with_hooks(hooks).with_rank_self(rank_self)
 	if summoning != null and conjuring != null:
 		reader.fail("conjured", "an NPC is either summoned to its caster's side or conjured against its owner")
 	if raising != null and (summoning != null or conjuring != null or not name_pick.is_empty()):
@@ -141,7 +146,8 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 
 
 ## `inquiry` {topic: [line | {"mark_asker"}] | {"eff_kee_percent": [{"at_least", "say"}]} |
-## {"rules": [NpcInquiryRule]}}, `relay_say` {phrase: [{"say" | "emote" | "line" | "whisper"}]}, `chat_chance`
+## {"rules": [NpcInquiryRule]}}, `relay_say` {phrase: [{"say" | "emote" | "line" | "whisper"}]},
+## `relay_ask` [{"say" | "emote" | "line" | "whisper"}] (what it says to a topic it has no answer for), `chat_chance`
 ## with `chat_msg` [line | {"say", "color"} | {"action": "random_move"} | {"action": "drink",
 ## ...} | a special], `chat_chance_combat` with `chat_msg_combat` [line | {"say", "color"} |
 ## a special] (NpcSpecialAction: perform, cast, exert, surrender) and `greeting` {"say"},
@@ -229,7 +235,13 @@ static func _talk(reader: ContentRecordReader) -> NpcTalk:
 		greet.finish()
 		if greet.has("out_of") and (not greet.has("one_of") or greeting_out_of <= greeting.size()):
 			greet.fail("out_of", "needs one_of and more draws than lines")
-	return NpcTalk.new(inquiry, chance, entries, greeting, kee_answers, combat_chance, combat_entries).with_greeting_out_of(greeting_out_of, greet != null and greet.has("rules")).with_actions(answer_marks, rules, relay_say)
+	var relay_ask: Array[NpcLine] = []
+	for said: ContentRecordReader in reader.children("relay_ask"):
+		var line: NpcLine = NpcLine.from_record(said)
+		said.finish()
+		if line != null:
+			relay_ask.append(line)
+	return NpcTalk.new(inquiry, chance, entries, greeting, kee_answers, combat_chance, combat_entries).with_greeting_out_of(greeting_out_of, greet != null and greet.has("rules")).with_actions(answer_marks, rules, relay_say).with_relay_ask(relay_ask)
 
 
 ## npc.c chat() entries: lines, coloured lines and chat functions; drink only outside a

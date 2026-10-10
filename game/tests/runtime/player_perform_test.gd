@@ -70,7 +70,7 @@ func _test_content() -> void:
 	var labels: Array[String] = []
 	for function_id: StringName in SpecialFunctions.PERFORMS:
 		labels.append(SpecialFunctions.perform(function_id).label)
-	_check(labels == ["「封」字诀", "「逐」字诀", "「缺」字诀"], "doc/skill/fonxansword names them: " + str(labels))
+	_check(labels == ["「封」字诀", "「逐」字诀", "「缺」字诀", "「玄羽乱舞」"], "doc/skill/fonxansword names them; scholar/mysterrier/hasten.c's 玄羽乱舞: " + str(labels))
 	_check(SpecialFunctions.perform(&"powerfocus") == null, "「点」字诀 (powerfocus) has no file")
 	var catalog := BattleActionPresentationCatalog.new()
 	_check(catalog.label_for(CombatPerformTacticalPolicy.action_id_for(&"swordjab")) == "使出「逐」字诀", "the battle button: " + catalog.label_for(&"perform.swordjab"))

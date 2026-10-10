@@ -346,7 +346,13 @@ static func resolve(
 		)
 	calculation._reached_stage = CombatAttackCalculation.ReachedStage.ACTION_FORCE_READY
 
-	if not attacker.mapped_attack_skill_id.is_empty():
+	if attacker.martial_hit_policy_status == CombatHitPolicyStatus.Value.MARTIAL_WOUND:
+		var martial_result: CombatAttackResult = _martial_hit_wound(
+			attacker, defender, action, calculation, mutation, standard_force_result, defender_vitality, random_source,
+		)
+		if martial_result != null:
+			return martial_result
+	elif not attacker.mapped_attack_skill_id.is_empty():
 		var martial_policy_result: CombatAttackResult = _policy_gate_result(
 			attacker.martial_hit_policy_status,
 			CombatAttackResult.FailureStage.MARTIAL_HIT_POLICY,
@@ -616,6 +622,51 @@ static func _force_hit_wound(
 			defender_conditions.add_or_replace_duration(wound.condition_id, standard_force_result.factor / wound.factor_divisor)
 		calculation._force_wound = total
 		calculation._force_hit_wound = wound
+	return null
+
+
+## spicyclaw.c hit_ob(me, victim, damage_bonus): below the wound's at_least nothing; else
+## random(damage_bonus / 2) over the victim's query_str() wounds its kee by
+## (damage_bonus - at_least) / 2 and returns one of the messages (random(3)); the damage_bonus
+## itself is unchanged either way (a string is not added to it).
+static func _martial_hit_wound(
+	attacker: CombatAttackerSnapshot,
+	defender: CombatDefenderSnapshot,
+	action: CombatActionDefinition,
+	calculation: CombatAttackCalculation,
+	mutation: CombatResourceMutationResult,
+	standard_force_result: StandardForceHitResult,
+	defender_vitality: CharacterResourceState,
+	random_source: CombatRandomSource,
+) -> CombatAttackResult:
+	var wound: MartialHitWound = attacker.martial_hit_wound
+	var bonus: int = calculation._final_strength_bonus
+	if wound == null or bonus < wound.at_least:
+		return null
+	@warning_ignore("integer_division")
+	var bound: int = bonus / 2
+	var roll: int = _draw(random_source, bound, calculation) if bound > 0 else 0
+	if not _is_valid_draw(roll, bound):
+		return _invalid_draw_result(
+			CombatAttackResult.FailureStage.MARTIAL_HIT_POLICY, attacker, defender, action, calculation, mutation,
+			standard_force_result,
+		)
+	if roll <= defender.strength:
+		return null
+	@warning_ignore("integer_division")
+	var amount: int = (bonus - wound.at_least) / 2
+	if amount > 0:
+		defender_vitality.apply_wound(amount)
+	var count: int = wound.messages.size()
+	var pick: int = _draw(random_source, count, calculation)
+	if not _is_valid_draw(pick, count):
+		return _invalid_draw_result(
+			CombatAttackResult.FailureStage.MARTIAL_HIT_POLICY, attacker, defender, action, calculation, mutation,
+			standard_force_result,
+		)
+	calculation._martial_wound = amount
+	calculation._martial_hit_wound = wound
+	calculation._martial_message = wound.messages[pick]
 	return null
 
 

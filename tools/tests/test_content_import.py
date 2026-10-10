@@ -68,7 +68,7 @@ class GeneratedDataTest(unittest.TestCase):
         decisions = self.importer.decisions()
         pursuers = sorted(source for source, key in decisions if key == 'set pursuer')
         self.assertEqual(pursuers, [
-            'd/goathill/npc/bandit_hwang.c', 'd/latemoon/room/npc/killer.c', 'd/oldpine/npc/venomsnake.c',
+            'd/choyin/npc/sergeant.c', 'd/goathill/npc/bandit_hwang.c', 'd/latemoon/room/npc/killer.c', 'd/oldpine/npc/venomsnake.c',
             'd/sanyen/npc/monk.c', 'd/snow/npc/annihir.c', 'd/temple/npc/tfighter.c', 'obj/npc/garrison.c',
             'u/cloud/npc/bfighter.c',
         ])

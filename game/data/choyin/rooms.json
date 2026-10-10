@@ -1,0 +1,583 @@
+{
+	"rooms": [
+		{
+			"id": "es2:d/choyin/n_gate",
+			"short": "乔阴县城北门",
+			"long": "这里乔阴县城的北门，一座高大的石牌楼上面刻著「北门」两个大\n字，一条黄土路往北穿过一片松树林，青郁郁地通往北边的山上，石牌\n楼旁蹲著两只石狮，由于乔阴县城最热闹的火龙将军庙远在城南，因此\n北门这一带反而显得比较冷清，和附近的乡村一般的宁静纯朴。\n",
+			"exits": {
+				"west": "es2:u/cloud/sunhill/road1",
+				"south": "es2:d/choyin/n_street1"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/choyin/n_street1",
+			"short": "福林大街",
+			"long": "你现在正走在一条宽敞的街道上，这里是乔阴县城联通北门与南\n门的福林大街，街道两旁有做生意的，有做粗活的，这里的老百姓大多\n是老老实实的农人与工匠，街上卖的也多半是一些日用品，往东边是一\n条小巷子，南边的街道似乎比较热闹一些，北边则是北门。\n",
+			"exits": {
+				"south": "es2:d/choyin/n_street2",
+				"north": "es2:d/choyin/n_gate"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/choyin/n_street2",
+			"short": "福林大街",
+			"long": "你现在正走在一条宽敞的街道上，这里是乔阴县联通南北城门的福\n林大街，街道从这里向南北延伸，往北远远地可以望见北门的石牌楼，\n南边不远处则是乔阴县城著名的地标「树王坟」，你的东边有一家三层\n楼的酒馆，西边则是远近驰名的老姚布庄，街上不时有贩夫走卒穿梭\n而过，十分热闹。\n",
+			"exits": {
+				"south": "es2:d/choyin/n_street3",
+				"north": "es2:d/choyin/n_street1"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/choyin/n_street3",
+			"short": "福林大街",
+			"long": "你现在正走在一条宽敞的大街上，街道往北边笔直地延伸，南边则\n是一个隆起的石台，你可以看见石台前有块石碑，上书「树王坟」三个\n大字，街道的东边和西边都是石板空地，围绕著树王坟成为一个圆环，\n许多小贩客商都聚集在这里交易买卖。\n",
+			"exits": {
+				"west": "es2:d/choyin/nw_street",
+				"north": "es2:d/choyin/n_street2",
+				"south": "es2:d/choyin/tree_tomb"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/choyin/nw_street",
+			"short": "石板空地",
+			"long": "这里是树王坟西北边的石板空地，因为树王的根范围太广，因此树\n王坟周围十几丈都没有办法盖房子，因此这里铺了石板，平时便当作百\n姓散步休憩的地方。\n",
+			"exits": {
+				"west": "es2:d/choyin/w_street4",
+				"south": "es2:d/choyin/w_street3",
+				"east": "es2:d/choyin/n_street3"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/choyin/w_street4",
+			"short": "西大街",
+			"long": "这里是乔阴县城的西大街.\n",
+			"exits": {
+				"south": "es2:d/choyin/w_street2",
+				"east": "es2:d/choyin/nw_street"
+			}
+		},
+		{
+			"id": "es2:d/choyin/w_street3",
+			"short": "西大街",
+			"long": "这里是乔阴县城的西大街，东边不远处的石台便是远近驰名的「树\n王坟」，西大街往西一直通往西城门，街道两边有许多的商店，街上人\n来人往好不热闹。\n",
+			"exits": {
+				"north": "es2:d/choyin/nw_street",
+				"west": "es2:d/choyin/w_street2",
+				"east": "es2:d/choyin/tree_tomb"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/choyin/w_street2",
+			"short": "西大街",
+			"long": "这里是乔阴县城的西大街，西门就在你的西边几十丈外，望东则是\n通往乔阴县的著名地标「树王坟」，街上有许多商店，北边是一家大酒\n楼，南边则有一间染坊。\n",
+			"exits": {
+				"west": "es2:d/choyin/w_street1",
+				"east": "es2:d/choyin/w_street3"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/choyin/w_street1",
+			"short": "西大街",
+			"long": "这里是乔阴县城的西大街，西边就是县城的西门，一座巨大的牌楼\n上刻著「西门」二字，往北有一条小巷，南边则是一间书肆，街道中央\n立著一尊石狮(statue)，而且是站著的，将来往行人分为左右两道。\n",
+			"exits": {
+				"east": "es2:d/choyin/w_street2"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/choyin/tree_tomb",
+			"short": "树王坟",
+			"long": "你现在来到了著名的「树王坟」前，这里是个高台，中央约两丈见方\n的地上有一截巨大的树桩，少说有三、四十人合抱那么粗，树桩中间有一\n个大洞(hole)，望下去黑漆漆地，石台靠南的地方还有一间小庙(shrine)\n，东西南北四个方向都有阶梯通往四面的街道。\n",
+			"exits": {
+				"north": "es2:d/choyin/n_street3",
+				"west": "es2:d/choyin/w_street3",
+				"south": "es2:d/choyin/s_street3",
+				"east": "es2:d/choyin/e_street1"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/choyin/e_street1",
+			"short": "东大街",
+			"long": "    这里是乔阴县城的东大街，西边不远处的石台便是远近驰名的「树\n王坟」，东大街往东一直通往东城门，街道两边有许多的民宅，街上行\n人渐稀。\n",
+			"exits": {
+				"west": "es2:d/choyin/tree_tomb",
+				"east": "es2:d/choyin/e_gate"
+			}
+		},
+		{
+			"id": "es2:d/choyin/e_gate",
+			"short": "东城门",
+			"long": "    这里乔阴县城的东门，一座高大的石牌楼上面刻著「北门」两个大\n字，一条土路青郁郁地通往南边的山上，石牌楼旁蹲著一只铁狮. 与南\n北两城门相比, 北门这一带显得比较冷清，偶见几个采药, 砍柴之人由\n此出入。\n\n",
+			"exits": {
+				"west": "es2:d/choyin/e_street1",
+				"east": "es2:d/choyin/solidpath1"
+			}
+		},
+		{
+			"id": "es2:d/choyin/s_street3",
+			"short": "福林大街",
+			"long": "这里是乔阴县城的福林大街，往北是一座高台，台上便是著名的「\n树王坟」，打从这里往南就是乔阴县最热闹的街道，接上来往的行商贩\n子也最多，你的东边和西边都是石板空地，平常的市集便在此处，遇到\n赛会节庆这里更是挤得水泄不通，福林大街往南是个路口。\n",
+			"exits": {
+				"south": "es2:d/choyin/s_street2",
+				"north": "es2:d/choyin/tree_tomb"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/choyin/s_street2",
+			"short": "福林大街",
+			"long": "这里是乔阴县城的福林大街，东首一栋雕梁画栋，美仑美奂的华厦\n便是乔阴县最大的酒楼「福林楼」，不但乔阴县城的富商大贾常来此楼\n饮宴，就连方圆百里内的许多豪门巨绅也常常到这里喝酒，西边是一条\n宽敞的青石官道，通往县府衙门，街道往南则是热闹的南门广场。\n",
+			"exits": {
+				"north": "es2:d/choyin/s_street3",
+				"south": "es2:d/choyin/s_street1",
+				"east": "es2:d/choyin/hotel1"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/choyin/hotel1",
+			"short": "福林酒楼",
+			"long": "这里便是乔阴县驰名远近的福林酒楼，连乔阴县最热闹的一条大街\n都以此命名，福林酒楼是一家近百年老店，传到现在的这位掌柜已经是\n第三代，如果你是初到此地的外地人，不妨和他攀攀交情，酒楼一楼多\n半是县城里熟客人，东北边有一道方梯通往楼上雅座，往西则可以出大\n街。\n",
+			"exits": {
+				"up": "es2:d/choyin/hotel2",
+				"west": "es2:d/choyin/s_street2"
+			}
+		},
+		{
+			"id": "es2:d/choyin/s_street1",
+			"short": "南门广场",
+			"long": "这里便是乔阴县城最大的一处广场，往北是贯通县城南北门的福林\n大道，往东则是一个绿柳环绕的湖泊「翠柳湖」，广场上只见卖艺的，\n卖糖葫芦的，捏面人的，各色小贩穿梭来去，广场中央有一口大井，井\n旁用绳索绑著几只杯子供人取水喝(drink)，南门的牌楼因为几年前改建\n翠柳湖的曲桥，因此移到西边的县府衙门所在的昌平街，现在广场的南\n面就是一座曲桥通往湖东岸的雨桥庄，西南边一条宽敞的街道沿著湖岸\n通往城外，广场的西边则一直延伸到昌平街。\n",
+			"exits": {
+				"south": "es2:d/choyin/bridge1",
+				"north": "es2:d/choyin/s_street2",
+				"west": "es2:d/choyin/s_street4",
+				"southwest": "es2:d/choyin/sw_road1"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/choyin/s_street4",
+			"short": "承安街",
+			"long": "这里是乔阴县城城南的承安街，街道十分宽敞，南北两边都是一些\n贩卖南北货、日用品的商店，这里虽然正当乔阴县人车来往最频繁的要\n冲，可是却没有福林大街热闹，往东走便是南门广场，往西则是和昌平\n街的交叉路口。\n",
+			"exits": {
+				"west": "es2:d/choyin/s_street5",
+				"east": "es2:d/choyin/s_street1"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/choyin/s_street5",
+			"short": "承安街",
+			"long": "这里是乔阴县城南的承安街，往东可以通往热闹的南门广场，西边\n的路口则是通往县府衙门的昌平街，街道北边是一些贩卖日常用具的商\n店，南边则是一块空地，从这里可以看到南边的城墙。\n",
+			"exits": {
+				"west": "es2:d/choyin/crossroad",
+				"east": "es2:d/choyin/s_street4"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/choyin/crossroad",
+			"short": "十字路口",
+			"long": "这里是昌平街跟承安街的交叉路口，往南就是乔阴县城的南门，往\n北不远处则是衙门的所在地，乔阴县到了这里显得格外安静，路人大多\n沈默地走著，不敢大声喧哗，和城东的花花世界相比，这里显得宁静许\n多。\n",
+			"exits": {
+				"south": "es2:d/choyin/s_gate",
+				"north": "es2:d/choyin/court1",
+				"east": "es2:d/choyin/s_street5"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/choyin/court1",
+			"short": "县府衙门",
+			"long": "这里是乔阴县府衙门的大门，就像你印象中的衙门一般，高大的大\n门、两只巨大的石狮、以及一种令人为之肃然的气氛。门口有一面大皮\n鼓(drum)，不用说，这当然是让百姓击鼓申冤用的，乔阴县的知县据说\n是槐阳王的侄子，虽然算不上是包青天，不过倒也没有听说过有什么贪\n赃枉法的劣迹。\n",
+			"exits": {
+				"south": "es2:d/choyin/crossroad"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/choyin/s_gate",
+			"short": "乔阴县城南门",
+			"long": "这里是乔阴县城的南门，由于这个南门是十多年前重建的，因此和\n古老斑驳的东、西、北门相比，南门显得漂亮许多，而且南门正对著县\n府衙门，平日的修缮当然也勤快些。乔阴县城南门外住著许多上次羿水\n河鲁公堤溃决之后迁来的农民，因此虽然出了城门，街道依然人来人往\n，往东是一条沿著城墙的街道，可以经过火龙将军庙入城，西边的街道\n沿著城墙通往新建的驿站，往南则是许多房舍与农田。\n",
+			"exits": {
+				"north": "es2:d/choyin/crossroad",
+				"east": "es2:d/choyin/dragon_temple",
+				"south": "es2:d/choyin/spath"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/choyin/dragon_temple",
+			"short": "火龙将军庙",
+			"long": "这里是乔阴县城香火最盛的火龙将军庙，火龙将军据说就是两百年\n前率领官兵和杀死树王的骷髅妖怪作战的黎方黎将军，这里就是当年火\n龙将军驻兵扎营之处，如果你想知道火龙将军的事迹，不妨问问附近的\n年长的居民，将军庙的建筑十分奇特，一条道路东西贯通庙的中央，而\n火龙将军的神像立在横跨道路的一个高台上，往来的行人都从火龙将军\n的脚底走过，要上香的信徒必须从南北两边的阶梯爬上高台。\n",
+			"exits": {
+				"up": "es2:d/choyin/altar",
+				"west": "es2:d/choyin/s_gate",
+				"east": "es2:d/choyin/sw_road1"
+			},
+			"no_fight": true,
+			"no_magic": true
+		},
+		{
+			"id": "es2:d/choyin/sw_road1",
+			"short": "街道",
+			"long": "这是一条沿著湖岸的街道，往东北可以通到人车来往的南门广场，\n这一带原本是在乔阴县城的旧南门之外，因此仍然保留浓厚的乡村气息\n，往南是一条小路继续沿著湖岸通往翠柳湖南岸，街道往东通往著名的\n火龙将军庙。\n",
+			"exits": {
+				"northeast": "es2:d/choyin/s_street1",
+				"west": "es2:d/choyin/dragon_temple"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/choyin/bridge1",
+			"short": "曲桥",
+			"long": "这是一座弯弯曲曲的曲桥，横过翠柳湖连接东岸的雨桥庄跟西岸的\n乔阴县城，从这里可以欣赏翠柳湖的美景，许多睡莲散布在桥墩四周，\n湖面飘著数不尽的浮萍，浮萍底下有不少艳红锦鲤穿梭来去。\n",
+			"exits": {
+				"north": "es2:d/choyin/s_street1",
+				"east": "es2:d/choyin/bridge2"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/choyin/bridge2",
+			"short": "曲桥",
+			"long": "这是一座弯弯曲曲的曲桥，横过翠柳湖连接东岸的雨桥庄跟西岸的\n乔阴县城，从这里可以欣赏翠柳湖的美景，许多睡莲散布在桥墩四周，\n湖面飘著数不尽的浮萍，浮萍底下有不少艳红锦鲤穿梭来去。\n",
+			"exits": {
+				"west": "es2:d/choyin/bridge1",
+				"north": "es2:d/choyin/bridge3"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/choyin/bridge3",
+			"short": "曲桥",
+			"long": "这是一座弯弯曲曲的曲桥，横过翠柳湖连接东岸的雨桥庄跟西岸的\n乔阴县城，从这里可以欣赏翠柳湖的美景，许多睡莲散布在桥墩四周，\n湖面飘著数不尽的浮萍，浮萍底下有不少艳红锦鲤穿梭来去。\n",
+			"exits": {
+				"south": "es2:d/choyin/bridge2",
+				"east": "es2:d/choyin/bridge4"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/choyin/bridge4",
+			"short": "曲桥",
+			"long": "这是一座弯弯曲曲的曲桥，横过翠柳湖连接东岸的雨桥庄跟西岸的\n乔阴县城，从这里可以欣赏翠柳湖的美景，许多睡莲散布在桥墩四周，\n湖面飘著数不尽的浮萍，浮萍底下有不少艳红锦鲤穿梭来去。\n",
+			"exits": {
+				"south": "es2:d/choyin/bridge5",
+				"west": "es2:d/choyin/bridge3"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/choyin/bridge5",
+			"short": "曲桥",
+			"long": "这是一座弯弯曲曲的曲桥，横过翠柳湖连接东岸的雨桥庄跟西岸的\n乔阴县城，从这里可以欣赏翠柳湖的美景，许多睡莲散布在桥墩四周，\n湖面飘著数不尽的浮萍，浮萍底下有不少艳红锦鲤穿梭来去。\n",
+			"exits": {
+				"north": "es2:d/choyin/bridge4",
+				"east": "es2:d/choyin/entrance"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/choyin/entrance",
+			"short": "曼雩台",
+			"long": "这里是雨桥庄西边的曼雩台，也是乔阴县城的文人墨客时常聚集谈\n论诗文的地方，台宽约十丈，西边是连接乔阴县城的翠柳曲桥，从翠柳\n湖中的片片睡莲中弯弯曲曲地通往西边的广场，北边和南边各有数十根\n梁柱，常有许多落拓的士人将他们的作品贴在这里希望得到贵人赏识，\n往东是一片桃树林，春天时和翠柳湖畔的柳树相辉映，蔚为乔阴县的第\n一盛景。\n",
+			"exits": {
+				"west": "es2:d/choyin/bridge5",
+				"east": "es2:d/choyin/taolin"
+			}
+		},
+		{
+			"id": "es2:d/choyin/taolin",
+			"short": "桃林",
+			"long": "这是很大的一片桃林。每年花开的季节，这里一片桃花灿烂，总引得\n邻近的镇集的游客来观看，甚至京城的游客也不乏其人。桃林中阡陌纵横\n，不熟悉此地的游客经常迷路。当然啦，一些先行者在桃树枝上挂了些字\n条以指示道路。看。。字条（note）在那儿。。\n",
+			"exits": {
+				"south": "es2:d/choyin/taolin",
+				"north": "es2:d/choyin/taolin",
+				"west": "es2:d/choyin/taolin",
+				"east": "es2:d/choyin/taolin",
+				"northwest": "es2:d/choyin/taolin",
+				"southeast": "es2:d/choyin/taolin"
+			}
+		},
+		{
+			"id": "es2:d/choyin/yamen_yard",
+			"short": "县衙内院",
+			"long": "院内草木繁茂,亭榭错落有致,可见这位县太爷也是位雅人.\n",
+			"exits": {
+				"south": "es2:d/choyin/court1",
+				"north": "es2:d/choyin/yamen"
+			}
+		},
+		{
+			"id": "es2:d/choyin/yamen",
+			"short": "大堂",
+			"long": "正中高悬一匾(borad),匾下的书案上放着笔,墨,纸,砚,惊堂木等物.两旁各置屏风.堂下摆着各式刑具,你从未见过.\n",
+			"exits": {
+				"north": "es2:d/choyin/yamen_iner",
+				"south": "es2:d/choyin/yamen_yard"
+			}
+		},
+		{
+			"id": "es2:d/choyin/yamen_iner",
+			"short": "内厅",
+			"long": "内厅是老爷与好友叙话, 品茶, 吟诗, 作画之所; 格外幽静......\n",
+			"exits": {
+				"south": "es2:d/choyin/yamen"
+			}
+		},
+		{
+			"id": "es2:d/choyin/altar",
+			"short": "火龙将军庙",
+			"long": "这里就是奉祀火龙将军的大殿，火龙将军高大威武的神像(statue)\n就立在你的面前，旁边还有火龙将军的部属虎豹熊鹰四位将军，你现在\n所站的地方是横过街道而建的一个高台，隔著栏杆可以看见下面的街道\n川流不息的人群，南北各有一道阶梯往下回到街道。\n",
+			"exits": {
+				"down": "es2:d/choyin/dragon_temple"
+			},
+			"no_fight": true,
+			"no_magic": true
+		},
+		{
+			"id": "es2:d/choyin/hotel2",
+			"short": "福林酒楼",
+			"long": "这里是福林酒楼的二楼雅座，这里的客人大多衣冠鲜明，若不是富\n豪巨绅，便是秀才举人，使你不知不觉跟著斯文起来，从这里可以眺望\n乔阴县城的市景，东边不远处隔著几栋建筑便是县府衙门，南边是碧波\n荡漾的翠柳湖，湖对岸的雨桥庄在柳树间若隐若现，东边许多民房，再\n过去便是一方方的稻田，北边可望见树王坟的石台，以及乔阴县城北的\n建筑。你可以沿角落的方梯回到一楼，或者到三楼的客房。\n",
+			"exits": {
+				"up": "es2:d/choyin/hotel3",
+				"down": "es2:d/choyin/hotel1"
+			}
+		},
+		{
+			"id": "es2:d/choyin/hotel3",
+			"short": "福林酒楼",
+			"long": "这里是福林酒楼的客房，住的都是一些从外地来的富商大贾，为了\n预防宵小盗窃财物，福林酒楼的汤掌柜特别雇请了许多武师担任守卫的\n工作，往下可以回到二楼。\n",
+			"exits": {
+				"down": "es2:d/choyin/hotel2"
+			}
+		},
+		{
+			"id": "es2:d/choyin/tomb1",
+			"short": "树王坟",
+			"long": "这里是树王坟内部的树洞，由于这棵大树实在太大，因此你站在树\n洞里，一点也不觉得局促，树洞约有两个人的高度那么深，你可以攀附\n粗糙的洞壁往上离开，东边的树根比较少，露出一些土层，北边跟西边\n则是树洞的另一端。\n",
+			"exits": {
+				"north": "es2:d/choyin/tomb3",
+				"west": "es2:d/choyin/tomb2",
+				"up": "es2:d/choyin/tree_tomb"
+			}
+		},
+		{
+			"id": "es2:d/choyin/tomb2",
+			"short": "树王坟内部",
+			"long": "这里是树王坟树洞的内部，你的北、西、南三面都是盘根错节的树\n根，地面上铺著一堆乾草，似乎有人睡过的样子，往东的出口通往树洞\n的另一端。\n",
+			"exits": {
+				"east": "es2:d/choyin/tomb1"
+			}
+		},
+		{
+			"id": "es2:d/choyin/tomb3",
+			"short": "树王坟内部",
+			"long": "这里是树王坟树洞的内部，你在这里可以闻到一股浓郁的檀香，奇\n怪的是，这棵大树并不是檀木，却不知这股香味从哪里来？往南的出口\n通往树洞的另一端。\n",
+			"exits": {
+				"south": "es2:d/choyin/tomb1"
+			}
+		},
+		{
+			"id": "es2:d/choyin/lionroom",
+			"short": "神秘洞穴",
+			"long": "洞内黑漆漆的，几乎什么都看不见，只是在一个角落里\n有两点红光闪烁，凭你多年的经验，那一定是一双野兽的眼\n睛。这个地方最好不要久留。\n",
+			"no_magic": true
+		},
+		{
+			"id": "es2:d/choyin/solidpath1",
+			"short": "土路",
+			"long": "黄土铺就的小路.阴雨天,泥泞难行.往南就上山了.\n",
+			"exits": {
+				"west": "es2:d/choyin/e_gate",
+				"south": "es2:d/choyin/rockpath2",
+				"north": "es2:d/choyin/solidpath2"
+			}
+		},
+		{
+			"id": "es2:d/choyin/solidpath2",
+			"short": "荒野小径",
+			"long": "荒野中的小路,依稀可变,蜿蜒曲折,不知通向何方.\n",
+			"exits": {
+				"northeast": "es2:d/choyin/cloudpool",
+				"south": "es2:d/choyin/solidpath1"
+			}
+		},
+		{
+			"id": "es2:d/choyin/cloudpool",
+			"short": "云梦大泽",
+			"long": "云梦大泽八百里,雾气沼沼,商旅绝行.\n",
+			"exits": {
+				"southwest": "es2:d/choyin/solidpath2"
+			}
+		},
+		{
+			"id": "es2:d/choyin/rockpath2",
+			"short": "青石小路",
+			"long": "    铺路的青石采自桐柏山.因行人稀少,已快被茅草遮没.\n",
+			"exits": {
+				"north": "es2:d/choyin/solidpath1",
+				"southup": "es2:d/choyin/rockpath1"
+			}
+		},
+		{
+			"id": "es2:d/choyin/rockpath1",
+			"short": "青石小路",
+			"long": "铺路的青石采自桐柏山.因行人稀少,已快被茅草遮没.\n",
+			"exits": {
+				"northdown": "es2:d/choyin/rockpath2",
+				"southup": "es2:d/choyin/rockyu"
+			}
+		},
+		{
+			"id": "es2:d/choyin/rockyu",
+			"short": "青石峪",
+			"long": "此地山势平缓,山坡尽是湘妃竹.南面就是桐柏山了,西面即为隐士结庐修身之所\n.往北可见下山的青石小径.\n",
+			"exits": {
+				"northdown": "es2:d/choyin/rockpath1",
+				"westdown": "es2:d/choyin/fence",
+				"southup": "es2:d/choyin/tongbhill"
+			}
+		},
+		{
+			"id": "es2:d/choyin/fence",
+			"short": "竹林",
+			"long": "诺大的一片竹林，密密匝匝，望不道尽头。游目四顾，没有路了。\n微风乍起，竹林深处现出一角竹篱(fence)。\n",
+			"exits": {
+				"west": "es2:d/choyin/club",
+				"eastup": "es2:d/choyin/rockyu"
+			}
+		},
+		{
+			"id": "es2:d/choyin/club",
+			"short": "草堂",
+			"long": "一间由白茅草搭成的草堂，室内仅有一竹榻，一矮几，四把竹椅．堂前一幅拓片装裱精\n致，上书:\n      书有未曾经我读\n      事无不可对人言\n矮几上摊有书卷(books)放着一支朱砂笔，一房歙砚竟题有岳武穆藏，另几张上好生宣． \n",
+			"exits": {
+				"west": "es2:d/choyin/yard",
+				"east": "es2:d/choyin/fence"
+			},
+			"no_fight": true,
+			"no_magic": true
+		},
+		{
+			"id": "es2:d/choyin/yard",
+			"short": "庭院",
+			"long": "这是一间什麽也没有的空房间。\n",
+			"exits": {
+				"east": "es2:d/choyin/club"
+			}
+		},
+		{
+			"id": "es2:d/choyin/tongbhill",
+			"short": "桐柏山",
+			"long": "鬼神皆修于桐柏,故而此地人烟稀少,仅山下青石峪的那位隐士结庐在此.东边山\n壁天成一洞,据传是姑射山的仙人炼丹之所,终日烈焰雄雄,烤得此地寸草不生.\n然而,一株老松仍枝繁叶茂,立于巨石(stone)之上.\n",
+			"exits": {
+				"northdown": "es2:d/choyin/rockyu"
+			}
+		},
+		{
+			"id": "es2:d/choyin/stove",
+			"short": "丹炉",
+			"long": "雷霆不断击向一粒粒仙丹,仙丹慢慢由黑转为红色.你注意到炉门好象开着.\n",
+			"exits": {
+				"out": "es2:d/choyin/tongbhill"
+			}
+		},
+		{
+			"id": "es2:d/choyin/spath",
+			"short": "土路",
+			"long": "这是一条土路，路旁隐约可见房舍，皆已破败。往南是一座高山，\n据说有鬼怪出没。\n",
+			"exits": {
+				"north": "es2:d/choyin/s_gate",
+				"south": "es2:d/choyin/rockroad"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/choyin/rockroad",
+			"short": "砾石路",
+			"long": "    这是一条铺著砾石的上路，险峻难行。南面一座高山，云雾\n缭绕险峻异常。山前断碑字迹依稀可辨--「姑射山』。传说中有\n位仙人曾居于此地，不知如今还在不在......\n",
+			"exits": {
+				"north": "es2:d/choyin/spath",
+				"southup": "es2:d/choyin/guyehill"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/choyin/guyehill",
+			"short": "绝壁",
+			"long": "    采药人言曰：有仙人乘鹤飞升，径入此山，不知所终.....\n此地林木(tree)繁茂，藤蔓(vine)错杂。南耸绝壁，下临深谷.\n半山腰处，隐隐可见一洞，流云出岫。\n",
+			"exits": {
+				"northdown": "es2:d/choyin/rockroad"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/choyin/craneroom",
+			"short": "树冠",
+			"long": "古树果非寻常之物，树冠白雾升腾，上接霄汉，如仙境一般，让人流连忘返...\n",
+			"exits": {
+				"down": "es2:d/choyin/guyehill"
+			}
+		},
+		{
+			"id": "es2:d/choyin/halfhole",
+			"short": "山洞",
+			"long": "这里就是半山腰处的山洞。四壁空无一物，极为荒凉......\n",
+			"exits": {
+				"down": "es2:d/choyin/guyehill"
+			}
+		},
+		{
+			"id": "es2:d/choyin/platform",
+			"short": "云台",
+			"long": "姑射之巅，祥云朵朵，瑞彩千条。藐姑射之山，有神人居焉，肌肤若冰雪，绰约如处子..\n仙踪难觅，只觉风声飒然，云开之出，凸现一座云台(platform)\n"
+		},
+		{
+			"id": "es2:d/choyin/hollow",
+			"short": "寒谷",
+			"long": "两面皆为峭壁，光滑无物。一阵寒谷幽香，沁人心脾，却不知来自何方。。。\n",
+			"exits": {
+				"east": "es2:d/choyin/hollow1"
+			},
+			"no_magic": true
+		},
+		{
+			"id": "es2:d/choyin/hollow1",
+			"short": "寒谷",
+			"long": "两面皆为峭壁，光滑无物。一阵寒谷幽香，沁人心脾，却不知来自何方。。。\n",
+			"exits": {
+				"north": "es2:d/choyin/hollow2",
+				"south": "es2:d/choyin/hollow1",
+				"west": "es2:d/choyin/hollow"
+			}
+		},
+		{
+			"id": "es2:d/choyin/hollow2",
+			"short": "寒谷",
+			"long": "    两面皆为峭壁，光滑无物。一阵寒谷幽香，沁人心脾，却不知来自何方。。。\n",
+			"exits": {
+				"west": "es2:d/choyin/hollow3",
+				"south": "es2:d/choyin/hollow1"
+			}
+		},
+		{
+			"id": "es2:d/choyin/hollow3",
+			"short": "寒谷尽头",
+			"long": "两面皆为峭壁，光滑无物。一株寒谷幽兰,暗香浮动，沁人心脾。山壁天然行成\n一空穴(vase),积满寒露.\n",
+			"exits": {
+				"east": "es2:d/choyin/hollow1"
+			},
+			"no_magic": true
+		}
+	]
+}

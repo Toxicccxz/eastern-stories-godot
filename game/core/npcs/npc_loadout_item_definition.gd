@@ -19,6 +19,9 @@ var _stack_definition: StackDefinitionType
 var _currency_definition: CurrencyDefinitionType
 var _armor_definition: ArmorDefinitionType
 var _legacy_source_paths: Array[String] = []
+## The item's named forms when create() draws its name (d/choyin/obj/book.c): the one an
+## NPC carries is drawn among them; empty for an item with one name.
+var _name_pick_ids: Array[StringName] = []
 
 var own_weight: int:
 	get:
@@ -37,6 +40,7 @@ func _init(
 	p_currency_definition: CurrencyDefinitionType = null,
 	p_legacy_source_paths: Array[String] = [],
 	p_armor_definition: ArmorDefinitionType = null,
+	p_name_pick_ids: Array[StringName] = [],
 ) -> void:
 	_item_definition = _copy_item_definition(p_item_definition)
 	_own_weight = p_own_weight
@@ -46,6 +50,11 @@ func _init(
 	_currency_definition = _copy_currency_definition(p_currency_definition)
 	_armor_definition = _copy_armor_definition(p_armor_definition)
 	_legacy_source_paths = p_legacy_source_paths.duplicate()
+	_name_pick_ids = p_name_pick_ids.duplicate()
+
+
+func name_pick_ids() -> Array[StringName]:
+	return _name_pick_ids.duplicate()
 
 
 func item_definition() -> ItemDefinitionType:
@@ -99,6 +108,7 @@ func duplicate_snapshot() -> NpcLoadoutItemDefinition:
 		_currency_definition,
 		_legacy_source_paths,
 		_armor_definition,
+		_name_pick_ids,
 	)
 
 

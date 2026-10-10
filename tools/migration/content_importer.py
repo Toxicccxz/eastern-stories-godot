@@ -60,7 +60,7 @@ ATTRIBUTES = ['str', 'cor', 'int', 'spi', 'cps', 'per', 'con', 'kar']
 RESOURCES = [prefix + track for track in ('gin', 'kee', 'sen') for prefix in ('', 'eff_', 'max_')]
 # Internal power has no eff_ tier (force, atman, mana).
 RESOURCES += [prefix + track for track in ('force', 'atman', 'mana') for prefix in ('', 'max_')]
-APPLY_KEYS = ['attack', 'damage', 'armor', 'dodge', 'defense', 'parry']
+APPLY_KEYS = ['attack', 'damage', 'armor', 'dodge', 'defense', 'parry', 'armor_vs_force']
 ATTITUDES = {'peaceful', 'friendly', 'heroism', 'aggressive'}
 # NPC fields whose create()-time random draws the loader models.
 RANDOM_INTEGER_KEYS = {'set age', 'set combat_exp', 'set score'}
@@ -731,10 +731,11 @@ class Importer:
         # attack.c init(): attacks whoever holds vendetta/<mark> (killer_reward() gives it).
         take('vendetta_mark')
         take('force_factor')
-        # rankd.c query_respect(): how others address this NPC.
-        if isinstance(sets.get('rank_info/respect'), str):
-            handled.add('rank_info/respect')
-            record['rank_info'] = {'respect': sets['rank_info/respect']}
+        # rankd.c query_respect() and query_self(): how others address this NPC, how it calls itself.
+        for key in ('respect', 'self'):
+            if isinstance(sets.get(f'rank_info/{key}'), str):
+                handled.add(f'rank_info/{key}')
+                record.setdefault('rank_info', {})[key] = sets[f'rank_info/{key}']
         # feature/apprentice.c create_family(name, generation, title); privs -1.
         family = lpc.first('create_family')
         if family is not None and len(family.args) == 3 and is_plain(family.args):
@@ -906,11 +907,17 @@ class Importer:
         lpc = self.corpus.get(canonical)
         sets = lpc.sets()
         name = lpc.first('set_name')
-        if name is None or not is_plain(name.args):
+        if name is not None and len(name.args) == 2 and not is_plain(name.args[0]) and is_plain(name.args[1]):
+            # A name drawn in create() (d/choyin/obj/book.c's names[random(sizeof(names))]):
+            # the override sets `name` and `name_pick`.
+            self.note(canonical, 'set_name', describe(name.args[0]))
+            record: dict = {'id': record_id, 'legacy_sources': [canonical, *copies], 'aliases': name.args[1]}
+        elif name is None or not is_plain(name.args):
             raise ImportError_(f'{canonical}: no plain set_name()')
-        record: dict = {'id': record_id, 'legacy_sources': [canonical, *copies], 'name': name.args[0]}
-        if len(name.args) > 1:
-            record['aliases'] = name.args[1]
+        else:
+            record = {'id': record_id, 'legacy_sources': [canonical, *copies], 'name': name.args[0]}
+            if len(name.args) > 1:
+                record['aliases'] = name.args[1]
         handled = {'long', 'unit', 'material', 'value', 'no_get'}
         for key in ('long', 'unit', 'material'):
             if key in sets:

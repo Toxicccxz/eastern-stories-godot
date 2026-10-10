@@ -397,7 +397,10 @@ func reset_room(legacy_room: String) -> void:
 				continue
 			if npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
 				_respawn_npc(spawn, npc)
-			elif npc.world_location().zone_id != spawn.zone_id:
+				continue
+			# oldman.c reset(): set("pills", 9).
+			npc.pills_left = -1
+			if npc.world_location().zone_id != spawn.zone_id:
 				return_home(npc)
 	for spawn: ItemSpawnDefinition in catalog.item_spawns_for_map(map):
 		if spawn.legacy_source_room_path != legacy_room:
@@ -465,17 +468,30 @@ func _appear(npc: NpcRuntimeState, spawn: NpcSpawnDefinition, arrive: bool = tru
 ## the first whose point is free, absent or dead (made anew). Null when every one
 ## stands here already.
 func summon_one(spawn_id: StringName) -> NpcRuntimeState:
+	var npc: NpcRuntimeState = _summonable(spawn_id)
+	if npc == null:
+		return null
+	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(spawn_id)
+	if npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
+		return _npc_at_point(npc.spawn_point_id) if _respawn_npc(spawn, npc) else null
+	return npc if _appear(npc, spawn) else null
+
+
+## Whether summon_one() would bring one in.
+func can_summon_one(spawn_id: StringName) -> bool:
+	return _summonable(spawn_id) != null
+
+
+## The NPC of the summoned spawn that summon_one() brings: the first on a point that is
+## dead or absent. Null when every one stands here already.
+func _summonable(spawn_id: StringName) -> NpcRuntimeState:
 	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(spawn_id)
 	if not _initialized or spawn == null or not spawn.summoned or spawn.map_id != map:
 		return null
 	for point_id: StringName in spawn.spawn_point_ids():
 		var npc: NpcRuntimeState = _npc_at_point(point_id)
-		if npc == null:
-			continue
-		if npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
-			return _npc_at_point(point_id) if _respawn_npc(spawn, npc) else null
-		if not npc.exists_in_map:
-			return npc if _appear(npc, spawn) else null
+		if npc != null and (npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD or not npc.exists_in_map):
+			return npc
 	return null
 
 
@@ -706,6 +722,21 @@ func dismiss_summoned() -> void:
 		_summon_spawns.erase(npc.spawn_id)
 		summoners.erase(npc.character_id)
 		_drop_npc(npc)
+
+
+## destruct() of an NPC a room placed (oldman.c kill_ob()): it is gone with all it
+## carries and leaves no corpse; its room's reset makes a new one, as for one that died.
+func vanish(npc: NpcRuntimeState) -> void:
+	if npc == null or find_resident_npc(npc.character_id) == null:
+		return
+	_take_away(npc)
+	npc.set_life_status(CharacterRuntimeLifeStatus.Value.DEAD)
+	npc.set_exists_in_map(false)
+	if _map.selection.selected_character_id() == npc.character_id:
+		_map.selection.selected_target = null
+	var body: WorldCharacterBody2D = runtime_body_for_character(npc.character_id)
+	if body != null:
+		body.refresh_runtime_state()
 
 
 ## destruct(): what a summoned NPC carries goes with it.

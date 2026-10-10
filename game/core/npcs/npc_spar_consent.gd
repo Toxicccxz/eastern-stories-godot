@@ -48,7 +48,7 @@ static func decide(npc: NpcRuntimeState, challenger: Challenger, attitude: int =
 	var definition: NpcDefinition = npc.definition()
 	var att: int = definition.attitude if attitude < 0 else attitude
 	var state: CharacterState = npc.character_state
-	result.npc_self = RankWords.query_self(state.gender, npc.age, definition.class_id)
+	result.npc_self = definition.query_self(state.gender, npc.age)
 	result.respect = RankWords.query_respect(challenger.gender, challenger.age, challenger.class_id)
 	var rules: Array[NpcFightRule] = definition.fight_rules()
 	if not rules.is_empty():

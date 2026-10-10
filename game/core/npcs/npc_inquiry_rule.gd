@@ -30,6 +30,9 @@ var hands_over: StringName = &""
 var amount: int = 0
 var after: Array[NpcLine] = []
 var after_empty: Array[NpcLine] = []
+## feature/vendor.c do_vendor_list() (a vendor's `(: do_vendor_list :)` topic): the
+## vendor's goods and prices, write()n to the asker.
+var vendor_list: bool = false
 
 
 func matches(marks: Dictionary[String, int], class_id: StringName = &"", gender: StringName = &"") -> bool:
@@ -89,6 +92,7 @@ static func from_record(reader: ContentRecordReader) -> NpcInquiryRule:
 			rule.after_empty = said
 	if rule.hands_over.is_empty() and (rule.amount != 0 or not rule.after.is_empty() or not rule.after_empty.is_empty()):
 		reader.fail("hands_over", "amount, after and after_empty go with hands_over")
+	rule.vendor_list = reader.boolean("vendor_list", false)
 	rule.mark_asker = reader.text("mark_asker")
 	rule.temp_asker = reader.text("temp_asker")
 	rule.gives = StringName(reader.text("gives"))
@@ -99,6 +103,6 @@ static func from_record(reader: ContentRecordReader) -> NpcInquiryRule:
 		if rule.gives.is_empty():
 			reader.fail("taken", "is said only instead of `gives`")
 	reader.finish()
-	if rule.lines.is_empty() and rule.gives.is_empty() and rule.hands_over.is_empty():
+	if rule.lines.is_empty() and rule.gives.is_empty() and rule.hands_over.is_empty() and not rule.vendor_list:
 		reader.fail("", "says or gives something")
 	return rule

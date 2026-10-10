@@ -66,6 +66,8 @@ msgstr ""
 #. common.npc.taoist.taolord apprentice.requires.gender
 #. common.npc.bonze.master gender
 #. common.npc.bonze.master apprentice.requires.gender
+#. common.npc.beggar.master gender
+#. common.npc.scholar.master gender
 #. oldpine.npc.bandit gender
 #. oldpine.npc.tall_bandit gender
 #. oldpine.npc.fat_bandit gender
@@ -159,12 +161,22 @@ msgstr ""
 #. sanyen.npc.cook_bonze gender
 #. sanyen.npc.little_bonze gender
 #. sanyen.npc.work_bonze gender
-#: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json
+#. choyin.npc.cake_vendor gender
+#. choyin.npc.dumpling_seller gender
+#. choyin.npc.cucurbit_seller gender
+#. choyin.npc.judge_gu gender
+#. choyin.npc.magistra gender
+#. choyin.npc.visitor gender.then
+#. choyin.npc.judgeman gender
+#. choyin.npc.oldman gender
+#. choyin.npc.lboy gender
+#: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json
 msgid "男性"
 msgstr ""
 
 #. common.npc.dancer.master gender
 #. common.npc.dancer.master apprentice.requires.gender
+#. common.npc.scholar.sword_soul gender
 #. snow.npc.traveller gender.else
 #. snow.npc.girl gender
 #. snow.npc.girl accept_fight.gender
@@ -212,7 +224,12 @@ msgstr ""
 #. latemoon.npc.upstar.huei gender
 #. latemoon.latemoon8.dance dance.costs.gender
 #. latemoon.miroom.dance dance.costs.gender
-#: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json
+#. choyin.npc.crone gender
+#. choyin.npc.visitor gender.else
+#. choyin.npc.girl gender
+#. choyin.npc.maid gender
+#. choyin.npc.lady gender
+#: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json
 msgid "女性"
 msgstr ""
 
@@ -288,6 +305,316 @@ msgstr ""
 msgid "背包"
 msgstr ""
 
+#. es2:d/choyin/dragon_temple short
+#. es2:d/choyin/altar short
+#: scenes/world/choyin/choyin_altar.tscn scenes/world/choyin/choyin_town.tscn data/choyin/rooms.json
+msgid "火龙将军庙"
+msgstr ""
+
+#: scenes/world/choyin/choyin_altar.tscn
+msgid "阶梯 · 下楼"
+msgstr ""
+
+#. es2:d/oldpine/cave1 short
+#. es2:d/oldpine/cave2 short
+#. es2:d/oldpine/cave3 short
+#. es2:d/oldpine/cave4 short
+#. es2:d/oldpine/cave5 short
+#. es2:d/choyin/halfhole short
+#: scenes/world/choyin/choyin_cliff_cave.tscn scenes/world/oldpine/oldpine_caves.tscn data/oldpine/rooms.json data/choyin/rooms.json
+msgid "山洞"
+msgstr ""
+
+#: scenes/world/choyin/choyin_cliff_cave.tscn
+msgid "藤蔓 · 爬下去"
+msgstr ""
+
+#. es2:d/choyin/craneroom short
+#: scenes/world/choyin/choyin_crown.tscn data/choyin/rooms.json
+msgid "树冠"
+msgstr ""
+
+#: scenes/world/choyin/choyin_crown.tscn
+msgid "古树 · 爬下去"
+msgstr ""
+
+#. es2:d/choyin/cloudpool short
+#: scenes/world/choyin/choyin_east.tscn data/choyin/rooms.json
+msgid "云梦大泽"
+msgstr ""
+
+#. es2:d/choyin/solidpath2 short
+#: scenes/world/choyin/choyin_east.tscn data/choyin/rooms.json
+msgid "荒野小径"
+msgstr ""
+
+#. es2:d/choyin/solidpath1 short
+#. es2:d/choyin/spath short
+#: scenes/world/choyin/choyin_east.tscn scenes/world/choyin/choyin_guye.tscn data/choyin/rooms.json
+msgid "土路"
+msgstr ""
+
+#. es2:d/choyin/rockpath2 short
+#. es2:d/choyin/rockpath1 short
+#: scenes/world/choyin/choyin_east.tscn data/choyin/rooms.json
+msgid "青石小路"
+msgstr ""
+
+#. es2:d/choyin/rockyu short
+#: scenes/world/choyin/choyin_east.tscn data/choyin/rooms.json
+msgid "青石峪"
+msgstr ""
+
+#. es2:d/latemoon/bamboo3 short
+#. es2:d/latemoon/bamboo short
+#. es2:d/latemoon/bamboo1 short
+#. es2:d/latemoon/bamboo2 short
+#. es2:d/latemoon/bamboo4 short
+#. es2:d/choyin/fence short
+#: scenes/world/choyin/choyin_east.tscn scenes/world/latemoon/latemoon_hills.tscn data/latemoon/rooms.json data/choyin/rooms.json
+msgid "竹林"
+msgstr ""
+
+#. es2:d/choyin/club short
+#: scenes/world/choyin/choyin_east.tscn data/choyin/rooms.json
+msgid "草堂"
+msgstr ""
+
+#. es2:d/choyin/yard short
+#: scenes/world/choyin/choyin_east.tscn data/choyin/rooms.json
+msgid "庭院"
+msgstr ""
+
+#. es2:d/choyin/tongbhill short
+#: scenes/world/choyin/choyin_east.tscn data/choyin/rooms.json
+msgid "桐柏山"
+msgstr ""
+
+#: scenes/world/choyin/choyin_east.tscn
+msgid "西 · 乔阴县城"
+msgstr ""
+
+#. es2:d/choyin/stove short
+#: scenes/world/choyin/choyin_east.tscn scenes/world/choyin/choyin_furnace.tscn data/choyin/rooms.json
+msgid "丹炉"
+msgstr ""
+
+#: scenes/world/choyin/choyin_east.tscn
+msgid "大泽 · 装水"
+msgstr ""
+
+#. es2:d/choyin/rockroad short
+#: scenes/world/choyin/choyin_guye.tscn data/choyin/rooms.json
+msgid "砾石路"
+msgstr ""
+
+#. es2:d/choyin/guyehill short
+#: scenes/world/choyin/choyin_guye.tscn data/choyin/rooms.json
+msgid "绝壁"
+msgstr ""
+
+#: scenes/world/choyin/choyin_guye.tscn
+msgid "北 · 乔阴县城"
+msgstr ""
+
+#. guye name
+#: scenes/world/choyin/choyin_guye.tscn data/choyin/world.json
+msgid "姑射山"
+msgstr ""
+
+#. choyin.npc.boss inquiry topic
+#. es2:d/choyin/hotel1 short
+#. es2:d/choyin/hotel2 short
+#. es2:d/choyin/hotel3 short
+#: scenes/world/choyin/choyin_hotel_2f.tscn scenes/world/choyin/choyin_hotel_3f.tscn scenes/world/choyin/choyin_town.tscn data/choyin/npcs.json data/choyin/rooms.json
+msgid "福林酒楼"
+msgstr ""
+
+#: scenes/world/choyin/choyin_hotel_2f.tscn scenes/world/choyin/choyin_hotel_3f.tscn
+msgid "方梯 · 下楼"
+msgstr ""
+
+#: scenes/world/choyin/choyin_hotel_2f.tscn scenes/world/choyin/choyin_town.tscn
+msgid "方梯 · 上楼"
+msgstr ""
+
+#. es2:d/choyin/lionroom short
+#: scenes/world/choyin/choyin_lion_cave.tscn data/choyin/rooms.json
+msgid "神秘洞穴"
+msgstr ""
+
+#. es2:d/choyin/platform short
+#. choyin.platform.landmark.platform name
+#: scenes/world/choyin/choyin_summit.tscn data/choyin/rooms.json data/choyin/world.json
+msgid "云台"
+msgstr ""
+
+#. es2:d/choyin/n_gate short
+#: scenes/world/choyin/choyin_town.tscn data/choyin/rooms.json
+msgid "乔阴县城北门"
+msgstr ""
+
+#. es2:d/choyin/n_street1 short
+#. es2:d/choyin/n_street2 short
+#. es2:d/choyin/n_street3 short
+#. es2:d/choyin/s_street3 short
+#. es2:d/choyin/s_street2 short
+#: scenes/world/choyin/choyin_town.tscn data/choyin/rooms.json
+msgid "福林大街"
+msgstr ""
+
+#. es2:d/choyin/nw_street short
+#: scenes/world/choyin/choyin_town.tscn data/choyin/rooms.json
+msgid "石板空地"
+msgstr ""
+
+#. es2:d/choyin/w_street4 short
+#. es2:d/choyin/w_street3 short
+#. es2:d/choyin/w_street2 short
+#. es2:d/choyin/w_street1 short
+#: scenes/world/choyin/choyin_town.tscn data/choyin/rooms.json
+msgid "西大街"
+msgstr ""
+
+#. es2:d/choyin/tree_tomb short
+#. es2:d/choyin/tomb1 short
+#: scenes/world/choyin/choyin_town.tscn scenes/world/choyin/choyin_tree_hollow.tscn data/choyin/rooms.json
+msgid "树王坟"
+msgstr ""
+
+#. es2:d/choyin/e_street1 short
+#: scenes/world/choyin/choyin_town.tscn data/choyin/rooms.json
+msgid "东大街"
+msgstr ""
+
+#. es2:d/choyin/e_gate short
+#: scenes/world/choyin/choyin_town.tscn data/choyin/rooms.json
+msgid "东城门"
+msgstr ""
+
+#. es2:d/choyin/s_street1 short
+#: scenes/world/choyin/choyin_town.tscn data/choyin/rooms.json
+msgid "南门广场"
+msgstr ""
+
+#. es2:d/choyin/s_street4 short
+#. es2:d/choyin/s_street5 short
+#: scenes/world/choyin/choyin_town.tscn data/choyin/rooms.json
+msgid "承安街"
+msgstr ""
+
+#. es2:u/cloud/cross short
+#. es2:d/choyin/crossroad short
+#: scenes/world/choyin/choyin_town.tscn scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json data/choyin/rooms.json
+msgid "十字路口"
+msgstr ""
+
+#. es2:d/choyin/court1 short
+#: scenes/world/choyin/choyin_town.tscn data/choyin/rooms.json
+msgid "县府衙门"
+msgstr ""
+
+#. es2:d/choyin/s_gate short
+#: scenes/world/choyin/choyin_town.tscn data/choyin/rooms.json
+msgid "乔阴县城南门"
+msgstr ""
+
+#. es2:d/choyin/sw_road1 short
+#: scenes/world/choyin/choyin_town.tscn data/choyin/rooms.json
+msgid "街道"
+msgstr ""
+
+#. es2:d/choyin/bridge1 short
+#. es2:d/choyin/bridge2 short
+#. es2:d/choyin/bridge3 short
+#. es2:d/choyin/bridge4 short
+#. es2:d/choyin/bridge5 short
+#: scenes/world/choyin/choyin_town.tscn data/choyin/rooms.json
+msgid "曲桥"
+msgstr ""
+
+#. es2:d/choyin/entrance short
+#: scenes/world/choyin/choyin_town.tscn data/choyin/rooms.json
+msgid "曼雩台"
+msgstr ""
+
+#. es2:d/choyin/taolin short
+#: scenes/world/choyin/choyin_town.tscn data/choyin/rooms.json
+msgid "桃林"
+msgstr ""
+
+#: scenes/world/choyin/choyin_town.tscn
+msgid "阶梯 · 上高台"
+msgstr ""
+
+#: scenes/world/choyin/choyin_town.tscn
+msgid "西 · 泓水南岸"
+msgstr ""
+
+#: scenes/world/choyin/choyin_town.tscn
+msgid "东 · 城外"
+msgstr ""
+
+#: scenes/world/choyin/choyin_town.tscn
+msgid "南 · 姑射山"
+msgstr ""
+
+#: scenes/world/choyin/choyin_town.tscn
+msgid "翠柳湖"
+msgstr ""
+
+#: scenes/world/choyin/choyin_town.tscn
+msgid "大井 · 装水"
+msgstr ""
+
+#: scenes/world/choyin/choyin_town.tscn
+msgid "大井 · 喝水"
+msgstr ""
+
+#. es2:d/choyin/tomb2 short
+#. es2:d/choyin/tomb3 short
+#: scenes/world/choyin/choyin_tree_hollow.tscn data/choyin/rooms.json
+msgid "树王坟内部"
+msgstr ""
+
+#: scenes/world/choyin/choyin_tree_hollow.tscn
+msgid "洞壁 · 攀上去"
+msgstr ""
+
+#. es2:d/choyin/hollow short
+#. es2:d/choyin/hollow1 short
+#. es2:d/choyin/hollow2 short
+#: scenes/world/choyin/choyin_valley.tscn data/choyin/rooms.json
+msgid "寒谷"
+msgstr ""
+
+#. es2:d/choyin/hollow3 short
+#: scenes/world/choyin/choyin_valley.tscn data/choyin/rooms.json
+msgid "寒谷尽头"
+msgstr ""
+
+#. es2:d/latemoon/latemoon2 short
+#. es2:d/latemoon/room/corridor7 short
+#. es2:d/latemoon/miroom2 short
+#. es2:d/choyin/yamen_iner short
+#: scenes/world/choyin/choyin_yamen.tscn scenes/world/latemoon/latemoon_manor.tscn scenes/world/latemoon/latemoon_secret.tscn data/latemoon/rooms.json data/choyin/rooms.json
+msgid "内厅"
+msgstr ""
+
+#. es2:d/choyin/yamen short
+#: scenes/world/choyin/choyin_yamen.tscn data/choyin/rooms.json
+msgid "大堂"
+msgstr ""
+
+#. es2:d/choyin/yamen_yard short
+#: scenes/world/choyin/choyin_yamen.tscn data/choyin/rooms.json
+msgid "县衙内院"
+msgstr ""
+
+#: scenes/world/choyin/choyin_yamen.tscn
+msgid "南 · 衙门口"
+msgstr ""
+
 #. es2:u/cloud/duchang short
 #. es2:u/cloud/duchang2 short
 #: scenes/world/cloud/cloud_duchang_upstairs.tscn scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
@@ -353,11 +680,6 @@ msgstr ""
 #. es2:u/cloud/nroad2 short
 #: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
 msgid "南市场"
-msgstr ""
-
-#. es2:u/cloud/cross short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
-msgid "十字路口"
 msgstr ""
 
 #. es2:u/cloud/wroad2 short
@@ -840,15 +1162,6 @@ msgstr ""
 msgid "小径"
 msgstr ""
 
-#. es2:d/latemoon/bamboo3 short
-#. es2:d/latemoon/bamboo short
-#. es2:d/latemoon/bamboo1 short
-#. es2:d/latemoon/bamboo2 short
-#. es2:d/latemoon/bamboo4 short
-#: scenes/world/latemoon/latemoon_hills.tscn data/latemoon/rooms.json
-msgid "竹林"
-msgstr ""
-
 #: scenes/world/latemoon/latemoon_hills.tscn
 msgid "北 · 晚月庄后门"
 msgstr ""
@@ -913,13 +1226,6 @@ msgstr ""
 #. es2:d/latemoon/room/flower1 short
 #: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json
 msgid "内厅穿堂"
-msgstr ""
-
-#. es2:d/latemoon/latemoon2 short
-#. es2:d/latemoon/room/corridor7 short
-#. es2:d/latemoon/miroom2 short
-#: scenes/world/latemoon/latemoon_manor.tscn scenes/world/latemoon/latemoon_secret.tscn data/latemoon/rooms.json
-msgid "内厅"
 msgstr ""
 
 #. es2:d/latemoon/room/two1 short
@@ -1105,15 +1411,6 @@ msgstr ""
 msgid "南 · 瀑布前"
 msgstr ""
 
-#. es2:d/oldpine/cave1 short
-#. es2:d/oldpine/cave2 short
-#. es2:d/oldpine/cave3 short
-#. es2:d/oldpine/cave4 short
-#. es2:d/oldpine/cave5 short
-#: scenes/world/oldpine/oldpine_caves.tscn data/oldpine/rooms.json
-msgid "山洞"
-msgstr ""
-
 #: scenes/world/oldpine/oldpine_caves.tscn
 msgid "东下 · 瀑布前"
 msgstr ""
@@ -1202,7 +1499,8 @@ msgid "大松树"
 msgstr ""
 
 #. oldpine.outdoor.landmark.epath2_vine name
-#: scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/world.json
+#. choyin.guyehill.landmark.vine name
+#: scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/world.json data/choyin/world.json
 msgid "藤蔓"
 msgstr ""
 
@@ -1546,7 +1844,8 @@ msgstr ""
 msgid "西南 · 黄石隘口"
 msgstr ""
 
-#: scenes/world/snow/snow_outdoor.tscn
+#. choyin.w_street1.landmark.statue name
+#: scenes/world/snow/snow_outdoor.tscn data/choyin/world.json
 msgid "石狮"
 msgstr ""
 
@@ -1957,7 +2256,7 @@ msgid "你没有那麽多的%s。"
 msgstr ""
 
 #. an NPC's say() in a fight: {npc} its name, {line} what it says.
-#: application/items/npc_drink_service.gd core/npcs/npc_inquiry.gd core/npcs/npc_line.gd core/relationships/npc_apprenticeship.gd runtime/combat_encounter/combat_npc_chat.gd runtime/world/map/world_map_selection.gd
+#: application/items/npc_drink_service.gd core/npcs/npc_inquiry.gd core/npcs/npc_line.gd core/relationships/npc_apprenticeship.gd runtime/combat_encounter/combat_npc_chat.gd runtime/world/map/world_map_hostilities.gd runtime/world/map/world_map_npc_life.gd runtime/world/map/world_map_selection.gd
 msgid "{npc}说道：{line}"
 msgstr ""
 
@@ -2123,7 +2422,8 @@ msgstr ""
 msgid "小姑娘"
 msgstr ""
 
-#: core/characters/rank_words.gd
+#. choyin.npc.youngman inquiry topic
+#: core/characters/rank_words.gd data/choyin/npcs.json
 msgid "姑娘"
 msgstr ""
 
@@ -3393,6 +3693,38 @@ msgstr ""
 msgid "$N突然对$n发出奋力一击！"
 msgstr ""
 
+#: core/specials/hasten_perform.gd
+msgid "「玄羽乱舞」"
+msgstr ""
+
+#: core/specials/hasten_perform.gd
+msgid "「玄羽乱舞」只能在战斗中使用。"
+msgstr ""
+
+#: core/specials/hasten_perform.gd
+msgid "你的气不够！"
+msgstr ""
+
+#: core/specials/hasten_perform.gd
+msgid "你的真气不够！"
+msgstr ""
+
+#: core/specials/hasten_perform.gd
+msgid "$N使出步玄七诀第一式「玄羽乱舞」，身法陡然加快！"
+msgstr ""
+
+#: core/specials/hasten_perform.gd
+msgid "$N的身形转了几转，倏地停住了脚步。"
+msgstr ""
+
+#: core/specials/hasten_perform.gd
+msgid "$N迅捷无伦地在$n身旁绕了一圈 ..."
+msgstr ""
+
+#: core/specials/hasten_perform.gd
+msgid "但是$N找不到机会出手！"
+msgstr ""
+
 #: core/specials/haunt_scribe.gd
 msgid "$N眼睛忽然睁开，喃喃地说道：杀....死....$n...."
 msgstr ""
@@ -3908,6 +4240,7 @@ msgstr ""
 #. liuh-ken actions.damage_type
 #. celestrike actions.damage_type
 #. snowwhip actions.damage_type
+#. spicyclaw actions.damage_type
 #. actions.damage_type
 #: data/combat/beast_combat_action_definitions.gd presentation/battle/es2_combat_messages.gd data/common/skills.json data/common/combat_actions.json
 msgid "瘀伤"
@@ -3925,8 +4258,9 @@ msgstr ""
 msgid "$N扑上来张嘴往$n的$l狠狠地一咬"
 msgstr ""
 
+#. spicyclaw actions.damage_type
 #. actions.damage_type
-#: data/combat/beast_combat_action_definitions.gd data/common/combat_actions.json
+#: data/combat/beast_combat_action_definitions.gd data/common/skills.json data/common/combat_actions.json
 msgid "抓伤"
 msgstr ""
 
@@ -3940,6 +4274,7 @@ msgstr ""
 #. tenderzhi actions.damage_type
 #. snowwhip actions.damage_type
 #. snowshade-sword actions.damage_type
+#. mystsword actions.damage_type
 #. actions.damage_type
 #: data/combat/beast_combat_action_definitions.gd presentation/battle/es2_combat_messages.gd data/common/skills.json data/common/combat_actions.json
 msgid "刺伤"
@@ -4546,6 +4881,7 @@ msgstr ""
 #. spring-blade actions.damage_type
 #. fonxansword actions.damage_type
 #. snowshade-sword actions.damage_type
+#. shortsong-blade actions.damage_type
 #. actions.damage_type
 #: presentation/battle/es2_combat_messages.gd data/common/skills.json data/common/combat_actions.json
 msgid "割伤"
@@ -4928,7 +5264,8 @@ msgstr ""
 #. latemoon.npc.park.rabbit limbs
 #. latemoon.npc.upstar.bird limbs
 #. latemoon.npc.butterfly limbs
-#: runtime/combat_slice/combat_slice_content_profile.gd ui/world/player_inventory_panel.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/latemoon/npcs.json
+#. choyin.npc.serpent limbs
+#: runtime/combat_slice/combat_slice_content_profile.gd ui/world/player_inventory_panel.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/latemoon/npcs.json data/choyin/npcs.json
 msgid "头部"
 msgstr ""
 
@@ -5191,6 +5528,14 @@ msgstr ""
 
 #: runtime/world/map/world_map_selection.gd
 msgid "{npc}给你{item}。"
+msgstr ""
+
+#: runtime/world/map/world_map_selection.gd
+msgid "你可以购买下列这些东西："
+msgstr ""
+
+#: runtime/world/map/world_map_selection.gd
+msgid "{item}：{price}"
 msgstr ""
 
 #. two of a stack (两枚棋子): {unit} its measure word, {item} its name.
@@ -6298,7 +6643,8 @@ msgid ""
 "{wake}"
 msgstr ""
 
-#: ui/world/player_life_overlay.gd
+#. choyin.npc.oldman kill_ob.lines.line
+#: ui/world/player_life_overlay.gd data/choyin/npcs.json
 msgid "你死了。"
 msgstr ""
 
@@ -6695,8 +7041,9 @@ msgid ""
 msgstr ""
 
 #. es2:obj/cloth name
+#. es2:d/choyin/obj/cloth name
 #. es2:u/cloud/obj/cloth/cloth name
-#: data/common/items.json data/cloud/items.json
+#: data/common/items.json data/choyin/items.json data/cloud/items.json
 msgid "布衣"
 msgstr ""
 
@@ -6732,6 +7079,8 @@ msgstr ""
 #. es2:d/latemoon/obj/skirt4 unit
 #. es2:d/sanyen/obj/monk_cloth unit
 #. es2:d/sanyen/obj/cloth unit
+#. es2:d/choyin/obj/lady_dress unit
+#. es2:d/choyin/obj/cloth unit
 #. es2:u/cloud/obj/npc/monk/jiasha unit
 #. es2:u/cloud/obj/npc/lm_guard/color_cloth unit
 #. es2:u/cloud/obj/cloth/black_cloth unit
@@ -6743,12 +7092,13 @@ msgstr ""
 #. es2:d/temple/obj/robe unit
 #. es2:d/temple/obj/old_robe unit
 #. es2:d/temple/npc/obj/robe1 unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json data/latemoon/items.json data/sanyen/items.json data/cloud/items.json data/waterfog/items.json data/temple/items.json
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/cloud/items.json data/waterfog/items.json data/temple/items.json
 msgid "件"
 msgstr ""
 
 #. es2:obj/example/dumpling name
-#: data/common/items.json
+#. choyin.npc.dumpling_seller inquiry topic
+#: data/common/items.json data/choyin/npcs.json
 msgid "包子"
 msgstr ""
 
@@ -6769,9 +7119,14 @@ msgstr ""
 #. es2:d/latemoon/park/npc/obj/amulet unit
 #. es2:d/latemoon/obj/dragonfly unit
 #. es2:d/sanyen/obj/maintal unit
+#. es2:d/choyin/obj/amulet unit
+#. es2:d/choyin/obj/denotation unit
+#. es2:d/choyin/npc/obj/cake unit
+#. es2:d/choyin/npc/obj/red_guay unit
+#. es2:d/choyin/npc/obj/tomatoo unit
 #. es2:d/green/npc/obj/ricewine unit
 #. es2:d/green/obj/jade unit
-#: data/common/items.json data/snow/items.json data/latemoon/items.json data/sanyen/items.json data/green/items.json
+#: data/common/items.json data/snow/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/green/items.json
 msgid "个"
 msgstr ""
 
@@ -6800,10 +7155,11 @@ msgstr ""
 
 #. es2:obj/old_book unit
 #. es2:d/latemoon/room/npc/obj/whip_book unit
+#. es2:d/choyin/obj/book unit
 #. es2:u/cloud/obj/literate_book unit
 #. es2:d/temple/obj/magic_book unit
 #. es2:d/temple/obj/spells_book unit
-#: data/common/items.json data/latemoon/items.json data/cloud/items.json data/temple/items.json
+#: data/common/items.json data/latemoon/items.json data/choyin/items.json data/cloud/items.json data/temple/items.json
 msgid "本"
 msgstr ""
 
@@ -6854,6 +7210,7 @@ msgstr ""
 #. es2:daemon/class/taoist/sword unit
 #. es2:obj/npc/obj/steel_fork unit
 #. es2:obj/example/sword unit
+#. es2:daemon/class/scholar/windspring unit
 #. es2:d/oldpine/obj/long_sword unit
 #. es2:d/oldpine/obj/short_sword unit
 #. es2:d/oldpine/npc/obj/parrybook unit
@@ -6869,6 +7226,7 @@ msgstr ""
 #. es2:d/latemoon/room/npc/obj/longsword unit
 #. es2:d/latemoon/park/npc/obj/guihua unit
 #. es2:d/sanyen/obj/broom unit
+#. es2:d/choyin/obj/blade unit
 #. es2:u/cloud/obj/npc/butcher/knife unit
 #. es2:u/cloud/obj/npc/tailor/ruler unit
 #. es2:u/cloud/obj/npc/tailor/scissors unit
@@ -6880,7 +7238,7 @@ msgstr ""
 #. es2:d/green/obj/hammer unit
 #. es2:d/green/obj/windsword unit
 #. es2:d/temple/obj/broom unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/sanyen/items.json data/cloud/items.json data/waterfog/items.json data/green/items.json data/temple/items.json
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/cloud/items.json data/waterfog/items.json data/green/items.json data/temple/items.json
 msgid "把"
 msgstr ""
 
@@ -7157,11 +7515,12 @@ msgstr ""
 
 #. es2:daemon/class/juechen/hat unit
 #. es2:daemon/class/taoist/hat unit
+#. es2:d/choyin/obj/hat unit
 #. es2:d/waterfog/obj/watcher_hat unit
 #. es2:d/waterfog/obj/red_hat unit
 #. es2:d/temple/obj/hat unit
 #. es2:d/temple/npc/obj/jade_hat unit
-#: data/common/items.json data/waterfog/items.json data/temple/items.json
+#: data/common/items.json data/choyin/items.json data/waterfog/items.json data/temple/items.json
 msgid "顶"
 msgstr ""
 
@@ -7279,6 +7638,29 @@ msgstr ""
 #: data/common/items.json
 msgid ""
 "一条又粗又长，非常沈重的黄铜禅杖，上面镶著六个铜环。\n"
+msgstr ""
+
+#. es2:daemon/class/scholar/windspring name
+#: data/common/items.json
+msgid "风泉之剑"
+msgstr ""
+
+#. es2:daemon/class/scholar/windspring long
+#: data/common/items.json
+msgid ""
+"这是步玄派历代相传的掌门信物，湛蓝色的剑身跟鹅黄色剑柄，使\n"
+"得风泉之剑成为具有「剑之王者」的美誉，除此之外，这把剑也是\n"
+"削铁如泥的利器。\n"
+msgstr ""
+
+#. es2:daemon/class/scholar/windspring owner_is_killed.lines
+#: data/common/items.json
+msgid "你看到风泉之剑掉落在地上 ..."
+msgstr ""
+
+#. es2:daemon/class/scholar/windspring owner_is_killed.lines
+#: data/common/items.json
+msgid "不 ... 它飘了起来！一个人形忽然浮现，手中正握著风泉之剑！"
 msgstr ""
 
 #. unarmed improved_line
@@ -8281,6 +8663,211 @@ msgstr ""
 msgid "$N的$w凭空一指，一招「断石狼烟」刺向$n的$l"
 msgstr ""
 
+#. mysterrier name
+#: data/common/skills.json
+msgid "步玄七诀"
+msgstr ""
+
+#. mysterrier dodge_messages
+#: data/common/skills.json
+msgid "$n身影一转，轻易地避开了这一招。"
+msgstr ""
+
+#. mysterrier dodge_messages
+#: data/common/skills.json
+msgid "$n身法飘忽，左一点，右一顿，早已闪在一旁。"
+msgstr ""
+
+#. mysterrier dodge_messages
+#: data/common/skills.json
+msgid "但是$n身影一侧，在间不容发之际从容地避开了这一招。"
+msgstr ""
+
+#. mysterrier dodge_messages
+#: data/common/skills.json
+msgid "$n身形陡然拔高，使$N的攻势尽数落空。"
+msgstr ""
+
+#. mysterrier dodge_messages
+#: data/common/skills.json
+msgid "$n右足一点，身影向左滑开数尺，避了开去。"
+msgstr ""
+
+#. mystforce name
+#: data/common/skills.json
+msgid "步玄心法"
+msgstr ""
+
+#. mystsword name
+#: data/common/skills.json
+msgid "小步玄剑"
+msgstr ""
+
+#. mystsword actions.action
+#: data/common/skills.json
+msgid "$N使一招「暮雪三叹」，手中$w急如骤雨般地刺向$n$l"
+msgstr ""
+
+#. mystsword actions.action
+#: data/common/skills.json
+msgid "$N身形一晃，一招「处子弄笛」向$n$l刺出一剑"
+msgstr ""
+
+#. mystsword actions.action
+#: data/common/skills.json
+msgid "$N舞动$w，一招「阳谷白练」挟著闪闪剑光刺向$n的$l"
+msgstr ""
+
+#. mystsword actions.action
+#: data/common/skills.json
+msgid "$N手中$w一个圈转，使出「薰容逐电」中锋直进刺向$n的$l"
+msgstr ""
+
+#. spicyclaw name
+#: data/common/skills.json
+msgid "油流麻香手"
+msgstr ""
+
+#. spicyclaw hit_wound.messages
+#: data/common/skills.json
+msgid "你听到「喀啦」一声轻响，竟似是骨碎的声音！"
+msgstr ""
+
+#. spicyclaw hit_wound.messages
+#: data/common/skills.json
+msgid "$N劲力一吐，$n的$l发出「喀」地一声爆响！"
+msgstr ""
+
+#. spicyclaw hit_wound.messages
+#: data/common/skills.json
+msgid "只听见$n的$l「喀」地一声 ..."
+msgstr ""
+
+#. spicyclaw actions.action
+#: data/common/skills.json
+msgid "$N左掌微分，右手一长使出一招「毒龙扑舟」，抓向$n的$l"
+msgstr ""
+
+#. spicyclaw actions.action
+#: data/common/skills.json
+msgid "$N倏地一个转身，双手一翻「撺锅手」直掼$n$l"
+msgstr ""
+
+#. spicyclaw actions.action
+#: data/common/skills.json
+msgid "$N身子微斜，随即跨出一步，左手忽掌忽爪使出「撮灰手」，拍向$n的$l"
+msgstr ""
+
+#. spicyclaw actions.action
+#: data/common/skills.json
+msgid "$N使出「青蛇十段锦」，双手滑溜异常对准$n的$l抓去"
+msgstr ""
+
+#. spicyclaw actions.action
+#: data/common/skills.json
+msgid "$N左手虚晃，右掌飘飘，一招「梁上君子」击向$n$l"
+msgstr ""
+
+#. spicyclaw actions.action
+#: data/common/skills.json
+msgid "$N使出「拨草寻履」，凌空跃起，冷不防在落地前对准$n$l踢出一脚"
+msgstr ""
+
+#. spicyclaw actions.action
+#: data/common/skills.json
+msgid "$N右手在$n$l划过，随後一招「随棍上身」左爪又向同一方位抓到"
+msgstr ""
+
+#. shortsong-blade name
+#: data/common/skills.json
+msgid "短歌刀法"
+msgstr ""
+
+#. shortsong-blade actions.action
+#: data/common/skills.json
+msgid "$N使一招「对酒当歌」，手中$w风似地向$n的$l斩去！"
+msgstr ""
+
+#. shortsong-blade actions.action
+#: data/common/skills.json
+msgid "$N弯刀似月，$w随著一招「人生几何」由下而上撩往$n的$l"
+msgstr ""
+
+#. shortsong-blade actions.action
+#: data/common/skills.json
+msgid "$N身形一转，一招「譬如朝露」$w如朝露闪烁，斩向$n的$l"
+msgstr ""
+
+#. shortsong-blade actions.action
+#: data/common/skills.json
+msgid "$N舞动$w，一招「去日苦多」往$n的$l斜斜砍出一刀"
+msgstr ""
+
+#. shortsong-blade actions.action
+#: data/common/skills.json
+msgid "$N手中$w一晃，一招「慨当以慷」迅捷无伦地劈向$n的$l"
+msgstr ""
+
+#. shortsong-blade actions.action
+#: data/common/skills.json
+msgid "$N提气丹田，身型咋展，一招「忧思难忘」直劈$n$l"
+msgstr ""
+
+#. shortsong-blade actions.action
+#: data/common/skills.json
+msgid "$N移步侧身，使一招「何以解忧」刀光霍霍斩向$n的$l"
+msgstr ""
+
+#. fall-steps name
+#: data/common/skills.json
+msgid "秋风步"
+msgstr ""
+
+#. fall-steps dodge_messages
+#: data/common/skills.json
+msgid "$n一招「秋风起兮白云飞」轻轻巧巧地避了开去。"
+msgstr ""
+
+#. fall-steps dodge_messages
+#: data/common/skills.json
+msgid "只见$n身影一晃，一式「草木黄落兮雁南归」早已避在七尺之外。"
+msgstr ""
+
+#. fall-steps dodge_messages
+#: data/common/skills.json
+msgid "$n使出「兰有秀兮菊有芳」，轻轻松松地闪过。"
+msgstr ""
+
+#. fall-steps dodge_messages
+#: data/common/skills.json
+msgid "$n左足一点，一招「怀佳人兮不能忘」腾空而起，避了开去。"
+msgstr ""
+
+#. fall-steps dodge_messages
+#: data/common/skills.json
+msgid "可是$n使一招「泛楼船兮济汾河」，身子轻轻飘了开去。"
+msgstr ""
+
+#. fall-steps dodge_messages
+#: data/common/skills.json
+msgid "$n身影微动，已经藉一招「横中流兮扬素波」轻轻闪过。"
+msgstr ""
+
+#. fall-steps dodge_messages
+#: data/common/skills.json
+msgid "但是$n一招「箫鼓鸣兮发棹歌」使出，早已绕到$N身後！"
+msgstr ""
+
+#. fall-steps dodge_messages
+#: data/common/skills.json
+msgid "但是$n身形飘忽，轻轻一纵，一招「欢乐极兮哀情多」，避开这一击。"
+msgstr ""
+
+#. fall-steps dodge_messages
+#: data/common/skills.json
+msgid "$n身形往上一拔，一招「少壮几时兮奈老何」，一个转折落在数尺之外。"
+msgstr ""
+
 #. actions.action
 #: data/common/combat_actions.json
 msgid "$N挥拳攻击$n的$l"
@@ -8462,6 +9049,18 @@ msgstr ""
 msgid "天山派"
 msgstr ""
 
+#. family.buxuan name
+#. common.npc.scholar.master family.name
+#: data/common/families.json data/common/npcs.json
+msgid "步玄派"
+msgstr ""
+
+#. family.huazi name
+#. common.npc.beggar.master family.name
+#: data/common/families.json data/common/npcs.json
+msgid "花紫会"
+msgstr ""
+
 #. common.npc.swordsman.master name
 #: data/common/npcs.json
 msgid "柳淳风"
@@ -8485,6 +9084,7 @@ msgid "柳馆主"
 msgstr ""
 
 #. common.npc.swordsman.master family.title
+#. common.npc.scholar.master family.title
 #: data/common/npcs.json
 msgid "掌门人"
 msgstr ""
@@ -9079,7 +9679,8 @@ msgstr ""
 #. snow.npc.crazy_dog limbs
 #. waterfog.npc.celes_tiger limbs
 #. latemoon.npc.park.dodo1 limbs
-#: data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/waterfog/npcs.json data/latemoon/npcs.json
+#. choyin.npc.serpent limbs
+#: data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/waterfog/npcs.json data/latemoon/npcs.json data/choyin/npcs.json
 msgid "尾巴"
 msgstr ""
 
@@ -9299,6 +9900,81 @@ msgstr ""
 msgid "阿弥陀佛，善哉！善哉！"
 msgstr ""
 
+#. common.npc.beggar.master name
+#: data/common/npcs.json
+msgid "陆得财"
+msgstr ""
+
+#. common.npc.beggar.master nickname
+#: data/common/npcs.json
+msgid "黑水伏蛟"
+msgstr ""
+
+#. common.npc.beggar.master long
+#: data/common/npcs.json
+msgid ""
+"陆得财是一个浑身脏兮兮的老丐，一副无精打采要死不活的样子，可是\n"
+"武林中人人都识得他身上打著二十三个结的皮酒囊，这不但是「花紫会\n"
+"」龙头的信物，更是名镇漠南的「黑水伏蛟」独门兵器，只不过陆得财\n"
+"行踪诡密，据说各处随时都有七、八的他的替身在四处活动，所以你也\n"
+"很难确定眼前这个陆得财到底是不是真的。\n"
+msgstr ""
+
+#. common.npc.beggar.master family.title
+#: data/common/npcs.json
+msgid "龙头"
+msgstr ""
+
+#. common.npc.scholar.master name
+#: data/common/npcs.json
+msgid "骆云舟"
+msgstr ""
+
+#. common.npc.scholar.master long
+#: data/common/npcs.json
+msgid ""
+"骆云舟生於京城有名的武林世家，他的本名是骆建炎，但是因为生性喜爱\n"
+"四处游荡，遂自号「云舟」，四处游山玩水，结交豪杰异人。数年前继承\n"
+"其父骆易而成为步玄派的新任掌门，但是喜爱飘泊的个性仍然不改，令门\n"
+"中耆宿头痛不已。\n"
+msgstr ""
+
+#. common.npc.scholar.sword_soul name
+#: data/common/npcs.json
+msgid "风泉剑灵"
+msgstr ""
+
+#. common.npc.scholar.sword_soul long
+#: data/common/npcs.json
+msgid ""
+"一个高大的人形，只有轮廓发出暗蓝色的光芒，其他部份都是透明的！\n"
+msgstr ""
+
+#. common.npc.scholar.sword_soul chant.stages.say
+#: data/common/npcs.json
+msgid "剑气指天 ..."
+msgstr ""
+
+#. common.npc.scholar.sword_soul chant.stages.say
+#: data/common/npcs.json
+msgid "剑心内敛 ..."
+msgstr ""
+
+#. common.npc.scholar.sword_soul chant.stages.say
+#: data/common/npcs.json
+msgid "剑芒游光 ..."
+msgstr ""
+
+#. common.npc.scholar.sword_soul chant.stages.say
+#: data/common/npcs.json
+msgid "剑神如意！"
+msgstr ""
+
+#. common.npc.scholar.sword_soul chant.stages.line
+#: data/common/npcs.json
+msgid "一阵蓝光笼罩住$N，「嗡」地一声，$N的轮廓又变清晰了一些！"
+msgstr ""
+
 #. quests.target
 #. snow.npc.beggar name
 #: data/common/quests.json data/snow/npcs.json
@@ -9390,23 +10066,27 @@ msgid "武馆弟子"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. choyin.npc.cake_vendor name
+#: data/common/quests.json data/choyin/npcs.json
 msgid "卖饼大叔"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. choyin.npc.cucurbit_seller name
+#: data/common/quests.json data/choyin/npcs.json
 msgid "卖糖葫芦的"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. choyin.npc.dumpling_seller name
+#: data/common/quests.json data/choyin/npcs.json
 msgid "卖包子的"
 msgstr ""
 
 #. quests.target
 #. cloud.npc.jiading name
-#: data/common/quests.json data/cloud/npcs.json
+#. choyin.npc.servant name
+#: data/common/quests.json data/cloud/npcs.json data/choyin/npcs.json
 msgid "家丁"
 msgstr ""
 
@@ -9466,7 +10146,8 @@ msgid "李火狮"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. choyin.npc.youngman name
+#: data/common/quests.json data/choyin/npcs.json
 msgid "贵公子"
 msgstr ""
 
@@ -9708,7 +10389,8 @@ msgid "独眼头陀"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. choyin.npc.cityguard name
+#: data/common/quests.json data/choyin/npcs.json
 msgid "守城官兵"
 msgstr ""
 
@@ -9731,7 +10413,8 @@ msgid "安惜迩"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. choyin.npc.sergeant name
+#: data/common/quests.json data/choyin/npcs.json
 msgid "武官"
 msgstr ""
 
@@ -9936,12 +10619,14 @@ msgid ""
 msgstr ""
 
 #. oldpine.npc.serpent name
-#: data/oldpine/npcs.json
+#. choyin.npc.serpent name
+#: data/oldpine/npcs.json data/choyin/npcs.json
 msgid "黑冠巨蟒"
 msgstr ""
 
 #. oldpine.npc.serpent long
-#: data/oldpine/npcs.json
+#. choyin.npc.serpent long
+#: data/oldpine/npcs.json data/choyin/npcs.json
 msgid ""
 "一只乌黑油亮的巨蟒，头上生著一个大肉瘤。\n"
 msgstr ""
@@ -9951,7 +10636,8 @@ msgstr ""
 #. goathill.npc.fat_worm limbs
 #. goathill.npc.big_worm limbs
 #. goathill.npc.huge_worm limbs
-#: data/oldpine/npcs.json data/goathill/npcs.json
+#. choyin.npc.serpent limbs
+#: data/oldpine/npcs.json data/goathill/npcs.json data/choyin/npcs.json
 msgid "躯干"
 msgstr ""
 
@@ -10131,12 +10817,14 @@ msgid ""
 msgstr ""
 
 #. es2:d/snow/obj/denotation name
-#: data/snow/items.json
+#. es2:d/choyin/obj/denotation name
+#: data/snow/items.json data/choyin/items.json
 msgid "功德箱"
 msgstr ""
 
 #. es2:d/snow/obj/denotation long
-#: data/snow/items.json
+#. es2:d/choyin/obj/denotation long
+#: data/snow/items.json data/choyin/items.json
 msgid ""
 "这是寺庙接受善男信女捐献香油钱的功德箱，你可以把想捐的钱\n"
 "放进去。\n"
@@ -12019,7 +12707,8 @@ msgid "银翅金簪"
 msgstr ""
 
 #. es2:d/latemoon/obj/clasp unit
-#: data/latemoon/items.json
+#. es2:d/choyin/obj/silver_clasp unit
+#: data/latemoon/items.json data/choyin/items.json
 msgid "支"
 msgstr ""
 
@@ -12185,7 +12874,8 @@ msgstr ""
 #. es2:d/latemoon/room/npc/obj/earring unit
 #. es2:d/latemoon/obj/necklace unit
 #. es2:d/latemoon/obj/bracelet unit
-#: data/latemoon/items.json
+#. es2:d/choyin/obj/cucurbit unit
+#: data/latemoon/items.json data/choyin/items.json
 msgid "串"
 msgstr ""
 
@@ -12511,7 +13201,9 @@ msgstr ""
 
 #. es2:d/choyin/obj/grass name
 #. cloud.npc.b_header inquiry topic
-#: data/choyin/items.json data/cloud/npcs.json
+#. choyin.npc.crone inquiry topic
+#. choyin.npc.visitor inquiry topic
+#: data/choyin/items.json data/cloud/npcs.json data/choyin/npcs.json
 msgid "忘忧草"
 msgstr ""
 
@@ -12524,6 +13216,158 @@ msgstr ""
 #. es2:d/choyin/obj/grass unit
 #: data/choyin/items.json
 msgid "棵"
+msgstr ""
+
+#. es2:d/choyin/obj/blade name
+#: data/choyin/items.json
+msgid "乌檀木刀"
+msgstr ""
+
+#. es2:d/choyin/obj/blade long
+#: data/choyin/items.json
+msgid ""
+"这是一把黑黝黝的乌檀木刀，闻起来有一股淡淡的香气。\n"
+msgstr ""
+
+#. es2:d/choyin/obj/book long
+#: data/choyin/items.json
+msgid ""
+"这是时下读书人常看的书籍。\n"
+msgstr ""
+
+#. es2:d/choyin/obj/book name
+#. es2:d/choyin/obj/book name_pick
+#: data/choyin/items.json
+msgid "「嘉德文选」"
+msgstr ""
+
+#. es2:d/choyin/obj/book name_pick
+#: data/choyin/items.json
+msgid "「九韬」"
+msgstr ""
+
+#. es2:d/choyin/obj/book name_pick
+#: data/choyin/items.json
+msgid "「太公辩」"
+msgstr ""
+
+#. es2:d/choyin/obj/book name_pick
+#: data/choyin/items.json
+msgid "「梁父文集」"
+msgstr ""
+
+#. es2:d/choyin/obj/book name_pick
+#: data/choyin/items.json
+msgid "「说律」"
+msgstr ""
+
+#. es2:d/choyin/obj/book name_pick
+#: data/choyin/items.json
+msgid "「古文志」"
+msgstr ""
+
+#. es2:d/choyin/obj/book name_pick
+#: data/choyin/items.json
+msgid "「乡书」"
+msgstr ""
+
+#. es2:d/choyin/obj/book name_pick
+#: data/choyin/items.json
+msgid "「佾风斋诗集」"
+msgstr ""
+
+#. es2:d/choyin/obj/book name_pick
+#: data/choyin/items.json
+msgid "「寒士列传」"
+msgstr ""
+
+#. es2:d/choyin/obj/book name_pick
+#: data/choyin/items.json
+msgid "「水龙图注」"
+msgstr ""
+
+#. es2:d/choyin/obj/lady_dress name
+#: data/choyin/items.json
+msgid "轻罗绸衫"
+msgstr ""
+
+#. es2:d/choyin/obj/lady_dress long
+#: data/choyin/items.json
+msgid ""
+"这是一件有钱人家的小姐穿著的衣物，手工相当细致。\n"
+msgstr ""
+
+#. es2:d/choyin/obj/silver_clasp name
+#: data/choyin/items.json
+msgid "银簪"
+msgstr ""
+
+#. es2:d/choyin/obj/amulet name
+#: data/choyin/items.json
+msgid "平安符"
+msgstr ""
+
+#. es2:d/choyin/obj/amulet long
+#: data/choyin/items.json
+msgid ""
+"一个用红线绑著的平安符，据说可以避邪。\n"
+msgstr ""
+
+#. es2:d/choyin/obj/hat name
+#: data/choyin/items.json
+msgid "玉带冠"
+msgstr ""
+
+#. es2:d/choyin/obj/hat long
+#: data/choyin/items.json
+msgid ""
+"这是一顶镶著美玉的帽冠。\n"
+msgstr ""
+
+#. es2:d/choyin/npc/obj/cake name
+#. choyin.npc.cake_vendor inquiry topic
+#: data/choyin/items.json data/choyin/npcs.json
+msgid "大饼"
+msgstr ""
+
+#. es2:d/choyin/npc/obj/cake long
+#: data/choyin/items.json
+msgid ""
+"一个香喷喷、热腾腾的大烧饼。\n"
+msgstr ""
+
+#. es2:d/choyin/obj/cucurbit name
+#. choyin.npc.cucurbit_seller inquiry topic
+#: data/choyin/items.json data/choyin/npcs.json
+msgid "糖葫芦"
+msgstr ""
+
+#. es2:d/choyin/obj/cucurbit long
+#: data/choyin/items.json
+msgid ""
+"一串看起来就让人垂涎欲滴的糖渍葫芦。\n"
+msgstr ""
+
+#. es2:d/choyin/npc/obj/red_guay name
+#: data/choyin/items.json
+msgid "红龟"
+msgstr ""
+
+#. es2:d/choyin/npc/obj/red_guay long
+#: data/choyin/items.json
+msgid ""
+"一个大红龟，上面盖了个印子：保境安民。\n"
+msgstr ""
+
+#. es2:d/choyin/npc/obj/tomatoo name
+#: data/choyin/items.json
+msgid "山药蛋"
+msgstr ""
+
+#. es2:d/choyin/npc/obj/tomatoo long
+#: data/choyin/items.json
+msgid ""
+"圆溜溜的山药蛋，忒新鲜。\n"
 msgstr ""
 
 #. es2:u/cloud/obj/npc/gangster/blade long
@@ -14108,6 +14952,11 @@ msgstr ""
 msgid "这位$RESPECT，在下正在执行勤务，恕不奉陪。"
 msgstr ""
 
+#. waterfog.npc.elite_guard accept_kill.say
+#: data/waterfog/npcs.json
+msgid "哼 ... 原来阁下是找麻烦来著？"
+msgstr ""
+
 #. waterfog.npc.elder5 name
 #: data/waterfog/npcs.json
 msgid "南危水"
@@ -14578,7 +15427,8 @@ msgstr ""
 
 #. green.npc.woman1 name
 #. green.npc.woman2 name
-#: data/green/npcs.json
+#. choyin.npc.lady name
+#: data/green/npcs.json data/choyin/npcs.json
 msgid "妇人"
 msgstr ""
 
@@ -16183,7 +17033,8 @@ msgid "这里是书房，有些鞭法教材存放在这儿。"
 msgstr ""
 
 #. latemoon.npc.room.old inquiry topic
-#: data/latemoon/npcs.json
+#. choyin.npc.youngman inquiry topic
+#: data/latemoon/npcs.json data/choyin/npcs.json
 msgid "心事"
 msgstr ""
 
@@ -17938,4 +18789,1256 @@ msgstr ""
 msgid ""
 "你打开蒸笼的盖子, 一股热气冒向你的脸上。\n"
 "你仔细一看, 只见蒸笼里排著一粒粒又白又Ｑ的大馒头(maintal)。\n"
+msgstr ""
+
+#. choyin.npc.cityguard long
+#: data/choyin/npcs.json
+msgid ""
+"这是个正在这里站岗的守城官兵，虽然和许多武林人物比起来，官兵\n"
+"们的武功实在稀松平常，但是他们是有组织、有纪律的战士，谁也不\n"
+"轻易地招惹他们。\n"
+msgstr ""
+
+#. choyin.npc.cityguard chat_msg_combat
+#: data/choyin/npcs.json
+msgid ""
+"守城官兵喝道：还不快放下武器束手就缚？\n"
+msgstr ""
+
+#. choyin.npc.cityguard chat_msg_combat
+#: data/choyin/npcs.json
+msgid ""
+"守城官兵喝道：大胆刁民！竟敢杀官造反？\n"
+msgstr ""
+
+#. choyin.npc.cake_vendor long
+#: data/choyin/npcs.json
+msgid ""
+"一个相貌朴实的卖饼大叔，憨厚的脸上挂著和蔼的笑容。\n"
+msgstr ""
+
+#. choyin.npc.cake_vendor rank_info.respect
+#: data/choyin/npcs.json
+msgid "大叔"
+msgstr ""
+
+#. choyin.npc.cake_vendor chat_msg
+#: data/choyin/npcs.json
+msgid ""
+"卖饼大叔吆喝道：卖饼哟！又香又脆的大饼哟！\n"
+msgstr ""
+
+#. choyin.npc.cake_vendor chat_msg
+#: data/choyin/npcs.json
+msgid ""
+"卖饼大叔掀开蒸笼，伸手探了探温度。\n"
+msgstr ""
+
+#. choyin.npc.cake_vendor chat_msg
+#: data/choyin/npcs.json
+msgid ""
+"卖饼大叔吆喝道：刚出炉的大饼哟！热呼呼的大饼哟！\n"
+msgstr ""
+
+#. choyin.npc.dumpling_seller long
+#: data/choyin/npcs.json
+msgid ""
+"这个卖包子的小贩对你微微一笑，说道：热腾腾的包子，来一笼吧？\n"
+msgstr ""
+
+#. choyin.npc.dumpling_seller chat_msg
+#: data/choyin/npcs.json
+msgid ""
+"卖包子的吆喝道：包子！热腾腾的包子！\n"
+msgstr ""
+
+#. choyin.npc.boss name
+#: data/choyin/npcs.json
+msgid "汤掌柜"
+msgstr ""
+
+#. choyin.npc.boss long
+#: data/choyin/npcs.json
+msgid ""
+"汤掌柜是这家大酒楼的主人，别看他只是一个小小的酒楼老板，乔阴\n"
+"县境内除了知县老爷以外，恐怕就属他最财大势大。\n"
+msgstr ""
+
+#. choyin.npc.boss inquiry.name
+#: data/choyin/npcs.json
+msgid ""
+"在下姓汤单名一个业字。\n"
+msgstr ""
+
+#. choyin.npc.boss inquiry.here
+#: data/choyin/npcs.json
+msgid ""
+"此处便是福林酒楼，客倌如要点菜，吩咐店里的小二一声便可。\n"
+msgstr ""
+
+#. choyin.npc.boss inquiry topic
+#: data/choyin/npcs.json
+msgid "汤业"
+msgstr ""
+
+#. choyin.npc.boss inquiry.汤业
+#: data/choyin/npcs.json
+msgid ""
+"不敢，在下便是汤业，不知客倌有何吩咐？\n"
+msgstr ""
+
+#. choyin.npc.boss inquiry.福林酒楼
+#: data/choyin/npcs.json
+msgid ""
+"这里就是，客倌是第一次来吗？\n"
+msgstr ""
+
+#. choyin.npc.sergeant long
+#: data/choyin/npcs.json
+msgid ""
+"一位相貌威武的武官，独自一个人站在这里发呆，似乎正有什么\n"
+"事困扰著他。\n"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.name
+#: data/choyin/npcs.json
+msgid "在下姓陈，名显祖，阁下是？"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.here
+#: data/choyin/npcs.json
+msgid "真是不巧，我也是外地来的，对这个地方并不熟悉。"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.rumors
+#: data/choyin/npcs.json
+msgid "在下失落了一件重要物事，是装在一个桃木箱子里，不知你有没有看见？"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry topic
+#: data/choyin/npcs.json
+msgid "箱子"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.箱子
+#: data/choyin/npcs.json
+msgid "对，是桃木做成的箱子。"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry topic
+#: data/choyin/npcs.json
+msgid "桃木箱子"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.桃木箱子
+#: data/choyin/npcs.json
+msgid "如果你见著了，麻烦送还给我，在下定当重重报答。"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry topic
+#: data/choyin/npcs.json
+msgid "陈显祖"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.陈显祖
+#: data/choyin/npcs.json
+msgid "不敢，正是在下，不知阁下有何指教？"
+msgstr ""
+
+#. choyin.npc.cucurbit_seller chat_msg
+#: data/choyin/npcs.json
+msgid ""
+"卖糖葫芦的吆喝道：糖葫芦！好甜好香的糖葫芦！\n"
+msgstr ""
+
+#. choyin.npc.judge_gu name
+#: data/choyin/npcs.json
+msgid "衙役"
+msgstr ""
+
+#. choyin.npc.judge_gu long
+#: data/choyin/npcs.json
+msgid ""
+"衙役精明强干, 满脸正气. \n"
+msgstr ""
+
+#. choyin.npc.judge_gu chat_msg_combat
+#: data/choyin/npcs.json
+msgid ""
+"衙役说道：你当这里是什么地方，敢来这里骚扰？\n"
+msgstr ""
+
+#. choyin.npc.judge_gu chat_msg_combat
+#: data/choyin/npcs.json
+msgid ""
+"衙役说道：你要是再无理取闹，当心捕头把你抓去坐牢!\n"
+msgstr ""
+
+#. choyin.npc.judge_gu chat_msg_combat
+#: data/choyin/npcs.json
+msgid ""
+"衙役手中的刀越砍越快，让你应接不暇。\n"
+msgstr ""
+
+#. choyin.npc.judge_gu chat_msg_combat
+#: data/choyin/npcs.json
+msgid ""
+"衙役说道：衙门岂是你放肆的地方？！\n"
+msgstr ""
+
+#. choyin.npc.magistra name
+#: data/choyin/npcs.json
+msgid "带刀侍卫"
+msgstr ""
+
+#. choyin.npc.magistra long
+#: data/choyin/npcs.json
+msgid ""
+"带刀侍卫皆为槐阳王程老王爷麾下骁将,身负绝艺.\n"
+msgstr ""
+
+#. choyin.npc.crone name
+#: data/choyin/npcs.json
+msgid "乾瘪老太婆"
+msgstr ""
+
+#. choyin.npc.crone long
+#: data/choyin/npcs.json
+msgid ""
+"这个老太婆怀中抱了个竹篓，似乎在卖什么东西，也许你可以跟她问问\n"
+"价钱？\n"
+msgstr ""
+
+#. choyin.npc.crone inquiry topic
+#: data/choyin/npcs.json
+msgid "年龄"
+msgstr ""
+
+#. choyin.npc.crone inquiry.年龄
+#: data/choyin/npcs.json
+msgid ""
+"老身今年七十有八啦。\n"
+msgstr ""
+
+#. choyin.npc.crone inquiry.here
+#: data/choyin/npcs.json
+msgid ""
+"这一带我可熟了。\n"
+msgstr ""
+
+#. choyin.npc.crone inquiry.忘忧草
+#: data/choyin/npcs.json
+msgid ""
+"老身隐隐约约地听说过什么‘草’啊，‘狮子’的，具体的也就不知了。\n"
+msgstr ""
+
+#. choyin.npc.crone relay_ask.say
+#: data/choyin/npcs.json
+msgid "对不起，老婆子耳背，$RESPECT您是想买东西吧？这儿有价钱 ...."
+msgstr ""
+
+#. choyin.npc.crone relay_ask.line
+#: data/choyin/npcs.json
+msgid "老太婆打开竹篓，盖子上贴了张纸片。"
+msgstr ""
+
+#. choyin.npc.visitor name
+#: data/choyin/npcs.json
+msgid "游客"
+msgstr ""
+
+#. choyin.npc.visitor long
+#: data/choyin/npcs.json
+msgid ""
+"这是一位来乔阴县游玩的游客。\n"
+msgstr ""
+
+#. choyin.npc.visitor inquiry.here
+#: data/choyin/npcs.json
+msgid ""
+"我游历过大半个中国，小小的乔阴县对我能有什么秘密？\n"
+msgstr ""
+
+#. choyin.npc.visitor inquiry.忘忧草
+#: data/choyin/npcs.json
+msgid ""
+"这个。。好象是给狮子衔去了。\n"
+msgstr ""
+
+#. choyin.npc.scholar name
+#: data/choyin/npcs.json
+msgid "书生"
+msgstr ""
+
+#. choyin.npc.scholar long
+#: data/choyin/npcs.json
+msgid ""
+"一个看起来相当斯文的书生，正拿著一本书摇头晃脑地读著。\n"
+msgstr ""
+
+#. choyin.npc.girl name
+#: data/choyin/npcs.json
+msgid "官家小姐"
+msgstr ""
+
+#. choyin.npc.girl long
+#: data/choyin/npcs.json
+msgid ""
+"一个看起来像是有钱人家的女子，正在这里游湖。\n"
+msgstr ""
+
+#. choyin.npc.girl inquiry.name
+#: data/choyin/npcs.json
+msgid "我 ... ？ 你们外地人都做兴这么问陌生姑娘的闺名吗？"
+msgstr ""
+
+#. choyin.npc.girl inquiry.here
+#. choyin.npc.maid inquiry.here
+#: data/choyin/npcs.json
+msgid "这里啊？这里就是乔阴县有名的翠柳湖啊！"
+msgstr ""
+
+#. choyin.npc.girl inquiry topic
+#: data/choyin/npcs.json
+msgid "闺名"
+msgstr ""
+
+#. choyin.npc.girl inquiry.闺名
+#: data/choyin/npcs.json
+msgid "真是没有礼貌的家伙，我才不告诉你！"
+msgstr ""
+
+#. choyin.npc.maid name
+#: data/choyin/npcs.json
+msgid "丫鬟"
+msgstr ""
+
+#. choyin.npc.maid long
+#: data/choyin/npcs.json
+msgid ""
+"一个服侍有钱人家小姐的丫鬟，正无聊地玩弄著衣角。\n"
+msgstr ""
+
+#. choyin.npc.judgeman name
+#: data/choyin/npcs.json
+msgid "程不平"
+msgstr ""
+
+#. choyin.npc.judgeman title
+#: data/choyin/npcs.json
+msgid "乔阴县县官"
+msgstr ""
+
+#. choyin.npc.judgeman long
+#: data/choyin/npcs.json
+msgid ""
+"他虽然出身望族，然攻读刻苦，榜中探花，如今已是才高八斗，满腹\n"
+"经纶，还略通佛理。为官数年清贫廉正，人人敬仰。\n"
+msgstr ""
+
+#. choyin.npc.judgeman accept_fight.say
+#: data/choyin/npcs.json
+msgid "这是衙门，快回去吧。"
+msgstr ""
+
+#. choyin.npc.lady long
+#: data/choyin/npcs.json
+msgid ""
+"一个衣饰华丽的妇人正跪在这里虔诚地膜拜著。\n"
+msgstr ""
+
+#. choyin.npc.youngman long
+#: data/choyin/npcs.json
+msgid ""
+"一个相貌俊美的年轻贵公子正优雅地欣赏著窗外的景物。\n"
+msgstr ""
+
+#. choyin.npc.youngman inquiry.name
+#: data/choyin/npcs.json
+msgid "在下姓游，单名一个晋字，不知阁下如何称呼？"
+msgstr ""
+
+#. choyin.npc.youngman inquiry.here
+#: data/choyin/npcs.json
+msgid "这里是乔阴县城，您是外地来的吧？"
+msgstr ""
+
+#. choyin.npc.youngman inquiry.心事
+#: data/choyin/npcs.json
+msgid "实不相瞒，在下仰慕前面曲桥上赏莲的姑娘已久 ..."
+msgstr ""
+
+#. choyin.npc.youngman inquiry.心事
+#: data/choyin/npcs.json
+msgid "但是一直不知那位姑娘芳名 ..."
+msgstr ""
+
+#. choyin.npc.youngman inquiry.心事
+#: data/choyin/npcs.json
+msgid "唉 ..."
+msgstr ""
+
+#. choyin.npc.youngman inquiry.姑娘
+#: data/choyin/npcs.json
+msgid "就是那位绿裙黄衫的姑娘 ..."
+msgstr ""
+
+#. choyin.npc.servant long
+#: data/choyin/npcs.json
+msgid ""
+"一个穿著家人服色的男子，必恭必敬地垂手站在一旁。\n"
+msgstr ""
+
+#. choyin.npc.guard name
+#: data/choyin/npcs.json
+msgid "酒楼守卫"
+msgstr ""
+
+#. choyin.npc.guard long
+#: data/choyin/npcs.json
+msgid ""
+"一个身穿蓝布衣的人，从他锐利的眼神跟神情，显然是个练家子。\n"
+msgstr ""
+
+#. choyin.npc.guard accept_fight.say
+#: data/choyin/npcs.json
+msgid "掌柜的有交代，不准任何人在这里打架！"
+msgstr ""
+
+#. choyin.npc.guard accept_kill.fellows.say
+#: data/choyin/npcs.json
+msgid "干什么？！"
+msgstr ""
+
+#. choyin.npc.guard accept_kill.report.say
+#: data/choyin/npcs.json
+msgid "有强人打劫哪... 快去报官！"
+msgstr ""
+
+#. choyin.npc.oldman name
+#: data/choyin/npcs.json
+msgid "老者"
+msgstr ""
+
+#. choyin.npc.oldman long
+#: data/choyin/npcs.json
+msgid ""
+"他白发苍苍,老态龙钟.\n"
+"他终年采药于深山，当有些不同凡响之处。\n"
+"他宽五尺，高三尺.你实在无法理解他怎么这么的胖。\n"
+msgstr ""
+
+#. choyin.npc.oldman chat_msg.say
+#: data/choyin/npcs.json
+msgid "老者说道：哎。。。你这可怜的孩子，饿得面黄肌瘦的。"
+msgstr ""
+
+#. choyin.npc.oldman chat_msg.say
+#: data/choyin/npcs.json
+msgid "老者抚摸着你的头，老泪纵横。"
+msgstr ""
+
+#. choyin.npc.oldman chat_msg.say
+#: data/choyin/npcs.json
+msgid "老者拈起衣角擦了擦眼角的浊泪。"
+msgstr ""
+
+#. choyin.npc.oldman greeting.rules.steps.line
+#: data/choyin/npcs.json
+msgid "我给你的山药蛋好吃吗??"
+msgstr ""
+
+#. choyin.npc.oldman greeting.rules.steps.line
+#: data/choyin/npcs.json
+msgid ""
+"老者抚摸着你的头，老泪纵横。\n"
+"说道：哎。。。你这可怜的孩子，饿得面黄肌瘦的。\n"
+"老者哆哆嗦嗦从怀里拿出个小布包，打开一层又一层，打开一层又一层..最后拿出个小山药蛋塞到你手里。"
+msgstr ""
+
+#. choyin.npc.oldman receive_damage.hurt.line
+#: data/choyin/npcs.json
+msgid "老者捂著受伤的地方，白发散乱，勉强稳住身行。"
+msgstr ""
+
+#. choyin.npc.oldman receive_damage.pills.line
+#: data/choyin/npcs.json
+msgid "老者从口袋摸出一粒象小山药蛋的仙豆吞了下去。"
+msgstr ""
+
+#. choyin.npc.oldman kill_ob.lines.line
+#: data/choyin/npcs.json
+msgid "采药老者眼放异光，说道：你真的不喜欢山药蛋吗??"
+msgstr ""
+
+#. choyin.npc.oldman kill_ob.lines.line
+#: data/choyin/npcs.json
+msgid "沉吟半响道：既然如此，老头子今天豁出去了，纳命来！"
+msgstr ""
+
+#. choyin.npc.oldman kill_ob.lines.line
+#: data/choyin/npcs.json
+msgid "山药蛋双手一招，一团黑雾涌起......"
+msgstr ""
+
+#. choyin.npc.oldman kill_ob.lines.line
+#: data/choyin/npcs.json
+msgid "只听见「砰」地一声，你像一捆稻草般飞了出去！！"
+msgstr ""
+
+#. choyin.npc.oldman kill_ob.lines.line
+#: data/choyin/npcs.json
+msgid "鬼门关 "
+msgstr ""
+
+#. choyin.npc.oldman kill_ob.lines.line
+#: data/choyin/npcs.json
+msgid ""
+"    这里就是著名的阴间入口「鬼门关」，在你面前矗立著一座高大的\n"
+"黑色城楼，许多亡魂正哭哭啼啼地列队前进，因为一进鬼门关就无法再\n"
+"回阳间了。"
+msgstr ""
+
+#. choyin.npc.oldman kill_ob.lines.line
+#: data/choyin/npcs.json
+msgid "    这里明显的出口是北边和南边。"
+msgstr ""
+
+#. choyin.npc.oldman kill_ob.lines.line
+#: data/choyin/npcs.json
+msgid "黑无常"
+msgstr ""
+
+#. choyin.npc.oldman kill_ob.lines.line
+#: data/choyin/npcs.json
+msgid "黑无常发出一阵像呻吟的声音，当他发现你正注视著他的时候，瞪了你一眼。"
+msgstr ""
+
+#. choyin.npc.oldman kill_ob.lines.line
+#: data/choyin/npcs.json
+msgid "黑无常说道：喂！新来的，你叫什么名字？ "
+msgstr ""
+
+#. choyin.npc.oldman kill_ob.lines.line
+#: data/choyin/npcs.json
+msgid "黑无常「哼」的一声，从袖中掏出一本像帐册的东西翻看著。"
+msgstr ""
+
+#. choyin.npc.oldman kill_ob.lines.line
+#: data/choyin/npcs.json
+msgid "黑无常阁上册子，说道：咦？阳寿未尽？怎么可能？"
+msgstr ""
+
+#. choyin.npc.oldman kill_ob.lines.line
+#: data/choyin/npcs.json
+msgid "黑无常搔了搔头，叹道：罢了罢了，你走吧。"
+msgstr ""
+
+#. choyin.npc.oldman kill_ob.lines.line
+#: data/choyin/npcs.json
+msgid "一股阴冷的浓雾突然出现，很快地包围了你。"
+msgstr ""
+
+#. choyin.npc.oldman kill_ob.lines.line
+#: data/choyin/npcs.json
+msgid "你觉得有什么地方不对了，使劲掐了一下自己，你惨叫了一声:哇，好痛啊～～～～～～"
+msgstr ""
+
+#. choyin.npc.oldman kill_ob.lines.line
+#: data/choyin/npcs.json
+msgid "你出窍的真魂绕了一大圈，终于归位了。"
+msgstr ""
+
+#. choyin.npc.oldman kill_ob.lines.line
+#: data/choyin/npcs.json
+msgid "黑雾慢慢消散了"
+msgstr ""
+
+#. choyin.npc.oldman kill_ob.lines.line
+#: data/choyin/npcs.json
+msgid "山药蛋就地一滚，没入土中不见了......"
+msgstr ""
+
+#. choyin.npc.oldman defeated_enemy.line
+#: data/choyin/npcs.json
+msgid "老者骨碌碌就地打了个滚，说道：我赢了！"
+msgstr ""
+
+#. choyin.npc.crane name
+#: data/choyin/npcs.json
+msgid "仙鹤"
+msgstr ""
+
+#. choyin.npc.crane long
+#: data/choyin/npcs.json
+msgid ""
+"白羽如雪，不似凡间之物。 \n"
+msgstr ""
+
+#. choyin.npc.crane limbs
+#: data/choyin/npcs.json
+msgid "翅"
+msgstr ""
+
+#. choyin.npc.lboy name
+#: data/choyin/npcs.json
+msgid "紫衣童子"
+msgstr ""
+
+#. choyin.npc.lboy long
+#: data/choyin/npcs.json
+msgid ""
+"紫衣童子是乔阴县的小孩，从小孤苦零丁。仙人怜之，带入云台。\n"
+msgstr ""
+
+#. choyin.npc.lboy chat_msg
+#: data/choyin/npcs.json
+msgid ""
+"紫衣童子躬身一揖。 \n"
+msgstr ""
+
+#. choyin.npc.lboy chat_msg
+#: data/choyin/npcs.json
+msgid ""
+"童子说道：仙人 ，只在此山中，云深不知处。\n"
+msgstr ""
+
+#. choyin.npc.lboy chat_msg_combat
+#: data/choyin/npcs.json
+msgid ""
+"紫衣童子拧眉说道：你欺负我年纪小是吗？\n"
+msgstr ""
+
+#. choyin.npc.lboy chat_msg_combat
+#: data/choyin/npcs.json
+msgid ""
+"紫衣童子笑道：你杀不死我的。\n"
+msgstr ""
+
+#. choyin.npc.lboy chat_msg_combat
+#: data/choyin/npcs.json
+msgid ""
+"紫衣童子冲你一龇牙, 说道: 您盗过古墓吗?\n"
+msgstr ""
+
+#. choyin.npc.lboy inquiry topic
+#: data/choyin/npcs.json
+msgid "仙人"
+msgstr ""
+
+#. choyin.npc.lboy inquiry.仙人
+#: data/choyin/npcs.json
+msgid "只度有缘人。"
+msgstr ""
+
+#. es2:d/choyin/n_gate long
+#: data/choyin/rooms.json
+msgid ""
+"这里乔阴县城的北门，一座高大的石牌楼上面刻著「北门」两个大\n"
+"字，一条黄土路往北穿过一片松树林，青郁郁地通往北边的山上，石牌\n"
+"楼旁蹲著两只石狮，由于乔阴县城最热闹的火龙将军庙远在城南，因此\n"
+"北门这一带反而显得比较冷清，和附近的乡村一般的宁静纯朴。\n"
+msgstr ""
+
+#. es2:d/choyin/n_street1 long
+#: data/choyin/rooms.json
+msgid ""
+"你现在正走在一条宽敞的街道上，这里是乔阴县城联通北门与南\n"
+"门的福林大街，街道两旁有做生意的，有做粗活的，这里的老百姓大多\n"
+"是老老实实的农人与工匠，街上卖的也多半是一些日用品，往东边是一\n"
+"条小巷子，南边的街道似乎比较热闹一些，北边则是北门。\n"
+msgstr ""
+
+#. es2:d/choyin/n_street2 long
+#: data/choyin/rooms.json
+msgid ""
+"你现在正走在一条宽敞的街道上，这里是乔阴县联通南北城门的福\n"
+"林大街，街道从这里向南北延伸，往北远远地可以望见北门的石牌楼，\n"
+"南边不远处则是乔阴县城著名的地标「树王坟」，你的东边有一家三层\n"
+"楼的酒馆，西边则是远近驰名的老姚布庄，街上不时有贩夫走卒穿梭\n"
+"而过，十分热闹。\n"
+msgstr ""
+
+#. es2:d/choyin/n_street3 long
+#: data/choyin/rooms.json
+msgid ""
+"你现在正走在一条宽敞的大街上，街道往北边笔直地延伸，南边则\n"
+"是一个隆起的石台，你可以看见石台前有块石碑，上书「树王坟」三个\n"
+"大字，街道的东边和西边都是石板空地，围绕著树王坟成为一个圆环，\n"
+"许多小贩客商都聚集在这里交易买卖。\n"
+msgstr ""
+
+#. es2:d/choyin/nw_street long
+#: data/choyin/rooms.json
+msgid ""
+"这里是树王坟西北边的石板空地，因为树王的根范围太广，因此树\n"
+"王坟周围十几丈都没有办法盖房子，因此这里铺了石板，平时便当作百\n"
+"姓散步休憩的地方。\n"
+msgstr ""
+
+#. es2:d/choyin/w_street4 long
+#: data/choyin/rooms.json
+msgid ""
+"这里是乔阴县城的西大街.\n"
+msgstr ""
+
+#. es2:d/choyin/w_street3 long
+#: data/choyin/rooms.json
+msgid ""
+"这里是乔阴县城的西大街，东边不远处的石台便是远近驰名的「树\n"
+"王坟」，西大街往西一直通往西城门，街道两边有许多的商店，街上人\n"
+"来人往好不热闹。\n"
+msgstr ""
+
+#. es2:d/choyin/w_street2 long
+#: data/choyin/rooms.json
+msgid ""
+"这里是乔阴县城的西大街，西门就在你的西边几十丈外，望东则是\n"
+"通往乔阴县的著名地标「树王坟」，街上有许多商店，北边是一家大酒\n"
+"楼，南边则有一间染坊。\n"
+msgstr ""
+
+#. es2:d/choyin/w_street1 long
+#: data/choyin/rooms.json
+msgid ""
+"这里是乔阴县城的西大街，西边就是县城的西门，一座巨大的牌楼\n"
+"上刻著「西门」二字，往北有一条小巷，南边则是一间书肆，街道中央\n"
+"立著一尊石狮(statue)，而且是站著的，将来往行人分为左右两道。\n"
+msgstr ""
+
+#. es2:d/choyin/tree_tomb long
+#: data/choyin/rooms.json
+msgid ""
+"你现在来到了著名的「树王坟」前，这里是个高台，中央约两丈见方\n"
+"的地上有一截巨大的树桩，少说有三、四十人合抱那么粗，树桩中间有一\n"
+"个大洞(hole)，望下去黑漆漆地，石台靠南的地方还有一间小庙(shrine)\n"
+"，东西南北四个方向都有阶梯通往四面的街道。\n"
+msgstr ""
+
+#. es2:d/choyin/e_street1 long
+#: data/choyin/rooms.json
+msgid ""
+"    这里是乔阴县城的东大街，西边不远处的石台便是远近驰名的「树\n"
+"王坟」，东大街往东一直通往东城门，街道两边有许多的民宅，街上行\n"
+"人渐稀。\n"
+msgstr ""
+
+#. es2:d/choyin/e_gate long
+#: data/choyin/rooms.json
+msgid ""
+"    这里乔阴县城的东门，一座高大的石牌楼上面刻著「北门」两个大\n"
+"字，一条土路青郁郁地通往南边的山上，石牌楼旁蹲著一只铁狮. 与南\n"
+"北两城门相比, 北门这一带显得比较冷清，偶见几个采药, 砍柴之人由\n"
+"此出入。\n"
+"\n"
+msgstr ""
+
+#. es2:d/choyin/s_street3 long
+#: data/choyin/rooms.json
+msgid ""
+"这里是乔阴县城的福林大街，往北是一座高台，台上便是著名的「\n"
+"树王坟」，打从这里往南就是乔阴县最热闹的街道，接上来往的行商贩\n"
+"子也最多，你的东边和西边都是石板空地，平常的市集便在此处，遇到\n"
+"赛会节庆这里更是挤得水泄不通，福林大街往南是个路口。\n"
+msgstr ""
+
+#. es2:d/choyin/s_street2 long
+#: data/choyin/rooms.json
+msgid ""
+"这里是乔阴县城的福林大街，东首一栋雕梁画栋，美仑美奂的华厦\n"
+"便是乔阴县最大的酒楼「福林楼」，不但乔阴县城的富商大贾常来此楼\n"
+"饮宴，就连方圆百里内的许多豪门巨绅也常常到这里喝酒，西边是一条\n"
+"宽敞的青石官道，通往县府衙门，街道往南则是热闹的南门广场。\n"
+msgstr ""
+
+#. es2:d/choyin/hotel1 long
+#: data/choyin/rooms.json
+msgid ""
+"这里便是乔阴县驰名远近的福林酒楼，连乔阴县最热闹的一条大街\n"
+"都以此命名，福林酒楼是一家近百年老店，传到现在的这位掌柜已经是\n"
+"第三代，如果你是初到此地的外地人，不妨和他攀攀交情，酒楼一楼多\n"
+"半是县城里熟客人，东北边有一道方梯通往楼上雅座，往西则可以出大\n"
+"街。\n"
+msgstr ""
+
+#. es2:d/choyin/s_street1 long
+#: data/choyin/rooms.json
+msgid ""
+"这里便是乔阴县城最大的一处广场，往北是贯通县城南北门的福林\n"
+"大道，往东则是一个绿柳环绕的湖泊「翠柳湖」，广场上只见卖艺的，\n"
+"卖糖葫芦的，捏面人的，各色小贩穿梭来去，广场中央有一口大井，井\n"
+"旁用绳索绑著几只杯子供人取水喝(drink)，南门的牌楼因为几年前改建\n"
+"翠柳湖的曲桥，因此移到西边的县府衙门所在的昌平街，现在广场的南\n"
+"面就是一座曲桥通往湖东岸的雨桥庄，西南边一条宽敞的街道沿著湖岸\n"
+"通往城外，广场的西边则一直延伸到昌平街。\n"
+msgstr ""
+
+#. es2:d/choyin/s_street4 long
+#: data/choyin/rooms.json
+msgid ""
+"这里是乔阴县城城南的承安街，街道十分宽敞，南北两边都是一些\n"
+"贩卖南北货、日用品的商店，这里虽然正当乔阴县人车来往最频繁的要\n"
+"冲，可是却没有福林大街热闹，往东走便是南门广场，往西则是和昌平\n"
+"街的交叉路口。\n"
+msgstr ""
+
+#. es2:d/choyin/s_street5 long
+#: data/choyin/rooms.json
+msgid ""
+"这里是乔阴县城南的承安街，往东可以通往热闹的南门广场，西边\n"
+"的路口则是通往县府衙门的昌平街，街道北边是一些贩卖日常用具的商\n"
+"店，南边则是一块空地，从这里可以看到南边的城墙。\n"
+msgstr ""
+
+#. es2:d/choyin/crossroad long
+#: data/choyin/rooms.json
+msgid ""
+"这里是昌平街跟承安街的交叉路口，往南就是乔阴县城的南门，往\n"
+"北不远处则是衙门的所在地，乔阴县到了这里显得格外安静，路人大多\n"
+"沈默地走著，不敢大声喧哗，和城东的花花世界相比，这里显得宁静许\n"
+"多。\n"
+msgstr ""
+
+#. es2:d/choyin/court1 long
+#: data/choyin/rooms.json
+msgid ""
+"这里是乔阴县府衙门的大门，就像你印象中的衙门一般，高大的大\n"
+"门、两只巨大的石狮、以及一种令人为之肃然的气氛。门口有一面大皮\n"
+"鼓(drum)，不用说，这当然是让百姓击鼓申冤用的，乔阴县的知县据说\n"
+"是槐阳王的侄子，虽然算不上是包青天，不过倒也没有听说过有什么贪\n"
+"赃枉法的劣迹。\n"
+msgstr ""
+
+#. es2:d/choyin/s_gate long
+#: data/choyin/rooms.json
+msgid ""
+"这里是乔阴县城的南门，由于这个南门是十多年前重建的，因此和\n"
+"古老斑驳的东、西、北门相比，南门显得漂亮许多，而且南门正对著县\n"
+"府衙门，平日的修缮当然也勤快些。乔阴县城南门外住著许多上次羿水\n"
+"河鲁公堤溃决之后迁来的农民，因此虽然出了城门，街道依然人来人往\n"
+"，往东是一条沿著城墙的街道，可以经过火龙将军庙入城，西边的街道\n"
+"沿著城墙通往新建的驿站，往南则是许多房舍与农田。\n"
+msgstr ""
+
+#. es2:d/choyin/dragon_temple long
+#: data/choyin/rooms.json
+msgid ""
+"这里是乔阴县城香火最盛的火龙将军庙，火龙将军据说就是两百年\n"
+"前率领官兵和杀死树王的骷髅妖怪作战的黎方黎将军，这里就是当年火\n"
+"龙将军驻兵扎营之处，如果你想知道火龙将军的事迹，不妨问问附近的\n"
+"年长的居民，将军庙的建筑十分奇特，一条道路东西贯通庙的中央，而\n"
+"火龙将军的神像立在横跨道路的一个高台上，往来的行人都从火龙将军\n"
+"的脚底走过，要上香的信徒必须从南北两边的阶梯爬上高台。\n"
+msgstr ""
+
+#. es2:d/choyin/sw_road1 long
+#: data/choyin/rooms.json
+msgid ""
+"这是一条沿著湖岸的街道，往东北可以通到人车来往的南门广场，\n"
+"这一带原本是在乔阴县城的旧南门之外，因此仍然保留浓厚的乡村气息\n"
+"，往南是一条小路继续沿著湖岸通往翠柳湖南岸，街道往东通往著名的\n"
+"火龙将军庙。\n"
+msgstr ""
+
+#. es2:d/choyin/bridge1 long
+#. es2:d/choyin/bridge2 long
+#. es2:d/choyin/bridge3 long
+#. es2:d/choyin/bridge4 long
+#. es2:d/choyin/bridge5 long
+#: data/choyin/rooms.json
+msgid ""
+"这是一座弯弯曲曲的曲桥，横过翠柳湖连接东岸的雨桥庄跟西岸的\n"
+"乔阴县城，从这里可以欣赏翠柳湖的美景，许多睡莲散布在桥墩四周，\n"
+"湖面飘著数不尽的浮萍，浮萍底下有不少艳红锦鲤穿梭来去。\n"
+msgstr ""
+
+#. es2:d/choyin/entrance long
+#: data/choyin/rooms.json
+msgid ""
+"这里是雨桥庄西边的曼雩台，也是乔阴县城的文人墨客时常聚集谈\n"
+"论诗文的地方，台宽约十丈，西边是连接乔阴县城的翠柳曲桥，从翠柳\n"
+"湖中的片片睡莲中弯弯曲曲地通往西边的广场，北边和南边各有数十根\n"
+"梁柱，常有许多落拓的士人将他们的作品贴在这里希望得到贵人赏识，\n"
+"往东是一片桃树林，春天时和翠柳湖畔的柳树相辉映，蔚为乔阴县的第\n"
+"一盛景。\n"
+msgstr ""
+
+#. es2:d/choyin/taolin long
+#: data/choyin/rooms.json
+msgid ""
+"这是很大的一片桃林。每年花开的季节，这里一片桃花灿烂，总引得\n"
+"邻近的镇集的游客来观看，甚至京城的游客也不乏其人。桃林中阡陌纵横\n"
+"，不熟悉此地的游客经常迷路。当然啦，一些先行者在桃树枝上挂了些字\n"
+"条以指示道路。看。。字条（note）在那儿。。\n"
+msgstr ""
+
+#. es2:d/choyin/yamen_yard long
+#: data/choyin/rooms.json
+msgid ""
+"院内草木繁茂,亭榭错落有致,可见这位县太爷也是位雅人.\n"
+msgstr ""
+
+#. es2:d/choyin/yamen long
+#: data/choyin/rooms.json
+msgid ""
+"正中高悬一匾(borad),匾下的书案上放着笔,墨,纸,砚,惊堂木等物.两旁各置屏风.堂下摆着各式刑具,你从未见过.\n"
+msgstr ""
+
+#. es2:d/choyin/yamen_iner long
+#: data/choyin/rooms.json
+msgid ""
+"内厅是老爷与好友叙话, 品茶, 吟诗, 作画之所; 格外幽静......\n"
+msgstr ""
+
+#. es2:d/choyin/altar long
+#: data/choyin/rooms.json
+msgid ""
+"这里就是奉祀火龙将军的大殿，火龙将军高大威武的神像(statue)\n"
+"就立在你的面前，旁边还有火龙将军的部属虎豹熊鹰四位将军，你现在\n"
+"所站的地方是横过街道而建的一个高台，隔著栏杆可以看见下面的街道\n"
+"川流不息的人群，南北各有一道阶梯往下回到街道。\n"
+msgstr ""
+
+#. es2:d/choyin/hotel2 long
+#: data/choyin/rooms.json
+msgid ""
+"这里是福林酒楼的二楼雅座，这里的客人大多衣冠鲜明，若不是富\n"
+"豪巨绅，便是秀才举人，使你不知不觉跟著斯文起来，从这里可以眺望\n"
+"乔阴县城的市景，东边不远处隔著几栋建筑便是县府衙门，南边是碧波\n"
+"荡漾的翠柳湖，湖对岸的雨桥庄在柳树间若隐若现，东边许多民房，再\n"
+"过去便是一方方的稻田，北边可望见树王坟的石台，以及乔阴县城北的\n"
+"建筑。你可以沿角落的方梯回到一楼，或者到三楼的客房。\n"
+msgstr ""
+
+#. es2:d/choyin/hotel3 long
+#: data/choyin/rooms.json
+msgid ""
+"这里是福林酒楼的客房，住的都是一些从外地来的富商大贾，为了\n"
+"预防宵小盗窃财物，福林酒楼的汤掌柜特别雇请了许多武师担任守卫的\n"
+"工作，往下可以回到二楼。\n"
+msgstr ""
+
+#. es2:d/choyin/tomb1 long
+#: data/choyin/rooms.json
+msgid ""
+"这里是树王坟内部的树洞，由于这棵大树实在太大，因此你站在树\n"
+"洞里，一点也不觉得局促，树洞约有两个人的高度那么深，你可以攀附\n"
+"粗糙的洞壁往上离开，东边的树根比较少，露出一些土层，北边跟西边\n"
+"则是树洞的另一端。\n"
+msgstr ""
+
+#. es2:d/choyin/tomb2 long
+#: data/choyin/rooms.json
+msgid ""
+"这里是树王坟树洞的内部，你的北、西、南三面都是盘根错节的树\n"
+"根，地面上铺著一堆乾草，似乎有人睡过的样子，往东的出口通往树洞\n"
+"的另一端。\n"
+msgstr ""
+
+#. es2:d/choyin/tomb3 long
+#: data/choyin/rooms.json
+msgid ""
+"这里是树王坟树洞的内部，你在这里可以闻到一股浓郁的檀香，奇\n"
+"怪的是，这棵大树并不是檀木，却不知这股香味从哪里来？往南的出口\n"
+"通往树洞的另一端。\n"
+msgstr ""
+
+#. es2:d/choyin/lionroom long
+#: data/choyin/rooms.json
+msgid ""
+"洞内黑漆漆的，几乎什么都看不见，只是在一个角落里\n"
+"有两点红光闪烁，凭你多年的经验，那一定是一双野兽的眼\n"
+"睛。这个地方最好不要久留。\n"
+msgstr ""
+
+#. es2:d/choyin/solidpath1 long
+#: data/choyin/rooms.json
+msgid ""
+"黄土铺就的小路.阴雨天,泥泞难行.往南就上山了.\n"
+msgstr ""
+
+#. es2:d/choyin/solidpath2 long
+#: data/choyin/rooms.json
+msgid ""
+"荒野中的小路,依稀可变,蜿蜒曲折,不知通向何方.\n"
+msgstr ""
+
+#. es2:d/choyin/cloudpool long
+#: data/choyin/rooms.json
+msgid ""
+"云梦大泽八百里,雾气沼沼,商旅绝行.\n"
+msgstr ""
+
+#. es2:d/choyin/rockpath2 long
+#: data/choyin/rooms.json
+msgid ""
+"    铺路的青石采自桐柏山.因行人稀少,已快被茅草遮没.\n"
+msgstr ""
+
+#. es2:d/choyin/rockpath1 long
+#: data/choyin/rooms.json
+msgid ""
+"铺路的青石采自桐柏山.因行人稀少,已快被茅草遮没.\n"
+msgstr ""
+
+#. es2:d/choyin/rockyu long
+#: data/choyin/rooms.json
+msgid ""
+"此地山势平缓,山坡尽是湘妃竹.南面就是桐柏山了,西面即为隐士结庐修身之所\n"
+".往北可见下山的青石小径.\n"
+msgstr ""
+
+#. es2:d/choyin/fence long
+#: data/choyin/rooms.json
+msgid ""
+"诺大的一片竹林，密密匝匝，望不道尽头。游目四顾，没有路了。\n"
+"微风乍起，竹林深处现出一角竹篱(fence)。\n"
+msgstr ""
+
+#. es2:d/choyin/club long
+#: data/choyin/rooms.json
+msgid ""
+"一间由白茅草搭成的草堂，室内仅有一竹榻，一矮几，四把竹椅．堂前一幅拓片装裱精\n"
+"致，上书:\n"
+"      书有未曾经我读\n"
+"      事无不可对人言\n"
+"矮几上摊有书卷(books)放着一支朱砂笔，一房歙砚竟题有岳武穆藏，另几张上好生宣． \n"
+msgstr ""
+
+#. es2:d/choyin/yard long
+#: data/choyin/rooms.json
+msgid ""
+"这是一间什麽也没有的空房间。\n"
+msgstr ""
+
+#. es2:d/choyin/tongbhill long
+#: data/choyin/rooms.json
+msgid ""
+"鬼神皆修于桐柏,故而此地人烟稀少,仅山下青石峪的那位隐士结庐在此.东边山\n"
+"壁天成一洞,据传是姑射山的仙人炼丹之所,终日烈焰雄雄,烤得此地寸草不生.\n"
+"然而,一株老松仍枝繁叶茂,立于巨石(stone)之上.\n"
+msgstr ""
+
+#. es2:d/choyin/stove long
+#: data/choyin/rooms.json
+msgid ""
+"雷霆不断击向一粒粒仙丹,仙丹慢慢由黑转为红色.你注意到炉门好象开着.\n"
+msgstr ""
+
+#. es2:d/choyin/spath long
+#: data/choyin/rooms.json
+msgid ""
+"这是一条土路，路旁隐约可见房舍，皆已破败。往南是一座高山，\n"
+"据说有鬼怪出没。\n"
+msgstr ""
+
+#. es2:d/choyin/rockroad long
+#: data/choyin/rooms.json
+msgid ""
+"    这是一条铺著砾石的上路，险峻难行。南面一座高山，云雾\n"
+"缭绕险峻异常。山前断碑字迹依稀可辨--「姑射山』。传说中有\n"
+"位仙人曾居于此地，不知如今还在不在......\n"
+msgstr ""
+
+#. es2:d/choyin/guyehill long
+#: data/choyin/rooms.json
+msgid ""
+"    采药人言曰：有仙人乘鹤飞升，径入此山，不知所终.....\n"
+"此地林木(tree)繁茂，藤蔓(vine)错杂。南耸绝壁，下临深谷.\n"
+"半山腰处，隐隐可见一洞，流云出岫。\n"
+msgstr ""
+
+#. es2:d/choyin/craneroom long
+#: data/choyin/rooms.json
+msgid ""
+"古树果非寻常之物，树冠白雾升腾，上接霄汉，如仙境一般，让人流连忘返...\n"
+msgstr ""
+
+#. es2:d/choyin/halfhole long
+#: data/choyin/rooms.json
+msgid ""
+"这里就是半山腰处的山洞。四壁空无一物，极为荒凉......\n"
+msgstr ""
+
+#. es2:d/choyin/platform long
+#: data/choyin/rooms.json
+msgid ""
+"姑射之巅，祥云朵朵，瑞彩千条。藐姑射之山，有神人居焉，肌肤若冰雪，绰约如处子..\n"
+"仙踪难觅，只觉风声飒然，云开之出，凸现一座云台(platform)\n"
+msgstr ""
+
+#. es2:d/choyin/hollow long
+#. es2:d/choyin/hollow1 long
+#: data/choyin/rooms.json
+msgid ""
+"两面皆为峭壁，光滑无物。一阵寒谷幽香，沁人心脾，却不知来自何方。。。\n"
+msgstr ""
+
+#. es2:d/choyin/hollow2 long
+#: data/choyin/rooms.json
+msgid ""
+"    两面皆为峭壁，光滑无物。一阵寒谷幽香，沁人心脾，却不知来自何方。。。\n"
+msgstr ""
+
+#. es2:d/choyin/hollow3 long
+#: data/choyin/rooms.json
+msgid ""
+"两面皆为峭壁，光滑无物。一株寒谷幽兰,暗香浮动，沁人心脾。山壁天然行成\n"
+"一空穴(vase),积满寒露.\n"
+msgstr ""
+
+#. choyin name
+#: data/choyin/world.json
+msgid "乔阴县城"
+msgstr ""
+
+#. choyin_east name
+#: data/choyin/world.json
+msgid "乔阴东郊"
+msgstr ""
+
+#. choyin.yamen.door name
+#: data/choyin/world.json
+msgid "铜钉大门"
+msgstr ""
+
+#. choyin.fence.door name
+#. choyin.club.door name
+#: data/choyin/world.json
+msgid "柴门"
+msgstr ""
+
+#. choyin.entrance.taolin lines
+#: data/choyin/world.json
+msgid "东行的道路被骆云舟挡住了."
+msgstr ""
+
+#. choyin.w_street1.landmark.statue long
+#: data/choyin/world.json
+msgid ""
+"这尊石狮跟一般寻常人家放在门口镇宅避邪的石狮颇有不同，姿势是立\n"
+"著的，而且大小要大得多，只怕有几万斤重，从来没见过谁能举起它。\n"
+"你注意到石狮的额头上刻著一个「举」字，不知是何用意？\n"
+msgstr ""
+
+#. choyin.tree_tomb.landmark.hole name
+#: data/choyin/world.json
+msgid "大洞"
+msgstr ""
+
+#. choyin.tree_tomb.landmark.hole long
+#: data/choyin/world.json
+msgid ""
+"一个黑漆漆的大洞，看来像是什么蛀虫蛀出来的，可是天底下哪里\n"
+"有这么大的蛀虫？这个洞连人也进得去。\n"
+msgstr ""
+
+#. choyin.tree_tomb.landmark.shrine name
+#: data/choyin/world.json
+msgid "小庙"
+msgstr ""
+
+#. choyin.tree_tomb.landmark.shrine long
+#: data/choyin/world.json
+msgid ""
+"一间砖砌的小庙，庙里供奉的当然就是「树王公」，你注意到庙里\n"
+"树王公的神像左手残缺不全，木刻的神像竟然有一条条白蚁的痕迹，和\n"
+"一般庙里金身神像给人的印象不太一样。\n"
+msgstr ""
+
+#. choyin.fence.landmark.fence name
+#: data/choyin/world.json
+msgid "竹篱"
+msgstr ""
+
+#. choyin.fence.landmark.fence long
+#: data/choyin/world.json
+msgid ""
+"篱笆依地势而曲折延伸，你注意到柴门里面有一间草堂。\n"
+msgstr ""
+
+#. choyin.club.landmark.books name
+#: data/choyin/world.json
+msgid "书卷"
+msgstr ""
+
+#. choyin.club.landmark.books long
+#: data/choyin/world.json
+msgid ""
+"几上的书信手而放，装帧古朴，竟是宋版书，还有几卷汉碑原拓。你按捺不住好奇心想拿\n"
+"起来(scratch)仔细研究一番。\n"
+msgstr ""
+
+#. choyin.guyehill.landmark.vine long
+#: data/choyin/world.json
+msgid ""
+"其中有一根藤蔓距离你比较近，你可以试著抓住(hold)藤蔓\n"
+msgstr ""
+
+#. choyin.guyehill.landmark.tree name
+#: data/choyin/world.json
+msgid "古树"
+msgstr ""
+
+#. choyin.guyehill.landmark.tree long
+#: data/choyin/world.json
+msgid ""
+"这是一株万年古树，寻常人等休想爬得上去.\n"
+msgstr ""
+
+#. choyin.platform.landmark.platform long
+#: data/choyin/world.json
+msgid ""
+"一座精雕细琢的玉台,放有一矮几;几上立有玉瓶,几株寒谷幽兰\n"
+"绽放其中.台旁置一云幡(flag),可是仙家宝物.\n"
+msgstr ""
+
+#. choyin.platform.landmark.flag name
+#: data/choyin/world.json
+msgid "云幡"
+msgstr ""
+
+#. choyin.platform.landmark.flag long
+#: data/choyin/world.json
+msgid ""
+"此幡可翻云覆雨,最好不要碰(touch)它.\n"
+msgstr ""
+
+#. choyin.hollow3.landmark.vase name
+#: data/choyin/world.json
+msgid "空穴"
+msgstr ""
+
+#. choyin.hollow3.landmark.vase long
+#: data/choyin/world.json
+msgid ""
+"石穴呈瓶状,想是用来插(interject)什么东东的.\n"
+msgstr ""
+
+#. choyin.s_street1.well name
+#. choyin.s_street1.drink name
+#: data/choyin/world.json
+msgid "大井"
+msgstr ""
+
+#. choyin.s_street1.drink act.verb
+#: data/choyin/world.json
+msgid "喝水"
+msgstr ""
+
+#. choyin.s_street1.drink act.acts.steps.line
+#: data/choyin/world.json
+msgid ""
+"你在井边用杯子舀起井水喝了几口。\n"
+msgstr ""
+
+#. choyin.s_street1.drink act.acts.steps.line
+#: data/choyin/world.json
+msgid ""
+"你已经再也喝不下一滴水了。\n"
+msgstr ""
+
+#. choyin.cloudpool.water name
+#: data/choyin/world.json
+msgid "大泽"
 msgstr ""

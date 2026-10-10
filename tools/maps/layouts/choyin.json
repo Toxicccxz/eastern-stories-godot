@@ -1,0 +1,3626 @@
+{
+	"maps": {
+		"town": {
+			"note": "乔阴县城: the 福林大街 runs from the 北门 (its stone arch, two stone lions; the yellow road north into the pines, which goes nowhere now, and west to 泓水南岸's foot of the hill) south past the 老姚布庄 and a three-storey tavern to the ring of flagstones round the 树王坟's raised terrace (the huge stump with its hole, the little shrine on its south side, steps down on all four sides); the 西大街 west past shops to the standing stone lion before the closed 西门 (the bookshop south of it), the 东大街 east between houses to the 东城门 and its iron lion; south the market street to the 福林楼 (east) and the 南门广场 with its great well, the willows of 翠柳湖 east of it. West along the 承安街 to the 十字路口: north the 县府衙门's gate (stone lions, the drum; its courts are a map of their own), south the rebuilt 南门 outside the city wall, then east under the 火龙将军庙 (the road runs through it below the statue's terrace) and along the lake shore back up to the square. From the square the zigzag bridge crosses the lake's lilies to the 曼雩台 and the peach grove east of it.",
+			"file": "choyin_town.tscn",
+			"draw": {
+				"technique": "town",
+				"base": "boundary",
+				"bounds": [
+					416,
+					64,
+					3328,
+					2880
+				],
+				"ground": [
+					[
+						"water",
+						1536,
+						2112,
+						2752,
+						2816,
+						"翠柳湖: lilies, duckweed, red carp"
+					],
+					[
+						"water",
+						1856,
+						2048,
+						1920,
+						2112
+					],
+					[
+						"forest",
+						1344,
+						64,
+						1856,
+						128,
+						"the pines north of the 北门: the road no longer goes through"
+					],
+					[
+						"wall_wood",
+						1360,
+						400,
+						1520,
+						880,
+						"houses west of the 福林大街"
+					],
+					[
+						"wall_wood",
+						1872,
+						400,
+						2160,
+						624,
+						"the three-storey tavern east of the street"
+					],
+					[
+						"wall_wood",
+						1872,
+						656,
+						2160,
+						880,
+						"the alley's houses"
+					],
+					[
+						"wall_wood",
+						912,
+						640,
+						1200,
+						880,
+						"老姚布庄's back rooms"
+					],
+					[
+						"wall_wood",
+						1232,
+						640,
+						1520,
+						880
+					],
+					[
+						"wall_wood",
+						1872,
+						912,
+						2160,
+						1136,
+						"stalls and houses on the ring's east side"
+					],
+					[
+						"wall_wood",
+						1872,
+						1152,
+						2480,
+						1200,
+						"the 东大街's houses, north"
+					],
+					[
+						"wall_wood",
+						1872,
+						1488,
+						2480,
+						1712,
+						"the 东大街's houses, south"
+					],
+					[
+						"wall_wood",
+						592,
+						912,
+						880,
+						1136,
+						"houses along the lane north of the 西大街"
+					],
+					[
+						"wall_wood",
+						592,
+						1424,
+						880,
+						1600,
+						"the bookshop (书肆) south of the 西大街"
+					],
+					[
+						"wall_wood",
+						912,
+						1424,
+						1200,
+						1600,
+						"the dye works (染坊)"
+					],
+					[
+						"wall_wood",
+						1232,
+						1424,
+						1520,
+						1600
+					],
+					[
+						"wall",
+						448,
+						1376,
+						832,
+						1856,
+						"the walls of the 县府衙门 (its courts are their own map)"
+					],
+					[
+						"wall_wood",
+						784,
+						1872,
+						1264,
+						2096,
+						"shops north of the 承安街"
+					],
+					[
+						"wall_wood",
+						1296,
+						1616,
+						1520,
+						2032,
+						"the market's houses west of the street"
+					],
+					[
+						"wall",
+						768,
+						2368,
+						1536,
+						2432,
+						"the city wall south of the 承安街"
+					],
+					[
+						"wall",
+						416,
+						2368,
+						512,
+						2432
+					]
+				],
+				"zones": {
+					"choyin.n_gate": [
+						1344,
+						128,
+						1856,
+						384,
+						"open",
+						"street",
+						null
+					],
+					"choyin.n_street1": [
+						1536,
+						384,
+						1856,
+						640,
+						"open",
+						"street",
+						null
+					],
+					"choyin.n_street2": [
+						1536,
+						640,
+						1856,
+						896,
+						"open",
+						"street",
+						null
+					],
+					"choyin.n_street3": [
+						1536,
+						896,
+						1856,
+						1152,
+						"open",
+						"street",
+						null
+					],
+					"choyin.nw_street": [
+						1216,
+						896,
+						1536,
+						1152,
+						"open",
+						"floor_yard",
+						null
+					],
+					"choyin.w_street4": [
+						896,
+						896,
+						1216,
+						1152,
+						"open",
+						"street",
+						null
+					],
+					"choyin.w_street3": [
+						1216,
+						1152,
+						1536,
+						1408,
+						"open",
+						"street",
+						null
+					],
+					"choyin.w_street2": [
+						896,
+						1152,
+						1216,
+						1408,
+						"open",
+						"street",
+						null
+					],
+					"choyin.w_street1": [
+						576,
+						1152,
+						896,
+						1408,
+						"open",
+						"street",
+						null
+					],
+					"choyin.tree_tomb": [
+						1536,
+						1152,
+						1856,
+						1536,
+						"open",
+						"floor_yard",
+						null
+					],
+					"choyin.e_street1": [
+						1856,
+						1216,
+						2176,
+						1472,
+						"open",
+						"street",
+						null
+					],
+					"choyin.e_gate": [
+						2176,
+						1216,
+						2496,
+						1472,
+						"open",
+						"street",
+						null
+					],
+					"choyin.s_street3": [
+						1536,
+						1536,
+						1856,
+						1792,
+						"open",
+						"street",
+						null
+					],
+					"choyin.s_street2": [
+						1536,
+						1792,
+						1856,
+						2048,
+						"open",
+						"street",
+						null
+					],
+					"choyin.hotel1": [
+						1856,
+						1728,
+						2240,
+						2048,
+						"enclosed",
+						"floor_wood",
+						"wall_wood"
+					],
+					"choyin.s_street1": [
+						1280,
+						2048,
+						1920,
+						2432,
+						"open",
+						"floor_yard",
+						null
+					],
+					"choyin.s_street4": [
+						1024,
+						2112,
+						1280,
+						2368,
+						"open",
+						"street",
+						null
+					],
+					"choyin.s_street5": [
+						768,
+						2112,
+						1024,
+						2368,
+						"open",
+						"street",
+						null
+					],
+					"choyin.crossroad": [
+						512,
+						2112,
+						768,
+						2368,
+						"open",
+						"street",
+						null
+					],
+					"choyin.court1": [
+						512,
+						1856,
+						768,
+						2112,
+						"open",
+						"floor_yard",
+						null
+					],
+					"choyin.s_gate": [
+						512,
+						2368,
+						768,
+						2688,
+						"open",
+						"street",
+						null
+					],
+					"choyin.dragon_temple": [
+						768,
+						2432,
+						1280,
+						2688,
+						"enclosed",
+						"floor_wood",
+						"wall"
+					],
+					"choyin.sw_road1": [
+						1280,
+						2432,
+						1536,
+						2688,
+						"open",
+						"path",
+						null
+					],
+					"choyin.bridge1": [
+						1664,
+						2432,
+						1920,
+						2688,
+						"open",
+						"water",
+						null
+					],
+					"choyin.bridge2": [
+						1920,
+						2432,
+						2176,
+						2688,
+						"open",
+						"water",
+						null
+					],
+					"choyin.bridge3": [
+						1920,
+						2176,
+						2176,
+						2432,
+						"open",
+						"water",
+						null
+					],
+					"choyin.bridge4": [
+						2176,
+						2176,
+						2432,
+						2432,
+						"open",
+						"water",
+						null
+					],
+					"choyin.bridge5": [
+						2176,
+						2432,
+						2432,
+						2688,
+						"open",
+						"water",
+						null
+					],
+					"choyin.entrance": [
+						2432,
+						2432,
+						2752,
+						2688,
+						"open",
+						"floor_yard",
+						null
+					],
+					"choyin.taolin": [
+						2752,
+						2304,
+						3264,
+						2816,
+						"open",
+						"grass",
+						null
+					]
+				},
+				"roads": [
+					[
+						"path",
+						1344,
+						256,
+						1536,
+						352,
+						"n_gate: the yellow road west to the foot of the hill"
+					],
+					[
+						"bridge",
+						1712,
+						2432,
+						1872,
+						2624,
+						"bridge1: the zigzag bridge over the lilies"
+					],
+					[
+						"bridge",
+						1712,
+						2512,
+						1920,
+						2624
+					],
+					[
+						"bridge",
+						1920,
+						2512,
+						2112,
+						2624,
+						"bridge2"
+					],
+					[
+						"bridge",
+						1984,
+						2432,
+						2112,
+						2624
+					],
+					[
+						"bridge",
+						1984,
+						2240,
+						2112,
+						2432,
+						"bridge3"
+					],
+					[
+						"bridge",
+						1984,
+						2240,
+						2176,
+						2368
+					],
+					[
+						"bridge",
+						2176,
+						2240,
+						2224,
+						2368,
+						"bridge4"
+					],
+					[
+						"bridge",
+						2208,
+						2208,
+						2416,
+						2416,
+						"the deck in the bridge's middle, where the young lady looks at the lilies"
+					],
+					[
+						"bridge",
+						2240,
+						2400,
+						2368,
+						2432
+					],
+					[
+						"bridge",
+						2240,
+						2432,
+						2368,
+						2624,
+						"bridge5"
+					],
+					[
+						"bridge",
+						2240,
+						2496,
+						2432,
+						2624
+					],
+					[
+						"street",
+						768,
+						2512,
+						1280,
+						2608,
+						"dragon_temple: the road runs through under the statue's terrace"
+					]
+				],
+				"gap_at": [],
+				"props": [
+					[
+						"blocked",
+						1616,
+						128,
+						1648,
+						176,
+						"the 北门's stone arch (「北门」), its two stone lions"
+					],
+					[
+						"blocked",
+						1744,
+						128,
+						1776,
+						176
+					],
+					[
+						"blocked",
+						2464,
+						1248,
+						2496,
+						1296,
+						"the 东城门's arch (it says 「北门」) and its iron lion"
+					],
+					[
+						"blocked",
+						2464,
+						1392,
+						2496,
+						1440
+					],
+					[
+						"blocked",
+						576,
+						1168,
+						608,
+						1232,
+						"the 西门's arch: the gate is shut"
+					],
+					[
+						"blocked",
+						576,
+						1328,
+						608,
+						1392
+					],
+					[
+						"blocked",
+						720,
+						1248,
+						752,
+						1312,
+						"the standing stone lion in the middle of the 西大街"
+					],
+					[
+						"blocked",
+						1648,
+						1280,
+						1744,
+						1376,
+						"树王坟: the great stump, thirty men round"
+					],
+					[
+						"blocked",
+						1664,
+						1456,
+						1728,
+						1504,
+						"the little brick shrine of 树王公"
+					],
+					[
+						"blocked",
+						1568,
+						2208,
+						1632,
+						2272,
+						"南门广场: the great well, cups tied to it on ropes"
+					],
+					[
+						"forest",
+						1888,
+						2112,
+						1920,
+						2432,
+						"the willows along 翠柳湖"
+					],
+					[
+						"forest",
+						1536,
+						2400,
+						1664,
+						2432
+					],
+					[
+						"blocked",
+						560,
+						1872,
+						592,
+						1904,
+						"the 县府衙门's two great stone lions"
+					],
+					[
+						"blocked",
+						688,
+						1872,
+						720,
+						1904
+					],
+					[
+						"blocked",
+						736,
+						1936,
+						768,
+						1968,
+						"the drum for grievances"
+					],
+					[
+						"blocked",
+						512,
+						2384,
+						544,
+						2416,
+						"the 南门's arch, rebuilt"
+					],
+					[
+						"blocked",
+						736,
+						2384,
+						768,
+						2416
+					],
+					[
+						"blocked",
+						2448,
+						2448,
+						2464,
+						2464,
+						"曼雩台's pillars, north and south, verses pasted on them"
+					],
+					[
+						"blocked",
+						2528,
+						2448,
+						2544,
+						2464
+					],
+					[
+						"blocked",
+						2608,
+						2448,
+						2624,
+						2464
+					],
+					[
+						"blocked",
+						2688,
+						2448,
+						2704,
+						2464
+					],
+					[
+						"blocked",
+						2448,
+						2656,
+						2464,
+						2672
+					],
+					[
+						"blocked",
+						2528,
+						2656,
+						2544,
+						2672
+					],
+					[
+						"blocked",
+						2608,
+						2656,
+						2624,
+						2672
+					],
+					[
+						"blocked",
+						2688,
+						2656,
+						2704,
+						2672
+					],
+					[
+						"forest",
+						2816,
+						2352,
+						2864,
+						2400,
+						"桃林: peach trees, paths every way"
+					],
+					[
+						"forest",
+						2944,
+						2352,
+						2992,
+						2400
+					],
+					[
+						"forest",
+						3088,
+						2368,
+						3136,
+						2416
+					],
+					[
+						"forest",
+						2864,
+						2480,
+						2912,
+						2528
+					],
+					[
+						"forest",
+						3008,
+						2496,
+						3056,
+						2544
+					],
+					[
+						"forest",
+						3152,
+						2528,
+						3200,
+						2576
+					],
+					[
+						"forest",
+						2800,
+						2640,
+						2848,
+						2688
+					],
+					[
+						"forest",
+						2944,
+						2656,
+						2992,
+						2704
+					],
+					[
+						"forest",
+						3088,
+						2672,
+						3136,
+						2720
+					],
+					[
+						"forest",
+						2880,
+						2752,
+						2928,
+						2784
+					],
+					[
+						"forest",
+						3040,
+						2752,
+						3088,
+						2784
+					]
+				],
+				"reach_from": "NGateRoadArrival",
+				"markers_in_middle": [
+					"choyin.nw_street",
+					"choyin.tree_tomb",
+					"choyin.entrance",
+					"choyin.taolin"
+				],
+				"placed": {
+					"choyin.n_gate.cityguard.1": [
+						1632,
+						208
+					],
+					"choyin.n_gate.cityguard.2": [
+						1760,
+						208
+					],
+					"choyin.n_gate.garrison.1": [
+						1584,
+						336
+					],
+					"choyin.n_gate.garrison.2": [
+						1808,
+						336
+					],
+					"choyin.e_gate.cityguard.1": [
+						2400,
+						1256
+					],
+					"choyin.e_gate.cityguard.2": [
+						2400,
+						1432
+					],
+					"choyin.s_gate.cityguard.1": [
+						560,
+						2448
+					],
+					"choyin.s_gate.cityguard.2": [
+						720,
+						2448
+					],
+					"choyin.court1.judge_gu.1": [
+						560,
+						1936
+					],
+					"choyin.court1.judge_gu.2": [
+						720,
+						2008
+					],
+					"choyin.court1.judge_gu.3": [
+						560,
+						2008
+					],
+					"choyin.court1.judge_gu.4": [
+						680,
+						1936
+					],
+					"choyin.court1.magistra.1": [
+						616,
+						1936
+					],
+					"choyin.court1.magistra.2": [
+						664,
+						1984
+					],
+					"choyin.bridge1.visitor.1": [
+						1732,
+						2464
+					],
+					"choyin.bridge1.visitor.2": [
+						1852,
+						2464
+					],
+					"choyin.bridge1.visitor.3": [
+						1732,
+						2600
+					],
+					"choyin.bridge1.visitor.4": [
+						1852,
+						2496
+					],
+					"choyin.bridge2.scholar.1": [
+						1944,
+						2604
+					],
+					"choyin.bridge2.scholar.2": [
+						2092,
+						2604
+					],
+					"choyin.bridge3.visitor.1": [
+						2004,
+						2260
+					],
+					"choyin.bridge3.visitor.2": [
+						2092,
+						2260
+					],
+					"choyin.bridge3.visitor.3": [
+						2004,
+						2340
+					],
+					"choyin.bridge3.visitor.4": [
+						2004,
+						2400
+					],
+					"choyin.bridge4.girl.1": [
+						2388,
+						2312
+					],
+					"choyin.bridge4.maid.1": [
+						2388,
+						2248
+					],
+					"choyin.bridge4.maid.2": [
+						2388,
+						2376
+					]
+				}
+			},
+			"scene": {
+				"style": "map",
+				"root": "ChoyinTown",
+				"map": "choyin.town",
+				"player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+				"shapes": {
+					"StairsShape": [
+						48,
+						48
+					],
+					"Rect_32_32": [
+						32,
+						32
+					],
+					"Rect_64_32": [
+						64,
+						32
+					],
+					"Rect_32_64": [
+						32,
+						64
+					],
+					"Rect_96_32": [
+						96,
+						32
+					],
+					"Rect_32_96": [
+						32,
+						96
+					],
+					"Rect_64_64": [
+						64,
+						64
+					]
+				},
+				"stairs": [
+					{
+						"zone": "choyin.hotel1",
+						"name": "Hotel1StairsUp",
+						"at": [
+							2192,
+							1776
+						],
+						"id": "choyin.hotel1.up",
+						"shape": "StairsShape",
+						"color": "Color(0.55, 0.38, 0.22, 1)",
+						"text": "方梯 · 上楼",
+						"marker": {
+							"name": "Hotel1StairsReturn",
+							"at": [
+								2136,
+								1784
+							],
+							"id": "choyin.hotel1.stairs_return"
+						}
+					},
+					{
+						"zone": "choyin.dragon_temple",
+						"name": "TempleStairsUp",
+						"at": [
+							1184,
+							2480
+						],
+						"id": "choyin.dragon_temple.up",
+						"shape": "StairsShape",
+						"color": "Color(0.55, 0.38, 0.22, 1)",
+						"text": "阶梯 · 上高台",
+						"marker": {
+							"name": "TempleStairsReturn",
+							"at": [
+								1120,
+								2560
+							],
+							"id": "choyin.dragon_temple.stairs_return"
+						}
+					}
+				],
+				"nodes": [
+					{
+						"generated": "captions"
+					},
+					{
+						"generated": "stairs"
+					},
+					{
+						"node": "caption",
+						"name": "SunhillLabel",
+						"at": [
+							1356,
+							228
+						],
+						"text": "西 · 泓水南岸",
+						"size": 14
+					},
+					{
+						"node": "caption",
+						"name": "EastLabel",
+						"at": [
+							2400,
+							1192
+						],
+						"text": "东 · 城外",
+						"size": 14
+					},
+					{
+						"node": "caption",
+						"name": "SouthLabel",
+						"at": [
+							600,
+							2700
+						],
+						"text": "南 · 姑射山",
+						"size": 14
+					},
+					{
+						"node": "caption",
+						"name": "YamenLabel",
+						"at": [
+							560,
+							1700
+						],
+						"text": "县府衙门",
+						"size": 20
+					},
+					{
+						"node": "caption",
+						"name": "LakeLabel",
+						"at": [
+							2300,
+							2120
+						],
+						"text": "翠柳湖",
+						"size": 20
+					},
+					{
+						"node": "passage",
+						"name": "SunhillPassage",
+						"id": "choyin.n_gate.west",
+						"at": [
+							1376,
+							304
+						],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "EastPassage",
+						"id": "choyin.e_gate.east",
+						"at": [
+							2464,
+							1344
+						],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "SouthPassage",
+						"id": "choyin.s_gate.south",
+						"at": [
+							640,
+							2656
+						],
+						"shape": "Rect_96_32"
+					},
+					{
+						"node": "service",
+						"name": "WellWater",
+						"id": "choyin.s_street1.well",
+						"at": [
+							1664,
+							2240
+						],
+						"text": "大井 · 装水"
+					},
+					{
+						"node": "service",
+						"name": "WellDrink",
+						"id": "choyin.s_street1.drink",
+						"at": [
+							1536,
+							2240
+						],
+						"text": "大井 · 喝水"
+					}
+				],
+				"zones": [
+					{
+						"generated": "zones"
+					}
+				],
+				"spawn_points": [
+					{
+						"name": "NGateRoadArrival",
+						"at": [
+							1440,
+							304
+						],
+						"id": "choyin.n_gate.road_arrival"
+					},
+					{
+						"name": "EGatePathReturn",
+						"at": [
+							2400,
+							1344
+						],
+						"id": "choyin.e_gate.path_return"
+					},
+					{
+						"name": "SGatePathReturn",
+						"at": [
+							640,
+							2600
+						],
+						"id": "choyin.s_gate.path_return"
+					},
+					{
+						"name": "Court1YamenReturn",
+						"at": [
+							640,
+							1960
+						],
+						"id": "choyin.court1.yamen_return"
+					},
+					{
+						"name": "TreeTombHoleReturn",
+						"at": [
+							1696,
+							1424
+						],
+						"id": "choyin.tree_tomb.hole_return"
+					},
+					{
+						"generated": "stair_markers"
+					},
+					{
+						"generated": "markers"
+					}
+				],
+				"interactions": [
+					{
+						"name": "StatueInteraction",
+						"id": "choyin.w_street1.landmark.statue",
+						"at": [
+							736,
+							1280
+						],
+						"shape": "Rect_32_64"
+					},
+					{
+						"name": "HoleInteraction",
+						"id": "choyin.tree_tomb.landmark.hole",
+						"at": [
+							1696,
+							1328
+						],
+						"shape": "Rect_64_64"
+					},
+					{
+						"name": "ShrineInteraction",
+						"id": "choyin.tree_tomb.landmark.shrine",
+						"at": [
+							1696,
+							1480
+						],
+						"shape": "Rect_64_32"
+					}
+				]
+			}
+		},
+		"yamen": {
+			"note": "县府衙门's courts (no way in from the gate in ES2: court1.c has no north exit): the garden court with its pavilions behind the 县府衙门's gate, the 铜钉大门 north into the 大堂 (the plaque, the desk with brush, ink, paper, inkstone and gavel, screens either side, the instruments of torture below), the 内厅 behind it for tea and verse.",
+			"file": "choyin_yamen.tscn",
+			"draw": {
+				"technique": "town",
+				"base": "boundary",
+				"bounds": [
+					-32,
+					-32,
+					544,
+					1184
+				],
+				"ground": [],
+				"zones": {
+					"choyin.yamen_iner": [
+						0,
+						0,
+						512,
+						320,
+						"enclosed",
+						"floor_wood",
+						"wall_wood"
+					],
+					"choyin.yamen": [
+						0,
+						320,
+						512,
+						704,
+						"enclosed",
+						"floor_wood",
+						"wall"
+					],
+					"choyin.yamen_yard": [
+						0,
+						704,
+						512,
+						1152,
+						"open",
+						"grass",
+						null
+					]
+				},
+				"roads": [
+					[
+						"street",
+						208,
+						704,
+						304,
+						1152,
+						"the flagstone path through the garden"
+					]
+				],
+				"props": [
+					[
+						"blocked",
+						192,
+						432,
+						320,
+						480,
+						"the desk under the plaque: brush, ink, paper, inkstone, gavel"
+					],
+					[
+						"blocked",
+						64,
+						400,
+						96,
+						496,
+						"the screens"
+					],
+					[
+						"blocked",
+						416,
+						400,
+						448,
+						496
+					],
+					[
+						"blocked",
+						64,
+						576,
+						160,
+						624,
+						"the instruments of torture"
+					],
+					[
+						"blocked",
+						352,
+						576,
+						448,
+						624
+					],
+					[
+						"blocked",
+						80,
+						96,
+						144,
+						144,
+						"the inner hall's tea table"
+					],
+					[
+						"forest",
+						32,
+						736,
+						128,
+						832,
+						"the garden: trees and grass, pavilions"
+					],
+					[
+						"blocked",
+						384,
+						768,
+						448,
+						832,
+						"a pavilion"
+					],
+					[
+						"forest",
+						384,
+						960,
+						480,
+						1056
+					],
+					[
+						"blocked",
+						64,
+						992,
+						128,
+						1056,
+						"a pavilion"
+					]
+				],
+				"reach_from": "YamenHallEntry",
+				"markers_in_middle": [
+					"choyin.yamen_yard"
+				],
+				"placed": {
+					"choyin.yamen.judgeman.1": [
+						256,
+						400
+					],
+					"choyin.yamen.magistra.1": [
+						160,
+						520
+					],
+					"choyin.yamen.magistra.2": [
+						352,
+						520
+					],
+					"choyin.yamen_yard.magistra.1": [
+						160,
+						880
+					],
+					"choyin.yamen_yard.magistra.2": [
+						352,
+						880
+					],
+					"choyin.yamen_yard.magistra.3": [
+						160,
+						1024
+					],
+					"choyin.yamen_yard.magistra.4": [
+						352,
+						1024
+					]
+				}
+			},
+			"scene": {
+				"style": "map",
+				"root": "ChoyinYamen",
+				"map": "choyin.yamen_compound",
+				"player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+				"shapes": {
+					"Rect_96_32": [
+						96,
+						32
+					],
+					"Rect_64_32": [
+						64,
+						32
+					],
+					"Rect_32_64": [
+						32,
+						64
+					]
+				},
+				"door_style": {
+					"walls": "Terrain/DoorWalls",
+					"wall_suffix": "Wall",
+					"shutters": "Terrain",
+					"color": "Color(0.42, 0.3, 0.18, 1)"
+				},
+				"doors": [
+					{
+						"name": "BrassDoor",
+						"id": "choyin.yamen.door",
+						"between": [
+							"choyin.yamen_yard",
+							"choyin.yamen"
+						],
+						"color": "Color(0.55, 0.36, 0.2, 1)"
+					}
+				],
+				"nodes": [
+					{
+						"generated": "captions"
+					},
+					{
+						"node": "caption",
+						"name": "GateLabel",
+						"at": [
+							190,
+							1160
+						],
+						"text": "南 · 衙门口",
+						"size": 14
+					},
+					{
+						"node": "group",
+						"name": "DoorWalls",
+						"type": "StaticBody2D",
+						"parent": "Terrain"
+					},
+					{
+						"generated": "door_walls"
+					},
+					{
+						"generated": "shutters"
+					},
+					{
+						"node": "passage",
+						"name": "GatePassage",
+						"id": "choyin.yamen_yard.south",
+						"at": [
+							256,
+							1120
+						],
+						"shape": "Rect_96_32"
+					},
+					{
+						"generated": "doors"
+					}
+				],
+				"zones": [
+					{
+						"generated": "zones"
+					}
+				],
+				"spawn_points": [
+					{
+						"name": "YamenHallEntry",
+						"at": [
+							256,
+							600
+						],
+						"id": "choyin.yamen.hall_entry"
+					},
+					{
+						"generated": "markers"
+					}
+				]
+			}
+		},
+		"altar": {
+			"note": "火龙将军庙's terrace over the street (the temple below, 512 wide as it): the general's statue and his four generals, the balustrade over the crowd, the stairs down where the ground floor's come up.",
+			"file": "choyin_altar.tscn",
+			"draw": {
+				"technique": "town",
+				"base": "boundary",
+				"bounds": [
+					-32,
+					-32,
+					544,
+					288
+				],
+				"ground": [],
+				"zones": {
+					"choyin.altar": [
+						0,
+						0,
+						512,
+						256,
+						"enclosed",
+						"floor_wood",
+						"wall"
+					]
+				},
+				"roads": [],
+				"props": [
+					[
+						"blocked",
+						208,
+						48,
+						304,
+						112,
+						"火龙将军's tall statue"
+					],
+					[
+						"blocked",
+						96,
+						48,
+						144,
+						96,
+						"the tiger and leopard generals"
+					],
+					[
+						"blocked",
+						368,
+						48,
+						416,
+						96,
+						"the bear and eagle generals"
+					]
+				],
+				"reach_from": "AltarStairsArrival",
+				"markers_in_middle": [],
+				"placed": {}
+			},
+			"scene": {
+				"style": "map",
+				"root": "ChoyinAltar",
+				"map": "choyin.temple_altar",
+				"player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+				"shapes": {
+					"StairsShape": [
+						48,
+						48
+					],
+					"Rect_32_32": [
+						32,
+						32
+					],
+					"Rect_64_32": [
+						64,
+						32
+					],
+					"Rect_32_64": [
+						32,
+						64
+					]
+				},
+				"stairs": [
+					{
+						"zone": "choyin.altar",
+						"name": "AltarStairsDown",
+						"at": [
+							256,
+							208
+						],
+						"id": "choyin.altar.down",
+						"shape": "StairsShape",
+						"color": "Color(0.55, 0.38, 0.22, 1)",
+						"text": "阶梯 · 下楼",
+						"marker": {
+							"name": "AltarStairsArrival",
+							"at": [
+								256,
+								160
+							],
+							"id": "choyin.altar.stairs_arrival"
+						}
+					}
+				],
+				"nodes": [
+					{
+						"generated": "captions"
+					},
+					{
+						"generated": "stairs"
+					}
+				],
+				"zones": [
+					{
+						"generated": "zones"
+					}
+				],
+				"spawn_points": [
+					{
+						"generated": "stair_markers"
+					},
+					{
+						"generated": "markers"
+					}
+				],
+				"interactions": []
+			}
+		},
+		"hotel_2f": {
+			"note": "福林楼's second floor (over the ground floor, 384 x 320 as it): the 雅座's tables by the windows over the town and the lake, the square stairs in the corner down to the hall and up to the guest rooms.",
+			"file": "choyin_hotel_2f.tscn",
+			"draw": {
+				"technique": "town",
+				"base": "boundary",
+				"bounds": [
+					-32,
+					-32,
+					416,
+					352
+				],
+				"ground": [],
+				"zones": {
+					"choyin.hotel2": [
+						0,
+						0,
+						384,
+						320,
+						"enclosed",
+						"floor_wood",
+						"wall_wood"
+					]
+				},
+				"roads": [],
+				"props": [
+					[
+						"blocked",
+						64,
+						128,
+						112,
+						176,
+						"雅座 tables"
+					],
+					[
+						"blocked",
+						176,
+						128,
+						224,
+						176
+					],
+					[
+						"blocked",
+						64,
+						224,
+						112,
+						272
+					],
+					[
+						"blocked",
+						176,
+						224,
+						224,
+						272
+					]
+				],
+				"reach_from": "Hotel2StairsArrival",
+				"markers_in_middle": [],
+				"placed": {}
+			},
+			"scene": {
+				"style": "map",
+				"root": "ChoyinHotel2",
+				"map": "choyin.hotel_2f",
+				"player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+				"shapes": {
+					"StairsShape": [
+						48,
+						48
+					],
+					"Rect_32_32": [
+						32,
+						32
+					],
+					"Rect_64_32": [
+						64,
+						32
+					],
+					"Rect_32_64": [
+						32,
+						64
+					]
+				},
+				"stairs": [
+					{
+						"zone": "choyin.hotel2",
+						"name": "Hotel2StairsDown",
+						"at": [
+							336,
+							48
+						],
+						"id": "choyin.hotel2.down",
+						"shape": "StairsShape",
+						"color": "Color(0.55, 0.38, 0.22, 1)",
+						"text": "方梯 · 下楼",
+						"marker": {
+							"name": "Hotel2StairsArrival",
+							"at": [
+								280,
+								56
+							],
+							"id": "choyin.hotel2.stairs_arrival"
+						}
+					},
+					{
+						"zone": "choyin.hotel2",
+						"name": "Hotel2StairsUp",
+						"at": [
+							336,
+							272
+						],
+						"id": "choyin.hotel2.up",
+						"shape": "StairsShape",
+						"color": "Color(0.55, 0.38, 0.22, 1)",
+						"text": "方梯 · 上楼",
+						"marker": {
+							"name": "Hotel2UpstairsReturn",
+							"at": [
+								280,
+								264
+							],
+							"id": "choyin.hotel2.upstairs_return"
+						}
+					}
+				],
+				"nodes": [
+					{
+						"generated": "captions"
+					},
+					{
+						"generated": "stairs"
+					}
+				],
+				"zones": [
+					{
+						"generated": "zones"
+					}
+				],
+				"spawn_points": [
+					{
+						"generated": "stair_markers"
+					},
+					{
+						"generated": "markers"
+					}
+				],
+				"interactions": []
+			}
+		},
+		"hotel_3f": {
+			"note": "福林楼's guest rooms on the third floor, where the 汤掌柜's hired swordsmen keep watch; the stairs down.",
+			"file": "choyin_hotel_3f.tscn",
+			"draw": {
+				"technique": "town",
+				"base": "boundary",
+				"bounds": [
+					-32,
+					-32,
+					416,
+					352
+				],
+				"ground": [],
+				"zones": {
+					"choyin.hotel3": [
+						0,
+						0,
+						384,
+						320,
+						"enclosed",
+						"floor_wood",
+						"wall_wood"
+					]
+				},
+				"roads": [],
+				"props": [
+					[
+						"wall_wood",
+						32,
+						32,
+						192,
+						96,
+						"the merchants' rooms"
+					],
+					[
+						"wall_wood",
+						32,
+						224,
+						192,
+						288
+					]
+				],
+				"reach_from": "Hotel3StairsArrival",
+				"markers_in_middle": [],
+				"placed": {}
+			},
+			"scene": {
+				"style": "map",
+				"root": "ChoyinHotel3",
+				"map": "choyin.hotel_3f",
+				"player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+				"shapes": {
+					"StairsShape": [
+						48,
+						48
+					],
+					"Rect_32_32": [
+						32,
+						32
+					],
+					"Rect_64_32": [
+						64,
+						32
+					],
+					"Rect_32_64": [
+						32,
+						64
+					]
+				},
+				"stairs": [
+					{
+						"zone": "choyin.hotel3",
+						"name": "Hotel3StairsDown",
+						"at": [
+							336,
+							272
+						],
+						"id": "choyin.hotel3.down",
+						"shape": "StairsShape",
+						"color": "Color(0.55, 0.38, 0.22, 1)",
+						"text": "方梯 · 下楼",
+						"marker": {
+							"name": "Hotel3StairsArrival",
+							"at": [
+								280,
+								264
+							],
+							"id": "choyin.hotel3.stairs_arrival"
+						}
+					}
+				],
+				"nodes": [
+					{
+						"generated": "captions"
+					},
+					{
+						"generated": "stairs"
+					}
+				],
+				"zones": [
+					{
+						"generated": "zones"
+					}
+				],
+				"spawn_points": [
+					{
+						"generated": "stair_markers"
+					},
+					{
+						"generated": "markers"
+					}
+				],
+				"interactions": []
+			}
+		},
+		"tree_hollow": {
+			"note": "Inside the 树王坟's stump, two men deep: the hollow under the hole (rough walls to climb back up), the dry grass where someone slept west, the scent of sandalwood north.",
+			"file": "choyin_tree_hollow.tscn",
+			"draw": {
+				"technique": "town",
+				"base": "boundary",
+				"bounds": [
+					-32,
+					-32,
+					544,
+					544
+				],
+				"ground": [],
+				"zones": {
+					"choyin.tomb1": [
+						256,
+						256,
+						512,
+						512,
+						"enclosed",
+						"forest_floor",
+						"wall_wood"
+					],
+					"choyin.tomb2": [
+						0,
+						256,
+						256,
+						512,
+						"enclosed",
+						"forest_floor",
+						"wall_wood"
+					],
+					"choyin.tomb3": [
+						256,
+						0,
+						512,
+						256,
+						"enclosed",
+						"forest_floor",
+						"wall_wood"
+					]
+				},
+				"roads": [],
+				"props": [
+					[
+						"blocked",
+						48,
+						400,
+						112,
+						464,
+						"a heap of dry grass someone slept on"
+					]
+				],
+				"reach_from": "Tomb1HoleArrival",
+				"markers_in_middle": [],
+				"placed": {}
+			},
+			"scene": {
+				"style": "map",
+				"root": "ChoyinTreeHollow",
+				"map": "choyin.tree_hollow",
+				"player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+				"shapes": {
+					"StairsShape": [
+						48,
+						48
+					]
+				},
+				"stairs": [
+					{
+						"zone": "choyin.tomb1",
+						"name": "Tomb1Up",
+						"at": [
+							448,
+							448
+						],
+						"id": "choyin.tomb1.up",
+						"shape": "StairsShape",
+						"color": "Color(0.55, 0.38, 0.22, 1)",
+						"text": "洞壁 · 攀上去",
+						"marker": {
+							"name": "Tomb1HoleArrival",
+							"at": [
+								392,
+								440
+							],
+							"id": "choyin.tomb1.hole_arrival"
+						}
+					}
+				],
+				"nodes": [
+					{
+						"generated": "captions"
+					},
+					{
+						"generated": "stairs"
+					}
+				],
+				"zones": [
+					{
+						"generated": "zones"
+					}
+				],
+				"spawn_points": [
+					{
+						"generated": "stair_markers"
+					},
+					{
+						"generated": "markers"
+					}
+				]
+			}
+		},
+		"lion_cave": {
+			"note": "The dark cave under the 西大街's stone lion: no way out but the 忘忧草's wind (乔阴 B).",
+			"file": "choyin_lion_cave.tscn",
+			"draw": {
+				"technique": "town",
+				"base": "boundary",
+				"bounds": [
+					-32,
+					-32,
+					416,
+					352
+				],
+				"ground": [],
+				"zones": {
+					"choyin.lionroom": [
+						0,
+						0,
+						384,
+						320,
+						"enclosed",
+						"cave_floor",
+						"rock"
+					]
+				},
+				"roads": [],
+				"props": [
+					[
+						"blocked",
+						304,
+						32,
+						352,
+						80,
+						"the corner where two red eyes glow"
+					]
+				],
+				"reach_from": "LionroomFallArrival",
+				"markers_in_middle": [],
+				"placed": {}
+			},
+			"scene": {
+				"style": "map",
+				"root": "ChoyinLionCave",
+				"map": "choyin.lion_cave",
+				"player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+				"shapes": {
+					"StairsShape": [
+						48,
+						48
+					],
+					"Rect_32_32": [
+						32,
+						32
+					],
+					"Rect_64_32": [
+						64,
+						32
+					],
+					"Rect_32_64": [
+						32,
+						64
+					]
+				},
+				"stairs": [],
+				"nodes": [
+					{
+						"generated": "captions"
+					},
+					{
+						"generated": "stairs"
+					}
+				],
+				"zones": [
+					{
+						"generated": "zones"
+					}
+				],
+				"spawn_points": [
+					{
+						"generated": "stair_markers"
+					},
+					{
+						"name": "LionroomFallArrival",
+						"at": [
+							96,
+							240
+						],
+						"id": "choyin.lionroom.fall_arrival"
+					},
+					{
+						"generated": "markers"
+					}
+				],
+				"interactions": []
+			}
+		},
+		"east": {
+			"note": "East of the 东城门: the yellow-earth road (muddy in the rain) forks north on a wild winding path to the vast fog of the 云梦大泽, where travellers no longer go, and south over the 桐柏山 stone path half lost in reeds up to the 青石峪, its slopes of mottled bamboo; west down into a dense bamboo grove where a fence and a wicket gate hide the hermit's thatched hall (and its empty yard behind); south up to bare 桐柏山, scorched by the furnace in its east cliff, an old pine on a great rock.",
+			"file": "choyin_east.tscn",
+			"draw": {
+				"technique": "canvas",
+				"base": "forest",
+				"bounds": [
+					0,
+					0,
+					1728,
+					2496
+				],
+				"zones": {
+					"choyin.cloudpool": [
+						896,
+						64,
+						1664,
+						768,
+						"riverbank"
+					],
+					"choyin.solidpath2": [
+						640,
+						640,
+						896,
+						896,
+						"grass"
+					],
+					"choyin.solidpath1": [
+						640,
+						896,
+						896,
+						1152,
+						"grass"
+					],
+					"choyin.rockpath2": [
+						640,
+						1152,
+						896,
+						1408,
+						"grass"
+					],
+					"choyin.rockpath1": [
+						640,
+						1408,
+						896,
+						1664,
+						"grass"
+					],
+					"choyin.rockyu": [
+						640,
+						1664,
+						1024,
+						1984,
+						"grass"
+					],
+					"choyin.fence": [
+						384,
+						1664,
+						640,
+						1984,
+						"forest_floor"
+					],
+					"choyin.club": [
+						128,
+						1728,
+						384,
+						1920,
+						"floor_wood"
+					],
+					"choyin.yard": [
+						64,
+						1920,
+						384,
+						2240,
+						"floor_yard"
+					],
+					"choyin.tongbhill": [
+						640,
+						1984,
+						1024,
+						2368,
+						"rock"
+					]
+				},
+				"lines": {
+					"roads": [
+						[
+							[
+								656,
+								1024,
+								32,
+								48,
+								48,
+								6,
+								"solidpath1: the yellow-earth road from the 东城门"
+							],
+							[
+								768,
+								1024,
+								32,
+								56,
+								56,
+								6
+							],
+							[
+								768,
+								896,
+								24,
+								48,
+								48,
+								8,
+								"solidpath2: the wild path winds north"
+							],
+							[
+								752,
+								768,
+								24,
+								48,
+								48,
+								8
+							],
+							[
+								800,
+								704,
+								28,
+								48,
+								48,
+								6
+							],
+							[
+								960,
+								704,
+								28,
+								40,
+								40,
+								6,
+								"into the 云梦大泽's fog"
+							],
+							[
+								1056,
+								704,
+								28,
+								40,
+								40,
+								4
+							],
+							[
+								1056,
+								560,
+								28,
+								40,
+								40,
+								4
+							]
+						],
+						[
+							[
+								768,
+								1024,
+								28,
+								48,
+								48,
+								6
+							],
+							[
+								768,
+								1152,
+								24,
+								40,
+								40,
+								6,
+								"rockpath2: 桐柏山's blue stone, half lost in reeds"
+							],
+							[
+								760,
+								1408,
+								24,
+								40,
+								40,
+								6,
+								"rockpath1"
+							],
+							[
+								768,
+								1664,
+								24,
+								40,
+								40,
+								6,
+								"up to the 青石峪"
+							],
+							[
+								832,
+								1792,
+								28,
+								64,
+								64,
+								6
+							],
+							[
+								832,
+								1984,
+								24,
+								48,
+								48,
+								6,
+								"south up 桐柏山"
+							],
+							[
+								832,
+								2160,
+								32,
+								64,
+								64,
+								4
+							]
+						],
+						[
+							[
+								832,
+								1824,
+								24,
+								40,
+								40,
+								6,
+								"west down into the bamboo"
+							],
+							[
+								640,
+								1824,
+								24,
+								48,
+								48,
+								6
+							],
+							[
+								512,
+								1824,
+								24,
+								48,
+								48,
+								4
+							],
+							[
+								400,
+								1824,
+								24,
+								24,
+								24,
+								0,
+								"the wicket gate"
+							]
+						]
+					]
+				},
+				"steps": [
+					{
+						"op": "freeze"
+					},
+					{
+						"op": "blobs",
+						"kind": "shallow_water",
+						"amp": 0.25,
+						"seed": [
+							0.013,
+							0.019
+						],
+						"blobs": [
+							[
+								1280,
+								320,
+								300,
+								210,
+								"云梦大泽: eight hundred li of marsh and fog"
+							]
+						]
+					},
+					{
+						"op": "blobs",
+						"kind": "riverbank",
+						"amp": 0.2,
+						"seed": [
+							0.017,
+							0.011
+						],
+						"blobs": [
+							[
+								1120,
+								480,
+								160,
+								120,
+								"the marsh's edge where the path ends"
+							],
+							[
+								1400,
+								520,
+								200,
+								90
+							]
+						]
+					},
+					{
+						"op": "blobs",
+						"kind": "grass",
+						"amp": 0.25,
+						"seed": [
+							0.019,
+							0.023
+						],
+						"blobs": [
+							[
+								832,
+								1824,
+								170,
+								140,
+								"青石峪: gentle slopes of mottled bamboo"
+							],
+							[
+								832,
+								2176,
+								170,
+								170,
+								"桐柏山: bare rock"
+							]
+						]
+					},
+					{
+						"op": "lines",
+						"group": "roads",
+						"kind": "path"
+					},
+					{
+						"op": "fill",
+						"fills": [
+							[
+								"rock",
+								704,
+								2048,
+								960,
+								2304,
+								"桐柏山: scorched bare, nothing grows"
+							],
+							[
+								"forest_floor",
+								416,
+								1696,
+								608,
+								1952,
+								"the bamboo grove, the fence winding through it"
+							],
+							[
+								"floor_wood",
+								160,
+								1760,
+								352,
+								1888,
+								"草堂: a bamboo couch, a low table, four bamboo chairs"
+							],
+							[
+								"floor_yard",
+								96,
+								1952,
+								352,
+								2208,
+								"the empty yard behind the hall"
+							],
+							[
+								"floor_yard",
+								208,
+								1888,
+								272,
+								1952,
+								"the yard's gate"
+							],
+							[
+								"floor_wood",
+								352,
+								1792,
+								416,
+								1856,
+								"the hall's wicket gate onto the bamboo"
+							]
+						]
+					},
+					{
+						"op": "clip"
+					},
+					{
+						"op": "separate"
+					},
+					{
+						"op": "fill",
+						"fills": [
+							[
+								"wall_wood",
+								128,
+								1728,
+								384,
+								1760,
+								"the thatched hall's walls"
+							],
+							[
+								"wall_wood",
+								128,
+								1888,
+								208,
+								1920
+							],
+							[
+								"wall_wood",
+								272,
+								1888,
+								384,
+								1920
+							],
+							[
+								"wall_wood",
+								128,
+								1760,
+								160,
+								1888
+							],
+							[
+								"wall_wood",
+								352,
+								1760,
+								384,
+								1792
+							],
+							[
+								"wall_wood",
+								352,
+								1856,
+								384,
+								1888
+							],
+							[
+								"blocked",
+								192,
+								1776,
+								256,
+								1808,
+								"the low table, scrolls and a vermilion brush"
+							],
+							[
+								"blocked",
+								864,
+								2112,
+								928,
+								2176,
+								"the great rock, an old pine on it"
+							],
+							[
+								"cliff",
+								960,
+								2048,
+								1024,
+								2304,
+								"the east cliff: the immortal's furnace burns inside"
+							]
+						]
+					},
+					{
+						"op": "drop_pockets",
+						"from": "Solidpath1GateArrival"
+					}
+				],
+				"reach_from": "Solidpath1GateArrival",
+				"caption_near": {
+					"choyin.cloudpool": [
+						912,
+						96
+					],
+					"choyin.solidpath2": [
+						656,
+						660
+					],
+					"choyin.solidpath1": [
+						656,
+						1110
+					],
+					"choyin.rockpath2": [
+						800,
+						1200
+					],
+					"choyin.rockpath1": [
+						800,
+						1450
+					],
+					"choyin.rockyu": [
+						900,
+						1700
+					],
+					"choyin.fence": [
+						420,
+						1680
+					],
+					"choyin.club": [
+						160,
+						1740
+					],
+					"choyin.yard": [
+						96,
+						2000
+					],
+					"choyin.tongbhill": [
+						680,
+						2300
+					]
+				}
+			},
+			"scene": {
+				"style": "map",
+				"root": "ChoyinEast",
+				"map": "choyin.east",
+				"player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+				"shapes": {
+					"Rect_32_64": [
+						32,
+						64
+					],
+					"Rect_64_32": [
+						64,
+						32
+					],
+					"Rect_32_32": [
+						32,
+						32
+					]
+				},
+				"door_style": {
+					"walls": "Terrain/DoorWalls",
+					"wall_suffix": "Wall",
+					"shutters": "Terrain",
+					"color": "Color(0.42, 0.3, 0.18, 1)"
+				},
+				"doors": [
+					{
+						"name": "FenceDoor",
+						"id": "choyin.fence.door",
+						"at": [
+							368,
+							1824
+						],
+						"shape": "Rect_32_64",
+						"note": "柴门 in the fence"
+					},
+					{
+						"name": "YardDoor",
+						"id": "choyin.club.door",
+						"at": [
+							240,
+							1904
+						],
+						"shape": "Rect_64_32",
+						"note": "柴门 to the yard"
+					}
+				],
+				"nodes": [
+					{
+						"generated": "captions"
+					},
+					{
+						"node": "caption",
+						"name": "TownLabel",
+						"at": [
+							600,
+							1000
+						],
+						"text": "西 · 乔阴县城",
+						"size": 14
+					},
+					{
+						"node": "caption",
+						"name": "FurnaceLabel",
+						"at": [
+							940,
+							2020
+						],
+						"text": "丹炉",
+						"size": 12
+					},
+					{
+						"node": "group",
+						"name": "DoorWalls",
+						"type": "StaticBody2D",
+						"parent": "Terrain"
+					},
+					{
+						"generated": "door_walls"
+					},
+					{
+						"generated": "shutters"
+					},
+					{
+						"node": "passage",
+						"name": "TownPassage",
+						"id": "choyin.solidpath1.west",
+						"at": [
+							672,
+							1024
+						],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "service",
+						"name": "MarshWater",
+						"id": "choyin.cloudpool.water",
+						"at": [
+							1088,
+							432
+						],
+						"text": "大泽 · 装水"
+					},
+					{
+						"generated": "doors"
+					}
+				],
+				"zones": [
+					{
+						"generated": "zones"
+					}
+				],
+				"spawn_points": [
+					{
+						"name": "Solidpath1GateArrival",
+						"at": [
+							736,
+							1024
+						],
+						"id": "choyin.solidpath1.gate_arrival"
+					},
+					{
+						"name": "TongbhillFurnaceReturn",
+						"at": [
+							880,
+							2240
+						],
+						"id": "choyin.tongbhill.furnace_return"
+					},
+					{
+						"name": "CloudpoolSerpent1",
+						"at": [
+							1104,
+							520
+						],
+						"id": "choyin.cloudpool.serpent.1"
+					},
+					{
+						"name": "CloudpoolSerpent2",
+						"at": [
+							1232,
+							520
+						],
+						"id": "choyin.cloudpool.serpent.2"
+					},
+					{
+						"name": "CloudpoolSerpent3",
+						"at": [
+							1360,
+							520
+						],
+						"id": "choyin.cloudpool.serpent.3"
+					},
+					{
+						"name": "CloudpoolSerpent4",
+						"at": [
+							1488,
+							520
+						],
+						"id": "choyin.cloudpool.serpent.4"
+					},
+					{
+						"name": "RockyuOldman1",
+						"at": [
+							928,
+							1872
+						],
+						"id": "choyin.rockyu.oldman.1"
+					}
+				],
+				"interactions": [
+					{
+						"name": "FenceInteraction",
+						"id": "choyin.fence.landmark.fence",
+						"at": [
+							400,
+							1760
+						],
+						"shape": "Rect_32_32"
+					},
+					{
+						"name": "BooksInteraction",
+						"id": "choyin.club.landmark.books",
+						"at": [
+							224,
+							1792
+						],
+						"shape": "Rect_64_32"
+					}
+				]
+			}
+		},
+		"furnace": {
+			"note": "The immortal's furnace in 桐柏山's east cliff, reached from the 云台 (乔阴 B); its door stands open onto the mountain.",
+			"file": "choyin_furnace.tscn",
+			"draw": {
+				"technique": "town",
+				"base": "boundary",
+				"bounds": [
+					-32,
+					-32,
+					416,
+					352
+				],
+				"ground": [],
+				"zones": {
+					"choyin.stove": [
+						0,
+						0,
+						384,
+						320,
+						"enclosed",
+						"cave_floor",
+						"rock"
+					]
+				},
+				"roads": [],
+				"props": [
+					[
+						"blocked",
+						144,
+						80,
+						240,
+						176,
+						"the furnace: thunder strikes the pills as they redden"
+					]
+				],
+				"reach_from": "StovePlatformArrival",
+				"markers_in_middle": [],
+				"placed": {}
+			},
+			"scene": {
+				"style": "map",
+				"root": "ChoyinFurnace",
+				"map": "choyin.furnace",
+				"player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+				"shapes": {
+					"StairsShape": [
+						48,
+						48
+					],
+					"Rect_32_32": [
+						32,
+						32
+					],
+					"Rect_64_32": [
+						64,
+						32
+					],
+					"Rect_32_64": [
+						32,
+						64
+					]
+				},
+				"stairs": [],
+				"nodes": [
+					{
+						"generated": "captions"
+					},
+					{
+						"generated": "stairs"
+					},
+					{
+						"node": "passage",
+						"name": "OutPassage",
+						"id": "choyin.stove.out",
+						"at": [
+							192,
+							288
+						],
+						"shape": "Rect_64_32"
+					}
+				],
+				"zones": [
+					{
+						"generated": "zones"
+					}
+				],
+				"spawn_points": [
+					{
+						"generated": "stair_markers"
+					},
+					{
+						"name": "StovePlatformArrival",
+						"at": [
+							192,
+							232
+						],
+						"id": "choyin.stove.platform_arrival"
+					},
+					{
+						"generated": "markers"
+					}
+				],
+				"interactions": []
+			}
+		},
+		"guye": {
+			"note": "South of the 南门: the earth road between ruined houses toward a mountain said to be haunted; the steep gravel road up to the broken stele 「姑射山」 in its clouds; the 绝壁 under the sheer south cliff, a ten-thousand-year tree and tangled vines, the valley deep below, a cave half way up from which clouds drift.",
+			"file": "choyin_guye.tscn",
+			"draw": {
+				"technique": "canvas",
+				"base": "forest",
+				"bounds": [
+					0,
+					0,
+					960,
+					1088
+				],
+				"zones": {
+					"choyin.spath": [
+						320,
+						64,
+						640,
+						384,
+						"grass"
+					],
+					"choyin.rockroad": [
+						320,
+						384,
+						640,
+						704,
+						"rock"
+					],
+					"choyin.guyehill": [
+						192,
+						704,
+						768,
+						960,
+						"grass"
+					]
+				},
+				"lines": {
+					"roads": [
+						[
+							[
+								480,
+								80,
+								32,
+								56,
+								56,
+								6,
+								"spath: the earth road from the 南门"
+							],
+							[
+								480,
+								240,
+								32,
+								64,
+								64,
+								8
+							],
+							[
+								496,
+								384,
+								24,
+								48,
+								48,
+								8,
+								"rockroad: gravel, steep"
+							],
+							[
+								464,
+								544,
+								24,
+								40,
+								40,
+								8
+							],
+							[
+								480,
+								704,
+								24,
+								48,
+								48,
+								6,
+								"up onto the 绝壁"
+							],
+							[
+								480,
+								816,
+								40,
+								96,
+								96,
+								4
+							]
+						]
+					]
+				},
+				"steps": [
+					{
+						"op": "freeze"
+					},
+					{
+						"op": "blobs",
+						"kind": "grass",
+						"amp": 0.2,
+						"seed": [
+							0.021,
+							0.017
+						],
+						"blobs": [
+							[
+								480,
+								832,
+								240,
+								100,
+								"绝壁: trees and tangled vines under the cliff"
+							]
+						]
+					},
+					{
+						"op": "lines",
+						"group": "roads",
+						"kind": "path"
+					},
+					{
+						"op": "clip"
+					},
+					{
+						"op": "separate"
+					},
+					{
+						"op": "fill",
+						"fills": [
+							[
+								"wall_wood",
+								336,
+								96,
+								400,
+								176,
+								"ruined houses beside the road"
+							],
+							[
+								"wall_wood",
+								560,
+								208,
+								624,
+								288
+							],
+							[
+								"blocked",
+								384,
+								448,
+								400,
+								480,
+								"the broken stele: 「姑射山」"
+							],
+							[
+								"cliff",
+								192,
+								928,
+								768,
+								960,
+								"the sheer cliff south, the valley below"
+							],
+							[
+								"blocked",
+								288,
+								784,
+								336,
+								832,
+								"the ten-thousand-year tree"
+							],
+							[
+								"blocked",
+								624,
+								784,
+								640,
+								864,
+								"the vines down the cliff"
+							]
+						]
+					},
+					{
+						"op": "drop_pockets",
+						"from": "SpathGateArrival"
+					}
+				],
+				"reach_from": "SpathGateArrival",
+				"caption_near": {
+					"choyin.spath": [
+						336,
+						80
+					],
+					"choyin.rockroad": [
+						528,
+						420
+					],
+					"choyin.guyehill": [
+						208,
+						720
+					]
+				}
+			},
+			"scene": {
+				"style": "map",
+				"root": "ChoyinGuye",
+				"map": "choyin.guye",
+				"player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+				"shapes": {
+					"Rect_96_32": [
+						96,
+						32
+					],
+					"Rect_32_64": [
+						32,
+						64
+					],
+					"Rect_32_32": [
+						32,
+						32
+					]
+				},
+				"nodes": [
+					{
+						"generated": "captions"
+					},
+					{
+						"node": "caption",
+						"name": "TownLabel",
+						"at": [
+							500,
+							20
+						],
+						"text": "北 · 乔阴县城",
+						"size": 14
+					},
+					{
+						"node": "caption",
+						"name": "MountainLabel",
+						"at": [
+							400,
+							990
+						],
+						"text": "姑射山",
+						"size": 20
+					},
+					{
+						"node": "passage",
+						"name": "TownPassage",
+						"id": "choyin.spath.north",
+						"at": [
+							480,
+							96
+						],
+						"shape": "Rect_96_32"
+					}
+				],
+				"zones": [
+					{
+						"generated": "zones"
+					}
+				],
+				"spawn_points": [
+					{
+						"name": "SpathGateArrival",
+						"at": [
+							480,
+							160
+						],
+						"id": "choyin.spath.gate_arrival"
+					},
+					{
+						"name": "GuyehillTreeReturn",
+						"at": [
+							376,
+							840
+						],
+						"id": "choyin.guyehill.tree_return"
+					},
+					{
+						"name": "GuyehillVineReturn",
+						"at": [
+							584,
+							840
+						],
+						"id": "choyin.guyehill.vine_return"
+					}
+				],
+				"interactions": [
+					{
+						"name": "TreeInteraction",
+						"id": "choyin.guyehill.landmark.tree",
+						"at": [
+							312,
+							808
+						],
+						"shape": "Rect_32_32"
+					},
+					{
+						"name": "VineInteraction",
+						"id": "choyin.guyehill.landmark.vine",
+						"at": [
+							632,
+							824
+						],
+						"shape": "Rect_32_64"
+					}
+				]
+			}
+		},
+		"crown": {
+			"note": "The ancient tree's crown on 姑射山, in white mist as high as the sky, where the cranes stand (乔阴 B: climb tree).",
+			"file": "choyin_crown.tscn",
+			"draw": {
+				"technique": "town",
+				"base": "boundary",
+				"bounds": [
+					-32,
+					-32,
+					416,
+					352
+				],
+				"ground": [],
+				"zones": {
+					"choyin.craneroom": [
+						0,
+						0,
+						384,
+						320,
+						"enclosed",
+						"forest_floor",
+						"forest"
+					]
+				},
+				"roads": [],
+				"props": [
+					[
+						"blocked",
+						176,
+						128,
+						208,
+						160,
+						"the trunk's top, white mist rising"
+					]
+				],
+				"reach_from": "CraneroomClimbArrival",
+				"markers_in_middle": [
+					"choyin.craneroom"
+				],
+				"placed": {}
+			},
+			"scene": {
+				"style": "map",
+				"root": "ChoyinCrown",
+				"map": "choyin.crown",
+				"player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+				"shapes": {
+					"StairsShape": [
+						48,
+						48
+					],
+					"Rect_32_32": [
+						32,
+						32
+					],
+					"Rect_64_32": [
+						64,
+						32
+					],
+					"Rect_32_64": [
+						32,
+						64
+					]
+				},
+				"stairs": [
+					{
+						"zone": "choyin.craneroom",
+						"name": "CraneroomDown",
+						"at": [
+							64,
+							272
+						],
+						"id": "choyin.craneroom.down",
+						"shape": "StairsShape",
+						"color": "Color(0.55, 0.38, 0.22, 1)",
+						"text": "古树 · 爬下去",
+						"marker": {
+							"name": "CraneroomClimbArrival",
+							"at": [
+								120,
+								264
+							],
+							"id": "choyin.craneroom.climb_arrival"
+						}
+					}
+				],
+				"nodes": [
+					{
+						"generated": "captions"
+					},
+					{
+						"generated": "stairs"
+					}
+				],
+				"zones": [
+					{
+						"generated": "zones"
+					}
+				],
+				"spawn_points": [
+					{
+						"generated": "stair_markers"
+					},
+					{
+						"generated": "markers"
+					}
+				],
+				"interactions": []
+			}
+		},
+		"cliff_cave": {
+			"note": "The cave half way up 姑射山's cliff, bare and desolate (乔阴 B: the vine up, the 缚仙绳).",
+			"file": "choyin_cliff_cave.tscn",
+			"draw": {
+				"technique": "town",
+				"base": "boundary",
+				"bounds": [
+					-32,
+					-32,
+					352,
+					288
+				],
+				"ground": [],
+				"zones": {
+					"choyin.halfhole": [
+						0,
+						0,
+						320,
+						256,
+						"enclosed",
+						"cave_floor",
+						"rock"
+					]
+				},
+				"roads": [],
+				"props": [],
+				"reach_from": "HalfholeVineArrival",
+				"markers_in_middle": [],
+				"placed": {}
+			},
+			"scene": {
+				"style": "map",
+				"root": "ChoyinCliffCave",
+				"map": "choyin.cliff_cave",
+				"player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+				"shapes": {
+					"StairsShape": [
+						48,
+						48
+					],
+					"Rect_32_32": [
+						32,
+						32
+					],
+					"Rect_64_32": [
+						64,
+						32
+					],
+					"Rect_32_64": [
+						32,
+						64
+					]
+				},
+				"stairs": [
+					{
+						"zone": "choyin.halfhole",
+						"name": "HalfholeDown",
+						"at": [
+							48,
+							208
+						],
+						"id": "choyin.halfhole.down",
+						"shape": "StairsShape",
+						"color": "Color(0.55, 0.38, 0.22, 1)",
+						"text": "藤蔓 · 爬下去",
+						"marker": {
+							"name": "HalfholeVineArrival",
+							"at": [
+								104,
+								200
+							],
+							"id": "choyin.halfhole.vine_arrival"
+						}
+					}
+				],
+				"nodes": [
+					{
+						"generated": "captions"
+					},
+					{
+						"generated": "stairs"
+					}
+				],
+				"zones": [
+					{
+						"generated": "zones"
+					}
+				],
+				"spawn_points": [
+					{
+						"generated": "stair_markers"
+					},
+					{
+						"generated": "markers"
+					}
+				],
+				"interactions": []
+			}
+		},
+		"summit": {
+			"note": "姑射山's summit in auspicious clouds: the jade 云台 with its vase of orchids and the cloud banner beside it (乔阴 B).",
+			"file": "choyin_summit.tscn",
+			"draw": {
+				"technique": "town",
+				"base": "boundary",
+				"bounds": [
+					-32,
+					-32,
+					416,
+					352
+				],
+				"ground": [],
+				"zones": {
+					"choyin.platform": [
+						0,
+						0,
+						384,
+						320,
+						"enclosed",
+						"floor_yard",
+						"cliff"
+					]
+				},
+				"roads": [],
+				"props": [
+					[
+						"blocked",
+						160,
+						112,
+						224,
+						160,
+						"the jade platform, a low table, a jade vase of 寒谷幽兰"
+					],
+					[
+						"blocked",
+						256,
+						112,
+						272,
+						160,
+						"the cloud banner"
+					]
+				],
+				"reach_from": "PlatformCraneArrival",
+				"markers_in_middle": [],
+				"placed": {
+					"choyin.platform.lboy.1": [
+						96,
+						96
+					],
+					"choyin.platform.lboy.2": [
+						304,
+						232
+					]
+				}
+			},
+			"scene": {
+				"style": "map",
+				"root": "ChoyinSummit",
+				"map": "choyin.summit",
+				"player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+				"shapes": {
+					"StairsShape": [
+						48,
+						48
+					],
+					"Rect_32_32": [
+						32,
+						32
+					],
+					"Rect_64_32": [
+						64,
+						32
+					],
+					"Rect_32_64": [
+						32,
+						64
+					]
+				},
+				"stairs": [],
+				"nodes": [
+					{
+						"generated": "captions"
+					},
+					{
+						"generated": "stairs"
+					}
+				],
+				"zones": [
+					{
+						"generated": "zones"
+					}
+				],
+				"spawn_points": [
+					{
+						"generated": "stair_markers"
+					},
+					{
+						"name": "PlatformCraneArrival",
+						"at": [
+							96,
+							248
+						],
+						"id": "choyin.platform.crane_arrival"
+					},
+					{
+						"generated": "markers"
+					}
+				],
+				"interactions": [
+					{
+						"name": "PlatformInteraction",
+						"id": "choyin.platform.landmark.platform",
+						"at": [
+							192,
+							136
+						],
+						"shape": "Rect_64_32"
+					},
+					{
+						"name": "FlagInteraction",
+						"id": "choyin.platform.landmark.flag",
+						"at": [
+							264,
+							136
+						],
+						"shape": "Rect_32_64"
+					}
+				]
+			}
+		},
+		"valley": {
+			"note": "寒谷 below 姑射山's cliff: sheer smooth walls either side, a cold orchid scent from nowhere; at its far end the orchid grows by a vase-shaped hollow in the rock full of cold dew.",
+			"file": "choyin_valley.tscn",
+			"draw": {
+				"technique": "town",
+				"base": "boundary",
+				"bounds": [
+					-32,
+					-32,
+					800,
+					544
+				],
+				"ground": [],
+				"zones": {
+					"choyin.hollow": [
+						0,
+						256,
+						256,
+						512,
+						"enclosed",
+						"grass",
+						"cliff"
+					],
+					"choyin.hollow1": [
+						256,
+						256,
+						768,
+						512,
+						"enclosed",
+						"grass",
+						"cliff"
+					],
+					"choyin.hollow2": [
+						256,
+						0,
+						512,
+						256,
+						"enclosed",
+						"grass",
+						"cliff"
+					],
+					"choyin.hollow3": [
+						512,
+						0,
+						768,
+						256,
+						"enclosed",
+						"grass",
+						"cliff"
+					]
+				},
+				"roads": [],
+				"props": [
+					[
+						"blocked",
+						672,
+						48,
+						720,
+						96,
+						"the vase-shaped hollow, full of cold dew"
+					]
+				],
+				"reach_from": "HollowFallArrival",
+				"markers_in_middle": [],
+				"placed": {}
+			},
+			"scene": {
+				"style": "map",
+				"root": "ChoyinValley",
+				"map": "choyin.valley",
+				"player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+				"shapes": {
+					"Rect_32_64": [
+						32,
+						64
+					]
+				},
+				"nodes": [
+					{
+						"generated": "captions"
+					}
+				],
+				"zones": [
+					{
+						"generated": "zones"
+					}
+				],
+				"spawn_points": [
+					{
+						"name": "HollowFallArrival",
+						"at": [
+							128,
+							384
+						],
+						"id": "choyin.hollow.fall_arrival"
+					},
+					{
+						"generated": "markers"
+					}
+				],
+				"interactions": [
+					{
+						"name": "VaseInteraction",
+						"id": "choyin.hollow3.landmark.vase",
+						"at": [
+							696,
+							120
+						],
+						"shape": "Rect_32_64"
+					}
+				]
+			}
+		}
+	}
+}

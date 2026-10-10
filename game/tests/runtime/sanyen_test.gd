@@ -49,7 +49,7 @@ func _test_data() -> void:
 	var south: PortalDefinition = catalog.portal(&"cloud.dukou.south")
 	_check(south != null and south.destination_zone_id == &"sunhill.northriver" and catalog.portal(&"sunhill.northriver.north").destination_zone_id == &"cloud.dukou", "江北渡口 into the river, and back")
 	_check(catalog.portal(&"latemoon.sroad5.east").destination_zone_id == &"sanyen.tunnel" and catalog.portal(&"sanyen.tunnel.west").destination_zone_id == &"latemoon.sroad5", "晚月庄's tunnel opens both ways")
-	_check(catalog.zone_of_room(&"es2:d/choyin/n_gate") == null, "乔阴县城's north gate waits for #9")
+	_check(catalog.portal(&"sunhill.road1.east").destination_zone_id == &"choyin.n_gate", "the foot of the hill opens east to 乔阴县城's north gate (#9)")
 	var gold_door: DoorDefinition = catalog.door(&"sanyen.road1.door")
 	_check(gold_door != null and gold_door.display_name == "金门" and gold_door.starts_open, "the 金门 open (road1.c creates it so; 两扇敞开的金门)")
 	var yard: Array[NpcSpawnDefinition] = []
@@ -107,7 +107,7 @@ func _test_ford(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(await MapPlaces.drive_through(tree, map, [&"sunhill.midriver", &"sunhill.southriver", &"sunhill.dukou"]), "waded back to 江南渡口")
 
 
-## The path up 日照山 to the 山门, past the closed road to 乔阴县城.
+## The path up 日照山 to the 山门, past the road east to 乔阴县城.
 func _test_climb(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	_check(await MapPlaces.drive_through(tree, map, [&"sunhill.road1", &"sunhill.road2", &"sunhill.road3", &"sunhill.road4", &"sanyen.sroad1", &"sanyen.sroad2", &"sanyen.gate"]), "up the winding path to the 山门")

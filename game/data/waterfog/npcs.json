@@ -121,7 +121,15 @@
 			],
 			"accept_fight": [
 				{ "say": "这位$RESPECT，在下正在执行勤务，恕不奉陪。", "accept": false }
-			]
+			],
+			"accept_kill": {
+				"say": "哼 ... 原来阁下是找麻烦来著？",
+				"exert": "powerup",
+				"fellows": {},
+				"grudge": "waterfog_guard",
+				"hint": "（水烟阁的红衣武士从此都把你当作敌人，见到你就会动手。）"
+			},
+			"vendetta_mark": "waterfog_guard"
 		},
 		{
 			"id": "waterfog.npc.elder5",

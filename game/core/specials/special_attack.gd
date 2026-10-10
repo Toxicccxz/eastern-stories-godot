@@ -14,6 +14,9 @@ var line_index: int = 0
 ## throw_weapon), told after each.
 var told: Array[ColoredLine] = []
 var reverse_told: Array[ColoredLine] = []
+## combatd.c fight() chose to guard instead of attacking (hasten.c): its guard_msg line,
+## -1 when it attacked (or stood by without a word).
+var guard_index: int = -1
 
 
 func _init(
@@ -26,8 +29,16 @@ func _init(
 	chain = p_chain
 
 
-## The attack and its riposte ran to the end (an aborting fight's chain does not).
+## A blow was struck (fight() may only guard).
+func attacked() -> bool:
+	return forward != null
+
+
+## The attack and its riposte ran to the end (an aborting fight's chain does not); a
+## fight() that only guarded is complete.
 func is_complete() -> bool:
+	if forward == null and guard_index >= 0:
+		return true
 	return chain != null and chain.outcome in [
 		CombatAttackChainResult.Outcome.FORWARD_COMPLETE_NO_REVERSE,
 		CombatAttackChainResult.Outcome.REVERSE_COMPLETE,

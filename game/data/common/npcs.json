@@ -659,6 +659,117 @@
 				"busy_say": "慢著，一个一个来。",
 				"class": "bonze"
 			}
+		},
+		{
+			"id": "common.npc.beggar.master",
+			"legacy_source": "daemon/class/beggar/master.c",
+			"name": "陆得财",
+			"aliases": ["beggarhead", "beggar"],
+			"nickname": "黑水伏蛟",
+			"gender": "男性",
+			"age": 52,
+			"long": "陆得财是一个浑身脏兮兮的老丐，一副无精打采要死不活的样子，可是\n武林中人人都识得他身上打著二十三个结的皮酒囊，这不但是「花紫会\n」龙头的信物，更是名镇漠南的「黑水伏蛟」独门兵器，只不过陆得财\n行踪诡密，据说各处随时都有七、八的他的替身在四处活动，所以你也\n很难确定眼前这个陆得财到底是不是真的。\n",
+			"attributes": { "str": 30, "int": 24, "cor": 30, "cps": 30 },
+			"resources": { "force": 1800, "max_force": 1800 },
+			"combat_exp": 1000000,
+			"score": 200000,
+			"force_factor": 20,
+			"family": { "name": "花紫会", "generation": 4, "title": "龙头" },
+			"f_master": true,
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 80,
+				"staff": 90,
+				"blade": 70,
+				"throwing": 60,
+				"force": 100,
+				"parry": 60,
+				"dodge": 100,
+				"perception": 80,
+				"stealing": 40,
+				"spicyclaw": 100,
+				"serpentforce": 100
+			},
+			"skill_map": { "unarmed": "spicyclaw", "force": "serpentforce" },
+			"chat_chance": 30,
+			"chat_msg": [
+				{ "action": "random_move" }
+			]
+		},
+		{
+			"id": "common.npc.scholar.master",
+			"legacy_source": "daemon/class/scholar/master.c",
+			"name": "骆云舟",
+			"aliases": ["master scholar", "master"],
+			"gender": "男性",
+			"age": 35,
+			"long": "骆云舟生於京城有名的武林世家，他的本名是骆建炎，但是因为生性喜爱\n四处游荡，遂自号「云舟」，四处游山玩水，结交豪杰异人。数年前继承\n其父骆易而成为步玄派的新任掌门，但是喜爱飘泊的个性仍然不改，令门\n中耆宿头痛不已。\n",
+			"attributes": { "str": 26, "cor": 30, "int": 28, "cps": 30 },
+			"resources": { "force": 3000, "max_force": 1600 },
+			"combat_exp": 1000000,
+			"score": 200000,
+			"force_factor": 20,
+			"family": { "name": "步玄派", "generation": 7, "title": "掌门人" },
+			"f_master": true,
+			"attitude": "peaceful",
+			"skills": {
+				"dodge": 100,
+				"force": 80,
+				"instruments": 70,
+				"literate": 150,
+				"move": 100,
+				"music": 100,
+				"parry": 90,
+				"perception": 80,
+				"sword": 100,
+				"unarmed": 60,
+				"mysterrier": 120,
+				"mystforce": 100,
+				"mystsword": 100
+			},
+			"skill_map": {
+				"move": "mysterrier",
+				"dodge": "mysterrier",
+				"force": "mystforce",
+				"sword": "mystsword",
+				"parry": "mystsword"
+			},
+			"carry": [
+				{ "item": "es2:daemon/class/scholar/windspring", "source": "daemon/class/scholar/windspring.c", "equip": "wield" },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"chat_chance_combat": 30,
+			"chat_msg_combat": [
+				{ "action": "exert", "function": "recover" },
+				{ "action": "perform", "skill": "move", "function": "hasten" }
+			]
+		},
+		{
+			"id": "common.npc.scholar.sword_soul",
+			"legacy_source": "daemon/class/scholar/sword_soul.c",
+			"name": "风泉剑灵",
+			"aliases": ["sword soul", "soul"],
+			"gender": "女性",
+			"age": 19,
+			"long": "一个高大的人形，只有轮廓发出暗蓝色的光芒，其他部份都是透明的！\n",
+			"attributes": { "str": 80, "con": 70, "cor": 40, "spi": 40, "int": 20, "cps": 90, "kar": 80, "per": 50 },
+			"resources": { "max_gin": 2000, "max_kee": 2000, "max_sen": 2000 },
+			"combat_exp": 300000,
+			"attitude": "heroism",
+			"skills": { "sword": 150, "parry": 150 },
+			"carry": [
+				{ "item": "es2:daemon/class/scholar/windspring", "source": "daemon/class/scholar/windspring.c", "equip": "wield" }
+			],
+			"apply": { "attack": 100, "damage": 100, "defense": 100, "armor": 120, "armor_vs_force": 1000 },
+			"chant": {
+				"stages": [
+					{ "after": 20, "say": "剑气指天 ..." },
+					{ "after": 20, "say": "剑心内敛 ..." },
+					{ "after": 20, "say": "剑芒游光 ..." },
+					{ "after": 20, "say": "剑神如意！", "line": "一阵蓝光笼罩住$N，「嗡」地一声，$N的轮廓又变清晰了一些！", "combat_exp": 100000 }
+				],
+				"repeat_after": 60
+			}
 		}
 	]
 }

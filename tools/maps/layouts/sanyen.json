@@ -1,7 +1,7 @@
 {
 	"maps": {
 		"mountain": {
-			"note": "泓水 and 日照山: from 江北渡口 (绮云镇's map) the ford runs south across the wide cold river — chest-deep water by the north bank, the bend in the middle where the current runs under (江心), the south side from which a corner of 山烟寺 shows — to 江南渡口 and its jetty, where the boatman's boat puts in. South the yellow-earth path climbs: the foot of the hill (east, the road to 乔阴县城, closed until that region exists), then the winding path up, west, south, and south-west onto the mossy stone 山路 under the cliff carved 「山烟寺」; west round the bend to the 山门 before the temple's wall (the temple is its own map); west of the gate the tunnel cut through the cliff, smelling of sulphur, to 晚月庄's bamboo hills.",
+			"note": "泓水 and 日照山: from 江北渡口 (绮云镇's map) the ford runs south across the wide cold river — chest-deep water by the north bank, the bend in the middle where the current runs under (江心), the south side from which a corner of 山烟寺 shows — to 江南渡口 and its jetty, where the boatman's boat puts in. South the yellow-earth path climbs: the foot of the hill (east, the road to 乔阴县城's 北门), then the winding path up, west, south, and south-west onto the mossy stone 山路 under the cliff carved 「山烟寺」; west round the bend to the 山门 before the temple's wall (the temple is its own map); west of the gate the tunnel cut through the cliff, smelling of sulphur, to 晚月庄's bamboo hills.",
 			"file": "sunhill_mountain.tscn",
 			"draw": {
 				"technique": "canvas", "base": "forest", "bounds": [0, 0, 1984, 1920],
@@ -23,7 +23,7 @@
 				"lines": {
 					"trail": [
 						[[1760, 1088, 24, 40, 40, 6, "江南渡口: the path up from the jetty"], [1760, 1264, 24, 56, 56, 8, "road1: the foot of the hill"], [1760, 1472, 24, 48, 48, 8, "road2: the path climbs, bends west"], [1600, 1472, 24, 48, 48, 8], [1440, 1472, 24, 48, 48, 8, "road3: south"], [1440, 1728, 24, 48, 48, 8, "road4: and south-west"], [1280, 1728, 24, 48, 48, 6], [1120, 1728, 28, 56, 56, 6, "sroad1: mossy stones under the cliff"], [800, 1728, 28, 56, 56, 6, "sroad2: the bend"], [800, 1472, 32, 64, 64, 4, "the 山门"], [800, 1376, 32, 48, 48, 2]],
-						[[1760, 1216, 24, 32, 32, 4, "road1: the road east to 乔阴县城 (closed)"], [1888, 1216, 24, 32, 32, 4]]
+						[[1760, 1216, 24, 32, 32, 4, "road1: the road east to 乔阴县城"], [1888, 1216, 24, 32, 32, 4]]
 					],
 					"tunnel": [
 						[[800, 1488, 24, 24, 24, 0, "the tunnel west from the gate"], [640, 1488, 24, 24, 24, 0], [384, 1488, 24, 24, 24, 0], [80, 1488, 24, 24, 24, 0]]
@@ -73,6 +73,7 @@
 					{"node": "caption", "name": "TempleLabel", "at": [736, 1100], "text": "山烟寺", "size": 20},
 					{"node": "passage", "name": "RiverPassage", "id": "sunhill.northriver.north", "at": [1760, 80], "shape": "Rect_96_32"},
 					{"node": "passage", "name": "TunnelPassage", "id": "sanyen.tunnel.west", "at": [96, 1488], "shape": "Rect_32_64"},
+					{"node": "passage", "name": "ChoyinPassage", "id": "sunhill.road1.east", "at": [1888, 1216], "shape": "Rect_32_64"},
 					{"node": "passage", "name": "GatePassage", "id": "sanyen.gate.north", "at": [800, 1376], "shape": "Rect_96_32"}
 				],
 				"zones": [{"generated": "zones"}],
@@ -80,6 +81,7 @@
 					{"name": "NorthriverDukouArrival", "at": [1760, 144], "id": "sunhill.northriver.dukou_arrival"},
 					{"name": "DukouFerryArrival", "at": [1760, 992], "id": "sunhill.dukou.ferry_arrival"},
 					{"name": "TunnelLatemoonArrival", "at": [176, 1488], "id": "sanyen.tunnel.latemoon_arrival"},
+					{"name": "Road1ChoyinReturn", "at": [1824, 1216], "id": "sunhill.road1.choyin_return"},
 					{"name": "GateTempleReturn", "at": [800, 1456], "id": "sanyen.gate.temple_return"},
 					{"name": "GateGreeting1", "at": [704, 1424], "id": "sanyen.gate.greeting.1"},
 					{"name": "GateGreeting2", "at": [896, 1424], "id": "sanyen.gate.greeting.2"}

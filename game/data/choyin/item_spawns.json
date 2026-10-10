@@ -1,0 +1,13 @@
+{
+	"item_spawns": [
+		{
+			"id": "choyin.temple_altar.altar.denotation",
+			"item": "es2:d/choyin/obj/denotation",
+			"map": "choyin.temple_altar",
+			"zone": "choyin.altar",
+			"points": ["choyin.altar.denotation.1"],
+			"legacy_room": "d/choyin/altar.c",
+			"legacy_quantity": 1
+		}
+	]
+}

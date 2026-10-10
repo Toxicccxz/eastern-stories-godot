@@ -4,7 +4,7 @@ extends RefCounted
 ## The perform and spell files the game has, by name. A martial skill's
 ## perform_action_file() and a spells skill's cast_spell_file() reach those
 ## skills.json lists under `perform` and `cast`; exert files are ExertFunctions.
-const PERFORMS: Array[StringName] = [&"counterattack", &"swordjab", &"fakefault"]
+const PERFORMS: Array[StringName] = [&"counterattack", &"swordjab", &"fakefault", &"hasten"]
 const CASTS: Array[StringName] = [&"drainerbolt", &"feeblebolt", &"netherbolt", &"invocation", &"dun", &"saveme", &"animate"]
 ## The 符 a spells skill's scribe_spell_file() reaches (scribe.c): HauntScribe.
 const SCRIBES: Array[StringName] = [&"haunt"]
@@ -19,7 +19,7 @@ static var _conjures: Dictionary[StringName, ConjureFunction] = {}
 
 static func perform(function_id: StringName) -> PerformFunction:
 	if _performs.is_empty():
-		for function: PerformFunction in [CounterattackPerform.new(), SwordjabPerform.new(), FakefaultPerform.new()]:
+		for function: PerformFunction in [CounterattackPerform.new(), SwordjabPerform.new(), FakefaultPerform.new(), HastenPerform.new()]:
 			_performs[function.id] = function
 	return _performs.get(function_id)
 

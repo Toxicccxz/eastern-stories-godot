@@ -29,6 +29,10 @@ func attacks() -> Array[SpecialAttack]:
 	return _attacks.duplicate()
 
 
+func damaged() -> Array[StringName]:
+	return _damaged.duplicate()
+
+
 func is_empty() -> bool:
 	return _lines.is_empty() and _attacks.is_empty() and _damaged.is_empty()
 

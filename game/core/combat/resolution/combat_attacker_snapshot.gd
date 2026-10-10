@@ -23,6 +23,7 @@ var _effective_force_skill_level: int
 var _hit_condition: NpcHitCondition
 var _force_hit_wound: ForceHitWound
 var _mapped_force_skill_level: int
+var _martial_hit_wound: MartialHitWound
 
 var character_id: StringName:
 	get:
@@ -81,6 +82,10 @@ var force_hit_wound: ForceHitWound:
 var mapped_force_skill_level: int:
 	get:
 		return _mapped_force_skill_level
+## The mapped martial art's hit_ob() when martial_hit_policy_status is MARTIAL_WOUND.
+var martial_hit_wound: MartialHitWound:
+	get:
+		return _martial_hit_wound
 var attacker_hit_policy_status: int:
 	get:
 		return _attacker_hit_policy_status
@@ -121,6 +126,7 @@ func _init(
 	p_hit_condition: NpcHitCondition = null,
 	p_force_hit_wound: ForceHitWound = null,
 	p_mapped_force_skill_level: int = 0,
+	p_martial_hit_wound: MartialHitWound = null,
 ) -> void:
 	_character_id = p_character_id
 	_living = p_living
@@ -150,6 +156,7 @@ func _init(
 	_hit_condition = p_hit_condition
 	_force_hit_wound = p_force_hit_wound
 	_mapped_force_skill_level = p_mapped_force_skill_level
+	_martial_hit_wound = p_martial_hit_wound
 
 
 func is_valid() -> bool:
@@ -171,6 +178,7 @@ func is_valid() -> bool:
 		and (_weapon_profile == null or _weapon_profile.is_valid())
 		and (_attacker_hit_policy_status == CombatHitPolicyStatus.Value.CONDITION_ON_HIT) == (_hit_condition != null)
 		and (_force_hit_wound == null or _force_hit_policy_status == CombatHitPolicyStatus.Value.STANDARD_FORCE)
+		and (_martial_hit_policy_status == CombatHitPolicyStatus.Value.MARTIAL_WOUND) == (_martial_hit_wound != null)
 	)
 
 
@@ -198,4 +206,5 @@ func duplicate_snapshot() -> CombatAttackerSnapshot:
 		_hit_condition,
 		_force_hit_wound,
 		_mapped_force_skill_level,
+		_martial_hit_wound,
 	)

@@ -527,8 +527,9 @@ static func _loadout_matches(
 		var item: ItemInstance = item_index.resolve(item_id)
 		if item == null:
 			return false
-		# A weapon bash_weapon() broke is still the loadout's object (断掉的).
-		var kind: StringName = ItemContentDefinition.unbroken_id(item.item_definition_id)
+		# A weapon bash_weapon() broke is still the loadout's object (断掉的); a book is its
+		# item whichever name it drew (book.c).
+		var kind: StringName = ItemContentDefinition.unnamed_id(ItemContentDefinition.unbroken_id(item.item_definition_id))
 		var remaining: int = expected_counts.get(kind, 0)
 		if remaining <= 0:
 			return false

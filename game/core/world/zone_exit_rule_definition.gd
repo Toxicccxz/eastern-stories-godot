@@ -21,7 +21,9 @@ extends RefCounted
 ## `takes_back` (d/latemoon/latemoon3.c) refuses nobody: one who carries the `item` and
 ## the set_temp() flag `temp` hands it back (`taken`, the flag deleted); one who carries
 ## none reads `without`; one who carries it without the flag keeps it, without a word.
-enum Condition { WEAPON_IN_HAND, COMBAT_EXP_BELOW, NOT_APPRENTICE_OF, NOT_FAMILY, KAR_SLIP, NEVER, ASK, TAKES_BACK }
+## `no_mark` (d/choyin/entrance.c: east into the 桃林 only with marks/书生) refuses one without
+## the saved `mark`.
+enum Condition { WEAPON_IN_HAND, COMBAT_EXP_BELOW, NOT_APPRENTICE_OF, NOT_FAMILY, KAR_SLIP, NEVER, ASK, TAKES_BACK, NO_MARK }
 
 const CONDITIONS: Dictionary[String, Condition] = {
 	"weapon_in_hand": Condition.WEAPON_IN_HAND,
@@ -32,6 +34,7 @@ const CONDITIONS: Dictionary[String, Condition] = {
 	"never": Condition.NEVER,
 	"ask": Condition.ASK,
 	"takes_back": Condition.TAKES_BACK,
+	"no_mark": Condition.NO_MARK,
 }
 
 var rule_id: StringName
@@ -59,6 +62,8 @@ var item_id: StringName = &""
 var temp: String = ""
 var taken: Array[NpcLine] = []
 var without: Array[String] = []
+## no_mark: the saved mark (CharacterState marks) one needs to pass.
+var mark: String = ""
 
 ## kar_slip: the refused leaver also falls unconscious (unconcious()).
 var knocks_out: bool:
@@ -81,6 +86,8 @@ class Leaver:
 	var kar: int
 	var draw: Callable
 	var gender: StringName = &""
+	## The saved marks (query("marks/<name>")).
+	var marks: Dictionary = {}
 
 	func _init(
 		p_weapon_in_hand: bool = false, p_combat_exp: int = 0, p_master_id: StringName = &"",
@@ -95,11 +102,13 @@ class Leaver:
 		gender = p_gender
 
 	static func of(state: CharacterState, p_draw: Callable = Callable()) -> Leaver:
-		return Leaver.new(
+		var leaver := Leaver.new(
 			not state.equipment.is_primary_hand_empty(), state.progression.combat_experience,
 			state.apprenticeship.master_teacher_id, state.family.family_id, state.attributes.karma, p_draw,
 			state.gender,
 		)
+		leaver.marks = state.marks.duplicate()
+		return leaver
 
 
 ## Whether the rule stops `leaver`, with `present` true when an NPC of
@@ -120,12 +129,14 @@ func refuses(leaver: Leaver, present: bool) -> bool:
 			return drawn < value
 		Condition.ASK:
 			return leaver.gender != unless_gender
+		Condition.NO_MARK:
+			return int(leaver.marks.get(mark, 0)) == 0
 	return false
 
 
 ## {id, room, from_zone, to_zone, when, lines: [line], pass_lines?: [line], legacy_source}
 ## and per `when`: weapon_in_hand {present: npc id}, combat_exp_below {value},
-## not_apprentice_of {npc}, not_family {family}, kar_slip {value}, never (pass_lines only),
+## not_apprentice_of {npc}, not_family {family}, kar_slip {value}, no_mark {mark}, never (pass_lines only),
 ## ask {unless_gender, ask, choice, point; no lines}, takes_back {item, temp, taken:
 ## [NpcLine record], without: [line]; no lines}.
 static func from_record(reader: ContentRecordReader) -> ZoneExitRuleDefinition:
@@ -149,6 +160,8 @@ static func from_record(reader: ContentRecordReader) -> ZoneExitRuleDefinition:
 			rule.npc_id = StringName(reader.required_text("npc"))
 		Condition.NOT_FAMILY:
 			rule.family_id = StringName(reader.required_text("family"))
+		Condition.NO_MARK:
+			rule.mark = reader.required_text("mark")
 		Condition.ASK:
 			rule.unless_gender = StringName(reader.required_text("unless_gender"))
 			rule.ask = reader.required_text("ask")

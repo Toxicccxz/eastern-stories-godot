@@ -1,0 +1,33 @@
+{
+	"vendors": [
+		{
+			"id": "choyin.vendor.cake_vendor",
+			"legacy_source": "d/choyin/npc/cake_vendor.c",
+			"goods": [
+				{ "key": "big cake", "item": "es2:d/choyin/npc/obj/cake" }
+			]
+		},
+		{
+			"id": "choyin.vendor.dumpling_seller",
+			"legacy_source": "d/choyin/npc/dumpling_seller.c",
+			"goods": [
+				{ "key": "dumpling", "item": "es2:obj/example/dumpling" }
+			]
+		},
+		{
+			"id": "choyin.vendor.cucurbit_seller",
+			"legacy_source": "d/choyin/npc/cucurbit_seller.c",
+			"goods": [
+				{ "key": "sugar cucurbit", "item": "es2:d/choyin/obj/cucurbit" }
+			]
+		},
+		{
+			"id": "choyin.vendor.crone",
+			"legacy_source": "d/choyin/npc/crone.c",
+			"goods": [
+				{ "key": "amulet", "item": "es2:d/choyin/obj/amulet" },
+				{ "key": "red guay", "item": "es2:d/choyin/npc/obj/red_guay" }
+			]
+		}
+	]
+}

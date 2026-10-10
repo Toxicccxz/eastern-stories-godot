@@ -438,8 +438,74 @@ func initiate_lethal_combat(initiator_id: StringName, target_id: StringName, lin
 			cause,
 		)
 	if result.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
-		announce_fight(lines, target_id if cause == CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK else initiator_id)
+		var said: Array[String] = lines.duplicate()
+		if cause == CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK:
+			said.append_array(_accept_kill(target_id))
+		announce_fight(said, target_id if cause == CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK else initiator_id)
 	return result
+
+
+## The attacked NPC's accept_kill() (NpcAcceptKill; owner, 乔阴 A: as its author meant,
+## though no mudlib code calls it): its line and exert, the others of its kind here
+## join against the player (help_hotel_guard()), then the report and the vendetta marks
+## with the native hint. The lines, in order, for the fight's opening.
+func _accept_kill(target_id: StringName) -> Array[String]:
+	var lines: Array[String] = []
+	var npc: NpcRuntimeState = _map.npcs.find_resident_npc(target_id)
+	var rule: NpcAcceptKill = null if npc == null else npc.definition().dealings().accept_kill
+	if rule == null:
+		return lines
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	var encounter: CombatEncounter = coordinator.active_encounter()
+	if encounter == null:
+		return lines
+	var name: String = tr(npc.definition().display_name)
+	if not rule.say.is_empty():
+		lines.append(tr("{npc}说道：{line}").format({"npc": name, "line": tr(rule.say)}))
+	var bindings: Array[CombatSliceCharacterBinding] = session.encounter_combat_bindings(encounter)
+	if not rule.exert.is_empty():
+		var binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(bindings, target_id)
+		if binding != null:
+			var context: SpecialContext = CombatSpecialAttackSource.context_for(
+				binding, bindings, session.combat_random_source(), session.encounter_skill_effect_registry(),
+			)
+			if NpcSpecials.run(NpcSpecialAction.new(NpcSpecialAction.Kind.EXERT, &"", rule.exert), context):
+				for line: VisionLine in context.lines:
+					# An exert's lines: $N is the NPC.
+					var text: String = tr(line.template).strip_edges()
+					if not line.slots.is_empty():
+						var slots: Dictionary = {}
+						for key: String in line.slots:
+							slots[key] = tr(line.slots[key])
+						text = text.format(slots)
+					lines.append(text.replace("$N", name))
+	var joins: Array[CombatJoin] = []
+	if rule.fellows:
+		var here: WorldLocationState = npc.world_location()
+		for other: NpcRuntimeState in _map.npcs.residents:
+			if (
+				other == npc or other.definition().definition_id != npc.definition().definition_id
+				or other.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or not other.exists_in_map
+				or not other.world_location().shares_combat_location(here) or other.relationship.is_fighting()
+			):
+				continue
+			if not rule.fellow_say.is_empty():
+				lines.append(tr("{npc}说道：{line}").format({"npc": tr(other.definition().display_name), "line": tr(rule.fellow_say)}))
+			joins.append(CombatJoin.new(other.character_id, [_player.character_id]))
+		if not joins.is_empty():
+			coordinator.resolution().admit(bindings, CombatTacticalExecutionResult.new(CombatTacticalExecutionResult.Outcome.APPLIED).with_joins(joins))
+	var marked: bool = false
+	if not joins.is_empty() and not rule.report_say.is_empty():
+		lines.append(tr("{npc}说道：{line}").format({"npc": name, "line": tr(rule.report_say)}))
+		if not rule.report_vendetta.is_empty():
+			_player.state.vendetta[rule.report_vendetta] = 1
+			marked = true
+	if not rule.grudge.is_empty():
+		_player.state.vendetta[rule.grudge] = 1
+		marked = true
+	if marked:
+		lines.append(tr(rule.hint))
+	return lines
 
 
 ## A fight the player is in has just begun: `lines` (what was said) go to the log,

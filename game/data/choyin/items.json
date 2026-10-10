@@ -10,6 +10,145 @@
 			"material": "paper",
 			"weight": 200,
 			"value": 10000
+		},
+		{
+			"id": "es2:d/choyin/obj/blade",
+			"legacy_sources": ["d/choyin/obj/blade.c", "d/choyin/npc/obj/blade.c"],
+			"name": "乌檀木刀",
+			"aliases": ["ebony blade", "blade"],
+			"long": "这是一把黑黝黝的乌檀木刀，闻起来有一股淡淡的香气。\n",
+			"unit": "把",
+			"material": "wood",
+			"weight": 7000,
+			"value": 600,
+			"weapon": { "skill": "blade", "damage": 37, "weight_dodge": "equip" }
+		},
+		{
+			"id": "es2:d/choyin/obj/book",
+			"legacy_sources": ["d/choyin/obj/book.c", "d/choyin/npc/obj/book.c"],
+			"aliases": ["book"],
+			"long": "这是时下读书人常看的书籍。\n",
+			"unit": "本",
+			"study": { "skill": "literate", "exp_required": 0, "sen_cost": 40, "difficulty": 30, "max_skill": 50 },
+			"weight": 600,
+			"value": 100,
+			"name": "「嘉德文选」",
+			"name_pick": ["「嘉德文选」", "「九韬」", "「太公辩」", "「梁父文集」", "「说律」", "「古文志」", "「乡书」", "「佾风斋诗集」", "「寒士列传」", "「水龙图注」"]
+		},
+		{
+			"id": "es2:d/choyin/obj/lady_dress",
+			"legacy_sources": ["d/choyin/obj/lady_dress.c", "d/choyin/npc/obj/lady_dress.c"],
+			"name": "轻罗绸衫",
+			"aliases": ["lady dress", "dress"],
+			"long": "这是一件有钱人家的小姐穿著的衣物，手工相当细致。\n",
+			"unit": "件",
+			"material": "cloth",
+			"female_only": true,
+			"weight": 1200,
+			"value": 700,
+			"armor": { "type": "cloth", "props": { "armor": 1, "personality": 5 }, "weight_dodge": "armor" }
+		},
+		{
+			"id": "es2:d/choyin/obj/silver_clasp",
+			"legacy_sources": ["d/choyin/obj/silver_clasp.c", "d/choyin/npc/obj/silver_clasp.c"],
+			"name": "银簪",
+			"aliases": ["clasp"],
+			"unit": "支",
+			"material": "silver",
+			"female_only": true,
+			"weight": 100,
+			"value": 800,
+			"armor": { "type": "head", "props": { "armor": 1, "personality": 2 }, "weight_dodge": "armor" }
+		},
+		{
+			"id": "es2:d/choyin/obj/cloth",
+			"legacy_sources": ["d/choyin/obj/cloth.c", "d/choyin/npc/obj/cloth.c"],
+			"name": "布衣",
+			"aliases": ["cloth"],
+			"unit": "件",
+			"material": "cloth",
+			"weight": 3000,
+			"armor": { "type": "cloth", "props": { "armor": 1 }, "weight_dodge": "armor" }
+		},
+		{
+			"id": "es2:d/choyin/obj/amulet",
+			"legacy_sources": ["d/choyin/obj/amulet.c", "d/choyin/npc/obj/amulet.c"],
+			"name": "平安符",
+			"aliases": ["amulet"],
+			"long": "一个用红线绑著的平安符，据说可以避邪。\n",
+			"unit": "个",
+			"material": "paper",
+			"weight": 200,
+			"value": 60,
+			"armor": { "type": "neck", "props": { "karma": 1, "composure": 1, "defense": -5 }, "weight_dodge": "armor" }
+		},
+		{
+			"id": "es2:d/choyin/obj/denotation",
+			"legacy_sources": ["d/choyin/obj/denotation.c", "d/choyin/npc/obj/denotation.c"],
+			"name": "功德箱",
+			"aliases": ["denotation box", "box"],
+			"long": "这是寺庙接受善男信女捐献香油钱的功德箱，你可以把想捐的钱\n放进去。\n",
+			"unit": "个",
+			"no_get": true,
+			"weight": 0,
+			"value": 1,
+			"max_encumbrance": 10000
+		},
+		{
+			"id": "es2:d/choyin/obj/hat",
+			"legacy_sources": ["d/choyin/obj/hat.c", "d/choyin/npc/obj/hat.c"],
+			"name": "玉带冠",
+			"aliases": ["hat"],
+			"long": "这是一顶镶著美玉的帽冠。\n",
+			"unit": "顶",
+			"material": "cloth",
+			"weight": 1000,
+			"value": 400,
+			"armor": { "type": "head", "props": { "armor": 2, "personality": 3 }, "weight_dodge": "armor" }
+		},
+		{
+			"id": "es2:d/choyin/npc/obj/cake",
+			"legacy_sources": ["d/choyin/npc/obj/cake.c"],
+			"name": "大饼",
+			"aliases": ["big cake", "cake"],
+			"long": "一个香喷喷、热腾腾的大烧饼。\n",
+			"unit": "个",
+			"weight": 130,
+			"value": 25,
+			"food": { "remaining": 5, "supply": 60 }
+		},
+		{
+			"id": "es2:d/choyin/obj/cucurbit",
+			"legacy_sources": ["d/choyin/obj/cucurbit.c", "d/choyin/npc/obj/cucurbit.c"],
+			"name": "糖葫芦",
+			"aliases": ["sugar cucurbit", "cucurbit", "sugar"],
+			"long": "一串看起来就让人垂涎欲滴的糖渍葫芦。\n",
+			"unit": "串",
+			"weight": 180,
+			"value": 40,
+			"food": { "remaining": 4, "supply": 50 }
+		},
+		{
+			"id": "es2:d/choyin/npc/obj/red_guay",
+			"legacy_sources": ["d/choyin/npc/obj/red_guay.c"],
+			"name": "红龟",
+			"aliases": ["red guay", "guay"],
+			"long": "一个大红龟，上面盖了个印子：保境安民。\n",
+			"unit": "个",
+			"weight": 180,
+			"value": 25,
+			"food": { "remaining": 6, "supply": 45 }
+		},
+		{
+			"id": "es2:d/choyin/npc/obj/tomatoo",
+			"legacy_sources": ["d/choyin/npc/obj/tomatoo.c"],
+			"name": "山药蛋",
+			"aliases": ["tomatoo"],
+			"long": "圆溜溜的山药蛋，忒新鲜。\n",
+			"unit": "个",
+			"weight": 130,
+			"value": 25,
+			"food": { "remaining": 5, "supply": 10 }
 		}
 	]
 }

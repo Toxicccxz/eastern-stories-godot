@@ -210,6 +210,16 @@ portal_id = &"sanyen.tunnel.west"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TunnelPassage"]
 shape = SubResource("Rect_32_64")
 
+[node name="ChoyinPassage" type="Area2D" parent="."]
+position = Vector2(1888, 1216)
+collision_layer = 0
+input_pickable = false
+script = ExtResource("passage")
+portal_id = &"sunhill.road1.east"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ChoyinPassage"]
+shape = SubResource("Rect_32_64")
+
 [node name="GatePassage" type="Area2D" parent="."]
 position = Vector2(800, 1376)
 collision_layer = 0
@@ -355,6 +365,11 @@ spawn_point_id = &"sunhill.dukou.ferry_arrival"
 position = Vector2(176, 1488)
 script = ExtResource("marker")
 spawn_point_id = &"sanyen.tunnel.latemoon_arrival"
+
+[node name="Road1ChoyinReturn" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1824, 1216)
+script = ExtResource("marker")
+spawn_point_id = &"sunhill.road1.choyin_return"
 
 [node name="GateTempleReturn" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(800, 1456)

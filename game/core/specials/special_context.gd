@@ -106,6 +106,30 @@ func do_attack(attacker: SpecialSide, victim: SpecialSide) -> SpecialAttack:
 	return attack
 
 
+## combatd.c fight(attacker, victim) (hasten.c): the courage draw, then an attack or a
+## guard line, after the lines said so far; null when nothing happened.
+func fight(attacker: SpecialSide, victim: SpecialSide) -> SpecialAttack:
+	if attack_source == null or attacker == null or victim == null:
+		return null
+	var attack: SpecialAttack = attack_source.fight(attacker.character_id, victim.character_id)
+	if attack != null:
+		attack.line_index = lines.size()
+		attacks.append(attack)
+	return attack
+
+
+## feature/attack.c clean_up_enemy() and select_opponent() for `me` as the fight
+## stands now; without an attack source, from `enemies` as the file started.
+func select_opponent() -> SpecialSide:
+	if attack_source != null:
+		var chosen: StringName = attack_source.select_opponent(me.character_id, random)
+		return null if chosen.is_empty() else other(chosen)
+	if enemies.is_empty():
+		return null
+	var which: int = random.call(4)
+	return enemies[which] if which >= 0 and which < enemies.size() else enemies[0]
+
+
 ## What the file showed and did: its lines and attacks, or its refusal alone.
 func report() -> SpecialReport:
 	var shown: Array[VisionLine] = lines

@@ -114,10 +114,20 @@ func attack_selected() -> CombatSliceInitiationResult:
 		return CombatSliceInitiationResult.new()
 	# cmds/std/kill.c: $N对著$n喝道：「<rude>！今日不是你死就是我活！」, then
 	# obj->kill_ob(me) warns the player (_map.hostilities.announce_fight()).
-	return _map.hostilities.initiate_lethal_combat(_player.character_id, target.character_id, [tr("你对著{npc}喝道：「{rude}！今日不是你死就是我活！」").format({
+	var shout: String = tr("你对著{npc}喝道：「{rude}！今日不是你死就是我活！」").format({
 		"npc": tr(target.definition().display_name),
 		"rude": tr(RankWords.query_rude(target.character_state.gender, target.age, target.definition().class_id)),
-	})])
+	})
+	# An NPC's own kill_ob() that answers otherwise (oldman.c: his ghost story, then gone).
+	var hooks: NpcHooks = target.definition().hooks()
+	if hooks != null and hooks.has_kill_ob():
+		var told: Array[ColoredLine] = [ColoredLine.new(shout)]
+		for line: NpcLine in hooks.kill_ob_lines:
+			told.append(line.colored(target.definition().display_name, ""))
+		_map.hud().append_colored_lines(told)
+		_map.npcs.vanish(target)
+		return CombatSliceInitiationResult.new()
+	return _map.hostilities.initiate_lethal_combat(_player.character_id, target.character_id, [shout])
 
 
 ## cmds/std/fight.c for the selected NPC: ask a speaking character to spar; it
@@ -295,6 +305,8 @@ func ask_selected(topic: String) -> Array[String]:
 		NpcInquiry.Asker.new(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id, _kee_percent(_player.state), _player.state.marks),
 		topic, "" if zone == null else zone.display_name, _world_interaction_random, _map.floor_items.violates_unique,
 	)
+	if answer.vendor_list:
+		_vendor_list(target, answer)
 	for mark: String in answer.marks:
 		_player.state.marks[mark] = 1
 	for temp: String in answer.temps:
@@ -316,6 +328,19 @@ func ask_selected(topic: String) -> Array[String]:
 	if _map.hud().inventory_is_open():
 		_map.hud().show_inventory(session.player_inventory_rows())
 	return answer.texts()
+
+
+## feature/vendor.c get_vendor_list(): the goods and their prices (price_string()), as
+## `list` writes them; an NPC that sells nothing writes nothing.
+func _vendor_list(npc: NpcRuntimeState, answer: NpcInquiry.Answer) -> void:
+	var vendor: VendorDefinition = GameContent.catalog().vendor(npc.definition().dealings().vendor_id)
+	if vendor == null:
+		return
+	answer.say(tr("你可以购买下列这些东西："))
+	for key: String in vendor.goods_keys():
+		var content: ItemContentDefinition = GameContent.catalog().item(vendor.item_definition_id(key))
+		if content != null:
+			answer.say(tr("{item}：{price}").format({"item": tr(content.display_name), "price": VendorService.price_string(vendor.price(key, content))}))
 
 
 ## command("give <it> to <player>") within an answer: the NPC's own carried item of that
