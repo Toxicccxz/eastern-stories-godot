@@ -111,6 +111,54 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 - #27 牛皮酒袋照原名显示，不另起短名。
 - 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
 
+## 乔阴 B: the town's secrets and 姑射山 (2026-10-10)
+
+The plan's B (「乔阴 A」 above) with the owner's Q2 and Q3 as approved and the plan's defaults:
+放弃 in the 神秘洞穴 wakes the player in the Inn, so the lift is not asked; the lift's lines are
+told to the one who falls (ES2 told them to the room without them and wrote `$N石狮子又…` in the
+cave); the 云幡 takes the player down to the 丹炉 (ES2 opened the way for one second; its thunder
+strikes only one still on the 云台, so it never reaches them); the 缚仙绳 only where a 仙鹤
+stands, asked first when its 50 sen would knock the player out; the vine is not asked (a fall
+into the 寒谷 does no harm); the 荷包 is given once. What each room and function became is in
+[CHOYIN_CONTENT](CHOYIN_CONTENT.md). Besides:
+- **Q2: the hole under the 树王坟** is a landmark (爬下去) with a native line (你攀著粗糙的洞壁，
+  爬进了树桩中间的大洞。); the hollow's 洞壁 leads up as in ES2.
+- **Q3: ghosts are unseen** (ghost.c, shadow.c is_ghost()): not drawn, picked or walked into;
+  they attack and are listed in the fight, though not as a target to choose (present() finds no
+  ghost); the player's turn passes when random(100 +
+  perception) < 100 (combatd.c fight(), any attacker that is no ghost), told as
+  你看不见对手，无从下手。 (the owner's native line; ES2 said nothing); dead, a ghost leaves no
+  corpse and what it carried falls (chard.c). As ES2, go.c's lines name a 孤魂野鬼 that wanders in
+  or out (only look and present() hide it), and its 布条 cannot be reached before 鬼门关 (#13).
+- **默认: the 仙鹤's attack** (crane.c has no verbs): beast.c's default action 攻击$n的%s，%s
+  never filled its two %s (combatd.c replaces only $N, $n, $l, $w): the first is the limb hit, the
+  second is left out (仙鹤攻击你的左臂！); no damage, no damage type (伤害).
+- **默认: only the hermit's books go back** as the player walks out of the 草堂, whatever they did
+  before; with none, 你离开草堂!. ES2's valid_leave() took every `book` once one had been
+  scratched (its set_temp("choyin/\112\151", 0) clears another flag than choyin/书) and
+  looped forever on one carried without that flag.
+- **The 武官 takes one 桃木箱 in his life** (chest_found, an object variable: not saved, 4E);
+  another is not taken (accept_object() returned 0); his rumors, 箱子 and 桃木箱子 answers go
+  with the first, as the 荷包's 游晋 and 心事 do (delete("inquiry/…"), not saved either).
+- **Obvious slips fixed:** lionroom.c's smell lacked braces (the first thing in any pack blew
+  its carrier out, the line only for the grass): only the 忘忧草 does it, else
+  你身上没有忘忧草啊。; goldenrope.c's tie lacked them too (the plan's 仙鹤 default covers it).
+- **As ES2:** the 寒谷's vase takes the player out with no orchid in hand (the valley's only way
+  out); stove.c's flame line for 桐柏山 has nobody to hear it (only the 云幡's way in loads the
+  room).
+- **陈剑秋's letter** is the giver's (master_id); 陈天星 takes it in 京师 (#12): a reminder test
+  fails once he stands without his accept_object().
+- **咒剑王禅 against a ghost** (taoist/sword.c hit_ob(), the 茅山 A reminder): random(max_atman)
+  above the ghost's atman / 2 wounds its gin by query_spi() and heals the wielder by as much,
+  with its HIY line; otherwise random(query_spi()) adds to the blow.
+- **Global (data):** an NPC's die() that makes an item into it (`die_carries`); an item that
+  records who got it (`master`: its master form is the player's); a weapon's hit_ob() against
+  ghosts (`ghost_bane`); topics an NPC deletes (`forgets`); a room that answers a carried
+  item's command (`refuses`); `takes_back` of several items; a vine's `below`; the `lift`
+  landmark; an NPC's apply/<skill> (shadow.c apply/blade); a new item draws its name.
+- **Save**: world content revision `SOURCE_ENTRY_CHOYIN_B_V1` (new spawns); older development
+  saves need a New Game.
+
 ## 乔阴 A: the town, its outskirts and its people (2026-10-10)
 
 Owner-approved plan (2026-10-10, 「Q1Q2Q3都按推荐的来」): four packages — A draws every map and

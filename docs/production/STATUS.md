@@ -4,11 +4,10 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**乔阴 A** (`phase/choyin-a`, region #9, DECISIONS「乔阴 A」): 乔阴县城 and its outskirts on
-fourteen maps (every room but the doorless 石室, the ones only verbs reach included), the
-people with their arts (步玄七诀 and 玄羽乱舞, 小步玄剑, 步玄心法, 油流麻香手 and its broken bones,
-短歌刀法, 秋风步), the vendors, the well, the hotel guards' and the 红衣武士's protection, the
-采药老者, 风泉剑灵, six quest targets. Next: 乔阴 B (the town's secrets and 姑射山).
+**乔阴 B** (`phase/choyin-b`, region #9, DECISIONS「乔阴 B」): the town's secrets and 姑射山 —
+the stone lion's cave, its 护草神兽 and the 忘忧草 for 陈剑秋's letter, the hollow under the
+树王坟 and its unseen 朦胧鬼影, the 武官's chest, the vines, the cranes, the 缚仙绳, the 云台 and
+the 丹炉, the 寒谷's orchid, the hermit's books, the 荷包. Next: 乔阴 C (步玄派).
 
 ## 待决定
 
@@ -199,9 +198,21 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   spar he eats his nine pills and may flee), the bamboo and the hermit's 草堂; south of the 南门
   the road to 姑射山's 绝壁 (its tree and vines to look at). The rooms only verbs reach (the 树冠's
   cranes, the 山洞, the 云台's two 紫衣童子, the 寒谷, the 丹炉, the 神秘洞穴, the hollow under the
-  stump) are drawn; their ways in are 乔阴 B. Kill 骆云舟 and 风泉剑灵 rises from his sword,
-  chanting itself stronger every two minutes; its sword is in its corpse. 水烟阁's 红衣武士 now
-  defend each other and hold a grudge when attacked (owner).
+  stump) are drawn. Kill 骆云舟 and 风泉剑灵 rises from his sword, chanting itself stronger
+  every two minutes; its sword is in its corpse. 水烟阁's 红衣武士 now defend each other and hold
+  a grudge when attacked (owner). The secrets: lift the 西大街's stone lion (举, more often the
+  weaker one is) and fall into the 神秘洞穴, where the 护草神兽 attacks; killed by the player it
+  leaves their own 忘忧草, whose smell blows them to 振远镖局 (放弃 instead wakes them in the
+  Inn), and 陈剑秋 writes a member a letter for 陈天星 (京师). Down the 树王坟's hole the hollow's
+  three 朦胧鬼影 are unseen (as the 孤魂野鬼 at the gates): they attack, and without 听风辨器之术
+  (perception) the player's turns pass (你看不见对手，无从下手。); a dead ghost leaves no corpse
+  and drops its blade; the 桃木箱 in the hollow's end buys the 武官's 白杨经, once. 姑射山's old
+  tree leads up to four cranes (fought now); its vine drops the clumsy into the 寒谷 (the vase at
+  its end floats them to 晚月庄's bamboo grove) and takes the others to the 山洞 and its 缚仙绳,
+  which carries one on a crane's back to the 云台 (50 sen); the 云幡 there opens the way down to
+  the 丹炉 and its five 仙丹 (5 gin, 30 kee, 5 sen each). The hermit's 草堂 lends a book (unarmed
+  or dodge to 80, studied there) and takes it back at the door; the 玛瑙手镯 and the dance book do
+  not work in it. The 官家小姐 sends 游晋 her 荷包; 咒剑王禅 burns ghosts.
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from
@@ -216,7 +227,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
 * Placeholder visuals: flat-colour terrain tiles; characters and objects are still coloured boxes.
   No art or audio yet.
 
-Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 389/551 rooms, 179/286 NPC
+Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 389/551 rooms, 182/286 NPC
 types, 6/9 joinable families, 32/36 special and 16/25 basic martial arts, 76/84 quest targets.
 
 ## Known issues
@@ -240,10 +251,10 @@ Code:
 * A zone that merges several rooms shows only its first room's text.
 * 绮云镇: 牛腿 is a hammer only (food that is also a weapon is not supported), so it leaves no
   牛腿骨; 熟牛肉 is not in the game (nobody sells it in ES2); a carried 布袋 is not opened.
-* 乔阴: the cranes cannot be fought until 乔阴 B (a beast without verbs); 风泉剑灵's chant stops
-  when the player leaves the map or continues a save (call_outs are not saved), and only one
-  stands at a time (骆云舟 killed again while it stands keeps his sword); the 采药老者's growth
-  lasts only as long as he does (his save file is not ported).
+* 乔阴: 风泉剑灵's chant stops when the player leaves the map or continues a save (call_outs are
+  not saved), and only one stands at a time (骆云舟 killed again while it stands keeps his
+  sword); the 采药老者's growth lasts only as long as he does (his save file is not ported); the
+  武官's chest, the 荷包 and the topics they end are an NPC's own memory, gone with a Continue.
 * Persistence classes keep `OldPine*` / `oldpine_*` names (20 classes, some 130 files) and the session
   scene is still `scenes/world/oldpine/oldpine_world_session.tscn`, although they cover every map
   (the Session itself is `WorldSessionController` since the map-controller split); pre-B2 Old Pine
