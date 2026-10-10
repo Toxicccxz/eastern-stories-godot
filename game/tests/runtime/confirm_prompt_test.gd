@@ -175,11 +175,8 @@ func _test_first_master(session: WorldSessionController, map: WorldMapController
 	var ui: TeacherPanel = school.ui
 	_check(ui.panel.visible, "his panel")
 	ui.apprentice_button.pressed.emit()
-	_check(not ui.is_confirming() and not player.state.family.has_family() and player.apprenticeship_request.is_pending(), "one he refuses is not asked: " + str(school.last_lines))
+	_check(not ui.is_confirming() and not player.state.family.has_family() and not player.apprenticeship_request.is_pending(), "one he refuses is not asked, and the refusal ends the request: " + str(school.last_lines))
 	player.state.attributes.composure = 25 # TEST-ONLY
-	ui.apprentice_button.pressed.emit()
-	_check(not ui.is_confirming() and school.last_lines == ["你想拜柳淳风为师，但是对方还没有答应。"], "a request still waiting is not asked either")
-	ui.cancel_apprentice()
 	ui.apprentice_button.pressed.emit()
 	var text: String = ui.confirm_text.text
 	_check(ui.is_confirming() and not ui.apprentice_button.visible and text.begins_with("拜柳淳风为师，便成为封山剑派的弟子。日后若再改投别派，就是背叛师门") and ui.keep_button.text == "再想想" and ui.confirm_button.text == "确定拜师", "the first master is asked first: " + text)

@@ -132,6 +132,7 @@ static func restore(
 	state.marks = snapshot.marks.duplicate()
 	state.vendetta = snapshot.vendetta.duplicate()
 	state.applies = snapshot.applies.duplicate()
+	state.seen_npcs = snapshot.seen_npcs.duplicate()
 	if not snapshot.quest.is_valid():
 		return null
 	state.quest = snapshot.quest.duplicate_state()

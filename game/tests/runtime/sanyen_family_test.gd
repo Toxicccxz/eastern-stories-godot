@@ -8,7 +8,8 @@ extends RefCounted
 ## bonze); an F_MASTER, he teaches his twelve skills to his own. The player's arts: 大乘佛法
 ## (杀气 100 at most), 诵经, 流云杖法 (str + max_force / 10 at least 50; practised with a staff
 ## for 60 kee), 莲华心法 (大乘佛法 at least its level; not practised; 疗伤 and 疗伤他人,
-## lifeheal.c), 八识神通 (大乘佛法 10 and above it; enabled as 法术; its 神通 are 山烟寺 C).
+## lifeheal.c), 八识神通 (大乘佛法 10 and above it; enabled as 法术; its 神通: 山烟寺 C,
+## sanyen_conjure_test).
 ## Then the real session in the 大雄宝殿: the 打听 panel's 跪下受戒, the refusals, the
 ## join, learning, 疗伤他人 on the HUD, Save/Continue with the 法名. TEST-ONLY fixtures are marked.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
@@ -46,7 +47,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_learn()
 	_test_practice()
 	_test_lifeheal()
-	_test_reminder_c()
+	_test_conjure_files()
 	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.set_process(false)
@@ -258,19 +259,22 @@ func _test_lifeheal() -> void:
 
 
 ## The 神通 are 山烟寺 C: until then 八识神通 is learnt and enabled, never used.
-func _test_reminder_c() -> void:
-	var file: FileAccess = FileAccess.open("res://data/common/skills.json", FileAccess.READ)
-	var parsed: Variant = JSON.parse_string(file.get_as_text())
-	var record: Dictionary = {}
-	for skill: Dictionary in (parsed as Dictionary)["skills"]:
-		if skill["id"] == "essencemagic":
-			record = skill
-	_check(not record.is_empty() and not record.has("conjure") and _catalog.skill(&"essencemagic").cast_functions.is_empty(), "REMINDER (山烟寺 C): 八识神通's 空识, 心识 and 游识 come with C; replace this check with their tests")
+## 八识神通's 神通 (山烟寺 C): the three files essencemagic/ holds, conjured through 法术;
+## sanyen_conjure_test runs them.
+func _test_conjure_files() -> void:
+	var skill: SkillDefinition = _catalog.skill(&"essencemagic")
+	_check(skill.conjure_functions == [&"heart_sense", &"drift_sense", &"void_sense"] and skill.cast_functions.is_empty(), "八识神通 conjures 心识, 游识 and 空识 (cmds/std/conjure.c), it casts nothing")
+	var member: CharacterState = _member()
+	member.skills.set_raw_level(&"buddhism", 20)
+	member.skills.set_raw_level(&"essencemagic", 10)
+	member.skills.map_skill(&"magic", &"essencemagic")
+	_check(ConjureService.offered(member, _catalog) == [&"heart_sense", &"drift_sense", &"void_sense"], "enabled as 法术, a member conjures all three")
 
 
 # --- The session --------------------------------------------------------------------
 
-## A man not yet a monk: 拜师 answers 请先到小寺剃度出家 two seconds later; he withdraws.
+## A man not yet a monk: 拜师 answers 请先到小寺剃度出家 two seconds later, and the request
+## is over (默认, DECISIONS 山烟寺 C): nothing to withdraw.
 func _test_not_ordained(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
@@ -282,11 +286,13 @@ func _test_not_ordained(tree: SceneTree, session: WorldSessionController) -> voi
 	var ui: TeacherPanel = service.ui
 	ui.apprentice_button.pressed.emit()
 	_check(not ui.is_confirming() and service.last_lines == [ASKED] and map.npc_life.apprentice_answer_due(master), "no question (he would not take a commoner); only the request: %s" % [service.last_lines])
+	ui.refresh()
+	ui.apprentice_button.pressed.emit()
+	_check(not ui.is_confirming() and service.last_lines == ["你想拜玄智和尚为师，但是对方还没有答应。"], "a request still waiting is not asked either: %s" % [service.last_lines])
 	map.advance_npc_heartbeat(2.0)
 	_check(session.shared_ui().log_lines()[-1] == NOT_ORDAINED and ui.apprentice_feedback.text == NOT_ORDAINED and not player.state.family.has_family(), "two seconds: 请先到小寺剃度出家, in the log and on the panel")
 	ui.refresh()
-	ui.cancel_button.pressed.emit()
-	_check(not player.apprenticeship_request.is_pending(), "withdrawn")
+	_check(not player.apprenticeship_request.is_pending() and not ui.cancel_button.visible, "the refusal ended the request: no 取消拜师请求")
 	ui.close_panel()
 
 

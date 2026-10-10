@@ -59,6 +59,11 @@ func advance(delta: float, npcs: Array[NpcRuntimeState]) -> Array[NpcRuntimeStat
 	return woke
 
 
+## The NPC woke otherwise (revive() called on it): its count-down starts afresh next time.
+func forget_revive(character_id: StringName) -> void:
+	_revive_remainder_ms.erase(character_id)
+
+
 ## An NPC the room replaced (room.c reset()) beats no more.
 func forget(character_id: StringName) -> void:
 	_cadences.erase(character_id)

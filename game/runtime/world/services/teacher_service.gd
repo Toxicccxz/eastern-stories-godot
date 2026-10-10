@@ -165,6 +165,9 @@ func take_trial() -> NpcApprenticeTrial.Result:
 	var recruit := func() -> NpcApprenticeship.Outcome:
 		return player.recruited_by(master, family, int(Time.get_unix_time_from_system()))
 	var result: NpcApprenticeTrial.Result = NpcApprenticeTrial.run(teaching().apprentice, player.apprenticeship_request, attack, stands, recruit)
+	# A failed test is the master's refusal: a request waiting on it is over (DECISIONS 山烟寺 C).
+	if result.outcome == NpcApprenticeTrial.Outcome.FAILED:
+		player.apprenticeship_request.end_request(master.definition_id)
 	_say_colored(result.lines)
 	if player.state.life_threshold() != CharacterState.LifeThreshold.ACTIVE:
 		map.player_fall_below_zero()

@@ -113,13 +113,13 @@ func _test_apprentice_rule() -> void:
 	_check(NpcApprenticeship.is_master_of(man, master) and man.family.family_id == FAMILY and man.family.generation == 6 and man.affiliation.class_id == &"taoist" and man.affiliation.entry_time_utc == 3 and not request.is_pending(), "茅山派's sixth generation, class taoist")
 	_check(NpcApprenticeship.family_title("茅山派", 6, man.affiliation.family_title) == "茅山派第六代弟子" and RankWords.query_rank(man.gender, &"taoist") == "【 道  士 】", "茅山派第六代弟子, a 道士")
 	_check(request.request(man, master, family, 4, "道长") == NpcApprenticeship.Outcome.ACKNOWLEDGED, "his apprentice greets him")
-	# A woman: the answer refuses; the request still waits (apprentice.c), until withdrawn.
+	# A woman: the answer refuses, and the request is over (默认, DECISIONS 山烟寺 C).
 	var woman: CharacterState = _fresh(CharacterState.GENDER_FEMALE)
 	request = NpcApprenticeship.new()
 	_check(not request.takes_at_once(woman, master), "a woman would not be taken (no question)")
 	_check(request.request(woman, master, family, 1, "姑娘") == NpcApprenticeship.Outcome.ANSWER_DUE, "a woman's 拜师 waits for his answer too")
 	_check(request.answer(woman, master, family, 2, "姑娘") == NpcApprenticeship.Outcome.QUALIFICATION_REJECTED and request.lines == [NO_WOMEN] and not woman.family.has_family(), "不便收女徒: %s" % [request.lines])
-	_check(request.request(woman, master, family, 3, "姑娘") == NpcApprenticeship.Outcome.PENDING, "her request still waits on him")
+	_check(not request.is_pending() and request.request(woman, master, family, 3, "姑娘") == NpcApprenticeship.Outcome.ANSWER_DUE, "the refusal ended it: asked again, a new request")
 	# Withdrawn and asked again while his answer is due: 慢著; the answer then takes him.
 	var other: CharacterState = _fresh(CharacterState.GENDER_MALE)
 	request = NpcApprenticeship.new()
@@ -329,9 +329,7 @@ func _test_refused(tree: SceneTree, session: WorldSessionController) -> void:
 	map.advance_npc_heartbeat(0.5)
 	_check(session.shared_ui().log_lines()[-1] == NO_WOMEN and ui.apprentice_feedback.text == NO_WOMEN and not player.state.family.has_family(), "two seconds: 不便收女徒, in the log and on the panel")
 	ui.refresh()
-	_check(ui.cancel_button.visible, "her request still waits: 取消拜师请求 shows")
-	ui.cancel_button.pressed.emit()
-	_check(service.last_lines == ["你改变主意不想拜林忌为师了。"] and not player.apprenticeship_request.is_pending(), "withdrawn")
+	_check(not ui.cancel_button.visible and not player.apprenticeship_request.is_pending(), "the refusal ended her request: no 取消拜师请求")
 	ui.close_panel()
 	await _beside(tree, session, map, _first(map, TRAINER))
 	var trainer: TeacherService = map.service(&"temple.grounds.temple1.trainer") as TeacherService

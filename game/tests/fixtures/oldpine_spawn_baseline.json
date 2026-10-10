@@ -127,6 +127,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -289,6 +290,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -451,6 +453,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -613,6 +616,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -848,6 +852,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -1062,6 +1067,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -1206,6 +1212,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": false,
@@ -1364,6 +1371,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -1526,6 +1534,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -1688,6 +1697,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -1850,6 +1860,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -2012,6 +2023,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -2174,6 +2186,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -2409,6 +2422,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -2644,6 +2658,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -2879,6 +2894,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -3114,6 +3130,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -3425,6 +3442,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -3588,6 +3606,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -3750,6 +3769,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -3912,6 +3932,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -4074,6 +4095,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -4236,6 +4258,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -4376,6 +4399,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": false,
@@ -4512,6 +4536,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": false,
@@ -4648,6 +4673,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": false,
@@ -4784,6 +4810,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": false,
@@ -4920,6 +4947,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": false,
@@ -5056,6 +5084,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": false,
@@ -5192,6 +5221,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": false,
@@ -5328,6 +5358,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": false,
@@ -5464,6 +5495,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": false,
@@ -5600,6 +5632,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": false,
@@ -5736,6 +5769,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": false,
@@ -5967,6 +6001,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -6109,6 +6144,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": false,
@@ -6272,6 +6308,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -6434,6 +6471,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -6596,6 +6634,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -6758,6 +6797,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -6993,6 +7033,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -7207,6 +7248,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -7351,6 +7393,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": false,
@@ -7509,6 +7552,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -7671,6 +7715,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -7833,6 +7878,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -7995,6 +8041,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -8157,6 +8204,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -8319,6 +8367,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -8554,6 +8603,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -8789,6 +8839,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -9024,6 +9075,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -9259,6 +9311,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -9570,6 +9623,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -9733,6 +9787,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -9895,6 +9950,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -10057,6 +10113,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -10219,6 +10276,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -10381,6 +10439,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -10521,6 +10580,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": false,
@@ -10657,6 +10717,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": false,
@@ -10793,6 +10854,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": false,
@@ -10929,6 +10991,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": false,
@@ -11065,6 +11128,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": false,
@@ -11201,6 +11265,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": false,
@@ -11337,6 +11402,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": false,
@@ -11473,6 +11539,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": false,
@@ -11609,6 +11676,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": false,
@@ -11745,6 +11813,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": false,
@@ -11881,6 +11950,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": false,
@@ -12112,6 +12182,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": true,
@@ -12254,6 +12325,7 @@
 						},
 						"water": 0.0
 					},
+					"seen_npcs": {},
 					"skills": {
 						"_has_learned_mapping": false,
 						"_has_skills_mapping": false,

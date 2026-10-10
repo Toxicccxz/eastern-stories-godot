@@ -3,7 +3,7 @@ extends VBoxContainer
 
 ## The character panel's 武学 page: cmds/usr/skills.c's list, enable.c's uses with
 ## their enable, disable and practice buttons, exercise, enforce, meditate, respirate,
-## exert, self-learning and study.
+## exert, the 神通 conjured at oneself (conjure.c: 空识, 游识), self-learning and study.
 ## PlayerMartialArts owns the rules; the page shows the state and repeats the lines
 ## the log received last. Buttons are rebuilt only when the set of actions changes.
 
@@ -39,18 +39,28 @@ var respirate_amount: SpinBox
 var respirate_button: Button
 var exert_title: Label
 var exert_row: HFlowContainer
+var conjure_title: Label
+var conjure_row: HFlowContainer
 var self_learn_title: Label
 var self_learn_row: HFlowContainer
 var study_title: Label
 var study_row: HFlowContainer
 var feedback: Label
 ## Action -> its button: enable:<use>:<skill>, disable:<use>, practice:<use>,
-## exert:<function>, self_learn:<skill>, study:<item instance>.
+## exert:<function>, conjure:<function>, self_learn:<skill>, study:<item instance>.
 var buttons: Dictionary[String, Button] = {}
 var _session: WorldSessionController
 var _layout_key: String = "-"
 var _use_texts: Dictionary[StringName, RichTextLabel] = {}
 var _shown_factor: int = -1
+## The 神通's lines after a 神通 button, else null (the page repeats PlayerMartialArts').
+var _last_lines: Variant = null
+
+# TRANSLATORS: the 武学 page's 神通 buttons' tooltips (daemon/class/bonze/essencemagic/): their costs and what may come of them.
+const CONJURE_HINTS: Dictionary[StringName, String] = {
+	&"void_sense": "施展「空识神通」：静思入定，有机会把灵力化为潜能（50 灵力、50 精）；也可能潜能降低，或一无所获。",
+	&"drift_sense": "施展「游识神通」：去到一个你见过的人身边，可以跨地图（75 灵力、30 精）。对方的灵力越强，越难感应得到。",
+}
 
 
 func _init() -> void:
@@ -110,6 +120,8 @@ func _init() -> void:
 	respirate_button.pressed.connect(_respirate)
 	exert_title = _title("运功")
 	exert_row = _flow("Exert")
+	conjure_title = _title("神通")
+	conjure_row = _flow("Conjure")
 	self_learn_title = _title("自学")
 	self_learn_row = _flow("SelfLearn")
 	study_title = _title("研读")
@@ -157,6 +169,7 @@ func refresh() -> void:
 		_shown_factor = state.attributes.force_factor
 		enforce_amount.set_value_no_signal(mini(_shown_factor, arts.enforce_limit()))
 	var functions: Array[StringName] = arts.exert_functions()
+	var conjures: Array[StringName] = _session.essence_magic().self_conjures()
 	var rows: Array[Dictionary] = _use_rows(arts, state, catalog)
 	var learnable: Array[StringName] = []
 	for skill_id: StringName in SelfLearningService.SELF_LEARNABLE:
@@ -169,6 +182,8 @@ func refresh() -> void:
 		keys.append_array(row.actions)
 	for function_id: StringName in functions:
 		keys.append("exert:%s" % function_id)
+	for function_id: StringName in conjures:
+		keys.append("conjure:%s" % function_id)
 	for skill_id: StringName in learnable:
 		keys.append("self_learn:%s" % skill_id)
 	for book: PlayerInventoryRowProjection in books:
@@ -176,7 +191,7 @@ func refresh() -> void:
 	var key: String = "|".join(keys)
 	if key != _layout_key:
 		_layout_key = key
-		_rebuild(rows, functions, learnable, books)
+		_rebuild(rows, functions, conjures, learnable, books)
 	for row: Dictionary in rows:
 		_use_texts[row.use].text = row.text
 	# enable.c with nothing enabled.
@@ -186,7 +201,7 @@ func refresh() -> void:
 		var practice: String = "practice:%s" % row.use
 		if buttons.has(practice):
 			buttons[practice].tooltip_text = arts.practice_hint(row.use)
-	feedback.text = "\n".join(ColoredLine.texts(arts.last_lines))
+	feedback.text = "\n".join(ColoredLine.texts(_last_lines if _last_lines != null else arts.last_lines))
 
 
 ## skills.c: every skill, its rank and level / learning progress; □ marks an enabled one.
@@ -253,10 +268,10 @@ func _use_rows(arts: PlayerMartialArts, state: CharacterState, catalog: ContentC
 	return rows
 
 
-func _rebuild(rows: Array[Dictionary], functions: Array[StringName], learnable: Array[StringName], books: Array[PlayerInventoryRowProjection]) -> void:
+func _rebuild(rows: Array[Dictionary], functions: Array[StringName], conjures: Array[StringName], learnable: Array[StringName], books: Array[PlayerInventoryRowProjection]) -> void:
 	buttons.clear()
 	_use_texts.clear()
-	for container: Node in [uses_box, exert_row, self_learn_row, study_row]:
+	for container: Node in [uses_box, exert_row, conjure_row, self_learn_row, study_row]:
 		for child: Node in container.get_children():
 			container.remove_child(child)
 			child.queue_free()
@@ -283,6 +298,12 @@ func _rebuild(rows: Array[Dictionary], functions: Array[StringName], learnable: 
 		buttons[action].pressed.connect(_act.bind(action))
 	exert_title.visible = not functions.is_empty()
 	exert_row.visible = not functions.is_empty()
+	for function_id: StringName in conjures:
+		var action: String = "conjure:%s" % function_id
+		buttons[action] = _button(conjure_row, action.replace(":", "_"), "")
+		buttons[action].pressed.connect(_act.bind(action))
+	conjure_title.visible = not conjures.is_empty()
+	conjure_row.visible = not conjures.is_empty()
 	for skill_id: StringName in learnable:
 		var action: String = "self_learn:%s" % skill_id
 		buttons[action] = _button(self_learn_row, action.replace(":", "_"), "")
@@ -314,6 +335,10 @@ func _label_buttons(rows: Array[Dictionary], learnable: Array[StringName], books
 	for key: String in buttons:
 		if key.begins_with("exert:"):
 			buttons[key].text = tr(ExertFunctions.LABELS[StringName(key.get_slice(":", 1))])
+		elif key.begins_with("conjure:"):
+			var conjure: ConjureFunction = SpecialFunctions.conjure(StringName(key.get_slice(":", 1)))
+			buttons[key].text = tr(conjure.label)
+			buttons[key].tooltip_text = tr(CONJURE_HINTS.get(conjure.id, ""))
 	for skill_id: StringName in learnable:
 		buttons["self_learn:%s" % skill_id].text = tr("自学%s") % tr(catalog.skill(skill_id).display_name)
 	for book: PlayerInventoryRowProjection in books:
@@ -327,6 +352,7 @@ func _act(action: String) -> void:
 	var kind: String = action.get_slice(":", 0)
 	# What follows the kind; an item instance ID may itself contain colons.
 	var subject: String = action.substr(kind.length() + 1)
+	_last_lines = null
 	match kind:
 		"enable":
 			arts.enable(StringName(subject.get_slice(":", 0)), StringName(subject.get_slice(":", 1)))
@@ -336,6 +362,9 @@ func _act(action: String) -> void:
 			arts.practice(StringName(subject))
 		"exert":
 			arts.exert(StringName(subject))
+		"conjure":
+			_conjure(StringName(subject))
+			return
 		"self_learn":
 			arts.self_learn(StringName(subject))
 		"study":
@@ -360,25 +389,45 @@ func _refocus(action: String) -> void:
 		exercise_button.grab_focus()
 
 
+## 空识 asks first when it would knock the player out; 游识 asks whom to go to. Both
+## run through the HUD (its questions); the page shows their lines while it stays open.
+func _conjure(function_id: StringName) -> void:
+	var magic: PlayerEssenceMagic = _session.essence_magic()
+	magic.last_lines = []
+	match function_id:
+		PlayerEssenceMagic.VOID_SENSE:
+			_session.shared_ui().conjure_void_sense()
+		PlayerEssenceMagic.DRIFT_SENSE:
+			_session.shared_ui().open_drift_sense()
+	_last_lines = magic.last_lines
+	if is_visible_in_tree():
+		refresh()
+		_refocus("conjure:%s" % function_id)
+
+
 func _exercise() -> void:
+	_last_lines = null
 	if _session != null:
 		_session.martial_arts().exercise(int(exercise_amount.value))
 		refresh()
 
 
 func _enforce() -> void:
+	_last_lines = null
 	if _session != null:
 		_session.martial_arts().enforce(int(enforce_amount.value))
 		refresh()
 
 
 func _meditate() -> void:
+	_last_lines = null
 	if _session != null:
 		_session.martial_arts().meditate(int(meditate_amount.value))
 		refresh()
 
 
 func _respirate() -> void:
+	_last_lines = null
 	if _session != null:
 		_session.martial_arts().respirate(int(respirate_amount.value))
 		refresh()

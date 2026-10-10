@@ -55,6 +55,8 @@ var perform_functions: Array[StringName] = []
 var cast_functions: Array[StringName] = []
 ## The 符 its scribe_spell_file() reaches (SpecialFunctions.SCRIBES ids).
 var scribe_functions: Array[StringName] = []
+## The 神通 its conjure_magic_file() reaches (SpecialFunctions.CONJURES ids).
+var conjure_functions: Array[StringName] = []
 var _valid_enabled_uses: Array[StringName] = []
 var _actions: Array[CombatActionDefinition] = []
 var _practice: PracticePolicy
@@ -231,6 +233,10 @@ static func from_record(reader: ContentRecordReader) -> SkillDefinition:
 		if not SpecialFunctions.SCRIBES.has(StringName(function_id)):
 			reader.fail("scribe", "no scribe file %s (expected %s)" % [function_id, ", ".join(SpecialFunctions.SCRIBES)])
 		definition.scribe_functions.append(StringName(function_id))
+	for function_id: String in reader.text_list("conjure"):
+		if not SpecialFunctions.CONJURES.has(StringName(function_id)):
+			reader.fail("conjure", "no conjure file %s (expected %s)" % [function_id, ", ".join(SpecialFunctions.CONJURES)])
+		definition.conjure_functions.append(StringName(function_id))
 	var id_prefix: String = "es2:%s/" % definition.legacy_source_path.trim_suffix(".c")
 	for action: ContentRecordReader in reader.children("actions"):
 		definition._actions.append(CombatActionDefinition.from_record(action, id_prefix))

@@ -80,10 +80,10 @@ func _test_apprentice() -> void:
 	state = _fresh()
 	state.attributes.courage = 24
 	request = NpcApprenticeship.new()
-	_check(_recruit(state, request, 1) == NpcApprenticeship.Outcome.QUALIFICATION_REJECTED and request.is_pending() and not state.family.has_family(), "cor 24: refused, the request stays pending")
+	_check(_recruit(state, request, 1) == NpcApprenticeship.Outcome.QUALIFICATION_REJECTED and not request.is_pending() and not state.family.has_family(), "cor 24: refused, the request is over (默认, DECISIONS 山烟寺 C)")
 	_check(request.lines == ["你想要拜陈剑秋为师。", "陈剑秋说道：走镖危险甚大，依我看小兄弟似乎不宜冒这份险？"], "走镖危险甚大: " + str(request.lines))
-	_check(_recruit(state, request, 2) == NpcApprenticeship.Outcome.PENDING and request.lines == ["你想拜陈剑秋为师，但是对方还没有答应。"], "asking again while pending")
-	_check(request.cancel() == NpcApprenticeship.Outcome.CANCELLED, "apprentice cancel")
+	_check(_recruit(state, request, 2) == NpcApprenticeship.Outcome.QUALIFICATION_REJECTED and request.lines[0] == "你想要拜陈剑秋为师。", "asking again: a new request, refused again")
+	_check(request.cancel() == NpcApprenticeship.Outcome.NO_PENDING, "nothing to cancel")
 	state.attributes.bellicosity = 50
 	_check(_recruit(state, request, 3) == NpcApprenticeship.Outcome.RECRUITED, "cor 24 + bellicosity 50 / 50: query_cor() is 25")
 	state = _fresh()

@@ -474,6 +474,9 @@ func activate_restore_candidate() -> bool:
 		process_mode = Node.PROCESS_MODE_DISABLED
 		return false
 	_restore_candidate_staged = false
+	var world_map: WorldMapController = map as WorldMapController
+	if world_map != null:
+		world_map.npc_life.restored_zone_id = _player.world_location().zone_id
 	_resume_restored_life_flow()
 	return true
 
@@ -1151,6 +1154,7 @@ func remove_player_item(id: StringName) -> OldPineArmorInteractionResult:
 var _last_portable_equipment: OldPineEquipmentInteractionResult
 var _last_portable_armor: OldPineArmorInteractionResult
 var _martial_arts: PlayerMartialArts
+var _essence_magic: PlayerEssenceMagic
 
 
 ## The player's enable, practice, exercise, self-learning and study (the 武学 page).
@@ -1158,6 +1162,13 @@ func martial_arts() -> PlayerMartialArts:
 	if _martial_arts == null:
 		_martial_arts = PlayerMartialArts.new(self)
 	return _martial_arts
+
+
+## The player's 神通 (空识 and 游识 on the 武学 page, 心识 on the HUD).
+func essence_magic() -> PlayerEssenceMagic:
+	if _essence_magic == null:
+		_essence_magic = PlayerEssenceMagic.new(self)
+	return _essence_magic
 
 
 func last_equipment_interaction() -> OldPineEquipmentInteractionResult:

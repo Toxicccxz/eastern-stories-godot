@@ -18,7 +18,10 @@ extends RefCounted
 ## its call_out and runs answer() when it is due; asked again meanwhile it says its
 ## busy_say (MASTER_BUSY) and starts nothing. A trial master with checks (elon.c) says the
 ## first one short, then takes a family's member for a traitor, then asks for its test; one
-## that refuses (annihi.c) only says so.
+## that refuses (annihi.c) only says so. Deviation (默认, DECISIONS 山烟寺 C): a master's
+## refusal (heard or not), its taking the student for a traitor, or a failed test ends the
+## request; apprentice.c kept it pending, so asking again only heard 对方还没有答应 until it
+## was withdrawn.
 enum Outcome { RECRUITED, ACKNOWLEDGED, QUALIFICATION_REJECTED, PENDING, CANCELLED, NO_PENDING, AUTHORITY_FAILURE, ASKED, OFFERED, NOT_ASKED, ATTACKED, ANSWER_DUE, MASTER_BUSY }
 
 ## logind.c's title for a new character, and killer_reward()'s for one who killed their master.
@@ -255,14 +258,17 @@ func request(student: CharacterState, master: NpcDefinition, family: FamilyDefin
 	if rule.kind == NpcTeaching.Kind.REFUSES:
 		# annihi.c attempt_apprentice(): its say, and nothing more.
 		_say(npc, rule.refuse_say, respect)
+		end_request(master.definition_id)
 		return Outcome.QUALIFICATION_REJECTED
 	if rule.kind == NpcTeaching.Kind.TRIAL:
 		# elon.c attempt_apprentice(): its checks, then a family's member is a traitor.
 		var refused: NpcTeaching.RequirementCheck = refusal(student, rule)
 		if refused != null:
 			_say(npc, refused.refuse_say, respect)
+			end_request(master.definition_id)
 			return Outcome.QUALIFICATION_REJECTED
 		if _traitor(rule, student_title, shown_title, student_name, npc):
+			end_request(master.definition_id)
 			return Outcome.ATTACKED
 		# champion.c attempt_apprentice(): say() to the room (the player reads it too,
 		# owner: DECISIONS 水烟阁 B), then tell_object() to the student.
@@ -276,10 +282,12 @@ func request(student: CharacterState, master: NpcDefinition, family: FamilyDefin
 			return Outcome.MASTER_BUSY
 		return Outcome.ANSWER_DUE
 	if _traitor(rule, student_title, shown_title, student_name, npc):
+		end_request(master.definition_id)
 		return Outcome.ATTACKED
 	var short: NpcTeaching.RequirementCheck = refusal(student, rule)
 	if short != null:
 		_say(npc, short.refuse_say, respect)
+		end_request(master.definition_id)
 		return Outcome.QUALIFICATION_REJECTED
 	_accept(npc, rule, respect, student, student_age)
 	# recruit.c: the student's pending/apprentice is this master.
@@ -326,6 +334,7 @@ func answer(student: CharacterState, master: NpcDefinition, family: FamilyDefini
 	if short != null:
 		if awake:
 			_say(npc, short.refuse_say, respect)
+		end_request(master.definition_id)
 		return Outcome.QUALIFICATION_REJECTED
 	if not awake:
 		if is_master_of(student, master) or is_pending_with(master.definition_id):
@@ -334,6 +343,20 @@ func answer(student: CharacterState, master: NpcDefinition, family: FamilyDefini
 		return Outcome.OFFERED
 	_accept(npc, teaching.apprentice, respect, student, student_age)
 	return _npc_recruit(student, master, family, entry_time_utc)
+
+
+## The answer `answer_after` seconds on while the student is not before the master: its
+## say goes to the room, and recruit.c's present() finds nobody. A refusal ends the request
+## all the same (默认, DECISIONS 山烟寺 C); otherwise it waits. Nothing is printed.
+func answer_unheard(student: CharacterState, master: NpcDefinition) -> Outcome:
+	lines = []
+	var teaching: NpcTeaching = null if master == null else master.teaching()
+	if student == null or teaching == null or teaching.apprentice == null or teaching.apprentice.answer_after <= 0.0:
+		return Outcome.AUTHORITY_FAILURE
+	if refusal(student, teaching.apprentice) != null:
+		end_request(master.definition_id)
+		return Outcome.QUALIFICATION_REJECTED
+	return Outcome.PENDING
 
 
 ## swear <oath> to a master that asked for one (master.c do_swear()): the oath ES2
@@ -420,6 +443,14 @@ func _recruit(student: CharacterState, master: NpcDefinition, family: FamilyDefi
 	_pending_master_name = ""
 	_offers.erase(master.definition_id)
 	lines.append(_t("恭喜您成为{family}的第{generation}代弟子。").format({"family": _t(family.display_name), "generation": ChineseNumber.of(generation)}))
+
+
+## The master answered the request waiting on it with a refusal (默认, DECISIONS 山烟寺 C):
+## it is over, and the next 拜师 asks anew. Also for a failed test (TeacherService).
+func end_request(master_id: StringName) -> void:
+	if _pending_master_id == master_id:
+		_pending_master_id = &""
+		_pending_master_name = ""
 
 
 ## command("say ...") by the master: 「{npc}说道：{line}」 with $RESPECT filled in.

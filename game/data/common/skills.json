@@ -339,7 +339,8 @@
 		{
 			"id": "essencemagic", "name": "八识神通", "kind": "specialized", "type": "knowledge", "enable": ["magic"],
 			"legacy_source": "daemon/skill/essencemagic.c",
-			"valid_learn": { "effective_skill": "你的佛法修为还不够高深，无法学习八识神通。" }
+			"valid_learn": { "effective_skill": "你的佛法修为还不够高深，无法学习八识神通。" },
+			"conjure": ["heart_sense", "drift_sense", "void_sense"]
 		},
 		{
 			"id": "whip", "name": "基本鞭法", "kind": "basic", "type": "martial",

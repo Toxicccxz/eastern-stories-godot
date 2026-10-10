@@ -108,6 +108,11 @@ func spawn_matches_zone(
 	return false
 
 
+## Whether `point` lies in the zone (its centre rule, as a body's).
+func point_in_zone(_point: Vector2, _zone_id: StringName) -> bool:
+	return false
+
+
 func resolve_location(
 	_zone_id: StringName,
 	_combat_location_id: StringName,
@@ -171,6 +176,14 @@ func leave_by_passage(_portal: PortalDefinition, _passage: WorldPassageArea2D) -
 	return true
 
 
+## Whether a body centred on `point` would stand on an open passage (and walk on through it).
+func point_in_passage(point: Vector2) -> bool:
+	for passage: WorldPassageArea2D in _passages:
+		if passage.is_open() and passage.global_rect().grow(MapPlacementValidator.CHARACTER_FOOTPRINT.x / 2.0).has_point(point):
+			return true
+	return false
+
+
 func is_passage_current(portal: PortalDefinition) -> bool:
 	for passage: WorldPassageArea2D in _passages:
 		if passage.is_current(portal):
@@ -179,6 +192,11 @@ func is_passage_current(portal: PortalDefinition) -> bool:
 
 
 func prepare_for_activation(_spawn_point_id: StringName) -> bool:
+	return false
+
+
+## prepare_for_activation() with the player's body put at `point` instead of a marker.
+func prepare_for_activation_at(_point: Vector2) -> bool:
 	return false
 
 

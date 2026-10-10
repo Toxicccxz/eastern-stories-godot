@@ -48,13 +48,11 @@ func apprenticeship_tests() -> void:
 		state = fresh()
 		state.attributes.set(attribute, 19)
 		request = NpcApprenticeship.new()
-		check(Master.recruit(state, 1, request) == NpcApprenticeship.Outcome.QUALIFICATION_REJECTED and request.is_pending(), attribute + " 19 pending")
+		check(Master.recruit(state, 1, request) == NpcApprenticeship.Outcome.QUALIFICATION_REJECTED and not request.is_pending(), attribute + " 19 refused: the request is over (默认, DECISIONS 山烟寺 C)")
 		check(request.lines[-1] == "柳淳风说道：学剑之人必须胆大心细，依我看壮士的资质似乎不宜？", "attempt_apprentice() refusal")
+		check(request.cancel() == NpcApprenticeship.Outcome.NO_PENDING, "nothing to cancel")
 		state.attributes.set(attribute, 20)
-		check(Master.recruit(state, 2, request) == NpcApprenticeship.Outcome.PENDING and not state.family.has_family(), "retry before cancel remains pending")
-		check(request.lines == ["你想拜柳淳风为师，但是对方还没有答应。"], "apprentice.c: still pending")
-		check(request.cancel() == NpcApprenticeship.Outcome.CANCELLED and not request.is_pending(), "explicit cancel")
-		check(Master.recruit(state, 3, request) == NpcApprenticeship.Outcome.RECRUITED, attribute + " exactly20 accepted")
+		check(Master.recruit(state, 3, request) == NpcApprenticeship.Outcome.RECRUITED, attribute + " exactly20 accepted, asked anew")
 	state = fresh()
 	state.attributes.courage = 19
 	state.attributes.bellicosity = 50
@@ -161,8 +159,8 @@ func persistence_tests(tree: SceneTree) -> void:
 	var session := Recovery.create_session(tree,Recovery.RandomSequence.new())
 	var player := session.player_runtime()
 	var state := player.state
-	state.attributes.courage = 19
-	player.request_apprenticeship(Master.definition(), Master.family(), 100)
+	# A request waiting on a master who answers later (玄智): a refused one is over (山烟寺 C).
+	player.request_apprenticeship(GameContent.catalog().npc(&"common.npc.bonze.master"), GameContent.catalog().family(&"family.sanyen"), 100)
 	var snapshot := Work.capture(session)
 	check(player.apprenticeship_request.is_pending() and not GameSaveJsonCodec.encode(snapshot).text.contains("pending"), "pending omitted")
 	player.apprenticeship_request.cancel()

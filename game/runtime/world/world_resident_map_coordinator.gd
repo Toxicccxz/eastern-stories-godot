@@ -105,12 +105,33 @@ func handoff_to(
 	return _last_map_handoff
 
 
+## The same handoff to a spot (`destination_point`, inside the destination zone) instead
+## of a spawn marker: a move to where someone stands (drift_sense.c's
+## me->move(environment(ob))), in a room that may have no marker.
+func handoff_to_point(
+	destination_map_id: StringName,
+	destination_zone_id: StringName,
+	destination_combat_location_id: StringName,
+	destination_point: Vector2,
+) -> OldPineMapHandoffResult:
+	_last_map_handoff = _handoff_to_impl(
+		destination_map_id,
+		destination_zone_id,
+		destination_combat_location_id,
+		&"",
+		destination_point,
+	)
+	return _last_map_handoff
+
+
 func _handoff_to_impl(
 	destination_map_id: StringName,
 	destination_zone_id: StringName,
 	destination_combat_location_id: StringName,
 	destination_spawn_point_id: StringName,
+	destination_point: Vector2 = Vector2.INF,
 ) -> OldPineMapHandoffResult:
+	var at_point: bool = destination_point.is_finite()
 	var result: OldPineMapHandoffResult = OldPineMapHandoffResult.new()
 	result._source_map_id = _active_map_id
 	result._destination_map_id = destination_map_id
@@ -134,7 +155,7 @@ func _handoff_to_impl(
 		destination_map_id.is_empty()
 		or destination_zone_id.is_empty()
 		or destination_combat_location_id.is_empty()
-		or destination_spawn_point_id.is_empty()
+		or (destination_spawn_point_id.is_empty() and not at_point)
 	):
 		return result
 	if _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
@@ -156,10 +177,14 @@ func _handoff_to_impl(
 	if destination_location == null:
 		result._outcome = OldPineMapHandoffResult.Outcome.DESTINATION_LOCATION_INVALID
 		return result
-	if destination.resolve_spawn_marker(destination_spawn_point_id) == null:
+	if at_point:
+		if not destination.point_in_zone(destination_point, destination_zone_id):
+			result._outcome = OldPineMapHandoffResult.Outcome.DESTINATION_LOCATION_INVALID
+			return result
+	elif destination.resolve_spawn_marker(destination_spawn_point_id) == null:
 		result._outcome = OldPineMapHandoffResult.Outcome.DESTINATION_MARKER_MISSING
 		return result
-	if not destination.spawn_matches_zone(
+	elif not destination.spawn_matches_zone(
 		destination_spawn_point_id,
 		destination_zone_id,
 	):
@@ -183,7 +208,11 @@ func _handoff_to_impl(
 
 	_transitioning = true
 	result._failure_stage = OldPineMapHandoffResult.FailureStage.PREPARATION
-	if not destination.prepare_for_activation(destination_spawn_point_id):
+	var prepared: bool = (
+		destination.prepare_for_activation_at(destination_point) if at_point
+		else destination.prepare_for_activation(destination_spawn_point_id)
+	)
+	if not prepared:
 		destination.prepare_for_deactivation()
 		result._outcome = OldPineMapHandoffResult.Outcome.DESTINATION_PREPARATION_FAILED
 		_transitioning = false

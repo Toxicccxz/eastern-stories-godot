@@ -72,6 +72,10 @@ var vendetta: Dictionary[String, int] = {}
 ## set_temp("apply/<key>") an NPC's create() draws (d/green/npc/kid2.c: 3 + random(2)
 ## dodge) and nothing takes back; empty for most characters. Saved.
 var applies: Dictionary[String, int] = {}
+## The NPC definitions the player has met in a room (游识神通's list: owner, DECISIONS
+## 山烟寺 A Q3), each with the order it was first met in (1 the first). Saved; empty
+## for NPCs.
+var seen_npcs: Dictionary[String, int] = {}
 
 
 func _init(

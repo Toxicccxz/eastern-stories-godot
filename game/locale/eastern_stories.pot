@@ -2396,7 +2396,7 @@ msgstr ""
 #. message_vision(): the dancer ($N) as they read it.
 #. message_vision(): the player, for $N/$n/$P/$p in the ES2 combat lines.
 #. message_vision(): the one kneeling, for the $N of a 剃度 line.
-#: core/internal_power/exert_context.gd core/internal_power/exert_function.gd core/relationships/npc_apprenticeship.gd core/world/dance_definition.gd presentation/battle/battle_narrator.gd presentation/battle/battle_participant_card.gd runtime/world/map/world_map_combat_lifecycle.gd runtime/world/map/world_map_corpses.gd runtime/world/map/world_map_hostilities.gd runtime/world/map/world_map_selection.gd runtime/world/map/world_map_spells.gd
+#: core/internal_power/exert_context.gd core/internal_power/exert_function.gd core/relationships/npc_apprenticeship.gd core/world/dance_definition.gd presentation/battle/battle_narrator.gd presentation/battle/battle_participant_card.gd runtime/world/map/world_map_combat_lifecycle.gd runtime/world/map/world_map_corpses.gd runtime/world/map/world_map_hostilities.gd runtime/world/map/world_map_selection.gd runtime/world/map/world_map_spells.gd runtime/world/player_essence_magic.gd
 msgid "你"
 msgstr ""
 
@@ -3224,6 +3224,22 @@ msgstr ""
 msgid "你所选用的咒文系中没有这种咒文。"
 msgstr ""
 
+#: core/specials/conjure_service.gd
+msgid "( 你上一个动作还没有完成，不能施展神通。)"
+msgstr ""
+
+#: core/specials/conjure_service.gd
+msgid "这里无法使用神通。"
+msgstr ""
+
+#: core/specials/conjure_service.gd
+msgid "你请先用 enable 指令选择你要使用的神通系。"
+msgstr ""
+
+#: core/specials/conjure_service.gd
+msgid "你所选用的法术系中没有这种法术。"
+msgstr ""
+
 #: core/specials/counterattack_perform.gd
 msgid "「封」字诀"
 msgstr ""
@@ -3242,6 +3258,47 @@ msgstr ""
 
 #: core/specials/counterattack_perform.gd
 msgid "$N使出封山剑法「封」字诀，连递数个虚招企图扰乱$n的攻势，可是$p看破了$P的企图，并没有上当。"
+msgstr ""
+
+#. doc/skill/essencemagic: 游识 (drift sense), as a button and a panel's title.
+#: core/specials/drift_sense_conjure.gd
+msgid "游识神通"
+msgstr ""
+
+#: core/specials/drift_sense_conjure.gd
+msgid "你要移动到哪一个人身边？"
+msgstr ""
+
+#: core/specials/drift_sense_conjure.gd
+msgid "你无法感受到这个人的灵力 ...."
+msgstr ""
+
+#: core/specials/drift_sense_conjure.gd
+msgid "中止施法。"
+msgstr ""
+
+#: core/specials/drift_sense_conjure.gd
+msgid "$N低头闭目，开始施展游识神通 ...."
+msgstr ""
+
+#: core/specials/drift_sense_conjure.gd
+msgid "战斗中无法使用游识神通！"
+msgstr ""
+
+#: core/specials/drift_sense_conjure.gd core/specials/heart_sense_conjure.gd core/specials/void_sense_conjure.gd
+msgid "你的灵力不够！"
+msgstr ""
+
+#: core/specials/drift_sense_conjure.gd
+msgid "游识神通只能对自己使用！"
+msgstr ""
+
+#: core/specials/drift_sense_conjure.gd
+msgid "你感受到对方的灵力，但是不够强烈。"
+msgstr ""
+
+#: core/specials/drift_sense_conjure.gd
+msgid "你因为不够熟练而失败了。"
 msgstr ""
 
 #: core/specials/dun_spell.gd
@@ -3342,6 +3399,19 @@ msgstr ""
 
 #: core/specials/haunt_scribe.gd
 msgid "你要在这张符上写谁的名字？"
+msgstr ""
+
+#. doc/skill/essencemagic: 心识 (heart sense), as a button (施展心识神通).
+#: core/specials/heart_sense_conjure.gd
+msgid "心识神通"
+msgstr ""
+
+#: core/specials/heart_sense_conjure.gd
+msgid "$N一手放在$n的天灵盖上，一手贴在$n的後心，闭上眼睛缓缓低吟 ..."
+msgstr ""
+
+#: core/specials/heart_sense_conjure.gd
+msgid "你要对谁使用心识神通？"
 msgstr ""
 
 #: core/specials/invocation_spell.gd presentation/battle/battle_presentation_controller.gd
@@ -3471,6 +3541,31 @@ msgstr ""
 
 #: core/specials/swordjab_perform.gd
 msgid "$N使出封山剑法「逐」字诀，剑法一紧，剑光罩向$n，$p从容化解"
+msgstr ""
+
+#. doc/skill/essencemagic: 空识 (void sense), as a button.
+#: core/specials/void_sense_conjure.gd
+msgid "空识神通"
+msgstr ""
+
+#: core/specials/void_sense_conjure.gd
+msgid "$N盘膝而座，开始运用空识神通静思入定 ..."
+msgstr ""
+
+#: core/specials/void_sense_conjure.gd
+msgid "空识神通只能对自己使用。"
+msgstr ""
+
+#: core/specials/void_sense_conjure.gd
+msgid "你觉得脑中一片混乱，你的潜能降低了！"
+msgstr ""
+
+#: core/specials/void_sense_conjure.gd
+msgid "你的潜能提高了！"
+msgstr ""
+
+#: core/specials/void_sense_conjure.gd
+msgid "可是你只觉得一无所获。"
 msgstr ""
 
 #. one glyph of a number written in Chinese characters (十, 百, 万...).
@@ -5741,6 +5836,16 @@ msgstr ""
 msgid "武学"
 msgstr ""
 
+#. 游识神通's question when the player has met nobody it could go to yet.
+#: ui/world/drift_sense_panel.gd
+msgid "你还没有见过什么人。"
+msgstr ""
+
+#. drift_sense.c: an empty answer to its question stops the conjuring (中止施法。).
+#: ui/world/drift_sense_panel.gd
+msgid "中止施法"
+msgstr ""
+
 #: ui/world/martial_arts_page.gd
 msgid "初学乍练"
 msgstr ""
@@ -5822,6 +5927,14 @@ msgid "震古铄今"
 msgstr ""
 
 #: ui/world/martial_arts_page.gd
+msgid "施展「空识神通」：静思入定，有机会把灵力化为潜能（50 灵力、50 精）；也可能潜能降低，或一无所获。"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "施展「游识神通」：去到一个你见过的人身边，可以跨地图（75 灵力、30 精）。对方的灵力越强，越难感应得到。"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
 msgid "技能"
 msgstr ""
 
@@ -5859,6 +5972,10 @@ msgstr ""
 
 #: ui/world/martial_arts_page.gd
 msgid "运功"
+msgstr ""
+
+#: ui/world/martial_arts_page.gd
+msgid "神通"
 msgstr ""
 
 #: ui/world/martial_arts_page.gd
@@ -6327,6 +6444,47 @@ msgstr ""
 msgid "运功「疗伤他人」：把真气输入对方体内，为他疗伤（耗 150 点内力，内力须比最大内力多 150 以上；双方都不能在战斗中）。"
 msgstr ""
 
+#. the 心识神通 button's tooltip (essencemagic/heart_sense.c): its 50 atman and 30 sen; random(max_atman) must be above 100, else the caster falls unconscious.
+#: ui/world/shared_gameplay_ui.gd
+msgid "施展「心识神通」：救醒昏迷的人（50 灵力、30 神）。最大灵力不过 101 必定失败，失败时你自己会昏倒。"
+msgstr ""
+
+#. asked before every 心识神通 (heart_sense.c), which knocks the caster out when it fails: {npc} the one lying unconscious, {atman} and {sen} its cost, {max_atman} the player's maximum atman, {odds} one of the three lines below.
+#: ui/world/shared_gameplay_ui.gd
+msgid ""
+"心识神通要耗去 {atman} 点灵力和 {sen} 点神。能否救醒{npc}，全看你的灵力修为（最大灵力 {max_atman}）：{odds}\n"
+"确定要施展吗？"
+msgstr ""
+
+#. {odds} in the 心识神通 question when the player's maximum atman is 101 or less (random(max_atman) > 100 cannot happen).
+#: ui/world/shared_gameplay_ui.gd
+msgid "最大灵力不过 101 必定失败，失败时你自己会当场昏过去。"
+msgstr ""
+
+#. {odds} in the 心识神通 question: {percent} the chance in a hundred that random(max_atman) is 100 or less.
+#: ui/world/shared_gameplay_ui.gd
+msgid "约有 {percent}% 的机会失败，失败时你自己会当场昏过去。"
+msgstr ""
+
+#. {odds} in the 心识神通 question when its 30 sen alone would knock the player out.
+#: ui/world/shared_gameplay_ui.gd
+msgid "你现在的神撑不住这一下，无论成败都会当场昏过去。"
+msgstr ""
+
+#. asked before 空识神通 (void_sense.c) when its 50 gin ({gin}) would knock the player out.
+#: ui/world/shared_gameplay_ui.gd
+msgid ""
+"空识神通要耗去 {gin} 点精，你现在撑不住，会当场昏过去。\n"
+"确定要施展吗？"
+msgstr ""
+
+#. asked before 游识神通 goes to the one chosen (drift_sense.c) when its 30 gin ({gin}) would knock the player out.
+#: ui/world/shared_gameplay_ui.gd
+msgid ""
+"游识神通要耗去 {gin} 点精，你现在撑不住，施展完就会昏过去。\n"
+"确定要施展吗？"
+msgstr ""
+
 #. the 驱尸 button's tooltip: animate.c's 50 mana and 30 sen; the zombie lives on the player's 灵力 (zombie.c heal_up()).
 #: ui/world/shared_gameplay_ui.gd
 msgid "施法「驱尸」：让这具尸体站起来跟着你（50 法力、30 神）。僵尸靠吸你的灵力维持，灵力不足时就会倒下化为血水。"
@@ -6449,6 +6607,10 @@ msgstr ""
 
 #: ui/world/shared_gameplay_ui.gd
 msgid "确定施法"
+msgstr ""
+
+#: ui/world/shared_gameplay_ui.gd
+msgid "确定施展"
 msgstr ""
 
 #: ui/world/shared_gameplay_ui.gd
