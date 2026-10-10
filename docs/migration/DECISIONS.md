@@ -150,7 +150,9 @@ became is in [CHOYIN_CONTENT](CHOYIN_CONTENT.md); it follows the LPC except:
   marks a refusal gives and those the recruit clears; a town map's neighbours may be joined by a
   passage on the map instead of a shared edge.
 - **Save**: the player's `counters`, an NPC's `memory.chant` and the root's `maze_notes` are
-  optional records; no new revision. An older save standing where the 桃林 used to be (now woods) fails to load (New Game).
+  optional records; world content revision `SOURCE_ENTRY_CHOYIN_C_V1` (the 桃林 moved: a save
+  standing where it was would only fail as an invalid position); older development saves need a
+  New Game.
 
 ## Save: the player's set_temp() flags (2026-10-10)
 
