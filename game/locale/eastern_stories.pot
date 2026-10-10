@@ -12915,7 +12915,7 @@ msgstr ""
 #. cloud.npc.boater inquiry.过江
 #. cloud.npc.boater inquiry.摆渡
 #: data/cloud/npcs.json
-msgid "交五两银子"
+msgid "交两文钱"
 msgstr ""
 
 #. cloud.npc.boater inquiry topic
