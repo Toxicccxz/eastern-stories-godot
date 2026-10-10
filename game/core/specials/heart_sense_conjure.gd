@@ -46,8 +46,8 @@ func conjure(context: SpecialContext) -> bool:
 
 
 ## The chance in a hundred that it knocks a caster with `maximum_atman` out:
-## random(max_atman) <= 100, every time below 102.
+## random(max_atman) <= 100, every time below 102; never shown as 0 (it can always fail).
 static func faint_percent(maximum_atman: int) -> int:
 	if maximum_atman <= WAKES_ABOVE + 1:
 		return 100
-	return roundi((WAKES_ABOVE + 1) * 100.0 / maximum_atman)
+	return maxi(1, roundi((WAKES_ABOVE + 1) * 100.0 / maximum_atman))

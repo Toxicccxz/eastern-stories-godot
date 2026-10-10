@@ -5220,14 +5220,6 @@ msgstr ""
 msgid "这里没有{name}。"
 msgstr ""
 
-#: runtime/world/player_essence_magic.gd
-msgid "游识 could not put the player beside %s"
-msgstr ""
-
-#: runtime/world/player_essence_magic.gd
-msgid "游识 could not reach %s on %s: %s"
-msgstr ""
-
 #: runtime/world/player_inventory_row_projection.gd
 msgid "主手"
 msgstr ""
@@ -6476,7 +6468,7 @@ msgstr ""
 
 #. {odds} in the 心识神通 question when its 30 sen alone would knock the player out.
 #: ui/world/shared_gameplay_ui.gd
-msgid "而你的神撑不住这一下，无论成败都会当场昏过去。"
+msgid "你现在的神撑不住这一下，无论成败都会当场昏过去。"
 msgstr ""
 
 #. asked before 空识神通 (void_sense.c) when its 50 gin ({gin}) would knock the player out.

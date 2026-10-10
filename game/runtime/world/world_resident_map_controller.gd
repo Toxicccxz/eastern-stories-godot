@@ -176,6 +176,14 @@ func leave_by_passage(_portal: PortalDefinition, _passage: WorldPassageArea2D) -
 	return true
 
 
+## Whether a body centred on `point` would stand on an open passage (and walk on through it).
+func point_in_passage(point: Vector2) -> bool:
+	for passage: WorldPassageArea2D in _passages:
+		if passage.is_open() and passage.global_rect().grow(MapPlacementValidator.CHARACTER_FOOTPRINT.x / 2.0).has_point(point):
+			return true
+	return false
+
+
 func is_passage_current(portal: PortalDefinition) -> bool:
 	for passage: WorldPassageArea2D in _passages:
 		if passage.is_current(portal):

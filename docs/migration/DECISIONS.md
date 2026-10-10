@@ -119,27 +119,31 @@ the three questions #94 left unanswered, and follows the LPC except:
 - **默认 (#94 Q1, global): a master's refusal ends the 拜师 request.** apprentice.c kept a
   refused request pending for every master, so asking again (after doing what the refusal
   said, e.g. 剃度) only heard 对方还没有答应 until 取消拜师请求. Now a check the student falls
-  short of (at once or in a later answer), a master that refuses everyone (安妮儿) or one that
-  takes the student for a traitor (绝尘子, 瑷伦) ends it; the next 拜师 asks anew (and the
-  traitor's attack is asked first again).
+  short of (at once, or in a later answer, also one said to an empty room while the student
+  had walked off), a master that refuses everyone (安妮儿), one that takes the student for a
+  traitor (绝尘子, 瑷伦) or a failed test (瑷伦's lashes, 於兰天武's blows) ends it; the next
+  拜师 asks anew (and the traitor's attack is asked first again).
 - **默认 (#94 Q2, Q3)**: 跪下受戒 needs 玄智 awake, and 疗伤他人 is for others only (both as
   built in B; lifeheal.c without a name healed its caster).
 - **Owner (Q3): 游识 offers the NPCs the player has met.** A kind of NPC met in the player's
-  room (an NPC's init() seeing them, or it coming in) joins CharacterState.seen_npcs, saved, in
-  the order met; one conjured, raised or summoned does not. The question lists their names,
-  one button each, and 中止施法; a name goes to one of that name in the world now (conscious or
-  not), on the player's map first, then map by map, beside it (also in a room with no spawn
-  marker). ES2 asked for an id and find_living() searched the whole world. Nobody of that name
-  now (dead, not come back): 你无法感受到这个人的灵力 and the question again, as ES2.
-- **默认: the 神通 are used outside fights.** conjure.c lets 空识 and 心识 run in one (游识
+  room (an NPC's init() seeing them, or it coming in, a wanderer too) joins
+  CharacterState.seen_npcs, saved, in the order met; one conjured, raised or summoned does
+  not. The question lists their names, one button each, and 中止施法 (with nobody met yet it
+  says 你还没有见过什么人。); a name goes to one of that name in the world now and awake (MudOS
+  find_living() skips one whose commands unconcious() disabled), on the player's map first,
+  then map by map, beside it (also in a room with no spawn marker; never on a passage). ES2
+  asked for an id and find_living() searched the whole world. Nobody of that name now (dead,
+  lying unconscious, not come back): 你无法感受到这个人的灵力 and the question again, as ES2,
+  and nothing spent; so too, natively, when no free spot beside them is found.
+- **Owner: the 神通 are used outside fights.** conjure.c lets 空识 and 心识 run in one (游识
   refuses): 空识 would spend the turn on potential, and 心识 could only wake the enemy being
   killed, as a monk has nobody on their side. The battle panel offers neither; heart_sense.c's
   busy 3 in a fight is ported but not reached.
 - **默认 (plan): 心识 only on one lying unconscious.** heart_sense.c also "revived" one awake,
   and combatd.c then said 慢慢睁开眼睛 of them. It is asked first every time (it may always
   fail, and below 102 max_atman always does), with the odds and its cost.
-- **Owner's rule: 游识 is asked first when its 30 gin would knock the player out** (the plan
-  named 心识 and 空识; drift_sense.c takes the gin once the name is found).
+- **Owner: 游识 is asked first when its 30 gin would knock the player out** (the plan named
+  心识 and 空识; drift_sense.c takes the gin once the name is found).
 - The lights the room sees (一道耀眼的光芒…) are the others' lines: the player reads their own
   line and then the room they arrive in, as in ES2.
 - **Save**: seen_npcs is written only when there are some; older saves load (no revision bump).

@@ -73,6 +73,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 func _test_data() -> void:
 	var skill: SkillDefinition = _catalog.skill(&"essencemagic")
 	_check(skill.conjure_functions == [&"heart_sense", &"drift_sense", &"void_sense"] and skill.cast_functions.is_empty(), "八识神通 reaches 心识, 游识 and 空识 (essencemagic/ holds three of doc/skill's eight)")
+	_check(HeartSenseConjure.faint_percent(1000000) == 1, "never shown as 0%: it can always fail")
 	_check(SpecialFunctions.CONJURES == [&"heart_sense", &"drift_sense", &"void_sense"], "the conjure files, in doc/skill/essencemagic's order")
 	_check(SpecialFunctions.conjure(&"heart_sense").label == "心识神通" and SpecialFunctions.conjure(&"heart_sense").targets_other, "心识神通 works on another")
 	_check(SpecialFunctions.conjure(&"drift_sense").label == "游识神通" and not SpecialFunctions.conjure(&"drift_sense").targets_other, "游识神通 at oneself")
@@ -108,6 +109,7 @@ func _test_void() -> void:
 	var context: SpecialContext = _context(state, Draws.new())
 	_check(not ConjureService.conjure(context, &"void_sense", false) and _fail(context) == "你的灵力不够！" and state.recovery.atman.current == 49, "49 atman: 你的灵力不够！, nothing spent")
 	var magic: int = state.skills.effective_level(&"magic")
+	_check(magic == 120, "query_skill(\"magic\"): 八识神通 100 + 基本法术 40 / 2 = 120: %d" % magic)
 	var intelligence: int = state.attributes.intelligence
 	# random(magic) no more than query_int(): nothing comes of it, the cost is spent.
 	state = _monk(200, 300)
@@ -251,8 +253,11 @@ func _test_refusal_ends_request() -> void:
 	_check(request.request(layman, master, family, 1, "施主") == NpcApprenticeship.Outcome.ANSWER_DUE and request.is_pending_with(master.definition_id), "玄智: the request waits on his answer")
 	_check(request.answer(layman, master, family, 2, "施主") == NpcApprenticeship.Outcome.QUALIFICATION_REJECTED and not request.is_pending(), "his refusal (请先到小寺剃度出家) ends it")
 	_check(request.request(layman, master, family, 3, "施主") == NpcApprenticeship.Outcome.ANSWER_DUE and request.lines == ["你想要拜玄智和尚为师。"], "asked again: a new request, not 对方还没有答应")
+	_check(request.answer_unheard(layman, master) == NpcApprenticeship.Outcome.QUALIFICATION_REJECTED and not request.is_pending(), "the refusal said to an empty room ends it too")
+	request.request(layman, master, family, 4, "施主")
 	layman.affiliation.class_id = &"bonze" # TEST-ONLY: ordained since
-	_check(request.answer(layman, master, family, 4, "大师") == NpcApprenticeship.Outcome.RECRUITED, "ordained, the new request is answered: taken")
+	_check(request.answer_unheard(layman, master) == NpcApprenticeship.Outcome.PENDING and request.is_pending_with(master.definition_id), "a monk's answer said to an empty room: recruit.c finds nobody, the request waits")
+	_check(request.answer(layman, master, family, 5, "大师") == NpcApprenticeship.Outcome.RECRUITED, "ordained, the request is answered: taken")
 	# A master that answers at once (柳淳风's 定力).
 	var liu: NpcDefinition = null
 	for definition: NpcDefinition in _catalog.npcs():
@@ -324,6 +329,40 @@ func _test_met(tree: SceneTree, session: WorldSessionController) -> void:
 	await _beside(tree, session, grounds, little)
 	grounds.npc_life._advance_ambience(0.0)
 	_check(player.state.seen_npcs.has(String(LITTLE)), "in the 后殿: 小沙弥 met")
+	# One who walks in where the player stands is met (random_move's init()); the 跛僧人
+	# (forced to wander, TEST-ONLY) walks from the garden into the player's room.
+	var cripple: NpcRuntimeState = _first(grounds, &"sanyen.npc.cripple")
+	_check(cripple != null and not player.state.seen_npcs.has("sanyen.npc.cripple"), "the 跛僧人 not met yet")
+	if cripple != null:
+		var spawn: NpcSpawnDefinition = _catalog.spawn(cripple.spawn_id)
+		var move: NpcRandomMove.Move = NpcRandomMove.choose(_catalog, cripple.world_location().zone_id, spawn.zone_id, grounds.npc_life.ambience.random(), grounds.npc_life._door_closed_between)
+		_check(move != null, "the 跛僧人 has a way out")
+		if move != null:
+			await _into(tree, session, grounds, move.to_zone_id)
+			grounds.npc_life._advance_ambience(0.0)
+			_check(not player.state.seen_npcs.has("sanyen.npc.cripple"), "still not met in %s" % move.to_zone_id)
+			_check(grounds.random_move(cripple) and cripple.world_location().zone_id == move.to_zone_id and player.state.seen_npcs.has("sanyen.npc.cripple"), "he walks in: met")
+	# Continue: the restored room's people were met before the save; a new one there is not
+	# met by the first note (TEST-ONLY: forgotten), but by coming back.
+	var room: StringName = player.world_location().zone_id
+	player.state.seen_npcs.erase("sanyen.npc.cripple") # TEST-ONLY
+	grounds.npc_life.restored_zone_id = room # TEST-ONLY: as activate_restore_candidate() sets it
+	grounds.npc_life.arrival_zone_id = &""
+	grounds.npc_life._advance_ambience(0.0)
+	_check(not player.state.seen_npcs.has("sanyen.npc.cripple") and grounds.npc_life.restored_zone_id.is_empty(), "the first note after Continue meets nobody in the restored room")
+	await _into(tree, session, grounds, &"sanyen.road1" if room == &"sanyen.temple" else &"sanyen.temple")
+	grounds.npc_life._advance_ambience(0.0)
+	await _into(tree, session, grounds, room)
+	grounds.npc_life._advance_ambience(0.0)
+	_check(player.state.seen_npcs.has("sanyen.npc.cripple"), "back in the room: met")
+	# 玄智's refusal said to an empty room ends the request (DECISIONS 山烟寺 C).
+	var master: NpcRuntimeState = _first(grounds, MASTER)
+	await _beside(tree, session, grounds, master)
+	var hall: TeacherService = grounds.service(&"sanyen.grounds.temple.master") as TeacherService
+	_check(hall.request_apprentice() == NpcApprenticeship.Outcome.ANSWER_DUE and player.apprenticeship_request.is_pending(), "拜师 (a woman): his answer is two seconds off")
+	await _into(tree, session, grounds, &"sanyen.road1")
+	grounds.advance_npc_heartbeat(2.0)
+	_check(not player.apprenticeship_request.is_pending() and not grounds.npc_life.apprentice_answer_due(master), "he answers the empty hall: the request is over")
 	var names: Array[String] = session.essence_magic().drift_names()
 	_check(names.has("玄智和尚") and names.has("小沙弥") and names.has("护寺武僧") and names.find("护寺武僧") < names.find("玄智和尚"), "the names, in the order met: %s" % [names])
 
@@ -415,6 +454,11 @@ func _test_drift_session(tree: SceneTree, session: WorldSessionController) -> vo
 	hud.drift_panel.chosen.emit("小沙弥")
 	_check(hud._presentation_layout._content == hud.drift_panel and hud.log_lines()[-1] == "你无法感受到这个人的灵力 ...." and hud.drift_panel.last_lines.text == "你无法感受到这个人的灵力 ...." and player.state.recovery.atman.current == atman, "gone: 无法感受到, asked again, nothing spent")
 	little.set_exists_in_map(true)
+	# Lying unconscious: find_living() skips one whose commands unconcious() disabled.
+	little.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY
+	hud.drift_panel.chosen.emit("小沙弥")
+	_check(hud.log_lines()[-1] == "你无法感受到这个人的灵力 ...." and player.state.recovery.atman.current == atman, "lying unconscious: not sensed, nothing spent")
+	little.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
 	# 中止施法: its line, back on the 武学 page.
 	hud.drift_panel.cancel_button.pressed.emit()
 	_check(hud.log_lines()[-1] == "中止施法。" and hud.martial_arts_page().is_visible_in_tree(), "中止施法: back on the page")
@@ -448,6 +492,9 @@ func _test_heart_hud(tree: SceneTree, session: WorldSessionController) -> void:
 	hud.refresh_live_state()
 	hud.refresh_exploration()
 	_check(hud.heart_sense_button.visible and hud.heart_sense_button.text == "心识神通", "lying unconscious, selected: 心识神通 on the HUD")
+	player.state.recovery.atman = CharacterInternalResourceState.new(49, 101)
+	hud.heart_sense_button.pressed.emit()
+	_check(not hud.is_asking() and hud.log_lines()[-1] == "你的灵力不够！" and little.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS, "49 atman: refused at once, nothing asked")
 	player.state.recovery.atman = CharacterInternalResourceState.new(300, 101)
 	hud.heart_sense_button.pressed.emit()
 	_check(hud.is_asking() and hud.confirm_prompt.message.text.contains("必定失败") and hud.confirm_prompt.message.text.contains("小沙弥"), "max_atman 101: asked, it must fail: %s" % hud.confirm_prompt.message.text)
@@ -496,6 +543,15 @@ func _test_continue(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(encoded.succeeded() and encoded.text.contains("\"seen_npcs\"") and encoded.text.contains(String(MASTER)), "the save holds the NPCs met")
 	var decoded: GameSaveResult = GameSaveJsonCodec.decode(encoded.text)
 	_check(decoded.succeeded() and decoded.snapshot.player.character.seen_npcs == player.state.seen_npcs, "decoded as captured")
+	for bad: Variant in [{"sanyen.npc.monk": 0}, {"sanyen.npc.monk": -1}, {}, ["sanyen.npc.monk"]]:
+		var edited: Dictionary = JSON.parse_string(encoded.text)
+		edited["player"]["character"]["seen_npcs"] = bad
+		var refused: GameSaveResult = GameSaveJsonCodec.decode(JSON.stringify(edited))
+		_check(not refused.succeeded() and refused.path.contains("seen_npcs"), "seen_npcs %s refused: %s" % [JSON.stringify(bad), refused.path])
+	var older: Dictionary = JSON.parse_string(encoded.text)
+	(older["player"]["character"] as Dictionary).erase("seen_npcs")
+	var old_save: GameSaveResult = GameSaveJsonCodec.decode(JSON.stringify(older))
+	_check(old_save.succeeded() and old_save.snapshot.player.character.seen_npcs.is_empty(), "a save from before 山烟寺 C (no seen_npcs) loads, nobody met")
 	var walker: RefCounted = Work.new()
 	await walker.round_trip(tree, session, snapshot, "山烟寺 C")
 	_check(walker._failures.is_empty(), "Save/Continue restores exactly: " + str(walker._failures))
@@ -543,6 +599,15 @@ static func _texts(context: SpecialContext, target: String = "") -> Array[String
 	for line: VisionLine in context.report().lines():
 		out.append(line.template.replace("$N", "你").replace("$n", target))
 	return out
+
+
+## TEST-ONLY: the player in the middle of `zone_id` (a free spot there).
+func _into(tree: SceneTree, session: WorldSessionController, map: WorldMapController, zone_id: StringName) -> void:
+	var at: Vector2 = MapPlaces.spot(map, zone_id, MapPlaces.zone_centre(map, zone_id), 120.0)
+	map.runtime_player_body().global_position = at
+	_check(at != Vector2.INF and session.player_runtime().set_world_location(map.location_for_zone(zone_id)), "TEST-ONLY: into %s" % zone_id)
+	await tree.physics_frame
+	await tree.physics_frame
 
 
 ## TEST-ONLY: the player beside the NPC, in its room.

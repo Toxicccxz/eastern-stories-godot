@@ -80,7 +80,7 @@ const HEART_SURE_FAIL: String = "最大灵力不过 101 必定失败，失败时
 # TRANSLATORS: {odds} in the 心识神通 question: {percent} the chance in a hundred that random(max_atman) is 100 or less.
 const HEART_MAY_FAIL: String = "约有 {percent}% 的机会失败，失败时你自己会当场昏过去。"
 # TRANSLATORS: {odds} in the 心识神通 question when its 30 sen alone would knock the player out.
-const HEART_SPENT: String = "而你的神撑不住这一下，无论成败都会当场昏过去。"
+const HEART_SPENT: String = "你现在的神撑不住这一下，无论成败都会当场昏过去。"
 # TRANSLATORS: asked before 空识神通 (void_sense.c) when its 50 gin ({gin}) would knock the player out.
 const VOID_FAINT_WARNING: String = "空识神通要耗去 {gin} 点精，你现在撑不住，会当场昏过去。\n确定要施展吗？"
 # TRANSLATORS: asked before 游识神通 goes to the one chosen (drift_sense.c) when its 30 gin ({gin}) would knock the player out.

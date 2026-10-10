@@ -215,9 +215,14 @@ func apprentice_answer_due(npc: NpcRuntimeState) -> bool:
 ## otherwise; one lying there unconscious reads nothing. An unconscious master's command()
 ## does nothing; a dead one's call_out went with it.
 func _answer_apprentice(npc: NpcRuntimeState) -> void:
-	if npc == null or not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or not player_shares_zone(npc):
+	if npc == null or not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
 		return
 	if _player.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
+		return
+	if not player_shares_zone(npc):
+		# Said to an empty room: a refusal still ends the request (DECISIONS 山烟寺 C).
+		if _player.apprenticeship_request.is_pending_with(npc.definition().definition_id):
+			_player.apprenticeship_request.answer_unheard(_player.state, npc.definition())
 		return
 	for service: WorldService in _map.service_nodes:
 		if service is TeacherService and (service as TeacherService).npc == npc:
@@ -554,6 +559,7 @@ func random_move(npc: NpcRuntimeState) -> bool:
 		_map.hud().append_log_lines([move.leave_line(npc.definition().display_name)])
 	# The player's init() for one who walks in.
 	if player_shares_zone(npc):
+		_meet(npc)
 		_map.hostilities.player_init([npc])
 	return true
 

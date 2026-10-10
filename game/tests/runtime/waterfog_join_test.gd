@@ -323,7 +323,10 @@ func _test_hall(tree: SceneTree, session: WorldSessionController) -> void:
 	panel.refresh()
 	panel.trial_button.pressed.emit()
 	_check(panel.confirm_text.text.contains("三招都接住，於兰天武便愿意收你为徒，再向他拜师即可。"), "not asked him first: passing would be an offer")
+	# TEST-ONLY: her 拜师 waits on him by now (champion.c asks for the test).
+	_check(player.apprenticeship_request.request(player.state, champion.definition(), GameContent.catalog().family(champion.definition().teaching().family_id), 1, "姑娘") == NpcApprenticeship.Outcome.ASKED, "TEST-ONLY: a request waiting on him")
 	panel.confirm_button.pressed.emit()
+	_check(not player.apprenticeship_request.is_pending(), "the test failed: his refusal, the request is over (DECISIONS 山烟寺 C)")
 	_check(test.last_lines.back() == "於兰天武叹了口气，说道：连第一招都撑不过，真是自不量力...." and test.last_lines.size() >= 3, "the first blow not stood: %s" % [test.last_lines])
 	_check(player.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS and player.relationship.last_damage_from_id == champion.character_id, "she falls unconscious; he hit her last")
 	await tree.process_frame

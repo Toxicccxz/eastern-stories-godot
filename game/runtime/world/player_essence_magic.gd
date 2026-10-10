@@ -11,6 +11,8 @@ extends RefCounted
 const VOID_SENSE: StringName = &"void_sense"
 const HEART_SENSE: StringName = &"heart_sense"
 const DRIFT_SENSE: StringName = &"drift_sense"
+## How far from the NPC's centre 游识 puts the player (34 px bodies, so they never overlap).
+const BESIDE: Array[int] = [48, 64, 96, 44]
 
 var last_lines: Array[ColoredLine] = []
 var _session: WorldSessionController
@@ -92,8 +94,9 @@ func drift_names() -> Array[String]:
 
 
 ## find_living(name): the NPC called `name` (a kind the player has met) that is in the
-## world now, conscious or not: on the player's map first, then map by map. Null when
-## there is none (dead, or not come back yet).
+## world now and awake (MudOS find_living() skips one whose commands unconcious() disabled):
+## on the player's map first, then map by map. Null when there is none (dead, lying
+## unconscious, or not come back yet).
 func drift_target(name: String) -> NpcRuntimeState:
 	var player: WorldPlayerRuntimeState = null if _session == null else _session.player_runtime()
 	if player == null:
@@ -106,7 +109,7 @@ func drift_target(name: String) -> NpcRuntimeState:
 	for map: WorldMapController in maps:
 		for npc: NpcRuntimeState in map.npc_runtimes():
 			if (
-				npc.exists_in_map and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD
+				npc.exists_in_map and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
 				and npc.definition().display_name == name and player.state.seen_npcs.has(String(npc.definition_id))
 				and npc.world_location() != null and npc.world_location().map_id == map.map_id()
 			):
@@ -130,13 +133,15 @@ func drift_to(name: String) -> bool:
 	if not available():
 		return false
 	var npc: NpcRuntimeState = drift_target(name)
+	# Where they stand is found before anything is spent; none (never so far) counts as not found.
+	var spot: Vector2 = Vector2.INF if npc == null else _spot_beside(npc)
 	var context: SpecialContext = _context()
-	if npc != null:
+	if npc != null and spot.is_finite():
 		context.target = SpecialSide.new(npc.character_id, npc.character_state, npc.busy, npc.relationship)
 	var over: bool = (SpecialFunctions.conjure(DRIFT_SENSE) as DriftSenseConjure).select_target(context)
 	_show(context, "")
 	var arrived: WorldMapController = _session.active_map() as WorldMapController
-	if context.drifted and _move_beside(npc):
+	if context.drifted and _move_beside(npc, spot):
 		arrived = _session.active_map() as WorldMapController
 		if arrived != null and arrived.hud() != null:
 			arrived.hud().describe_arrival()
@@ -144,18 +149,31 @@ func drift_to(name: String) -> bool:
 	return over
 
 
-## me->move(environment(ob)): into the NPC's room, beside it (clear of its body); onto its
-## map when it is on another one.
-func _move_beside(npc: NpcRuntimeState) -> bool:
+## A spot in the NPC's room beside it, clear of its body, on open ground and off any open
+## passage; INF when there is none.
+func _spot_beside(npc: NpcRuntimeState) -> Vector2:
+	var map: WorldMapController = _session.world_map_of(npc.world_location().map_id)
+	var origin: Vector2 = Vector2.INF if map == null else map.npc_rest_position(npc.character_id)
+	if not origin.is_finite():
+		return Vector2.INF
+	for distance: int in BESIDE:
+		for direction: Vector2 in [Vector2.DOWN, Vector2.RIGHT, Vector2.LEFT, Vector2.UP, Vector2(1, 1), Vector2(-1, 1), Vector2(1, -1), Vector2(-1, -1)]:
+			var spot: Vector2 = (origin + direction.normalized() * distance).round()
+			if MapPlacementValidator.is_valid_character_position(map, npc.world_location().zone_id, spot) and not map.point_in_passage(spot):
+				return spot
+	return Vector2.INF
+
+
+## me->move(environment(ob)): into the NPC's room at `spot`; onto its map when it is on
+## another one.
+func _move_beside(npc: NpcRuntimeState, spot: Vector2) -> bool:
 	var map: WorldMapController = _session.world_map_of(npc.world_location().map_id)
 	var location: WorldLocationState = null if map == null else map.location_for_zone(npc.world_location().zone_id)
 	if location == null:
 		return false
-	var origin: Vector2 = map.npc_rest_position(npc.character_id)
-	var spot: Vector2 = map.floor_items.at_feet(location, origin, false, WorldMapNpcs.BESIDE)
 	if map == _session.active_map():
 		if not map.place_player(location.zone_id, spot):
-			push_error("游识 could not put the player beside %s" % npc.character_id)
+			push_error("drift_sense could not put the player beside %s" % npc.character_id)
 			return false
 		var camera: Camera2D = map.player_body.get_node_or_null("Camera2D") as Camera2D
 		if camera != null:
@@ -163,7 +181,7 @@ func _move_beside(npc: NpcRuntimeState) -> bool:
 		return true
 	var moved: OldPineMapHandoffResult = _session.handoff_to_point(map.map_id(), location.zone_id, location.combat_location_id, spot)
 	if not moved.succeeded():
-		push_error("游识 could not reach %s on %s: %s" % [npc.character_id, map.map_id(), moved.outcome])
+		push_error("drift_sense could not reach %s on %s: %s" % [npc.character_id, map.map_id(), moved.outcome])
 	return moved.succeeded()
 
 

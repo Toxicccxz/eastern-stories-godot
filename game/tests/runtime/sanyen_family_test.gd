@@ -286,6 +286,9 @@ func _test_not_ordained(tree: SceneTree, session: WorldSessionController) -> voi
 	var ui: TeacherPanel = service.ui
 	ui.apprentice_button.pressed.emit()
 	_check(not ui.is_confirming() and service.last_lines == [ASKED] and map.npc_life.apprentice_answer_due(master), "no question (he would not take a commoner); only the request: %s" % [service.last_lines])
+	ui.refresh()
+	ui.apprentice_button.pressed.emit()
+	_check(not ui.is_confirming() and service.last_lines == ["你想拜玄智和尚为师，但是对方还没有答应。"], "a request still waiting is not asked either: %s" % [service.last_lines])
 	map.advance_npc_heartbeat(2.0)
 	_check(session.shared_ui().log_lines()[-1] == NOT_ORDAINED and ui.apprentice_feedback.text == NOT_ORDAINED and not player.state.family.has_family(), "two seconds: 请先到小寺剃度出家, in the log and on the panel")
 	ui.refresh()
