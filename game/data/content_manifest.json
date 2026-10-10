@@ -58,6 +58,12 @@
 		"sanyen/npcs.json",
 		"sanyen/spawns.json",
 		"sanyen/rooms.json",
-		"sanyen/world.json"
+		"sanyen/world.json",
+		"choyin/npcs.json",
+		"choyin/spawns.json",
+		"choyin/item_spawns.json",
+		"choyin/vendors.json",
+		"choyin/rooms.json",
+		"choyin/world.json"
 	]
 }

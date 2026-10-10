@@ -401,6 +401,81 @@
 				{ "id": "chang-kong-lei-yin", "action": "$N纵身一跃，手中$w一招「长空雷隐」对准$n的$l斜斜刺出一剑", "damage_type": "刺伤" },
 				{ "id": "duan-shi-lang-yan", "action": "$N的$w凭空一指，一招「断石狼烟」刺向$n的$l", "damage": 40, "damage_type": "刺伤" }
 			]
+		},
+		{
+			"id": "mysterrier", "name": "步玄七诀", "kind": "specialized", "type": "martial", "enable": ["dodge", "move"],
+			"legacy_source": "daemon/skill/mysterrier.c",
+			"perform": ["hasten"],
+			"dodge_messages": [
+				"$n身影一转，轻易地避开了这一招。",
+				"$n身法飘忽，左一点，右一顿，早已闪在一旁。",
+				"但是$n身影一侧，在间不容发之际从容地避开了这一招。",
+				"$n身形陡然拔高，使$N的攻势尽数落空。",
+				"$n右足一点，身影向左滑开数尺，避了开去。"
+			]
+		},
+		{
+			"id": "mystforce", "name": "步玄心法", "kind": "specialized", "type": "martial", "enable": ["force"],
+			"legacy_source": "daemon/skill/mystforce.c", "standard_force_hit": true
+		},
+		{
+			"id": "mystsword", "name": "小步玄剑", "kind": "specialized", "type": "martial", "enable": ["sword", "parry"],
+			"legacy_source": "daemon/skill/mystsword.c",
+			"actions": [
+				{ "id": "mu-xue-san-tan", "action": "$N使一招「暮雪三叹」，手中$w急如骤雨般地刺向$n$l", "damage": 60, "damage_type": "刺伤" },
+				{ "id": "chu-zi-nong-di", "action": "$N身形一晃，一招「处子弄笛」向$n$l刺出一剑", "damage": 80, "damage_type": "刺伤" },
+				{ "id": "yang-gu-bai-lian", "action": "$N舞动$w，一招「阳谷白练」挟著闪闪剑光刺向$n的$l", "damage_type": "刺伤" },
+				{ "id": "xun-rong-zhu-dian", "action": "$N手中$w一个圈转，使出「薰容逐电」中锋直进刺向$n的$l", "damage": 100, "damage_type": "刺伤" }
+			]
+		},
+		{
+			"id": "spicyclaw", "name": "油流麻香手", "kind": "specialized", "type": "martial", "enable": ["unarmed"],
+			"legacy_source": "daemon/skill/spicyclaw.c",
+			"hit_wound": {
+				"at_least": 100,
+				"messages": [
+					"你听到「喀啦」一声轻响，竟似是骨碎的声音！",
+					"$N劲力一吐，$n的$l发出「喀」地一声爆响！",
+					"只听见$n的$l「喀」地一声 ..."
+				]
+			},
+			"actions": [
+				{ "id": "du-long-pu-zhou", "action": "$N左掌微分，右手一长使出一招「毒龙扑舟」，抓向$n的$l", "force": 160, "damage_type": "抓伤" },
+				{ "id": "cuan-guo-shou", "action": "$N倏地一个转身，双手一翻「撺锅手」直掼$n$l", "force": 140, "damage_type": "瘀伤" },
+				{ "id": "cuo-hui-shou", "action": "$N身子微斜，随即跨出一步，左手忽掌忽爪使出「撮灰手」，拍向$n的$l", "force": 120, "damage_type": "瘀伤" },
+				{ "id": "qing-she-shi-duan-jin", "action": "$N使出「青蛇十段锦」，双手滑溜异常对准$n的$l抓去", "force": 140, "damage_type": "抓伤" },
+				{ "id": "liang-shang-jun-zi", "action": "$N左手虚晃，右掌飘飘，一招「梁上君子」击向$n$l", "force": 150, "damage_type": "瘀伤" },
+				{ "id": "bo-cao-xun-lv", "action": "$N使出「拨草寻履」，凌空跃起，冷不防在落地前对准$n$l踢出一脚", "force": 180, "damage_type": "瘀伤" },
+				{ "id": "sui-gun-shang-shen", "action": "$N右手在$n$l划过，随後一招「随棍上身」左爪又向同一方位抓到", "force": 100, "damage_type": "抓伤" }
+			]
+		},
+		{
+			"id": "shortsong-blade", "name": "短歌刀法", "kind": "specialized", "type": "martial", "enable": ["blade", "parry"],
+			"legacy_source": "daemon/skill/shortsong-blade.c",
+			"actions": [
+				{ "id": "dui-jiu-dang-ge", "action": "$N使一招「对酒当歌」，手中$w风似地向$n的$l斩去！", "damage": 70, "damage_type": "割伤" },
+				{ "id": "ren-sheng-ji-he", "action": "$N弯刀似月，$w随著一招「人生几何」由下而上撩往$n的$l", "damage": 40, "damage_type": "割伤" },
+				{ "id": "pi-ru-zhao-lu", "action": "$N身形一转，一招「譬如朝露」$w如朝露闪烁，斩向$n的$l", "damage": 20, "damage_type": "割伤" },
+				{ "id": "qu-ri-ku-duo", "action": "$N舞动$w，一招「去日苦多」往$n的$l斜斜砍出一刀", "damage_type": "割伤" },
+				{ "id": "kai-dang-yi-kang", "action": "$N手中$w一晃，一招「慨当以慷」迅捷无伦地劈向$n的$l", "damage": 70, "damage_type": "割伤" },
+				{ "id": "you-si-nan-wang", "action": "$N提气丹田，身型咋展，一招「忧思难忘」直劈$n$l", "damage": 30, "damage_type": "割伤" },
+				{ "id": "he-yi-jie-you", "action": "$N移步侧身，使一招「何以解忧」刀光霍霍斩向$n的$l", "damage": 50, "damage_type": "割伤" }
+			]
+		},
+		{
+			"id": "fall-steps", "name": "秋风步", "kind": "specialized", "type": "martial", "enable": ["dodge", "move"],
+			"legacy_source": "daemon/skill/fall-steps.c",
+			"dodge_messages": [
+				"$n一招「秋风起兮白云飞」轻轻巧巧地避了开去。",
+				"只见$n身影一晃，一式「草木黄落兮雁南归」早已避在七尺之外。",
+				"$n使出「兰有秀兮菊有芳」，轻轻松松地闪过。",
+				"$n左足一点，一招「怀佳人兮不能忘」腾空而起，避了开去。",
+				"可是$n使一招「泛楼船兮济汾河」，身子轻轻飘了开去。",
+				"$n身影微动，已经藉一招「横中流兮扬素波」轻轻闪过。",
+				"但是$n一招「箫鼓鸣兮发棹歌」使出，早已绕到$N身後！",
+				"但是$n身形飘忽，轻轻一纵，一招「欢乐极兮哀情多」，避开这一击。",
+				"$n身形往上一拔，一招「少壮几时兮奈老何」，一个转折落在数尺之外。"
+			]
 		}
 	]
 }

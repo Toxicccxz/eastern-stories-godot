@@ -12,6 +12,9 @@ These maps are generated, never edited by hand:
     temple:  temple_mountain, temple_grounds, temple_library
     latemoon: latemoon_manor, latemoon_secret, latemoon_garden, latemoon_upper, latemoon_hills
     sanyen:  sunhill_mountain (泓水 and 日照山), sanyen_temple
+    choyin:  choyin_town, choyin_yamen, choyin_altar, choyin_hotel_2f, choyin_hotel_3f, choyin_tree_hollow,
+             choyin_lion_cave, choyin_east, choyin_furnace, choyin_guye, choyin_crown, choyin_cliff_cave,
+             choyin_summit, choyin_valley
 
 Each region has one layout file, tools/maps/layouts/<region>.json; to change a map, edit its
 layout and rerun the painter. tools/tests/test_maps_paint.py fails when a committed scene differs

@@ -37,6 +37,7 @@
 	],
 	"portals": [
 		{ "id": "sunhill.northriver.north", "from_zone": "sunhill.northriver", "to_zone": "cloud.dukou", "to_spawn": "cloud.dukou.river_return", "legacy_room": "es2:u/cloud/sunhill/northriver", "legacy_command": "north" },
+		{ "id": "sunhill.road1.east", "from_zone": "sunhill.road1", "to_zone": "choyin.n_gate", "to_spawn": "choyin.n_gate.road_arrival", "legacy_room": "es2:u/cloud/sunhill/road1", "legacy_command": "east" },
 		{ "id": "sanyen.tunnel.west", "from_zone": "sanyen.tunnel", "to_zone": "latemoon.sroad5", "to_spawn": "latemoon.sroad5.tunnel_return", "legacy_room": "es2:d/sanyen/tunnel", "legacy_command": "west" },
 		{ "id": "sanyen.gate.north", "from_zone": "sanyen.gate", "to_zone": "sanyen.front_yard", "to_spawn": "sanyen.front_yard.gate_arrival", "legacy_room": "es2:d/sanyen/gate", "legacy_command": "north" },
 		{ "id": "sanyen.front_yard.south", "from_zone": "sanyen.front_yard", "to_zone": "sanyen.gate", "to_spawn": "sanyen.gate.temple_return", "legacy_room": "es2:d/sanyen/front_yard", "legacy_command": "south" }

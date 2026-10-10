@@ -25,6 +25,9 @@ GENERATED = {
     'temple': ['temple_mountain.tscn', 'temple_grounds.tscn', 'temple_library.tscn'],
     'latemoon': ['latemoon_manor.tscn', 'latemoon_secret.tscn', 'latemoon_garden.tscn', 'latemoon_upper.tscn', 'latemoon_hills.tscn'],
     'sanyen': ['sunhill_mountain.tscn', 'sanyen_temple.tscn'],
+    'choyin': ['choyin_town.tscn', 'choyin_yamen.tscn', 'choyin_altar.tscn', 'choyin_hotel_2f.tscn', 'choyin_hotel_3f.tscn',
+               'choyin_tree_hollow.tscn', 'choyin_lion_cave.tscn', 'choyin_east.tscn', 'choyin_furnace.tscn', 'choyin_guye.tscn',
+               'choyin_crown.tscn', 'choyin_cliff_cave.tscn', 'choyin_summit.tscn', 'choyin_valley.tscn'],
 }
 
 

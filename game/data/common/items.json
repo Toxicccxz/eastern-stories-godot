@@ -547,6 +547,29 @@
 			"weight": 80000,
 			"value": 6200,
 			"weapon": { "skill": "staff", "damage": 93, "weight_dodge": "equip" }
+		},
+		{
+			"id": "es2:daemon/class/scholar/windspring",
+			"legacy_sources": ["daemon/class/scholar/windspring.c"],
+			"name": "风泉之剑",
+			"aliases": ["sword of windspring", "sword"],
+			"long": "这是步玄派历代相传的掌门信物，湛蓝色的剑身跟鹅黄色剑柄，使\n得风泉之剑成为具有「剑之王者」的美誉，除此之外，这把剑也是\n削铁如泥的利器。\n",
+			"unit": "把",
+			"material": "sapphire",
+			"weight": 14000,
+			"value": 35000,
+			"weapon": {
+				"skill": "sword",
+				"damage": 75,
+				"apply": { "courage": 15, "intelligence": 15, "personality": 15 },
+				"rigidity": 40,
+				"weight_dodge": "equip"
+			},
+			"owner_is_killed": {
+				"npc": "common.npc.scholar.sword_soul",
+				"unless_holder": "common.npc.scholar.sword_soul",
+				"lines": ["你看到风泉之剑掉落在地上 ...", "不 ... 它飘了起来！一个人形忽然浮现，手中正握著风泉之剑！"]
+			}
 		}
 	]
 }

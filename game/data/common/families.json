@@ -10,6 +10,8 @@
 		{ "id": "family.latemoon", "name": "晚月庄" },
 		{ "id": "family.sanyen", "name": "山烟寺" },
 		{ "id": "family.xiaoyao", "name": "逍遥派" },
-		{ "id": "family.tianshan", "name": "天山派" }
+		{ "id": "family.tianshan", "name": "天山派" },
+		{ "id": "family.buxuan", "name": "步玄派" },
+		{ "id": "family.huazi", "name": "花紫会" }
 	]
 }
