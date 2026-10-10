@@ -65,9 +65,11 @@ func _test_data() -> void:
 	_check(NpcObjectRule.decide(rules, NpcObjectRule.Offer.new(1)) != null and not NpcObjectRule.decide(rules, NpcObjectRule.Offer.new(1)).accept, "one coin is too little")
 	var fare: NpcObjectRule = NpcObjectRule.decide(rules, NpcObjectRule.Offer.new(2))
 	_check(fare.accept and fare.move_zone_id == &"sunhill.dukou" and fare.move_point_id == &"sunhill.dukou.ferry_arrival", "two coins are the fare: the boat to 江南渡口")
+	var talk: NpcTalk = catalog.npc(&"cloud.npc.boater").talk()
+	_check(talk.answer("过江") == PackedStringArray(["交两文钱"]) and talk.answer("摆渡") == PackedStringArray(["交两文钱"]), "he asks what he takes: 交两文钱 (owner; ES2 said 交五两银子)")
 
 
-## boater.c accept_object(): anything worth 2 coins (his 过江 answer says five taels) and the
+## boater.c accept_object(): anything worth 2 coins (his 过江 answer says so: owner) and the
 ## boat takes the payer across (owner, plan Q1; ES2 left them on the dock); less, his say().
 func _test_ferry(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.handoff_to(&"cloud.outdoor", &"cloud.dukou", &"cloud.dukou", &"cloud.dukou.river_return").succeeded(), "at 江北渡口")

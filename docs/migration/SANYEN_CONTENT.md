@@ -31,7 +31,7 @@ the player's 大乘佛法, 诵经, 流云杖法, 莲华心法 and its 疗伤他�
 | LPC | Native |
 |---|---|
 | front_yard.c's `__DIR__"npc/monk_guard"` (no such file) | overrides `source_fixes` → /u/cloud/npc/monk_guard (owner, plan Q2) |
-| u/cloud/npc/boater.c accept_object() | npcs.json `accept_object` (set cloud.npc.boater): value() of 2 coins and up says his two lines and `move`s the giver to 江南渡口 (sunhill.dukou.ferry_arrival); less is refused with his say() (owner, plan Q1) |
+| u/cloud/npc/boater.c accept_object() | npcs.json `accept_object` (set cloud.npc.boater): value() of 2 coins and up says his two lines and `move`s the giver to 江南渡口 (sunhill.dukou.ferry_arrival); less is refused with his say() (owner, plan Q1); 过江 and 摆渡 answer 交两文钱 (owner) |
 | sunhill/northriver.c init(), cross_river(), no_boat() | nothing: replace_program(ROOM) drops them; the river is waded both ways, as ES2's was |
 | road1.c / temple.c create_door() 金门 | world.json doors `sanyen.road1.door`, open |
 | heal_room.c item_desc plaque, kitchen.c item_desc pot | look landmarks |
@@ -48,8 +48,8 @@ the player's 大乘佛法, 诵经, 流云杖法, 莲华心法 and its 疗伤他�
 - monk_guard.c's long is a 知客僧's (「知客僧伫立在佛像前…」), word for word here; so is
   u/cloud/npc/monk_waiter.c (a 知客僧 nothing places).
 - northriver.c's ferry is dead: create() ends in replace_program(ROOM), and cross_river() reads
-  the room's own marks/船夫, which nothing sets. boater.c's 过江 asks five taels; its
-  accept_object() takes anything worth 2 coins and sets the giver's marks/船夫, read by nothing;
+  the room's own marks/船夫, which nothing sets. boater.c's 过江 asks five taels (here
+  交两文钱, owner); its accept_object() takes anything worth 2 coins and sets the giver's marks/船夫, read by nothing;
   a second gift while marked was thanked for (多谢这位<the gift's respect>) and unmarked.
 - road1.c creates the 金门 open, temple.c DOOR_CLOSED; check_door() gives the second room loaded
   the first one's state, and whoever comes by the road loads road1.c first. The hall's text

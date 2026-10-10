@@ -131,8 +131,8 @@ the LPC except:
 - **Owner (Q1): the boatman's boat takes whoever pays across** (deviation). ES2 waded the
   river both ways (northriver.c's ferry is dropped by replace_program(ROOM)); boater.c took
   anything worth 2 coins, said 客官可以过江啦！ and 船夫拉过条小船，你走了上去。 and left the payer
-  on the dock. Here the same fare (his 过江 still says five taels) puts the player at 江南渡口
-  after his lines; less is refused with 这么少？我还要养家呀！. The mark is not kept: each crossing
+  on the dock. Here the same fare puts the player at 江南渡口 after his lines; **owner: he
+  asks what he takes** (过江, 摆渡: 交两文钱; ES2's cross_river() said 交五两银子); less is refused with 这么少？我还要养家呀！. The mark is not kept: each crossing
   one fare. The river is still waded both ways; no boat waits on the south bank (none in ES2).
 - **默认: the 金门 starts open.** road1.c creates it open, temple.c DOOR_CLOSED; check_door()
   gives the room loaded second the first one's state, and whoever comes up the road loads
