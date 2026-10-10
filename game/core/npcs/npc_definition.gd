@@ -507,7 +507,7 @@ func has_capability(capability_id: StringName) -> bool:
 const FLAG_FOUGHT_PLAYER: StringName = &"fought_player"
 ## team.c set_leader(player) (d/snow/npc/dog.c, given a bone): it follows the player
 ## from room to room on its map (owner, polish, A11). An object variable, as ES2's
-## leader is: Continue forgets it.
+## leader is: saved with the NPC's memory (owner, 乔阴 B).
 const FLAG_FOLLOWS_PLAYER: StringName = &"follows_player"
 ## kill_ob(player) kept past the fight (attack.c is_killing(): the 观想虫 conjured against
 ## the player): attack.c init()'s hatred attacks the player on sight until the player

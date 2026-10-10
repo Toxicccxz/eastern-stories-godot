@@ -281,6 +281,12 @@ static func _restore_npc_ledger(
 					path,
 				)
 			runtime.set_revive_in_ms(saved.revive_in_ms)
+			# What it remembered; a saved NPC that remembered nothing keeps create()'s flags.
+			if saved.has_memory():
+				runtime.restore_memory_flags(saved.flags)
+				runtime.combat_chat_chance = saved.combat_chat_chance
+				runtime.pills_left = saved.pills_left
+				runtime.times_caught = saved.times_caught
 			entries.append(OldPineRestoredNpcEntry.new(
 				runtime,
 				Vector2(saved.map_position.x, saved.map_position.y),

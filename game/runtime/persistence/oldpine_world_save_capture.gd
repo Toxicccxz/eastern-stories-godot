@@ -137,25 +137,30 @@ func capture(
 		for item: ItemInstance in npc.loadout_items():
 			if session.inventory_state().is_registered(item.item_instance_id):
 				live_loadout_ids.append(item.item_instance_id)
-		npc_snapshots.append(
-			Values.NpcSpawnStateSnapshot.new(
-				npc.spawn_id,
-				npc.spawn_point_id,
-				npc.definition_id,
-				npc.character_id,
-				npc.exists_in_map,
-				_life_text(npc.life_status),
-				npc.combat_available,
-				character,
-				npc.age,
-				npc.body_weight,
-				npc.maximum_encumbrance,
-				_location_snapshot(npc.world_location()),
-				_position_snapshot(npc_map.npc_rest_position(npc.character_id)),
-				live_loadout_ids,
-				npc.revive_in_ms,
-			)
+		var npc_snapshot := Values.NpcSpawnStateSnapshot.new(
+			npc.spawn_id,
+			npc.spawn_point_id,
+			npc.definition_id,
+			npc.character_id,
+			npc.exists_in_map,
+			_life_text(npc.life_status),
+			npc.combat_available,
+			character,
+			npc.age,
+			npc.body_weight,
+			npc.maximum_encumbrance,
+			_location_snapshot(npc.world_location()),
+			_position_snapshot(npc_map.npc_rest_position(npc.character_id)),
+			live_loadout_ids,
+			npc.revive_in_ms,
 		)
+		# Its memory (owner, 乔阴 B): the flags as they stand, a changed chat chance, its pills,
+		# how often a thief was caught.
+		npc_snapshot.flags = npc.memory_flags()
+		npc_snapshot.combat_chat_chance = npc.combat_chat_chance
+		npc_snapshot.pills_left = npc.pills_left
+		npc_snapshot.times_caught = npc.times_caught
+		npc_snapshots.append(npc_snapshot)
 
 	var corpse_snapshots: Array[Values.CorpseSnapshot] = []
 	var corpse_maps: Array[WorldMapController] = []

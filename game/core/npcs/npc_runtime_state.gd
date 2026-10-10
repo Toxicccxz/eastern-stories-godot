@@ -33,15 +33,19 @@ var _body_weight: int
 var _maximum_encumbrance: int
 var _loadout_items: Array[ItemInstance] = []
 var _revive_in_ms: int = 0
-## Object variables its create() sets (drunk.c has_alcohol). Not saved: Continue
-## starts them as create() does (DECISIONS 4E).
+## Object variables its create() sets (drunk.c has_alcohol) and what it does sets later (a
+## toll-taker that fought the player, a dog given a bone, chest_found, a deleted topic).
+## Saved (owner, 乔阴 B): Continue finds the NPC remembering; one made anew (its room's
+## reset after it died) starts from create() again.
 var _flags: Dictionary[StringName, bool] = {}
 ## set("chat_chance_combat") a chat function changed (woman1.c wield_weapon(): 10);
-## -1 while the definition's holds. Not saved, as flags are not.
+## -1 while the definition's holds. Saved with the flags.
 var combat_chat_chance: int = -1
 ## oldman.c set("pills", 9): the pills it has left (NpcHooks), counted anew at its room's
-## reset and when it wakes; -1 until first counted. An object variable: not saved.
+## reset and when it wakes; -1 until first counted. Saved with the flags.
 var pills_left: int = -1
+## thief.c query("thief"): how often the player caught it stealing (NpcSteal). Saved with the flags.
+var times_caught: int = 0
 
 
 ## The pills it has now (its hooks' count when not counted yet).
@@ -190,8 +194,8 @@ func set_flag(flag: StringName, value: bool) -> void:
 	_flags[flag] = value
 
 
-## delete("inquiry/<topic>"): the NPC no longer answers it (an object variable, made anew
-## with the NPC: not saved, DECISIONS 4E).
+## delete("inquiry/<topic>"): the NPC no longer answers it (an object variable: saved, made
+## anew with the NPC).
 func forget_topic(topic: String) -> void:
 	_flags[StringName(FORGOTTEN_TOPIC + topic)] = true
 
@@ -203,6 +207,16 @@ func forgotten_topics() -> Array[String]:
 		if _flags[flag] and String(flag).begins_with(FORGOTTEN_TOPIC):
 			topics.append(String(flag).trim_prefix(FORGOTTEN_TOPIC))
 	return topics
+
+
+## Every flag as it stands (true or false), for the save.
+func memory_flags() -> Dictionary[StringName, bool]:
+	return _flags.duplicate()
+
+
+## Continue: the flags the save holds replace create()'s.
+func restore_memory_flags(saved: Dictionary[StringName, bool]) -> void:
+	_flags = saved.duplicate()
 
 
 func set_revive_in_ms(value: int) -> void:
