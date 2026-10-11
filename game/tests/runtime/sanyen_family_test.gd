@@ -391,7 +391,7 @@ func _test_lifeheal_hud(tree: SceneTree, session: WorldSessionController) -> voi
 	map.select_npc(little.character_id)
 	hud.refresh_live_state()
 	hud.refresh_exploration()
-	_check(not hud.lifeheal_button.visible, "without 莲华心法 enabled: no 疗伤他人")
+	_check(not hud.nearby.actions_of(little.definition().short_name()).has("疗伤他人"), "without 莲华心法 enabled: no 疗伤他人")
 	_make_lotus(player.state) # TEST-ONLY
 	player.state.recovery.inner_force = CharacterInternalResourceState.new(149, 100)
 	# TEST-ONLY: the maxima race/human.c gives that max_force (Continue recomputes them).
@@ -400,7 +400,7 @@ func _test_lifeheal_hud(tree: SceneTree, session: WorldSessionController) -> voi
 	little.character_state.vitality = CharacterResourceState.new(kee.maximum / 2, kee.maximum / 2, kee.maximum) # TEST-ONLY: hurt
 	hud.refresh_live_state()
 	hud.refresh_exploration()
-	_check(hud.lifeheal_button.visible and hud.lifeheal_button.text == "疗伤他人", "莲华心法 enabled, 小沙弥 selected: 疗伤他人 on the HUD")
+	_check(hud.nearby.actions_of(little.definition().short_name()).has("疗伤他人"), "莲华心法 enabled, 小沙弥 selected: 疗伤他人 on the HUD")
 	hud.lifeheal_button.pressed.emit()
 	_check(hud.log_lines()[-1] == "你的真气不够。" and little.character_state.vitality.effective == kee.maximum / 2, "force 149 of 100: 你的真气不够")
 	player.state.recovery.inner_force.current = 300

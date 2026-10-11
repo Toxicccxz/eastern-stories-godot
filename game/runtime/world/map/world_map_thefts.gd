@@ -33,7 +33,12 @@ func is_stealing() -> bool:
 ## The selected NPC can be stolen from: here (present(), awake or not), the player awake and
 ## free to act outside a fight.
 func can_steal_selected() -> bool:
-	var npc: NpcRuntimeState = _map.selection.selected_npc_here()
+	return can_steal(_map.selection.selected_npc())
+
+
+## can_steal_selected() for any NPC.
+func can_steal(target: NpcRuntimeState) -> bool:
+	var npc: NpcRuntimeState = _map.selection.npc_here(target)
 	return npc != null and _player != null and _map.can_act(false)
 
 

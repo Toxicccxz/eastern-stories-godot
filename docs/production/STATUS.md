@@ -4,13 +4,10 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**天驼关 C** (`phase/canyon-c`, region #10, DECISIONS「天驼关 C」): the side way west of the pass,
-repaired (owner Q1). The 黄石穿林路 leads to a mirror; inside it the 竹林道 runs north to a great
-yellow stone; pushed aside (560 force and max_force, 加力 40) it opens a gap into a stone room whose
-bookcase gives a 书匣 holding the 悟疾风劲竹书 (研读: parry to 50 from 20000 exp); a carried
-container now opens in the 背包 (取出, 放进, 观察). Defaults in the PR: no second push while the gap
-is open; the bookcase gives a book whenever none exists. With C the region is done; next: region
-#11 玉螺湖村 (plan first).
+**The HUD's nearby groups** (`phase/hud-proximity`, DECISIONS「The HUD's actions for what is
+near」): the status card lists one group per thing in reach (NPCs with their shop or lessons,
+corpses, floor items, landmarks, doors, room services), nearest first, gone once the player walks
+off; a click on the map selects nothing (owner). Next: region #11 玉螺湖村 A (plan approved).
 
 ## 待决定
 
@@ -266,7 +263,8 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   great yellow stone: with 560 force and max_force and 加力 40 it is pushed aside (20 gin, 60 kee,
   20 sen), and the gap lets the player into the stone room, where the bookcase gives a 书匣 holding
   the 悟疾风劲竹书 while none exists (taken out in the 背包; 研读: parry to 50 from 20000 exp).
-* **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
+* **Across both**: the status card offers the actions of what is within reach, one group per
+  thing, nearest first (a click on the map selects nothing); each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from
   unconsciousness and reincarnation at the Snow temple after death,

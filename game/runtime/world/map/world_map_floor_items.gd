@@ -112,7 +112,7 @@ func _add_floor_item_view(item_id: StringName, content: ItemContentDefinition, p
 	view.position = marker.position
 	marker.get_parent().add_child(view)
 	item_views[item_id] = view
-	view.selection_requested.connect(select_floor_item)
+	view.selection_requested.connect(_map.selection.on_thing_clicked)
 	return true
 
 
@@ -130,7 +130,7 @@ func add_dropped_item_view(item_id: StringName, location: WorldLocationState, po
 	view.global_position = position
 	item_views[item_id] = view
 	_dropped[item_id] = location.duplicate_snapshot()
-	view.selection_requested.connect(select_floor_item)
+	view.selection_requested.connect(_map.selection.on_thing_clicked)
 	return true
 
 

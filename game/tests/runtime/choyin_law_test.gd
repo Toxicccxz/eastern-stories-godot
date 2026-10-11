@@ -285,7 +285,7 @@ func _test_steal(tree: SceneTree, session: WorldSessionController) -> void:
 	map.select_npc(scholar.character_id)
 	hud.refresh_live_state()
 	hud.refresh_exploration()
-	_check(hud.steal_button.visible and map.thefts.can_steal_selected(), "偷窃 on the selected 书生")
+	_check(hud.nearby.actions_of(scholar.definition().short_name()).has("偷窃") and map.thefts.can_steal_selected(), "偷窃 on the selected 书生")
 	var seen: Array[StringName] = map.thefts.seen_items(scholar)
 	_check(seen.size() == 1 and map.thefts.item_name(seen[0]) == "布衣", "look.c shows his 布衣 (worn), not the book: %s" % [seen])
 	_check(not map.thefts.asks_first(scholar), "a 书生 (10 exp) is no stronger: not asked")
@@ -403,7 +403,7 @@ func _test_bribe(tree: SceneTree, session: WorldSessionController) -> void:
 	Finance.add_money(context, CurrencyDenomination.Value.GOLD, 12, &"test.gold") # TEST-ONLY
 	hud.refresh_live_state()
 	hud.refresh_exploration()
-	_check(hud.bribe_button.visible and map.patrols.can_bribe(police), "行贿 on the 巡捕 leading the player")
+	_check(hud.nearby.actions_of(police.definition().short_name()).has("行贿") and map.patrols.can_bribe(police), "行贿 on the 巡捕 leading the player")
 	hud.bribe_button.pressed.emit()
 	_check(hud.bribe_panel.is_visible_in_tree() and hud.bribe_panel.shown_money().has("黄金"), "the money they carry: %s" % [hud.bribe_panel.shown_money()])
 	var crime: int = CrimeRecord.crime(player.state)

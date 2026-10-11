@@ -693,6 +693,9 @@ func _test_oldpine_scene_loot_loop(tree: SceneTree) -> void:
 	click.button_index = MOUSE_BUTTON_LEFT
 	click.pressed = true
 	view.picking_area().input_event.emit(controller.get_viewport(), click, 0)
+	var clicked: WorldInteractionTarget = controller.selected_interaction_target()
+	_assert_true(clicked == null or clicked.target_id != corpse.corpse_item_instance_id, "a corpse click selects nothing (owner, 2026-10-11)")
+	_assert_true(controller.select_corpse(corpse.corpse_item_instance_id), "its nearby group selects the corpse")
 	var selected: WorldInteractionTarget = controller.selected_interaction_target()
 	_assert_eq(selected.kind, WorldInteractionTarget.Kind.ITEM, "corpse click selects ITEM kind")
 	_assert_eq(selected.target_id, corpse.corpse_item_instance_id, "corpse click selects exact corpse ID")
@@ -722,6 +725,8 @@ func _test_oldpine_scene_loot_loop(tree: SceneTree) -> void:
 	await tree.physics_frame
 	await tree.physics_frame
 	_assert_true(view.is_body_in_loot_range(controller.player_body), "physical Area detects player near corpse")
+	# The HUD's selection follows reach: the corpse's nearby group selects it again.
+	_assert_true(controller.select_corpse(corpse.corpse_item_instance_id), "the corpse's group selects it in reach")
 	_assert_true(controller.session.shared_ui().open_loot_is_enabled(), "entering physical range enables Open Loot")
 	controller.session.shared_ui().open_loot_button.pressed.emit()
 	_assert_true(controller.session.shared_ui().loot_is_open(), "loot panel is visible")

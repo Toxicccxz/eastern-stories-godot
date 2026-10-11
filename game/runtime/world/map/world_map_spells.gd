@@ -31,8 +31,15 @@ func _init(controller: WorldMapController) -> void:
 func animatable_corpse() -> CorpseState:
 	if _player == null or not CastService.offered(_player.state, GameContent.catalog()).has(ANIMATE):
 		return null
-	var corpse: CorpseState = _map.corpses.selected_corpse_here()
-	return corpse if corpse != null and corpse.is_legacy_corpse() else null
+	return corpse_animatable(_map.corpses.selected_corpse_here())
+
+
+## animatable_corpse() for any corpse: the corpse when 驱尸 is offered on it, else null.
+func corpse_animatable(corpse: CorpseState) -> CorpseState:
+	if _player == null or not CastService.offered(_player.state, GameContent.catalog()).has(ANIMATE):
+		return null
+	var here: CorpseState = _map.corpses.corpse_here(corpse)
+	return here if here != null and here.is_legacy_corpse() else null
 
 
 ## Whether 驱尸 now would leave the player below zero sen (animate.c takes 30 sen and

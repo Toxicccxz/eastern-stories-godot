@@ -150,10 +150,20 @@ func _test_reflow_lifetime(tree: SceneTree) -> void:
 		_check(hud.is_ancestor_of(control), "reparent preserves authored information identity")
 	capability.metrics = _metrics(Rect2(0, 0, 1152, 648), Rect2(0, 0, 800, 480))
 	presenter.refresh()
+	# The card's nearby groups (owner, 2026-10-11): each landmark's action label, as its
+	# group shows it, fits the compact card.
+	var layout: SharedGameplayLayout = hud.get_node("PresentationLayout") as SharedGameplayLayout
 	for landmark: WorldLandmarkDefinition in GameContent.catalog().landmarks_for_map(OldPineWorldDefinitions.OUTDOOR_MAP_ID):
-		hud.set_selected_landmark(landmark, true)
+		if landmark.action_label.is_empty():
+			continue
+		var row: HFlowContainer = layout.nearby_row(landmark.display_name)
+		var button: Button = layout.nearby_button(row, landmark.action_label, Callable())
+		layout.nearby.add_child(row)
+		layout.nearby.show()
 		await _settle(tree)
-		_check(capability.metrics.content_rect().encloses(hud.portal_button.get_global_rect()), "current authored traversal label fits compact action grid")
+		_check(capability.metrics.content_rect().encloses(button.get_global_rect()), "current authored traversal label fits compact action grid")
+		layout.nearby.remove_child(row)
+		row.free()
 	hud.set_selected_target(null)
 	await _dynamic_rows(tree, shell, hud, capability, presenter)
 	shell.request_pause()

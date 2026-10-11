@@ -320,12 +320,13 @@ func _test_selection_inspect_attack_and_no_aggression(tree: SceneTree) -> void:
 	camera.reset_smoothing()
 	await tree.physics_frame
 	await tree.physics_frame
+	# A click selects nothing (owner, 2026-10-11): the HUD's nearby groups select.
 	await _click_body_through_viewport(OldPineTestMap.body(controller, "Bandit01"), tree)
-	_assert_eq(controller.selected_character_id(), controller.npc_runtimes()[0].character_id, "real picking selects bandit1")
+	_assert_true(controller.selected_character_id() != controller.npc_runtimes()[0].character_id, "real picking selects nothing")
 	await _click_body_through_viewport(OldPineTestMap.body(controller, "Bandit03"), tree)
-	_assert_eq(controller.selected_character_id(), controller.npc_runtimes()[2].character_id, "real picking switches HUD target to bandit3")
-	await _click_body_through_viewport(OldPineTestMap.body(controller, "Bandit02"), tree)
-	_assert_eq(controller.selected_character_id(), bandit2.character_id, "bandit body click selects exact second CharacterId")
+	_assert_true(controller.selected_character_id() != controller.npc_runtimes()[2].character_id, "a second click selects nothing either")
+	_assert_true(controller.select_npc(bandit2.character_id), "a nearby group's button selects its NPC")
+	_assert_eq(controller.selected_character_id(), bandit2.character_id, "the selection is the exact second CharacterId")
 	_assert_eq(controller.session.shared_ui().selected_target_text(), "土匪探哨", "HUD follows the current stable target")
 	_assert_true(controller.inspect_selected(), "Inspect accepts selected live bandit")
 	_assert_true(controller.session.shared_ui().inspection_display().contains("土匪探哨"), "Inspect shows authored name")

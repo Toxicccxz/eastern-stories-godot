@@ -63,7 +63,7 @@ func _who_spars(tree: SceneTree) -> void:
 	map.relocate_player(&"snow.eroad2", &"snow.eroad2.dog.2")
 	map.select_npc(DOG)
 	hud.refresh_exploration()
-	check(hud.attack_is_enabled() and not hud.spar_is_enabled() and not hud.spar_button.visible, "a beast can be attacked but not asked to spar")
+	check(hud.attack_is_enabled() and not hud.spar_is_enabled() and hud.nearby.actions_of(map.find_resident_npc(DOG).definition().short_name()).has("攻击") and not hud.nearby.actions_of(map.find_resident_npc(DOG).definition().short_name()).has("切磋"), "a beast can be attacked but not asked to spar")
 	var before: int = hud.log_lines().size()
 	check(map.spar_selected().outcome != CombatSliceInitiationResult.Outcome.COMPLETED and hud.log_lines().size() == before, "nor does spar_selected() ask it")
 	session.player_runtime().state.family = FamilyState.new(&"family.fonxan", 14)

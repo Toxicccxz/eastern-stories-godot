@@ -190,7 +190,7 @@ func _bind_landmarks() -> bool:
 		if not expected.erase(area.landmark_id):
 			return false
 		landmark_areas[area.landmark_id] = area
-		area.selection_requested.connect(selection.select_landmark)
+		area.selection_requested.connect(selection.on_thing_clicked)
 	return expected.is_empty()
 
 

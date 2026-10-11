@@ -111,6 +111,25 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 - #27 牛皮酒袋照原名显示，不另起短名。
 - 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
 
+## The HUD's actions for what is near (2026-10-11)
+
+Owner (2026-10-11, from the HUD): the actions show only for what the player can reach.
+- Before: a click anywhere on the map selected an NPC, landmark, corpse or floor item and the
+  card showed its buttons whatever the distance (ES2's commands name anyone in the room,
+  present()); the nearest door or service's button sat in the same row, so 店小二 · 购买 read
+  as an action on the 旅客 selected across the room.
+- Now the status card lists one group per thing in reach, nearest first: living NPCs in the
+  player's place within 96 px (`WorldMapSelection.NEARBY_REACH`, about a shop counter's reach)
+  with the services they offer from their body (店小二: 购买, 查看, 攻击 …), corpses and floor
+  items there, landmarks within 96 px (or touched, when they need contact), and doors and room
+  services within their own authored reach. A group goes when its thing leaves reach.
+- **Owner: a click on the map selects nothing** (as in most modern games). A group's button
+  selects its thing, then acts. While no panel is open the selection follows reach (the
+  nearest NPC, else nothing), so the 背包's 给 and 画符 go to whom the player stands by.
+- The rules are unchanged: each action still checks what ES2 checks (the same room,
+  present()); the HUD only offers it within reach. The confirm key still opens the nearest
+  door or service.
+
 ## 天驼关 C: the 黄石穿林路, the mirror and the 竹林道 (2026-10-10)
 
 The plan's C (「天驼关 A」 below, owner Q1: repaired). What each LPC function became is in

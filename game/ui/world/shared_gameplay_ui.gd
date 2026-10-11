@@ -118,6 +118,7 @@ var ask: SharedUiAskPanel = SharedUiAskPanel.new(self)
 var items: SharedUiInventory = SharedUiInventory.new(self)
 var panels: SharedUiPanels = SharedUiPanels.new(self)
 var questions: SharedUiQuestions = SharedUiQuestions.new(self)
+var nearby: SharedUiNearby = SharedUiNearby.new(self)
 
 
 func _ready() -> void:

@@ -168,6 +168,9 @@ func _test_scene_portal_nodes_and_click_selection(tree: SceneTree) -> void:
 	camera.reset_smoothing()
 	await tree.physics_frame
 	await _click_area_through_viewport(pine_area, tree)
+	var clicked: WorldInteractionTarget = controller.selected_interaction_target()
+	_assert_true(clicked == null or clicked.target_id != &"oldpine.outdoor.landmark.ancient_pine", "a click on the pine selects nothing (owner, 2026-10-11)")
+	_assert_true(controller.select_landmark(&"oldpine.outdoor.landmark.ancient_pine"), "its nearby group selects the pine")
 	var selected: WorldInteractionTarget = controller.selected_interaction_target()
 	_assert_true(selected != null and selected.is_valid(), "real pine picking creates typed selection")
 	_assert_eq(selected.kind, WorldInteractionTarget.Kind.LANDMARK, "real pine picking selects landmark kind")
