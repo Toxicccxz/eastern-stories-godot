@@ -17,6 +17,8 @@ static func build_candidate(
 	staging_parent: Node,
 ) -> OldPineWorldRestoreResult:
 	if staging_parent == null or not staging_parent.is_inside_tree():
+		if snapshot != null:
+			snapshot.take_derived() # not prepared: what a check kept goes now
 		return Result.failure(
 			Result.Outcome.RECONSTRUCTION_FAILED,
 			"staging_parent",

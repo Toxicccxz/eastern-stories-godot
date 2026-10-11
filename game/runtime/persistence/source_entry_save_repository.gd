@@ -26,10 +26,11 @@ static func _validated_current(snapshot: GameSaveSnapshot) -> GameSaveResult:
 		return GameSaveResult.failure(GameSaveResult.Outcome.INVALID_SNAPSHOT, "root")
 	var support: GameSaveResult = WorldContentRevision.public_support(snapshot.world_content_revision)
 	if not support.succeeded():
+		_drop_kept(snapshot)
 		return support
 	# Same production catalog/ledger authority as capture and staged restore.
 	# Pure preparation: no Nodes, files, fresh NPC factory or gameplay RNG.
-	var prepared: OldPineWorldRestoreResult = OldPineWorldRestoreComposition.prepare(snapshot)
-	if prepared.preparation == null:
+	var prepared: OldPineWorldRestoreResult = OldPineWorldRestoreComposition.validate(snapshot)
+	if prepared.outcome != OldPineWorldRestoreResult.Outcome.SUCCESS:
 		return GameSaveResult.failure(GameSaveResult.Outcome.INVALID_SNAPSHOT, prepared.path, prepared.detail)
 	return GameSaveResult.success(snapshot)

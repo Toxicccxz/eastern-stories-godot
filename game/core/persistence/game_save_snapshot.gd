@@ -23,6 +23,9 @@ var _floor_items: Array[ValueTypes.FloorItemSnapshot] = []
 ## The note each note_maze landmark shows (WorldMapMazes), by landmark ID: an index into its
 ## notes. Only those drawn are written (默认, 乔阴 C).
 var _maze_notes: Dictionary[StringName, int] = {}
+## Something worked out from exactly this content (the runtime's restore preparation after
+## a check): kept for one taker, moved to an exact copy, dropped when the content changes.
+var _derived: RefCounted
 
 var metadata: ValueTypes.GameSaveMetadata:
 	get: return _metadata.duplicate_snapshot()
@@ -101,16 +104,30 @@ func _init(
 
 
 func duplicate_snapshot() -> GameSaveSnapshot:
-	return GameSaveSnapshot.new(_metadata, _session_kind, _item_id_allocator, _player, _npc_spawn_states, _corpses, _items, _combat_rng, _npc_initialization_rng, _world_interaction_rng, _world_content_revision).with_floor_items(_floor_items).with_maze_notes(_maze_notes)
+	var copy: GameSaveSnapshot = GameSaveSnapshot.new(_metadata, _session_kind, _item_id_allocator, _player, _npc_spawn_states, _corpses, _items, _combat_rng, _npc_initialization_rng, _world_interaction_rng, _world_content_revision).with_floor_items(_floor_items).with_maze_notes(_maze_notes)
+	copy._derived = take_derived()
+	return copy
+
+
+func keep_derived(value: RefCounted) -> void:
+	_derived = value
+
+
+func take_derived() -> RefCounted:
+	var value: RefCounted = _derived
+	_derived = null
+	return value
 
 
 ## The dropped items (ordered by item ID); a save without any has none.
 func with_maze_notes(notes: Dictionary[StringName, int]) -> GameSaveSnapshot:
+	_derived = null
 	_maze_notes = notes.duplicate()
 	return self
 
 
 func with_floor_items(records: Array[ValueTypes.FloorItemSnapshot]) -> GameSaveSnapshot:
+	_derived = null
 	_floor_items.clear()
 	for record: ValueTypes.FloorItemSnapshot in records:
 		_floor_items.append(null if record == null else record.duplicate_snapshot())

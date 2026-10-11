@@ -6,9 +6,38 @@ const Result := preload(
 	"res://runtime/persistence/oldpine_world_restore_result.gd"
 )
 const CORPSE_DEFINITION_ID: StringName = CorpseState.ITEM_DEFINITION_ID
+## Preparing reads only the snapshot and the content catalog: a validate() that succeeds
+## keeps its preparation on the snapshot (GameSaveSnapshot.keep_derived(): it follows an
+## exact copy and goes when the content changes), unseen, and the next prepare() or
+## validate() of that content takes it instead of preparing again (Save checks the
+## captured snapshot twice; Continue checks the snapshot it read, then builds from it).
+## Anything that copies the snapshot in between (GameSaveResult, the validator, encode)
+## carries it off: the next prepare() then just prepares, as before.
 
 
+## The snapshot's restored state, ready for a session to be built from.
 static func prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
+	var kept: OldPineWorldRestoreResult = _take_kept(snapshot)
+	return kept if kept != null else _prepare(snapshot)
+
+
+## Whether prepare() would succeed: its outcome, path and detail, never its preparation.
+static func validate(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
+	var result: OldPineWorldRestoreResult = _take_kept(snapshot)
+	if result == null:
+		result = _prepare(snapshot)
+		if result.outcome == Result.Outcome.SUCCESS:
+			snapshot.keep_derived(result)
+	if result.outcome == Result.Outcome.SUCCESS:
+		return OldPineWorldRestoreResult.new(Result.Outcome.SUCCESS, "", "", null, null)
+	return Result.failure(result.outcome, result.path, result.detail)
+
+
+static func _take_kept(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
+	return null if snapshot == null else snapshot.take_derived() as OldPineWorldRestoreResult
+
+
+static func _prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 	var root_validation: GameSaveResult = GameSaveSnapshotValidator.validate(snapshot)
 	if not root_validation.succeeded():
 		return Result.failure(
@@ -16,12 +45,15 @@ static func prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 			root_validation.path,
 			root_validation.detail,
 		)
-	if snapshot.player.character_id != WorldSessionController.PLAYER_ID:
+	# The snapshot's getters return deep copies: read each one once.
+	var saved_player: Values.PlayerRuntimeSnapshot = snapshot.player
+	var npc_states: Array[Values.NpcSpawnStateSnapshot] = snapshot.npc_spawn_states
+	if saved_player.character_id != WorldSessionController.PLAYER_ID:
 		return Result.failure(
 			Result.Outcome.UNKNOWN_CONTENT_ID,
 			"player.character_id",
 		)
-	if not _player_location_is_current(snapshot.player.world_location, snapshot.world_content_revision):
+	if not _player_location_is_current(saved_player.world_location, snapshot.world_content_revision):
 		return Result.failure(
 			Result.Outcome.INVALID_WORLD_LOCATION,
 			"player.world_location",
@@ -44,9 +76,9 @@ static func prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 	# One NPC per authored spawn point, whatever generation room resets have made
 	# of it; a missing or foreign record is the ledger's failure below.
 	var saved_ids: Dictionary[StringName, StringName] = {}
-	for npc: Values.NpcSpawnStateSnapshot in snapshot.npc_spawn_states:
+	for npc: Values.NpcSpawnStateSnapshot in npc_states:
 		saved_ids[npc.spawn_point_id] = npc.character_id
-	var character_ids: Array[StringName] = [snapshot.player.character_id]
+	var character_ids: Array[StringName] = [saved_player.character_id]
 	for spawn: NpcSpawnDefinition in _world_spawns(snapshot.world_content_revision):
 		for point_id: StringName in spawn.spawn_point_ids():
 			var saved_id: StringName = saved_ids.get(point_id, &"")
@@ -59,11 +91,11 @@ static func prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 		)
 
 	var player_equipment: EquipmentState = domain.equipment_state(
-		snapshot.player.character_id
+		saved_player.character_id
 	)
-	var player_armor: ArmorState = domain.armor_state(snapshot.player.character_id)
+	var player_armor: ArmorState = domain.armor_state(saved_player.character_id)
 	var player_state: CharacterState = CharacterStateSnapshotRestorer.restore(
-		snapshot.player.character,
+		saved_player.character,
 		player_equipment,
 	)
 	if player_state == null or player_armor == null:
@@ -71,51 +103,56 @@ static func prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 			Result.Outcome.CHARACTER_RESTORE_FAILED,
 			"player.character",
 		)
-	var player_life: int = _life_status(snapshot.player.life_status)
+	var player_life: int = _life_status(saved_player.life_status)
 	if player_life < 0:
 		return Result.failure(
 			Result.Outcome.CHARACTER_RESTORE_FAILED,
 			"player.life_status",
 		)
 	var player: WorldPlayerRuntimeState = WorldPlayerRuntimeState.new(
-		snapshot.player.character_id,
+		saved_player.character_id,
 		player_state,
-		CombatRelationshipState.new(snapshot.player.character_id),
+		CombatRelationshipState.new(saved_player.character_id),
 		ActionBusyState.new(),
 		player_armor,
-		_location(snapshot.player.world_location),
+		_location(saved_player.world_location),
 		player_life,
-		snapshot.player.exists_in_world,
-		snapshot.player.combat_available,
-		PlayerBodyFacts.new(snapshot.player.body_facts.body_weight, snapshot.player.body_facts.maximum_encumbrance),
-		PlayerIdentityFacts.new(snapshot.player.identity.display_name, snapshot.player.identity.title, snapshot.player.identity.age),
+		saved_player.exists_in_world,
+		saved_player.combat_available,
+		PlayerBodyFacts.new(saved_player.body_facts.body_weight, saved_player.body_facts.maximum_encumbrance),
+		PlayerIdentityFacts.new(saved_player.identity.display_name, saved_player.identity.title, saved_player.identity.age),
 	)
 	if not player.is_valid():
 		return Result.failure(
 			Result.Outcome.RECONSTRUCTION_FAILED,
 			"player",
 		)
-	player.temp_marks = snapshot.player.temps.duplicate()
+	player.temp_marks = saved_player.temps.duplicate()
 
 	var npc_result: OldPineWorldRestoreResult = _restore_npc_ledger(
 		snapshot,
 		domain,
 		item_restore.item_index,
+		npc_states,
 	)
 	if npc_result.outcome != Result.Outcome.SUCCESS:
 		return npc_result
 	var npc_entries: Array[OldPineRestoredNpcEntry] = []
 	npc_entries.assign(npc_result.preparation.npc_entries())
 
+	var items: NativeItemStateSnapshot = snapshot.items
 	var corpse_result: OldPineWorldRestoreResult = _restore_corpses(
 		snapshot,
 		domain,
+		saved_player,
+		npc_states,
+		items,
 	)
 	if corpse_result.outcome != Result.Outcome.SUCCESS:
 		return corpse_result
 	var corpse_entries: Array[OldPineRestoredCorpseEntry] = []
 	corpse_entries.assign(corpse_result.preparation.corpse_entries())
-	var floor_failure: OldPineWorldRestoreResult = _check_floor_items(snapshot, corpse_entries)
+	var floor_failure: OldPineWorldRestoreResult = _check_floor_items(snapshot, corpse_entries, items)
 	if floor_failure != null:
 		return floor_failure
 
@@ -138,7 +175,7 @@ static func prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 	var preparation: OldPineWorldRestorePreparation = (
 		OldPineWorldRestorePreparation.new(
 			player,
-			Vector2(snapshot.player.map_position.x, snapshot.player.map_position.y),
+			Vector2(saved_player.map_position.x, saved_player.map_position.y),
 			domain,
 			item_restore.item_index,
 			item_restore.allocator,
@@ -175,9 +212,11 @@ static func _restore_npc_ledger(
 	snapshot: GameSaveSnapshot,
 	domain: NativeItemDomainState,
 	item_index: WorldItemInstanceIndex,
+	npc_states: Array[Values.NpcSpawnStateSnapshot],
 ) -> OldPineWorldRestoreResult:
 	var saved_by_point: Dictionary[StringName, Values.NpcSpawnStateSnapshot] = {}
-	for saved: Values.NpcSpawnStateSnapshot in snapshot.npc_spawn_states:
+	var scope: StringName = snapshot.item_id_allocator.scope
+	for saved: Values.NpcSpawnStateSnapshot in npc_states:
 		if saved_by_point.has(saved.spawn_point_id):
 			return Result.failure(
 				Result.Outcome.INCONSISTENT_SPAWN_STATE,
@@ -248,7 +287,7 @@ static func _restore_npc_ledger(
 				definition,
 				item_index,
 				referenced_loadout_ids,
-				snapshot.item_id_allocator.scope,
+				scope,
 				item_ids,
 			):
 				return Result.failure(
@@ -330,20 +369,23 @@ static func _restore_npc_ledger(
 static func _restore_corpses(
 	snapshot: GameSaveSnapshot,
 	domain: NativeItemDomainState,
+	saved_player: Values.PlayerRuntimeSnapshot,
+	npc_states: Array[Values.NpcSpawnStateSnapshot],
+	items: NativeItemStateSnapshot,
 ) -> OldPineWorldRestoreResult:
 	var item_records: Dictionary[StringName, NativeItemRecord] = {}
-	for item: NativeItemRecord in snapshot.items.item_records:
+	for item: NativeItemRecord in items.item_records:
 		item_records[item.item_instance_id] = item
 	var character_facts: Dictionary[StringName, Variant] = {
-		snapshot.player.character_id: snapshot.player,
+		saved_player.character_id: saved_player,
 	}
-	for npc: Values.NpcSpawnStateSnapshot in snapshot.npc_spawn_states:
+	for npc: Values.NpcSpawnStateSnapshot in npc_states:
 		character_facts[npc.character_id] = npc
 	var entries: Array[OldPineRestoredCorpseEntry] = []
 	for saved: Values.CorpseSnapshot in snapshot.corpses:
 		var path: String = "corpses.%s" % String(saved.corpse_item_instance_id)
 		var known: bool = character_facts.has(saved.victim_character_id)
-		var replaced: NpcDefinition = null if known else _replaced_npc_definition(snapshot, saved.victim_character_id)
+		var replaced: NpcDefinition = null if known else _replaced_npc_definition(npc_states, saved.victim_character_id)
 		if not known and replaced == null:
 			# A summoned, conjured or raised NPC that fell (SummonedNpc): its ID names its definition.
 			replaced = GameContent.catalog().npc(SummonedNpc.definition_id_of(saved.victim_character_id))
@@ -392,11 +434,11 @@ static func _restore_corpses(
 			var victim_character: Values.CharacterStateSnapshot = victim.character
 			var victim_life: StringName = victim.life_status
 			var victim_exists: bool = victim.exists_in_world
-			var expected_name: String = snapshot.player.identity.display_name
-			var expected_age: int = snapshot.player.identity.age
-			var expected_weight: int = snapshot.player.body_facts.body_weight
+			var expected_name: String = saved_player.identity.display_name
+			var expected_age: int = saved_player.identity.age
+			var expected_weight: int = saved_player.body_facts.body_weight
 			# Player capacity is a stored body fact, not current str * 5000.
-			var expected_capacity: int = snapshot.player.body_facts.maximum_encumbrance
+			var expected_capacity: int = saved_player.body_facts.maximum_encumbrance
 			if victim is Values.NpcSpawnStateSnapshot:
 				var victim_npc: Values.NpcSpawnStateSnapshot = victim
 				var definition: NpcDefinition = GameContent.catalog().npc(
@@ -486,7 +528,7 @@ static func _restore_corpses(
 ## Every item lying on a floor (WORLD parent) is a corpse, a floor-spawn item in
 ## its own zone (on its marker), or a dropped item with a place (floor_items);
 ## a dropped item's place is the zone its record names.
-static func _check_floor_items(snapshot: GameSaveSnapshot, corpse_entries: Array[OldPineRestoredCorpseEntry]) -> OldPineWorldRestoreResult:
+static func _check_floor_items(snapshot: GameSaveSnapshot, corpse_entries: Array[OldPineRestoredCorpseEntry], items: NativeItemStateSnapshot) -> OldPineWorldRestoreResult:
 	var dropped: Dictionary[StringName, Values.FloorItemSnapshot] = {}
 	for record: Values.FloorItemSnapshot in snapshot.floor_items:
 		if record == null or dropped.has(record.item_instance_id) or not _location_is_current(record.world_location) or not record.map_position.has_finite_coordinates():
@@ -496,10 +538,11 @@ static func _check_floor_items(snapshot: GameSaveSnapshot, corpse_entries: Array
 	for entry: OldPineRestoredCorpseEntry in corpse_entries:
 		corpse_ids[entry.state.corpse_item_instance_id] = true
 	var spawn_zones: Dictionary[StringName, StringName] = {}
+	var scope: StringName = snapshot.item_id_allocator.scope
 	for spawn: ItemSpawnDefinition in GameContent.catalog().item_spawns():
 		for point_id: StringName in spawn.spawn_point_ids():
-			spawn_zones[ItemSpawnDefinition.item_instance_id(snapshot.item_id_allocator.scope, point_id)] = spawn.zone_id
-	for record: NativeItemRecord in snapshot.items.item_records:
+			spawn_zones[ItemSpawnDefinition.item_instance_id(scope, point_id)] = spawn.zone_id
+	for record: NativeItemRecord in items.item_records:
 		var parent: ContainmentEndpoint = record.direct_parent
 		var id: StringName = record.item_instance_id
 		if dropped.has(id):
@@ -517,8 +560,8 @@ static func _check_floor_items(snapshot: GameSaveSnapshot, corpse_entries: Array
 
 ## The definition of the spawn whose saved NPC is a later generation than
 ## `victim_id` (NpcGeneration), or null.
-static func _replaced_npc_definition(snapshot: GameSaveSnapshot, victim_id: StringName) -> NpcDefinition:
-	for npc: Values.NpcSpawnStateSnapshot in snapshot.npc_spawn_states:
+static func _replaced_npc_definition(npc_states: Array[Values.NpcSpawnStateSnapshot], victim_id: StringName) -> NpcDefinition:
+	for npc: Values.NpcSpawnStateSnapshot in npc_states:
 		var earlier: int = NpcGeneration.of(victim_id, npc.spawn_point_id)
 		if earlier > 0 and earlier < NpcGeneration.of(npc.character_id, npc.spawn_point_id):
 			# Of a spawn whose NPC draws its name: the replacement may have drawn another.
