@@ -2,24 +2,28 @@ class_name FoodDefinition
 extends RefCounted
 
 ## Single-use supply rules; no liquid, callback dispatcher, containment or stock.
+## `water_supply` is food.c's drink_func: each bite also adds it to water (d/village's
+## 西瓜), and a bite is refused once water is full; 0 for food without it.
 var item_definition_id: StringName
 var initial_portions: int
 var food_supply: int
 var initial_value: int
 var own_weight: int
+var water_supply: int
 
 
 func _init(id: StringName = &"", portions: int = 0, supply: int = 0,
-	value: int = 0, weight: int = 0) -> void:
+	value: int = 0, weight: int = 0, water: int = 0) -> void:
 	item_definition_id = id
 	initial_portions = portions
 	food_supply = supply
 	initial_value = value
 	own_weight = weight
+	water_supply = water
 
 
 func is_valid() -> bool:
-	return item_definition_id != &"" and initial_portions > 0 and food_supply > 0 and initial_value >= 0 and own_weight >= 0
+	return item_definition_id != &"" and initial_portions > 0 and food_supply > 0 and initial_value >= 0 and own_weight >= 0 and water_supply >= 0
 
 
 func accepts_live_state(portions: int, value: int) -> bool:
@@ -27,4 +31,4 @@ func accepts_live_state(portions: int, value: int) -> bool:
 
 
 func duplicate_definition() -> FoodDefinition:
-	return FoodDefinition.new(item_definition_id, initial_portions, food_supply, initial_value, own_weight)
+	return FoodDefinition.new(item_definition_id, initial_portions, food_supply, initial_value, own_weight, water_supply)

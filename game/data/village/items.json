@@ -1,0 +1,52 @@
+{
+	"items": [
+		{
+			"id": "es2:d/village/npc/obj/knife",
+			"legacy_sources": ["d/village/npc/obj/knife.c"],
+			"name": "菜刀",
+			"aliases": ["kitchen knife", "knife"],
+			"long": "一把旧旧的菜刀, 刀口几乎被磨平了, 不过还颇具有杀伤力.\n",
+			"unit": "把",
+			"material": "iron",
+			"weight": 2000,
+			"weapon": { "skill": "blade", "damage": 7, "weight_dodge": "equip" }
+		},
+		{
+			"id": "es2:d/village/npc/obj/flower",
+			"legacy_sources": ["d/village/npc/obj/flower.c"],
+			"name": "紫花瓣儿",
+			"aliases": ["purple flower", "flower"],
+			"long": "迷人的紫色瓣儿，发出一股淡淡的香气。\n",
+			"unit": "把",
+			"combined": { "base_unit": "片", "base_weight": 1, "amount": 7 },
+			"weapon": { "skill": "throwing", "damage": 2 }
+		},
+		{
+			"id": "es2:d/village/npc/obj/parrybook",
+			"legacy_sources": ["d/village/npc/obj/parrybook.c"],
+			"name": "过招要旨",
+			"aliases": ["parrybook"],
+			"long": "这是一本介绍拆招卸力之法的入门书\n",
+			"unit": "本",
+			"study": { "skill": "parry", "exp_required": 2000, "sen_cost": 20, "difficulty": 15, "max_skill": 60 },
+			"weight": 600,
+			"value": 100
+		},
+		{
+			"id": "es2:d/village/obj/melon",
+			"legacy_sources": ["d/village/obj/melon.c"],
+			"name": "西瓜",
+			"aliases": ["water melon", "melon"],
+			"long": "一个绿皮墨纹的大西瓜，不但解渴，还能填肚子。\n",
+			"unit": "个",
+			"weight": 1200,
+			"value": 60,
+			"food": {
+				"remaining": 8,
+				"supply": 20,
+				"water": 40,
+				"leaves": { "name": "西瓜皮", "aliases": ["bone"], "weight": 150, "long": "一块啃得精光的西瓜皮。\n" }
+			}
+		}
+	]
+}

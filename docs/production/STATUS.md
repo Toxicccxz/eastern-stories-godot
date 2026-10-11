@@ -4,10 +4,9 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**The HUD's nearby groups** (`phase/hud-proximity`, DECISIONS「The HUD's actions for what is
-near」): the status card lists one group per thing in reach (NPCs with their shop or lessons,
-corpses, floor items, landmarks, doors, room services), nearest first, gone once the player walks
-off; a click on the map selects nothing (owner). Next: region #11 玉螺湖村 A (plan approved).
+**玉螺湖村 A** (`phase/village-a`, DECISIONS「玉螺湖村 A」): the village south of 天驼关, the lake
+(the boat and the dive, owner Q1) and the ice cave, the people. Next: 玉螺湖村 B (the 瓜地: the
+pick, the 瓜农's catch, 还瓜钱 that pays).
 
 ## 待决定
 
@@ -246,7 +245,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   path on the clifftop to the mound where the iron chain hangs down (爬下去: 20 gin, 30 kee, 10
   sen; 爬上去 from below: 30, 40, 20; asked first when it would knock the player out), the
   黄石隘口 winding south between its walls (the west wall of 隘口中道 strangely smooth), the
-  raised iron gate and its winch, the valley of 天驼关 (south to 玉螺湖村 not open yet); east of the
+  raised iron gate and its winch, the valley of 天驼关 (south to 玉螺湖村); east of the
   path the garrison's camp behind its palisade: two 小兵 at the gate, the soldiers' tents (four
   小兵 and the chatting 老兵), the camp fire and its well, the squad leaders' tents (two 小队长;
   大队长 and 老队长), 李信's tent and 严廷殷's with his 军师 赫造基 (天邪派's arts for the two
@@ -263,6 +262,20 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   great yellow stone: with 560 force and max_force and 加力 40 it is pushed aside (20 gin, 60 kee,
   20 sen), and the gap lets the player into the stone room, where the bookcase gives a 书匣 holding
   the 悟疾风劲竹书 while none exists (taken out in the 背包; 研读: parry to 50 from 20000 exp).
+* **玉螺湖村**: south of 天驼关's valley, all 26 rooms on three maps: the 黄土大道 (two 商人 who
+  walk out of a fight; its spur west to 黑松山 and the 三叉路口's road south to 京师 drawn closed), the
+  青石小路 west through the village (its sign: 傅家坡): the farmhouse and its back yard (the 农妇
+  weeping for her son, her 菜刀 in a fight), 刘家's garden (five 采花妞 throwing 紫花瓣儿), behind
+  its shut 木门 the house (刘老农 asks after his daughter a second after one comes in; no spar) and
+  the kitchen's six rats; the melon field behind its ditch and the guards' shed (three 瓜农: a
+  greeting, 西瓜 at 60 coins: eight bites of food and water, then its rind, which Snow's dog takes);
+  down between the willows the lakeside (three 渔夫 muttering of the 水怪; 这么大的一片湖 for one who
+  walks into it), the rice field, 田老财's three rooms behind his shut black gate. The boats
+  paddle out to the lake's middle and back (stepping off the bow is refused); the dive is asked
+  first and breaks into the ice cave (放弃 there wakes the player in the Inn), whose hall holds six
+  白鳞冰龙 (1,000,000 exp) that fall on whoever comes in, all at once; the ice stair leads up to
+  the valley outside 忘情谷, and the tall grass at the path's end opens west for five seconds when
+  pushed aside (the way back east is always open). Not yet: the 瓜地's pick and catch (B).
 * **Across both**: the status card offers the actions of what is within reach, one group per
   thing, nearest first (a click on the map selects nothing); each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
@@ -278,8 +291,8 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
 * Placeholder visuals: flat-colour terrain tiles; characters and objects are still coloured boxes.
   No art or audio yet.
 
-Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 389/551 rooms, 183/286 NPC
-types, 9/9 joinable families, 32/36 special and 17/25 basic martial arts, 76/84 quest targets.
+Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 432/551 rooms, 201/286 NPC
+types, 9/9 joinable families, 32/36 special and 17/25 basic martial arts, 84/84 quest targets.
 
 ## Known issues
 

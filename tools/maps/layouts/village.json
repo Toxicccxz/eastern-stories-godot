@@ -1,0 +1,260 @@
+{
+  "maps": {
+    "main": {
+      "note": "玉螺湖村 (傅家坡): from 天驼关's valley the wide 黄土大道 runs south (a spur west toward 黑松山, not open yet) to the 三叉路口, where the road goes on south-east to 京师 (not open yet) and the 青石小路 turns west into the village: the farmhouse and its back yard north of it, 刘家 (the garden, the old wooden house, its kitchen), the great melon field south of it behind its ditch, the melon guards' shed. The path ends in tall grass by the lake; pushed aside, the grass shows a way west to the valley outside 忘情谷 on the lake's far shore. South of the garden it goes down between willows past the lakeside (fishing boats on the shore), the rice field and 田老财's three-room house behind its black gate. 玉螺湖 fills the south-west; its middle is a map of its own (the boat), its ice cave too.",
+      "file": "village_main.tscn",
+      "draw": {
+        "technique": "town",
+        "base": "boundary",
+        "bounds": [-32, 128, 2016, 2016],
+        "ground": [
+          ["forest", -32, 128, 2016, 2016, "woods, hedges and hills round the village"],
+          ["water", 256, 960, 640, 1472, "玉螺湖, misty; its middle is the boat's map"],
+          ["forest", 256, 704, 352, 960, "the tall grass at the end of the 青石小路"]
+        ],
+        "zones": {
+          "village.road1": [1408, 192, 1984, 704, "open", "grass", null],
+          "village.road2": [1600, 704, 1984, 1024, "open", "grass", null],
+          "village.road3": [1280, 768, 1600, 960, "open", "grass", null],
+          "village.road4": [960, 768, 1280, 960, "open", "grass", null],
+          "village.road5": [640, 768, 960, 960, "open", "grass", null],
+          "village.road6": [352, 768, 640, 960, "open", "grass", null],
+          "village.road7": [640, 960, 960, 1344, "open", "grass", null],
+          "village.road8": [640, 1344, 960, 1472, "open", "grass", null],
+          "village.road9": [640, 1472, 960, 1728, "open", "grass", null],
+          "village.lakeside": [384, 1024, 640, 1216, "open", "grass", null],
+          "village.field": [384, 1472, 640, 1728, "open", "grass", null],
+          "village.melonfarm": [960, 960, 1280, 1216, "open", "grass", null],
+          "village.valley2": [0, 704, 256, 960, "open", "forest_floor", null],
+          "village.valley1": [0, 960, 256, 1408, "open", "forest_floor", null],
+          "village.fmhousback": [960, 224, 1248, 480, "enclosed", "floor_yard", "wall"],
+          "village.farmhouse1": [960, 480, 1248, 768, "enclosed", "floor_wood", "wall_wood"],
+          "village.home": [640, 256, 928, 512, "enclosed", "floor_wood", "wall_wood"],
+          "village.smallstorage": [352, 256, 640, 512, "enclosed", "floor_wood", "wall"],
+          "village.littlegarden": [640, 512, 928, 768, "enclosed", "grass", "wall_wood"],
+          "village.melonguard": [960, 1216, 1216, 1472, "enclosed", "floor_yard", "wall_wood"],
+          "village.lordhouse1": [960, 1472, 1280, 1728, "enclosed", "floor_yard", "wall"],
+          "village.lordhouse2": [1280, 1472, 1536, 1728, "enclosed", "floor_wood", "wall"],
+          "village.lordhouse3": [960, 1728, 1280, 1984, "enclosed", "floor_wood", "wall"]
+        },
+        "roads": [
+          ["path", 1664, 192, 1920, 1024, "the 黄土大道, wide enough for eight carts abreast"],
+          ["path", 1408, 320, 1664, 384, "a spur west toward 黑松山 (not open yet)"],
+          ["street", 1280, 832, 1664, 896, "the 青石小路, its stones worn bright"],
+          ["street", 400, 832, 1280, 896],
+          ["street", 752, 896, 816, 1472, "south between the willows"],
+          ["street", 816, 1568, 960, 1632, "to 田老财's black gate"],
+          ["street", 576, 1088, 752, 1152, "down to the lakeside"],
+          ["riverbank", 384, 1024, 448, 1216, "the muddy shore"],
+          ["street", 32, 704, 128, 1408, "the path outside 忘情谷"],
+          ["street", 128, 832, 256, 896]
+        ],
+        "props": [
+          ["forest", 1408, 288, 1440, 416, "黑松山's pines close the spur (not open yet)"],
+          ["blocked", 1664, 992, 1920, 1024, "the road south-east to 京师 (not open yet)"],
+          ["forest", 1440, 512, 1504, 576, "trees beside the 黄土大道"],
+          ["forest", 1504, 224, 1568, 288],
+          ["forest", 1440, 896, 1504, 928, "a few weeds by the path"],
+          ["blocked", 1536, 800, 1552, 816, "the weathered sign at the path's mouth (傅家坡)"],
+          ["chasm", 960, 960, 992, 1216, "the great ditch between the path and the melon field"],
+          ["forest", 656, 992, 688, 1024, "the weeping willows either side of the path"],
+          ["forest", 896, 1024, 928, 1056],
+          ["forest", 896, 1152, 928, 1184],
+          ["forest", 656, 1248, 688, 1280],
+          ["forest", 896, 1376, 928, 1408],
+          ["forest", 656, 1648, 688, 1680, "willows on road9, two swallows on a bough"],
+          ["shallow_water", 416, 1536, 608, 1552, "the rice field's flooded rows"],
+          ["shallow_water", 416, 1600, 608, 1616],
+          ["shallow_water", 416, 1664, 608, 1680],
+          ["blocked", 416, 1040, 480, 1072, "fishing boats left on the shore"],
+          ["blocked", 432, 1184, 496, 1216],
+          ["forest", 1024, 1008, 1056, 1040, "melon vines"],
+          ["forest", 1152, 1008, 1184, 1040],
+          ["forest", 1088, 1120, 1120, 1152],
+          ["forest", 1216, 1104, 1248, 1136],
+          ["blocked", 1008, 272, 1072, 336, "the back yard's pigsty, little white pigs"],
+          ["blocked", 1136, 272, 1200, 304, "the row of chicken coops"],
+          ["blocked", 1168, 528, 1200, 560, "the spinning wheel in the corner"],
+          ["blocked", 1008, 528, 1072, 576, "the big bed and the small one"],
+          ["blocked", 1008, 640, 1040, 672],
+          ["blocked", 1120, 624, 1168, 656, "the table: clay toys, a wooden sword"],
+          ["blocked", 736, 320, 800, 352, "刘家's table"],
+          ["blocked", 384, 336, 400, 432, "the kitchen's stove, cured meat on the walls"],
+          ["forest", 672, 544, 704, 576, "flower beds in the garden's corners"],
+          ["forest", 864, 704, 896, 736],
+          ["blocked", 1152, 1280, 1168, 1296, "the shed's bamboo posts"],
+          ["blocked", 1152, 1392, 1168, 1408],
+          ["forest", 1088, 1568, 1152, 1632, "the great locust tree in the front yard"],
+          ["blocked", 1344, 1536, 1472, 1568, "the 八仙桌"],
+          ["blocked", 1376, 1504, 1440, 1520, "关公's shrine, three sticks of incense"],
+          ["blocked", 1488, 1648, 1504, 1696, "the iron stick in the corner"],
+          ["blocked", 992, 1776, 1008, 1936, "the bookshelf on the west wall"],
+          ["blocked", 1168, 1840, 1232, 1888, "the great desk"]
+        ],
+        "reach_from": "RoadCanyonArrival",
+        "markers_in_middle": ["village.field", "village.melonfarm", "village.lakeside", "village.valley1", "village.valley2"],
+        "placed": {}
+      },
+      "scene": {
+        "style": "map",
+        "root": "VillageMain",
+        "map": "village.main",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_32_64": [32, 64],
+          "Rect_64_32": [64, 32],
+          "Rect_32_32": [32, 32]
+        },
+        "door_style": {
+          "walls": "Terrain/DoorWalls",
+          "wall_suffix": "Wall",
+          "shutters": "Terrain",
+          "color": "Color(0.42, 0.3, 0.18, 1)"
+        },
+        "doors": [
+          {"name": "HomeDoor", "id": "village.home.door", "between": ["village.littlegarden", "village.home"]},
+          {"name": "LordGate", "id": "village.lordhouse1.door", "between": ["village.road9", "village.lordhouse1"], "color": "Color(0.12, 0.1, 0.1, 1)"}
+        ],
+        "nodes": [
+          {"generated": "captions"},
+          {"node": "caption", "name": "CanyonLabel", "at": [1720, 136], "text": "北 · 天驼关", "size": 14},
+          {"node": "caption", "name": "HeisongLabel", "at": [1416, 420], "text": "西 · 黑松山（未开放）", "size": 12},
+          {"node": "caption", "name": "CityLabel", "at": [1680, 1032], "text": "东南 · 京师（未开放）", "size": 14},
+          {"node": "caption", "name": "LakeLabel", "at": [300, 1296], "text": "玉螺湖", "size": 16},
+          {"node": "caption", "name": "GrassLabel", "at": [264, 736], "text": "茅草", "size": 12},
+          {"node": "caption", "name": "DitchLabel", "at": [940, 1100], "text": "大沟", "size": 12},
+          {"node": "caption", "name": "SignLabel", "at": [1500, 776], "text": "小牌子", "size": 12},
+          {"node": "group", "name": "DoorWalls", "type": "StaticBody2D", "parent": "Terrain"},
+          {"generated": "door_walls"},
+          {"generated": "shutters"},
+          {"node": "passage", "name": "CanyonPassage", "id": "village.road1.north", "at": [1792, 232], "shape": "Rect_64_32"},
+          {"node": "passage", "name": "GrassPassage", "id": "village.road6.west", "at": [400, 864], "shape": "Rect_32_64"},
+          {"node": "passage", "name": "ValleyEastPassage", "id": "village.valley2.east", "at": [216, 864], "shape": "Rect_32_64"},
+          {"node": "passage", "name": "LakePassage", "id": "village.lakeside.west", "at": [420, 1120], "shape": "Rect_32_64"},
+          {"node": "passage", "name": "CavePassage", "id": "village.valley1.eastdown", "at": [216, 1184], "shape": "Rect_32_64"},
+          {"node": "service", "name": "LakesidePaddle", "id": "village.lakeside.paddle", "at": [512, 1056], "text": "木船 · 划向湖心"},
+          {"generated": "doors"}
+        ],
+        "zones": [{"generated": "zones"}],
+        "spawn_points": [
+          {"name": "RoadCanyonArrival", "at": [1792, 320], "id": "village.road1.canyon_arrival"},
+          {"name": "Road6GrassReturn", "at": [480, 864], "id": "village.road6.grass_return"},
+          {"name": "Valley2GrassArrival", "at": [128, 864], "id": "village.valley2.grass_arrival"},
+          {"name": "Valley1CaveReturn", "at": [128, 1184], "id": "village.valley1.cave_return"},
+          {"name": "LakesideBoatReturn", "at": [544, 1120], "id": "village.lakeside.boat_return"},
+          {"generated": "markers"}
+        ],
+        "interactions": [
+          {"name": "TabletInteraction", "id": "village.road3.landmark.tablet", "at": [1544, 808], "shape": "Rect_32_32"},
+          {"name": "BoatInteraction", "id": "village.lakeside.landmark.boat", "at": [448, 1056], "shape": "Rect_64_32"},
+          {"name": "GrassInteraction", "id": "village.road6.landmark.grass", "at": [336, 864], "shape": "Rect_32_64"}
+        ]
+      }
+    },
+    "midlake": {
+      "note": "玉螺湖's middle: a fishing boat on the misty water, mountains far to the west, the fishermen on the east shore waving. Only the boat reaches it (paddle from the lakeside); a dive from it breaks the ice of the lake's floor into the ice cave.",
+      "file": "village_midlake.tscn",
+      "draw": {
+        "technique": "town",
+        "base": "boundary",
+        "bounds": [-64, -64, 384, 224],
+        "ground": [
+          ["water", -64, -64, 384, 224, "the lake all round"]
+        ],
+        "zones": {
+          "village.lake": [0, 0, 320, 160, "open", "water", null]
+        },
+        "roads": [
+          ["floor_wood", 48, 32, 272, 128, "the boat"]
+        ],
+        "props": [
+          ["water", 48, 32, 64, 48, "the boat's rounded stern and bow"],
+          ["water", 48, 112, 64, 128],
+          ["water", 256, 32, 272, 48],
+          ["water", 256, 112, 272, 128]
+        ],
+        "reach_from": "LakeBoatArrival",
+        "markers_in_middle": [],
+        "placed": {}
+      },
+      "scene": {
+        "style": "map",
+        "root": "VillageMidlake",
+        "map": "village.midlake",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_32_32": [32, 32]
+        },
+        "nodes": [
+          {"generated": "captions"},
+          {"node": "caption", "name": "ShoreLabel", "at": [296, 172], "text": "东 · 玉螺湖畔", "size": 12},
+          {"node": "passage", "name": "BowPassage", "id": "village.lake.east", "at": [232, 80], "shape": "Rect_32_32"},
+          {"node": "service", "name": "LakePaddle", "id": "village.lake.paddle", "at": [96, 64], "text": "小船 · 划回岸边"},
+          {"node": "service", "name": "LakeDive", "id": "village.lake.dive", "at": [176, 112], "text": "湖水 · 潜入湖中"}
+        ],
+        "zones": [{"generated": "zones"}],
+        "spawn_points": [
+          {"name": "LakeBoatArrival", "at": [128, 80], "id": "village.lake.boat_arrival"},
+          {"generated": "markers"}
+        ],
+        "interactions": []
+      }
+    },
+    "icecave": {
+      "note": "水下岩洞 below 玉螺湖: where the dive breaks through, a cave of ice white as the north's 玄冰, glowing algae, the way in frozen over at once; west it opens into a vast hall under a half-clear dome where six white dragons hang in the air, coil on the ice or swim in its pool; an ice stair winds up west to the valley outside 忘情谷.",
+      "file": "village_icecave.tscn",
+      "draw": {
+        "technique": "town",
+        "base": "boundary",
+        "bounds": [-32, -32, 672, 352],
+        "ground": [],
+        "zones": {
+          "village.lakebottom2": [0, 0, 384, 320, "enclosed", "cave_floor", "cliff"],
+          "village.lakebottom1": [384, 32, 640, 288, "enclosed", "cave_floor", "cliff"]
+        },
+        "roads": [],
+        "props": [
+          ["water", 64, 224, 160, 288, "the hall's pool"],
+          ["blocked", 160, 48, 192, 80, "ice pillars"],
+          ["blocked", 352, 256, 368, 288],
+          ["blocked", 480, 80, 512, 96, "the glowing algae on the ice"],
+          ["blocked", 528, 224, 560, 240]
+        ],
+        "reach_from": "LakebottomDiveArrival",
+        "markers_in_middle": [],
+        "placed": {
+          "village.lakebottom2.dragon.1": [304, 96],
+          "village.lakebottom2.dragon.2": [304, 224],
+          "village.lakebottom2.dragon.3": [256, 64],
+          "village.lakebottom2.dragon.4": [256, 256],
+          "village.lakebottom2.dragon.5": [208, 112],
+          "village.lakebottom2.dragon.6": [208, 208]
+        }
+      },
+      "scene": {
+        "style": "map",
+        "root": "VillageIcecave",
+        "map": "village.icecave",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_32_64": [32, 64],
+          "Rect_32_32": [32, 32]
+        },
+        "nodes": [
+          {"generated": "captions"},
+          {"node": "caption", "name": "StairLabel", "at": [40, 120], "text": "冰阶", "size": 12},
+          {"node": "passage", "name": "IceStairPassage", "id": "village.lakebottom2.westup", "at": [72, 160], "shape": "Rect_32_64"}
+        ],
+        "zones": [{"generated": "zones"}],
+        "spawn_points": [
+          {"name": "LakebottomDiveArrival", "at": [560, 160], "id": "village.lakebottom1.dive_arrival"},
+          {"name": "LakebottomValleyArrival", "at": [136, 160], "id": "village.lakebottom2.valley_arrival"},
+          {"generated": "markers"}
+        ],
+        "interactions": [
+          {"name": "IceInteraction", "id": "village.lakebottom1.landmark.ice", "at": [600, 80], "shape": "Rect_32_32"}
+        ]
+      }
+    }
+  }
+}

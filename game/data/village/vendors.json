@@ -1,0 +1,11 @@
+{
+	"vendors": [
+		{
+			"id": "village.vendor.meloner",
+			"legacy_source": "d/village/npc/meloner.c",
+			"goods": [
+				{ "key": "water melon", "item": "es2:d/village/obj/melon" }
+			]
+		}
+	]
+}

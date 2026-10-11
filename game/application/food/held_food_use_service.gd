@@ -36,9 +36,13 @@ static func eat(player: WorldPlayerRuntimeState, context: MoneyInventoryContext,
 	if result.food_before >= CharacterRecovery.maximum_food_capacity(player.body_facts.body_weight):
 		result.outcome = FoodUseResult.Outcome.TOO_FULL
 		return result
-	# feature/food.c: add food, clear value, decrement portions, then destruct.
+	if definition.water_supply > 0 and player.state.recovery.water >= CharacterRecovery.maximum_water_capacity(player.body_facts.body_weight):
+		result.outcome = FoodUseResult.Outcome.TOO_BLOATED
+		return result
+	# feature/food.c: add food (and water with drink_func), clear value, decrement portions, then destruct.
 	player.state.recovery.food += definition.food_supply
 	result.food_after = player.state.recovery.food
+	player.state.recovery.water += definition.water_supply
 	state.consume_portion()
 	result.accepted_bite = true
 	if state.remaining_portions == 0:

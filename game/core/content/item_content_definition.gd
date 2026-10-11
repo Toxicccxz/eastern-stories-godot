@@ -787,6 +787,7 @@ func _read_food(food: ContentRecordReader) -> void:
 		food.required_integer("supply"),
 		_value,
 		_own_weight,
+		food.integer("water"),
 	)
 	var leaves: ContentRecordReader = food.child("leaves")
 	if leaves != null:

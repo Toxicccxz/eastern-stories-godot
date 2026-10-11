@@ -52,9 +52,12 @@
 		"canyon.pass",
 		"canyon.armory",
 		"canyon.bamboo",
-		"canyon.stoneroom"
+		"canyon.stoneroom",
+		"village.main",
+		"village.midlake",
+		"village.icecave"
 	],
-	"rooms": 415,
+	"rooms": 441,
 	"snow_outdoor_portals": [
 		"snow.square.west",
 		"snow.eroad3.south",
@@ -288,11 +291,19 @@
 		"canyon.pass.camp7.vice_general",
 		"canyon.pass.camp8.general",
 		"canyon.pass.camp8.adviser",
-		"canyon.armory.blackmarket.seller"
+		"canyon.armory.blackmarket.seller",
+		"village.main.road2.trader1s",
+		"village.main.fmhousback.woman1",
+		"village.main.littlegarden.flowergirls",
+		"village.main.home.oldliu",
+		"village.main.smallstorage.rats",
+		"village.main.melonguard.meloners",
+		"village.main.lakeside.fishers",
+		"village.icecave.lakebottom2.dragons"
 	],
-	"world_npcs": 351,
-	"resident_maps": 53,
-	"new_game_items": 622,
+	"world_npcs": 378,
+	"resident_maps": 56,
+	"new_game_items": 653,
 	"snow_outdoor_passages": 9,
-	"npc_draws_after_oldpine": 1849
+	"npc_draws_after_oldpine": 1986
 }
