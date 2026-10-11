@@ -48,6 +48,28 @@ static func resetting_rooms() -> Array[String]:
 	return rooms
 
 
+## The maps each room's reset() acts on (WorldMapNpcs.reset_room()): those holding
+## its NPC spawns, item spawns or landmarks, as map ids by room.
+static func maps_by_room() -> Dictionary[String, Array]:
+	var result: Dictionary[String, Array] = {}
+	var catalog: ContentCatalog = GameContent.catalog()
+	for spawn: NpcSpawnDefinition in catalog.spawns():
+		_add_map(result, spawn.legacy_source_room_path, spawn.map_id)
+	for map: MapDefinition in catalog.maps():
+		for spawn: ItemSpawnDefinition in catalog.item_spawns_for_map(map.map_id):
+			_add_map(result, spawn.legacy_source_room_path, map.map_id)
+		for landmark: WorldLandmarkDefinition in catalog.landmarks_for_map(map.map_id):
+			_add_map(result, landmark.legacy_source_path, map.map_id)
+	return result
+
+
+static func _add_map(maps: Dictionary[String, Array], room: String, map_id: StringName) -> void:
+	if not maps.has(room):
+		maps[room] = []
+	if not maps[room].has(map_id):
+		maps[room].append(map_id)
+
+
 func rooms() -> Array[String]:
 	return _rooms.duplicate()
 
