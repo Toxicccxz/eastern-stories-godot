@@ -5326,7 +5326,7 @@ msgstr ""
 msgid "观察"
 msgstr ""
 
-#: presentation/layout/shared_gameplay_layout.gd ui/world/character_panel.gd ui/world/shared_gameplay_ui.gd
+#: presentation/layout/shared_gameplay_layout.gd ui/world/character_panel.gd ui/world/shared_ui_panels.gd
 msgid "角色"
 msgstr ""
 
@@ -7012,66 +7012,6 @@ msgid ""
 "确定要攻击吗？"
 msgstr ""
 
-#. asked before 空识神通 (void_sense.c) when its 50 gin ({gin}) would knock the player out.
-#: ui/world/shared_gameplay_ui.gd
-msgid ""
-"空识神通要耗去 {gin} 点精，你现在撑不住，会当场昏过去。\n"
-"确定要施展吗？"
-msgstr ""
-
-#. asked before 游识神通 goes to the one chosen (drift_sense.c) when its 30 gin ({gin}) would knock the player out.
-#: ui/world/shared_gameplay_ui.gd
-msgid ""
-"游识神通要耗去 {gin} 点精，你现在撑不住，施展完就会昏过去。\n"
-"确定要施展吗？"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "补给仅使用直接携带的物品；取水仍须靠近当前地图的水源。"
-msgstr ""
-
-#. the character sheet (score): name, gender, age, rank (rankd.c, 【 武  者 】) and title, then 精/气/神 as current / effective / maximum, food and water, experience, potential and the attributes.
-#: ui/world/shared_gameplay_ui.gd
-msgid ""
-"{name} · {gender} · {age}岁\n"
-"{rank}{title}\n"
-"\n"
-"当前 / 有效 / 最大\n"
-"精 {gin}\n"
-"气 {kee}\n"
-"神 {sen}\n"
-"\n"
-"食物 {food} · 饮水 {water}\n"
-"实战经验 {exp} · 潜能 {potential}（已用 {spent}）\n"
-"\n"
-"膂力 {str} · 胆识 {cor} · 悟性 {int} · 灵性 {spi}\n"
-"定力 {cps} · 容貌 {per} · 根骨 {con} · 福缘 {kar}\n"
-msgstr ""
-
-#. the character sheet, score.c's 灵力 (atman) and 法力 (mana), each current / maximum.
-#: ui/world/shared_gameplay_ui.gd
-msgid "灵力 {atman} / {max_atman} · 法力 {mana} / {max_mana}"
-msgstr ""
-
-#. the character sheet, score.c's lines: 杀气 (bellicosity), 综合评价 (score) and the NPCs the player has killed.
-#: ui/world/shared_gameplay_ui.gd
-msgid ""
-"杀气 {bellicosity} · 综合评价 {score}\n"
-"总共杀过 {kills} 个人。"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "负重 {carried} / {capacity} · 体重 {weight}"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "随身补给"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd ui/world/shared_ui_context_actions.gd
-msgid "确定施展"
-msgstr ""
-
 #: ui/world/shared_gameplay_ui.gd
 msgid "请确认"
 msgstr ""
@@ -7194,6 +7134,10 @@ msgstr ""
 msgid "确定施法"
 msgstr ""
 
+#: ui/world/shared_ui_context_actions.gd ui/world/shared_ui_panels.gd
+msgid "确定施展"
+msgstr ""
+
 #: ui/world/shared_ui_context_actions.gd
 msgid "确定下手"
 msgstr ""
@@ -7277,6 +7221,62 @@ msgstr ""
 #. a room's title and its description, as the log shows them on arrival.
 #: ui/world/shared_ui_message_log.gd
 msgid "【{title}】{description}"
+msgstr ""
+
+#. asked before 空识神通 (void_sense.c) when its 50 gin ({gin}) would knock the player out.
+#: ui/world/shared_ui_panels.gd
+msgid ""
+"空识神通要耗去 {gin} 点精，你现在撑不住，会当场昏过去。\n"
+"确定要施展吗？"
+msgstr ""
+
+#. asked before 游识神通 goes to the one chosen (drift_sense.c) when its 30 gin ({gin}) would knock the player out.
+#: ui/world/shared_ui_panels.gd
+msgid ""
+"游识神通要耗去 {gin} 点精，你现在撑不住，施展完就会昏过去。\n"
+"确定要施展吗？"
+msgstr ""
+
+#: ui/world/shared_ui_panels.gd
+msgid "补给仅使用直接携带的物品；取水仍须靠近当前地图的水源。"
+msgstr ""
+
+#. the character sheet (score): name, gender, age, rank (rankd.c, 【 武  者 】) and title, then 精/气/神 as current / effective / maximum, food and water, experience, potential and the attributes.
+#: ui/world/shared_ui_panels.gd
+msgid ""
+"{name} · {gender} · {age}岁\n"
+"{rank}{title}\n"
+"\n"
+"当前 / 有效 / 最大\n"
+"精 {gin}\n"
+"气 {kee}\n"
+"神 {sen}\n"
+"\n"
+"食物 {food} · 饮水 {water}\n"
+"实战经验 {exp} · 潜能 {potential}（已用 {spent}）\n"
+"\n"
+"膂力 {str} · 胆识 {cor} · 悟性 {int} · 灵性 {spi}\n"
+"定力 {cps} · 容貌 {per} · 根骨 {con} · 福缘 {kar}\n"
+msgstr ""
+
+#. the character sheet, score.c's 灵力 (atman) and 法力 (mana), each current / maximum.
+#: ui/world/shared_ui_panels.gd
+msgid "灵力 {atman} / {max_atman} · 法力 {mana} / {max_mana}"
+msgstr ""
+
+#. the character sheet, score.c's lines: 杀气 (bellicosity), 综合评价 (score) and the NPCs the player has killed.
+#: ui/world/shared_ui_panels.gd
+msgid ""
+"杀气 {bellicosity} · 综合评价 {score}\n"
+"总共杀过 {kills} 个人。"
+msgstr ""
+
+#: ui/world/shared_ui_panels.gd
+msgid "负重 {carried} / {capacity} · 体重 {weight}"
+msgstr ""
+
+#: ui/world/shared_ui_panels.gd
+msgid "随身补给"
 msgstr ""
 
 #: ui/world/shared_ui_selection.gd

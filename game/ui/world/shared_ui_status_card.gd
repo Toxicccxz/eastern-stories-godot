@@ -83,7 +83,7 @@ func refresh_exploration() -> void:
 	_presentation_layout.context_button.visible = not context.is_empty()
 	_presentation_layout.contexts.visible = local_target or not context.is_empty()
 	if _presentation_layout.character.is_visible_in_tree():
-		_ui._refresh_character()
+		_ui.panels.refresh_character()
 	_ui.message_log.collect_feedback()
 	_ui.message_log.describe_new_zone()
 	_ui.message_log.refresh_toasts()

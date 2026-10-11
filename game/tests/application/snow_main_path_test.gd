@@ -223,9 +223,9 @@ func _buy(tree: SceneTree, hud: SharedGameplayUI, has_change: bool) -> bool:
 		await _settle(tree)
 		hud.open_supplies()
 		await _frames(tree, 2)
-		hud._food._eat.pressed.emit()
-		var eaten: FoodUseResult = hud._food.last_result
-		check(eaten != null and eaten.outcome == FoodUseResult.Outcome.TOO_FULL and _plain(hud._food._feedback.text) == "你已经吃太饱了，再也塞不下任何东西了。", "补给: food.c, too full to eat at birth: " + hud._food._feedback.text)
+		hud.panels._food._eat.pressed.emit()
+		var eaten: FoodUseResult = hud.panels._food.last_result
+		check(eaten != null and eaten.outcome == FoodUseResult.Outcome.TOO_FULL and _plain(hud.panels._food._feedback.text) == "你已经吃太饱了，再也塞不下任何东西了。", "补给: food.c, too full to eat at birth: " + hud.panels._food._feedback.text)
 	else:
 		check(not shop.last_purchase.delivered and _money_value() == before and _plain(shop.feedback.text) == "你没有足够的零钱，而对方也找不开...。", "buy.c: no change for two silvers: " + shop.feedback.text)
 	hud.dismiss_current_panel()

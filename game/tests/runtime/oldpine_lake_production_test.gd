@@ -89,7 +89,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		# previous suite in the same process happened to leave half-done.
 		await _settle(tree, 2)
 		session.shared_ui().open_supplies()
-		var panel: HeldLiquidPanel = session.shared_ui()._liquid
+		var panel: HeldLiquidPanel = session.shared_ui().panels._liquid
 		panel._process(0)
 		_check(session.fill_water_available(), "bounded Lake source available")
 		_check(panel.request_fill().outcome == LiquidUseResult.Outcome.FILLED, "existing Fill UI path at Lake")
