@@ -88,7 +88,7 @@ func project_rows(
 				var held: ItemInstance = item_index.resolve(held_id)
 				var held_content: ItemContentDefinition = null if held == null else GameContent.catalog().item(held.item_definition_id)
 				if held_content != null:
-					row.contents.append([held_id, held_content.display_name])
+					row.contents.append([held_id, held_content.display_name, stacks.stack_state(held_id).amount if stacks.has_stack(held_id) else 1])
 		rows.append(row)
 	return rows
 

@@ -216,7 +216,8 @@ func _test_book(tree: SceneTree, session: WorldSessionController) -> void:
 	for each: PlayerInventoryRowProjection in rows:
 		if each.item_instance_id == slipcase:
 			row = each
-	_check(row != null and row.contents.size() == 1 and row.contents[0][1] == "悟疾风劲竹书", "the 书匣's row lists what it holds")
+	_check(row != null and row.contents.size() == 1 and row.contents[0][1] == "悟疾风劲竹书" and row.contents[0][2] == 1, "the 书匣's row lists what it holds")
+	_check(PlayerInventoryPanel.held_label([&"x", "银子", 5]) == "银子 ×5" and PlayerInventoryPanel.held_label(row.contents[0]) == "悟疾风劲竹书", "a stack inside says its amount (combined.c short())")
 	hud.inventory_panel.show_inspection(row)
 	_check(hud.inventory_panel.inspection_display().ends_with("里面有：\n  悟疾风劲竹书"), "观察 the 书匣: 里面有： (look.c): %s" % hud.inventory_panel.inspection_display())
 	hud.show_inventory(rows)
@@ -243,6 +244,11 @@ func _test_book(tree: SceneTree, session: WorldSessionController) -> void:
 	await tree.process_frame
 	book = _carried(session, BOOK)
 	_check(book != &"", "the book is in the pack again")
+	var second: StringName = _new_item(session, SLIPCASE) # TEST-ONLY: a second, empty 书匣
+	hud.show_inventory(session.player_inventory_rows())
+	await tree.process_frame
+	_check(_row_button(hud.inventory_panel, "悟疾风劲竹书", "放进书匣 #1") != null and _row_button(hud.inventory_panel, "悟疾风劲竹书", "放进书匣 #2") != null, "two 书匣: their 放进 buttons are numbered")
+	_check(_drop(session, second), "TEST-ONLY: the second 书匣 gone again")
 	hud.dismiss_current_panel()
 	await tree.physics_frame
 	await tree.physics_frame
@@ -298,6 +304,26 @@ func _row_button(panel: PlayerInventoryPanel, row_name: String, text: String) ->
 		if label != null and label.text.begins_with(row_name) and not row.is_queued_for_deletion():
 			return _button(row, text)
 	return null
+
+
+## TEST-ONLY: an item of `definition_id` in the player's pack.
+func _new_item(session: WorldSessionController, definition_id: StringName) -> StringName:
+	var context: MoneyInventoryContext = Finance.session_context(session)
+	var content: ItemContentDefinition = GameContent.catalog().item(definition_id)
+	var allocation: SessionItemIdAllocationResult = session.item_id_allocator().allocate(context.inventory)
+	var item := ItemInstance.new(allocation.item_instance_id, definition_id)
+	assert(context.inventory.register_item(item, content.own_weight))
+	assert(context.index.register_snapshot(item))
+	var destination := InventoryTransferDestination.new(context.endpoint(), true, true, 1000000)
+	assert(InventoryTransferService.new().transfer(context.inventory, item.item_instance_id, destination).succeeded)
+	return item.item_instance_id
+
+
+## TEST-ONLY: destroys an empty item the player carries.
+func _drop(session: WorldSessionController, id: StringName) -> bool:
+	var context: MoneyInventoryContext = Finance.session_context(session)
+	var removal: ItemLifecycleResult = ItemLifecycleService.destroy_item(context.inventory, context.stacks, id, ItemLifecycleResult.ChildDisposition.REQUIRE_LEAF, context.owner)
+	return removal.succeeded and context.index.forget_destroyed_snapshots(removal.removed_instance_ids, context.inventory)
 
 
 ## An item of `definition_id` the player carries directly (the first), or empty.

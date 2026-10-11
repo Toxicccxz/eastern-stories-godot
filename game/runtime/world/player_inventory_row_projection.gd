@@ -26,7 +26,7 @@ var _can_wear: bool
 var _can_remove: bool
 ## equip.c wield(): the weapon's weapon_prop/dodge (a heavy one's -weight/3000).
 var _weapon_dodge: int
-## A container's contents (get <item> from <it>): [item instance ID, display name] pairs.
+## A container's contents (get <item> from <it>): [item instance ID, display name, amount].
 var contents: Array = []
 
 var item_instance_id: StringName:
