@@ -81,6 +81,34 @@ var _session: WorldSessionController
 var _bound_map: WorldResidentMapController
 var _elapsed: float = 0.0
 
+## Constants that moved with their components, still readable here.
+const ARMED_SPAR_WARNING := SharedUiContextActions.ARMED_SPAR_WARNING
+const DEADLY_SPAR_WARNING := SharedUiContextActions.DEADLY_SPAR_WARNING
+const STRONGER_SPAR_WARNING := SharedUiContextActions.STRONGER_SPAR_WARNING
+const ARMED_STRONGER_SPAR_WARNING := SharedUiContextActions.ARMED_STRONGER_SPAR_WARNING
+const ANIMATE_FAINT_WARNING := SharedUiContextActions.ANIMATE_FAINT_WARNING
+const LIFEHEAL_HINT := SharedUiContextActions.LIFEHEAL_HINT
+const HEART_SENSE_HINT := SharedUiContextActions.HEART_SENSE_HINT
+const HEART_SENSE_WARNING := SharedUiContextActions.HEART_SENSE_WARNING
+const HEART_SURE_FAIL := SharedUiContextActions.HEART_SURE_FAIL
+const HEART_MAY_FAIL := SharedUiContextActions.HEART_MAY_FAIL
+const HEART_SPENT := SharedUiContextActions.HEART_SPENT
+const STEAL_HINT := SharedUiContextActions.STEAL_HINT
+const BRIBE_HINT := SharedUiContextActions.BRIBE_HINT
+const STRONGER_STEAL_WARNING := SharedUiContextActions.STRONGER_STEAL_WARNING
+const ANIMATE_HINT := SharedUiContextActions.ANIMATE_HINT
+const ORDINATION_WARNING := SharedUiAskPanel.ORDINATION_WARNING
+const DISSOLVE_WARNING := SharedUiInventory.DISSOLVE_WARNING
+const HANG_WARNING := SharedUiInventory.HANG_WARNING
+const SCRIBE_FAINT_WARNING := SharedUiInventory.SCRIBE_FAINT_WARNING
+const SCRIBE_DEATH_WARNING := SharedUiInventory.SCRIBE_DEATH_WARNING
+const HAUNT_MASTER_WARNING := SharedUiInventory.HAUNT_MASTER_WARNING
+const GIVE_MONEY_ASK_AT := SharedUiInventory.GIVE_MONEY_ASK_AT
+const GIVE_EQUIPPED_WARNING := SharedUiInventory.GIVE_EQUIPPED_WARNING
+const GIVE_MONEY_WARNING := SharedUiInventory.GIVE_MONEY_WARNING
+const VOID_FAINT_WARNING := SharedUiPanels.VOID_FAINT_WARNING
+const DRIFT_FAINT_WARNING := SharedUiPanels.DRIFT_FAINT_WARNING
+
 ## The HUD's components (code moved out of this file; this class forwards to them).
 var message_log: SharedUiMessageLog = SharedUiMessageLog.new(self)
 var card: SharedUiStatusCard = SharedUiStatusCard.new(self)
