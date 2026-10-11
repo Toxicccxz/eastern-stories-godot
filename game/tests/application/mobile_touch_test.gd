@@ -344,8 +344,8 @@ func _test_item_and_handoff(tree: SceneTree, shell: ApplicationShellController, 
 	await _mouse_click(tree, view.get_global_transform_with_canvas().origin)
 	var take: Button = null
 	for row: Node in outdoor.session.shared_ui()._presentation_layout.nearby.get_children():
-		for child: Node in row.get_children():
-			if take == null and child is Button and (child as Button).text == "拾取":
+		for child: Node in row.find_children("*", "Button", true, false):
+			if take == null and (child as Button).text == "拾取":
 				take = child as Button
 	_check(take != null and take.is_visible_in_tree(), "the corpse's nearby group offers 拾取")
 	if take != null:

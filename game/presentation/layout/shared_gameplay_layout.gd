@@ -273,6 +273,13 @@ func _attach() -> void:
 func _reflow(metrics: SafeAreaMetrics) -> void:
 	var area: Rect2 = metrics.content_rect()
 	_bar_area = area
+	if metrics.touch_sized():
+		# The card ends above the movement pad's corner; taller (nearby items), it scrolls.
+		# Not below the name, the bars and the navigation row (a very short screen keeps the
+		# whole height, as before).
+		var above_pad: float = metrics.future_movement_rect().position.y - area.position.y - 8.0
+		if above_pad >= BAR_MIN_ABOVE_PAD:
+			_bar_area.size.y = minf(area.size.y, above_pad)
 	bar.position = area.position
 	bar.size = Vector2(minf(CARD_WIDTH, maxf(1, area.size.x - (80 if metrics.touch_sized() else 0))), 0)
 	# Touch rows keep five 64 px buttons on one line at 480 px, with room for a scrollbar.
@@ -284,16 +291,16 @@ func _reflow(metrics: SafeAreaMetrics) -> void:
 	var gap: int = 4 if metrics.touch_sized() else 8
 	button_size = Vector2(64, 64) if metrics.touch_sized() else Vector2(80, 38)
 	var flows: Array[Node] = [navigation, contexts]
-	flows.append_array(nearby.get_children())
+	for item: Node in nearby.get_children():
+		flows.append(item.get_node("Item/Actions"))
 	for flow: Node in flows:
 		(flow as Control).add_theme_constant_override("h_separation", gap)
 		(flow as Control).add_theme_constant_override("v_separation", gap)
 	for button: Node in navigation.get_children() + contexts.get_children():
 		(button as Control).custom_minimum_size = button_size
-	for row: Node in nearby.get_children():
-		for button: Node in row.get_children():
-			if button is Button:
-				(button as Control).custom_minimum_size = button_size
+	for item: Node in nearby.get_children():
+		for button: Node in item.get_node("Item/Actions").get_children():
+			(button as Control).custom_minimum_size = button_size
 	# Touch screens keep the world visible: shorter toasts, the full text in Messages/Look,
 	# right of the movement pad's corner.
 	var toast_area: Rect2 = area
@@ -374,38 +381,58 @@ func refresh_rows() -> void:
 	_frame_layout.restyle_dynamic_content()
 
 
-## A group's row on the card: its name as a chip, then (nearby_button()) its buttons,
-## wrapping.
-func nearby_row(shown_name: String) -> HFlowContainer:
-	var row := HFlowContainer.new()
-	row.name = "Group"
-	var gap: int = 8 if button_size.y < 64 else 4
-	row.add_theme_constant_override("h_separation", gap)
-	row.add_theme_constant_override("v_separation", gap)
-	var chip := PanelContainer.new()
-	chip.name = "Name"
-	chip.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	chip.add_theme_stylebox_override("panel", _chip_style(Color(ACCENT_COLOR, 0.2)))
-	row.add_child(chip)
+## One thing's item in the card's list (owner, 2026-10-11): a box with its name on top
+## and (nearby_button()) its own buttons below, wrapping.
+func nearby_row(shown_name: String) -> PanelContainer:
+	var item := PanelContainer.new()
+	item.name = "Group"
+	item.add_theme_stylebox_override("panel", _item_style())
+	var rows := VBoxContainer.new()
+	rows.name = "Item"
+	rows.add_theme_constant_override("separation", 6)
+	item.add_child(rows)
 	var label := Label.new()
-	label.name = "Text"
+	label.name = "Name"
 	label.text = shown_name
 	# Already in the shown language (tr()).
 	label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
-	label.add_theme_font_size_override("font_size", 13)
+	label.add_theme_font_size_override("font_size", 14)
 	label.add_theme_color_override("font_color", ACCENT_COLOR)
-	chip.add_child(label)
-	return row
+	rows.add_child(label)
+	var actions := HFlowContainer.new()
+	actions.name = "Actions"
+	var gap: int = 8 if button_size.y < 64 else 4
+	actions.add_theme_constant_override("h_separation", gap)
+	actions.add_theme_constant_override("v_separation", gap)
+	rows.add_child(actions)
+	return item
 
 
-func nearby_button(row: HFlowContainer, text: String, action: Callable) -> Button:
-	var button: Button = _button(row, "Action", text, action)
+## A button in an item made by nearby_row().
+func nearby_button(item: Control, text: String, action: Callable) -> Button:
+	var button: Button = _button(item.get_node("Item/Actions"), "Action", text, action)
 	button.custom_minimum_size = button_size
 	return button
 
 
+## A list item's box: a little lighter than the card, rounded.
+func _item_style() -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(1, 1, 1, 0.05)
+	style.border_color = Color(1, 1, 1, 0.07)
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(10)
+	style.content_margin_left = 10.0
+	style.content_margin_right = 10.0
+	style.content_margin_top = 7.0
+	style.content_margin_bottom = 9.0
+	return style
+
+
 ## The status card's look.
 const CARD_WIDTH: float = 480.0
+## The least height the card keeps above the movement pad (name, bars, navigation row).
+const BAR_MIN_ABOVE_PAD: float = 200.0
 const TOAST_WIDTH: float = 440.0
 const NAME_COLOR: Color = Color(0.96, 0.95, 0.9)
 const MUTED_COLOR: Color = Color(0.74, 0.78, 0.72)

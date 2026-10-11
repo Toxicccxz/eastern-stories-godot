@@ -1,7 +1,7 @@
 class_name SharedUiNearby
 extends RefCounted
-## The status card's actions for what is near (owner, 2026-10-11): one group per thing in
-## reach (WorldMapSelection.nearby()), its name then its buttons; a thing that leaves
+## The status card's actions for what is near (owner, 2026-10-11): one list item per thing
+## in reach (WorldMapSelection.nearby()), its name on top and its own buttons below; a thing that leaves
 ## reach takes its group with it. Groups keep their places while their things stay near
 ## (a newcomer joins at the end, nearest first), so a button does not move under the
 ## pointer as NPCs walk about. Clicking the world selects nothing: a button selects its
@@ -55,7 +55,7 @@ func press(display_name: String, label: String) -> bool:
 	for row: Node in _presentation_layout.nearby.get_children():
 		if row.is_queued_for_deletion() or String(row.get_meta(&"shown_name", "")) != display_name:
 			continue
-		for child: Node in row.get_children():
+		for child: Node in row.find_children("*", "Button", true, false):
 			var button := child as Button
 			if button != null and button.text == label:
 				button.pressed.emit()
@@ -236,7 +236,7 @@ func _rebuild(commands: Array[Array]) -> void:
 	for entry: Array in commands:
 		var thing: WorldNearbyThing = entry[0]
 		var shown_name: String = _shown_name(thing)
-		var row: HFlowContainer = _presentation_layout.nearby_row(shown_name)
+		var row: PanelContainer = _presentation_layout.nearby_row(shown_name)
 		row.set_meta(&"shown_name", shown_name)
 		var labels: Array[String] = []
 		for command: Array in entry[1]:
