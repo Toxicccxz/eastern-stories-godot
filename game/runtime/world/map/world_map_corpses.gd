@@ -92,7 +92,7 @@ func dissolve_selected_corpse(dust_id: StringName) -> bool:
 	if content == null or not content.dissolves or not _inventory.is_direct_child(dust_id, carried):
 		return false
 	var corpse: CorpseState = _selected_corpse()
-	if corpse == null or not corpse_is_live_in_world(corpse) or not _corpse_in_location(corpse, _player.world_location()):
+	if corpse == null or not corpse_is_live_in_world(corpse) or not corpse_in_location(corpse, _player.world_location()):
 		_map.hud().append_log_lines([tr("这里没有这样东西。")])
 		return false
 	var victim_name: String = corpse.victim_display_name
@@ -110,7 +110,7 @@ func dissolve_selected_corpse(dust_id: StringName) -> bool:
 ## 化尸粉 row offers to dissolve).
 func dissolvable_corpse_name() -> String:
 	var corpse: CorpseState = _selected_corpse()
-	if _player == null or corpse == null or not corpse_is_live_in_world(corpse) or not _corpse_in_location(corpse, _player.world_location()):
+	if _player == null or corpse == null or not corpse_is_live_in_world(corpse) or not corpse_in_location(corpse, _player.world_location()):
 		return ""
 	return corpse.victim_display_name
 
@@ -134,12 +134,12 @@ func _carried_dissolver(holder: ContainmentEndpoint) -> StringName:
 func _newest_corpse_in(location: WorldLocationState) -> CorpseState:
 	for index: int in range(_corpse_states.size() - 1, -1, -1):
 		var corpse: CorpseState = _corpse_states[index]
-		if corpse_is_live_in_world(corpse) and _corpse_in_location(corpse, location):
+		if corpse_is_live_in_world(corpse) and corpse_in_location(corpse, location):
 			return corpse
 	return null
 
 
-func _corpse_in_location(corpse: CorpseState, location: WorldLocationState) -> bool:
+func corpse_in_location(corpse: CorpseState, location: WorldLocationState) -> bool:
 	var at: WorldLocationState = _corpse_locations.get(corpse.corpse_item_instance_id)
 	return at != null and location != null and at.shares_combat_location(location)
 
@@ -160,8 +160,12 @@ func _dissolve_corpse(corpse: CorpseState, dust_id: StringName, dust_owner: Item
 ## The selected corpse when it lies in the player's place (present("corpse",
 ## environment(me))), or null.
 func selected_corpse_here() -> CorpseState:
-	var corpse: CorpseState = _selected_corpse()
-	if _player == null or corpse == null or not corpse_is_live_in_world(corpse) or not _corpse_in_location(corpse, _player.world_location()):
+	return corpse_here(_selected_corpse())
+
+
+## selected_corpse_here() for any corpse.
+func corpse_here(corpse: CorpseState) -> CorpseState:
+	if _player == null or corpse == null or not corpse_is_live_in_world(corpse) or not corpse_in_location(corpse, _player.world_location()):
 		return null
 	return corpse
 
@@ -256,7 +260,7 @@ func add_corpse_view(corpse: CorpseState, position: Vector2, location: WorldLoca
 
 func make_corpse_interactive(view: CombatSliceCorpseView) -> void:
 	_corpse_views[view.corpse_item_instance_id] = view
-	view.selection_requested.connect(select_corpse)
+	view.selection_requested.connect(_map.selection.on_thing_clicked)
 	view.loot_range_changed.connect(_on_corpse_loot_range_changed)
 
 

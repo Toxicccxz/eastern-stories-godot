@@ -464,11 +464,9 @@ func _test_direct_pine_shortcut_and_route_collisions(tree: SceneTree) -> void:
 	await _free_session(session, tree)
 
 
+## What the landmark's nearby group does first (a click selects nothing: owner, 2026-10-11).
 func _select_area(area: WorldLandmarkArea2D, map: WorldMapController) -> void:
-	var click: InputEventMouseButton = InputEventMouseButton.new()
-	click.button_index = MOUSE_BUTTON_LEFT
-	click.pressed = true
-	area._input_event(map.get_viewport(), click, 0)
+	map.select_landmark(area.landmark_id)
 
 
 func _press_portal_action(map: WorldMapController) -> void:

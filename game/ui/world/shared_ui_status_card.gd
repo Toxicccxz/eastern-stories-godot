@@ -64,24 +64,9 @@ func refresh_exploration() -> void:
 	# TRANSLATORS: between two conditions on the HUD (蛇毒).
 	_ui.player_vitality_text.text = tr("、").join(_conditions.shown_names(state))
 	_ui.player_vitality_text.visible = not _ui.player_vitality_text.text.is_empty()
-	var local_target: bool = _bound_map is WorldMapController and not _ui.selected_target_label.text.is_empty()
-	_ui.inspect_button.visible = local_target and not _ui.inspect_button.disabled
-	_ui.attack_button.visible = local_target and not _ui.attack_button.disabled
-	_ui.spar_button.visible = local_target and not _ui.spar_button.disabled
-	_ui.ask_button.visible = local_target and not _ui.ask_button.disabled
-	_ui.portal_button.visible = local_target and not _ui.portal_button.disabled
-	_ui.open_loot_button.visible = local_target and not _ui.open_loot_button.disabled
-	_ui.animate_button.visible = local_target and not _ui.animate_button.disabled
-	_ui.lifeheal_button.visible = local_target and not _ui.lifeheal_button.disabled
-	_ui.heart_sense_button.visible = local_target and not _ui.heart_sense_button.disabled
-	_ui.steal_button.visible = local_target and not _ui.steal_button.disabled
-	_ui.bribe_button.visible = local_target and not _ui.bribe_button.disabled
-	_ui.selected_target_label.visible = local_target
-	_presentation_layout.target_section.visible = local_target
-	var context: String = _ui.actions.context_title()
-	_presentation_layout.context_button.text = context
-	_presentation_layout.context_button.visible = not context.is_empty()
-	_presentation_layout.contexts.visible = local_target or not context.is_empty()
+	# What is in reach, one group each (owner, 2026-10-11); the selected thing's own
+	# buttons and the context button stay off the card.
+	_ui.nearby.refresh()
 	if _presentation_layout.character.is_visible_in_tree():
 		_ui.panels.refresh_character()
 	_ui.message_log.collect_feedback()

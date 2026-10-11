@@ -7,10 +7,16 @@ var ui: SharedGameplayUI
 var overlay: Control
 var bar: PanelContainer
 var navigation: HFlowContainer
+## The selected thing's commands (SharedGameplayUI's inspect_button … bribe_button) and the
+## nearest door or service's context_button, kept off the card: the card shows `nearby`.
 var contexts: HFlowContainer
 var context_button: Button
-## The selected thing's row: a 目标 tag, its name (SharedGameplayUI.selected_target_label).
+## The selected thing's name (SharedGameplayUI.selected_target_label), off the card too.
 var target_section: VBoxContainer
+## One group per thing in reach (SharedUiNearby): its name, then its buttons.
+var nearby: VBoxContainer
+## The card's button size now (touch or not), for the groups' buttons too.
+var button_size: Vector2 = Vector2(80, 38)
 ## The scene's messages at the bottom left (owner, 2026-10-06).
 var toasts: MessageToasts
 var barrier: Control
@@ -120,10 +126,15 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	ui.inventory_button = _button(navigation, "Inventory", "背包", Callable())
 	_button(navigation, "Supplies", "补给", ui.open_supplies)
 	_button(navigation, "Messages", "消息", ui.open_messages)
+	nearby = VBoxContainer.new()
+	nearby.name = "Nearby"
+	nearby.add_theme_constant_override("separation", 8)
+	nearby.hide()
+	_bar_rows.add_child(nearby)
 	target_section = VBoxContainer.new()
 	target_section.name = "TargetSection"
 	target_section.add_theme_constant_override("separation", 8)
-	_bar_rows.add_child(target_section)
+	holding.add_child(target_section)
 	var rule := ColorRect.new()
 	rule.name = "Rule"
 	rule.color = Color(1, 1, 1, 0.08)
@@ -154,7 +165,7 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	contexts.name = "Contexts"
 	contexts.add_theme_constant_override("h_separation", 8)
 	contexts.add_theme_constant_override("v_separation", 8)
-	_bar_rows.add_child(contexts)
+	holding.add_child(contexts)
 	context_button = _button(contexts, "Context", "交互", ui.open_current_context)
 	context_button.theme_type_variation = &"AccentButton"
 	ui.inspect_button = _button(contexts, "Inspect", "查看", Callable())
@@ -271,11 +282,18 @@ func _reflow(metrics: SafeAreaMetrics) -> void:
 		card.content_margin_right = 10.0 if metrics.touch_sized() else 16.0
 	# Touch-sized buttons stay 64 px square so five fit one row on 480 px.
 	var gap: int = 4 if metrics.touch_sized() else 8
-	for flow: HFlowContainer in [navigation, contexts]:
-		flow.add_theme_constant_override("h_separation", gap)
-		flow.add_theme_constant_override("v_separation", gap)
+	button_size = Vector2(64, 64) if metrics.touch_sized() else Vector2(80, 38)
+	var flows: Array[Node] = [navigation, contexts]
+	flows.append_array(nearby.get_children())
+	for flow: Node in flows:
+		(flow as Control).add_theme_constant_override("h_separation", gap)
+		(flow as Control).add_theme_constant_override("v_separation", gap)
 	for button: Node in navigation.get_children() + contexts.get_children():
-		(button as Control).custom_minimum_size = Vector2(64, 64) if metrics.touch_sized() else Vector2(80, 38)
+		(button as Control).custom_minimum_size = button_size
+	for row: Node in nearby.get_children():
+		for button: Node in row.get_children():
+			if button is Button:
+				(button as Control).custom_minimum_size = button_size
 	# Touch screens keep the world visible: shorter toasts, the full text in Messages/Look,
 	# right of the movement pad's corner.
 	var toast_area: Rect2 = area
@@ -354,6 +372,36 @@ func validate_open_panel() -> void:
 
 func refresh_rows() -> void:
 	_frame_layout.restyle_dynamic_content()
+
+
+## A group's row on the card: its name as a chip, then (nearby_button()) its buttons,
+## wrapping.
+func nearby_row(shown_name: String) -> HFlowContainer:
+	var row := HFlowContainer.new()
+	row.name = "Group"
+	var gap: int = 8 if button_size.y < 64 else 4
+	row.add_theme_constant_override("h_separation", gap)
+	row.add_theme_constant_override("v_separation", gap)
+	var chip := PanelContainer.new()
+	chip.name = "Name"
+	chip.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	chip.add_theme_stylebox_override("panel", _chip_style(Color(ACCENT_COLOR, 0.2)))
+	row.add_child(chip)
+	var label := Label.new()
+	label.name = "Text"
+	label.text = shown_name
+	# Already in the shown language (tr()).
+	label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	label.add_theme_font_size_override("font_size", 13)
+	label.add_theme_color_override("font_color", ACCENT_COLOR)
+	chip.add_child(label)
+	return row
+
+
+func nearby_button(row: HFlowContainer, text: String, action: Callable) -> Button:
+	var button: Button = _button(row, "Action", text, action)
+	button.custom_minimum_size = button_size
+	return button
 
 
 ## The status card's look.

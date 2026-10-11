@@ -193,10 +193,16 @@ func _move_beside(npc: NpcRuntimeState, spot: Vector2) -> bool:
 ## The one the HUD offers 心识 on: the selected NPC lying unconscious in the player's place,
 ## when the enabled magic skill reaches heart_sense.c (DECISIONS 山烟寺 C). Null otherwise.
 func heart_target() -> NpcRuntimeState:
+	var map: WorldMapController = _session.active_map() as WorldMapController
+	return heart_target_for(null if map == null else map.selected_npc())
+
+
+## heart_target() for any NPC: the NPC when 心识 is offered on it, else null.
+func heart_target_for(target: NpcRuntimeState) -> NpcRuntimeState:
 	if not offered().has(HEART_SENSE):
 		return null
 	var map: WorldMapController = _session.active_map() as WorldMapController
-	var npc: NpcRuntimeState = null if map == null else map.selected_npc_here()
+	var npc: NpcRuntimeState = null if map == null else map.selection.npc_here(target)
 	return npc if npc != null and npc.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS else null
 
 

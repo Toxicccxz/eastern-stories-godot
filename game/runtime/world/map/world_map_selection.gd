@@ -4,6 +4,10 @@ extends RefCounted
 ## verbs on it: 查看, 攻击, 切磋, 打听, 转述, 说话, the context button and interact.
 ## Code moved from WorldMapController as it was; the map is `_map`.
 
+## How near a thing must be for the HUD to offer its actions (owner, 2026-10-11): about
+## a shop counter's reach. Doors and room services keep their own authored reach.
+const NEARBY_REACH: float = 96.0
+
 var _map: WorldMapController
 var selected_target: WorldInteractionTarget
 var selected_landmark_available: bool = false
@@ -37,8 +41,15 @@ func selected_npc() -> NpcRuntimeState:
 	return _map.npcs.find_resident_npc(selected_character_id())
 
 
-func on_npc_selection_requested(character_id: StringName) -> void:
-	select_npc(character_id)
+## A click on an NPC selects nothing (owner, 2026-10-11): the HUD offers the actions of
+## what is in reach (nearby()), and pressing one selects its thing.
+func on_npc_selection_requested(_character_id: StringName) -> void:
+	pass
+
+
+## A click on a landmark, a corpse or a floor item selects nothing either.
+func on_thing_clicked(_id: StringName) -> void:
+	pass
 
 
 func select_npc(character_id: StringName) -> bool:
@@ -258,7 +269,12 @@ func spar_is_armed(target: NpcRuntimeState) -> bool:
 ## cmds/std/ask.c: the selected NPC can be asked when it speaks and is here
 ## (present()); a beast gets no 打听, as it gets no 切磋.
 func can_ask_selected() -> bool:
-	var target: NpcRuntimeState = selected_npc() if _map.gameplay_open() else null
+	return can_ask(selected_npc())
+
+
+## can_ask_selected() for any NPC (the HUD's nearby groups).
+func can_ask(npc: NpcRuntimeState) -> bool:
+	var target: NpcRuntimeState = npc if _map.gameplay_open() else null
 	return (
 		target != null and target.definition().can_speak() and target.exists_in_map
 		and target.life_status != CharacterRuntimeLifeStatus.Value.DEAD
@@ -269,7 +285,12 @@ func can_ask_selected() -> bool:
 ## The selected NPC when it is in the player's place (present()), alive: one an exert
 ## that names its target works on (lifeheal.c), awake or not.
 func selected_npc_here() -> NpcRuntimeState:
-	var target: NpcRuntimeState = selected_npc() if _map.gameplay_open() else null
+	return npc_here(selected_npc())
+
+
+## selected_npc_here() for any NPC: the NPC when it is in the player's place, else null.
+func npc_here(npc: NpcRuntimeState) -> NpcRuntimeState:
+	var target: NpcRuntimeState = npc if _map.gameplay_open() else null
 	if (
 		target == null or not target.exists_in_map or target.life_status == CharacterRuntimeLifeStatus.Value.DEAD
 		or _player == null or not target.world_location().shares_combat_location(_player.world_location())
@@ -499,3 +520,78 @@ func dismiss_panel(content: Control) -> bool:
 		if candidate.dismiss(content):
 			return true
 	return false
+
+
+## What is within the player's reach, nearest first (owner, 2026-10-11): living NPCs in
+## the player's place within NEARBY_REACH (and the constable leading the player, wherever
+## he is) with the services they offer from their body,
+## corpses and floor items there, landmarks near or touched, and the doors and room
+## services whose own reach the player stands in. Empty outside open gameplay.
+func nearby() -> Array[WorldNearbyThing]:
+	var found: Array[WorldNearbyThing] = []
+	if not _map.gameplay_open() or session == null or _player == null or player_body == null:
+		return found
+	var at: Vector2 = player_body.global_position
+	var location: WorldLocationState = _player.world_location()
+	var by_npc: Dictionary[StringName, WorldNearbyThing] = {}
+	for npc: NpcRuntimeState in _map.npcs.npc_runtimes():
+		var body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(npc.character_id)
+		# The constable leading the player (yamen_po.c) is at hand wherever he walks: his
+		# 行贿 is offered from the catch on (he caught them anywhere in the room).
+		var leading: bool = body != null and _map.patrols.can_bribe(npc)
+		var near: bool = (
+			body != null and npc_here(npc) != null and not npc.definition().is_ghost()
+			and at.distance_to(body.global_position) <= NEARBY_REACH
+		)
+		if not near and not leading:
+			continue
+		var thing := WorldNearbyThing.new(WorldNearbyThing.Kind.NPC, npc.character_id, npc.definition().display_name, at.distance_to(body.global_position))
+		thing.npc = npc
+		thing.bribe_only = not near
+		by_npc[npc.character_id] = thing
+		found.append(thing)
+	for service: WorldService in _map.service_nodes:
+		if service.context_title().is_empty():
+			continue
+		var keeper: NpcRuntimeState = (service as NpcService).npc if service is NpcService else null
+		if keeper != null:
+			if by_npc.has(keeper.character_id):
+				by_npc[keeper.character_id].services.append(service)
+			continue
+		var room_service := WorldNearbyThing.new(WorldNearbyThing.Kind.SERVICE, service.service_id(), service.display_name(), at.distance_to(service.anchor()))
+		room_service.services.append(service)
+		found.append(room_service)
+	for door_id: StringName in _map.doors_by_id:
+		if _map.can_operate_door(door_id):
+			found.append(WorldNearbyThing.new(WorldNearbyThing.Kind.DOOR, door_id, GameContent.catalog().door(door_id).display_name,
+				at.distance_to(_map.doors_by_id[door_id].wall_shape().global_position)))
+	for corpse: CorpseState in _map.corpses.corpse_states():
+		var view: CombatSliceCorpseView = _map.corpses.corpse_view_for(corpse.corpse_item_instance_id)
+		if view == null or not _map.corpses.corpse_is_live_in_world(corpse) or not _map.corpses.corpse_in_location(corpse, location):
+			continue
+		if at.distance_to(view.global_position) <= NEARBY_REACH or view.is_body_in_loot_range(player_body):
+			found.append(WorldNearbyThing.new(WorldNearbyThing.Kind.CORPSE, corpse.corpse_item_instance_id, corpse.victim_display_name, at.distance_to(view.global_position)))
+	for item_id: StringName in _map.floor_items.floor_item_ids():
+		var floor_view: WorldFloorItemView = _map.floor_items.floor_item_view(item_id)
+		if floor_view != null and floor_view.is_body_in_reach(player_body) and _map.floor_items.floor_item_in_player_zone(floor_view):
+			found.append(WorldNearbyThing.new(WorldNearbyThing.Kind.ITEM, item_id, floor_view.display_name, at.distance_to(floor_view.global_position)))
+	for landmark_id: StringName in _map.landmark_areas:
+		var landmark: WorldLandmarkDefinition = GameContent.catalog().landmark(landmark_id)
+		if landmark == null or not _map.landmark_available(landmark):
+			continue
+		var gap: float = _distance_to_area(_map.landmark_areas[landmark_id], at)
+		if gap <= NEARBY_REACH:
+			found.append(WorldNearbyThing.new(WorldNearbyThing.Kind.LANDMARK, landmark_id, landmark.display_name, gap))
+	found.sort_custom(func(a: WorldNearbyThing, b: WorldNearbyThing) -> bool: return a.distance < b.distance)
+	return found
+
+
+## How far `point` is from a landmark's area (0 inside it).
+static func _distance_to_area(area: Area2D, point: Vector2) -> float:
+	var collision: CollisionShape2D = area.get_node_or_null("CollisionShape2D") as CollisionShape2D
+	var rectangle: RectangleShape2D = null if collision == null or collision.disabled else collision.shape as RectangleShape2D
+	if rectangle == null:
+		return area.global_position.distance_to(point)
+	var local: Vector2 = collision.to_local(point)
+	var half: Vector2 = rectangle.size / 2.0
+	return Vector2(maxf(absf(local.x) - half.x, 0.0), maxf(absf(local.y) - half.y, 0.0)).length()

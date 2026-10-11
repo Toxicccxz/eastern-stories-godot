@@ -310,10 +310,13 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	var click: InputEventMouseButton = InputEventMouseButton.new()
 	click.button_index = MOUSE_BUTTON_LEFT
 	click.pressed = true
+	# A click selects nothing (owner, 2026-10-11); a nearby group's button selects.
 	OldPineTestMap.body(controller, "TallBandit")._input_event(controller.get_viewport(), click, 0)
-	_assert_eq(controller.selected_character_id(), tall.character_id, "clicking Tall selects exact Tall identity")
-	OldPineTestMap.body(controller, "Bandit01")._input_event(controller.get_viewport(), click, 0)
-	_assert_eq(controller.selected_character_id(), npcs[0].character_id, "clicking existing bandit still selects exact original identity")
+	_assert_true(controller.selected_character_id() != tall.character_id, "clicking Tall selects nothing")
+	_assert_true(controller.select_npc(tall.character_id), "Tall can be selected")
+	_assert_eq(controller.selected_character_id(), tall.character_id, "selecting Tall selects exact Tall identity")
+	_assert_true(controller.select_npc(npcs[0].character_id), "the first bandit can be selected")
+	_assert_eq(controller.selected_character_id(), npcs[0].character_id, "selecting the existing bandit still selects exact original identity")
 	var map_local_timer_count: int = 0
 	for child: Node in controller.get_children():
 		if child is Timer:

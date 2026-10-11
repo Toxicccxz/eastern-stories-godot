@@ -308,7 +308,7 @@ msgstr ""
 msgid "空无一物"
 msgstr ""
 
-#: scenes/ui/oldpine_loot_panel.tscn scenes/ui/player_inventory_panel.tscn presentation/battle/battle_log_panel.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/hockshop_service.gd
+#: scenes/ui/oldpine_loot_panel.tscn scenes/ui/player_inventory_panel.tscn presentation/battle/battle_log_panel.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/hockshop_service.gd ui/world/shared_ui_nearby.gd
 msgid "关闭"
 msgstr ""
 
@@ -4537,7 +4537,7 @@ msgstr ""
 msgid "投降"
 msgstr ""
 
-#: presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd
+#: presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd ui/world/shared_ui_nearby.gd
 msgid "攻击"
 msgstr ""
 
@@ -4961,7 +4961,7 @@ msgstr ""
 msgid "（-%d）"
 msgstr ""
 
-#: presentation/battle/battle_presentation_controller.gd presentation/layout/shared_gameplay_layout.gd
+#: presentation/battle/battle_presentation_controller.gd presentation/layout/shared_gameplay_layout.gd ui/world/shared_ui_nearby.gd
 msgid "切磋"
 msgstr ""
 
@@ -5346,11 +5346,11 @@ msgstr ""
 msgid "交互"
 msgstr ""
 
-#: presentation/layout/shared_gameplay_layout.gd
+#: presentation/layout/shared_gameplay_layout.gd ui/world/shared_ui_nearby.gd
 msgid "查看"
 msgstr ""
 
-#: presentation/layout/shared_gameplay_layout.gd
+#: presentation/layout/shared_gameplay_layout.gd ui/world/shared_ui_nearby.gd
 msgid "打听"
 msgstr ""
 
@@ -5358,17 +5358,17 @@ msgstr ""
 msgid "通行"
 msgstr ""
 
-#: presentation/layout/shared_gameplay_layout.gd
+#: presentation/layout/shared_gameplay_layout.gd ui/world/shared_ui_nearby.gd
 msgid "拾取"
 msgstr ""
 
 #. stealing name
-#: presentation/layout/shared_gameplay_layout.gd ui/world/shared_ui_context_actions.gd data/common/skills.json
+#: presentation/layout/shared_gameplay_layout.gd ui/world/shared_ui_context_actions.gd ui/world/shared_ui_nearby.gd data/common/skills.json
 msgid "偷窃"
 msgstr ""
 
 #. hands the chosen sum to the constable (accept_bribery()).
-#: presentation/layout/shared_gameplay_layout.gd ui/world/bribe_panel.gd ui/world/shared_ui_context_actions.gd
+#: presentation/layout/shared_gameplay_layout.gd ui/world/bribe_panel.gd ui/world/shared_ui_context_actions.gd ui/world/shared_ui_nearby.gd
 msgid "行贿"
 msgstr ""
 
@@ -5550,7 +5550,7 @@ msgid "右脚"
 msgstr ""
 
 #. dust.c's dissolve on the selected corpse ({corpse}, e.g. 狼狗的尸体).
-#: runtime/combat_slice/combat_slice_corpse_view.gd runtime/world/map/world_map_corpses.gd ui/world/player_inventory_panel.gd
+#: runtime/combat_slice/combat_slice_corpse_view.gd runtime/world/map/world_map_corpses.gd ui/world/player_inventory_panel.gd ui/world/shared_ui_nearby.gd
 msgid "%s的尸体"
 msgstr ""
 
@@ -7217,6 +7217,11 @@ msgstr ""
 #. a room's title and its description, as the log shows them on arrival.
 #: ui/world/shared_ui_message_log.gd
 msgid "【{title}】{description}"
+msgstr ""
+
+#. sanyen.kitchen.steampot act.verb
+#: ui/world/shared_ui_nearby.gd data/sanyen/world.json
+msgid "打开"
 msgstr ""
 
 #. asked before 空识神通 (void_sense.c) when its 50 gin ({gin}) would knock the player out.
@@ -19562,11 +19567,6 @@ msgstr ""
 #: data/sanyen/world.json
 msgid ""
 "一个竹藤编成的蒸笼, 阵阵的香味使你想打开(open)来瞧一瞧。\n"
-msgstr ""
-
-#. sanyen.kitchen.steampot act.verb
-#: data/sanyen/world.json
-msgid "打开"
 msgstr ""
 
 #. sanyen.kitchen.steampot act.acts.steps.line
