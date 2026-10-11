@@ -15,14 +15,17 @@ permissions:
   contents: read
 
 jobs:
-  godot-verify:
-    name: Godot Verify
+  # verify.py runs on several runners at once: the checks job runs every step but the
+  # gameplay suites, and each shard job runs its share of the suites (each one a single-core
+  # Godot process, four at a time on a 4-vCPU runner). Together they are the whole of
+  # verify.py; `Godot Verify` passes only when all of them pass.
+  verify-checks:
+    name: Godot Verify (checks)
     if: >-
       github.event_name != 'pull_request' ||
       github.event.pull_request.draft == false
     runs-on: ubuntu-24.04
-    # The gameplay suites take ~25 of the runner's 4-way minutes and grow with each region.
-    timeout-minutes: 45
+    timeout-minutes: 20
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -36,16 +39,71 @@ jobs:
         id: godot
         run: python tools/ci/bootstrap_godot.py --platform linux --output build/toolchain --skip-templates
 
-      - name: Run canonical verification
-        run: python tools/ci/verify.py --godot "${{ steps.godot.outputs.godot }}"
+      - name: Run canonical verification without the gameplay suites
+        run: python tools/ci/verify.py --godot "${{ steps.godot.outputs.godot }}" --skip-gameplay-tests
+
+  verify-suites:
+    name: Godot Verify (suites ${{ matrix.shard }}/${{ strategy.job-total }})
+    if: >-
+      github.event_name != 'pull_request' ||
+      github.event.pull_request.draft == false
+    runs-on: ubuntu-24.04
+    # The suites take ~130 single-core minutes (2026-10-11) and grow with each region: when
+    # a shard nears 15 minutes, add one to the matrix.
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3]
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install pinned Godot editor
+        id: godot
+        run: python tools/ci/bootstrap_godot.py --platform linux --output build/toolchain --skip-templates
+
+      - name: Run the shard's gameplay suites
+        run: >-
+          python tools/ci/verify.py
+          --godot "${{ steps.godot.outputs.godot }}"
+          --suite-shard ${{ matrix.shard }}/${{ strategy.job-total }}
 
       - name: Upload gameplay suite logs
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: gameplay-suite-logs
+          name: gameplay-suite-logs-${{ matrix.shard }}
           path: build/verify-suites/logs
           if-no-files-found: ignore
+
+  godot-verify:
+    name: Godot Verify
+    needs:
+      - verify-checks
+      - verify-suites
+    # always(): a failed or cancelled verification job must fail this required check, not
+    # skip it (a skipped check would not block the merge).
+    if: >-
+      always() && (
+      github.event_name != 'pull_request' ||
+      github.event.pull_request.draft == false)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Require every verification job to pass
+        env:
+          CHECKS: ${{ needs.verify-checks.result }}
+          SUITES: ${{ needs.verify-suites.result }}
+        run: |
+          echo "Godot Verify (checks): $CHECKS"
+          echo "Godot Verify (suites, all shards): $SUITES"
+          test "$CHECKS" = success && test "$SUITES" = success
 
   windows-release:
     name: Windows Release Build

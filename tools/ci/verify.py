@@ -163,6 +163,23 @@ def suite_order(suites: list[str]) -> list[str]:
     return sorted(suites, key=key)
 
 
+def parse_shard(value: str) -> tuple[int, int]:
+    """--suite-shard K/N, with 1 <= K <= N."""
+    match = re.fullmatch(r"(\d+)/(\d+)", value)
+    if match is None or not 1 <= int(match.group(1)) <= int(match.group(2)):
+        raise argparse.ArgumentTypeError(f"expected K/N with 1 <= K <= N, got {value!r}")
+    return int(match.group(1)), int(match.group(2))
+
+
+def shard_suites(ordered: list[str], shard: tuple[int, int] | None) -> list[str]:
+    """Shard K of N takes every N-th suite of the start order, beginning with the K-th: each
+    shard gets its share of the slowest suites, and the N shards run every suite once."""
+    if shard is None:
+        return ordered
+    index, count = shard
+    return ordered[index - 1 :: count]
+
+
 def default_jobs() -> int:
     return os.cpu_count() or 1
 
@@ -279,27 +296,33 @@ def _check_suite_log(run: SuiteRun, returncode: int | None) -> None:
         run.problems.append("no assertions ran")
 
 
-def run_gameplay_suites(godot: Path, jobs: int, timeout: float = SUITE_TIMEOUT_SECONDS) -> None:
-    """Runs every suite in its own Godot process, `jobs` at a time. Each process gets its
-    own user data directory, so no two suites share save files."""
-    suites = discover_suites(REPOSITORY / "game")
-    if not suites:
+def run_gameplay_suites(
+    godot: Path, jobs: int, timeout: float = SUITE_TIMEOUT_SECONDS, shard: tuple[int, int] | None = None
+) -> None:
+    """Runs every suite (or one shard of them) in its own Godot process, `jobs` at a time.
+    Each process gets its own user data directory, so no two suites share save files."""
+    discovered = discover_suites(REPOSITORY / "game")
+    if not discovered:
         raise RuntimeError("no *_test.gd suites found under game/tests")
+    # The slowest first, then world suites (a minute or more each), then core suites
+    # (seconds): no slow suite runs alone at the end.
+    suites = shard_suites(suite_order(discovered), shard)
+    if not suites:
+        raise RuntimeError(f"suite shard {shard[0]}/{shard[1]} has no suites")
     work_root = REPOSITORY / "build/verify-suites"
     if work_root.exists():
         shutil.rmtree(work_root)
     (work_root / "logs").mkdir(parents=True)
     jobs = max(1, min(jobs, len(suites)))
-    print(f"{len(suites)} suites, {jobs} at a time; logs in build/verify-suites/logs", flush=True)
+    share = f"{len(suites)} suites" if shard is None else f"{len(suites)} of {len(discovered)} suites (shard {shard[0]}/{shard[1]})"
+    print(f"{share}, {jobs} at a time; logs in build/verify-suites/logs", flush=True)
     processes = _SuiteProcesses()
     runs: list[SuiteRun] = []
     started = time.monotonic()
     pool = ThreadPoolExecutor(max_workers=jobs)
     try:
         futures = []
-        # The slowest first, then world suites (a minute or more each), then core suites
-        # (seconds): no slow suite runs alone at the end.
-        for suite in suite_order(suites):
+        for suite in suites:
             name = suite.removeprefix("res://tests/").removesuffix(".gd").replace("/", "__")
             env = _godot_environment(work_root / "env" / name)
             log = work_root / "logs" / f"{name}.log"
@@ -345,6 +368,13 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--no-git", action="store_true")
     parser.add_argument("--skip-gameplay-tests", action="store_true")
     parser.add_argument(
+        "--suite-shard",
+        type=parse_shard,
+        metavar="K/N",
+        help="run only shard K of N of the gameplay suites (steps 3 and 4); the other steps run "
+        "with --skip-gameplay-tests. CI splits the suites this way; locally run everything",
+    )
+    parser.add_argument(
         "--jobs",
         type=int,
         default=default_jobs(),
@@ -354,18 +384,25 @@ def _parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
-    args = _parser().parse_args(argv)
+    parser = _parser()
+    args = parser.parse_args(argv)
+    shard = args.suite_shard
+    if shard is not None and args.skip_gameplay_tests:
+        parser.error("--suite-shard runs gameplay suites; it cannot be combined with --skip-gameplay-tests")
     python = sys.executable
     release_project = REPOSITORY / "build/verify-release-project"
     try:
-        print("[1/5] Python tooling unit tests", flush=True)
-        _run([python, "-m", "unittest", "discover", "-s", "tools/tests", "-p", "test_*.py", "-v"])
+        if shard is None:
+            print("[1/5] Python tooling unit tests", flush=True)
+            _run([python, "-m", "unittest", "discover", "-s", "tools/tests", "-p", "test_*.py", "-v"])
 
-        print("[2/5] Repository/static checks", flush=True)
-        command = [python, "tools/ci/repository_checks.py"]
-        if args.no_git:
-            command.append("--no-git")
-        _run(command)
+            print("[2/5] Repository/static checks", flush=True)
+            command = [python, "tools/ci/repository_checks.py"]
+            if args.no_git:
+                command.append("--no-git")
+            _run(command)
+        else:
+            print(f"Suite shard {shard[0]}/{shard[1]}: steps 3 and 4 only (steps 1, 2 and 5 run with --skip-gameplay-tests)", flush=True)
 
         godot = resolve_godot(args.godot)
         validate_godot_version(godot)
@@ -380,9 +417,12 @@ def main(argv: list[str] | None = None) -> int:
 
         print("[4/5] Complete gameplay test suites, one process each", flush=True)
         if args.skip_gameplay_tests:
-            print("SKIPPED by explicit clean-checkout smoke option", flush=True)
+            print("SKIPPED (--skip-gameplay-tests)", flush=True)
         else:
-            run_gameplay_suites(godot, args.jobs)
+            run_gameplay_suites(godot, args.jobs, shard=shard)
+        if shard is not None:
+            print(f"Suite shard {shard[0]}/{shard[1]} PASS", flush=True)
+            return 0
 
         print("[5/5] Actual release sanitizer and sanitized-project validation", flush=True)
         prepare_release_project(REPOSITORY / "game", release_project)

@@ -25,6 +25,12 @@ marked ready, and on manual `workflow_dispatch`. **Owner (2026-10-04):** a chang
 once, on its PR; merging into `main` runs nothing. A PR's CI tests it merged with `main` as it was
 then: when another PR merged in between, update the branch (CI runs again) before merging.
 
+`Godot Verify` is a summary job (since 2026-10-11): CI runs `verify.py` split across parallel
+runners, `Godot Verify (checks)` (every step but the gameplay suites) and one
+`Godot Verify (suites K/N)` job per share of the suites, and `Godot Verify` passes only when all of
+them pass; a failed or cancelled one fails it. The build jobs wait for it. Locally `verify.py`
+still runs everything in one go.
+
 If PR CI fails, fix it on the same branch. A run on `main` is manual (`workflow_dispatch`); if one
 fails, fix it first on a narrow `hotfix/<issue>` branch from `main` before other work. Never weaken
 or skip the gate to get green.
