@@ -69,6 +69,47 @@ only they or nobody use; `d/npc` (wizard-saved characters).
   were the last hand-made ones); a region's new maps are drawn the same way.
 * **Presentation**: art direction and assets, audio, animation, consistent Chinese UI.
 
+## After the grey box
+
+Owner direction (2026-10-11). Once every region in the table is playable, the work turns from
+breadth to the player's experience, in this order. Each step is one or a few packages; the owner
+plays nothing until step 3.
+
+1. **Responsiveness and playability pass (现代化修正 III).** Audit every reaction the player waits
+   for because ES2 bound it to a heart beat or `call_out()` — a master answering 拜师 two seconds
+   later, the toll's two seconds, the thief's three, the drunk's thirst, waking, dissolving a
+   corpse, berserk on the next tick, NPC healing ticks. Rule: a reaction to something the player
+   just did is immediate (or a staged beat under half a second); world simulation keeps its ticks
+   but shows what it does; deliberately dramatic sequences (三招, 三鞭) keep their pacing and show
+   progress. Each change is a data knob whose ES2 value is recorded (`pacing.json`,
+   [DECISIONS](../migration/DECISIONS.md)). Same pass: scene-transition fades, movement feel,
+   interaction prompts, camera, a battle-round knob.
+2. **UI overhaul.** One menu window with tabs (角色, 武学, 背包, 任务, 声望, 系统) replaces the
+   separate panels; the HUD keeps only what play needs; gamepad support (input map, focus
+   navigation, LB/RB tab switching, A/B confirm/cancel, button glyphs in prompts) alongside mouse
+   and touch. The 任务 tab starts as a journal of 朱鸿雪's task and the story chains' progress;
+   声望 is a placeholder until step 6.
+3. **Playtest checklist and the owner's first full playtest.** Claude first walks every region
+   windowed and fixes what that finds, then writes the checklist: per region and system, what to
+   do, what should happen, and what only the owner can judge (feel, pacing, wording), with fields
+   for time taken, confusion and defects; dev launchers reach late content without grinding. The
+   owner works through it once.
+4. **Fixes and pacing from the playtest.** The defect list, 润色 2, and the pending decisions
+   A2 (exp pacing, quest deadlines) and A6 (all-attack-at-once) from
+   [STATUS](STATUS.md#待决定).
+5. **The 游戏圣经.** First a one-page canon questionnaire for the owner (the dozen choices that
+   fix the story: the emperor and 水烟阁, what 东方神教 wants, who betrayed 南危水, whether the
+   prophecy is real, what 岚城 is …), then the bible: timeline, politics and geography, each
+   faction's origin, values, taboos, hierarchy and its own reading of the key events, key
+   characters and their secrets, rules of conduct that become reputation axes, open mysteries as
+   quest hooks, and a style guide. [WORLD_RELATIONS](WORLD_RELATIONS.md) is its inventory.
+6. **Quest and reputation systems.** Quest data with steps, conditions, triggers, rewards and
+   mutual exclusion; the journal; per-faction standing with a deed table; dialogue variants by
+   standing, deed, family and gender; a reputation page. Then the main story's first chapter and
+   the first faction lines, in the sandbox with the player's own character.
+7. **Art pilot**, in parallel from step 2 once style, tile size and asset source are chosen: one
+   region re-skinned through the painter's layouts, then the rest; characters and objects after.
+
 ## Later — release readiness
 
 Systematic playtesting and balance, device qualification (touch, iOS runtime), formal player-save
