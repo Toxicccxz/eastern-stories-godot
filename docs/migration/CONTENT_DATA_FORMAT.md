@@ -232,8 +232,9 @@ one portal); `vine` (epath2.c) rolls dodge between two portals `[waterfall, pass
 authored); the `pushes`-th opens its portals `[down, up]` for `open_seconds` of world time (`open`,
 `close`). `up` leads from where `down` arrives back to `zone`; both stay shut (their scene passages
 off) until the landmark opens them, and no other landmark may use them. With `[down]` alone the
-way back is an ordinary exit and the passage closes whoever stands beyond it; `pushes` 1 opens on
-every push, again while open, without putting the closing off (d/village/road6.c's grass).
+way back is an ordinary exit, the passage closes whoever stands beyond it, and opening it under the
+player takes them through; `every_push` 1 has no count: every push opens it, again while open,
+without putting the closing off (d/village/road6.c's grass).
 `push_stone` (closed.c): below the record's `force`, `max_force` or `force_factor` the push is
 `weak`; else it costs `gin`, `kee` and `sen` (`push`) and random(`random`) 0 rolls the stone away
 (`rolled`) through its one portal. `search` (water.c): with the record's `mark`, random(`random`)

@@ -39,7 +39,7 @@ func push(landmark: WorldLandmarkDefinition) -> HiddenPassagePushResult:
 	result.pushed = true
 	if not landmark.message("push").is_empty():
 		_session.shared_ui().append_log_lines([TranslationServer.translate(landmark.message("push"))])
-	result.opened = passage.push(landmark.setting("pushes"), 1000 * landmark.setting("open_seconds"))
+	result.opened = passage.push(landmark.setting("pushes"), 1000 * landmark.setting("open_seconds"), landmark.setting("every_push") == 1)
 	if result.opened:
 		_apply(landmark, true)
 		_session.shared_ui().append_log_lines([TranslationServer.translate(landmark.message("open"))])

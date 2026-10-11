@@ -146,9 +146,17 @@ pick, the 瓜农's catch, 还瓜钱). What each LPC function became is in
   dog takes it, as ES2). F_LIQUID is commented out: its 西瓜汁 is never drunk.
 - **Stays as ES2:** the 瓜农's greeting names no speaker (say() as written); the 农妇's age line is
   against her enemy (青石村 A); flowergirl.c in the room directory is a stray copy (not placed).
+- **默认: pushing the grass aside while pressed against it steps through.** The way west lies where
+  the grass was, so one who pushes while standing against it is on the way: a one-way way opened
+  under the player takes them (Snow's floor, which has a way back up, still waits for a step off
+  and on). One who pushes from a step away walks west into it. **Close to ES2:** every push opens
+  it for five seconds from the first push that found it shut; ES2's older call_out could shut a
+  later reopening early (pushes at 0 and 3 s, shut at 5 s; pushed at 6 s, shut at 8 s by the
+  second one's call_out), a difference of a few seconds nobody can rely on.
 - **Global (data):** an exit rule `always` (refuses everyone); a `hidden_passage` with one portal
-  (road6.c's grass: valley2's way back east is an exit) and `pushes` 1 (every push opens it, the
-  first close stands; the push line optional); food `water` (drink_func).
+  (road6.c's grass: valley2's way back east is an exit) and `every_push` (no count: every push
+  opens it, the first close stands; the push line optional); a passage opened under the player,
+  with no way back to wait for, takes them through; food `water` (drink_func).
 - **Save:** world content revision `SOURCE_ENTRY_VILLAGE_V1` (a new region); older development
   saves need a New Game.
 

@@ -66,18 +66,18 @@
 		"d/village/road6.c": {
 			"set item_desc": "the grass: a hidden_passage landmark in world.json (village.road6.landmark.grass), its look word for word",
 			"function init": "pushaside grass: the landmark's action (茅草 · 拨开)",
-			"function do_pushaside": "landmark village.road6.landmark.grass (hidden_passage, pushes 1): set(\"exits/west\") opens the way into valley2 (portal village.road6.west), its message_vision() (你 for $N), and call_out(\"roadgone\", 5); a push while it stands open says the line again and does not put the closing off (the first call_out closes it)",
+			"function do_pushaside": "landmark village.road6.landmark.grass (hidden_passage, every_push): set(\"exits/west\") opens the way into valley2 (portal village.road6.west), its message_vision() (你 for $N), and call_out(\"roadgone\", 5); a push while it stands open says the line again and does not put the closing off (the first call_out closes it)",
 			"function roadgone": "the hidden passage closes after open_seconds 5 of world time; its message(\"vision\") is seen in road6 only. valley2's east exit (portal village.valley2.east) stays open, as the static exit it is"
 		},
 		"d/village/lakeside.c": {
 			"set item_desc": "a look-only landmark in world.json (village.lakeside.landmark.boat), word for word",
 			"function init": "paddle boat: the act service village.lakeside.paddle (木船 · 划向湖心)",
 			"function do_paddle": "service village.lakeside.paddle: its message_vision() (你 for $N), write() and the move to lake.c (village.midlake, a map of its own: only the boat reaches it)",
-			"function valid_leave": "world.json exit_rules village.lakeside.west (always: 这么大的一片湖，你想走过去吗？) on the shore's way west (portal village.lakeside.west)"
+			"function valid_leave": "world.json exit_rules village.lakeside.no_wading (always: 这么大的一片湖，你想走过去吗？) on the shore's way west (portal village.lakeside.west)"
 		},
 		"d/village/lake.c": {
 			"function init": "owner (玉螺湖村 plan Q1, repaired): replace_program(ROOM) dropped init(), so ES2 answered paddle and dive with 什么? and lake.c's east exit walked back ashore; paddle and dive are the act services village.lake.paddle (小船 · 划回岸边) and village.lake.dive (湖水 · 潜入湖中)",
-			"function valid_leave": "world.json exit_rules village.lake.east (always: 你正站在船头…) on the boat's way east (portal village.lake.east); the LPC called itself (valid_leave(me, dir), not ::valid_leave) and would have recursed for any other way, but east is lake.c's only exit",
+			"function valid_leave": "world.json exit_rules village.lake.bow (always: 你正站在船头…) on the boat's way east (portal village.lake.east); the LPC called itself (valid_leave(me, dir), not ::valid_leave) and would have recursed for any other way, but east is lake.c's only exit",
 			"function do_paddle": "service village.lake.paddle: message_vision()'s $N你划动双桨 (an obvious slip: 你划动双桨), write() and the move to lakeside.c",
 			"function do_dive": "service village.lake.dive, asked first (owner, plan Q1: the only way out is past the 白鳞冰龙): its message_vision(), the write() as one line (the LPC string breaks mid-sentence: an obvious slip) and the move to lakebottom1.c (village.icecave), whose 玄冰 offers 放弃 (wake in the Inn, as 绝地)"
 		},

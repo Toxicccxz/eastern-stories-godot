@@ -26,7 +26,7 @@ only verbs reach).
 | road2.c south (d/city/nroad2) | drawn closed (东南 · 京师（未开放）); village_test fails once 京师 is placed |
 | road3.c, lakeside.c item_desc | look landmarks (小牌子: 傅家坡; 木船), word for word |
 | home.c / littlegarden.c, road9.c / lordhouse1.c create_door() | doors `village.home.door` (木门) and `village.lordhouse1.door` (田老财家大门), shut |
-| road6.c do_pushaside(), roadgone() | `hidden_passage` landmark `village.road6.landmark.grass` (茅草 · 拨开, pushes 1, one portal): exits/west for five seconds of world time, 你拨开茅草，发现了一条向西的路。 each push, the first call_out's 茅草晃了晃，又遮住了向西的路。 seen in road6 only; valley2.c's east is an exit, always open |
+| road6.c do_pushaside(), roadgone() | `hidden_passage` landmark `village.road6.landmark.grass` (茅草 · 拨开, every_push, one portal; pushed while standing against it, the player is through): exits/west for five seconds of world time, 你拨开茅草，发现了一条向西的路。 each push, the first call_out's 茅草晃了晃，又遮住了向西的路。 seen in road6 only; valley2.c's east is an exit, always open |
 | lakeside.c do_paddle(), valid_leave() | act service `village.lakeside.paddle` (木船 · 划向湖心: 你跳上渔船…, 你终于划到湖中心了。, the move); exit rule `village.lakeside.no_wading` (`always`: 这么大的一片湖，你想走过去吗？) on the shore's way west |
 | lake.c init(), do_paddle(), do_dive(), valid_leave() | dropped by replace_program(ROOM) in ES2; repaired (owner Q1): act services `village.lake.paddle` (小船 · 划回岸边) and `village.lake.dive` (湖水 · 潜入湖中, asked first), exit rule `village.lake.bow` (`always`: 你正站在船头…); its valid_leave() called itself, not ::valid_leave() |
 | lakebottom1.c (the way in frozen over) | landmark `village.lakebottom1.landmark.ice` (玄冰 · 放弃: the Inn, as 绝地) |

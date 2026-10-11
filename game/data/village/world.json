@@ -59,7 +59,7 @@
 		{
 			"id": "village.road6.landmark.grass", "zone": "village.road6", "name": "茅草", "action": "拨开", "policy": "hidden_passage",
 			"portals": ["village.road6.west"],
-			"pushes": 1, "open_seconds": 5,
+			"pushes": 1, "every_push": 1, "open_seconds": 5,
 			"long": "高高的茅草，可以拨开(pushaside)。\n",
 			"messages": {
 				"open": "你拨开茅草，发现了一条向西的路。",
@@ -91,7 +91,7 @@
 			] }
 		] } },
 		{ "id": "village.lake.dive", "kind": "act", "zone": "village.lake", "name": "湖水", "reach": 96, "legacy_source": "d/village/lake.c", "act": { "verb": "潜入湖中", "acts": [
-			{ "ask": "这一潜下去就回不到船上了：湖底的出路只有一条，要穿过白鳞冰龙盘踞的冰厅。\n确定要潜入湖中吗？", "choice": "确定潜入", "steps": [
+			{ "ask": "这一潜下去就回不到船上了：湖底的出路只有一条，要穿过白鳞冰龙盘踞的冰厅；过不去的话，只能在冰洞里放弃（醒来时在雪亭镇的客栈）。\n确定要潜入湖中吗？", "choice": "确定潜入", "steps": [
 				{ "line": "你深深吸了一口气，一个猛子潜入水中！\n" },
 				{ "line": "你越潜越深，突然眼前一亮，一处湖底发出光亮。你用拳一砸，那湖底竟然碎了，原来是一层冰！你随着水流被冲进一个岩洞中。\n" },
 				{ "move": "village.lakebottom1", "point": "village.lakebottom1.dive_arrival" }

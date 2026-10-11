@@ -66,8 +66,8 @@
           ["shallow_water", 416, 1536, 608, 1552, "the rice field's flooded rows"],
           ["shallow_water", 416, 1600, 608, 1616],
           ["shallow_water", 416, 1664, 608, 1680],
-          ["blocked", 416, 1040, 480, 1072, "fishing boats left on the shore"],
-          ["blocked", 432, 1184, 496, 1216],
+          ["blocked", 448, 1040, 512, 1072, "fishing boats left on the shore"],
+          ["blocked", 464, 1184, 528, 1216],
           ["forest", 1024, 1008, 1056, 1040, "melon vines"],
           ["forest", 1152, 1008, 1184, 1040],
           ["forest", 1088, 1120, 1120, 1152],
@@ -93,7 +93,11 @@
         ],
         "reach_from": "RoadCanyonArrival",
         "markers_in_middle": ["village.field", "village.melonfarm", "village.lakeside", "village.valley1", "village.valley2"],
-        "placed": {}
+        "placed": {
+          "village.lakeside.fisher.1": [608, 1048],
+          "village.lakeside.fisher.2": [608, 1184],
+          "village.lakeside.fisher.3": [560, 1184]
+        }
       },
       "scene": {
         "style": "map",
@@ -103,7 +107,8 @@
         "shapes": {
           "Rect_32_64": [32, 64],
           "Rect_64_32": [64, 32],
-          "Rect_32_32": [32, 32]
+          "Rect_32_32": [32, 32],
+          "Rect_32_128": [32, 128]
         },
         "door_style": {
           "walls": "Terrain/DoorWalls",
@@ -128,11 +133,11 @@
           {"generated": "door_walls"},
           {"generated": "shutters"},
           {"node": "passage", "name": "CanyonPassage", "id": "village.road1.north", "at": [1792, 232], "shape": "Rect_64_32"},
-          {"node": "passage", "name": "GrassPassage", "id": "village.road6.west", "at": [400, 864], "shape": "Rect_32_64"},
+          {"node": "passage", "name": "GrassPassage", "id": "village.road6.west", "at": [385, 864], "shape": "Rect_32_64"},
           {"node": "passage", "name": "ValleyEastPassage", "id": "village.valley2.east", "at": [216, 864], "shape": "Rect_32_64"},
-          {"node": "passage", "name": "LakePassage", "id": "village.lakeside.west", "at": [420, 1120], "shape": "Rect_32_64"},
+          {"node": "passage", "name": "LakePassage", "id": "village.lakeside.west", "at": [420, 1120], "shape": "Rect_32_128"},
           {"node": "passage", "name": "CavePassage", "id": "village.valley1.eastdown", "at": [216, 1184], "shape": "Rect_32_64"},
-          {"node": "service", "name": "LakesidePaddle", "id": "village.lakeside.paddle", "at": [512, 1056], "text": "木船 · 划向湖心"},
+          {"node": "service", "name": "LakesidePaddle", "id": "village.lakeside.paddle", "at": [544, 1088], "text": "木船 · 划向湖心"},
           {"generated": "doors"}
         ],
         "zones": [{"generated": "zones"}],
@@ -146,7 +151,7 @@
         ],
         "interactions": [
           {"name": "TabletInteraction", "id": "village.road3.landmark.tablet", "at": [1544, 808], "shape": "Rect_32_32"},
-          {"name": "BoatInteraction", "id": "village.lakeside.landmark.boat", "at": [448, 1056], "shape": "Rect_64_32"},
+          {"name": "BoatInteraction", "id": "village.lakeside.landmark.boat", "at": [480, 1056], "shape": "Rect_64_32"},
           {"name": "GrassInteraction", "id": "village.road6.landmark.grass", "at": [336, 864], "shape": "Rect_32_64"}
         ]
       }

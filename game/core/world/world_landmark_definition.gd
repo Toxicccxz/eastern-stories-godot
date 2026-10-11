@@ -8,8 +8,8 @@ extends RefCounted
 ## `hidden_passage` does not move the player: each use is one push, and the
 ## `pushes`-th opens its two portals (the way down and the way back) for
 ## `open_seconds` (weapon_storage.c). One with a single portal opens only the way
-## there, the way back being an ordinary exit, and one of `pushes` 1 opens on every
-## push (d/village/road6.c's grass: no count); `push` is said only when authored. `bury` buries the `buried` item lying in the
+## there, the way back being an ordinary exit, and one with `every_push` 1 has no count:
+## every push opens it (d/village/road6.c's grass); `push` is said only when authored. `bury` buries the `buried` item lying in the
 ## zone and rolls the player's kar: the `reward` item falls, or the player falls
 ## through its portal (cave5.c do_bury()). A `portal` landmark may say its LPC
 ## line (`use`, message_vision() to the mover) instead of the action's name. A
@@ -44,7 +44,7 @@ extends RefCounted
 const POLICIES: Dictionary[StringName, Dictionary] = {
 	&"portal": {"portals": 1, "messages": [], "optional_messages": ["use"], "settings": [], "items": []},
 	&"vine": {"portals": 2, "messages": ["hold", "fall", "climb"], "optional_messages": ["fall_observer", "climb_observer"], "settings": [], "optional_settings": ["below"], "items": []},
-	&"hidden_passage": {"portals": 1, "optional_portals": 1, "messages": ["open", "close"], "optional_messages": ["push"], "settings": ["pushes", "open_seconds"], "items": []},
+	&"hidden_passage": {"portals": 1, "optional_portals": 1, "messages": ["open", "close"], "optional_messages": ["push"], "settings": ["pushes", "open_seconds"], "optional_settings": ["every_push"], "items": []},
 	&"bury": {"portals": 1, "messages": ["bury", "book", "paper", "fall"], "settings": [], "items": ["buried", "reward"]},
 	&"look": {"portals": 0, "messages": [], "settings": [], "items": [], "no_action": true},
 	&"join_class": {"portals": 0, "messages": ["joined", "refused"], "settings": [], "items": [], "class": true},
@@ -56,7 +56,7 @@ const POLICIES: Dictionary[StringName, Dictionary] = {
 	&"note_maze": {"portals": 1, "messages": ["read", "out"], "settings": ["steps", "nearer", "further"], "items": [], "mark": true, "maze": true},
 }
 ## Every setting some policy names (an integer field of the record).
-const SETTINGS: Array[String] = ["pushes", "open_seconds", "force", "max_force", "force_factor", "gin", "kee", "sen", "random", "limit", "divisor", "below", "steps", "nearer", "further"]
+const SETTINGS: Array[String] = ["pushes", "open_seconds", "every_push", "force", "max_force", "force_factor", "gin", "kee", "sen", "random", "limit", "divisor", "below", "steps", "nearer", "further"]
 
 
 ## One of a note_maze's notes: what it reads and the way it names (a portal's legacy_command).

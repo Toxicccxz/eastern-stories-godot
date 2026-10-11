@@ -66,7 +66,7 @@ func _test_data() -> void:
 	_check(catalog.door(&"village.lordhouse1.door").display_name == "田老财家大门" and catalog.door(&"village.home.door").display_name == "木门", "刘家's 木门, 田老财家大门")
 	_check(catalog.landmark(&"village.road3.landmark.tablet").description == "你勉强分辨出那上面模糊的字迹：傅家坡\n", "the sign: 傅家坡")
 	var grass: WorldLandmarkDefinition = catalog.landmark(GRASS)
-	_check(grass.policy == &"hidden_passage" and grass.portal_ids() == [WEST] and grass.setting("pushes") == 1 and grass.setting("open_seconds") == 5, "the grass: one way west, every push, five seconds")
+	_check(grass.policy == &"hidden_passage" and grass.portal_ids() == [WEST] and grass.setting("every_push") == 1 and grass.setting("open_seconds") == 5, "the grass: one way west, every push, five seconds")
 	_check(catalog.hidden_passage_for_portal(WEST) == grass and catalog.hidden_passage_for_portal(&"village.valley2.east") == null, "only the way west is hidden; east back to the village is an exit")
 	for rule_id: Array in [[&"village.lakeside", &"village.lake", "这么大的一片湖，你想走过去吗？"], [&"village.lake", &"village.lakeside", "你正站在船头，向东走一小步就会掉入湖中！你不想这样吧？"]]:
 		var rule: ZoneExitRuleDefinition = catalog.exit_rules_between(rule_id[0], rule_id[1])[0]
@@ -177,6 +177,28 @@ func _test_grass(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(hud.log_lines()[-1] == "你拨开茅草，发现了一条向西的路。" and map.is_portal_open(WEST), "pushed again while open: the line again")
 	session.advance_hidden_passages(1.0)
 	_check(not map.is_portal_open(WEST) and hud.log_lines()[-1] == "茅草晃了晃，又遮住了向西的路。", "the first call_out closes it, seen from road6: %s" % hud.log_lines()[-1])
+	# Standing right at the grass (the body brushing the shut way), push, then walk on in.
+	var way: WorldPassageArea2D = MapPlaces.passage(map, WEST)
+	_check(map.place_player(&"village.road6", way.global_position + Vector2(way.global_rect().size.x / 2.0 + 10.0, 0)), "TEST-ONLY: right against the grass")
+	await tree.physics_frame
+	await tree.physics_frame
+	_check(map.select_landmark(GRASS), "the grass, close by")
+	map.traverse_selected_portal()
+	await tree.physics_frame
+	_check(await MapPlaces.take_same_map_passage(tree, map, WEST, 240) and player.world_location().zone_id == &"village.valley2", "a step on west takes the way that opened at the player's side: %s" % player.world_location().zone_id)
+	_check(await MapPlaces.take_same_map_passage(tree, map, &"village.valley2.east"), "and back east")
+	# Pressed against the grass (the centre on the shut way): pushing it aside steps through.
+	session.advance_hidden_passages(5.0)
+	_check(map.place_player(&"village.road6", way.global_position), "TEST-ONLY: against the grass")
+	await tree.physics_frame
+	await tree.physics_frame
+	_check(not map.is_portal_open(WEST) and player.world_location().zone_id == &"village.road6", "the way shut, still in road6")
+	_check(map.select_landmark(GRASS), "the grass, pressed against it")
+	map.traverse_selected_portal()
+	for _frame: int in range(6):
+		await tree.physics_frame
+	_check(player.world_location().zone_id == &"village.valley2", "pushed aside, the player is through (a one-way way opened under them): %s" % player.world_location().zone_id)
+	_check(await MapPlaces.take_same_map_passage(tree, map, &"village.valley2.east"), "and back east again")
 
 
 ## lakeside.c and lake.c: the lake is no walk; the boat out and back; the dive (asked first)
