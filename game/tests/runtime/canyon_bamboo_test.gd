@@ -5,9 +5,10 @@ extends RefCounted
 ## (梦幻迷境通道, fantasy1.c) the middle way leads north up the 竹林道 (bamboo1–3) to the great yellow
 ## stone. bamboo3.c's move stone wants 560 force and max_force and 40 force_factor and costs 20 gin,
 ## 60 kee, 20 sen; it opens a gap (a room flag) that enter closes behind the player in the 洞内石室
-## (train.c). Its bookcase gives a 书匣 holding the 悟疾风劲竹书 once (the room's got), and none
-## while the book exists (F_UNIQUE, 默认); the book is taken out of the carried 书匣 and teaches
-## parry to 50 from 20000 exp. Walks use the move actions (MapPlaces). TEST-ONLY fixtures are marked.
+## (train.c). Its bookcase gives a 书匣 holding the 悟疾风劲竹书 whenever no such book exists
+## (F_UNIQUE; train.c's got went with ES2's clean_up, 默认); the book is taken out of the carried
+## 书匣 (and put back) and teaches parry to 50 from 20000 exp. Walks use the move actions
+## (MapPlaces). TEST-ONLY fixtures are marked.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const Finance := preload("res://tests/runtime/snow_finance_test.gd")
@@ -71,7 +72,7 @@ func _test_data() -> void:
 
 ## Which branch answers: the stone wants all three of force, max_force and force_factor; only
 ## the gap answers once it is open (默认: no second push, which cost again and said nothing);
-## the bookcase gives once per room flag and never while the book exists.
+## the bookcase gives only while no book exists.
 func _test_rules() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var stone: RoomActDefinition = catalog.service(STONE).act
@@ -93,14 +94,10 @@ func _test_rules() -> void:
 	var bookcase: RoomActDefinition = catalog.service(BOOKCASE).act
 	var fresh := ScriptedAct.Facts.new()
 	fresh.item_exists = func(_id: StringName) -> bool: return false
-	_check(bookcase.act_for(&"男性", &"", fresh) == bookcase.acts[2], "the first search: the 书匣")
-	var searched := ScriptedAct.Facts.new()
-	searched.item_exists = fresh.item_exists
-	searched.room = {"got": 1}
-	_check(bookcase.act_for(&"男性", &"", searched) == bookcase.acts[0], "the room's got: nothing")
+	_check(bookcase.act_for(&"男性", &"", fresh) == bookcase.acts[1] and bookcase.acts[1].steps.size() == 2, "no book in the world: the line and the 书匣 (no room flag kept)")
 	var exists := ScriptedAct.Facts.new()
 	exists.item_exists = func(id: StringName) -> bool: return id == BOOK
-	_check(bookcase.act_for(&"男性", &"", exists) == bookcase.acts[1], "the book exists somewhere: nothing (F_UNIQUE, 默认)")
+	_check(bookcase.act_for(&"男性", &"", exists) == bookcase.acts[0], "the book exists somewhere: nothing (F_UNIQUE, 默认)")
 
 
 ## canyon2.c west (repaired) along the 黄石穿林路 to the mirror, and into it.
@@ -122,6 +119,8 @@ func _test_bamboo(tree: SceneTree, session: WorldSessionController) -> void:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	_check(await MapPlaces.drive_through(tree, bamboo, [&"canyon.bamboo1", &"canyon.bamboo2", &"canyon.bamboo3"]), "north up the 竹林道")
 	_check(session.place_name(player.world_location()) == "天驼关 · 竹林道", "天驼关 · 竹林道")
+	session.shared_ui().describe_arrival()
+	_check(session.shared_ui().log_lines()[-1].begins_with("【竹林道】北方有一个大黄石堵住去路"), "bamboo3 has its own say though bamboo2 has its name (distinct): the stone to push")
 	_check(await MapPlaces.drive(tree, bamboo, MapPlaces.service_spot(bamboo, STONE)) and (bamboo.service(STONE) as ActService).in_reach(), "at the great yellow stone")
 	_check((bamboo.service(GAP) as ActService).point.get_node_or_null("Visual") == null, "the gap has no diamond of its own")
 
@@ -163,7 +162,8 @@ func _test_stone(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not session.room_states().has_flag(&"canyon.bamboo3", "exits/enter"), "the stone shut behind them")
 
 
-## search bookcase: the 书匣 with the book inside, once; the bookcase looked at.
+## search bookcase: the 书匣 with the book inside; nothing more while the book exists; the
+## bookcase looked at; a Continue starts with the stone shut.
 func _test_bookcase(tree: SceneTree, session: WorldSessionController) -> void:
 	var room: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
@@ -185,20 +185,28 @@ func _test_bookcase(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.inventory_state().subtree_weight(slipcase) == 4800, "the 书匣 weighs 4000 and the book 800")
 	bookcase.interact()
 	await tree.physics_frame
-	_check(hud.log_lines()[-1] == NOTHING and _all_carried(session, SLIPCASE).size() == 1, "again: %s" % hud.log_lines()[-1])
-	# A Continue forgets the room's got (room state is not saved); the book still exists.
-	session.room_states().clear_flag(&"canyon.train", "got") # TEST-ONLY: as after a Continue
-	bookcase.interact()
-	await tree.physics_frame
-	_check(hud.log_lines()[-1] == NOTHING and _all_carried(session, SLIPCASE).size() == 1, "the book exists: none made anew (F_UNIQUE, 默认)")
+	_check(hud.log_lines()[-1] == NOTHING and _all_carried(session, SLIPCASE).size() == 1, "again, the book in the 书匣: %s (F_UNIQUE, 默认)" % hud.log_lines()[-1])
 	# TEST-ONLY: back to a fresh character's force first (Continue recomputes max kee from max_force).
 	session.player_runtime().state.recovery.inner_force = CharacterInternalResourceState.new(0, 0)
 	var walker: RefCounted = Work.new()
 	await walker.round_trip(tree, session, Work.capture(session), "天驼关 C with the 书匣")
 	_check(walker._failures.is_empty(), "Save/Continue keeps the book in the 书匣: " + str(walker._failures))
+	# Room flags are not saved: a Continue finds the stone shut whatever was open.
+	session.room_states().set_flag(&"canyon.bamboo3", "exits/enter") # TEST-ONLY: the gap open
+	var encoded: GameSaveResult = GameSaveJsonCodec.encode(Work.capture(session))
+	var restored: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(GameSaveJsonCodec.decode(encoded.text).snapshot, tree.root)
+	_check(restored.succeeded() and restored.candidate.activate_restore_candidate(), "Continue in the stone room")
+	if restored.succeeded():
+		var fresh: WorldSessionController = restored.candidate
+		fresh.set_process(false)
+		_check(fresh.room_states().flags(&"canyon.bamboo3").is_empty(), "after Continue the stone is shut")
+		fresh.free()
+		await tree.process_frame
+	session.room_states().clear_flag(&"canyon.bamboo3", "exits/enter")
 
 
-## get book from slipcase (the 背包's 取出 on the 书匣), then study it.
+## get book from slipcase (the 背包's 取出 on the 书匣), put it back (放进书匣) and out again,
+## then study it.
 func _test_book(tree: SceneTree, session: WorldSessionController) -> void:
 	var hud: SharedGameplayUI = session.shared_ui()
 	var state: CharacterState = session.player_runtime().state
@@ -209,6 +217,8 @@ func _test_book(tree: SceneTree, session: WorldSessionController) -> void:
 		if each.item_instance_id == slipcase:
 			row = each
 	_check(row != null and row.contents.size() == 1 and row.contents[0][1] == "悟疾风劲竹书", "the 书匣's row lists what it holds")
+	hud.inventory_panel.show_inspection(row)
+	_check(hud.inventory_panel.inspection_display().ends_with("里面有：\n  悟疾风劲竹书"), "观察 the 书匣: 里面有： (look.c): %s" % hud.inventory_panel.inspection_display())
 	hud.show_inventory(rows)
 	await tree.process_frame
 	var take: Button = _button(hud.inventory_panel, "取出悟疾风劲竹书")
@@ -220,6 +230,19 @@ func _test_book(tree: SceneTree, session: WorldSessionController) -> void:
 	var book: StringName = _carried(session, BOOK)
 	_check(book != &"", "the book is in the pack")
 	_check(_button(hud.inventory_panel, "取出悟疾风劲竹书") == null, "the 书匣 is empty now")
+	var back: Button = _row_button(hud.inventory_panel, "悟疾风劲竹书", "放进书匣")
+	_check(back != null, "放进书匣 on the book's row (put.c: a carried container)")
+	if back != null:
+		back.pressed.emit()
+	await tree.process_frame
+	_check(hud.log_lines()[-1] == "你将一把悟疾风劲竹书放进书匣。" and _carried(session, BOOK) == &"", "put.c: %s" % hud.log_lines()[-1])
+	take = _button(hud.inventory_panel, "取出悟疾风劲竹书")
+	_check(take != null, "and 取出 again")
+	if take != null:
+		take.pressed.emit()
+	await tree.process_frame
+	book = _carried(session, BOOK)
+	_check(book != &"", "the book is in the pack again")
 	hud.dismiss_current_panel()
 	await tree.physics_frame
 	await tree.physics_frame
@@ -239,7 +262,7 @@ func _test_way_back(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(await MapPlaces.take_passage(tree, room, &"canyon.train.out"), "out")
 	_check(session.active_map_id() == &"canyon.bamboo" and player.world_location().zone_id == &"canyon.bamboo3", "by the stone again: %s" % player.world_location().zone_id)
 	var bamboo: WorldMapController = session.active_map() as WorldMapController
-	_check(bamboo.interaction_title() == "" or bamboo.interaction_title() == "大黄石 · 推开", "the stone is shut: %s" % bamboo.interaction_title())
+	_check((bamboo.service(GAP) as ActService).context_title() == "" and not session.room_states().has_flag(&"canyon.bamboo3", "exits/enter"), "the stone is shut: no gap")
 	_check(await MapPlaces.drive_through(tree, bamboo, [&"canyon.bamboo2", &"canyon.bamboo1", &"canyon.fantasy1"]), "back down to the mirror's chamber")
 	_check(await MapPlaces.take_passage(tree, bamboo, &"canyon.fantasy1.back"), "back through the mirror")
 	_check(session.active_map_id() == &"canyon.pass" and player.world_location().zone_id == &"canyon.stone_forest3", "the clearing: %s" % player.world_location().zone_id)
@@ -265,6 +288,15 @@ func _button(root: Node, text: String) -> Button:
 	for node: Node in root.find_children("*", "Button", true, false):
 		if (node as Button).text == text and (node as Button).is_visible_in_tree():
 			return node as Button
+	return null
+
+
+## The button with this text on the 背包 row whose label begins with `row_name`, or null.
+func _row_button(panel: PlayerInventoryPanel, row_name: String, text: String) -> Button:
+	for row: Node in panel.row_container.get_children():
+		var label: Label = row.get_child(0) as Label
+		if label != null and label.text.begins_with(row_name) and not row.is_queued_for_deletion():
+			return _button(row, text)
 	return null
 
 

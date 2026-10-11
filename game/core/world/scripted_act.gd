@@ -14,8 +14,8 @@ extends RefCounted
 ## that they can still drink (query("water") below max_water_capacity(): d/choyin/s_street1.c's
 ## well), `at_least` their force, max_force and force_factor at least so much (d/canyon/bamboo/
 ## bamboo3.c's stone), `room` and `not_room` a flag the act's room has or lacks (its set(), set_temp():
-## bamboo3.c's exits/enter, train.c's got) and `exists` an item that exists somewhere in the world
-## (F_UNIQUE's violate_unique(): train.c's book). The first branch that is for
+## bamboo3.c's exits/enter) and `exists` an item that exists somewhere in the world (F_UNIQUE's
+## violate_unique(): train.c's book). The first branch that is for
 ## the player acts. `ask` is the owner's question before a choice that can kill (a man walking into
 ## the bath, DECISIONS 晚月庄 A), with `choice` its button. The steps run in order:
 ## - a line (NpcLine: say, emote, line, whisper, in its colour; a room's message_vision()

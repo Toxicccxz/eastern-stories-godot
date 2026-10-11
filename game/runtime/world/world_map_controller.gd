@@ -1151,6 +1151,10 @@ func take_from_carried_container(container_id: StringName, item_id: StringName) 
 	return floor_items.take_from_carried_container(container_id, item_id)
 
 
+func put_in_carried_container(item_id: StringName, amount: int, container_id: StringName) -> ItemHandlingResult:
+	return floor_items.put_in_carried_container(item_id, amount, container_id)
+
+
 func take_from_selected_container(item_id: StringName) -> ItemHandlingResult:
 	return floor_items.take_from_selected_container(item_id)
 

@@ -312,6 +312,8 @@ func _check_npc_loadouts() -> void:
 			var item: ItemContentDefinition = _items.get(entry.item_definition_id)
 			if item == null:
 				_errors.append("%s.item: unknown item '%s'" % [path, entry.item_definition_id])
+			elif not item.contains.is_empty():
+				_errors.append("%s.item: '%s' is made holding things; an NPC's carried one is not yet" % [path, entry.item_definition_id])
 			elif (
 				entry.equipment_intent == NpcLoadoutEntry.EquipmentIntent.WIELD_PRIMARY
 				and item.weapon_definition() == null
@@ -456,6 +458,8 @@ func _check_spawns() -> void:
 		var item: ItemContentDefinition = _items.get(definition.item_definition_id)
 		if item == null:
 			_errors.append("%s.item: unknown item '%s'" % [origin, definition.item_definition_id])
+		elif not item.contains.is_empty():
+			_errors.append("%s.item: '%s' is made holding things; one lying in a room is not yet" % [origin, definition.item_definition_id])
 		for point_id: StringName in definition.spawn_point_ids():
 			if point_owners.has(point_id):
 				_errors.append("%s.points: '%s' is already used by %s" % [
@@ -471,6 +475,8 @@ func _check_vendors() -> void:
 			var item_id: StringName = definition.item_definition_id(key)
 			if not _items.has(item_id):
 				_errors.append("%s.goods.%s: unknown item '%s'" % [origin, key, item_id])
+			elif not _items[item_id].contains.is_empty():
+				_errors.append("%s.goods.%s: '%s' is made holding things; a bought one is not yet" % [origin, key, item_id])
 
 
 func _check_maps() -> void:
@@ -569,6 +575,8 @@ func _check_item_acts() -> void:
 			var held: ItemContentDefinition = _items.get(held_id)
 			if held == null or held_id == item.item_definition_id:
 				_errors.append("%s.contains: unknown item '%s'" % [origin, held_id])
+			elif not held.contains.is_empty():
+				_errors.append("%s.contains: '%s' holds things itself" % [origin, held_id])
 			else:
 				held_weight += held.own_weight
 		if held_weight > item.max_encumbrance and not item.contains.is_empty():

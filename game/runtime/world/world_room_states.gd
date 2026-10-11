@@ -2,9 +2,9 @@ class_name WorldRoomStates
 extends RefCounted
 
 ## The Session's room flags: what an ES2 room's own code set() or set_temp() on the room
-## itself (d/canyon/bamboo/bamboo3.c's exits/enter, train.c's got), by zone. std/room.c's
-## reset() leaves them be. Not saved, as doors and room counters are not: a new world and a
-## Continue both start with none.
+## itself (d/canyon/bamboo/bamboo3.c's exits/enter), by zone: a zone that holds several rooms
+## shares them. std/room.c's reset() leaves them be. Not saved, as doors and room counters are
+## not: a new world and a Continue both start with none.
 var _flags: Dictionary[StringName, Dictionary] = {}
 
 

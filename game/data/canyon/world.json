@@ -33,7 +33,7 @@
 		{ "id": "canyon.fantasy1", "map": "canyon.bamboo", "rooms": ["es2:d/canyon/fantasy1"] },
 		{ "id": "canyon.bamboo1", "map": "canyon.bamboo", "rooms": ["es2:d/canyon/bamboo/bamboo1"] },
 		{ "id": "canyon.bamboo2", "map": "canyon.bamboo", "rooms": ["es2:d/canyon/bamboo/bamboo2"] },
-		{ "id": "canyon.bamboo3", "map": "canyon.bamboo", "rooms": ["es2:d/canyon/bamboo/bamboo3"] },
+		{ "id": "canyon.bamboo3", "map": "canyon.bamboo", "rooms": ["es2:d/canyon/bamboo/bamboo3"], "distinct": true },
 		{ "id": "canyon.train", "map": "canyon.stoneroom", "rooms": ["es2:d/canyon/bamboo/train"] }
 	],
 	"portals": [
@@ -103,16 +103,12 @@
 			] }
 		] } },
 		{ "id": "canyon.train.bookcase", "kind": "act", "zone": "canyon.train", "name": "书柜", "reach": 96, "legacy_source": "d/canyon/bamboo/train.c", "act": { "verb": "翻找", "acts": [
-			{ "room": "got", "steps": [
-				{ "line": "你在书柜找了找但没找到些什么\n" }
-			] },
 			{ "exists": "es2:d/canyon/bamboo/obj/parry_book", "steps": [
 				{ "line": "你在书柜找了找但没找到些什么\n" }
 			] },
 			{ "steps": [
 				{ "line": "你在书柜中找了到一个书匣\n" },
-				{ "give": "es2:d/canyon/bamboo/obj/slipcase" },
-				{ "set_room": "got" }
+				{ "give": "es2:d/canyon/bamboo/obj/slipcase" }
 			] }
 		] } }
 	]

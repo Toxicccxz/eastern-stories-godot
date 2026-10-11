@@ -344,17 +344,13 @@ msgstr ""
 msgid "梦幻迷境通道"
 msgstr ""
 
-#. canyon.bamboo3.stone name
-#: scenes/world/canyon/canyon_bamboo.tscn data/canyon/world.json
-msgid "大黄石"
-msgstr ""
-
 #: scenes/world/canyon/canyon_bamboo.tscn scenes/world/canyon/canyon_pass.tscn
 msgid "镜子"
 msgstr ""
 
-#: scenes/world/canyon/canyon_bamboo.tscn
-msgid "大黄石 · 推开"
+#. canyon.bamboo3.stone name
+#: scenes/world/canyon/canyon_bamboo.tscn data/canyon/world.json
+msgid "大黄石"
 msgstr ""
 
 #. es2:d/canyon/road short
@@ -6819,6 +6815,11 @@ msgstr ""
 
 #: ui/world/player_inventory_panel.gd
 msgid "防护：%+d"
+msgstr ""
+
+#. what a container holds (look.c), one name a line after it.
+#: ui/world/player_inventory_panel.gd
+msgid "里面有："
 msgstr ""
 
 #. an item's apply/dodge, e.g. 轻功：-2 (the 武学 page's 轻功 use).

@@ -562,13 +562,6 @@
           },
           {
             "node": "caption",
-            "name": "StoneLabel",
-            "at": [192, -20],
-            "text": "大黄石",
-            "size": 12
-          },
-          {
-            "node": "caption",
             "name": "MirrorLabel",
             "at": [192, 1040],
             "text": "镜子",
@@ -586,7 +579,7 @@
             "name": "BambooStone",
             "id": "canyon.bamboo3.stone",
             "at": [192, 112],
-            "text": "大黄石 · 推开"
+            "text": "大黄石"
           },
           {
             "node": "service",

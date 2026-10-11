@@ -306,9 +306,7 @@ func give_new_item_to(npc: NpcRuntimeState, item_definition_id: StringName) -> S
 	if moved.succeeded:
 		return item.item_instance_id
 	# Too heavy for it: the new item is gone again rather than left without a holder.
-	var removal: ItemLifecycleResult = ItemLifecycleService.destroy_item(_inventory, _stacks, item.item_instance_id, ItemLifecycleResult.ChildDisposition.DESTROY_SUBTREE)
-	if not (removal.succeeded and _item_index.forget_destroyed_snapshots(removal.removed_instance_ids, _inventory)):
-		push_error("new %s could not be undone" % item.item_instance_id)
+	_unmake(item.item_instance_id)
 	return &""
 
 
@@ -337,8 +335,25 @@ func _make_item(content: ItemContentDefinition) -> ItemInstance:
 		if held == null or not InventoryTransferService.new().transfer(
 			_inventory, held.item_instance_id, InventoryTransferDestination.new(inside, true, true, content.max_encumbrance),
 		).succeeded:
+			# Undone with what it holds so far: one left without a holder would still count as
+			# existing (item_exists(), a unique book).
+			if held != null:
+				_unmake(held.item_instance_id)
+			_unmake(item.item_instance_id)
 			return null
 	return item
+
+
+## destruct() of a new item that found no place, with whatever it holds.
+func _unmake(item_id: StringName) -> void:
+	var removal: ItemLifecycleResult = ItemLifecycleService.destroy_item(_inventory, _stacks, item_id, ItemLifecycleResult.ChildDisposition.DESTROY_SUBTREE)
+	if not (
+		removal.succeeded
+		and _foods.forget_removed(removal.removed_instance_ids, _inventory)
+		and _liquids.forget_removed(removal.removed_instance_ids, _inventory)
+		and _item_index.forget_destroyed_snapshots(removal.removed_instance_ids, _inventory)
+	):
+		push_error("new %s could not be undone" % item_id)
 
 
 ## How many times a `look_spawn` landmark called something in since its room's reset
@@ -708,6 +723,16 @@ func take_from_selected_container(item_id: StringName) -> ItemHandlingResult:
 	var result: ItemHandlingResult = ItemHandlingService.take_from(_player, view.item_instance_id, item_id, item_authorities())
 	_report_item_handling(result)
 	show_container(view)
+	return result
+
+
+## put <item> in <a container the player carries> (put.c looks on them first).
+func put_in_carried_container(item_id: StringName, amount: int, container_id: StringName) -> ItemHandlingResult:
+	var carried := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id) if _player != null else null
+	if not can_handle_items() or not is_container(container_id) or not _inventory.is_direct_child(container_id, carried):
+		return ItemHandlingResult.new()
+	var result: ItemHandlingResult = ItemHandlingService.put(_player, item_id, amount, container_id, item_authorities())
+	_report_item_handling(result)
 	return result
 
 

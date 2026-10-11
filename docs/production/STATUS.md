@@ -4,12 +4,13 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**天驼关 B** (`phase/canyon-b`, region #10, DECISIONS「天驼关 B」): the 印鉴 chain. 赫造基 tells
-one who gives him eight taels the secret of the smooth wall; there the oath (a button, owner Q3)
-takes them into the 兵器库. The 后备兵 trades a fake 印鉴 for exactly three gold; 严廷殷 throws out
-whoever offers it; the 后备兵 then swaps it for the real one, which 严廷殷 rewards with the 古剑
-(研读: sword to 50). Asked in the PR: the 后备兵 keeps money once he is done (as he says; 默认).
-Next: C, the 竹林道 west of the pass (repaired, Q1).
+**天驼关 C** (`phase/canyon-c`, region #10, DECISIONS「天驼关 C」): the side way west of the pass,
+repaired (owner Q1). The 黄石穿林路 leads to a mirror; inside it the 竹林道 runs north to a great
+yellow stone; pushed aside (560 force and max_force, 加力 40) it opens a gap into a stone room whose
+bookcase gives a 书匣 holding the 悟疾风劲竹书 (研读: parry to 50 from 20000 exp); a carried
+container now opens in the 背包 (取出, 放进, 观察). Defaults in the PR: no second push while the gap
+is open; the bookcase gives a book whenever none exists. With C the region is done; next: region
+#11 玉螺湖村 (plan first).
 
 ## 待决定
 
@@ -244,7 +245,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   killed, and three at 1 knock them out), the crime cleared, and puts them out at the 衙门口.
   On the way 行贿 on the 巡捕: ten gold or more frees them, less is refused (a crime more);
   killing a 巡捕 is five crimes; no Save while led.
-* **天驼关**: south-west from Snow's 青石官道 (sroad4), 17 of 27 rooms on three maps: the gravel
+* **天驼关**: south-west from Snow's 青石官道 (sroad4), 25 of 27 rooms on five maps: the gravel
   path on the clifftop to the mound where the iron chain hangs down (爬下去: 20 gin, 30 kee, 10
   sen; 爬上去 from below: 30, 40, 20; asked first when it would knock the player out), the
   黄石隘口 winding south between its walls (the west wall of 隘口中道 strangely smooth), the
@@ -260,7 +261,11 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   then is there an oath to swear there (发誓：我爱东方故事II), which takes them into the 兵器库;
   the 后备兵 sells a fake 印鉴 for exactly three gold, once; 严廷殷 throws whoever offers it out to
   the camp fire; the 后备兵 then gives the real one for the fake, once; 严廷殷 gives the 古剑 for it
-  (研读: sword to 50 from 2500 exp).
+  (研读: sword to 50 from 2500 exp). West of 隘口小路 the 黄石穿林路 runs through tall grass to a
+  mirror; walking into it leads to a chamber where the middle way goes north up the 竹林道 to a
+  great yellow stone: with 560 force and max_force and 加力 40 it is pushed aside (20 gin, 60 kee,
+  20 sen), and the gap lets the player into the stone room, where the bookcase gives a 书匣 holding
+  the 悟疾风劲竹书 while none exists (taken out in the 背包; 研读: parry to 50 from 20000 exp).
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from

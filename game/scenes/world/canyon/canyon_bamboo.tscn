@@ -68,15 +68,6 @@ mouse_filter = 2
 theme_override_font_sizes/font_size = 14
 text = "梦幻迷境通道"
 
-[node name="StoneLabel" type="Label" parent="Terrain"]
-offset_left = 192
-offset_top = -20
-offset_right = 193
-offset_bottom = 3
-mouse_filter = 2
-theme_override_font_sizes/font_size = 12
-text = "大黄石"
-
 [node name="MirrorLabel" type="Label" parent="Terrain"]
 offset_left = 192
 offset_top = 1040
@@ -110,7 +101,7 @@ offset_left = -100.0
 offset_top = 26.0
 offset_right = 100.0
 mouse_filter = 2
-text = "大黄石 · 推开"
+text = "大黄石"
 horizontal_alignment = 1
 
 [node name="BambooGap" type="Marker2D" parent="."]

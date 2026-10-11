@@ -111,6 +111,33 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 - #27 牛皮酒袋照原名显示，不另起短名。
 - 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
 
+## 天驼关 C: the 黄石穿林路, the mirror and the 竹林道 (2026-10-10)
+
+The plan's C (「天驼关 A」 below, owner Q1: repaired). What each LPC function became is in
+[CANYON_CONTENT](CANYON_CONTENT.md#the-竹林道-c); it follows the LPC except:
+- **Q1: canyon2.c gets its way west** (source_fixes); the 黄石穿林路 joins the pass map, the mirror is
+  a passage into a map of its own (梦幻迷境通道 and the 竹林道), whose upper and lower ways are drawn
+  closed (dream/tmp.c, evil/tmp.c: 整修中，请往回走:P, not placed); the stone room is a map of its own.
+- **默认: while the gap stands open the stone offers only 进去.** bamboo3.c's move stone took the 20
+  gin, 60 kee and 20 sen again and said nothing (the cost comes before its `exits/enter` check).
+- **默认: the bookcase gives a 书匣 whenever no 悟疾风劲竹书 exists anywhere** (the book's F_UNIQUE,
+  which the mudlib never defines, so parry_book.c did not compile and ES2's search failed; flagged
+  `unique`, as 青石村's jade; npc/obj/parry_book.c, a copy nothing places, comments F_UNIQUE out).
+  train.c's got (set_temp on the room) is not kept: only ES2's clean_up() forgot it, unloading the
+  empty room, so the bookcase gave again some time later; here it gives again once the book is gone,
+  the same before and after a Continue.
+- **A carried container shows what it holds** (观察: 里面有：, look.c), each with 取出 in the 背包
+  (get.c's get from), and takes what is put in it (放进…: put.c looks on the player first); before,
+  only one lying in reach opened. The 书匣 is made with the book inside it (slipcase.c's create()).
+- **Stays as ES2:** the push spends no force (do_move() only checks force, max_force and
+  force_factor); it is asked first only when its cost would knock the player out (owner's rule).
+- **Global (data):** an act's `at_least` (force, max_force, force_factor), `room`/`not_room` and
+  `set_room`/`clear_room` (a flag of the act's room, as its own set()/set_temp(); by zone; not
+  saved) and `exists` (an item of that blueprint anywhere in the world); an item's `contains` (only
+  for items an act gives yet: the catalog refuses it on a room's, an NPC's or a vendor's). An act's
+  gift too heavy to carry says that it lies at the player's feet, as an NPC's does.
+- **Save:** no new fields, nothing moved: the world content revision stays SOURCE_ENTRY_CANYON_V1.
+
 ## 天驼关 B: the 印鉴 chain (2026-10-10)
 
 赫造基's secret, the oath at the smooth wall, the 后备兵's two 印鉴, 严廷殷's 古剑. What each LPC

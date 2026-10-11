@@ -116,11 +116,17 @@ func run(act: ScriptedAct, npc: NpcRuntimeState, draw: Callable, room_zone_id: S
 				if not step.unless_temp.is_empty() and _player.temp_marks.get(step.unless_temp, 0) != 0:
 					continue
 				var made: StringName = step.item_id if step.pick.is_empty() else step.pick[clampi(int(draw.call(step.pick.size())), 0, step.pick.size() - 1)]
-				_map.give_new_item_to_player(made)
+				var made_id: StringName = _map.give_new_item_to_player(made)
 				if not step.unless_temp.is_empty():
 					_player.temp_marks[step.unless_temp] = 1
 				for line: NpcLine in step.lines:
 					said.append(line.colored(npc_name, respect))
+				# Too heavy to carry, it lies at their feet; they are told so.
+				var made_item: ItemInstance = null if made_id.is_empty() else _map.item_instance_index().resolve(made_id)
+				if made_item != null:
+					var feet: String = _map.floor_items.at_feet_line(made_id, GameContent.catalog().item(made_item.item_definition_id))
+					if not feet.is_empty():
+						said.append(ColoredLine.new(feet))
 			ScriptedAct.Kind.SET_TEMP:
 				_player.temp_marks[step.flag] = 1
 			ScriptedAct.Kind.CLEAR_TEMP:

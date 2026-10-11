@@ -6,16 +6,18 @@ answers and the defaults). Package A draws the pass, the camp and the 兵器库 
 people; B the 印鉴 chain (the 军师's secret, the swear, the 后备兵's two seals, the 古剑); C the
 side way west of the pass (黄石穿林路, the mirror, the 竹林道, the stone and the 劲竹书).
 
-## Placed (A)
+## Placed
 
-17 of the 27 room files, on three maps. The 黄石穿林路, 梦幻迷境 and 竹林道 (8 rooms) come with C
-(owner, plan Q1: repaired); dream/tmp.c and evil/tmp.c (整修中，请往回走:P) are not placed.
+25 of the 27 room files, on five maps: A's seventeen, and C's eight (owner, plan Q1: repaired);
+dream/tmp.c and evil/tmp.c (整修中，请往回走:P) are not placed.
 
 | Map | Rooms | People | Ways |
 |---|---|---|---|
 | canyon.clifftop (碎石小路) | road | — | north-east to Snow's 青石官道 (sroad4); the chain down |
-| canyon.pass (黄石隘口, 天驼关) | canyon1–7, camp1–8 | 小兵 ×2 at the gate, 小兵 ×4, 老兵, 小队长 ×2, 大队长, 老队长, 李信, 严廷殷, 赫造基 | the chain up; south of the valley nothing yet (玉螺湖村 is #11); east into the 将军营帐 only with marks/军营 |
+| canyon.pass (黄石隘口, 天驼关) | canyon1–7, camp1–8, stone_forest1–3 | 小兵 ×2 at the gate, 小兵 ×4, 老兵, 小队长 ×2, 大队长, 老队长, 李信, 严廷殷, 赫造基 | the chain up; south of the valley nothing yet (玉螺湖村 is #11); east into the 将军营帐 only with marks/军营; west of 隘口小路 the 黄石穿林路 (C) |
 | canyon.armory (兵器库) | blackmarket | 后备兵 | east out onto 隘口中道; the way in is the oath at its smooth wall (B) |
+| canyon.bamboo (梦幻迷境, 竹林道) | fantasy1, bamboo1–3 | — | back out through the mirror to the 黄石穿林路; the upper and lower ways drawn closed; the stone's gap into the stone room (C) |
+| canyon.stoneroom (洞内石室) | train | — | out to the 竹林道 by the stone |
 
 The chain is no walk, so the clifftop is a map of its own (Old Pine's one map per height).
 
@@ -50,9 +52,24 @@ The way through: 30 taels to the 大队长 (A), 8 to the 军师, the oath, 3 gol
 to 严廷殷 (thrown out), 8 taels more and the oath again, the fake back to the 后备兵, the real one
 to 严廷殷.
 
+## The 竹林道 (C)
+
+| LPC | Native |
+|---|---|
+| canyon2.c exits | source_fixes: west to stone_forest1.c (stone_forest1.c's east had no way back; owner Q1) |
+| stone_forest3.c mirror, fantasy1.c back | portals `canyon.stone_forest3.mirror` (walk into the mirror on the clearing's north side) / `canyon.fantasy1.back` |
+| fantasy1.c up, down | drawn closed (dream/tmp.c and evil/tmp.c say only 整修中，请往回走:P) |
+| bamboo3.c do_move() | act service `canyon.bamboo3.stone` (大黄石 · 推开): below 560 force, 560 max_force or 40 force_factor 你出力不太够喔！; else 20 gin, 60 kee, 20 sen, the room flag exits/enter (not saved) and its message_vision(); asked first when it would knock the player out; while the gap is open it offers nothing (默认) |
+| bamboo3.c do_enter(), go_enter() | act service `canyon.bamboo3.gap` (隙缝 · 进去, no diamond), only while the gap is open: the flag cleared, 当你通过隙缝，大黄石又急速地合闭。 and the move into the stone room |
+| train.c out | portal `canyon.train.out` |
+| train.c item_desc, search_case() | look landmark `canyon.train.landmark.bookcase` (word for word); act service `canyon.train.bookcase` (书柜 · 翻找): while the book exists anywhere 你在书柜找了找但没找到些什么 (F_UNIQUE, 默认); else 你在书柜中找了到一个书匣 and a new 书匣; the room's got is not kept (only ES2's clean_up() forgot it, 默认) |
+| bamboo/obj/slipcase.c | 书匣 (holds 5000), made with the book inside (`contains`); carried, 观察 lists what it holds (look.c) and the 背包 offers 取出 for it and 放进书匣 for the rest (get.c, put.c) |
+| bamboo/obj/parry_book.c | 悟疾风劲竹书, signed 柳淳风, `unique`: 研读 parry to 50 from 20000 exp, 30 sen at difficulty 15; its replica_ob names a cola.c that does not exist there |
+
 ## Not placed
 
-npc/obj/chicken_leg.c, cola.c (only a replica_ob), hat2.c, wineskin.c and npc/obj/parry_book.c (a
-copy of the 竹林道's book without F_UNIQUE): nothing carries or places them. `replica_ob`
+dream/tmp.c and evil/tmp.c (整修中). npc/obj/chicken_leg.c, cola.c (only a replica_ob), hat2.c,
+wineskin.c and npc/obj/parry_book.c (a copy of the 竹林道's book without F_UNIQUE): nothing carries or
+places them. `replica_ob`
 (broken_sword.c, cloud_armor.c, old_sword.c, the books) is read only by F_UNIQUE, which the mudlib
 never defines.

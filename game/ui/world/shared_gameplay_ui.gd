@@ -188,6 +188,7 @@ func _ready() -> void:
 	inventory_panel.hang_requested.connect(_hang_with)
 	inventory_panel.pour_requested.connect(_pour_item)
 	inventory_panel.take_out_requested.connect(_take_out_item)
+	inventory_panel.put_into_requested.connect(_put_into_carried)
 	inventory_panel.scribe_requested.connect(_scribe_on)
 	inventory_panel.attach_requested.connect(_attach_sheet)
 	confirm_prompt.confirmed.connect(_on_prompt_confirmed)
@@ -1167,6 +1168,11 @@ func _pour_item(id: StringName, container_id: StringName) -> void:
 func _take_out_item(container_id: StringName, id: StringName) -> void:
 	var map := _session.active_map() as WorldMapController
 	if map != null: map.take_from_carried_container(container_id, id)
+
+
+func _put_into_carried(id: StringName, amount: int, container_id: StringName) -> void:
+	var map := _session.active_map() as WorldMapController
+	if map != null: map.put_in_carried_container(id, amount, container_id)
 
 
 func _dissolve_with(id: StringName) -> void:
