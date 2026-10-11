@@ -773,6 +773,8 @@ func _test_children_follow_every_move() -> void:
 		ContainmentEndpointScript.new(ContainmentEndpointScript.Kind.CHARACTER, &"index.a"),
 		ContainmentEndpointScript.new(ContainmentEndpointScript.Kind.CHARACTER, &"index.b"),
 		ContainmentEndpointScript.new(ContainmentEndpointScript.Kind.WORLD, &"index.floor"),
+		# A character with an item's ID: the kind keeps them apart.
+		ContainmentEndpointScript.new(ContainmentEndpointScript.Kind.CHARACTER, &"index.item.00"),
 	]
 	var mismatches: int = 0
 	var moves: int = 0

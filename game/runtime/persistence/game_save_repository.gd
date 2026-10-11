@@ -15,6 +15,7 @@ func _init(p_profile: GameSaveStorageProfile, p_files: SaveFileOperations = null
 
 func save(snapshot: GameSaveSnapshot) -> GameSaveResult:
 	if not _begin_operation():
+		_drop_kept(snapshot)
 		return GameSaveResult.failure(GameSaveResult.Outcome.OPERATION_IN_PROGRESS, "repository")
 	var result: GameSaveResult = _save_impl(snapshot)
 	_operation_in_progress = false
@@ -63,6 +64,13 @@ func load_recovery(source: int) -> GameSaveResult:
 	)
 	_operation_in_progress = false
 	return result
+
+
+## A refused save will not check the snapshot: what a check kept on it goes with it
+## (OldPineWorldRestoreComposition.validate()), not left for a caller holding the snapshot.
+static func _drop_kept(snapshot: GameSaveSnapshot) -> void:
+	if snapshot != null:
+		snapshot.take_derived()
 
 
 func operation_in_progress() -> bool:

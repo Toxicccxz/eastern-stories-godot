@@ -11,6 +11,8 @@ const CORPSE_DEFINITION_ID: StringName = CorpseState.ITEM_DEFINITION_ID
 ## exact copy and goes when the content changes), unseen, and the next prepare() or
 ## validate() of that content takes it instead of preparing again (Save checks the
 ## captured snapshot twice; Continue checks the snapshot it read, then builds from it).
+## Anything that copies the snapshot in between (GameSaveResult, the validator, encode)
+## carries it off: the next prepare() then just prepares, as before.
 
 
 ## The snapshot's restored state, ready for a session to be built from.
