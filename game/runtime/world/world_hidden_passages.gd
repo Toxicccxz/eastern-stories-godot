@@ -37,8 +37,9 @@ func push(landmark: WorldLandmarkDefinition) -> HiddenPassagePushResult:
 	if passage == null:
 		return result
 	result.pushed = true
-	_session.shared_ui().append_log_lines([TranslationServer.translate(landmark.message("push"))])
-	result.opened = passage.push(landmark.setting("pushes"), 1000 * landmark.setting("open_seconds"))
+	if not landmark.message("push").is_empty():
+		_session.shared_ui().append_log_lines([TranslationServer.translate(landmark.message("push"))])
+	result.opened = passage.push(landmark.setting("pushes"), 1000 * landmark.setting("open_seconds"), landmark.setting("every_push") == 1)
 	if result.opened:
 		_apply(landmark, true)
 		_session.shared_ui().append_log_lines([TranslationServer.translate(landmark.message("open"))])
@@ -75,8 +76,11 @@ func _apply(landmark: WorldLandmarkDefinition, open: bool) -> void:
 			map.set_portal_open(portal_id, open)
 
 
-## The player stands where the passage's way down leads.
+## The player stands where the passage's way down leads (and it has a way back up:
+## a single way there closes whoever stands beyond it, as road6.c's grass).
 func _player_below(landmark: WorldLandmarkDefinition) -> bool:
+	if landmark.portal_ids().size() < 2:
+		return false
 	var down: PortalDefinition = GameContent.catalog().portal(landmark.portal_id)
 	var location: WorldLocationState = _session.player_runtime().world_location()
 	return down != null and location != null and location.zone_id == down.destination_zone_id

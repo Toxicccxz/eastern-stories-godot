@@ -1009,6 +1009,10 @@ class Importer:
         elif 'F_FOOD' in inherits:
             handled.update(('food_remaining', 'food_supply'))
             record['food'] = {'remaining': sets.get('food_remaining'), 'supply': sets.get('food_supply')}
+            # food.c do_eat(): with drink_func a bite also adds water_supply to water.
+            if sets.get('drink_func'):
+                handled.update(('drink_func', 'water_supply'))
+                record['food']['water'] = sets.get('water_supply')
         elif 'F_LIQUID' in inherits:
             handled.update(('max_liquid', 'liquid'))
             record['liquid'] = {'max_liquid': sets.get('max_liquid'), **sets.get('liquid', {})}

@@ -12,7 +12,8 @@ var _map: WorldResidentMapController
 var _contact: bool = false
 var _pending: bool = false
 var _open: bool = true
-## Opened under the player: they have not taken the exit until they step off and on again.
+## Opened under the player: they have not taken the exit until their centre is off it and
+## steps on again (one brushing its edge, as by road6.c's grass, takes it walking on in).
 var _wait_for_exit: bool = false
 ## The room's valid_leave() refused this passage; cleared once the player is off it.
 var _refused: bool = false
@@ -38,13 +39,22 @@ func is_open() -> bool:
 
 
 ## Opening adds an exit (ES2 set("exits/down")); whoever already stands on it
-## still has to step onto it.
+## still has to step onto it. A one-way way (d/village/road6.c's grass: no way back
+## to wait for) opened with the player's centre on it takes them through.
 func set_open(value: bool) -> void:
 	_open = value
 	visible = value
 	(get_node("CollisionShape2D") as CollisionShape2D).set_deferred("disabled", not value)
 	clear_contact()
 	_wait_for_exit = value and _player_overlaps()
+	if _wait_for_exit and _one_way() and _centre_inside():
+		_wait_for_exit = false
+		_contact = true
+
+
+func _one_way() -> bool:
+	var landmark: WorldLandmarkDefinition = GameContent.catalog().hidden_passage_for_portal(portal_id)
+	return landmark != null and landmark.portal_ids().size() == 1
 
 
 func _player_overlaps() -> bool:
@@ -71,6 +81,9 @@ func is_current(portal: PortalDefinition) -> bool:
 
 
 func _physics_process(_delta: float) -> void:
+	if _wait_for_exit and _open and not _centre_inside():
+		_wait_for_exit = false
+		_contact = _player_overlaps()
 	# Area enter can replay a cached contact after resident reattachment. Require
 	# the current body center, and recheck again at the deferred coordinator boundary.
 	if _contact and not _pending and is_current(_portal):
@@ -88,6 +101,11 @@ func _physics_process(_delta: float) -> void:
 			_map.passage_requested.emit(_portal)
 	elif _refused and not is_current(_portal):
 		_refused = false
+
+
+func _centre_inside() -> bool:
+	var body: WorldCharacterBody2D = null if _map == null else _map.runtime_player_body()
+	return body != null and body.is_inside_tree() and global_rect().has_point(body.global_position)
 
 
 ## The passage's rectangle in the world (the player is kept out of a refused one).

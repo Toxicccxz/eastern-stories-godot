@@ -1,0 +1,127 @@
+{
+	"source_fixes": {
+		"d/village/lordhouse3.c": [
+			{ "find": "\t    }\n\t}\n\n\treturn 1;", "replace": "\t    }\n\n\treturn 1;", "why": "a stray } ended do_takeout() before its return 1, so lordhouse3.c did not compile and ES2's players could never enter the 南房; the brace goes so the room loads (its take_out and push stay unported: DECISIONS 玉螺湖村 A, 默认)" }
+		]
+	},
+	"vendors": ["d/village/npc/meloner.c"],
+	"set": {
+		"village.npc.trader1": {
+			"chat_chance_combat": 15,
+			"chat_msg_combat": [
+				"商人说道：杀人啦！你难道不怕官府缉拿吗？\n",
+				{ "action": "random_move" }
+			]
+		},
+		"village.npc.woman1": {
+			"apply": { "dodge": { "base": 10, "plus_random": 5 } },
+			"chat_chance_combat": 50,
+			"chat_msg_combat": [
+				{ "action": "wield", "item": "es2:d/village/npc/obj/knife", "say": "没见识过我的菜刀神功是吧, 接招!", "chat_chance_combat": 10 },
+				{ "action": "say_by_age", "younger": ["唉，我那可怜的儿啊，年龄比你还小。!"], "otherwise": ["以大欺小啊你..."] }
+			]
+		},
+		"village.npc.oldliu": {
+			"accept_fight": [
+				{ "say": "老头子哪里是您的对手？", "accept": false }
+			],
+			"greeting": { "rules": [
+				{ "steps": [
+					{ "line": "刘老农说道：“这位$RESPECT，可否见到小女娟儿？” \n" }
+				] }
+			] }
+		},
+		"village.npc.meloner": {
+			"greeting": { "rules": [
+				{ "steps": [
+					{ "line": "这位$RESPECT要不要买个西瓜解解渴？\n" }
+				] }
+			] }
+		},
+		"village.icecave.lakebottom2.dragons": { "presence_radius": 260 },
+		"es2:d/village/obj/melon": {
+			"food": {
+				"remaining": 8, "supply": 20, "water": 40,
+				"leaves": { "name": "西瓜皮", "aliases": ["bone"], "weight": 150, "long": "一块啃得精光的西瓜皮。\n" }
+			}
+		}
+	},
+	"review": {
+		"d/village/home.c": {
+			"set item_desc": "look_door(\"south\"): the door's own look (world.json doors: village.home.door)",
+			"create_door": "world.json doors: village.home.door (刘家's 木门 between the house and the garden, shut)"
+		},
+		"d/village/littlegarden.c": {
+			"create_door": "world.json doors: village.home.door (木门, shut)"
+		},
+		"d/village/lordhouse1.c": {
+			"create_door": "world.json doors: village.lordhouse1.door (田老财家大门, shut)"
+		},
+		"d/village/road9.c": {
+			"create_door": "world.json doors: village.lordhouse1.door (田老财家大门, shut)"
+		},
+		"d/village/road3.c": {
+			"set item_desc": "a look-only landmark in world.json (village.road3.landmark.tablet), word for word"
+		},
+		"d/village/road6.c": {
+			"set item_desc": "the grass: a hidden_passage landmark in world.json (village.road6.landmark.grass), its look word for word",
+			"function init": "pushaside grass: the landmark's action (茅草 · 拨开)",
+			"function do_pushaside": "landmark village.road6.landmark.grass (hidden_passage, every_push): set(\"exits/west\") opens the way into valley2 (portal village.road6.west), its message_vision() (你 for $N), and call_out(\"roadgone\", 5); a push while it stands open says the line again and does not put the closing off (the first call_out closes it)",
+			"function roadgone": "the hidden passage closes after open_seconds 5 of world time; its message(\"vision\") is seen in road6 only. valley2's east exit (portal village.valley2.east) stays open, as the static exit it is"
+		},
+		"d/village/lakeside.c": {
+			"set item_desc": "a look-only landmark in world.json (village.lakeside.landmark.boat), word for word",
+			"function init": "paddle boat: the act service village.lakeside.paddle (木船 · 划向湖心)",
+			"function do_paddle": "service village.lakeside.paddle: its message_vision() (你 for $N), write() and the move to lake.c (village.midlake, a map of its own: only the boat reaches it)",
+			"function valid_leave": "world.json exit_rules village.lakeside.no_wading (always: 这么大的一片湖，你想走过去吗？) on the shore's way west (portal village.lakeside.west)"
+		},
+		"d/village/lake.c": {
+			"function init": "owner (玉螺湖村 plan Q1, repaired): replace_program(ROOM) dropped init(), so ES2 answered paddle and dive with 什么? and lake.c's east exit walked back ashore; paddle and dive are the act services village.lake.paddle (小船 · 划回岸边) and village.lake.dive (湖水 · 潜入湖中)",
+			"function valid_leave": "world.json exit_rules village.lake.bow (always: 你正站在船头…) on the boat's way east (portal village.lake.east); the LPC called itself (valid_leave(me, dir), not ::valid_leave) and would have recursed for any other way, but east is lake.c's only exit",
+			"function do_paddle": "service village.lake.paddle: message_vision()'s $N你划动双桨 (an obvious slip: 你划动双桨), write() and the move to lakeside.c",
+			"function do_dive": "service village.lake.dive, asked first (owner, plan Q1: the only way out is past the 白鳞冰龙): its message_vision(), the write() as one line (the LPC string breaks mid-sentence: an obvious slip) and the move to lakebottom1.c (village.icecave), whose 玄冰 offers 放弃 (wake in the Inn, as 绝地)"
+		},
+		"d/village/lordhouse3.c": {
+			"set item_desc": "默认 (plan): not looked at: look_shield() returns the placeholder \"are this true?\" (the commented-out text names take and putback, neither of which exists)",
+			"function init": "默认 (plan): not ported: take_out's do_takeout() is unfinished (a stray } ended it, so ES2 never loaded the room; it compares strings, so books 2–9 hear 有多少本书; its case 6 is commented out) and push names a function that does not exist",
+			"function do_takeout": "默认 (plan): not ported (an unfinished mechanism with no outcome: the commented-out case 6 looks for lordhouse2.c, whose 关公 points at the wall)",
+			"function look_shield": "默认 (plan): not ported (\"are this true?\")"
+		},
+		"d/village/melonfarm.c": {
+			"function init": "玉螺湖村 B (瓜地): pick",
+			"function do_pick": "玉螺湖村 B (瓜地): the pick, the 瓜农's catch",
+			"function valid_leave": "玉螺湖村 B (瓜地): 你的去路被瓜农拦住了。"
+		},
+		"d/village/npc/trader1.c": {
+			"set chat_chance_combat": "in set",
+			"set chat_msg_combat": "in set: random_move walks out of the fight (go.c: 往X落荒而逃了。)"
+		},
+		"d/village/npc/woman1.c": {
+			"set_temp apply/dodge": "apply.dodge rule in set",
+			"set chat_chance_combat": "in set",
+			"set chat_msg_combat": "in set: wield_weapon() is the wield action, converse_one() say_by_age",
+			"function wield_weapon": "the wield action: say, wield the 菜刀, chat_chance_combat 10 (as d/green's woman1.c)",
+			"function converse_one": "say_by_age against the enemy (heart_beat's this_player() is herself in ES2, so only 以大欺小 came; DECISIONS 青石村 A); slap prints nothing"
+		},
+		"d/village/npc/oldliu.c": {
+			"set marks/老刘本人": "read by d/chuenyu's 小娟 (黑松山, a repaired region after 京师: owner, 玉螺湖村 plan Q2)",
+			"function accept_fight": "accept_fight in set: 老头子哪里是您的对手？ and no spar",
+			"function init": "greeting in set: one second after the player comes in (the greeting delay; the LPC's call_out was 2: 默认), not while he fights",
+			"function greeting": "greeting in set: the say() line as written (its 刘老农说道 and quotes are the LPC's own); the thanks (marks/老刘: 銮鱼衡冰 and 过招要旨, he leaves with 娟儿) and the revenge (marks/murder) wait for 黑松山, whose 小娟 sets those marks: tests/runtime/village_test.gd fails once a d/chuenyu room is placed",
+			"function killhim": "黑松山 (marks/murder): with the thanks, after 京师 (village_test's reminder)"
+		},
+		"d/village/npc/meloner.c": {
+			"set chat_chance_combat": "玉螺湖村 B (瓜地): catch_thief()'s line",
+			"set chat_msg_combat": "玉螺湖村 B (瓜地): catch_thief() says 你要不还我瓜钱… only while he is catching a thief; otherwise command(\"heihei this_player()\") names nobody and prints nothing, so nothing is said in A",
+			"function init": "greeting in set (one second after the player comes in, not while he fights); list: the vendor's goods panel; return: 玉螺湖村 B",
+			"function greeting": "greeting in set: the say() line as written (it names no speaker)",
+			"function do_return": "玉螺湖村 B (瓜地): 还瓜钱",
+			"function catch_thief": "玉螺湖村 B (瓜地)"
+		},
+		"d/village/obj/melon.c": {
+			"set max_liquid": "F_LIQUID is commented out: no drink, nothing reads it",
+			"set liquid": "F_LIQUID is commented out: the 西瓜汁 is never drunk; the melon quenches thirst only through its bites (drink_func)",
+			"function finish_eat": "food.leaves in set: 西瓜皮 (bone, as ES2: Snow's dog takes it like a bone)"
+		}
+	}
+}

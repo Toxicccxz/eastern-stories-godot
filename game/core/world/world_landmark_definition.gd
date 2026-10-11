@@ -7,7 +7,9 @@ extends RefCounted
 ## `portal` always takes the single portal; `vine` rolls dodge (epath2.c);
 ## `hidden_passage` does not move the player: each use is one push, and the
 ## `pushes`-th opens its two portals (the way down and the way back) for
-## `open_seconds` (weapon_storage.c). `bury` buries the `buried` item lying in the
+## `open_seconds` (weapon_storage.c). One with a single portal opens only the way
+## there, the way back being an ordinary exit, and one with `every_push` 1 has no count:
+## every push opens it (d/village/road6.c's grass); `push` is said only when authored. `bury` buries the `buried` item lying in the
 ## zone and rolls the player's kar: the `reward` item falls, or the player falls
 ## through its portal (cave5.c do_bury()). A `portal` landmark may say its LPC
 ## line (`use`, message_vision() to the mover) instead of the action's name. A
@@ -42,7 +44,7 @@ extends RefCounted
 const POLICIES: Dictionary[StringName, Dictionary] = {
 	&"portal": {"portals": 1, "messages": [], "optional_messages": ["use"], "settings": [], "items": []},
 	&"vine": {"portals": 2, "messages": ["hold", "fall", "climb"], "optional_messages": ["fall_observer", "climb_observer"], "settings": [], "optional_settings": ["below"], "items": []},
-	&"hidden_passage": {"portals": 2, "messages": ["push", "open", "close"], "settings": ["pushes", "open_seconds"], "items": []},
+	&"hidden_passage": {"portals": 1, "optional_portals": 1, "messages": ["open", "close"], "optional_messages": ["push"], "settings": ["pushes", "open_seconds"], "optional_settings": ["every_push"], "items": []},
 	&"bury": {"portals": 1, "messages": ["bury", "book", "paper", "fall"], "settings": [], "items": ["buried", "reward"]},
 	&"look": {"portals": 0, "messages": [], "settings": [], "items": [], "no_action": true},
 	&"join_class": {"portals": 0, "messages": ["joined", "refused"], "settings": [], "items": [], "class": true},
@@ -54,7 +56,7 @@ const POLICIES: Dictionary[StringName, Dictionary] = {
 	&"note_maze": {"portals": 1, "messages": ["read", "out"], "settings": ["steps", "nearer", "further"], "items": [], "mark": true, "maze": true},
 }
 ## Every setting some policy names (an integer field of the record).
-const SETTINGS: Array[String] = ["pushes", "open_seconds", "force", "max_force", "force_factor", "gin", "kee", "sen", "random", "limit", "divisor", "below", "steps", "nearer", "further"]
+const SETTINGS: Array[String] = ["pushes", "open_seconds", "every_push", "force", "max_force", "force_factor", "gin", "kee", "sen", "random", "limit", "divisor", "below", "steps", "nearer", "further"]
 
 
 ## One of a note_maze's notes: what it reads and the way it names (a portal's legacy_command).
@@ -244,7 +246,7 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 		reader.fail("guard", "only a take landmark has a guard")
 	if definition._guard_npc_id.is_empty() == messages.has("guarded") and definition.policy == &"take":
 		reader.fail("messages", "a guard says `guarded`, and only a guard")
-	if portal_ids.size() != int(rule["portals"]):
+	if portal_ids.size() < int(rule["portals"]) or portal_ids.size() > int(rule["portals"]) + int(rule.get("optional_portals", 0)):
 		reader.fail("portals", "policy '%s' needs %d portal(s)" % [definition.policy, rule["portals"]])
 	var keys: Array = messages.keys()
 	for optional: String in rule.get("optional_messages", []):
@@ -329,6 +331,7 @@ func is_valid() -> bool:
 		and not _description.is_empty()
 		and POLICIES.has(_policy)
 		and _action_label.is_empty() == bool(POLICIES[_policy].get("no_action", false))
-		and _portal_ids.size() == int(POLICIES[_policy]["portals"])
+		and _portal_ids.size() >= int(POLICIES[_policy]["portals"])
+		and _portal_ids.size() <= int(POLICIES[_policy]["portals"]) + int(POLICIES[_policy].get("optional_portals", 0))
 		and not _legacy_source_path.is_empty()
 	)

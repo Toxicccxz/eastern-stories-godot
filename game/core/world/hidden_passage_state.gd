@@ -26,8 +26,15 @@ var remaining_ms: int:
 
 
 ## do_push() with any argument but "shelf", then check_trigger(). True when
-## this push opened the passage.
-func push(pushes: int, open_ms: int) -> bool:
+## this push opened the passage. With `every_push` there is no count (d/village/road6.c
+## do_pushaside()): every push opens the way, again while it stands open, and does not
+## put the closing off (the first call_out closes it).
+func push(pushes: int, open_ms: int, every_push: bool = false) -> bool:
+	if every_push:
+		if not _open:
+			_open = true
+			_remaining_ms = open_ms
+		return true
 	_left_trigger += 1
 	if _left_trigger != pushes or _open:
 		return false

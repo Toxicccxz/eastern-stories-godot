@@ -38,6 +38,7 @@
 	],
 	"portals": [
 		{ "id": "canyon.road.northeast", "from_zone": "canyon.road", "to_zone": "snow.sroad4", "to_spawn": "snow.sroad4.canyon_return", "legacy_room": "es2:d/canyon/road", "legacy_command": "northeast" },
+		{ "id": "canyon.canyon7.south", "from_zone": "canyon.canyon7", "to_zone": "village.road1", "to_spawn": "village.road1.canyon_arrival", "legacy_room": "es2:d/canyon/canyon7", "legacy_command": "south" },
 		{ "id": "canyon.blackmarket.east", "from_zone": "canyon.blackmarket", "to_zone": "canyon.canyon4", "to_spawn": "canyon.canyon4.armory_return", "legacy_room": "es2:d/canyon/blackmarket", "legacy_command": "east" },
 		{ "id": "canyon.stone_forest3.mirror", "from_zone": "canyon.stone_forest3", "to_zone": "canyon.fantasy1", "to_spawn": "canyon.fantasy1.mirror_arrival", "legacy_room": "es2:d/canyon/stone_forest3", "legacy_command": "mirror" },
 		{ "id": "canyon.fantasy1.back", "from_zone": "canyon.fantasy1", "to_zone": "canyon.stone_forest3", "to_spawn": "canyon.stone_forest3.mirror_return", "legacy_room": "es2:d/canyon/fantasy1", "legacy_command": "back" },

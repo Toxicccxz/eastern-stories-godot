@@ -111,6 +111,55 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 - #27 牛皮酒袋照原名显示，不另起短名。
 - 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
 
+## 玉螺湖村 A: the village, the lake and its people (2026-10-11)
+
+Plan (owner, 2026-10-11: 按照你的推荐来): A the village, the lake and the people; B the 瓜地 (the
+pick, the 瓜农's catch, 还瓜钱). What each LPC function became is in
+[VILLAGE_CONTENT](VILLAGE_CONTENT.md); it follows the LPC except:
+- **Owner (Q1): the lake's middle works** (repaired). lake.c's replace_program(ROOM) dropped its
+  init() and valid_leave(), so ES2 answered paddle and dive with 什么? and its east exit walked
+  ashore, though the room invites a dive. Now the boat paddles back (小船 · 划回岸边); stepping east
+  off the bow is refused (你正站在船头…); the dive (湖水 · 潜入湖中) is asked first (the only way
+  out is through the 白鳞冰龙's hall) and lands in the ice cave, whose 玄冰 offers 放弃 (the Inn,
+  as 绝地). Obvious slips: $N你划动双桨 (你划动双桨), the dive's line broken mid-sentence.
+- **Owner (Q2): 黑松山 is repaired after 京师** (ROADMAP 12b): ES2 had no way in. The 黄土大道's
+  spur west is drawn closed; 刘老农 only asks after 娟儿 until then; his thanks and revenge come
+  with 黑松山 (village_test fails once a d/chuenyu room is placed). The 三叉路口's way south to
+  京师 is drawn closed the same way (#12).
+- **Owner (plan, for B): 还瓜钱 pays the 瓜农 60 文** (不够: 你的钱不够。, the fight goes on; ES2 took
+  nothing), **and his block lifts once the catching 瓜农 is down, dead or gone** (ES2 kept the
+  thief's flag, so one who killed him never left the 瓜地; the flag is saved now). Asked first
+  when the 瓜农 is clearly stronger (A10).
+- **The lake's middle is a map of its own** (the boat): only the paddle reaches it, as 乔阴's rooms
+  only verbs reach. The lake is no walk: `always` exit rules on the shore's way west (这么大的一片湖，
+  你想走过去吗？) and the bow's way east.
+- **默认 (plan): the 南房 loads.** A stray } ended lordhouse3.c's do_takeout(), so the room never
+  compiled (source_fixes); its shelf (look_shield(): "are this true?"), take_out, push and the
+  commented-out 关公 wall are an unfinished mechanism with no outcome: not ported. The 东房's
+  wall and stick have no text either.
+- **默认 (plan): all six 白鳞冰龙 fall on whoever enters their hall** (`complete_set`, presence 260):
+  ES2's aggressive NPCs each attacked on entry.
+- **默认 (plan): 刘老农's greeting comes a second after the player** (the LPC's call_out was 2).
+- **默认 (plan): the 渔夫's 桂花 answer is kept** (it names a real university: the author's joke).
+- **The 西瓜** (food.c's drink_func): each of its eight bites adds 20 food and 40 water, refused
+  once water is full (你肚子太涨了，再也撑不下任何东东了。!); the last leaves a 西瓜皮 (bone: Snow's
+  dog takes it, as ES2). F_LIQUID is commented out: its 西瓜汁 is never drunk.
+- **Stays as ES2:** the 瓜农's greeting names no speaker (say() as written); the 农妇's age line is
+  against her enemy (青石村 A); flowergirl.c in the room directory is a stray copy (not placed).
+- **默认: pushing the grass aside while pressed against it steps through.** The way west lies where
+  the grass was, so one who pushes while standing against it is on the way: a one-way way opened
+  under the player takes them (Snow's floor, which has a way back up, still waits for a step off
+  and on). One who pushes from a step away walks west into it. **Close to ES2:** every push opens
+  it for five seconds from the first push that found it shut; ES2's older call_out could shut a
+  later reopening early (pushes at 0 and 3 s, shut at 5 s; pushed at 6 s, shut at 8 s by the
+  second one's call_out), a difference of a few seconds nobody can rely on.
+- **Global (data):** an exit rule `always` (refuses everyone); a `hidden_passage` with one portal
+  (road6.c's grass: valley2's way back east is an exit) and `every_push` (no count: every push
+  opens it, the first close stands; the push line optional); a passage opened under the player,
+  with no way back to wait for, takes them through; food `water` (drink_func).
+- **Save:** world content revision `SOURCE_ENTRY_VILLAGE_V1` (a new region); older development
+  saves need a New Game.
+
 ## The HUD's actions for what is near (2026-10-11)
 
 Owner (2026-10-11, from the HUD): the actions show only for what the player can reach.

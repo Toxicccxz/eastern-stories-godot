@@ -68,9 +68,8 @@ func _test_data() -> void:
 	_check(catalog.region(&"canyon").display_name == "天驼关", "the region is 天驼关")
 	_check(catalog.portal(&"snow.sroad4.southwest").destination_zone_id == &"canyon.road" and catalog.portal(&"canyon.road.northeast").destination_zone_id == &"snow.sroad4", "the 青石官道 south-west to the 碎石小路, and back")
 	_check(catalog.zone_of_room(&"es2:d/canyon/stone_forest1") != null and catalog.room(&"es2:d/canyon/canyon2").exits().get("west") == "es2:d/canyon/stone_forest1", "canyon2.c leads west into the 黄石穿林路 (repaired, owner Q1)")
-	for portal: PortalDefinition in catalog.portals_for_map(&"canyon.pass"):
-		_check(portal.source_zone_id != &"canyon.canyon7", "nothing south of the valley yet (玉螺湖村 is #11): %s" % portal.portal_id)
 	_check(catalog.room(&"es2:d/canyon/canyon7").exits().get("south") == "es2:d/village/road1", "canyon7.c's south names 玉螺湖村")
+	_check(catalog.portal(&"canyon.canyon7.south").destination_zone_id == &"village.road1" and catalog.portal(&"village.road1.north").destination_zone_id == &"canyon.canyon7", "the valley south to 玉螺湖村's 黄土大道, and back (village_test walks it)")
 	var rule: ZoneExitRuleDefinition = catalog.exit_rules_between(&"canyon.camp7", &"canyon.camp8")[0]
 	var stranger := ZoneExitRuleDefinition.Leaver.new()
 	var listed := ZoneExitRuleDefinition.Leaver.new()

@@ -787,6 +787,7 @@ func _read_food(food: ContentRecordReader) -> void:
 		food.required_integer("supply"),
 		_value,
 		_own_weight,
+		food.integer("water"),
 	)
 	var leaves: ContentRecordReader = food.child("leaves")
 	if leaves != null:
@@ -797,7 +798,9 @@ func _read_food(food: ContentRecordReader) -> void:
 		}
 		leaves.finish()
 	food.finish()
-	if not _food_definition.is_valid():
+	if _food_definition.water_supply < 0:
+		food.fail("water", "must not be negative")
+	elif not _food_definition.is_valid():
 		food.fail("", "remaining and supply must be positive")
 
 

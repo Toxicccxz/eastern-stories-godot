@@ -59,7 +59,7 @@ A room's `set("objects")` may name a class daemon's NPC (`CLASS_D("swordsman") +
 | `weight` | `set_weight()` | omitted for money; 0 when the LPC never sets it (`feature/move.c`) |
 | `weapon` | `init_sword(damage, flags)` etc. | `{skill, damage, flags: ["secondary", "two_handed"], apply?, weight_dodge?}`; `apply` is `weapon_prop/*` other than damage (attack, defense, dodge, courage, intelligence, karma, personality, spells, spirituality), added to the wielder's `apply/*` (equip.c); `weight_dodge: "equip"` when create() calls std/equip.c's setup() (std/weapon/<kind>.c, not throwing.c): from 3000 weight a weapon without its own dodge gets `dodge = -weight/3000`; `rigidity` (`set("rigidity")`) is added to the weapon's side in weapond.c bash_weapon() |
 | `armor` | `inherit CLOTH` + `armor_prop/*`, or `inherit EQUIP` + `set("armor_type")` | `{type, props, weight_dodge?}`; the setup() create() calls: `"armor"` (the eleven `std/armor/<type>.c`): over 3000 weight `dodge = -weight/3000`, replacing the armor's own; `"equip"` (`std/equip.c`): from 3000 weight, only without its own dodge; absent: no setup() call, no cost |
-| `food` | `food_remaining`, `food_supply` | `{remaining, supply}`; not yet combinable with `weapon`, `armor` or `money` |
+| `food` | `food_remaining`, `food_supply`, `drink_func` + `water_supply` | `{remaining, supply, water?}`; `water` (food.c's drink_func, d/village's 西瓜): each bite also adds it to water, and a bite is refused once water is full; not yet combinable with `weapon`, `armor` or `money` |
 | `hang` | rope.c `add_action("hang_self", "hang")` | `true`: the 上吊 button (asked first): refused in an `outdoors` room, else die() |
 | `scribe` | cmds/std/scribe.c's paper (obj/paper_seal.c) | `true`: 符 are drawn on it (owner: only on it). The catalog makes a 僵尸追魂符 of it for every NPC that is not raised (`<id>#haunt=<npc id>`, haunt.c), stacking only with sheets for the same name. Hand-written in `set` |
 | `liquid` | `max_liquid` + `set("liquid", ...)` | `{max_liquid, type, name, remaining, drunk_apply}`; only `alcohol` and `water` are modelled; drinking gives +30 water (`feature/liquid.c`) |
@@ -228,10 +228,13 @@ item (`item_desc`) the player selects, looks at (`long`, verbatim) and uses with
 the landmark's area in the scene, not just in the zone. `policy` picks the rule (default `portal`,
 one portal); `vine` (epath2.c) rolls dodge between two portals `[waterfall, passage]` and prints
 `messages` `hold`, `fall`, `fall_observer`, `climb`, `climb_observer`. The roll stays in code.
-`hidden_passage` (weapon_storage.c) moves nobody: each use is one push (`messages.push`); the
-`pushes`-th opens its portals `[down, up]` for `open_seconds` of world time (`open`, `close`).
-`up` leads from where `down` arrives back to `zone`; both stay shut (their scene passages off)
-until the landmark opens them, and no other landmark may use them.
+`hidden_passage` (weapon_storage.c) moves nobody: each use is one push (`messages.push`, said when
+authored); the `pushes`-th opens its portals `[down, up]` for `open_seconds` of world time (`open`,
+`close`). `up` leads from where `down` arrives back to `zone`; both stay shut (their scene passages
+off) until the landmark opens them, and no other landmark may use them. With `[down]` alone the
+way back is an ordinary exit, the passage closes whoever stands beyond it, and opening it under the
+player takes them through; `every_push` 1 has no count: every push opens it, again while open,
+without putting the closing off (d/village/road6.c's grass).
 `push_stone` (closed.c): below the record's `force`, `max_force` or `force_factor` the push is
 `weak`; else it costs `gin`, `kee` and `sen` (`push`) and random(`random`) 0 rolls the stone away
 (`rolled`) through its one portal. `search` (water.c): with the record's `mark`, random(`random`)
@@ -249,7 +252,7 @@ a `guard` (an NPC definition: d/sanyen/kitchen.c's cook) standing in the zone it
 `{id, room, from_zone, to_zone, when, lines, pass_lines?, legacy_source}` — a room's valid_leave() refusing a
 walk into the next zone or a passage between the two: `when` `weapon_in_hand` (with `present`, an
 NPC that must stand in the room), `combat_exp_below` (with `value`), `not_apprentice_of` (with
-`npc`, the master's definition), `not_family` (with `family`), `no_mark` (with `mark`, a saved mark one needs: d/choyin/entrance.c), `kar_slip` (random(kar) below
+`npc`, the master's definition), `not_family` (with `family`), `no_mark` (with `mark`, a saved mark one needs: d/choyin/entrance.c), `always` (everyone: d/village/lakeside.c's lake), `kar_slip` (random(kar) below
 `value`: the leaver also falls unconscious) or `never` (refuses nobody, only says `pass_lines`).
 The player stays and reads `lines`; one who goes through reads `pass_lines`. Two are not refusals:
 `ask` (with `unless_gender`, `ask`, `choice`, `point`; no `lines`) stops anyone else and asks

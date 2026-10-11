@@ -181,7 +181,11 @@ msgstr ""
 #. canyon.npc.general gender
 #. canyon.npc.adviser gender
 #. canyon.npc.seller gender
-#: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json
+#. village.npc.trader1 gender
+#. village.npc.oldliu gender
+#. village.npc.meloner gender
+#. village.npc.fisher gender
+#: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json
 msgid "男性"
 msgstr ""
 
@@ -240,7 +244,9 @@ msgstr ""
 #. choyin.npc.girl gender
 #. choyin.npc.maid gender
 #. choyin.npc.lady gender
-#: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json
+#. village.npc.woman1 gender
+#. village.npc.flowergirl gender
+#: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json data/village/npcs.json
 msgid "女性"
 msgstr ""
 
@@ -459,6 +465,10 @@ msgid "铁门"
 msgstr ""
 
 #: scenes/world/canyon/canyon_pass.tscn
+msgid "南 · 玉螺湖村"
+msgstr ""
+
+#: scenes/world/canyon/canyon_pass.tscn
 msgid "铁索 · 爬上去"
 msgstr ""
 
@@ -526,7 +536,14 @@ msgstr ""
 
 #. es2:d/choyin/rockpath2 short
 #. es2:d/choyin/rockpath1 short
-#: scenes/world/choyin/choyin_east.tscn data/choyin/rooms.json
+#. es2:d/village/road3 short
+#. es2:d/village/road4 short
+#. es2:d/village/road5 short
+#. es2:d/village/road6 short
+#. es2:d/village/road7 short
+#. es2:d/village/road8 short
+#. es2:d/village/road9 short
+#: scenes/world/choyin/choyin_east.tscn scenes/world/village/village_main.tscn data/choyin/rooms.json data/village/rooms.json
 msgid "青石小路"
 msgstr ""
 
@@ -1159,7 +1176,8 @@ msgstr ""
 
 #. es2:d/green/path3 short
 #. es2:d/green/path2 short
-#: scenes/world/green/green_village.tscn data/green/rooms.json
+#. es2:d/village/road2 short
+#: scenes/world/green/green_village.tscn scenes/world/village/village_main.tscn data/green/rooms.json data/village/rooms.json
 msgid "三叉路口"
 msgstr ""
 
@@ -1435,7 +1453,8 @@ msgstr ""
 
 #. es2:d/waterfog/kitchen short
 #. es2:d/latemoon/room/kitchen short
-#: scenes/world/latemoon/latemoon_manor.tscn scenes/world/waterfog/waterfog_pavilion.tscn data/waterfog/rooms.json data/latemoon/rooms.json
+#. es2:d/village/smallstorage short
+#: scenes/world/latemoon/latemoon_manor.tscn scenes/world/village/village_main.tscn scenes/world/waterfog/waterfog_pavilion.tscn data/waterfog/rooms.json data/latemoon/rooms.json data/village/rooms.json
 msgid "厨房"
 msgstr ""
 
@@ -2157,6 +2176,129 @@ msgstr ""
 
 #: scenes/world/temple/temple_mountain.tscn
 msgid "灵心观"
+msgstr ""
+
+#. es2:d/village/lakebottom1 short
+#. es2:d/village/lakebottom2 short
+#: scenes/world/village/village_icecave.tscn data/village/rooms.json
+msgid "水下岩洞"
+msgstr ""
+
+#: scenes/world/village/village_icecave.tscn
+msgid "冰阶"
+msgstr ""
+
+#. es2:d/village/road1 short
+#: scenes/world/village/village_main.tscn data/village/rooms.json
+msgid "黄土大道"
+msgstr ""
+
+#. es2:d/village/lakeside short
+#: scenes/world/village/village_main.tscn data/village/rooms.json
+msgid "玉螺湖畔"
+msgstr ""
+
+#. es2:d/village/field short
+#: scenes/world/village/village_main.tscn data/village/rooms.json
+msgid "稻田"
+msgstr ""
+
+#. es2:d/village/melonfarm short
+#: scenes/world/village/village_main.tscn data/village/rooms.json
+msgid "瓜地"
+msgstr ""
+
+#. es2:d/village/valley1 short
+#. es2:d/village/valley2 short
+#: scenes/world/village/village_main.tscn data/village/rooms.json
+msgid "忘情谷外"
+msgstr ""
+
+#. es2:d/village/fmhousback short
+#: scenes/world/village/village_main.tscn data/village/rooms.json
+msgid "农舍后院"
+msgstr ""
+
+#. es2:d/village/farmhouse1 short
+#: scenes/world/village/village_main.tscn data/village/rooms.json
+msgid "农舍"
+msgstr ""
+
+#. es2:d/village/home short
+#: scenes/world/village/village_main.tscn data/village/rooms.json
+msgid "刘家小房"
+msgstr ""
+
+#. es2:d/village/littlegarden short
+#: scenes/world/village/village_main.tscn data/village/rooms.json
+msgid "花园"
+msgstr ""
+
+#. es2:d/village/melonguard short
+#: scenes/world/village/village_main.tscn data/village/rooms.json
+msgid "瓜棚"
+msgstr ""
+
+#. es2:d/village/lordhouse1 short
+#: scenes/world/village/village_main.tscn data/village/rooms.json
+msgid "财主家前院"
+msgstr ""
+
+#. es2:d/village/lordhouse2 short
+#: scenes/world/village/village_main.tscn data/village/rooms.json
+msgid "财主家东房"
+msgstr ""
+
+#. es2:d/village/lordhouse3 short
+#: scenes/world/village/village_main.tscn data/village/rooms.json
+msgid "财主家南房"
+msgstr ""
+
+#: scenes/world/village/village_main.tscn
+msgid "北 · 天驼关"
+msgstr ""
+
+#: scenes/world/village/village_main.tscn
+msgid "西 · 黑松山（未开放）"
+msgstr ""
+
+#: scenes/world/village/village_main.tscn
+msgid "东南 · 京师（未开放）"
+msgstr ""
+
+#. es2:d/village/lake short
+#: scenes/world/village/village_main.tscn scenes/world/village/village_midlake.tscn data/village/rooms.json
+msgid "玉螺湖"
+msgstr ""
+
+#. village.road6.landmark.grass name
+#: scenes/world/village/village_main.tscn data/village/world.json
+msgid "茅草"
+msgstr ""
+
+#: scenes/world/village/village_main.tscn
+msgid "大沟"
+msgstr ""
+
+#. village.road3.landmark.tablet name
+#: scenes/world/village/village_main.tscn data/village/world.json
+msgid "小牌子"
+msgstr ""
+
+#: scenes/world/village/village_main.tscn
+msgid "木船 · 划向湖心"
+msgstr ""
+
+#: scenes/world/village/village_midlake.tscn
+msgid "东 · 玉螺湖畔"
+msgstr ""
+
+#: scenes/world/village/village_midlake.tscn
+msgid "小船 · 划回岸边"
+msgstr ""
+
+#: scenes/world/village/village_midlake.tscn
+msgid "湖水 · 潜入湖中"
 msgstr ""
 
 #. es2:d/waterfog/swordtomb short
@@ -5485,7 +5627,9 @@ msgstr ""
 #. latemoon.npc.butterfly limbs
 #. choyin.npc.serpent limbs
 #. choyin.npc.lion limbs
-#: runtime/combat_slice/combat_slice_content_profile.gd ui/world/player_inventory_panel.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/latemoon/npcs.json data/choyin/npcs.json
+#. village.npc.rat limbs
+#. village.npc.dragon limbs
+#: runtime/combat_slice/combat_slice_content_profile.gd ui/world/player_inventory_panel.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/latemoon/npcs.json data/choyin/npcs.json data/village/npcs.json
 msgid "头部"
 msgstr ""
 
@@ -6227,6 +6371,10 @@ msgstr ""
 
 #: ui/food/held_food_panel.gd
 msgid "你已经吃太饱了，再也塞不下任何东西了。"
+msgstr ""
+
+#: ui/food/held_food_panel.gd
+msgid "你肚子太涨了，再也撑不下任何东东了。!"
 msgstr ""
 
 #: ui/food/held_food_panel.gd
@@ -7474,9 +7622,10 @@ msgstr ""
 #. es2:d/choyin/obj/chest unit
 #. es2:d/choyin/npc/obj/silk_bag unit
 #. es2:d/canyon/bamboo/obj/slipcase unit
+#. es2:d/village/obj/melon unit
 #. es2:d/green/npc/obj/ricewine unit
 #. es2:d/green/obj/jade unit
-#: data/common/items.json data/snow/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/canyon/items.json data/green/items.json
+#: data/common/items.json data/snow/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/canyon/items.json data/village/items.json data/green/items.json
 msgid "个"
 msgstr ""
 
@@ -7509,10 +7658,11 @@ msgstr ""
 #. es2:d/choyin/obj/magic_book unit
 #. es2:d/choyin/npc/obj/book1 unit
 #. es2:d/choyin/npc/obj/book2 unit
+#. es2:d/village/npc/obj/parrybook unit
 #. es2:u/cloud/obj/literate_book unit
 #. es2:d/temple/obj/magic_book unit
 #. es2:d/temple/obj/spells_book unit
-#: data/common/items.json data/latemoon/items.json data/choyin/items.json data/cloud/items.json data/temple/items.json
+#: data/common/items.json data/latemoon/items.json data/choyin/items.json data/village/items.json data/cloud/items.json data/temple/items.json
 msgid "本"
 msgstr ""
 
@@ -7587,6 +7737,8 @@ msgstr ""
 #. es2:d/canyon/npc/obj/broken_sword unit
 #. es2:d/canyon/npc/obj/old_sword unit
 #. es2:d/canyon/bamboo/obj/parry_book unit
+#. es2:d/village/npc/obj/knife unit
+#. es2:d/village/npc/obj/flower unit
 #. es2:u/cloud/obj/npc/butcher/knife unit
 #. es2:u/cloud/obj/npc/tailor/ruler unit
 #. es2:u/cloud/obj/npc/tailor/scissors unit
@@ -7598,7 +7750,7 @@ msgstr ""
 #. es2:d/green/obj/hammer unit
 #. es2:d/green/obj/windsword unit
 #. es2:d/temple/obj/broom unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/canyon/items.json data/cloud/items.json data/waterfog/items.json data/green/items.json data/temple/items.json
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/canyon/items.json data/village/items.json data/cloud/items.json data/waterfog/items.json data/green/items.json data/temple/items.json
 msgid "把"
 msgstr ""
 
@@ -10091,7 +10243,9 @@ msgstr ""
 #. latemoon.npc.park.rabbit limbs
 #. latemoon.npc.upstar.bird limbs
 #. latemoon.npc.butterfly limbs
-#: data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/latemoon/npcs.json
+#. village.npc.rat limbs
+#. village.npc.dragon limbs
+#: data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/latemoon/npcs.json data/village/npcs.json
 msgid "身体"
 msgstr ""
 
@@ -10124,7 +10278,9 @@ msgstr ""
 #. latemoon.npc.park.dodo1 limbs
 #. choyin.npc.serpent limbs
 #. choyin.npc.lion limbs
-#: data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/waterfog/npcs.json data/latemoon/npcs.json data/choyin/npcs.json
+#. village.npc.rat limbs
+#. village.npc.dragon limbs
+#: data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/waterfog/npcs.json data/latemoon/npcs.json data/choyin/npcs.json data/village/npcs.json
 msgid "尾巴"
 msgstr ""
 
@@ -11023,7 +11179,8 @@ msgid "根"
 msgstr ""
 
 #. es2:d/oldpine/npc/obj/parrybook name
-#: data/oldpine/items.json
+#. es2:d/village/npc/obj/parrybook name
+#: data/oldpine/items.json data/village/items.json
 msgid "过招要旨"
 msgstr ""
 
@@ -12588,7 +12745,8 @@ msgid "瀑布清水"
 msgstr ""
 
 #. oldpine.gorge.lake.water name
-#: data/oldpine/world.json
+#. village.lake.dive name
+#: data/oldpine/world.json data/village/world.json
 msgid "湖水"
 msgstr ""
 
@@ -13647,8 +13805,9 @@ msgid "青布僧衣"
 msgstr ""
 
 #. es2:d/sanyen/obj/carver name
+#. es2:d/village/npc/obj/knife name
 #. es2:d/green/npc/obj/knife name
-#: data/sanyen/items.json data/green/items.json
+#: data/sanyen/items.json data/village/items.json data/green/items.json
 msgid "菜刀"
 msgstr ""
 
@@ -14130,6 +14289,58 @@ msgid ""
 "\t\t\t\t\t\t   柳淳风\n"
 msgstr ""
 
+#. es2:d/village/npc/obj/knife long
+#. es2:d/green/npc/obj/knife long
+#: data/village/items.json data/green/items.json
+msgid ""
+"一把旧旧的菜刀, 刀口几乎被磨平了, 不过还颇具有杀伤力.\n"
+msgstr ""
+
+#. es2:d/village/npc/obj/flower name
+#: data/village/items.json
+msgid "紫花瓣儿"
+msgstr ""
+
+#. es2:d/village/npc/obj/flower long
+#: data/village/items.json
+msgid ""
+"迷人的紫色瓣儿，发出一股淡淡的香气。\n"
+msgstr ""
+
+#. es2:d/village/npc/obj/flower combined.base_unit
+#. es2:u/cloud/obj/npc/worker/tea_leaf combined.base_unit
+#: data/village/items.json data/cloud/items.json
+msgid "片"
+msgstr ""
+
+#. es2:d/village/npc/obj/parrybook long
+#: data/village/items.json
+msgid ""
+"这是一本介绍拆招卸力之法的入门书\n"
+msgstr ""
+
+#. es2:d/village/obj/melon name
+#: data/village/items.json
+msgid "西瓜"
+msgstr ""
+
+#. es2:d/village/obj/melon long
+#: data/village/items.json
+msgid ""
+"一个绿皮墨纹的大西瓜，不但解渴，还能填肚子。\n"
+msgstr ""
+
+#. es2:d/village/obj/melon food.leaves.name
+#: data/village/items.json
+msgid "西瓜皮"
+msgstr ""
+
+#. es2:d/village/obj/melon food.leaves.long
+#: data/village/items.json
+msgid ""
+"一块啃得精光的西瓜皮。\n"
+msgstr ""
+
 #. es2:u/cloud/obj/npc/gangster/blade long
 #: data/cloud/items.json
 msgid ""
@@ -14216,11 +14427,6 @@ msgstr ""
 #: data/cloud/items.json
 msgid ""
 "才采的新茶，发出一股淡淡的香气。\n"
-msgstr ""
-
-#. es2:u/cloud/obj/npc/worker/tea_leaf combined.base_unit
-#: data/cloud/items.json
-msgid "片"
 msgstr ""
 
 #. es2:u/cloud/obj/npc/chess_player/chess name
@@ -15598,7 +15804,8 @@ msgstr ""
 #. temple.corridor4.door name
 #. latemoon.upstar.upstar4.door name
 #. latemoon.upstar.upstar3.door name
-#: data/cloud/world.json data/green/world.json data/temple/world.json data/latemoon/world.json
+#. village.home.door name
+#: data/cloud/world.json data/green/world.json data/temple/world.json data/latemoon/world.json data/village/world.json
 msgid "木门"
 msgstr ""
 
@@ -16108,12 +16315,6 @@ msgstr ""
 msgid "米酒"
 msgstr ""
 
-#. es2:d/green/npc/obj/knife long
-#: data/green/items.json
-msgid ""
-"一把旧旧的菜刀, 刀口几乎被磨平了, 不过还颇具有杀伤力.\n"
-msgstr ""
-
 #. es2:d/green/obj/windsword name
 #: data/green/items.json
 msgid "追风剑"
@@ -16226,7 +16427,8 @@ msgid "妇人"
 msgstr ""
 
 #. green.npc.woman1 chat_msg_combat.say
-#: data/green/npcs.json
+#. village.npc.woman1 chat_msg_combat.say
+#: data/green/npcs.json data/village/npcs.json
 msgid "没见识过我的菜刀神功是吧, 接招!"
 msgstr ""
 
@@ -16236,7 +16438,8 @@ msgid "死小孩, 专们欺负老人家!"
 msgstr ""
 
 #. green.npc.woman1 chat_msg_combat.otherwise
-#: data/green/npcs.json
+#. village.npc.woman1 chat_msg_combat.otherwise
+#: data/green/npcs.json data/village/npcs.json
 msgid "以大欺小啊你..."
 msgstr ""
 
@@ -16839,7 +17042,8 @@ msgstr ""
 #. green.closed.landmark.fog action
 #. choyin.lionroom.landmark.dark action
 #. choyin.taolin.landmark.grove action
-#: data/green/world.json data/choyin/world.json
+#. village.lakebottom1.landmark.ice action
+#: data/green/world.json data/choyin/world.json data/village/world.json
 msgid "放弃"
 msgstr ""
 
@@ -18200,12 +18404,14 @@ msgid ""
 msgstr ""
 
 #. latemoon.npc.park.flwgirl inquiry topic
-#: data/latemoon/npcs.json
+#. village.npc.fisher inquiry topic
+#: data/latemoon/npcs.json data/village/npcs.json
 msgid "桂花"
 msgstr ""
 
 #. latemoon.npc.park.flwgirl inquiry.桂花
-#: data/latemoon/npcs.json
+#. village.npc.fisher inquiry.桂花
+#: data/latemoon/npcs.json data/village/npcs.json
 msgid "华中理工大学的桂花树比晚月庄多多了，你知道吗？"
 msgstr ""
 
@@ -22065,4 +22271,540 @@ msgstr ""
 #: data/canyon/world.json
 msgid ""
 "你在书柜中找了到一个书匣\n"
+msgstr ""
+
+#. village.npc.trader1 name
+#: data/village/npcs.json
+msgid "商人"
+msgstr ""
+
+#. village.npc.trader1 long
+#: data/village/npcs.json
+msgid ""
+"这是一位从关外来的商人。\n"
+msgstr ""
+
+#. village.npc.trader1 chat_msg
+#: data/village/npcs.json
+msgid ""
+"商人心有余悸地说道：我几乎死在绮云镇阿泰的手中！\n"
+msgstr ""
+
+#. village.npc.trader1 chat_msg_combat
+#: data/village/npcs.json
+msgid ""
+"商人说道：杀人啦！你难道不怕官府缉拿吗？\n"
+msgstr ""
+
+#. village.npc.woman1 name
+#: data/village/npcs.json
+msgid "农妇"
+msgstr ""
+
+#. village.npc.woman1 chat_msg
+#: data/village/npcs.json
+msgid ""
+"农妇道：我可怜的儿啊，你到那里去了？\n"
+msgstr ""
+
+#. village.npc.woman1 chat_msg
+#: data/village/npcs.json
+msgid ""
+"农妇道：你有见到我的儿吗？，他头上梳着两个小抓揪，只有七岁。\n"
+msgstr ""
+
+#. village.npc.woman1 chat_msg
+#: data/village/npcs.json
+msgid ""
+"农妇叹道：儿啊！\n"
+msgstr ""
+
+#. village.npc.woman1 inquiry topic
+#: data/village/npcs.json
+msgid "儿"
+msgstr ""
+
+#. village.npc.woman1 inquiry.儿
+#: data/village/npcs.json
+msgid ""
+"我的儿前两天不见了，我和他爹到处找都找不到。听说黑松山总抓小孩子。\n"
+msgstr ""
+
+#. village.npc.woman1 chat_msg_combat.younger
+#: data/village/npcs.json
+msgid "唉，我那可怜的儿啊，年龄比你还小。!"
+msgstr ""
+
+#. village.npc.flowergirl name
+#: data/village/npcs.json
+msgid "采花妞"
+msgstr ""
+
+#. village.npc.flowergirl long
+#: data/village/npcs.json
+msgid ""
+"天真的小女孩正在玩耍着 \n"
+msgstr ""
+
+#. village.npc.flowergirl inquiry topic
+#: data/village/npcs.json
+msgid "小娟"
+msgstr ""
+
+#. village.npc.flowergirl inquiry.小娟
+#: data/village/npcs.json
+msgid "这要到黑松山去问。"
+msgstr ""
+
+#. village.npc.oldliu name
+#: data/village/npcs.json
+msgid "刘老农"
+msgstr ""
+
+#. village.npc.oldliu long
+#: data/village/npcs.json
+msgid ""
+"刘老农今年快六十了。但手脚还算灵活。\n"
+msgstr ""
+
+#. village.npc.oldliu accept_fight.say
+#: data/village/npcs.json
+msgid "老头子哪里是您的对手？"
+msgstr ""
+
+#. village.npc.oldliu greeting.rules.steps.line
+#: data/village/npcs.json
+msgid ""
+"刘老农说道：“这位$RESPECT，可否见到小女娟儿？” \n"
+msgstr ""
+
+#. village.npc.rat name
+#: data/village/npcs.json
+msgid "大老鼠"
+msgstr ""
+
+#. village.npc.rat long
+#: data/village/npcs.json
+msgid ""
+"一只鼠头鼠脑的大老鼠\n"
+msgstr ""
+
+#. village.npc.meloner name
+#: data/village/npcs.json
+msgid "瓜农"
+msgstr ""
+
+#. village.npc.meloner long
+#: data/village/npcs.json
+msgid ""
+"一个中年瓜农，脸上被阳光晒得黝黑，一身的键子\n"
+"肉，给人的感觉是扎实威猛。\n"
+msgstr ""
+
+#. village.npc.meloner greeting.rules.steps.line
+#: data/village/npcs.json
+msgid ""
+"这位$RESPECT要不要买个西瓜解解渴？\n"
+msgstr ""
+
+#. village.npc.fisher name
+#: data/village/npcs.json
+msgid "渔夫"
+msgstr ""
+
+#. village.npc.fisher long
+#: data/village/npcs.json
+msgid ""
+"一个精壮的汉子，头戴斗笠，身披蓑衣。偶尔抬头一看的眼神\n"
+"中精光大盛，很有可能是江湖中人。\n"
+msgstr ""
+
+#. village.npc.fisher chat_msg
+#: data/village/npcs.json
+msgid ""
+"渔夫嘀咕着：不知这水怪又吃了几个人。\n"
+msgstr ""
+
+#. village.npc.fisher chat_msg_combat
+#: data/village/npcs.json
+msgid ""
+"有种的去杀了那水怪，打我算什么英雄？！\n"
+msgstr ""
+
+#. village.npc.dragon name
+#: data/village/npcs.json
+msgid "白鳞冰龙"
+msgstr ""
+
+#. village.npc.dragon long
+#: data/village/npcs.json
+msgid ""
+"一只浑身长满白鳞的龙，\n"
+msgstr ""
+
+#. village.npc.dragon limbs
+#: data/village/npcs.json
+msgid "前爪"
+msgstr ""
+
+#. village.npc.dragon limbs
+#: data/village/npcs.json
+msgid "後爪"
+msgstr ""
+
+#. es2:d/village/road1 long
+#: data/village/rooms.json
+msgid ""
+"这条黄土大道很宽阔，足够供八架马车并驾齐驱，与异族交战时，大量\n"
+"军队从此经过，和平时期只有商人来来往往。这条大道向南通往京师，往北\n"
+"到天驼关。\n"
+msgstr ""
+
+#. es2:d/village/road2 long
+#: data/village/rooms.json
+msgid ""
+"这里已经离天驼关很远了，顺着黄土大道向南走，绿色渐渐多了起\n"
+"来，树木透着喜人的绿，放眼望去青山绿水，好一派关内景色，你能看\n"
+"到散落的房屋，农田和水塘。来往的旅客、商人、农民也多了。黄土大\n"
+"道向东南方向延伸，西面是进入一个村庄的小路。\n"
+msgstr ""
+
+#. es2:d/village/road3 long
+#: data/village/rooms.json
+msgid ""
+"这是一条通向一个村庄的青石小路。路口立着一个小牌子(tablet)，\n"
+"牌子看起来经过长时间的日晒雨淋，已破烂不堪。东南向望去好像是片\n"
+"瓜地，绿油油的西瓜让你感觉更渴了。从这里往西就进了村子，向东到\n"
+"三叉路口。\n"
+msgstr ""
+
+#. es2:d/village/road4 long
+#: data/village/rooms.json
+msgid ""
+"青石小路两旁没有树木，几根杂草随风摇摆，路上的石头被行人踩磨得\n"
+"很光亮，但奇怪的是平时这里的行人却非常稀少！小路向西延伸开去，南面\n"
+"是一片大大的瓜地，北面是一家农舍。\n"
+msgstr ""
+
+#. es2:d/village/road5 long
+#: data/village/rooms.json
+msgid ""
+"青石小路在这里分成两条，一条继续向西延伸，另一条伸向南面，北\n"
+"面是一个鲜花盛开的小花园，闻到阵阵花香，你不仅心旷神怡。西面遥远\n"
+"处是连绵的群山，东南是一片面积不小的湖泊。\n"
+msgstr ""
+
+#. es2:d/village/road6 long
+#: data/village/rooms.json
+msgid ""
+"青石小路在这里到了尽头，被茂密的茅草(grass)挡住了去路。一阵\n"
+"东风吹过，飘来阵阵花香，南面是面积很大的湖泊，湖上的水汽映的西边\n"
+"的群山更加影影绰绰。\n"
+msgstr ""
+
+#. es2:d/village/road7 long
+#: data/village/rooms.json
+msgid ""
+"小路的两边种了一排垂柳，西边玉螺湖上的阵阵雾气透过柳枝飘散过\n"
+"来。你的东边是一大片绿油油的瓜地，一条大沟横在小路和瓜地之间，你\n"
+"可以走到东南向的瓜棚。\n"
+msgstr ""
+
+#. es2:d/village/road8 long
+#: data/village/rooms.json
+msgid ""
+"小路的西侧是玉螺湖，东南是地主田老财的宅院，西南是一片稻田。\n"
+msgstr ""
+
+#. es2:d/village/road9 long
+#: data/village/rooms.json
+msgid ""
+"两只小燕子落到柳枝上，叽叽喳喳叫个不停，它们的家可能在附近。\n"
+"在小路的西面是一片绿油油的稻田，几个农民在田间忙碌；东面是地主田\n"
+"老财的宅院，难得一个地主的房子并不是特别奢华，只有三间屋子。\n"
+msgstr ""
+
+#. es2:d/village/farmhouse1 long
+#: data/village/rooms.json
+msgid ""
+"这间农舍内的摆设非常朴素，但十分井井有条。阳光顺着窗缝撒在屋\n"
+"角落里的纺车上，桌上摆着泥作的玩具，特别是那泥老虎捏的形态生动活\n"
+"泼，色彩逼真，旁边还摆着一把木刀，可能都是父亲作给小孩的玩具。一\n"
+"张大床的旁边还有一张小床。这屋的北面是农舍的后院，南边出了屋就是\n"
+"村里的青石小路。\n"
+msgstr ""
+
+#. es2:d/village/fmhousback long
+#: data/village/rooms.json
+msgid ""
+"在后院的左侧有个猪圈，几只小白猪在里面胡吃海塞，右面是一排鸡\n"
+"笼，两个红皮鸡蛋落在鸡笼后边的槽里。这村子的妇女经常把自家产的鸡\n"
+"蛋拿到京城去卖，去扯些花布或作件衣服。\n"
+msgstr ""
+
+#. es2:d/village/littlegarden long
+#: data/village/rooms.json
+msgid ""
+"这是刘老汉的小花园。花园里有很多美丽的花朵。刘老汉\n"
+"就是靠卖花来维持生计的。现在正是花开的大好季节，有很多\n"
+"人在剪花。\n"
+msgstr ""
+
+#. es2:d/village/home long
+#: data/village/rooms.json
+msgid ""
+"这是一所很破旧的木屋。每当山风吹来，都会发出“吱吱呀呀”\n"
+"的声音。南侧是一个小小的厨房。木屋的后面是一个精巧的花园，花\n"
+"园里穿来阵阵打闹之声。一个翠绿的小草坪就在西面。\n"
+msgstr ""
+
+#. es2:d/village/smallstorage long
+#: data/village/rooms.json
+msgid ""
+"这是一个简陋的小厨房。四壁已被油烟薰的分不出原来的颜色。\n"
+"墙上挂满了风干了的卤肉，可是上面显然有着被老鼠咬过的痕迹。\n"
+msgstr ""
+
+#. es2:d/village/melonfarm long
+#: data/village/rooms.json
+msgid ""
+"这是一片很大的西瓜地，沙质的土壤，种出来的瓜肯定是又甜又砂瓤，\n"
+"熟透了的西瓜(melon)已与瓜蒂脱开，就等人们去摘(pick)呢。不过看瓜农\n"
+"的篷子就在瓜地的南面，他的警惕性可是很高呀。北面是村里的小路。\n"
+msgstr ""
+
+#. es2:d/village/melonguard long
+#: data/village/rooms.json
+msgid ""
+"这是一间茅草铺顶，竹竿作架的棚子，平时瓜农就在这里看着瓜地，\n"
+"他们的警惕性都很高，稍有风吹草动都会警觉起来。瓜地在瓜棚的北面，\n"
+"往西北走就上了村里的小路，往南能看到地主田老财的宅院。\n"
+msgstr ""
+
+#. es2:d/village/field long
+#: data/village/rooms.json
+msgid ""
+"这是一片绿油油的稻田，稻子的长势非常喜人，因为北面就是玉螺湖，\n"
+"所以稻田的灌溉很方便。从这儿向西能看到忘情谷那郁郁葱葱的山岭，东\n"
+"面能看到几间高大房屋高出柳树部分的屋檐。\n"
+msgstr ""
+
+#. es2:d/village/lordhouse1 long
+#: data/village/rooms.json
+msgid ""
+"地主田老财的家似乎并不与老财的名字相适应，灰色的低矮院墙围着\n"
+"三间屋子。田老财家的前院，中间有一棵大槐树，伸开的枝叶遮出一大片\n"
+"阴凉，这里连接东房和南房。前院的西面是一扇漆黑的大门。\n"
+msgstr ""
+
+#. es2:d/village/lordhouse2 long
+#: data/village/rooms.json
+msgid ""
+"东房内的北面摆放着很大的八仙桌，桌子的后面是供奉关公的神龛，\n"
+"神龛上三根拇指粗细的香慢慢燃着，关公的手似乎指向前面的墙壁(wall)，\n"
+"你还是第一次见到如此奇特姿势的关公像。在墙角处放着一根铁棍(stick)，\n"
+"顺着东侧打开的窗子望出去，可以看到远远的官道上来来往往的人群和遥\n"
+"远处阴森的黑松山。\n"
+msgstr ""
+
+#. es2:d/village/lordhouse3 long
+#: data/village/rooms.json
+msgid ""
+"南房布置得象个书房，在屋子的中间有一张大书桌，靠西侧的墙上立\n"
+"着一个书架(shield)，上面很摆了几本书。向南和向西开了两面大窗户，\n"
+"向南望去，能模模糊糊地望见京城林立的楼阁；向西可以看到在田间忙碌\n"
+"的田农。\n"
+msgstr ""
+
+#. es2:d/village/lakeside long
+#: data/village/rooms.json
+msgid ""
+"玉螺湖以产的螺蛳洁白如玉而得名，并且湖中盛产味道鲜美的鲈鱼。\n"
+"有很多渔夫泛舟湖上，以网鱼捕螺为生。但现在他们都站在岸边，面带愁\n"
+"容，不清楚有什么变故发生。岸边还散落了几艘木船(boat)。\n"
+msgstr ""
+
+#. es2:d/village/valley1 long
+#: data/village/rooms.json
+msgid ""
+"这里是忘情谷外的一条小路，向着南和北延伸。山岭上树木繁茂，绿\n"
+"草茵茵，东面是有名的玉螺湖，湖上水汽蒸腾，但这边岸上没有船，不能\n"
+"由此到湖上。隐隐约约地看的见错落有致的村庄农舍。\n"
+msgstr ""
+
+#. es2:d/village/valley2 long
+#: data/village/rooms.json
+msgid ""
+"这里是忘情谷外的一条小路，往东就进了名叫傅家坡的小村庄。从村\n"
+"庄往外的这段小路人烟稀少，但能经常见到有大鸟飞过忘情谷的山岭。\n"
+msgstr ""
+
+#. es2:d/village/lake long
+#: data/village/rooms.json
+msgid ""
+"这里是玉螺湖的湖心，湖面上丝丝雾气蒸起，周围静得出奇，心跳声\n"
+"都听的见。你仔细地向湖底看去，忽的见白光一闪，如果想看个究竟，可\n"
+"以潜入湖中(dive)，但理智告诉你一定要安全第一！西面远处是朦胧的群\n"
+"山，东边岸上的渔夫似乎冲着你比比划划。\n"
+msgstr ""
+
+#. es2:d/village/lakebottom1 long
+#: data/village/rooms.json
+msgid ""
+"这个岩洞中全都是冰，冰的色泽纯正洁白，很象是北极的玄冰，却不\n"
+"知怎么会在这里出现。四周气温极低，阵阵寒冷袭来，常人难以站立片刻。\n"
+"在玄冰上面长着发光的藻类植物，所以从入口看去非常明亮。刚才进入岩\n"
+"洞的入口处又迅速地结了一层薄冰，奇怪的是水压并没有把它压破。\n"
+msgstr ""
+
+#. es2:d/village/lakebottom2 long
+#: data/village/rooms.json
+msgid ""
+"水下岩洞到了这里，突然变得非常宽阔，巨大的穹顶成半透明，能模\n"
+"糊地看到顶外的小鱼游来游去。自上而下的看去，你不仅倒吸一口冷气：\n"
+"几只白色的大龙或悬浮在空中、或盘在冰面上、或慢游在洞里的水潭中。\n"
+"西面有一冰制的阶梯盘旋而上，不知伸向哪里。\n"
+msgstr ""
+
+#. village name
+#: data/village/world.json
+msgid "玉螺湖村"
+msgstr ""
+
+#. village.lakeside.no_wading lines
+#: data/village/world.json
+msgid "这么大的一片湖，你想走过去吗？"
+msgstr ""
+
+#. village.lake.bow lines
+#: data/village/world.json
+msgid "你正站在船头，向东走一小步就会掉入湖中！你不想这样吧？"
+msgstr ""
+
+#. village.lordhouse1.door name
+#: data/village/world.json
+msgid "田老财家大门"
+msgstr ""
+
+#. village.road3.landmark.tablet long
+#: data/village/world.json
+msgid ""
+"你勉强分辨出那上面模糊的字迹：傅家坡\n"
+msgstr ""
+
+#. village.lakeside.landmark.boat name
+#. village.lakeside.paddle name
+#: data/village/world.json
+msgid "木船"
+msgstr ""
+
+#. village.lakeside.landmark.boat long
+#: data/village/world.json
+msgid ""
+"关内能经常见到的渔船，你可以划着(paddle)它到湖中心。\n"
+msgstr ""
+
+#. village.road6.landmark.grass action
+#: data/village/world.json
+msgid "拨开"
+msgstr ""
+
+#. village.road6.landmark.grass long
+#: data/village/world.json
+msgid ""
+"高高的茅草，可以拨开(pushaside)。\n"
+msgstr ""
+
+#. village.road6.landmark.grass messages.open
+#: data/village/world.json
+msgid "你拨开茅草，发现了一条向西的路。"
+msgstr ""
+
+#. village.road6.landmark.grass messages.close
+#: data/village/world.json
+msgid "茅草晃了晃，又遮住了向西的路。"
+msgstr ""
+
+#. village.lakebottom1.landmark.ice name
+#: data/village/world.json
+msgid "玄冰"
+msgstr ""
+
+#. village.lakebottom1.landmark.ice long
+#: data/village/world.json
+msgid ""
+"身后的入口已经冻上了，冰层坚硬无比，再也砸不开。往上走只能穿过冰龙盘踞的冰厅；过不去的话，就只能在这里等下去了。\n"
+msgstr ""
+
+#. village.lakebottom1.landmark.ice messages.use
+#: data/village/world.json
+msgid "你在冰洞里苦等良久，冻得昏昏沉沉地睡了过去……醒来时，你已经躺在雪亭镇的饮风客栈里。"
+msgstr ""
+
+#. village.lakeside.paddle act.verb
+#: data/village/world.json
+msgid "划向湖心"
+msgstr ""
+
+#. village.lakeside.paddle act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"你跳上渔船，奋力向湖心划去。\n"
+msgstr ""
+
+#. village.lakeside.paddle act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"你终于划到湖中心了。\n"
+msgstr ""
+
+#. village.lake.paddle name
+#: data/village/world.json
+msgid "小船"
+msgstr ""
+
+#. village.lake.paddle act.verb
+#: data/village/world.json
+msgid "划回岸边"
+msgstr ""
+
+#. village.lake.paddle act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"你划动双桨，小船慢慢向岸边漂去。\n"
+msgstr ""
+
+#. village.lake.paddle act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"你终于划到湖岸边。\n"
+msgstr ""
+
+#. village.lake.dive act.verb
+#: data/village/world.json
+msgid "潜入湖中"
+msgstr ""
+
+#. village.lake.dive act.acts.ask
+#: data/village/world.json
+msgid ""
+"这一潜下去就回不到船上了：湖底的出路只有一条，要穿过白鳞冰龙盘踞的冰厅；过不去的话，只能在冰洞里放弃（醒来时在雪亭镇的客栈）。\n"
+"确定要潜入湖中吗？"
+msgstr ""
+
+#. village.lake.dive act.acts.choice
+#: data/village/world.json
+msgid "确定潜入"
+msgstr ""
+
+#. village.lake.dive act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"你深深吸了一口气，一个猛子潜入水中！\n"
+msgstr ""
+
+#. village.lake.dive act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"你越潜越深，突然眼前一亮，一处湖底发出光亮。你用拳一砸，那湖底竟然碎了，原来是一层冰！你随着水流被冲进一个岩洞中。\n"
 msgstr ""

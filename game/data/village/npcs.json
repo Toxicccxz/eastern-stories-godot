@@ -1,0 +1,179 @@
+{
+	"npcs": [
+		{
+			"id": "village.npc.trader1",
+			"legacy_source": "d/village/npc/trader1.c",
+			"name": "商人",
+			"aliases": ["trader"],
+			"gender": "男性",
+			"age": 42,
+			"long": "这是一位从关外来的商人。\n",
+			"combat_exp": 80000,
+			"attitude": "friendly",
+			"skills": { "celestial": 80, "celestrike": 80, "unarmed": 80 },
+			"skill_map": { "force": "celestial", "unarmed": "celestrike" },
+			"carry": [
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 50 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"chat_chance": 30,
+			"chat_msg": ["商人心有余悸地说道：我几乎死在绮云镇阿泰的手中！\n", { "action": "random_move" }],
+			"chat_chance_combat": 15,
+			"chat_msg_combat": ["商人说道：杀人啦！你难道不怕官府缉拿吗？\n", { "action": "random_move" }]
+		},
+		{
+			"id": "village.npc.woman1",
+			"legacy_source": "d/village/npc/woman1.c",
+			"name": "农妇",
+			"aliases": ["woman"],
+			"gender": "女性",
+			"age": 30,
+			"combat_exp": { "base": 20, "plus_random": 40 },
+			"carry": [
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 90 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:d/village/npc/obj/knife", "source": "d/village/npc/obj/knife.c" }
+			],
+			"chat_chance": 20,
+			"chat_msg": ["农妇道：我可怜的儿啊，你到那里去了？\n", "农妇道：你有见到我的儿吗？，他头上梳着两个小抓揪，只有七岁。\n", "农妇叹道：儿啊！\n"],
+			"inquiry": { "儿": ["我的儿前两天不见了，我和他爹到处找都找不到。听说黑松山总抓小孩子。\n"] },
+			"apply": { "dodge": { "base": 10, "plus_random": 5 } },
+			"chat_chance_combat": 50,
+			"chat_msg_combat": [
+				{ "action": "wield", "item": "es2:d/village/npc/obj/knife", "say": "没见识过我的菜刀神功是吧, 接招!", "chat_chance_combat": 10 },
+				{ "action": "say_by_age", "younger": ["唉，我那可怜的儿啊，年龄比你还小。!"], "otherwise": ["以大欺小啊你..."] }
+			]
+		},
+		{
+			"id": "village.npc.flowergirl",
+			"legacy_source": "d/village/npc/flowergirl.c",
+			"name": "采花妞",
+			"aliases": ["little girl", "girl"],
+			"gender": "女性",
+			"age": 9,
+			"long": "天真的小女孩正在玩耍着 \n",
+			"combat_exp": 700,
+			"attitude": "friendly",
+			"skills": { "unarmed": 10, "parry": 25, "dodge": 100, "throwing": 50 },
+			"carry": [
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 15 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:d/village/npc/obj/flower", "source": "d/village/npc/obj/flower.c", "equip": "wield", "amount": 7 }
+			],
+			"inquiry": { "小娟": ["这要到黑松山去问。"] }
+		},
+		{
+			"id": "village.npc.oldliu",
+			"legacy_source": "d/village/npc/oldliu.c",
+			"name": "刘老农",
+			"aliases": ["liu"],
+			"gender": "男性",
+			"age": 57,
+			"long": "刘老农今年快六十了。但手脚还算灵活。\n",
+			"attributes": { "str": 27, "int": 12, "per": 10 },
+			"combat_exp": 10000,
+			"bellicosity": 0,
+			"attitude": "peaceful",
+			"skills": {
+				"sword": 150,
+				"unarmed": 100,
+				"dodge": 120,
+				"parry": 120,
+				"liuh-ken": 70,
+				"six-chaos-sword": 150,
+				"pyrobat-steps": 80
+			},
+			"skill_map": { "dodge": "pyrobat-steps", "sword": "six-chaos-sword", "unarmed": "liuh-ken" },
+			"carry": [
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 50 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:d/village/npc/obj/parrybook", "source": "d/village/npc/obj/parrybook.c" }
+			],
+			"accept_fight": [
+				{ "say": "老头子哪里是您的对手？", "accept": false }
+			],
+			"greeting": { "rules": [{ "steps": [{ "line": "刘老农说道：“这位$RESPECT，可否见到小女娟儿？” \n" }] }] }
+		},
+		{
+			"id": "village.npc.rat",
+			"legacy_source": "d/village/npc/rat.c",
+			"name": "大老鼠",
+			"aliases": ["rat"],
+			"race": "beast",
+			"age": 5,
+			"long": "一只鼠头鼠脑的大老鼠\n",
+			"skills": { "dodge": 80 },
+			"limbs": ["头部", "身体", "尾巴"],
+			"verbs": ["bite"]
+		},
+		{
+			"id": "village.npc.meloner",
+			"legacy_source": "d/village/npc/meloner.c",
+			"name": "瓜农",
+			"aliases": ["meloner"],
+			"gender": "男性",
+			"age": 46,
+			"long": "一个中年瓜农，脸上被阳光晒得黝黑，一身的键子\n肉，给人的感觉是扎实威猛。\n",
+			"attributes": { "str": 29, "cor": 26, "cps": 29, "int": 22, "per": 18, "spi": 23, "kar": 25, "con": 27 },
+			"resources": { "force": 500, "max_force": 500, "mana": 50, "max_mana": 50 },
+			"combat_exp": 8000,
+			"score": 100,
+			"vendor": "village.vendor.meloner",
+			"attitude": "friendly",
+			"skills": {
+				"unarmed": 80,
+				"force": 60,
+				"dodge": 50,
+				"parry": 50,
+				"chaos-steps": 30,
+				"fonxansword": 30,
+				"fonxanforce": 30
+			},
+			"skill_map": { "parry": "fonxansword", "dodge": "chaos-steps", "force": "fonxanforce" },
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"greeting": { "rules": [{ "steps": [{ "line": "这位$RESPECT要不要买个西瓜解解渴？\n" }] }] }
+		},
+		{
+			"id": "village.npc.fisher",
+			"legacy_source": "d/village/npc/fisher.c",
+			"name": "渔夫",
+			"aliases": ["fisher"],
+			"gender": "男性",
+			"age": 35,
+			"long": "一个精壮的汉子，头戴斗笠，身披蓑衣。偶尔抬头一看的眼神\n中精光大盛，很有可能是江湖中人。\n",
+			"resources": { "force": 500, "max_force": 500 },
+			"combat_exp": 20000,
+			"force_factor": 0,
+			"attitude": "friendly",
+			"skills": { "parry": 30, "dodge": 70, "unarmed": 120, "throwing": 150, "stormdance": 45, "force": 15 },
+			"skill_map": { "dodge": "stormdance" },
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"chat_chance": 2,
+			"chat_msg": ["渔夫嘀咕着：不知这水怪又吃了几个人。\n"],
+			"chat_chance_combat": 10,
+			"chat_msg_combat": ["有种的去杀了那水怪，打我算什么英雄？！\n"],
+			"inquiry": { "桂花": ["华中理工大学的桂花树比晚月庄多多了，你知道吗？"] }
+		},
+		{
+			"id": "village.npc.dragon",
+			"legacy_source": "d/village/npc/dragon.c",
+			"name": "白鳞冰龙",
+			"aliases": ["icedragon", "dragon"],
+			"race": "beast",
+			"age": 600,
+			"long": "一只浑身长满白鳞的龙，\n",
+			"attributes": { "str": 40, "cor": 200, "cps": 30, "spi": 70, "int": 20, "con": 1000 },
+			"resources": { "max_gin": 1300, "max_kee": 5000, "max_sen": 800 },
+			"combat_exp": 1000000,
+			"attitude": "aggressive",
+			"limbs": ["头部", "身体", "前爪", "後爪", "尾巴"],
+			"verbs": ["bite", "claw"],
+			"apply": { "attack": 50, "dodge": 120, "armor": 100, "damage": 10 },
+			"capabilities": ["aggressive_on_player_presence"]
+		}
+	]
+}

@@ -91,6 +91,8 @@ func request_eat() -> FoodUseResult:
 			_feedback.text = (tr("你将剩下的%s吃得乾乾净净。") if finished else tr("你拿起%s咬了几口。")) % food_name
 		FoodUseResult.Outcome.TOO_FULL:
 			_feedback.text = "你已经吃太饱了，再也塞不下任何东西了。"
+		FoodUseResult.Outcome.TOO_BLOATED:
+			_feedback.text = tr("你肚子太涨了，再也撑不下任何东东了。!")
 		FoodUseResult.Outcome.NOT_DIRECT_HELD:
 			_feedback.text = "只能吃自己直接携带的食物。"
 		FoodUseResult.Outcome.COMBAT_BLOCKED:
