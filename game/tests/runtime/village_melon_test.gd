@@ -43,6 +43,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_pick(tree, session)
 	await _test_caught(tree, session)
 	await _test_held(tree, session)
+	await _test_second_catch(tree, session)
 	await _test_lifted(tree, session)
 	await _test_death(tree, session)
 	session.free()
@@ -225,6 +226,38 @@ func _test_held(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not hud.nearby.actions_of(name).has("还瓜钱"), "no 还瓜钱 once settled")
 	_check(await MapPlaces.drive_to_zone(tree, map, &"village.road4") and await MapPlaces.drive_to_zone(tree, map, &"village.melonfarm"), "the way out is open")
 	_check(not pick.context_title().is_empty(), "the melons again")
+
+
+## Fled from one catcher, caught by a second while the first still stands there: 还瓜钱 on the
+## battle panel pays the one fighting (Codex, #116), and clears the first one's claim too.
+func _test_second_catch(tree: SceneTree, session: WorldSessionController) -> void:
+	var map: WorldMapController = session.active_map() as WorldMapController
+	var player: WorldPlayerRuntimeState = session.player_runtime()
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	var first: NpcRuntimeState = await _caught_and_fled(tree, session)
+	if first == null:
+		return
+	var second: NpcRuntimeState = _meloners(map, &"village.melonguard")[0]
+	var original: WorldInteractionRandomSource = session.world_interaction_random_source()
+	_pin(session, CAUGHT)
+	(map.service(PICK) as ActService).interact()
+	session.configure_world_interaction_random_source(original)
+	_check(coordinator.has_active_encounter() and second.has_flag(StringName(FLAG)) and second.relationship.has_opponent(player.character_id) and not first.relationship.has_opponent(player.character_id), "a second 瓜农 fights; the first stands by, flagged")
+	var info: CombatTacticalActionInfo = _info(coordinator, SETTLE)
+	_check(info != null, "还瓜钱 on the battle panel for the one fighting")
+	if info == null:
+		return
+	var money: MoneyInventoryContext = Finance.session_context(session)
+	Finance.add_money(money, CurrencyDenomination.Value.COIN, 100, &"000-test-melon-00coin") # TEST-ONLY: buy.c pays 60 from the first coin stack
+	coordinator.submit_player_action(CombatTacticalRequest.new(&"settle.second", coordinator.active_encounter().encounter_id, player.character_id, SETTLE, info.category))
+	coordinator.advance_scheduler(0.0)
+	_check(not coordinator.has_active_encounter() and second.world_location().zone_id == &"village.melonguard", "the one fighting was paid and went home")
+	_check(not first.has_flag(StringName(FLAG)) and not second.has_flag(StringName(FLAG)) and int(player.temp_marks.get(FLAG, 0)) == 0, "no claim left on either")
+	map.debts.send_home(first) # TEST-ONLY: the later tests want the shed full again
+	session.shared_ui().dismiss_current_panel()
+	for _frame: int in range(3):
+		await tree.physics_frame
+	_check(await MapPlaces.drive_to_zone(tree, map, &"village.road4") and await MapPlaces.drive_to_zone(tree, map, &"village.melonfarm"), "the way out is open")
 
 
 ## The block lifts while the one who caught the player is down, gone or dead.

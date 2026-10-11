@@ -33,10 +33,13 @@ func can_settle(npc: NpcRuntimeState) -> bool:
 	)
 
 
-## The NPC of `definition_id` the player can square it with now, or null.
-func creditor(definition_id: StringName) -> NpcRuntimeState:
+## The NPC of `definition_id` the player can square it with now, or null; `fighting`: only one
+## fighting the player now (the battle panel's: a first catcher the player fled may still stand
+## there while a second fights them).
+func creditor(definition_id: StringName, fighting: bool = false) -> NpcRuntimeState:
+	var player_id: StringName = &"" if _player == null else _player.character_id
 	for npc: NpcRuntimeState in _map.npcs.residents:
-		if npc.definition().definition_id == definition_id and can_settle(npc):
+		if npc.definition().definition_id == definition_id and can_settle(npc) and (not fighting or npc.relationship.has_opponent(player_id)):
 			return npc
 	return null
 

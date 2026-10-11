@@ -726,14 +726,13 @@ func _summon_beside(caster_id: StringName, definition_id: StringName) -> StringN
 ## Whether an NPC of `definition_id` who caught the player fights them now (WorldMapDebts).
 func _settle_offered(definition_id: StringName) -> bool:
 	var map: WorldMapController = null if _session == null else _session.active_map() as WorldMapController
-	var npc: NpcRuntimeState = null if map == null else map.debts.creditor(definition_id)
-	return npc != null and npc.relationship.is_fighting()
+	return map != null and map.debts.creditor(definition_id, true) != null
 
 
 ## do_return() in the fight: WorldMapDebts.settle(), and where the NPC goes when paid.
 func _settle(definition_id: StringName) -> Dictionary:
 	var map: WorldMapController = null if _session == null else _session.active_map() as WorldMapController
-	var npc: NpcRuntimeState = null if map == null else map.debts.creditor(definition_id)
+	var npc: NpcRuntimeState = null if map == null else map.debts.creditor(definition_id, true)
 	if npc == null:
 		return {"settled": false, "lines": []}
 	var settled: bool = map.debts.settle(npc)
