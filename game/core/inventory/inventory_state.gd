@@ -18,6 +18,9 @@ enum ReparentValidation {
 ## instance IDs and the narrow own-weight fact needed by containment are kept.
 var _own_weights: Dictionary[StringName, int] = {}
 var _direct_parents: Dictionary[StringName, ContainmentEndpoint] = {}
+## The items directly held by each holder (_holder_key), kept with _direct_parents: what
+## one holder holds is found without walking every item of the world.
+var _children: Dictionary[String, Dictionary] = {}
 
 
 func register_item(item: ItemInstanceType, own_weight: int) -> bool:
@@ -64,10 +67,7 @@ func direct_children(endpoint: ContainmentEndpointType) -> Array[StringName]:
 	var children: Array[StringName] = []
 	if endpoint == null or not endpoint.is_valid():
 		return children
-	for item_instance_id: StringName in _direct_parents:
-		var parent: ContainmentEndpointType = _direct_parents[item_instance_id]
-		if parent.same_identity(endpoint):
-			children.append(item_instance_id)
+	children.assign(_children.get(_holder_key(endpoint), {}).keys())
 	children.sort_custom(_string_name_less_than)
 	return children
 
@@ -190,7 +190,12 @@ func _apply_reparent(
 ) -> bool:
 	if validate_reparent(item_instance_id, destination) != ReparentValidation.VALID:
 		return false
+	_unlink_child(item_instance_id)
 	_direct_parents[item_instance_id] = destination.duplicate_snapshot()
+	var key: String = _holder_key(destination)
+	if not _children.has(key):
+		_children[key] = {}
+	_children[key][item_instance_id] = true
 	return true
 
 
@@ -206,9 +211,26 @@ func _remove_registered_leaf(item_instance_id: StringName) -> bool:
 	)
 	if not direct_children(item_endpoint).is_empty():
 		return false
+	_unlink_child(item_instance_id)
 	_direct_parents.erase(item_instance_id)
 	_own_weights.erase(item_instance_id)
 	return true
+
+
+## A holder's identity (same_identity(): its kind and ID) as a key.
+static func _holder_key(endpoint: ContainmentEndpointType) -> String:
+	return "%d:%s" % [endpoint.kind, endpoint.endpoint_id]
+
+
+func _unlink_child(item_instance_id: StringName) -> void:
+	var parent: ContainmentEndpointType = _direct_parents.get(item_instance_id)
+	if parent == null:
+		return
+	var key: String = _holder_key(parent)
+	var held: Dictionary = _children.get(key, {})
+	held.erase(item_instance_id)
+	if held.is_empty():
+		_children.erase(key)
 
 
 func _string_name_less_than(left: StringName, right: StringName) -> bool:

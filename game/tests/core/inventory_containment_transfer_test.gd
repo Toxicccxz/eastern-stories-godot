@@ -35,6 +35,7 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_equipment_detach_before_failures()
 	_test_equipment_direct_ownership_boundary()
 	_test_independent_state_and_result_snapshots()
+	_test_children_follow_every_move()
 	return {
 		"assertions": _assertion_count,
 		"failures": _failures.duplicate(),
@@ -755,3 +756,54 @@ func _has_property(value: Object, property_name: StringName) -> bool:
 		if StringName(property["name"]) == property_name:
 			return true
 	return false
+
+
+## What a holder holds is the same, in the same order, as a walk over every item's parent
+## finds it, through random moves, nesting and removals (the children index).
+func _test_children_follow_every_move() -> void:
+	var inventory: InventoryState = InventoryStateScript.new()
+	var random := RandomNumberGenerator.new()
+	random.seed = 4110
+	var ids: Array[StringName] = []
+	for index: int in range(40):
+		var id := StringName("index.item.%02d" % index)
+		ids.append(id)
+		_assert_true(inventory.register_item(ItemInstanceScript.new(id, &"index.thing"), 10), "item %d registered" % index)
+	var holders: Array[ContainmentEndpoint] = [
+		ContainmentEndpointScript.new(ContainmentEndpointScript.Kind.CHARACTER, &"index.a"),
+		ContainmentEndpointScript.new(ContainmentEndpointScript.Kind.CHARACTER, &"index.b"),
+		ContainmentEndpointScript.new(ContainmentEndpointScript.Kind.WORLD, &"index.floor"),
+	]
+	var mismatches: int = 0
+	var moves: int = 0
+	for step: int in range(400):
+		var item: StringName = ids[random.randi_range(0, ids.size() - 1)]
+		if not inventory.is_registered(item):
+			continue
+		var destination: ContainmentEndpoint = (
+			holders[random.randi_range(0, holders.size() - 1)] if random.randf() < 0.6
+			else ContainmentEndpointScript.new(ContainmentEndpointScript.Kind.ITEM, ids[random.randi_range(0, ids.size() - 1)])
+		)
+		if inventory._apply_reparent(item, destination):
+			moves += 1
+		if step % 25 == 24:
+			# A leaf goes (an item holding nothing).
+			for leaf: StringName in ids:
+				if inventory.is_registered(leaf) and inventory.direct_children(ContainmentEndpointScript.new(ContainmentEndpointScript.Kind.ITEM, leaf)).is_empty():
+					_assert_true(inventory._remove_registered_leaf(leaf), "%s removed" % leaf)
+					break
+		if step % 10 != 9:
+			continue
+		var all_holders: Array[ContainmentEndpoint] = holders.duplicate()
+		for id: StringName in ids:
+			all_holders.append(ContainmentEndpointScript.new(ContainmentEndpointScript.Kind.ITEM, id))
+		for holder: ContainmentEndpoint in all_holders:
+			var walked: Array[StringName] = []
+			for id: StringName in inventory.registered_item_ids():
+				var parent: ContainmentEndpoint = inventory.direct_parent(id)
+				if parent != null and parent.same_identity(holder):
+					walked.append(id)
+			if inventory.direct_children(holder) != walked:
+				mismatches += 1
+	_assert_true(moves > 200, "many moves made: %d" % moves)
+	_assert_eq(mismatches, 0, "every holder's children match a walk over all parents after every step")

@@ -8,37 +8,39 @@ const ConditionIdsType := preload("res://core/conditions/condition_ids.gd")
 static func validate(snapshot: GameSaveSnapshot) -> GameSaveResult:
 	if snapshot == null:
 		return _invalid("root", "snapshot is null")
-	if snapshot.metadata == null:
+	# The snapshot's getters return deep copies: read each one once.
+	var metadata: Values.GameSaveMetadata = snapshot.metadata
+	if metadata == null:
 		return _invalid("metadata", "metadata is null")
-	if snapshot.metadata.format_id != GameSaveSnapshot.FORMAT_ID:
+	if metadata.format_id != GameSaveSnapshot.FORMAT_ID:
 		return GameSaveResult.failure(GameSaveResult.Outcome.INVALID_FORMAT_ID, "metadata.format_id")
-	if snapshot.metadata.schema_version != GameSaveSnapshot.CURRENT_SCHEMA_VERSION:
+	if metadata.schema_version != GameSaveSnapshot.CURRENT_SCHEMA_VERSION:
 		return GameSaveResult.failure(GameSaveResult.Outcome.UNSUPPORTED_GAME_SCHEMA, "metadata.schema_version")
-	if snapshot.metadata.saved_at_utc.is_empty():
+	if metadata.saved_at_utc.is_empty():
 		return _invalid("metadata.saved_at_utc", "timestamp is required metadata")
-	if snapshot.metadata.slot_id != GameSaveSnapshot.FIXED_SLOT_ID:
+	if metadata.slot_id != GameSaveSnapshot.FIXED_SLOT_ID:
 		return _invalid("metadata.slot_id", "unsupported slot")
-	if snapshot.metadata.storage_profile not in [&"development", &"release", &"test"]:
+	if metadata.storage_profile not in [&"development", &"release", &"test"]:
 		return _invalid("metadata.storage_profile", "unsupported storage profile")
 	if snapshot.session_kind != GameSaveSnapshot.SESSION_KIND_OLDPINE:
 		return _invalid("session_kind", "unsupported session kind")
 	if snapshot.item_id_allocator == null or snapshot.item_id_allocator.scope.is_empty():
 		return _invalid("item_id_allocator.scope", "empty allocator scope")
-	if snapshot.player == null or snapshot.player.character_id.is_empty():
+	var player: Values.PlayerRuntimeSnapshot = snapshot.player
+	if player == null or player.character_id.is_empty():
 		return _invalid("player.character_id", "empty character ID")
 	if not WorldContentRevision.is_supported(snapshot.world_content_revision):
 		return _invalid("world_content_revision", "unsupported world contract")
-	var identity: Values.PlayerIdentitySnapshot = snapshot.player.identity
+	var identity: Values.PlayerIdentitySnapshot = player.identity
 	if identity == null or identity.display_name.strip_edges().is_empty() or identity.age < 0 or identity.race_id != &"human":
 		return _invalid("player.identity", "invalid supported Player identity")
 	if snapshot.world_content_revision == WorldContentRevision.Value.LEGACY_OLDPINE_V1 and not identity.is_legacy_technical():
 		return _invalid("player.identity", "identity incompatible with legacy world contract")
-	if snapshot.player.temps.has(""): return _invalid("player.temps", "named flags")
-	if snapshot.player.body_facts == null:
+	if player.temps.has(""): return _invalid("player.temps", "named flags")
+	if player.body_facts == null:
 		return _invalid("player.body_facts", "missing independent body facts")
-	var player_result: GameSaveResult = _validate_runtime_character(snapshot.player.character, snapshot.player.life_status, snapshot.player.exists_in_world, snapshot.player.world_location, snapshot.player.map_position, "player")
+	var player_result: GameSaveResult = _validate_runtime_character(player.character, player.life_status, player.exists_in_world, player.world_location, player.map_position, "player")
 	if not player_result.succeeded(): return player_result
-	# The snapshot's getters return deep copies: read each one once, never per index.
 	var items: NativeItemStateSnapshot = snapshot.items
 	if items == null:
 		return _invalid("items", "item snapshot is null")
@@ -103,7 +105,7 @@ static func validate(snapshot: GameSaveSnapshot) -> GameSaveResult:
 			if slots.has(slot.armor_type): return _duplicate("items.armor[%d].slots[%d].armor_type" % [index, slot_index])
 			slots[slot.armor_type] = true
 	var spawn_point_ids: Dictionary[StringName, bool] = {}
-	var character_ids: Dictionary[StringName, bool] = {snapshot.player.character_id: true}
+	var character_ids: Dictionary[StringName, bool] = {player.character_id: true}
 	var npc_states: Array[Values.NpcSpawnStateSnapshot] = snapshot.npc_spawn_states
 	for index: int in range(npc_states.size()):
 		var npc: Values.NpcSpawnStateSnapshot = npc_states[index]
@@ -115,8 +117,9 @@ static func validate(snapshot: GameSaveSnapshot) -> GameSaveResult:
 		if character_ids.has(npc.character_id): return _duplicate("npc_spawn_states[%d].character_id" % index)
 		character_ids[npc.character_id] = true
 		var loadout_ids: Dictionary[StringName, bool] = {}
-		for loadout_index: int in range(npc.live_loadout_item_ids.size()):
-			var loadout_id: StringName = npc.live_loadout_item_ids[loadout_index]
+		var live_loadout_item_ids: Array[StringName] = npc.live_loadout_item_ids
+		for loadout_index: int in range(live_loadout_item_ids.size()):
+			var loadout_id: StringName = live_loadout_item_ids[loadout_index]
 			if loadout_id.is_empty(): return _invalid("npc_spawn_states[%d].live_loadout_item_ids[%d]" % [index, loadout_index], "empty item ID")
 			if loadout_ids.has(loadout_id): return _duplicate("npc_spawn_states[%d].live_loadout_item_ids[%d]" % [index, loadout_index])
 			loadout_ids[loadout_id] = true
@@ -165,32 +168,36 @@ static func _validate_runtime_character(character: Values.CharacterStateSnapshot
 			path + ".exists_in_world",
 			"committed life status contradicts world existence",
 		)
+	var raw_levels: Array[Values.SkillValueSnapshot] = character.skills.raw_levels
+	var learned_progress: Array[Values.SkillValueSnapshot] = character.skills.learned_progress
+	var mappings: Array[Values.SkillMappingSnapshot] = character.skills.mappings
 	var skill_ids: Dictionary[StringName, bool] = {}
-	for index: int in range(character.skills.raw_levels.size()):
-		var raw: Values.SkillValueSnapshot = character.skills.raw_levels[index]
+	for index: int in range(raw_levels.size()):
+		var raw: Values.SkillValueSnapshot = raw_levels[index]
 		if raw == null or raw.skill_id.is_empty(): return _invalid(path + ".character.skills.raw_levels[%d].skill_id" % index, "empty skill ID")
 		if skill_ids.has(raw.skill_id): return _duplicate(path + ".character.skills.raw_levels[%d].skill_id" % index)
 		skill_ids[raw.skill_id] = true
 	var learned_ids: Dictionary[StringName, bool] = {}
-	for index: int in range(character.skills.learned_progress.size()):
-		var learned: Values.SkillValueSnapshot = character.skills.learned_progress[index]
+	for index: int in range(learned_progress.size()):
+		var learned: Values.SkillValueSnapshot = learned_progress[index]
 		if learned == null or learned.skill_id.is_empty(): return _invalid(path + ".character.skills.learned_progress[%d].skill_id" % index, "empty skill ID")
 		if learned_ids.has(learned.skill_id): return _duplicate(path + ".character.skills.learned_progress[%d].skill_id" % index)
 		learned_ids[learned.skill_id] = true
 	var mapping_ids: Dictionary[StringName, bool] = {}
-	for index: int in range(character.skills.mappings.size()):
-		var mapping: Values.SkillMappingSnapshot = character.skills.mappings[index]
+	for index: int in range(mappings.size()):
+		var mapping: Values.SkillMappingSnapshot = mappings[index]
 		if mapping == null or mapping.use_id.is_empty() or mapping.skill_id.is_empty(): return _invalid(path + ".character.skills.mappings[%d]" % index, "empty mapping ID")
 		if mapping_ids.has(mapping.use_id): return _duplicate(path + ".character.skills.mappings[%d].use_id" % index)
 		if not skill_ids.has(mapping.skill_id): return _invalid(path + ".character.skills.mappings[%d].skill_id" % index, "mapping target has no raw record")
 		mapping_ids[mapping.use_id] = true
-	if not character.skills.has_skills_mapping and (not character.skills.raw_levels.is_empty() or not character.skills.mappings.is_empty()):
+	if not character.skills.has_skills_mapping and (not raw_levels.is_empty() or not mappings.is_empty()):
 		return _invalid(path + ".character.skills.has_skills_mapping", "mapping-presence contradiction")
-	if not character.skills.has_learned_mapping and not character.skills.learned_progress.is_empty():
+	if not character.skills.has_learned_mapping and not learned_progress.is_empty():
 		return _invalid(path + ".character.skills.has_learned_mapping", "mapping-presence contradiction")
 	var condition_ids: Dictionary[StringName, bool] = {}
-	for index: int in range(character.conditions.size()):
-		var condition: Values.ConditionSnapshot = character.conditions[index]
+	var conditions: Array[Values.ConditionSnapshot] = character.conditions
+	for index: int in range(conditions.size()):
+		var condition: Values.ConditionSnapshot = conditions[index]
 		if condition == null or condition.condition_id.is_empty(): return _invalid(path + ".character.conditions[%d].condition_id" % index, "empty condition ID")
 		if condition_ids.has(condition.condition_id): return _duplicate(path + ".character.conditions[%d].condition_id" % index)
 		if condition.payload_kind not in [Values.ConditionSnapshot.KIND_DURATION, Values.ConditionSnapshot.KIND_POISON]: return _invalid(path + ".character.conditions[%d].payload_kind" % index, "unsupported payload kind")

@@ -252,13 +252,9 @@ func capture(
 			root_validation.detail,
 		)
 	var complete_validation: OldPineWorldRestoreResult = (
-		OldPineWorldRestoreComposition.prepare(snapshot)
+		OldPineWorldRestoreComposition.validate(snapshot)
 	)
-	if (
-		complete_validation.outcome
-		!= OldPineWorldRestoreResult.Outcome.SUCCESS
-		or complete_validation.preparation == null
-	):
+	if complete_validation.outcome != OldPineWorldRestoreResult.Outcome.SUCCESS:
 		return Result.failure(
 			Result.Outcome.INVALID_CAPTURED_SNAPSHOT,
 			complete_validation.path,
