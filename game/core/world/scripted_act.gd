@@ -7,7 +7,8 @@ extends RefCounted
 ## latemoon2.c search bracelet) or a carried item's (bracelet.c pray, letter.c fire).
 ## `gender`, `not_gender` and `not_class` say whom the branch is for (the player's
 ## query("gender") and query("class")); `temp` and `not_temp` a set_temp() flag the player
-## has or lacks, `mark` a saved mark they have and `carries` an id something they carry
+## has or lacks, `mark` a saved mark they have (`not_mark` one they lack: d/canyon/npc/
+## vice_general.c's marks/军营) and `carries` an id something they carry
 ## answers to (present(id, me): letter.c's 火摺), `present` an NPC standing in the room
 ## (present("cook bonze"): d/sanyen/kitchen.c; one lying unconscious says nothing, 默认), `thirsty`
 ## that they can still drink (query("water") below max_water_capacity(): d/choyin/s_street1.c's
@@ -41,6 +42,7 @@ var not_class: StringName = &""
 var temp: String = ""
 var not_temp: String = ""
 var mark: String = ""
+var not_mark: String = ""
 var carries: String = ""
 ## An NPC definition present() in the room.
 var present: StringName = &""
@@ -101,6 +103,7 @@ func applies_to(player_gender: StringName, class_id: StringName, facts: Facts = 
 		and (temp.is_empty() or known.temps.get(temp, 0) != 0)
 		and (not_temp.is_empty() or known.temps.get(not_temp, 0) == 0)
 		and (mark.is_empty() or known.marks.get(mark, 0) != 0)
+		and (not_mark.is_empty() or known.marks.get(not_mark, 0) == 0)
 		and (carries.is_empty() or known.carried.has(carries))
 		and (present.is_empty() or known.present_npcs.has(present))
 		and (not thirsty or known.thirsty)
@@ -145,7 +148,7 @@ static func resource_of(state: CharacterState, key: String) -> CharacterResource
 	return state.spirit
 
 
-## {gender?, not_gender?, not_class?, temp?, not_temp?, mark?, carries?, present?, ask?, choice?, steps: [step]}.
+## {gender?, not_gender?, not_class?, temp?, not_temp?, mark?, not_mark?, carries?, present?, ask?, choice?, steps: [step]}.
 static func from_record(reader: ContentRecordReader) -> ScriptedAct:
 	var act := ScriptedAct.new()
 	act.gender = StringName(reader.text("gender"))
@@ -154,6 +157,7 @@ static func from_record(reader: ContentRecordReader) -> ScriptedAct:
 	act.temp = reader.text("temp")
 	act.not_temp = reader.text("not_temp")
 	act.mark = reader.text("mark")
+	act.not_mark = reader.text("not_mark")
 	act.carries = reader.text("carries")
 	act.present = StringName(reader.text("present"))
 	act.thirsty = reader.boolean("thirsty", false)

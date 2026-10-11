@@ -73,6 +73,7 @@ static func give(
 	offer.item_aliases = content.aliases()
 	offer.giver_family = player.state.family.family_id
 	offer.giver_temps = player.temp_marks
+	offer.giver_counters = player.state.counters
 	offer.giver_max_force = player.state.recovery.inner_force.maximum
 	offer.item_mastered = content.mastered
 	var liquid: LiquidState = authorities.liquids.state(id)
@@ -355,13 +356,20 @@ static func _destroy(authorities: Authorities, id: StringName) -> bool:
 	)
 
 
-## What an accepted gift changes: marks/<name> and set_temp() flags on the giver, an
-## object variable of the NPC and the topics it forgets, keeper.c's donation, which may lower the giver's
+## What an accepted gift changes: marks/<name> and set_temp() flags on the giver, what
+## they paid under the rule's tally (settled once it marks them), an object variable of
+## the NPC and the topics it forgets, keeper.c's donation, which may lower the giver's
 ## bellicosity, and old.c's max_force passed to the giver (force 0 after).
 @warning_ignore("integer_division")
 static func _apply_acceptance(rule: NpcObjectRule, player: WorldPlayerRuntimeState, npc: NpcRuntimeState, value: int, random: WorldInteractionRandomSource) -> void:
 	if not rule.mark_giver.is_empty():
 		player.state.marks[rule.mark_giver] = 1
+	if not rule.tally.is_empty():
+		var key: String = NpcObjectRule.tally_key(rule.tally)
+		if rule.mark_giver.is_empty():
+			player.state.counters[key] = player.state.counters.get(key, 0) + value
+		else:
+			player.state.counters.erase(key)
 	for temp: String in rule.set_temps:
 		player.temp_marks[temp] = 1
 	if rule.effect == NpcObjectRule.EFFECT_PASS_FORCE:

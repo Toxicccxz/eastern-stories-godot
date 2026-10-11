@@ -1,0 +1,311 @@
+{
+	"npcs": [
+		{
+			"id": "canyon.npc.door_guard",
+			"legacy_source": "d/canyon/npc/door_guard.c",
+			"name": "小兵",
+			"aliases": ["guard"],
+			"gender": "男性",
+			"age": 24,
+			"long": "他看起来有点精悍，手中紧握著刀，惊惊颤颤的样子。\n",
+			"attributes": { "str": 26, "int": 24 },
+			"resources": { "force": 600, "max_force": 600 },
+			"combat_exp": 60000,
+			"force_factor": 5,
+			"attitude": "peaceful",
+			"skills": { "blade": 50, "unarmed": 40, "parry": 60, "dodge": 50 },
+			"carry": [
+				{ "item": "es2:d/canyon/npc/obj/blade", "source": "d/canyon/npc/obj/blade.c", "equip": "wield" }
+			]
+		},
+		{
+			"id": "canyon.npc.guard1",
+			"legacy_source": "d/canyon/npc/guard1.c",
+			"name": "小兵",
+			"aliases": ["guard"],
+			"gender": "男性",
+			"age": 24,
+			"long": "风沙满面，无精打采，毫无生气的样子，真难以想像是这\n里的守军。\n",
+			"attributes": { "str": 26, "int": 24 },
+			"resources": { "force": 300, "max_force": 300 },
+			"combat_exp": 40000,
+			"force_factor": 5,
+			"attitude": "peaceful",
+			"skills": { "unarmed": 40, "parry": 60, "dodge": 50 }
+		},
+		{
+			"id": "canyon.npc.guard2",
+			"legacy_source": "d/canyon/npc/guard2.c",
+			"name": "老兵",
+			"aliases": ["guard"],
+			"gender": "男性",
+			"age": 24,
+			"long": "风沙满面，无精打采，毫无生气的样子，真难以想像是这\n里的守军。\n",
+			"attributes": { "str": 26, "int": 24 },
+			"resources": { "force": 300, "max_force": 300 },
+			"combat_exp": 40000,
+			"force_factor": 5,
+			"attitude": "peaceful",
+			"skills": { "unarmed": 40, "parry": 60, "dodge": 50 },
+			"chat_chance": 15,
+			"chat_msg": ["老兵说道：军师真是神算啊，把那狗贼都吓的不敢再来了。\n", "老兵说道：听说那个后备兵捡到了一个黄澄澄的宝物。\n", "老兵说道：嘿！有没有钱啊？挡点钱来花花吧！\n"],
+			"inquiry": { "黄石隘口": ["这个问题问我们大队长比较知道。\n"], "后备兵": ["嘿嘿！你想做啥？\n"], "军火库": ["你问这个喔..........不予回答。\n"] }
+		},
+		{
+			"id": "canyon.npc.leader1",
+			"legacy_source": "d/canyon/npc/leader1.c",
+			"name": "小队长",
+			"aliases": ["leader"],
+			"gender": "男性",
+			"age": 30,
+			"long": "不苟言笑的样子，带领著小兵驻守隘口的小队长。\n",
+			"attributes": { "str": 27, "int": 25 },
+			"resources": { "force": 400, "max_force": 400 },
+			"combat_exp": 80000,
+			"force_factor": 5,
+			"attitude": "peaceful",
+			"skills": { "dodge": 60, "sword": 60, "parry": 60, "force": 60, "unarmed": 65 },
+			"carry": [
+				{ "item": "es2:d/canyon/npc/obj/sword", "source": "d/canyon/npc/obj/sword.c", "equip": "wield" }
+			]
+		},
+		{
+			"id": "canyon.npc.captain",
+			"legacy_source": "d/canyon/npc/captain.c",
+			"name": "大队长",
+			"aliases": ["captain"],
+			"gender": "男性",
+			"age": 30,
+			"long": "他不苟言笑的样子，带领著小兵驻守隘口的队长。\n",
+			"attributes": { "str": 27, "int": 25 },
+			"resources": { "force": 700, "max_force": 700 },
+			"combat_exp": 120000,
+			"force_factor": 5,
+			"attitude": "peaceful",
+			"skills": { "dodge": 70, "sword": 70, "parry": 70, "force": 70, "unarmed": 65 },
+			"carry": [
+				{ "item": "es2:d/canyon/npc/obj/sword", "source": "d/canyon/npc/obj/sword.c", "equip": "wield" },
+				{ "item": "es2:d/canyon/npc/obj/armor", "source": "d/canyon/npc/obj/armor.c", "equip": "wear" }
+			],
+			"chat_chance": 8,
+			"chat_msg": ["大队长说道：有没有问题要问我啊？\n", "大队长说道：我对这里很熟的喔。\n"],
+			"inquiry": {
+				"允许": ["先给钱再说吧。\n"],
+				"兵器库": ["喔！那是我们厉害的军师所设的阵法。\n"],
+				"黄石隘口": {
+					"rules": [
+						{ "make": { "every": 2, "lines": [{ "line": "二十多年前，先帝将大将军们调来这里驻守隘口。\n", "color": "HIG" }, { "line": "京城的也就因隘口的巩固而获得安全。\n", "color": "HIG" }, { "line": "事隔多年，先帝也死了，换上的是位我们不甚认识的小皇帝。\n", "color": "HIG" }, { "line": "看来他只忙著找剑，也没什么大作为，大家也不太服他。\n", "color": "HIG" }, { "line": "皇帝看到大将军还要敬畏三分ㄌㄟ。\n", "color": "HIG" }, { "line": "反正啊，将军和军师是超强的，你可要好好的乌西我们才行。\n", "color": "HIG" }, { "line": "知道了，就快缴钱。\n", "color": "HIG" }] } }
+					]
+				}
+			},
+			"accept_object": [
+				{ "value_at_most": 0, "say": "ㄟ....Ｔhank Ｙou!!!", "accept": true },
+				{ "giver_mark": "军营", "line": "大队长说道:哦喔！还真有心啊，真是谢谢你了。\n", "accept": true },
+				{ "tally": "军营", "value_at_least": 3000, "line": "大队长说道:我已帮你列入名册了，从今天你可自由地出入营区了。\n", "mark_giver": "军营", "accept": true },
+				{ "tally": "军营", "line": "大队长说道:你的诚意不够喔，再多缴点吧。\n", "accept": true }
+			]
+		},
+		{
+			"id": "canyon.npc.leader2",
+			"legacy_source": "d/canyon/npc/leader2.c",
+			"name": "老队长",
+			"aliases": ["leader"],
+			"gender": "男性",
+			"age": 30,
+			"long": "不苟言笑的样子，带领著小兵驻守隘口的小队长。\n",
+			"attributes": { "str": 27, "int": 25 },
+			"resources": { "force": 400, "max_force": 400 },
+			"combat_exp": 80000,
+			"force_factor": 5,
+			"attitude": "peaceful",
+			"skills": { "dodge": 60, "blade": 60, "parry": 60, "force": 60, "unarmed": 65 },
+			"carry": [
+				{ "item": "es2:d/canyon/npc/obj/blade", "source": "d/canyon/npc/obj/blade.c", "equip": "wield" }
+			],
+			"chat_chance": 8,
+			"chat_msg": [
+				"老队长说道：大队长对这个地方好熟，还常常说些这里的故事给我们听。\n",
+				"老队长说道：你有没有搞错啊！来这里不给我们大队长过路费，你找死啊！\n",
+				"老队长说道：兵器库入口处的阵法真是厉害，一般人绝对找不到的。\n"
+			],
+			"inquiry": { "黄石隘口": ["你问问大队长吧，我不是很清楚。\n"], "后备兵": ["后备兵就..........你想做什么？找死啊。\n"] }
+		},
+		{
+			"id": "canyon.npc.vice_general",
+			"legacy_source": "d/canyon/npc/vice_general.c",
+			"name": "李信",
+			"aliases": ["vice general", "general"],
+			"title": "副将",
+			"gender": "男性",
+			"age": 40,
+			"long": "原是禁卫军的队长，也因其强大的声望和实力，被先帝调离京师\n和镇国大将军共同镇守黄石隘口。\n",
+			"attributes": { "str": 27, "int": 25 },
+			"resources": {
+				"force": 800,
+				"max_force": 800,
+				"max_gin": 200,
+				"eff_gin": 200,
+				"gin": 200,
+				"max_sen": 200,
+				"eff_sen": 200,
+				"sen": 200
+			},
+			"combat_exp": 400000,
+			"force_factor": 10,
+			"attitude": "peaceful",
+			"skills": {
+				"sword": 70,
+				"six-chaos-sword": 75,
+				"force": 80,
+				"celestial": 80,
+				"parry": 50,
+				"dodge": 60,
+				"pyrobat-steps": 60,
+				"unarmed": 70,
+				"celestrike": 75
+			},
+			"skill_map": {
+				"sword": "six-chaos-sword",
+				"parry": "six-chaos-sword",
+				"force": "celestial",
+				"unarmed": "celestrike",
+				"dodge": "pyrobat-steps"
+			},
+			"carry": [
+				{ "item": "es2:obj/longsword", "source": "obj/longsword.c", "equip": "wield" },
+				{ "item": "es2:d/canyon/npc/obj/armor", "source": "d/canyon/npc/obj/armor.c", "equip": "wear" }
+			],
+			"chat_chance_combat": 80,
+			"chat_msg_combat": [
+				{ "action": "exert", "function": "powerup" },
+				{ "action": "exert", "function": "recover" }
+			],
+			"greeting": {
+				"rules": [
+					{ "not_mark": "军营", "steps": [{ "say": "大胆狂徒，竟私闯此地，给我滚出去" }, { "move": "canyon.camp2", "point": "canyon.camp2.tent_return" }] }
+				]
+			}
+		},
+		{
+			"id": "canyon.npc.general",
+			"legacy_source": "d/canyon/npc/general.c",
+			"name": "严廷殷",
+			"aliases": ["master general", "master", "general"],
+			"nickname": "镇国大将军",
+			"title": "天邪派第十六代弟子",
+			"gender": "男性",
+			"age": 45,
+			"long": "容光焕发，左佩刀，右佩剑，威风凛凛，其高七尺六寸，虎背\n熊腰，年轻时同和大天邪于兰天武同拜一师，武功造诣不在大\n天邪之下，但志向不同，后成了京师武功第一、人人称羡的镇\n国大将军。\n",
+			"attributes": { "str": 29, "int": 28 },
+			"resources": {
+				"force": 1800,
+				"max_force": 1800,
+				"max_gin": 200,
+				"eff_gin": 200,
+				"gin": 200,
+				"max_sen": 200,
+				"eff_sen": 200,
+				"sen": 200
+			},
+			"combat_exp": 900000,
+			"force_factor": 20,
+			"attitude": "peaceful",
+			"skills": {
+				"sword": 80,
+				"six-chaos-sword": 85,
+				"force": 80,
+				"celestial": 80,
+				"parry": 50,
+				"dodge": 60,
+				"pyrobat-steps": 60,
+				"unarmed": 80,
+				"celestrike": 85
+			},
+			"skill_map": {
+				"sword": "six-chaos-sword",
+				"parry": "six-chaos-sword",
+				"force": "celestial",
+				"unarmed": "celestrike",
+				"dodge": "pyrobat-steps"
+			},
+			"carry": [
+				{ "item": "es2:d/canyon/npc/obj/broken_sword", "source": "d/canyon/npc/obj/broken_sword.c", "equip": "wield" },
+				{ "item": "es2:d/canyon/npc/obj/cloud_armor", "source": "d/canyon/npc/obj/cloud_armor.c", "equip": "wear" }
+			],
+			"chat_chance_combat": 80,
+			"chat_msg_combat": [
+				{ "action": "exert", "function": "powerup" },
+				{ "action": "exert", "function": "recover" }
+			],
+			"inquiry": {
+				"黄石隘口": ["你眼睛脱窗啊，这里就是黄石隘口。\n"],
+				"后备兵": ["我不管这种事的，你别来烦我。\n"],
+				"兵器库": ["你找死啊！问这种问题，你想干麻啊。\n"],
+				"印鉴": ["你怎么知道的？帮我找找吧，找到了我送你礼物。\n"]
+			}
+		},
+		{
+			"id": "canyon.npc.adviser",
+			"legacy_source": "d/canyon/npc/adviser.c",
+			"name": "赫造基",
+			"aliases": ["adviser"],
+			"title": "军师",
+			"gender": "男性",
+			"age": 44,
+			"long": "道光满面，睿智不言而现，气象万千，显然是茅山术高手中的高\n手，经纶羽扇，和大将军正是绝配。\n",
+			"attributes": { "str": 20, "int": 30 },
+			"resources": {
+				"force": 600,
+				"max_force": 600,
+				"atman": 600,
+				"max_atman": 600,
+				"mana": 2000,
+				"max_mana": 1200
+			},
+			"combat_exp": 300000,
+			"force_factor": 5,
+			"attitude": "peaceful",
+			"skills": {
+				"literate": 60,
+				"magic": 60,
+				"force": 25,
+				"spells": 80,
+				"unarmed": 30,
+				"sword": 40,
+				"parry": 35,
+				"dodge": 40,
+				"taoism": 60,
+				"necromancy": 70,
+				"gouyee": 50
+			},
+			"skill_map": { "magic": "taoism", "spells": "necromancy", "force": "gouyee" },
+			"carry": [
+				{ "item": "es2:d/canyon/npc/obj/fan_sword", "source": "d/canyon/npc/obj/fan_sword.c", "equip": "wield" },
+				{ "item": "es2:d/canyon/npc/obj/hat", "source": "d/canyon/npc/obj/hat.c", "equip": "wear" }
+			],
+			"apply": { "dodge": 15, "armor": 15 },
+			"chat_chance_combat": 80,
+			"chat_msg_combat": [
+				{ "action": "cast", "function": "drainerbolt" },
+				{ "action": "cast", "function": "netherbolt" },
+				{ "action": "cast", "function": "feeblebolt" },
+				{ "action": "cast", "function": "invocation" }
+			],
+			"inquiry": { "兵器库": ["先看看你的诚意再说罗。\n"] }
+		},
+		{
+			"id": "canyon.npc.seller",
+			"legacy_source": "d/canyon/npc/seller.c",
+			"name": "后备兵",
+			"aliases": ["guard"],
+			"gender": "男性",
+			"age": 28,
+			"long": "环顾四方，眼神锐利，看来想杀价是不可能的事了。\n",
+			"combat_exp": 50000,
+			"attitude": "friendly",
+			"carry": [
+				{ "item": "es2:d/canyon/npc/obj/blade", "source": "d/canyon/npc/obj/blade.c", "equip": "wield" }
+			]
+		}
+	]
+}

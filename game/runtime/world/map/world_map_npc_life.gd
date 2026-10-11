@@ -209,6 +209,8 @@ func _make_stage(character_id: StringName) -> void:
 		npc_ambience().start_call(character_id, making.every, NpcAmbience.MAKE)
 		return
 	makings.erase(character_id)
+	if making.gives.is_empty():
+		return
 	var giver: WorldMapController = here if here != null else _map
 	var gift: StringName = giver.give_new_item_to_player(making.gives)
 	var content: ItemContentDefinition = GameContent.catalog().item(making.gives)

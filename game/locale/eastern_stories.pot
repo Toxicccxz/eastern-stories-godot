@@ -171,7 +171,17 @@ msgstr ""
 #. choyin.npc.oldman gender
 #. choyin.npc.lboy gender
 #. choyin.npc.yamen_po gender
-#: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json
+#. canyon.npc.door_guard gender
+#. canyon.npc.guard1 gender
+#. canyon.npc.guard2 gender
+#. canyon.npc.leader1 gender
+#. canyon.npc.captain gender
+#. canyon.npc.leader2 gender
+#. canyon.npc.vice_general gender
+#. canyon.npc.general gender
+#. canyon.npc.adviser gender
+#. canyon.npc.seller gender
+#: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json
 msgid "男性"
 msgstr ""
 
@@ -304,6 +314,115 @@ msgstr ""
 
 #: scenes/ui/player_inventory_panel.tscn presentation/layout/shared_gameplay_layout.gd ui/world/shared_gameplay_ui.gd
 msgid "背包"
+msgstr ""
+
+#. canyon.npc.captain inquiry topic
+#. canyon.npc.general inquiry topic
+#. canyon.npc.adviser inquiry topic
+#. es2:d/canyon/blackmarket short
+#: scenes/world/canyon/canyon_armory.tscn data/canyon/npcs.json data/canyon/rooms.json
+msgid "兵器库"
+msgstr ""
+
+#: scenes/world/canyon/canyon_armory.tscn
+msgid "武"
+msgstr ""
+
+#. es2:d/canyon/road short
+#: scenes/world/canyon/canyon_clifftop.tscn data/canyon/rooms.json
+msgid "碎石小路"
+msgstr ""
+
+#: scenes/world/canyon/canyon_clifftop.tscn
+msgid "东北 · 雪亭镇"
+msgstr ""
+
+#. canyon.road.landmark.chain name
+#. canyon.canyon1.landmark.chain name
+#. canyon.road.chain name
+#. canyon.canyon1.chain name
+#: scenes/world/canyon/canyon_clifftop.tscn scenes/world/canyon/canyon_pass.tscn data/canyon/world.json
+msgid "铁索"
+msgstr ""
+
+#: scenes/world/canyon/canyon_clifftop.tscn
+msgid "铁索 · 爬下去"
+msgstr ""
+
+#. es2:d/canyon/canyon1 short
+#: scenes/world/canyon/canyon_pass.tscn data/canyon/rooms.json
+msgid "黄石隘口尾"
+msgstr ""
+
+#. es2:d/canyon/canyon2 short
+#. es2:d/canyon/canyon3 short
+#: scenes/world/canyon/canyon_pass.tscn data/canyon/rooms.json
+msgid "隘口小路"
+msgstr ""
+
+#. es2:d/canyon/canyon4 short
+#: scenes/world/canyon/canyon_pass.tscn data/canyon/rooms.json
+msgid "隘口中道"
+msgstr ""
+
+#. es2:d/canyon/canyon5 short
+#: scenes/world/canyon/canyon_pass.tscn data/canyon/rooms.json
+msgid "关外小路"
+msgstr ""
+
+#. es2:d/canyon/canyon6 short
+#. es2:d/canyon/canyon7 short
+#: scenes/world/canyon/canyon_pass.tscn data/canyon/rooms.json
+msgid "天驼关谷地"
+msgstr ""
+
+#. es2:d/canyon/camp3 short
+#. es2:d/canyon/camp4 short
+#: scenes/world/canyon/canyon_pass.tscn data/canyon/rooms.json
+msgid "小兵营帐"
+msgstr ""
+
+#. es2:d/canyon/camp1 short
+#: scenes/world/canyon/canyon_pass.tscn data/canyon/rooms.json
+msgid "军营入口"
+msgstr ""
+
+#. es2:d/canyon/camp5 short
+#. es2:d/canyon/camp6 short
+#: scenes/world/canyon/canyon_pass.tscn data/canyon/rooms.json
+msgid "小队长营帐"
+msgstr ""
+
+#. es2:d/canyon/camp2 short
+#: scenes/world/canyon/canyon_pass.tscn data/canyon/rooms.json
+msgid "营火区"
+msgstr ""
+
+#. es2:d/canyon/camp7 short
+#: scenes/world/canyon/canyon_pass.tscn data/canyon/rooms.json
+msgid "副将营帐"
+msgstr ""
+
+#. es2:d/canyon/camp8 short
+#: scenes/world/canyon/canyon_pass.tscn data/canyon/rooms.json
+msgid "将军营帐"
+msgstr ""
+
+#: scenes/world/canyon/canyon_pass.tscn
+msgid "光滑的山壁"
+msgstr ""
+
+#. canyon.canyon5.landmark.door name
+#: scenes/world/canyon/canyon_pass.tscn data/canyon/world.json
+msgid "铁门"
+msgstr ""
+
+#: scenes/world/canyon/canyon_pass.tscn
+msgid "铁索 · 爬上去"
+msgstr ""
+
+#: scenes/world/canyon/canyon_pass.tscn
+msgid "水井 · 装水"
 msgstr ""
 
 #. es2:d/choyin/dragon_temple short
@@ -7242,6 +7361,8 @@ msgstr ""
 #. es2:d/sanyen/obj/cloth unit
 #. es2:d/choyin/obj/lady_dress unit
 #. es2:d/choyin/obj/cloth unit
+#. es2:d/canyon/npc/obj/armor unit
+#. es2:d/canyon/npc/obj/cloud_armor unit
 #. es2:u/cloud/obj/npc/monk/jiasha unit
 #. es2:u/cloud/obj/npc/lm_guard/color_cloth unit
 #. es2:u/cloud/obj/cloth/black_cloth unit
@@ -7253,7 +7374,7 @@ msgstr ""
 #. es2:d/temple/obj/robe unit
 #. es2:d/temple/obj/old_robe unit
 #. es2:d/temple/npc/obj/robe1 unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/cloud/items.json data/waterfog/items.json data/temple/items.json
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/canyon/items.json data/cloud/items.json data/waterfog/items.json data/temple/items.json
 msgid "件"
 msgstr ""
 
@@ -7350,7 +7471,8 @@ msgstr ""
 #. es2:obj/example/sword name
 #. es2:d/oldpine/obj/long_sword name
 #. es2:d/latemoon/room/npc/obj/longsword name
-#: data/common/items.json data/oldpine/items.json data/latemoon/items.json
+#. es2:d/canyon/npc/obj/sword name
+#: data/common/items.json data/oldpine/items.json data/latemoon/items.json data/canyon/items.json
 msgid "长剑"
 msgstr ""
 
@@ -7393,6 +7515,8 @@ msgstr ""
 #. es2:d/latemoon/park/npc/obj/guihua unit
 #. es2:d/sanyen/obj/broom unit
 #. es2:d/choyin/obj/blade unit
+#. es2:d/canyon/npc/obj/sword unit
+#. es2:d/canyon/npc/obj/broken_sword unit
 #. es2:u/cloud/obj/npc/butcher/knife unit
 #. es2:u/cloud/obj/npc/tailor/ruler unit
 #. es2:u/cloud/obj/npc/tailor/scissors unit
@@ -7404,7 +7528,7 @@ msgstr ""
 #. es2:d/green/obj/hammer unit
 #. es2:d/green/obj/windsword unit
 #. es2:d/temple/obj/broom unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/cloud/items.json data/waterfog/items.json data/green/items.json data/temple/items.json
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/canyon/items.json data/cloud/items.json data/waterfog/items.json data/green/items.json data/temple/items.json
 msgid "把"
 msgstr ""
 
@@ -7526,9 +7650,11 @@ msgstr ""
 #. es2:d/latemoon/obj/yu_blade unit
 #. es2:d/sanyen/obj/blade unit
 #. es2:d/sanyen/obj/carver unit
+#. es2:d/canyon/npc/obj/blade unit
+#. es2:d/canyon/npc/obj/fan_sword unit
 #. es2:u/cloud/obj/npc/gangster/blade unit
 #. es2:d/temple/obj/whip unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/sanyen/items.json data/cloud/items.json data/temple/items.json
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/sanyen/items.json data/canyon/items.json data/cloud/items.json data/temple/items.json
 msgid "柄"
 msgstr ""
 
@@ -7684,11 +7810,12 @@ msgstr ""
 #. es2:daemon/class/juechen/hat unit
 #. es2:daemon/class/taoist/hat unit
 #. es2:d/choyin/obj/hat unit
+#. es2:d/canyon/npc/obj/hat unit
 #. es2:d/waterfog/obj/watcher_hat unit
 #. es2:d/waterfog/obj/red_hat unit
 #. es2:d/temple/obj/hat unit
 #. es2:d/temple/npc/obj/jade_hat unit
-#: data/common/items.json data/choyin/items.json data/waterfog/items.json data/temple/items.json
+#: data/common/items.json data/choyin/items.json data/canyon/items.json data/waterfog/items.json data/temple/items.json
 msgid "顶"
 msgstr ""
 
@@ -10594,7 +10721,8 @@ msgid "趟子手"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. canyon.npc.leader2 name
+#: data/common/quests.json data/canyon/npcs.json
 msgid "老队长"
 msgstr ""
 
@@ -10605,22 +10733,27 @@ msgid "柳绘心"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. canyon.npc.guard2 name
+#: data/common/quests.json data/canyon/npcs.json
 msgid "老兵"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. canyon.npc.captain name
+#: data/common/quests.json data/canyon/npcs.json
 msgid "大队长"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. canyon.npc.leader1 name
+#: data/common/quests.json data/canyon/npcs.json
 msgid "小队长"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. canyon.npc.door_guard name
+#. canyon.npc.guard1 name
+#: data/common/quests.json data/canyon/npcs.json
 msgid "小兵"
 msgstr ""
 
@@ -10631,7 +10764,8 @@ msgid "僵尸护法"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. canyon.npc.adviser name
+#: data/common/quests.json data/canyon/npcs.json
 msgid "赫造基"
 msgstr ""
 
@@ -10684,12 +10818,14 @@ msgid "武官"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. canyon.npc.vice_general name
+#: data/common/quests.json data/canyon/npcs.json
 msgid "李信"
 msgstr ""
 
 #. quests.target
-#: data/common/quests.json
+#. canyon.npc.general name
+#: data/common/quests.json data/canyon/npcs.json
 msgid "严廷殷"
 msgstr ""
 
@@ -13813,6 +13949,60 @@ msgstr ""
 #. es2:d/choyin/npc/obj/book2 name_pick
 #: data/choyin/items.json
 msgid "「八卦步法」"
+msgstr ""
+
+#. es2:d/canyon/npc/obj/blade name
+#: data/canyon/items.json
+msgid "军刀"
+msgstr ""
+
+#. es2:d/canyon/npc/obj/blade long
+#: data/canyon/items.json
+msgid ""
+"这是一把普通的军刀，看起来没什么奇特。\n"
+msgstr ""
+
+#. es2:d/canyon/npc/obj/sword long
+#: data/canyon/items.json
+msgid ""
+"这是一把普通的铁剑，看起来没什么奇特。\n"
+msgstr ""
+
+#. es2:d/canyon/npc/obj/armor name
+#: data/canyon/items.json
+msgid "青铜战盔"
+msgstr ""
+
+#. es2:d/canyon/npc/obj/broken_sword name
+#: data/canyon/items.json
+msgid "ψ破 残 奇 剑ψ"
+msgstr ""
+
+#. es2:d/canyon/npc/obj/broken_sword long
+#: data/canyon/items.json
+msgid ""
+"剑锋处缺了一角，缺角处发出异样白光的奇剑。\n"
+msgstr ""
+
+#. es2:d/canyon/npc/obj/cloud_armor name
+#: data/canyon/items.json
+msgid "火 云 战 甲"
+msgstr ""
+
+#. es2:d/canyon/npc/obj/fan_sword name
+#: data/canyon/items.json
+msgid "铁扇剑"
+msgstr ""
+
+#. es2:d/canyon/npc/obj/fan_sword long
+#: data/canyon/items.json
+msgid ""
+"这是一柄羽状的铁剑，看起来蛮尖锐的。\n"
+msgstr ""
+
+#. es2:d/canyon/npc/obj/hat name
+#: data/canyon/items.json
+msgid "迷幻经纶"
 msgstr ""
 
 #. es2:u/cloud/obj/npc/gangster/blade long
@@ -20681,7 +20871,8 @@ msgid "大洞"
 msgstr ""
 
 #. choyin.tree_tomb.landmark.hole action
-#: data/choyin/world.json
+#. canyon.road.chain act.verb
+#: data/choyin/world.json data/canyon/world.json
 msgid "爬下去"
 msgstr ""
 
@@ -20985,4 +21176,498 @@ msgstr ""
 #: data/choyin/world.json
 msgid ""
 "你乘人不备，抓起一本书藏入怀中。\n"
+msgstr ""
+
+#. canyon.npc.door_guard long
+#: data/canyon/npcs.json
+msgid ""
+"他看起来有点精悍，手中紧握著刀，惊惊颤颤的样子。\n"
+msgstr ""
+
+#. canyon.npc.guard1 long
+#. canyon.npc.guard2 long
+#: data/canyon/npcs.json
+msgid ""
+"风沙满面，无精打采，毫无生气的样子，真难以想像是这\n"
+"里的守军。\n"
+msgstr ""
+
+#. canyon.npc.guard2 chat_msg
+#: data/canyon/npcs.json
+msgid ""
+"老兵说道：军师真是神算啊，把那狗贼都吓的不敢再来了。\n"
+msgstr ""
+
+#. canyon.npc.guard2 chat_msg
+#: data/canyon/npcs.json
+msgid ""
+"老兵说道：听说那个后备兵捡到了一个黄澄澄的宝物。\n"
+msgstr ""
+
+#. canyon.npc.guard2 chat_msg
+#: data/canyon/npcs.json
+msgid ""
+"老兵说道：嘿！有没有钱啊？挡点钱来花花吧！\n"
+msgstr ""
+
+#. canyon.npc.guard2 inquiry topic
+#. canyon.npc.captain inquiry topic
+#. canyon.npc.leader2 inquiry topic
+#. canyon.npc.general inquiry topic
+#: data/canyon/npcs.json
+msgid "黄石隘口"
+msgstr ""
+
+#. canyon.npc.guard2 inquiry.黄石隘口
+#: data/canyon/npcs.json
+msgid ""
+"这个问题问我们大队长比较知道。\n"
+msgstr ""
+
+#. canyon.npc.guard2 inquiry topic
+#. canyon.npc.leader2 inquiry topic
+#. canyon.npc.general inquiry topic
+#. canyon.npc.seller name
+#: data/canyon/npcs.json
+msgid "后备兵"
+msgstr ""
+
+#. canyon.npc.guard2 inquiry.后备兵
+#: data/canyon/npcs.json
+msgid ""
+"嘿嘿！你想做啥？\n"
+msgstr ""
+
+#. canyon.npc.guard2 inquiry topic
+#: data/canyon/npcs.json
+msgid "军火库"
+msgstr ""
+
+#. canyon.npc.guard2 inquiry.军火库
+#: data/canyon/npcs.json
+msgid ""
+"你问这个喔..........不予回答。\n"
+msgstr ""
+
+#. canyon.npc.leader1 long
+#. canyon.npc.leader2 long
+#: data/canyon/npcs.json
+msgid ""
+"不苟言笑的样子，带领著小兵驻守隘口的小队长。\n"
+msgstr ""
+
+#. canyon.npc.captain long
+#: data/canyon/npcs.json
+msgid ""
+"他不苟言笑的样子，带领著小兵驻守隘口的队长。\n"
+msgstr ""
+
+#. canyon.npc.captain chat_msg
+#: data/canyon/npcs.json
+msgid ""
+"大队长说道：有没有问题要问我啊？\n"
+msgstr ""
+
+#. canyon.npc.captain chat_msg
+#: data/canyon/npcs.json
+msgid ""
+"大队长说道：我对这里很熟的喔。\n"
+msgstr ""
+
+#. canyon.npc.captain inquiry topic
+#: data/canyon/npcs.json
+msgid "允许"
+msgstr ""
+
+#. canyon.npc.captain inquiry.允许
+#: data/canyon/npcs.json
+msgid ""
+"先给钱再说吧。\n"
+msgstr ""
+
+#. canyon.npc.captain inquiry.兵器库
+#: data/canyon/npcs.json
+msgid ""
+"喔！那是我们厉害的军师所设的阵法。\n"
+msgstr ""
+
+#. canyon.npc.captain inquiry.黄石隘口.rules.make.lines.line
+#: data/canyon/npcs.json
+msgid ""
+"二十多年前，先帝将大将军们调来这里驻守隘口。\n"
+msgstr ""
+
+#. canyon.npc.captain inquiry.黄石隘口.rules.make.lines.line
+#: data/canyon/npcs.json
+msgid ""
+"京城的也就因隘口的巩固而获得安全。\n"
+msgstr ""
+
+#. canyon.npc.captain inquiry.黄石隘口.rules.make.lines.line
+#: data/canyon/npcs.json
+msgid ""
+"事隔多年，先帝也死了，换上的是位我们不甚认识的小皇帝。\n"
+msgstr ""
+
+#. canyon.npc.captain inquiry.黄石隘口.rules.make.lines.line
+#: data/canyon/npcs.json
+msgid ""
+"看来他只忙著找剑，也没什么大作为，大家也不太服他。\n"
+msgstr ""
+
+#. canyon.npc.captain inquiry.黄石隘口.rules.make.lines.line
+#: data/canyon/npcs.json
+msgid ""
+"皇帝看到大将军还要敬畏三分ㄌㄟ。\n"
+msgstr ""
+
+#. canyon.npc.captain inquiry.黄石隘口.rules.make.lines.line
+#: data/canyon/npcs.json
+msgid ""
+"反正啊，将军和军师是超强的，你可要好好的乌西我们才行。\n"
+msgstr ""
+
+#. canyon.npc.captain inquiry.黄石隘口.rules.make.lines.line
+#: data/canyon/npcs.json
+msgid ""
+"知道了，就快缴钱。\n"
+msgstr ""
+
+#. canyon.npc.captain accept_object.say
+#: data/canyon/npcs.json
+msgid "ㄟ....Ｔhank Ｙou!!!"
+msgstr ""
+
+#. canyon.npc.captain accept_object.line
+#: data/canyon/npcs.json
+msgid ""
+"大队长说道:哦喔！还真有心啊，真是谢谢你了。\n"
+msgstr ""
+
+#. canyon.npc.captain accept_object.line
+#: data/canyon/npcs.json
+msgid ""
+"大队长说道:我已帮你列入名册了，从今天你可自由地出入营区了。\n"
+msgstr ""
+
+#. canyon.npc.captain accept_object.line
+#: data/canyon/npcs.json
+msgid ""
+"大队长说道:你的诚意不够喔，再多缴点吧。\n"
+msgstr ""
+
+#. canyon.npc.leader2 chat_msg
+#: data/canyon/npcs.json
+msgid ""
+"老队长说道：大队长对这个地方好熟，还常常说些这里的故事给我们听。\n"
+msgstr ""
+
+#. canyon.npc.leader2 chat_msg
+#: data/canyon/npcs.json
+msgid ""
+"老队长说道：你有没有搞错啊！来这里不给我们大队长过路费，你找死啊！\n"
+msgstr ""
+
+#. canyon.npc.leader2 chat_msg
+#: data/canyon/npcs.json
+msgid ""
+"老队长说道：兵器库入口处的阵法真是厉害，一般人绝对找不到的。\n"
+msgstr ""
+
+#. canyon.npc.leader2 inquiry.黄石隘口
+#: data/canyon/npcs.json
+msgid ""
+"你问问大队长吧，我不是很清楚。\n"
+msgstr ""
+
+#. canyon.npc.leader2 inquiry.后备兵
+#: data/canyon/npcs.json
+msgid ""
+"后备兵就..........你想做什么？找死啊。\n"
+msgstr ""
+
+#. canyon.npc.vice_general title
+#: data/canyon/npcs.json
+msgid "副将"
+msgstr ""
+
+#. canyon.npc.vice_general long
+#: data/canyon/npcs.json
+msgid ""
+"原是禁卫军的队长，也因其强大的声望和实力，被先帝调离京师\n"
+"和镇国大将军共同镇守黄石隘口。\n"
+msgstr ""
+
+#. canyon.npc.vice_general greeting.rules.steps.say
+#: data/canyon/npcs.json
+msgid "大胆狂徒，竟私闯此地，给我滚出去"
+msgstr ""
+
+#. canyon.npc.general nickname
+#: data/canyon/npcs.json
+msgid "镇国大将军"
+msgstr ""
+
+#. canyon.npc.general title
+#: data/canyon/npcs.json
+msgid "天邪派第十六代弟子"
+msgstr ""
+
+#. canyon.npc.general long
+#: data/canyon/npcs.json
+msgid ""
+"容光焕发，左佩刀，右佩剑，威风凛凛，其高七尺六寸，虎背\n"
+"熊腰，年轻时同和大天邪于兰天武同拜一师，武功造诣不在大\n"
+"天邪之下，但志向不同，后成了京师武功第一、人人称羡的镇\n"
+"国大将军。\n"
+msgstr ""
+
+#. canyon.npc.general inquiry.黄石隘口
+#: data/canyon/npcs.json
+msgid ""
+"你眼睛脱窗啊，这里就是黄石隘口。\n"
+msgstr ""
+
+#. canyon.npc.general inquiry.后备兵
+#: data/canyon/npcs.json
+msgid ""
+"我不管这种事的，你别来烦我。\n"
+msgstr ""
+
+#. canyon.npc.general inquiry.兵器库
+#: data/canyon/npcs.json
+msgid ""
+"你找死啊！问这种问题，你想干麻啊。\n"
+msgstr ""
+
+#. canyon.npc.general inquiry topic
+#: data/canyon/npcs.json
+msgid "印鉴"
+msgstr ""
+
+#. canyon.npc.general inquiry.印鉴
+#: data/canyon/npcs.json
+msgid ""
+"你怎么知道的？帮我找找吧，找到了我送你礼物。\n"
+msgstr ""
+
+#. canyon.npc.adviser title
+#: data/canyon/npcs.json
+msgid "军师"
+msgstr ""
+
+#. canyon.npc.adviser long
+#: data/canyon/npcs.json
+msgid ""
+"道光满面，睿智不言而现，气象万千，显然是茅山术高手中的高\n"
+"手，经纶羽扇，和大将军正是绝配。\n"
+msgstr ""
+
+#. canyon.npc.adviser inquiry.兵器库
+#: data/canyon/npcs.json
+msgid ""
+"先看看你的诚意再说罗。\n"
+msgstr ""
+
+#. canyon.npc.seller long
+#: data/canyon/npcs.json
+msgid ""
+"环顾四方，眼神锐利，看来想杀价是不可能的事了。\n"
+msgstr ""
+
+#. es2:d/canyon/road long
+#: data/canyon/rooms.json
+msgid ""
+"你正走在碎石小路上，荒凉的景色，不难想像，这里人烟稀少，很少\n"
+"人会走到这里来，在路尾是一半圆形的土堆，其下有一铁索，爬下铁索(\n"
+"chain)就可以通达黄石隘口，而东北方是衔接至雪亭镇的青石官道。\n"
+msgstr ""
+
+#. es2:d/canyon/canyon1 long
+#: data/canyon/rooms.json
+msgid ""
+"脚下为碎石黄土路，两侧是高耸入云的荒山，向上仰望乃似无边无际\n"
+"穹空，北缘为一山壁，壁上有一长达十七、八丈的铁索(chain) ，上面大\n"
+"概就是人家所谓的「关外绿洲－雪亭镇」。\n"
+msgstr ""
+
+#. es2:d/canyon/canyon2 long
+#: data/canyon/rooms.json
+msgid ""
+"来到这里，脚下的黄土仍是厚厚的一层，可见得来往这条道路的人必\n"
+"不多，向北即是隘口尾，往南一直通达天驼关口，两侧依旧是荒冷的山壁\n"
+"，但似乎更为严峻。\n"
+msgstr ""
+
+#. es2:d/canyon/canyon3 long
+#: data/canyon/rooms.json
+msgid ""
+"黄土、黄石还是平铺于小路上，崎岖的道路来到这里是比北方平缓多\n"
+"了，向南二十里就是天驼关口了，东侧为军营，但军营四周为铁栅所包围\n"
+"，想从这里进入军营内似乎是不太可能。\n"
+msgstr ""
+
+#. es2:d/canyon/canyon4 long
+#: data/canyon/rooms.json
+msgid ""
+"来到这里，风势比其他地方大了许多，或许是因为东边为军营入口通\n"
+"风较为良好的原因，南方一十里路的地方就是京城关口－天驼关的入口，\n"
+"在西边的山壁似乎过于平滑，不太自然，或许这里有什么秘密也说不定。\n"
+msgstr ""
+
+#. es2:d/canyon/canyon5 long
+#: data/canyon/rooms.json
+msgid ""
+"南边即为天驼关的关口，两片诺大的铁门(door)，若非由关内打开恐\n"
+"怕难以进入，往东侧看去，铁栅的映满你整双眼眸，转向西侧，看到的还\n"
+"是一片光秃秃的山壁，不由得使你想早点离开这个地方。\n"
+msgstr ""
+
+#. es2:d/canyon/canyon6 long
+#: data/canyon/rooms.json
+msgid ""
+"高耸的悬崖立在天驼关两侧，中间是并不开阔的谷地，真是易守难\n"
+"攻的好地方，这么多年来与异族的关系一直非常缓和，因此大门又重新\n"
+"打开。铁门的后面有个很大的机械装置(machine)，向南是通往京城的\n"
+"路，往北就出了天驼关。\n"
+msgstr ""
+
+#. es2:d/canyon/canyon7 long
+#: data/canyon/rooms.json
+msgid ""
+"天驼关两边是悬崖，中间是谷地，形状很象骆驼的双峰，由此得名。\n"
+"这里地势险峻，南下通往京师，北上除了“关外绿洲”雪亭镇外就是异族\n"
+"的领地了，历来是兵家必争之地。\n"
+msgstr ""
+
+#. es2:d/canyon/camp1 long
+#: data/canyon/rooms.json
+msgid ""
+"此处为黄石隘口驻军的入口，东方为军队饮食的地方，在门口的两侧\n"
+"有两位小兵正在值勤。南、北两侧为小兵的营帐。\n"
+msgstr ""
+
+#. es2:d/canyon/camp2 long
+#: data/canyon/rooms.json
+msgid ""
+"地上有些食物的残渣，而中央地带则有一营火，在边边则有一个水\n"
+"井，想必是官兵们用来汲水用的，南北两侧为小队长的营帐，东方则是\n"
+"副将军的营帐，如果没有事情冒然进入是会被斥责。\n"
+msgstr ""
+
+#. es2:d/canyon/camp3 long
+#: data/canyon/rooms.json
+msgid ""
+"这是个由粗略的布料所搭成的小营帐，里面只有三二个小兵，其他的\n"
+"小兵，大概在另一个小兵营帐里赌博聊天吧，而东边则是小队长的营帐。\n"
+msgstr ""
+
+#. es2:d/canyon/camp4 long
+#: data/canyon/rooms.json
+msgid ""
+"这里有一大群的小兵，不知道是在做什么，营帐中央有一张桌子，上\n"
+"面堆满了各式各样的赌具，小板凳，和茶水。\n"
+msgstr ""
+
+#. es2:d/canyon/camp5 long
+#: data/canyon/rooms.json
+msgid ""
+"这里是小队长的营帐，四周仍旧和小兵营帐一样的空旷，但营帐的布\n"
+"料倒是比小兵营帐好多了，北侧有两把凉椅，看来定是小队长偷懒时休息\n"
+"的地方。\n"
+msgstr ""
+
+#. es2:d/canyon/camp6 long
+#: data/canyon/rooms.json
+msgid ""
+"类似北边的营帐，空空荡荡的，看起来一点也不像是军营，一点威武\n"
+"的感觉也没有，在这也有两把简易的凉椅，两位队长，平常小兵没有尢许\n"
+"是不能擅自进入这里的，向东北是副将营帐，但没有经过「允许」是不得\n"
+"进入的。\n"
+msgstr ""
+
+#. es2:d/canyon/camp7 long
+#: data/canyon/rooms.json
+msgid ""
+"来到这里，看了四周的景像真会令人不敢相信，和前面的军营竟大不\n"
+"相同，虎皮披于军椅，银器列于黑刚曜石桌上，爵为金缘双虎抱图，北侧\n"
+"挂著刀、剑、杖，地面上有羊毛软皮铺陈著，确实有副将营帐的味道。\n"
+msgstr ""
+
+#. es2:d/canyon/camp8 long
+#: data/canyon/rooms.json
+msgid ""
+"虎头挂于营顶，虎皮披于帐上，威武无比，帐中龙柱顶天，双龙吐珠\n"
+"图挂于前，严然有天子之势，金椅银桌，鼎、簋、爵、角、鉴，样样俱全\n"
+"，一磬、一鼓、一笙、一笛、一萧，文墨章笔擎于旁，将军在上，参谋在\n"
+"右，由不得令人生畏。\n"
+msgstr ""
+
+#. es2:d/canyon/blackmarket long
+#: data/canyon/rooms.json
+msgid ""
+"在这里你可以看到墙上挂满了各式各样的武器，不难明了这里是存放\n"
+"武器的地方，而墙上写了个诺大的「武」字。\n"
+msgstr ""
+
+#. canyon name
+#: data/canyon/world.json
+msgid "天驼关"
+msgstr ""
+
+#. canyon.camp7.east lines
+#: data/canyon/world.json
+msgid "你还没被允许进入喔。"
+msgstr ""
+
+#. canyon.road.landmark.chain long
+#: data/canyon/world.json
+msgid ""
+"    一长条铁索缘山壁而下，或许你可以试著攀爬(climb)。\n"
+msgstr ""
+
+#. canyon.canyon1.landmark.chain long
+#: data/canyon/world.json
+msgid ""
+"    一长条铁索缘山壁而上，若无绝佳的体力就好不要轻意攀爬(climb)。\n"
+msgstr ""
+
+#. canyon.canyon5.landmark.door long
+#: data/canyon/world.json
+msgid ""
+"这巨大的铁门锈迹斑斑，它是上下开合的，现在已经高高的抬起，\n"
+"若它失控砸下，可能什么东西都会被砸扁。\n"
+msgstr ""
+
+#. canyon.canyon6.landmark.machine name
+#: data/canyon/world.json
+msgid "机械装置"
+msgstr ""
+
+#. canyon.canyon6.landmark.machine long
+#: data/canyon/world.json
+msgid ""
+"这是个很大的绞盘，可能是开关铁门用的。\n"
+msgstr ""
+
+#. canyon.road.chain act.acts.steps.line
+#: data/canyon/world.json
+msgid ""
+"你手脚并用，努力地沿著铁索向下攀爬而去。\n"
+msgstr ""
+
+#. canyon.canyon1.chain act.verb
+#: data/canyon/world.json
+msgid "爬上去"
+msgstr ""
+
+#. canyon.canyon1.chain act.acts.steps.line
+#: data/canyon/world.json
+msgid ""
+"你手脚并用，努力地沿著铁索向上攀缘上去了\n"
+msgstr ""
+
+#. canyon.camp2.well name
+#: data/canyon/world.json
+msgid "水井"
 msgstr ""

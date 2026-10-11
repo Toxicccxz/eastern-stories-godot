@@ -26,11 +26,17 @@ extends RefCounted
 ## NpcRuntimeState.forget_topic()). `item_master` asks that the gift be the giver's own
 ## (query("master_id") == who->query("id"): the item's master form); `gives_master` makes
 ## the item the NPC hands over the giver's (letter->set("master_id", who->query("id"))).
+## `tally` names what the giver has paid the NPC so far (d/canyon/npc/captain.c's 30 taels,
+## owner: 天驼关 plan Q2): their earlier gifts kept under it (CharacterState counters
+## `tally/<name>`) count with this one toward `value_at_least` and `value_at_most`; a rule
+## with a tally that takes the gift adds it there, and one that also marks the giver
+## settles it (the count goes).
 const EFFECT_TEMPLE_DONATION: StringName = &"temple_donation"
 const EFFECT_WAGER: StringName = &"wager"
 const EFFECT_PASS_FORCE: StringName = &"pass_force"
 const EFFECTS: Array[StringName] = [EFFECT_TEMPLE_DONATION, EFFECT_WAGER, EFFECT_PASS_FORCE]
 const NO_BOUND: int = -1
+const TALLY_PREFIX: String = "tally/"
 ## old.c accept_object(): the max_force its gift fills up to.
 const PASS_FORCE_UP_TO: int = 160
 
@@ -69,6 +75,7 @@ var unless_npc_flag: StringName = &""
 var forgets: Array[String] = []
 var item_master: bool = false
 var gives_master: bool = false
+var tally: String = ""
 
 
 ## What give.c knows about the gift and the two sides when it asks.
@@ -91,6 +98,8 @@ class Offer:
 	var giver_max_force: int = 0
 	## The gift is the giver's own (its master form).
 	var item_mastered: bool = false
+	## The giver's counters (CharacterState.counters): what a `tally` reads.
+	var giver_counters: Dictionary[String, int] = {}
 
 	func _init(p_value: int = 0, p_liquid_type: StringName = &"", p_liquid_remaining: int = 0, p_npc_flags: Dictionary[StringName, bool] = {}, p_giver_marks: Dictionary[String, int] = {}) -> void:
 		value = p_value
@@ -101,9 +110,10 @@ class Offer:
 
 
 func matches(offer: Offer) -> bool:
+	var value: int = offer.value + tallied(offer.giver_counters)
 	return (
-		(value_at_least == NO_BOUND or offer.value >= value_at_least)
-		and (value_at_most == NO_BOUND or offer.value <= value_at_most)
+		(value_at_least == NO_BOUND or value >= value_at_least)
+		and (value_at_most == NO_BOUND or value <= value_at_most)
 		and (liquid_type.is_empty() or offer.liquid_type == liquid_type)
 		and (liquid_remaining_at_most == NO_BOUND or (not offer.liquid_type.is_empty() and offer.liquid_remaining <= liquid_remaining_at_most))
 		and (npc_flag.is_empty() or offer.npc_flags.get(npc_flag, false))
@@ -118,6 +128,15 @@ func matches(offer: Offer) -> bool:
 		and (giver_temp.is_empty() or offer.giver_temps.get(giver_temp, 0) != 0)
 		and (giver_max_force_below == NO_BOUND or offer.giver_max_force < giver_max_force_below)
 	)
+
+
+## What the giver paid before under the rule's `tally` (0 without one).
+func tallied(counters: Dictionary[String, int]) -> int:
+	return 0 if tally.is_empty() else counters.get(tally_key(tally), 0)
+
+
+static func tally_key(name: String) -> String:
+	return TALLY_PREFIX + name
 
 
 ## old.c accept_object() for a giver of `max_force` and `karma` (query_kar()) below
@@ -177,6 +196,7 @@ static func from_record(reader: ContentRecordReader) -> NpcObjectRule:
 	rule.forgets = reader.text_list("forgets")
 	rule.item_master = reader.boolean("item_master", false)
 	rule.gives_master = reader.boolean("gives_master", false)
+	rule.tally = reader.text("tally")
 	if rule.gives_master and rule.gives.is_empty():
 		reader.fail("gives_master", "names what is given")
 	if rule.move_zone_id.is_empty() != rule.move_point_id.is_empty():

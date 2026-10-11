@@ -1,0 +1,85 @@
+{
+	"items": [
+		{
+			"id": "es2:d/canyon/npc/obj/blade",
+			"legacy_sources": ["d/canyon/npc/obj/blade.c"],
+			"name": "军刀",
+			"aliases": ["blade"],
+			"long": "这是一把普通的军刀，看起来没什么奇特。\n",
+			"unit": "柄",
+			"material": "iron",
+			"weight": 5500,
+			"value": 450,
+			"weapon": { "skill": "blade", "damage": 14, "weight_dodge": "equip" }
+		},
+		{
+			"id": "es2:d/canyon/npc/obj/sword",
+			"legacy_sources": ["d/canyon/npc/obj/sword.c"],
+			"name": "长剑",
+			"aliases": ["sword"],
+			"long": "这是一把普通的铁剑，看起来没什么奇特。\n",
+			"unit": "把",
+			"material": "iron",
+			"weight": 5500,
+			"value": 420,
+			"weapon": { "skill": "sword", "damage": 13, "weight_dodge": "equip" }
+		},
+		{
+			"id": "es2:d/canyon/npc/obj/armor",
+			"legacy_sources": ["d/canyon/npc/obj/armor.c"],
+			"name": "青铜战盔",
+			"aliases": ["armor"],
+			"unit": "件",
+			"material": "copper",
+			"weight": 42000,
+			"value": 2000,
+			"armor": { "type": "armor", "props": { "armor": 35, "dodge": -10 }, "weight_dodge": "armor" }
+		},
+		{
+			"id": "es2:d/canyon/npc/obj/broken_sword",
+			"legacy_sources": ["d/canyon/npc/obj/broken_sword.c"],
+			"name": "ψ破 残 奇 剑ψ",
+			"aliases": ["broken sword", "sword"],
+			"long": "剑锋处缺了一角，缺角处发出异样白光的奇剑。\n",
+			"unit": "把",
+			"material": "异类金属",
+			"weight": 4500,
+			"value": 4000,
+			"weapon": { "skill": "sword", "damage": 65, "weight_dodge": "equip" }
+		},
+		{
+			"id": "es2:d/canyon/npc/obj/cloud_armor",
+			"legacy_sources": ["d/canyon/npc/obj/cloud_armor.c"],
+			"name": "火 云 战 甲",
+			"aliases": ["cloud armor", "armor"],
+			"unit": "件",
+			"material": "cloud",
+			"weight": 12000,
+			"value": 12000,
+			"armor": { "type": "armor", "props": { "armor": 40 }, "weight_dodge": "armor" }
+		},
+		{
+			"id": "es2:d/canyon/npc/obj/fan_sword",
+			"legacy_sources": ["d/canyon/npc/obj/fan_sword.c"],
+			"name": "铁扇剑",
+			"aliases": ["fan sword", "fan", "sword"],
+			"long": "这是一柄羽状的铁剑，看起来蛮尖锐的。\n",
+			"unit": "柄",
+			"material": "iron",
+			"weight": 3000,
+			"value": 600,
+			"weapon": { "skill": "sword", "damage": 20, "weight_dodge": "equip" }
+		},
+		{
+			"id": "es2:d/canyon/npc/obj/hat",
+			"legacy_sources": ["d/canyon/npc/obj/hat.c"],
+			"name": "迷幻经纶",
+			"aliases": ["dream hat", "hat"],
+			"unit": "顶",
+			"material": "cloud",
+			"weight": 500,
+			"value": 7000,
+			"armor": { "type": "head", "props": { "spells": 5, "intelligence": 3 } }
+		}
+	]
+}

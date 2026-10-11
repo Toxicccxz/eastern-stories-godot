@@ -17,6 +17,8 @@ extends RefCounted
 ## query("gender") (`asker_class`, `asker_gender`: "" any) and set_temp()s a flag
 ## (`temp_asker`: a temp, not kept by a save, DECISIONS 晚月庄 A). `forgets` are the topics
 ## the NPC deletes once it answered (d/choyin/npc/girl.c's delete("inquiry/游晋")).
+## `make` is what the NPC tells over the next seconds (NpcMaking: d/canyon/npc/captain.c's
+## tell_story(), call_out("make_stage", 2, who, 0)); it said nothing at once.
 var asker_marks: Array[String] = []
 var asker_class: StringName = &""
 var asker_gender: StringName = &""
@@ -35,6 +37,7 @@ var after_empty: Array[NpcLine] = []
 ## vendor's goods and prices, write()n to the asker.
 var vendor_list: bool = false
 var forgets: Array[String] = []
+var make: NpcMaking
 
 
 func matches(marks: Dictionary[String, int], class_id: StringName = &"", gender: StringName = &"") -> bool:
@@ -99,6 +102,9 @@ static func from_record(reader: ContentRecordReader) -> NpcInquiryRule:
 	rule.temp_asker = reader.text("temp_asker")
 	rule.gives = StringName(reader.text("gives"))
 	rule.forgets = reader.text_list("forgets")
+	var make: ContentRecordReader = reader.child("make")
+	if make != null:
+		rule.make = NpcMaking.from_record(make)
 	var taken: ContentRecordReader = reader.child("taken")
 	if taken != null:
 		rule.taken_lines = NpcLine.optional_lines(taken)
@@ -106,6 +112,6 @@ static func from_record(reader: ContentRecordReader) -> NpcInquiryRule:
 		if rule.gives.is_empty():
 			reader.fail("taken", "is said only instead of `gives`")
 	reader.finish()
-	if rule.lines.is_empty() and rule.gives.is_empty() and rule.hands_over.is_empty() and not rule.vendor_list:
+	if rule.lines.is_empty() and rule.gives.is_empty() and rule.hands_over.is_empty() and not rule.vendor_list and rule.make == null:
 		reader.fail("", "says or gives something")
 	return rule

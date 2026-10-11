@@ -317,6 +317,9 @@ func ask_selected(topic: String) -> Array[String]:
 		_player.temp_marks[temp] = 1
 	if not answer.hands_over.is_empty():
 		_hand_over(target, answer)
+	# captain.c tell_story(): call_out("make_stage", 2, who, 0).
+	if answer.make != null:
+		_map.npc_life.start_making(target, answer.make)
 	if not answer.gives.is_empty():
 		var content: ItemContentDefinition = GameContent.catalog().item(answer.gives)
 		var given: StringName = &"" if content == null else _map.floor_items.give_new_item_to_player(answer.gives)

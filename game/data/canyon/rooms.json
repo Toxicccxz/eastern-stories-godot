@@ -1,0 +1,154 @@
+{
+	"rooms": [
+		{
+			"id": "es2:d/canyon/road",
+			"short": "碎石小路",
+			"long": "你正走在碎石小路上，荒凉的景色，不难想像，这里人烟稀少，很少\n人会走到这里来，在路尾是一半圆形的土堆，其下有一铁索，爬下铁索(\nchain)就可以通达黄石隘口，而东北方是衔接至雪亭镇的青石官道。\n",
+			"exits": {
+				"northeast": "es2:d/snow/sroad4"
+			}
+		},
+		{
+			"id": "es2:d/canyon/canyon1",
+			"short": "黄石隘口尾",
+			"long": "脚下为碎石黄土路，两侧是高耸入云的荒山，向上仰望乃似无边无际\n穹空，北缘为一山壁，壁上有一长达十七、八丈的铁索(chain) ，上面大\n概就是人家所谓的「关外绿洲－雪亭镇」。\n",
+			"exits": {
+				"southwest": "es2:d/canyon/canyon2"
+			}
+		},
+		{
+			"id": "es2:d/canyon/canyon2",
+			"short": "隘口小路",
+			"long": "来到这里，脚下的黄土仍是厚厚的一层，可见得来往这条道路的人必\n不多，向北即是隘口尾，往南一直通达天驼关口，两侧依旧是荒冷的山壁\n，但似乎更为严峻。\n",
+			"exits": {
+				"northeast": "es2:d/canyon/canyon1",
+				"south": "es2:d/canyon/canyon3"
+			}
+		},
+		{
+			"id": "es2:d/canyon/canyon3",
+			"short": "隘口小路",
+			"long": "黄土、黄石还是平铺于小路上，崎岖的道路来到这里是比北方平缓多\n了，向南二十里就是天驼关口了，东侧为军营，但军营四周为铁栅所包围\n，想从这里进入军营内似乎是不太可能。\n",
+			"exits": {
+				"north": "es2:d/canyon/canyon2",
+				"south": "es2:d/canyon/canyon4"
+			}
+		},
+		{
+			"id": "es2:d/canyon/canyon4",
+			"short": "隘口中道",
+			"long": "来到这里，风势比其他地方大了许多，或许是因为东边为军营入口通\n风较为良好的原因，南方一十里路的地方就是京城关口－天驼关的入口，\n在西边的山壁似乎过于平滑，不太自然，或许这里有什么秘密也说不定。\n",
+			"exits": {
+				"north": "es2:d/canyon/canyon3",
+				"south": "es2:d/canyon/canyon5",
+				"east": "es2:d/canyon/camp1"
+			}
+		},
+		{
+			"id": "es2:d/canyon/canyon5",
+			"short": "关外小路",
+			"long": "南边即为天驼关的关口，两片诺大的铁门(door)，若非由关内打开恐\n怕难以进入，往东侧看去，铁栅的映满你整双眼眸，转向西侧，看到的还\n是一片光秃秃的山壁，不由得使你想早点离开这个地方。\n",
+			"exits": {
+				"south": "es2:d/canyon/canyon6",
+				"north": "es2:d/canyon/canyon4"
+			}
+		},
+		{
+			"id": "es2:d/canyon/canyon6",
+			"short": "天驼关谷地",
+			"long": "高耸的悬崖立在天驼关两侧，中间是并不开阔的谷地，真是易守难\n攻的好地方，这么多年来与异族的关系一直非常缓和，因此大门又重新\n打开。铁门的后面有个很大的机械装置(machine)，向南是通往京城的\n路，往北就出了天驼关。\n",
+			"exits": {
+				"south": "es2:d/canyon/canyon7",
+				"north": "es2:d/canyon/canyon5"
+			}
+		},
+		{
+			"id": "es2:d/canyon/canyon7",
+			"short": "天驼关谷地",
+			"long": "天驼关两边是悬崖，中间是谷地，形状很象骆驼的双峰，由此得名。\n这里地势险峻，南下通往京师，北上除了“关外绿洲”雪亭镇外就是异族\n的领地了，历来是兵家必争之地。\n",
+			"exits": {
+				"south": "es2:d/village/road1",
+				"north": "es2:d/canyon/canyon6"
+			}
+		},
+		{
+			"id": "es2:d/canyon/camp1",
+			"short": "军营入口",
+			"long": "此处为黄石隘口驻军的入口，东方为军队饮食的地方，在门口的两侧\n有两位小兵正在值勤。南、北两侧为小兵的营帐。\n",
+			"exits": {
+				"west": "es2:d/canyon/canyon4",
+				"north": "es2:d/canyon/camp3",
+				"south": "es2:d/canyon/camp4",
+				"east": "es2:d/canyon/camp2"
+			}
+		},
+		{
+			"id": "es2:d/canyon/camp2",
+			"short": "营火区",
+			"long": "地上有些食物的残渣，而中央地带则有一营火，在边边则有一个水\n井，想必是官兵们用来汲水用的，南北两侧为小队长的营帐，东方则是\n副将军的营帐，如果没有事情冒然进入是会被斥责。\n",
+			"exits": {
+				"north": "es2:d/canyon/camp5",
+				"south": "es2:d/canyon/camp6",
+				"east": "es2:d/canyon/camp7",
+				"west": "es2:d/canyon/camp1"
+			}
+		},
+		{
+			"id": "es2:d/canyon/camp3",
+			"short": "小兵营帐",
+			"long": "这是个由粗略的布料所搭成的小营帐，里面只有三二个小兵，其他的\n小兵，大概在另一个小兵营帐里赌博聊天吧，而东边则是小队长的营帐。\n",
+			"exits": {
+				"south": "es2:d/canyon/camp1"
+			}
+		},
+		{
+			"id": "es2:d/canyon/camp4",
+			"short": "小兵营帐",
+			"long": "这里有一大群的小兵，不知道是在做什么，营帐中央有一张桌子，上\n面堆满了各式各样的赌具，小板凳，和茶水。\n",
+			"exits": {
+				"north": "es2:d/canyon/camp1"
+			}
+		},
+		{
+			"id": "es2:d/canyon/camp5",
+			"short": "小队长营帐",
+			"long": "这里是小队长的营帐，四周仍旧和小兵营帐一样的空旷，但营帐的布\n料倒是比小兵营帐好多了，北侧有两把凉椅，看来定是小队长偷懒时休息\n的地方。\n",
+			"exits": {
+				"south": "es2:d/canyon/camp2"
+			}
+		},
+		{
+			"id": "es2:d/canyon/camp6",
+			"short": "小队长营帐",
+			"long": "类似北边的营帐，空空荡荡的，看起来一点也不像是军营，一点威武\n的感觉也没有，在这也有两把简易的凉椅，两位队长，平常小兵没有尢许\n是不能擅自进入这里的，向东北是副将营帐，但没有经过「允许」是不得\n进入的。\n",
+			"exits": {
+				"north": "es2:d/canyon/camp2"
+			}
+		},
+		{
+			"id": "es2:d/canyon/camp7",
+			"short": "副将营帐",
+			"long": "来到这里，看了四周的景像真会令人不敢相信，和前面的军营竟大不\n相同，虎皮披于军椅，银器列于黑刚曜石桌上，爵为金缘双虎抱图，北侧\n挂著刀、剑、杖，地面上有羊毛软皮铺陈著，确实有副将营帐的味道。\n",
+			"exits": {
+				"east": "es2:d/canyon/camp8",
+				"west": "es2:d/canyon/camp2"
+			}
+		},
+		{
+			"id": "es2:d/canyon/camp8",
+			"short": "将军营帐",
+			"long": "虎头挂于营顶，虎皮披于帐上，威武无比，帐中龙柱顶天，双龙吐珠\n图挂于前，严然有天子之势，金椅银桌，鼎、簋、爵、角、鉴，样样俱全\n，一磬、一鼓、一笙、一笛、一萧，文墨章笔擎于旁，将军在上，参谋在\n右，由不得令人生畏。\n",
+			"exits": {
+				"west": "es2:d/canyon/camp7"
+			}
+		},
+		{
+			"id": "es2:d/canyon/blackmarket",
+			"short": "兵器库",
+			"long": "在这里你可以看到墙上挂满了各式各样的武器，不难明了这里是存放\n武器的地方，而墙上写了个诺大的「武」字。\n",
+			"exits": {
+				"east": "es2:d/canyon/canyon4"
+			}
+		}
+	]
+}
