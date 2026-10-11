@@ -12,7 +12,10 @@ extends RefCounted
 ## answers to (present(id, me): letter.c's 火摺), `present` an NPC standing in the room
 ## (present("cook bonze"): d/sanyen/kitchen.c; one lying unconscious says nothing, 默认), `thirsty`
 ## that they can still drink (query("water") below max_water_capacity(): d/choyin/s_street1.c's
-## well). The first branch that is for
+## well), `at_least` their force, max_force and force_factor at least so much (d/canyon/bamboo/
+## bamboo3.c's stone), `room` and `not_room` a flag the act's room has or lacks (its set(), set_temp():
+## bamboo3.c's exits/enter, train.c's got) and `exists` an item that exists somewhere in the world
+## (F_UNIQUE's violate_unique(): train.c's book). The first branch that is for
 ## the player acts. `ask` is the owner's question before a choice that can kill (a man walking into
 ## the bath, DECISIONS 晚月庄 A), with `choice` its button. The steps run in order:
 ## - a line (NpcLine: say, emote, line, whisper, in its colour; a room's message_vision()
@@ -30,12 +33,15 @@ extends RefCounted
 ##   new()s the one random(how many) picks (d/choyin/club.c's switch(random(3)));
 ## - `set_temp` a flag: set_temp(flag, 1) on the player (saved, as all of them);
 ## - `clear_temp` a flag: set_temp(flag, 0) (d/canyon/canyon4.c's 军营/swear, spent by the oath);
+## - `set_room`, `clear_room` a flag of the act's room (bamboo3.c's set("exits/enter"), delete());
 ## - `unmark` a mark: delete("mark/<mark>") (latemoon8.c's dance-book);
 ## - `water` n: add("water", n) (s_street1.c's well; above the capacity too, as add() does).
-enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER }
+enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM }
 
 ## The resources receive_damage() and receive_heal() name.
 const RESOURCES: Array[String] = ["gin", "kee", "sen"]
+## What `at_least` may ask of the player: query("force"), query("max_force"), query("force_factor").
+const NUMBERS: Array[String] = ["force", "max_force", "force_factor"]
 
 var gender: StringName = &""
 var not_gender: StringName = &""
@@ -48,6 +54,10 @@ var carries: String = ""
 ## An NPC definition present() in the room.
 var present: StringName = &""
 var thirsty: bool = false
+var at_least: Dictionary[String, int] = {}
+var room: String = ""
+var not_room: String = ""
+var exists: StringName = &""
 var ask: String = ""
 var choice: String = ""
 var steps: Array[Step] = []
@@ -55,7 +65,8 @@ var steps: Array[Step] = []
 
 ## What a branch may ask of the player besides gender and class: their saved marks, their
 ## set_temp() flags, the ids of what they carry directly (present(id, me)) and the NPCs
-## standing where they stand (present(), by definition).
+## standing where they stand (present(), by definition); the flags of the act's room and
+## which items exist in the world.
 class Facts:
 	extends RefCounted
 	var marks: Dictionary[String, int] = {}
@@ -64,6 +75,11 @@ class Facts:
 	var present_npcs: Array[StringName] = []
 	## query("water") below max_water_capacity().
 	var thirsty: bool = false
+	## force, max_force and force_factor (NUMBERS).
+	var numbers: Dictionary[String, int] = {}
+	var room: Dictionary[String, int] = {}
+	## item definition ID -> whether one exists somewhere in the world; none: nothing does.
+	var item_exists: Callable = Callable()
 
 
 class Step:
@@ -89,7 +105,7 @@ class Step:
 	var pick: Array[StringName] = []
 	var unless_temp: String = ""
 	var lines: Array[NpcLine] = []
-	## set_temp, clear_temp, unmark: the flag or mark.
+	## set_temp, clear_temp, unmark, set_room, clear_room: the flag or mark.
 	var flag: String = ""
 
 
@@ -108,6 +124,10 @@ func applies_to(player_gender: StringName, class_id: StringName, facts: Facts = 
 		and (carries.is_empty() or known.carried.has(carries))
 		and (present.is_empty() or known.present_npcs.has(present))
 		and (not thirsty or known.thirsty)
+		and at_least.keys().all(func(key: String) -> bool: return known.numbers.get(key, 0) >= at_least[key])
+		and (room.is_empty() or known.room.get(room, 0) != 0)
+		and (not_room.is_empty() or known.room.get(not_room, 0) == 0)
+		and (exists.is_empty() or (known.item_exists.is_valid() and bool(known.item_exists.call(exists))))
 	)
 
 
@@ -149,7 +169,8 @@ static func resource_of(state: CharacterState, key: String) -> CharacterResource
 	return state.spirit
 
 
-## {gender?, not_gender?, not_class?, temp?, not_temp?, mark?, not_mark?, carries?, present?, ask?, choice?, steps: [step]}.
+## {gender?, not_gender?, not_class?, temp?, not_temp?, mark?, not_mark?, carries?, present?, thirsty?,
+## at_least?: {force?, max_force?, force_factor?}, room?, not_room?, exists?, ask?, choice?, steps: [step]}.
 static func from_record(reader: ContentRecordReader) -> ScriptedAct:
 	var act := ScriptedAct.new()
 	act.gender = StringName(reader.text("gender"))
@@ -162,6 +183,16 @@ static func from_record(reader: ContentRecordReader) -> ScriptedAct:
 	act.carries = reader.text("carries")
 	act.present = StringName(reader.text("present"))
 	act.thirsty = reader.boolean("thirsty", false)
+	var numbers: ContentRecordReader = reader.child("at_least")
+	if numbers != null:
+		for key: String in numbers.keys():
+			if not NUMBERS.has(key):
+				numbers.fail(key, "expected one of %s" % [NUMBERS])
+			act.at_least[key] = numbers.required_integer(key)
+		numbers.finish()
+	act.room = reader.text("room")
+	act.not_room = reader.text("not_room")
+	act.exists = StringName(reader.text("exists"))
 	act.ask = reader.text("ask")
 	act.choice = reader.text("choice")
 	if act.ask.is_empty() != act.choice.is_empty():
@@ -193,7 +224,7 @@ static func _step(reader: ContentRecordReader) -> Step:
 	var kinds: Array[String] = []
 	if ["say", "emote", "line", "whisper"].any(func(key: String) -> bool: return reader.has(key)):
 		kinds.append("line")
-	for key: String in ["damage", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "water"]:
+	for key: String in ["damage", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "water", "set_room", "clear_room"]:
 		if reader.has(key):
 			kinds.append(key)
 	if kinds.size() != 1:
@@ -271,6 +302,12 @@ static func _step(reader: ContentRecordReader) -> Step:
 		"unmark":
 			step.kind = Kind.UNMARK
 			step.flag = reader.required_text("unmark")
+		"set_room":
+			step.kind = Kind.SET_ROOM
+			step.flag = reader.required_text("set_room")
+		"clear_room":
+			step.kind = Kind.CLEAR_ROOM
+			step.flag = reader.required_text("clear_room")
 		"water":
 			step.kind = Kind.WATER
 			step.value = reader.required_integer("water")

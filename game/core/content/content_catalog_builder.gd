@@ -560,10 +560,19 @@ func _resolve_services() -> void:
 
 
 ## A carried item's own command (bracelet.c pray) names what exists; what study.c teaches
-## from an item is a skill the game has.
+## from an item is a skill the game has; what a container is made holding exists and fits.
 func _check_item_acts() -> void:
 	for item: ItemContentDefinition in _items.values():
 		var origin: String = _origins.get(item.item_definition_id, String(item.item_definition_id))
+		var held_weight: int = 0
+		for held_id: StringName in item.contains:
+			var held: ItemContentDefinition = _items.get(held_id)
+			if held == null or held_id == item.item_definition_id:
+				_errors.append("%s.contains: unknown item '%s'" % [origin, held_id])
+			else:
+				held_weight += held.own_weight
+		if held_weight > item.max_encumbrance and not item.contains.is_empty():
+			_errors.append("%s.contains: more than it holds (%d > %d)" % [origin, held_weight, item.max_encumbrance])
 		if item.act != null:
 			for act: ScriptedAct in item.act.acts:
 				_check_act(act, "%s.act" % origin)
@@ -657,12 +666,14 @@ func _check_exit_rules() -> void:
 
 ## What a ScriptedAct names exists: the item it gives, the zone it moves the player to,
 ## the condition it applies, an item that answers to what it `carries`, the NPC it asks
-## to be `present`. Only an NPC's
+## to be `present`, the item it asks `exists`. Only an NPC's
 ## greeting (`by_npc`) closes doors, attacks or gains force; a move to another map ends an
 ## act, so it is its last step. (Spawn points are the scene's: the map checks them.)
 func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false) -> void:
 	if not act.carries.is_empty() and not _answers_to(act.carries):
 		_errors.append("%s.carries: no item answers to '%s'" % [origin, act.carries])
+	if not act.exists.is_empty() and not _items.has(act.exists):
+		_errors.append("%s.exists: unknown item '%s'" % [origin, act.exists])
 	if not act.present.is_empty() and not _npcs.has(act.present):
 		_errors.append("%s.present: unknown NPC '%s'" % [origin, act.present])
 	for index: int in act.steps.size():

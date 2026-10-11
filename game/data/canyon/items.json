@@ -111,6 +111,31 @@
 			"study": { "skill": "sword", "exp_required": 2500, "sen_cost": 20, "difficulty": 15, "max_skill": 50 },
 			"weight": 800,
 			"value": 100
+		},
+		{
+			"id": "es2:d/canyon/bamboo/obj/slipcase",
+			"legacy_sources": ["d/canyon/bamboo/obj/slipcase.c"],
+			"name": "书匣",
+			"aliases": ["slipcase"],
+			"long": "这是一个铜制的书匣，可以用来装一些书。\n",
+			"unit": "个",
+			"weight": 4000,
+			"value": 1,
+			"max_encumbrance": 5000,
+			"contains": ["es2:d/canyon/bamboo/obj/parry_book"]
+		},
+		{
+			"id": "es2:d/canyon/bamboo/obj/parry_book",
+			"legacy_sources": ["d/canyon/bamboo/obj/parry_book.c"],
+			"name": "悟疾风劲竹书",
+			"aliases": ["book"],
+			"long": "直竹贵地生，风吹动不止，起迄中空立，随风飘不定，斯乃劲风竹\n\n\t\t\t\t\t\t   柳淳风\n",
+			"unit": "把",
+			"material": "paper",
+			"study": { "skill": "parry", "exp_required": 20000, "sen_cost": 30, "difficulty": 15, "max_skill": 50 },
+			"weight": 800,
+			"value": 100,
+			"unique": true
 		}
 	]
 }

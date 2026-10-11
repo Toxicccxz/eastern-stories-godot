@@ -42,7 +42,7 @@ func _act_for_player() -> ScriptedAct:
 	if map == null or map.player_runtime() == null:
 		return null
 	var state: CharacterState = map.player_runtime().state
-	return definition.act.act_for(state.gender, state.affiliation.class_id, map.acts.facts())
+	return definition.act.act_for(state.gender, state.affiliation.class_id, map.acts.facts(definition.zone_id))
 
 
 ## `run` at once, or after the player's yes when `act` asks (its `ask`) or what it costs
@@ -71,4 +71,4 @@ func perform(act: ScriptedAct) -> void:
 	if not in_reach():
 		return
 	last_act = act
-	map.acts.run(act, null, map.world_interaction_random_source().legacy_random)
+	map.acts.run(act, null, map.world_interaction_random_source().legacy_random, definition.zone_id)

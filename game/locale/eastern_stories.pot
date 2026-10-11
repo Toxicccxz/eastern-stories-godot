@@ -328,6 +328,35 @@ msgstr ""
 msgid "武"
 msgstr ""
 
+#. es2:d/canyon/bamboo/bamboo2 short
+#. es2:d/canyon/bamboo/bamboo3 short
+#: scenes/world/canyon/canyon_bamboo.tscn data/canyon/rooms.json
+msgid "竹林道"
+msgstr ""
+
+#. es2:d/canyon/bamboo/bamboo1 short
+#: scenes/world/canyon/canyon_bamboo.tscn data/canyon/rooms.json
+msgid "竹林道入口"
+msgstr ""
+
+#. es2:d/canyon/fantasy1 short
+#: scenes/world/canyon/canyon_bamboo.tscn data/canyon/rooms.json
+msgid "梦幻迷境通道"
+msgstr ""
+
+#. canyon.bamboo3.stone name
+#: scenes/world/canyon/canyon_bamboo.tscn data/canyon/world.json
+msgid "大黄石"
+msgstr ""
+
+#: scenes/world/canyon/canyon_bamboo.tscn scenes/world/canyon/canyon_pass.tscn
+msgid "镜子"
+msgstr ""
+
+#: scenes/world/canyon/canyon_bamboo.tscn
+msgid "大黄石 · 推开"
+msgstr ""
+
 #. es2:d/canyon/road short
 #: scenes/world/canyon/canyon_clifftop.tscn data/canyon/rooms.json
 msgid "碎石小路"
@@ -408,6 +437,21 @@ msgstr ""
 msgid "将军营帐"
 msgstr ""
 
+#. es2:d/canyon/stone_forest1 short
+#: scenes/world/canyon/canyon_pass.tscn data/canyon/rooms.json
+msgid "黄石穿林路路口"
+msgstr ""
+
+#. es2:d/canyon/stone_forest2 short
+#: scenes/world/canyon/canyon_pass.tscn data/canyon/rooms.json
+msgid "黄石穿林路"
+msgstr ""
+
+#. es2:d/canyon/stone_forest3 short
+#: scenes/world/canyon/canyon_pass.tscn data/canyon/rooms.json
+msgid "梦幻迷境入口"
+msgstr ""
+
 #. canyon.canyon4.swear name
 #: scenes/world/canyon/canyon_pass.tscn data/canyon/world.json
 msgid "光滑的山壁"
@@ -424,6 +468,15 @@ msgstr ""
 
 #: scenes/world/canyon/canyon_pass.tscn
 msgid "水井 · 装水"
+msgstr ""
+
+#. es2:d/canyon/bamboo/train short
+#: scenes/world/canyon/canyon_stoneroom.tscn data/canyon/rooms.json
+msgid "洞内石室"
+msgstr ""
+
+#: scenes/world/canyon/canyon_stoneroom.tscn
+msgid "书柜 · 翻找"
 msgstr ""
 
 #. es2:d/choyin/dragon_temple short
@@ -6817,6 +6870,11 @@ msgstr ""
 msgid "倒进{container}"
 msgstr ""
 
+#. take something ({item}: 悟疾风劲竹书) out of a carried container (get.c).
+#: ui/world/player_inventory_panel.gd
+msgid "取出{item}"
+msgstr ""
+
 #: ui/world/player_inventory_panel.gd
 msgid "给%s"
 msgstr ""
@@ -7409,9 +7467,10 @@ msgstr ""
 #. es2:d/choyin/npc/obj/tomatoo unit
 #. es2:d/choyin/obj/chest unit
 #. es2:d/choyin/npc/obj/silk_bag unit
+#. es2:d/canyon/bamboo/obj/slipcase unit
 #. es2:d/green/npc/obj/ricewine unit
 #. es2:d/green/obj/jade unit
-#: data/common/items.json data/snow/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/green/items.json
+#: data/common/items.json data/snow/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/canyon/items.json data/green/items.json
 msgid "个"
 msgstr ""
 
@@ -7521,6 +7580,7 @@ msgstr ""
 #. es2:d/canyon/npc/obj/sword unit
 #. es2:d/canyon/npc/obj/broken_sword unit
 #. es2:d/canyon/npc/obj/old_sword unit
+#. es2:d/canyon/bamboo/obj/parry_book unit
 #. es2:u/cloud/obj/npc/butcher/knife unit
 #. es2:u/cloud/obj/npc/tailor/ruler unit
 #. es2:u/cloud/obj/npc/tailor/scissors unit
@@ -14040,6 +14100,30 @@ msgid ""
 "瞬攻，乃徐如林，急如风，不动如山，侵略如火。\n"
 msgstr ""
 
+#. es2:d/canyon/bamboo/obj/slipcase name
+#: data/canyon/items.json
+msgid "书匣"
+msgstr ""
+
+#. es2:d/canyon/bamboo/obj/slipcase long
+#: data/canyon/items.json
+msgid ""
+"这是一个铜制的书匣，可以用来装一些书。\n"
+msgstr ""
+
+#. es2:d/canyon/bamboo/obj/parry_book name
+#: data/canyon/items.json
+msgid "悟疾风劲竹书"
+msgstr ""
+
+#. es2:d/canyon/bamboo/obj/parry_book long
+#: data/canyon/items.json
+msgid ""
+"直竹贵地生，风吹动不止，起迄中空立，随风飘不定，斯乃劲风竹\n"
+"\n"
+"\t\t\t\t\t\t   柳淳风\n"
+msgstr ""
+
 #. es2:u/cloud/obj/npc/gangster/blade long
 #: data/cloud/items.json
 msgid ""
@@ -18892,7 +18976,8 @@ msgstr ""
 
 #. latemoon.latemoon2.search act.verb
 #. latemoon.latemoon8.bed act.verb
-#: data/latemoon/world.json
+#. canyon.train.bookcase act.verb
+#: data/latemoon/world.json data/canyon/world.json
 msgid "翻找"
 msgstr ""
 
@@ -21742,6 +21827,85 @@ msgid ""
 "武器的地方，而墙上写了个诺大的「武」字。\n"
 msgstr ""
 
+#. es2:d/canyon/stone_forest1 long
+#: data/canyon/rooms.json
+msgid ""
+"四周是一大遍的林地，草高于三四十尺，再加上雾盲盲的景象，\n"
+"使你不得不沿著黄石铺成的小路快步行走，深恐林草压顶，界时将不\n"
+"知所措，向东深入似乎有一奇特的光亮，但距离太远，你看不清楚到\n"
+"底是怎么著一回事。\n"
+msgstr ""
+
+#. es2:d/canyon/stone_forest2 long
+#: data/canyon/rooms.json
+msgid ""
+"草压天顶的情况依旧，唯西侧亮光逐渐显明，看来西侧的不远处\n"
+"有一出口，黄石斑斑，挟杂著白色的圆点，像是白色光束长期照射的\n"
+"结果，蒙胧的景色在此总算完全的清淅了，向东侧仍是回到路口的路\n"
+"，而西侧的亮光直直吸引你往深处探索。\n"
+msgstr ""
+
+#. es2:d/canyon/stone_forest3 long
+#: data/canyon/rooms.json
+msgid ""
+"天光点著，华光亮，大概就是这样的一个情形吧，穿过了黄石穿\n"
+"林路，一束极大的光注猛然照射到你的身上，犹如沐于春风，心情爽\n"
+"朗极了，但面对北侧奇特的镜子居然有种令人不可抗拒的压力，在这\n"
+"尺尺地方，镜面反射日光，强照黄石穿林路，想到这让你有种莫名的\n"
+"恐惧，在莫名中被吸引而来的恐惧，进入或离开，生死一瞬间。\n"
+msgstr ""
+
+#. es2:d/canyon/fantasy1 long
+#: data/canyon/rooms.json
+msgid ""
+"来到镜内，前面呈现三面通道，各个通道皆有其不同的气氛传出\n"
+"，中道有浓厚的竹之气息，上道迷香之味不止，下道呕味不停，不定\n"
+"的上空，不停蠢地之幻地，空气被抽丝剥茧，呼吸也愈来愈困难，不\n"
+"停变动的景象，快决定吧!!暗中之招唤，心中为之一震，快步踏离此\n"
+"一不祥的空间。\n"
+msgstr ""
+
+#. es2:d/canyon/bamboo/bamboo1 long
+#: data/canyon/rooms.json
+msgid ""
+"修长的竹子映满眼廉，穹空无边，风拂无形，芬芳的气味随著清\n"
+"风而漂流著，真有如如沐春风，生机充满的竹林道，让站立其中的人\n"
+"皆受其境界而霍然开朗，忘却了江湖的险恶，行止于此，一直气凝字\n"
+"之迹，显出居此主人之内力雄厚，亦使你想找点看到居此八泰之地的\n"
+"主人是何等的人物。\n"
+msgstr ""
+
+#. es2:d/canyon/bamboo/bamboo2 long
+#: data/canyon/rooms.json
+msgid ""
+"此处的竹林比起入口的竹子更为高大耸直，也有些小动物在这四\n"
+"周跳来跳去，跑来跑去的，更是生气盎然，不时有也黄莺唱吟著美妙\n"
+"的诗句，清新宛然，人间仙境，只是偶尔有那怪异的强风袭卷而致，\n"
+"另人难以忍受，在往入探头，有一似人大的黄石挺立于内，而其四周\n"
+"隐隐约约有些许正气溢散而出。\n"
+msgstr ""
+
+#. es2:d/canyon/bamboo/bamboo3 long
+#: data/canyon/rooms.json
+msgid ""
+"北方有一个大黄石堵住去路，洋洋洒洒的蓝光从大黄石的四周漫\n"
+"漫而出，竹林参天，在此成一半凹型，团团围住了北方的去路，若想\n"
+"一窥究竟，看来非得推开这巨大的黄石才行，风势愈来愈强，四周的\n"
+"竹子发出了嗡嗡的鸣声，彷佛叫人不要靠近，此地之主人看似不欢迎\n"
+"别人来参观。\n"
+msgstr ""
+
+#. es2:d/canyon/bamboo/train long
+#: data/canyon/rooms.json
+msgid ""
+"飕飕的风不停地向你身上袭卷而来，石室的四周竟有四个大洞各\n"
+"分布东南西北四方，向洞外望去亦是一遍遍的竹林，和之前的竹林只\n"
+"差在于风势的大小，强风无情的猛击挺立的竹子，竹子左右摇晃的抵\n"
+"抗著，正是一幅柔以破刚之图，壁上有一石制书柜(bookcase)，正散\n"
+"出阵阵的蓝光，和之前所遇之正气一脉相连，匣中似有一物，看来才\n"
+"是正气的来源。\n"
+msgstr ""
+
 #. canyon name
 #: data/canyon/world.json
 msgid "天驼关"
@@ -21780,6 +21944,18 @@ msgstr ""
 #: data/canyon/world.json
 msgid ""
 "这是个很大的绞盘，可能是开关铁门用的。\n"
+msgstr ""
+
+#. canyon.train.landmark.bookcase name
+#. canyon.train.bookcase name
+#: data/canyon/world.json
+msgid "书柜"
+msgstr ""
+
+#. canyon.train.landmark.bookcase long
+#: data/canyon/world.json
+msgid ""
+"看起来是个普普通通的柜子，或许你可以search看看。\n"
 msgstr ""
 
 #. canyon.road.chain act.acts.steps.line
@@ -21843,4 +22019,49 @@ msgstr ""
 #. canyon.camp2.well name
 #: data/canyon/world.json
 msgid "水井"
+msgstr ""
+
+#. canyon.bamboo3.stone act.verb
+#: data/canyon/world.json
+msgid "推开"
+msgstr ""
+
+#. canyon.bamboo3.stone act.acts.steps.line
+#: data/canyon/world.json
+msgid ""
+"你将大黄石缓缓的向左边移动，而出现了一个小小的隙缝。\n"
+msgstr ""
+
+#. canyon.bamboo3.stone act.acts.steps.line
+#: data/canyon/world.json
+msgid ""
+"你出力不太够喔！\n"
+msgstr ""
+
+#. canyon.bamboo3.gap name
+#: data/canyon/world.json
+msgid "隙缝"
+msgstr ""
+
+#. canyon.bamboo3.gap act.verb
+#: data/canyon/world.json
+msgid "进去"
+msgstr ""
+
+#. canyon.bamboo3.gap act.acts.steps.line
+#: data/canyon/world.json
+msgid ""
+"当你通过隙缝，大黄石又急速地合闭。\n"
+msgstr ""
+
+#. canyon.train.bookcase act.acts.steps.line
+#: data/canyon/world.json
+msgid ""
+"你在书柜找了找但没找到些什么\n"
+msgstr ""
+
+#. canyon.train.bookcase act.acts.steps.line
+#: data/canyon/world.json
+msgid ""
+"你在书柜中找了到一个书匣\n"
 msgstr ""

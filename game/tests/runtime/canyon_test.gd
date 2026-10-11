@@ -6,12 +6,13 @@ extends RefCounted
 ## out), the iron gate and its winch, the camp's well; 大队长's toll that adds up (owner, canyon
 ## plan Q2) and the mark that lets one past 李信 (his greeting throws the others out) into the
 ## 将军营帐; 大队长's story told two seconds a line. Walks use the move actions (MapPlaces).
+## The 黄石穿林路, the mirror, the 竹林道 and the stone room (天驼关 C) are canyon_bamboo_test.
 ## TEST-ONLY fixtures are marked.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const Finance := preload("res://tests/runtime/snow_finance_test.gd")
 const MapPlaces := preload("res://tests/support/map_places.gd")
-const MAPS: Dictionary = {&"canyon.clifftop": 1, &"canyon.pass": 15, &"canyon.armory": 1}
+const MAPS: Dictionary = {&"canyon.clifftop": 1, &"canyon.pass": 18, &"canyon.armory": 1, &"canyon.bamboo": 4, &"canyon.stoneroom": 1}
 const CAPTAIN: StringName = &"canyon.npc.captain"
 const VICE: StringName = &"canyon.npc.vice_general"
 const STORY: Array[String] = [
@@ -63,10 +64,10 @@ func _test_data() -> void:
 		if String(zone.zone_id).begins_with("canyon."):
 			maps[zone.map_id] = maps.get(zone.map_id, 0) + 1
 			_check(zone.room_ids().size() == 1 and catalog.room(zone.room_ids()[0]) != null, "%s: one room" % zone.zone_id)
-	_check(maps == MAPS, "17 rooms on three maps: %s" % maps)
+	_check(maps == MAPS, "25 rooms on five maps (C's eight with them): %s" % maps)
 	_check(catalog.region(&"canyon").display_name == "天驼关", "the region is 天驼关")
 	_check(catalog.portal(&"snow.sroad4.southwest").destination_zone_id == &"canyon.road" and catalog.portal(&"canyon.road.northeast").destination_zone_id == &"snow.sroad4", "the 青石官道 south-west to the 碎石小路, and back")
-	_check(catalog.zone_of_room(&"es2:d/canyon/stone_forest1") == null and not catalog.room(&"es2:d/canyon/canyon2").exits().has("west"), "the 黄石穿林路 is 天驼关 C (canyon2.c has no way west in ES2)")
+	_check(catalog.zone_of_room(&"es2:d/canyon/stone_forest1") != null and catalog.room(&"es2:d/canyon/canyon2").exits().get("west") == "es2:d/canyon/stone_forest1", "canyon2.c leads west into the 黄石穿林路 (repaired, owner Q1)")
 	for portal: PortalDefinition in catalog.portals_for_map(&"canyon.pass"):
 		_check(portal.source_zone_id != &"canyon.canyon7", "nothing south of the valley yet (玉螺湖村 is #11): %s" % portal.portal_id)
 	_check(catalog.room(&"es2:d/canyon/canyon7").exits().get("south") == "es2:d/village/road1", "canyon7.c's south names 玉螺湖村")

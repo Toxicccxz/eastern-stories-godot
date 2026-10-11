@@ -26,6 +26,8 @@ var _can_wear: bool
 var _can_remove: bool
 ## equip.c wield(): the weapon's weapon_prop/dodge (a heavy one's -weight/3000).
 var _weapon_dodge: int
+## A container's contents (get <item> from <it>): [item instance ID, display name] pairs.
+var contents: Array = []
 
 var item_instance_id: StringName:
 	get: return _item_instance_id
@@ -106,7 +108,7 @@ func _init(
 
 
 func duplicate_snapshot() -> PlayerInventoryRowProjection:
-	return PlayerInventoryRowProjection.new(
+	var copy := PlayerInventoryRowProjection.new(
 		_item_instance_id,
 		_item_definition_id,
 		_display_name,
@@ -125,6 +127,8 @@ func duplicate_snapshot() -> PlayerInventoryRowProjection:
 		_can_remove,
 		_weapon_dodge,
 	)
+	copy.contents = contents.duplicate(true)
+	return copy
 
 
 ## How the item is on the player, as the inventory says it (empty when it is not).

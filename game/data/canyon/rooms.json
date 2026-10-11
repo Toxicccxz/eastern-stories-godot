@@ -22,7 +22,8 @@
 			"long": "来到这里，脚下的黄土仍是厚厚的一层，可见得来往这条道路的人必\n不多，向北即是隘口尾，往南一直通达天驼关口，两侧依旧是荒冷的山壁\n，但似乎更为严峻。\n",
 			"exits": {
 				"northeast": "es2:d/canyon/canyon1",
-				"south": "es2:d/canyon/canyon3"
+				"south": "es2:d/canyon/canyon3",
+				"west": "es2:d/canyon/stone_forest1"
 			}
 		},
 		{
@@ -148,6 +149,78 @@
 			"long": "在这里你可以看到墙上挂满了各式各样的武器，不难明了这里是存放\n武器的地方，而墙上写了个诺大的「武」字。\n",
 			"exits": {
 				"east": "es2:d/canyon/canyon4"
+			}
+		},
+		{
+			"id": "es2:d/canyon/stone_forest1",
+			"short": "黄石穿林路路口",
+			"long": "四周是一大遍的林地，草高于三四十尺，再加上雾盲盲的景象，\n使你不得不沿著黄石铺成的小路快步行走，深恐林草压顶，界时将不\n知所措，向东深入似乎有一奇特的光亮，但距离太远，你看不清楚到\n底是怎么著一回事。\n",
+			"exits": {
+				"east": "es2:d/canyon/canyon2",
+				"west": "es2:d/canyon/stone_forest2"
+			}
+		},
+		{
+			"id": "es2:d/canyon/stone_forest2",
+			"short": "黄石穿林路",
+			"long": "草压天顶的情况依旧，唯西侧亮光逐渐显明，看来西侧的不远处\n有一出口，黄石斑斑，挟杂著白色的圆点，像是白色光束长期照射的\n结果，蒙胧的景色在此总算完全的清淅了，向东侧仍是回到路口的路\n，而西侧的亮光直直吸引你往深处探索。\n",
+			"exits": {
+				"west": "es2:d/canyon/stone_forest3",
+				"east": "es2:d/canyon/stone_forest1"
+			}
+		},
+		{
+			"id": "es2:d/canyon/stone_forest3",
+			"short": "梦幻迷境入口",
+			"long": "天光点著，华光亮，大概就是这样的一个情形吧，穿过了黄石穿\n林路，一束极大的光注猛然照射到你的身上，犹如沐于春风，心情爽\n朗极了，但面对北侧奇特的镜子居然有种令人不可抗拒的压力，在这\n尺尺地方，镜面反射日光，强照黄石穿林路，想到这让你有种莫名的\n恐惧，在莫名中被吸引而来的恐惧，进入或离开，生死一瞬间。\n",
+			"exits": {
+				"mirror": "es2:d/canyon/fantasy1",
+				"east": "es2:d/canyon/stone_forest2"
+			}
+		},
+		{
+			"id": "es2:d/canyon/fantasy1",
+			"short": "梦幻迷境通道",
+			"long": "来到镜内，前面呈现三面通道，各个通道皆有其不同的气氛传出\n，中道有浓厚的竹之气息，上道迷香之味不止，下道呕味不停，不定\n的上空，不停蠢地之幻地，空气被抽丝剥茧，呼吸也愈来愈困难，不\n停变动的景象，快决定吧!!暗中之招唤，心中为之一震，快步踏离此\n一不祥的空间。\n",
+			"exits": {
+				"up": "es2:d/canyon/dream/tmp",
+				"down": "es2:d/canyon/evil/tmp",
+				"back": "es2:d/canyon/stone_forest3",
+				"center": "es2:d/canyon/bamboo/bamboo1"
+			}
+		},
+		{
+			"id": "es2:d/canyon/bamboo/bamboo1",
+			"short": "竹林道入口",
+			"long": "修长的竹子映满眼廉，穹空无边，风拂无形，芬芳的气味随著清\n风而漂流著，真有如如沐春风，生机充满的竹林道，让站立其中的人\n皆受其境界而霍然开朗，忘却了江湖的险恶，行止于此，一直气凝字\n之迹，显出居此主人之内力雄厚，亦使你想找点看到居此八泰之地的\n主人是何等的人物。\n",
+			"exits": {
+				"north": "es2:d/canyon/bamboo/bamboo2",
+				"back": "es2:d/canyon/fantasy1"
+			}
+		},
+		{
+			"id": "es2:d/canyon/bamboo/bamboo2",
+			"short": "竹林道",
+			"long": "此处的竹林比起入口的竹子更为高大耸直，也有些小动物在这四\n周跳来跳去，跑来跑去的，更是生气盎然，不时有也黄莺唱吟著美妙\n的诗句，清新宛然，人间仙境，只是偶尔有那怪异的强风袭卷而致，\n另人难以忍受，在往入探头，有一似人大的黄石挺立于内，而其四周\n隐隐约约有些许正气溢散而出。\n",
+			"exits": {
+				"north": "es2:d/canyon/bamboo/bamboo3",
+				"south": "es2:d/canyon/bamboo/bamboo1"
+			}
+		},
+		{
+			"id": "es2:d/canyon/bamboo/bamboo3",
+			"short": "竹林道",
+			"long": "北方有一个大黄石堵住去路，洋洋洒洒的蓝光从大黄石的四周漫\n漫而出，竹林参天，在此成一半凹型，团团围住了北方的去路，若想\n一窥究竟，看来非得推开这巨大的黄石才行，风势愈来愈强，四周的\n竹子发出了嗡嗡的鸣声，彷佛叫人不要靠近，此地之主人看似不欢迎\n别人来参观。\n",
+			"exits": {
+				"south": "es2:d/canyon/bamboo/bamboo2"
+			}
+		},
+		{
+			"id": "es2:d/canyon/bamboo/train",
+			"short": "洞内石室",
+			"long": "飕飕的风不停地向你身上袭卷而来，石室的四周竟有四个大洞各\n分布东南西北四方，向洞外望去亦是一遍遍的竹林，和之前的竹林只\n差在于风势的大小，强风无情的猛击挺立的竹子，竹子左右摇晃的抵\n抗著，正是一幅柔以破刚之图，壁上有一石制书柜(bookcase)，正散\n出阵阵的蓝光，和之前所遇之正气一脉相连，匣中似有一物，看来才\n是正气的来源。\n",
+			"exits": {
+				"out": "es2:d/canyon/bamboo/bamboo3"
 			}
 		}
 	]

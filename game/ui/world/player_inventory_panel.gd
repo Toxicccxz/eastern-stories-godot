@@ -19,6 +19,8 @@ signal dissolve_requested(item_instance_id: StringName)
 signal hang_requested(item_instance_id: StringName)
 ## pour <powder> in <container> (std/medicine/powder.c do_pour()).
 signal pour_requested(item_instance_id: StringName, container_id: StringName)
+## get <item> from <a carried container> (cmds/std/get.c).
+signal take_out_requested(container_id: StringName, item_instance_id: StringName)
 ## scribe haunt on a paper for the selected NPC (scribe.c); attach a 僵尸追魂符 (attach.c).
 signal scribe_requested(item_instance_id: StringName)
 signal attach_requested(item_instance_id: StringName)
@@ -260,6 +262,15 @@ func _build_row(row: PlayerInventoryRowProjection) -> BoxContainer:
 			var container_id: StringName = target[0]
 			pour_button.pressed.connect(func() -> void: pour_requested.emit(row.item_instance_id, container_id))
 			container.add_child(pour_button)
+	# get <item> from <container>: what a carried container holds (slipcase.c's book).
+	for held: Array in row.contents:
+		var held_id: StringName = held[0]
+		var take_button: Button = Button.new()
+		take_button.name = "TakeOut"
+		# TRANSLATORS: take something ({item}: 悟疾风劲竹书) out of a carried container (get.c).
+		take_button.text = tr("取出{item}").format({"item": tr(held[1])})
+		take_button.pressed.connect(func() -> void: take_out_requested.emit(row.item_instance_id, held_id))
+		container.add_child(take_button)
 	# A stack can be handed over in part (give 5 silver to ..., drop 10 throwing knives).
 	var amount: SpinBox = null
 	if content != null and content.is_stack and row.amount > 1:

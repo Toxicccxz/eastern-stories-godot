@@ -16,15 +16,25 @@ func _init(controller: WorldMapController) -> void:
 
 ## What a branch may ask of the player (ScriptedAct.Facts): their marks, set_temp()
 ## flags, the ids of what they carry directly (present(id, me)) and the NPCs standing
-## where they stand (present(); one lying unconscious says nothing: 默认).
-func facts() -> ScriptedAct.Facts:
+## where they stand (present(); one lying unconscious says nothing: 默认), their force;
+## the flags of the act's room (`room_zone_id`, else where the player stands) and which
+## items exist in the world.
+func facts(room_zone_id: StringName = &"") -> ScriptedAct.Facts:
 	var known := ScriptedAct.Facts.new()
 	if _player == null:
 		return known
 	known.marks = _player.state.marks
 	known.temps = _player.temp_marks
 	known.thirsty = _player.state.recovery.water < CharacterRecovery.maximum_water_capacity(_player.body_facts.body_weight)
+	known.numbers = {
+		"force": _player.state.recovery.inner_force.current,
+		"max_force": _player.state.recovery.inner_force.maximum,
+		"force_factor": _player.state.attributes.force_factor,
+	}
 	var here: StringName = _player.world_location().zone_id
+	if _map.session != null:
+		known.room = _map.session.room_states().flags(here if room_zone_id.is_empty() else room_zone_id)
+	known.item_exists = _map.floor_items.item_exists
 	for npc: NpcRuntimeState in _map.npcs.residents:
 		var id: StringName = npc.definition().definition_id
 		if not known.present_npcs.has(id) and _map.npcs.npc_present_in_zone(id, here, true):
@@ -44,10 +54,11 @@ func facts() -> ScriptedAct.Facts:
 ## the log before a door, a move or a fight, which say their own; the fight's opening
 ## says the lines before it. A move to another map is a handoff and ends the act (the
 ## steps after it would act on the map left behind); a greeting's NPC moves the player
-## only on its own map.
-func run(act: ScriptedAct, npc: NpcRuntimeState, draw: Callable) -> void:
+## only on its own map. `room_zone_id` is the act's room (else where the player stands).
+func run(act: ScriptedAct, npc: NpcRuntimeState, draw: Callable, room_zone_id: StringName = &"") -> void:
 	if act == null or _player == null:
 		return
+	var room: StringName = _player.world_location().zone_id if room_zone_id.is_empty() else room_zone_id
 	var state: CharacterState = _player.state
 	var hears: bool = _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
 	var npc_name: String = "" if npc == null else npc.definition().display_name
@@ -118,6 +129,12 @@ func run(act: ScriptedAct, npc: NpcRuntimeState, draw: Callable) -> void:
 				state.marks.erase(step.flag)
 			ScriptedAct.Kind.WATER:
 				state.recovery.water += step.value
+			ScriptedAct.Kind.SET_ROOM:
+				if _map.session != null:
+					_map.session.room_states().set_flag(room, step.flag)
+			ScriptedAct.Kind.CLEAR_ROOM:
+				if _map.session != null:
+					_map.session.room_states().clear_flag(room, step.flag)
 	_show(said, hears)
 	var hud: SharedGameplayUI = _map.hud()
 	if hud != null and hud.inventory_is_open():

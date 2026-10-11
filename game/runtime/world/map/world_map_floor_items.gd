@@ -255,18 +255,8 @@ func place_new_floor_item(item_definition_id: StringName) -> StringName:
 		content = GameContent.catalog().item(names[clampi(_world_interaction_random.legacy_random(names.size()), 0, names.size() - 1)])
 		if content == null:
 			return &""
-	var allocation: SessionItemIdAllocationResult = _item_id_allocator.allocate(_inventory)
-	if not allocation.succeeded:
-		return &""
-	var item: ItemInstance = ItemInstance.new(allocation.item_instance_id, content.item_definition_id)
-	if (
-		not _inventory.register_item(item, 0 if content.is_stack else content.own_weight)
-		or not _item_index.register_snapshot(item)
-		or not ItemRoleStates.register_fresh(content, item.item_instance_id, _foods, _liquids)
-	):
-		return &""
-	# combined.c: a new one comes with create()'s set_amount() (蒙汗药: one 包).
-	if content.is_stack and not CombinedStackService.register_stack(_stacks, _inventory, item, content.stack_definition(), content.default_amount).accepted:
+	var item: ItemInstance = _make_item(content)
+	if item == null:
 		return &""
 	var placed: InventoryTransferResult = InventoryTransferService.new().transfer(
 		_inventory,
@@ -306,17 +296,8 @@ func give_new_item_to(npc: NpcRuntimeState, item_definition_id: StringName) -> S
 	var content: ItemContentDefinition = GameContent.catalog().item(item_definition_id)
 	if content == null or npc == null:
 		return &""
-	var allocation: SessionItemIdAllocationResult = _item_id_allocator.allocate(_inventory)
-	if not allocation.succeeded:
-		return &""
-	var item: ItemInstance = ItemInstance.new(allocation.item_instance_id, content.item_definition_id)
-	if (
-		not _inventory.register_item(item, 0 if content.is_stack else content.own_weight)
-		or not _item_index.register_snapshot(item)
-		or not ItemRoleStates.register_fresh(content, item.item_instance_id, _foods, _liquids)
-	):
-		return &""
-	if content.is_stack and not CombinedStackService.register_stack(_stacks, _inventory, item, content.stack_definition(), content.default_amount).accepted:
+	var item: ItemInstance = _make_item(content)
+	if item == null:
 		return &""
 	var holder := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, npc.character_id)
 	var moved: InventoryTransferResult = InventoryTransferService.new().transfer(
@@ -325,10 +306,39 @@ func give_new_item_to(npc: NpcRuntimeState, item_definition_id: StringName) -> S
 	if moved.succeeded:
 		return item.item_instance_id
 	# Too heavy for it: the new item is gone again rather than left without a holder.
-	var removal: ItemLifecycleResult = ItemLifecycleService.destroy_item(_inventory, _stacks, item.item_instance_id, ItemLifecycleResult.ChildDisposition.REQUIRE_LEAF)
+	var removal: ItemLifecycleResult = ItemLifecycleService.destroy_item(_inventory, _stacks, item.item_instance_id, ItemLifecycleResult.ChildDisposition.DESTROY_SUBTREE)
 	if not (removal.succeeded and _item_index.forget_destroyed_snapshots(removal.removed_instance_ids, _inventory)):
 		push_error("new %s could not be undone" % item.item_instance_id)
 	return &""
+
+
+## new(item): a new item, registered and held by nothing yet, as its create() makes it: a
+## combined one with set_amount() (蒙汗药: one 包), a container with what it makes inside
+## itself (d/canyon/bamboo/obj/slipcase.c: new(parry_book)->move(this_object())). Null when
+## nothing was made.
+func _make_item(content: ItemContentDefinition) -> ItemInstance:
+	if content == null:
+		return null
+	var allocation: SessionItemIdAllocationResult = _item_id_allocator.allocate(_inventory)
+	if not allocation.succeeded:
+		return null
+	var item: ItemInstance = ItemInstance.new(allocation.item_instance_id, content.item_definition_id)
+	if (
+		not _inventory.register_item(item, 0 if content.is_stack else content.own_weight)
+		or not _item_index.register_snapshot(item)
+		or not ItemRoleStates.register_fresh(content, item.item_instance_id, _foods, _liquids)
+	):
+		return null
+	if content.is_stack and not CombinedStackService.register_stack(_stacks, _inventory, item, content.stack_definition(), content.default_amount).accepted:
+		return null
+	var inside := ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, item.item_instance_id)
+	for held_id: StringName in content.contains:
+		var held: ItemInstance = _make_item(GameContent.catalog().item(held_id))
+		if held == null or not InventoryTransferService.new().transfer(
+			_inventory, held.item_instance_id, InventoryTransferDestination.new(inside, true, true, content.max_encumbrance),
+		).succeeded:
+			return null
+	return item
 
 
 ## How many times a `look_spawn` landmark called something in since its room's reset
@@ -566,8 +576,12 @@ func at_feet_line(item_id: StringName, content: ItemContentDefinition) -> String
 ## the world (carried, lying about, held by an NPC, in a corpse or the pawnshop).
 func violates_unique(item_definition_id: StringName) -> bool:
 	var content: ItemContentDefinition = GameContent.catalog().item(item_definition_id)
-	if content == null or not content.unique:
-		return false
+	return content != null and content.unique and item_exists(item_definition_id)
+
+
+## Whether an item of this blueprint exists somewhere in the world: carried, lying about,
+## held by an NPC, inside something, in a corpse or the pawnshop.
+func item_exists(item_definition_id: StringName) -> bool:
 	for id: StringName in _item_index.snapshot_ids():
 		var item: ItemInstance = _item_index.resolve(id)
 		if item != null and item.item_definition_id == item_definition_id and _inventory.is_registered(id):
@@ -694,6 +708,16 @@ func take_from_selected_container(item_id: StringName) -> ItemHandlingResult:
 	var result: ItemHandlingResult = ItemHandlingService.take_from(_player, view.item_instance_id, item_id, item_authorities())
 	_report_item_handling(result)
 	show_container(view)
+	return result
+
+
+## get <item> from <a container the player carries> (get.c finds it on them too).
+func take_from_carried_container(container_id: StringName, item_id: StringName) -> ItemHandlingResult:
+	var carried := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id) if _player != null else null
+	if not can_handle_items() or not is_container(container_id) or not _inventory.is_direct_child(container_id, carried):
+		return ItemHandlingResult.new()
+	var result: ItemHandlingResult = ItemHandlingService.take_from(_player, container_id, item_id, item_authorities())
+	_report_item_handling(result)
 	return result
 
 

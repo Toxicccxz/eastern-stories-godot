@@ -62,6 +62,7 @@ var _last_temple_handoff: OldPineMapHandoffResult
 ## The room a spell took the player to was seen a frame ago: the move may be made now.
 var _departure_due: bool = false
 var _hidden_passages: WorldHiddenPassages
+var _room_states: WorldRoomStates = WorldRoomStates.new()
 var _room_traps: WorldRoomTraps
 var _room_resets: WorldRoomResets
 ## obj/user.c reset() of the player object, on a schedule of its own (WorldRoomResets).
@@ -314,6 +315,11 @@ func room_traps() -> WorldRoomTraps:
 	return _room_traps
 
 
+## The rooms' own flags (bamboo3.c's exits/enter, train.c's got), not saved.
+func room_states() -> WorldRoomStates:
+	return _room_states
+
+
 ## A room's valid_leave() as the player walks out of `from_zone_id` (WorldRoomTraps).
 func player_leaving_zone(from_zone_id: StringName, to_zone_id: StringName) -> void:
 	if _room_traps != null:
@@ -386,6 +392,7 @@ func initialize_session() -> bool:
 		_hidden_passages = WorldHiddenPassages.new(self)
 		_hidden_passages.open_for_player_below()
 		_room_traps = WorldRoomTraps.new(self)
+		_room_states = WorldRoomStates.new()
 		_room_resets = WorldRoomResets.new(WorldRoomResets.resetting_rooms(), GameContent.catalog().pacing().room_reset_seconds, npc_ambience_random_source())
 		_player_resets = WorldRoomResets.new([PLAYER_RESET], GameContent.catalog().pacing().room_reset_seconds, npc_ambience_random_source())
 	return ready

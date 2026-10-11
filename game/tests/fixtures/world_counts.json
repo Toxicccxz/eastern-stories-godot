@@ -50,9 +50,11 @@
 		"choyin.valley",
 		"canyon.clifftop",
 		"canyon.pass",
-		"canyon.armory"
+		"canyon.armory",
+		"canyon.bamboo",
+		"canyon.stoneroom"
 	],
-	"rooms": 407,
+	"rooms": 415,
 	"snow_outdoor_portals": [
 		"snow.square.west",
 		"snow.eroad3.south",
@@ -289,7 +291,7 @@
 		"canyon.armory.blackmarket.seller"
 	],
 	"world_npcs": 351,
-	"resident_maps": 51,
+	"resident_maps": 53,
 	"new_game_items": 622,
 	"snow_outdoor_passages": 9,
 	"npc_draws_after_oldpine": 1849
