@@ -78,7 +78,7 @@ func refresh_exploration() -> void:
 	_ui.bribe_button.visible = local_target and not _ui.bribe_button.disabled
 	_ui.selected_target_label.visible = local_target
 	_presentation_layout.target_section.visible = local_target
-	var context: String = _ui.context_title()
+	var context: String = _ui.actions.context_title()
 	_presentation_layout.context_button.text = context
 	_presentation_layout.context_button.visible = not context.is_empty()
 	_presentation_layout.contexts.visible = local_target or not context.is_empty()

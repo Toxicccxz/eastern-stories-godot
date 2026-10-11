@@ -53,20 +53,10 @@ var _cancelled_action: Callable = Callable()
 
 # TRANSLATORS: asked before 攻击 on the player's own master: killing them is killing one's master (killer_reward(), betrayal's cost). {master} the NPC, {family} the player's family (封山剑派), {score} the player's 综合评价 now, {next} the betrayals counted after it.
 const MASTER_ATTACK_WARNING: String = "{master}是你的师父。攻击就是生死相搏；若你亲手杀了{master}，便是弑师，等同背叛师门：\n· 被逐出{family}，门派、师父和称号都没有了。\n· 综合评价清零（现在是 {score}）。\n· 背叛师门的次数变成 {next} 次。\n确定要攻击吗？"
-# TRANSLATORS: asked before 切磋 when the player or the NPC ({npc}) holds a weapon: a blow from it wounds as in a real fight (combatd.c).
-const ARMED_SPAR_WARNING: String = "刀剑无眼：有人手持兵刃时，切磋中挨的刀剑会留下真伤，伤重了一样会丧命。\n确定要和{npc}切磋吗？"
-# TRANSLATORS: asked before 切磋 with an NPC ({npc}) whose answer to a spar is a fight to the death (accept_fight() calls kill_ob()).
-const DEADLY_SPAR_WARNING: String = "{npc}不会只跟你点到为止：这一场切磋会变成生死相搏。\n确定要和{npc}切磋吗？"
-# TRANSLATORS: asked before a bare-handed 切磋 with an NPC ({npc}) clearly stronger than the player (native, owner A10): one blow can knock the player out.
-const STRONGER_SPAR_WARNING: String = "{npc}看起来比你强得多：即使只是切磋，一招就可能把你打昏。\n确定要和{npc}切磋吗？"
-# TRANSLATORS: asked before 切磋 with a weapon in hand on either side and an NPC ({npc}) clearly stronger than the player (native, owner A10).
-const ARMED_STRONGER_SPAR_WARNING: String = "{npc}看起来比你强得多，而且有人手持兵刃：切磋中挨的刀剑会留下真伤，伤重了一样会丧命。\n确定要和{npc}切磋吗？"
 # TRANSLATORS: asked before 化尸粉 dissolves a corpse that still holds things (dust.c destructs it whole): {name} whose corpse, {count} how many things are in it.
 const DISSOLVE_WARNING: String = "化尸粉会把{name}的尸体连同里面的 {count} 件物品一起化成一滩黄水，化掉的东西再也找不回来。\n确定要化掉吗？"
 # TRANSLATORS: asked before the rope's 上吊 (rope.c hang_self(): die()): the character dies as in a fight.
 const HANG_WARNING: String = "把绳子往脖子上一套，就是寻死：你会就此死去，和战死一样付出死亡的代价。\n确定要上吊吗？"
-# TRANSLATORS: asked before 驱尸 (animate.c) when its 30 神 ({sen}) would leave the player below zero: they faint.
-const ANIMATE_FAINT_WARNING: String = "施法驱尸要耗去 {sen} 点神，你现在撑不住，会当场昏过去。\n确定要施法吗？"
 # TRANSLATORS: asked before 画符 (scribe.c, haunt.c) when its 40 神 ({sen}) would leave the player below zero: they faint.
 const SCRIBE_FAINT_WARNING: String = "画这道符要耗去 {sen} 点神，你现在撑不住，会当场昏过去。\n确定要画吗？"
 # TRANSLATORS: asked before 画符 (scribe.c) when the drop of blood it is drawn in (1 point of 气 off its effective value) would kill the badly wounded player.
@@ -75,30 +65,10 @@ const SCRIBE_DEATH_WARNING: String = "你伤得太重了：画符要咬破手指
 const HAUNT_MASTER_WARNING: String = "{master}是你的师父。{zombie}会追杀{master}，它若得手，就算你弑师，等同背叛师门：\n· 被逐出{family}，门派、师父和称号都没有了。\n· 综合评价清零（现在是 {score}）。\n· 背叛师门的次数变成 {next} 次。\n确定要贴上这道符吗？"
 # TRANSLATORS: asked before 跪下受戒 (daemon/class/bonze/master.c do_kneel()): {npc} the master, {prefixes} the characters a 法名 begins with (空明圆净虚悟方渡慧法), {first} the first character of the player's name, {example} one 法名 it could make.
 const ORDINATION_WARNING: String = "跪下受戒就是剃度出家：{npc}会剃去你的头发，你从此是僧人。\n你的名字会改成法名：「{prefixes}」中随机一字，加上你名字的第一个字「{first}」（例如「{example}」），原来的名字从此不再使用。\n确定要跪下受戒吗？"
-# TRANSLATORS: the 疗伤他人 button's tooltip (lotusforce/lifeheal.c): 150 force, which must be 150 above the maximum; neither side in a fight.
-const LIFEHEAL_HINT: String = "运功「疗伤他人」：把真气输入对方体内，为他疗伤（耗 150 点内力，内力须比最大内力多 150 以上；双方都不能在战斗中）。"
-# TRANSLATORS: the 心识神通 button's tooltip (essencemagic/heart_sense.c): its 50 atman and 30 sen; random(max_atman) must be above 100, else the caster falls unconscious.
-const HEART_SENSE_HINT: String = "施展「心识神通」：救醒昏迷的人（50 灵力、30 神）。最大灵力不过 101 必定失败，失败时你自己会昏倒。"
-# TRANSLATORS: asked before every 心识神通 (heart_sense.c), which knocks the caster out when it fails: {npc} the one lying unconscious, {atman} and {sen} its cost, {max_atman} the player's maximum atman, {odds} one of the three lines below.
-const HEART_SENSE_WARNING: String = "心识神通要耗去 {atman} 点灵力和 {sen} 点神。能否救醒{npc}，全看你的灵力修为（最大灵力 {max_atman}）：{odds}\n确定要施展吗？"
-# TRANSLATORS: {odds} in the 心识神通 question when the player's maximum atman is 101 or less (random(max_atman) > 100 cannot happen).
-const HEART_SURE_FAIL: String = "最大灵力不过 101 必定失败，失败时你自己会当场昏过去。"
-# TRANSLATORS: {odds} in the 心识神通 question: {percent} the chance in a hundred that random(max_atman) is 100 or less.
-const HEART_MAY_FAIL: String = "约有 {percent}% 的机会失败，失败时你自己会当场昏过去。"
-# TRANSLATORS: {odds} in the 心识神通 question when its 30 sen alone would knock the player out.
-const HEART_SPENT: String = "你现在的神撑不住这一下，无论成败都会当场昏过去。"
 # TRANSLATORS: asked before 空识神通 (void_sense.c) when its 50 gin ({gin}) would knock the player out.
 const VOID_FAINT_WARNING: String = "空识神通要耗去 {gin} 点精，你现在撑不住，会当场昏过去。\n确定要施展吗？"
 # TRANSLATORS: asked before 游识神通 goes to the one chosen (drift_sense.c) when its 30 gin ({gin}) would knock the player out.
 const DRIFT_FAINT_WARNING: String = "游识神通要耗去 {gin} 点精，你现在撑不住，施展完就会昏过去。\n确定要施展吗？"
-# TRANSLATORS: the 偷窃 button's tooltip (cmds/std/steal.c): caught at it, the one robbed fights to the death and the town's constables know the player for a thief.
-const STEAL_HINT: String = "偷窃：从对方身上偷一样东西（三秒后见分晓）。失手被发现，对方会和你拼命，城里的巡捕也会把你当贼抓。"
-# TRANSLATORS: the 行贿 button's tooltip (yamen_po.c accept_bribery()): money to the constable leading the player.
-const BRIBE_HINT: String = "行贿：塞钱给押着你的巡捕，钱给够了他就放你走；给少了反倒罪加一等。"
-# TRANSLATORS: asked before 偷窃 from an NPC ({npc}) clearly stronger than the player (plan default, A10): one caught at it is attacked to the death (steal.c kill_ob()).
-const STRONGER_STEAL_WARNING: String = "{npc}看起来比你强得多：要是失手被发现，{npc}会和你拼个你死我活。\n确定要下手吗？"
-# TRANSLATORS: the 驱尸 button's tooltip: animate.c's 50 mana and 30 sen; the zombie lives on the player's 灵力 (zombie.c heal_up()).
-const ANIMATE_HINT: String = "施法「驱尸」：让这具尸体站起来跟着你（50 法力、30 神）。僵尸靠吸你的灵力维持，灵力不足时就会倒下化为血水。"
 
 var _player: WorldPlayerRuntimeType
 const ALERT_COLOR: Color = Color(1.0, 0.38, 0.38)
@@ -145,6 +115,7 @@ const GIVE_MONEY_WARNING: String = "确定把{money}送给{npc}吗？送出去�
 var message_log: SharedUiMessageLog = SharedUiMessageLog.new(self)
 var card: SharedUiStatusCard = SharedUiStatusCard.new(self)
 var selection: SharedUiSelection = SharedUiSelection.new(self)
+var actions: SharedUiContextActions = SharedUiContextActions.new(self)
 
 
 func _ready() -> void:
@@ -157,30 +128,30 @@ func _ready() -> void:
 	_presentation_layout.name = "PresentationLayout"
 	add_child(_presentation_layout)
 	_presentation_layout.build(self)
-	inspect_button.pressed.connect(_inspect_context)
-	attack_button.pressed.connect(_attack_context)
-	spar_button.pressed.connect(_spar_context)
-	ask_button.pressed.connect(_ask_context)
-	portal_button.pressed.connect(_traverse_context)
-	open_loot_button.pressed.connect(_loot_context)
-	animate_button.pressed.connect(_animate_context)
-	animate_button.tooltip_text = ANIMATE_HINT
-	lifeheal_button.pressed.connect(_lifeheal_context)
-	lifeheal_button.tooltip_text = LIFEHEAL_HINT
-	heart_sense_button.pressed.connect(_heart_sense_context)
-	heart_sense_button.tooltip_text = HEART_SENSE_HINT
-	steal_button.pressed.connect(_steal_context)
-	steal_button.tooltip_text = STEAL_HINT
-	steal_panel.chosen.connect(_steal_choose)
+	inspect_button.pressed.connect(actions.inspect_context)
+	attack_button.pressed.connect(actions.attack_context)
+	spar_button.pressed.connect(actions.spar_context)
+	ask_button.pressed.connect(actions.ask_context)
+	portal_button.pressed.connect(actions.traverse_context)
+	open_loot_button.pressed.connect(actions.loot_context)
+	animate_button.pressed.connect(actions.animate_context)
+	animate_button.tooltip_text = SharedUiContextActions.ANIMATE_HINT
+	lifeheal_button.pressed.connect(actions.lifeheal_context)
+	lifeheal_button.tooltip_text = SharedUiContextActions.LIFEHEAL_HINT
+	heart_sense_button.pressed.connect(actions.heart_sense_context)
+	heart_sense_button.tooltip_text = SharedUiContextActions.HEART_SENSE_HINT
+	steal_button.pressed.connect(actions.steal_context)
+	steal_button.tooltip_text = SharedUiContextActions.STEAL_HINT
+	steal_panel.chosen.connect(actions.steal_choose)
 	steal_panel.cancelled.connect(_close_panel_of.bind(steal_panel))
-	bribe_button.pressed.connect(_bribe_context)
-	bribe_button.tooltip_text = BRIBE_HINT
-	bribe_panel.bribed.connect(_bribe)
+	bribe_button.pressed.connect(actions.bribe_context)
+	bribe_button.tooltip_text = SharedUiContextActions.BRIBE_HINT
+	bribe_panel.bribed.connect(actions.bribe)
 	bribe_panel.cancelled.connect(_close_panel_of.bind(bribe_panel))
 	drift_panel.chosen.connect(_drift_choose)
 	drift_panel.cancelled.connect(_drift_cancel)
 	inventory_button.pressed.connect(open_inventory)
-	loot_panel.take_requested.connect(_take_context)
+	loot_panel.take_requested.connect(actions.take_context)
 	inventory_panel.inspect_requested.connect(_inspect_item)
 	inventory_panel.wield_requested.connect(_wield_item)
 	inventory_panel.unwield_requested.connect(_unwield_item)
@@ -464,9 +435,9 @@ func refresh_panel_rows() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if visible and not _presentation_layout.frame.visible and event.is_action_pressed("ui_accept") and not event.is_echo() and not context_title().is_empty():
+	if visible and not _presentation_layout.frame.visible and event.is_action_pressed("ui_accept") and not event.is_echo() and not actions.context_title().is_empty():
 		get_viewport().set_input_as_handled()
-		open_current_context()
+		actions.open_current_context()
 
 
 func _process(delta: float) -> void:
@@ -520,20 +491,6 @@ func open_look() -> void:
 		return
 	_presentation_layout.room.text = SharedUiMessageLog.room_prose(tr(zone.description))
 	_presentation_layout.open_panel(tr(zone.display_name), _presentation_layout.room)
-
-
-## The map's door or service at the player's spot, as the context button text.
-func context_title() -> String:
-	var map := _bound_map as WorldMapController
-	if map == null or not _session.portable_inventory_available():
-		return ""
-	return map.interaction_title()
-
-
-func open_current_context() -> void:
-	var map := _session.active_map() as WorldMapController
-	if map != null and _session.portable_inventory_available():
-		map.interact()
 
 
 func open_business(title: String, form: Control, validate: Callable) -> void:
@@ -724,47 +681,6 @@ func _dissolve_with(id: StringName) -> void:
 	ask_first(tr(DISSOLVE_WARNING).format({"name": tr(map.dissolvable_corpse_name()), "count": count}), "确定化掉", dissolve, Callable(), open_inventory)
 
 
-## 驱尸 on the selected corpse; asked first when its 30 sen would knock the player out.
-func _animate_context() -> void:
-	var map := _session.active_map() as WorldMapController
-	if map == null:
-		return
-	if not map.animate_knocks_out():
-		map.animate_selected_corpse()
-		return
-	ask_first(tr(ANIMATE_FAINT_WARNING).format({"sen": AnimateSpell.SEN_COST}), "确定施法", map.animate_selected_corpse, func() -> bool: return map.animatable_corpse() != null)
-
-
-## exert lifeheal <the selected NPC> (疗伤他人): no question, it costs only force.
-func _lifeheal_context() -> void:
-	var map := _session.active_map() as WorldMapController
-	if map != null and map.selected_npc_here() != null:
-		_session.martial_arts().exert_at(&"lifeheal", map.selected_npc_here())
-
-
-## 心识神通 on the selected NPC lying unconscious: asked first whenever it goes ahead, as
-## a failure knocks the player out (owner's rule; DECISIONS 山烟寺 A). A refusal (too little
-## atman, busy, a no_magic room) asks nothing.
-func _heart_sense_context() -> void:
-	var magic: PlayerEssenceMagic = _session.essence_magic()
-	var npc: NpcRuntimeState = magic.heart_target()
-	if npc == null:
-		return
-	if not magic.heart_asks():
-		magic.heart_sense()
-		return
-	var state: CharacterState = _player.state
-	var odds: String = tr(HEART_SPENT)
-	if state.spirit.current >= HeartSenseConjure.SEN_COST:
-		var percent: int = HeartSenseConjure.faint_percent(state.recovery.atman.maximum)
-		odds = tr(HEART_SURE_FAIL) if percent >= 100 else tr(HEART_MAY_FAIL).format({"percent": percent})
-	var question: String = tr(HEART_SENSE_WARNING).format({
-		"atman": HeartSenseConjure.ATMAN_COST, "sen": HeartSenseConjure.SEN_COST, "npc": tr(npc.definition().display_name),
-		"max_atman": state.recovery.atman.maximum, "odds": odds,
-	})
-	ask_first(question, "确定施展", magic.heart_sense, func() -> bool: return magic.heart_target() == npc)
-
-
 ## 空识神通 from the 武学 page; asked first when its gin would knock the player out.
 ## 取消 goes back to the page.
 func conjure_void_sense() -> void:
@@ -805,84 +721,6 @@ func _drift_to(npc_name: String) -> void:
 			_presentation_layout.close_panel()
 		return
 	_show_drift_question(magic.last_lines)
-
-
-## 偷窃 on the selected NPC: the list of what it is seen to wear or wield, and 随手摸一样.
-func _steal_context() -> void:
-	var map := _session.active_map() as WorldMapController
-	if map != null and map.thefts.can_steal_selected():
-		_show_steal_question()
-
-
-func _show_steal_question() -> void:
-	var map := _session.active_map() as WorldMapController
-	var npc: NpcRuntimeState = null if map == null else map.selected_npc_here()
-	if npc == null:
-		return
-	var ids: Array[StringName] = map.thefts.seen_items(npc)
-	var names: Array[String] = []
-	for id: StringName in ids:
-		names.append(map.thefts.item_name(id))
-	steal_panel.show_items(tr(npc.definition().display_name), ids, names)
-	var npc_id: StringName = npc.character_id
-	_presentation_layout.open_panel(tr("偷窃"), steal_panel, func() -> bool: return map.thefts.can_steal_selected() and map.selected_character_id() == npc_id)
-	_presentation_layout.refresh_rows()
-
-
-## A thing (or 随手摸一样) chosen: asked first from one clearly stronger; 取消 shows the list again.
-func _steal_choose(item_id: StringName) -> void:
-	var map := _session.active_map() as WorldMapController
-	var npc: NpcRuntimeState = null if map == null else map.selected_npc_here()
-	if npc == null:
-		return
-	var npc_id: StringName = npc.character_id
-	if map.thefts.asks_first(npc):
-		ask_first(tr(STRONGER_STEAL_WARNING).format({"npc": tr(npc.definition().display_name)}), "确定下手", _steal_now.bind(npc_id, item_id), func() -> bool: return map.thefts.can_steal_selected() and map.selected_character_id() == npc_id, _show_steal_question)
-		return
-	_steal_now(npc_id, item_id)
-
-
-func _steal_now(npc_id: StringName, item_id: StringName) -> void:
-	var map := _session.active_map() as WorldMapController
-	if map == null:
-		return
-	if _presentation_layout._content == steal_panel:
-		_presentation_layout.close_panel()
-	map.thefts.begin(map.npcs.find_resident_npc(npc_id), item_id)
-
-
-## 行贿 to the constable leading the player: the money they carry, how much of each.
-func _bribe_context(lines: Array[String] = []) -> void:
-	var map := _session.active_map() as WorldMapController
-	if map == null or not map.patrols.can_bribe(selection.selected_target):
-		return
-	var npc: NpcRuntimeState = selection.selected_target
-	var ids: Array[StringName] = []
-	var names: Array[String] = []
-	var amounts: Array[int] = []
-	for row: PlayerInventoryRowProjection in _session.player_inventory_rows():
-		var content: ItemContentDefinition = GameContent.catalog().item(row.item_definition_id)
-		if content != null and content.currency_base_value > 0 and row.amount > 0:
-			ids.append(row.item_instance_id)
-			names.append(tr(content.display_name))
-			amounts.append(row.amount)
-	bribe_panel.show_money(tr(npc.definition().display_name), ids, names, amounts, lines)
-	var npc_id: StringName = npc.character_id
-	_presentation_layout.open_panel(tr("行贿"), bribe_panel, func() -> bool: return map.patrols.can_bribe(map.npcs.find_resident_npc(npc_id)))
-	_presentation_layout.refresh_rows()
-
-
-## accept_bribery(): taken, the panel closes (they are free); refused, it shows again with the line.
-func _bribe(item_id: StringName, amount: int) -> void:
-	var map := _session.active_map() as WorldMapController
-	if map == null:
-		return
-	if not map.patrols.bribe(item_id, amount):
-		return
-	if map.patrols.can_bribe(selection.selected_target):
-		_bribe_context(map.patrols.last_lines)
-	elif _presentation_layout._content == bribe_panel:
-		_presentation_layout.close_panel()
 
 
 func _close_panel_of(panel: Control) -> void:
@@ -1020,67 +858,6 @@ func _wear_item(id: StringName) -> void:
 func _remove_item(id: StringName) -> void:
 	_session.remove_player_item(id)
 	open_inventory()
-
-
-func _inspect_context() -> void:
-	var map := _session.active_map() as WorldMapController
-	if map != null: map.inspect_selected()
-
-
-## 攻击; on the player's own master it asks first: the kill is a betrayal (3C).
-func _attack_context() -> void:
-	var map := _session.active_map() as WorldMapController
-	if map == null:
-		return
-	var npc: NpcRuntimeState = map.selected_npc()
-	if npc == null or not map.selected_attack_starts() or not PlayerKillerReward.is_own_master(_player.state, npc.definition()):
-		map.attack_selected()
-		return
-	var teaching: NpcTeaching = npc.definition().teaching()
-	var family: FamilyDefinition = GameContent.catalog().family(teaching.family_id)
-	ask_first(tr(MASTER_ATTACK_WARNING).format({
-		"master": tr(npc.definition().display_name), "family": tr(family.display_name) if family != null else "",
-		"score": _player.state.progression.score, "next": _player.state.apprenticeship.betrayer_count + 1,
-	}), "确定攻击", map.attack_selected, selection.attack_is_enabled)
-
-
-## 切磋; asked first when it will be fought to the death (accept_fight()'s kill_ob()),
-## with a weapon in hand on either side (its blows wound), or against an NPC clearly
-## stronger than the player (one blow can knock them out; owner A10).
-func _spar_context() -> void:
-	var map := _session.active_map() as WorldMapController
-	if map == null:
-		return
-	var risk: WorldMapController.SparRisk = map.selected_spar_risk()
-	if risk == WorldMapController.SparRisk.NONE:
-		map.spar_selected()
-		return
-	var warning: String = DEADLY_SPAR_WARNING
-	match risk:
-		WorldMapController.SparRisk.ARMED:
-			warning = ARMED_STRONGER_SPAR_WARNING if map.selected_spar_stronger() else ARMED_SPAR_WARNING
-		WorldMapController.SparRisk.STRONGER:
-			warning = STRONGER_SPAR_WARNING
-	ask_first(tr(warning).format({"npc": tr(map.selected_npc().definition().display_name)}), "确定切磋", map.spar_selected, selection.spar_is_enabled)
-
-
-func _ask_context() -> void:
-	open_ask()
-
-
-func _traverse_context() -> void:
-	var map := _session.active_map() as WorldMapController
-	if map != null: map.traverse_selected_portal()
-
-
-func _loot_context() -> void:
-	var map := _session.active_map() as WorldMapController
-	if map != null: map.open_selected_loot()
-
-
-func _take_context(id: StringName) -> void:
-	var map := _session.active_map() as WorldMapController
-	if map != null: map.take_selected_loot_item(id)
 
 
 func dismiss_current_panel() -> void:
@@ -1235,3 +1012,14 @@ func portal_action_text() -> String:
 
 func open_loot_is_enabled() -> bool:
 	return selection.open_loot_is_enabled()
+
+
+# --- forwarded to SharedUiContextActions (actions) ---
+
+
+func context_title() -> String:
+	return actions.context_title()
+
+
+func open_current_context() -> void:
+	actions.open_current_context()
