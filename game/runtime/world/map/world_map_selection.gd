@@ -523,7 +523,8 @@ func dismiss_panel(content: Control) -> bool:
 
 
 ## What is within the player's reach, nearest first (owner, 2026-10-11): living NPCs in
-## the player's place within NEARBY_REACH with the services they offer from their body,
+## the player's place within NEARBY_REACH (and the constable leading the player, wherever
+## he is) with the services they offer from their body,
 ## corpses and floor items there, landmarks near or touched, and the doors and room
 ## services whose own reach the player stands in. Empty outside open gameplay.
 func nearby() -> Array[WorldNearbyThing]:
@@ -534,10 +535,13 @@ func nearby() -> Array[WorldNearbyThing]:
 	var location: WorldLocationState = _player.world_location()
 	var by_npc: Dictionary[StringName, WorldNearbyThing] = {}
 	for npc: NpcRuntimeState in _map.npcs.npc_runtimes():
-		if npc_here(npc) == null or npc.definition().is_ghost():
-			continue
 		var body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(npc.character_id)
-		if body == null or at.distance_to(body.global_position) > NEARBY_REACH:
+		# The constable leading the player (yamen_po.c) is at hand wherever he walks: his
+		# 行贿 is offered from the catch on (he caught them anywhere in the room).
+		var leading: bool = body != null and _map.patrols.can_bribe(npc)
+		if not leading and (npc_here(npc) == null or npc.definition().is_ghost()):
+			continue
+		if body == null or (not leading and at.distance_to(body.global_position) > NEARBY_REACH):
 			continue
 		var thing := WorldNearbyThing.new(WorldNearbyThing.Kind.NPC, npc.character_id, npc.definition().display_name, at.distance_to(body.global_position))
 		thing.npc = npc

@@ -69,6 +69,23 @@ func run_all(tree: SceneTree) -> Dictionary:
 	check(map.selected_character_id() == traveller.character_id and hud.inspection_display().begins_with(traveller_name), "查看 selects him and shows him: %s" % hud.inspection_display())
 	hud.dismiss_current_panel()
 	check(not hud.nearby.press(waiter_name, "购买"), "the waiter's 购买 is not offered from here")
+
+	# Both near: the groups keep their places as the distances change, and the selection
+	# is the NPC the player stands nearest.
+	await _stand(tree, map, waiter_body.global_position + Vector2(0, 400))
+	hud.refresh_exploration()
+	check(hud.nearby.groups().is_empty(), "off again: the card is empty")
+	traveller_body.global_position = waiter_body.global_position + Vector2(100, 0) # TEST-ONLY: he stands by the counter
+	await _stand(tree, map, waiter_body.global_position + Vector2(30, 40))
+	hud.refresh_exploration()
+	var names: Array = hud.nearby.groups().map(func(group: Array) -> String: return group[0])
+	check(names == [waiter_name, traveller_name], "both near, the nearer first: %s" % [names])
+	check(map.selected_character_id() == waiter.character_id, "the selection: the nearer, the waiter")
+	await _stand(tree, map, waiter_body.global_position + Vector2(70, 40))
+	hud.refresh_exploration()
+	names = hud.nearby.groups().map(func(group: Array) -> String: return group[0])
+	check(names == [waiter_name, traveller_name], "the traveller now nearer: the groups keep their places: %s" % [names])
+	check(map.selected_character_id() == traveller.character_id, "the selection follows to the nearer, the traveller")
 	session.queue_free()
 	await tree.process_frame
 	return {"assertions": assertions, "failures": failures}

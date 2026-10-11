@@ -122,10 +122,14 @@ Owner (2026-10-11, from the HUD): the actions show only for what the player can 
   player's place within 96 px (`WorldMapSelection.NEARBY_REACH`, about a shop counter's reach)
   with the services they offer from their body (店小二: 购买, 查看, 攻击 …), corpses and floor
   items there, landmarks within 96 px (or touched, when they need contact), and doors and room
-  services within their own authored reach. A group goes when its thing leaves reach.
+  services within their own authored reach; the 巡捕 leading the player wherever he is (his
+  行贿, from the catch anywhere in the room on). A group goes when its thing leaves reach;
+  the others keep their places (a newcomer joins at the end), so no button moves under the
+  pointer as NPCs walk about.
 - **Owner: a click on the map selects nothing** (as in most modern games). A group's button
-  selects its thing, then acts. While no panel is open the selection follows reach (the
-  nearest NPC, else nothing), so the 背包's 给 and 画符 go to whom the player stands by.
+  selects its thing, then acts. While no panel is open the selection is the NPC the player
+  stands by (the 巡捕 leading them first, else the nearest; nothing when none is near), so
+  the 背包's 给 and 画符 go to whom the player stands by.
 - The rules are unchanged: each action still checks what ES2 checks (the same room,
   present()); the HUD only offers it within reach. The confirm key still opens the nearest
   door or service.

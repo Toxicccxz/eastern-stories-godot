@@ -153,6 +153,8 @@ func _test_reflow_lifetime(tree: SceneTree) -> void:
 	# The card's nearby groups (owner, 2026-10-11): each landmark's action label, as its
 	# group shows it, fits the compact card.
 	var layout: SharedGameplayLayout = hud.get_node("PresentationLayout") as SharedGameplayLayout
+	# TEST-ONLY: the live refresh would rebuild or hide the groups under the measured row.
+	hud.set_process(false)
 	for landmark: WorldLandmarkDefinition in GameContent.catalog().landmarks_for_map(OldPineWorldDefinitions.OUTDOOR_MAP_ID):
 		if landmark.action_label.is_empty():
 			continue
@@ -164,6 +166,7 @@ func _test_reflow_lifetime(tree: SceneTree) -> void:
 		_check(capability.metrics.content_rect().encloses(button.get_global_rect()), "current authored traversal label fits compact action grid")
 		layout.nearby.remove_child(row)
 		row.free()
+	hud.set_process(true)
 	hud.set_selected_target(null)
 	await _dynamic_rows(tree, shell, hud, capability, presenter)
 	shell.request_pause()

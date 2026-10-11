@@ -1,11 +1,13 @@
 class_name SharedUiNearby
 extends RefCounted
 ## The status card's actions for what is near (owner, 2026-10-11): one group per thing in
-## reach (WorldMapSelection.nearby()), nearest first, its name then its buttons; a thing
-## that leaves reach takes its group with it. Clicking the world selects nothing: a
-## button selects its thing, then does what the old context button did. While no panel is
-## open the selection follows reach: the nearest NPC when what was selected is no longer
-## near (the 背包's 给 and 画符 go to it), nothing when no NPC is.
+## reach (WorldMapSelection.nearby()), its name then its buttons; a thing that leaves
+## reach takes its group with it. Groups keep their places while their things stay near
+## (a newcomer joins at the end, nearest first), so a button does not move under the
+## pointer as NPCs walk about. Clicking the world selects nothing: a button selects its
+## thing, then does what the old context button did. While no panel is open the
+## selection is the NPC the player stands by (the constable leading them first, else the
+## nearest), nothing when no NPC is near: the 背包's 给 and 画符 go to it.
 ##
 ## Seam for gamepad focus navigation (not built yet): the groups are rebuilt only when
 ## what they offer changes, in this order, so a focus order can walk them.
@@ -13,6 +15,8 @@ extends RefCounted
 var _ui: SharedGameplayUI
 ## What the shown groups offer ("kind:id:label,label|..."): unchanged, nothing is rebuilt.
 var _shown_signature: String = ""
+## The shown groups' keys ("kind:id") in their order on the card.
+var _order: Array[String] = []
 ## [display name, [labels]] per shown group, for tests and the walk.
 var _shown: Array[Array] = []
 
@@ -66,6 +70,7 @@ func refresh() -> void:
 	var things: Array[WorldNearbyThing] = [] if map == null else map.selection.nearby()
 	if map != null and not _presentation_layout.frame.visible:
 		_follow_reach(map, things)
+	things = _keep_order(things)
 	var commands: Array[Array] = []
 	for thing: WorldNearbyThing in things:
 		var offered: Array[Array] = _commands(map, thing)
@@ -86,21 +91,47 @@ func refresh() -> void:
 	_rebuild(commands)
 
 
-## No panel open: what is selected stays only while it is near; otherwise the nearest NPC
-## (or nothing) is.
+## No panel open: the selection is the NPC the player stands by (`things` is nearest
+## first; the constable leading them comes first), or nothing.
 func _follow_reach(map: WorldMapController, things: Array[WorldNearbyThing]) -> void:
-	var selected: WorldInteractionTarget = map.selection.selected_target
-	if selected != null:
-		for thing: WorldNearbyThing in things:
-			if thing.id == selected.target_id:
-				return
+	var wanted: WorldNearbyThing = null
 	for thing: WorldNearbyThing in things:
-		if thing.kind == WorldNearbyThing.Kind.NPC:
-			map.select_npc(thing.id)
-			return
-	if selected != null:
+		if thing.kind != WorldNearbyThing.Kind.NPC:
+			continue
+		if map.patrols.can_bribe(thing.npc):
+			wanted = thing
+			break
+		if wanted == null:
+			wanted = thing
+	var selected: WorldInteractionTarget = map.selection.selected_target
+	if wanted != null:
+		if selected == null or selected.target_id != wanted.id:
+			map.select_npc(wanted.id)
+	elif selected != null:
 		map.selection.selected_target = null
 		_ui.set_selected_target(null)
+
+
+## `things` (nearest first) in the card's order: those already shown keep their places,
+## newcomers follow, nearest first.
+func _keep_order(things: Array[WorldNearbyThing]) -> Array[WorldNearbyThing]:
+	var by_key: Dictionary[String, WorldNearbyThing] = {}
+	for thing: WorldNearbyThing in things:
+		by_key["%d:%s" % [thing.kind, thing.id]] = thing
+	var ordered: Array[WorldNearbyThing] = []
+	var keys: Array[String] = []
+	for key: String in _order:
+		if by_key.has(key):
+			ordered.append(by_key[key])
+			keys.append(key)
+			by_key.erase(key)
+	for thing: WorldNearbyThing in things:
+		var key: String = "%d:%s" % [thing.kind, thing.id]
+		if by_key.has(key):
+			ordered.append(thing)
+			keys.append(key)
+	_order = keys
+	return ordered
 
 
 func _shown_name(thing: WorldNearbyThing) -> String:
@@ -197,7 +228,8 @@ func _rebuild(commands: Array[Array]) -> void:
 		var labels: Array[String] = []
 		for command: Array in entry[1]:
 			var button: Button = _presentation_layout.nearby_button(row, command[0], command[1])
-			button.tooltip_text = tr(command[2]) if not String(command[2]).is_empty() else ""
+			# The source text: the button translates it itself.
+			button.tooltip_text = command[2]
 			if command.size() > 3 and command[3]:
 				button.theme_type_variation = &"AccentButton"
 			labels.append(button.text)
