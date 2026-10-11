@@ -3,8 +3,8 @@ extends RefCounted
 ## 天驼关 A (d/canyon/npc): the garrison and what it fights with — the soldiers of 40000 to
 ## 120000 exp with their 军刀 and 长剑, 李信 and 严廷殷 with 天邪派's arts (六阴剑法, 天邪神功's
 ## powerup and recover, 火蝠身法, 天邪掌), 赫造基 with 茅山's (谷衣心法, 茅山道术's four bolts and
-## 召护法) and his 迷幻经纶; the chat, the inquiries; every kind fought to the end. TEST-ONLY
-## fixtures are marked.
+## 召护法) and his 迷幻经纶; the chat, the inquiries; every kind fought thirty seconds without the
+## fight stopping. TEST-ONLY fixtures are marked.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const KINDS: Array[StringName] = [
@@ -78,6 +78,8 @@ func _test_people() -> void:
 	_check(spells == [&"drainerbolt", &"netherbolt", &"feeblebolt", &"invocation"] and adviser.description.contains("睿智"), "赫造基 casts the four (睿智, 默认)")
 	var veteran: NpcDefinition = catalog.npc(&"canyon.npc.guard2")
 	_check(veteran.talk().chat_chance == 15 and veteran.description.contains("这\n里的守军"), "老兵 chats (这里)")
+	_check(veteran.talk().inquiry_topics() == ["黄石隘口", "后备兵", "军火库"] and catalog.npc(&"canyon.npc.leader2").talk().inquiry_topics() == ["黄石隘口", "后备兵"], "老兵's and 老队长's topics")
+	_check(general.talk().inquiry_topics() == ["黄石隘口", "后备兵", "兵器库", "印鉴"] and catalog.npc(&"canyon.npc.adviser").talk().inquiry_topics() == ["兵器库"], "严廷殷 asks for his 印鉴 to be found; 赫造基 on the 兵器库")
 	_check(catalog.npc(&"canyon.npc.vice_general").talk().has_greeting(), "李信 greets (throws out) the unlisted")
 	var hat: ItemContentDefinition = catalog.item(&"es2:d/canyon/npc/obj/hat")
 	_check(hat.display_name == "迷幻经纶" and hat.armor_definition() != null, "迷幻经纶: worn on the head")

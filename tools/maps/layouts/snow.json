@@ -228,7 +228,6 @@
           {"node": "caption", "name": "OldPineSign", "at": [1192, 940], "text": "南 · 老松岭", "size": 14},
           {"node": "caption", "name": "StepsLabel", "at": [1192, 168], "text": "石阶 · 茅山", "size": 14},
           {"node": "caption", "name": "WaterfogSign", "at": [-1436, 204], "text": "西 · 水烟阁", "size": 14},
-          {"node": "caption", "name": "CanyonSign", "at": [-1436, 744], "text": "西南 · 天驼关", "size": 14},
           {"node": "caption", "name": "CanyonSign", "at": [-1436, 744], "text": "西南 · 黄石隘口", "size": 14},
           {"node": "caption", "name": "LionLabel", "at": [148, -468], "text": "石狮", "size": 12},
           {"node": "caption", "name": "AltarLabel", "at": [492, 68], "text": "神桌", "size": 12},

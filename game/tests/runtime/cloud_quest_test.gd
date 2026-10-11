@@ -116,7 +116,7 @@ func _test_tiers() -> void:
 		var draws := ScriptedWorldInteractionRandomSource.new([0])
 		var result: QuestGiver.Result = _give(state, draws)
 		_check(result.outcome == QuestGiver.Outcome.GIVEN and draws.requested_bounds() == [_available(case[2]).size()] and state.quest.current.target == _available(case[2])[0], "exp %d, tfinished %d: tier %d (%s)" % [case[0], case[1], LEVELS[case[2]], draws.requested_bounds()])
-	_check(_available(12) == ["守城官兵", "独眼头陀", "芙云", "梦玉楼", "清云", "清玄"] and _available(11).has("趟子手"), "qlist60000.c: 乔阴's 守城官兵, 山烟寺's 独眼头陀, 晚月庄's 芙云 and 梦玉楼, 茅山's 清云 and 清玄; qlist50000.c has 趟子手: %s" % [_available(12)])
+	_check(_available(12) == ["守城官兵", "赫造基", "独眼头陀", "芙云", "梦玉楼", "清云", "清玄"] and _available(11).has("趟子手"), "qlist60000.c: 乔阴's 守城官兵, 天驼关's 赫造基, 山烟寺's 独眼头陀, 晚月庄's 芙云 and 梦玉楼, 茅山's 清云 and 清玄; qlist50000.c has 趟子手: %s" % [_available(12)])
 	var state := _fresh()
 	state.progression.combat_experience = 60000
 	var draws := ScriptedWorldInteractionRandomSource.new([0])

@@ -99,7 +99,7 @@ func _test_random_move_rule() -> void:
 	_check(beyond >= 0 and NpcRandomMove.choose(catalog, &"snow.mstreet3", &"snow.mstreet2", ScriptedWorldInteractionRandomSource.new([beyond]), no_door) == null, "not past the zones next to home")
 	for index: int in 3:
 		_check(NpcRandomMove.choose(catalog, &"snow.inn.main_floor", &"snow.inn.main_floor", ScriptedWorldInteractionRandomSource.new([index]), no_door) == null, "the Inn's exits all leave its map (owner: same map)")
-	_check(NpcRandomMove.choose(catalog, &"snow.sroad4", &"snow.sroad4", ScriptedWorldInteractionRandomSource.new([2]), no_door) == null, "sroad4 southwest leads to an unmigrated room")
+	_check(NpcRandomMove.choose(catalog, &"snow.sroad4", &"snow.sroad4", ScriptedWorldInteractionRandomSource.new([2]), no_door) == null, "sroad4 southwest leads to another map (天驼关's clifftop)")
 	var closed: Callable = func(_from: StringName, _to: StringName) -> bool: return true
 	_check(NpcRandomMove.choose(catalog, &"snow.mstreet2", &"snow.mstreet2", ScriptedWorldInteractionRandomSource.new([0]), closed) == null, "a closed door: room.c valid_leave()")
 

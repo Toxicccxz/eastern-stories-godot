@@ -507,15 +507,6 @@ offset_right = -1435
 offset_bottom = 767
 mouse_filter = 2
 theme_override_font_sizes/font_size = 14
-text = "西南 · 天驼关"
-
-[node name="CanyonSign" type="Label" parent="Terrain"]
-offset_left = -1436
-offset_top = 744
-offset_right = -1435
-offset_bottom = 767
-mouse_filter = 2
-theme_override_font_sizes/font_size = 14
 text = "西南 · 黄石隘口"
 
 [node name="LionLabel" type="Label" parent="Terrain"]

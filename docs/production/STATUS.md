@@ -251,7 +251,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   黄石隘口 winding south between its walls (the west wall of 隘口中道 strangely smooth), the
   raised iron gate and its winch, the valley of 天驼关 (south to 玉螺湖村 not open yet); east of the
   path the garrison's camp behind its palisade: two 小兵 at the gate, the soldiers' tents (four
-  小兵 and the 老兵, who chat), the camp fire and its well, the squad leaders' tents (two 小队长;
+  小兵 and the chatting 老兵), the camp fire and its well, the squad leaders' tents (two 小队长;
   大队长 and 老队长), 李信's tent and 严廷殷's with his 军师 赫造基 (天邪派's arts for the two
   generals, 茅山's spells for the 军师). 大队长 answers 允许 with 先给钱再说吧; what he is given adds
   up, and thirty taels in all list the player (owner); asked about 黄石隘口 he tells of the late

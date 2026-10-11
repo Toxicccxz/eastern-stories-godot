@@ -232,9 +232,23 @@ func _test_toll(tree: SceneTree, session: WorldSessionController) -> void:
 	Finance.add_money(context, CurrencyDenomination.Value.SILVER, 31, &"test.toll") # TEST-ONLY
 	var captain: NpcRuntimeState = _npc(gorge, CAPTAIN)
 	_check(gorge.select_npc(captain.character_id), "大队长 again")
+	var silver: int = Finance.amount(context, CurrencyDenomination.Value.SILVER)
 	var first: ItemHandlingResult = gorge.give_to_selected(&"test.toll", 20)
 	_check(first.done() and first.lines[0] == "大队长说道:你的诚意不够喔，再多缴点吧。" and player.state.counters.get("tally/军营", 0) == 2000 and not player.state.marks.has("军营"), "twenty taels: not enough, kept, counted: %s" % [first.lines])
-	_check(Finance.amount(context, CurrencyDenomination.Value.SILVER) >= 11, "the twenty taels gone")
+	_check(Finance.amount(context, CurrencyDenomination.Value.SILVER) == silver - 20, "the twenty taels gone: %d of %d" % [Finance.amount(context, CurrencyDenomination.Value.SILVER), silver])
+	# What was paid survives Save and Continue.
+	var snapshot: GameSaveSnapshot = Work.capture(session)
+	var encoded: GameSaveResult = GameSaveJsonCodec.encode(snapshot)
+	_check(encoded.succeeded() and encoded.text.contains("\"tally/军营\""), "the save holds the twenty taels paid")
+	var walker: RefCounted = Work.new()
+	await walker.round_trip(tree, session, snapshot, "天驼关 A after twenty taels")
+	_check(walker._failures.is_empty(), "Save/Continue restores exactly: " + str(walker._failures))
+	var restored: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(GameSaveJsonCodec.decode(encoded.text).snapshot, tree.root)
+	_check(restored.succeeded() and restored.candidate.activate_restore_candidate(), "Continue in the squad leaders' tent")
+	if restored.succeeded():
+		_check(restored.candidate.player_runtime().state.counters.get("tally/军营", 0) == 2000, "after Continue, twenty taels still paid")
+		restored.candidate.free()
+		await tree.process_frame
 	var second: ItemHandlingResult = gorge.give_to_selected(&"test.toll", 10)
 	_check(second.done() and second.lines[0] == "大队长说道:我已帮你列入名册了，从今天你可自由地出入营区了。" and player.state.marks.get("军营", 0) == 1 and not player.state.counters.has("tally/军营"), "ten more: thirty in all, listed (marks/军营), the count settled: %s" % [second.lines])
 	var third: ItemHandlingResult = gorge.give_to_selected(&"test.toll", 1)
