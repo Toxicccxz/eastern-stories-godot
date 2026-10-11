@@ -404,6 +404,13 @@ func _test_bribe(tree: SceneTree, session: WorldSessionController) -> void:
 	hud.refresh_live_state()
 	hud.refresh_exploration()
 	_check(hud.nearby.actions_of(police.definition().short_name()).has("行贿") and map.patrols.can_bribe(police), "行贿 on the 巡捕 leading the player")
+	# Out of reach (TEST-ONLY: stood 300 px off, no frame passes): his 行贿 alone (Codex, #113).
+	var stood: Vector2 = map.runtime_player_body().global_position
+	map.runtime_player_body().global_position = map.runtime_body_for_character(police.character_id).global_position + Vector2(300, 0)
+	hud.refresh_exploration()
+	_check(hud.nearby.actions_of(police.definition().short_name()) == ["行贿"], "the 巡捕 out of reach: 行贿 only: %s" % [hud.nearby.groups()])
+	map.runtime_player_body().global_position = stood
+	hud.refresh_exploration()
 	hud.bribe_button.pressed.emit()
 	_check(hud.bribe_panel.is_visible_in_tree() and hud.bribe_panel.shown_money().has("黄金"), "the money they carry: %s" % [hud.bribe_panel.shown_money()])
 	var crime: int = CrimeRecord.crime(player.state)

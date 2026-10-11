@@ -539,12 +539,15 @@ func nearby() -> Array[WorldNearbyThing]:
 		# The constable leading the player (yamen_po.c) is at hand wherever he walks: his
 		# 行贿 is offered from the catch on (he caught them anywhere in the room).
 		var leading: bool = body != null and _map.patrols.can_bribe(npc)
-		if not leading and (npc_here(npc) == null or npc.definition().is_ghost()):
-			continue
-		if body == null or (not leading and at.distance_to(body.global_position) > NEARBY_REACH):
+		var near: bool = (
+			body != null and npc_here(npc) != null and not npc.definition().is_ghost()
+			and at.distance_to(body.global_position) <= NEARBY_REACH
+		)
+		if not near and not leading:
 			continue
 		var thing := WorldNearbyThing.new(WorldNearbyThing.Kind.NPC, npc.character_id, npc.definition().display_name, at.distance_to(body.global_position))
 		thing.npc = npc
+		thing.bribe_only = not near
 		by_npc[npc.character_id] = thing
 		found.append(thing)
 	for service: WorldService in _map.service_nodes:

@@ -122,8 +122,8 @@ Owner (2026-10-11, from the HUD): the actions show only for what the player can 
   player's place within 96 px (`WorldMapSelection.NEARBY_REACH`, about a shop counter's reach)
   with the services they offer from their body (店小二: 购买, 查看, 攻击 …), corpses and floor
   items there, landmarks within 96 px (or touched, when they need contact), and doors and room
-  services within their own authored reach; the 巡捕 leading the player wherever he is (his
-  行贿, from the catch anywhere in the room on). A group goes when its thing leaves reach;
+  services within their own authored reach; the 巡捕 leading the player wherever he is (only his
+  行贿 while he is beyond reach, from the catch anywhere in the room on). A group goes when its thing leaves reach;
   the others keep their places (a newcomer joins at the end), so no button moves under the
   pointer as NPCs walk about.
 - **Owner: a click on the map selects nothing** (as in most modern games). A group's button

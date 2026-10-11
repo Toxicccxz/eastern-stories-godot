@@ -160,6 +160,12 @@ func _commands(map: WorldMapController, thing: WorldNearbyThing) -> Array[Array]
 	match thing.kind:
 		WorldNearbyThing.Kind.NPC:
 			var npc: NpcRuntimeState = thing.npc
+			if thing.bribe_only:
+				# The constable leading the player from afar: his 行贿 only (yamen_po.c
+				# accept_bribery() asks nothing of where he is).
+				if player_available and map.patrols.can_bribe(npc):
+					offered.append(["行贿", _after(map.select_npc.bind(thing.id), _ui.actions.bribe_context), SharedUiContextActions.BRIBE_HINT])
+				return offered
 			for service: WorldService in thing.services:
 				offered.append([service.verb(), service.interact, "", true])
 			var alive: bool = npc.exists_in_map and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD
