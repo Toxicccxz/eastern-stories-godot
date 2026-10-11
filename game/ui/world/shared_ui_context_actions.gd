@@ -228,7 +228,7 @@ func spar_context() -> void:
 
 
 func ask_context() -> void:
-	_ui.open_ask()
+	_ui.ask.open_ask()
 
 
 func traverse_context() -> void:

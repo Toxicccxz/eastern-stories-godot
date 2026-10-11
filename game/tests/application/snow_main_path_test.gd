@@ -316,7 +316,7 @@ func _ask(hud: SharedGameplayUI) -> bool:
 		return false
 	hud.ask_button.pressed.emit()
 	check(hud.ask_topics_shown().map(_plain).has("治伤"), "ask.c lists his topics: %s" % [hud.ask_topics_shown()])
-	for button: Node in hud._ask_topics.get_children():
+	for button: Node in hud.ask._ask_topics.get_children():
 		if _plain((button as Button).text) == "治伤" and not button.is_queued_for_deletion():
 			(button as Button).pressed.emit()
 	check(_plain(hud.ask_answer_text()).contains("杨掌柜说道："), "he answers: " + hud.ask_answer_text())

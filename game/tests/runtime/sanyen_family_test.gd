@@ -532,7 +532,7 @@ func _practice(state: CharacterState, use_id: StringName, registry: SkillLearnPo
 
 
 func _press_topic(hud: SharedGameplayUI, topic: String) -> void:
-	for button: Node in hud._ask_topics.get_children():
+	for button: Node in hud.ask._ask_topics.get_children():
 		if not button.is_queued_for_deletion() and (button as Button).text == topic:
 			(button as Button).pressed.emit()
 			return
@@ -540,7 +540,7 @@ func _press_topic(hud: SharedGameplayUI, topic: String) -> void:
 
 
 func _press_kneel(hud: SharedGameplayUI) -> void:
-	for button: Node in hud._ask_verbs.get_children():
+	for button: Node in hud.ask._ask_verbs.get_children():
 		if not button.is_queued_for_deletion():
 			(button as Button).pressed.emit()
 			return
