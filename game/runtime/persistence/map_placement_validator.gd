@@ -33,7 +33,8 @@ static func _is_valid_position(
 	# Doors close again on cold Continue (their state is not saved). Keep the
 	# closed footprint save-invalid even while open; never relocate a restored
 	# Player to compensate.
-	for world_door: WorldDoor in world_map.doors():
+	var parts: WorldMapStaticNodes = world_map.static_nodes()
+	for world_door: WorldDoor in parts.doors:
 		var door: CollisionShape2D = world_door.wall_shape()
 		if door != null:
 			var saved_footprint: RectangleShape2D = RectangleShape2D.new()
@@ -48,14 +49,8 @@ static func _is_valid_position(
 	var footprint: RectangleShape2D = RectangleShape2D.new()
 	footprint.size = footprint_size
 	var footprint_transform: Transform2D = Transform2D(0.0, position)
-	for node: Node in map.find_children("*", "CollisionShape2D", true, false):
-		var collision: CollisionShape2D = node as CollisionShape2D
-		if (
-			collision == null
-			or collision.disabled
-			or collision.shape == null
-			or not (collision.get_parent() is StaticBody2D)
-		):
+	for collision: CollisionShape2D in parts.static_shapes:
+		if collision.disabled or collision.shape == null:
 			continue
 		if collision.shape.collide(
 			collision.global_transform,
@@ -63,8 +58,8 @@ static func _is_valid_position(
 			footprint_transform,
 		):
 			return false
-	for node: Node in map.find_children("*", "TileMapLayer", true, false):
-		if _overlaps_tile_collision(node as TileMapLayer, Rect2(position - footprint_size / 2.0, footprint_size)):
+	for layer: TileMapLayer in parts.layers:
+		if _overlaps_tile_collision(layer, Rect2(position - footprint_size / 2.0, footprint_size)):
 			return false
 	return true
 

@@ -354,7 +354,11 @@ func character_bodies() -> Array[WorldCharacterBody2D]:
 ## its hand is another one (萧辟尘 takes up his carried sword mid-fight, consider()): then
 ## that weapon's, so its blows are the sword's after the draw and after Continue.
 func npc_content(npc: NpcRuntimeState) -> CombatSliceContentProfile:
-	var registered: CombatSliceContentProfile = _registered_npc_content.get(npc.character_id, _authored_weapon_profile(npc.definition()))
+	# Not get()'s default: that would build the authored profile on every call.
+	var registered: CombatSliceContentProfile = (
+		_registered_npc_content[npc.character_id] if _registered_npc_content.has(npc.character_id)
+		else _authored_weapon_profile(npc.definition())
+	)
 	var held: EquippedWeaponRef = npc.character_state.equipment.primary_weapon()
 	if held == null or registered.is_verified_primary(held):
 		return registered

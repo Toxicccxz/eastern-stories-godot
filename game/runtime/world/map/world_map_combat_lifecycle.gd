@@ -77,9 +77,14 @@ func encounter_combat_bindings(encounter: CombatEncounter) -> Array[CombatSliceC
 	var result: Array[CombatSliceCharacterBinding] = []
 	if not _initialized or encounter == null or not encounter.is_valid():
 		return result
-	var current: Array[CombatSliceCharacterBinding] = build_participants(true)
+	# The encounter's participants only, as build_participants(true) binds them: it runs
+	# every frame of a fight, and binding every resident cost a big map milliseconds.
+	var player_binding: CombatSliceCharacterBinding = _player_binding()
 	for participant: CombatParticipant in encounter.participants():
-		var binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(current, participant.participant_id)
+		var binding: CombatSliceCharacterBinding = (
+			player_binding if player_binding != null and player_binding.character_id == participant.participant_id
+			else _npc_binding(_map.npcs.find_resident_npc(participant.participant_id))
+		)
 		if (
 			binding == null
 			or binding.state != participant.binding.state
@@ -102,25 +107,39 @@ func last_player_content_resolution() -> WorldWeaponContentResolution:
 
 func build_participants(include_absent: bool = false) -> Array[CombatSliceCharacterBinding]:
 	var result: Array[CombatSliceCharacterBinding] = []
+	var player_binding: CombatSliceCharacterBinding = _player_binding()
+	if player_binding != null:
+		result.append(player_binding)
+	for npc: NpcRuntimeState in _map.npcs.residents:
+		if not include_absent and not npc.exists_in_map:
+			continue
+		var binding: CombatSliceCharacterBinding = _npc_binding(npc)
+		if binding != null:
+			result.append(binding)
+	return result
+
+
+## The player's binding as a fight sees it now (its weapon resolved again).
+func _player_binding() -> CombatSliceCharacterBinding:
 	player_content_resolution = weapon_resolver.resolve(_player, _inventory, _item_index)
-	var player_binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_player(
+	var binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_player(
 		_player,
 		player_content_resolution.content_profile if player_content_resolution.succeeded else null,
 	)
 	if post_actions == null:
 		post_actions = CombatSlicePostActions.new(run_post_action)
-	if player_binding != null:
-		player_binding.post_actions = post_actions
-		result.append(player_binding)
-	for npc: NpcRuntimeState in _map.npcs.residents:
-		if not include_absent and not npc.exists_in_map:
-			continue
-		var content: CombatSliceContentProfile = _map.npcs.npc_content(npc)
-		var binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_npc(npc, content)
-		if binding != null:
-			binding.post_actions = post_actions
-			result.append(binding)
-	return result
+	if binding != null:
+		binding.post_actions = post_actions
+	return binding
+
+
+func _npc_binding(npc: NpcRuntimeState) -> CombatSliceCharacterBinding:
+	if npc == null:
+		return null
+	var binding: CombatSliceCharacterBinding = WorldCombatBindingAdapter.from_npc(npc, _map.npcs.npc_content(npc))
+	if binding != null:
+		binding.post_actions = post_actions
+	return binding
 
 
 ## weapond.c's post_actions for one attack; what the player sees of it.

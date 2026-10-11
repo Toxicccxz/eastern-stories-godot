@@ -29,6 +29,7 @@ var mazes: WorldMapMazes = WorldMapMazes.new(self)
 var patrols: WorldMapPatrols = WorldMapPatrols.new(self)
 var thefts: WorldMapThefts = WorldMapThefts.new(self)
 var _definition: MapDefinition
+var _static_nodes: WorldMapStaticNodes
 var _initialized: bool = false
 var _initialization_count: int = 0
 var _freeze_owner: StringName = &""
@@ -902,11 +903,14 @@ func door(door_id: StringName) -> WorldDoor:
 
 ## Read from the scene, so it also works before initialize_map().
 func doors() -> Array[WorldDoor]:
-	var result: Array[WorldDoor] = []
-	for node: Node in find_children("*", "", true, false):
-		if node is WorldDoor:
-			result.append(node as WorldDoor)
-	return result
+	return static_nodes().doors.duplicate()
+
+
+## The scene's tile layers, static walls, doors and passages (WorldMapStaticNodes).
+func static_nodes() -> WorldMapStaticNodes:
+	if _static_nodes == null:
+		_static_nodes = WorldMapStaticNodes.new(self)
+	return _static_nodes
 
 
 func can_operate_door(door_id: StringName) -> bool:
