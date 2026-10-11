@@ -3,7 +3,9 @@
 
 from __future__ import annotations
 
+import contextlib
 import importlib.util
+import io
 import os
 import sys
 import tempfile
@@ -101,6 +103,21 @@ class GameplaySuiteTests(unittest.TestCase):
     def test_the_slowest_suites_exist(self) -> None:
         suites = verify.discover_suites(verify.REPOSITORY / "game")
         self.assertEqual([suite for suite in verify.SLOWEST_SUITES if suite not in suites], [])
+
+    def test_shards_run_every_suite_once_and_share_the_slowest(self) -> None:
+        ordered = verify.suite_order(verify.discover_suites(verify.REPOSITORY / "game"))
+        shards = [verify.shard_suites(ordered, (index, 3)) for index in (1, 2, 3)]
+        self.assertEqual(sorted(ordered), sorted(suite for shard in shards for suite in shard))
+        self.assertEqual(list(verify.SLOWEST_SUITES[:3]), [shard[0] for shard in shards])
+        self.assertEqual(ordered, verify.shard_suites(ordered, None))
+
+    def test_suite_shard_option_takes_k_of_n(self) -> None:
+        self.assertEqual((2, 3), verify._arguments(["--suite-shard", "2/3"]).suite_shard)
+        self.assertIsNone(verify._arguments([]).suite_shard)
+        for arguments in (["--suite-shard", "0/3"], ["--suite-shard", "4/3"], ["--suite-shard", "3"],
+                          ["--suite-shard", "1/3", "--skip-gameplay-tests"]):
+            with self.subTest(arguments), self.assertRaises(SystemExit), contextlib.redirect_stderr(io.StringIO()):
+                verify._arguments(arguments)
 
     def test_passing_suite_counts_its_assertions(self) -> None:
         run = self._judge(f"{self.SUITE}  92 assertions, 0 failures, 4116 ms\nPASS: 1 suite(s), 92 assertions, 0 failure(s)\n")
