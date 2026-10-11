@@ -28,6 +28,8 @@ var _pacing: PacingDefinition = PacingDefinition.new()
 var _zone_of_room: Dictionary[StringName, StringName] = {}
 var _currency_items: Dictionary[CurrencyDenomination.Value, ItemContentDefinition] = {}
 var _native_item_projections: NativeItemDefinitionProjections
+var _loadout_item_definitions: Array[NpcLoadoutItemDefinition] = []
+var _loadout_items_built: bool = false
 var _skills: Dictionary[StringName, SkillDefinition] = {}
 var _families: Dictionary[StringName, FamilyDefinition] = {}
 var _combat_actions: CombatActionTables = CombatActionTables.new()
@@ -419,11 +421,14 @@ func denomination_of(item_definition_id: StringName) -> CurrencyDenomination.Val
 	return MONEY_DENOMINATIONS.get(definition.money_id, CurrencyDenomination.Value.UNSUPPORTED)
 
 
+## Every item's loadout content. The projections are immutable, so they are built
+## once and shared; the list is the caller's own.
 func loadout_item_definitions() -> Array[NpcLoadoutItemDefinition]:
-	var result: Array[NpcLoadoutItemDefinition] = []
-	for definition: ItemContentDefinition in _items.values():
-		result.append(definition.loadout_item_definition())
-	return result
+	if not _loadout_items_built:
+		for definition: ItemContentDefinition in _items.values():
+			_loadout_item_definitions.append(definition.loadout_item_definition())
+		_loadout_items_built = true
+	return _loadout_item_definitions.duplicate()
 
 
 ## Every authored item role plus the rule-created corpse item. The projection

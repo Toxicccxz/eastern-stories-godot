@@ -26,6 +26,7 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_map_local_collection_order_and_existence()
 	_test_authored_npc_and_spawn_arrays_are_defensive()
 	_test_invalid_spawn_and_definition_shapes()
+	_test_loadout_content_lookup()
 	return {
 		"assertions": _assertion_count,
 		"failures": _failures.duplicate(),
@@ -470,6 +471,62 @@ func _test_spath1_builds_three_independent_runtime_states() -> void:
 	_assert_false(runtimes[1].busy.is_busy(), "busy mutation remains instance-local")
 	runtimes[0].relationship.add_opponent(runtimes[1].character_id)
 	_assert_false(runtimes[2].relationship.has_opponent(runtimes[1].character_id), "relationship mutation remains instance-local")
+
+
+## The factory finds an NPC's carried item by id: one valid content for that id, invalid
+## entries ignored; two valid contents for one id find neither, so the NPC is not made.
+func _test_loadout_content_lookup() -> void:
+	var catalog_content: Array[NpcLoadoutItemDefinition] = GameContent.catalog().loadout_item_definitions()
+	var again: Array[NpcLoadoutItemDefinition] = GameContent.catalog().loadout_item_definitions()
+	_assert_eq(again.size(), catalog_content.size(), "the catalog lists the same loadout content each time")
+	again.clear()
+	_assert_eq(GameContent.catalog().loadout_item_definitions().size(), catalog_content.size(), "each caller gets its own list")
+	var sword: NpcLoadoutItemDefinition = null
+	for content: NpcLoadoutItemDefinition in catalog_content:
+		if content.item_definition_id() == TestContent.SHORT_SWORD_ITEM_ID:
+			sword = content
+	_assert_true(sword != null and sword.item_definition_id() == sword.item_definition().item_definition_id, "the id getter names the item")
+	_assert_eq(NpcLoadoutItemDefinition.new().item_definition_id(), &"", "no item, no id")
+	var with_invalid: Array[NpcLoadoutItemDefinition] = catalog_content.duplicate()
+	with_invalid.append(NpcLoadoutItemDefinition.new())
+	with_invalid.append(null)
+	# Invalid (negative weight) though it names the short sword: not a second content for it.
+	var invalid_sword := NpcLoadoutItemDefinition.new(sword.item_definition(), -1, sword.weapon_definition(), sword.weapon_damage, null, null, sword.legacy_source_paths())
+	_assert_false(invalid_sword.is_valid(), "a negative-weight sword content is invalid")
+	with_invalid.append(invalid_sword)
+	_assert_true(_bandit_from(with_invalid) != null, "invalid and null contents are ignored, one naming the sword too")
+	var duplicated: Array[NpcLoadoutItemDefinition] = catalog_content.duplicate()
+	duplicated.append(sword.duplicate_snapshot())
+	_assert_eq(_bandit_from(duplicated), null, "two contents for the bandit's short sword: not made")
+	var tripled: Array[NpcLoadoutItemDefinition] = duplicated.duplicate()
+	tripled.append(sword.duplicate_snapshot())
+	_assert_eq(_bandit_from(tripled), null, "three contents for the short sword: not made")
+	var without: Array[NpcLoadoutItemDefinition] = catalog_content.duplicate()
+	without.erase(sword)
+	_assert_eq(_bandit_from(without), null, "no content for the short sword: not made")
+	var spawn: NpcSpawnDefinition = TestContent.spawn(TestContent.SPATH1_BANDIT_SPAWN_ID)
+	var draws: Array[int] = []
+	for index: int in range(24):
+		draws.append(index % 21)
+	var random_source: ScriptedNpcInitializationRandomSource = ScriptedRandom.new(draws)
+	var refused: Array[NpcRuntimeState] = NpcCharacterStateFactory.new().create_spawn_instances(spawn, TestContent.npc(TestContent.BANDIT_NPC_ID), _south_location(), InventoryState.new(), CombinedStackCollection.new(), random_source, duplicated)
+	_assert_true(refused.is_empty() and random_source.call_count() == 0, "a spawn with ambiguous content makes nobody and draws nothing")
+	var made: Array[NpcRuntimeState] = NpcCharacterStateFactory.new().create_spawn_instances(spawn, TestContent.npc(TestContent.BANDIT_NPC_ID), _south_location(), InventoryState.new(), CombinedStackCollection.new(), ScriptedRandom.new(draws), with_invalid)
+	_assert_eq(made.size(), 3, "the same spawn with the invalid contents makes all three")
+
+
+func _bandit_from(content: Array[NpcLoadoutItemDefinition]) -> NpcRuntimeState:
+	return NpcCharacterStateFactory.new().create_one(
+		TestContent.npc(TestContent.BANDIT_NPC_ID),
+		&"lookup.character",
+		&"lookup.spawn",
+		&"lookup.point",
+		_south_location(),
+		InventoryState.new(),
+		CombinedStackCollection.new(),
+		ScriptedRandom.new([0, 0, 0, 0, 0, 0, 0, 0]),
+		content,
+	)
 
 
 func _test_runtime_life_status_is_independent_from_threshold() -> void:
