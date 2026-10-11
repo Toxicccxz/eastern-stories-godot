@@ -489,9 +489,12 @@ func _test_heart_hud(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not hud.nearby.actions_of(little.definition().short_name()).has("心识神通"), "the 小沙弥 awake: no 心识")
 	little.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY: knocked out
 	little.set_revive_in_ms(600000)
+	# He may have wandered off meanwhile; lying there, he stays: stand by him again.
+	await _beside(tree, session, map, little)
+	map.select_npc(little.character_id)
 	hud.refresh_live_state()
 	hud.refresh_exploration()
-	_check(hud.nearby.actions_of(little.definition().short_name()).has("心识神通"), "lying unconscious, selected: 心识神通 on the HUD")
+	_check(hud.nearby.actions_of(little.definition().short_name()).has("心识神通"), "lying unconscious, selected: 心识神通 on the HUD: %s at %.0f px, heart %s" % [hud.nearby.groups(), map.runtime_player_body().global_position.distance_to(map.runtime_body_for_character(little.character_id).global_position), session.essence_magic().heart_target_for(little) != null])
 	player.state.recovery.atman = CharacterInternalResourceState.new(49, 101)
 	hud.heart_sense_button.pressed.emit()
 	_check(not hud.is_asking() and hud.log_lines()[-1] == "你的灵力不够！" and little.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS, "49 atman: refused at once, nothing asked")
