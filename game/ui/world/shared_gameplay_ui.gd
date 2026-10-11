@@ -127,8 +127,6 @@ const ES2_COLORS: Dictionary[StringName, Color] = {
 	ColoredLine.GRN: Color(0.35, 0.78, 0.35),
 }
 var _presentation_layout: SharedGameplayLayout
-## Names the player's shown conditions (蛇毒) on the HUD.
-var _conditions: ConditionSystem = ConditionSystem.new()
 var life_overlay: PlayerLifeOverlay
 var _session: WorldSessionController
 var _bound_map: WorldResidentMapController
@@ -153,6 +151,7 @@ const GIVE_MONEY_WARNING: String = "确定把{money}送给{npc}吗？送出去�
 
 ## The HUD's components (code moved out of this file; this class forwards to them).
 var message_log: SharedUiMessageLog = SharedUiMessageLog.new(self)
+var card: SharedUiStatusCard = SharedUiStatusCard.new(self)
 
 
 func _ready() -> void:
@@ -432,12 +431,12 @@ func refresh_live_state() -> void:
 	target_vitality.visible = _selected_target != null
 	target_vitality_text.visible = _selected_target != null
 	if _player != null:
-		_update_player_vitals(_player.state)
+		card.update_player_vitals(_player.state)
 	if _selected_target == null:
 		target_vitality.value = 0.0
 		target_vitality_text.text = "-"
 	else:
-		_update_vitality(
+		card.update_vitality(
 			_selected_target.character_state.vitality,
 			target_vitality,
 			target_vitality_text,
@@ -679,40 +678,6 @@ func _clear_selected_corpse() -> void:
 	_selected_floor_item = false
 
 
-func _update_vitality(
-	resource: CharacterResourceState,
-	bar: ProgressBar,
-	text_label: Label,
-) -> void:
-	_update_bar(resource, bar)
-	text_label.text = "%d / %d / %d" % [
-		resource.current,
-		resource.effective,
-		resource.maximum,
-	]
-
-
-## The card's 精/气/神: bars, and 精 and 神 current, 气 current/effective.
-func _update_player_vitals(state: CharacterState) -> void:
-	_update_bar(state.essence, player_essence)
-	_update_bar(state.vitality, player_vitality)
-	_update_bar(state.spirit, player_spirit)
-	player_essence_text.text = str(state.essence.current)
-	player_vitality_value.text = "%d/%d" % [state.vitality.current, state.vitality.effective]
-	player_spirit_text.text = str(state.spirit.current)
-
-
-## A resource's bar: current out of maximum; the tooltip has all three.
-func _update_bar(resource: CharacterResourceState, bar: ProgressBar) -> void:
-	bar.min_value = 0.0
-	bar.max_value = float(maxi(resource.maximum, 1))
-	bar.value = float(clampi(resource.current, 0, maxi(resource.maximum, 1)))
-	# TRANSLATORS: a resource bar's tooltip: current / effective / maximum.
-	bar.tooltip_text = tr("当前 {current} / 有效 {effective} / 最大 {maximum}").format({
-		"current": resource.current, "effective": resource.effective, "maximum": resource.maximum,
-	})
-
-
 func initialize_supplies() -> void:
 	if _supplies != null:
 		return
@@ -775,7 +740,7 @@ func _process(delta: float) -> void:
 		return
 	_elapsed = 0.0
 	refresh_live_state()
-	refresh_exploration()
+	card.refresh_exploration()
 
 
 func _physics_process(_delta: float) -> void:
@@ -788,52 +753,8 @@ func quarantine_movement() -> void:
 		_session.active_map().runtime_player_body().quarantine_current_movement_input()
 
 
-func refresh_exploration() -> void:
-	var state: CharacterState = _player.state
-	player_name.text = _player.facts.display_name
-	world_title.text = tr(location_name())
-	_update_player_vitals(state)
-	# TRANSLATORS: between two conditions on the HUD (蛇毒).
-	player_vitality_text.text = tr("、").join(_conditions.shown_names(state))
-	player_vitality_text.visible = not player_vitality_text.text.is_empty()
-	var local_target: bool = _bound_map is WorldMapController and not selected_target_label.text.is_empty()
-	inspect_button.visible = local_target and not inspect_button.disabled
-	attack_button.visible = local_target and not attack_button.disabled
-	spar_button.visible = local_target and not spar_button.disabled
-	ask_button.visible = local_target and not ask_button.disabled
-	portal_button.visible = local_target and not portal_button.disabled
-	open_loot_button.visible = local_target and not open_loot_button.disabled
-	animate_button.visible = local_target and not animate_button.disabled
-	lifeheal_button.visible = local_target and not lifeheal_button.disabled
-	heart_sense_button.visible = local_target and not heart_sense_button.disabled
-	steal_button.visible = local_target and not steal_button.disabled
-	bribe_button.visible = local_target and not bribe_button.disabled
-	selected_target_label.visible = local_target
-	_presentation_layout.target_section.visible = local_target
-	var context: String = context_title()
-	_presentation_layout.context_button.text = context
-	_presentation_layout.context_button.visible = not context.is_empty()
-	_presentation_layout.contexts.visible = local_target or not context.is_empty()
-	if _presentation_layout.character.is_visible_in_tree():
-		_refresh_character()
-	message_log.collect_feedback()
-	message_log.describe_new_zone()
-	message_log.refresh_toasts()
-	_presentation_layout.fit_bar()
-
-
-func current_zone() -> ZoneDefinition:
-	return null if _player == null else GameContent.catalog().zone(_player.world_location().zone_id)
-
-
-## The current zone's name, as authored.
-func location_name() -> String:
-	var zone: ZoneDefinition = current_zone()
-	return "" if zone == null else zone.display_name
-
-
 func open_look() -> void:
-	var zone: ZoneDefinition = current_zone()
+	var zone: ZoneDefinition = card.current_zone()
 	if zone == null or not _session.portable_inventory_available():
 		return
 	_presentation_layout.room.text = SharedUiMessageLog.room_prose(tr(zone.description))
@@ -1463,3 +1384,18 @@ func describe_again() -> void:
 
 func open_messages() -> void:
 	message_log.open_messages()
+
+
+# --- forwarded to SharedUiStatusCard (card) ---
+
+
+func refresh_exploration() -> void:
+	card.refresh_exploration()
+
+
+func current_zone() -> ZoneDefinition:
+	return card.current_zone()
+
+
+func location_name() -> String:
+	return card.location_name()

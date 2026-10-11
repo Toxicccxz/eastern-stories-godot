@@ -138,7 +138,7 @@ func describe_again() -> void:
 
 
 func describe_new_zone() -> void:
-	var zone: ZoneDefinition = _ui.current_zone()
+	var zone: ZoneDefinition = _ui.card.current_zone()
 	if zone == null or zone.zone_id == _described_zone_id:
 		return
 	var previous: ZoneDefinition = GameContent.catalog().zone(_described_zone_id)
