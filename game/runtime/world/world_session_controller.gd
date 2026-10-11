@@ -1242,7 +1242,21 @@ func on_player_lifecycle(lifecycle: CombatSliceLifecycleResult, has_killer: bool
 			# The dead are out of the law's hands (a constable's catch, a court's).
 			_player.led_by = &""
 			_player.awaiting_sentence = false
+			_forgive_debts()
 			_life_flow.begin_death(PlayerDeathRules.die(_player.state, has_killer), place_name(location), lifecycle.corpse_item_instance_id)
+
+
+## The dead owe nothing (默认, DECISIONS 玉螺湖村 B): a catch's marks (meloner.c's
+## melon/catch_thief, NpcSettle) go from the player and from whoever caught them, so the one who
+## killed them neither holds them nor asks for his money any more.
+func _forgive_debts() -> void:
+	for definition: NpcDefinition in GameContent.catalog().npcs():
+		if definition.dealings().settle != null:
+			_player.temp_marks.erase(definition.dealings().settle.temp)
+	for resident: WorldResidentMapController in _resident_maps.values():
+		var map: WorldMapController = resident as WorldMapController
+		if map != null:
+			map.debts.forgive()
 
 
 ## "老松岭 · 南坡林道" for a world location, in the shown language.

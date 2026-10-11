@@ -556,7 +556,7 @@ func _resolve_services() -> void:
 		_services[service_id] = definition.with_map(zone.map_id)
 		if definition.act != null:
 			for act: ScriptedAct in definition.act.acts:
-				_check_act(act, "%s.act" % origin)
+				_check_act(act, "%s.act" % origin, false, true)
 			var stronger: StringName = definition.act.stronger_npc_id
 			if not stronger.is_empty() and (not _npcs.has(stronger) or not _zones.has(definition.act.stronger_zone_id)):
 				_errors.append("%s.act.stronger: unknown NPC '%s' or zone '%s'" % [origin, stronger, definition.act.stronger_zone_id])
@@ -590,6 +590,8 @@ func _check_item_acts() -> void:
 		if item.act != null:
 			for act: ScriptedAct in item.act.acts:
 				_check_act(act, "%s.act" % origin)
+			if not item.act.stronger_npc_id.is_empty():
+				_errors.append("%s.act.stronger: only a room's command asks so" % origin)
 		# A catalog built without skills (a test's partial one) has none to check against.
 		if item.study != null and not _skills.is_empty() and not _skills.has(item.study.skill_id):
 			_errors.append("%s.study: unknown skill '%s'" % [origin, item.study.skill_id])
@@ -683,7 +685,10 @@ func _check_exit_rules() -> void:
 ## to be `present`, the item it asks `exists`. Only an NPC's
 ## greeting (`by_npc`) closes doors, attacks or gains force; a move to another map ends an
 ## act, so it is its last step. (Spawn points are the scene's: the map checks them.)
-func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false) -> void:
+func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false, drawn: bool = false) -> void:
+	if act.draws() and not drawn:
+		# Only a room's command draws for its branch (ActService); elsewhere the rolls would never be made.
+		_errors.append("%s.kar_above: only a room's command rolls" % origin)
 	if not act.carries.is_empty() and not _answers_to(act.carries):
 		_errors.append("%s.carries: no item answers to '%s'" % [origin, act.carries])
 	if not act.exists.is_empty() and not _items.has(act.exists):

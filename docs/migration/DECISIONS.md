@@ -127,6 +127,12 @@ The plan's B (「玉螺湖村 A」 below). What each LPC function became is in
   is saved now). Another 瓜农 standing there holds nobody; one who wakes holds the player again.
 - **Owner (plan, A10): the pick is asked first while the 瓜棚's first 瓜农 is clearly stronger**
   (he would come over to the death).
+- **默认 (review): the dead owe nothing.** Killed by him, the player loses both marks and so does
+  every 瓜农 holding one: ES2's temps went at the next login, but saved here they would have the
+  man who killed them hold them again and ask for his money. Paying one 瓜农 clears any other's
+  claim too (a second catch while the first lay unconscious).
+- **默认 (review): he does not greet the thief he comes to fight.** ob->move() ran meloner.c's
+  init() before kill_ob(), so a second later, mid-fight, ES2 said 这位…要不要买个西瓜解解渴？
 - **Not kept:** set_leader(me): he cannot be left while he stands, and a leader is only followed
   by one standing by; nothing else changes.
 - **Stays as ES2:** the melon is the thief's whether he is caught or not; only the first 瓜农 in

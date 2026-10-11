@@ -65,7 +65,7 @@ func perform_drawn() -> void:
 	facts.draw = map.world_interaction_random_source().legacy_random
 	var act: ScriptedAct = definition.act.act_for(state.gender, state.affiliation.class_id, facts)
 	if act != null:
-		perform(act)
+		ask_first_or_run(map, act, verb(), perform.bind(act), in_reach)
 
 
 ## The branch for the player as they are now; null when none is.

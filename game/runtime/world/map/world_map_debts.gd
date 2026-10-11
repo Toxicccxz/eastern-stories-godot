@@ -63,9 +63,20 @@ func settle(npc: NpcRuntimeState) -> bool:
 		return false
 	# TRANSLATORS: an NPC's say() out of a fight: {npc} its name, {line} what it says.
 	last_lines.append(tr("{npc}说道：{line}").format({"npc": tr(npc.definition().display_name), "line": NpcTalk.line(terms.say)}))
-	npc.clear_flag(StringName(terms.temp))
 	player.temp_marks.erase(terms.temp)
+	# The debt is paid: one of its kind who caught the player before keeps no claim either.
+	for other: NpcRuntimeState in _map.npcs.residents:
+		if other.definition().definition_id == npc.definition().definition_id:
+			other.clear_flag(StringName(terms.temp))
 	return true
+
+
+## The player died: no NPC here holds a catch any more (the session clears the player's side).
+func forgive() -> void:
+	for npc: NpcRuntimeState in _map.npcs.residents:
+		var settle: NpcSettle = npc.definition().dealings().settle
+		if settle != null:
+			npc.clear_flag(StringName(settle.temp))
 
 
 ## After a settle() out of a fight: it goes home (in a fight the fight walks it out).

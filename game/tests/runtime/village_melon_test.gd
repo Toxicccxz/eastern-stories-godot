@@ -44,6 +44,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_caught(tree, session)
 	await _test_held(tree, session)
 	await _test_lifted(tree, session)
+	await _test_death(tree, session)
 	session.free()
 	await tree.process_frame
 	return {"assertions": _count, "failures": _failures}
@@ -202,10 +203,12 @@ func _test_held(tree: SceneTree, session: WorldSessionController) -> void:
 		return
 	_check(not await MapPlaces.drive_to_zone(tree, map, &"village.road4") and player.world_location().zone_id == &"village.melonfarm" and hud.log_lines().has(HELD), "north: 你的去路被瓜农拦住了。")
 	_check(not await MapPlaces.drive_to_zone(tree, map, &"village.melonguard") and player.world_location().zone_id == &"village.melonfarm", "south: held too")
+	var pick: ActService = map.service(PICK) as ActService
+	_check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, PICK)), "by the melons, held")
 	var snapshot: GameSaveSnapshot = Work.capture(session)
-	_check(snapshot != null and GameSaveJsonCodec.encode(snapshot).text.count(FLAG) >= 2, "Save keeps both marks")
+	_check(snapshot != null and GameSaveJsonCodec.encode(snapshot).text.count(FLAG) >= 2, "fled and held: Save keeps both marks")
 	var work: Work = Work.new()
-	await work.round_trip(tree, session, snapshot, "caught")
+	await work.round_trip(tree, session, snapshot, "held")
 	for failure: String in work._failures:
 		_failures.append("village melon: " + failure)
 	await _beside(tree, map, catcher)
@@ -221,6 +224,7 @@ func _test_held(tree: SceneTree, session: WorldSessionController) -> void:
 	hud.refresh_exploration()
 	_check(not hud.nearby.actions_of(name).has("还瓜钱"), "no 还瓜钱 once settled")
 	_check(await MapPlaces.drive_to_zone(tree, map, &"village.road4") and await MapPlaces.drive_to_zone(tree, map, &"village.melonfarm"), "the way out is open")
+	_check(not pick.context_title().is_empty(), "the melons again")
 
 
 ## The block lifts while the one who caught the player is down, gone or dead.
@@ -247,6 +251,28 @@ func _test_lifted(tree: SceneTree, session: WorldSessionController) -> void:
 	catcher.set_world_location(map.location_for_zone(&"village.melonfarm"))
 	catcher.set_life_status(CharacterRuntimeLifeStatus.Value.DEAD) # TEST-ONLY
 	_check(await MapPlaces.drive_to_zone(tree, map, &"village.road4"), "he is dead: open (ES2 kept the thief in for good)")
+
+
+## Killed by the 瓜农 who caught them, the dead owe nothing (默认): both marks go.
+func _test_death(tree: SceneTree, session: WorldSessionController) -> void:
+	var map: WorldMapController = session.active_map() as WorldMapController
+	var player: WorldPlayerRuntimeState = session.player_runtime()
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	_check(await MapPlaces.drive_to_zone(tree, map, &"village.melonfarm") and await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, PICK)), "by the melons once more")
+	var catcher: NpcRuntimeState = _meloners(map, &"village.melonguard")[0]
+	var original: WorldInteractionRandomSource = session.world_interaction_random_source()
+	_pin(session, CAUGHT)
+	(map.service(PICK) as ActService).interact()
+	session.configure_world_interaction_random_source(original)
+	_check(coordinator.has_active_encounter() and catcher.has_flag(StringName(FLAG)), "caught once more")
+	player.state.progression.combat_experience = 0 # TEST-ONLY: no match for him
+	player.state.vitality = CharacterResourceState.new(1, 1, player.state.vitality.maximum)
+	for _cycle: int in range(600):
+		if not coordinator.has_active_encounter():
+			break
+		coordinator.advance_scheduler(1.0)
+	_check(player.life_status == CharacterRuntimeLifeStatus.Value.DEAD, "killed: %s" % CharacterRuntimeLifeStatus.Value.find_key(player.life_status))
+	_check(int(player.temp_marks.get(FLAG, 0)) == 0 and not catcher.has_flag(StringName(FLAG)), "both marks gone with the death")
 
 
 ## The next pick catches the player (a 瓜农 comes); they flee. The catcher, or null.
@@ -276,12 +302,6 @@ func _caught_and_fled(tree: SceneTree, session: WorldSessionController) -> NpcRu
 		rounds += 1
 	_check(not coordinator.has_active_encounter() and coordinator.last_completion().terminal_result.kind == CombatEncounterResultKind.Value.FLED, "fled the fight")
 	session.shared_ui().dismiss_current_panel()
-	for opponent_id: StringName in player.relationship.opponent_ids(): # TEST-ONLY: as walking away would
-		player.relationship.remove_lethal_relation(opponent_id)
-		player.relationship.remove_opponent(opponent_id)
-	for opponent_id: StringName in catcher.relationship.opponent_ids():
-		catcher.relationship.remove_lethal_relation(opponent_id)
-		catcher.relationship.remove_opponent(opponent_id)
 	player.state.vitality = kept
 	catcher.character_state.vitality = his
 	for _frame: int in range(3):
