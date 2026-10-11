@@ -47,7 +47,9 @@
 	],
 	"exit_rules": [
 		{ "id": "village.lakeside.no_wading", "room": "es2:d/village/lakeside", "from_zone": "village.lakeside", "to_zone": "village.lake", "when": "always", "lines": ["这么大的一片湖，你想走过去吗？"], "legacy_source": "d/village/lakeside.c" },
-		{ "id": "village.lake.bow", "room": "es2:d/village/lake", "from_zone": "village.lake", "to_zone": "village.lakeside", "when": "always", "lines": ["你正站在船头，向东走一小步就会掉入湖中！你不想这样吧？"], "legacy_source": "d/village/lake.c" }
+		{ "id": "village.lake.bow", "room": "es2:d/village/lake", "from_zone": "village.lake", "to_zone": "village.lakeside", "when": "always", "lines": ["你正站在船头，向东走一小步就会掉入湖中！你不想这样吧？"], "legacy_source": "d/village/lake.c" },
+		{ "id": "village.melonfarm.held_north", "room": "es2:d/village/melonfarm", "from_zone": "village.melonfarm", "to_zone": "village.road4", "when": "held", "present": "village.npc.meloner", "temp": "melon/catch_thief", "lines": ["你的去路被瓜农拦住了。"], "legacy_source": "d/village/melonfarm.c" },
+		{ "id": "village.melonfarm.held_south", "room": "es2:d/village/melonfarm", "from_zone": "village.melonfarm", "to_zone": "village.melonguard", "when": "held", "present": "village.npc.meloner", "temp": "melon/catch_thief", "lines": ["你的去路被瓜农拦住了。"], "legacy_source": "d/village/melonfarm.c" }
 	],
 	"doors": [
 		{ "id": "village.home.door", "name": "木门", "zones": ["village.home", "village.littlegarden"], "reach": 90, "legacy_room": "es2:d/village/home" },
@@ -95,6 +97,33 @@
 				{ "line": "你深深吸了一口气，一个猛子潜入水中！\n" },
 				{ "line": "你越潜越深，突然眼前一亮，一处湖底发出光亮。你用拳一砸，那湖底竟然碎了，原来是一层冰！你随着水流被冲进一个岩洞中。\n" },
 				{ "move": "village.lakebottom1", "point": "village.lakebottom1.dive_arrival" }
+			] }
+		] } },
+		{ "id": "village.melonfarm.pick", "kind": "act", "zone": "village.melonfarm", "name": "瓜地", "reach": 96, "legacy_source": "d/village/melonfarm.c", "act": {
+			"verb": "摘西瓜",
+			"stronger": { "npc": "village.npc.meloner", "zone": "village.melonguard", "ask": "瓜棚里的瓜农比你强得多。摘瓜要是被他发现，他会冲过来跟你拼命；不还瓜钱，就别想离开瓜地。\n确定要摘西瓜吗？", "choice": "确定摘瓜" },
+			"acts": [
+			{ "kar_above": [30, 10], "present_in": { "npc": "village.npc.meloner", "zone": "village.melonguard" }, "steps": [
+				{ "line": "你找来找去，终于找到了一个熟透了的大西瓜抱在怀中。\n" },
+				{ "give": "es2:d/village/obj/melon" },
+				{ "line": "糟糕，瓜农发现了你偷瓜，向这边冲过来！\n" },
+				{ "comes": "village.npc.meloner", "from": "village.melonguard" },
+				{ "npc_flag": "melon/catch_thief" },
+				{ "set_temp": "melon/catch_thief" },
+				{ "kill": true }
+			] },
+			{ "kar_above": [30], "present_in": { "npc": "village.npc.meloner", "zone": "village.melonguard" }, "steps": [
+				{ "line": "你找来找去，终于找到了一个熟透了的大西瓜抱在怀中。\n" },
+				{ "give": "es2:d/village/obj/melon" },
+				{ "line": "瓜农似乎正在打瞌睡，没有发现你的小动作。\n" }
+			] },
+			{ "kar_above": [30], "steps": [
+				{ "line": "你找来找去，终于找到了一个熟透了的大西瓜抱在怀中。\n" },
+				{ "give": "es2:d/village/obj/melon" },
+				{ "line": "你真幸运，瓜农没有在瓜棚看瓜。\n" }
+			] },
+			{ "steps": [
+				{ "line": "你找来找去，终于还是没找到熟透的西瓜。\n" }
 			] }
 		] } }
 	]

@@ -108,6 +108,25 @@ func text_list(key: String) -> Array[String]:
 	return result
 
 
+## Array of integers, in authored order.
+func integer_list(key: String) -> Array[int]:
+	_consumed[key] = true
+	var result: Array[int] = []
+	if not _record.has(key):
+		return result
+	var value: Variant = _record[key]
+	if not value is Array:
+		fail(key, "expected an array of integers")
+		return result
+	for index: int in range(value.size()):
+		var parsed: Variant = _as_integer(value[index])
+		if parsed == null:
+			fail("%s[%d]" % [key, index], "expected an integer")
+		else:
+			result.append(parsed)
+	return result
+
+
 ## Object of integer values, in authored order.
 func integer_map(key: String) -> Dictionary[String, int]:
 	_consumed[key] = true

@@ -8,7 +8,10 @@ extends WorldService
 ## out (owner's rule on choices that knock out); otherwise ES2 just does it. A carried
 ## item's command (bracelet.c pray) is asked the same way (ask_first_or_run()). With no
 ## branch for the player there is no button: d/canyon/canyon4.c's swear answers only one the
-## 军师 told the secret (add_action() returns 0 for anyone else, ES2's 什么?).
+## 军师 told the secret (add_action() returns 0 for anyone else, ES2's 什么?). A command that
+## rolls (d/village/melonfarm.c's pick) draws for its branch when it runs, after the question
+## its `stronger` asks while the NPC it may bring down on the player is clearly stronger
+## (owner A10: a fight to the death).
 ## TRANSLATORS: before a command ({verb}: 静修) whose cost ({cost}: 50 点神) would knock the player out.
 const FAINT_WARNING: String = "{verb}要耗去{cost}，你现在撑不住，会当场昏过去。\n确定要{verb}吗？"
 ## TRANSLATORS: one resource a command costs ({amount} points of 精, 气 or 神), joined by 和.
@@ -34,7 +37,35 @@ func interact() -> void:
 	var act: ScriptedAct = _act_for_player()
 	if act == null:
 		return
-	ask_first_or_run(map, act, verb(), perform.bind(act), in_reach)
+	var run: Callable = perform_drawn if definition.act.draws() else ask_first_or_run.bind(map, act, verb(), perform.bind(act), in_reach)
+	if asks_stronger():
+		map.session.shared_ui().ask_first(tr(definition.act.stronger_ask), tr(definition.act.stronger_choice), run, in_reach)
+		return
+	run.call()
+
+
+## Whether the command could bring a clearly stronger NPC down on the player (its `stronger`:
+## the first of them standing in its room, RelativeStrength).
+func asks_stronger() -> bool:
+	var act: RoomActDefinition = definition.act
+	if act.stronger_npc_id.is_empty() or map == null or map.player_runtime() == null:
+		return false
+	var npc: NpcRuntimeState = map.npcs.first_npc_in_zone(act.stronger_npc_id, act.stronger_zone_id, true)
+	return npc != null and RelativeStrength.clearly_stronger(
+		map.player_runtime().state.progression.combat_experience, npc.character_state.progression.combat_experience,
+	)
+
+
+## A command that rolls: the branch its draws (on the world's interaction stream) pick now.
+func perform_drawn() -> void:
+	if not in_reach() or map.player_runtime() == null:
+		return
+	var state: CharacterState = map.player_runtime().state
+	var facts: ScriptedAct.Facts = map.acts.facts(definition.zone_id)
+	facts.draw = map.world_interaction_random_source().legacy_random
+	var act: ScriptedAct = definition.act.act_for(state.gender, state.affiliation.class_id, facts)
+	if act != null:
+		ask_first_or_run(map, act, verb(), perform.bind(act), in_reach)
 
 
 ## The branch for the player as they are now; null when none is.

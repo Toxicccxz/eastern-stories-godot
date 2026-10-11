@@ -2204,7 +2204,8 @@ msgid "稻田"
 msgstr ""
 
 #. es2:d/village/melonfarm short
-#: scenes/world/village/village_main.tscn data/village/rooms.json
+#. village.melonfarm.pick name
+#: scenes/world/village/village_main.tscn data/village/rooms.json data/village/world.json
 msgid "瓜地"
 msgstr ""
 
@@ -2287,6 +2288,10 @@ msgstr ""
 
 #: scenes/world/village/village_main.tscn
 msgid "木船 · 划向湖心"
+msgstr ""
+
+#: scenes/world/village/village_main.tscn
+msgid "瓜地 · 摘西瓜"
 msgstr ""
 
 #: scenes/world/village/village_midlake.tscn
@@ -2585,7 +2590,8 @@ msgid "你没有那麽多的%s。"
 msgstr ""
 
 #. an NPC's say() in a fight: {npc} its name, {line} what it says.
-#: application/items/npc_drink_service.gd core/npcs/npc_inquiry.gd core/npcs/npc_line.gd core/relationships/npc_apprenticeship.gd runtime/combat_encounter/combat_npc_chat.gd runtime/world/map/world_map_hostilities.gd runtime/world/map/world_map_npc_life.gd runtime/world/map/world_map_selection.gd
+#. an NPC's say() out of a fight: {npc} its name, {line} what it says.
+#: application/items/npc_drink_service.gd core/npcs/npc_inquiry.gd core/npcs/npc_line.gd core/relationships/npc_apprenticeship.gd runtime/combat_encounter/combat_npc_chat.gd runtime/world/map/world_map_debts.gd runtime/world/map/world_map_hostilities.gd runtime/world/map/world_map_npc_life.gd runtime/world/map/world_map_selection.gd
 msgid "{npc}说道：{line}"
 msgstr ""
 
@@ -4783,7 +4789,8 @@ msgid "你也上去和对手性命相搏，对手会反过来对你下杀手"
 msgstr ""
 
 #. a battle button's hover: {action} its label (施法「遁」), {what} what it does.
-#: presentation/battle/battle_action_presentation_catalog.gd
+#. a button's hover: {action} its label (还瓜钱), {what} what it does.
+#: presentation/battle/battle_action_presentation_catalog.gd ui/world/shared_ui_nearby.gd
 msgid "{action}：{what}"
 msgstr ""
 
@@ -5742,6 +5749,18 @@ msgstr ""
 msgid "{who}用指甲挑了一点化尸粉在{corpse}上，只听见一阵「嗤嗤」声响带著一股可怕的恶臭，{corpse}只剩下一滩黄水。"
 msgstr ""
 
+#: runtime/world/map/world_map_debts.gd runtime/world/services/vendor_service.gd
+msgid "你没有足够的零钱，而对方也找不开...。"
+msgstr ""
+
+#: runtime/world/map/world_map_debts.gd runtime/world/services/vendor_service.gd
+msgid "你的钱不够。"
+msgstr ""
+
+#: runtime/world/map/world_map_debts.gd runtime/world/services/vendor_service.gd
+msgid "交易未完成，状态异常；已发生的扣款不会退回。"
+msgstr ""
+
 #. bamboo_pipe.c: "$N拿起一根" + name() + "呜嘟嘟地吹了起来。" (竹管).
 #: runtime/world/map/world_map_floor_items.gd
 msgid "你拿起一根%s呜嘟嘟地吹了起来。"
@@ -6213,18 +6232,6 @@ msgstr ""
 
 #: runtime/world/services/vendor_service.gd ui/food/held_food_panel.gd ui/liquid/held_liquid_panel.gd
 msgid "物品状态异常，请停止操作。"
-msgstr ""
-
-#: runtime/world/services/vendor_service.gd
-msgid "你的钱不够。"
-msgstr ""
-
-#: runtime/world/services/vendor_service.gd
-msgid "你没有足够的零钱，而对方也找不开...。"
-msgstr ""
-
-#: runtime/world/services/vendor_service.gd
-msgid "交易未完成，状态异常；已发生的扣款不会退回。"
 msgstr ""
 
 #. what a container holds when it is sold: 红酒15份.
@@ -15957,6 +15964,11 @@ msgstr ""
 msgid "哼 ... 原来阁下是找麻烦来著？"
 msgstr ""
 
+#. waterfog.npc.elite_guard accept_kill.hint
+#: data/waterfog/npcs.json
+msgid "（水烟阁的红衣武士从此都把你当作敌人，见到你就会动手。）"
+msgstr ""
+
 #. waterfog.npc.elder5 name
 #: data/waterfog/npcs.json
 msgid "南危水"
@@ -20288,6 +20300,11 @@ msgstr ""
 msgid "有强人打劫哪... 快去报官！"
 msgstr ""
 
+#. choyin.npc.guard accept_kill.hint
+#: data/choyin/npcs.json
+msgid "（福林酒楼报了官：从此守城官兵和县城官兵见到你就会动手。）"
+msgstr ""
+
 #. choyin.npc.oldman name
 #: data/choyin/npcs.json
 msgid "老者"
@@ -22407,6 +22424,28 @@ msgid ""
 "这位$RESPECT要不要买个西瓜解解渴？\n"
 msgstr ""
 
+#. village.npc.meloner chat_msg_combat.say
+#: data/village/npcs.json
+msgid ""
+"你要不还我瓜钱，咱俩就没完！\n"
+msgstr ""
+
+#. village.npc.meloner settle.label
+#: data/village/npcs.json
+msgid "还瓜钱"
+msgstr ""
+
+#. village.npc.meloner settle.hint
+#: data/village/npcs.json
+msgid "付给瓜农一个西瓜的钱（六十文），他就不再拦你，回瓜棚去；钱不够就只能接着打。"
+msgstr ""
+
+#. village.npc.meloner settle.say
+#: data/village/npcs.json
+msgid ""
+"好，咱俩的账就算结了。\n"
+msgstr ""
+
 #. village.npc.fisher name
 #: data/village/npcs.json
 msgid "渔夫"
@@ -22681,6 +22720,12 @@ msgstr ""
 msgid "你正站在船头，向东走一小步就会掉入湖中！你不想这样吧？"
 msgstr ""
 
+#. village.melonfarm.held_north lines
+#. village.melonfarm.held_south lines
+#: data/village/world.json
+msgid "你的去路被瓜农拦住了。"
+msgstr ""
+
 #. village.lordhouse1.door name
 #: data/village/world.json
 msgid "田老财家大门"
@@ -22807,4 +22852,51 @@ msgstr ""
 #: data/village/world.json
 msgid ""
 "你越潜越深，突然眼前一亮，一处湖底发出光亮。你用拳一砸，那湖底竟然碎了，原来是一层冰！你随着水流被冲进一个岩洞中。\n"
+msgstr ""
+
+#. village.melonfarm.pick act.verb
+#: data/village/world.json
+msgid "摘西瓜"
+msgstr ""
+
+#. village.melonfarm.pick act.stronger.ask
+#: data/village/world.json
+msgid ""
+"瓜棚里的瓜农比你强得多。摘瓜要是被他发现，他会冲过来跟你拼命；不还瓜钱，就别想离开瓜地。\n"
+"确定要摘西瓜吗？"
+msgstr ""
+
+#. village.melonfarm.pick act.stronger.choice
+#: data/village/world.json
+msgid "确定摘瓜"
+msgstr ""
+
+#. village.melonfarm.pick act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"你找来找去，终于找到了一个熟透了的大西瓜抱在怀中。\n"
+msgstr ""
+
+#. village.melonfarm.pick act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"糟糕，瓜农发现了你偷瓜，向这边冲过来！\n"
+msgstr ""
+
+#. village.melonfarm.pick act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"瓜农似乎正在打瞌睡，没有发现你的小动作。\n"
+msgstr ""
+
+#. village.melonfarm.pick act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"你真幸运，瓜农没有在瓜棚看瓜。\n"
+msgstr ""
+
+#. village.melonfarm.pick act.acts.steps.line
+#: data/village/world.json
+msgid ""
+"你找来找去，终于还是没找到熟透的西瓜。\n"
 msgstr ""

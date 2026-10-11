@@ -297,14 +297,37 @@ func npc_wield_item(character_id: StringName, item_definition_id: StringName) ->
 ## conscious one, for an NPC that speaks up (kitchen.c's cook: 默认, one lying there
 ## says nothing and stops nobody).
 func npc_present_in_zone(definition_id: StringName, zone_id: StringName, standing: bool = false) -> bool:
+	return first_npc_in_zone(definition_id, zone_id, standing) != null
+
+
+## The first such NPC in spawn order (present() finds the first in the room), holding the
+## object flag `flag` when one is named (its set_temp(): the 瓜农 who caught the player).
+func first_npc_in_zone(definition_id: StringName, zone_id: StringName, standing: bool = false, flag: StringName = &"") -> NpcRuntimeState:
 	for npc: NpcRuntimeState in residents:
 		if (
 			npc.definition().definition_id == definition_id and npc.exists_in_map
 			and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD and npc.world_location().zone_id == zone_id
 			and (not standing or npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE)
+			and (flag.is_empty() or npc.has_flag(flag))
 		):
-			return true
-	return false
+			return npc
+	return null
+
+
+## ob->move(the player's room) (d/village/melonfarm.c's 瓜农 coming over): `npc` is in the
+## player's place at once, its body on a free spot beside them; the player's init() for it,
+## and none of its own (no greeting: it comes to fight). False when it could not come.
+func bring_beside_player(npc: NpcRuntimeState) -> bool:
+	var body: WorldCharacterBody2D = runtime_body_for_character(npc.character_id)
+	var player_body: WorldCharacterBody2D = null if _player == null else runtime_body_for_character(_player.character_id)
+	if body == null or player_body == null or not npc.exists_in_map:
+		return false
+	var location: WorldLocationState = _player.world_location()
+	_map.npc_life.npc_walker().cancel(npc.character_id)
+	body.global_position = _map.floor_items.at_feet(location, player_body.global_position, false, BESIDE)
+	npc.set_world_location(_map.location_for_zone(location.zone_id))
+	_map.npc_life.npc_walked_in(npc)
+	return true
 
 
 ## present(<partner>, environment(npc)): an NPC of `definition_id` in the same room,

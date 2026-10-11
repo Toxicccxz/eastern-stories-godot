@@ -386,6 +386,9 @@ func _resolve_npc_dealings() -> void:
 		var sentence: NpcSentence = definition.dealings().sentence
 		if sentence != null and not _zones.has(sentence.out_zone_id):
 			_errors.append("%s.sentence.out: unknown zone '%s'" % [origin, sentence.out_zone_id])
+		var settle: NpcSettle = definition.dealings().settle
+		if settle != null and (not _items.has(settle.item_id) or _items[settle.item_id].value <= 0):
+			_errors.append("%s.settle.item: '%s' is no item with a value" % [origin, settle.item_id])
 		var hooks: NpcHooks = definition.hooks()
 		if hooks != null and not hooks.die_item_id.is_empty():
 			if not _items.has(hooks.die_item_id):
@@ -553,7 +556,10 @@ func _resolve_services() -> void:
 		_services[service_id] = definition.with_map(zone.map_id)
 		if definition.act != null:
 			for act: ScriptedAct in definition.act.acts:
-				_check_act(act, "%s.act" % origin)
+				_check_act(act, "%s.act" % origin, false, true)
+			var stronger: StringName = definition.act.stronger_npc_id
+			if not stronger.is_empty() and (not _npcs.has(stronger) or not _zones.has(definition.act.stronger_zone_id)):
+				_errors.append("%s.act.stronger: unknown NPC '%s' or zone '%s'" % [origin, stronger, definition.act.stronger_zone_id])
 		if definition.dance == null:
 			continue
 		# A dance moves the dancer through a portal leaving the dance floor's room.
@@ -584,6 +590,8 @@ func _check_item_acts() -> void:
 		if item.act != null:
 			for act: ScriptedAct in item.act.acts:
 				_check_act(act, "%s.act" % origin)
+			if not item.act.stronger_npc_id.is_empty():
+				_errors.append("%s.act.stronger: only a room's command asks so" % origin)
 		# A catalog built without skills (a test's partial one) has none to check against.
 		if item.study != null and not _skills.is_empty() and not _skills.has(item.study.skill_id):
 			_errors.append("%s.study: unknown skill '%s'" % [origin, item.study.skill_id])
@@ -659,7 +667,7 @@ func _check_exit_rules() -> void:
 		# (its mark, its arrival) would miss: it guards a walk on one map only.
 		if rule.asks and (portal_between or (from_zone != null and to_zone != null and from_zone.map_id != to_zone.map_id)):
 			_errors.append("%s: an ask rule guards a walk between two zones of one map, not a passage" % origin)
-		if rule.condition == ZoneExitRuleDefinition.Condition.WEAPON_IN_HAND and not _npcs.has(rule.present_npc_id):
+		if rule.condition in [ZoneExitRuleDefinition.Condition.WEAPON_IN_HAND, ZoneExitRuleDefinition.Condition.HELD] and not _npcs.has(rule.present_npc_id):
 			_errors.append("%s.present: unknown NPC '%s'" % [origin, rule.present_npc_id])
 		if rule.condition == ZoneExitRuleDefinition.Condition.NOT_APPRENTICE_OF and not _npcs.has(rule.npc_id):
 			_errors.append("%s.npc: unknown NPC '%s'" % [origin, rule.npc_id])
@@ -677,17 +685,30 @@ func _check_exit_rules() -> void:
 ## to be `present`, the item it asks `exists`. Only an NPC's
 ## greeting (`by_npc`) closes doors, attacks or gains force; a move to another map ends an
 ## act, so it is its last step. (Spawn points are the scene's: the map checks them.)
-func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false) -> void:
+func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false, drawn: bool = false) -> void:
+	if act.draws() and not drawn:
+		# Only a room's command draws for its branch (ActService); elsewhere the rolls would never be made.
+		_errors.append("%s.kar_above: only a room's command rolls" % origin)
 	if not act.carries.is_empty() and not _answers_to(act.carries):
 		_errors.append("%s.carries: no item answers to '%s'" % [origin, act.carries])
 	if not act.exists.is_empty() and not _items.has(act.exists):
 		_errors.append("%s.exists: unknown item '%s'" % [origin, act.exists])
 	if not act.present.is_empty() and not _npcs.has(act.present):
 		_errors.append("%s.present: unknown NPC '%s'" % [origin, act.present])
+	if not act.present_in_npc.is_empty() and (not _npcs.has(act.present_in_npc) or not _zones.has(act.present_in_zone)):
+		_errors.append("%s.present_in: unknown NPC '%s' or zone '%s'" % [origin, act.present_in_npc, act.present_in_zone])
+	if act.draws() and not act.ask.is_empty():
+		# The branch is drawn for when the command runs, after any question (ActService).
+		_errors.append("%s: a branch that rolls asks nothing of its own" % origin)
+	var acting: bool = by_npc
 	for index: int in act.steps.size():
 		var step: ScriptedAct.Step = act.steps[index]
-		if not by_npc and step.kind in [ScriptedAct.Kind.CLOSE_DOOR, ScriptedAct.Kind.KILL, ScriptedAct.Kind.NPC_FORCE]:
-			_errors.append("%s: step %d needs the NPC of a greeting" % [origin, index])
+		if not acting and step.kind in [ScriptedAct.Kind.CLOSE_DOOR, ScriptedAct.Kind.KILL, ScriptedAct.Kind.NPC_FORCE, ScriptedAct.Kind.NPC_FLAG]:
+			_errors.append("%s: step %d needs the NPC of a greeting or one that came" % [origin, index])
+		if step.kind == ScriptedAct.Kind.COMES:
+			acting = true
+			if not _npcs.has(step.npc_id) or not _zones.has(step.zone_id):
+				_errors.append("%s.comes: unknown NPC '%s' or zone '%s'" % [origin, step.npc_id, step.zone_id])
 		if step.kind == ScriptedAct.Kind.MOVE and index != act.steps.size() - 1 and _zones.has(step.zone_id) and not by_npc:
 			# A greeting's move stays on its NPC's map (WorldMapActs); a room's or an item's may
 			# leave it, and nothing after it would happen there.

@@ -15,7 +15,10 @@ extends RefCounted
 ## well), `at_least` their force, max_force and force_factor at least so much (d/canyon/bamboo/
 ## bamboo3.c's stone), `room` and `not_room` a flag the act's room has or lacks (its set(), set_temp():
 ## bamboo3.c's exits/enter) and `exists` an item that exists somewhere in the world (F_UNIQUE's
-## violate_unique(): train.c's book). The first branch that is for
+## violate_unique(): train.c's book), `present_in` an NPC standing in another room (present(
+## "meloner", find_object(melonguard)): d/village/melonfarm.c), `kar_above` rolls of
+## random(kar) > random(n) that all come up (melonfarm.c's pick: [30, 10]; each drawn once
+## per use, in order, and only when reached, as the LPC's nested ifs). The first branch that is for
 ## the player acts. `ask` is the owner's question before a choice that can kill (a man walking into
 ## the bath, DECISIONS 晚月庄 A), with `choice` its button. The steps run in order:
 ## - a line (NpcLine: say, emote, line, whisper, in its colour; a room's message_vision()
@@ -35,8 +38,11 @@ extends RefCounted
 ## - `clear_temp` a flag: set_temp(flag, 0) (d/canyon/canyon4.c's 军营/swear, spent by the oath);
 ## - `set_room`, `clear_room` a flag of the act's room (bamboo3.c's set("exits/enter"), delete());
 ## - `unmark` a mark: delete("mark/<mark>") (latemoon8.c's dance-book);
-## - `water` n: add("water", n) (s_street1.c's well; above the capacity too, as add() does).
-enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM }
+## - `water` n: add("water", n) (s_street1.c's well; above the capacity too, as add() does);
+## - `comes` (an NPC) `from` (a zone): the first of them standing there comes beside the player
+##   (ob->move(this room): melonfarm.c's 瓜农) and is the act's NPC from then on;
+## - `npc_flag` a flag: the NPC's own set_temp(flag, 1) (an object variable, saved with it).
+enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM, COMES, NPC_FLAG }
 
 ## The resources receive_damage() and receive_heal() name.
 const RESOURCES: Array[String] = ["gin", "kee", "sen"]
@@ -58,6 +64,11 @@ var at_least: Dictionary[String, int] = {}
 var room: String = ""
 var not_room: String = ""
 var exists: StringName = &""
+## present_in: an NPC definition standing in another zone.
+var present_in_npc: StringName = &""
+var present_in_zone: StringName = &""
+## The n of each random(kar) > random(n) that must come up, in order.
+var kar_above: Array[int] = []
 var ask: String = ""
 var choice: String = ""
 var steps: Array[Step] = []
@@ -80,6 +91,31 @@ class Facts:
 	var room: Dictionary[String, int] = {}
 	## item definition ID -> whether one exists somewhere in the world; none: nothing does.
 	var item_exists: Callable = Callable()
+	## (NPC definition ID, zone ID) -> whether one stands there (conscious); none: nobody does.
+	var standing_in: Callable = Callable()
+	## query("kar") and MudOS random(n) for `kar_above`; without a draw the rolls are not made
+	## and count as coming up (whether a branch could be for the player: its button).
+	var kar: int = 0
+	var draw: Callable = Callable()
+	var _rolls: Array[bool] = []
+
+	## Whether random(kar) > random(bound), the `index`-th roll of this use: drawn once, the
+	## first time it is reached (random(n) with n <= 0 is 0, DECISIONS' global rule).
+	func kar_roll(index: int, bound: int) -> bool:
+		if not draw.is_valid():
+			return true
+		while _rolls.size() <= index:
+			var mine: int = int(draw.call(kar)) if kar > 0 else 0
+			var theirs: int = int(draw.call(bound)) if bound > 0 else 0
+			_rolls.append(mine > theirs)
+		return _rolls[index]
+
+	## Whether every roll up to `bounds` comes up, drawing only as far as they do.
+	func kar_rolls(bounds: Array[int]) -> bool:
+		for index: int in bounds.size():
+			if not kar_roll(index, bounds[index]):
+				return false
+		return true
 
 
 class Step:
@@ -100,12 +136,14 @@ class Step:
 	## move: where to.
 	var zone_id: StringName = &""
 	var point_id: StringName = &""
+	## comes: the NPC definition (from `zone_id`).
+	var npc_id: StringName = &""
 	## give: the item, the set_temp() flag, what is said after; give_one_of: the items drawn among.
 	var item_id: StringName = &""
 	var pick: Array[StringName] = []
 	var unless_temp: String = ""
 	var lines: Array[NpcLine] = []
-	## set_temp, clear_temp, unmark, set_room, clear_room: the flag or mark.
+	## set_temp, clear_temp, unmark, set_room, clear_room, npc_flag: the flag or mark.
 	var flag: String = ""
 
 
@@ -128,6 +166,9 @@ func applies_to(player_gender: StringName, class_id: StringName, facts: Facts = 
 		and (room.is_empty() or known.room.get(room, 0) != 0)
 		and (not_room.is_empty() or known.room.get(not_room, 0) == 0)
 		and (exists.is_empty() or (known.item_exists.is_valid() and bool(known.item_exists.call(exists))))
+		and (present_in_npc.is_empty() or (known.standing_in.is_valid() and bool(known.standing_in.call(present_in_npc, present_in_zone))))
+		# Last: the rolls draw, and only for a branch otherwise for the player.
+		and (kar_above.is_empty() or known.kar_rolls(kar_above))
 	)
 
 
@@ -137,6 +178,11 @@ static func first_for(acts: Array[ScriptedAct], player_gender: StringName, class
 		if act.applies_to(player_gender, class_id, facts):
 			return act
 	return null
+
+
+## Whether a branch is drawn for (`kar_above`): it is chosen when the command runs.
+func draws() -> bool:
+	return not kar_above.is_empty()
 
 
 ## Whether a step takes the player elsewhere (the caller closes what they had open).
@@ -170,7 +216,8 @@ static func resource_of(state: CharacterState, key: String) -> CharacterResource
 
 
 ## {gender?, not_gender?, not_class?, temp?, not_temp?, mark?, not_mark?, carries?, present?, thirsty?,
-## at_least?: {force?, max_force?, force_factor?}, room?, not_room?, exists?, ask?, choice?, steps: [step]}.
+## at_least?: {force?, max_force?, force_factor?}, room?, not_room?, exists?, present_in?: {npc, zone},
+## kar_above?: [n], ask?, choice?, steps: [step]}.
 static func from_record(reader: ContentRecordReader) -> ScriptedAct:
 	var act := ScriptedAct.new()
 	act.gender = StringName(reader.text("gender"))
@@ -193,6 +240,15 @@ static func from_record(reader: ContentRecordReader) -> ScriptedAct:
 	act.room = reader.text("room")
 	act.not_room = reader.text("not_room")
 	act.exists = StringName(reader.text("exists"))
+	var elsewhere: ContentRecordReader = reader.child("present_in")
+	if elsewhere != null:
+		act.present_in_npc = StringName(elsewhere.required_text("npc"))
+		act.present_in_zone = StringName(elsewhere.required_text("zone"))
+		elsewhere.finish()
+	for bound: int in reader.integer_list("kar_above"):
+		if bound <= 0:
+			reader.fail("kar_above", "each roll's bound is positive")
+		act.kar_above.append(bound)
 	act.ask = reader.text("ask")
 	act.choice = reader.text("choice")
 	if act.ask.is_empty() != act.choice.is_empty():
@@ -224,7 +280,7 @@ static func _step(reader: ContentRecordReader) -> Step:
 	var kinds: Array[String] = []
 	if ["say", "emote", "line", "whisper"].any(func(key: String) -> bool: return reader.has(key)):
 		kinds.append("line")
-	for key: String in ["damage", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "water", "set_room", "clear_room"]:
+	for key: String in ["damage", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "water", "set_room", "clear_room", "comes", "npc_flag"]:
 		if reader.has(key):
 			kinds.append(key)
 	if kinds.size() != 1:
@@ -308,6 +364,13 @@ static func _step(reader: ContentRecordReader) -> Step:
 		"clear_room":
 			step.kind = Kind.CLEAR_ROOM
 			step.flag = reader.required_text("clear_room")
+		"comes":
+			step.kind = Kind.COMES
+			step.npc_id = StringName(reader.required_text("comes"))
+			step.zone_id = StringName(reader.required_text("from"))
+		"npc_flag":
+			step.kind = Kind.NPC_FLAG
+			step.flag = reader.required_text("npc_flag")
 		"water":
 			step.kind = Kind.WATER
 			step.value = reader.required_integer("water")

@@ -2,7 +2,7 @@
 
 How the region comes from `reference/es2/mudlib/d/village/`, and what the LPC says that the code
 does not. Decisions are in [DECISIONS](DECISIONS.md) (「玉螺湖村 A」 holds the plan, the owner's
-answers and the defaults). Package A draws the village, the lake and the ice cave and places the
+answers and the defaults; 「玉螺湖村 B」 the 瓜地). Package A draws the village, the lake and the ice cave and places the
 people; B the 瓜地 (the pick, the 瓜农's catch, 还瓜钱).
 
 ## Placed
@@ -39,11 +39,22 @@ only verbs reach).
 | trader1.c chat_msg_combat | 杀人啦！你难道不怕官府缉拿吗？ and random_move: he walks out of the fight |
 | obj/melon.c | food 8 bites × 20 food and 40 water (drink_func); refused once water is full; finish_eat() leaves 西瓜皮 (bone) |
 
+## LPC → native (B: the 瓜地)
+
+| LPC | Native |
+|---|---|
+| melonfarm.c init(), do_pick() | act service `village.melonfarm.pick` (瓜地 · 摘西瓜), four branches by `kar_above` and `present_in`: random(kar) > random(30) finds the melon (given), then with a 瓜农 standing in the 瓜棚 random(kar) > random(10) brings the first of them over (`comes`), both get melon/catch_thief (`npc_flag`, `set_temp`) and he kill_ob()s the thief (`kill`); otherwise 瓜农似乎正在打瞌睡… or 你真幸运，瓜农没有在瓜棚看瓜。; or 你找来找去，终于还是没找到熟透的西瓜。 Each roll is drawn once, in order, only when reached. Asked first while that 瓜农 is clearly stronger (`stronger`, A10) |
+| melonfarm.c valid_leave() | exit rules `village.melonfarm.held_north` / `held_south` (`held`: 你的去路被瓜农拦住了。) while a 瓜农 with the flag stands awake in the 瓜地 |
+| meloner.c catch_thief() | chat_msg_combat `say_while_flag` (chat_chance_combat 50): 瓜农说道：你要不还我瓜钱，咱俩就没完！ only from the one catching |
+| meloner.c do_return() | `settle`: 还瓜钱 on the HUD (his group) and the battle panel (`combat.settle.village.npc.meloner`): the 西瓜's value (60 文) paid as buying is; 好，咱俩的账就算结了。, both flags go, he walks home (out of the fight) |
+
 ## LPC anomalies
 
 - The room directory's flowergirl.c is a stray copy of npc/flowergirl.c: not placed.
 - 刘家's rooms and people are copies of d/chuenyu's; 刘老农's two branches need 黑松山's 小娟.
 - melon.c comments out F_LIQUID: its 西瓜汁 (`liquid`, `max_liquid`) is never drunk.
 - meloner.c's catch_thief() without a thief commands `heihei this_player()`: a name, prints nothing;
-  its line has a stray ）.
+  its line has a stray ） (dropped with its command hint).
+- melonfarm.c's set_leader(me) has nothing to do: the thief cannot leave while he stands, and
+  following needs him standing by; meloner.c's do_return() cleared it again.
 - lordhouse2.c's long names a wall and a stick (and a 关公 pointing at the wall) with no item_desc.

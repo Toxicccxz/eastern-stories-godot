@@ -111,6 +111,43 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 - #27 牛皮酒袋照原名显示，不另起短名。
 - 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
 
+## 玉螺湖村 B: the 瓜地 (2026-10-11)
+
+The plan's B (「玉螺湖村 A」 below). What each LPC function became is in
+[VILLAGE_CONTENT](VILLAGE_CONTENT.md#lpc--native-b-the-瓜地); it follows the LPC except:
+- **Owner (plan): 还瓜钱 pays.** meloner.c's do_return() took nothing; now it costs the 西瓜's value
+  (60 文), paid as buying from him is (buy.c's can_afford() and pay_money(): 你的钱不够。, or 你没有
+  足够的零钱，而对方也找不开...。 when the coins on hand cannot make it), and the fight goes on.
+  Paid: 好，咱俩的账就算结了。, both flags go, he goes home (in a fight he walks out of it; move()
+  ended it the same way). It is a button on the HUD (his group, while he stands by) and on the battle
+  panel (like 行贿); typed `return melon cost`, 你又没欠他什么 and 除了瓜钱 went with the typing, and
+  the line's command hint and stray ） with them (水烟阁 B's ruling on hints for buttons).
+- **Owner (plan): the way out opens once the 瓜农 who caught the player is down, dead or gone.**
+  valid_leave() asked only the thief's flag, so one who killed him never left the 瓜地 (the flag
+  is saved now). Another 瓜农 standing there holds nobody; one who wakes holds the player again.
+- **Owner (plan, A10): the pick is asked first while the 瓜棚's first 瓜农 is clearly stronger**
+  (he would come over to the death).
+- **默认 (review): the dead owe nothing.** Killed by him, the player loses both marks and so does
+  every 瓜农 holding one: ES2's temps went at the next login, but saved here they would have the
+  man who killed them hold them again and ask for his money. Paying one 瓜农 clears any other's
+  claim too (a second catch while the first lay unconscious).
+- **默认 (review): he does not greet the thief he comes to fight.** ob->move() ran meloner.c's
+  init() before kill_ob(), so a second later, mid-fight, ES2 said 这位…要不要买个西瓜解解渴？
+- **Not kept:** set_leader(me): he cannot be left while he stands, and a leader is only followed
+  by one standing by; nothing else changes.
+- **Stays as ES2:** the melon is the thief's whether he is caught or not; only the first 瓜农 in
+  the shed comes (present()); one lying unconscious there notices nothing (默认, as kitchen.c's
+  cook).
+- **Global (data):** an act's `kar_above` (random(kar) > random(n) rolls, drawn once, in order, only
+  when reached; the branch is chosen when the command runs) and `present_in` (an NPC standing in
+  another room); act steps `comes` (the first such NPC comes beside the player and is the act's NPC:
+  its `kill`, its `npc_flag`) and `npc_flag` (its own set_temp()); a room act's `stronger` (A10's
+  question); an exit rule `held` (the player's flag and an NPC holding the same one, standing
+  there); a fight chat `say_while_flag`; an NPC's `settle` (NpcSettle); a battle action
+  `combat.settle.<npc>` that sends its NPC out of the fight.
+- **Save:** no new fields (player temps and NPC flags were saved already); the world content
+  revision stays SOURCE_ENTRY_VILLAGE_V1.
+
 ## 玉螺湖村 A: the village, the lake and its people (2026-10-11)
 
 Plan (owner, 2026-10-11: 按照你的推荐来): A the village, the lake and the people; B the 瓜地 (the

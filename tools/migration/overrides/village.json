@@ -36,7 +36,16 @@
 				{ "steps": [
 					{ "line": "这位$RESPECT要不要买个西瓜解解渴？\n" }
 				] }
-			] }
+			] },
+			"chat_chance_combat": 50,
+			"chat_msg_combat": [
+				{ "action": "say_while_flag", "flag": "melon/catch_thief", "say": "你要不还我瓜钱，咱俩就没完！\n" }
+			],
+			"settle": {
+				"temp": "melon/catch_thief", "item": "es2:d/village/obj/melon",
+				"label": "还瓜钱", "hint": "付给瓜农一个西瓜的钱（六十文），他就不再拦你，回瓜棚去；钱不够就只能接着打。",
+				"say": "好，咱俩的账就算结了。\n"
+			}
 		},
 		"village.icecave.lakebottom2.dragons": { "presence_radius": 260 },
 		"es2:d/village/obj/melon": {
@@ -88,9 +97,9 @@
 			"function look_shield": "默认 (plan): not ported (\"are this true?\")"
 		},
 		"d/village/melonfarm.c": {
-			"function init": "玉螺湖村 B (瓜地): pick",
-			"function do_pick": "玉螺湖村 B (瓜地): the pick, the 瓜农's catch",
-			"function valid_leave": "玉螺湖村 B (瓜地): 你的去路被瓜农拦住了。"
+			"function init": "pick melon: the act service village.melonfarm.pick (瓜地 · 摘西瓜)",
+			"function do_pick": "service village.melonfarm.pick: random(kar) > random(30) finds a melon (given), then with a 瓜农 standing in the 瓜棚 random(kar) > random(10) brings the first of them over (comes), set_temp melon/catch_thief on both and kill_ob(); asked first while he is clearly stronger (owner A10); set_leader(me) is not kept: the thief cannot leave while he stands, and he never follows one he does not stand by",
+			"function valid_leave": "world.json exit_rules village.melonfarm.held_north and held_south (held: 你的去路被瓜农拦住了。) while the 瓜农 who caught the player stands there (owner's modern fix: ES2 asked only the thief's flag)"
 		},
 		"d/village/npc/trader1.c": {
 			"set chat_chance_combat": "in set",
@@ -111,12 +120,12 @@
 			"function killhim": "黑松山 (marks/murder): with the thanks, after 京师 (village_test's reminder)"
 		},
 		"d/village/npc/meloner.c": {
-			"set chat_chance_combat": "玉螺湖村 B (瓜地): catch_thief()'s line",
-			"set chat_msg_combat": "玉螺湖村 B (瓜地): catch_thief() says 你要不还我瓜钱… only while he is catching a thief; otherwise command(\"heihei this_player()\") names nobody and prints nothing, so nothing is said in A",
-			"function init": "greeting in set (one second after the player comes in, not while he fights); list: the vendor's goods panel; return: 玉螺湖村 B",
+			"set chat_chance_combat": "in set",
+			"set chat_msg_combat": "in set: catch_thief() is say_while_flag melon/catch_thief (said only by the 瓜农 who caught the player; its hint (return melon cost) and stray ） go: the button is 还瓜钱); otherwise command(\"heihei this_player()\") names nobody and prints nothing",
+			"function init": "greeting in set (one second after the player comes in, not while he fights); list: the vendor's goods panel; return: settle in set (还瓜钱)",
 			"function greeting": "greeting in set: the say() line as written (it names no speaker)",
-			"function do_return": "玉螺湖村 B (瓜地): 还瓜钱",
-			"function catch_thief": "玉螺湖村 B (瓜地)"
+			"function do_return": "settle in set: 还瓜钱 on the HUD and in the fight, to the 瓜农 who caught the player (both flags); owner's modern fix: it costs the 西瓜's value (60 文), paid as buying is (你的钱不够。, the fight goes on); paid, 好，咱俩的账就算结了。 and he goes home (in a fight he walks out of it). 你又没欠他什么 and 除了瓜钱 went with the typing",
+			"function catch_thief": "chat_msg_combat in set (say_while_flag)"
 		},
 		"d/village/obj/melon.c": {
 			"set max_liquid": "F_LIQUID is commented out: no drink, nothing reads it",

@@ -138,6 +138,7 @@
           {"node": "passage", "name": "LakePassage", "id": "village.lakeside.west", "at": [420, 1120], "shape": "Rect_32_128"},
           {"node": "passage", "name": "CavePassage", "id": "village.valley1.eastdown", "at": [216, 1184], "shape": "Rect_32_64"},
           {"node": "service", "name": "LakesidePaddle", "id": "village.lakeside.paddle", "at": [544, 1088], "text": "木船 · 划向湖心"},
+          {"node": "service", "name": "MelonPick", "id": "village.melonfarm.pick", "at": [1120, 1072], "text": "瓜地 · 摘西瓜"},
           {"generated": "doors"}
         ],
         "zones": [{"generated": "zones"}],

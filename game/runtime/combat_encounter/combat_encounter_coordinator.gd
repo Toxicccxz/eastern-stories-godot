@@ -391,6 +391,10 @@ func _init(
 			_tactical_registry.register_policy(CombatCastTacticalPolicy.new(function_id, true, _no_magic, _summon_beside, _resident_npc))
 		if not spell.label.is_empty():
 			_tactical_registry.register_policy(CombatCastTacticalPolicy.new(function_id, false, _no_magic, _summon_beside, _resident_npc))
+	# 还瓜钱 (meloner.c do_return()): one button for each NPC one squares it with.
+	for npc: NpcDefinition in [] if GameContent.catalog() == null else GameContent.catalog().npcs():
+		if npc.dealings().settle != null:
+			_tactical_registry.register_policy(CombatSettleTacticalPolicy.new(npc.definition_id, _settle_offered, _settle))
 
 
 func is_valid() -> bool:
@@ -717,6 +721,23 @@ func _no_magic(character_id: StringName) -> bool:
 func _summon_beside(caster_id: StringName, definition_id: StringName) -> StringName:
 	var map: WorldMapController = _session.active_map() as WorldMapController
 	return &"" if map == null else map.summon_beside(caster_id, definition_id)
+
+
+## Whether an NPC of `definition_id` who caught the player fights them now (WorldMapDebts).
+func _settle_offered(definition_id: StringName) -> bool:
+	var map: WorldMapController = null if _session == null else _session.active_map() as WorldMapController
+	return map != null and map.debts.creditor(definition_id, true) != null
+
+
+## do_return() in the fight: WorldMapDebts.settle(), and where the NPC goes when paid.
+func _settle(definition_id: StringName) -> Dictionary:
+	var map: WorldMapController = null if _session == null else _session.active_map() as WorldMapController
+	var npc: NpcRuntimeState = null if map == null else map.debts.creditor(definition_id, true)
+	if npc == null:
+		return {"settled": false, "lines": []}
+	var settled: bool = map.debts.settle(npc)
+	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(npc.spawn_id)
+	return {"settled": settled, "lines": map.debts.last_lines.duplicate(), "npc": npc.character_id, "home": npc.world_location().zone_id if spawn == null else spawn.zone_id}
 
 
 ## npc.c random_move() for an NPC in the fight: the way go.c would take it now, or null.

@@ -19,7 +19,8 @@ extends RefCounted
 ## its accept_kill() when the player attacks it (`accept_kill`, NpcAcceptKill), the beat it
 ## patrols and the thieves it catches there (`patrol`, NpcPatrol: d/choyin/npc/yamen_po.c),
 ## and the sentence it passes on one brought before it (`sentence`, NpcSentence:
-## d/choyin/npc/judgeman.c).
+## d/choyin/npc/judgeman.c), and how one it caught squares it with it (`settle`, NpcSettle:
+## d/village/npc/meloner.c's return melon cost).
 var vendor_id: StringName = &""
 var object_rules: Array[NpcObjectRule] = []
 var initial_flags: Array[StringName] = []
@@ -34,6 +35,7 @@ var shop_front: NpcShopFront
 var accept_kill: NpcAcceptKill
 var patrol: NpcPatrol
 var sentence: NpcSentence
+var settle: NpcSettle
 
 
 func is_fight_deferred() -> bool:
@@ -71,6 +73,9 @@ static func from_record(reader: ContentRecordReader) -> NpcDealings:
 	var judging: ContentRecordReader = reader.child("sentence")
 	if judging != null:
 		dealings.sentence = NpcSentence.from_record(judging)
+	var squaring: ContentRecordReader = reader.child("settle")
+	if squaring != null:
+		dealings.settle = NpcSettle.from_record(squaring)
 	var front: ContentRecordReader = reader.child("shop_front")
 	if front != null:
 		dealings.shop_front = NpcShopFront.from_record(front)

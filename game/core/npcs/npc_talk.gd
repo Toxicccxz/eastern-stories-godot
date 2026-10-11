@@ -237,6 +237,7 @@ func is_valid() -> bool:
 			or (entry is StringName and (entry == RANDOM_MOVE or entry == SILENT_EMOTE))
 			or (entry is NpcFightChat.Wield and entry.is_valid()) or (entry is NpcFightChat.CallPartner and entry.is_valid())
 			or (entry is NpcFightChat.SayByAge and entry.is_valid()) or (entry is NpcFightChat.Poison and entry.is_valid())
+			or (entry is NpcFightChat.SayWhileFlag and entry.is_valid())
 		):
 			return false
 	for topic: String in _inquiry:

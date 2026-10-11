@@ -89,6 +89,9 @@ func beat(
 		return _call_partner(entry, actor)
 	if entry is NpcFightChat.Poison:
 		return _poison(entry, actor, enemies, random_source)
+	if entry is NpcFightChat.SayWhileFlag:
+		var while_flag: NpcFightChat.SayWhileFlag = entry
+		return CombatNpcChatResult.new([VisionLine.new(_says(npc, while_flag.say), actor.character_id)]) if npc.has_flag(while_flag.flag) else null
 	if not (entry is NpcSpecialAction):
 		return null
 	var other_sides: Array[SpecialSide] = []

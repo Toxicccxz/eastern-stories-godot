@@ -190,6 +190,11 @@ func _commands(map: WorldMapController, thing: WorldNearbyThing) -> Array[Array]
 				offered.append(["偷窃", _after(select, actions.steal_context), SharedUiContextActions.STEAL_HINT])
 			if alive and player_available and map.patrols.can_bribe(npc):
 				offered.append(["行贿", _after(select, actions.bribe_context), SharedUiContextActions.BRIBE_HINT])
+			# meloner.c do_return(): the one who caught the player, paid off where he stands.
+			if alive and player_available and map.debts.can_settle(npc):
+				var settle: NpcSettle = npc.definition().dealings().settle
+				# TRANSLATORS: a button's hover: {action} its label (还瓜钱), {what} what it does.
+				offered.append([settle.label, _after(select, map.debts.settle_here.bind(npc)), tr("{action}：{what}").format({"action": tr(settle.label), "what": tr(settle.hint)})])
 		WorldNearbyThing.Kind.CORPSE:
 			var corpse: CorpseState = map.corpses.find_corpse(thing.id)
 			var view: CombatSliceCorpseView = map.corpses.corpse_view_for(thing.id)

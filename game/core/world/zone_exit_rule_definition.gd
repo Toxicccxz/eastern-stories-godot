@@ -25,8 +25,12 @@ extends RefCounted
 ## no flag, every one carried goes back, each told by `taken`.
 ## `no_mark` (d/choyin/entrance.c: east into the 桃林 only with marks/书生) refuses one without
 ## the saved `mark`. `always` refuses everyone (d/village/lakeside.c: the lake is no walk; only
-## the boat goes out on it).
-enum Condition { WEAPON_IN_HAND, COMBAT_EXP_BELOW, NOT_APPRENTICE_OF, NOT_FAMILY, KAR_SLIP, NEVER, ASK, TAKES_BACK, NO_MARK, ALWAYS }
+## the boat goes out on it). `held` (d/village/melonfarm.c: 你的去路被瓜农拦住了。) refuses one
+## with the set_temp() flag `temp` while an NPC of `present` that holds the same flag (its own
+## set_temp(): the 瓜农 who caught them) stands in the room: ES2 asked only the thief's flag, so
+## one who had killed the 瓜农 never got out (owner, 玉螺湖村 plan: the way opens once he is
+## down, dead or gone).
+enum Condition { WEAPON_IN_HAND, COMBAT_EXP_BELOW, NOT_APPRENTICE_OF, NOT_FAMILY, KAR_SLIP, NEVER, ASK, TAKES_BACK, NO_MARK, ALWAYS, HELD }
 
 const CONDITIONS: Dictionary[String, Condition] = {
 	"weapon_in_hand": Condition.WEAPON_IN_HAND,
@@ -39,6 +43,7 @@ const CONDITIONS: Dictionary[String, Condition] = {
 	"takes_back": Condition.TAKES_BACK,
 	"no_mark": Condition.NO_MARK,
 	"always": Condition.ALWAYS,
+	"held": Condition.HELD,
 }
 
 var rule_id: StringName
@@ -94,6 +99,8 @@ class Leaver:
 	var gender: StringName = &""
 	## The saved marks (query("marks/<name>")).
 	var marks: Dictionary = {}
+	## The set_temp() flags (query_temp()).
+	var temps: Dictionary = {}
 
 	func _init(
 		p_weapon_in_hand: bool = false, p_combat_exp: int = 0, p_master_id: StringName = &"",
@@ -118,7 +125,7 @@ class Leaver:
 
 
 ## Whether the rule stops `leaver`, with `present` true when an NPC of
-## `present_npc_id` is in the room.
+## `present_npc_id` is in the room (held: one standing that holds the flag).
 func refuses(leaver: Leaver, present: bool) -> bool:
 	match condition:
 		Condition.WEAPON_IN_HAND:
@@ -139,12 +146,14 @@ func refuses(leaver: Leaver, present: bool) -> bool:
 			return int(leaver.marks.get(mark, 0)) == 0
 		Condition.ALWAYS:
 			return true
+		Condition.HELD:
+			return int(leaver.temps.get(temp, 0)) != 0 and present
 	return false
 
 
 ## {id, room, from_zone, to_zone, when, lines: [line], pass_lines?: [line], legacy_source}
 ## and per `when`: weapon_in_hand {present: npc id}, combat_exp_below {value},
-## not_apprentice_of {npc}, not_family {family}, kar_slip {value}, no_mark {mark}, always, never (pass_lines only),
+## not_apprentice_of {npc}, not_family {family}, kar_slip {value}, no_mark {mark}, always, held {present, temp}, never (pass_lines only),
 ## ask {unless_gender, ask, choice, point; no lines}, takes_back {item, temp | items, taken:
 ## [NpcLine record], without: [line]; no lines}.
 static func from_record(reader: ContentRecordReader) -> ZoneExitRuleDefinition:
@@ -160,6 +169,9 @@ static func from_record(reader: ContentRecordReader) -> ZoneExitRuleDefinition:
 	match rule.condition:
 		Condition.WEAPON_IN_HAND:
 			rule.present_npc_id = StringName(reader.required_text("present"))
+		Condition.HELD:
+			rule.present_npc_id = StringName(reader.required_text("present"))
+			rule.temp = reader.required_text("temp")
 		Condition.COMBAT_EXP_BELOW, Condition.KAR_SLIP:
 			rule.value = reader.required_integer("value")
 			if rule.value <= 0:
