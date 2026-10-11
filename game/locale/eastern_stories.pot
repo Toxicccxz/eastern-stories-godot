@@ -1978,10 +1978,6 @@ msgid "西 · 水烟阁"
 msgstr ""
 
 #: scenes/world/snow/snow_outdoor.tscn
-msgid "西南 · 天驼关"
-msgstr ""
-
-#: scenes/world/snow/snow_outdoor.tscn
 msgid "西南 · 黄石隘口"
 msgstr ""
 
