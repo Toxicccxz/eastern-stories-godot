@@ -187,6 +187,7 @@ static func _restore_npc_ledger(
 		saved_by_point[saved.spawn_point_id] = saved
 	var entries: Array[OldPineRestoredNpcEntry] = []
 	var referenced_loadout_ids: Dictionary[StringName, bool] = {}
+	var item_ids: PackedStringArray = PackedStringArray(item_index.snapshot_ids())
 	for spawn: NpcSpawnDefinition in _world_spawns(snapshot.world_content_revision):
 		var definition: NpcDefinition = GameContent.catalog().npc(
 			spawn.npc_definition_id
@@ -248,6 +249,7 @@ static func _restore_npc_ledger(
 				item_index,
 				referenced_loadout_ids,
 				snapshot.item_id_allocator.scope,
+				item_ids,
 			):
 				return Result.failure(
 					Result.Outcome.INCONSISTENT_SPAWN_STATE,
@@ -530,6 +532,7 @@ static func _loadout_matches(
 	item_index: WorldItemInstanceIndex,
 	global_ids: Dictionary[StringName, bool],
 	snapshot_scope: StringName,
+	item_ids: PackedStringArray,
 ) -> bool:
 	var expected_counts: Dictionary[StringName, int] = {}
 	# Either side of a carry choice may have been drawn (worker2.c's hammer or rope).
@@ -564,9 +567,13 @@ static func _loadout_matches(
 	# (drunk.c drops its emptied wineskin, which may then be sold). A living NPC
 	# lists every loadout item that still exists, as the capture does.
 	var prefix: String = ("" if snapshot_scope.is_empty() else String(snapshot_scope) + ".") + String(saved.character_id) + ".loadout."
-	for item_id: StringName in item_index.snapshot_ids() if saved.life_status != &"dead" else []:
-		if String(item_id).begins_with(prefix) and not resolved_ids.has(item_id):
-			return false
+	# `item_ids` is item_index.snapshot_ids(), sorted: the ids with this prefix lie together.
+	if saved.life_status != &"dead":
+		var at: int = item_ids.bsearch(prefix)
+		while at < item_ids.size() and item_ids[at].begins_with(prefix):
+			if not resolved_ids.has(StringName(item_ids[at])):
+				return false
+			at += 1
 	for item_id: StringName in resolved_ids:
 		global_ids[item_id] = true
 	return true
