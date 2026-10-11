@@ -27,6 +27,11 @@ enum BootstrapMode {
 @export var deterministic_world_interaction_seed: bool = false
 @export var world_interaction_seed: int = 93_232
 
+## Test runs only (tests/run_suite.gd): every map scene read stays loaded, so a suite's
+## next world does not parse the scene files again. The game reads them per session;
+## exported scenes are binary and quick to load, and keeping them would cost memory.
+static var keep_map_scenes: bool = false
+static var _kept_map_scenes: Dictionary[String, PackedScene] = {}
 
 var _inventory: InventoryState
 var _stacks: CombinedStackCollection
@@ -923,7 +928,13 @@ func _activate_first_map(map_id: StringName) -> bool:
 
 func _instantiate_map(map_id: StringName) -> Node:
 	var map: MapDefinition = GameContent.catalog().map(map_id)
-	var scene: PackedScene = null if map == null else load(map.scene_path) as PackedScene
+	if map == null:
+		return null
+	var scene: PackedScene = _kept_map_scenes.get(map.scene_path)
+	if scene == null:
+		scene = load(map.scene_path) as PackedScene
+		if scene != null and keep_map_scenes:
+			_kept_map_scenes[map.scene_path] = scene
 	return null if scene == null else scene.instantiate()
 
 

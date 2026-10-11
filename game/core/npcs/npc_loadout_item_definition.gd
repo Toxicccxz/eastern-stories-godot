@@ -61,6 +61,11 @@ func item_definition() -> ItemDefinitionType:
 	return _copy_item_definition(_item_definition)
 
 
+## The item's id without copying its definition (null definition: empty).
+func item_definition_id() -> StringName:
+	return &"" if _item_definition == null else _item_definition.item_definition_id
+
+
 func weapon_definition() -> WeaponDefinitionType:
 	return _copy_weapon_definition(_weapon_definition)
 

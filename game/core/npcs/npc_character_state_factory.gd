@@ -79,6 +79,7 @@ func create_spawn_instances(
 	item_instance_scope: StringName = &"",
 ) -> Array[NpcRuntimeState]:
 	var result: Array[NpcRuntimeState] = []
+	var content: Dictionary[StringName, NpcLoadoutItemDefinition] = _content_by_id(loadout_content)
 	if (
 		spawn == null
 		or not spawn.is_valid()
@@ -92,7 +93,7 @@ func create_spawn_instances(
 		or inventory == null
 		or stacks == null
 		or random_source == null
-		or not _loadout_content_resolves(definition, loadout_content)
+		or not _loadout_content_resolves(definition, content)
 	):
 		return result
 	var spawn_points: Array[StringName] = spawn.spawn_point_ids()
@@ -100,7 +101,7 @@ func create_spawn_instances(
 		var character_id: StringName = StringName(
 			"%s.character" % String(spawn_point_id)
 		)
-		var runtime: NpcRuntimeStateType = create_one(
+		var runtime: NpcRuntimeStateType = _create_one(
 			definition,
 			character_id,
 			spawn.spawn_id,
@@ -109,7 +110,7 @@ func create_spawn_instances(
 			inventory,
 			stacks,
 			random_source,
-			loadout_content,
+			content,
 			item_instance_scope,
 		)
 		if runtime == null:
@@ -129,6 +130,21 @@ func create_one(
 	random_source: RandomSourceType,
 	loadout_content: Array[NpcLoadoutItemDefinition],
 	item_instance_scope: StringName = &"",
+) -> NpcRuntimeStateType:
+	return _create_one(definition, character_id, spawn_id, spawn_point_id, location, inventory, stacks, random_source, _content_by_id(loadout_content), item_instance_scope)
+
+
+func _create_one(
+	definition: NpcDefinitionType,
+	character_id: StringName,
+	spawn_id: StringName,
+	spawn_point_id: StringName,
+	location: WorldLocationStateType,
+	inventory: InventoryStateType,
+	stacks: StackCollectionType,
+	random_source: RandomSourceType,
+	loadout_content: Dictionary[StringName, NpcLoadoutItemDefinition],
+	item_instance_scope: StringName,
 ) -> NpcRuntimeStateType:
 	if (
 		definition == null
@@ -370,7 +386,7 @@ static func _draw_with_offset(
 ## The definition's carry entries as this NPC gets them: a choice drawn to one side,
 ## a drawn amount set, a drawn name (book.c's names[random(sizeof(names))], as the item
 ## is made). Fewer entries than authored when a draw is out of range.
-static func _resolve_loadout(definition: NpcDefinitionType, random_source: RandomSourceType, loadout_content: Array[NpcLoadoutItemDefinition] = []) -> Array[NpcLoadoutEntry]:
+static func _resolve_loadout(definition: NpcDefinitionType, random_source: RandomSourceType, loadout_content: Dictionary[StringName, NpcLoadoutItemDefinition]) -> Array[NpcLoadoutEntry]:
 	var result: Array[NpcLoadoutEntry] = []
 	for entry: NpcLoadoutEntry in definition.loadout_entries():
 		var chosen: NpcLoadoutEntry = entry
@@ -402,7 +418,7 @@ func _apply_loadout(
 	maximum_encumbrance: int,
 	inventory: InventoryStateType,
 	stacks: StackCollectionType,
-	loadout_content: Array[NpcLoadoutItemDefinition],
+	loadout_content: Dictionary[StringName, NpcLoadoutItemDefinition],
 	item_instance_scope: StringName,
 ) -> Array[ItemInstance]:
 	var created: Array[ItemInstance] = []
@@ -501,26 +517,30 @@ func _apply_loadout(
 	return created
 
 
+## The valid loadout content by item id; an id two valid contents share maps to null,
+## so it is found by neither (as when each lookup scanned the list).
+static func _content_by_id(
+	loadout_content: Array[NpcLoadoutItemDefinition],
+) -> Dictionary[StringName, NpcLoadoutItemDefinition]:
+	var result: Dictionary[StringName, NpcLoadoutItemDefinition] = {}
+	for content: LoadoutItemDefinitionType in loadout_content:
+		if content == null or not content.is_valid():
+			continue
+		var id: StringName = content.item_definition_id()
+		result[id] = null if result.has(id) else content
+	return result
+
+
 static func _find_content(
 	item_definition_id: StringName,
-	loadout_content: Array[NpcLoadoutItemDefinition],
+	loadout_content: Dictionary[StringName, NpcLoadoutItemDefinition],
 ) -> LoadoutItemDefinitionType:
-	var found: LoadoutItemDefinitionType = null
-	for content: LoadoutItemDefinitionType in loadout_content:
-		if (
-			content != null
-			and content.is_valid()
-			and content.item_definition().item_definition_id == item_definition_id
-		):
-			if found != null:
-				return null
-			found = content
-	return found
+	return loadout_content.get(item_definition_id)
 
 
 static func _loadout_content_resolves(
 	definition: NpcDefinitionType,
-	loadout_content: Array[NpcLoadoutItemDefinition],
+	loadout_content: Dictionary[StringName, NpcLoadoutItemDefinition],
 ) -> bool:
 	if definition == null:
 		return false
@@ -533,7 +553,7 @@ static func _loadout_content_resolves(
 
 static func _expected_live_item_count(
 	entries: Array[NpcLoadoutEntry],
-	loadout_content: Array[NpcLoadoutItemDefinition],
+	loadout_content: Dictionary[StringName, NpcLoadoutItemDefinition],
 ) -> int:
 	var result: int = 0
 	for entry: LoadoutEntryType in entries:
