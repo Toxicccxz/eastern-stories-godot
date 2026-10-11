@@ -414,7 +414,7 @@ func _test_sword_soul(tree: SceneTree, session: WorldSessionController) -> void:
 	var soul: NpcRuntimeState = _npc(map, SOUL)
 	_check(soul != null and soul.world_location().zone_id == &"choyin.entrance", "风泉剑灵 stands on the 曼雩台")
 	var lines: Array[String] = hud.log_lines()
-	for line: ColoredLine in hud._after_fight_lines:
+	for line: ColoredLine in hud.message_log._after_fight_lines:
 		lines.append(line.text)
 	_check(lines.has("你看到风泉之剑掉落在地上 ...") and lines.has("不 ... 它飘了起来！一个人形忽然浮现，手中正握著风泉之剑！"), "its lines: %s" % [lines.slice(-4)])
 	var swords: int = 0
@@ -497,7 +497,7 @@ func _test_player_holder(tree: SceneTree, session: WorldSessionController) -> vo
 ## The windspring.c lines read so far.
 func _floated(hud: SharedGameplayUI) -> int:
 	var lines: Array[String] = hud.log_lines()
-	for line: ColoredLine in hud._after_fight_lines:
+	for line: ColoredLine in hud.message_log._after_fight_lines:
 		lines.append(line.text)
 	return lines.count("不 ... 它飘了起来！一个人形忽然浮现，手中正握著风泉之剑！")
 

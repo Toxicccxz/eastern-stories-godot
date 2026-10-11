@@ -94,7 +94,7 @@ func _test_elder(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(hud.relay_buttons_shown() == ["接话：必有妖孽"], "the 打听 panel offers the 接话")
 	var said: Array[String] = map.say_beside_selected("必有妖孽")
 	_check(said == ["你说道：必有妖孽", "村长说道：对呀.. 你就是妖孽..."], "relay_say(): 你就是妖孽: " + str(said))
-	_check(hud._log_colors.slice(-2) == [ColoredLine.PLAIN, ColoredLine.PLAIN], "speech is plain (colour macros are presentation)")
+	_check(hud.message_log._log_colors.slice(-2) == [ColoredLine.PLAIN, ColoredLine.PLAIN], "speech is plain (colour macros are presentation)")
 	var kee: int = player.state.vitality.current
 	player.state.vitality.current = player.state.vitality.maximum / 5 - 1 # TEST-ONLY
 	_check(map.say_beside_selected("必有妖孽") == ["你说道：必有妖孽 ..."], "kee below max_kee / 5: 必有妖孽 ..., which he lets pass")
@@ -117,7 +117,7 @@ func _test_whispers(tree: SceneTree, session: WorldSessionController) -> void:
 	drunk.set_flag(&"has_alcohol", false) # TEST-ONLY: he drank it
 	var first: ItemHandlingResult = map.give_to_selected(wine)
 	_check(first.lines == ["醉汉在你的耳边悄声说道：嗯.. 你是想问我玉佩的事吧? 我卖给沈老板了, 那东西不吉祥...", "你给醉汉一个牛皮酒袋。"], "the 玉佩 whisper: " + str(first.lines))
-	_check(hud._log_colors.slice(-2) == [ColoredLine.GRN, ColoredLine.PLAIN] and player.state.marks.get("give_alcohol", 0) == 1, "in whisper.c's GRN; give_alcohol")
+	_check(hud.message_log._log_colors.slice(-2) == [ColoredLine.GRN, ColoredLine.PLAIN] and player.state.marks.get("give_alcohol", 0) == 1, "in whisper.c's GRN; give_alcohol")
 	drunk.set_flag(&"has_alcohol", false) # TEST-ONLY
 	var second: ItemHandlingResult = map.give_to_selected(_new_item(session, WINESKIN))
 	_check(second.lines[0] == "醉汉在你的耳边悄声说道：听说沈记商行有在卖蒙汗药..." and player.state.marks.get("know_drug", 0) == 1, "the 蒙汗药 whisper: " + str(second.lines))

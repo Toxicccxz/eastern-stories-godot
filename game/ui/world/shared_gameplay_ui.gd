@@ -109,13 +109,6 @@ var _selected_corpse_count: int = 0
 var _selected_corpse_available: bool = false
 var _selected_corpse_in_range: bool = false
 var _selected_floor_item: bool = false
-var _log_lines: Array[String] = []
-## The ES2 colour of each log line (ColoredLine; &"" plain), e.g. kill_ob()'s
-## 看起来X想杀死你！ in HIR bright red.
-var _log_colors: Array[StringName] = []
-## Lines the world printed while a fight ran that read best after its result
-## (killer_reward()'s quest reward): shown with show_combat_result().
-var _after_fight_lines: Array[ColoredLine] = []
 const ALERT_COLOR: Color = Color(1.0, 0.38, 0.38)
 ## Plain log text is a light grey, so ES2's HIW (bright white) stands out from it
 ## (owner, modern fixes II); the log, the toasts and the battle log share it.
@@ -137,6 +130,29 @@ var _presentation_layout: SharedGameplayLayout
 ## Names the player's shown conditions (蛇毒) on the HUD.
 var _conditions: ConditionSystem = ConditionSystem.new()
 var life_overlay: PlayerLifeOverlay
+var _session: WorldSessionController
+var _bound_map: WorldResidentMapController
+var _food: HeldFoodPanel
+var _liquid: HeldLiquidPanel
+var _supplies: VBoxContainer
+var _elapsed: float = 0.0
+var _ask_panel: VBoxContainer
+var _ask_topics: HFlowContainer
+var _ask_relay: HFlowContainer
+## The NPC's own commands the player can use beside it now (跪下受戒).
+var _ask_verbs: HFlowContainer
+var _ask_answer: Label
+## Owner (modern fixes II): giving away what the player has equipped, or a large sum
+## (GIVE_MONEY_ASK_AT 文 or more), is asked first; give.c asks nothing. An NPC that
+## takes bets or donations (the 宝官, the 功德箱's keeper) is not asked about money.
+const GIVE_MONEY_ASK_AT: int = 10000
+# TRANSLATORS: asked before 给 (give.c) of an item the player has equipped ({item}) to an NPC ({npc}).
+const GIVE_EQUIPPED_WARNING: String = "{item}正装备在你身上。确定把它送给{npc}吗？送出去的东西一般就要不回来了。"
+# TRANSLATORS: asked before 给 (give.c) of a large sum ({money}, e.g. 三两黄金) to an NPC ({npc}).
+const GIVE_MONEY_WARNING: String = "确定把{money}送给{npc}吗？送出去的钱一般就要不回来了。"
+
+## The HUD's components (code moved out of this file; this class forwards to them).
+var message_log: SharedUiMessageLog = SharedUiMessageLog.new(self)
 
 
 func _ready() -> void:
@@ -477,93 +493,6 @@ func refresh_live_state() -> void:
 	portal_button.text = tr("前往") if _selected_landmark == null else tr(_selected_landmark.action_label)
 
 
-func show_combat_result(text: String) -> void:
-	_append(_colored([text]), false)
-	# The result's first line as a toast, not a modal input blocker on compact HUDs.
-	_presentation_layout.toasts.push(text.get_slice("\n", 0))
-	world_title.tooltip_text = text
-	if not _after_fight_lines.is_empty():
-		var lines: Array[ColoredLine] = _after_fight_lines.duplicate()
-		_after_fight_lines.clear()
-		append_colored_lines(lines)
-
-
-## Lines for the log once the running fight's result is shown (at once outside a fight).
-func append_after_fight(lines: Array[ColoredLine]) -> void:
-	if _session != null and _session.is_initialized() and _session.combat_encounter_coordinator().has_active_encounter():
-		_after_fight_lines.append_array(lines)
-	else:
-		append_colored_lines(lines)
-
-
-## `alert`: the lines are warnings ES2 prints in bright red (HIR).
-func append_log_lines(lines: Array[String], alert: bool = false) -> void:
-	append_colored_lines(_colored(lines, alert))
-
-
-static func _colored(lines: Array[String], alert: bool = false) -> Array[ColoredLine]:
-	var colored: Array[ColoredLine] = []
-	for line: String in lines:
-		colored.append(ColoredLine.new(line, ColoredLine.HIR if alert else ColoredLine.PLAIN))
-	return colored
-
-
-## Lines in the colours ES2 prints them in: in 消息, and as toasts while no panel or
-## fight shows its own lines.
-func append_colored_lines(lines: Array[ColoredLine]) -> void:
-	_append(lines, true)
-
-
-func _append(lines: Array[ColoredLine], toast: bool) -> void:
-	var stack: MessageToasts = _presentation_layout.toasts
-	stack.set_suppressed(_toasts_suppressed())
-	for line: ColoredLine in lines:
-		if not line.text.is_empty():
-			_log_lines.append(line.text)
-			_log_colors.append(line.color)
-			if toast:
-				# A message of several lines (god.c's 朱鸿雪沉思了一会儿，说道： / 请在…) is shown whole.
-				stack.push(line.text.replace("\n", " "), ES2_COLORS.get(line.color, MessageToasts.PLAIN_TEXT), ES2_COLORS.has(line.color))
-	while _log_lines.size() > MAX_LOG_LINES:
-		_log_lines.pop_front()
-		_log_colors.pop_front()
-	var shown: PackedStringArray = []
-	for index: int in _log_lines.size():
-		var plain: String = _log_lines[index].replace("[", "[lb]")
-		var color: StringName = _log_colors[index]
-		shown.append("[color=#%s]%s[/color]" % [ES2_COLORS[color].to_html(false), plain] if ES2_COLORS.has(color) else plain)
-	combat_log.text = "\n".join(shown)
-
-
-## The bottom left's toasts (MessageToasts).
-func toasts() -> MessageToasts:
-	return _presentation_layout.toasts
-
-
-func refresh_toasts() -> void:
-	if not _presentation_layout.frame.visible:
-		_panel_shows_lines = false
-	_presentation_layout.toasts.set_suppressed(_toasts_suppressed())
-
-
-## SharedGameplayLayout opened a panel: one that shows its own lines says so after.
-func panel_opened() -> void:
-	_panel_shows_lines = false
-	refresh_toasts()
-
-
-## A panel that shows its own lines (打听, a teacher, a shop: dialogue stays in its
-## panel) or a fight shows them then. Other panels (背包, 拾取, 角色) let toasts through.
-func _toasts_suppressed() -> bool:
-	return (_presentation_layout.frame.visible and _panel_shows_lines) or (
-		_session != null and _session.is_initialized() and _session.combat_encounter_coordinator().has_active_encounter()
-	)
-
-
-func log_lines() -> Array[String]:
-	return _log_lines.duplicate()
-
-
 func selected_target_text() -> String:
 	return selected_target_label.text
 
@@ -646,7 +575,7 @@ func open_ask() -> void:
 	_ask_relay.visible = not map.relay_phrases_selected().is_empty()
 	_refresh_ask_verbs(map)
 	_ask_answer.text = ""
-	_open_panel_with_lines(tr("打听 · %s") % tr(_selected_target.definition().display_name), _ask_panel, _selected_npc_askable)
+	message_log.open_panel_with_lines(tr("打听 · %s") % tr(_selected_target.definition().display_name), _ask_panel, _selected_npc_askable)
 	_presentation_layout.refresh_rows()
 
 
@@ -784,26 +713,6 @@ func _update_bar(resource: CharacterResourceState, bar: ProgressBar) -> void:
 	})
 
 
-var _session: WorldSessionController
-var _bound_map: WorldResidentMapController
-var _food: HeldFoodPanel
-var _liquid: HeldLiquidPanel
-var _supplies: VBoxContainer
-var _elapsed: float = 0.0
-## Zone whose description was last written to the log; entering another zone
-## writes the new one, as ES2 printed a room on arrival.
-var _described_zone_id: StringName = &""
-var _business_feedback: String = ""
-## The open panel shows its own lines (an NPC's panel, 打听): no toasts while it is open.
-var _panel_shows_lines: bool = false
-var _ask_panel: VBoxContainer
-var _ask_topics: HFlowContainer
-var _ask_relay: HFlowContainer
-## The NPC's own commands the player can use beside it now (跪下受戒).
-var _ask_verbs: HFlowContainer
-var _ask_answer: Label
-
-
 func initialize_supplies() -> void:
 	if _supplies != null:
 		return
@@ -855,7 +764,7 @@ func _process(delta: float) -> void:
 	if not visible:
 		_presentation_layout.close_panel()
 		# A fight clears the toasts from before it.
-		refresh_toasts()
+		message_log.refresh_toasts()
 		return
 	_presentation_layout.validate_open_panel()
 	if _presentation_layout._content == _presentation_layout.details:
@@ -907,9 +816,9 @@ func refresh_exploration() -> void:
 	_presentation_layout.contexts.visible = local_target or not context.is_empty()
 	if _presentation_layout.character.is_visible_in_tree():
 		_refresh_character()
-	_collect_feedback()
-	_describe_new_zone()
-	refresh_toasts()
+	message_log.collect_feedback()
+	message_log.describe_new_zone()
+	message_log.refresh_toasts()
 	_presentation_layout.fit_bar()
 
 
@@ -923,46 +832,11 @@ func location_name() -> String:
 	return "" if zone == null else zone.display_name
 
 
-## ES2 room text keeps the MUD's hard line breaks; the UI wraps it itself.
-static func room_prose(text: String) -> String:
-	return text.strip_edges().replace("\n", "")
-
-
-## The room's text now, if the player came into it since it was last described: what
-## happens there on arrival (the player's berserk) reads after it, as ES2's move()
-## looks before init()'s call_out()s.
-func describe_arrival() -> void:
-	_describe_new_zone()
-
-
-## The player came into the room they left (a 迷阵 exit back to itself): ES2 shows
-## the room again, as on any move.
-func describe_again() -> void:
-	_described_zone_id = &""
-	_describe_new_zone()
-
-
-func _describe_new_zone() -> void:
-	var zone: ZoneDefinition = current_zone()
-	if zone == null or zone.zone_id == _described_zone_id:
-		return
-	var previous: ZoneDefinition = GameContent.catalog().zone(_described_zone_id)
-	_described_zone_id = zone.zone_id
-	# Owner: neighbouring rooms of one name (黄土小径, 雪亭镇街道) are one place; walking on
-	# into the next tells nothing new (观察 still reads its text). A `distinct` room (the
-	# hall of 老松寨, cave5) has its own say.
-	if (previous != null and previous.map_id == zone.map_id and previous.display_name == zone.display_name
-			and not previous.distinct and not zone.distinct and GameContent.catalog().zones_adjacent(previous.zone_id, zone.zone_id)):
-		return
-	# TRANSLATORS: a room's title and its description, as the log shows them on arrival.
-	append_log_lines([tr("【{title}】{description}").format({"title": tr(zone.display_name), "description": room_prose(tr(zone.description))})])
-
-
 func open_look() -> void:
 	var zone: ZoneDefinition = current_zone()
 	if zone == null or not _session.portable_inventory_available():
 		return
-	_presentation_layout.room.text = room_prose(tr(zone.description))
+	_presentation_layout.room.text = SharedUiMessageLog.room_prose(tr(zone.description))
 	_presentation_layout.open_panel(tr(zone.display_name), _presentation_layout.room)
 
 
@@ -982,15 +856,8 @@ func open_current_context() -> void:
 
 func open_business(title: String, form: Control, validate: Callable) -> void:
 	if not _session.portable_inventory_available(): return
-	_business_feedback = ""
-	_open_panel_with_lines(title, form, validate)
-
-
-## Opens a panel that shows its own lines: toasts stay off while it is open.
-func _open_panel_with_lines(title: String, content: Control, validate: Callable = Callable()) -> void:
-	_presentation_layout.open_panel(title, content, validate)
-	_panel_shows_lines = _presentation_layout._content == content
-	refresh_toasts()
+	message_log.business_feedback = ""
+	message_log.open_panel_with_lines(title, form, validate)
 
 
 func open_character() -> void:
@@ -1059,11 +926,6 @@ func open_supplies() -> void:
 	_presentation_layout.open_panel("随身补给", _supplies)
 
 
-func open_messages() -> void:
-	if _session.portable_inventory_available():
-		_presentation_layout.open_panel("消息", _presentation_layout.messages)
-
-
 func _inspect_item(id: StringName) -> void:
 	if not _session.portable_inventory_available(): return
 	for row: PlayerInventoryRowProjection in _session.player_inventory_rows():
@@ -1100,16 +962,6 @@ func _carries(id: StringName) -> bool:
 		if row.item_instance_id == id:
 			return true
 	return false
-
-
-## Owner (modern fixes II): giving away what the player has equipped, or a large sum
-## (GIVE_MONEY_ASK_AT 文 or more), is asked first; give.c asks nothing. An NPC that
-## takes bets or donations (the 宝官, the 功德箱's keeper) is not asked about money.
-const GIVE_MONEY_ASK_AT: int = 10000
-# TRANSLATORS: asked before 给 (give.c) of an item the player has equipped ({item}) to an NPC ({npc}).
-const GIVE_EQUIPPED_WARNING: String = "{item}正装备在你身上。确定把它送给{npc}吗？送出去的东西一般就要不回来了。"
-# TRANSLATORS: asked before 给 (give.c) of a large sum ({money}, e.g. 三两黄金) to an NPC ({npc}).
-const GIVE_MONEY_WARNING: String = "确定把{money}送给{npc}吗？送出去的钱一般就要不回来了。"
 
 
 func _give_warning(map: WorldMapController, id: StringName, amount: int) -> String:
@@ -1358,7 +1210,7 @@ func _close_panel_of(panel: Control) -> void:
 
 ## 中止施法 (an empty answer): its line, and back to the 武学 page.
 func _drift_cancel() -> void:
-	append_log_lines([tr(DriftSenseConjure.CANCELLED)])
+	message_log.append_log_lines([tr(DriftSenseConjure.CANCELLED)])
 	open_martial_arts()
 
 
@@ -1477,9 +1329,9 @@ func _wear_item(id: StringName) -> void:
 		var item: ItemInstance = _session.item_instance_index().resolve(id)
 		var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
 		if content != null and not content.wear_refusal.is_empty():
-			append_log_lines([tr(content.wear_refusal).strip_edges()])
+			message_log.append_log_lines([tr(content.wear_refusal).strip_edges()])
 		else:
-			append_log_lines([tr("这是女人的衣衫，你一个大男人也想穿，羞也不羞？")])
+			message_log.append_log_lines([tr("这是女人的衣衫，你一个大男人也想穿，羞也不羞？")])
 	open_inventory()
 
 
@@ -1549,19 +1401,6 @@ func _take_context(id: StringName) -> void:
 	if map != null: map.take_selected_loot_item(id)
 
 
-func _collect_feedback() -> void:
-	if not _presentation_layout.frame.visible: return
-	var lines: Array[String] = []
-	for node: Node in _presentation_layout.mount.find_children("*", "Label", true, false):
-		var label := node as Label
-		# A fixed feedback holds its source text and translates itself: the log takes what it shows.
-		if label.name == "Feedback" and not label.text.is_empty(): lines.append(label.atr(label.text) if label.can_auto_translate() else label.text)
-	var text := "\n".join(lines)
-	if not text.is_empty() and text != _business_feedback:
-		_business_feedback = text
-		append_log_lines(lines)
-
-
 func dismiss_current_panel() -> void:
 	var map := _session.active_map() as WorldMapController
 	if map != null and map.dismiss_panel(_presentation_layout._content):
@@ -1573,3 +1412,54 @@ func dismiss_current_panel() -> void:
 func close_business(form: Control) -> void:
 	if _presentation_layout._content == form:
 		_presentation_layout.close_panel()
+
+
+# --- forwarded to SharedUiMessageLog (message_log) ---
+
+
+func show_combat_result(text: String) -> void:
+	message_log.show_combat_result(text)
+
+
+func append_after_fight(lines: Array[ColoredLine]) -> void:
+	message_log.append_after_fight(lines)
+
+
+func append_log_lines(lines: Array[String], alert: bool = false) -> void:
+	message_log.append_log_lines(lines, alert)
+
+
+func append_colored_lines(lines: Array[ColoredLine]) -> void:
+	message_log.append_colored_lines(lines)
+
+
+func toasts() -> MessageToasts:
+	return message_log.toasts()
+
+
+func refresh_toasts() -> void:
+	message_log.refresh_toasts()
+
+
+func panel_opened() -> void:
+	message_log.panel_opened()
+
+
+func log_lines() -> Array[String]:
+	return message_log.log_lines()
+
+
+static func room_prose(text: String) -> String:
+	return SharedUiMessageLog.room_prose(text)
+
+
+func describe_arrival() -> void:
+	message_log.describe_arrival()
+
+
+func describe_again() -> void:
+	message_log.describe_again()
+
+
+func open_messages() -> void:
+	message_log.open_messages()
