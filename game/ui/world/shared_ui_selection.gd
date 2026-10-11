@@ -51,7 +51,7 @@ func set_selected_target(target: NpcRuntimeState) -> void:
 	selected_landmark = null
 	selected_landmark_source_available = false
 	_clear_selected_corpse()
-	_ui.close_loot()
+	_ui.items.close_loot()
 	_ui.inspection_text.text = ""
 	_ui.selected_target_label.text = selection_text()
 	refresh_live_state()
@@ -65,7 +65,7 @@ func set_selected_landmark(
 	selected_landmark = landmark
 	selected_landmark_source_available = source_available
 	_clear_selected_corpse()
-	_ui.close_loot()
+	_ui.items.close_loot()
 	_ui.inspection_text.text = ""
 	_ui.selected_target_label.text = selection_text()
 	refresh_live_state()
@@ -92,7 +92,7 @@ func set_selected_corpse(
 	selected_floor_item = false
 	if clear_inspection:
 		_ui.inspection_text.text = ""
-		_ui.close_loot()
+		_ui.items.close_loot()
 	_ui.selected_target_label.text = selection_text()
 	refresh_live_state()
 
@@ -108,7 +108,7 @@ func set_selected_floor_item(display_name: String, in_range: bool, clear_inspect
 	selected_floor_item = selected_corpse_available
 	if clear_inspection:
 		_ui.inspection_text.text = ""
-		_ui.close_loot()
+		_ui.items.close_loot()
 	_ui.selected_target_label.text = selection_text()
 	refresh_live_state()
 

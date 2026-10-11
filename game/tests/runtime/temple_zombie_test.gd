@@ -186,7 +186,7 @@ func _test_scribe(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not map.scribe_on(paper_id) and hud.log_lines().back() == "你的精神太差了，无法画符。" and player.state.recovery.mana.current == 1000, "29 sen: 你的精神太差了，无法画符。")
 	player.state.spirit.current = 35
 	_check(map.scribe_knocks_out(), "35 sen: drawing would knock the player out")
-	hud._scribe_on(paper_id)
+	hud.items.scribe_on(paper_id)
 	_check(hud.is_asking() and hud.confirm_prompt.message.text.contains("40 点神"), "asked first: %s" % hud.confirm_prompt.message.text)
 	hud.confirm_prompt.cancel()
 	await tree.process_frame
@@ -194,7 +194,7 @@ func _test_scribe(tree: SceneTree, session: WorldSessionController) -> void:
 	_full(player.state)
 	player.state.vitality = CharacterResourceState.new(0, 0, player.state.vitality.maximum) # TEST-ONLY: wounded to 0 effective kee
 	_check(map.scribe_kills() and not map.scribe_knocks_out(), "0 effective kee: the drop of blood would kill (eff_kee -1), sen is enough")
-	hud._scribe_on(paper_id)
+	hud.items.scribe_on(paper_id)
 	_check(hud.is_asking() and hud.confirm_prompt.message.text.begins_with("你伤得太重了"), "asked first, as a death: %s" % hud.confirm_prompt.message.text)
 	hud.confirm_prompt.cancel()
 	await tree.process_frame
@@ -327,7 +327,7 @@ func _test_master_question(tree: SceneTree, session: WorldSessionController, zom
 	map.give_new_item_to_player(ItemContentDefinition.haunting_sheet_id(PAPER, MASTER)) # TEST-ONLY
 	var sheet_id: StringName = _carried(session, ItemContentDefinition.haunting_sheet_id(PAPER, MASTER))
 	_check(map.sheet_carrier() == zombie and map.sheet_target(sheet_id) != null, "林忌 here, the zombie here")
-	hud._attach_sheet(sheet_id)
+	hud.items.attach_sheet(sheet_id)
 	_check(hud.is_asking() and hud.confirm_prompt.message.text.begins_with("林忌是你的师父。老道士的僵尸会追杀林忌"), "asked first: %s" % hud.confirm_prompt.message.text)
 	hud.confirm_prompt.cancel()
 	await tree.process_frame

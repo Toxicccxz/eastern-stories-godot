@@ -312,7 +312,7 @@ msgstr ""
 msgid "关闭"
 msgstr ""
 
-#: scenes/ui/player_inventory_panel.tscn presentation/layout/shared_gameplay_layout.gd ui/world/shared_gameplay_ui.gd
+#: scenes/ui/player_inventory_panel.tscn presentation/layout/shared_gameplay_layout.gd ui/world/shared_ui_inventory.gd
 msgid "背包"
 msgstr ""
 
@@ -7012,44 +7012,6 @@ msgid ""
 "确定要攻击吗？"
 msgstr ""
 
-#. asked before 化尸粉 dissolves a corpse that still holds things (dust.c destructs it whole): {name} whose corpse, {count} how many things are in it.
-#: ui/world/shared_gameplay_ui.gd
-msgid ""
-"化尸粉会把{name}的尸体连同里面的 {count} 件物品一起化成一滩黄水，化掉的东西再也找不回来。\n"
-"确定要化掉吗？"
-msgstr ""
-
-#. asked before the rope's 上吊 (rope.c hang_self(): die()): the character dies as in a fight.
-#: ui/world/shared_gameplay_ui.gd
-msgid ""
-"把绳子往脖子上一套，就是寻死：你会就此死去，和战死一样付出死亡的代价。\n"
-"确定要上吊吗？"
-msgstr ""
-
-#. asked before 画符 (scribe.c, haunt.c) when its 40 神 ({sen}) would leave the player below zero: they faint.
-#: ui/world/shared_gameplay_ui.gd
-msgid ""
-"画这道符要耗去 {sen} 点神，你现在撑不住，会当场昏过去。\n"
-"确定要画吗？"
-msgstr ""
-
-#. asked before 画符 (scribe.c) when the drop of blood it is drawn in (1 point of 气 off its effective value) would kill the badly wounded player.
-#: ui/world/shared_gameplay_ui.gd
-msgid ""
-"你伤得太重了：画符要咬破手指流血，这一点血就会要了你的命。\n"
-"确定要画吗？"
-msgstr ""
-
-#. asked before a 僵尸追魂符 sends the player's zombie ({zombie}) after their own master ({master}): its kill counts as the player's (killer_reward()). {family}, {score}, {next} as in the 攻击 question.
-#: ui/world/shared_gameplay_ui.gd
-msgid ""
-"{master}是你的师父。{zombie}会追杀{master}，它若得手，就算你弑师，等同背叛师门：\n"
-"· 被逐出{family}，门派、师父和称号都没有了。\n"
-"· 综合评价清零（现在是 {score}）。\n"
-"· 背叛师门的次数变成 {next} 次。\n"
-"确定要贴上这道符吗？"
-msgstr ""
-
 #. asked before 空识神通 (void_sense.c) when its 50 gin ({gin}) would knock the player out.
 #: ui/world/shared_gameplay_ui.gd
 msgid ""
@@ -7062,16 +7024,6 @@ msgstr ""
 msgid ""
 "游识神通要耗去 {gin} 点精，你现在撑不住，施展完就会昏过去。\n"
 "确定要施展吗？"
-msgstr ""
-
-#. asked before 给 (give.c) of an item the player has equipped ({item}) to an NPC ({npc}).
-#: ui/world/shared_gameplay_ui.gd
-msgid "{item}正装备在你身上。确定把它送给{npc}吗？送出去的东西一般就要不回来了。"
-msgstr ""
-
-#. asked before 给 (give.c) of a large sum ({money}, e.g. 三两黄金) to an NPC ({npc}).
-#: ui/world/shared_gameplay_ui.gd
-msgid "确定把{money}送给{npc}吗？送出去的钱一般就要不回来了。"
 msgstr ""
 
 #: ui/world/shared_gameplay_ui.gd
@@ -7116,36 +7068,12 @@ msgstr ""
 msgid "随身补给"
 msgstr ""
 
-#: ui/world/shared_gameplay_ui.gd
-msgid "确定送出"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "确定化掉"
-msgstr ""
-
 #: ui/world/shared_gameplay_ui.gd ui/world/shared_ui_context_actions.gd
 msgid "确定施展"
 msgstr ""
 
 #: ui/world/shared_gameplay_ui.gd
-msgid "确定画符"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "确定贴符"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "确定上吊"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
 msgid "请确认"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "这是女人的衣衫，你一个大男人也想穿，羞也不羞？"
 msgstr ""
 
 #. asked before 跪下受戒 (daemon/class/bonze/master.c do_kneel()): {npc} the master, {prefixes} the characters a 法名 begins with (空明圆净虚悟方渡慧法), {first} the first character of the player's name, {example} one 法名 it could make.
@@ -7272,6 +7200,78 @@ msgstr ""
 
 #: ui/world/shared_ui_context_actions.gd
 msgid "确定切磋"
+msgstr ""
+
+#. asked before 化尸粉 dissolves a corpse that still holds things (dust.c destructs it whole): {name} whose corpse, {count} how many things are in it.
+#: ui/world/shared_ui_inventory.gd
+msgid ""
+"化尸粉会把{name}的尸体连同里面的 {count} 件物品一起化成一滩黄水，化掉的东西再也找不回来。\n"
+"确定要化掉吗？"
+msgstr ""
+
+#. asked before the rope's 上吊 (rope.c hang_self(): die()): the character dies as in a fight.
+#: ui/world/shared_ui_inventory.gd
+msgid ""
+"把绳子往脖子上一套，就是寻死：你会就此死去，和战死一样付出死亡的代价。\n"
+"确定要上吊吗？"
+msgstr ""
+
+#. asked before 画符 (scribe.c, haunt.c) when its 40 神 ({sen}) would leave the player below zero: they faint.
+#: ui/world/shared_ui_inventory.gd
+msgid ""
+"画这道符要耗去 {sen} 点神，你现在撑不住，会当场昏过去。\n"
+"确定要画吗？"
+msgstr ""
+
+#. asked before 画符 (scribe.c) when the drop of blood it is drawn in (1 point of 气 off its effective value) would kill the badly wounded player.
+#: ui/world/shared_ui_inventory.gd
+msgid ""
+"你伤得太重了：画符要咬破手指流血，这一点血就会要了你的命。\n"
+"确定要画吗？"
+msgstr ""
+
+#. asked before a 僵尸追魂符 sends the player's zombie ({zombie}) after their own master ({master}): its kill counts as the player's (killer_reward()). {family}, {score}, {next} as in the 攻击 question.
+#: ui/world/shared_ui_inventory.gd
+msgid ""
+"{master}是你的师父。{zombie}会追杀{master}，它若得手，就算你弑师，等同背叛师门：\n"
+"· 被逐出{family}，门派、师父和称号都没有了。\n"
+"· 综合评价清零（现在是 {score}）。\n"
+"· 背叛师门的次数变成 {next} 次。\n"
+"确定要贴上这道符吗？"
+msgstr ""
+
+#. asked before 给 (give.c) of an item the player has equipped ({item}) to an NPC ({npc}).
+#: ui/world/shared_ui_inventory.gd
+msgid "{item}正装备在你身上。确定把它送给{npc}吗？送出去的东西一般就要不回来了。"
+msgstr ""
+
+#. asked before 给 (give.c) of a large sum ({money}, e.g. 三两黄金) to an NPC ({npc}).
+#: ui/world/shared_ui_inventory.gd
+msgid "确定把{money}送给{npc}吗？送出去的钱一般就要不回来了。"
+msgstr ""
+
+#: ui/world/shared_ui_inventory.gd
+msgid "确定送出"
+msgstr ""
+
+#: ui/world/shared_ui_inventory.gd
+msgid "确定化掉"
+msgstr ""
+
+#: ui/world/shared_ui_inventory.gd
+msgid "确定画符"
+msgstr ""
+
+#: ui/world/shared_ui_inventory.gd
+msgid "确定贴符"
+msgstr ""
+
+#: ui/world/shared_ui_inventory.gd
+msgid "确定上吊"
+msgstr ""
+
+#: ui/world/shared_ui_inventory.gd
+msgid "这是女人的衣衫，你一个大男人也想穿，羞也不羞？"
 msgstr ""
 
 #. a room's title and its description, as the log shows them on arrival.

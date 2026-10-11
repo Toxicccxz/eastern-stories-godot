@@ -367,7 +367,7 @@ func _test_quarters_for_a_man(tree: SceneTree, session: WorldSessionController) 
 	# Through before she greets (no NPC time passes): on to the pool.
 	_check(await MapPlaces.drive_to_zone(tree, map, &"latemoon.room.bathroom"), "past her to the pool")
 	var skirt: StringName = map.give_new_item_to_player(SKIRT) # TEST-ONLY
-	hud._wear_item(skirt)
+	hud.items.wear_item(skirt)
 	_check(hud.log_lines()[-1] == "只有女生才可穿哦!你变态呀!" and not session.player_runtime().armor.is_worn(skirt), "the 布裙 refuses a man with its own line")
 	hud.dismiss_current_panel()
 	await tree.physics_frame

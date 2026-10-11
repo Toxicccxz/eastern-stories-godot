@@ -200,11 +200,11 @@ func _test_rope(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(WorldMapController.zone_outdoors(&"oldpine.tree.canopy") and not WorldMapController.zone_outdoors(&"green.house3"), "a zone of rooms that disagree (the pine's canopy, tree3 outdoors) counts as outdoors")
 	_check(hud.log_lines()[-1] == "你四处看看, 实在找不到地方挂绳子说...", "rope.c's line: " + hud.log_lines()[-1])
 	_check(await MapPlaces.drive_to_zone(tree, map, &"green.house3"), "back indoors")
-	hud._hang_with(rope)
+	hud.items.hang_with(rope)
 	_check(hud.is_asking() and hud.confirm_prompt.confirm_button.text == "确定上吊", "deadly: asked first")
 	hud.confirm_prompt.cancel_button.pressed.emit()
 	_check(session.player_runtime().life_status == CharacterRuntimeLifeStatus.Value.ACTIVE, "取消: nothing happens")
-	hud._hang_with(rope)
+	hud.items.hang_with(rope)
 	hud.confirm_prompt.confirm_button.pressed.emit()
 	await tree.process_frame
 	_check(hud.log_lines().has("你把绳子一端挂好, 另一端往脖子上一套....."), "the line")
