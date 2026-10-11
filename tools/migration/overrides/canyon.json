@@ -38,7 +38,7 @@
 				{ "giver_temp": "军营/swear", "say": "即然你那么有心，那我就勉强收起来了。", "accept": true },
 				{ "value_at_least": 800, "lines": [
 					{ "say": "好极了，我就告诉你一项秘密吧。" },
-					{ "say": "在那片光滑的山壁前发誓(swear) 我爱.....。" },
+					{ "say": "在那片光滑的山壁前发誓 我爱.....。" },
 					{ "say": "或许你可以发现奇特的事喔。" }
 				], "set_temps": ["军营/swear"], "accept": true },
 				{ "say": "钱太少了吧！没收。", "accept": true }
@@ -61,7 +61,11 @@
 		},
 		"canyon.npc.seller": {
 			"accept_object": [
-				{ "value_at_least": 30000, "value_at_most": 30000, "giver_temp": "Get_seal", "lines": [
+				{ "value_at_least": 30000, "value_at_most": 30000, "giver_temp": "Get_seal", "giver_carries": "es2:d/canyon/npc/obj/fake_seal", "lines": [
+					{ "say": "我已经给你了啊。" },
+					{ "say": "那么多钱，那我就没收了:P" }
+				], "accept": true },
+				{ "value_at_least": 30000, "value_at_most": 30000, "giver_temp": "Get_seal", "npc_flag": "check", "lines": [
 					{ "say": "我已经给你了啊。" },
 					{ "say": "那么多钱，那我就没收了:P" }
 				], "accept": true },
@@ -128,10 +132,10 @@
 		},
 		"d/canyon/npc/adviser.c": {
 			"set mana_factor": "only hp.c and score.c read it (a player's own sheet): nothing for an NPC",
-			"function accept_object": "accept_object rules in set: worth nothing → Thank You (kept); with set_temp 军营/swear → 勉强收起来 (kept); 800 or more → the secret, set_temp 军营/swear; less → 钱太少了吧！没收。 (kept, as he says; DECISIONS 天驼关 A)"
+			"function accept_object": "accept_object rules in set: worth nothing → Thank You (kept); with set_temp 军营/swear → 勉强收起来 (kept); 800 or more → the secret, set_temp 军营/swear; less → 钱太少了吧！没收。 (kept, as he says; DECISIONS 天驼关 A); the command hint (swear) is dropped from the secret (the oath is a button: DECISIONS 水烟阁 B)"
 		},
 		"d/canyon/npc/seller.c": {
-			"function accept_object": "accept_object rules in set: value() exactly 30000 (3 gold, 300 silver ...) → the fake 印鉴 and set_temp Get_seal, once (after it: 我已经给你了啊, kept); violate_unique() is defined nowhere in the mudlib (0), so that branch never runs; without his own temp check (an NPC flag, saved) the fake 印鉴 from one 将军/kick → the real one, delete_temp 将军/kick, check set; else 你给我这个做什么 (refused); with check: deviation (owner to decide, 天驼关 B): money is kept as he says (如果是钱的话，我先没收了), the rest refused (ES2 returned 0 for both)"
+			"function accept_object": "accept_object rules in set: value() exactly 30000 (3 gold, 300 silver ...) → the fake 印鉴 and set_temp Get_seal, once (after it: 我已经给你了啊, kept, while the player still carries the fake or once he swapped; the flag is saved, so one who lost the fake before the swap buys again, 默认); violate_unique() is defined nowhere in the mudlib (0), so that branch never runs; without his own temp check (an NPC flag, saved) the fake 印鉴 from one 将军/kick → the real one, delete_temp 将军/kick, check set; else 你给我这个做什么 (refused); with check: deviation (owner to decide, 天驼关 B): money is kept as he says (如果是钱的话，我先没收了), the rest refused (ES2 returned 0 for both)"
 		},
 		"d/canyon/npc/obj/fake_seal.c": {
 			"set base_weight": "read only by std/item/combined.c: a plain item weighs 0 (no set_weight())",

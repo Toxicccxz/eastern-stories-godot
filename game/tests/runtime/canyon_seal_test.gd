@@ -20,7 +20,7 @@ const OLD_SWORD: StringName = &"es2:d/canyon/npc/obj/old_sword"
 const SWEAR: StringName = &"canyon.canyon4.swear"
 const SECRET: Array[String] = [
 	"赫造基说道：好极了，我就告诉你一项秘密吧。",
-	"赫造基说道：在那片光滑的山壁前发誓(swear) 我爱.....。",
+	"赫造基说道：在那片光滑的山壁前发誓 我爱.....。",
 	"赫造基说道：或许你可以发现奇特的事喔。",
 ]
 ## canyon4.c do_swear(): message_vision() as the one swearing reads it.
@@ -83,7 +83,7 @@ func _test_data() -> void:
 	_check(sword.display_name == "古 剑" and sword.weapon_skill_type == &"" and sword.study != null and sword.study.skill_id == &"sword" and sword.study.exp_required == 2500 and sword.study.max_skill == 50, "old_sword.c: sword to 50 from 2500 exp, no weapon")
 	var swear: ServiceDefinition = catalog.service(SWEAR)
 	_check(swear.kind == &"act" and swear.zone_id == &"canyon.canyon4" and swear.act.verb == "发誓：我爱东方故事II" and swear.act.acts.size() == 1 and swear.act.acts[0].temp == "军营/swear", "光滑的山壁 · 发誓：我爱东方故事II, only with 军营/swear (owner, Q3)")
-	_check(catalog.npc(ADVISER).dealings().object_rules.size() == 4 and catalog.npc(GENERAL).dealings().object_rules.size() == 4 and catalog.npc(SELLER).dealings().object_rules.size() == 6, "adviser.c, general.c, seller.c accept_object()")
+	_check(catalog.npc(ADVISER).dealings().object_rules.size() == 4 and catalog.npc(GENERAL).dealings().object_rules.size() == 4 and catalog.npc(SELLER).dealings().object_rules.size() == 7, "adviser.c, general.c, seller.c accept_object()")
 
 
 ## seller.c's value()==30000 is exact; general.c tells the two 印鉴 apart by their names, which
@@ -131,8 +131,8 @@ func _test_secret(tree: SceneTree, session: WorldSessionController) -> void:
 	var context: MoneyInventoryContext = Finance.session_context(session)
 	Finance.add_money(context, CurrencyDenomination.Value.SILVER, 40, &"test.silver") # TEST-ONLY
 	_check(gorge.select_npc(_npc(gorge, ADVISER).character_id), "赫造基")
-	var hat: ItemHandlingResult = gorge.give_to_selected(_new_item(session, &"es2:d/canyon/npc/obj/blade"))
-	_check(hat.done() and hat.lines[0] == "赫造基说道：ㄟ....Ｔhank Ｙou!!!", "a blade: Thank You, kept: %s" % [hat.lines])
+	var blade: ItemHandlingResult = gorge.give_to_selected(_new_item(session, &"es2:d/canyon/npc/obj/blade"))
+	_check(blade.done() and blade.lines[0] == "赫造基说道：ㄟ....Ｔhank Ｙou!!!", "a blade: Thank You, kept: %s" % [blade.lines])
 	var little: ItemHandlingResult = gorge.give_to_selected(&"test.silver", 7)
 	_check(little.done() and little.lines[0] == "赫造基说道：钱太少了吧！没收。" and _amount(session, &"test.silver") == 33 and not player.temp_marks.has("军营/swear"), "seven taels: 钱太少了吧！没收。, kept, no secret: %s" % [little.lines])
 	var enough: ItemHandlingResult = gorge.give_to_selected(&"test.silver", 8)
@@ -167,25 +167,33 @@ func _test_swear(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not player.temp_marks.has("军营/swear"), "the secret is spent")
 
 
-## seller.c accept_object(): exactly 30000 → the fake 印鉴, once; anything else, or the fake
-## before 严廷殷 threw the player out, is refused.
+## seller.c accept_object(): exactly 30000 → the fake 印鉴, once while the player still has it
+## (Get_seal is saved: one who lost it buys again, 默认); anything else, or the fake before 严廷殷
+## threw the player out, is refused.
 func _test_fake_seal(tree: SceneTree, session: WorldSessionController) -> void:
 	var armory: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var context: MoneyInventoryContext = Finance.session_context(session)
-	Finance.add_money(context, CurrencyDenomination.Value.GOLD, 8, &"test.gold") # TEST-ONLY
+	Finance.add_money(context, CurrencyDenomination.Value.GOLD, 11, &"test.gold") # TEST-ONLY
 	armory.npc_life._advance_ambience(0.0)
 	_check(armory.select_npc(_npc(armory, SELLER).character_id), "the 后备兵")
 	var two: ItemHandlingResult = armory.give_to_selected(&"test.gold", 2)
-	_check(not two.done() and two.lines == ["后备兵说道：你给我这个做什么？我不要，你拿回去吧。", "后备兵没有收下。"] and _amount(session, &"test.gold") == 8, "two gold: refused: %s" % [two.lines])
+	_check(not two.done() and two.lines == ["后备兵说道：你给我这个做什么？我不要，你拿回去吧。", "后备兵没有收下。"] and _amount(session, &"test.gold") == 11, "two gold: refused: %s" % [two.lines])
 	var three: ItemHandlingResult = armory.give_to_selected(&"test.gold", 3)
-	_check(three.done() and three.lines.slice(0, 2) == ["后备兵说道：不亏是武林中人，一眼就看出端倪了", "后备兵说道：这个印鉴就看在钱的份上和你交换了"] and _amount(session, &"test.gold") == 5, "three gold: %s" % [three.lines])
+	_check(three.done() and three.lines.slice(0, 2) == ["后备兵说道：不亏是武林中人，一眼就看出端倪了", "后备兵说道：这个印鉴就看在钱的份上和你交换了"] and _amount(session, &"test.gold") == 8, "three gold: %s" % [three.lines])
 	_check(_carried(session, FAKE_SEAL) != &"" and player.temp_marks.get("Get_seal", 0) == 1, "the fake 印鉴, and Get_seal")
 	var again: ItemHandlingResult = armory.give_to_selected(&"test.gold", 3)
-	_check(again.done() and again.lines.slice(0, 2) == ["后备兵说道：我已经给你了啊。", "后备兵说道：那么多钱，那我就没收了:P"] and _amount(session, &"test.gold") == 2 and _all_carried(session, FAKE_SEAL).size() == 1, "three gold again: kept, no second seal")
+	_check(again.done() and again.lines.slice(0, 2) == ["后备兵说道：我已经给你了啊。", "后备兵说道：那么多钱，那我就没收了:P"] and _amount(session, &"test.gold") == 5 and _all_carried(session, FAKE_SEAL).size() == 1, "three gold again: kept, no second seal")
 	var early: ItemHandlingResult = armory.give_to_selected(_carried(session, FAKE_SEAL))
 	_check(not early.done() and early.lines[0] == "后备兵说道：你给我这个做什么？我不要，你拿回去吧。" and _carried(session, FAKE_SEAL) != &"", "the fake back before 严廷殷 saw it: refused")
+	# Lost (dropped here), the fake is bought again: Get_seal is saved for good (默认).
+	_check(armory.drop_item(_carried(session, FAKE_SEAL)).done() and _carried(session, FAKE_SEAL) == &"", "the fake dropped")
+	var lost: ItemHandlingResult = armory.give_to_selected(&"test.gold", 3)
+	_check(lost.done() and lost.lines[1] == "后备兵说道：这个印鉴就看在钱的份上和你交换了" and _all_carried(session, FAKE_SEAL).size() == 1 and _amount(session, &"test.gold") == 2, "the fake lost: three gold buy another: %s" % [lost.lines])
 	_check(await MapPlaces.take_passage(tree, armory, &"canyon.blackmarket.east"), "out east onto 隘口中道")
+	# Back beside the smooth wall, the secret spent: no oath.
+	var gorge: WorldMapController = session.active_map() as WorldMapController
+	_check((gorge.service(SWEAR) as ActService).in_reach() and gorge.interaction_title() == "", "out of the 兵器库 by the wall, the secret spent: no oath (%s)" % gorge.interaction_title())
 
 
 ## general.c accept_object(): the fake 印鉴 gets the player thrown out to the camp fire with
@@ -196,6 +204,10 @@ func _test_thrown_out(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(await MapPlaces.drive_through(tree, gorge, CAMP), "into the 将军营帐 again")
 	gorge.npc_life._advance_ambience(0.0)
 	_check(gorge.select_npc(_npc(gorge, GENERAL).character_id), "严廷殷")
+	var thing: ItemHandlingResult = gorge.give_to_selected(_new_item(session, &"es2:d/canyon/npc/obj/blade"))
+	_check(thing.done() and thing.lines[0] == "严廷殷说道：ㄟ....Ｔhank Ｙou!!!", "a blade: Thank You, kept: %s" % [thing.lines])
+	var tael: ItemHandlingResult = gorge.give_to_selected(&"test.silver", 1)
+	_check(tael.done() and tael.lines[0] == "严廷殷说道：啊，真是谢谢你了。", "a tael: 啊，真是谢谢你了。: %s" % [tael.lines])
 	var fake: StringName = _carried(session, FAKE_SEAL)
 	var offered: ItemHandlingResult = gorge.give_to_selected(fake)
 	await tree.physics_frame
@@ -228,10 +240,13 @@ func _test_real_seal(tree: SceneTree, session: WorldSessionController) -> void:
 	var swapped: ItemHandlingResult = armory.give_to_selected(_carried(session, FAKE_SEAL))
 	_check(swapped.done() and swapped.lines.slice(0, 2) == ["后备兵说道：好吧！即然被你发现了，只好认栽了。", "后备兵说道：这个真的你就拿去吧"], "the fake for the real one: %s" % [swapped.lines])
 	_check(_carried(session, SEAL) != &"" and _carried(session, FAKE_SEAL) == &"" and not player.temp_marks.has("将军/kick") and seller.has_flag(&"check"), "the real 印鉴; 将军/kick deleted; his check set")
+	Finance.add_money(Finance.session_context(session), CurrencyDenomination.Value.GOLD, 3, &"test.gold2") # TEST-ONLY
+	var done: ItemHandlingResult = armory.give_to_selected(&"test.gold2")
+	_check(done.done() and done.lines.slice(0, 2) == ["后备兵说道：我已经给你了啊。", "后备兵说道：那么多钱，那我就没收了:P"] and _carried(session, FAKE_SEAL) == &"", "swapped, three gold: kept, no fake: %s" % [done.lines])
 	var back: ItemHandlingResult = armory.give_to_selected(_carried(session, SEAL))
 	_check(not back.done() and back.lines == DONE_WITH + ["后备兵没有收下。"] and _carried(session, SEAL) != &"", "the real one offered him: refused: %s" % [back.lines])
 	var silver: ItemHandlingResult = armory.give_to_selected(&"test.silver", 1)
-	_check(silver.done() and silver.lines.slice(0, 2) == DONE_WITH and _amount(session, &"test.silver") == 15, "a tael: kept, as he says (deviation): %s" % [silver.lines])
+	_check(silver.done() and silver.lines.slice(0, 2) == DONE_WITH and _amount(session, &"test.silver") == 14, "a tael: kept, as he says (deviation): %s" % [silver.lines])
 	# His check survives Save and Continue (the NPC's memory, owner 乔阴 B).
 	var snapshot: GameSaveSnapshot = Work.capture(session)
 	var encoded: GameSaveResult = GameSaveJsonCodec.encode(snapshot)

@@ -21543,7 +21543,7 @@ msgstr ""
 
 #. canyon.npc.adviser accept_object.lines.say
 #: data/canyon/npcs.json
-msgid "在那片光滑的山壁前发誓(swear) 我爱.....。"
+msgid "在那片光滑的山壁前发誓 我爱.....。"
 msgstr ""
 
 #. canyon.npc.adviser accept_object.lines.say

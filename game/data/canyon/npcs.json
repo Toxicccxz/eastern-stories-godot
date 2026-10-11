@@ -301,7 +301,7 @@
 			"accept_object": [
 				{ "value_at_most": 0, "say": "ㄟ....Ｔhank Ｙou!!!", "accept": true },
 				{ "giver_temp": "军营/swear", "say": "即然你那么有心，那我就勉强收起来了。", "accept": true },
-				{ "value_at_least": 800, "lines": [{ "say": "好极了，我就告诉你一项秘密吧。" }, { "say": "在那片光滑的山壁前发誓(swear) 我爱.....。" }, { "say": "或许你可以发现奇特的事喔。" }], "set_temps": ["军营/swear"], "accept": true },
+				{ "value_at_least": 800, "lines": [{ "say": "好极了，我就告诉你一项秘密吧。" }, { "say": "在那片光滑的山壁前发誓 我爱.....。" }, { "say": "或许你可以发现奇特的事喔。" }], "set_temps": ["军营/swear"], "accept": true },
 				{ "say": "钱太少了吧！没收。", "accept": true }
 			]
 		},
@@ -319,7 +319,8 @@
 				{ "item": "es2:d/canyon/npc/obj/blade", "source": "d/canyon/npc/obj/blade.c", "equip": "wield" }
 			],
 			"accept_object": [
-				{ "value_at_least": 30000, "value_at_most": 30000, "giver_temp": "Get_seal", "lines": [{ "say": "我已经给你了啊。" }, { "say": "那么多钱，那我就没收了:P" }], "accept": true },
+				{ "value_at_least": 30000, "value_at_most": 30000, "giver_temp": "Get_seal", "giver_carries": "es2:d/canyon/npc/obj/fake_seal", "lines": [{ "say": "我已经给你了啊。" }, { "say": "那么多钱，那我就没收了:P" }], "accept": true },
+				{ "value_at_least": 30000, "value_at_most": 30000, "giver_temp": "Get_seal", "npc_flag": "check", "lines": [{ "say": "我已经给你了啊。" }, { "say": "那么多钱，那我就没收了:P" }], "accept": true },
 				{ "value_at_least": 30000, "value_at_most": 30000, "lines": [{ "say": "不亏是武林中人，一眼就看出端倪了" }, { "say": "这个印鉴就看在钱的份上和你交换了" }], "gives": "es2:d/canyon/npc/obj/fake_seal", "set_temps": ["Get_seal"], "accept": true },
 				{ "unless_npc_flag": "check", "item": "es2:d/canyon/npc/obj/fake_seal", "giver_temp": "将军/kick", "lines": [{ "say": "好吧！即然被你发现了，只好认栽了。" }, { "say": "这个真的你就拿去吧" }], "gives": "es2:d/canyon/npc/obj/seal", "unset_temps": ["将军/kick"], "set_npc_flag": "check", "accept": true },
 				{ "unless_npc_flag": "check", "say": "你给我这个做什么？我不要，你拿回去吧。", "accept": false },

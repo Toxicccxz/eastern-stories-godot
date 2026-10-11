@@ -34,7 +34,9 @@ extends RefCounted
 ## 印鉴 differ only by the colour of their names (npc/general.c, seller.c). `unset_temps` are the
 ## giver's temps deleted (delete_temp(): seller.c's 将军/kick), and like `unmark_giver` and
 ## `set_temps` they change whether the gift is then taken or not; a refusal may also `move` the
-## giver (general.c's fake 印鉴: set_temp("将军/kick"), move to camp2, return 0).
+## giver (general.c's fake 印鉴: set_temp("将军/kick"), move to camp2, return 0). `giver_carries`
+## is an item the giver carries (present(), by its blueprint): with the temps saved, seller.c's
+## 我已经给你了啊 holds only while the fake is still theirs (天驼关 B, 默认).
 const EFFECT_TEMPLE_DONATION: StringName = &"temple_donation"
 const EFFECT_WAGER: StringName = &"wager"
 const EFFECT_PASS_FORCE: StringName = &"pass_force"
@@ -62,6 +64,8 @@ var item: StringName = &""
 var giver_family: StringName = &""
 ## query_temp(<flag>) of the giver (shaowei.c moon/竹子).
 var giver_temp: String = ""
+## An item definition the giver carries (directly).
+var giver_carries: StringName = &""
 ## query("max_force") of the giver below this (old.c's 160).
 var giver_max_force_below: int = NO_BOUND
 var lines: Array[NpcLine] = []
@@ -105,6 +109,8 @@ class Offer:
 	var item_id: StringName = &""
 	var giver_family: StringName = &""
 	var giver_temps: Dictionary[String, int] = {}
+	## The item definitions the giver carries directly (base_name()s).
+	var giver_carried: Array[StringName] = []
 	var giver_max_force: int = 0
 	## The gift is the giver's own (its master form).
 	var item_mastered: bool = false
@@ -137,6 +143,7 @@ func matches(offer: Offer) -> bool:
 		and (item.is_empty() or offer.item_id == item)
 		and (giver_family.is_empty() or offer.giver_family == giver_family)
 		and (giver_temp.is_empty() or offer.giver_temps.get(giver_temp, 0) != 0)
+		and (giver_carries.is_empty() or offer.giver_carried.has(giver_carries))
 		and (giver_max_force_below == NO_BOUND or offer.giver_max_force < giver_max_force_below)
 	)
 
@@ -184,6 +191,7 @@ static func from_record(reader: ContentRecordReader) -> NpcObjectRule:
 	rule.item = StringName(reader.text("item"))
 	rule.giver_family = StringName(reader.text("giver_family"))
 	rule.giver_temp = reader.text("giver_temp")
+	rule.giver_carries = StringName(reader.text("giver_carries"))
 	rule.giver_max_force_below = reader.integer("giver_max_force_below", NO_BOUND)
 	rule.kill = reader.boolean("kill", false)
 	rule.lines = NpcLine.optional_lines(reader)

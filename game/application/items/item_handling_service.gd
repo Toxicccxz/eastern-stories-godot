@@ -75,6 +75,10 @@ static func give(
 	offer.item_id = StringName(String(content.item_definition_id).trim_suffix(ItemContentDefinition.MASTER_SUFFIX))
 	offer.giver_family = player.state.family.family_id
 	offer.giver_temps = player.temp_marks
+	for carried: StringName in authorities.context.inventory.direct_children(authorities.context.endpoint()):
+		var held: ItemContentDefinition = _content(authorities, carried)
+		if held != null:
+			offer.giver_carried.append(StringName(String(held.item_definition_id).trim_suffix(ItemContentDefinition.MASTER_SUFFIX)))
 	offer.giver_counters = player.state.counters
 	offer.giver_max_force = player.state.recovery.inner_force.maximum
 	offer.item_mastered = content.mastered
