@@ -28,8 +28,6 @@ var _presentation_layout: SharedGameplayLayout:
 	get: return _ui._presentation_layout
 var _player: WorldPlayerRuntimeState:
 	get: return _ui._player
-var _bound_map: WorldResidentMapController:
-	get: return _ui._bound_map
 
 
 func _init(ui: SharedGameplayUI) -> void:
@@ -67,7 +65,10 @@ func press(display_name: String, label: String) -> bool:
 
 ## Called with the card's refresh: the selection follows reach, then the groups.
 func refresh() -> void:
-	var map := _bound_map as WorldMapController
+	# The session's map now (the HUD binds a new one only on its next _process).
+	var map: WorldMapController = null
+	if _session != null and _session.is_initialized() and _session.active_map_child_count() > 0:
+		map = _session.active_map() as WorldMapController
 	var things: Array[WorldNearbyThing] = [] if map == null else map.selection.nearby()
 	if map != null and not _presentation_layout.frame.visible:
 		_follow_reach(map, things)
