@@ -129,7 +129,8 @@ Owner (2026-10-11, from the HUD): the actions show only for what the player can 
 - **Owner: a click on the map selects nothing** (as in most modern games). A group's button
   selects its thing, then acts. While no panel is open the selection is the NPC the player
   stands by (the 巡捕 leading them first, else the nearest; nothing when none is near), so
-  the 背包's 给 and 画符 go to whom the player stands by.
+  the 背包's 给 and 画符 go to whom the player stands by; a landmark, corpse or floor item
+  the player chose stays selected while it is in reach.
 - The rules are unchanged: each action still checks what ES2 checks (the same room,
   present()); the HUD only offers it within reach. The confirm key still opens the nearest
   door or service.

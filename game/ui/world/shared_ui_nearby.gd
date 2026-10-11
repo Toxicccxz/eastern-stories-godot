@@ -7,7 +7,8 @@ extends RefCounted
 ## pointer as NPCs walk about. Clicking the world selects nothing: a button selects its
 ## thing, then does what the old context button did. While no panel is open the
 ## selection is the NPC the player stands by (the constable leading them first, else the
-## nearest), nothing when no NPC is near: the 背包's 给 and 画符 go to it.
+## nearest), nothing when no NPC is near: the 背包's 给 and 画符 go to it. A landmark,
+## corpse or floor item the player chose stays selected while it is in reach.
 ##
 ## Seam for gamepad focus navigation (not built yet): the groups are rebuilt only when
 ## what they offer changes, in this order, so a focus order can walk them.
@@ -92,8 +93,14 @@ func refresh() -> void:
 
 
 ## No panel open: the selection is the NPC the player stands by (`things` is nearest
-## first; the constable leading them comes first), or nothing.
+## first; the constable leading them comes first), or nothing; a landmark, corpse or
+## floor item chosen stays while it is in reach.
 func _follow_reach(map: WorldMapController, things: Array[WorldNearbyThing]) -> void:
+	var selected: WorldInteractionTarget = map.selection.selected_target
+	if selected != null and selected.kind != WorldInteractionTarget.Kind.CHARACTER:
+		for thing: WorldNearbyThing in things:
+			if thing.id == selected.target_id:
+				return
 	var wanted: WorldNearbyThing = null
 	for thing: WorldNearbyThing in things:
 		if thing.kind != WorldNearbyThing.Kind.NPC:
@@ -103,7 +110,6 @@ func _follow_reach(map: WorldMapController, things: Array[WorldNearbyThing]) -> 
 			break
 		if wanted == null:
 			wanted = thing
-	var selected: WorldInteractionTarget = map.selection.selected_target
 	if wanted != null:
 		if selected == null or selected.target_id != wanted.id:
 			map.select_npc(wanted.id)
