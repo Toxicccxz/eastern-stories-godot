@@ -211,6 +211,11 @@ func advance(
 		boundary.admit(bindings, tactical_result)
 	if tactical_result != null and tactical_result.special != null:
 		_hurts(_report_blows(tactical_result.special), bindings, random_source, boundary)
+	# An NPC the action sent away (meloner.c do_return()) walks out of the fight.
+	if boundary != null and tactical_result != null:
+		var walked: Dictionary[StringName, StringName] = tactical_result.walk_outs()
+		for character_id: StringName in walked:
+			boundary.depart(bindings, character_id, walked[character_id])
 	# A perform's attacks fell nobody yet: char.c heart_beat() does, here.
 	if boundary != null and not _inspect(boundary, bindings, null, tactical_result):
 		return CombatSchedulerAdvanceResult.new()

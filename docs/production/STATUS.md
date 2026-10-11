@@ -4,9 +4,9 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**玉螺湖村 A** (`phase/village-a`, DECISIONS「玉螺湖村 A」): the village south of 天驼关, the lake
-(the boat and the dive, owner Q1) and the ice cave, the people. Next: 玉螺湖村 B (the 瓜地: the
-pick, the 瓜农's catch, 还瓜钱 that pays).
+**玉螺湖村 B** (`phase/village-b`, DECISIONS「玉螺湖村 B」): the 瓜地's pick, the 瓜农 who comes
+over to fight the thief, the way out held while he stands there, 还瓜钱 (60 文) on the HUD and the
+battle panel. Region #11 is done with it. Next: 京师 (#12).
 
 ## 待决定
 
@@ -275,7 +275,11 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   first and breaks into the ice cave (放弃 there wakes the player in the Inn), whose hall holds six
   白鳞冰龙 (1,000,000 exp) that fall on whoever comes in, all at once; the ice stair leads up to
   the valley outside 忘情谷, and the tall grass at the path's end opens west for five seconds when
-  pushed aside (the way back east is always open). Not yet: the 瓜地's pick and catch (B).
+  pushed aside (the way back east is always open). In the 瓜地 a melon may be picked (by kar);
+  with a 瓜农 watching in the shed he may notice and come over to fight the thief to the death
+  (asked first while he is clearly stronger): while he stands there both ways out are held (你的去
+  路被瓜农拦住了。), in the fight he demands his money, and 还瓜钱 (HUD and battle panel) pays him 60 文
+  and sends him home.
 * **Across both**: the status card offers the actions of what is within reach, one group per
   thing, nearest first (a click on the map selects nothing); each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);

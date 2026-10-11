@@ -12,6 +12,7 @@ var _joiners: Array[StringName] = []
 var _allies: Array[StringName] = []
 var _joins: Array[CombatJoin] = []
 var _departure: StringName
+var _walk_outs: Dictionary[StringName, StringName] = {}
 var outcome: int:
 	get: return _outcome
 var effect_id: StringName:
@@ -64,9 +65,23 @@ func with_departure(room_id: StringName) -> CombatTacticalExecutionResult:
 	return self
 
 
+## An NPC the action sent out of the room (meloner.c do_return()'s move() home): it walks out
+## of the fight (CombatEncounterResolution.depart()).
+func with_walk_out(character_id: StringName, zone_id: StringName) -> CombatTacticalExecutionResult:
+	_walk_outs[character_id] = zone_id
+	return self
+
+
+## character ID -> the zone it went to.
+func walk_outs() -> Dictionary[StringName, StringName]:
+	return _walk_outs.duplicate()
+
+
 func lines() -> Array[ColoredLine]:
 	return _lines.duplicate()
 
 
 func duplicate_snapshot() -> CombatTacticalExecutionResult:
-	return CombatTacticalExecutionResult.new(_outcome, _effect_id, _lines, _special, _joiners).with_allies(_allies).with_joins(_joins).with_departure(_departure)
+	var copy: CombatTacticalExecutionResult = CombatTacticalExecutionResult.new(_outcome, _effect_id, _lines, _special, _joiners).with_allies(_allies).with_joins(_joins).with_departure(_departure)
+	copy._walk_outs = _walk_outs.duplicate()
+	return copy

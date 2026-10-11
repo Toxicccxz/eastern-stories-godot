@@ -10,6 +10,9 @@ func label_for(action_id: StringName) -> String:
 	var index: int = action_ids.find(action_id)
 	if index >= 0 and index < labels.size() and not labels[index].strip_edges().is_empty():
 		return tr(labels[index])
+	var settle: NpcSettle = _settle_of(action_id)
+	if settle != null:
+		return tr(settle.label)
 	var function_id: StringName = CombatExertTacticalPolicy.function_for(action_id)
 	if ExertFunctions.LABELS.has(function_id):
 		# TRANSLATORS: a battle button: exert.c with one of its functions ({function}, e.g. 恢复气).
@@ -74,6 +77,8 @@ func tooltip_for(action_id: StringName) -> String:
 		var hurts: String = {BoltSpell.Track.GIN: tr("吸取对方的精"), BoltSpell.Track.SEN: tr("伤对方的神"), BoltSpell.Track.KEE: tr("伤对方的气")}[bolt.track]
 		# TRANSLATORS: hover of 施法「紫光」「白光」「青光」 (the bolts of 茅山道术): {hurts} what a hit does (吸取对方的精); {mana} mana and {sen} sen; it can fail.
 		what = tr("{hurts}（{mana} 法力、{sen} 神，可能失败）").format({"hurts": hurts, "mana": BoltSpell.MANA_COST, "sen": bolt.sen_cost})
+	if _settle_of(action_id) != null:
+		what = tr(_settle_of(action_id).hint)
 	if action_id == CombatKillTacticalPolicy.ACTION_ID:
 		# TRANSLATORS: hover of 攻击 (kill.c) for a player standing by in a fight they are not in (their zombie's): they join it, and the one they attack kills back.
 		what = tr("你也上去和对手性命相搏，对手会反过来对你下杀手")
@@ -81,6 +86,13 @@ func tooltip_for(action_id: StringName) -> String:
 		return ""
 	# TRANSLATORS: a battle button's hover: {action} its label (施法「遁」), {what} what it does.
 	return tr("{action}：{what}").format({"action": label, "what": what})
+
+
+## The settle (还瓜钱) a battle button is for, or null.
+static func _settle_of(action_id: StringName) -> NpcSettle:
+	var definition_id: StringName = CombatSettleTacticalPolicy.definition_for(action_id)
+	var npc: NpcDefinition = null if definition_id.is_empty() else GameContent.catalog().npc(definition_id)
+	return null if npc == null else npc.dealings().settle
 
 
 static func _room_title(room_id: StringName) -> String:

@@ -430,6 +430,23 @@ mouse_filter = 2
 text = "木船 · 划向湖心"
 horizontal_alignment = 1
 
+[node name="MelonPick" type="Marker2D" parent="."]
+position = Vector2(1120, 1072)
+script = ExtResource("service")
+service_id = &"village.melonfarm.pick"
+
+[node name="Visual" type="Polygon2D" parent="MelonPick"]
+polygon = PackedVector2Array(0, -20, 16, 8, 0, 20, -16, 8)
+color = Color(0.5, 0.85, 1, 1)
+
+[node name="Label" type="Label" parent="MelonPick"]
+offset_left = -100.0
+offset_top = 26.0
+offset_right = 100.0
+mouse_filter = 2
+text = "瓜地 · 摘西瓜"
+horizontal_alignment = 1
+
 [node name="HomeDoor" type="Node" parent="."]
 script = ExtResource("door")
 door_id = &"village.home.door"

@@ -12,7 +12,9 @@ extends RefCounted
 ## enemy's age, not heart_beat()'s this_player(), who is herself). `Poison`
 ## (daemon/class/dancer/master.c use_poison()): one enemy at random; when it has none of
 ## the condition, it is told `tell`, and random(the NPC's combat_exp) over its own sets
-## the condition to `duration`.
+## the condition to `duration`. `SayWhileFlag` (d/village/npc/meloner.c catch_thief()): while
+## the NPC holds the object flag `flag` (its set_temp()), its `say`; otherwise nothing (the
+## LPC's command("heihei this_player()") names nobody and prints nothing).
 
 
 class Wield:
@@ -58,15 +60,31 @@ class Poison:
 		return ConditionIds.ALL.has(condition_id) and duration > 0 and not tell.strip_edges().is_empty()
 
 
+class SayWhileFlag:
+	extends RefCounted
+	var flag: StringName
+	var say: String
+
+	func is_valid() -> bool:
+		return not flag.is_empty() and not NpcTalk.line(say).is_empty()
+
+
 static func is_action(action: String) -> bool:
-	return action in ["wield", "call_partner", "say_by_age", "poison"]
+	return action in ["wield", "call_partner", "say_by_age", "poison", "say_while_flag"]
 
 
 ## {"action": "wield", "item", "say"?, "chat_chance_combat"?} | {"action": "call_partner",
 ## "partner", "emote" | "say" | "line"} | {"action": "say_by_age", "younger", "otherwise"} |
-## {"action": "poison", "condition", "duration", "tell"}.
+## {"action": "poison", "condition", "duration", "tell"} | {"action": "say_while_flag", "flag", "say"}.
 static func from_record(reader: ContentRecordReader, action: String) -> RefCounted:
 	match action:
+		"say_while_flag":
+			var while_flag := SayWhileFlag.new()
+			while_flag.flag = StringName(reader.required_text("flag"))
+			while_flag.say = reader.required_text("say")
+			if not while_flag.is_valid():
+				reader.fail("", "needs its flag and its say")
+			return while_flag
 		"poison":
 			var poison := Poison.new()
 			poison.condition_id = StringName(reader.required_text("condition"))

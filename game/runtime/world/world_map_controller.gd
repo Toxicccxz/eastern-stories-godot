@@ -28,6 +28,7 @@ var acts: WorldMapActs = WorldMapActs.new(self)
 var mazes: WorldMapMazes = WorldMapMazes.new(self)
 var patrols: WorldMapPatrols = WorldMapPatrols.new(self)
 var thefts: WorldMapThefts = WorldMapThefts.new(self)
+var debts: WorldMapDebts = WorldMapDebts.new(self)
 var _definition: MapDefinition
 var _static_nodes: WorldMapStaticNodes
 var _initialized: bool = false
@@ -440,8 +441,11 @@ func _drop_selection_left_behind() -> void:
 ## The room's valid_leave() that refuses this way out now, or null.
 func _exit_refusal(from_zone_id: StringName, to_zone_id: StringName) -> ZoneExitRuleDefinition:
 	var leaver: ZoneExitRuleDefinition.Leaver = ZoneExitRuleDefinition.Leaver.of(_player.state, _world_interaction_random.legacy_random)
+	leaver.temps = _player.temp_marks.duplicate()
 	for rule: ZoneExitRuleDefinition in GameContent.catalog().exit_rules_between(from_zone_id, to_zone_id):
 		var present: bool = not rule.present_npc_id.is_empty() and npcs.npc_present_in_zone(rule.present_npc_id, from_zone_id)
+		if rule.condition == ZoneExitRuleDefinition.Condition.HELD:
+			present = npcs.first_npc_in_zone(rule.present_npc_id, from_zone_id, true, StringName(rule.temp)) != null
 		if rule.refuses(leaver, present):
 			return rule
 	return null

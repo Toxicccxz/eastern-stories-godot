@@ -17,8 +17,9 @@ func _init(controller: WorldMapController) -> void:
 ## What a branch may ask of the player (ScriptedAct.Facts): their marks, set_temp()
 ## flags, the ids of what they carry directly (present(id, me)) and the NPCs standing
 ## where they stand (present(); one lying unconscious says nothing: 默认), their force;
-## the flags of the act's room (`room_zone_id`, else where the player stands) and which
-## items exist in the world.
+## the flags of the act's room (`room_zone_id`, else where the player stands), which
+## items exist in the world, who stands in another room and their kar (the rolls draw only
+## once the caller gives the facts a draw).
 func facts(room_zone_id: StringName = &"") -> ScriptedAct.Facts:
 	var known := ScriptedAct.Facts.new()
 	if _player == null:
@@ -35,6 +36,8 @@ func facts(room_zone_id: StringName = &"") -> ScriptedAct.Facts:
 	if _map.session != null:
 		known.room = _map.session.room_states().flags(here if room_zone_id.is_empty() else room_zone_id)
 	known.item_exists = _map.floor_items.item_exists
+	known.standing_in = func(definition_id: StringName, zone_id: StringName) -> bool: return _map.npcs.npc_present_in_zone(definition_id, zone_id, true)
+	known.kar = _player.state.attributes.karma
 	for npc: NpcRuntimeState in _map.npcs.residents:
 		var id: StringName = npc.definition().definition_id
 		if not known.present_npcs.has(id) and _map.npcs.npc_present_in_zone(id, here, true):
@@ -55,10 +58,12 @@ func facts(room_zone_id: StringName = &"") -> ScriptedAct.Facts:
 ## says the lines before it. A move to another map is a handoff and ends the act (the
 ## steps after it would act on the map left behind); a greeting's NPC moves the player
 ## only on its own map. `room_zone_id` is the act's room (else where the player stands).
-func run(act: ScriptedAct, npc: NpcRuntimeState, draw: Callable, room_zone_id: StringName = &"") -> void:
+## An NPC that `comes` is the act's NPC from then on (its kill, its flag).
+func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zone_id: StringName = &"") -> void:
 	if act == null or _player == null:
 		return
 	var room: StringName = _player.world_location().zone_id if room_zone_id.is_empty() else room_zone_id
+	var npc: NpcRuntimeState = acting_npc
 	var state: CharacterState = _player.state
 	var hears: bool = _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
 	var npc_name: String = "" if npc == null else npc.definition().display_name
@@ -127,6 +132,14 @@ func run(act: ScriptedAct, npc: NpcRuntimeState, draw: Callable, room_zone_id: S
 					var feet: String = _map.floor_items.at_feet_line(made_id, GameContent.catalog().item(made_item.item_definition_id))
 					if not feet.is_empty():
 						said.append(ColoredLine.new(feet))
+			ScriptedAct.Kind.COMES:
+				var comer: NpcRuntimeState = _map.npcs.first_npc_in_zone(step.npc_id, step.zone_id, true)
+				if comer != null and _map.npcs.bring_beside_player(comer):
+					npc = comer
+					npc_name = comer.definition().display_name
+			ScriptedAct.Kind.NPC_FLAG:
+				if npc != null:
+					npc.set_flag(StringName(step.flag), true)
 			ScriptedAct.Kind.SET_TEMP:
 				_player.temp_marks[step.flag] = 1
 			ScriptedAct.Kind.CLEAR_TEMP:

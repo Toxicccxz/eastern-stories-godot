@@ -133,7 +133,18 @@
 			"carry": [
 				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
 			],
-			"greeting": { "rules": [{ "steps": [{ "line": "这位$RESPECT要不要买个西瓜解解渴？\n" }] }] }
+			"greeting": { "rules": [{ "steps": [{ "line": "这位$RESPECT要不要买个西瓜解解渴？\n" }] }] },
+			"chat_chance_combat": 50,
+			"chat_msg_combat": [
+				{ "action": "say_while_flag", "flag": "melon/catch_thief", "say": "你要不还我瓜钱，咱俩就没完！\n" }
+			],
+			"settle": {
+				"temp": "melon/catch_thief",
+				"item": "es2:d/village/obj/melon",
+				"label": "还瓜钱",
+				"hint": "付给瓜农一个西瓜的钱（六十文），他就不再拦你，回瓜棚去；钱不够就只能接着打。",
+				"say": "好，咱俩的账就算结了。\n"
+			}
 		},
 		{
 			"id": "village.npc.fisher",
