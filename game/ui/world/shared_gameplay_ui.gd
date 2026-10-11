@@ -101,14 +101,6 @@ const STRONGER_STEAL_WARNING: String = "{npc}看起来比你强得多：要是�
 const ANIMATE_HINT: String = "施法「驱尸」：让这具尸体站起来跟着你（50 法力、30 神）。僵尸靠吸你的灵力维持，灵力不足时就会倒下化为血水。"
 
 var _player: WorldPlayerRuntimeType
-var _selected_target: NpcRuntimeState
-var _selected_landmark: WorldLandmarkDefinition
-var _selected_landmark_source_available: bool = false
-var _selected_corpse_name: String = ""
-var _selected_corpse_count: int = 0
-var _selected_corpse_available: bool = false
-var _selected_corpse_in_range: bool = false
-var _selected_floor_item: bool = false
 const ALERT_COLOR: Color = Color(1.0, 0.38, 0.38)
 ## Plain log text is a light grey, so ES2's HIW (bright white) stands out from it
 ## (owner, modern fixes II); the log, the toasts and the battle log share it.
@@ -152,6 +144,7 @@ const GIVE_MONEY_WARNING: String = "确定把{money}送给{npc}吗？送出去�
 ## The HUD's components (code moved out of this file; this class forwards to them).
 var message_log: SharedUiMessageLog = SharedUiMessageLog.new(self)
 var card: SharedUiStatusCard = SharedUiStatusCard.new(self)
+var selection: SharedUiSelection = SharedUiSelection.new(self)
 
 
 func _ready() -> void:
@@ -223,140 +216,17 @@ func _notification(what: int) -> void:
 	elif what == NOTIFICATION_TRANSLATION_CHANGED and _presentation_layout != null and is_inside_tree():
 		# The selection's name and an open panel were put together in the old language;
 		# the heading and the status line follow on the next refresh, the log keeps its lines.
-		selected_target_label.text = _selection_text()
+		selected_target_label.text = selection.selection_text()
 		_presentation_layout.close_panel()
-
-
-## The selected thing's name in the shown language.
-func _selection_text() -> String:
-	if _selected_target != null:
-		return _selected_target.definition().short_name()
-	if _selected_landmark != null:
-		return tr(_selected_landmark.display_name)
-	if _selected_floor_item:
-		return tr(_selected_corpse_name)
-	if _selected_corpse_available:
-		return tr("{name}的尸体 · {count}件物品").format({"name": tr(_selected_corpse_name), "count": _selected_corpse_count})
-	return ""
 
 
 func configure(player: WorldPlayerRuntimeType) -> bool:
 	if player == null or not player.is_valid():
 		return false
 	_player = player
-	set_selected_target(null)
-	refresh_live_state()
+	selection.set_selected_target(null)
+	selection.refresh_live_state()
 	return true
-
-
-func set_selected_target(target: NpcRuntimeState) -> void:
-	_selected_target = target
-	_selected_landmark = null
-	_selected_landmark_source_available = false
-	_clear_selected_corpse()
-	close_loot()
-	inspection_text.text = ""
-	selected_target_label.text = _selection_text()
-	refresh_live_state()
-
-
-func set_selected_landmark(
-	landmark: WorldLandmarkDefinition,
-	source_available: bool,
-) -> void:
-	_selected_target = null
-	_selected_landmark = landmark
-	_selected_landmark_source_available = source_available
-	_clear_selected_corpse()
-	close_loot()
-	inspection_text.text = ""
-	selected_target_label.text = _selection_text()
-	refresh_live_state()
-
-
-func set_selected_landmark_source_available(value: bool) -> void:
-	_selected_landmark_source_available = value
-	refresh_live_state()
-
-
-func set_selected_corpse(
-	victim_display_name: String,
-	content_count: int,
-	in_range: bool,
-	clear_inspection: bool = true,
-) -> void:
-	_selected_target = null
-	_selected_landmark = null
-	_selected_landmark_source_available = false
-	_selected_corpse_name = victim_display_name
-	_selected_corpse_count = content_count
-	_selected_corpse_available = not victim_display_name.is_empty()
-	_selected_corpse_in_range = in_range
-	_selected_floor_item = false
-	if clear_inspection:
-		inspection_text.text = ""
-		close_loot()
-	selected_target_label.text = _selection_text()
-	refresh_live_state()
-
-
-## An item lying on the floor: 拾取 picks it up (get.c) when in reach.
-func set_selected_floor_item(display_name: String, in_range: bool, clear_inspection: bool = true) -> void:
-	_selected_target = null
-	_selected_landmark = null
-	_selected_landmark_source_available = false
-	_selected_corpse_name = display_name
-	_selected_corpse_available = not display_name.is_empty()
-	_selected_corpse_in_range = in_range
-	_selected_floor_item = _selected_corpse_available
-	if clear_inspection:
-		inspection_text.text = ""
-		close_loot()
-	selected_target_label.text = _selection_text()
-	refresh_live_state()
-
-
-## `relation` is look.c's word for what the NPC is to the player (FamilyRelation), "" for none;
-## `strength` the native line on how strong it looks (RelativeStrength.line()), "" for none.
-func show_inspection(definition: NpcDefinition, relation: String = "", gender: StringName = &"", strength: String = "") -> void:
-	_presentation_layout.open_panel("目标详情", _presentation_layout.details)
-	if definition == null:
-		inspection_text.text = ""
-		return
-	inspection_text.text = "%s\n%s" % [
-		definition.short_name(),
-		tr(definition.description).strip_edges(),
-	]
-	if not relation.is_empty():
-		# TRANSLATORS: look.c: {pronoun} is 他/她/它, {relation} what the NPC is to the player (师父, 同门师兄 …).
-		inspection_text.text += "\n" + tr("{pronoun}是你的{relation}。").format({"pronoun": tr(Es2CombatMessages.pronoun(gender)), "relation": tr(relation)})
-	if not strength.is_empty():
-		inspection_text.text += "\n" + tr(strength).format({"pronoun": tr(Es2CombatMessages.pronoun(gender))})
-
-
-## `text`: what looking at it shows now (the landmark policy's look()), as authored.
-func show_landmark_inspection(definition: WorldLandmarkDefinition, text: String = "") -> void:
-	_presentation_layout.open_panel("目标详情", _presentation_layout.details)
-	if definition == null:
-		inspection_text.text = ""
-		return
-	inspection_text.text = "%s\n%s" % [
-		tr(definition.display_name),
-		tr(definition.description if text.is_empty() else text).strip_edges(),
-	]
-
-
-## `display_name` as authored; `description` already in the shown language
-## (ItemContentDefinition.shown_description()).
-func show_item_inspection(display_name: String, description: String) -> void:
-	_presentation_layout.open_panel("目标详情", _presentation_layout.details)
-	inspection_text.text = "%s\n%s" % [tr(display_name), description.strip_edges()]
-
-
-func show_corpse_inspection(victim_display_name: String, content_count: int) -> void:
-	_presentation_layout.open_panel("目标详情", _presentation_layout.details)
-	# chard.c make_corpse(): set_name(victim->name(1) + "的尸体").
-	inspection_text.text = tr("{name}的尸体\n里面有{count}件物品。").format({"name": tr(victim_display_name), "count": content_count})
 
 
 func show_loot(title: String, rows: Array[WorldItemRowProjection]) -> void:
@@ -427,96 +297,6 @@ func show_inventory_inspection(row: PlayerInventoryRowProjection) -> void:
 		inventory_panel.show_inspection(row)
 
 
-func refresh_live_state() -> void:
-	target_vitality.visible = _selected_target != null
-	target_vitality_text.visible = _selected_target != null
-	if _player != null:
-		card.update_player_vitals(_player.state)
-	if _selected_target == null:
-		target_vitality.value = 0.0
-		target_vitality_text.text = "-"
-	else:
-		card.update_vitality(
-			_selected_target.character_state.vitality,
-			target_vitality,
-			target_vitality_text,
-		)
-	var target_available: bool = (
-		_selected_target != null
-		and _selected_target.exists_in_map
-		and _selected_target.life_status != CharacterRuntimeLifeStatus.Value.DEAD
-	)
-	var landmark_available: bool = _selected_landmark != null and _selected_landmark.is_valid()
-	var corpse_available: bool = _selected_corpse_available
-	var player_available: bool = (
-		_player != null
-		and _player.exists_in_world
-		and _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
-	)
-	inspect_button.disabled = (
-		not target_available and not landmark_available and not corpse_available
-	)
-	# Fights with an NPC whose skills are not ported yet would abort (fight_deferred, DECISIONS 4E).
-	var fightable: bool = target_available and not _selected_target.definition().dealings().is_fight_deferred()
-	attack_button.disabled = not fightable or not player_available
-	# fight.c: a speaking character is asked; beasts are not (see DECISIONS).
-	spar_button.disabled = not fightable or not player_available or not _selected_target.definition().can_speak()
-	# ask.c: the same speakers, who must be here (present()).
-	ask_button.disabled = not player_available or not _selected_npc_askable()
-	open_loot_button.disabled = (
-		not corpse_available
-		or not _selected_corpse_in_range
-		or not player_available
-	)
-	var map := _bound_map as WorldMapController
-	animate_button.disabled = not corpse_available or _selected_floor_item or not player_available or map == null or map.animatable_corpse() == null
-	lifeheal_button.disabled = (
-		not target_available or not player_available or map == null or map.selected_npc_here() != _selected_target
-		or not _session.martial_arts().exert_at_functions().has(&"lifeheal")
-	)
-	heart_sense_button.disabled = (
-		not target_available or not player_available or map == null or _session.essence_magic().heart_target() != _selected_target
-	)
-	steal_button.disabled = (
-		not target_available or not player_available or map == null or map.selected_npc_here() != _selected_target
-		or not map.thefts.can_steal_selected()
-	)
-	bribe_button.disabled = not target_available or not player_available or map == null or not map.patrols.can_bribe(_selected_target)
-	inventory_button.disabled = not player_available
-	portal_button.disabled = (
-		not landmark_available
-		or _selected_landmark.action_label.is_empty() # a sign is only looked at
-		or not _selected_landmark_source_available
-		or not player_available
-	)
-	portal_button.text = tr("前往") if _selected_landmark == null else tr(_selected_landmark.action_label)
-
-
-func selected_target_text() -> String:
-	return selected_target_label.text
-
-
-func inspection_display() -> String:
-	return inspection_text.text
-
-
-func attack_is_enabled() -> bool:
-	return not attack_button.disabled
-
-
-func spar_is_enabled() -> bool:
-	return not spar_button.disabled
-
-
-func ask_is_enabled() -> bool:
-	return not ask_button.disabled
-
-
-func _selected_npc_askable() -> bool:
-	var map := _bound_map as WorldMapController
-	return map != null and _selected_target != null and map.selected_npc() == _selected_target and map.can_ask_selected()
-
-
 ## ask.c without a topic: "你可以打听这些事情：" and the list; each topic asks, and
 ## the answer shows under the list (and in the log).
 func open_ask() -> void:
@@ -574,7 +354,7 @@ func open_ask() -> void:
 	_ask_relay.visible = not map.relay_phrases_selected().is_empty()
 	_refresh_ask_verbs(map)
 	_ask_answer.text = ""
-	message_log.open_panel_with_lines(tr("打听 · %s") % tr(_selected_target.definition().display_name), _ask_panel, _selected_npc_askable)
+	message_log.open_panel_with_lines(tr("打听 · %s") % tr(selection.selected_target.definition().display_name), _ask_panel, selection.selected_npc_askable)
 	_presentation_layout.refresh_rows()
 
 
@@ -635,7 +415,7 @@ func _kneel() -> void:
 		return
 	var first: String = _player.facts.display_name.substr(0, 1)
 	var text: String = tr(ORDINATION_WARNING).format({
-		"npc": tr(_selected_target.definition().display_name), "prefixes": "".join(ordination.prefixes),
+		"npc": tr(selection.selected_target.definition().display_name), "prefixes": "".join(ordination.prefixes),
 		"first": first, "example": ordination.prefixes[0] + first,
 	})
 	var kneel: Callable = func() -> void:
@@ -657,25 +437,6 @@ func relay_buttons_shown() -> Array[String]:
 			if not child.is_queued_for_deletion():
 				result.append((child as Button).text)
 	return result
-
-
-func portal_action_is_enabled() -> bool:
-	return not portal_button.disabled
-
-
-func portal_action_text() -> String:
-	return portal_button.text
-
-
-func open_loot_is_enabled() -> bool:
-	return not open_loot_button.disabled
-
-
-func _clear_selected_corpse() -> void:
-	_selected_corpse_name = ""
-	_selected_corpse_available = false
-	_selected_corpse_in_range = false
-	_selected_floor_item = false
 
 
 func initialize_supplies() -> void:
@@ -718,7 +479,7 @@ func _process(delta: float) -> void:
 	# A new map or a HUD that just reappeared refreshes now, not 0.1 s later.
 	if current != _bound_map:
 		_presentation_layout.close_panel()
-		set_selected_target(null)
+		selection.set_selected_target(null)
 		_bound_map = current
 		_elapsed = INF
 	var available: bool = not _session.is_restore_candidate_staged() and not _session.is_session_swap_suspended() and _session.can_process() and _session.application_gameplay_allows_encounter_advance()
@@ -733,13 +494,13 @@ func _process(delta: float) -> void:
 		return
 	_presentation_layout.validate_open_panel()
 	if _presentation_layout._content == _presentation_layout.details:
-		if (_selected_target != null and (not _selected_target.exists_in_map or _selected_target.life_status == CharacterRuntimeLifeStatus.Value.DEAD)) or (_selected_landmark != null and not _selected_landmark_source_available) or (_selected_corpse_available and not _selected_corpse_in_range and not _selected_floor_item):
+		if (selection.selected_target != null and (not selection.selected_target.exists_in_map or selection.selected_target.life_status == CharacterRuntimeLifeStatus.Value.DEAD)) or (selection.selected_landmark != null and not selection.selected_landmark_source_available) or (selection.selected_corpse_available and not selection.selected_corpse_in_range and not selection.selected_floor_item):
 			_presentation_layout.close_panel()
 	_elapsed += delta
 	if _elapsed < 0.1:
 		return
 	_elapsed = 0.0
-	refresh_live_state()
+	selection.refresh_live_state()
 	card.refresh_exploration()
 
 
@@ -1093,9 +854,9 @@ func _steal_now(npc_id: StringName, item_id: StringName) -> void:
 ## 行贿 to the constable leading the player: the money they carry, how much of each.
 func _bribe_context(lines: Array[String] = []) -> void:
 	var map := _session.active_map() as WorldMapController
-	if map == null or not map.patrols.can_bribe(_selected_target):
+	if map == null or not map.patrols.can_bribe(selection.selected_target):
 		return
-	var npc: NpcRuntimeState = _selected_target
+	var npc: NpcRuntimeState = selection.selected_target
 	var ids: Array[StringName] = []
 	var names: Array[String] = []
 	var amounts: Array[int] = []
@@ -1118,7 +879,7 @@ func _bribe(item_id: StringName, amount: int) -> void:
 		return
 	if not map.patrols.bribe(item_id, amount):
 		return
-	if map.patrols.can_bribe(_selected_target):
+	if map.patrols.can_bribe(selection.selected_target):
 		_bribe_context(map.patrols.last_lines)
 	elif _presentation_layout._content == bribe_panel:
 		_presentation_layout.close_panel()
@@ -1280,7 +1041,7 @@ func _attack_context() -> void:
 	ask_first(tr(MASTER_ATTACK_WARNING).format({
 		"master": tr(npc.definition().display_name), "family": tr(family.display_name) if family != null else "",
 		"score": _player.state.progression.score, "next": _player.state.apprenticeship.betrayer_count + 1,
-	}), "确定攻击", map.attack_selected, attack_is_enabled)
+	}), "确定攻击", map.attack_selected, selection.attack_is_enabled)
 
 
 ## 切磋; asked first when it will be fought to the death (accept_fight()'s kill_ob()),
@@ -1300,7 +1061,7 @@ func _spar_context() -> void:
 			warning = ARMED_STRONGER_SPAR_WARNING if map.selected_spar_stronger() else ARMED_SPAR_WARNING
 		WorldMapController.SparRisk.STRONGER:
 			warning = STRONGER_SPAR_WARNING
-	ask_first(tr(warning).format({"npc": tr(map.selected_npc().definition().display_name)}), "确定切磋", map.spar_selected, spar_is_enabled)
+	ask_first(tr(warning).format({"npc": tr(map.selected_npc().definition().display_name)}), "确定切磋", map.spar_selected, selection.spar_is_enabled)
 
 
 func _ask_context() -> void:
@@ -1399,3 +1160,78 @@ func current_zone() -> ZoneDefinition:
 
 func location_name() -> String:
 	return card.location_name()
+
+
+# --- forwarded to SharedUiSelection (selection) ---
+
+
+func set_selected_target(target: NpcRuntimeState) -> void:
+	selection.set_selected_target(target)
+
+
+func set_selected_landmark(landmark: WorldLandmarkDefinition, source_available: bool) -> void:
+	selection.set_selected_landmark(landmark, source_available)
+
+
+func set_selected_landmark_source_available(value: bool) -> void:
+	selection.set_selected_landmark_source_available(value)
+
+
+func set_selected_corpse(victim_display_name: String, content_count: int, in_range: bool, clear_inspection: bool = true) -> void:
+	selection.set_selected_corpse(victim_display_name, content_count, in_range, clear_inspection)
+
+
+func set_selected_floor_item(display_name: String, in_range: bool, clear_inspection: bool = true) -> void:
+	selection.set_selected_floor_item(display_name, in_range, clear_inspection)
+
+
+func show_inspection(definition: NpcDefinition, relation: String = "", gender: StringName = &"", strength: String = "") -> void:
+	selection.show_inspection(definition, relation, gender, strength)
+
+
+func show_landmark_inspection(definition: WorldLandmarkDefinition, text: String = "") -> void:
+	selection.show_landmark_inspection(definition, text)
+
+
+func show_item_inspection(display_name: String, description: String) -> void:
+	selection.show_item_inspection(display_name, description)
+
+
+func show_corpse_inspection(victim_display_name: String, content_count: int) -> void:
+	selection.show_corpse_inspection(victim_display_name, content_count)
+
+
+func refresh_live_state() -> void:
+	selection.refresh_live_state()
+
+
+func selected_target_text() -> String:
+	return selection.selected_target_text()
+
+
+func inspection_display() -> String:
+	return selection.inspection_display()
+
+
+func attack_is_enabled() -> bool:
+	return selection.attack_is_enabled()
+
+
+func spar_is_enabled() -> bool:
+	return selection.spar_is_enabled()
+
+
+func ask_is_enabled() -> bool:
+	return selection.ask_is_enabled()
+
+
+func portal_action_is_enabled() -> bool:
+	return selection.portal_action_is_enabled()
+
+
+func portal_action_text() -> String:
+	return selection.portal_action_text()
+
+
+func open_loot_is_enabled() -> bool:
+	return selection.open_loot_is_enabled()

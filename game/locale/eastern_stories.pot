@@ -7172,29 +7172,6 @@ msgid "确定把{money}送给{npc}吗？送出去的钱一般就要不回来了�
 msgstr ""
 
 #: ui/world/shared_gameplay_ui.gd
-msgid "{name}的尸体 · {count}件物品"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "目标详情"
-msgstr ""
-
-#. look.c: {pronoun} is 他/她/它, {relation} what the NPC is to the player (师父, 同门师兄 …).
-#: ui/world/shared_gameplay_ui.gd
-msgid "{pronoun}是你的{relation}。"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid ""
-"{name}的尸体\n"
-"里面有{count}件物品。"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "前往"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
 msgid "你可以打听这些事情："
 msgstr ""
 
@@ -7300,6 +7277,29 @@ msgstr ""
 #. a room's title and its description, as the log shows them on arrival.
 #: ui/world/shared_ui_message_log.gd
 msgid "【{title}】{description}"
+msgstr ""
+
+#: ui/world/shared_ui_selection.gd
+msgid "{name}的尸体 · {count}件物品"
+msgstr ""
+
+#: ui/world/shared_ui_selection.gd
+msgid "目标详情"
+msgstr ""
+
+#. look.c: {pronoun} is 他/她/它, {relation} what the NPC is to the player (师父, 同门师兄 …).
+#: ui/world/shared_ui_selection.gd
+msgid "{pronoun}是你的{relation}。"
+msgstr ""
+
+#: ui/world/shared_ui_selection.gd
+msgid ""
+"{name}的尸体\n"
+"里面有{count}件物品。"
+msgstr ""
+
+#: ui/world/shared_ui_selection.gd
+msgid "前往"
 msgstr ""
 
 #. a resource bar's tooltip: current / effective / maximum.
