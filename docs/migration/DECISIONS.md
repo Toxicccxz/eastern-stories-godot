@@ -111,6 +111,31 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 - #27 牛皮酒袋照原名显示，不另起短名。
 - 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
 
+## 天驼关 B: the 印鉴 chain (2026-10-10)
+
+赫造基's secret, the oath at the smooth wall, the 后备兵's two 印鉴, 严廷殷's 古剑. What each LPC
+function became is in [CANYON_CONTENT](CANYON_CONTENT.md#the-印鉴-chain-b); it follows the LPC except:
+- **Owner (Q3, plan): the oath is a button**, 光滑的山壁 · 发誓：我爱东方故事II, there only for one
+  赫造基 told (canyon4.c's add_action() answered nobody else: 什么?); its point on the map has no
+  diamond. The second accepted wording (我爱安尼席洛特尔) and the 不要吵 line for wrong words went
+  with the typing.
+- **Deviation (默认, asked in the PR): once he gave the real 印鉴, the 后备兵 keeps money**, as he
+  says (如果是钱的话，我先没收了。); seller.c returned 0 for it, so the player read that he took
+  it and then had it back. Anything else he still refuses (其他的东西我都不要).
+- **The two 印鉴 are told apart by what they are.** general.c and seller.c compare names, and the
+  real one's differs only by its colour (HIY); item names have no colour yet, so the real one
+  reads 印鉴 like the fake (its long says 泛著黄光) and the rules name the item.
+- **Stays as ES2:** seller.c's violate_unique() is defined nowhere in the mudlib (0), so its
+  你来晚一步了 branch never ran; no_sell is read by nothing (the hockshop takes the fake for its
+  value); 严廷殷 keeps the real 印鉴 and gives a 古剑 for each one he is given.
+- **The flags are saved** (owner's rule after 乔阴 B): Get_seal for good, so one fake per
+  character (ES2: one per login); 将军/kick until the swap; the 后备兵's check is his memory
+  (saved, made anew with a new 后备兵).
+- **Global (data):** an accept_object rule's `item` (the gift's blueprint) and `unset_temps`
+  (delete_temp()); a refusal may set temps and move the giver (general.c's return 0 after
+  both); a ScriptedAct's `clear_temp`; an act service with no branch for the player offers no
+  button; a map layout's service may be `hidden` (no diamond).
+
 ## 天驼关 A: the pass, the camp and its people (2026-10-10)
 
 Plan (owner, 2026-10-10: 按你的推荐来): A the clifftop, the pass, the camp and the people; B the

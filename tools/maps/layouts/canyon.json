@@ -308,6 +308,13 @@
             "id": "canyon.camp2.well",
             "at": [1680, 1296],
             "text": "水井 · 装水"
+          },
+          {
+            "node": "service",
+            "name": "CanyonSmoothWall",
+            "id": "canyon.canyon4.swear",
+            "at": [736, 1344],
+            "hidden": true
           }
         ],
         "zones": [

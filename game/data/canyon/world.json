@@ -54,6 +54,22 @@
 				{ "move": "canyon.road", "point": "canyon.road.chain_return" }
 			] }
 		] } },
+		{ "id": "canyon.canyon4.swear", "kind": "act", "zone": "canyon.canyon4", "name": "光滑的山壁", "reach": 96, "legacy_source": "d/canyon/canyon4.c", "act": { "verb": "发誓：我爱东方故事II", "acts": [
+			{ "temp": "军营/swear", "steps": [
+				{ "clear_temp": "军营/swear" },
+				{ "line": "突然间一阵强光将你给罩住了\n", "color": "HIB" },
+				{ "line": "轰隆～～～～～～～～～～～～～～～～～～\n", "color": "HIW" },
+				{ "line": "～～～～～轰隆～～～～～轰隆～～～～～～\n", "color": "HIW" },
+				{ "line": "～～～～～～～轰隆～～～～～～～～轰隆～\n", "color": "HIW" },
+				{ "line": "你惨叫了一声:哇，好痛啊～～～～～～\n", "color": "HIC" },
+				{ "line": "～～～～～～～～～～～～～～～～～～～～\n", "color": "HIW" },
+				{ "line": "～～～～～～～～～～～～～～～～～～～～\n", "color": "HIW" },
+				{ "line": "～～～～～～～～～～～～～～～～～～～～\n", "color": "HIW" },
+				{ "line": "～～～～～～～～～～～～～～～～～～～～\n", "color": "HIW" },
+				{ "line": "～～～～～～～～～～～～～～～～～～～～\n", "color": "HIW" },
+				{ "move": "canyon.blackmarket", "point": "canyon.blackmarket.swear_arrival" }
+			] }
+		] } },
 		{ "id": "canyon.camp2.well", "kind": "water", "zone": "canyon.camp2", "name": "水井", "reach": 96, "legacy_source": "d/canyon/camp2.c" }
 	]
 }

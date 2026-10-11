@@ -71,6 +71,8 @@ static func give(
 	offer.giver_per = player.state.attributes.personality
 	offer.item_name = content.display_name
 	offer.item_aliases = content.aliases()
+	# base_name(obj): a master form is still its item's file.
+	offer.item_id = StringName(String(content.item_definition_id).trim_suffix(ItemContentDefinition.MASTER_SUFFIX))
 	offer.giver_family = player.state.family.family_id
 	offer.giver_temps = player.temp_marks
 	offer.giver_counters = player.state.counters
@@ -87,9 +89,14 @@ static func give(
 			if line.color() != ColoredLine.PLAIN:
 				result.line_colors[result.lines.size()] = line.color()
 			result.lines.append(line.sentence(name, respect))
-		# delete_temp(): shen.c's 想骗我啊? deletes the giver's flags even as it refuses.
+		# What accept_object() does to the giver's flags holds whether it then takes the gift
+		# or not: shen.c's 想骗我啊? deletes them as it refuses, general.c sets 将军/kick.
 		for mark: String in result.rule.unmark_giver:
 			player.state.marks.erase(mark)
+		for temp: String in result.rule.unset_temps:
+			player.temp_marks.erase(temp)
+		for temp: String in result.rule.set_temps:
+			player.temp_marks[temp] = 1
 	if result.rule == null or not result.rule.accept:
 		result.lines.append(TranslationServer.translate(NOT_TAKEN).format({"npc": TranslationServer.translate(name)}))
 		result.outcome = ItemHandlingResult.Outcome.REFUSED
@@ -370,8 +377,6 @@ static func _apply_acceptance(rule: NpcObjectRule, player: WorldPlayerRuntimeSta
 			player.state.counters[key] = player.state.counters.get(key, 0) + value
 		else:
 			player.state.counters.erase(key)
-	for temp: String in rule.set_temps:
-		player.temp_marks[temp] = 1
 	if rule.effect == NpcObjectRule.EFFECT_PASS_FORCE:
 		var force: CharacterInternalResourceState = player.state.recovery.inner_force
 		force.maximum += NpcObjectRule.passed_force(force.maximum, player.state.attributes.effective_karma(), random.legacy_random)

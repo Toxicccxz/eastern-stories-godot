@@ -624,8 +624,9 @@ func give_to_selected(item_id: StringName, amount: int = 0) -> ItemHandlingResul
 			result.lines.append(at_feet)
 	if not attacks:
 		_report_item_handling(result)
-		# boater.c: the boat takes the one who paid (owner, 山烟寺 plan Q1).
-		if result.done() and result.rule != null and result.rule.accept and not result.rule.move_zone_id.is_empty():
+		# boater.c: the boat takes the one who paid (owner, 山烟寺 plan Q1); general.c throws
+		# out one who offers the fake 印鉴, which stays with them (return 0).
+		if result.rule != null and not result.rule.move_zone_id.is_empty() and (result.done() if result.rule.accept else result.outcome == ItemHandlingResult.Outcome.REFUSED):
 			if _map.hud() != null:
 				_map.hud().close_inventory()
 			if not _map.acts.move_player(result.rule.move_zone_id, result.rule.move_point_id):

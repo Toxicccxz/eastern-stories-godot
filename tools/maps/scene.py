@@ -61,13 +61,17 @@ def passage(name, id, at, shape, script='passage'):
             f'[node name="CollisionShape2D" type="CollisionShape2D" parent="{name}"]\nshape = SubResource("{shape}")\n\n')
 
 
-def service(name, id, at, text='', script='service'):
-    """A service point (services[] in world.json): a blue diamond, its label below."""
+def service(name, id, at, text='', script='service', hidden=False):
+    """A service point (services[] in world.json): a blue diamond, its label below. A hidden one
+    (a secret: d/canyon/canyon4.c's swear) is the bare point, found by its context button."""
     label = (f'[node name="Label" type="Label" parent="{name}"]\noffset_left = -100.0\noffset_top = 26.0\n'
              f'offset_right = 100.0\nmouse_filter = 2\ntext = "{text}"\nhorizontal_alignment = 1\n\n') if text else ''
-    return (f'[node name="{name}" type="Marker2D" parent="."]\nposition = Vector2({at[0]}, {at[1]})\n'
-            f'script = ExtResource("{script}")\nservice_id = &"{id}"\n\n'
-            f'[node name="Visual" type="Polygon2D" parent="{name}"]\n'
+    point = (f'[node name="{name}" type="Marker2D" parent="."]\nposition = Vector2({at[0]}, {at[1]})\n'
+             f'script = ExtResource("{script}")\nservice_id = &"{id}"\n\n')
+    if hidden:
+        assert not text, ('a hidden service has no label', name)
+        return point
+    return (point + f'[node name="Visual" type="Polygon2D" parent="{name}"]\n'
             'polygon = PackedVector2Array(0, -20, 16, 8, 0, 20, -16, 8)\ncolor = Color(0.5, 0.85, 1, 1)\n\n' + label)
 
 
