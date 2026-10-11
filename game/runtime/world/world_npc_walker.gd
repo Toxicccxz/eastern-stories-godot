@@ -25,6 +25,9 @@ const STEP_ASIDE_ACROSS: float = 36.0
 
 var _map: WorldMapController
 var _walks: Dictionary[StringName, PackedVector2Array] = {}
+## Grids built on this map, by area: the tiles never change, so one serves again while
+## the same static walls (door wings) stand.
+var _grids: Dictionary[Rect2, Grid] = {}
 
 
 func _init(map: WorldMapController) -> void:
@@ -46,12 +49,8 @@ func rest_position(character_id: StringName, body: Node2D) -> Vector2:
 func walk_into(character_id: StringName, body: Node2D, from_zone: WorldPhysicalZoneArea2D, to_zone: WorldPhysicalZoneArea2D, random: WorldInteractionRandomSource) -> bool:
 	if body == null or from_zone == null or to_zone == null or random == null:
 		return false
-	var grid: Grid = Grid.new(_map, from_zone.global_rect().merge(to_zone.global_rect()))
-	var candidates: Array[Vector2i] = []
-	var others: Array[Vector2] = _occupied(character_id)
-	for cell: Vector2i in grid.free_cells_in(to_zone.global_rect()):
-		if others.all(func(other: Vector2) -> bool: return other.distance_to(grid.center_of(cell)) >= KEEP_CLEAR):
-			candidates.append(cell)
+	var grid: Grid = _grid(from_zone.global_rect().merge(to_zone.global_rect()))
+	var candidates: Array[Vector2i] = _clear_of(grid, grid.free_cells_in(to_zone.global_rect()), _occupied(character_id))
 	candidates = _off_seams(grid, to_zone, candidates)
 	for attempt: int in range(mini(DESTINATION_TRIES, candidates.size())):
 		var index: int = random.legacy_random(candidates.size())
@@ -70,12 +69,8 @@ func walk_into(character_id: StringName, body: Node2D, from_zone: WorldPhysicalZ
 func place_into(character_id: StringName, body: Node2D, to_zone: WorldPhysicalZoneArea2D, random: WorldInteractionRandomSource) -> bool:
 	if body == null or to_zone == null or random == null:
 		return false
-	var grid: Grid = Grid.new(_map, to_zone.global_rect())
-	var candidates: Array[Vector2i] = []
-	var others: Array[Vector2] = _occupied(character_id)
-	for cell: Vector2i in grid.free_cells_in(to_zone.global_rect()):
-		if others.all(func(other: Vector2) -> bool: return other.distance_to(grid.center_of(cell)) >= KEEP_CLEAR):
-			candidates.append(cell)
+	var grid: Grid = _grid(to_zone.global_rect())
+	var candidates: Array[Vector2i] = _clear_of(grid, grid.free_cells_in(to_zone.global_rect()), _occupied(character_id))
 	candidates = _off_seams(grid, to_zone, candidates)
 	for attempt: int in range(mini(DESTINATION_TRIES, candidates.size())):
 		var index: int = random.legacy_random(candidates.size())
@@ -97,7 +92,7 @@ func step_aside(character_id: StringName, body: Node2D, zone: WorldPhysicalZoneA
 	if body == null or zone == null or is_walking(character_id):
 		return false
 	var area: Rect2 = zone.global_rect()
-	var grid: Grid = Grid.new(_map, area)
+	var grid: Grid = _grid(area)
 	var others: Array[Vector2] = _occupied(character_id)
 	var push: Vector2 = (body.global_position - pusher).normalized()
 	if push == Vector2.ZERO:
@@ -108,9 +103,8 @@ func step_aside(character_id: StringName, body: Node2D, zone: WorldPhysicalZoneA
 		var offset: Vector2 = grid.center_of(cell) - body.global_position
 		if offset.length() < CELL * 2.0 or offset.length() > STEP_ASIDE_REACH or offset.dot(push) < -CELL:
 			continue
-		if others.all(func(other: Vector2) -> bool: return other.distance_to(grid.center_of(cell)) >= KEEP_CLEAR):
-			near.append(cell)
-	for cell: Vector2i in _off_seams(grid, zone, near):
+		near.append(cell)
+	for cell: Vector2i in _off_seams(grid, zone, _clear_of(grid, near, others)):
 		var offset: Vector2 = grid.center_of(cell) - body.global_position
 		# Out of the way (a body's width across the push), then the shortest step.
 		if absf(offset.cross(push)) < STEP_ASIDE_ACROSS:
@@ -124,6 +118,27 @@ func step_aside(character_id: StringName, body: Node2D, zone: WorldPhysicalZoneA
 	return false
 
 
+## The cells of `cells`, in order, whose centres keep KEEP_CLEAR from every point of
+## `others`: each point marks the cells near it, as testing every cell against every
+## point would, without the cost of that on a big map full of people.
+static func _clear_of(grid: Grid, cells: Array[Vector2i], others: Array[Vector2]) -> Array[Vector2i]:
+	var near: Dictionary[Vector2i, bool] = {}
+	var reach: Vector2 = Vector2(KEEP_CLEAR, KEEP_CLEAR)
+	for other: Vector2 in others:
+		var first: Vector2i = grid.cell_of(other - reach) - Vector2i.ONE
+		var last: Vector2i = grid.cell_of(other + reach) + Vector2i.ONE
+		for y: int in range(first.y, last.y + 1):
+			for x: int in range(first.x, last.x + 1):
+				var cell := Vector2i(x, y)
+				if other.distance_to(grid.center_of(cell)) < KEEP_CLEAR:
+					near[cell] = true
+	var result: Array[Vector2i] = []
+	for cell: Vector2i in cells:
+		if not near.has(cell):
+			result.append(cell)
+	return result
+
+
 ## The cells of `candidates` farther than SEAM_CLEAR from where `zone` joins its map's
 ## other zones, its passages and its doors; all of them when none is.
 func _off_seams(grid: Grid, zone: WorldPhysicalZoneArea2D, candidates: Array[Vector2i]) -> Array[Vector2i]:
@@ -131,10 +146,9 @@ func _off_seams(grid: Grid, zone: WorldPhysicalZoneArea2D, candidates: Array[Vec
 	for other: WorldPhysicalZoneArea2D in _map.physical_zones():
 		if other != zone and other.global_rect().grow(1.0).intersects(zone.global_rect()):
 			seams.append(other.global_rect().grow(SEAM_CLEAR))
-	for node: Node in _map.find_children("*", "Area2D", true, false):
-		if node is WorldPassageArea2D:
-			seams.append((node as WorldPassageArea2D).global_rect().grow(SEAM_CLEAR))
-	for door: WorldDoor in _map.doors():
+	for passage: WorldPassageArea2D in _map.static_nodes().passages:
+		seams.append(passage.global_rect().grow(SEAM_CLEAR))
+	for door: WorldDoor in _map.static_nodes().doors:
 		var wall: CollisionShape2D = door.wall_shape()
 		var rectangle: RectangleShape2D = null if wall == null else wall.shape as RectangleShape2D
 		if rectangle != null:
@@ -142,9 +156,24 @@ func _off_seams(grid: Grid, zone: WorldPhysicalZoneArea2D, candidates: Array[Vec
 	var clear: Array[Vector2i] = []
 	for cell: Vector2i in candidates:
 		var point: Vector2 = grid.center_of(cell)
-		if seams.all(func(seam: Rect2) -> bool: return not seam.has_point(point)):
+		var off: bool = true
+		for seam: Rect2 in seams:
+			if seam.has_point(point):
+				off = false
+				break
+		if off:
 			clear.append(cell)
 	return candidates if clear.is_empty() else clear
+
+
+## The grid of `area` as Grid.new() would build it now.
+func _grid(area: Rect2) -> Grid:
+	var walls: PackedByteArray = Grid.walls_up(_map.static_nodes())
+	var grid: Grid = _grids.get(area)
+	if grid == null or grid.walls != walls:
+		grid = Grid.new(_map, area)
+		_grids[area] = grid
+	return grid
 
 
 ## A walk to a known spot (an NPC's spawn marker); false when no path reaches it. A body
@@ -232,13 +261,15 @@ func cancel(character_id: StringName) -> void:
 class Grid:
 	extends RefCounted
 	var _astar: AStarGrid2D = AStarGrid2D.new()
+	## walls_up() when it was built.
+	var walls: PackedByteArray
 	var _origin: Vector2
 	var _size: Vector2i
 
 	func _init(map: Node, area: Rect2) -> void:
-		var layers: Array[TileMapLayer] = []
-		for node: Node in map.find_children("*", "TileMapLayer", true, false):
-			layers.append(node as TileMapLayer)
+		var parts: WorldMapStaticNodes = (map as WorldMapController).static_nodes() if map is WorldMapController else WorldMapStaticNodes.new(map)
+		var layers: Array[TileMapLayer] = parts.layers
+		walls = walls_up(parts)
 		# Cells sit on the tiles' own grid.
 		var offset: Vector2 = Vector2.ZERO if layers.is_empty() else (layers[0].to_global(layers[0].map_to_local(Vector2i.ZERO)) - Vector2(CELL, CELL) / 2.0).posmod(CELL)
 		var region: Rect2 = area.grow(CELL * 2.0)
@@ -248,10 +279,9 @@ class Grid:
 		blocked.resize(_size.x * _size.y)
 		for y: int in _size.y:
 			for x: int in _size.x:
-				blocked[y * _size.x + x] = 0 if _walkable_tile(layers, center_of(Vector2i(x, y))) else 1
-		for node: Node in map.find_children("*", "CollisionShape2D", true, false):
-			var collision: CollisionShape2D = node as CollisionShape2D
-			if collision.disabled or collision.shape == null or not collision.get_parent() is StaticBody2D:
+				blocked[y * _size.x + x] = 0 if parts.walkable_tile(center_of(Vector2i(x, y))) else 1
+		for collision: CollisionShape2D in parts.static_shapes:
+			if collision.disabled or collision.shape == null:
 				continue
 			var bounds: Rect2 = collision.global_transform * collision.shape.get_rect()
 			var first: Vector2i = cell_of(bounds.position)
@@ -263,9 +293,27 @@ class Grid:
 		_astar.cell_size = Vector2(CELL, CELL)
 		_astar.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES
 		_astar.update()
+		# Solid within one cell of a blocked one, as two passes: blocked along the row, then down the
+		# column; a cell on the edge has a neighbour outside and is solid.
+		var across: PackedByteArray = PackedByteArray()
+		across.resize(blocked.size())
 		for y: int in _size.y:
+			var row: int = y * _size.x
+			for x: int in range(1, _size.x - 1):
+				across[row + x] = blocked[row + x - 1] | blocked[row + x] | blocked[row + x + 1]
+		for y: int in _size.y:
+			var row: int = y * _size.x
+			var edge_row: bool = y == 0 or y == _size.y - 1
 			for x: int in _size.x:
-				_astar.set_point_solid(Vector2i(x, y), _near_blocked(blocked, x, y))
+				if edge_row or x == 0 or x == _size.x - 1 or (across[row - _size.x + x] | across[row + x] | across[row + _size.x + x]) == 1:
+					_astar.set_point_solid(Vector2i(x, y), true)
+
+	## Which of the map's static collision shapes block now (a door wing opens and shuts).
+	static func walls_up(parts: WorldMapStaticNodes) -> PackedByteArray:
+		var result: PackedByteArray = PackedByteArray()
+		for collision: CollisionShape2D in parts.static_shapes:
+			result.append(0 if collision.disabled or collision.shape == null else 1)
+		return result
 
 	func cell_of(point: Vector2) -> Vector2i:
 		return Vector2i(((point - _origin) / CELL).floor())
@@ -302,15 +350,6 @@ class Grid:
 					if _astar.is_in_boundsv(candidate) and not _astar.is_point_solid(candidate):
 						return candidate
 		return Vector2i(-1, -1)
-
-	func _near_blocked(blocked: PackedByteArray, x: int, y: int) -> bool:
-		for dy: int in range(-1, 2):
-			for dx: int in range(-1, 2):
-				var nx: int = x + dx
-				var ny: int = y + dy
-				if nx < 0 or ny < 0 or nx >= _size.x or ny >= _size.y or blocked[ny * _size.x + nx] == 1:
-					return true
-		return false
 
 	static func _walkable_tile(layers: Array[TileMapLayer], point: Vector2) -> bool:
 		var painted: bool = false

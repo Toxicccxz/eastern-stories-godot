@@ -67,6 +67,7 @@ var _room_traps: WorldRoomTraps
 var _room_resets: WorldRoomResets
 ## obj/user.c reset() of the player object, on a schedule of its own (WorldRoomResets).
 var _player_resets: WorldRoomResets
+var _maps_by_room: Dictionary[String, Array] = {}
 
 
 func _ready() -> void:
@@ -295,8 +296,13 @@ func advance_room_resets(delta: float) -> void:
 ## std/room.c reset() of one ES2 room: its spawns on whichever map holds them, and
 ## weapon_storage.c's own reset() of the shelf.
 func reset_room(legacy_room: String) -> void:
+	# Only the maps holding the room's content: on the others its reset does nothing.
+	if _maps_by_room.is_empty():
+		_maps_by_room = WorldRoomResets.maps_by_room()
+	var maps: Array = _maps_by_room.get(legacy_room, [])
 	for map: WorldMapController in world_maps():
-		map.reset_room(legacy_room)
+		if maps.has(map.map_id()):
+			map.reset_room(legacy_room)
 	if _hidden_passages != null:
 		_hidden_passages.reset_room(legacy_room)
 	if _room_traps != null:
