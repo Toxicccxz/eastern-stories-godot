@@ -27,9 +27,9 @@ from prepare_release_project import prepare_release_project, validate_release_pr
 
 
 # A step that outlives its budget has hung (e.g. a GDScript error that stops a SceneTree
-# script before it can quit); fail it instead of waiting forever. CI's job limit (45 min)
-# bounds the whole run. Gameplay suites run one Godot process each, so their budget is per
-# suite; the slowest takes a few minutes.
+# script before it can quit); fail it instead of waiting forever. CI's job limits bound
+# each job's run. Gameplay suites run one Godot process each, so their budget is per suite;
+# the slowest takes a few minutes.
 TOOLING_TIMEOUT_SECONDS = 10 * 60
 IMPORT_TIMEOUT_SECONDS = 10 * 60
 SUITE_TIMEOUT_SECONDS = 10 * 60
@@ -383,12 +383,17 @@ def _parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main(argv: list[str] | None = None) -> int:
+def _arguments(argv: list[str] | None) -> argparse.Namespace:
     parser = _parser()
     args = parser.parse_args(argv)
-    shard = args.suite_shard
-    if shard is not None and args.skip_gameplay_tests:
+    if args.suite_shard is not None and args.skip_gameplay_tests:
         parser.error("--suite-shard runs gameplay suites; it cannot be combined with --skip-gameplay-tests")
+    return args
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = _arguments(argv)
+    shard = args.suite_shard
     python = sys.executable
     release_project = REPOSITORY / "build/verify-release-project"
     try:

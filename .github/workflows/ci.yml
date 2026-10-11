@@ -53,6 +53,8 @@ jobs:
     timeout-minutes: 45
     strategy:
       fail-fast: false
+      # One axis only, listing exactly 1..N: N is the job total, so another axis or an
+      # `include` would leave suites unrun.
       matrix:
         shard: [1, 2, 3]
     steps:

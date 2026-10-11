@@ -112,12 +112,12 @@ class GameplaySuiteTests(unittest.TestCase):
         self.assertEqual(ordered, verify.shard_suites(ordered, None))
 
     def test_suite_shard_option_takes_k_of_n(self) -> None:
-        self.assertEqual((2, 3), verify._parser().parse_args(["--suite-shard", "2/3"]).suite_shard)
-        self.assertIsNone(verify._parser().parse_args([]).suite_shard)
+        self.assertEqual((2, 3), verify._arguments(["--suite-shard", "2/3"]).suite_shard)
+        self.assertIsNone(verify._arguments([]).suite_shard)
         for arguments in (["--suite-shard", "0/3"], ["--suite-shard", "4/3"], ["--suite-shard", "3"],
                           ["--suite-shard", "1/3", "--skip-gameplay-tests"]):
             with self.subTest(arguments), self.assertRaises(SystemExit), contextlib.redirect_stderr(io.StringIO()):
-                verify.main(arguments)
+                verify._arguments(arguments)
 
     def test_passing_suite_counts_its_assertions(self) -> None:
         run = self._judge(f"{self.SUITE}  92 assertions, 0 failures, 4116 ms\nPASS: 1 suite(s), 92 assertions, 0 failure(s)\n")
