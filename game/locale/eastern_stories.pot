@@ -408,7 +408,8 @@ msgstr ""
 msgid "将军营帐"
 msgstr ""
 
-#: scenes/world/canyon/canyon_pass.tscn
+#. canyon.canyon4.swear name
+#: scenes/world/canyon/canyon_pass.tscn data/canyon/world.json
 msgid "光滑的山壁"
 msgstr ""
 
@@ -7462,7 +7463,9 @@ msgid ""
 msgstr ""
 
 #. es2:obj/drug/hurt_drug unit
-#: data/common/items.json
+#. es2:d/canyon/npc/obj/fake_seal unit
+#. es2:d/canyon/npc/obj/seal unit
+#: data/common/items.json data/canyon/items.json
 msgid "颗"
 msgstr ""
 
@@ -7517,6 +7520,7 @@ msgstr ""
 #. es2:d/choyin/obj/blade unit
 #. es2:d/canyon/npc/obj/sword unit
 #. es2:d/canyon/npc/obj/broken_sword unit
+#. es2:d/canyon/npc/obj/old_sword unit
 #. es2:u/cloud/obj/npc/butcher/knife unit
 #. es2:u/cloud/obj/npc/tailor/ruler unit
 #. es2:u/cloud/obj/npc/tailor/scissors unit
@@ -14003,6 +14007,37 @@ msgstr ""
 #. es2:d/canyon/npc/obj/hat name
 #: data/canyon/items.json
 msgid "迷幻经纶"
+msgstr ""
+
+#. es2:d/canyon/npc/obj/fake_seal name
+#. es2:d/canyon/npc/obj/seal name
+#. canyon.npc.general inquiry topic
+#: data/canyon/items.json data/canyon/npcs.json
+msgid "印鉴"
+msgstr ""
+
+#. es2:d/canyon/npc/obj/fake_seal long
+#: data/canyon/items.json
+msgid ""
+"上面刻著镇国大将军。\n"
+msgstr ""
+
+#. es2:d/canyon/npc/obj/seal long
+#: data/canyon/items.json
+msgid ""
+"泛著黄光，上面刻著镇国大将军。\n"
+msgstr ""
+
+#. es2:d/canyon/npc/obj/old_sword name
+#: data/canyon/items.json
+msgid "古 剑"
+msgstr ""
+
+#. es2:d/canyon/npc/obj/old_sword long
+#: data/canyon/items.json
+msgid ""
+"行云流水，如劲风之竹，气聚于锋，如晦如明，斯行于技，缓动而\n"
+"瞬攻，乃徐如林，急如风，不动如山，侵略如火。\n"
 msgstr ""
 
 #. es2:u/cloud/obj/npc/gangster/blade long
@@ -21334,6 +21369,8 @@ msgid ""
 msgstr ""
 
 #. canyon.npc.captain accept_object.say
+#. canyon.npc.general accept_object.say
+#. canyon.npc.adviser accept_object.say
 #: data/canyon/npcs.json
 msgid "ㄟ....Ｔhank Ｙou!!!"
 msgstr ""
@@ -21440,15 +21477,40 @@ msgid ""
 "你找死啊！问这种问题，你想干麻啊。\n"
 msgstr ""
 
-#. canyon.npc.general inquiry topic
-#: data/canyon/npcs.json
-msgid "印鉴"
-msgstr ""
-
 #. canyon.npc.general inquiry.印鉴
 #: data/canyon/npcs.json
 msgid ""
 "你怎么知道的？帮我找找吧，找到了我送你礼物。\n"
+msgstr ""
+
+#. canyon.npc.general accept_object.lines.say
+#: data/canyon/npcs.json
+msgid "真是谢谢你了。"
+msgstr ""
+
+#. canyon.npc.general accept_object.lines.say
+#: data/canyon/npcs.json
+msgid "为了答谢你，这把古剑送你，当做报酬吧。"
+msgstr ""
+
+#. canyon.npc.general accept_object.lines.say
+#: data/canyon/npcs.json
+msgid "你拿给我的是什么东西啊!"
+msgstr ""
+
+#. canyon.npc.general accept_object.lines.say
+#: data/canyon/npcs.json
+msgid "别想拿这种东西来骗我"
+msgstr ""
+
+#. canyon.npc.general accept_object.lines.say
+#: data/canyon/npcs.json
+msgid "给我滚出去"
+msgstr ""
+
+#. canyon.npc.general accept_object.say
+#: data/canyon/npcs.json
+msgid "啊，真是谢谢你了。"
 msgstr ""
 
 #. canyon.npc.adviser title
@@ -21469,10 +21531,80 @@ msgid ""
 "先看看你的诚意再说罗。\n"
 msgstr ""
 
+#. canyon.npc.adviser accept_object.say
+#: data/canyon/npcs.json
+msgid "即然你那么有心，那我就勉强收起来了。"
+msgstr ""
+
+#. canyon.npc.adviser accept_object.lines.say
+#: data/canyon/npcs.json
+msgid "好极了，我就告诉你一项秘密吧。"
+msgstr ""
+
+#. canyon.npc.adviser accept_object.lines.say
+#: data/canyon/npcs.json
+msgid "在那片光滑的山壁前发誓 我爱.....。"
+msgstr ""
+
+#. canyon.npc.adviser accept_object.lines.say
+#: data/canyon/npcs.json
+msgid "或许你可以发现奇特的事喔。"
+msgstr ""
+
+#. canyon.npc.adviser accept_object.say
+#: data/canyon/npcs.json
+msgid "钱太少了吧！没收。"
+msgstr ""
+
 #. canyon.npc.seller long
 #: data/canyon/npcs.json
 msgid ""
 "环顾四方，眼神锐利，看来想杀价是不可能的事了。\n"
+msgstr ""
+
+#. canyon.npc.seller accept_object.lines.say
+#: data/canyon/npcs.json
+msgid "我已经给你了啊。"
+msgstr ""
+
+#. canyon.npc.seller accept_object.lines.say
+#: data/canyon/npcs.json
+msgid "那么多钱，那我就没收了:P"
+msgstr ""
+
+#. canyon.npc.seller accept_object.lines.say
+#: data/canyon/npcs.json
+msgid "不亏是武林中人，一眼就看出端倪了"
+msgstr ""
+
+#. canyon.npc.seller accept_object.lines.say
+#: data/canyon/npcs.json
+msgid "这个印鉴就看在钱的份上和你交换了"
+msgstr ""
+
+#. canyon.npc.seller accept_object.lines.say
+#: data/canyon/npcs.json
+msgid "好吧！即然被你发现了，只好认栽了。"
+msgstr ""
+
+#. canyon.npc.seller accept_object.lines.say
+#: data/canyon/npcs.json
+msgid "这个真的你就拿去吧"
+msgstr ""
+
+#. canyon.npc.seller accept_object.say
+#: data/canyon/npcs.json
+msgid "你给我这个做什么？我不要，你拿回去吧。"
+msgstr ""
+
+#. canyon.npc.seller accept_object.lines.say
+#: data/canyon/npcs.json
+msgid "如果是钱的话，我先没收了。"
+msgstr ""
+
+#. canyon.npc.seller accept_object.lines.say
+#: data/canyon/npcs.json
+msgid "其他的东西我都不要，别再来烦我了。"
 msgstr ""
 
 #. es2:d/canyon/road long
@@ -21665,6 +21797,47 @@ msgstr ""
 #: data/canyon/world.json
 msgid ""
 "你手脚并用，努力地沿著铁索向上攀缘上去了\n"
+msgstr ""
+
+#. canyon.canyon4.swear act.verb
+#: data/canyon/world.json
+msgid "发誓：我爱东方故事II"
+msgstr ""
+
+#. canyon.canyon4.swear act.acts.steps.line
+#: data/canyon/world.json
+msgid ""
+"突然间一阵强光将你给罩住了\n"
+msgstr ""
+
+#. canyon.canyon4.swear act.acts.steps.line
+#: data/canyon/world.json
+msgid ""
+"轰隆～～～～～～～～～～～～～～～～～～\n"
+msgstr ""
+
+#. canyon.canyon4.swear act.acts.steps.line
+#: data/canyon/world.json
+msgid ""
+"～～～～～轰隆～～～～～轰隆～～～～～～\n"
+msgstr ""
+
+#. canyon.canyon4.swear act.acts.steps.line
+#: data/canyon/world.json
+msgid ""
+"～～～～～～～轰隆～～～～～～～～轰隆～\n"
+msgstr ""
+
+#. canyon.canyon4.swear act.acts.steps.line
+#: data/canyon/world.json
+msgid ""
+"你惨叫了一声:哇，好痛啊～～～～～～\n"
+msgstr ""
+
+#. canyon.canyon4.swear act.acts.steps.line
+#: data/canyon/world.json
+msgid ""
+"～～～～～～～～～～～～～～～～～～～～\n"
 msgstr ""
 
 #. canyon.camp2.well name

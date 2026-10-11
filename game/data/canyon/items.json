@@ -80,6 +80,37 @@
 			"weight": 500,
 			"value": 7000,
 			"armor": { "type": "head", "props": { "spells": 5, "intelligence": 3 } }
+		},
+		{
+			"id": "es2:d/canyon/npc/obj/fake_seal",
+			"legacy_sources": ["d/canyon/npc/obj/fake_seal.c"],
+			"name": "印鉴",
+			"aliases": ["seal"],
+			"long": "上面刻著镇国大将军。\n",
+			"unit": "颗",
+			"weight": 0,
+			"value": 3000
+		},
+		{
+			"id": "es2:d/canyon/npc/obj/seal",
+			"legacy_sources": ["d/canyon/npc/obj/seal.c"],
+			"name": "印鉴",
+			"aliases": ["seal"],
+			"long": "泛著黄光，上面刻著镇国大将军。\n",
+			"unit": "颗",
+			"weight": 0
+		},
+		{
+			"id": "es2:d/canyon/npc/obj/old_sword",
+			"legacy_sources": ["d/canyon/npc/obj/old_sword.c"],
+			"name": "古 剑",
+			"aliases": ["old sword", "sword"],
+			"long": "行云流水，如劲风之竹，气聚于锋，如晦如明，斯行于技，缓动而\n瞬攻，乃徐如林，急如风，不动如山，侵略如火。\n",
+			"unit": "把",
+			"material": "铜",
+			"study": { "skill": "sword", "exp_required": 2500, "sen_cost": 20, "difficulty": 15, "max_skill": 50 },
+			"weight": 800,
+			"value": 100
 		}
 	]
 }

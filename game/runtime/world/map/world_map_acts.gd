@@ -112,6 +112,8 @@ func run(act: ScriptedAct, npc: NpcRuntimeState, draw: Callable) -> void:
 					said.append(line.colored(npc_name, respect))
 			ScriptedAct.Kind.SET_TEMP:
 				_player.temp_marks[step.flag] = 1
+			ScriptedAct.Kind.CLEAR_TEMP:
+				_player.temp_marks.erase(step.flag)
 			ScriptedAct.Kind.UNMARK:
 				state.marks.erase(step.flag)
 			ScriptedAct.Kind.WATER:

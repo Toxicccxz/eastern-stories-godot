@@ -29,9 +29,10 @@ extends RefCounted
 ##   set_temp() flag already (which the gift sets), then its `lines`; `give_one_of` (items)
 ##   new()s the one random(how many) picks (d/choyin/club.c's switch(random(3)));
 ## - `set_temp` a flag: set_temp(flag, 1) on the player (saved, as all of them);
+## - `clear_temp` a flag: set_temp(flag, 0) (d/canyon/canyon4.c's 军营/swear, spent by the oath);
 ## - `unmark` a mark: delete("mark/<mark>") (latemoon8.c's dance-book);
 ## - `water` n: add("water", n) (s_street1.c's well; above the capacity too, as add() does).
-enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, UNMARK, WATER }
+enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER }
 
 ## The resources receive_damage() and receive_heal() name.
 const RESOURCES: Array[String] = ["gin", "kee", "sen"]
@@ -88,7 +89,7 @@ class Step:
 	var pick: Array[StringName] = []
 	var unless_temp: String = ""
 	var lines: Array[NpcLine] = []
-	## set_temp, unmark: the flag or mark.
+	## set_temp, clear_temp, unmark: the flag or mark.
 	var flag: String = ""
 
 
@@ -192,7 +193,7 @@ static func _step(reader: ContentRecordReader) -> Step:
 	var kinds: Array[String] = []
 	if ["say", "emote", "line", "whisper"].any(func(key: String) -> bool: return reader.has(key)):
 		kinds.append("line")
-	for key: String in ["damage", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "unmark", "water"]:
+	for key: String in ["damage", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "water"]:
 		if reader.has(key):
 			kinds.append(key)
 	if kinds.size() != 1:
@@ -264,6 +265,9 @@ static func _step(reader: ContentRecordReader) -> Step:
 		"set_temp":
 			step.kind = Kind.SET_TEMP
 			step.flag = reader.required_text("set_temp")
+		"clear_temp":
+			step.kind = Kind.CLEAR_TEMP
+			step.flag = reader.required_text("clear_temp")
 		"unmark":
 			step.kind = Kind.UNMARK
 			step.flag = reader.required_text("unmark")

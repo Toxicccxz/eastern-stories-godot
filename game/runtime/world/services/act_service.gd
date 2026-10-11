@@ -6,7 +6,9 @@ extends WorldService
 ## context button does it at once. The branch for the player is asked first when it says
 ## so (a man bathing, owner, 晚月庄 plan Q2) or when what it costs would knock the player
 ## out (owner's rule on choices that knock out); otherwise ES2 just does it. A carried
-## item's command (bracelet.c pray) is asked the same way (ask_first_or_run()).
+## item's command (bracelet.c pray) is asked the same way (ask_first_or_run()). With no
+## branch for the player there is no button: d/canyon/canyon4.c's swear answers only one the
+## 军师 told the secret (add_action() returns 0 for anyone else, ES2's 什么?).
 ## TRANSLATORS: before a command ({verb}: 静修) whose cost ({cost}: 50 点神) would knock the player out.
 const FAINT_WARNING: String = "{verb}要耗去{cost}，你现在撑不住，会当场昏过去。\n确定要{verb}吗？"
 ## TRANSLATORS: one resource a command costs ({amount} points of 精, 气 or 神), joined by 和.
@@ -20,15 +22,27 @@ func verb() -> String:
 	return tr(definition.act.verb)
 
 
+func context_title() -> String:
+	var title: String = super()
+	return "" if title.is_empty() or _act_for_player() == null else title
+
+
 ## The button: the player's branch, asked first when it must be.
 func interact() -> void:
 	if not in_reach():
 		return
-	var state: CharacterState = map.player_runtime().state
-	var act: ScriptedAct = definition.act.act_for(state.gender, state.affiliation.class_id, map.acts.facts())
+	var act: ScriptedAct = _act_for_player()
 	if act == null:
 		return
 	ask_first_or_run(map, act, verb(), perform.bind(act), in_reach)
+
+
+## The branch for the player as they are now; null when none is.
+func _act_for_player() -> ScriptedAct:
+	if map == null or map.player_runtime() == null:
+		return null
+	var state: CharacterState = map.player_runtime().state
+	return definition.act.act_for(state.gender, state.affiliation.class_id, map.acts.facts())
 
 
 ## `run` at once, or after the player's yes when `act` asks (its `ask`) or what it costs

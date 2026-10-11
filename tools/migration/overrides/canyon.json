@@ -1,4 +1,5 @@
 {
+	"items": ["d/canyon/npc/obj/fake_seal.c", "d/canyon/npc/obj/seal.c", "d/canyon/npc/obj/old_sword.c"],
 	"set": {
 		"canyon.npc.captain": {
 			"inquiry": {
@@ -30,7 +31,64 @@
 					{ "move": "canyon.camp2", "point": "canyon.camp2.tent_return" }
 				] }
 			] }
-		}
+		},
+		"canyon.npc.adviser": {
+			"accept_object": [
+				{ "value_at_most": 0, "say": "ㄟ....Ｔhank Ｙou!!!", "accept": true },
+				{ "giver_temp": "军营/swear", "say": "即然你那么有心，那我就勉强收起来了。", "accept": true },
+				{ "value_at_least": 800, "lines": [
+					{ "say": "好极了，我就告诉你一项秘密吧。" },
+					{ "say": "在那片光滑的山壁前发誓 我爱.....。" },
+					{ "say": "或许你可以发现奇特的事喔。" }
+				], "set_temps": ["军营/swear"], "accept": true },
+				{ "say": "钱太少了吧！没收。", "accept": true }
+			]
+		},
+		"canyon.npc.general": {
+			"accept_object": [
+				{ "item": "es2:d/canyon/npc/obj/seal", "lines": [
+					{ "say": "真是谢谢你了。" },
+					{ "say": "为了答谢你，这把古剑送你，当做报酬吧。" }
+				], "gives": "es2:d/canyon/npc/obj/old_sword", "accept": true },
+				{ "item": "es2:d/canyon/npc/obj/fake_seal", "lines": [
+					{ "say": "你拿给我的是什么东西啊!" },
+					{ "say": "别想拿这种东西来骗我" },
+					{ "say": "给我滚出去" }
+				], "set_temps": ["将军/kick"], "move": "canyon.camp2", "point": "canyon.camp2.tent_return", "accept": false },
+				{ "value_at_most": 0, "say": "ㄟ....Ｔhank Ｙou!!!", "accept": true },
+				{ "say": "啊，真是谢谢你了。", "accept": true }
+			]
+		},
+		"canyon.npc.seller": {
+			"accept_object": [
+				{ "value_at_least": 30000, "value_at_most": 30000, "giver_temp": "Get_seal", "giver_carries": "es2:d/canyon/npc/obj/fake_seal", "lines": [
+					{ "say": "我已经给你了啊。" },
+					{ "say": "那么多钱，那我就没收了:P" }
+				], "accept": true },
+				{ "value_at_least": 30000, "value_at_most": 30000, "giver_temp": "Get_seal", "npc_flag": "check", "lines": [
+					{ "say": "我已经给你了啊。" },
+					{ "say": "那么多钱，那我就没收了:P" }
+				], "accept": true },
+				{ "value_at_least": 30000, "value_at_most": 30000, "lines": [
+					{ "say": "不亏是武林中人，一眼就看出端倪了" },
+					{ "say": "这个印鉴就看在钱的份上和你交换了" }
+				], "gives": "es2:d/canyon/npc/obj/fake_seal", "set_temps": ["Get_seal"], "accept": true },
+				{ "unless_npc_flag": "check", "item": "es2:d/canyon/npc/obj/fake_seal", "giver_temp": "将军/kick", "lines": [
+					{ "say": "好吧！即然被你发现了，只好认栽了。" },
+					{ "say": "这个真的你就拿去吧" }
+				], "gives": "es2:d/canyon/npc/obj/seal", "unset_temps": ["将军/kick"], "set_npc_flag": "check", "accept": true },
+				{ "unless_npc_flag": "check", "say": "你给我这个做什么？我不要，你拿回去吧。", "accept": false },
+				{ "value_at_least": 1, "lines": [
+					{ "say": "如果是钱的话，我先没收了。" },
+					{ "say": "其他的东西我都不要，别再来烦我了。" }
+				], "accept": true },
+				{ "lines": [
+					{ "say": "如果是钱的话，我先没收了。" },
+					{ "say": "其他的东西我都不要，别再来烦我了。" }
+				], "accept": false }
+			]
+		},
+		"es2:d/canyon/npc/obj/seal": { "name": "印鉴" }
 	},
 	"review": {
 		"d/canyon/road.c": {
@@ -44,8 +102,8 @@
 			"function do_climb": "service canyon.canyon1.chain: 30 gin, 40 kee, 20 sen, then the move up to road.c, as do_climb() going down"
 		},
 		"d/canyon/canyon4.c": {
-			"function init": "天驼关 B: swear at the smooth wall (canyon plan Q3: a 发誓 button once 赫造基 told the secret)",
-			"function do_swear": "天驼关 B: the 发誓 act, the lightning lines and the move into the 兵器库 (canyon.armory)"
+			"function init": "swear: the act service canyon.canyon4.swear (光滑的山壁 · 发誓：我爱东方故事II, owner: canyon plan Q3), offered only with set_temp 军营/swear (add_action returns 0 for anyone else); its point has no diamond (a secret)",
+			"function do_swear": "service canyon.canyon4.swear: set_temp(军营/swear, 0) (clear_temp), the ten message_vision() lines (你 for $N, each in its opening colour) and the move to blackmarket.c (canyon.armory); the oath is the button, so the wrong-words 不要吵 line never comes; the tell_room() lines are for others"
 		},
 		"d/canyon/canyon5.c": {
 			"set item_desc": "a look-only landmark in world.json (canyon.canyon5.landmark.door), word for word"
@@ -70,14 +128,25 @@
 			"function greeting": "greeting rule in set: one without marks/军营 is told off and moved to camp2 (ob->move(PATH))"
 		},
 		"d/canyon/npc/general.c": {
-			"function accept_object": "天驼关 B: the 印鉴 chain (the real seal for the 古剑, the fake one gets the giver thrown out)"
+			"function accept_object": "accept_object rules in set: the real 印鉴 (HIY name; the rule names the item, as the two differ only by colour) for the 古剑 (new()'d to the giver); the fake one: three says, set_temp 将军/kick, the move to camp2 (who->move(PATH)) and return 0, so the giver keeps it (a refusal that sets temps and moves); worth nothing → Thank You (grin and smile print nothing)"
 		},
 		"d/canyon/npc/adviser.c": {
 			"set mana_factor": "only hp.c and score.c read it (a player's own sheet): nothing for an NPC",
-			"function accept_object": "天驼关 B: the secret of the smooth wall for 8 taels"
+			"function accept_object": "accept_object rules in set: worth nothing → Thank You (kept); with set_temp 军营/swear → 勉强收起来 (kept); 800 or more → the secret, set_temp 军营/swear; less → 钱太少了吧！没收。 (kept, as he says; DECISIONS 天驼关 A); the command hint (swear) is dropped from the secret (the oath is a button: DECISIONS 水烟阁 B)"
 		},
 		"d/canyon/npc/seller.c": {
-			"function accept_object": "天驼关 B: the fake 印鉴 for exactly 3 gold, the real one for the fake"
+			"function accept_object": "accept_object rules in set: value() exactly 30000 (3 gold, 300 silver ...) → the fake 印鉴 and set_temp Get_seal, once (after it: 我已经给你了啊, kept, while the player still carries the fake or once he swapped; the flag is saved, so one who lost the fake before the swap buys again, 默认); violate_unique() is defined nowhere in the mudlib (0), so that branch never runs; without his own temp check (an NPC flag, saved) the fake 印鉴 from one 将军/kick → the real one, delete_temp 将军/kick, check set; else 你给我这个做什么 (refused); with check: deviation (owner to decide, 天驼关 B): money is kept as he says (如果是钱的话，我先没收了), the rest refused (ES2 returned 0 for both)"
+		},
+		"d/canyon/npc/obj/fake_seal.c": {
+			"set base_weight": "read only by std/item/combined.c: a plain item weighs 0 (no set_weight())",
+			"set no_sell": "nothing in the mudlib reads no_sell (hockshop.c does not): unused"
+		},
+		"d/canyon/npc/obj/seal.c": {
+			"set base_weight": "read only by std/item/combined.c: a plain item weighs 0 (no set_weight())",
+			"set no_sell": "nothing in the mudlib reads no_sell (hockshop.c does not): unused"
+		},
+		"d/canyon/npc/obj/old_sword.c": {
+			"set replica_ob": "read only by F_UNIQUE, which the mudlib never defines: unused (cola.c is placed nowhere)"
 		},
 		"d/canyon/npc/obj/blade.c": {
 			"set wield_msg": "wield/unwield messages are not shown yet",

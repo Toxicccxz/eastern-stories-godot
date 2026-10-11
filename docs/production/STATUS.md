@@ -4,13 +4,12 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**天驼关 A** (`phase/canyon-a`, region #10, DECISIONS「天驼关 A」): the pass, the camp and its
-people. Snow's 青石官道 opens south-west onto the clifftop; the chain down to the 黄石隘口 (and up)
-costs gin, kee and sen and is asked first when it would knock the player out. The pass winds south
-past the garrison's camp to the raised iron gate and the valley (玉螺湖村 is #11). 大队长 lists
-one who has paid him thirty taels in all (owner, Q2: the gifts add up) and tells the 隘口's story
-when asked; 李信 throws the unlisted out of his tent, and only the listed reach 严廷殷 and his 军师.
-Plan: B the 印鉴 chain (the swear as a button, Q3), C the 竹林道 west of the pass (repaired, Q1).
+**天驼关 B** (`phase/canyon-b`, region #10, DECISIONS「天驼关 B」): the 印鉴 chain. 赫造基 tells
+one who gives him eight taels the secret of the smooth wall; there the oath (a button, owner Q3)
+takes them into the 兵器库. The 后备兵 trades a fake 印鉴 for exactly three gold; 严廷殷 throws out
+whoever offers it; the 后备兵 then swaps it for the real one, which 严廷殷 rewards with the 古剑
+(研读: sword to 50). Asked in the PR: the 后备兵 keeps money once he is done (as he says; 默认).
+Next: C, the 竹林道 west of the pass (repaired, Q1).
 
 ## 待决定
 
@@ -256,8 +255,12 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   generals, 茅山's spells for the 军师). 大队长 answers 允许 with 先给钱再说吧; what he is given adds
   up, and thirty taels in all list the player (owner); asked about 黄石隘口 he tells of the late
   emperor and the young one, a line every two seconds. 李信 throws anyone unlisted out to the camp
-  fire (大胆狂徒，竟私闯此地，给我滚出去); the 将军营帐 lets in only the listed. The 兵器库 (the
-  后备兵) is drawn; its way in is the swear (天驼关 B).
+  fire (大胆狂徒，竟私闯此地，给我滚出去); the 将军营帐 lets in only the listed. The 印鉴 chain:
+  赫造基 tells one who gives him eight taels the secret of the smooth wall of 隘口中道, and only
+  then is there an oath to swear there (发誓：我爱东方故事II), which takes them into the 兵器库;
+  the 后备兵 sells a fake 印鉴 for exactly three gold, once; 严廷殷 throws whoever offers it out to
+  the camp fire; the 后备兵 then gives the real one for the fake, once; 严廷殷 gives the 古剑 for it
+  (研读: sword to 50 from 2500 exp).
 * **Across both**: each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from

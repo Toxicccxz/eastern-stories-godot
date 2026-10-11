@@ -30,7 +30,13 @@ extends RefCounted
 ## owner: 天驼关 plan Q2): their earlier gifts kept under it (CharacterState counters
 ## `tally/<name>`) count with this one toward `value_at_least` and `value_at_most`; a rule
 ## with a tally that takes the gift adds it there, and one that also marks the giver
-## settles it (the count goes).
+## settles it (the count goes). `item` asks for one blueprint (base_name(ob)): d/canyon's two
+## 印鉴 differ only by the colour of their names (npc/general.c, seller.c). `unset_temps` are the
+## giver's temps deleted (delete_temp(): seller.c's 将军/kick), and like `unmark_giver` and
+## `set_temps` they change whether the gift is then taken or not; a refusal may also `move` the
+## giver (general.c's fake 印鉴: set_temp("将军/kick"), move to camp2, return 0). `giver_carries`
+## is an item the giver carries (present(), by its blueprint): with the temps saved, seller.c's
+## 我已经给你了啊 holds only while the fake is still theirs (天驼关 B, 默认).
 const EFFECT_TEMPLE_DONATION: StringName = &"temple_donation"
 const EFFECT_WAGER: StringName = &"wager"
 const EFFECT_PASS_FORCE: StringName = &"pass_force"
@@ -52,10 +58,14 @@ var giver_per_below: int = NO_BOUND
 var item_name: String = ""
 ## obj->id(<alias>) (d/snow/npc/dog.c: id("bone")).
 var item_alias: String = ""
+## base_name(obj): the item definition (the blueprint), for names that differ only by colour.
+var item: StringName = &""
 ## families.json ID of query("family/family_name").
 var giver_family: StringName = &""
 ## query_temp(<flag>) of the giver (shaowei.c moon/竹子).
 var giver_temp: String = ""
+## An item definition the giver carries (directly).
+var giver_carries: StringName = &""
 ## query("max_force") of the giver below this (old.c's 160).
 var giver_max_force_below: int = NO_BOUND
 var lines: Array[NpcLine] = []
@@ -65,6 +75,8 @@ var unmark_giver: Array[String] = []
 ## The item definition new()'d and moved to the giver; empty for most rules.
 var gives: StringName = &""
 var set_temps: Array[String] = []
+## delete_temp(<flag>) on the giver.
+var unset_temps: Array[String] = []
 var make: NpcMaking
 var set_npc_flag: StringName = &""
 var effect: StringName = &""
@@ -93,8 +105,12 @@ class Offer:
 	var item_name: String = ""
 	## obj->id(): what the gift answers to.
 	var item_aliases: Array[String] = []
+	## base_name(obj): the gift's item definition.
+	var item_id: StringName = &""
 	var giver_family: StringName = &""
 	var giver_temps: Dictionary[String, int] = {}
+	## The item definitions the giver carries directly (base_name()s).
+	var giver_carried: Array[StringName] = []
 	var giver_max_force: int = 0
 	## The gift is the giver's own (its master form).
 	var item_mastered: bool = false
@@ -124,8 +140,10 @@ func matches(offer: Offer) -> bool:
 		and (giver_per_below == NO_BOUND or offer.giver_per < giver_per_below)
 		and (item_name.is_empty() or offer.item_name == item_name)
 		and (item_alias.is_empty() or offer.item_aliases.has(item_alias))
+		and (item.is_empty() or offer.item_id == item)
 		and (giver_family.is_empty() or offer.giver_family == giver_family)
 		and (giver_temp.is_empty() or offer.giver_temps.get(giver_temp, 0) != 0)
+		and (giver_carries.is_empty() or offer.giver_carried.has(giver_carries))
 		and (giver_max_force_below == NO_BOUND or offer.giver_max_force < giver_max_force_below)
 	)
 
@@ -170,8 +188,10 @@ static func from_record(reader: ContentRecordReader) -> NpcObjectRule:
 	rule.giver_per_below = reader.integer("giver_per_below", NO_BOUND)
 	rule.item_name = reader.text("item_name")
 	rule.item_alias = reader.text("item_alias")
+	rule.item = StringName(reader.text("item"))
 	rule.giver_family = StringName(reader.text("giver_family"))
 	rule.giver_temp = reader.text("giver_temp")
+	rule.giver_carries = StringName(reader.text("giver_carries"))
 	rule.giver_max_force_below = reader.integer("giver_max_force_below", NO_BOUND)
 	rule.kill = reader.boolean("kill", false)
 	rule.lines = NpcLine.optional_lines(reader)
@@ -185,6 +205,7 @@ static func from_record(reader: ContentRecordReader) -> NpcObjectRule:
 	rule.unmark_giver = reader.text_list("unmark_giver")
 	rule.gives = StringName(reader.text("gives"))
 	rule.set_temps = reader.text_list("set_temps")
+	rule.unset_temps = reader.text_list("unset_temps")
 	var make: ContentRecordReader = reader.child("make")
 	if make != null:
 		rule.make = NpcMaking.from_record(make)
@@ -207,8 +228,8 @@ static func from_record(reader: ContentRecordReader) -> NpcObjectRule:
 		reader.fail("effect", "unsupported effect '%s'" % rule.effect)
 	if not rule.liquid_type.is_empty() and not LiquidState.LEGACY_TYPES.has(rule.liquid_type):
 		reader.fail("liquid", "unsupported liquid type '%s'" % rule.liquid_type)
-	if not rule.accept and (not rule.mark_giver.is_empty() or not rule.set_npc_flag.is_empty() or not rule.effect.is_empty() or not rule.gives.is_empty() or not rule.set_temps.is_empty() or rule.make != null or not rule.move_zone_id.is_empty() or not rule.forgets.is_empty()):
-		reader.fail("accept", "a refusal changes nothing but the giver's flags it deletes")
+	if not rule.accept and (not rule.mark_giver.is_empty() or not rule.set_npc_flag.is_empty() or not rule.effect.is_empty() or not rule.gives.is_empty() or rule.make != null or not rule.forgets.is_empty()):
+		reader.fail("accept", "a refusal changes nothing but the giver's flags and where they stand")
 	if rule.kill and rule.accept:
 		reader.fail("kill", "only a refusal attacks the giver")
 	if rule.effect == EFFECT_WAGER and rule.value_at_least < 1:
