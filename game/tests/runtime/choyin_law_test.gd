@@ -656,7 +656,7 @@ func _teacher(map: WorldMapController, npc: NpcRuntimeState) -> TeacherService:
 func _beside(tree: SceneTree, session: WorldSessionController, map: WorldMapController, npc: NpcRuntimeState) -> void:
 	var zone_id: StringName = npc.world_location().zone_id
 	var body: WorldCharacterBody2D = map.runtime_body_for_character(npc.character_id)
-	var at: Vector2 = MapPlaces.spot(map, zone_id, body.global_position + Vector2(0, 56), 60.0)
+	var at: Vector2 = MapPlaces.spot(map, zone_id, body.global_position + Vector2(0, 48), 40.0) # within the HUD's reach (96)
 	if at == Vector2.INF:
 		at = MapPlaces.spot(map, zone_id, body.global_position, 140.0)
 	_check(at != Vector2.INF and map.place_player(zone_id, at), "TEST-ONLY: beside %s" % npc.definition().display_name)
