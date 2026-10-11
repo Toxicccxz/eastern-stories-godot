@@ -1,5 +1,10 @@
 {
-	"items": ["d/canyon/npc/obj/fake_seal.c", "d/canyon/npc/obj/seal.c", "d/canyon/npc/obj/old_sword.c"],
+	"source_fixes": {
+		"d/canyon/canyon2.c": [
+			{ "find": "\"south\" : __DIR__\"canyon3\",", "replace": "\"south\" : __DIR__\"canyon3\", \"west\" : __DIR__\"stone_forest1\",", "why": "stone_forest1.c leads east to canyon2.c, which had no way west and nothing else leads in, so ES2's players never saw the 黄石穿林路, the mirror or the 竹林道 (owner, 天驼关 plan Q1: repaired as a deviation)" }
+		]
+	},
+	"items": ["d/canyon/npc/obj/fake_seal.c", "d/canyon/npc/obj/seal.c", "d/canyon/npc/obj/old_sword.c", "d/canyon/bamboo/obj/slipcase.c", "d/canyon/bamboo/obj/parry_book.c"],
 	"set": {
 		"canyon.npc.captain": {
 			"inquiry": {
@@ -88,7 +93,9 @@
 				], "accept": false }
 			]
 		},
-		"es2:d/canyon/npc/obj/seal": { "name": "印鉴" }
+		"es2:d/canyon/npc/obj/seal": { "name": "印鉴" },
+		"es2:d/canyon/bamboo/obj/parry_book": { "unique": true },
+		"es2:d/canyon/bamboo/obj/slipcase": { "contains": ["es2:d/canyon/bamboo/obj/parry_book"] }
 	},
 	"review": {
 		"d/canyon/road.c": {
@@ -167,6 +174,28 @@
 		},
 		"d/canyon/npc/obj/cloud_armor.c": {
 			"set replica_ob": "read only by F_UNIQUE, which the file comments out (and the mudlib never defines): unused"
+		},
+		"d/canyon/stone_forest1.c": {
+			"set shorst": "a misspelt short beside the real set(\"short\"): read by nothing"
+		},
+		"d/canyon/bamboo/bamboo3.c": {
+			"function init": "move stone, enter and go enter: the act services canyon.bamboo3.stone (大黄石 · 推开) and canyon.bamboo3.gap (隙缝 · 进去)",
+			"function do_move": "service canyon.bamboo3.stone: below 560 force, 560 max_force or 40 force_factor 你出力不太够喔！; else receive_damage() 20 gin, 60 kee, 20 sen, set(\"exits/enter\") (a room flag, not saved, as doors are not) and its message_vision(); asked first when the cost would knock the player out (owner's rule on such choices); 默认: while the gap is open the stone offers only the way in (ES2's move stone took the cost again and said nothing)",
+			"function do_enter": "service canyon.bamboo3.gap, only while the gap is open: delete(\"exits/enter\"), its message_vision() and the move into train.c (canyon.stoneroom)",
+			"function go_enter": "go enter: the same as do_enter, the 隙缝 · 进去 button"
+		},
+		"d/canyon/bamboo/train.c": {
+			"set item_desc": "a look-only landmark in world.json (canyon.train.landmark.bookcase), word for word",
+			"function init": "search bookcase: the act service canyon.train.bookcase (书柜 · 翻找)",
+			"function search_case": "service canyon.train.bookcase: while a 悟疾风劲竹书 exists anywhere (F_UNIQUE) 你在书柜找了找但没找到些什么; else the line and a new 书匣 (the book inside). 默认: the room's set_temp(\"got\") is not kept: ES2's clean_up() destructed the empty room and forgot it, so the bookcase gave again later; here it gives again once the book is gone, the same before and after a Continue"
+		},
+		"d/canyon/bamboo/obj/slipcase.c": {
+			"statement in create()": "object obj: its new(parry_book)->move(this_object()) is contains in set (a new 书匣 holds a 悟疾风劲竹书)",
+			"function is_container": "a container (max_encumbrance): one lying in reach takes put and get; a carried one shows what it holds, each to take out (get from)"
+		},
+		"d/canyon/bamboo/obj/parry_book.c": {
+			"inherit F_UNIQUE": "unique in set: F_UNIQUE is not in the mudlib, so parry_book.c did not compile in ES2 (the search failed with it); as the code means (owner, DECISIONS 天驼关 A) only one exists at a time, as 青石村's jade: the bookcase gives none while one exists",
+			"set replica_ob": "read only by F_UNIQUE, which the mudlib never defines; it names bamboo/obj/cola.c, which does not exist: unused"
 		}
 	}
 }

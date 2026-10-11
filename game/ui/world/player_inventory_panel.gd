@@ -19,6 +19,10 @@ signal dissolve_requested(item_instance_id: StringName)
 signal hang_requested(item_instance_id: StringName)
 ## pour <powder> in <container> (std/medicine/powder.c do_pour()).
 signal pour_requested(item_instance_id: StringName, container_id: StringName)
+## get <item> from <a carried container> (cmds/std/get.c).
+signal take_out_requested(container_id: StringName, item_instance_id: StringName)
+## put <item> in <a carried container> (cmds/std/put.c).
+signal put_into_requested(item_instance_id: StringName, amount: int, container_id: StringName)
 ## scribe haunt on a paper for the selected NPC (scribe.c); attach a 僵尸追魂符 (attach.c).
 signal scribe_requested(item_instance_id: StringName)
 signal attach_requested(item_instance_id: StringName)
@@ -49,6 +53,8 @@ var _container: String = ""
 var _corpse: String = ""
 ## The carried liquid containers a powder can be poured into: [id, shown name] pairs.
 var _pour_targets: Array = []
+## The carried containers (max_encumbrance) something can be put in: [id, shown name] pairs.
+var _carried_containers: Array = []
 ## Whose name a 符 on a paper would carry (the selected NPC here), and the zombie here a
 ## 僵尸追魂符 goes on; empty when there is none.
 var _scribe_target: String = ""
@@ -125,6 +131,13 @@ func show_inspection(row: PlayerInventoryRowProjection) -> void:
 		_append_dodge(lines, row.armor_modifiers.dodge)
 	elif row.amount != 1:
 		lines.append(tr("数量：%d") % row.amount)
+	# look.c look_item(): what a container holds.
+	if not row.contents.is_empty():
+		var names: Array[String] = []
+		for held: Array in row.contents:
+			names.append(held_label(held))
+		# TRANSLATORS: what a container holds (look.c), one name a line after it.
+		lines.append(tr("里面有：") + "\n  " + "\n  ".join(names))
 	inspect_text.text = "\n".join(lines)
 	inspect_text.show()
 
@@ -151,6 +164,11 @@ func _replace_rows(rows: Array[PlayerInventoryRowProjection]) -> void:
 	for child: Node in row_container.get_children():
 		row_container.remove_child(child)
 		child.queue_free()
+	_carried_containers.clear()
+	for source: PlayerInventoryRowProjection in rows:
+		var held: ItemContentDefinition = null if source == null else GameContent.catalog().item(source.item_definition_id)
+		if held != null and held.max_encumbrance > 0:
+			_carried_containers.append([source.item_instance_id, source.display_name])
 	for source: PlayerInventoryRowProjection in rows:
 		if source == null:
 			continue
@@ -260,6 +278,15 @@ func _build_row(row: PlayerInventoryRowProjection) -> BoxContainer:
 			var container_id: StringName = target[0]
 			pour_button.pressed.connect(func() -> void: pour_requested.emit(row.item_instance_id, container_id))
 			container.add_child(pour_button)
+	# get <item> from <container>: what a carried container holds (slipcase.c's book).
+	for held: Array in row.contents:
+		var held_id: StringName = held[0]
+		var take_button: Button = Button.new()
+		take_button.name = "TakeOut"
+		# TRANSLATORS: take something ({item}: 悟疾风劲竹书) out of a carried container (get.c).
+		take_button.text = tr("取出{item}").format({"item": held_label(held)})
+		take_button.pressed.connect(func() -> void: take_out_requested.emit(row.item_instance_id, held_id))
+		container.add_child(take_button)
 	# A stack can be handed over in part (give 5 silver to ..., drop 10 throwing knives).
 	var amount: SpinBox = null
 	if content != null and content.is_stack and row.amount > 1:
@@ -274,6 +301,24 @@ func _build_row(row: PlayerInventoryRowProjection) -> BoxContainer:
 		_handling_button(container, "Give", tr("给%s") % tr(_give_target), give_requested, row, amount)
 	if not _container.is_empty():
 		_handling_button(container, "Put", tr("放进%s") % tr(_container), put_requested, row, amount)
+	# put <item> in <a carried container> (put.c looks on the player first); two of one name
+	# are numbered, as the pour targets are.
+	var carried_names: Array[String] = []
+	for target: Array in _carried_containers:
+		carried_names.append(tr(target[1]))
+	for index: int in range(_carried_containers.size()):
+		var target_id: StringName = _carried_containers[index][0]
+		if target_id == row.item_instance_id:
+			continue
+		var put_button: Button = Button.new()
+		put_button.name = "PutCarried"
+		put_button.text = tr("放进%s") % carried_names[index]
+		if carried_names.count(carried_names[index]) > 1:
+			put_button.text += " #%d" % (index + 1)
+		put_button.pressed.connect(func() -> void:
+			var count: int = 0 if amount == null or int(amount.value) >= row.amount else int(amount.value)
+			put_into_requested.emit(row.item_instance_id, count, target_id))
+		container.add_child(put_button)
 	_handling_button(container, "Drop", "丢下", drop_requested, row, amount)
 	return container
 
@@ -286,6 +331,14 @@ func _handling_button(container: BoxContainer, node_name: String, text: String, 
 		var count: int = 0 if amount == null or int(amount.value) >= row.amount else int(amount.value)
 		requested.emit(row.item_instance_id, count))
 	container.add_child(button)
+
+
+## What a container holds, as its row says it: a stack with its amount (combined.c short()).
+static func held_label(held: Array) -> String:
+	var label: String = TranslationServer.translate(held[1])
+	if held.size() > 2 and int(held[2]) != 1:
+		label = TranslationServer.translate("{item} ×{amount}").format({"item": label, "amount": held[2]})
+	return label
 
 
 func _row_label(row: PlayerInventoryRowProjection) -> String:

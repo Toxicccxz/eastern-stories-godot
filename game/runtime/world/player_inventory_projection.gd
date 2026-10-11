@@ -53,7 +53,7 @@ func project_rows(
 			content.category == ItemContentDefinition.CATEGORY_ARMOR
 			and armor_definition != null
 		)
-		rows.append(
+		var row := (
 			PlayerInventoryRowProjection.new(
 				item_id,
 				item.item_definition_id,
@@ -82,6 +82,14 @@ func project_rows(
 				content.weapon_apply.get(&"dodge", 0),
 			)
 		)
+		# A carried container (slipcase.c): what is inside, to take out.
+		if content.max_encumbrance > 0:
+			for held_id: StringName in inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, item_id)):
+				var held: ItemInstance = item_index.resolve(held_id)
+				var held_content: ItemContentDefinition = null if held == null else GameContent.catalog().item(held.item_definition_id)
+				if held_content != null:
+					row.contents.append([held_id, held_content.display_name, stacks.stack_state(held_id).amount if stacks.has_stack(held_id) else 1])
+		rows.append(row)
 	return rows
 
 

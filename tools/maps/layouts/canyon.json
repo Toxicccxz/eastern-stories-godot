@@ -96,14 +96,15 @@
       }
     },
     "pass": {
-      "note": "天驼关: from the 青石官道 (Snow's map) a gravel path runs south-west over the barren clifftop to a half-round mound at the cliff's edge; an iron chain hangs from it seventeen or eighteen 丈 down the rock face to the tail of the 黄石隘口, which the chain is the only way into. The yellow-earth path winds south-west, then south between ever steeper walls; east of it the garrison's camp behind its iron palisade: the gate (two soldiers on duty), the soldiers' tents north and south of it, the camp fire and its well beyond, the squad leaders' tents either side, the vice general's tent, rich with tiger skins and silver, and the general's beyond it. Further south the west wall grows strangely smooth, the wind blows harder by the camp's gate, the iron gate of 天驼关 stands raised over the path with its great winch behind it, and the valley between the two cliffs, shaped like a camel's humps, leads south toward 京师 (not open yet).",
+      "note": "天驼关: west of 隘口小路 a yellow-stone path runs into woods of grass thirty or forty 尺 high, in fog, to a sunlit clearing with a strange mirror on its north side (the way into the 梦幻迷境, a map of its own). From the 青石官道 (Snow's map) a gravel path runs south-west over the barren clifftop to a half-round mound at the cliff's edge; an iron chain hangs from it seventeen or eighteen 丈 down the rock face to the tail of the 黄石隘口, which the chain is the only way into. The yellow-earth path winds south-west, then south between ever steeper walls; east of it the garrison's camp behind its iron palisade: the gate (two soldiers on duty), the soldiers' tents north and south of it, the camp fire and its well beyond, the squad leaders' tents either side, the vice general's tent, rich with tiger skins and silver, and the general's beyond it. Further south the west wall grows strangely smooth, the wind blows harder by the camp's gate, the iron gate of 天驼关 stands raised over the path with its great winch behind it, and the valley between the two cliffs, shaped like a camel's humps, leads south toward 京师 (not open yet).",
       "file": "canyon_pass.tscn",
       "draw": {
         "technique": "town",
         "base": "boundary",
-        "bounds": [0, 384, 2624, 2304],
+        "bounds": [-192, 384, 2624, 2304],
         "ground": [
-          ["cliff", 0, 384, 2624, 2304, "barren mountains either side, high as the clouds"]
+          ["cliff", 0, 384, 2624, 2304, "barren mountains either side, high as the clouds"],
+          ["forest", -192, 576, 704, 1024, "west of 隘口小路 the woods: grass thirty or forty 尺 high, in fog"]
         ],
         "zones": {
           "canyon.canyon1": [960, 448, 1344, 704, "open", "path", null],
@@ -120,9 +121,15 @@
           "canyon.camp2": [1408, 1216, 1728, 1472, "open", "floor_yard", null],
           "canyon.camp6": [1408, 1472, 1728, 1728, "enclosed", "town_ground", "wall_wood"],
           "canyon.camp7": [1728, 1152, 2112, 1536, "enclosed", "floor_wood", "wall_wood"],
-          "canyon.camp8": [2112, 1088, 2560, 1600, "enclosed", "floor_wood", "wall_wood"]
+          "canyon.camp8": [2112, 1088, 2560, 1600, "enclosed", "floor_wood", "wall_wood"],
+          "canyon.stone_forest1": [448, 736, 704, 928, "open", "forest_floor", null],
+          "canyon.stone_forest2": [192, 736, 448, 928, "open", "forest_floor", null],
+          "canyon.stone_forest3": [-160, 640, 192, 960, "open", "grass", null]
         },
-        "roads": [],
+        "roads": [
+          ["path", -16, 816, 704, 880, "the 黄石穿林路: yellow stones speckled white, as if long lit by a white beam"],
+          ["path", -16, 704, 48, 816, "up to the mirror"]
+        ],
         "props": [
           ["cliff", 960, 448, 1152, 480],
           ["cliff", 1280, 448, 1344, 480],
@@ -142,11 +149,8 @@
           ["cliff", 704, 704, 960, 736],
           ["cliff", 704, 736, 864, 768],
           ["cliff", 704, 768, 816, 800],
-          ["cliff", 704, 800, 800, 832],
           ["cliff", 1040, 800, 1088, 832],
-          ["cliff", 704, 832, 816, 864],
           ["cliff", 992, 832, 1088, 864],
-          ["cliff", 704, 864, 832, 896],
           ["cliff", 976, 864, 1088, 896],
           ["cliff", 704, 896, 800, 928],
           ["cliff", 976, 896, 1088, 928],
@@ -229,6 +233,43 @@
           ["cliff", 992, 2176, 1088, 2208],
           ["cliff", 704, 2208, 816, 2240],
           ["cliff", 976, 2208, 1088, 2240],
+          ["forest", 448, 736, 480, 768, "the tall grass presses in on the yellow-stone path from both sides"],
+          ["forest", 448, 896, 480, 928],
+          ["forest", 480, 736, 512, 784],
+          ["forest", 480, 880, 512, 928],
+          ["forest", 512, 736, 544, 784],
+          ["forest", 512, 896, 544, 928],
+          ["forest", 544, 736, 576, 800],
+          ["forest", 544, 912, 576, 928],
+          ["forest", 576, 736, 608, 800],
+          ["forest", 576, 896, 608, 928],
+          ["forest", 608, 736, 640, 784],
+          ["forest", 608, 880, 640, 928],
+          ["forest", 640, 736, 672, 800],
+          ["forest", 640, 896, 672, 928],
+          ["forest", 672, 736, 704, 800],
+          ["forest", 672, 896, 704, 928],
+          ["forest", 192, 736, 224, 800],
+          ["forest", 192, 912, 224, 928],
+          ["forest", 224, 736, 256, 784],
+          ["forest", 224, 896, 256, 928],
+          ["forest", 256, 736, 288, 768],
+          ["forest", 256, 896, 288, 928],
+          ["forest", 288, 736, 320, 768],
+          ["forest", 288, 880, 320, 928],
+          ["forest", 320, 736, 352, 784],
+          ["forest", 320, 896, 352, 928],
+          ["forest", 352, 736, 384, 800],
+          ["forest", 352, 896, 384, 928],
+          ["forest", 384, 736, 416, 784],
+          ["forest", 384, 912, 416, 928],
+          ["forest", 416, 736, 448, 784],
+          ["forest", 416, 912, 448, 928],
+          ["forest", -160, 640, -96, 960, "the woods round the clearing"],
+          ["forest", 128, 640, 192, 784],
+          ["forest", 128, 896, 192, 960],
+          ["forest", -96, 912, 128, 960],
+          ["blocked", -48, 640, 80, 672, "the strange mirror on the north side, throwing the sunlight back down the 黄石穿林路"],
           ["blocked", 1088, 1216, 1104, 1296, "the camp's gate in the palisade"],
           ["blocked", 1088, 1392, 1104, 1472],
           ["blocked", 784, 1712, 816, 1744, "the iron gate, raised high; its frame either side"],
@@ -296,6 +337,20 @@
             "size": 12
           },
           {
+            "node": "caption",
+            "name": "MirrorLabel",
+            "at": [16, 616],
+            "text": "镜子",
+            "size": 12
+          },
+          {
+            "node": "passage",
+            "name": "MirrorPassage",
+            "id": "canyon.stone_forest3.mirror",
+            "at": [16, 688],
+            "shape": "Rect_64_32"
+          },
+          {
             "node": "service",
             "name": "CanyonChain",
             "id": "canyon.canyon1.chain",
@@ -335,6 +390,11 @@
             "name": "CampTentReturn",
             "at": [1664, 1344],
             "id": "canyon.camp2.tent_return"
+          },
+          {
+            "name": "StoneForestMirrorReturn",
+            "at": [16, 768],
+            "id": "canyon.stone_forest3.mirror_return"
           },
           {
             "generated": "markers"
@@ -424,6 +484,205 @@
           }
         ],
         "interactions": []
+      }
+    },
+    "bamboo": {
+      "note": "梦幻迷境 and 竹林道: inside the mirror a chamber where three ways part, the upper and lower ones closed (整修中), the middle one smelling of bamboo; north of it the 竹林道 runs between tall, straight bamboo to a great yellow stone that blocks the way, blue light seeping round it. Pushed aside it opens a gap into the stone room (a map of its own); the mirror's back leads out to the 黄石穿林路.",
+      "file": "canyon_bamboo.tscn",
+      "draw": {
+        "technique": "town",
+        "base": "boundary",
+        "bounds": [-32, -32, 416, 1056],
+        "ground": [
+          ["forest", -32, -32, 416, 768, "bamboo all about"]
+        ],
+        "zones": {
+          "canyon.bamboo3": [0, 0, 384, 256, "open", "forest_floor", null],
+          "canyon.bamboo2": [0, 256, 384, 512, "open", "forest_floor", null],
+          "canyon.bamboo1": [0, 512, 384, 768, "open", "forest_floor", null],
+          "canyon.fantasy1": [0, 768, 384, 1024, "enclosed", "cave_floor", "wall"]
+        },
+        "roads": [],
+        "props": [
+          ["forest", 0, 512, 96, 544, "tall, straight bamboo either side of the path; birds sing in it"],
+          ["forest", 288, 512, 384, 544],
+          ["forest", 0, 544, 96, 576],
+          ["forest", 272, 544, 384, 576],
+          ["forest", 0, 576, 112, 608],
+          ["forest", 256, 576, 384, 608],
+          ["forest", 0, 608, 128, 640],
+          ["forest", 272, 608, 384, 640],
+          ["forest", 0, 640, 112, 672],
+          ["forest", 288, 640, 384, 672],
+          ["forest", 0, 672, 96, 704],
+          ["forest", 272, 672, 384, 704],
+          ["forest", 0, 704, 112, 736],
+          ["forest", 288, 704, 384, 736],
+          ["forest", 0, 736, 128, 768],
+          ["forest", 256, 736, 384, 768],
+          ["forest", 0, 256, 112, 288],
+          ["forest", 288, 256, 384, 288],
+          ["forest", 0, 288, 96, 320],
+          ["forest", 272, 288, 384, 320],
+          ["forest", 0, 320, 112, 352],
+          ["forest", 288, 320, 384, 352],
+          ["forest", 0, 352, 128, 384],
+          ["forest", 288, 352, 384, 384],
+          ["forest", 0, 384, 112, 416],
+          ["forest", 272, 384, 384, 416],
+          ["forest", 0, 416, 128, 448],
+          ["forest", 256, 416, 384, 448],
+          ["forest", 0, 448, 128, 480],
+          ["forest", 256, 448, 384, 480],
+          ["forest", 0, 480, 112, 512],
+          ["forest", 272, 480, 384, 512],
+          ["forest", 0, 0, 80, 256, "bamboo3: the bamboo stands round the stone in a half bowl"],
+          ["forest", 304, 0, 384, 256],
+          ["forest", 80, 0, 128, 96],
+          ["forest", 256, 0, 304, 96],
+          ["blocked", 128, 0, 256, 64, "the great yellow stone blocking the way north, blue light seeping round it"],
+          ["chasm", 32, 800, 96, 864, "fantasy1: the upper way, heavy with incense (dream/tmp.c, 整修中: not placed)"],
+          ["chasm", 288, 800, 352, 864, "the lower way, reeking (evil/tmp.c, 整修中: not placed)"]
+        ],
+        "reach_from": "Fantasy1MirrorArrival",
+        "markers_in_middle": [],
+        "placed": {}
+      },
+      "scene": {
+        "style": "map",
+        "root": "CanyonBamboo",
+        "map": "canyon.bamboo",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [64, 32]
+        },
+        "nodes": [
+          {
+            "generated": "captions"
+          },
+          {
+            "node": "caption",
+            "name": "MirrorLabel",
+            "at": [192, 1040],
+            "text": "镜子",
+            "size": 12
+          },
+          {
+            "node": "passage",
+            "name": "BackPassage",
+            "id": "canyon.fantasy1.back",
+            "at": [192, 976],
+            "shape": "Rect_64_32"
+          },
+          {
+            "node": "service",
+            "name": "BambooStone",
+            "id": "canyon.bamboo3.stone",
+            "at": [192, 112],
+            "text": "大黄石"
+          },
+          {
+            "node": "service",
+            "name": "BambooGap",
+            "id": "canyon.bamboo3.gap",
+            "at": [192, 112],
+            "hidden": true
+          }
+        ],
+        "zones": [
+          {"generated": "zones"}
+        ],
+        "spawn_points": [
+          {
+            "name": "Fantasy1MirrorArrival",
+            "at": [192, 912],
+            "id": "canyon.fantasy1.mirror_arrival"
+          },
+          {
+            "name": "Bamboo3StoneroomReturn",
+            "at": [192, 176],
+            "id": "canyon.bamboo3.stoneroom_return"
+          },
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": []
+      }
+    },
+    "stoneroom": {
+      "note": "洞内石室 behind the great yellow stone: four great holes, east, south, west and north, look out on bamboo bending in the gale; a stone bookcase on the wall glows blue. The way out leads back to the 竹林道 (the stone shuts behind whoever comes in).",
+      "file": "canyon_stoneroom.tscn",
+      "draw": {
+        "technique": "town",
+        "base": "boundary",
+        "bounds": [-32, -32, 352, 352],
+        "ground": [
+          ["forest", -32, -32, 352, 352, "bamboo bending in the gale outside"]
+        ],
+        "zones": {
+          "canyon.train": [0, 0, 320, 320, "enclosed", "cave_floor", "wall"]
+        },
+        "roads": [],
+        "props": [
+          ["forest", 128, 0, 192, 32, "the four great holes in the walls, looking out on the bamboo"],
+          ["forest", 288, 128, 320, 192],
+          ["forest", 128, 288, 192, 320],
+          ["forest", 0, 128, 32, 192],
+          ["blocked", 48, 32, 112, 64, "the stone bookcase on the wall, glowing blue"]
+        ],
+        "reach_from": "TrainGapArrival",
+        "markers_in_middle": [],
+        "placed": {}
+      },
+      "scene": {
+        "style": "map",
+        "root": "CanyonStoneroom",
+        "map": "canyon.stoneroom",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [64, 32]
+        },
+        "nodes": [
+          {
+            "generated": "captions"
+          },
+          {
+            "node": "passage",
+            "name": "OutPassage",
+            "id": "canyon.train.out",
+            "at": [160, 272],
+            "shape": "Rect_64_32"
+          },
+          {
+            "node": "service",
+            "name": "Bookcase",
+            "id": "canyon.train.bookcase",
+            "at": [80, 96],
+            "text": "书柜 · 翻找"
+          }
+        ],
+        "zones": [
+          {"generated": "zones"}
+        ],
+        "spawn_points": [
+          {
+            "name": "TrainGapArrival",
+            "at": [160, 208],
+            "id": "canyon.train.gap_arrival"
+          },
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": [
+          {
+            "name": "BookcaseInteraction",
+            "id": "canyon.train.landmark.bookcase",
+            "at": [80, 48],
+            "shape": "Rect_64_32"
+          }
+        ]
       }
     }
   }

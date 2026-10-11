@@ -79,6 +79,7 @@ var _act: RoomActDefinition
 var _dissolves: bool = false
 var _pour: PourDefinition
 var _unique: bool = false
+var _contains: Array[StringName] = []
 ## owner_is_killed() (daemon/class/scholar/windspring.c): when its holder dies (chard.c
 ## make_corpse()), unless the holder is `_owner_killed_unless`, the item is gone and the
 ## NPC `_owner_killed_npc` stands where the killer is, the room reading `_owner_killed_lines`.
@@ -145,6 +146,10 @@ var weapon_rigidity: int:
 ## get from); 0 for anything that is not a container.
 var max_encumbrance: int:
 	get: return _max_encumbrance
+## What its create() makes inside it (d/canyon/bamboo/obj/slipcase.c: new(parry_book)->
+## move(this_object())): a new one holds one of each.
+var contains: Array[StringName]:
+	get: return _contains.duplicate()
 var weapon_skill_type: StringName:
 	get: return &"" if _weapon_definition == null else _weapon_definition.skill_type
 var weapon_damage: int:
@@ -283,6 +288,10 @@ static func from_record(reader: ContentRecordReader) -> ItemContentDefinition:
 	definition._max_encumbrance = reader.integer("max_encumbrance")
 	if definition._max_encumbrance < 0:
 		reader.fail("max_encumbrance", "must not be negative")
+	for held: String in reader.text_list("contains"):
+		definition._contains.append(StringName(held))
+	if not definition._contains.is_empty() and definition._max_encumbrance <= 0:
+		reader.fail("contains", "only a container (max_encumbrance) holds things")
 	var money: ContentRecordReader = reader.child("money")
 	var combined: ContentRecordReader = reader.child("combined")
 	if money != null:
