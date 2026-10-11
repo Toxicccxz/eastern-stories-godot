@@ -267,7 +267,7 @@ func physical_availability(tree: SceneTree) -> void:
 	var reached: bool = await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, &"snow.inn.waiter", SnowWorldDefinitions.MAIN_FLOOR_ZONE_ID))
 	check(inn.in_reach() and reached, "CharacterBody physically reaches the waiter's body (4E)")
 	check(inn.request_purchase("dumpling").affordability.outcome == MoneyAffordabilityResult.Outcome.INSUFFICIENT_TOTAL, "real controller no free food")
-	check(session.shared_ui()._food != null, "one Session-owned map-independent food view")
+	check(session.shared_ui().panels._food != null, "one Session-owned map-independent food view")
 	session.free()
 	await tree.process_frame
 

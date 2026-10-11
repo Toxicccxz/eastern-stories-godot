@@ -214,7 +214,7 @@ func _test_ask_panel(tree: SceneTree, session: WorldSessionController) -> void:
 	hud.open_ask()
 	await tree.process_frame
 	_check(hud.ask_topics_shown() == ["这里", "名字", "传闻", "柳家拳法"], "the topics")
-	hud._ask_topic("柳家拳法")
+	hud.ask._ask_topic("柳家拳法")
 	_check(hud.ask_answer_text() == "你向李火狮打听有关『柳家拳法』的消息。\n李火狮说道：哦....说来惭愧，小弟这套拳法还没学得到家, 柳馆主就教我在这里传艺。", "the answer under the list")
 	_check(hud.log_lines().back() == "李火狮说道：哦....说来惭愧，小弟这套拳法还没学得到家, 柳馆主就教我在这里传艺。", "and in the log")
 	hud.dismiss_current_panel()

@@ -1,5 +1,10 @@
 class_name SharedGameplayUI
 extends CanvasLayer
+## The exploration HUD: the status card, the context buttons, the shared panel frame and
+## the toasts (laid out by SharedGameplayLayout). This class keeps the Node lifecycle, the
+## widgets the layout fills and the constants other scripts read; the rest lives in its
+## components (message_log, card, selection, actions, ask, items, panels, questions), and
+## every public method here forwards to one of them.
 
 const MAX_LOG_LINES: int = 60
 const WorldPlayerRuntimeType := preload(
@@ -48,74 +53,11 @@ var loot_panel: OldPineLootPanel
 var inventory_panel: PlayerInventoryPanel
 ## Asked in the shared frame before an important or deadly choice (ask_first()).
 var confirm_prompt: ConfirmPrompt
-var _confirmed_action: Callable = Callable()
-var _cancelled_action: Callable = Callable()
 
 # TRANSLATORS: asked before 攻击 on the player's own master: killing them is killing one's master (killer_reward(), betrayal's cost). {master} the NPC, {family} the player's family (封山剑派), {score} the player's 综合评价 now, {next} the betrayals counted after it.
 const MASTER_ATTACK_WARNING: String = "{master}是你的师父。攻击就是生死相搏；若你亲手杀了{master}，便是弑师，等同背叛师门：\n· 被逐出{family}，门派、师父和称号都没有了。\n· 综合评价清零（现在是 {score}）。\n· 背叛师门的次数变成 {next} 次。\n确定要攻击吗？"
-# TRANSLATORS: asked before 切磋 when the player or the NPC ({npc}) holds a weapon: a blow from it wounds as in a real fight (combatd.c).
-const ARMED_SPAR_WARNING: String = "刀剑无眼：有人手持兵刃时，切磋中挨的刀剑会留下真伤，伤重了一样会丧命。\n确定要和{npc}切磋吗？"
-# TRANSLATORS: asked before 切磋 with an NPC ({npc}) whose answer to a spar is a fight to the death (accept_fight() calls kill_ob()).
-const DEADLY_SPAR_WARNING: String = "{npc}不会只跟你点到为止：这一场切磋会变成生死相搏。\n确定要和{npc}切磋吗？"
-# TRANSLATORS: asked before a bare-handed 切磋 with an NPC ({npc}) clearly stronger than the player (native, owner A10): one blow can knock the player out.
-const STRONGER_SPAR_WARNING: String = "{npc}看起来比你强得多：即使只是切磋，一招就可能把你打昏。\n确定要和{npc}切磋吗？"
-# TRANSLATORS: asked before 切磋 with a weapon in hand on either side and an NPC ({npc}) clearly stronger than the player (native, owner A10).
-const ARMED_STRONGER_SPAR_WARNING: String = "{npc}看起来比你强得多，而且有人手持兵刃：切磋中挨的刀剑会留下真伤，伤重了一样会丧命。\n确定要和{npc}切磋吗？"
-# TRANSLATORS: asked before 化尸粉 dissolves a corpse that still holds things (dust.c destructs it whole): {name} whose corpse, {count} how many things are in it.
-const DISSOLVE_WARNING: String = "化尸粉会把{name}的尸体连同里面的 {count} 件物品一起化成一滩黄水，化掉的东西再也找不回来。\n确定要化掉吗？"
-# TRANSLATORS: asked before the rope's 上吊 (rope.c hang_self(): die()): the character dies as in a fight.
-const HANG_WARNING: String = "把绳子往脖子上一套，就是寻死：你会就此死去，和战死一样付出死亡的代价。\n确定要上吊吗？"
-# TRANSLATORS: asked before 驱尸 (animate.c) when its 30 神 ({sen}) would leave the player below zero: they faint.
-const ANIMATE_FAINT_WARNING: String = "施法驱尸要耗去 {sen} 点神，你现在撑不住，会当场昏过去。\n确定要施法吗？"
-# TRANSLATORS: asked before 画符 (scribe.c, haunt.c) when its 40 神 ({sen}) would leave the player below zero: they faint.
-const SCRIBE_FAINT_WARNING: String = "画这道符要耗去 {sen} 点神，你现在撑不住，会当场昏过去。\n确定要画吗？"
-# TRANSLATORS: asked before 画符 (scribe.c) when the drop of blood it is drawn in (1 point of 气 off its effective value) would kill the badly wounded player.
-const SCRIBE_DEATH_WARNING: String = "你伤得太重了：画符要咬破手指流血，这一点血就会要了你的命。\n确定要画吗？"
-# TRANSLATORS: asked before a 僵尸追魂符 sends the player's zombie ({zombie}) after their own master ({master}): its kill counts as the player's (killer_reward()). {family}, {score}, {next} as in the 攻击 question.
-const HAUNT_MASTER_WARNING: String = "{master}是你的师父。{zombie}会追杀{master}，它若得手，就算你弑师，等同背叛师门：\n· 被逐出{family}，门派、师父和称号都没有了。\n· 综合评价清零（现在是 {score}）。\n· 背叛师门的次数变成 {next} 次。\n确定要贴上这道符吗？"
-# TRANSLATORS: asked before 跪下受戒 (daemon/class/bonze/master.c do_kneel()): {npc} the master, {prefixes} the characters a 法名 begins with (空明圆净虚悟方渡慧法), {first} the first character of the player's name, {example} one 法名 it could make.
-const ORDINATION_WARNING: String = "跪下受戒就是剃度出家：{npc}会剃去你的头发，你从此是僧人。\n你的名字会改成法名：「{prefixes}」中随机一字，加上你名字的第一个字「{first}」（例如「{example}」），原来的名字从此不再使用。\n确定要跪下受戒吗？"
-# TRANSLATORS: the 疗伤他人 button's tooltip (lotusforce/lifeheal.c): 150 force, which must be 150 above the maximum; neither side in a fight.
-const LIFEHEAL_HINT: String = "运功「疗伤他人」：把真气输入对方体内，为他疗伤（耗 150 点内力，内力须比最大内力多 150 以上；双方都不能在战斗中）。"
-# TRANSLATORS: the 心识神通 button's tooltip (essencemagic/heart_sense.c): its 50 atman and 30 sen; random(max_atman) must be above 100, else the caster falls unconscious.
-const HEART_SENSE_HINT: String = "施展「心识神通」：救醒昏迷的人（50 灵力、30 神）。最大灵力不过 101 必定失败，失败时你自己会昏倒。"
-# TRANSLATORS: asked before every 心识神通 (heart_sense.c), which knocks the caster out when it fails: {npc} the one lying unconscious, {atman} and {sen} its cost, {max_atman} the player's maximum atman, {odds} one of the three lines below.
-const HEART_SENSE_WARNING: String = "心识神通要耗去 {atman} 点灵力和 {sen} 点神。能否救醒{npc}，全看你的灵力修为（最大灵力 {max_atman}）：{odds}\n确定要施展吗？"
-# TRANSLATORS: {odds} in the 心识神通 question when the player's maximum atman is 101 or less (random(max_atman) > 100 cannot happen).
-const HEART_SURE_FAIL: String = "最大灵力不过 101 必定失败，失败时你自己会当场昏过去。"
-# TRANSLATORS: {odds} in the 心识神通 question: {percent} the chance in a hundred that random(max_atman) is 100 or less.
-const HEART_MAY_FAIL: String = "约有 {percent}% 的机会失败，失败时你自己会当场昏过去。"
-# TRANSLATORS: {odds} in the 心识神通 question when its 30 sen alone would knock the player out.
-const HEART_SPENT: String = "你现在的神撑不住这一下，无论成败都会当场昏过去。"
-# TRANSLATORS: asked before 空识神通 (void_sense.c) when its 50 gin ({gin}) would knock the player out.
-const VOID_FAINT_WARNING: String = "空识神通要耗去 {gin} 点精，你现在撑不住，会当场昏过去。\n确定要施展吗？"
-# TRANSLATORS: asked before 游识神通 goes to the one chosen (drift_sense.c) when its 30 gin ({gin}) would knock the player out.
-const DRIFT_FAINT_WARNING: String = "游识神通要耗去 {gin} 点精，你现在撑不住，施展完就会昏过去。\n确定要施展吗？"
-# TRANSLATORS: the 偷窃 button's tooltip (cmds/std/steal.c): caught at it, the one robbed fights to the death and the town's constables know the player for a thief.
-const STEAL_HINT: String = "偷窃：从对方身上偷一样东西（三秒后见分晓）。失手被发现，对方会和你拼命，城里的巡捕也会把你当贼抓。"
-# TRANSLATORS: the 行贿 button's tooltip (yamen_po.c accept_bribery()): money to the constable leading the player.
-const BRIBE_HINT: String = "行贿：塞钱给押着你的巡捕，钱给够了他就放你走；给少了反倒罪加一等。"
-# TRANSLATORS: asked before 偷窃 from an NPC ({npc}) clearly stronger than the player (plan default, A10): one caught at it is attacked to the death (steal.c kill_ob()).
-const STRONGER_STEAL_WARNING: String = "{npc}看起来比你强得多：要是失手被发现，{npc}会和你拼个你死我活。\n确定要下手吗？"
-# TRANSLATORS: the 驱尸 button's tooltip: animate.c's 50 mana and 30 sen; the zombie lives on the player's 灵力 (zombie.c heal_up()).
-const ANIMATE_HINT: String = "施法「驱尸」：让这具尸体站起来跟着你（50 法力、30 神）。僵尸靠吸你的灵力维持，灵力不足时就会倒下化为血水。"
 
 var _player: WorldPlayerRuntimeType
-var _selected_target: NpcRuntimeState
-var _selected_landmark: WorldLandmarkDefinition
-var _selected_landmark_source_available: bool = false
-var _selected_corpse_name: String = ""
-var _selected_corpse_count: int = 0
-var _selected_corpse_available: bool = false
-var _selected_corpse_in_range: bool = false
-var _selected_floor_item: bool = false
-var _log_lines: Array[String] = []
-## The ES2 colour of each log line (ColoredLine; &"" plain), e.g. kill_ob()'s
-## 看起来X想杀死你！ in HIR bright red.
-var _log_colors: Array[StringName] = []
-## Lines the world printed while a fight ran that read best after its result
-## (killer_reward()'s quest reward): shown with show_combat_result().
-var _after_fight_lines: Array[ColoredLine] = []
 const ALERT_COLOR: Color = Color(1.0, 0.38, 0.38)
 ## Plain log text is a light grey, so ES2's HIW (bright white) stands out from it
 ## (owner, modern fixes II); the log, the toasts and the battle log share it.
@@ -134,9 +76,48 @@ const ES2_COLORS: Dictionary[StringName, Color] = {
 	ColoredLine.GRN: Color(0.35, 0.78, 0.35),
 }
 var _presentation_layout: SharedGameplayLayout
-## Names the player's shown conditions (蛇毒) on the HUD.
-var _conditions: ConditionSystem = ConditionSystem.new()
 var life_overlay: PlayerLifeOverlay
+var _session: WorldSessionController
+var _bound_map: WorldResidentMapController
+var _elapsed: float = 0.0
+
+## Constants that moved with their components, still readable here.
+const ARMED_SPAR_WARNING := SharedUiContextActions.ARMED_SPAR_WARNING
+const DEADLY_SPAR_WARNING := SharedUiContextActions.DEADLY_SPAR_WARNING
+const STRONGER_SPAR_WARNING := SharedUiContextActions.STRONGER_SPAR_WARNING
+const ARMED_STRONGER_SPAR_WARNING := SharedUiContextActions.ARMED_STRONGER_SPAR_WARNING
+const ANIMATE_FAINT_WARNING := SharedUiContextActions.ANIMATE_FAINT_WARNING
+const LIFEHEAL_HINT := SharedUiContextActions.LIFEHEAL_HINT
+const HEART_SENSE_HINT := SharedUiContextActions.HEART_SENSE_HINT
+const HEART_SENSE_WARNING := SharedUiContextActions.HEART_SENSE_WARNING
+const HEART_SURE_FAIL := SharedUiContextActions.HEART_SURE_FAIL
+const HEART_MAY_FAIL := SharedUiContextActions.HEART_MAY_FAIL
+const HEART_SPENT := SharedUiContextActions.HEART_SPENT
+const STEAL_HINT := SharedUiContextActions.STEAL_HINT
+const BRIBE_HINT := SharedUiContextActions.BRIBE_HINT
+const STRONGER_STEAL_WARNING := SharedUiContextActions.STRONGER_STEAL_WARNING
+const ANIMATE_HINT := SharedUiContextActions.ANIMATE_HINT
+const ORDINATION_WARNING := SharedUiAskPanel.ORDINATION_WARNING
+const DISSOLVE_WARNING := SharedUiInventory.DISSOLVE_WARNING
+const HANG_WARNING := SharedUiInventory.HANG_WARNING
+const SCRIBE_FAINT_WARNING := SharedUiInventory.SCRIBE_FAINT_WARNING
+const SCRIBE_DEATH_WARNING := SharedUiInventory.SCRIBE_DEATH_WARNING
+const HAUNT_MASTER_WARNING := SharedUiInventory.HAUNT_MASTER_WARNING
+const GIVE_MONEY_ASK_AT := SharedUiInventory.GIVE_MONEY_ASK_AT
+const GIVE_EQUIPPED_WARNING := SharedUiInventory.GIVE_EQUIPPED_WARNING
+const GIVE_MONEY_WARNING := SharedUiInventory.GIVE_MONEY_WARNING
+const VOID_FAINT_WARNING := SharedUiPanels.VOID_FAINT_WARNING
+const DRIFT_FAINT_WARNING := SharedUiPanels.DRIFT_FAINT_WARNING
+
+## The HUD's components (code moved out of this file; this class forwards to them).
+var message_log: SharedUiMessageLog = SharedUiMessageLog.new(self)
+var card: SharedUiStatusCard = SharedUiStatusCard.new(self)
+var selection: SharedUiSelection = SharedUiSelection.new(self)
+var actions: SharedUiContextActions = SharedUiContextActions.new(self)
+var ask: SharedUiAskPanel = SharedUiAskPanel.new(self)
+var items: SharedUiInventory = SharedUiInventory.new(self)
+var panels: SharedUiPanels = SharedUiPanels.new(self)
+var questions: SharedUiQuestions = SharedUiQuestions.new(self)
 
 
 func _ready() -> void:
@@ -149,50 +130,50 @@ func _ready() -> void:
 	_presentation_layout.name = "PresentationLayout"
 	add_child(_presentation_layout)
 	_presentation_layout.build(self)
-	inspect_button.pressed.connect(_inspect_context)
-	attack_button.pressed.connect(_attack_context)
-	spar_button.pressed.connect(_spar_context)
-	ask_button.pressed.connect(_ask_context)
-	portal_button.pressed.connect(_traverse_context)
-	open_loot_button.pressed.connect(_loot_context)
-	animate_button.pressed.connect(_animate_context)
-	animate_button.tooltip_text = ANIMATE_HINT
-	lifeheal_button.pressed.connect(_lifeheal_context)
-	lifeheal_button.tooltip_text = LIFEHEAL_HINT
-	heart_sense_button.pressed.connect(_heart_sense_context)
-	heart_sense_button.tooltip_text = HEART_SENSE_HINT
-	steal_button.pressed.connect(_steal_context)
-	steal_button.tooltip_text = STEAL_HINT
-	steal_panel.chosen.connect(_steal_choose)
-	steal_panel.cancelled.connect(_close_panel_of.bind(steal_panel))
-	bribe_button.pressed.connect(_bribe_context)
-	bribe_button.tooltip_text = BRIBE_HINT
-	bribe_panel.bribed.connect(_bribe)
-	bribe_panel.cancelled.connect(_close_panel_of.bind(bribe_panel))
-	drift_panel.chosen.connect(_drift_choose)
-	drift_panel.cancelled.connect(_drift_cancel)
-	inventory_button.pressed.connect(open_inventory)
-	loot_panel.take_requested.connect(_take_context)
-	inventory_panel.inspect_requested.connect(_inspect_item)
-	inventory_panel.wield_requested.connect(_wield_item)
-	inventory_panel.unwield_requested.connect(_unwield_item)
-	inventory_panel.wear_requested.connect(_wear_item)
-	inventory_panel.remove_requested.connect(_remove_item)
-	inventory_panel.give_requested.connect(_give_item)
-	inventory_panel.drop_requested.connect(_drop_item)
-	inventory_panel.put_requested.connect(_put_item)
-	inventory_panel.play_requested.connect(_play_item)
-	inventory_panel.apply_requested.connect(_apply_item)
-	inventory_panel.act_requested.connect(_act_with_item)
-	inventory_panel.dissolve_requested.connect(_dissolve_with)
-	inventory_panel.hang_requested.connect(_hang_with)
-	inventory_panel.pour_requested.connect(_pour_item)
-	inventory_panel.take_out_requested.connect(_take_out_item)
-	inventory_panel.put_into_requested.connect(_put_into_carried)
-	inventory_panel.scribe_requested.connect(_scribe_on)
-	inventory_panel.attach_requested.connect(_attach_sheet)
-	confirm_prompt.confirmed.connect(_on_prompt_confirmed)
-	confirm_prompt.cancelled.connect(_on_prompt_cancelled)
+	inspect_button.pressed.connect(actions.inspect_context)
+	attack_button.pressed.connect(actions.attack_context)
+	spar_button.pressed.connect(actions.spar_context)
+	ask_button.pressed.connect(actions.ask_context)
+	portal_button.pressed.connect(actions.traverse_context)
+	open_loot_button.pressed.connect(actions.loot_context)
+	animate_button.pressed.connect(actions.animate_context)
+	animate_button.tooltip_text = SharedUiContextActions.ANIMATE_HINT
+	lifeheal_button.pressed.connect(actions.lifeheal_context)
+	lifeheal_button.tooltip_text = SharedUiContextActions.LIFEHEAL_HINT
+	heart_sense_button.pressed.connect(actions.heart_sense_context)
+	heart_sense_button.tooltip_text = SharedUiContextActions.HEART_SENSE_HINT
+	steal_button.pressed.connect(actions.steal_context)
+	steal_button.tooltip_text = SharedUiContextActions.STEAL_HINT
+	steal_panel.chosen.connect(actions.steal_choose)
+	steal_panel.cancelled.connect(panels.close_panel_of.bind(steal_panel))
+	bribe_button.pressed.connect(actions.bribe_context)
+	bribe_button.tooltip_text = SharedUiContextActions.BRIBE_HINT
+	bribe_panel.bribed.connect(actions.bribe)
+	bribe_panel.cancelled.connect(panels.close_panel_of.bind(bribe_panel))
+	drift_panel.chosen.connect(panels.drift_choose)
+	drift_panel.cancelled.connect(panels.drift_cancel)
+	inventory_button.pressed.connect(items.open_inventory)
+	loot_panel.take_requested.connect(actions.take_context)
+	inventory_panel.inspect_requested.connect(items.inspect_item)
+	inventory_panel.wield_requested.connect(items.wield_item)
+	inventory_panel.unwield_requested.connect(items.unwield_item)
+	inventory_panel.wear_requested.connect(items.wear_item)
+	inventory_panel.remove_requested.connect(items.remove_item)
+	inventory_panel.give_requested.connect(items.give_item)
+	inventory_panel.drop_requested.connect(items.drop_item)
+	inventory_panel.put_requested.connect(items.put_item)
+	inventory_panel.play_requested.connect(items.play_item)
+	inventory_panel.apply_requested.connect(items.apply_item)
+	inventory_panel.act_requested.connect(items.act_with_item)
+	inventory_panel.dissolve_requested.connect(items.dissolve_with)
+	inventory_panel.hang_requested.connect(items.hang_with)
+	inventory_panel.pour_requested.connect(items.pour_item)
+	inventory_panel.take_out_requested.connect(items.take_out_item)
+	inventory_panel.put_into_requested.connect(items.put_into_carried)
+	inventory_panel.scribe_requested.connect(items.scribe_on)
+	inventory_panel.attach_requested.connect(items.attach_sheet)
+	confirm_prompt.confirmed.connect(questions.on_prompt_confirmed)
+	confirm_prompt.cancelled.connect(questions.on_prompt_cancelled)
 	_presentation_layout.character.arts.configure(_session)
 	if _session != null:
 		life_overlay = PlayerLifeOverlay.new()
@@ -208,630 +189,26 @@ func _notification(what: int) -> void:
 	elif what == NOTIFICATION_TRANSLATION_CHANGED and _presentation_layout != null and is_inside_tree():
 		# The selection's name and an open panel were put together in the old language;
 		# the heading and the status line follow on the next refresh, the log keeps its lines.
-		selected_target_label.text = _selection_text()
+		selected_target_label.text = selection.selection_text()
 		_presentation_layout.close_panel()
-
-
-## The selected thing's name in the shown language.
-func _selection_text() -> String:
-	if _selected_target != null:
-		return _selected_target.definition().short_name()
-	if _selected_landmark != null:
-		return tr(_selected_landmark.display_name)
-	if _selected_floor_item:
-		return tr(_selected_corpse_name)
-	if _selected_corpse_available:
-		return tr("{name}的尸体 · {count}件物品").format({"name": tr(_selected_corpse_name), "count": _selected_corpse_count})
-	return ""
 
 
 func configure(player: WorldPlayerRuntimeType) -> bool:
 	if player == null or not player.is_valid():
 		return false
 	_player = player
-	set_selected_target(null)
-	refresh_live_state()
+	selection.set_selected_target(null)
+	selection.refresh_live_state()
 	return true
 
 
-func set_selected_target(target: NpcRuntimeState) -> void:
-	_selected_target = target
-	_selected_landmark = null
-	_selected_landmark_source_available = false
-	_clear_selected_corpse()
-	close_loot()
-	inspection_text.text = ""
-	selected_target_label.text = _selection_text()
-	refresh_live_state()
-
-
-func set_selected_landmark(
-	landmark: WorldLandmarkDefinition,
-	source_available: bool,
-) -> void:
-	_selected_target = null
-	_selected_landmark = landmark
-	_selected_landmark_source_available = source_available
-	_clear_selected_corpse()
-	close_loot()
-	inspection_text.text = ""
-	selected_target_label.text = _selection_text()
-	refresh_live_state()
-
-
-func set_selected_landmark_source_available(value: bool) -> void:
-	_selected_landmark_source_available = value
-	refresh_live_state()
-
-
-func set_selected_corpse(
-	victim_display_name: String,
-	content_count: int,
-	in_range: bool,
-	clear_inspection: bool = true,
-) -> void:
-	_selected_target = null
-	_selected_landmark = null
-	_selected_landmark_source_available = false
-	_selected_corpse_name = victim_display_name
-	_selected_corpse_count = content_count
-	_selected_corpse_available = not victim_display_name.is_empty()
-	_selected_corpse_in_range = in_range
-	_selected_floor_item = false
-	if clear_inspection:
-		inspection_text.text = ""
-		close_loot()
-	selected_target_label.text = _selection_text()
-	refresh_live_state()
-
-
-## An item lying on the floor: 拾取 picks it up (get.c) when in reach.
-func set_selected_floor_item(display_name: String, in_range: bool, clear_inspection: bool = true) -> void:
-	_selected_target = null
-	_selected_landmark = null
-	_selected_landmark_source_available = false
-	_selected_corpse_name = display_name
-	_selected_corpse_available = not display_name.is_empty()
-	_selected_corpse_in_range = in_range
-	_selected_floor_item = _selected_corpse_available
-	if clear_inspection:
-		inspection_text.text = ""
-		close_loot()
-	selected_target_label.text = _selection_text()
-	refresh_live_state()
-
-
-## `relation` is look.c's word for what the NPC is to the player (FamilyRelation), "" for none;
-## `strength` the native line on how strong it looks (RelativeStrength.line()), "" for none.
-func show_inspection(definition: NpcDefinition, relation: String = "", gender: StringName = &"", strength: String = "") -> void:
-	_presentation_layout.open_panel("目标详情", _presentation_layout.details)
-	if definition == null:
-		inspection_text.text = ""
-		return
-	inspection_text.text = "%s\n%s" % [
-		definition.short_name(),
-		tr(definition.description).strip_edges(),
-	]
-	if not relation.is_empty():
-		# TRANSLATORS: look.c: {pronoun} is 他/她/它, {relation} what the NPC is to the player (师父, 同门师兄 …).
-		inspection_text.text += "\n" + tr("{pronoun}是你的{relation}。").format({"pronoun": tr(Es2CombatMessages.pronoun(gender)), "relation": tr(relation)})
-	if not strength.is_empty():
-		inspection_text.text += "\n" + tr(strength).format({"pronoun": tr(Es2CombatMessages.pronoun(gender))})
-
-
-## `text`: what looking at it shows now (the landmark policy's look()), as authored.
-func show_landmark_inspection(definition: WorldLandmarkDefinition, text: String = "") -> void:
-	_presentation_layout.open_panel("目标详情", _presentation_layout.details)
-	if definition == null:
-		inspection_text.text = ""
-		return
-	inspection_text.text = "%s\n%s" % [
-		tr(definition.display_name),
-		tr(definition.description if text.is_empty() else text).strip_edges(),
-	]
-
-
-## `display_name` as authored; `description` already in the shown language
-## (ItemContentDefinition.shown_description()).
-func show_item_inspection(display_name: String, description: String) -> void:
-	_presentation_layout.open_panel("目标详情", _presentation_layout.details)
-	inspection_text.text = "%s\n%s" % [tr(display_name), description.strip_edges()]
-
-
-func show_corpse_inspection(victim_display_name: String, content_count: int) -> void:
-	_presentation_layout.open_panel("目标详情", _presentation_layout.details)
-	# chard.c make_corpse(): set_name(victim->name(1) + "的尸体").
-	inspection_text.text = tr("{name}的尸体\n里面有{count}件物品。").format({"name": tr(victim_display_name), "count": content_count})
-
-
-func show_loot(title: String, rows: Array[WorldItemRowProjection]) -> void:
-	close_inventory()
-	loot_panel.show_loot(title, rows)
-	_presentation_layout.open_panel(title, loot_panel)
-	_presentation_layout.refresh_rows()
-
-
-func close_loot() -> void:
-	if loot_panel != null:
-		loot_panel.close_loot()
-
-
-func loot_is_open() -> bool:
-	return loot_panel != null and loot_panel.is_open()
-
-
-func loot_rows() -> Array[WorldItemRowProjection]:
-	return [] if loot_panel == null else loot_panel.visible_rows()
-
-
-func show_inventory(rows: Array[PlayerInventoryRowProjection]) -> void:
-	close_loot()
-	var map: WorldMapController = (_session.active_map() as WorldMapController) if _session != null else null
-	var give_target: String = ""
-	var container: String = ""
-	if map != null and map.can_handle_items():
-		if map.selected_npc_takes_gifts():
-			give_target = map.selected_npc().definition().display_name
-		var container_id: StringName = map.container_in_reach()
-		if not container_id.is_empty():
-			container = map.floor_item_view(container_id).display_name
-	inventory_panel.set_handling_targets(give_target, container)
-	inventory_panel.set_dissolvable_corpse(map.dissolvable_corpse_name() if map != null and map.can_handle_items() else "")
-	# scribe.c on a paper for the selected NPC; attach.c on the zombie here.
-	var scribed: NpcRuntimeState = map.scribable_npc() if map != null and map.can_handle_items() else null
-	var carrier: NpcRuntimeState = map.sheet_carrier() if map != null and map.can_handle_items() else null
-	inventory_panel.set_spell_targets("" if scribed == null else scribed.definition().display_name, "" if carrier == null else carrier.definition().display_name)
-	var pour_targets: Array = []
-	if map != null and map.can_handle_items():
-		for id: StringName in map.pour_targets():
-			var held: ItemInstance = map.item_instance_index().resolve(id)
-			var content: ItemContentDefinition = null if held == null else GameContent.catalog().item(held.item_definition_id)
-			if content != null:
-				pour_targets.append([id, content.display_name])
-	inventory_panel.set_pour_targets(pour_targets)
-	inventory_panel.show_inventory(rows)
-	_presentation_layout.open_panel("背包", inventory_panel)
-	_presentation_layout.refresh_rows()
-
-
-func close_inventory() -> void:
-	if inventory_panel != null:
-		inventory_panel.close_inventory()
-
-
-func inventory_is_open() -> bool:
-	return inventory_panel != null and inventory_panel.is_open()
-
-
-func inventory_rows() -> Array[PlayerInventoryRowProjection]:
-	return [] if inventory_panel == null else inventory_panel.visible_rows()
-
-
-func show_inventory_inspection(row: PlayerInventoryRowProjection) -> void:
-	if inventory_panel != null:
-		inventory_panel.show_inspection(row)
-
-
-func refresh_live_state() -> void:
-	target_vitality.visible = _selected_target != null
-	target_vitality_text.visible = _selected_target != null
-	if _player != null:
-		_update_player_vitals(_player.state)
-	if _selected_target == null:
-		target_vitality.value = 0.0
-		target_vitality_text.text = "-"
-	else:
-		_update_vitality(
-			_selected_target.character_state.vitality,
-			target_vitality,
-			target_vitality_text,
-		)
-	var target_available: bool = (
-		_selected_target != null
-		and _selected_target.exists_in_map
-		and _selected_target.life_status != CharacterRuntimeLifeStatus.Value.DEAD
-	)
-	var landmark_available: bool = _selected_landmark != null and _selected_landmark.is_valid()
-	var corpse_available: bool = _selected_corpse_available
-	var player_available: bool = (
-		_player != null
-		and _player.exists_in_world
-		and _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
-	)
-	inspect_button.disabled = (
-		not target_available and not landmark_available and not corpse_available
-	)
-	# Fights with an NPC whose skills are not ported yet would abort (fight_deferred, DECISIONS 4E).
-	var fightable: bool = target_available and not _selected_target.definition().dealings().is_fight_deferred()
-	attack_button.disabled = not fightable or not player_available
-	# fight.c: a speaking character is asked; beasts are not (see DECISIONS).
-	spar_button.disabled = not fightable or not player_available or not _selected_target.definition().can_speak()
-	# ask.c: the same speakers, who must be here (present()).
-	ask_button.disabled = not player_available or not _selected_npc_askable()
-	open_loot_button.disabled = (
-		not corpse_available
-		or not _selected_corpse_in_range
-		or not player_available
-	)
-	var map := _bound_map as WorldMapController
-	animate_button.disabled = not corpse_available or _selected_floor_item or not player_available or map == null or map.animatable_corpse() == null
-	lifeheal_button.disabled = (
-		not target_available or not player_available or map == null or map.selected_npc_here() != _selected_target
-		or not _session.martial_arts().exert_at_functions().has(&"lifeheal")
-	)
-	heart_sense_button.disabled = (
-		not target_available or not player_available or map == null or _session.essence_magic().heart_target() != _selected_target
-	)
-	steal_button.disabled = (
-		not target_available or not player_available or map == null or map.selected_npc_here() != _selected_target
-		or not map.thefts.can_steal_selected()
-	)
-	bribe_button.disabled = not target_available or not player_available or map == null or not map.patrols.can_bribe(_selected_target)
-	inventory_button.disabled = not player_available
-	portal_button.disabled = (
-		not landmark_available
-		or _selected_landmark.action_label.is_empty() # a sign is only looked at
-		or not _selected_landmark_source_available
-		or not player_available
-	)
-	portal_button.text = tr("前往") if _selected_landmark == null else tr(_selected_landmark.action_label)
-
-
-func show_combat_result(text: String) -> void:
-	_append(_colored([text]), false)
-	# The result's first line as a toast, not a modal input blocker on compact HUDs.
-	_presentation_layout.toasts.push(text.get_slice("\n", 0))
-	world_title.tooltip_text = text
-	if not _after_fight_lines.is_empty():
-		var lines: Array[ColoredLine] = _after_fight_lines.duplicate()
-		_after_fight_lines.clear()
-		append_colored_lines(lines)
-
-
-## Lines for the log once the running fight's result is shown (at once outside a fight).
-func append_after_fight(lines: Array[ColoredLine]) -> void:
-	if _session != null and _session.is_initialized() and _session.combat_encounter_coordinator().has_active_encounter():
-		_after_fight_lines.append_array(lines)
-	else:
-		append_colored_lines(lines)
-
-
-## `alert`: the lines are warnings ES2 prints in bright red (HIR).
-func append_log_lines(lines: Array[String], alert: bool = false) -> void:
-	append_colored_lines(_colored(lines, alert))
-
-
-static func _colored(lines: Array[String], alert: bool = false) -> Array[ColoredLine]:
-	var colored: Array[ColoredLine] = []
-	for line: String in lines:
-		colored.append(ColoredLine.new(line, ColoredLine.HIR if alert else ColoredLine.PLAIN))
-	return colored
-
-
-## Lines in the colours ES2 prints them in: in 消息, and as toasts while no panel or
-## fight shows its own lines.
-func append_colored_lines(lines: Array[ColoredLine]) -> void:
-	_append(lines, true)
-
-
-func _append(lines: Array[ColoredLine], toast: bool) -> void:
-	var stack: MessageToasts = _presentation_layout.toasts
-	stack.set_suppressed(_toasts_suppressed())
-	for line: ColoredLine in lines:
-		if not line.text.is_empty():
-			_log_lines.append(line.text)
-			_log_colors.append(line.color)
-			if toast:
-				# A message of several lines (god.c's 朱鸿雪沉思了一会儿，说道： / 请在…) is shown whole.
-				stack.push(line.text.replace("\n", " "), ES2_COLORS.get(line.color, MessageToasts.PLAIN_TEXT), ES2_COLORS.has(line.color))
-	while _log_lines.size() > MAX_LOG_LINES:
-		_log_lines.pop_front()
-		_log_colors.pop_front()
-	var shown: PackedStringArray = []
-	for index: int in _log_lines.size():
-		var plain: String = _log_lines[index].replace("[", "[lb]")
-		var color: StringName = _log_colors[index]
-		shown.append("[color=#%s]%s[/color]" % [ES2_COLORS[color].to_html(false), plain] if ES2_COLORS.has(color) else plain)
-	combat_log.text = "\n".join(shown)
-
-
-## The bottom left's toasts (MessageToasts).
-func toasts() -> MessageToasts:
-	return _presentation_layout.toasts
-
-
-func refresh_toasts() -> void:
-	if not _presentation_layout.frame.visible:
-		_panel_shows_lines = false
-	_presentation_layout.toasts.set_suppressed(_toasts_suppressed())
-
-
-## SharedGameplayLayout opened a panel: one that shows its own lines says so after.
-func panel_opened() -> void:
-	_panel_shows_lines = false
-	refresh_toasts()
-
-
-## A panel that shows its own lines (打听, a teacher, a shop: dialogue stays in its
-## panel) or a fight shows them then. Other panels (背包, 拾取, 角色) let toasts through.
-func _toasts_suppressed() -> bool:
-	return (_presentation_layout.frame.visible and _panel_shows_lines) or (
-		_session != null and _session.is_initialized() and _session.combat_encounter_coordinator().has_active_encounter()
-	)
-
-
-func log_lines() -> Array[String]:
-	return _log_lines.duplicate()
-
-
-func selected_target_text() -> String:
-	return selected_target_label.text
-
-
-func inspection_display() -> String:
-	return inspection_text.text
-
-
-func attack_is_enabled() -> bool:
-	return not attack_button.disabled
-
-
-func spar_is_enabled() -> bool:
-	return not spar_button.disabled
-
-
-func ask_is_enabled() -> bool:
-	return not ask_button.disabled
-
-
-func _selected_npc_askable() -> bool:
-	var map := _bound_map as WorldMapController
-	return map != null and _selected_target != null and map.selected_npc() == _selected_target and map.can_ask_selected()
-
-
-## ask.c without a topic: "你可以打听这些事情：" and the list; each topic asks, and
-## the answer shows under the list (and in the log).
-func open_ask() -> void:
-	var map := _session.active_map() as WorldMapController
-	if map == null or not _session.portable_inventory_available() or not map.can_ask_selected():
-		return
-	if _ask_panel == null:
-		_ask_panel = VBoxContainer.new()
-		_ask_panel.name = "AskPanel"
-		_ask_panel.add_theme_constant_override("separation", 10)
-		var heading := Label.new()
-		heading.text = "你可以打听这些事情："
-		_ask_panel.add_child(heading)
-		_ask_topics = HFlowContainer.new()
-		_ask_topics.name = "Topics"
-		_ask_topics.add_theme_constant_override("h_separation", 8)
-		_ask_topics.add_theme_constant_override("v_separation", 8)
-		_ask_panel.add_child(_ask_topics)
-		# say.c beside the NPC for what its relay_say() answers (owner: a 接话 button).
-		_ask_relay = HFlowContainer.new()
-		_ask_relay.name = "Relay"
-		_ask_relay.add_theme_constant_override("h_separation", 8)
-		_ask_relay.add_theme_constant_override("v_separation", 8)
-		_ask_panel.add_child(_ask_relay)
-		_ask_verbs = HFlowContainer.new()
-		_ask_verbs.name = "Verbs"
-		_ask_verbs.add_theme_constant_override("h_separation", 8)
-		_ask_verbs.add_theme_constant_override("v_separation", 8)
-		_ask_panel.add_child(_ask_verbs)
-		_ask_answer = Label.new()
-		_ask_answer.name = "Answer"
-		_ask_answer.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		_ask_panel.add_child(_ask_answer)
-		_ask_panel.hide()
-		_presentation_layout.holding.add_child(_ask_panel)
-	for child: Node in _ask_topics.get_children():
-		child.queue_free()
-	for topic: String in map.ask_topics_selected():
-		var button := Button.new()
-		button.name = "Topic"
-		button.text = tr(topic)
-		button.custom_minimum_size = Vector2(80, 40)
-		button.pressed.connect(_ask_topic.bind(topic))
-		_ask_topics.add_child(button)
-	for child: Node in _ask_relay.get_children():
-		child.queue_free()
-	for phrase: String in map.relay_phrases_selected():
-		var say := Button.new()
-		say.name = "Relay"
-		# TRANSLATORS: say a line beside the NPC that it answers ({line}: 必有妖孽).
-		say.text = tr("接话：{line}").format({"line": tr(phrase)})
-		say.custom_minimum_size = Vector2(80, 40)
-		say.pressed.connect(_say_beside.bind(phrase))
-		_ask_relay.add_child(say)
-	_ask_relay.visible = not map.relay_phrases_selected().is_empty()
-	_refresh_ask_verbs(map)
-	_ask_answer.text = ""
-	_open_panel_with_lines(tr("打听 · %s") % tr(_selected_target.definition().display_name), _ask_panel, _selected_npc_askable)
-	_presentation_layout.refresh_rows()
-
-
-func ask_topics_shown() -> Array[String]:
-	var result: Array[String] = []
-	if _ask_topics != null and _presentation_layout._content == _ask_panel:
-		for child: Node in _ask_topics.get_children():
-			if not child.is_queued_for_deletion():
-				result.append((child as Button).text)
-	return result
-
-
-func ask_answer_text() -> String:
-	return "" if _ask_answer == null else _ask_answer.text
-
-
-func _ask_topic(topic: String) -> void:
-	var map := _session.active_map() as WorldMapController
-	if map != null:
-		_ask_answer.text = "\n".join(map.ask_selected(topic))
-		_refresh_ask_verbs(map)
-		_presentation_layout.refresh_rows()
-
-
-## The kneel command of a master whose 剃度 the player asked for (daemon/class/bonze/master.c).
-func _refresh_ask_verbs(map: WorldMapController) -> void:
-	for child: Node in _ask_verbs.get_children():
-		child.queue_free()
-	if map.ordination_selected() != null:
-		var kneel := Button.new()
-		kneel.name = "Kneel"
-		kneel.text = tr(NpcOrdination.LABEL)
-		kneel.custom_minimum_size = Vector2(80, 40)
-		kneel.pressed.connect(_kneel)
-		_ask_verbs.add_child(kneel)
-	_ask_verbs.visible = map.ordination_selected() != null
-
-
-## The NPC commands the open 打听 panel offers (as shown).
-func ask_verbs_shown() -> Array[String]:
-	var result: Array[String] = []
-	if _ask_verbs != null and _presentation_layout._content == _ask_panel:
-		for child: Node in _ask_verbs.get_children():
-			if not child.is_queued_for_deletion():
-				result.append((child as Button).text)
-	return result
-
-
-## kneel (do_kneel()), asked first: the player's name becomes a 法名 for good (owner).
-## 取消 goes back to the 打听 panel.
-func _kneel() -> void:
-	var map := _session.active_map() as WorldMapController
-	var ordination: NpcOrdination = null if map == null else map.ordination_selected()
-	if ordination == null:
-		# The master was knocked out (or the like) while the panel stood open: the button goes.
-		if map != null and _presentation_layout._content == _ask_panel:
-			_refresh_ask_verbs(map)
-		return
-	var first: String = _player.facts.display_name.substr(0, 1)
-	var text: String = tr(ORDINATION_WARNING).format({
-		"npc": tr(_selected_target.definition().display_name), "prefixes": "".join(ordination.prefixes),
-		"first": first, "example": ordination.prefixes[0] + first,
-	})
-	var kneel: Callable = func() -> void:
-		map.kneel_selected()
-	ask_first(text, "确定受戒", kneel, func() -> bool: return map.ordination_selected() != null, open_ask)
-
-
-func _say_beside(phrase: String) -> void:
-	var map := _session.active_map() as WorldMapController
-	if map != null:
-		_ask_answer.text = "\n".join(map.say_beside_selected(phrase))
-
-
-## The 接话 lines the open 打听 panel offers (as shown).
-func relay_buttons_shown() -> Array[String]:
-	var result: Array[String] = []
-	if _ask_relay != null and _presentation_layout._content == _ask_panel:
-		for child: Node in _ask_relay.get_children():
-			if not child.is_queued_for_deletion():
-				result.append((child as Button).text)
-	return result
-
-
-func portal_action_is_enabled() -> bool:
-	return not portal_button.disabled
-
-
-func portal_action_text() -> String:
-	return portal_button.text
-
-
-func open_loot_is_enabled() -> bool:
-	return not open_loot_button.disabled
-
-
-func _clear_selected_corpse() -> void:
-	_selected_corpse_name = ""
-	_selected_corpse_available = false
-	_selected_corpse_in_range = false
-	_selected_floor_item = false
-
-
-func _update_vitality(
-	resource: CharacterResourceState,
-	bar: ProgressBar,
-	text_label: Label,
-) -> void:
-	_update_bar(resource, bar)
-	text_label.text = "%d / %d / %d" % [
-		resource.current,
-		resource.effective,
-		resource.maximum,
-	]
-
-
-## The card's 精/气/神: bars, and 精 and 神 current, 气 current/effective.
-func _update_player_vitals(state: CharacterState) -> void:
-	_update_bar(state.essence, player_essence)
-	_update_bar(state.vitality, player_vitality)
-	_update_bar(state.spirit, player_spirit)
-	player_essence_text.text = str(state.essence.current)
-	player_vitality_value.text = "%d/%d" % [state.vitality.current, state.vitality.effective]
-	player_spirit_text.text = str(state.spirit.current)
-
-
-## A resource's bar: current out of maximum; the tooltip has all three.
-func _update_bar(resource: CharacterResourceState, bar: ProgressBar) -> void:
-	bar.min_value = 0.0
-	bar.max_value = float(maxi(resource.maximum, 1))
-	bar.value = float(clampi(resource.current, 0, maxi(resource.maximum, 1)))
-	# TRANSLATORS: a resource bar's tooltip: current / effective / maximum.
-	bar.tooltip_text = tr("当前 {current} / 有效 {effective} / 最大 {maximum}").format({
-		"current": resource.current, "effective": resource.effective, "maximum": resource.maximum,
-	})
-
-
-var _session: WorldSessionController
-var _bound_map: WorldResidentMapController
-var _food: HeldFoodPanel
-var _liquid: HeldLiquidPanel
-var _supplies: VBoxContainer
-var _elapsed: float = 0.0
-## Zone whose description was last written to the log; entering another zone
-## writes the new one, as ES2 printed a room on arrival.
-var _described_zone_id: StringName = &""
-var _business_feedback: String = ""
-## The open panel shows its own lines (an NPC's panel, 打听): no toasts while it is open.
-var _panel_shows_lines: bool = false
-var _ask_panel: VBoxContainer
-var _ask_topics: HFlowContainer
-var _ask_relay: HFlowContainer
-## The NPC's own commands the player can use beside it now (跪下受戒).
-var _ask_verbs: HFlowContainer
-var _ask_answer: Label
-
-
-func initialize_supplies() -> void:
-	if _supplies != null:
-		return
-	_supplies = VBoxContainer.new()
-	_supplies.name = "Supplies"
-	_presentation_layout.holding.add_child(_supplies)
-	_food = HeldFoodPanel.new()
-	_food.name = "HeldFoodUI"
-	_food.configure(_session)
-	_supplies.add_child(_food)
-	_liquid = HeldLiquidPanel.new()
-	_liquid.name = "HeldLiquidUI"
-	_liquid.configure(_session)
-	_supplies.add_child(_liquid)
-	var hint := Label.new()
-	hint.text = "补给仅使用直接携带的物品；取水仍须靠近当前地图的水源。"
-	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_supplies.add_child(hint)
-
-
-func refresh_panel_rows() -> void:
-	_presentation_layout.refresh_rows()
-
-
+## The HUD's one input entry: ui_accept opens the place's context action. Seam for
+## gamepad support (not built yet): switching the menu's tabs and closing the frame with
+## the cancel button belong here too.
 func _unhandled_input(event: InputEvent) -> void:
-	if visible and not _presentation_layout.frame.visible and event.is_action_pressed("ui_accept") and not event.is_echo() and not context_title().is_empty():
+	if visible and not _presentation_layout.frame.visible and event.is_action_pressed("ui_accept") and not event.is_echo() and not actions.context_title().is_empty():
 		get_viewport().set_input_as_handled()
-		open_current_context()
+		actions.open_current_context()
 
 
 func _process(delta: float) -> void:
@@ -844,7 +221,7 @@ func _process(delta: float) -> void:
 	# A new map or a HUD that just reappeared refreshes now, not 0.1 s later.
 	if current != _bound_map:
 		_presentation_layout.close_panel()
-		set_selected_target(null)
+		selection.set_selected_target(null)
 		_bound_map = current
 		_elapsed = INF
 	var available: bool = not _session.is_restore_candidate_staged() and not _session.is_session_swap_suspended() and _session.can_process() and _session.application_gameplay_allows_encounter_advance()
@@ -855,18 +232,18 @@ func _process(delta: float) -> void:
 	if not visible:
 		_presentation_layout.close_panel()
 		# A fight clears the toasts from before it.
-		refresh_toasts()
+		message_log.refresh_toasts()
 		return
 	_presentation_layout.validate_open_panel()
 	if _presentation_layout._content == _presentation_layout.details:
-		if (_selected_target != null and (not _selected_target.exists_in_map or _selected_target.life_status == CharacterRuntimeLifeStatus.Value.DEAD)) or (_selected_landmark != null and not _selected_landmark_source_available) or (_selected_corpse_available and not _selected_corpse_in_range and not _selected_floor_item):
+		if (selection.selected_target != null and (not selection.selected_target.exists_in_map or selection.selected_target.life_status == CharacterRuntimeLifeStatus.Value.DEAD)) or (selection.selected_landmark != null and not selection.selected_landmark_source_available) or (selection.selected_corpse_available and not selection.selected_corpse_in_range and not selection.selected_floor_item):
 			_presentation_layout.close_panel()
 	_elapsed += delta
 	if _elapsed < 0.1:
 		return
 	_elapsed = 0.0
-	refresh_live_state()
-	refresh_exploration()
+	selection.refresh_live_state()
+	card.refresh_exploration()
 
 
 func _physics_process(_delta: float) -> void:
@@ -879,697 +256,281 @@ func quarantine_movement() -> void:
 		_session.active_map().runtime_player_body().quarantine_current_movement_input()
 
 
-func refresh_exploration() -> void:
-	var state: CharacterState = _player.state
-	player_name.text = _player.facts.display_name
-	world_title.text = tr(location_name())
-	_update_player_vitals(state)
-	# TRANSLATORS: between two conditions on the HUD (蛇毒).
-	player_vitality_text.text = tr("、").join(_conditions.shown_names(state))
-	player_vitality_text.visible = not player_vitality_text.text.is_empty()
-	var local_target: bool = _bound_map is WorldMapController and not selected_target_label.text.is_empty()
-	inspect_button.visible = local_target and not inspect_button.disabled
-	attack_button.visible = local_target and not attack_button.disabled
-	spar_button.visible = local_target and not spar_button.disabled
-	ask_button.visible = local_target and not ask_button.disabled
-	portal_button.visible = local_target and not portal_button.disabled
-	open_loot_button.visible = local_target and not open_loot_button.disabled
-	animate_button.visible = local_target and not animate_button.disabled
-	lifeheal_button.visible = local_target and not lifeheal_button.disabled
-	heart_sense_button.visible = local_target and not heart_sense_button.disabled
-	steal_button.visible = local_target and not steal_button.disabled
-	bribe_button.visible = local_target and not bribe_button.disabled
-	selected_target_label.visible = local_target
-	_presentation_layout.target_section.visible = local_target
-	var context: String = context_title()
-	_presentation_layout.context_button.text = context
-	_presentation_layout.context_button.visible = not context.is_empty()
-	_presentation_layout.contexts.visible = local_target or not context.is_empty()
-	if _presentation_layout.character.is_visible_in_tree():
-		_refresh_character()
-	_collect_feedback()
-	_describe_new_zone()
-	refresh_toasts()
-	_presentation_layout.fit_bar()
+# --- forwarded to SharedUiMessageLog (message_log) ---
 
 
-func current_zone() -> ZoneDefinition:
-	return null if _player == null else GameContent.catalog().zone(_player.world_location().zone_id)
+func show_combat_result(text: String) -> void:
+	message_log.show_combat_result(text)
 
 
-## The current zone's name, as authored.
-func location_name() -> String:
-	var zone: ZoneDefinition = current_zone()
-	return "" if zone == null else zone.display_name
+func append_after_fight(lines: Array[ColoredLine]) -> void:
+	message_log.append_after_fight(lines)
 
 
-## ES2 room text keeps the MUD's hard line breaks; the UI wraps it itself.
+func append_log_lines(lines: Array[String], alert: bool = false) -> void:
+	message_log.append_log_lines(lines, alert)
+
+
+func append_colored_lines(lines: Array[ColoredLine]) -> void:
+	message_log.append_colored_lines(lines)
+
+
+func toasts() -> MessageToasts:
+	return message_log.toasts()
+
+
+func refresh_toasts() -> void:
+	message_log.refresh_toasts()
+
+
+func panel_opened() -> void:
+	message_log.panel_opened()
+
+
+func log_lines() -> Array[String]:
+	return message_log.log_lines()
+
+
 static func room_prose(text: String) -> String:
-	return text.strip_edges().replace("\n", "")
+	return SharedUiMessageLog.room_prose(text)
 
 
-## The room's text now, if the player came into it since it was last described: what
-## happens there on arrival (the player's berserk) reads after it, as ES2's move()
-## looks before init()'s call_out()s.
 func describe_arrival() -> void:
-	_describe_new_zone()
+	message_log.describe_arrival()
 
 
-## The player came into the room they left (a 迷阵 exit back to itself): ES2 shows
-## the room again, as on any move.
 func describe_again() -> void:
-	_described_zone_id = &""
-	_describe_new_zone()
-
-
-func _describe_new_zone() -> void:
-	var zone: ZoneDefinition = current_zone()
-	if zone == null or zone.zone_id == _described_zone_id:
-		return
-	var previous: ZoneDefinition = GameContent.catalog().zone(_described_zone_id)
-	_described_zone_id = zone.zone_id
-	# Owner: neighbouring rooms of one name (黄土小径, 雪亭镇街道) are one place; walking on
-	# into the next tells nothing new (观察 still reads its text). A `distinct` room (the
-	# hall of 老松寨, cave5) has its own say.
-	if (previous != null and previous.map_id == zone.map_id and previous.display_name == zone.display_name
-			and not previous.distinct and not zone.distinct and GameContent.catalog().zones_adjacent(previous.zone_id, zone.zone_id)):
-		return
-	# TRANSLATORS: a room's title and its description, as the log shows them on arrival.
-	append_log_lines([tr("【{title}】{description}").format({"title": tr(zone.display_name), "description": room_prose(tr(zone.description))})])
-
-
-func open_look() -> void:
-	var zone: ZoneDefinition = current_zone()
-	if zone == null or not _session.portable_inventory_available():
-		return
-	_presentation_layout.room.text = room_prose(tr(zone.description))
-	_presentation_layout.open_panel(tr(zone.display_name), _presentation_layout.room)
-
-
-## The map's door or service at the player's spot, as the context button text.
-func context_title() -> String:
-	var map := _bound_map as WorldMapController
-	if map == null or not _session.portable_inventory_available():
-		return ""
-	return map.interaction_title()
-
-
-func open_current_context() -> void:
-	var map := _session.active_map() as WorldMapController
-	if map != null and _session.portable_inventory_available():
-		map.interact()
-
-
-func open_business(title: String, form: Control, validate: Callable) -> void:
-	if not _session.portable_inventory_available(): return
-	_business_feedback = ""
-	_open_panel_with_lines(title, form, validate)
-
-
-## Opens a panel that shows its own lines: toasts stay off while it is open.
-func _open_panel_with_lines(title: String, content: Control, validate: Callable = Callable()) -> void:
-	_presentation_layout.open_panel(title, content, validate)
-	_panel_shows_lines = _presentation_layout._content == content
-	refresh_toasts()
-
-
-func open_character() -> void:
-	if not _session.portable_inventory_available(): return
-	_refresh_character()
-	_presentation_layout.open_panel("角色", _presentation_layout.character)
-
-
-## The character panel on its 武学 page.
-func open_martial_arts() -> void:
-	open_character()
-	if _presentation_layout.character.is_visible_in_tree():
-		_presentation_layout.character.show_arts()
-
-
-func martial_arts_page() -> MartialArtsPage:
-	return _presentation_layout.character.arts
-
-
-func _refresh_character() -> void:
-	var state := _player.state
-	var attr := state.attributes
-	# TRANSLATORS: the character sheet (score): name, gender, age, rank (rankd.c, 【 武  者 】) and title, then 精/气/神 as current / effective / maximum, food and water, experience, potential and the attributes.
-	var lines: Array[String] = [tr("{name} · {gender} · {age}岁\n{rank}{title}\n\n当前 / 有效 / 最大\n精 {gin}\n气 {kee}\n神 {sen}\n\n食物 {food} · 饮水 {water}\n实战经验 {exp} · 潜能 {potential}（已用 {spent}）\n\n膂力 {str} · 胆识 {cor} · 悟性 {int} · 灵性 {spi}\n定力 {cps} · 容貌 {per} · 根骨 {con} · 福缘 {kar}\n").format({
-		"name": _player.facts.display_name, "gender": tr(state.gender), "age": _player.facts.age, "title": _player.shown_title(),
-		"rank": tr(RankWords.query_rank(state.gender, state.affiliation.class_id, CrimeRecord.thief(state))),
-		"gin": _resource_text(state.essence), "kee": _resource_text(state.vitality), "sen": _resource_text(state.spirit),
-		"food": state.recovery.food, "water": state.recovery.water, "exp": state.progression.combat_experience,
-		"potential": state.progression.potential, "spent": state.progression.potential_spent,
-		"str": attr.strength, "cor": attr.courage, "int": attr.intelligence, "spi": attr.spirituality,
-		"cps": attr.composure, "per": attr.personality, "con": attr.constitution, "kar": attr.karma,
-	})]
-	# TRANSLATORS: the character sheet, score.c's 灵力 (atman) and 法力 (mana), each current / maximum.
-	lines.append(tr("灵力 {atman} / {max_atman} · 法力 {mana} / {max_mana}").format({
-		"atman": state.recovery.atman.current, "max_atman": state.recovery.atman.maximum,
-		"mana": state.recovery.mana.current, "max_mana": state.recovery.mana.maximum,
-	}))
-	# TRANSLATORS: the character sheet, score.c's lines: 杀气 (bellicosity), 综合评价 (score) and the NPCs the player has killed.
-	lines.append(tr("杀气 {bellicosity} · 综合评价 {score}\n总共杀过 {kills} 个人。").format({
-		"bellicosity": attr.bellicosity, "score": state.progression.score, "kills": state.progression.kills,
-	}))
-	if state.quest.has_task():
-		lines.append("\n".join(QuestStatus.lines(state.quest)))
-	lines.append(tr("负重 {carried} / {capacity} · 体重 {weight}").format({
-		"carried": _session.inventory_state().contents_weight(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)),
-		"capacity": _player.maximum_encumbrance, "weight": _player.body_facts.body_weight,
-	}))
-	_presentation_layout.character.sheet.text = "\n".join(lines)
-	if _presentation_layout.character.arts_shown():
-		_presentation_layout.character.arts.refresh()
-
-
-func _resource_text(resource: CharacterResourceState) -> String:
-	return "%d / %d / %d" % [resource.current, resource.effective, resource.maximum]
-
-
-func open_inventory() -> void:
-	if _session.portable_inventory_available():
-		show_inventory(_session.player_inventory_rows())
-
-
-func open_supplies() -> void:
-	if not _session.portable_inventory_available() or _supplies == null: return
-	_food.show()
-	_liquid.show()
-	_presentation_layout.open_panel("随身补给", _supplies)
+	message_log.describe_again()
 
 
 func open_messages() -> void:
-	if _session.portable_inventory_available():
-		_presentation_layout.open_panel("消息", _presentation_layout.messages)
+	message_log.open_messages()
 
 
-func _inspect_item(id: StringName) -> void:
-	if not _session.portable_inventory_available(): return
-	for row: PlayerInventoryRowProjection in _session.player_inventory_rows():
-		if row.item_instance_id == id:
-			show_inventory_inspection(row)
-			return
-	open_inventory()
+# --- forwarded to SharedUiStatusCard (card) ---
 
 
-func _give_item(id: StringName, amount: int) -> void:
-	var map := _session.active_map() as WorldMapController
-	if map == null:
-		return
-	var warning: String = _give_warning(map, id, amount)
-	if warning.is_empty():
-		map.give_to_selected(id, amount)
-		return
-	var give: Callable = func() -> void:
-		map.give_to_selected(id, amount)
-	# The question closes once the gift can no longer be made: the NPC walked away or is
-	# no longer selected, the thing is gone, or the player cannot handle items now.
-	var npc_id: StringName = map.selected_character_id()
-	var still_valid: Callable = func() -> bool:
-		return (
-			_session.active_map() == map and map.selected_character_id() == npc_id
-			and map.can_handle_items() and map.selected_npc_takes_gifts() and _carries(id)
-		)
-	# 取消 goes back to the 背包 the question came from.
-	ask_first(warning, "确定送出", give, still_valid, open_inventory)
+func refresh_exploration() -> void:
+	card.refresh_exploration()
 
 
-func _carries(id: StringName) -> bool:
-	for row: PlayerInventoryRowProjection in _session.player_inventory_rows():
-		if row.item_instance_id == id:
-			return true
-	return false
+func current_zone() -> ZoneDefinition:
+	return card.current_zone()
 
 
-## Owner (modern fixes II): giving away what the player has equipped, or a large sum
-## (GIVE_MONEY_ASK_AT 文 or more), is asked first; give.c asks nothing. An NPC that
-## takes bets or donations (the 宝官, the 功德箱's keeper) is not asked about money.
-const GIVE_MONEY_ASK_AT: int = 10000
-# TRANSLATORS: asked before 给 (give.c) of an item the player has equipped ({item}) to an NPC ({npc}).
-const GIVE_EQUIPPED_WARNING: String = "{item}正装备在你身上。确定把它送给{npc}吗？送出去的东西一般就要不回来了。"
-# TRANSLATORS: asked before 给 (give.c) of a large sum ({money}, e.g. 三两黄金) to an NPC ({npc}).
-const GIVE_MONEY_WARNING: String = "确定把{money}送给{npc}吗？送出去的钱一般就要不回来了。"
+func location_name() -> String:
+	return card.location_name()
 
 
-func _give_warning(map: WorldMapController, id: StringName, amount: int) -> String:
-	var npc: NpcRuntimeState = map.selected_npc()
-	if npc == null:
-		return ""
-	for row: PlayerInventoryRowProjection in _session.player_inventory_rows():
-		if row.item_instance_id != id:
-			continue
-		var content: ItemContentDefinition = GameContent.catalog().item(row.item_definition_id)
-		if content == null:
-			return ""
-		var npc_name: String = tr(npc.definition().display_name)
-		if row.equipment_slot != PlayerInventoryRowProjection.EquipmentSlot.NONE:
-			return tr(GIVE_EQUIPPED_WARNING).format({"item": tr(content.display_name), "npc": npc_name})
-		var given: int = amount if amount > 0 else row.amount
-		var takes_money: bool = npc.definition().dealings().object_rules.any(
-			func(rule: NpcObjectRule) -> bool: return rule.effect in NpcObjectRule.EFFECTS
-		)
-		if content.currency_base_value > 0 and not takes_money and given * content.currency_base_value >= GIVE_MONEY_ASK_AT:
-			return tr(GIVE_MONEY_WARNING).format({"money": HeldItemFacts.counted(content, given), "npc": npc_name})
-		return ""
-	return ""
+# --- forwarded to SharedUiSelection (selection) ---
 
 
-func _drop_item(id: StringName, amount: int) -> void:
-	var map := _session.active_map() as WorldMapController
-	if map != null: map.drop_item(id, amount)
+func set_selected_target(target: NpcRuntimeState) -> void:
+	selection.set_selected_target(target)
 
 
-func _put_item(id: StringName, amount: int) -> void:
-	var map := _session.active_map() as WorldMapController
-	if map != null: map.put_in_container(id, amount)
+func set_selected_landmark(landmark: WorldLandmarkDefinition, source_available: bool) -> void:
+	selection.set_selected_landmark(landmark, source_available)
 
 
-func _play_item(id: StringName) -> void:
-	var map := _session.active_map() as WorldMapController
-	if map != null: map.play_item(id)
+func set_selected_landmark_source_available(value: bool) -> void:
+	selection.set_selected_landmark_source_available(value)
 
 
-func _apply_item(id: StringName) -> void:
-	var map := _session.active_map() as WorldMapController
-	if map != null: map.apply_item(id)
+func set_selected_corpse(victim_display_name: String, content_count: int, in_range: bool, clear_inspection: bool = true) -> void:
+	selection.set_selected_corpse(victim_display_name, content_count, in_range, clear_inspection)
 
 
-func _act_with_item(id: StringName) -> void:
-	var map := _session.active_map() as WorldMapController
-	if map != null: map.act_with_item(id)
+func set_selected_floor_item(display_name: String, in_range: bool, clear_inspection: bool = true) -> void:
+	selection.set_selected_floor_item(display_name, in_range, clear_inspection)
 
 
-func _pour_item(id: StringName, container_id: StringName) -> void:
-	var map := _session.active_map() as WorldMapController
-	if map != null: map.pour_into(id, container_id)
+func show_inspection(definition: NpcDefinition, relation: String = "", gender: StringName = &"", strength: String = "") -> void:
+	selection.show_inspection(definition, relation, gender, strength)
 
 
-func _take_out_item(container_id: StringName, id: StringName) -> void:
-	var map := _session.active_map() as WorldMapController
-	if map != null: map.take_from_carried_container(container_id, id)
+func show_landmark_inspection(definition: WorldLandmarkDefinition, text: String = "") -> void:
+	selection.show_landmark_inspection(definition, text)
 
 
-func _put_into_carried(id: StringName, amount: int, container_id: StringName) -> void:
-	var map := _session.active_map() as WorldMapController
-	if map != null: map.put_in_carried_container(id, amount, container_id)
+func show_item_inspection(display_name: String, description: String) -> void:
+	selection.show_item_inspection(display_name, description)
 
 
-func _dissolve_with(id: StringName) -> void:
-	var map := _session.active_map() as WorldMapController
-	if map == null:
-		return
-	var count: int = map.dissolvable_corpse_contents()
-	if count == 0:
-		map.dissolve_selected_corpse(id)
-		return
-	var dissolve: Callable = func() -> void:
-		if map.dissolve_selected_corpse(id):
-			open_inventory()
-	# 取消 goes back to the 背包 the question came from.
-	ask_first(tr(DISSOLVE_WARNING).format({"name": tr(map.dissolvable_corpse_name()), "count": count}), "确定化掉", dissolve, Callable(), open_inventory)
+func show_corpse_inspection(victim_display_name: String, content_count: int) -> void:
+	selection.show_corpse_inspection(victim_display_name, content_count)
 
 
-## 驱尸 on the selected corpse; asked first when its 30 sen would knock the player out.
-func _animate_context() -> void:
-	var map := _session.active_map() as WorldMapController
-	if map == null:
-		return
-	if not map.animate_knocks_out():
-		map.animate_selected_corpse()
-		return
-	ask_first(tr(ANIMATE_FAINT_WARNING).format({"sen": AnimateSpell.SEN_COST}), "确定施法", map.animate_selected_corpse, func() -> bool: return map.animatable_corpse() != null)
+func refresh_live_state() -> void:
+	selection.refresh_live_state()
 
 
-## exert lifeheal <the selected NPC> (疗伤他人): no question, it costs only force.
-func _lifeheal_context() -> void:
-	var map := _session.active_map() as WorldMapController
-	if map != null and map.selected_npc_here() != null:
-		_session.martial_arts().exert_at(&"lifeheal", map.selected_npc_here())
+func selected_target_text() -> String:
+	return selection.selected_target_text()
 
 
-## 心识神通 on the selected NPC lying unconscious: asked first whenever it goes ahead, as
-## a failure knocks the player out (owner's rule; DECISIONS 山烟寺 A). A refusal (too little
-## atman, busy, a no_magic room) asks nothing.
-func _heart_sense_context() -> void:
-	var magic: PlayerEssenceMagic = _session.essence_magic()
-	var npc: NpcRuntimeState = magic.heart_target()
-	if npc == null:
-		return
-	if not magic.heart_asks():
-		magic.heart_sense()
-		return
-	var state: CharacterState = _player.state
-	var odds: String = tr(HEART_SPENT)
-	if state.spirit.current >= HeartSenseConjure.SEN_COST:
-		var percent: int = HeartSenseConjure.faint_percent(state.recovery.atman.maximum)
-		odds = tr(HEART_SURE_FAIL) if percent >= 100 else tr(HEART_MAY_FAIL).format({"percent": percent})
-	var question: String = tr(HEART_SENSE_WARNING).format({
-		"atman": HeartSenseConjure.ATMAN_COST, "sen": HeartSenseConjure.SEN_COST, "npc": tr(npc.definition().display_name),
-		"max_atman": state.recovery.atman.maximum, "odds": odds,
-	})
-	ask_first(question, "确定施展", magic.heart_sense, func() -> bool: return magic.heart_target() == npc)
+func inspection_display() -> String:
+	return selection.inspection_display()
 
 
-## 空识神通 from the 武学 page; asked first when its gin would knock the player out.
-## 取消 goes back to the page.
+func attack_is_enabled() -> bool:
+	return selection.attack_is_enabled()
+
+
+func spar_is_enabled() -> bool:
+	return selection.spar_is_enabled()
+
+
+func ask_is_enabled() -> bool:
+	return selection.ask_is_enabled()
+
+
+func portal_action_is_enabled() -> bool:
+	return selection.portal_action_is_enabled()
+
+
+func portal_action_text() -> String:
+	return selection.portal_action_text()
+
+
+func open_loot_is_enabled() -> bool:
+	return selection.open_loot_is_enabled()
+
+
+# --- forwarded to SharedUiContextActions (actions) ---
+
+
+func context_title() -> String:
+	return actions.context_title()
+
+
+func open_current_context() -> void:
+	actions.open_current_context()
+
+
+# --- forwarded to SharedUiAskPanel (ask) ---
+
+
+func open_ask() -> void:
+	ask.open_ask()
+
+
+func ask_topics_shown() -> Array[String]:
+	return ask.ask_topics_shown()
+
+
+func ask_answer_text() -> String:
+	return ask.ask_answer_text()
+
+
+func ask_verbs_shown() -> Array[String]:
+	return ask.ask_verbs_shown()
+
+
+func relay_buttons_shown() -> Array[String]:
+	return ask.relay_buttons_shown()
+
+
+# --- forwarded to SharedUiInventory (items) ---
+
+
+func show_loot(title: String, rows: Array[WorldItemRowProjection]) -> void:
+	items.show_loot(title, rows)
+
+
+func close_loot() -> void:
+	items.close_loot()
+
+
+func loot_is_open() -> bool:
+	return items.loot_is_open()
+
+
+func loot_rows() -> Array[WorldItemRowProjection]:
+	return items.loot_rows()
+
+
+func show_inventory(rows: Array[PlayerInventoryRowProjection]) -> void:
+	items.show_inventory(rows)
+
+
+func close_inventory() -> void:
+	items.close_inventory()
+
+
+func inventory_is_open() -> bool:
+	return items.inventory_is_open()
+
+
+func inventory_rows() -> Array[PlayerInventoryRowProjection]:
+	return items.inventory_rows()
+
+
+func show_inventory_inspection(row: PlayerInventoryRowProjection) -> void:
+	items.show_inventory_inspection(row)
+
+
+func open_inventory() -> void:
+	items.open_inventory()
+
+
+# --- forwarded to SharedUiPanels (panels) ---
+
+
+func initialize_supplies() -> void:
+	panels.initialize_supplies()
+
+
+func refresh_panel_rows() -> void:
+	panels.refresh_panel_rows()
+
+
+func open_look() -> void:
+	panels.open_look()
+
+
+func open_business(title: String, form: Control, validate: Callable) -> void:
+	panels.open_business(title, form, validate)
+
+
+func open_character() -> void:
+	panels.open_character()
+
+
+func open_martial_arts() -> void:
+	panels.open_martial_arts()
+
+
+func martial_arts_page() -> MartialArtsPage:
+	return panels.martial_arts_page()
+
+
+func open_supplies() -> void:
+	panels.open_supplies()
+
+
 func conjure_void_sense() -> void:
-	var magic: PlayerEssenceMagic = _session.essence_magic()
-	if not magic.void_knocks_out():
-		magic.void_sense()
-		return
-	ask_first(tr(VOID_FAINT_WARNING).format({"gin": VoidSenseConjure.GIN_COST}), "确定施展", magic.void_sense, magic.available, open_martial_arts)
+	panels.conjure_void_sense()
 
 
-## 游识神通 from the 武学 page: conjure.c's and the file's checks, then its question with
-## the names the player may go to; a refusal is only logged.
 func open_drift_sense() -> void:
-	if _session.essence_magic().drift_begin():
-		_show_drift_question()
-
-
-func _show_drift_question(lines: Array[ColoredLine] = []) -> void:
-	var magic: PlayerEssenceMagic = _session.essence_magic()
-	drift_panel.show_names(magic.drift_names(), lines)
-	_presentation_layout.open_panel(tr(DriftSenseConjure.LABEL), drift_panel, magic.available)
-
-
-## A name answered: asked first when the 30 gin would knock the player out.
-func _drift_choose(npc_name: String) -> void:
-	var magic: PlayerEssenceMagic = _session.essence_magic()
-	if magic.drift_knocks_out(npc_name):
-		ask_first(tr(DRIFT_FAINT_WARNING).format({"gin": DriftSenseConjure.GIN_COST}), "确定施展", _drift_to.bind(npc_name), magic.available, _show_drift_question)
-		return
-	_drift_to(npc_name)
-
-
-## select_target(): over, the question closes; nobody of that name now, it asks again.
-func _drift_to(npc_name: String) -> void:
-	var magic: PlayerEssenceMagic = _session.essence_magic()
-	if magic.drift_to(npc_name):
-		if _presentation_layout._content == drift_panel:
-			_presentation_layout.close_panel()
-		return
-	_show_drift_question(magic.last_lines)
-
-
-## 偷窃 on the selected NPC: the list of what it is seen to wear or wield, and 随手摸一样.
-func _steal_context() -> void:
-	var map := _session.active_map() as WorldMapController
-	if map != null and map.thefts.can_steal_selected():
-		_show_steal_question()
-
-
-func _show_steal_question() -> void:
-	var map := _session.active_map() as WorldMapController
-	var npc: NpcRuntimeState = null if map == null else map.selected_npc_here()
-	if npc == null:
-		return
-	var ids: Array[StringName] = map.thefts.seen_items(npc)
-	var names: Array[String] = []
-	for id: StringName in ids:
-		names.append(map.thefts.item_name(id))
-	steal_panel.show_items(tr(npc.definition().display_name), ids, names)
-	var npc_id: StringName = npc.character_id
-	_presentation_layout.open_panel(tr("偷窃"), steal_panel, func() -> bool: return map.thefts.can_steal_selected() and map.selected_character_id() == npc_id)
-	_presentation_layout.refresh_rows()
-
-
-## A thing (or 随手摸一样) chosen: asked first from one clearly stronger; 取消 shows the list again.
-func _steal_choose(item_id: StringName) -> void:
-	var map := _session.active_map() as WorldMapController
-	var npc: NpcRuntimeState = null if map == null else map.selected_npc_here()
-	if npc == null:
-		return
-	var npc_id: StringName = npc.character_id
-	if map.thefts.asks_first(npc):
-		ask_first(tr(STRONGER_STEAL_WARNING).format({"npc": tr(npc.definition().display_name)}), "确定下手", _steal_now.bind(npc_id, item_id), func() -> bool: return map.thefts.can_steal_selected() and map.selected_character_id() == npc_id, _show_steal_question)
-		return
-	_steal_now(npc_id, item_id)
-
-
-func _steal_now(npc_id: StringName, item_id: StringName) -> void:
-	var map := _session.active_map() as WorldMapController
-	if map == null:
-		return
-	if _presentation_layout._content == steal_panel:
-		_presentation_layout.close_panel()
-	map.thefts.begin(map.npcs.find_resident_npc(npc_id), item_id)
-
-
-## 行贿 to the constable leading the player: the money they carry, how much of each.
-func _bribe_context(lines: Array[String] = []) -> void:
-	var map := _session.active_map() as WorldMapController
-	if map == null or not map.patrols.can_bribe(_selected_target):
-		return
-	var npc: NpcRuntimeState = _selected_target
-	var ids: Array[StringName] = []
-	var names: Array[String] = []
-	var amounts: Array[int] = []
-	for row: PlayerInventoryRowProjection in _session.player_inventory_rows():
-		var content: ItemContentDefinition = GameContent.catalog().item(row.item_definition_id)
-		if content != null and content.currency_base_value > 0 and row.amount > 0:
-			ids.append(row.item_instance_id)
-			names.append(tr(content.display_name))
-			amounts.append(row.amount)
-	bribe_panel.show_money(tr(npc.definition().display_name), ids, names, amounts, lines)
-	var npc_id: StringName = npc.character_id
-	_presentation_layout.open_panel(tr("行贿"), bribe_panel, func() -> bool: return map.patrols.can_bribe(map.npcs.find_resident_npc(npc_id)))
-	_presentation_layout.refresh_rows()
-
-
-## accept_bribery(): taken, the panel closes (they are free); refused, it shows again with the line.
-func _bribe(item_id: StringName, amount: int) -> void:
-	var map := _session.active_map() as WorldMapController
-	if map == null:
-		return
-	if not map.patrols.bribe(item_id, amount):
-		return
-	if map.patrols.can_bribe(_selected_target):
-		_bribe_context(map.patrols.last_lines)
-	elif _presentation_layout._content == bribe_panel:
-		_presentation_layout.close_panel()
-
-
-func _close_panel_of(panel: Control) -> void:
-	if _presentation_layout._content == panel:
-		_presentation_layout.close_panel()
-
-
-## 中止施法 (an empty answer): its line, and back to the 武学 page.
-func _drift_cancel() -> void:
-	append_log_lines([tr(DriftSenseConjure.CANCELLED)])
-	open_martial_arts()
-
-
-## 画符 on a 桃符纸 for the selected NPC; asked first when its cost would kill the player or
-## knock them out. 取消 goes back to the 背包.
-func _scribe_on(id: StringName) -> void:
-	var map := _session.active_map() as WorldMapController
-	if map == null:
-		return
-	var warning: String = ""
-	if map.scribe_kills():
-		warning = tr(SCRIBE_DEATH_WARNING)
-	elif map.scribe_knocks_out():
-		warning = tr(SCRIBE_FAINT_WARNING).format({"sen": ScribeService.SEN_COST + HauntScribe.SEN_COST})
-	if warning.is_empty():
-		map.scribe_on(id)
-		return
-	var scribe: Callable = func() -> void:
-		map.scribe_on(id)
-	ask_first(warning, "确定画符", scribe, Callable(), open_inventory)
-
-
-## 贴符 on the zombie here; asked first when it would go after the player's own master
-## (its kill is the player's: 弑师, as 攻击 asks). 取消 goes back to the 背包.
-func _attach_sheet(id: StringName) -> void:
-	var map := _session.active_map() as WorldMapController
-	if map == null:
-		return
-	var target: NpcRuntimeState = map.sheet_target(id)
-	var carrier: NpcRuntimeState = map.sheet_carrier()
-	if target == null or carrier == null or not PlayerKillerReward.is_own_master(_player.state, target.definition()):
-		map.attach_sheet(id)
-		return
-	var teaching: NpcTeaching = target.definition().teaching()
-	var family: FamilyDefinition = GameContent.catalog().family(teaching.family_id)
-	var attach: Callable = func() -> void:
-		map.attach_sheet(id)
-	ask_first(tr(HAUNT_MASTER_WARNING).format({
-		"master": tr(target.definition().display_name), "zombie": tr(carrier.definition().display_name),
-		"family": tr(family.display_name) if family != null else "",
-		"score": _player.state.progression.score, "next": _player.state.apprenticeship.betrayer_count + 1,
-	}), "确定贴符", attach, Callable(), open_inventory)
-
-
-## rope.c hang: deadly, so asked first (owner); 取消 goes back to the 背包. Outdoors
-## the rope finds nothing to hang from, so there is nothing to ask.
-func _hang_with(id: StringName) -> void:
-	var map := _session.active_map() as WorldMapController
-	if map == null:
-		return
-	if not map.can_hang_here():
-		map.hang_with(id)
-		return
-	var hang: Callable = func() -> void:
-		map.hang_with(id)
-	ask_first(tr(HANG_WARNING), "确定上吊", hang, Callable(), open_inventory)
-
-
-## Asks in the shared frame before an important or deadly choice (owner,
-## 2026-10-06): `action` runs on the choice; 取消, 关闭 or Back drop it, and 取消 then
-## runs `on_cancel` (back where the question came from). While `still_valid` returns
-## false the question closes, as any panel does.
-func ask_first(text: String, choice: String, action: Callable, still_valid: Callable = Callable(), on_cancel: Callable = Callable()) -> void:
-	_confirmed_action = action
-	_cancelled_action = on_cancel
-	confirm_prompt.ask(text, choice)
-	_presentation_layout.open_panel(tr("请确认"), confirm_prompt, still_valid)
-	if _presentation_layout._content == confirm_prompt:
-		# A question that wraps is taller than the frame's first layout.
-		_presentation_layout.refresh_rows()
-		confirm_prompt.focus_default()
-	else:
-		confirm_prompt.cancel()
-
-
-## Whether the shared frame is asking (ask_first()).
-func is_asking() -> bool:
-	return confirm_prompt.is_asking() and _presentation_layout._content == confirm_prompt
-
-
-func _on_prompt_confirmed() -> void:
-	var action: Callable = _confirmed_action
-	_confirmed_action = Callable()
-	_cancelled_action = Callable()
-	_presentation_layout.close_panel()
-	if action.is_valid():
-		action.call()
-
-
-func _on_prompt_cancelled() -> void:
-	var back: Callable = _cancelled_action
-	_confirmed_action = Callable()
-	_cancelled_action = Callable()
-	# Hidden along with the HUD (a fight starts), _process() closes the frame itself;
-	# closing it here would reparent the prompt while its visibility propagates.
-	if _presentation_layout._content == confirm_prompt and confirm_prompt.is_visible_in_tree():
-		_presentation_layout.close_panel()
-		if back.is_valid():
-			back.call()
-
-
-func _wield_item(id: StringName) -> void:
-	_session.wield_player_item(id)
-	open_inventory()
-
-
-func _unwield_item(id: StringName) -> void:
-	_session.unwield_player_item(id)
-	open_inventory()
-
-
-func _wear_item(id: StringName) -> void:
-	var result: OldPineArmorInteractionResult = _session.wear_player_item(id)
-	if result != null and result.outcome == OldPineArmorInteractionResult.Outcome.FEMALE_ONLY:
-		# wear.c's line, or the item's own wear() (d/latemoon/obj/skirt.c).
-		var item: ItemInstance = _session.item_instance_index().resolve(id)
-		var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
-		if content != null and not content.wear_refusal.is_empty():
-			append_log_lines([tr(content.wear_refusal).strip_edges()])
-		else:
-			append_log_lines([tr("这是女人的衣衫，你一个大男人也想穿，羞也不羞？")])
-	open_inventory()
-
-
-func _remove_item(id: StringName) -> void:
-	_session.remove_player_item(id)
-	open_inventory()
-
-
-func _inspect_context() -> void:
-	var map := _session.active_map() as WorldMapController
-	if map != null: map.inspect_selected()
-
-
-## 攻击; on the player's own master it asks first: the kill is a betrayal (3C).
-func _attack_context() -> void:
-	var map := _session.active_map() as WorldMapController
-	if map == null:
-		return
-	var npc: NpcRuntimeState = map.selected_npc()
-	if npc == null or not map.selected_attack_starts() or not PlayerKillerReward.is_own_master(_player.state, npc.definition()):
-		map.attack_selected()
-		return
-	var teaching: NpcTeaching = npc.definition().teaching()
-	var family: FamilyDefinition = GameContent.catalog().family(teaching.family_id)
-	ask_first(tr(MASTER_ATTACK_WARNING).format({
-		"master": tr(npc.definition().display_name), "family": tr(family.display_name) if family != null else "",
-		"score": _player.state.progression.score, "next": _player.state.apprenticeship.betrayer_count + 1,
-	}), "确定攻击", map.attack_selected, attack_is_enabled)
-
-
-## 切磋; asked first when it will be fought to the death (accept_fight()'s kill_ob()),
-## with a weapon in hand on either side (its blows wound), or against an NPC clearly
-## stronger than the player (one blow can knock them out; owner A10).
-func _spar_context() -> void:
-	var map := _session.active_map() as WorldMapController
-	if map == null:
-		return
-	var risk: WorldMapController.SparRisk = map.selected_spar_risk()
-	if risk == WorldMapController.SparRisk.NONE:
-		map.spar_selected()
-		return
-	var warning: String = DEADLY_SPAR_WARNING
-	match risk:
-		WorldMapController.SparRisk.ARMED:
-			warning = ARMED_STRONGER_SPAR_WARNING if map.selected_spar_stronger() else ARMED_SPAR_WARNING
-		WorldMapController.SparRisk.STRONGER:
-			warning = STRONGER_SPAR_WARNING
-	ask_first(tr(warning).format({"npc": tr(map.selected_npc().definition().display_name)}), "确定切磋", map.spar_selected, spar_is_enabled)
-
-
-func _ask_context() -> void:
-	open_ask()
-
-
-func _traverse_context() -> void:
-	var map := _session.active_map() as WorldMapController
-	if map != null: map.traverse_selected_portal()
-
-
-func _loot_context() -> void:
-	var map := _session.active_map() as WorldMapController
-	if map != null: map.open_selected_loot()
-
-
-func _take_context(id: StringName) -> void:
-	var map := _session.active_map() as WorldMapController
-	if map != null: map.take_selected_loot_item(id)
-
-
-func _collect_feedback() -> void:
-	if not _presentation_layout.frame.visible: return
-	var lines: Array[String] = []
-	for node: Node in _presentation_layout.mount.find_children("*", "Label", true, false):
-		var label := node as Label
-		# A fixed feedback holds its source text and translates itself: the log takes what it shows.
-		if label.name == "Feedback" and not label.text.is_empty(): lines.append(label.atr(label.text) if label.can_auto_translate() else label.text)
-	var text := "\n".join(lines)
-	if not text.is_empty() and text != _business_feedback:
-		_business_feedback = text
-		append_log_lines(lines)
+	panels.open_drift_sense()
 
 
 func dismiss_current_panel() -> void:
-	var map := _session.active_map() as WorldMapController
-	if map != null and map.dismiss_panel(_presentation_layout._content):
-		_presentation_layout.validate_open_panel()
-	else:
-		_presentation_layout.close_panel()
+	panels.dismiss_current_panel()
 
 
 func close_business(form: Control) -> void:
-	if _presentation_layout._content == form:
-		_presentation_layout.close_panel()
+	panels.close_business(form)
+
+
+# --- forwarded to SharedUiQuestions (questions) ---
+
+
+func ask_first(text: String, choice: String, action: Callable, still_valid: Callable = Callable(), on_cancel: Callable = Callable()) -> void:
+	questions.ask_first(text, choice, action, still_valid, on_cancel)
+
+
+func is_asking() -> bool:
+	return questions.is_asking()

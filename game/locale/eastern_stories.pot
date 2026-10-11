@@ -312,7 +312,7 @@ msgstr ""
 msgid "关闭"
 msgstr ""
 
-#: scenes/ui/player_inventory_panel.tscn presentation/layout/shared_gameplay_layout.gd ui/world/shared_gameplay_ui.gd
+#: scenes/ui/player_inventory_panel.tscn presentation/layout/shared_gameplay_layout.gd ui/world/shared_ui_inventory.gd
 msgid "背包"
 msgstr ""
 
@@ -4981,7 +4981,7 @@ msgstr ""
 msgid "召唤天将"
 msgstr ""
 
-#: presentation/battle/battle_presentation_controller.gd ui/world/shared_gameplay_ui.gd
+#: presentation/battle/battle_presentation_controller.gd ui/world/shared_ui_context_actions.gd
 msgid "确定攻击"
 msgstr ""
 
@@ -5326,7 +5326,7 @@ msgstr ""
 msgid "观察"
 msgstr ""
 
-#: presentation/layout/shared_gameplay_layout.gd ui/world/character_panel.gd ui/world/shared_gameplay_ui.gd
+#: presentation/layout/shared_gameplay_layout.gd ui/world/character_panel.gd ui/world/shared_ui_panels.gd
 msgid "角色"
 msgstr ""
 
@@ -5334,7 +5334,7 @@ msgstr ""
 msgid "补给"
 msgstr ""
 
-#: presentation/layout/shared_gameplay_layout.gd ui/world/shared_gameplay_ui.gd
+#: presentation/layout/shared_gameplay_layout.gd ui/world/shared_ui_message_log.gd
 msgid "消息"
 msgstr ""
 
@@ -5363,12 +5363,12 @@ msgid "拾取"
 msgstr ""
 
 #. stealing name
-#: presentation/layout/shared_gameplay_layout.gd ui/world/shared_gameplay_ui.gd data/common/skills.json
+#: presentation/layout/shared_gameplay_layout.gd ui/world/shared_ui_context_actions.gd data/common/skills.json
 msgid "偷窃"
 msgstr ""
 
 #. hands the chosen sum to the constable (accept_bribery()).
-#: presentation/layout/shared_gameplay_layout.gd ui/world/bribe_panel.gd ui/world/shared_gameplay_ui.gd
+#: presentation/layout/shared_gameplay_layout.gd ui/world/bribe_panel.gd ui/world/shared_ui_context_actions.gd
 msgid "行贿"
 msgstr ""
 
@@ -7012,71 +7012,166 @@ msgid ""
 "确定要攻击吗？"
 msgstr ""
 
+#. asked before 跪下受戒 (daemon/class/bonze/master.c do_kneel()): {npc} the master, {prefixes} the characters a 法名 begins with (空明圆净虚悟方渡慧法), {first} the first character of the player's name, {example} one 法名 it could make.
+#: ui/world/shared_ui_ask_panel.gd
+msgid ""
+"跪下受戒就是剃度出家：{npc}会剃去你的头发，你从此是僧人。\n"
+"你的名字会改成法名：「{prefixes}」中随机一字，加上你名字的第一个字「{first}」（例如「{example}」），原来的名字从此不再使用。\n"
+"确定要跪下受戒吗？"
+msgstr ""
+
+#: ui/world/shared_ui_ask_panel.gd
+msgid "你可以打听这些事情："
+msgstr ""
+
+#. say a line beside the NPC that it answers ({line}: 必有妖孽).
+#: ui/world/shared_ui_ask_panel.gd
+msgid "接话：{line}"
+msgstr ""
+
+#: ui/world/shared_ui_ask_panel.gd
+msgid "打听 · %s"
+msgstr ""
+
+#: ui/world/shared_ui_ask_panel.gd
+msgid "确定受戒"
+msgstr ""
+
 #. asked before 切磋 when the player or the NPC ({npc}) holds a weapon: a blow from it wounds as in a real fight (combatd.c).
-#: ui/world/shared_gameplay_ui.gd
+#: ui/world/shared_ui_context_actions.gd
 msgid ""
 "刀剑无眼：有人手持兵刃时，切磋中挨的刀剑会留下真伤，伤重了一样会丧命。\n"
 "确定要和{npc}切磋吗？"
 msgstr ""
 
 #. asked before 切磋 with an NPC ({npc}) whose answer to a spar is a fight to the death (accept_fight() calls kill_ob()).
-#: ui/world/shared_gameplay_ui.gd
+#: ui/world/shared_ui_context_actions.gd
 msgid ""
 "{npc}不会只跟你点到为止：这一场切磋会变成生死相搏。\n"
 "确定要和{npc}切磋吗？"
 msgstr ""
 
 #. asked before a bare-handed 切磋 with an NPC ({npc}) clearly stronger than the player (native, owner A10): one blow can knock the player out.
-#: ui/world/shared_gameplay_ui.gd
+#: ui/world/shared_ui_context_actions.gd
 msgid ""
 "{npc}看起来比你强得多：即使只是切磋，一招就可能把你打昏。\n"
 "确定要和{npc}切磋吗？"
 msgstr ""
 
 #. asked before 切磋 with a weapon in hand on either side and an NPC ({npc}) clearly stronger than the player (native, owner A10).
-#: ui/world/shared_gameplay_ui.gd
+#: ui/world/shared_ui_context_actions.gd
 msgid ""
 "{npc}看起来比你强得多，而且有人手持兵刃：切磋中挨的刀剑会留下真伤，伤重了一样会丧命。\n"
 "确定要和{npc}切磋吗？"
 msgstr ""
 
+#. asked before 驱尸 (animate.c) when its 30 神 ({sen}) would leave the player below zero: they faint.
+#: ui/world/shared_ui_context_actions.gd
+msgid ""
+"施法驱尸要耗去 {sen} 点神，你现在撑不住，会当场昏过去。\n"
+"确定要施法吗？"
+msgstr ""
+
+#. the 疗伤他人 button's tooltip (lotusforce/lifeheal.c): 150 force, which must be 150 above the maximum; neither side in a fight.
+#: ui/world/shared_ui_context_actions.gd
+msgid "运功「疗伤他人」：把真气输入对方体内，为他疗伤（耗 150 点内力，内力须比最大内力多 150 以上；双方都不能在战斗中）。"
+msgstr ""
+
+#. the 心识神通 button's tooltip (essencemagic/heart_sense.c): its 50 atman and 30 sen; random(max_atman) must be above 100, else the caster falls unconscious.
+#: ui/world/shared_ui_context_actions.gd
+msgid "施展「心识神通」：救醒昏迷的人（50 灵力、30 神）。最大灵力不过 101 必定失败，失败时你自己会昏倒。"
+msgstr ""
+
+#. asked before every 心识神通 (heart_sense.c), which knocks the caster out when it fails: {npc} the one lying unconscious, {atman} and {sen} its cost, {max_atman} the player's maximum atman, {odds} one of the three lines below.
+#: ui/world/shared_ui_context_actions.gd
+msgid ""
+"心识神通要耗去 {atman} 点灵力和 {sen} 点神。能否救醒{npc}，全看你的灵力修为（最大灵力 {max_atman}）：{odds}\n"
+"确定要施展吗？"
+msgstr ""
+
+#. {odds} in the 心识神通 question when the player's maximum atman is 101 or less (random(max_atman) > 100 cannot happen).
+#: ui/world/shared_ui_context_actions.gd
+msgid "最大灵力不过 101 必定失败，失败时你自己会当场昏过去。"
+msgstr ""
+
+#. {odds} in the 心识神通 question: {percent} the chance in a hundred that random(max_atman) is 100 or less.
+#: ui/world/shared_ui_context_actions.gd
+msgid "约有 {percent}% 的机会失败，失败时你自己会当场昏过去。"
+msgstr ""
+
+#. {odds} in the 心识神通 question when its 30 sen alone would knock the player out.
+#: ui/world/shared_ui_context_actions.gd
+msgid "你现在的神撑不住这一下，无论成败都会当场昏过去。"
+msgstr ""
+
+#. the 偷窃 button's tooltip (cmds/std/steal.c): caught at it, the one robbed fights to the death and the town's constables know the player for a thief.
+#: ui/world/shared_ui_context_actions.gd
+msgid "偷窃：从对方身上偷一样东西（三秒后见分晓）。失手被发现，对方会和你拼命，城里的巡捕也会把你当贼抓。"
+msgstr ""
+
+#. the 行贿 button's tooltip (yamen_po.c accept_bribery()): money to the constable leading the player.
+#: ui/world/shared_ui_context_actions.gd
+msgid "行贿：塞钱给押着你的巡捕，钱给够了他就放你走；给少了反倒罪加一等。"
+msgstr ""
+
+#. asked before 偷窃 from an NPC ({npc}) clearly stronger than the player (plan default, A10): one caught at it is attacked to the death (steal.c kill_ob()).
+#: ui/world/shared_ui_context_actions.gd
+msgid ""
+"{npc}看起来比你强得多：要是失手被发现，{npc}会和你拼个你死我活。\n"
+"确定要下手吗？"
+msgstr ""
+
+#. the 驱尸 button's tooltip: animate.c's 50 mana and 30 sen; the zombie lives on the player's 灵力 (zombie.c heal_up()).
+#: ui/world/shared_ui_context_actions.gd
+msgid "施法「驱尸」：让这具尸体站起来跟着你（50 法力、30 神）。僵尸靠吸你的灵力维持，灵力不足时就会倒下化为血水。"
+msgstr ""
+
+#: ui/world/shared_ui_context_actions.gd
+msgid "确定施法"
+msgstr ""
+
+#: ui/world/shared_ui_context_actions.gd ui/world/shared_ui_panels.gd
+msgid "确定施展"
+msgstr ""
+
+#: ui/world/shared_ui_context_actions.gd
+msgid "确定下手"
+msgstr ""
+
+#: ui/world/shared_ui_context_actions.gd
+msgid "确定切磋"
+msgstr ""
+
 #. asked before 化尸粉 dissolves a corpse that still holds things (dust.c destructs it whole): {name} whose corpse, {count} how many things are in it.
-#: ui/world/shared_gameplay_ui.gd
+#: ui/world/shared_ui_inventory.gd
 msgid ""
 "化尸粉会把{name}的尸体连同里面的 {count} 件物品一起化成一滩黄水，化掉的东西再也找不回来。\n"
 "确定要化掉吗？"
 msgstr ""
 
 #. asked before the rope's 上吊 (rope.c hang_self(): die()): the character dies as in a fight.
-#: ui/world/shared_gameplay_ui.gd
+#: ui/world/shared_ui_inventory.gd
 msgid ""
 "把绳子往脖子上一套，就是寻死：你会就此死去，和战死一样付出死亡的代价。\n"
 "确定要上吊吗？"
 msgstr ""
 
-#. asked before 驱尸 (animate.c) when its 30 神 ({sen}) would leave the player below zero: they faint.
-#: ui/world/shared_gameplay_ui.gd
-msgid ""
-"施法驱尸要耗去 {sen} 点神，你现在撑不住，会当场昏过去。\n"
-"确定要施法吗？"
-msgstr ""
-
 #. asked before 画符 (scribe.c, haunt.c) when its 40 神 ({sen}) would leave the player below zero: they faint.
-#: ui/world/shared_gameplay_ui.gd
+#: ui/world/shared_ui_inventory.gd
 msgid ""
 "画这道符要耗去 {sen} 点神，你现在撑不住，会当场昏过去。\n"
 "确定要画吗？"
 msgstr ""
 
 #. asked before 画符 (scribe.c) when the drop of blood it is drawn in (1 point of 气 off its effective value) would kill the badly wounded player.
-#: ui/world/shared_gameplay_ui.gd
+#: ui/world/shared_ui_inventory.gd
 msgid ""
 "你伤得太重了：画符要咬破手指流血，这一点血就会要了你的命。\n"
 "确定要画吗？"
 msgstr ""
 
 #. asked before a 僵尸追魂符 sends the player's zombie ({zombie}) after their own master ({master}): its kill counts as the player's (killer_reward()). {family}, {score}, {next} as in the 攻击 question.
-#: ui/world/shared_gameplay_ui.gd
+#: ui/world/shared_ui_inventory.gd
 msgid ""
 "{master}是你的师父。{zombie}会追杀{master}，它若得手，就算你弑师，等同背叛师门：\n"
 "· 被逐出{family}，门派、师父和称号都没有了。\n"
@@ -7085,143 +7180,65 @@ msgid ""
 "确定要贴上这道符吗？"
 msgstr ""
 
-#. asked before 跪下受戒 (daemon/class/bonze/master.c do_kneel()): {npc} the master, {prefixes} the characters a 法名 begins with (空明圆净虚悟方渡慧法), {first} the first character of the player's name, {example} one 法名 it could make.
-#: ui/world/shared_gameplay_ui.gd
-msgid ""
-"跪下受戒就是剃度出家：{npc}会剃去你的头发，你从此是僧人。\n"
-"你的名字会改成法名：「{prefixes}」中随机一字，加上你名字的第一个字「{first}」（例如「{example}」），原来的名字从此不再使用。\n"
-"确定要跪下受戒吗？"
+#. asked before 给 (give.c) of an item the player has equipped ({item}) to an NPC ({npc}).
+#: ui/world/shared_ui_inventory.gd
+msgid "{item}正装备在你身上。确定把它送给{npc}吗？送出去的东西一般就要不回来了。"
 msgstr ""
 
-#. the 疗伤他人 button's tooltip (lotusforce/lifeheal.c): 150 force, which must be 150 above the maximum; neither side in a fight.
-#: ui/world/shared_gameplay_ui.gd
-msgid "运功「疗伤他人」：把真气输入对方体内，为他疗伤（耗 150 点内力，内力须比最大内力多 150 以上；双方都不能在战斗中）。"
+#. asked before 给 (give.c) of a large sum ({money}, e.g. 三两黄金) to an NPC ({npc}).
+#: ui/world/shared_ui_inventory.gd
+msgid "确定把{money}送给{npc}吗？送出去的钱一般就要不回来了。"
 msgstr ""
 
-#. the 心识神通 button's tooltip (essencemagic/heart_sense.c): its 50 atman and 30 sen; random(max_atman) must be above 100, else the caster falls unconscious.
-#: ui/world/shared_gameplay_ui.gd
-msgid "施展「心识神通」：救醒昏迷的人（50 灵力、30 神）。最大灵力不过 101 必定失败，失败时你自己会昏倒。"
+#: ui/world/shared_ui_inventory.gd
+msgid "确定送出"
 msgstr ""
 
-#. asked before every 心识神通 (heart_sense.c), which knocks the caster out when it fails: {npc} the one lying unconscious, {atman} and {sen} its cost, {max_atman} the player's maximum atman, {odds} one of the three lines below.
-#: ui/world/shared_gameplay_ui.gd
-msgid ""
-"心识神通要耗去 {atman} 点灵力和 {sen} 点神。能否救醒{npc}，全看你的灵力修为（最大灵力 {max_atman}）：{odds}\n"
-"确定要施展吗？"
+#: ui/world/shared_ui_inventory.gd
+msgid "确定化掉"
 msgstr ""
 
-#. {odds} in the 心识神通 question when the player's maximum atman is 101 or less (random(max_atman) > 100 cannot happen).
-#: ui/world/shared_gameplay_ui.gd
-msgid "最大灵力不过 101 必定失败，失败时你自己会当场昏过去。"
+#: ui/world/shared_ui_inventory.gd
+msgid "确定画符"
 msgstr ""
 
-#. {odds} in the 心识神通 question: {percent} the chance in a hundred that random(max_atman) is 100 or less.
-#: ui/world/shared_gameplay_ui.gd
-msgid "约有 {percent}% 的机会失败，失败时你自己会当场昏过去。"
+#: ui/world/shared_ui_inventory.gd
+msgid "确定贴符"
 msgstr ""
 
-#. {odds} in the 心识神通 question when its 30 sen alone would knock the player out.
-#: ui/world/shared_gameplay_ui.gd
-msgid "你现在的神撑不住这一下，无论成败都会当场昏过去。"
+#: ui/world/shared_ui_inventory.gd
+msgid "确定上吊"
+msgstr ""
+
+#: ui/world/shared_ui_inventory.gd
+msgid "这是女人的衣衫，你一个大男人也想穿，羞也不羞？"
+msgstr ""
+
+#. a room's title and its description, as the log shows them on arrival.
+#: ui/world/shared_ui_message_log.gd
+msgid "【{title}】{description}"
 msgstr ""
 
 #. asked before 空识神通 (void_sense.c) when its 50 gin ({gin}) would knock the player out.
-#: ui/world/shared_gameplay_ui.gd
+#: ui/world/shared_ui_panels.gd
 msgid ""
 "空识神通要耗去 {gin} 点精，你现在撑不住，会当场昏过去。\n"
 "确定要施展吗？"
 msgstr ""
 
 #. asked before 游识神通 goes to the one chosen (drift_sense.c) when its 30 gin ({gin}) would knock the player out.
-#: ui/world/shared_gameplay_ui.gd
+#: ui/world/shared_ui_panels.gd
 msgid ""
 "游识神通要耗去 {gin} 点精，你现在撑不住，施展完就会昏过去。\n"
 "确定要施展吗？"
 msgstr ""
 
-#. the 偷窃 button's tooltip (cmds/std/steal.c): caught at it, the one robbed fights to the death and the town's constables know the player for a thief.
-#: ui/world/shared_gameplay_ui.gd
-msgid "偷窃：从对方身上偷一样东西（三秒后见分晓）。失手被发现，对方会和你拼命，城里的巡捕也会把你当贼抓。"
-msgstr ""
-
-#. the 行贿 button's tooltip (yamen_po.c accept_bribery()): money to the constable leading the player.
-#: ui/world/shared_gameplay_ui.gd
-msgid "行贿：塞钱给押着你的巡捕，钱给够了他就放你走；给少了反倒罪加一等。"
-msgstr ""
-
-#. asked before 偷窃 from an NPC ({npc}) clearly stronger than the player (plan default, A10): one caught at it is attacked to the death (steal.c kill_ob()).
-#: ui/world/shared_gameplay_ui.gd
-msgid ""
-"{npc}看起来比你强得多：要是失手被发现，{npc}会和你拼个你死我活。\n"
-"确定要下手吗？"
-msgstr ""
-
-#. the 驱尸 button's tooltip: animate.c's 50 mana and 30 sen; the zombie lives on the player's 灵力 (zombie.c heal_up()).
-#: ui/world/shared_gameplay_ui.gd
-msgid "施法「驱尸」：让这具尸体站起来跟着你（50 法力、30 神）。僵尸靠吸你的灵力维持，灵力不足时就会倒下化为血水。"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "{name}的尸体 · {count}件物品"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "目标详情"
-msgstr ""
-
-#. look.c: {pronoun} is 他/她/它, {relation} what the NPC is to the player (师父, 同门师兄 …).
-#: ui/world/shared_gameplay_ui.gd
-msgid "{pronoun}是你的{relation}。"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid ""
-"{name}的尸体\n"
-"里面有{count}件物品。"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "前往"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "你可以打听这些事情："
-msgstr ""
-
-#. say a line beside the NPC that it answers ({line}: 必有妖孽).
-#: ui/world/shared_gameplay_ui.gd
-msgid "接话：{line}"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "打听 · %s"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "确定受戒"
-msgstr ""
-
-#. a resource bar's tooltip: current / effective / maximum.
-#: ui/world/shared_gameplay_ui.gd
-msgid "当前 {current} / 有效 {effective} / 最大 {maximum}"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
+#: ui/world/shared_ui_panels.gd
 msgid "补给仅使用直接携带的物品；取水仍须靠近当前地图的水源。"
 msgstr ""
 
-#. between two conditions on the HUD (蛇毒).
-#: ui/world/shared_gameplay_ui.gd
-msgid "、"
-msgstr ""
-
-#. a room's title and its description, as the log shows them on arrival.
-#: ui/world/shared_gameplay_ui.gd
-msgid "【{title}】{description}"
-msgstr ""
-
 #. the character sheet (score): name, gender, age, rank (rankd.c, 【 武  者 】) and title, then 精/气/神 as current / effective / maximum, food and water, experience, potential and the attributes.
-#: ui/world/shared_gameplay_ui.gd
+#: ui/world/shared_ui_panels.gd
 msgid ""
 "{name} · {gender} · {age}岁\n"
 "{rank}{title}\n"
@@ -7239,77 +7256,60 @@ msgid ""
 msgstr ""
 
 #. the character sheet, score.c's 灵力 (atman) and 法力 (mana), each current / maximum.
-#: ui/world/shared_gameplay_ui.gd
+#: ui/world/shared_ui_panels.gd
 msgid "灵力 {atman} / {max_atman} · 法力 {mana} / {max_mana}"
 msgstr ""
 
 #. the character sheet, score.c's lines: 杀气 (bellicosity), 综合评价 (score) and the NPCs the player has killed.
-#: ui/world/shared_gameplay_ui.gd
+#: ui/world/shared_ui_panels.gd
 msgid ""
 "杀气 {bellicosity} · 综合评价 {score}\n"
 "总共杀过 {kills} 个人。"
 msgstr ""
 
-#: ui/world/shared_gameplay_ui.gd
+#: ui/world/shared_ui_panels.gd
 msgid "负重 {carried} / {capacity} · 体重 {weight}"
 msgstr ""
 
-#: ui/world/shared_gameplay_ui.gd
+#: ui/world/shared_ui_panels.gd
 msgid "随身补给"
 msgstr ""
 
-#: ui/world/shared_gameplay_ui.gd
-msgid "确定送出"
-msgstr ""
-
-#. asked before 给 (give.c) of an item the player has equipped ({item}) to an NPC ({npc}).
-#: ui/world/shared_gameplay_ui.gd
-msgid "{item}正装备在你身上。确定把它送给{npc}吗？送出去的东西一般就要不回来了。"
-msgstr ""
-
-#. asked before 给 (give.c) of a large sum ({money}, e.g. 三两黄金) to an NPC ({npc}).
-#: ui/world/shared_gameplay_ui.gd
-msgid "确定把{money}送给{npc}吗？送出去的钱一般就要不回来了。"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "确定化掉"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "确定施法"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "确定施展"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "确定下手"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "确定画符"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "确定贴符"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "确定上吊"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
+#: ui/world/shared_ui_questions.gd
 msgid "请确认"
 msgstr ""
 
-#: ui/world/shared_gameplay_ui.gd
-msgid "这是女人的衣衫，你一个大男人也想穿，羞也不羞？"
+#: ui/world/shared_ui_selection.gd
+msgid "{name}的尸体 · {count}件物品"
 msgstr ""
 
-#: ui/world/shared_gameplay_ui.gd
-msgid "确定切磋"
+#: ui/world/shared_ui_selection.gd
+msgid "目标详情"
+msgstr ""
+
+#. look.c: {pronoun} is 他/她/它, {relation} what the NPC is to the player (师父, 同门师兄 …).
+#: ui/world/shared_ui_selection.gd
+msgid "{pronoun}是你的{relation}。"
+msgstr ""
+
+#: ui/world/shared_ui_selection.gd
+msgid ""
+"{name}的尸体\n"
+"里面有{count}件物品。"
+msgstr ""
+
+#: ui/world/shared_ui_selection.gd
+msgid "前往"
+msgstr ""
+
+#. a resource bar's tooltip: current / effective / maximum.
+#: ui/world/shared_ui_status_card.gd
+msgid "当前 {current} / 有效 {effective} / 最大 {maximum}"
+msgstr ""
+
+#. between two conditions on the HUD (蛇毒).
+#: ui/world/shared_ui_status_card.gd
+msgid "、"
 msgstr ""
 
 #. the 偷窃 list's choice for no thing in particular: steal.c takes one of everything the NPC carries.

@@ -239,14 +239,14 @@ func persistence_tests(tree: SceneTree) -> void:
 
 func physical_tests(tree: SceneTree) -> void:
 	var session: WorldSessionController = Recovery.create_session(tree, Recovery.RandomSequence.new())
-	check(session.shared_ui()._liquid != null and not session.fill_water_available(), "Session UI, Inn no water source")
+	check(session.shared_ui().panels._liquid != null and not session.fill_water_available(), "Session UI, Inn no water source")
 	Food.earn_and_exchange(session)
 	purchase(session)
 	await tree.process_frame
 	await tree.process_frame
 	session.shared_ui().open_supplies()
 	await tree.process_frame
-	var panel: HeldLiquidPanel = session.shared_ui()._liquid as HeldLiquidPanel
+	var panel: HeldLiquidPanel = session.shared_ui().panels._liquid as HeldLiquidPanel
 	check(panel._panel.visible and panel._drink.text == "喝一份红酒", "fresh wine UI names the wine")
 	var map: WorldMapController = session.resident_map(OldPineWorldDefinitions.GORGE_MAP_ID) as WorldMapController
 	# Typed/geometry tests only; final acceptance uses real input, not these assignments.
