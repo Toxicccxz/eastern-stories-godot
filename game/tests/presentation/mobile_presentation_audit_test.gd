@@ -158,7 +158,7 @@ func _test_reflow_lifetime(tree: SceneTree) -> void:
 	for landmark: WorldLandmarkDefinition in GameContent.catalog().landmarks_for_map(OldPineWorldDefinitions.OUTDOOR_MAP_ID):
 		if landmark.action_label.is_empty():
 			continue
-		var row: HFlowContainer = layout.nearby_row(landmark.display_name)
+		var row: PanelContainer = layout.nearby_row(landmark.display_name)
 		var button: Button = layout.nearby_button(row, landmark.action_label, Callable())
 		layout.nearby.add_child(row)
 		layout.nearby.show()
