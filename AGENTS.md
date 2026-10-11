@@ -142,7 +142,9 @@ For each package:
 
 The owner's playtest is the acceptance for player-visible behavior, feel and pacing. Automated or
 agent-driven play is a debugging aid, not an acceptance gate. Do not block on tooling limits; report
-them and move on.
+them and move on. The owner may batch that acceptance: when the ROADMAP says so (currently "After
+the grey box"), packages ship with the agent's windowed walkthrough and keep their 试玩 items for
+the owner's unified playtest.
 
 Do not refactor unrelated code or add speculative features. Do not migrate adjacent systems just
 because they are nearby. When blocked on a real decision, ask the owner once with a recommendation.

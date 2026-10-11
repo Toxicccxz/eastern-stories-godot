@@ -72,8 +72,11 @@ only they or nobody use; `d/npc` (wizard-saved characters).
 ## After the grey box
 
 Owner direction (2026-10-11). Once every region in the table is playable, the work turns from
-breadth to the player's experience, in this order. Each step is one or a few packages; the owner
-plays nothing until step 3.
+breadth to the player's experience, in this order. Each step is one or a few packages. **Owner
+decision:** the owner has no time to playtest package by package until then, so the playtest
+acceptance that `AGENTS.md` requires for player-visible work is batched: packages of the remaining
+regions and of steps 1–2 ship with the agent's windowed walkthrough as their live check and are
+accepted together at step 3, the owner's one full playtest; what it finds is fixed in step 4.
 
 1. **Responsiveness and playability pass (现代化修正 III).** Audit every reaction the player waits
    for because ES2 bound it to a heart beat or `call_out()` — a master answering 拜师 two seconds
