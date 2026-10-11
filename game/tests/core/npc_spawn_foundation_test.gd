@@ -490,16 +490,29 @@ func _test_loadout_content_lookup() -> void:
 	var with_invalid: Array[NpcLoadoutItemDefinition] = catalog_content.duplicate()
 	with_invalid.append(NpcLoadoutItemDefinition.new())
 	with_invalid.append(null)
-	_assert_true(_bandit_from(with_invalid) != null, "invalid and null contents are ignored")
+	# Invalid (negative weight) though it names the short sword: not a second content for it.
+	var invalid_sword := NpcLoadoutItemDefinition.new(sword.item_definition(), -1, sword.weapon_definition(), sword.weapon_damage, null, null, sword.legacy_source_paths())
+	_assert_false(invalid_sword.is_valid(), "a negative-weight sword content is invalid")
+	with_invalid.append(invalid_sword)
+	_assert_true(_bandit_from(with_invalid) != null, "invalid and null contents are ignored, one naming the sword too")
 	var duplicated: Array[NpcLoadoutItemDefinition] = catalog_content.duplicate()
 	duplicated.append(sword.duplicate_snapshot())
 	_assert_eq(_bandit_from(duplicated), null, "two contents for the bandit's short sword: not made")
+	var tripled: Array[NpcLoadoutItemDefinition] = duplicated.duplicate()
+	tripled.append(sword.duplicate_snapshot())
+	_assert_eq(_bandit_from(tripled), null, "three contents for the short sword: not made")
 	var without: Array[NpcLoadoutItemDefinition] = catalog_content.duplicate()
 	without.erase(sword)
 	_assert_eq(_bandit_from(without), null, "no content for the short sword: not made")
 	var spawn: NpcSpawnDefinition = TestContent.spawn(TestContent.SPATH1_BANDIT_SPAWN_ID)
-	var refused: Array[NpcRuntimeState] = NpcCharacterStateFactory.new().create_spawn_instances(spawn, TestContent.npc(TestContent.BANDIT_NPC_ID), _south_location(), InventoryState.new(), CombinedStackCollection.new(), ScriptedRandom.new([]), duplicated)
-	_assert_true(refused.is_empty(), "a spawn with ambiguous content makes nobody")
+	var draws: Array[int] = []
+	for index: int in range(24):
+		draws.append(index % 21)
+	var random_source: ScriptedNpcInitializationRandomSource = ScriptedRandom.new(draws)
+	var refused: Array[NpcRuntimeState] = NpcCharacterStateFactory.new().create_spawn_instances(spawn, TestContent.npc(TestContent.BANDIT_NPC_ID), _south_location(), InventoryState.new(), CombinedStackCollection.new(), random_source, duplicated)
+	_assert_true(refused.is_empty() and random_source.call_count() == 0, "a spawn with ambiguous content makes nobody and draws nothing")
+	var made: Array[NpcRuntimeState] = NpcCharacterStateFactory.new().create_spawn_instances(spawn, TestContent.npc(TestContent.BANDIT_NPC_ID), _south_location(), InventoryState.new(), CombinedStackCollection.new(), ScriptedRandom.new(draws), with_invalid)
+	_assert_eq(made.size(), 3, "the same spawn with the invalid contents makes all three")
 
 
 func _bandit_from(content: Array[NpcLoadoutItemDefinition]) -> NpcRuntimeState:

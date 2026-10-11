@@ -930,7 +930,7 @@ func _instantiate_map(map_id: StringName) -> Node:
 	var map: MapDefinition = GameContent.catalog().map(map_id)
 	if map == null:
 		return null
-	var scene: PackedScene = _kept_map_scenes.get(map.scene_path)
+	var scene: PackedScene = _kept_map_scenes.get(map.scene_path) if keep_map_scenes else null
 	if scene == null:
 		scene = load(map.scene_path) as PackedScene
 		if scene != null and keep_map_scenes:
