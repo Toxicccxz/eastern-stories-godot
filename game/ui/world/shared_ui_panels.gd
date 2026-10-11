@@ -137,7 +137,7 @@ func conjure_void_sense() -> void:
 	if not magic.void_knocks_out():
 		magic.void_sense()
 		return
-	_ui.ask_first(tr(VOID_FAINT_WARNING).format({"gin": VoidSenseConjure.GIN_COST}), "确定施展", magic.void_sense, magic.available, open_martial_arts)
+	_ui.questions.ask_first(tr(VOID_FAINT_WARNING).format({"gin": VoidSenseConjure.GIN_COST}), "确定施展", magic.void_sense, magic.available, open_martial_arts)
 
 
 ## 游识神通 from the 武学 page: conjure.c's and the file's checks, then its question with
@@ -157,7 +157,7 @@ func _show_drift_question(lines: Array[ColoredLine] = []) -> void:
 func drift_choose(npc_name: String) -> void:
 	var magic: PlayerEssenceMagic = _session.essence_magic()
 	if magic.drift_knocks_out(npc_name):
-		_ui.ask_first(tr(DRIFT_FAINT_WARNING).format({"gin": DriftSenseConjure.GIN_COST}), "确定施展", _drift_to.bind(npc_name), magic.available, _show_drift_question)
+		_ui.questions.ask_first(tr(DRIFT_FAINT_WARNING).format({"gin": DriftSenseConjure.GIN_COST}), "确定施展", _drift_to.bind(npc_name), magic.available, _show_drift_question)
 		return
 	_drift_to(npc_name)
 

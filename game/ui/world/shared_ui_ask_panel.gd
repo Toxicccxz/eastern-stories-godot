@@ -150,7 +150,7 @@ func _kneel() -> void:
 	})
 	var kneel: Callable = func() -> void:
 		map.kneel_selected()
-	_ui.ask_first(text, "确定受戒", kneel, func() -> bool: return map.ordination_selected() != null, open_ask)
+	_ui.questions.ask_first(text, "确定受戒", kneel, func() -> bool: return map.ordination_selected() != null, open_ask)
 
 
 func _say_beside(phrase: String) -> void:

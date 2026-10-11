@@ -74,7 +74,7 @@ func animate_context() -> void:
 	if not map.animate_knocks_out():
 		map.animate_selected_corpse()
 		return
-	_ui.ask_first(tr(ANIMATE_FAINT_WARNING).format({"sen": AnimateSpell.SEN_COST}), "确定施法", map.animate_selected_corpse, func() -> bool: return map.animatable_corpse() != null)
+	_ui.questions.ask_first(tr(ANIMATE_FAINT_WARNING).format({"sen": AnimateSpell.SEN_COST}), "确定施法", map.animate_selected_corpse, func() -> bool: return map.animatable_corpse() != null)
 
 
 ## exert lifeheal <the selected NPC> (疗伤他人): no question, it costs only force.
@@ -104,7 +104,7 @@ func heart_sense_context() -> void:
 		"atman": HeartSenseConjure.ATMAN_COST, "sen": HeartSenseConjure.SEN_COST, "npc": tr(npc.definition().display_name),
 		"max_atman": state.recovery.atman.maximum, "odds": odds,
 	})
-	_ui.ask_first(question, "确定施展", magic.heart_sense, func() -> bool: return magic.heart_target() == npc)
+	_ui.questions.ask_first(question, "确定施展", magic.heart_sense, func() -> bool: return magic.heart_target() == npc)
 
 
 ## 偷窃 on the selected NPC: the list of what it is seen to wear or wield, and 随手摸一样.
@@ -137,7 +137,7 @@ func steal_choose(item_id: StringName) -> void:
 		return
 	var npc_id: StringName = npc.character_id
 	if map.thefts.asks_first(npc):
-		_ui.ask_first(tr(STRONGER_STEAL_WARNING).format({"npc": tr(npc.definition().display_name)}), "确定下手", _steal_now.bind(npc_id, item_id), func() -> bool: return map.thefts.can_steal_selected() and map.selected_character_id() == npc_id, _show_steal_question)
+		_ui.questions.ask_first(tr(STRONGER_STEAL_WARNING).format({"npc": tr(npc.definition().display_name)}), "确定下手", _steal_now.bind(npc_id, item_id), func() -> bool: return map.thefts.can_steal_selected() and map.selected_character_id() == npc_id, _show_steal_question)
 		return
 	_steal_now(npc_id, item_id)
 
@@ -201,7 +201,7 @@ func attack_context() -> void:
 		return
 	var teaching: NpcTeaching = npc.definition().teaching()
 	var family: FamilyDefinition = GameContent.catalog().family(teaching.family_id)
-	_ui.ask_first(tr(SharedGameplayUI.MASTER_ATTACK_WARNING).format({
+	_ui.questions.ask_first(tr(SharedGameplayUI.MASTER_ATTACK_WARNING).format({
 		"master": tr(npc.definition().display_name), "family": tr(family.display_name) if family != null else "",
 		"score": _player.state.progression.score, "next": _player.state.apprenticeship.betrayer_count + 1,
 	}), "确定攻击", map.attack_selected, _ui.selection.attack_is_enabled)
@@ -224,7 +224,7 @@ func spar_context() -> void:
 			warning = ARMED_STRONGER_SPAR_WARNING if map.selected_spar_stronger() else ARMED_SPAR_WARNING
 		WorldMapController.SparRisk.STRONGER:
 			warning = STRONGER_SPAR_WARNING
-	_ui.ask_first(tr(warning).format({"npc": tr(map.selected_npc().definition().display_name)}), "确定切磋", map.spar_selected, _ui.selection.spar_is_enabled)
+	_ui.questions.ask_first(tr(warning).format({"npc": tr(map.selected_npc().definition().display_name)}), "确定切磋", map.spar_selected, _ui.selection.spar_is_enabled)
 
 
 func ask_context() -> void:

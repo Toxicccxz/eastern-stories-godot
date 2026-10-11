@@ -7012,10 +7012,6 @@ msgid ""
 "确定要攻击吗？"
 msgstr ""
 
-#: ui/world/shared_gameplay_ui.gd
-msgid "请确认"
-msgstr ""
-
 #. asked before 跪下受戒 (daemon/class/bonze/master.c do_kneel()): {npc} the master, {prefixes} the characters a 法名 begins with (空明圆净虚悟方渡慧法), {first} the first character of the player's name, {example} one 法名 it could make.
 #: ui/world/shared_ui_ask_panel.gd
 msgid ""
@@ -7277,6 +7273,10 @@ msgstr ""
 
 #: ui/world/shared_ui_panels.gd
 msgid "随身补给"
+msgstr ""
+
+#: ui/world/shared_ui_questions.gd
+msgid "请确认"
 msgstr ""
 
 #: ui/world/shared_ui_selection.gd

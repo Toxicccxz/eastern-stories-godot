@@ -1,5 +1,10 @@
 class_name SharedGameplayUI
 extends CanvasLayer
+## The exploration HUD: the status card, the context buttons, the shared panel frame and
+## the toasts (laid out by SharedGameplayLayout). This class keeps the Node lifecycle, the
+## widgets the layout fills and the constants other scripts read; the rest lives in its
+## components (message_log, card, selection, actions, ask, items, panels, questions), and
+## every public method here forwards to one of them.
 
 const MAX_LOG_LINES: int = 60
 const WorldPlayerRuntimeType := preload(
@@ -48,8 +53,6 @@ var loot_panel: OldPineLootPanel
 var inventory_panel: PlayerInventoryPanel
 ## Asked in the shared frame before an important or deadly choice (ask_first()).
 var confirm_prompt: ConfirmPrompt
-var _confirmed_action: Callable = Callable()
-var _cancelled_action: Callable = Callable()
 
 # TRANSLATORS: asked before 攻击 on the player's own master: killing them is killing one's master (killer_reward(), betrayal's cost). {master} the NPC, {family} the player's family (封山剑派), {score} the player's 综合评价 now, {next} the betrayals counted after it.
 const MASTER_ATTACK_WARNING: String = "{master}是你的师父。攻击就是生死相搏；若你亲手杀了{master}，便是弑师，等同背叛师门：\n· 被逐出{family}，门派、师父和称号都没有了。\n· 综合评价清零（现在是 {score}）。\n· 背叛师门的次数变成 {next} 次。\n确定要攻击吗？"
@@ -86,6 +89,7 @@ var actions: SharedUiContextActions = SharedUiContextActions.new(self)
 var ask: SharedUiAskPanel = SharedUiAskPanel.new(self)
 var items: SharedUiInventory = SharedUiInventory.new(self)
 var panels: SharedUiPanels = SharedUiPanels.new(self)
+var questions: SharedUiQuestions = SharedUiQuestions.new(self)
 
 
 func _ready() -> void:
@@ -140,8 +144,8 @@ func _ready() -> void:
 	inventory_panel.put_into_requested.connect(items.put_into_carried)
 	inventory_panel.scribe_requested.connect(items.scribe_on)
 	inventory_panel.attach_requested.connect(items.attach_sheet)
-	confirm_prompt.confirmed.connect(_on_prompt_confirmed)
-	confirm_prompt.cancelled.connect(_on_prompt_cancelled)
+	confirm_prompt.confirmed.connect(questions.on_prompt_confirmed)
+	confirm_prompt.cancelled.connect(questions.on_prompt_cancelled)
 	_presentation_layout.character.arts.configure(_session)
 	if _session != null:
 		life_overlay = PlayerLifeOverlay.new()
@@ -170,6 +174,9 @@ func configure(player: WorldPlayerRuntimeType) -> bool:
 	return true
 
 
+## The HUD's one input entry: ui_accept opens the place's context action. Seam for
+## gamepad support (not built yet): switching the menu's tabs and closing the frame with
+## the cancel button belong here too.
 func _unhandled_input(event: InputEvent) -> void:
 	if visible and not _presentation_layout.frame.visible and event.is_action_pressed("ui_accept") and not event.is_echo() and not actions.context_title().is_empty():
 		get_viewport().set_input_as_handled()
@@ -219,49 +226,6 @@ func _physics_process(_delta: float) -> void:
 func quarantine_movement() -> void:
 	if _session != null and _session.is_initialized() and _session.active_map_child_count() > 0 and _session.active_map() != null:
 		_session.active_map().runtime_player_body().quarantine_current_movement_input()
-
-
-## Asks in the shared frame before an important or deadly choice (owner,
-## 2026-10-06): `action` runs on the choice; 取消, 关闭 or Back drop it, and 取消 then
-## runs `on_cancel` (back where the question came from). While `still_valid` returns
-## false the question closes, as any panel does.
-func ask_first(text: String, choice: String, action: Callable, still_valid: Callable = Callable(), on_cancel: Callable = Callable()) -> void:
-	_confirmed_action = action
-	_cancelled_action = on_cancel
-	confirm_prompt.ask(text, choice)
-	_presentation_layout.open_panel(tr("请确认"), confirm_prompt, still_valid)
-	if _presentation_layout._content == confirm_prompt:
-		# A question that wraps is taller than the frame's first layout.
-		_presentation_layout.refresh_rows()
-		confirm_prompt.focus_default()
-	else:
-		confirm_prompt.cancel()
-
-
-## Whether the shared frame is asking (ask_first()).
-func is_asking() -> bool:
-	return confirm_prompt.is_asking() and _presentation_layout._content == confirm_prompt
-
-
-func _on_prompt_confirmed() -> void:
-	var action: Callable = _confirmed_action
-	_confirmed_action = Callable()
-	_cancelled_action = Callable()
-	_presentation_layout.close_panel()
-	if action.is_valid():
-		action.call()
-
-
-func _on_prompt_cancelled() -> void:
-	var back: Callable = _cancelled_action
-	_confirmed_action = Callable()
-	_cancelled_action = Callable()
-	# Hidden along with the HUD (a fight starts), _process() closes the frame itself;
-	# closing it here would reparent the prompt while its visibility propagates.
-	if _presentation_layout._content == confirm_prompt and confirm_prompt.is_visible_in_tree():
-		_presentation_layout.close_panel()
-		if back.is_valid():
-			back.call()
 
 
 # --- forwarded to SharedUiMessageLog (message_log) ---
@@ -531,3 +495,14 @@ func dismiss_current_panel() -> void:
 
 func close_business(form: Control) -> void:
 	panels.close_business(form)
+
+
+# --- forwarded to SharedUiQuestions (questions) ---
+
+
+func ask_first(text: String, choice: String, action: Callable, still_valid: Callable = Callable(), on_cancel: Callable = Callable()) -> void:
+	questions.ask_first(text, choice, action, still_valid, on_cancel)
+
+
+func is_asking() -> bool:
+	return questions.is_asking()
