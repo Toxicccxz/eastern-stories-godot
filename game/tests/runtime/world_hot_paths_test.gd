@@ -55,6 +55,9 @@ func _test_clear_of(session: WorldSessionController) -> void:
 	var kept: Array[Vector2i] = WorldNpcWalker._clear_of(grid, cells, others)
 	_check(kept == expected, "the KEEP_CLEAR filter keeps the same cells in the same order (%d of %d)" % [kept.size(), cells.size()])
 	_check(kept.size() > 0 and kept.size() < cells.size(), "the case is not trivial: %d of %d kept" % [kept.size(), cells.size()])
+	var centre: Vector2 = grid.center_of(cells[0])
+	_check(WorldNpcWalker._clear_of(grid, [cells[0]], [centre + Vector2(WorldNpcWalker.KEEP_CLEAR, 0.0)]) == [cells[0]], "a body exactly KEEP_CLEAR away leaves the cell free")
+	_check(WorldNpcWalker._clear_of(grid, [cells[0]], [centre + Vector2(WorldNpcWalker.KEEP_CLEAR - 0.01, 0.0)]).is_empty(), "a body just inside KEEP_CLEAR takes it")
 
 
 ## What the map keeps is what a walk of its whole tree finds.
@@ -89,16 +92,57 @@ func _test_grids_follow_doors(tree: SceneTree, session: WorldSessionController) 
 	var first: WorldNpcWalker.Grid = walker._grid(area)
 	_check(walker._grid(area) == first, "the same area while the same walls stand: the same grid")
 	_check(_same_solids(first, WorldNpcWalker.Grid.new(map, area)), "the kept grid is the grid built now")
+	_check(_matches_old_grid(first, map), "its cells are the ones the old one-cell-at-a-time build marked (door area)")
+	var town: WorldMapController = _map(session, &"choyin.town")
+	var zones: Array[WorldPhysicalZoneArea2D] = town.physical_zones()
+	var street: WorldNpcWalker.Grid = WorldNpcWalker.Grid.new(town, zones[0].global_rect().merge(zones[1].global_rect()))
+	_check(_matches_old_grid(street, town), "the same in a town street")
 	var was_open: bool = door.is_open()
 	door.set_open(not was_open)
 	await tree.process_frame
 	var other: WorldNpcWalker.Grid = walker._grid(area)
 	_check(other != first, "the door %s: the grid is built again" % ("shut" if was_open else "opened"))
 	_check(_same_solids(other, WorldNpcWalker.Grid.new(map, area)), "and it is the grid built now")
+	_check(_matches_old_grid(other, map), "and the cells the old build marks with the door so")
 	_check(not _same_solids(other, first), "the doorway is walkable in one and not the other")
 	door.set_open(was_open)
 	await tree.process_frame
 	_check(_same_solids(walker._grid(area), first), "back as it was: the first grid's cells again")
+
+
+## The grid as it was built before (every tile looked up, every StaticBody2D shape found
+## by walking the tree, a cell solid when any of its nine is blocked or off the grid).
+func _matches_old_grid(grid: WorldNpcWalker.Grid, map: Node) -> bool:
+	var layers: Array[TileMapLayer] = []
+	layers.assign(map.find_children("*", "TileMapLayer", true, false))
+	var size: Vector2i = grid._size
+	var blocked: PackedByteArray = PackedByteArray()
+	blocked.resize(size.x * size.y)
+	for y: int in size.y:
+		for x: int in size.x:
+			blocked[y * size.x + x] = 0 if WorldNpcWalker.Grid._walkable_tile(layers, grid.center_of(Vector2i(x, y))) else 1
+	for node: Node in map.find_children("*", "CollisionShape2D", true, false):
+		var collision: CollisionShape2D = node as CollisionShape2D
+		if collision.disabled or collision.shape == null or not collision.get_parent() is StaticBody2D:
+			continue
+		var bounds: Rect2 = collision.global_transform * collision.shape.get_rect()
+		var first: Vector2i = grid.cell_of(bounds.position)
+		var last: Vector2i = grid.cell_of(bounds.end)
+		for y: int in range(maxi(first.y, 0), mini(last.y + 1, size.y)):
+			for x: int in range(maxi(first.x, 0), mini(last.x + 1, size.x)):
+				blocked[y * size.x + x] = 1
+	for y: int in size.y:
+		for x: int in size.x:
+			var solid: bool = false
+			for dy: int in range(-1, 2):
+				for dx: int in range(-1, 2):
+					var nx: int = x + dx
+					var ny: int = y + dy
+					if nx < 0 or ny < 0 or nx >= size.x or ny >= size.y or blocked[ny * size.x + nx] == 1:
+						solid = true
+			if grid._astar.is_point_solid(Vector2i(x, y)) != solid:
+				return false
+	return true
 
 
 func _same_solids(a: WorldNpcWalker.Grid, b: WorldNpcWalker.Grid) -> bool:
@@ -143,21 +187,40 @@ func _test_fight_bindings(tree: SceneTree, session: WorldSessionController) -> v
 	var bindings: Array[CombatSliceCharacterBinding] = session.encounter_combat_bindings(encounter)
 	var everyone: Array[CombatSliceCharacterBinding] = map.combat_lifecycle.build_participants(true)
 	_check(bindings.size() == encounter.participants().size(), "one binding per participant")
+	var player: WorldPlayerRuntimeState = session.player_runtime()
 	for index: int in range(bindings.size()):
 		var participant: CombatParticipant = encounter.participants()[index]
 		var made: CombatSliceCharacterBinding = bindings[index]
 		var full: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(everyone, participant.participant_id)
-		_check(
-			made.character_id == full.character_id and made.state == full.state and made.relationship == full.relationship
-			and made.busy == full.busy and made.armor == full.armor and made.location_id == full.location_id
-			and made.exists_in_encounter == full.exists_in_encounter and made.life_status == full.life_status
-			and made.is_user == full.is_user and made.combat_available == full.combat_available
-			and made.content.limbs() == full.content.limbs() and made.content.is_valid() == full.content.is_valid()
-			and made.post_actions == full.post_actions,
-			"%s: the binding all residents' list gives it" % participant.participant_id,
-		)
+		# Built straight from the adapter, as the full list was before.
+		var expected: CombatSliceCharacterBinding
+		if participant.participant_id == player.character_id:
+			var resolution: WorldWeaponContentResolution = map.combat_lifecycle.weapon_resolver.resolve(player, session.inventory_state(), session.item_instance_index())
+			expected = WorldCombatBindingAdapter.from_player(player, resolution.content_profile if resolution.succeeded else null)
+		else:
+			var npc: NpcRuntimeState = map.npcs.find_resident_npc(participant.participant_id)
+			expected = WorldCombatBindingAdapter.from_npc(npc, map.npcs.npc_content(npc))
+		_check(_same_binding(made, expected) and _same_binding(made, full), "%s: the binding the adapter and the full list give it" % participant.participant_id)
+		_check(made.post_actions != null and made.post_actions == full.post_actions, "%s: the map's post actions" % participant.participant_id)
 	coordinator.advance_scheduler(1.0)
 	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "the fight goes on")
+
+
+func _same_binding(a: CombatSliceCharacterBinding, b: CombatSliceCharacterBinding) -> bool:
+	if a == null or b == null:
+		return false
+	var weapon: EquippedWeaponRef = a.state.equipment.primary_weapon()
+	return (
+		a.character_id == b.character_id and a.state == b.state and a.relationship == b.relationship
+		and a.busy == b.busy and a.armor == b.armor and a.location_id == b.location_id
+		and a.exists_in_encounter == b.exists_in_encounter and a.life_status == b.life_status
+		and a.is_user == b.is_user and a.combat_available == b.combat_available
+		and a.content.is_valid() == b.content.is_valid() and a.content.limbs() == b.content.limbs()
+		and (weapon == null or (
+			a.content.is_verified_primary(weapon) == b.content.is_verified_primary(weapon)
+			and a.content.projected_apply_damage(weapon) == b.content.projected_apply_damage(weapon)
+		))
+	)
 
 
 ## Every room a map's reset acts on lists that map.

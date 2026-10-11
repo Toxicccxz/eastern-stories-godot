@@ -297,11 +297,12 @@ func advance_room_resets(delta: float) -> void:
 ## weapon_storage.c's own reset() of the shelf.
 func reset_room(legacy_room: String) -> void:
 	# Only the maps holding the room's content: on the others its reset does nothing.
+	# No room ("") is every map's (WorldMapNpcs._draw_groups("")).
 	if _maps_by_room.is_empty():
 		_maps_by_room = WorldRoomResets.maps_by_room()
 	var maps: Array = _maps_by_room.get(legacy_room, [])
 	for map: WorldMapController in world_maps():
-		if maps.has(map.map_id()):
+		if legacy_room.is_empty() or maps.has(map.map_id()):
 			map.reset_room(legacy_room)
 	if _hidden_passages != null:
 		_hidden_passages.reset_room(legacy_room)
