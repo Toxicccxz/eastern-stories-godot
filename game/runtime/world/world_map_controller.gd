@@ -443,12 +443,19 @@ func _exit_refusal(from_zone_id: StringName, to_zone_id: StringName) -> ZoneExit
 	var leaver: ZoneExitRuleDefinition.Leaver = ZoneExitRuleDefinition.Leaver.of(_player.state, _world_interaction_random.legacy_random)
 	leaver.temps = _player.temp_marks.duplicate()
 	for rule: ZoneExitRuleDefinition in GameContent.catalog().exit_rules_between(from_zone_id, to_zone_id):
-		var present: bool = not rule.present_npc_id.is_empty() and npcs.npc_present_in_zone(rule.present_npc_id, from_zone_id)
+		var present: bool = _rule_npc_present(rule, from_zone_id)
 		if rule.condition == ZoneExitRuleDefinition.Condition.HELD:
 			present = npcs.first_npc_in_zone(rule.present_npc_id, from_zone_id, true, StringName(rule.temp)) != null
 		if rule.refuses(leaver, present):
 			return rule
 	return null
+
+
+## present() of the rule's NPC in the room: any of the kinds it names (road2.c's "trainer").
+func _rule_npc_present(rule: ZoneExitRuleDefinition, zone_id: StringName) -> bool:
+	if rule.present_npc_ids.is_empty():
+		return not rule.present_npc_id.is_empty() and npcs.npc_present_in_zone(rule.present_npc_id, zone_id)
+	return rule.present_npc_ids.any(func(npc_id: StringName) -> bool: return npcs.npc_present_in_zone(npc_id, zone_id))
 
 
 ## valid_leave() for a passage (d/green/entrance.c east into the 迷阵): a refusal keeps
@@ -562,8 +569,11 @@ func _tell_passing(from_zone_id: StringName, to_zone_id: StringName) -> void:
 		if rule.condition == ZoneExitRuleDefinition.Condition.TAKES_BACK:
 			_take_back(rule)
 			continue
+		# gate.c: the 门房's leave goes with the one who went in on it (owner's M3, 默认).
+		if rule.condition == ZoneExitRuleDefinition.Condition.NO_MARK and rule.spends:
+			_player.state.marks.erase(rule.mark)
 		# A rule an NPC's own command makes (waiter.c go_up()) says nothing without that NPC.
-		if rule.condition == ZoneExitRuleDefinition.Condition.NO_MARK and not rule.present_npc_id.is_empty() and not npcs.npc_present_in_zone(rule.present_npc_id, from_zone_id):
+		if rule.condition == ZoneExitRuleDefinition.Condition.NO_MARK and not rule.present_npc_id.is_empty() and not _rule_npc_present(rule, from_zone_id):
 			continue
 		for line: String in rule.pass_lines:
 			lines.append(tr(line))
@@ -802,7 +812,9 @@ func _refresh_selected_landmark_source() -> void:
 
 
 ## The selected landmark's action (the HUD's portal button).
-func traverse_selected_portal() -> RefCounted:
+## Uses the selected landmark: its action, or another of its actions (`action`: a dial's
+## turn, by its count).
+func traverse_selected_portal(action: String = "") -> RefCounted:
 	if not gameplay_open() or session == null or selection.selected_target == null or selection.selected_target.kind != WorldInteractionTarget.Kind.LANDMARK:
 		return WorldPortalTraversalResult.new()
 	var landmark: WorldLandmarkDefinition = GameContent.catalog().landmark(selection.selected_target.target_id)
@@ -814,7 +826,7 @@ func traverse_selected_portal() -> RefCounted:
 		_refresh_selected_landmark_source()
 		return WorldPortalTraversalResult.new()
 	var before: WorldLocationState = _player.world_location()
-	_last_landmark_use = policy.use(self, landmark)
+	_last_landmark_use = policy.use_action(self, landmark, action)
 	if not _player.world_location().same_location(before) and not policy.keeps_selection():
 		selection.selected_target = null
 		hud().set_selected_target(null)

@@ -1,17 +1,17 @@
 extends RefCounted
 
-## 京师 A (d/city, u/cp): forty rooms on two maps — the 北驿道 south of 玉螺湖村's 三叉路口, the
-## city inside its walls and the 太白酒楼's upper floor. The guards of the five shut gates turn
-## everyone back (guard.c do_out(): with no token, and anyway there is no way out); the 店小二
-## lets only one with marks/酒楼 up (go_up()), which a tip of ten taels gives, and a smaller one
-## lands on the floor (owner, 京师 plan); the bank is no_fight; signs and notices read word for
-## word. Reminders: 京师 B (尚书府, the wall's climb, the altar, 废园's find and the token).
+## 京师 (d/city, u/cp): fifty-five rooms on four maps — the 北驿道 south of 玉螺湖村's 三叉路口, the
+## city inside its walls with 尚书府, the 太白酒楼's upper floor, the 院墙 and the 地下密室. The
+## guards of the five shut gates turn everyone back (guard.c do_out(): with no token, and anyway
+## there is no way out); the 店小二 lets only one with marks/酒楼 up (go_up()), which a tip of ten
+## taels gives, and a smaller one lands on the floor (owner, 京师 plan); the bank is no_fight;
+## signs and notices read word for word. 尚书府 and the city's secrets: city_shangshu_test.gd.
 ## Walks use the move actions (MapPlaces). TEST-ONLY fixtures are marked.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const Finance := preload("res://tests/runtime/snow_finance_test.gd")
 const MapPlaces := preload("res://tests/support/map_places.gd")
-const MAPS: Dictionary = {&"city.main": 39, &"city.upstairs": 1}
+const MAPS: Dictionary = {&"city.main": 52, &"city.upstairs": 1, &"city.wall_top": 1, &"city.cellar": 1}
 const GUARD: StringName = &"city.npc.guard"
 const WAITER: StringName = &"city.npc.waiter"
 const GATES: Array[StringName] = [&"city.eastdoor1", &"city.eastdoor2", &"city.westdoor1", &"city.westdoor2", &"city.southdoor"]
@@ -37,6 +37,13 @@ const PEOPLE: Dictionary = {
 	&"city.eastdoor2": {GUARD: 3},
 	&"city.street17": {&"snow.npc.scavenger": 1},
 	&"city.southdoor": {GUARD: 3},
+	&"city.shangshu.gate": {&"city.npc.shangshu.guard": 1},
+	&"city.shangshu.keting": {&"city.npc.shangshu.shangshu": 1},
+	&"city.shangshu.road1": {&"city.npc.shangshu.huyuan": 1},
+	&"city.shangshu.road2": {&"city.npc.shangshu.huyuan": 1, &"city.npc.shangshu.huyuan1": 1},
+	&"city.shangshu.chufang": {&"city.npc.shangshu.maid": 1},
+	&"city.shangshu.huayuan": {&"city.npc.shangshu.gardener": 1},
+	&"city.shangshu.neizhai": {&"city.npc.shangshu.qing_chen": 1},
 }
 
 var _count: int = 0
@@ -45,7 +52,6 @@ var _failures: Array[String] = []
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_data()
-	_test_reminders()
 	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.set_process(false)
@@ -67,7 +73,7 @@ func _test_data() -> void:
 		if String(zone.zone_id).begins_with("city."):
 			maps[zone.map_id] = maps.get(zone.map_id, 0) + 1
 			_check(zone.room_ids().size() == 1 and catalog.room(zone.room_ids()[0]) != null, "%s: one room" % zone.zone_id)
-	_check(maps == MAPS, "forty rooms on two maps: %s" % maps)
+	_check(maps == MAPS, "fifty-five rooms on four maps: %s" % maps)
 	_check(catalog.region(&"city").display_name == "京师", "the region is 京师")
 	_check(catalog.room(&"es2:d/city/bank").no_fight, "the 旺金钱庄 is no_fight")
 	_check(catalog.landmark(&"city.eastdoor2.landmark.notice").description == "布告上写著：辑拿要犯----於兰天武。\n", "the 东二门's notice: 於兰天武")
@@ -86,19 +92,6 @@ func _test_data() -> void:
 	var strike: SkillDefinition = catalog.skill(&"bloodystrike")
 	_check(strike != null and strike.display_name == "密宗大手印", "密宗大手印 (the 商人's; city_npcs_test fights with it)")
 	_check(catalog.skill(&"iron-cloth") != null and catalog.skill(&"iron-cloth").display_name == "铁布衫", "铁布衫 (nothing reads its absorb lines)")
-
-
-## 京师 B waits: 尚书府, the wall's climb, the altar's button and 废园's token (owner Q1 (b), Q2 (a)).
-func _test_reminders() -> void:
-	var catalog: ContentCatalog = GameContent.catalog()
-	_check(catalog.zone_of_room(&"es2:d/city/shangshu/gate") == null, "REMINDER (京师 B): 尚书府 is placed: open street3's way east and drop this check")
-	_check(catalog.zone_of_room(&"es2:d/city/wall") == null and catalog.zone_of_room(&"es2:d/city/midao1") == null, "REMINDER (京师 B): the 院墙 and the 地下密室 are placed: give street3 its climb and the altar its button")
-	_check(catalog.room(&"es2:d/city/street3").exits().get("east") == "es2:d/city/shangshu/gate", "street3.c's east names 尚书府's gate")
-	for landmark: WorldLandmarkDefinition in catalog.landmarks_for_map(&"city.main"):
-		_check(not String(landmark.landmark_id).begins_with("city.jitan.") and not String(landmark.landmark_id).begins_with("city.street3."), "REMINDER (京师 B): %s: the altar and the wall come with B" % landmark.landmark_id)
-	_check(catalog.service(&"city.feiyuan.find") == null and catalog.item(&"es2:d/city/obj/token") == null, "REMINDER (京师 B): 废园's find and the 出城令牌")
-	var rules: Array[NpcObjectRule] = catalog.npc(GUARD).dealings().object_rules
-	_check(rules.size() == 1 and not rules[0].accept, "REMINDER (京师 B): the guards refuse everything until the token (原来是官府中人)")
 
 
 ## The 三叉路口's way south onto the 北驿道, and back.
@@ -158,7 +151,7 @@ func _test_gates(tree: SceneTree, session: WorldSessionController) -> void:
 		_check(player.world_location().zone_id == gate, "still in %s" % gate)
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var out: ActService = map.service(&"city.southdoor.out") as ActService
-	# TEST-ONLY: the token's mark (京师 B gives it): no out exit all the same.
+	# TEST-ONLY: the token's mark (a guard given the 出城令牌: city_shangshu_test): no out exit all the same.
 	player.state.marks["令牌"] = 1
 	out.interact()
 	await tree.physics_frame

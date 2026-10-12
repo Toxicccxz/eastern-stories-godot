@@ -186,10 +186,10 @@ func landmarks_for_map(map_id: StringName) -> Array[WorldLandmarkDefinition]:
 	return result
 
 
-## The hidden_passage landmark that opens `portal_id`; null for a portal that is always open.
+## The hidden_passage (or dial) landmark that opens `portal_id`; null for a portal that is always open.
 func hidden_passage_for_portal(portal_id: StringName) -> WorldLandmarkDefinition:
 	for definition: WorldLandmarkDefinition in _landmarks.values():
-		if definition.policy == &"hidden_passage" and definition.portal_ids().has(portal_id):
+		if definition.is_hidden_passage and definition.portal_ids().has(portal_id):
 			return definition
 	return null
 
@@ -204,9 +204,17 @@ func traps() -> Array[RoomTrapDefinition]:
 func hidden_passages() -> Array[WorldLandmarkDefinition]:
 	var result: Array[WorldLandmarkDefinition] = []
 	for definition: WorldLandmarkDefinition in _landmarks.values():
-		if definition.policy == &"hidden_passage":
+		if definition.is_hidden_passage:
 			result.append(definition)
 	return result
+
+
+## The dial_below landmark that opens `dial_id` from below; null when nothing does.
+func opener_below(dial_id: StringName) -> WorldLandmarkDefinition:
+	for definition: WorldLandmarkDefinition in _landmarks.values():
+		if definition.policy == &"dial_below" and definition.opens == dial_id:
+			return definition
+	return null
 
 
 func item(item_definition_id: StringName) -> ItemContentDefinition:

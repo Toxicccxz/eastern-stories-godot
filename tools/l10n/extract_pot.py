@@ -56,7 +56,7 @@ LINE_KEYS = (TEXT_KEYS - {"action"}) | frozenset({
     "open", "close", "push", "hold", "fall", "climb", "climb_observer", "fall_observer",
     "use", "bury", "book", "paper", "shout", "shut", "joined", "refused",
     "weak", "rolled", "search", "found", "nothing", "spawn", "list", "take", "empty",
-    "lift", "closed", "read", "out",
+    "lift", "closed", "read", "out", "open_below", "close_below",
 })
 # Lists of identifiers inside walked text (an inquiry rule's marks), never shown.
 ID_LIST_KEYS = frozenset({"asker_marks", "unmark_giver"})
@@ -352,6 +352,13 @@ def _walk_json(node: object, relative: str, record_id: str, catalog: Catalog, pa
             for item in value:
                 if isinstance(item, str):
                     catalog.add(item, relative, note=note)
+        elif key == "name_parts" and isinstance(value, list):
+            # A name drawn part by part (huyuan.c): every name it can make is shown whole.
+            names = [""]
+            for part in value:
+                names = [name + str(word) for name in names for word in part]
+            for name in names:
+                catalog.add(name, relative, note=note)
         elif key == "inquiry" and isinstance(value, dict):
             for topic, answer in value.items():
                 if has_chinese(topic):

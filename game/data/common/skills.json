@@ -510,6 +510,13 @@
 		{
 			"id": "iron-cloth", "name": "铁布衫", "kind": "basic", "type": "martial",
 			"legacy_source": "daemon/skill/iron-cloth.c"
+		},
+		{
+			"id": "wu-shun", "name": "小无相功", "kind": "specialized", "type": "martial", "enable": ["force"],
+			"legacy_source": "daemon/skill/wu-shun.c",
+			"standard_force_hit": true,
+			"practice": { "refuses": true, "fail": "小无相功只能用学的或是从运用(exert)中增加熟练度。" },
+			"valid_learn": { "effective_skill": "你的文学素养不够无法提升小无相功的造诣。" }
 		}
 	]
 }

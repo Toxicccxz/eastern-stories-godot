@@ -41,6 +41,14 @@ extends RefCounted
 ## it names brings the way out `nearer` steps closer, any other `further` steps further, and
 ## the right way taken with no more than `nearer` left leads out (`out`, the counter gone,
 ## the `mark` given) through its one portal.
+## `dial` (d/city/jitan.c's button) is a hidden passage worked by turns: each of its `turns` is
+## an action of its own (`action`, the button) that counts one `count` and says its `line`;
+## its own action (press) opens the way down here and the way up below for `open_seconds`
+## (`open`) when the counts are its `combination` and the way is shut, and clears the counts
+## (owner's M4, 默认: a press that opens nothing clears them too). The room's reset() clears
+## them. A dial closes on time even on a player below (`close` here, `close_below` there):
+## `dial_below` (owner Q2 (a)) is the thing below that `opens` the same way from there
+## (`open_below`) for the same time.
 const POLICIES: Dictionary[StringName, Dictionary] = {
 	&"portal": {"portals": 1, "messages": [], "optional_messages": ["use"], "settings": [], "items": []},
 	&"vine": {"portals": 2, "messages": ["hold", "fall", "climb"], "optional_messages": ["fall_observer", "climb_observer"], "settings": [], "optional_settings": ["below"], "items": []},
@@ -54,9 +62,21 @@ const POLICIES: Dictionary[StringName, Dictionary] = {
 	&"take": {"portals": 0, "messages": ["take", "empty"], "optional_messages": ["guarded"], "settings": ["limit"], "items": ["reward"]},
 	&"lift": {"portals": 1, "messages": ["lift", "open", "closed"], "settings": ["limit", "divisor"], "items": []},
 	&"note_maze": {"portals": 1, "messages": ["read", "out"], "settings": ["steps", "nearer", "further"], "items": [], "mark": true, "maze": true},
+	&"dial": {"portals": 2, "messages": ["open", "close", "open_below", "close_below"], "settings": ["open_seconds"], "items": [], "turns": true},
+	&"dial_below": {"portals": 0, "messages": [], "settings": [], "items": [], "opens": true},
 }
+## The policies whose portals stay shut until the landmark opens them.
+const HIDDEN_POLICIES: Array[StringName] = [&"hidden_passage", &"dial"]
 ## Every setting some policy names (an integer field of the record).
 const SETTINGS: Array[String] = ["pushes", "open_seconds", "every_push", "force", "max_force", "force_factor", "gin", "kee", "sen", "random", "limit", "divisor", "below", "steps", "nearer", "further"]
+
+
+## One of a dial's turns (jitan.c turn button forward): its button, what it counts and its line.
+class Turn:
+	extends RefCounted
+	var action: String = ""
+	var count: String = ""
+	var line: String = ""
 
 
 ## One of a note_maze's notes: what it reads and the way it names (a portal's legacy_command).
@@ -85,6 +105,9 @@ var _guard_npc_id: StringName = &""
 var _notes: Array[MazeNote] = []
 var _counter: String = ""
 var _enter_portal_id: StringName = &""
+var _turns: Array[Turn] = []
+var _combination: Dictionary[String, int] = {}
+var _opens: StringName = &""
 var _legacy_source_path: String
 
 var landmark_id: StringName:
@@ -151,6 +174,22 @@ var counter: String:
 var enter_portal_id: StringName:
 	get:
 		return _enter_portal_id
+## A dial's turns, in authored order (each an action of its own).
+var turns: Array[Turn]:
+	get:
+		return _turns.duplicate()
+## The counts a dial's press asks for (forward 1, backward 3).
+var combination: Dictionary[String, int]:
+	get:
+		return _combination.duplicate()
+## The dial a dial_below landmark opens from below.
+var opens: StringName:
+	get:
+		return _opens
+## Whether its portals stay shut until it opens them (hidden_passage, dial).
+var is_hidden_passage: bool:
+	get:
+		return HIDDEN_POLICIES.has(_policy)
 
 
 func _init(
@@ -219,6 +258,15 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 		definition._notes.append(note)
 	definition._counter = reader.text("counter")
 	definition._enter_portal_id = StringName(reader.text("enter"))
+	for record: ContentRecordReader in reader.children("turns"):
+		var turn := Turn.new()
+		turn.action = record.required_text("action")
+		turn.count = record.required_text("count")
+		turn.line = record.required_text("line")
+		record.finish()
+		definition._turns.append(turn)
+	definition._combination = reader.integer_map("combination")
+	definition._opens = StringName(reader.text("opens"))
 	var item_reader: ContentRecordReader = reader.child("items")
 	if item_reader != null:
 		for key: String in item_reader.keys():
@@ -242,6 +290,19 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 		reader.fail("spawn", "only a look_spawn landmark names a spawn, and it must")
 	if not definition._teaches.is_empty() and definition.policy != &"look":
 		reader.fail("teaches", "only a look landmark teaches marks")
+	var dial: bool = rule.get("turns", false)
+	if definition._turns.is_empty() == dial or definition._combination.is_empty() == dial:
+		reader.fail("turns", "only a dial has turns and a combination, and it must")
+	var counted: Array[String] = []
+	for turn: Turn in definition._turns:
+		if counted.has(turn.count) or turn.action == definition.action_label:
+			reader.fail("turns", "each turn counts its own count and has its own action")
+		counted.append(turn.count)
+	for count: String in definition._combination:
+		if not counted.has(count) or definition._combination[count] < 0:
+			reader.fail("combination", "'%s' is no turn's count" % count)
+	if definition._opens.is_empty() == bool(rule.get("opens", false)):
+		reader.fail("opens", "only a dial_below opens a dial, and it must")
 	if not definition._guard_npc_id.is_empty() and definition.policy != &"take":
 		reader.fail("guard", "only a take landmark has a guard")
 	if definition._guard_npc_id.is_empty() == messages.has("guarded") and definition.policy == &"take":
@@ -289,6 +350,9 @@ func with_map(map_id: StringName) -> WorldLandmarkDefinition:
 	copy._notes = _notes.duplicate()
 	copy._counter = _counter
 	copy._enter_portal_id = _enter_portal_id
+	copy._turns = _turns.duplicate()
+	copy._combination = _combination.duplicate()
+	copy._opens = _opens
 	return copy
 
 

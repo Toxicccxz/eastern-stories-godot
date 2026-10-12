@@ -10,6 +10,12 @@ func use(_map: WorldMapController, _landmark: WorldLandmarkDefinition) -> RefCou
 	return null
 
 
+## One of the landmark's other actions (a dial's turns, by their count); its own action
+## when `action` is empty.
+func use_action(map: WorldMapController, landmark: WorldLandmarkDefinition, action: String) -> RefCounted:
+	return use(map, landmark) if action.is_empty() else null
+
+
 ## What looking at the landmark shows (look.c: item_desc, which a function may make):
 ## its authored text unless the policy says otherwise. A `look` landmark's `teaches`
 ## marks go to the player who reads it.

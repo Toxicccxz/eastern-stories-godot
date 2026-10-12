@@ -39,7 +39,7 @@ func facts(room_zone_id: StringName = &"") -> ScriptedAct.Facts:
 	known.standing_in = func(definition_id: StringName, zone_id: StringName) -> bool: return _map.npcs.npc_present_in_zone(definition_id, zone_id, true)
 	known.kar = _player.state.attributes.karma
 	for npc: NpcRuntimeState in _map.npcs.residents:
-		var id: StringName = npc.definition().definition_id
+		var id: StringName = NpcDefinition.unnamed_id(npc.definition().definition_id)
 		if not known.present_npcs.has(id) and _map.npcs.npc_present_in_zone(id, here, true):
 			known.present_npcs.append(id)
 	var carried := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)

@@ -365,12 +365,13 @@ func npc_present_in_zone(definition_id: StringName, zone_id: StringName, standin
 	return first_npc_in_zone(definition_id, zone_id, standing) != null
 
 
-## The first such NPC in spawn order (present() finds the first in the room), holding the
+## The first such NPC in spawn order (present() finds the first in the room; one that drew its
+## name answers to its kind: road2.c's present("trainer")), holding the
 ## object flag `flag` when one is named (its set_temp(): the 瓜农 who caught the player).
 func first_npc_in_zone(definition_id: StringName, zone_id: StringName, standing: bool = false, flag: StringName = &"") -> NpcRuntimeState:
 	for npc: NpcRuntimeState in residents:
 		if (
-			npc.definition().definition_id == definition_id and npc.exists_in_map
+			NpcDefinition.unnamed_id(npc.definition().definition_id) == definition_id and npc.exists_in_map
 			and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD and npc.world_location().zone_id == zone_id
 			and (not standing or npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE)
 			and (flag.is_empty() or npc.has_flag(flag))

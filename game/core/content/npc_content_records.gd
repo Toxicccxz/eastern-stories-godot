@@ -98,7 +98,21 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 	var fight_rules: Array[NpcFightRule] = []
 	for rule: ContentRecordReader in reader.children("accept_fight"):
 		fight_rules.append(_fight_rule(rule))
-	var talk: NpcTalk = _talk(reader)
+	# create()'s own draws after the name and age (huyuan.c), in its order.
+	var create_rolls: NpcCreateRolls = NpcCreateRolls.from_records(reader.children("create_rolls"))
+	for key: String in ["combat_exp", "chat_chance", "chat_chance_combat", "force_factor"]:
+		if create_rolls.roll_of(key) != null and reader.has(key):
+			reader.fail(key, "is drawn by create_rolls")
+	for key: String in NpcCreateRolls.ATTRIBUTE_KEYS:
+		if create_rolls.roll_of(key) != null and reader.integer_map("attributes").has(key):
+			reader.fail("attributes." + key, "is drawn by create_rolls")
+	for key: String in INTERNAL_RESOURCE_KEYS:
+		if create_rolls.roll_of(key) != null and authored_resources.has(key):
+			reader.fail("resources." + key, "is drawn by create_rolls")
+	for skill_id: StringName in create_rolls.skill_ids():
+		if skill_levels.has(String(skill_id)):
+			reader.fail("skills." + String(skill_id), "is drawn by create_rolls")
+	var talk: NpcTalk = _talk(reader, create_rolls)
 	var dealings: NpcDealings = NpcDealings.from_record(reader)
 	var teaching: NpcTeaching = NpcTeaching.from_record(reader)
 	var bellicosity: int = reader.integer("bellicosity")
@@ -107,6 +121,10 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 	var killed_reader: ContentRecordReader = reader.child("killed_enemy")
 	var killed_enemy: NpcKilledEnemy = NpcKilledEnemy.from_record(killed_reader) if killed_reader != null else null
 	var name_pick: Array[String] = reader.text_list("name_pick")
+	# A name drawn in parts (huyuan.c: first_name[random(12)] + name_word[random(33)]).
+	var name_parts: Array[Array] = reader.text_lists("name_parts")
+	if not name_parts.is_empty() and not name_pick.is_empty():
+		reader.fail("name_parts", "a name is drawn whole (name_pick) or in parts, not both")
 	var summoned_reader: ContentRecordReader = reader.child("summoned")
 	var summoning: NpcSummoning = NpcSummoning.from_record(summoned_reader) if summoned_reader != null else null
 	var conjured_reader: ContentRecordReader = reader.child("conjured")
@@ -137,13 +155,15 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 		capabilities,
 		description,
 		combat_facts,
-	).with_creation_facts(title, skill_map, gender_roll, age_roll, combat_experience_roll, score_roll).with_skill_roll(skill_roll).with_age_first(age_first).with_fight_rules(fight_rules).with_talk(talk).with_naming(nickname, rank_respect, class_id).with_dealings(dealings).with_teaching(teaching).with_internal_power(internal_power).with_bellicosity(bellicosity).with_combat_hooks(hit_condition, killed_enemy).with_rolls(apply_rolls, attitude_roll).with_summoning(name_pick, summoning).with_conjuring(conjuring).with_raising(raising).with_ordination(ordination).with_hooks(hooks).with_rank_self(rank_self)
+	).with_creation_facts(title, skill_map, gender_roll, age_roll, combat_experience_roll, score_roll).with_skill_roll(skill_roll).with_age_first(age_first).with_fight_rules(fight_rules).with_talk(talk).with_naming(nickname, rank_respect, class_id).with_dealings(dealings).with_teaching(teaching).with_internal_power(internal_power).with_bellicosity(bellicosity).with_combat_hooks(hit_condition, killed_enemy).with_rolls(apply_rolls, attitude_roll).with_summoning(name_pick, summoning).with_conjuring(conjuring).with_raising(raising).with_ordination(ordination).with_hooks(hooks).with_rank_self(rank_self).with_name_parts(name_parts).with_create_rolls(null if create_rolls.is_empty() else create_rolls)
 	if summoning != null and conjuring != null:
 		reader.fail("conjured", "an NPC is either summoned to its caster's side or conjured against its owner")
 	if raising != null and (summoning != null or conjuring != null or not name_pick.is_empty()):
 		reader.fail("raised", "a raised NPC is named after its corpse and neither summoned nor conjured")
 	if not name_pick.is_empty() and not name_pick.has(display_name):
 		reader.fail("name_pick", "names the NPC's own name among them")
+	if not name_parts.is_empty() and not definition.name_pick().has(display_name):
+		reader.fail("name_parts", "make the NPC's own name among them")
 	if bellicosity < 0:
 		reader.fail("bellicosity", "must not be negative")
 	if not definition.is_valid():
@@ -160,7 +180,7 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 ## {"one_of": [{"say" | "emote" | "line"} | act], "out_of"?: n} (switch(random(n)); a draw
 ## past the lines says nothing) or {"rules": [act]} (the first that is for the player), an
 ## act being a ScriptedAct record (its `steps`).
-static func _talk(reader: ContentRecordReader) -> NpcTalk:
+static func _talk(reader: ContentRecordReader, create_rolls: NpcCreateRolls) -> NpcTalk:
 	var inquiry: Dictionary[String, PackedStringArray] = {}
 	var kee_answers: Dictionary[String, Array] = {}
 	var answer_marks: Dictionary[String, Array] = {}
@@ -212,15 +232,16 @@ static func _talk(reader: ContentRecordReader) -> NpcTalk:
 		heard.finish()
 	var entries: Array = _chat_entries(reader, "chat_msg", false)
 	# set("chat_chance", random(20)) (walker.c): a rule each NPC draws.
-	var chance_roll: NpcRandomInteger = _random_integer(reader, "chat_chance") if reader.is_object("chat_chance") else null
+	var chance_roll: NpcRandomInteger = _random_integer(reader, "chat_chance") if reader.is_object("chat_chance") else create_rolls.roll_of("chat_chance")
 	var chance: int = chance_roll.base if chance_roll != null else reader.integer("chat_chance")
 	if chance_roll != null and (not chance_roll.is_valid() or chance_roll.base < 0):
 		reader.fail("chat_chance", "draws a chance of 0 and more")
-	if reader.has("chat_chance") != reader.has("chat_msg"):
+	if (reader.has("chat_chance") or create_rolls.roll_of("chat_chance") != null) != reader.has("chat_msg"):
 		reader.fail("chat_chance", "chat_chance and chat_msg come together")
 	var combat_entries: Array = _chat_entries(reader, "chat_msg_combat", true)
+	var combat_roll: NpcRandomInteger = create_rolls.roll_of("chat_chance_combat")
 	var combat_chance: int = reader.integer("chat_chance_combat")
-	if reader.has("chat_chance_combat") != reader.has("chat_msg_combat"):
+	if (reader.has("chat_chance_combat") or combat_roll != null) != reader.has("chat_msg_combat"):
 		reader.fail("chat_chance_combat", "chat_chance_combat and chat_msg_combat come together")
 	var greeting: Array[ScriptedAct] = []
 	var greeting_out_of: int = 0
@@ -251,7 +272,7 @@ static func _talk(reader: ContentRecordReader) -> NpcTalk:
 		said.finish()
 		if line != null:
 			relay_ask.append(line)
-	return NpcTalk.new(inquiry, chance, entries, greeting, kee_answers, combat_chance, combat_entries).with_greeting_out_of(greeting_out_of, greet != null and greet.has("rules")).with_actions(answer_marks, rules, relay_say).with_relay_ask(relay_ask).with_chat_chance_roll(chance_roll)
+	return NpcTalk.new(inquiry, chance, entries, greeting, kee_answers, combat_chance, combat_entries).with_greeting_out_of(greeting_out_of, greet != null and greet.has("rules")).with_actions(answer_marks, rules, relay_say).with_relay_ask(relay_ask).with_chat_chance_roll(chance_roll).with_combat_chat_chance_roll(combat_roll)
 
 
 ## npc.c chat() entries: lines, coloured lines and chat functions; drink only outside a

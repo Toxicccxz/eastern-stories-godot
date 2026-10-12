@@ -99,15 +99,7 @@
 						1280,
 						1760,
 						2496,
-						"尚书府 (京师 B)"
-					],
-					[
-						"wall_wood",
-						1088,
-						2176,
-						1344,
-						2304,
-						"尚书府's south wall below the 东街"
+						"尚书府: roofs and walls between its rooms"
 					],
 					[
 						"wall_wood",
@@ -485,6 +477,123 @@
 						"open",
 						"street",
 						null
+					],
+					"city.shangshu.gate": [
+						1344,
+						1984,
+						1472,
+						2176,
+						"open",
+						"street",
+						null
+					],
+					"city.shangshu.yuan": [
+						1472,
+						1728,
+						1632,
+						2080,
+						"enclosed",
+						"floor_yard",
+						"wall"
+					],
+					"city.shangshu.keting": [
+						1632,
+						1760,
+						1760,
+						2080,
+						"enclosed",
+						"floor_wood",
+						"wall_wood"
+					],
+					"city.shangshu.road2": [
+						1344,
+						1472,
+						1632,
+						1728,
+						"enclosed",
+						"grass",
+						"wall"
+					],
+					"city.shangshu.road1": [
+						1344,
+						1280,
+						1632,
+						1472,
+						"enclosed",
+						"grass",
+						"wall"
+					],
+					"city.shangshu.kefang": [
+						1632,
+						1472,
+						1760,
+						1760,
+						"enclosed",
+						"floor_wood",
+						"wall_wood"
+					],
+					"city.shangshu.xiaowu": [
+						1632,
+						1280,
+						1760,
+						1472,
+						"enclosed",
+						"floor_wood",
+						"wall_wood"
+					],
+					"city.shangshu.road3": [
+						1472,
+						2080,
+						1632,
+						2208,
+						"enclosed",
+						"grass",
+						"wall"
+					],
+					"city.shangshu.chufang": [
+						1632,
+						2080,
+						1760,
+						2272,
+						"enclosed",
+						"floor_wood",
+						"wall_wood"
+					],
+					"city.shangshu.huayuan": [
+						1472,
+						2208,
+						1632,
+						2496,
+						"enclosed",
+						"grass",
+						"wall"
+					],
+					"city.shangshu.neizhai": [
+						1632,
+						2272,
+						1760,
+						2496,
+						"enclosed",
+						"floor_wood",
+						"wall_wood"
+					],
+					"city.shangshu.road4": [
+						1344,
+						2176,
+						1472,
+						2304,
+						"enclosed",
+						"grass",
+						"wall"
+					],
+					"city.shangshu.feiwu": [
+						1088,
+						2176,
+						1344,
+						2304,
+						"enclosed",
+						"floor_wood",
+						"wall_wood"
 					]
 				},
 				"roads": [
@@ -814,12 +923,73 @@
 						"相国府's gate, shut"
 					],
 					[
-						"shutter",
-						1328,
-						2048,
-						1344,
+						"blocked",
+						1712,
+						1792,
+						1728,
+						1856,
+						"the 客厅's agarwood chairs along the east wall, the great one under the white tiger skin"
+					],
+					[
+						"blocked",
+						1712,
+						1984,
+						1728,
+						2048
+					],
+					[
+						"blocked",
+						1680,
+						1680,
+						1728,
+						1712,
+						"the guest room's desk by the window, books on it"
+					],
+					[
+						"blocked",
+						1712,
 						2112,
-						"尚书府's gate (京师 B)"
+						1728,
+						2176,
+						"the kitchen stove"
+					],
+					[
+						"blocked",
+						1504,
+						2432,
+						1536,
+						2464,
+						"flower beds: peonies and 琼花"
+					],
+					[
+						"blocked",
+						1568,
+						2400,
+						1600,
+						2432
+					],
+					[
+						"blocked",
+						1680,
+						2416,
+						1728,
+						2448,
+						"the 内宅's plain dressing table"
+					],
+					[
+						"blocked",
+						1120,
+						2208,
+						1152,
+						2240,
+						"clutter heaped in the 废屋"
+					],
+					[
+						"blocked",
+						1152,
+						2256,
+						1184,
+						2272
 					]
 				],
 				"reach_from": "Nroad2VillageArrival",
@@ -916,6 +1086,14 @@
 					"city.bank.microsof.1": [
 						1160,
 						968
+					],
+					"city.shangshu.chufang.maid.1": [
+						1690,
+						2216
+					],
+					"city.shangshu.neizhai.qing_chen.1": [
+						1704,
+						2328
 					]
 				}
 			},
@@ -929,6 +1107,10 @@
 						64,
 						32
 					],
+					"Rect_32_64": [
+						32,
+						64
+					],
 					"Rect_32_32": [
 						32,
 						32
@@ -936,6 +1118,10 @@
 					"StairsShape": [
 						48,
 						48
+					],
+					"AltarShape": [
+						128,
+						96
 					]
 				},
 				"stairs": [
@@ -958,6 +1144,68 @@
 							],
 							"id": "city.jiulou.stairs_return"
 						}
+					},
+					{
+						"zone": "city.jitan",
+						"name": "JitanStairsDown",
+						"at": [
+							1040,
+							1496
+						],
+						"id": "city.jitan.down",
+						"shape": "StairsShape",
+						"color": "Color(0.4, 0.33, 0.25, 1)",
+						"text": "向下的阶梯",
+						"marker": {
+							"name": "JitanStairsReturn",
+							"at": [
+								1040,
+								1424
+							],
+							"id": "city.jitan.stairs_return"
+						}
+					}
+				],
+				"door_style": {
+					"walls": "Terrain/DoorWalls",
+					"wall_suffix": "Wall",
+					"shutters": "Terrain",
+					"color": "Color(0.42, 0.3, 0.18, 1)"
+				},
+				"doors": [
+					{
+						"name": "IronGateDoor",
+						"id": "city.shangshu.gate.door",
+						"between": [
+							"city.shangshu.gate",
+							"city.shangshu.yuan"
+						],
+						"color": "Color(0.3, 0.3, 0.32, 1)"
+					},
+					{
+						"name": "LittleHouseDoor",
+						"id": "city.shangshu.road1.door",
+						"between": [
+							"city.shangshu.road1",
+							"city.shangshu.xiaowu"
+						]
+					},
+					{
+						"name": "GuestRoomDoor",
+						"id": "city.shangshu.road2.door",
+						"between": [
+							"city.shangshu.road2",
+							"city.shangshu.kefang"
+						]
+					},
+					{
+						"name": "CurtainDoor",
+						"id": "city.shangshu.huayuan.door",
+						"between": [
+							"city.shangshu.huayuan",
+							"city.shangshu.neizhai"
+						],
+						"color": "Color(0.85, 0.85, 0.78, 1)"
 					}
 				],
 				"nodes": [
@@ -1011,10 +1259,10 @@
 						"node": "caption",
 						"name": "ShangshuLabel",
 						"at": [
-							1440,
-							1820
+							1356,
+							1840
 						],
-						"text": "尚书府（未开放）",
+						"text": "尚书府",
 						"size": 16
 					},
 					{
@@ -1056,6 +1304,18 @@
 						],
 						"text": "祭坛",
 						"size": 12
+					},
+					{
+						"node": "group",
+						"name": "DoorWalls",
+						"type": "StaticBody2D",
+						"parent": "Terrain"
+					},
+					{
+						"generated": "door_walls"
+					},
+					{
+						"generated": "shutters"
 					},
 					{
 						"node": "passage",
@@ -1126,6 +1386,19 @@
 							3008
 						],
 						"text": "城门 · 出城"
+					},
+					{
+						"node": "service",
+						"name": "FeiyuanGrass",
+						"id": "city.feiyuan.find",
+						"at": [
+							640,
+							1408
+						],
+						"text": "草丛 · 寻找"
+					},
+					{
+						"generated": "doors"
 					}
 				],
 				"zones": [
@@ -1141,6 +1414,22 @@
 							96
 						],
 						"id": "city.nroad2.village_arrival"
+					},
+					{
+						"name": "Street3WallReturn",
+						"at": [
+							1168,
+							2136
+						],
+						"id": "city.street3.wall_return"
+					},
+					{
+						"name": "FeiwuWallArrival",
+						"at": [
+							1216,
+							2240
+						],
+						"id": "city.shangshu.feiwu.wall_arrival"
 					},
 					{
 						"generated": "stair_markers"
@@ -1237,6 +1526,51 @@
 						"at": [
 							1408,
 							1040
+						],
+						"shape": "Rect_32_32"
+					},
+					{
+						"name": "Street3WallInteraction",
+						"id": "city.street3.landmark.wall",
+						"at": [
+							1216,
+							2160
+						],
+						"shape": "Rect_32_32"
+					},
+					{
+						"name": "JitanAltarInteraction",
+						"id": "city.jitan.landmark.altar",
+						"at": [
+							928,
+							1408
+						],
+						"shape": "AltarShape"
+					},
+					{
+						"name": "JitanPlatformInteraction",
+						"id": "city.jitan.landmark.platform",
+						"at": [
+							928,
+							1408
+						],
+						"shape": "Rect_32_32"
+					},
+					{
+						"name": "JitanButtonInteraction",
+						"id": "city.jitan.landmark.button",
+						"at": [
+							928,
+							1440
+						],
+						"shape": "Rect_32_32"
+					},
+					{
+						"name": "KefangBookInteraction",
+						"id": "city.shangshu.kefang.landmark.book",
+						"at": [
+							1704,
+							1696
 						],
 						"shape": "Rect_32_32"
 					}
@@ -1351,6 +1685,230 @@
 					}
 				],
 				"interactions": []
+			}
+		},
+		"wall_top": {
+			"note": "院墙: the top of 尚书府's high wall over the 东街, the street below on the north, the busy yards on the south.",
+			"file": "city_wall_top.tscn",
+			"draw": {
+				"technique": "town",
+				"base": "boundary",
+				"bounds": [
+					-32,
+					-32,
+					352,
+					192
+				],
+				"ground": [],
+				"zones": {
+					"city.wall": [
+						0,
+						0,
+						320,
+						160,
+						"enclosed",
+						"path",
+						"wall"
+					]
+				},
+				"roads": [],
+				"props": [],
+				"reach_from": "WallClimbArrival",
+				"markers_in_middle": [],
+				"placed": {}
+			},
+			"scene": {
+				"style": "map",
+				"root": "CityWallTop",
+				"map": "city.wall_top",
+				"player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+				"shapes": {},
+				"nodes": [
+					{
+						"generated": "captions"
+					},
+					{
+						"node": "caption",
+						"name": "StreetLabel",
+						"at": [
+							8,
+							-28
+						],
+						"text": "北 · 京师东街",
+						"size": 12
+					},
+					{
+						"node": "caption",
+						"name": "YardLabel",
+						"at": [
+							8,
+							164
+						],
+						"text": "南 · 尚书府",
+						"size": 12
+					},
+					{
+						"node": "service",
+						"name": "JumpOut",
+						"id": "city.wall.jump_out",
+						"at": [
+							80,
+							48
+						],
+						"text": "京师东街 · 跳回去"
+					},
+					{
+						"node": "service",
+						"name": "JumpIn",
+						"id": "city.wall.jump_in",
+						"at": [
+							240,
+							48
+						],
+						"text": "尚书府 · 跳进去"
+					}
+				],
+				"zones": [
+					{
+						"generated": "zones"
+					}
+				],
+				"spawn_points": [
+					{
+						"name": "WallClimbArrival",
+						"at": [
+							160,
+							80
+						],
+						"id": "city.wall.climb_arrival"
+					}
+				],
+				"interactions": []
+			}
+		},
+		"cellar": {
+			"note": "地下密室 under the 祭坛: a narrow cell with an old little bed and some straw; the stairs fold up into the ceiling.",
+			"file": "city_cellar.tscn",
+			"draw": {
+				"technique": "town",
+				"base": "boundary",
+				"bounds": [
+					-32,
+					-32,
+					288,
+					224
+				],
+				"ground": [],
+				"zones": {
+					"city.midao1": [
+						0,
+						0,
+						256,
+						192,
+						"enclosed",
+						"cave_floor",
+						"wall"
+					]
+				},
+				"roads": [],
+				"props": [
+					[
+						"blocked",
+						176,
+						48,
+						224,
+						96,
+						"the old little bed"
+					],
+					[
+						"path",
+						160,
+						128,
+						224,
+						160,
+						"straw"
+					]
+				],
+				"reach_from": "Midao1StairsArrival",
+				"markers_in_middle": [],
+				"placed": {}
+			},
+			"scene": {
+				"style": "map",
+				"root": "CityCellar",
+				"map": "city.cellar",
+				"player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+				"shapes": {
+					"StairsShape": [
+						48,
+						48
+					],
+					"Rect_32_32": [
+						32,
+						32
+					]
+				},
+				"stairs": [
+					{
+						"zone": "city.midao1",
+						"name": "Midao1StairsUp",
+						"at": [
+							72,
+							64
+						],
+						"id": "city.midao1.up",
+						"shape": "StairsShape",
+						"color": "Color(0.4, 0.33, 0.25, 1)",
+						"text": "向上的阶梯",
+						"marker": {
+							"name": "Midao1StairsArrival",
+							"at": [
+								72,
+								136
+							],
+							"id": "city.midao1.stairs_arrival"
+						}
+					}
+				],
+				"nodes": [
+					{
+						"generated": "captions"
+					},
+					{
+						"node": "caption",
+						"name": "BedLabel",
+						"at": [
+							176,
+							100
+						],
+						"text": "小床",
+						"size": 12
+					},
+					{
+						"generated": "stairs"
+					}
+				],
+				"zones": [
+					{
+						"generated": "zones"
+					}
+				],
+				"spawn_points": [
+					{
+						"generated": "stair_markers"
+					}
+				],
+				"interactions": [
+					{
+						"name": "Midao1CeilingInteraction",
+						"id": "city.midao1.landmark.ceiling",
+						"at": [
+							136,
+							56
+						],
+						"shape": "Rect_32_32"
+					}
+				]
 			}
 		}
 	}

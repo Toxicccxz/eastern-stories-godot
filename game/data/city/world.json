@@ -4,7 +4,9 @@
 	],
 	"maps": [
 		{ "id": "city.main", "region": "city", "scene": "res://scenes/world/city/city_main.tscn", "entry": "city.nroad2.village_arrival" },
-		{ "id": "city.upstairs", "region": "city", "scene": "res://scenes/world/city/city_upstairs.tscn", "entry": "city.jiulou_2.stairs_arrival" }
+		{ "id": "city.upstairs", "region": "city", "scene": "res://scenes/world/city/city_upstairs.tscn", "entry": "city.jiulou_2.stairs_arrival" },
+		{ "id": "city.wall_top", "region": "city", "scene": "res://scenes/world/city/city_wall_top.tscn", "entry": "city.wall.climb_arrival" },
+		{ "id": "city.cellar", "region": "city", "scene": "res://scenes/world/city/city_cellar.tscn", "entry": "city.midao1.stairs_arrival" }
 	],
 	"zones": [
 		{ "id": "city.nroad2", "map": "city.main", "rooms": ["es2:d/city/nroad2"] },
@@ -46,15 +48,43 @@
 		{ "id": "city.street17", "map": "city.main", "rooms": ["es2:d/city/street17"] },
 		{ "id": "city.house1", "map": "city.main", "rooms": ["es2:d/city/house1"] },
 		{ "id": "city.southdoor", "map": "city.main", "rooms": ["es2:d/city/southdoor"] },
-		{ "id": "city.jiulou_2", "map": "city.upstairs", "rooms": ["es2:d/city/jiulou_2"] }
+		{ "id": "city.jiulou_2", "map": "city.upstairs", "rooms": ["es2:d/city/jiulou_2"] },
+		{ "id": "city.shangshu.gate", "map": "city.main", "rooms": ["es2:d/city/shangshu/gate"] },
+		{ "id": "city.shangshu.yuan", "map": "city.main", "rooms": ["es2:d/city/shangshu/yuan"] },
+		{ "id": "city.shangshu.keting", "map": "city.main", "rooms": ["es2:d/city/shangshu/keting"] },
+		{ "id": "city.shangshu.road2", "map": "city.main", "rooms": ["es2:d/city/shangshu/road2"] },
+		{ "id": "city.shangshu.road1", "map": "city.main", "rooms": ["es2:d/city/shangshu/road1"] },
+		{ "id": "city.shangshu.kefang", "map": "city.main", "rooms": ["es2:d/city/shangshu/kefang"] },
+		{ "id": "city.shangshu.xiaowu", "map": "city.main", "rooms": ["es2:d/city/shangshu/xiaowu"] },
+		{ "id": "city.shangshu.road3", "map": "city.main", "rooms": ["es2:d/city/shangshu/road3"] },
+		{ "id": "city.shangshu.chufang", "map": "city.main", "rooms": ["es2:d/city/shangshu/chufang"] },
+		{ "id": "city.shangshu.huayuan", "map": "city.main", "rooms": ["es2:d/city/shangshu/huayuan"] },
+		{ "id": "city.shangshu.neizhai", "map": "city.main", "rooms": ["es2:d/city/shangshu/neizhai"] },
+		{ "id": "city.shangshu.road4", "map": "city.main", "rooms": ["es2:d/city/shangshu/road4"] },
+		{ "id": "city.shangshu.feiwu", "map": "city.main", "rooms": ["es2:d/city/shangshu/feiwu"] },
+		{ "id": "city.wall", "map": "city.wall_top", "rooms": ["es2:d/city/wall"] },
+		{ "id": "city.midao1", "map": "city.cellar", "rooms": ["es2:d/city/midao1"] }
 	],
 	"portals": [
 		{ "id": "city.nroad2.north", "from_zone": "city.nroad2", "to_zone": "village.road2", "to_spawn": "village.road2.city_return", "legacy_room": "es2:d/city/nroad2", "legacy_command": "north" },
 		{ "id": "city.jiulou.up", "from_zone": "city.jiulou", "to_zone": "city.jiulou_2", "to_spawn": "city.jiulou_2.stairs_arrival", "legacy_room": "es2:d/city/jiulou", "legacy_command": "up" },
-		{ "id": "city.jiulou_2.down", "from_zone": "city.jiulou_2", "to_zone": "city.jiulou", "to_spawn": "city.jiulou.stairs_return", "legacy_room": "es2:d/city/jiulou_2", "legacy_command": "down" }
+		{ "id": "city.jiulou_2.down", "from_zone": "city.jiulou_2", "to_zone": "city.jiulou", "to_spawn": "city.jiulou.stairs_return", "legacy_room": "es2:d/city/jiulou_2", "legacy_command": "down" },
+		{ "id": "city.street3.climb", "from_zone": "city.street3", "to_zone": "city.wall", "to_spawn": "city.wall.climb_arrival", "legacy_room": "es2:d/city/street3", "legacy_command": "climb wall" },
+		{ "id": "city.jitan.down", "from_zone": "city.jitan", "to_zone": "city.midao1", "to_spawn": "city.midao1.stairs_arrival", "legacy_room": "es2:d/city/jitan", "legacy_command": "down" },
+		{ "id": "city.midao1.up", "from_zone": "city.midao1", "to_zone": "city.jitan", "to_spawn": "city.jitan.stairs_return", "legacy_room": "es2:d/city/midao1", "legacy_command": "up" }
+	],
+	"doors": [
+		{ "id": "city.shangshu.gate.door", "name": "大铁门", "zones": ["city.shangshu.gate", "city.shangshu.yuan"], "reach": 90, "legacy_room": "es2:d/city/shangshu/gate" },
+		{ "id": "city.shangshu.road1.door", "name": "小木门", "zones": ["city.shangshu.road1", "city.shangshu.xiaowu"], "reach": 90, "legacy_room": "es2:d/city/shangshu/road1" },
+		{ "id": "city.shangshu.road2.door", "name": "木门", "zones": ["city.shangshu.road2", "city.shangshu.kefang"], "reach": 90, "legacy_room": "es2:d/city/shangshu/road2" },
+		{ "id": "city.shangshu.huayuan.door", "name": "帘子", "zones": ["city.shangshu.huayuan", "city.shangshu.neizhai"], "reach": 90, "legacy_room": "es2:d/city/shangshu/huayuan" }
 	],
 	"exit_rules": [
-		{ "id": "city.jiulou.waiter_up", "room": "es2:d/city/jiulou", "from_zone": "city.jiulou", "to_zone": "city.jiulou_2", "when": "no_mark", "mark": "酒楼", "present": "city.npc.waiter", "lines": ["店小二对你一白眼:你是谁呀，闯什么闯！", "上楼的路被店小二挡住了。"], "pass_lines": ["店小二高声喊道:你楼上请"], "legacy_source": "d/city/npc/waiter.c" }
+		{ "id": "city.jiulou.waiter_up", "room": "es2:d/city/jiulou", "from_zone": "city.jiulou", "to_zone": "city.jiulou_2", "when": "no_mark", "mark": "酒楼", "present": "city.npc.waiter", "lines": ["店小二对你一白眼:你是谁呀，闯什么闯！", "上楼的路被店小二挡住了。"], "pass_lines": ["店小二高声喊道:你楼上请"], "legacy_source": "d/city/npc/waiter.c" },
+		{ "id": "city.shangshu.gate.porter", "room": "es2:d/city/shangshu/gate", "from_zone": "city.shangshu.gate", "to_zone": "city.shangshu.yuan", "when": "no_mark", "mark": "尚书", "present": "city.npc.shangshu.guard", "spends": true, "lines": ["门房伸手拦住了你的去路，喝道：闯什么闯！"], "legacy_source": "d/city/shangshu/gate.c" },
+		{ "id": "city.shangshu.road2.trainer_north", "room": "es2:d/city/shangshu/road2", "from_zone": "city.shangshu.road2", "to_zone": "city.shangshu.road1", "when": "no_mark", "mark": "尚书", "present": ["city.npc.shangshu.huyuan", "city.npc.shangshu.huyuan1"], "lines": ["护院伸手拦住了你的去路，喝道：闯什么闯！"], "legacy_source": "d/city/shangshu/road2.c" },
+		{ "id": "city.shangshu.road2.trainer_east", "room": "es2:d/city/shangshu/road2", "from_zone": "city.shangshu.road2", "to_zone": "city.shangshu.kefang", "when": "no_mark", "mark": "尚书", "present": ["city.npc.shangshu.huyuan", "city.npc.shangshu.huyuan1"], "lines": ["护院伸手拦住了你的去路，喝道：闯什么闯！"], "legacy_source": "d/city/shangshu/road2.c" },
+		{ "id": "city.feiyuan.flash", "room": "es2:d/city/feiyuan", "from_zone": "city.feiyuan", "to_zone": "city.street6", "when": "never", "pass_lines": ["突然你眼前似乎有什么东西一闪，然后又消失在草丛中。回去在草丛中找找？"], "legacy_source": "d/city/feiyuan.c" }
 	],
 	"landmarks": [
 		{ "id": "city.northdoor.landmark.sign", "zone": "city.northdoor", "name": "告示", "policy": "look", "long": "告示上隐约写著几个人名，但都模糊不可分辨了。\n", "legacy_source": "d/city/northdoor.c" },
@@ -66,7 +96,29 @@
 		{ "id": "city.bank.landmark.sign", "zone": "city.bank", "name": "牌子", "policy": "look", "long": "我们提供的服务有：\nconvert     兑换钱币，自点数目，出门后发现少钱概不负责。\n", "legacy_source": "d/city/bank.c" },
 		{ "id": "city.boots.landmark.sign", "zone": "city.boots", "name": "招牌", "policy": "look", "long": "专卖各式鞋。\n", "legacy_source": "d/city/boots.c" },
 		{ "id": "city.cloth.landmark.sign", "zone": "city.cloth", "name": "招牌", "policy": "look", "long": "匾上三个大字：闯名堂\n", "legacy_source": "d/city/cloth.c" },
-		{ "id": "city.weapon.landmark.sign", "zone": "city.weapon", "name": "招牌", "policy": "look", "long": "招牌写著：京师武器店专营各式武器。\n", "legacy_source": "d/city/weapon.c" }
+		{ "id": "city.weapon.landmark.sign", "zone": "city.weapon", "name": "招牌", "policy": "look", "long": "招牌写著：京师武器店专营各式武器。\n", "legacy_source": "d/city/weapon.c" },
+		{ "id": "city.street3.landmark.wall", "zone": "city.street3", "name": "院墙", "action": "爬上去", "portals": ["city.street3.climb"], "long": "一段高高的院墙，但对轻功好的人爬上(climb)似非难事。\n", "legacy_source": "d/city/street3.c" },
+		{ "id": "city.jitan.landmark.altar", "zone": "city.jitan", "name": "祭坛", "policy": "look", "long": "园祭坛的栏杆是用汉白玉作成的，坛面由精细磨过的花岗岩铺成，中\n间有个台子(platform)。\n", "legacy_source": "d/city/jitan.c" },
+		{ "id": "city.jitan.landmark.platform", "zone": "city.jitan", "name": "台子", "policy": "look", "long": "只有皇帝能站在这个汉白玉台子上面，隐约地你好象看到台子的下面\n有个凸起(sth)。\n", "legacy_source": "d/city/jitan.c" },
+		{
+			"id": "city.jitan.landmark.button", "zone": "city.jitan", "name": "凸起", "action": "按下", "policy": "dial",
+			"portals": ["city.jitan.down", "city.midao1.up"], "open_seconds": 3,
+			"turns": [
+				{ "action": "顺时针转", "count": "forward", "line": "你将按钮沿顺时针转了一圈，什么事情也没发生。" },
+				{ "action": "逆时针转", "count": "backward", "line": "你将按钮沿逆时针转了一圈，什么事情也没发生。\n你忽然打了个冷颤，可能是心里害怕了。" }
+			],
+			"combination": { "forward": 1, "backward": 3 },
+			"long": "这很象一个按钮(button)，上面长着细细的青苔，你突然一阵莫名其\n妙的紧张，好奇心却驱使你摸摸这个按钮，你发现它可以按(press)，\n也可以旋转(turn)。\n",
+			"messages": {
+				"open": "地板忽然发出轧轧的声音，一块地面缓缓移动著，露出一个向下的阶梯。",
+				"close": "地板忽然发出轧轧的声音，一块地面缓缓移动著，将向下的通道盖住了。",
+				"open_below": "天花板忽然发出轧轧的声音，露出一个向上的阶梯。",
+				"close_below": "天花板忽然发出轧轧的声音，向上的阶梯又缓缓地收了回去。"
+			},
+			"legacy_source": "d/city/jitan.c"
+		},
+		{ "id": "city.midao1.landmark.ceiling", "zone": "city.midao1", "name": "天花板", "action": "推开", "policy": "dial_below", "opens": "city.jitan.landmark.button", "long": "天花板上有一块石板，似乎可以推开。\n", "legacy_source": "d/city/midao1.c" },
+		{ "id": "city.shangshu.kefang.landmark.book", "zone": "city.shangshu.kefang", "name": "书", "policy": "look", "long": "一本诗词集，上面圈圈点点了一些句子.\n", "legacy_source": "d/city/shangshu/kefang.c" }
 	],
 	"services": [
 		{ "id": "city.bank.counter", "kind": "bank", "zone": "city.bank", "name": "钱庄", "reach": 96, "legacy_source": "d/city/bank.c" },
@@ -104,6 +156,17 @@
 				{ "line": "出城方向的路被京师守城兵挡住了。\n" }
 			] },
 			{ "steps": [ { "line": "这个方向没有出路。\n" } ] }
+		] } },
+		{ "id": "city.feiyuan.find", "kind": "act", "zone": "city.feiyuan", "name": "草丛", "reach": 128, "legacy_source": "d/city/feiyuan.c", "act": { "verb": "寻找", "acts": [
+			{ "carries": "token", "steps": [ { "line": "忙活了半天，没有什么新的发现。\n" } ] },
+			{ "kar_draw": { "plus": 30, "at_least": 35 }, "steps": [ { "give": "es2:d/city/obj/token" }, { "line": "你竟找到了一个出城令。\n" } ] },
+			{ "steps": [ { "line": "白忙了半天，一无所获。\n" } ] }
+		] } },
+		{ "id": "city.wall.jump_in", "kind": "act", "zone": "city.wall", "name": "尚书府", "reach": 96, "legacy_source": "d/city/wall.c", "act": { "verb": "跳进去", "acts": [
+			{ "steps": [ { "move": "city.shangshu.feiwu", "point": "city.shangshu.feiwu.wall_arrival" } ] }
+		] } },
+		{ "id": "city.wall.jump_out", "kind": "act", "zone": "city.wall", "name": "京师东街", "reach": 96, "legacy_source": "d/city/wall.c", "act": { "verb": "跳回去", "acts": [
+			{ "steps": [ { "move": "city.street3", "point": "city.street3.wall_return" } ] }
 		] } }
 	]
 }

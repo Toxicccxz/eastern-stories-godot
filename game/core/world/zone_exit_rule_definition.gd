@@ -26,7 +26,9 @@ extends RefCounted
 ## `no_mark` (d/choyin/entrance.c: east into the 桃林 only with marks/书生) refuses one without
 ## the saved `mark`; with `present`, only while that NPC is in the room, and its `pass_lines`
 ## only then too (d/city/npc/waiter.c go_up(): the 店小二's own command blocks the stairs of the
-## 太白酒楼 to one without marks/酒楼). `always` refuses everyone (d/village/lakeside.c: the lake is no walk; only
+## 太白酒楼 to one without marks/酒楼); `present` may name several (d/city/shangshu/road2.c's
+## present("trainer"): either kind of 护院), and `spends` deletes the mark of one who goes
+## through (d/city/shangshu/gate.c: the 门房's leave is good for one way in). `always` refuses everyone (d/village/lakeside.c: the lake is no walk; only
 ## the boat goes out on it). `held` (d/village/melonfarm.c: 你的去路被瓜农拦住了。) refuses one
 ## with the set_temp() flag `temp` while an NPC of `present` that holds the same flag (its own
 ## set_temp(): the 瓜农 who caught them) stands in the room: ES2 asked only the thief's flag, so
@@ -54,6 +56,10 @@ var from_zone_id: StringName
 var to_zone_id: StringName
 var condition: Condition
 var present_npc_id: StringName
+## no_mark: every NPC definition `present` names (present_npc_id is the first).
+var present_npc_ids: Array[StringName] = []
+## no_mark: going through deletes the mark (set("marks/尚书", 0)).
+var spends: bool = false
 ## combat_exp_below: the combat_exp the player needs; kar_slip: random(kar) below it slips.
 var value: int = 0
 ## not_apprentice_of: the master (an NPC definition ID) whose apprentices may pass.
@@ -184,7 +190,13 @@ static func from_record(reader: ContentRecordReader) -> ZoneExitRuleDefinition:
 			rule.family_id = StringName(reader.required_text("family"))
 		Condition.NO_MARK:
 			rule.mark = reader.required_text("mark")
-			rule.present_npc_id = StringName(reader.text("present"))
+			if reader.is_text("present"):
+				rule.present_npc_ids.append(StringName(reader.text("present")))
+			else:
+				for npc_id: String in reader.text_list("present"):
+					rule.present_npc_ids.append(StringName(npc_id))
+			rule.present_npc_id = &"" if rule.present_npc_ids.is_empty() else rule.present_npc_ids[0]
+			rule.spends = reader.boolean("spends", false)
 		Condition.ASK:
 			rule.unless_gender = StringName(reader.required_text("unless_gender"))
 			rule.ask = reader.required_text("ask")

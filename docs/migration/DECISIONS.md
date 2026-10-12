@@ -111,6 +111,44 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 - #27 牛皮酒袋照原名显示，不另起短名。
 - 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
 
+## 京师 B: 尚书府 and the city's secrets (2026-10-12)
+
+The plan's B (「京师 A」 below: owner Q1 (b), Q2 (a); M1, M3, M4 默认). What each LPC function
+became is in [CITY_CONTENT](CITY_CONTENT.md#lpc--native-b); it follows the LPC except:
+- **Owner (Q2 (a)): the 地下密室's stairs open from below.** Its 天花板 (推开) opens the altar's way
+  for the same three seconds; the lines are jitan.c's own (天花板…露出一个向上的阶梯 below, and on
+  closing 天花板…收了回去 below, 地板…盖住了 at the altar). The 天花板's look (天花板上有一块石板，
+  似乎可以推开。) is ours: the cell has no item_desc. Unlike Snow's 密室 (4C) the way shuts on time on
+  a player below, who opens it again; Continue below finds it shut.
+- **默认 (M1): the 门房 hands back less than three taels of gold** (鼻子里哼了一声，头掉了过去。 as
+  written, no speaker); with his leave already given, 大人太客气了 and he keeps it (as ES2).
+- **默认 (M3): the 门房's leave is spent going in through the 大铁门**; gate.c deleted it whenever
+  the player left the gate, west too, without a word. The 护院 on the 小径 ask for the same mark,
+  so they let nobody north or east (as ES2; one lying unconscious too, present()); with both dead
+  or gone the way is free.
+- **默认 (M4): a press that opens nothing clears the turns**; jitan.c kept them, so one wrong try
+  left the button dead until the room's reset with nothing said. A right press clears them as
+  jitan.c does.
+- **Owner (Q1 (b)): the token as ES2.** 废园's flash on every way out south (the (find) hint, the
+  hard break and the blank lines go: the button is 草丛 · 寻找); random(kar + 30) >= 35 finds an
+  出城令牌 (one carried: 忙活了半天…, no roll); a 守城兵 takes it (destructed) and gives
+  marks/令牌; the gates stay shut (这个方向没有出路。). 晚月庄's 杀手令牌 answers to "token" first
+  too and does the same, as ES2.
+- **The button's turns are buttons** (顺时针转, 逆时针转, then 按下): turn button alone and a wrong
+  direction only explained the typed command (not shown).
+- **The 院墙 is a map of its own** (wall.c has no exits; climb and jump are moves): 院墙 · 爬上去 on
+  the 东街, 尚书府 · 跳进去 into the 废屋, 京师东街 · 跳回去; no 轻功 is asked (as ES2).
+- **Stays as ES2:** yuan.c's !userp() needs nothing (the only walker, a 护院, keeps to his room and
+  its neighbours); the 小屋's 杀气, the 护院's 客人 and the 花匠's 清尘出事了 lead nowhere (unfinished
+  in the LPC); the 花匠 and 庾清尘 cast 茅山's four spells in a fight.
+- **Fixed slip:** the 门房's long ended in 的n (a lost backslash): 的 and a line break.
+- **Global (data):** NPC `create_rolls` (create()'s own draws in its order: attributes, power,
+  combat_exp, the chat chances, skill levels; kept with the NPC) and `name_parts` (a name drawn
+  part by part, a form per name); present() of an NPC that drew its name answers to its kind;
+  exit rule `no_mark` with several `present` kinds and `spends`; give rule `destroys`; act
+  `kar_draw`; landmark policies `dial` (a landmark with several actions) and `dial_below`.
+- **Save:** world content revision `SOURCE_ENTRY_CITY_B_V1`; older development saves need a New Game.
+
 ## 京师 A: the city, its shops and people (2026-10-12)
 
 Plan (owner, 2026-10-12: Q1 (b), Q2 (a); M1–M4 not answered, so they stand as **默认**): A the

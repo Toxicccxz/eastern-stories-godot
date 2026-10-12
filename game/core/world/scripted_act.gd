@@ -18,7 +18,9 @@ extends RefCounted
 ## violate_unique(): train.c's book), `present_in` an NPC standing in another room (present(
 ## "meloner", find_object(melonguard)): d/village/melonfarm.c), `kar_above` rolls of
 ## random(kar) > random(n) that all come up (melonfarm.c's pick: [30, 10]; each drawn once
-## per use, in order, and only when reached, as the LPC's nested ifs). The first branch that is for
+## per use, in order, and only when reached, as the LPC's nested ifs), `kar_draw` {plus, at_least} one
+## roll of random(kar + plus) >= at_least (d/city/feiyuan.c's find: random(kar + 30) >= 35), drawn
+## only when reached. The first branch that is for
 ## the player acts. `ask` is the owner's question before a choice that can kill (a man walking into
 ## the bath, DECISIONS 晚月庄 A), with `choice` its button. The steps run in order:
 ## - a line (NpcLine: say, emote, line, whisper, in its colour; a room's message_vision()
@@ -69,6 +71,9 @@ var present_in_npc: StringName = &""
 var present_in_zone: StringName = &""
 ## The n of each random(kar) > random(n) that must come up, in order.
 var kar_above: Array[int] = []
+## kar_draw: random(kar + plus) at least `at_least` (0 plus and 0 at_least: no roll).
+var kar_draw_plus: int = 0
+var kar_draw_at_least: int = 0
 var ask: String = ""
 var choice: String = ""
 var steps: Array[Step] = []
@@ -98,6 +103,7 @@ class Facts:
 	var kar: int = 0
 	var draw: Callable = Callable()
 	var _rolls: Array[bool] = []
+	var _kar_drawn: int = -1
 
 	## Whether random(kar) > random(bound), the `index`-th roll of this use: drawn once, the
 	## first time it is reached (random(n) with n <= 0 is 0, DECISIONS' global rule).
@@ -109,6 +115,16 @@ class Facts:
 			var theirs: int = int(draw.call(bound)) if bound > 0 else 0
 			_rolls.append(mine > theirs)
 		return _rolls[index]
+
+	## Whether random(kar + plus) >= at_least: drawn once per use, when first reached (without a
+	## draw it counts as coming up, as kar_roll()).
+	func kar_draw(plus: int, at_least: int) -> bool:
+		if not draw.is_valid():
+			return true
+		if _kar_drawn < 0:
+			var bound: int = kar + plus
+			_kar_drawn = int(draw.call(bound)) if bound > 0 else 0
+		return _kar_drawn >= at_least
 
 	## Whether every roll up to `bounds` comes up, drawing only as far as they do.
 	func kar_rolls(bounds: Array[int]) -> bool:
@@ -169,6 +185,7 @@ func applies_to(player_gender: StringName, class_id: StringName, facts: Facts = 
 		and (present_in_npc.is_empty() or (known.standing_in.is_valid() and bool(known.standing_in.call(present_in_npc, present_in_zone))))
 		# Last: the rolls draw, and only for a branch otherwise for the player.
 		and (kar_above.is_empty() or known.kar_rolls(kar_above))
+		and (kar_draw_at_least <= 0 or known.kar_draw(kar_draw_plus, kar_draw_at_least))
 	)
 
 
@@ -180,9 +197,9 @@ static func first_for(acts: Array[ScriptedAct], player_gender: StringName, class
 	return null
 
 
-## Whether a branch is drawn for (`kar_above`): it is chosen when the command runs.
+## Whether a branch is drawn for (`kar_above`, `kar_draw`): it is chosen when the command runs.
 func draws() -> bool:
-	return not kar_above.is_empty()
+	return not kar_above.is_empty() or kar_draw_at_least > 0
 
 
 ## Whether a step takes the player elsewhere (the caller closes what they had open).
@@ -249,6 +266,15 @@ static func from_record(reader: ContentRecordReader) -> ScriptedAct:
 		if bound <= 0:
 			reader.fail("kar_above", "each roll's bound is positive")
 		act.kar_above.append(bound)
+	var kar_draw: ContentRecordReader = reader.child("kar_draw")
+	if kar_draw != null:
+		act.kar_draw_plus = kar_draw.required_integer("plus")
+		act.kar_draw_at_least = kar_draw.required_integer("at_least")
+		kar_draw.finish()
+		if act.kar_draw_plus < 0 or act.kar_draw_at_least <= 0:
+			reader.fail("kar_draw", "plus is 0 or more and at_least positive")
+		if not act.kar_above.is_empty():
+			reader.fail("kar_draw", "a branch rolls kar_above or kar_draw, not both")
 	act.ask = reader.text("ask")
 	act.choice = reader.text("choice")
 	if act.ask.is_empty() != act.choice.is_empty():

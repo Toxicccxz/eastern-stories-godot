@@ -39,7 +39,8 @@ extends RefCounted
 ## 我已经给你了啊 holds only while the fake is still theirs (天驼关 B, 默认). `drops` takes the
 ## gift and puts it on the floor (d/city/npc/waiter.c's command("drop all"), owner: 京师 plan);
 ## `recruit` is the NPC's command("recruit") of the giver after it took the gift (d/city/npc/chen.c:
-## 陈剑秋's letter), and `ask` the question the 背包 asks before such a gift (owner).
+## 陈剑秋's letter), and `ask` the question the 背包 asks before such a gift (owner). `destroys`
+## destructs the gift it took (ob->destruct(): d/city/npc/guard.c's 出城令牌).
 const EFFECT_TEMPLE_DONATION: StringName = &"temple_donation"
 const EFFECT_WAGER: StringName = &"wager"
 const EFFECT_PASS_FORCE: StringName = &"pass_force"
@@ -92,6 +93,7 @@ var item_master: bool = false
 var gives_master: bool = false
 var tally: String = ""
 var drops: bool = false
+var destroys: bool = false
 var recruit: bool = false
 var ask: String = ""
 
@@ -225,6 +227,9 @@ static func from_record(reader: ContentRecordReader) -> NpcObjectRule:
 	rule.gives_master = reader.boolean("gives_master", false)
 	rule.tally = reader.text("tally")
 	rule.drops = reader.boolean("drops", false)
+	rule.destroys = reader.boolean("destroys", false)
+	if rule.destroys and (not rule.accept or rule.drops):
+		reader.fail("destroys", "goes with a gift that is taken and kept")
 	rule.recruit = reader.boolean("recruit", false)
 	rule.ask = reader.text("ask")
 	if (rule.drops or rule.recruit or not rule.ask.is_empty()) and not rule.accept:

@@ -213,6 +213,10 @@ func _commands(map: WorldMapController, thing: WorldNearbyThing) -> Array[Array]
 			var landmark: WorldLandmarkDefinition = GameContent.catalog().landmark(thing.id)
 			var pick_landmark: Callable = map.select_landmark.bind(thing.id)
 			offered.append(["查看", _after(pick_landmark, _ui.actions.inspect_context), ""])
+			# A dial's turns come before its own action (jitan.c: turn, then press).
+			for turn: WorldLandmarkDefinition.Turn in landmark.turns:
+				if player_available:
+					offered.append([turn.action, _after(pick_landmark, _ui.actions.landmark_action_context.bind(turn.count)), ""])
 			# A sign is only looked at.
 			if player_available and not landmark.action_label.is_empty():
 				offered.append([landmark.action_label, _after(pick_landmark, _ui.actions.traverse_context), ""])

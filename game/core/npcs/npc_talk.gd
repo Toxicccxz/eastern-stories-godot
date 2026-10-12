@@ -39,6 +39,9 @@ var _chat_chance_roll: NpcRandomInteger
 ## text as authored), RANDOM_MOVE, an NpcDrinkAction or an NpcSpecialAction.
 var _chat_entries: Array = []
 var _combat_chat_chance: int = 0
+## set("chat_chance_combat", random(40)) (d/city/shangshu/npc/huyuan1.c): each NPC draws its
+## own when it is made (NpcRuntimeState.combat_chat_chance); null for a fixed chance.
+var _combat_chat_chance_roll: NpcRandomInteger
 ## As _chat_entries, without NpcDrinkAction; RANDOM_MOVE walks out of the fight.
 var _combat_chat_entries: Array = []
 ## What greeting() does (ScriptedAct): one of them drawn by switch(random(n)), or with
@@ -194,7 +197,18 @@ func combat_chat_entries() -> Array:
 
 ## npc.c chat() in a fight: chat_chance_combat and chat_msg_combat.
 func has_combat_chat() -> bool:
-	return _combat_chat_chance > 0 and not _combat_chat_entries.is_empty()
+	return (_combat_chat_chance > 0 or _combat_chat_chance_roll != null) and not _combat_chat_entries.is_empty()
+
+
+## The rule each NPC draws its chat_chance_combat by when it is made; null for a fixed chance.
+func combat_chat_chance_roll() -> NpcRandomInteger:
+	return _combat_chat_chance_roll
+
+
+## Called once by the loader.
+func with_combat_chat_chance_roll(roll: NpcRandomInteger) -> NpcTalk:
+	_combat_chat_chance_roll = roll
+	return self
 
 
 func has_greeting() -> bool:
@@ -242,7 +256,7 @@ func with_greeting_out_of(value: int, by_rule: bool = false) -> NpcTalk:
 func is_valid() -> bool:
 	if _chat_chance < 0 or ((_chat_chance > 0 or _chat_chance_roll != null) and _chat_entries.is_empty()):
 		return false
-	if _combat_chat_chance < 0 or (_combat_chat_chance > 0 and _combat_chat_entries.is_empty()):
+	if _combat_chat_chance < 0 or ((_combat_chat_chance > 0 or _combat_chat_chance_roll != null) and _combat_chat_entries.is_empty()):
 		return false
 	for entry: Variant in _chat_entries:
 		if not (

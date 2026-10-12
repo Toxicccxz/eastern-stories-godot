@@ -1,11 +1,12 @@
 class_name WorldHiddenPassages
 extends RefCounted
 
-## The Session's hidden passages (hidden_passage landmarks): one
-## HiddenPassageState each, pushed by the landmark's policy, advanced by world
-## time, and the scene passages of both maps kept in step with it. ES2 opens the
-## way up only when the room below is loaded (find_object); every native room
-## always is, so both open together.
+## The Session's hidden passages (hidden_passage and dial landmarks): one
+## HiddenPassageState each, pushed (or turned and pressed) by the landmark's policy,
+## advanced by world time, and the scene passages of both maps kept in step with it.
+## ES2 opens the way up only when the room below is loaded (find_object); every native
+## room always is, so both open together. A dial closes on time even on a player below,
+## who opens it again from there (its dial_below landmark).
 var _session: WorldSessionController
 var _states: Dictionary[StringName, HiddenPassageState] = {}
 var _carried_ms: float = 0.0
@@ -46,6 +47,46 @@ func push(landmark: WorldLandmarkDefinition) -> HiddenPassagePushResult:
 	return result
 
 
+## jitan.c do_turn(): the turn's line, and one more of its count.
+func turn(landmark: WorldLandmarkDefinition, turn: WorldLandmarkDefinition.Turn) -> bool:
+	var passage: HiddenPassageState = null if landmark == null or turn == null else _states.get(landmark.landmark_id)
+	if passage == null:
+		return false
+	_session.shared_ui().append_log_lines([TranslationServer.translate(turn.line)])
+	passage.turn(turn.count)
+	return true
+
+
+## jitan.c do_press(): the floor opens when the turns are right (open), else nothing is
+## said (the turns are cleared, M4).
+func press(landmark: WorldLandmarkDefinition) -> HiddenPassagePushResult:
+	var result: HiddenPassagePushResult = HiddenPassagePushResult.new()
+	var passage: HiddenPassageState = null if landmark == null else _states.get(landmark.landmark_id)
+	if passage == null:
+		return result
+	result.pushed = true
+	result.opened = passage.press(landmark.combination, 1000 * landmark.setting("open_seconds"))
+	if result.opened:
+		_apply(landmark, true)
+		_session.shared_ui().append_log_lines([TranslationServer.translate(landmark.message("open"))])
+	return result
+
+
+## The dial's way opened from below (owner Q2 (a)): 天花板…露出一个向上的阶梯。
+func open_from_below(opener: WorldLandmarkDefinition) -> HiddenPassagePushResult:
+	var result: HiddenPassagePushResult = HiddenPassagePushResult.new()
+	var dial: WorldLandmarkDefinition = null if opener == null else GameContent.catalog().landmark(opener.opens)
+	var passage: HiddenPassageState = null if dial == null else _states.get(dial.landmark_id)
+	if passage == null:
+		return result
+	result.pushed = true
+	result.opened = passage.open_from_below(1000 * dial.setting("open_seconds"))
+	if result.opened:
+		_apply(dial, true)
+		_session.shared_ui().append_log_lines([TranslationServer.translate(dial.message("open_below"))])
+	return result
+
+
 ## weapon_storage.c reset(): delete("left_trigger") when the landmark's room resets.
 func reset_room(legacy_room: String) -> void:
 	for landmark_id: StringName in _states:
@@ -66,6 +107,9 @@ func advance(delta: float) -> void:
 			var location: WorldLocationState = _session.player_runtime().world_location()
 			if location != null and location.zone_id == landmark.zone_id:
 				_session.shared_ui().append_log_lines([TranslationServer.translate(landmark.message("close"))])
+			# jitan.c close_passage(): the room below sees its stairs go back up.
+			elif location != null and landmark.policy == &"dial" and location.zone_id == _below_zone(landmark):
+				_session.shared_ui().append_log_lines([TranslationServer.translate(landmark.message("close_below"))])
 
 
 func _apply(landmark: WorldLandmarkDefinition, open: bool) -> void:
@@ -77,10 +121,16 @@ func _apply(landmark: WorldLandmarkDefinition, open: bool) -> void:
 
 
 ## The player stands where the passage's way down leads (and it has a way back up:
-## a single way there closes whoever stands beyond it, as road6.c's grass).
+## a single way there closes whoever stands beyond it, as road6.c's grass). A dial's
+## way shuts on them all the same: they open it from below.
 func _player_below(landmark: WorldLandmarkDefinition) -> bool:
-	if landmark.portal_ids().size() < 2:
+	if landmark.portal_ids().size() < 2 or landmark.policy == &"dial":
 		return false
-	var down: PortalDefinition = GameContent.catalog().portal(landmark.portal_id)
 	var location: WorldLocationState = _session.player_runtime().world_location()
-	return down != null and location != null and location.zone_id == down.destination_zone_id
+	return location != null and location.zone_id == _below_zone(landmark)
+
+
+## Where the landmark's way down leads.
+func _below_zone(landmark: WorldLandmarkDefinition) -> StringName:
+	var down: PortalDefinition = GameContent.catalog().portal(landmark.portal_id)
+	return &"" if down == null else down.destination_zone_id
