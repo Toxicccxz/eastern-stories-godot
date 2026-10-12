@@ -19,7 +19,7 @@
 			"chat_chance_combat": 15,
 			"chat_msg_combat": ["守城官兵喝道：还不快放下武器束手就缚？\n", "守城官兵喝道：大胆刁民！竟敢在天子脚下造反？\n"],
 			"inquiry": { "出城": ["你可以在京城里找一找，说不定可以找到一些出城的令牌。\n"], "out": ["你可以在京城里找一找，说不定可以找到一些出城的令牌。\n"] },
-			"accept_kill": { "line": "守城兵大叫：反了！反了！" },
+			"accept_kill": { "line": "守城兵大叫：反了！反了！", "fellows": {} },
 			"accept_object": [
 				{ "say": "这是什么东西啊！你想偷渡呀？", "accept": false }
 			]
@@ -177,8 +177,8 @@
 			},
 			"apprentice": { "kind": "silent", "class": "guardman", "title": "振远镖局第一代弟子" },
 			"accept_object": [
-				{ "item_alias": "letter", "item_master": true, "ask": "陈天星收下陈剑秋的推荐信，就愿意收你为徒，你再向他拜师，便成为振远镖局的弟子。信交出去就要不回来了。\n确定把信交给陈天星吗？", "say": "果然是剑秋侄儿推荐来的。我收你啦。", "accept": true, "recruit": true },
-				{ "item_alias": "letter", "line": "陈天星狐疑地望着你，说\n这是你的嘛？\n", "accept": false },
+				{ "item": "es2:u/cloud/npc/obj/letter", "item_master": true, "ask": "陈天星收下陈剑秋的推荐信，就愿意收你为徒，你再向他拜师，便成为振远镖局的弟子。信交出去就要不回来了。\n确定把信交给陈天星吗？", "say": "果然是剑秋侄儿推荐来的。我收你啦。", "accept": true, "recruit": true },
+				{ "item": "es2:u/cloud/npc/obj/letter", "line": "陈天星狐疑地望着你，说\n这是你的嘛？\n", "accept": false },
 				{ "line": "不要戏弄我！\n", "accept": false }
 			]
 		},

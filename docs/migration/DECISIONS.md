@@ -139,7 +139,10 @@ function became is in [CITY_CONTENT](CITY_CONTENT.md); it follows the LPC except
   in the gates, the 北门 and nroad1, so create() stopped before setup() and the guards came with
   the room's first reset() in ES2; no door is placed anywhere in A.
 - **默认: 反了！反了！ is shown** when a 守城兵 is attacked (do_kill()'s notify_fail(): kill.c went on,
-  so ES2 never printed it).
+  so ES2 never printed it); the other guards there join, as each one's do_kill() kill_ob()ed the attacker.
+- **默认: 陈天星's offer is saved.** recruit.c's offer (pending/recruit) was a temp on the master and
+  went with a logout; the player has given the letter for it, so it outlives Continue (kept with
+  the player's saved temps).
 - **默认: 桃X仙 draws his name, not his id** (nobody sees an NPC's id); his drools stay silent (their
   memory comes only from the chat channel, which nobody else speaks on). A corpse is not among
   what his get all takes (an NPC carrying a body is not modelled).

@@ -366,7 +366,6 @@ func count_landmark_use(landmark_id: StringName) -> void:
 	landmark_use_counts[landmark_id] = landmark_uses(landmark_id) + 1
 
 
-## Items dropped on this map's floor (not on a spawn marker), for the save.
 ## command("get all") by an NPC (u/cp/chater2.c, cmds/std/get.c): everything lying in its room
 ## that is not no_get goes to it while it fits under its max_encumbrance (a stack whole, merged
 ## into its own), in the order it lies there, each told as get.c's message_vision() tells it. Not
@@ -405,6 +404,7 @@ func npc_get_all(npc: NpcRuntimeState) -> Array[String]:
 	return lines
 
 
+## Items dropped on this map's floor (not on a spawn marker), for the save.
 func dropped_item_ids() -> Array[StringName]:
 	var result: Array[StringName] = []
 	result.assign(_dropped.keys())
@@ -707,7 +707,12 @@ func give_to_selected(item_id: StringName, amount: int = 0) -> ItemHandlingResul
 		else:
 			_player.recruited_by(npc.definition(), family, int(Time.get_unix_time_from_system()))
 			var at: int = maxi(0, result.lines.size() - 1)
-			for line: String in _player.apprenticeship_request.lines:
+			var added: Array[String] = _player.apprenticeship_request.lines
+			var colors: Dictionary = {}
+			for index: int in result.line_colors:
+				colors[index + added.size() if index >= at else index] = result.line_colors[index]
+			result.line_colors.assign(colors)
+			for line: String in added:
 				result.lines.insert(at, line)
 				at += 1
 	if not attacks:

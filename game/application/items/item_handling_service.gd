@@ -89,7 +89,7 @@ static func give(
 	if portion.is_empty():
 		return result
 	if result.rule.drops and floor != null and floor.kind == ContainmentEndpoint.Kind.WORLD:
-		return _given_and_dropped(result, authorities, portion, content, offer.value, name, floor)
+		return _given_and_dropped(result, authorities, id, portion, content, offer.value, name, floor)
 	if offer.value != 0:
 		result.lines.append(TranslationServer.translate("你拿出{item}给{npc}。").format({
 			"item": HeldItemFacts.short_name(portion, content, authorities.context.stacks), "npc": TranslationServer.translate(name),
@@ -120,7 +120,7 @@ static func give(
 ## all") puts it on the floor (`drops`). Owner (京师 plan): it lands at the player's feet, money
 ## too; ES2's give.c destructed money after accept_object() and moved anything else to him, so
 ## his drop all only dropped what he had been given before.
-static func _given_and_dropped(result: ItemHandlingResult, authorities: Authorities, portion: StringName, content: ItemContentDefinition, value: int, name: String, floor: ContainmentEndpoint) -> ItemHandlingResult:
+static func _given_and_dropped(result: ItemHandlingResult, authorities: Authorities, id: StringName, portion: StringName, content: ItemContentDefinition, value: int, name: String, floor: ContainmentEndpoint) -> ItemHandlingResult:
 	var shown: String = HeldItemFacts.short_name(portion, content, authorities.context.stacks) if value != 0 else HeldItemFacts.one_unit(content)
 	if value != 0:
 		result.lines.append(TranslationServer.translate("你拿出{item}给{npc}。").format({"item": shown, "npc": TranslationServer.translate(name)}))
@@ -128,6 +128,7 @@ static func _given_and_dropped(result: ItemHandlingResult, authorities: Authorit
 		result.lines.append(TranslationServer.translate("你给{npc}{item}。").format({"npc": TranslationServer.translate(name), "item": shown}))
 	var moved: InventoryTransferResult = _move(authorities, portion, InventoryTransferDestination.new(floor, true, true, WorldMapController.WORLD_CAPACITY))
 	if moved == null or not moved.succeeded:
+		_return_portion(authorities, id, portion)
 		result.outcome = ItemHandlingResult.Outcome.AUTHORITY_FAILURE
 		return result
 	# TRANSLATORS: drop.c's message_vision() for the NPC ({npc}) who drops what it was given ({item}).

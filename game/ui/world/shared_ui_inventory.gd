@@ -173,7 +173,7 @@ func _give_warning(map: WorldMapController, id: StringName, amount: int) -> Stri
 			return tr(GIVE_EQUIPPED_WARNING).format({"item": tr(content.display_name), "npc": npc_name})
 		var given: int = amount if amount > 0 else row.amount
 		var takes_money: bool = npc.definition().dealings().object_rules.any(
-			func(rule: NpcObjectRule) -> bool: return rule.effect in NpcObjectRule.EFFECTS
+			func(each: NpcObjectRule) -> bool: return each.effect in NpcObjectRule.EFFECTS
 		)
 		if content.currency_base_value > 0 and not takes_money and given * content.currency_base_value >= GIVE_MONEY_ASK_AT:
 			return tr(GIVE_MONEY_WARNING).format({"money": HeldItemFacts.counted(content, given), "npc": npc_name})

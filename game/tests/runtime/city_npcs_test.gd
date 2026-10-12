@@ -219,6 +219,19 @@ func _test_chen(tree: SceneTree, session: WorldSessionController) -> void:
 	var at: int = log.rfind("陈天星说道：果然是剑秋侄儿推荐来的。我收你啦。")
 	_check(at >= 0 and log.slice(at, at + 4) == ["陈天星说道：果然是剑秋侄儿推荐来的。我收你啦。", "陈天星想要收你为弟子。", "如果你愿意拜陈天星为师父，就向他拜师。", "你给陈天星一封信件。"], "taken, and he offers: %s" % [log.slice(-5)])
 	_check(not _carries(session, letter) and player.apprenticeship_request.is_offered(CHEN) and not player.state.family.has_family(), "the letter is his; not taken yet")
+	# The offer outlives Continue (默认): the letter was given for it.
+	var snapshot: GameSaveSnapshot = Work.capture(session)
+	_check(snapshot != null and snapshot.player.temps.get(WorldPlayerRuntimeState.OFFER_TEMP_PREFIX + String(CHEN), 0) == 1, "Save keeps 陈天星's offer")
+	var restored: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(GameSaveJsonCodec.decode(GameSaveJsonCodec.encode(snapshot).text).snapshot, tree.root)
+	if restored.succeeded():
+		var fresh: WorldSessionController = restored.candidate
+		_check(fresh.activate_restore_candidate() and fresh.player_runtime().apprenticeship_request.is_offered(CHEN) and not fresh.player_runtime().temp_marks.has(WorldPlayerRuntimeState.OFFER_TEMP_PREFIX + String(CHEN)), "Continue: 陈天星 still offers")
+		var again: GameSaveSnapshot = Work.capture(fresh)
+		_check(again != null and GameSaveJsonCodec.encode(again).text == GameSaveJsonCodec.encode(snapshot).text, "Save again: the same file")
+		fresh.free()
+		await tree.process_frame
+	else:
+		_check(false, "Continue builds: %s" % restored.path)
 	var service: TeacherService = null
 	for candidate: WorldService in map.service_nodes:
 		if candidate is TeacherService and (candidate as TeacherService).npc.character_id == chen.character_id:
@@ -240,15 +253,17 @@ func _test_fights(tree: SceneTree, session: WorldSessionController) -> void:
 		if not KINDS.has(id) or not npc.exists_in_map or fought.has(id) or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
 			continue
 		fought.append(id)
-		var lines: Array[String] = await _fight(tree, session, map, npc)
+		var squad: Array[int] = []
+		var lines: Array[String] = await _fight(tree, session, map, npc, squad)
 		if id == &"city.npc.guard":
 			rebellion = lines.has("守城兵大叫：反了！反了！")
+			_check(squad == [3], "the whole squad at the gate fights: %s" % [squad])
 	_check(fought.size() == KINDS.size(), "%d kinds fought: %s" % [fought.size(), fought])
 	_check(rebellion, "attacked, a 守城兵 cries 反了！反了！")
 	_check(session.player_runtime().state.vendetta.get("authority", 0) == 0, "attacking is no killing: no vendetta yet")
 
 
-func _fight(tree: SceneTree, session: WorldSessionController, map: WorldMapController, npc: NpcRuntimeState) -> Array[String]:
+func _fight(tree: SceneTree, session: WorldSessionController, map: WorldMapController, npc: NpcRuntimeState, squad: Array[int] = []) -> Array[String]:
 	var name: String = npc.definition().display_name
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	_full(player)
@@ -264,6 +279,13 @@ func _fight(tree: SceneTree, session: WorldSessionController, map: WorldMapContr
 		var started: CombatSliceInitiationResult = map.attack_selected()
 		_check(started.outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the player attacks %s: %s %s" % [name, CombatSliceInitiationResult.Outcome.find_key(started.outcome), session.shared_ui().log_lines().slice(-2)])
 		said.assign(session.shared_ui().log_lines().slice(start))
+		if coordinator.has_active_encounter():
+			var kind: int = 0
+			for participant: CombatParticipant in coordinator.active_encounter().participants():
+				var other: NpcRuntimeState = map.find_resident_npc(participant.participant_id)
+				if other != null and other.definition().definition_id == npc.definition().definition_id:
+					kind += 1
+			squad.append(kind)
 	coordinator.advance_scheduler(30.0)
 	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "%s: thirty seconds of fighting without a stop" % name)
 	_finish_fight(session)

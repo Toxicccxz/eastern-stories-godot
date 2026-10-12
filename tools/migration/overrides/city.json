@@ -2,7 +2,7 @@
 	"vendors": ["d/city/npc/waiter.c", "d/city/npc/caker.c", "d/city/npc/dumpling_seller.c", "d/city/npc/vendor.c", "d/city/npc/shoer.c", "d/city/npc/clother.c", "d/city/npc/weaponor.c"],
 	"set": {
 		"city.npc.guard": {
-			"accept_kill": { "line": "守城兵大叫：反了！反了！" },
+			"accept_kill": { "line": "守城兵大叫：反了！反了！", "fellows": {} },
 			"accept_object": [
 				{ "say": "这是什么东西啊！你想偷渡呀？", "accept": false }
 			]
@@ -68,11 +68,11 @@
 			"apprentice": { "kind": "silent", "class": "guardman", "title": "振远镖局第一代弟子" },
 			"accept_object": [
 				{
-					"item_alias": "letter", "item_master": true,
+					"item": "es2:u/cloud/npc/obj/letter", "item_master": true,
 					"ask": "陈天星收下陈剑秋的推荐信，就愿意收你为徒，你再向他拜师，便成为振远镖局的弟子。信交出去就要不回来了。\n确定把信交给陈天星吗？",
 					"say": "果然是剑秋侄儿推荐来的。我收你啦。", "accept": true, "recruit": true
 				},
-				{ "item_alias": "letter", "line": "陈天星狐疑地望着你，说\n这是你的嘛？\n", "accept": false },
+				{ "item": "es2:u/cloud/npc/obj/letter", "line": "陈天星狐疑地望着你，说\n这是你的嘛？\n", "accept": false },
 				{ "line": "不要戏弄我！\n", "accept": false }
 			]
 		},
@@ -187,7 +187,7 @@
 			"set_temp apply/move": "move (轻功 travel) is not modelled (as 县城官兵's)",
 			"function init": "out: the act services city.<gate>.out (城门 · 出城) of the five shut gates; kill: accept_kill in set",
 			"function do_out": "act services city.eastdoor1/eastdoor2/westdoor1/westdoor2/southdoor.out: with a 守城兵 standing there and no marks/令牌, its say and write() (the stray space before 。 goes: the room's own line has none); otherwise go.c's 这个方向没有出路。 (there is no out exit)",
-			"function do_kill": "accept_kill in set: its notify_fail() line 守城兵大叫：反了！反了！ is shown as its author meant (kill.c then went on and ES2 never printed it, 默认); kill_ob() is the fight itself",
+			"function do_kill": "accept_kill in set: every guard in the room has the action, and each returns 0 (notify_fail), so all of them kill_ob() the attacker before kill.c runs: fellows join the fight; their notify_fail() line 守城兵大叫：反了！反了！ is shown once as its author meant (kill.c went on and ES2 never printed it, 默认)",
 			"function accept_object": "accept_object in set: anything but the token is refused with its say (return 0); the token (marks/令牌, 原来是官府中人) comes with 废园's find in 京师 B (tests/runtime/city_test.gd's reminder)"
 		},
 		"d/city/bank.c": {
@@ -230,7 +230,7 @@
 		},
 		"d/city/npc/chen.c": {
 			"assign_apprentice": "assign_apprentice(\"弟子\", 0) after create_family(): his title stays (振远镖局总镖头) and his privs are 0, so learn.c lets only his own apprentices learn from him (family.title and privileges in set)",
-			"function accept_object": "accept_object in set: 陈剑秋's letter (id letter, its master_id the giver's: item_master) is taken (smile prints nothing), his say and command(\"recruit\"): asked first (owner, 京师 plan). Owner's modern fix (M2, 默认): a letter not the giver's (狐疑地望着) and anything else (angry prints nothing, 不要戏弄我！) are handed back; ES2 kept them (return 1)",
+			"function accept_object": "accept_object in set: 陈剑秋's letter (query(\"id\") == \"letter\": only u/cloud/npc/obj/letter.c has that id first, so the rule names its blueprint; its master_id the giver's: item_master) is taken (smile prints nothing), his say and command(\"recruit\"): asked first (owner, 京师 plan). Owner's modern fix (M2, 默认): a letter not the giver's (狐疑地望着) and anything else (angry prints nothing, 不要戏弄我！) are handed back; ES2 kept them (return 1)",
 			"function recruit_apprentice": "apprentice in set: kind silent (no attempt_apprentice(): 拜师 only waits), title 振远镖局第一代弟子 and class guardman"
 		},
 		"d/city/npc/obj/duoqing_blade.c": {

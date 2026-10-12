@@ -147,7 +147,7 @@ func _test_ghost_bane() -> void:
 func _test_chen_reminder() -> void:
 	var chen: NpcDefinition = GameContent.catalog().npc(&"city.npc.chen")
 	var rules: Array[NpcObjectRule] = [] if chen == null else chen.dealings().object_rules
-	_check(not rules.is_empty() and rules[0].item_master and rules[0].item_alias == "letter" and rules[0].recruit and rules[0].accept, "陈天星 takes 陈剑秋's letter (its master form) and recruits")
+	_check(not rules.is_empty() and rules[0].item_master and rules[0].item == LETTER and rules[0].recruit and rules[0].accept, "陈天星 takes 陈剑秋's letter (its master form) and recruits")
 
 
 ## w_street1.c: lifts counted with str / 5 open the hole; the 护草神兽 attacks; killed by the

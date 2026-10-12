@@ -114,7 +114,7 @@ func capture(
 		)
 	)
 	# The player's set_temp() flags (owner): a quest chain's steps survive Continue.
-	player_snapshot.temps = player.temp_marks.duplicate()
+	player_snapshot.temps = player.saved_temps()
 
 	var npc_snapshots: Array[Values.NpcSpawnStateSnapshot] = []
 	for npc: NpcRuntimeState in session.world_npcs():
