@@ -76,7 +76,7 @@ static func decide(npc: NpcRuntimeState, challenger: Challenger, attitude: int =
 		NpcDefinition.Attitude.FRIENDLY:
 			result.lines.append(Line.new(false, "$SELF怎麽可能是$RESPECT的对手？"))
 			return result
-		NpcDefinition.Attitude.AGGRESSIVE:
+		NpcDefinition.Attitude.AGGRESSIVE, NpcDefinition.Attitude.KILLER:
 			result.lines.append(Line.new(false, "哼！出招吧！"))
 		_:
 			if not fighting:

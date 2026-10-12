@@ -199,7 +199,11 @@ msgstr ""
 #. city.npc.shangshu.huyuan gender
 #. city.npc.shangshu.huyuan1 gender
 #. city.npc.shangshu.gardener gender
-#: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json
+#. chuenyu.npc.jiading3 gender
+#. chuenyu.npc.gardener gender
+#. chuenyu.npc.smallgardener gender
+#. chuenyu.npc.cook gender
+#: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json
 msgid "男性"
 msgstr ""
 
@@ -265,7 +269,9 @@ msgstr ""
 #. city.npc.shoer gender
 #. city.npc.shangshu.maid gender
 #. city.npc.shangshu.qing_chen gender
-#: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json data/village/npcs.json data/city/npcs.json
+#. chuenyu.npc.flower_seller gender
+#. chuenyu.npc.cleangirl gender
+#: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json
 msgid "女性"
 msgstr ""
 
@@ -835,6 +841,164 @@ msgstr ""
 msgid "南 · 衙门口"
 msgstr ""
 
+#. es2:d/village/road1 short
+#. es2:d/chuenyu/croad1 short
+#: scenes/world/chuenyu/chuenyu_main.tscn scenes/world/village/village_main.tscn data/village/rooms.json data/chuenyu/rooms.json
+msgid "黄土大道"
+msgstr ""
+
+#. es2:d/chuenyu/croad2 short
+#: scenes/world/chuenyu/chuenyu_main.tscn data/chuenyu/rooms.json
+msgid "路口"
+msgstr ""
+
+#. es2:d/chuenyu/sunnyroad short
+#: scenes/world/chuenyu/chuenyu_main.tscn data/chuenyu/rooms.json
+msgid "山脚乡田"
+msgstr ""
+
+#. es2:d/chuenyu/base_b_m short
+#: scenes/world/chuenyu/chuenyu_main.tscn data/chuenyu/rooms.json
+msgid "黑松山脚"
+msgstr ""
+
+#. es2:d/chuenyu/foot_b_mtn short
+#: scenes/world/chuenyu/chuenyu_main.tscn data/chuenyu/rooms.json
+msgid "黑松山腰"
+msgstr ""
+
+#. es2:d/chuenyu/high_b_mtn short
+#. es2:d/chuenyu/high_b_mtn2 short
+#: scenes/world/chuenyu/chuenyu_main.tscn data/chuenyu/rooms.json
+msgid "花岗石街"
+msgstr ""
+
+#. es2:d/chuenyu/rope_bridge short
+#: scenes/world/chuenyu/chuenyu_main.tscn data/chuenyu/rooms.json
+msgid "铁索桥"
+msgstr ""
+
+#. es2:d/chuenyu/gate_castle short
+#: scenes/world/chuenyu/chuenyu_main.tscn data/chuenyu/rooms.json
+msgid "黑松淳于"
+msgstr ""
+
+#. es2:d/chuenyu/west_castle short
+#: scenes/world/chuenyu/chuenyu_main.tscn data/chuenyu/rooms.json
+msgid "黑松城堡的西侧"
+msgstr ""
+
+#. es2:d/chuenyu/east_castle short
+#: scenes/world/chuenyu/chuenyu_main.tscn data/chuenyu/rooms.json
+msgid "黑松城堡的东侧"
+msgstr ""
+
+#. es2:d/latemoon/room/two1 short
+#. es2:d/latemoon/room/two2 short
+#. es2:d/chuenyu/trap_castle short
+#: scenes/world/chuenyu/chuenyu_main.tscn scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json data/chuenyu/rooms.json
+msgid "夹道"
+msgstr ""
+
+#. es2:d/chuenyu/west_garden short
+#: scenes/world/chuenyu/chuenyu_main.tscn data/chuenyu/rooms.json
+msgid "西花园"
+msgstr ""
+
+#. es2:d/chuenyu/north_garden short
+#: scenes/world/chuenyu/chuenyu_main.tscn data/chuenyu/rooms.json
+msgid "北花园"
+msgstr ""
+
+#. es2:d/chuenyu/west_blackge short
+#: scenes/world/chuenyu/chuenyu_main.tscn data/chuenyu/rooms.json
+msgid "黑松阁西厅"
+msgstr ""
+
+#. es2:d/snow/hockshop2 short
+#. es2:d/chuenyu/storage short
+#: scenes/world/chuenyu/chuenyu_main.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json data/chuenyu/rooms.json
+msgid "储藏室"
+msgstr ""
+
+#. es2:d/chuenyu/center short
+#: scenes/world/chuenyu/chuenyu_main.tscn data/chuenyu/rooms.json
+msgid "黑松阁正厅"
+msgstr ""
+
+#. es2:d/chuenyu/east_blackge short
+#: scenes/world/chuenyu/chuenyu_main.tscn data/chuenyu/rooms.json
+msgid "黑松阁东厅"
+msgstr ""
+
+#. es2:d/chuenyu/east_garden short
+#: scenes/world/chuenyu/chuenyu_main.tscn data/chuenyu/rooms.json
+msgid "东花园"
+msgstr ""
+
+#. es2:d/chuenyu/south_garden short
+#: scenes/world/chuenyu/chuenyu_main.tscn data/chuenyu/rooms.json
+msgid "南花园"
+msgstr ""
+
+#: scenes/world/chuenyu/chuenyu_main.tscn scenes/world/city/city_main.tscn scenes/world/cloud/cloud_outdoor.tscn scenes/world/latemoon/latemoon_manor.tscn scenes/world/snow/snow_inn.tscn
+msgid "楼梯 · 上楼"
+msgstr ""
+
+#: scenes/world/chuenyu/chuenyu_main.tscn
+msgid "东 · 玉螺湖村"
+msgstr ""
+
+#: scenes/world/chuenyu/chuenyu_main.tscn
+msgid "茶馆"
+msgstr ""
+
+#: scenes/world/chuenyu/chuenyu_main.tscn
+msgid "万丈深渊"
+msgstr ""
+
+#: scenes/world/chuenyu/chuenyu_main.tscn
+msgid "黑松阁"
+msgstr ""
+
+#. oldpine.outdoor.landmark.cliffdown_cliff name
+#. oldpine.outdoor.landmark.cliffside_cliff name
+#: scenes/world/chuenyu/chuenyu_main.tscn scenes/world/green/green_mountain.tscn scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/world.json
+msgid "悬崖"
+msgstr ""
+
+#: scenes/world/chuenyu/chuenyu_main.tscn
+msgid "城墙 · 爬上去"
+msgstr ""
+
+#: scenes/world/chuenyu/chuenyu_main.tscn
+msgid "铁链 · 顺着走下去"
+msgstr ""
+
+#. es2:d/chuenyu/yiantai short
+#: scenes/world/chuenyu/chuenyu_upstairs.tscn data/chuenyu/rooms.json
+msgid "阳台"
+msgstr ""
+
+#. es2:d/chuenyu/bedroom short
+#: scenes/world/chuenyu/chuenyu_upstairs.tscn data/chuenyu/rooms.json
+msgid "卧室"
+msgstr ""
+
+#. es2:d/latemoon/room/eat2 short
+#. es2:d/chuenyu/kitchen short
+#: scenes/world/chuenyu/chuenyu_upstairs.tscn scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json data/chuenyu/rooms.json
+msgid "膳房"
+msgstr ""
+
+#: scenes/world/chuenyu/chuenyu_upstairs.tscn scenes/world/city/city_upstairs.tscn scenes/world/cloud/cloud_duchang_upstairs.tscn scenes/world/cloud/cloud_jiyuan_upstairs.tscn scenes/world/cloud/cloud_tearoom_upstairs.tscn scenes/world/latemoon/latemoon_upper.tscn scenes/world/snow/snow_inn_upstairs.tscn scenes/world/waterfog/waterfog_upstairs.tscn
+msgid "楼梯 · 下楼"
+msgstr ""
+
+#: scenes/world/chuenyu/chuenyu_upstairs.tscn
+msgid "大床"
+msgstr ""
+
 #. es2:d/snow/secret_storage short
 #. es2:d/city/midao1 short
 #: scenes/world/city/city_cellar.tscn scenes/world/snow/snow_cellar.tscn data/snow/rooms.json data/city/rooms.json
@@ -1064,10 +1228,6 @@ msgstr ""
 msgid "废屋"
 msgstr ""
 
-#: scenes/world/city/city_main.tscn scenes/world/cloud/cloud_outdoor.tscn scenes/world/latemoon/latemoon_manor.tscn scenes/world/snow/snow_inn.tscn
-msgid "楼梯 · 上楼"
-msgstr ""
-
 #: scenes/world/city/city_main.tscn scenes/world/snow/snow_outdoor.tscn
 msgid "向下的阶梯"
 msgstr ""
@@ -1120,10 +1280,6 @@ msgstr ""
 #. es2:d/city/jiulou_2 short
 #: scenes/world/city/city_upstairs.tscn data/city/rooms.json
 msgid "太白酒楼二楼"
-msgstr ""
-
-#: scenes/world/city/city_upstairs.tscn scenes/world/cloud/cloud_duchang_upstairs.tscn scenes/world/cloud/cloud_jiyuan_upstairs.tscn scenes/world/cloud/cloud_tearoom_upstairs.tscn scenes/world/latemoon/latemoon_upper.tscn scenes/world/snow/snow_inn_upstairs.tscn scenes/world/waterfog/waterfog_upstairs.tscn
-msgid "楼梯 · 下楼"
 msgstr ""
 
 #. es2:d/city/wall short
@@ -1462,12 +1618,6 @@ msgstr ""
 msgid "南 · 青石村"
 msgstr ""
 
-#. oldpine.outdoor.landmark.cliffdown_cliff name
-#. oldpine.outdoor.landmark.cliffside_cliff name
-#: scenes/world/green/green_mountain.tscn scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/world.json
-msgid "悬崖"
-msgstr ""
-
 #: scenes/world/green/green_mountain.tscn
 msgid "石洞"
 msgstr ""
@@ -1742,12 +1892,6 @@ msgstr ""
 msgid "内厅穿堂"
 msgstr ""
 
-#. es2:d/latemoon/room/two1 short
-#. es2:d/latemoon/room/two2 short
-#: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json
-msgid "夹道"
-msgstr ""
-
 #. es2:d/latemoon/room/twoc short
 #. latemoon.latemoon4.door name
 #: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json data/latemoon/world.json
@@ -1757,11 +1901,6 @@ msgstr ""
 #. es2:d/latemoon/room/eat1 short
 #: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json
 msgid "大饭厅"
-msgstr ""
-
-#. es2:d/latemoon/room/eat2 short
-#: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json
-msgid "膳房"
 msgstr ""
 
 #. es2:d/latemoon/room/guest2 short
@@ -2246,11 +2385,6 @@ msgstr ""
 msgid "丰登当铺"
 msgstr ""
 
-#. es2:d/snow/hockshop2 short
-#: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
-msgid "储藏室"
-msgstr ""
-
 #. es2:d/snow/school1 short
 #: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
 msgid "淳风武馆大门"
@@ -2471,11 +2605,6 @@ msgstr ""
 msgid "冰阶"
 msgstr ""
 
-#. es2:d/village/road1 short
-#: scenes/world/village/village_main.tscn data/village/rooms.json
-msgid "黄土大道"
-msgstr ""
-
 #. es2:d/village/lakeside short
 #: scenes/world/village/village_main.tscn data/village/rooms.json
 msgid "玉螺湖畔"
@@ -2538,7 +2667,7 @@ msgid "北 · 天驼关"
 msgstr ""
 
 #: scenes/world/village/village_main.tscn
-msgid "西 · 黑松山（未开放）"
+msgid "西 · 黑松山"
 msgstr ""
 
 #: scenes/world/village/village_main.tscn
@@ -2887,7 +3016,8 @@ msgstr ""
 msgid "你胸中杀气翻涌，渐渐压不住了：杀气这么重，走进有人的地方时，你可能会控制不住，向人出手。"
 msgstr ""
 
-#: core/characters/character_state.gd core/npcs/npc_character_state_factory.gd
+#. chuenyu.npc.wolfdog gender
+#: core/characters/character_state.gd core/npcs/npc_character_state_factory.gd data/chuenyu/npcs.json
 msgid "雄性"
 msgstr ""
 
@@ -5919,7 +6049,10 @@ msgstr ""
 #. choyin.npc.lion limbs
 #. village.npc.rat limbs
 #. village.npc.dragon limbs
-#: runtime/combat_slice/combat_slice_content_profile.gd ui/world/player_inventory_panel.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/latemoon/npcs.json data/choyin/npcs.json data/village/npcs.json
+#. chuenyu.npc.bee limbs
+#. chuenyu.npc.wolfdog limbs
+#. chuenyu.npc.pigeon limbs
+#: runtime/combat_slice/combat_slice_content_profile.gd ui/world/player_inventory_panel.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/latemoon/npcs.json data/choyin/npcs.json data/village/npcs.json data/chuenyu/npcs.json
 msgid "头部"
 msgstr ""
 
@@ -7962,9 +8095,10 @@ msgstr ""
 #. es2:d/choyin/npc/obj/silk_bag unit
 #. es2:d/canyon/bamboo/obj/slipcase unit
 #. es2:d/village/obj/melon unit
+#. es2:d/chuenyu/obj/qiwine unit
 #. es2:d/green/npc/obj/ricewine unit
 #. es2:d/green/obj/jade unit
-#: data/common/items.json data/snow/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/canyon/items.json data/village/items.json data/green/items.json
+#: data/common/items.json data/snow/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/canyon/items.json data/village/items.json data/chuenyu/items.json data/green/items.json
 msgid "个"
 msgstr ""
 
@@ -8085,6 +8219,11 @@ msgstr ""
 #. es2:d/city/npc/obj/wuqing_sword unit
 #. es2:d/city/npc/obj/demon_staff unit
 #. es2:d/city/shangshu/npc/obj/sword unit
+#. es2:d/chuenyu/obj/flower unit
+#. es2:d/chuenyu/obj/8hammer unit
+#. es2:d/chuenyu/obj/scissors unit
+#. es2:d/chuenyu/obj/feather unit
+#. es2:d/chuenyu/obj/bknife unit
 #. es2:u/cloud/obj/npc/butcher/knife unit
 #. es2:u/cloud/obj/npc/tailor/ruler unit
 #. es2:u/cloud/obj/npc/tailor/scissors unit
@@ -8096,7 +8235,7 @@ msgstr ""
 #. es2:d/green/obj/hammer unit
 #. es2:d/green/obj/windsword unit
 #. es2:d/temple/obj/broom unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/canyon/items.json data/village/items.json data/city/items.json data/cloud/items.json data/waterfog/items.json data/green/items.json data/temple/items.json
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/canyon/items.json data/village/items.json data/city/items.json data/chuenyu/items.json data/cloud/items.json data/waterfog/items.json data/green/items.json data/temple/items.json
 msgid "把"
 msgstr ""
 
@@ -10663,7 +10802,10 @@ msgstr ""
 #. latemoon.npc.butterfly limbs
 #. village.npc.rat limbs
 #. village.npc.dragon limbs
-#: data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/latemoon/npcs.json data/village/npcs.json
+#. chuenyu.npc.bee limbs
+#. chuenyu.npc.wolfdog limbs
+#. chuenyu.npc.pigeon limbs
+#: data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/latemoon/npcs.json data/village/npcs.json data/chuenyu/npcs.json
 msgid "身体"
 msgstr ""
 
@@ -10675,13 +10817,15 @@ msgstr ""
 #. waterfog.npc.celes_tiger limbs
 #. latemoon.npc.park.dodo1 limbs
 #. latemoon.npc.park.rabbit limbs
-#: data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/waterfog/npcs.json data/latemoon/npcs.json
+#. chuenyu.npc.wolfdog limbs
+#: data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/waterfog/npcs.json data/latemoon/npcs.json data/chuenyu/npcs.json
 msgid "前脚"
 msgstr ""
 
 #. common.npc.mind_bug limbs
 #. common.npc.mind_beast limbs
-#: data/common/npcs.json
+#. chuenyu.npc.wolfdog limbs
+#: data/common/npcs.json data/chuenyu/npcs.json
 msgid "後脚"
 msgstr ""
 
@@ -10698,7 +10842,10 @@ msgstr ""
 #. choyin.npc.lion limbs
 #. village.npc.rat limbs
 #. village.npc.dragon limbs
-#: data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/waterfog/npcs.json data/latemoon/npcs.json data/choyin/npcs.json data/village/npcs.json
+#. chuenyu.npc.bee limbs
+#. chuenyu.npc.wolfdog limbs
+#. chuenyu.npc.pigeon limbs
+#: data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/waterfog/npcs.json data/latemoon/npcs.json data/choyin/npcs.json data/village/npcs.json data/chuenyu/npcs.json
 msgid "尾巴"
 msgstr ""
 
@@ -11628,9 +11775,11 @@ msgstr ""
 #. es2:d/latemoon/obj/bamboo unit
 #. es2:d/latemoon/obj/needle combined.base_unit
 #. es2:d/latemoon/room/npc/obj/needle combined.base_unit
+#. es2:d/chuenyu/obj/pigmeat food.leaves.unit
+#. es2:u/cloud/obj/meat/hind food.leaves.unit
 #. es2:u/cloud/obj/meat/tail unit
 #. es2:u/cloud/obj/meat/dog_m food.leaves.unit
-#: data/oldpine/items.json data/latemoon/items.json data/cloud/items.json
+#: data/oldpine/items.json data/latemoon/items.json data/chuenyu/items.json data/cloud/items.json
 msgid "根"
 msgstr ""
 
@@ -11764,7 +11913,8 @@ msgstr ""
 #. latemoon.npc.park.bird limbs
 #. latemoon.npc.upstar.bird limbs
 #. latemoon.npc.butterfly limbs
-#: data/oldpine/npcs.json data/cloud/npcs.json data/latemoon/npcs.json
+#. chuenyu.npc.pigeon limbs
+#: data/oldpine/npcs.json data/cloud/npcs.json data/latemoon/npcs.json data/chuenyu/npcs.json
 msgid "翅膀"
 msgstr ""
 
@@ -14138,7 +14288,13 @@ msgid ""
 msgstr ""
 
 #. es2:d/latemoon/park/npc/obj/flower unit
-#: data/latemoon/items.json
+#. es2:d/chuenyu/npc/obj/purple_flower unit
+#. es2:d/chuenyu/npc/obj/red_flower unit
+#. es2:d/chuenyu/npc/obj/yellow_flower unit
+#. es2:d/chuenyu/npc/obj/blue_flower unit
+#. es2:d/chuenyu/npc/obj/white_flower unit
+#. es2:d/chuenyu/npc/obj/black_flower unit
+#: data/latemoon/items.json data/chuenyu/items.json
 msgid "朵"
 msgstr ""
 
@@ -14777,19 +14933,23 @@ msgid ""
 msgstr ""
 
 #. es2:d/village/npc/obj/flower name
-#: data/village/items.json
+#. es2:d/chuenyu/obj/flower name
+#: data/village/items.json data/chuenyu/items.json
 msgid "紫花瓣儿"
 msgstr ""
 
 #. es2:d/village/npc/obj/flower long
-#: data/village/items.json
+#. es2:d/chuenyu/obj/flower long
+#: data/village/items.json data/chuenyu/items.json
 msgid ""
 "迷人的紫色瓣儿，发出一股淡淡的香气。\n"
 msgstr ""
 
 #. es2:d/village/npc/obj/flower combined.base_unit
+#. es2:d/chuenyu/obj/flower combined.base_unit
+#. es2:d/chuenyu/obj/feather combined.base_unit
 #. es2:u/cloud/obj/npc/worker/tea_leaf combined.base_unit
-#: data/village/items.json data/cloud/items.json
+#: data/village/items.json data/chuenyu/items.json data/cloud/items.json
 msgid "片"
 msgstr ""
 
@@ -14940,6 +15100,162 @@ msgid ""
 "一支遗失多年的令牌，或许在出城时还有用。\n"
 msgstr ""
 
+#. es2:d/chuenyu/obj/8hammer name
+#: data/chuenyu/items.json
+msgid "八楞玄铁锤"
+msgstr ""
+
+#. es2:d/chuenyu/obj/8hammer long
+#: data/chuenyu/items.json
+msgid ""
+"这是一把八楞玄铁锤，沉甸甸的。\n"
+msgstr ""
+
+#. es2:d/chuenyu/obj/scissors name
+#: data/chuenyu/items.json
+msgid "园工剪"
+msgstr ""
+
+#. es2:d/chuenyu/obj/scissors long
+#: data/chuenyu/items.json
+msgid ""
+"一把长而锋利的园工剪刀。\n"
+msgstr ""
+
+#. es2:d/chuenyu/obj/feather name
+#: data/chuenyu/items.json
+msgid "鸡毛"
+msgstr ""
+
+#. es2:d/chuenyu/obj/feather long
+#: data/chuenyu/items.json
+msgid ""
+"用来清除灰尘的鸡毛\n"
+msgstr ""
+
+#. es2:d/chuenyu/obj/pigmeat name
+#: data/chuenyu/items.json
+msgid "烤山猪肉"
+msgstr ""
+
+#. es2:d/chuenyu/obj/pigmeat long
+#: data/chuenyu/items.json
+msgid ""
+"哇! 好香的烤山猪肉! 不吃还等什么?\n"
+msgstr ""
+
+#. es2:d/chuenyu/obj/pigmeat unit
+#. es2:u/cloud/obj/meat/zasui unit
+#. es2:u/cloud/obj/meat/dog_m unit
+#: data/chuenyu/items.json data/cloud/items.json
+msgid "斤"
+msgstr ""
+
+#. es2:d/chuenyu/obj/pigmeat food.leaves.name
+#: data/chuenyu/items.json
+msgid "山猪骨头"
+msgstr ""
+
+#. es2:d/chuenyu/obj/pigmeat food.leaves.long
+#: data/chuenyu/items.json
+msgid ""
+"啃得精光的山猪骨头。\n"
+msgstr ""
+
+#. es2:d/chuenyu/obj/qiwine name
+#: data/chuenyu/items.json
+msgid "人皮酒袋"
+msgstr ""
+
+#. es2:d/chuenyu/obj/qiwine long
+#: data/chuenyu/items.json
+msgid ""
+"一个人皮缝的大酒袋，大概装得八、九升的酒。\n"
+msgstr ""
+
+#. es2:d/chuenyu/obj/qiwine liquid.name
+#: data/chuenyu/items.json
+msgid "竹叶青"
+msgstr ""
+
+#. es2:d/chuenyu/obj/bknife name
+#. cloud.npc.butcher inquiry topic
+#. cloud.npc.room_gua inquiry topic
+#: data/chuenyu/items.json data/cloud/npcs.json
+msgid "碧玉刀"
+msgstr ""
+
+#. es2:d/chuenyu/obj/bknife long
+#: data/chuenyu/items.json
+msgid "这是一把当年张家老祖宗退隐时皇上赐的宝刀"
+msgstr ""
+
+#. es2:d/chuenyu/npc/obj/purple_flower name
+#: data/chuenyu/items.json
+msgid "紫罗兰"
+msgstr ""
+
+#. es2:d/chuenyu/npc/obj/purple_flower long
+#: data/chuenyu/items.json
+msgid ""
+"高贵典雅的紫罗兰，闻起来还有一股淡淡的香味儿。\n"
+msgstr ""
+
+#. es2:d/chuenyu/npc/obj/red_flower name
+#: data/chuenyu/items.json
+msgid "红枚瑰"
+msgstr ""
+
+#. es2:d/chuenyu/npc/obj/red_flower long
+#: data/chuenyu/items.json
+msgid ""
+"热奔奔放的红玫瑰。\n"
+msgstr ""
+
+#. es2:d/chuenyu/npc/obj/yellow_flower name
+#: data/chuenyu/items.json
+msgid "黄玫瑰"
+msgstr ""
+
+#. es2:d/chuenyu/npc/obj/yellow_flower long
+#: data/chuenyu/items.json
+msgid ""
+"含情脉脉的黄玫瑰。\n"
+msgstr ""
+
+#. es2:d/chuenyu/npc/obj/blue_flower name
+#: data/chuenyu/items.json
+msgid "蓝天鹅"
+msgstr ""
+
+#. es2:d/chuenyu/npc/obj/blue_flower long
+#: data/chuenyu/items.json
+msgid ""
+"庄重朴实的蓝天鹅。\n"
+msgstr ""
+
+#. es2:d/chuenyu/npc/obj/white_flower name
+#: data/chuenyu/items.json
+msgid "白茶花"
+msgstr ""
+
+#. es2:d/chuenyu/npc/obj/white_flower long
+#: data/chuenyu/items.json
+msgid ""
+"冰清玉洁的白茶花。\n"
+msgstr ""
+
+#. es2:d/chuenyu/npc/obj/black_flower name
+#: data/chuenyu/items.json
+msgid "黑牡丹"
+msgstr ""
+
+#. es2:d/chuenyu/npc/obj/black_flower long
+#: data/chuenyu/items.json
+msgid ""
+"清高冷傲的黑牡丹。\n"
+msgstr ""
+
 #. es2:u/cloud/obj/npc/gangster/blade long
 #: data/cloud/items.json
 msgid ""
@@ -15083,6 +15399,17 @@ msgid ""
 "哇! 好香的牛腿! 不吃还等什么?\n"
 msgstr ""
 
+#. es2:u/cloud/obj/meat/hind food.leaves.name
+#: data/cloud/items.json
+msgid "牛腿骨"
+msgstr ""
+
+#. es2:u/cloud/obj/meat/hind food.leaves.long
+#: data/cloud/items.json
+msgid ""
+"啃得精光的牛腿。\n"
+msgstr ""
+
 #. es2:u/cloud/obj/meat/tail name
 #: data/cloud/items.json
 msgid "牛尾"
@@ -15103,12 +15430,6 @@ msgstr ""
 #: data/cloud/items.json
 msgid ""
 "可以吃的杂碎\n"
-msgstr ""
-
-#. es2:u/cloud/obj/meat/zasui unit
-#. es2:u/cloud/obj/meat/dog_m unit
-#: data/cloud/items.json
-msgid "斤"
 msgstr ""
 
 #. es2:u/cloud/obj/meat/dog_m name
@@ -15235,12 +15556,6 @@ msgstr ""
 #: data/cloud/npcs.json
 msgid ""
 "你看到一个剽悍的大块头, 正在用钢刀剔牛骨。\n"
-msgstr ""
-
-#. cloud.npc.butcher inquiry topic
-#. cloud.npc.room_gua inquiry topic
-#: data/cloud/npcs.json
-msgid "碧玉刀"
 msgstr ""
 
 #. cloud.npc.butcher inquiry.碧玉刀
@@ -16408,7 +16723,8 @@ msgstr ""
 #. latemoon.upstar.upstar3.door name
 #. village.home.door name
 #. city.shangshu.road2.door name
-#: data/cloud/world.json data/green/world.json data/temple/world.json data/latemoon/world.json data/village/world.json data/city/world.json
+#. chuenyu.west_blackge.door name
+#: data/cloud/world.json data/green/world.json data/temple/world.json data/latemoon/world.json data/village/world.json data/city/world.json data/chuenyu/world.json
 msgid "木门"
 msgstr ""
 
@@ -16935,7 +17251,8 @@ msgid ""
 msgstr ""
 
 #. es2:d/green/obj/rope name
-#: data/green/items.json
+#. chuenyu.center.landmark.rope name
+#: data/green/items.json data/chuenyu/world.json
 msgid "绳子"
 msgstr ""
 
@@ -22798,7 +23115,11 @@ msgstr ""
 
 #. canyon.canyon1.chain act.verb
 #. city.street3.landmark.wall action
-#: data/canyon/world.json data/city/world.json
+#. chuenyu.east_castle.climb act.verb
+#. chuenyu.east_garden.climb act.verb
+#. chuenyu.west_castle.climb act.verb
+#. chuenyu.west_garden.climb act.verb
+#: data/canyon/world.json data/city/world.json data/chuenyu/world.json
 msgid "爬上去"
 msgstr ""
 
@@ -22976,12 +23297,16 @@ msgid ""
 msgstr ""
 
 #. village.npc.flowergirl inquiry topic
-#: data/village/npcs.json
+#. chuenyu.npc.flower_seller inquiry topic
+#. chuenyu.npc.cleangirl inquiry topic
+#. chuenyu.npc.cook inquiry topic
+#: data/village/npcs.json data/chuenyu/npcs.json
 msgid "小娟"
 msgstr ""
 
 #. village.npc.flowergirl inquiry.小娟
-#: data/village/npcs.json
+#. chuenyu.npc.flower_seller inquiry.小娟
+#: data/village/npcs.json data/chuenyu/npcs.json
 msgid "这要到黑松山去问。"
 msgstr ""
 
@@ -27154,7 +27479,8 @@ msgstr ""
 #. city.westdoor1.out name
 #. city.westdoor2.out name
 #. city.southdoor.out name
-#: data/city/world.json
+#. chuenyu.gate_castle.door name
+#: data/city/world.json data/chuenyu/world.json
 msgid "城门"
 msgstr ""
 
@@ -27224,4 +27550,555 @@ msgstr ""
 #. city.wall.jump_out act.verb
 #: data/city/world.json
 msgid "跳回去"
+msgstr ""
+
+#. chuenyu.npc.flower_seller name
+#: data/chuenyu/npcs.json
+msgid "卖花姑娘"
+msgstr ""
+
+#. chuenyu.npc.flower_seller long
+#: data/chuenyu/npcs.json
+msgid ""
+"美丽的卖花姑娘正在向行人售花儿\n"
+msgstr ""
+
+#. chuenyu.npc.flower_seller greeting.one_of.line
+#: data/chuenyu/npcs.json
+msgid ""
+"卖花姑娘笑着道：这位$RESPECT，买朵黑牡丹吗？ \n"
+msgstr ""
+
+#. chuenyu.npc.flower_seller greeting.one_of.line
+#: data/chuenyu/npcs.json
+msgid ""
+"卖花姑娘笑着道：这位$RESPECT，买朵黄枚瑰吗？ \n"
+msgstr ""
+
+#. chuenyu.npc.flower_seller greeting.one_of.line
+#: data/chuenyu/npcs.json
+msgid ""
+"卖花姑娘笑着道：这位$RESPECT，买朵白茶花吗？ \n"
+msgstr ""
+
+#. chuenyu.npc.flower_seller greeting.one_of.line
+#: data/chuenyu/npcs.json
+msgid ""
+"卖花姑娘笑着道：这位$RESPECT，买朵紫罗兰吗？ \n"
+msgstr ""
+
+#. chuenyu.npc.flower_seller greeting.one_of.line
+#: data/chuenyu/npcs.json
+msgid ""
+"卖花姑娘笑着道：这位$RESPECT，买朵红枚瑰吗？ \n"
+msgstr ""
+
+#. chuenyu.npc.jiading3 name
+#: data/chuenyu/npcs.json
+msgid "紫衣家丁"
+msgstr ""
+
+#. chuenyu.npc.jiading3 long
+#: data/chuenyu/npcs.json
+msgid ""
+"这是一位黑松堡的家丁，专负责盘察去黑松堡的行人。\n"
+msgstr ""
+
+#. chuenyu.npc.jiading3 greeting.rules.steps.say
+#: data/chuenyu/npcs.json
+msgid "家丁喝道：站住！你干什么的。"
+msgstr ""
+
+#. chuenyu.npc.jiading3 greeting.rules.steps.say
+#: data/chuenyu/npcs.json
+msgid "看你那贼眉鼠眼，尖嘴猴腮的样儿，决不是什么好东西！"
+msgstr ""
+
+#. chuenyu.npc.gardener name
+#: data/chuenyu/npcs.json
+msgid "园工"
+msgstr ""
+
+#. chuenyu.npc.gardener nickname
+#: data/chuenyu/npcs.json
+msgid "黑松一剪"
+msgstr ""
+
+#. chuenyu.npc.gardener long
+#: data/chuenyu/npcs.json
+msgid "黑松一剪是方园几十里有名的园工。一把大剪使的出神如化。"
+msgstr ""
+
+#. chuenyu.npc.bee name
+#: data/chuenyu/npcs.json
+msgid "蜜蜂"
+msgstr ""
+
+#. chuenyu.npc.bee long
+#: data/chuenyu/npcs.json
+msgid ""
+"一只疯狂的杀人蜂\n"
+msgstr ""
+
+#. chuenyu.npc.smallgardener name
+#: data/chuenyu/npcs.json
+msgid "小园工"
+msgstr ""
+
+#. chuenyu.npc.smallgardener long
+#: data/chuenyu/npcs.json
+msgid ""
+"一位年轻的小园工\n"
+msgstr ""
+
+#. chuenyu.npc.guard name
+#: data/chuenyu/npcs.json
+msgid "护院"
+msgstr ""
+
+#. chuenyu.npc.guard long
+#: data/chuenyu/npcs.json
+msgid ""
+"这是黑松堡的护院\n"
+msgstr ""
+
+#. chuenyu.npc.guard chat_msg
+#: data/chuenyu/npcs.json
+msgid ""
+"护院喝道：大胆刁民，私闯民宅，该当何罪？\n"
+msgstr ""
+
+#. chuenyu.npc.guard chat_msg_combat
+#: data/chuenyu/npcs.json
+msgid ""
+"护院喝道：来人啦！抓小贼呀！\n"
+msgstr ""
+
+#. chuenyu.npc.cleangirl name
+#: data/chuenyu/npcs.json
+msgid "女佣人"
+msgstr ""
+
+#. chuenyu.npc.cleangirl long
+#: data/chuenyu/npcs.json
+msgid ""
+"满脸风霜的女佣人\n"
+msgstr ""
+
+#. chuenyu.npc.cleangirl inquiry.小娟
+#. chuenyu.npc.cleangirl inquiry.淳于
+#. chuenyu.npc.cleangirl inquiry.淳于怀太
+#. chuenyu.npc.cleangirl inquiry.堡主
+#. chuenyu.npc.cook inquiry.小娟
+#. chuenyu.npc.cook inquiry.淳于
+#. chuenyu.npc.cook inquiry.淳于怀太
+#. chuenyu.npc.cook inquiry.堡主
+#: data/chuenyu/npcs.json
+msgid "这要到地牢去找。"
+msgstr ""
+
+#. chuenyu.npc.cleangirl inquiry topic
+#. chuenyu.npc.cook inquiry topic
+#: data/chuenyu/npcs.json
+msgid "淳于"
+msgstr ""
+
+#. chuenyu.npc.cleangirl inquiry topic
+#. chuenyu.npc.cook inquiry topic
+#: data/chuenyu/npcs.json
+msgid "淳于怀太"
+msgstr ""
+
+#. chuenyu.npc.cleangirl inquiry topic
+#. chuenyu.npc.cook inquiry topic
+#: data/chuenyu/npcs.json
+msgid "堡主"
+msgstr ""
+
+#. chuenyu.npc.wolfdog name
+#: data/chuenyu/npcs.json
+msgid "巨型犬"
+msgstr ""
+
+#. chuenyu.npc.wolfdog long
+#: data/chuenyu/npcs.json
+msgid ""
+"这是一只凶猛无比，半人多高的巨型狼犬\n"
+msgstr ""
+
+#. chuenyu.npc.wolfdog chat_msg
+#: data/chuenyu/npcs.json
+msgid "狼犬向你疯狂的哮道：呜汪！呜汪！呜汪！呜汪！"
+msgstr ""
+
+#. chuenyu.npc.pigeon name
+#: data/chuenyu/npcs.json
+msgid "信鸽"
+msgstr ""
+
+#. chuenyu.npc.pigeon long
+#: data/chuenyu/npcs.json
+msgid ""
+"一只乖巧的小信鸽\n"
+msgstr ""
+
+#. chuenyu.npc.cook name
+#: data/chuenyu/npcs.json
+msgid "厨子"
+msgstr ""
+
+#. chuenyu.npc.cook long
+#: data/chuenyu/npcs.json
+msgid ""
+"你看到一个小厨子， 正在用碧玉刀剔猪骨。\n"
+msgstr ""
+
+#. chuenyu.npc.cook greeting.one_of.line
+#: data/chuenyu/npcs.json
+msgid ""
+"厨子嘟囔着：“真是的，堡主又在地牢里留涟忘返。”\n"
+msgstr ""
+
+#. chuenyu.npc.cook greeting.one_of.line
+#: data/chuenyu/npcs.json
+msgid ""
+"厨子道：“去地牢叫堡主上来吃饭。\n"
+msgstr ""
+
+#. es2:d/chuenyu/croad1 long
+#: data/chuenyu/rooms.json
+msgid ""
+"你正走在一条黄土大道上。路上尘土飞扬，路旁稀疏几棵矮树。\n"
+"往南通往京师，东北是通往天驼关的大道。\n"
+msgstr ""
+
+#. es2:d/chuenyu/croad2 long
+#: data/chuenyu/rooms.json
+msgid ""
+"这里是个交叉路口，过往行人很多。路边有一个茶馆，是供行\n"
+"人歇息的地方。向南是通往京师的北驿道，北方可见阴森的黑松山。\n"
+msgstr ""
+
+#. es2:d/chuenyu/sunnyroad long
+#: data/chuenyu/rooms.json
+msgid ""
+"你的两侧是茂盛的稻田，还有一条清澈见底的小溪。许多乡民在田里\n"
+"辛苦的忙碌着。再北面是黑松山。眺望山顶，你似乎可以看到一个颇具规\n"
+"模的城堡。城堡的最顶端插着一面大旗，大旗上绣着两个斗大的金字：淳于。\n"
+msgstr ""
+
+#. es2:d/chuenyu/base_b_m long
+#: data/chuenyu/rooms.json
+msgid ""
+"一座高而险的山峰耸立在你面前。北面是一条上山的羊肠小路，盘旋曲折。\n"
+"黑湮湮的松林给你不祥的感觉。\n"
+msgstr ""
+
+#. es2:d/chuenyu/foot_b_mtn long
+#: data/chuenyu/rooms.json
+msgid ""
+"你正在艰难的走在唯一通往山顶的小路上。路边堆着很多面目\n"
+"狰狞的巨石。几棵幼松顽强的从石缝中挤了出来。你在这\n"
+"里可以看到山顶城堡的大致伦廓。\n"
+msgstr ""
+
+#. es2:d/chuenyu/high_b_mtn long
+#. es2:d/chuenyu/high_b_mtn2 long
+#: data/chuenyu/rooms.json
+msgid ""
+"这是通往城堡的石街，整条石街全是用巨大的花岗岩砌成的。\n"
+"单这条石路就足已表明城堡主人的富有和气势。\n"
+msgstr ""
+
+#. es2:d/chuenyu/rope_bridge long
+#: data/chuenyu/rooms.json
+msgid ""
+"山顶强劲的风吹得铁索桥左右晃动，脚下的万丈深渊使你头晕目旋。\n"
+"你竭尽全力的维持身体平衡。\n"
+msgstr ""
+
+#. es2:d/chuenyu/gate_castle long
+#: data/chuenyu/rooms.json
+msgid ""
+"你站立在一座宏伟的城堡之前，城门(door)之上挂着一块金匾。金匾上\n"
+"龙飞凤舞的写着四个大字“黑松淳于”，金匾左下角刚劲草书落款：\n"
+"“淳于怀太”，“壬子年一月十八日”。\n"
+msgstr ""
+
+#. es2:d/chuenyu/east_castle long
+#: data/chuenyu/rooms.json
+msgid ""
+"你站在黑松山顶，黑松城堡的东侧。高耸的城墙上长满了青色的\n"
+"蔓藤。蔓藤从墙顶一直垂到你的脚下。再往东是刀削般的万丈悬崖。\n"
+"往西则是城堡的正门。你脚下是一块青石板。\n"
+msgstr ""
+
+#. es2:d/chuenyu/west_castle long
+#: data/chuenyu/rooms.json
+msgid ""
+"你站在黑松山顶，黑松城堡的西侧。高耸的城墙上长满了青色的\n"
+"蔓藤。蔓藤从墙顶一直垂到你的脚下。再往西是刀削般的万丈悬崖。\n"
+"往东则是城堡的正门。\n"
+msgstr ""
+
+#. es2:d/chuenyu/trap_castle long
+#: data/chuenyu/rooms.json
+msgid ""
+"你现在处于一个窄窄的夹道里，通向北面的路被一块巨石(rock)堵死。\n"
+"夹道的两侧是三丈高的石墙(wall)。出乎你的意料，石墙上布满了\n"
+"碗大的圆孔(hole)。石墙的后面传出“吱吱嘎嘎”的声音(noise)。\n"
+msgstr ""
+
+#. es2:d/chuenyu/west_garden long
+#: data/chuenyu/rooms.json
+msgid ""
+"你站在黑松城堡的西花园里。花园里长满了各式各样奇花异草。\n"
+"西侧高耸的城墙上长满了青色的蔓藤。蔓藤从墙顶一直垂到你的脚下。\n"
+"再往东则是雄伟的黑松阁。\n"
+msgstr ""
+
+#. es2:d/chuenyu/north_garden long
+#: data/chuenyu/rooms.json
+msgid ""
+"你站在黑松城堡的北花园里。花园里长满了各式各样奇花异草。\n"
+"再通向北面的路被一块巨石(rock)堵死。再往南则是雄伟的黑松阁。\n"
+msgstr ""
+
+#. es2:d/chuenyu/west_blackge long
+#: data/chuenyu/rooms.json
+msgid ""
+"这是黑松堡主淳于怀太迎宾的西厅。整个大厅布置的雍荣典雅。\n"
+"向东是黑松阁的正厅，向西和向北都是精心修剪过的花园。楼上则是\n"
+"淳于巨大的睡房。南面是一个小小的储藏室。\n"
+msgstr ""
+
+#. es2:d/chuenyu/storage long
+#: data/chuenyu/rooms.json
+msgid ""
+"一个小小的储藏室。四壁上布满了灰尘。\n"
+msgstr ""
+
+#. es2:d/chuenyu/center long
+#: data/chuenyu/rooms.json
+msgid ""
+"黑松阁正厅完全是用檀香木打造的。一阵阵的檀香飘过来，\n"
+"使你心旷神夷。厅口悬着一幅字画，写道：“是非成败转头空，\n"
+"青山依旧在，几度夕阳红。”整幅字画是用一条很粗的绳子挂起\n"
+"来的。\n"
+msgstr ""
+
+#. es2:d/chuenyu/east_blackge long
+#: data/chuenyu/rooms.json
+msgid ""
+"这是黑松堡主淳于怀太迎宾的东厅。整个大厅布置的雍荣典雅。\n"
+"向东和向西都是精心修剪过的花园。楼上则是淳于巨大的睡房。\n"
+"偶尔有几声狗叫从东花园里传来。\n"
+msgstr ""
+
+#. es2:d/chuenyu/east_garden long
+#: data/chuenyu/rooms.json
+msgid ""
+"你站在黑松城堡的东花园里。花园里长满了各式各样奇花异草。\n"
+"东侧高耸的城墙上长满了青色的蔓藤。蔓藤从墙顶一直垂到你的脚下。\n"
+"再往西则是雄伟的黑松阁。\n"
+msgstr ""
+
+#. es2:d/chuenyu/south_garden long
+#: data/chuenyu/rooms.json
+msgid ""
+"你站在黑松城堡的南花园里。花园里长满了各式各样奇花异草。\n"
+"再往北则是雄伟的黑松阁。\n"
+msgstr ""
+
+#. es2:d/chuenyu/bedroom long
+#: data/chuenyu/rooms.json
+msgid ""
+"这是淳于堡主起居的地方。东面的楼梯向下通向黑松阁东厅，\n"
+"西面的楼梯向下通向黑松阁西厅。北面是一个小小的阳台。南面则\n"
+"是堡主的膳房。\n"
+msgstr ""
+
+#. es2:d/chuenyu/yiantai long
+#: data/chuenyu/rooms.json
+msgid ""
+"这是一个小小的阳台。从这里你可以一直望到山脚。强劲\n"
+"的山风吹在你身上，让你感到份外的凉爽。真是一个好去处。\n"
+msgstr ""
+
+#. es2:d/chuenyu/kitchen long
+#: data/chuenyu/rooms.json
+msgid ""
+"这是淳于堡主的用膳房。整个房间飘荡着上等竹叶青的酒香和\n"
+"令人垂滟欲滴的烤山猪的香气。你似乎听到你的肚子在“咕咕咕”\n"
+"的叫了起来。\n"
+msgstr ""
+
+#. chuenyu name
+#: data/chuenyu/world.json
+msgid "黑松山"
+msgstr ""
+
+#. chuenyu.bedroom.door name
+#: data/chuenyu/world.json
+msgid "玉帘门"
+msgstr ""
+
+#. chuenyu.high_b_mtn.killing_air lines
+#. chuenyu.high_b_mtn2.killing_air lines
+#: data/chuenyu/world.json
+msgid "你被黑松堡散出的强烈杀气当了回来。"
+msgstr ""
+
+#. chuenyu.trap_castle.arrows act.steps.line
+#: data/chuenyu/world.json
+msgid ""
+"刹那间石墙的后面“嘣嘣”声不绝，无数羽箭从圆孔中向你激射而出！！\n"
+msgstr ""
+
+#. chuenyu.trap_castle.arrows act.steps.line
+#: data/chuenyu/world.json
+msgid ""
+"你被乱箭射得头破血流，遍体鳞伤！\n"
+msgstr ""
+
+#. chuenyu.center.landmark.rope long
+#: data/chuenyu/world.json
+msgid ""
+"这根绳子顺着墙垂下来，你似乎可以拉(pull)它，但是你有一种不祥的感觉。\n"
+msgstr ""
+
+#. chuenyu.east_castle.landmark.wall name
+#. chuenyu.east_garden.landmark.wall name
+#. chuenyu.west_castle.landmark.wall name
+#. chuenyu.west_garden.landmark.wall name
+#. chuenyu.east_castle.climb name
+#. chuenyu.east_garden.climb name
+#. chuenyu.west_castle.climb name
+#. chuenyu.west_garden.climb name
+#: data/chuenyu/world.json
+msgid "城墙"
+msgstr ""
+
+#. chuenyu.east_castle.landmark.wall long
+#. chuenyu.east_garden.landmark.wall long
+#. chuenyu.west_castle.landmark.wall long
+#. chuenyu.west_garden.landmark.wall long
+#: data/chuenyu/world.json
+msgid ""
+"城墙虽陡，但长满了蔓藤。你似乎可以试着爬(climb)上去。\n"
+msgstr ""
+
+#. chuenyu.east_castle.landmark.vine name
+#. chuenyu.east_garden.landmark.vine name
+#. chuenyu.west_castle.landmark.vine name
+#. chuenyu.west_garden.landmark.vine name
+#: data/chuenyu/world.json
+msgid "蔓藤"
+msgstr ""
+
+#. chuenyu.east_castle.landmark.vine long
+#. chuenyu.east_garden.landmark.vine long
+#. chuenyu.west_castle.landmark.vine long
+#. chuenyu.west_garden.landmark.vine long
+#: data/chuenyu/world.json
+msgid ""
+"蔓藤长满了城墙，你似乎可以试着爬(climb)上去。\n"
+msgstr ""
+
+#. chuenyu.east_castle.landmark.rock name
+#: data/chuenyu/world.json
+msgid "青石板"
+msgstr ""
+
+#. chuenyu.east_castle.landmark.rock long
+#: data/chuenyu/world.json
+msgid ""
+"青石板劳牢的镶在地下，但它下面似乎是空的。\n"
+msgstr ""
+
+#. chuenyu.north_garden.landmark.rock name
+#. chuenyu.trap_castle.landmark.rock name
+#: data/chuenyu/world.json
+msgid "巨石"
+msgstr ""
+
+#. chuenyu.north_garden.landmark.rock long
+#. chuenyu.trap_castle.landmark.rock long
+#: data/chuenyu/world.json
+msgid ""
+"这是一块千斤巨石，阻住了通向北面的路。\n"
+msgstr ""
+
+#. chuenyu.trap_castle.landmark.wall name
+#: data/chuenyu/world.json
+msgid "石墙"
+msgstr ""
+
+#. chuenyu.trap_castle.landmark.wall long
+#: data/chuenyu/world.json
+msgid ""
+"这是一道三丈高，厚达尺许的石墙。墙上的圆孔很适合用来发暗箭。\n"
+msgstr ""
+
+#. chuenyu.trap_castle.landmark.hole name
+#: data/chuenyu/world.json
+msgid "圆孔"
+msgstr ""
+
+#. chuenyu.trap_castle.landmark.hole long
+#: data/chuenyu/world.json
+msgid ""
+"你试着往圆孔里看，可是里面太黑了，什么也看不到。\n"
+msgstr ""
+
+#. chuenyu.trap_castle.landmark.noise name
+#: data/chuenyu/world.json
+msgid "声音"
+msgstr ""
+
+#. chuenyu.trap_castle.landmark.noise long
+#: data/chuenyu/world.json
+msgid ""
+"这显然是拉开强弩的声音。\n"
+msgstr ""
+
+#. chuenyu.rope_bridge.landmark.chain name
+#. chuenyu.rope_bridge.climb name
+#: data/chuenyu/world.json
+msgid "铁链"
+msgstr ""
+
+#. chuenyu.rope_bridge.landmark.chain long
+#: data/chuenyu/world.json
+msgid ""
+"这里只有一条铁链（chain）。\n"
+msgstr ""
+
+#. chuenyu.east_castle.climb act.acts.steps.line
+#. chuenyu.east_garden.climb act.acts.steps.line
+#. chuenyu.west_castle.climb act.acts.steps.line
+#. chuenyu.west_garden.climb act.acts.steps.line
+#: data/chuenyu/world.json
+msgid ""
+"你抓着蔓藤，慢慢的顺着城墙爬了上去。\n"
+msgstr ""
+
+#. chuenyu.east_castle.climb act.acts.steps.line
+#. chuenyu.east_garden.climb act.acts.steps.line
+#. chuenyu.west_castle.climb act.acts.steps.line
+#. chuenyu.west_garden.climb act.acts.steps.line
+#: data/chuenyu/world.json
+msgid ""
+"你用手一撑墙头儿，轻巧的跳了过来。\n"
+msgstr ""
+
+#. chuenyu.rope_bridge.climb act.verb
+#: data/chuenyu/world.json
+msgid "顺着走下去"
+msgstr ""
+
+#. chuenyu.rope_bridge.climb act.acts.steps.line
+#: data/chuenyu/world.json
+msgid ""
+"你抓紧铁链，顺着铁索桥走了下去。\n"
 msgstr ""

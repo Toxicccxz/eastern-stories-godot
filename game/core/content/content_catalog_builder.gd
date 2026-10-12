@@ -22,6 +22,7 @@ var _services: Dictionary[StringName, ServiceDefinition] = {}
 var _doors: Dictionary[StringName, DoorDefinition] = {}
 var _landmarks: Dictionary[StringName, WorldLandmarkDefinition] = {}
 var _traps: Dictionary[StringName, RoomTrapDefinition] = {}
+var _hazards: Dictionary[StringName, RoomHazardDefinition] = {}
 var _exit_rules: Dictionary[StringName, ZoneExitRuleDefinition] = {}
 var _skills: Dictionary[StringName, SkillDefinition] = {}
 var _families: Dictionary[StringName, FamilyDefinition] = {}
@@ -100,6 +101,10 @@ func add_document(document: Variant, origin: String) -> void:
 		var definition: RoomTrapDefinition = RoomTrapDefinition.from_record(record)
 		if _claim(definition.trap_id, record):
 			_traps[definition.trap_id] = definition
+	for record: ContentRecordReader in reader.children("hazards"):
+		var definition: RoomHazardDefinition = RoomHazardDefinition.from_record(record)
+		if _claim(definition.hazard_id, record):
+			_hazards[definition.hazard_id] = definition
 	for record: ContentRecordReader in reader.children("exit_rules"):
 		var definition: ZoneExitRuleDefinition = ZoneExitRuleDefinition.from_record(record)
 		if _claim(definition.rule_id, record):
@@ -130,6 +135,9 @@ func build() -> ContentCatalog:
 	_add_named_npcs()
 	_add_named_items()
 	_add_mastered_items()
+	# What a food that is a weapon leaves is that weapon still (it can break), and the
+	# broken one is food still (it leaves its own): leftovers, breaks, then theirs.
+	_add_leftovers()
 	_add_broken_weapons()
 	_add_leftovers()
 	_add_haunting_sheets()
@@ -147,6 +155,7 @@ func build() -> ContentCatalog:
 	_resolve_doors()
 	_resolve_landmarks()
 	_check_traps()
+	_check_hazards()
 	_check_exit_rules()
 	_check_combat_data()
 	_check_quest_tiers()
@@ -157,6 +166,7 @@ func build() -> ContentCatalog:
 	var catalog: ContentCatalog = ContentCatalog.new(_items, _npcs, _spawns, _vendors)
 	catalog.set_world(_rooms, _regions, _maps, _zones, _portals)
 	catalog.set_places(_services, _doors, _landmarks, _traps)
+	catalog.set_hazards(_hazards)
 	catalog.set_exit_rules(_exit_rules)
 	catalog.set_item_spawns(_item_spawns)
 	catalog.set_pacing(_pacing)
@@ -174,7 +184,7 @@ func build() -> ContentCatalog:
 ## What each food leaves once eaten up (finish_eat()): a plain item of its own.
 func _add_leftovers() -> void:
 	for item: ItemContentDefinition in _items.values().duplicate():
-		if not item.leftover_id().is_empty():
+		if not item.leftover_id().is_empty() and not _items.has(item.leftover_id()):
 			var left: ItemContentDefinition = ItemContentDefinition.leftover(item)
 			_items[left.item_definition_id] = left
 
@@ -226,7 +236,7 @@ func _add_mastered_items() -> void:
 ## Every weapon's broken form (weapond.c bash_weapon()), so a broken one keeps its identity.
 func _add_broken_weapons() -> void:
 	for item: ItemContentDefinition in _items.values().duplicate():
-		if item.weapon_definition() != null:
+		if item.weapon_definition() != null and not _items.has(StringName(String(item.item_definition_id) + ItemContentDefinition.BROKEN_SUFFIX)):
 			var broken: ItemContentDefinition = ItemContentDefinition.broken_weapon(item)
 			_items[broken.item_definition_id] = broken
 
@@ -408,7 +418,8 @@ func _resolve_npc_dealings() -> void:
 				if not inquiry_rule.hands_over.is_empty() and not _items.has(inquiry_rule.hands_over):
 					_errors.append("%s.inquiry.%s.hands_over: unknown item '%s'" % [origin, topic, inquiry_rule.hands_over])
 		for act: ScriptedAct in talk.greeting_choices():
-			_check_act(act, "%s.greeting" % origin, true)
+			# A greeting draws its rolls from the NPCs' stream (WorldMapNpcLife._greet()).
+			_check_act(act, "%s.greeting" % origin, true, true)
 		var teaching: NpcTeaching = definition.teaching()
 		if teaching == null:
 			continue
@@ -621,6 +632,26 @@ func _resolve_doors() -> void:
 			_doors[door_id] = definition.with_map(maps.keys()[0])
 
 
+## A hazard's room is its zone's, one hazard a zone; its act acts on the player alone.
+func _check_hazards() -> void:
+	var zones_taken: Dictionary[StringName, bool] = {}
+	for hazard_id: StringName in _hazards.keys():
+		var hazard: RoomHazardDefinition = _hazards[hazard_id]
+		var origin: String = _origins[hazard_id]
+		var zone: ZoneDefinition = _zones.get(hazard.zone_id)
+		if zone == null:
+			_errors.append("%s.zone: unknown zone '%s'" % [origin, hazard.zone_id])
+		elif not zone.room_ids().has(hazard.room_id):
+			_errors.append("%s.room: '%s' is not a room of %s" % [origin, hazard.room_id, hazard.zone_id])
+		elif zones_taken.has(hazard.zone_id):
+			_errors.append("%s.zone: %s has a hazard already" % [origin, hazard.zone_id])
+		zones_taken[hazard.zone_id] = true
+		if hazard.act != null:
+			if hazard.act.moves_player():
+				_errors.append("%s.act: a hazard does not move the player" % origin)
+			_check_act(hazard.act, "%s.act" % origin)
+
+
 ## A trap shuts a door a rule alone operates, between the zone it is left from
 ## and the one outside; what it calls in is a summoned spawn of that zone.
 func _check_traps() -> void:
@@ -690,8 +721,8 @@ func _check_exit_rules() -> void:
 ## act, so it is its last step. (Spawn points are the scene's: the map checks them.)
 func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false, drawn: bool = false) -> void:
 	if act.draws() and not drawn:
-		# Only a room's command draws for its branch (ActService); elsewhere the rolls would never be made.
-		_errors.append("%s.kar_above: only a room's command rolls" % origin)
+		# Only a room's command (ActService) and a greeting draw for their branch; elsewhere the rolls would never be made.
+		_errors.append("%s.kar_above: only a room's command or a greeting rolls" % origin)
 	if not act.carries.is_empty() and not _answers_to(act.carries):
 		_errors.append("%s.carries: no item answers to '%s'" % [origin, act.carries])
 	if not act.exists.is_empty() and not _items.has(act.exists):

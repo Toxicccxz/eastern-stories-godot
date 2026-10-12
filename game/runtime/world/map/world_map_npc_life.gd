@@ -393,7 +393,10 @@ func _followers_follow(left_zone_id: StringName, zone_id: StringName) -> void:
 func _greet(npc: NpcRuntimeState) -> void:
 	if npc == null or not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or not player_shares_zone(npc):
 		return
-	var act: ScriptedAct = npc.definition().talk().choose_greeting(_player.state.gender, _player.state.affiliation.class_id, ambience.random().legacy_random, _map.acts.facts())
+	# A greeting's rolls (jiading3.c's random(per)) draw from the NPCs' stream, as its lines do.
+	var facts: ScriptedAct.Facts = _map.acts.facts()
+	facts.draw = ambience.random().legacy_random
+	var act: ScriptedAct = npc.definition().talk().choose_greeting(_player.state.gender, _player.state.affiliation.class_id, ambience.random().legacy_random, facts)
 	if act != null:
 		_map.acts.run(act, npc, ambience.random().legacy_random)
 

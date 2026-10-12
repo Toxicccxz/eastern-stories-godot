@@ -1,0 +1,107 @@
+{
+	"spawns": [
+		{
+			"id": "chuenyu.main.sunnyroad.flower_seller",
+			"npc": "chuenyu.npc.flower_seller",
+			"map": "chuenyu.main",
+			"zone": "chuenyu.sunnyroad",
+			"points": ["chuenyu.sunnyroad.flower_seller.1"],
+			"legacy_room": "d/chuenyu/sunnyroad.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "chuenyu.main.rope_bridge.jiading3s",
+			"npc": "chuenyu.npc.jiading3",
+			"map": "chuenyu.main",
+			"zone": "chuenyu.rope_bridge",
+			"points": ["chuenyu.rope_bridge.jiading3.1", "chuenyu.rope_bridge.jiading3.2"],
+			"legacy_room": "d/chuenyu/rope_bridge.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "chuenyu.main.west_garden.gardener",
+			"npc": "chuenyu.npc.gardener",
+			"map": "chuenyu.main",
+			"zone": "chuenyu.west_garden",
+			"points": ["chuenyu.west_garden.gardener.1"],
+			"legacy_room": "d/chuenyu/west_garden.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "chuenyu.main.west_garden.bees",
+			"npc": "chuenyu.npc.bee",
+			"map": "chuenyu.main",
+			"zone": "chuenyu.west_garden",
+			"points": ["chuenyu.west_garden.bee.1", "chuenyu.west_garden.bee.2"],
+			"legacy_room": "d/chuenyu/west_garden.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "chuenyu.main.north_garden.smallgardeners",
+			"npc": "chuenyu.npc.smallgardener",
+			"map": "chuenyu.main",
+			"zone": "chuenyu.north_garden",
+			"points": ["chuenyu.north_garden.smallgardener.1", "chuenyu.north_garden.smallgardener.2"],
+			"legacy_room": "d/chuenyu/north_garden.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "chuenyu.main.west_blackge.guards",
+			"npc": "chuenyu.npc.guard",
+			"map": "chuenyu.main",
+			"zone": "chuenyu.west_blackge",
+			"points": ["chuenyu.west_blackge.guard.1", "chuenyu.west_blackge.guard.2"],
+			"legacy_room": "d/chuenyu/west_blackge.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "chuenyu.main.east_blackge.cleangirl",
+			"npc": "chuenyu.npc.cleangirl",
+			"map": "chuenyu.main",
+			"zone": "chuenyu.east_blackge",
+			"points": ["chuenyu.east_blackge.cleangirl.1"],
+			"legacy_room": "d/chuenyu/east_blackge.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "chuenyu.main.east_garden.wolfdogs",
+			"npc": "chuenyu.npc.wolfdog",
+			"map": "chuenyu.main",
+			"zone": "chuenyu.east_garden",
+			"points": [
+				"chuenyu.east_garden.wolfdog.1",
+				"chuenyu.east_garden.wolfdog.2",
+				"chuenyu.east_garden.wolfdog.3"
+			],
+			"legacy_room": "d/chuenyu/east_garden.c",
+			"legacy_quantity": 3
+		},
+		{
+			"id": "chuenyu.main.south_garden.smallgardeners",
+			"npc": "chuenyu.npc.smallgardener",
+			"map": "chuenyu.main",
+			"zone": "chuenyu.south_garden",
+			"points": ["chuenyu.south_garden.smallgardener.1", "chuenyu.south_garden.smallgardener.2"],
+			"legacy_room": "d/chuenyu/south_garden.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "chuenyu.upstairs.yiantai.pigeons",
+			"npc": "chuenyu.npc.pigeon",
+			"map": "chuenyu.upstairs",
+			"zone": "chuenyu.yiantai",
+			"points": ["chuenyu.yiantai.pigeon.1", "chuenyu.yiantai.pigeon.2"],
+			"legacy_room": "d/chuenyu/yiantai.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "chuenyu.upstairs.kitchen.cook",
+			"npc": "chuenyu.npc.cook",
+			"map": "chuenyu.upstairs",
+			"zone": "chuenyu.kitchen",
+			"points": ["chuenyu.kitchen.cook.1"],
+			"legacy_room": "d/chuenyu/kitchen.c",
+			"legacy_quantity": 1
+		}
+	]
+}

@@ -87,12 +87,15 @@ func _test_reminders() -> void:
 	_check(south != null and south.source_zone_id == &"village.road2" and south.destination_zone_id == &"city.nroad2", "the 三叉路口's way south leads to the 北驿道")
 	var north: PortalDefinition = catalog.portal(&"city.nroad2.north")
 	_check(north != null and north.destination_zone_id == &"village.road2", "the 北驿道's way north comes back to the 三叉路口")
-	# 黑松山 (after 京师, owner Q2): 小娟 sets marks/老刘 or marks/murder; 刘老农 then thanks
-	# (銮鱼衡冰 and 过招要旨, he leaves with 娟儿) or takes revenge (悲愤欲绝). Until then he only asks.
-	for zone: ZoneDefinition in catalog.zones():
-		for room: StringName in zone.room_ids():
-			_check(not String(room).begins_with("es2:d/chuenyu/"), "黑松山 is placed (%s): give 刘老农 his thanks and revenge (oldliu.c greeting(), killhim()) and open the 黄土大道's spur" % room)
-	_check(catalog.npc(LIU).talk().has_greeting() and catalog.item(&"es2:d/village/npc/obj/hengbing") == null, "刘老农 only asks after 娟儿 for now")
+	# 黑松山 (owner Q2, 黑松山 A): the 黄土大道's spur west leads to d/chuenyu's 黄土大道 (croad1.c's
+	# south comes back). Its 地牢 (黑松山 B) holds 小娟, who sets marks/老刘 or marks/murder; 刘老农
+	# then thanks (銮鱼衡冰 and 过招要旨, he leaves with 娟儿) or takes revenge (悲愤欲绝). Until
+	# then he only asks.
+	var west: PortalDefinition = catalog.portal(&"village.road1.west")
+	_check(west != null and west.destination_zone_id == &"chuenyu.croad1", "the 黄土大道's spur west leads to 黑松山")
+	var back: PortalDefinition = catalog.portal(&"chuenyu.croad1.south")
+	_check(back != null and back.destination_zone_id == &"village.road1", "黑松山's 黄土大道 comes back to the village's")
+	_check(catalog.npc(LIU).talk().has_greeting() and catalog.item(&"es2:d/village/npc/obj/hengbing") == null, "黑松山 B places the 地牢: give 刘老农 his thanks and revenge (oldliu.c greeting(), killhim()); he only asks after 娟儿 for now")
 
 
 ## 天驼关's valley south onto the 黄土大道, and back.

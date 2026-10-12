@@ -122,16 +122,23 @@ def draw(region, entry: dict) -> Drawn:
 
 
 def jumps(region, scene, named, zones):
-    """(passage box, arrival point) for each passage whose portal stays among `zones`."""
+    """(passage box, arrival point) for each passage whose portal stays among `zones`, and
+    (the ground within reach of a service point, arrival point) for each act service that
+    moves the player to a marker among them (d/chuenyu's climbs over the castle walls)."""
     portals = region.portals()
     by_id = {m['id']: tuple(m['at']) for m in scene.get('spawn_points', []) if 'generated' not in m}
     sizes = scene['shapes']
+    moves, reach = region.service_moves(), region.service_reach()
     out = []
     for item in scene.get('nodes', []):
         portal = portals.get(item.get('id')) if item.get('node') == 'passage' else None
         if portal and portal['from_zone'] in zones and portal['to_zone'] in zones:
             (ax, ay), (w, h) = item['at'], sizes[item['shape']]
             out.append(((ax - w / 2, ay - h / 2, ax + w / 2, ay + h / 2), by_id[portal['to_spawn']]))
+        move = moves.get(item.get('id')) if item.get('node') == 'service' else None
+        if move and move[0] in zones and move[1] in by_id:
+            (ax, ay), near = item['at'], reach[item['id']] / 2
+            out.append(((ax - near, ay - near, ax + near, ay + near), by_id[move[1]]))
     return out
 
 

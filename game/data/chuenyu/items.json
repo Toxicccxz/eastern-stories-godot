@@ -1,0 +1,171 @@
+{
+	"items": [
+		{
+			"id": "es2:d/chuenyu/obj/flower",
+			"legacy_sources": ["d/chuenyu/obj/flower.c", "d/chuenyu/npc/obj/flower.c"],
+			"name": "紫花瓣儿",
+			"aliases": ["purple flower", "flower"],
+			"long": "迷人的紫色瓣儿，发出一股淡淡的香气。\n",
+			"unit": "把",
+			"combined": { "base_unit": "片", "base_weight": 1, "amount": 7 },
+			"weapon": { "skill": "throwing", "damage": 2 }
+		},
+		{
+			"id": "es2:d/chuenyu/obj/8hammer",
+			"legacy_sources": ["d/chuenyu/obj/8hammer.c", "d/chuenyu/npc/obj/8hammer.c"],
+			"name": "八楞玄铁锤",
+			"aliases": ["eighthammer"],
+			"long": "这是一把八楞玄铁锤，沉甸甸的。\n",
+			"unit": "把",
+			"material": "blacksteel",
+			"weight": 8000,
+			"value": 800,
+			"weapon": { "skill": "hammer", "damage": 20, "weight_dodge": "equip" }
+		},
+		{
+			"id": "es2:d/chuenyu/obj/scissors",
+			"legacy_sources": ["d/chuenyu/obj/scissors.c", "d/chuenyu/npc/obj/scissors.c"],
+			"name": "园工剪",
+			"aliases": ["scissors"],
+			"long": "一把长而锋利的园工剪刀。\n",
+			"unit": "把",
+			"material": "iron",
+			"weight": 4000,
+			"value": 100,
+			"weapon": { "skill": "sword", "damage": 15, "weight_dodge": "equip" }
+		},
+		{
+			"id": "es2:d/chuenyu/obj/feather",
+			"legacy_sources": ["d/chuenyu/obj/feather.c", "d/chuenyu/npc/obj/feather.c"],
+			"name": "鸡毛",
+			"aliases": ["feather"],
+			"long": "用来清除灰尘的鸡毛\n",
+			"unit": "把",
+			"combined": { "base_unit": "片", "base_weight": 1, "amount": 30 },
+			"weapon": { "skill": "throwing", "damage": 1 }
+		},
+		{
+			"id": "es2:d/chuenyu/obj/pigmeat",
+			"legacy_sources": ["d/chuenyu/obj/pigmeat.c", "d/chuenyu/npc/obj/pigmeat.c"],
+			"name": "烤山猪肉",
+			"aliases": ["pork"],
+			"long": "哇! 好香的烤山猪肉! 不吃还等什么?\n",
+			"unit": "斤",
+			"material": "rib",
+			"weight": 600,
+			"value": 60,
+			"weapon": { "skill": "hammer", "damage": 4, "weight_dodge": "equip" },
+			"food": {
+				"remaining": 6,
+				"supply": 90,
+				"leaves": {
+					"name": "山猪骨头",
+					"aliases": ["rib", "bone"],
+					"weight": 250,
+					"long": "啃得精光的山猪骨头。\n",
+					"unit": "根"
+				}
+			}
+		},
+		{
+			"id": "es2:d/chuenyu/obj/qiwine",
+			"legacy_sources": ["d/chuenyu/obj/qiwine.c", "d/chuenyu/npc/obj/qiwine.c"],
+			"name": "人皮酒袋",
+			"aliases": ["wineskin", "skin"],
+			"long": "一个人皮缝的大酒袋，大概装得八、九升的酒。\n",
+			"unit": "个",
+			"weight": 1000,
+			"value": 50,
+			"liquid": { "max_liquid": 20, "type": "alcohol", "name": "竹叶青", "remaining": 20, "drunk_apply": 10 }
+		},
+		{
+			"id": "es2:d/chuenyu/obj/bknife",
+			"legacy_sources": ["d/chuenyu/obj/bknife.c", "d/chuenyu/npc/obj/bknife.c"],
+			"name": "碧玉刀",
+			"aliases": ["knife"],
+			"long": "这是一把当年张家老祖宗退隐时皇上赐的宝刀",
+			"unit": "把",
+			"material": "crimsonsteel",
+			"weight": 6500,
+			"value": 20000,
+			"weapon": { "skill": "dagger", "damage": 40, "weight_dodge": "equip" }
+		},
+		{
+			"id": "es2:d/chuenyu/npc/obj/purple_flower",
+			"legacy_sources": ["d/chuenyu/npc/obj/purple_flower.c"],
+			"name": "紫罗兰",
+			"aliases": ["purple flower", "flower"],
+			"long": "高贵典雅的紫罗兰，闻起来还有一股淡淡的香味儿。\n",
+			"unit": "朵",
+			"material": "plant",
+			"female_only": true,
+			"weight": 10,
+			"value": 6,
+			"armor": { "type": "head", "props": { "armor": 0, "personality": 3 }, "weight_dodge": "armor" }
+		},
+		{
+			"id": "es2:d/chuenyu/npc/obj/red_flower",
+			"legacy_sources": ["d/chuenyu/npc/obj/red_flower.c"],
+			"name": "红枚瑰",
+			"aliases": ["red flower", "flower"],
+			"long": "热奔奔放的红玫瑰。\n",
+			"unit": "朵",
+			"material": "plant",
+			"female_only": true,
+			"weight": 10,
+			"value": 6,
+			"armor": { "type": "head", "props": { "armor": 0, "personality": 3 }, "weight_dodge": "armor" }
+		},
+		{
+			"id": "es2:d/chuenyu/npc/obj/yellow_flower",
+			"legacy_sources": ["d/chuenyu/npc/obj/yellow_flower.c"],
+			"name": "黄玫瑰",
+			"aliases": ["yellow flower", "flower"],
+			"long": "含情脉脉的黄玫瑰。\n",
+			"unit": "朵",
+			"material": "plant",
+			"female_only": true,
+			"weight": 10,
+			"value": 6,
+			"armor": { "type": "head", "props": { "armor": 0, "personality": 3 }, "weight_dodge": "armor" }
+		},
+		{
+			"id": "es2:d/chuenyu/npc/obj/blue_flower",
+			"legacy_sources": ["d/chuenyu/npc/obj/blue_flower.c"],
+			"name": "蓝天鹅",
+			"aliases": ["blue flower", "flower"],
+			"long": "庄重朴实的蓝天鹅。\n",
+			"unit": "朵",
+			"material": "plant",
+			"female_only": true,
+			"weight": 10,
+			"value": 6,
+			"armor": { "type": "head", "props": { "armor": 0, "personality": 3 }, "weight_dodge": "armor" }
+		},
+		{
+			"id": "es2:d/chuenyu/npc/obj/white_flower",
+			"legacy_sources": ["d/chuenyu/npc/obj/white_flower.c"],
+			"name": "白茶花",
+			"aliases": ["white flower", "flower"],
+			"long": "冰清玉洁的白茶花。\n",
+			"unit": "朵",
+			"material": "plant",
+			"weight": 10,
+			"value": 6,
+			"armor": { "type": "head", "props": { "armor": 0, "personality": 3 }, "weight_dodge": "armor" }
+		},
+		{
+			"id": "es2:d/chuenyu/npc/obj/black_flower",
+			"legacy_sources": ["d/chuenyu/npc/obj/black_flower.c"],
+			"name": "黑牡丹",
+			"aliases": ["black flower", "flower"],
+			"long": "清高冷傲的黑牡丹。\n",
+			"unit": "朵",
+			"material": "plant",
+			"female_only": true,
+			"weight": 10,
+			"value": 6,
+			"armor": { "type": "head", "props": { "armor": 0, "personality": 3 }, "weight_dodge": "armor" }
+		}
+	]
+}

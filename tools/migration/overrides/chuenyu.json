@@ -1,0 +1,189 @@
+{
+	"source_fixes": {
+		"d/chuenyu/north_garden.c": [
+			{ "find": "你站在黑松城堡的东花园里。", "replace": "你站在黑松城堡的北花园里。", "why": "M6 (默认): the 北花园's long, copied from the 东花园's, put the player in the east garden" }
+		],
+		"d/chuenyu/bedroom.c": [
+			{ "find": "西面则", "replace": "南面则", "why": "M6 (默认): the 膳房 is south (the bedroom's exit and its 玉帘门), not west" }
+		]
+	},
+	"vendors": ["d/chuenyu/npc/flower_seller.c"],
+	"set": {
+		"chuenyu.npc.flower_seller": {
+			"greeting": {
+				"one_of": [
+					{ "line": "卖花姑娘笑着道：这位$RESPECT，买朵黑牡丹吗？ \n" },
+					{ "line": "卖花姑娘笑着道：这位$RESPECT，买朵黄枚瑰吗？ \n" },
+					{ "line": "卖花姑娘笑着道：这位$RESPECT，买朵白茶花吗？ \n" },
+					{ "line": "卖花姑娘笑着道：这位$RESPECT，买朵紫罗兰吗？ \n" },
+					{ "line": "卖花姑娘笑着道：这位$RESPECT，买朵红枚瑰吗？ \n" },
+					{ "line": "卖花姑娘笑着道：这位$RESPECT，买朵黄枚瑰吗？ \n" }
+				]
+			}
+		},
+		"chuenyu.npc.cook": {
+			"greeting": {
+				"one_of": [
+					{ "line": "厨子嘟囔着：“真是的，堡主又在地牢里留涟忘返。”\n" },
+					{ "line": "厨子道：“去地牢叫堡主上来吃饭。\n" }
+				]
+			}
+		},
+		"chuenyu.npc.jiading3": {
+			"greeting": {
+				"rules": [
+					{ "per_below": 20, "steps": [
+						{ "say": "家丁喝道：站住！你干什么的。" },
+						{ "say": "看你那贼眉鼠眼，尖嘴猴腮的样儿，决不是什么好东西！" },
+						{ "npc_flag": "hunts_player" },
+						{ "kill": true }
+					] }
+				]
+			}
+		},
+		"chuenyu.npc.guard": {
+			"capabilities": ["aggressive_on_player_presence"]
+		},
+		"chuenyu.npc.wolfdog": {
+			"attitude": "killer"
+		},
+		"chuenyu.npc.gardener": {
+			"chat_chance_combat": 50,
+			"chat_msg_combat": [
+				{ "action": "cast", "function": "invocation" },
+				{ "action": "cast", "function": "animate" },
+				{ "action": "cast", "function": "animate" }
+			]
+		},
+		"es2:d/chuenyu/obj/pigmeat": {
+			"food": { "remaining": 6, "supply": 90, "leaves": { "name": "山猪骨头", "aliases": ["rib", "bone"], "weight": 250, "long": "啃得精光的山猪骨头。\n", "unit": "根" } }
+		}
+	},
+	"review": {
+		"d/chuenyu/npc/flower_seller.c": {
+			"function init": "greeting in set (one second after the player comes in, not while she fights); list: the vendor's goods panel",
+			"function greeting": "greeting in set: switch(random(6)), its say() lines as written (cases 1 and 5 are the same 黄枚瑰; M6: the stray leading space goes)"
+		},
+		"d/chuenyu/npc/cook.c": {
+			"function init": "greeting in set (one second after the player comes in, not while he fights)",
+			"function greeting": "greeting in set: switch(random(2)), its say() lines as written (the second's unclosed quote kept)"
+		},
+		"d/chuenyu/npc/jiading3.c": {
+			"function init": "greeting in set: checklooking() one second after the player comes in, not while he fights",
+			"function checklooking": "greeting rule in set: random(per) < 20 (per_below), his two say lines as written (家丁喝道： inside his own say kept, as 刘老农说道)",
+			"function kill_passenger": "greeting's kill step: kill_ob(); set(\"attitude\", \"aggressive\") and the killer list it joins are attack.c's hatred: npc_flag hunts_player (he attacks on sight from then on until he is made anew)"
+		},
+		"d/chuenyu/npc/guard.c": {
+			"set pursuer": "following who flees is not modelled yet (as 守城官兵's, 县城官兵's and 僵尸护法's: M5)",
+			"function init": "capabilities aggressive_on_player_presence in set: kill_ob() whoever comes in while not fighting"
+		},
+		"d/chuenyu/npc/wolfdog.c": {
+			"set attitude": "attitude killer in set: npc.c accept_fight() and ask.c treat it as aggressive (哼！出招吧！, the rude name answer); attack.c init() does not, so only its bellicosity's berserk attacks",
+			"set chat_msg_combat": "no chat_chance_combat: npc.c chat() reads 0 and never says it (as ES2)"
+		},
+		"d/chuenyu/npc/gardener.c": {
+			"set mana_factor": "only hp.c and score.c read it (a player's own sheet): nothing for an NPC",
+			"set chat_chance_combat": "in set",
+			"set chat_msg_combat": "in set: cast_spell invocation is 召护法 (the NPC's own cast, as 僵尸侍者's); command(\"cast animate on corpse\") draws do nothing for an NPC (M5, as 茅山's)"
+		},
+		"d/chuenyu/obj/pigmeat.c": {
+			"set food_remaining": "food in set (M4: food that is also a hammer)",
+			"set food_supply": "food in set",
+			"function finish_eat": "food.leaves in set: 山猪骨头 (rib; bone added as 牛腿骨's, A11), still the hammer it was"
+		},
+		"d/chuenyu/rope_bridge.c": {
+			"function init": "climb chain: the act service chuenyu.rope_bridge.climb (铁链 · 顺着走下去)",
+			"function do_climb": "service chuenyu.rope_bridge.climb: its message_vision() line, then move() to base_b_m; the chain's look is the refusal line 这里只有一条铁链（chain）。 (landmark chuenyu.rope_bridge.landmark.chain); the comment's dodge check was never written"
+		},
+		"d/chuenyu/gate_castle.c": {
+			"create_door": "world.json doors: chuenyu.gate_castle.door (城门, shut)",
+			"function init": "world.json exit_rules chuenyu.high_b_mtn.killing_air and chuenyu.high_b_mtn2.killing_air: combat_exp below 2000 turns back (你被黑松堡散出的强烈杀气当了回来。) on the way up from either 花岗石街, the only ways in"
+		},
+		"d/chuenyu/trap_castle.c": {
+			"set item_desc": "look-only landmarks in world.json (石墙, 巨石, 圆孔, 声音)",
+			"create_door": "world.json doors: chuenyu.gate_castle.door",
+			"function init": "world.json hazards chuenyu.trap_castle.arrows: the first volley 15 seconds after the player comes in",
+			"function arrowing": "hazard chuenyu.trap_castle.arrows: HIW lines, eff_kee and kee down random(10)+35 (hurt), again every 5 seconds while the player stays"
+		},
+		"d/chuenyu/east_castle.c": {
+			"set item_desc": "look-only landmarks in world.json (城墙, 蔓藤, 青石板)",
+			"function init": "climb: the act service chuenyu.east_castle.climb (城墙 · 爬上去)",
+			"function climbing": "service chuenyu.east_castle.climb: its message_vision() line; start_busy(3) is stopped at once (stop_busy)",
+			"function fliping": "service chuenyu.east_castle.climb: move() to east_garden and the jump line, at once (M1: ES2 three seconds later)"
+		},
+		"d/chuenyu/east_garden.c": {
+			"set item_desc": "look-only landmarks in world.json (城墙, 蔓藤)",
+			"function init": "climb: the act service chuenyu.east_garden.climb (城墙 · 爬上去)",
+			"function climbing": "service chuenyu.east_garden.climb: its message_vision() line; start_busy(3) is stopped at once (stop_busy)",
+			"function fliping": "service chuenyu.east_garden.climb: move() to east_castle and the jump line, at once (M1)"
+		},
+		"d/chuenyu/west_castle.c": {
+			"set item_desc": "look-only landmarks in world.json (城墙, 蔓藤)",
+			"function init": "climb: the act service chuenyu.west_castle.climb (城墙 · 爬上去)",
+			"function climbing": "service chuenyu.west_castle.climb: its message_vision() line; start_busy(3) is stopped at once (stop_busy)",
+			"function fliping": "service chuenyu.west_castle.climb: move() to west_garden and the jump line, at once (M1)"
+		},
+		"d/chuenyu/west_garden.c": {
+			"set item_desc": "look-only landmarks in world.json (城墙, 蔓藤)",
+			"function init": "climb: the act service chuenyu.west_garden.climb (城墙 · 爬上去)",
+			"function climbing": "service chuenyu.west_garden.climb: its message_vision() line; start_busy(3) is stopped at once (stop_busy)",
+			"function fliping": "service chuenyu.west_garden.climb: move() to west_castle and the jump line, at once (M1)"
+		},
+		"d/chuenyu/north_garden.c": {
+			"set item_desc": "a look-only landmark (巨石) in world.json"
+		},
+		"d/chuenyu/west_blackge.c": {
+			"create_door": "world.json doors: chuenyu.west_blackge.door (木门, shut)"
+		},
+		"d/chuenyu/storage.c": {
+			"create_door": "world.json doors: chuenyu.west_blackge.door"
+		},
+		"d/chuenyu/bedroom.c": {
+			"create_door": "world.json doors: chuenyu.bedroom.door (玉帘门, shut)"
+		},
+		"d/chuenyu/kitchen.c": {
+			"create_door": "world.json doors: chuenyu.bedroom.door"
+		},
+		"d/chuenyu/center.c": {
+			"set item_desc": "a look-only landmark (绳子) in world.json",
+			"function init": "pull rope waits for 黑松山 B (the 地牢): chuenyu_test's reminder fails once the 地牢 is placed",
+			"function roping": "黑松山 B: the fall into the 地牢"
+		},
+		"d/chuenyu/obj/8hammer.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"d/chuenyu/obj/scissors.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"d/chuenyu/obj/bknife.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"d/chuenyu/npc/obj/purple_flower.c": {
+			"set wear_msg": "wear messages are not shown yet",
+			"set unwield_msg": "an unwield message on a worn flower: nothing reads it"
+		},
+		"d/chuenyu/npc/obj/red_flower.c": {
+			"set wear_msg": "wear messages are not shown yet",
+			"set unwield_msg": "an unwield message on a worn flower: nothing reads it"
+		},
+		"d/chuenyu/npc/obj/yellow_flower.c": {
+			"set wear_msg": "wear messages are not shown yet",
+			"set unwield_msg": "an unwield message on a worn flower: nothing reads it"
+		},
+		"d/chuenyu/npc/obj/blue_flower.c": {
+			"set wear_msg": "wear messages are not shown yet",
+			"set unwield_msg": "an unwield message on a worn flower: nothing reads it"
+		},
+		"d/chuenyu/npc/obj/white_flower.c": {
+			"set wear_msg": "wear messages are not shown yet",
+			"set unwield_msg": "an unwield message on a worn flower: nothing reads it"
+		},
+		"d/chuenyu/npc/obj/black_flower.c": {
+			"set wear_msg": "wear messages are not shown yet",
+			"set unwield_msg": "an unwield message on a worn flower: nothing reads it"
+		}
+	}
+}

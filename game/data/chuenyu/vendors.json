@@ -1,0 +1,16 @@
+{
+	"vendors": [
+		{
+			"id": "chuenyu.vendor.flower_seller",
+			"legacy_source": "d/chuenyu/npc/flower_seller.c",
+			"goods": [
+				{ "key": "purple flower", "item": "es2:d/chuenyu/npc/obj/purple_flower" },
+				{ "key": "red flower", "item": "es2:d/chuenyu/npc/obj/red_flower" },
+				{ "key": "yellow flower", "item": "es2:d/chuenyu/npc/obj/yellow_flower" },
+				{ "key": "blue flower", "item": "es2:d/chuenyu/npc/obj/blue_flower" },
+				{ "key": "white flower", "item": "es2:d/chuenyu/npc/obj/white_flower" },
+				{ "key": "black flower", "item": "es2:d/chuenyu/npc/obj/black_flower" }
+			]
+		}
+	]
+}

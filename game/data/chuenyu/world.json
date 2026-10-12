@@ -1,0 +1,111 @@
+{
+	"regions": [
+		{ "id": "chuenyu", "name": "黑松山" }
+	],
+	"maps": [
+		{ "id": "chuenyu.main", "region": "chuenyu", "scene": "res://scenes/world/chuenyu/chuenyu_main.tscn", "entry": "chuenyu.croad1.village_arrival" },
+		{ "id": "chuenyu.upstairs", "region": "chuenyu", "scene": "res://scenes/world/chuenyu/chuenyu_upstairs.tscn", "entry": "chuenyu.bedroom.west_stairs_arrival" }
+	],
+	"zones": [
+		{ "id": "chuenyu.croad1", "map": "chuenyu.main", "rooms": ["es2:d/chuenyu/croad1"] },
+		{ "id": "chuenyu.croad2", "map": "chuenyu.main", "rooms": ["es2:d/chuenyu/croad2"] },
+		{ "id": "chuenyu.sunnyroad", "map": "chuenyu.main", "rooms": ["es2:d/chuenyu/sunnyroad"] },
+		{ "id": "chuenyu.base_b_m", "map": "chuenyu.main", "rooms": ["es2:d/chuenyu/base_b_m"] },
+		{ "id": "chuenyu.foot_b_mtn", "map": "chuenyu.main", "rooms": ["es2:d/chuenyu/foot_b_mtn"] },
+		{ "id": "chuenyu.high_b_mtn", "map": "chuenyu.main", "rooms": ["es2:d/chuenyu/high_b_mtn"] },
+		{ "id": "chuenyu.rope_bridge", "map": "chuenyu.main", "rooms": ["es2:d/chuenyu/rope_bridge"] },
+		{ "id": "chuenyu.high_b_mtn2", "map": "chuenyu.main", "rooms": ["es2:d/chuenyu/high_b_mtn2"] },
+		{ "id": "chuenyu.gate_castle", "map": "chuenyu.main", "rooms": ["es2:d/chuenyu/gate_castle"] },
+		{ "id": "chuenyu.east_castle", "map": "chuenyu.main", "rooms": ["es2:d/chuenyu/east_castle"] },
+		{ "id": "chuenyu.west_castle", "map": "chuenyu.main", "rooms": ["es2:d/chuenyu/west_castle"] },
+		{ "id": "chuenyu.trap_castle", "map": "chuenyu.main", "rooms": ["es2:d/chuenyu/trap_castle"] },
+		{ "id": "chuenyu.west_garden", "map": "chuenyu.main", "rooms": ["es2:d/chuenyu/west_garden"] },
+		{ "id": "chuenyu.north_garden", "map": "chuenyu.main", "rooms": ["es2:d/chuenyu/north_garden"] },
+		{ "id": "chuenyu.west_blackge", "map": "chuenyu.main", "rooms": ["es2:d/chuenyu/west_blackge"] },
+		{ "id": "chuenyu.storage", "map": "chuenyu.main", "rooms": ["es2:d/chuenyu/storage"] },
+		{ "id": "chuenyu.center", "map": "chuenyu.main", "rooms": ["es2:d/chuenyu/center"] },
+		{ "id": "chuenyu.east_blackge", "map": "chuenyu.main", "rooms": ["es2:d/chuenyu/east_blackge"] },
+		{ "id": "chuenyu.east_garden", "map": "chuenyu.main", "rooms": ["es2:d/chuenyu/east_garden"] },
+		{ "id": "chuenyu.south_garden", "map": "chuenyu.main", "rooms": ["es2:d/chuenyu/south_garden"] },
+		{ "id": "chuenyu.bedroom", "map": "chuenyu.upstairs", "rooms": ["es2:d/chuenyu/bedroom"] },
+		{ "id": "chuenyu.yiantai", "map": "chuenyu.upstairs", "rooms": ["es2:d/chuenyu/yiantai"] },
+		{ "id": "chuenyu.kitchen", "map": "chuenyu.upstairs", "rooms": ["es2:d/chuenyu/kitchen"] }
+	],
+	"portals": [
+		{ "id": "chuenyu.croad1.south", "from_zone": "chuenyu.croad1", "to_zone": "village.road1", "to_spawn": "village.road1.chuenyu_return", "legacy_room": "es2:d/chuenyu/croad1", "legacy_command": "south" },
+		{ "id": "chuenyu.west_blackge.eastup", "from_zone": "chuenyu.west_blackge", "to_zone": "chuenyu.bedroom", "to_spawn": "chuenyu.bedroom.west_stairs_arrival", "legacy_room": "es2:d/chuenyu/west_blackge", "legacy_command": "eastup" },
+		{ "id": "chuenyu.east_blackge.westup", "from_zone": "chuenyu.east_blackge", "to_zone": "chuenyu.bedroom", "to_spawn": "chuenyu.bedroom.east_stairs_arrival", "legacy_room": "es2:d/chuenyu/east_blackge", "legacy_command": "westup" },
+		{ "id": "chuenyu.bedroom.westdown", "from_zone": "chuenyu.bedroom", "to_zone": "chuenyu.west_blackge", "to_spawn": "chuenyu.west_blackge.stairs_return", "legacy_room": "es2:d/chuenyu/bedroom", "legacy_command": "westdown" },
+		{ "id": "chuenyu.bedroom.eastdown", "from_zone": "chuenyu.bedroom", "to_zone": "chuenyu.east_blackge", "to_spawn": "chuenyu.east_blackge.stairs_return", "legacy_room": "es2:d/chuenyu/bedroom", "legacy_command": "eastdown" }
+	],
+	"doors": [
+		{ "id": "chuenyu.gate_castle.door", "name": "城门", "zones": ["chuenyu.gate_castle", "chuenyu.trap_castle"], "reach": 90, "legacy_room": "es2:d/chuenyu/gate_castle" },
+		{ "id": "chuenyu.west_blackge.door", "name": "木门", "zones": ["chuenyu.west_blackge", "chuenyu.storage"], "reach": 90, "legacy_room": "es2:d/chuenyu/west_blackge" },
+		{ "id": "chuenyu.bedroom.door", "name": "玉帘门", "zones": ["chuenyu.bedroom", "chuenyu.kitchen"], "reach": 90, "legacy_room": "es2:d/chuenyu/bedroom" }
+	],
+	"exit_rules": [
+		{ "id": "chuenyu.high_b_mtn.killing_air", "room": "es2:d/chuenyu/high_b_mtn", "from_zone": "chuenyu.high_b_mtn", "to_zone": "chuenyu.gate_castle", "when": "combat_exp_below", "value": 2000, "lines": ["你被黑松堡散出的强烈杀气当了回来。"], "legacy_source": "d/chuenyu/gate_castle.c" },
+		{ "id": "chuenyu.high_b_mtn2.killing_air", "room": "es2:d/chuenyu/high_b_mtn2", "from_zone": "chuenyu.high_b_mtn2", "to_zone": "chuenyu.gate_castle", "when": "combat_exp_below", "value": 2000, "lines": ["你被黑松堡散出的强烈杀气当了回来。"], "legacy_source": "d/chuenyu/gate_castle.c" }
+	],
+	"hazards": [
+		{ "id": "chuenyu.trap_castle.arrows", "zone": "chuenyu.trap_castle", "room": "es2:d/chuenyu/trap_castle", "first_seconds": 15, "every_seconds": 5, "act": { "steps": [
+			{ "line": "刹那间石墙的后面“嘣嘣”声不绝，无数羽箭从圆孔中向你激射而出！！\n", "color": "HIW" },
+			{ "line": "你被乱箭射得头破血流，遍体鳞伤！\n", "color": "HIW" },
+			{ "hurt": { "kee": { "base": 35, "random": 10 } } }
+		] }, "legacy_source": "d/chuenyu/trap_castle.c" }
+	],
+	"landmarks": [
+		{ "id": "chuenyu.center.landmark.rope", "zone": "chuenyu.center", "name": "绳子", "policy": "look", "long": "这根绳子顺着墙垂下来，你似乎可以拉(pull)它，但是你有一种不祥的感觉。\n", "legacy_source": "d/chuenyu/center.c" },
+		{ "id": "chuenyu.east_castle.landmark.wall", "zone": "chuenyu.east_castle", "name": "城墙", "policy": "look", "long": "城墙虽陡，但长满了蔓藤。你似乎可以试着爬(climb)上去。\n", "legacy_source": "d/chuenyu/east_castle.c" },
+		{ "id": "chuenyu.east_castle.landmark.vine", "zone": "chuenyu.east_castle", "name": "蔓藤", "policy": "look", "long": "蔓藤长满了城墙，你似乎可以试着爬(climb)上去。\n", "legacy_source": "d/chuenyu/east_castle.c" },
+		{ "id": "chuenyu.east_castle.landmark.rock", "zone": "chuenyu.east_castle", "name": "青石板", "policy": "look", "long": "青石板劳牢的镶在地下，但它下面似乎是空的。\n", "legacy_source": "d/chuenyu/east_castle.c" },
+		{ "id": "chuenyu.east_garden.landmark.wall", "zone": "chuenyu.east_garden", "name": "城墙", "policy": "look", "long": "城墙虽陡，但长满了蔓藤。你似乎可以试着爬(climb)上去。\n", "legacy_source": "d/chuenyu/east_garden.c" },
+		{ "id": "chuenyu.east_garden.landmark.vine", "zone": "chuenyu.east_garden", "name": "蔓藤", "policy": "look", "long": "蔓藤长满了城墙，你似乎可以试着爬(climb)上去。\n", "legacy_source": "d/chuenyu/east_garden.c" },
+		{ "id": "chuenyu.west_castle.landmark.wall", "zone": "chuenyu.west_castle", "name": "城墙", "policy": "look", "long": "城墙虽陡，但长满了蔓藤。你似乎可以试着爬(climb)上去。\n", "legacy_source": "d/chuenyu/west_castle.c" },
+		{ "id": "chuenyu.west_castle.landmark.vine", "zone": "chuenyu.west_castle", "name": "蔓藤", "policy": "look", "long": "蔓藤长满了城墙，你似乎可以试着爬(climb)上去。\n", "legacy_source": "d/chuenyu/west_castle.c" },
+		{ "id": "chuenyu.west_garden.landmark.wall", "zone": "chuenyu.west_garden", "name": "城墙", "policy": "look", "long": "城墙虽陡，但长满了蔓藤。你似乎可以试着爬(climb)上去。\n", "legacy_source": "d/chuenyu/west_garden.c" },
+		{ "id": "chuenyu.west_garden.landmark.vine", "zone": "chuenyu.west_garden", "name": "蔓藤", "policy": "look", "long": "蔓藤长满了城墙，你似乎可以试着爬(climb)上去。\n", "legacy_source": "d/chuenyu/west_garden.c" },
+		{ "id": "chuenyu.north_garden.landmark.rock", "zone": "chuenyu.north_garden", "name": "巨石", "policy": "look", "long": "这是一块千斤巨石，阻住了通向北面的路。\n", "legacy_source": "d/chuenyu/north_garden.c" },
+		{ "id": "chuenyu.trap_castle.landmark.wall", "zone": "chuenyu.trap_castle", "name": "石墙", "policy": "look", "long": "这是一道三丈高，厚达尺许的石墙。墙上的圆孔很适合用来发暗箭。\n", "legacy_source": "d/chuenyu/trap_castle.c" },
+		{ "id": "chuenyu.trap_castle.landmark.rock", "zone": "chuenyu.trap_castle", "name": "巨石", "policy": "look", "long": "这是一块千斤巨石，阻住了通向北面的路。\n", "legacy_source": "d/chuenyu/trap_castle.c" },
+		{ "id": "chuenyu.trap_castle.landmark.hole", "zone": "chuenyu.trap_castle", "name": "圆孔", "policy": "look", "long": "你试着往圆孔里看，可是里面太黑了，什么也看不到。\n", "legacy_source": "d/chuenyu/trap_castle.c" },
+		{ "id": "chuenyu.trap_castle.landmark.noise", "zone": "chuenyu.trap_castle", "name": "声音", "policy": "look", "long": "这显然是拉开强弩的声音。\n", "legacy_source": "d/chuenyu/trap_castle.c" },
+		{ "id": "chuenyu.rope_bridge.landmark.chain", "zone": "chuenyu.rope_bridge", "name": "铁链", "policy": "look", "long": "这里只有一条铁链（chain）。\n", "legacy_source": "d/chuenyu/rope_bridge.c" }
+	],
+	"services": [
+		{ "id": "chuenyu.east_castle.climb", "kind": "act", "zone": "chuenyu.east_castle", "name": "城墙", "reach": 96, "legacy_source": "d/chuenyu/east_castle.c", "act": { "verb": "爬上去", "acts": [
+			{ "steps": [
+				{ "line": "你抓着蔓藤，慢慢的顺着城墙爬了上去。\n" },
+				{ "line": "你用手一撑墙头儿，轻巧的跳了过来。\n" },
+				{ "move": "chuenyu.east_garden", "point": "chuenyu.east_garden.wall_arrival" }
+			] }
+		] } },
+		{ "id": "chuenyu.east_garden.climb", "kind": "act", "zone": "chuenyu.east_garden", "name": "城墙", "reach": 96, "legacy_source": "d/chuenyu/east_garden.c", "act": { "verb": "爬上去", "acts": [
+			{ "steps": [
+				{ "line": "你抓着蔓藤，慢慢的顺着城墙爬了上去。\n" },
+				{ "line": "你用手一撑墙头儿，轻巧的跳了过来。\n" },
+				{ "move": "chuenyu.east_castle", "point": "chuenyu.east_castle.wall_arrival" }
+			] }
+		] } },
+		{ "id": "chuenyu.west_castle.climb", "kind": "act", "zone": "chuenyu.west_castle", "name": "城墙", "reach": 96, "legacy_source": "d/chuenyu/west_castle.c", "act": { "verb": "爬上去", "acts": [
+			{ "steps": [
+				{ "line": "你抓着蔓藤，慢慢的顺着城墙爬了上去。\n" },
+				{ "line": "你用手一撑墙头儿，轻巧的跳了过来。\n" },
+				{ "move": "chuenyu.west_garden", "point": "chuenyu.west_garden.wall_arrival" }
+			] }
+		] } },
+		{ "id": "chuenyu.west_garden.climb", "kind": "act", "zone": "chuenyu.west_garden", "name": "城墙", "reach": 96, "legacy_source": "d/chuenyu/west_garden.c", "act": { "verb": "爬上去", "acts": [
+			{ "steps": [
+				{ "line": "你抓着蔓藤，慢慢的顺着城墙爬了上去。\n" },
+				{ "line": "你用手一撑墙头儿，轻巧的跳了过来。\n" },
+				{ "move": "chuenyu.west_castle", "point": "chuenyu.west_castle.wall_arrival" }
+			] }
+		] } },
+		{ "id": "chuenyu.rope_bridge.climb", "kind": "act", "zone": "chuenyu.rope_bridge", "name": "铁链", "reach": 96, "legacy_source": "d/chuenyu/rope_bridge.c", "act": { "verb": "顺着走下去", "acts": [
+			{ "steps": [
+				{ "line": "你抓紧铁链，顺着铁索桥走了下去。\n" },
+				{ "move": "chuenyu.base_b_m", "point": "chuenyu.base_b_m.chain_arrival" }
+			] }
+		] } }
+	]
+}

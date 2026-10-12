@@ -23,6 +23,7 @@ var _services: Dictionary[StringName, ServiceDefinition] = {}
 var _doors: Dictionary[StringName, DoorDefinition] = {}
 var _landmarks: Dictionary[StringName, WorldLandmarkDefinition] = {}
 var _traps: Dictionary[StringName, RoomTrapDefinition] = {}
+var _hazards: Dictionary[StringName, RoomHazardDefinition] = {}
 var _exit_rules: Dictionary[StringName, ZoneExitRuleDefinition] = {}
 var _pacing: PacingDefinition = PacingDefinition.new()
 var _zone_of_room: Dictionary[StringName, StringName] = {}
@@ -199,6 +200,26 @@ func traps() -> Array[RoomTrapDefinition]:
 	for definition: RoomTrapDefinition in _traps.values():
 		result.append(definition)
 	return result
+
+
+## Called once by ContentCatalogBuilder after cross-checking.
+func set_hazards(p_hazards: Dictionary[StringName, RoomHazardDefinition]) -> void:
+	_hazards = p_hazards.duplicate()
+
+
+func hazards() -> Array[RoomHazardDefinition]:
+	var result: Array[RoomHazardDefinition] = []
+	for definition: RoomHazardDefinition in _hazards.values():
+		result.append(definition)
+	return result
+
+
+## The hazard of a zone (one at most), or null.
+func hazard_in(zone_id: StringName) -> RoomHazardDefinition:
+	for definition: RoomHazardDefinition in _hazards.values():
+		if definition.zone_id == zone_id:
+			return definition
+	return null
 
 
 func hidden_passages() -> Array[WorldLandmarkDefinition]:

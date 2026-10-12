@@ -111,6 +111,45 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 - #27 牛皮酒袋照原名显示，不另起短名。
 - 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
 
+## 黑松山 A: the road, the mountain and the castle (2026-10-12)
+
+Plan (owner, 2026-10-12: Q1 (a), Q2 (a), F1–F4 as recommended; M1–M7 **默认**): A the road,
+the mountain and the castle; B the 地牢, 淳于怀太 and 小娟, 刘老农's thanks and revenge. What each
+LPC function became is in [CHUENYU_CONTENT](CHUENYU_CONTENT.md); it follows the LPC except:
+- **Owner (玉螺湖村 Q2): the way in is repaired.** croad1.c's south led to 玉螺湖村's road1, which
+  had no way back, so ES2's players never reached 黑松山; the 黄土大道's spur west now leads there.
+- **Owner (Q1 (a)): d/chuenyu's copy of 刘家 is not placed** (dustyroad3, home, littlegarden,
+  smallstorage, smallyard and their people: a second 刘老农): ES2 cut it off itself (sunnyroad.c's
+  south commented out, croad2.c without a way to it) and placed 刘家 in 玉螺湖村.
+- **Owner (Q2 (a), for B): the rescue happens once.** Rescued, 刘老农 and 娟儿 leave for good (小娟
+  no longer in the 地牢); killed, 小娟 does not come back, 刘老农 takes his revenge once (as ES2) and
+  no longer asks after her. ES2 brought both back at the next reset (a new 銮鱼衡冰 each time).
+- **Owner (F1–F4, for B):** the thanks only with 娟儿 beside the player (ES2: the mark alone); she
+  follows every way the player goes, climbs and the chain too (ES2: only through exits); attacking
+  her is asked first; only the player leads her (ES2: any living thing that stayed 20 seconds).
+- **默认 (M1): climbing the castle walls moves the player at once** (ES2 three seconds later; its
+  start_busy(3) was stopped at once, so nothing waited but the move).
+- **默认 (M2): the 山腰's path is walked both ways** (foot_b_mtn.c's up has no way back down from
+  the west street; on one map a border is walked both ways).
+- **默认 (M4): food that is a weapon.** pigmeat.c (HAMMER + F_FOOD) is a hammer and six bites of 90,
+  eaten while wielded too; it leaves the 山猪骨头 in the hand, the same hammer (finish_eat()
+  renames it). u/cloud's 牛腿 (积压 A11: a hammer only until now) is food too and leaves its 牛腿骨.
+  Broken, such a weapon is food still (bash_weapon() leaves F_FOOD alone).
+- **默认 (M5):** the 护院's pursuer is not modelled (as everywhere); the 园工's two cast animate draws
+  do nothing (as 茅山's NPCs').
+- **默认 (M6): two slips fixed in the room texts** (north_garden.c calls itself the 东花园; bedroom.c
+  puts the 膳房 west, its exit is south) and the 卖花姑娘's stray leading space; the 家丁's
+  家丁喝道： inside his own say and the cook's unclosed quote stay.
+- **Stays as ES2:** the gate turns back combat_exp below 2000; the 夹道's arrows (15 seconds, then
+  every 5; random(10)+35 off eff_kee and kee) can knock out and kill; the 巨型犬 (attitude killer)
+  attack only by berserk; the 紫衣家丁 stop one whose random(per) is below 20 and hunt them after.
+- **Global (data):** attitude `killer`; act condition `per_below` (a greeting's rolls draw from the
+  NPCs' stream); act step `hurt` (eff and current together, base + random); world `hazards`
+  (an act again and again while the player stays); food on a weapon; the painter takes an act
+  service that moves the player on its map as a way (a climb over a wall).
+- **Save:** world content revision `SOURCE_ENTRY_CHUENYU_V1` (a new region); older development saves
+  need a New Game.
+
 ## 京师 B: 尚书府 and the city's secrets (2026-10-12)
 
 The plan's B (「京师 A」 below: owner Q1 (b), Q2 (a); M1, M3, M4 默认). What each LPC function

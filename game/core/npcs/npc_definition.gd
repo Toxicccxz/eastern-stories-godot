@@ -14,12 +14,15 @@ const AuthoredCombatFactsType := preload("res://core/npcs/npc_authored_combat_fa
 const CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE: StringName = &"aggressive_on_player_presence"
 
 ## LPC set("attitude"). Friendly and heroism only change how an NPC answers
-## fight (npc.c accept_fight, NpcSparConsent) and ask (ask.c, NpcInquiry).
+## fight (npc.c accept_fight, NpcSparConsent) and ask (ask.c, NpcInquiry); killer
+## (d/chuenyu/npc/wolfdog.c) answers both as aggressive does, but attack.c init()
+## attacks only for "aggressive".
 enum Attitude {
 	PEACEFUL,
 	AGGRESSIVE,
 	FRIENDLY,
 	HEROISM,
+	KILLER,
 }
 
 var _definition_id: StringName
@@ -659,7 +662,7 @@ func is_valid() -> bool:
 		or _race_id.is_empty()
 		or (_has_authored_gender and _gender.is_empty())
 		or _attitude < Attitude.PEACEFUL
-		or _attitude > Attitude.HEROISM
+		or _attitude > Attitude.KILLER
 	):
 		return false
 	if not _name_pick.is_empty() and not _name_pick.has(_display_name):

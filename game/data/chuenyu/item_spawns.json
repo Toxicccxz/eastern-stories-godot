@@ -1,0 +1,37 @@
+{
+	"item_spawns": [
+		{
+			"id": "chuenyu.main.storage.longswords",
+			"item": "es2:obj/longsword",
+			"map": "chuenyu.main",
+			"zone": "chuenyu.storage",
+			"points": [
+				"chuenyu.storage.longsword.1",
+				"chuenyu.storage.longsword.2",
+				"chuenyu.storage.longsword.3",
+				"chuenyu.storage.longsword.4",
+				"chuenyu.storage.longsword.5"
+			],
+			"legacy_room": "d/chuenyu/storage.c",
+			"legacy_quantity": 5
+		},
+		{
+			"id": "chuenyu.upstairs.kitchen.pigmeats",
+			"item": "es2:d/chuenyu/obj/pigmeat",
+			"map": "chuenyu.upstairs",
+			"zone": "chuenyu.kitchen",
+			"points": ["chuenyu.kitchen.pigmeat.1", "chuenyu.kitchen.pigmeat.2", "chuenyu.kitchen.pigmeat.3"],
+			"legacy_room": "d/chuenyu/kitchen.c",
+			"legacy_quantity": 3
+		},
+		{
+			"id": "chuenyu.upstairs.kitchen.qiwines",
+			"item": "es2:d/chuenyu/obj/qiwine",
+			"map": "chuenyu.upstairs",
+			"zone": "chuenyu.kitchen",
+			"points": ["chuenyu.kitchen.qiwine.1", "chuenyu.kitchen.qiwine.2", "chuenyu.kitchen.qiwine.3"],
+			"legacy_room": "d/chuenyu/kitchen.c",
+			"legacy_quantity": 3
+		}
+	]
+}

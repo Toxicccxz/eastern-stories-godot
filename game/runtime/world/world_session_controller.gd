@@ -69,6 +69,7 @@ var _departure_due: bool = false
 var _hidden_passages: WorldHiddenPassages
 var _room_states: WorldRoomStates = WorldRoomStates.new()
 var _room_traps: WorldRoomTraps
+var _room_hazards: WorldRoomHazards
 var _room_resets: WorldRoomResets
 ## obj/user.c reset() of the player object, on a schedule of its own (WorldRoomResets).
 var _player_resets: WorldRoomResets
@@ -114,6 +115,7 @@ func _process(delta: float) -> void:
 	advance_quest_time(world_delta)
 	advance_npc_heartbeat(world_delta)
 	advance_hidden_passages(world_delta)
+	advance_room_hazards(world_delta)
 	advance_room_resets(world_delta)
 	if _initialized and _combat_encounter_coordinator != null:
 		_combat_encounter_coordinator.advance_scheduler(delta)
@@ -288,6 +290,16 @@ func advance_hidden_passages(delta: float) -> void:
 		_hidden_passages.advance(delta)
 
 
+## Room hazards come on world time, which stops in a fight.
+func advance_room_hazards(delta: float) -> void:
+	if _room_hazards != null and npc_world_time_allowed():
+		_room_hazards.advance(delta)
+
+
+func room_hazards() -> WorldRoomHazards:
+	return _room_hazards
+
+
 ## Rooms reset on world time, on every map (native rooms are always loaded).
 func advance_room_resets(delta: float) -> void:
 	if _room_resets != null and npc_world_time_allowed():
@@ -404,6 +416,7 @@ func initialize_session() -> bool:
 		_hidden_passages = WorldHiddenPassages.new(self)
 		_hidden_passages.open_for_player_below()
 		_room_traps = WorldRoomTraps.new(self)
+		_room_hazards = WorldRoomHazards.new(self)
 		_room_states = WorldRoomStates.new()
 		_room_resets = WorldRoomResets.new(WorldRoomResets.resetting_rooms(), GameContent.catalog().pacing().room_reset_seconds, npc_ambience_random_source())
 		_player_resets = WorldRoomResets.new([PLAYER_RESET], GameContent.catalog().pacing().room_reset_seconds, npc_ambience_random_source())

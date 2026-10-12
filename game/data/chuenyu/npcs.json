@@ -1,0 +1,247 @@
+{
+	"npcs": [
+		{
+			"id": "chuenyu.npc.flower_seller",
+			"legacy_source": "d/chuenyu/npc/flower_seller.c",
+			"name": "卖花姑娘",
+			"aliases": ["flower seller", "seller"],
+			"gender": "女性",
+			"age": 19,
+			"long": "美丽的卖花姑娘正在向行人售花儿\n",
+			"attributes": { "per": 40 },
+			"combat_exp": 700,
+			"vendor": "chuenyu.vendor.flower_seller",
+			"attitude": "friendly",
+			"skills": { "unarmed": 40, "parry": 25, "dodge": 150, "throwing": 100 },
+			"carry": [
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 15 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:d/chuenyu/obj/flower", "source": "d/chuenyu/npc/obj/flower.c", "equip": "wield", "amount": 7 },
+				{ "item": "es2:d/chuenyu/obj/flower", "source": "d/chuenyu/npc/obj/flower.c", "equip": "wield", "amount": 7 }
+			],
+			"chat_chance": 5,
+			"chat_msg": [
+				{ "action": "random_move" }
+			],
+			"inquiry": { "小娟": ["这要到黑松山去问。"] },
+			"greeting": {
+				"one_of": [
+					{ "line": "卖花姑娘笑着道：这位$RESPECT，买朵黑牡丹吗？ \n" },
+					{ "line": "卖花姑娘笑着道：这位$RESPECT，买朵黄枚瑰吗？ \n" },
+					{ "line": "卖花姑娘笑着道：这位$RESPECT，买朵白茶花吗？ \n" },
+					{ "line": "卖花姑娘笑着道：这位$RESPECT，买朵紫罗兰吗？ \n" },
+					{ "line": "卖花姑娘笑着道：这位$RESPECT，买朵红枚瑰吗？ \n" },
+					{ "line": "卖花姑娘笑着道：这位$RESPECT，买朵黄枚瑰吗？ \n" }
+				]
+			}
+		},
+		{
+			"id": "chuenyu.npc.jiading3",
+			"legacy_source": "d/chuenyu/npc/jiading3.c",
+			"name": "紫衣家丁",
+			"aliases": ["guard"],
+			"gender": "男性",
+			"age": 38,
+			"long": "这是一位黑松堡的家丁，专负责盘察去黑松堡的行人。\n",
+			"attributes": { "str": 28, "cor": 27, "cps": 25, "int": 23 },
+			"resources": { "max_force": 100, "force": 100 },
+			"combat_exp": 2000,
+			"score": 50,
+			"force_factor": 10,
+			"attitude": "heroism",
+			"skills": { "hammer": 60, "dodge": 50, "parry": 50 },
+			"carry": [
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 50 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:d/chuenyu/obj/8hammer", "source": "d/chuenyu/npc/obj/8hammer.c", "equip": "wield" }
+			],
+			"greeting": {
+				"rules": [
+					{ "per_below": 20, "steps": [{ "say": "家丁喝道：站住！你干什么的。" }, { "say": "看你那贼眉鼠眼，尖嘴猴腮的样儿，决不是什么好东西！" }, { "npc_flag": "hunts_player" }, { "kill": true }] }
+				]
+			}
+		},
+		{
+			"id": "chuenyu.npc.gardener",
+			"legacy_source": "d/chuenyu/npc/gardener.c",
+			"name": "园工",
+			"aliases": ["gardener"],
+			"nickname": "黑松一剪",
+			"gender": "男性",
+			"age": 32,
+			"long": "黑松一剪是方园几十里有名的园工。一把大剪使的出神如化。",
+			"attributes": { "str": 20, "int": 30, "cor": 20, "cps": 30, "spi": 30 },
+			"resources": {
+				"max_gin": 500,
+				"eff_gin": 500,
+				"gin": 500,
+				"max_kee": 500,
+				"eff_kee": 500,
+				"kee": 500,
+				"max_sen": 500,
+				"eff_sen": 500,
+				"sen": 500,
+				"force": 150,
+				"max_force": 150,
+				"atman": 1500,
+				"max_atman": 1500,
+				"mana": 3000,
+				"max_mana": 3000
+			},
+			"combat_exp": 2000,
+			"score": 200,
+			"force_factor": 5,
+			"skills": {
+				"literate": 10,
+				"magic": 50,
+				"force": 50,
+				"spells": 50,
+				"scratching": 30,
+				"unarmed": 30,
+				"sword": 30,
+				"parry": 30,
+				"dodge": 30,
+				"gouyee": 30,
+				"taoism": 30,
+				"necromancy": 30
+			},
+			"skill_map": { "spells": "necromancy" },
+			"carry": [
+				{ "item": "es2:d/chuenyu/obj/scissors", "source": "d/chuenyu/npc/obj/scissors.c", "equip": "wield" },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/money/gold", "source": "obj/money/gold.c", "amount": 3 }
+			],
+			"apply": { "dodge": 30, "armor": 30 },
+			"chat_chance_combat": 50,
+			"chat_msg_combat": [
+				{ "action": "cast", "function": "invocation" },
+				{ "action": "cast", "function": "animate" },
+				{ "action": "cast", "function": "animate" }
+			]
+		},
+		{
+			"id": "chuenyu.npc.bee",
+			"legacy_source": "d/chuenyu/npc/bee.c",
+			"name": "蜜蜂",
+			"aliases": ["bee"],
+			"race": "beast",
+			"age": 1,
+			"long": "一只疯狂的杀人蜂\n",
+			"combat_exp": 200,
+			"bellicosity": 3000,
+			"skills": { "dodge": 50 },
+			"limbs": ["头部", "身体", "尾巴"],
+			"verbs": ["bite"]
+		},
+		{
+			"id": "chuenyu.npc.smallgardener",
+			"legacy_source": "d/chuenyu/npc/smallgardener.c",
+			"name": "小园工",
+			"aliases": ["young gardener", "gardener"],
+			"gender": "男性",
+			"age": 42,
+			"long": "一位年轻的小园工\n",
+			"attributes": { "str": 12, "int": 24 },
+			"combat_exp": 500,
+			"attitude": "friendly",
+			"skills": { "sword": 30, "parry": 30, "dodge": 30 },
+			"carry": [
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 50 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:d/chuenyu/obj/scissors", "source": "d/chuenyu/npc/obj/scissors.c", "equip": "wield" }
+			]
+		},
+		{
+			"id": "chuenyu.npc.guard",
+			"legacy_source": "d/chuenyu/npc/guard.c",
+			"name": "护院",
+			"aliases": ["castle guard", "guard"],
+			"long": "这是黑松堡的护院\n",
+			"attributes": { "str": 27, "cor": 26, "cps": 25 },
+			"combat_exp": 5000,
+			"attitude": "heroism",
+			"skills": { "unarmed": 20, "sword": 30, "parry": 70, "dodge": 70, "move": 100 },
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/longsword", "source": "obj/longsword.c", "equip": "wield" }
+			],
+			"chat_chance": 30,
+			"chat_msg": ["护院喝道：大胆刁民，私闯民宅，该当何罪？\n", { "action": "random_move" }],
+			"chat_chance_combat": 15,
+			"chat_msg_combat": ["护院喝道：来人啦！抓小贼呀！\n"],
+			"capabilities": ["aggressive_on_player_presence"]
+		},
+		{
+			"id": "chuenyu.npc.cleangirl",
+			"legacy_source": "d/chuenyu/npc/cleangirl.c",
+			"name": "女佣人",
+			"aliases": ["cleaning maid", "maid"],
+			"gender": "女性",
+			"age": 43,
+			"long": "满脸风霜的女佣人\n",
+			"combat_exp": 700,
+			"attitude": "friendly",
+			"skills": { "unarmed": 10, "parry": 25, "dodge": 35, "throwing": 20 },
+			"carry": [
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 15 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:d/chuenyu/obj/feather", "source": "d/chuenyu/npc/obj/feather.c", "equip": "wield", "amount": 30 }
+			],
+			"inquiry": { "小娟": ["这要到地牢去找。"], "淳于": ["这要到地牢去找。"], "淳于怀太": ["这要到地牢去找。"], "堡主": ["这要到地牢去找。"] }
+		},
+		{
+			"id": "chuenyu.npc.wolfdog",
+			"legacy_source": "d/chuenyu/npc/wolfdog.c",
+			"name": "巨型犬",
+			"aliases": ["wolf dog", "dog"],
+			"race": "beast",
+			"gender": "雄性",
+			"age": 3,
+			"long": "这是一只凶猛无比，半人多高的巨型狼犬\n",
+			"attributes": { "str": 48, "cor": 52, "cps": 22 },
+			"resources": { "max_kee": 600, "max_gin": 600, "max_sen": 900 },
+			"combat_exp": 20000,
+			"bellicosity": 3000,
+			"limbs": ["头部", "身体", "前脚", "後脚", "尾巴"],
+			"verbs": ["bite", "claw"],
+			"apply": { "attack": 60, "armor": 40 },
+			"chat_chance": 15,
+			"chat_msg": ["狼犬向你疯狂的哮道：呜汪！呜汪！呜汪！呜汪！"],
+			"attitude": "killer"
+		},
+		{
+			"id": "chuenyu.npc.pigeon",
+			"legacy_source": "d/chuenyu/npc/pigeon.c",
+			"name": "信鸽",
+			"aliases": ["pigeon"],
+			"race": "beast",
+			"age": 2,
+			"long": "一只乖巧的小信鸽\n",
+			"skills": { "dodge": 250 },
+			"limbs": ["头部", "身体", "尾巴", "翅膀"],
+			"verbs": ["bite"]
+		},
+		{
+			"id": "chuenyu.npc.cook",
+			"legacy_source": "d/chuenyu/npc/cook.c",
+			"name": "厨子",
+			"aliases": ["cook"],
+			"gender": "男性",
+			"age": 35,
+			"long": "你看到一个小厨子， 正在用碧玉刀剔猪骨。\n",
+			"attributes": { "str": 29, "int": 14 },
+			"combat_exp": 2500,
+			"attitude": "heroism",
+			"skills": { "dagger": 100, "parry": 100, "dodge": 150 },
+			"carry": [
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 500 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:d/chuenyu/obj/bknife", "source": "d/chuenyu/npc/obj/bknife.c", "equip": "wield" },
+				{ "item": "es2:d/chuenyu/obj/qiwine", "source": "d/chuenyu/npc/obj/qiwine.c" },
+				{ "item": "es2:d/chuenyu/obj/pigmeat", "source": "d/chuenyu/npc/obj/pigmeat.c" }
+			],
+			"inquiry": { "小娟": ["这要到地牢去找。"], "淳于": ["这要到地牢去找。"], "淳于怀太": ["这要到地牢去找。"], "堡主": ["这要到地牢去找。"] },
+			"greeting": { "one_of": [{ "line": "厨子嘟囔着：“真是的，堡主又在地牢里留涟忘返。”\n" }, { "line": "厨子道：“去地牢叫堡主上来吃饭。\n" }] }
+		}
+	]
+}
