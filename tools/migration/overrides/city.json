@@ -3,6 +3,7 @@
 	"set": {
 		"city.npc.guard": {
 			"accept_kill": { "line": "守城兵大叫：反了！反了！", "fellows": {} },
+			"inquiry": { "出城": ["你可以在京城里找一找，说不定可以找到一些出城的令牌。\n"] },
 			"accept_object": [
 				{ "say": "这是什么东西啊！你想偷渡呀？", "accept": false }
 			]

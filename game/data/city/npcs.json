@@ -18,7 +18,7 @@
 			"apply": { "attack": 90, "defense": 90, "damage": 40, "armor": 90 },
 			"chat_chance_combat": 15,
 			"chat_msg_combat": ["守城官兵喝道：还不快放下武器束手就缚？\n", "守城官兵喝道：大胆刁民！竟敢在天子脚下造反？\n"],
-			"inquiry": { "出城": ["你可以在京城里找一找，说不定可以找到一些出城的令牌。\n"], "out": ["你可以在京城里找一找，说不定可以找到一些出城的令牌。\n"] },
+			"inquiry": { "出城": ["你可以在京城里找一找，说不定可以找到一些出城的令牌。\n"] },
 			"accept_kill": { "line": "守城兵大叫：反了！反了！", "fellows": {} },
 			"accept_object": [
 				{ "say": "这是什么东西啊！你想偷渡呀？", "accept": false }

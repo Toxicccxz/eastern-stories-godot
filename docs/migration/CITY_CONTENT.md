@@ -27,6 +27,7 @@ written. 相国府 is a gate only (xiangguo/gate.c has one exit).
 | create_door() in nroad1, northdoor and the five gates | std/room.c errors (no such exit): no doors; create() stops before setup(), so the guards came with the first reset() in ES2 (here from the start, 默认) |
 | guard.c do_out() | act services `city.<gate>.out` (城门 · 出城) on the five shut gates: with a 守城兵 standing there and no marks/令牌 its say and write() (the stray space before 。 dropped); otherwise go.c's 这个方向没有出路。 (no out exit was ever written). Not at the 北门: the road north is the way out |
 | guard.c do_kill() | accept_kill `line` and `fellows`: every guard in the room has the action and each returns 0, so the whole squad kill_ob()s the attacker before kill.c runs; 守城兵大叫：反了！反了！ (never printed in ES2: kill.c went on) is shown once, as meant (默认) |
+| guard.c inquiry out | the typed English alias of 出城 (the same answer): only 出城 is offered as a topic, as here/name/rumors fold into 这里/名字/传闻 |
 | guard.c accept_object() | A: 这是什么东西啊！你想偷渡呀？ and nothing taken; the token (marks/令牌) comes with B |
 | the gates' valid_leave() | never runs (the out exits are commented out; three of them use \|\| and would have refused everyone) |
 | item_desc signs and notices | look landmarks, word for word (the non-wizard's line where look_sign() asks wizardp(); HIY/RED not shown) |

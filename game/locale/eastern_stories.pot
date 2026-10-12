@@ -23408,7 +23408,6 @@ msgid "出城"
 msgstr ""
 
 #. city.npc.guard inquiry.出城
-#. city.npc.guard inquiry.out
 #: data/city/npcs.json
 msgid ""
 "你可以在京城里找一找，说不定可以找到一些出城的令牌。\n"
