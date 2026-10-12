@@ -11,7 +11,7 @@ All 55 rooms, on four maps.
 
 | Map | Rooms | People | Ways |
 |---|---|---|---|
-| city.main (京师) | nroad1–2, northdoor, street1–17, bank, weapon, biaoju, cloth, jiulou, boots, house1, feiyuan, jitan, shenwumen, wumen, jiaowu, bridge, eastdoor1–2, westdoor1–2, southdoor, xiangguo/gate | 桃X仙, 守城兵 ×18 (three at each gate), 黑你没商量, 万晓生, 收破烂的 ×4 (Snow's), 陈天星, 老板娘, 店小二, 钱掌柜, 行人 ×3, 商人, 李掌柜, 卖艺壮汉, 卖饼大叔, 卖包子的 | north to 玉螺湖村's 三叉路口 (road2); the 太白酒楼's stairs up; 尚书府 (street3 east) drawn shut for B; the five outer gates shut |
+| city.main (京师) | nroad1–2, northdoor, street1–17, bank, weapon, biaoju, cloth, jiulou, boots, house1, feiyuan, jitan, shenwumen, wumen, jiaowu, bridge, eastdoor1–2, westdoor1–2, southdoor, xiangguo/gate | 桃X仙, 守城兵 ×18 (three at each gate), 黑你没商量, 万晓生, 收破烂的 ×4 (Snow's), 陈天星, 老板娘, 店小二, 钱掌柜, 行人 ×3, 商人, 李掌柜, 卖艺壮汉, 卖饼大叔, 卖包子的 | north to 玉螺湖村's 三叉路口 (road2); the 太白酒楼's stairs up; east to 尚书府 and 院墙 · 爬上去 (street3); the five outer gates shut |
 | city.upstairs (太白酒楼二楼) | jiulou_2 | — | the stairs down |
 | city.main (B: 尚书府) | shangshu/gate, yuan, keting, road1–4, kefang, xiaowu, chufang, huayuan, neizhai, feiwu | 门房, 庾子建, 护院 ×3 (two huyuan, one huyuan1), 丫鬟, 花匠, 庾清尘 | east from street3; doors 大铁门, 小木门, 木门, 帘子 (shut) |
 | city.wall_top (院墙) | wall | — | 爬上去 from street3; 跳进去 to the 废屋, 跳回去 to street3 |

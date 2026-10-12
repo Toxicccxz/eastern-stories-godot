@@ -57,7 +57,7 @@ theme_override_font_sizes/font_size = 12
 text = "南 · 尚书府"
 
 [node name="JumpOut" type="Marker2D" parent="."]
-position = Vector2(64, 80)
+position = Vector2(80, 48)
 script = ExtResource("service")
 service_id = &"city.wall.jump_out"
 
@@ -74,7 +74,7 @@ text = "京师东街 · 跳回去"
 horizontal_alignment = 1
 
 [node name="JumpIn" type="Marker2D" parent="."]
-position = Vector2(256, 80)
+position = Vector2(240, 48)
 script = ExtResource("service")
 service_id = &"city.wall.jump_in"
 

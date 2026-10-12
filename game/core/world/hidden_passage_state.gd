@@ -1,14 +1,16 @@
 class_name HiddenPassageState
 extends RefCounted
 
-## d/snow/weapon_storage.c, for one hidden_passage landmark. Every push adds
+## d/snow/weapon_storage.c, for one hidden_passage landmark (and d/city/jitan.c's dial: its
+## turns, press() and open_from_below()). Every push adds
 ## one to `left_trigger`; when it equals the landmark's `pushes` while the
 ## passage is closed, the floor opens (exits/down here, exits/up below),
 ## `left_trigger` is deleted and call_out("close_passage", open_seconds) closes
 ## it again. Pushes while it stands open keep counting, so the count can pass
 ## `pushes` and never match again until the room resets (reset() deletes
-## left_trigger). Native rule (DECISIONS 4C): the passage does not close on a
-## player below; once the time is up it closes when nobody is down there.
+## left_trigger). Native rule (DECISIONS 4C): a hidden_passage does not close on a
+## player below; once the time is up it closes when nobody is down there. A dial
+## closes on time all the same (京师 B, Q2 (a): the player opens it from below).
 ## Not saved, as ES2 room state is not: Continue finds it closed.
 var _left_trigger: int = 0
 var _open: bool = false

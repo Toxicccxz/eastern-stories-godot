@@ -124,7 +124,8 @@ became is in [CITY_CONTENT](CITY_CONTENT.md#lpc--native-b); it follows the LPC e
   written, no speaker); with his leave already given, 大人太客气了 and he keeps it (as ES2).
 - **默认 (M3): the 门房's leave is spent going in through the 大铁门**; gate.c deleted it whenever
   the player left the gate, west too, without a word. The 护院 on the 小径 ask for the same mark,
-  so they let nobody north or east (as ES2); with both down or gone the way is free.
+  so they let nobody north or east (as ES2; one lying unconscious too, present()); with both dead
+  or gone the way is free.
 - **默认 (M4): a press that opens nothing clears the turns**; jitan.c kept them, so one wrong try
   left the button dead until the room's reset with nothing said. A right press clears them as
   jitan.c does.

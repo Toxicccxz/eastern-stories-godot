@@ -155,7 +155,8 @@ func _test_porter(tree: SceneTree, session: WorldSessionController) -> void:
 	Finance.add_money(money, CurrencyDenomination.Value.SILVER, 1, &"000-test-shangshu-silver") # TEST-ONLY
 	var more: ItemHandlingResult = map.give_to_selected(&"000-test-shangshu-silver")
 	_check(more.done() and more.lines[0] == "门房说道：大人太客气了", "with the leave, anything: 大人太客气了 (kept, as ES2)")
-	_check(await MapPlaces.drive_to_zone(tree, map, &"city.shangshu.gate") and player.state.marks.has("尚书"), "walking about the gate keeps the leave (M3)")
+	_check(await MapPlaces.drive_to_zone(tree, map, &"city.street3") and await MapPlaces.drive_to_zone(tree, map, &"city.shangshu.gate"), "west to the 东街 and back")
+	_check(player.state.marks.has("尚书"), "walking away west keeps the leave (M3)")
 	_check(await MapPlaces.drive_to_zone(tree, map, &"city.shangshu.yuan") and player.world_location().zone_id == &"city.shangshu.yuan", "in through the 大铁门 to the 庭院")
 	_check(not player.state.marks.has("尚书"), "the leave is spent going in")
 	_check(await MapPlaces.drive_to_zone(tree, map, &"city.shangshu.gate"), "back out to the gate")
@@ -183,8 +184,9 @@ func _test_paths(tree: SceneTree, session: WorldSessionController) -> void:
 		if NpcDefinition.unnamed_id(npc.definition().definition_id) in [TRAINER, TRAINER1] and npc.world_location().zone_id == &"city.shangshu.road2":
 			trainers.append(npc)
 	_check(trainers.size() == 2, "two 护院 on the 小径, one of each kind")
-	trainers[1].set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY
-	_check(not await MapPlaces.drive_to_zone(tree, map, &"city.shangshu.road1"), "one standing is enough; one lying there too (present())")
+	trainers[0].set_exists_in_map(false) # TEST-ONLY: one gone
+	trainers[1].set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY: the other lying there
+	_check(not await MapPlaces.drive_to_zone(tree, map, &"city.shangshu.road1"), "a 护院 lying unconscious there stops the player too (present())")
 	for npc: NpcRuntimeState in trainers:
 		npc.set_exists_in_map(false) # TEST-ONLY: both gone
 	var door: StringName = &"city.shangshu.road2.door"
@@ -287,7 +289,7 @@ func _test_altar(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not passages.state(BUTTON).is_open and not cellar.is_portal_open(UP), "three seconds on, the stairs fold up, the player below or not")
 	_check(hud.log_lines().has("天花板忽然发出轧轧的声音，向上的阶梯又缓缓地收了回去。"), "the room below sees it: %s" % [hud.log_lines().slice(-2)])
 	await _work.round_trip(tree, session, Work.capture(session), "京师 B below")
-	_check(not passages.state(BUTTON).is_open, "Continue below: the way up stays shut (the ceiling opens it)")
+	await _test_continue_below(tree, session)
 	_check(cellar.select_landmark(CEILING) and hud.portal_action_text() == "推开", "天花板 · 推开")
 	cellar.traverse_selected_portal()
 	_check(cellar.is_portal_open(UP) and map.is_portal_open(DOWN) and hud.log_lines()[-1] == "天花板忽然发出轧轧的声音，露出一个向上的阶梯。", "opened from below: %s" % hud.log_lines()[-1])
@@ -295,6 +297,26 @@ func _test_altar(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.active_map_id() == &"city.main" and player.world_location().zone_id == &"city.jitan", "back at the altar")
 	session.advance_hidden_passages(3.0)
 	_check(not map.is_portal_open(DOWN) and hud.log_lines().has("地板忽然发出轧轧的声音，一块地面缓缓移动著，将向下的通道盖住了。"), "the floor shuts over the way down")
+
+
+## Continue in the 地下密室: the way up stays shut (unlike Snow's, 4C), and the 天花板 opens it.
+func _test_continue_below(tree: SceneTree, session: WorldSessionController) -> void:
+	var encoded: GameSaveResult = GameSaveJsonCodec.encode(Work.capture(session))
+	var restored: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(GameSaveJsonCodec.decode(encoded.text).snapshot, tree.root)
+	_check(restored.succeeded(), "Continue below: %s" % restored.path)
+	if not restored.succeeded():
+		return
+	var fresh: WorldSessionController = restored.candidate
+	_check(fresh.activate_restore_candidate(), "Continue below activates")
+	await tree.physics_frame
+	await tree.physics_frame
+	var below: WorldMapController = fresh.world_map_of(&"city.cellar")
+	_check(not fresh.hidden_passages().state(BUTTON).is_open and not below.is_portal_open(UP), "Continue below: the way up is shut")
+	_check(below.select_landmark(CEILING), "the 天花板 after Continue")
+	below.traverse_selected_portal()
+	_check(fresh.hidden_passages().state(BUTTON).is_open and below.is_portal_open(UP), "Continue below: the 天花板 opens it")
+	fresh.free()
+	await tree.process_frame
 
 
 ## feiyuan.c: the flash on the way out, the find, and the 出城令牌 a 守城兵 takes.

@@ -24038,9 +24038,2381 @@ msgid "尚书府护院"
 msgstr ""
 
 #. city.npc.shangshu.huyuan name
+#. city.npc.shangshu.huyuan name_parts
 #. city.npc.shangshu.huyuan1 name
+#. city.npc.shangshu.huyuan1 name_parts
 #: data/city/npcs.json
 msgid "赵顺"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵昌"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵振"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵发"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵财"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵俊"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵彦"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵良"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵志"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵忠"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵孝"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵雄"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵益"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵添"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵金"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵辉"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵长"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵盛"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵胜"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵进"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵安"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵福"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵同"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵满"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵富"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵万"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵龙"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵隆"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵祥"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵栋"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵国"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵亿"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "赵寿"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱顺"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱昌"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱振"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱发"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱财"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱俊"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱彦"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱良"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱志"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱忠"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱孝"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱雄"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱益"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱添"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱金"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱辉"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱长"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱盛"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱胜"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱进"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱安"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱福"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱同"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱满"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱富"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱万"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱龙"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱隆"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱祥"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱栋"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱国"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱亿"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "钱寿"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙顺"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙昌"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙振"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙发"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙财"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙俊"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙彦"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙良"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙志"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙忠"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙孝"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙雄"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙益"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙添"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙金"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙辉"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙长"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙盛"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙胜"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙进"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙安"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙福"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙同"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙满"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙富"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙万"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙龙"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙隆"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙祥"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙栋"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙国"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙亿"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "孙寿"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李顺"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李昌"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李振"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李发"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李财"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李俊"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李彦"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李良"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李志"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李忠"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李孝"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李雄"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李益"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李添"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李金"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李辉"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李长"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李盛"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李胜"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李进"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李安"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李福"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李同"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李满"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李富"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李万"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李龙"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李隆"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李祥"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李栋"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李国"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李亿"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "李寿"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周顺"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周昌"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周振"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周发"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周财"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周俊"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周彦"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周良"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周志"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周忠"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周孝"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周雄"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周益"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周添"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周金"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周辉"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周长"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周盛"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周胜"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周进"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周安"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周福"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周同"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周满"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周富"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周万"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周龙"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周隆"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周祥"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周栋"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周国"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周亿"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "周寿"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴顺"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴昌"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴振"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴发"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴财"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴俊"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴彦"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴良"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴志"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴忠"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴孝"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴雄"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴益"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴添"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴金"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴辉"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴长"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴盛"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴胜"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴进"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴安"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴福"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴同"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴满"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴富"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴万"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴龙"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴隆"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴祥"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴栋"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴国"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴亿"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "吴寿"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑顺"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑昌"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑振"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑发"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑财"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑俊"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑彦"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑良"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑志"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑忠"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑孝"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑雄"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑益"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑添"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑金"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑辉"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑长"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑盛"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑胜"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑进"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑安"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑福"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑同"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑满"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑富"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑万"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑龙"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑隆"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑祥"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑栋"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑国"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑亿"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "郑寿"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王顺"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王昌"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王振"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王发"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王财"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王俊"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王彦"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王良"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王志"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王忠"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王孝"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王雄"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王益"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王添"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王金"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王辉"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王长"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王盛"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王胜"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王进"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王安"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王福"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王同"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王满"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王富"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王万"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王龙"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王隆"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王祥"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王栋"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王国"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王亿"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "王寿"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张顺"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张昌"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张振"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张发"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张财"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张俊"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张彦"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张良"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张志"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张忠"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张孝"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张雄"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张益"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张添"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张金"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张辉"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张长"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张盛"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张胜"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张进"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张安"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张福"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张同"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张满"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张富"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张万"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张龙"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张隆"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张祥"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张栋"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张国"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张亿"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "张寿"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈顺"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈昌"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈振"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈发"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈财"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈俊"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈彦"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈良"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈志"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈忠"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈孝"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈雄"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈益"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈添"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈金"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈辉"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈长"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈盛"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈胜"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈进"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈安"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈福"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈同"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈满"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈富"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈万"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈龙"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈隆"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈祥"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈栋"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈国"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈亿"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "陈寿"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘顺"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘昌"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘振"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘发"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘财"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘俊"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘彦"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘良"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘志"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘忠"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘孝"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘雄"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘益"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘添"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘金"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘辉"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘长"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘盛"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘胜"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘进"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘安"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘福"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘同"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘满"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘富"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘万"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘龙"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘隆"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘祥"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘栋"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘国"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘亿"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "刘寿"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林顺"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林昌"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林振"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林发"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林财"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林俊"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林彦"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林良"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林志"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林忠"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林孝"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林雄"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林益"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林添"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林金"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林辉"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林长"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林盛"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林胜"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林进"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林安"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林福"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林同"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林满"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林富"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林万"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林龙"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林隆"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林祥"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林栋"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林国"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林亿"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name_parts
+#. city.npc.shangshu.huyuan1 name_parts
+#: data/city/npcs.json
+msgid "林寿"
 msgstr ""
 
 #. city.npc.shangshu.huyuan1 inquiry topic
@@ -24743,6 +27115,16 @@ msgid ""
 "这很象一个按钮(button)，上面长着细细的青苔，你突然一阵莫名其\n"
 "妙的紧张，好奇心却驱使你摸摸这个按钮，你发现它可以按(press)，\n"
 "也可以旋转(turn)。\n"
+msgstr ""
+
+#. city.jitan.landmark.button messages.open_below
+#: data/city/world.json
+msgid "天花板忽然发出轧轧的声音，露出一个向上的阶梯。"
+msgstr ""
+
+#. city.jitan.landmark.button messages.close_below
+#: data/city/world.json
+msgid "天花板忽然发出轧轧的声音，向上的阶梯又缓缓地收了回去。"
 msgstr ""
 
 #. city.midao1.landmark.ceiling name

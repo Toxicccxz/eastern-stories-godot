@@ -1752,8 +1752,8 @@
 						"name": "JumpOut",
 						"id": "city.wall.jump_out",
 						"at": [
-							64,
-							80
+							80,
+							48
 						],
 						"text": "京师东街 · 跳回去"
 					},
@@ -1762,8 +1762,8 @@
 						"name": "JumpIn",
 						"id": "city.wall.jump_in",
 						"at": [
-							256,
-							80
+							240,
+							48
 						],
 						"text": "尚书府 · 跳进去"
 					}
