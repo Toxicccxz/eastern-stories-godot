@@ -166,9 +166,16 @@ func _create_one(
 	# set_name() is create()'s first statement: a drawn name (heaven_soldier.c) comes first.
 	var names: Array[String] = definition.name_pick()
 	if not names.is_empty():
-		var drawn_name: int = random_source.legacy_random(names.size())
-		if drawn_name < 0 or drawn_name >= names.size():
-			return null
+		var drawn_name: int = 0
+		# A name in parts draws each part in turn (huyuan.c: first_name, then name_word).
+		var draws: Array[int] = definition.name_draws()
+		if draws.is_empty():
+			draws.append(names.size())
+		for bound: int in draws:
+			var drawn_part: int = random_source.legacy_random(bound)
+			if drawn_part < 0 or drawn_part >= bound:
+				return null
+			drawn_name = drawn_name * bound + drawn_part
 		definition = definition.named(drawn_name)
 	var is_beast: bool = definition.race_id == BEAST_RACE_ID
 	# create() draws first (traveller.c: gender, age, combat_exp), then setup()
@@ -191,7 +198,14 @@ func _create_one(
 		if drawn_age == null:
 			return null
 		age = drawn_age
-	var combat_experience: int = definition.combat_experience
+	# huyuan.c's own draws after its age, in create()'s order (NpcCreateRolls).
+	var drawn: Dictionary[String, int] = {}
+	if definition.create_rolls() != null:
+		var create_drawn: Variant = definition.create_rolls().resolve(random_source)
+		if create_drawn == null:
+			return null
+		drawn = create_drawn
+	var combat_experience: int = drawn.get("combat_exp", definition.combat_experience)
 	if definition.combat_experience_roll() != null:
 		var drawn_experience: Variant = definition.combat_experience_roll().resolve(random_source)
 		if drawn_experience == null:
@@ -212,9 +226,9 @@ func _create_one(
 		if drawn_skills < 0 or drawn_skills >= definition.skill_roll().bound:
 			return null
 		rolled_skills = drawn_skills < definition.skill_roll().below
-	var chat_chance: int = -1
+	var chat_chance: int = drawn.get("chat_chance", -1)
 	var chance_roll: NpcRandomInteger = definition.talk().chat_chance_roll() if definition.talk() != null else null
-	if chance_roll != null:
+	if chance_roll != null and not drawn.has("chat_chance"):
 		var drawn_chance: Variant = chance_roll.resolve(random_source)
 		if drawn_chance == null:
 			return null
@@ -247,6 +261,9 @@ func _create_one(
 		authored.karma(),
 	]
 	for index: int in range(authored_presence.size()):
+		if drawn.has(NpcCreateRolls.ATTRIBUTE_KEYS[index]):
+			resolved_values.append(drawn[NpcCreateRolls.ATTRIBUTE_KEYS[index]])
+			continue
 		if authored_presence[index]:
 			resolved_values.append(authored_values[index])
 			continue
@@ -277,10 +294,11 @@ func _create_one(
 	)
 	# create() sets internal power before setup(): race/human.c then adds
 	# max_atman/4 to max_gin, max_force/4 to max_kee and max_mana/4 to max_sen.
-	state.recovery.inner_force = CharacterInternalResourceState.new(definition.internal_power(&"force"), definition.internal_power(&"max_force"))
-	state.recovery.atman = CharacterInternalResourceState.new(definition.internal_power(&"atman"), definition.internal_power(&"max_atman"))
-	state.recovery.mana = CharacterInternalResourceState.new(definition.internal_power(&"mana"), definition.internal_power(&"max_mana"))
-	state.attributes.force_factor = definition.internal_power(&"force_factor")
+	var power: Callable = func(key: String) -> int: return drawn.get(key, definition.internal_power(StringName(key)))
+	state.recovery.inner_force = CharacterInternalResourceState.new(power.call("force"), power.call("max_force"))
+	state.recovery.atman = CharacterInternalResourceState.new(power.call("atman"), power.call("max_atman"))
+	state.recovery.mana = CharacterInternalResourceState.new(power.call("mana"), power.call("max_mana"))
+	state.attributes.force_factor = power.call("force_factor")
 	state.attributes.bellicosity = definition.bellicosity()
 	state.applies = applies
 	var resource_overrides: ResourceOverridesType = definition.resource_overrides()
@@ -316,6 +334,9 @@ func _create_one(
 	state.progression.combat_experience = combat_experience
 	for skill: NpcSkillLevelDefinition in definition.skill_levels():
 		state.skills.set_raw_level(skill.skill_id, skill.raw_level)
+	if definition.create_rolls() != null:
+		for skill_id: StringName in definition.create_rolls().skill_ids():
+			state.skills.set_raw_level(skill_id, drawn["skill:" + String(skill_id)])
 	var skill_map: Dictionary[StringName, StringName] = definition.skill_map()
 	if rolled_skills:
 		for skill_id: StringName in definition.skill_roll().skills:
@@ -369,6 +390,7 @@ func _create_one(
 		loadout_items,
 	)
 	made.chat_chance = chat_chance
+	made.combat_chat_chance = drawn.get("chat_chance_combat", -1)
 	return made
 
 

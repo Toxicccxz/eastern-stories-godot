@@ -4,10 +4,10 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**京师 A** (`phase/city-a`, DECISIONS「京师 A」): the city south of 玉螺湖村 (40 of its 55 rooms on
-two maps), the five shut gates and their guards, seven vendors and the bank, the 太白酒楼's stairs,
-陈天星 who takes 陈剑秋's letter and the player. Next: 京师 B (尚书府, the wall, the altar's 密室,
-废园's 出城令牌).
+**京师 B** (`phase/city-b`, DECISIONS「京师 B」): 尚书府's thirteen rooms and people (the 门房's three
+taels of gold, the 护院, four doors, 小无相功), the 院墙 climbed from the 东街, the altar's button
+and the 地下密室 (opened from below too), 废园's 出城令牌 for the 守城兵. 京师 is done (all 55 rooms);
+next on the ROADMAP: 12b 黑松山 (repaired).
 
 ## 待决定
 

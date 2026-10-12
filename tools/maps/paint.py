@@ -17,7 +17,7 @@ These maps are generated, never edited by hand:
              choyin_summit, choyin_valley
     canyon:  canyon_clifftop, canyon_pass, canyon_armory, canyon_bamboo, canyon_stoneroom
     village: village_main, village_midlake (the boat), village_icecave
-    city:    city_main, city_upstairs (太白酒楼's upper floor)
+    city:    city_main, city_upstairs (太白酒楼's upper floor), city_wall_top (院墙), city_cellar (地下密室)
 
 Each region has one layout file, tools/maps/layouts/<region>.json; to change a map, edit its
 layout and rerun the painter. tools/tests/test_maps_paint.py fails when a committed scene differs

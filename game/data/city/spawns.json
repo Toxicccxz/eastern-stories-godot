@@ -215,6 +215,78 @@
 			"points": ["city.southdoor.guard.1", "city.southdoor.guard.2", "city.southdoor.guard.3"],
 			"legacy_room": "d/city/southdoor.c",
 			"legacy_quantity": 3
+		},
+		{
+			"id": "city.main.gate.guard",
+			"npc": "city.npc.shangshu.guard",
+			"map": "city.main",
+			"zone": "city.shangshu.gate",
+			"points": ["city.shangshu.gate.guard.1"],
+			"legacy_room": "d/city/shangshu/gate.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.main.keting.shangshu",
+			"npc": "city.npc.shangshu.shangshu",
+			"map": "city.main",
+			"zone": "city.shangshu.keting",
+			"points": ["city.shangshu.keting.shangshu.1"],
+			"legacy_room": "d/city/shangshu/keting.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.main.road2.huyuan",
+			"npc": "city.npc.shangshu.huyuan",
+			"map": "city.main",
+			"zone": "city.shangshu.road2",
+			"points": ["city.shangshu.road2.huyuan.1"],
+			"legacy_room": "d/city/shangshu/road2.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.main.road2.huyuan1",
+			"npc": "city.npc.shangshu.huyuan1",
+			"map": "city.main",
+			"zone": "city.shangshu.road2",
+			"points": ["city.shangshu.road2.huyuan1.1"],
+			"legacy_room": "d/city/shangshu/road2.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.main.road1.huyuan",
+			"npc": "city.npc.shangshu.huyuan",
+			"map": "city.main",
+			"zone": "city.shangshu.road1",
+			"points": ["city.shangshu.road1.huyuan.1"],
+			"legacy_room": "d/city/shangshu/road1.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.main.chufang.maid",
+			"npc": "city.npc.shangshu.maid",
+			"map": "city.main",
+			"zone": "city.shangshu.chufang",
+			"points": ["city.shangshu.chufang.maid.1"],
+			"legacy_room": "d/city/shangshu/chufang.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.main.huayuan.gardener",
+			"npc": "city.npc.shangshu.gardener",
+			"map": "city.main",
+			"zone": "city.shangshu.huayuan",
+			"points": ["city.shangshu.huayuan.gardener.1"],
+			"legacy_room": "d/city/shangshu/huayuan.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.main.neizhai.qing_chen",
+			"npc": "city.npc.shangshu.qing_chen",
+			"map": "city.main",
+			"zone": "city.shangshu.neizhai",
+			"points": ["city.shangshu.neizhai.qing_chen.1"],
+			"legacy_room": "d/city/shangshu/neizhai.c",
+			"legacy_quantity": 1
 		}
 	]
 }

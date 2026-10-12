@@ -57,9 +57,11 @@
 		"village.midlake",
 		"village.icecave",
 		"city.main",
-		"city.upstairs"
+		"city.upstairs",
+		"city.wall_top",
+		"city.cellar"
 	],
-	"rooms": 481,
+	"rooms": 496,
 	"snow_outdoor_portals": [
 		"snow.square.west",
 		"snow.eroad3.south",
@@ -325,11 +327,19 @@
 		"city.main.bridge.dumpling_seller",
 		"city.main.eastdoor2.guards",
 		"city.main.street17.scavenger",
-		"city.main.southdoor.guards"
+		"city.main.southdoor.guards",
+		"city.main.gate.guard",
+		"city.main.keting.shangshu",
+		"city.main.road2.huyuan",
+		"city.main.road2.huyuan1",
+		"city.main.road1.huyuan",
+		"city.main.chufang.maid",
+		"city.main.huayuan.gardener",
+		"city.main.neizhai.qing_chen"
 	],
-	"world_npcs": 415,
-	"resident_maps": 58,
-	"new_game_items": 717,
+	"world_npcs": 423,
+	"resident_maps": 60,
+	"new_game_items": 726,
 	"snow_outdoor_passages": 9,
-	"npc_draws_after_oldpine": 2243
+	"npc_draws_after_oldpine": 2340
 }

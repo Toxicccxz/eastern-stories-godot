@@ -13,6 +13,8 @@ extends RefCounted
 var _left_trigger: int = 0
 var _open: bool = false
 var _remaining_ms: int = 0
+## A dial's turns since it last opened or the room reset (jitan.c add("forward", 1)).
+var _turns: Dictionary[String, int] = {}
 
 var left_trigger: int:
 	get:
@@ -44,6 +46,42 @@ func push(pushes: int, open_ms: int, every_push: bool = false) -> bool:
 	return true
 
 
+## jitan.c do_turn(): one more turn of `count`.
+func turn(count: String) -> void:
+	_turns[count] = _turns.get(count, 0) + 1
+
+
+## The turns counted so far, by count.
+func turns() -> Dictionary[String, int]:
+	return _turns.duplicate()
+
+
+## jitan.c do_press(): the turns are exactly `combination` and the way is shut: it opens for
+## `open_ms`. The turns are cleared either way (delete("forward"); owner's M4, 默认: a press
+## that opens nothing clears them too). True when it opened.
+func press(combination: Dictionary[String, int], open_ms: int) -> bool:
+	var right: bool = not _open
+	for count: String in combination:
+		right = right and _turns.get(count, 0) == combination[count]
+	for count: String in _turns:
+		right = right and combination.has(count)
+	_turns.clear()
+	if right:
+		_open = true
+		_remaining_ms = open_ms
+	return right
+
+
+## The way opened from below (owner, 京师 plan Q2 (a)): shut, it opens for `open_ms`.
+## True when it opened.
+func open_from_below(open_ms: int) -> bool:
+	if _open:
+		return false
+	_open = true
+	_remaining_ms = open_ms
+	return true
+
+
 ## World time passes. True when the passage closes now (close_passage()).
 func advance(elapsed_ms: int, player_below: bool) -> bool:
 	if not _open:
@@ -61,6 +99,7 @@ func open_for_player_below() -> void:
 	_remaining_ms = 0
 
 
-## The room's reset(): delete("left_trigger").
+## The room's reset(): delete("left_trigger") (jitan.c: delete("forward"), delete("backward")).
 func reset() -> void:
 	_left_trigger = 0
+	_turns.clear()

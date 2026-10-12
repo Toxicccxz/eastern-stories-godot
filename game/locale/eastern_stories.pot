@@ -195,6 +195,10 @@ msgstr ""
 #. city.npc.vendor gender
 #. city.npc.caker gender
 #. city.npc.dumpling_seller gender
+#. city.npc.shangshu.shangshu gender
+#. city.npc.shangshu.huyuan gender
+#. city.npc.shangshu.huyuan1 gender
+#. city.npc.shangshu.gardener gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json
 msgid "男性"
 msgstr ""
@@ -259,6 +263,8 @@ msgstr ""
 #. city.npc.clother gender
 #. city.npc.walker gender.then
 #. city.npc.shoer gender
+#. city.npc.shangshu.maid gender
+#. city.npc.shangshu.qing_chen gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json data/village/npcs.json data/city/npcs.json
 msgid "女性"
 msgstr ""
@@ -829,6 +835,20 @@ msgstr ""
 msgid "南 · 衙门口"
 msgstr ""
 
+#. es2:d/snow/secret_storage short
+#. es2:d/city/midao1 short
+#: scenes/world/city/city_cellar.tscn scenes/world/snow/snow_cellar.tscn data/snow/rooms.json data/city/rooms.json
+msgid "地下密室"
+msgstr ""
+
+#: scenes/world/city/city_cellar.tscn scenes/world/snow/snow_cellar.tscn
+msgid "小床"
+msgstr ""
+
+#: scenes/world/city/city_cellar.tscn scenes/world/snow/snow_cellar.tscn
+msgid "向上的阶梯"
+msgstr ""
+
 #. es2:d/city/nroad2 short
 #. es2:d/city/nroad1 short
 #: scenes/world/city/city_main.tscn data/city/rooms.json
@@ -884,7 +904,8 @@ msgid "废园"
 msgstr ""
 
 #. es2:d/city/jitan short
-#: scenes/world/city/city_main.tscn data/city/rooms.json
+#. city.jitan.landmark.altar name
+#: scenes/world/city/city_main.tscn data/city/rooms.json data/city/world.json
 msgid "祭坛"
 msgstr ""
 
@@ -913,7 +934,8 @@ msgstr ""
 #. es2:d/city/street1 short
 #. es2:d/city/street2 short
 #. es2:d/city/street3 short
-#: scenes/world/city/city_main.tscn data/city/rooms.json
+#. city.wall.jump_out name
+#: scenes/world/city/city_main.tscn data/city/rooms.json data/city/world.json
 msgid "京师东街"
 msgstr ""
 
@@ -968,8 +990,86 @@ msgstr ""
 msgid "京师南门"
 msgstr ""
 
+#. es2:d/city/shangshu/gate short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "尚书府大门"
+msgstr ""
+
+#. es2:d/city/shangshu/yuan short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "尚书府庭院"
+msgstr ""
+
+#. es2:d/city/shangshu/keting short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "尚书府客厅"
+msgstr ""
+
+#. es2:d/latemoon/sroad3 short
+#. es2:d/latemoon/sroad5 short
+#. es2:d/city/shangshu/road2 short
+#. es2:d/city/shangshu/road1 short
+#: scenes/world/city/city_main.tscn scenes/world/latemoon/latemoon_hills.tscn data/latemoon/rooms.json data/city/rooms.json
+msgid "小径"
+msgstr ""
+
+#. es2:d/snow/n_room short
+#. es2:d/snow/e_room short
+#. es2:d/snow/w_room short
+#. es2:d/snow/guestroom short
+#. es2:d/latemoon/room/guest1 short
+#. es2:d/city/shangshu/kefang short
+#: scenes/world/city/city_main.tscn scenes/world/latemoon/latemoon_manor.tscn scenes/world/snow/snow_inn_upstairs.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json data/latemoon/rooms.json data/city/rooms.json
+msgid "客房"
+msgstr ""
+
+#. es2:d/city/shangshu/xiaowu short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "小屋"
+msgstr ""
+
+#. es2:d/city/shangshu/road3 short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "花园小径"
+msgstr ""
+
+#. es2:d/waterfog/kitchen short
+#. es2:d/latemoon/room/kitchen short
+#. es2:d/village/smallstorage short
+#. es2:d/city/shangshu/chufang short
+#: scenes/world/city/city_main.tscn scenes/world/latemoon/latemoon_manor.tscn scenes/world/village/village_main.tscn scenes/world/waterfog/waterfog_pavilion.tscn data/waterfog/rooms.json data/latemoon/rooms.json data/village/rooms.json data/city/rooms.json
+msgid "厨房"
+msgstr ""
+
+#. es2:d/village/littlegarden short
+#. es2:d/city/shangshu/huayuan short
+#: scenes/world/city/city_main.tscn scenes/world/village/village_main.tscn data/village/rooms.json data/city/rooms.json
+msgid "花园"
+msgstr ""
+
+#. es2:d/city/shangshu/neizhai short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "内宅"
+msgstr ""
+
+#. es2:d/green/path4 short
+#. es2:d/green/path1 short
+#. es2:d/city/shangshu/road4 short
+#: scenes/world/city/city_main.tscn scenes/world/green/green_village.tscn data/green/rooms.json data/city/rooms.json
+msgid "小路"
+msgstr ""
+
+#. es2:d/city/shangshu/feiwu short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "废屋"
+msgstr ""
+
 #: scenes/world/city/city_main.tscn scenes/world/cloud/cloud_outdoor.tscn scenes/world/latemoon/latemoon_manor.tscn scenes/world/snow/snow_inn.tscn
 msgid "楼梯 · 上楼"
+msgstr ""
+
+#: scenes/world/city/city_main.tscn scenes/world/snow/snow_outdoor.tscn
+msgid "向下的阶梯"
 msgstr ""
 
 #: scenes/world/city/city_main.tscn
@@ -988,8 +1088,9 @@ msgstr ""
 msgid "紫禁城"
 msgstr ""
 
-#: scenes/world/city/city_main.tscn
-msgid "尚书府（未开放）"
+#. city.wall.jump_in name
+#: scenes/world/city/city_main.tscn data/city/world.json
+msgid "尚书府"
 msgstr ""
 
 #: scenes/world/city/city_main.tscn
@@ -1012,6 +1113,10 @@ msgstr ""
 msgid "城门 · 出城"
 msgstr ""
 
+#: scenes/world/city/city_main.tscn
+msgid "草丛 · 寻找"
+msgstr ""
+
 #. es2:d/city/jiulou_2 short
 #: scenes/world/city/city_upstairs.tscn data/city/rooms.json
 msgid "太白酒楼二楼"
@@ -1019,6 +1124,28 @@ msgstr ""
 
 #: scenes/world/city/city_upstairs.tscn scenes/world/cloud/cloud_duchang_upstairs.tscn scenes/world/cloud/cloud_jiyuan_upstairs.tscn scenes/world/cloud/cloud_tearoom_upstairs.tscn scenes/world/latemoon/latemoon_upper.tscn scenes/world/snow/snow_inn_upstairs.tscn scenes/world/waterfog/waterfog_upstairs.tscn
 msgid "楼梯 · 下楼"
+msgstr ""
+
+#. es2:d/city/wall short
+#. city.street3.landmark.wall name
+#: scenes/world/city/city_wall_top.tscn data/city/rooms.json data/city/world.json
+msgid "院墙"
+msgstr ""
+
+#: scenes/world/city/city_wall_top.tscn
+msgid "北 · 京师东街"
+msgstr ""
+
+#: scenes/world/city/city_wall_top.tscn
+msgid "南 · 尚书府"
+msgstr ""
+
+#: scenes/world/city/city_wall_top.tscn
+msgid "京师东街 · 跳回去"
+msgstr ""
+
+#: scenes/world/city/city_wall_top.tscn
+msgid "尚书府 · 跳进去"
 msgstr ""
 
 #. es2:u/cloud/duchang short
@@ -1366,12 +1493,6 @@ msgstr ""
 msgid "小路的尽头"
 msgstr ""
 
-#. es2:d/green/path4 short
-#. es2:d/green/path1 short
-#: scenes/world/green/green_village.tscn data/green/rooms.json
-msgid "小路"
-msgstr ""
-
 #. es2:d/green/path3 short
 #. es2:d/green/path2 short
 #. es2:d/village/road2 short
@@ -1555,12 +1676,6 @@ msgstr ""
 msgid "蜿蜒小径"
 msgstr ""
 
-#. es2:d/latemoon/sroad3 short
-#. es2:d/latemoon/sroad5 short
-#: scenes/world/latemoon/latemoon_hills.tscn data/latemoon/rooms.json
-msgid "小径"
-msgstr ""
-
 #: scenes/world/latemoon/latemoon_hills.tscn
 msgid "北 · 晚月庄后门"
 msgstr ""
@@ -1649,25 +1764,9 @@ msgstr ""
 msgid "膳房"
 msgstr ""
 
-#. es2:d/waterfog/kitchen short
-#. es2:d/latemoon/room/kitchen short
-#. es2:d/village/smallstorage short
-#: scenes/world/latemoon/latemoon_manor.tscn scenes/world/village/village_main.tscn scenes/world/waterfog/waterfog_pavilion.tscn data/waterfog/rooms.json data/latemoon/rooms.json data/village/rooms.json
-msgid "厨房"
-msgstr ""
-
 #. es2:d/latemoon/room/guest2 short
 #: scenes/world/latemoon/latemoon_manor.tscn data/latemoon/rooms.json
 msgid "上等厢房"
-msgstr ""
-
-#. es2:d/snow/n_room short
-#. es2:d/snow/e_room short
-#. es2:d/snow/w_room short
-#. es2:d/snow/guestroom short
-#. es2:d/latemoon/room/guest1 short
-#: scenes/world/latemoon/latemoon_manor.tscn scenes/world/snow/snow_inn_upstairs.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json data/latemoon/rooms.json
-msgid "客房"
 msgstr ""
 
 #. es2:d/latemoon/room/lcenter short
@@ -2054,19 +2153,6 @@ msgstr ""
 msgid "山烟寺"
 msgstr ""
 
-#. es2:d/snow/secret_storage short
-#: scenes/world/snow/snow_cellar.tscn data/snow/rooms.json
-msgid "地下密室"
-msgstr ""
-
-#: scenes/world/snow/snow_cellar.tscn
-msgid "小床"
-msgstr ""
-
-#: scenes/world/snow/snow_cellar.tscn
-msgid "向上的阶梯"
-msgstr ""
-
 #. es2:d/snow/inn short
 #: scenes/world/snow/snow_inn.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
 msgid "饮风客栈"
@@ -2301,10 +2387,6 @@ msgstr ""
 msgid "柜台 · 估价 / 卖断"
 msgstr ""
 
-#: scenes/world/snow/snow_outdoor.tscn
-msgid "向下的阶梯"
-msgstr ""
-
 #. es2:d/temple/book_room1 short
 #. es2:d/temple/book_room2 short
 #: scenes/world/temple/temple_grounds.tscn scenes/world/temple/temple_library.tscn data/temple/rooms.json
@@ -2429,11 +2511,6 @@ msgstr ""
 #. es2:d/village/home short
 #: scenes/world/village/village_main.tscn data/village/rooms.json
 msgid "刘家小房"
-msgstr ""
-
-#. es2:d/village/littlegarden short
-#: scenes/world/village/village_main.tscn data/village/rooms.json
-msgid "花园"
 msgstr ""
 
 #. es2:d/village/melonguard short
@@ -2735,11 +2812,11 @@ msgid "你拿出{item}给{npc}。"
 msgstr ""
 
 #: application/items/item_handling_service.gd
-msgid "{item}对{holder}而言太重了。"
+msgid "你给{npc}{item}。"
 msgstr ""
 
 #: application/items/item_handling_service.gd
-msgid "你给{npc}{item}。"
+msgid "{item}对{holder}而言太重了。"
 msgstr ""
 
 #. drop.c's message_vision() for the NPC ({npc}) who drops what it was given ({item}).
@@ -7835,6 +7912,8 @@ msgstr ""
 #. es2:d/city/npc/obj/green_cloth unit
 #. es2:d/city/npc/obj/color_cloth unit
 #. es2:d/city/npc/obj/armor1 unit
+#. es2:d/city/shangshu/npc/obj/pink_cloth unit
+#. es2:d/city/shangshu/npc/obj/white_cloth unit
 #. es2:u/cloud/obj/npc/monk/jiasha unit
 #. es2:u/cloud/obj/npc/lm_guard/color_cloth unit
 #. es2:u/cloud/obj/cloth/black_cloth unit
@@ -7951,7 +8030,8 @@ msgstr ""
 #. es2:d/oldpine/obj/long_sword name
 #. es2:d/latemoon/room/npc/obj/longsword name
 #. es2:d/canyon/npc/obj/sword name
-#: data/common/items.json data/oldpine/items.json data/latemoon/items.json data/canyon/items.json
+#. es2:d/city/shangshu/npc/obj/sword name
+#: data/common/items.json data/oldpine/items.json data/latemoon/items.json data/canyon/items.json data/city/items.json
 msgid "长剑"
 msgstr ""
 
@@ -7959,7 +8039,8 @@ msgstr ""
 #. es2:obj/weapon/longsword long
 #. es2:obj/example/sword long
 #. es2:d/latemoon/room/npc/obj/longsword long
-#: data/common/items.json data/latemoon/items.json
+#. es2:d/city/shangshu/npc/obj/sword long
+#: data/common/items.json data/latemoon/items.json data/city/items.json
 msgid ""
 "这是一把看起相当普通的长剑，份量大约有十来斤左右。\n"
 msgstr ""
@@ -8003,6 +8084,7 @@ msgstr ""
 #. es2:d/city/npc/obj/duoqing_blade unit
 #. es2:d/city/npc/obj/wuqing_sword unit
 #. es2:d/city/npc/obj/demon_staff unit
+#. es2:d/city/shangshu/npc/obj/sword unit
 #. es2:u/cloud/obj/npc/butcher/knife unit
 #. es2:u/cloud/obj/npc/tailor/ruler unit
 #. es2:u/cloud/obj/npc/tailor/scissors unit
@@ -8115,14 +8197,16 @@ msgstr ""
 #. es2:obj/weapon/blade name
 #. es2:d/oldpine/obj/blade name
 #. es2:d/snow/obj/blade name
-#: data/common/items.json data/oldpine/items.json data/snow/items.json
+#. es2:d/city/shangshu/npc/obj/blade name
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/city/items.json
 msgid "单刀"
 msgstr ""
 
 #. es2:obj/weapon/blade long
 #. es2:d/oldpine/obj/blade long
 #. es2:d/snow/obj/blade long
-#: data/common/items.json data/oldpine/items.json data/snow/items.json
+#. es2:d/city/shangshu/npc/obj/blade long
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/city/items.json
 msgid ""
 "这是一寻常的单刀，份量大约六、七斤重。\n"
 msgstr ""
@@ -8138,9 +8222,10 @@ msgstr ""
 #. es2:d/sanyen/obj/carver unit
 #. es2:d/canyon/npc/obj/blade unit
 #. es2:d/canyon/npc/obj/fan_sword unit
+#. es2:d/city/shangshu/npc/obj/blade unit
 #. es2:u/cloud/obj/npc/gangster/blade unit
 #. es2:d/temple/obj/whip unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/sanyen/items.json data/canyon/items.json data/cloud/items.json data/temple/items.json
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/sanyen/items.json data/canyon/items.json data/city/items.json data/cloud/items.json data/temple/items.json
 msgid "柄"
 msgstr ""
 
@@ -9776,6 +9861,21 @@ msgstr ""
 msgid "铁布衫"
 msgstr ""
 
+#. wu-shun name
+#: data/common/skills.json
+msgid "小无相功"
+msgstr ""
+
+#. wu-shun practice.fail
+#: data/common/skills.json
+msgid "小无相功只能用学的或是从运用(exert)中增加熟练度。"
+msgstr ""
+
+#. wu-shun valid_learn.effective_skill
+#: data/common/skills.json
+msgid "你的文学素养不够无法提升小无相功的造诣。"
+msgstr ""
+
 #. actions.action
 #: data/common/combat_actions.json
 msgid "$N挥拳攻击$n的$l"
@@ -9920,7 +10020,8 @@ msgstr ""
 #. temple.npc.trainer inquiry topic
 #. temple.npc.tfighter family.name
 #. temple.npc.tfighter inquiry topic
-#: data/common/families.json data/common/npcs.json data/temple/npcs.json
+#. city.npc.shangshu.gardener inquiry topic
+#: data/common/families.json data/common/npcs.json data/temple/npcs.json data/city/npcs.json
 msgid "茅山派"
 msgstr ""
 
@@ -10401,7 +10502,8 @@ msgid "$N化成一道金光，冲上天际消失不见了。"
 msgstr ""
 
 #. common.npc.taoist.taolord name
-#: data/common/npcs.json
+#. city.npc.shangshu.gardener inquiry topic
+#: data/common/npcs.json data/city/npcs.json
 msgid "林忌"
 msgstr ""
 
@@ -11825,14 +11927,16 @@ msgid ""
 msgstr ""
 
 #. es2:d/snow/obj/pink_cloth name
+#. es2:d/city/shangshu/npc/obj/pink_cloth name
 #. es2:u/cloud/obj/npc/girl/pink_cloth name
-#: data/snow/items.json data/cloud/items.json
+#: data/snow/items.json data/city/items.json data/cloud/items.json
 msgid "粉红绸衫"
 msgstr ""
 
 #. es2:d/snow/obj/pink_cloth long
+#. es2:d/city/shangshu/npc/obj/pink_cloth long
 #. es2:u/cloud/obj/npc/girl/pink_cloth long
-#: data/snow/items.json data/cloud/items.json
+#: data/snow/items.json data/city/items.json data/cloud/items.json
 msgid ""
 "这件粉红色的绸衫上面绣著几只黄鹊，闻起来还有一股淡香。\n"
 msgstr ""
@@ -11989,7 +12093,8 @@ msgid "多谢这位$RESPECT！"
 msgstr ""
 
 #. snow.npc.guard title
-#: data/snow/npcs.json
+#. city.npc.shangshu.guard name
+#: data/snow/npcs.json data/city/npcs.json
 msgid "门房"
 msgstr ""
 
@@ -12777,7 +12882,8 @@ msgid ""
 msgstr ""
 
 #. es2:d/snow/secret_storage long
-#: data/snow/rooms.json
+#. es2:d/city/midao1 long
+#: data/snow/rooms.json data/city/rooms.json
 msgid ""
 "这里是一间窄小的密室，你的面前只有一个破旧的小床(bed)跟一\n"
 "些乾草。\n"
@@ -12829,12 +12935,14 @@ msgid "你将架子往左推...，忽然「喀」一声架子又移回原位。"
 msgstr ""
 
 #. snow.weapon_storage.landmark.shelf messages.open
-#: data/snow/world.json
+#. city.jitan.landmark.button messages.open
+#: data/snow/world.json data/city/world.json
 msgid "地板忽然发出轧轧的声音，一块地面缓缓移动著，露出一个向下的阶梯。"
 msgstr ""
 
 #. snow.weapon_storage.landmark.shelf messages.close
-#: data/snow/world.json
+#. city.jitan.landmark.button messages.close
+#: data/snow/world.json data/city/world.json
 msgid "地板忽然发出轧轧的声音，一块地面缓缓移动著，将向下的通道盖住了。"
 msgstr ""
 
@@ -13709,7 +13817,8 @@ msgstr ""
 
 #. es2:d/latemoon/obj/clasp unit
 #. es2:d/choyin/obj/silver_clasp unit
-#: data/latemoon/items.json data/choyin/items.json
+#. es2:d/city/obj/token unit
+#: data/latemoon/items.json data/choyin/items.json data/city/items.json
 msgid "支"
 msgstr ""
 
@@ -14807,6 +14916,28 @@ msgstr ""
 #: data/city/items.json
 msgid ""
 "一把暗红色、两丈多长的巨杵。\n"
+msgstr ""
+
+#. es2:d/city/shangshu/npc/obj/white_cloth name
+#: data/city/items.json
+msgid "月白色长裙"
+msgstr ""
+
+#. es2:d/city/shangshu/npc/obj/white_cloth long
+#: data/city/items.json
+msgid ""
+"简简单单的一套月白色长裙，上面并没有什么装饰，但总给人一种天外仙子的感觉。\n"
+msgstr ""
+
+#. es2:d/city/obj/token name
+#: data/city/items.json
+msgid "出城令牌"
+msgstr ""
+
+#. es2:d/city/obj/token long
+#: data/city/items.json
+msgid ""
+"一支遗失多年的令牌，或许在出城时还有用。\n"
 msgstr ""
 
 #. es2:u/cloud/obj/npc/gangster/blade long
@@ -16276,7 +16407,8 @@ msgstr ""
 #. latemoon.upstar.upstar4.door name
 #. latemoon.upstar.upstar3.door name
 #. village.home.door name
-#: data/cloud/world.json data/green/world.json data/temple/world.json data/latemoon/world.json data/village/world.json
+#. city.shangshu.road2.door name
+#: data/cloud/world.json data/green/world.json data/temple/world.json data/latemoon/world.json data/village/world.json data/city/world.json
 msgid "木门"
 msgstr ""
 
@@ -20622,7 +20754,8 @@ msgid "小女子有一事相求 ... 请您将这个交给游 ... 游公子。"
 msgstr ""
 
 #. choyin.npc.maid name
-#: data/choyin/npcs.json
+#. city.npc.shangshu.maid name
+#: data/choyin/npcs.json data/city/npcs.json
 msgid "丫鬟"
 msgstr ""
 
@@ -22664,7 +22797,8 @@ msgid ""
 msgstr ""
 
 #. canyon.canyon1.chain act.verb
-#: data/canyon/world.json
+#. city.street3.landmark.wall action
+#: data/canyon/world.json data/city/world.json
 msgid "爬上去"
 msgstr ""
 
@@ -22721,7 +22855,8 @@ msgid "水井"
 msgstr ""
 
 #. canyon.bamboo3.stone act.verb
-#: data/canyon/world.json
+#. city.midao1.landmark.ceiling action
+#: data/canyon/world.json data/city/world.json
 msgid "推开"
 msgstr ""
 
@@ -23418,6 +23553,12 @@ msgstr ""
 msgid "守城兵大叫：反了！反了！"
 msgstr ""
 
+#. city.npc.guard accept_object.line
+#: data/city/npcs.json
+msgid ""
+"京师守城兵连忙说道：原来是官府中人，您请出城。\n"
+msgstr ""
+
 #. city.npc.guard accept_object.say
 #: data/city/npcs.json
 msgid "这是什么东西啊！你想偷渡呀？"
@@ -23837,6 +23978,139 @@ msgid ""
 "卖艺壮汉低声对你说道：在下刚路过八舍！\n"
 msgstr ""
 
+#. city.npc.shangshu.guard long
+#: data/city/npcs.json
+msgid ""
+"尚书府的门房虽然没什么官衔，但所有想晋见\n"
+"尚书的白衣无不对他毕恭毕敬的\n"
+msgstr ""
+
+#. city.npc.shangshu.guard chat_msg
+#: data/city/npcs.json
+msgid ""
+"门房慢吞吞地说：是。。想见尚书大人的吗？。。\n"
+msgstr ""
+
+#. city.npc.shangshu.guard chat_msg
+#: data/city/npcs.json
+msgid ""
+"门房嘿嘿地笑了笑，手里比划着一个数字.\n"
+msgstr ""
+
+#. city.npc.shangshu.guard accept_object.say
+#: data/city/npcs.json
+msgid "大人太客气了"
+msgstr ""
+
+#. city.npc.shangshu.guard accept_object.say
+#: data/city/npcs.json
+msgid "这位大人，里面请！"
+msgstr ""
+
+#. city.npc.shangshu.guard accept_object.line
+#: data/city/npcs.json
+msgid ""
+"鼻子里哼了一声，头掉了过去。\n"
+msgstr ""
+
+#. city.npc.shangshu.shangshu name
+#: data/city/npcs.json
+msgid "庾子建"
+msgstr ""
+
+#. city.npc.shangshu.shangshu title
+#: data/city/npcs.json
+msgid "兵部尚书"
+msgstr ""
+
+#. city.npc.shangshu.shangshu long
+#: data/city/npcs.json
+msgid ""
+"他是当今皇上身边的红人，与宫中的关系也很熟络，手中掌管着\n"
+"兵马大权。不过能爬上这个位置，绝不是仅仅因为溜须拍马的缘\n"
+"故，当年战功赫赫，才有今天的地位。\n"
+msgstr ""
+
+#. city.npc.shangshu.huyuan title
+#. city.npc.shangshu.huyuan1 title
+#: data/city/npcs.json
+msgid "尚书府护院"
+msgstr ""
+
+#. city.npc.shangshu.huyuan name
+#. city.npc.shangshu.huyuan1 name
+#: data/city/npcs.json
+msgid "赵顺"
+msgstr ""
+
+#. city.npc.shangshu.huyuan1 inquiry topic
+#: data/city/npcs.json
+msgid "客人"
+msgstr ""
+
+#. city.npc.shangshu.huyuan1 inquiry.客人
+#: data/city/npcs.json
+msgid ""
+"我也不知道，主人吩咐我守着的。\n"
+msgstr ""
+
+#. city.npc.shangshu.maid long
+#: data/city/npcs.json
+msgid ""
+"她是尚书府的司职厨务的丫鬟，一年四季呆在厨房中。但粗重的\n"
+"杂活也掩不住其天生丽质。\n"
+msgstr ""
+
+#. city.npc.shangshu.gardener name
+#: data/city/npcs.json
+msgid "花匠"
+msgstr ""
+
+#. city.npc.shangshu.gardener long
+#: data/city/npcs.json
+msgid ""
+"一个老老实实、本本分分的庄园花匠，多年的风霜刻满\n"
+"了他的额头。多年以来从来没有人认真注意过他，他也\n"
+"总是默默地在花园里工作。\n"
+msgstr ""
+
+#. city.npc.shangshu.gardener inquiry.茅山派
+#: data/city/npcs.json
+msgid ""
+"那是我的师门。\n"
+msgstr ""
+
+#. city.npc.shangshu.gardener inquiry.林忌
+#: data/city/npcs.json
+msgid ""
+"林忌？。。你问我师兄，好久没见着他了。\n"
+msgstr ""
+
+#. city.npc.shangshu.gardener inquiry topic
+#. city.npc.shangshu.qing_chen name
+#: data/city/npcs.json
+msgid "庾清尘"
+msgstr ""
+
+#. city.npc.shangshu.gardener inquiry.庾清尘
+#: data/city/npcs.json
+msgid ""
+"什么？清尘出事了？\n"
+msgstr ""
+
+#. city.npc.shangshu.qing_chen title
+#: data/city/npcs.json
+msgid "尚书府小姐"
+msgstr ""
+
+#. city.npc.shangshu.qing_chen long
+#: data/city/npcs.json
+msgid ""
+"她是尚书府的千金。平时一直呆在自己的绣房里，所以虽然外界\n"
+"如何盛传她是如何如何的文雅、娴淑，却极少有能见过她的人。\n"
+"不知从何时起，她竺信起道教来，所以一切讲究素雅。\n"
+msgstr ""
+
 #. es2:d/city/nroad2 long
 #: data/city/rooms.json
 msgid ""
@@ -24169,9 +24443,136 @@ msgid ""
 "茶座。\n"
 msgstr ""
 
+#. es2:d/city/shangshu/gate long
+#: data/city/rooms.json
+msgid ""
+"你来到尚书府大门。门上悬挂着一块很大的黑色牌匾，上面用隶\n"
+"书写着三个金字「尚书府」。牌匾上的一行小字表明这是当今皇上所\n"
+"题，可以看出其官势显赫。\n"
+msgstr ""
+
+#. es2:d/city/shangshu/yuan long
+#: data/city/rooms.json
+msgid ""
+"你走到了尚书府的庭院。院子很大，地面规规整整地用清一色的\n"
+"大青石铺就，显示出主人的气派。东边的府门时常关着，不是高官可\n"
+"甭想进来。西向是主人会客的客厅。北行的石路通向客房，而向南则\n"
+"是去往内院。\n"
+msgstr ""
+
+#. es2:d/city/shangshu/keting long
+#: data/city/rooms.json
+msgid ""
+"这里是尚书府的会客厅，平常主人就在此接待客人。客厅的装饰\n"
+"倒并不多，但都极其讲究。所有的家具都是用沉香木做的，时时发出\n"
+"一股淡淡的香味。家具被擦得一尘不染的，整齐地排列在两旁。当中\n"
+"的椅子尤其大，并铺以少见的白虎皮。\n"
+msgstr ""
+
+#. es2:d/city/shangshu/road2 long
+#: data/city/rooms.json
+msgid ""
+"这里是尚书府的小径。小径继续向北延伸着，透过树丛隐隐约约\n"
+"地看到那儿似乎有一间小屋。从这儿向东走就是一间客房，据说客房\n"
+"里住的是一位贵客。不过一般人不允许进。\n"
+msgstr ""
+
+#. es2:d/city/shangshu/road1 long
+#: data/city/rooms.json
+msgid ""
+"尚书府的小径走到这似乎到了尽头。小径的东边是一间小屋，平\n"
+"时房门总是关的，每天按时由一名又聋又哑的仆役送饭进去，其他人\n"
+"一概不让入内。南边不远处就是尚书府庭院了。\n"
+msgstr ""
+
+#. es2:d/city/shangshu/kefang long
+#: data/city/rooms.json
+msgid ""
+"你走进了尚书府的客房。客房不大，但布置得比较整洁。靠窗的\n"
+"小桌上摞放着几本书(book)，另一侧的墙上则挂了把宝剑，似乎告诉\n"
+"来人此地主人竞是文武双全。\n"
+msgstr ""
+
+#. es2:d/city/shangshu/xiaowu long
+#: data/city/rooms.json
+msgid ""
+"你步入尚书府内的一间小屋。小屋内很黑，什么也看不见，但莫\n"
+"名地感到一股杀气，让人有转身就跑的念头。\n"
+msgstr ""
+
+#. es2:d/city/shangshu/road3 long
+#: data/city/rooms.json
+msgid ""
+"这里是尚书府的花园小径。小径的南方就是花园，阵阵花香随风\n"
+"飘过来，使人精神大振。厨房在小径的东面，而往南则去往尚书府的\n"
+"庭院。\n"
+msgstr ""
+
+#. es2:d/city/shangshu/chufang long
+#: data/city/rooms.json
+msgid ""
+"你来到了尚书府的厨房。厨房里各种烹饪用品与设备应有尽有，\n"
+"而且用品的做工也都很精细，一眼便知是官家的用品。厨房里的炉火\n"
+"烧得旺旺的，一个烧火丫鬟正忙着即将出锅的「西湖醋鱼」。\n"
+msgstr ""
+
+#. es2:d/city/shangshu/huayuan long
+#: data/city/rooms.json
+msgid ""
+"尚书府的花园里搜集了许多名贵花卉。从洛阳的牡丹到扬州的琼\n"
+"花，你不能不惊诧于这里的全来。四时的花卉竞相开放着，发出沁人\n"
+"的香味。从花园东行就是内宅，而西边似乎有一间破屋。\n"
+msgstr ""
+
+#. es2:d/city/shangshu/neizhai long
+#: data/city/rooms.json
+msgid ""
+"你轻轻地走进尚书府的内宅，男客一般是不让来此的。内宅的布\n"
+"置很素雅，一切的摆设都显得很自然，有「天然去雕饰，清水出芙蓉\n"
+"」的意味。西边就是你来时经过的花园。\n"
+msgstr ""
+
+#. es2:d/city/shangshu/road4 long
+#: data/city/rooms.json
+msgid ""
+"你走在尚书府的一条僻静的小路上。这条小路连接着花园和一间\n"
+"废弃的杂货屋，平常很少有人来此。东面的花园渐渐地远了，西面的\n"
+"门都已经脱落的废屋已历历在目。北面是高耸的院墙。\n"
+msgstr ""
+
+#. es2:d/city/shangshu/feiwu long
+#: data/city/rooms.json
+msgid ""
+"这是一间已被废弃的小屋。小屋很阴暗，也很潮湿。就着微弱的光线\n"
+"，隐约看见小屋里胡乱地堆放着一些杂物。小屋里到处挂着蜘蛛网，显然\n"
+"很久没有人来过了。\n"
+msgstr ""
+
+#. es2:d/city/wall long
+#: data/city/rooms.json
+msgid ""
+"你爬上了尚书府的院墙，墙里面人来人往的，很是\n"
+"热闹。你是跳进去(jump in)，还是回去(jump out)呢？\n"
+msgstr ""
+
 #. city name
 #: data/city/world.json
 msgid "京师"
+msgstr ""
+
+#. city.shangshu.gate.door name
+#: data/city/world.json
+msgid "大铁门"
+msgstr ""
+
+#. city.shangshu.road1.door name
+#: data/city/world.json
+msgid "小木门"
+msgstr ""
+
+#. city.shangshu.huayuan.door name
+#: data/city/world.json
+msgid "帘子"
 msgstr ""
 
 #. city.jiulou.waiter_up lines
@@ -24187,6 +24588,22 @@ msgstr ""
 #. city.jiulou.waiter_up pass_lines
 #: data/city/world.json
 msgid "店小二高声喊道:你楼上请"
+msgstr ""
+
+#. city.shangshu.gate.porter lines
+#: data/city/world.json
+msgid "门房伸手拦住了你的去路，喝道：闯什么闯！"
+msgstr ""
+
+#. city.shangshu.road2.trainer_north lines
+#. city.shangshu.road2.trainer_east lines
+#: data/city/world.json
+msgid "护院伸手拦住了你的去路，喝道：闯什么闯！"
+msgstr ""
+
+#. city.feiyuan.flash pass_lines
+#: data/city/world.json
+msgid "突然你眼前似乎有什么东西一闪，然后又消失在草丛中。回去在草丛中找找？"
 msgstr ""
 
 #. city.northdoor.landmark.sign long
@@ -24263,6 +24680,93 @@ msgid ""
 "招牌写著：京师武器店专营各式武器。\n"
 msgstr ""
 
+#. city.street3.landmark.wall long
+#: data/city/world.json
+msgid ""
+"一段高高的院墙，但对轻功好的人爬上(climb)似非难事。\n"
+msgstr ""
+
+#. city.jitan.landmark.altar long
+#: data/city/world.json
+msgid ""
+"园祭坛的栏杆是用汉白玉作成的，坛面由精细磨过的花岗岩铺成，中\n"
+"间有个台子(platform)。\n"
+msgstr ""
+
+#. city.jitan.landmark.platform name
+#: data/city/world.json
+msgid "台子"
+msgstr ""
+
+#. city.jitan.landmark.platform long
+#: data/city/world.json
+msgid ""
+"只有皇帝能站在这个汉白玉台子上面，隐约地你好象看到台子的下面\n"
+"有个凸起(sth)。\n"
+msgstr ""
+
+#. city.jitan.landmark.button name
+#: data/city/world.json
+msgid "凸起"
+msgstr ""
+
+#. city.jitan.landmark.button action
+#: data/city/world.json
+msgid "按下"
+msgstr ""
+
+#. city.jitan.landmark.button turns.action
+#: data/city/world.json
+msgid "顺时针转"
+msgstr ""
+
+#. city.jitan.landmark.button turns.line
+#: data/city/world.json
+msgid "你将按钮沿顺时针转了一圈，什么事情也没发生。"
+msgstr ""
+
+#. city.jitan.landmark.button turns.action
+#: data/city/world.json
+msgid "逆时针转"
+msgstr ""
+
+#. city.jitan.landmark.button turns.line
+#: data/city/world.json
+msgid ""
+"你将按钮沿逆时针转了一圈，什么事情也没发生。\n"
+"你忽然打了个冷颤，可能是心里害怕了。"
+msgstr ""
+
+#. city.jitan.landmark.button long
+#: data/city/world.json
+msgid ""
+"这很象一个按钮(button)，上面长着细细的青苔，你突然一阵莫名其\n"
+"妙的紧张，好奇心却驱使你摸摸这个按钮，你发现它可以按(press)，\n"
+"也可以旋转(turn)。\n"
+msgstr ""
+
+#. city.midao1.landmark.ceiling name
+#: data/city/world.json
+msgid "天花板"
+msgstr ""
+
+#. city.midao1.landmark.ceiling long
+#: data/city/world.json
+msgid ""
+"天花板上有一块石板，似乎可以推开。\n"
+msgstr ""
+
+#. city.shangshu.kefang.landmark.book name
+#: data/city/world.json
+msgid "书"
+msgstr ""
+
+#. city.shangshu.kefang.landmark.book long
+#: data/city/world.json
+msgid ""
+"一本诗词集，上面圈圈点点了一些句子.\n"
+msgstr ""
+
 #. city.eastdoor1.out name
 #. city.eastdoor2.out name
 #. city.westdoor1.out name
@@ -24300,4 +24804,42 @@ msgstr ""
 #: data/city/world.json
 msgid ""
 "这个方向没有出路。\n"
+msgstr ""
+
+#. city.feiyuan.find name
+#: data/city/world.json
+msgid "草丛"
+msgstr ""
+
+#. city.feiyuan.find act.verb
+#: data/city/world.json
+msgid "寻找"
+msgstr ""
+
+#. city.feiyuan.find act.acts.steps.line
+#: data/city/world.json
+msgid ""
+"忙活了半天，没有什么新的发现。\n"
+msgstr ""
+
+#. city.feiyuan.find act.acts.steps.line
+#: data/city/world.json
+msgid ""
+"你竟找到了一个出城令。\n"
+msgstr ""
+
+#. city.feiyuan.find act.acts.steps.line
+#: data/city/world.json
+msgid ""
+"白忙了半天，一无所获。\n"
+msgstr ""
+
+#. city.wall.jump_in act.verb
+#: data/city/world.json
+msgid "跳进去"
+msgstr ""
+
+#. city.wall.jump_out act.verb
+#: data/city/world.json
+msgid "跳回去"
 msgstr ""

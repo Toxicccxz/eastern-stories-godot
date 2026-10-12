@@ -236,6 +236,12 @@ func traverse_context() -> void:
 	if map != null: map.traverse_selected_portal()
 
 
+## Another of the selected landmark's actions (a dial's turn, by its count).
+func landmark_action_context(action: String) -> void:
+	var map := _session.active_map() as WorldMapController
+	if map != null: map.traverse_selected_portal(action)
+
+
 func loot_context() -> void:
 	var map := _session.active_map() as WorldMapController
 	if map != null: map.open_selected_loot()

@@ -669,6 +669,9 @@ func _check_exit_rules() -> void:
 			_errors.append("%s: an ask rule guards a walk between two zones of one map, not a passage" % origin)
 		if (rule.condition in [ZoneExitRuleDefinition.Condition.WEAPON_IN_HAND, ZoneExitRuleDefinition.Condition.HELD] or not rule.present_npc_id.is_empty()) and not _npcs.has(rule.present_npc_id):
 			_errors.append("%s.present: unknown NPC '%s'" % [origin, rule.present_npc_id])
+		for npc_id: StringName in rule.present_npc_ids:
+			if not _npcs.has(npc_id):
+				_errors.append("%s.present: unknown NPC '%s'" % [origin, npc_id])
 		if rule.condition == ZoneExitRuleDefinition.Condition.NOT_APPRENTICE_OF and not _npcs.has(rule.npc_id):
 			_errors.append("%s.npc: unknown NPC '%s'" % [origin, rule.npc_id])
 		if rule.condition == ZoneExitRuleDefinition.Condition.NOT_FAMILY and not _families.has(rule.family_id):
@@ -749,7 +752,7 @@ func _resolve_note_maze(definition: WorldLandmarkDefinition, origin: String) -> 
 func _resolve_landmarks() -> void:
 	var hidden_owners: Dictionary[StringName, StringName] = {}
 	for landmark_id: StringName in _landmarks.keys():
-		if _landmarks[landmark_id].policy != &"hidden_passage":
+		if not _landmarks[landmark_id].is_hidden_passage:
 			for portal_id: StringName in _landmarks[landmark_id].portal_ids():
 				hidden_owners[portal_id] = landmark_id
 	for landmark_id: StringName in _landmarks.keys():
@@ -764,13 +767,13 @@ func _resolve_landmarks() -> void:
 			var portal: PortalDefinition = _portals.get(portal_ids[index])
 			if portal == null:
 				_errors.append("%s.portals: unknown portal '%s'" % [origin, portal_ids[index]])
-			elif definition.policy == &"hidden_passage" and index == 1:
+			elif definition.is_hidden_passage and index == 1:
 				var down: PortalDefinition = _portals.get(portal_ids[0])
 				if down != null and (portal.source_zone_id != down.destination_zone_id or portal.destination_zone_id != definition.zone_id):
 					_errors.append("%s.portals: '%s' does not lead from %s back to %s" % [origin, portal.portal_id, down.destination_zone_id, definition.zone_id])
 			elif portal.source_zone_id != definition.zone_id:
 				_errors.append("%s.portals: '%s' does not leave from %s" % [origin, portal.portal_id, definition.zone_id])
-			if definition.policy == &"hidden_passage":
+			if definition.is_hidden_passage:
 				# A hidden portal is closed until its one landmark opens it; no other landmark uses it.
 				if hidden_owners.has(portal_ids[index]):
 					_errors.append("%s.portals: '%s' is already used by %s" % [origin, portal_ids[index], hidden_owners[portal_ids[index]]])
@@ -782,6 +785,12 @@ func _resolve_landmarks() -> void:
 			_errors.append("%s.guard: unknown NPC '%s'" % [origin, definition.guard_npc_id])
 		if definition.policy == &"note_maze":
 			_resolve_note_maze(definition, origin)
+		if definition.policy == &"dial_below":
+			# It stands where the dial's way down leads, by the way back up.
+			var dial: WorldLandmarkDefinition = _landmarks.get(definition.opens)
+			var up: PortalDefinition = null if dial == null or dial.policy != &"dial" else _portals.get(dial.portal_ids()[1])
+			if up == null or up.source_zone_id != definition.zone_id:
+				_errors.append("%s.opens: '%s' must be a dial whose way up leaves from %s" % [origin, definition.opens, definition.zone_id])
 		if not definition.spawn_id.is_empty():
 			var spawn: NpcSpawnDefinition = _spawns.get(definition.spawn_id)
 			if spawn == null or not spawn.summoned or spawn.zone_id != definition.zone_id:

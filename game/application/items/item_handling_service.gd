@@ -90,10 +90,14 @@ static func give(
 		return result
 	if result.rule.drops and floor != null and floor.kind == ContainmentEndpoint.Kind.WORLD:
 		return _given_and_dropped(result, authorities, id, portion, content, offer.value, name, floor)
-	if offer.value != 0:
-		result.lines.append(TranslationServer.translate("你拿出{item}给{npc}。").format({
-			"item": HeldItemFacts.short_name(portion, content, authorities.context.stacks), "npc": TranslationServer.translate(name),
-		}))
+	if offer.value != 0 or result.rule.destroys:
+		if offer.value != 0:
+			result.lines.append(TranslationServer.translate("你拿出{item}给{npc}。").format({
+				"item": HeldItemFacts.short_name(portion, content, authorities.context.stacks), "npc": TranslationServer.translate(name),
+			}))
+		else:
+			# guard.c's ob->destruct(): the token is gone once given.
+			result.lines.append(TranslationServer.translate("你给{npc}{item}。").format({"npc": TranslationServer.translate(name), "item": HeldItemFacts.one_unit(content)}))
 		if not _destroy(authorities, portion):
 			result.outcome = ItemHandlingResult.Outcome.AUTHORITY_FAILURE
 			return result

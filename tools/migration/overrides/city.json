@@ -1,10 +1,12 @@
 {
 	"vendors": ["d/city/npc/waiter.c", "d/city/npc/caker.c", "d/city/npc/dumpling_seller.c", "d/city/npc/vendor.c", "d/city/npc/shoer.c", "d/city/npc/clother.c", "d/city/npc/weaponor.c"],
+	"items": ["d/city/obj/token.c"],
 	"set": {
 		"city.npc.guard": {
 			"accept_kill": { "line": "守城兵大叫：反了！反了！", "fellows": {} },
 			"inquiry": { "出城": ["你可以在京城里找一找，说不定可以找到一些出城的令牌。\n"] },
 			"accept_object": [
+				{ "item_alias": "token", "line": "京师守城兵连忙说道：原来是官府中人，您请出城。\n", "mark_giver": "令牌", "accept": true, "destroys": true },
 				{ "say": "这是什么东西啊！你想偷渡呀？", "accept": false }
 			]
 		},
@@ -125,7 +127,75 @@
 			"accept_object": [
 				{ "accept": true }
 			]
+		},
+		"city.npc.shangshu.guard": {
+			"long": "尚书府的门房虽然没什么官衔，但所有想晋见\n尚书的白衣无不对他毕恭毕敬的\n",
+			"accept_object": [
+				{ "giver_mark": "尚书", "say": "大人太客气了", "accept": true },
+				{ "value_at_least": 30000, "say": "这位大人，里面请！", "mark_giver": "尚书", "accept": true },
+				{ "line": "鼻子里哼了一声，头掉了过去。\n", "accept": false }
+			]
+		},
+		"city.npc.shangshu.huyuan": {
+			"name": "赵顺",
+			"name_parts": [
+				["赵", "钱", "孙", "李", "周", "吴", "郑", "王", "张", "陈", "刘", "林"],
+				["顺", "昌", "振", "发", "财", "俊", "彦", "良", "志", "忠", "孝", "雄", "益", "添", "金", "辉", "长", "盛", "胜", "进", "安", "福", "同", "满", "富", "万", "龙", "隆", "祥", "栋", "国", "亿", "寿"]
+			],
+			"create_rolls": [
+				{ "key": "str", "base": 20, "plus_random": 15 },
+				{ "key": "int", "base": 20, "plus_random": 15 },
+				{ "key": "cor", "base": 20, "plus_random": 35 },
+				{ "key": "con", "base": 20, "plus_random": 10 },
+				{ "key": "force", "base": 400, "plus_random": 400 },
+				{ "key": "max_force", "base": 400, "plus_random": 200 },
+				{ "key": "force_factor", "base": 3, "plus_random": 3 },
+				{ "key": "chat_chance", "base": 0, "plus_random": 40 },
+				{ "key": "combat_exp", "base": 2000, "plus_random": 50000 },
+				{ "skill": "blade", "base": 30, "plus_random": 50 },
+				{ "skill": "shortsong-blade", "base": 40, "plus_random": 60 },
+				{ "skill": "force", "base": 30, "plus_random": 50 },
+				{ "skill": "wu-shun", "base": 40, "plus_random": 40 },
+				{ "skill": "parry", "base": 30, "plus_random": 50 },
+				{ "skill": "dodge", "base": 50, "plus_random": 30 },
+				{ "skill": "fall-steps", "base": 40, "plus_random": 40 }
+			],
+			"chat_msg": [
+				{ "action": "random_move" }
+			]
+		},
+		"city.npc.shangshu.huyuan1": {
+			"name": "赵顺",
+			"name_parts": [
+				["赵", "钱", "孙", "李", "周", "吴", "郑", "王", "张", "陈", "刘", "林"],
+				["顺", "昌", "振", "发", "财", "俊", "彦", "良", "志", "忠", "孝", "雄", "益", "添", "金", "辉", "长", "盛", "胜", "进", "安", "福", "同", "满", "富", "万", "龙", "隆", "祥", "栋", "国", "亿", "寿"]
+			],
+			"create_rolls": [
+				{ "key": "str", "base": 20, "plus_random": 15 },
+				{ "key": "int", "base": 20, "plus_random": 15 },
+				{ "key": "cor", "base": 20, "plus_random": 35 },
+				{ "key": "con", "base": 20, "plus_random": 10 },
+				{ "key": "force", "base": 400, "plus_random": 400 },
+				{ "key": "max_force", "base": 400, "plus_random": 200 },
+				{ "key": "force_factor", "base": 3, "plus_random": 3 },
+				{ "key": "chat_chance_combat", "base": 0, "plus_random": 40 },
+				{ "key": "combat_exp", "base": 2000, "plus_random": 50000 },
+				{ "skill": "blade", "base": 50, "plus_random": 50 },
+				{ "skill": "shortsong-blade", "base": 60, "plus_random": 40 },
+				{ "skill": "force", "base": 30, "plus_random": 50 },
+				{ "skill": "lotusforce", "base": 40, "plus_random": 40 },
+				{ "skill": "parry", "base": 30, "plus_random": 50 },
+				{ "skill": "dodge", "base": 50, "plus_random": 30 },
+				{ "skill": "fall-steps", "base": 40, "plus_random": 40 }
+			],
+			"chat_msg_combat": [
+				{ "action": "exert", "function": "heal" }
+			]
 		}
+	},
+	"drop": {
+		"city.npc.shangshu.huyuan": ["combat_exp"],
+		"city.npc.shangshu.huyuan1": ["combat_exp"]
 	},
 	"review": {
 		"u/cp/chater2.c": {
@@ -190,7 +260,7 @@
 			"function init": "out: the act services city.<gate>.out (城门 · 出城) of the five shut gates; kill: accept_kill in set",
 			"function do_out": "act services city.eastdoor1/eastdoor2/westdoor1/westdoor2/southdoor.out: with a 守城兵 standing there and no marks/令牌, its say and write() (the stray space before 。 goes: the room's own line has none); otherwise go.c's 这个方向没有出路。 (there is no out exit)",
 			"function do_kill": "accept_kill in set: every guard in the room has the action, and each returns 0 (notify_fail), so all of them kill_ob() the attacker before kill.c runs: fellows join the fight; their notify_fail() line 守城兵大叫：反了！反了！ is shown once as its author meant (kill.c went on and ES2 never printed it, 默认)",
-			"function accept_object": "accept_object in set: anything but the token is refused with its say (return 0); the token (marks/令牌, 原来是官府中人) comes with 废园's find in 京师 B (tests/runtime/city_test.gd's reminder)"
+			"function accept_object": "accept_object in set: the token (query(\"id\") == \"token\": item_alias, so 晚月庄's 杀手令牌 does too, as ES2) is taken and destructed (destroys) with 原来是官府中人，您请出城 and marks/令牌; anything else is refused with its say (return 0)"
 		},
 		"d/city/bank.c": {
 			"set item_desc": "sign: a look-only landmark in world.json (city.bank.landmark.sign), word for word; convert is the service city.bank.counter (钱庄 · 兑换)"
@@ -213,22 +283,22 @@
 			"function greeting": "greeting in set: switch(random(4)) with three cases (the fourth says nothing); the real-world friend kept (桂花 precedent)"
 		},
 		"d/city/feiyuan.c": {
-			"function init": "find: 京师 B (the 出城令牌, owner Q1 (b)); tests/runtime/city_test.gd fails until then",
-			"function valid_leave": "the flash on leaving south: 京师 B (city_test's reminder)",
-			"function do_find": "random(kar + 30) >= 35 finds the token: 京师 B (city_test's reminder)"
+			"function init": "find: the act service city.feiyuan.find (草丛 · 寻找)",
+			"function valid_leave": "exit rule city.feiyuan.flash (never: its tell_object() line on the way south; the command hint (find) goes, the button is 寻找, and the hard break and blank lines with it)",
+			"function do_find": "city.feiyuan.find: carrying a token (query(\"id\") == \"token\": carries) 忙活了半天; random(kar + 30) >= 35 (kar_draw) gives the 出城令牌 (你竟找到了一个出城令。); else 白忙了半天"
 		},
 		"d/city/jitan.c": {
-			"set item_desc": "altar, platform and sth: 京师 B with the button (city_test's reminder)",
-			"function init": "turn and press: 京师 B (the 地下密室, owner Q2 (a))",
-			"function close_passage": "京师 B",
-			"function do_turn": "京师 B",
-			"function do_press": "京师 B",
-			"function reset": "京师 B (the turns are counted anew)"
+			"set item_desc": "altar and platform: look landmarks (city.jitan.landmark.altar, .platform); sth: the button (city.jitan.landmark.button), word for word",
+			"function init": "turn and press: the button's actions (顺时针转, 逆时针转, 按下: policy dial)",
+			"function close_passage": "the dial's passage closes after open_seconds of world time (close here, close_below in the 地下密室)",
+			"function do_turn": "the dial's turns: forward and backward counted with their message_vision() lines (你 for $N); turn button alone and a wrong direction only explain the typed command: not shown (the buttons name both ways)",
+			"function do_press": "the dial's action 按下: forward 1 and backward 3 with the way shut opens down here and up below for 3 s (open); owner's modern fix (M4, 默认): a press that opens nothing clears the turns",
+			"function reset": "the room's reset() clears the turns (WorldHiddenPassages.reset_room)"
 		},
 		"d/city/street3.c": {
-			"set item_desc": "wall: 京师 B with its climb (city_test's reminder)",
-			"function init": "climb: 京师 B (院墙)",
-			"function do_climb": "京师 B: wall, up or 墙 moves the player onto the 院墙"
+			"set item_desc": "wall: landmark city.street3.landmark.wall (院墙 · 爬上去), word for word",
+			"function init": "climb: the landmark's action",
+			"function do_climb": "wall, up or 墙 moves the player onto the 院墙 (portal city.street3.climb to its own map); no 轻功 is asked (as ES2)"
 		},
 		"d/city/npc/chen.c": {
 			"assign_apprentice": "assign_apprentice(\"弟子\", 0) after create_family(): his title stays (振远镖局总镖头) and his privs are 0, so learn.c lets only his own apprentices learn from him (family.title and privileges in set)",
@@ -298,6 +368,88 @@
 		"d/city/npc/obj/rain_whip.c": {
 			"set wield_msg": "wield/unwield messages are not shown yet",
 			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"d/city/shangshu/gate.c": {
+			"create_door": "a door in world.json doors (city.shangshu.gate.door, 大铁门): shut at the start (DOOR_CLOSED), both rooms' create_door() one door",
+			"function valid_leave": "exit rule city.shangshu.gate.porter (no_mark 尚书 while the 门房 stands there: 闯什么闯). Owner's modern fix (M3, 默认): the mark is spent going in (spends); ES2 deleted it whenever the player left the gate, west too"
+		},
+		"d/city/shangshu/yuan.c": {
+			"create_door": "the 大铁门 (city.shangshu.gate.door): one door for both rooms",
+			"function valid_leave": "!userp(): no NPC walks east or west out of the 庭院; the only walker here, the 护院, keeps to his own room and its neighbours (NpcRandomMove's range) and never reaches the 庭院's east or west"
+		},
+		"d/city/shangshu/road1.c": {
+			"create_door": "a door in world.json doors (city.shangshu.road1.door, 小木门): shut at the start (DOOR_CLOSED), both rooms' create_door() one door"
+		},
+		"d/city/shangshu/xiaowu.c": { "create_door": "the 小木门 (city.shangshu.road1.door): one door for both rooms" },
+		"d/city/shangshu/road2.c": {
+			"create_door": "a door in world.json doors (city.shangshu.road2.door, 木门): shut at the start (DOOR_CLOSED), both rooms' create_door() one door",
+			"function valid_leave": "exit rules city.shangshu.road2.trainer_north and trainer_east: no_mark 尚书 while a 护院 (present(\"trainer\"): either kind) is in the room; the mark is spent at the gate, so they let nobody through (as ES2)"
+		},
+		"d/city/shangshu/kefang.c": {
+			"set item_desc": "book: a look-only landmark in world.json (city.shangshu.kefang.landmark.book), word for word",
+			"create_door": "the 木门 (city.shangshu.road2.door): one door for both rooms"
+		},
+		"d/city/shangshu/huayuan.c": {
+			"create_door": "a door in world.json doors (city.shangshu.huayuan.door, 帘子): shut at the start (DOOR_CLOSED), both rooms' create_door() one door"
+		},
+		"d/city/shangshu/neizhai.c": { "create_door": "the 帘子 (city.shangshu.huayuan.door): one door for both rooms" },
+		"d/city/shangshu/npc/guard.c": {
+			"set id": "set(\"id\", \"guard\") repeats set_name()'s id: the exit rule names the definition",
+			"function accept_object": "accept_object in set: with marks/尚书 already 大人太客气了 (kept, return 1); value() 30000 and more (three taels of gold; anything but money is 0) 这位大人，里面请！ and marks/尚书; less, his say without a speaker (鼻子里哼了一声) as written. Owner's modern fix (M1, 默认): what is too little is handed back; ES2 kept it (return 1)"
+		},
+		"d/city/shangshu/npc/huyuan.c": {
+			"set_name": "name and name_parts in set: first_name[random(12)] + name_word[random(33)], two draws in that order (a named form per name, saved)",
+			"set str": "create_rolls in set (create()'s draws in its order)",
+			"set int": "create_rolls in set",
+			"set cor": "create_rolls in set",
+			"set con": "create_rolls in set",
+			"set force": "create_rolls in set",
+			"set max_force": "create_rolls in set",
+			"set force_factor": "create_rolls in set",
+			"set food": "nothing reads an NPC's food (heal_up()'s userp() gate)",
+			"set water": "nothing reads an NPC's water (heal_up()'s userp() gate)",
+			"set_skill blade": "create_rolls in set",
+			"set_skill shortsong-blade": "create_rolls in set",
+			"set_skill force": "create_rolls in set",
+			"set_skill parry": "create_rolls in set",
+			"set_skill dodge": "create_rolls in set",
+			"set_skill fall-steps": "create_rolls in set",
+			"set_skill wu-shun": "create_rolls in set (小无相功, skills.json)",
+			"set chat_chance": "create_rolls in set: random(40), drawn per 护院 and kept",
+			"set chat_msg": "chat_msg in set: random_move (within his room and its neighbours)"
+		},
+		"d/city/shangshu/npc/huyuan1.c": {
+			"set_name": "name and name_parts in set: first_name[random(12)] + name_word[random(33)], two draws in that order (a named form per name, saved)",
+			"set str": "create_rolls in set (create()'s draws in its order)",
+			"set int": "create_rolls in set",
+			"set cor": "create_rolls in set",
+			"set con": "create_rolls in set",
+			"set force": "create_rolls in set",
+			"set max_force": "create_rolls in set",
+			"set force_factor": "create_rolls in set",
+			"set food": "nothing reads an NPC's food (heal_up()'s userp() gate)",
+			"set water": "nothing reads an NPC's water (heal_up()'s userp() gate)",
+			"set_skill blade": "create_rolls in set",
+			"set_skill shortsong-blade": "create_rolls in set",
+			"set_skill force": "create_rolls in set",
+			"set_skill parry": "create_rolls in set",
+			"set_skill dodge": "create_rolls in set",
+			"set_skill fall-steps": "create_rolls in set",
+			"set_skill lotusforce": "create_rolls in set",
+			"set chat_chance_combat": "create_rolls in set: random(40), drawn per 护院 and kept",
+			"set chat_msg_combat": "chat_msg_combat in set: exert heal (lotusforce's)"
+		},
+		"d/city/shangshu/npc/obj/blade.c": { "set wield_msg": "wield/unwield messages are not shown yet", "set unequip_msg": "wield/unwield messages are not shown yet" },
+		"d/city/shangshu/npc/obj/sword.c": { "set wield_msg": "wield/unwield messages are not shown yet", "set unwield_msg": "wield/unwield messages are not shown yet" },
+		"d/city/shangshu/npc/gardener.c": {
+			"set mana_factor": "only hp.c and score.c read it (a player's own sheet): nothing for an NPC"
+		},
+		"d/city/shangshu/npc/qing_chen.c": {
+			"set mana_factor": "only hp.c and score.c read it (a player's own sheet): nothing for an NPC"
+		},
+		"d/city/wall.c": {
+			"function init": "jump: the act services city.wall.jump_in (尚书府 · 跳进去) and city.wall.jump_out (京师东街 · 跳回去)",
+			"function do_jump": "jump in moves the player to 尚书府's 废屋, jump out back to the 东街 (act services with a move); no 轻功 is asked (as ES2)"
 		}
 	}
 }

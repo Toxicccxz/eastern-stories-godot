@@ -21,6 +21,7 @@
 			"inquiry": { "出城": ["你可以在京城里找一找，说不定可以找到一些出城的令牌。\n"] },
 			"accept_kill": { "line": "守城兵大叫：反了！反了！", "fellows": {} },
 			"accept_object": [
+				{ "item_alias": "token", "line": "京师守城兵连忙说道：原来是官府中人，您请出城。\n", "mark_giver": "令牌", "accept": true, "destroys": true },
 				{ "say": "这是什么东西啊！你想偷渡呀？", "accept": false }
 			]
 		},
@@ -387,6 +388,273 @@
 			"chat_chance": 15,
 			"chat_msg": ["卖包子的吆喝道：包子！热腾腾的包子！\n"],
 			"inquiry": { "包子": { "rules": [{ "vendor_list": true }] } }
+		},
+		{
+			"id": "city.npc.shangshu.guard",
+			"legacy_source": "d/city/shangshu/npc/guard.c",
+			"name": "门房",
+			"aliases": ["guard"],
+			"long": "尚书府的门房虽然没什么官衔，但所有想晋见\n尚书的白衣无不对他毕恭毕敬的\n",
+			"attributes": { "str": 27, "cor": 26, "cps": 25 },
+			"combat_exp": 1000,
+			"attitude": "peaceful",
+			"skills": { "unarmed": 90, "parry": 60, "dodge": 90 },
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"chat_chance": 5,
+			"chat_msg": ["门房慢吞吞地说：是。。想见尚书大人的吗？。。\n", "门房嘿嘿地笑了笑，手里比划着一个数字.\n"],
+			"accept_object": [
+				{ "giver_mark": "尚书", "say": "大人太客气了", "accept": true },
+				{ "value_at_least": 30000, "say": "这位大人，里面请！", "mark_giver": "尚书", "accept": true },
+				{ "line": "鼻子里哼了一声，头掉了过去。\n", "accept": false }
+			]
+		},
+		{
+			"id": "city.npc.shangshu.shangshu",
+			"legacy_source": "d/city/shangshu/npc/shangshu.c",
+			"name": "庾子建",
+			"aliases": ["yu shangshu", "yu"],
+			"title": "兵部尚书",
+			"gender": "男性",
+			"age": 54,
+			"long": "他是当今皇上身边的红人，与宫中的关系也很熟络，手中掌管着\n兵马大权。不过能爬上这个位置，绝不是仅仅因为溜须拍马的缘\n故，当年战功赫赫，才有今天的地位。\n",
+			"attributes": { "str": 27, "int": 25 },
+			"resources": {
+				"force": 1400,
+				"max_force": 800,
+				"max_gin": 200,
+				"eff_gin": 200,
+				"gin": 200,
+				"max_sen": 200,
+				"eff_sen": 200,
+				"sen": 200
+			},
+			"combat_exp": 400000,
+			"force_factor": 10,
+			"attitude": "peaceful",
+			"skills": {
+				"blade": 70,
+				"shortsong-blade": 105,
+				"force": 80,
+				"wu-shun": 80,
+				"parry": 50,
+				"dodge": 60,
+				"fall-steps": 60
+			},
+			"skill_map": {
+				"blade": "shortsong-blade",
+				"parry": "shortsong-blade",
+				"force": "wu-shun",
+				"dodge": "fall-steps"
+			},
+			"carry": [
+				{ "item": "es2:d/city/shangshu/npc/obj/blade", "source": "d/city/shangshu/npc/obj/blade.c", "equip": "wield" }
+			]
+		},
+		{
+			"id": "city.npc.shangshu.huyuan",
+			"legacy_source": "d/city/shangshu/npc/huyuan.c",
+			"aliases": ["trainer"],
+			"title": "尚书府护院",
+			"gender": "男性",
+			"age": { "base": 30, "plus_random": 30 },
+			"attitude": "peaceful",
+			"skill_map": {
+				"blade": "shortsong-blade",
+				"parry": "shortsong-blade",
+				"force": "wu-shun",
+				"dodge": "fall-steps"
+			},
+			"carry": [
+				{ "item": "es2:d/city/shangshu/npc/obj/blade", "source": "d/city/shangshu/npc/obj/blade.c", "equip": "wield" }
+			],
+			"name": "赵顺",
+			"name_parts": [
+				["赵", "钱", "孙", "李", "周", "吴", "郑", "王", "张", "陈", "刘", "林"],
+				["顺", "昌", "振", "发", "财", "俊", "彦", "良", "志", "忠", "孝", "雄", "益", "添", "金", "辉", "长", "盛", "胜", "进", "安", "福", "同", "满", "富", "万", "龙", "隆", "祥", "栋", "国", "亿", "寿"]
+			],
+			"create_rolls": [
+				{ "key": "str", "base": 20, "plus_random": 15 },
+				{ "key": "int", "base": 20, "plus_random": 15 },
+				{ "key": "cor", "base": 20, "plus_random": 35 },
+				{ "key": "con", "base": 20, "plus_random": 10 },
+				{ "key": "force", "base": 400, "plus_random": 400 },
+				{ "key": "max_force", "base": 400, "plus_random": 200 },
+				{ "key": "force_factor", "base": 3, "plus_random": 3 },
+				{ "key": "chat_chance", "base": 0, "plus_random": 40 },
+				{ "key": "combat_exp", "base": 2000, "plus_random": 50000 },
+				{ "skill": "blade", "base": 30, "plus_random": 50 },
+				{ "skill": "shortsong-blade", "base": 40, "plus_random": 60 },
+				{ "skill": "force", "base": 30, "plus_random": 50 },
+				{ "skill": "wu-shun", "base": 40, "plus_random": 40 },
+				{ "skill": "parry", "base": 30, "plus_random": 50 },
+				{ "skill": "dodge", "base": 50, "plus_random": 30 },
+				{ "skill": "fall-steps", "base": 40, "plus_random": 40 }
+			],
+			"chat_msg": [
+				{ "action": "random_move" }
+			]
+		},
+		{
+			"id": "city.npc.shangshu.huyuan1",
+			"legacy_source": "d/city/shangshu/npc/huyuan1.c",
+			"aliases": ["trainer"],
+			"title": "尚书府护院",
+			"gender": "男性",
+			"age": { "base": 30, "plus_random": 30 },
+			"attitude": "peaceful",
+			"skill_map": {
+				"blade": "shortsong-blade",
+				"parry": "shortsong-blade",
+				"force": "lotusforce",
+				"dodge": "fall-steps"
+			},
+			"carry": [
+				{ "item": "es2:d/city/shangshu/npc/obj/blade", "source": "d/city/shangshu/npc/obj/blade.c", "equip": "wield" }
+			],
+			"inquiry": { "客人": ["我也不知道，主人吩咐我守着的。\n"] },
+			"name": "赵顺",
+			"name_parts": [
+				["赵", "钱", "孙", "李", "周", "吴", "郑", "王", "张", "陈", "刘", "林"],
+				["顺", "昌", "振", "发", "财", "俊", "彦", "良", "志", "忠", "孝", "雄", "益", "添", "金", "辉", "长", "盛", "胜", "进", "安", "福", "同", "满", "富", "万", "龙", "隆", "祥", "栋", "国", "亿", "寿"]
+			],
+			"create_rolls": [
+				{ "key": "str", "base": 20, "plus_random": 15 },
+				{ "key": "int", "base": 20, "plus_random": 15 },
+				{ "key": "cor", "base": 20, "plus_random": 35 },
+				{ "key": "con", "base": 20, "plus_random": 10 },
+				{ "key": "force", "base": 400, "plus_random": 400 },
+				{ "key": "max_force", "base": 400, "plus_random": 200 },
+				{ "key": "force_factor", "base": 3, "plus_random": 3 },
+				{ "key": "chat_chance_combat", "base": 0, "plus_random": 40 },
+				{ "key": "combat_exp", "base": 2000, "plus_random": 50000 },
+				{ "skill": "blade", "base": 50, "plus_random": 50 },
+				{ "skill": "shortsong-blade", "base": 60, "plus_random": 40 },
+				{ "skill": "force", "base": 30, "plus_random": 50 },
+				{ "skill": "lotusforce", "base": 40, "plus_random": 40 },
+				{ "skill": "parry", "base": 30, "plus_random": 50 },
+				{ "skill": "dodge", "base": 50, "plus_random": 30 },
+				{ "skill": "fall-steps", "base": 40, "plus_random": 40 }
+			],
+			"chat_msg_combat": [
+				{ "action": "exert", "function": "heal" }
+			]
+		},
+		{
+			"id": "city.npc.shangshu.maid",
+			"legacy_source": "d/city/shangshu/npc/maid.c",
+			"name": "丫鬟",
+			"aliases": ["maid"],
+			"gender": "女性",
+			"age": 19,
+			"long": "她是尚书府的司职厨务的丫鬟，一年四季呆在厨房中。但粗重的\n杂活也掩不住其天生丽质。\n",
+			"attributes": { "per": 27 },
+			"combat_exp": 1000,
+			"attitude": "peaceful",
+			"carry": [
+				{ "item": "es2:d/city/shangshu/npc/obj/pink_cloth", "source": "d/city/shangshu/npc/obj/pink_cloth.c", "equip": "wear" }
+			]
+		},
+		{
+			"id": "city.npc.shangshu.gardener",
+			"legacy_source": "d/city/shangshu/npc/gardener.c",
+			"name": "花匠",
+			"aliases": ["gardener"],
+			"gender": "男性",
+			"age": 55,
+			"long": "一个老老实实、本本分分的庄园花匠，多年的风霜刻满\n了他的额头。多年以来从来没有人认真注意过他，他也\n总是默默地在花园里工作。\n",
+			"attributes": { "str": 25, "int": 27, "cor": 23, "cps": 28, "spi": 30 },
+			"resources": {
+				"force": 1800,
+				"max_force": 900,
+				"atman": 1200,
+				"max_atman": 1200,
+				"mana": 3500,
+				"max_mana": 1800
+			},
+			"combat_exp": 500000,
+			"force_factor": 25,
+			"attitude": "peaceful",
+			"skills": {
+				"literate": 100,
+				"magic": 40,
+				"force": 30,
+				"spells": 90,
+				"scratching": 90,
+				"unarmed": 30,
+				"sword": 40,
+				"parry": 40,
+				"dodge": 40,
+				"gouyee": 60,
+				"taoism": 90,
+				"necromancy": 90
+			},
+			"skill_map": { "spells": "necromancy", "sword": "scratching", "parry": "scratching", "force": "gouyee" },
+			"carry": [
+				{ "item": "es2:d/city/shangshu/npc/obj/sword", "source": "d/city/shangshu/npc/obj/sword.c", "equip": "wield" }
+			],
+			"chat_chance_combat": 80,
+			"chat_msg_combat": [
+				{ "action": "cast", "function": "drainerbolt" },
+				{ "action": "cast", "function": "netherbolt" },
+				{ "action": "cast", "function": "feeblebolt" },
+				{ "action": "cast", "function": "invocation" }
+			],
+			"inquiry": { "茅山派": ["那是我的师门。\n"], "林忌": ["林忌？。。你问我师兄，好久没见着他了。\n"], "庾清尘": ["什么？清尘出事了？\n"] }
+		},
+		{
+			"id": "city.npc.shangshu.qing_chen",
+			"legacy_source": "d/city/shangshu/npc/qing_chen.c",
+			"name": "庾清尘",
+			"aliases": ["qing_chen"],
+			"title": "尚书府小姐",
+			"gender": "女性",
+			"age": 20,
+			"long": "她是尚书府的千金。平时一直呆在自己的绣房里，所以虽然外界\n如何盛传她是如何如何的文雅、娴淑，却极少有能见过她的人。\n不知从何时起，她竺信起道教来，所以一切讲究素雅。\n",
+			"attributes": { "per": 27, "int": 30 },
+			"resources": {
+				"force": 500,
+				"max_force": 300,
+				"atman": 1000,
+				"max_atman": 1000,
+				"mana": 2000,
+				"max_mana": 1000
+			},
+			"combat_exp": 70000,
+			"force_factor": 20,
+			"attitude": "peaceful",
+			"skills": {
+				"literate": 90,
+				"magic": 30,
+				"force": 50,
+				"spells": 70,
+				"scratching": 60,
+				"sword": 40,
+				"parry": 40,
+				"dodge": 60,
+				"stormdance": 60,
+				"gouyee": 60,
+				"necromancy": 60
+			},
+			"skill_map": {
+				"spells": "necromancy",
+				"sword": "scratching",
+				"parry": "scratching",
+				"force": "gouyee",
+				"dodge": "stormdance"
+			},
+			"carry": [
+				{ "item": "es2:d/city/shangshu/npc/obj/white_cloth", "source": "d/city/shangshu/npc/obj/white_cloth.c", "equip": "wear" },
+				{ "item": "es2:d/city/shangshu/npc/obj/sword", "source": "d/city/shangshu/npc/obj/sword.c", "equip": "wield" }
+			],
+			"chat_chance_combat": 50,
+			"chat_msg_combat": [
+				{ "action": "cast", "function": "drainerbolt" },
+				{ "action": "cast", "function": "netherbolt" },
+				{ "action": "cast", "function": "feeblebolt" },
+				{ "action": "cast", "function": "invocation" }
+			]
 		}
 	]
 }

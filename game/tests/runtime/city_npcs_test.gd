@@ -145,7 +145,8 @@ func _test_chater(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(Work.capture(session) != null, "Save with 桃X仙 armed")
 
 
-## Each 行人 keeps the chat chance create() drew, through Save and Continue.
+## Each 行人 keeps the chat chance create() drew, through Save and Continue (the 护院's draws:
+## city_shangshu_test).
 func _test_walkers_kept(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var chances: Dictionary = {}
@@ -153,7 +154,7 @@ func _test_walkers_kept(tree: SceneTree, session: WorldSessionController) -> voi
 		if npc.definition().definition_id == WALKER:
 			chances[npc.character_id] = npc.chat_chance
 			_check(npc.chat_chance >= 0 and npc.chat_chance < 20, "a 行人's chat_chance: random(20): %d" % npc.chat_chance)
-		elif npc.chat_chance != -1:
+		elif npc.chat_chance != -1 and NpcDefinition.unnamed_id(npc.definition().definition_id) != &"city.npc.shangshu.huyuan":
 			_check(false, "%s draws no chat chance" % npc.definition().definition_id)
 	_check(chances.size() == 3, "three 行人")
 	var snapshot: GameSaveSnapshot = Work.capture(session)

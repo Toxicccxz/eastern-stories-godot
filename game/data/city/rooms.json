@@ -387,6 +387,139 @@
 			"exits": {
 				"down": "es2:d/city/jiulou"
 			}
+		},
+		{
+			"id": "es2:d/city/shangshu/gate",
+			"short": "尚书府大门",
+			"long": "你来到尚书府大门。门上悬挂着一块很大的黑色牌匾，上面用隶\n书写着三个金字「尚书府」。牌匾上的一行小字表明这是当今皇上所\n题，可以看出其官势显赫。\n",
+			"exits": {
+				"west": "es2:d/city/street3",
+				"east": "es2:d/city/shangshu/yuan"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/shangshu/yuan",
+			"short": "尚书府庭院",
+			"long": "你走到了尚书府的庭院。院子很大，地面规规整整地用清一色的\n大青石铺就，显示出主人的气派。东边的府门时常关着，不是高官可\n甭想进来。西向是主人会客的客厅。北行的石路通向客房，而向南则\n是去往内院。\n",
+			"exits": {
+				"west": "es2:d/city/shangshu/gate",
+				"east": "es2:d/city/shangshu/keting",
+				"south": "es2:d/city/shangshu/road3",
+				"north": "es2:d/city/shangshu/road2"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/shangshu/keting",
+			"short": "尚书府客厅",
+			"long": "这里是尚书府的会客厅，平常主人就在此接待客人。客厅的装饰\n倒并不多，但都极其讲究。所有的家具都是用沉香木做的，时时发出\n一股淡淡的香味。家具被擦得一尘不染的，整齐地排列在两旁。当中\n的椅子尤其大，并铺以少见的白虎皮。\n",
+			"exits": {
+				"west": "es2:d/city/shangshu/yuan"
+			}
+		},
+		{
+			"id": "es2:d/city/shangshu/road2",
+			"short": "小径",
+			"long": "这里是尚书府的小径。小径继续向北延伸着，透过树丛隐隐约约\n地看到那儿似乎有一间小屋。从这儿向东走就是一间客房，据说客房\n里住的是一位贵客。不过一般人不允许进。\n",
+			"exits": {
+				"north": "es2:d/city/shangshu/road1",
+				"east": "es2:d/city/shangshu/kefang",
+				"south": "es2:d/city/shangshu/yuan"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/shangshu/road1",
+			"short": "小径",
+			"long": "尚书府的小径走到这似乎到了尽头。小径的东边是一间小屋，平\n时房门总是关的，每天按时由一名又聋又哑的仆役送饭进去，其他人\n一概不让入内。南边不远处就是尚书府庭院了。\n",
+			"exits": {
+				"east": "es2:d/city/shangshu/xiaowu",
+				"south": "es2:d/city/shangshu/road2"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/shangshu/kefang",
+			"short": "客房",
+			"long": "你走进了尚书府的客房。客房不大，但布置得比较整洁。靠窗的\n小桌上摞放着几本书(book)，另一侧的墙上则挂了把宝剑，似乎告诉\n来人此地主人竞是文武双全。\n",
+			"exits": {
+				"west": "es2:d/city/shangshu/road2"
+			}
+		},
+		{
+			"id": "es2:d/city/shangshu/xiaowu",
+			"short": "小屋",
+			"long": "你步入尚书府内的一间小屋。小屋内很黑，什么也看不见，但莫\n名地感到一股杀气，让人有转身就跑的念头。\n",
+			"exits": {
+				"west": "es2:d/city/shangshu/road1"
+			}
+		},
+		{
+			"id": "es2:d/city/shangshu/road3",
+			"short": "花园小径",
+			"long": "这里是尚书府的花园小径。小径的南方就是花园，阵阵花香随风\n飘过来，使人精神大振。厨房在小径的东面，而往南则去往尚书府的\n庭院。\n",
+			"exits": {
+				"north": "es2:d/city/shangshu/yuan",
+				"south": "es2:d/city/shangshu/huayuan",
+				"east": "es2:d/city/shangshu/chufang"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/shangshu/chufang",
+			"short": "厨房",
+			"long": "你来到了尚书府的厨房。厨房里各种烹饪用品与设备应有尽有，\n而且用品的做工也都很精细，一眼便知是官家的用品。厨房里的炉火\n烧得旺旺的，一个烧火丫鬟正忙着即将出锅的「西湖醋鱼」。\n",
+			"exits": {
+				"west": "es2:d/city/shangshu/road3"
+			}
+		},
+		{
+			"id": "es2:d/city/shangshu/huayuan",
+			"short": "花园",
+			"long": "尚书府的花园里搜集了许多名贵花卉。从洛阳的牡丹到扬州的琼\n花，你不能不惊诧于这里的全来。四时的花卉竞相开放着，发出沁人\n的香味。从花园东行就是内宅，而西边似乎有一间破屋。\n",
+			"exits": {
+				"north": "es2:d/city/shangshu/road3",
+				"east": "es2:d/city/shangshu/neizhai",
+				"west": "es2:d/city/shangshu/road4"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/shangshu/neizhai",
+			"short": "内宅",
+			"long": "你轻轻地走进尚书府的内宅，男客一般是不让来此的。内宅的布\n置很素雅，一切的摆设都显得很自然，有「天然去雕饰，清水出芙蓉\n」的意味。西边就是你来时经过的花园。\n",
+			"exits": {
+				"west": "es2:d/city/shangshu/huayuan"
+			}
+		},
+		{
+			"id": "es2:d/city/shangshu/road4",
+			"short": "小路",
+			"long": "你走在尚书府的一条僻静的小路上。这条小路连接着花园和一间\n废弃的杂货屋，平常很少有人来此。东面的花园渐渐地远了，西面的\n门都已经脱落的废屋已历历在目。北面是高耸的院墙。\n",
+			"exits": {
+				"west": "es2:d/city/shangshu/feiwu",
+				"east": "es2:d/city/shangshu/huayuan"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/shangshu/feiwu",
+			"short": "废屋",
+			"long": "这是一间已被废弃的小屋。小屋很阴暗，也很潮湿。就着微弱的光线\n，隐约看见小屋里胡乱地堆放着一些杂物。小屋里到处挂着蜘蛛网，显然\n很久没有人来过了。\n",
+			"exits": {
+				"east": "es2:d/city/shangshu/road4"
+			}
+		},
+		{
+			"id": "es2:d/city/wall",
+			"short": "院墙",
+			"long": "你爬上了尚书府的院墙，墙里面人来人往的，很是\n热闹。你是跳进去(jump in)，还是回去(jump out)呢？\n"
+		},
+		{
+			"id": "es2:d/city/midao1",
+			"short": "地下密室",
+			"long": "这里是一间窄小的密室，你的面前只有一个破旧的小床(bed)跟一\n些乾草。\n"
 		}
 	]
 }

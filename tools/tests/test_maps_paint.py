@@ -30,7 +30,7 @@ GENERATED = {
                'choyin_crown.tscn', 'choyin_cliff_cave.tscn', 'choyin_summit.tscn', 'choyin_valley.tscn'],
     'canyon': ['canyon_clifftop.tscn', 'canyon_pass.tscn', 'canyon_armory.tscn', 'canyon_bamboo.tscn', 'canyon_stoneroom.tscn'],
     'village': ['village_main.tscn', 'village_midlake.tscn', 'village_icecave.tscn'],
-    'city': ['city_main.tscn', 'city_upstairs.tscn'],
+    'city': ['city_main.tscn', 'city_upstairs.tscn', 'city_wall_top.tscn', 'city_cellar.tscn'],
 }
 
 

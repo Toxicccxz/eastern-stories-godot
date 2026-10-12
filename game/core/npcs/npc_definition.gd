@@ -67,6 +67,12 @@ var _internal_power: Dictionary[StringName, int] = {}
 var _name_pick: Array[String] = []
 var _skill_roll: NpcSkillRoll
 var _age_first: bool = false
+## The bound of each draw a name made of parts takes (huyuan.c: first_name[random(12)] +
+## name_word[random(33)]); the names in _name_pick are every combination, first part
+## slowest. Empty for a name drawn whole (or none).
+var _name_draws: Array[int] = []
+## What create() draws after the name and age (NpcCreateRolls); null for none.
+var _create_rolls: NpcCreateRolls
 ## What a summoned NPC says as it comes and goes (NpcSummoning); null for one no spell calls.
 var _summoning: NpcSummoning
 ## What a practice conjures up against its owner (NpcConjuring); null for any other NPC.
@@ -351,6 +357,38 @@ func name_pick() -> Array[String]:
 	return _name_pick.duplicate()
 
 
+## A name made of parts (huyuan.c): every combination of `parts` is a name, drawn part by
+## part. Called once by the loader, after with_summoning().
+func with_name_parts(parts: Array[Array]) -> NpcDefinition:
+	_name_draws.clear()
+	var names: Array[String] = [""]
+	for part: Array in parts:
+		_name_draws.append(part.size())
+		var longer: Array[String] = []
+		for name: String in names:
+			for word: Variant in part:
+				longer.append(name + str(word))
+		names = longer
+	_name_pick = names if not parts.is_empty() else _name_pick
+	return self
+
+
+## The bounds of a name drawn in parts, in order; empty when the name is drawn whole.
+func name_draws() -> Array[int]:
+	return _name_draws.duplicate()
+
+
+## create()'s draws after the name and age. Called once by the loader.
+func with_create_rolls(rolls: NpcCreateRolls) -> NpcDefinition:
+	_create_rolls = rolls
+	return self
+
+
+## null when create() draws nothing of the kind.
+func create_rolls() -> NpcCreateRolls:
+	return _create_rolls
+
+
 ## null: no spell summons this NPC.
 func summoning() -> NpcSummoning:
 	return _summoning
@@ -450,6 +488,7 @@ func named(index: int) -> NpcDefinition:
 		return copy
 	copy._definition_id = named_id(_definition_id, index)
 	copy._name_pick = []
+	copy._name_draws = []
 	return copy
 
 
@@ -635,6 +674,11 @@ func is_valid() -> bool:
 		if skill == null or not skill.is_valid() or skill_ids.has(skill.skill_id):
 			return false
 		skill_ids[skill.skill_id] = true
+	if _create_rolls != null:
+		for skill_id: StringName in _create_rolls.skill_ids():
+			if skill_ids.has(skill_id):
+				return false
+			skill_ids[skill_id] = true
 	for use_id: StringName in _skill_map:
 		if use_id.is_empty() or not skill_ids.has(_skill_map[use_id]):
 			return false

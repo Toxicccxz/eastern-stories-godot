@@ -108,6 +108,31 @@ func text_list(key: String) -> Array[String]:
 	return result
 
 
+## Array of arrays of non-empty strings, in authored order (a name drawn in parts).
+func text_lists(key: String) -> Array[Array]:
+	_consumed[key] = true
+	var result: Array[Array] = []
+	if not _record.has(key):
+		return result
+	var value: Variant = _record[key]
+	if not value is Array:
+		fail(key, "expected an array of arrays of strings")
+		return result
+	for index: int in range(value.size()):
+		var part: Variant = value[index]
+		var words: Array[String] = []
+		if part is Array and not part.is_empty():
+			for word: Variant in part:
+				if word is String and not word.is_empty():
+					words.append(word)
+				else:
+					fail("%s[%d]" % [key, index], "expected non-empty strings")
+		else:
+			fail("%s[%d]" % [key, index], "expected a non-empty array of strings")
+		result.append(words)
+	return result
+
+
 ## Array of integers, in authored order.
 func integer_list(key: String) -> Array[int]:
 	_consumed[key] = true
