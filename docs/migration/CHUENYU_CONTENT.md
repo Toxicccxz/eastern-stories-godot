@@ -27,14 +27,14 @@ xiaojuan2.c) are placed by no room.
 | croad1.c south → d/village/road1 (road1.c has no way back) | portals `chuenyu.croad1.south` / `village.road1.west` (owner, 玉螺湖村 plan Q2: the spur west off the 黄土大道) |
 | croad2.c's tea house | the text's only: drawn as a building with no door |
 | sunnyroad.c no_fight, no_magic | room flags; the 卖花姑娘's random_move takes her to the crossing and the foot |
-| foot_b_mtn.c up → high_b_mtn (no way down from there) | one zone border walked both ways (M2); the east street's down comes to the foot too |
-| gate_castle.c init(): combat_exp < 2000 moved back to high_b_mtn2 | exit rules `chuenyu.high_b_mtn.killing_air` and `chuenyu.high_b_mtn2.killing_air` (`combat_exp_below` 2000): 你被黑松堡散出的强烈杀气当了回来。 The only ways onto the gate are the two streets' |
+| foot_b_mtn.c up → high_b_mtn (no way down from there), high_b_mtn2.c down → base_b_m (no way up) | zone borders walked both ways (M2) |
+| gate_castle.c init(): combat_exp < 2000 moved back to high_b_mtn2 | exit rules `chuenyu.high_b_mtn.killing_air` and `chuenyu.high_b_mtn2.killing_air` (`combat_exp_below` 2000): 你被黑松堡散出的强烈杀气当了回来。, the player staying on the street they came up (ES2 moved them to high_b_mtn2). The only ways onto the gate are the two streets' |
 | trap_castle.c init(), arrowing() | hazard `chuenyu.trap_castle.arrows`: 15 s after coming in, then every 5 s while the player stays, the two HIW lines and eff_kee and kee down random(10)+35 (`hurt`); it can knock out and kill (the room's look and noise warn). Leaving and coming back waits 15 s again |
 | east/west_castle.c, east/west_garden.c climb, fliping() | act services `chuenyu.<room>.climb` (城墙 · 爬上去): the climb's and the jump's lines, then move() at once (M1: ES2 three seconds later; its start_busy(3) was stopped at once anyway) |
 | rope_bridge.c do_climb() | act service `chuenyu.rope_bridge.climb` (铁链 · 顺着走下去) to the foot; the room's only line for anything else (这里只有一条铁链（chain）。) is the chain's look. The comment's dodge check was never written |
 | center.c roping() | B (the fall into the 地牢); A has the rope's look |
 | item_desc | look landmarks, word for word (北花园's and the 夹道's 巨石, the 圆孔, the 声音, the 青石板) |
-| jiading3.c checklooking(), kill_passenger() | greeting rule `per_below` 20 (random(query("per")) < 20) a second after the player comes in: his two says (家丁喝道： inside his own say kept, as 刘老农说道), npc_flag hunts_player (attitude aggressive and kill_ob()'s killer list: attack.c's hatred) and the kill |
+| jiading3.c checklooking(), kill_passenger() | greeting rule `per_below` 20 (random(query("per")) < 20) a second after the player comes in: his two says (家丁喝道： inside his own say kept, as 刘老农说道), npc_flags hunts_player (kill_ob()'s killer list: attack.c's hatred, cleared by the player's death) and aggressive (set("attitude", "aggressive"): he attacks on sight for good, until made anew) and the kill |
 | guard.c init() kill_ob(), pursuer | capability aggressive_on_player_presence; pursuer not modelled (M5) |
 | wolfdog.c attitude "killer" | attitude killer: aggressive for npc.c accept_fight() and ask.c, not for attack.c init(); its bellicosity 3000 berserks. Its chat_msg_combat is never said (no chat_chance_combat) |
 | gardener.c chat_msg_combat | cast invocation (召护法); its two cast animate draws do nothing (M5, as 茅山's NPCs) |

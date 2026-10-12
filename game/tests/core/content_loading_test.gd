@@ -111,7 +111,7 @@ func _test_item_derived_facts() -> void:
 
 func _test_item_record_errors() -> void:
 	var errors: Array[String] = []
-	_item({"id": "t:bad", "legacy_sources": [], "name": "坏", "weight": -1, "value": -5, "weapon": {"skill": "sword", "damage": 1, "flags": ["flying"], "weight_dodge": "armor"}, "liquid": {"max_liquid": 5, "type": "oil", "name": "油", "remaining": 9}, "food": {"remaining": 0, "supply": 10}}, errors)
+	_item({"id": "t:bad", "legacy_sources": [], "name": "坏", "weight": -1, "value": -5, "weapon": {"skill": "sword", "damage": 1, "flags": ["flying"], "weight_dodge": "armor"}, "armor": {"type": "cloth", "props": {}}, "liquid": {"max_liquid": 5, "type": "oil", "name": "油", "remaining": 9}, "food": {"remaining": 0, "supply": 10}}, errors)
 	for expected: String in [
 		"t.items[0].legacy_sources: needs at least one LPC source path",
 		"t.items[0].value: must not be negative",
@@ -122,7 +122,7 @@ func _test_item_record_errors() -> void:
 		"t.items[0].food: remaining and supply must be positive",
 		"t.items[0].liquid.type: unsupported liquid type 'oil'",
 		"t.items[0].liquid: max_liquid must be positive and remaining within it",
-		"t.items[0].food: food that is also a weapon, armor or money is not supported yet",
+		"t.items[0].food: food that is also armor, money or a stack is not supported yet",
 	]:
 		_eq(errors.has(expected), true, "reports: " + expected)
 	_eq(errors.size(), 10, "and nothing else: %s" % str(errors))
@@ -165,12 +165,12 @@ func _test_npc_and_spawn_records() -> void:
 	errors.clear()
 	NpcContentRecords.npc_from_record(ContentRecordReader.new({
 		"id": "t.bad", "legacy_source": "t/bad.c", "name": "坏", "aliases": ["bad"], "race": "dragon",
-		"attitude": "killer", "attributes": {"luck": 1}, "resources": {"hp": 1}, "apply": {"karma": 1},
+		"attitude": "berserker", "attributes": {"luck": 1}, "resources": {"hp": 1}, "apply": {"karma": 1},
 		"carry": [{"item": "t:sword", "source": "t/sword.c", "equip": "hold"}],
 	}, "t.npcs[1]", errors))
 	_eq(errors, [
 		"t.npcs[1].race: unsupported race 'dragon'",
-		"t.npcs[1].attitude: unsupported attitude 'killer'",
+		"t.npcs[1].attitude: unsupported attitude 'berserker'",
 		"t.npcs[1].carry[0].equip: expected 'wield' or 'wear'",
 		"t.npcs[1].attributes.luck: unsupported attribute",
 		"t.npcs[1].resources.hp: unsupported resource",

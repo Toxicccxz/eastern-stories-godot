@@ -258,8 +258,9 @@ a `guard` (an NPC definition: d/sanyen/kitchen.c's cook) standing in the zone it
 `{id, zone, room, first_seconds, every_seconds, act: {steps}, legacy_source}` — a room that acts
 on the player again and again while they stay (d/chuenyu/trap_castle.c: init()'s
 call_out("arrowing", 15), then every 5 seconds while the player is there): the act (lines and
-hurts; no NPC, no move) comes `first_seconds` of world time after the player comes in, then every
-`every_seconds`. Leaving clears the wait; it is not saved (a Continue there waits the first time
+hurts on whoever stands there: no conditions, rolls, question, NPC or move) comes `first_seconds` of
+world time after the player comes in, then every `every_seconds`; one that fells the player or
+starts a fight ends that moment's volleys. Leaving clears the wait; it is not saved (a Continue there waits the first time
 again). One hazard a zone.
 
 ## exit_rules

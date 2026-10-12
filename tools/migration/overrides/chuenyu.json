@@ -36,6 +36,7 @@
 						{ "say": "家丁喝道：站住！你干什么的。" },
 						{ "say": "看你那贼眉鼠眼，尖嘴猴腮的样儿，决不是什么好东西！" },
 						{ "npc_flag": "hunts_player" },
+						{ "npc_flag": "aggressive" },
 						{ "kill": true }
 					] }
 				]
@@ -71,7 +72,7 @@
 		"d/chuenyu/npc/jiading3.c": {
 			"function init": "greeting in set: checklooking() one second after the player comes in, not while he fights",
 			"function checklooking": "greeting rule in set: random(per) < 20 (per_below), his two say lines as written (家丁喝道： inside his own say kept, as 刘老农说道)",
-			"function kill_passenger": "greeting's kill step: kill_ob(); set(\"attitude\", \"aggressive\") and the killer list it joins are attack.c's hatred: npc_flag hunts_player (he attacks on sight from then on until he is made anew)"
+			"function kill_passenger": "greeting's kill step: kill_ob(); set(\"attitude\", \"aggressive\") is npc_flag aggressive: attack.c attacks on sight from then on, past the player's death, until he is made anew; kill_ob()'s killer list is npc_flag hunts_player (attack.c's hatred, cleared by the player's death) (his rude name and spar answers are not modelled)"
 		},
 		"d/chuenyu/npc/guard.c": {
 			"set pursuer": "following who flees is not modelled yet (as 守城官兵's, 县城官兵's and 僵尸护法's: M5)",

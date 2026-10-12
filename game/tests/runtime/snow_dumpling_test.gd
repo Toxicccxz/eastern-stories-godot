@@ -230,22 +230,29 @@ func consumption_and_save(tree: SceneTree) -> void:
 
 func strict_save_tests(snapshot: GameSaveSnapshot) -> void:
 	var base: Dictionary = JSON.parse_string(GameSaveJsonCodec.encode(snapshot).text)
+	# The world's other foods (黑松山's 烤山猪肉, 绮云镇's 包子 …) are saved beside the dumpling:
+	# the checks act on a dumpling's record.
+	var dumplings: Array = base.items.records.filter(func(item: Dictionary) -> bool: return item.item_definition_id == String(TestContent.DUMPLING_ITEM_ID)).map(func(item: Dictionary) -> String: return item.item_instance_id)
+	var at: int = -1
+	for index: int in base.items.food_consumables.size():
+		if at < 0 and dumplings.has(base.items.food_consumables[index].item_instance_id):
+			at = index
 	for portions: int in [-1,0,1,2,3,4]:
 		for value: int in [-1,0,15,16]:
 			var modified: Dictionary = base.duplicate(true)
-			modified.items.food_consumables[0].remaining_portions = str(portions)
-			modified.items.food_consumables[0].current_value = str(value)
+			modified.items.food_consumables[at].remaining_portions = str(portions)
+			modified.items.food_consumables[at].current_value = str(value)
 			var decoded: GameSaveResult = GameSaveJsonCodec.decode(JSON.stringify(modified))
 			var accepted: bool = decoded.succeeded() and NativeItemStateValidator.validate(decoded.snapshot.items, definitions()).succeeded
 			check(accepted == ((portions == 3 and value == 15) or (portions in [1,2] and value == 0)), "literal live dumpling pairs " + str([portions,value]))
 	for mutation: String in ["duplicate", "dangling", "nonfood", "missing", "unknown-key", "missing-key", "v1-extra", "v1-food", "unknown-version"]:
 		var modified: Dictionary = base.duplicate(true)
 		match mutation:
-			"duplicate": modified.items.food_consumables.append(modified.items.food_consumables[0].duplicate(true))
-			"dangling": modified.items.food_consumables[0].item_instance_id = "absent"
+			"duplicate": modified.items.food_consumables.append(modified.items.food_consumables[at].duplicate(true))
+			"dangling": modified.items.food_consumables[at].item_instance_id = "absent"
 			"nonfood":
 				for item: Dictionary in modified.items.records:
-					if item.item_definition_id == "es2:obj/money/silver": modified.items.food_consumables[0].item_instance_id = item.item_instance_id
+					if item.item_definition_id == "es2:obj/money/silver": modified.items.food_consumables[at].item_instance_id = item.item_instance_id
 			"missing": modified.items.food_consumables.clear()
 			"unknown-key": modified.items.extra = 1
 			"missing-key": modified.items.erase("food_consumables")

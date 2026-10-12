@@ -57,7 +57,7 @@
 			],
 			"greeting": {
 				"rules": [
-					{ "per_below": 20, "steps": [{ "say": "家丁喝道：站住！你干什么的。" }, { "say": "看你那贼眉鼠眼，尖嘴猴腮的样儿，决不是什么好东西！" }, { "npc_flag": "hunts_player" }, { "kill": true }] }
+					{ "per_below": 20, "steps": [{ "say": "家丁喝道：站住！你干什么的。" }, { "say": "看你那贼眉鼠眼，尖嘴猴腮的样儿，决不是什么好东西！" }, { "npc_flag": "hunts_player" }, { "npc_flag": "aggressive" }, { "kill": true }] }
 				]
 			}
 		},

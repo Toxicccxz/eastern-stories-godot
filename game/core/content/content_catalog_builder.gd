@@ -649,6 +649,10 @@ func _check_hazards() -> void:
 		if hazard.act != null:
 			if hazard.act.moves_player():
 				_errors.append("%s.act: a hazard does not move the player" % origin)
+			if not hazard.act.applies_to(&"", &"") or hazard.act.draws() or not hazard.act.ask.is_empty():
+				_errors.append("%s.act: a hazard acts on whoever stands there (no conditions, rolls or question)" % origin)
+			if hazard.act.steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.COMES):
+				_errors.append("%s.act: a hazard brings no NPC" % origin)
 			_check_act(hazard.act, "%s.act" % origin)
 
 

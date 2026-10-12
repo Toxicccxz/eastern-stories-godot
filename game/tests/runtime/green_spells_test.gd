@@ -355,7 +355,7 @@ func _test_no_magic(tree: SceneTree, session: WorldSessionController) -> void:
 	for zone: ZoneDefinition in _catalog.zones():
 		if _catalog.zone_forbids_magic(zone.zone_id):
 			forbidden.append(zone.zone_id)
-	_check(forbidden == [&"choyin.dragon_temple", &"choyin.altar", &"choyin.lionroom", &"choyin.club", &"choyin.hollow", &"choyin.hollow3", &"city.bank"], "乔阴's six rooms and 京师's 旺金钱庄 are the only no_magic ones placed (Snow's bank has it commented out): %s" % [forbidden])
+	_check(forbidden == [&"choyin.dragon_temple", &"choyin.altar", &"choyin.lionroom", &"choyin.club", &"choyin.hollow", &"choyin.hollow3", &"city.bank", &"chuenyu.sunnyroad"], "乔阴's six rooms, 京师's 旺金钱庄 and 黑松山's 山脚乡田 are the only no_magic ones placed (Snow's bank has it commented out): %s" % [forbidden])
 	var quarryman: NpcRuntimeState = _first(map, QUARRYMAN)
 	await _beside(tree, map, session, quarryman)
 	player.state.recovery.mana.current = 1000

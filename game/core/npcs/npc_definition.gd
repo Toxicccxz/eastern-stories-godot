@@ -619,6 +619,10 @@ const FLAG_FOLLOWS_PLAYER: StringName = &"follows_player"
 ## the player): attack.c init()'s hatred attacks the player on sight until the player
 ## dies before it (damage.c die(): remove_killer()). An object variable.
 const FLAG_HUNTS_PLAYER: StringName = &"hunts_player"
+## set("attitude", "aggressive") at run time (d/chuenyu/npc/jiading3.c kill_passenger()):
+## attack.c init() attacks the player on sight from then on, past the player's death, until
+## the NPC is made anew. An object variable, saved with its memory.
+const FLAG_AGGRESSIVE: StringName = &"aggressive"
 ## haunt.c do_haunt()'s set("end_tag", 1): a raised NPC a 僵尸追魂符 sent after someone;
 ## its first heal_up() out of a fight dispells it (zombie.c). An object variable.
 const FLAG_SENT: StringName = &"sent"
@@ -628,7 +632,7 @@ const FLAG_SENT: StringName = &"sent"
 ## "aggressive", or a toll-taker (`attack_unless_mark`) facing a player without the
 ## mark, or one it has already fought.
 func attacks_on_sight(npc_flags: Dictionary[StringName, bool], player: CharacterState) -> bool:
-	if npc_flags.get(FLAG_HUNTS_PLAYER, false) or has_capability(CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE):
+	if npc_flags.get(FLAG_HUNTS_PLAYER, false) or npc_flags.get(FLAG_AGGRESSIVE, false) or has_capability(CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE):
 		return true
 	# attack.c init(): start_vendetta() on whoever holds vendetta/<its mark>.
 	var vendetta_mark: String = dealings().vendetta_mark
@@ -643,7 +647,7 @@ func attacks_on_sight(npc_flags: Dictionary[StringName, bool], player: Character
 ## nobody if the player has walked on (no grudge then: DECISIONS, pacing knobs). Every
 ## other attack on sight starts at once (attack.c's hatred, aggressive, vendetta).
 func toll_attack_delay_ms(npc_flags: Dictionary[StringName, bool], player: CharacterState) -> int:
-	if npc_flags.get(FLAG_HUNTS_PLAYER, false) or has_capability(CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE):
+	if npc_flags.get(FLAG_HUNTS_PLAYER, false) or npc_flags.get(FLAG_AGGRESSIVE, false) or has_capability(CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE):
 		return 0
 	var vendetta_mark: String = dealings().vendetta_mark
 	if not vendetta_mark.is_empty() and player.vendetta.get(vendetta_mark, 0) != 0:

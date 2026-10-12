@@ -113,7 +113,8 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 
 ## 黑松山 A: the road, the mountain and the castle (2026-10-12)
 
-Plan (owner, 2026-10-12: Q1 (a), Q2 (a), F1–F4 as recommended; M1–M7 **默认**): A the road,
+Plan (owner, 2026-10-12: Q1 (a), Q2 (a), F1–F4 as recommended; M1–M7 **默认**, M3 and M7 with
+B): A the road,
 the mountain and the castle; B the 地牢, 淳于怀太 and 小娟, 刘老农's thanks and revenge. What each
 LPC function became is in [CHUENYU_CONTENT](CHUENYU_CONTENT.md); it follows the LPC except:
 - **Owner (玉螺湖村 Q2): the way in is repaired.** croad1.c's south led to 玉螺湖村's road1, which
@@ -129,20 +130,26 @@ LPC function became is in [CHUENYU_CONTENT](CHUENYU_CONTENT.md); it follows the 
   her is asked first; only the player leads her (ES2: any living thing that stayed 20 seconds).
 - **默认 (M1): climbing the castle walls moves the player at once** (ES2 three seconds later; its
   start_busy(3) was stopped at once, so nothing waited but the move).
-- **默认 (M2): the 山腰's path is walked both ways** (foot_b_mtn.c's up has no way back down from
-  the west street; on one map a border is walked both ways).
+- **默认 (M2): the mountain's one-way exits are walked both ways** (foot_b_mtn.c's up has no way back
+  down from the west street, high_b_mtn2.c's down no way up from the foot; on one map a border is
+  walked both ways).
+- **The gate's killing air turns one back where they stand** (the street they came up): gate_castle.c
+  moved everyone below 2000 combat_exp to the east street, high_b_mtn2, whichever way they came.
 - **默认 (M4): food that is a weapon.** pigmeat.c (HAMMER + F_FOOD) is a hammer and six bites of 90,
   eaten while wielded too; it leaves the 山猪骨头 in the hand, the same hammer (finish_eat()
   renames it). u/cloud's 牛腿 (积压 A11: a hammer only until now) is food too and leaves its 牛腿骨.
-  Broken, such a weapon is food still (bash_weapon() leaves F_FOOD alone).
+  Broken, such a weapon is food still (bash_weapon() leaves F_FOOD alone), worth a tenth.
 - **默认 (M5):** the 护院's pursuer is not modelled (as everywhere); the 园工's two cast animate draws
   do nothing (as 茅山's NPCs').
 - **默认 (M6): two slips fixed in the room texts** (north_garden.c calls itself the 东花园; bedroom.c
   puts the 膳房 west, its exit is south) and the 卖花姑娘's stray leading space; the 家丁's
   家丁喝道： inside his own say and the cook's unclosed quote stay.
 - **Stays as ES2:** the gate turns back combat_exp below 2000; the 夹道's arrows (15 seconds, then
-  every 5; random(10)+35 off eff_kee and kee) can knock out and kill; the 巨型犬 (attitude killer)
-  attack only by berserk; the 紫衣家丁 stop one whose random(per) is below 20 and hunt them after.
+  every 5; random(10)+35 off eff_kee and kee) can knock out and kill (a volley that fells the player
+  ends that moment; the next comes five seconds on); the 巨型犬 (attitude killer) attack only by
+  berserk; a 紫衣家丁 who stops one whose random(per) is below 20 turns aggressive for good (attacks
+  on sight, past the player's death, until he is made anew; his rude name and spar answers are not
+  modelled).
 - **Global (data):** attitude `killer`; act condition `per_below` (a greeting's rolls draw from the
   NPCs' stream); act step `hurt` (eff and current together, base + random); world `hazards`
   (an act again and again while the player stays); food on a weapon; the painter takes an act

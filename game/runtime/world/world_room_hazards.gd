@@ -31,10 +31,15 @@ func advance(delta: float) -> void:
 	_elapsed_ms += delta * 1000.0
 	while _elapsed_ms >= _next_ms:
 		_next_ms += hazard.every_ms
+		var status: CharacterRuntimeLifeStatus.Value = player.life_status
 		map.acts.run(hazard.act, null, map.world_interaction_random_source().legacy_random, hazard.zone_id)
-		# The act may have taken the player away (a death's revival).
-		if _session.active_map() != map or player.world_location() == null or player.world_location().zone_id != hazard.zone_id:
+		# The act may have taken the player away (a death's revival), felled them or stopped
+		# world time: the next volley waits for the next advance, as each call_out() did.
+		if _session.active_map() != map or not player.exists_in_world or player.world_location() == null or player.world_location().zone_id != hazard.zone_id:
 			_zone_id = &""
+			return
+		if player.life_status != status or not _session.npc_world_time_allowed():
+			_elapsed_ms = minf(_elapsed_ms, _next_ms - 1.0)
 			return
 
 

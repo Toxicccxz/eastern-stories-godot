@@ -53,7 +53,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_arrows(tree, session)
 	await _test_walls(tree, session)
 	await _test_halls(tree, session)
-	_test_pigmeat(session)
+	session = await _test_pigmeat(tree, session)
+	await _test_knockout(tree, session)
 	session.free()
 	await tree.process_frame
 	return {"assertions": _count, "failures": _failures}
@@ -95,7 +96,7 @@ func _test_data() -> void:
 	var rib: ItemContentDefinition = catalog.item(meat.leftover_id())
 	_check(rib.display_name == "山猪骨头" and rib.weapon_definition() != null and rib.food_definition() == null and rib.aliases().has("bone") and rib.own_weight == 250, "山猪骨头: a hammer still (bone for the dog)")
 	var broken: ItemContentDefinition = catalog.item(ItemContentDefinition.broken_id(PIGMEAT))
-	_check(broken != null and broken.food_definition() != null and broken.weapon_definition() == null and catalog.item(broken.leftover_id()) != null, "broken it is food still (F_FOOD), not a weapon")
+	_check(broken != null and broken.food_definition() != null and broken.food_definition().initial_value == 6 and broken.value == 6 and broken.weapon_definition() == null and catalog.item(broken.leftover_id()) != null, "broken it is food still (F_FOOD), worth a tenth, not a weapon")
 	var hind: ItemContentDefinition = catalog.item(HIND)
 	_check(hind.weapon_definition() != null and hind.food_definition() != null and catalog.item(hind.leftover_id()).display_name == "牛腿骨", "牛腿: food now, and a hammer (M4)")
 	_check(catalog.npc(WOLFDOG).attitude == NpcDefinition.Attitude.KILLER, "巨型犬: attitude killer")
@@ -119,7 +120,7 @@ func _test_greetings() -> void:
 		_check((act != null) == case[2] and drawn == [case[0]], "per %d, random(per) %d: %s (%s)" % [case[0], case[1], "stopped" if case[2] else "passes", drawn])
 		if act != null:
 			var kinds: Array = act.steps.map(func(step: ScriptedAct.Step) -> int: return step.kind)
-			_check(kinds == [ScriptedAct.Kind.LINE, ScriptedAct.Kind.LINE, ScriptedAct.Kind.NPC_FLAG, ScriptedAct.Kind.KILL] and act.steps[2].flag == String(NpcDefinition.FLAG_HUNTS_PLAYER), "站住！… then kill_ob(): his hatred stays")
+			_check(kinds == [ScriptedAct.Kind.LINE, ScriptedAct.Kind.LINE, ScriptedAct.Kind.NPC_FLAG, ScriptedAct.Kind.NPC_FLAG, ScriptedAct.Kind.KILL] and act.steps[2].flag == String(NpcDefinition.FLAG_HUNTS_PLAYER) and act.steps[3].flag == String(NpcDefinition.FLAG_AGGRESSIVE), "站住！… then kill_ob() (his hatred) and attitude aggressive")
 	# attack.c init(): only "aggressive" attacks on sight; the killer dogs go berserk (bellicosity 3000).
 	_check(Berserk.applies_to(catalog.npc(WOLFDOG)) and not catalog.npc(WOLFDOG).has_capability(NpcDefinition.CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE), "巨型犬: no attack on sight, its berserk does")
 
@@ -178,14 +179,18 @@ func _test_mountain(tree: SceneTree, session: WorldSessionController) -> void:
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	_check(coordinator.has_active_encounter() and coordinator.active_encounter().mode == CombatEncounterMode.Value.LETHAL, "站住！你干什么的。 — a fight to the death")
 	_check(session.shared_ui().log_lines().has("紫衣家丁说道：看你那贼眉鼠眼，尖嘴猴腮的样儿，决不是什么好东西！"), "贼眉鼠眼: %s" % [session.shared_ui().log_lines().slice(-4)])
-	var hunting: int = 0
+	var hostile: NpcRuntimeState = null
 	for npc: NpcRuntimeState in map.resident_npcs():
-		if npc.definition().definition_id == JIADING and npc.flags().get(NpcDefinition.FLAG_HUNTS_PLAYER, false):
-			hunting += 1
-	_check(hunting >= 1, "a 家丁 who stopped the player hunts them from now on")
+		if npc.definition().definition_id == JIADING and npc.flags().get(NpcDefinition.FLAG_AGGRESSIVE, false):
+			hostile = npc
+	_check(hostile != null and hostile.definition().attacks_on_sight(hostile.flags(), player.state), "a 家丁 who stopped the player turns aggressive: he attacks on sight from now on")
 	_finish_fight(session)
+	if hostile != null:
+		hostile.set_flag(NpcDefinition.FLAG_HUNTS_PLAYER, false) # TEST-ONLY: as the player's death clears it
+		_check(hostile.definition().attacks_on_sight(hostile.flags(), player.state), "his attitude outlives his hatred (kill_passenger()'s set(\"attitude\"))")
 	for npc: NpcRuntimeState in map.resident_npcs():
 		npc.set_flag(NpcDefinition.FLAG_HUNTS_PLAYER, false) # TEST-ONLY
+		npc.set_flag(NpcDefinition.FLAG_AGGRESSIVE, false) # TEST-ONLY
 	player.state.attributes.personality = 30
 
 
@@ -217,14 +222,14 @@ func _test_arrows(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(map.open_door(&"chuenyu.gate_castle.door"), "open the 城门")
 	_check(await MapPlaces.drive_to_zone(tree, map, &"chuenyu.trap_castle"), "into the 夹道")
 	var hazards: WorldRoomHazards = session.room_hazards()
-	hazards.advance(14.9)
+	session.advance_room_hazards(14.9)
 	_check(kee.current == 1000 and not hud.log_lines().has(ARROW_LINES[0]), "nothing for fifteen seconds")
-	hazards.advance(0.2)
+	session.advance_room_hazards(0.2)
 	var first: int = 1000 - kee.current
 	_check(first >= 35 and first <= 44 and kee.effective == kee.current and _said(hud, ARROW_LINES), "the arrows: %d off eff_kee and kee: %s" % [first, hud.log_lines().slice(-2)])
-	hazards.advance(4.7)
+	session.advance_room_hazards(4.7)
 	_check(1000 - kee.current == first, "the next volley waits five seconds")
-	hazards.advance(0.4)
+	session.advance_room_hazards(0.4)
 	_check(1000 - kee.current >= first + 35 and kee.effective == kee.current, "and comes: %d" % (1000 - kee.current))
 	_check(Work.capture(session) != null, "Save in the 夹道 (the wait is not saved)")
 	for landmark: StringName in [&"chuenyu.trap_castle.landmark.hole", &"chuenyu.trap_castle.landmark.rock"]:
@@ -233,10 +238,10 @@ func _test_arrows(tree: SceneTree, session: WorldSessionController) -> void:
 		hud.dismiss_current_panel()
 	_check(await MapPlaces.drive_to_zone(tree, map, &"chuenyu.gate_castle"), "out of the 夹道")
 	var after: int = kee.current
-	hazards.advance(20.0)
+	session.advance_room_hazards(20.0)
 	_check(kee.current == after and hazards.elapsed_ms() == 0.0, "outside, no arrows")
 	_check(await MapPlaces.drive_to_zone(tree, map, &"chuenyu.trap_castle"), "back in")
-	hazards.advance(5.0)
+	session.advance_room_hazards(5.0)
 	_check(kee.current == after, "coming back waits the fifteen seconds again (init()'s remove_call_out())")
 	_check(await MapPlaces.drive_to_zone(tree, map, &"chuenyu.gate_castle"), "out again")
 
@@ -301,23 +306,73 @@ func _test_halls(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.active_map_id() == &"chuenyu.main" and player.world_location().zone_id == &"chuenyu.east_blackge", "the east hall")
 
 
-## 烤山猪肉 (M4): wielded as a hammer and eaten; the last bite leaves the 山猪骨头 in the hand.
-func _test_pigmeat(session: WorldSessionController) -> void:
+## 烤山猪肉 (M4): wielded as a hammer and eaten; Continue mid-meal keeps the meat in the hand;
+## the last bite leaves the 山猪骨头 in the hand, and Continue keeps that too.
+func _test_pigmeat(tree: SceneTree, session: WorldSessionController) -> WorldSessionController:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var meat: StringName = map.floor_items.give_new_item_to_player(PIGMEAT) # TEST-ONLY
 	_check(session.wield_player_item(meat).succeeded, "wield the 烤山猪肉")
-	var context: MoneyInventoryContext = Finance.session_context(session)
 	var outcomes: Array[int] = []
+	for bite: int in range(3):
+		outcomes.append(_bite(session, meat).outcome)
+	session = await _continue(tree, session)
+	player = session.player_runtime()
+	var food: FoodState = session.food_collection().state(meat)
+	_check(food != null and food.remaining_portions == 3 and player.state.equipment.primary_weapon().weapon_id == PIGMEAT, "Continue mid-meal: three bites left, the meat in the hand")
 	var last: FoodUseResult = null
-	for bite: int in range(6):
-		player.state.recovery.food = 0 # TEST-ONLY: hungry
-		last = HeldFoodUseService.eat(player, context, session.food_collection(), GameContent.catalog().native_item_projections(), meat, true)
+	for bite: int in range(3):
+		last = _bite(session, meat)
 		outcomes.append(last.outcome)
 	_check(outcomes.all(func(outcome: int) -> bool: return outcome == FoodUseResult.Outcome.ATE) and player.state.recovery.food == 90, "six bites of 90 while wielded: %s" % [outcomes])
 	var rib: ItemContentDefinition = GameContent.catalog().item(session.item_instance_index().resolve(meat).item_definition_id)
-	_check(last.leftover_id == rib.item_definition_id and rib.display_name == "山猪骨头" and player.state.equipment.has_weapon_instance(meat), "the 山猪骨头, still in the hand")
-	_check(Work.capture(session) != null, "a save takes the wielded bone")
+	_check(last.leftover_id == rib.item_definition_id and rib.display_name == "山猪骨头" and player.state.equipment.primary_weapon().weapon_id == rib.item_definition_id and session.inventory_state().own_weight(meat) == 250, "the 250 g 山猪骨头 is what the hand holds")
+	session = await _continue(tree, session)
+	player = session.player_runtime()
+	_check(player.state.equipment.primary_weapon() != null and player.state.equipment.primary_weapon().weapon_id == rib.item_definition_id and session.food_collection().state(meat) == null, "Continue: the bone still in the hand")
+	return session
+
+
+## A volley that knocks the player out ends that moment: the next comes five seconds on (and
+## finds them lying there, as ES2's would). Last: the player is left lying in the 夹道.
+func _test_knockout(tree: SceneTree, session: WorldSessionController) -> void:
+	# Continue came back in the east hall, on this map.
+	_check(session.active_map_id() == &"chuenyu.main", "on 黑松山's map")
+	var map: WorldMapController = session.active_map() as WorldMapController
+	var player: WorldPlayerRuntimeState = session.player_runtime()
+	map.open_door(&"chuenyu.gate_castle.door")
+	_check(map.place_player(&"chuenyu.trap_castle", MapPlaces.zone_centre(map, &"chuenyu.trap_castle")), "TEST-ONLY: in the 夹道")
+	await tree.physics_frame
+	var kee: CharacterResourceState = player.state.vitality
+	kee.maximum = 1000 # TEST-ONLY
+	kee.effective = 1000
+	kee.current = 10
+	session.advance_room_hazards(25.0)
+	_check(player.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS and kee.effective >= 1000 - 44, "one volley knocks the player out; the volleys due with it wait: eff %d" % kee.effective)
+
+
+func _bite(session: WorldSessionController, item_id: StringName) -> FoodUseResult:
+	var player: WorldPlayerRuntimeState = session.player_runtime()
+	player.state.recovery.food = 0 # TEST-ONLY: hungry
+	return HeldFoodUseService.eat(player, Finance.session_context(session), session.food_collection(), GameContent.catalog().native_item_projections(), item_id, true)
+
+
+## Save, and Continue from it in a fresh session (the old one freed first: two would share physics).
+func _continue(tree: SceneTree, session: WorldSessionController) -> WorldSessionController:
+	var snapshot: GameSaveSnapshot = Work.capture(session)
+	_check(snapshot != null, "Save")
+	if snapshot == null:
+		return session
+	session.free()
+	await tree.process_frame
+	var preparation: OldPineWorldRestoreResult = OldPineWorldRestoreComposition.prepare(snapshot)
+	var restored: WorldSessionController = (load("res://scenes/world/oldpine/oldpine_world_session.tscn") as PackedScene).instantiate()
+	_check(restored.configure_restore(preparation.preparation), "Continue configured")
+	tree.root.add_child(restored)
+	_check(restored.activate_restore_candidate(), "Continue")
+	restored.set_process(false)
+	await tree.process_frame
+	return restored
 
 
 ## TEST-ONLY: away from the fight, by fleeing as often as it takes (as city_npcs_test).

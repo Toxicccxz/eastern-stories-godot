@@ -476,12 +476,15 @@ static func broken_weapon(source: ItemContentDefinition) -> ItemContentDefinitio
 			StringName(String(source._stack_definition.stack_compatibility_id) + BROKEN_SUFFIX),
 			source._stack_definition.base_weight,
 		)
-	# Food that is a weapon stays food broken (F_FOOD is untouched by bash_weapon()); its live
-	# portions and value carry over, so its food rules are the whole one's.
+	# Food that is a weapon stays food broken (F_FOOD is untouched by bash_weapon()), worth a
+	# tenth as the weapon is (food.c's value 0 after a bite stays 0: _knock_away() scales the
+	# live value the same way).
 	if source._food_definition != null:
+		@warning_ignore("integer_division")
+		var tenth: int = source._food_definition.initial_value / 10
 		broken._food_definition = FoodDefinition.new(
 			broken._item_definition_id, source._food_definition.initial_portions, source._food_definition.food_supply,
-			source._food_definition.initial_value, source._food_definition.own_weight, source._food_definition.water_supply,
+			tenth, source._food_definition.own_weight, source._food_definition.water_supply,
 		)
 		broken._leaves = source._leaves.duplicate()
 	return broken

@@ -238,6 +238,10 @@ func _knock_away(victim: CombatSliceCharacterBinding, item_id: StringName, broke
 		var form: ItemContentDefinition = GameContent.catalog().item(broken_id)
 		if form == null or not _item_index.transmute(item_id, broken_id) or (_stacks.has_stack(item_id) and not _stacks.redefine(item_id, form.stack_definition())):
 			push_error("breaking %s failed" % item_id)
+		# A food that is a weapon (烤山猪肉) is worth a tenth broken; a bitten one stays at 0.
+		var food: FoodState = session.food_collection().state(item_id)
+		if food != null and form != null and form.food_definition() != null and food.remaining_portions == form.food_definition().initial_portions:
+			food.current_value = form.food_definition().initial_value
 	if not _map.floor_items.add_dropped_item_view(item_id, location, _map.floor_items.at_feet(location, body.global_position)):
 		push_error("knocked-away %s has no view" % item_id)
 	if victim.is_user and _map.hud().inventory_is_open():
