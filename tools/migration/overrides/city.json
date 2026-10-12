@@ -79,6 +79,7 @@
 		},
 		"city.npc.walker": {
 			"gender": { "random": 3, "below": 1, "then": "女性", "else": "男性" },
+			"age_first": true,
 			"skill_roll": { "random": 4, "below": 1, "skills": { "unarmed": 40, "spicyclaw": 20, "parry": 40 }, "skill_map": { "unarmed": "spicyclaw" } },
 			"chat_chance": { "base": 0, "plus_random": 20 },
 			"chat_msg": [
@@ -266,7 +267,7 @@
 			"inquiry 买官": "(: \"…\" :): dbase.c query() evaluates the function value, so ask.c says its string: inquiry in set",
 			"set chat_chance": "random(20): a chat_chance rule in set, drawn per walker and kept",
 			"set chat_msg": "chat_msg in set",
-			"switch in create()": "gender rule in set: random(3) case 0 女性, else 男性 (drawn before its age: the factory's order)",
+			"switch in create()": "gender rule in set: random(3) case 0 女性, else 男性, drawn after its age (age_first: create()'s order)",
 			"condition in create()": "skill_roll in set: random(4) == 0 gives unarmed 40, spicyclaw 20, parry 40, unarmed mapped to spicyclaw"
 		},
 		"d/city/npc/trader.c": {

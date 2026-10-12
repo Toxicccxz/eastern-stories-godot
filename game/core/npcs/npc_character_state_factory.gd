@@ -173,14 +173,20 @@ func _create_one(
 	var is_beast: bool = definition.race_id == BEAST_RACE_ID
 	# create() draws first (traveller.c: gender, age, combat_exp), then setup()
 	# runs the race's draws below.
+	# walker.c draws its age first (age_drawn_first()).
+	var age: int = definition.age
+	if definition.age_drawn_first():
+		var first_age: Variant = definition.age_roll().resolve(random_source)
+		if first_age == null:
+			return null
+		age = first_age
 	var gender: StringName = definition.gender
 	if definition.gender_roll() != null:
 		var drawn_gender: Variant = definition.gender_roll().resolve(random_source)
 		if drawn_gender == null:
 			return null
 		gender = StringName(drawn_gender)
-	var age: int = definition.age
-	if definition.age_roll() != null:
+	if definition.age_roll() != null and not definition.age_drawn_first():
 		var drawn_age: Variant = definition.age_roll().resolve(random_source)
 		if drawn_age == null:
 			return null

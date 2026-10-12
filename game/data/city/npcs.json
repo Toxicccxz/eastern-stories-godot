@@ -276,6 +276,7 @@
 			"combat_exp": 30000,
 			"attitude": "friendly",
 			"gender": { "random": 3, "below": 1, "then": "女性", "else": "男性" },
+			"age_first": true,
 			"skill_roll": {
 				"random": 4,
 				"below": 1,

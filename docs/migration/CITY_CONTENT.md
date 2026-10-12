@@ -36,7 +36,7 @@ written. 相国府 is a gate only (xiangguo/gate.c has one exit).
 | waiter.c accept_object() | value() below 1000 (anything but money is 0): 这点钱，还不够买酒喝。 and the gift lands on the floor (`drops`, owner's plan); 1000 or more: 谢谢这位客官了 and marks/酒楼; with the mark already 真是谢谢你了 |
 | boss.c greeting() | always 钱千万皱了皱眉 (no rank) |
 | chen.c accept_object(), recruit_apprentice() | rules: 陈剑秋's letter (query("id") == "letter": its blueprint, the only one with that id first; item_master) is asked first, taken, 果然是剑秋侄儿推荐来的 and his recruit (`recruit`): a 拜师 waiting on him is taken at once, else he offers (the offer is saved: 默认); apprentice kind `silent` (no attempt_apprentice()), title 振远镖局第一代弟子, class guardman; assign_apprentice("弟子", 0): privileges 0. M2 (默认): anything else and a letter not the giver's are handed back |
-| walker.c create() | gender random(3) (drawn before its age: the factory's order), skill_roll random(4) == 0 (spicyclaw), chat_chance random(20) kept per walker (saved); 买官's closure answers its string |
+| walker.c create() | age random(45), then gender random(3) (`age_first`), skill_roll random(4) == 0 (spicyclaw), chat_chance random(20) kept per walker (saved); 买官's closure answers its string |
 | trader.c | bloodystrike (密宗大手印, six moves) mapped to unarmed, iron-cloth 50 (铁布衫: nothing reads its absorb lines) |
 | chater2.c | 桃 + one of seven drawn names (its drawn id is not modelled); chat: get_all, wear_all, wield_all and four silent drools (its memory fills only from the chat channel); accept_object takes anything |
 | d/city/npc/obj/wine.c drunk_bonus | liquid.c reads drunk_apply: nothing reads it (dropped) |

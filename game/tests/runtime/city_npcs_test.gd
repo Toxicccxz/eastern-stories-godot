@@ -79,10 +79,10 @@ func _test_people() -> void:
 	_check(catalog.skill(&"bloodystrike") != null and catalog.skill(&"iron-cloth") != null, "密宗大手印 and 铁布衫 are ported")
 
 
-## walker.c's draws: gender random(3), age 20 + random(45), random(4) == 0 skills, chat random(20).
+## walker.c's draws in its order: age 20 + random(45), gender random(3), random(4) == 0 skills, chat random(20).
 func _test_walker_draws() -> void:
 	var walker: NpcDefinition = GameContent.catalog().npc(WALKER)
-	var cases: Array = [[[0, 10, 0, 7], &"女性", 30, true, 7], [[1, 44, 3, 19], &"男性", 64, false, 19]]
+	var cases: Array = [[[10, 0, 0, 7], &"女性", 30, true, 7], [[44, 1, 3, 19], &"男性", 64, false, 19]]
 	for case: Array in cases:
 		var draws: Array[int] = []
 		draws.assign(case[0])

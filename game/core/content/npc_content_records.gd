@@ -63,6 +63,10 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 		skill_map[StringName(use_id)] = StringName(authored_map[use_id])
 	var skill_roll_reader: ContentRecordReader = reader.child("skill_roll")
 	var skill_roll: NpcSkillRoll = NpcSkillRoll.from_record(skill_roll_reader) if skill_roll_reader != null else null
+	# create()'s draws in its own order: the age before the gender (walker.c).
+	var age_first: bool = reader.boolean("age_first", false)
+	if age_first and (gender_roll == null or age_roll == null):
+		reader.fail("age_first", "orders the age's draw before the gender's: both are rules")
 	var loadout: Array[NpcLoadoutEntry] = []
 	for carry: ContentRecordReader in reader.children("carry"):
 		loadout.append(_carry_entry(carry))
@@ -133,7 +137,7 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 		capabilities,
 		description,
 		combat_facts,
-	).with_creation_facts(title, skill_map, gender_roll, age_roll, combat_experience_roll, score_roll).with_skill_roll(skill_roll).with_fight_rules(fight_rules).with_talk(talk).with_naming(nickname, rank_respect, class_id).with_dealings(dealings).with_teaching(teaching).with_internal_power(internal_power).with_bellicosity(bellicosity).with_combat_hooks(hit_condition, killed_enemy).with_rolls(apply_rolls, attitude_roll).with_summoning(name_pick, summoning).with_conjuring(conjuring).with_raising(raising).with_ordination(ordination).with_hooks(hooks).with_rank_self(rank_self)
+	).with_creation_facts(title, skill_map, gender_roll, age_roll, combat_experience_roll, score_roll).with_skill_roll(skill_roll).with_age_first(age_first).with_fight_rules(fight_rules).with_talk(talk).with_naming(nickname, rank_respect, class_id).with_dealings(dealings).with_teaching(teaching).with_internal_power(internal_power).with_bellicosity(bellicosity).with_combat_hooks(hit_condition, killed_enemy).with_rolls(apply_rolls, attitude_roll).with_summoning(name_pick, summoning).with_conjuring(conjuring).with_raising(raising).with_ordination(ordination).with_hooks(hooks).with_rank_self(rank_self)
 	if summoning != null and conjuring != null:
 		reader.fail("conjured", "an NPC is either summoned to its caster's side or conjured against its owner")
 	if raising != null and (summoning != null or conjuring != null or not name_pick.is_empty()):

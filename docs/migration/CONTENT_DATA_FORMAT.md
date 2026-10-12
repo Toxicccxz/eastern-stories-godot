@@ -113,7 +113,8 @@ The corpse (`obj/corpse.c`) is created by the death rules and is not an item rec
 
 `age`, `combat_exp` and `score` may be a rule `create()` draws: `{"base": 600, "plus_random": 400}`
 is `600+random(400)`, `"minus_random"` subtracts. `gender` may be
-`{"random": 10, "below": 7, "then": "男性", "else": "女性"}`. Draws happen at creation, before the
+`{"random": 10, "below": 7, "then": "男性", "else": "女性"}`; the gender is drawn before the age unless
+`age_first` (d/city/npc/walker.c). Draws happen at creation, before the
 race's own draws; a save keeps the drawn values.
 
 An NPC teaches every skill it has that `skills.json` defines when its `family` or
