@@ -9,7 +9,9 @@ extends RefCounted
 ## one did, it says `report_say` (有强人打劫哪... 快去报官！) and the attacker is marked
 ## vendetta/`report_vendetta`; `grudge` marks vendetta/<grudge> whether anyone helped or not
 ## (owner: all 红衣武士 turn on the attacker). `hint` is the native line that tells the
-## player what the mark means (owner: they are told).
+## player what the mark means (owner: they are told). `line` is printed as written before
+## the say (d/city/npc/guard.c do_kill()'s notify_fail(): 守城兵大叫：反了！反了！).
+var line: String = ""
 var say: String = ""
 var exert: StringName = &""
 var fellows: bool = false
@@ -20,9 +22,10 @@ var grudge: String = ""
 var hint: String = ""
 
 
-## {say?, exert?, fellows?: {say?}, report?: {say, vendetta}, grudge?, hint?}.
+## {line?, say?, exert?, fellows?: {say?}, report?: {say, vendetta}, grudge?, hint?}.
 static func from_record(reader: ContentRecordReader) -> NpcAcceptKill:
 	var rule := NpcAcceptKill.new()
+	rule.line = reader.text("line")
 	rule.say = reader.text("say")
 	rule.exert = StringName(reader.text("exert"))
 	if not rule.exert.is_empty() and not ExertFunctions.has(rule.exert):

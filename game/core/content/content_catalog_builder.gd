@@ -667,7 +667,7 @@ func _check_exit_rules() -> void:
 		# (its mark, its arrival) would miss: it guards a walk on one map only.
 		if rule.asks and (portal_between or (from_zone != null and to_zone != null and from_zone.map_id != to_zone.map_id)):
 			_errors.append("%s: an ask rule guards a walk between two zones of one map, not a passage" % origin)
-		if rule.condition in [ZoneExitRuleDefinition.Condition.WEAPON_IN_HAND, ZoneExitRuleDefinition.Condition.HELD] and not _npcs.has(rule.present_npc_id):
+		if (rule.condition in [ZoneExitRuleDefinition.Condition.WEAPON_IN_HAND, ZoneExitRuleDefinition.Condition.HELD] or not rule.present_npc_id.is_empty()) and not _npcs.has(rule.present_npc_id):
 			_errors.append("%s.present: unknown NPC '%s'" % [origin, rule.present_npc_id])
 		if rule.condition == ZoneExitRuleDefinition.Condition.NOT_APPRENTICE_OF and not _npcs.has(rule.npc_id):
 			_errors.append("%s.npc: unknown NPC '%s'" % [origin, rule.npc_id])

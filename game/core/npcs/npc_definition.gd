@@ -65,6 +65,8 @@ var _internal_power: Dictionary[StringName, int] = {}
 ## create()'s set_name() with a drawn name (heaven_soldier.c: "天" + order[random(10)] + "神兵"):
 ## the names it may draw, in order; empty for a fixed name.
 var _name_pick: Array[String] = []
+var _skill_roll: NpcSkillRoll
+var _age_first: bool = false
 ## What a summoned NPC says as it comes and goes (NpcSummoning); null for one no spell calls.
 var _summoning: NpcSummoning
 ## What a practice conjures up against its owner (NpcConjuring); null for any other NPC.
@@ -326,6 +328,17 @@ func killed_enemy() -> NpcKilledEnemy:
 	return _killed_enemy
 
 
+## create()'s skills that come only with a draw (walker.c: random(4) == 0); null for none.
+func skill_roll() -> NpcSkillRoll:
+	return _skill_roll
+
+
+## Called once by the loader.
+func with_skill_roll(roll: NpcSkillRoll) -> NpcDefinition:
+	_skill_roll = roll
+	return self
+
+
 ## set_name()'s drawn name and the lines of a summoned NPC. Called once by the loader.
 func with_summoning(p_name_pick: Array[String], p_summoning: NpcSummoning) -> NpcDefinition:
 	_name_pick = p_name_pick.duplicate()
@@ -482,6 +495,18 @@ func short_name() -> String:
 ## map_skill(use, skill) in authored order.
 func skill_map() -> Dictionary[StringName, StringName]:
 	return _skill_map.duplicate()
+
+
+## create() draws its age before its gender (d/city/npc/walker.c: age random(45), then the
+## gender's random(3)); most draw gender first (traveller.c).
+func age_drawn_first() -> bool:
+	return _age_first
+
+
+## Called once by the loader.
+func with_age_first(value: bool) -> NpcDefinition:
+	_age_first = value
+	return self
 
 
 func gender_roll() -> NpcRandomText:

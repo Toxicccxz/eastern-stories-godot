@@ -114,7 +114,7 @@ func capture(
 		)
 	)
 	# The player's set_temp() flags (owner): a quest chain's steps survive Continue.
-	player_snapshot.temps = player.temp_marks.duplicate()
+	player_snapshot.temps = player.saved_temps()
 
 	var npc_snapshots: Array[Values.NpcSpawnStateSnapshot] = []
 	for npc: NpcRuntimeState in session.world_npcs():
@@ -160,6 +160,7 @@ func capture(
 		# how often a thief was caught.
 		npc_snapshot.flags = npc.memory_flags()
 		npc_snapshot.combat_chat_chance = npc.combat_chat_chance
+		npc_snapshot.chat_chance = npc.chat_chance
 		npc_snapshot.pills_left = npc.pills_left
 		npc_snapshot.times_caught = npc.times_caught
 		# Its chant under way (owner, 乔阴 C): the next stage and the time till it.

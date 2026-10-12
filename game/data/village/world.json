@@ -37,6 +37,7 @@
 	],
 	"portals": [
 		{ "id": "village.road1.north", "from_zone": "village.road1", "to_zone": "canyon.canyon7", "to_spawn": "canyon.canyon7.village_return", "legacy_room": "es2:d/village/road1", "legacy_command": "north" },
+		{ "id": "village.road2.south", "from_zone": "village.road2", "to_zone": "city.nroad2", "to_spawn": "city.nroad2.village_arrival", "legacy_room": "es2:d/village/road2", "legacy_command": "south" },
 		{ "id": "village.road6.west", "from_zone": "village.road6", "to_zone": "village.valley2", "to_spawn": "village.valley2.grass_arrival", "legacy_room": "es2:d/village/road6", "legacy_command": "west" },
 		{ "id": "village.valley2.east", "from_zone": "village.valley2", "to_zone": "village.road6", "to_spawn": "village.road6.grass_return", "legacy_room": "es2:d/village/valley2", "legacy_command": "east" },
 		{ "id": "village.lakeside.west", "from_zone": "village.lakeside", "to_zone": "village.lake", "to_spawn": "village.lake.boat_arrival", "legacy_room": "es2:d/village/lakeside", "legacy_command": "west" },

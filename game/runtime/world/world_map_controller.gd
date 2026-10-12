@@ -562,6 +562,9 @@ func _tell_passing(from_zone_id: StringName, to_zone_id: StringName) -> void:
 		if rule.condition == ZoneExitRuleDefinition.Condition.TAKES_BACK:
 			_take_back(rule)
 			continue
+		# A rule an NPC's own command makes (waiter.c go_up()) says nothing without that NPC.
+		if rule.condition == ZoneExitRuleDefinition.Condition.NO_MARK and not rule.present_npc_id.is_empty() and not npcs.npc_present_in_zone(rule.present_npc_id, from_zone_id):
+			continue
 		for line: String in rule.pass_lines:
 			lines.append(tr(line))
 	if not lines.is_empty() and hud() != null:
@@ -1137,6 +1140,10 @@ func can_handle_items() -> bool:
 
 func selected_npc_takes_gifts() -> bool:
 	return floor_items.selected_npc_takes_gifts()
+
+
+func gift_rule_for_selected(item_id: StringName, amount: int = 0) -> NpcObjectRule:
+	return floor_items.gift_rule_for_selected(item_id, amount)
 
 
 func give_to_selected(item_id: StringName, amount: int = 0) -> ItemHandlingResult:

@@ -14,6 +14,12 @@ const PATROL: StringName = &"patrol"
 ## An emote command() among the chat functions (oldman2.c's sigh): data/emoted.o is
 ## not in the mudlib, so it shows nothing, but it is one of the entries drawn.
 const SILENT_EMOTE: StringName = &"emote"
+## u/cp/chater2.c's command("get all"), ("wear all") and ("wield all") among its chat functions:
+## get.c takes everything lying where it stands, wear.c and wield.c put on what it carries.
+const GET_ALL: StringName = &"get_all"
+const WEAR_ALL: StringName = &"wear_all"
+const WIELD_ALL: StringName = &"wield_all"
+const COMMANDS: Array[StringName] = [GET_ALL, WEAR_ALL, WIELD_ALL]
 
 var _inquiry: Dictionary[String, PackedStringArray] = {}
 var _kee_answers: Dictionary[String, Array] = {}
@@ -26,6 +32,9 @@ var _inquiry_rules: Dictionary[String, Array] = {}
 var _relay_say: Dictionary[String, Array] = {}
 var _relay_ask: Array[NpcLine] = []
 var _chat_chance: int = 0
+## set("chat_chance", random(20)) (walker.c): each NPC draws its own when it is made
+## (NpcRuntimeState.chat_chance); null for a fixed chance.
+var _chat_chance_roll: NpcRandomInteger
 ## Each entry is a String (said as written), a ColoredLine (said in its colour, the
 ## text as authored), RANDOM_MOVE, an NpcDrinkAction or an NpcSpecialAction.
 var _chat_entries: Array = []
@@ -165,7 +174,18 @@ func chat_entries() -> Array:
 
 ## npc.c chat() does nothing without both a chance and lines.
 func has_chat() -> bool:
-	return _chat_chance > 0 and not _chat_entries.is_empty()
+	return (_chat_chance > 0 or _chat_chance_roll != null) and not _chat_entries.is_empty()
+
+
+## The rule each NPC draws its chat_chance by when it is made; null for a fixed chance.
+func chat_chance_roll() -> NpcRandomInteger:
+	return _chat_chance_roll
+
+
+## Called once by the loader.
+func with_chat_chance_roll(roll: NpcRandomInteger) -> NpcTalk:
+	_chat_chance_roll = roll
+	return self
 
 
 func combat_chat_entries() -> Array:
@@ -220,14 +240,14 @@ func with_greeting_out_of(value: int, by_rule: bool = false) -> NpcTalk:
 
 
 func is_valid() -> bool:
-	if _chat_chance < 0 or (_chat_chance > 0 and _chat_entries.is_empty()):
+	if _chat_chance < 0 or ((_chat_chance > 0 or _chat_chance_roll != null) and _chat_entries.is_empty()):
 		return false
 	if _combat_chat_chance < 0 or (_combat_chat_chance > 0 and _combat_chat_entries.is_empty()):
 		return false
 	for entry: Variant in _chat_entries:
 		if not (
 			_is_valid_said(entry)
-			or (entry is StringName and (entry == RANDOM_MOVE or entry == SILENT_EMOTE or entry == PATROL))
+			or (entry is StringName and (entry == RANDOM_MOVE or entry == SILENT_EMOTE or entry == PATROL or COMMANDS.has(entry)))
 			or (entry is NpcDrinkAction and (entry as NpcDrinkAction).is_valid())
 		):
 			return false

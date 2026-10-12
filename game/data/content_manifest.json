@@ -30,6 +30,7 @@
 		"choyin/items.json",
 		"canyon/items.json",
 		"village/items.json",
+		"city/items.json",
 		"cloud/items.json",
 		"cloud/npcs.json",
 		"cloud/spawns.json",
@@ -75,6 +76,11 @@
 		"village/spawns.json",
 		"village/vendors.json",
 		"village/rooms.json",
-		"village/world.json"
+		"village/world.json",
+		"city/npcs.json",
+		"city/spawns.json",
+		"city/vendors.json",
+		"city/rooms.json",
+		"city/world.json"
 	]
 }

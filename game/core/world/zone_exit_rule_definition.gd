@@ -24,7 +24,9 @@ extends RefCounted
 ## With `items` instead (d/choyin/club.c: the hermit's books, any of their drawn names) and
 ## no flag, every one carried goes back, each told by `taken`.
 ## `no_mark` (d/choyin/entrance.c: east into the 桃林 only with marks/书生) refuses one without
-## the saved `mark`. `always` refuses everyone (d/village/lakeside.c: the lake is no walk; only
+## the saved `mark`; with `present`, only while that NPC is in the room, and its `pass_lines`
+## only then too (d/city/npc/waiter.c go_up(): the 店小二's own command blocks the stairs of the
+## 太白酒楼 to one without marks/酒楼). `always` refuses everyone (d/village/lakeside.c: the lake is no walk; only
 ## the boat goes out on it). `held` (d/village/melonfarm.c: 你的去路被瓜农拦住了。) refuses one
 ## with the set_temp() flag `temp` while an NPC of `present` that holds the same flag (its own
 ## set_temp(): the 瓜农 who caught them) stands in the room: ES2 asked only the thief's flag, so
@@ -143,7 +145,7 @@ func refuses(leaver: Leaver, present: bool) -> bool:
 		Condition.ASK:
 			return leaver.gender != unless_gender
 		Condition.NO_MARK:
-			return int(leaver.marks.get(mark, 0)) == 0
+			return int(leaver.marks.get(mark, 0)) == 0 and (present_npc_id.is_empty() or present)
 		Condition.ALWAYS:
 			return true
 		Condition.HELD:
@@ -153,7 +155,7 @@ func refuses(leaver: Leaver, present: bool) -> bool:
 
 ## {id, room, from_zone, to_zone, when, lines: [line], pass_lines?: [line], legacy_source}
 ## and per `when`: weapon_in_hand {present: npc id}, combat_exp_below {value},
-## not_apprentice_of {npc}, not_family {family}, kar_slip {value}, no_mark {mark}, always, held {present, temp}, never (pass_lines only),
+## not_apprentice_of {npc}, not_family {family}, kar_slip {value}, no_mark {mark, present?}, always, held {present, temp}, never (pass_lines only),
 ## ask {unless_gender, ask, choice, point; no lines}, takes_back {item, temp | items, taken:
 ## [NpcLine record], without: [line]; no lines}.
 static func from_record(reader: ContentRecordReader) -> ZoneExitRuleDefinition:
@@ -182,6 +184,7 @@ static func from_record(reader: ContentRecordReader) -> ZoneExitRuleDefinition:
 			rule.family_id = StringName(reader.required_text("family"))
 		Condition.NO_MARK:
 			rule.mark = reader.required_text("mark")
+			rule.present_npc_id = StringName(reader.text("present"))
 		Condition.ASK:
 			rule.unless_gender = StringName(reader.required_text("unless_gender"))
 			rule.ask = reader.required_text("ask")

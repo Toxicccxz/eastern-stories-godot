@@ -689,7 +689,7 @@ class Importer:
         lpc = self.corpus.get(path)
         sets = lpc.sets()
         name = lpc.first('set_name')
-        if name is None or len(name.args) != 2 or not is_plain(name.args[1]):
+        if name is None or len(name.args) != 2 or not isinstance(name.args[1], list):
             raise ImportError_(f'{path}: no plain set_name()')
         record: dict = {'id': record_id, 'legacy_source': path}
         if is_plain(name.args[0]):
@@ -698,7 +698,11 @@ class Importer:
             # A name drawn in create() (heaven_soldier.c's "天" + order[random(10)] + "神兵"):
             # the override sets it.
             self.note(path, 'set_name', describe(name.args[0]))
-        record['aliases'] = name.args[1]
+        # An id drawn in create() (u/cp/chater2.c's rnd_id): the plain ones are kept.
+        drawn_ids = [describe(alias) for alias in name.args[1] if not isinstance(alias, str)]
+        if drawn_ids:
+            self.note(path, 'set_name ids', ', '.join(drawn_ids))
+        record['aliases'] = [alias for alias in name.args[1] if isinstance(alias, str)]
         handled = set()
 
         def take(key: str, field: str | None = None) -> None:

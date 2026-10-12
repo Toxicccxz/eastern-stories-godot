@@ -1,7 +1,7 @@
 {
   "maps": {
     "main": {
-      "note": "玉螺湖村 (傅家坡): from 天驼关's valley the wide 黄土大道 runs south (a spur west toward 黑松山, not open yet) to the 三叉路口, where the road goes on south-east to 京师 (not open yet) and the 青石小路 turns west into the village: the farmhouse and its back yard north of it, 刘家 (the garden, the old wooden house, its kitchen), the great melon field south of it behind its ditch, the melon guards' shed. The path ends in tall grass by the lake; pushed aside, the grass shows a way west to the valley outside 忘情谷 on the lake's far shore. South of the garden it goes down between willows past the lakeside (fishing boats on the shore), the rice field and 田老财's three-room house behind its black gate. 玉螺湖 fills the south-west; its middle is a map of its own (the boat), its ice cave too.",
+      "note": "玉螺湖村 (傅家坡): from 天驼关's valley the wide 黄土大道 runs south (a spur west toward 黑松山, not open yet) to the 三叉路口, where the road goes on south to 京师's 北驿道 and the 青石小路 turns west into the village: the farmhouse and its back yard north of it, 刘家 (the garden, the old wooden house, its kitchen), the great melon field south of it behind its ditch, the melon guards' shed. The path ends in tall grass by the lake; pushed aside, the grass shows a way west to the valley outside 忘情谷 on the lake's far shore. South of the garden it goes down between willows past the lakeside (fishing boats on the shore), the rice field and 田老财's three-room house behind its black gate. 玉螺湖 fills the south-west; its middle is a map of its own (the boat), its ice cave too.",
       "file": "village_main.tscn",
       "draw": {
         "technique": "town",
@@ -51,7 +51,6 @@
         ],
         "props": [
           ["forest", 1408, 288, 1440, 416, "黑松山's pines close the spur (not open yet)"],
-          ["blocked", 1664, 992, 1920, 1024, "the road south-east to 京师 (not open yet)"],
           ["forest", 1440, 512, 1504, 576, "trees beside the 黄土大道"],
           ["forest", 1504, 224, 1568, 288],
           ["forest", 1440, 896, 1504, 928, "a few weeds by the path"],
@@ -124,7 +123,7 @@
           {"generated": "captions"},
           {"node": "caption", "name": "CanyonLabel", "at": [1720, 136], "text": "北 · 天驼关", "size": 14},
           {"node": "caption", "name": "HeisongLabel", "at": [1416, 420], "text": "西 · 黑松山（未开放）", "size": 12},
-          {"node": "caption", "name": "CityLabel", "at": [1680, 1032], "text": "东南 · 京师（未开放）", "size": 14},
+          {"node": "caption", "name": "CityLabel", "at": [1680, 1032], "text": "南 · 京师", "size": 14},
           {"node": "caption", "name": "LakeLabel", "at": [300, 1296], "text": "玉螺湖", "size": 16},
           {"node": "caption", "name": "GrassLabel", "at": [264, 736], "text": "茅草", "size": 12},
           {"node": "caption", "name": "DitchLabel", "at": [940, 1100], "text": "大沟", "size": 12},
@@ -133,6 +132,7 @@
           {"generated": "door_walls"},
           {"generated": "shutters"},
           {"node": "passage", "name": "CanyonPassage", "id": "village.road1.north", "at": [1792, 232], "shape": "Rect_64_32"},
+          {"node": "passage", "name": "CityPassage", "id": "village.road2.south", "at": [1792, 1000], "shape": "Rect_64_32"},
           {"node": "passage", "name": "GrassPassage", "id": "village.road6.west", "at": [385, 864], "shape": "Rect_32_64"},
           {"node": "passage", "name": "ValleyEastPassage", "id": "village.valley2.east", "at": [216, 864], "shape": "Rect_32_64"},
           {"node": "passage", "name": "LakePassage", "id": "village.lakeside.west", "at": [420, 1120], "shape": "Rect_32_128"},
@@ -144,6 +144,7 @@
         "zones": [{"generated": "zones"}],
         "spawn_points": [
           {"name": "RoadCanyonArrival", "at": [1792, 320], "id": "village.road1.canyon_arrival"},
+          {"name": "Road2CityReturn", "at": [1792, 928], "id": "village.road2.city_return"},
           {"name": "Road6GrassReturn", "at": [480, 864], "id": "village.road6.grass_return"},
           {"name": "Valley2GrassArrival", "at": [128, 864], "id": "village.valley2.grass_arrival"},
           {"name": "Valley1CaveReturn", "at": [128, 1184], "id": "village.valley1.cave_return"},

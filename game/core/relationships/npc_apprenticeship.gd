@@ -61,6 +61,20 @@ func awaits_oath(master_id: StringName) -> bool:
 func is_offered(master_id: StringName) -> bool:
 	return _offers.has(master_id)
 
+
+## The masters that offered, for the save. recruit.c's pending/recruit was a temp on the master;
+## 默认 (京师 A): an offer outlives Continue, as the player's temps do, since 陈天星 takes 陈剑秋's
+## letter for it.
+func offered_master_ids() -> Array[StringName]:
+	var ids: Array[StringName] = []
+	ids.assign(_offers.keys())
+	ids.sort_custom(func(left: StringName, right: StringName) -> bool: return String(left) < String(right))
+	return ids
+
+
+func restore_offer(master_id: StringName) -> void:
+	_offers[master_id] = true
+
 # TRANSLATORS: the title of a family's founder: {family} is the family (封山剑派).
 const FOUNDER_TITLE: String = "{family}开山祖师"
 # TRANSLATORS: a family member's title, e.g. 封山剑派第十四代弟子: {generation} in words, {title} the rank (弟子).
@@ -264,6 +278,9 @@ func request(student: CharacterState, master: NpcDefinition, family: FamilyDefin
 			_say(npc, rule.ask_say, respect)
 			_oaths[master.definition_id] = true
 		return Outcome.ASKED
+	if rule.kind == NpcTeaching.Kind.SILENT:
+		# chen.c has no attempt_apprentice(): the request waits for his own recruit.
+		return Outcome.PENDING
 	if rule.kind == NpcTeaching.Kind.REFUSES:
 		# annihi.c attempt_apprentice(): its say, and nothing more.
 		_say(npc, rule.refuse_say, respect)

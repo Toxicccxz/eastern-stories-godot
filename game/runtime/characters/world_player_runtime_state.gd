@@ -101,6 +101,28 @@ func world_location() -> WorldLocationState:
 	return null if _world_location == null else _world_location.duplicate_snapshot()
 
 
+## The saved temp that keeps a master's offer (NpcApprenticeship.offered_master_ids()).
+const OFFER_TEMP_PREFIX: String = "apprentice/offered_by/"
+
+
+## The temps a save keeps: the set_temp() flags and a master's standing offer.
+func saved_temps() -> Dictionary[String, int]:
+	var temps: Dictionary[String, int] = temp_marks.duplicate()
+	for master_id: StringName in apprenticeship_request.offered_master_ids():
+		temps[OFFER_TEMP_PREFIX + String(master_id)] = 1
+	return temps
+
+
+## Continue: the saved temps back, a master's offer to the apprenticeship.
+func restore_temps(temps: Dictionary[String, int]) -> void:
+	temp_marks = {}
+	for key: String in temps:
+		if key.begins_with(OFFER_TEMP_PREFIX):
+			apprenticeship_request.restore_offer(StringName(key.trim_prefix(OFFER_TEMP_PREFIX)))
+		else:
+			temp_marks[key] = temps[key]
+
+
 ## apprentice <master>. Only successful recruitment may replace the read-only
 ## identity title (feature/apprentice.c assign_apprentice()). Body, CharacterState
 ## and character ID retain their existing authorities. `answer_due`: the master's answer

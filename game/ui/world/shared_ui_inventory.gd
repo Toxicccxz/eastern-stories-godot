@@ -23,6 +23,11 @@ const GIVE_MONEY_ASK_AT: int = 10000
 const GIVE_EQUIPPED_WARNING: String = "{item}正装备在你身上。确定把它送给{npc}吗？送出去的东西一般就要不回来了。"
 # TRANSLATORS: asked before 给 (give.c) of a large sum ({money}, e.g. 三两黄金) to an NPC ({npc}).
 const GIVE_MONEY_WARNING: String = "确定把{money}送给{npc}吗？送出去的钱一般就要不回来了。"
+## A gift the NPC answers with its recruit (d/city/npc/chen.c: 陈剑秋's letter) is asked first
+## (owner, 京师 plan): the rule's own question, or, when a 拜师 request already waits on the NPC
+## and it would take the player at once, the 拜师 question that change asks.
+# TRANSLATORS: asked before a gift ({item}) to a master ({npc}) who will take the player as apprentice at once; {warning} is the 拜师 question (betrayal, first master or change of master).
+const GIVE_RECRUITS_AT_ONCE: String = "{npc}收下{item}，就会当场收你为徒。\n{warning}"
 
 var _ui: SharedGameplayUI
 
@@ -161,16 +166,30 @@ func _give_warning(map: WorldMapController, id: StringName, amount: int) -> Stri
 		if content == null:
 			return ""
 		var npc_name: String = tr(npc.definition().display_name)
+		var rule: NpcObjectRule = map.gift_rule_for_selected(id, amount)
+		if rule != null and not rule.ask.is_empty():
+			return _ask_before_gift(rule, npc, content)
 		if row.equipment_slot != PlayerInventoryRowProjection.EquipmentSlot.NONE:
 			return tr(GIVE_EQUIPPED_WARNING).format({"item": tr(content.display_name), "npc": npc_name})
 		var given: int = amount if amount > 0 else row.amount
 		var takes_money: bool = npc.definition().dealings().object_rules.any(
-			func(rule: NpcObjectRule) -> bool: return rule.effect in NpcObjectRule.EFFECTS
+			func(each: NpcObjectRule) -> bool: return each.effect in NpcObjectRule.EFFECTS
 		)
 		if content.currency_base_value > 0 and not takes_money and given * content.currency_base_value >= GIVE_MONEY_ASK_AT:
 			return tr(GIVE_MONEY_WARNING).format({"money": HeldItemFacts.counted(content, given), "npc": npc_name})
 		return ""
 	return ""
+
+
+func _ask_before_gift(rule: NpcObjectRule, npc: NpcRuntimeState, content: ItemContentDefinition) -> String:
+	var master: NpcDefinition = npc.definition()
+	var teaching: NpcTeaching = master.teaching()
+	var family: FamilyDefinition = null if teaching == null else GameContent.catalog().family(teaching.family_id)
+	if rule.recruit and family != null and _player.apprenticeship_request.recruit_takes_at_once(_player.state, master):
+		var change: String = TeacherPanel.family_change_warning(_player, master, tr(family.display_name))
+		if not change.is_empty():
+			return tr(GIVE_RECRUITS_AT_ONCE).format({"npc": tr(master.display_name), "item": tr(content.display_name), "warning": change})
+	return tr(rule.ask)
 
 
 func drop_item(id: StringName, amount: int) -> void:

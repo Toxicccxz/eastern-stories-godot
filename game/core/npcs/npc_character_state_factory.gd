@@ -173,14 +173,20 @@ func _create_one(
 	var is_beast: bool = definition.race_id == BEAST_RACE_ID
 	# create() draws first (traveller.c: gender, age, combat_exp), then setup()
 	# runs the race's draws below.
+	# walker.c draws its age first (age_drawn_first()).
+	var age: int = definition.age
+	if definition.age_drawn_first():
+		var first_age: Variant = definition.age_roll().resolve(random_source)
+		if first_age == null:
+			return null
+		age = first_age
 	var gender: StringName = definition.gender
 	if definition.gender_roll() != null:
 		var drawn_gender: Variant = definition.gender_roll().resolve(random_source)
 		if drawn_gender == null:
 			return null
 		gender = StringName(drawn_gender)
-	var age: int = definition.age
-	if definition.age_roll() != null:
+	if definition.age_roll() != null and not definition.age_drawn_first():
 		var drawn_age: Variant = definition.age_roll().resolve(random_source)
 		if drawn_age == null:
 			return null
@@ -199,6 +205,20 @@ func _create_one(
 		if drawn_apply == null:
 			return null
 		applies[String(key)] = drawn_apply
+	# walker.c: if (random(4) == 0) its skills, then set("chat_chance", random(20)).
+	var rolled_skills: bool = false
+	if definition.skill_roll() != null:
+		var drawn_skills: int = random_source.legacy_random(definition.skill_roll().bound)
+		if drawn_skills < 0 or drawn_skills >= definition.skill_roll().bound:
+			return null
+		rolled_skills = drawn_skills < definition.skill_roll().below
+	var chat_chance: int = -1
+	var chance_roll: NpcRandomInteger = definition.talk().chat_chance_roll() if definition.talk() != null else null
+	if chance_roll != null:
+		var drawn_chance: Variant = chance_roll.resolve(random_source)
+		if drawn_chance == null:
+			return null
+		chat_chance = drawn_chance
 	if not definition.has_authored_age:
 		age = _draw_with_offset(random_source, 40 if is_beast else 30, 5 if is_beast else 15)
 		if age == INVALID_RANDOM_DRAW:
@@ -297,6 +317,10 @@ func _create_one(
 	for skill: NpcSkillLevelDefinition in definition.skill_levels():
 		state.skills.set_raw_level(skill.skill_id, skill.raw_level)
 	var skill_map: Dictionary[StringName, StringName] = definition.skill_map()
+	if rolled_skills:
+		for skill_id: StringName in definition.skill_roll().skills:
+			state.skills.set_raw_level(skill_id, definition.skill_roll().skills[skill_id])
+		skill_map.merge(definition.skill_roll().skill_map, true)
 	for use_id: StringName in skill_map:
 		if not state.skills.map_skill(use_id, skill_map[use_id]):
 			return null
@@ -326,7 +350,7 @@ func _create_one(
 	if loadout_items.size() != _expected_live_item_count(entries, loadout_content):
 		return null
 
-	return NpcRuntimeStateType.new(
+	var made: NpcRuntimeStateType = NpcRuntimeStateType.new(
 		character_id,
 		definition,
 		spawn_id,
@@ -344,6 +368,8 @@ func _create_one(
 		maximum_encumbrance,
 		loadout_items,
 	)
+	made.chat_chance = chat_chance
+	return made
 
 
 static func _create_resource_track(

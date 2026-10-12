@@ -460,6 +460,8 @@ func _accept_kill(target_id: StringName) -> Array[String]:
 	if encounter == null:
 		return lines
 	var name: String = tr(npc.definition().display_name)
+	if not rule.line.is_empty():
+		lines.append(tr(rule.line))
 	if not rule.say.is_empty():
 		lines.append(tr("{npc}说道：{line}").format({"npc": name, "line": tr(rule.say)}))
 	var bindings: Array[CombatSliceCharacterBinding] = session.encounter_combat_bindings(encounter)

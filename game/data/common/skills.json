@@ -492,6 +492,24 @@
 				"但是$n身形飘忽，轻轻一纵，一招「欢乐极兮哀情多」，避开这一击。",
 				"$n身形往上一拔，一招「少壮几时兮奈老何」，一个转折落在数尺之外。"
 			]
+		},
+		{
+			"id": "bloodystrike", "name": "密宗大手印", "kind": "specialized", "type": "martial", "enable": ["unarmed"],
+			"legacy_source": "daemon/skill/bloodystrike.c",
+			"practice": { "kee": 30, "force": 5, "fail": "你的体力不够了，休息一下再练吧。", "force_fail": "你的内力不够了，休息一下再练吧。" },
+			"valid_learn": { "empty_hands": "练密宗大手印必须空手。" },
+			"actions": [
+				{ "id": "ku-hai-duan-wu-ya", "action": "$N使出一招「苦海端无涯」，左掌虚幌，右掌穿出击向$n的$l", "force": 50, "damage_type": "瘀伤" },
+				{ "id": "di-yu-si-you-men", "action": "$N使出一招「地狱似有门」，左掌化虚为实击向$n的$l", "force": 70, "damage_type": "瘀伤" },
+				{ "id": "tian-tang-que-wu-lu", "action": "$N使出密宗大手印中的「天堂却无路」，一掌拍向$n的$l", "force": 50, "damage_type": "瘀伤" },
+				{ "id": "mi-zong-wei-du-zun", "action": "$N双掌一错，使出「密宗为独尊」，对准$n的$l连续拍出", "force": 160, "damage_type": "瘀伤" },
+				{ "id": "wan-nian-jie-shi-kong", "action": "$N左掌立于胸前，右掌推出，一招「万念皆是空」击向$n$l", "force": 140, "damage_type": "瘀伤" },
+				{ "id": "fo-yun-yi-sha-zhi-sha", "action": "$N使出「佛云以杀止杀」，身形凌空飞起，从空中当头向$n的$l出掌攻击", "force": 280, "damage_type": "瘀伤" }
+			]
+		},
+		{
+			"id": "iron-cloth", "name": "铁布衫", "kind": "basic", "type": "martial",
+			"legacy_source": "daemon/skill/iron-cloth.c"
 		}
 	]
 }

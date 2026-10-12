@@ -4,9 +4,10 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**玉螺湖村 B** (`phase/village-b`, DECISIONS「玉螺湖村 B」): the 瓜地's pick, the 瓜农 who comes
-over to fight the thief, the way out held while he stands there, 还瓜钱 (60 文) on the HUD and the
-battle panel. Region #11 is done with it. Next: 京师 (#12).
+**京师 A** (`phase/city-a`, DECISIONS「京师 A」): the city south of 玉螺湖村 (40 of its 55 rooms on
+two maps), the five shut gates and their guards, seven vendors and the bank, the 太白酒楼's stairs,
+陈天星 who takes 陈剑秋's letter and the player. Next: 京师 B (尚书府, the wall, the altar's 密室,
+废园's 出城令牌).
 
 ## 待决定
 
@@ -60,8 +61,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   the 家丁's 春风快意刀, 化缘和尚 and Snow's two 乞丐 in the 斋院, 茶工 and 县城官兵 walking,
   the 木雕门 and 木门; joining 振远镖局 (陈剑秋, cor 25; betrayal from 封山剑派 and back), learning
   from 陈剑秋 and 趟子手, practising 春风快意刀 with a blade; 朱鸿雪's quests (41 of the 84
-  targets stand in the game so far), betting with the 宝官. Not yet: the ferry, 陈剑秋's letter
-  (乔阴县城's 忘忧草).
+  targets stand in the game so far), betting with the 宝官.
 * **水烟阁**: west of Snow's 青石官道 (sroad5), all 28 rooms on three maps: the road and the
   white stone stairs up the mountain past the two 水烟阁武士 and 半山亭 (the 司事 and the 天邪虎),
   the platform before the pavilion and the west path to 葬剑亭 (its monolith and 虹谷's stone
@@ -280,6 +280,17 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   (asked first while he is clearly stronger): while he stands there both ways out are held (你的去
   路被瓜农拦住了。), in the fight he demands his money, and 还瓜钱 (HUD and battle panel) pays him 60 文
   and sends him home.
+* **京师**: south of 玉螺湖村's 三叉路口, 40 of 55 rooms on two maps: the 北驿道 between two small
+  woods (桃X仙 picks up what is dropped there, puts it on and wields it), the 北门 in the north wall
+  and its three 守城兵, 大栅栏 to the 十字路口; 护国道 from the 西一门 to the 东一门 (旺金钱庄, no
+  fighting, 兑换; the 武器店's nine wares; 收破烂的); south past the 皇家祭坛, 神武门 and the walled
+  紫禁城 to 午门, the 校武场 and the 天桥's market (金疮药, 雪花糕, 包子); the 西街 (四喜绸缎庄, the
+  太白酒楼: 钱千万 is rude to everyone, the 店小二 sells 雪花糕, 西湖醋鱼 and 状元红 and lets only
+  one who tipped him ten taels upstairs; a smaller tip lands on the floor) and the 东街 (振远总局:
+  陈天星 takes 陈剑秋's letter, asked first, and the player's 拜师; 行人 who draw their own chat
+  and arts; 商人 with 密宗大手印 and 铁布衫); the south street (李记鞋店) to the 南门. The five
+  outer gates stay shut: their 守城兵 (vendetta authority; 反了！反了！ when attacked) turn everyone
+  back (城门 · 出城). 尚书府, 护国寺, 紫禁城, 监狱 and 刑场 are drawn shut.
 * **Across both**: the status card offers the actions of what is within reach, one group per
   thing, nearest first (a click on the map selects nothing); each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
@@ -295,8 +306,8 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
 * Placeholder visuals: flat-colour terrain tiles; characters and objects are still coloured boxes.
   No art or audio yet.
 
-Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 432/551 rooms, 201/286 NPC
-types, 9/9 joinable families, 32/36 special and 17/25 basic martial arts, 84/84 quest targets.
+Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 472/551 rooms, 215/286 NPC
+types, 9/9 joinable families, 33/36 special and 18/25 basic martial arts, 84/84 quest targets.
 
 ## Known issues
 

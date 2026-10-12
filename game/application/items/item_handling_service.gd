@@ -64,28 +64,7 @@ static func give(
 	if content.no_drop:
 		return _refused(result, ItemHandlingResult.Outcome.REFUSED, TranslationServer.translate("这样东西不能随便给人。"))
 	var name: String = npc.definition().display_name
-	var offer := NpcObjectRule.Offer.new(
-		_portion_money(authorities, id, content, amount), &"", 0, npc.flags(), player.state.marks,
-	)
-	offer.giver_gender = player.state.gender
-	offer.giver_per = player.state.attributes.personality
-	offer.item_name = content.display_name
-	offer.item_aliases = content.aliases()
-	# base_name(obj): a master form is still its item's file.
-	offer.item_id = StringName(String(content.item_definition_id).trim_suffix(ItemContentDefinition.MASTER_SUFFIX))
-	offer.giver_family = player.state.family.family_id
-	offer.giver_temps = player.temp_marks
-	for carried: StringName in authorities.context.inventory.direct_children(authorities.context.endpoint()):
-		var held: ItemContentDefinition = _content(authorities, carried)
-		if held != null:
-			offer.giver_carried.append(StringName(String(held.item_definition_id).trim_suffix(ItemContentDefinition.MASTER_SUFFIX)))
-	offer.giver_counters = player.state.counters
-	offer.giver_max_force = player.state.recovery.inner_force.maximum
-	offer.item_mastered = content.mastered
-	var liquid: LiquidState = authorities.liquids.state(id)
-	if liquid != null:
-		offer.liquid_type = LiquidState.legacy_type(liquid.content)
-		offer.liquid_remaining = liquid.remaining
+	var offer: NpcObjectRule.Offer = _offer(player, npc, id, amount, content, authorities)
 	result.rule = NpcObjectRule.decide(npc.definition().dealings().object_rules, offer)
 	var respect: String = RankWords.query_respect(player.state.gender, player.facts.age, player.state.affiliation.class_id)
 	if result.rule != null:
@@ -109,6 +88,8 @@ static func give(
 	var portion: StringName = _split_portion(result, authorities, id, content, amount)
 	if portion.is_empty():
 		return result
+	if result.rule.drops and floor != null and floor.kind == ContainmentEndpoint.Kind.WORLD:
+		return _given_and_dropped(result, authorities, id, portion, content, offer.value, name, floor)
 	if offer.value != 0:
 		result.lines.append(TranslationServer.translate("你拿出{item}给{npc}。").format({
 			"item": HeldItemFacts.short_name(portion, content, authorities.context.stacks), "npc": TranslationServer.translate(name),
@@ -133,6 +114,67 @@ static func give(
 	result.item_id = portion
 	result.outcome = ItemHandlingResult.Outcome.DONE
 	return result
+
+
+## d/city/npc/waiter.c accept_object(): a gift too small for him is taken and his command("drop
+## all") puts it on the floor (`drops`). Owner (京师 plan): it lands at the player's feet, money
+## too; ES2's give.c destructed money after accept_object() and moved anything else to him, so
+## his drop all only dropped what he had been given before.
+static func _given_and_dropped(result: ItemHandlingResult, authorities: Authorities, id: StringName, portion: StringName, content: ItemContentDefinition, value: int, name: String, floor: ContainmentEndpoint) -> ItemHandlingResult:
+	var shown: String = HeldItemFacts.short_name(portion, content, authorities.context.stacks) if value != 0 else HeldItemFacts.one_unit(content)
+	if value != 0:
+		result.lines.append(TranslationServer.translate("你拿出{item}给{npc}。").format({"item": shown, "npc": TranslationServer.translate(name)}))
+	else:
+		result.lines.append(TranslationServer.translate("你给{npc}{item}。").format({"npc": TranslationServer.translate(name), "item": shown}))
+	var moved: InventoryTransferResult = _move(authorities, portion, InventoryTransferDestination.new(floor, true, true, WorldMapController.WORLD_CAPACITY))
+	if moved == null or not moved.succeeded:
+		_return_portion(authorities, id, portion)
+		result.outcome = ItemHandlingResult.Outcome.AUTHORITY_FAILURE
+		return result
+	# TRANSLATORS: drop.c's message_vision() for the NPC ({npc}) who drops what it was given ({item}).
+	result.lines.append(TranslationServer.translate("{npc}丢下{item}。").format({"npc": TranslationServer.translate(name), "item": shown}))
+	result.dropped_item_ids.append(portion)
+	result.item_id = portion
+	result.outcome = ItemHandlingResult.Outcome.DONE
+	return result
+
+
+## The accept_object() rule that would decide giving `amount` of `id` to `npc` now (null:
+## refused), without giving anything: the 背包 asks first before a rule with an `ask`.
+static func deciding_rule(player: WorldPlayerRuntimeState, npc: NpcRuntimeState, id: StringName, amount: int, authorities: Authorities) -> NpcObjectRule:
+	if player == null or npc == null or authorities == null or not authorities.is_valid():
+		return null
+	var content: ItemContentDefinition = _content(authorities, id)
+	if content == null or not authorities.context.inventory.is_direct_child(id, authorities.context.endpoint()):
+		return null
+	return NpcObjectRule.decide(npc.definition().dealings().object_rules, _offer(player, npc, id, amount, content, authorities))
+
+
+## What give.c knows about the gift and the two sides when accept_object() asks.
+static func _offer(player: WorldPlayerRuntimeState, npc: NpcRuntimeState, id: StringName, amount: int, content: ItemContentDefinition, authorities: Authorities) -> NpcObjectRule.Offer:
+	var offer := NpcObjectRule.Offer.new(
+		_portion_money(authorities, id, content, amount), &"", 0, npc.flags(), player.state.marks,
+	)
+	offer.giver_gender = player.state.gender
+	offer.giver_per = player.state.attributes.personality
+	offer.item_name = content.display_name
+	offer.item_aliases = content.aliases()
+	# base_name(obj): a master form is still its item's file.
+	offer.item_id = StringName(String(content.item_definition_id).trim_suffix(ItemContentDefinition.MASTER_SUFFIX))
+	offer.giver_family = player.state.family.family_id
+	offer.giver_temps = player.temp_marks
+	for carried: StringName in authorities.context.inventory.direct_children(authorities.context.endpoint()):
+		var held: ItemContentDefinition = _content(authorities, carried)
+		if held != null:
+			offer.giver_carried.append(StringName(String(held.item_definition_id).trim_suffix(ItemContentDefinition.MASTER_SUFFIX)))
+	offer.giver_counters = player.state.counters
+	offer.giver_max_force = player.state.recovery.inner_force.maximum
+	offer.item_mastered = content.mastered
+	var liquid: LiquidState = authorities.liquids.state(id)
+	if liquid != null:
+		offer.liquid_type = LiquidState.legacy_type(liquid.content)
+		offer.liquid_remaining = liquid.remaining
+	return offer
 
 
 ## ob->move(npc) of something the player carries (u/cloud thief.c through steal.c):

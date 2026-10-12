@@ -62,6 +62,9 @@ class RecognizeRule:
 ##   traitor (`commoners_only`); its test is taken only by those its checks pass, and whom it
 ##   takes is titled `title` (its set("title") after the recruit).
 ## - refuses (d/latemoon/room/npc/annihi.c): it only says refuse_say.
+## - silent (d/city/npc/chen.c): no attempt_apprentice() at all: a request only waits. Its own
+##   recruit comes from elsewhere (an accept_object rule's `recruit`: 陈剑秋's letter), taking a
+##   request that waits on it at once and offering otherwise (recruit.c).
 class ApprenticeRule:
 	extends RefCounted
 	var kind: Kind = Kind.REQUIREMENTS
@@ -133,8 +136,8 @@ class AcceptVision:
 		return personality > per_above and age < age_below
 
 
-enum Kind { REQUIREMENTS, OATH, TRIAL, REFUSES }
-const KINDS: Dictionary[String, Kind] = {"requirements": Kind.REQUIREMENTS, "oath": Kind.OATH, "trial": Kind.TRIAL, "refuses": Kind.REFUSES}
+enum Kind { REQUIREMENTS, OATH, TRIAL, REFUSES, SILENT }
+const KINDS: Dictionary[String, Kind] = {"requirements": Kind.REQUIREMENTS, "oath": Kind.OATH, "trial": Kind.TRIAL, "refuses": Kind.REFUSES, "silent": Kind.SILENT}
 
 
 const REQUIREMENTS: Array[StringName] = [&"cor", &"cps", &"spi", &"combat_exp"]
@@ -253,7 +256,7 @@ static func from_record(reader: ContentRecordReader) -> NpcTeaching:
 			if rule.blows.is_empty():
 				apprentice.fail("blows", "a trial needs at least one blow")
 			rule.success = apprentice.required_text("success")
-		else:
+		elif rule.kind == Kind.REFUSES:
 			rule.refuse_say = apprentice.required_text("refuse_say")
 		for check: RequirementCheck in rule.checks:
 			rule.requires.merge(check.requires, true)

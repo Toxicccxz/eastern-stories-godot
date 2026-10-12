@@ -228,41 +228,57 @@ func request_apprentice() -> void:
 ## Asks before a step that makes the player `master`'s apprentice when that changes
 ## their family (betrayal) or gives them their first master; true when it asked.
 func _ask_family_change(player: WorldPlayerRuntimeState, master: NpcDefinition, family_name: String, betray_choice: String, first_choice: String, action: Callable) -> bool:
+	var text: String = family_change_warning(player, master, family_name)
+	if text.is_empty():
+		return false
 	if NpcApprenticeship.would_betray(player.state, master):
-		_ask(tr(BETRAYAL_WARNING).format({
-			"title": player.shown_title(), "master": tr(master.display_name),
+		_ask(text, betray_choice, "不改投了", action)
+	else:
+		_ask(text, first_choice, "再想想", action)
+	return true
+
+
+## The question before the player becomes `master`'s apprentice when that makes them
+## betray their family, gives them their first master or changes it inside their family;
+## "" when it does none of these. The 背包 asks it too before a gift the master answers with
+## a recruit that takes the player at once (d/city/npc/chen.c: 陈剑秋's letter).
+static func family_change_warning(player: WorldPlayerRuntimeState, master: NpcDefinition, family_name: String) -> String:
+	if NpcApprenticeship.would_betray(player.state, master):
+		return _t(BETRAYAL_WARNING).format({
+			"title": player.shown_title(), "master": _t(master.display_name),
 			"family": family_name, "score": player.state.progression.score,
 			"next": player.state.apprenticeship.betrayer_count + 1,
-		}), betray_choice, "不改投了", action)
-		return true
+		})
 	if NpcApprenticeship.would_join_first(player.state, master):
-		_ask(tr(FIRST_MASTER_WARNING).format({"master": tr(master.display_name), "family": family_name}), first_choice, "再想想", action)
-		return true
+		return _t(FIRST_MASTER_WARNING).format({"master": _t(master.display_name), "family": family_name})
 	if NpcApprenticeship.would_change_master(player.state, master):
 		var current: String = _current_master_name(player)
-		_ask(tr(CHANGE_MASTER_WARNING).format({
-			"current": current, "master": tr(master.display_name), "teach": _old_master_teaches(player, current),
-		}), first_choice, "再想想", action)
-		return true
-	return false
+		return _t(CHANGE_MASTER_WARNING).format({
+			"current": current, "master": _t(master.display_name), "teach": _old_master_teaches(player, current),
+		})
+	return ""
 
 
-func _current_master_name(player: WorldPlayerRuntimeState) -> String:
-	return tr(player.state.apprenticeship.legacy_master_name)
+static func _current_master_name(player: WorldPlayerRuntimeState) -> String:
+	return _t(player.state.apprenticeship.legacy_master_name)
 
 
 ## What the master the player leaves teaches them afterwards: nothing (privs 0), or only
 ## what he knows three times as well (an F_MASTER's prevent_learn()).
-func _old_master_teaches(player: WorldPlayerRuntimeState, current: String) -> String:
+static func _old_master_teaches(player: WorldPlayerRuntimeState, current: String) -> String:
 	var old: NpcDefinition = GameContent.catalog().npc(player.state.apprenticeship.master_teacher_id)
 	var teaching: NpcTeaching = null if old == null else old.teaching()
 	if teaching == null:
 		return ""
 	if teaching.family_privileges != -1:
-		return tr(CHANGE_TEACHES_NONE).format({"current": current})
+		return _t(CHANGE_TEACHES_NONE).format({"current": current})
 	if teaching.f_master:
-		return tr(CHANGE_TEACHES_LESS).format({"current": current, "pronoun": _pronoun(old)})
+		return _t(CHANGE_TEACHES_LESS).format({"current": current, "pronoun": _pronoun(old)})
 	return ""
+
+
+static func _t(text: String) -> String:
+	return TranslationServer.translate(text)
 
 
 func _request_apprentice_now() -> void:
@@ -318,12 +334,12 @@ func _take_trial_now() -> void:
 
 
 ## gender.c gender_pronoun() for the master.
-func _pronoun(master: NpcDefinition) -> String:
+static func _pronoun(master: NpcDefinition) -> String:
 	if master.gender == CharacterState.GENDER_FEMALE:
 		# TRANSLATORS: a woman named in the third person (gender.c).
-		return tr("她")
+		return TranslationServer.translate("她")
 	# TRANSLATORS: a man named in the third person (gender.c).
-	return tr("他")
+	return TranslationServer.translate("他")
 
 
 func _family_name() -> String:

@@ -132,7 +132,7 @@ func _advance_ambience(delta: float) -> void:
 			if session.active_map() != _map:
 				return
 			if _chats(npc):
-				_act(npc, ambience.chat(npc.definition().talk()))
+				_act(npc, ambience.chat(npc.definition().talk(), npc.chat_chance))
 	npc_walker().advance(delta)
 
 
@@ -591,10 +591,29 @@ func _act(npc: NpcRuntimeState, entry: Variant) -> void:
 		random_move(npc)
 	elif entry is StringName and entry == NpcTalk.PATROL:
 		_map.patrols.step(npc)
+	elif entry is StringName and NpcTalk.COMMANDS.has(entry):
+		_command(npc, entry)
 	elif entry is NpcDrinkAction:
 		_drink(npc, entry)
 	elif entry is NpcSpecialAction:
 		_special(npc, entry)
+
+
+## u/cp/chater2.c's command("get all"), ("wear all") and ("wield all"): the player in its
+## room sees what it does.
+func _command(npc: NpcRuntimeState, command: StringName) -> void:
+	var lines: Array[String] = []
+	match command:
+		NpcTalk.GET_ALL:
+			lines = _map.floor_items.npc_get_all(npc)
+		NpcTalk.WEAR_ALL:
+			lines = _map.npcs.npc_wear_all(npc.character_id)
+		NpcTalk.WIELD_ALL:
+			lines = _map.npcs.npc_wield_all(npc.character_id)
+	if not lines.is_empty() and player_hears(npc):
+		_map.hud().append_log_lines(lines)
+	if not lines.is_empty() and _map.hud().inventory_is_open() and session != null:
+		_map.hud().show_inventory(session.player_inventory_rows())
 
 
 ## npc.c's chat functions outside a fight (安惜迩's exert powerfade): with no enemy

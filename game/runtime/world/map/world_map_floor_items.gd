@@ -366,6 +366,44 @@ func count_landmark_use(landmark_id: StringName) -> void:
 	landmark_use_counts[landmark_id] = landmark_uses(landmark_id) + 1
 
 
+## command("get all") by an NPC (u/cp/chater2.c, cmds/std/get.c): everything lying in its room
+## that is not no_get goes to it while it fits under its max_encumbrance (a stack whole, merged
+## into its own), in the order it lies there, each told as get.c's message_vision() tells it. Not
+## in a fight (get.c: 你还在战斗中！). A corpse stays (默认: an NPC carrying a body is not modelled).
+func npc_get_all(npc: NpcRuntimeState) -> Array[String]:
+	var lines: Array[String] = []
+	if npc == null or npc.relationship.is_fighting():
+		return lines
+	var floor: ContainmentEndpoint = floor_endpoint(npc.world_location())
+	var holder := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, npc.character_id)
+	var destination := InventoryTransferDestination.new(holder, true, true, npc.maximum_encumbrance)
+	var owner := ItemLifecycleOwnerContext.new(npc.character_id, npc.character_state.equipment, npc.armor)
+	for item_id: StringName in _inventory.direct_children(floor):
+		var view: WorldFloorItemView = item_views.get(item_id)
+		var content: ItemContentDefinition = floor_item_content(view)
+		if content == null or content.no_get:
+			continue
+		var shown: String = HeldItemFacts.one_unit(content)
+		var moved: bool = false
+		if _stacks.has_stack(item_id):
+			var merged: CombinedStackMergeResult = CombinedStackService.transfer_and_merge(_stacks, _inventory, item_id, destination, null, null, owner)
+			if not _item_index.forget_destroyed_snapshots(merged.absorbed_instance_ids, _inventory):
+				push_error("%s could not take %s" % [npc.character_id, item_id])
+				continue
+			moved = merged.inventory_transfer != null and merged.inventory_transfer.succeeded and merged.succeeded
+		else:
+			moved = InventoryTransferService.new().transfer(_inventory, item_id, destination).succeeded
+		if not moved:
+			continue
+		if _map.selection.selected_target != null and _map.selection.selected_target.kind == WorldInteractionTarget.Kind.ITEM and _map.selection.selected_target.target_id == item_id:
+			_map.selection.selected_target = null
+			_map.hud().set_selected_target(null)
+		_forget_floor_item(item_id)
+		# TRANSLATORS: get.c's message_vision() for an NPC ({npc}) picking up what lies in its room ({item}: 一把长剑).
+		lines.append(tr("{npc}捡起{item}。").format({"npc": tr(npc.definition().display_name), "item": shown}))
+	return lines
+
+
 ## Items dropped on this map's floor (not on a spawn marker), for the save.
 func dropped_item_ids() -> Array[StringName]:
 	var result: Array[StringName] = []
@@ -625,6 +663,14 @@ func selected_npc_takes_gifts() -> bool:
 	)
 
 
+## The selected NPC's accept_object() rule that would decide this gift now (null: refused).
+func gift_rule_for_selected(item_id: StringName, amount: int = 0) -> NpcObjectRule:
+	var npc: NpcRuntimeState = _map.selection.selected_npc()
+	if npc == null or not selected_npc_takes_gifts():
+		return null
+	return ItemHandlingService.deciding_rule(_player, npc, item_id, amount, item_authorities())
+
+
 ## give <item> to <selected npc>; `amount` 0 gives the whole object.
 func give_to_selected(item_id: StringName, amount: int = 0) -> ItemHandlingResult:
 	var npc: NpcRuntimeState = _map.selection.selected_npc()
@@ -651,6 +697,24 @@ func give_to_selected(item_id: StringName, amount: int = 0) -> ItemHandlingResul
 		var at_feet: String = "" if gift.is_empty() or gift_content == null else at_feet_line(gift, gift_content)
 		if not at_feet.is_empty():
 			result.lines.append(at_feet)
+	# chen.c accept_object(): command("recruit " + id) before give.c's line: a request waiting on
+	# him is taken at once, else he offers (recruit.c).
+	if result.done() and result.rule != null and result.rule.recruit:
+		var teaching: NpcTeaching = npc.definition().teaching()
+		var family: FamilyDefinition = null if teaching == null else GameContent.catalog().family(teaching.family_id)
+		if family == null or teaching.apprentice == null:
+			push_error("%s recruits without a family that takes apprentices" % npc.definition().definition_id)
+		else:
+			_player.recruited_by(npc.definition(), family, int(Time.get_unix_time_from_system()))
+			var at: int = maxi(0, result.lines.size() - 1)
+			var added: Array[String] = _player.apprenticeship_request.lines
+			var colors: Dictionary = {}
+			for index: int in result.line_colors:
+				colors[index + added.size() if index >= at else index] = result.line_colors[index]
+			result.line_colors.assign(colors)
+			for line: String in added:
+				result.lines.insert(at, line)
+				at += 1
 	if not attacks:
 		_report_item_handling(result)
 		# boater.c: the boat takes the one who paid (owner, 山烟寺 plan Q1); general.c throws

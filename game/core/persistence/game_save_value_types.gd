@@ -523,6 +523,8 @@ class NpcSpawnStateSnapshot extends RefCounted:
 	## left (-1: not counted yet) and how often a thief was caught.
 	var flags: Dictionary[StringName, bool] = {}
 	var combat_chat_chance: int = -1
+	## set("chat_chance", random(20)) drawn when it was made (walker.c); -1: the definition's.
+	var chat_chance: int = -1
 	var pills_left: int = -1
 	## thief.c query("thief"): times caught (0: never).
 	var times_caught: int = 0
@@ -561,6 +563,7 @@ class NpcSpawnStateSnapshot extends RefCounted:
 		var copy := NpcSpawnStateSnapshot.new(spawn_id, spawn_point_id, npc_definition_id, character_id, exists_in_world, life_status, combat_available, character, age, body_weight, maximum_encumbrance, world_location, map_position, _live_loadout_item_ids, revive_in_ms)
 		copy.flags = flags.duplicate()
 		copy.combat_chat_chance = combat_chat_chance
+		copy.chat_chance = chat_chance
 		copy.pills_left = pills_left
 		copy.times_caught = times_caught
 		copy.chant_stage = chant_stage
@@ -569,7 +572,7 @@ class NpcSpawnStateSnapshot extends RefCounted:
 
 	## Whether there is any memory to write (a fresh NPC remembers nothing).
 	func has_memory() -> bool:
-		return not flags.is_empty() or combat_chat_chance >= 0 or pills_left >= 0 or times_caught > 0 or chant_stage >= 0
+		return not flags.is_empty() or combat_chat_chance >= 0 or chat_chance >= 0 or pills_left >= 0 or times_caught > 0 or chant_stage >= 0
 
 
 class CorpseWornItemSnapshot extends RefCounted:

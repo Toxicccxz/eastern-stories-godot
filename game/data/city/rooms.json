@@ -1,0 +1,392 @@
+{
+	"rooms": [
+		{
+			"id": "es2:d/city/nroad2",
+			"short": "北驿道",
+			"long": "这是一条青石铺地的大驿道，地处京师的北郊。北方入京必经\n此地。往南走就可以到京师了。东北是连绵的群山。\n",
+			"exits": {
+				"south": "es2:d/city/nroad1",
+				"north": "es2:d/village/road2"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/nroad1",
+			"short": "北驿道",
+			"long": "你正走在一条青石铺地的大驿道上，四周人来人往。挑担子的\n苦力，赶着大车的马夫，赴京传书的军人，熙熙攘攘，非常热闹。\n不时还有两三骑快马从身边飞驰而过，引起一阵骚动。道路两旁各\n有一片小树林，南边就是京师。\n",
+			"exits": {
+				"north": "es2:d/city/nroad2",
+				"south": "es2:d/city/northdoor"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/northdoor",
+			"short": "京师北门",
+			"long": "这是京师的北门，若干年前曾经遭到异族的攻打，因而显得有\n些陈旧。城门正上方清析可见当朝名家书写的“京师北门”几个金\n字，城墙上贴着几张告示(sign)。这里是罪犯逃往北方的必经之地，\n官兵们戒备森严，动不动就截住行人盘问。一条笔直的青石板大道\n向南北两边延伸。北边是郊外，骑马的、座轿的、走路的，行人匆\n匆涌入京师。南边是城里，隐约传来阵阵的喧闹声。\n",
+			"exits": {
+				"north": "es2:d/city/nroad1",
+				"south": "es2:d/city/street16"
+			}
+		},
+		{
+			"id": "es2:d/city/street16",
+			"short": "大栅栏",
+			"long": "从这里再往北走就出了京师的北城门，在与异族交战的时期，为\n方便盘查行人，官兵在这儿放了一道很大的栅栏。后来尽管战争结束\n了，栅栏拿走了，但老人们还是习惯地把这叫做“大栅栏”，用京音\n读起来就变成了“大世烂儿”。西面是护国寺的侧门。\n",
+			"exits": {
+				"north": "es2:d/city/northdoor",
+				"south": "es2:d/city/street7"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/bank",
+			"short": "旺金钱庄",
+			"long": "这是一间素来不讲信用的钱庄，钱庄的老板倒是读过几年书，脑筋\n很活络，你可以看到钱庄里里外外都打扫得乾乾净净，一个精瘦精瘦的\n中年人坐在柜台后面，柜台上放著一块牌子(sign)，往南是通往京城街\n道的大门。\n",
+			"exits": {
+				"south": "es2:d/city/street8"
+			},
+			"no_fight": true,
+			"no_magic": true
+		},
+		{
+			"id": "es2:d/city/weapon",
+			"short": "京师武器店",
+			"long": "这里是江湖中人人所向往的京师武器店。店铺宽敞，红砖铺地。\n四周的墙壁上挂满了各式的刀剑。东边的武器架上的枪戟的反光令\n你睁不开眼。靠北墙的大柜台一尘不染，几个伙计正在忙碌。\n    靠近店门的地方有一块金字招牌(sign)。\n",
+			"exits": {
+				"south": "es2:d/city/street9"
+			}
+		},
+		{
+			"id": "es2:d/city/westdoor1",
+			"short": "京师西一门",
+			"long": "你来到京师的西一门。城墙上贴着几张官家布告(notice)。东\n北方是大相国寺，不时传来几声钟声。西边是城外，抬头可见远处\n连绵的群山。东边就是京师的街道了。\n",
+			"exits": {
+				"east": "es2:d/city/street14"
+			}
+		},
+		{
+			"id": "es2:d/city/street14",
+			"short": "京师街道",
+			"long": "这里是京师的大街上。西边是京师的西一门，护国寺的僧人西\n去取经必经此地。福缘好的话还可以看到几个有道高僧路过。\n",
+			"exits": {
+				"west": "es2:d/city/westdoor1",
+				"east": "es2:d/city/street15"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/street15",
+			"short": "京师街道",
+			"long": "你来到京师的大街。北边是护国寺的大门，寺内香烟缭绕。\n",
+			"exits": {
+				"west": "es2:d/city/street14",
+				"east": "es2:d/city/street7"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/street7",
+			"short": "十字路口",
+			"long": "京师的中轴线和北面的主要街道护国道在这里交叉，东西向的护\n国道上人来人往，热闹非凡，南面的皇家祭坛反倒冷冷清清，往北可\n以望到大红颜色的北城门。\n",
+			"exits": {
+				"east": "es2:d/city/street8",
+				"west": "es2:d/city/street15",
+				"north": "es2:d/city/street16",
+				"south": "es2:d/city/jitan"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/street8",
+			"short": "京师街道",
+			"long": "你现在正走在京师的大街上，往东可以隐约看到城门铜扣上的反\n光，在你的北边是京城唯一的钱庄，往西有熙熙攘攘的人群，偶尔还\n能见到一俩个僧侣。\n",
+			"exits": {
+				"east": "es2:d/city/street9",
+				"north": "es2:d/city/bank",
+				"west": "es2:d/city/street7"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/street9",
+			"short": "京师街道",
+			"long": "你现在正走在京师的大街上。东边就是京师的东一门了，隐约\n传来官兵搜查行人的吆喝声。在你的北边是京城的武器店，据说江\n湖上半数以上的武器精品出于此店。从店中走出的人都是一副心满\n意足的模样。\n",
+			"exits": {
+				"east": "es2:d/city/eastdoor1",
+				"north": "es2:d/city/weapon",
+				"west": "es2:d/city/street8"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/eastdoor1",
+			"short": "京师东一门",
+			"long": "你来到京师的东一门。城门口十来个手持刀枪的士兵正在检查\n过往的行人。经常有一些富丽堂皇的大车缓缓驶入城来，那是京师\n的官宦人家出游归来。城墙上有一张陈旧的布告(notice)。东边是\n城外，风景如画。西边是京师的街道。\n",
+			"exits": {
+				"west": "es2:d/city/street9"
+			}
+		},
+		{
+			"id": "es2:d/city/feiyuan",
+			"short": "废园",
+			"long": "你来到一所废园里。据说废园的主人原也是位极人臣的，后来却\n以「莫须有」的罪名被皇上斩了全族，其他的官员怕晦气，都不敢来\n此住，遂形成废园。废园里荒草丛生，往日的辉煌已不再现，仅留下\n几个残垣供人凭吊。\n",
+			"exits": {
+				"south": "es2:d/city/street6"
+			}
+		},
+		{
+			"id": "es2:d/city/jitan",
+			"short": "祭坛",
+			"long": "这是一片宽阔的小广场，广场的中间是皇家的祭坛(altar)，每年\n朝廷庆祝丰收或祈祷的重大典礼都在这里举行，皇上、皇后和文武百\n官能上祭坛，其他人只能从旁边绕过去。除了禁卫军的官兵和宫里的\n杂役偶尔出入外，很少有人来往。往南是紫禁城的神武门，北面是一\n个非常热闹的十字路口。\n",
+			"exits": {
+				"south": "es2:d/city/shenwumen",
+				"north": "es2:d/city/street7"
+			}
+		},
+		{
+			"id": "es2:d/city/biaoju",
+			"short": "振远总局",
+			"long": "你来到了振远总局里。镖局虽然不大，但在京师这块土地上，已无人\n不知其名。尤其是其总镖头，俨然是以京城武林领袖自居。\n",
+			"exits": {
+				"south": "es2:d/city/street1"
+			}
+		},
+		{
+			"id": "es2:d/city/cloth",
+			"short": "四喜绸缎庄",
+			"long": "四喜绸缎庄是京师中的一家刚刚开业的专营衣帽的商店。店内\n顾客稀少，显得店铺空荡荡的。柜台上凌乱地摊着几匹绸缎。绸缎\n庄的老板出去进货了，只有老板娘空守店铺。据说这家店铺很有来\n历。一般的地痞也很少到店中闹事。\n    店堂上挂有一块崭新的招牌(sign)。\n",
+			"exits": {
+				"east": "es2:d/city/street6"
+			}
+		},
+		{
+			"id": "es2:d/city/street6",
+			"short": "京师西街",
+			"long": "你现在正走在京师的街道上。往东走便是紫禁城的后门--神武门\n，南面似乎有一家酒楼，酒肉的香味一阵阵飘来。北边是一个废园，\n据说里面经常闹鬼，所以没人敢去。\n",
+			"exits": {
+				"east": "es2:d/city/shenwumen",
+				"south": "es2:d/city/street5",
+				"west": "es2:d/city/cloth",
+				"north": "es2:d/city/feiyuan"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/shenwumen",
+			"short": "神武门",
+			"long": "你来到紫禁城的北门--神武门。南向的大门通向紫禁城，但这门\n很少开。门上缠着大铁链，还有士兵把守。往北走是皇家祭坛，不是\n一年一度祭天时那总很冷清。东西向的道路分别通向京师东，西路。\n",
+			"exits": {
+				"north": "es2:d/city/jitan",
+				"east": "es2:d/city/street1",
+				"west": "es2:d/city/street6"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/street1",
+			"short": "京师东街",
+			"long": "这里是京师东街的北段。往北走有一个大院子，院里立着根老高\n老高的旗杆，上书一个斗大的「镖」字，隔很远就可以看见。镖局的\n生意似乎很好，人络绎不绝。西向是庄严的神武门。向南则去向尚书\n府和午门。\n",
+			"exits": {
+				"north": "es2:d/city/biaoju",
+				"south": "es2:d/city/street2",
+				"west": "es2:d/city/shenwumen"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/jiulou",
+			"short": "太白酒楼",
+			"long": "你走到了一家大酒楼里。四周的装饰金壁辉煌，令人眼花缭乱，连餐\n具的做工也极讲究，不愧是京城的第一大酒楼。酒楼的菜肴是远近闻名的\n，在这经常可以看到一些达官贵族，据连当今皇上也曾微服来此以一饱口\n福。\n",
+			"exits": {
+				"east": "es2:d/city/street5",
+				"up": "es2:d/city/jiulou_2"
+			}
+		},
+		{
+			"id": "es2:d/city/street5",
+			"short": "京师西街",
+			"long": "你现在正走在京师的街道上，西边是京师最有名的“太白酒楼”，\n酒楼里三教九流的人物都有，嘈杂声不绝于耳。东边紧邻着紫禁城的\n城墙(wall)。街道向南北方向延伸着。\n",
+			"exits": {
+				"west": "es2:d/city/jiulou",
+				"south": "es2:d/city/street4",
+				"north": "es2:d/city/street6"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/street2",
+			"short": "京师东街",
+			"long": "你走在京师东街的中段。这里夹在紫禁城城墙与尚书府院墙之间\n，南向的道路通向午门和尚书府的大门，而北方不远处振远总局的旗\n杆依稀可见，令人隐隐约约地感到一种杀气。\n",
+			"exits": {
+				"north": "es2:d/city/street1",
+				"south": "es2:d/city/street3"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/xiangguo/gate",
+			"short": "相国府大门",
+			"long": "你来到相国府的大门处。虽然相国在朝中也是地位显赫，但与对\n面尚书府比起来，相国的府第显的寒酸得多。一切都十分简单，只有\n牌匾上的「相国府」还提醒着人们主人的地位。\n",
+			"exits": {
+				"east": "es2:d/city/street4"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/street4",
+			"short": "京师西街",
+			"long": "你现在正走在京师的街道上。东边是进出紫禁城的午门，西边则\n是当朝地位显赫的相国的府宅，而北边不远处“太白酒楼”的喧哗声\n依稀可闻。\n",
+			"exits": {
+				"east": "es2:d/city/wumen",
+				"west": "es2:d/city/xiangguo/gate",
+				"north": "es2:d/city/street5"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/wumen",
+			"short": "午门",
+			"long": "这里是京师的午门。午门进出紫禁城的要道，北面那庄严的大门\n(gate)后面便是神秘的紫禁城。大门的两侧放着一对石狮(statue)，\n虎视眈眈地盯着来往的人群。南面是历年选武状元的校武场，也不知\n现在有没有人。东西向的街道围绕着紫禁城。\n",
+			"exits": {
+				"east": "es2:d/city/street3",
+				"west": "es2:d/city/street4",
+				"south": "es2:d/city/jiaowu"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/street3",
+			"short": "京师东街",
+			"long": "这是京师东街的南段。整个东街都被掌管天下兵马印的尚书府占\n据了，东边便是尚书府的大门，南边则是尚书府高耸的围墙(wall)，\n北去的道路一直通向振远总局。\n",
+			"exits": {
+				"east": "es2:d/city/shangshu/gate",
+				"west": "es2:d/city/wumen",
+				"north": "es2:d/city/street2"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/jiaowu",
+			"short": "校武场",
+			"long": "这里是京师的校武场。一些御林军正在这里日夜操练，喊杀声\n此起彼伏。几个骑着高头大马的将领，在场上来回地巡视。每年武\n考也是在此举行的，当年淤兰天武、萧避尘、蓝芷萍就是在此出尽\n了风头，一时间声名传遍长城内外、大江南北。\n    北边是午门，南边是热闹的天桥了。\n",
+			"exits": {
+				"south": "es2:d/city/bridge",
+				"north": "es2:d/city/wumen"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/boots",
+			"short": "李记鞋店",
+			"long": "这里是京师中最大的一家鞋店。店主姓李，历经几代，已是百\n年老店。店铺挺大，弥漫着一种特殊皮革的气味。大柜台后面的架\n子上放满了各式的皮靴。店中几个伙计正在忙碌。\n    店门口有一块金字招牌(sign)。\n",
+			"exits": {
+				"south": "es2:d/city/street11"
+			}
+		},
+		{
+			"id": "es2:d/city/westdoor2",
+			"short": "京师西二门",
+			"long": "你来到京师的西二门，西二门虽不如京师的其他几个城门高大。\n但高高的城墙也非一般人所能攀越，城墙上贴着几张布告(notice)。\n西边是城外，据说一直往西就可到达一个仙境。东边就是京师的街\n道了。\n",
+			"exits": {
+				"east": "es2:d/city/street13"
+			}
+		},
+		{
+			"id": "es2:d/city/street13",
+			"short": "京师街道",
+			"long": "你来到京师的大街上。西边是京师的西二门，西去的人不时经\n过这里。南边是京师的监狱，关押着一些重要的犯人。站在这里可\n以清楚地听到狱卒拷打犯人的皮鞭声和犯人的惨叫声。\n",
+			"exits": {
+				"west": "es2:d/city/westdoor2",
+				"east": "es2:d/city/street12"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/street12",
+			"short": "京师街道",
+			"long": "这里是京师的大街，青石铺道，街面很干净。东边是京师的热\n闹场所天桥，来到京师可不能不去哦。南边是京师的刑场，逢上处\n决一些重要的犯人的时候，那里肯定是人山人海，不过平时人就少\n得多了。\n",
+			"exits": {
+				"east": "es2:d/city/bridge",
+				"west": "es2:d/city/street13"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/bridge",
+			"short": "天桥",
+			"long": "你来到京师的天桥。这里热闹非凡，人声鼎沸。杂耍的、卖艺\n的、做小买卖的应有尽有。若是仔细寻找，说不定可以买到什么奇\n珍异宝呢。柱子和墙壁上贴满着花花绿绿的广告（post）。\n    北边是校武场。再往北就到京师中心……紫禁城了。\n",
+			"exits": {
+				"south": "es2:d/city/street17",
+				"west": "es2:d/city/street12",
+				"east": "es2:d/city/street11",
+				"north": "es2:d/city/jiaowu"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/street11",
+			"short": "京师街道",
+			"long": "这里是京师的大街。西边是京师的热闹场所天桥，一些行人匆\n匆往西走去。据说天桥的夜市也不差哦。南边是一片民宅，炊烟缭\n绕。\n",
+			"exits": {
+				"west": "es2:d/city/bridge",
+				"north": "es2:d/city/boots",
+				"east": "es2:d/city/street10",
+				"south": "es2:d/city/house1"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/street10",
+			"short": "京师街道",
+			"long": "这里是京师的大街。东边是京师的东二门，一些刚进城的行人\n坐在路边休息，不时发出一阵哄笑声。往西就可以到京师中心了。\n",
+			"exits": {
+				"east": "es2:d/city/eastdoor2",
+				"west": "es2:d/city/street11"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/eastdoor2",
+			"short": "京师东二门",
+			"long": "这里是京师的东二门。城门上插着几面旗帜，标志了本门的守\n城将领。城楼里坐着几个将军打扮的人，城墙上有一张刚刚粘贴上\n去的布告(notice)，一群人正围着观看。东边是城外，西边是京师\n的街道。\n",
+			"exits": {
+				"west": "es2:d/city/street10"
+			}
+		},
+		{
+			"id": "es2:d/city/street17",
+			"short": "京师街道",
+			"long": "你来到京师的大街上。南边是京师的南门，出了南门就可去南\n方重镇……南海镇。北边是天桥，人声鼎沸。西边是刑场，一个一\n般人极少去的地方。\n",
+			"exits": {
+				"north": "es2:d/city/bridge",
+				"south": "es2:d/city/southdoor"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/city/house1",
+			"short": "空房间",
+			"long": "这是一间什麽也没有的空房间。\n",
+			"exits": {
+				"north": "es2:d/city/street11"
+			}
+		},
+		{
+			"id": "es2:d/city/southdoor",
+			"short": "京师南门",
+			"long": "这是京师的南门。高大的城门正上“京师南门”几个大字格外\n显眼。城墙上贴着几张官家布告(notice)。西北方是京师的监狱，\n关押着一些要犯，因此这里的官兵们也戒备森严。南边是城外，不\n时走来几个赴京赶考的举子。北边就是京师，一个灯红酒绿的地方。\n",
+			"exits": {
+				"north": "es2:d/city/street17"
+			}
+		},
+		{
+			"id": "es2:d/city/jiulou_2",
+			"short": "太白酒楼二楼",
+			"long": "你走上了太白酒楼的二楼，酒楼的雅座便设于此。大凡有来头\n的客人都到此饮酒作乐。在此经常可以遇上一些达官贵族，一些为\n做官的富家子弟就来此打进阶的消息。墙边有一道楼梯通往一楼的\n茶座。\n",
+			"exits": {
+				"down": "es2:d/city/jiulou"
+			}
+		}
+	]
+}
