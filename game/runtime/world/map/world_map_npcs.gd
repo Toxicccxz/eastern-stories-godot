@@ -277,6 +277,71 @@ func npc_wield_by_type(character_id: StringName, skill_type: StringName, on: boo
 	return false
 
 
+## command("wear all") (u/cp/chater2.c, cmds/std/wear.c): every armor the NPC carries and does
+## not wear yet goes on, in inventory order, while its slot is free (a 女性's things only on a
+## woman: wear.c tells only the wearer); wear.c's own line for each (an item's own wear_msg is
+## not shown yet, as the player's).
+func npc_wear_all(character_id: StringName) -> Array[String]:
+	var lines: Array[String] = []
+	var npc: NpcRuntimeState = find_resident_npc(character_id)
+	if npc == null:
+		return lines
+	var holder := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, character_id)
+	for item_id: StringName in _inventory.direct_children(holder):
+		var item: ItemInstance = _item_index.resolve(item_id)
+		var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
+		var armor: ArmorDefinition = null if content == null else content.armor_definition()
+		if armor == null or npc.armor.is_worn(item_id):
+			continue
+		if content.female_only and npc.character_state.gender != CharacterState.GENDER_FEMALE:
+			continue
+		if not ArmorService.wear(npc.armor, _inventory, holder, item, armor).succeeded:
+			continue
+		lines.append(_wear_line(npc, content, armor))
+	return lines
+
+
+## wear.c's line by armor_type (YEL in ES2; the log shows it plain).
+func _wear_line(npc: NpcRuntimeState, content: ItemContentDefinition, armor: ArmorDefinition) -> String:
+	var name: String = tr(npc.definition().display_name)
+	var item: String = tr(content.display_name)
+	var unit: String = tr(content.unit)
+	match String(armor.armor_type):
+		"cloth", "armor", "boots":
+			# TRANSLATORS: wear.c: an NPC ({npc}) puts on clothes, armour or boots ({unit} the measure word, {item}).
+			return tr("{npc}穿上一{unit}{item}。").format({"npc": name, "unit": unit, "item": item})
+		"head", "neck", "wrists", "finger", "hands":
+			# TRANSLATORS: wear.c: an NPC ({npc}) puts on a hat, a necklace, a bracelet, a ring or gloves.
+			return tr("{npc}戴上一{unit}{item}。").format({"npc": name, "unit": unit, "item": item})
+		"waist":
+			# TRANSLATORS: wear.c: an NPC ({npc}) ties something round its waist (ES2 names only its measure word).
+			return tr("{npc}将一{unit}绑在腰间。").format({"npc": name, "unit": unit})
+	# TRANSLATORS: wear.c: an NPC ({npc}) puts on anything else ({item}).
+	return tr("{npc}装备{item}。").format({"npc": name, "item": item})
+
+
+## command("wield all") (u/cp/chater2.c, cmds/std/wield.c): every weapon it carries and does not
+## wield yet, in inventory order, while a hand is free; wield.c's own line for each (an item's
+## own wield_msg is not shown yet, as the player's).
+func npc_wield_all(character_id: StringName) -> Array[String]:
+	var lines: Array[String] = []
+	var npc: NpcRuntimeState = find_resident_npc(character_id)
+	if npc == null:
+		return lines
+	var equipment: EquipmentState = npc.character_state.equipment
+	for item_id: StringName in _inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, character_id)):
+		var item: ItemInstance = _item_index.resolve(item_id)
+		var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
+		var weapon: WeaponDefinition = null if content == null else content.weapon_definition()
+		if weapon == null or equipment.has_weapon_instance(item_id):
+			continue
+		if not equipment.wield(EquippedWeaponRef.new(item_id, weapon), npc.armor.is_slot_occupied(OldPineEquipmentInteractionAdapter.SHIELD_SLOT)).succeeded:
+			continue
+		# TRANSLATORS: wield.c: an NPC ({npc}) takes up a weapon ({item}).
+		lines.append(tr("{npc}装备{item}作武器。").format({"npc": tr(npc.definition().display_name), "item": tr(content.display_name)}))
+	return lines
+
+
 ## command("wield <id>") for an NPC: a carried, not yet wielded item of that kind.
 func npc_wield_item(character_id: StringName, item_definition_id: StringName) -> bool:
 	var npc: NpcRuntimeState = find_resident_npc(character_id)

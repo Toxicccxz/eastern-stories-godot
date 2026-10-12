@@ -68,6 +68,7 @@ msgstr ""
 #. common.npc.bonze.master apprentice.requires.gender
 #. common.npc.beggar.master gender
 #. common.npc.scholar.master gender
+#. common.npc.chater2 gender
 #. oldpine.npc.bandit gender
 #. oldpine.npc.tall_bandit gender
 #. oldpine.npc.fat_bandit gender
@@ -185,7 +186,16 @@ msgstr ""
 #. village.npc.oldliu gender
 #. village.npc.meloner gender
 #. village.npc.fisher gender
-#: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json
+#. city.npc.microsof gender
+#. city.npc.weaponor gender
+#. city.npc.chen gender
+#. city.npc.waiter gender
+#. city.npc.walker gender.else
+#. city.npc.trader gender
+#. city.npc.vendor gender
+#. city.npc.caker gender
+#. city.npc.dumpling_seller gender
+#: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json
 msgid "男性"
 msgstr ""
 
@@ -246,7 +256,10 @@ msgstr ""
 #. choyin.npc.lady gender
 #. village.npc.woman1 gender
 #. village.npc.flowergirl gender
-#: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json data/village/npcs.json
+#. city.npc.clother gender
+#. city.npc.walker gender.then
+#. city.npc.shoer gender
+#: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json data/village/npcs.json data/city/npcs.json
 msgid "女性"
 msgstr ""
 
@@ -700,7 +713,8 @@ msgstr ""
 
 #. es2:u/cloud/cross short
 #. es2:d/choyin/crossroad short
-#: scenes/world/choyin/choyin_town.tscn scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json data/choyin/rooms.json
+#. es2:d/city/street7 short
+#: scenes/world/choyin/choyin_town.tscn scenes/world/city/city_main.tscn scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json data/choyin/rooms.json data/city/rooms.json
 msgid "十字路口"
 msgstr ""
 
@@ -815,14 +829,202 @@ msgstr ""
 msgid "南 · 衙门口"
 msgstr ""
 
+#. es2:d/city/nroad2 short
+#. es2:d/city/nroad1 short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "北驿道"
+msgstr ""
+
+#. es2:d/city/northdoor short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "京师北门"
+msgstr ""
+
+#. es2:d/city/street16 short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "大栅栏"
+msgstr ""
+
+#. es2:d/city/bank short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "旺金钱庄"
+msgstr ""
+
+#. es2:d/city/weapon short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "京师武器店"
+msgstr ""
+
+#. es2:d/city/westdoor1 short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "京师西一门"
+msgstr ""
+
+#. es2:d/city/street14 short
+#. es2:d/city/street15 short
+#. es2:d/city/street8 short
+#. es2:d/city/street9 short
+#. es2:d/city/street13 short
+#. es2:d/city/street12 short
+#. es2:d/city/street11 short
+#. es2:d/city/street10 short
+#. es2:d/city/street17 short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "京师街道"
+msgstr ""
+
+#. es2:d/city/eastdoor1 short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "京师东一门"
+msgstr ""
+
+#. es2:d/city/feiyuan short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "废园"
+msgstr ""
+
+#. es2:d/city/jitan short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "祭坛"
+msgstr ""
+
+#. es2:d/city/biaoju short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "振远总局"
+msgstr ""
+
+#. es2:d/city/cloth short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "四喜绸缎庄"
+msgstr ""
+
+#. es2:d/city/street6 short
+#. es2:d/city/street5 short
+#. es2:d/city/street4 short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "京师西街"
+msgstr ""
+
+#. es2:d/city/shenwumen short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "神武门"
+msgstr ""
+
+#. es2:d/city/street1 short
+#. es2:d/city/street2 short
+#. es2:d/city/street3 short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "京师东街"
+msgstr ""
+
+#. city.npc.boss inquiry topic
+#. es2:d/city/jiulou short
+#: scenes/world/city/city_main.tscn data/city/npcs.json data/city/rooms.json
+msgid "太白酒楼"
+msgstr ""
+
+#. es2:d/city/xiangguo/gate short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "相国府大门"
+msgstr ""
+
+#. es2:d/city/wumen short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "午门"
+msgstr ""
+
+#. es2:d/city/jiaowu short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "校武场"
+msgstr ""
+
+#. es2:d/city/boots short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "李记鞋店"
+msgstr ""
+
+#. es2:d/city/westdoor2 short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "京师西二门"
+msgstr ""
+
+#. es2:d/city/bridge short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "天桥"
+msgstr ""
+
+#. es2:d/city/eastdoor2 short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "京师东二门"
+msgstr ""
+
+#. es2:d/city/house1 short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "空房间"
+msgstr ""
+
+#. es2:d/city/southdoor short
+#: scenes/world/city/city_main.tscn data/city/rooms.json
+msgid "京师南门"
+msgstr ""
+
+#: scenes/world/city/city_main.tscn scenes/world/cloud/cloud_outdoor.tscn scenes/world/latemoon/latemoon_manor.tscn scenes/world/snow/snow_inn.tscn
+msgid "楼梯 · 上楼"
+msgstr ""
+
+#: scenes/world/city/city_main.tscn
+msgid "北 · 玉螺湖村"
+msgstr ""
+
+#: scenes/world/city/city_main.tscn
+msgid "连绵的群山"
+msgstr ""
+
+#: scenes/world/city/city_main.tscn
+msgid "护国寺"
+msgstr ""
+
+#: scenes/world/city/city_main.tscn
+msgid "紫禁城"
+msgstr ""
+
+#: scenes/world/city/city_main.tscn
+msgid "尚书府（未开放）"
+msgstr ""
+
+#: scenes/world/city/city_main.tscn
+msgid "相国府"
+msgstr ""
+
+#: scenes/world/city/city_main.tscn
+msgid "监狱"
+msgstr ""
+
+#: scenes/world/city/city_main.tscn
+msgid "刑场"
+msgstr ""
+
+#: scenes/world/city/city_main.tscn
+msgid "钱庄 · 兑换"
+msgstr ""
+
+#: scenes/world/city/city_main.tscn
+msgid "城门 · 出城"
+msgstr ""
+
+#. es2:d/city/jiulou_2 short
+#: scenes/world/city/city_upstairs.tscn data/city/rooms.json
+msgid "太白酒楼二楼"
+msgstr ""
+
+#: scenes/world/city/city_upstairs.tscn scenes/world/cloud/cloud_duchang_upstairs.tscn scenes/world/cloud/cloud_jiyuan_upstairs.tscn scenes/world/cloud/cloud_tearoom_upstairs.tscn scenes/world/latemoon/latemoon_upper.tscn scenes/world/snow/snow_inn_upstairs.tscn scenes/world/waterfog/waterfog_upstairs.tscn
+msgid "楼梯 · 下楼"
+msgstr ""
+
 #. es2:u/cloud/duchang short
 #. es2:u/cloud/duchang2 short
 #: scenes/world/cloud/cloud_duchang_upstairs.tscn scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
 msgid "赌场"
-msgstr ""
-
-#: scenes/world/cloud/cloud_duchang_upstairs.tscn scenes/world/cloud/cloud_jiyuan_upstairs.tscn scenes/world/cloud/cloud_tearoom_upstairs.tscn scenes/world/latemoon/latemoon_upper.tscn scenes/world/snow/snow_inn_upstairs.tscn scenes/world/waterfog/waterfog_upstairs.tscn
-msgid "楼梯 · 下楼"
 msgstr ""
 
 #. es2:u/cloud/jiyuan2 short
@@ -1014,10 +1216,6 @@ msgstr ""
 
 #: scenes/world/cloud/cloud_outdoor.tscn scenes/world/oldpine/oldpine_outdoor.tscn
 msgid "北 · 雪亭镇"
-msgstr ""
-
-#: scenes/world/cloud/cloud_outdoor.tscn scenes/world/latemoon/latemoon_manor.tscn scenes/world/snow/snow_inn.tscn
-msgid "楼梯 · 上楼"
 msgstr ""
 
 #. es2:u/cloud/tearoom2 short
@@ -1878,7 +2076,10 @@ msgstr ""
 msgid "红木门"
 msgstr ""
 
-#: scenes/world/snow/snow_inn.tscn
+#. city.boots.landmark.sign name
+#. city.cloth.landmark.sign name
+#. city.weapon.landmark.sign name
+#: scenes/world/snow/snow_inn.tscn data/city/world.json
 msgid "招牌"
 msgstr ""
 
@@ -2264,7 +2465,7 @@ msgid "西 · 黑松山（未开放）"
 msgstr ""
 
 #: scenes/world/village/village_main.tscn
-msgid "东南 · 京师（未开放）"
+msgid "南 · 京师"
 msgstr ""
 
 #. es2:d/village/lake short
@@ -2541,6 +2742,11 @@ msgstr ""
 msgid "你给{npc}{item}。"
 msgstr ""
 
+#. drop.c's message_vision() for the NPC ({npc}) who drops what it was given ({item}).
+#: application/items/item_handling_service.gd application/items/npc_drink_service.gd
+msgid "{npc}丢下{item}。"
+msgstr ""
+
 #: application/items/item_handling_service.gd
 msgid "这样东西不能随意丢弃。"
 msgstr ""
@@ -2599,10 +2805,6 @@ msgstr ""
 msgid "{npc}拿起{container}咕噜噜地喝了几口{liquid}。"
 msgstr ""
 
-#: application/items/npc_drink_service.gd
-msgid "{npc}丢下{item}。"
-msgstr ""
-
 #. told once, when the player's 杀气 (bellicosity) first gets high enough that entering a place with people may make them attack someone by themselves.
 #: core/characters/berserk.gd
 msgid "你胸中杀气翻涌，渐渐压不住了：杀气这么重，走进有人的地方时，你可能会控制不住，向人出手。"
@@ -2621,7 +2823,8 @@ msgstr ""
 msgid "雌性"
 msgstr ""
 
-#: core/characters/new_player_initialization_policy.gd core/death/player_killer_reward.gd core/relationships/npc_apprenticeship.gd
+#. common.npc.chater2 title
+#: core/characters/new_player_initialization_policy.gd core/death/player_killer_reward.gd core/relationships/npc_apprenticeship.gd data/common/npcs.json
 msgid "普通百姓"
 msgstr ""
 
@@ -3233,7 +3436,8 @@ msgstr ""
 
 #. es2:obj/example/wineskin liquid.name
 #. es2:d/latemoon/obj/wine liquid.name
-#: core/items/liquid/liquid_state.gd data/common/items.json data/latemoon/items.json
+#. es2:d/city/npc/obj/wine liquid.name
+#: core/items/liquid/liquid_state.gd data/common/items.json data/latemoon/items.json data/city/items.json
 msgid "红酒"
 msgstr ""
 
@@ -3752,7 +3956,8 @@ msgstr ""
 #. latemoon.npc.park.maysan family.title
 #. latemoon.npc.upstar.shinfun family.title
 #. latemoon.npc.upstar.huei family.title
-#: core/relationships/npc_apprenticeship.gd data/common/npcs.json data/snow/npcs.json data/temple/npcs.json data/latemoon/npcs.json
+#. city.npc.chen family.title
+#: core/relationships/npc_apprenticeship.gd data/common/npcs.json data/snow/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/city/npcs.json
 msgid "弟子"
 msgstr ""
 
@@ -4589,6 +4794,7 @@ msgstr ""
 #. celestrike actions.damage_type
 #. snowwhip actions.damage_type
 #. spicyclaw actions.damage_type
+#. bloodystrike actions.damage_type
 #. actions.damage_type
 #: data/combat/beast_combat_action_definitions.gd presentation/battle/es2_combat_messages.gd data/common/skills.json data/common/combat_actions.json
 msgid "瘀伤"
@@ -5774,6 +5980,11 @@ msgstr ""
 msgid "你把绳子一端挂好, 另一端往脖子上一套....."
 msgstr ""
 
+#. get.c's message_vision() for an NPC ({npc}) picking up what lies in its room ({item}: 一把长剑).
+#: runtime/world/map/world_map_floor_items.gd
+msgid "{npc}捡起{item}。"
+msgstr ""
+
 #: runtime/world/map/world_map_floor_items.gd
 msgid "你捡起%s。"
 msgstr ""
@@ -5879,6 +6090,31 @@ msgstr ""
 
 #: runtime/world/map/world_map_npc_life.gd
 msgid "你喝道：「干什麽！」"
+msgstr ""
+
+#. wear.c: an NPC ({npc}) puts on clothes, armour or boots ({unit} the measure word, {item}).
+#: runtime/world/map/world_map_npcs.gd
+msgid "{npc}穿上一{unit}{item}。"
+msgstr ""
+
+#. wear.c: an NPC ({npc}) puts on a hat, a necklace, a bracelet, a ring or gloves.
+#: runtime/world/map/world_map_npcs.gd
+msgid "{npc}戴上一{unit}{item}。"
+msgstr ""
+
+#. wear.c: an NPC ({npc}) ties something round its waist (ES2 names only its measure word).
+#: runtime/world/map/world_map_npcs.gd
+msgid "{npc}将一{unit}绑在腰间。"
+msgstr ""
+
+#. wear.c: an NPC ({npc}) puts on anything else ({item}).
+#: runtime/world/map/world_map_npcs.gd
+msgid "{npc}装备{item}。"
+msgstr ""
+
+#. wield.c: an NPC ({npc}) takes up a weapon ({item}).
+#: runtime/world/map/world_map_npcs.gd
+msgid "{npc}装备{item}作武器。"
 msgstr ""
 
 #: runtime/world/map/world_map_npcs.gd
@@ -6846,7 +7082,8 @@ msgstr ""
 msgid "拿取"
 msgstr ""
 
-#: ui/world/player_inventory_panel.gd
+#. city.npc.weaponor inquiry topic
+#: ui/world/player_inventory_panel.gd data/city/npcs.json
 msgid "武器"
 msgstr ""
 
@@ -6904,7 +7141,8 @@ msgstr ""
 msgid "鞭"
 msgstr ""
 
-#: ui/world/player_inventory_panel.gd
+#. city.npc.clother inquiry topic
+#: ui/world/player_inventory_panel.gd data/city/npcs.json
 msgid "衣服"
 msgstr ""
 
@@ -7345,6 +7583,13 @@ msgstr ""
 msgid "确定把{money}送给{npc}吗？送出去的钱一般就要不回来了。"
 msgstr ""
 
+#. asked before a gift ({item}) to a master ({npc}) who will take the player as apprentice at once; {warning} is the 拜师 question (betrayal, first master or change of master).
+#: ui/world/shared_ui_inventory.gd
+msgid ""
+"{npc}收下{item}，就会当场收你为徒。\n"
+"{warning}"
+msgstr ""
+
 #: ui/world/shared_ui_inventory.gd
 msgid "确定送出"
 msgstr ""
@@ -7583,6 +7828,13 @@ msgstr ""
 #. es2:d/choyin/obj/cloth unit
 #. es2:d/canyon/npc/obj/armor unit
 #. es2:d/canyon/npc/obj/cloud_armor unit
+#. es2:d/city/npc/obj/deer_boot unit
+#. es2:d/city/npc/obj/xiang_boot unit
+#. es2:d/city/npc/obj/flower_boot unit
+#. es2:d/city/npc/obj/lady_dress unit
+#. es2:d/city/npc/obj/green_cloth unit
+#. es2:d/city/npc/obj/color_cloth unit
+#. es2:d/city/npc/obj/armor1 unit
 #. es2:u/cloud/obj/npc/monk/jiasha unit
 #. es2:u/cloud/obj/npc/lm_guard/color_cloth unit
 #. es2:u/cloud/obj/cloth/black_cloth unit
@@ -7594,13 +7846,14 @@ msgstr ""
 #. es2:d/temple/obj/robe unit
 #. es2:d/temple/obj/old_robe unit
 #. es2:d/temple/npc/obj/robe1 unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/canyon/items.json data/cloud/items.json data/waterfog/items.json data/temple/items.json
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/canyon/items.json data/city/items.json data/cloud/items.json data/waterfog/items.json data/temple/items.json
 msgid "件"
 msgstr ""
 
 #. es2:obj/example/dumpling name
 #. choyin.npc.dumpling_seller inquiry topic
-#: data/common/items.json data/choyin/npcs.json
+#. city.npc.dumpling_seller inquiry topic
+#: data/common/items.json data/choyin/npcs.json data/city/npcs.json
 msgid "包子"
 msgstr ""
 
@@ -7674,7 +7927,8 @@ msgid "本"
 msgstr ""
 
 #. es2:obj/drug/hurt_drug name
-#: data/common/items.json
+#. city.npc.vendor inquiry topic
+#: data/common/items.json data/city/npcs.json
 msgid "金疮药"
 msgstr ""
 
@@ -7746,6 +8000,9 @@ msgstr ""
 #. es2:d/canyon/bamboo/obj/parry_book unit
 #. es2:d/village/npc/obj/knife unit
 #. es2:d/village/npc/obj/flower unit
+#. es2:d/city/npc/obj/duoqing_blade unit
+#. es2:d/city/npc/obj/wuqing_sword unit
+#. es2:d/city/npc/obj/demon_staff unit
 #. es2:u/cloud/obj/npc/butcher/knife unit
 #. es2:u/cloud/obj/npc/tailor/ruler unit
 #. es2:u/cloud/obj/npc/tailor/scissors unit
@@ -7757,7 +8014,7 @@ msgstr ""
 #. es2:d/green/obj/hammer unit
 #. es2:d/green/obj/windsword unit
 #. es2:d/temple/obj/broom unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/canyon/items.json data/village/items.json data/cloud/items.json data/waterfog/items.json data/green/items.json data/temple/items.json
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/canyon/items.json data/village/items.json data/city/items.json data/cloud/items.json data/waterfog/items.json data/green/items.json data/temple/items.json
 msgid "把"
 msgstr ""
 
@@ -7920,12 +8177,13 @@ msgstr ""
 #. es2:d/latemoon/obj/redbelt unit
 #. es2:d/choyin/obj/cloth_piece unit
 #. es2:d/choyin/obj/goldenrope unit
+#. es2:d/city/npc/obj/rain_whip unit
 #. es2:u/cloud/obj/npc/butcher/skin_belt unit
 #. es2:u/cloud/obj/etc/rope unit
 #. es2:u/cloud/obj/npc/lm_guard/whip unit
 #. es2:u/cloud/obj/npc/monk/stick unit
 #. es2:d/waterfog/obj/iron_staff unit
-#: data/common/items.json data/latemoon/items.json data/choyin/items.json data/cloud/items.json data/waterfog/items.json
+#: data/common/items.json data/latemoon/items.json data/choyin/items.json data/city/items.json data/cloud/items.json data/waterfog/items.json
 msgid "条"
 msgstr ""
 
@@ -8265,6 +8523,7 @@ msgstr ""
 #. liuh-ken practice.fail
 #. celestrike practice.fail
 #. spicyclaw practice.fail
+#. bloodystrike practice.fail
 #: data/common/skills.json
 msgid "你的体力不够了，休息一下再练吧。"
 msgstr ""
@@ -8689,12 +8948,14 @@ msgid "听风辨器之术"
 msgstr ""
 
 #. celestrike name
-#: data/common/skills.json
+#. city.npc.chen inquiry topic
+#: data/common/skills.json data/city/npcs.json
 msgid "天邪神掌"
 msgstr ""
 
 #. celestrike practice.force_fail
 #. spicyclaw practice.force_fail
+#. bloodystrike practice.force_fail
 #: data/common/skills.json
 msgid "你的内力不够了，休息一下再练吧。"
 msgstr ""
@@ -9470,6 +9731,51 @@ msgstr ""
 msgid "$n身形往上一拔，一招「少壮几时兮奈老何」，一个转折落在数尺之外。"
 msgstr ""
 
+#. bloodystrike name
+#: data/common/skills.json
+msgid "密宗大手印"
+msgstr ""
+
+#. bloodystrike valid_learn.empty_hands
+#: data/common/skills.json
+msgid "练密宗大手印必须空手。"
+msgstr ""
+
+#. bloodystrike actions.action
+#: data/common/skills.json
+msgid "$N使出一招「苦海端无涯」，左掌虚幌，右掌穿出击向$n的$l"
+msgstr ""
+
+#. bloodystrike actions.action
+#: data/common/skills.json
+msgid "$N使出一招「地狱似有门」，左掌化虚为实击向$n的$l"
+msgstr ""
+
+#. bloodystrike actions.action
+#: data/common/skills.json
+msgid "$N使出密宗大手印中的「天堂却无路」，一掌拍向$n的$l"
+msgstr ""
+
+#. bloodystrike actions.action
+#: data/common/skills.json
+msgid "$N双掌一错，使出「密宗为独尊」，对准$n的$l连续拍出"
+msgstr ""
+
+#. bloodystrike actions.action
+#: data/common/skills.json
+msgid "$N左掌立于胸前，右掌推出，一招「万念皆是空」击向$n$l"
+msgstr ""
+
+#. bloodystrike actions.action
+#: data/common/skills.json
+msgid "$N使出「佛云以杀止杀」，身形凌空飞起，从空中当头向$n的$l出掌攻击"
+msgstr ""
+
+#. iron-cloth name
+#: data/common/skills.json
+msgid "铁布衫"
+msgstr ""
+
 #. actions.action
 #: data/common/combat_actions.json
 msgid "$N挥拳攻击$n的$l"
@@ -9580,7 +9886,9 @@ msgstr ""
 #. family.zhenyuan name
 #. cloud.npc.b_header family.name
 #. cloud.npc.bfighter family.name
-#: data/common/families.json data/cloud/npcs.json
+#. city.npc.chen family.name
+#. city.npc.chen inquiry topic
+#: data/common/families.json data/cloud/npcs.json data/city/npcs.json
 msgid "振远镖局"
 msgstr ""
 
@@ -9810,7 +10118,8 @@ msgstr ""
 #. common.npc.fighter.champion inquiry topic
 #. common.npc.juechen.master inquiry topic
 #. latemoon.npc.room.elon inquiry topic
-#: data/common/npcs.json data/latemoon/npcs.json
+#. city.npc.chen inquiry topic
+#: data/common/npcs.json data/latemoon/npcs.json data/city/npcs.json
 msgid "拜师"
 msgstr ""
 
@@ -10600,6 +10909,42 @@ msgstr ""
 msgid "一阵蓝光笼罩住$N，「嗡」地一声，$N的轮廓又变清晰了一些！"
 msgstr ""
 
+#. common.npc.chater2 name
+#. common.npc.chater2 name_pick
+#: data/common/npcs.json
+msgid "桃干仙"
+msgstr ""
+
+#. common.npc.chater2 name_pick
+#: data/common/npcs.json
+msgid "桃枝仙"
+msgstr ""
+
+#. common.npc.chater2 name_pick
+#: data/common/npcs.json
+msgid "桃谷仙"
+msgstr ""
+
+#. common.npc.chater2 name_pick
+#: data/common/npcs.json
+msgid "桃实仙"
+msgstr ""
+
+#. common.npc.chater2 name_pick
+#: data/common/npcs.json
+msgid "桃花仙"
+msgstr ""
+
+#. common.npc.chater2 name_pick
+#: data/common/npcs.json
+msgid "桃根仙"
+msgstr ""
+
+#. common.npc.chater2 name_pick
+#: data/common/npcs.json
+msgid "桃萼仙"
+msgstr ""
+
 #. quests.target
 #. snow.npc.beggar name
 #: data/common/quests.json data/snow/npcs.json
@@ -10692,7 +11037,8 @@ msgstr ""
 
 #. quests.target
 #. choyin.npc.cake_vendor name
-#: data/common/quests.json data/choyin/npcs.json
+#. city.npc.caker name
+#: data/common/quests.json data/choyin/npcs.json data/city/npcs.json
 msgid "卖饼大叔"
 msgstr ""
 
@@ -10704,7 +11050,8 @@ msgstr ""
 
 #. quests.target
 #. choyin.npc.dumpling_seller name
-#: data/common/quests.json data/choyin/npcs.json
+#. city.npc.dumpling_seller name
+#: data/common/quests.json data/choyin/npcs.json data/city/npcs.json
 msgid "卖包子的"
 msgstr ""
 
@@ -11913,18 +12260,21 @@ msgid ""
 msgstr ""
 
 #. snow.npc.waiter name
-#: data/snow/npcs.json
+#. city.npc.waiter name
+#: data/snow/npcs.json data/city/npcs.json
 msgid "店小二"
 msgstr ""
 
 #. snow.npc.waiter long
-#: data/snow/npcs.json
+#. city.npc.waiter long
+#: data/snow/npcs.json data/city/npcs.json
 msgid ""
 "这位店小二正笑咪咪地忙著，还不时拿起挂在脖子上的抹布擦脸。\n"
 msgstr ""
 
 #. snow.npc.waiter rank_info.respect
-#: data/snow/npcs.json
+#. city.npc.waiter rank_info.respect
+#: data/snow/npcs.json data/city/npcs.json
 msgid "小二哥"
 msgstr ""
 
@@ -11944,7 +12294,8 @@ msgid "这位$RESPECT，进来喝几盅小店的红酒吧，这几天才从窖�
 msgstr ""
 
 #. snow.npc.annihir title
-#: data/snow/npcs.json
+#. city.npc.microsof title
+#: data/snow/npcs.json data/city/npcs.json
 msgid "钱庄老板"
 msgstr ""
 
@@ -11983,7 +12334,8 @@ msgid ""
 msgstr ""
 
 #. snow.npc.annihir accept_fight.say
-#: data/snow/npcs.json
+#. city.npc.microsof accept_fight.say
+#: data/snow/npcs.json data/city/npcs.json
 msgid "咦... 要打就真打吧，光是较量多没意思？"
 msgstr ""
 
@@ -12437,7 +12789,8 @@ msgid "短工"
 msgstr ""
 
 #. snow.bank.counter name
-#: data/snow/world.json
+#. city.bank.counter name
+#: data/snow/world.json data/city/world.json
 msgid "钱庄"
 msgstr ""
 
@@ -12996,7 +13349,9 @@ msgid "你一付认真的表情，开始小心翼翼地攀著石壁爬了上去�
 msgstr ""
 
 #. oldpine.outdoor.landmark.clearing_sign name
-#: data/oldpine/world.json
+#. city.northdoor.landmark.sign name
+#. city.southdoor.landmark.notice name
+#: data/oldpine/world.json data/city/world.json
 msgid "告示"
 msgstr ""
 
@@ -13286,7 +13641,8 @@ msgid "野羊山"
 msgstr ""
 
 #. es2:d/latemoon/obj/deer_boot name
-#: data/latemoon/items.json
+#. es2:d/city/npc/obj/deer_boot name
+#: data/latemoon/items.json data/city/items.json
 msgid "鹿皮小靴"
 msgstr ""
 
@@ -13341,7 +13697,8 @@ msgid ""
 msgstr ""
 
 #. es2:d/latemoon/obj/flower_boot name
-#: data/latemoon/items.json
+#. es2:d/city/npc/obj/flower_boot name
+#: data/latemoon/items.json data/city/items.json
 msgid "绣花鞋"
 msgstr ""
 
@@ -13475,7 +13832,8 @@ msgid ""
 msgstr ""
 
 #. es2:d/latemoon/obj/wine unit
-#: data/latemoon/items.json
+#. es2:d/city/npc/obj/wine unit
+#: data/latemoon/items.json data/city/items.json
 msgid "坛"
 msgstr ""
 
@@ -13590,18 +13948,21 @@ msgid "护身符"
 msgstr ""
 
 #. es2:d/latemoon/obj/cake name
-#: data/latemoon/items.json
+#. es2:d/city/npc/obj/cake name
+#: data/latemoon/items.json data/city/items.json
 msgid "雪花糕"
 msgstr ""
 
 #. es2:d/latemoon/obj/cake long
-#: data/latemoon/items.json
+#. es2:d/city/npc/obj/cake long
+#: data/latemoon/items.json data/city/items.json
 msgid ""
 "这是一块精致可口的小点心，似雪花般柔软。\n"
 msgstr ""
 
 #. es2:d/latemoon/obj/cake unit
-#: data/latemoon/items.json
+#. es2:d/city/npc/obj/cake unit
+#: data/latemoon/items.json data/city/items.json
 msgid "块"
 msgstr ""
 
@@ -13936,12 +14297,14 @@ msgid "「水龙图注」"
 msgstr ""
 
 #. es2:d/choyin/obj/lady_dress name
-#: data/choyin/items.json
+#. es2:d/city/npc/obj/lady_dress name
+#: data/choyin/items.json data/city/items.json
 msgid "轻罗绸衫"
 msgstr ""
 
 #. es2:d/choyin/obj/lady_dress long
-#: data/choyin/items.json
+#. es2:d/city/npc/obj/lady_dress long
+#: data/choyin/items.json data/city/items.json
 msgid ""
 "这是一件有钱人家的小姐穿著的衣物，手工相当细致。\n"
 msgstr ""
@@ -13975,7 +14338,8 @@ msgstr ""
 
 #. es2:d/choyin/npc/obj/cake name
 #. choyin.npc.cake_vendor inquiry topic
-#: data/choyin/items.json data/choyin/npcs.json
+#. city.npc.caker inquiry topic
+#: data/choyin/items.json data/choyin/npcs.json data/city/npcs.json
 msgid "大饼"
 msgstr ""
 
@@ -14346,6 +14710,103 @@ msgstr ""
 #: data/village/items.json
 msgid ""
 "一块啃得精光的西瓜皮。\n"
+msgstr ""
+
+#. es2:d/city/npc/obj/duoqing_blade name
+#: data/city/items.json
+msgid "多情刀"
+msgstr ""
+
+#. es2:d/city/npc/obj/duoqing_blade long
+#: data/city/items.json
+msgid ""
+"这是一把耀眼的利刃。\n"
+msgstr ""
+
+#. es2:d/city/npc/obj/wuqing_sword name
+#: data/city/items.json
+msgid "无情剑"
+msgstr ""
+
+#. es2:d/city/npc/obj/wuqing_sword long
+#: data/city/items.json
+msgid ""
+"剑锋寒气逼人，剑身发出异样的青光。\n"
+msgstr ""
+
+#. es2:d/city/npc/obj/fish name
+#: data/city/items.json
+msgid "西湖醋鱼"
+msgstr ""
+
+#. es2:d/city/npc/obj/fish long
+#: data/city/items.json
+msgid ""
+"一盘西湖醋鱼，香气四溢，让人垂涎欲滴。\n"
+msgstr ""
+
+#. es2:d/city/npc/obj/fish unit
+#: data/city/items.json
+msgid "盘"
+msgstr ""
+
+#. es2:d/city/npc/obj/wine name
+#: data/city/items.json
+msgid "状元红"
+msgstr ""
+
+#. es2:d/city/npc/obj/wine long
+#: data/city/items.json
+msgid ""
+"这是一坛香味浓郁的陈年老酒，是专待状元高中时喝的酒。\n"
+msgstr ""
+
+#. es2:d/city/npc/obj/xiang_boot name
+#: data/city/items.json
+msgid "象皮战靴"
+msgstr ""
+
+#. es2:d/city/npc/obj/green_cloth name
+#: data/city/items.json
+msgid "淡青长袍"
+msgstr ""
+
+#. es2:d/city/npc/obj/green_cloth long
+#: data/city/items.json
+msgid ""
+"这件淡青长袍绸衫上面绣著几只黄鹊，闻起来还有一股淡香。\n"
+msgstr ""
+
+#. es2:d/city/npc/obj/color_cloth name
+#: data/city/items.json
+msgid "艳红绸衫"
+msgstr ""
+
+#. es2:d/city/npc/obj/color_cloth long
+#: data/city/items.json
+msgid ""
+"一件大红色的女子衣衫，看起来有点鲜艳得过火。\n"
+msgstr ""
+
+#. es2:d/city/npc/obj/armor1 name
+#: data/city/items.json
+msgid "紫铜战盔"
+msgstr ""
+
+#. es2:d/city/npc/obj/rain_whip name
+#: data/city/items.json
+msgid "烟雨鞭"
+msgstr ""
+
+#. es2:d/city/npc/obj/demon_staff name
+#: data/city/items.json
+msgid "天魔杵"
+msgstr ""
+
+#. es2:d/city/npc/obj/demon_staff long
+#: data/city/items.json
+msgid ""
+"一把暗红色、两丈多长的巨杵。\n"
 msgstr ""
 
 #. es2:u/cloud/obj/npc/gangster/blade long
@@ -14895,7 +15356,8 @@ msgid ""
 msgstr ""
 
 #. cloud.npc.weaponor inquiry.兵器屋
-#: data/cloud/npcs.json
+#. city.npc.weaponor inquiry.武器
+#: data/cloud/npcs.json data/city/npcs.json
 msgid "本店专卖各种长短兵器"
 msgstr ""
 
@@ -15136,7 +15598,8 @@ msgid "好小子, 居然管起大爷的事来, 看招!"
 msgstr ""
 
 #. cloud.npc.b_header name
-#: data/cloud/npcs.json
+#. city.npc.chen inquiry topic
+#: data/cloud/npcs.json data/city/npcs.json
 msgid "陈剑秋"
 msgstr ""
 
@@ -15174,7 +15637,8 @@ msgid "江湖上的弟兄看得起在下就这么叫开了，实在是惭愧。"
 msgstr ""
 
 #. cloud.npc.b_header inquiry topic
-#: data/cloud/npcs.json
+#. city.npc.chen name
+#: data/cloud/npcs.json data/city/npcs.json
 msgid "陈天星"
 msgstr ""
 
@@ -19809,7 +20273,8 @@ msgid ""
 msgstr ""
 
 #. choyin.npc.cityguard chat_msg_combat
-#: data/choyin/npcs.json
+#. city.npc.guard chat_msg_combat
+#: data/choyin/npcs.json data/city/npcs.json
 msgid ""
 "守城官兵喝道：还不快放下武器束手就缚？\n"
 msgstr ""
@@ -19821,42 +20286,49 @@ msgid ""
 msgstr ""
 
 #. choyin.npc.cake_vendor long
-#: data/choyin/npcs.json
+#. city.npc.caker long
+#: data/choyin/npcs.json data/city/npcs.json
 msgid ""
 "一个相貌朴实的卖饼大叔，憨厚的脸上挂著和蔼的笑容。\n"
 msgstr ""
 
 #. choyin.npc.cake_vendor rank_info.respect
-#: data/choyin/npcs.json
+#. city.npc.caker rank_info.respect
+#: data/choyin/npcs.json data/city/npcs.json
 msgid "大叔"
 msgstr ""
 
 #. choyin.npc.cake_vendor chat_msg
-#: data/choyin/npcs.json
+#. city.npc.caker chat_msg
+#: data/choyin/npcs.json data/city/npcs.json
 msgid ""
 "卖饼大叔吆喝道：卖饼哟！又香又脆的大饼哟！\n"
 msgstr ""
 
 #. choyin.npc.cake_vendor chat_msg
-#: data/choyin/npcs.json
+#. city.npc.caker chat_msg
+#: data/choyin/npcs.json data/city/npcs.json
 msgid ""
 "卖饼大叔掀开蒸笼，伸手探了探温度。\n"
 msgstr ""
 
 #. choyin.npc.cake_vendor chat_msg
-#: data/choyin/npcs.json
+#. city.npc.caker chat_msg
+#: data/choyin/npcs.json data/city/npcs.json
 msgid ""
 "卖饼大叔吆喝道：刚出炉的大饼哟！热呼呼的大饼哟！\n"
 msgstr ""
 
 #. choyin.npc.dumpling_seller long
-#: data/choyin/npcs.json
+#. city.npc.dumpling_seller long
+#: data/choyin/npcs.json data/city/npcs.json
 msgid ""
 "这个卖包子的小贩对你微微一笑，说道：热腾腾的包子，来一笼吧？\n"
 msgstr ""
 
 #. choyin.npc.dumpling_seller chat_msg
-#: data/choyin/npcs.json
+#. city.npc.dumpling_seller chat_msg
+#: data/choyin/npcs.json data/city/npcs.json
 msgid ""
 "卖包子的吆喝道：包子！热腾腾的包子！\n"
 msgstr ""
@@ -19897,7 +20369,8 @@ msgid ""
 msgstr ""
 
 #. choyin.npc.boss inquiry.福林酒楼
-#: data/choyin/npcs.json
+#. city.npc.boss inquiry.太白酒楼
+#: data/choyin/npcs.json data/city/npcs.json
 msgid ""
 "这里就是，客倌是第一次来吗？\n"
 msgstr ""
@@ -21049,7 +21522,8 @@ msgid ""
 msgstr ""
 
 #. es2:d/choyin/yard long
-#: data/choyin/rooms.json
+#. es2:d/city/house1 long
+#: data/choyin/rooms.json data/city/rooms.json
 msgid ""
 "这是一间什麽也没有的空房间。\n"
 msgstr ""
@@ -21793,7 +22267,8 @@ msgid ""
 msgstr ""
 
 #. canyon.npc.general accept_object.lines.say
-#: data/canyon/npcs.json
+#. city.npc.waiter accept_object.say
+#: data/canyon/npcs.json data/city/npcs.json
 msgid "真是谢谢你了。"
 msgstr ""
 
@@ -22291,12 +22766,14 @@ msgid ""
 msgstr ""
 
 #. village.npc.trader1 name
-#: data/village/npcs.json
+#. city.npc.trader name
+#: data/village/npcs.json data/city/npcs.json
 msgid "商人"
 msgstr ""
 
 #. village.npc.trader1 long
-#: data/village/npcs.json
+#. city.npc.trader long
+#: data/village/npcs.json data/city/npcs.json
 msgid ""
 "这是一位从关外来的商人。\n"
 msgstr ""
@@ -22899,4 +23376,929 @@ msgstr ""
 #: data/village/world.json
 msgid ""
 "你找来找去，终于还是没找到熟透的西瓜。\n"
+msgstr ""
+
+#. city.npc.guard name
+#: data/city/npcs.json
+msgid "京师守城兵"
+msgstr ""
+
+#. city.npc.guard long
+#: data/city/npcs.json
+msgid ""
+"这是个正在这里站岗的京师官兵，虽然和许多武林人物比起来，官兵\n"
+"们的武功实在稀松平常，但是他们是有组织、有纪律的战士，谁也不\n"
+"轻易地招惹他们。\n"
+msgstr ""
+
+#. city.npc.guard chat_msg_combat
+#: data/city/npcs.json
+msgid ""
+"守城官兵喝道：大胆刁民！竟敢在天子脚下造反？\n"
+msgstr ""
+
+#. city.npc.guard inquiry topic
+#. city.eastdoor1.out act.verb
+#. city.eastdoor2.out act.verb
+#. city.westdoor1.out act.verb
+#. city.westdoor2.out act.verb
+#. city.southdoor.out act.verb
+#: data/city/npcs.json data/city/world.json
+msgid "出城"
+msgstr ""
+
+#. city.npc.guard inquiry.出城
+#. city.npc.guard inquiry.out
+#: data/city/npcs.json
+msgid ""
+"你可以在京城里找一找，说不定可以找到一些出城的令牌。\n"
+msgstr ""
+
+#. city.npc.guard accept_kill.line
+#: data/city/npcs.json
+msgid "守城兵大叫：反了！反了！"
+msgstr ""
+
+#. city.npc.guard accept_object.say
+#: data/city/npcs.json
+msgid "这是什么东西啊！你想偷渡呀？"
+msgstr ""
+
+#. city.npc.microsof name
+#: data/city/npcs.json
+msgid "黑你没商量"
+msgstr ""
+
+#. city.npc.microsof long
+#: data/city/npcs.json
+msgid ""
+"黑你没商量是个看起来相当精明的中年人，他的本名叫做“魏阮”。\n"
+"不知作了什么黑心的生意，一夜之间暴富起来，开了钱庄后，逐渐地\n"
+"把其它钱庄全挤倒闭了，京师的居民对他的很多做法都非常不满，于\n"
+"是有了这个绰号。大家都知道他小肚鸡肠，所以谁也不去惹他。\n"
+msgstr ""
+
+#. city.npc.microsof chat_msg.say
+#: data/city/npcs.json
+msgid ""
+"黑你没商量压低嗓音对你说道：“我在上面可有人，你知道我每年给上面多少金子吗？”\n"
+msgstr ""
+
+#. city.npc.microsof chat_msg.say
+#: data/city/npcs.json
+msgid ""
+"黑你没商量恨恨地说：“哼，我要把NT也汉化，看你之星怎么办！”\n"
+msgstr ""
+
+#. city.npc.microsof chat_msg_combat.say
+#: data/city/npcs.json
+msgid ""
+"黑你没商量突然三角眼倒立，眉间闪过几道黑气。\n"
+msgstr ""
+
+#. city.npc.microsof chat_msg_combat.say
+#: data/city/npcs.json
+msgid ""
+"黑你没商量的喉咙发出咕咕两声怪叫。\n"
+msgstr ""
+
+#. city.npc.microsof chat_msg_combat.say
+#: data/city/npcs.json
+msgid ""
+"黑你没商量神情忽然严肃了起来，不过好像是在想自己的事，与你无关。\n"
+msgstr ""
+
+#. city.npc.microsof chat_msg_combat.say
+#: data/city/npcs.json
+msgid ""
+"黑你没商量忽然呵呵呵地笑了起来，却不知道在笑些什么....\n"
+msgstr ""
+
+#. city.npc.microsof greeting.one_of.line
+#: data/city/npcs.json
+msgid ""
+"黑你没商量一翻三角眼，不知又想出了什么坏主意。\n"
+msgstr ""
+
+#. city.npc.microsof greeting.one_of.line
+#: data/city/npcs.json
+msgid ""
+"黑你没商量说道：这位$RESPECT，换钱？我要抽点的啊！\n"
+msgstr ""
+
+#. city.npc.microsof greeting.one_of.line
+#: data/city/npcs.json
+msgid ""
+"黑你没商量说道：这位$RESPECT，钱可要自己点清楚啊！\n"
+msgstr ""
+
+#. city.npc.weaponor name
+#: data/city/npcs.json
+msgid "万晓生"
+msgstr ""
+
+#. city.npc.weaponor title
+#: data/city/npcs.json
+msgid "武器店掌柜"
+msgstr ""
+
+#. city.npc.weaponor long
+#: data/city/npcs.json
+msgid ""
+"万晓生是个须发皆白的老人，闯荡江湖已近五十年。\n"
+msgstr ""
+
+#. city.npc.weaponor greeting.one_of.line
+#: data/city/npcs.json
+msgid ""
+"万晓生道：这位$RESPECT，自个儿挑一件称手的兵器吧。\n"
+msgstr ""
+
+#. city.npc.weaponor greeting.one_of.line
+#: data/city/npcs.json
+msgid ""
+"万晓生冷冷地说：客官请付现钞。\n"
+msgstr ""
+
+#. city.npc.weaponor greeting.one_of.line
+#: data/city/npcs.json
+msgid ""
+"万晓生忽然间似乎想起了远在美国的朋友和当年同闯江湖的情形。\n"
+msgstr ""
+
+#. city.npc.chen nickname
+#: data/city/npcs.json
+msgid "刀拳双绝"
+msgstr ""
+
+#. city.npc.chen title
+#: data/city/npcs.json
+msgid "振远镖局总镖头"
+msgstr ""
+
+#. city.npc.chen long
+#: data/city/npcs.json
+msgid ""
+"陈天星从十五岁出道至今已经有近五十个年头了。二十五岁时自己\n"
+"创建了振远镖局，苦心经营三十八载，使之而今成为京师第一大镖\n"
+"局.而他凭着春风快意刀法和天邪神掌被江湖同道称为「刀掌双绝」\n"
+"。绮云镇的陈剑秋是其侄子，如今也赫赫有名。\n"
+msgstr ""
+
+#. city.npc.chen rank_info.respect
+#: data/city/npcs.json
+msgid "陈总镖头"
+msgstr ""
+
+#. city.npc.chen inquiry.name
+#: data/city/npcs.json
+msgid ""
+"呵呵…你连我都不知道嘛？去打听打听吧。\n"
+msgstr ""
+
+#. city.npc.chen inquiry.振远镖局
+#: data/city/npcs.json
+msgid ""
+"这可是我一手创建的啊！可惜我也老了。\n"
+msgstr ""
+
+#. city.npc.chen inquiry.陈剑秋
+#: data/city/npcs.json
+msgid ""
+"他是我侄子，有什么事找他？\n"
+msgstr ""
+
+#. city.npc.chen inquiry.天邪神掌
+#: data/city/npcs.json
+msgid ""
+"那是我和於兰天武交换武功学的\n"
+msgstr ""
+
+#. city.npc.chen inquiry.拜师
+#: data/city/npcs.json
+msgid ""
+"是剑秋推荐的嘛？可有他的信物？\n"
+msgstr ""
+
+#. city.npc.chen apprentice.title
+#: data/city/npcs.json
+msgid "振远镖局第一代弟子"
+msgstr ""
+
+#. city.npc.chen accept_object.ask
+#: data/city/npcs.json
+msgid ""
+"陈天星收下陈剑秋的推荐信，就愿意收你为徒，你再向他拜师，便成为振远镖局的弟子。信交出去就要不回来了。\n"
+"确定把信交给陈天星吗？"
+msgstr ""
+
+#. city.npc.chen accept_object.say
+#: data/city/npcs.json
+msgid "果然是剑秋侄儿推荐来的。我收你啦。"
+msgstr ""
+
+#. city.npc.chen accept_object.line
+#: data/city/npcs.json
+msgid ""
+"陈天星狐疑地望着你，说\n"
+"这是你的嘛？\n"
+msgstr ""
+
+#. city.npc.chen accept_object.line
+#: data/city/npcs.json
+msgid ""
+"不要戏弄我！\n"
+msgstr ""
+
+#. city.npc.clother name
+#: data/city/npcs.json
+msgid "老板娘"
+msgstr ""
+
+#. city.npc.clother title
+#: data/city/npcs.json
+msgid "绸缎庄"
+msgstr ""
+
+#. city.npc.clother inquiry.here
+#: data/city/npcs.json
+msgid ""
+"这里是京师绸缎庄，没钱别进来！\n"
+msgstr ""
+
+#. city.npc.clother inquiry.name
+#: data/city/npcs.json
+msgid ""
+"在下姓陶，闺名不能告诉你。\n"
+msgstr ""
+
+#. city.npc.clother inquiry.衣服
+#. city.npc.shoer inquiry.鞋
+#: data/city/npcs.json
+msgid "您需要什么样的？"
+msgstr ""
+
+#. city.npc.clother greeting.one_of.line
+#: data/city/npcs.json
+msgid ""
+"老板娘道：这位$RESPECT，您需要什么？\n"
+msgstr ""
+
+#. city.npc.clother greeting.one_of.line
+#: data/city/npcs.json
+msgid ""
+"老板娘神秘地对你说：要南大食堂磁卡吗？\n"
+msgstr ""
+
+#. city.npc.clother greeting.one_of.line
+#: data/city/npcs.json
+msgid ""
+"老板娘悄声说道：奴家可是湖南人哦。\n"
+msgstr ""
+
+#. city.npc.waiter accept_object.say
+#: data/city/npcs.json
+msgid "这点钱，还不够买酒喝。"
+msgstr ""
+
+#. city.npc.waiter accept_object.say
+#: data/city/npcs.json
+msgid "谢谢这位客官了。"
+msgstr ""
+
+#. city.npc.boss name
+#: data/city/npcs.json
+msgid "钱掌柜"
+msgstr ""
+
+#. city.npc.boss nickname
+#: data/city/npcs.json
+msgid "钱千万"
+msgstr ""
+
+#. city.npc.boss long
+#: data/city/npcs.json
+msgid ""
+"钱掌柜长得如一个大面团般，白白胖胖的，虽说早已步入知天命\n"
+"的年龄，可保养得很好。一双小眼睛如俩枣核嵌在脸上，不时滴\n"
+"溜溜地乱转。他开的「太白酒楼」可是京城最大的。\n"
+msgstr ""
+
+#. city.npc.boss inquiry.name
+#: data/city/npcs.json
+msgid ""
+"在下姓钱，因少有资产，别人叫我钱千万。\n"
+msgstr ""
+
+#. city.npc.boss inquiry topic
+#: data/city/npcs.json
+msgid "皇上"
+msgstr ""
+
+#. city.npc.boss inquiry.皇上
+#: data/city/npcs.json
+msgid ""
+"小声点。偷偷地告述你，我真见过皇上的。\n"
+msgstr ""
+
+#. city.npc.boss inquiry topic
+#: data/city/npcs.json
+msgid "作官"
+msgstr ""
+
+#. city.npc.boss inquiry.作官
+#: data/city/npcs.json
+msgid ""
+"瞧见没有，上面的人才是你应去打听的。\n"
+msgstr ""
+
+#. city.npc.boss greeting.rules.steps.line
+#: data/city/npcs.json
+msgid ""
+"钱千万皱了皱眉，说:这里是可不是为你们开的，吃完了快走。\n"
+msgstr ""
+
+#. city.npc.walker name
+#: data/city/npcs.json
+msgid "行人"
+msgstr ""
+
+#. city.npc.walker chat_msg
+#: data/city/npcs.json
+msgid ""
+"行人摇了摇头，说：世事无常，只苦了我们这些老百姓。\n"
+msgstr ""
+
+#. city.npc.walker chat_msg
+#: data/city/npcs.json
+msgid ""
+"行人愤愤地说：这年头，几个臭钱就能买到官。哼！\n"
+msgstr ""
+
+#. city.npc.walker chat_msg
+#: data/city/npcs.json
+msgid ""
+"行人叹了口气：皇上太年幼了，朝廷就让那个老不死的把持着。咳！\n"
+msgstr ""
+
+#. city.npc.walker inquiry topic
+#: data/city/npcs.json
+msgid "买官"
+msgstr ""
+
+#. city.npc.walker inquiry.买官
+#: data/city/npcs.json
+msgid ""
+"全是那个该死的尚书作的孽。\n"
+msgstr ""
+
+#. city.npc.trader chat_msg
+#: data/city/npcs.json
+msgid ""
+"什么世道，几个臭钱就可以买官作。\n"
+msgstr ""
+
+#. city.npc.trader chat_msg
+#: data/city/npcs.json
+msgid ""
+"这年头，生意不好做啊！\n"
+msgstr ""
+
+#. city.npc.trader chat_msg_combat
+#: data/city/npcs.json
+msgid ""
+"光天化日，朗朗乾坤，你也想打劫？\n"
+msgstr ""
+
+#. city.npc.shoer name
+#: data/city/npcs.json
+msgid "李掌柜"
+msgstr ""
+
+#. city.npc.shoer title
+#: data/city/npcs.json
+msgid "鞋店"
+msgstr ""
+
+#. city.npc.shoer long
+#: data/city/npcs.json
+msgid ""
+"李掌柜是不难看的女人，一直经营着祖传鞋店生意。\n"
+msgstr ""
+
+#. city.npc.shoer inquiry topic
+#: data/city/npcs.json
+msgid "鞋"
+msgstr ""
+
+#. city.npc.shoer greeting.one_of.line
+#: data/city/npcs.json
+msgid ""
+"李掌柜道：这位$RESPECT，您需要什么样的鞋？。\n"
+msgstr ""
+
+#. city.npc.shoer greeting.one_of.line
+#: data/city/npcs.json
+msgid ""
+"李掌柜白了你一眼，冷冷地说：你有美钞吗？\n"
+msgstr ""
+
+#. city.npc.shoer greeting.one_of.line
+#: data/city/npcs.json
+msgid ""
+"李掌柜忽然间说道：好久没去华工了，不知朋友是否还好吗。\n"
+msgstr ""
+
+#. city.npc.vendor name
+#: data/city/npcs.json
+msgid "卖艺壮汉"
+msgstr ""
+
+#. city.npc.vendor long
+#: data/city/npcs.json
+msgid ""
+"一个满脸横肉的壮汉，口水四溅，正说着什么。\n"
+msgstr ""
+
+#. city.npc.vendor chat_msg
+#: data/city/npcs.json
+msgid ""
+"卖艺壮汉吆喝道：出外靠朋友，诸位请捧个钱场！\n"
+msgstr ""
+
+#. city.npc.vendor chat_msg
+#: data/city/npcs.json
+msgid ""
+"卖艺壮汉练了一套六阴剑，还象模象样。\n"
+msgstr ""
+
+#. city.npc.vendor chat_msg
+#: data/city/npcs.json
+msgid ""
+"卖艺壮汉低声对你说道：在下刚路过八舍！\n"
+msgstr ""
+
+#. es2:d/city/nroad2 long
+#: data/city/rooms.json
+msgid ""
+"这是一条青石铺地的大驿道，地处京师的北郊。北方入京必经\n"
+"此地。往南走就可以到京师了。东北是连绵的群山。\n"
+msgstr ""
+
+#. es2:d/city/nroad1 long
+#: data/city/rooms.json
+msgid ""
+"你正走在一条青石铺地的大驿道上，四周人来人往。挑担子的\n"
+"苦力，赶着大车的马夫，赴京传书的军人，熙熙攘攘，非常热闹。\n"
+"不时还有两三骑快马从身边飞驰而过，引起一阵骚动。道路两旁各\n"
+"有一片小树林，南边就是京师。\n"
+msgstr ""
+
+#. es2:d/city/northdoor long
+#: data/city/rooms.json
+msgid ""
+"这是京师的北门，若干年前曾经遭到异族的攻打，因而显得有\n"
+"些陈旧。城门正上方清析可见当朝名家书写的“京师北门”几个金\n"
+"字，城墙上贴着几张告示(sign)。这里是罪犯逃往北方的必经之地，\n"
+"官兵们戒备森严，动不动就截住行人盘问。一条笔直的青石板大道\n"
+"向南北两边延伸。北边是郊外，骑马的、座轿的、走路的，行人匆\n"
+"匆涌入京师。南边是城里，隐约传来阵阵的喧闹声。\n"
+msgstr ""
+
+#. es2:d/city/street16 long
+#: data/city/rooms.json
+msgid ""
+"从这里再往北走就出了京师的北城门，在与异族交战的时期，为\n"
+"方便盘查行人，官兵在这儿放了一道很大的栅栏。后来尽管战争结束\n"
+"了，栅栏拿走了，但老人们还是习惯地把这叫做“大栅栏”，用京音\n"
+"读起来就变成了“大世烂儿”。西面是护国寺的侧门。\n"
+msgstr ""
+
+#. es2:d/city/bank long
+#: data/city/rooms.json
+msgid ""
+"这是一间素来不讲信用的钱庄，钱庄的老板倒是读过几年书，脑筋\n"
+"很活络，你可以看到钱庄里里外外都打扫得乾乾净净，一个精瘦精瘦的\n"
+"中年人坐在柜台后面，柜台上放著一块牌子(sign)，往南是通往京城街\n"
+"道的大门。\n"
+msgstr ""
+
+#. es2:d/city/weapon long
+#: data/city/rooms.json
+msgid ""
+"这里是江湖中人人所向往的京师武器店。店铺宽敞，红砖铺地。\n"
+"四周的墙壁上挂满了各式的刀剑。东边的武器架上的枪戟的反光令\n"
+"你睁不开眼。靠北墙的大柜台一尘不染，几个伙计正在忙碌。\n"
+"    靠近店门的地方有一块金字招牌(sign)。\n"
+msgstr ""
+
+#. es2:d/city/westdoor1 long
+#: data/city/rooms.json
+msgid ""
+"你来到京师的西一门。城墙上贴着几张官家布告(notice)。东\n"
+"北方是大相国寺，不时传来几声钟声。西边是城外，抬头可见远处\n"
+"连绵的群山。东边就是京师的街道了。\n"
+msgstr ""
+
+#. es2:d/city/street14 long
+#: data/city/rooms.json
+msgid ""
+"这里是京师的大街上。西边是京师的西一门，护国寺的僧人西\n"
+"去取经必经此地。福缘好的话还可以看到几个有道高僧路过。\n"
+msgstr ""
+
+#. es2:d/city/street15 long
+#: data/city/rooms.json
+msgid ""
+"你来到京师的大街。北边是护国寺的大门，寺内香烟缭绕。\n"
+msgstr ""
+
+#. es2:d/city/street7 long
+#: data/city/rooms.json
+msgid ""
+"京师的中轴线和北面的主要街道护国道在这里交叉，东西向的护\n"
+"国道上人来人往，热闹非凡，南面的皇家祭坛反倒冷冷清清，往北可\n"
+"以望到大红颜色的北城门。\n"
+msgstr ""
+
+#. es2:d/city/street8 long
+#: data/city/rooms.json
+msgid ""
+"你现在正走在京师的大街上，往东可以隐约看到城门铜扣上的反\n"
+"光，在你的北边是京城唯一的钱庄，往西有熙熙攘攘的人群，偶尔还\n"
+"能见到一俩个僧侣。\n"
+msgstr ""
+
+#. es2:d/city/street9 long
+#: data/city/rooms.json
+msgid ""
+"你现在正走在京师的大街上。东边就是京师的东一门了，隐约\n"
+"传来官兵搜查行人的吆喝声。在你的北边是京城的武器店，据说江\n"
+"湖上半数以上的武器精品出于此店。从店中走出的人都是一副心满\n"
+"意足的模样。\n"
+msgstr ""
+
+#. es2:d/city/eastdoor1 long
+#: data/city/rooms.json
+msgid ""
+"你来到京师的东一门。城门口十来个手持刀枪的士兵正在检查\n"
+"过往的行人。经常有一些富丽堂皇的大车缓缓驶入城来，那是京师\n"
+"的官宦人家出游归来。城墙上有一张陈旧的布告(notice)。东边是\n"
+"城外，风景如画。西边是京师的街道。\n"
+msgstr ""
+
+#. es2:d/city/feiyuan long
+#: data/city/rooms.json
+msgid ""
+"你来到一所废园里。据说废园的主人原也是位极人臣的，后来却\n"
+"以「莫须有」的罪名被皇上斩了全族，其他的官员怕晦气，都不敢来\n"
+"此住，遂形成废园。废园里荒草丛生，往日的辉煌已不再现，仅留下\n"
+"几个残垣供人凭吊。\n"
+msgstr ""
+
+#. es2:d/city/jitan long
+#: data/city/rooms.json
+msgid ""
+"这是一片宽阔的小广场，广场的中间是皇家的祭坛(altar)，每年\n"
+"朝廷庆祝丰收或祈祷的重大典礼都在这里举行，皇上、皇后和文武百\n"
+"官能上祭坛，其他人只能从旁边绕过去。除了禁卫军的官兵和宫里的\n"
+"杂役偶尔出入外，很少有人来往。往南是紫禁城的神武门，北面是一\n"
+"个非常热闹的十字路口。\n"
+msgstr ""
+
+#. es2:d/city/biaoju long
+#: data/city/rooms.json
+msgid ""
+"你来到了振远总局里。镖局虽然不大，但在京师这块土地上，已无人\n"
+"不知其名。尤其是其总镖头，俨然是以京城武林领袖自居。\n"
+msgstr ""
+
+#. es2:d/city/cloth long
+#: data/city/rooms.json
+msgid ""
+"四喜绸缎庄是京师中的一家刚刚开业的专营衣帽的商店。店内\n"
+"顾客稀少，显得店铺空荡荡的。柜台上凌乱地摊着几匹绸缎。绸缎\n"
+"庄的老板出去进货了，只有老板娘空守店铺。据说这家店铺很有来\n"
+"历。一般的地痞也很少到店中闹事。\n"
+"    店堂上挂有一块崭新的招牌(sign)。\n"
+msgstr ""
+
+#. es2:d/city/street6 long
+#: data/city/rooms.json
+msgid ""
+"你现在正走在京师的街道上。往东走便是紫禁城的后门--神武门\n"
+"，南面似乎有一家酒楼，酒肉的香味一阵阵飘来。北边是一个废园，\n"
+"据说里面经常闹鬼，所以没人敢去。\n"
+msgstr ""
+
+#. es2:d/city/shenwumen long
+#: data/city/rooms.json
+msgid ""
+"你来到紫禁城的北门--神武门。南向的大门通向紫禁城，但这门\n"
+"很少开。门上缠着大铁链，还有士兵把守。往北走是皇家祭坛，不是\n"
+"一年一度祭天时那总很冷清。东西向的道路分别通向京师东，西路。\n"
+msgstr ""
+
+#. es2:d/city/street1 long
+#: data/city/rooms.json
+msgid ""
+"这里是京师东街的北段。往北走有一个大院子，院里立着根老高\n"
+"老高的旗杆，上书一个斗大的「镖」字，隔很远就可以看见。镖局的\n"
+"生意似乎很好，人络绎不绝。西向是庄严的神武门。向南则去向尚书\n"
+"府和午门。\n"
+msgstr ""
+
+#. es2:d/city/jiulou long
+#: data/city/rooms.json
+msgid ""
+"你走到了一家大酒楼里。四周的装饰金壁辉煌，令人眼花缭乱，连餐\n"
+"具的做工也极讲究，不愧是京城的第一大酒楼。酒楼的菜肴是远近闻名的\n"
+"，在这经常可以看到一些达官贵族，据连当今皇上也曾微服来此以一饱口\n"
+"福。\n"
+msgstr ""
+
+#. es2:d/city/street5 long
+#: data/city/rooms.json
+msgid ""
+"你现在正走在京师的街道上，西边是京师最有名的“太白酒楼”，\n"
+"酒楼里三教九流的人物都有，嘈杂声不绝于耳。东边紧邻着紫禁城的\n"
+"城墙(wall)。街道向南北方向延伸着。\n"
+msgstr ""
+
+#. es2:d/city/street2 long
+#: data/city/rooms.json
+msgid ""
+"你走在京师东街的中段。这里夹在紫禁城城墙与尚书府院墙之间\n"
+"，南向的道路通向午门和尚书府的大门，而北方不远处振远总局的旗\n"
+"杆依稀可见，令人隐隐约约地感到一种杀气。\n"
+msgstr ""
+
+#. es2:d/city/xiangguo/gate long
+#: data/city/rooms.json
+msgid ""
+"你来到相国府的大门处。虽然相国在朝中也是地位显赫，但与对\n"
+"面尚书府比起来，相国的府第显的寒酸得多。一切都十分简单，只有\n"
+"牌匾上的「相国府」还提醒着人们主人的地位。\n"
+msgstr ""
+
+#. es2:d/city/street4 long
+#: data/city/rooms.json
+msgid ""
+"你现在正走在京师的街道上。东边是进出紫禁城的午门，西边则\n"
+"是当朝地位显赫的相国的府宅，而北边不远处“太白酒楼”的喧哗声\n"
+"依稀可闻。\n"
+msgstr ""
+
+#. es2:d/city/wumen long
+#: data/city/rooms.json
+msgid ""
+"这里是京师的午门。午门进出紫禁城的要道，北面那庄严的大门\n"
+"(gate)后面便是神秘的紫禁城。大门的两侧放着一对石狮(statue)，\n"
+"虎视眈眈地盯着来往的人群。南面是历年选武状元的校武场，也不知\n"
+"现在有没有人。东西向的街道围绕着紫禁城。\n"
+msgstr ""
+
+#. es2:d/city/street3 long
+#: data/city/rooms.json
+msgid ""
+"这是京师东街的南段。整个东街都被掌管天下兵马印的尚书府占\n"
+"据了，东边便是尚书府的大门，南边则是尚书府高耸的围墙(wall)，\n"
+"北去的道路一直通向振远总局。\n"
+msgstr ""
+
+#. es2:d/city/jiaowu long
+#: data/city/rooms.json
+msgid ""
+"这里是京师的校武场。一些御林军正在这里日夜操练，喊杀声\n"
+"此起彼伏。几个骑着高头大马的将领，在场上来回地巡视。每年武\n"
+"考也是在此举行的，当年淤兰天武、萧避尘、蓝芷萍就是在此出尽\n"
+"了风头，一时间声名传遍长城内外、大江南北。\n"
+"    北边是午门，南边是热闹的天桥了。\n"
+msgstr ""
+
+#. es2:d/city/boots long
+#: data/city/rooms.json
+msgid ""
+"这里是京师中最大的一家鞋店。店主姓李，历经几代，已是百\n"
+"年老店。店铺挺大，弥漫着一种特殊皮革的气味。大柜台后面的架\n"
+"子上放满了各式的皮靴。店中几个伙计正在忙碌。\n"
+"    店门口有一块金字招牌(sign)。\n"
+msgstr ""
+
+#. es2:d/city/westdoor2 long
+#: data/city/rooms.json
+msgid ""
+"你来到京师的西二门，西二门虽不如京师的其他几个城门高大。\n"
+"但高高的城墙也非一般人所能攀越，城墙上贴着几张布告(notice)。\n"
+"西边是城外，据说一直往西就可到达一个仙境。东边就是京师的街\n"
+"道了。\n"
+msgstr ""
+
+#. es2:d/city/street13 long
+#: data/city/rooms.json
+msgid ""
+"你来到京师的大街上。西边是京师的西二门，西去的人不时经\n"
+"过这里。南边是京师的监狱，关押着一些重要的犯人。站在这里可\n"
+"以清楚地听到狱卒拷打犯人的皮鞭声和犯人的惨叫声。\n"
+msgstr ""
+
+#. es2:d/city/street12 long
+#: data/city/rooms.json
+msgid ""
+"这里是京师的大街，青石铺道，街面很干净。东边是京师的热\n"
+"闹场所天桥，来到京师可不能不去哦。南边是京师的刑场，逢上处\n"
+"决一些重要的犯人的时候，那里肯定是人山人海，不过平时人就少\n"
+"得多了。\n"
+msgstr ""
+
+#. es2:d/city/bridge long
+#: data/city/rooms.json
+msgid ""
+"你来到京师的天桥。这里热闹非凡，人声鼎沸。杂耍的、卖艺\n"
+"的、做小买卖的应有尽有。若是仔细寻找，说不定可以买到什么奇\n"
+"珍异宝呢。柱子和墙壁上贴满着花花绿绿的广告（post）。\n"
+"    北边是校武场。再往北就到京师中心……紫禁城了。\n"
+msgstr ""
+
+#. es2:d/city/street11 long
+#: data/city/rooms.json
+msgid ""
+"这里是京师的大街。西边是京师的热闹场所天桥，一些行人匆\n"
+"匆往西走去。据说天桥的夜市也不差哦。南边是一片民宅，炊烟缭\n"
+"绕。\n"
+msgstr ""
+
+#. es2:d/city/street10 long
+#: data/city/rooms.json
+msgid ""
+"这里是京师的大街。东边是京师的东二门，一些刚进城的行人\n"
+"坐在路边休息，不时发出一阵哄笑声。往西就可以到京师中心了。\n"
+msgstr ""
+
+#. es2:d/city/eastdoor2 long
+#: data/city/rooms.json
+msgid ""
+"这里是京师的东二门。城门上插着几面旗帜，标志了本门的守\n"
+"城将领。城楼里坐着几个将军打扮的人，城墙上有一张刚刚粘贴上\n"
+"去的布告(notice)，一群人正围着观看。东边是城外，西边是京师\n"
+"的街道。\n"
+msgstr ""
+
+#. es2:d/city/street17 long
+#: data/city/rooms.json
+msgid ""
+"你来到京师的大街上。南边是京师的南门，出了南门就可去南\n"
+"方重镇……南海镇。北边是天桥，人声鼎沸。西边是刑场，一个一\n"
+"般人极少去的地方。\n"
+msgstr ""
+
+#. es2:d/city/southdoor long
+#: data/city/rooms.json
+msgid ""
+"这是京师的南门。高大的城门正上“京师南门”几个大字格外\n"
+"显眼。城墙上贴着几张官家布告(notice)。西北方是京师的监狱，\n"
+"关押着一些要犯，因此这里的官兵们也戒备森严。南边是城外，不\n"
+"时走来几个赴京赶考的举子。北边就是京师，一个灯红酒绿的地方。\n"
+msgstr ""
+
+#. es2:d/city/jiulou_2 long
+#: data/city/rooms.json
+msgid ""
+"你走上了太白酒楼的二楼，酒楼的雅座便设于此。大凡有来头\n"
+"的客人都到此饮酒作乐。在此经常可以遇上一些达官贵族，一些为\n"
+"做官的富家子弟就来此打进阶的消息。墙边有一道楼梯通往一楼的\n"
+"茶座。\n"
+msgstr ""
+
+#. city name
+#: data/city/world.json
+msgid "京师"
+msgstr ""
+
+#. city.jiulou.waiter_up lines
+#: data/city/world.json
+msgid "店小二对你一白眼:你是谁呀，闯什么闯！"
+msgstr ""
+
+#. city.jiulou.waiter_up lines
+#: data/city/world.json
+msgid "上楼的路被店小二挡住了。"
+msgstr ""
+
+#. city.jiulou.waiter_up pass_lines
+#: data/city/world.json
+msgid "店小二高声喊道:你楼上请"
+msgstr ""
+
+#. city.northdoor.landmark.sign long
+#: data/city/world.json
+msgid ""
+"告示上隐约写著几个人名，但都模糊不可分辨了。\n"
+msgstr ""
+
+#. city.eastdoor1.landmark.notice name
+#. city.eastdoor2.landmark.notice name
+#. city.westdoor1.landmark.notice name
+#. city.westdoor2.landmark.notice name
+#: data/city/world.json
+msgid "布告"
+msgstr ""
+
+#. city.eastdoor1.landmark.notice long
+#: data/city/world.json
+msgid ""
+"布告经风吹日晒，字迹已经不可分辨了。\n"
+msgstr ""
+
+#. city.eastdoor2.landmark.notice long
+#: data/city/world.json
+msgid ""
+"布告上写著：辑拿要犯----於兰天武。\n"
+msgstr ""
+
+#. city.westdoor1.landmark.notice long
+#: data/city/world.json
+msgid ""
+"布告上写著：近来有土匪出没，望行人小心。\n"
+msgstr ""
+
+#. city.westdoor2.landmark.notice long
+#: data/city/world.json
+msgid ""
+"布告上写著：行人出入需缴纳一两黄金。\n"
+msgstr ""
+
+#. city.southdoor.landmark.notice long
+#: data/city/world.json
+msgid ""
+"告示上写著：今年文武大选。\n"
+msgstr ""
+
+#. city.bank.landmark.sign name
+#: data/city/world.json
+msgid "牌子"
+msgstr ""
+
+#. city.bank.landmark.sign long
+#: data/city/world.json
+msgid ""
+"我们提供的服务有：\n"
+"convert     兑换钱币，自点数目，出门后发现少钱概不负责。\n"
+msgstr ""
+
+#. city.boots.landmark.sign long
+#: data/city/world.json
+msgid ""
+"专卖各式鞋。\n"
+msgstr ""
+
+#. city.cloth.landmark.sign long
+#: data/city/world.json
+msgid ""
+"匾上三个大字：闯名堂\n"
+msgstr ""
+
+#. city.weapon.landmark.sign long
+#: data/city/world.json
+msgid ""
+"招牌写著：京师武器店专营各式武器。\n"
+msgstr ""
+
+#. city.eastdoor1.out name
+#. city.eastdoor2.out name
+#. city.westdoor1.out name
+#. city.westdoor2.out name
+#. city.southdoor.out name
+#: data/city/world.json
+msgid "城门"
+msgstr ""
+
+#. city.eastdoor1.out act.acts.steps.line
+#. city.eastdoor2.out act.acts.steps.line
+#. city.westdoor1.out act.acts.steps.line
+#. city.westdoor2.out act.acts.steps.line
+#. city.southdoor.out act.acts.steps.line
+#: data/city/world.json
+msgid ""
+"京师守城兵说道：没有官府通令，任何人不能出入京师。\n"
+msgstr ""
+
+#. city.eastdoor1.out act.acts.steps.line
+#. city.eastdoor2.out act.acts.steps.line
+#. city.westdoor1.out act.acts.steps.line
+#. city.westdoor2.out act.acts.steps.line
+#. city.southdoor.out act.acts.steps.line
+#: data/city/world.json
+msgid ""
+"出城方向的路被京师守城兵挡住了。\n"
+msgstr ""
+
+#. city.eastdoor1.out act.acts.steps.line
+#. city.eastdoor2.out act.acts.steps.line
+#. city.westdoor1.out act.acts.steps.line
+#. city.westdoor2.out act.acts.steps.line
+#. city.southdoor.out act.acts.steps.line
+#: data/city/world.json
+msgid ""
+"这个方向没有出路。\n"
 msgstr ""

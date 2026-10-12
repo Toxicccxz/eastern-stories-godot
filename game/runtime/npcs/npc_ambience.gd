@@ -46,12 +46,13 @@ func due_beats(delta: float) -> int:
 	return beats
 
 
-## npc.c chat() on one beat: null, a line to say, or NpcTalk.RANDOM_MOVE.
-func chat(talk: NpcTalk) -> Variant:
+## npc.c chat() on one beat: null, a line to say, or NpcTalk.RANDOM_MOVE. `chance` is the
+## NPC's own chat_chance when create() drew it (walker.c), -1 for the definition's.
+func chat(talk: NpcTalk, chance: int = -1) -> Variant:
 	if talk == null or not talk.has_chat():
 		return null
 	var roll: int = _random.legacy_random(100)
-	if roll < 0 or roll >= talk.chat_chance:
+	if roll < 0 or roll >= (talk.chat_chance if chance < 0 else chance):
 		return null
 	var entries: Array = talk.chat_entries()
 	var index: int = _random.legacy_random(entries.size())

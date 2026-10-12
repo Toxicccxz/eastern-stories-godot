@@ -41,6 +41,9 @@ var _flags: Dictionary[StringName, bool] = {}
 ## set("chat_chance_combat") a chat function changed (woman1.c wield_weapon(): 10);
 ## -1 while the definition's holds. Saved with the flags.
 var combat_chat_chance: int = -1
+## set("chat_chance", random(20)) as create() drew it (walker.c: NpcTalk's chat_chance_roll);
+## -1 while the definition's holds. Saved with the flags.
+var chat_chance: int = -1
 ## oldman.c set("pills", 9): the pills it has left (NpcHooks), counted anew at its room's
 ## reset and when it wakes; -1 until first counted. Saved with the flags.
 var pills_left: int = -1

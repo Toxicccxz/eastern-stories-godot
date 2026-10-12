@@ -223,6 +223,8 @@ func _encode_npc(value: Values.NpcSpawnStateSnapshot) -> Dictionary[String, Vari
 			memory["flags"] = flags
 		if value.combat_chat_chance >= 0:
 			memory["combat_chat_chance"] = _i(value.combat_chat_chance)
+		if value.chat_chance >= 0:
+			memory["chat_chance"] = _i(value.chat_chance)
 		if value.pills_left >= 0:
 			memory["pills_left"] = _i(value.pills_left)
 		if value.times_caught > 0:
@@ -334,6 +336,7 @@ func _decode_root(value: Variant) -> GameSaveSnapshot:
 		"SOURCE_ENTRY_CHOYIN_D_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_CHOYIN_D_V1
 		"SOURCE_ENTRY_CANYON_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_CANYON_V1
 		"SOURCE_ENTRY_VILLAGE_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_VILLAGE_V1
+		"SOURCE_ENTRY_CITY_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_CITY_V1
 		_: _fail(GameSaveResult.Outcome.UNKNOWN_WORLD_REVISION, "world_content_revision")
 	if _error == null and _current_public_only:
 		var support: GameSaveResult = WorldContentRevision.public_support(revision)
@@ -644,12 +647,12 @@ func _decode_npc(value: Variant, path: String) -> Values.NpcSpawnStateSnapshot:
 	return decoded
 
 
-## An NPC's memory: {flags?: {name: bool}, combat_chat_chance?, pills_left?, times_caught?,
+## An NPC's memory: {flags?: {name: bool}, combat_chat_chance?, chat_chance?, pills_left?, times_caught?,
 ## chant?: {stage, left_ms}}, never empty.
 func _decode_memory(value: Variant, path: String, into: Values.NpcSpawnStateSnapshot) -> void:
 	var keys: Array[String] = []
 	if value is Dictionary:
-		for key: String in ["flags", "combat_chat_chance", "pills_left", "times_caught", "chant"]:
+		for key: String in ["flags", "combat_chat_chance", "chat_chance", "pills_left", "times_caught", "chant"]:
 			if value.has(key):
 				keys.append(key)
 	var object: Dictionary = _obj(value, path, keys)
@@ -669,6 +672,9 @@ func _decode_memory(value: Variant, path: String, into: Values.NpcSpawnStateSnap
 	if object.has("combat_chat_chance"):
 		into.combat_chat_chance = _int64(object["combat_chat_chance"], path + ".combat_chat_chance")
 		if into.combat_chat_chance < 0: _fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".combat_chat_chance", "expected a chance")
+	if object.has("chat_chance"):
+		into.chat_chance = _int64(object["chat_chance"], path + ".chat_chance")
+		if into.chat_chance < 0: _fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".chat_chance", "expected a chance")
 	if object.has("pills_left"):
 		into.pills_left = _int64(object["pills_left"], path + ".pills_left")
 		if into.pills_left < 0: _fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".pills_left", "expected a count")

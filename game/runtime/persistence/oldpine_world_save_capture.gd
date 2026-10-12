@@ -160,6 +160,7 @@ func capture(
 		# how often a thief was caught.
 		npc_snapshot.flags = npc.memory_flags()
 		npc_snapshot.combat_chat_chance = npc.combat_chat_chance
+		npc_snapshot.chat_chance = npc.chat_chance
 		npc_snapshot.pills_left = npc.pills_left
 		npc_snapshot.times_caught = npc.times_caught
 		# Its chant under way (owner, 乔阴 C): the next stage and the time till it.

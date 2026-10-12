@@ -1,0 +1,109 @@
+{
+	"regions": [
+		{ "id": "city", "name": "京师" }
+	],
+	"maps": [
+		{ "id": "city.main", "region": "city", "scene": "res://scenes/world/city/city_main.tscn", "entry": "city.nroad2.village_arrival" },
+		{ "id": "city.upstairs", "region": "city", "scene": "res://scenes/world/city/city_upstairs.tscn", "entry": "city.jiulou_2.stairs_arrival" }
+	],
+	"zones": [
+		{ "id": "city.nroad2", "map": "city.main", "rooms": ["es2:d/city/nroad2"] },
+		{ "id": "city.nroad1", "map": "city.main", "rooms": ["es2:d/city/nroad1"] },
+		{ "id": "city.northdoor", "map": "city.main", "rooms": ["es2:d/city/northdoor"] },
+		{ "id": "city.street16", "map": "city.main", "rooms": ["es2:d/city/street16"] },
+		{ "id": "city.bank", "map": "city.main", "rooms": ["es2:d/city/bank"] },
+		{ "id": "city.weapon", "map": "city.main", "rooms": ["es2:d/city/weapon"] },
+		{ "id": "city.westdoor1", "map": "city.main", "rooms": ["es2:d/city/westdoor1"] },
+		{ "id": "city.street14", "map": "city.main", "rooms": ["es2:d/city/street14"] },
+		{ "id": "city.street15", "map": "city.main", "rooms": ["es2:d/city/street15"] },
+		{ "id": "city.street7", "map": "city.main", "rooms": ["es2:d/city/street7"] },
+		{ "id": "city.street8", "map": "city.main", "rooms": ["es2:d/city/street8"] },
+		{ "id": "city.street9", "map": "city.main", "rooms": ["es2:d/city/street9"] },
+		{ "id": "city.eastdoor1", "map": "city.main", "rooms": ["es2:d/city/eastdoor1"] },
+		{ "id": "city.feiyuan", "map": "city.main", "rooms": ["es2:d/city/feiyuan"] },
+		{ "id": "city.jitan", "map": "city.main", "rooms": ["es2:d/city/jitan"] },
+		{ "id": "city.biaoju", "map": "city.main", "rooms": ["es2:d/city/biaoju"] },
+		{ "id": "city.cloth", "map": "city.main", "rooms": ["es2:d/city/cloth"] },
+		{ "id": "city.street6", "map": "city.main", "rooms": ["es2:d/city/street6"] },
+		{ "id": "city.shenwumen", "map": "city.main", "rooms": ["es2:d/city/shenwumen"] },
+		{ "id": "city.street1", "map": "city.main", "rooms": ["es2:d/city/street1"] },
+		{ "id": "city.jiulou", "map": "city.main", "rooms": ["es2:d/city/jiulou"] },
+		{ "id": "city.street5", "map": "city.main", "rooms": ["es2:d/city/street5"] },
+		{ "id": "city.street2", "map": "city.main", "rooms": ["es2:d/city/street2"] },
+		{ "id": "city.xiangguo_gate", "map": "city.main", "rooms": ["es2:d/city/xiangguo/gate"] },
+		{ "id": "city.street4", "map": "city.main", "rooms": ["es2:d/city/street4"] },
+		{ "id": "city.wumen", "map": "city.main", "rooms": ["es2:d/city/wumen"] },
+		{ "id": "city.street3", "map": "city.main", "rooms": ["es2:d/city/street3"] },
+		{ "id": "city.jiaowu", "map": "city.main", "rooms": ["es2:d/city/jiaowu"] },
+		{ "id": "city.boots", "map": "city.main", "rooms": ["es2:d/city/boots"] },
+		{ "id": "city.westdoor2", "map": "city.main", "rooms": ["es2:d/city/westdoor2"] },
+		{ "id": "city.street13", "map": "city.main", "rooms": ["es2:d/city/street13"] },
+		{ "id": "city.street12", "map": "city.main", "rooms": ["es2:d/city/street12"] },
+		{ "id": "city.bridge", "map": "city.main", "rooms": ["es2:d/city/bridge"] },
+		{ "id": "city.street11", "map": "city.main", "rooms": ["es2:d/city/street11"] },
+		{ "id": "city.street10", "map": "city.main", "rooms": ["es2:d/city/street10"] },
+		{ "id": "city.eastdoor2", "map": "city.main", "rooms": ["es2:d/city/eastdoor2"] },
+		{ "id": "city.street17", "map": "city.main", "rooms": ["es2:d/city/street17"] },
+		{ "id": "city.house1", "map": "city.main", "rooms": ["es2:d/city/house1"] },
+		{ "id": "city.southdoor", "map": "city.main", "rooms": ["es2:d/city/southdoor"] },
+		{ "id": "city.jiulou_2", "map": "city.upstairs", "rooms": ["es2:d/city/jiulou_2"] }
+	],
+	"portals": [
+		{ "id": "city.nroad2.north", "from_zone": "city.nroad2", "to_zone": "village.road2", "to_spawn": "village.road2.city_return", "legacy_room": "es2:d/city/nroad2", "legacy_command": "north" },
+		{ "id": "city.jiulou.up", "from_zone": "city.jiulou", "to_zone": "city.jiulou_2", "to_spawn": "city.jiulou_2.stairs_arrival", "legacy_room": "es2:d/city/jiulou", "legacy_command": "up" },
+		{ "id": "city.jiulou_2.down", "from_zone": "city.jiulou_2", "to_zone": "city.jiulou", "to_spawn": "city.jiulou.stairs_return", "legacy_room": "es2:d/city/jiulou_2", "legacy_command": "down" }
+	],
+	"exit_rules": [
+		{ "id": "city.jiulou.waiter_up", "room": "es2:d/city/jiulou", "from_zone": "city.jiulou", "to_zone": "city.jiulou_2", "when": "no_mark", "mark": "酒楼", "present": "city.npc.waiter", "lines": ["店小二对你一白眼:你是谁呀，闯什么闯！", "上楼的路被店小二挡住了。"], "pass_lines": ["店小二高声喊道:你楼上请"], "legacy_source": "d/city/npc/waiter.c" }
+	],
+	"landmarks": [
+		{ "id": "city.northdoor.landmark.sign", "zone": "city.northdoor", "name": "告示", "policy": "look", "long": "告示上隐约写著几个人名，但都模糊不可分辨了。\n", "legacy_source": "d/city/northdoor.c" },
+		{ "id": "city.eastdoor1.landmark.notice", "zone": "city.eastdoor1", "name": "布告", "policy": "look", "long": "布告经风吹日晒，字迹已经不可分辨了。\n", "legacy_source": "d/city/eastdoor1.c" },
+		{ "id": "city.eastdoor2.landmark.notice", "zone": "city.eastdoor2", "name": "布告", "policy": "look", "long": "布告上写著：辑拿要犯----於兰天武。\n", "legacy_source": "d/city/eastdoor2.c" },
+		{ "id": "city.westdoor1.landmark.notice", "zone": "city.westdoor1", "name": "布告", "policy": "look", "long": "布告上写著：近来有土匪出没，望行人小心。\n", "legacy_source": "d/city/westdoor1.c" },
+		{ "id": "city.westdoor2.landmark.notice", "zone": "city.westdoor2", "name": "布告", "policy": "look", "long": "布告上写著：行人出入需缴纳一两黄金。\n", "legacy_source": "d/city/westdoor2.c" },
+		{ "id": "city.southdoor.landmark.notice", "zone": "city.southdoor", "name": "告示", "policy": "look", "long": "告示上写著：今年文武大选。\n", "legacy_source": "d/city/southdoor.c" },
+		{ "id": "city.bank.landmark.sign", "zone": "city.bank", "name": "牌子", "policy": "look", "long": "我们提供的服务有：\nconvert     兑换钱币，自点数目，出门后发现少钱概不负责。\n", "legacy_source": "d/city/bank.c" },
+		{ "id": "city.boots.landmark.sign", "zone": "city.boots", "name": "招牌", "policy": "look", "long": "专卖各式鞋。\n", "legacy_source": "d/city/boots.c" },
+		{ "id": "city.cloth.landmark.sign", "zone": "city.cloth", "name": "招牌", "policy": "look", "long": "匾上三个大字：闯名堂\n", "legacy_source": "d/city/cloth.c" },
+		{ "id": "city.weapon.landmark.sign", "zone": "city.weapon", "name": "招牌", "policy": "look", "long": "招牌写著：京师武器店专营各式武器。\n", "legacy_source": "d/city/weapon.c" }
+	],
+	"services": [
+		{ "id": "city.bank.counter", "kind": "bank", "zone": "city.bank", "name": "钱庄", "reach": 96, "legacy_source": "d/city/bank.c" },
+		{ "id": "city.eastdoor1.out", "kind": "act", "zone": "city.eastdoor1", "name": "城门", "reach": 96, "legacy_source": "d/city/npc/guard.c", "act": { "verb": "出城", "acts": [
+			{ "present": "city.npc.guard", "not_mark": "令牌", "steps": [
+				{ "line": "京师守城兵说道：没有官府通令，任何人不能出入京师。\n" },
+				{ "line": "出城方向的路被京师守城兵挡住了。\n" }
+			] },
+			{ "steps": [ { "line": "这个方向没有出路。\n" } ] }
+		] } },
+		{ "id": "city.eastdoor2.out", "kind": "act", "zone": "city.eastdoor2", "name": "城门", "reach": 96, "legacy_source": "d/city/npc/guard.c", "act": { "verb": "出城", "acts": [
+			{ "present": "city.npc.guard", "not_mark": "令牌", "steps": [
+				{ "line": "京师守城兵说道：没有官府通令，任何人不能出入京师。\n" },
+				{ "line": "出城方向的路被京师守城兵挡住了。\n" }
+			] },
+			{ "steps": [ { "line": "这个方向没有出路。\n" } ] }
+		] } },
+		{ "id": "city.westdoor1.out", "kind": "act", "zone": "city.westdoor1", "name": "城门", "reach": 96, "legacy_source": "d/city/npc/guard.c", "act": { "verb": "出城", "acts": [
+			{ "present": "city.npc.guard", "not_mark": "令牌", "steps": [
+				{ "line": "京师守城兵说道：没有官府通令，任何人不能出入京师。\n" },
+				{ "line": "出城方向的路被京师守城兵挡住了。\n" }
+			] },
+			{ "steps": [ { "line": "这个方向没有出路。\n" } ] }
+		] } },
+		{ "id": "city.westdoor2.out", "kind": "act", "zone": "city.westdoor2", "name": "城门", "reach": 96, "legacy_source": "d/city/npc/guard.c", "act": { "verb": "出城", "acts": [
+			{ "present": "city.npc.guard", "not_mark": "令牌", "steps": [
+				{ "line": "京师守城兵说道：没有官府通令，任何人不能出入京师。\n" },
+				{ "line": "出城方向的路被京师守城兵挡住了。\n" }
+			] },
+			{ "steps": [ { "line": "这个方向没有出路。\n" } ] }
+		] } },
+		{ "id": "city.southdoor.out", "kind": "act", "zone": "city.southdoor", "name": "城门", "reach": 96, "legacy_source": "d/city/npc/guard.c", "act": { "verb": "出城", "acts": [
+			{ "present": "city.npc.guard", "not_mark": "令牌", "steps": [
+				{ "line": "京师守城兵说道：没有官府通令，任何人不能出入京师。\n" },
+				{ "line": "出城方向的路被京师守城兵挡住了。\n" }
+			] },
+			{ "steps": [ { "line": "这个方向没有出路。\n" } ] }
+		] } }
+	]
+}

@@ -264,6 +264,9 @@ func request(student: CharacterState, master: NpcDefinition, family: FamilyDefin
 			_say(npc, rule.ask_say, respect)
 			_oaths[master.definition_id] = true
 		return Outcome.ASKED
+	if rule.kind == NpcTeaching.Kind.SILENT:
+		# chen.c has no attempt_apprentice(): the request waits for his own recruit.
+		return Outcome.PENDING
 	if rule.kind == NpcTeaching.Kind.REFUSES:
 		# annihi.c attempt_apprentice(): its say, and nothing more.
 		_say(npc, rule.refuse_say, respect)

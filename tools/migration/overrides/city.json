@@ -1,0 +1,301 @@
+{
+	"vendors": ["d/city/npc/waiter.c", "d/city/npc/caker.c", "d/city/npc/dumpling_seller.c", "d/city/npc/vendor.c", "d/city/npc/shoer.c", "d/city/npc/clother.c", "d/city/npc/weaponor.c"],
+	"set": {
+		"city.npc.guard": {
+			"accept_kill": { "line": "守城兵大叫：反了！反了！" },
+			"accept_object": [
+				{ "say": "这是什么东西啊！你想偷渡呀？", "accept": false }
+			]
+		},
+		"city.npc.microsof": {
+			"greeting": {
+				"one_of": [
+					{ "line": "黑你没商量一翻三角眼，不知又想出了什么坏主意。\n" },
+					{ "line": "黑你没商量说道：这位$RESPECT，换钱？我要抽点的啊！\n" },
+					{ "line": "黑你没商量说道：这位$RESPECT，钱可要自己点清楚啊！\n" }
+				]
+			},
+			"accept_fight": [
+				{ "say": "咦... 要打就真打吧，光是较量多没意思？", "accept": true, "kill": true }
+			]
+		},
+		"city.npc.weaponor": {
+			"greeting": {
+				"one_of": [
+					{ "line": "万晓生道：这位$RESPECT，自个儿挑一件称手的兵器吧。\n" },
+					{ "line": "万晓生冷冷地说：客官请付现钞。\n" },
+					{ "line": "万晓生忽然间似乎想起了远在美国的朋友和当年同闯江湖的情形。\n" }
+				],
+				"out_of": 4
+			}
+		},
+		"city.npc.shoer": {
+			"greeting": {
+				"one_of": [
+					{ "line": "李掌柜道：这位$RESPECT，您需要什么样的鞋？。\n" },
+					{ "line": "李掌柜白了你一眼，冷冷地说：你有美钞吗？\n" },
+					{ "line": "李掌柜忽然间说道：好久没去华工了，不知朋友是否还好吗。\n" }
+				],
+				"out_of": 4
+			}
+		},
+		"city.npc.clother": {
+			"greeting": {
+				"one_of": [
+					{ "line": "老板娘道：这位$RESPECT，您需要什么？\n" },
+					{ "line": "老板娘神秘地对你说：要南大食堂磁卡吗？\n" },
+					{ "line": "老板娘悄声说道：奴家可是湖南人哦。\n" }
+				],
+				"out_of": 4
+			}
+		},
+		"city.npc.boss": {
+			"greeting": { "rules": [
+				{ "steps": [
+					{ "line": "钱千万皱了皱眉，说:这里是可不是为你们开的，吃完了快走。\n" }
+				] }
+			] }
+		},
+		"city.npc.waiter": {
+			"accept_object": [
+				{ "value_at_most": 999, "say": "这点钱，还不够买酒喝。", "accept": true, "drops": true },
+				{ "giver_mark": "酒楼", "say": "真是谢谢你了。", "accept": true },
+				{ "say": "谢谢这位客官了。", "mark_giver": "酒楼", "accept": true }
+			]
+		},
+		"city.npc.chen": {
+			"family": { "name": "振远镖局", "generation": 0, "title": "弟子", "privileges": 0 },
+			"apprentice": { "kind": "silent", "class": "guardman", "title": "振远镖局第一代弟子" },
+			"accept_object": [
+				{
+					"item_alias": "letter", "item_master": true,
+					"ask": "陈天星收下陈剑秋的推荐信，就愿意收你为徒，你再向他拜师，便成为振远镖局的弟子。信交出去就要不回来了。\n确定把信交给陈天星吗？",
+					"say": "果然是剑秋侄儿推荐来的。我收你啦。", "accept": true, "recruit": true
+				},
+				{ "item_alias": "letter", "line": "陈天星狐疑地望着你，说\n这是你的嘛？\n", "accept": false },
+				{ "line": "不要戏弄我！\n", "accept": false }
+			]
+		},
+		"city.npc.walker": {
+			"gender": { "random": 3, "below": 1, "then": "女性", "else": "男性" },
+			"skill_roll": { "random": 4, "below": 1, "skills": { "unarmed": 40, "spicyclaw": 20, "parry": 40 }, "skill_map": { "unarmed": "spicyclaw" } },
+			"chat_chance": { "base": 0, "plus_random": 20 },
+			"chat_msg": [
+				"行人摇了摇头，说：世事无常，只苦了我们这些老百姓。\n",
+				"行人愤愤地说：这年头，几个臭钱就能买到官。哼！\n",
+				"行人叹了口气：皇上太年幼了，朝廷就让那个老不死的把持着。咳！\n",
+				{ "action": "random_move" }
+			],
+			"inquiry": { "买官": ["全是那个该死的尚书作的孽。\n"] }
+		},
+		"city.npc.trader": {
+			"chat_chance_combat": 15,
+			"chat_msg_combat": [
+				"光天化日，朗朗乾坤，你也想打劫？\n",
+				{ "action": "random_move" }
+			]
+		},
+		"city.npc.vendor": {
+			"inquiry": { "金疮药": { "rules": [ { "vendor_list": true } ] } }
+		},
+		"city.npc.caker": {
+			"inquiry": { "大饼": { "rules": [ { "vendor_list": true } ] } }
+		},
+		"city.npc.dumpling_seller": {
+			"inquiry": { "包子": { "rules": [ { "vendor_list": true } ] } }
+		},
+		"es2:d/city/npc/obj/wine": {
+			"liquid": { "max_liquid": 30, "name": "红酒", "remaining": 30, "type": "alcohol" }
+		},
+		"common.npc.chater2": {
+			"name": "桃干仙",
+			"name_pick": ["桃干仙", "桃枝仙", "桃谷仙", "桃实仙", "桃花仙", "桃根仙", "桃萼仙"],
+			"chat_chance": 10,
+			"chat_msg": [
+				{ "action": "get_all" },
+				{ "action": "wear_all" },
+				{ "action": "wield_all" },
+				{ "action": "emote", "verb": "drool" },
+				{ "action": "emote", "verb": "drool" },
+				{ "action": "emote", "verb": "drool" },
+				{ "action": "emote", "verb": "drool" }
+			],
+			"accept_object": [
+				{ "accept": true }
+			]
+		}
+	},
+	"review": {
+		"u/cp/chater2.c": {
+			"set_name": "\"桃\" + name_words[random(7)]: name_pick in set (the seven 仙, drawn first)",
+			"set_name ids": "its id is drawn from rnd_id and rnd_id_tail (three or four draws): nobody sees an NPC's id here, so it keeps only drooler and its draws are not made (默认)",
+			"statement in create()": "the name and id draws: name_pick in set",
+			"condition in create()": "the id's second syllable: not drawn (the id is not shown)",
+			"set env/wimpy": "NPCs never flee a losing fight yet (wimpy)",
+			"set chat_chance": "chat_chance in set",
+			"set chat_msg": "in set: command(\"get all\"), (\"wear all\"), (\"wield all\") are get_all, wear_all and wield_all (cmds/std/get.c, wear.c, wield.c on everything here or carried); drool() reads its memory, which only relay_channel() fills from the chat channel nobody else speaks on in single player, so it returns at once: four silent entries (emote)",
+			"function add_phrase": "the chat channel's memory: nobody else speaks on it in single player (relay_channel)",
+			"function make_reply": "empty",
+			"function relay_channel": "the chat channel: nobody else speaks on it in single player; register_relay_channel() goes with it",
+			"function relay_emote": "answers emotes on the chat channel (chat/chat*): there is none in single player",
+			"function drool": "a silent chat entry: its memory stays empty (relay_channel)",
+			"function reset": "delete(\"memory\"): the memory is always empty",
+			"function accept_object": "accept_object in set: it takes anything (return 1)"
+		},
+		"d/city/nroad1.c": {
+			"create_door": "create_door(\"enter\") names an exit nroad1.c does not have: std/room.c errors (attempt to create a door without exit) and create() stops there; no door between the road and the 北门",
+			"function init": "add_action(\"do_yell\", \"yell\"): not ported",
+			"function do_yell": "not ported: it adds an exit up to d/city/room, which does not exist (set(\"exit/up\") is also a typo for exits)"
+		},
+		"d/city/northdoor.c": {
+			"set item_desc": "sign: a look-only landmark in world.json (city.northdoor.landmark.sign), the line a non-wizard reads; door: look_door(\"out\") finds no door (create_door errors)",
+			"create_door": "create_door(\"out\") names an exit the room does not have: std/room.c errors and create() stops before setup(); no door, and the 守城兵 come with the driver's first reset() (here from the start, 默认)",
+			"function look_sign": "the non-wizard's line: landmark city.northdoor.landmark.sign",
+			"function valid_leave": "its out exit never existed, so it never refuses; the guards' do_out() is not offered at the 北门 (默认, DECISIONS 京师 A): the road north is the way out"
+		},
+		"d/city/eastdoor1.c": {
+			"set item_desc": "notice: a look-only landmark (city.eastdoor1.landmark.notice), word for word; door: look_door() finds no door",
+			"create_door": "create_door(\"out\") with the out exit commented out: std/room.c errors, no door (as the 北门); the gate is drawn shut",
+			"function look_notice": "landmark city.eastdoor1.landmark.notice",
+			"function valid_leave": "the out exit is commented out, so it never runs; the guards' do_out() is the refusal the player meets: the act service city.eastdoor1.out (城门 · 出城)"
+		},
+		"d/city/eastdoor2.c": {
+			"set item_desc": "notice: a look-only landmark (city.eastdoor2.landmark.notice), word for word; door: look_door() finds no door",
+			"create_door": "create_door(\"out\") with the out exit commented out: std/room.c errors, no door; the gate is drawn shut",
+			"function look_notice": "landmark city.eastdoor2.landmark.notice",
+			"function valid_leave": "never runs (no out exit; its || would have refused even a token's bearer): the act service city.eastdoor2.out"
+		},
+		"d/city/westdoor1.c": {
+			"set item_desc": "notice: a look-only landmark (city.westdoor1.landmark.notice), word for word; door: look_door() finds no door",
+			"create_door": "create_door(\"out\") with the out exit commented out: std/room.c errors, no door; the gate is drawn shut",
+			"function look_notice": "landmark city.westdoor1.landmark.notice",
+			"function valid_leave": "never runs (no out exit): the act service city.westdoor1.out"
+		},
+		"d/city/westdoor2.c": {
+			"set item_desc": "notice: a look-only landmark (city.westdoor2.landmark.notice), word for word; door: look_door() finds no door",
+			"create_door": "create_door(\"out\") with the out exit commented out: std/room.c errors, no door; the gate is drawn shut",
+			"function look_notice": "landmark city.westdoor2.landmark.notice",
+			"function valid_leave": "never runs (no out exit; its || is moot): the act service city.westdoor2.out"
+		},
+		"d/city/southdoor.c": {
+			"set item_desc": "notice: a look-only landmark (city.southdoor.landmark.notice), the line a non-wizard reads; door: look_door() finds no door",
+			"create_door": "create_door(\"out\") with the out exit commented out: std/room.c errors, no door; the gate is drawn shut",
+			"function look_notice": "the non-wizard's line: landmark city.southdoor.landmark.notice",
+			"function valid_leave": "never runs (no out exit; its || is moot): the act service city.southdoor.out"
+		},
+		"d/city/npc/guard.c": {
+			"set_temp apply/move": "move (轻功 travel) is not modelled (as 县城官兵's)",
+			"function init": "out: the act services city.<gate>.out (城门 · 出城) of the five shut gates; kill: accept_kill in set",
+			"function do_out": "act services city.eastdoor1/eastdoor2/westdoor1/westdoor2/southdoor.out: with a 守城兵 standing there and no marks/令牌, its say and write() (the stray space before 。 goes: the room's own line has none); otherwise go.c's 这个方向没有出路。 (there is no out exit)",
+			"function do_kill": "accept_kill in set: its notify_fail() line 守城兵大叫：反了！反了！ is shown as its author meant (kill.c then went on and ES2 never printed it, 默认); kill_ob() is the fight itself",
+			"function accept_object": "accept_object in set: anything but the token is refused with its say (return 0); the token (marks/令牌, 原来是官府中人) comes with 废园's find in 京师 B (tests/runtime/city_test.gd's reminder)"
+		},
+		"d/city/bank.c": {
+			"set item_desc": "sign: a look-only landmark in world.json (city.bank.landmark.sign), word for word; convert is the service city.bank.counter (钱庄 · 兑换)"
+		},
+		"d/city/npc/microsof.c": {
+			"set pursuer": "following who flees is not modelled yet (as 守城官兵's)",
+			"set env/wimpy": "NPCs never flee a losing fight yet (wimpy)",
+			"set atman_factor": "a spell factor nothing he does reads",
+			"set mana_factor": "a spell factor nothing he does reads",
+			"function init": "greeting in set (one second after the player comes in, not while he fights)",
+			"function greeting": "greeting in set: switch(random(3)), say() lines as written (RANK_D's respect for the player)",
+			"function accept_fight": "accept_fight in set (say, kill); grin prints nothing. The bank is no_fight, so neither it nor his chat_msg_combat is ever reached"
+		},
+		"d/city/weapon.c": {
+			"set item_desc": "sign: a look-only landmark in world.json (city.weapon.landmark.sign), word for word",
+			"function look_sign": "landmark city.weapon.landmark.sign"
+		},
+		"d/city/npc/weaponor.c": {
+			"function init": "greeting in set; list: the vendor's goods panel (购买)",
+			"function greeting": "greeting in set: switch(random(4)) with three cases (the fourth says nothing); the real-world friend kept (桂花 precedent)"
+		},
+		"d/city/feiyuan.c": {
+			"function init": "find: 京师 B (the 出城令牌, owner Q1 (b)); tests/runtime/city_test.gd fails until then",
+			"function valid_leave": "the flash on leaving south: 京师 B (city_test's reminder)",
+			"function do_find": "random(kar + 30) >= 35 finds the token: 京师 B (city_test's reminder)"
+		},
+		"d/city/jitan.c": {
+			"set item_desc": "altar, platform and sth: 京师 B with the button (city_test's reminder)",
+			"function init": "turn and press: 京师 B (the 地下密室, owner Q2 (a))",
+			"function close_passage": "京师 B",
+			"function do_turn": "京师 B",
+			"function do_press": "京师 B",
+			"function reset": "京师 B (the turns are counted anew)"
+		},
+		"d/city/street3.c": {
+			"set item_desc": "wall: 京师 B with its climb (city_test's reminder)",
+			"function init": "climb: 京师 B (院墙)",
+			"function do_climb": "京师 B: wall, up or 墙 moves the player onto the 院墙"
+		},
+		"d/city/npc/chen.c": {
+			"assign_apprentice": "assign_apprentice(\"弟子\", 0) after create_family(): his title stays (振远镖局总镖头) and his privs are 0, so learn.c lets only his own apprentices learn from him (family.title and privileges in set)",
+			"function accept_object": "accept_object in set: 陈剑秋's letter (id letter, its master_id the giver's: item_master) is taken (smile prints nothing), his say and command(\"recruit\"): asked first (owner, 京师 plan). Owner's modern fix (M2, 默认): a letter not the giver's (狐疑地望着) and anything else (angry prints nothing, 不要戏弄我！) are handed back; ES2 kept them (return 1)",
+			"function recruit_apprentice": "apprentice in set: kind silent (no attempt_apprentice(): 拜师 only waits), title 振远镖局第一代弟子 and class guardman"
+		},
+		"d/city/npc/obj/duoqing_blade.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unequip_msg": "wield/unwield messages are not shown yet"
+		},
+		"d/city/cloth.c": {
+			"set item_desc": "sign: a look-only landmark in world.json (city.cloth.landmark.sign), word for word (its RED is not shown: landmarks have no colour yet)",
+			"function look_sign": "landmark city.cloth.landmark.sign"
+		},
+		"d/city/npc/obj/wuqing_sword.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet",
+			"set replica_ob": "read only by F_UNIQUE, which the mudlib never defines: unused"
+		},
+		"d/city/npc/clother.c": {
+			"set atman_factor": "a spell factor nothing she does reads",
+			"set mana_factor": "a spell factor nothing she does reads",
+			"function init": "greeting in set; list: the vendor's goods panel (购买); ::init() called twice changes nothing",
+			"function greeting": "greeting in set: switch(random(4)) with three cases (the fourth says nothing); the real-world joke kept (桂花 precedent)"
+		},
+		"d/city/npc/waiter.c": {
+			"function init": "list: the vendor's goods panel (购买); go: exit rule city.jiulou.waiter_up",
+			"function go_up": "world.json exit_rules city.jiulou.waiter_up (no_mark 酒楼 while the 店小二 stands in the 酒楼: 闯什么闯 and the stray space before 。 goes; with the mark 楼上请 and up). query(\"rank\") is set on no player anywhere in the mudlib, so only marks/酒楼 lets one up",
+			"function accept_object": "accept_object in set: value() below 1000 (anything but money is 0) says 这点钱 and the gift lands on the floor (owner, 京师 plan: drop all meant it; ES2 dropped what he held before, and money was destructed by give.c); 1000 and more marks/酒楼 (谢谢这位客官了), with the mark already 真是谢谢你了"
+		},
+		"d/city/npc/boss.c": {
+			"function init": "greeting in set (one second after the player comes in, not while he fights)",
+			"function greeting": "greeting in set: query(\"rank\") is set on no player anywhere in the mudlib, so it is always the first line (钱千万皱了皱眉); 哪阵香风 is never said"
+		},
+		"d/city/npc/walker.c": {
+			"inquiry 买官": "(: \"…\" :): dbase.c query() evaluates the function value, so ask.c says its string: inquiry in set",
+			"set chat_chance": "random(20): a chat_chance rule in set, drawn per walker and kept",
+			"set chat_msg": "chat_msg in set",
+			"switch in create()": "gender rule in set: random(3) case 0 女性, else 男性 (drawn before its age: the factory's order)",
+			"condition in create()": "skill_roll in set: random(4) == 0 gives unarmed 40, spicyclaw 20, parry 40, unarmed mapped to spicyclaw"
+		},
+		"d/city/npc/trader.c": {
+			"set env/wimpy": "NPCs never flee a losing fight yet (wimpy)",
+			"set chat_chance_combat": "in set",
+			"set chat_msg_combat": "in set: random_move walks out of the fight"
+		},
+		"d/city/boots.c": {
+			"set item_desc": "sign: a look-only landmark in world.json (city.boots.landmark.sign), word for word (its HIY is not shown: landmarks have no colour yet)",
+			"function look_sign": "landmark city.boots.landmark.sign"
+		},
+		"d/city/npc/shoer.c": {
+			"function init": "greeting in set; list: the vendor's goods panel (购买); ::init() called twice changes nothing",
+			"function greeting": "greeting in set: switch(random(4)) with three cases (the fourth says nothing); the real-world jokes kept (桂花 precedent)"
+		},
+		"d/city/npc/vendor.c": {
+			"inquiry 金疮药": "(: do_vendor_list :): an inquiry rule with vendor_list in set (as 乔阴's cake vendor)",
+			"function init": "list: the vendor's goods panel (购买)"
+		},
+		"d/city/npc/caker.c": {
+			"inquiry 大饼": "(: do_vendor_list :): an inquiry rule with vendor_list in set (as 乔阴's cake vendor); its goods are the 雪花糕 (obj/cake), kept",
+			"function init": "list: the vendor's goods panel (购买)"
+		},
+		"d/city/npc/dumpling_seller.c": {
+			"inquiry 包子": "(: do_vendor_list :): an inquiry rule with vendor_list in set",
+			"function init": "list: the vendor's goods panel (购买)"
+		},
+		"d/city/npc/obj/rain_whip.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		}
+	}
+}

@@ -36,7 +36,10 @@ extends RefCounted
 ## `set_temps` they change whether the gift is then taken or not; a refusal may also `move` the
 ## giver (general.c's fake 印鉴: set_temp("将军/kick"), move to camp2, return 0). `giver_carries`
 ## is an item the giver carries (present(), by its blueprint): with the temps saved, seller.c's
-## 我已经给你了啊 holds only while the fake is still theirs (天驼关 B, 默认).
+## 我已经给你了啊 holds only while the fake is still theirs (天驼关 B, 默认). `drops` takes the
+## gift and puts it on the floor (d/city/npc/waiter.c's command("drop all"), owner: 京师 plan);
+## `recruit` is the NPC's command("recruit") of the giver after it took the gift (d/city/npc/chen.c:
+## 陈剑秋's letter), and `ask` the question the 背包 asks before such a gift (owner).
 const EFFECT_TEMPLE_DONATION: StringName = &"temple_donation"
 const EFFECT_WAGER: StringName = &"wager"
 const EFFECT_PASS_FORCE: StringName = &"pass_force"
@@ -88,6 +91,9 @@ var forgets: Array[String] = []
 var item_master: bool = false
 var gives_master: bool = false
 var tally: String = ""
+var drops: bool = false
+var recruit: bool = false
+var ask: String = ""
 
 
 ## What give.c knows about the gift and the two sides when it asks.
@@ -218,6 +224,13 @@ static func from_record(reader: ContentRecordReader) -> NpcObjectRule:
 	rule.item_master = reader.boolean("item_master", false)
 	rule.gives_master = reader.boolean("gives_master", false)
 	rule.tally = reader.text("tally")
+	rule.drops = reader.boolean("drops", false)
+	rule.recruit = reader.boolean("recruit", false)
+	rule.ask = reader.text("ask")
+	if (rule.drops or rule.recruit or not rule.ask.is_empty()) and not rule.accept:
+		reader.fail("accept", "drops, recruit and ask go with a gift that is taken")
+	if rule.drops and (not rule.effect.is_empty() or not rule.gives.is_empty() or rule.make != null or not rule.move_zone_id.is_empty()):
+		reader.fail("drops", "a gift put on the floor does nothing else")
 	if rule.gives_master and rule.gives.is_empty():
 		reader.fail("gives_master", "names what is given")
 	if rule.move_zone_id.is_empty() != rule.move_point_id.is_empty():

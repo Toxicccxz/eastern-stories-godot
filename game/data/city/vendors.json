@@ -1,0 +1,67 @@
+{
+	"vendors": [
+		{
+			"id": "city.vendor.waiter",
+			"legacy_source": "d/city/npc/waiter.c",
+			"goods": [
+				{ "key": "cake", "item": "es2:d/city/npc/obj/cake" },
+				{ "key": "fish", "item": "es2:d/city/npc/obj/fish" },
+				{ "key": "wine", "item": "es2:d/city/npc/obj/wine" }
+			]
+		},
+		{
+			"id": "city.vendor.caker",
+			"legacy_source": "d/city/npc/caker.c",
+			"goods": [
+				{ "key": "big cake", "item": "es2:d/city/npc/obj/cake" }
+			]
+		},
+		{
+			"id": "city.vendor.dumpling_seller",
+			"legacy_source": "d/city/npc/dumpling_seller.c",
+			"goods": [
+				{ "key": "dumpling", "item": "es2:obj/example/dumpling" }
+			]
+		},
+		{
+			"id": "city.vendor.vendor",
+			"legacy_source": "d/city/npc/vendor.c",
+			"goods": [
+				{ "key": "medicine", "item": "es2:obj/drug/hurt_drug" }
+			]
+		},
+		{
+			"id": "city.vendor.shoer",
+			"legacy_source": "d/city/npc/shoer.c",
+			"goods": [
+				{ "key": "deer boots", "item": "es2:d/city/npc/obj/deer_boot" },
+				{ "key": "elephant boots", "item": "es2:d/city/npc/obj/xiang_boot" },
+				{ "key": "flower boots", "item": "es2:d/city/npc/obj/flower_boot" }
+			]
+		},
+		{
+			"id": "city.vendor.clother",
+			"legacy_source": "d/city/npc/clother.c",
+			"goods": [
+				{ "key": "lady dress", "item": "es2:d/city/npc/obj/lady_dress" },
+				{ "key": "green cloth", "item": "es2:d/city/npc/obj/green_cloth" },
+				{ "key": "color cloth", "item": "es2:d/city/npc/obj/color_cloth" }
+			]
+		},
+		{
+			"id": "city.vendor.weaponor",
+			"legacy_source": "d/city/npc/weaponor.c",
+			"goods": [
+				{ "key": "紫铜战盔", "item": "es2:d/city/npc/obj/armor1" },
+				{ "key": "rain whip", "item": "es2:d/city/npc/obj/rain_whip" },
+				{ "key": "cool sword", "item": "es2:d/city/npc/obj/wuqing_sword" },
+				{ "key": "duoqing blade", "item": "es2:d/city/npc/obj/duoqing_blade" },
+				{ "key": "demon staff", "item": "es2:d/city/npc/obj/demon_staff" },
+				{ "key": "leather shield", "item": "es2:obj/weapon/shield" },
+				{ "key": "sixhammer", "item": "es2:obj/weapon/sixhammer" },
+				{ "key": "thin sword", "item": "es2:obj/weapon/thin_sword" },
+				{ "key": "dagger", "item": "es2:obj/weapon/dagger" }
+			]
+		}
+	]
+}

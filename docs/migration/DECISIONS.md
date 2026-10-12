@@ -111,6 +111,52 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 - #27 牛皮酒袋照原名显示，不另起短名。
 - 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
 
+## 京师 A: the city, its shops and people (2026-10-12)
+
+Plan (owner, 2026-10-12: Q1 (b), Q2 (a); M1–M4 not answered, so they stand as **默认**): A the
+city, its shops and people (陈天星 included); B 尚书府 and the city's secrets. What each LPC
+function became is in [CITY_CONTENT](CITY_CONTENT.md); it follows the LPC except:
+- **Owner (Q1 (b), for B): the token line as ES2 wrote it.** The 守城兵 tell the player to look for
+  a token; 废园's flash and find (random(kar + 30) >= 35) give an 出城令牌, which a guard takes
+  (原来是官府中人，您请出城, marks/令牌). The five outer gates stay shut all the same: their out exits
+  are commented out and the rooms outside were never written. A puts the guards' refusal on each
+  shut gate (城门 · 出城: 没有官府通令…; with the mark or no guard standing, go.c's 这个方向没有出路。).
+- **Owner (Q2 (a), for B): the 地下密室's stairs open from below too** (天花板…露出一个向上的阶梯,
+  closing after three seconds as the altar's way down does).
+- **默认 (M1, B): the 门房 hands back less than three gold** (ES2 kept it). **默认 (M2): 陈天星
+  hands back what is not 陈剑秋's letter to the giver** (不要戏弄我！, 这是你的嘛？; ES2 kept it).
+  **默认 (M3, B): the 门房's mark is spent only by going in** (not lost walking west). **默认 (M4,
+  B): a press that opens nothing clears the altar's turns.**
+- **Owner (plan): the letter is asked for first** (it is gone once given, and 陈天星 recruits): the
+  rule's question when he will only offer; the 拜师 question (first master, betrayal, a new master)
+  when a 拜师 already waits on him and his recruit takes the player at once.
+- **Owner (plan): the 店小二 drops a small tip on the floor** (drop all meant it; ES2's give.c
+  destructed money after accept_object(), and his drop all dropped only earlier gifts). Below 1000
+  (anything but money) it lands at the player's feet; 1000 or more is his and marks/酒楼.
+- **默认: no 出城 at the 北门.** Its guards' out command refused there too, but the road north is
+  open and is the way out; only the five shut gates offer 出城.
+- **默认: the guards are there from the start.** create_door() for a missing exit errors (std/room.c)
+  in the gates, the 北门 and nroad1, so create() stopped before setup() and the guards came with
+  the room's first reset() in ES2; no door is placed anywhere in A.
+- **默认: 反了！反了！ is shown** when a 守城兵 is attacked (do_kill()'s notify_fail(): kill.c went on,
+  so ES2 never printed it).
+- **默认: 桃X仙 draws his name, not his id** (nobody sees an NPC's id); his drools stay silent (their
+  memory comes only from the chat channel, which nobody else speaks on). A corpse is not among
+  what his get all takes (an NPC carrying a body is not modelled).
+- **默认: 护国寺, 紫禁城, 监狱, 刑场 and 相国府 are drawn shut** (their exits are commented out and
+  the rooms never written). 尚书府 is drawn shut until B; street3's wall and climb, the altar's
+  button and 废园's find come with B (city_test fails once B's rooms are placed).
+- **Stays as ES2:** 钱千万 always says 吃完了快走 (query("rank") is set on no player); 黑你没商量's
+  fight code is unreachable (no_fight bank); real-world jokes kept (桂花 precedent); nroad1.c's
+  yell (a typo exit to a room that does not exist) is not ported.
+- **Global (data):** give rules `drops` (onto the floor), `recruit` (the NPC's own recruit) and `ask`
+  (the 背包 asks first); apprentice kind `silent` (no attempt_apprentice()); NPC `skill_roll` and a
+  `chat_chance` rule each NPC draws (saved); chat actions `get_all`, `wear_all`, `wield_all`;
+  accept_kill `line`; exit rule `no_mark` with `present` (the NPC's own command). The importer
+  keeps the plain ids of a set_name() whose id is drawn.
+- **Save:** world content revision `SOURCE_ENTRY_CITY_V1` (a new region); older development saves
+  need a New Game.
+
 ## 玉螺湖村 B: the 瓜地 (2026-10-11)
 
 The plan's B (「玉螺湖村 A」 below). What each LPC function became is in

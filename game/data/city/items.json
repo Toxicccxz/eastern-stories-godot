@@ -1,0 +1,163 @@
+{
+	"items": [
+		{
+			"id": "es2:d/city/npc/obj/duoqing_blade",
+			"legacy_sources": ["d/city/npc/obj/duoqing_blade.c"],
+			"name": "多情刀",
+			"aliases": ["duoqing blade", "blade"],
+			"long": "这是一把耀眼的利刃。\n",
+			"unit": "把",
+			"material": "steel",
+			"weight": 12000,
+			"value": 20000,
+			"weapon": { "skill": "blade", "damage": 35, "weight_dodge": "equip" }
+		},
+		{
+			"id": "es2:d/city/npc/obj/wuqing_sword",
+			"legacy_sources": ["d/city/npc/obj/wuqing_sword.c"],
+			"name": "无情剑",
+			"aliases": ["cool sword", "sword"],
+			"long": "剑锋寒气逼人，剑身发出异样的青光。\n",
+			"unit": "把",
+			"material": "异类金属",
+			"weight": 4500,
+			"value": 24000,
+			"weapon": { "skill": "sword", "damage": 45, "weight_dodge": "equip" }
+		},
+		{
+			"id": "es2:d/city/npc/obj/cake",
+			"legacy_sources": ["d/city/npc/obj/cake.c"],
+			"name": "雪花糕",
+			"aliases": ["cake"],
+			"long": "这是一块精致可口的小点心，似雪花般柔软。\n",
+			"unit": "块",
+			"weight": 1000,
+			"value": 300,
+			"food": { "remaining": 5, "supply": 80 }
+		},
+		{
+			"id": "es2:d/city/npc/obj/fish",
+			"legacy_sources": ["d/city/npc/obj/fish.c"],
+			"name": "西湖醋鱼",
+			"aliases": ["fish"],
+			"long": "一盘西湖醋鱼，香气四溢，让人垂涎欲滴。\n",
+			"unit": "盘",
+			"weight": 1000,
+			"value": 500,
+			"food": { "remaining": 6, "supply": 90 }
+		},
+		{
+			"id": "es2:d/city/npc/obj/wine",
+			"legacy_sources": ["d/city/npc/obj/wine.c"],
+			"name": "状元红",
+			"aliases": ["wine"],
+			"long": "这是一坛香味浓郁的陈年老酒，是专待状元高中时喝的酒。\n",
+			"unit": "坛",
+			"weight": 20000,
+			"value": 350,
+			"liquid": { "max_liquid": 30, "name": "红酒", "remaining": 30, "type": "alcohol" }
+		},
+		{
+			"id": "es2:d/city/npc/obj/deer_boot",
+			"legacy_sources": ["d/city/npc/obj/deer_boot.c"],
+			"name": "鹿皮小靴",
+			"aliases": ["deer boots", "boots"],
+			"unit": "件",
+			"weight": 700,
+			"value": 2000,
+			"armor": { "type": "boots", "props": { "armor": 2, "dodge": 1 }, "weight_dodge": "armor" }
+		},
+		{
+			"id": "es2:d/city/npc/obj/xiang_boot",
+			"legacy_sources": ["d/city/npc/obj/xiang_boot.c"],
+			"name": "象皮战靴",
+			"aliases": ["elephant boots", "boots"],
+			"unit": "件",
+			"weight": 1000,
+			"value": 12000,
+			"armor": { "type": "boots", "props": { "armor": 15, "dodge": 5 }, "weight_dodge": "armor" }
+		},
+		{
+			"id": "es2:d/city/npc/obj/flower_boot",
+			"legacy_sources": ["d/city/npc/obj/flower_boot.c"],
+			"name": "绣花鞋",
+			"aliases": ["flower boots", "boots"],
+			"unit": "件",
+			"weight": 600,
+			"value": 2500,
+			"armor": { "type": "boots", "props": { "armor": 3 }, "weight_dodge": "armor" }
+		},
+		{
+			"id": "es2:d/city/npc/obj/lady_dress",
+			"legacy_sources": ["d/city/npc/obj/lady_dress.c"],
+			"name": "轻罗绸衫",
+			"aliases": ["lady dress", "dress"],
+			"long": "这是一件有钱人家的小姐穿著的衣物，手工相当细致。\n",
+			"unit": "件",
+			"material": "cloth",
+			"female_only": true,
+			"weight": 1200,
+			"value": 20000,
+			"armor": { "type": "cloth", "props": { "armor": 1, "personality": 6 }, "weight_dodge": "armor" }
+		},
+		{
+			"id": "es2:d/city/npc/obj/green_cloth",
+			"legacy_sources": ["d/city/npc/obj/green_cloth.c"],
+			"name": "淡青长袍",
+			"aliases": ["green cloth", "cloth"],
+			"long": "这件淡青长袍绸衫上面绣著几只黄鹊，闻起来还有一股淡香。\n",
+			"unit": "件",
+			"material": "cloth",
+			"weight": 1000,
+			"value": 26000,
+			"armor": { "type": "cloth", "props": { "armor": 1, "personality": 5 }, "weight_dodge": "armor" }
+		},
+		{
+			"id": "es2:d/city/npc/obj/color_cloth",
+			"legacy_sources": ["d/city/npc/obj/color_cloth.c"],
+			"name": "艳红绸衫",
+			"aliases": ["color cloth", "cloth"],
+			"long": "一件大红色的女子衣衫，看起来有点鲜艳得过火。\n",
+			"unit": "件",
+			"material": "cloth",
+			"female_only": true,
+			"weight": 1000,
+			"value": 1500,
+			"armor": { "type": "cloth", "props": { "armor": 1, "personality": 5 }, "weight_dodge": "armor" }
+		},
+		{
+			"id": "es2:d/city/npc/obj/armor1",
+			"legacy_sources": ["d/city/npc/obj/armor1.c"],
+			"name": "紫铜战盔",
+			"aliases": ["armor"],
+			"unit": "件",
+			"material": "copper",
+			"weight": 42000,
+			"value": 10000,
+			"armor": { "type": "armor", "props": { "armor": 30, "dodge": -8 }, "weight_dodge": "armor" }
+		},
+		{
+			"id": "es2:d/city/npc/obj/rain_whip",
+			"legacy_sources": ["d/city/npc/obj/rain_whip.c"],
+			"name": "烟雨鞭",
+			"aliases": ["rain whip", "whip"],
+			"unit": "条",
+			"material": "leather",
+			"weight": 17000,
+			"value": 20000,
+			"weapon": { "skill": "whip", "damage": 28, "weight_dodge": "equip" }
+		},
+		{
+			"id": "es2:d/city/npc/obj/demon_staff",
+			"legacy_sources": ["d/city/npc/obj/demon_staff.c"],
+			"name": "天魔杵",
+			"aliases": ["demon staff", "staff"],
+			"long": "一把暗红色、两丈多长的巨杵。\n",
+			"unit": "把",
+			"material": "crimson gold",
+			"weight": 25000,
+			"value": 20000,
+			"weapon": { "skill": "staff", "damage": 50, "weight_dodge": "equip" }
+		}
+	]
+}

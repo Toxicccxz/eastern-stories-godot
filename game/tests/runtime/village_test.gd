@@ -81,11 +81,12 @@ func _test_data() -> void:
 ## Content that waits for another region keeps a test that fails once it comes.
 func _test_reminders() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
-	# #12 京师: road2.c's south names d/city/nroad2; drawn closed until the city is placed.
+	# 京师 (#12, 京师 A): road2.c's south is the 北驿道 (nroad2.c's north comes back).
 	_check(catalog.room(&"es2:d/village/road2").exits().get("south") == "es2:d/city/nroad2", "road2.c's south names 京师's nroad2")
-	for portal: PortalDefinition in catalog.portals_for_map(&"village.main"):
-		_check(portal.source_zone_id != &"village.road2", "nothing south of the 三叉路口 yet (京师 is #12: open it then): %s" % portal.portal_id)
-	_check(catalog.zone_of_room(&"es2:d/city/nroad2") == null, "京师 is placed (#12): open the 三叉路口's way south and drop this reminder")
+	var south: PortalDefinition = catalog.portal(&"village.road2.south")
+	_check(south != null and south.source_zone_id == &"village.road2" and south.destination_zone_id == &"city.nroad2", "the 三叉路口's way south leads to the 北驿道")
+	var north: PortalDefinition = catalog.portal(&"city.nroad2.north")
+	_check(north != null and north.destination_zone_id == &"village.road2", "the 北驿道's way north comes back to the 三叉路口")
 	# 黑松山 (after 京师, owner Q2): 小娟 sets marks/老刘 or marks/murder; 刘老农 then thanks
 	# (銮鱼衡冰 and 过招要旨, he leaves with 娟儿) or takes revenge (悲愤欲绝). Until then he only asks.
 	for zone: ZoneDefinition in catalog.zones():

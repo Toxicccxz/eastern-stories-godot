@@ -61,6 +61,8 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 	var authored_map: Dictionary[String, String] = reader.text_map("skill_map")
 	for use_id: String in authored_map:
 		skill_map[StringName(use_id)] = StringName(authored_map[use_id])
+	var skill_roll_reader: ContentRecordReader = reader.child("skill_roll")
+	var skill_roll: NpcSkillRoll = NpcSkillRoll.from_record(skill_roll_reader) if skill_roll_reader != null else null
 	var loadout: Array[NpcLoadoutEntry] = []
 	for carry: ContentRecordReader in reader.children("carry"):
 		loadout.append(_carry_entry(carry))
@@ -131,7 +133,7 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 		capabilities,
 		description,
 		combat_facts,
-	).with_creation_facts(title, skill_map, gender_roll, age_roll, combat_experience_roll, score_roll).with_fight_rules(fight_rules).with_talk(talk).with_naming(nickname, rank_respect, class_id).with_dealings(dealings).with_teaching(teaching).with_internal_power(internal_power).with_bellicosity(bellicosity).with_combat_hooks(hit_condition, killed_enemy).with_rolls(apply_rolls, attitude_roll).with_summoning(name_pick, summoning).with_conjuring(conjuring).with_raising(raising).with_ordination(ordination).with_hooks(hooks).with_rank_self(rank_self)
+	).with_creation_facts(title, skill_map, gender_roll, age_roll, combat_experience_roll, score_roll).with_skill_roll(skill_roll).with_fight_rules(fight_rules).with_talk(talk).with_naming(nickname, rank_respect, class_id).with_dealings(dealings).with_teaching(teaching).with_internal_power(internal_power).with_bellicosity(bellicosity).with_combat_hooks(hit_condition, killed_enemy).with_rolls(apply_rolls, attitude_roll).with_summoning(name_pick, summoning).with_conjuring(conjuring).with_raising(raising).with_ordination(ordination).with_hooks(hooks).with_rank_self(rank_self)
 	if summoning != null and conjuring != null:
 		reader.fail("conjured", "an NPC is either summoned to its caster's side or conjured against its owner")
 	if raising != null and (summoning != null or conjuring != null or not name_pick.is_empty()):
@@ -205,7 +207,11 @@ static func _talk(reader: ContentRecordReader) -> NpcTalk:
 			relay_say[phrase] = lines
 		heard.finish()
 	var entries: Array = _chat_entries(reader, "chat_msg", false)
-	var chance: int = reader.integer("chat_chance")
+	# set("chat_chance", random(20)) (walker.c): a rule each NPC draws.
+	var chance_roll: NpcRandomInteger = _random_integer(reader, "chat_chance") if reader.is_object("chat_chance") else null
+	var chance: int = chance_roll.base if chance_roll != null else reader.integer("chat_chance")
+	if chance_roll != null and (not chance_roll.is_valid() or chance_roll.base < 0):
+		reader.fail("chat_chance", "draws a chance of 0 and more")
 	if reader.has("chat_chance") != reader.has("chat_msg"):
 		reader.fail("chat_chance", "chat_chance and chat_msg come together")
 	var combat_entries: Array = _chat_entries(reader, "chat_msg_combat", true)
@@ -241,7 +247,7 @@ static func _talk(reader: ContentRecordReader) -> NpcTalk:
 		said.finish()
 		if line != null:
 			relay_ask.append(line)
-	return NpcTalk.new(inquiry, chance, entries, greeting, kee_answers, combat_chance, combat_entries).with_greeting_out_of(greeting_out_of, greet != null and greet.has("rules")).with_actions(answer_marks, rules, relay_say).with_relay_ask(relay_ask)
+	return NpcTalk.new(inquiry, chance, entries, greeting, kee_answers, combat_chance, combat_entries).with_greeting_out_of(greeting_out_of, greet != null and greet.has("rules")).with_actions(answer_marks, rules, relay_say).with_relay_ask(relay_ask).with_chat_chance_roll(chance_roll)
 
 
 ## npc.c chat() entries: lines, coloured lines and chat functions; drink only outside a
@@ -268,6 +274,8 @@ static func _chat_entries(reader: ContentRecordReader, key: String, in_fight: bo
 			entries.append(NpcTalk.RANDOM_MOVE)
 		elif action == "patrol" and not in_fight:
 			entries.append(NpcTalk.PATROL)
+		elif NpcTalk.COMMANDS.has(StringName(action)) and not in_fight:
+			entries.append(StringName(action))
 		elif action == "drink" and not in_fight:
 			entries.append(NpcDrinkAction.from_record(record))
 		elif action == "match_weapon" and in_fight:
@@ -280,7 +288,7 @@ static func _chat_entries(reader: ContentRecordReader, key: String, in_fight: bo
 			entries.append(NpcTalk.SILENT_EMOTE)
 		else:
 			record.fail("action", "'%s' is not a %s action (%s)" % [action, key,
-				"perform, cast, exert, surrender, match_weapon, wield, call_partner, say_by_age, poison, say_while_flag, random_move, emote" if in_fight else "random_move, patrol, drink, emote, perform, cast, exert, surrender"])
+				"perform, cast, exert, surrender, match_weapon, wield, call_partner, say_by_age, poison, say_while_flag, random_move, emote" if in_fight else "random_move, patrol, drink, emote, get_all, wear_all, wield_all, perform, cast, exert, surrender"])
 		record.finish()
 	return entries
 

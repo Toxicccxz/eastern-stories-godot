@@ -1,0 +1,220 @@
+{
+	"spawns": [
+		{
+			"id": "city.main.nroad2.chater2",
+			"npc": "common.npc.chater2",
+			"map": "city.main",
+			"zone": "city.nroad2",
+			"points": ["city.nroad2.chater2.1"],
+			"legacy_room": "d/city/nroad2.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.main.northdoor.guards",
+			"npc": "city.npc.guard",
+			"map": "city.main",
+			"zone": "city.northdoor",
+			"points": ["city.northdoor.guard.1", "city.northdoor.guard.2", "city.northdoor.guard.3"],
+			"legacy_room": "d/city/northdoor.c",
+			"legacy_quantity": 3
+		},
+		{
+			"id": "city.main.bank.microsof",
+			"npc": "city.npc.microsof",
+			"map": "city.main",
+			"zone": "city.bank",
+			"points": ["city.bank.microsof.1"],
+			"legacy_room": "d/city/bank.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.main.weapon.weaponor",
+			"npc": "city.npc.weaponor",
+			"map": "city.main",
+			"zone": "city.weapon",
+			"points": ["city.weapon.weaponor.1"],
+			"legacy_room": "d/city/weapon.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.main.westdoor1.guards",
+			"npc": "city.npc.guard",
+			"map": "city.main",
+			"zone": "city.westdoor1",
+			"points": ["city.westdoor1.guard.1", "city.westdoor1.guard.2", "city.westdoor1.guard.3"],
+			"legacy_room": "d/city/westdoor1.c",
+			"legacy_quantity": 3
+		},
+		{
+			"id": "city.main.street8.scavenger",
+			"npc": "snow.npc.scavenger",
+			"map": "city.main",
+			"zone": "city.street8",
+			"points": ["city.street8.scavenger.1"],
+			"legacy_room": "d/city/street8.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.main.street9.scavenger",
+			"npc": "snow.npc.scavenger",
+			"map": "city.main",
+			"zone": "city.street9",
+			"points": ["city.street9.scavenger.1"],
+			"legacy_room": "d/city/street9.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.main.eastdoor1.guards",
+			"npc": "city.npc.guard",
+			"map": "city.main",
+			"zone": "city.eastdoor1",
+			"points": ["city.eastdoor1.guard.1", "city.eastdoor1.guard.2", "city.eastdoor1.guard.3"],
+			"legacy_room": "d/city/eastdoor1.c",
+			"legacy_quantity": 3
+		},
+		{
+			"id": "city.main.biaoju.chen",
+			"npc": "city.npc.chen",
+			"map": "city.main",
+			"zone": "city.biaoju",
+			"points": ["city.biaoju.chen.1"],
+			"legacy_room": "d/city/biaoju.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.main.cloth.clother",
+			"npc": "city.npc.clother",
+			"map": "city.main",
+			"zone": "city.cloth",
+			"points": ["city.cloth.clother.1"],
+			"legacy_room": "d/city/cloth.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.main.jiulou.waiter",
+			"npc": "city.npc.waiter",
+			"map": "city.main",
+			"zone": "city.jiulou",
+			"points": ["city.jiulou.waiter.1"],
+			"legacy_room": "d/city/jiulou.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.main.jiulou.boss",
+			"npc": "city.npc.boss",
+			"map": "city.main",
+			"zone": "city.jiulou",
+			"points": ["city.jiulou.boss.1"],
+			"legacy_room": "d/city/jiulou.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.main.street2.walkers",
+			"npc": "city.npc.walker",
+			"map": "city.main",
+			"zone": "city.street2",
+			"points": ["city.street2.walker.1", "city.street2.walker.2"],
+			"legacy_room": "d/city/street2.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "city.main.street4.walker",
+			"npc": "city.npc.walker",
+			"map": "city.main",
+			"zone": "city.street4",
+			"points": ["city.street4.walker.1"],
+			"legacy_room": "d/city/street4.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.main.street4.trader",
+			"npc": "city.npc.trader",
+			"map": "city.main",
+			"zone": "city.street4",
+			"points": ["city.street4.trader.1"],
+			"legacy_room": "d/city/street4.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.main.boots.shoer",
+			"npc": "city.npc.shoer",
+			"map": "city.main",
+			"zone": "city.boots",
+			"points": ["city.boots.shoer.1"],
+			"legacy_room": "d/city/boots.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.main.westdoor2.guards",
+			"npc": "city.npc.guard",
+			"map": "city.main",
+			"zone": "city.westdoor2",
+			"points": ["city.westdoor2.guard.1", "city.westdoor2.guard.2", "city.westdoor2.guard.3"],
+			"legacy_room": "d/city/westdoor2.c",
+			"legacy_quantity": 3
+		},
+		{
+			"id": "city.main.street13.scavenger",
+			"npc": "snow.npc.scavenger",
+			"map": "city.main",
+			"zone": "city.street13",
+			"points": ["city.street13.scavenger.1"],
+			"legacy_room": "d/city/street13.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.main.bridge.vendor",
+			"npc": "city.npc.vendor",
+			"map": "city.main",
+			"zone": "city.bridge",
+			"points": ["city.bridge.vendor.1"],
+			"legacy_room": "d/city/bridge.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.main.bridge.caker",
+			"npc": "city.npc.caker",
+			"map": "city.main",
+			"zone": "city.bridge",
+			"points": ["city.bridge.caker.1"],
+			"legacy_room": "d/city/bridge.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.main.bridge.dumpling_seller",
+			"npc": "city.npc.dumpling_seller",
+			"map": "city.main",
+			"zone": "city.bridge",
+			"points": ["city.bridge.dumpling_seller.1"],
+			"legacy_room": "d/city/bridge.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.main.eastdoor2.guards",
+			"npc": "city.npc.guard",
+			"map": "city.main",
+			"zone": "city.eastdoor2",
+			"points": ["city.eastdoor2.guard.1", "city.eastdoor2.guard.2", "city.eastdoor2.guard.3"],
+			"legacy_room": "d/city/eastdoor2.c",
+			"legacy_quantity": 3
+		},
+		{
+			"id": "city.main.street17.scavenger",
+			"npc": "snow.npc.scavenger",
+			"map": "city.main",
+			"zone": "city.street17",
+			"points": ["city.street17.scavenger.1"],
+			"legacy_room": "d/city/street17.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.main.southdoor.guards",
+			"npc": "city.npc.guard",
+			"map": "city.main",
+			"zone": "city.southdoor",
+			"points": ["city.southdoor.guard.1", "city.southdoor.guard.2", "city.southdoor.guard.3"],
+			"legacy_room": "d/city/southdoor.c",
+			"legacy_quantity": 3
+		}
+	]
+}

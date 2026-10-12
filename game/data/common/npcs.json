@@ -785,6 +785,31 @@
 				],
 				"repeat_after": 60
 			}
+		},
+		{
+			"id": "common.npc.chater2",
+			"legacy_source": "u/cp/chater2.c",
+			"aliases": ["drooler"],
+			"title": "普通百姓",
+			"gender": "男性",
+			"age": 50,
+			"combat_exp": 100,
+			"attitude": "friendly",
+			"name": "桃干仙",
+			"name_pick": ["桃干仙", "桃枝仙", "桃谷仙", "桃实仙", "桃花仙", "桃根仙", "桃萼仙"],
+			"chat_chance": 10,
+			"chat_msg": [
+				{ "action": "get_all" },
+				{ "action": "wear_all" },
+				{ "action": "wield_all" },
+				{ "action": "emote", "verb": "drool" },
+				{ "action": "emote", "verb": "drool" },
+				{ "action": "emote", "verb": "drool" },
+				{ "action": "emote", "verb": "drool" }
+			],
+			"accept_object": [
+				{ "accept": true }
+			]
 		}
 	]
 }

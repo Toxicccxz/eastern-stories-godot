@@ -1,0 +1,391 @@
+{
+	"npcs": [
+		{
+			"id": "city.npc.guard",
+			"legacy_source": "d/city/npc/guard.c",
+			"name": "京师守城兵",
+			"aliases": ["City guard", "guard"],
+			"long": "这是个正在这里站岗的京师官兵，虽然和许多武林人物比起来，官兵\n们的武功实在稀松平常，但是他们是有组织、有纪律的战士，谁也不\n轻易地招惹他们。\n",
+			"attributes": { "str": 27, "cor": 26, "cps": 25 },
+			"combat_exp": 100000,
+			"vendetta_mark": "authority",
+			"attitude": "peaceful",
+			"skills": { "unarmed": 90, "sword": 90, "parry": 90, "dodge": 90, "move": 100 },
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/longsword", "source": "obj/longsword.c", "equip": "wield" }
+			],
+			"apply": { "attack": 90, "defense": 90, "damage": 40, "armor": 90 },
+			"chat_chance_combat": 15,
+			"chat_msg_combat": ["守城官兵喝道：还不快放下武器束手就缚？\n", "守城官兵喝道：大胆刁民！竟敢在天子脚下造反？\n"],
+			"inquiry": { "出城": ["你可以在京城里找一找，说不定可以找到一些出城的令牌。\n"], "out": ["你可以在京城里找一找，说不定可以找到一些出城的令牌。\n"] },
+			"accept_kill": { "line": "守城兵大叫：反了！反了！" },
+			"accept_object": [
+				{ "say": "这是什么东西啊！你想偷渡呀？", "accept": false }
+			]
+		},
+		{
+			"id": "city.npc.microsof",
+			"legacy_source": "d/city/npc/microsof.c",
+			"name": "黑你没商量",
+			"aliases": ["microsof"],
+			"title": "钱庄老板",
+			"gender": "男性",
+			"age": 30,
+			"long": "黑你没商量是个看起来相当精明的中年人，他的本名叫做“魏阮”。\n不知作了什么黑心的生意，一夜之间暴富起来，开了钱庄后，逐渐地\n把其它钱庄全挤倒闭了，京师的居民对他的很多做法都非常不满，于\n是有了这个绰号。大家都知道他小肚鸡肠，所以谁也不去惹他。\n",
+			"attributes": { "str": 22, "cor": 25, "cps": 25, "int": 26, "per": 25, "con": 24, "spi": 25, "kar": 25 },
+			"resources": {
+				"max_atman": 1000,
+				"atman": 1000,
+				"max_force": 1000,
+				"force": 1000,
+				"max_mana": 1000,
+				"mana": 1000
+			},
+			"combat_exp": 100000,
+			"force_factor": 3,
+			"attitude": "friendly",
+			"skills": {
+				"unarmed": 100,
+				"parry": 100,
+				"dodge": 100,
+				"force": 100,
+				"celestrike": 100,
+				"celestial": 100,
+				"fonxansword": 100,
+				"six-chaos-sword": 100,
+				"chaos-steps": 100,
+				"spells": 100,
+				"necromancy": 100
+			},
+			"skill_map": {
+				"force": "celestial",
+				"unarmed": "celestrike",
+				"dodge": "chaos-steps",
+				"sword": "fonxansword",
+				"spells": "necromancy"
+			},
+			"carry": [
+				{ "item": "es2:obj/longsword", "source": "obj/longsword.c", "equip": "wield" },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/money/gold", "source": "obj/money/gold.c", "amount": 10 }
+			],
+			"chat_chance": 15,
+			"chat_msg": [
+				{ "say": "黑你没商量压低嗓音对你说道：“我在上面可有人，你知道我每年给上面多少金子吗？”\n", "color": "CYN" },
+				{ "say": "黑你没商量恨恨地说：“哼，我要把NT也汉化，看你之星怎么办！”\n", "color": "CYN" },
+				{ "action": "exert", "function": "powerfade" }
+			],
+			"chat_chance_combat": 40,
+			"chat_msg_combat": [
+				{ "say": "黑你没商量突然三角眼倒立，眉间闪过几道黑气。\n", "color": "CYN" },
+				{ "say": "黑你没商量的喉咙发出咕咕两声怪叫。\n", "color": "CYN" },
+				{ "say": "黑你没商量神情忽然严肃了起来，不过好像是在想自己的事，与你无关。\n", "color": "CYN" },
+				{ "say": "黑你没商量忽然呵呵呵地笑了起来，却不知道在笑些什么....\n", "color": "CYN" },
+				{ "action": "perform", "skill": "sword", "function": "counterattack" },
+				{ "action": "cast", "function": "drainerbolt" },
+				{ "action": "cast", "function": "feeblebolt" },
+				{ "action": "exert", "function": "powerup" },
+				{ "action": "exert", "function": "recover" }
+			],
+			"greeting": {
+				"one_of": [
+					{ "line": "黑你没商量一翻三角眼，不知又想出了什么坏主意。\n" },
+					{ "line": "黑你没商量说道：这位$RESPECT，换钱？我要抽点的啊！\n" },
+					{ "line": "黑你没商量说道：这位$RESPECT，钱可要自己点清楚啊！\n" }
+				]
+			},
+			"accept_fight": [
+				{ "say": "咦... 要打就真打吧，光是较量多没意思？", "accept": true, "kill": true }
+			]
+		},
+		{
+			"id": "city.npc.weaponor",
+			"legacy_source": "d/city/npc/weaponor.c",
+			"name": "万晓生",
+			"aliases": ["weaponor"],
+			"title": "武器店掌柜",
+			"gender": "男性",
+			"age": 52,
+			"long": "万晓生是个须发皆白的老人，闯荡江湖已近五十年。\n",
+			"combat_exp": 120000,
+			"vendor": "city.vendor.weaponor",
+			"attitude": "friendly",
+			"skills": { "unarmed": 100, "dodge": 100, "sword": 100 },
+			"carry": [
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 50 },
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 300 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/weapon/longsword", "source": "obj/weapon/longsword.c", "equip": "wield" }
+			],
+			"inquiry": { "武器": ["本店专卖各种长短兵器"] },
+			"greeting": {
+				"one_of": [
+					{ "line": "万晓生道：这位$RESPECT，自个儿挑一件称手的兵器吧。\n" },
+					{ "line": "万晓生冷冷地说：客官请付现钞。\n" },
+					{ "line": "万晓生忽然间似乎想起了远在美国的朋友和当年同闯江湖的情形。\n" }
+				],
+				"out_of": 4
+			}
+		},
+		{
+			"id": "city.npc.chen",
+			"legacy_source": "d/city/npc/chen.c",
+			"name": "陈天星",
+			"aliases": ["master chen", "master"],
+			"nickname": "刀拳双绝",
+			"title": "振远镖局总镖头",
+			"gender": "男性",
+			"age": 63,
+			"long": "陈天星从十五岁出道至今已经有近五十个年头了。二十五岁时自己\n创建了振远镖局，苦心经营三十八载，使之而今成为京师第一大镖\n局.而他凭着春风快意刀法和天邪神掌被江湖同道称为「刀掌双绝」\n。绮云镇的陈剑秋是其侄子，如今也赫赫有名。\n",
+			"attributes": { "str": 38, "cor": 27, "cps": 29, "int": 30 },
+			"resources": { "max_force": 3200, "force": 2000 },
+			"combat_exp": 1000000,
+			"score": 200000,
+			"force_factor": 40,
+			"rank_info": { "respect": "陈总镖头" },
+			"family": { "name": "振远镖局", "generation": 0, "title": "弟子", "privileges": 0 },
+			"f_master": true,
+			"attitude": "peaceful",
+			"skills": {
+				"force": 100,
+				"unarmed": 100,
+				"blade": 150,
+				"parry": 100,
+				"dodge": 80,
+				"celestial": 80,
+				"celestrike": 80,
+				"spring-blade": 150,
+				"pyrobat-steps": 70
+			},
+			"skill_map": {
+				"force": "celestial",
+				"unarmed": "celestrike",
+				"blade": "spring-blade",
+				"parry": "spring-blade",
+				"dodge": "pyrobat-steps"
+			},
+			"carry": [
+				{ "item": "es2:d/city/npc/obj/duoqing_blade", "source": "d/city/npc/obj/duoqing_blade.c", "equip": "wield" }
+			],
+			"inquiry": {
+				"name": ["呵呵…你连我都不知道嘛？去打听打听吧。\n"],
+				"振远镖局": ["这可是我一手创建的啊！可惜我也老了。\n"],
+				"陈剑秋": ["他是我侄子，有什么事找他？\n"],
+				"天邪神掌": ["那是我和於兰天武交换武功学的\n"],
+				"拜师": ["是剑秋推荐的嘛？可有他的信物？\n"]
+			},
+			"apprentice": { "kind": "silent", "class": "guardman", "title": "振远镖局第一代弟子" },
+			"accept_object": [
+				{ "item_alias": "letter", "item_master": true, "ask": "陈天星收下陈剑秋的推荐信，就愿意收你为徒，你再向他拜师，便成为振远镖局的弟子。信交出去就要不回来了。\n确定把信交给陈天星吗？", "say": "果然是剑秋侄儿推荐来的。我收你啦。", "accept": true, "recruit": true },
+				{ "item_alias": "letter", "line": "陈天星狐疑地望着你，说\n这是你的嘛？\n", "accept": false },
+				{ "line": "不要戏弄我！\n", "accept": false }
+			]
+		},
+		{
+			"id": "city.npc.clother",
+			"legacy_source": "d/city/npc/clother.c",
+			"name": "老板娘",
+			"aliases": ["woman"],
+			"title": "绸缎庄",
+			"gender": "女性",
+			"age": 29,
+			"resources": {
+				"max_atman": 1000,
+				"atman": 1000,
+				"max_force": 1000,
+				"force": 1000,
+				"max_mana": 1000,
+				"mana": 1000
+			},
+			"combat_exp": 300000,
+			"force_factor": 3,
+			"vendor": "city.vendor.clother",
+			"attitude": "friendly",
+			"skills": {
+				"dodge": 120,
+				"sword": 120,
+				"force": 120,
+				"fonxanforce": 100,
+				"fonxansword": 100,
+				"chaos-steps": 100
+			},
+			"skill_map": { "force": "fonxanforce", "dodge": "chaos-steps", "sword": "fonxansword" },
+			"carry": [
+				{ "item": "es2:obj/money/gold", "source": "obj/money/gold.c", "amount": 9 },
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 300 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:d/city/npc/obj/wuqing_sword", "source": "d/city/npc/obj/wuqing_sword.c", "equip": "wield" }
+			],
+			"inquiry": { "here": ["这里是京师绸缎庄，没钱别进来！\n"], "name": ["在下姓陶，闺名不能告诉你。\n"], "衣服": ["您需要什么样的？"] },
+			"greeting": {
+				"one_of": [
+					{ "line": "老板娘道：这位$RESPECT，您需要什么？\n" },
+					{ "line": "老板娘神秘地对你说：要南大食堂磁卡吗？\n" },
+					{ "line": "老板娘悄声说道：奴家可是湖南人哦。\n" }
+				],
+				"out_of": 4
+			}
+		},
+		{
+			"id": "city.npc.waiter",
+			"legacy_source": "d/city/npc/waiter.c",
+			"name": "店小二",
+			"aliases": ["waiter"],
+			"gender": "男性",
+			"age": 22,
+			"long": "这位店小二正笑咪咪地忙著，还不时拿起挂在脖子上的抹布擦脸。\n",
+			"combat_exp": 5,
+			"rank_info": { "respect": "小二哥" },
+			"vendor": "city.vendor.waiter",
+			"attitude": "friendly",
+			"accept_object": [
+				{ "value_at_most": 999, "say": "这点钱，还不够买酒喝。", "accept": true, "drops": true },
+				{ "giver_mark": "酒楼", "say": "真是谢谢你了。", "accept": true },
+				{ "say": "谢谢这位客官了。", "mark_giver": "酒楼", "accept": true }
+			]
+		},
+		{
+			"id": "city.npc.boss",
+			"legacy_source": "d/city/npc/boss.c",
+			"name": "钱掌柜",
+			"aliases": ["boss qian", "qian", "boss"],
+			"nickname": "钱千万",
+			"age": 53,
+			"long": "钱掌柜长得如一个大面团般，白白胖胖的，虽说早已步入知天命\n的年龄，可保养得很好。一双小眼睛如俩枣核嵌在脸上，不时滴\n溜溜地乱转。他开的「太白酒楼」可是京城最大的。\n",
+			"combat_exp": 1000,
+			"attitude": "peaceful",
+			"carry": [
+				{ "item": "es2:obj/money/gold", "source": "obj/money/gold.c", "amount": 1 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"inquiry": {
+				"name": ["在下姓钱，因少有资产，别人叫我钱千万。\n"],
+				"太白酒楼": ["这里就是，客倌是第一次来吗？\n"],
+				"皇上": ["小声点。偷偷地告述你，我真见过皇上的。\n"],
+				"作官": ["瞧见没有，上面的人才是你应去打听的。\n"]
+			},
+			"greeting": { "rules": [{ "steps": [{ "line": "钱千万皱了皱眉，说:这里是可不是为你们开的，吃完了快走。\n" }] }] }
+		},
+		{
+			"id": "city.npc.walker",
+			"legacy_source": "d/city/npc/walker.c",
+			"name": "行人",
+			"aliases": ["walker"],
+			"age": { "base": 20, "plus_random": 45 },
+			"combat_exp": 30000,
+			"attitude": "friendly",
+			"gender": { "random": 3, "below": 1, "then": "女性", "else": "男性" },
+			"skill_roll": {
+				"random": 4,
+				"below": 1,
+				"skills": { "unarmed": 40, "spicyclaw": 20, "parry": 40 },
+				"skill_map": { "unarmed": "spicyclaw" }
+			},
+			"chat_chance": { "base": 0, "plus_random": 20 },
+			"chat_msg": [
+				"行人摇了摇头，说：世事无常，只苦了我们这些老百姓。\n",
+				"行人愤愤地说：这年头，几个臭钱就能买到官。哼！\n",
+				"行人叹了口气：皇上太年幼了，朝廷就让那个老不死的把持着。咳！\n",
+				{ "action": "random_move" }
+			],
+			"inquiry": { "买官": ["全是那个该死的尚书作的孽。\n"] }
+		},
+		{
+			"id": "city.npc.trader",
+			"legacy_source": "d/city/npc/trader.c",
+			"name": "商人",
+			"aliases": ["trader"],
+			"gender": "男性",
+			"age": 42,
+			"long": "这是一位从关外来的商人。\n",
+			"combat_exp": 5000,
+			"attitude": "friendly",
+			"skills": { "unarmed": 30, "iron-cloth": 50, "bloodystrike": 20 },
+			"skill_map": { "unarmed": "bloodystrike" },
+			"carry": [
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 50 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"chat_chance": 30,
+			"chat_msg": ["什么世道，几个臭钱就可以买官作。\n", "这年头，生意不好做啊！\n", { "action": "random_move" }],
+			"chat_chance_combat": 15,
+			"chat_msg_combat": ["光天化日，朗朗乾坤，你也想打劫？\n", { "action": "random_move" }]
+		},
+		{
+			"id": "city.npc.shoer",
+			"legacy_source": "d/city/npc/shoer.c",
+			"name": "李掌柜",
+			"aliases": ["seller"],
+			"title": "鞋店",
+			"gender": "女性",
+			"age": 30,
+			"long": "李掌柜是不难看的女人，一直经营着祖传鞋店生意。\n",
+			"combat_exp": 220000,
+			"vendor": "city.vendor.shoer",
+			"attitude": "friendly",
+			"skills": { "unarmed": 150, "dodge": 120, "sword": 120 },
+			"carry": [
+				{ "item": "es2:obj/money/gold", "source": "obj/money/gold.c", "amount": 9 },
+				{ "item": "es2:obj/money/coin", "source": "obj/money/coin.c", "amount": 300 },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:d/city/npc/obj/wuqing_sword", "source": "d/city/npc/obj/wuqing_sword.c", "equip": "wield" }
+			],
+			"inquiry": { "鞋": ["您需要什么样的？"] },
+			"greeting": {
+				"one_of": [
+					{ "line": "李掌柜道：这位$RESPECT，您需要什么样的鞋？。\n" },
+					{ "line": "李掌柜白了你一眼，冷冷地说：你有美钞吗？\n" },
+					{ "line": "李掌柜忽然间说道：好久没去华工了，不知朋友是否还好吗。\n" }
+				],
+				"out_of": 4
+			}
+		},
+		{
+			"id": "city.npc.vendor",
+			"legacy_source": "d/city/npc/vendor.c",
+			"name": "卖艺壮汉",
+			"aliases": ["vendor man", "man"],
+			"gender": "男性",
+			"age": 34,
+			"long": "一个满脸横肉的壮汉，口水四溅，正说着什么。\n",
+			"combat_exp": 30000,
+			"vendor": "city.vendor.vendor",
+			"attitude": "friendly",
+			"chat_chance": 20,
+			"chat_msg": ["卖艺壮汉吆喝道：出外靠朋友，诸位请捧个钱场！\n", "卖艺壮汉练了一套六阴剑，还象模象样。\n", "卖艺壮汉低声对你说道：在下刚路过八舍！\n"],
+			"inquiry": { "金疮药": { "rules": [{ "vendor_list": true }] } }
+		},
+		{
+			"id": "city.npc.caker",
+			"legacy_source": "d/city/npc/caker.c",
+			"name": "卖饼大叔",
+			"aliases": ["cake vendor", "vendor"],
+			"gender": "男性",
+			"age": 42,
+			"long": "一个相貌朴实的卖饼大叔，憨厚的脸上挂著和蔼的笑容。\n",
+			"combat_exp": 30,
+			"rank_info": { "respect": "大叔", "self": "小的" },
+			"vendor": "city.vendor.caker",
+			"attitude": "friendly",
+			"chat_chance": 13,
+			"chat_msg": ["卖饼大叔吆喝道：卖饼哟！又香又脆的大饼哟！\n", "卖饼大叔掀开蒸笼，伸手探了探温度。\n", "卖饼大叔吆喝道：刚出炉的大饼哟！热呼呼的大饼哟！\n"],
+			"inquiry": { "大饼": { "rules": [{ "vendor_list": true }] } }
+		},
+		{
+			"id": "city.npc.dumpling_seller",
+			"legacy_source": "d/city/npc/dumpling_seller.c",
+			"name": "卖包子的",
+			"aliases": ["dumpling seller", "seller"],
+			"gender": "男性",
+			"age": 33,
+			"long": "这个卖包子的小贩对你微微一笑，说道：热腾腾的包子，来一笼吧？\n",
+			"combat_exp": 30,
+			"vendor": "city.vendor.dumpling_seller",
+			"attitude": "friendly",
+			"chat_chance": 15,
+			"chat_msg": ["卖包子的吆喝道：包子！热腾腾的包子！\n"],
+			"inquiry": { "包子": { "rules": [{ "vendor_list": true }] } }
+		}
+	]
+}

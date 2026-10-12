@@ -142,13 +142,12 @@ func _test_ghost_bane() -> void:
 	_check(missed.calculation.weapon_bane == null and missed.calculation.final_strength_bonus == 20 + 39, "a strong ghost (atman 300): random(spi) 39 adds to the blow (%d)" % missed.calculation.final_strength_bonus)
 
 
-## d/city/npc/chen.c (陈天星, 京师: region plan #12) takes 陈剑秋's letter by its master_id and
-## recruits. REMINDER: this fails once he is placed, until his accept_object() is ported.
+## d/city/npc/chen.c (陈天星, 京师 A) takes 陈剑秋's letter by its master_id and recruits
+## (tests/runtime/city_npcs_test.gd gives it to him).
 func _test_chen_reminder() -> void:
-	var placed: bool = false
-	for npc: NpcDefinition in GameContent.catalog().npcs():
-		placed = placed or npc.legacy_source_path == "d/city/npc/chen.c"
-	_check(not placed, "REMINDER (#12): 陈天星 stands now: port his accept_object() of 陈剑秋's letter (item_master) and recruit, then replace this check")
+	var chen: NpcDefinition = GameContent.catalog().npc(&"city.npc.chen")
+	var rules: Array[NpcObjectRule] = [] if chen == null else chen.dealings().object_rules
+	_check(not rules.is_empty() and rules[0].item_master and rules[0].item_alias == "letter" and rules[0].recruit and rules[0].accept, "陈天星 takes 陈剑秋's letter (its master form) and recruits")
 
 
 ## w_street1.c: lifts counted with str / 5 open the hole; the 护草神兽 attacks; killed by the
