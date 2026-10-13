@@ -178,7 +178,18 @@
 			"material": "rib",
 			"weight": 800,
 			"value": 150,
-			"weapon": { "skill": "hammer", "damage": 5, "weight_dodge": "equip" }
+			"weapon": { "skill": "hammer", "damage": 5, "weight_dodge": "equip" },
+			"food": {
+				"remaining": 5,
+				"supply": 80,
+				"leaves": {
+					"name": "牛腿骨",
+					"aliases": ["rib", "bone"],
+					"weight": 300,
+					"long": "啃得精光的牛腿。\n",
+					"unit": "根"
+				}
+			}
 		},
 		{
 			"id": "es2:u/cloud/obj/meat/tail",

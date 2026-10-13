@@ -160,8 +160,9 @@ func liquid_tests(tree: SceneTree) -> void:
 	check(player.state.conditions.size() == 0 and session.liquid_collection().state(second.item_id).content == LiquidState.Content.RED_WINE and session.liquid_collection().state(second.item_id).remaining == 15, "no drunk and other wine untouched")
 	var independent: WorldSessionController = Recovery.create_session(tree, Recovery.RandomSequence.new())
 	# A new Session holds only its own liquids: the drunk's wineskin (4A), the 陶壶 two of
-	# 青石村's women carry and the 女儿红 on 晚月庄's 膳房 floor.
-	check(independent.liquid_collection().instance_ids().size() == 4 and not independent.liquid_collection().instance_ids().has(second.item_id), "independent Session collection")
+	# 青石村's women carry, the 女儿红 on 晚月庄's 膳房 floor and 黑松山's four 人皮酒袋 (three on
+	# 淳于's 膳房 floor, one the cook carries).
+	check(independent.liquid_collection().instance_ids().size() == 8 and not independent.liquid_collection().instance_ids().has(second.item_id), "independent Session collection")
 	independent.free()
 	session.free()
 
@@ -189,21 +190,26 @@ func persistence_tests(tree: SceneTree) -> void:
 		check(restored.domain_state.liquid_collection != session.liquid_collection() and restored.domain_state.inventory.registered_item_ids() == session.inventory_state().registered_item_ids(), "fresh aggregate same IDs")
 		check(restored.allocator.next_dynamic_sequence == session.item_id_allocator().next_dynamic_sequence, "restore zero allocations")
 	var base: Dictionary = JSON.parse_string(encoded.text)
+	# The mutations act on a bought wineskin's record (the world's own liquids are saved beside it).
+	var at: int = -1
+	for index: int in base.items.liquid_consumables.size():
+		if at < 0 and base.items.liquid_consumables[index].item_instance_id == String(ids[1]):
+			at = index
 	for mutation: String in ["missing-array", "missing-record", "duplicate", "orphan", "non-liquid", "negative", "overfull", "unknown-content", "unknown-key", "missing-key", "bad-weight", "v2-extra", "v2-forged", "v1-forged"]:
 		var data: Dictionary = base.duplicate(true)
 		match mutation:
 			"missing-array": data.items.erase("liquid_consumables")
 			"missing-record": data.items.liquid_consumables.pop_back()
-			"duplicate": data.items.liquid_consumables.append(data.items.liquid_consumables[0].duplicate(true))
-			"orphan": data.items.liquid_consumables[0].item_instance_id = "absent"
+			"duplicate": data.items.liquid_consumables.append(data.items.liquid_consumables[at].duplicate(true))
+			"orphan": data.items.liquid_consumables[at].item_instance_id = "absent"
 			"non-liquid":
 				for item: Dictionary in data.items.records:
-					if item.item_definition_id == String(TestContent.SILVER_ITEM_ID): data.items.liquid_consumables[0].item_instance_id = item.item_instance_id
-			"negative": data.items.liquid_consumables[0].remaining = "-1"
-			"overfull": data.items.liquid_consumables[0].remaining = "16"
-			"unknown-content": data.items.liquid_consumables[0].content = "ALCOHOL"
-			"unknown-key": data.items.liquid_consumables[0].water = "1"
-			"missing-key": data.items.liquid_consumables[0].erase("remaining")
+					if item.item_definition_id == String(TestContent.SILVER_ITEM_ID): data.items.liquid_consumables[at].item_instance_id = item.item_instance_id
+			"negative": data.items.liquid_consumables[at].remaining = "-1"
+			"overfull": data.items.liquid_consumables[at].remaining = "16"
+			"unknown-content": data.items.liquid_consumables[at].content = "ALCOHOL"
+			"unknown-key": data.items.liquid_consumables[at].water = "1"
+			"missing-key": data.items.liquid_consumables[at].erase("remaining")
 			"bad-weight":
 				for item: Dictionary in data.items.records:
 					if item.item_definition_id == String(TestContent.WINESKIN_ITEM_ID): item.own_weight = "699"
@@ -219,9 +225,11 @@ func persistence_tests(tree: SceneTree) -> void:
 	session = Recovery.create_session(tree, Recovery.RandomSequence.new())
 	base = JSON.parse_string(GameSaveJsonCodec.encode(Work.capture(session)).text)
 	# Old item schemas predate liquids, schema 1 food too: leave the drunk's wineskin (4A),
-	# 青石村's 陶壶, the 斋院's three 包子 (绮云镇) and 晚月庄's dishes, 女儿红 and 雪花糕 out of the fixture.
+	# 青石村's 陶壶, the 斋院's three 包子 (绮云镇), 晚月庄's dishes, 女儿红 and 雪花糕 and 黑松山's
+	# 烤山猪肉 and 人皮酒袋 out of the fixture.
 	var legacy_out: Array[String] = [String(TestContent.WINESKIN_ITEM_ID), String(TestContent.DUMPLING_ITEM_ID), "es2:d/green/npc/obj/ricewine",
-		"es2:d/latemoon/obj/wine", "es2:d/latemoon/obj/food", "es2:d/latemoon/obj/food2", "es2:d/latemoon/obj/food3", "es2:d/latemoon/obj/cake"]
+		"es2:d/latemoon/obj/wine", "es2:d/latemoon/obj/food", "es2:d/latemoon/obj/food2", "es2:d/latemoon/obj/food3", "es2:d/latemoon/obj/cake",
+		"es2:d/chuenyu/obj/pigmeat", "es2:d/chuenyu/obj/qiwine"]
 	var wineskins: Array = base.items.records.filter(func(item: Dictionary) -> bool: return item.item_definition_id in legacy_out).map(func(item: Dictionary) -> String: return item.item_instance_id)
 	base.items.records = base.items.records.filter(func(item: Dictionary) -> bool: return not wineskins.has(item.item_instance_id))
 	base.items.food_consumables = base.items.food_consumables.filter(func(food: Dictionary) -> bool: return not wineskins.has(food.item_instance_id))

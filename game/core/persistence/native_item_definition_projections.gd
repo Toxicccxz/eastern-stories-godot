@@ -71,7 +71,7 @@ func _init(
 			continue
 		_stacks[definition.item_definition_id] = _copy_stack(definition)
 	for definition: FoodDefinition in p_foods:
-		if definition == null or not definition.is_valid() or not _items.has(definition.item_definition_id) or _foods.has(definition.item_definition_id) or _stacks.has(definition.item_definition_id) or _weapons.has(definition.item_definition_id) or _armor.has(definition.item_definition_id):
+		if definition == null or not definition.is_valid() or not _items.has(definition.item_definition_id) or _foods.has(definition.item_definition_id) or _stacks.has(definition.item_definition_id) or _armor.has(definition.item_definition_id):
 			_is_valid = false
 			continue
 		_foods[definition.item_definition_id] = definition.duplicate_definition()

@@ -70,6 +70,22 @@ func _restore_weapons(
 	return true
 
 
+## The wielded object became another weapon in the hand (food.c finish_eat()'s set_name() on
+## pigmeat.c, a hammer still): its reference now names `definition`. False when it is not
+## wielded or the definition is no weapon.
+func redefine_weapon(instance_id: StringName, definition: EquippedWeaponRefType.WeaponDefinitionType) -> bool:
+	if definition == null or not has_weapon_instance(instance_id):
+		return false
+	var redefined: EquippedWeaponRefType = EquippedWeaponRefType.new(instance_id, definition)
+	if not redefined.is_valid():
+		return false
+	if _primary_weapon != null and _primary_weapon.instance_id == instance_id:
+		_primary_weapon = redefined
+	else:
+		_secondary_weapon = redefined
+	return true
+
+
 ## Deterministic translation of feature/equip.c::wield(). shield_equipped is a
 ## narrow attempt-time projection of owner query_temp("armor/shield"); Phase
 ## 4A1 deliberately does not create an armor collection.

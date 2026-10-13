@@ -1,0 +1,1192 @@
+{
+	"maps": {
+		"main": {
+			"note": "黑松山 from the 玉螺湖村 road: the 黄土大道 runs west off the village's highway and turns north past a roadside tea house to the crossing, then north-east between the paddies of the 山脚乡田 to the foot of the mountain. The narrow path winds up the west side among the boulders to the granite street west of the chasm; the 铁索桥 crosses it to the east street, which goes straight down to the foot. Both streets climb to the gate of 黑松堡 (黑松淳于 on its golden board); behind the gate a walled 夹道 ends at a boulder, arrows waiting in its walls. Beside the gate the clifftops run east and west under the vine-covered castle walls: climbed, they let one into the west and east gardens. Inside, 黑松阁's west hall opens on the west and north gardens, the main hall and the shut storeroom; the east hall on the east garden (its dogs) and the south garden. Each hall has its stairs up to 淳于's rooms.",
+			"file": "chuenyu_main.tscn",
+			"draw": {
+				"technique": "town",
+				"base": "boundary",
+				"bounds": [
+					1024,
+					-32,
+					2432,
+					2432
+				],
+				"ground": [
+					[
+						"forest",
+						1024,
+						-32,
+						2432,
+						2432,
+						"黑松山's dark pines, woods and hedges round the fields below"
+					],
+					[
+						"wall",
+						1088,
+						0,
+						2368,
+						576,
+						"黑松堡: its walls, roofs and the halls' backs"
+					],
+					[
+						"cliff",
+						1024,
+						576,
+						1088,
+						832,
+						"刀削般的万丈悬崖 west of the castle"
+					],
+					[
+						"cliff",
+						2368,
+						576,
+						2432,
+						832,
+						"the sheer cliff east of the castle"
+					],
+					[
+						"chasm",
+						1664,
+						832,
+						1856,
+						1408,
+						"万丈深渊 under the 铁索桥"
+					]
+				],
+				"zones": {
+					"chuenyu.croad1": [
+						1280,
+						2112,
+						1600,
+						2368,
+						"open",
+						"grass",
+						null
+					],
+					"chuenyu.croad2": [
+						1280,
+						1856,
+						1600,
+						2112,
+						"open",
+						"grass",
+						null
+					],
+					"chuenyu.sunnyroad": [
+						1600,
+						1664,
+						2112,
+						1984,
+						"open",
+						"grass",
+						null
+					],
+					"chuenyu.base_b_m": [
+						1664,
+						1408,
+						2048,
+						1664,
+						"open",
+						"forest_floor",
+						null
+					],
+					"chuenyu.foot_b_mtn": [
+						1344,
+						1152,
+						1664,
+						1536,
+						"open",
+						"forest_floor",
+						null
+					],
+					"chuenyu.high_b_mtn": [
+						1472,
+						832,
+						1664,
+						1152,
+						"open",
+						"street",
+						null
+					],
+					"chuenyu.rope_bridge": [
+						1664,
+						928,
+						1856,
+						1088,
+						"open",
+						"bridge",
+						null
+					],
+					"chuenyu.high_b_mtn2": [
+						1856,
+						832,
+						2048,
+						1408,
+						"open",
+						"street",
+						null
+					],
+					"chuenyu.gate_castle": [
+						1472,
+						576,
+						2048,
+						832,
+						"open",
+						"street",
+						null
+					],
+					"chuenyu.west_castle": [
+						1088,
+						576,
+						1472,
+						832,
+						"open",
+						"path",
+						null
+					],
+					"chuenyu.east_castle": [
+						2048,
+						576,
+						2368,
+						832,
+						"open",
+						"path",
+						null
+					],
+					"chuenyu.trap_castle": [
+						1568,
+						448,
+						1696,
+						576,
+						"enclosed",
+						"floor_yard",
+						"wall"
+					],
+					"chuenyu.west_garden": [
+						1120,
+						160,
+						1344,
+						544,
+						"open",
+						"grass",
+						null
+					],
+					"chuenyu.north_garden": [
+						1376,
+						32,
+						1664,
+						224,
+						"open",
+						"grass",
+						null
+					],
+					"chuenyu.west_blackge": [
+						1344,
+						224,
+						1664,
+						416,
+						"enclosed",
+						"floor_wood",
+						"wall_wood"
+					],
+					"chuenyu.storage": [
+						1376,
+						416,
+						1536,
+						544,
+						"enclosed",
+						"floor_wood",
+						"wall"
+					],
+					"chuenyu.center": [
+						1664,
+						224,
+						1920,
+						416,
+						"enclosed",
+						"floor_wood",
+						"wall_wood"
+					],
+					"chuenyu.east_blackge": [
+						1920,
+						224,
+						2176,
+						416,
+						"enclosed",
+						"floor_wood",
+						"wall_wood"
+					],
+					"chuenyu.east_garden": [
+						2176,
+						160,
+						2336,
+						544,
+						"open",
+						"grass",
+						null
+					],
+					"chuenyu.south_garden": [
+						1920,
+						416,
+						2144,
+						544,
+						"open",
+						"grass",
+						null
+					]
+				},
+				"roads": [
+					[
+						"path",
+						1376,
+						2112,
+						1504,
+						2368,
+						"the 黄土大道 north from the 玉螺湖村 road"
+					],
+					[
+						"path",
+						1504,
+						2208,
+						1600,
+						2272,
+						"east to the village"
+					],
+					[
+						"path",
+						1376,
+						1856,
+						1504,
+						2112,
+						"past the tea house to the crossing"
+					],
+					[
+						"path",
+						1504,
+						1888,
+						1824,
+						1952,
+						"north-east between the paddies"
+					],
+					[
+						"path",
+						1792,
+						1664,
+						1856,
+						1952,
+						"up to the mountain's foot"
+					],
+					[
+						"path",
+						1792,
+						1440,
+						1856,
+						1664,
+						"the 羊肠小路 begins"
+					],
+					[
+						"path",
+						1600,
+						1440,
+						1792,
+						1504
+					],
+					[
+						"path",
+						1504,
+						1168,
+						1568,
+						1504,
+						"winding up among the boulders"
+					],
+					[
+						"path",
+						1920,
+						1376,
+						1984,
+						1440,
+						"down from the east street"
+					]
+				],
+				"props": [
+					[
+						"wall_wood",
+						1088,
+						1888,
+						1280,
+						2080,
+						"the roadside tea house (only the text has it)"
+					],
+					[
+						"water",
+						1632,
+						1696,
+						1760,
+						1872,
+						"paddies"
+					],
+					[
+						"water",
+						1888,
+						1696,
+						2080,
+						1872
+					],
+					[
+						"shallow_water",
+						2080,
+						1664,
+						2112,
+						1984,
+						"the clear stream"
+					],
+					[
+						"rock",
+						1376,
+						1200,
+						1440,
+						1264,
+						"boulders with young pines in their cracks"
+					],
+					[
+						"rock",
+						1584,
+						1296,
+						1632,
+						1344
+					],
+					[
+						"rock",
+						1376,
+						1408,
+						1424,
+						1456
+					],
+					[
+						"rock",
+						1712,
+						1440,
+						1760,
+						1472,
+						"boulders at the foot"
+					],
+					[
+						"rock",
+						1600,
+						464,
+						1680,
+						496,
+						"the 千斤巨石 closing the 夹道"
+					],
+					[
+						"rock",
+						1456,
+						48,
+						1552,
+						80,
+						"the 千斤巨石 closing the north garden"
+					],
+					[
+						"blocked",
+						1168,
+						240,
+						1216,
+						288,
+						"flower beds"
+					],
+					[
+						"blocked",
+						1248,
+						400,
+						1296,
+						448
+					],
+					[
+						"blocked",
+						1424,
+						112,
+						1488,
+						144
+					],
+					[
+						"blocked",
+						1568,
+						128,
+						1616,
+						176
+					],
+					[
+						"blocked",
+						2224,
+						240,
+						2272,
+						288
+					],
+					[
+						"blocked",
+						2224,
+						384,
+						2288,
+						432
+					],
+					[
+						"blocked",
+						1968,
+						464,
+						2016,
+						496
+					],
+					[
+						"blocked",
+						2064,
+						480,
+						2112,
+						512
+					],
+					[
+						"blocked",
+						1760,
+						240,
+						1872,
+						256,
+						"the scroll on its thick rope at the hall's mouth, the sandalwood screens"
+					]
+				],
+				"reach_from": "Croad1VillageArrival",
+				"markers_in_middle": [
+					"chuenyu.sunnyroad",
+					"chuenyu.base_b_m",
+					"chuenyu.foot_b_mtn",
+					"chuenyu.west_garden",
+					"chuenyu.north_garden",
+					"chuenyu.east_garden",
+					"chuenyu.south_garden",
+					"chuenyu.west_castle",
+					"chuenyu.east_castle",
+					"chuenyu.rope_bridge"
+				],
+				"placed": {
+					"chuenyu.west_blackge.guard.1": [
+						1408,
+						360
+					],
+					"chuenyu.west_blackge.guard.2": [
+						1600,
+						360
+					],
+					"chuenyu.east_blackge.cleangirl.1": [
+						2112,
+						360
+					],
+					"chuenyu.rope_bridge.jiading3.1": [
+						1712,
+						952
+					],
+					"chuenyu.rope_bridge.jiading3.2": [
+						1808,
+						952
+					],
+					"chuenyu.storage.longsword.1": [
+						1432,
+						480
+					],
+					"chuenyu.storage.longsword.2": [
+						1448,
+						488
+					],
+					"chuenyu.storage.longsword.3": [
+						1456,
+						480
+					],
+					"chuenyu.storage.longsword.4": [
+						1464,
+						488
+					],
+					"chuenyu.storage.longsword.5": [
+						1480,
+						480
+					]
+				}
+			},
+			"scene": {
+				"style": "map",
+				"root": "ChuenyuMain",
+				"map": "chuenyu.main",
+				"player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+				"shapes": {
+					"Rect_64_32": [
+						64,
+						32
+					],
+					"Rect_32_64": [
+						32,
+						64
+					],
+					"Rect_32_32": [
+						32,
+						32
+					],
+					"StairsShape": [
+						48,
+						48
+					]
+				},
+				"stairs": [
+					{
+						"zone": "chuenyu.west_blackge",
+						"name": "WestHallStairsUp",
+						"at": [
+							1616,
+							296
+						],
+						"id": "chuenyu.west_blackge.eastup",
+						"shape": "StairsShape",
+						"color": "Color(0.55, 0.38, 0.22, 1)",
+						"text": "楼梯 · 上楼",
+						"marker": {
+							"name": "WestHallStairsReturn",
+							"at": [
+								1552,
+								296
+							],
+							"id": "chuenyu.west_blackge.stairs_return"
+						}
+					},
+					{
+						"zone": "chuenyu.east_blackge",
+						"name": "EastHallStairsUp",
+						"at": [
+							1968,
+							296
+						],
+						"id": "chuenyu.east_blackge.westup",
+						"shape": "StairsShape",
+						"color": "Color(0.55, 0.38, 0.22, 1)",
+						"text": "楼梯 · 上楼",
+						"marker": {
+							"name": "EastHallStairsReturn",
+							"at": [
+								2032,
+								296
+							],
+							"id": "chuenyu.east_blackge.stairs_return"
+						}
+					}
+				],
+				"door_style": {
+					"walls": "Terrain/DoorWalls",
+					"wall_suffix": "Wall",
+					"shutters": "Terrain",
+					"color": "Color(0.42, 0.3, 0.18, 1)"
+				},
+				"doors": [
+					{
+						"name": "CastleGateDoor",
+						"id": "chuenyu.gate_castle.door",
+						"between": [
+							"chuenyu.gate_castle",
+							"chuenyu.trap_castle"
+						],
+						"color": "Color(0.25, 0.18, 0.1, 1)"
+					},
+					{
+						"name": "StorageDoor",
+						"id": "chuenyu.west_blackge.door",
+						"between": [
+							"chuenyu.west_blackge",
+							"chuenyu.storage"
+						]
+					}
+				],
+				"nodes": [
+					{
+						"generated": "captions"
+					},
+					{
+						"generated": "stairs"
+					},
+					{
+						"node": "caption",
+						"name": "VillageLabel",
+						"at": [
+							1488,
+							2296
+						],
+						"text": "东 · 玉螺湖村",
+						"size": 14
+					},
+					{
+						"node": "caption",
+						"name": "TeahouseLabel",
+						"at": [
+							1136,
+							1980
+						],
+						"text": "茶馆",
+						"size": 14
+					},
+					{
+						"node": "caption",
+						"name": "ChasmLabel",
+						"at": [
+							1680,
+							1200
+						],
+						"text": "万丈深渊",
+						"size": 14
+					},
+					{
+						"node": "caption",
+						"name": "BoardLabel",
+						"at": [
+							1688,
+							600
+						],
+						"text": "黑松淳于",
+						"size": 14
+					},
+					{
+						"node": "caption",
+						"name": "CastleLabel",
+						"at": [
+							1720,
+							120
+						],
+						"text": "黑松阁",
+						"size": 16
+					},
+					{
+						"node": "caption",
+						"name": "WestCliffLabel",
+						"at": [
+							1032,
+							700
+						],
+						"text": "悬崖",
+						"size": 12
+					},
+					{
+						"node": "caption",
+						"name": "EastCliffLabel",
+						"at": [
+							2376,
+							700
+						],
+						"text": "悬崖",
+						"size": 12
+					},
+					{
+						"node": "group",
+						"name": "DoorWalls",
+						"type": "StaticBody2D",
+						"parent": "Terrain"
+					},
+					{
+						"generated": "door_walls"
+					},
+					{
+						"generated": "shutters"
+					},
+					{
+						"node": "passage",
+						"name": "VillagePassage",
+						"id": "chuenyu.croad1.south",
+						"at": [
+							1584,
+							2240
+						],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "service",
+						"name": "EastCastleClimb",
+						"id": "chuenyu.east_castle.climb",
+						"at": [
+							2240,
+							624
+						],
+						"text": "城墙 · 爬上去"
+					},
+					{
+						"node": "service",
+						"name": "EastGardenClimb",
+						"id": "chuenyu.east_garden.climb",
+						"at": [
+							2256,
+							512
+						],
+						"text": "城墙 · 爬上去"
+					},
+					{
+						"node": "service",
+						"name": "WestCastleClimb",
+						"id": "chuenyu.west_castle.climb",
+						"at": [
+							1216,
+							624
+						],
+						"text": "城墙 · 爬上去"
+					},
+					{
+						"node": "service",
+						"name": "WestGardenClimb",
+						"id": "chuenyu.west_garden.climb",
+						"at": [
+							1216,
+							512
+						],
+						"text": "城墙 · 爬上去"
+					},
+					{
+						"node": "service",
+						"name": "BridgeChain",
+						"id": "chuenyu.rope_bridge.climb",
+						"at": [
+							1824,
+							1064
+						],
+						"text": "铁链 · 顺着走下去"
+					},
+					{
+						"generated": "doors"
+					}
+				],
+				"zones": [
+					{
+						"generated": "zones"
+					}
+				],
+				"spawn_points": [
+					{
+						"name": "Croad1VillageArrival",
+						"at": [
+							1504,
+							2240
+						],
+						"id": "chuenyu.croad1.village_arrival"
+					},
+					{
+						"name": "EastGardenWallArrival",
+						"at": [
+							2256,
+							464
+						],
+						"id": "chuenyu.east_garden.wall_arrival"
+					},
+					{
+						"name": "EastCastleWallArrival",
+						"at": [
+							2240,
+							688
+						],
+						"id": "chuenyu.east_castle.wall_arrival"
+					},
+					{
+						"name": "WestGardenWallArrival",
+						"at": [
+							1216,
+							464
+						],
+						"id": "chuenyu.west_garden.wall_arrival"
+					},
+					{
+						"name": "WestCastleWallArrival",
+						"at": [
+							1216,
+							688
+						],
+						"id": "chuenyu.west_castle.wall_arrival"
+					},
+					{
+						"name": "BaseChainArrival",
+						"at": [
+							1888,
+							1552
+						],
+						"id": "chuenyu.base_b_m.chain_arrival"
+					},
+					{
+						"generated": "stair_markers"
+					},
+					{
+						"generated": "markers"
+					}
+				],
+				"interactions": [
+					{
+						"name": "CenterRopeInteraction",
+						"id": "chuenyu.center.landmark.rope",
+						"at": [
+							1696,
+							320
+						],
+						"shape": "Rect_32_32"
+					},
+					{
+						"name": "EastCastleWallInteraction",
+						"id": "chuenyu.east_castle.landmark.wall",
+						"at": [
+							2176,
+							608
+						],
+						"shape": "Rect_32_32"
+					},
+					{
+						"name": "EastCastleVineInteraction",
+						"id": "chuenyu.east_castle.landmark.vine",
+						"at": [
+							2304,
+							608
+						],
+						"shape": "Rect_32_32"
+					},
+					{
+						"name": "EastCastleRockInteraction",
+						"id": "chuenyu.east_castle.landmark.rock",
+						"at": [
+							2112,
+							736
+						],
+						"shape": "Rect_32_32"
+					},
+					{
+						"name": "EastGardenWallInteraction",
+						"id": "chuenyu.east_garden.landmark.wall",
+						"at": [
+							2208,
+							512
+						],
+						"shape": "Rect_32_32"
+					},
+					{
+						"name": "EastGardenVineInteraction",
+						"id": "chuenyu.east_garden.landmark.vine",
+						"at": [
+							2304,
+							512
+						],
+						"shape": "Rect_32_32"
+					},
+					{
+						"name": "WestCastleWallInteraction",
+						"id": "chuenyu.west_castle.landmark.wall",
+						"at": [
+							1152,
+							608
+						],
+						"shape": "Rect_32_32"
+					},
+					{
+						"name": "WestCastleVineInteraction",
+						"id": "chuenyu.west_castle.landmark.vine",
+						"at": [
+							1280,
+							608
+						],
+						"shape": "Rect_32_32"
+					},
+					{
+						"name": "WestGardenWallInteraction",
+						"id": "chuenyu.west_garden.landmark.wall",
+						"at": [
+							1168,
+							512
+						],
+						"shape": "Rect_32_32"
+					},
+					{
+						"name": "WestGardenVineInteraction",
+						"id": "chuenyu.west_garden.landmark.vine",
+						"at": [
+							1264,
+							512
+						],
+						"shape": "Rect_32_32"
+					},
+					{
+						"name": "NorthGardenRockInteraction",
+						"id": "chuenyu.north_garden.landmark.rock",
+						"at": [
+							1504,
+							96
+						],
+						"shape": "Rect_32_32"
+					},
+					{
+						"name": "TrapWallInteraction",
+						"id": "chuenyu.trap_castle.landmark.wall",
+						"at": [
+							1600,
+							528
+						],
+						"shape": "Rect_32_32"
+					},
+					{
+						"name": "TrapRockInteraction",
+						"id": "chuenyu.trap_castle.landmark.rock",
+						"at": [
+							1640,
+							512
+						],
+						"shape": "Rect_32_32"
+					},
+					{
+						"name": "TrapHoleInteraction",
+						"id": "chuenyu.trap_castle.landmark.hole",
+						"at": [
+							1672,
+							528
+						],
+						"shape": "Rect_32_32"
+					},
+					{
+						"name": "TrapNoiseInteraction",
+						"id": "chuenyu.trap_castle.landmark.noise",
+						"at": [
+							1600,
+							496
+						],
+						"shape": "Rect_32_32"
+					},
+					{
+						"name": "BridgeChainInteraction",
+						"id": "chuenyu.rope_bridge.landmark.chain",
+						"at": [
+							1696,
+							1064
+						],
+						"shape": "Rect_32_32"
+					}
+				]
+			}
+		},
+		"upstairs": {
+			"note": "淳于's rooms over 黑松阁: the great bedroom between the two stairs down to the west and east halls, the little balcony north of it over the mountain, the 膳房 south behind its jade curtain door.",
+			"file": "chuenyu_upstairs.tscn",
+			"draw": {
+				"technique": "town",
+				"base": "boundary",
+				"bounds": [
+					-32,
+					-32,
+					416,
+					640
+				],
+				"ground": [],
+				"zones": {
+					"chuenyu.yiantai": [
+						64,
+						0,
+						320,
+						160,
+						"open",
+						"floor_wood",
+						null
+					],
+					"chuenyu.bedroom": [
+						0,
+						160,
+						384,
+						416,
+						"enclosed",
+						"floor_wood",
+						"wall_wood"
+					],
+					"chuenyu.kitchen": [
+						64,
+						416,
+						320,
+						608,
+						"enclosed",
+						"floor_wood",
+						"wall"
+					]
+				},
+				"roads": [],
+				"props": [
+					[
+						"blocked",
+						64,
+						0,
+						320,
+						16,
+						"the balcony's railing over the mountain"
+					],
+					[
+						"blocked",
+						240,
+						304,
+						336,
+						368,
+						"淳于's great bed"
+					],
+					[
+						"blocked",
+						96,
+						544,
+						160,
+						576,
+						"the stove, the roasting boar"
+					]
+				],
+				"reach_from": "BedroomWestStairsArrival",
+				"markers_in_middle": [
+					"chuenyu.yiantai"
+				],
+				"placed": {
+					"chuenyu.kitchen.cook.1": [
+						128,
+						480
+					],
+					"chuenyu.kitchen.pigmeat.1": [
+						200,
+						536
+					],
+					"chuenyu.kitchen.pigmeat.2": [
+						224,
+						536
+					],
+					"chuenyu.kitchen.pigmeat.3": [
+						248,
+						536
+					],
+					"chuenyu.kitchen.qiwine.1": [
+						232,
+						480
+					],
+					"chuenyu.kitchen.qiwine.2": [
+						256,
+						480
+					],
+					"chuenyu.kitchen.qiwine.3": [
+						256,
+						504
+					]
+				}
+			},
+			"scene": {
+				"style": "map",
+				"root": "ChuenyuUpstairs",
+				"map": "chuenyu.upstairs",
+				"player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+				"shapes": {
+					"Rect_64_32": [
+						64,
+						32
+					],
+					"StairsShape": [
+						48,
+						48
+					]
+				},
+				"stairs": [
+					{
+						"zone": "chuenyu.bedroom",
+						"name": "BedroomWestStairsDown",
+						"at": [
+							48,
+							232
+						],
+						"id": "chuenyu.bedroom.westdown",
+						"shape": "StairsShape",
+						"color": "Color(0.55, 0.38, 0.22, 1)",
+						"text": "楼梯 · 下楼",
+						"marker": {
+							"name": "BedroomWestStairsArrival",
+							"at": [
+								112,
+								232
+							],
+							"id": "chuenyu.bedroom.west_stairs_arrival"
+						}
+					},
+					{
+						"zone": "chuenyu.bedroom",
+						"name": "BedroomEastStairsDown",
+						"at": [
+							336,
+							232
+						],
+						"id": "chuenyu.bedroom.eastdown",
+						"shape": "StairsShape",
+						"color": "Color(0.55, 0.38, 0.22, 1)",
+						"text": "楼梯 · 下楼",
+						"marker": {
+							"name": "BedroomEastStairsArrival",
+							"at": [
+								272,
+								232
+							],
+							"id": "chuenyu.bedroom.east_stairs_arrival"
+						}
+					}
+				],
+				"door_style": {
+					"walls": "Terrain/DoorWalls",
+					"wall_suffix": "Wall",
+					"shutters": "Terrain",
+					"color": "Color(0.42, 0.3, 0.18, 1)"
+				},
+				"doors": [
+					{
+						"name": "JadeCurtainDoor",
+						"id": "chuenyu.bedroom.door",
+						"between": [
+							"chuenyu.bedroom",
+							"chuenyu.kitchen"
+						],
+						"color": "Color(0.55, 0.78, 0.62, 1)"
+					}
+				],
+				"nodes": [
+					{
+						"generated": "captions"
+					},
+					{
+						"generated": "stairs"
+					},
+					{
+						"node": "caption",
+						"name": "BedLabel",
+						"at": [
+							248,
+							288
+						],
+						"text": "大床",
+						"size": 12
+					},
+					{
+						"node": "group",
+						"name": "DoorWalls",
+						"type": "StaticBody2D",
+						"parent": "Terrain"
+					},
+					{
+						"generated": "door_walls"
+					},
+					{
+						"generated": "shutters"
+					},
+					{
+						"generated": "doors"
+					}
+				],
+				"zones": [
+					{
+						"generated": "zones"
+					}
+				],
+				"spawn_points": [
+					{
+						"generated": "stair_markers"
+					},
+					{
+						"generated": "markers"
+					}
+				],
+				"interactions": []
+			}
+		}
+	}
+}

@@ -368,11 +368,13 @@ static func attitude_of(attitude: String) -> int:
 			return NpcDefinition.Attitude.FRIENDLY
 		"heroism":
 			return NpcDefinition.Attitude.HEROISM
+		"killer":
+			return NpcDefinition.Attitude.KILLER
 	return NpcDefinition.Attitude.PEACEFUL
 
 
 static func _attitude_known(attitude: String) -> bool:
-	return attitude in ["peaceful", "aggressive", "friendly", "heroism"]
+	return attitude in ["peaceful", "aggressive", "friendly", "heroism", "killer"]
 
 
 static func _attitude(reader: ContentRecordReader) -> int:
@@ -389,6 +391,8 @@ static func _attitude_named(attitude: String, reader: ContentRecordReader) -> in
 			return NpcDefinition.Attitude.FRIENDLY
 		"heroism":
 			return NpcDefinition.Attitude.HEROISM
+		"killer":
+			return NpcDefinition.Attitude.KILLER
 	reader.fail("attitude", "unsupported attitude '%s'" % attitude)
 	return NpcDefinition.Attitude.PEACEFUL
 

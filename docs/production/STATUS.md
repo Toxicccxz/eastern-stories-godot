@@ -4,10 +4,10 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**京师 B** (`phase/city-b`, DECISIONS「京师 B」): 尚书府's thirteen rooms and people (the 门房's three
-taels of gold, the 护院, four doors, 小无相功), the 院墙 climbed from the 东街, the altar's button
-and the 地下密室 (opened from below too), 废园's 出城令牌 for the 守城兵. 京师 is done (all 55 rooms);
-next on the ROADMAP: 12b 黑松山 (repaired).
+**黑松山 A** (`phase/chuenyu-a`, DECISIONS「黑松山 A」): the repaired way in (the 黄土大道's spur west
+off 玉螺湖村's highway), the road, the paddies and the mountain path, the 铁索桥 and its 家丁, 黑松堡's
+gate (combat_exp 2000), the 夹道's arrows, the vine walls into the gardens, the halls and 淳于's
+upper floor. Next: 黑松山 B (the 地牢, 淳于怀太 and 小娟, 刘老农's thanks and revenge).
 
 ## 待决定
 
@@ -263,7 +263,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   20 sen), and the gap lets the player into the stone room, where the bookcase gives a 书匣 holding
   the 悟疾风劲竹书 while none exists (taken out in the 背包; 研读: parry to 50 from 20000 exp).
 * **玉螺湖村**: south of 天驼关's valley, all 26 rooms on three maps: the 黄土大道 (two 商人 who
-  walk out of a fight; its spur west to 黑松山 and the 三叉路口's road south to 京师 drawn closed), the
+  walk out of a fight; its spur west to 黑松山; the 三叉路口's road south to 京师), the
   青石小路 west through the village (its sign: 傅家坡): the farmhouse and its back yard (the 农妇
   weeping for her son, her 菜刀 in a fight), 刘家's garden (five 采花妞 throwing 紫花瓣儿), behind
   its shut 木门 the house (刘老农 asks after his daughter a second after one comes in; no spar) and
@@ -280,6 +280,17 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   (asked first while he is clearly stronger): while he stands there both ways out are held (你的去
   路被瓜农拦住了。), in the fight he demands his money, and 还瓜钱 (HUD and battle panel) pays him 60 文
   and sends him home.
+* **黑松山**: west off 玉螺湖村's 黄土大道, 23 of 37 rooms on two maps: the road past a tea house to the
+  crossing, the 山脚乡田 (no fighting, no magic; the 卖花姑娘 sells six flowers), the mountain path up
+  the west side, the granite streets either side of the chasm and the 铁索桥 (two 紫衣家丁 stop one
+  whose looks they mistrust and hunt them after; its chain leads straight down), 黑松堡's gate (below
+  2000 combat_exp the castle's killing air turns one back) and the 夹道 behind its 城门 (arrows from
+  the walls fifteen seconds after one comes in, then every five). From the clifftops beside the gate
+  the vine-covered walls are climbed into the west garden (the 园工 黑松一剪 with 召护法, killer bees)
+  and the east garden (three 巨型犬); inside, the west hall's two 护院 attack whoever comes in, the
+  storeroom's five swords, the main hall's rope (its pull comes with B), the east hall's 女佣人, and
+  up the stairs 淳于's bedroom, the balcony's pigeons and the 膳房 (the cook, 烤山猪肉: food and a
+  hammer; 竹叶青).
 * **京师**: south of 玉螺湖村's 三叉路口, 40 of 55 rooms on two maps: the 北驿道 between two small
   woods (桃X仙 picks up what is dropped there, puts it on and wields it), the 北门 in the north wall
   and its three 守城兵, 大栅栏 to the 十字路口; 护国道 from the 西一门 to the 东一门 (旺金钱庄, no
@@ -306,7 +317,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
 * Placeholder visuals: flat-colour terrain tiles; characters and objects are still coloured boxes.
   No art or audio yet.
 
-Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 472/551 rooms, 215/286 NPC
+Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 495/551 rooms, 225/286 NPC
 types, 9/9 joinable families, 33/36 special and 18/25 basic martial arts, 84/84 quest targets.
 
 ## Known issues

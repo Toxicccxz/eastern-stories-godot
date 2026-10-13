@@ -48,6 +48,16 @@ class Region:
         """Service id -> how near (pixels) the player must stand to use it."""
         return {s['id']: s['reach'] for s in self._read('world.json').get('services', [])}
 
+    def service_moves(self) -> dict:
+        """Act service id -> (zone, point) its first act moves the player to (a climb over a wall)."""
+        out = {}
+        for service in self._read('world.json').get('services', []):
+            for act in (service.get('act') or {}).get('acts', [])[:1]:
+                for step in act.get('steps', []):
+                    if 'move' in step:
+                        out[service['id']] = (step['move'], step['point'])
+        return out
+
     def owner_zones(self) -> dict:
         """Portal, landmark and service id -> the zone the player must stand in to use it."""
         world = self._read('world.json')

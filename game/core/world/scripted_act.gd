@@ -20,12 +20,15 @@ extends RefCounted
 ## random(kar) > random(n) that all come up (melonfarm.c's pick: [30, 10]; each drawn once
 ## per use, in order, and only when reached, as the LPC's nested ifs), `kar_draw` {plus, at_least} one
 ## roll of random(kar + plus) >= at_least (d/city/feiyuan.c's find: random(kar + 30) >= 35), drawn
-## only when reached. The first branch that is for
+## only when reached, `per_below` n one roll of random(per) < n (d/chuenyu/npc/jiading3.c's
+## checklooking(): query("per"), the raw attribute), drawn the same way. The first branch that is for
 ## the player acts. `ask` is the owner's question before a choice that can kill (a man walking into
 ## the bath, DECISIONS 晚月庄 A), with `choice` its button. The steps run in order:
 ## - a line (NpcLine: say, emote, line, whisper, in its colour; a room's message_vision()
 ##   written as the player reads it, 你 for $N);
 ## - `damage` {gin, kee, sen}: receive_damage() on the player;
+## - `hurt` {gin?, kee?, sen?: {base, random}}: set("eff_kee", query("eff_kee") - n) and set("kee",
+##   query("kee") - n) with n = base + random(random) (d/chuenyu/trap_castle.c's arrows, center.c's fall);
 ## - `heal` (gin, kee or sen) `base` + random(`random`): receive_heal();
 ## - `condition` with `duration`: apply_condition() (it replaces the one there);
 ## - `calm` n: a bellicosity above 0 goes down random(kar) + n (uproom3.c);
@@ -44,7 +47,7 @@ extends RefCounted
 ## - `comes` (an NPC) `from` (a zone): the first of them standing there comes beside the player
 ##   (ob->move(this room): melonfarm.c's 瓜农) and is the act's NPC from then on;
 ## - `npc_flag` a flag: the NPC's own set_temp(flag, 1) (an object variable, saved with it).
-enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM, COMES, NPC_FLAG }
+enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM, COMES, NPC_FLAG, HURT }
 
 ## The resources receive_damage() and receive_heal() name.
 const RESOURCES: Array[String] = ["gin", "kee", "sen"]
@@ -74,6 +77,8 @@ var kar_above: Array[int] = []
 ## kar_draw: random(kar + plus) at least `at_least` (0 plus and 0 at_least: no roll).
 var kar_draw_plus: int = 0
 var kar_draw_at_least: int = 0
+## per_below: random(per) below it (0: no roll).
+var per_below: int = 0
 var ask: String = ""
 var choice: String = ""
 var steps: Array[Step] = []
@@ -101,9 +106,12 @@ class Facts:
 	## query("kar") and MudOS random(n) for `kar_above`; without a draw the rolls are not made
 	## and count as coming up (whether a branch could be for the player: its button).
 	var kar: int = 0
+	## query("per") for `per_below`, drawn as the kar rolls are.
+	var per: int = 0
 	var draw: Callable = Callable()
 	var _rolls: Array[bool] = []
 	var _kar_drawn: int = -1
+	var _per_drawn: int = -1
 
 	## Whether random(kar) > random(bound), the `index`-th roll of this use: drawn once, the
 	## first time it is reached (random(n) with n <= 0 is 0, DECISIONS' global rule).
@@ -126,6 +134,15 @@ class Facts:
 			_kar_drawn = int(draw.call(bound)) if bound > 0 else 0
 		return _kar_drawn >= at_least
 
+	## Whether random(per) < below: drawn once per use, when first reached (without a draw it
+	## counts as coming up, as kar_roll()).
+	func per_roll(below: int) -> bool:
+		if not draw.is_valid():
+			return true
+		if _per_drawn < 0:
+			_per_drawn = int(draw.call(per)) if per > 0 else 0
+		return _per_drawn < below
+
 	## Whether every roll up to `bounds` comes up, drawing only as far as they do.
 	func kar_rolls(bounds: Array[int]) -> bool:
 		for index: int in bounds.size():
@@ -138,8 +155,9 @@ class Step:
 	extends RefCounted
 	var kind: Kind
 	var line: NpcLine
-	## damage: by resource name.
+	## damage: by resource name; hurt: the base by resource name, with `randoms`.
 	var amounts: Dictionary[String, int] = {}
+	var randoms: Dictionary[String, int] = {}
 	## heal: the resource; base + random(random_of).
 	var resource: String = ""
 	var base: int = 0
@@ -186,6 +204,7 @@ func applies_to(player_gender: StringName, class_id: StringName, facts: Facts = 
 		# Last: the rolls draw, and only for a branch otherwise for the player.
 		and (kar_above.is_empty() or known.kar_rolls(kar_above))
 		and (kar_draw_at_least <= 0 or known.kar_draw(kar_draw_plus, kar_draw_at_least))
+		and (per_below <= 0 or known.per_roll(per_below))
 	)
 
 
@@ -197,9 +216,9 @@ static func first_for(acts: Array[ScriptedAct], player_gender: StringName, class
 	return null
 
 
-## Whether a branch is drawn for (`kar_above`, `kar_draw`): it is chosen when the command runs.
+## Whether a branch is drawn for (`kar_above`, `kar_draw`, `per_below`): it is chosen when the command runs.
 func draws() -> bool:
-	return not kar_above.is_empty() or kar_draw_at_least > 0
+	return not kar_above.is_empty() or kar_draw_at_least > 0 or per_below > 0
 
 
 ## Whether a step takes the player elsewhere (the caller closes what they had open).
@@ -212,9 +231,10 @@ func moves_player() -> bool:
 func fainting_costs(state: CharacterState) -> Dictionary[String, int]:
 	var spent: Dictionary[String, int] = {}
 	for step: Step in steps:
-		if step.kind == Kind.DAMAGE:
+		if step.kind == Kind.DAMAGE or step.kind == Kind.HURT:
+			# A hurt's roll at its worst: random(n) is at most n - 1.
 			for key: String in step.amounts:
-				spent[key] = spent.get(key, 0) + step.amounts[key]
+				spent[key] = spent.get(key, 0) + step.amounts[key] + maxi(step.randoms.get(key, 0) - 1, 0)
 	var result: Dictionary[String, int] = {}
 	for key: String in RESOURCES:
 		if spent.has(key) and resource_of(state, key).current - spent[key] < 0:
@@ -275,6 +295,9 @@ static func from_record(reader: ContentRecordReader) -> ScriptedAct:
 			reader.fail("kar_draw", "plus is 0 or more and at_least positive")
 		if not act.kar_above.is_empty():
 			reader.fail("kar_draw", "a branch rolls kar_above or kar_draw, not both")
+	act.per_below = reader.integer("per_below", 0)
+	if reader.has("per_below") and act.per_below <= 0:
+		reader.fail("per_below", "must be positive")
 	act.ask = reader.text("ask")
 	act.choice = reader.text("choice")
 	if act.ask.is_empty() != act.choice.is_empty():
@@ -306,7 +329,7 @@ static func _step(reader: ContentRecordReader) -> Step:
 	var kinds: Array[String] = []
 	if ["say", "emote", "line", "whisper"].any(func(key: String) -> bool: return reader.has(key)):
 		kinds.append("line")
-	for key: String in ["damage", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "water", "set_room", "clear_room", "comes", "npc_flag"]:
+	for key: String in ["damage", "hurt", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "water", "set_room", "clear_room", "comes", "npc_flag"]:
 		if reader.has(key):
 			kinds.append(key)
 	if kinds.size() != 1:
@@ -331,6 +354,25 @@ static func _step(reader: ContentRecordReader) -> Step:
 				if step.amounts[key] < 0:
 					amounts.fail(key, "must not be negative")
 			amounts.finish()
+		"hurt":
+			step.kind = Kind.HURT
+			var hurts: ContentRecordReader = reader.child("hurt")
+			if hurts == null:
+				reader.fail("hurt", "expected {gin?, kee?, sen?: {base, random}}")
+				return null
+			for key: String in hurts.keys():
+				if not RESOURCES.has(key):
+					hurts.fail(key, "expected one of %s" % [RESOURCES])
+				var roll: ContentRecordReader = hurts.child(key)
+				if roll == null:
+					hurts.fail(key, "expected {base, random}")
+					continue
+				step.amounts[key] = roll.required_integer("base")
+				step.randoms[key] = roll.integer("random", 0)
+				roll.finish()
+				if step.amounts[key] < 0 or step.randoms[key] < 0:
+					hurts.fail(key, "base and random must not be negative")
+			hurts.finish()
 		"heal":
 			step.kind = Kind.HEAL
 			step.resource = reader.required_text("heal")

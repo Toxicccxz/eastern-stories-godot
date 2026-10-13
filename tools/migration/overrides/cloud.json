@@ -43,6 +43,9 @@
 				"out_of": 4
 			}
 		},
+		"es2:u/cloud/obj/meat/hind": {
+			"food": { "remaining": 5, "supply": 80, "leaves": { "name": "牛腿骨", "aliases": ["rib", "bone"], "weight": 300, "long": "啃得精光的牛腿。\n", "unit": "根" } }
+		},
 		"es2:u/cloud/obj/meat/dog_m": {
 			"food": {
 				"remaining": 3, "supply": 60,
@@ -398,10 +401,10 @@
 			"function finish_eat": "set es2:u/cloud/obj/meat/dog_m food.leaves: 狗骨头 (rib, and bone for dog.c: owner, polish A11)"
 		},
 		"u/cloud/obj/meat/hind.c": {
-			"set food_remaining": "a hammer that is also food is not supported yet: 牛腿 is a hammer for now",
-			"set food_supply": "a hammer that is also food is not supported yet: 牛腿 is a hammer for now",
+			"set food_remaining": "set es2:u/cloud/obj/meat/hind food (黑松山 A, M4: food that is also a hammer)",
+			"set food_supply": "set es2:u/cloud/obj/meat/hind food",
 			"set wield_msg": "wield/unwield messages are not shown yet",
-			"function finish_eat": "牛腿骨 waits with food that is also a weapon (hind.c is a hammer here): DECISIONS 积压 A11"
+			"function finish_eat": "set es2:u/cloud/obj/meat/hind food.leaves: 牛腿骨 (rib, and bone for dog.c: owner, polish A11), still the hammer it was"
 		},
 		"u/cloud/obj/meat/tail.c": {
 			"set wield_msg": "wield/unwield messages are not shown yet"

@@ -38,6 +38,7 @@ func facts(room_zone_id: StringName = &"") -> ScriptedAct.Facts:
 	known.item_exists = _map.floor_items.item_exists
 	known.standing_in = func(definition_id: StringName, zone_id: StringName) -> bool: return _map.npcs.npc_present_in_zone(definition_id, zone_id, true)
 	known.kar = _player.state.attributes.karma
+	known.per = _player.state.attributes.personality
 	for npc: NpcRuntimeState in _map.npcs.residents:
 		var id: StringName = NpcDefinition.unnamed_id(npc.definition().definition_id)
 		if not known.present_npcs.has(id) and _map.npcs.npc_present_in_zone(id, here, true):
@@ -80,6 +81,14 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 				for key: String in ScriptedAct.RESOURCES:
 					if step.amounts.has(key):
 						ScriptedAct.resource_of(state, key).apply_damage(step.amounts[key])
+			ScriptedAct.Kind.HURT:
+				for key: String in ScriptedAct.RESOURCES:
+					if step.amounts.has(key):
+						var random_of: int = step.randoms.get(key, 0)
+						var hurt: int = step.amounts[key] + (int(draw.call(random_of)) if random_of > 0 else 0)
+						# eff_x and x each lowered by n: receive_damage() then receive_wound().
+						ScriptedAct.resource_of(state, key).apply_damage(hurt)
+						ScriptedAct.resource_of(state, key).apply_wound(hurt)
 			ScriptedAct.Kind.HEAL:
 				var amount: int = step.base + (int(draw.call(step.random_of)) if step.random_of > 0 else 0)
 				ScriptedAct.resource_of(state, step.resource).heal(amount)

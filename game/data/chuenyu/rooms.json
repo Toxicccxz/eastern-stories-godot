@@ -1,0 +1,227 @@
+{
+	"rooms": [
+		{
+			"id": "es2:d/chuenyu/croad1",
+			"short": "黄土大道",
+			"long": "你正走在一条黄土大道上。路上尘土飞扬，路旁稀疏几棵矮树。\n往南通往京师，东北是通往天驼关的大道。\n",
+			"exits": {
+				"south": "es2:d/village/road1",
+				"north": "es2:d/chuenyu/croad2"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/chuenyu/croad2",
+			"short": "路口",
+			"long": "这里是个交叉路口，过往行人很多。路边有一个茶馆，是供行\n人歇息的地方。向南是通往京师的北驿道，北方可见阴森的黑松山。\n",
+			"exits": {
+				"northeast": "es2:d/chuenyu/sunnyroad",
+				"south": "es2:d/chuenyu/croad1"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/chuenyu/sunnyroad",
+			"short": "山脚乡田",
+			"long": "你的两侧是茂盛的稻田，还有一条清澈见底的小溪。许多乡民在田里\n辛苦的忙碌着。再北面是黑松山。眺望山顶，你似乎可以看到一个颇具规\n模的城堡。城堡的最顶端插着一面大旗，大旗上绣着两个斗大的金字：淳于。\n",
+			"exits": {
+				"north": "es2:d/chuenyu/base_b_m",
+				"southwest": "es2:d/chuenyu/croad2"
+			},
+			"no_fight": true,
+			"no_magic": true,
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/chuenyu/base_b_m",
+			"short": "黑松山脚",
+			"long": "一座高而险的山峰耸立在你面前。北面是一条上山的羊肠小路，盘旋曲折。\n黑湮湮的松林给你不祥的感觉。\n",
+			"exits": {
+				"south": "es2:d/chuenyu/sunnyroad",
+				"up": "es2:d/chuenyu/foot_b_mtn"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/chuenyu/foot_b_mtn",
+			"short": "黑松山腰",
+			"long": "你正在艰难的走在唯一通往山顶的小路上。路边堆着很多面目\n狰狞的巨石。几棵幼松顽强的从石缝中挤了出来。你在这\n里可以看到山顶城堡的大致伦廓。\n",
+			"exits": {
+				"down": "es2:d/chuenyu/base_b_m",
+				"up": "es2:d/chuenyu/high_b_mtn"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/chuenyu/high_b_mtn",
+			"short": "花岗石街",
+			"long": "这是通往城堡的石街，整条石街全是用巨大的花岗岩砌成的。\n单这条石路就足已表明城堡主人的富有和气势。\n",
+			"exits": {
+				"up": "es2:d/chuenyu/gate_castle",
+				"east": "es2:d/chuenyu/rope_bridge"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/chuenyu/rope_bridge",
+			"short": "铁索桥",
+			"long": "山顶强劲的风吹得铁索桥左右晃动，脚下的万丈深渊使你头晕目旋。\n你竭尽全力的维持身体平衡。\n",
+			"exits": {
+				"west": "es2:d/chuenyu/high_b_mtn",
+				"east": "es2:d/chuenyu/high_b_mtn2"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/chuenyu/high_b_mtn2",
+			"short": "花岗石街",
+			"long": "这是通往城堡的石街，整条石街全是用巨大的花岗岩砌成的。\n单这条石路就足已表明城堡主人的富有和气势。\n",
+			"exits": {
+				"down": "es2:d/chuenyu/base_b_m",
+				"up": "es2:d/chuenyu/gate_castle",
+				"west": "es2:d/chuenyu/rope_bridge"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/chuenyu/gate_castle",
+			"short": "黑松淳于",
+			"long": "你站立在一座宏伟的城堡之前，城门(door)之上挂着一块金匾。金匾上\n龙飞凤舞的写着四个大字“黑松淳于”，金匾左下角刚劲草书落款：\n“淳于怀太”，“壬子年一月十八日”。\n",
+			"exits": {
+				"east": "es2:d/chuenyu/east_castle",
+				"west": "es2:d/chuenyu/west_castle",
+				"north": "es2:d/chuenyu/trap_castle",
+				"down": "es2:d/chuenyu/high_b_mtn2"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/chuenyu/east_castle",
+			"short": "黑松城堡的东侧",
+			"long": "你站在黑松山顶，黑松城堡的东侧。高耸的城墙上长满了青色的\n蔓藤。蔓藤从墙顶一直垂到你的脚下。再往东是刀削般的万丈悬崖。\n往西则是城堡的正门。你脚下是一块青石板。\n",
+			"exits": {
+				"west": "es2:d/chuenyu/gate_castle"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/chuenyu/west_castle",
+			"short": "黑松城堡的西侧",
+			"long": "你站在黑松山顶，黑松城堡的西侧。高耸的城墙上长满了青色的\n蔓藤。蔓藤从墙顶一直垂到你的脚下。再往西是刀削般的万丈悬崖。\n往东则是城堡的正门。\n",
+			"exits": {
+				"east": "es2:d/chuenyu/gate_castle"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/chuenyu/trap_castle",
+			"short": "夹道",
+			"long": "你现在处于一个窄窄的夹道里，通向北面的路被一块巨石(rock)堵死。\n夹道的两侧是三丈高的石墙(wall)。出乎你的意料，石墙上布满了\n碗大的圆孔(hole)。石墙的后面传出“吱吱嘎嘎”的声音(noise)。\n",
+			"exits": {
+				"south": "es2:d/chuenyu/gate_castle"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/chuenyu/west_garden",
+			"short": "西花园",
+			"long": "你站在黑松城堡的西花园里。花园里长满了各式各样奇花异草。\n西侧高耸的城墙上长满了青色的蔓藤。蔓藤从墙顶一直垂到你的脚下。\n再往东则是雄伟的黑松阁。\n",
+			"exits": {
+				"east": "es2:d/chuenyu/west_blackge"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/chuenyu/north_garden",
+			"short": "北花园",
+			"long": "你站在黑松城堡的北花园里。花园里长满了各式各样奇花异草。\n再通向北面的路被一块巨石(rock)堵死。再往南则是雄伟的黑松阁。\n",
+			"exits": {
+				"south": "es2:d/chuenyu/west_blackge"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/chuenyu/west_blackge",
+			"short": "黑松阁西厅",
+			"long": "这是黑松堡主淳于怀太迎宾的西厅。整个大厅布置的雍荣典雅。\n向东是黑松阁的正厅，向西和向北都是精心修剪过的花园。楼上则是\n淳于巨大的睡房。南面是一个小小的储藏室。\n",
+			"exits": {
+				"eastup": "es2:d/chuenyu/bedroom",
+				"east": "es2:d/chuenyu/center",
+				"west": "es2:d/chuenyu/west_garden",
+				"south": "es2:d/chuenyu/storage",
+				"north": "es2:d/chuenyu/north_garden"
+			}
+		},
+		{
+			"id": "es2:d/chuenyu/storage",
+			"short": "储藏室",
+			"long": "一个小小的储藏室。四壁上布满了灰尘。\n",
+			"exits": {
+				"north": "es2:d/chuenyu/west_blackge"
+			}
+		},
+		{
+			"id": "es2:d/chuenyu/center",
+			"short": "黑松阁正厅",
+			"long": "黑松阁正厅完全是用檀香木打造的。一阵阵的檀香飘过来，\n使你心旷神夷。厅口悬着一幅字画，写道：“是非成败转头空，\n青山依旧在，几度夕阳红。”整幅字画是用一条很粗的绳子挂起\n来的。\n",
+			"exits": {
+				"west": "es2:d/chuenyu/west_blackge"
+			}
+		},
+		{
+			"id": "es2:d/chuenyu/east_blackge",
+			"short": "黑松阁东厅",
+			"long": "这是黑松堡主淳于怀太迎宾的东厅。整个大厅布置的雍荣典雅。\n向东和向西都是精心修剪过的花园。楼上则是淳于巨大的睡房。\n偶尔有几声狗叫从东花园里传来。\n",
+			"exits": {
+				"east": "es2:d/chuenyu/east_garden",
+				"south": "es2:d/chuenyu/south_garden",
+				"westup": "es2:d/chuenyu/bedroom"
+			}
+		},
+		{
+			"id": "es2:d/chuenyu/east_garden",
+			"short": "东花园",
+			"long": "你站在黑松城堡的东花园里。花园里长满了各式各样奇花异草。\n东侧高耸的城墙上长满了青色的蔓藤。蔓藤从墙顶一直垂到你的脚下。\n再往西则是雄伟的黑松阁。\n",
+			"exits": {
+				"west": "es2:d/chuenyu/east_blackge"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/chuenyu/south_garden",
+			"short": "南花园",
+			"long": "你站在黑松城堡的南花园里。花园里长满了各式各样奇花异草。\n再往北则是雄伟的黑松阁。\n",
+			"exits": {
+				"north": "es2:d/chuenyu/east_blackge"
+			}
+		},
+		{
+			"id": "es2:d/chuenyu/bedroom",
+			"short": "卧室",
+			"long": "这是淳于堡主起居的地方。东面的楼梯向下通向黑松阁东厅，\n西面的楼梯向下通向黑松阁西厅。北面是一个小小的阳台。南面则\n是堡主的膳房。\n",
+			"exits": {
+				"north": "es2:d/chuenyu/yiantai",
+				"south": "es2:d/chuenyu/kitchen",
+				"westdown": "es2:d/chuenyu/west_blackge",
+				"eastdown": "es2:d/chuenyu/east_blackge"
+			}
+		},
+		{
+			"id": "es2:d/chuenyu/yiantai",
+			"short": "阳台",
+			"long": "这是一个小小的阳台。从这里你可以一直望到山脚。强劲\n的山风吹在你身上，让你感到份外的凉爽。真是一个好去处。\n",
+			"exits": {
+				"south": "es2:d/chuenyu/bedroom"
+			},
+			"outdoors": true
+		},
+		{
+			"id": "es2:d/chuenyu/kitchen",
+			"short": "膳房",
+			"long": "这是淳于堡主的用膳房。整个房间飘荡着上等竹叶青的酒香和\n令人垂滟欲滴的烤山猪的香气。你似乎听到你的肚子在“咕咕咕”\n的叫了起来。\n",
+			"exits": {
+				"north": "es2:d/chuenyu/bedroom"
+			}
+		}
+	]
+}

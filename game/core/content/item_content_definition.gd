@@ -329,9 +329,10 @@ static func from_record(reader: ContentRecordReader) -> ItemContentDefinition:
 	var study: ContentRecordReader = reader.child("study")
 	if study != null:
 		definition._study = StudyMaterial.from_record(study)
-	# The food rules (hockshop value, save validation) assume a plain item.
-	if food != null and (weapon != null or armor != null or money != null or combined != null):
-		reader.fail("food", "food that is also a weapon, armor or money is not supported yet")
+	# The food rules (hockshop value, save validation) assume an item of one piece; a weapon
+	# may be food too (d/chuenyu/obj/pigmeat.c, u/cloud's 牛腿: inherit HAMMER and F_FOOD).
+	if food != null and (armor != null or money != null or combined != null):
+		reader.fail("food", "food that is also armor, money or a stack is not supported yet")
 	# A named form shares everything but its ID and name: equipment and stacks carry their ID.
 	if not definition._name_pick.is_empty() and (weapon != null or armor != null or money != null or combined != null):
 		reader.fail("name_pick", "only a plain item draws its name yet")
@@ -420,7 +421,8 @@ func leftover_id() -> StringName:
 
 
 ## finish_eat(): set_name(<bone>, ({ <ids> })), set_weight(), set("long"); food.c set
-## value 0 on the first bite. What is left is no food: a plain thing (a dog takes a bone).
+## value 0 on the first bite. What is left is no food: a plain thing (a dog takes a bone),
+## or the weapon the food was (pigmeat.c's 山猪骨头 is still its init_hammer(4)).
 ## Owner (polish, A11): its aliases add "bone" to finish_eat()'s "rib" (dog.c asks for
 ## id("bone")), and it counts in 根, where ES2 kept the meat's 斤.
 static func leftover(source: ItemContentDefinition) -> ItemContentDefinition:
@@ -434,6 +436,14 @@ static func leftover(source: ItemContentDefinition) -> ItemContentDefinition:
 	left._material = source._material
 	left._own_weight = source._leaves["weight"]
 	left._value = 0
+	if source._weapon_definition != null:
+		left._weapon_damage = source._weapon_damage
+		left._weapon_rigidity = source._weapon_rigidity
+		left._weapon_apply = source._weapon_apply.duplicate()
+		left._weapon_definition = WeaponDefinition.new(
+			left._item_definition_id, source._weapon_definition.skill_type, source._weapon_definition.can_wield_as_secondary,
+			source._weapon_definition.is_two_handed, source._weapon_definition.legacy_source_path,
+		)
 	return left
 
 
@@ -466,6 +476,17 @@ static func broken_weapon(source: ItemContentDefinition) -> ItemContentDefinitio
 			StringName(String(source._stack_definition.stack_compatibility_id) + BROKEN_SUFFIX),
 			source._stack_definition.base_weight,
 		)
+	# Food that is a weapon stays food broken (F_FOOD is untouched by bash_weapon()), worth a
+	# tenth as the weapon is (food.c's value 0 after a bite stays 0: _knock_away() scales the
+	# live value the same way).
+	if source._food_definition != null:
+		@warning_ignore("integer_division")
+		var tenth: int = source._food_definition.initial_value / 10
+		broken._food_definition = FoodDefinition.new(
+			broken._item_definition_id, source._food_definition.initial_portions, source._food_definition.food_supply,
+			tenth, source._food_definition.own_weight, source._food_definition.water_supply,
+		)
+		broken._leaves = source._leaves.duplicate()
 	return broken
 
 

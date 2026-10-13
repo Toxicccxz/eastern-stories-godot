@@ -59,9 +59,11 @@
 		"city.main",
 		"city.upstairs",
 		"city.wall_top",
-		"city.cellar"
+		"city.cellar",
+		"chuenyu.main",
+		"chuenyu.upstairs"
 	],
-	"rooms": 496,
+	"rooms": 519,
 	"snow_outdoor_portals": [
 		"snow.square.west",
 		"snow.eroad3.south",
@@ -335,11 +337,22 @@
 		"city.main.road1.huyuan",
 		"city.main.chufang.maid",
 		"city.main.huayuan.gardener",
-		"city.main.neizhai.qing_chen"
+		"city.main.neizhai.qing_chen",
+		"chuenyu.main.sunnyroad.flower_seller",
+		"chuenyu.main.rope_bridge.jiading3s",
+		"chuenyu.main.west_garden.gardener",
+		"chuenyu.main.west_garden.bees",
+		"chuenyu.main.north_garden.smallgardeners",
+		"chuenyu.main.west_blackge.guards",
+		"chuenyu.main.east_blackge.cleangirl",
+		"chuenyu.main.east_garden.wolfdogs",
+		"chuenyu.main.south_garden.smallgardeners",
+		"chuenyu.upstairs.yiantai.pigeons",
+		"chuenyu.upstairs.kitchen.cook"
 	],
-	"world_npcs": 423,
-	"resident_maps": 60,
-	"new_game_items": 726,
+	"world_npcs": 442,
+	"resident_maps": 62,
+	"new_game_items": 774,
 	"snow_outdoor_passages": 9,
-	"npc_draws_after_oldpine": 2340
+	"npc_draws_after_oldpine": 2441
 }

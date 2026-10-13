@@ -200,7 +200,7 @@ static func answer(
 		return result
 	if key == name or key == "name" or key == NAME:
 		match npc_definition.attitude:
-			NpcDefinition.Attitude.AGGRESSIVE:
+			NpcDefinition.Attitude.AGGRESSIVE, NpcDefinition.Attitude.KILLER:
 				lines.append(_t("{npc}对你把眼一瞪：{self}的名字是可以随便提的吗？！我看你这{rude}是活腻了！").format({
 					"npc": npc, "self": _t(RankWords.query_self_rude(npc_gender, npc_age, npc_definition.class_id)),
 					"rude": _t(RankWords.query_rude(asker.gender, asker.age, asker.class_id)),

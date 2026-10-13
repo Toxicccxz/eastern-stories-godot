@@ -31,6 +31,7 @@
 		"canyon/items.json",
 		"village/items.json",
 		"city/items.json",
+		"chuenyu/items.json",
 		"cloud/items.json",
 		"cloud/npcs.json",
 		"cloud/spawns.json",
@@ -81,6 +82,12 @@
 		"city/spawns.json",
 		"city/vendors.json",
 		"city/rooms.json",
-		"city/world.json"
+		"city/world.json",
+		"chuenyu/npcs.json",
+		"chuenyu/spawns.json",
+		"chuenyu/item_spawns.json",
+		"chuenyu/vendors.json",
+		"chuenyu/rooms.json",
+		"chuenyu/world.json"
 	]
 }
