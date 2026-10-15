@@ -10,7 +10,9 @@ extends CastFunction
 ## mana / 200 (after the cost; the misspelt mana_facter adds nothing) less its own
 ## max_mana / 100, at least 0, plus 2; else it leaps free and the caster is busy 1.
 ## At oneself: 80 mana and 30 sen, random(spells) < 30 fails, else the caster turns into
-## one of five lights and is gone to Snow's temple (me->move("/d/snow/temple")).
+## one of five lights and is gone to Snow's temple (me->move("/d/snow/temple")). Deviation
+## (owner, 鬼门关 A): a ghost fails at oneself, the cost spent (dun.c asks nothing of is_ghost(),
+## and took a ghost to the living world, where it stayed a ghost).
 const MANA_COST: int = 200
 const SEN_COST: int = 80
 const FAIL_BELOW: int = 40
@@ -91,7 +93,7 @@ func _vanish(context: SpecialContext) -> bool:
 		return context.refuse("你的精神没有办法有效集中！")
 	mana.current -= SELF_MANA_COST
 	me.state.spirit.apply_damage(SELF_SEN_COST)
-	if context.random.call(me.query_skill(&"spells")) < SELF_FAIL_BELOW:
+	if me.state.ghost or context.random.call(me.query_skill(&"spells")) < SELF_FAIL_BELOW:
 		context.write("你失败了。")
 		return true
 	var vanishing: String = VANISHINGS[clampi(context.random.call(VANISHINGS.size()), 0, VANISHINGS.size() - 1)]

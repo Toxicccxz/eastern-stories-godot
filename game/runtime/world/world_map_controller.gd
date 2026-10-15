@@ -400,10 +400,14 @@ func accept_zone_presence(zone: WorldPhysicalZoneArea2D) -> bool:
 		return false
 	var refusal: ZoneExitRuleDefinition = _exit_refusal(current.zone_id, zone.zone_id)
 	if refusal != null:
+		if refusal.counts_tries:
+			_refuse_try(refusal)
+			return false
 		_refuse_exit(refusal, current.zone_id)
 		if refusal.asks:
 			_ask_way_in(refusal, _enter_after_asking.bind(refusal))
 		return false
+	clear_tries(current.zone_id)
 	_tell_passing(current.zone_id, zone.zone_id)
 	if session != null:
 		session.player_leaving_zone(current.zone_id, zone.zone_id)
@@ -492,6 +496,27 @@ func _refuse_passage(rule: ZoneExitRuleDefinition, from_zone_id: StringName, pas
 		player_body.global_position = at
 		player_body.velocity = Vector2.ZERO
 	_tell_refusal(rule)
+
+
+## road2.c valid_leave(): the try counts (set_temp("long_road", i)) and the road does not
+## change: the player is back where it began (`point`), told every time.
+func _refuse_try(rule: ZoneExitRuleDefinition) -> void:
+	_player.temp_marks[rule.temp] = int(_player.temp_marks.get(rule.temp, 0)) + 1
+	if not spawn_matches_zone(rule.point_id, rule.from_zone_id) or not relocate_player(rule.from_zone_id, rule.point_id):
+		push_error("exit rule %s: no point %s in %s" % [rule.rule_id, rule.point_id, rule.from_zone_id])
+		_refuse_exit(rule, rule.from_zone_id)
+		return
+	var lines: Array[String] = []
+	for line: String in rule.lines:
+		lines.append(tr(line))
+	hud().append_log_lines(lines)
+
+
+## road2.c delete_temp("long_road"): whoever leaves the road starts counting anew.
+func clear_tries(from_zone_id: StringName) -> void:
+	for rule: ZoneExitRuleDefinition in GameContent.catalog().exit_rules():
+		if rule.counts_tries and rule.from_zone_id == from_zone_id:
+			_player.temp_marks.erase(rule.temp)
 
 
 ## valid_leave() returned 0: the player stays in the room (back inside its edge) and
@@ -710,6 +735,16 @@ func replace_world_interaction_random_source(value: WorldInteractionRandomSource
 
 func player_runtime() -> WorldPlayerRuntimeState:
 	return _player
+
+
+## char.c visible(): a ghost player (damage.c is_ghost()) sees ghosts.
+func player_sees_ghosts() -> bool:
+	return _player != null and _player.state != null and _player.state.ghost
+
+
+## Whether the player sees `npc` (a ghost only while they are one).
+func player_sees(npc: NpcRuntimeState) -> bool:
+	return npc != null and (not npc.definition().is_ghost() or player_sees_ghosts())
 
 
 func inventory_state() -> InventoryState:

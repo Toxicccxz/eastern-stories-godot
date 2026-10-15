@@ -57,7 +57,7 @@ func select_npc(character_id: StringName) -> bool:
 		return false
 	var npc: NpcRuntimeState = _map.npcs.find_resident_npc(character_id)
 	# name.c id() fails for one the player cannot see (a ghost): present() finds nothing.
-	if npc == null or not npc.exists_in_map or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD or npc.definition().is_ghost():
+	if npc == null or not npc.exists_in_map or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD or not _map.player_sees(npc):
 		return false
 	selected_target = WorldInteractionTarget.character(character_id)
 	_map.hud().set_selected_target(npc)
@@ -541,7 +541,7 @@ func nearby() -> Array[WorldNearbyThing]:
 		# 行贿 is offered from the catch on (he caught them anywhere in the room).
 		var leading: bool = body != null and _map.patrols.can_bribe(npc)
 		var near: bool = (
-			body != null and npc_here(npc) != null and not npc.definition().is_ghost()
+			body != null and npc_here(npc) != null and _map.player_sees(npc)
 			and at.distance_to(body.global_position) <= NEARBY_REACH
 		)
 		if not near and not leading:

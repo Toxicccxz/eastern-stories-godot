@@ -85,10 +85,11 @@ func _init(
 	_facts = PlayerIdentityFacts.legacy_technical() if p_facts == null else p_facts
 
 
-## The production Player death projection; source fixtures use this same path.
+## The production Player death projection; source fixtures use this same path. A ghost
+## who dies leaves no corpse (chard.c make_corpse()).
 func death_context(destination: InventoryTransferDestination, has_killer: bool) -> DeathContext:
 	return DeathContext.new(
-		_character_id, false, false, destination,
+		_character_id, _state.ghost, false, destination,
 		ItemLifecycleOwnerContext.new(_character_id, _state.equipment, _armor),
 		_facts.display_name, _state.gender, _facts.age,
 		_body_facts.body_weight,

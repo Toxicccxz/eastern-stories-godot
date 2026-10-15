@@ -34,7 +34,10 @@ extends RefCounted
 ## set_temp(): the 瓜农 who caught them) stands in the room: ES2 asked only the thief's flag, so
 ## one who had killed the 瓜农 never got out (owner, 玉螺湖村 plan: the way opens once he is
 ## down, dead or gone).
-enum Condition { WEAPON_IN_HAND, COMBAT_EXP_BELOW, NOT_APPRENTICE_OF, NOT_FAMILY, KAR_SLIP, NEVER, ASK, TAKES_BACK, NO_MARK, ALWAYS, HELD }
+## `tries` (d/death/road2.c's long road): each try counts in the set_temp() counter `temp`, and
+## the `value`-th goes through; one refused is put back at `point` in `from_zone` (the road
+## that never changes). Leaving `from_zone` any way clears the counter (delete_temp()).
+enum Condition { WEAPON_IN_HAND, COMBAT_EXP_BELOW, NOT_APPRENTICE_OF, NOT_FAMILY, KAR_SLIP, NEVER, ASK, TAKES_BACK, NO_MARK, ALWAYS, HELD, TRIES }
 
 const CONDITIONS: Dictionary[String, Condition] = {
 	"weapon_in_hand": Condition.WEAPON_IN_HAND,
@@ -48,6 +51,7 @@ const CONDITIONS: Dictionary[String, Condition] = {
 	"no_mark": Condition.NO_MARK,
 	"always": Condition.ALWAYS,
 	"held": Condition.HELD,
+	"tries": Condition.TRIES,
 }
 
 var rule_id: StringName
@@ -87,6 +91,10 @@ var mark: String = ""
 ## kar_slip: the refused leaver also falls unconscious (unconcious()).
 var knocks_out: bool:
 	get: return condition == Condition.KAR_SLIP
+
+## tries: a refused try puts the player back at `point_id` and counts.
+var counts_tries: bool:
+	get: return condition == Condition.TRIES
 
 ## ask: the way is asked about first (the rule stops one who has not chosen to go yet).
 var asks: bool:
@@ -156,12 +164,15 @@ func refuses(leaver: Leaver, present: bool) -> bool:
 			return true
 		Condition.HELD:
 			return int(leaver.temps.get(temp, 0)) != 0 and present
+		Condition.TRIES:
+			# road2.c: i = query_temp() + 1; only i == 5 goes on.
+			return int(leaver.temps.get(temp, 0)) + 1 < value
 	return false
 
 
 ## {id, room, from_zone, to_zone, when, lines: [line], pass_lines?: [line], legacy_source}
 ## and per `when`: weapon_in_hand {present: npc id}, combat_exp_below {value},
-## not_apprentice_of {npc}, not_family {family}, kar_slip {value}, no_mark {mark, present?}, always, held {present, temp}, never (pass_lines only),
+## not_apprentice_of {npc}, not_family {family}, kar_slip {value}, no_mark {mark, present?}, always, held {present, temp}, tries {temp, value, point}, never (pass_lines only),
 ## ask {unless_gender, ask, choice, point; no lines}, takes_back {item, temp | items, taken:
 ## [NpcLine record], without: [line]; no lines}.
 static func from_record(reader: ContentRecordReader) -> ZoneExitRuleDefinition:
@@ -180,6 +191,12 @@ static func from_record(reader: ContentRecordReader) -> ZoneExitRuleDefinition:
 		Condition.HELD:
 			rule.present_npc_id = StringName(reader.required_text("present"))
 			rule.temp = reader.required_text("temp")
+		Condition.TRIES:
+			rule.temp = reader.required_text("temp")
+			rule.value = reader.required_integer("value")
+			rule.point_id = StringName(reader.required_text("point"))
+			if rule.value <= 1:
+				reader.fail("value", "the try that goes through comes after one refused at least")
 		Condition.COMBAT_EXP_BELOW, Condition.KAR_SLIP:
 			rule.value = reader.required_integer("value")
 			if rule.value <= 0:

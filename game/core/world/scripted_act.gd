@@ -24,7 +24,8 @@ extends RefCounted
 ## checklooking(): query("per"), the raw attribute), drawn the same way, `npc_in` the acting NPC standing
 ## in that zone (d/chuenyu/xiaojuan2.c: environment() == the 地牢's 刑房). The first branch that is for
 ## the player acts. `ask` is the owner's question before a choice that can kill (a man walking into
-## the bath, DECISIONS 晚月庄 A), with `choice` its button. The steps run in order:
+## the bath, DECISIONS 晚月庄 A), with `choice` its button. `ghost` true or false: the player is a
+## ghost or not (is_ghost(): d/death/npc/bgargoyle.c death_stage()). The steps run in order:
 ## - a line (NpcLine: say, emote, line, whisper, in its colour; a room's message_vision()
 ##   written as the player reads it, 你 for $N);
 ## - `damage` {gin, kee, sen}: receive_damage() on the player;
@@ -53,8 +54,12 @@ extends RefCounted
 ##   chat), lasting until its room resets;
 ## - `npc_wield` an item: carry_object(item)->wield(), a new one in the NPC's hand;
 ## - `leave`: the NPC leaves for good (oldliu.c destruct(): it is not made anew), or, naming
-##   an NPC definition, the first of them standing by leaves with it (刘老农领着娟儿匆匆离去).
-enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM, COMES, NPC_FLAG, HURT, MARK, NPC_MOOD, NPC_WIELD, LEAVE }
+##   an NPC definition, the first of them standing by leaves with it (刘老农领着娟儿匆匆离去);
+## - `reincarnate`: damage.c reincarnate() and ob->move(REVIVE_ROOM) (d/death/npc/wgargoyle.c
+##   death_stage(), inn1.c do_stuff()): the ghost lives again at the Snow temple. It is the
+##   act's last step; the session makes the move once the act's map has had its beat
+##   (WorldSessionController.request_reincarnation()).
+enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM, COMES, NPC_FLAG, HURT, MARK, NPC_MOOD, NPC_WIELD, LEAVE, REINCARNATE }
 
 ## The resources receive_damage() and receive_heal() name.
 const RESOURCES: Array[String] = ["gin", "kee", "sen"]
@@ -88,6 +93,8 @@ var kar_draw_at_least: int = 0
 var per_below: int = 0
 ## npc_in: the zone the acting NPC stands in.
 var npc_in: StringName = &""
+## is_ghost(): -1 either, 0 a living player only, 1 a ghost only.
+var ghost_state: int = -1
 var ask: String = ""
 var choice: String = ""
 var steps: Array[Step] = []
@@ -117,6 +124,8 @@ class Facts:
 	var kar: int = 0
 	## query("per") for `per_below`, drawn as the kar rolls are.
 	var per: int = 0
+	## is_ghost() of the player (`ghost`).
+	var ghost: bool = false
 	## Where the acting NPC stands (`npc_in`); "" without one.
 	var npc_zone: StringName = &""
 	var draw: Callable = Callable()
@@ -214,6 +223,7 @@ func applies_to(player_gender: StringName, class_id: StringName, facts: Facts = 
 		and (exists.is_empty() or (known.item_exists.is_valid() and bool(known.item_exists.call(exists))))
 		and (present_in_npc.is_empty() or (known.standing_in.is_valid() and bool(known.standing_in.call(present_in_npc, present_in_zone))))
 		and (npc_in.is_empty() or known.npc_zone == npc_in)
+		and (ghost_state < 0 or known.ghost == (ghost_state == 1))
 		# Last: the rolls draw, and only for a branch otherwise for the player.
 		and (kar_above.is_empty() or known.kar_rolls(kar_above))
 		and (kar_draw_at_least <= 0 or known.kar_draw(kar_draw_plus, kar_draw_at_least))
@@ -237,6 +247,11 @@ func draws() -> bool:
 ## Whether a step takes the player elsewhere (the caller closes what they had open).
 func moves_player() -> bool:
 	return steps.any(func(step: Step) -> bool: return step.kind == Kind.MOVE)
+
+
+## Whether a step brings the ghost back to life (`reincarnate`).
+func reincarnates() -> bool:
+	return steps.any(func(step: Step) -> bool: return step.kind == Kind.REINCARNATE)
 
 
 ## What the steps' receive_damage() takes from each resource it would take below zero
@@ -312,6 +327,8 @@ static func from_record(reader: ContentRecordReader) -> ScriptedAct:
 	if reader.has("per_below") and act.per_below <= 0:
 		reader.fail("per_below", "must be positive")
 	act.npc_in = StringName(reader.text("npc_in"))
+	if reader.has("ghost"):
+		act.ghost_state = 1 if reader.boolean("ghost", false) else 0
 	act.ask = reader.text("ask")
 	act.choice = reader.text("choice")
 	if act.ask.is_empty() != act.choice.is_empty():
@@ -343,7 +360,7 @@ static func _step(reader: ContentRecordReader) -> Step:
 	var kinds: Array[String] = []
 	if ["say", "emote", "line", "whisper"].any(func(key: String) -> bool: return reader.has(key)):
 		kinds.append("line")
-	for key: String in ["damage", "hurt", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "mark", "water", "set_room", "clear_room", "comes", "npc_flag", "npc_mood", "npc_wield", "leave"]:
+	for key: String in ["damage", "hurt", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "mark", "water", "set_room", "clear_room", "comes", "npc_flag", "npc_mood", "npc_wield", "leave", "reincarnate"]:
 		if reader.has(key):
 			kinds.append(key)
 	if kinds.size() != 1:
@@ -469,6 +486,10 @@ static func _step(reader: ContentRecordReader) -> Step:
 				step.npc_id = StringName(reader.required_text("leave"))
 			elif not reader.boolean("leave", false):
 				reader.fail("leave", "is true or names the NPC that leaves with it")
+		"reincarnate":
+			step.kind = Kind.REINCARNATE
+			if not reader.boolean("reincarnate", false):
+				reader.fail("reincarnate", "is true when present")
 		"water":
 			step.kind = Kind.WATER
 			step.value = reader.required_integer("water")

@@ -79,6 +79,10 @@ var seen_npcs: Dictionary[String, int] = {}
 ## LPC set("<name>", n) a room keeps on the character outside marks/ (d/choyin/entrance.c
 ## taolin_steps: how far the 桃林's way out is). Saved; empty for most characters.
 var counters: Dictionary[String, int] = {}
+## feature/damage.c `ghost`: die() makes a player a ghost, reincarnate() a living one again
+## (is_ghost()). Saved (save_object() keeps it; logind.c starts a ghost at DEATH_ROOM).
+## NPC ghosts are their definition's (NpcHooks ghost).
+var ghost: bool = false
 
 
 func _init(

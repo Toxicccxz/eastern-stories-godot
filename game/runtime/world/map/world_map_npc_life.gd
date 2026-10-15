@@ -497,8 +497,8 @@ func npc_walked_in(npc: NpcRuntimeState) -> void:
 
 ## The player meets `npc` in their room (游识神通's list).
 func _meet(npc: NpcRuntimeState) -> void:
-	# A ghost is never seen (char.c visible()), so never met.
-	if _player != null and _player.exists_in_world and not npc.definition().is_ghost():
+	# A ghost is seen only by a ghost (char.c visible()); one not seen is not met.
+	if _player != null and _player.exists_in_world and _map.player_sees(npc):
 		PlayerEssenceMagic.meet(_player.state, npc, not _map.npcs.summoner_of(npc.character_id).is_empty())
 
 
@@ -717,6 +717,10 @@ func random_move(npc: NpcRuntimeState) -> bool:
 	var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(npc.spawn_id)
 	var from_zone_id: StringName = npc.world_location().zone_id
 	if spawn == null or ambience == null:
+		return false
+	# NpcHooks calls_hold (owner, 鬼门关 Q2): it stays while its calls for the player run.
+	var hooks: NpcHooks = npc.definition().hooks()
+	if hooks != null and hooks.calls_hold and ambience.has_own_calls(npc.character_id):
 		return false
 	var move: NpcRandomMove.Move = NpcRandomMove.choose(GameContent.catalog(), from_zone_id, spawn.zone_id, ambience.random(), _door_closed_between)
 	if move == null:

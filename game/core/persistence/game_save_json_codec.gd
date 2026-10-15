@@ -142,6 +142,9 @@ func _encode_character(value: Values.CharacterStateSnapshot) -> Dictionary[Strin
 		for key: String in value.counters:
 			counters[key] = _i(value.counters[key])
 		result["counters"] = counters
+	# damage.c ghost: written only for a ghost.
+	if value.ghost:
+		result["ghost"] = true
 	# 朱鸿雪's task, quest_factor and tfinished: written only when one is set.
 	if not value.quest.is_default():
 		result["quest"] = _encode_quest(value.quest)
@@ -340,6 +343,7 @@ func _decode_root(value: Variant) -> GameSaveSnapshot:
 		"SOURCE_ENTRY_CITY_B_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_CITY_B_V1
 		"SOURCE_ENTRY_CHUENYU_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_CHUENYU_V1
 		"SOURCE_ENTRY_CHUENYU_B_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_CHUENYU_B_V1
+		"SOURCE_ENTRY_DEATH_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_DEATH_V1
 		_: _fail(GameSaveResult.Outcome.UNKNOWN_WORLD_REVISION, "world_content_revision")
 	if _error == null and _current_public_only:
 		var support: GameSaveResult = WorldContentRevision.public_support(revision)
@@ -386,7 +390,7 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 		fields.append("marks")
 	if value is Dictionary and value.has("timed_applies"):
 		fields.append("timed_applies")
-	for optional: String in ["quest", "vendetta", "applies", "seen_npcs", "counters"]:
+	for optional: String in ["quest", "vendetta", "applies", "seen_npcs", "counters", "ghost"]:
 		if value is Dictionary and value.has(optional):
 			fields.append(optional)
 	var object: Dictionary = _obj(value, path, fields)
@@ -460,11 +464,17 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 	var counters: Dictionary[String, int] = {}
 	if object.has("counters"):
 		counters = _decode_values(object["counters"], path + ".counters")
+	var ghost: bool = false
+	if object.has("ghost"):
+		if typeof(object["ghost"]) != TYPE_BOOL or not object["ghost"]:
+			_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".ghost", "expected true")
+		else:
+			ghost = true
 	var quest := CharacterQuestState.new()
 	if object.has("quest"):
 		quest = _decode_quest(object["quest"], path + ".quest")
 	if _error: return null
-	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen).with_counters(counters)
+	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen).with_counters(counters).with_ghost(ghost)
 
 
 ## A non-empty {name: integer} object (create()'s drawn apply/<key>, a room's counters).

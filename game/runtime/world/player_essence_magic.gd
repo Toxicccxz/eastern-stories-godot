@@ -96,7 +96,8 @@ func drift_names() -> Array[String]:
 	return out
 
 
-## find_living(name): the NPC called `name` (a kind the player has met) that is in the
+## find_living(name): the NPC called `name` (a kind the player has met, and sees: me->visible(ob),
+## so a ghost only while they are one) that is in the
 ## world now and awake (MudOS find_living() skips one whose commands unconcious() disabled):
 ## on the player's map first, then map by map. Null when there is none (dead, lying
 ## unconscious, or not come back yet).
@@ -115,6 +116,7 @@ func drift_target(name: String) -> NpcRuntimeState:
 				npc.exists_in_map and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
 				and npc.definition().display_name == name and player.state.seen_npcs.has(String(npc.definition_id))
 				and npc.world_location() != null and npc.world_location().map_id == map.map_id()
+				and map.player_sees(npc)
 			):
 				return npc
 	return null

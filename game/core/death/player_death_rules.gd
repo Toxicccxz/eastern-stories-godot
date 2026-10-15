@@ -8,7 +8,7 @@ extends RefCounted
 
 ## die(): conditions are always cleared; the penalty applies only when someone
 ## dealt the last damage (killer_reward is called for last_damage_from).
-## Resources end at 1/1 while the player is a ghost.
+## Resources end at 1/1 and the player is a ghost (ghost = 1).
 static func die(state: CharacterState, has_killer: bool) -> PlayerDeathResult:
 	var result: PlayerDeathResult = PlayerDeathResult.new()
 	if state == null:
@@ -20,13 +20,16 @@ static func die(state: CharacterState, has_killer: bool) -> PlayerDeathResult:
 	for resource: CharacterResourceState in [state.essence, state.vitality, state.spirit]:
 		resource.effective = 1
 		resource.current = 1
+	state.ghost = true
 	return result
 
 
-## reincarnate(): effective resources return to maximum; current stays as is.
+## reincarnate(): no ghost any more; effective resources return to maximum, current
+## stays as is.
 static func reincarnate(state: CharacterState) -> void:
 	if state == null:
 		return
+	state.ghost = false
 	for resource: CharacterResourceState in [state.essence, state.vitality, state.spirit]:
 		resource.effective = resource.maximum
 

@@ -88,12 +88,11 @@ func _life_flow_timeline() -> void:
 	flow.begin_unconscious(40)
 	check(flow.advance(39.5) == PlayerLifeFlow.Event.NONE and flow.advance(0.5) == PlayerLifeFlow.Event.REVIVE_DUE, "wake-up after the drawn delay")
 	flow.begin_death(PlayerDeathResult.new(), "老松岭 · 南坡林道")
-	check(flow.advance(4.9) == PlayerLifeFlow.Event.NONE and flow.messages_shown().is_empty(), "the gargoyle waits 5 s")
-	check(flow.advance(0.1) == PlayerLifeFlow.Event.MESSAGE_SHOWN and flow.messages_shown().size() == 1, "first line at 5 s")
-	check(flow.skip_to_next_message() == PlayerLifeFlow.Event.MESSAGE_SHOWN and flow.messages_shown().size() == 2, "the player may read ahead")
-	flow.advance(5.0)
-	flow.advance(5.0)
-	check(flow.advance(5.0) == PlayerLifeFlow.Event.REINCARNATE_DUE and flow.messages_shown().size() == 5, "last line and reincarnation together")
+	check(flow.advance(600.0) == PlayerLifeFlow.Event.NONE, "the death card waits for the player")
+	flow.continue_from_death()
+	check(flow.advance(0.0) == PlayerLifeFlow.Event.ENTER_REALM_DUE and flow.advance(1.0) == PlayerLifeFlow.Event.ENTER_REALM_DUE, "继续: the move to 阴间 is due until it is made")
+	flow.finish()
+	check(not flow.is_active(), "made: the flow is over")
 
 
 ## Returns [session, outdoor map] with the player in an encounter against the
@@ -157,13 +156,14 @@ func _death_brings_player_back_at_temple(tree: SceneTree) -> void:
 	var corpse: CorpseState = map.corpse_states()[0]
 	var corpse_owner: ContainmentEndpoint = ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse.corpse_item_instance_id)
 	check(session.inventory_state().direct_children(corpse_owner) == carried, "everything carried is in the corpse")
-	session.skip_death_message()
-	check(flow.messages_shown().size() == 1, "reading ahead shows the next line")
-	for second: int in range(19):
+	session.continue_after_death()
+	check(not flow.is_active() and session.active_map_id() == DeathWorldDefinitions.MAP_ID and player.state.ghost and player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE, "继续: a ghost at 鬼门关")
+	session.world_map_of(DeathWorldDefinitions.MAP_ID).npc_life._advance_ambience(0.0)
+	for second: int in range(24):
 		session._process(1.0)
-	check(flow.is_active() and player.life_status == CharacterRuntimeLifeStatus.Value.DEAD, "still with the gargoyle a second before the last line")
+	check(player.state.ghost and session.active_map_id() == DeathWorldDefinitions.MAP_ID, "still with the white gargoyle a second before his last line")
 	session._process(1.0)
-	check(not flow.is_active() and player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and player.exists_in_world, "alive again with the last line")
+	check(not player.state.ghost and player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and player.exists_in_world, "alive again with his last line")
 	check(session.active_map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID and player.world_location().zone_id == SnowWorldDefinitions.TEMPLE_ZONE_ID, "back at the Snow temple")
 	check([player.state.vitality.current, player.state.vitality.effective] == [1, player.state.vitality.maximum], "reincarnated with 1 kee and full effective kee")
 	check(session.active_map().runtime_player_body().player_controlled and session.active_map().runtime_player_body().visible, "the player can move again")
@@ -231,7 +231,9 @@ func _restored_dead_player_continues(tree: SceneTree) -> void:
 	restored.set_process(false)
 	var flow: PlayerLifeFlow = restored.player_life_flow()
 	check(flow.phase == PlayerLifeFlow.Phase.DEATH_SEQUENCE and not flow.death_result.penalized, "the way back resumes without a second penalty")
-	for second: int in range(25):
+	restored.continue_after_death()
+	restored.world_map_of(DeathWorldDefinitions.MAP_ID).npc_life._advance_ambience(0.0)
+	for second: int in range(26):
 		restored._process(1.0)
 	check(restored.player_runtime().life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and restored.player_runtime().world_location().zone_id == SnowWorldDefinitions.TEMPLE_ZONE_ID, "restored ghost comes back at the temple")
 	check(restored.player_runtime().state.progression.combat_experience == experience, "experience is not taken twice")

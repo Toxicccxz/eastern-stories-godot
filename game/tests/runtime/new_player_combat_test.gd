@@ -216,6 +216,8 @@ func _armed_spar_death_reincarnation_and_continue(tree: SceneTree) -> void:
 	var experience: int = player.state.progression.combat_experience
 	var at_death: int = experience + flow.death_result.combat_experience_lost
 	check(flow.phase == PlayerLifeFlow.Phase.DEATH_SEQUENCE and flow.death_result.penalized and at_death in [1000, 1001] and flow.death_result.combat_experience_lost == at_death / 10, "killer_reward (exp / 10): last_damage_from is the killer even in a spar")
+	session.continue_after_death()
+	session.world_map_of(DeathWorldDefinitions.MAP_ID).npc_life._advance_ambience(0.0)
 	for second: int in range(25):
 		session._process(1.0)
 	check(player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and player.world_location().zone_id == SnowWorldDefinitions.TEMPLE_ZONE_ID, "back at the temple")

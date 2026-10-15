@@ -32,6 +32,7 @@
 		"village/items.json",
 		"city/items.json",
 		"chuenyu/items.json",
+		"death/items.json",
 		"cloud/items.json",
 		"cloud/npcs.json",
 		"cloud/spawns.json",
@@ -88,6 +89,10 @@
 		"chuenyu/item_spawns.json",
 		"chuenyu/vendors.json",
 		"chuenyu/rooms.json",
-		"chuenyu/world.json"
+		"chuenyu/world.json",
+		"death/npcs.json",
+		"death/spawns.json",
+		"death/rooms.json",
+		"death/world.json"
 	]
 }

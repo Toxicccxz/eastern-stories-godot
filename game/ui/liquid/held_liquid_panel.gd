@@ -121,6 +121,8 @@ func _use(fill: bool) -> LiquidUseResult:
 			_feedback.text = tr("你拿起{container}咕噜噜地喝了几口{liquid}。").format(words)
 			if last_result.remaining_after == 0:
 				_feedback.text = "\n".join([_feedback.text, tr("你已经将{container}里的{liquid}喝得一滴也不剩了。").format(words)])
+		LiquidUseResult.Outcome.GHOST:
+			_feedback.text = "你已经是鬼了，不能喝东西！"
 		LiquidUseResult.Outcome.TOO_FULL:
 			_feedback.text = "你已经喝太多了，再也灌不下一滴水了。"
 		LiquidUseResult.Outcome.EMPTY:

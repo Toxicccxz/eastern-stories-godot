@@ -62,9 +62,10 @@
 		"city.cellar",
 		"chuenyu.main",
 		"chuenyu.upstairs",
-		"chuenyu.prison"
+		"chuenyu.prison",
+		"death.realm"
 	],
-	"rooms": 528,
+	"rooms": 537,
 	"snow_outdoor_portals": [
 		"snow.square.west",
 		"snow.eroad3.south",
@@ -356,11 +357,14 @@
 		"chuenyu.prison.tortureroom.highrats",
 		"chuenyu.prison.tortureroom.guard2s",
 		"chuenyu.prison.tortureroom2.highrats",
-		"chuenyu.prison.tortureroom2.guard2s"
+		"chuenyu.prison.tortureroom2.guard2s",
+		"death.realm.bridge.hell_guards",
+		"death.realm.gate.wgargoyle",
+		"death.realm.gateway.bgargoyle"
 	],
-	"world_npcs": 453,
-	"resident_maps": 63,
-	"new_game_items": 785,
+	"world_npcs": 459,
+	"resident_maps": 64,
+	"new_game_items": 793,
 	"snow_outdoor_passages": 9,
-	"npc_draws_after_oldpine": 2506
+	"npc_draws_after_oldpine": 2550
 }

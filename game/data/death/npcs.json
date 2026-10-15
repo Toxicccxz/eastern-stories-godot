@@ -1,0 +1,87 @@
+{
+	"npcs": [
+		{
+			"id": "death.npc.hell_guard",
+			"legacy_source": "d/death/npc/hell_guard.c",
+			"aliases": ["hell guardian", "guardian"],
+			"long": "一个负责看守鬼门关的阴卒，他们是鬼卒中的精锐，负责阻挡想要\n侵入酆都城的妖魔鬼怪。\n",
+			"attributes": { "str": 50, "cor": 50, "cps": 50 },
+			"resources": {
+				"max_gin": 1500,
+				"max_kee": 1500,
+				"max_sen": 1500,
+				"max_atman": 900,
+				"atman": 900,
+				"max_mana": 900,
+				"mana": 900
+			},
+			"combat_exp": 400000,
+			"vendetta_mark": "hell",
+			"skills": { "fork": 100, "parry": 90, "dodge": 90 },
+			"carry": [
+				{ "item": "es2:d/death/obj/hell_armor", "source": "d/death/npc/obj/hell_armor.c", "equip": "wear" },
+				{ "item": "es2:d/death/obj/fork", "source": "d/death/npc/obj/fork.c", "equip": "wield" }
+			],
+			"apply": { "attack": 75, "defense": 75, "armor": 50, "damage": 50 },
+			"name": "子阴鬼牙将",
+			"name_parts": [["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"], ["阴鬼牙将"]],
+			"ghost": true,
+			"attack_ask": "阴鬼牙将是守关鬼卒里的精锐，你现在只是一缕鬼魂，打输了会再死一次，再受一次死亡的惩罚。确定要攻击他吗？",
+			"attack_choice": "确定攻击"
+		},
+		{
+			"id": "death.npc.wgargoyle",
+			"legacy_source": "d/death/npc/wgargoyle.c",
+			"name": "白无常",
+			"aliases": ["white gargoyle", "gargoyle"],
+			"age": 217,
+			"long": "白无常伸著长长的舌头瞪著你，死白的脸上看不出任何喜怒哀乐。\n",
+			"resources": { "max_gin": 900, "max_kee": 900, "max_sen": 200 },
+			"combat_exp": 20000,
+			"attitude": "peaceful",
+			"skills": { "dodge": 40, "unarmed": 40 },
+			"chat_chance": 15,
+			"chat_msg": [
+				{ "action": "random_move" },
+				"白无常发出一阵像呻吟的声音，当他发现你正注视著他的时候，瞪了你一眼。\n",
+				"白无常把长长的舌头伸出来，缓缓地舔了舔自己又白又长的手指。\n"
+			],
+			"calls": [
+				{ "after": 5, "steps": [{ "line": "白无常说道：喂！新来的，你叫什么名字？", "color": "HIW" }] },
+				{ "after": 10, "steps": [{ "line": "白无常用奇异的眼光盯著你，好像要看穿你的一切似的。", "color": "HIW" }] },
+				{ "after": 15, "steps": [{ "line": "白无常「哼」的一声，从袖中掏出一本像帐册的东西翻看著。", "color": "HIW" }] },
+				{ "after": 20, "steps": [{ "line": "白无常阁上册子，说道：咦？阳寿未尽？怎么可能？", "color": "HIW" }] },
+				{ "after": 25, "steps": [{ "line": "白无常搔了搔头，叹道：罢了罢了，你走吧。", "color": "HIW" }, { "line": "一股阴冷的浓雾突然出现，很快地包围了你。", "color": "HIW" }, { "reincarnate": true }] }
+			],
+			"calls_hold": true
+		},
+		{
+			"id": "death.npc.bgargoyle",
+			"legacy_source": "d/death/npc/bgargoyle.c",
+			"name": "黑无常",
+			"aliases": ["black gargoyle", "gargoyle"],
+			"age": 217,
+			"long": "黑无常伸著长长的舌头瞪著你，黝黑的脸上看不出任何喜怒哀乐。\n",
+			"resources": { "max_gin": 900, "max_kee": 900, "max_sen": 200 },
+			"combat_exp": 20000,
+			"attitude": "peaceful",
+			"skills": { "dodge": 40, "unarmed": 40 },
+			"apply": { "armor": 60, "damage": 20 },
+			"chat_chance": 15,
+			"chat_msg": [
+				{ "action": "random_move" },
+				"黑无常发出一阵像呻吟的声音，当他发现你正注视著他的时候，瞪了你一眼。\n",
+				"黑无常把长长的舌头伸出来，缓缓地舔了舔自己又黑又长的手指。\n"
+			],
+			"calls": [
+				{ "after": 5, "ghost": false, "steps": [{ "say": "喂！阳人来阴间做什么？" }, { "npc_flag": "hunts_player" }, { "kill": true }] },
+				{ "after": 5, "ghost": true, "steps": [{ "line": "黑无常说道：喂！新来的，你叫什么名字？", "color": "HIB" }] },
+				{ "after": 10, "ghost": true, "steps": [{ "line": "黑无常用奇异的眼光盯著你，好像要看穿你的一切似的。", "color": "HIB" }] },
+				{ "after": 15, "ghost": true, "steps": [{ "line": "黑无常「哼」的一声，从袖中掏出一本像帐册的东西翻看著。", "color": "HIB" }] },
+				{ "after": 20, "ghost": true, "steps": [{ "line": "黑无常阁上册子，说道：咦？阳寿未尽？怎么可能？", "color": "HIB" }] },
+				{ "after": 25, "ghost": true, "steps": [{ "line": "黑无常搔了搔头，叹道：罢了罢了，你走吧。", "color": "HIB" }, { "line": "一股阴冷的浓雾突然出现，很快地包围了你。", "color": "HIB" }, { "reincarnate": true }] }
+			],
+			"calls_hold": true
+		}
+	]
+}

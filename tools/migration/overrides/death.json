@@ -1,0 +1,93 @@
+{
+	"source_fixes": {
+		"d/death/gate.c": [
+			{ "find": "\u001b[1;37m鬼门关\u001b[2;37;0m", "replace": "鬼门关", "why": "the short carries raw ANSI escapes (bold white) in the string itself, which only a terminal reads; the name stays, the colour is presentation" }
+		],
+		"d/death/road3.c": [
+			{ "find": "\n..... 还没想到 ....\n\n", "replace": "浓雾在这里聚成一堵墙，路到这里就断了。\n", "why": "owner (鬼门关 plan Q3 b): the authored text is the unfinished placeholder 「..... 还没想到 ....」 (not thought of yet), which reads as a bug; the room stays, the end of the long road, with a native line" }
+		]
+	},
+	"set": {
+		"death.npc.hell_guard": {
+			"name": "子阴鬼牙将",
+			"name_parts": [
+				["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"],
+				["阴鬼牙将"]
+			],
+			"ghost": true,
+			"attack_ask": "阴鬼牙将是守关鬼卒里的精锐，你现在只是一缕鬼魂，打输了会再死一次，再受一次死亡的惩罚。确定要攻击他吗？",
+			"attack_choice": "确定攻击"
+		},
+		"death.npc.wgargoyle": {
+			"chat_chance": 15,
+			"chat_msg": [
+				{ "action": "random_move" },
+				"白无常发出一阵像呻吟的声音，当他发现你正注视著他的时候，瞪了你一眼。\n",
+				"白无常把长长的舌头伸出来，缓缓地舔了舔自己又白又长的手指。\n"
+			],
+			"calls": [
+				{ "after": 5, "steps": [{ "line": "白无常说道：喂！新来的，你叫什么名字？", "color": "HIW" }] },
+				{ "after": 10, "steps": [{ "line": "白无常用奇异的眼光盯著你，好像要看穿你的一切似的。", "color": "HIW" }] },
+				{ "after": 15, "steps": [{ "line": "白无常「哼」的一声，从袖中掏出一本像帐册的东西翻看著。", "color": "HIW" }] },
+				{ "after": 20, "steps": [{ "line": "白无常阁上册子，说道：咦？阳寿未尽？怎么可能？", "color": "HIW" }] },
+				{ "after": 25, "steps": [
+					{ "line": "白无常搔了搔头，叹道：罢了罢了，你走吧。", "color": "HIW" },
+					{ "line": "一股阴冷的浓雾突然出现，很快地包围了你。", "color": "HIW" },
+					{ "reincarnate": true }
+				] }
+			],
+			"calls_hold": true
+		},
+		"death.npc.bgargoyle": {
+			"calls": [
+				{ "after": 5, "ghost": false, "steps": [
+					{ "say": "喂！阳人来阴间做什么？" },
+					{ "npc_flag": "hunts_player" },
+					{ "kill": true }
+				] },
+				{ "after": 5, "ghost": true, "steps": [{ "line": "黑无常说道：喂！新来的，你叫什么名字？", "color": "HIB" }] },
+				{ "after": 10, "ghost": true, "steps": [{ "line": "黑无常用奇异的眼光盯著你，好像要看穿你的一切似的。", "color": "HIB" }] },
+				{ "after": 15, "ghost": true, "steps": [{ "line": "黑无常「哼」的一声，从袖中掏出一本像帐册的东西翻看著。", "color": "HIB" }] },
+				{ "after": 20, "ghost": true, "steps": [{ "line": "黑无常阁上册子，说道：咦？阳寿未尽？怎么可能？", "color": "HIB" }] },
+				{ "after": 25, "ghost": true, "steps": [
+					{ "line": "黑无常搔了搔头，叹道：罢了罢了，你走吧。", "color": "HIB" },
+					{ "line": "一股阴冷的浓雾突然出现，很快地包围了你。", "color": "HIB" },
+					{ "reincarnate": true }
+				] }
+			],
+			"calls_hold": true
+		}
+	},
+	"review": {
+		"d/death/npc/hell_guard.c": {
+			"set_name": "name_parts in set: create()'s order[random(12)] + \"阴鬼牙将\", drawn when it is made",
+			"statement in create()": "string *order: the twelve branches of name_parts",
+			"function is_ghost": "ghost in set (NpcHooks ghost): seen only by a ghost (the dead player), no corpse"
+		},
+		"d/death/npc/wgargoyle.c": {
+			"set chat_chance": "in set",
+			"set chat_msg": "in set: the closure (: this_object(), \"random_move\" :) is random_move()",
+			"function init": "calls in set: death_stage's call_out(5) chain for the player who comes in, started anew by each arrival (owner D6: one round at a time; ES2 ran a second chain beside the first); not for a wizard (none here)",
+			"function death_stage": "calls[0..4]: one line every 5 seconds while the player is still there (present(ob)), the last with reincarnate() and the move to REVIVE_ROOM (step reincarnate); owner Q2 (a): calls_hold, he does not wander off while they are pending"
+		},
+		"d/death/npc/bgargoyle.c": {
+			"function init": "calls in set, as wgargoyle.c's",
+			"function death_stage": "calls in set, as wgargoyle.c's, the lines in HIB, for a ghost (act condition ghost); one who is no ghost (a 游识 to him) hears 喂！阳人来阴间做什么？ five seconds on and is attacked (kill_ob(): npc_flag hunts_player and kill), and the chain ends"
+		},
+		"d/death/gateway.c": {
+			"function valid_leave": "world.json exit_rules death.gateway.no_return (always: south to the gate refused; NPCs walk it, as !userp(me) did)"
+		},
+		"d/death/road2.c": {
+			"function valid_leave": "world.json exit_rules death.road2.long_road (tries: long_road counts each try north, the fifth goes through; the counter goes whenever the player leaves the road, south included); a refused try puts the player back at the road's south end"
+		},
+		"d/death/inn1.c": {
+			"set item_desc": "a look-only landmark in world.json (death.inn1.landmark.shadows), word for word",
+			"function init": "ask <own id> about 回家: the act service death.inn1.ask_home (人影 · 打听「回家」); the listed topic stands in for typing it (DECISIONS: 打听 lists ES2's topics)",
+			"function redirect_ask": "service death.inn1.ask_home",
+			"function do_stuff": "service death.inn1.ask_home: the two write() lines and reincarnate() with the move to /d/snow/temple (step reincarnate); the tell_room() lines and the vision line are for other players"
+		},
+		"d/death/inn2.c": {
+			"set item_desc": "a look-only landmark in world.json (death.inn2.landmark.wall), word for word"
+		}
+	}
+}

@@ -38,6 +38,7 @@ func facts(room_zone_id: StringName = &"") -> ScriptedAct.Facts:
 	known.item_exists = _map.floor_items.item_exists
 	known.standing_in = func(definition_id: StringName, zone_id: StringName) -> bool: return _map.npcs.npc_present_in_zone(definition_id, zone_id, true)
 	known.kar = _player.state.attributes.karma
+	known.ghost = _player.state.ghost
 	known.per = _player.state.attributes.personality
 	for npc: NpcRuntimeState in _map.npcs.residents:
 		var id: StringName = NpcDefinition.unnamed_id(npc.definition().definition_id)
@@ -173,6 +174,11 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 					_map.npcs.leave_for_good(leaving)
 			ScriptedAct.Kind.WATER:
 				state.recovery.water += step.value
+			ScriptedAct.Kind.REINCARNATE:
+				# reincarnate() and the move to REVIVE_ROOM: the lines first, then the session's move.
+				_show(said, hears)
+				if _map.session != null:
+					_map.session.request_reincarnation()
 			ScriptedAct.Kind.SET_ROOM:
 				if _map.session != null:
 					_map.session.room_states().set_flag(room, step.flag)
