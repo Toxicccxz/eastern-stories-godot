@@ -67,7 +67,7 @@ d/jail/cityguard.c (a copy of the 守城官兵 no room places), daemon/class/beg
 
 | Map | What B adds | Ways |
 |---|---|---|
-| choyin.town | 孤魂野鬼 at the 北门 and the 东城门 (unseen, wandering) | the 石狮's 举 down to the 神秘洞穴; the stump's hole (爬下去) to the hollow |
+| choyin.town | 孤魂野鬼 at the 北门 and the 东城门 (unseen but through 阴阳眼, wandering) | the 石狮's 举 down to the 神秘洞穴; the stump's hole (爬下去) to the hollow |
 | choyin.lion_cave | 护草神兽 (its reach is the cave), the 忘忧草 in its corpse | 闻忘忧草 to 振远镖局 (u/cloud/biaoju); 放弃: the Inn |
 | choyin.tree_hollow | 朦胧鬼影 ×3 (unseen), the 桃木箱 in tomb3 | up the 洞壁 (A) |
 | choyin.east | the 草堂's books (拿书), put back on leaving; pray and dancing refused | — |
@@ -90,7 +90,7 @@ People elsewhere: 武官 (the chest, the 白杨经), 官家小姐 (the 荷包), 
 | grass.c / letter.c set("master_id") | item `master`: the catalog's master form `<id>#master` is the player's (NpcObjectRule `item_master`, `gives_master`) |
 | b_header.c accept_object() | first rule: a 振远镖局 member's own 忘忧草: his four lines and the letter (the giver's); someone else's: 这不是你得到的吧 (handed back, modern fixes) |
 | tree_tomb.c (no way down: plan Q2) | landmark hole, policy portal `choyin.tree_tomb.down` (爬下去, a native line) |
-| ghost.c, shadow.c is_ghost(); char.c visible(); combatd.c fight(); chard.c make_corpse() | NpcHooks `ghost`: body hidden and passed through, not picked (WorldCharacterBody2D, select_npc()) nor chosen as the battle target (CombatEncounterScheduler.can_target()); CombatSliceContentProfile.sees() → fight()'s perception roll; BattleNarrator's 你看不见对手，无从下手。 (owner); DeathContext ghost branch: no corpse, its things fall (CombatSliceLifecycleAdapter skips the corpse move) |
+| ghost.c, shadow.c is_ghost(); char.c visible(); combatd.c fight(); chard.c make_corpse() | NpcHooks `ghost`: body hidden and passed through, not picked (WorldCharacterBody2D, select_npc()) nor chosen as the battle target (CombatEncounterScheduler.can_target()); CombatSliceCharacterBinding.sees() → fight()'s perception roll (阴阳眼 sees them: 鬼门关 B); BattleNarrator's 你看不见对手，无从下手。 (owner); DeathContext ghost branch: no corpse, its things fall (CombatSliceLifecycleAdapter skips the corpse move) |
 | shadow.c set_temp("apply/blade", 80) | NPC `apply` takes `blade` (query_skill()) |
 | sergeant.c accept_object() | accept_object rule: `peach chest` unless chest_found; three says, give.c's line, the 白杨经 (magic to 20); `forgets` rumors, 箱子, 桃木箱子 |
 | girl.c ask_youngman() | inquiry rule 游晋: say, the 荷包 (give.c's line), `forgets` 游晋 (默认: once) |
@@ -170,7 +170,6 @@ People elsewhere: 武官 (the chest, the 白杨经), 官家小姐 (the 荷包), 
 ## Not done (and where it goes)
 
 - #12: 陈天星 takes 陈剑秋's letter (reminder test in choyin_secrets_test).
-- 鬼门关 B: the 孤魂野鬼's 布条, through 阴阳眼 (a dead player never leaves 阴间 before reincarnating; [DEATH_CONTENT](DEATH_CONTENT.md)).
 
 ## Source anomalies
 

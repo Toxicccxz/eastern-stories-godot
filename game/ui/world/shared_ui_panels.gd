@@ -12,6 +12,8 @@ extends RefCounted
 const VOID_FAINT_WARNING: String = "空识神通要耗去 {gin} 点精，你现在撑不住，会当场昏过去。\n确定要施展吗？"
 # TRANSLATORS: asked before 游识神通 goes to the one chosen (drift_sense.c) when its 30 gin ({gin}) would knock the player out.
 const DRIFT_FAINT_WARNING: String = "游识神通要耗去 {gin} 点精，你现在撑不住，施展完就会昏过去。\n确定要施展吗？"
+# TRANSLATORS: asked before a spell the player casts at themselves from the 武学 page ({spell}: 阴阳眼) when its {sen} sen would knock them out.
+const SPELL_FAINT_WARNING: String = "施展{spell}要耗去 {sen} 点神，你现在撑不住，施展完就会昏过去。\n确定要施展吗？"
 
 var _ui: SharedGameplayUI
 var _food: HeldFoodPanel
@@ -138,6 +140,17 @@ func conjure_void_sense() -> void:
 		magic.void_sense()
 		return
 	_ui.questions.ask_first(tr(VOID_FAINT_WARNING).format({"gin": VoidSenseConjure.GIN_COST}), "确定施展", magic.void_sense, magic.available, open_martial_arts)
+
+
+## A spell cast at oneself from the 武学 page (阴阳眼); asked first when its sen would
+## knock the player out. 取消 goes back to the page.
+func cast_self(function_id: StringName) -> void:
+	var arts: PlayerMartialArts = _session.martial_arts()
+	if not arts.cast_self_knocks_out(function_id):
+		arts.cast_self(function_id)
+		return
+	var spell: CastFunction = SpecialFunctions.cast(function_id)
+	_ui.questions.ask_first(tr(SPELL_FAINT_WARNING).format({"spell": tr(spell.self_label), "sen": spell.self_sen_cost(_player.state)}), "确定施展", arts.cast_self.bind(function_id), arts.available, open_martial_arts)
 
 
 ## 游识神通 from the 武学 page: conjure.c's and the file's checks, then its question with

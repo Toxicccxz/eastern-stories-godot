@@ -145,7 +145,7 @@
 					"standing": "你的魂魄还没有全部收回，赶快杀死你的$N吧！"
 				}
 			},
-			"cast": ["drainerbolt", "feeblebolt", "netherbolt", "invocation", "animate"],
+			"cast": ["drainerbolt", "feeblebolt", "netherbolt", "invocation", "animate", "astral_vision"],
 			"scribe": ["haunt"]
 		},
 		{

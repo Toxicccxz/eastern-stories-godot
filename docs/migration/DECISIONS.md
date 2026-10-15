@@ -111,6 +111,19 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 - #27 牛皮酒袋照原名显示，不另起短名。
 - 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
 
+## 鬼门关 B: 阴阳眼 (2026-10-15)
+
+Plan #13 Q4 (a): necromancy/astral_vision.c is 茅山道术's 阴阳眼 (std/char.c visible() reads
+apply/astral_vision; 茅山 A left it out on the wrong reading that nothing does). It follows the
+LPC (30 mana, 5 sen, query_skill("spells") seconds, refused while it runs, busy 3 in a fight, its
+line when it ends); while it runs the living player sees ghosts as a ghost does, so 乔阴's 孤魂野鬼
+can be fought for its 布条. Native only in how it is reached:
+- **Cast at oneself, from the 武学 page (法术) outside a fight and the battle panel in one**: one
+  button each (the file casts on its caster whoever is named). Its 5 sen knocking the player out
+  is asked first (the owner's rule on choices that can knock out).
+- **Its seconds run on world time outside a fight and by the fight's rounds in one, and a Save
+  keeps them**, as every timed apply's (powerup's).
+
 ## 鬼门关 A: 阴间 and the way back (2026-10-15)
 
 Plan #13 (owner, 2026-10-15: Q1 (a), Q2 (a), Q3 (b), Q4 (a) as recommended, the defaults as
@@ -1094,8 +1107,9 @@ gone by the time it is put on the zombie is not stuck (the sheet stays). Default
 (owner may veto): the three-apprentice count is not ported (it never ran out, see
 [TEMPLE_CONTENT](TEMPLE_CONTENT.md)); a raised corpse's contents fall to
 the floor (ES2 destructs them with it); 符 are drawn only on 桃符纸, one at a time;
-astral_vision and earth-warp are not offered (nothing reads the one; the other never attached
-and leads to 鬼门关). What each room and NPC became is in TEMPLE_CONTENT.
+earth-warp is not offered (it never attached and leads to 鬼门关); astral_vision was left out
+too on the wrong reading that nothing reads it (std/char.c visible() does: 鬼门关 B ports it as
+阴阳眼). What each room and NPC became is in TEMPLE_CONTENT.
 - **Maps**: three painter maps (`tools/maps/layouts/temple.json`): the climb (`canvas`), the
   grounds inside the 山门 with the square, the hall, the walkways round the courtyard, the
   halls behind and the 藏经楼's ground floor (`town`), and the 藏经楼's upper floor. Snow's

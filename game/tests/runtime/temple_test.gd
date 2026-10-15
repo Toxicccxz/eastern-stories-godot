@@ -89,7 +89,7 @@ func _test_data() -> void:
 			casts.append((entry as NpcSpecialAction).function_id)
 	_check(talk.combat_chat_chance == 100 and casts == [&"drainerbolt", &"netherbolt", &"feeblebolt", &"invocation", &"manimate", &"animate"], "僵尸侍者: every beat a cast, two of the six do nothing: %s" % [casts])
 	var necromancy: SkillDefinition = catalog.skill(&"necromancy")
-	_check(necromancy.cast_functions == [&"drainerbolt", &"feeblebolt", &"netherbolt", &"invocation", &"animate"], "茅山道术 casts the three bolts, 召护法 and animate (refused in a fight; no manimate)")
+	_check(necromancy.cast_functions == [&"drainerbolt", &"feeblebolt", &"netherbolt", &"invocation", &"animate", &"astral_vision"], "茅山道术 casts the three bolts, 召护法, animate (refused in a fight; no manimate) and astral_vision")
 	var gouyee: SkillDefinition = catalog.skill(&"gouyee")
 	_check(gouyee.display_name == "谷衣心法" and gouyee.standard_force_hit and gouyee.can_enable_for(&"force"), "谷衣心法: a force with std/force.c's hit")
 	_check(catalog.skill(&"scratching").display_name == "天师剑法" and catalog.skill(&"scratching").can_enable_for(&"sword") and catalog.skill(&"taoism").display_name == "天师正道", "天师剑法 and 天师正道")

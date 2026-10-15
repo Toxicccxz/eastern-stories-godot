@@ -47,7 +47,7 @@ static func build_fight_facts(
 	return CombatFightDecisionFacts.new(
 		attacker.character_id,
 		attacker.life_status == CombatSliceLifeStatus.Value.ACTIVE,
-		attacker.content.sees(victim.content),
+		attacker.sees(victim),
 		CombatPerceptionSkillProjection.new(
 			PERCEPTION_SKILL_ID,
 			attacker.state.skills.effective_level(PERCEPTION_SKILL_ID),

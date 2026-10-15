@@ -3,8 +3,10 @@
 How 阴间 comes from `reference/es2/mudlib/d/death/` and the death code (`feature/damage.c` die(),
 reincarnate(); `include/login.h` DEATH_ROOM, REVIVE_ROOM; `adm/daemons/chard.c` make_corpse();
 `adm/daemons/logind.c`), and what the LPC says that the code does not. Decisions are in
-[DECISIONS](DECISIONS.md) (「鬼门关 A」 holds the owner's answers and the defaults). Package A is 阴间
-and the way back; B is 阴阳眼 and the 孤魂野鬼's 布条.
+[DECISIONS](DECISIONS.md) (「鬼门关 A」 holds the owner's answers and the defaults, 「鬼门关 B」
+阴阳眼's). Package A is 阴间 and the way back; B is 阴阳眼
+(`daemon/class/taoist/necromancy/astral_vision.c`) and the 孤魂野鬼's 布条 (`d/choyin/npc/ghost.c`,
+`obj/cloth_piece.c`).
 
 ## Placed
 
@@ -44,7 +46,10 @@ each, both sources listed).
 | drift_sense.c is_ghost() | DriftSenseConjure: 你失败了。 after the cost |
 | dun.c at oneself (no ghost check) | DunSpell: a ghost fails, 你失败了。 after the cost (owner) |
 | rankd.c query_rank() is_ghost(), name.c (鬼气) | RankWords.query_rank(…, ghost): 【 鬼  魂 】; the character sheet's (鬼气) |
-| char.c visible() | a ghost player sees ghost NPCs (bodies drawn, picked, met); NPCs' combat profile `sees()` reads the player's ghost |
+| char.c visible() | a ghost player, or one whose 阴阳眼 runs (CharacterState.sees_ghosts()), sees ghost NPCs (bodies drawn, picked, met); in a fight CombatSliceCharacterBinding.sees() asks it each turn |
+| astral_vision.c cast() | AstralVisionSpell, 茅山道术's `cast`: the 武学 page's 法术 button outside a fight, the battle panel's 阴阳眼 (at oneself) in one; apply/astral_vision a CharacterTimedApplies entry of query_skill("spells") seconds |
+| astral_vision.c remove_effect() | the spell's remove_effect(): on world time PlayerMartialArts.effects_ended(), in a fight the scheduler's SPECIAL_EFFECT_ENDED; the ghosts are unseen again from that frame |
+| ghost.c carry_object(cloth_piece) | 孤魂野鬼's `carry`; dead it leaves no corpse and the 布条 falls (chard.c); `study` spells, max_skill 40 |
 
 ## Source anomalies
 
@@ -57,9 +62,10 @@ each, both sources listed).
   there (owner: here it fails for a ghost; DunSpell).
 - A gargoyle that walked off (random_move) cut its own chain (present(ob) fails); one entered
   twice ran two chains.
+- study.c refuses only above max_skill: the 布条 still reads at 基本咒文 40 (to 41).
+- astral_vision.c is the only way a living player ever sees a ghost: a dead one reincarnates before
+  leaving 阴间, so the 孤魂野鬼 and its 布条 are 茅山's alone.
 
 ## Not done (and where it goes)
 
-- B: 阴阳眼 (daemon/class/taoist/necromancy/astral_vision.c): std/char.c visible() reads
-  apply/astral_vision, so it lets a living 茅山 player see ghosts; [TEMPLE_CONTENT](TEMPLE_CONTENT.md)
-  said nothing reads it, which was wrong. It is the only way to the 孤魂野鬼's 布条 in 乔阴.
+- ghost.c's env/wimpy 70: no NPC flees by wimpy yet (DECISIONS: wimpy is not modelled).
