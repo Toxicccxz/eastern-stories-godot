@@ -4,11 +4,12 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**界面重构 A** (`phase/ui-menu`, DECISIONS「菜单窗口」): ROADMAP "After the grey box" step 2, which
-the owner put before step 1. One menu window with the tabs 角色 武学 背包 任务 声望 百科 系统 replaces
-the HUD's row of panels; world time stands still while it is open (系统 is the shell's pause). Next: B
-(gamepad: input map, focus, LB/RB, A/B, button glyphs), then C (the 任务 journal's story chains and
-the 百科); step 1 (responsiveness) after them.
+**界面重构 B** (`phase/ui-pad`, DECISIONS「手柄」): ROADMAP "After the grey box" step 2, which the
+owner put before step 1. A (the menu window, PR #124) is merged. B adds the gamepad beside mouse,
+keys and touch: the input map, focus on every panel (and back when it closes), the HUD's nearby list
+by pad, LB/RB tabs, Start = menu, Back = 系统, the battle's LB/RB/Y/B, button glyphs that follow the
+input in use, 随机名字 on New Game. Next: C (the 任务 journal's story chains and the 百科); step 1
+(responsiveness) after them.
 
 ## 待决定
 

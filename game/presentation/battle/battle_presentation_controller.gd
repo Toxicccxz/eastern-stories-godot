@@ -42,6 +42,8 @@ var _saved_focus: WeakRef
 var action_panel: BattleActionPanel
 var log_panel: BattleLogPanel
 var log_button: Button
+## [LB][RB] 换目标 while there is more than one to choose (keys and pad).
+var target_hints: InputHintRow
 
 
 func _enter_tree() -> void:
@@ -130,6 +132,9 @@ func refresh_projection() -> void:
 		_title.text = "战斗无法正常结束，不会自动重试。"
 	_title.tooltip_text = _title.text
 	_present_participants()
+	var others: Array[StringName] = _target_ids()
+	others.erase(_projection.current_target_id)
+	target_hints.set_hints([[[&"battle_target_previous", &"battle_target_next"], tr("换目标")]] if not others.is_empty() else [])
 	action_panel.present(_projection)
 	if not entries.is_empty():
 		log_panel.append_entries(entries)
@@ -201,6 +206,7 @@ func _build() -> void:
 	log_button.custom_minimum_size = Vector2(144, 64)
 	log_button.pressed.connect(_open_log)
 	header.add_child(log_button)
+	InputGlyphs.decorate(log_button, &"battle_log")
 	# Reserve shared Shell TouchPause space, including desktop touch-capability QA.
 	var pause_space := Control.new()
 	pause_space.custom_minimum_size = Vector2(64, 64)
@@ -226,6 +232,8 @@ func _build() -> void:
 	_participants.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_participants.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	participant_scroll.add_child(_participants)
+	target_hints = InputHintRow.new()
+	_content.add_child(target_hints)
 	action_panel = BattleActionPanel.new()
 	action_panel.name = "QuickActions"
 	action_panel.catalog = action_catalog
@@ -352,6 +360,56 @@ func _mode_name(mode: int) -> String:
 		CombatEncounterMode.Value.LETHAL:
 			return tr("厮杀")
 	return tr("战斗")
+
+
+## The battle's keys and pad (owner, gamepad support): LB / RB (Q / E) step the target,
+## Y (L) opens or closes the log, B (Backspace) goes back: the log closes, a question is
+## answered 取消, else the planned action is dropped. Esc stays the pause.
+func _unhandled_input(event: InputEvent) -> void:
+	if not is_visible_in_tree() or not _projection.active or event.is_echo() or not event.is_pressed() or get_tree().paused:
+		return
+	if event.is_action_pressed(&"battle_log"):
+		if log_panel.visible:
+			log_panel.close_log()
+		else:
+			_open_log()
+	elif event.is_action_pressed(&"battle_back") and not event.is_action(&"pause_game"):
+		if log_panel.visible:
+			log_panel.close_log()
+		elif action_panel.is_asking():
+			action_panel.prompt.cancel()
+		else:
+			action_panel.cancel_planned()
+	elif log_panel.visible:
+		return
+	elif event.is_action_pressed(&"battle_target_previous"):
+		step_target(-1)
+	elif event.is_action_pressed(&"battle_target_next"):
+		step_target(1)
+	else:
+		return
+	get_viewport().set_input_as_handled()
+
+
+## The ones the player can target, in the cards' order.
+func _target_ids() -> Array[StringName]:
+	var ids: Array[StringName] = []
+	for id: StringName in _shown_participants:
+		var value: BattleParticipantProjection = _projection.participant(id)
+		if value != null and value.targetable and id != _projection.player_id:
+			ids.append(id)
+	return ids
+
+
+## The next (1) or previous (-1) target after the current one.
+func step_target(direction: int) -> void:
+	var ids: Array[StringName] = _target_ids()
+	if ids.is_empty():
+		return
+	var index: int = ids.find(_projection.current_target_id)
+	var next: StringName = ids[0] if index < 0 else ids[posmod(index + direction, ids.size())]
+	if next != _projection.current_target_id:
+		_change_target(next)
 
 
 func _change_target(id: StringName) -> void:
@@ -495,7 +553,5 @@ func _restore_world_hud() -> void:
 		_yielded_hud.visible = _session.can_process() and not _session.is_restore_candidate_staged() and _session.application_gameplay_allows_encounter_advance()
 	_yielded_hud = null
 	if _saved_focus != null:
-		var focus: Control = _saved_focus.get_ref() as Control
-		if is_instance_valid(focus) and focus.is_visible_in_tree():
-			focus.grab_focus()
+		FocusNav.give(_saved_focus.get_ref() as Control)
 	_saved_focus = null

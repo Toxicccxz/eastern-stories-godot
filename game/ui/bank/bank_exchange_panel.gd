@@ -29,6 +29,8 @@ func _init() -> void:
 	quantity.custom_minimum_size = Vector2(0, 40)
 	quantity.text = "1"
 	quantity.placeholder_text = "支付数量（正整数）"
+	# A pad has no keys to type it: ←/→ step it (PadSupport).
+	quantity.set_meta(PadSupport.STEP_META, true)
 	rows.add_child(quantity)
 	var convert: Button = Button.new()
 	convert.name = "Convert"

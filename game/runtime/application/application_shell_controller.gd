@@ -19,6 +19,8 @@ signal interaction_changed
 @onready var new_game_button: Button = %NewGameButton
 @onready var new_game_setup_panel: Control = %NewGameSetupPanel
 @onready var player_name_edit: LineEdit = %PlayerNameEdit
+## Fills the name (owner, gamepad support: a pad has no keys to type one).
+@onready var random_name_button: Button = %RandomNameButton
 @onready var male_button: Button = %MaleButton
 @onready var female_button: Button = %FemaleButton
 @onready var journey_start_button: Button = %JourneyStartButton
@@ -87,6 +89,7 @@ var _transition_held_actions: Array[StringName] = []
 var _exit_capability: ApplicationExitCapability = ApplicationExitCapability.new()
 var _quit_requested: bool = false
 var _draft_gender: StringName = &""
+var _name_rng := RandomNumberGenerator.new()
 var _activity: ApplicationActivity = ApplicationActivity.new()
 
 
@@ -199,6 +202,7 @@ func _ready() -> void:
 	female_button.pressed.connect(func() -> void: select_new_game_gender(CharacterState.GENDER_FEMALE))
 	journey_start_button.pressed.connect(submit_new_game_setup)
 	setup_cancel_button.pressed.connect(cancel_new_game_setup)
+	random_name_button.pressed.connect(fill_random_name)
 	player_name_edit.text_submitted.connect(func(_text: String) -> void: submit_new_game_setup())
 	child_entered_tree.connect(_presentation_entered)
 	if not _configured:
@@ -213,6 +217,12 @@ func _ready() -> void:
 	_configure_window_mode_options()
 	_configure_language_options()
 	window_mode_option.get_popup().window_input.connect(_popup_system_input)
+	# Pad support (owner, ROADMAP "After the grey box" step 2): last, so it sees every
+	# input event before the touch adapter takes touches.
+	add_child(PadSupport.new())
+	for back: Button in [setup_cancel_button, settings_cancel_button, recovery_cancel_button]:
+		InputGlyphs.decorate(back, &"ui_cancel")
+	result_prompt.cancel_action = &"ui_cancel"
 	_set_state(ApplicationShellState.boot_inspecting())
 	_host = HOST_SCENE.instantiate() as OldPineGameRuntimeHost
 	_connect_host(_host)
@@ -294,7 +304,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not interaction_allowed():
 		get_viewport().set_input_as_handled()
 		return
-	var pause_pressed: bool = event.is_action_pressed("pause_game")
+	# Start (menu_open) opens the menu where the HUD takes it; anywhere else (a fight, an
+	# open panel, the pause itself) it is the pause key.
+	var pause_pressed: bool = event.is_action_pressed("pause_game") or event.is_action_pressed("menu_open")
 	var cancel_pressed: bool = event.is_action_pressed("ui_cancel")
 	if not pause_pressed and not cancel_pressed:
 		return
@@ -791,6 +803,14 @@ func cancel_new_game_setup() -> bool:
 	return true
 
 
+## 随机名字: a name from NewPlayerRandomName for the gender chosen so far.
+func fill_random_name() -> void:
+	if not interaction_allowed() or _state.mode() != ApplicationShellState.Mode.NEW_GAME_SETUP:
+		return
+	player_name_edit.text = NewPlayerRandomName.pick(_draft_gender, _name_rng)
+	player_name_edit.caret_column = player_name_edit.text.length()
+
+
 func select_new_game_gender(gender: StringName) -> void:
 	if not interaction_allowed() or _state.mode() != ApplicationShellState.Mode.NEW_GAME_SETUP:
 		return
@@ -1019,7 +1039,7 @@ func _render_state(defer_focus: bool = true) -> void:
 	new_game_setup_panel.visible = mode == ApplicationShellState.Mode.NEW_GAME_SETUP
 	var setup_interactive: bool = mode == ApplicationShellState.Mode.NEW_GAME_SETUP and interaction_allowed()
 	player_name_edit.editable = setup_interactive
-	for button: Button in [male_button, female_button, journey_start_button, setup_cancel_button]:
+	for button: Button in [random_name_button, male_button, female_button, journey_start_button, setup_cancel_button]:
 		button.disabled = not setup_interactive
 	busy_overlay.visible = mode in [
 		ApplicationShellState.Mode.BOOT,
@@ -1089,12 +1109,21 @@ func _render_state(defer_focus: bool = true) -> void:
 
 func _focus_current_surface() -> void:
 	match _state.mode():
-		ApplicationShellState.Mode.NEW_GAME_SETUP: player_name_edit.grab_focus()
+		ApplicationShellState.Mode.NEW_GAME_SETUP: _focus_setup()
 		ApplicationShellState.Mode.RESULT: _focus_result_button()
 		ApplicationShellState.Mode.SETTINGS: _focus_settings_control()
 		ApplicationShellState.Mode.RECOVERY_CHOICE: _focus_recovery_button()
 		ApplicationShellState.Mode.PAUSED: _focus_pause_button()
 		ApplicationShellState.Mode.MAIN_MENU: _focus_first_menu_button()
+
+
+## Keys and touch start in the name field; a pad starts on 随机名字 (in the field a phone
+## would raise its keyboard, and the pad cannot type).
+func _focus_setup() -> void:
+	if InputDevices.shared().is_gamepad() and not random_name_button.disabled:
+		random_name_button.grab_focus()
+	else:
+		player_name_edit.grab_focus()
 
 
 func _busy_text() -> String:
@@ -1177,7 +1206,7 @@ func _select_committed_window_mode() -> void:
 
 func _all_shell_focus_controls() -> Array[Control]:
 	return [
-		player_name_edit, male_button, female_button, journey_start_button, setup_cancel_button,
+		player_name_edit, random_name_button, male_button, female_button, journey_start_button, setup_cancel_button,
 		new_game_button,
 		continue_button,
 		recovery_button,
@@ -1211,7 +1240,7 @@ func _configure_active_focus_cycle(mode: int) -> void:
 	var controls: Array[Control] = []
 	match mode:
 		ApplicationShellState.Mode.NEW_GAME_SETUP:
-			controls = [player_name_edit, male_button, female_button, journey_start_button, setup_cancel_button]
+			controls = [player_name_edit, random_name_button, male_button, female_button, journey_start_button, setup_cancel_button]
 		ApplicationShellState.Mode.MAIN_MENU:
 			controls = [new_game_button]
 			if not continue_button.disabled:
@@ -1264,6 +1293,7 @@ func _release_transition_actions() -> void:
 		&"ui_accept",
 		&"ui_cancel",
 		&"pause_game",
+		&"menu_open",
 		&"system_back",
 	]:
 		if Input.is_action_pressed(action) and not _transition_held_actions.has(action):

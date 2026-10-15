@@ -1,7 +1,7 @@
 class_name MobileTouchAdapter
 extends Control
 
-const SOURCE_DEVICE: int = 10_202
+const SOURCE_DEVICE: int = InputDevices.TOUCH_POINTER_DEVICE
 const MOVE_ACTIONS: Array[StringName] = [&"move_left", &"move_right", &"move_up", &"move_down"]
 
 var _capability: MobileTouchCapability = MobileTouchCapability.new()

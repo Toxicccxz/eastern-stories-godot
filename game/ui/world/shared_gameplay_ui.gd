@@ -184,6 +184,7 @@ func _ready() -> void:
 	confirm_prompt.cancelled.connect(questions.on_prompt_cancelled)
 	_build_menu()
 	arts_page.configure(_session)
+	InputDevices.shared().changed.connect(_on_input_devices_changed)
 	if _session != null:
 		life_overlay = PlayerLifeOverlay.new()
 		life_overlay.name = "PlayerLifeOverlay"
@@ -213,23 +214,198 @@ func configure(player: WorldPlayerRuntimeType) -> bool:
 	return true
 
 
-## The HUD's input while the player walks: ui_accept opens the place's context action,
-## a menu key (C, K, I, J) opens that tab, L is 观察. The open menu takes its own keys
-## (GameMenu). Seam for gamepad support (not built yet).
+## The HUD's input while the player walks (keys and pad, owner: gamepad support):
+## ui_accept (Enter/Space, A) opens the place's context action, or with none moves into
+## the card's list; nearby_focus (Tab, Y) moves into the list or back out; a menu key
+## (C, K, I, J) opens that tab, menu_open (M, Start) the menu on its last tab, look_around
+## (L, X) is 观察. In the list the focused button takes A; B or Tab/Y leaves it, and so
+## does walking with WASD (the arrows and the pad move the focus there). The open menu
+## takes its own keys (GameMenu).
 func _unhandled_input(event: InputEvent) -> void:
 	if not visible or _presentation_layout.frame.visible or menu.is_presented() or event.is_echo() or not event.is_pressed():
+		return
+	if _card_nav and (event.is_action_pressed(&"ui_cancel") or event.is_action_pressed(&"nearby_focus") or walks_away(event)):
+		get_viewport().set_input_as_handled()
+		leave_card_nav(walks_away(event))
 		return
 	var tab: int = GameMenu.tab_for_event(event)
 	if tab >= 0:
 		get_viewport().set_input_as_handled()
 		if _session.portable_inventory_available():
 			menu.open(tab)
+	elif event.is_action_pressed(&"menu_open"):
+		get_viewport().set_input_as_handled()
+		if _session.portable_inventory_available():
+			menu.open()
+	elif event.is_action_pressed(&"nearby_focus"):
+		get_viewport().set_input_as_handled()
+		enter_card_nav()
 	elif event.is_action_pressed(&"look_around"):
 		get_viewport().set_input_as_handled()
 		open_look()
-	elif event.is_action_pressed("ui_accept") and not actions.context_title().is_empty():
+	elif event.is_action_pressed("ui_accept"):
+		var focused: Control = get_viewport().gui_get_focus_owner()
+		if focused != null and focused.is_visible_in_tree():
+			# A button takes A on its release: the press is not the place's action.
+			return
+		if not actions.context_title().is_empty():
+			get_viewport().set_input_as_handled()
+			actions.open_current_context()
+		elif enter_card_nav():
+			get_viewport().set_input_as_handled()
+
+
+## A mouse click leaves the card's list to the pointer; Tab / Y leaves it here, before the
+## focus takes Tab as "next control".
+func _input(event: InputEvent) -> void:
+	if not _card_nav:
+		return
+	if event is InputEventMouseButton and event.pressed and event.device != InputDevices.TOUCH_POINTER_DEVICE:
+		leave_card_nav()
+	elif event.is_action_pressed(&"nearby_focus") and not event.is_echo() and visible and not _presentation_layout.frame.visible and not menu.is_presented():
 		get_viewport().set_input_as_handled()
-		actions.open_current_context()
+		leave_card_nav()
+
+
+## A walking key that is not also a focus key (WASD; the arrows and the pad move the focus
+## in the list).
+static func walks_away(event: InputEvent) -> bool:
+	for pair: Array in [[&"move_left", &"ui_left"], [&"move_right", &"ui_right"], [&"move_up", &"ui_up"], [&"move_down", &"ui_down"]]:
+		if event.is_action_pressed(pair[0]) and not event.is_action(pair[1]):
+			return true
+	return false
+
+
+# --- keys and pad: the card's list (owner, gamepad support) ---
+
+## Whether the focus moves through the card's buttons (the player stands still meanwhile).
+var _card_nav: bool = false
+
+
+func card_nav_active() -> bool:
+	return _card_nav
+
+
+## Moves keys and pad focus into the card's list, on its first button. False when the
+## list is empty.
+func enter_card_nav() -> bool:
+	if not visible or _card_buttons().is_empty():
+		return false
+	_card_nav = true
+	_set_card_focusable(true)
+	focus_card(0, 0)
+	quarantine_movement()
+	_refresh_hints()
+	return true
+
+
+## Back to walking. `walking`: a walking key left it, so the player walks at once.
+func leave_card_nav(walking: bool = false) -> void:
+	if not _card_nav:
+		return
+	_card_nav = false
+	var focused: Control = get_viewport().gui_get_focus_owner() if is_inside_tree() else null
+	if focused != null and _presentation_layout.nearby.is_ancestor_of(focused):
+		focused.release_focus()
+	_set_card_focusable(false)
+	if walking and _session != null and _session.is_initialized() and _session.active_map_child_count() > 0 and _session.active_map() != null:
+		_session.active_map().runtime_player_body().release_movement_quarantine()
+	_refresh_hints()
+
+
+## Focuses the card's button `index` of group `group` (the nearest one there is).
+func focus_card(group: int, index: int) -> bool:
+	var rows: Array[Node] = []
+	for row: Node in _presentation_layout.nearby.get_children():
+		if not row.is_queued_for_deletion():
+			rows.append(row)
+	if rows.is_empty():
+		return false
+	var buttons: Array[Node] = rows[clampi(group, 0, rows.size() - 1)].get_node("Item/Actions").get_children()
+	if buttons.is_empty():
+		return false
+	return FocusNav.give(buttons[clampi(index, 0, buttons.size() - 1)] as Control)
+
+
+func _card_buttons() -> Array[Button]:
+	var buttons: Array[Button] = []
+	for row: Node in _presentation_layout.nearby.get_children():
+		if row.is_queued_for_deletion():
+			continue
+		for button: Node in row.get_node("Item/Actions").get_children():
+			buttons.append(button as Button)
+	return buttons
+
+
+func _set_card_focusable(focusable: bool) -> void:
+	for button: Button in _card_buttons():
+		button.focus_mode = Control.FOCUS_ALL if focusable else Control.FOCUS_NONE
+
+
+## Where the focus was on the frame's panel or the menu's page: [that root, the path
+## of child places to the focused control].
+var _focus_place: Array = []
+
+
+## Keys and pad keep a focus while a panel, the menu or the card's list is up: a focused
+## row that went away (the 背包 after using an item, a shop's list after a purchase) hands
+## it to the same place in the rebuilt list, so the next A does not hit another item.
+func _keep_focus() -> void:
+	if InputDevices.shared().is_touch() or not is_inside_tree():
+		return
+	if is_instance_valid(life_overlay) and life_overlay.is_blocking():
+		return # 继续 on the death screen has it.
+	var focused: Control = get_viewport().gui_get_focus_owner()
+	if focused != null and focused.is_visible_in_tree():
+		var surface: Control = _focus_surface()
+		_focus_place = [] if surface == null or not surface.is_ancestor_of(focused) else [surface, FocusNav.place_of(surface, focused)]
+		return
+	if not _focus_place.is_empty() and is_instance_valid(_focus_place[0]) and _focus_place[0] == _focus_surface() and FocusNav.give(FocusNav.at_place(_focus_place[0], _focus_place[1])):
+		return
+	refocus()
+
+
+## The panel or page keys and pad move in now, or null.
+func _focus_surface() -> Control:
+	if _presentation_layout.frame.visible:
+		return _presentation_layout.mount
+	if menu.is_presented() and not menu.in_pause_view():
+		return menu.pages[menu.current_tab()]
+	return null
+
+
+## The focus goes to the top surface's first control: the frame's panel, the menu's page,
+## or the card's list while the player moves through it.
+func refocus() -> void:
+	if _presentation_layout.frame.visible:
+		_presentation_layout.focus_content()
+	elif menu.is_presented() and not menu.in_pause_view():
+		menu.focus_page()
+	elif _card_nav and visible and not focus_card(0, 0):
+		leave_card_nav()
+
+
+func _on_input_devices_changed() -> void:
+	if InputDevices.shared().is_touch():
+		leave_card_nav()
+	_refresh_hints()
+
+
+## The card's hints for keys and pad: the place's action, the list, 观察.
+func _refresh_hints() -> void:
+	if _presentation_layout == null or not visible:
+		return
+	var hints: Array = []
+	if _card_nav:
+		hints = [[&"ui_accept", tr("选择")], [&"ui_cancel", tr("返回")]]
+	else:
+		var title: String = actions.context_title()
+		if not title.is_empty():
+			hints.append([&"ui_accept", title])
+		if _presentation_layout.nearby.visible:
+			hints.append([&"nearby_focus", tr("选择附近")])
+		hints.append([&"look_around", tr("观察")])
+	_presentation_layout.hints.set_hints(hints)
 
 
 func _process(delta: float) -> void:
@@ -259,8 +435,9 @@ func _process(delta: float) -> void:
 		return
 	if not visible:
 		_presentation_layout.close_panel()
-		# A fight closes the menu as it closed the HUD's panels.
+		# A fight closes the menu as it closed the HUD's panels, and the card's list.
 		menu.dismiss()
+		leave_card_nav()
 		# A fight clears the toasts from before it.
 		message_log.refresh_toasts()
 		return
@@ -269,6 +446,7 @@ func _process(delta: float) -> void:
 		# cover what happens.
 		menu.dismiss()
 	_presentation_layout.validate_open_panel()
+	_keep_focus()
 	if _presentation_layout._content == _presentation_layout.details:
 		if (selection.selected_target != null and (not selection.selected_target.exists_in_map or selection.selected_target.life_status == CharacterRuntimeLifeStatus.Value.DEAD)) or (selection.selected_landmark != null and not selection.selected_landmark_source_available) or (selection.selected_corpse_available and not selection.selected_corpse_in_range and not selection.selected_floor_item):
 			_presentation_layout.close_panel()
@@ -278,12 +456,13 @@ func _process(delta: float) -> void:
 	_elapsed = 0.0
 	selection.refresh_live_state()
 	card.refresh_exploration()
+	_refresh_hints()
 	if menu.is_presented():
 		_refresh_menu_page()
 
 
 func _physics_process(_delta: float) -> void:
-	if _presentation_layout != null and (_presentation_layout.frame.visible or (menu.is_presented() and not menu.in_pause_view())):
+	if _presentation_layout != null and (_presentation_layout.frame.visible or _card_nav or (menu.is_presented() and not menu.in_pause_view())):
 		quarantine_movement()
 
 

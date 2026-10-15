@@ -77,6 +77,11 @@ func quarantine_current_movement_input() -> void:
 	velocity = Vector2.ZERO
 
 
+## The player walks with the key that left the HUD's list (WASD) without lifting it first.
+func release_movement_quarantine() -> void:
+	_movement_input_quarantined = false
+
+
 func movement_input_quarantined() -> bool:
 	return _movement_input_quarantined
 

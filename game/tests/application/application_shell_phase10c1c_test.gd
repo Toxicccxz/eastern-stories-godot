@@ -418,13 +418,30 @@ func _test_native_gamepad_navigation(tree: SceneTree) -> void:
 	_assert_eq(shell.shell_state().mode(), ApplicationShellState.Mode.MAIN_MENU, "native B cancels Settings")
 	await _send_joy(tree, JOY_BUTTON_A)
 	_assert_eq(shell.shell_state().mode(), ApplicationShellState.Mode.NEW_GAME_SETUP, "native A opens setup")
-	PublicNewGameTestFixture.complete_setup(shell)
+	# A pad has no keys to type a name: it starts on 随机名字, not in the name field
+	# (owner, gamepad support).
+	_assert_true(tree.root.gui_get_focus_owner() == shell.random_name_button, "a pad starts on 随机名字")
+	await _send_joy(tree, JOY_BUTTON_A)
+	_assert_true(NewPlayerNamePolicy.is_valid(shell.player_name_edit.text), "A fills a valid name: " + shell.player_name_edit.text)
+	await _send_joy(tree, JOY_BUTTON_DPAD_DOWN)
+	await _send_joy(tree, JOY_BUTTON_DPAD_DOWN)
+	await _send_joy(tree, JOY_BUTTON_A)
+	_assert_true(shell.female_button.button_pressed, "D-pad and A choose 女性")
+	await _send_joy(tree, JOY_BUTTON_DPAD_DOWN)
+	await _send_joy(tree, JOY_BUTTON_A)
 	await _wait_frames(tree, 4)
 	_assert_eq(shell.runtime_host().session_slot.get_child_count(), 1, "native A starts exactly one Session")
 	await _send_joy(tree, JOY_BUTTON_B)
 	_assert_eq(shell.shell_state().mode(), ApplicationShellState.Mode.PLAYING, "B does not implicitly pause PLAYING")
+	# Start is the menu (its last tab, the world running under its time hold); Back is
+	# the pause (owner, gamepad support).
 	await _send_joy(tree, JOY_BUTTON_START)
-	_assert_true(tree.paused, "native Start pauses")
+	var menu: GameMenu = (shell.runtime_host().current_session() as WorldSessionController).shared_ui().menu
+	_assert_true(menu.is_presented() and not tree.paused, "native Start opens the menu without pausing")
+	await _send_joy(tree, JOY_BUTTON_START)
+	_assert_false(menu.is_presented(), "native Start closes the menu")
+	await _send_joy(tree, JOY_BUTTON_BACK)
+	_assert_true(tree.paused, "native Back pauses")
 	await _send_joy(tree, JOY_BUTTON_DPAD_DOWN)
 	await _send_joy(tree, JOY_BUTTON_DPAD_DOWN)
 	await _send_joy(tree, JOY_BUTTON_A)
@@ -433,6 +450,7 @@ func _test_native_gamepad_navigation(tree: SceneTree) -> void:
 	_assert_true(tree.paused, "B from Settings cannot also Resume")
 	await _send_joy(tree, JOY_BUTTON_B)
 	_assert_false(tree.paused, "next B from Pause resumes")
+	InputDevices.shared().set_kind(InputDevices.Kind.KEYBOARD_MOUSE, InputDevices.PadStyle.XBOX)
 	_free_node(shell)
 	await tree.process_frame
 

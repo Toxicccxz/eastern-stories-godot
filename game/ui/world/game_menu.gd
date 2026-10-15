@@ -36,6 +36,8 @@ var root: Control
 var barrier: ColorRect
 var window: PanelContainer
 var tab_buttons: Array[Button] = []
+## The keys or pad buttons that step through the tabs (Q / E, LB / RB), at the strip's ends.
+var tab_glyphs: Array[TextureRect] = []
 var close_button: Button
 var pages: Array[Control] = []
 ## Where the shell puts its pause buttons (继续, 存档, 设置, 返回主菜单) while it shows
@@ -49,6 +51,8 @@ var _safe: SafeAreaPresenter
 var _current: int = Tab.CHARACTER
 var _system_only: bool = false
 var _paused_view: bool = false
+## Where keys' or pad's focus goes back when the window closes (the card's list).
+var _return_focus: WeakRef
 ## Set while show_tab() asks the shell to resume: the window stays open.
 var _switching: bool = false
 
@@ -88,6 +92,7 @@ func build(ui: SharedGameplayUI, character_page: Control, arts_page: Control, in
 	tabs.name = "Tabs"
 	tabs.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(tabs)
+	tab_glyphs.append(_tab_glyph(tabs, &"menu_tab_previous"))
 	var group := ButtonGroup.new()
 	for tab: int in TAB_TITLES.size():
 		var button := Button.new()
@@ -99,12 +104,16 @@ func build(ui: SharedGameplayUI, character_page: Control, arts_page: Control, in
 		button.pressed.connect(show_tab.bind(tab))
 		tabs.add_child(button)
 		tab_buttons.append(button)
+	tab_glyphs.append(_tab_glyph(tabs, &"menu_tab_next"))
 	close_button = Button.new()
 	close_button.name = "Close"
 	close_button.text = "关闭"
 	close_button.custom_minimum_size = Vector2(80, 38)
 	close_button.pressed.connect(close)
 	header.add_child(close_button)
+	InputGlyphs.decorate(close_button, &"ui_cancel")
+	InputDevices.shared().changed.connect(_show_tab_glyphs)
+	_show_tab_glyphs()
 	var rule := ColorRect.new()
 	rule.name = "Rule"
 	rule.color = Color(1, 1, 1, 0.08)
@@ -116,6 +125,7 @@ func build(ui: SharedGameplayUI, character_page: Control, arts_page: Control, in
 	_page_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	_page_scroll.follow_focus = true
 	_page_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_page_scroll.add_to_group(PadSupport.SCROLL_GROUP)
 	rows.add_child(_page_scroll)
 	var page_rows := VBoxContainer.new()
 	page_rows.name = "Pages"
@@ -212,6 +222,9 @@ func close() -> void:
 ## Shows the window on `tab` (-1: the last one).
 func present(tab: int = -1) -> void:
 	var first: bool = not visible
+	if first:
+		var focused: Control = root.get_viewport().gui_get_focus_owner() if root.is_inside_tree() else null
+		_return_focus = null if focused == null or root.is_ancestor_of(focused) else weakref(focused)
 	visible = true
 	if first and _ui != null:
 		_ui.menu_presented()
@@ -234,6 +247,9 @@ func _dismiss(from_pause: bool) -> void:
 	_hide_pages()
 	if _ui != null:
 		_ui.menu_dismissed(from_pause)
+	var back: Control = FocusNav.held(_return_focus)
+	_return_focus = null
+	FocusNav.give(back)
 
 
 ## The shell paused the world for 系统 (Esc, or the 系统 tab). `system_only`: during a
@@ -306,7 +322,27 @@ func show_tab(tab: int) -> void:
 	if _ui != null:
 		_ui.menu_tab_shown(tab)
 	_layout.restyle_dynamic_content()
+	_focus_page_later.call_deferred()
 	tab_shown.emit(tab)
+
+
+## Keys and pad start on the page's first control (a 背包 row, a 武学 button, 继续), or on
+## its tab when the page has none (角色, 任务).
+func focus_page() -> void:
+	if not visible or _current < 0 or _current >= pages.size():
+		return
+	if not FocusNav.give(FocusNav.first_focusable(pages[_current])):
+		FocusNav.give(tab_buttons[_current])
+
+
+## After the page filled its rows; a question over the menu keeps the focus.
+func _focus_page_later() -> void:
+	if not visible or not root.is_inside_tree():
+		return
+	var focused: Control = root.get_viewport().gui_get_focus_owner()
+	if focused != null and focused.is_visible_in_tree() and (pages[_current].is_ancestor_of(focused) or (_ui != null and _ui._presentation_layout.frame.is_ancestor_of(focused))):
+		return
+	focus_page()
 
 
 ## The tab buttons show the shown tab (a refused switch leaves the pressed one wrong).
@@ -341,11 +377,16 @@ func _host() -> Node:
 	return host if host != null and host.has_method(&"request_menu") else null
 
 
-## Q / E switch tabs; a tab's key opens it, or closes the menu when it is showing.
+## Q / E (LB / RB) switch tabs; a tab's key opens it, or closes the menu when it is
+## showing; M (Start) closes it. A question over the menu takes its own keys.
 func _unhandled_input(event: InputEvent) -> void:
 	if not visible or event.is_echo() or not event.is_pressed():
 		return
-	if event.is_action_pressed(&"menu_tab_previous"):
+	if _ui != null and _ui._presentation_layout.frame.visible:
+		return
+	if event.is_action_pressed(&"menu_open"):
+		close()
+	elif event.is_action_pressed(&"menu_tab_previous"):
 		step_tab(-1)
 	elif event.is_action_pressed(&"menu_tab_next"):
 		step_tab(1)
@@ -368,6 +409,23 @@ static func tab_for_event(event: InputEvent) -> int:
 		if not TAB_ACTIONS[tab].is_empty() and event.is_action_pressed(TAB_ACTIONS[tab]):
 			return tab
 	return -1
+
+
+func _tab_glyph(parent: Node, action: StringName) -> TextureRect:
+	var glyph := TextureRect.new()
+	glyph.name = "TabGlyph"
+	glyph.texture = InputGlyphTexture.new(action)
+	glyph.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
+	glyph.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	glyph.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	parent.add_child(glyph)
+	return glyph
+
+
+## Touch has no tab keys: the strip's glyphs go (and their room).
+func _show_tab_glyphs() -> void:
+	for glyph: TextureRect in tab_glyphs:
+		glyph.visible = (glyph.texture as InputGlyphTexture).has_glyph()
 
 
 func _placeholder(text: String) -> Label:

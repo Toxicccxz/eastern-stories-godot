@@ -54,6 +54,10 @@ msgid "1–24 个字符，可用各语言文字"
 msgstr ""
 
 #: scenes/application/application_shell.tscn
+msgid "随机名字"
+msgstr ""
+
+#: scenes/application/application_shell.tscn
 msgid "性别"
 msgstr ""
 
@@ -5621,6 +5625,10 @@ msgid "战斗无法正常结束，不会自动重试。"
 msgstr ""
 
 #: presentation/battle/battle_presentation_controller.gd
+msgid "换目标"
+msgstr ""
+
+#: presentation/battle/battle_presentation_controller.gd
 msgid "战斗描写会显示在这里。"
 msgstr ""
 
@@ -5996,7 +6004,7 @@ msgstr ""
 msgid "窗口模式由这个平台管理。"
 msgstr ""
 
-#: presentation/layout/shared_gameplay_layout.gd ui/world/player_inventory_panel.gd
+#: presentation/layout/shared_gameplay_layout.gd ui/world/player_inventory_panel.gd ui/world/shared_gameplay_ui.gd
 msgid "观察"
 msgstr ""
 
@@ -7802,6 +7810,18 @@ msgid ""
 "· 综合评价清零（现在是 {score}）。\n"
 "· 背叛师门的次数变成 {next} 次。\n"
 "确定要攻击吗？"
+msgstr ""
+
+#: ui/world/shared_gameplay_ui.gd
+msgid "选择"
+msgstr ""
+
+#: ui/world/shared_gameplay_ui.gd
+msgid "返回"
+msgstr ""
+
+#: ui/world/shared_gameplay_ui.gd
+msgid "选择附近"
 msgstr ""
 
 #: ui/world/shared_gameplay_ui.gd
