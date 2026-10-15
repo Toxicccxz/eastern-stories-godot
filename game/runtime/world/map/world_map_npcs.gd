@@ -429,6 +429,11 @@ func refresh_ghost_sight() -> void:
 	for body: WorldCharacterBody2D in _npc_bodies.values():
 		if is_instance_valid(body):
 			body.set_ghost_sight(sees)
+	# A ghost no longer seen is no longer there to be addressed (name.c id() fails): an open
+	# panel keeps the selection, so it is dropped here.
+	var selected: NpcRuntimeState = _map.selection.selected_npc()
+	if selected != null and not _map.player_sees(selected):
+		_map.selection.selected_target = null
 
 
 func runtime_body_for_character(character_id: StringName) -> WorldCharacterBody2D:

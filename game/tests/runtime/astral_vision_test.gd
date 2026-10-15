@@ -146,9 +146,15 @@ func _test_ghost_hunt(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(arts.study(carried).outcome == StudyResult.Outcome.TOO_SHALLOW, "above 40: no more from it")
 	# The spell runs out on world time.
 	var other: NpcRuntimeState = Choyin.new()._npc(map, GHOST)
+	_check(other != null and map.select_npc(other.character_id), "the other 孤魂野鬼 selected while seen")
+	hud.open_inventory()
+	await tree.process_frame
 	session._process(float(_left(player.state)) / 1000.0 + 0.1)
 	_check(not player.state.sees_ghosts() and hud.log_lines().has(ENDED), "it ends: " + ENDED)
 	_check(other == null or not map.runtime_body_for_character(other.character_id).visible, "the other ghosts unseen again")
+	_check(hud.inventory_is_open() and map.selection.selected_npc() == null, "the 背包 open: the unseen ghost is no longer selected")
+	hud.dismiss_current_panel()
+	await tree.physics_frame
 	_check(not map.select_npc(ghost.character_id), "nothing ghostly to pick")
 
 
