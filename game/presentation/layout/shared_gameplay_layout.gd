@@ -381,7 +381,7 @@ func lift_frame(over: Control) -> void:
 		return
 	barrier.reparent(over, false)
 	frame.reparent(over, false)
-	_raise_frame_layout()
+	_frame_layout.raised = true
 
 
 func lower_frame() -> void:
@@ -392,14 +392,7 @@ func lower_frame() -> void:
 	# Under the toasts again, as built.
 	_frame_home.move_child(barrier, toasts.get_index())
 	_frame_home.move_child(frame, toasts.get_index())
-	_raise_frame_layout()
-
-
-## The touch layer and Back take the last blocking panel in the group: the frame, over
-## the menu's window.
-func _raise_frame_layout() -> void:
-	_frame_layout.remove_from_group(&"touch_interaction_panels")
-	_frame_layout.add_to_group(&"touch_interaction_panels")
+	_frame_layout.raised = false
 
 
 func _on_place_input(event: InputEvent) -> void:

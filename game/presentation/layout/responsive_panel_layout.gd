@@ -4,13 +4,16 @@ extends Node
 signal dismiss_requested
 
 var blocks_touch_gameplay: bool = false
+## A panel drawn over another one (the shared frame's question over the menu) is the top
+## one whatever the group's tree order.
+var raised: bool = false
 
 
 static func top_interaction_panel(tree: SceneTree) -> ResponsivePanelLayout:
 	var result: ResponsivePanelLayout
 	for node: Node in tree.get_nodes_in_group(&"touch_interaction_panels"):
 		var layout: ResponsivePanelLayout = node as ResponsivePanelLayout
-		if layout != null and layout.blocks_touch_gameplay and is_instance_valid(layout.panel) and layout.panel.is_visible_in_tree():
+		if layout != null and layout.blocks_touch_gameplay and is_instance_valid(layout.panel) and layout.panel.is_visible_in_tree() and (result == null or layout.raised or not result.raised):
 			result = layout
 	return result
 

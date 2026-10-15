@@ -139,22 +139,34 @@ func _line(parent: Node, node_name: String, text: String = "") -> Label:
 	return label
 
 
-## One of 精/气/神: its name, a bar and current / effective / maximum.
+## One of 精/气/神: its name and current / effective / maximum over a bar. Both labels
+## expand: the menu's layout wraps every label, and one left at its minimum would shrink
+## to a column of single characters.
 func _resource(parent: Node, key: StringName, caption: String, color: Color) -> void:
+	var column := VBoxContainer.new()
+	column.name = String(key).capitalize()
+	column.add_theme_constant_override("separation", 3)
+	parent.add_child(column)
 	var row := HBoxContainer.new()
-	row.name = String(key).capitalize()
-	row.add_theme_constant_override("separation", 10)
-	parent.add_child(row)
+	row.name = "Line"
+	column.add_child(row)
 	var name_label := Label.new()
 	name_label.name = "Caption"
 	name_label.text = caption
+	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	name_label.add_theme_color_override("font_color", color.lightened(0.25))
 	row.add_child(name_label)
+	var value := Label.new()
+	value.name = "Value"
+	value.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	value.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	value.size_flags_stretch_ratio = 3.0
+	value.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	row.add_child(value)
+	resource_values[key] = value
 	var bar := ProgressBar.new()
 	bar.name = "Bar"
 	bar.show_percentage = false
-	bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	bar.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	bar.custom_minimum_size.y = 8
 	var track := StyleBoxFlat.new()
 	track.bg_color = Color(1, 1, 1, 0.09)
@@ -164,12 +176,5 @@ func _resource(parent: Node, key: StringName, caption: String, color: Color) -> 
 	fill.set_corner_radius_all(4)
 	bar.add_theme_stylebox_override("background", track)
 	bar.add_theme_stylebox_override("fill", fill)
-	row.add_child(bar)
+	column.add_child(bar)
 	resource_bars[key] = bar
-	var value := Label.new()
-	value.name = "Value"
-	value.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
-	value.custom_minimum_size.x = 150
-	value.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	row.add_child(value)
-	resource_values[key] = value

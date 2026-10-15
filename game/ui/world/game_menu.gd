@@ -241,6 +241,9 @@ func _dismiss(from_pause: bool) -> void:
 func begin_pause_view(system_only: bool) -> void:
 	_paused_view = true
 	_system_only = system_only
+	# A question asked over a gameplay tab is dropped: nothing is done in the pause.
+	if visible and _ui != null:
+		_ui._presentation_layout.close_panel()
 	present(Tab.SYSTEM)
 
 
@@ -283,10 +286,12 @@ func show_tab(tab: int) -> void:
 			var resumed: bool = host.request_resume()
 			_switching = false
 			if not resumed:
+				_press_current()
 				return
 		elif not _paused_view and tab == Tab.SYSTEM:
 			# 系统 pauses the world: the shell comes back through begin_pause_view().
-			host.request_menu(Tab.SYSTEM)
+			if not host.request_menu(Tab.SYSTEM):
+				_press_current()
 			return
 	_current = tab
 	if not visible:
@@ -302,6 +307,12 @@ func show_tab(tab: int) -> void:
 		_ui.menu_tab_shown(tab)
 	_layout.restyle_dynamic_content()
 	tab_shown.emit(tab)
+
+
+## The tab buttons show the shown tab (a refused switch leaves the pressed one wrong).
+func _press_current() -> void:
+	for index: int in tab_buttons.size():
+		tab_buttons[index].set_pressed_no_signal(index == _current)
 
 
 ## The next or previous tab, wrapping (Q / E).
@@ -342,7 +353,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		var tab: int = tab_for_event(event)
 		if tab < 0:
 			return
-		if tab == _current or _system_only:
+		if _system_only:
+			pass # A fight's pause: only Esc / 继续 go back to it.
+		elif tab == _current:
 			close()
 		else:
 			show_tab(tab)

@@ -222,7 +222,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	var tab: int = GameMenu.tab_for_event(event)
 	if tab >= 0:
 		get_viewport().set_input_as_handled()
-		menu.open(tab)
+		if _session.portable_inventory_available():
+			menu.open(tab)
 	elif event.is_action_pressed(&"look_around"):
 		get_viewport().set_input_as_handled()
 		open_look()

@@ -64,12 +64,12 @@ func loot_rows() -> Array[WorldItemRowProjection]:
 	return [] if _ui.loot_panel == null else _ui.loot_panel.visible_rows()
 
 
-## The menu on its 背包 page, with these rows.
+## The menu on its 背包 page (which fills it once), or these rows on the shown page.
 func show_inventory(rows: Array[PlayerInventoryRowProjection]) -> void:
-	if not (_ui.menu.is_presented() and _ui.menu.current_tab() == GameMenu.Tab.INVENTORY):
-		_ui.menu.open(GameMenu.Tab.INVENTORY)
 	if _ui.menu.is_presented() and _ui.menu.current_tab() == GameMenu.Tab.INVENTORY:
 		fill_inventory(rows)
+	else:
+		_ui.menu.open(GameMenu.Tab.INVENTORY)
 
 
 ## The 背包 page's rows and what each row may do here (the selected NPC, a container

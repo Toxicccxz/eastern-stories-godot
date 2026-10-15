@@ -70,7 +70,8 @@ func refresh() -> void:
 	if _session != null and _session.is_initialized() and _session.active_map_child_count() > 0:
 		map = _session.active_map() as WorldMapController
 	var things: Array[WorldNearbyThing] = [] if map == null else map.selection.nearby()
-	if map != null and not _presentation_layout.frame.visible:
+	# A panel or the menu holds the selection (背包's 给 and 画符 act on it).
+	if map != null and not _presentation_layout.frame.visible and not _ui.menu.is_presented():
 		_follow_reach(map, things)
 	things = _keep_order(things)
 	var commands: Array[Array] = []
