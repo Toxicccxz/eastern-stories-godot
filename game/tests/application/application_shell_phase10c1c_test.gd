@@ -418,9 +418,9 @@ func _test_native_gamepad_navigation(tree: SceneTree) -> void:
 	_assert_eq(shell.shell_state().mode(), ApplicationShellState.Mode.MAIN_MENU, "native B cancels Settings")
 	await _send_joy(tree, JOY_BUTTON_A)
 	_assert_eq(shell.shell_state().mode(), ApplicationShellState.Mode.NEW_GAME_SETUP, "native A opens setup")
-	# A pad has no keys to type a name: 随机名字 fills one (owner, gamepad support).
-	await _send_joy(tree, JOY_BUTTON_DPAD_DOWN)
-	_assert_true(tree.root.gui_get_focus_owner() == shell.random_name_button, "D-pad: 随机名字 under the name")
+	# A pad has no keys to type a name: it starts on 随机名字, not in the name field
+	# (owner, gamepad support).
+	_assert_true(tree.root.gui_get_focus_owner() == shell.random_name_button, "a pad starts on 随机名字")
 	await _send_joy(tree, JOY_BUTTON_A)
 	_assert_true(NewPlayerNamePolicy.is_valid(shell.player_name_edit.text), "A fills a valid name: " + shell.player_name_edit.text)
 	await _send_joy(tree, JOY_BUTTON_DPAD_DOWN)

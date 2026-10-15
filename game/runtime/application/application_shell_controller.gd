@@ -1109,12 +1109,21 @@ func _render_state(defer_focus: bool = true) -> void:
 
 func _focus_current_surface() -> void:
 	match _state.mode():
-		ApplicationShellState.Mode.NEW_GAME_SETUP: player_name_edit.grab_focus()
+		ApplicationShellState.Mode.NEW_GAME_SETUP: _focus_setup()
 		ApplicationShellState.Mode.RESULT: _focus_result_button()
 		ApplicationShellState.Mode.SETTINGS: _focus_settings_control()
 		ApplicationShellState.Mode.RECOVERY_CHOICE: _focus_recovery_button()
 		ApplicationShellState.Mode.PAUSED: _focus_pause_button()
 		ApplicationShellState.Mode.MAIN_MENU: _focus_first_menu_button()
+
+
+## Keys and touch start in the name field; a pad starts on 随机名字 (in the field a phone
+## would raise its keyboard, and the pad cannot type).
+func _focus_setup() -> void:
+	if InputDevices.shared().is_gamepad() and not random_name_button.disabled:
+		random_name_button.grab_focus()
+	else:
+		player_name_edit.grab_focus()
 
 
 func _busy_text() -> String:
