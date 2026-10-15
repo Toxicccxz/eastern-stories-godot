@@ -107,6 +107,9 @@ func advance(delta: float) -> void:
 			var location: WorldLocationState = _session.player_runtime().world_location()
 			if location != null and location.zone_id == landmark.zone_id:
 				_session.shared_ui().append_log_lines([TranslationServer.translate(landmark.message("close"))])
+			# tunnel4.c close_passage(): east_castle sees its slab fall back.
+			elif location != null and not landmark.message("close_beyond").is_empty() and location.zone_id == _below_zone(landmark):
+				_session.shared_ui().append_log_lines([TranslationServer.translate(landmark.message("close_beyond"))])
 			# jitan.c close_passage(): the room below sees its stairs go back up.
 			elif location != null and landmark.policy == &"dial" and location.zone_id == _below_zone(landmark):
 				_session.shared_ui().append_log_lines([TranslationServer.translate(landmark.message("close_below"))])
@@ -122,9 +125,10 @@ func _apply(landmark: WorldLandmarkDefinition, open: bool) -> void:
 
 ## The player stands where the passage's way down leads (and it has a way back up:
 ## a single way there closes whoever stands beyond it, as road6.c's grass). A dial's
-## way shuts on them all the same: they open it from below.
+## way shuts on them all the same: they open it from below; so does one that closes on time
+## (tunnel4.c's slab: up there one never needs it).
 func _player_below(landmark: WorldLandmarkDefinition) -> bool:
-	if landmark.portal_ids().size() < 2 or landmark.policy == &"dial":
+	if landmark.portal_ids().size() < 2 or landmark.policy == &"dial" or landmark.setting("closes_on_time") == 1:
 		return false
 	var location: WorldLocationState = _session.player_runtime().world_location()
 	return location != null and location.zone_id == _below_zone(landmark)

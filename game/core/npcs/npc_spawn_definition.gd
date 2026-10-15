@@ -27,6 +27,7 @@ var _legacy_quantity: int
 var _initial_spawn_policy: int
 var _presence_radius: int
 var _draw_group: StringName = &""
+var _once: bool = false
 
 var spawn_id: StringName:
 	get:
@@ -102,6 +103,18 @@ func spawn_point_ids() -> Array[StringName]:
 
 ## d/temple/road2.c reset()'s set("objects", ([ ... + (random(3)+1) : 1 ])): one of the
 ## group's spawns.
+## Made once in the world's life (owner, 黑松山 plan Q2 (a): 小娟): dead or gone, no room
+## reset makes it anew.
+var once: bool:
+	get:
+		return _once
+
+
+func with_once(value: bool) -> NpcSpawnDefinition:
+	_once = value
+	return self
+
+
 func with_draw_group(group: StringName) -> NpcSpawnDefinition:
 	_draw_group = group
 	if not group.is_empty():

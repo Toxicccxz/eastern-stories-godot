@@ -61,9 +61,10 @@
 		"city.wall_top",
 		"city.cellar",
 		"chuenyu.main",
-		"chuenyu.upstairs"
+		"chuenyu.upstairs",
+		"chuenyu.prison"
 	],
-	"rooms": 519,
+	"rooms": 528,
 	"snow_outdoor_portals": [
 		"snow.square.west",
 		"snow.eroad3.south",
@@ -348,11 +349,18 @@
 		"chuenyu.main.east_garden.wolfdogs",
 		"chuenyu.main.south_garden.smallgardeners",
 		"chuenyu.upstairs.yiantai.pigeons",
-		"chuenyu.upstairs.kitchen.cook"
+		"chuenyu.upstairs.kitchen.cook",
+		"chuenyu.prison.tunnel1.highrat",
+		"chuenyu.prison.dungeon.chuenyu",
+		"chuenyu.prison.dungeon.xiaojuan2",
+		"chuenyu.prison.tortureroom.highrats",
+		"chuenyu.prison.tortureroom.guard2s",
+		"chuenyu.prison.tortureroom2.highrats",
+		"chuenyu.prison.tortureroom2.guard2s"
 	],
-	"world_npcs": 442,
-	"resident_maps": 62,
-	"new_game_items": 774,
+	"world_npcs": 453,
+	"resident_maps": 63,
+	"new_game_items": 785,
 	"snow_outdoor_passages": 9,
-	"npc_draws_after_oldpine": 2441
+	"npc_draws_after_oldpine": 2506
 }

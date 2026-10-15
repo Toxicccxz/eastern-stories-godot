@@ -92,7 +92,28 @@
 			"accept_fight": [
 				{ "say": "老头子哪里是您的对手？", "accept": false }
 			],
-			"greeting": { "rules": [{ "steps": [{ "line": "刘老农说道：“这位$RESPECT，可否见到小女娟儿？” \n" }] }] }
+			"greeting": {
+				"rules": [
+					{ "mark": "murder", "steps": [{ "unmark": "murder" }, { "unmark": "老刘" }, { "mark": "老刘报仇" }, { "npc_mood": "grief" }, { "line": "刘老农悲愤欲绝的骂道：你．．你．．你们居然杀了我女儿，纳命来！\n" }, { "npc_wield": "es2:d/village/npc/obj/hengbing" }, { "kill": true }] },
+					{ "mark": "老刘", "present": "chuenyu.npc.xiaojuan2", "steps": [{ "line": "刘老农说道：“这位$RESPECT，多谢答救小女娟儿。” \n" }, { "line": "刘老农说道：“这口剑，这本密笈赠于$RESPECT。” \n" }, { "line": "刘老农说道：“这处非久留之地，我等去也。” \n" }, { "line": "刘老农领着娟儿匆匆离去。\n" }, { "unmark": "老刘" }, { "give": "es2:d/village/npc/obj/hengbing" }, { "give": "es2:d/village/npc/obj/parrybook" }, { "leave": "chuenyu.npc.xiaojuan2" }, { "leave": true }] },
+					{ "not_mark": "老刘报仇", "steps": [{ "line": "刘老农说道：“这位$RESPECT，可否见到小女娟儿？” \n" }] }
+				]
+			},
+			"moods": {
+				"grief": {
+					"title": "悲愤欲绝",
+					"applies": {
+						"force": 4000,
+						"max_force": 2200,
+						"force_factor": 30,
+						"combat_exp": 1000000,
+						"damage": 250
+					},
+					"flags": ["hunts_player"],
+					"chat_chance": 15,
+					"chat_msg": ["刘老农悲愤欲绝的骂道：你．．你．．你们居然杀了我女儿，纳命来！", { "action": "random_move" }]
+				}
+			}
 		},
 		{
 			"id": "village.npc.rat",

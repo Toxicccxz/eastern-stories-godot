@@ -4,7 +4,8 @@
 	],
 	"maps": [
 		{ "id": "chuenyu.main", "region": "chuenyu", "scene": "res://scenes/world/chuenyu/chuenyu_main.tscn", "entry": "chuenyu.croad1.village_arrival" },
-		{ "id": "chuenyu.upstairs", "region": "chuenyu", "scene": "res://scenes/world/chuenyu/chuenyu_upstairs.tscn", "entry": "chuenyu.bedroom.west_stairs_arrival" }
+		{ "id": "chuenyu.upstairs", "region": "chuenyu", "scene": "res://scenes/world/chuenyu/chuenyu_upstairs.tscn", "entry": "chuenyu.bedroom.west_stairs_arrival" },
+		{ "id": "chuenyu.prison", "region": "chuenyu", "scene": "res://scenes/world/chuenyu/chuenyu_prison.tscn", "entry": "chuenyu.tunnel1.rope_arrival" }
 	],
 	"zones": [
 		{ "id": "chuenyu.croad1", "map": "chuenyu.main", "rooms": ["es2:d/chuenyu/croad1"] },
@@ -29,14 +30,48 @@
 		{ "id": "chuenyu.south_garden", "map": "chuenyu.main", "rooms": ["es2:d/chuenyu/south_garden"] },
 		{ "id": "chuenyu.bedroom", "map": "chuenyu.upstairs", "rooms": ["es2:d/chuenyu/bedroom"] },
 		{ "id": "chuenyu.yiantai", "map": "chuenyu.upstairs", "rooms": ["es2:d/chuenyu/yiantai"] },
-		{ "id": "chuenyu.kitchen", "map": "chuenyu.upstairs", "rooms": ["es2:d/chuenyu/kitchen"] }
+		{ "id": "chuenyu.kitchen", "map": "chuenyu.upstairs", "rooms": ["es2:d/chuenyu/kitchen"] },
+		{ "id": "chuenyu.tunnel1", "map": "chuenyu.prison", "rooms": ["es2:d/chuenyu/tunnel1"], "distinct": true },
+		{ "id": "chuenyu.tunnel2", "map": "chuenyu.prison", "rooms": ["es2:d/chuenyu/tunnel2"], "distinct": true },
+		{ "id": "chuenyu.tunnel3", "map": "chuenyu.prison", "rooms": ["es2:d/chuenyu/tunnel3"], "distinct": true },
+		{ "id": "chuenyu.tunnel4", "map": "chuenyu.prison", "rooms": ["es2:d/chuenyu/tunnel4"], "distinct": true },
+		{ "id": "chuenyu.tunnel5", "map": "chuenyu.prison", "rooms": ["es2:d/chuenyu/tunnel5"], "distinct": true },
+		{ "id": "chuenyu.tunnel6", "map": "chuenyu.prison", "rooms": ["es2:d/chuenyu/tunnel6"], "distinct": true },
+		{ "id": "chuenyu.dungeon", "map": "chuenyu.prison", "rooms": ["es2:d/chuenyu/dungeon"], "distinct": true },
+		{ "id": "chuenyu.tortureroom", "map": "chuenyu.prison", "rooms": ["es2:d/chuenyu/tortureroom"], "distinct": true, "combat_entry": "complete_set" },
+		{ "id": "chuenyu.tortureroom2", "map": "chuenyu.prison", "rooms": ["es2:d/chuenyu/tortureroom2"], "distinct": true, "combat_entry": "complete_set" }
 	],
 	"portals": [
 		{ "id": "chuenyu.croad1.south", "from_zone": "chuenyu.croad1", "to_zone": "village.road1", "to_spawn": "village.road1.chuenyu_return", "legacy_room": "es2:d/chuenyu/croad1", "legacy_command": "south" },
 		{ "id": "chuenyu.west_blackge.eastup", "from_zone": "chuenyu.west_blackge", "to_zone": "chuenyu.bedroom", "to_spawn": "chuenyu.bedroom.west_stairs_arrival", "legacy_room": "es2:d/chuenyu/west_blackge", "legacy_command": "eastup" },
 		{ "id": "chuenyu.east_blackge.westup", "from_zone": "chuenyu.east_blackge", "to_zone": "chuenyu.bedroom", "to_spawn": "chuenyu.bedroom.east_stairs_arrival", "legacy_room": "es2:d/chuenyu/east_blackge", "legacy_command": "westup" },
 		{ "id": "chuenyu.bedroom.westdown", "from_zone": "chuenyu.bedroom", "to_zone": "chuenyu.west_blackge", "to_spawn": "chuenyu.west_blackge.stairs_return", "legacy_room": "es2:d/chuenyu/bedroom", "legacy_command": "westdown" },
-		{ "id": "chuenyu.bedroom.eastdown", "from_zone": "chuenyu.bedroom", "to_zone": "chuenyu.east_blackge", "to_spawn": "chuenyu.east_blackge.stairs_return", "legacy_room": "es2:d/chuenyu/bedroom", "legacy_command": "eastdown" }
+		{ "id": "chuenyu.bedroom.eastdown", "from_zone": "chuenyu.bedroom", "to_zone": "chuenyu.east_blackge", "to_spawn": "chuenyu.east_blackge.stairs_return", "legacy_room": "es2:d/chuenyu/bedroom", "legacy_command": "eastdown" },
+		{ "id": "chuenyu.tunnel1.south", "from_zone": "chuenyu.tunnel1", "to_zone": "chuenyu.tunnel5", "to_spawn": "chuenyu.tunnel5.north_arrival", "legacy_room": "es2:d/chuenyu/tunnel1", "legacy_command": "south" },
+		{ "id": "chuenyu.tunnel1.north", "from_zone": "chuenyu.tunnel1", "to_zone": "chuenyu.tunnel2", "to_spawn": "chuenyu.tunnel2.south_arrival", "legacy_room": "es2:d/chuenyu/tunnel1", "legacy_command": "north" },
+		{ "id": "chuenyu.tunnel2.east", "from_zone": "chuenyu.tunnel2", "to_zone": "chuenyu.tunnel6", "to_spawn": "chuenyu.tunnel6.west_arrival", "legacy_room": "es2:d/chuenyu/tunnel2", "legacy_command": "east" },
+		{ "id": "chuenyu.tunnel2.north", "from_zone": "chuenyu.tunnel2", "to_zone": "chuenyu.tunnel3", "to_spawn": "chuenyu.tunnel3.south_arrival", "legacy_room": "es2:d/chuenyu/tunnel2", "legacy_command": "north" },
+		{ "id": "chuenyu.tunnel2.south", "from_zone": "chuenyu.tunnel2", "to_zone": "chuenyu.tunnel1", "to_spawn": "chuenyu.tunnel1.north_arrival", "legacy_room": "es2:d/chuenyu/tunnel2", "legacy_command": "south" },
+		{ "id": "chuenyu.tunnel3.east", "from_zone": "chuenyu.tunnel3", "to_zone": "chuenyu.dungeon", "to_spawn": "chuenyu.dungeon.west_arrival", "legacy_room": "es2:d/chuenyu/tunnel3", "legacy_command": "east" },
+		{ "id": "chuenyu.tunnel3.north", "from_zone": "chuenyu.tunnel3", "to_zone": "chuenyu.tunnel5", "to_spawn": "chuenyu.tunnel5.south_arrival", "legacy_room": "es2:d/chuenyu/tunnel3", "legacy_command": "north" },
+		{ "id": "chuenyu.tunnel3.south", "from_zone": "chuenyu.tunnel3", "to_zone": "chuenyu.tunnel2", "to_spawn": "chuenyu.tunnel2.north_arrival", "legacy_room": "es2:d/chuenyu/tunnel3", "legacy_command": "south" },
+		{ "id": "chuenyu.tunnel4.north", "from_zone": "chuenyu.tunnel4", "to_zone": "chuenyu.tunnel5", "to_spawn": "chuenyu.tunnel5.south_arrival", "legacy_room": "es2:d/chuenyu/tunnel4", "legacy_command": "north" },
+		{ "id": "chuenyu.tunnel4.east", "from_zone": "chuenyu.tunnel4", "to_zone": "chuenyu.tortureroom", "to_spawn": "chuenyu.tortureroom.west_arrival", "legacy_room": "es2:d/chuenyu/tunnel4", "legacy_command": "east" },
+		{ "id": "chuenyu.tunnel4.west", "from_zone": "chuenyu.tunnel4", "to_zone": "chuenyu.tortureroom2", "to_spawn": "chuenyu.tortureroom2.east_arrival", "legacy_room": "es2:d/chuenyu/tunnel4", "legacy_command": "west" },
+		{ "id": "chuenyu.tunnel4.south", "from_zone": "chuenyu.tunnel4", "to_zone": "chuenyu.dungeon", "to_spawn": "chuenyu.dungeon.north_arrival", "legacy_room": "es2:d/chuenyu/tunnel4", "legacy_command": "south" },
+		{ "id": "chuenyu.tunnel5.north", "from_zone": "chuenyu.tunnel5", "to_zone": "chuenyu.tunnel1", "to_spawn": "chuenyu.tunnel1.south_arrival", "legacy_room": "es2:d/chuenyu/tunnel5", "legacy_command": "north" },
+		{ "id": "chuenyu.tunnel5.west", "from_zone": "chuenyu.tunnel5", "to_zone": "chuenyu.tunnel6", "to_spawn": "chuenyu.tunnel6.east_arrival", "legacy_room": "es2:d/chuenyu/tunnel5", "legacy_command": "west" },
+		{ "id": "chuenyu.tunnel5.east", "from_zone": "chuenyu.tunnel5", "to_zone": "chuenyu.tortureroom", "to_spawn": "chuenyu.tortureroom.west_arrival", "legacy_room": "es2:d/chuenyu/tunnel5", "legacy_command": "east" },
+		{ "id": "chuenyu.tunnel6.north", "from_zone": "chuenyu.tunnel6", "to_zone": "chuenyu.tortureroom2", "to_spawn": "chuenyu.tortureroom2.south_arrival", "legacy_room": "es2:d/chuenyu/tunnel6", "legacy_command": "north" },
+		{ "id": "chuenyu.tunnel6.east", "from_zone": "chuenyu.tunnel6", "to_zone": "chuenyu.tunnel5", "to_spawn": "chuenyu.tunnel5.west_arrival", "legacy_room": "es2:d/chuenyu/tunnel6", "legacy_command": "east" },
+		{ "id": "chuenyu.dungeon.west", "from_zone": "chuenyu.dungeon", "to_zone": "chuenyu.tunnel3", "to_spawn": "chuenyu.tunnel3.east_arrival", "legacy_room": "es2:d/chuenyu/dungeon", "legacy_command": "west" },
+		{ "id": "chuenyu.dungeon.north", "from_zone": "chuenyu.dungeon", "to_zone": "chuenyu.tunnel4", "to_spawn": "chuenyu.tunnel4.south_arrival", "legacy_room": "es2:d/chuenyu/dungeon", "legacy_command": "north" },
+		{ "id": "chuenyu.tortureroom.south", "from_zone": "chuenyu.tortureroom", "to_zone": "chuenyu.tunnel6", "to_spawn": "chuenyu.tunnel6.north_arrival", "legacy_room": "es2:d/chuenyu/tortureroom", "legacy_command": "south" },
+		{ "id": "chuenyu.tortureroom.east", "from_zone": "chuenyu.tortureroom", "to_zone": "chuenyu.tunnel4", "to_spawn": "chuenyu.tunnel4.west_arrival", "legacy_room": "es2:d/chuenyu/tortureroom", "legacy_command": "east" },
+		{ "id": "chuenyu.tortureroom2.south", "from_zone": "chuenyu.tortureroom2", "to_zone": "chuenyu.tunnel6", "to_spawn": "chuenyu.tunnel6.north_arrival", "legacy_room": "es2:d/chuenyu/tortureroom2", "legacy_command": "south" },
+		{ "id": "chuenyu.tortureroom2.east", "from_zone": "chuenyu.tortureroom2", "to_zone": "chuenyu.tunnel4", "to_spawn": "chuenyu.tunnel4.west_arrival", "legacy_room": "es2:d/chuenyu/tortureroom2", "legacy_command": "east" },
+		{ "id": "chuenyu.tunnel4.up", "from_zone": "chuenyu.tunnel4", "to_zone": "chuenyu.east_castle", "to_spawn": "chuenyu.east_castle.slab_arrival", "legacy_room": "es2:d/chuenyu/tunnel4", "legacy_command": "up" },
+		{ "id": "chuenyu.east_castle.down", "from_zone": "chuenyu.east_castle", "to_zone": "chuenyu.tunnel4", "to_spawn": "chuenyu.tunnel4.slab_arrival", "legacy_room": "es2:d/chuenyu/east_castle", "legacy_command": "down" }
 	],
 	"doors": [
 		{ "id": "chuenyu.gate_castle.door", "name": "城门", "zones": ["chuenyu.gate_castle", "chuenyu.trap_castle"], "reach": 90, "legacy_room": "es2:d/chuenyu/gate_castle" },
@@ -70,7 +105,8 @@
 		{ "id": "chuenyu.trap_castle.landmark.rock", "zone": "chuenyu.trap_castle", "name": "巨石", "policy": "look", "long": "这是一块千斤巨石，阻住了通向北面的路。\n", "legacy_source": "d/chuenyu/trap_castle.c" },
 		{ "id": "chuenyu.trap_castle.landmark.hole", "zone": "chuenyu.trap_castle", "name": "圆孔", "policy": "look", "long": "你试着往圆孔里看，可是里面太黑了，什么也看不到。\n", "legacy_source": "d/chuenyu/trap_castle.c" },
 		{ "id": "chuenyu.trap_castle.landmark.noise", "zone": "chuenyu.trap_castle", "name": "声音", "policy": "look", "long": "这显然是拉开强弩的声音。\n", "legacy_source": "d/chuenyu/trap_castle.c" },
-		{ "id": "chuenyu.rope_bridge.landmark.chain", "zone": "chuenyu.rope_bridge", "name": "铁链", "policy": "look", "long": "这里只有一条铁链（chain）。\n", "legacy_source": "d/chuenyu/rope_bridge.c" }
+		{ "id": "chuenyu.rope_bridge.landmark.chain", "zone": "chuenyu.rope_bridge", "name": "铁链", "policy": "look", "long": "这里只有一条铁链（chain）。\n", "legacy_source": "d/chuenyu/rope_bridge.c" },
+		{ "id": "chuenyu.tunnel4.landmark.rock", "zone": "chuenyu.tunnel4", "name": "石板", "action": "推", "policy": "hidden_passage", "portals": ["chuenyu.tunnel4.up", "chuenyu.east_castle.down"], "pushes": 5, "open_seconds": 5, "closes_on_time": 1, "long": "很沉重的石板，但你似乎可以推动它。\n", "messages": { "push": "你试著往上用力推动石板，石板变得越来越松动了....", "open": "石板终于被推的斜立起来，露出一个向上的缝隙。", "close": "石板“轰”的一声又倒了下来，将向上的通道盖住了。", "close_beyond": "石板“轰”的一声又倒了下去，将向下的通道盖住了。" }, "legacy_source": "d/chuenyu/tunnel4.c" }
 	],
 	"services": [
 		{ "id": "chuenyu.east_castle.climb", "kind": "act", "zone": "chuenyu.east_castle", "name": "城墙", "reach": 96, "legacy_source": "d/chuenyu/east_castle.c", "act": { "verb": "爬上去", "acts": [
@@ -105,6 +141,14 @@
 			{ "steps": [
 				{ "line": "你抓紧铁链，顺着铁索桥走了下去。\n" },
 				{ "move": "chuenyu.base_b_m", "point": "chuenyu.base_b_m.chain_arrival" }
+			] }
+		] } },
+		{ "id": "chuenyu.center.pull", "kind": "act", "zone": "chuenyu.center", "name": "绳子", "reach": 96, "legacy_source": "d/chuenyu/center.c", "act": { "verb": "拉", "acts": [
+			{ "ask": "这根绳子连着翻板：一拉就会掉进下面的地牢，摔得不轻，也没法顺着绳子爬回来。确定要拉绳子吗？", "choice": "拉绳子", "steps": [
+				{ "line": "你试着拉了一下绳子，触动了翻板，整个人“轰隆”一声掉了下去！\n" },
+				{ "line": "你“轰隆”一声，从上面掉了下来！摔得你好痛！\n" },
+				{ "hurt": { "kee": { "base": 5, "random": 10 } } },
+				{ "move": "chuenyu.tunnel1", "point": "chuenyu.tunnel1.rope_arrival" }
 			] }
 		] } }
 	]

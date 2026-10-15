@@ -36,7 +36,7 @@ func _init(ui: SharedGameplayUI) -> void:
 ## The selected thing's name in the shown language.
 func selection_text() -> String:
 	if selected_target != null:
-		return selected_target.definition().short_name()
+		return selected_target.short_name()
 	if selected_landmark != null:
 		return tr(selected_landmark.display_name)
 	if selected_floor_item:
@@ -115,13 +115,14 @@ func set_selected_floor_item(display_name: String, in_range: bool, clear_inspect
 
 ## `relation` is look.c's word for what the NPC is to the player (FamilyRelation), "" for none;
 ## `strength` the native line on how strong it looks (RelativeStrength.line()), "" for none.
-func show_inspection(definition: NpcDefinition, relation: String = "", gender: StringName = &"", strength: String = "") -> void:
+## `title`: the one its mood shows (悲愤欲绝) instead of its own.
+func show_inspection(definition: NpcDefinition, relation: String = "", gender: StringName = &"", strength: String = "", title: String = "") -> void:
 	_presentation_layout.open_panel("目标详情", _presentation_layout.details)
 	if definition == null:
 		_ui.inspection_text.text = ""
 		return
 	_ui.inspection_text.text = "%s\n%s" % [
-		definition.short_name(),
+		definition.short_name(title),
 		tr(definition.description).strip_edges(),
 	]
 	if not relation.is_empty():

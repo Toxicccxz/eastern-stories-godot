@@ -48,7 +48,7 @@ TEXT_KEYS = frozenset({
     "whisper", "commoners_only", "busy_say", "mana_fail", "sen_fail", "came", "caught", "standing",
     "tell", "dissolve", "tired", "clumsy", "ask", "choice", "wear_refusal",
     "water_fail", "catch_say", "escape_line", "deliver_say", "refused_line", "beat_line", "warn_line",
-    "sorry_line", "label", "hint",
+    "sorry_line", "label", "hint", "attack_ask", "attack_choice",
 })
 TEXT_LIST_KEYS = frozenset({"limbs", "name_pick", "killed_by_owner", "killed_by_other", "taken_lines", "faint_lines"})
 # Inside lines and messages `action` names a chat function (random_move, drink, perform...), not a label.
@@ -56,7 +56,7 @@ LINE_KEYS = (TEXT_KEYS - {"action"}) | frozenset({
     "open", "close", "push", "hold", "fall", "climb", "climb_observer", "fall_observer",
     "use", "bury", "book", "paper", "shout", "shut", "joined", "refused",
     "weak", "rolled", "search", "found", "nothing", "spawn", "list", "take", "empty",
-    "lift", "closed", "read", "out", "open_below", "close_below",
+    "lift", "closed", "read", "out", "open_below", "close_below", "close_beyond",
 })
 # Lists of identifiers inside walked text (an inquiry rule's marks), never shown.
 ID_LIST_KEYS = frozenset({"asker_marks", "unmark_giver"})

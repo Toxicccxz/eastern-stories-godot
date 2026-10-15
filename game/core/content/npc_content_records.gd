@@ -230,7 +230,7 @@ static func _talk(reader: ContentRecordReader, create_rolls: NpcCreateRolls) -> 
 					lines.append(line)
 			relay_say[phrase] = lines
 		heard.finish()
-	var entries: Array = _chat_entries(reader, "chat_msg", false)
+	var entries: Array = chat_entries(reader, "chat_msg", false)
 	# set("chat_chance", random(20)) (walker.c): a rule each NPC draws.
 	var chance_roll: NpcRandomInteger = _random_integer(reader, "chat_chance") if reader.is_object("chat_chance") else create_rolls.roll_of("chat_chance")
 	var chance: int = chance_roll.base if chance_roll != null else reader.integer("chat_chance")
@@ -238,7 +238,7 @@ static func _talk(reader: ContentRecordReader, create_rolls: NpcCreateRolls) -> 
 		reader.fail("chat_chance", "draws a chance of 0 and more")
 	if (reader.has("chat_chance") or create_rolls.roll_of("chat_chance") != null) != reader.has("chat_msg"):
 		reader.fail("chat_chance", "chat_chance and chat_msg come together")
-	var combat_entries: Array = _chat_entries(reader, "chat_msg_combat", true)
+	var combat_entries: Array = chat_entries(reader, "chat_msg_combat", true)
 	var combat_roll: NpcRandomInteger = create_rolls.roll_of("chat_chance_combat")
 	var combat_chance: int = reader.integer("chat_chance_combat")
 	if (reader.has("chat_chance_combat") or combat_roll != null) != reader.has("chat_msg_combat"):
@@ -278,7 +278,7 @@ static func _talk(reader: ContentRecordReader, create_rolls: NpcCreateRolls) -> 
 ## npc.c chat() entries: lines, coloured lines and chat functions; drink only outside a
 ## fight, match_weapon (萧辟尘's consider()) only in one; random_move in a fight walks out
 ## of it (d/sanyen's cripple and 独眼头陀, go.c).
-static func _chat_entries(reader: ContentRecordReader, key: String, in_fight: bool) -> Array:
+static func chat_entries(reader: ContentRecordReader, key: String, in_fight: bool) -> Array:
 	var entries: Array = []
 	for entry: Variant in reader.strings_or_children(key):
 		if entry is String:
@@ -336,6 +336,7 @@ static func spawn_from_record(reader: ContentRecordReader) -> NpcSpawnDefinition
 		if reader.boolean("summoned", false):
 			reader.fail("draw", "a drawn spawn is not also summoned")
 		definition.with_draw_group(StringName(reader.required_text("draw")))
+	definition.with_once(reader.boolean("once", false))
 	reader.finish()
 	if definition.presence_radius <= 0:
 		reader.fail("presence_radius", "must be positive")

@@ -203,6 +203,7 @@ msgstr ""
 #. chuenyu.npc.gardener gender
 #. chuenyu.npc.smallgardener gender
 #. chuenyu.npc.cook gender
+#. chuenyu.npc.chuenyu gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json
 msgid "男性"
 msgstr ""
@@ -271,6 +272,7 @@ msgstr ""
 #. city.npc.shangshu.qing_chen gender
 #. chuenyu.npc.flower_seller gender
 #. chuenyu.npc.cleangirl gender
+#. chuenyu.npc.xiaojuan2 gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json
 msgid "女性"
 msgstr ""
@@ -973,6 +975,27 @@ msgstr ""
 
 #: scenes/world/chuenyu/chuenyu_main.tscn
 msgid "铁链 · 顺着走下去"
+msgstr ""
+
+#: scenes/world/chuenyu/chuenyu_main.tscn
+msgid "绳子 · 拉"
+msgstr ""
+
+#. es2:d/chuenyu/tunnel1 short
+#. es2:d/chuenyu/tunnel2 short
+#. es2:d/chuenyu/tunnel3 short
+#. es2:d/chuenyu/tunnel4 short
+#. es2:d/chuenyu/tunnel5 short
+#. es2:d/chuenyu/tunnel6 short
+#: scenes/world/chuenyu/chuenyu_prison.tscn data/chuenyu/rooms.json
+msgid "地牢"
+msgstr ""
+
+#. es2:d/chuenyu/dungeon short
+#. es2:d/chuenyu/tortureroom short
+#. es2:d/chuenyu/tortureroom2 short
+#: scenes/world/chuenyu/chuenyu_prison.tscn data/chuenyu/rooms.json
+msgid "刑房"
 msgstr ""
 
 #. es2:d/chuenyu/yiantai short
@@ -5543,7 +5566,8 @@ msgstr ""
 msgid "召唤天将"
 msgstr ""
 
-#: presentation/battle/battle_presentation_controller.gd ui/world/shared_ui_context_actions.gd
+#. chuenyu.npc.xiaojuan2 attack_choice
+#: presentation/battle/battle_presentation_controller.gd ui/world/shared_ui_context_actions.gd data/chuenyu/npcs.json
 msgid "确定攻击"
 msgstr ""
 
@@ -6052,6 +6076,7 @@ msgstr ""
 #. chuenyu.npc.bee limbs
 #. chuenyu.npc.wolfdog limbs
 #. chuenyu.npc.pigeon limbs
+#. chuenyu.npc.highrat limbs
 #: runtime/combat_slice/combat_slice_content_profile.gd ui/world/player_inventory_panel.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/latemoon/npcs.json data/choyin/npcs.json data/village/npcs.json data/chuenyu/npcs.json
 msgid "头部"
 msgstr ""
@@ -8047,6 +8072,7 @@ msgstr ""
 #. es2:d/city/npc/obj/armor1 unit
 #. es2:d/city/shangshu/npc/obj/pink_cloth unit
 #. es2:d/city/shangshu/npc/obj/white_cloth unit
+#. es2:d/chuenyu/obj/torn_pink_cloth unit
 #. es2:u/cloud/obj/npc/monk/jiasha unit
 #. es2:u/cloud/obj/npc/lm_guard/color_cloth unit
 #. es2:u/cloud/obj/cloth/black_cloth unit
@@ -8058,7 +8084,7 @@ msgstr ""
 #. es2:d/temple/obj/robe unit
 #. es2:d/temple/obj/old_robe unit
 #. es2:d/temple/npc/obj/robe1 unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/canyon/items.json data/city/items.json data/cloud/items.json data/waterfog/items.json data/temple/items.json
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/canyon/items.json data/city/items.json data/chuenyu/items.json data/cloud/items.json data/waterfog/items.json data/temple/items.json
 msgid "件"
 msgstr ""
 
@@ -8215,6 +8241,7 @@ msgstr ""
 #. es2:d/canyon/bamboo/obj/parry_book unit
 #. es2:d/village/npc/obj/knife unit
 #. es2:d/village/npc/obj/flower unit
+#. es2:d/village/npc/obj/hengbing unit
 #. es2:d/city/npc/obj/duoqing_blade unit
 #. es2:d/city/npc/obj/wuqing_sword unit
 #. es2:d/city/npc/obj/demon_staff unit
@@ -8402,12 +8429,13 @@ msgstr ""
 #. es2:d/choyin/obj/cloth_piece unit
 #. es2:d/choyin/obj/goldenrope unit
 #. es2:d/city/npc/obj/rain_whip unit
+#. es2:d/chuenyu/obj/chwhip unit
 #. es2:u/cloud/obj/npc/butcher/skin_belt unit
 #. es2:u/cloud/obj/etc/rope unit
 #. es2:u/cloud/obj/npc/lm_guard/whip unit
 #. es2:u/cloud/obj/npc/monk/stick unit
 #. es2:d/waterfog/obj/iron_staff unit
-#: data/common/items.json data/latemoon/items.json data/choyin/items.json data/city/items.json data/cloud/items.json data/waterfog/items.json
+#: data/common/items.json data/latemoon/items.json data/choyin/items.json data/city/items.json data/chuenyu/items.json data/cloud/items.json data/waterfog/items.json
 msgid "条"
 msgstr ""
 
@@ -10805,6 +10833,7 @@ msgstr ""
 #. chuenyu.npc.bee limbs
 #. chuenyu.npc.wolfdog limbs
 #. chuenyu.npc.pigeon limbs
+#. chuenyu.npc.highrat limbs
 #: data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/latemoon/npcs.json data/village/npcs.json data/chuenyu/npcs.json
 msgid "身体"
 msgstr ""
@@ -10845,6 +10874,7 @@ msgstr ""
 #. chuenyu.npc.bee limbs
 #. chuenyu.npc.wolfdog limbs
 #. chuenyu.npc.pigeon limbs
+#. chuenyu.npc.highrat limbs
 #: data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/waterfog/npcs.json data/latemoon/npcs.json data/choyin/npcs.json data/village/npcs.json data/chuenyu/npcs.json
 msgid "尾巴"
 msgstr ""
@@ -14981,6 +15011,17 @@ msgid ""
 "一块啃得精光的西瓜皮。\n"
 msgstr ""
 
+#. es2:d/village/npc/obj/hengbing name
+#: data/village/items.json
+msgid "銮鱼衡冰"
+msgstr ""
+
+#. es2:d/village/npc/obj/hengbing long
+#: data/village/items.json
+msgid ""
+"这是一把银白色的的长剑，份量大约有十来斤左右。\n"
+msgstr ""
+
 #. es2:d/city/npc/obj/duoqing_blade name
 #: data/city/items.json
 msgid "多情刀"
@@ -15254,6 +15295,22 @@ msgstr ""
 #: data/chuenyu/items.json
 msgid ""
 "清高冷傲的黑牡丹。\n"
+msgstr ""
+
+#. es2:d/chuenyu/obj/chwhip name
+#: data/chuenyu/items.json
+msgid "蛇鳞皮鞭"
+msgstr ""
+
+#. es2:d/chuenyu/obj/torn_pink_cloth name
+#: data/chuenyu/items.json
+msgid "破烂的粉红布衫"
+msgstr ""
+
+#. es2:d/chuenyu/obj/torn_pink_cloth long
+#: data/chuenyu/items.json
+msgid ""
+"这件粉红色的布衫上沾满了暗红色的血迹。\n"
 msgstr ""
 
 #. es2:u/cloud/obj/npc/gangster/blade long
@@ -16339,7 +16396,8 @@ msgid ""
 msgstr ""
 
 #. cloud.npc.girl accept_fight.say
-#: data/cloud/npcs.json
+#. chuenyu.npc.xiaojuan2 accept_fight.say
+#: data/cloud/npcs.json data/chuenyu/npcs.json
 msgid "小女子哪里是您的对手？"
 msgstr ""
 
@@ -17252,6 +17310,7 @@ msgstr ""
 
 #. es2:d/green/obj/rope name
 #. chuenyu.center.landmark.rope name
+#. chuenyu.center.pull name
 #: data/green/items.json data/chuenyu/world.json
 msgid "绳子"
 msgstr ""
@@ -17939,7 +17998,8 @@ msgid "大石"
 msgstr ""
 
 #. green.closed.landmark.stone action
-#: data/green/world.json
+#. chuenyu.tunnel4.landmark.rock action
+#: data/green/world.json data/chuenyu/world.json
 msgid "推"
 msgstr ""
 
@@ -23300,6 +23360,7 @@ msgstr ""
 #. chuenyu.npc.flower_seller inquiry topic
 #. chuenyu.npc.cleangirl inquiry topic
 #. chuenyu.npc.cook inquiry topic
+#. chuenyu.npc.xiaojuan2 name
 #: data/village/npcs.json data/chuenyu/npcs.json
 msgid "小娟"
 msgstr ""
@@ -23329,11 +23390,52 @@ msgstr ""
 #. village.npc.oldliu greeting.rules.steps.line
 #: data/village/npcs.json
 msgid ""
+"刘老农悲愤欲绝的骂道：你．．你．．你们居然杀了我女儿，纳命来！\n"
+msgstr ""
+
+#. village.npc.oldliu greeting.rules.steps.line
+#: data/village/npcs.json
+msgid ""
+"刘老农说道：“这位$RESPECT，多谢答救小女娟儿。” \n"
+msgstr ""
+
+#. village.npc.oldliu greeting.rules.steps.line
+#: data/village/npcs.json
+msgid ""
+"刘老农说道：“这口剑，这本密笈赠于$RESPECT。” \n"
+msgstr ""
+
+#. village.npc.oldliu greeting.rules.steps.line
+#: data/village/npcs.json
+msgid ""
+"刘老农说道：“这处非久留之地，我等去也。” \n"
+msgstr ""
+
+#. village.npc.oldliu greeting.rules.steps.line
+#: data/village/npcs.json
+msgid ""
+"刘老农领着娟儿匆匆离去。\n"
+msgstr ""
+
+#. village.npc.oldliu greeting.rules.steps.line
+#: data/village/npcs.json
+msgid ""
 "刘老农说道：“这位$RESPECT，可否见到小女娟儿？” \n"
 msgstr ""
 
-#. village.npc.rat name
+#. village.npc.oldliu moods.grief.title
 #: data/village/npcs.json
+msgid "悲愤欲绝"
+msgstr ""
+
+#. village.npc.oldliu moods.grief.chat_msg
+#: data/village/npcs.json
+msgid "刘老农悲愤欲绝的骂道：你．．你．．你们居然杀了我女儿，纳命来！"
+msgstr ""
+
+#. village.npc.rat name
+#. chuenyu.npc.highrat name
+#: data/village/npcs.json data/chuenyu/npcs.json
 msgid "大老鼠"
 msgstr ""
 
@@ -27705,6 +27807,7 @@ msgstr ""
 
 #. chuenyu.npc.cleangirl inquiry topic
 #. chuenyu.npc.cook inquiry topic
+#. chuenyu.npc.chuenyu name
 #: data/chuenyu/npcs.json
 msgid "淳于怀太"
 msgstr ""
@@ -27763,6 +27866,76 @@ msgstr ""
 #: data/chuenyu/npcs.json
 msgid ""
 "厨子道：“去地牢叫堡主上来吃饭。\n"
+msgstr ""
+
+#. chuenyu.npc.highrat long
+#: data/chuenyu/npcs.json
+msgid ""
+"一只疯狂的大老鼠\n"
+msgstr ""
+
+#. chuenyu.npc.chuenyu title
+#: data/chuenyu/npcs.json
+msgid "淳于堡主"
+msgstr ""
+
+#. chuenyu.npc.chuenyu long
+#: data/chuenyu/npcs.json
+msgid ""
+"淳于怀太是强盗出身，年轻时打家劫舍，无恶不做。尤于生\n"
+"性恶顽，没人愿收其为徒。但他绝顶聪明，盗百家之长而集\n"
+"于一身。\n"
+msgstr ""
+
+#. chuenyu.npc.chuenyu chat_msg
+#. chuenyu.npc.chuenyu calls.steps.line
+#: data/chuenyu/npcs.json
+msgid ""
+"淳于怀太喝道：呔！你竟敢坏大爷的好事！\n"
+msgstr ""
+
+#. chuenyu.npc.xiaojuan2 title
+#: data/chuenyu/npcs.json
+msgid "民女"
+msgstr ""
+
+#. chuenyu.npc.xiaojuan2 long
+#: data/chuenyu/npcs.json
+msgid ""
+"小娟姓刘，是这里刘老农的独生女。今年十六岁，人长的漂靓又大方。\n"
+"小娟已经被折磨的遍体鳞伤。\n"
+msgstr ""
+
+#. chuenyu.npc.xiaojuan2 chat_msg_combat
+#: data/chuenyu/npcs.json
+msgid ""
+"小娟说道：唉！ 没料道你和那些坏人是一伙的！\n"
+msgstr ""
+
+#. chuenyu.npc.xiaojuan2 calls.steps.say
+#: data/chuenyu/npcs.json
+msgid "救我！救救我呀！"
+msgstr ""
+
+#. chuenyu.npc.xiaojuan2 calls.steps.emote
+#: data/chuenyu/npcs.json
+msgid "竭力挣扎，渐渐从绳索里摆脱出来……。"
+msgstr ""
+
+#. chuenyu.npc.xiaojuan2 attack_ask
+#: data/chuenyu/npcs.json
+msgid "小娟遍体鳞伤，只剩一口气，这一击会要了她的命。确定要攻击她吗？"
+msgstr ""
+
+#. chuenyu.npc.guard2 name
+#: data/chuenyu/npcs.json
+msgid "狱卒"
+msgstr ""
+
+#. chuenyu.npc.guard2 long
+#: data/chuenyu/npcs.json
+msgid ""
+"这是黑松堡的狱卒\n"
 msgstr ""
 
 #. es2:d/chuenyu/croad1 long
@@ -27933,6 +28106,44 @@ msgid ""
 "的叫了起来。\n"
 msgstr ""
 
+#. es2:d/chuenyu/tunnel1 long
+#. es2:d/chuenyu/tunnel2 long
+#. es2:d/chuenyu/tunnel3 long
+#. es2:d/chuenyu/tunnel5 long
+#. es2:d/chuenyu/tunnel6 long
+#: data/chuenyu/rooms.json
+msgid ""
+"这里黑黑暗暗，几乎伸手不见五指。唯一的光亮来自墙上忽明忽暗的\n"
+"松油灯。地上和墙上布满了暗红色的血痕，散发出阵阵腥气。不断传来的\n"
+"哀嚎声在死沉的地牢里回荡，令人毛骨耸然。\n"
+msgstr ""
+
+#. es2:d/chuenyu/tunnel4 long
+#: data/chuenyu/rooms.json
+msgid ""
+"这里黑黑暗暗，几乎伸手不见五指。唯一的光亮来自墙上忽明忽暗的\n"
+"松油灯。地上和墙上布满了暗红色的血痕，散发出阵阵腥气。不断传来的\n"
+"哀嚎声在死沉的地牢里回荡，令人毛骨耸然。地牢的天花板上镶着一块石\n"
+"板，从石板的缝隙间射进几束阳光。\n"
+msgstr ""
+
+#. es2:d/chuenyu/dungeon long
+#: data/chuenyu/rooms.json
+msgid ""
+"你处在一个阴湿的地牢里。地牢的角落里堆着一些干草，干草上沾满了\n"
+"暗红色的血迹。许多骷髅被生锈的铁链绑在墙上。偶尔之间，你还可以听到\n"
+"老鼠“吱吱”的尖叫声。\n"
+msgstr ""
+
+#. es2:d/chuenyu/tortureroom long
+#. es2:d/chuenyu/tortureroom2 long
+#: data/chuenyu/rooms.json
+msgid ""
+"整间刑房已被乾曷的血迹然成暗红色。散发着扑鼻的腥臭。墙上挂满了\n"
+"各式各样的邢具。刑房的地上散落着生锈的铁链和破碎的骷髅。偶尔之间，\n"
+"你还可以听到老鼠“吱吱”的尖叫声。\n"
+msgstr ""
+
 #. chuenyu name
 #: data/chuenyu/world.json
 msgid "黑松山"
@@ -28074,6 +28285,37 @@ msgid ""
 "这里只有一条铁链（chain）。\n"
 msgstr ""
 
+#. chuenyu.tunnel4.landmark.rock name
+#: data/chuenyu/world.json
+msgid "石板"
+msgstr ""
+
+#. chuenyu.tunnel4.landmark.rock long
+#: data/chuenyu/world.json
+msgid ""
+"很沉重的石板，但你似乎可以推动它。\n"
+msgstr ""
+
+#. chuenyu.tunnel4.landmark.rock messages.push
+#: data/chuenyu/world.json
+msgid "你试著往上用力推动石板，石板变得越来越松动了...."
+msgstr ""
+
+#. chuenyu.tunnel4.landmark.rock messages.open
+#: data/chuenyu/world.json
+msgid "石板终于被推的斜立起来，露出一个向上的缝隙。"
+msgstr ""
+
+#. chuenyu.tunnel4.landmark.rock messages.close
+#: data/chuenyu/world.json
+msgid "石板“轰”的一声又倒了下来，将向上的通道盖住了。"
+msgstr ""
+
+#. chuenyu.tunnel4.landmark.rock messages.close_beyond
+#: data/chuenyu/world.json
+msgid "石板“轰”的一声又倒了下去，将向下的通道盖住了。"
+msgstr ""
+
 #. chuenyu.east_castle.climb act.acts.steps.line
 #. chuenyu.east_garden.climb act.acts.steps.line
 #. chuenyu.west_castle.climb act.acts.steps.line
@@ -28101,4 +28343,31 @@ msgstr ""
 #: data/chuenyu/world.json
 msgid ""
 "你抓紧铁链，顺着铁索桥走了下去。\n"
+msgstr ""
+
+#. chuenyu.center.pull act.verb
+#: data/chuenyu/world.json
+msgid "拉"
+msgstr ""
+
+#. chuenyu.center.pull act.acts.ask
+#: data/chuenyu/world.json
+msgid "这根绳子连着翻板：一拉就会掉进下面的地牢，摔得不轻，也没法顺着绳子爬回来。确定要拉绳子吗？"
+msgstr ""
+
+#. chuenyu.center.pull act.acts.choice
+#: data/chuenyu/world.json
+msgid "拉绳子"
+msgstr ""
+
+#. chuenyu.center.pull act.acts.steps.line
+#: data/chuenyu/world.json
+msgid ""
+"你试着拉了一下绳子，触动了翻板，整个人“轰隆”一声掉了下去！\n"
+msgstr ""
+
+#. chuenyu.center.pull act.acts.steps.line
+#: data/chuenyu/world.json
+msgid ""
+"你“轰隆”一声，从上面掉了下来！摔得你好痛！\n"
 msgstr ""

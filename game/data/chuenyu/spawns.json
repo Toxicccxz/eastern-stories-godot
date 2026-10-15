@@ -102,6 +102,70 @@
 			"points": ["chuenyu.kitchen.cook.1"],
 			"legacy_room": "d/chuenyu/kitchen.c",
 			"legacy_quantity": 1
+		},
+		{
+			"id": "chuenyu.prison.tunnel1.highrat",
+			"npc": "chuenyu.npc.highrat",
+			"map": "chuenyu.prison",
+			"zone": "chuenyu.tunnel1",
+			"points": ["chuenyu.tunnel1.highrat.1"],
+			"legacy_room": "d/chuenyu/tunnel1.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "chuenyu.prison.dungeon.chuenyu",
+			"npc": "chuenyu.npc.chuenyu",
+			"map": "chuenyu.prison",
+			"zone": "chuenyu.dungeon",
+			"points": ["chuenyu.dungeon.chuenyu.1"],
+			"legacy_room": "d/chuenyu/dungeon.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "chuenyu.prison.dungeon.xiaojuan2",
+			"npc": "chuenyu.npc.xiaojuan2",
+			"map": "chuenyu.prison",
+			"zone": "chuenyu.dungeon",
+			"points": ["chuenyu.dungeon.xiaojuan2.1"],
+			"legacy_room": "d/chuenyu/dungeon.c",
+			"legacy_quantity": 1,
+			"once": true
+		},
+		{
+			"id": "chuenyu.prison.tortureroom.highrats",
+			"npc": "chuenyu.npc.highrat",
+			"map": "chuenyu.prison",
+			"zone": "chuenyu.tortureroom",
+			"points": ["chuenyu.tortureroom.highrat.1", "chuenyu.tortureroom.highrat.2"],
+			"legacy_room": "d/chuenyu/tortureroom.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "chuenyu.prison.tortureroom.guard2s",
+			"npc": "chuenyu.npc.guard2",
+			"map": "chuenyu.prison",
+			"zone": "chuenyu.tortureroom",
+			"points": ["chuenyu.tortureroom.guard2.1", "chuenyu.tortureroom.guard2.2"],
+			"legacy_room": "d/chuenyu/tortureroom.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "chuenyu.prison.tortureroom2.highrats",
+			"npc": "chuenyu.npc.highrat",
+			"map": "chuenyu.prison",
+			"zone": "chuenyu.tortureroom2",
+			"points": ["chuenyu.tortureroom2.highrat.1", "chuenyu.tortureroom2.highrat.2"],
+			"legacy_room": "d/chuenyu/tortureroom2.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "chuenyu.prison.tortureroom2.guard2s",
+			"npc": "chuenyu.npc.guard2",
+			"map": "chuenyu.prison",
+			"zone": "chuenyu.tortureroom2",
+			"points": ["chuenyu.tortureroom2.guard2.1", "chuenyu.tortureroom2.guard2.2"],
+			"legacy_room": "d/chuenyu/tortureroom2.c",
+			"legacy_quantity": 2
 		}
 	]
 }

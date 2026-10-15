@@ -166,6 +166,30 @@
 			"weight": 10,
 			"value": 6,
 			"armor": { "type": "head", "props": { "armor": 0, "personality": 3 }, "weight_dodge": "armor" }
+		},
+		{
+			"id": "es2:d/chuenyu/obj/chwhip",
+			"legacy_sources": ["d/chuenyu/obj/chwhip.c", "d/chuenyu/npc/obj/chwhip.c"],
+			"name": "蛇鳞皮鞭",
+			"aliases": ["snakewhip"],
+			"unit": "条",
+			"material": "skin",
+			"weight": 5000,
+			"value": 500,
+			"weapon": { "skill": "whip", "damage": 15, "rigidity": 100, "weight_dodge": "equip" }
+		},
+		{
+			"id": "es2:d/chuenyu/obj/torn_pink_cloth",
+			"legacy_sources": ["d/chuenyu/obj/torn_pink_cloth.c", "d/chuenyu/npc/obj/torn_pink_cloth.c"],
+			"name": "破烂的粉红布衫",
+			"aliases": ["pink cloth", "cloth"],
+			"long": "这件粉红色的布衫上沾满了暗红色的血迹。\n",
+			"unit": "件",
+			"material": "cloth",
+			"female_only": true,
+			"weight": 1000,
+			"value": 200,
+			"armor": { "type": "cloth", "props": { "armor": 1, "personality": -3 }, "weight_dodge": "armor" }
 		}
 	]
 }

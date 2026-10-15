@@ -4,10 +4,10 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**黑松山 A** (`phase/chuenyu-a`, DECISIONS「黑松山 A」): the repaired way in (the 黄土大道's spur west
-off 玉螺湖村's highway), the road, the paddies and the mountain path, the 铁索桥 and its 家丁, 黑松堡's
-gate (combat_exp 2000), the 夹道's arrows, the vine walls into the gardens, the halls and 淳于's
-upper floor. Next: 黑松山 B (the 地牢, 淳于怀太 and 小娟, 刘老农's thanks and revenge).
+**黑松山 B** (`phase/chuenyu-b`, DECISIONS「黑松山 B」): the 地牢 under 黑松堡 (the main hall's rope,
+the maze, 淳于怀太, the slab out), 小娟 following the player every way, 刘老农's thanks or his
+revenge. 黑松山 is done (32 of 37 rooms; the rest is the copy of 刘家 ES2 cut off); next on the
+ROADMAP: 13 鬼门关.
 
 ## 待决定
 
@@ -280,7 +280,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   (asked first while he is clearly stronger): while he stands there both ways out are held (你的去
   路被瓜农拦住了。), in the fight he demands his money, and 还瓜钱 (HUD and battle panel) pays him 60 文
   and sends him home.
-* **黑松山**: west off 玉螺湖村's 黄土大道, 23 of 37 rooms on two maps: the road past a tea house to the
+* **黑松山**: west off 玉螺湖村's 黄土大道, 32 of 37 rooms on three maps: the road past a tea house to the
   crossing, the 山脚乡田 (no fighting, no magic; the 卖花姑娘 sells six flowers), the mountain path up
   the west side, the granite streets either side of the chasm and the 铁索桥 (two 紫衣家丁 stop one
   whose looks they mistrust and hunt them after; its chain leads straight down), 黑松堡's gate (below
@@ -288,9 +288,14 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   the walls fifteen seconds after one comes in, then every five). From the clifftops beside the gate
   the vine-covered walls are climbed into the west garden (the 园工 黑松一剪 with 召护法, killer bees)
   and the east garden (three 巨型犬); inside, the west hall's two 护院 attack whoever comes in, the
-  storeroom's five swords, the main hall's rope (its pull comes with B), the east hall's 女佣人, and
-  up the stairs 淳于's bedroom, the balcony's pigeons and the 膳房 (the cook, 烤山猪肉: food and a
-  hammer; 竹叶青).
+  storeroom's five swords, the east hall's 女佣人, and up the stairs 淳于's bedroom, the balcony's
+  pigeons and the 膳房 (the cook, 烤山猪肉: food and a hammer; 竹叶青). The main hall's rope (asked
+  first) drops one into the 地牢: nine dark rooms whose ways do not agree, rats and four 狱卒, 淳于怀太
+  in the 刑房 (he attacks at once) beside 小娟, who cries for help and, once the player has stayed
+  twenty seconds, follows them every way (attacking her is asked first). Five pushes of the sunlit
+  地牢's slab open the way up to the east clifftop for five seconds. Brought home to 刘家, 刘老农
+  thanks the player (銮鱼衡冰, 过招要旨) and leaves with her for good; her killer meets his revenge
+  (悲愤欲绝, until his room resets), once.
 * **京师**: south of 玉螺湖村's 三叉路口, 40 of 55 rooms on two maps: the 北驿道 between two small
   woods (桃X仙 picks up what is dropped there, puts it on and wields it), the 北门 in the north wall
   and its three 守城兵, 大栅栏 to the 十字路口; 护国道 from the 西一门 to the 东一门 (旺金钱庄, no
@@ -317,7 +322,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
 * Placeholder visuals: flat-colour terrain tiles; characters and objects are still coloured boxes.
   No art or audio yet.
 
-Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 495/551 rooms, 225/286 NPC
+Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 504/551 rooms, 229/286 NPC
 types, 9/9 joinable families, 33/36 special and 18/25 basic martial arts, 84/84 quest targets.
 
 ## Known issues

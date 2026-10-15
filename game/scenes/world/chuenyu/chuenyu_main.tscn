@@ -497,6 +497,33 @@ mouse_filter = 2
 text = "铁链 · 顺着走下去"
 horizontal_alignment = 1
 
+[node name="CenterRopePull" type="Marker2D" parent="."]
+position = Vector2(1744, 288)
+script = ExtResource("service")
+service_id = &"chuenyu.center.pull"
+
+[node name="Visual" type="Polygon2D" parent="CenterRopePull"]
+polygon = PackedVector2Array(0, -20, 16, 8, 0, 20, -16, 8)
+color = Color(0.5, 0.85, 1, 1)
+
+[node name="Label" type="Label" parent="CenterRopePull"]
+offset_left = -100.0
+offset_top = 26.0
+offset_right = 100.0
+mouse_filter = 2
+text = "绳子 · 拉"
+horizontal_alignment = 1
+
+[node name="EastCastleSlabPassage" type="Area2D" parent="."]
+position = Vector2(2160, 768)
+collision_layer = 0
+input_pickable = false
+script = ExtResource("passage")
+portal_id = &"chuenyu.east_castle.down"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EastCastleSlabPassage"]
+shape = SubResource("Rect_32_32")
+
 [node name="CastleGateDoor" type="Node" parent="."]
 script = ExtResource("door")
 door_id = &"chuenyu.gate_castle.door"
@@ -722,6 +749,11 @@ spawn_point_id = &"chuenyu.west_castle.wall_arrival"
 position = Vector2(1888, 1552)
 script = ExtResource("marker")
 spawn_point_id = &"chuenyu.base_b_m.chain_arrival"
+
+[node name="EastCastleSlabArrival" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(2160, 704)
+script = ExtResource("marker")
+spawn_point_id = &"chuenyu.east_castle.slab_arrival"
 
 [node name="WestHallStairsReturn" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(1552, 296)

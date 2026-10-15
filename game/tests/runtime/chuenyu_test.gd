@@ -6,13 +6,14 @@ extends RefCounted
 ## arrows (trap_castle.c arrowing()), the vine-covered walls climbed into the gardens, the halls
 ## and 淳于's upper floor. The 紫衣家丁 on the bridge look the passer over (random(per) < 20), the
 ## 护院 attack whoever comes in, the 巨型犬 are killer (answers as aggressive, attacks only by
-## berserk). 烤山猪肉 is food and a hammer (M4). The 地牢 and 小娟 wait for B.
+## berserk). 烤山猪肉 is food and a hammer (M4). The rope drops one into the 地牢 (B:
+## chuenyu_prison_test).
 ## Walks use the move actions (MapPlaces). TEST-ONLY fixtures are marked.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const Finance := preload("res://tests/runtime/snow_finance_test.gd")
 const MapPlaces := preload("res://tests/support/map_places.gd")
-const MAPS: Dictionary = {&"chuenyu.main": 20, &"chuenyu.upstairs": 3}
+const MAPS: Dictionary = {&"chuenyu.main": 20, &"chuenyu.upstairs": 3, &"chuenyu.prison": 9}
 const JIADING: StringName = &"chuenyu.npc.jiading3"
 const GUARD: StringName = &"chuenyu.npc.guard"
 const WOLFDOG: StringName = &"chuenyu.npc.wolfdog"
@@ -42,7 +43,6 @@ var _failures: Array[String] = []
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_data()
 	_test_greetings()
-	_test_reminders()
 	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.set_process(false)
@@ -67,7 +67,7 @@ func _test_data() -> void:
 		if String(zone.zone_id).begins_with("chuenyu."):
 			maps[zone.map_id] = maps.get(zone.map_id, 0) + 1
 			_check(zone.room_ids().size() == 1 and catalog.room(zone.room_ids()[0]) != null, "%s: one room" % zone.zone_id)
-	_check(maps == MAPS, "twenty-three rooms on two maps: %s" % maps)
+	_check(maps == MAPS, "thirty-two rooms on three maps: %s" % maps)
 	_check(catalog.region(&"chuenyu").display_name == "黑松山", "the region is 黑松山")
 	# Q1 (a): d/chuenyu's copy of 刘家 (cut off in ES2: sunnyroad.c's south commented out) is not placed.
 	for room: String in ["dustyroad3", "home", "littlegarden", "smallstorage", "smallyard"]:
@@ -89,7 +89,10 @@ func _test_data() -> void:
 	var hurt: ScriptedAct.Step = arrows.act.steps[-1]
 	_check(hurt.kind == ScriptedAct.Kind.HURT and hurt.amounts.get("kee", 0) == 35 and hurt.randoms.get("kee", 0) == 10, "random(10)+35 off eff_kee and kee")
 	_check(catalog.landmark(&"chuenyu.trap_castle.landmark.noise").description == "这显然是拉开强弩的声音。\n", "the noise: crossbows drawn")
-	_check(catalog.landmark(&"chuenyu.east_castle.landmark.rock").description == "青石板劳牢的镶在地下，但它下面似乎是空的。\n", "the slab: hollow beneath (B)")
+	_check(catalog.landmark(&"chuenyu.east_castle.landmark.rock").description == "青石板劳牢的镶在地下，但它下面似乎是空的。\n", "the slab: hollow beneath")
+	# B: the rope's look stays beside its pull; the slab opens only from below (tunnel4.c).
+	_check(catalog.landmark(&"chuenyu.center.landmark.rope").policy == &"look" and catalog.service(&"chuenyu.center.pull") != null, "the rope: looked at, and pulled")
+	_check(catalog.hidden_passage_for_portal(&"chuenyu.east_castle.down").zone_id == &"chuenyu.tunnel4", "the clifftop's way down opens only from the 地牢 below")
 	# M4: 烤山猪肉 is food and a hammer; eaten up it is the 山猪骨头, a hammer still; 牛腿 too.
 	var meat: ItemContentDefinition = catalog.item(PIGMEAT)
 	_check(meat.weapon_definition() != null and meat.weapon_definition().skill_type == &"hammer" and meat.food_definition() != null and meat.food_definition().initial_portions == 6 and meat.food_definition().food_supply == 90, "烤山猪肉: a hammer, six bites of 90")
@@ -123,15 +126,6 @@ func _test_greetings() -> void:
 			_check(kinds == [ScriptedAct.Kind.LINE, ScriptedAct.Kind.LINE, ScriptedAct.Kind.NPC_FLAG, ScriptedAct.Kind.NPC_FLAG, ScriptedAct.Kind.KILL] and act.steps[2].flag == String(NpcDefinition.FLAG_HUNTS_PLAYER) and act.steps[3].flag == String(NpcDefinition.FLAG_AGGRESSIVE), "站住！… then kill_ob() (his hatred) and attitude aggressive")
 	# attack.c init(): only "aggressive" attacks on sight; the killer dogs go berserk (bellicosity 3000).
 	_check(Berserk.applies_to(catalog.npc(WOLFDOG)) and not catalog.npc(WOLFDOG).has_capability(NpcDefinition.CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE), "巨型犬: no attack on sight, its berserk does")
-
-
-## Content that waits for 黑松山 B keeps a test that fails once it comes.
-func _test_reminders() -> void:
-	var catalog: ContentCatalog = GameContent.catalog()
-	# 黑松山 B: the 地牢 (center.c's pull, tunnel4.c's slab), 淳于怀太 and 小娟, 刘老农's thanks and revenge.
-	for room: String in ["tunnel1", "tunnel2", "tunnel3", "tunnel4", "tunnel5", "tunnel6", "dungeon", "tortureroom", "tortureroom2"]:
-		_check(catalog.zone_of_room(StringName("es2:d/chuenyu/" + room)) == null, "the 地牢 is placed (%s): give center.c's rope its pull (asked first), tunnel4.c's slab, 淳于怀太 and 小娟 (B)" % room)
-	_check(catalog.landmark(&"chuenyu.center.landmark.rope").policy == &"look" and catalog.service(&"chuenyu.center.pull") == null, "the rope only looks until the 地牢 comes (B)")
 
 
 ## 玉螺湖村's 黄土大道: its spur west (owner Q2) onto d/chuenyu's 黄土大道, and back.

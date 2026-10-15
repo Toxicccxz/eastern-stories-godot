@@ -26,6 +26,17 @@ extends RefCounted
 ## - `die_carries` (d/choyin/npc/lion.c die()): the `item` new()'d into it as it dies, so its
 ##   corpse holds it; with `master` it records its killer (set("master_id")): the item's
 ##   master form when the player struck last (ItemContentDefinition.MASTER_SUFFIX).
+## - `die_marks_killer` (d/chuenyu/xiaojuan2.c die()): its killer, the player, gets that mark
+##   (query_temp("last_damage_from")->set("marks/<mark>", 1)).
+## - `calls` (xiaojuan2.c, chuenyu.c init()): the call_outs its init() starts when the player
+##   comes into its room, each `after` seconds (0: at once, as a plain init()) and started anew
+##   by every arrival (remove_call_out()); when due it acts (a ScriptedAct, its conditions and
+##   steps) if the player is still there and it is for them.
+## - `moods` (d/village/npc/oldliu.c killhim()): {name: NpcMood}, put on by an act's `npc_mood`.
+## - `attack_ask` with `attack_choice` (owner, 黑松山 plan F3): 攻击 asks this first (小娟, a
+##   breath from death, whose death her father avenges).
+## - `follows_every_way` (owner, F2): following the player (team.c set_leader()) it goes along
+##   every way they lead, climbs, falls and other maps too; go.c follow_me() only took exits.
 var hurt_divisor: int = 0
 var hurt_say: String = ""
 var hurt_color: StringName = ColoredLine.PLAIN
@@ -44,6 +55,19 @@ var chant_repeat_after: int = 0
 var ghost: bool = false
 var die_item_id: StringName = &""
 var die_item_master: bool = false
+var die_marks_killer: String = ""
+var calls: Array[Call] = []
+var moods: Dictionary[String, NpcMood] = {}
+var attack_ask: String = ""
+var attack_choice: String = ""
+var follows_every_way: bool = false
+
+
+## One of init()'s call_outs (`calls`): when, and what it does.
+class Call:
+	extends RefCounted
+	var after: float = 0.0
+	var act: ScriptedAct
 
 
 class Stage:
@@ -113,7 +137,9 @@ static func _color(reader: ContentRecordReader, key: String) -> StringName:
 ## The NPC record's `receive_damage` {hurt?: {divisor, line, color?}, pills?: {count, below,
 ## line, color?}}, `kill_ob` {lines}, `revive` {exp_divisor, exp_plus, apply_divisor},
 ## `defeated_enemy` {line, color?} (each line as say() prints it, the NPC's name in it), `chant` {stages: [{after, say, line?, combat_exp?}],
-## repeat_after}, `ghost` true and `die_carries` {item, master?}; null when it has none of them.
+## repeat_after}, `ghost` true, `die_carries` {item, master?}, `die_marks_killer` a mark, `calls`
+## [{after, ...ScriptedAct}], `moods` {name: NpcMood}, `attack_ask` with `attack_choice` and
+## `follows_every_way` true; null when it has none of them.
 static func from_record(reader: ContentRecordReader) -> NpcHooks:
 	var hooks := NpcHooks.new()
 	var found: bool = false
@@ -194,4 +220,30 @@ static func from_record(reader: ContentRecordReader) -> NpcHooks:
 		hooks.die_item_id = StringName(dies.required_text("item"))
 		hooks.die_item_master = dies.boolean("master", false)
 		dies.finish()
+	if reader.has("die_marks_killer"):
+		found = true
+		hooks.die_marks_killer = reader.required_text("die_marks_killer")
+	for record: ContentRecordReader in reader.children("calls"):
+		found = true
+		var call := Call.new()
+		call.after = float(record.integer("after", 0))
+		if call.after < 0.0:
+			record.fail("after", "must not be negative")
+		call.act = ScriptedAct.from_record(record)
+		hooks.calls.append(call)
+	var moods: ContentRecordReader = reader.child("moods")
+	if moods != null:
+		found = true
+		for mood_name: String in moods.keys():
+			hooks.moods[mood_name] = NpcMood.from_record(mood_name, moods.child(mood_name))
+		moods.finish()
+	if reader.has("attack_ask") or reader.has("attack_choice"):
+		found = true
+		hooks.attack_ask = reader.required_text("attack_ask")
+		hooks.attack_choice = reader.required_text("attack_choice")
+	if reader.has("follows_every_way"):
+		found = true
+		hooks.follows_every_way = reader.boolean("follows_every_way", false)
+		if not hooks.follows_every_way:
+			reader.fail("follows_every_way", "only one that does says so")
 	return hooks if found else null

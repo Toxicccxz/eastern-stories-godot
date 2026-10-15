@@ -111,6 +111,46 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 - #27 牛皮酒袋照原名显示，不另起短名。
 - 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
 
+## 黑松山 B: the 地牢, 淳于怀太 and 小娟 (2026-10-15)
+
+The plan's B (「黑松山 A」 below: owner Q2 (a), F1–F4; M3, M7 默认). What each LPC function became is
+in [CHUENYU_CONTENT](CHUENYU_CONTENT.md#lpc--native-b); it follows the LPC except:
+- **Owner (Q2 (a)): the rescue happens once.** Thanked, 刘老农 and 娟儿 leave for good (`leave`: no
+  reset makes them anew); killed, 小娟 is not made anew (her spawn is `once`); after his revenge
+  刘老农 no longer asks after her (our mark 老刘报仇: ES2 cleared marks/murder and he asked again).
+- **Owner (F1): the thanks only with 娟儿 standing beside the player**; with marks/老刘 alone he asks
+  after her. ES2's 小娟 destructed herself five seconds after meeting him (goaway()); here she leaves
+  with him (刘老农领着娟儿匆匆离去).
+- **Owner (F2): she follows every way the player leads**: the maze's ways, the rope, the slab, the
+  climbs, the chain, other maps and through a door shut behind (ES2: go.c's exits only). Saved where
+  she stands, on any map; her room's reset does not call her home while she follows (ES2's
+  return_home() did, from anywhere).
+- **Owner (F3): 攻击 on 小娟 is asked first** (只剩一口气), and the player's own berserk never falls on
+  her (as on their master, 水烟阁 C). **Owner (F4): only the player leads her**
+  (ES2's init() started followhim for any living thing that came in, a rat too).
+- **默认 (M3): the maze as passages**, its exits as the LPC writes them (the one-way ones too).
+- **默认 (M7): 刘老农's 悲愤欲绝 lasts until his room resets**: the title, the temporary applies, his
+  chat and his hatred end there (ES2: until he was destructed).
+- **His revenge comes with his greeting**, a second after the player comes in (ES2's killhim() a
+  second later still). Of killhim()'s five set_temp() applies only apply/damage (combatd.c) and
+  apply/force (skill.c query_skill("force"), unused: his force_factor is 0) are read, here as in ES2;
+  apply/combat_exp is read by nothing, so he is no million-exp fighter (the plan said so).
+- **M6 (默认): 刘老农's last line loses its stray ”.**
+- **小娟's twenty seconds stand still while the player fights** (the world stands still in a fight;
+  ES2 counted on). Leaving and coming back starts them again (init()'s remove_call_out()).
+- **Stays as ES2:** the fall's random(10)+5 off eff_kee and kee; 淳于怀太 shouts and attacks whoever
+  comes into the 刑房, at once; the 狱卒 attack whoever comes in (both of a 刑房's together:
+  complete_set) and wander; the slab opens on the fifth push for five seconds and shuts on time,
+  with the player above too (east_castle reads its fall); the 地牢 has no other way out.
+- **Global (data):** NPC `calls` (init()'s call_outs: `after` seconds, started anew by each arrival),
+  `moods` (title, applies, flags and chat until the room resets), `die_marks_killer`,
+  `attack_ask`/`attack_choice`, `follows_every_way`; spawn `once`; act condition `npc_in`, steps
+  `mark`, `npc_mood`, `npc_wield`, `leave`; a hidden passage's `closes_on_time` and `close_beyond`;
+  an NPC's random_move through a passage of its map that is no walk (the maze) puts it in the room
+  beyond.
+- **Save:** world content revision `SOURCE_ENTRY_CHUENYU_B_V1` (a new map); older development saves
+  need a New Game.
+
 ## 黑松山 A: the road, the mountain and the castle (2026-10-12)
 
 Plan (owner, 2026-10-12: Q1 (a), Q2 (a), F1–F4 as recommended; M1–M7 **默认**, M3 and M7 with

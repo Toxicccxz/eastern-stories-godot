@@ -14,6 +14,8 @@ const GREETING_DELAY_SECONDS: float = 1.0
 const STEAL: StringName = &"steal"
 const RECRUIT: StringName = &"recruit"
 const MAKE: StringName = &"make"
+## An NPC's own init() call_outs (NpcHooks calls): call/<index>.
+const CALL_PREFIX: String = "call/"
 
 var _random: WorldInteractionRandomSource
 var _remainder: float = 0.0
@@ -72,6 +74,22 @@ func start_call(character_id: StringName, seconds: float, kind: StringName) -> v
 	if not _calls.has(kind):
 		_calls[kind] = {}
 	_calls[kind][character_id] = seconds
+
+
+## The kind of an NPC's own call_out (NpcHooks calls[index]).
+static func own_call(index: int) -> StringName:
+	return StringName(CALL_PREFIX + str(index))
+
+
+## The NPCs' own call_outs whose time runs out in `delta` seconds, in start order within
+## each: [character_id, index] pairs.
+func due_own_calls(delta: float) -> Array[Array]:
+	var due: Array[Array] = []
+	for kind: StringName in _calls.keys():
+		if String(kind).begins_with(CALL_PREFIX):
+			for character_id: StringName in due_calls(delta, kind):
+				due.append([character_id, String(kind).trim_prefix(CALL_PREFIX).to_int()])
+	return due
 
 
 ## Every call_out of the NPC (it is gone).

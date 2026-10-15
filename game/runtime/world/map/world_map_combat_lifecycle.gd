@@ -310,6 +310,11 @@ func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunit
 			# yamen_po.c die(): last_damage_from (the player, or one they called) gets crime_lv.
 			var by_player: bool = killer != null and _player != null and _map.npcs.summoners.get(killer.character_id, killer.character_id) == _player.character_id
 			_map.patrols.died(victim_npc, by_player)
+			# xiaojuan2.c die(): query_temp("last_damage_from")->set("marks/murder", 1), on the
+			# one who struck last (one the player called keeps it: it is no player).
+			var hooks: NpcHooks = victim_npc.definition().hooks()
+			if hooks != null and not hooks.die_marks_killer.is_empty() and killer != null and _player != null and killer.character_id == _player.character_id:
+				_player.state.marks[hooks.die_marks_killer] = 1
 	if receipt.completed() and receipt.outcome == CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE and killer != null:
 		_map.corpses.killed_enemy(killer_npc, killer_heard)
 		# combatd.c killer_reward(): a possessed killer's reward goes to who called it (its

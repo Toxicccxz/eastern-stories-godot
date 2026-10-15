@@ -9,7 +9,10 @@ extends RefCounted
 ## `pushes`-th opens its two portals (the way down and the way back) for
 ## `open_seconds` (weapon_storage.c). One with a single portal opens only the way
 ## there, the way back being an ordinary exit, and one with `every_push` 1 has no count:
-## every push opens it (d/village/road6.c's grass); `push` is said only when authored. `bury` buries the `buried` item lying in the
+## every push opens it (d/village/road6.c's grass); `push` is said only when authored. One
+## with `closes_on_time` 1 shuts when its time is up even on a player beyond it (d/chuenyu/
+## tunnel4.c's slab; the native rule waits for them, DECISIONS 4C), who reads `close_beyond`
+## there when authored. `bury` buries the `buried` item lying in the
 ## zone and rolls the player's kar: the `reward` item falls, or the player falls
 ## through its portal (cave5.c do_bury()). A `portal` landmark may say its LPC
 ## line (`use`, message_vision() to the mover) instead of the action's name. A
@@ -52,7 +55,7 @@ extends RefCounted
 const POLICIES: Dictionary[StringName, Dictionary] = {
 	&"portal": {"portals": 1, "messages": [], "optional_messages": ["use"], "settings": [], "items": []},
 	&"vine": {"portals": 2, "messages": ["hold", "fall", "climb"], "optional_messages": ["fall_observer", "climb_observer"], "settings": [], "optional_settings": ["below"], "items": []},
-	&"hidden_passage": {"portals": 1, "optional_portals": 1, "messages": ["open", "close"], "optional_messages": ["push"], "settings": ["pushes", "open_seconds"], "optional_settings": ["every_push"], "items": []},
+	&"hidden_passage": {"portals": 1, "optional_portals": 1, "messages": ["open", "close"], "optional_messages": ["push", "close_beyond"], "settings": ["pushes", "open_seconds"], "optional_settings": ["every_push", "closes_on_time"], "items": []},
 	&"bury": {"portals": 1, "messages": ["bury", "book", "paper", "fall"], "settings": [], "items": ["buried", "reward"]},
 	&"look": {"portals": 0, "messages": [], "settings": [], "items": [], "no_action": true},
 	&"join_class": {"portals": 0, "messages": ["joined", "refused"], "settings": [], "items": [], "class": true},
@@ -68,7 +71,7 @@ const POLICIES: Dictionary[StringName, Dictionary] = {
 ## The policies whose portals stay shut until the landmark opens them.
 const HIDDEN_POLICIES: Array[StringName] = [&"hidden_passage", &"dial"]
 ## Every setting some policy names (an integer field of the record).
-const SETTINGS: Array[String] = ["pushes", "open_seconds", "every_push", "force", "max_force", "force_factor", "gin", "kee", "sen", "random", "limit", "divisor", "below", "steps", "nearer", "further"]
+const SETTINGS: Array[String] = ["pushes", "open_seconds", "every_push", "closes_on_time", "force", "max_force", "force_factor", "gin", "kee", "sen", "random", "limit", "divisor", "below", "steps", "nearer", "further"]
 
 
 ## One of a dial's turns (jitan.c turn button forward): its button, what it counts and its line.

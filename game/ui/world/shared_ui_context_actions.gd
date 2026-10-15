@@ -190,12 +190,17 @@ func inspect_context() -> void:
 	if map != null: map.inspect_selected()
 
 
-## 攻击; on the player's own master it asks first: the kill is a betrayal (3C).
+## 攻击; on the player's own master it asks first: the kill is a betrayal (3C); so it does
+## on an NPC whose data asks it (NpcHooks attack_ask: 小娟, owner F3).
 func attack_context() -> void:
 	var map := _session.active_map() as WorldMapController
 	if map == null:
 		return
 	var npc: NpcRuntimeState = map.selected_npc()
+	var hooks: NpcHooks = null if npc == null else npc.definition().hooks()
+	if npc != null and map.selected_attack_starts() and hooks != null and not hooks.attack_ask.is_empty():
+		_ui.questions.ask_first(tr(hooks.attack_ask), hooks.attack_choice, map.attack_selected, _ui.selection.attack_is_enabled)
+		return
 	if npc == null or not map.selected_attack_starts() or not PlayerKillerReward.is_own_master(_player.state, npc.definition()):
 		map.attack_selected()
 		return

@@ -106,6 +106,7 @@ func inspect_selected() -> bool:
 	_map.hud().show_inspection(
 		npc.definition(), FamilyRelation.of_npc(_player.state, npc.definition(), gender), gender,
 		RelativeStrength.line(_player.state.progression.combat_experience, npc.character_state.progression.combat_experience),
+		"" if npc.mood() == null else npc.mood().title,
 	)
 	_map.hostilities.look_berserk(npc)
 	return true

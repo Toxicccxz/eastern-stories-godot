@@ -48,6 +48,43 @@
 		"chuenyu.npc.wolfdog": {
 			"attitude": "killer"
 		},
+		"chuenyu.npc.chuenyu": {
+			"attitude": "killer",
+			"calls": [
+				{ "after": 0, "steps": [
+					{ "line": "淳于怀太喝道：呔！你竟敢坏大爷的好事！\n" },
+					{ "npc_flag": "hunts_player" },
+					{ "kill": true }
+				] }
+			]
+		},
+		"chuenyu.npc.guard2": {
+			"capabilities": ["aggressive_on_player_presence"],
+			"chat_chance_combat": 15,
+			"chat_msg_combat": [
+				{ "action": "random_move" }
+			]
+		},
+		"chuenyu.npc.xiaojuan2": {
+			"accept_fight": [
+				{ "say": "小女子哪里是您的对手？", "accept": false }
+			],
+			"calls": [
+				{ "after": 3, "npc_in": "chuenyu.dungeon", "steps": [
+					{ "say": "救我！救救我呀！" },
+					{ "emote": "竭力挣扎，渐渐从绳索里摆脱出来……。" }
+				] },
+				{ "after": 20, "npc_in": "chuenyu.dungeon", "steps": [
+					{ "npc_flag": "follows_player" },
+					{ "mark": "老刘" }
+				] }
+			],
+			"die_marks_killer": "murder",
+			"attack_ask": "小娟遍体鳞伤，只剩一口气，这一击会要了她的命。确定要攻击她吗？",
+			"attack_choice": "确定攻击",
+			"follows_every_way": true
+		},
+		"chuenyu.prison.dungeon.xiaojuan2": { "once": true },
 		"chuenyu.npc.gardener": {
 			"chat_chance_combat": 50,
 			"chat_msg_combat": [
@@ -61,6 +98,35 @@
 		}
 	},
 	"review": {
+		"d/chuenyu/tunnel4.c": {
+			"set item_desc": "the slab's landmark chuenyu.tunnel4.landmark.rock (石板 · 推: hidden_passage), its look the item_desc's",
+			"function init": "push: the landmark's action",
+			"function do_push": "landmark chuenyu.tunnel4.landmark.rock: each push its line (你试著往上用力推动石板…)",
+			"function check_trigger": "hidden_passage: the fifth push (13 commented out) opens tunnel4.up and east_castle.down for five seconds, its open line here; east_castle's line (地下的石板被推的斜立起来…) is read by nobody there (the player pushes below)",
+			"function close_passage": "hidden_passage closes_on_time: shut after five seconds wherever the player is, its close line here and close_beyond on east_castle",
+			"function reset": "the room's reset deletes the count (HiddenPassageState.reset)"
+		},
+		"d/chuenyu/npc/chuenyu.c": {
+			"set attitude": "attitude killer in set (as wolfdog.c: aggressive for accept_fight() and ask.c; his init() attacks)",
+			"function init": "calls in set: message_vision() and kill_ob() at once (after 0) for the player who comes in (npc_flag hunts_player: kill_ob()'s hatred)"
+		},
+		"d/chuenyu/obj/chwhip.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"d/chuenyu/xiaojuan2.c": {
+			"function accept_fight": "accept_fight in set: 小女子哪里是您的对手？ and no spar",
+			"function init": "calls in set: messageing after 3 and followhim after 20, started anew by each arrival of the player (remove_call_out); only the player (owner F4: ES2 any living thing that came in); marks/老刘本人 (刘老农): his thanks' leave step takes her (F1)",
+			"function messageing": "calls[0]: in the 刑房 (npc_in), say and emote",
+			"function followhim": "calls[1]: in the 刑房 with the player still there, set_leader (npc_flag follows_player; follows_every_way: owner F2) and marks/老刘 (mark)",
+			"function goaway": "the thanks' leave step (she leaves with 刘老农, for good: owner Q2 (a)); ES2's five seconds after meeting him go",
+			"function die": "die_marks_killer in set: marks/murder on the player who struck last; the spawn is once (owner Q2 (a)): she is not made anew"
+		},
+		"d/chuenyu/npc/guard2.c": {
+			"set chat_chance_combat": "in set",
+			"set chat_msg_combat": "in set: random_move walks out of the fight",
+			"function init": "capabilities aggressive_on_player_presence in set: kill_ob() whoever comes in while not fighting"
+		},
 		"d/chuenyu/npc/flower_seller.c": {
 			"function init": "greeting in set (one second after the player comes in, not while she fights); list: the vendor's goods panel",
 			"function greeting": "greeting in set: switch(random(6)), its say() lines as written (cases 1 and 5 are the same 黄枚瑰; M6: the stray leading space goes)"
@@ -147,8 +213,8 @@
 		},
 		"d/chuenyu/center.c": {
 			"set item_desc": "a look-only landmark (绳子) in world.json",
-			"function init": "pull rope waits for 黑松山 B (the 地牢): chuenyu_test's reminder fails once the 地牢 is placed",
-			"function roping": "黑松山 B: the fall into the 地牢"
+			"function init": "pull: the act service chuenyu.center.pull (绳子 · 拉), asked first (it drops the player into the 地牢)",
+			"function roping": "service chuenyu.center.pull: both message_vision() lines, eff_kee and kee down random(10)+5 (hurt), move() to tunnel1; anything but the rope was typing"
 		},
 		"d/chuenyu/obj/8hammer.c": {
 			"set wield_msg": "wield/unwield messages are not shown yet",
