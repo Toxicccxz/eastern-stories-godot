@@ -1,51 +1,22 @@
-# Eastern Stories Godot
+# godot sandbox (archived)
 
-Eastern Stories Godot is a native Godot RPG migration of classic Eastern Stories / ES2. The
-project preserves meaningful legacy rules and authored content while rebuilding movement, maps,
-runtime interaction, and presentation as a real RPG. It is not an LPC interpreter, a FluffOS
-compatibility layer, or a graphical MUD client.
+**Not maintained.**
 
-The supported Phase 10A engine is exactly **Godot 4.7.2**. Open `game/project.godot` for a bounded
-playable Snow ↔ Old Pine vertical slice: source-valid New Game in Snow Inn, continuous Snow core
-routes, Work income, physical currency and Bank exchange, Inn supplies, food/water, and eligible
-recovery/metabolism. Snow ↔ Old Pine travel connects active semi-auto combat, corpse/loot and
-inventory/equipment to Hockshop Value/Sell, completing the loot → money → supplies loop with native
-Save/Continue. Windows, Android and unsigned iOS builds share the cross-platform build foundation.
-The game is incomplete and is not store-ready or production-ready. Phone input, responsive layout,
-safe areas, and mobile lifecycle foundations are implemented. Android has bounded physical-device
-evidence, but broad device coverage, iOS runtime qualification, and store qualification remain
-incomplete. Cross-platform builds alone are not runtime proof; see [current status](docs/production/STATUS.md).
+This is an old practice project from when I was first trying out Godot: a place to poke at
+tilemaps, a few UI panels and some GDScript ideas. It was never meant to turn into anything, and it
+didn't.
 
-## Repository layout
+Most of it follows habits and engine APIs that have since moved on, and I would not write it this
+way again. A lot of it is half-finished, stubbed out or simply broken. There is no documentation
+beyond notes I left for myself at the time, and they no longer match the code.
 
-- `game/`: native Godot project, gameplay tests, and development-only Godot AI addon.
-- `reference/es2/`: read-only authoritative LPC source; never part of release staging.
-- `docs/migration/`: source-traceable migration records and compatibility decisions.
-- `docs/production/`: current status, roadmap, build/CI, repository, and provenance evidence.
-- `tools/`: standard-library Python verification, sanitizer, and build tooling.
+It stays online only as a personal record. Please don't use it, build on it, or take it as an
+example of how to do things in Godot; there are far better references out there. Issues and pull
+requests from others won't be looked at.
 
-## Verify and build
+## Copyright
 
-With Python 3.12 and Godot 4.7.2:
+Copyright © the author. All rights reserved.
 
-```text
-python tools/ci/verify.py --godot <path-to-godot-4.7.2>
-python tools/build/build.py --target windows --godot <path-to-godot-4.7.2> --templates <path-to-4.7.2.stable-templates>
-python tools/build/build.py --target android --godot <path-to-godot-4.7.2> --templates <path-to-4.7.2.stable-templates> --android-sdk <android-sdk> --java-sdk <temurin-jdk-17.0.18+8>
-python tools/build/build.py --target ios --godot <path-to-godot-4.7.2> --templates <path-to-4.7.2.stable-templates>
-```
-
-iOS export and compilation require macOS and Xcode. See
-[BUILD.md](docs/production/BUILD.md) before using these commands.
-
-## Project evidence
-
-- [Current status](docs/production/STATUS.md)
-- [Roadmap](docs/production/ROADMAP.md)
-- [Build and CI](docs/production/BUILD.md)
-- [Major-phase branch, PR, and integration policy](docs/production/REPOSITORY_POLICY.md)
-- [Godot AI development and live-runtime evidence](docs/production/GODOT_AI_DEVELOPMENT.md)
-- [License and provenance evidence](docs/production/LICENSE_PROVENANCE.md)
-
-The repository currently has no root project license. ES2 attribution/license evidence contains an
-unresolved discrepancy; no commercial-clearance claim is made.
+No license is granted to use, copy, modify or distribute the author's work in this repository.
+Files or directories that carry their own license notice remain under that notice.
