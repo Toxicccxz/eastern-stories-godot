@@ -28352,7 +28352,7 @@ msgstr ""
 
 #. chuenyu.center.pull act.acts.ask
 #: data/chuenyu/world.json
-msgid "这根绳子连着翻板：一拉就会掉进下面的地牢，摔得不轻，也回不到这里。确定要拉绳子吗？"
+msgid "这根绳子连着翻板：一拉就会掉进下面的地牢，摔得不轻，也没法顺着绳子爬回来。确定要拉绳子吗？"
 msgstr ""
 
 #. chuenyu.center.pull act.acts.choice

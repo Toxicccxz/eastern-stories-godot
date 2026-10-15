@@ -500,7 +500,8 @@ func reset_room(legacy_room: String) -> void:
 			# oldman.c reset(): set("pills", 9).
 			npc.pills_left = -1
 			npc.end_mood()
-			if npc.world_location().zone_id != spawn.zone_id and not _map.patrols.keeps_out(npc):
+			# One following the player every way (小娟, owner F2) stays with them.
+			if npc.world_location().zone_id != spawn.zone_id and not _map.patrols.keeps_out(npc) and not _map.npc_life.follows_every_way(npc):
 				return_home(npc)
 	for spawn: ItemSpawnDefinition in catalog.item_spawns_for_map(map):
 		if spawn.legacy_source_room_path != legacy_room:
@@ -545,7 +546,7 @@ func _draw_on_duty(group: StringName, arrive: bool) -> void:
 				_respawn_npc(drawn, npc)
 		elif not npc.exists_in_map:
 			_appear(npc, drawn, arrive)
-		elif npc.world_location().zone_id != drawn.zone_id:
+		elif npc.world_location().zone_id != drawn.zone_id and not _map.npc_life.follows_every_way(npc):
 			return_home(npc)
 
 
@@ -591,7 +592,10 @@ func _summonable(spawn_id: StringName) -> NpcRuntimeState:
 		return null
 	for point_id: StringName in spawn.spawn_point_ids():
 		var npc: NpcRuntimeState = _npc_at_point(point_id)
-		if npc != null and (npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD or not npc.exists_in_map):
+		if npc == null:
+			continue
+		var dead: bool = npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD
+		if (dead and made_anew(spawn, npc)) or (not dead and not npc.exists_in_map):
 			return npc
 	return null
 
@@ -609,7 +613,7 @@ func summon(spawn_id: StringName) -> Array[NpcRuntimeState]:
 		if npc == null:
 			continue
 		if npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
-			if _respawn_npc(spawn, npc):
+			if made_anew(spawn, npc) and _respawn_npc(spawn, npc):
 				came.append(_npc_at_point(point_id))
 		elif not npc.exists_in_map and _appear(npc, spawn):
 			came.append(npc)

@@ -123,8 +123,10 @@ in [CHUENYU_CONTENT](CHUENYU_CONTENT.md#lpc--native-b); it follows the LPC excep
   with him (刘老农领着娟儿匆匆离去).
 - **Owner (F2): she follows every way the player leads**: the maze's ways, the rope, the slab, the
   climbs, the chain, other maps and through a door shut behind (ES2: go.c's exits only). Saved where
-  she stands, on any map.
-- **Owner (F3): 攻击 on 小娟 is asked first** (只剩一口气). **Owner (F4): only the player leads her**
+  she stands, on any map; her room's reset does not call her home while she follows (ES2's
+  return_home() did, from anywhere).
+- **Owner (F3): 攻击 on 小娟 is asked first** (只剩一口气), and the player's own berserk never falls on
+  her (as on their master, 水烟阁 C). **Owner (F4): only the player leads her**
   (ES2's init() started followhim for any living thing that came in, a rat too).
 - **默认 (M3): the maze as passages**, its exits as the LPC writes them (the one-way ones too).
 - **默认 (M7): 刘老农's 悲愤欲绝 lasts until his room resets**: the title, the temporary applies, his

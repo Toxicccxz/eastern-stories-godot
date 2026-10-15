@@ -144,7 +144,7 @@
 			] }
 		] } },
 		{ "id": "chuenyu.center.pull", "kind": "act", "zone": "chuenyu.center", "name": "绳子", "reach": 96, "legacy_source": "d/chuenyu/center.c", "act": { "verb": "拉", "acts": [
-			{ "ask": "这根绳子连着翻板：一拉就会掉进下面的地牢，摔得不轻，也回不到这里。确定要拉绳子吗？", "choice": "拉绳子", "steps": [
+			{ "ask": "这根绳子连着翻板：一拉就会掉进下面的地牢，摔得不轻，也没法顺着绳子爬回来。确定要拉绳子吗？", "choice": "拉绳子", "steps": [
 				{ "line": "你试着拉了一下绳子，触动了翻板，整个人“轰隆”一声掉了下去！\n" },
 				{ "line": "你“轰隆”一声，从上面掉了下来！摔得你好痛！\n" },
 				{ "hurt": { "kee": { "base": 5, "random": 10 } } },

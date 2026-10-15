@@ -158,8 +158,14 @@ func carry_followers(to: WorldMapController, left_zone_id: StringName, adjacent:
 		):
 			continue
 		if not raised:
-			if not _map.npcs.release_follower(npc) or not to.npcs.admit_follower(npc, location, to.floor_items.at_feet(location, to.player_body.global_position, false, WorldMapNpcs.BESIDE)):
+			var stood: WorldLocationState = npc.world_location()
+			var at: Vector2 = _map.npc_rest_position(npc.character_id)
+			if not _map.npcs.release_follower(npc):
+				continue
+			if not to.npcs.admit_follower(npc, location, to.floor_items.at_feet(location, to.player_body.global_position, false, WorldMapNpcs.BESIDE)):
+				# It stays where it stood rather than nowhere.
 				push_error("%s could not follow the player onto %s" % [npc.character_id, to.map])
+				_map.npcs.admit_follower(npc, stood, at)
 				continue
 			_came_over(to, npc)
 			continue

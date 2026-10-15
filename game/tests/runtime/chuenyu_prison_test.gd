@@ -66,6 +66,10 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_wanderers(tree, session)
 	session.free()
 	await tree.process_frame
+	session = await _new_session(tree)
+	await _test_fights(tree, session)
+	session.free()
+	await tree.process_frame
 	return {"assertions": _count, "failures": _failures}
 
 
@@ -200,6 +204,24 @@ func _test_xiaojuan(tree: SceneTree, session: WorldSessionController) -> void:
 	# She follows through the maze (F2): north into the sunlit 地牢.
 	_check(await MapPlaces.take_same_map_passage(tree, map, &"chuenyu.dungeon.north") and player.world_location().zone_id == &"chuenyu.tunnel4", "north: the sunlit 地牢")
 	_check(juan.world_location().zone_id == &"chuenyu.tunnel4" and hud.log_lines().has("小娟走了过来。"), "小娟走了过来。 (%s)" % juan.world_location().zone_id)
+	# Her room's reset does not call her home while she follows the player (F2).
+	session.reset_room("d/chuenyu/dungeon.c")
+	_check(juan.world_location().zone_id == &"chuenyu.tunnel4" and juan.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER), "the 刑房's reset leaves her with the player: %s" % juan.world_location().zone_id)
+	# Nor does the player's berserk fall on her (F3: no fight with her the player did not choose).
+	var bellicosity: int = player.state.attributes.bellicosity
+	var composure: int = player.state.attributes.composure
+	player.state.attributes.bellicosity = 400000 # TEST-ONLY: boiling over
+	player.state.attributes.composure = 0 # TEST-ONLY
+	var rat: NpcRuntimeState = _npc(map, &"chuenyu.npc.highrat")
+	_check(rat != null and map.npcs.bring_beside_player(rat), "TEST-ONLY: a rat beside the player")
+	map.hostilities.pending_player_berserk = &""
+	map.hostilities.player_init([rat])
+	_check(rat != null and map.hostilities.pending_player_berserk == rat.character_id, "the berserk falls on a rat")
+	map.hostilities.pending_player_berserk = &""
+	map.hostilities.player_init([juan])
+	_check(map.hostilities.pending_player_berserk.is_empty(), "but never on 小娟")
+	player.state.attributes.bellicosity = bellicosity
+	player.state.attributes.composure = composure
 
 
 ## tunnel4.c: five pushes open the slab for five seconds, up to the east clifftop; it shuts on
@@ -283,7 +305,7 @@ func _test_thanks(tree: SceneTree, session: WorldSessionController) -> WorldSess
 	_check(not juan.exists_in_map and not liu.exists_in_map and juan.has_flag(NpcDefinition.FLAG_GONE) and liu.has_flag(NpcDefinition.FLAG_GONE), "he leads 娟儿 away, both gone")
 	session.reset_room("d/village/home.c")
 	session.reset_room("d/chuenyu/dungeon.c")
-	_check(not liu.exists_in_map and _npc(village, LIU) == liu and not _npc(village, XIAOJUAN).exists_in_map, "no reset makes them anew (Q2 (a))")
+	_check(not liu.exists_in_map and _npc(village, LIU) == liu and not _npc(village, XIAOJUAN).exists_in_map, "刘家's reset does not make him anew (Q2 (a)); she stays gone")
 	session = await _continue(tree, session)
 	village = session.active_map() as WorldMapController
 	_check(_npc(village, LIU) != null and not _npc(village, LIU).exists_in_map and _npc(village, LIU).has_flag(NpcDefinition.FLAG_GONE), "Continue: 刘家 stands empty")
@@ -385,6 +407,42 @@ func _walk(tree: SceneTree, map: WorldMapController, zone_ids: Array[StringName]
 		map.npc_life.npc_walker().advance(2.0)
 		await tree.physics_frame
 	return true
+
+
+## The 地牢's people fought: thirty seconds each without a stop (淳于怀太's whip, the 狱卒's
+## sword, the rats' bites), then the player walks away.
+func _test_fights(tree: SceneTree, session: WorldSessionController) -> void:
+	var prison: WorldMapController = session.world_map_of(&"chuenyu.prison")
+	_check(session.handoff_to(&"chuenyu.prison", &"chuenyu.tunnel1", GameContent.catalog().zone(&"chuenyu.tunnel1").combat_location_id, &"chuenyu.tunnel1.rope_arrival").succeeded(), "into the 地牢")
+	await tree.physics_frame
+	var fought: Array[StringName] = []
+	for npc: NpcRuntimeState in prison.resident_npcs():
+		var id: StringName = NpcDefinition.unnamed_id(npc.definition().definition_id)
+		if id == XIAOJUAN or fought.has(id):
+			continue
+		fought.append(id)
+		await _fight(tree, session, prison, npc)
+	_check(fought.size() == 3, "three kinds fought: %s" % [fought])
+
+
+func _fight(tree: SceneTree, session: WorldSessionController, map: WorldMapController, npc: NpcRuntimeState) -> void:
+	var name: String = npc.definition().display_name
+	var player: WorldPlayerRuntimeState = session.player_runtime()
+	player.state.vitality = CharacterResourceState.new(1000000, 1000000, 1000000) # TEST-ONLY: nobody dies here
+	player.state.essence = CharacterResourceState.new(1000000, 1000000, 1000000) # TEST-ONLY
+	player.state.spirit = CharacterResourceState.new(1000000, 1000000, 1000000) # TEST-ONLY
+	player.state.progression.combat_experience = 100000 # TEST-ONLY
+	_check(map.place_player(npc.world_location().zone_id, MapPlaces.spot(map, npc.world_location().zone_id, map.npc_rest_position(npc.character_id))), "beside %s" % name)
+	await tree.physics_frame
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	if not coordinator.has_active_encounter():
+		map.select_npc(npc.character_id)
+		CombatEncounterCoordinator.take_aborted_total()
+		_check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the player attacks %s" % name)
+	coordinator.advance_scheduler(30.0)
+	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "%s: thirty seconds of fighting without a stop" % name)
+	_finish_fight(session)
+	_check(not coordinator.has_active_encounter() and CombatEncounterCoordinator.take_aborted_total() == 0, "TEST-ONLY: away from %s" % name)
 
 
 func _new_session(tree: SceneTree) -> WorldSessionController:

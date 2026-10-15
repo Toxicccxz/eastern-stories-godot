@@ -244,7 +244,8 @@ func _berserk_fight(started: CombatSliceInitiationResult, npc: NpcRuntimeState, 
 ## gets combatd.c start_berserk() on the next world tick (auto_fight()'s call_out();
 ## looking_for_trouble lets one through). Not while
 ## the player fights or lies unconscious. Owner (水烟阁 C): never at the player's own
-## master; an NPC whose fight is not ported is not there for it either.
+## master; an NPC whose fight is not ported is not there for it either, nor one whose 攻击
+## asks first (小娟, owner 黑松山 F3: no fight with her the player did not choose).
 func player_init(others: Array[NpcRuntimeState]) -> void:
 	if (
 		not _map.gameplay_open() or session == null or _player == null or not _player.exists_in_world
@@ -257,6 +258,7 @@ func player_init(others: Array[NpcRuntimeState]) -> void:
 		if (
 			not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or not _map.npc_life.player_shares_zone(npc)
 			or npc.definition().dealings().is_fight_deferred() or PlayerKillerReward.is_own_master(_player.state, npc.definition())
+			or (npc.definition().hooks() != null and not npc.definition().hooks().attack_ask.is_empty())
 		):
 			continue
 		if Berserk.init_roll(_player.state, _world_interaction_random) and chosen == null:
