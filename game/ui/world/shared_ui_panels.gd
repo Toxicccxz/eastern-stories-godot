@@ -1,12 +1,8 @@
 class_name SharedUiPanels
 extends RefCounted
-## Opening and filling the HUD's other panels: 观察, 角色 and its 武学 page (空识 and
-## 游识 from there), 随身补给, a business's form, and closing the shared frame. Code moved
-## from SharedGameplayUI as it was; the HUD is `_ui`.
-##
-## Seam for the tabbed menu (not built yet): each of the menu's panels opens only through
-## an open_* here or in SharedUiInventory / SharedUiMessageLog; the tabs (角色, 武学, 背包,
-## 任务, 声望, 系统) will call them in place of SharedGameplayLayout's navigation row.
+## Opening and filling the HUD's other panels: 观察 and a business's form in the shared
+## frame; the menu's 角色 and 武学 pages (空识 and 游识 from there) and 随身补给 on its 背包
+## page; closing the shared frame. The HUD is `_ui`.
 
 # TRANSLATORS: asked before 空识神通 (void_sense.c) when its 50 gin ({gin}) would knock the player out.
 const VOID_FAINT_WARNING: String = "空识神通要耗去 {gin} 点精，你现在撑不住，会当场昏过去。\n确定要施展吗？"
@@ -37,8 +33,8 @@ func initialize_supplies() -> void:
 	if _supplies != null:
 		return
 	_supplies = VBoxContainer.new()
-	_supplies.name = "Supplies"
-	_presentation_layout.holding.add_child(_supplies)
+	_supplies.name = "SupplyPanels"
+	_ui.supplies_mount.add_child(_supplies)
 	_food = HeldFoodPanel.new()
 	_food.name = "HeldFoodUI"
 	_food.configure(_session)
@@ -71,65 +67,37 @@ func open_business(title: String, form: Control, validate: Callable) -> void:
 	_ui.message_log.open_panel_with_lines(title, form, validate)
 
 
+## The menu on its 角色 page.
 func open_character() -> void:
 	if not _session.portable_inventory_available(): return
-	refresh_character()
-	_presentation_layout.open_panel("角色", _presentation_layout.character)
+	_ui.menu.open(GameMenu.Tab.CHARACTER)
 
 
-## The character panel on its 武学 page.
+## The menu on its 武学 page.
 func open_martial_arts() -> void:
-	open_character()
-	if _presentation_layout.character.is_visible_in_tree():
-		_presentation_layout.character.show_arts()
+	if not _session.portable_inventory_available(): return
+	_ui.menu.open(GameMenu.Tab.MARTIAL_ARTS)
 
 
-func martial_arts_page() -> MartialArtsPage:
-	return _presentation_layout.character.arts
-
-
+## Fills the shown page of 角色 and 武学.
 func refresh_character() -> void:
-	var state := _player.state
-	var attr := state.attributes
-	# TRANSLATORS: the character sheet (score): name, gender, age, rank (rankd.c, 【 武  者 】) and title, then 精/气/神 as current / effective / maximum, food and water, experience, potential and the attributes.
-	var lines: Array[String] = [tr("{name} · {gender} · {age}岁\n{rank}{title}\n\n当前 / 有效 / 最大\n精 {gin}\n气 {kee}\n神 {sen}\n\n食物 {food} · 饮水 {water}\n实战经验 {exp} · 潜能 {potential}（已用 {spent}）\n\n膂力 {str} · 胆识 {cor} · 悟性 {int} · 灵性 {spi}\n定力 {cps} · 容貌 {per} · 根骨 {con} · 福缘 {kar}\n").format({
-		"name": (tr("(鬼气) ") if state.ghost else "") + _player.facts.display_name, "gender": tr(state.gender), "age": _player.facts.age, "title": _player.shown_title(),
-		"rank": tr(RankWords.query_rank(state.gender, state.affiliation.class_id, CrimeRecord.thief(state), state.ghost)),
-		"gin": _resource_text(state.essence), "kee": _resource_text(state.vitality), "sen": _resource_text(state.spirit),
-		"food": state.recovery.food, "water": state.recovery.water, "exp": state.progression.combat_experience,
-		"potential": state.progression.potential, "spent": state.progression.potential_spent,
-		"str": attr.strength, "cor": attr.courage, "int": attr.intelligence, "spi": attr.spirituality,
-		"cps": attr.composure, "per": attr.personality, "con": attr.constitution, "kar": attr.karma,
-	})]
-	# TRANSLATORS: the character sheet, score.c's 灵力 (atman) and 法力 (mana), each current / maximum.
-	lines.append(tr("灵力 {atman} / {max_atman} · 法力 {mana} / {max_mana}").format({
-		"atman": state.recovery.atman.current, "max_atman": state.recovery.atman.maximum,
-		"mana": state.recovery.mana.current, "max_mana": state.recovery.mana.maximum,
-	}))
-	# TRANSLATORS: the character sheet, score.c's lines: 杀气 (bellicosity), 综合评价 (score) and the NPCs the player has killed.
-	lines.append(tr("杀气 {bellicosity} · 综合评价 {score}\n总共杀过 {kills} 个人。").format({
-		"bellicosity": attr.bellicosity, "score": state.progression.score, "kills": state.progression.kills,
-	}))
-	if state.quest.has_task():
-		lines.append("\n".join(QuestStatus.lines(state.quest)))
-	lines.append(tr("负重 {carried} / {capacity} · 体重 {weight}").format({
-		"carried": _session.inventory_state().contents_weight(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)),
-		"capacity": _player.maximum_encumbrance, "weight": _player.body_facts.body_weight,
-	}))
-	_presentation_layout.character.sheet.text = "\n".join(lines)
-	if _presentation_layout.character.arts_shown():
-		_presentation_layout.character.arts.refresh()
+	if _player == null:
+		return
+	_ui.character_sheet.refresh(_player, _session)
+	if _ui.arts_page.is_visible_in_tree():
+		_ui.arts_page.refresh()
 
 
-func _resource_text(resource: CharacterResourceState) -> String:
-	return "%d / %d / %d" % [resource.current, resource.effective, resource.maximum]
-
-
+## The menu on its 背包 page, whose 随身补给 holds the food and drink panels.
 func open_supplies() -> void:
 	if not _session.portable_inventory_available() or _supplies == null: return
+	_ui.menu.open(GameMenu.Tab.INVENTORY)
+
+
+func show_supplies() -> void:
+	if _supplies == null: return
 	_food.show()
 	_liquid.show()
-	_presentation_layout.open_panel("随身补给", _supplies)
 
 
 ## 空识神通 from the 武学 page; asked first when its gin would knock the player out.
@@ -176,8 +144,10 @@ func drift_choose(npc_name: String) -> void:
 
 
 ## select_target(): over, the question closes; nobody of that name now, it asks again.
+## The menu closes first: the player goes elsewhere.
 func _drift_to(npc_name: String) -> void:
 	var magic: PlayerEssenceMagic = _session.essence_magic()
+	_ui.close_menu()
 	if magic.drift_to(npc_name):
 		if _presentation_layout._content == _ui.drift_panel:
 			_presentation_layout.close_panel()
@@ -196,7 +166,11 @@ func drift_cancel() -> void:
 	open_martial_arts()
 
 
+## Back on the shared frame closes its panel; with only the menu open, the menu.
 func dismiss_current_panel() -> void:
+	if not _presentation_layout.frame.visible and _ui.menu.is_presented():
+		_ui.menu.close()
+		return
 	var map := _session.active_map() as WorldMapController
 	if map != null and map.dismiss_panel(_presentation_layout._content):
 		_presentation_layout.validate_open_panel()

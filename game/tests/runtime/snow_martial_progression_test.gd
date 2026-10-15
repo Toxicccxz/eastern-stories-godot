@@ -321,7 +321,7 @@ func persistence_and_panel(tree: SceneTree) -> void:
 	var before_resources: Array[int] = [player.state.recovery.inner_force.current,player.state.recovery.mana.current,player.state.recovery.atman.current]
 	check(arts.enable(&"unarmed",&"liuh-ken") and arts.disable(&"unarmed"),"transitions succeed")
 	check(before_resources == [player.state.recovery.inner_force.current,player.state.recovery.mana.current,player.state.recovery.atman.current],"unarmed transitions never reset resources")
-	session.shared_ui()._presentation_layout.close_panel()
+	session.shared_ui().dismiss_current_panel()
 	school.ui.interact()
 	check(school.ui.panel.visible,"existing Liu panel")
 	check(school.ui.status.text.contains("有效基本拳脚 2"),"the teacher's panel shows the effective level")

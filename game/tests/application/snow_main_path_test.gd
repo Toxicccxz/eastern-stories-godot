@@ -255,9 +255,9 @@ func _learn(tree: SceneTree, hud: SharedGameplayUI, state: CharacterState) -> bo
 	check(state.progression.potential_spent == spent + 1 and state.essence.current < gin and _plain(hall.last_lines[0]).begins_with("你向柳淳风请教"), "learn.c: a lesson in unarmed: %s" % [hall.last_lines])
 	hud.dismiss_current_panel()
 	await _settle(tree)
-	# The character panel's 武学 page: skills.c's list, and exercise.c with no force enabled.
-	hud._presentation_layout.character_button.pressed.emit()
-	hud._presentation_layout.character.arts_tab.pressed.emit()
+	# The menu's 武学 page: skills.c's list, and exercise.c with no force enabled.
+	hud._presentation_layout.menu_button.pressed.emit()
+	hud.menu.tab_buttons[GameMenu.Tab.MARTIAL_ARTS].pressed.emit()
 	var page: MartialArtsPage = hud.martial_arts_page()
 	check(page.is_visible_in_tree() and _plain(page.skills_text.text).contains("基本拳脚"), "武学 lists the skill learnt: " + page.skills_text.text)
 	page.exercise_button.pressed.emit()

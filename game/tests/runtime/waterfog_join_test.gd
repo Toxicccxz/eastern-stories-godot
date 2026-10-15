@@ -270,7 +270,7 @@ func _test_hall(tree: SceneTree, session: WorldSessionController) -> void:
 	hud.portal_button.pressed.emit()
 	_check(hud.log_lines().back() == "你已经参加了其他公会。" and player.state.affiliation.class_id == &"fighter", "join again: refused")
 	hud.open_character()
-	_check(hud._presentation_layout.character.sheet.text.contains(RankWords.query_rank(player.state.gender, &"fighter") + "天邪派第十七代弟子"), "score.c's rank on the sheet")
+	_check(hud.character_sheet_text().contains(RankWords.query_rank(player.state.gender, &"fighter") + "天邪派第十七代弟子"), "score.c's rank on the sheet")
 	hud.dismiss_current_panel()
 	# 於兰天武's test: a strong player who asked him first.
 	_check(map.relocate_player(&"waterfog.guildhall", champion.spawn_point_id), "beside 於兰天武")

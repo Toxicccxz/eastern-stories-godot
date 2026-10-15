@@ -4,10 +4,11 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**鬼门关 B** (`phase/death-b`, DECISIONS「鬼门关 B」): 茅山道术's 阴阳眼 — while it runs the living
-player sees ghosts, so 乔阴's 孤魂野鬼 can be fought for its 布条 (基本咒文 to 40). It finishes
-鬼门关, the last region in the table; next is step 1 after the grey box (responsiveness and
-playability pass, ROADMAP).
+**界面重构 A** (`phase/ui-menu`, DECISIONS「菜单窗口」): ROADMAP "After the grey box" step 2, which
+the owner put before step 1. One menu window with the tabs 角色 武学 背包 任务 声望 百科 系统 replaces
+the HUD's row of panels; world time stands still while it is open (系统 is the shell's pause). Next: B
+(gamepad: input map, focus, LB/RB, A/B, button glyphs), then C (the 任务 journal's story chains and
+the 百科); step 1 (responsiveness) after them.
 
 ## 待决定
 

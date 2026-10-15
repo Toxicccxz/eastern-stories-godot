@@ -291,7 +291,8 @@ func _reflow_and_blocker(tree: SceneTree, shell: ApplicationShellController, tou
 		await _settle(tree)
 		var right: Vector2 = touch.pad_rect().position + Vector2(160, 96)
 		await _touch(tree, 55, right, true)
-		await _tap(tree, hud.inventory_button, 61)
+		await _tap(tree, hud._presentation_layout.menu_button, 61)
+		await _tap(tree, hud.menu.tab_buttons[GameMenu.Tab.INVENTORY], 61)
 		_check(hud.inventory_panel.visible and not tree.paused and not Input.is_action_pressed("move_right"), "Inventory opens with second finger and cancels held pad, not gameplay")
 		var inspections: Array[int] = [0]
 		var count_inspect: Callable = func(_id: StringName) -> void: inspections[0] += 1

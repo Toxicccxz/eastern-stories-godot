@@ -137,8 +137,8 @@ func _test_reflow_lifetime(tree: SceneTree) -> void:
 	var hud: SharedGameplayUI = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui()
 	var live_connections: int = presenter.metrics_changed.get_connections().size()
 	var battle: BattlePresentationController = session.get_node("BattlePresentationLayer/BattleSurface")
-	_check(live_connections == menu_connections + 2 and presenter.metrics_changed.is_connected(battle._apply_metrics), "one current HUD plus one CXR6 Session-owned Battle consumer added")
-	var actions: Array[Button] = [hud.inspect_button, hud.attack_button, hud.portal_button, hud.open_loot_button, hud.inventory_button]
+	_check(live_connections == menu_connections + 3 and presenter.metrics_changed.is_connected(battle._apply_metrics) and presenter.metrics_changed.is_connected(hud.menu._reflow), "one current HUD, its menu window and one CXR6 Session-owned Battle consumer added")
+	var actions: Array[Button] = [hud.inspect_button, hud.attack_button, hud.portal_button, hud.open_loot_button, hud._presentation_layout.menu_button]
 	var signal_counts: Array[int] = []
 	for action: Button in actions:
 		signal_counts.append(action.pressed.get_connections().size())

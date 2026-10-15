@@ -574,7 +574,7 @@ func _run_item_act(act: ScriptedAct, still_carried: Callable) -> void:
 	if not still_carried.call():
 		return
 	if act.moves_player() and _map.hud() != null:
-		_map.hud().close_inventory()
+		_map.hud().close_menu()
 	_map.acts.run(act, null, _world_interaction_random.legacy_random)
 
 

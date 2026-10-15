@@ -67,8 +67,6 @@ func refresh_exploration() -> void:
 	# What is in reach, one group each (owner, 2026-10-11); the selected thing's own
 	# buttons and the context button stay off the card.
 	_ui.nearby.refresh()
-	if _presentation_layout.character.is_visible_in_tree():
-		_ui.panels.refresh_character()
 	_ui.message_log.collect_feedback()
 	_ui.message_log.describe_new_zone()
 	_ui.message_log.refresh_toasts()

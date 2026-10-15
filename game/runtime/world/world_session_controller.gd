@@ -117,6 +117,9 @@ func liquid_collection() -> LiquidCollection:
 
 
 func _process(delta: float) -> void:
+	if world_time_held():
+		_process_held(delta)
+		return
 	# Inspect before combat advances: a combat-ending frame is not world time.
 	var world_delta: float = _world_delta(delta)
 	advance_player_recovery(delta)
@@ -132,6 +135,40 @@ func _process(delta: float) -> void:
 	_advance_life_flow(world_delta)
 	_advance_reincarnation()
 	_sync_ghost_sight()
+
+
+## The menu is open (owner, 2026-10-15, DECISIONS「菜单窗口」): world time stands still —
+## no heart beats, call_outs, recovery, conditions, timed applies, task time, hazards or
+## resets. The player's own busy still wears down: in ES2 a busy character's heart beat
+## goes to continue_action() alone, so those beats run (two 运功 in a row work). A fight
+## an action starts runs (the menu closes for it).
+func _process_held(delta: float) -> void:
+	if _player != null and _player.busy.is_busy():
+		advance_player_recovery(delta, true)
+	if _initialized and _combat_encounter_coordinator != null:
+		_combat_encounter_coordinator.advance_scheduler(delta)
+		advance_departure()
+	_advance_reincarnation()
+	_sync_ghost_sight()
+
+
+## Stops world time for `owner` until release_world_time() (the menu window). Not saved.
+func hold_world_time(owner: StringName) -> void:
+	_world_time_holds[owner] = true
+
+
+func release_world_time(owner: StringName) -> void:
+	_world_time_holds.erase(owner)
+
+
+## Only while the player can act: one who falls, dies or is drawn into a fight under the
+## menu lives world time at once (the HUD closes the menu on its next frame).
+func world_time_held() -> bool:
+	return (
+		not _world_time_holds.is_empty() and _player != null
+		and _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+		and (_combat_encounter_coordinator == null or not _combat_encounter_coordinator.has_active_encounter())
+	)
 
 
 ## World time this frame. Deviation (owner, modern fixes II, A9): while the player lies
@@ -363,12 +400,12 @@ func player_leaving_zone(from_zone_id: StringName, to_zone_id: StringName) -> vo
 		_room_traps.player_leaving(from_zone_id, to_zone_id)
 
 
-func advance_player_recovery(delta: float) -> PlayerRecoveryCadenceResult:
+func advance_player_recovery(delta: float, busy_only: bool = false) -> PlayerRecoveryCadenceResult:
 	if not player_recovery_time_allowed():
 		var frozen: PlayerRecoveryCadenceResult = PlayerRecoveryCadenceResult.new()
 		frozen.outcome = PlayerRecoveryCadenceResult.Outcome.FROZEN
 		return frozen
-	var result: PlayerRecoveryCadenceResult = _player_recovery_cadence.advance(delta, _player.state, _player.busy)
+	var result: PlayerRecoveryCadenceResult = _player_recovery_cadence.advance(delta, _player.state, _player.busy, true, busy_only)
 	if not result.lines.is_empty() and shared_ui() != null:
 		shared_ui().append_colored_lines(result.lines)
 	# char.c heart_beat(): below zero after a condition (蛇毒), the player falls or dies.
@@ -578,6 +615,10 @@ func item_id_allocator() -> SessionItemIdAllocator:
 
 func world_simulation_gate() -> WorldSimulationGate:
 	return _world_simulation_gate
+
+
+## Who holds world time now (hold_world_time()): the menu window.
+var _world_time_holds: Dictionary[StringName, bool] = {}
 
 
 func combat_encounter_coordinator() -> CombatEncounterCoordinator:

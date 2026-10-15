@@ -212,7 +212,7 @@ func refresh_live_state() -> void:
 		or not map.thefts.can_steal_selected()
 	)
 	_ui.bribe_button.disabled = not target_available or not player_available or map == null or not map.patrols.can_bribe(selected_target)
-	_ui.inventory_button.disabled = not player_available
+	_ui._presentation_layout.menu_button.disabled = not player_available
 	_ui.portal_button.disabled = (
 		not landmark_available
 		or selected_landmark.action_label.is_empty() # a sign is only looked at

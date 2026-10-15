@@ -145,7 +145,7 @@ func _hud(tree: SceneTree, hud: SharedGameplayUI, metrics: SafeAreaMetrics) -> v
 	_check(metrics.content_rect().grow(0.5).encloses(action_panel.get_global_rect()), "HUD action panel safe")
 	var buttons: Array[BaseButton] = []
 	_collect_buttons(action_panel, buttons)
-	_check(buttons.size() >= 4 and buttons.size() <= 9, "portable entries persist; context controls appear only when available")
+	_check(buttons.size() >= 1 and buttons.size() <= 9, "the 菜单 entry persists; context controls appear only when available")
 	await _buttons(tree, action_panel, metrics)
 	if metrics.is_compact() and metrics.is_qualified():
 		_check(not action_panel.get_global_rect().intersects(metrics.future_movement_rect()), "action panel leaves future pad clear")

@@ -293,7 +293,8 @@ func _test_viewport(tree: SceneTree) -> void:
 	await _back(tree)
 	_check(shell.pause_visible() and tree.paused, "Back Save Result paused origin does not Resume")
 	await _back(tree)
-	await _tap(tree, session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui().inventory_button)
+	await _tap(tree, session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui()._presentation_layout.menu_button)
+	await _tap(tree, session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui().menu.tab_buttons[GameMenu.Tab.INVENTORY])
 	_check(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui().inventory_panel.visible and not tree.paused, "touch Inventory no gameplay pause")
 	var inventory: PlayerInventoryPanel = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui().inventory_panel
 	await _tap(tree, inventory.row_container.get_child(0).get_child(1) as Button)
@@ -359,10 +360,11 @@ func _test_item_and_handoff(tree: SceneTree, shell: ApplicationShellController, 
 		_check(_takes == 1 and loot.visible_rows().size() == before - 1, "touch Take once removes exactly one authoritative row")
 		await _tap(tree, outdoor.session.shared_ui()._presentation_layout.close_button)
 		_check(not loot.visible, "touch Loot Close")
-	await _tap(tree, outdoor.session.shared_ui().inventory_button)
+	await _tap(tree, outdoor.session.shared_ui()._presentation_layout.menu_button)
+	await _tap(tree, outdoor.session.shared_ui().menu.tab_buttons[GameMenu.Tab.INVENTORY])
 	var inventory: PlayerInventoryPanel = outdoor.session.shared_ui().inventory_panel
 	_check(inventory.visible_rows().size() == 2, "taken item appears in existing Inventory authority")
-	await _tap(tree, outdoor.session.shared_ui()._presentation_layout.close_button)
+	await _tap(tree, outdoor.session.shared_ui().menu.close_button)
 	_check(not inventory.visible, "touch Inventory Close")
 	var id: int = touch.get_instance_id()
 	var right: Vector2 = touch.pad_rect().position + Vector2(160, 96)

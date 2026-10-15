@@ -341,11 +341,11 @@ msgstr ""
 msgid "空无一物"
 msgstr ""
 
-#: scenes/ui/oldpine_loot_panel.tscn scenes/ui/player_inventory_panel.tscn presentation/battle/battle_log_panel.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/hockshop_service.gd ui/world/shared_ui_nearby.gd
+#: scenes/ui/oldpine_loot_panel.tscn scenes/ui/player_inventory_panel.tscn presentation/battle/battle_log_panel.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/hockshop_service.gd ui/world/game_menu.gd ui/world/shared_ui_nearby.gd
 msgid "关闭"
 msgstr ""
 
-#: scenes/ui/player_inventory_panel.tscn presentation/layout/shared_gameplay_layout.gd ui/world/shared_ui_inventory.gd
+#: scenes/ui/player_inventory_panel.tscn ui/world/game_menu.gd
 msgid "背包"
 msgstr ""
 
@@ -5223,15 +5223,15 @@ msgstr ""
 msgid "用 {force} 点内力恢复{track}"
 msgstr ""
 
-#: presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd
+#: presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd ui/world/character_sheet.gd
 msgid "气"
 msgstr ""
 
-#: presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd
+#: presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd ui/world/character_sheet.gd
 msgid "神"
 msgstr ""
 
-#: presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd
+#: presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd ui/world/character_sheet.gd
 msgid "精"
 msgstr ""
 
@@ -6000,16 +6000,8 @@ msgstr ""
 msgid "观察"
 msgstr ""
 
-#: presentation/layout/shared_gameplay_layout.gd ui/world/character_panel.gd ui/world/shared_ui_panels.gd
-msgid "角色"
-msgstr ""
-
 #: presentation/layout/shared_gameplay_layout.gd
-msgid "补给"
-msgstr ""
-
-#: presentation/layout/shared_gameplay_layout.gd ui/world/shared_ui_message_log.gd
-msgid "消息"
+msgid "菜单"
 msgstr ""
 
 #: presentation/layout/shared_gameplay_layout.gd
@@ -6731,7 +6723,7 @@ msgstr ""
 msgid "卖断未执行，物品状态已变化；请重新选择。"
 msgstr ""
 
-#: runtime/world/services/quest_service.gd
+#: runtime/world/services/quest_service.gd ui/world/game_menu.gd
 msgid "任务"
 msgstr ""
 
@@ -7174,9 +7166,67 @@ msgstr ""
 msgid "拿多少钱塞给{npc}？"
 msgstr ""
 
-#. common.npc.fighter.champion inquiry topic
-#: ui/world/character_panel.gd data/common/npcs.json
-msgid "武学"
+#: ui/world/character_sheet.gd
+msgid "身份"
+msgstr ""
+
+#: ui/world/character_sheet.gd
+msgid "精气神"
+msgstr ""
+
+#. the character sheet's heading over the 精/气/神 numbers (score.c's three columns).
+#: ui/world/character_sheet.gd
+msgid "当前 / 有效 / 最大"
+msgstr ""
+
+#: ui/world/character_sheet.gd
+msgid "修为"
+msgstr ""
+
+#: ui/world/character_sheet.gd
+msgid "天赋"
+msgstr ""
+
+#. the character sheet (score): name, gender and age.
+#: ui/world/character_sheet.gd
+msgid "{name} · {gender} · {age}岁"
+msgstr ""
+
+#: ui/world/character_sheet.gd
+msgid "(鬼气) "
+msgstr ""
+
+#. the character sheet, score.c's 灵力 (atman) and 法力 (mana), each current / maximum.
+#: ui/world/character_sheet.gd
+msgid "灵力 {atman} / {max_atman} · 法力 {mana} / {max_mana}"
+msgstr ""
+
+#. the character sheet: food and water.
+#: ui/world/character_sheet.gd
+msgid "食物 {food} · 饮水 {water}"
+msgstr ""
+
+#. the character sheet: experience, potential and the potential spent.
+#: ui/world/character_sheet.gd
+msgid "实战经验 {exp} · 潜能 {potential}（已用 {spent}）"
+msgstr ""
+
+#. the character sheet, score.c's lines: 杀气 (bellicosity), 综合评价 (score) and the NPCs the player has killed.
+#: ui/world/character_sheet.gd
+msgid ""
+"杀气 {bellicosity} · 综合评价 {score}\n"
+"总共杀过 {kills} 个人。"
+msgstr ""
+
+#. the character sheet: the eight gifts (score.c).
+#: ui/world/character_sheet.gd
+msgid ""
+"膂力 {str} · 胆识 {cor} · 悟性 {int} · 灵性 {spi}\n"
+"定力 {cps} · 容貌 {per} · 根骨 {con} · 福缘 {kar}"
+msgstr ""
+
+#: ui/world/character_sheet.gd
+msgid "负重 {carried} / {capacity} · 体重 {weight}"
 msgstr ""
 
 #. 游识神通's question when the player has met nobody it could go to yet.
@@ -7187,6 +7237,42 @@ msgstr ""
 #. drift_sense.c: an empty answer to its question stops the conjuring (中止施法。).
 #: ui/world/drift_sense_panel.gd
 msgid "中止施法"
+msgstr ""
+
+#: ui/world/game_menu.gd
+msgid "角色"
+msgstr ""
+
+#. common.npc.fighter.champion inquiry topic
+#: ui/world/game_menu.gd data/common/npcs.json
+msgid "武学"
+msgstr ""
+
+#: ui/world/game_menu.gd
+msgid "声望"
+msgstr ""
+
+#: ui/world/game_menu.gd
+msgid "百科"
+msgstr ""
+
+#: ui/world/game_menu.gd
+msgid "系统"
+msgstr ""
+
+#. the 声望 tab until reputation is built (ROADMAP step 6).
+#: ui/world/game_menu.gd
+msgid "江湖上对你的看法，日后会记在这里。"
+msgstr ""
+
+#. the 百科 tab until its entries are built (the next UI package).
+#: ui/world/game_menu.gd
+msgid "百科尚在编纂，日后会收录武学、物品、门派、人物与江湖常识。"
+msgstr ""
+
+#. the 系统 tab during a fight: the other tabs wait until it is over.
+#: ui/world/game_menu.gd
+msgid "战斗中只能使用系统功能。"
 msgstr ""
 
 #: ui/world/martial_arts_page.gd
@@ -7718,6 +7804,18 @@ msgid ""
 "确定要攻击吗？"
 msgstr ""
 
+#: ui/world/shared_gameplay_ui.gd
+msgid "随身补给"
+msgstr ""
+
+#: ui/world/shared_gameplay_ui.gd
+msgid "朱鸿雪的任务"
+msgstr ""
+
+#: ui/world/shared_gameplay_ui.gd
+msgid "消息记录"
+msgstr ""
+
 #. asked before 跪下受戒 (daemon/class/bonze/master.c do_kneel()): {npc} the master, {prefixes} the characters a 法名 begins with (空明圆净虚悟方渡慧法), {first} the first character of the player's name, {example} one 法名 it could make.
 #: ui/world/shared_ui_ask_panel.gd
 msgid ""
@@ -7956,48 +8054,6 @@ msgstr ""
 
 #: ui/world/shared_ui_panels.gd
 msgid "补给仅使用直接携带的物品；取水仍须靠近当前地图的水源。"
-msgstr ""
-
-#. the character sheet (score): name, gender, age, rank (rankd.c, 【 武  者 】) and title, then 精/气/神 as current / effective / maximum, food and water, experience, potential and the attributes.
-#: ui/world/shared_ui_panels.gd
-msgid ""
-"{name} · {gender} · {age}岁\n"
-"{rank}{title}\n"
-"\n"
-"当前 / 有效 / 最大\n"
-"精 {gin}\n"
-"气 {kee}\n"
-"神 {sen}\n"
-"\n"
-"食物 {food} · 饮水 {water}\n"
-"实战经验 {exp} · 潜能 {potential}（已用 {spent}）\n"
-"\n"
-"膂力 {str} · 胆识 {cor} · 悟性 {int} · 灵性 {spi}\n"
-"定力 {cps} · 容貌 {per} · 根骨 {con} · 福缘 {kar}\n"
-msgstr ""
-
-#: ui/world/shared_ui_panels.gd
-msgid "(鬼气) "
-msgstr ""
-
-#. the character sheet, score.c's 灵力 (atman) and 法力 (mana), each current / maximum.
-#: ui/world/shared_ui_panels.gd
-msgid "灵力 {atman} / {max_atman} · 法力 {mana} / {max_mana}"
-msgstr ""
-
-#. the character sheet, score.c's lines: 杀气 (bellicosity), 综合评价 (score) and the NPCs the player has killed.
-#: ui/world/shared_ui_panels.gd
-msgid ""
-"杀气 {bellicosity} · 综合评价 {score}\n"
-"总共杀过 {kills} 个人。"
-msgstr ""
-
-#: ui/world/shared_ui_panels.gd
-msgid "负重 {carried} / {capacity} · 体重 {weight}"
-msgstr ""
-
-#: ui/world/shared_ui_panels.gd
-msgid "随身补给"
 msgstr ""
 
 #: ui/world/shared_ui_questions.gd

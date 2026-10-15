@@ -56,6 +56,11 @@ signal interaction_changed
 @onready var confirm_button: Button = result_prompt.confirm_button
 @onready var cancel_button: Button = result_prompt.cancel_button
 
+## The pause panel's rows (暂停, the lifecycle note, 继续, 存档, 设置, 返回主菜单): lent to
+## the game menu's 系统 page while the pause shows the menu, home again otherwise.
+var _pause_actions: Control
+var _pause_home: Node
+
 ## Development runs keep their saves in the development slot; the release sanitizer
 ## drops this setting, so a release reads the release slot.
 const DEVELOPMENT_SAVE_SLOT_SETTING: String = "eastern_stories/save/development_slot"
@@ -185,6 +190,9 @@ func configure_before_start(
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	add_to_group(GameMenu.HOST_GROUP)
+	_pause_actions = resume_button.get_parent() as Control
+	_pause_home = _pause_actions.get_parent()
 	result_prompt.confirmed.connect(_on_result_confirmed)
 	result_prompt.cancelled.connect(_on_result_cancelled)
 	male_button.pressed.connect(func() -> void: select_new_game_gender(CharacterState.GENDER_MALE))
@@ -399,8 +407,52 @@ func menu_visible() -> bool:
 	return main_menu_panel != null and main_menu_panel.visible
 
 
+## The pause shows: its own panel, or the game menu holding its buttons (系统).
 func pause_visible() -> bool:
-	return pause_panel != null and pause_panel.visible
+	return pause_panel != null and (pause_panel.visible or menu_hosted())
+
+
+## Whether the game menu shows the pause's buttons now (its 系统 page).
+func menu_hosted() -> bool:
+	return _pause_actions != null and _state.mode() == ApplicationShellState.Mode.PAUSED and _pause_actions.get_parent() != _pause_home
+
+
+## The game menu asks for 系统, which is the pause (GameMenu.open()).
+func request_menu(tab: int) -> bool:
+	if tab != GameMenu.Tab.SYSTEM:
+		return false
+	if _state.mode() == ApplicationShellState.Mode.PAUSED:
+		return true
+	return request_pause()
+
+
+## The Session's game menu, when one is there to show the pause.
+func _game_menu() -> GameMenu:
+	var session: WorldSessionController = null if _host == null else _host.current_session() as WorldSessionController
+	if session == null or not is_instance_valid(session) or not session.is_inside_tree() or not session.has_node("SharedGameplayUI"):
+		return null
+	var menu: GameMenu = session.shared_ui().menu
+	return menu if is_instance_valid(menu) and menu.is_inside_tree() else null
+
+
+## The pause shows in the game menu (its 系统 page holds the pause's rows); without a
+## Session's menu, in the pause panel as before. A fight shows only 系统.
+func _render_pause_surface(mode: int) -> void:
+	var menu: GameMenu = _game_menu()
+	var hosted: bool = mode == ApplicationShellState.Mode.PAUSED and menu != null
+	var home: Node = menu.system_mount if hosted else _pause_home
+	if _pause_actions.get_parent() != home:
+		ResponsivePanelLayout.reparent_content(_pause_actions, home)
+	# The 系统 tab names the page; the panel keeps its 暂停 title.
+	(_pause_actions.get_node("Title") as Control).visible = not hosted
+	pause_panel.visible = mode == ApplicationShellState.Mode.PAUSED and not hosted
+	if menu == null:
+		return
+	if hosted and not menu.in_pause_view():
+		var session: WorldSessionController = _host.current_session() as WorldSessionController
+		menu.begin_pause_view(session.combat_encounter_coordinator().has_active_encounter())
+	elif mode == ApplicationShellState.Mode.PLAYING and menu.in_pause_view():
+		menu.end_pause_view()
 
 
 func recovery_visible() -> bool:
@@ -961,7 +1013,7 @@ func _render_state(defer_focus: bool = true) -> void:
 	_release_shell_focus()
 	shell_canvas.visible = mode != ApplicationShellState.Mode.PLAYING
 	main_menu_panel.visible = mode == ApplicationShellState.Mode.MAIN_MENU
-	pause_panel.visible = mode == ApplicationShellState.Mode.PAUSED
+	_render_pause_surface(mode)
 	settings_panel.visible = mode == ApplicationShellState.Mode.SETTINGS
 	recovery_panel.visible = mode == ApplicationShellState.Mode.RECOVERY_CHOICE
 	new_game_setup_panel.visible = mode == ApplicationShellState.Mode.NEW_GAME_SETUP
@@ -1149,7 +1201,7 @@ func _all_shell_focus_controls() -> Array[Control]:
 
 func _release_shell_focus() -> void:
 	var focus_owner: Control = get_viewport().gui_get_focus_owner()
-	if focus_owner != null and shell_canvas.is_ancestor_of(focus_owner):
+	if focus_owner != null and (shell_canvas.is_ancestor_of(focus_owner) or _pause_actions.is_ancestor_of(focus_owner)):
 		focus_owner.release_focus()
 	for control: Control in _all_shell_focus_controls():
 		control.focus_mode = Control.FOCUS_NONE

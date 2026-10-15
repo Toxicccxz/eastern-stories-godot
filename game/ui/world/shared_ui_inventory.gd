@@ -30,6 +30,8 @@ const GIVE_MONEY_WARNING: String = "确定把{money}送给{npc}吗？送出去�
 const GIVE_RECRUITS_AT_ONCE: String = "{npc}收下{item}，就会当场收你为徒。\n{warning}"
 
 var _ui: SharedGameplayUI
+## The rows show_inventory() opens the 背包 page with.
+var _opening_rows: Array[PlayerInventoryRowProjection] = []
 
 # The HUD's authorities, read as SharedGameplayUI reads them.
 var _session: WorldSessionController:
@@ -64,7 +66,28 @@ func loot_rows() -> Array[WorldItemRowProjection]:
 	return [] if _ui.loot_panel == null else _ui.loot_panel.visible_rows()
 
 
+## The menu on its 背包 page with these rows, filled once (a second fill in the same
+## frame would leave the freed rows beside the new ones).
 func show_inventory(rows: Array[PlayerInventoryRowProjection]) -> void:
+	if _ui.menu.is_presented() and _ui.menu.current_tab() == GameMenu.Tab.INVENTORY:
+		fill_inventory(rows)
+		return
+	_opening_rows = rows
+	_ui.menu.open(GameMenu.Tab.INVENTORY)
+	_opening_rows = []
+
+
+## The 背包 page was shown: the rows show_inventory() was given, else the player's.
+func fill_shown_page() -> void:
+	if not _opening_rows.is_empty():
+		fill_inventory(_opening_rows)
+	elif _session != null and _session.is_initialized():
+		fill_inventory(_session.player_inventory_rows())
+
+
+## The 背包 page's rows and what each row may do here (the selected NPC, a container
+## or corpse in reach), without opening anything.
+func fill_inventory(rows: Array[PlayerInventoryRowProjection]) -> void:
 	close_loot()
 	var map: WorldMapController = (_session.active_map() as WorldMapController) if _session != null else null
 	var give_target: String = ""
@@ -90,8 +113,7 @@ func show_inventory(rows: Array[PlayerInventoryRowProjection]) -> void:
 				pour_targets.append([id, content.display_name])
 	_ui.inventory_panel.set_pour_targets(pour_targets)
 	_ui.inventory_panel.show_inventory(rows)
-	_presentation_layout.open_panel("背包", _ui.inventory_panel)
-	_presentation_layout.refresh_rows()
+	_ui.menu.refresh_rows()
 
 
 func close_inventory() -> void:

@@ -6,7 +6,9 @@ extends Node
 var ui: SharedGameplayUI
 var overlay: Control
 var bar: PanelContainer
-var navigation: HFlowContainer
+## The card's header: the name, the place (a click is 观察) and 菜单.
+var place_chip: PanelContainer
+var menu_button: Button
 ## The selected thing's commands (SharedGameplayUI's inspect_button … bribe_button) and the
 ## nearest door or service's context_button, kept off the card: the card shows `nearby`.
 var contexts: HFlowContainer
@@ -25,13 +27,11 @@ var frame_title: Label
 var mount: VBoxContainer
 var holding: Control
 var details: VBoxContainer
-var character: CharacterPanel
 ## The current zone's authored ES2 description, opened by Look.
 var room: Label
-## The message log (消息). Its own box keeps the log's height: open_panel() zeroes
-## the content's minimum size, and a RichTextLabel alone then shows nothing.
+## The message log (消息), shown on the menu's 任务 page. Its own box keeps the log's
+## height: a RichTextLabel alone shows nothing once its minimum size is zeroed.
 var messages: VBoxContainer
-var character_button: Button
 var close_button: Button
 var _frame_layout: ResponsivePanelLayout
 var _safe: SafeAreaPresenter
@@ -41,6 +41,8 @@ var _valid: Callable
 var _bar_rows: VBoxContainer
 var _bar_scroll: ScrollContainer
 var _bar_area: Rect2
+## Where the frame and its barrier live while the menu does not cover them.
+var _frame_home: Node
 
 
 func build(owner_ui: SharedGameplayUI) -> void:
@@ -60,7 +62,7 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	# The status card (owner, 2026-10-06: a more modern top left): the name and the
 	# place, 精/气/神 as bars, then the actions as flat rounded buttons.
 	bar.add_theme_stylebox_override("panel", _card_style())
-	bar.theme = _card_theme()
+	bar.theme = card_theme()
 	# Small screens scroll the HUD instead of letting it leave the safe area.
 	_bar_scroll = ScrollContainer.new()
 	_bar_scroll.name = "Rows"
@@ -90,7 +92,13 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	place.name = "PlaceChip"
 	place.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	place.add_theme_stylebox_override("panel", _chip_style(Color(1, 1, 1, 0.07)))
+	# A click on the place is 观察 (the room's text), as the 观察 button was.
+	place.mouse_filter = Control.MOUSE_FILTER_STOP
+	place.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	place.gui_input.connect(_on_place_input)
+	place.tooltip_text = "观察"
 	header.add_child(place)
+	place_chip = place
 	ui.world_title = Label.new()
 	ui.world_title.name = "Location"
 	ui.world_title.add_theme_font_size_override("font_size", 13)
@@ -98,6 +106,8 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	ui.world_title.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	ui.world_title.add_theme_color_override("font_color", MUTED_COLOR)
 	place.add_child(ui.world_title)
+	menu_button = _button(header, "Menu", "菜单", ui.open_menu)
+	menu_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	var vitals := HBoxContainer.new()
 	vitals.name = "Vitals"
 	vitals.add_theme_constant_override("separation", 14)
@@ -116,16 +126,6 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	ui.player_vitality_text.add_theme_font_size_override("font_size", 13)
 	ui.player_vitality_text.add_theme_color_override("font_color", CONDITION_COLOR)
 	ui.player_vitality_text.hide()
-	navigation = HFlowContainer.new()
-	navigation.name = "Navigation"
-	navigation.add_theme_constant_override("h_separation", 8)
-	navigation.add_theme_constant_override("v_separation", 8)
-	_bar_rows.add_child(navigation)
-	_button(navigation, "Look", "观察", ui.open_look)
-	character_button = _button(navigation, "Character", "角色", ui.open_character)
-	ui.inventory_button = _button(navigation, "Inventory", "背包", Callable())
-	_button(navigation, "Supplies", "补给", ui.open_supplies)
-	_button(navigation, "Messages", "消息", ui.open_messages)
 	nearby = VBoxContainer.new()
 	nearby.name = "Nearby"
 	nearby.add_theme_constant_override("separation", 8)
@@ -211,6 +211,7 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	_frame_layout.blocks_touch_gameplay = true
 	_frame_layout.dismiss_requested.connect(ui.dismiss_current_panel)
 	frame.add_child(ExplorationPresentationBlocker.new())
+	_frame_home = overlay
 	details = VBoxContainer.new()
 	holding.add_child(details)
 	ui.target_vitality = ProgressBar.new()
@@ -219,8 +220,6 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	ui.inspection_text = RichTextLabel.new()
 	ui.inspection_text.custom_minimum_size = Vector2(0, 180)
 	details.add_child(ui.inspection_text)
-	character = CharacterPanel.new()
-	holding.add_child(character)
 	room = _label(holding, "RoomDescription")
 	messages = VBoxContainer.new()
 	messages.name = "Messages"
@@ -290,13 +289,14 @@ func _reflow(metrics: SafeAreaMetrics) -> void:
 	# Touch-sized buttons stay 64 px square so five fit one row on 480 px.
 	var gap: int = 4 if metrics.touch_sized() else 8
 	button_size = Vector2(64, 64) if metrics.touch_sized() else Vector2(80, 38)
-	var flows: Array[Node] = [navigation, contexts]
+	menu_button.custom_minimum_size = Vector2(64, 64) if metrics.touch_sized() else Vector2(72, 32)
+	var flows: Array[Node] = [contexts]
 	for item: Node in nearby.get_children():
 		flows.append(item.get_node("Item/Actions"))
 	for flow: Node in flows:
 		(flow as Control).add_theme_constant_override("h_separation", gap)
 		(flow as Control).add_theme_constant_override("v_separation", gap)
-	for button: Node in navigation.get_children() + contexts.get_children():
+	for button: Node in contexts.get_children():
 		(button as Control).custom_minimum_size = button_size
 	for item: Node in nearby.get_children():
 		for button: Node in item.get_node("Item/Actions").get_children():
@@ -330,6 +330,9 @@ func fit_bar() -> void:
 func open_panel(title: String, content: Control, valid: Callable = Callable()) -> void:
 	if _content == content:
 		return
+	# Only the menu's own questions show over it; anything else replaces it.
+	if ui.menu != null and ui.menu.is_presented() and not ui.is_menu_dialog(content):
+		ui.menu.close()
 	close_panel()
 	_valid = valid
 	if valid.is_valid() and not valid.call():
@@ -372,6 +375,33 @@ func close_panel() -> void:
 	ui.quarantine_movement()
 
 
+## The menu covers the HUD: its questions (请确认, 游识) show above it, in its layer.
+func lift_frame(over: Control) -> void:
+	if barrier.get_parent() == over:
+		return
+	barrier.reparent(over, false)
+	frame.reparent(over, false)
+	_frame_layout.raised = true
+
+
+func lower_frame() -> void:
+	if barrier.get_parent() == _frame_home:
+		return
+	barrier.reparent(_frame_home, false)
+	frame.reparent(_frame_home, false)
+	# Under the toasts again, as built.
+	_frame_home.move_child(barrier, toasts.get_index())
+	_frame_home.move_child(frame, toasts.get_index())
+	_frame_layout.raised = false
+
+
+func _on_place_input(event: InputEvent) -> void:
+	var click := event as InputEventMouseButton
+	if click != null and click.button_index == MOUSE_BUTTON_LEFT and not click.pressed:
+		place_chip.accept_event()
+		ui.open_look()
+
+
 func validate_open_panel() -> void:
 	if frame.visible and (not is_instance_valid(_content) or not _content.visible or (_valid.is_valid() and not _valid.call())):
 		close_panel()
@@ -386,7 +416,7 @@ func refresh_rows() -> void:
 func nearby_row(shown_name: String) -> PanelContainer:
 	var item := PanelContainer.new()
 	item.name = "Group"
-	item.add_theme_stylebox_override("panel", _item_style())
+	item.add_theme_stylebox_override("panel", item_style())
 	var rows := VBoxContainer.new()
 	rows.name = "Item"
 	rows.add_theme_constant_override("separation", 6)
@@ -416,7 +446,7 @@ func nearby_button(item: Control, text: String, action: Callable) -> Button:
 
 
 ## A list item's box: a little lighter than the card, rounded.
-func _item_style() -> StyleBoxFlat:
+static func item_style() -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(1, 1, 1, 0.05)
 	style.border_color = Color(1, 1, 1, 0.07)
@@ -513,7 +543,7 @@ func _chip_style(color: Color) -> StyleBoxFlat:
 
 
 ## Flat rounded buttons for the card; AccentButton for the place's own action.
-func _card_theme() -> Theme:
+static func card_theme() -> Theme:
 	var theme := Theme.new()
 	theme.default_font_size = 15
 	var states: Dictionary[String, Color] = {
@@ -537,7 +567,7 @@ func _card_theme() -> Theme:
 	return theme
 
 
-func _button_style(color: Color, focus: bool) -> StyleBoxFlat:
+static func _button_style(color: Color, focus: bool) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
 	style.bg_color = color
 	style.set_corner_radius_all(9)
