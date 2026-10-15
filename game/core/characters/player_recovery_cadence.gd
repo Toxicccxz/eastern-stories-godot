@@ -43,8 +43,10 @@ func is_valid() -> bool:
 
 
 ## `conscious` is living(me) for the conditions that ask it (an NPC's heart beat runs
-## on while it lies unconscious; the player's conditions wait, owner).
-func advance(delta: float, character: CharacterState, busy: ActionBusyState, conscious: bool = true) -> PlayerRecoveryCadenceResult:
+## on while it lies unconscious; the player's conditions wait, owner). `busy_only`: world
+## time is held (the menu) and only the beats busy spends run; once it is over the advance
+## stops and keeps less than one beat, so a long frame never heals or ticks under the hold.
+func advance(delta: float, character: CharacterState, busy: ActionBusyState, conscious: bool = true, busy_only: bool = false) -> PlayerRecoveryCadenceResult:
 	var result: PlayerRecoveryCadenceResult = PlayerRecoveryCadenceResult.new()
 	if not _valid or character == null or busy == null or not is_finite(delta) or delta < 0.0:
 		result.outcome = PlayerRecoveryCadenceResult.Outcome.INVALID_INPUT
@@ -57,6 +59,9 @@ func advance(delta: float, character: CharacterState, busy: ActionBusyState, con
 		return result
 	_accumulator = accumulated
 	while _accumulator >= BASE_PULSE_SECONDS:
+		if busy_only and not busy.is_busy():
+			_accumulator = minf(_accumulator, BASE_PULSE_SECONDS * 0.999)
+			break
 		_accumulator -= BASE_PULSE_SECONDS
 		result.pulses += 1
 		# char.c heart_beat(): a busy character spends the beat in continue_action().

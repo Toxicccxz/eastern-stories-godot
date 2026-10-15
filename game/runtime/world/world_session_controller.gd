@@ -144,7 +144,7 @@ func _process(delta: float) -> void:
 ## an action starts runs (the menu closes for it).
 func _process_held(delta: float) -> void:
 	if _player != null and _player.busy.is_busy():
-		advance_player_recovery(delta)
+		advance_player_recovery(delta, true)
 	if _initialized and _combat_encounter_coordinator != null:
 		_combat_encounter_coordinator.advance_scheduler(delta)
 		advance_departure()
@@ -394,12 +394,12 @@ func player_leaving_zone(from_zone_id: StringName, to_zone_id: StringName) -> vo
 		_room_traps.player_leaving(from_zone_id, to_zone_id)
 
 
-func advance_player_recovery(delta: float) -> PlayerRecoveryCadenceResult:
+func advance_player_recovery(delta: float, busy_only: bool = false) -> PlayerRecoveryCadenceResult:
 	if not player_recovery_time_allowed():
 		var frozen: PlayerRecoveryCadenceResult = PlayerRecoveryCadenceResult.new()
 		frozen.outcome = PlayerRecoveryCadenceResult.Outcome.FROZEN
 		return frozen
-	var result: PlayerRecoveryCadenceResult = _player_recovery_cadence.advance(delta, _player.state, _player.busy)
+	var result: PlayerRecoveryCadenceResult = _player_recovery_cadence.advance(delta, _player.state, _player.busy, true, busy_only)
 	if not result.lines.is_empty() and shared_ui() != null:
 		shared_ui().append_colored_lines(result.lines)
 	# char.c heart_beat(): below zero after a condition (蛇毒), the player falls or dies.

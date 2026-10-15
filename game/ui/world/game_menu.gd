@@ -3,11 +3,11 @@ extends CanvasLayer
 ## The menu window (owner, 2026-10-15; ROADMAP "After the grey box" step 2): one window
 ## with the tabs 角色, 武学, 背包, 任务, 声望, 百科 and 系统 in place of the HUD's separate
 ## panels. 系统 is the pause: the shell's pause state shows this window and lends it its
-## pause buttons (继续, 存档, 设置, 返回主菜单) through a node of HOST_GROUP. The other tabs
-## keep the world running, as the HUD's panels did: their actions need it running
-## (portable_inventory_available()), and a fight that starts closes the menu. Without a
-## shell (tests) 系统 opens on its own and pauses nothing. The pages keep their own
-## rules; this class only shows one page at a time.
+## pause buttons (继续, 存档, 设置, 返回主菜单) through a node of HOST_GROUP. Under the other
+## tabs the tree runs (their actions need it: portable_inventory_available()) but world
+## time stands still (SharedGameplayUI holds it while the menu is open, owner); a fight an
+## action starts closes the menu. Without a shell (tests) 系统 opens on its own. The pages
+## keep their own rules; this class only shows one page at a time.
 
 signal tab_shown(tab: int)
 
@@ -187,8 +187,8 @@ func _reflow(metrics: SafeAreaMetrics) -> void:
 
 
 ## The player asks for the menu on `tab` (-1: the last one). 系统 is the pause: it goes
-## through the shell, which stops the world and calls begin_pause_view(); the other tabs
-## open at once and the world keeps running, as the HUD's panels always did.
+## through the shell, which pauses the tree and calls begin_pause_view(); the other tabs
+## open at once (world time held, the tree running).
 func open(tab: int = -1) -> void:
 	var wanted: int = _current if tab < 0 else tab
 	if wanted == Tab.SYSTEM and not _paused_view:

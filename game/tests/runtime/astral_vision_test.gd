@@ -150,6 +150,10 @@ func _test_ghost_hunt(tree: SceneTree, session: WorldSessionController) -> void:
 	hud.open_inventory()
 	await tree.process_frame
 	session._process(float(_left(player.state)) / 1000.0 + 0.1)
+	_check(player.state.sees_ghosts() and not hud.log_lines().has(ENDED), "the open menu holds world time: the spell runs on")
+	# TEST-ONLY: its seconds pass while the 背包 shows (world time advanced by hand).
+	session.advance_player_timed_applies(float(_left(player.state)) / 1000.0 + 0.1)
+	session._process(0.0)
 	_check(not player.state.sees_ghosts() and hud.log_lines().has(ENDED), "it ends: " + ENDED)
 	_check(other == null or not map.runtime_body_for_character(other.character_id).visible, "the other ghosts unseen again")
 	_check(hud.inventory_is_open() and map.selection.selected_npc() == null, "the 背包 open: the unseen ghost is no longer selected")
