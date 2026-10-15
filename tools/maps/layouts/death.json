@@ -43,10 +43,10 @@
         "placed": {
           "death.gate.wgargoyle.1": [720, 1376],
           "death.gateway.bgargoyle.1": [720, 1120],
-          "death.bridge.hell_guard.1": [568, 1600],
-          "death.bridge.hell_guard.2": [712, 1600],
-          "death.bridge.hell_guard.3": [568, 1696],
-          "death.bridge.hell_guard.4": [712, 1696]
+          "death.bridge.hell_guard.1": [568, 1632],
+          "death.bridge.hell_guard.2": [712, 1632],
+          "death.bridge.hell_guard.3": [568, 1728],
+          "death.bridge.hell_guard.4": [712, 1728]
         }
       },
       "scene": {
@@ -60,7 +60,7 @@
         "nodes": [
           {"generated": "captions"},
           {"node": "caption", "name": "FengduLabel", "at": [600, 996], "text": "酆都城", "size": 14},
-          {"node": "caption", "name": "TowerLabel", "at": [600, 1252], "text": "鬼门关", "size": 14},
+          {"node": "caption", "name": "TowerLabel", "at": [592, 1252], "text": "黑色城楼", "size": 12},
           {"node": "caption", "name": "FogLabel", "at": [260, 1700], "text": "大雾", "size": 16},
           {"node": "service", "name": "ShadowsAsk", "id": "death.inn1.ask_home", "at": [320, 864], "text": "人影 · 打听「回家」"}
         ],

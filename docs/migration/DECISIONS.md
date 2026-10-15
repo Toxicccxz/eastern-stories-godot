@@ -132,26 +132,32 @@ B is 阴阳眼 and the 孤魂野鬼's 布条 (Q4 (a)). What each LPC function be
 - **默认 D6: one round of a gargoyle's lines at a time**: coming back starts them anew; ES2's
   init() started a second chain beside a running one (doubled lines).
 - **默认 D7: a ghost may Save; Continue puts it at 鬼门关** (logind.c: a ghost logs in at
-  DEATH_ROOM), and the gargoyle's lines begin again. The card and the frame of the move back to
-  life are not saved (Save waits).
+  DEATH_ROOM) from wherever it was saved, and the gargoyle's lines begin again; the long road's
+  count stays behind. The card and the move back to life are not saved (Save waits).
+- **A ghost lying unconscious when a gargoyle's last line comes is moved once it comes to**
+  (ES2 moved it at once, unconscious).
 - **As ES2 (D5):** a ghost killed in 阴间 leaves no corpse (chard.c), what it carries falls, a
-  killer takes killer_reward() again, and the ghost is back at 鬼门关 after the card. Attacking a
-  阴鬼牙将 (400000 exp) is asked first as any clearly stronger NPC is. A ghost cannot eat or drink
+  killer takes killer_reward() again, and the ghost is back at 鬼门关 after the card; its card names
+  no corpse. Attacking a 阴鬼牙将 (400000 exp, against a ghost's 1/1 kee) is asked first (its
+  `attack_ask`, the owner's rule on choices that can kill; ordinary 攻击 is not asked). A ghost cannot eat or drink
   (food.c, liquid.c), fails 游识神通 (drift_sense.c: 你失败了。, the cost paid), is 【 鬼  魂 】 with
   (鬼气) before its name (rankd.c, name.c), and sees ghosts (char.c visible(): the 阴鬼牙将); an
   NPC that is no ghost does not see it (its turns pass by perception, combatd.c). The gargoyles
   answer anyone (wgargoyle.c asks nothing). 酆都城门 lets nobody back south (NPCs walk it, as
   !userp() did). The long road refuses four tries north and lets the fifth through; a refused try
   puts the player back at the road's south end (the scenery that never changes), and leaving the
-  road any way starts the count anew (delete_temp()).
+  road any way starts the count anew (delete_temp()). The living reach 阴间 only by 游识神通 to a
+  gargoyle met as a ghost (drift_sense.c finds no one the player cannot see: no 阴鬼牙将 for the
+  living); there the white gargoyle and the little shop send them to the temple as well
+  (reincarnate() asks nothing of ghost: eff_ back to max), and 黑无常 says 喂！阳人来阴间做什么？
+  and attacks.
 - **Not ported:** block.c (离岛) and jail.c (绿岛), wizard punishment rooms; spath1.c (墙边小路),
-  which no exit leads into; 黑无常's branch for one who is no ghost (喂！阳人来阴间做什么？ and a
-  fight): only earth-warp.c brought the living here, and its sheet never worked; tell_room() lines
-  and the vision line for other players.
+  which no exit leads into; tell_room() lines and the vision line for other players.
 - **The gargoyles' five seconds stand still while the player fights** (the world stands still in a
   fight; ES2's call_out counted on).
 - **Global (data):** ScriptedAct step `reincarnate` (reincarnate() and the move to the temple, the
-  act's last step, made by the session the same frame after its map's beat); NpcHooks `calls_hold`;
+  act's last step, made by the session the same frame after its map's beat) and condition `ghost`
+  (true or false); NpcHooks `calls_hold`;
   exit rule `tries` {temp, value, point}; CharacterState `ghost` (saved only when true). The death
   map is region `death` (阴间), map `death.realm`.
 - **Save:** world content revision `SOURCE_ENTRY_DEATH_V1` (a new map and the ghost); older

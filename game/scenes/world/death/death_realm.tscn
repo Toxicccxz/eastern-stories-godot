@@ -135,13 +135,13 @@ theme_override_font_sizes/font_size = 14
 text = "酆都城"
 
 [node name="TowerLabel" type="Label" parent="Terrain"]
-offset_left = 600
+offset_left = 592
 offset_top = 1252
-offset_right = 601
+offset_right = 593
 offset_bottom = 1275
 mouse_filter = 2
-theme_override_font_sizes/font_size = 14
-text = "鬼门关"
+theme_override_font_sizes/font_size = 12
+text = "黑色城楼"
 
 [node name="FogLabel" type="Label" parent="Terrain"]
 offset_left = 260
@@ -265,22 +265,22 @@ script = ExtResource("marker")
 spawn_point_id = &"death.road2.long_road"
 
 [node name="BridgeHellGuard1" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(568, 1600)
+position = Vector2(568, 1632)
 script = ExtResource("marker")
 spawn_point_id = &"death.bridge.hell_guard.1"
 
 [node name="BridgeHellGuard2" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(712, 1600)
+position = Vector2(712, 1632)
 script = ExtResource("marker")
 spawn_point_id = &"death.bridge.hell_guard.2"
 
 [node name="BridgeHellGuard3" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(568, 1696)
+position = Vector2(568, 1728)
 script = ExtResource("marker")
 spawn_point_id = &"death.bridge.hell_guard.3"
 
 [node name="BridgeHellGuard4" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(712, 1696)
+position = Vector2(712, 1728)
 script = ExtResource("marker")
 spawn_point_id = &"death.bridge.hell_guard.4"
 

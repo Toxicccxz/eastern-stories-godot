@@ -64,13 +64,14 @@ func _test_data() -> void:
 	_check(catalog.room(&"es2:d/death/gate").short == "鬼门关", "the gate's name without its terminal colour codes")
 	_check(catalog.room(&"es2:d/death/road3").long == "浓雾在这里聚成一堵墙，路到这里就断了。\n", "the road's end: the native line (owner Q3 b)")
 	var guard: NpcDefinition = catalog.npc(GUARD)
-	_check(guard.is_ghost() and guard.dealings().vendetta_mark == "hell", "阴鬼牙将: ghosts, vendetta_mark hell")
+	_check(guard.is_ghost() and guard.dealings().vendetta_mark == "hell" and guard.hooks().attack_choice == "确定攻击", "阴鬼牙将: ghosts, vendetta_mark hell, attacking one asked first")
 	var white: NpcHooks = catalog.npc(WHITE).hooks()
 	var afters: Array[float] = []
 	for call: NpcHooks.Call in white.calls:
 		afters.append(call.after)
 	_check(afters == [5.0, 10.0, 15.0, 20.0, 25.0] and white.calls_hold and white.calls[4].act.reincarnates(), "白无常: a line every 5 s, reincarnate() with the last, holding still (Q2)")
-	_check(catalog.npc(BLACK).hooks().calls.size() == 5 and catalog.npc(BLACK).hooks().calls_hold, "黑无常: the same")
+	var black: NpcHooks = catalog.npc(BLACK).hooks()
+	_check(black.calls.size() == 6 and black.calls_hold and black.calls[0].act.ghost_state == 0 and black.calls[1].act.ghost_state == 1, "黑无常: the same for a ghost, a fight for the living")
 	var road: ZoneExitRuleDefinition = catalog.exit_rules_between(&"death.road2", &"death.road3")[0]
 	_check(road.counts_tries and road.value == 5 and road.temp == "long_road" and road.point_id == &"death.road2.long_road", "the long road: the fifth try goes through")
 	_check(catalog.exit_rules_between(&"death.gateway", &"death.gate")[0].condition == ZoneExitRuleDefinition.Condition.ALWAYS, "no way back south from 酆都城门")
@@ -136,6 +137,9 @@ func _test_white_gargoyle(tree: SceneTree, session: WorldSessionController) -> v
 	var away: WorldMapController = session.world_map_of(DeathWorldDefinitions.MAP_ID)
 	away.npc_life.npc_ambience().cancel_call(white.character_id)
 	_check(away.npc_life.random_move(white), "with no lines to come he wanders as before")
+	var guard: NpcRuntimeState = _first(away, GUARD)
+	_check(not away.npcs.runtime_body_for_character(guard.character_id).visible and not away.player_sees(guard), "alive, the 阴鬼牙将 are unseen again")
+	_check(session.essence_magic().drift_target(guard.definition().display_name) == null and session.essence_magic().drift_target("白无常") != null, "游识: the living find no ghost (me->visible(ob)), the gargoyle they do")
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new()) # TEST-ONLY
 
 
@@ -204,9 +208,12 @@ func _test_little_shop(tree: SceneTree, session: WorldSessionController) -> void
 func _test_continue_as_ghost(tree: SceneTree, session: WorldSessionController) -> WorldSessionController:
 	await _die(tree, session, true)
 	var map: WorldMapController = session.active_map() as WorldMapController
-	_check(await MapPlaces.drive_through(tree, map, [&"death.gateway", &"death.road1"]), "up the 鬼门大道")
+	_check(await MapPlaces.drive_through(tree, map, [&"death.gateway", &"death.road1", &"death.road2"]), "up the long road")
+	await _try_north(tree, map)
+	_check(session.player_runtime().temp_marks.get("long_road") == 1, "one try counted")
 	var restored: WorldSessionController = await _continue(tree, session)
 	var player: WorldPlayerRuntimeState = restored.player_runtime()
+	_check(not player.temp_marks.has("long_road"), "Continue at the gate leaves the road's count behind")
 	var again: WorldMapController = restored.active_map() as WorldMapController
 	_check(player.state.ghost and restored.active_map_id() == DeathWorldDefinitions.MAP_ID and player.world_location().zone_id == DeathWorldDefinitions.GATE_ZONE_ID, "Continue: the ghost at 鬼门关")
 	if again.npc_life.npc_ambience() != null and _first(again, WHITE).world_location().zone_id != DeathWorldDefinitions.GATE_ZONE_ID:
@@ -215,7 +222,53 @@ func _test_continue_as_ghost(tree: SceneTree, session: WorldSessionController) -
 	_tick(restored, 26)
 	await tree.physics_frame
 	_check(restored.active_map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID and not player.state.ghost, "his lines again, then the temple")
-	return restored
+	# A ghost saved away from 阴间 (遁 takes a ghost along, dun.c): Continue puts it at the gate.
+	player.state.ghost = true # TEST-ONLY
+	var away: WorldSessionController = await _continue(tree, restored)
+	_check(away.reincarnation_pending() and not OldPineSaveEligibility.inspect(away).allowed(), "Continued at the temple, a ghost: the way to 阴间 is due")
+	_tick(away, 1)
+	await tree.physics_frame
+	var ghost: WorldPlayerRuntimeState = away.player_runtime()
+	_check(away.active_map_id() == DeathWorldDefinitions.MAP_ID and ghost.world_location().zone_id == DeathWorldDefinitions.GATE_ZONE_ID and not away.reincarnation_pending(), "logind.c: the ghost at 鬼门关")
+	# Lying unconscious when a gargoyle's last line comes: the move waits until they come to.
+	ghost.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY
+	away.request_reincarnation()
+	away._advance_reincarnation()
+	_check(away.reincarnation_pending() and away.active_map_id() == DeathWorldDefinitions.MAP_ID, "unconscious: the move waits")
+	ghost.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE) # TEST-ONLY: comes to
+	away._advance_reincarnation()
+	await tree.physics_frame
+	_check(away.active_map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID and not ghost.state.ghost, "awake: to the temple")
+	await _test_the_living(tree, away)
+	return away
+
+
+## The living in 阴间 (游识 to a gargoyle met as a ghost): the white gargoyle sends them to the
+## temple all the same (reincarnate() asks nothing of ghost), the black one attacks them.
+func _test_the_living(tree: SceneTree, session: WorldSessionController) -> void:
+	var player: WorldPlayerRuntimeState = session.player_runtime()
+	var hud: SharedGameplayUI = session.shared_ui()
+	_check(not player.state.ghost and session.handoff_to(DeathWorldDefinitions.MAP_ID, &"death.gateway", &"death.gateway", &"death.gateway.bgargoyle.1").succeeded(), "TEST-ONLY: alive in 阴间 (as by 游识)")
+	await tree.physics_frame
+	var map: WorldMapController = session.active_map() as WorldMapController
+	var black: NpcRuntimeState = _first(map, BLACK)
+	_check(map.place_player(black.world_location().zone_id, MapPlaces.spot(map, black.world_location().zone_id, MapPlaces.zone_centre(map, black.world_location().zone_id))), "TEST-ONLY: alive, beside 黑无常")
+	await tree.physics_frame
+	map.npc_life._advance_ambience(0.0)
+	player.state.vitality = CharacterResourceState.new(100000, 100000, 100000) # TEST-ONLY: survives him
+	_tick(session, 5)
+	_check(hud.log_lines().has("黑无常说道：喂！阳人来阴间做什么？") and session.combat_encounter_coordinator().has_active_encounter(), "黑无常: 喂！阳人来阴间做什么？ and a fight")
+	# 逃跑 until the fight is over (the panel's first action).
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	for _round: int in range(600):
+		if not coordinator.has_active_encounter():
+			break
+		var info: CombatTacticalActionInfo = coordinator.action_infos()[0]
+		coordinator.submit_player_action(CombatTacticalRequest.new(info.action_id, coordinator.active_encounter().encounter_id, player.character_id, info.action_id, info.category))
+		coordinator.advance_scheduler(1.0)
+	_check(not coordinator.has_active_encounter(), "fled from him")
+	_tick(session, 25)
+	_check(not hud.log_lines().has("黑无常说道：喂！新来的，你叫什么名字？") and not player.state.ghost, "no ghost's lines for the living")
 
 
 ## A ghost killed (by a 阴鬼牙将): no corpse (chard.c), the penalty again with a killer, the
@@ -231,14 +284,16 @@ func _test_dying_again(tree: SceneTree, session: WorldSessionController) -> void
 	map.npc_life._advance_ambience(0.0)
 	map.select_npc(guard.character_id)
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
-	_check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the ghost attacks a 阴鬼牙将")
+	var corpses: int = map.corpse_states().size()
+	var started: CombatSliceInitiationResult = map.attack_selected()
+	_check(started.outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the ghost attacks a 阴鬼牙将: %s %s life %s fighting %s zone %s ghost %s map %s" % [started.outcome, guard.world_location().zone_id, player.life_status, coordinator.has_active_encounter(), player.world_location().zone_id, player.state.ghost, session.active_map_id()])
 	for _round: int in range(600):
 		if not coordinator.has_active_encounter():
 			break
 		coordinator.advance_scheduler(1.0)
 	var flow: PlayerLifeFlow = session.player_life_flow()
 	_check(player.life_status == CharacterRuntimeLifeStatus.Value.DEAD and flow.phase == PlayerLifeFlow.Phase.DEATH_SEQUENCE, "killed")
-	_check(map.corpse_states().is_empty(), "a ghost leaves no corpse")
+	_check(map.corpse_states().size() == corpses and flow.corpse_place.is_empty(), "a ghost leaves no corpse, and the card names none")
 	_check(flow.death_result.penalized and flow.death_result.combat_experience_lost == 100, "killer_reward() again: exp / 10")
 	session.continue_after_death()
 	await tree.physics_frame

@@ -6,14 +6,14 @@
 		{ "id": "death.realm", "region": "death", "scene": "res://scenes/world/death/death_realm.tscn", "entry": "death.gate.arrival" }
 	],
 	"zones": [
-		{ "id": "death.bridge1", "map": "death.realm", "rooms": ["es2:d/death/bridge1"] },
+		{ "id": "death.bridge1", "map": "death.realm", "rooms": ["es2:d/death/bridge1"], "distinct": true },
 		{ "id": "death.bridge", "map": "death.realm", "rooms": ["es2:d/death/bridge"] },
 		{ "id": "death.gate", "map": "death.realm", "rooms": ["es2:d/death/gate"] },
 		{ "id": "death.gateway", "map": "death.realm", "rooms": ["es2:d/death/gateway"] },
 		{ "id": "death.road1", "map": "death.realm", "rooms": ["es2:d/death/road1"] },
 		{ "id": "death.inn1", "map": "death.realm", "rooms": ["es2:d/death/inn1"] },
 		{ "id": "death.inn2", "map": "death.realm", "rooms": ["es2:d/death/inn2"] },
-		{ "id": "death.road2", "map": "death.realm", "rooms": ["es2:d/death/road2"] },
+		{ "id": "death.road2", "map": "death.realm", "rooms": ["es2:d/death/road2"], "distinct": true },
 		{ "id": "death.road3", "map": "death.realm", "rooms": ["es2:d/death/road3"] }
 	],
 	"exit_rules": [

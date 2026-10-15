@@ -27,7 +27,7 @@ each, both sources listed).
 | DEATH_ROOM->start_death() | gate.c defines none: call_other() did nothing |
 | damage.c reincarnate(), move(REVIVE_ROOM) | ScriptedAct step `reincarnate`: the session makes the move to `snow.temple.revive` the same frame, after the map's beat; ghost = 0, eff_ back to max |
 | wgargoyle.c / bgargoyle.c init(), death_stage() | NpcHooks `calls`: five lines at 5, 10, 15, 20 and 25 seconds after the player comes in while they stay (present(ob)); the last with the fog line and `reincarnate`; `calls_hold` (owner Q2): no random_move while they are to come. 白无常 in HIW, 黑无常 in HIB |
-| bgargoyle.c death_stage() for one who is no ghost (say, kill_ob()) | not ported: only earth-warp.c sent the living here, and it never worked |
+| bgargoyle.c death_stage() for one who is no ghost (say, kill_ob()) | calls[0] with act condition `ghost` false: 喂！阳人来阴间做什么？, npc_flag hunts_player and kill; his lines are `ghost` true. The living come here only by 游识神通 to a gargoyle met as a ghost |
 | wgargoyle.c chat_msg's (: this_object(), "random_move" :) | random_move |
 | hell_guard.c set_name(order[random(12)] + "阴鬼牙将"), is_ghost() | `name_parts`; `ghost` (seen only by a ghost, no corpse); vendetta_mark hell (killing one marks vendetta/hell) |
 | gateway.c valid_leave() | exit rule `death.gateway.no_return` (`always`) for the player only |
@@ -35,8 +35,10 @@ each, both sources listed).
 | road3.c 「..... 还没想到 ....」 | source fix (owner Q3 (b)): 浓雾在这里聚成一堵墙，路到这里就断了。 |
 | gate.c's short with raw ANSI escapes | source fix: 鬼门关 (the colour is presentation) |
 | inn1.c item_desc shadows, inn2.c item_desc wall | look landmarks, word for word |
+| bridge1 and bridge (奈何桥), road1 and road2 (鬼门大道): one name each | bridge1 and road2 `distinct`: their own text is read on arrival (the owner's rule for neighbours of one name) |
 | inn1.c redirect_ask(), do_stuff() | act service `death.inn1.ask_home` (人影 · 打听「回家」): the two write() lines, `reincarnate` |
-| logind.c: a ghost logs in at DEATH_ROOM | Continue of a ghost puts it at `death.gate.arrival` (D7) |
+| logind.c: a ghost logs in at DEATH_ROOM | Continue of a ghost puts it at `death.gate.arrival` (D7): on the realm's map at once, from any other (遁 takes a ghost along) by a move the session makes once the world lets it |
+| drift_sense.c select_target(): me->visible(ob) | PlayerEssenceMagic.drift_target() skips whom the player does not see (the ghosts, for the living) |
 | chard.c make_corpse() of a ghost | the player's DeathContext carries `ghost`: no corpse, the things fall |
 | food.c, liquid.c is_ghost() | FoodUseResult / LiquidUseResult `GHOST` (你已经是鬼了，不能吃东西！/ 喝东西！) |
 | drift_sense.c is_ghost() | DriftSenseConjure: 你失败了。 after the cost |
@@ -48,8 +50,9 @@ each, both sources listed).
 - gate.c's short holds raw terminal escapes instead of the ansi.h macros.
 - road3.c is unfinished (「还没想到」); the long road leads to it all the same.
 - spath1.c's text describes a way west from the gateway that no exit makes.
-- bgargoyle.c's living-visitor branch can only fire for one earth-warp.c brought, and attach.c
-  never ran that sheet (DECISIONS 茅山).
+- bgargoyle.c's living-visitor branch fires for one 游识神通 brings to him (earth-warp.c's sheet
+  never ran: DECISIONS 茅山).
+- dun.c (遁) has no ghost check: a ghost may take itself to the Snow temple and stay a ghost there.
 - A gargoyle that walked off (random_move) cut its own chain (present(ob) fails); one entered
   twice ran two chains.
 

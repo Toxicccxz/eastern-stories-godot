@@ -14,7 +14,9 @@
 				["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"],
 				["阴鬼牙将"]
 			],
-			"ghost": true
+			"ghost": true,
+			"attack_ask": "阴鬼牙将是守关鬼卒里的精锐，你现在只是一缕鬼魂，打输了会再死一次，再受一次死亡的惩罚。确定要攻击他吗？",
+			"attack_choice": "确定攻击"
 		},
 		"death.npc.wgargoyle": {
 			"chat_chance": 15,
@@ -38,11 +40,16 @@
 		},
 		"death.npc.bgargoyle": {
 			"calls": [
-				{ "after": 5, "steps": [{ "line": "黑无常说道：喂！新来的，你叫什么名字？", "color": "HIB" }] },
-				{ "after": 10, "steps": [{ "line": "黑无常用奇异的眼光盯著你，好像要看穿你的一切似的。", "color": "HIB" }] },
-				{ "after": 15, "steps": [{ "line": "黑无常「哼」的一声，从袖中掏出一本像帐册的东西翻看著。", "color": "HIB" }] },
-				{ "after": 20, "steps": [{ "line": "黑无常阁上册子，说道：咦？阳寿未尽？怎么可能？", "color": "HIB" }] },
-				{ "after": 25, "steps": [
+				{ "after": 5, "ghost": false, "steps": [
+					{ "say": "喂！阳人来阴间做什么？" },
+					{ "npc_flag": "hunts_player" },
+					{ "kill": true }
+				] },
+				{ "after": 5, "ghost": true, "steps": [{ "line": "黑无常说道：喂！新来的，你叫什么名字？", "color": "HIB" }] },
+				{ "after": 10, "ghost": true, "steps": [{ "line": "黑无常用奇异的眼光盯著你，好像要看穿你的一切似的。", "color": "HIB" }] },
+				{ "after": 15, "ghost": true, "steps": [{ "line": "黑无常「哼」的一声，从袖中掏出一本像帐册的东西翻看著。", "color": "HIB" }] },
+				{ "after": 20, "ghost": true, "steps": [{ "line": "黑无常阁上册子，说道：咦？阳寿未尽？怎么可能？", "color": "HIB" }] },
+				{ "after": 25, "ghost": true, "steps": [
 					{ "line": "黑无常搔了搔头，叹道：罢了罢了，你走吧。", "color": "HIB" },
 					{ "line": "一股阴冷的浓雾突然出现，很快地包围了你。", "color": "HIB" },
 					{ "reincarnate": true }
@@ -65,7 +72,7 @@
 		},
 		"d/death/npc/bgargoyle.c": {
 			"function init": "calls in set, as wgargoyle.c's",
-			"function death_stage": "calls in set, as wgargoyle.c's, the lines in HIB; its branch for one who is no ghost (喂！阳人来阴间做什么？ and kill_ob()) is not ported: only earth-warp.c brought the living here, and its sheet never worked (attach.c, DECISIONS 茅山)"
+			"function death_stage": "calls in set, as wgargoyle.c's, the lines in HIB, for a ghost (act condition ghost); one who is no ghost (a 游识 to him) hears 喂！阳人来阴间做什么？ five seconds on and is attacked (kill_ob(): npc_flag hunts_player and kill), and the chain ends"
 		},
 		"d/death/gateway.c": {
 			"function valid_leave": "world.json exit_rules death.gateway.no_return (always: south to the gate refused; NPCs walk it, as !userp(me) did)"

@@ -407,7 +407,7 @@ func accept_zone_presence(zone: WorldPhysicalZoneArea2D) -> bool:
 		if refusal.asks:
 			_ask_way_in(refusal, _enter_after_asking.bind(refusal))
 		return false
-	_clear_tries(current.zone_id)
+	clear_tries(current.zone_id)
 	_tell_passing(current.zone_id, zone.zone_id)
 	if session != null:
 		session.player_leaving_zone(current.zone_id, zone.zone_id)
@@ -513,7 +513,7 @@ func _refuse_try(rule: ZoneExitRuleDefinition) -> void:
 
 
 ## road2.c delete_temp("long_road"): whoever leaves the road starts counting anew.
-func _clear_tries(from_zone_id: StringName) -> void:
+func clear_tries(from_zone_id: StringName) -> void:
 	for rule: ZoneExitRuleDefinition in GameContent.catalog().exit_rules():
 		if rule.counts_tries and rule.from_zone_id == from_zone_id:
 			_player.temp_marks.erase(rule.temp)

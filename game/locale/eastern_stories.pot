@@ -1571,6 +1571,10 @@ msgid "酆都城"
 msgstr ""
 
 #: scenes/world/death/death_realm.tscn
+msgid "黑色城楼"
+msgstr ""
+
+#: scenes/world/death/death_realm.tscn
 msgid "大雾"
 msgstr ""
 
@@ -5620,7 +5624,8 @@ msgid "召唤天将"
 msgstr ""
 
 #. chuenyu.npc.xiaojuan2 attack_choice
-#: presentation/battle/battle_presentation_controller.gd ui/world/shared_ui_context_actions.gd data/chuenyu/npcs.json
+#. death.npc.hell_guard attack_choice
+#: presentation/battle/battle_presentation_controller.gd ui/world/shared_ui_context_actions.gd data/chuenyu/npcs.json data/death/npcs.json
 msgid "确定攻击"
 msgstr ""
 
@@ -28508,6 +28513,11 @@ msgstr ""
 msgid "亥阴鬼牙将"
 msgstr ""
 
+#. death.npc.hell_guard attack_ask
+#: data/death/npcs.json
+msgid "阴鬼牙将是守关鬼卒里的精锐，你现在只是一缕鬼魂，打输了会再死一次，再受一次死亡的惩罚。确定要攻击他吗？"
+msgstr ""
+
 #. death.npc.wgargoyle name
 #: data/death/npcs.json
 msgid "白无常"
@@ -28572,6 +28582,11 @@ msgstr ""
 #: data/death/npcs.json
 msgid ""
 "黑无常把长长的舌头伸出来，缓缓地舔了舔自己又黑又长的手指。\n"
+msgstr ""
+
+#. death.npc.bgargoyle calls.steps.say
+#: data/death/npcs.json
+msgid "喂！阳人来阴间做什么？"
 msgstr ""
 
 #. death.npc.bgargoyle calls.steps.line
