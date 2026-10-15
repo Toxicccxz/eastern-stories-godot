@@ -49,7 +49,7 @@ func _test_full_loot_inventory_equip_second_fight_loop(
 	_assert_true(controller.session.shared_ui().inventory_panel != null, "HUD owns one presentation-only Inventory panel")
 	_assert_false(controller.session.shared_ui().inventory_is_open(), "Inventory panel starts closed")
 	_assert_false(controller.session.shared_ui().loot_is_open(), "Loot panel starts closed")
-	_assert_eq(controller.session.shared_ui().inventory_button.get_signal_connection_list("pressed").size(), 1, "Inventory button has one persisted controller connection")
+	_assert_eq(controller.session.shared_ui()._presentation_layout.menu_button.get_signal_connection_list("pressed").size(), 1, "菜单 button has one persisted controller connection")
 	_assert_eq(controller.session.shared_ui().inventory_panel.inspect_requested.get_connections().size(), 1, "Inspect request has one typed controller connection")
 	_assert_eq(controller.session.shared_ui().inventory_panel.wield_requested.get_connections().size(), 1, "Wield request has one typed controller connection")
 	_assert_eq(controller.session.shared_ui().inventory_panel.unwield_requested.get_connections().size(), 1, "Unwield request has one typed controller connection")
@@ -59,8 +59,8 @@ func _test_full_loot_inventory_equip_second_fight_loop(
 	_assert_true(panel.position.x + panel.size.x <= viewport_size.x, "Inventory panel right edge stays visible")
 	_assert_true(panel.position.y + panel.size.y <= viewport_size.y, "Inventory panel bottom edge stays visible")
 
-	controller.session.shared_ui().inventory_button.pressed.emit()
-	_assert_true(controller.session.shared_ui().inventory_is_open(), "Inventory button opens live panel")
+	controller.session.shared_ui().open_inventory()
+	_assert_true(controller.session.shared_ui().inventory_is_open(), "背包 opens the live panel")
 	var fresh_rows: Array[PlayerInventoryRowProjection] = controller.session.shared_ui().inventory_rows()
 	_assert_eq(fresh_rows.size(), 1, "fresh scene inventory has one direct item")
 	_assert_dynamic_row_connections(controller.session.shared_ui().inventory_panel, 1)
@@ -110,7 +110,7 @@ func _test_full_loot_inventory_equip_second_fight_loop(
 	_assert_true(controller.inventory_state().is_direct_child(silver_id, _player_endpoint()), "same silver instance is player direct inventory")
 	_assert_eq(operation_random.calls, 0, "Open/Take consume zero Combat RNG")
 
-	controller.session.shared_ui().inventory_button.pressed.emit()
+	controller.session.shared_ui().open_inventory()
 	_assert_true(controller.session.shared_ui().inventory_is_open(), "Inventory opens after loot")
 	_assert_false(controller.session.shared_ui().loot_is_open(), "opening Inventory closes Loot panel")
 	var rows: Array[PlayerInventoryRowProjection] = controller.session.shared_ui().inventory_rows()
@@ -443,7 +443,7 @@ func _test_fresh_scene_reset_baseline(tree: SceneTree) -> void:
 	_assert_eq(binding.content.projected_apply_damage(binding.state.equipment.primary_weapon()), 25, "fresh/reset combat returns long damage 25")
 	fresh.player_runtime().set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS)
 	fresh.session.shared_ui().refresh_live_state()
-	_assert_true(fresh.session.shared_ui().inventory_button.disabled, "non-ACTIVE player cannot open active Inventory actions")
+	_assert_true(fresh.session.shared_ui()._presentation_layout.menu_button.disabled, "non-ACTIVE player cannot open the menu's active actions")
 	var inactive_unwield: OldPineEquipmentInteractionResult = OldPineTestMap.unwield(fresh, 
 		rows[0].item_instance_id
 	)

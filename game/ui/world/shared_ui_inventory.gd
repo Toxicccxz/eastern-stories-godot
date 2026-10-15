@@ -64,7 +64,17 @@ func loot_rows() -> Array[WorldItemRowProjection]:
 	return [] if _ui.loot_panel == null else _ui.loot_panel.visible_rows()
 
 
+## The menu on its 背包 page, with these rows.
 func show_inventory(rows: Array[PlayerInventoryRowProjection]) -> void:
+	if not (_ui.menu.is_presented() and _ui.menu.current_tab() == GameMenu.Tab.INVENTORY):
+		_ui.menu.open(GameMenu.Tab.INVENTORY)
+	if _ui.menu.is_presented() and _ui.menu.current_tab() == GameMenu.Tab.INVENTORY:
+		fill_inventory(rows)
+
+
+## The 背包 page's rows and what each row may do here (the selected NPC, a container
+## or corpse in reach), without opening anything.
+func fill_inventory(rows: Array[PlayerInventoryRowProjection]) -> void:
 	close_loot()
 	var map: WorldMapController = (_session.active_map() as WorldMapController) if _session != null else null
 	var give_target: String = ""
@@ -90,8 +100,7 @@ func show_inventory(rows: Array[PlayerInventoryRowProjection]) -> void:
 				pour_targets.append([id, content.display_name])
 	_ui.inventory_panel.set_pour_targets(pour_targets)
 	_ui.inventory_panel.show_inventory(rows)
-	_presentation_layout.open_panel("背包", _ui.inventory_panel)
-	_presentation_layout.refresh_rows()
+	_ui.menu.refresh_rows()
 
 
 func close_inventory() -> void:

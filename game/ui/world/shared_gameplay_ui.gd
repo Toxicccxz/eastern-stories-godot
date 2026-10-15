@@ -1,7 +1,7 @@
 class_name SharedGameplayUI
 extends CanvasLayer
-## The exploration HUD: the status card, the context buttons, the shared panel frame and
-## the toasts (laid out by SharedGameplayLayout). This class keeps the Node lifecycle, the
+## The exploration HUD: the status card, the context buttons, the shared panel frame,
+## the toasts (laid out by SharedGameplayLayout) and the menu window (GameMenu). This class keeps the Node lifecycle, the
 ## widgets the layout fills and the constants other scripts read; the rest lives in its
 ## components (message_log, card, selection, actions, ask, items, panels, questions), and
 ## every public method here forwards to one of them.
@@ -46,7 +46,15 @@ var steal_panel: StealPanel
 ## bribe the constable leading the player (d/choyin/npc/yamen_po.c accept_bribery()): BribePanel.
 var bribe_button: Button
 var bribe_panel: BribePanel
-var inventory_button: Button
+## The menu window and its pages (角色, 武学, 背包 with 随身补给, 任务 with the log).
+var menu: GameMenu
+var character_sheet: CharacterSheet
+var arts_page: MartialArtsPage
+var inventory_page: VBoxContainer
+var supplies_mount: VBoxContainer
+var journal_page: VBoxContainer
+## 任务: quest.c's lines for 朱鸿雪's task.
+var quest_text: Label
 var inspection_text: RichTextLabel
 var combat_log: RichTextLabel
 var loot_panel: OldPineLootPanel
@@ -153,7 +161,6 @@ func _ready() -> void:
 	bribe_panel.cancelled.connect(panels.close_panel_of.bind(bribe_panel))
 	drift_panel.chosen.connect(panels.drift_choose)
 	drift_panel.cancelled.connect(panels.drift_cancel)
-	inventory_button.pressed.connect(items.open_inventory)
 	loot_panel.take_requested.connect(actions.take_context)
 	inventory_panel.inspect_requested.connect(items.inspect_item)
 	inventory_panel.wield_requested.connect(items.wield_item)
@@ -175,7 +182,8 @@ func _ready() -> void:
 	inventory_panel.attach_requested.connect(items.attach_sheet)
 	confirm_prompt.confirmed.connect(questions.on_prompt_confirmed)
 	confirm_prompt.cancelled.connect(questions.on_prompt_cancelled)
-	_presentation_layout.character.arts.configure(_session)
+	_build_menu()
+	arts_page.configure(_session)
 	if _session != null:
 		life_overlay = PlayerLifeOverlay.new()
 		life_overlay.name = "PlayerLifeOverlay"
@@ -192,6 +200,8 @@ func _notification(what: int) -> void:
 		# the heading and the status line follow on the next refresh, the log keeps its lines.
 		selected_target_label.text = selection.selection_text()
 		_presentation_layout.close_panel()
+		if menu != null and menu.is_presented():
+			menu_tab_shown(menu.current_tab())
 
 
 func configure(player: WorldPlayerRuntimeType) -> bool:
@@ -203,11 +213,20 @@ func configure(player: WorldPlayerRuntimeType) -> bool:
 	return true
 
 
-## The HUD's one input entry: ui_accept opens the place's context action. Seam for
-## gamepad support (not built yet): switching the menu's tabs and closing the frame with
-## the cancel button belong here too.
+## The HUD's input while the player walks: ui_accept opens the place's context action,
+## a menu key (C, K, I, J) opens that tab, L is 观察. The open menu takes its own keys
+## (GameMenu). Seam for gamepad support (not built yet).
 func _unhandled_input(event: InputEvent) -> void:
-	if visible and not _presentation_layout.frame.visible and event.is_action_pressed("ui_accept") and not event.is_echo() and not actions.context_title().is_empty():
+	if not visible or _presentation_layout.frame.visible or menu.is_presented() or event.is_echo() or not event.is_pressed():
+		return
+	var tab: int = GameMenu.tab_for_event(event)
+	if tab >= 0:
+		get_viewport().set_input_as_handled()
+		menu.open(tab)
+	elif event.is_action_pressed(&"look_around"):
+		get_viewport().set_input_as_handled()
+		open_look()
+	elif event.is_action_pressed("ui_accept") and not actions.context_title().is_empty():
 		get_viewport().set_input_as_handled()
 		actions.open_current_context()
 
@@ -217,11 +236,14 @@ func _process(delta: float) -> void:
 		visible = false
 		if _presentation_layout != null:
 			_presentation_layout.close_panel()
+			menu.dismiss()
 		return
 	var current: WorldResidentMapController = _session.active_map()
 	# A new map or a HUD that just reappeared refreshes now, not 0.1 s later.
 	if current != _bound_map:
 		_presentation_layout.close_panel()
+		if not menu.in_pause_view():
+			menu.dismiss()
 		selection.set_selected_target(null)
 		_bound_map = current
 		_elapsed = INF
@@ -230,11 +252,21 @@ func _process(delta: float) -> void:
 	if not visible and available and not fighting:
 		_elapsed = INF
 	visible = available and not fighting
+	if menu.in_pause_view():
+		# 系统 holds the world (the shell's pause): only its questions stay checked.
+		_presentation_layout.validate_open_panel()
+		return
 	if not visible:
 		_presentation_layout.close_panel()
+		# A fight closes the menu as it closed the HUD's panels.
+		menu.dismiss()
 		# A fight clears the toasts from before it.
 		message_log.refresh_toasts()
 		return
+	if menu.is_presented() and not _session.portable_inventory_available():
+		# The player cannot act now (unconscious, dying, taken elsewhere): the menu would
+		# cover what happens.
+		menu.dismiss()
 	_presentation_layout.validate_open_panel()
 	if _presentation_layout._content == _presentation_layout.details:
 		if (selection.selected_target != null and (not selection.selected_target.exists_in_map or selection.selected_target.life_status == CharacterRuntimeLifeStatus.Value.DEAD)) or (selection.selected_landmark != null and not selection.selected_landmark_source_available) or (selection.selected_corpse_available and not selection.selected_corpse_in_range and not selection.selected_floor_item):
@@ -245,16 +277,138 @@ func _process(delta: float) -> void:
 	_elapsed = 0.0
 	selection.refresh_live_state()
 	card.refresh_exploration()
+	if menu.is_presented():
+		_refresh_menu_page()
 
 
 func _physics_process(_delta: float) -> void:
-	if _presentation_layout != null and _presentation_layout.frame.visible:
+	if _presentation_layout != null and (_presentation_layout.frame.visible or (menu.is_presented() and not menu.in_pause_view())):
 		quarantine_movement()
 
 
 func quarantine_movement() -> void:
 	if _session != null and _session.is_initialized() and _session.active_map_child_count() > 0 and _session.active_map() != null:
 		_session.active_map().runtime_player_body().quarantine_current_movement_input()
+
+
+# --- the menu window ---
+
+
+func _build_menu() -> void:
+	character_sheet = CharacterSheet.new()
+	arts_page = MartialArtsPage.new()
+	arts_page.name = "MartialArtsPage"
+	inventory_page = VBoxContainer.new()
+	inventory_page.name = "InventoryPage"
+	inventory_page.add_theme_constant_override("separation", 12)
+	inventory_panel.reparent(inventory_page, false)
+	# The tab names it and the window closes it: the panel's own title and 关闭 go.
+	inventory_panel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+	for path: String in ["Margin/VBox/Title", "Margin/VBox/Separator", "Margin/VBox/PlayerInventoryCloseButton"]:
+		inventory_panel.get_node(path).queue_free()
+	supplies_mount = VBoxContainer.new()
+	supplies_mount.name = "Supplies"
+	supplies_mount.add_theme_constant_override("separation", 8)
+	inventory_page.add_child(supplies_mount)
+	_heading(supplies_mount, "随身补给")
+	journal_page = VBoxContainer.new()
+	journal_page.name = "JournalPage"
+	journal_page.add_theme_constant_override("separation", 10)
+	_heading(journal_page, "朱鸿雪的任务")
+	quest_text = Label.new()
+	quest_text.name = "Quest"
+	quest_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	# quest.c's lines, already in the shown language.
+	quest_text.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	journal_page.add_child(quest_text)
+	_heading(journal_page, "消息记录")
+	_presentation_layout.messages.reparent(journal_page, false)
+	_presentation_layout.messages.show()
+	menu = GameMenu.new()
+	add_child(menu)
+	menu.build(self, character_sheet, arts_page, inventory_page, journal_page)
+
+
+func _heading(parent: Node, text: String) -> Label:
+	var label := Label.new()
+	label.name = "Heading"
+	label.text = text
+	label.add_theme_font_size_override("font_size", 14)
+	label.add_theme_color_override("font_color", SharedGameplayLayout.ACCENT_COLOR)
+	parent.add_child(label)
+	return label
+
+
+## The 菜单 button: the menu on its last tab.
+func open_menu() -> void:
+	menu.open()
+
+
+## Closes the menu (an act that moves the player, a drift).
+func close_menu() -> void:
+	if menu.is_presented():
+		menu.close()
+
+
+## The menu's own questions, shown over it rather than in its place.
+func is_menu_dialog(content: Control) -> bool:
+	return content == confirm_prompt or content == drift_panel
+
+
+## The menu opened: the frame's panel closes, its questions now show over the menu. Over
+## the running world the player stops walking; the shell's pause freezes things itself.
+func menu_presented() -> void:
+	_presentation_layout.close_panel()
+	_presentation_layout.lift_frame(menu.root)
+	if not menu.in_pause_view():
+		quarantine_movement()
+
+
+func menu_dismissed(from_pause: bool) -> void:
+	_presentation_layout.close_panel()
+	_presentation_layout.lower_frame()
+	if not from_pause:
+		quarantine_movement()
+	_elapsed = INF
+
+
+## A tab is shown: its page is filled now.
+func menu_tab_shown(tab: int) -> void:
+	match tab:
+		GameMenu.Tab.CHARACTER, GameMenu.Tab.MARTIAL_ARTS:
+			panels.refresh_character()
+		GameMenu.Tab.INVENTORY:
+			if _session != null and _session.is_initialized():
+				items.fill_inventory(_session.player_inventory_rows())
+			panels.show_supplies()
+		GameMenu.Tab.JOURNAL:
+			quest_text.text = "" if _player == null else "\n".join(QuestStatus.lines(_player.state.quest))
+
+
+## Every page hides (another tab, the menu closed): the 背包 no longer counts as open.
+func menu_pages_hidden() -> void:
+	items.close_inventory()
+
+
+func _refresh_menu_page() -> void:
+	match menu.current_tab():
+		GameMenu.Tab.CHARACTER, GameMenu.Tab.MARTIAL_ARTS:
+			panels.refresh_character()
+		GameMenu.Tab.JOURNAL:
+			menu_tab_shown(GameMenu.Tab.JOURNAL)
+	message_log.collect_feedback()
+
+
+## Everything the 角色 page shows (tests).
+func character_sheet_text() -> String:
+	panels.refresh_character()
+	return character_sheet.text()
+
+
+## The 任务 page's 朱鸿雪 lines (tests).
+func journal_quest_text() -> String:
+	menu_tab_shown(GameMenu.Tab.JOURNAL)
+	return quest_text.text
 
 
 # --- forwarded to SharedUiMessageLog (message_log) ---
@@ -455,7 +609,11 @@ func show_inventory(rows: Array[PlayerInventoryRowProjection]) -> void:
 	items.show_inventory(rows)
 
 
+## The 背包 goes away (the player is taken elsewhere, dies, the map resets): the menu
+## closes when it shows it.
 func close_inventory() -> void:
+	if menu.is_presented() and menu.current_tab() == GameMenu.Tab.INVENTORY and not menu.in_pause_view():
+		menu.close()
 	items.close_inventory()
 
 
@@ -503,7 +661,7 @@ func open_martial_arts() -> void:
 
 
 func martial_arts_page() -> MartialArtsPage:
-	return panels.martial_arts_page()
+	return arts_page
 
 
 func open_supplies() -> void:

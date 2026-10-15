@@ -160,15 +160,22 @@ func open_panel_with_lines(title: String, content: Control, validate: Callable =
 	refresh_toasts()
 
 
+## The menu on its 任务 page, which holds the log.
 func open_messages() -> void:
 	if _session.portable_inventory_available():
-		_presentation_layout.open_panel("消息", _presentation_layout.messages)
+		_ui.menu.open(GameMenu.Tab.JOURNAL)
 
 
+## A shown panel's Feedback label (the frame's, or the menu's page: 随身补给) into the log.
 func collect_feedback() -> void:
-	if not _presentation_layout.frame.visible: return
+	var labels: Array[Node] = []
+	if _presentation_layout.frame.visible:
+		labels.append_array(_presentation_layout.mount.find_children("*", "Label", true, false))
+	if _ui.menu != null and _ui.menu.is_presented():
+		labels.append_array(_ui.menu.pages[_ui.menu.current_tab()].find_children("*", "Label", true, false))
+	if labels.is_empty(): return
 	var lines: Array[String] = []
-	for node: Node in _presentation_layout.mount.find_children("*", "Label", true, false):
+	for node: Node in labels:
 		var label := node as Label
 		# A fixed feedback holds its source text and translates itself: the log takes what it shows.
 		if label.name == "Feedback" and not label.text.is_empty(): lines.append(label.atr(label.text) if label.can_auto_translate() else label.text)

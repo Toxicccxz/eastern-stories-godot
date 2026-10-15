@@ -46,13 +46,13 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	return {"assertions": _count, "failures": _failures}
 
 
-## The HUD's 角色 button, then the 武学 tab.
+## The HUD's 菜单 button (the menu on 角色), then the 武学 tab.
 func _test_page_opens() -> void:
 	var layout: SharedGameplayLayout = _hud._presentation_layout
-	layout.character_button.pressed.emit()
-	_check(layout.frame.visible and layout.character.sheet.visible and not _page.visible, "角色 opens on the score sheet")
-	layout.character.arts_tab.pressed.emit()
-	_check(_page.is_visible_in_tree() and not layout.character.sheet.visible, "the 武学 tab shows the page")
+	layout.menu_button.pressed.emit()
+	_check(_hud.menu.is_presented() and _hud.character_sheet.is_visible_in_tree() and not _page.is_visible_in_tree(), "菜单 opens on the 角色 page")
+	_hud.menu.tab_buttons[GameMenu.Tab.MARTIAL_ARTS].pressed.emit()
+	_check(_page.is_visible_in_tree() and not _hud.character_sheet.is_visible_in_tree(), "the 武学 tab shows the page")
 	_check(_page.force_text.text == "内力 0 / 0 (+0)", "the page shows internal power: " + _page.force_text.text)
 	_page.exercise_button.pressed.emit()
 	_check(_last() == ["你必须先用 enable 选择你要用的内功心法。"], "exercise.c without an enabled force")

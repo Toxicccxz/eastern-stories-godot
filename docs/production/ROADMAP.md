@@ -87,7 +87,8 @@ accepted together at step 3, the owner's one full playtest; what it finds is fix
    progress. Each change is a data knob whose ES2 value is recorded (`pacing.json`,
    [DECISIONS](../migration/DECISIONS.md)). Same pass: scene-transition fades, movement feel,
    interaction prompts, camera, a battle-round knob.
-2. **UI overhaul.** One menu window with tabs (角色, 武学, 背包, 任务, 声望, 系统) replaces the
+2. **UI overhaul** (owner, 2026-10-15: before step 1; A = the menu window and its tabs, B = gamepad,
+   C = the 任务 journal and the 百科). One menu window with tabs (角色, 武学, 背包, 任务, 声望, 系统) replaces the
    separate panels; the HUD keeps only what play needs; gamepad support (input map, focus
    navigation, LB/RB tab switching, A/B confirm/cancel, button glyphs in prompts) alongside mouse
    and touch. The 任务 tab starts as a journal of 朱鸿雪's task and the story chains' progress;
