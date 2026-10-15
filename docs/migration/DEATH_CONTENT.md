@@ -42,6 +42,7 @@ each, both sources listed).
 | chard.c make_corpse() of a ghost | the player's DeathContext carries `ghost`: no corpse, the things fall |
 | food.c, liquid.c is_ghost() | FoodUseResult / LiquidUseResult `GHOST` (你已经是鬼了，不能吃东西！/ 喝东西！) |
 | drift_sense.c is_ghost() | DriftSenseConjure: 你失败了。 after the cost |
+| dun.c at oneself (no ghost check) | DunSpell: a ghost fails, 你失败了。 after the cost (owner) |
 | rankd.c query_rank() is_ghost(), name.c (鬼气) | RankWords.query_rank(…, ghost): 【 鬼  魂 】; the character sheet's (鬼气) |
 | char.c visible() | a ghost player sees ghost NPCs (bodies drawn, picked, met); NPCs' combat profile `sees()` reads the player's ghost |
 
@@ -52,7 +53,8 @@ each, both sources listed).
 - spath1.c's text describes a way west from the gateway that no exit makes.
 - bgargoyle.c's living-visitor branch fires for one 游识神通 brings to him (earth-warp.c's sheet
   never ran: DECISIONS 茅山).
-- dun.c (遁) has no ghost check: a ghost may take itself to the Snow temple and stay a ghost there.
+- dun.c (遁) has no ghost check: a ghost could take itself to the Snow temple and stay a ghost
+  there (owner: here it fails for a ghost; DunSpell).
 - A gargoyle that walked off (random_move) cut its own chain (present(ob) fails); one entered
   twice ran two chains.
 

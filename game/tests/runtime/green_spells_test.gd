@@ -71,6 +71,11 @@ func _test_vanish_rules() -> void:
 	context.target = pair[0]
 	_check(SpecialFunctions.cast(&"dun").cast(context) and context.departure.is_empty() and context.lines.size() == 1 and context.lines[0].template == "你失败了。" and pair[0].state.recovery.mana.current == 920, "random(spells) 29: 你失败了 for the player, the cost spent")
 	pair = _pair()
+	pair[0].state.ghost = true # TEST-ONLY: a ghost in 阴间
+	context = _context(pair, Specials.Pattern.new())
+	context.target = pair[0]
+	_check(SpecialFunctions.cast(&"dun").cast(context) and context.departure.is_empty() and context.lines.size() == 1 and context.lines[0].template == "你失败了。" and pair[0].state.recovery.mana.current == 920 and pair[0].state.spirit.current == 270, "a ghost: 你失败了 without a draw, the cost spent (owner, 鬼门关 A)")
+	pair = _pair()
 	pair[0].is_user = false # TEST-ONLY: an NPC caster
 	context = _context(pair, Specials.Pattern.new([29]))
 	context.target = pair[0]

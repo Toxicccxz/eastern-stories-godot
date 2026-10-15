@@ -134,6 +134,9 @@ B is 阴阳眼 and the 孤魂野鬼's 布条 (Q4 (a)). What each LPC function be
 - **默认 D7: a ghost may Save; Continue puts it at 鬼门关** (logind.c: a ghost logs in at
   DEATH_ROOM) from wherever it was saved, and the gargoyle's lines begin again; the long road's
   count stays behind. The card and the move back to life are not saved (Save waits).
+- **Owner: 遁 at oneself fails for a ghost** (你失败了。, the cost spent, as 游识神通's): dun.c asks
+  nothing of is_ghost(), so a ghost could take itself to the Snow temple and stay a ghost there,
+  unable to eat or drink, until it died again.
 - **A ghost lying unconscious when a gargoyle's last line comes is moved once it comes to**
   (ES2 moved it at once, unconscious).
 - **As ES2 (D5):** a ghost killed in 阴间 leaves no corpse (chard.c), what it carries falls, a
