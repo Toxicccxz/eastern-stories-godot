@@ -16,8 +16,10 @@ msgstr ""
 msgid "东方故事"
 msgstr ""
 
+#. snow.wei_wuji region
+#. snow.weapon_storage region
 #. snow name
-#: scenes/application/application_shell.tscn data/snow/world.json
+#: scenes/application/application_shell.tscn data/common/journal.json data/snow/world.json
 msgid "雪亭镇"
 msgstr ""
 
@@ -365,9 +367,10 @@ msgstr ""
 msgid "武"
 msgstr ""
 
+#. canyon.bamboo title
 #. es2:d/canyon/bamboo/bamboo2 short
 #. es2:d/canyon/bamboo/bamboo3 short
-#: scenes/world/canyon/canyon_bamboo.tscn data/canyon/rooms.json
+#: scenes/world/canyon/canyon_bamboo.tscn data/common/journal.json data/canyon/rooms.json
 msgid "竹林道"
 msgstr ""
 
@@ -639,8 +642,10 @@ msgstr ""
 msgid "北 · 乔阴县城"
 msgstr ""
 
+#. guye.mountain title
+#. guye.mountain region
 #. guye name
-#: scenes/world/choyin/choyin_guye.tscn data/choyin/world.json
+#: scenes/world/choyin/choyin_guye.tscn data/common/journal.json data/choyin/world.json
 msgid "姑射山"
 msgstr ""
 
@@ -765,9 +770,10 @@ msgstr ""
 msgid "曼雩台"
 msgstr ""
 
+#. choyin.taolin title
 #. es2:d/choyin/taolin short
 #. choyin.taolin.landmark.grove name
-#: scenes/world/choyin/choyin_town.tscn data/choyin/rooms.json data/choyin/world.json
+#: scenes/world/choyin/choyin_town.tscn data/common/journal.json data/choyin/rooms.json data/choyin/world.json
 msgid "桃林"
 msgstr ""
 
@@ -1130,9 +1136,10 @@ msgstr ""
 msgid "京师东街"
 msgstr ""
 
+#. city.tavern title
 #. city.npc.boss inquiry topic
 #. es2:d/city/jiulou short
-#: scenes/world/city/city_main.tscn data/city/npcs.json data/city/rooms.json
+#: scenes/world/city/city_main.tscn data/common/journal.json data/city/npcs.json data/city/rooms.json
 msgid "太白酒楼"
 msgstr ""
 
@@ -1275,8 +1282,9 @@ msgstr ""
 msgid "紫禁城"
 msgstr ""
 
+#. city.shangshu title
 #. city.wall.jump_in name
-#: scenes/world/city/city_main.tscn data/city/world.json
+#: scenes/world/city/city_main.tscn data/common/journal.json data/city/world.json
 msgid "尚书府"
 msgstr ""
 
@@ -1363,9 +1371,13 @@ msgstr ""
 msgid "卧龙岗南坡"
 msgstr ""
 
+#. cloud.toll region
+#. cloud.li_shishi region
+#. cloud.chess region
+#. cloud.wangyou_grass region
 #. es2:u/cloud/entrance short
 #. cloud name
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json data/cloud/world.json
+#: scenes/world/cloud/cloud_outdoor.tscn data/common/journal.json data/cloud/rooms.json data/cloud/world.json
 msgid "绮云镇"
 msgstr ""
 
@@ -1644,6 +1656,7 @@ msgstr ""
 msgid "南 · 雪亭镇"
 msgstr ""
 
+#. green.maze title
 #. es2:d/green/eight0 short
 #. es2:d/green/eight1 short
 #. es2:d/green/eight2 short
@@ -1652,7 +1665,7 @@ msgstr ""
 #. es2:d/green/eight5 short
 #. es2:d/green/eight6 short
 #. es2:d/green/eight7 short
-#: scenes/world/green/green_maze.tscn data/green/rooms.json
+#: scenes/world/green/green_maze.tscn data/common/journal.json data/green/rooms.json
 msgid "迷阵"
 msgstr ""
 
@@ -2475,8 +2488,9 @@ msgstr ""
 msgid "淳风武馆教练场"
 msgstr ""
 
+#. snow.weapon_storage title
 #. es2:d/snow/weapon_storage short
-#: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
+#: scenes/world/snow/snow_outdoor.tscn data/common/journal.json data/snow/rooms.json
 msgid "兵器储藏室"
 msgstr ""
 
@@ -2695,9 +2709,10 @@ msgstr ""
 msgid "稻田"
 msgstr ""
 
+#. village.melon title
 #. es2:d/village/melonfarm short
 #. village.melonfarm.pick name
-#: scenes/world/village/village_main.tscn data/village/rooms.json data/village/world.json
+#: scenes/world/village/village_main.tscn data/common/journal.json data/village/rooms.json data/village/world.json
 msgid "瓜地"
 msgstr ""
 
@@ -2754,8 +2769,9 @@ msgstr ""
 msgid "南 · 京师"
 msgstr ""
 
+#. village.lake title
 #. es2:d/village/lake short
-#: scenes/world/village/village_main.tscn scenes/world/village/village_midlake.tscn data/village/rooms.json
+#: scenes/world/village/village_main.tscn scenes/world/village/village_midlake.tscn data/common/journal.json data/village/rooms.json
 msgid "玉螺湖"
 msgstr ""
 
@@ -3083,7 +3099,8 @@ msgstr ""
 
 #. an NPC's say() in a fight: {npc} its name, {line} what it says.
 #. an NPC's say() out of a fight: {npc} its name, {line} what it says.
-#: application/items/npc_drink_service.gd core/npcs/npc_inquiry.gd core/npcs/npc_line.gd core/relationships/npc_apprenticeship.gd runtime/combat_encounter/combat_npc_chat.gd runtime/world/map/world_map_debts.gd runtime/world/map/world_map_hostilities.gd runtime/world/map/world_map_npc_life.gd runtime/world/map/world_map_selection.gd
+#. a line an NPC said, quoted under a 任务 page entry (as the ask wrote it).
+#: application/items/npc_drink_service.gd core/npcs/npc_inquiry.gd core/npcs/npc_line.gd core/relationships/npc_apprenticeship.gd runtime/combat_encounter/combat_npc_chat.gd runtime/world/map/world_map_debts.gd runtime/world/map/world_map_hostilities.gd runtime/world/map/world_map_npc_life.gd runtime/world/map/world_map_selection.gd ui/world/journal_stories.gd
 msgid "{npc}说道：{line}"
 msgstr ""
 
@@ -5645,7 +5662,8 @@ msgstr ""
 msgid "厮杀"
 msgstr ""
 
-#: presentation/battle/battle_presentation_controller.gd
+#. help.combat title
+#: presentation/battle/battle_presentation_controller.gd data/common/codex.json
 msgid "战斗"
 msgstr ""
 
@@ -5998,6 +6016,81 @@ msgstr ""
 
 #: presentation/battle/es2_combat_messages.gd
 msgid "它"
+msgstr ""
+
+#: presentation/codex/codex_content.gd
+msgid "江湖常识"
+msgstr ""
+
+#. common.npc.fighter.champion inquiry topic
+#: presentation/codex/codex_content.gd ui/world/game_menu.gd data/common/npcs.json
+msgid "武学"
+msgstr ""
+
+#: presentation/codex/codex_content.gd
+msgid "物品"
+msgstr ""
+
+#: presentation/codex/codex_content.gd
+msgid "门派"
+msgstr ""
+
+#: presentation/codex/codex_content.gd
+msgid "人物"
+msgstr ""
+
+#: presentation/codex/codex_content.gd
+msgid "基本功夫"
+msgstr ""
+
+#: presentation/codex/codex_content.gd
+msgid "特殊技能"
+msgstr ""
+
+#: presentation/codex/codex_content.gd
+msgid "知识"
+msgstr ""
+
+#. help.martial title
+#: presentation/codex/codex_content.gd data/common/codex.json
+msgid "武功"
+msgstr ""
+
+#: presentation/codex/codex_content.gd
+msgid "可以激发为：{uses}"
+msgstr ""
+
+#. between two conditions on the HUD (蛇毒).
+#: presentation/codex/codex_content.gd ui/world/shared_ui_status_card.gd
+msgid "、"
+msgstr ""
+
+#: presentation/codex/codex_content.gd
+msgid "运功：{functions}"
+msgstr ""
+
+#: presentation/codex/codex_content.gd
+msgid "你的等级：{level}"
+msgstr ""
+
+#: presentation/codex/codex_content.gd
+msgid "没有什么特别之处。"
+msgstr ""
+
+#: presentation/codex/codex_content.gd
+msgid "你是{family}的弟子。"
+msgstr ""
+
+#: presentation/codex/codex_content.gd
+msgid "你见过的门人：{names}"
+msgstr ""
+
+#: presentation/codex/codex_content.gd
+msgid "你没有特别留意过此人的模样。"
+msgstr ""
+
+#: presentation/codex/codex_content.gd
+msgid "门派：{family}"
 msgstr ""
 
 #: presentation/layout/application_shell_layout.gd runtime/application/application_shell_controller.gd
@@ -7178,7 +7271,8 @@ msgstr ""
 msgid "身份"
 msgstr ""
 
-#: ui/world/character_sheet.gd
+#. help.health title
+#: ui/world/character_sheet.gd data/common/codex.json
 msgid "精气神"
 msgstr ""
 
@@ -7191,7 +7285,8 @@ msgstr ""
 msgid "修为"
 msgstr ""
 
-#: ui/world/character_sheet.gd
+#. help.gift title
+#: ui/world/character_sheet.gd data/common/codex.json
 msgid "天赋"
 msgstr ""
 
@@ -7237,6 +7332,26 @@ msgstr ""
 msgid "负重 {carried} / {capacity} · 体重 {weight}"
 msgstr ""
 
+#: ui/world/codex_page.gd
+msgid "你还没有学会任何武学。"
+msgstr ""
+
+#: ui/world/codex_page.gd
+msgid "你还没有拿过任何东西。"
+msgstr ""
+
+#: ui/world/codex_page.gd
+msgid "你还没有遇见过任何门派的人。"
+msgstr ""
+
+#: ui/world/codex_page.gd
+msgid "你还没有遇见过任何人。"
+msgstr ""
+
+#: ui/world/codex_page.gd
+msgid "返回列表"
+msgstr ""
+
 #. 游识神通's question when the player has met nobody it could go to yet.
 #: ui/world/drift_sense_panel.gd
 msgid "你还没有见过什么人。"
@@ -7249,11 +7364,6 @@ msgstr ""
 
 #: ui/world/game_menu.gd
 msgid "角色"
-msgstr ""
-
-#. common.npc.fighter.champion inquiry topic
-#: ui/world/game_menu.gd data/common/npcs.json
-msgid "武学"
 msgstr ""
 
 #: ui/world/game_menu.gd
@@ -7273,14 +7383,18 @@ msgstr ""
 msgid "江湖上对你的看法，日后会记在这里。"
 msgstr ""
 
-#. the 百科 tab until its entries are built (the next UI package).
-#: ui/world/game_menu.gd
-msgid "百科尚在编纂，日后会收录武学、物品、门派、人物与江湖常识。"
-msgstr ""
-
 #. the 系统 tab during a fight: the other tabs wait until it is over.
 #: ui/world/game_menu.gd
 msgid "战斗中只能使用系统功能。"
+msgstr ""
+
+#. the 任务 page before any story entry is recorded.
+#: ui/world/journal_stories.gd
+msgid "你还没有记下什么江湖见闻。"
+msgstr ""
+
+#: ui/world/journal_stories.gd
+msgid "{title} · {region}"
 msgstr ""
 
 #: ui/world/martial_arts_page.gd
@@ -7375,7 +7489,8 @@ msgstr ""
 msgid "施展「阴阳眼」：看得见鬼魂，持续的秒数等于你的有效咒文等级（30 法力、5 神）。"
 msgstr ""
 
-#: ui/world/martial_arts_page.gd
+#. help.skill title
+#: ui/world/martial_arts_page.gd data/common/codex.json
 msgid "技能"
 msgstr ""
 
@@ -7833,6 +7948,10 @@ msgid "朱鸿雪的任务"
 msgstr ""
 
 #: ui/world/shared_gameplay_ui.gd
+msgid "江湖见闻"
+msgstr ""
+
+#: ui/world/shared_gameplay_ui.gd
 msgid "消息记录"
 msgstr ""
 
@@ -8106,11 +8225,6 @@ msgstr ""
 #. a resource bar's tooltip: current / effective / maximum.
 #: ui/world/shared_ui_status_card.gd
 msgid "当前 {current} / 有效 {effective} / 最大 {maximum}"
-msgstr ""
-
-#. between two conditions on the HUD (蛇毒).
-#: ui/world/shared_ui_status_card.gd
-msgid "、"
 msgstr ""
 
 #. the 偷窃 list's choice for no thing in particular: steal.c takes one of everything the NPC carries.
@@ -8843,7 +8957,8 @@ msgid ""
 msgstr ""
 
 #. es2:daemon/class/scholar/windspring name
-#: data/common/items.json
+#. choyin.windspring title
+#: data/common/items.json data/common/journal.json
 msgid "风泉之剑"
 msgstr ""
 
@@ -10352,6 +10467,10 @@ msgstr ""
 
 #. family.latemoon name
 #. common.npc.dancer.master family.name
+#. latemoon.funlin region
+#. latemoon.dances region
+#. latemoon.old_woman region
+#. latemoon.secret_letter region
 #. cloud.npc.lm_guard inquiry topic
 #. latemoon.npc.yumay family.name
 #. latemoon.npc.funlin family.name
@@ -10369,7 +10488,7 @@ msgstr ""
 #. latemoon.npc.upstar.shinfun family.name
 #. latemoon.npc.upstar.huei family.name
 #. latemoon name
-#: data/common/families.json data/common/npcs.json data/cloud/npcs.json data/latemoon/npcs.json data/latemoon/world.json
+#: data/common/families.json data/common/npcs.json data/common/journal.json data/cloud/npcs.json data/latemoon/npcs.json data/latemoon/world.json
 msgid "晚月庄"
 msgstr ""
 
@@ -11389,8 +11508,9 @@ msgid "乞丐"
 msgstr ""
 
 #. quests.target
+#. cloud.li_shishi title
 #. cloud.npc.girl name
-#: data/common/quests.json data/cloud/npcs.json
+#: data/common/quests.json data/common/journal.json data/cloud/npcs.json
 msgid "李师师"
 msgstr ""
 
@@ -11461,8 +11581,9 @@ msgid "进香客"
 msgstr ""
 
 #. quests.target
+#. snow.wei_wuji title
 #. snow.npc.teacher name
-#: data/common/quests.json data/snow/npcs.json
+#: data/common/quests.json data/common/journal.json data/snow/npcs.json
 msgid "魏无极"
 msgstr ""
 
@@ -11574,18 +11695,20 @@ msgid "蝴蝶"
 msgstr ""
 
 #. quests.target
+#. latemoon.funlin title
 #. latemoon.npc.yumay inquiry topic
 #. latemoon.npc.funlin name
 #. latemoon.npc.girl inquiry topic
 #. latemoon.npc.zauron inquiry topic
 #. latemoon.npc.shaowei inquiry topic
-#: data/common/quests.json data/latemoon/npcs.json
+#: data/common/quests.json data/common/journal.json data/latemoon/npcs.json
 msgid "芳绫"
 msgstr ""
 
 #. quests.target
+#. cloud.chess title
 #. cloud.npc.chess_player name
-#: data/common/quests.json data/cloud/npcs.json
+#: data/common/quests.json data/common/journal.json data/cloud/npcs.json
 msgid "弈者"
 msgstr ""
 
@@ -11886,6 +12009,1571 @@ msgstr ""
 #. latemoon.npc.upstar.huei name
 #: data/common/quests.json data/latemoon/npcs.json
 msgid "邢千慧"
+msgstr ""
+
+#. snow.wei_wuji/asked_fee text
+#: data/common/journal.json
+msgid "你向雪亭镇书院的魏无极打听学费。"
+msgstr ""
+
+#. snow.wei_wuji/paid text
+#: data/common/journal.json
+msgid "你交给魏无极学费，他点头说从今天起你随时可以去问他读书识字的学问。"
+msgstr ""
+
+#. snow.weapon_storage/shield text
+#: data/common/journal.json
+msgid "你在兵器储藏室底下的地下密室里拾到一面牛皮盾。"
+msgstr ""
+
+#. green.jade title
+#. es2:d/green/obj/jade name
+#. green.npc.shen inquiry topic
+#. green.npc.oldman2 inquiry topic
+#: data/common/journal.json data/green/items.json data/green/npcs.json
+msgid "玉佩"
+msgstr ""
+
+#. green.jade region
+#. green.maze region
+#. green name
+#: data/common/journal.json data/green/world.json
+msgid "青石村"
+msgstr ""
+
+#. green.jade/elder text
+#: data/common/journal.json
+msgid "你向青石村的村长打听玉佩。"
+msgstr ""
+
+#. green.jade/drunk_jade text
+#: data/common/journal.json
+msgid "你给雪亭镇的醉汉送酒，他悄声说：玉佩他卖给沈老板了，那东西不吉祥。"
+msgstr ""
+
+#. green.jade/drunk_drug text
+#: data/common/journal.json
+msgid "你又给醉汉送酒，他悄声说：听说沈记商行有在卖蒙汗药。"
+msgstr ""
+
+#. green.jade/jade text
+#: data/common/journal.json
+msgid "你向沈记商行的沈万年问起玉佩，得到了那块刻著行气口诀的玉佩。"
+msgstr ""
+
+#. green.jade/drug_price text
+#: data/common/journal.json
+msgid "你向沈万年打听蒙汗药，他悄声说一份只要十两银子，保证有效。"
+msgstr ""
+
+#. green.jade/drug text
+#: data/common/journal.json
+msgid "你付给沈万年十两银子，他塞给你一包蒙汗药。"
+msgstr ""
+
+#. green.maze/through text
+#: data/common/journal.json
+msgid "你依着路牌穿过了山路尽头的迷阵。"
+msgstr ""
+
+#. green.maze/windsword text
+#: data/common/journal.json
+msgid "你跳入溪水中仔细寻找，竟从水中找出一把追风剑。"
+msgstr ""
+
+#. oldpine.skeleton title
+#: data/common/journal.json
+msgid "山洞里的骸骨"
+msgstr ""
+
+#. oldpine.skeleton region
+#. oldpine name
+#: data/common/journal.json data/oldpine/world.json
+msgid "老松岭"
+msgstr ""
+
+#. oldpine.skeleton/buried text
+#: data/common/journal.json
+msgid "你在瀑布旁的山洞里埋好了那具骸骨，洞顶石壁「喀喇」一响，坠下一本过招要旨。"
+msgstr ""
+
+#. cloud.toll title
+#. cloud.npc.gangster inquiry topic
+#: data/common/journal.json data/cloud/npcs.json
+msgid "买路钱"
+msgstr ""
+
+#. cloud.toll/asked text
+#: data/common/journal.json
+msgid "你向卧龙岗的强盗问起买路钱。"
+msgstr ""
+
+#. cloud.toll/paid text
+#: data/common/journal.json
+msgid "你交给卧龙岗的强盗十两金子，他收下钱，说今天做个善人，放你一条生路。"
+msgstr ""
+
+#. cloud.li_shishi/asked text
+#: data/common/journal.json
+msgid "你在怡红院二楼向李师师请教学艺。"
+msgstr ""
+
+#. cloud.li_shishi/keepsake text
+#: data/common/journal.json
+msgid "你留给李师师一件信物，她说：能做相公的老师，真是三生有幸。"
+msgstr ""
+
+#. cloud.chess/played text
+#: data/common/journal.json
+msgid "你在香茗坊二楼和弈者下了一盘棋。"
+msgstr ""
+
+#. cloud.chess/chess text
+#: data/common/journal.json
+msgid "你得到了弈者的棋子，一种较轻的暗器。"
+msgstr ""
+
+#. cloud.wangyou_grass title
+#. es2:d/choyin/obj/grass name
+#. cloud.npc.b_header inquiry topic
+#. choyin.npc.crone inquiry topic
+#. choyin.npc.visitor inquiry topic
+#: data/common/journal.json data/choyin/items.json data/cloud/npcs.json data/choyin/npcs.json
+msgid "忘忧草"
+msgstr ""
+
+#. cloud.wangyou_grass/uncle text
+#: data/common/journal.json
+msgid "你向振远镖局的陈剑秋问起陈天星。"
+msgstr ""
+
+#. cloud.wangyou_grass/lost text
+#: data/common/journal.json
+msgid "你向陈剑秋问起忘忧草。"
+msgstr ""
+
+#. cloud.wangyou_grass/crone text
+#: data/common/journal.json
+msgid "你向乔阴县城的乾瘪老太婆打听忘忧草。"
+msgstr ""
+
+#. cloud.wangyou_grass/visitor text
+#: data/common/journal.json
+msgid "你向乔阴县城的游客打听忘忧草。"
+msgstr ""
+
+#. cloud.wangyou_grass/grass text
+#: data/common/journal.json
+msgid "护草神兽倒下后，你在神秘洞穴里得到一棵发着晶莹光芒的忘忧草。"
+msgstr ""
+
+#. cloud.wangyou_grass/letter text
+#: data/common/journal.json
+msgid "你把忘忧草交给陈剑秋，他大喜过望，提笔写好一封信交给你，嘱咐你路上小心，把信直接交给陈师叔。"
+msgstr ""
+
+#. cloud.wangyou_grass/chen text
+#: data/common/journal.json
+msgid "你在京师振远总局向陈天星请教拜师。"
+msgstr ""
+
+#. latemoon.funlin/heard_funlin text
+#: data/common/journal.json
+msgid "你向傍厅的蓝雨梅问起芳绫。"
+msgstr ""
+
+#. latemoon.funlin/heard_dragonfly text
+#: data/common/journal.json
+msgid "你向蓝筱薇问起竹蜻蜓。"
+msgstr ""
+
+#. latemoon.funlin/bamboo text
+#: data/common/journal.json
+msgid "你把一根竹子交给蓝筱薇，她看了看说是根玉竹，便灵巧地削凿起来。"
+msgstr ""
+
+#. latemoon.funlin/dragonfly text
+#: data/common/journal.json
+msgid "蓝筱薇把做好的竹蜻蜓递给了你。"
+msgstr ""
+
+#. latemoon.funlin/gift text
+#: data/common/journal.json
+msgid "你把竹蜻蜓送给禁闭房里的芳绫，她开心地把玩，在你耳边小声说：『庄内前厅某处藏有一宝物手镯哦！』"
+msgstr ""
+
+#. latemoon.funlin/bracelet text
+#: data/common/journal.json
+msgid "你从内厅的碧纱橱里取出一串玛瑙手镯。"
+msgstr ""
+
+#. latemoon.dances title
+#: data/common/journal.json
+msgid "晚月庄的舞步"
+msgstr ""
+
+#. latemoon.dances/dance_out text
+#: data/common/journal.json
+msgid "你记下了一曲舞步『西出阳关』。"
+msgstr ""
+
+#. latemoon.dances/dance_yu_fong text
+#: data/common/journal.json
+msgid "你记下了一曲舞步『有凤来仪』。"
+msgstr ""
+
+#. latemoon.dances/hankie text
+#: data/common/journal.json
+msgid "你在一间密室里拾到一卷丝罗巾，上面绣着一幅幅翩然起舞的美女图。"
+msgstr ""
+
+#. latemoon.dances/asked_book text
+#: data/common/journal.json
+msgid "你在翠湘阁向莫欣芳问起舞曲谱。"
+msgstr ""
+
+#. latemoon.dances/book text
+#: data/common/journal.json
+msgid "你在密室的石床后面找到了一本舞曲谱。"
+msgstr ""
+
+#. latemoon.old_woman title
+#. latemoon.npc.room.old name
+#: data/common/journal.json data/latemoon/npcs.json
+msgid "无名老妇"
+msgstr ""
+
+#. latemoon.old_woman/trouble text
+#: data/common/journal.json
+msgid "你向内书房的无名老妇问起她的心事。"
+msgstr ""
+
+#. latemoon.old_woman/about_token text
+#: data/common/journal.json
+msgid "你向无名老妇问起令牌。"
+msgstr ""
+
+#. latemoon.old_woman/token text
+#: data/common/journal.json
+msgid "你得到了一个黑木做的杀手令牌，上面刻著火焰的图腾标志。"
+msgstr ""
+
+#. latemoon.old_woman/whip_book text
+#: data/common/journal.json
+msgid "你把杀手令牌交给无名老妇，她叹了口气，给了你一本寒雪鞭法密笈作为感谢。"
+msgstr ""
+
+#. latemoon.secret_letter title
+#. es2:d/latemoon/room/npc/obj/letter name
+#: data/common/journal.json data/latemoon/items.json
+msgid "密函"
+msgstr ""
+
+#. latemoon.secret_letter/letter text
+#: data/common/journal.json
+msgid "你得到了芙云身上的一封密函，信用蜡封著，上面有一个奇怪的图案。"
+msgstr ""
+
+#. choyin.yam title
+#. es2:d/choyin/npc/obj/tomatoo name
+#: data/common/journal.json data/choyin/items.json
+msgid "山药蛋"
+msgstr ""
+
+#. choyin.yam region
+#. choyin.hermit_books region
+#. choyin_east name
+#: data/common/journal.json data/choyin/world.json
+msgid "乔阴东郊"
+msgstr ""
+
+#. choyin.yam/yam text
+#: data/common/journal.json
+msgid "你在青石峪遇见一位采药老者，他心疼你饿得面黄肌瘦，从小布包里拿出个山药蛋塞到你手里。"
+msgstr ""
+
+#. choyin.hermit_books title
+#: data/common/journal.json
+msgid "草堂的书"
+msgstr ""
+
+#. choyin.hermit_books/took text
+#: data/common/journal.json
+msgid "你在隐士的草堂里趁人不备，从矮几上抓起一本书藏入怀中。"
+msgstr ""
+
+#. choyin.peach_chest title
+#. es2:d/choyin/obj/chest name
+#: data/common/journal.json data/choyin/items.json
+msgid "桃木箱"
+msgstr ""
+
+#. choyin.peach_chest region
+#. choyin.silk_bag region
+#. choyin.windspring region
+#. choyin.taolin region
+#. choyin name
+#: data/common/journal.json data/choyin/world.json
+msgid "乔阴县城"
+msgstr ""
+
+#. choyin.peach_chest/rumors text
+#: data/common/journal.json
+msgid "你向福林酒楼里的武官打听传闻。"
+msgstr ""
+
+#. choyin.peach_chest/chest text
+#: data/common/journal.json
+msgid "你在树王坟内部找到一个刻工精细的桃木箱。"
+msgstr ""
+
+#. choyin.peach_chest/book text
+#: data/common/journal.json
+msgid "你把桃木箱还给武官，他说出门在外没带太多银两，送你一本古书「白杨经」作为报答。"
+msgstr ""
+
+#. choyin.silk_bag title
+#: data/common/journal.json
+msgid "荷包"
+msgstr ""
+
+#. choyin.silk_bag/trouble text
+#: data/common/journal.json
+msgid "你在福林酒楼二楼向贵公子问起他的心事。"
+msgstr ""
+
+#. choyin.silk_bag/bag text
+#: data/common/journal.json
+msgid "你向曲桥上的官家小姐提起游晋，她吞吞吐吐地托你把一个紫罗鸳鸯荷包交给游公子。"
+msgstr ""
+
+#. choyin.windspring/soul text
+#: data/common/journal.json
+msgid "骆云舟死后，风泉之剑掉落在地，又飘了起来，一个人形忽然浮现，手中正握著风泉之剑。"
+msgstr ""
+
+#. choyin.windspring/sword text
+#: data/common/journal.json
+msgid "你得到了步玄派历代相传的掌门信物——风泉之剑。"
+msgstr ""
+
+#. choyin.taolin/sent text
+#: data/common/journal.json
+msgid "你向骆云舟拜师，他说：你还是先走一趟东边的桃林吧。"
+msgstr ""
+
+#. choyin.taolin/out text
+#: data/common/journal.json
+msgid "你读着树上的字条找路，走出了曼雩台东边的桃林。"
+msgstr ""
+
+#. guye.mountain/rope text
+#: data/common/journal.json
+msgid "你在绝壁上的山洞里得到一条金丝编成、刻满咒文的缚仙绳。"
+msgstr ""
+
+#. guye.mountain/immortal text
+#: data/common/journal.json
+msgid "你在云台向紫衣童子问起仙人。"
+msgstr ""
+
+#. guye.mountain/pill text
+#: data/common/journal.json
+msgid "你在丹炉里得到了仙丹。"
+msgstr ""
+
+#. guye.mountain/orchid text
+#: data/common/journal.json
+msgid "你在寒谷尽头采到一株寒谷幽兰，淡淡的香气似乎在哪里闻到过。"
+msgstr ""
+
+#. canyon.camp title
+#: data/common/journal.json
+msgid "军营"
+msgstr ""
+
+#. canyon.camp region
+#. canyon.seal region
+#. canyon.bamboo region
+#. canyon name
+#: data/common/journal.json data/canyon/world.json
+msgid "天驼关"
+msgstr ""
+
+#. canyon.camp/history text
+#: data/common/journal.json
+msgid "你向大队长打听黄石隘口，他讲起二十多年前先帝调大将军们驻守隘口；如今换上的小皇帝只忙著找剑，大家也不太服他。说完又催你快缴钱。"
+msgstr ""
+
+#. canyon.camp/permission text
+#: data/common/journal.json
+msgid "你向大队长问起允许。"
+msgstr ""
+
+#. canyon.camp/listed text
+#: data/common/journal.json
+msgid "你前后交给大队长三十两银子，他把你列入名册，说从今天起你可以自由出入营区。"
+msgstr ""
+
+#. canyon.seal title
+#. es2:d/canyon/npc/obj/fake_seal name
+#. es2:d/canyon/npc/obj/seal name
+#. canyon.npc.general inquiry topic
+#: data/common/journal.json data/canyon/items.json data/canyon/npcs.json
+msgid "印鉴"
+msgstr ""
+
+#. canyon.seal/asked_general text
+#: data/common/journal.json
+msgid "你在将军营帐向严廷殷打听印鉴。"
+msgstr ""
+
+#. canyon.seal/asked_captain text
+#: data/common/journal.json
+msgid "你向大队长打听兵器库。"
+msgstr ""
+
+#. canyon.seal/asked_adviser text
+#: data/common/journal.json
+msgid "你向军师赫造基打听兵器库。"
+msgstr ""
+
+#. canyon.seal/secret text
+#: data/common/journal.json
+msgid "你交给军师赫造基八两银子，他告诉你一项秘密：在那片光滑的山壁前发誓「我爱……」，或许可以发现奇特的事。"
+msgstr ""
+
+#. canyon.seal/armory text
+#: data/common/journal.json
+msgid "你在光滑的山壁前发了誓，一阵强光轰隆过后，来到一处兵器库，见到一名后备兵。"
+msgstr ""
+
+#. canyon.seal/bought text
+#: data/common/journal.json
+msgid "你交给后备兵三两黄金，他说你不愧是武林中人，一眼就看出端倪，用一方印鉴和你交换。"
+msgstr ""
+
+#. canyon.seal/kicked text
+#: data/common/journal.json
+msgid "你把那方印鉴交给严廷殷，他喝道别想拿这种东西来骗他，把你赶到了营火区。"
+msgstr ""
+
+#. canyon.seal/real_seal text
+#: data/common/journal.json
+msgid "后备兵见被你识破，只好认栽，换给你一方泛著黄光的印鉴。"
+msgstr ""
+
+#. canyon.seal/old_sword text
+#: data/common/journal.json
+msgid "你把印鉴交给严廷殷，他连声道谢，送你一把古剑作为报酬。"
+msgstr ""
+
+#. canyon.bamboo/slipcase text
+#: data/common/journal.json
+msgid "你在洞内石室的书柜里找到一个铜制的书匣。"
+msgstr ""
+
+#. canyon.bamboo/book text
+#: data/common/journal.json
+msgid "书匣里是一本《悟疾风劲竹书》，书末署名柳淳风。"
+msgstr ""
+
+#. village.melon region
+#. village.lake region
+#. village name
+#: data/common/journal.json data/village/world.json
+msgid "玉螺湖村"
+msgstr ""
+
+#. village.melon/caught text
+#: data/common/journal.json
+msgid "你在瓜地里摘西瓜，被瓜农逮了个正着。"
+msgstr ""
+
+#. village.lake/dragons text
+#: data/common/journal.json
+msgid "你在湖底的水下岩洞里撞见了浑身长满白鳞的冰龙。"
+msgstr ""
+
+#. chuenyu.xiaojuan title
+#. village.npc.flowergirl inquiry topic
+#. chuenyu.npc.flower_seller inquiry topic
+#. chuenyu.npc.cleangirl inquiry topic
+#. chuenyu.npc.cook inquiry topic
+#. chuenyu.npc.xiaojuan2 name
+#: data/common/journal.json data/village/npcs.json data/chuenyu/npcs.json
+msgid "小娟"
+msgstr ""
+
+#. chuenyu.xiaojuan region
+#. chuenyu name
+#: data/common/journal.json data/chuenyu/world.json
+msgid "黑松山"
+msgstr ""
+
+#. chuenyu.xiaojuan/asked_village text
+#: data/common/journal.json
+msgid "你向玉螺湖村的采花妞打听小娟。"
+msgstr ""
+
+#. chuenyu.xiaojuan/asked_castle text
+#: data/common/journal.json
+msgid "你向黑松堡的女佣人打听小娟。"
+msgstr ""
+
+#. chuenyu.xiaojuan/found text
+#: data/common/journal.json
+msgid "你在黑松堡地牢的刑房里见到了刘老农的女儿小娟，她已被折磨得遍体鳞伤。"
+msgstr ""
+
+#. chuenyu.xiaojuan/follows text
+#: data/common/journal.json
+msgid "小娟从绳索里挣脱出来，跟着你走了。"
+msgstr ""
+
+#. chuenyu.xiaojuan/sword text
+#: data/common/journal.json
+msgid "你从刘老农那里得到了一柄銮鱼衡冰。"
+msgstr ""
+
+#. chuenyu.xiaojuan/murder text
+#: data/common/journal.json
+msgid "小娟死在了你的手里。"
+msgstr ""
+
+#. chuenyu.xiaojuan/revenge text
+#: data/common/journal.json
+msgid "刘老农得知你杀了他的女儿，悲愤欲绝，要找你拼命。"
+msgstr ""
+
+#. city.tavern region
+#. city.shangshu region
+#. city.token region
+#. city name
+#: data/common/journal.json data/city/world.json
+msgid "京师"
+msgstr ""
+
+#. city.tavern/tipped text
+#: data/common/journal.json
+msgid "你赏了太白酒楼的店小二十两银子，他笑着道谢。"
+msgstr ""
+
+#. city.shangshu/office text
+#: data/common/journal.json
+msgid "你向京师的行人问起买官。"
+msgstr ""
+
+#. city.shangshu/porter text
+#: data/common/journal.json
+msgid "你塞给尚书府的门房三两黄金，他说：这位大人，里面请！"
+msgstr ""
+
+#. city.token title
+#. es2:d/city/obj/token name
+#: data/common/journal.json data/city/items.json
+msgid "出城令牌"
+msgstr ""
+
+#. city.token/asked text
+#: data/common/journal.json
+msgid "你向京师守城兵问起出城。"
+msgstr ""
+
+#. city.token/found text
+#: data/common/journal.json
+msgid "你在废园的草丛里找到一块遗失多年的出城令牌。"
+msgstr ""
+
+#. city.token/shown text
+#: data/common/journal.json
+msgid "你把令牌交给京师守城兵，他连忙说：原来是官府中人。"
+msgstr ""
+
+#. help.newbie title
+#: data/common/codex.json
+msgid "新手指南"
+msgstr ""
+
+#. help.newbie paragraphs
+#: data/common/codex.json
+msgid "有关各种不同的战斗方法，请参考「战斗」一条。动手之前务必了解「攻击」跟「切磋」的不同处。请注意，使用攻击性法术跟「攻击」的效果一样。"
+msgstr ""
+
+#. help.newbie paragraphs
+#: data/common/codex.json
+msgid "有关人物状态的详细说明可以参考「精气神」一条，但简单的说，就是精、气、神都有状态值以及上限值之分，状态值会随著时间而恢复，上限值则会依照年龄或所练的功夫而有所改变，另外，被武器所伤的部份也属於上限值。上限值的自然恢复非常缓慢，请多加小心以免死得不明不白。"
+msgstr ""
+
+#. help.newbie paragraphs
+#: data/common/codex.json
+msgid "食物跟饮水很重要……饮水可以让你恢复精、气、神的状态值及灵力、内力、法力等，食物可以恢复精、气、神三项的状态值。食物那里有呢？当然是厨房……客栈也有卖。"
+msgstr ""
+
+#. help.newbie paragraphs
+#: data/common/codex.json
+msgid "□ 地理"
+msgstr ""
+
+#. help.newbie paragraphs
+#: data/common/codex.json
+msgid "山烟寺在雪亭镇东方的山上，寺外山脚下就是以女人多著名的晚月庄。由雪亭镇往南走会碰到一片松树林，过往旅客在此都需格外小心，因为传说老松寨大本营就在附近。穿过林子就到达乔阴县城。"
+msgstr ""
+
+#. help.newbie paragraphs
+#: data/common/codex.json
+msgid "雪亭镇往北是野羊寨的地盘，附近有个小村庄。镇口往西，沿著青石官道上山，是天邪派的大本营水烟阁，再翻过一座山就是茅山派林忌的地盘。"
+msgstr ""
+
+#. help.newbie paragraphs
+#. help.guild paragraphs
+#: data/common/codex.json
+msgid "□ 门派"
+msgstr ""
+
+#. help.newbie paragraphs
+#: data/common/codex.json
+msgid "以下是你在游戏中可以加入的门派，各派掌门人和他们的所在：天邪派，萧辟尘，水烟阁，刀法；茅山派，林忌，茅山道观，法术；封山剑派，柳淳风，淳风武馆，剑法；山烟寺，玄智和尚，山烟寺；晚月庄，蓝止萍，晚月庄。"
+msgstr ""
+
+#. help.newbie paragraphs
+#: data/common/codex.json
+msgid "你可以自由地转换门派或师父，不过如果你转换到其他门派，你的新师父可能会不愿意教你较高深的武功。"
+msgstr ""
+
+#. help.theme title
+#: data/common/codex.json
+msgid "主题故事"
+msgstr ""
+
+#. help.theme paragraphs
+#: data/common/codex.json
+msgid "「东方故事Ⅱ」的时代大约是在原来「东方故事」的一千年前，这个时代的西方还在蛮荒时代，但是东方世界已经有了相当高水准的文明，由於东方大陆实在太大，因此航海技术并不受重视，我们的故事将以一个山中小镇——雪亭镇为起点。"
+msgstr ""
+
+#. help.theme paragraphs
+#: data/common/codex.json
+msgid "时间是天朝佑圣元年，岁次甲子，年仅十六岁的皇帝刚刚登基，雪亭镇上熙来攘往，一队身著白衣的朝廷武官和两名老者在镇前的广场中坐著，四面来来往往的人当中，有不少显然是武林中人，正探头探脑地向著广场张望。"
+msgstr ""
+
+#. help.theme paragraphs
+#: data/common/codex.json
+msgid "正纷扰间，一匹快马冲进了广场，两名老者立即站了起来。"
+msgstr ""
+
+#. help.theme paragraphs
+#: data/common/codex.json
+msgid "马上乘客一跃而下，快步走到老者身前，躬身说道：「禀将军，时辰已到，白道长命下官回禀，方位是在……」，说著压低了声音。"
+msgstr ""
+
+#. help.theme paragraphs
+#: data/common/codex.json
+msgid "不料一名老者忽然说道：「大声点，让众位兄弟都听见了。」"
+msgstr ""
+
+#. help.theme paragraphs
+#: data/common/codex.json
+msgid "那人一怔，随即大声说道：「方位是在西南二十四里，黄石隘口。」"
+msgstr ""
+
+#. help.theme paragraphs
+#: data/common/codex.json
+msgid "只见坐著的白衣武官相互交头接耳，四周围观的人纷纷向外走去，看似杂乱无章，其实倒有一大半正往西南走去，两名老者不动声色，只静静地瞧著众人的动向。"
+msgstr ""
+
+#. help.theme paragraphs
+#: data/common/codex.json
+msgid "过了约一盏茶的时间，其中一名老者做了个手势，所有白衣武官倏地站起，然後跟著两名老者身後缓缓地往西南方向离去。"
+msgstr ""
+
+#. help.theme paragraphs
+#: data/common/codex.json
+msgid "广场西边一家小客栈里，一个年约十四岁的少年问店里的小二道：「这些人神秘得紧，却不知到底在玩什麽把戏？」"
+msgstr ""
+
+#. help.theme paragraphs
+#: data/common/codex.json
+msgid "小二抄起脖子上的毛巾，抹了抹脸，说道：「小哥您有所不知，这些个爷儿们可是大内来的高手，这次是奉了咱们皇上的命令，要去岚城找一把叫做什麽『旋芒宝剑』的，那骑马的官爷所称的白道长，便是咱们这附近有名的太乙观观主……」"
+msgstr ""
+
+#. help.theme paragraphs
+#: data/common/codex.json
+msgid "少年奇道：「岚城？那是什麽地方？怎麽我从小到大不曾听过有这个地方？」"
+msgstr ""
+
+#. help.theme paragraphs
+#: data/common/codex.json
+msgid "小二「嘿」的一声，说道：「说起岚城这地方，那你可问对人啦，咱这儿的说书先生可是我的哥儿们，那岚城说穿了只不过是古书上的一处地方，据说这城是仙人住著，一般的凡夫俗眼可瞧不见这座城，只不过古时候一个樵夫不小心撞了进去，这才留下了记载，不过後来好像除了这位砍柴的老兄进去过之外，再也没有人到过这岚城，我说小哥哪，要找这个岚城是他们朝廷大官跟江湖好汉的事儿，您还是来小店听听说书先生的书儿比较轻松。」"
+msgstr ""
+
+#. help.theme paragraphs
+#: data/common/codex.json
+msgid "少年听著出了神，怔怔地望著外面的天空，一朵朵的浮云飘来飘去，他的心思也不由自主地飞了起来。"
+msgstr ""
+
+#. help.history title
+#: data/common/codex.json
+msgid "历史"
+msgstr ""
+
+#. help.history paragraphs
+#: data/common/codex.json
+msgid "自古以来，人类由茹毛饮血逐渐进步，慢慢有了部落，大约在一千年前，强大的邬赤族领袖商句征服了烟车河流域的游牧民族，建立了一个以「金色乌鸦」为图腾的国家，这金色乌鸦代表的是太阳，商句将一面绣著金色乌鸦的大旗树立在图干山的山顶上，统治著山脚下绵延好几百里的土地。"
+msgstr ""
+
+#. help.history paragraphs
+#: data/common/codex.json
+msgid "第三年冬天，大雪一连下了五个月，牛羊冻死的不计其数，商句召集了所有的父老，对他们说道：「守护我们的金色乌鸦已经离开了这片土地，这场大雪便是告诉我们离开故乡的时间到了，我决定带著子民向南越过大漠，一直到看得到太阳的地方，年老和有病的人可以留下来，我会将一半的牛羊留给他们。」"
+msgstr ""
+
+#. help.history paragraphs
+#: data/common/codex.json
+msgid "於是他们收拾了帐棚，留下了一半的牛羊给不愿离开家乡的老人，踏上了寻找金色乌鸦的旅程，大漠十分辽阔，即使是商句自己也没有把握能安全地穿越，他在出发後的第四个月甚至亲手写下了遗书，交给自己的儿子。他们在大漠里整整走了一年，然後来到了一座大山之前，商句病倒了，他对他的儿子於兰攸说道：「越过这座大山，北风就吹不到了，在那里一定可以看得到太阳，现在我把这面大旗交给你，希望你记著我们离开故乡的目的，好好带领大家。」说完，商句就闭上眼睛死了。"
+msgstr ""
+
+#. help.history paragraphs
+#: data/common/codex.json
+msgid "於兰攸含泪埋葬了父亲，并且在他的墓旁守候了一年，才开始带著大家翻越那座大山，大山地势非常险峻，他们一共越过了六座高耸的山峰，才来到一片平原，只见绿草如茵，中间散布著几株大树，没有半点冰雪的踪迹，最令人惊异的是，他们的面前耸立著一株高耸入云的大树，树上正栖息著一只巨大的金色乌鸦。"
+msgstr ""
+
+#. help.history paragraphs
+#: data/common/codex.json
+msgid "虽然金色乌鸦在大家的心目中一直是太阳的象徵，但那也只是祖先们流传下来的神话，想不到在经过长途的跋涉之後，竟然真的见到了，那只金色乌鸦见到了於兰攸，忽然变成一个穿著金色长袍的少女缓缓地从树上降了下来，对著於兰攸说道：「你们终於来了，这片土地是我的父亲允诺要赐给你们的，我们是勇士『寒於』的後裔，掌管光明的太阳神族，如果你们能答应永远守护这株圣木，太阳将会永远照耀这片土地。」"
+msgstr ""
+
+#. help.history paragraphs
+#: data/common/codex.json
+msgid "金色乌鸦变成的少女名字叫做「君违」，後来嫁给了於兰攸做妻子，君违教导众人耕种、纺纱，并且为她的丈夫制定各种典章制度，从此以後於兰攸和他的族人们一直遵守和金色乌鸦的约定，守护著圣木。因为金色乌鸦的守护，过了七百年风调雨顺的时光，人口增加得很快，在向外拓垦的同时，又陆续和西方擅长狩猎与铸造的歧族人、东方擅长音乐与占卜的敖族、南方擅长经商与建筑的娄族互相融合，终於成为这个世界上最大的国家，所有远方的小国都称呼我们为「天朝」，由於於兰氏的帝王具有太阳神族的血统，因此也有「天子」的称号。"
+msgstr ""
+
+#. help.history paragraphs
+#: data/common/codex.json
+msgid "但是就在距今约三百年前，发生了一件可怕的事，当时的皇宫之中，一群武士意外地在一处地窖里发现了一张羊皮，这张羊皮就是当初率领大家穿越大漠的君主商句所写的遗书，这份遗书不但提到了金色乌鸦，而且还提到许多後来发生的大事，简直就是一张神奇预言，发现这张羊皮的武士首领恰好是当时皇帝的叔父於兰淳焉，於兰淳焉是一位伟大的武士，曾经数度打败企图夺取圣木的北方蛮族，他见到遗书上提到，金色乌鸦出现之後每七百年，就会有一个可怕的妖魔出现，大杀苍生，以应金色乌鸦神通所欠的劫数，这个妖魔只有上古的宝剑「穿灵」才能镇住，而这把宝剑所藏的位置正是圣木的核心。"
+msgstr ""
+
+#. help.history paragraphs
+#: data/common/codex.json
+msgid "於兰淳焉和皇帝商量的结果，决定劈开圣木取出宝剑，以防备妖魔出现，那圣木足足有一百个人合抱那麽粗，一大群士兵用斧头砍了足足三天才将圣木砍倒，一阵天摇地动之後，穿灵宝剑终於出现在树洞中央，可是当於兰淳焉将宝剑拔起之後，一条黑影迅速地从地面窜了出来，原本明亮的天空一下子变暗了，百姓们都惊慌失措，只听到天空中传来阵阵低沈的吼声，过了足足一个时辰才又恢复光明。"
+msgstr ""
+
+#. help.history paragraphs
+#: data/common/codex.json
+msgid "当天晚上，一只金色乌鸦出现在皇宫之中，说道：「你们今天做了一件大大的错事，将勇士寒於用宝剑镇压了五千年的『侮天鬼』放了出来，我的妹妹『璃虹』正在天上巡行，已经被这侮天鬼捉去了，侮天鬼现在正在四处寻找他的头颅，一旦被他找到，即使是集我全部族人的力量也无法镇服他，现在唯一的办法是找到另一把宝剑『旋芒』以及『寒於宝衣』，唯有这三件神器才能制服得了侮天鬼，寒於宝衣现在归月神族保管，旋芒宝剑却下落不明，侮天鬼的头颅被我的族人用强力法术封住，谅那妖魔两三百年内找不到，但是日子一久只怕终究隐藏不住，因此若你们三百年之内不能出现一个勇士消灭这妖魔，就真的大祸临头了。」"
+msgstr ""
+
+#. help.history paragraphs
+#: data/common/codex.json
+msgid "金色乌鸦的名字叫做「杞庸」，他化身成一个金袍少年住在皇宫中教武士们各种剑术武功三十年，渐渐地这些武术慢慢流传到了民间，更有许多聪明才智之士加以变化出许多不同的武术，而演变出各种不同的门派，转眼间已过了将近三百年，这期间虽然偶尔有些旱灾水灾，但仍算风调雨顺，想是那侮天鬼只急著找回头颅，却并不多事杀戮，但是人们却渐渐将这件事忘了，不少人还将之斥为无稽之谈，荒谬之说，直到先帝即位，事情才又有了变化。"
+msgstr ""
+
+#. help.history paragraphs
+#: data/common/codex.json
+msgid "先帝秉性聪慧，自幼即博览群书，尤其对先人留下的史籍更是详加考据，先帝曾仔细推敲商句遗书中最後两句话，推断那可能是指引旋芒宝剑所在的关键，虽然对祖先所留下来有关金色乌鸦的传说也是半信半疑，但是仍然陆续派出了许多武士探查，结果意外地发现了古书中「烟霞霓岚」四座仙城中的烟城，根据武士所带回来的消息，旋芒宝剑目前乃是属於岚城中一位仙人所有，只是这岚城「寻风而至，寻风而逝」，烟城百姓也是只闻其名，不知其所，先帝直到病危之中仍念念不忘寻找岚城之事。"
+msgstr ""
+
+#. help.myth title
+#: data/common/codex.json
+msgid "神话"
+msgstr ""
+
+#. help.myth paragraphs
+#: data/common/codex.json
+msgid "早在我们的先人来到这片土地之前，这里曾经是集天地万物浊气所形成的妖魔们盘踞的炼狱，到处都是终年燃烧著的土地与深不见底的沼泽，直到我们的始祖——也就是勇士「寒於氏」来到这里，他有一件水火不侵的宝衣，和两把神异的利剑「穿灵」与「旋芒」，寒於氏和妖魔大战了一十七日，妖魔的鲜血浇熄了燃烧的土地，尸体填平了无底的沼泽，当寒於氏斩下最後一只妖魔「侮天鬼」的头颅之後，他也力尽而死。"
+msgstr ""
+
+#. help.myth paragraphs
+#: data/common/codex.json
+msgid "寒於氏死後，元神却没有消失，他的魂魄化成了十三个精灵，每一个精灵各拥有寒於氏的一种神通，掌管著这个世界的万物，其中的第十三个精灵「区冥氏」就是我们人类最早的祖先。区冥氏不像她其他的十二个姊姊是不死的，但是她所拥有的神通是寒於氏最引以为傲的「再生」能力，区冥氏活到一百七十岁的时候，召集了她所有的姊妹，交代她们好好照顾自己的子女之後，便闭上眼睛死了。"
+msgstr ""
+
+#. help.myth paragraphs
+#: data/common/codex.json
+msgid "区冥氏一共有一百个子女，後来分别成为世界上各个种族的祖先。"
+msgstr ""
+
+#. help.myth paragraphs
+#: data/common/codex.json
+msgid "勇士寒於的魂魄所化成的十三个精灵，分别是太阳神「金乌」、月神「银蟾」、风神「大鹏」、雨神「天龙」、雷神「泽兽」、火神「凤凰」、山鬼「赤魈」、林鬼「青蛛」、川鬼「浊鱼」、原鬼「旱魃」、天灵「穹氤」、地灵「域摩」、人灵「区冥」，共有「六神」、「四鬼」、「三灵」。其中特别值得一提的是最後的三灵，她们所拥有的神通汇集了寒於氏的精、气、神，若是善加利用，威力将远远凌驾其他十位精灵之上。"
+msgstr ""
+
+#. help.myth paragraphs
+#: data/common/codex.json
+msgid "许多人都相信，区冥氏死了之後会不断地经由「转世」而继续复活，但是她的能力却全部分给了所有子女，因此人类能够凌驾於其他的虫鱼鸟兽之上，造就出伟大的成就，人类死亡之後，也会像区冥一样地转世再生，但是只有区冥能够保持每一生每一世的记忆，虽然再生的区冥氏所具有的能力和一般人类没有两样，但是她所累积的智慧是无人可及的。"
+msgstr ""
+
+#. help.health paragraphs
+#: data/common/codex.json
+msgid "所有人都有「精」、「气」、「神」三个主要的数值代表其能量。"
+msgstr ""
+
+#. help.health paragraphs
+#: data/common/codex.json
+msgid "□ 精"
+msgstr ""
+
+#. help.health paragraphs
+#: data/common/codex.json
+msgid "精力，影响一个人恢复气力与心神的能力，是人类的能量中最根本的一种，若是精力不足，在受到各种伤害之後的恢复能力会降低，甚至停止。精力的另一个重要用途是学习，不论是学习任何新的技能、知识、武功都需要耗费精力。除此之外，长於修行的人能将精力转为「灵力」用来施展法术。"
+msgstr ""
+
+#. help.health paragraphs
+#: data/common/codex.json
+msgid "□ 气"
+msgstr ""
+
+#. help.health paragraphs
+#: data/common/codex.json
+msgid "气力，即一个人肉体活动的能力，人必须有气才能生存，气绝则身亡，人受到各种伤害时会失去气力，气的用途很广，修炼内功的人可以将气转为内力积存起来，用以在战斗中杀伤敌人。"
+msgstr ""
+
+#. help.health paragraphs
+#: data/common/codex.json
+msgid "□ 神"
+msgstr ""
+
+#. help.health paragraphs
+#: data/common/codex.json
+msgid "心神，即一个人精神活动的能力，人必须有神才能行动，神失则昏迷，某些种类的伤害如迷魂法或蒙汗药会使人失去心神，许多咒语或法术都需要耗费心神才能施展，某些武功可以凝神以聚气，或用影响敌人心神的方法使敌人丧失战力。"
+msgstr ""
+
+#. help.health paragraphs
+#: data/common/codex.json
+msgid "精、气、神三者都会随时间慢慢恢复，其中精力的恢复速度受人物先天体质的影响，而精力的多寡则影响气与神的恢复速度，不过人物在战斗状态下精、气、神的恢复都会暂停。"
+msgstr ""
+
+#. help.health paragraphs
+#: data/common/codex.json
+msgid "所有人一开始的精气神都相同，并且会随著年龄成长而变化：十四岁至二十岁，精、气渐增；二十岁至三十岁，精、气、神不变；三十岁以上，精渐减、神渐增。"
+msgstr ""
+
+#. help.health paragraphs
+#: data/common/codex.json
+msgid "□ 精气神的恢复"
+msgstr ""
+
+#. help.health paragraphs
+#: data/common/codex.json
+msgid "这三项数值在角色页的「精气神」一栏中都由三个数字表示其状态，由左而右分别是「当前」、「有效」与「最大」。"
+msgstr ""
+
+#. help.health paragraphs
+#: data/common/codex.json
+msgid "(1) 当前：这是你的人物在这一项能量目前的量化值，在观念上跟我们日常生活中用的「气力」、「精力」等相似，是属於消耗性的能量，通常经由休息、饮食、睡眠等就可以迅速地补充这类的能量，而这类的能量消耗完了通常是导致人物的昏迷，醒来後也不会有什麽大碍。精气神的当前值都会随时间恢复，恢复的上限则是精气神的有效值。"
+msgstr ""
+
+#. help.health paragraphs
+#: data/common/codex.json
+msgid "(2) 有效：这是你这个人物在这一项能量目前的状态，换句话说就是精气神受损的程度，在观念上和传统 RPG 中的 hit points、mana points 比较类似，只要你不受到外来的伤害，这项数值就不会降低（即不管你练内功练得再累，只要你没受伤，你看起来就一直是「毫发无伤」），通常所谓的「受伤」受损的就是有效值。当「当前值」都已经恢复到所能恢复的上限，也就是跟有效值相当的时候，表示人物已经处在充份休息的状态，就会因人体新陈代谢的作用而随著时间缓慢的恢复。"
+msgstr ""
+
+#. help.health paragraphs
+#: data/common/codex.json
+msgid "精气神有效值降至 0 以下会导致人物立即死亡。"
+msgstr ""
+
+#. help.health paragraphs
+#: data/common/codex.json
+msgid "(3) 最大：这个值就是这个人物在某项能量上所能达到的上限，如果不是一些永久性的伤害或成长，这个值将一直固定不变。"
+msgstr ""
+
+#. help.stats title
+#: data/common/codex.json
+msgid "内力、法力与灵力"
+msgstr ""
+
+#. help.stats paragraphs
+#: data/common/codex.json
+msgid "首先，想必许多人都已经发现东方故事Ⅱ中并没有「等级」的存在，人物的能力完全取决於几个基本数值与「技能」的高低，角色页与武学页所列出的数值中，可分为以下几类："
+msgstr ""
+
+#. help.stats paragraphs
+#: data/common/codex.json
+msgid "□ 精、气、神"
+msgstr ""
+
+#. help.stats paragraphs
+#: data/common/codex.json
+msgid "这三个数值表示人物目前的身体基本状况，详细意义请参考「精气神」一条，这里不多做解释，这三个数值的上限「只会随人物的种族、年龄变化」，由於你只能扮演人类这个种族，因此精气神上限在同年龄时都是相同的。"
+msgstr ""
+
+#. help.stats paragraphs
+#: data/common/codex.json
+msgid "精、气、神这三个数值无论对战士或施法者都是十分重要的，在进行战斗之前将这三个数值恢复到上限值，你的人物才能发挥出百分之百的能力。"
+msgstr ""
+
+#. help.stats paragraphs
+#: data/common/codex.json
+msgid "□ 内力"
+msgstr ""
+
+#. help.stats paragraphs
+#: data/common/codex.json
+msgid "内力可说是武者的第二生命，内力的多寡不但影响武者的攻击力，也影响防御力，内力是将人体的气用某种方式转换为能够储备的能量，不同的内功转换的效率各不相同，而且转换的效率随内功等级而异，等级越高，转换的效率也越高，转换效率随技能成长的曲线也不同，有些内功初时进境极快，但是很快就达到极限，有些内功却是循序渐进，几无止境。"
+msgstr ""
+
+#. help.stats paragraphs
+#: data/common/codex.json
+msgid "一旦你学得了内功的技巧，在武学页把它激发为内功之後，就可以用「打坐」开始修炼内力。每次练功之後，会将你一部份的气转换为内力，一个人体内所蓄积的内力可以分为两类，超过某一上限的部份称为「真气」，而该上限以下的内力则没有特别的名称，通常就用「内力」称呼它，这个上限值称为「内力强度」，武学页上「内力」一项的两个数字就分别为你目前的「内力」蓄存量与「内力强度」。"
+msgstr ""
+
+#. help.stats paragraphs
+#: data/common/codex.json
+msgid "当一个人体内的真气充沛到某一程度之後，就会造成这个人物体能上微妙的改变，也就是「内力强度」的提高，这些真气将人物的内力强度提高之後就永远停留在体内，而人物的内力蓄存量会自动调节到和内力强度相同的量，以维持身体中能量的平衡。"
+msgstr ""
+
+#. help.stats paragraphs
+#: data/common/codex.json
+msgid "□ 法力"
+msgstr ""
+
+#. help.stats paragraphs
+#: data/common/codex.json
+msgid "法力其实是一种比较抽象的能量，一般人不需要学习任何技能就可以拥有法力，事实上，所有具有灵性的生物都或多或少具有一些法力，人类便是其中的一种，当人们静下来进行「冥思」（用现代的名词解释，和「做白日梦」、「发呆」有点类似）的时候，具有灵性的生物就会在体内凝聚一种精神能量，这种能量在平时是一产生马上就消耗掉的，唯有坐下来，忽略身体所有感官所传来的信号，这种能量才能聚集到足以停留在体内的量，当然，我们提到这种能量时不必罗哩罗唆地说这麽多，它就是我们在其他游戏常见到的「法力」。"
+msgstr ""
+
+#. help.stats paragraphs
+#: data/common/codex.json
+msgid "法力这种能量存在人物体内的方式和内力虽然相差很多，但是它们影响人物能力的模式却十分类似，人物所拥有的法力超过某一上限值的部份被称为「灵神」，而低於这个上限值的部份也没有特别的名称，就称作法力。这个上限值称为「法力强度」，或者简称为「魔力」，武学页上「法力」一项的两个数字就分别为人物的「法力」蓄积量与「魔力」。"
+msgstr ""
+
+#. help.stats paragraphs
+#: data/common/codex.json
+msgid "和真气蓄积的效果十分类似，当灵神充裕到某一程度以後，人物的精神能力也会发生些许改变，使得人物的「魔力」稍微提高，并且这些「灵神」会永远成为人物精神力的一部份，馀下的法力会马上调节到和魔力相同的程度，以维持魔力所造成的效用。"
+msgstr ""
+
+#. help.stats paragraphs
+#: data/common/codex.json
+msgid "□ 灵力"
+msgstr ""
+
+#. help.stats paragraphs
+#: data/common/codex.json
+msgid "灵力是一种十分奇妙的能量，所有具有灵魂的生物都有这种能量，事实上，所谓的「灵魂」就是由这种能量构成的。当灵魂和肉体处於结合状态，说得简单一点，也就是一个生物活著的时候，灵魂的「意志」（因为单纯的肉体是没有意志的，所以以下提到「意志」时就是指灵魂的意志）所能发挥的能力就称为「灵力」。"
+msgstr ""
+
+#. help.stats paragraphs
+#: data/common/codex.json
+msgid "上面对灵力的定义听起来很玄对不对？没关系，留给学者去伤脑筋。一般人的灵力除了形成灵魂与日常行动必须的部份之外，实在少得可怜，因此当你看到武学页上灵力一项为 0 时并不是说你没有灵力，而是没有「可自由运用」的灵力，可运用的灵力是从人的「精力」转化而来的，而且转化的方法十分复杂与困难，当一个人在将精力转化为灵力时，用老祖宗的名词，我们说他是在「修道」，或是「灵修」（武学页上的「修行」），所谓「炼精化气，炼气化神，炼神还虚」指的就是这种过程。"
+msgstr ""
+
+#. help.stats paragraphs
+#: data/common/codex.json
+msgid "一个人的灵力也有一个上限值，这个上限值通常被称为「道行」，许多神怪小说中用「年」来当作道行的单位，如牛魔王有三万年道行等等，在此我们为了方便起见，不采用那麽大的单位。"
+msgstr ""
+
+#. help.stats paragraphs
+#: data/common/codex.json
+msgid "灵力超过道行的部份充裕到某个程度之後，就会产生某种程度的「羽化」作用，使人物的体质、精神像神仙比像人类更多一点，套用现代人的名词，类似一种自体进化的效果，这也就是所谓「道行」的提高，而灵力会自动反馈成和道行一样的强度，以维持身心状态的平衡。"
+msgstr ""
+
+#. help.stats paragraphs
+#: data/common/codex.json
+msgid "□ 有关练功"
+msgstr ""
+
+#. help.stats paragraphs
+#: data/common/codex.json
+msgid "如果你看了上面的解释，已经跃跃欲试准备练一个又会武功、又会施法、兼且道行高深的「宇宙空前无敌大英雄」的话，让我在这里提醒你一点，东方故事Ⅱ中的人物是有「生老病死」的，想要样样通的人物到最後可能样样不通。"
+msgstr ""
+
+#. help.stats paragraphs
+#: data/common/codex.json
+msgid "一个人物之所以成为强者，并不是因为什麽都会，而是有超越别人很多的地方，东方故事Ⅱ的人物能力数值是「开放性」的，也就是没有所谓「练破表」的情况发生。"
+msgstr ""
+
+#. help.stats paragraphs
+#: data/common/codex.json
+msgid "PS. 以上理论纯为因应游戏需要而虚构，如有人因进行类似实验而导致任何身体或精神上的伤害，恕不负责 :P"
+msgstr ""
+
+#. help.gift paragraphs
+#: data/common/codex.json
+msgid "天赋是指符合以下两种条件的属性：(1) 人物产生时选定；(2) 选定之後不再改变。"
+msgstr ""
+
+#. help.gift paragraphs
+#: data/common/codex.json
+msgid "□ 膂力"
+msgstr ""
+
+#. help.gift paragraphs
+#: data/common/codex.json
+msgid "人物肌肉力量的强度，膂力越强的人越适合挥舞沈重的武器，同时也能够对敌人造成较大的杀伤力，强大的膂力在战斗中可说是占尽了便宜，许多武者习武的第一步就是锻炼强健的力量。一个人物所能携带物品的最大重量也和膂力息息相关，但是膂力强的人也容易损坏武器，或是在战斗中误伤旁观的人。"
+msgstr ""
+
+#. help.gift paragraphs
+#: data/common/codex.json
+msgid "□ 胆识"
+msgstr ""
+
+#. help.gift paragraphs
+#: data/common/codex.json
+msgid "人物天生的攻击性、侵略性，胆识高的人比较有冒险犯难的倾向，因此在战斗中要比一般人更勇於主动出击，对於一个武者而言，膂力不足尚可用锋利的武器弥补，胆识不够却是强求不来的。胆识高的人攻击次数较多，找出敌人破绽而趁机攻击的机会也较高，但是因主动攻击失败而露出破绽的机会也相对比一般人高。"
+msgstr ""
+
+#. help.gift paragraphs
+#: data/common/codex.json
+msgid "□ 悟性"
+msgstr ""
+
+#. help.gift paragraphs
+#: data/common/codex.json
+msgid "悟性是一个人物天生的智能、或者说是「天才」，悟性高的人学习新事物的速度比较快，而且比较容易，悟性高的人观察力也特别敏锐，容易从战斗中迅速地获得实战经验，而提升自己的能力。悟性影响人物能力成长的速度，以及获得经验的效率，但是悟性高的人特别容易怀疑，因此大部分的医疗、辅助魔法对这些聪明人效果都不高。"
+msgstr ""
+
+#. help.gift paragraphs
+#: data/common/codex.json
+msgid "□ 灵性"
+msgstr ""
+
+#. help.gift paragraphs
+#: data/common/codex.json
+msgid "人物「精神」方面的体质，灵性高的人对於精神层面的活动较为热衷与活跃，而且常常能感受到一般人感受不到的讯息，使得这类型的人物常被人归类於「多愁善感」，虽然高灵性的人通常比一般人来得快乐。高度的灵性常常意味著高深的法力，可是这种人的反应通常是属於慢半拍型，面对面的肉搏战常常容易吃亏。"
+msgstr ""
+
+#. help.gift paragraphs
+#: data/common/codex.json
+msgid "□ 定力"
+msgstr ""
+
+#. help.gift paragraphs
+#: data/common/codex.json
+msgid "人物天生的防卫性、镇静，套句现代的用语就是「酷」，和胆识恰为互补的天赋，一个胆识与定力都高的人可说是天生的战士，定力高的人能临危不乱，战斗时不易露出破绽，战斗施法时不易念错咒语或误伤自己人。定力高的人通常是一场大战之後最容易活下来的人，但是如果定力高到有点「麻木」的程度，往往身陷险地而不自知。"
+msgstr ""
+
+#. help.gift paragraphs
+#: data/common/codex.json
+msgid "□ 根骨"
+msgstr ""
+
+#. help.gift paragraphs
+#: data/common/codex.json
+msgid "人物与生俱来的体质，或者说是生命力，根骨佳的人身体状况的恢复速度比较快，而且生命力比较强韧，身体各部位在失去机能之前能够忍受更多的伤害。根骨对学内功的人而言意味著人体潜能的极限，虽然很少有人的内功能修练到达到这个境界。根骨佳的人对於药物的抗力比较强——包括毒药和补药。"
+msgstr ""
+
+#. help.gift paragraphs
+#: data/common/codex.json
+msgid "□ 福缘"
+msgstr ""
+
+#. help.gift paragraphs
+#: data/common/codex.json
+msgid "人物的宿命，前世的因果等等，有些人天生就比较幸运，有些人则是悲剧的种子，福缘好的人容易遇到「巧合」，也就是一般人难得遇到的特殊机缘，这些巧合是指一些发生机率很低的事件，有好事也有坏事，但是这些事件通常足以影响人物的一生。"
+msgstr ""
+
+#. help.gift paragraphs
+#: data/common/codex.json
+msgid "□ 容貌"
+msgstr ""
+
+#. help.gift paragraphs
+#: data/common/codex.json
+msgid "人物的容貌美丑，虽然所谓的美丑并没有一个绝对的标准，但这是一个以「一般人」观点为基准的比较值，容貌俊美的人会给陌生人比较好的第一印象，使他们更乐意帮助你，但是也可能因嫉妒而故意陷害你。"
+msgstr ""
+
+#. help.gift paragraphs
+#: data/common/codex.json
+msgid "如果你发现自己的天赋不佳，也不必太过伤心，因为天赋的影响只有在人物的技能十分低的时候才比较明显，你可以将它视为这个人物「性向测验」的结果，以作为发展方向的参考。"
+msgstr ""
+
+#. help.attribute title
+#: data/common/codex.json
+msgid "属性"
+msgstr ""
+
+#. help.attribute paragraphs
+#: data/common/codex.json
+msgid "基於人物的八种天赋，在实际的战斗或各种活动中影响一个人能力的数值我们称为「属性」，也许这样说吧，天赋是一个人能力特质中与生俱来的基本值，天赋很少变动，即使变动也是十分缓慢而长期的，属性则是该项特质目前的状态，可能会受到一个人物使用武功、装备、技能、法术、药物等等影响。"
+msgstr ""
+
+#. help.attribute paragraphs
+#: data/common/codex.json
+msgid "特别值得一提的是，一个人物的学习成长受到的是「天赋」的影响，而不是「属性」的影响，换句话说，你所使用的一些影响属性的装备、法术或药物不会影响你的学习，包括学习技能、修炼内功法术等学习成长的活动，都只跟天赋有关。"
+msgstr ""
+
+#. help.rank title
+#: data/common/codex.json
+msgid "阶级称号"
+msgstr ""
+
+#. help.rank paragraphs
+#: data/common/codex.json
+msgid "每个人或因为加入某些组织，或因为平日的所作所为，会被一般社会大众归类为某个阶级，所有的新人物一开始都是【平民】，若出家做和尚就变成【僧人】。"
+msgstr ""
+
+#. help.rank paragraphs
+#: data/common/codex.json
+msgid "阶级这个东西只是个综合的评价，包括所属的组织、声望与善恶等资讯，听起来也许很抽象，我用「美少女梦工厂」这个游戏的结局来比喻会比较容易了解，阶级就像是游戏最後给小女孩的职业，只不过随时会重新计算，随时更新。"
+msgstr ""
+
+#. help.rank paragraphs
+#: data/common/codex.json
+msgid "角色页上方括号中的名称就是你现在的阶级称号，这个称号会因为你的所作所为而改变。"
+msgstr ""
+
+#. help.rank paragraphs
+#: data/common/codex.json
+msgid "□ 职业"
+msgstr ""
+
+#. help.rank paragraphs
+#: data/common/codex.json
+msgid "你可以藉著加入某些有固定活动地点的组织而成为某种职业，在你未加入任何职业之前，你的职业就是【平民】，其他一些可能的职业包括【武者】、【僧人】、【道士】、【书生】、【盗贼】……等等。"
+msgstr ""
+
+#. help.damage title
+#: data/common/codex.json
+msgid "伤势"
+msgstr ""
+
+#. help.damage paragraphs
+#: data/common/codex.json
+msgid "战斗中如果被对手击中，就会有受伤的机会。在东方故事Ⅱ中所谓的「受伤」有两种，一种是能量的损失，一种是实际的伤害。在角色页察看自己的精气神时，可以看到当前、有效、最大三个数字。"
+msgstr ""
+
+#. help.damage paragraphs
+#: data/common/codex.json
+msgid "像精这一项若是当前 93、有效 100、最大 100，是表示说精力的能量用掉（损耗）了 7 点，但是并没有受到任何实体的伤害；而气这一项若是当前 67、有效 82、最大 100，是表示你受到了一些气的实体伤害（外伤、内伤），因此气这种能量的恢复只到 82 为止，虽然这些实体的伤害也会慢慢恢复，但是只有在能量恢复到上限时才会极缓慢地恢复。"
+msgstr ""
+
+#. help.combat paragraphs
+#: data/common/codex.json
+msgid "战斗并不是经验值的主要来源，不断战斗只会使你战斗的技能提升，并不会增加你其他方面的能力。东方系统并不准备保留西洋式的经验值而代之以「评价」，杀死或打败敌人会获得评价，而认输、逃走或做一些不名誉的事则会降低评价。"
+msgstr ""
+
+#. help.combat paragraphs
+#: data/common/codex.json
+msgid "东方式的战斗通常并不是以杀死对方为目的，事实上，在大多数的场合下「攻击」往往会惹来官府的围捕或敌人的群殴，而且你一旦任意杀死无辜的人，往後的日子就不好过了。"
+msgstr ""
+
+#. help.combat paragraphs
+#: data/common/codex.json
+msgid "这里要介绍一个用来取代攻击的方式：「切磋」，以切磋开始战斗并不是以杀死敌人为目的，而且战斗只持续到一方昏迷、认输、逃走为止，昏迷是精、气或神降到零以下，认输是在战斗中「投降」，逃走是战斗中「逃跑」。切磋结束後的双方并不会互相记仇，而攻击则会一直战斗到一方死亡为止。"
+msgstr ""
+
+#. help.combat paragraphs
+#: data/common/codex.json
+msgid "□ 战斗的目的"
+msgstr ""
+
+#. help.combat paragraphs
+#: data/common/codex.json
+msgid "当你和能力比你强、或相差不多的对手战斗时，有一定的机会从中得到一些「实战经验」，或是你所使用的战斗技能（武功）的学习点数，这些都是在战斗过程中就能得到的，不需要杀死敌人。"
+msgstr ""
+
+#. help.combat paragraphs
+#: data/common/codex.json
+msgid "打败（或杀死）一个「有名的敌人」通常可以得到一些评价，所谓「有名」是指该人物是不是「值得打」而论，跟他的能力并没有直接关系，不过和这型的人物战斗通常付出的代价会比较大，至於是什麽代价就有待你自己去发现。"
+msgstr ""
+
+#. help.combat paragraphs
+#: data/common/codex.json
+msgid "杀死敌人，当然，最直接的好处是可以掠夺死者身上的所有财物，另外，还会得到一些「杀气」，这个数值高的时候，有好处也有坏处，不过如果你想扮演坏蛋的话，这个数值绝对是越高越好。东方故事Ⅱ中大部分地区是有「王法」的，也就是说，一旦你杀了不该杀的人，官府就会开始通缉你，如果你没有两把刷子，最好不要乱杀人。"
+msgstr ""
+
+#. help.skill paragraphs
+#: data/common/codex.json
+msgid "技能是一个人战力的主要指标，包括武功、法术、专业知识等都是技能，一项技能的强度由一个「等级」与一个「学习点数」组成，每当学习点数超过下一个等级的平方值，等级就会提升。任何技能刚学到都是从零级开始，你必须至少升到第一级才能使用与经由练习而进步。"
+msgstr ""
+
+#. help.skill paragraphs
+#: data/common/codex.json
+msgid "学习一项技能必须耗费相当的精力，视每个人的悟性与技能的难易而定，第一次学习一项新技能所需的精力是平常的两倍，常常将你的精力保持在最高状态会使你经由练习而进步的速度加快。"
+msgstr ""
+
+#. help.skill paragraphs
+#: data/common/codex.json
+msgid "技能的学习有两种主要途径，研读相关书籍、秘笈或是向其他人请教，每一种方式所需的精力都和人物的悟性有关。"
+msgstr ""
+
+#. help.skill paragraphs
+#: data/common/codex.json
+msgid "战斗用的技能有时候会因使用而进步，不过机率不高。"
+msgstr ""
+
+#. help.skill paragraphs
+#: data/common/codex.json
+msgid "□ 研读"
+msgstr ""
+
+#. help.skill paragraphs
+#: data/common/codex.json
+msgid "当你找到一本书籍或秘笈，可以在武学页「研读」上面记载的武功或法术，当然，你必须先学会读书识字的技能才能研读，读书识字的能力越高，每次得到的学习点数越多。"
+msgstr ""
+
+#. help.skill paragraphs
+#: data/common/codex.json
+msgid "和向其他人物请教比较起来，研读所花的精力通常较低。"
+msgstr ""
+
+#. help.skill paragraphs
+#: data/common/codex.json
+msgid "□ 请教"
+msgstr ""
+
+#. help.skill paragraphs
+#: data/common/codex.json
+msgid "你也可以从其他人物处学得技能，经由「拜师」，你可以向一位身怀绝技的前辈学习技能，一个人物同时只能有一位师父，如果你被师父逐出师门，或自行背叛师门，你的综合评价会扣到零，因此拜师前务必审慎考虑。"
+msgstr ""
+
+#. help.skill paragraphs
+#: data/common/codex.json
+msgid "至於其他人物，通常会要求你为他做一些事或是付一些费用，有待你自行去发掘。"
+msgstr ""
+
+#. help.skill paragraphs
+#: data/common/codex.json
+msgid "□ 实战"
+msgstr ""
+
+#. help.skill paragraphs
+#: data/common/codex.json
+msgid "每次命中敌人，若命中率在 50% 以下，且所剩精力在 70% 以上，则视人物的悟性高低有一定的机会得到一点实战经验，或是使用中战斗技能的进步点数，但是当进步点数达到升级标准时并不会提升等级，要经由研读、请教或练习才能提升技能等级。"
+msgstr ""
+
+#. help.martial paragraphs
+#: data/common/codex.json
+msgid "武功主要分成拳脚、兵刃、暗器、轻功、内功等，当你学会武术技能之後（等级至少为一），就可以在武学页激发你要使用的每一类武功，武术技能的种类通常很容易可以从它的名称看出来，如某某拳、某某剑法等。"
+msgstr ""
+
+#. help.martial paragraphs
+#: data/common/codex.json
+msgid "□ 拳脚、兵刃"
+msgstr ""
+
+#. help.martial paragraphs
+#: data/common/codex.json
+msgid "举凡拳法、掌法、指法、腿法等类武功均属「拳脚」类的功夫，大多数和一些内功配合使用，大体而言拳脚类的武功防御性质较高。兵刃上的功夫涵盖剑法、刀法、枪法、鞭法、杖法……等等，而以剑法与刀法为大宗，这类的武功攻守兼备，用来攻击或防御都不错。"
+msgstr ""
+
+#. help.martial paragraphs
+#: data/common/codex.json
+msgid "□ 暗器"
+msgstr ""
+
+#. help.martial paragraphs
+#: data/common/codex.json
+msgid "暗器通常没有特殊的武功，而是以暗器的种类区分，如袖箭、飞刀、毒针等，在战斗中使用暗器常常可以攻敌不备，发挥意想不到的效果。"
+msgstr ""
+
+#. help.martial paragraphs
+#: data/common/codex.json
+msgid "□ 轻功"
+msgstr ""
+
+#. help.martial paragraphs
+#: data/common/codex.json
+msgid "轻功除了在战斗中影响闪避的机会之外，在探险时也有许多额外的用途，轻功高强的人可以轻易地攀爬悬崖峭壁，飞檐走壁。"
+msgstr ""
+
+#. help.martial paragraphs
+#: data/common/codex.json
+msgid "□ 内功"
+msgstr ""
+
+#. help.martial paragraphs
+#: data/common/codex.json
+msgid "内功的修炼是所有类型的武功中最艰难的，除了学习内功的技能之外，你还必须常常打坐以增强内力，修炼内功的人可以将内力运用在杀伤敌人以及保护自己不受敌人的内力所伤，当内功配合拳脚使用时，可以发挥出较强的劲力，使用在兵刃上时只有三分之一的效果。"
+msgstr ""
+
+#. help.force title
+#: data/common/codex.json
+msgid "内功的功用"
+msgstr ""
+
+#. help.force paragraphs
+#: data/common/codex.json
+msgid "以下是一些内功常见的功用，不一定所有内功都有这些功能，你必须试试看才知道。在武学页或战斗中的「运功」里使用。"
+msgstr ""
+
+#. help.force paragraphs
+#: data/common/codex.json
+msgid "□ 只需耗费内力"
+msgstr ""
+
+#. help.force paragraphs
+#: data/common/codex.json
+msgid "恢复精：恢复自己的精。恢复气：恢复自己的气。恢复神：恢复自己的神。"
+msgstr ""
+
+#. help.force paragraphs
+#: data/common/codex.json
+msgid "□ 需要耗费真气"
+msgstr ""
+
+#. help.force paragraphs
+#: data/common/codex.json
+msgid "疗伤：用内力替自己疗伤。"
+msgstr ""
+
+#. help.magic title
+#: data/common/codex.json
+msgid "魔法"
+msgstr ""
+
+#. help.magic paragraphs
+#: data/common/codex.json
+msgid "所有的魔法依照能量来源的不同可分为两类：「法术」与「咒文」。"
+msgstr ""
+
+#. help.magic paragraphs
+#: data/common/codex.json
+msgid "所谓「法术」是指来自施法者自身的修为，以及自身所操控的能量所造成的魔法效果，这类魔法通常被视为高深的学问，并且是可以研究出「为什麽？」的，接近於现代的特异功能、超能力等系统，法术的效果通常显著、直接、而且难以抗拒，尤其是当施术者的能力十分强大的时候。法术最初的起源是来自对於「咒文」力量的怀疑，并且在企图找出其力量根源的过程中逐步经由实验所建立起来的理论系统，换句话说，是有「科学根据」的一门知识。相对於我们所熟知的「物质科学」，法师们所知的正是我们二十世纪人类尚未发掘的一个领域。"
+msgstr ""
+
+#. help.magic paragraphs
+#: data/common/codex.json
+msgid "所谓「咒文」是指根据某种咒语、动作、仪式而与存在於宇宙中某种超然存在的生物或意志沟通，而藉其力量引发的魔法效果，这类魔法的历史比法术更早，而且这些「超然存在」的实体通常被人称为「神」、「魔鬼」、「精灵」等等，咒文宗教上的意义大於学术上的意义，但是又似乎并不完全是宗教上的力量（即：不管你信不信，或多或少都能产生实际的效果，而非单纯心理现象），一般使用咒文者很难探究「为什麽」这样的咒文会引发这样的效果，咒文的来源全部都是来自古老的记载或无意中的发现。"
+msgstr ""
+
+#. help.magic paragraphs
+#: data/common/codex.json
+msgid "虽然有不少魔法到底是属於「法术」系或「咒文」系仍然存有争议，但是人们已经找到一种简单的方法来区分他们，那就是「法术」消耗的能量是「灵力」、「咒文」消耗能量是「法力」（由於咒文的历史远较法术来得更早，因此在当时普遍使用的「魔法」、「法力」等名词都是指咒文系魔法而言，沿用至今）。"
+msgstr ""
+
+#. help.magic paragraphs
+#: data/common/codex.json
+msgid "□ 法术"
+msgstr ""
+
+#. help.magic paragraphs
+#: data/common/codex.json
+msgid "「神通」，长期钻研佛法的高僧常常会因自己本身的修为，产生具有神奇力量的神通，如天眼通、大力神通等，愈是具有大智慧、大慈悲的高僧其神通愈强，这类的法术通常需要百分之百的精神集中，才能施展，但是所需耗费的灵力较少，而且大多是属於防御或辅助性质的功能。"
+msgstr ""
+
+#. help.magic paragraphs
+#: data/common/codex.json
+msgid "「道法」，道家讲究清静无为，法天自然，因此道法修行到了某一个程度，就能够利用天地阴阳生化的道理，吸取天地之精华纳为己用，道法所涵盖的范围极广，但是受到天时、地利、与施法者本身的状态影响很大，但是只要这几个条件能够配合，道法的威力是无可抵御的。"
+msgstr ""
+
+#. help.magic paragraphs
+#: data/common/codex.json
+msgid "「仙术」，这是一门相当古老的修行法门，讲究炼气与长生不死之术，修炼仙术的人并不膜拜任何神祇，只集中於修炼自己的肉身，使之达到不朽的境地，进而羽化成仙，仙术除了在炼气方面相当杰出之外，还有许多炼丹的法门，但是一般人想要学习仙术并不容易，因为除了要有慧根之外，要找到愿意传授仙术的仙人也是一项非常艰困的修炼。"
+msgstr ""
+
+#. help.magic paragraphs
+#: data/common/codex.json
+msgid "□ 咒文"
+msgstr ""
+
+#. help.magic paragraphs
+#: data/common/codex.json
+msgid "「密法」，佛家的一门分支，以手印与咒文为主，详细情形并不清楚，但是密法是一门攻守兼备，系统精严的法术，使用密法的人通常也擅长使用法器战斗，他们的修行是以降妖伏魔为主，密法修行至高深处时，也能拥有某些类似「罗汉神通」的能力，和佛家是殊途同归的正道。"
+msgstr ""
+
+#. help.magic paragraphs
+#: data/common/codex.json
+msgid "「奇门」，又称茅山术，由於偏重治鬼与符箓咒术，往往被道家斥为旁门左道，但是奇门法术入门较易，且於临敌之际有其实用性在，加之不若正统道家那般虚无缥缈，因此一直拥有为数众多的人修习，虽然威力不如道法，但是近世经一位高人整理发扬，已经隐然有与正统道家分庭抗礼之势。"
+msgstr ""
+
+#. help.magic paragraphs
+#: data/common/codex.json
+msgid "「魔道」，这类法术的修炼者以精怪居多，人类亦有少数，分为天魔、地魔、人魔三种，由於修炼法门往往必须杀伤生命，被多数人强烈憎恨，但是魔道威力集道法与仙术之所长，又为求利己不择手段，不但进境迅速兼且危险，以致於各家法术之中均有克制魔道的研究与法术，可说是树敌最多的一门。"
+msgstr ""
+
+#. help.taoist title
+#: data/common/codex.json
+msgid "道士"
+msgstr ""
+
+#. help.taoist paragraphs
+#: data/common/codex.json
+msgid "道士是一群以修炼成仙，而达到「与天地同休，与日月同寿」之境界的修道人，和其他的宗教比较起来，道士对於「人」的地位看得相当崇高，认为天、地、人在宇宙中的地位是相等的，因此，道教的教主是一个「人」，而不是高高在上、和凡人之间有不可跨越之鸿沟的「神」。"
+msgstr ""
+
+#. help.taoist paragraphs
+#: data/common/codex.json
+msgid "道士的能力偏重於炼气，武术方面以内功、剑术见长，正统道家除炼气之外并不修习任何法术，但是许多道士往往会涉猎一些除妖降魔用的法术，以作为入山修炼时防身之用，有些支派的道士更发展成专研法术而舍弃修炼成仙的目的。"
+msgstr ""
+
+#. help.taoist paragraphs
+#: data/common/codex.json
+msgid "□ 技能"
+msgstr ""
+
+#. help.taoist paragraphs
+#: data/common/codex.json
+msgid "太极心法（内功）：道家入门的基本心法，能够调和体内的阴阳二气，达到强健体魄的功效，虽然是入门心法，但是只要持之以恒，并不输给任何其他内功。"
+msgstr ""
+
+#. help.taoist paragraphs
+#: data/common/codex.json
+msgid "五行摄气诀（内功）：讲究五行生克的炼气方法，可以强化内脏机能，进而使修习者对各种病痛、毒素、甚至外伤的抗力增强。"
+msgstr ""
+
+#. help.taoist paragraphs
+#: data/common/codex.json
+msgid "反五行摄气诀（内功）：一种和五行摄气诀反其道而行的炼气方法，据说是某位後来修成「人魔」的前辈所传，因此被视为魔道，功效不详。"
+msgstr ""
+
+#. help.taoist paragraphs
+#: data/common/codex.json
+msgid "小无相功（内功）：适合武术高手修炼的内功心法，能够使人身体机能强化，减缓衰老的速度，甚至返老还童，但是难度很高。"
+msgstr ""
+
+#. help.taoist paragraphs
+#: data/common/codex.json
+msgid "谷衣心法（内功）：传说中月神仙子所授的仙家密术，据说修炼到某一程度能够任意「聚而成形，散而为无」，达到形神俱妙的地步。"
+msgstr ""
+
+#. help.taoist paragraphs
+#: data/common/codex.json
+msgid "天矶剑法（剑法）：原为「北斗七星剑」中的一部份，但是该剑法多半已经失传，留下这部份只是原剑法的总纲部份，长处在於多人齐使，可以组成各种阵法，威力强大。"
+msgstr ""
+
+#. help.taoist paragraphs
+#: data/common/codex.json
+msgid "三才剑法（剑法）：一种流传甚广的剑法，分为天三章、地三章、人三章共九章，但是能够练到地之章的人数百年来寥寥可数，练成天之章的人只有两人，因此书中所载的「三才三绝阵」一直没有人见过。"
+msgstr ""
+
+#. help.taoist paragraphs
+#: data/common/codex.json
+msgid "伏魔剑法（剑法）：沧山派祖师范青牙当年恃以纵横天下的成名绝技，范青牙出家之後成为道家剑士习剑的经典，但是难度颇高，自范青牙之後已经没有出色的传人。"
+msgstr ""
+
+#. help.taoist paragraphs
+#: data/common/codex.json
+msgid "六阴追魂剑（剑法）：和「逆灵天书」、「反五行摄气诀」同属魔道，但这套剑法已经近百年不曾出现过，许多人都在怀疑到底这套剑法还有没有传人。"
+msgstr ""
+
+#. help.taoist paragraphs
+#: data/common/codex.json
+msgid "道藏（知识）：道家的主要经典，是学习道家法术的基础，许多人穷一生研究道藏的秘奥，由此可见其广博。"
+msgstr ""
+
+#. help.taoist paragraphs
+#: data/common/codex.json
+msgid "八卦咒（法术）：用来防身、疗伤用的咒法，也含有一些占卜用的法术。"
+msgstr ""
+
+#. help.taoist paragraphs
+#: data/common/codex.json
+msgid "天罡伏魔咒（法术）：以伏魔降妖为主的咒法。"
+msgstr ""
+
+#. help.taoist paragraphs
+#: data/common/codex.json
+msgid "法融经（法术）：一部集道法与佛法大成的经书。"
+msgstr ""
+
+#. help.taoist paragraphs
+#: data/common/codex.json
+msgid "逆灵天书（法术）：修炼魔道者的重要经典，一向被正统道家视为禁书。"
+msgstr ""
+
+#. help.guild title
+#: data/common/codex.json
+msgid "门派与组织"
+msgstr ""
+
+#. help.guild paragraphs
+#: data/common/codex.json
+msgid "一个人可以参加一个以上的组织，只要彼此间不互相排斥，每个组织有不同的规定与限制，但是也提供许多帮助，基本上组织是可以退出的，但是退出一个门规森严的组织通常要付出惨痛的代价。"
+msgstr ""
+
+#. help.guild paragraphs
+#: data/common/codex.json
+msgid "门派是一个人学习技能的主要来源，大部分的门派极重视师门伦理，绝不允许门下弟子加入其他门派。门派中极重视辈分，一般是以入门先後排定，要加入门派必须有一位前辈收你为徒。"
+msgstr ""
+
+#. help.guild paragraphs
+#: data/common/codex.json
+msgid "□ 帮会、教派"
+msgstr ""
+
+#. help.guild paragraphs
+#: data/common/codex.json
+msgid "这类组织并不是以传授技能为主要目的，但是多半也有严格的帮规、教规，若说门派的门规是消极性的行为约束，帮规与教规多半偏重积极性的行动目标。帮会与教派的加入与退出较门派为易。"
+msgstr ""
+
+#. help.guild paragraphs
+#: data/common/codex.json
+msgid "□ 山寨、镖局、庄院"
+msgstr ""
+
+#. help.guild paragraphs
+#: data/common/codex.json
+msgid "这类组织规模较小，加入也不甚容易，但是加入後往往有一定的工作及报酬。"
+msgstr ""
+
+#. help.weapon title
+#: data/common/codex.json
+msgid "兵器"
+msgstr ""
+
+#. help.weapon paragraphs
+#: data/common/codex.json
+msgid "武器本身并没有伤害力或武器等级，只有种类、质料、重量、攻击范围等属性，影响攻击力最大的是使用者的技巧与该武器造成的伤害种类，例如匕首造成的割伤和铁斧造成的斫伤便有所不同，而剑术高手的剑伤和寻常盗匪的剑伤也不可同日而语，加上命中部位的不同所造成的影响，战斗将会十分多彩多姿。"
+msgstr ""
+
+#. help.weapon paragraphs
+#: data/common/codex.json
+msgid "□ 武器种类"
+msgstr ""
+
+#. help.weapon paragraphs
+#: data/common/codex.json
+msgid "不同种类的武器具有不同的特殊作用，刀、剑、斧等具有锋利边缘的武器有可能砍断敌人的武器，枪、钢刺等尖锐的武器可以刺穿敌人盔甲，狼牙棒等重击型武器可以造成敌人内伤等。"
+msgstr ""
+
+#. help.weapon paragraphs
+#: data/common/codex.json
+msgid "□ 武器质料"
+msgstr ""
+
+#. help.weapon paragraphs
+#: data/common/codex.json
+msgid "绝大多数的武器都是钢、铁、铜等金属铸造的，少部份的武器如桃木剑、竹棒等是其他质料，质料主要的影响是硬度，硬度高的武器较容易在武器的特殊作用上发挥作用。"
+msgstr ""
+
+#. help.weapon paragraphs
+#: data/common/codex.json
+msgid "□ 武器重量"
+msgstr ""
+
+#. help.weapon paragraphs
+#: data/common/codex.json
+msgid "一般而言越重的武器伤害力越高，但是武器要「称手」最重要，不同的膂力适合不同重量的武器，膂力强的人适合使用较重的武器，膂力弱的人则适合较轻的武器，不过若是你的内力够强，也能使动极其沈重或轻飘飘直若无物的兵器。"
+msgstr ""
+
+#. help.armor title
+#: data/common/codex.json
+msgid "护具"
+msgstr ""
+
+#. help.armor paragraphs
+#: data/common/codex.json
+msgid "人们最常穿戴的护具就是日常的衣服，质料轻软而且舒适，但是没有什麽保护效果，通常保护效果越好的护具，重量越重，因此会对人物的动作有一些影响。"
+msgstr ""
+
+#. help.armor paragraphs
+#: data/common/codex.json
+msgid "以下是护具的种类："
+msgstr ""
+
+#. help.armor paragraphs
+#: data/common/codex.json
+msgid "衣物：也就是穿在盔甲里面的衣服，在我们这个世界为了方便起见，衣服跟下面将要提到的盔甲都是整套算的，包括上衣跟裤子，所以当你看见一个人穿著「一件布衣」时，不要怀疑，这里的布衣包括裤子。"
+msgstr ""
+
+#. help.armor paragraphs
+#: data/common/codex.json
+msgid "盔甲：这类的护具通常穿在衣物的外面，用来保护身体各部位的要害或者提供较佳的防护效果，但是沈重的盔甲在提供强力的防护之馀，同时也会大幅度降低行动的速度。"
+msgstr ""
+
+#. help.armor paragraphs
+#: data/common/codex.json
+msgid "头部护具：包括帽子、纶巾、头盔等等穿戴在头部的护具。颈部饰物：如项链、护身符等。手部护具：如手套、指节环。腰部护具：腰带。腕部护具：手镯、护腕都属此类。足部护具：鞋子。手指护具：戒指。"
+msgstr ""
+
+#. help.material title
+#: data/common/codex.json
+msgid "物品质料"
+msgstr ""
+
+#. help.material paragraphs
+#: data/common/codex.json
+msgid "草叶、布料、麻布、毛皮、木头、皮革；铁、钢、玄铁、丹金。"
 msgstr ""
 
 #. es2:d/oldpine/obj/long_sword long
@@ -13540,11 +15228,6 @@ msgid ""
 "一种发著恶臭的黄水之中。\n"
 msgstr ""
 
-#. oldpine name
-#: data/oldpine/world.json
-msgid "老松岭"
-msgstr ""
-
 #. oldpine.gorge.waterfall.water name
 #: data/oldpine/world.json
 msgid "瀑布清水"
@@ -14176,11 +15859,6 @@ msgid ""
 "这是一把用竹子作成的玉竹剑，手工细腻别致。\n"
 msgstr ""
 
-#. es2:d/latemoon/room/npc/obj/letter name
-#: data/latemoon/items.json
-msgid "密函"
-msgstr ""
-
 #. es2:d/latemoon/room/npc/obj/letter long
 #: data/latemoon/items.json
 msgid ""
@@ -14662,14 +16340,6 @@ msgid ""
 "一个香喷喷、热腾腾的大馒头。\n"
 msgstr ""
 
-#. es2:d/choyin/obj/grass name
-#. cloud.npc.b_header inquiry topic
-#. choyin.npc.crone inquiry topic
-#. choyin.npc.visitor inquiry topic
-#: data/choyin/items.json data/cloud/npcs.json data/choyin/npcs.json
-msgid "忘忧草"
-msgstr ""
-
 #. es2:d/choyin/obj/grass long
 #: data/choyin/items.json
 msgid ""
@@ -14825,11 +16495,6 @@ msgid ""
 "一个大红龟，上面盖了个印子：保境安民。\n"
 msgstr ""
 
-#. es2:d/choyin/npc/obj/tomatoo name
-#: data/choyin/items.json
-msgid "山药蛋"
-msgstr ""
-
 #. es2:d/choyin/npc/obj/tomatoo long
 #: data/choyin/items.json
 msgid ""
@@ -14845,11 +16510,6 @@ msgstr ""
 #: data/choyin/items.json
 msgid ""
 "这条布条是从一件寿衣上撕下来的，上面密密麻麻写了许多字。\n"
-msgstr ""
-
-#. es2:d/choyin/obj/chest name
-#: data/choyin/items.json
-msgid "桃木箱"
 msgstr ""
 
 #. es2:d/choyin/obj/chest long
@@ -15056,13 +16716,6 @@ msgstr ""
 #. es2:d/canyon/npc/obj/hat name
 #: data/canyon/items.json
 msgid "迷幻经纶"
-msgstr ""
-
-#. es2:d/canyon/npc/obj/fake_seal name
-#. es2:d/canyon/npc/obj/seal name
-#. canyon.npc.general inquiry topic
-#: data/canyon/items.json data/canyon/npcs.json
-msgid "印鉴"
 msgstr ""
 
 #. es2:d/canyon/npc/obj/fake_seal long
@@ -15286,11 +16939,6 @@ msgstr ""
 #: data/city/items.json
 msgid ""
 "简简单单的一套月白色长裙，上面并没有什么装饰，但总给人一种天外仙子的感觉。\n"
-msgstr ""
-
-#. es2:d/city/obj/token name
-#: data/city/items.json
-msgid "出城令牌"
 msgstr ""
 
 #. es2:d/city/obj/token long
@@ -15723,11 +17371,6 @@ msgstr ""
 #: data/cloud/npcs.json
 msgid ""
 "这强盗满脸伤疤，虎背熊腰，一脸凶狠而霸道的样子。\n"
-msgstr ""
-
-#. cloud.npc.gangster inquiry topic
-#: data/cloud/npcs.json
-msgid "买路钱"
 msgstr ""
 
 #. cloud.npc.gangster inquiry.买路钱
@@ -17501,13 +19144,6 @@ msgstr ""
 msgid "捆"
 msgstr ""
 
-#. es2:d/green/obj/jade name
-#. green.npc.shen inquiry topic
-#. green.npc.oldman2 inquiry topic
-#: data/green/items.json data/green/npcs.json
-msgid "玉佩"
-msgstr ""
-
 #. es2:d/green/obj/jade long
 #: data/green/items.json
 msgid ""
@@ -18072,11 +19708,6 @@ msgstr ""
 msgid ""
 "这是一块绝地,四周没有任何出口,你不禁急得要哭了出来,忽然,你发现\n"
 "远方有一块大石(stone)动了一下,走近一看,似乎可以推(push)一下。\n"
-msgstr ""
-
-#. green name
-#: data/green/world.json
-msgid "青石村"
 msgstr ""
 
 #. green.entrance.door name
@@ -19161,11 +20792,6 @@ msgstr ""
 msgid ""
 "阁下! 这里是庄内后厅厢房。不方便男客进入哦! \n"
 "请随手关门，并保持安静! 谢谢! \n"
-msgstr ""
-
-#. latemoon.npc.room.old name
-#: data/latemoon/npcs.json
-msgid "无名老妇"
 msgstr ""
 
 #. latemoon.npc.room.old title
@@ -22295,16 +23921,6 @@ msgid ""
 "一空穴(vase),积满寒露.\n"
 msgstr ""
 
-#. choyin name
-#: data/choyin/world.json
-msgid "乔阴县城"
-msgstr ""
-
-#. choyin_east name
-#: data/choyin/world.json
-msgid "乔阴东郊"
-msgstr ""
-
 #. choyin.club refuses.pray
 #: data/choyin/world.json
 msgid "也不知道隐士怎么弄的，你的玛瑙手镯不灵验了。"
@@ -23296,11 +24912,6 @@ msgid ""
 "是正气的来源。\n"
 msgstr ""
 
-#. canyon name
-#: data/canyon/world.json
-msgid "天驼关"
-msgstr ""
-
 #. canyon.camp7.east lines
 #: data/canyon/world.json
 msgid "你还没被允许进入喔。"
@@ -23535,15 +25146,6 @@ msgstr ""
 #: data/village/npcs.json
 msgid ""
 "天真的小女孩正在玩耍着 \n"
-msgstr ""
-
-#. village.npc.flowergirl inquiry topic
-#. chuenyu.npc.flower_seller inquiry topic
-#. chuenyu.npc.cleangirl inquiry topic
-#. chuenyu.npc.cook inquiry topic
-#. chuenyu.npc.xiaojuan2 name
-#: data/village/npcs.json data/chuenyu/npcs.json
-msgid "小娟"
 msgstr ""
 
 #. village.npc.flowergirl inquiry.小娟
@@ -23923,11 +25525,6 @@ msgid ""
 "糊地看到顶外的小鱼游来游去。自上而下的看去，你不仅倒吸一口冷气：\n"
 "几只白色的大龙或悬浮在空中、或盘在冰面上、或慢游在洞里的水潭中。\n"
 "西面有一冰制的阶梯盘旋而上，不知伸向哪里。\n"
-msgstr ""
-
-#. village name
-#: data/village/world.json
-msgid "玉螺湖村"
 msgstr ""
 
 #. village.lakeside.no_wading lines
@@ -27535,11 +29132,6 @@ msgid ""
 "热闹。你是跳进去(jump in)，还是回去(jump out)呢？\n"
 msgstr ""
 
-#. city name
-#: data/city/world.json
-msgid "京师"
-msgstr ""
-
 #. city.shangshu.gate.door name
 #: data/city/world.json
 msgid "大铁门"
@@ -28323,11 +29915,6 @@ msgid ""
 "整间刑房已被乾曷的血迹然成暗红色。散发着扑鼻的腥臭。墙上挂满了\n"
 "各式各样的邢具。刑房的地上散落着生锈的铁链和破碎的骷髅。偶尔之间，\n"
 "你还可以听到老鼠“吱吱”的尖叫声。\n"
-msgstr ""
-
-#. chuenyu name
-#: data/chuenyu/world.json
-msgid "黑松山"
 msgstr ""
 
 #. chuenyu.bedroom.door name

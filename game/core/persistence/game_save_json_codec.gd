@@ -136,6 +136,14 @@ func _encode_character(value: Values.CharacterStateSnapshot) -> Dictionary[Strin
 		for key: String in value.seen_npcs:
 			seen[key] = _i(value.seen_npcs[key])
 		result["seen_npcs"] = seen
+	# The 任务 page's entries and the items carried (百科), in order: written only when there are some.
+	for field: String in ["journal", "known_items"]:
+		var counts: Dictionary[String, int] = value.journal if field == "journal" else value.known_items
+		if not counts.is_empty():
+			var written: Dictionary[String, Variant] = {}
+			for key: String in counts:
+				written[key] = _i(counts[key])
+			result[field] = written
 	# set("<name>", n) a room keeps (taolin_steps): written only when there are some.
 	if not value.counters.is_empty():
 		var counters: Dictionary[String, Variant] = {}
@@ -390,7 +398,7 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 		fields.append("marks")
 	if value is Dictionary and value.has("timed_applies"):
 		fields.append("timed_applies")
-	for optional: String in ["quest", "vendetta", "applies", "seen_npcs", "counters", "ghost"]:
+	for optional: String in ["quest", "vendetta", "applies", "seen_npcs", "journal", "known_items", "counters", "ghost"]:
 		if value is Dictionary and value.has(optional):
 			fields.append(optional)
 	var object: Dictionary = _obj(value, path, fields)
@@ -461,6 +469,12 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 	var seen: Dictionary[String, int] = {}
 	if object.has("seen_npcs"):
 		seen = _decode_counts(object["seen_npcs"], path + ".seen_npcs")
+	var journal: Dictionary[String, int] = {}
+	if object.has("journal"):
+		journal = _decode_counts(object["journal"], path + ".journal")
+	var known_items: Dictionary[String, int] = {}
+	if object.has("known_items"):
+		known_items = _decode_counts(object["known_items"], path + ".known_items")
 	var counters: Dictionary[String, int] = {}
 	if object.has("counters"):
 		counters = _decode_values(object["counters"], path + ".counters")
@@ -474,7 +488,7 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 	if object.has("quest"):
 		quest = _decode_quest(object["quest"], path + ".quest")
 	if _error: return null
-	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen).with_counters(counters).with_ghost(ghost)
+	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen).with_journal(journal, known_items).with_counters(counters).with_ghost(ghost)
 
 
 ## A non-empty {name: integer} object (create()'s drawn apply/<key>, a room's counters).

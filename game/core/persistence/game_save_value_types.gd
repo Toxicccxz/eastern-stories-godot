@@ -318,6 +318,9 @@ class CharacterStateSnapshot extends RefCounted:
 	var applies: Dictionary[String, int] = {}
 	## CharacterState.seen_npcs (游识神通's list); empty for NPCs.
 	var seen_npcs: Dictionary[String, int] = {}
+	## CharacterState.journal and known_items (任务 page, 百科); empty for NPCs.
+	var journal: Dictionary[String, int] = {}
+	var known_items: Dictionary[String, int] = {}
 	## CharacterState.counters (taolin_steps); empty for most characters.
 	var counters: Dictionary[String, int] = {}
 	## CharacterState.ghost (damage.c); false for most characters.
@@ -347,7 +350,7 @@ class CharacterStateSnapshot extends RefCounted:
 		affiliation = CharacterAffiliationState.legacy(not family.family_id.is_empty() or not apprenticeship.master_teacher_id.is_empty()) if p_affiliation == null else p_affiliation.duplicate_snapshot()
 
 	func duplicate_snapshot() -> CharacterStateSnapshot:
-		return CharacterStateSnapshot.new(gender, attributes, gin, kee, sen, internal_resources, progression, skills, _conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed_applies).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen_npcs).with_counters(counters).with_ghost(ghost)
+		return CharacterStateSnapshot.new(gender, attributes, gin, kee, sen, internal_resources, progression, skills, _conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed_applies).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen_npcs).with_journal(journal, known_items).with_counters(counters).with_ghost(ghost)
 
 	func with_marks(p_marks: Dictionary[String, int]) -> CharacterStateSnapshot:
 		marks = p_marks.duplicate()
@@ -367,6 +370,11 @@ class CharacterStateSnapshot extends RefCounted:
 
 	func with_seen_npcs(p_seen: Dictionary[String, int]) -> CharacterStateSnapshot:
 		seen_npcs = p_seen.duplicate()
+		return self
+
+	func with_journal(p_journal: Dictionary[String, int], p_known_items: Dictionary[String, int]) -> CharacterStateSnapshot:
+		journal = p_journal.duplicate()
+		known_items = p_known_items.duplicate()
 		return self
 
 	func with_counters(p_counters: Dictionary[String, int]) -> CharacterStateSnapshot:

@@ -76,6 +76,13 @@ var applies: Dictionary[String, int] = {}
 ## 山烟寺 A Q3), each with the order it was first met in (1 the first). Saved; empty
 ## for NPCs.
 var seen_npcs: Dictionary[String, int] = {}
+## The 任务 page's entries the player has lived (JournalLog, data/common/journal.json:
+## "<chain>/<entry>"), each with the order it was recorded in (1 the first). Saved; empty
+## for NPCs.
+var journal: Dictionary[String, int] = {}
+## The item definitions the player has carried (百科's 物品), each with the order it was
+## first carried in. Saved; empty for NPCs.
+var known_items: Dictionary[String, int] = {}
 ## LPC set("<name>", n) a room keeps on the character outside marks/ (d/choyin/entrance.c
 ## taolin_steps: how far the 桃林's way out is). Saved; empty for most characters.
 var counters: Dictionary[String, int] = {}

@@ -5,7 +5,8 @@ extends RefCounted
 ## JSON object with any of the `items`, `npcs`, `spawns`, `item_spawns`,
 ## `vendors`, `rooms`, `regions`, `maps`, `zones`, `portals`, `services`,
 ## `doors`, `landmarks`, `traps`, `exit_rules`, `skills`, `families`, `race_actions`, `weapon_actions`,
-## `quest_tiers` arrays, and at most one document has the `pacing` object.
+## `quest_tiers`, `journal_chains`, `codex_topics` arrays, and at most one document has the
+## `pacing` object.
 ## build() returns null when anything was reported; errors() says what.
 var _errors: Array[String] = []
 var _items: Dictionary[StringName, ItemContentDefinition] = {}
@@ -28,6 +29,8 @@ var _skills: Dictionary[StringName, SkillDefinition] = {}
 var _families: Dictionary[StringName, FamilyDefinition] = {}
 var _combat_actions: CombatActionTables = CombatActionTables.new()
 var _quest_tiers: Array[QuestTier] = []
+var _journal_chains: Array[JournalChainDefinition] = []
+var _codex_topics: Array[CodexTopicDefinition] = []
 var _pacing: PacingDefinition
 var _origins: Dictionary[StringName, String] = {}
 
@@ -123,6 +126,10 @@ func add_document(document: Variant, origin: String) -> void:
 		_combat_actions.add_weapon_actions(record)
 	for record: ContentRecordReader in reader.children("quest_tiers"):
 		_quest_tiers.append(QuestTier.from_record(record))
+	for record: ContentRecordReader in reader.children("journal_chains"):
+		_journal_chains.append(JournalChainDefinition.from_record(record))
+	for record: ContentRecordReader in reader.children("codex_topics"):
+		_codex_topics.append(CodexTopicDefinition.from_record(record))
 	var pacing: ContentRecordReader = reader.child("pacing")
 	if pacing != null:
 		if _pacing != null:
@@ -159,6 +166,7 @@ func build() -> ContentCatalog:
 	_check_exit_rules()
 	_check_combat_data()
 	_check_quest_tiers()
+	_check_journal()
 	if _pacing == null:
 		_errors.append("pacing: no document defines it")
 	if not _errors.is_empty():
@@ -173,6 +181,7 @@ func build() -> ContentCatalog:
 	catalog.set_teaching(_skills, _families)
 	catalog.set_combat_actions(_combat_actions)
 	catalog.set_quest_tiers(_quest_tiers)
+	catalog.set_journal(_journal_chains, _codex_topics)
 	# Backstop for role combinations the item rules cannot represent; saves
 	# validate against these projections.
 	if not catalog.native_item_projections().is_valid:
@@ -276,6 +285,38 @@ func _check_quest_tiers() -> void:
 	for index: int in range(1, _quest_tiers.size()):
 		if _quest_tiers[index].min_exp <= _quest_tiers[index - 1].min_exp:
 			_errors.append("quest_tiers: min_exp %d does not rise above %d" % [_quest_tiers[index].min_exp, _quest_tiers[index - 1].min_exp])
+
+
+## The 任务 page's chains name items, NPCs and topics the game has; the 百科's topics and
+## the chains have unique IDs.
+func _check_journal() -> void:
+	var chains: Dictionary[StringName, bool] = {}
+	for chain: JournalChainDefinition in _journal_chains:
+		if chains.has(chain.chain_id):
+			_errors.append("journal_chains: duplicate chain '%s'" % chain.chain_id)
+		chains[chain.chain_id] = true
+		for entry: JournalEntryDefinition in chain.entries:
+			var origin: String = "journal_chains.%s" % chain.key_of(entry)
+			match entry.when:
+				JournalEntryDefinition.When.ITEM:
+					if not _items.has(StringName(entry.key)):
+						_errors.append("%s.when.item: no item '%s'" % [origin, entry.key])
+				JournalEntryDefinition.When.SEEN:
+					if not _npcs.has(StringName(entry.key)):
+						_errors.append("%s.when.seen: no NPC '%s'" % [origin, entry.key])
+				JournalEntryDefinition.When.HEARD:
+					var npc: NpcDefinition = _npcs.get(StringName(entry.key))
+					if npc == null or not npc.talk().inquiry_topics().has(entry.topic):
+						_errors.append("%s.when.heard: '%s' has no topic '%s'" % [origin, entry.key, entry.topic])
+			if not entry.quote_npc.is_empty():
+				var quoted: NpcDefinition = _npcs.get(entry.quote_npc)
+				if quoted == null or not quoted.talk().has_answer(entry.quote_topic) or quoted.talk().answer(entry.quote_topic).is_empty():
+					_errors.append("%s.quote: '%s' says nothing about '%s'" % [origin, entry.quote_npc, entry.quote_topic])
+	var topics: Dictionary[StringName, bool] = {}
+	for topic: CodexTopicDefinition in _codex_topics:
+		if topics.has(topic.topic_id):
+			_errors.append("codex_topics: duplicate topic '%s'" % topic.topic_id)
+		topics[topic.topic_id] = true
 
 
 ## IDs are unique across every kind, so one ID never means two things.
