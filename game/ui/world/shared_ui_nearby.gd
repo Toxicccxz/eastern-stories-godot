@@ -10,8 +10,9 @@ extends RefCounted
 ## nearest), nothing when no NPC is near: the 背包's 给 and 画符 go to it. A landmark,
 ## corpse or floor item the player chose stays selected while it is in reach.
 ##
-## Seam for gamepad focus navigation (not built yet): the groups are rebuilt only when
-## what they offer changes, in this order, so a focus order can walk them.
+## Keys and pad move through the groups' buttons in this order (SharedGameplayUI's card
+## list); the groups are rebuilt only when what they offer changes, and a rebuild keeps
+## the focus on the same place in the list.
 
 var _ui: SharedGameplayUI
 ## What the shown groups offer ("kind:id:label,label|..."): unchanged, nothing is rebuilt.
@@ -239,6 +240,11 @@ static func _after(select: Callable, action: Callable) -> Callable:
 
 func _rebuild(commands: Array[Array]) -> void:
 	var container: VBoxContainer = _presentation_layout.nearby
+	# Where the keys' or pad's focus was in the list: it stays there.
+	var focused: Control = container.get_viewport().gui_get_focus_owner() if container.is_inside_tree() else null
+	var place := Vector2i(-1, -1)
+	if focused != null and container.is_ancestor_of(focused):
+		place = Vector2i(focused.get_parent().get_parent().get_parent().get_index(), focused.get_index())
 	for child: Node in container.get_children():
 		container.remove_child(child)
 		child.queue_free()
@@ -258,3 +264,8 @@ func _rebuild(commands: Array[Array]) -> void:
 			labels.append(button.text)
 		container.add_child(row)
 		_shown.append([shown_name, labels])
+	if _ui.card_nav_active() and container.is_inside_tree() and (place.x >= 0 or container.get_viewport().gui_get_focus_owner() == null):
+		if commands.is_empty():
+			_ui.leave_card_nav()
+		else:
+			_ui.focus_card(maxi(place.x, 0), maxi(place.y, 0))

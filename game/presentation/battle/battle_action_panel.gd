@@ -48,6 +48,8 @@ func _ready() -> void:
 	action_column.add_child(_actions)
 	prompt = ConfirmPrompt.new()
 	prompt.name = "ActionQuestion"
+	# In a fight Esc is the pause: B / Backspace answer 取消.
+	prompt.cancel_action = &"battle_back"
 	prompt.hide()
 	prompt.confirmed.connect(_on_prompt_answered.bind(true))
 	prompt.cancelled.connect(_on_prompt_answered.bind(false))
@@ -83,6 +85,7 @@ func _ready() -> void:
 	_cancel.custom_minimum_size = Vector2(64, 64)
 	_cancel.pressed.connect(_cancel_pressed)
 	queue_column.add_child(_cancel)
+	InputGlyphs.decorate(_cancel, &"battle_back")
 
 
 func present(projection: BattlePresentationProjection) -> void:
@@ -192,3 +195,9 @@ func _on_prompt_answered(yes: bool) -> void:
 
 func _cancel_pressed() -> void:
 	cancel_requested.emit(_displayed_request_id)
+
+
+## Drops the planned action, when there is one (the battle's back key).
+func cancel_planned() -> void:
+	if _cancel.visible:
+		_cancel_pressed()

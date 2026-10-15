@@ -17,6 +17,8 @@ var context_button: Button
 var target_section: VBoxContainer
 ## One group per thing in reach (SharedUiNearby): its name, then its buttons.
 var nearby: VBoxContainer
+## What the keys or pad do here ([A] 开门 [Y] 选择附近 [X] 观察); none on touch.
+var hints: InputHintRow
 ## The card's button size now (touch or not), for the groups' buttons too.
 var button_size: Vector2 = Vector2(80, 38)
 ## The scene's messages at the bottom left (owner, 2026-10-06).
@@ -37,6 +39,8 @@ var _frame_layout: ResponsivePanelLayout
 var _safe: SafeAreaPresenter
 var _content: Control
 var _return_parent: Node
+## Where the focus goes back when the frame closes (the 背包 row, the card's button).
+var _return_focus: WeakRef
 var _valid: Callable
 var _bar_rows: VBoxContainer
 var _bar_scroll: ScrollContainer
@@ -108,6 +112,10 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	place.add_child(ui.world_title)
 	menu_button = _button(header, "Menu", "菜单", ui.open_menu)
 	menu_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	# Start / M opens it; the card's buttons take the focus only while the player moves
+	# through them with keys or a pad (SharedGameplayUI.enter_card_nav()).
+	menu_button.focus_mode = Control.FOCUS_NONE
+	InputGlyphs.decorate(menu_button, &"menu_open")
 	var vitals := HBoxContainer.new()
 	vitals.name = "Vitals"
 	vitals.add_theme_constant_override("separation", 14)
@@ -131,6 +139,8 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	nearby.add_theme_constant_override("separation", 8)
 	nearby.hide()
 	_bar_rows.add_child(nearby)
+	hints = InputHintRow.new()
+	_bar_rows.add_child(hints)
 	target_section = VBoxContainer.new()
 	target_section.name = "TargetSection"
 	target_section.add_theme_constant_override("separation", 8)
@@ -202,6 +212,7 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	frame_title = _label(heading, "Title")
 	frame_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	close_button = _button(heading, "Close", "关闭", close_panel)
+	InputGlyphs.decorate(close_button, &"ui_cancel")
 	mount = VBoxContainer.new()
 	mount.name = "Content"
 	rows.add_child(mount)
@@ -227,6 +238,7 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	ui.combat_log = RichTextLabel.new()
 	ui.combat_log.custom_minimum_size = Vector2(0, 320)
 	ui.combat_log.scroll_following = true
+	ui.combat_log.add_to_group(PadSupport.SCROLL_GROUP)
 	# Alert lines are coloured (SharedGameplayUI escapes the rest).
 	ui.combat_log.bbcode_enabled = true
 	ui.combat_log.add_theme_color_override("default_color", SharedGameplayUI.PLAIN_LOG_COLOR)
@@ -330,10 +342,14 @@ func fit_bar() -> void:
 func open_panel(title: String, content: Control, valid: Callable = Callable()) -> void:
 	if _content == content:
 		return
+	# The focus goes back where it was when this panel closes (a panel replacing another
+	# keeps the first one's place).
+	var back: WeakRef = _return_focus if frame.visible else _focus_outside_frame()
 	# Only the menu's own questions show over it; anything else replaces it.
 	if ui.menu != null and ui.menu.is_presented() and not ui.is_menu_dialog(content):
 		ui.menu.close()
-	close_panel()
+	close_panel(false)
+	_return_focus = back
 	_valid = valid
 	if valid.is_valid() and not valid.call():
 		_valid = Callable()
@@ -351,15 +367,29 @@ func open_panel(title: String, content: Control, valid: Callable = Callable()) -
 	ui.panel_opened()
 	ui.quarantine_movement()
 	_frame_layout.restyle_dynamic_content()
-	close_button.grab_focus()
+	focus_content()
 
 
-func close_panel() -> void:
+## Keys and pad start on the panel's first control (its own focus_default() when it has
+## one: a question's 取消), else on 关闭.
+func focus_content() -> void:
+	if not frame.visible or not is_instance_valid(_content):
+		return
+	if _content.has_method(&"focus_default"):
+		_content.call(&"focus_default")
+	elif not FocusNav.give(FocusNav.first_focusable(_content)):
+		close_button.grab_focus()
+
+
+## `restore`: the focus goes back where it was before the panel opened.
+func close_panel(restore: bool = true) -> void:
 	if not is_instance_valid(frame) or not frame.visible:
 		return
 	var focused: Control = get_viewport().gui_get_focus_owner()
 	if focused != null and frame.is_ancestor_of(focused):
 		focused.release_focus()
+	var back: Control = FocusNav.held(_return_focus)
+	_return_focus = null
 	var content: Control = _content
 	var destination: Node = _return_parent
 	_content = null
@@ -373,6 +403,13 @@ func close_panel() -> void:
 		if is_instance_valid(destination):
 			content.reparent(destination, false)
 	ui.quarantine_movement()
+	if restore and not FocusNav.give(back):
+		ui.refocus()
+
+
+func _focus_outside_frame() -> WeakRef:
+	var focused: Control = get_viewport().gui_get_focus_owner() if is_inside_tree() else null
+	return null if focused == null or frame.is_ancestor_of(focused) else weakref(focused)
 
 
 ## The menu covers the HUD: its questions (请确认, 游识) show above it, in its layer.
@@ -442,6 +479,7 @@ func nearby_row(shown_name: String) -> PanelContainer:
 func nearby_button(item: Control, text: String, action: Callable) -> Button:
 	var button: Button = _button(item.get_node("Item/Actions"), "Action", text, action)
 	button.custom_minimum_size = button_size
+	button.focus_mode = Control.FOCUS_ALL if ui.card_nav_active() else Control.FOCUS_NONE
 	return button
 
 

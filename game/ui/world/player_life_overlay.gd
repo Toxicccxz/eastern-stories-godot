@@ -104,6 +104,11 @@ func _show(value: String, can_continue: bool, blocking: bool) -> void:
 	visible = true
 	_text.text = value
 	_continue.visible = can_continue
+	# Keys and pad answer 继续 with Enter / A (owner, gamepad support).
+	if can_continue and is_inside_tree():
+		var focused: Control = get_viewport().gui_get_focus_owner()
+		if focused == null or not focused.is_visible_in_tree():
+			_continue.grab_focus()
 	_dim.color.a = 0.72 if blocking else 0.0
 	_dim.mouse_filter = Control.MOUSE_FILTER_STOP if blocking else Control.MOUSE_FILTER_IGNORE
 

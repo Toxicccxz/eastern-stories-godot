@@ -21,6 +21,13 @@ signal cancelled
 		message.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER if value else HORIZONTAL_ALIGNMENT_LEFT
 		message.vertical_alignment = VERTICAL_ALIGNMENT_CENTER if value else VERTICAL_ALIGNMENT_TOP
 
+## The key or pad button that answers 取消 where the prompt is shown (its glyph shows on
+## 取消): Esc/B in the shared frame and the shell, the battle's own back button in a fight.
+var cancel_action: StringName = &"ui_cancel":
+	set(value):
+		cancel_action = value
+		InputGlyphs.decorate(cancel_button, value)
+
 var message: Label
 var confirm_button: Button
 var cancel_button: Button
@@ -44,6 +51,7 @@ func _init() -> void:
 	cancel_button = _button(actions, "Cancel")
 	confirm_button.pressed.connect(_answer.bind(true))
 	cancel_button.pressed.connect(_answer.bind(false))
+	InputGlyphs.decorate(cancel_button, cancel_action)
 	# Room for the focused button's outline: a scrolling host clips at its content's edge.
 	var room := Control.new()
 	room.name = "OutlineRoom"

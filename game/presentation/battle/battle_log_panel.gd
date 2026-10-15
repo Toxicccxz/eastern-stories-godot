@@ -27,6 +27,7 @@ func _ready() -> void:
 	_text.bbcode_enabled = true
 	_text.custom_minimum_size = Vector2(0, 240)
 	_text.scroll_following = true
+	_text.add_to_group(PadSupport.SCROLL_GROUP)
 	content.add_child(_text)
 	close_button = Button.new()
 	close_button.name = "CloseLog"
@@ -34,6 +35,7 @@ func _ready() -> void:
 	close_button.custom_minimum_size = Vector2(64, 64)
 	close_button.pressed.connect(close_log)
 	content.add_child(close_button)
+	InputGlyphs.decorate(close_button, &"battle_back")
 	_layout = ResponsivePanelLayout.new()
 	add_child(_layout)
 	_layout.initialize(panel)

@@ -38,6 +38,7 @@ func initialize(target: PanelContainer) -> void:
 	scroll.name = "ResponsiveScroll"
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.follow_focus = true
+	scroll.add_to_group(PadSupport.SCROLL_GROUP)
 	panel.add_child(scroll)
 	reparent_content(content, scroll)
 	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
