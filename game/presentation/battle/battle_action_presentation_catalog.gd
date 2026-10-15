@@ -72,6 +72,9 @@ func tooltip_for(action_id: StringName) -> String:
 	elif spell_id == &"invocation":
 		# TRANSLATORS: hover of 施法「召护法」 (invocation.c): a heavenly soldier or a ghost guard comes to fight on the player's side; {mana} mana and {sen} sen; it can fail.
 		what = tr("召来一名天将或阴鬼卒相助（{mana} 法力、{sen} 神，可能失败）").format({"mana": InvocationSpell.MANA_COST, "sen": InvocationSpell.SEN_COST})
+	elif spell_id == &"astral_vision":
+		# TRANSLATORS: hover of 施法「阴阳眼」 (astral_vision.c): ghosts can be seen for as many seconds as the player's effective 基本咒文; {mana} mana and {sen} sen.
+		what = tr("看得见鬼魂，持续的秒数等于你的有效咒文等级（{mana} 法力、{sen} 神）").format({"mana": AstralVisionSpell.MANA_COST, "sen": AstralVisionSpell.SEN_COST})
 	elif SpecialFunctions.cast(spell_id) is BoltSpell:
 		var bolt: BoltSpell = SpecialFunctions.cast(spell_id) as BoltSpell
 		var hurts: String = {BoltSpell.Track.GIN: tr("吸取对方的精"), BoltSpell.Track.SEN: tr("伤对方的神"), BoltSpell.Track.KEE: tr("伤对方的气")}[bolt.track]

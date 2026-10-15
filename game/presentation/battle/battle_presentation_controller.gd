@@ -395,7 +395,7 @@ func _question_for(id: StringName) -> PackedStringArray:
 			return PackedStringArray([tr(CONJURED_SUMMON_QUESTION).format({"npc": tr(conjured.definition().display_name)}), choice])
 	# A spell at oneself whose sen would knock the player out (astral_vision.c's 5).
 	var at_self: CastFunction = SpecialFunctions.cast(spell) if CombatCastTacticalPolicy.is_self(id) else null
-	if at_self != null and state.spirit.current < at_self.self_sen_cost(state):
+	if at_self != null and not _session.martial_arts().forbids_magic() and state.spirit.current < at_self.self_sen_cost(state):
 		return PackedStringArray([tr(SharedUiPanels.SPELL_FAINT_WARNING).format({"spell": tr(at_self.self_label), "sen": at_self.self_sen_cost(state)}), "确定施展"])
 	# kill.c at the player's own master (beside the zombie a sheet sent): 弑师, as 攻击 asks.
 	if id == CombatKillTacticalPolicy.ACTION_ID:

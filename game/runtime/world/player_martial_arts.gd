@@ -135,7 +135,7 @@ func cast_self_knocks_out(function_id: StringName) -> bool:
 	var spell: CastFunction = SpecialFunctions.cast(function_id)
 	return (
 		available() and spell != null and self_spells().has(function_id)
-		and not _session.player_runtime().busy.is_busy() and not _no_magic()
+		and not _session.player_runtime().busy.is_busy() and not forbids_magic()
 		and _state().spirit.current < spell.self_sen_cost(_state())
 	)
 
@@ -147,7 +147,7 @@ func cast_self(function_id: StringName) -> bool:
 	var player: WorldPlayerRuntimeState = _session.player_runtime()
 	var context := SpecialContext.new(player_side(player), [], _session.world_interaction_random_source().legacy_random, GameContent.catalog(), _effects())
 	context.target = context.me
-	var cast: bool = CastService.cast(context, function_id, _no_magic())
+	var cast: bool = CastService.cast(context, function_id, forbids_magic())
 	_say(_vision_lines(context))
 	# Its sen below zero: char.c's next heart beat makes the player fall (run at once).
 	var map := _session.active_map() as WorldMapController
@@ -158,12 +158,13 @@ func cast_self(function_id: StringName) -> bool:
 
 ## The player's timed applies that ended outside a fight: a spell's remove_effect()
 ## (astral_vision.c's line). A perform's strikes only in the fight it began in (owner):
-## outside one its applies are only taken back.
+## outside one its applies are only taken back. A player lying unconscious reads nothing
+## (damage.c unconcious() sets block_msg/all).
 func effects_ended(entries: Array[CharacterTimedApplies.Entry]) -> void:
 	var player: WorldPlayerRuntimeState = _session.player_runtime()
 	for entry: CharacterTimedApplies.Entry in entries:
 		var spell: CastFunction = SpecialFunctions.cast_ending(entry.effect_id)
-		if spell == null or player == null:
+		if spell == null or player == null or player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
 			continue
 		var context := SpecialContext.new(player_side(player), [], _session.world_interaction_random_source().legacy_random, GameContent.catalog(), _effects())
 		spell.remove_effect(context, entry)
@@ -192,7 +193,8 @@ func _vision_lines(context: SpecialContext) -> Array[ColoredLine]:
 	return lines
 
 
-func _no_magic() -> bool:
+## The player's room is no_magic (cast.c: 这里不准念咒文。).
+func forbids_magic() -> bool:
 	return GameContent.catalog().zone_forbids_magic(_session.player_runtime().world_location().zone_id)
 
 

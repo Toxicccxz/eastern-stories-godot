@@ -5280,6 +5280,11 @@ msgstr ""
 msgid "召来一名天将或阴鬼卒相助（{mana} 法力、{sen} 神，可能失败）"
 msgstr ""
 
+#. hover of 施法「阴阳眼」 (astral_vision.c): ghosts can be seen for as many seconds as the player's effective 基本咒文; {mana} mana and {sen} sen.
+#: presentation/battle/battle_action_presentation_catalog.gd
+msgid "看得见鬼魂，持续的秒数等于你的有效咒文等级（{mana} 法力、{sen} 神）"
+msgstr ""
+
 #: presentation/battle/battle_action_presentation_catalog.gd
 msgid "吸取对方的精"
 msgstr ""
