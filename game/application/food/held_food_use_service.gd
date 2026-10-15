@@ -14,6 +14,10 @@ static func eat(player: WorldPlayerRuntimeState, context: MoneyInventoryContext,
 	if not world_available or not player.exists_in_world or player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
 		result.outcome = FoodUseResult.Outcome.INTERACTION_BLOCKED
 		return result
+	# food.c do_eat(): is_ghost() before anything else.
+	if player.state.ghost:
+		result.outcome = FoodUseResult.Outcome.GHOST
+		return result
 	if player.relationship.is_fighting():
 		result.outcome = FoodUseResult.Outcome.COMBAT_BLOCKED
 		return result

@@ -98,6 +98,14 @@ func cancel_call(character_id: StringName) -> void:
 		_calls[kind].erase(character_id)
 
 
+## Whether one of the NPC's own call_outs (NpcHooks calls) is still to come.
+func has_own_calls(character_id: StringName) -> bool:
+	for kind: StringName in _calls:
+		if String(kind).begins_with(CALL_PREFIX) and _calls[kind].has(character_id):
+			return true
+	return false
+
+
 func has_call(character_id: StringName, kind: StringName) -> bool:
 	return _calls.has(kind) and _calls[kind].has(character_id)
 

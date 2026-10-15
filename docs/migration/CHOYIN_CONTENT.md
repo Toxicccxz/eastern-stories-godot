@@ -170,7 +170,7 @@ People elsewhere: 武官 (the chest, the 白杨经), 官家小姐 (the 荷包), 
 ## Not done (and where it goes)
 
 - #12: 陈天星 takes 陈剑秋's letter (reminder test in choyin_secrets_test).
-- #13: the 孤魂野鬼's 布条 (a ghost sees ghosts).
+- 鬼门关 B: the 孤魂野鬼's 布条, through 阴阳眼 (a dead player never leaves 阴间 before reincarnating; [DEATH_CONTENT](DEATH_CONTENT.md)).
 
 ## Source anomalies
 

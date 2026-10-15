@@ -59,6 +59,10 @@ static func _admit(player: WorldPlayerRuntimeState, context: MoneyInventoryConte
 	if not world_available or not player.exists_in_world or player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
 		result.outcome = LiquidUseResult.Outcome.INTERACTION_BLOCKED
 		return result
+	# liquid.c do_drink(): is_ghost() first (do_fill() asks nothing of it).
+	if not is_fill and player.state.ghost:
+		result.outcome = LiquidUseResult.Outcome.GHOST
+		return result
 	# Owner-approved order differs between Fill and Drink.
 	if not is_fill and player.busy.is_busy():
 		result.outcome = LiquidUseResult.Outcome.BUSY

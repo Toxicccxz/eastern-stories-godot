@@ -142,6 +142,7 @@ func _add_npc_body(npc: NpcRuntimeState, position: Vector2, at: int = -1) -> boo
 		residents.insert(at, npc)
 	if not body.bind_world_simulation_gate(_world_simulation_gate) or not body.bind_npc(npc):
 		return false
+	body.set_ghost_sight(_map.player_sees_ghosts())
 	_connect_npc_body(npc.character_id, body, body.presence())
 	_bind_npc_services(npc)
 	return true
@@ -206,6 +207,7 @@ func register_npc_body(npc: NpcRuntimeState, body: WorldCharacterBody2D, presenc
 	if not body.bind_world_simulation_gate(_world_simulation_gate) or not body.bind_npc(npc):
 		map_characters.remove_character(npc.character_id)
 		return false
+	body.set_ghost_sight(_map.player_sees_ghosts())
 	_registered_npc_content[npc.character_id] = content
 	residents.append(npc)
 	_connect_npc_body(npc.character_id, body, presence)
@@ -419,6 +421,14 @@ func idle_npc_beside(character_id: StringName, definition_id: StringName) -> Npc
 func npc_rest_position(character_id: StringName) -> Vector2:
 	var body: WorldCharacterBody2D = runtime_body_for_character(character_id)
 	return Vector2.INF if body == null else _map.npc_life.npc_walker().rest_position(character_id, body)
+
+
+## The player became a ghost or lives again: the ghosts here are seen or not (char.c visible()).
+func refresh_ghost_sight() -> void:
+	var sees: bool = _map.player_sees_ghosts()
+	for body: WorldCharacterBody2D in _npc_bodies.values():
+		if is_instance_valid(body):
+			body.set_ghost_sight(sees)
 
 
 func runtime_body_for_character(character_id: StringName) -> WorldCharacterBody2D:

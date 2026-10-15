@@ -107,6 +107,12 @@ func for_npc_definition(definition: NpcDefinition) -> CombatSliceContentProfile:
 	return profile
 
 
+## A ghost player's profile (CharacterState.ghost, damage.c is_ghost()).
+func with_ghost(value: bool) -> CombatSliceContentProfile:
+	_ghost = value
+	return self
+
+
 ## char.c visible(victim): a ghost is seen only by a ghost (apply/astral_vision is not ported).
 func sees(victim: CombatSliceContentProfile) -> bool:
 	return victim == null or not victim.is_ghost or _ghost

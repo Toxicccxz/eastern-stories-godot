@@ -4,10 +4,10 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**黑松山 B** (`phase/chuenyu-b`, DECISIONS「黑松山 B」): the 地牢 under 黑松堡 (the main hall's rope,
-the maze, 淳于怀太, the slab out), 小娟 following the player every way, 刘老农's thanks or his
-revenge. 黑松山 is done (32 of 37 rooms; the rest is the copy of 刘家 ES2 cut off); next on the
-ROADMAP: 13 鬼门关.
+**鬼门关 A** (`phase/death-a`, DECISIONS「鬼门关 A」): 阴间 instead of the direct revival — a dead
+player is a ghost and, past the death card, walks 阴间 (奈何桥, 鬼门关, 酆都城, the long road) until
+a gargoyle's five lines or the little shop's double bring them back to the Snow temple. Next: 鬼门关
+B (阴阳眼 and the 孤魂野鬼's 布条).
 
 ## 待决定
 
@@ -311,7 +311,11 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   thing, nearest first (a click on the map selects nothing); each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from
-  unconsciousness and reincarnation at the Snow temple after death,
+  unconsciousness; death makes the player a ghost in 阴间 (鬼门关: 奈何桥 and its 阴鬼牙将, the white
+  and black gargoyles whose five lines bring one back to the Snow temple, 酆都城门 with no way back,
+  the 鬼门大道's little shop where one's double answers 回家 and its 黑店, the long road that turns on
+  itself); a ghost sees ghosts, cannot eat or drink, may Save (Continue at 鬼门关) and dies again
+  without a corpse,
   inventory/equipment with stacks (give, drop or put part of one), eating/drinking, using drugs,
   recovery and conditions (蛇毒, 醉酒, 蒙汗药; a drug poured into a drink), the status card, toasts and panels, manual Save/Continue.
 * Combat: weapons and bare hands draw ES2's verbs, mapped martial arts their moves (柳家拳,
@@ -322,7 +326,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
 * Placeholder visuals: flat-colour terrain tiles; characters and objects are still coloured boxes.
   No art or audio yet.
 
-Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 504/551 rooms, 229/286 NPC
+Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 536/551 rooms, 239/286 NPC
 types, 9/9 joinable families, 33/36 special and 18/25 basic martial arts, 84/84 quest targets.
 
 ## Known issues

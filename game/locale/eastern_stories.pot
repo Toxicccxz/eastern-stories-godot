@@ -1529,6 +1529,55 @@ msgstr ""
 msgid "香茗坊二楼"
 msgstr ""
 
+#. es2:d/death/road3 short
+#: scenes/world/death/death_realm.tscn data/death/rooms.json
+msgid "路的尽头"
+msgstr ""
+
+#. es2:d/death/road1 short
+#. es2:d/death/road2 short
+#: scenes/world/death/death_realm.tscn data/death/rooms.json
+msgid "鬼门大道"
+msgstr ""
+
+#. es2:d/death/inn1 short
+#: scenes/world/death/death_realm.tscn data/death/rooms.json
+msgid "小店"
+msgstr ""
+
+#. es2:d/death/inn2 short
+#: scenes/world/death/death_realm.tscn data/death/rooms.json
+msgid "黑店"
+msgstr ""
+
+#. es2:d/death/gateway short
+#: scenes/world/death/death_realm.tscn data/death/rooms.json
+msgid "酆都城门"
+msgstr ""
+
+#. es2:d/death/gate short
+#: scenes/world/death/death_realm.tscn data/death/rooms.json
+msgid "鬼门关"
+msgstr ""
+
+#. es2:d/death/bridge1 short
+#. es2:d/death/bridge short
+#: scenes/world/death/death_realm.tscn data/death/rooms.json
+msgid "奈何桥"
+msgstr ""
+
+#: scenes/world/death/death_realm.tscn
+msgid "酆都城"
+msgstr ""
+
+#: scenes/world/death/death_realm.tscn
+msgid "大雾"
+msgstr ""
+
+#: scenes/world/death/death_realm.tscn
+msgid "人影 · 打听「回家」"
+msgstr ""
+
 #. es2:d/goathill/cavern1 short
 #. es2:d/goathill/cavern2 short
 #. es2:d/goathill/cavern4 short
@@ -3095,6 +3144,10 @@ msgid "老头子"
 msgstr ""
 
 #: core/characters/rank_words.gd
+msgid "【 鬼  魂 】"
+msgstr ""
+
+#: core/characters/rank_words.gd
 msgid "【 惯  窃 】"
 msgstr ""
 
@@ -4271,7 +4324,7 @@ msgstr ""
 msgid "$N对著地上的$n喃喃地念了几句咒语，$n抽搐了几下竟站了起来！"
 msgstr ""
 
-#: core/specials/bolt_spell.gd core/specials/dun_spell.gd
+#: core/specials/bolt_spell.gd core/specials/drift_sense_conjure.gd core/specials/dun_spell.gd
 msgid "你失败了。"
 msgstr ""
 
@@ -6014,28 +6067,6 @@ msgstr ""
 msgid "跟随系统"
 msgstr ""
 
-#: runtime/characters/player_life_flow.gd
-msgid "白无常说道：喂！新来的，你叫什么名字？"
-msgstr ""
-
-#: runtime/characters/player_life_flow.gd
-msgid "白无常用奇异的眼光盯著你，好像要看穿你的一切似的。"
-msgstr ""
-
-#: runtime/characters/player_life_flow.gd
-msgid "白无常「哼」的一声，从袖中掏出一本像帐册的东西翻看著。"
-msgstr ""
-
-#: runtime/characters/player_life_flow.gd
-msgid "白无常阁上册子，说道：咦？阳寿未尽？怎么可能？"
-msgstr ""
-
-#: runtime/characters/player_life_flow.gd
-msgid ""
-"白无常搔了搔头，叹道：罢了罢了，你走吧。\n"
-"一股阴冷的浓雾突然出现，很快地包围了你。"
-msgstr ""
-
 #: runtime/combat_encounter/combat_encounter_coordinator.gd runtime/world/map/world_map_hostilities.gd
 msgid "看起来%s想杀死你！"
 msgstr ""
@@ -6848,6 +6879,10 @@ msgid "你拿起%s咬了几口。"
 msgstr ""
 
 #: ui/food/held_food_panel.gd
+msgid "你已经是鬼了，不能吃东西！"
+msgstr ""
+
+#: ui/food/held_food_panel.gd
 msgid "你已经吃太饱了，再也塞不下任何东西了。"
 msgstr ""
 
@@ -6907,6 +6942,10 @@ msgstr ""
 
 #: ui/liquid/held_liquid_panel.gd
 msgid "你已经将{container}里的{liquid}喝得一滴也不剩了。"
+msgstr ""
+
+#: ui/liquid/held_liquid_panel.gd
+msgid "你已经是鬼了，不能喝东西！"
 msgstr ""
 
 #: ui/liquid/held_liquid_panel.gd
@@ -7895,6 +7934,10 @@ msgid ""
 "定力 {cps} · 容貌 {per} · 根骨 {con} · 福缘 {kar}\n"
 msgstr ""
 
+#: ui/world/shared_ui_panels.gd
+msgid "(鬼气) "
+msgstr ""
+
 #. the character sheet, score.c's 灵力 (atman) and 法力 (mana), each current / maximum.
 #: ui/world/shared_ui_panels.gd
 msgid "灵力 {atman} / {max_atman} · 法力 {mana} / {max_mana}"
@@ -8073,6 +8116,7 @@ msgstr ""
 #. es2:d/city/shangshu/npc/obj/pink_cloth unit
 #. es2:d/city/shangshu/npc/obj/white_cloth unit
 #. es2:d/chuenyu/obj/torn_pink_cloth unit
+#. es2:d/death/obj/hell_armor unit
 #. es2:u/cloud/obj/npc/monk/jiasha unit
 #. es2:u/cloud/obj/npc/lm_guard/color_cloth unit
 #. es2:u/cloud/obj/cloth/black_cloth unit
@@ -8084,7 +8128,7 @@ msgstr ""
 #. es2:d/temple/obj/robe unit
 #. es2:d/temple/obj/old_robe unit
 #. es2:d/temple/npc/obj/robe1 unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/canyon/items.json data/city/items.json data/chuenyu/items.json data/cloud/items.json data/waterfog/items.json data/temple/items.json
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/canyon/items.json data/city/items.json data/chuenyu/items.json data/death/items.json data/cloud/items.json data/waterfog/items.json data/temple/items.json
 msgid "件"
 msgstr ""
 
@@ -8251,6 +8295,7 @@ msgstr ""
 #. es2:d/chuenyu/obj/scissors unit
 #. es2:d/chuenyu/obj/feather unit
 #. es2:d/chuenyu/obj/bknife unit
+#. es2:d/death/obj/fork unit
 #. es2:u/cloud/obj/npc/butcher/knife unit
 #. es2:u/cloud/obj/npc/tailor/ruler unit
 #. es2:u/cloud/obj/npc/tailor/scissors unit
@@ -8262,7 +8307,7 @@ msgstr ""
 #. es2:d/green/obj/hammer unit
 #. es2:d/green/obj/windsword unit
 #. es2:d/temple/obj/broom unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/canyon/items.json data/village/items.json data/city/items.json data/chuenyu/items.json data/cloud/items.json data/waterfog/items.json data/green/items.json data/temple/items.json
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/canyon/items.json data/village/items.json data/city/items.json data/chuenyu/items.json data/death/items.json data/cloud/items.json data/waterfog/items.json data/green/items.json data/temple/items.json
 msgid "把"
 msgstr ""
 
@@ -15313,6 +15358,22 @@ msgid ""
 "这件粉红色的布衫上沾满了暗红色的血迹。\n"
 msgstr ""
 
+#. es2:d/death/obj/hell_armor name
+#: data/death/items.json
+msgid "冥府战甲"
+msgstr ""
+
+#. es2:d/death/obj/fork name
+#: data/death/items.json
+msgid "七股钢叉"
+msgstr ""
+
+#. es2:d/death/obj/fork long
+#: data/death/items.json
+msgid ""
+"一把沈重的大钢叉，七根尖刺发出黑黝黝的光芒。\n"
+msgstr ""
+
 #. es2:u/cloud/obj/npc/gangster/blade long
 #: data/cloud/items.json
 msgid ""
@@ -20272,7 +20333,8 @@ msgid ""
 msgstr ""
 
 #. latemoon.latemoon6.landmark.wall name
-#: data/latemoon/world.json
+#. death.inn2.landmark.wall name
+#: data/latemoon/world.json data/death/world.json
 msgid "墙"
 msgstr ""
 
@@ -21378,7 +21440,8 @@ msgid "    这里明显的出口是北边和南边。"
 msgstr ""
 
 #. choyin.npc.oldman kill_ob.lines.line
-#: data/choyin/npcs.json
+#. death.npc.bgargoyle name
+#: data/choyin/npcs.json data/death/npcs.json
 msgid "黑无常"
 msgstr ""
 
@@ -21393,22 +21456,27 @@ msgid "黑无常说道：喂！新来的，你叫什么名字？ "
 msgstr ""
 
 #. choyin.npc.oldman kill_ob.lines.line
-#: data/choyin/npcs.json
+#. death.npc.bgargoyle calls.steps.line
+#: data/choyin/npcs.json data/death/npcs.json
 msgid "黑无常「哼」的一声，从袖中掏出一本像帐册的东西翻看著。"
 msgstr ""
 
 #. choyin.npc.oldman kill_ob.lines.line
-#: data/choyin/npcs.json
+#. death.npc.bgargoyle calls.steps.line
+#: data/choyin/npcs.json data/death/npcs.json
 msgid "黑无常阁上册子，说道：咦？阳寿未尽？怎么可能？"
 msgstr ""
 
 #. choyin.npc.oldman kill_ob.lines.line
-#: data/choyin/npcs.json
+#. death.npc.bgargoyle calls.steps.line
+#: data/choyin/npcs.json data/death/npcs.json
 msgid "黑无常搔了搔头，叹道：罢了罢了，你走吧。"
 msgstr ""
 
 #. choyin.npc.oldman kill_ob.lines.line
-#: data/choyin/npcs.json
+#. death.npc.wgargoyle calls.steps.line
+#. death.npc.bgargoyle calls.steps.line
+#: data/choyin/npcs.json data/death/npcs.json
 msgid "一股阴冷的浓雾突然出现，很快地包围了你。"
 msgstr ""
 
@@ -28370,4 +28438,292 @@ msgstr ""
 #: data/chuenyu/world.json
 msgid ""
 "你“轰隆”一声，从上面掉了下来！摔得你好痛！\n"
+msgstr ""
+
+#. death.npc.hell_guard long
+#: data/death/npcs.json
+msgid ""
+"一个负责看守鬼门关的阴卒，他们是鬼卒中的精锐，负责阻挡想要\n"
+"侵入酆都城的妖魔鬼怪。\n"
+msgstr ""
+
+#. death.npc.hell_guard name
+#. death.npc.hell_guard name_parts
+#: data/death/npcs.json
+msgid "子阴鬼牙将"
+msgstr ""
+
+#. death.npc.hell_guard name_parts
+#: data/death/npcs.json
+msgid "丑阴鬼牙将"
+msgstr ""
+
+#. death.npc.hell_guard name_parts
+#: data/death/npcs.json
+msgid "寅阴鬼牙将"
+msgstr ""
+
+#. death.npc.hell_guard name_parts
+#: data/death/npcs.json
+msgid "卯阴鬼牙将"
+msgstr ""
+
+#. death.npc.hell_guard name_parts
+#: data/death/npcs.json
+msgid "辰阴鬼牙将"
+msgstr ""
+
+#. death.npc.hell_guard name_parts
+#: data/death/npcs.json
+msgid "巳阴鬼牙将"
+msgstr ""
+
+#. death.npc.hell_guard name_parts
+#: data/death/npcs.json
+msgid "午阴鬼牙将"
+msgstr ""
+
+#. death.npc.hell_guard name_parts
+#: data/death/npcs.json
+msgid "未阴鬼牙将"
+msgstr ""
+
+#. death.npc.hell_guard name_parts
+#: data/death/npcs.json
+msgid "申阴鬼牙将"
+msgstr ""
+
+#. death.npc.hell_guard name_parts
+#: data/death/npcs.json
+msgid "酉阴鬼牙将"
+msgstr ""
+
+#. death.npc.hell_guard name_parts
+#: data/death/npcs.json
+msgid "戌阴鬼牙将"
+msgstr ""
+
+#. death.npc.hell_guard name_parts
+#: data/death/npcs.json
+msgid "亥阴鬼牙将"
+msgstr ""
+
+#. death.npc.wgargoyle name
+#: data/death/npcs.json
+msgid "白无常"
+msgstr ""
+
+#. death.npc.wgargoyle long
+#: data/death/npcs.json
+msgid ""
+"白无常伸著长长的舌头瞪著你，死白的脸上看不出任何喜怒哀乐。\n"
+msgstr ""
+
+#. death.npc.wgargoyle chat_msg
+#: data/death/npcs.json
+msgid ""
+"白无常发出一阵像呻吟的声音，当他发现你正注视著他的时候，瞪了你一眼。\n"
+msgstr ""
+
+#. death.npc.wgargoyle chat_msg
+#: data/death/npcs.json
+msgid ""
+"白无常把长长的舌头伸出来，缓缓地舔了舔自己又白又长的手指。\n"
+msgstr ""
+
+#. death.npc.wgargoyle calls.steps.line
+#: data/death/npcs.json
+msgid "白无常说道：喂！新来的，你叫什么名字？"
+msgstr ""
+
+#. death.npc.wgargoyle calls.steps.line
+#: data/death/npcs.json
+msgid "白无常用奇异的眼光盯著你，好像要看穿你的一切似的。"
+msgstr ""
+
+#. death.npc.wgargoyle calls.steps.line
+#: data/death/npcs.json
+msgid "白无常「哼」的一声，从袖中掏出一本像帐册的东西翻看著。"
+msgstr ""
+
+#. death.npc.wgargoyle calls.steps.line
+#: data/death/npcs.json
+msgid "白无常阁上册子，说道：咦？阳寿未尽？怎么可能？"
+msgstr ""
+
+#. death.npc.wgargoyle calls.steps.line
+#: data/death/npcs.json
+msgid "白无常搔了搔头，叹道：罢了罢了，你走吧。"
+msgstr ""
+
+#. death.npc.bgargoyle long
+#: data/death/npcs.json
+msgid ""
+"黑无常伸著长长的舌头瞪著你，黝黑的脸上看不出任何喜怒哀乐。\n"
+msgstr ""
+
+#. death.npc.bgargoyle chat_msg
+#: data/death/npcs.json
+msgid ""
+"黑无常发出一阵像呻吟的声音，当他发现你正注视著他的时候，瞪了你一眼。\n"
+msgstr ""
+
+#. death.npc.bgargoyle chat_msg
+#: data/death/npcs.json
+msgid ""
+"黑无常把长长的舌头伸出来，缓缓地舔了舔自己又黑又长的手指。\n"
+msgstr ""
+
+#. death.npc.bgargoyle calls.steps.line
+#: data/death/npcs.json
+msgid "黑无常说道：喂！新来的，你叫什么名字？"
+msgstr ""
+
+#. death.npc.bgargoyle calls.steps.line
+#: data/death/npcs.json
+msgid "黑无常用奇异的眼光盯著你，好像要看穿你的一切似的。"
+msgstr ""
+
+#. es2:d/death/bridge1 long
+#: data/death/rooms.json
+msgid ""
+"这里是一条漫长的石桥，往南石桥延伸进大雾之中，望不到尽头，\n"
+"往北引隐约约有一座城楼，不过你分不清是真实的影像还是幻觉，东西\n"
+"两面都是一望无际的大雾，一阵阵阴冷的微风从雾中吹过。\n"
+msgstr ""
+
+#. es2:d/death/bridge long
+#: data/death/rooms.json
+msgid ""
+"你现在正站在一条极长的石桥上，桥头一块石碑上面刻著「奈何桥\n"
+"」三个古篆，东、西两面都是大雾，连桥底下是不是水都看不到，浓雾\n"
+"中有许多朦胧的人影鱼贯地向北走去，奈何桥往南延伸到一片大雾之中\n"
+"，北边引隐约约有一座城楼的影子。\n"
+msgstr ""
+
+#. es2:d/death/gate long
+#: data/death/rooms.json
+msgid ""
+"这里就是著名的阴间入口「鬼门关」，在你面前矗立著一座高大的\n"
+"黑色城楼，许多亡魂正哭哭啼啼地列队前进，因为一进鬼门关就无法再\n"
+"回阳间了。\n"
+msgstr ""
+
+#. es2:d/death/gateway long
+#: data/death/rooms.json
+msgid ""
+"你现在来到一座黑色城楼之前，城楼上刻著三个大字：酆都城。往\n"
+"南不远处有一座桥，桥上鬼影幢幢，但是却听不到半点声音，往北走进\n"
+"城楼只见一片黑漆漆的，只有少许暗红色的火光若隐若现地闪烁著。\n"
+msgstr ""
+
+#. es2:d/death/road1 long
+#: data/death/rooms.json
+msgid ""
+"你走在一条阴森森的路上, 浓浓的雾环绕在你的四周, 好像永\n"
+"远都不会散去似的. 往南看去你勉强可以分辨出一个城楼的模样,\n"
+"往北隐约可以看到几盏灯笼, 在浓雾中显得格外的诡异. 路的两旁\n"
+"各有一栋木造的建筑, 门都是半开的, 但你看不清楚里面有什么.\n"
+"\n"
+msgstr ""
+
+#. es2:d/death/inn1 long
+#: data/death/rooms.json
+msgid ""
+"你一进来就发现屋里异常的温暖, 墙角壁炉里微弱的火光将你\n"
+"的影子投射在对面的墙上. 几个人影(shadows)围在炉旁不知在讨\n"
+"论些什么. 屋内有几张木桌, 椅, 墙上挂了几幅字画, 一切看来非\n"
+"常的详和宁静, 你几乎忘了自己身在何处.\n"
+" \n"
+msgstr ""
+
+#. es2:d/death/inn2 long
+#: data/death/rooms.json
+msgid ""
+"屋里相当冷清, 外面的浓雾还不时地从半开著的门缝飘进来,\n"
+"地面上散著一些破旧的物品, 不过光从外表已经无法分辨出那是些\n"
+"什么东西了. 墙上(wall)刻著一些潦草的字体, 墙角的一盏灯笼挣\n"
+"扎似地发出一阵阵微弱的光芒, 也始得那些字看来格外的诡异.\n"
+"\n"
+msgstr ""
+
+#. es2:d/death/road2 long
+#: data/death/rooms.json
+msgid ""
+"你走在一条阴森森的路上, 浓浓的雾环绕在你的四周, 好像永\n"
+"远都不会散去似的. 整条路前后只看到零星的几盏灯笼........\n"
+" \n"
+msgstr ""
+
+#. es2:d/death/road3 long
+#: data/death/rooms.json
+msgid ""
+"浓雾在这里聚成一堵墙，路到这里就断了。\n"
+msgstr ""
+
+#. death name
+#: data/death/world.json
+msgid "阴间"
+msgstr ""
+
+#. death.gateway.no_return lines
+#: data/death/world.json
+msgid "一个空洞的声音在你耳边响起...."
+msgstr ""
+
+#. death.gateway.no_return lines
+#: data/death/world.json
+msgid "没有回头路了!"
+msgstr ""
+
+#. death.road2.long_road lines
+#: data/death/world.json
+msgid "你走著走著..... 发现四周景色居然都没有变...."
+msgstr ""
+
+#. death.inn1.landmark.shadows name
+#. death.inn1.ask_home name
+#: data/death/world.json
+msgid "人影"
+msgstr ""
+
+#. death.inn1.landmark.shadows long
+#: data/death/world.json
+msgid ""
+"从你站的位置很难辨别出那几个人的容貌, 四个披著黑斗蓬的人斜靠在壁\n"
+"炉边的角落, 偶尔传来其中几人说话的声音, 不过从这个距离你无法听到\n"
+"他们讨论的内容. 当你还在考虑要不要靠过去一点时, 其中一人回头看了\n"
+"你一眼, 你愣住了... 那人... 那人......... 居然长得跟你一模一样!\n"
+msgstr ""
+
+#. death.inn2.landmark.wall long
+#: data/death/world.json
+msgid ""
+"几行你勉强分辨得出来的字:\n"
+"我被困在这里了.... 我要回家啦!!!!!!!!!!!\n"
+"                      ^^^^\n"
+"                        靠自己啦...\n"
+"什么叫靠自己啊?!?!? 这里连个活人都没有...\n"
+"\n"
+"看到你自己时问一下吧... 自己人都会互相帮忙的说.. \n"
+"                                    ^^^^\n"
+"                                 你... 确... 定?!?!\n"
+"喔.. \n"
+msgstr ""
+
+#. death.inn1.ask_home act.verb
+#: data/death/world.json
+msgid "打听「回家」"
+msgstr ""
+
+#. death.inn1.ask_home act.acts.steps.line
+#: data/death/world.json
+msgid ""
+"你走上前去, 低声的向那个长得跟你一样的人询问回家的事.\n"
+msgstr ""
+
+#. death.inn1.ask_home act.acts.steps.line
+#: data/death/world.json
+msgid ""
+"那人一句话也不说就往你这边撞过来, 你眼前一阵黑....\n"
 msgstr ""

@@ -173,6 +173,11 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 					_map.npcs.leave_for_good(leaving)
 			ScriptedAct.Kind.WATER:
 				state.recovery.water += step.value
+			ScriptedAct.Kind.REINCARNATE:
+				# reincarnate() and the move to REVIVE_ROOM: the lines first, the move next frame.
+				_show(said, hears)
+				if _map.session != null:
+					_map.session.request_reincarnation()
 			ScriptedAct.Kind.SET_ROOM:
 				if _map.session != null:
 					_map.session.room_states().set_flag(room, step.flag)

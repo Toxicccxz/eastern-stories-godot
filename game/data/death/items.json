@@ -1,0 +1,31 @@
+{
+	"items": [
+		{
+			"id": "es2:d/death/obj/hell_armor",
+			"legacy_sources": ["d/death/obj/hell_armor.c", "d/death/npc/obj/hell_armor.c"],
+			"name": "冥府战甲",
+			"aliases": ["hell armor", "armor"],
+			"unit": "件",
+			"material": "steel",
+			"weight": 70000,
+			"value": 19000,
+			"armor": {
+				"type": "armor",
+				"props": { "armor": 50, "dodge": -15, "armor_vs_force": 50, "defense": 10 },
+				"weight_dodge": "armor"
+			}
+		},
+		{
+			"id": "es2:d/death/obj/fork",
+			"legacy_sources": ["d/death/obj/fork.c", "d/death/npc/obj/fork.c"],
+			"name": "七股钢叉",
+			"aliases": ["steel fork"],
+			"long": "一把沈重的大钢叉，七根尖刺发出黑黝黝的光芒。\n",
+			"unit": "把",
+			"material": "steel",
+			"weight": 30000,
+			"value": 5100,
+			"weapon": { "skill": "fork", "damage": 62, "weight_dodge": "equip" }
+		}
+	]
+}

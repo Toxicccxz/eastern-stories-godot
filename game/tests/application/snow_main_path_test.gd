@@ -350,12 +350,19 @@ func _die_and_return(tree: SceneTree, player: WorldPlayerRuntimeState) -> bool:
 		if candidate.victim_character_id == player.character_id:
 			corpse = candidate
 	check(corpse != null and _session.inventory_state().direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse.corpse_item_instance_id)) == carried, "everything carried lies in the corpse on the west road")
+	# 继续 on the death card: a ghost at 鬼门关, where the white gargoyle's five lines end at the temple.
+	_session.continue_after_death()
+	await tree.physics_frame
+	check(player.state.ghost and _session.active_map_id() == DeathWorldDefinitions.MAP_ID and not flow.is_active(), "a ghost at 鬼门关")
+	_session.world_map_of(DeathWorldDefinitions.MAP_ID).npc_life._advance_ambience(0.0)
 	for second: int in 60:
-		if not flow.is_active():
+		if not player.state.ghost:
 			break
 		_pass(1.0)
+	await tree.physics_frame
 	check(player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and _zone() == &"snow.temple", "reincarnated at the temple")
-	check([player.state.vitality.current, player.state.vitality.effective] == [1, player.state.vitality.maximum] and dog.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE, "with one kee and full effective kee; the dog lives")
+	# The ghost's own heal_up() may have given back a point or two while the gargoyle talked.
+	check(player.state.vitality.current < 10 and player.state.vitality.effective == player.state.vitality.maximum and dog.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE, "with little kee and full effective kee; the dog lives")
 	await _settle(tree)
 	return check(OldPineSaveEligibility.inspect(_session).allowed(), "Save open again")
 

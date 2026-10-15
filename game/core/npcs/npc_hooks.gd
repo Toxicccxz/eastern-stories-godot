@@ -31,7 +31,9 @@ extends RefCounted
 ## - `calls` (xiaojuan2.c, chuenyu.c init()): the call_outs its init() starts when the player
 ##   comes into its room, each `after` seconds (0: at once, as a plain init()) and started anew
 ##   by every arrival (remove_call_out()); when due it acts (a ScriptedAct, its conditions and
-##   steps) if the player is still there and it is for them.
+##   steps) if the player is still there and it is for them. `calls_hold` (owner, 鬼门关 plan
+##   Q2): while they are pending it does not wander (npc.c random_move()), so the white
+##   gargoyle's five lines are not cut short by his own walk.
 ## - `moods` (d/village/npc/oldliu.c killhim()): {name: NpcMood}, put on by an act's `npc_mood`.
 ## - `attack_ask` with `attack_choice` (owner, 黑松山 plan F3): 攻击 asks this first (小娟, a
 ##   breath from death, whose death her father avenges).
@@ -57,6 +59,7 @@ var die_item_id: StringName = &""
 var die_item_master: bool = false
 var die_marks_killer: String = ""
 var calls: Array[Call] = []
+var calls_hold: bool = false
 var moods: Dictionary[String, NpcMood] = {}
 var attack_ask: String = ""
 var attack_choice: String = ""
@@ -138,7 +141,7 @@ static func _color(reader: ContentRecordReader, key: String) -> StringName:
 ## line, color?}}, `kill_ob` {lines}, `revive` {exp_divisor, exp_plus, apply_divisor},
 ## `defeated_enemy` {line, color?} (each line as say() prints it, the NPC's name in it), `chant` {stages: [{after, say, line?, combat_exp?}],
 ## repeat_after}, `ghost` true, `die_carries` {item, master?}, `die_marks_killer` a mark, `calls`
-## [{after, ...ScriptedAct}], `moods` {name: NpcMood}, `attack_ask` with `attack_choice` and
+## [{after, ...ScriptedAct}], `calls_hold` true, `moods` {name: NpcMood}, `attack_ask` with `attack_choice` and
 ## `follows_every_way` true; null when it has none of them.
 static func from_record(reader: ContentRecordReader) -> NpcHooks:
 	var hooks := NpcHooks.new()
@@ -231,6 +234,10 @@ static func from_record(reader: ContentRecordReader) -> NpcHooks:
 			record.fail("after", "must not be negative")
 		call.act = ScriptedAct.from_record(record)
 		hooks.calls.append(call)
+	if reader.has("calls_hold"):
+		hooks.calls_hold = reader.boolean("calls_hold", false)
+		if not hooks.calls_hold or hooks.calls.is_empty():
+			reader.fail("calls_hold", "only an NPC with calls holds still for them")
 	var moods: ContentRecordReader = reader.child("moods")
 	if moods != null:
 		found = true

@@ -1,0 +1,80 @@
+{
+  "maps": {
+    "realm": {
+      "note": "阴间 (d/death), where the dead arrive: fog everywhere, neither ground nor water showing through it. From the south 奈何桥 runs north out of the fog, a long stone bridge (its far half, bridge1, ends in the fog), the 阴鬼牙将 at its head; then 鬼门关, a tall black tower over the way, the white gargoyle waiting before it; past it the gate square before 酆都城's black wall (no way back south); through the wall's gate the 鬼门大道, a wooden house half open on either side (the warm little shop west, the cold 黑店 east); the road goes on north into the fog past a few lanterns and turns on itself until the fifth try, ending at a wall of fog.",
+      "file": "death_realm.tscn",
+      "draw": {
+        "technique": "town",
+        "base": "boundary",
+        "bounds": [128, -64, 1152, 2304],
+        "ground": [
+          ["chasm", 128, -64, 1152, 2304, "the fog all round: neither ground nor water shows through it"]
+        ],
+        "zones": {
+          "death.road3": [512, 0, 768, 256, "open", "path", null],
+          "death.road2": [512, 256, 768, 768, "open", "path", null],
+          "death.road1": [448, 768, 832, 1024, "open", "street", null],
+          "death.inn1": [192, 768, 448, 1024, "enclosed", "floor_wood", "wall_wood"],
+          "death.inn2": [832, 768, 1088, 1024, "enclosed", "floor_wood", "wall_wood"],
+          "death.gateway": [448, 1024, 832, 1280, "open", "town_ground", null],
+          "death.gate": [448, 1280, 832, 1536, "open", "town_ground", null],
+          "death.bridge": [544, 1536, 736, 1920, "open", "bridge", null],
+          "death.bridge1": [544, 1920, 736, 2240, "open", "bridge", null]
+        },
+        "roads": [],
+        "props": [
+          ["wall", 448, 1008, 576, 1040, "酆都城's black wall, its gate dark with a few red fires inside"],
+          ["wall", 704, 1008, 832, 1040],
+          ["wall", 448, 1264, 576, 1296, "鬼门关's tall black tower over the way"],
+          ["wall", 704, 1264, 832, 1296],
+          ["chasm", 448, 1504, 544, 1536, "fog either side of the bridge's head"],
+          ["chasm", 736, 1504, 832, 1536],
+          ["blocked", 528, 352, 544, 368, "the few lanterns along the long road"],
+          ["blocked", 736, 512, 752, 528],
+          ["blocked", 528, 672, 544, 688],
+          ["blocked", 576, 16, 704, 32, "the wall of fog at the road's end"],
+          ["blocked", 224, 800, 288, 832, "the fireplace in the shop's corner, the shadows round it"],
+          ["blocked", 336, 928, 400, 960, "wooden tables and chairs"],
+          ["blocked", 1024, 800, 1056, 832, "the lantern in the 黑店's corner"],
+          ["blocked", 896, 944, 944, 976, "broken things on the floor"]
+        ],
+        "reach_from": "GateArrival",
+        "markers_in_middle": ["death.gate", "death.gateway", "death.bridge", "death.bridge1"],
+        "placed": {
+          "death.gate.wgargoyle.1": [720, 1376],
+          "death.gateway.bgargoyle.1": [720, 1120],
+          "death.bridge.hell_guard.1": [568, 1600],
+          "death.bridge.hell_guard.2": [712, 1600],
+          "death.bridge.hell_guard.3": [568, 1696],
+          "death.bridge.hell_guard.4": [712, 1696]
+        }
+      },
+      "scene": {
+        "style": "map",
+        "root": "DeathRealm",
+        "map": "death.realm",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_32_32": [32, 32]
+        },
+        "nodes": [
+          {"generated": "captions"},
+          {"node": "caption", "name": "FengduLabel", "at": [600, 996], "text": "酆都城", "size": 14},
+          {"node": "caption", "name": "TowerLabel", "at": [600, 1252], "text": "鬼门关", "size": 14},
+          {"node": "caption", "name": "FogLabel", "at": [260, 1700], "text": "大雾", "size": 16},
+          {"node": "service", "name": "ShadowsAsk", "id": "death.inn1.ask_home", "at": [320, 864], "text": "人影 · 打听「回家」"}
+        ],
+        "zones": [{"generated": "zones"}],
+        "spawn_points": [
+          {"name": "GateArrival", "at": [624, 1440], "id": "death.gate.arrival"},
+          {"name": "Road2LongRoad", "at": [640, 720], "id": "death.road2.long_road"},
+          {"generated": "markers"}
+        ],
+        "interactions": [
+          {"name": "ShadowsInteraction", "id": "death.inn1.landmark.shadows", "at": [256, 864], "shape": "Rect_32_32"},
+          {"name": "WallInteraction", "id": "death.inn2.landmark.wall", "at": [1040, 912], "shape": "Rect_32_32"}
+        ]
+      }
+    }
+  }
+}

@@ -2,7 +2,8 @@ class_name FoodUseResult
 extends RefCounted
 
 ## TOO_BLOATED: food.c's drink_func food while water is full.
-enum Outcome { ATE, INTERACTION_BLOCKED, NOT_DIRECT_HELD, COMBAT_BLOCKED, BUSY, TOO_FULL, TOO_BLOATED, AUTHORITY_FAILURE }
+## GHOST: food.c do_eat() refuses a ghost (is_ghost()).
+enum Outcome { ATE, INTERACTION_BLOCKED, NOT_DIRECT_HELD, COMBAT_BLOCKED, BUSY, TOO_FULL, TOO_BLOATED, AUTHORITY_FAILURE, GHOST }
 var outcome: Outcome = Outcome.AUTHORITY_FAILURE
 var item_id: StringName = &""
 var food_before: int = 0

@@ -15,7 +15,7 @@ func resolve(
 			WorldWeaponContentResolution.Outcome.UNARMED,
 			&"",
 			&"",
-			CombatSliceContentProfile.new(&"", &"", 0),
+			CombatSliceContentProfile.new(&"", &"", 0).with_ghost(player.state.ghost),
 		)
 	var player_endpoint: ContainmentEndpoint = ContainmentEndpoint.new(
 		ContainmentEndpoint.Kind.CHARACTER,
@@ -64,5 +64,5 @@ func resolve(
 			content.item_definition_id,
 			content.weapon_skill_type,
 			content.weapon_damage,
-		),
+		).with_ghost(player.state.ghost),
 	)

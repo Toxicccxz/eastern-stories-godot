@@ -1,8 +1,9 @@
 class_name PlayerLifeOverlay
 extends CanvasLayer
 
-## Shows the player's unconsciousness and the way back from death. Reads the
-## session's PlayerLifeFlow; the only thing it can do is show the next line.
+## Shows the player's unconsciousness and the death card. Reads the session's
+## PlayerLifeFlow; the only thing it can do is go on from the card (继续: to 阴间). The
+## return to life (d/death's reincarnate()) is told as a short notice.
 const REVIVED_NOTICE_SECONDS: float = 4.0
 ## Basic skill names follow cmds/std/enable.c valid_types.
 const SKILL_NAMES: Dictionary[StringName, String] = {
@@ -17,6 +18,7 @@ var _continue: Button
 var _last_phase: PlayerLifeFlow.Phase = PlayerLifeFlow.Phase.NONE
 var _notice: String = ""
 var _notice_remaining: float = 0.0
+var _reincarnations_told: int = -1
 
 
 func configure(session: WorldSessionController) -> void:
@@ -63,8 +65,13 @@ func _process(delta: float) -> void:
 		visible = false
 		return
 	var flow: PlayerLifeFlow = _session.player_life_flow()
-	if flow.phase == PlayerLifeFlow.Phase.NONE and _last_phase != PlayerLifeFlow.Phase.NONE:
-		_notice = tr("慢慢地你终於又有了知觉....") if _last_phase == PlayerLifeFlow.Phase.UNCONSCIOUS else tr("一阵浓雾散去，你发现自己站在雪亭镇的城隍庙里。")
+	if _reincarnations_told < 0:
+		_reincarnations_told = _session.reincarnations()
+	var woke: bool = flow.phase == PlayerLifeFlow.Phase.NONE and _last_phase == PlayerLifeFlow.Phase.UNCONSCIOUS
+	var reincarnated: bool = _session.reincarnations() != _reincarnations_told
+	_reincarnations_told = _session.reincarnations()
+	if woke or reincarnated:
+		_notice = tr("慢慢地你终於又有了知觉....") if woke else tr("一阵浓雾散去，你发现自己站在雪亭镇的城隍庙里。")
 		_notice_remaining = REVIVED_NOTICE_SECONDS
 		# The defeat heading no longer describes the player.
 		if _session.shared_ui() != null:
@@ -135,11 +142,9 @@ func _death_text(flow: PlayerLifeFlow) -> String:
 		else:
 			# The corpse is gone (化尸粉); the dead do not see how.
 			lines.append(tr("你的尸体已经不在了。"))
-	lines.append("")
-	lines.append("\n\n".join(flow.messages_shown().map(func(message: String) -> String: return tr(message))))
 	return "\n".join(lines).strip_edges()
 
 
 func _on_continue() -> void:
 	if _session != null:
-		_session.skip_death_message()
+		_session.continue_after_death()

@@ -134,6 +134,7 @@ static func restore(
 	state.applies = snapshot.applies.duplicate()
 	state.seen_npcs = snapshot.seen_npcs.duplicate()
 	state.counters = snapshot.counters.duplicate()
+	state.ghost = snapshot.ghost
 	if not snapshot.quest.is_valid():
 		return null
 	state.quest = snapshot.quest.duplicate_state()

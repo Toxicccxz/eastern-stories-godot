@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 import sys
 import unittest
 from pathlib import Path
@@ -58,7 +59,8 @@ class GeneratedDataTest(unittest.TestCase):
         for path in sorted(ci.DATA.rglob('npcs.json')):
             for record in json.loads(path.read_text(encoding='utf-8')).get('npcs', []):
                 source = ci.MUDLIB / record['legacy_source']
-                if 'is_ghost' in source.read_text(encoding='utf-8', errors='replace') and not record.get('ghost'):
+                # A definition, not a call (d/death/npc/bgargoyle.c asks ob->is_ghost()).
+                if re.search(r'\bint\s+is_ghost\s*\(', source.read_text(encoding='utf-8', errors='replace')) and not record.get('ghost'):
                     ghosts.append(record['id'])
         self.assertEqual(ghosts, [], 'these define is_ghost(): set ghost in their records')
         swords = [item for path in sorted(ci.DATA.rglob('items.json'))

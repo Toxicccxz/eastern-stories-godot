@@ -1,0 +1,36 @@
+{
+	"spawns": [
+		{
+			"id": "death.realm.bridge.hell_guards",
+			"npc": "death.npc.hell_guard",
+			"map": "death.realm",
+			"zone": "death.bridge",
+			"points": [
+				"death.bridge.hell_guard.1",
+				"death.bridge.hell_guard.2",
+				"death.bridge.hell_guard.3",
+				"death.bridge.hell_guard.4"
+			],
+			"legacy_room": "d/death/bridge.c",
+			"legacy_quantity": 4
+		},
+		{
+			"id": "death.realm.gate.wgargoyle",
+			"npc": "death.npc.wgargoyle",
+			"map": "death.realm",
+			"zone": "death.gate",
+			"points": ["death.gate.wgargoyle.1"],
+			"legacy_room": "d/death/gate.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "death.realm.gateway.bgargoyle",
+			"npc": "death.npc.bgargoyle",
+			"map": "death.realm",
+			"zone": "death.gateway",
+			"points": ["death.gateway.bgargoyle.1"],
+			"legacy_room": "d/death/gateway.c",
+			"legacy_quantity": 1
+		}
+	]
+}

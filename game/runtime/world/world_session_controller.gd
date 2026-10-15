@@ -64,6 +64,11 @@ var _npc_ambience_random: WorldInteractionRandomSource
 var _life_flow: PlayerLifeFlow = PlayerLifeFlow.new()
 var _last_revival_handoff: OldPineMapHandoffResult
 var _last_temple_handoff: OldPineMapHandoffResult
+## A gargoyle's or the little shop's reincarnate() (ScriptedAct reincarnate): the ghost goes
+## to the Snow temple from the next frame on, once the world lets it.
+var _reincarnation_due: bool = false
+## How many times the player came back to life (the screen tells it once each).
+var _reincarnations: int = 0
 ## The room a spell took the player to was seen a frame ago: the move may be made now.
 var _departure_due: bool = false
 var _hidden_passages: WorldHiddenPassages
@@ -121,6 +126,7 @@ func _process(delta: float) -> void:
 		_combat_encounter_coordinator.advance_scheduler(delta)
 		advance_departure()
 	_advance_life_flow(world_delta)
+	_advance_reincarnation()
 
 
 ## World time this frame. Deviation (owner, modern fixes II, A9): while the player lies
@@ -1287,10 +1293,28 @@ func place_name(location: WorldLocationState) -> String:
 	return "%s · %s" % [tr(region.display_name), tr(zone.display_name)]
 
 
-## Presentation convenience: show the next white-gargoyle line now.
-func skip_death_message() -> void:
+## 继续 on the death card: the ghost goes to 阴间 (now, or as soon as the world lets it).
+func continue_after_death() -> void:
 	if _life_flow.phase == PlayerLifeFlow.Phase.DEATH_SEQUENCE and application_gameplay_allows_encounter_advance():
-		_handle_life_event(_life_flow.skip_to_next_message())
+		_life_flow.continue_from_death()
+		_handle_life_event(_life_flow.advance(0.0))
+
+
+## A gargoyle's last line or the little shop's double (ScriptedAct reincarnate): the move to
+## the temple is made next frame (an NPC's call_out runs inside its map's beat).
+func request_reincarnation() -> void:
+	if _player != null and _player.state.ghost:
+		_reincarnation_due = true
+
+
+## Whether a reincarnation waits for its move (Save waits too: it is a frame).
+func reincarnation_pending() -> bool:
+	return _reincarnation_due
+
+
+## How many times the player came back to life in this session.
+func reincarnations() -> int:
+	return _reincarnations
 
 
 ## A save made while the player lay unconscious or dead (before this flow
@@ -1306,7 +1330,13 @@ func _resume_restored_life_flow() -> void:
 				GameContent.catalog().pacing().player_wake_seconds,
 			)
 		CharacterRuntimeLifeStatus.Value.DEAD:
+			_player.state.ghost = true
 			_life_flow.begin_death(PlayerDeathResult.new(), "")
+		CharacterRuntimeLifeStatus.Value.ACTIVE:
+			# logind.c: a ghost logs in at DEATH_ROOM (owner D7: the gargoyle's talk again).
+			var map: WorldMapController = active_map() as WorldMapController
+			if _player.state.ghost and map != null and active_map_id() == DeathWorldDefinitions.MAP_ID:
+				map.relocate_player(DeathWorldDefinitions.GATE_ZONE_ID, DeathWorldDefinitions.ARRIVAL_SPAWN_ID)
 
 
 func _advance_life_flow(delta: float) -> void:
@@ -1319,8 +1349,8 @@ func _handle_life_event(event: PlayerLifeFlow.Event) -> void:
 	match event:
 		PlayerLifeFlow.Event.REVIVE_DUE:
 			_revive_from_unconscious()
-		PlayerLifeFlow.Event.REINCARNATE_DUE:
-			_reincarnate_at_revive_room()
+		PlayerLifeFlow.Event.ENTER_REALM_DUE:
+			_enter_death_realm()
 
 
 ## feature/damage.c revive(): the player gets up where they fell. While a
@@ -1342,15 +1372,16 @@ func _revive_from_unconscious() -> void:
 ## streets) no scene change, just the move; else a handoff there. Whether the player is
 ## there now.
 func _move_player_to_temple() -> bool:
-	if active_map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID:
-		var snow: WorldMapController = active_map() as WorldMapController
-		return snow != null and not _transitioning and snow.relocate_player(SnowWorldDefinitions.TEMPLE_ZONE_ID, SnowWorldDefinitions.REVIVE_SPAWN_ID)
-	_last_temple_handoff = handoff_to(
-		SnowWorldDefinitions.OUTDOOR_MAP_ID,
-		SnowWorldDefinitions.TEMPLE_ZONE_ID,
-		SnowWorldDefinitions.TEMPLE_ZONE_ID,
-		SnowWorldDefinitions.REVIVE_SPAWN_ID,
-	)
+	return _move_player_to(SnowWorldDefinitions.OUTDOOR_MAP_ID, SnowWorldDefinitions.TEMPLE_ZONE_ID, SnowWorldDefinitions.REVIVE_SPAWN_ID)
+
+
+## ob->move(room) for the player: on the active map a move, else a handoff (its result in
+## _last_temple_handoff). Whether the player is there now.
+func _move_player_to(map_id: StringName, zone_id: StringName, spawn_id: StringName) -> bool:
+	if active_map_id() == map_id:
+		var map: WorldMapController = active_map() as WorldMapController
+		return map != null and not _transitioning and map.relocate_player(zone_id, spawn_id)
+	_last_temple_handoff = handoff_to(map_id, zone_id, zone_id, spawn_id)
 	return _last_temple_handoff.succeeded()
 
 
@@ -1382,23 +1413,48 @@ func advance_departure() -> void:
 	_departure_due = false
 
 
-## d/death/npc/wgargoyle.c death_stage(): reincarnate() and move to
-## REVIVE_ROOM (/d/snow/temple).
-## If the move cannot happen now the player stays a ghost and it is retried
-## next frame, so the world never holds a living player without a body.
-func _reincarnate_at_revive_room() -> void:
+## feature/damage.c die(): the ghost (ghost = 1, PlayerDeathRules.die()) is moved to
+## DEATH_ROOM (/d/death/gate), before the white gargoyle. If the move cannot happen now the
+## player stays dead and it is tried again next frame, so the world never holds a living
+## player without a body.
+func _enter_death_realm() -> void:
 	var previous_life: int = _player.life_status
 	var previous_exists: bool = _player.exists_in_world
+	_player.state.ghost = true
 	_player.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
 	_player.set_exists_in_world(true)
-	var on_snow: bool = active_map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID
-	var moved: bool = _move_player_to_temple()
-	if not on_snow:
-		_last_revival_handoff = _last_temple_handoff
-	if not moved:
+	if not _move_player_to(DeathWorldDefinitions.MAP_ID, DeathWorldDefinitions.GATE_ZONE_ID, DeathWorldDefinitions.ARRIVAL_SPAWN_ID):
 		_player.set_life_status(previous_life)
 		_player.set_exists_in_world(previous_exists)
-		_life_flow.retry_reincarnation()
 		return
-	PlayerDeathRules.reincarnate(_player.state)
 	_life_flow.finish()
+	_refresh_ghost_sight()
+
+
+## d/death/npc/wgargoyle.c death_stage() and inn1.c do_stuff(): reincarnate() and the
+## move to REVIVE_ROOM (/d/snow/temple). If the move cannot happen now the player stays
+## a ghost and it is tried again next frame.
+func _advance_reincarnation() -> void:
+	if not _reincarnation_due or not _initialized or _transitioning or _restore_candidate_staged or not application_gameplay_allows_encounter_advance():
+		return
+	# Dead again before the move (a fight in the meantime): the death goes on instead.
+	if _player == null or not _player.state.ghost or _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or _life_flow.is_active():
+		_reincarnation_due = false
+		return
+	var on_snow: bool = active_map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID
+	if not _move_player_to_temple():
+		return
+	if not on_snow:
+		_last_revival_handoff = _last_temple_handoff
+	_reincarnation_due = false
+	PlayerDeathRules.reincarnate(_player.state)
+	_reincarnations += 1
+	_refresh_ghost_sight()
+
+
+## The player became a ghost or lives again: every map's ghosts are seen or not (char.c visible()).
+func _refresh_ghost_sight() -> void:
+	for resident: WorldResidentMapController in _resident_maps.values():
+		var map: WorldMapController = resident as WorldMapController
+		if map != null:
+			map.npcs.refresh_ghost_sight()

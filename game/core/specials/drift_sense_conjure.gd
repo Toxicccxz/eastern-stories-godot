@@ -53,7 +53,10 @@ func select_target(context: SpecialContext) -> bool:
 	atman.current -= ATMAN_COST
 	me.state.essence.apply_damage(GIN_COST)
 	context.say(LINE, &"", ColoredLine.HIY)
-	# is_ghost(): nobody conjures as a ghost here (death takes the player to the temple).
+	# is_ghost(): a ghost fails, the cost paid.
+	if me.state.ghost:
+		context.write("你失败了。")
+		return true
 	@warning_ignore("integer_division")
 	if context.random.call(target.state.recovery.atman.maximum) > atman.current / 2:
 		context.write("你感受到对方的灵力，但是不够强烈。")

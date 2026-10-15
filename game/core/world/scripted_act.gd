@@ -53,8 +53,11 @@ extends RefCounted
 ##   chat), lasting until its room resets;
 ## - `npc_wield` an item: carry_object(item)->wield(), a new one in the NPC's hand;
 ## - `leave`: the NPC leaves for good (oldliu.c destruct(): it is not made anew), or, naming
-##   an NPC definition, the first of them standing by leaves with it (刘老农领着娟儿匆匆离去).
-enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM, COMES, NPC_FLAG, HURT, MARK, NPC_MOOD, NPC_WIELD, LEAVE }
+##   an NPC definition, the first of them standing by leaves with it (刘老农领着娟儿匆匆离去);
+## - `reincarnate`: damage.c reincarnate() and ob->move(REVIVE_ROOM) (d/death/npc/wgargoyle.c
+##   death_stage(), inn1.c do_stuff()): the ghost lives again at the Snow temple. It is the
+##   act's last step; the move comes a frame later (WorldSessionController).
+enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM, COMES, NPC_FLAG, HURT, MARK, NPC_MOOD, NPC_WIELD, LEAVE, REINCARNATE }
 
 ## The resources receive_damage() and receive_heal() name.
 const RESOURCES: Array[String] = ["gin", "kee", "sen"]
@@ -239,6 +242,11 @@ func moves_player() -> bool:
 	return steps.any(func(step: Step) -> bool: return step.kind == Kind.MOVE)
 
 
+## Whether a step brings the ghost back to life (`reincarnate`).
+func reincarnates() -> bool:
+	return steps.any(func(step: Step) -> bool: return step.kind == Kind.REINCARNATE)
+
+
 ## What the steps' receive_damage() takes from each resource it would take below zero
 ## (the player would fall unconscious on the next heart beat), in gin, kee, sen order.
 func fainting_costs(state: CharacterState) -> Dictionary[String, int]:
@@ -343,7 +351,7 @@ static func _step(reader: ContentRecordReader) -> Step:
 	var kinds: Array[String] = []
 	if ["say", "emote", "line", "whisper"].any(func(key: String) -> bool: return reader.has(key)):
 		kinds.append("line")
-	for key: String in ["damage", "hurt", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "mark", "water", "set_room", "clear_room", "comes", "npc_flag", "npc_mood", "npc_wield", "leave"]:
+	for key: String in ["damage", "hurt", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "mark", "water", "set_room", "clear_room", "comes", "npc_flag", "npc_mood", "npc_wield", "leave", "reincarnate"]:
 		if reader.has(key):
 			kinds.append(key)
 	if kinds.size() != 1:
@@ -469,6 +477,10 @@ static func _step(reader: ContentRecordReader) -> Step:
 				step.npc_id = StringName(reader.required_text("leave"))
 			elif not reader.boolean("leave", false):
 				reader.fail("leave", "is true or names the NPC that leaves with it")
+		"reincarnate":
+			step.kind = Kind.REINCARNATE
+			if not reader.boolean("reincarnate", false):
+				reader.fail("reincarnate", "is true when present")
 		"water":
 			step.kind = Kind.WATER
 			step.value = reader.required_integer("water")

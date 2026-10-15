@@ -97,6 +97,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -261,6 +262,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -425,6 +427,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -589,6 +592,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -826,6 +830,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -1042,6 +1047,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -1188,6 +1194,7 @@
 						"generation": 0.0
 					},
 					"gender": "雄性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -1348,6 +1355,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -1512,6 +1520,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -1676,6 +1685,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -1840,6 +1850,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -2004,6 +2015,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -2168,6 +2180,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -2405,6 +2418,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -2642,6 +2656,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -2879,6 +2894,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -3116,6 +3132,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -3429,6 +3446,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -3594,6 +3612,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -3758,6 +3777,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -3922,6 +3942,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -4086,6 +4107,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -4250,6 +4272,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -4392,6 +4415,7 @@
 						"generation": 0.0
 					},
 					"gender": "雄性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -4530,6 +4554,7 @@
 						"generation": 0.0
 					},
 					"gender": "雄性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -4668,6 +4693,7 @@
 						"generation": 0.0
 					},
 					"gender": "雄性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -4806,6 +4832,7 @@
 						"generation": 0.0
 					},
 					"gender": "雄性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -4944,6 +4971,7 @@
 						"generation": 0.0
 					},
 					"gender": "雄性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -5082,6 +5110,7 @@
 						"generation": 0.0
 					},
 					"gender": "雌性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -5220,6 +5249,7 @@
 						"generation": 0.0
 					},
 					"gender": "雌性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -5358,6 +5388,7 @@
 						"generation": 0.0
 					},
 					"gender": "雌性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -5496,6 +5527,7 @@
 						"generation": 0.0
 					},
 					"gender": "雌性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -5634,6 +5666,7 @@
 						"generation": 0.0
 					},
 					"gender": "雌性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -5772,6 +5805,7 @@
 						"generation": 0.0
 					},
 					"gender": "雌性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -6005,6 +6039,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -6149,6 +6184,7 @@
 						"generation": 0.0
 					},
 					"gender": "雄性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -6217,7 +6253,7 @@
 		]
 	},
 	"source_entry": {
-		"next_npc_draw": 169161.0,
+		"next_npc_draw": 85741.0,
 		"npcs": [
 			{
 				"age": 19.0,
@@ -6314,6 +6350,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -6478,6 +6515,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -6642,6 +6680,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -6806,6 +6845,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -7043,6 +7083,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -7259,6 +7300,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -7405,6 +7447,7 @@
 						"generation": 0.0
 					},
 					"gender": "雄性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -7565,6 +7608,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -7729,6 +7773,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -7893,6 +7938,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -8057,6 +8103,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -8221,6 +8268,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -8385,6 +8433,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -8622,6 +8671,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -8859,6 +8909,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -9096,6 +9147,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -9333,6 +9385,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -9646,6 +9699,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -9811,6 +9865,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -9975,6 +10030,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -10139,6 +10195,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -10303,6 +10360,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -10467,6 +10525,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -10609,6 +10668,7 @@
 						"generation": 0.0
 					},
 					"gender": "雄性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -10747,6 +10807,7 @@
 						"generation": 0.0
 					},
 					"gender": "雄性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -10885,6 +10946,7 @@
 						"generation": 0.0
 					},
 					"gender": "雄性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -11023,6 +11085,7 @@
 						"generation": 0.0
 					},
 					"gender": "雄性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -11161,6 +11224,7 @@
 						"generation": 0.0
 					},
 					"gender": "雄性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -11299,6 +11363,7 @@
 						"generation": 0.0
 					},
 					"gender": "雌性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -11437,6 +11502,7 @@
 						"generation": 0.0
 					},
 					"gender": "雌性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -11575,6 +11641,7 @@
 						"generation": 0.0
 					},
 					"gender": "雌性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -11713,6 +11780,7 @@
 						"generation": 0.0
 					},
 					"gender": "雌性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -11851,6 +11919,7 @@
 						"generation": 0.0
 					},
 					"gender": "雌性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -11989,6 +12058,7 @@
 						"generation": 0.0
 					},
 					"gender": "雌性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -12222,6 +12292,7 @@
 						"generation": 0.0
 					},
 					"gender": "男性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,
@@ -12366,6 +12437,7 @@
 						"generation": 0.0
 					},
 					"gender": "雄性",
+					"ghost": false,
 					"marks": {},
 					"progression": {
 						"berserk_warned": false,

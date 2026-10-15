@@ -320,6 +320,8 @@ class CharacterStateSnapshot extends RefCounted:
 	var seen_npcs: Dictionary[String, int] = {}
 	## CharacterState.counters (taolin_steps); empty for most characters.
 	var counters: Dictionary[String, int] = {}
+	## CharacterState.ghost (damage.c); false for most characters.
+	var ghost: bool = false
 
 	func _init(
 		p_gender: StringName = &"", p_attributes: BaseAttributesSnapshot = null,
@@ -345,7 +347,7 @@ class CharacterStateSnapshot extends RefCounted:
 		affiliation = CharacterAffiliationState.legacy(not family.family_id.is_empty() or not apprenticeship.master_teacher_id.is_empty()) if p_affiliation == null else p_affiliation.duplicate_snapshot()
 
 	func duplicate_snapshot() -> CharacterStateSnapshot:
-		return CharacterStateSnapshot.new(gender, attributes, gin, kee, sen, internal_resources, progression, skills, _conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed_applies).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen_npcs).with_counters(counters)
+		return CharacterStateSnapshot.new(gender, attributes, gin, kee, sen, internal_resources, progression, skills, _conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed_applies).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen_npcs).with_counters(counters).with_ghost(ghost)
 
 	func with_marks(p_marks: Dictionary[String, int]) -> CharacterStateSnapshot:
 		marks = p_marks.duplicate()
@@ -369,6 +371,10 @@ class CharacterStateSnapshot extends RefCounted:
 
 	func with_counters(p_counters: Dictionary[String, int]) -> CharacterStateSnapshot:
 		counters = p_counters.duplicate()
+		return self
+
+	func with_ghost(p_ghost: bool) -> CharacterStateSnapshot:
+		ghost = p_ghost
 		return self
 
 	func with_timed_applies(p_entries: Array[CharacterTimedApplies.Entry]) -> CharacterStateSnapshot:

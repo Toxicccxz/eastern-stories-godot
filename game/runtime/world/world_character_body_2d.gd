@@ -25,7 +25,9 @@ var _suppressed_collision_mask: int = 0
 var _collision_suppressed: bool = false
 ## A ghost (NpcDefinition.is_ghost()): the player, no ghost, does not see it (char.c
 ## visible()): not drawn, not picked, walked through. Its presence still meets the player.
+## A player who is a ghost too sees it (set_ghost_sight()).
 var _unseen: bool = false
+var _ghost: bool = false
 
 var character_id: StringName:
 	get: return _character_id
@@ -48,10 +50,19 @@ func bind_npc(value: NpcRuntimeState) -> bool:
 	_npc = value
 	_player = null
 	_character_id = value.character_id
-	_unseen = value.definition().is_ghost()
+	_ghost = value.definition().is_ghost()
+	_unseen = _ghost
 	_update_label(value.definition().display_name)
 	refresh_runtime_state()
 	return true
+
+
+## char.c visible(): whether the player sees ghosts now (they are one).
+func set_ghost_sight(sees_ghosts: bool) -> void:
+	if _npc == null:
+		return
+	_unseen = _ghost and not sees_ghosts
+	refresh_runtime_state()
 
 
 func bind_world_simulation_gate(value: WorldSimulationGate) -> bool:

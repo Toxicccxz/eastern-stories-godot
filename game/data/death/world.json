@@ -1,0 +1,36 @@
+{
+	"regions": [
+		{ "id": "death", "name": "阴间" }
+	],
+	"maps": [
+		{ "id": "death.realm", "region": "death", "scene": "res://scenes/world/death/death_realm.tscn", "entry": "death.gate.arrival" }
+	],
+	"zones": [
+		{ "id": "death.bridge1", "map": "death.realm", "rooms": ["es2:d/death/bridge1"] },
+		{ "id": "death.bridge", "map": "death.realm", "rooms": ["es2:d/death/bridge"] },
+		{ "id": "death.gate", "map": "death.realm", "rooms": ["es2:d/death/gate"] },
+		{ "id": "death.gateway", "map": "death.realm", "rooms": ["es2:d/death/gateway"] },
+		{ "id": "death.road1", "map": "death.realm", "rooms": ["es2:d/death/road1"] },
+		{ "id": "death.inn1", "map": "death.realm", "rooms": ["es2:d/death/inn1"] },
+		{ "id": "death.inn2", "map": "death.realm", "rooms": ["es2:d/death/inn2"] },
+		{ "id": "death.road2", "map": "death.realm", "rooms": ["es2:d/death/road2"] },
+		{ "id": "death.road3", "map": "death.realm", "rooms": ["es2:d/death/road3"] }
+	],
+	"exit_rules": [
+		{ "id": "death.gateway.no_return", "room": "es2:d/death/gateway", "from_zone": "death.gateway", "to_zone": "death.gate", "when": "always", "lines": ["一个空洞的声音在你耳边响起....", "没有回头路了!"], "legacy_source": "d/death/gateway.c" },
+		{ "id": "death.road2.long_road", "room": "es2:d/death/road2", "from_zone": "death.road2", "to_zone": "death.road3", "when": "tries", "temp": "long_road", "value": 5, "point": "death.road2.long_road", "lines": ["你走著走著..... 发现四周景色居然都没有变...."], "legacy_source": "d/death/road2.c" }
+	],
+	"landmarks": [
+		{ "id": "death.inn1.landmark.shadows", "zone": "death.inn1", "name": "人影", "policy": "look", "long": "从你站的位置很难辨别出那几个人的容貌, 四个披著黑斗蓬的人斜靠在壁\n炉边的角落, 偶尔传来其中几人说话的声音, 不过从这个距离你无法听到\n他们讨论的内容. 当你还在考虑要不要靠过去一点时, 其中一人回头看了\n你一眼, 你愣住了... 那人... 那人......... 居然长得跟你一模一样!\n", "legacy_source": "d/death/inn1.c" },
+		{ "id": "death.inn2.landmark.wall", "zone": "death.inn2", "name": "墙", "policy": "look", "long": "几行你勉强分辨得出来的字:\n我被困在这里了.... 我要回家啦!!!!!!!!!!!\n                      ^^^^\n                        靠自己啦...\n什么叫靠自己啊?!?!? 这里连个活人都没有...\n\n看到你自己时问一下吧... 自己人都会互相帮忙的说.. \n                                    ^^^^\n                                 你... 确... 定?!?!\n喔.. \n", "legacy_source": "d/death/inn2.c" }
+	],
+	"services": [
+		{ "id": "death.inn1.ask_home", "kind": "act", "zone": "death.inn1", "name": "人影", "reach": 96, "legacy_source": "d/death/inn1.c", "act": { "verb": "打听「回家」", "acts": [
+			{ "steps": [
+				{ "line": "你走上前去, 低声的向那个长得跟你一样的人询问回家的事.\n" },
+				{ "line": "那人一句话也不说就往你这边撞过来, 你眼前一阵黑....\n" },
+				{ "reincarnate": true }
+			] }
+		] } }
+	]
+}

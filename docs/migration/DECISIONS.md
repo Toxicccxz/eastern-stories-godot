@@ -111,6 +111,52 @@ Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（ow
 - #27 牛皮酒袋照原名显示，不另起短名。
 - 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
 
+## 鬼门关 A: 阴间 and the way back (2026-10-15)
+
+Plan #13 (owner, 2026-10-15: Q1 (a), Q2 (a), Q3 (b), Q4 (a) as recommended, the defaults as
+proposed). A ports d/death and replaces the direct revival at the Snow temple ([Player
+unconsciousness and death follow ES2](#player-unconsciousness-and-death-follow-es2-2026-09-30));
+B is 阴阳眼 and the 孤魂野鬼's 布条 (Q4 (a)). What each LPC function became is in
+[DEATH_CONTENT](DEATH_CONTENT.md); it follows the LPC except:
+- **Owner (Q1 (a)): 阴间 is walked.** A dead player is a ghost (damage.c die(): ghost, 1/1 gin, kee
+  and sen) and, past the death card, stands at 鬼门关 (DEATH_ROOM) before the white gargoyle. The
+  card (你死了, what the death cost, where the corpse lies) waits for 继续 (默认 D1); the gargoyle's
+  lines are no longer on it, and its 跳过 button is gone.
+- **Owner (Q2 (a)): a gargoyle does not wander off while his lines run** (NpcHooks `calls_hold`);
+  ES2's chat random_move cut them short about half the time (the player followed, and he began
+  again). He wanders as before otherwise.
+- **Owner (Q3 (b)): 路的尽头 reads 浓雾在这里聚成一堵墙，路到这里就断了。** (a `source_fixes` of
+  road3.c); ES2's text was the placeholder 「..... 还没想到 ....」. The long road's loop stays.
+- **默认 D4: the little shop's 打听 lists 回家**, the double's one topic (ES2: ask <one's own id> about
+  回家, typed), as 打听 lists ES2's topics everywhere.
+- **默认 D6: one round of a gargoyle's lines at a time**: coming back starts them anew; ES2's
+  init() started a second chain beside a running one (doubled lines).
+- **默认 D7: a ghost may Save; Continue puts it at 鬼门关** (logind.c: a ghost logs in at
+  DEATH_ROOM), and the gargoyle's lines begin again. The card and the frame of the move back to
+  life are not saved (Save waits).
+- **As ES2 (D5):** a ghost killed in 阴间 leaves no corpse (chard.c), what it carries falls, a
+  killer takes killer_reward() again, and the ghost is back at 鬼门关 after the card. Attacking a
+  阴鬼牙将 (400000 exp) is asked first as any clearly stronger NPC is. A ghost cannot eat or drink
+  (food.c, liquid.c), fails 游识神通 (drift_sense.c: 你失败了。, the cost paid), is 【 鬼  魂 】 with
+  (鬼气) before its name (rankd.c, name.c), and sees ghosts (char.c visible(): the 阴鬼牙将); an
+  NPC that is no ghost does not see it (its turns pass by perception, combatd.c). The gargoyles
+  answer anyone (wgargoyle.c asks nothing). 酆都城门 lets nobody back south (NPCs walk it, as
+  !userp() did). The long road refuses four tries north and lets the fifth through; a refused try
+  puts the player back at the road's south end (the scenery that never changes), and leaving the
+  road any way starts the count anew (delete_temp()).
+- **Not ported:** block.c (离岛) and jail.c (绿岛), wizard punishment rooms; spath1.c (墙边小路),
+  which no exit leads into; 黑无常's branch for one who is no ghost (喂！阳人来阴间做什么？ and a
+  fight): only earth-warp.c brought the living here, and its sheet never worked; tell_room() lines
+  and the vision line for other players.
+- **The gargoyles' five seconds stand still while the player fights** (the world stands still in a
+  fight; ES2's call_out counted on).
+- **Global (data):** ScriptedAct step `reincarnate` (reincarnate() and the move to the temple, the
+  act's last step, made by the session the same frame after its map's beat); NpcHooks `calls_hold`;
+  exit rule `tries` {temp, value, point}; CharacterState `ghost` (saved only when true). The death
+  map is region `death` (阴间), map `death.realm`.
+- **Save:** world content revision `SOURCE_ENTRY_DEATH_V1` (a new map and the ghost); older
+  development saves need a New Game.
+
 ## 黑松山 B: the 地牢, 淳于怀太 and 小娟 (2026-10-15)
 
 The plan's B (「黑松山 A」 below: owner Q2 (a), F1–F4; M3, M7 默认). What each LPC function became is
