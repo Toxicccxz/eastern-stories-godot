@@ -117,6 +117,9 @@ func liquid_collection() -> LiquidCollection:
 
 
 func _process(delta: float) -> void:
+	if world_time_held():
+		_process_held(delta)
+		return
 	# Inspect before combat advances: a combat-ending frame is not world time.
 	var world_delta: float = _world_delta(delta)
 	advance_player_recovery(delta)
@@ -132,6 +135,34 @@ func _process(delta: float) -> void:
 	_advance_life_flow(world_delta)
 	_advance_reincarnation()
 	_sync_ghost_sight()
+
+
+## The menu is open (owner, 2026-10-15, DECISIONS「菜单窗口」): world time stands still —
+## no heart beats, call_outs, recovery, conditions, timed applies, task time, hazards or
+## resets. The player's own busy still wears down: in ES2 a busy character's heart beat
+## goes to continue_action() alone, so those beats run (two 运功 in a row work). A fight
+## an action starts runs (the menu closes for it).
+func _process_held(delta: float) -> void:
+	if _player != null and _player.busy.is_busy():
+		advance_player_recovery(delta)
+	if _initialized and _combat_encounter_coordinator != null:
+		_combat_encounter_coordinator.advance_scheduler(delta)
+		advance_departure()
+	_advance_reincarnation()
+	_sync_ghost_sight()
+
+
+## Stops world time for `owner` until release_world_time() (the menu window). Not saved.
+func hold_world_time(owner: StringName) -> void:
+	_world_time_holds[owner] = true
+
+
+func release_world_time(owner: StringName) -> void:
+	_world_time_holds.erase(owner)
+
+
+func world_time_held() -> bool:
+	return not _world_time_holds.is_empty()
 
 
 ## World time this frame. Deviation (owner, modern fixes II, A9): while the player lies
@@ -578,6 +609,10 @@ func item_id_allocator() -> SessionItemIdAllocator:
 
 func world_simulation_gate() -> WorldSimulationGate:
 	return _world_simulation_gate
+
+
+## Who holds world time now (hold_world_time()): the menu window.
+var _world_time_holds: Dictionary[StringName, bool] = {}
 
 
 func combat_encounter_coordinator() -> CombatEncounterCoordinator:

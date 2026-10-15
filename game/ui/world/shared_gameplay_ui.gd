@@ -294,6 +294,8 @@ func quarantine_movement() -> void:
 
 # --- the menu window ---
 
+const MENU_TIME_HOLD: StringName = &"game_menu"
+
 
 func _build_menu() -> void:
 	character_sheet = CharacterSheet.new()
@@ -361,6 +363,9 @@ func is_menu_dialog(content: Control) -> bool:
 func menu_presented() -> void:
 	_presentation_layout.close_panel()
 	_presentation_layout.lift_frame(menu.root)
+	# The world stands still while the menu is open (owner, 2026-10-15).
+	if _session != null:
+		_session.hold_world_time(MENU_TIME_HOLD)
 	if not menu.in_pause_view():
 		quarantine_movement()
 
@@ -368,6 +373,8 @@ func menu_presented() -> void:
 func menu_dismissed(from_pause: bool) -> void:
 	_presentation_layout.close_panel()
 	_presentation_layout.lower_frame()
+	if _session != null:
+		_session.release_world_time(MENU_TIME_HOLD)
 	if not from_pause:
 		quarantine_movement()
 	_elapsed = INF

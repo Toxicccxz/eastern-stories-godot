@@ -67,6 +67,26 @@ func _test_tabs_and_keys(tree: SceneTree) -> void:
 	_check(layout.frame.visible and layout._content == layout.room, "L is 观察")
 	ui.dismiss_current_panel()
 
+	# World time stands still while the menu is open (owner, 2026-10-15); the player's
+	# actions still work and their own busy wears down.
+	var cadence: PlayerRecoveryCadence = session.player_recovery_cadence()
+	var runtime: WorldPlayerRuntimeState = session.player_runtime()
+	ui.open_character()
+	var before: float = cadence.accumulated_seconds
+	session._process(1.5)
+	_check(session.world_time_held() and cadence.accumulated_seconds == before, "the open menu holds world time: the heart beat waits")
+	runtime.busy.start_busy(2)
+	for beat: int in 3:
+		session._process(2.0)
+	_check(not runtime.busy.is_busy(), "the player's own busy still wears down under the menu")
+	before = cadence.accumulated_seconds
+	ui.menu.show_tab(GameMenu.Tab.MARTIAL_ARTS)
+	ui.martial_arts_page().exercise_button.pressed.emit()
+	_check(ui.log_lines().back() == "你必须先用 enable 选择你要用的内功心法。", "a 武学 action still answers under the held time")
+	ui.menu.close()
+	session._process(1.5)
+	_check(not session.world_time_held() and cadence.accumulated_seconds != before, "the menu closed: world time runs again")
+
 	menu.begin_pause_view(true)
 	var shown: Array[int] = []
 	for tab: int in menu.tab_buttons.size():
@@ -100,15 +120,15 @@ func _test_system_is_the_pause(tree: SceneTree) -> void:
 	var ui: SharedGameplayUI = session.shared_ui()
 	var menu: GameMenu = ui.menu
 	ui.open_character()
-	_check(menu.is_presented() and not tree.paused and shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING, "角色 opens over the running world")
+	_check(menu.is_presented() and not tree.paused and session.world_time_held() and shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING, "角色 opens with world time held, the tree running")
 	menu.tab_buttons[GameMenu.Tab.SYSTEM].pressed.emit()
 	_check(tree.paused and shell.shell_state().mode() == ApplicationShellState.Mode.PAUSED and menu.in_pause_view() and menu.current_tab() == GameMenu.Tab.SYSTEM, "系统 pauses the world")
 	_check(shell.menu_hosted() and shell.pause_visible() and not shell.pause_panel.visible and menu.system_mount.is_ancestor_of(shell.resume_button), "系统 holds the pause's buttons")
 	menu.tab_buttons[GameMenu.Tab.INVENTORY].pressed.emit()
-	_check(not tree.paused and shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING and menu.is_presented() and menu.current_tab() == GameMenu.Tab.INVENTORY, "another tab resumes and keeps the window")
+	_check(not tree.paused and session.world_time_held() and shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING and menu.is_presented() and menu.current_tab() == GameMenu.Tab.INVENTORY, "another tab leaves the shell's pause; world time stays held")
 	_check(shell.pause_panel.is_ancestor_of(shell.resume_button) and not shell.menu_hosted(), "the buttons go home")
 	await _key(tree, KEY_ESCAPE)
-	_check(not menu.is_presented() and not tree.paused, "Esc closes the menu over the running world")
+	_check(not menu.is_presented() and not tree.paused and not session.world_time_held(), "Esc closes the menu; world time runs")
 	await _key(tree, KEY_ESCAPE)
 	_check(tree.paused and menu.is_presented() and menu.current_tab() == GameMenu.Tab.SYSTEM and shell.menu_hosted(), "Esc on the open world is the pause: the menu on 系统")
 	await _frames(tree, 2)

@@ -6,7 +6,7 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 **界面重构 A** (`phase/ui-menu`, DECISIONS「菜单窗口」): ROADMAP "After the grey box" step 2, which
 the owner put before step 1. One menu window with the tabs 角色 武学 背包 任务 声望 百科 系统 replaces
-the HUD's row of panels; 系统 is the pause, the other tabs leave the world running. Next: B
+the HUD's row of panels; world time stands still while it is open (系统 is the shell's pause). Next: B
 (gamepad: input map, focus, LB/RB, A/B, button glyphs), then C (the 任务 journal's story chains and
 the 百科); step 1 (responsiveness) after them.
 
