@@ -13,6 +13,9 @@ const SCROLL_GROUP: StringName = &"pad_scroll"
 const STEP_META: StringName = &"pad_step"
 const SCROLL_SPEED: float = 900.0
 
+## The stick's direction that stepped a number box last (-1, 1), 0 once it rests.
+var _stick_step: int = 0
+
 
 func _ready() -> void:
 	name = "PadSupport"
@@ -60,9 +63,20 @@ func _on_focus_changed(control: Control) -> void:
 ## ←/→ on a number box: one step down or up (on a pad always: it has no keys to type
 ## with; with keys while the box is not being typed into).
 func _on_number_input(event: InputEvent, line: LineEdit) -> void:
+	var motion := event as InputEventJoypadMotion
+	if motion != null and motion.axis == JOY_AXIS_LEFT_X and absf(motion.axis_value) < InputDevices.MOTION_THRESHOLD:
+		_stick_step = 0 # The stick rests: the next tilt steps again.
+		return
 	if not event.is_pressed() or (line.is_editing() and not InputDevices.shared().is_gamepad()):
 		return
-	var direction: int = -1 if event.is_action(&"ui_left") else 1 if event.is_action(&"ui_right") else 0
+	var direction: int = -1 if event.is_action_pressed(&"ui_left", true) else 1 if event.is_action_pressed(&"ui_right", true) else 0
+	if motion != null:
+		# A tilt sends a stream of motion events: one step until the stick rests.
+		if direction == 0 or direction == _stick_step:
+			if direction != 0:
+				line.accept_event()
+			return
+		_stick_step = direction
 	if direction == 0:
 		return
 	step_number(line, direction)

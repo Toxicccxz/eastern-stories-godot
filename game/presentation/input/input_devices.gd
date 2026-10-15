@@ -11,6 +11,9 @@ enum Kind { KEYBOARD_MOUSE, GAMEPAD, TOUCH }
 ## How the pad's face buttons are labelled (by position, as Godot numbers them).
 enum PadStyle { XBOX, PLAYSTATION, NINTENDO }
 
+## The device id of the pointer events MobileTouchAdapter makes from touches (it reads it
+## from here: the HUD must not load the shell's scripts, which load the Session scene).
+const TOUCH_POINTER_DEVICE: int = 10_202
 ## A stick or trigger counts as used past this (a resting stick drifts below it).
 const MOTION_THRESHOLD: float = 0.5
 ## A mouse counts as used once it moves this far in one event (a desk bump does not).
@@ -71,11 +74,11 @@ static func kind_of(event: InputEvent) -> int:
 		return Kind.KEYBOARD_MOUSE if event.pressed and not event.echo else -1
 	if event is InputEventMouseButton:
 		# The touch adapter's own pointer events stand for touches.
-		if event.device == MobileTouchAdapter.SOURCE_DEVICE or event.device == InputEvent.DEVICE_ID_EMULATION:
+		if event.device == TOUCH_POINTER_DEVICE or event.device == InputEvent.DEVICE_ID_EMULATION:
 			return -1
 		return Kind.KEYBOARD_MOUSE if event.pressed else -1
 	if event is InputEventMouseMotion:
-		if event.device == MobileTouchAdapter.SOURCE_DEVICE or event.device == InputEvent.DEVICE_ID_EMULATION:
+		if event.device == TOUCH_POINTER_DEVICE or event.device == InputEvent.DEVICE_ID_EMULATION:
 			return -1
 		return Kind.KEYBOARD_MOUSE if event.relative.length() >= MOUSE_THRESHOLD else -1
 	return -1

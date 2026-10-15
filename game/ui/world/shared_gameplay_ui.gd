@@ -255,9 +255,15 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 
 
-## A mouse click leaves the card's list to the pointer.
+## A mouse click leaves the card's list to the pointer; Tab / Y leaves it here, before the
+## focus takes Tab as "next control".
 func _input(event: InputEvent) -> void:
-	if _card_nav and event is InputEventMouseButton and event.pressed and event.device != MobileTouchAdapter.SOURCE_DEVICE:
+	if not _card_nav:
+		return
+	if event is InputEventMouseButton and event.pressed and event.device != InputDevices.TOUCH_POINTER_DEVICE:
+		leave_card_nav()
+	elif event.is_action_pressed(&"nearby_focus") and not event.is_echo() and visible and not _presentation_layout.frame.visible and not menu.is_presented():
+		get_viewport().set_input_as_handled()
 		leave_card_nav()
 
 
@@ -336,15 +342,36 @@ func _set_card_focusable(focusable: bool) -> void:
 		button.focus_mode = Control.FOCUS_ALL if focusable else Control.FOCUS_NONE
 
 
+## Where the focus was on the frame's panel or the menu's page: [that root, the path
+## of child places to the focused control].
+var _focus_place: Array = []
+
+
 ## Keys and pad keep a focus while a panel, the menu or the card's list is up: a focused
-## row that went away (a shop's list after a purchase) hands it to the first control.
+## row that went away (the 背包 after using an item, a shop's list after a purchase) hands
+## it to the same place in the rebuilt list, so the next A does not hit another item.
 func _keep_focus() -> void:
 	if InputDevices.shared().is_touch() or not is_inside_tree():
 		return
+	if is_instance_valid(life_overlay) and life_overlay.is_blocking():
+		return # 继续 on the death screen has it.
 	var focused: Control = get_viewport().gui_get_focus_owner()
 	if focused != null and focused.is_visible_in_tree():
+		var surface: Control = _focus_surface()
+		_focus_place = [] if surface == null or not surface.is_ancestor_of(focused) else [surface, FocusNav.place_of(surface, focused)]
+		return
+	if not _focus_place.is_empty() and is_instance_valid(_focus_place[0]) and _focus_place[0] == _focus_surface() and FocusNav.give(FocusNav.at_place(_focus_place[0], _focus_place[1])):
 		return
 	refocus()
+
+
+## The panel or page keys and pad move in now, or null.
+func _focus_surface() -> Control:
+	if _presentation_layout.frame.visible:
+		return _presentation_layout.mount
+	if menu.is_presented() and not menu.in_pause_view():
+		return menu.pages[menu.current_tab()]
+	return null
 
 
 ## The focus goes to the top surface's first control: the frame's panel, the menu's page,

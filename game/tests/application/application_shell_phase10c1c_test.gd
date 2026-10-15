@@ -450,6 +450,7 @@ func _test_native_gamepad_navigation(tree: SceneTree) -> void:
 	_assert_true(tree.paused, "B from Settings cannot also Resume")
 	await _send_joy(tree, JOY_BUTTON_B)
 	_assert_false(tree.paused, "next B from Pause resumes")
+	InputDevices.shared().set_kind(InputDevices.Kind.KEYBOARD_MOUSE, InputDevices.PadStyle.XBOX)
 	_free_node(shell)
 	await tree.process_frame
 

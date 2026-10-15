@@ -48,7 +48,7 @@ func _test_devices() -> void:
 	_check(devices.is_touch(), "a touch: touch")
 	var routed := InputEventMouseButton.new()
 	routed.pressed = true
-	routed.device = MobileTouchAdapter.SOURCE_DEVICE
+	routed.device = InputDevices.TOUCH_POINTER_DEVICE
 	devices.observe(routed)
 	_check(devices.is_touch(), "the touch adapter's own clicks stay touch")
 	devices.changed.disconnect(note)
@@ -158,6 +158,38 @@ func _test_focus_helpers(tree: SceneTree) -> void:
 	_check(tree.root.gui_get_focus_owner() == spin.get_line_edit(), "D-pad ↑ still moves the focus")
 	await _joy(tree, JOY_BUTTON_DPAD_RIGHT)
 	_check(spin.value == 4.0, "focused again, still one step a press")
+	# The stick sends a stream of motion events while tilted: one step per tilt.
+	for value: float in [0.6, 0.8, 1.0, 1.0]:
+		Input.parse_input_event(_joy_motion(JOY_AXIS_LEFT_X, value))
+		await tree.process_frame
+	_check(spin.value == 6.0, "one stick tilt, one step (%s)" % spin.value)
+	Input.parse_input_event(_joy_motion(JOY_AXIS_LEFT_X, 0.0))
+	await tree.process_frame
+	Input.parse_input_event(_joy_motion(JOY_AXIS_LEFT_X, 1.0))
+	await tree.process_frame
+	Input.parse_input_event(_joy_motion(JOY_AXIS_LEFT_X, 0.0))
+	await tree.process_frame
+	_check(spin.value == 8.0, "rested and tilted again: the next step")
+	_check(FocusNav.first_focusable(box, true) == null, "a panel does not open into a text box")
+	var after := Button.new()
+	box.add_child(after)
+	_check(FocusNav.first_focusable(box, true) == after, "it opens on the first button")
+	# A rebuilt list: the focus place is the same row and button.
+	var rows := VBoxContainer.new()
+	tree.root.add_child(rows)
+	_fill_rows(rows)
+	await tree.process_frame
+	var focused: Button = rows.get_child(2).get_child(1)
+	var place: PackedInt32Array = FocusNav.place_of(rows, focused)
+	for row: Node in rows.get_children():
+		rows.remove_child(row)
+		row.queue_free()
+	_fill_rows(rows)
+	_check(FocusNav.at_place(rows, place) == rows.get_child(2).get_child(1), "the same place in the rebuilt list")
+	rows.get_child(2).queue_free()
+	rows.get_child(1).queue_free()
+	_check(FocusNav.at_place(rows, place) == rows.get_child(0).get_child(1), "a shorter list: its last row")
+	rows.queue_free()
 	support.queue_free()
 	box.queue_free()
 	await tree.process_frame
@@ -266,6 +298,17 @@ func _test_walking_hud(tree: SceneTree) -> void:
 	await _joy(tree, JOY_BUTTON_START)
 	_check(not menu.is_presented() and tree.root.gui_get_focus_owner() == from and ui.card_nav_active(), "Start closes it; the focus back on the list")
 
+	# Tab leaves the list (the focus would take it as "next control").
+	var tab := InputEventKey.new()
+	tab.keycode = KEY_TAB
+	tab.pressed = true
+	Input.parse_input_event(tab)
+	await tree.process_frame
+	tab.pressed = false
+	Input.parse_input_event(tab)
+	await tree.process_frame
+	_check(not ui.card_nav_active() and tree.root.gui_get_focus_owner() == null, "Tab leaves the list")
+	await _joy(tree, JOY_BUTTON_Y)
 	# WASD leaves the list and walks at once; a click leaves it too.
 	var key := InputEventKey.new()
 	key.keycode = KEY_S
@@ -348,6 +391,16 @@ func _test_battle(tree: SceneTree, session: WorldSessionController, map: WorldMa
 
 
 # --- helpers -------------------------------------------------------------------------
+
+func _fill_rows(rows: VBoxContainer) -> void:
+	for row_index: int in 3:
+		var row := HBoxContainer.new()
+		rows.add_child(row)
+		for button_index: int in 2:
+			var button := Button.new()
+			button.text = "%d-%d" % [row_index, button_index]
+			row.add_child(button)
+
 
 func _card_button(ui: SharedGameplayUI, label: String) -> Button:
 	for button: Button in ui._card_buttons():

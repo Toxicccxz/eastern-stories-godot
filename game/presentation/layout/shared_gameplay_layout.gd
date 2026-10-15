@@ -370,14 +370,15 @@ func open_panel(title: String, content: Control, valid: Callable = Callable()) -
 	focus_content()
 
 
-## Keys and pad start on the panel's first control (its own focus_default() when it has
-## one: a question's 取消), else on 关闭.
+## Keys and pad start on the panel's first button (its own focus_default() when it has
+## one: a question's 取消), else on 关闭; never inside a text box (typing would start, and
+## take Esc).
 func focus_content() -> void:
 	if not frame.visible or not is_instance_valid(_content):
 		return
 	if _content.has_method(&"focus_default"):
 		_content.call(&"focus_default")
-	elif not FocusNav.give(FocusNav.first_focusable(_content)):
+	elif not FocusNav.give(FocusNav.first_focusable(_content, true)):
 		close_button.grab_focus()
 
 
