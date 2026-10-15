@@ -6,9 +6,9 @@ extends RefCounted
 ## west for five seconds (road6.c); the lake is no walk, the boat goes out and comes back, and
 ## the dive (repaired, owner Q1; asked first) breaks into the ice cave, whose 玄冰 offers 放弃.
 ## The 白鳞冰龙 fall on whoever enters their hall, all together. The doors shut; the 西瓜 the
-## 瓜农 sells feeds and quenches thirst bite by bite and leaves its rind (bone). Reminders: the
-## road south to 京师 (#12) and 黑松山 (after it: 刘老农's thanks and revenge). Walks use the move
-## actions (MapPlaces). TEST-ONLY fixtures are marked.
+## 瓜农 sells feeds and quenches thirst bite by bite and leaves its rind (bone). The roads south
+## to 京师 and west to 黑松山, whose 小娟 刘老农 asks after (his thanks and revenge:
+## chuenyu_prison_test). Walks use the move actions (MapPlaces). TEST-ONLY fixtures are marked.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const Finance := preload("res://tests/runtime/snow_finance_test.gd")
@@ -35,7 +35,7 @@ var _failures: Array[String] = []
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_data()
-	_test_reminders()
+	_test_neighbours()
 	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.set_process(false)
@@ -78,8 +78,8 @@ func _test_data() -> void:
 	_check(catalog.vendor(&"village.vendor.meloner").item_definition_id("water melon") == MELON, "the 瓜农 sell 西瓜")
 
 
-## Content that waits for another region keeps a test that fails once it comes.
-func _test_reminders() -> void:
+## The neighbouring regions: 京师 south, 黑松山 west; 刘老农 and the 小娟 of 黑松山's 地牢.
+func _test_neighbours() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	# 京师 (#12, 京师 A): road2.c's south is the 北驿道 (nroad2.c's north comes back).
 	_check(catalog.room(&"es2:d/village/road2").exits().get("south") == "es2:d/city/nroad2", "road2.c's south names 京师's nroad2")
@@ -88,14 +88,18 @@ func _test_reminders() -> void:
 	var north: PortalDefinition = catalog.portal(&"city.nroad2.north")
 	_check(north != null and north.destination_zone_id == &"village.road2", "the 北驿道's way north comes back to the 三叉路口")
 	# 黑松山 (owner Q2, 黑松山 A): the 黄土大道's spur west leads to d/chuenyu's 黄土大道 (croad1.c's
-	# south comes back). Its 地牢 (黑松山 B) holds 小娟, who sets marks/老刘 or marks/murder; 刘老农
-	# then thanks (銮鱼衡冰 and 过招要旨, he leaves with 娟儿) or takes revenge (悲愤欲绝). Until
-	# then he only asks.
+	# south comes back). Its 地牢 holds 小娟, who sets marks/老刘 or marks/murder; 刘老农 then
+	# takes revenge (悲愤欲绝), or thanks with her beside the player (銮鱼衡冰 and 过招要旨, both
+	# leave), or asks after her until his revenge.
 	var west: PortalDefinition = catalog.portal(&"village.road1.west")
 	_check(west != null and west.destination_zone_id == &"chuenyu.croad1", "the 黄土大道's spur west leads to 黑松山")
 	var back: PortalDefinition = catalog.portal(&"chuenyu.croad1.south")
 	_check(back != null and back.destination_zone_id == &"village.road1", "黑松山's 黄土大道 comes back to the village's")
-	_check(catalog.npc(LIU).talk().has_greeting() and catalog.item(&"es2:d/village/npc/obj/hengbing") == null, "黑松山 B places the 地牢: give 刘老农 his thanks and revenge (oldliu.c greeting(), killhim()); he only asks after 娟儿 for now")
+	var rules: Array[ScriptedAct] = catalog.npc(LIU).talk().greeting_choices()
+	_check(rules.size() == 3 and rules[0].mark == "murder" and rules[1].mark == "老刘" and rules[1].present == &"chuenyu.npc.xiaojuan2" and rules[2].not_mark == "老刘报仇", "刘老农: revenge first, the thanks with 娟儿 beside (F1), else he asks until his revenge")
+	var thanks: Array = rules[1].steps.map(func(step: ScriptedAct.Step) -> int: return step.kind)
+	_check(thanks.count(ScriptedAct.Kind.GIVE) == 2 and thanks.count(ScriptedAct.Kind.LEAVE) == 2 and catalog.item(&"es2:d/village/npc/obj/hengbing") != null, "his thanks: 銮鱼衡冰 and 过招要旨, and both leave")
+	_check(catalog.zone_of_room(&"es2:d/chuenyu/dungeon") != null and catalog.npc(&"chuenyu.npc.xiaojuan2") != null, "小娟 waits in 黑松山's 地牢")
 
 
 ## 天驼关's valley south onto the 黄土大道, and back.

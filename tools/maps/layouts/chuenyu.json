@@ -749,6 +749,26 @@
 						"text": "铁链 · 顺着走下去"
 					},
 					{
+						"node": "service",
+						"name": "CenterRopePull",
+						"id": "chuenyu.center.pull",
+						"at": [
+							1744,
+							288
+						],
+						"text": "绳子 · 拉"
+					},
+					{
+						"node": "passage",
+						"name": "EastCastleSlabPassage",
+						"id": "chuenyu.east_castle.down",
+						"at": [
+							2160,
+							768
+						],
+						"shape": "Rect_32_32"
+					},
+					{
 						"generated": "doors"
 					}
 				],
@@ -805,6 +825,14 @@
 							1552
 						],
 						"id": "chuenyu.base_b_m.chain_arrival"
+					},
+					{
+						"name": "EastCastleSlabArrival",
+						"at": [
+							2160,
+							704
+						],
+						"id": "chuenyu.east_castle.slab_arrival"
 					},
 					{
 						"generated": "stair_markers"
@@ -1186,6 +1214,1094 @@
 					}
 				],
 				"interactions": []
+			}
+		},
+		"prison": {
+			"note": "The 地牢 under 黑松堡: nine rooms of one text in the dark (tunnel1–6 and the three 刑房), their exits not agreeing with one another (M3): each lies far from the others with a way off each side that has an exit, and walking off it takes the LPC exit into the room it names. One falls in from the main hall's rope into tunnel1; the only way out is the slab in the sunlit 地牢's ceiling (pushed five times it opens to the east clifftop for five seconds).",
+			"file": "chuenyu_prison.tscn",
+			"draw": {
+				"technique": "canvas",
+				"base": "boundary",
+				"bounds": [
+					0,
+					0,
+					3072,
+					2304
+				],
+				"zones": {
+					"chuenyu.tunnel1": [
+						288,
+						192,
+						736,
+						576,
+						"cave_floor"
+					],
+					"chuenyu.tunnel2": [
+						1312,
+						192,
+						1760,
+						576,
+						"cave_floor"
+					],
+					"chuenyu.tunnel3": [
+						2336,
+						192,
+						2784,
+						576,
+						"cave_floor"
+					],
+					"chuenyu.tunnel5": [
+						288,
+						960,
+						736,
+						1344,
+						"cave_floor"
+					],
+					"chuenyu.tunnel6": [
+						1312,
+						960,
+						1760,
+						1344,
+						"cave_floor"
+					],
+					"chuenyu.dungeon": [
+						2336,
+						960,
+						2784,
+						1344,
+						"floor_yard"
+					],
+					"chuenyu.tortureroom": [
+						288,
+						1728,
+						736,
+						2112,
+						"floor_yard"
+					],
+					"chuenyu.tunnel4": [
+						1312,
+						1728,
+						1760,
+						2112,
+						"cave_floor"
+					],
+					"chuenyu.tortureroom2": [
+						2336,
+						1728,
+						2784,
+						2112,
+						"floor_yard"
+					]
+				},
+				"steps": [
+					{
+						"op": "fill",
+						"fills": [
+							[
+								"cave_floor",
+								352,
+								256,
+								672,
+								512,
+								"pitch dark, a pine-oil lamp flickering on the wall, blood on the floor"
+							],
+							[
+								"cave_floor",
+								464,
+								512,
+								560,
+								576
+							],
+							[
+								"cave_floor",
+								464,
+								192,
+								560,
+								256
+							],
+							[
+								"cave_floor",
+								1376,
+								256,
+								1696,
+								512
+							],
+							[
+								"cave_floor",
+								1696,
+								336,
+								1760,
+								432
+							],
+							[
+								"cave_floor",
+								1488,
+								192,
+								1584,
+								256
+							],
+							[
+								"cave_floor",
+								1488,
+								512,
+								1584,
+								576
+							],
+							[
+								"cave_floor",
+								2400,
+								256,
+								2720,
+								512
+							],
+							[
+								"cave_floor",
+								2720,
+								336,
+								2784,
+								432
+							],
+							[
+								"cave_floor",
+								2512,
+								192,
+								2608,
+								256
+							],
+							[
+								"cave_floor",
+								2512,
+								512,
+								2608,
+								576
+							],
+							[
+								"cave_floor",
+								352,
+								1024,
+								672,
+								1280
+							],
+							[
+								"cave_floor",
+								464,
+								960,
+								560,
+								1024
+							],
+							[
+								"cave_floor",
+								288,
+								1104,
+								352,
+								1200
+							],
+							[
+								"cave_floor",
+								672,
+								1104,
+								736,
+								1200
+							],
+							[
+								"cave_floor",
+								1376,
+								1024,
+								1696,
+								1280
+							],
+							[
+								"cave_floor",
+								1488,
+								960,
+								1584,
+								1024
+							],
+							[
+								"cave_floor",
+								1696,
+								1104,
+								1760,
+								1200
+							],
+							[
+								"floor_yard",
+								2400,
+								1024,
+								2720,
+								1280,
+								"the 刑房 where 小娟 lies bound: straw in the corner, skeletons chained to the walls"
+							],
+							[
+								"floor_yard",
+								2336,
+								1104,
+								2400,
+								1200
+							],
+							[
+								"floor_yard",
+								2512,
+								960,
+								2608,
+								1024
+							],
+							[
+								"floor_yard",
+								352,
+								1792,
+								672,
+								2048,
+								"a 刑房 red with old blood, its walls hung with instruments"
+							],
+							[
+								"floor_yard",
+								464,
+								2048,
+								560,
+								2112
+							],
+							[
+								"floor_yard",
+								672,
+								1872,
+								736,
+								1968
+							],
+							[
+								"cave_floor",
+								1376,
+								1792,
+								1696,
+								2048,
+								"the same dark passage, sunlight through the cracks of the slab in its ceiling"
+							],
+							[
+								"cave_floor",
+								1488,
+								1728,
+								1584,
+								1792
+							],
+							[
+								"cave_floor",
+								1696,
+								1872,
+								1760,
+								1968
+							],
+							[
+								"cave_floor",
+								1312,
+								1872,
+								1376,
+								1968
+							],
+							[
+								"cave_floor",
+								1488,
+								2048,
+								1584,
+								2112
+							],
+							[
+								"floor_yard",
+								2400,
+								1792,
+								2720,
+								2048,
+								"the other 刑房, the same"
+							],
+							[
+								"floor_yard",
+								2512,
+								2048,
+								2608,
+								2112
+							],
+							[
+								"floor_yard",
+								2720,
+								1872,
+								2784,
+								1968
+							],
+							[
+								"blocked",
+								2400,
+								1024,
+								2496,
+								1040,
+								"skeletons chained to the wall"
+							],
+							[
+								"blocked",
+								2624,
+								1024,
+								2720,
+								1040
+							],
+							[
+								"blocked",
+								352,
+								1792,
+								448,
+								1808,
+								"instruments on the wall"
+							],
+							[
+								"blocked",
+								576,
+								1792,
+								672,
+								1808
+							],
+							[
+								"blocked",
+								2400,
+								1792,
+								2496,
+								1808,
+								"instruments on the wall"
+							],
+							[
+								"blocked",
+								2624,
+								1792,
+								2720,
+								1808
+							],
+							[
+								"blocked",
+								2672,
+								1232,
+								2720,
+								1280,
+								"the bloody straw in the corner"
+							]
+						]
+					},
+					{
+						"op": "clip"
+					},
+					{
+						"op": "separate"
+					}
+				],
+				"reach_from": "Tunnel1RopeArrival",
+				"caption_near": {
+					"chuenyu.tunnel1": [
+						312,
+						204
+					],
+					"chuenyu.tunnel2": [
+						1336,
+						204
+					],
+					"chuenyu.tunnel3": [
+						2360,
+						204
+					],
+					"chuenyu.tunnel5": [
+						312,
+						972
+					],
+					"chuenyu.tunnel6": [
+						1336,
+						972
+					],
+					"chuenyu.dungeon": [
+						2360,
+						972
+					],
+					"chuenyu.tortureroom": [
+						312,
+						1740
+					],
+					"chuenyu.tunnel4": [
+						1336,
+						1740
+					],
+					"chuenyu.tortureroom2": [
+						2360,
+						1740
+					]
+				}
+			},
+			"scene": {
+				"style": "map",
+				"root": "ChuenyuPrison",
+				"map": "chuenyu.prison",
+				"player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+				"shapes": {
+					"Rect_64_32": [
+						64,
+						32
+					],
+					"Rect_32_64": [
+						32,
+						64
+					],
+					"Rect_32_32": [
+						32,
+						32
+					]
+				},
+				"nodes": [
+					{
+						"generated": "captions"
+					},
+					{
+						"node": "passage",
+						"name": "Tunnel1SouthPassage",
+						"id": "chuenyu.tunnel1.south",
+						"at": [
+							512,
+							560
+						],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "Tunnel1NorthPassage",
+						"id": "chuenyu.tunnel1.north",
+						"at": [
+							512,
+							208
+						],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "Tunnel2EastPassage",
+						"id": "chuenyu.tunnel2.east",
+						"at": [
+							1744,
+							384
+						],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "Tunnel2NorthPassage",
+						"id": "chuenyu.tunnel2.north",
+						"at": [
+							1536,
+							208
+						],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "Tunnel2SouthPassage",
+						"id": "chuenyu.tunnel2.south",
+						"at": [
+							1536,
+							560
+						],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "Tunnel3EastPassage",
+						"id": "chuenyu.tunnel3.east",
+						"at": [
+							2768,
+							384
+						],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "Tunnel3NorthPassage",
+						"id": "chuenyu.tunnel3.north",
+						"at": [
+							2560,
+							208
+						],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "Tunnel3SouthPassage",
+						"id": "chuenyu.tunnel3.south",
+						"at": [
+							2560,
+							560
+						],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "Tunnel5NorthPassage",
+						"id": "chuenyu.tunnel5.north",
+						"at": [
+							512,
+							976
+						],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "Tunnel5WestPassage",
+						"id": "chuenyu.tunnel5.west",
+						"at": [
+							304,
+							1152
+						],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "Tunnel5EastPassage",
+						"id": "chuenyu.tunnel5.east",
+						"at": [
+							720,
+							1152
+						],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "Tunnel6NorthPassage",
+						"id": "chuenyu.tunnel6.north",
+						"at": [
+							1536,
+							976
+						],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "Tunnel6EastPassage",
+						"id": "chuenyu.tunnel6.east",
+						"at": [
+							1744,
+							1152
+						],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "DungeonWestPassage",
+						"id": "chuenyu.dungeon.west",
+						"at": [
+							2352,
+							1152
+						],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "DungeonNorthPassage",
+						"id": "chuenyu.dungeon.north",
+						"at": [
+							2560,
+							976
+						],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "TortureRoomSouthPassage",
+						"id": "chuenyu.tortureroom.south",
+						"at": [
+							512,
+							2096
+						],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "TortureRoomEastPassage",
+						"id": "chuenyu.tortureroom.east",
+						"at": [
+							720,
+							1920
+						],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "Tunnel4NorthPassage",
+						"id": "chuenyu.tunnel4.north",
+						"at": [
+							1536,
+							1744
+						],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "Tunnel4EastPassage",
+						"id": "chuenyu.tunnel4.east",
+						"at": [
+							1744,
+							1920
+						],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "Tunnel4WestPassage",
+						"id": "chuenyu.tunnel4.west",
+						"at": [
+							1328,
+							1920
+						],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "Tunnel4SouthPassage",
+						"id": "chuenyu.tunnel4.south",
+						"at": [
+							1536,
+							2096
+						],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "TortureRoom2SouthPassage",
+						"id": "chuenyu.tortureroom2.south",
+						"at": [
+							2560,
+							2096
+						],
+						"shape": "Rect_64_32"
+					},
+					{
+						"node": "passage",
+						"name": "TortureRoom2EastPassage",
+						"id": "chuenyu.tortureroom2.east",
+						"at": [
+							2768,
+							1920
+						],
+						"shape": "Rect_32_64"
+					},
+					{
+						"node": "passage",
+						"name": "Tunnel4SlabPassage",
+						"id": "chuenyu.tunnel4.up",
+						"at": [
+							1648,
+							1840
+						],
+						"shape": "Rect_32_32"
+					}
+				],
+				"zones": [
+					{
+						"generated": "zones"
+					}
+				],
+				"spawn_points": [
+					{
+						"name": "Tunnel1NorthArrival",
+						"at": [
+							512,
+							288
+						],
+						"id": "chuenyu.tunnel1.north_arrival"
+					},
+					{
+						"name": "Tunnel1SouthArrival",
+						"at": [
+							512,
+							480
+						],
+						"id": "chuenyu.tunnel1.south_arrival"
+					},
+					{
+						"name": "Tunnel1WestArrival",
+						"at": [
+							400,
+							384
+						],
+						"id": "chuenyu.tunnel1.west_arrival"
+					},
+					{
+						"name": "Tunnel1EastArrival",
+						"at": [
+							624,
+							384
+						],
+						"id": "chuenyu.tunnel1.east_arrival"
+					},
+					{
+						"name": "Tunnel2NorthArrival",
+						"at": [
+							1536,
+							288
+						],
+						"id": "chuenyu.tunnel2.north_arrival"
+					},
+					{
+						"name": "Tunnel2SouthArrival",
+						"at": [
+							1536,
+							480
+						],
+						"id": "chuenyu.tunnel2.south_arrival"
+					},
+					{
+						"name": "Tunnel2WestArrival",
+						"at": [
+							1424,
+							384
+						],
+						"id": "chuenyu.tunnel2.west_arrival"
+					},
+					{
+						"name": "Tunnel2EastArrival",
+						"at": [
+							1648,
+							384
+						],
+						"id": "chuenyu.tunnel2.east_arrival"
+					},
+					{
+						"name": "Tunnel3NorthArrival",
+						"at": [
+							2560,
+							288
+						],
+						"id": "chuenyu.tunnel3.north_arrival"
+					},
+					{
+						"name": "Tunnel3SouthArrival",
+						"at": [
+							2560,
+							480
+						],
+						"id": "chuenyu.tunnel3.south_arrival"
+					},
+					{
+						"name": "Tunnel3WestArrival",
+						"at": [
+							2448,
+							384
+						],
+						"id": "chuenyu.tunnel3.west_arrival"
+					},
+					{
+						"name": "Tunnel3EastArrival",
+						"at": [
+							2672,
+							384
+						],
+						"id": "chuenyu.tunnel3.east_arrival"
+					},
+					{
+						"name": "Tunnel5NorthArrival",
+						"at": [
+							512,
+							1056
+						],
+						"id": "chuenyu.tunnel5.north_arrival"
+					},
+					{
+						"name": "Tunnel5SouthArrival",
+						"at": [
+							512,
+							1248
+						],
+						"id": "chuenyu.tunnel5.south_arrival"
+					},
+					{
+						"name": "Tunnel5WestArrival",
+						"at": [
+							400,
+							1152
+						],
+						"id": "chuenyu.tunnel5.west_arrival"
+					},
+					{
+						"name": "Tunnel5EastArrival",
+						"at": [
+							624,
+							1152
+						],
+						"id": "chuenyu.tunnel5.east_arrival"
+					},
+					{
+						"name": "Tunnel6NorthArrival",
+						"at": [
+							1536,
+							1056
+						],
+						"id": "chuenyu.tunnel6.north_arrival"
+					},
+					{
+						"name": "Tunnel6SouthArrival",
+						"at": [
+							1536,
+							1248
+						],
+						"id": "chuenyu.tunnel6.south_arrival"
+					},
+					{
+						"name": "Tunnel6WestArrival",
+						"at": [
+							1424,
+							1152
+						],
+						"id": "chuenyu.tunnel6.west_arrival"
+					},
+					{
+						"name": "Tunnel6EastArrival",
+						"at": [
+							1648,
+							1152
+						],
+						"id": "chuenyu.tunnel6.east_arrival"
+					},
+					{
+						"name": "DungeonNorthArrival",
+						"at": [
+							2560,
+							1056
+						],
+						"id": "chuenyu.dungeon.north_arrival"
+					},
+					{
+						"name": "DungeonSouthArrival",
+						"at": [
+							2560,
+							1248
+						],
+						"id": "chuenyu.dungeon.south_arrival"
+					},
+					{
+						"name": "DungeonWestArrival",
+						"at": [
+							2448,
+							1152
+						],
+						"id": "chuenyu.dungeon.west_arrival"
+					},
+					{
+						"name": "DungeonEastArrival",
+						"at": [
+							2672,
+							1152
+						],
+						"id": "chuenyu.dungeon.east_arrival"
+					},
+					{
+						"name": "TortureRoomNorthArrival",
+						"at": [
+							512,
+							1824
+						],
+						"id": "chuenyu.tortureroom.north_arrival"
+					},
+					{
+						"name": "TortureRoomSouthArrival",
+						"at": [
+							512,
+							2016
+						],
+						"id": "chuenyu.tortureroom.south_arrival"
+					},
+					{
+						"name": "TortureRoomWestArrival",
+						"at": [
+							400,
+							1920
+						],
+						"id": "chuenyu.tortureroom.west_arrival"
+					},
+					{
+						"name": "TortureRoomEastArrival",
+						"at": [
+							624,
+							1920
+						],
+						"id": "chuenyu.tortureroom.east_arrival"
+					},
+					{
+						"name": "Tunnel4NorthArrival",
+						"at": [
+							1536,
+							1824
+						],
+						"id": "chuenyu.tunnel4.north_arrival"
+					},
+					{
+						"name": "Tunnel4SouthArrival",
+						"at": [
+							1536,
+							2016
+						],
+						"id": "chuenyu.tunnel4.south_arrival"
+					},
+					{
+						"name": "Tunnel4WestArrival",
+						"at": [
+							1424,
+							1920
+						],
+						"id": "chuenyu.tunnel4.west_arrival"
+					},
+					{
+						"name": "Tunnel4EastArrival",
+						"at": [
+							1648,
+							1920
+						],
+						"id": "chuenyu.tunnel4.east_arrival"
+					},
+					{
+						"name": "TortureRoom2NorthArrival",
+						"at": [
+							2560,
+							1824
+						],
+						"id": "chuenyu.tortureroom2.north_arrival"
+					},
+					{
+						"name": "TortureRoom2SouthArrival",
+						"at": [
+							2560,
+							2016
+						],
+						"id": "chuenyu.tortureroom2.south_arrival"
+					},
+					{
+						"name": "TortureRoom2WestArrival",
+						"at": [
+							2448,
+							1920
+						],
+						"id": "chuenyu.tortureroom2.west_arrival"
+					},
+					{
+						"name": "TortureRoom2EastArrival",
+						"at": [
+							2672,
+							1920
+						],
+						"id": "chuenyu.tortureroom2.east_arrival"
+					},
+					{
+						"name": "Tunnel1RopeArrival",
+						"at": [
+							512,
+							384
+						],
+						"id": "chuenyu.tunnel1.rope_arrival"
+					},
+					{
+						"name": "Tunnel4SlabArrival",
+						"at": [
+							1584,
+							1952
+						],
+						"id": "chuenyu.tunnel4.slab_arrival"
+					},
+					{
+						"name": "Tunnel1Highrat1",
+						"at": [
+							416,
+							448
+						],
+						"id": "chuenyu.tunnel1.highrat.1"
+					},
+					{
+						"name": "DungeonChuenyu1",
+						"at": [
+							2624,
+							1104
+						],
+						"id": "chuenyu.dungeon.chuenyu.1"
+					},
+					{
+						"name": "DungeonXiaojuan1",
+						"at": [
+							2656,
+							1208
+						],
+						"id": "chuenyu.dungeon.xiaojuan2.1"
+					},
+					{
+						"name": "TortureRoomGuard1",
+						"at": [
+							456,
+							1872
+						],
+						"id": "chuenyu.tortureroom.guard2.1"
+					},
+					{
+						"name": "TortureRoomGuard2",
+						"at": [
+							568,
+							1872
+						],
+						"id": "chuenyu.tortureroom.guard2.2"
+					},
+					{
+						"name": "TortureRoomRat1",
+						"at": [
+							408,
+							1984
+						],
+						"id": "chuenyu.tortureroom.highrat.1"
+					},
+					{
+						"name": "TortureRoomRat2",
+						"at": [
+							616,
+							1984
+						],
+						"id": "chuenyu.tortureroom.highrat.2"
+					},
+					{
+						"name": "TortureRoom2Guard1",
+						"at": [
+							2504,
+							1872
+						],
+						"id": "chuenyu.tortureroom2.guard2.1"
+					},
+					{
+						"name": "TortureRoom2Guard2",
+						"at": [
+							2616,
+							1872
+						],
+						"id": "chuenyu.tortureroom2.guard2.2"
+					},
+					{
+						"name": "TortureRoom2Rat1",
+						"at": [
+							2456,
+							1984
+						],
+						"id": "chuenyu.tortureroom2.highrat.1"
+					},
+					{
+						"name": "TortureRoom2Rat2",
+						"at": [
+							2664,
+							1984
+						],
+						"id": "chuenyu.tortureroom2.highrat.2"
+					}
+				],
+				"interactions": [
+					{
+						"name": "Tunnel4SlabInteraction",
+						"id": "chuenyu.tunnel4.landmark.rock",
+						"at": [
+							1584,
+							1872
+						],
+						"shape": "Rect_32_32"
+					}
+				]
 			}
 		}
 	}

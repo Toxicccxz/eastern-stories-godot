@@ -405,6 +405,11 @@ func _resolve_npc_dealings() -> void:
 				_errors.append("%s.die_carries: unknown item '%s'" % [origin, hooks.die_item_id])
 			elif hooks.die_item_master and not _items.has(ItemContentDefinition.master_id(hooks.die_item_id)):
 				_errors.append("%s.die_carries: '%s' records no master" % [origin, hooks.die_item_id])
+		if hooks != null:
+			for index: int in hooks.calls.size():
+				_check_act(hooks.calls[index].act, "%s.calls[%d]" % [origin, index], true, false, definition)
+				if hooks.calls[index].act.moves_player():
+					_errors.append("%s.calls[%d]: a call_out moves nobody" % [origin, index])
 		var talk: NpcTalk = definition.talk()
 		for topic: String in talk.inquiry_topics():
 			for inquiry_rule: NpcInquiryRule in talk.inquiry_rules(topic):
@@ -419,7 +424,7 @@ func _resolve_npc_dealings() -> void:
 					_errors.append("%s.inquiry.%s.hands_over: unknown item '%s'" % [origin, topic, inquiry_rule.hands_over])
 		for act: ScriptedAct in talk.greeting_choices():
 			# A greeting draws its rolls from the NPCs' stream (WorldMapNpcLife._greet()).
-			_check_act(act, "%s.greeting" % origin, true, true)
+			_check_act(act, "%s.greeting" % origin, true, true, definition)
 		var teaching: NpcTeaching = definition.teaching()
 		if teaching == null:
 			continue
@@ -722,8 +727,10 @@ func _check_exit_rules() -> void:
 ## the condition it applies, an item that answers to what it `carries`, the NPC it asks
 ## to be `present`, the item it asks `exists`. Only an NPC's
 ## greeting (`by_npc`) closes doors, attacks or gains force; a move to another map ends an
-## act, so it is its last step. (Spawn points are the scene's: the map checks them.)
-func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false, drawn: bool = false) -> void:
+## act, so it is its last step. A mood it puts on is one of the NPC's (`npc`), the item an NPC
+## wields an item and the NPC that leaves with it an NPC. (Spawn points are the scene's: the
+## map checks them.)
+func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false, drawn: bool = false, npc: NpcDefinition = null) -> void:
 	if act.draws() and not drawn:
 		# Only a room's command (ActService) and a greeting draw for their branch; elsewhere the rolls would never be made.
 		_errors.append("%s.kar_above: only a room's command or a greeting rolls" % origin)
@@ -733,6 +740,8 @@ func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false, drawn: b
 		_errors.append("%s.exists: unknown item '%s'" % [origin, act.exists])
 	if not act.present.is_empty() and not _npcs.has(act.present):
 		_errors.append("%s.present: unknown NPC '%s'" % [origin, act.present])
+	if not act.npc_in.is_empty() and (not by_npc or not _zones.has(act.npc_in)):
+		_errors.append("%s.npc_in: an NPC's own act, in a known zone ('%s')" % [origin, act.npc_in])
 	if not act.present_in_npc.is_empty() and (not _npcs.has(act.present_in_npc) or not _zones.has(act.present_in_zone)):
 		_errors.append("%s.present_in: unknown NPC '%s' or zone '%s'" % [origin, act.present_in_npc, act.present_in_zone])
 	if act.draws() and not act.ask.is_empty():
@@ -741,7 +750,7 @@ func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false, drawn: b
 	var acting: bool = by_npc
 	for index: int in act.steps.size():
 		var step: ScriptedAct.Step = act.steps[index]
-		if not acting and step.kind in [ScriptedAct.Kind.CLOSE_DOOR, ScriptedAct.Kind.KILL, ScriptedAct.Kind.NPC_FORCE, ScriptedAct.Kind.NPC_FLAG]:
+		if not acting and step.kind in [ScriptedAct.Kind.CLOSE_DOOR, ScriptedAct.Kind.KILL, ScriptedAct.Kind.NPC_FORCE, ScriptedAct.Kind.NPC_FLAG, ScriptedAct.Kind.NPC_MOOD, ScriptedAct.Kind.NPC_WIELD, ScriptedAct.Kind.LEAVE]:
 			_errors.append("%s: step %d needs the NPC of a greeting or one that came" % [origin, index])
 		if step.kind == ScriptedAct.Kind.COMES:
 			acting = true
@@ -762,6 +771,15 @@ func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false, drawn: b
 			ScriptedAct.Kind.MOVE:
 				if not _zones.has(step.zone_id):
 					_errors.append("%s.move: unknown zone '%s'" % [origin, step.zone_id])
+			ScriptedAct.Kind.NPC_MOOD:
+				if npc == null or npc.hooks() == null or not npc.hooks().moods.has(step.flag):
+					_errors.append("%s.npc_mood: '%s' is no mood of the NPC's" % [origin, step.flag])
+			ScriptedAct.Kind.NPC_WIELD:
+				if not _items.has(step.item_id) or _items[step.item_id].weapon_definition() == null:
+					_errors.append("%s.npc_wield: '%s' is no weapon" % [origin, step.item_id])
+			ScriptedAct.Kind.LEAVE:
+				if not step.npc_id.is_empty() and not _npcs.has(step.npc_id):
+					_errors.append("%s.leave: unknown NPC '%s'" % [origin, step.npc_id])
 			ScriptedAct.Kind.CONDITION:
 				if not ConditionIds.ALL.has(step.condition_id):
 					_errors.append("%s.condition: unknown condition '%s'" % [origin, step.condition_id])

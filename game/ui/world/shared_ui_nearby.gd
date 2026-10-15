@@ -144,7 +144,7 @@ func _keep_order(things: Array[WorldNearbyThing]) -> Array[WorldNearbyThing]:
 func _shown_name(thing: WorldNearbyThing) -> String:
 	match thing.kind:
 		WorldNearbyThing.Kind.NPC:
-			return thing.npc.definition().short_name()
+			return thing.npc.short_name()
 		WorldNearbyThing.Kind.CORPSE:
 			return tr("%s的尸体") % tr(thing.display_name)
 	return tr(thing.display_name)

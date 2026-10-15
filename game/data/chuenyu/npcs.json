@@ -242,6 +242,121 @@
 			],
 			"inquiry": { "小娟": ["这要到地牢去找。"], "淳于": ["这要到地牢去找。"], "淳于怀太": ["这要到地牢去找。"], "堡主": ["这要到地牢去找。"] },
 			"greeting": { "one_of": [{ "line": "厨子嘟囔着：“真是的，堡主又在地牢里留涟忘返。”\n" }, { "line": "厨子道：“去地牢叫堡主上来吃饭。\n" }] }
+		},
+		{
+			"id": "chuenyu.npc.highrat",
+			"legacy_source": "d/chuenyu/npc/highrat.c",
+			"name": "大老鼠",
+			"aliases": ["rat"],
+			"race": "beast",
+			"age": 5,
+			"long": "一只疯狂的大老鼠\n",
+			"skills": { "dodge": 50 },
+			"limbs": ["头部", "身体", "尾巴"],
+			"verbs": ["bite"],
+			"chat_chance": 35,
+			"chat_msg": [
+				{ "action": "random_move" }
+			]
+		},
+		{
+			"id": "chuenyu.npc.chuenyu",
+			"legacy_source": "d/chuenyu/npc/chuenyu.c",
+			"name": "淳于怀太",
+			"aliases": ["chunyu"],
+			"title": "淳于堡主",
+			"gender": "男性",
+			"age": 47,
+			"long": "淳于怀太是强盗出身，年轻时打家劫舍，无恶不做。尤于生\n性恶顽，没人愿收其为徒。但他绝顶聪明，盗百家之长而集\n于一身。\n",
+			"attributes": { "str": 27, "int": 12, "per": 10 },
+			"combat_exp": 10000,
+			"score": 100,
+			"bellicosity": 3000,
+			"skills": {
+				"unarmed": 60,
+				"whip": 30,
+				"dodge": 40,
+				"parry": 30,
+				"snowwhip": 80,
+				"liuh-ken": 20,
+				"pyrobat-steps": 100
+			},
+			"skill_map": { "whip": "snowwhip", "unarmed": "liuh-ken", "dodge": "pyrobat-steps" },
+			"carry": [
+				{ "item": "es2:obj/money/gold", "source": "obj/money/gold.c", "amount": 50 },
+				{ "item": "es2:d/chuenyu/obj/chwhip", "source": "d/chuenyu/npc/obj/chwhip.c", "equip": "wield" }
+			],
+			"chat_chance": 50,
+			"chat_msg": ["淳于怀太喝道：呔！你竟敢坏大爷的好事！\n"],
+			"attitude": "killer",
+			"calls": [
+				{ "after": 0, "steps": [{ "line": "淳于怀太喝道：呔！你竟敢坏大爷的好事！\n" }, { "npc_flag": "hunts_player" }, { "kill": true }] }
+			]
+		},
+		{
+			"id": "chuenyu.npc.xiaojuan2",
+			"legacy_source": "d/chuenyu/xiaojuan2.c",
+			"name": "小娟",
+			"aliases": ["xiao juan", "juan"],
+			"title": "民女",
+			"gender": "女性",
+			"age": 16,
+			"long": "小娟姓刘，是这里刘老农的独生女。今年十六岁，人长的漂靓又大方。\n小娟已经被折磨的遍体鳞伤。\n",
+			"attributes": { "str": 1, "per": 30 },
+			"resources": {
+				"max_gin": 500,
+				"eff_gin": 1,
+				"gin": 1,
+				"max_kee": 500,
+				"eff_kee": 1,
+				"kee": 1,
+				"max_sen": 500,
+				"eff_sen": 1,
+				"sen": 1
+			},
+			"combat_exp": 1,
+			"score": -500,
+			"attitude": "friendly",
+			"carry": [
+				{ "item": "es2:d/chuenyu/obj/torn_pink_cloth", "source": "d/chuenyu/obj/torn_pink_cloth.c", "equip": "wear" }
+			],
+			"chat_chance_combat": 50,
+			"chat_msg_combat": ["小娟说道：唉！ 没料道你和那些坏人是一伙的！\n"],
+			"accept_fight": [
+				{ "say": "小女子哪里是您的对手？", "accept": false }
+			],
+			"calls": [
+				{ "after": 3, "npc_in": "chuenyu.dungeon", "steps": [{ "say": "救我！救救我呀！" }, { "emote": "竭力挣扎，渐渐从绳索里摆脱出来……。" }] },
+				{ "after": 20, "npc_in": "chuenyu.dungeon", "steps": [{ "npc_flag": "follows_player" }, { "mark": "老刘" }] }
+			],
+			"die_marks_killer": "murder",
+			"attack_ask": "小娟遍体鳞伤，只剩一口气，这一击会要了她的命。确定要攻击她吗？",
+			"attack_choice": "确定攻击",
+			"follows_every_way": true
+		},
+		{
+			"id": "chuenyu.npc.guard2",
+			"legacy_source": "d/chuenyu/npc/guard2.c",
+			"name": "狱卒",
+			"aliases": ["prison guard", "guard"],
+			"long": "这是黑松堡的狱卒\n",
+			"attributes": { "str": 27, "cor": 26, "cps": 25 },
+			"combat_exp": 5000,
+			"attitude": "heroism",
+			"skills": { "unarmed": 20, "sword": 30, "parry": 80, "dodge": 80, "move": 100 },
+			"carry": [
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" },
+				{ "item": "es2:obj/longsword", "source": "obj/longsword.c", "equip": "wield" }
+			],
+			"chat_chance": 30,
+			"chat_msg": [
+				{ "action": "random_move" }
+			],
+			"capabilities": ["aggressive_on_player_presence"],
+			"chat_chance_combat": 15,
+			"chat_msg_combat": [
+				{ "action": "random_move" }
+			]
 		}
 	]
 }

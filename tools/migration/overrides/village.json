@@ -5,6 +5,7 @@
 		]
 	},
 	"vendors": ["d/village/npc/meloner.c"],
+	"items": ["d/village/npc/obj/hengbing.c"],
 	"set": {
 		"village.npc.trader1": {
 			"chat_chance_combat": 15,
@@ -26,10 +27,42 @@
 				{ "say": "老头子哪里是您的对手？", "accept": false }
 			],
 			"greeting": { "rules": [
-				{ "steps": [
+				{ "mark": "murder", "steps": [
+					{ "unmark": "murder" },
+					{ "unmark": "老刘" },
+					{ "mark": "老刘报仇" },
+					{ "npc_mood": "grief" },
+					{ "line": "刘老农悲愤欲绝的骂道：你．．你．．你们居然杀了我女儿，纳命来！\n" },
+					{ "npc_wield": "es2:d/village/npc/obj/hengbing" },
+					{ "kill": true }
+				] },
+				{ "mark": "老刘", "present": "chuenyu.npc.xiaojuan2", "steps": [
+					{ "line": "刘老农说道：“这位$RESPECT，多谢答救小女娟儿。” \n" },
+					{ "line": "刘老农说道：“这口剑，这本密笈赠于$RESPECT。” \n" },
+					{ "line": "刘老农说道：“这处非久留之地，我等去也。” \n" },
+					{ "line": "刘老农领着娟儿匆匆离去。\n" },
+					{ "unmark": "老刘" },
+					{ "give": "es2:d/village/npc/obj/hengbing" },
+					{ "give": "es2:d/village/npc/obj/parrybook" },
+					{ "leave": "chuenyu.npc.xiaojuan2" },
+					{ "leave": true }
+				] },
+				{ "not_mark": "老刘报仇", "steps": [
 					{ "line": "刘老农说道：“这位$RESPECT，可否见到小女娟儿？” \n" }
 				] }
-			] }
+			] },
+			"moods": {
+				"grief": {
+					"title": "悲愤欲绝",
+					"applies": { "force": 4000, "max_force": 2200, "force_factor": 30, "combat_exp": 1000000, "damage": 250 },
+					"flags": ["hunts_player"],
+					"chat_chance": 15,
+					"chat_msg": [
+						"刘老农悲愤欲绝的骂道：你．．你．．你们居然杀了我女儿，纳命来！",
+						{ "action": "random_move" }
+					]
+				}
+			}
 		},
 		"village.npc.meloner": {
 			"greeting": { "rules": [
@@ -113,11 +146,15 @@
 			"function converse_one": "say_by_age against the enemy (heart_beat's this_player() is herself in ES2, so only 以大欺小 came; DECISIONS 青石村 A); slap prints nothing"
 		},
 		"d/village/npc/oldliu.c": {
-			"set marks/老刘本人": "read by d/chuenyu's 小娟 (黑松山, a repaired region after 京师: owner, 玉螺湖村 plan Q2)",
+			"set marks/老刘本人": "read by d/chuenyu's 小娟 only to goaway(): the thanks' leave step takes her with him",
 			"function accept_fight": "accept_fight in set: 老头子哪里是您的对手？ and no spar",
 			"function init": "greeting in set: one second after the player comes in (the greeting delay; the LPC's call_out was 2: 默认), not while he fights",
-			"function greeting": "greeting in set: the say() line as written (its 刘老农说道 and quotes are the LPC's own); the thanks (marks/老刘: 銮鱼衡冰 and 过招要旨, he leaves with 娟儿) and the revenge (marks/murder) wait for 黑松山, whose 小娟 sets those marks: tests/runtime/village_test.gd fails once a d/chuenyu room is placed",
-			"function killhim": "黑松山 (marks/murder): with the thanks, after 京师 (village_test's reminder)"
+			"function greeting": "greeting rules in set: marks/murder first (killhim()); marks/老刘 with 娟儿 standing by (owner F1): the thanks' say() lines as written (M6: the stray ” goes), marks/老刘 deleted, a new 銮鱼衡冰 and 过招要旨 to the player, he and 娟儿 leave for good (owner Q2 (a)); else he asks after her, until his revenge (mark 老刘报仇: owner Q2 (a), he no longer asks)",
+			"function killhim": "greeting's first rule, with the greeting (ES2 a second later): marks/murder and marks/老刘 deleted, mood grief (title 悲愤欲绝, the five set_temp applies: combatd.c reads only apply/damage and skill.c apply/force, as here; chat_chance 15 and its chat; set chat_msg_combat is never said: no chat_chance_combat), his say() line, carry_object(hengbing)->wield() (npc_wield), kill_ob() both ways (kill; the mood's hunts_player); the mood lasts until his room resets (owner M7, 默认)"
+		},
+		"d/village/npc/obj/hengbing.c": {
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"set unequip_msg": "wield/unwield messages are not shown yet"
 		},
 		"d/village/npc/meloner.c": {
 			"set chat_chance_combat": "in set",

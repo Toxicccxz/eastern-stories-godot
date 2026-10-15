@@ -155,6 +155,22 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 				_player.temp_marks.erase(step.flag)
 			ScriptedAct.Kind.UNMARK:
 				state.marks.erase(step.flag)
+			ScriptedAct.Kind.MARK:
+				state.marks[step.flag] = 1
+			ScriptedAct.Kind.NPC_MOOD:
+				var hooks: NpcHooks = null if npc == null else npc.definition().hooks()
+				if hooks != null and hooks.moods.has(step.flag):
+					npc.put_in_mood(hooks.moods[step.flag])
+			ScriptedAct.Kind.NPC_WIELD:
+				# carry_object(item)->wield(): a new one, in its hand.
+				if npc != null and not _map.floor_items.give_new_item_to(npc, step.item_id).is_empty():
+					_map.npcs.npc_wield_item(npc.character_id, step.item_id)
+			ScriptedAct.Kind.LEAVE:
+				var leaving: NpcRuntimeState = npc
+				if not step.npc_id.is_empty():
+					leaving = null if npc == null else _map.npcs.first_npc_in_zone(step.npc_id, npc.world_location().zone_id, true)
+				if leaving != null:
+					_map.npcs.leave_for_good(leaving)
 			ScriptedAct.Kind.WATER:
 				state.recovery.water += step.value
 			ScriptedAct.Kind.SET_ROOM:
@@ -180,11 +196,16 @@ func move_player(zone_id: StringName, point_id: StringName) -> bool:
 	var zone: ZoneDefinition = GameContent.catalog().zone(zone_id)
 	if zone == null:
 		return false
+	# The player is led (a climb, a fall): who follows them every way comes along (F2).
 	if zone.map_id == _map.map_id():
-		return _map.relocate_player(zone_id, point_id, true)
+		var left: StringName = _player.world_location().zone_id
+		if not _map.relocate_player(zone_id, point_id, true):
+			return false
+		_map.npc_life.lead_followers(left, zone_id)
+		return true
 	if _map.session == null:
 		return false
-	return _map.session.handoff_to(zone.map_id, zone.zone_id, zone.combat_location_id, point_id).succeeded()
+	return _map.session.handoff_led(zone.map_id, zone.zone_id, zone.combat_location_id, point_id).succeeded()
 
 
 func _show(said: Array[ColoredLine], hears: bool) -> void:

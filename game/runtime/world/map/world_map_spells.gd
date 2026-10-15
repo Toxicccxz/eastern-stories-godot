@@ -139,19 +139,29 @@ func dispell(npc: NpcRuntimeState) -> void:
 
 ## go.c's follow_me() onto another map (owner, DECISIONS 茅山 A): a raised NPC that
 ## follows the player and stood, conscious and not fighting, in the room they walked out
-## of (`left_zone_id`) comes along onto `to` beside them; the player sees 走了过来。. Its
-## call_out("dispell") goes with it. Not saved: Continue starts without it.
-func carry_followers(to: WorldMapController, left_zone_id: StringName) -> void:
+## of (`left_zone_id`, by an exit: `adjacent`) comes along onto `to` beside them; the
+## player sees 走了过来。. Its call_out("dispell") goes with it. Not saved: Continue starts
+## without it. A placed NPC that follows every way (小娟, owner F2) comes along any way the
+## player led, the same NPC on the other map from then on (saved there).
+func carry_followers(to: WorldMapController, left_zone_id: StringName, adjacent: bool = true) -> void:
 	var location: WorldLocationState = null if _player == null else to.location_for_zone(_player.world_location().zone_id)
 	if location == null:
 		return
 	var ambience: NpcAmbience = _map.npc_life.ambience
 	for npc: NpcRuntimeState in _map.npcs.residents.duplicate():
+		var raised: bool = npc.definition().raising() != null
 		if (
-			npc.definition().raising() == null or not npc.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER) or not npc.exists_in_map
+			(raised and not adjacent) or (not raised and not _map.npc_life.follows_every_way(npc))
+			or not npc.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER) or not npc.exists_in_map
 			or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or npc.relationship.is_fighting()
 			or npc.world_location().zone_id != left_zone_id
 		):
+			continue
+		if not raised:
+			if not _map.npcs.release_follower(npc) or not to.npcs.admit_follower(npc, location, to.floor_items.at_feet(location, to.player_body.global_position, false, WorldMapNpcs.BESIDE)):
+				push_error("%s could not follow the player onto %s" % [npc.character_id, to.map])
+				continue
+			_came_over(to, npc)
 			continue
 		var dispelling: bool = ambience != null and ambience.has_call(npc.character_id, DISPELL)
 		var caster_id: StringName = _map.npcs.release(npc)
@@ -160,10 +170,15 @@ func carry_followers(to: WorldMapController, left_zone_id: StringName) -> void:
 			continue
 		if dispelling:
 			to.npc_life.npc_ambience().start_call(npc.character_id, NpcRaising.DISPELL_DELAY_SECONDS, DISPELL)
-		to.hud().describe_arrival()
-		# TRANSLATORS: go.c: someone ({name}) comes into the player's room.
-		to.hud().append_log_lines([tr("{name}走了过来。").format({"name": tr(npc.definition().display_name)})])
-		to.npc_life.npc_arrived(npc)
+		_came_over(to, npc)
+
+
+## A follower stands beside the player on `to`: 走了过来。, and its init() there.
+func _came_over(to: WorldMapController, npc: NpcRuntimeState) -> void:
+	to.hud().describe_arrival()
+	# TRANSLATORS: go.c: someone ({name}) comes into the player's room.
+	to.hud().append_log_lines([tr("{name}走了过来。").format({"name": tr(npc.definition().display_name)})])
+	to.npc_life.npc_arrived(npc)
 
 
 ## The NPC whose name the player may write on a 僵尸追魂符 now: the selected one, in their

@@ -515,15 +515,15 @@ func can_speak() -> bool:
 ## feature/name.c short() without the "(Id)": 「nickname」name after the title (a space
 ## between them without a nickname). A family head without a title of its own shows the one
 ## feature/apprentice.c assign_apprentice() gives it (封山剑派第十三代掌门人).
-## In the shown language.
-func short_name() -> String:
+## In the shown language; `title` (a mood's: 悲愤欲绝) instead of its own when given.
+func short_name(title: String = "") -> String:
 	var name: String = TranslationServer.translate(display_name)
 	# TRANSLATORS: name.c short(): a nickname before the name, 「风雨双侠」柳淳风.
 	var text: String = name if _nickname.is_empty() else TranslationServer.translate("「{nickname}」{name}").format({
 		"nickname": TranslationServer.translate(_nickname), "name": name,
 	})
-	var shown_title: String = TranslationServer.translate(_title)
-	if _title.is_empty() and _teaching != null and _teaching.has_family():
+	var shown_title: String = TranslationServer.translate(_title if title.is_empty() else title)
+	if _title.is_empty() and title.is_empty() and _teaching != null and _teaching.has_family():
 		shown_title = NpcApprenticeship.shown_family_title(_teaching.family_name, _teaching.family_generation, _teaching.family_title)
 	if shown_title.is_empty():
 		return text
@@ -626,6 +626,9 @@ const FLAG_AGGRESSIVE: StringName = &"aggressive"
 ## haunt.c do_haunt()'s set("end_tag", 1): a raised NPC a 僵尸追魂符 sent after someone;
 ## its first heal_up() out of a fight dispells it (zombie.c). An object variable.
 const FLAG_SENT: StringName = &"sent"
+## An act's `leave` (d/village/npc/oldliu.c destruct() after his thanks): gone for good, no
+## room reset makes it anew (owner, 黑松山 plan Q2 (a)). An object variable, saved with it.
+const FLAG_GONE: StringName = &"gone"
 
 
 ## Whether it starts a fight when the player comes into contact: its hatred, attitude

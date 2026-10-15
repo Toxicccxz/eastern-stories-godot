@@ -21,7 +21,8 @@ extends RefCounted
 ## per use, in order, and only when reached, as the LPC's nested ifs), `kar_draw` {plus, at_least} one
 ## roll of random(kar + plus) >= at_least (d/city/feiyuan.c's find: random(kar + 30) >= 35), drawn
 ## only when reached, `per_below` n one roll of random(per) < n (d/chuenyu/npc/jiading3.c's
-## checklooking(): query("per"), the raw attribute), drawn the same way. The first branch that is for
+## checklooking(): query("per"), the raw attribute), drawn the same way, `npc_in` the acting NPC standing
+## in that zone (d/chuenyu/xiaojuan2.c: environment() == the 地牢's 刑房). The first branch that is for
 ## the player acts. `ask` is the owner's question before a choice that can kill (a man walking into
 ## the bath, DECISIONS 晚月庄 A), with `choice` its button. The steps run in order:
 ## - a line (NpcLine: say, emote, line, whisper, in its colour; a room's message_vision()
@@ -46,8 +47,14 @@ extends RefCounted
 ## - `water` n: add("water", n) (s_street1.c's well; above the capacity too, as add() does);
 ## - `comes` (an NPC) `from` (a zone): the first of them standing there comes beside the player
 ##   (ob->move(this room): melonfarm.c's 瓜农) and is the act's NPC from then on;
-## - `npc_flag` a flag: the NPC's own set_temp(flag, 1) (an object variable, saved with it).
-enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM, COMES, NPC_FLAG, HURT }
+## - `npc_flag` a flag: the NPC's own set_temp(flag, 1) (an object variable, saved with it);
+## - `mark` a mark: set("marks/<mark>", 1) on the player (xiaojuan2.c's marks/老刘);
+## - `npc_mood` a mood of the NPC's (NpcMood: oldliu.c killhim()'s title, temporary applies and
+##   chat), lasting until its room resets;
+## - `npc_wield` an item: carry_object(item)->wield(), a new one in the NPC's hand;
+## - `leave`: the NPC leaves for good (oldliu.c destruct(): it is not made anew), or, naming
+##   an NPC definition, the first of them standing by leaves with it (刘老农领着娟儿匆匆离去).
+enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM, COMES, NPC_FLAG, HURT, MARK, NPC_MOOD, NPC_WIELD, LEAVE }
 
 ## The resources receive_damage() and receive_heal() name.
 const RESOURCES: Array[String] = ["gin", "kee", "sen"]
@@ -79,6 +86,8 @@ var kar_draw_plus: int = 0
 var kar_draw_at_least: int = 0
 ## per_below: random(per) below it (0: no roll).
 var per_below: int = 0
+## npc_in: the zone the acting NPC stands in.
+var npc_in: StringName = &""
 var ask: String = ""
 var choice: String = ""
 var steps: Array[Step] = []
@@ -108,6 +117,8 @@ class Facts:
 	var kar: int = 0
 	## query("per") for `per_below`, drawn as the kar rolls are.
 	var per: int = 0
+	## Where the acting NPC stands (`npc_in`); "" without one.
+	var npc_zone: StringName = &""
 	var draw: Callable = Callable()
 	var _rolls: Array[bool] = []
 	var _kar_drawn: int = -1
@@ -177,7 +188,8 @@ class Step:
 	var pick: Array[StringName] = []
 	var unless_temp: String = ""
 	var lines: Array[NpcLine] = []
-	## set_temp, clear_temp, unmark, set_room, clear_room, npc_flag: the flag or mark.
+	## set_temp, clear_temp, unmark, mark, set_room, clear_room, npc_flag, npc_mood: the flag,
+	## mark or mood.
 	var flag: String = ""
 
 
@@ -201,6 +213,7 @@ func applies_to(player_gender: StringName, class_id: StringName, facts: Facts = 
 		and (not_room.is_empty() or known.room.get(not_room, 0) == 0)
 		and (exists.is_empty() or (known.item_exists.is_valid() and bool(known.item_exists.call(exists))))
 		and (present_in_npc.is_empty() or (known.standing_in.is_valid() and bool(known.standing_in.call(present_in_npc, present_in_zone))))
+		and (npc_in.is_empty() or known.npc_zone == npc_in)
 		# Last: the rolls draw, and only for a branch otherwise for the player.
 		and (kar_above.is_empty() or known.kar_rolls(kar_above))
 		and (kar_draw_at_least <= 0 or known.kar_draw(kar_draw_plus, kar_draw_at_least))
@@ -254,7 +267,7 @@ static func resource_of(state: CharacterState, key: String) -> CharacterResource
 
 ## {gender?, not_gender?, not_class?, temp?, not_temp?, mark?, not_mark?, carries?, present?, thirsty?,
 ## at_least?: {force?, max_force?, force_factor?}, room?, not_room?, exists?, present_in?: {npc, zone},
-## kar_above?: [n], ask?, choice?, steps: [step]}.
+## kar_above?: [n], kar_draw?, per_below?, npc_in?, ask?, choice?, steps: [step]}.
 static func from_record(reader: ContentRecordReader) -> ScriptedAct:
 	var act := ScriptedAct.new()
 	act.gender = StringName(reader.text("gender"))
@@ -298,6 +311,7 @@ static func from_record(reader: ContentRecordReader) -> ScriptedAct:
 	act.per_below = reader.integer("per_below", 0)
 	if reader.has("per_below") and act.per_below <= 0:
 		reader.fail("per_below", "must be positive")
+	act.npc_in = StringName(reader.text("npc_in"))
 	act.ask = reader.text("ask")
 	act.choice = reader.text("choice")
 	if act.ask.is_empty() != act.choice.is_empty():
@@ -329,7 +343,7 @@ static func _step(reader: ContentRecordReader) -> Step:
 	var kinds: Array[String] = []
 	if ["say", "emote", "line", "whisper"].any(func(key: String) -> bool: return reader.has(key)):
 		kinds.append("line")
-	for key: String in ["damage", "hurt", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "water", "set_room", "clear_room", "comes", "npc_flag"]:
+	for key: String in ["damage", "hurt", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "mark", "water", "set_room", "clear_room", "comes", "npc_flag", "npc_mood", "npc_wield", "leave"]:
 		if reader.has(key):
 			kinds.append(key)
 	if kinds.size() != 1:
@@ -439,6 +453,22 @@ static func _step(reader: ContentRecordReader) -> Step:
 		"npc_flag":
 			step.kind = Kind.NPC_FLAG
 			step.flag = reader.required_text("npc_flag")
+		"mark":
+			step.kind = Kind.MARK
+			step.flag = reader.required_text("mark")
+		"npc_mood":
+			step.kind = Kind.NPC_MOOD
+			step.flag = reader.required_text("npc_mood")
+		"npc_wield":
+			step.kind = Kind.NPC_WIELD
+			step.item_id = StringName(reader.required_text("npc_wield"))
+		"leave":
+			step.kind = Kind.LEAVE
+			# true: the NPC itself; a definition: the first of them standing by.
+			if reader.is_text("leave"):
+				step.npc_id = StringName(reader.required_text("leave"))
+			elif not reader.boolean("leave", false):
+				reader.fail("leave", "is true or names the NPC that leaves with it")
 		"water":
 			step.kind = Kind.WATER
 			step.value = reader.required_integer("water")

@@ -111,6 +111,8 @@ func _advance_ambience(delta: float) -> void:
 	_note_player_arrival()
 	for character_id: StringName in ambience.due_greetings(delta):
 		_greet(_map.npcs.find_resident_npc(character_id))
+	for due: Array in ambience.due_own_calls(delta):
+		_own_call(_map.npcs.find_resident_npc(due[0]), due[1])
 	for character_id: StringName in ambience.due_calls(delta, NpcAmbience.STEAL):
 		_steal_step(_map.npcs.find_resident_npc(character_id))
 	for character_id: StringName in ambience.due_calls(delta, NpcAmbience.RECRUIT):
@@ -132,7 +134,8 @@ func _advance_ambience(delta: float) -> void:
 			if session.active_map() != _map:
 				return
 			if _chats(npc):
-				_act(npc, ambience.chat(npc.definition().talk(), npc.chat_chance))
+				# A mood's chat (oldliu.c killhim()) holds its own chance.
+				_act(npc, ambience.chat(npc.chat_talk(), npc.chat_chance if npc.mood() == null else -1))
 	npc_walker().advance(delta)
 
 
@@ -339,6 +342,8 @@ func _note_player_arrival() -> void:
 			and npc.definition().talk().has_greeting()
 		):
 			ambience.start_greeting(npc.character_id)
+		if npc.world_location().zone_id == zone_id:
+			_start_own_calls(npc)
 	var here: Array[NpcRuntimeState] = []
 	var resumed: bool = zone_id == restored_zone_id
 	restored_zone_id = &""
@@ -374,8 +379,10 @@ func _followers_follow(left_zone_id: StringName, zone_id: StringName) -> void:
 		var spot: Vector2 = _map.floor_items.at_feet(location, _map.player_body.global_position)
 		npc_walker().cancel(npc.character_id)
 		# No way through (a door shut behind the player): it stays behind, as go.c's
-		# valid_leave() would keep it.
+		# valid_leave() would keep it; one that follows every way (F2) is simply beside them.
 		if not npc_walker().walk_to(npc.character_id, body, _map.physical_zone(left_zone_id), _map.physical_zone(zone_id), spot):
+			if follows_every_way(npc):
+				lead_followers(left_zone_id, zone_id)
 			continue
 		npc.set_world_location(location)
 		if player_hears(npc):
@@ -383,6 +390,28 @@ func _followers_follow(left_zone_id: StringName, zone_id: StringName) -> void:
 			_map.hud().append_log_lines([tr("{name}走了过来。").format({"name": tr(npc.definition().display_name)})])
 		# Its init() for the player and the player's for it come with the others of this
 		# room (_note_player_arrival() goes on with it there), once.
+
+
+## Whether `npc` follows the player every way they lead now (NpcHooks follows_every_way, owner
+## 黑松山 plan F2): it follows them, stands conscious and is not fighting.
+func follows_every_way(npc: NpcRuntimeState) -> bool:
+	var hooks: NpcHooks = npc.definition().hooks()
+	return (
+		hooks != null and hooks.follows_every_way and npc.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER)
+		and npc.exists_in_map and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+		and not npc.relationship.is_fighting()
+	)
+
+
+## The player took a way on this map that is no walk (a climb, a fall, a jump through a
+## passage): who follows them every way and stood in `left_zone_id` comes beside them (走了过来。).
+func lead_followers(left_zone_id: StringName, zone_id: StringName) -> void:
+	if left_zone_id == zone_id:
+		return
+	for npc: NpcRuntimeState in _map.npcs.residents.duplicate():
+		if follows_every_way(npc) and npc.world_location().zone_id == left_zone_id and _map.npcs.bring_beside_player(npc) and player_hears(npc):
+			# TRANSLATORS: go.c: someone ({name}) comes into the player's room.
+			_map.hud().append_log_lines([tr("{name}走了过来。").format({"name": tr(npc.definition().display_name)})])
 
 
 ## keeper.c and waiter.c greeting(): only if the player is still there (present(),
@@ -396,8 +425,35 @@ func _greet(npc: NpcRuntimeState) -> void:
 	# A greeting's rolls (jiading3.c's random(per)) draw from the NPCs' stream, as its lines do.
 	var facts: ScriptedAct.Facts = _map.acts.facts()
 	facts.draw = ambience.random().legacy_random
+	facts.npc_zone = npc.world_location().zone_id
 	var act: ScriptedAct = npc.definition().talk().choose_greeting(_player.state.gender, _player.state.affiliation.class_id, ambience.random().legacy_random, facts)
 	if act != null:
+		_map.acts.run(act, npc, ambience.random().legacy_random)
+
+
+## init()'s own call_outs (NpcHooks calls: xiaojuan2.c's messageing and followhim,
+## chuenyu.c's kill_ob()): each started anew (remove_call_out()), for a living NPC in the place.
+func _start_own_calls(npc: NpcRuntimeState) -> void:
+	var hooks: NpcHooks = npc.definition().hooks()
+	if hooks == null or not npc.exists_in_map or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
+		return
+	for index: int in hooks.calls.size():
+		npc_ambience().start_call(npc.character_id, hooks.calls[index].after, NpcAmbience.own_call(index))
+
+
+## One of them comes due: while the player is still there (present(ob)) and it is for them,
+## a conscious NPC acts (its line read only by a player awake to it).
+func _own_call(npc: NpcRuntimeState, index: int) -> void:
+	if npc == null or not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or not player_shares_zone(npc):
+		return
+	var hooks: NpcHooks = npc.definition().hooks()
+	if hooks == null or index < 0 or index >= hooks.calls.size():
+		return
+	var facts: ScriptedAct.Facts = _map.acts.facts()
+	facts.draw = ambience.random().legacy_random
+	facts.npc_zone = npc.world_location().zone_id
+	var act: ScriptedAct = hooks.calls[index].act
+	if act.applies_to(_player.state.gender, _player.state.affiliation.class_id, facts):
 		_map.acts.run(act, npc, ambience.random().legacy_random)
 
 
@@ -425,6 +481,7 @@ func npc_arrived(npc: NpcRuntimeState) -> void:
 	):
 		ambience.start_greeting(npc.character_id)
 	if ambience != null and player_shares_zone(npc):
+		_start_own_calls(npc)
 		_meet(npc)
 		_consider_stealing(npc)
 		_map.patrols.meet(npc)
@@ -577,7 +634,7 @@ func _chats(npc: NpcRuntimeState) -> bool:
 	return (
 		npc.exists_in_map and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
 		and not npc.relationship.is_fighting() and not npc.busy.is_busy()
-		and npc.definition().talk().has_chat()
+		and npc.chat_talk().has_chat()
 		and (player_shares_zone(npc) or npc.definition().dealings().patrol != null)
 		and not npc_walker().is_walking(npc.character_id)
 	)
@@ -665,7 +722,13 @@ func random_move(npc: NpcRuntimeState) -> bool:
 	if move == null:
 		return false
 	var seen: bool = player_hears(npc)
-	if not npc_walker().walk_into(npc.character_id, _map.npcs.runtime_body_for_character(npc.character_id), _map.physical_zone(from_zone_id), _map.physical_zone(move.to_zone_id), ambience.random()):
+	var body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(npc.character_id)
+	# A way that is a jump on this map (the 地牢's maze: its rooms lie apart) is no walk: the
+	# NPC is simply there, as the player is.
+	if (
+		not npc_walker().walk_into(npc.character_id, body, _map.physical_zone(from_zone_id), _map.physical_zone(move.to_zone_id), ambience.random())
+		and not (_jump_between(from_zone_id, move.to_zone_id) and npc_walker().place_into(npc.character_id, body, _map.physical_zone(move.to_zone_id), ambience.random()))
+	):
 		return false
 	npc.set_world_location(_map.location_for_zone(move.to_zone_id))
 	if seen:
@@ -675,6 +738,14 @@ func random_move(npc: NpcRuntimeState) -> bool:
 		_meet(npc)
 		_map.hostilities.player_init([npc])
 	return true
+
+
+## Whether a passage of this map leads from one zone to the other (a jump, not a walk).
+func _jump_between(from_zone_id: StringName, to_zone_id: StringName) -> bool:
+	for portal: PortalDefinition in GameContent.catalog().portals_for_map(_map.map_id()):
+		if portal.source_zone_id == from_zone_id and portal.destination_zone_id == to_zone_id and portal.destination_map_id == _map.map_id():
+			return true
+	return false
 
 
 ## random_move() in a fight (go.c): the way the NPC would walk out now, drawn by the

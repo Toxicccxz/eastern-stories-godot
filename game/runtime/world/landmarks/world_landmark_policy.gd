@@ -43,7 +43,7 @@ static func move_through(map: WorldMapController, portal: PortalDefinition) -> R
 			var refused: OldPineMapHandoffResult = OldPineMapHandoffResult.new()
 			refused._outcome = OldPineMapHandoffResult.Outcome.SOURCE_LOCATION_INVALID
 			return refused
-		return map.session.handoff_to(portal.destination_map_id, zone.zone_id, zone.combat_location_id, portal.destination_spawn_point_id)
+		return map.session.handoff_led(portal.destination_map_id, zone.zone_id, zone.combat_location_id, portal.destination_spawn_point_id)
 	var moved: WorldPortalTraversalResult = WorldPortalTraversalAdapter.new().traverse(
 		map.player_runtime(),
 		map.player_body,
@@ -55,4 +55,7 @@ static func move_through(map: WorldMapController, portal: PortalDefinition) -> R
 	var camera: Camera2D = null if map.player_body == null else map.player_body.get_node_or_null("Camera2D") as Camera2D
 	if moved.completed() and camera != null:
 		camera.reset_smoothing()
+	# Who follows every way comes through with the player (the 地牢's maze, owner F2).
+	if moved.completed() and portal != null:
+		map.npc_life.lead_followers(portal.source_zone_id, portal.destination_zone_id)
 	return moved

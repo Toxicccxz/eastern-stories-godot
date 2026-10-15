@@ -222,6 +222,92 @@
 			"exits": {
 				"north": "es2:d/chuenyu/bedroom"
 			}
+		},
+		{
+			"id": "es2:d/chuenyu/tunnel1",
+			"short": "地牢",
+			"long": "这里黑黑暗暗，几乎伸手不见五指。唯一的光亮来自墙上忽明忽暗的\n松油灯。地上和墙上布满了暗红色的血痕，散发出阵阵腥气。不断传来的\n哀嚎声在死沉的地牢里回荡，令人毛骨耸然。\n",
+			"exits": {
+				"south": "es2:d/chuenyu/tunnel5",
+				"north": "es2:d/chuenyu/tunnel2"
+			}
+		},
+		{
+			"id": "es2:d/chuenyu/tunnel2",
+			"short": "地牢",
+			"long": "这里黑黑暗暗，几乎伸手不见五指。唯一的光亮来自墙上忽明忽暗的\n松油灯。地上和墙上布满了暗红色的血痕，散发出阵阵腥气。不断传来的\n哀嚎声在死沉的地牢里回荡，令人毛骨耸然。\n",
+			"exits": {
+				"east": "es2:d/chuenyu/tunnel6",
+				"north": "es2:d/chuenyu/tunnel3",
+				"south": "es2:d/chuenyu/tunnel1"
+			}
+		},
+		{
+			"id": "es2:d/chuenyu/tunnel3",
+			"short": "地牢",
+			"long": "这里黑黑暗暗，几乎伸手不见五指。唯一的光亮来自墙上忽明忽暗的\n松油灯。地上和墙上布满了暗红色的血痕，散发出阵阵腥气。不断传来的\n哀嚎声在死沉的地牢里回荡，令人毛骨耸然。\n",
+			"exits": {
+				"east": "es2:d/chuenyu/dungeon",
+				"north": "es2:d/chuenyu/tunnel5",
+				"south": "es2:d/chuenyu/tunnel2"
+			}
+		},
+		{
+			"id": "es2:d/chuenyu/tunnel4",
+			"short": "地牢",
+			"long": "这里黑黑暗暗，几乎伸手不见五指。唯一的光亮来自墙上忽明忽暗的\n松油灯。地上和墙上布满了暗红色的血痕，散发出阵阵腥气。不断传来的\n哀嚎声在死沉的地牢里回荡，令人毛骨耸然。地牢的天花板上镶着一块石\n板，从石板的缝隙间射进几束阳光。\n",
+			"exits": {
+				"north": "es2:d/chuenyu/tunnel5",
+				"east": "es2:d/chuenyu/tortureroom",
+				"west": "es2:d/chuenyu/tortureroom2",
+				"south": "es2:d/chuenyu/dungeon"
+			}
+		},
+		{
+			"id": "es2:d/chuenyu/tunnel5",
+			"short": "地牢",
+			"long": "这里黑黑暗暗，几乎伸手不见五指。唯一的光亮来自墙上忽明忽暗的\n松油灯。地上和墙上布满了暗红色的血痕，散发出阵阵腥气。不断传来的\n哀嚎声在死沉的地牢里回荡，令人毛骨耸然。\n",
+			"exits": {
+				"north": "es2:d/chuenyu/tunnel1",
+				"west": "es2:d/chuenyu/tunnel6",
+				"east": "es2:d/chuenyu/tortureroom"
+			}
+		},
+		{
+			"id": "es2:d/chuenyu/tunnel6",
+			"short": "地牢",
+			"long": "这里黑黑暗暗，几乎伸手不见五指。唯一的光亮来自墙上忽明忽暗的\n松油灯。地上和墙上布满了暗红色的血痕，散发出阵阵腥气。不断传来的\n哀嚎声在死沉的地牢里回荡，令人毛骨耸然。\n",
+			"exits": {
+				"north": "es2:d/chuenyu/tortureroom2",
+				"east": "es2:d/chuenyu/tunnel5"
+			}
+		},
+		{
+			"id": "es2:d/chuenyu/dungeon",
+			"short": "刑房",
+			"long": "你处在一个阴湿的地牢里。地牢的角落里堆着一些干草，干草上沾满了\n暗红色的血迹。许多骷髅被生锈的铁链绑在墙上。偶尔之间，你还可以听到\n老鼠“吱吱”的尖叫声。\n",
+			"exits": {
+				"west": "es2:d/chuenyu/tunnel3",
+				"north": "es2:d/chuenyu/tunnel4"
+			}
+		},
+		{
+			"id": "es2:d/chuenyu/tortureroom",
+			"short": "刑房",
+			"long": "整间刑房已被乾曷的血迹然成暗红色。散发着扑鼻的腥臭。墙上挂满了\n各式各样的邢具。刑房的地上散落着生锈的铁链和破碎的骷髅。偶尔之间，\n你还可以听到老鼠“吱吱”的尖叫声。\n",
+			"exits": {
+				"south": "es2:d/chuenyu/tunnel6",
+				"east": "es2:d/chuenyu/tunnel4"
+			}
+		},
+		{
+			"id": "es2:d/chuenyu/tortureroom2",
+			"short": "刑房",
+			"long": "整间刑房已被乾曷的血迹然成暗红色。散发着扑鼻的腥臭。墙上挂满了\n各式各样的邢具。刑房的地上散落着生锈的铁链和破碎的骷髅。偶尔之间，\n你还可以听到老鼠“吱吱”的尖叫声。\n",
+			"exits": {
+				"south": "es2:d/chuenyu/tunnel6",
+				"east": "es2:d/chuenyu/tunnel4"
+			}
 		}
 	]
 }

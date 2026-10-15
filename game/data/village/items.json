@@ -47,6 +47,18 @@
 				"water": 40,
 				"leaves": { "name": "西瓜皮", "aliases": ["bone"], "weight": 150, "long": "一块啃得精光的西瓜皮。\n" }
 			}
+		},
+		{
+			"id": "es2:d/village/npc/obj/hengbing",
+			"legacy_sources": ["d/village/npc/obj/hengbing.c"],
+			"name": "銮鱼衡冰",
+			"aliases": ["sword"],
+			"long": "这是一把银白色的的长剑，份量大约有十来斤左右。\n",
+			"unit": "把",
+			"material": "crimsonsteel",
+			"weight": 7000,
+			"value": 50000,
+			"weapon": { "skill": "sword", "damage": 70, "weight_dodge": "equip" }
 		}
 	]
 }

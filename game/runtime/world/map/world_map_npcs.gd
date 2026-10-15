@@ -113,10 +113,13 @@ func restore_actors() -> bool:
 	for entry: OldPineRestoredCorpseEntry in session.restored_corpse_entries():
 		if entry.world_location.map_id == map and not _map.corpses.publish_corpse_view(entry.state, entry.map_position, entry.world_location):
 			return false
-	var authored_npc_count: int = 0
-	for spawn: NpcSpawnDefinition in GameContent.catalog().spawns_for_map(map):
-		authored_npc_count += spawn.quantity
-	return residents.size() == authored_npc_count and _map.floor_items.restore_floor_items() and _map.mazes.restore()
+	# Every saved NPC standing on this map is here: its own spawn's, and one that followed
+	# the player here from another (小娟).
+	var placed: int = 0
+	for entry: OldPineRestoredNpcEntry in session.restored_npc_entries():
+		if entry.runtime.world_location().map_id == map:
+			placed += 1
+	return residents.size() == placed and _map.floor_items.restore_floor_items() and _map.mazes.restore()
 
 
 ## A body for `npc` at `position`; `at` keeps a respawned NPC in its spawn order.
@@ -472,7 +475,9 @@ static func _authored_weapon_profile(definition: NpcDefinition) -> CombatSliceCo
 ## std/room.c reset() for one ES2 room's set("objects") on this map: a new NPC
 ## where one died (make_inventory() for a destructed object), the others called
 ## home (npc.c return_home()), and an item laid down again once the one it put
-## there is gone from the world (owner, DECISIONS 4D).
+## there is gone from the world (owner, DECISIONS 4D). One gone for good (an act's
+## `leave`) or made only once (a `once` spawn, dead) is not made anew; a living one's
+## mood is over (owner, 黑松山 plan M7, 默认: 刘老农's 悲愤欲绝).
 func reset_room(legacy_room: String) -> void:
 	if not _initialized or session == null:
 		return
@@ -489,10 +494,12 @@ func reset_room(legacy_room: String) -> void:
 			if npc == null:
 				continue
 			if npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
-				_respawn_npc(spawn, npc)
+				if made_anew(spawn, npc):
+					_respawn_npc(spawn, npc)
 				continue
 			# oldman.c reset(): set("pills", 9).
 			npc.pills_left = -1
+			npc.end_mood()
 			if npc.world_location().zone_id != spawn.zone_id and not _map.patrols.keeps_out(npc):
 				return_home(npc)
 	for spawn: ItemSpawnDefinition in catalog.item_spawns_for_map(map):
@@ -534,7 +541,8 @@ func _draw_on_duty(group: StringName, arrive: bool) -> void:
 		if npc == null:
 			continue
 		if npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
-			_respawn_npc(drawn, npc)
+			if made_anew(drawn, npc):
+				_respawn_npc(drawn, npc)
 		elif not npc.exists_in_map:
 			_appear(npc, drawn, arrive)
 		elif npc.world_location().zone_id != drawn.zone_id:
@@ -606,6 +614,12 @@ func summon(spawn_id: StringName) -> Array[NpcRuntimeState]:
 		elif not npc.exists_in_map and _appear(npc, spawn):
 			came.append(npc)
 	return came
+
+
+## Whether a reset makes a dead NPC of `spawn` anew: not one gone for good (FLAG_GONE)
+## nor one of a spawn made once (小娟).
+static func made_anew(spawn: NpcSpawnDefinition, dead: NpcRuntimeState) -> bool:
+	return not spawn.once and not dead.has_flag(NpcDefinition.FLAG_GONE)
 
 
 func _npc_at_point(point_id: StringName) -> NpcRuntimeState:
@@ -763,6 +777,23 @@ func release(npc: NpcRuntimeState) -> StringName:
 	return caster_id
 
 
+## A placed NPC that follows the player every way (小娟) goes with them onto another map: it
+## leaves this map, body and all, and keeps its state and what it carries. False when it
+## was not here (or is a summoned one: release()).
+func release_follower(npc: NpcRuntimeState) -> bool:
+	if npc == null or find_resident_npc(npc.character_id) == null or SummonedNpc.is_summoned(npc.character_id):
+		return false
+	_drop_npc(npc)
+	return true
+
+
+## ...and comes onto this map, the same NPC with its own spawn, at `position` in `location`.
+func admit_follower(npc: NpcRuntimeState, location: WorldLocationState, position: Vector2) -> bool:
+	if not _initialized or npc == null or location == null or location.map_id != map or find_resident_npc(npc.character_id) != null:
+		return false
+	return npc.set_world_location(location) and _add_npc_body(npc, position)
+
+
 ## ...and comes onto this map, the same NPC, at `position` in `location`, still called
 ## by `caster_id`. False when it could not.
 func admit(npc: NpcRuntimeState, caster_id: StringName, location: WorldLocationState, position: Vector2) -> bool:
@@ -815,6 +846,15 @@ func dismiss_summoned() -> void:
 		_summon_spawns.erase(npc.spawn_id)
 		summoners.erase(npc.character_id)
 		_drop_npc(npc)
+
+
+## An act's `leave` (d/village/npc/oldliu.c destruct() after his thanks; owner, 黑松山 plan
+## Q2 (a)): gone as vanish() takes it, and no reset makes it anew.
+func leave_for_good(npc: NpcRuntimeState) -> void:
+	if npc == null or find_resident_npc(npc.character_id) == null:
+		return
+	npc.set_flag(NpcDefinition.FLAG_GONE, true)
+	vanish(npc)
 
 
 ## destruct() of an NPC a room placed (oldman.c kill_ob()): it is gone with all it

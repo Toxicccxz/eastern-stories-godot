@@ -346,8 +346,8 @@ func set_selected_floor_item(display_name: String, in_range: bool, clear_inspect
 	selection.set_selected_floor_item(display_name, in_range, clear_inspection)
 
 
-func show_inspection(definition: NpcDefinition, relation: String = "", gender: StringName = &"", strength: String = "") -> void:
-	selection.show_inspection(definition, relation, gender, strength)
+func show_inspection(definition: NpcDefinition, relation: String = "", gender: StringName = &"", strength: String = "", title: String = "") -> void:
+	selection.show_inspection(definition, relation, gender, strength, title)
 
 
 func show_landmark_inspection(definition: WorldLandmarkDefinition, text: String = "") -> void:

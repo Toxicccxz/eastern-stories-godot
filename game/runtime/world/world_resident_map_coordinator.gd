@@ -12,6 +12,8 @@ var _active_map_id: StringName = &""
 var _initialized: bool = false
 var _transitioning: bool = false
 var _passage_request_pending: bool = false
+## A handoff the player leads is under way (handoff_led()).
+var _leading: bool = false
 var _last_map_handoff: OldPineMapHandoffResult
 
 
@@ -37,6 +39,20 @@ func _on_passage_requested(portal: PortalDefinition, source: WorldResidentMapCon
 	call_deferred("_execute_passage_request", portal, source)
 
 
+## handoff_to() for a way the player takes (a passage, a landmark's portal, an act's move):
+## who follows them every way comes along (owner, 黑松山 plan F2), however far the way.
+func handoff_led(map_id: StringName, zone_id: StringName, combat_location_id: StringName, spawn_point_id: StringName) -> OldPineMapHandoffResult:
+	_leading = true
+	var result: OldPineMapHandoffResult = handoff_to(map_id, zone_id, combat_location_id, spawn_point_id)
+	_leading = false
+	return result
+
+
+## Whether the handoff under way is one the player leads (handoff_led()).
+func leading() -> bool:
+	return _leading
+
+
 ## A passage asked for a handoff that has not run yet.
 func passage_request_pending() -> bool:
 	return _passage_request_pending
@@ -55,7 +71,7 @@ func _execute_passage_request(portal: PortalDefinition, source: WorldResidentMap
 	var target: WorldLocationState = destination.location_for_zone(portal.destination_zone_id)
 	if target == null:
 		return
-	handoff_to(portal.destination_map_id, target.zone_id, target.combat_location_id, portal.destination_spawn_point_id)
+	handoff_led(portal.destination_map_id, target.zone_id, target.combat_location_id, portal.destination_spawn_point_id)
 
 
 ## A Session overrides this narrow hook: who follows the player out of `left` on `source`

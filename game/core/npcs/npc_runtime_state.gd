@@ -214,6 +214,56 @@ func forget_topic(topic: String) -> void:
 	_flags[StringName(FORGOTTEN_TOPIC + topic)] = true
 
 
+## The mood it is in (NpcMood, an act's `npc_mood`), null when none.
+func mood() -> NpcMood:
+	var hooks: NpcHooks = null if _definition == null else _definition.hooks()
+	if hooks == null:
+		return null
+	for mood_name: String in hooks.moods:
+		if has_flag(hooks.moods[mood_name].flag()):
+			return hooks.moods[mood_name]
+	return null
+
+
+## oldliu.c killhim(): set("title"), set_temp("apply/…"), a new chat and kill_ob()'s hatred.
+## The one it was in goes first.
+func put_in_mood(next: NpcMood) -> void:
+	end_mood()
+	set_flag(next.flag(), true)
+	for key: String in next.applies:
+		_character_state.applies[key] = _character_state.applies.get(key, 0) + next.applies[key]
+	for flag: StringName in next.flags:
+		set_flag(flag, true)
+
+
+## Its room's reset (owner, 黑松山 plan M7, 默认): the mood is over, what it added goes.
+func end_mood() -> void:
+	var current: NpcMood = mood()
+	if current == null:
+		return
+	clear_flag(current.flag())
+	for key: String in current.applies:
+		var left: int = _character_state.applies.get(key, 0) - current.applies[key]
+		if left == 0:
+			_character_state.applies.erase(key)
+		else:
+			_character_state.applies[key] = left
+	for flag: StringName in current.flags:
+		clear_flag(flag)
+
+
+## What the player reads of it: name.c short(), its mood's title instead of its own.
+func short_name() -> String:
+	var current: NpcMood = mood()
+	return _definition.short_name("" if current == null else current.title)
+
+
+## What npc.c chat() says now: its mood's chat, else its own.
+func chat_talk() -> NpcTalk:
+	var current: NpcMood = mood()
+	return _definition.talk() if current == null or current.talk == null else current.talk
+
+
 ## The inquiry topics this NPC deleted.
 func forgotten_topics() -> Array[String]:
 	var topics: Array[String] = []
