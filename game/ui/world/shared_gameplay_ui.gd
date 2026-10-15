@@ -379,8 +379,7 @@ func menu_tab_shown(tab: int) -> void:
 		GameMenu.Tab.CHARACTER, GameMenu.Tab.MARTIAL_ARTS:
 			panels.refresh_character()
 		GameMenu.Tab.INVENTORY:
-			if _session != null and _session.is_initialized():
-				items.fill_inventory(_session.player_inventory_rows())
+			items.fill_shown_page()
 			panels.show_supplies()
 		GameMenu.Tab.JOURNAL:
 			quest_text.text = "" if _player == null else "\n".join(QuestStatus.lines(_player.state.quest))
