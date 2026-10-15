@@ -161,8 +161,14 @@ func release_world_time(owner: StringName) -> void:
 	_world_time_holds.erase(owner)
 
 
+## Only while the player can act: one who falls, dies or is drawn into a fight under the
+## menu lives world time at once (the HUD closes the menu on its next frame).
 func world_time_held() -> bool:
-	return not _world_time_holds.is_empty()
+	return (
+		not _world_time_holds.is_empty() and _player != null
+		and _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+		and (_combat_encounter_coordinator == null or not _combat_encounter_coordinator.has_active_encounter())
+	)
 
 
 ## World time this frame. Deviation (owner, modern fixes II, A9): while the player lies

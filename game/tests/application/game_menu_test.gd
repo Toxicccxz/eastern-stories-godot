@@ -84,6 +84,9 @@ func _test_tabs_and_keys(tree: SceneTree) -> void:
 	runtime.busy.start_busy(1)
 	session._process(9.0)
 	_check(not runtime.busy.is_busy() and cadence.accumulated_seconds < 2.0 and runtime.state.vitality.current == vitality_before, "a long frame under the menu spends only busy's beat: %.2f -> %.2f" % [held_at, cadence.accumulated_seconds])
+	runtime.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY
+	_check(not session.world_time_held(), "a player who cannot act holds no time, menu or not")
+	runtime.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
 	before = cadence.accumulated_seconds
 	ui.menu.show_tab(GameMenu.Tab.MARTIAL_ARTS)
 	ui.martial_arts_page().exercise_button.pressed.emit()
