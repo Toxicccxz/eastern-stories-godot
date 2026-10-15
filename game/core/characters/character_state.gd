@@ -83,6 +83,8 @@ var counters: Dictionary[String, int] = {}
 ## (is_ghost()). Saved (save_object() keeps it; logind.c starts a ghost at DEATH_ROOM).
 ## NPC ghosts are their definition's (NpcHooks ghost).
 var ghost: bool = false
+## query_temp("apply/astral_vision"): 阴阳眼 (AstralVisionSpell) runs, a timed apply.
+const ASTRAL_VISION: StringName = &"astral_vision"
 
 
 func _init(
@@ -145,6 +147,11 @@ func is_unconscious_threshold_reached() -> bool:
 ## unconcious() does.
 func fall_unconscious() -> void:
 	spirit.current = CharacterResourceStateType.INCAPACITATED_FLOOR
+
+
+## char.c visible() of a ghost: a ghost sees ghosts, and so does one with apply/astral_vision.
+func sees_ghosts() -> bool:
+	return ghost or timed_applies.value(ASTRAL_VISION) > 0
 
 
 func is_death_threshold_reached() -> bool:

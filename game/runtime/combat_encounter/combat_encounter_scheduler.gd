@@ -133,7 +133,7 @@ func can_target(actor_id: StringName, target_id: StringName, bindings: Array[Com
 		actor != null and actor.exists_in_encounter and actor.combat_available
 		and actor.life_status == CombatSliceLifeStatus.Value.ACTIVE
 		and _target_is_currently_eligible(actor, target_id, bindings)
-		and (target == null or actor.content == null or actor.content.sees(target.content))
+		and actor.sees(target)
 	)
 
 
@@ -369,8 +369,9 @@ func _wear_timed_applies(bindings: Array[CombatSliceCharacterBinding]) -> Array[
 	return ended
 
 
-## A perform file's remove_effect() for an entry that ended this round
-## (fakefault.c's strike), as an event, or null when it showed and did nothing.
+## A perform or spell file's remove_effect() for an entry that ended this round
+## (fakefault.c's strike, astral_vision.c's line), as an event, or null when it showed
+## and did nothing.
 func _remove_effect(
 	ended: EndedEffect,
 	bindings: Array[CombatSliceCharacterBinding],
@@ -378,11 +379,15 @@ func _remove_effect(
 	effect_registry: SkillImprovementEffectRegistry,
 ) -> CombatSchedulerEvent:
 	var function: PerformFunction = SpecialFunctions.ending(ended.entry.effect_id)
-	if function == null:
+	var spell: CastFunction = SpecialFunctions.cast_ending(ended.entry.effect_id)
+	if function == null and spell == null:
 		return null
 	var context: SpecialContext = CombatSpecialAttackSource.context_for(ended.binding, bindings, random_source, effect_registry)
 	context.target = context.other(ended.entry.target_id)
-	function.remove_effect(context, ended.entry)
+	if function != null:
+		function.remove_effect(context, ended.entry)
+	else:
+		spell.remove_effect(context, ended.entry)
 	var report: SpecialReport = context.report()
 	if report.is_empty():
 		return null

@@ -5,7 +5,7 @@ extends RefCounted
 ## perform_action_file() and a spells skill's cast_spell_file() reach those
 ## skills.json lists under `perform` and `cast`; exert files are ExertFunctions.
 const PERFORMS: Array[StringName] = [&"counterattack", &"swordjab", &"fakefault", &"hasten"]
-const CASTS: Array[StringName] = [&"drainerbolt", &"feeblebolt", &"netherbolt", &"invocation", &"dun", &"saveme", &"animate"]
+const CASTS: Array[StringName] = [&"drainerbolt", &"feeblebolt", &"netherbolt", &"invocation", &"dun", &"saveme", &"animate", &"astral_vision"]
 ## The 符 a spells skill's scribe_spell_file() reaches (scribe.c): HauntScribe.
 const SCRIBES: Array[StringName] = [&"haunt"]
 ## The 神通 a magic skill's conjure_magic_file() reaches (conjure.c), in doc/skill/essencemagic's
@@ -30,6 +30,17 @@ static func ending(effect_id: StringName) -> PerformFunction:
 		return null
 	for function_id: StringName in PERFORMS:
 		var function: PerformFunction = perform(function_id)
+		if function != null and function.effect_id == effect_id:
+			return function
+	return null
+
+
+## The spell file whose timed apply `effect_id` is (its remove_effect()), or null.
+static func cast_ending(effect_id: StringName) -> CastFunction:
+	if effect_id.is_empty():
+		return null
+	for function_id: StringName in CASTS:
+		var function: CastFunction = cast(function_id)
 		if function != null and function.effect_id == effect_id:
 			return function
 	return null
@@ -60,7 +71,7 @@ static func cast(function_id: StringName) -> CastFunction:
 		nether.flash_color = ColoredLine.HIC
 		nether.hit = "结果「嗤」地一声，青光从$p身上透体而过，拖出一条长长的血箭直射到两三丈外的地下！"
 		nether.miss = "结果「嗤」地一声，青光从$p身上透体而过，无声无息地钻入地下！"
-		for spell: CastFunction in [drainer, feeble, nether, InvocationSpell.new(), DunSpell.new(), SavemeSpell.new(), AnimateSpell.new()]:
+		for spell: CastFunction in [drainer, feeble, nether, InvocationSpell.new(), DunSpell.new(), SavemeSpell.new(), AnimateSpell.new(), AstralVisionSpell.new()]:
 			_casts[spell.id] = spell
 	return _casts.get(function_id)
 

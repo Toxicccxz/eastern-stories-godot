@@ -100,7 +100,8 @@ player's 茅山道术 in a fight and its practice (观想虫; done); D the zombi
 - 林忌 has 天师剑法 100 but maps no sword skill: he fights with 基本剑法.
 - sword.c's hit_ob() acts only on a ghost (is_ghost()); tools/tests checks that no ghost NPC
   is placed before it is ported.
-- necromancy/astral_vision.c sets apply/astral_vision, which nothing in the mudlib reads.
+- necromancy/astral_vision.c sets apply/astral_vision, which std/char.c visible() reads: the caster
+  sees ghosts. (This note once said nothing reads it; 鬼门关 B ports the spell.)
 - earth-warp.c's sheet sets `attach_func`, which attach.c does not call (it knows only
   do_scribe_haunt); attach.c moves the sheet to /obj/void first, so the sheet is lost.
 - attach.c moves every sheet to /obj/void before do_scribe_haunt() runs: one that finds no

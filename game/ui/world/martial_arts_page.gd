@@ -3,7 +3,8 @@ extends VBoxContainer
 
 ## The character panel's 武学 page: cmds/usr/skills.c's list, enable.c's uses with
 ## their enable, disable and practice buttons, exercise, enforce, meditate, respirate,
-## exert, the 神通 conjured at oneself (conjure.c: 空识, 游识), self-learning and study.
+## exert, the 神通 conjured at oneself (conjure.c: 空识, 游识), the spells cast at oneself
+## (cast.c: 阴阳眼), self-learning and study.
 ## PlayerMartialArts owns the rules; the page shows the state and repeats the lines
 ## the log received last. Buttons are rebuilt only when the set of actions changes.
 
@@ -41,13 +42,16 @@ var exert_title: Label
 var exert_row: HFlowContainer
 var conjure_title: Label
 var conjure_row: HFlowContainer
+var spell_title: Label
+var spell_row: HFlowContainer
 var self_learn_title: Label
 var self_learn_row: HFlowContainer
 var study_title: Label
 var study_row: HFlowContainer
 var feedback: Label
 ## Action -> its button: enable:<use>:<skill>, disable:<use>, practice:<use>,
-## exert:<function>, conjure:<function>, self_learn:<skill>, study:<item instance>.
+## exert:<function>, conjure:<function>, cast:<function>, self_learn:<skill>,
+## study:<item instance>.
 var buttons: Dictionary[String, Button] = {}
 var _session: WorldSessionController
 var _layout_key: String = "-"
@@ -60,6 +64,10 @@ var _last_lines: Variant = null
 const CONJURE_HINTS: Dictionary[StringName, String] = {
 	&"void_sense": "施展「空识神通」：静思入定，有机会把灵力化为潜能（50 灵力、50 精）；也可能潜能降低，或一无所获。",
 	&"drift_sense": "施展「游识神通」：去到一个你见过的人身边，可以跨地图（75 灵力、30 精）。对方的灵力越强，越难感应得到。",
+}
+# TRANSLATORS: the 武学 page's 法术 buttons' tooltips (daemon/class/taoist/necromancy/): their costs and what they do.
+const SPELL_HINTS: Dictionary[StringName, String] = {
+	&"astral_vision": "施展「阴阳眼」：看得见鬼魂，持续的秒数等于你的有效咒文等级（30 法力、5 神）。",
 }
 
 
@@ -122,6 +130,8 @@ func _init() -> void:
 	exert_row = _flow("Exert")
 	conjure_title = _title("神通")
 	conjure_row = _flow("Conjure")
+	spell_title = _title("法术")
+	spell_row = _flow("Spell")
 	self_learn_title = _title("自学")
 	self_learn_row = _flow("SelfLearn")
 	study_title = _title("研读")
@@ -170,6 +180,7 @@ func refresh() -> void:
 		enforce_amount.set_value_no_signal(mini(_shown_factor, arts.enforce_limit()))
 	var functions: Array[StringName] = arts.exert_functions()
 	var conjures: Array[StringName] = _session.essence_magic().self_conjures()
+	var spells: Array[StringName] = arts.self_spells()
 	var rows: Array[Dictionary] = _use_rows(arts, state, catalog)
 	var learnable: Array[StringName] = []
 	for skill_id: StringName in SelfLearningService.SELF_LEARNABLE:
@@ -184,6 +195,8 @@ func refresh() -> void:
 		keys.append("exert:%s" % function_id)
 	for function_id: StringName in conjures:
 		keys.append("conjure:%s" % function_id)
+	for function_id: StringName in spells:
+		keys.append("cast:%s" % function_id)
 	for skill_id: StringName in learnable:
 		keys.append("self_learn:%s" % skill_id)
 	for book: PlayerInventoryRowProjection in books:
@@ -191,7 +204,7 @@ func refresh() -> void:
 	var key: String = "|".join(keys)
 	if key != _layout_key:
 		_layout_key = key
-		_rebuild(rows, functions, conjures, learnable, books)
+		_rebuild(rows, functions, conjures, spells, learnable, books)
 	for row: Dictionary in rows:
 		_use_texts[row.use].text = row.text
 	# enable.c with nothing enabled.
@@ -268,10 +281,10 @@ func _use_rows(arts: PlayerMartialArts, state: CharacterState, catalog: ContentC
 	return rows
 
 
-func _rebuild(rows: Array[Dictionary], functions: Array[StringName], conjures: Array[StringName], learnable: Array[StringName], books: Array[PlayerInventoryRowProjection]) -> void:
+func _rebuild(rows: Array[Dictionary], functions: Array[StringName], conjures: Array[StringName], spells: Array[StringName], learnable: Array[StringName], books: Array[PlayerInventoryRowProjection]) -> void:
 	buttons.clear()
 	_use_texts.clear()
-	for container: Node in [uses_box, exert_row, conjure_row, self_learn_row, study_row]:
+	for container: Node in [uses_box, exert_row, conjure_row, spell_row, self_learn_row, study_row]:
 		for child: Node in container.get_children():
 			container.remove_child(child)
 			child.queue_free()
@@ -304,6 +317,12 @@ func _rebuild(rows: Array[Dictionary], functions: Array[StringName], conjures: A
 		buttons[action].pressed.connect(_act.bind(action))
 	conjure_title.visible = not conjures.is_empty()
 	conjure_row.visible = not conjures.is_empty()
+	for function_id: StringName in spells:
+		var action: String = "cast:%s" % function_id
+		buttons[action] = _button(spell_row, action.replace(":", "_"), "")
+		buttons[action].pressed.connect(_act.bind(action))
+	spell_title.visible = not spells.is_empty()
+	spell_row.visible = not spells.is_empty()
 	for skill_id: StringName in learnable:
 		var action: String = "self_learn:%s" % skill_id
 		buttons[action] = _button(self_learn_row, action.replace(":", "_"), "")
@@ -339,6 +358,10 @@ func _label_buttons(rows: Array[Dictionary], learnable: Array[StringName], books
 			var conjure: ConjureFunction = SpecialFunctions.conjure(StringName(key.get_slice(":", 1)))
 			buttons[key].text = tr(conjure.label)
 			buttons[key].tooltip_text = tr(CONJURE_HINTS.get(conjure.id, ""))
+		elif key.begins_with("cast:"):
+			var spell: CastFunction = SpecialFunctions.cast(StringName(key.get_slice(":", 1)))
+			buttons[key].text = tr(spell.self_label)
+			buttons[key].tooltip_text = tr(SPELL_HINTS.get(spell.id, ""))
 	for skill_id: StringName in learnable:
 		buttons["self_learn:%s" % skill_id].text = tr("自学%s") % tr(catalog.skill(skill_id).display_name)
 	for book: PlayerInventoryRowProjection in books:
@@ -365,6 +388,8 @@ func _act(action: String) -> void:
 		"conjure":
 			_conjure(StringName(subject))
 			return
+		"cast":
+			_session.shared_ui().cast_self(StringName(subject))
 		"self_learn":
 			arts.self_learn(StringName(subject))
 		"study":

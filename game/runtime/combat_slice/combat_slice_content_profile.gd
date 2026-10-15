@@ -113,7 +113,8 @@ func with_ghost(value: bool) -> CombatSliceContentProfile:
 	return self
 
 
-## char.c visible(victim): a ghost is seen only by a ghost (apply/astral_vision is not ported).
+## char.c visible(victim) by is_ghost() alone: a ghost is seen by a ghost (apply/astral_vision
+## is the binding's: CombatSliceCharacterBinding.sees()).
 func sees(victim: CombatSliceContentProfile) -> bool:
 	return victim == null or not victim.is_ghost or _ghost
 

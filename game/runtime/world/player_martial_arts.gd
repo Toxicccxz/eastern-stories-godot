@@ -118,6 +118,84 @@ func exert_at(function_id: StringName, npc: NpcRuntimeState) -> ExertResult:
 	return result
 
 
+## The spells cast at oneself outside a fight that the enabled spells skill reaches
+## (阴阳眼): the page's 法术 buttons.
+func self_spells() -> Array[StringName]:
+	var out: Array[StringName] = []
+	for function_id: StringName in CastService.offered(_state(), GameContent.catalog()):
+		if SpecialFunctions.cast(function_id).self_anywhere:
+			out.append(function_id)
+	return out
+
+
+## Whether casting `function_id` at oneself now would leave the player below zero sen:
+## they would fall unconscious (owner's rule: asked first). Not when cast.c or the file
+## would refuse anyway.
+func cast_self_knocks_out(function_id: StringName) -> bool:
+	var spell: CastFunction = SpecialFunctions.cast(function_id)
+	return (
+		available() and spell != null and self_spells().has(function_id)
+		and not _session.player_runtime().busy.is_busy() and not _no_magic()
+		and _state().spirit.current < spell.self_sen_cost(_state())
+	)
+
+
+## cast <function> on me, outside a fight (cmds/std/cast.c): its lines or refusal.
+func cast_self(function_id: StringName) -> bool:
+	if not available() or not self_spells().has(function_id):
+		return false
+	var player: WorldPlayerRuntimeState = _session.player_runtime()
+	var context := SpecialContext.new(player_side(player), [], _session.world_interaction_random_source().legacy_random, GameContent.catalog(), _effects())
+	context.target = context.me
+	var cast: bool = CastService.cast(context, function_id, _no_magic())
+	_say(_vision_lines(context))
+	# Its sen below zero: char.c's next heart beat makes the player fall (run at once).
+	var map := _session.active_map() as WorldMapController
+	if map != null and _state().life_threshold() != CharacterState.LifeThreshold.ACTIVE:
+		map.player_fall_below_zero()
+	return cast
+
+
+## The player's timed applies that ended outside a fight: a spell's remove_effect()
+## (astral_vision.c's line). A perform's strikes only in the fight it began in (owner):
+## outside one its applies are only taken back.
+func effects_ended(entries: Array[CharacterTimedApplies.Entry]) -> void:
+	var player: WorldPlayerRuntimeState = _session.player_runtime()
+	for entry: CharacterTimedApplies.Entry in entries:
+		var spell: CastFunction = SpecialFunctions.cast_ending(entry.effect_id)
+		if spell == null or player == null:
+			continue
+		var context := SpecialContext.new(player_side(player), [], _session.world_interaction_random_source().legacy_random, GameContent.catalog(), _effects())
+		spell.remove_effect(context, entry)
+		var hud: SharedGameplayUI = _session.shared_ui()
+		var lines: Array[ColoredLine] = _vision_lines(context)
+		if hud != null and not lines.is_empty():
+			hud.append_colored_lines(lines)
+
+
+## The player as a spell file sees them (me).
+static func player_side(player: WorldPlayerRuntimeState) -> SpecialSide:
+	var state: CharacterState = player.state
+	var armor: ArmorState = player.armor
+	var side := SpecialSide.new(player.character_id, state, player.busy, player.relationship, func(key: StringName) -> int: return apply_of(state, armor, key))
+	side.is_user = true
+	side.age = player.facts.age
+	side.location_id = player.world_location().combat_location_id
+	return side
+
+
+## message_vision() and write() of a spell cast at oneself, as the player reads them.
+func _vision_lines(context: SpecialContext) -> Array[ColoredLine]:
+	var lines: Array[ColoredLine] = []
+	for line: VisionLine in context.report().lines():
+		lines.append(ColoredLine.new(tr(line.template).replace("$N", tr("你")), line.color))
+	return lines
+
+
+func _no_magic() -> bool:
+	return GameContent.catalog().zone_forbids_magic(_session.player_runtime().world_location().zone_id)
+
+
 ## enable <use> <skill>.
 func enable(use_id: StringName, skill_id: StringName) -> bool:
 	if not available():

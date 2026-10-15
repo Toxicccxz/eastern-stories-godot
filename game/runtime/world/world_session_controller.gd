@@ -69,6 +69,8 @@ var _last_temple_handoff: OldPineMapHandoffResult
 var _reincarnation_due: bool = false
 ## logind.c: a ghost Continued anywhere but 阴间 is taken to DEATH_ROOM once the world lets it.
 var _realm_return_due: bool = false
+## Whether the maps' ghosts were last drawn as seen (CharacterState.sees_ghosts()).
+var _ghost_sight_shown: bool = false
 ## How many times the player came back to life (the screen tells it once each).
 var _reincarnations: int = 0
 ## The room a spell took the player to was seen a frame ago: the move may be made now.
@@ -129,6 +131,7 @@ func _process(delta: float) -> void:
 		advance_departure()
 	_advance_life_flow(world_delta)
 	_advance_reincarnation()
+	_sync_ghost_sight()
 
 
 ## World time this frame. Deviation (owner, modern fixes II, A9): while the player lies
@@ -255,9 +258,9 @@ func advance_npc_heartbeat(delta: float) -> void:
 		map.advance_npc_heartbeat(delta)
 
 
-## The player's timed applies (fakefault.c's) count down on world time outside a
-## fight, as call_out() does; one ending there only takes its applies back (its
-## remove_effect() strikes only in the fight it began in, owner).
+## The player's timed applies (fakefault.c's, 阴阳眼) count down on world time outside a
+## fight, as call_out() does; a perform's ending there only takes its applies back (its
+## remove_effect() strikes only in the fight it began in, owner), a spell's says its line.
 func advance_player_timed_applies(delta: float) -> void:
 	if not npc_world_time_allowed() or _player == null or not is_finite(delta) or delta < 0.0:
 		return
@@ -268,7 +271,9 @@ func advance_player_timed_applies(delta: float) -> void:
 	var elapsed: float = _player_timed_remainder_ms + delta * 1000.0
 	var whole: int = int(elapsed)
 	_player_timed_remainder_ms = elapsed - whole
-	timed.advance(whole)
+	var ended: Array[CharacterTimedApplies.Entry] = timed.advance_entries(whole)
+	if not ended.is_empty():
+		martial_arts().effects_ended(ended)
 
 
 ## The time left for 朱鸿雪's task (task_time - time()) runs while the game does,
@@ -1474,8 +1479,17 @@ func _advance_reincarnation() -> void:
 	_refresh_ghost_sight()
 
 
+## 阴阳眼 began or ended (in a fight, on the 武学 page, on world time, from a save): the
+## ghosts are seen or not from this frame (char.c visible() asks each time).
+func _sync_ghost_sight() -> void:
+	var sees: bool = _player != null and _player.state != null and _player.state.sees_ghosts()
+	if sees != _ghost_sight_shown:
+		_refresh_ghost_sight()
+
+
 ## The player became a ghost or lives again: every map's ghosts are seen or not (char.c visible()).
 func _refresh_ghost_sight() -> void:
+	_ghost_sight_shown = _player != null and _player.state != null and _player.state.sees_ghosts()
 	for resident: WorldResidentMapController in _resident_maps.values():
 		var map: WorldMapController = resident as WorldMapController
 		if map != null:

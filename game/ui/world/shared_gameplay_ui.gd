@@ -518,6 +518,10 @@ func open_drift_sense() -> void:
 	panels.open_drift_sense()
 
 
+func cast_self(function_id: StringName) -> void:
+	panels.cast_self(function_id)
+
+
 func dismiss_current_panel() -> void:
 	panels.dismiss_current_panel()
 

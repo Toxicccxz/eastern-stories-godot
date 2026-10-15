@@ -58,6 +58,15 @@ func replace_content(content: CombatSliceContentProfile) -> void:
 		_content = content
 
 
+## char.c visible(other), as it is now: a ghost is seen by a ghost (the profiles) and by
+## one whose 阴阳眼 runs (CharacterState.sees_ghosts(), which may end in the fight).
+func sees(other: CombatSliceCharacterBinding) -> bool:
+	return (
+		other == null or _content == null or _content.sees(other.content)
+		or (_state != null and _state.sees_ghosts())
+	)
+
+
 func _init(
 	p_character_id: StringName = &"",
 	p_state: CharacterState = null,

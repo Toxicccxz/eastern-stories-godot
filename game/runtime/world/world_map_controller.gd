@@ -737,12 +737,13 @@ func player_runtime() -> WorldPlayerRuntimeState:
 	return _player
 
 
-## char.c visible(): a ghost player (damage.c is_ghost()) sees ghosts.
+## char.c visible(): a ghost player (damage.c is_ghost()) sees ghosts, and so does one whose
+## 阴阳眼 runs (apply/astral_vision).
 func player_sees_ghosts() -> bool:
-	return _player != null and _player.state != null and _player.state.ghost
+	return _player != null and _player.state != null and _player.state.sees_ghosts()
 
 
-## Whether the player sees `npc` (a ghost only while they are one).
+## Whether the player sees `npc` (a ghost only while they see ghosts).
 func player_sees(npc: NpcRuntimeState) -> bool:
 	return npc != null and (not npc.definition().is_ghost() or player_sees_ghosts())
 

@@ -4,10 +4,10 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**鬼门关 A** (`phase/death-a`, DECISIONS「鬼门关 A」): 阴间 instead of the direct revival — a dead
-player is a ghost and, past the death card, walks 阴间 (奈何桥, 鬼门关, 酆都城, the long road) until
-a gargoyle's five lines or the little shop's double bring them back to the Snow temple. Next: 鬼门关
-B (阴阳眼 and the 孤魂野鬼's 布条).
+**鬼门关 B** (`phase/death-b`, DECISIONS「鬼门关 B」): 茅山道术's 阴阳眼 — while it runs the living
+player sees ghosts, so 乔阴's 孤魂野鬼 can be fought for its 布条 (基本咒文 to 40). It finishes
+鬼门关, the last region in the table; next is step 1 after the grey box (responsiveness and
+playability pass, ROADMAP).
 
 ## 待决定
 
@@ -100,7 +100,10 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   again before it), as a 道士; he teaches his twelve skills, 僵尸侍者 and 僵尸护法 teach any
   member; 谷衣心法 (max_mana five times its level; 运功灵神诀 turns force into mana, 疗伤),
   天师正道 (杀气 100 at most), 天师剑法 (practised with a sword) and 茅山道术, whose 紫光, 白光,
-  青光 and 召护法 the player casts from the battle panel (召护法 asked first in a spar). Practising
+  青光 and 召护法 the player casts from the battle panel (召护法 asked first in a spar), and 阴阳眼
+  (30 mana, 5 sen; from the 武学 page or the battle panel) that shows ghosts for as many seconds
+  as the player's 基本咒文: 乔阴's 孤魂野鬼 can then be fought for the 布条 that teaches 基本咒文
+  to 40. Practising
   茅山道术 costs 10 mana and 30 sen; a mind astray (random(sen) below 5) conjures a 观想虫 (or,
   with more 基本咒文, a 观想兽) that attacks at once and stays until it dies, blocking practice;
   killed by the player's own hand it teaches 基本咒文, killed by anyone else (the 天将 or 阴鬼卒
@@ -314,7 +317,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   unconsciousness; death makes the player a ghost in 阴间 (鬼门关: 奈何桥 and its 阴鬼牙将, the white
   and black gargoyles whose five lines bring one back to the Snow temple, 酆都城门 with no way back,
   the 鬼门大道's little shop where one's double answers 回家 and its 黑店, the long road that turns on
-  itself); a ghost sees ghosts, cannot eat or drink, may Save (Continue at 鬼门关) and dies again
+  itself); a ghost sees ghosts (as does the living under 阴阳眼), cannot eat or drink, may Save (Continue at 鬼门关) and dies again
   without a corpse,
   inventory/equipment with stacks (give, drop or put part of one), eating/drinking, using drugs,
   recovery and conditions (蛇毒, 醉酒, 蒙汗药; a drug poured into a drink), the status card, toasts and panels, manual Save/Continue.
