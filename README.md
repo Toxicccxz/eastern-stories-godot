@@ -18,4 +18,5 @@ requests from others won't be looked at.
 
 Copyright © the author. All rights reserved.
 
-No license is granted to use, copy, modify or distribute any part of this repository.
+No license is granted to use, copy, modify or distribute the author's work in this repository.
+Files or directories that carry their own license notice remain under that notice.
