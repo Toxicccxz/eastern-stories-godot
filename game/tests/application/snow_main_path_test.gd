@@ -318,6 +318,8 @@ func _ask(tree: SceneTree, hud: SharedGameplayUI) -> bool:
 	var map: WorldMapController = _map()
 	check(_beside(map, &"snow.herbshop", &"snow.herbshop.herbalist.1"), "TEST-ONLY placement in the herbshop")
 	await _settle(tree)
+	# The HUD meets the new map on its next frame and clears the selection then.
+	await _frames(tree, 2)
 	map = _map()
 	map.select_npc(_npc(map, &"snow.herbshop.herbalist.1").character_id)
 	hud.refresh_live_state()

@@ -84,8 +84,8 @@ func _test_temple_forbids_fighting(tree: SceneTree, session: WorldSessionControl
 	var outdoor: WorldMapController = session.active_map() as WorldMapController
 	_check(session.player_runtime().world_location().zone_id == &"snow.square" and not outdoor.select_npc(&"snow.temple.keeper.1.character"), "remap: the keeper cannot be selected from the square (the temple is another map)")
 	var square_log: int = session.shared_ui().log_lines().size()
-	outdoor.attack_selected()
-	_check(not session.combat_encounter_coordinator().has_active_encounter() and GameContent.catalog().zone_forbids_fighting(&"snow.temple") and session.shared_ui().log_lines().slice(square_log).size() <= 1, "no fight with someone standing in the temple either")
+	var attacked: CombatSliceInitiationResult = outdoor.attack_selected()
+	_check(attacked.outcome != CombatSliceInitiationResult.Outcome.COMPLETED and not session.combat_encounter_coordinator().has_active_encounter() and GameContent.catalog().zone_forbids_fighting(&"snow.temple") and session.shared_ui().log_lines().slice(square_log).is_empty(), "no fight with someone standing in the temple either: nobody here to attack, nothing said")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var map: WorldMapController = await MapPlaces.go_to(tree, session, &"snow.temple")
 	_check(map != null and player.world_location().zone_id == &"snow.temple", "walked from the Inn through the square into the temple")

@@ -184,8 +184,8 @@ func _test_shops(tree: SceneTree) -> void:
 	_check(shop.map_id() == &"snow.herbshop_house" and await MapPlaces.drive(tree, shop, MapPlaces.service_spot(shop, &"snow.herbshop_house.herbshop.herbalist", &"snow.herbshop")), "into the herbshop, up to its counter")
 	_check(player.world_location().zone_id == &"snow.herbshop", "west of mstreet3 is the herbshop")
 	var herbalist: VendorService = shop.service(&"snow.herbshop_house.herbshop.herbalist") as VendorService
-	# The herbalist stands behind a counter three tiles deep: the spot a path ends on nearest him is
-	# a step too far from it for his reach, so a player steps up to the counter.
+	# service_spot() aims 48 px from the herbalist towards the room's middle, which is on his
+	# counter: the free spot a path ends on is a step back, so a player steps up to the counter.
 	await _close_in(tree, herbalist)
 	_check(herbalist.in_reach() and herbalist.goods_rows.get_child_count() == 2 and (herbalist.goods_rows.get_child(0) as Button).text == "金疮药 · 20两银子 · 买一颗" and (herbalist.goods_rows.get_child(1) as Button).text == "蛇药 · 10两银子 · 买一包", "the counter sells 金疮药 and 蛇药")
 	var medicine: VendorPurchaseResult = herbalist.request_purchase("medicine")

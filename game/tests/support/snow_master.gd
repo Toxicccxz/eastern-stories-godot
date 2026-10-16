@@ -28,7 +28,7 @@ static func body() -> NpcRuntimeState:
 	state.spirit = CharacterResourceState.new(SPIRIT, SPIRIT, SPIRIT)
 	for skill: NpcSkillLevelDefinition in definition().skill_levels():
 		state.skills.set_raw_level(skill.skill_id, skill.raw_level)
-	return NpcRuntimeState.new(&"test.master", definition(), &"snow.outdoor.schoolhall.master", &"snow.schoolhall.master.1", state, CombatRelationshipState.new(&"test.master"), ActionBusyState.new(), ArmorState.new())
+	return NpcRuntimeState.new(&"test.master", definition(), &"snow.school_compound.schoolhall.master", &"snow.schoolhall.master.1", state, CombatRelationshipState.new(&"test.master"), ActionBusyState.new(), ArmorState.new())
 
 
 static func context(skill_id: StringName, random: WorldInteractionRandomSource = null) -> TeachingContext:

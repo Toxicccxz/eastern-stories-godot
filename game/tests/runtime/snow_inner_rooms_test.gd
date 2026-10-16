@@ -318,7 +318,7 @@ func _test_continue_below(tree: SceneTree, session: WorldSessionController) -> v
 	var lies: Array[StringName] = temple.floor_item_ids()
 	lies.sort()
 	lying.sort()
-	_check(lies == lying and fresh.world_map_of(&"snow.school_compound").floor_item_ids().is_empty()
+	_check(lies == lying and fresh.world_map_of(&"snow.school_compound").floor_item_ids().is_empty() and fresh.world_map_of(&"snow.outdoor").floor_item_ids().is_empty()
 		and fresh.world_map_of(&"snow.cellar").floor_item_ids().is_empty(), "Continue: only the box and the temple's 桃符纸 still lie on the floor: %s" % [temple.floor_item_ids()])
 	fresh.free()
 	await tree.process_frame

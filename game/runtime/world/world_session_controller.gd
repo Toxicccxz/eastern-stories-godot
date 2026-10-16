@@ -1619,9 +1619,9 @@ func _revive_from_unconscious() -> void:
 	_life_flow.finish()
 
 
-## /d/snow/temple (REVIVE_ROOM, and where dun.c sends its caster): on its own map (Snow's
-## streets) no scene change, just the move; else a handoff there. Whether the player is
-## there now.
+## /d/snow/temple (REVIVE_ROOM, and where dun.c sends its caster), on the temple's own map
+## (SnowWorldDefinitions.temple_map_id()): on that map already, just the move; else a handoff
+## there. Whether the player is there now.
 func _move_player_to_temple() -> bool:
 	return _move_player_to(SnowWorldDefinitions.temple_map_id(), SnowWorldDefinitions.TEMPLE_ZONE_ID, SnowWorldDefinitions.REVIVE_SPAWN_ID)
 

@@ -179,8 +179,14 @@ func _act(stay: int, room: StringName) -> void:
 		await _tree.physics_frame
 		check(map.select_floor_item(sword) and map.take_selected_floor_item() == FloorItemPickup.Outcome.TAKEN, "the 竹剑 taken")
 		# Sold at once: room.c reset() lays it again only once it is gone (DECISIONS 4D).
+		# The 当铺 is its own map (the remap): there, at its counter.
+		map = MapPlaces.enter(_session, &"snow.hockshop", &"snow.hockshop.hockshop_entry")
+		if not check(map != null, "into the Hockshop with the 竹剑"):
+			return
+		await _tree.physics_frame
+		await _tree.physics_frame
 		var counter: HockshopService = map.service(&"snow.hockshop.counter") as HockshopService
-		if not check(_carries_sword() and _place(map, &"snow.hockshop", map.physical_zone(&"snow.hockshop").global_rect().get_center()), "at the Hockshop counter with the 竹剑"):
+		if not check(_carries_sword() and _place(map, &"snow.hockshop", MapPlaces.service_spot(map, &"snow.hockshop.counter")), "at the Hockshop counter with the 竹剑"):
 			return
 		await _tree.physics_frame
 		_session.shared_ui().open_current_context()
