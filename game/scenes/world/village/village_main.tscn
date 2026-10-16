@@ -708,27 +708,27 @@ script = ExtResource("marker")
 spawn_point_id = &"village.road2.trader1.2"
 
 [node name="LittlegardenFlowergirl1" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(872, 664)
+position = Vector2(1024, 664)
 script = ExtResource("marker")
 spawn_point_id = &"village.littlegarden.flowergirl.1"
 
 [node name="LittlegardenFlowergirl2" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(1008, 664)
+position = Vector2(1064, 664)
 script = ExtResource("marker")
 spawn_point_id = &"village.littlegarden.flowergirl.2"
 
 [node name="LittlegardenFlowergirl3" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(1048, 664)
+position = Vector2(1024, 704)
 script = ExtResource("marker")
 spawn_point_id = &"village.littlegarden.flowergirl.3"
 
 [node name="LittlegardenFlowergirl4" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(872, 704)
+position = Vector2(1064, 704)
 script = ExtResource("marker")
 spawn_point_id = &"village.littlegarden.flowergirl.4"
 
 [node name="LittlegardenFlowergirl5" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(1008, 704)
+position = Vector2(824, 712)
 script = ExtResource("marker")
 spawn_point_id = &"village.littlegarden.flowergirl.5"
 
