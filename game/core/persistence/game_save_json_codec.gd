@@ -319,40 +319,11 @@ func _decode_root(value: Variant) -> GameSaveSnapshot:
 	root = _obj(value, "root", root_keys)
 	if _error: return null
 	var revision_text: String = _string(root["world_content_revision"], "world_content_revision")
-	match revision_text:
-		"LEGACY_OLDPINE_V1": revision = WorldContentRevision.Value.LEGACY_OLDPINE_V1
-		"SOURCE_ENTRY_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_V1
-		"SOURCE_ENTRY_LAKE_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_LAKE_V1
-		"SOURCE_ENTRY_OLDPINE_MAPS_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_OLDPINE_MAPS_V1
-		"SOURCE_ENTRY_SNOW_NPCS_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_SNOW_NPCS_V1
-		"SOURCE_ENTRY_SNOW_SOUTH_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_SNOW_SOUTH_V1
-		"SOURCE_ENTRY_SNOW_INNER_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_SNOW_INNER_V1
-		"SOURCE_ENTRY_SNOW_SERVICES_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_SNOW_SERVICES_V1
-		"SOURCE_ENTRY_SNOW_ROUTES_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_SNOW_ROUTES_V1
-		"SOURCE_ENTRY_OLDPINE_KEEP_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_OLDPINE_KEEP_V1
-		"SOURCE_ENTRY_OLDPINE_VENOM_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_OLDPINE_VENOM_V1
-		"SOURCE_ENTRY_GOATHILL_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_GOATHILL_V1
-		"SOURCE_ENTRY_CLOUD_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_CLOUD_V1
-		"SOURCE_ENTRY_WATERFOG_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_WATERFOG_V1
-		"SOURCE_ENTRY_CLOUD_FLOORS_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_CLOUD_FLOORS_V1
-		"SOURCE_ENTRY_OLDPINE_PAINTED_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_OLDPINE_PAINTED_V1
-		"SOURCE_ENTRY_SNOW_PAINTED_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_SNOW_PAINTED_V1
-		"SOURCE_ENTRY_GREEN_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_GREEN_V1
-		"SOURCE_ENTRY_TEMPLE_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_TEMPLE_V1
-		"SOURCE_ENTRY_LATEMOON_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_LATEMOON_V1
-		"SOURCE_ENTRY_SANYEN_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_SANYEN_V1
-		"SOURCE_ENTRY_CHOYIN_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_CHOYIN_V1
-		"SOURCE_ENTRY_CHOYIN_B_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_CHOYIN_B_V1
-		"SOURCE_ENTRY_CHOYIN_C_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_CHOYIN_C_V1
-		"SOURCE_ENTRY_CHOYIN_D_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_CHOYIN_D_V1
-		"SOURCE_ENTRY_CANYON_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_CANYON_V1
-		"SOURCE_ENTRY_VILLAGE_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_VILLAGE_V1
-		"SOURCE_ENTRY_CITY_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_CITY_V1
-		"SOURCE_ENTRY_CITY_B_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_CITY_B_V1
-		"SOURCE_ENTRY_CHUENYU_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_CHUENYU_V1
-		"SOURCE_ENTRY_CHUENYU_B_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_CHUENYU_B_V1
-		"SOURCE_ENTRY_DEATH_V1": revision = WorldContentRevision.Value.SOURCE_ENTRY_DEATH_V1
-		_: _fail(GameSaveResult.Outcome.UNKNOWN_WORLD_REVISION, "world_content_revision")
+	var parsed_revision: int = WorldContentRevision.parsed(revision_text)
+	if parsed_revision < 0:
+		_fail(GameSaveResult.Outcome.UNKNOWN_WORLD_REVISION, "world_content_revision")
+	else:
+		revision = parsed_revision as WorldContentRevision.Value
 	if _error == null and _current_public_only:
 		var support: GameSaveResult = WorldContentRevision.public_support(revision)
 		if not support.succeeded(): _error = support

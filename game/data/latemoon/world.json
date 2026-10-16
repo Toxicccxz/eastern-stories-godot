@@ -4,9 +4,9 @@
 	],
 	"maps": [
 		{ "id": "latemoon.manor", "region": "latemoon", "scene": "res://scenes/world/latemoon/latemoon_manor.tscn", "entry": "latemoon.entrance.cloud_entry" },
-		{ "id": "latemoon.secret", "region": "latemoon", "scene": "res://scenes/world/latemoon/latemoon_secret.tscn", "entry": "latemoon.miroom2.flower_arrival" },
-		{ "id": "latemoon.garden", "region": "latemoon", "scene": "res://scenes/world/latemoon/latemoon_garden.tscn", "entry": "latemoon.park.yard1.manor_arrival" },
-		{ "id": "latemoon.upper", "region": "latemoon", "scene": "res://scenes/world/latemoon/latemoon_upper.tscn", "entry": "latemoon.upstar.upstar1.stairs_arrival" },
+		{ "id": "latemoon.secret", "region": "latemoon", "scene": "res://scenes/world/latemoon/latemoon_secret.tscn", "entry": "latemoon.miroom2.flower_arrival", "interior": true },
+		{ "id": "latemoon.garden", "region": "latemoon", "scene": "res://scenes/world/latemoon/latemoon_garden.tscn", "entry": "latemoon.park.yard1.manor_arrival", "interior": true },
+		{ "id": "latemoon.upper", "region": "latemoon", "scene": "res://scenes/world/latemoon/latemoon_upper.tscn", "entry": "latemoon.upstar.upstar1.stairs_arrival", "interior": true },
 		{ "id": "latemoon.hills", "region": "latemoon", "scene": "res://scenes/world/latemoon/latemoon_hills.tscn", "entry": "latemoon.sroad1.garden_arrival" }
 	],
 	"zones": [

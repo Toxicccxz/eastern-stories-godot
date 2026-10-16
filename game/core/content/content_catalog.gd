@@ -390,6 +390,12 @@ func portal(portal_id: StringName) -> PortalDefinition:
 	return _portals.get(portal_id)
 
 
+func portals() -> Array[PortalDefinition]:
+	var result: Array[PortalDefinition] = []
+	result.assign(_portals.values())
+	return result
+
+
 func portals_for_map(map_id: StringName) -> Array[PortalDefinition]:
 	var result: Array[PortalDefinition] = []
 	for definition: PortalDefinition in _portals.values():
@@ -425,7 +431,7 @@ func door(door_id: StringName) -> DoorDefinition:
 func doors_for_map(map_id: StringName) -> Array[DoorDefinition]:
 	var result: Array[DoorDefinition] = []
 	for definition: DoorDefinition in _doors.values():
-		if definition.map_id == map_id:
+		if definition.map_ids().has(map_id):
 			result.append(definition)
 	return result
 

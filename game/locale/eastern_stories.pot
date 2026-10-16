@@ -6555,7 +6555,7 @@ msgstr ""
 msgid "{npc}装备{item}作武器。"
 msgstr ""
 
-#: runtime/world/map/world_map_npcs.gd
+#: runtime/world/map/world_map_npcs.gd runtime/world/world_session_controller.gd
 msgid "%s急急忙忙地离开了。"
 msgstr ""
 

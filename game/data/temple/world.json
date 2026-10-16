@@ -5,7 +5,7 @@
 	"maps": [
 		{ "id": "temple.mountain", "region": "temple", "scene": "res://scenes/world/temple/temple_mountain.tscn", "entry": "temple.sroad.snow_entry" },
 		{ "id": "temple.grounds", "region": "temple", "scene": "res://scenes/world/temple/temple_grounds.tscn", "entry": "temple.square.gate_arrival" },
-		{ "id": "temple.library", "region": "temple", "scene": "res://scenes/world/temple/temple_library.tscn", "entry": "temple.book_room2.stairs_arrival" }
+		{ "id": "temple.library", "region": "temple", "scene": "res://scenes/world/temple/temple_library.tscn", "entry": "temple.book_room2.stairs_arrival", "interior": true }
 	],
 	"zones": [
 		{ "id": "temple.sroad", "map": "temple.mountain", "rooms": ["es2:d/temple/sroad"] },

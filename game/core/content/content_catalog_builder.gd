@@ -664,18 +664,30 @@ func _resolve_doors() -> void:
 		var definition: DoorDefinition = _doors[door_id]
 		var origin: String = _origins[door_id]
 		var maps: Dictionary[StringName, bool] = {}
+		# Its first zone's map first.
+		var ids: Array[StringName] = []
 		for zone_id: StringName in definition.zone_ids():
 			var zone: ZoneDefinition = _zones.get(zone_id)
 			if zone == null:
 				_errors.append("%s.zones: unknown zone '%s'" % [origin, zone_id])
 			else:
 				maps[zone.map_id] = true
+				if not ids.has(zone.map_id):
+					ids.append(zone.map_id)
 		if not _rooms.has(definition.legacy_room_id):
 			_errors.append("%s.legacy_room: unknown room '%s'" % [origin, definition.legacy_room_id])
-		if maps.size() > 1:
-			_errors.append("%s.zones: a door's zones must share one map" % origin)
-		elif maps.size() == 1:
-			_doors[door_id] = definition.with_map(maps.keys()[0])
+		if maps.size() > 1 and not _portal_joins(definition.zone_ids()):
+			_errors.append("%s.zones: a door's zones share one map or a portal joins them" % origin)
+		elif not maps.is_empty():
+			_doors[door_id] = definition.with_maps(ids)
+
+
+## A portal leads from one of the two zones into the other (a building's door).
+func _portal_joins(zone_ids: Array[StringName]) -> bool:
+	for portal: PortalDefinition in _portals.values():
+		if zone_ids.has(portal.source_zone_id) and zone_ids.has(portal.destination_zone_id) and portal.source_zone_id != portal.destination_zone_id:
+			return true
+	return false
 
 
 ## A hazard's room is its zone's, one hazard a zone; its act acts on the player alone.

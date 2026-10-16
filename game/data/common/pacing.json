@@ -15,6 +15,8 @@
 			"map_fade_out_ms": 150,
 			"map_fade_in_ms": 200,
 			"map_banner_ms": 1600,
+			"door_fade_out_ms": 80,
+			"door_fade_in_ms": 120,
 			"camera_follow_speed": 6,
 			"move_accel_ms": 80,
 			"move_stop_ms": 60,

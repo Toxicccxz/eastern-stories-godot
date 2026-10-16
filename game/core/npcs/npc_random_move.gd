@@ -22,10 +22,13 @@ class Move:
 	extends RefCounted
 	var direction: String
 	var to_zone_id: StringName
+	## The portal it goes by when the zone lies on another map (a building's door), else "".
+	var portal_id: StringName
 
-	func _init(p_direction: String = "", p_to_zone_id: StringName = &"") -> void:
+	func _init(p_direction: String = "", p_to_zone_id: StringName = &"", p_portal_id: StringName = &"") -> void:
 		direction = p_direction
 		to_zone_id = p_to_zone_id
+		portal_id = p_portal_id
 
 	## go.c: `<name>往<dir>离开。` (its 走了过来。 is seen where it arrives, which the
 	## player, who must share the NPC's place for it to move, never is.)
@@ -59,17 +62,20 @@ static func toward(catalog: ContentCatalog, zone_id: StringName, to_zone_id: Str
 
 
 ## The move one random_move() makes, or null. `door_closed(from, to)` answers
-## room.c valid_leave() for a door between the two zones.
+## room.c valid_leave() for a door between the two zones. `across_maps`: an exit to a zone
+## on another map is taken by the portal that leads there (a shop's door onto its street);
+## without one, or without `across_maps`, it goes nowhere.
 static func choose(
 	catalog: ContentCatalog,
 	zone_id: StringName,
 	home_zone_id: StringName,
 	random: WorldInteractionRandomSource,
 	door_closed: Callable,
+	across_maps: bool = false,
 ) -> Move:
 	if random == null:
 		return null
-	return choose_with(catalog, zone_id, home_zone_id, random.legacy_random, door_closed)
+	return choose_with(catalog, zone_id, home_zone_id, random.legacy_random, door_closed, across_maps)
 
 
 ## choose() with the draw a fight makes (its random source's legacy_random).
@@ -79,6 +85,7 @@ static func choose_with(
 	home_zone_id: StringName,
 	draw: Callable,
 	door_closed: Callable,
+	across_maps: bool = false,
 ) -> Move:
 	var zone: ZoneDefinition = null if catalog == null else catalog.zone(zone_id)
 	if zone == null or zone.room_ids().is_empty() or not draw.is_valid():
@@ -93,10 +100,26 @@ static func choose_with(
 		return null
 	var direction: String = directions[drawn]
 	var to_zone: ZoneDefinition = catalog.zone_of_room(exits[direction])
-	if to_zone == null or to_zone.map_id != zone.map_id or to_zone.zone_id == zone_id:
+	if to_zone == null or to_zone.zone_id == zone_id:
 		return null
+	var portal_id: StringName = &""
+	if to_zone.map_id != zone.map_id:
+		portal_id = portal_between(catalog, zone_id, to_zone.zone_id) if across_maps else &""
+		if portal_id.is_empty():
+			return null
 	if to_zone.zone_id != home_zone_id and not catalog.zones_adjacent(home_zone_id, to_zone.zone_id):
 		return null
 	if door_closed.is_valid() and door_closed.call(zone_id, to_zone.zone_id):
 		return null
-	return Move.new(direction, to_zone.zone_id)
+	return Move.new(direction, to_zone.zone_id, portal_id)
+
+
+## The portal from one zone into another on another map, or "".
+static func portal_between(catalog: ContentCatalog, from_zone_id: StringName, to_zone_id: StringName) -> StringName:
+	var zone: ZoneDefinition = catalog.zone(from_zone_id)
+	if zone == null:
+		return &""
+	for portal: PortalDefinition in catalog.portals_for_map(zone.map_id):
+		if portal.source_zone_id == from_zone_id and portal.destination_zone_id == to_zone_id and portal.destination_map_id != zone.map_id:
+			return portal.portal_id
+	return &""

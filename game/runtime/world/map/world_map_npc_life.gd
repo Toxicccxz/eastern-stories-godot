@@ -16,6 +16,10 @@ var makings: Dictionary[StringName, Dictionary] = {}
 ## TeacherService, result: NpcApprenticeTrial.Result, told: int} by master. Not saved.
 var trials: Dictionary[StringName, Dictionary] = {}
 var walker: WorldNpcWalker
+## Who is walking to a passage to leave by it for another map (a shop's door): {portal,
+## spot (where the walk ends; INF: no walk)} by character ID. Not saved: a save takes the
+## walk's end on this map, a spot where a body may stand.
+var departures: Dictionary[StringName, Dictionary] = {}
 ## The player's place as the NPCs' init() last saw it; another one is an arrival.
 var arrival_zone_id: StringName = &""
 ## Where the player was before that arrival: the door they came in by (close.c's door).
@@ -142,6 +146,31 @@ func _advance_ambience(delta: float) -> void:
 				# A mood's chat (oldliu.c killhim()) holds its own chance.
 				_act(npc, ambience.chat(npc.chat_talk(), npc.chat_chance if npc.mood() == null else -1))
 	npc_walker().advance(delta)
+	finish_departures(true)
+
+
+## Those walking out by a passage (departures) go through it: once at it (`arrived_only`),
+## or all now (nobody watches this map any more: its walks are at their ends). One that is
+## not at the walk's end (a fight stopped it, it was called home) or cannot go now (it fell,
+## the door shut) stays where it is and wanders again later.
+func finish_departures(arrived_only: bool) -> void:
+	for character_id: StringName in departures.keys():
+		if arrived_only and npc_walker().is_walking(character_id):
+			continue
+		var portal: PortalDefinition = departures[character_id]["portal"]
+		var spot: Vector2 = departures[character_id]["spot"]
+		departures.erase(character_id)
+		var npc: NpcRuntimeState = _map.npcs.find_resident_npc(character_id)
+		var body: Node2D = _map.npcs.runtime_body_for_character(character_id)
+		if (
+			npc == null or session == null or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE
+			or npc.relationship.is_fighting() or not _map.is_portal_open(portal.portal_id)
+			or npc.world_location().zone_id != portal.source_zone_id
+			or (spot.is_finite() and (body == null or body.global_position.distance_to(spot) > 4.0))
+			or (_door_closed_between(portal.source_zone_id, portal.destination_zone_id))
+		):
+			continue
+		session.move_npc_through(npc, _map, portal)
 
 
 ## The player kept pushing into a standing NPC (owner, polish, A5): a conscious one that
@@ -819,11 +848,15 @@ func random_move(npc: NpcRuntimeState) -> bool:
 	var hooks: NpcHooks = npc.definition().hooks()
 	if hooks != null and hooks.calls_hold and ambience.has_own_calls(npc.character_id):
 		return false
-	var move: NpcRandomMove.Move = NpcRandomMove.choose(GameContent.catalog(), from_zone_id, spawn.zone_id, ambience.random(), _door_closed_between)
+	if departures.has(npc.character_id):
+		return false
+	var move: NpcRandomMove.Move = NpcRandomMove.choose(GameContent.catalog(), from_zone_id, spawn.zone_id, ambience.random(), _door_closed_between, true)
 	if move == null:
 		return false
 	var seen: bool = player_hears(npc)
 	var body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(npc.character_id)
+	if not move.portal_id.is_empty():
+		return _depart(npc, move, body, seen)
 	# A way that is a jump on this map (the 地牢's maze: its rooms lie apart) is no walk: the
 	# NPC is simply there, as the player is.
 	if (
@@ -838,6 +871,33 @@ func random_move(npc: NpcRuntimeState) -> bool:
 	if player_shares_zone(npc):
 		_meet(npc)
 		_map.hostilities.player_init([npc])
+	return true
+
+
+## random_move() through a door to another map: the NPC walks to the passage and goes
+## through it when it gets there (finish_departures()); where no path leads, it goes at
+## once. False when the way is shut or leads to no map of this world.
+func _depart(npc: NpcRuntimeState, move: NpcRandomMove.Move, body: WorldCharacterBody2D, seen: bool) -> bool:
+	var portal: PortalDefinition = GameContent.catalog().portal(move.portal_id)
+	if portal == null or session == null or session.world_map_of(portal.destination_map_id) == null or not _map.is_portal_open(portal.portal_id):
+		return false
+	var passage: Vector2 = _map.passage_position(portal.portal_id)
+	var zone: WorldPhysicalZoneArea2D = _map.physical_zone(portal.source_zone_id)
+	var spot: Vector2 = Vector2.INF
+	if body != null and zone != null and passage.is_finite():
+		# As near the passage as a body may stand (a save takes the walk's end, and a passage
+		# or a door's footprint is no place to stand) and walk to.
+		var inward: Vector2 = (zone.global_rect().get_center() - passage).normalized()
+		for step: int in range(0, 12):
+			var near: Vector2 = passage + inward * 8.0 * step
+			if MapPlacementValidator.is_valid_character_position(_map, portal.source_zone_id, near) and npc_walker().walk_to(npc.character_id, body, zone, zone, near):
+				spot = near
+				break
+	departures[npc.character_id] = {"portal": portal, "spot": spot}
+	if seen:
+		_map.hud().append_log_lines([move.leave_line(npc.definition().display_name)])
+	if not spot.is_finite():
+		finish_departures(false)
 	return true
 
 

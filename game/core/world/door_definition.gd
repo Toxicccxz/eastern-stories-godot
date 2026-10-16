@@ -1,12 +1,14 @@
 class_name DoorDefinition
 extends RefCounted
 
-## An ES2 `create_door()` pair between two zones of one map. It starts closed
-## (`open`: open); the scene places it with a WorldDoor of the same ID. Door state
-## is not saved. A door the player cannot `operable` is one a room rule opens and
-## shuts (an exit keep2.c deletes and sets again).
+## An ES2 `create_door()` pair between two zones: of one map, or of two maps a portal
+## joins (a building's door onto its street: both maps place a WorldDoor of this ID over
+## the passage, and opening or shutting one opens or shuts the other). It starts closed
+## (`open`: open). Door state is not saved. A door the player cannot `operable` is one a
+## room rule opens and shuts (an exit keep2.c deletes and sets again).
 var _door_id: StringName
 var _map_id: StringName
+var _map_ids: Array[StringName] = []
 var _display_name: String
 var _zone_ids: Array[StringName] = []
 var _reach: int
@@ -18,6 +20,7 @@ var _legacy_room_id: StringName
 var door_id: StringName:
 	get:
 		return _door_id
+## The map of its first zone (where a trap that shuts it stands).
 var map_id: StringName:
 	get:
 		return _map_id
@@ -89,8 +92,18 @@ func zone_ids() -> Array[StringName]:
 	return _zone_ids.duplicate()
 
 
+## The maps that place it: one, or the two its portal joins.
+func map_ids() -> Array[StringName]:
+	return _map_ids.duplicate()
+
+
 func with_map(map_id: StringName) -> DoorDefinition:
-	var copy: DoorDefinition = DoorDefinition.new(_door_id, map_id, _display_name, _zone_ids, _reach, _closable, _legacy_room_id)
+	return with_maps([map_id])
+
+
+func with_maps(map_ids: Array[StringName]) -> DoorDefinition:
+	var copy: DoorDefinition = DoorDefinition.new(_door_id, map_ids[0], _display_name, _zone_ids, _reach, _closable, _legacy_room_id)
+	copy._map_ids = map_ids.duplicate()
 	copy._starts_open = _starts_open
 	copy._operable = _operable
 	return copy

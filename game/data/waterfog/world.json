@@ -4,8 +4,8 @@
 	],
 	"maps": [
 		{ "id": "waterfog.mountain", "region": "waterfog", "scene": "res://scenes/world/waterfog/waterfog_mountain.tscn", "entry": "waterfog.sroad1.snow_entry" },
-		{ "id": "waterfog.pavilion", "region": "waterfog", "scene": "res://scenes/world/waterfog/waterfog_pavilion.tscn", "entry": "waterfog.entrance.yard_arrival" },
-		{ "id": "waterfog.upstairs", "region": "waterfog", "scene": "res://scenes/world/waterfog/waterfog_upstairs.tscn", "entry": "waterfog.west_2f.stairs_arrival" }
+		{ "id": "waterfog.pavilion", "region": "waterfog", "scene": "res://scenes/world/waterfog/waterfog_pavilion.tscn", "entry": "waterfog.entrance.yard_arrival", "interior": true },
+		{ "id": "waterfog.upstairs", "region": "waterfog", "scene": "res://scenes/world/waterfog/waterfog_upstairs.tscn", "entry": "waterfog.west_2f.stairs_arrival", "interior": true }
 	],
 	"zones": [
 		{ "id": "waterfog.sroad1", "map": "waterfog.mountain", "rooms": ["es2:d/waterfog/sroad1"] },

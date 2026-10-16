@@ -399,6 +399,8 @@ func prepare_for_deactivation() -> void:
 	# Nobody watches a map the player left: its NPCs stand where they were going.
 	if npc_life.walker != null:
 		npc_life.walker.finish_all()
+	# ...and those on their way out by a door are through it.
+	npc_life.finish_departures(false)
 	npc_life.arrival_zone_id = &""
 	_present_zones.clear()
 	_zone_check_pending = false
@@ -1056,16 +1058,23 @@ func can_operate_door(door_id: StringName) -> bool:
 func open_door(door_id: StringName) -> bool:
 	if not can_operate_door(door_id) or doors_by_id[door_id].is_open():
 		return false
-	doors_by_id[door_id].set_open(true)
+	set_door_open(door_id, true)
 	return true
 
 
-## A room rule's door (DoorDefinition.operable false): no reach, no player.
+## A room rule's door (DoorDefinition.operable false): no reach, no player. A door on
+## a portal opens or shuts on the other map too (the same door seen from both sides).
 func set_door_open(door_id: StringName, open: bool) -> bool:
 	var node: WorldDoor = doors_by_id.get(door_id)
 	if node == null:
 		return false
 	node.set_open(open)
+	var definition: DoorDefinition = GameContent.catalog().door(door_id)
+	if session != null and definition != null:
+		for map_id: StringName in definition.map_ids():
+			var other: WorldMapController = null if map_id == map else session.world_map_of(map_id)
+			if other != null and other.door(door_id) != null:
+				other.door(door_id).set_open(open)
 	return true
 
 
@@ -1074,7 +1083,7 @@ func set_door_open(door_id: StringName, open: bool) -> bool:
 func close_door(door_id: StringName) -> bool:
 	if not can_operate_door(door_id) or not doors_by_id[door_id].is_open():
 		return false
-	doors_by_id[door_id].set_open(false)
+	set_door_open(door_id, false)
 	return true
 
 

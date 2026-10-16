@@ -57,6 +57,13 @@ class Region:
         """Room id -> its exits (command -> room id)."""
         return {r['id']: r.get('exits', {}) for r in self._read('rooms.json')['rooms']}
 
+    def door_between(self, zone_a: str, zone_b: str) -> dict | None:
+        """The door (world.json doors) between two zones, or None."""
+        for door in self._read('world.json').get('doors', []):
+            if sorted(door['zones']) == sorted((zone_a, zone_b)):
+                return door
+        return None
+
     def zone_maps(self) -> dict:
         """Zone id -> its map id, from this region's world.json."""
         return {z['id']: z['map'] for z in self._read('world.json')['zones']}

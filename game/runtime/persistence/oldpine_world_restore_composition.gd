@@ -254,8 +254,13 @@ static func _restore_npc_ledger(
 				or (saved.npc_definition_id != spawn.npc_definition_id and definition.name_pick().is_empty())
 				or NpcGeneration.of(saved.character_id, point_id) == 0
 				or not _location_is_current(saved.world_location)
-				# One that follows the player every way (小娟, owner 黑松山 plan F2) may stand on another map.
-				or (saved.world_location.map_id != spawn.map_id and (definition.hooks() == null or not definition.hooks().follows_every_way))
+				# One that follows the player every way (小娟, owner 黑松山 plan F2) may stand on another map,
+				# and a wanderer that went through a door next to its home (NpcRandomMove's range).
+				or (
+					saved.world_location.map_id != spawn.map_id
+					and (definition.hooks() == null or not definition.hooks().follows_every_way)
+					and not _wandered_to(definition, spawn.zone_id, saved.world_location.zone_id)
+				)
 				# Alive and not in the world: only a summoned or drawn spawn's NPC waiting for its room.
 				or (not saved.exists_in_world and saved.life_status != &"dead" and not spawn.starts_absent)
 			):
@@ -654,6 +659,21 @@ static func _player_location_is_current(value: Values.WorldLocationSnapshot, rev
 
 
 ## A zone of the current content, on its own map and region.
+## Whether an NPC of `definition` living in `home_zone_id` can have walked to `zone_id` on
+## another map: it wanders (random_move), the zone is home or next door, and a portal leads
+## into it from home or next door (NpcRandomMove across maps).
+static func _wandered_to(definition: NpcDefinition, home_zone_id: StringName, zone_id: StringName) -> bool:
+	var catalog: ContentCatalog = GameContent.catalog()
+	if not definition.talk().chat_entries().has(NpcTalk.RANDOM_MOVE):
+		return false
+	if zone_id != home_zone_id and not catalog.zones_adjacent(home_zone_id, zone_id):
+		return false
+	for portal: PortalDefinition in catalog.portals():
+		if portal.destination_zone_id == zone_id and (portal.source_zone_id == home_zone_id or catalog.zones_adjacent(home_zone_id, portal.source_zone_id)):
+			return true
+	return false
+
+
 static func _location_is_current(value: Values.WorldLocationSnapshot) -> bool:
 	var zone: ZoneDefinition = null if value == null else GameContent.catalog().zone(value.zone_id)
 	var map: MapDefinition = null if zone == null else GameContent.catalog().map(zone.map_id)

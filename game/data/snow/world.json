@@ -3,10 +3,10 @@
 		{ "id": "snow", "name": "雪亭镇" }
 	],
 	"maps": [
-		{ "id": "snow.inn", "region": "snow", "scene": "res://scenes/world/snow/snow_inn.tscn", "entry": "snow.inn.main_floor.player_birth" },
+		{ "id": "snow.inn", "region": "snow", "scene": "res://scenes/world/snow/snow_inn.tscn", "entry": "snow.inn.main_floor.player_birth", "interior": true },
 		{ "id": "snow.outdoor", "region": "snow", "scene": "res://scenes/world/snow/snow_outdoor.tscn", "entry": "snow.square.inn_entry" },
-		{ "id": "snow.inn_upstairs", "region": "snow", "scene": "res://scenes/world/snow/snow_inn_upstairs.tscn", "entry": "snow.inn_2f.stairs_arrival" },
-		{ "id": "snow.cellar", "region": "snow", "scene": "res://scenes/world/snow/snow_cellar.tscn", "entry": "snow.secret_storage.stairs_arrival" }
+		{ "id": "snow.inn_upstairs", "region": "snow", "scene": "res://scenes/world/snow/snow_inn_upstairs.tscn", "entry": "snow.inn_2f.stairs_arrival", "interior": true },
+		{ "id": "snow.cellar", "region": "snow", "scene": "res://scenes/world/snow/snow_cellar.tscn", "entry": "snow.secret_storage.stairs_arrival", "interior": true }
 	],
 	"zones": [
 		{ "id": "snow.inn.main_floor", "map": "snow.inn", "rooms": ["es2:d/snow/inn"] },

@@ -5,7 +5,7 @@
 	"maps": [
 		{ "id": "canyon.clifftop", "region": "canyon", "scene": "res://scenes/world/canyon/canyon_clifftop.tscn", "entry": "canyon.road.snow_arrival" },
 		{ "id": "canyon.pass", "region": "canyon", "scene": "res://scenes/world/canyon/canyon_pass.tscn", "entry": "canyon.canyon1.chain_arrival" },
-		{ "id": "canyon.armory", "region": "canyon", "scene": "res://scenes/world/canyon/canyon_armory.tscn", "entry": "canyon.blackmarket.swear_arrival" },
+		{ "id": "canyon.armory", "region": "canyon", "scene": "res://scenes/world/canyon/canyon_armory.tscn", "entry": "canyon.blackmarket.swear_arrival", "interior": true },
 		{ "id": "canyon.bamboo", "region": "canyon", "scene": "res://scenes/world/canyon/canyon_bamboo.tscn", "entry": "canyon.fantasy1.mirror_arrival" },
 		{ "id": "canyon.stoneroom", "region": "canyon", "scene": "res://scenes/world/canyon/canyon_stoneroom.tscn", "entry": "canyon.train.gap_arrival" }
 	],
