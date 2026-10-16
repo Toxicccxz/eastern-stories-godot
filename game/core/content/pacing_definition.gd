@@ -88,6 +88,8 @@ var heart_beat_seconds: float:
 var dim_fade_seconds: float:
 	get:
 		return float(_dim_fade_ms) / 1000.0
+## The presentation's feel knobs (the record's `feel`; all 0 when left out).
+var feel: FeelDefinition = FeelDefinition.new()
 
 
 ## When an NPC's call_out that answers the player comes: its ES2 time `es2_seconds`, or
@@ -140,6 +142,9 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.integer("heart_beat_ms", ES2_HEART_BEAT_MS),
 		reader.integer("dim_fade_ms", 0),
 	)
+	var feel: ContentRecordReader = reader.child("feel")
+	if feel != null:
+		definition.feel = FeelDefinition.from_record(feel)
 	reader.finish()
 	if definition._combat_round_ms <= 0:
 		reader.fail("combat_round_ms", "must be positive")

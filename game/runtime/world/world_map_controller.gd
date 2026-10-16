@@ -291,6 +291,7 @@ func place_player(zone_id: StringName, point: Vector2, even_unconscious: bool = 
 	if location == null or not point_in_zone(point, zone_id):
 		return false
 	player_body.global_position = point
+	player_body.placed()
 	if not _player.set_world_location(location):
 		return false
 	player_body.refresh_runtime_state()
@@ -312,6 +313,7 @@ func prepare_for_activation_at(point: Vector2) -> bool:
 		return false
 	prepare_for_deactivation()
 	player_body.global_position = point
+	player_body.placed()
 	return true
 
 
@@ -329,10 +331,62 @@ func complete_activation() -> bool:
 	player_body.player_controlled = true
 	player_body.refresh_runtime_state()
 	(player_body.get_node("Camera2D") as Camera2D).enabled = true
+	frame_camera()
+	if not get_viewport().size_changed.is_connected(_on_viewport_resized):
+		get_viewport().size_changed.connect(_on_viewport_resized)
+	player_body.placed()
 	clear_passage_contacts()
 	if hud() != null:
 		hud().refresh_live_state()
 	return true
+
+
+## The player's camera on this map (DECISIONS「手感」): it follows at the feel's
+## camera_follow_speed (0: stuck to the player) and stops at the edges of what is drawn
+## (every TileMapLayer's tiles), so the view never shows past the map; a map smaller
+## than the view sits in its middle.
+func frame_camera() -> void:
+	var camera: Camera2D = player_body.get_node("Camera2D") as Camera2D
+	var speed: float = GameContent.catalog().pacing().feel.camera_follow_speed
+	camera.position_smoothing_enabled = speed > 0.0
+	if speed > 0.0:
+		camera.position_smoothing_speed = speed
+	var drawn: Rect2 = drawn_rect()
+	if not drawn.has_area():
+		return
+	var limits: Rect2 = camera_limits(drawn, get_viewport_rect().size / camera.zoom)
+	camera.limit_left = floori(limits.position.x)
+	camera.limit_top = floori(limits.position.y)
+	camera.limit_right = ceili(limits.end.x)
+	camera.limit_bottom = ceili(limits.end.y)
+
+
+## The camera's limits for a map drawing `drawn` seen through a view of `view`: the map's
+## edges, widened evenly on a side where the map is smaller than the view.
+static func camera_limits(drawn: Rect2, view: Vector2) -> Rect2:
+	var spare: Vector2 = (view - drawn.size).max(Vector2.ZERO) / 2.0
+	return drawn.grow_individual(spare.x, spare.y, spare.x, spare.y)
+
+
+## What this map draws, in world coordinates: the union of its TileMapLayers' used cells.
+func drawn_rect() -> Rect2:
+	var drawn: Rect2 = Rect2()
+	for node: Node in find_children("*", "TileMapLayer", true, false):
+		var layer: TileMapLayer = node as TileMapLayer
+		var used: Rect2i = layer.get_used_rect()
+		if used.size == Vector2i.ZERO or layer.tile_set == null:
+			continue
+		var half: Vector2 = Vector2(layer.tile_set.tile_size) / 2.0
+		var first: Vector2 = layer.to_global(layer.map_to_local(used.position) - half)
+		var last: Vector2 = layer.to_global(layer.map_to_local(used.end - Vector2i.ONE) + half)
+		var cells: Rect2 = Rect2(first, Vector2.ZERO).expand(last)
+		drawn = cells if not drawn.has_area() else drawn.merge(cells)
+	return drawn
+
+
+func _on_viewport_resized() -> void:
+	if player_body != null and player_body.player_controlled:
+		frame_camera()
 
 
 func prepare_for_deactivation() -> void:
@@ -340,6 +394,7 @@ func prepare_for_deactivation() -> void:
 		return
 	player_body.player_controlled = false
 	player_body.velocity = Vector2.ZERO
+	player_body.walk_paused = false
 	(player_body.get_node("Camera2D") as Camera2D).enabled = false
 	# Nobody watches a map the player left: its NPCs stand where they were going.
 	if npc_life.walker != null:
@@ -494,7 +549,7 @@ func _refuse_passage(rule: ZoneExitRuleDefinition, from_zone_id: StringName, pas
 		else:
 			at.y = area.position.y if toward.y < 0.0 else area.end.y
 		player_body.global_position = at
-		player_body.velocity = Vector2.ZERO
+		player_body.placed()
 	_tell_refusal(rule)
 
 
@@ -526,7 +581,7 @@ func _refuse_exit(rule: ZoneExitRuleDefinition, from_zone_id: StringName) -> voi
 	if room != null:
 		var inside: Rect2 = room.global_rect().grow(-20.0)
 		player_body.global_position = player_body.global_position.clamp(inside.position, inside.end)
-		player_body.velocity = Vector2.ZERO
+		player_body.placed()
 	_tell_refusal(rule)
 
 

@@ -8285,6 +8285,15 @@ msgstr ""
 msgid "想从{npc}身上偷什么？"
 msgstr ""
 
+#: ui/world/world_speech_bubbles.gd
+msgid "道："
+msgstr ""
+
+#. the banner on arriving on another map: {region} the region (绮云镇), {place} where the player stands (卧龙岗).
+#: ui/world/world_view_overlay.gd
+msgid "{region} · {place}"
+msgstr ""
+
 #. es2:obj/money/coin name
 #. choyin.npc.yamen_po inquiry topic
 #: data/common/items.json data/choyin/npcs.json

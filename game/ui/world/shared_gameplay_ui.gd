@@ -90,6 +90,12 @@ const ES2_COLORS: Dictionary[StringName, Color] = {
 }
 var _presentation_layout: SharedGameplayLayout
 var life_overlay: PlayerLifeOverlay
+## The fade and the place's banner around a map change (DECISIONS「手感」).
+var view_overlay: WorldViewOverlay
+## The ring and prompt on what A goes to (DECISIONS「手感」).
+var focus_marker: WorldFocusMarker
+## What NPCs say, over their heads (DECISIONS「手感」).
+var speech_bubbles: WorldSpeechBubbles
 var _session: WorldSessionController
 var _bound_map: WorldResidentMapController
 var _elapsed: float = 0.0
@@ -145,6 +151,15 @@ func _ready() -> void:
 	_presentation_layout.name = "PresentationLayout"
 	add_child(_presentation_layout)
 	_presentation_layout.build(self)
+	# Under the HUD's panels, over the map.
+	focus_marker = WorldFocusMarker.new()
+	focus_marker.configure(self)
+	add_child(focus_marker)
+	move_child(focus_marker, 0)
+	speech_bubbles = WorldSpeechBubbles.new()
+	speech_bubbles.configure(self)
+	add_child(speech_bubbles)
+	move_child(speech_bubbles, 1)
 	inspect_button.pressed.connect(actions.inspect_context)
 	attack_button.pressed.connect(actions.attack_context)
 	spar_button.pressed.connect(actions.spar_context)
@@ -196,12 +211,34 @@ func _ready() -> void:
 		life_overlay.name = "PlayerLifeOverlay"
 		life_overlay.configure(_session)
 		_session.add_child.call_deferred(life_overlay)
+		view_overlay = WorldViewOverlay.new()
+		view_overlay.name = "WorldViewOverlay"
+		view_overlay.configure(_session)
+		_session.add_child.call_deferred(view_overlay)
 
 
-## The overlay joins the session a frame late; free it if the session never got it.
+## `speaker` says `lines` (already in the log): a bubble over their head.
+func npc_bubble(speaker: NpcRuntimeState, lines: Array[String], alert: bool = false) -> void:
+	speech_bubbles.say(speaker, lines, alert)
+
+
+## The session this HUD shows (null in a bare fixture).
+func session() -> WorldSessionController:
+	return _session
+
+
+## A panel (a shop, a question, 打听) has the shared frame.
+func panel_open() -> bool:
+	return _presentation_layout.frame.visible
+
+
+## The overlays join the session a frame late; free them if the session never got them.
 func _notification(what: int) -> void:
-	if what == NOTIFICATION_PREDELETE and is_instance_valid(life_overlay) and life_overlay.get_parent() == null:
-		life_overlay.free()
+	if what == NOTIFICATION_PREDELETE:
+		if is_instance_valid(life_overlay) and life_overlay.get_parent() == null:
+			life_overlay.free()
+		if is_instance_valid(view_overlay) and view_overlay.get_parent() == null:
+			view_overlay.free()
 	elif what == NOTIFICATION_TRANSLATION_CHANGED and _presentation_layout != null and is_inside_tree():
 		# The selection's name and an open panel were put together in the old language;
 		# the heading and the status line follow on the next refresh, the log keeps its lines.

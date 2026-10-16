@@ -51,10 +51,6 @@ static func move_through(map: WorldMapController, portal: PortalDefinition) -> R
 		null if portal == null else map.resolve_spawn_marker(portal.destination_spawn_point_id),
 		null if portal == null else map.location_for_zone(portal.destination_zone_id),
 	)
-	# A jump on one map (the 迷阵's exits): the camera is there at once, not gliding across the map.
-	var camera: Camera2D = null if map.player_body == null else map.player_body.get_node_or_null("Camera2D") as Camera2D
-	if moved.completed() and camera != null:
-		camera.reset_smoothing()
 	# Who follows every way comes through with the player (the 地牢's maze, owner F2).
 	if moved.completed() and portal != null:
 		map.npc_life.lead_followers(portal.source_zone_id, portal.destination_zone_id)

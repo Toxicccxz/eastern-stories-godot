@@ -88,9 +88,14 @@ var _maps_by_room: Dictionary[String, Array] = {}
 
 
 func _ready() -> void:
+	# Physics interpolation (DECISIONS「手感」) is for the player's walk and its camera only
+	# (WorldCharacterBody2D.bind_player()); everything else is drawn where it is.
+	physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 	if initialize_session():
 		shared_ui().configure(player_runtime())
 		shared_ui().initialize_supplies()
+	# On once the maps are made (_instantiate_map()).
+	get_tree().physics_interpolation = true
 
 
 func shared_ui() -> SharedGameplayUI:
@@ -163,6 +168,29 @@ func hold_world_time(owner: StringName) -> void:
 
 func release_world_time(owner: StringName) -> void:
 	_world_time_holds.erase(owner)
+
+
+## While the view fades out and in around a map change (DECISIONS「手感」) world time
+## stands still and the player does not walk: the fade takes nobody's time.
+const VIEW_TIME_HOLD: StringName = &"map_transition"
+
+
+func _fade_out_seconds() -> float:
+	return GameContent.catalog().pacing().feel.map_fade_out_seconds
+
+
+func _fade_in_seconds() -> float:
+	return GameContent.catalog().pacing().feel.map_fade_in_seconds
+
+
+func _hold_view(on: bool) -> void:
+	if on:
+		hold_world_time(VIEW_TIME_HOLD)
+	else:
+		release_world_time(VIEW_TIME_HOLD)
+	var map: WorldMapController = active_map() as WorldMapController
+	if map != null and map.player_body != null:
+		map.player_body.walk_paused = on
 
 
 ## Only while the player can act: one who falls, dies or is drawn into a fight under the
@@ -1014,7 +1042,18 @@ func _instantiate_map(map_id: StringName) -> Node:
 		scene = load(map.scene_path) as PackedScene
 		if scene != null and keep_map_scenes:
 			_kept_map_scenes[map.scene_path] = scene
-	return null if scene == null else scene.instantiate()
+	if scene == null:
+		return null
+	# A map's camera is made before its player sets it to follow in physics steps
+	# (WorldCharacterBody2D._interpolate()); with interpolation on Godot would switch it and warn.
+	var tree: SceneTree = Engine.get_main_loop() as SceneTree
+	var interpolating: bool = tree != null and tree.physics_interpolation
+	if interpolating:
+		tree.physics_interpolation = false
+	var made: Node = scene.instantiate()
+	if interpolating:
+		tree.physics_interpolation = true
+	return made
 
 
 ## Every map of the session shares one authority graph; passages open toward

@@ -502,6 +502,33 @@ func interact() -> void:
 			_map.open_door(target)
 
 
+## What A goes to (WorldFocus), or null when nothing is in reach.
+func focus() -> WorldFocus:
+	var target: Variant = _context_target()
+	if target is StringName:
+		return WorldFocus.new(interaction_title(), null, _map.doors_by_id[target].wall_shape())
+	if target is WorldService:
+		return WorldFocus.new(interaction_title(), null, null, (target as WorldService).anchor())
+	var things: Array[WorldNearbyThing] = nearby()
+	for thing: WorldNearbyThing in things:
+		if thing.bribe_only:
+			continue
+		match thing.kind:
+			WorldNearbyThing.Kind.NPC:
+				return WorldFocus.new("", thing, _map.npcs.runtime_body_for_character(thing.id))
+			WorldNearbyThing.Kind.CORPSE:
+				return WorldFocus.new("", thing, _map.corpses.corpse_view_for(thing.id))
+			WorldNearbyThing.Kind.ITEM:
+				return WorldFocus.new("", thing, _map.floor_items.floor_item_view(thing.id))
+			WorldNearbyThing.Kind.LANDMARK:
+				return WorldFocus.new("", thing, _map.landmark_areas[thing.id])
+			WorldNearbyThing.Kind.DOOR:
+				return WorldFocus.new("", thing, _map.doors_by_id[thing.id].wall_shape())
+			WorldNearbyThing.Kind.SERVICE:
+				return WorldFocus.new("", thing, null, thing.services[0].anchor())
+	return null
+
+
 ## A door's id or a WorldService, or null.
 func _context_target() -> Variant:
 	var best: Variant = null
