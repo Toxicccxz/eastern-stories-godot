@@ -4,7 +4,7 @@ extends RefCounted
 ## (owner, 玉螺湖村 plan Q2: ES2 had no way in), the paddies, the mountain path, the granite
 ## streets and the 铁索桥, 黑松堡's gate (combat_exp below 2000 turned back), the 夹道 and its
 ## arrows (trap_castle.c arrowing()), the vine-covered walls climbed into the gardens, the halls
-## and 淳于's upper floor. The 紫衣家丁 on the bridge look the passer over (random(per) < 20), the
+## (黑松堡's own map since the remap) and 淳于's upper floor. The 紫衣家丁 on the bridge look the passer over (random(per) < 20), the
 ## 护院 attack whoever comes in, the 巨型犬 are killer (answers as aggressive, attacks only by
 ## berserk). 烤山猪肉 is food and a hammer (M4). The rope drops one into the 地牢 (B:
 ## chuenyu_prison_test).
@@ -13,7 +13,10 @@ const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const Finance := preload("res://tests/runtime/snow_finance_test.gd")
 const MapPlaces := preload("res://tests/support/map_places.gd")
-const MAPS: Dictionary = {&"chuenyu.main": 20, &"chuenyu.upstairs": 3, &"chuenyu.prison": 9}
+## Since the remap 黑松堡's gardens and halls are one map of their own (the ground does not join
+## them to the clifftops: over the wall or down the stairs).
+const MAPS: Dictionary = {&"chuenyu.main": 12, &"chuenyu.castle": 8, &"chuenyu.upstairs": 3, &"chuenyu.prison": 9}
+const CASTLE: StringName = &"chuenyu.castle"
 const JIADING: StringName = &"chuenyu.npc.jiading3"
 const GUARD: StringName = &"chuenyu.npc.guard"
 const WOLFDOG: StringName = &"chuenyu.npc.wolfdog"
@@ -24,6 +27,9 @@ const ARROW_LINES: Array[String] = ["刹那间石墙的后面“嘣嘣”声不�
 const PEOPLE: Dictionary = {
 	&"chuenyu.sunnyroad": {&"chuenyu.npc.flower_seller": 1},
 	&"chuenyu.rope_bridge": {JIADING: 2},
+}
+## 黑松堡's, on the castle's map.
+const CASTLE_PEOPLE: Dictionary = {
 	&"chuenyu.west_garden": {&"chuenyu.npc.gardener": 1, &"chuenyu.npc.bee": 2},
 	&"chuenyu.north_garden": {&"chuenyu.npc.smallgardener": 2},
 	&"chuenyu.west_blackge": {GUARD: 2},
@@ -67,7 +73,7 @@ func _test_data() -> void:
 		if String(zone.zone_id).begins_with("chuenyu."):
 			maps[zone.map_id] = maps.get(zone.map_id, 0) + 1
 			_check(zone.room_ids().size() == 1 and catalog.room(zone.room_ids()[0]) != null, "%s: one room" % zone.zone_id)
-	_check(maps == MAPS, "thirty-two rooms on three maps: %s" % maps)
+	_check(maps == MAPS, "thirty-two rooms on 黑松山's, 黑松堡's (the remap), the upper floor's and the 地牢's maps: %s" % maps)
 	_check(catalog.region(&"chuenyu").display_name == "黑松山", "the region is 黑松山")
 	# Q1 (a): d/chuenyu's copy of 刘家 (cut off in ES2: sunnyroad.c's south commented out) is not placed.
 	for room: String in ["dustyroad3", "home", "littlegarden", "smallstorage", "smallyard"]:
@@ -150,6 +156,8 @@ func _test_mountain(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	_check(_people(map) == PEOPLE, "the people where the rooms put them: %s" % [_people(map)])
+	var castle: WorldMapController = session.world_map_of(CASTLE)
+	_check(_people(castle) == CASTLE_PEOPLE, "黑松堡's people where the rooms put them, on the castle's map: %s" % [_people(castle)])
 	player.state.attributes.personality = 30 # TEST-ONLY: Still draws random(per) = 29, not below 20
 	_check(await MapPlaces.drive_through(tree, map, [&"chuenyu.croad2", &"chuenyu.sunnyroad", &"chuenyu.base_b_m", &"chuenyu.foot_b_mtn", &"chuenyu.high_b_mtn", &"chuenyu.rope_bridge"]), "the crossing, the paddies, the foot, up the path, the west street, onto the bridge")
 	map.npc_life._advance_ambience(0.0)
@@ -246,15 +254,21 @@ func _test_walls(tree: SceneTree, session: WorldSessionController) -> void:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var hud: SharedGameplayUI = session.shared_ui()
 	_check(await MapPlaces.drive_to_zone(tree, map, &"chuenyu.west_castle"), "west along the clifftop")
-	for climb: Array in [[&"chuenyu.west_castle.climb", &"chuenyu.west_garden"], [&"chuenyu.west_garden.climb", &"chuenyu.west_castle"]]:
+	# Over the wall is a move onto the other map (the castle's since the remap) and back.
+	for climb: Array in [[&"chuenyu.west_castle.climb", &"chuenyu.west_garden", CASTLE], [&"chuenyu.west_garden.climb", &"chuenyu.west_castle", &"chuenyu.main"]]:
+		map = session.active_map() as WorldMapController
 		var service: ActService = map.service(climb[0]) as ActService
-		_check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, climb[0])) and service.in_reach() and service.verb() == "爬上去", "%s: 城墙 · 爬上去" % climb[0])
+		_check(service != null and await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, climb[0])) and service.in_reach() and service.verb() == "爬上去", "%s: 城墙 · 爬上去" % climb[0])
+		if service == null:
+			return
 		service.interact()
 		await tree.physics_frame
-		_check(player.world_location().zone_id == climb[1] and hud.log_lines().has("你抓着蔓藤，慢慢的顺着城墙爬了上去。") and hud.log_lines().has("你用手一撑墙头儿，轻巧的跳了过来。"), "over the wall into %s" % climb[1])
+		await tree.physics_frame
+		_check(session.active_map_id() == climb[2] and player.world_location().zone_id == climb[1] and hud.log_lines().has("你抓着蔓藤，慢慢的顺着城墙爬了上去。") and hud.log_lines().has("你用手一撑墙头儿，轻巧的跳了过来。"), "over the wall into %s, on %s: %s %s" % [climb[1], climb[2], session.active_map_id(), player.world_location().zone_id])
 		# The garden's killer bees may go berserk on whoever drops in (bellicosity 3000).
 		await tree.physics_frame
 		_finish_fight(session)
+	map = session.active_map() as WorldMapController
 	_check(map.select_landmark(&"chuenyu.west_castle.landmark.vine"), "the vines")
 	map.inspect_selected()
 	_check(hud.inspection_text.text.contains("蔓藤长满了城墙"), "蔓藤长满了城墙: %s" % hud.inspection_text.text.left(20))
@@ -265,10 +279,13 @@ func _test_walls(tree: SceneTree, session: WorldSessionController) -> void:
 ## Inside: the 护院 fall on whoever comes into the west hall; the stairs up to 淳于's rooms, the
 ## 玉帘门 to the 膳房 and the cook; down the other stairs to the east hall.
 func _test_halls(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
-	_check(map.place_player(&"chuenyu.west_garden", MapPlaces.zone_centre(map, &"chuenyu.west_garden")), "TEST-ONLY: in the west garden")
+	# TEST-ONLY: in the west garden (the castle's map), where the wall drops one.
+	var map: WorldMapController = MapPlaces.enter(session, &"chuenyu.west_garden", &"chuenyu.west_garden.wall_arrival")
+	_check(map != null and map.map_id() == CASTLE and map.place_player(&"chuenyu.west_garden", MapPlaces.zone_centre(map, &"chuenyu.west_garden")), "TEST-ONLY: in the west garden")
+	if map == null:
+		return
 	await tree.physics_frame
 	_finish_fight(session)
 	# Into the west hall: the 护院 attack as the player comes in (the walk stops there).
@@ -297,7 +314,7 @@ func _test_halls(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(log.has("厨子嘟囔着：“真是的，堡主又在地牢里留涟忘返。”") or log.has("厨子道：“去地牢叫堡主上来吃饭。"), "the cook grumbles about the 地牢: %s" % [log.slice(-2)])
 	_check(Work.capture(session) != null, "Save in the 膳房")
 	_check(await MapPlaces.drive_to_zone(tree, upstairs, &"chuenyu.bedroom") and await MapPlaces.take_passage(tree, upstairs, &"chuenyu.bedroom.eastdown"), "down the east stairs")
-	_check(session.active_map_id() == &"chuenyu.main" and player.world_location().zone_id == &"chuenyu.east_blackge", "the east hall")
+	_check(session.active_map_id() == CASTLE and player.world_location().zone_id == &"chuenyu.east_blackge", "the east hall, on the castle's map")
 
 
 ## 烤山猪肉 (M4): wielded as a hammer and eaten; Continue mid-meal keeps the meat in the hand;
@@ -330,12 +347,13 @@ func _test_pigmeat(tree: SceneTree, session: WorldSessionController) -> WorldSes
 ## A volley that knocks the player out ends that moment: the next comes five seconds on (and
 ## finds them lying there, as ES2's would). Last: the player is left lying in the 夹道.
 func _test_knockout(tree: SceneTree, session: WorldSessionController) -> void:
-	# Continue came back in the east hall, on this map.
-	_check(session.active_map_id() == &"chuenyu.main", "on 黑松山's map")
-	var map: WorldMapController = session.active_map() as WorldMapController
+	# Continue came back in the east hall, on the castle's map (the remap).
+	_check(session.active_map_id() == CASTLE and session.player_runtime().world_location().zone_id == &"chuenyu.east_blackge", "on 黑松堡's map, in the east hall")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	map.open_door(&"chuenyu.gate_castle.door")
-	_check(map.place_player(&"chuenyu.trap_castle", MapPlaces.zone_centre(map, &"chuenyu.trap_castle")), "TEST-ONLY: in the 夹道")
+	session.world_map_of(&"chuenyu.main").open_door(&"chuenyu.gate_castle.door")
+	# TEST-ONLY: onto 黑松山's map (at the west clifftop's wall), then into the 夹道.
+	var map: WorldMapController = MapPlaces.enter(session, &"chuenyu.west_castle", &"chuenyu.west_castle.wall_arrival")
+	_check(map != null and map.map_id() == &"chuenyu.main" and map.place_player(&"chuenyu.trap_castle", MapPlaces.zone_centre(map, &"chuenyu.trap_castle")), "TEST-ONLY: in the 夹道")
 	await tree.physics_frame
 	var kee: CharacterResourceState = player.state.vitality
 	kee.maximum = 1000 # TEST-ONLY

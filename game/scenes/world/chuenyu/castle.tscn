@@ -371,12 +371,12 @@ script = ExtResource("marker")
 spawn_point_id = &"chuenyu.north_garden.smallgardener.2"
 
 [node name="WestBlackgeGuard1" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(-1106, 169)
+position = Vector2(-899, -27)
 script = ExtResource("marker")
 spawn_point_id = &"chuenyu.west_blackge.guard.1"
 
 [node name="WestBlackgeGuard2" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(-542, 169)
+position = Vector2(-748, -27)
 script = ExtResource("marker")
 spawn_point_id = &"chuenyu.west_blackge.guard.2"
 

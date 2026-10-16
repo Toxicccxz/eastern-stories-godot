@@ -58,9 +58,15 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 func _test_data() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
+	# Since the remap the two little shops are each their own map, entered from the 鬼门大道.
+	var houses: Dictionary = {"inn1": &"death.inn1_house", "inn2": &"death.inn2_house"}
 	for room: String in ["bridge1", "bridge", "gate", "gateway", "road1", "inn1", "inn2", "road2", "road3"]:
 		var zone: ZoneDefinition = catalog.zone(StringName("death." + room))
-		_check(zone != null and zone.map_id == DeathWorldDefinitions.MAP_ID and zone.room_ids() == [StringName("es2:d/death/" + room)], "%s: a room of 阴间's one map" % room)
+		var map_id: StringName = houses.get(room, DeathWorldDefinitions.MAP_ID)
+		_check(zone != null and zone.map_id == map_id and zone.room_ids() == [StringName("es2:d/death/" + room)], "%s: a room of %s" % [room, "its own house's map" if houses.has(room) else "阴间's map"])
+	for way: Array in [[&"death.road1.west", &"death.inn1"], [&"death.road1.east", &"death.inn2"], [&"death.inn1.east", &"death.road1"], [&"death.inn2.west", &"death.road1"]]:
+		var portal: PortalDefinition = catalog.portal(way[0])
+		_check(portal != null and portal.destination_zone_id == way[1] and portal.destination_map_id == catalog.zone(way[1]).map_id, "%s: to %s, onto its map" % way)
 	_check(catalog.room(&"es2:d/death/gate").short == "鬼门关", "the gate's name without its terminal colour codes")
 	_check(catalog.room(&"es2:d/death/road3").long == "浓雾在这里聚成一堵墙，路到这里就断了。\n", "the road's end: the native line (owner Q3 b)")
 	var guard: NpcDefinition = catalog.npc(GUARD)
@@ -190,9 +196,12 @@ func _test_long_road(tree: SceneTree, session: WorldSessionController) -> void:
 func _test_little_shop(tree: SceneTree, session: WorldSessionController) -> void:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var hud: SharedGameplayUI = session.shared_ui()
-	var map: WorldMapController = session.active_map() as WorldMapController
 	_check(GameContent.catalog().landmark(&"death.inn2.landmark.wall").description.contains("看到你自己时问一下吧"), "the 黑店's wall: ask yourself")
-	_check(await MapPlaces.drive_to_zone(tree, map, &"death.inn1"), "into the little shop")
+	# West off the 鬼门大道 through its doorway onto the shop's own map (the remap).
+	var map: WorldMapController = await MapPlaces.go_to(tree, session, &"death.inn1")
+	_check(map != null and map.map_id() == &"death.inn1_house" and player.world_location().zone_id == &"death.inn1", "into the little shop (its own map)")
+	if map == null:
+		return
 	var ask: ActService = map.service(&"death.inn1.ask_home") as ActService
 	_check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, &"death.inn1.ask_home")) and ask.in_reach() and ask.verb() == "打听「回家」", "人影 · 打听「回家」")
 	ask.interact()

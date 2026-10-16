@@ -1,7 +1,8 @@
 extends RefCounted
 
-## 京师 (d/city, u/cp): fifty-five rooms on four maps — the 北驿道 south of 玉螺湖村's 三叉路口, the
-## city inside its walls with 尚书府, the 太白酒楼's upper floor, the 院墙 and the 地下密室. The
+## 京师 (d/city, u/cp): fifty-five rooms on twelve maps — the 北驿道 south of 玉螺湖村's 三叉路口, the
+## city's streets inside its walls, each building and 尚书府 on a map of its own (the remap), the
+## 太白酒楼's upper floor, the 院墙 and the 地下密室. The
 ## guards of the five shut gates turn everyone back (guard.c do_out(): with no token, and anyway
 ## there is no way out); the 店小二 lets only one with marks/酒楼 up (go_up()), which a tip of ten
 ## taels gives, and a smaller one lands on the floor (owner, 京师 plan); the bank is no_fight;
@@ -11,7 +12,12 @@ const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const Finance := preload("res://tests/runtime/snow_finance_test.gd")
 const MapPlaces := preload("res://tests/support/map_places.gd")
-const MAPS: Dictionary = {&"city.main": 52, &"city.upstairs": 1, &"city.wall_top": 1, &"city.cellar": 1}
+## Since the remap every building is its own map, entered by its door from the streets'.
+const MAPS: Dictionary = {
+	&"city.main": 33, &"city.bank_house": 1, &"city.weapon_house": 1, &"city.biaoju_house": 1, &"city.cloth_house": 1,
+	&"city.jiulou_house": 1, &"city.boots_house": 1, &"city.house1_house": 1, &"city.upstairs": 1, &"city.shangshu": 12,
+	&"city.wall_top": 1, &"city.cellar": 1,
+}
 const GUARD: StringName = &"city.npc.guard"
 const WAITER: StringName = &"city.npc.waiter"
 const GATES: Array[StringName] = [&"city.eastdoor1", &"city.eastdoor2", &"city.westdoor1", &"city.westdoor2", &"city.southdoor"]
@@ -73,7 +79,7 @@ func _test_data() -> void:
 		if String(zone.zone_id).begins_with("city."):
 			maps[zone.map_id] = maps.get(zone.map_id, 0) + 1
 			_check(zone.room_ids().size() == 1 and catalog.room(zone.room_ids()[0]) != null, "%s: one room" % zone.zone_id)
-	_check(maps == MAPS, "fifty-five rooms on four maps: %s" % maps)
+	_check(maps == MAPS, "fifty-five rooms on the streets', each building's and 尚书府's own (the remap), the upper floor's, the wall's and the cellar's maps: %s" % maps)
 	_check(catalog.region(&"city").display_name == "京师", "the region is 京师")
 	_check(catalog.room(&"es2:d/city/bank").no_fight, "the 旺金钱庄 is no_fight")
 	_check(catalog.landmark(&"city.eastdoor2.landmark.notice").description == "布告上写著：辑拿要犯----於兰天武。\n", "the 东二门's notice: 於兰天武")
@@ -116,13 +122,16 @@ func _test_city(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
 	var found: Dictionary = {}
-	for npc: NpcRuntimeState in map.resident_npcs():
+	var people: Array[NpcRuntimeState] = []
+	for map_id: StringName in MAPS:
+		people.append_array(session.world_map_of(map_id).resident_npcs())
+	for npc: NpcRuntimeState in people:
 		var zone: StringName = npc.world_location().zone_id
 		if not found.has(zone):
 			found[zone] = {}
 		var id: StringName = NpcDefinition.unnamed_id(npc.definition().definition_id)
 		found[zone][id] = found[zone].get(id, 0) + 1
-	_check(found == PEOPLE, "the people where the rooms put them: %s" % [found])
+	_check(found == PEOPLE, "the people where the rooms put them (the buildings' on their own maps): %s" % [found])
 	_check(await MapPlaces.drive_through(tree, map, [&"city.nroad1", &"city.northdoor", &"city.street16", &"city.street7"]), "down the 驿道, through the 北门, 大栅栏 to the 十字路口")
 	_check(session.player_runtime().world_location().zone_id == &"city.street7", "at the 十字路口")
 	_check(Work.capture(session) != null, "Save at the 十字路口")
@@ -183,7 +192,10 @@ func _test_bank(tree: SceneTree, session: WorldSessionController) -> void:
 	await tree.physics_frame
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
-	_check(await MapPlaces.drive_to_zone(tree, map, &"city.bank"), "into the 旺金钱庄")
+	_check(await MapPlaces.take_passage(tree, map, &"city.street8.north"), "north through the bank's door")
+	map = session.active_map() as WorldMapController
+	await tree.physics_frame # The arrival's zone Areas report a frame later.
+	_check(map.map_id() == &"city.bank_house" and session.player_runtime().world_location().zone_id == &"city.bank", "into the 旺金钱庄 (its own map)")
 	var counter: WorldService = map.service(&"city.bank.counter")
 	_check(counter != null and await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, &"city.bank.counter")) and counter.in_reach(), "钱庄 · 兑换")
 	var boss: NpcRuntimeState = _npc(map, &"city.npc.microsof")
@@ -200,12 +212,17 @@ func _test_bank(tree: SceneTree, session: WorldSessionController) -> void:
 
 ## 太白酒楼: 钱掌柜's rude greeting, the 店小二's stairs (go_up()) and his tips.
 func _test_jiulou(tree: SceneTree, session: WorldSessionController) -> void:
-	_check((session.active_map() as WorldMapController).place_player(&"city.street5", MapPlaces.zone_centre(session.active_map() as WorldMapController, &"city.street5")), "TEST-ONLY: on the 西街")
+	_check(await MapPlaces.take_passage(tree, session.active_map() as WorldMapController, &"city.bank.south") and session.active_map_id() == &"city.main", "out of the bank by its door")
 	await tree.physics_frame
-	var map: WorldMapController = session.active_map() as WorldMapController
+	var map: WorldMapController = MapPlaces.enter(session, &"city.street5", &"city.street5.jiulou_return")
+	_check(map != null and map.map_id() == &"city.main", "TEST-ONLY: on the 西街")
+	await tree.physics_frame
 	var hud: SharedGameplayUI = session.shared_ui()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	_check(await MapPlaces.drive_to_zone(tree, map, &"city.jiulou"), "into the 太白酒楼")
+	_check(await MapPlaces.take_passage(tree, map, &"city.street5.west"), "west through the 酒楼's door")
+	map = session.active_map() as WorldMapController
+	await tree.physics_frame # The arrival's zone Areas report a frame later.
+	_check(map.map_id() == &"city.jiulou_house" and player.world_location().zone_id == &"city.jiulou", "into the 太白酒楼 (its own map)")
 	map.npc_life._advance_ambience(0.0)
 	map.npc_life._advance_ambience(1.0)
 	_check(hud.log_lines().has("钱千万皱了皱眉，说:这里是可不是为你们开的，吃完了快走。"), "钱千万: 吃完了快走 (no player has a rank): %s" % [hud.log_lines().slice(-3)])
@@ -237,7 +254,7 @@ func _test_jiulou(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(hud.log_lines().has("店小二高声喊道:你楼上请"), "楼上请: %s" % [hud.log_lines().slice(-4)])
 	_check(Work.capture(session) != null, "Save upstairs")
 	_check(await MapPlaces.take_passage(tree, upstairs, &"city.jiulou_2.down"), "down again")
-	_check(session.active_map_id() == &"city.main" and player.world_location().zone_id == &"city.jiulou", "the 茶座")
+	_check(session.active_map_id() == &"city.jiulou_house" and player.world_location().zone_id == &"city.jiulou", "the 茶座 (the 酒楼's own map)")
 
 
 ## These lines, one after the other, among the last few of the log.

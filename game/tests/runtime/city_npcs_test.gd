@@ -187,9 +187,12 @@ func _test_walkers_kept(tree: SceneTree, session: WorldSessionController) -> voi
 
 ## 陈剑秋's letter: asked first; 陈天星 takes it and offers; 拜师 makes the player his.
 func _test_chen(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
+	# 振远总局 is its own map since the remap: TEST-ONLY in at its door, then beside him.
+	var map: WorldMapController = MapPlaces.enter(session, &"city.biaoju", &"city.biaoju.street1_entry")
+	_check(map != null and map.map_id() == &"city.biaoju_house", "TEST-ONLY: in 振远总局 (its own map)")
+	await tree.physics_frame
 	var chen: NpcRuntimeState = null
 	for npc: NpcRuntimeState in map.resident_npcs():
 		if npc.definition().definition_id == CHEN:
@@ -246,16 +249,23 @@ func _test_chen(tree: SceneTree, session: WorldSessionController) -> void:
 
 ## Every kind fights to the end without the fight stopping.
 func _test_fights(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
 	var fought: Array[StringName] = []
 	var rebellion: bool = false
-	for npc: NpcRuntimeState in map.resident_npcs():
+	# The streets' people and the buildings' (each on its own map since the remap).
+	var people: Array[NpcRuntimeState] = []
+	for city_map: WorldMapController in session.world_maps():
+		if city_map.map_id() == &"city.main":
+			people.append_array(city_map.resident_npcs())
+	for city_map: WorldMapController in session.world_maps():
+		if String(city_map.map_id()).begins_with("city.") and city_map.map_id() != &"city.main":
+			people.append_array(city_map.resident_npcs())
+	for npc: NpcRuntimeState in people:
 		var id: StringName = NpcDefinition.unnamed_id(npc.definition().definition_id)
 		if not KINDS.has(id) or not npc.exists_in_map or fought.has(id) or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
 			continue
 		fought.append(id)
 		var squad: Array[int] = []
-		var lines: Array[String] = await _fight(tree, session, map, npc, squad)
+		var lines: Array[String] = await _fight(tree, session, npc, squad)
 		if id == &"city.npc.guard":
 			rebellion = lines.has("守城兵大叫：反了！反了！")
 			_check(squad == [3], "the whole squad at the gate fights: %s" % [squad])
@@ -264,12 +274,16 @@ func _test_fights(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.player_runtime().state.vendetta.get("authority", 0) == 0, "attacking is no killing: no vendetta yet")
 
 
-func _fight(tree: SceneTree, session: WorldSessionController, map: WorldMapController, npc: NpcRuntimeState, squad: Array[int] = []) -> Array[String]:
+func _fight(tree: SceneTree, session: WorldSessionController, npc: NpcRuntimeState, squad: Array[int] = []) -> Array[String]:
 	var name: String = npc.definition().display_name
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	_full(player)
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
-	_check(map.relocate_player(npc.world_location().zone_id, npc.spawn_point_id), "beside %s" % name)
+	# TEST-ONLY placement on whichever map the NPC stands (a shop is its own map since the remap).
+	var map: WorldMapController = MapPlaces.enter(session, npc.world_location().zone_id, npc.spawn_point_id)
+	_check(map != null, "beside %s" % name)
+	if map == null:
+		return []
 	await tree.physics_frame
 	await tree.physics_frame
 	CombatEncounterCoordinator.take_aborted_total()

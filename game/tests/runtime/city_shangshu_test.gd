@@ -1,7 +1,8 @@
 extends RefCounted
 
-## 京师 B (d/city/shangshu, wall.c, jitan.c, midao1.c, feiyuan.c): 尚书府's thirteen rooms on the city's
-## map and its people — the 门房 who lets one in for three taels of gold (less is handed back, M1;
+## 京师 B (d/city/shangshu, wall.c, jitan.c, midao1.c, feiyuan.c): 尚书府's thirteen rooms — its gate
+## on the city's map, the compound behind the 大铁门 its own map since the remap — and its people —
+## the 门房 who lets one in for three taels of gold (less is handed back, M1;
 ## the leave is spent going in, M3), the three 护院 whose names and skills create() draws and who
 ## stop anyone on the 小径 (present("trainer")), 庾子建, 庾清尘 behind the 帘子, the 花匠, the 丫鬟,
 ## the four shut doors; the 院墙 climbed from the 东街 (its own map) and jumped from; the altar's
@@ -23,6 +24,10 @@ const CEILING: StringName = &"city.midao1.landmark.ceiling"
 const DOWN: StringName = &"city.jitan.down"
 const UP: StringName = &"city.midao1.up"
 const GATE_DOOR: StringName = &"city.shangshu.gate.door"
+## The way in through the 大铁门 and out again (the door hangs on this pair since the remap).
+const GATE_IN: StringName = &"city.shangshu.gate.east"
+const GATE_OUT: StringName = &"city.shangshu.yuan.west"
+const COMPOUND: StringName = &"city.shangshu"
 const ROOMS: Array[String] = ["gate", "yuan", "keting", "road1", "road2", "road3", "road4", "kefang", "xiaowu", "chufang", "huayuan", "neizhai", "feiwu"]
 ## The kinds fought (the files' set("combat_exp"); the 护院's is drawn).
 const KINDS: Array[StringName] = [
@@ -62,9 +67,11 @@ func _test_data() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	for room: String in ROOMS:
 		var zone: ZoneDefinition = catalog.zone(StringName("city.shangshu." + room))
-		_check(zone != null and zone.map_id == &"city.main" and zone.room_ids() == [StringName("es2:d/city/shangshu/" + room)], "尚书府's %s on the city's map" % room)
+		var map_id: StringName = &"city.main" if room == "gate" else COMPOUND
+		_check(zone != null and zone.map_id == map_id and zone.room_ids() == [StringName("es2:d/city/shangshu/" + room)], "尚书府's %s on %s (the gate on the city's map, the compound its own since the remap)" % [room, map_id])
 	_check(catalog.zone(&"city.wall").map_id == &"city.wall_top" and catalog.zone(&"city.midao1").map_id == &"city.cellar", "the 院墙 and the 地下密室: maps of their own")
 	_check(catalog.zones_adjacent(&"city.street3", &"city.shangshu.gate"), "street3's way east is open")
+	_check(catalog.portal(GATE_IN) != null and catalog.portal(GATE_IN).destination_map_id == COMPOUND and catalog.portal(GATE_OUT) != null and catalog.portal(GATE_OUT).destination_map_id == &"city.main", "the gate east into the compound's own map, and back west")
 	var doors: Dictionary = {}
 	for id: StringName in [GATE_DOOR, &"city.shangshu.road1.door", &"city.shangshu.road2.door", &"city.shangshu.huayuan.door"]:
 		var door: DoorDefinition = catalog.door(id)
@@ -92,7 +99,8 @@ func _test_data() -> void:
 ## Each 护院 draws its name, attributes, power, chances and skills in create()'s order, and
 ## keeps them through Save and Continue.
 func _test_trainers(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
+	# The 护院 stand in the compound, its own map since the remap (the player on the 东街).
+	var map: WorldMapController = session.world_map_of(COMPOUND)
 	var kept: Dictionary = {}
 	var kinds: Dictionary = {}
 	for npc: NpcRuntimeState in map.resident_npcs():
@@ -123,7 +131,7 @@ func _test_trainers(tree: SceneTree, session: WorldSessionController) -> void:
 	var fresh: WorldSessionController = restored.candidate
 	_check(fresh.activate_restore_candidate(), "Continue activates")
 	var same: int = 0
-	for npc: NpcRuntimeState in (fresh.active_map() as WorldMapController).resident_npcs():
+	for npc: NpcRuntimeState in fresh.world_map_of(COMPOUND).resident_npcs():
 		if kept.has(npc.character_id) and kept[npc.character_id] == [npc.definition().display_name, npc.character_state.attributes.strength, npc.character_state.progression.combat_experience, npc.chat_chance, npc.combat_chat_chance]:
 			same += 1
 	_check(same == 3, "Continue: each 护院 keeps what create() drew (%d)" % same)
@@ -140,7 +148,7 @@ func _test_porter(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(await MapPlaces.drive_to_zone(tree, map, &"city.shangshu.gate"), "east from the 东街 to 尚书府's gate")
 	_check(hud.log_lines().has("你来到尚书府大门。门上悬挂着一块很大的黑色牌匾，上面用隶") or session.place_name(player.world_location()) == "京师 · 尚书府大门", "尚书府大门: %s" % session.place_name(player.world_location()))
 	_check(await MapPlaces.drive(tree, map, MapPlaces.door_spot(map, GATE_DOOR, &"city.shangshu.gate")) and map.open_door(GATE_DOOR), "the 大铁门 opens")
-	_check(not await MapPlaces.drive_to_zone(tree, map, &"city.shangshu.yuan") and player.world_location().zone_id == &"city.shangshu.gate", "no way in without the 门房's leave")
+	_check(not await MapPlaces.take_passage(tree, map, GATE_IN, 240) and session.active_map_id() == &"city.main" and player.world_location().zone_id == &"city.shangshu.gate", "no way in without the 门房's leave")
 	_check(hud.log_lines().has("门房伸手拦住了你的去路，喝道：闯什么闯！"), "闯什么闯: %s" % [hud.log_lines().slice(-3)])
 	var porter: NpcRuntimeState = _npc(map, PORTER)
 	_check(porter != null and map.select_npc(porter.character_id), "the 门房")
@@ -157,12 +165,19 @@ func _test_porter(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(more.done() and more.lines[0] == "门房说道：大人太客气了", "with the leave, anything: 大人太客气了 (kept, as ES2)")
 	_check(await MapPlaces.drive_to_zone(tree, map, &"city.street3") and await MapPlaces.drive_to_zone(tree, map, &"city.shangshu.gate"), "west to the 东街 and back")
 	_check(player.state.marks.has("尚书"), "walking away west keeps the leave (M3)")
-	_check(await MapPlaces.drive_to_zone(tree, map, &"city.shangshu.yuan") and player.world_location().zone_id == &"city.shangshu.yuan", "in through the 大铁门 to the 庭院")
+	_check(await MapPlaces.take_passage(tree, map, GATE_IN), "in through the 大铁门")
+	var compound: WorldMapController = session.active_map() as WorldMapController
+	await tree.physics_frame # The arrival's zone Areas report a frame later.
+	_check(compound.map_id() == COMPOUND and player.world_location().zone_id == &"city.shangshu.yuan", "to the 庭院 (the compound's own map)")
+	_check(compound.door(GATE_DOOR) != null and compound.door(GATE_DOOR).is_open(), "the 大铁门 stands open inside too (one door on both maps)")
 	_check(not player.state.marks.has("尚书"), "the leave is spent going in")
-	_check(await MapPlaces.drive_to_zone(tree, map, &"city.shangshu.gate"), "back out to the gate")
-	_check(not await MapPlaces.drive_to_zone(tree, map, &"city.shangshu.yuan") and player.world_location().zone_id == &"city.shangshu.gate", "and not in again without a new leave")
+	_check(await MapPlaces.take_passage(tree, compound, GATE_OUT), "back out through the 大铁门")
+	await tree.physics_frame
+	_check(session.active_map_id() == &"city.main" and player.world_location().zone_id == &"city.shangshu.gate", "back out to the gate")
+	_check(not await MapPlaces.take_passage(tree, map, GATE_IN, 240) and session.active_map_id() == &"city.main" and player.world_location().zone_id == &"city.shangshu.gate", "and not in again without a new leave")
 	porter.set_exists_in_map(false) # TEST-ONLY: the 门房 gone
-	_check(await MapPlaces.drive_to_zone(tree, map, &"city.shangshu.yuan"), "with the 门房 gone, the way is free")
+	_check(await MapPlaces.take_passage(tree, map, GATE_IN) and session.active_map_id() == COMPOUND, "with the 门房 gone, the way is free")
+	await tree.physics_frame
 	porter.set_exists_in_map(true) # TEST-ONLY
 	_check(Work.capture(session) != null, "Save in the 庭院 (the 大铁门 open)")
 
@@ -211,10 +226,11 @@ func _test_paths(tree: SceneTree, session: WorldSessionController) -> void:
 
 ## street3.c's climb and wall.c's jumps: no 轻功 asked (as ES2).
 func _test_wall(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	_check(map.place_player(&"city.street3", MapPlaces.zone_centre(map, &"city.street3")), "TEST-ONLY: on the 东街")
+	# From the 废屋 in the compound (its own map) back onto the city's.
+	var map: WorldMapController = MapPlaces.enter(session, &"city.street3", &"city.street3.wall_return")
+	_check(map != null and map.map_id() == &"city.main" and map.place_player(&"city.street3", MapPlaces.zone_centre(map, &"city.street3")), "TEST-ONLY: on the 东街")
 	await tree.physics_frame
 	_check(map.select_landmark(&"city.street3.landmark.wall"), "the 院墙")
 	map.inspect_selected()
@@ -222,7 +238,7 @@ func _test_wall(tree: SceneTree, session: WorldSessionController) -> void:
 	hud.dismiss_current_panel()
 	await tree.physics_frame
 	await tree.physics_frame
-	_check(await MapPlaces.drive(tree, map, MapPlaces.spot(map, &"city.street3", Vector2(1216, 2136), 40.0)), "under the wall")
+	_check(await MapPlaces.drive(tree, map, MapPlaces.spot(map, &"city.street3", _landmark_at(map, &"city.street3.landmark.wall") + Vector2(0, -24), 40.0)), "under the wall")
 	_check(map.select_landmark(&"city.street3.landmark.wall") and hud.portal_action_text() == "爬上去", "院墙 · 爬上去")
 	map.traverse_selected_portal()
 	await tree.physics_frame
@@ -246,17 +262,18 @@ func _test_wall(tree: SceneTree, session: WorldSessionController) -> void:
 	(top.service(&"city.wall.jump_in") as ActService).interact()
 	await tree.physics_frame
 	await tree.physics_frame
-	_check(session.active_map_id() == &"city.main" and player.world_location().zone_id == &"city.shangshu.feiwu", "jump in: the 废屋, past the 门房")
+	_check(session.active_map_id() == COMPOUND and player.world_location().zone_id == &"city.shangshu.feiwu", "jump in: the 废屋, past the 门房 (the compound's own map)")
 	_check(Work.capture(session) != null, "Save in the 废屋")
 
 
 ## jitan.c's button and the 地下密室 (owner Q2 (a): its stairs open from below too).
 func _test_altar(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var passages: WorldHiddenPassages = session.hidden_passages()
-	_check(map.place_player(&"city.jitan", MapPlaces.spot(map, &"city.jitan", Vector2(928, 1480), 40.0)), "TEST-ONLY: by the altar")
+	# From the 废屋 in the compound (its own map) onto the city's, by the altar.
+	var map: WorldMapController = MapPlaces.enter(session, &"city.jitan", &"city.jitan.stairs_return")
+	_check(map != null and map.map_id() == &"city.main" and map.place_player(&"city.jitan", MapPlaces.spot(map, &"city.jitan", _landmark_at(map, BUTTON) + Vector2(0, 40), 40.0)), "TEST-ONLY: by the altar")
 	await tree.physics_frame
 	await tree.physics_frame
 	_check(map.select_landmark(&"city.jitan.landmark.altar") and map.select_landmark(&"city.jitan.landmark.platform") and map.select_landmark(BUTTON), "祭坛, 台子 and 凸起 in reach")
@@ -367,18 +384,21 @@ func _test_token(tree: SceneTree, session: WorldSessionController) -> void:
 
 ## Every kind of 尚书府 fought thirty seconds without the fight stopping.
 func _test_fights(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
 	var fought: Array[StringName] = []
-	for npc: NpcRuntimeState in map.resident_npcs():
+	# The 门房 at the gate on the city's map, the rest in the compound (its own map since the remap).
+	var people: Array[NpcRuntimeState] = []
+	people.append_array(session.world_map_of(&"city.main").resident_npcs())
+	people.append_array(session.world_map_of(COMPOUND).resident_npcs())
+	for npc: NpcRuntimeState in people:
 		var id: StringName = NpcDefinition.unnamed_id(npc.definition().definition_id)
 		if not KINDS.has(id) or not npc.exists_in_map or fought.has(id) or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
 			continue
 		fought.append(id)
-		await _fight(tree, session, map, npc)
+		await _fight(tree, session, npc)
 	_check(fought.size() == KINDS.size(), "%d kinds fought: %s" % [fought.size(), fought])
 
 
-func _fight(tree: SceneTree, session: WorldSessionController, map: WorldMapController, npc: NpcRuntimeState) -> void:
+func _fight(tree: SceneTree, session: WorldSessionController, npc: NpcRuntimeState) -> void:
 	var name: String = npc.definition().display_name
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	player.state.vitality = CharacterResourceState.new(1000000, 1000000, 1000000) # TEST-ONLY: nobody dies here
@@ -386,6 +406,12 @@ func _fight(tree: SceneTree, session: WorldSessionController, map: WorldMapContr
 	player.state.spirit = CharacterResourceState.new(1000000, 1000000, 1000000) # TEST-ONLY
 	player.state.progression.combat_experience = 100000 # TEST-ONLY
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	# TEST-ONLY placement onto whichever map the NPC stands, then beside it.
+	var map: WorldMapController = MapPlaces.enter(session, npc.world_location().zone_id, npc.spawn_point_id)
+	_check(map != null, "onto %s's map" % name)
+	if map == null:
+		return
+	await tree.physics_frame
 	_check(map.place_player(npc.world_location().zone_id, MapPlaces.spot(map, npc.world_location().zone_id, map.runtime_body_for_character(npc.character_id).global_position + Vector2(0, 40), 60.0)), "beside %s" % name)
 	await tree.physics_frame
 	await tree.physics_frame
@@ -407,6 +433,14 @@ func _fight(tree: SceneTree, session: WorldSessionController, map: WorldMapContr
 		player.relationship.remove_lethal_relation(opponent_id)
 		player.relationship.remove_opponent(opponent_id)
 	await tree.physics_frame
+
+
+## Where a landmark stands on the map (read from the map, so it survives a redraw).
+func _landmark_at(map: WorldMapController, landmark_id: StringName) -> Vector2:
+	for node: Node in map.find_children("*", "Area2D", true, false):
+		if node is WorldLandmarkArea2D and (node as WorldLandmarkArea2D).landmark_id == landmark_id:
+			return (node as Node2D).global_position
+	return Vector2.INF
 
 
 func _npc(map: WorldMapController, definition_id: StringName) -> NpcRuntimeState:

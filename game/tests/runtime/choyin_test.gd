@@ -1,8 +1,10 @@
 extends RefCounted
 
-## 乔阴 A (d/choyin): sixty-one rooms on fourteen maps — the town, the 县府衙门's courts, the
-## temple's terrace and the 福林楼's floors, the hollow under the 树王坟 and the 西大街's lion
-## cave, the east (桐柏山, 云梦大泽, the hermit's hall and the furnace) and 姑射山 with the rooms
+## 乔阴 A (d/choyin): sixty-one rooms on sixteen maps — the town, the 县府衙门's courts, the
+## temple's terrace and the 福林楼's floors (its ground floor through its door on the 福林大街,
+## its own map since the remap), the hollow under the 树王坟 and the 西大街's lion cave, the
+## east (桐柏山, 云梦大泽 and the furnace; the hermit's 草堂 and its yard through the 柴门, their
+## own map since the remap) and 姑射山 with the rooms
 ## only its verbs reach (乔阴 B) — the way in from 泓水南岸's foot of the hill (the 北门's
 ## north stays shut, as ES2), the gates and stairs, the well (drink, fill), the 桃林 behind
 ## 骆云舟 (no_mark), the vendors' lists, the crone's relay_ask() (owner: said as meant). Walks
@@ -11,8 +13,8 @@ const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const MAPS: Dictionary = {
-	&"choyin.town": 30, &"choyin.yamen_compound": 3, &"choyin.temple_altar": 1, &"choyin.hotel_2f": 1, &"choyin.hotel_3f": 1,
-	&"choyin.tree_hollow": 3, &"choyin.lion_cave": 1, &"choyin.east": 10, &"choyin.furnace": 1, &"choyin.guye": 3,
+	&"choyin.town": 29, &"choyin.hotel_house": 1, &"choyin.yamen_compound": 3, &"choyin.temple_altar": 1, &"choyin.hotel_2f": 1, &"choyin.hotel_3f": 1,
+	&"choyin.tree_hollow": 3, &"choyin.lion_cave": 1, &"choyin.east": 8, &"choyin.club_house": 2, &"choyin.furnace": 1, &"choyin.guye": 3,
 	&"choyin.crown": 1, &"choyin.cliff_cave": 1, &"choyin.summit": 1, &"choyin.valley": 4,
 }
 ## Each map's way in for the handoff check: zone and spawn point.
@@ -57,7 +59,7 @@ func _test_data() -> void:
 		if String(zone.zone_id).begins_with("choyin."):
 			maps[zone.map_id] = maps.get(zone.map_id, 0) + 1
 			_check(zone.room_ids().size() == 1 and catalog.room(zone.room_ids()[0]) != null, "%s: one room" % zone.zone_id)
-	_check(maps == MAPS, "61 rooms on fourteen maps: %s" % maps)
+	_check(maps == MAPS, "61 rooms on sixteen maps (the 福林楼's ground floor and the 草堂 with its yard on their own): %s" % maps)
 	_check(catalog.zone_of_room(&"es2:d/choyin/stonehole") == null, "the 石室 has no way in: not placed")
 	_check(catalog.region(&"choyin").display_name == "乔阴县城" and catalog.region(&"choyin_east").display_name == "乔阴东郊" and catalog.region(&"guye").display_name == "姑射山", "乔阴县城, 乔阴东郊, 姑射山")
 	_check(catalog.portal(&"sunhill.road1.east").destination_zone_id == &"choyin.n_gate" and catalog.portal(&"choyin.n_gate.west").destination_zone_id == &"sunhill.road1", "the foot of the hill east to the 北门, and back")
@@ -183,9 +185,13 @@ func _test_floors(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(altar.map_id() == &"choyin.temple_altar" and _npc(altar, &"choyin.npc.lady") != null, "the terrace, the lady praying")
 	_check(await MapPlaces.take_passage(tree, altar, &"choyin.altar.down"), "down again")
 	map = session.active_map() as WorldMapController
-	_check(await MapPlaces.drive_through(tree, map, [&"choyin.sw_road1", &"choyin.s_street1", &"choyin.s_street2", &"choyin.hotel1"]), "into the 福林楼")
-	_check(_npc(map, &"choyin.npc.boss") != null and _npc(map, &"choyin.npc.sergeant") != null, "汤掌柜 and the 武官")
-	_check(await MapPlaces.take_passage(tree, map, &"choyin.hotel1.up"), "upstairs")
+	_check(await MapPlaces.drive_through(tree, map, [&"choyin.sw_road1", &"choyin.s_street1", &"choyin.s_street2"]), "to the 福林楼's door")
+	_check(await MapPlaces.take_passage(tree, map, &"choyin.s_street2.east"), "east through the door into the 福林楼")
+	var hall: WorldMapController = session.active_map() as WorldMapController
+	await tree.physics_frame # The arrival's zone Areas report a frame later.
+	_check(hall.map_id() == &"choyin.hotel_house" and session.player_runtime().world_location().zone_id == &"choyin.hotel1", "the 福林楼's hall is its own map: %s" % session.player_runtime().world_location().zone_id)
+	_check(_npc(hall, &"choyin.npc.boss") != null and _npc(hall, &"choyin.npc.sergeant") != null, "汤掌柜 and the 武官")
+	_check(await MapPlaces.take_passage(tree, hall, &"choyin.hotel1.up"), "upstairs")
 	var second: WorldMapController = session.active_map() as WorldMapController
 	_check(second.map_id() == &"choyin.hotel_2f" and _npc(second, &"choyin.npc.youngman") != null, "the 雅座, the young gentleman")
 	_check(await MapPlaces.take_passage(tree, second, &"choyin.hotel2.up"), "up to the guest rooms")
@@ -199,13 +205,17 @@ func _test_floors(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(await MapPlaces.take_passage(tree, third, &"choyin.hotel3.down"), "down")
 	second = session.active_map() as WorldMapController
 	_check(await MapPlaces.take_passage(tree, second, &"choyin.hotel2.down"), "down to the hall")
-	_check(session.player_runtime().world_location().zone_id == &"choyin.hotel1", "the hall")
+	_check(session.active_map_id() == &"choyin.hotel_house" and session.player_runtime().world_location().zone_id == &"choyin.hotel1", "the hall")
 
 
 ## East of the 东城门 to the marsh, the 青石峪 and the hermit's hall; south of the 南门 to
 ## the 绝壁.
 func _test_outskirts(tree: SceneTree, session: WorldSessionController) -> void:
+	var hall: WorldMapController = session.active_map() as WorldMapController
+	_check(await MapPlaces.take_passage(tree, hall, &"choyin.hotel1.west"), "out of the 福林楼 by its door")
 	var map: WorldMapController = session.active_map() as WorldMapController
+	await tree.physics_frame # The arrival's zone Areas report a frame later.
+	_check(map.map_id() == &"choyin.town" and session.player_runtime().world_location().zone_id == &"choyin.s_street2", "on the 福林大街: %s" % session.player_runtime().world_location().zone_id)
 	_check(await MapPlaces.drive_through(tree, map, [&"choyin.s_street2", &"choyin.s_street3", &"choyin.tree_tomb", &"choyin.e_street1", &"choyin.e_gate"]), "to the 东城门")
 	_check(await MapPlaces.take_passage(tree, map, &"choyin.e_gate.east"), "out of the gate")
 	var east: WorldMapController = session.active_map() as WorldMapController
@@ -213,11 +223,18 @@ func _test_outskirts(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(await MapPlaces.drive_through(tree, east, [&"choyin.rockpath2", &"choyin.rockpath1", &"choyin.rockyu", &"choyin.tongbhill"]), "up to 桐柏山")
 	_check(await MapPlaces.drive_through(tree, east, [&"choyin.rockyu", &"choyin.fence"]), "down into the bamboo")
 	_check(await MapPlaces.drive(tree, east, MapPlaces.door_spot(east, &"choyin.fence.door", &"choyin.fence")) and east.open_door(&"choyin.fence.door"), "the wicket gate opens")
-	_check(await MapPlaces.drive_to_zone(tree, east, &"choyin.club"), "the thatched hall")
-	_check(east.select_landmark(&"choyin.club.landmark.books"), "the books on the low table")
+	_check(await MapPlaces.take_passage(tree, east, &"choyin.fence.west"), "west through the 柴门")
+	var club: WorldMapController = session.active_map() as WorldMapController
+	await tree.physics_frame # The arrival's zone Areas report a frame later.
+	_check(club.map_id() == &"choyin.club_house" and session.player_runtime().world_location().zone_id == &"choyin.club", "the thatched hall, its own map: %s" % session.player_runtime().world_location().zone_id)
+	_check(club.select_landmark(&"choyin.club.landmark.books"), "the books on the low table")
 	session.shared_ui().dismiss_current_panel()
 	await tree.physics_frame
 	await tree.physics_frame
+	_check(await MapPlaces.take_passage(tree, club, &"choyin.club.east"), "out east through the 柴门")
+	east = session.active_map() as WorldMapController
+	await tree.physics_frame # The arrival's zone Areas report a frame later.
+	_check(east.map_id() == &"choyin.east" and session.player_runtime().world_location().zone_id == &"choyin.fence", "the bamboo fence again: %s" % session.player_runtime().world_location().zone_id)
 	_check(await MapPlaces.drive_through(tree, east, [&"choyin.fence", &"choyin.rockyu", &"choyin.rockpath1", &"choyin.rockpath2", &"choyin.solidpath1"]), "back to the road")
 	_check(await MapPlaces.take_passage(tree, east, &"choyin.solidpath1.west"), "back through the 东城门")
 	map = session.active_map() as WorldMapController

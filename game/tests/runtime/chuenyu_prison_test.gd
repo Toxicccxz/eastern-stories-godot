@@ -5,7 +5,8 @@ extends RefCounted
 ## agree (M3: passages on one map), the sunlit 地牢's slab (five pushes, five seconds, shut on
 ## time). 淳于怀太 falls on whoever comes into the 刑房; 小娟 cries for help three seconds on and
 ## follows the player who stays twenty (only the player, F4), every way (F2: the maze, the slab,
-## the chain, another map, a door; saved where she stands), attacking her asked first (F3).
+## the chain, 黑松堡's wall and stairs onto its own maps, another map, a door; saved where she
+## stands), attacking her asked first (F3).
 ## 刘老农 thanks the player only with 娟儿 beside them (F1) and both leave for good (Q2 (a)); her
 ## killer meets his revenge once (killhim(): 悲愤欲绝 until his room resets, M7), then silence.
 ## Walks use the move actions (MapPlaces). TEST-ONLY fixtures are marked.
@@ -45,6 +46,8 @@ const THANKS: Array[String] = [
 ]
 ## 刘家小房 is its own map since the remap, behind the 木门 on the garden.
 const LIU_HOUSE: StringName = &"village.liu_house"
+## 黑松堡's gardens and halls are their own map since the remap (over the wall, down the stairs).
+const CASTLE: StringName = &"chuenyu.castle"
 const REVENGE: String = "刘老农悲愤欲绝的骂道：你．．你．．你们居然杀了我女儿，纳命来！"
 
 var _count: int = 0
@@ -61,6 +64,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_chunyu(tree, session)
 	await _test_xiaojuan(tree, session)
 	session = await _test_slab(tree, session)
+	session = await _test_castle_ways(tree, session)
 	await _test_way_home(tree, session)
 	session = await _test_thanks(tree, session)
 	session.free()
@@ -115,11 +119,16 @@ func _test_fall(tree: SceneTree, session: WorldSessionController) -> void:
 	var hud: SharedGameplayUI = session.shared_ui()
 	_check(session.handoff_to(&"chuenyu.main", &"chuenyu.croad1", &"chuenyu.croad1", &"chuenyu.croad1.village_arrival").succeeded(), "on 黑松山")
 	await tree.physics_frame
-	var map: WorldMapController = session.active_map() as WorldMapController
-	for npc: NpcRuntimeState in map.resident_npcs():
+	# 黑松堡's halls are a map of their own since the remap.
+	var castle: WorldMapController = session.world_map_of(CASTLE)
+	for npc: NpcRuntimeState in castle.resident_npcs():
 		if NpcDefinition.unnamed_id(npc.definition().definition_id) == &"chuenyu.npc.guard":
-			map.npcs.vanish(npc) # TEST-ONLY: the 护院 out of the way
-	_check(map.place_player(&"chuenyu.center", MapPlaces.zone_centre(map, &"chuenyu.center")), "TEST-ONLY: in the main hall")
+			castle.npcs.vanish(npc) # TEST-ONLY: the 护院 out of the way
+	# TEST-ONLY: onto the castle's map (at the west hall's stairs), then into the main hall.
+	var map: WorldMapController = MapPlaces.enter(session, &"chuenyu.west_blackge", &"chuenyu.west_blackge.stairs_return")
+	_check(map != null and map.map_id() == CASTLE and map.place_player(&"chuenyu.center", MapPlaces.zone_centre(map, &"chuenyu.center")), "TEST-ONLY: in the main hall")
+	if map == null:
+		return
 	await tree.physics_frame
 	var pull: ActService = map.service(&"chuenyu.center.pull") as ActService
 	_check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, &"chuenyu.center.pull")) and pull.in_reach() and pull.verb() == "拉", "绳子 · 拉")
@@ -246,16 +255,74 @@ func _test_slab(tree: SceneTree, session: WorldSessionController) -> WorldSessio
 	var main: WorldMapController = session.active_map() as WorldMapController
 	_check(main.map_id() == &"chuenyu.main" and player.world_location().zone_id == &"chuenyu.east_castle", "the east clifftop: %s" % player.world_location().zone_id)
 	var juan: NpcRuntimeState = _npc(main, XIAOJUAN)
-	_check(juan != null and juan.world_location().zone_id == &"chuenyu.east_castle" and _npc(map, XIAOJUAN) == null, "小娟 came up with the player, onto the castle's map")
+	_check(juan != null and juan.world_location().zone_id == &"chuenyu.east_castle" and _npc(map, XIAOJUAN) == null, "小娟 came up with the player, onto 黑松山's map (the clifftop's)")
 	session.advance_hidden_passages(5.0)
 	_check(not main.is_portal_open(&"chuenyu.east_castle.down") and hud.log_lines()[-1] == "石板“轰”的一声又倒了下去，将向下的通道盖住了。", "five seconds: it falls shut with the player above (close_passage())")
 	# Saved here, she is here again.
 	session = await _continue(tree, session)
 	main = session.active_map() as WorldMapController
 	juan = _npc(main, XIAOJUAN)
-	_check(juan != null and juan.world_location().zone_id == &"chuenyu.east_castle" and juan.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER) and session.player_runtime().state.marks.get("老刘", 0) == 1, "Continue: 小娟 beside the player on the castle's map, still following")
+	_check(juan != null and juan.world_location().zone_id == &"chuenyu.east_castle" and juan.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER) and session.player_runtime().state.marks.get("老刘", 0) == 1, "Continue: 小娟 beside the player on 黑松山's map, still following")
 	_check(_npc(session.world_map_of(&"chuenyu.prison"), XIAOJUAN) == null, "and not in the 地牢")
 	return session
+
+
+## 黑松堡 is a map of its own since the remap: over the wall (an act's move onto that map), the
+## stairs up to 淳于's rooms and down again (doorways between maps), saved there, and back
+## over the wall: 小娟 comes along every time (F2).
+func _test_castle_ways(tree: SceneTree, session: WorldSessionController) -> WorldSessionController:
+	var player: WorldPlayerRuntimeState = session.player_runtime()
+	var map: WorldMapController = session.active_map() as WorldMapController
+	var juan: NpcRuntimeState = _npc(map, XIAOJUAN)
+	if juan == null:
+		_check(false, "小娟 beside the player on the clifftop")
+		return session
+	var climb: ActService = map.service(&"chuenyu.east_castle.climb") as ActService
+	_check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, climb.service_id())) and climb.in_reach(), "by the east wall")
+	_where(session, juan, "she walked after the player to the wall")
+	climb.interact()
+	await tree.physics_frame
+	await tree.physics_frame
+	_check(session.active_map_id() == CASTLE and player.world_location().zone_id == &"chuenyu.east_garden", "over the wall into the east garden, 黑松堡's map: %s" % player.world_location().zone_id)
+	_where(session, juan, "over the wall, and she too")
+	_finish_fight(session)
+	map = session.active_map() as WorldMapController
+	map.npc_life._advance_ambience(0.0) # the arrival noticed (the NPCs' time is driven by hand here)
+	_check(await _walk(tree, map, [&"chuenyu.east_blackge"]), "into the east hall")
+	_where(session, juan, "she walked after the player into the east hall")
+	_check(await _through(tree, map, &"chuenyu.east_blackge.westup") and session.active_map_id() == &"chuenyu.upstairs", "up the stairs to 淳于's bedroom")
+	_where(session, juan, "up the stairs, and she too")
+	map = session.active_map() as WorldMapController
+	_check(await _through(tree, map, &"chuenyu.bedroom.eastdown") and session.active_map_id() == CASTLE, "down the east stairs")
+	_where(session, juan, "down the stairs, and she too")
+	session = await _continue(tree, session)
+	player = session.player_runtime()
+	map = session.active_map() as WorldMapController
+	juan = _npc(map, XIAOJUAN)
+	_check(juan != null and juan.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER), "Continue in the east hall: 小娟 there, still following")
+	if juan == null:
+		return session
+	_where(session, juan, "Continue: she stands where she was saved")
+	_check(await _walk(tree, map, [&"chuenyu.east_garden"]), "back into the east garden")
+	_finish_fight(session)
+	climb = map.service(&"chuenyu.east_garden.climb") as ActService
+	_check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, climb.service_id())) and climb.in_reach(), "by the wall inside")
+	climb.interact()
+	await tree.physics_frame
+	await tree.physics_frame
+	_check(session.active_map_id() == &"chuenyu.main" and player.world_location().zone_id == &"chuenyu.east_castle", "back over the wall onto the clifftop: %s" % player.world_location().zone_id)
+	_where(session, juan, "back over the wall, and she too")
+	(session.active_map() as WorldMapController).npc_life._advance_ambience(0.0)
+	return session
+
+
+## 小娟 stands on the player's map, in the player's room.
+func _where(session: WorldSessionController, juan: NpcRuntimeState, label: String) -> void:
+	var on: StringName = &""
+	for map: WorldMapController in session.world_maps():
+		if map.resident_npcs().has(juan):
+			on = map.map_id()
+	_check(on == session.active_map_id() and juan.exists_in_map and juan.world_location().zone_id == session.player_runtime().world_location().zone_id, "%s: she on %s in %s (life %d, fighting %s, following %s), the player on %s in %s" % [label, on, juan.world_location().zone_id, juan.life_status, juan.relationship.is_fighting(), juan.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER), session.active_map_id(), session.player_runtime().world_location().zone_id])
 
 
 ## Every way the player goes (F2): walked to the gate and the street, down the chain, along the

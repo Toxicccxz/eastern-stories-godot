@@ -27,9 +27,11 @@ const KINDS: Array[StringName] = [
 	&"choyin.npc.youngman", &"choyin.npc.servant", GUARD, &"choyin.npc.judgeman", &"choyin.npc.serpent",
 	&"choyin.npc.lboy",
 ]
-## The maps the fights walk, with where the player stands at first.
+## The maps the fights walk, with where the player stands at first (the 福林楼's ground floor
+## is its own map since the remap: 汤掌柜 and the 武官).
 const MAPS: Array = [
 	[&"choyin.town", &"choyin.n_gate", &"choyin.n_gate.road_arrival"],
+	[&"choyin.hotel_house", &"choyin.hotel1", &"choyin.hotel1.s_street2_entry"],
 	[&"choyin.hotel_2f", &"choyin.hotel2", &"choyin.hotel2.stairs_arrival"],
 	[&"choyin.hotel_3f", &"choyin.hotel3", &"choyin.hotel3.stairs_arrival"],
 	[&"choyin.yamen_compound", &"choyin.yamen", &"choyin.yamen.hall_entry"],
