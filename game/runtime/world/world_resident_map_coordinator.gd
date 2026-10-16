@@ -15,6 +15,8 @@ var _passage_request_pending: bool = false
 ## A handoff the player leads is under way (handoff_led()).
 var _leading: bool = false
 var _last_map_handoff: OldPineMapHandoffResult
+## Counts the view's fades; a fade-in's end releases the hold only if no fade began since.
+var _view_serial: int = 0
 
 
 func active_map() -> WorldResidentMapController:
@@ -33,10 +35,70 @@ func has_resident_map(map_id: StringName) -> bool:
 	return _resident_maps.has(map_id)
 
 
+## The view goes dark for `seconds` before a passage the player walked into changes the
+## map (DECISIONS「手感」); nothing else changes then: the world is held (_hold_view()).
+signal view_leaving(seconds: float)
+## The view comes back: on `map_id` after a handoff (`arrived`), or where it was when a
+## walked passage did not go after all.
+signal view_arriving(map_id: StringName, arrived: bool)
+
+
 func _on_passage_requested(portal: PortalDefinition, source: WorldResidentMapController) -> void:
+	if _passage_request_pending:
+		return
 	# Never detach a physics Area while its query is flushing.
 	_passage_request_pending = true
-	call_deferred("_execute_passage_request", portal, source)
+	var seconds: float = _fade_out_seconds()
+	if seconds <= 0.0:
+		call_deferred("_execute_passage_request", portal, source)
+		return
+	_view_serial += 1
+	_hold_view(true)
+	view_leaving.emit(seconds)
+	get_tree().create_timer(seconds, false).timeout.connect(_on_faded_out.bind(portal, source))
+
+
+func _on_faded_out(portal: PortalDefinition, source: WorldResidentMapController) -> void:
+	var before: OldPineMapHandoffResult = _last_map_handoff
+	_execute_passage_request(portal, source)
+	if _last_map_handoff == before or not _last_map_handoff.succeeded():
+		# The passage did not go after all: it can be taken again.
+		source.clear_passage_contacts()
+		_hold_view(false)
+		view_arriving.emit(_active_map_id, false)
+
+
+## A Session overrides these narrow hooks (the feel's map_fade_out_ms / map_fade_in_ms, and
+## holding world time and the player's walk while the view is dark). A physical-only
+## fixture changes maps at once.
+func _fade_out_seconds() -> float:
+	return 0.0
+
+
+func _fade_in_seconds() -> float:
+	return 0.0
+
+
+func _hold_view(_on: bool) -> void:
+	pass
+
+
+## The view came back on the new map: the world goes on once it has faded in.
+func _arrived_on(map_id: StringName) -> void:
+	var seconds: float = _fade_in_seconds()
+	_view_serial += 1
+	view_arriving.emit(map_id, true)
+	if seconds <= 0.0:
+		_hold_view(false)
+		return
+	_hold_view(true)
+	get_tree().create_timer(seconds, false).timeout.connect(_on_faded_in.bind(_view_serial))
+
+
+func _on_faded_in(serial: int) -> void:
+	# A later passage keeps the view held.
+	if serial == _view_serial:
+		_hold_view(false)
 
 
 ## handoff_to() for a way the player takes (a passage, a landmark's portal, an act's move):
@@ -275,6 +337,7 @@ func _handoff_to_impl(
 	result._outcome = OldPineMapHandoffResult.Outcome.COMPLETED
 	result._failure_stage = OldPineMapHandoffResult.FailureStage.NONE
 	_transitioning = false
+	_arrived_on(destination_map_id)
 	return result
 
 

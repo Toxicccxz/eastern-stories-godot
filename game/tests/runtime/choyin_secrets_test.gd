@@ -331,7 +331,7 @@ func _test_hollow(tree: SceneTree, session: WorldSessionController) -> void:
 	await tree.physics_frame
 	map = session.active_map() as WorldMapController
 	var sergeant: NpcRuntimeState = _npc(map, SERGEANT)
-	_check(sergeant != null and map.relocate_player(sergeant.world_location().zone_id, sergeant.spawn_point_id), "beside the 武官")
+	_check(sergeant != null and map.place_player(sergeant.world_location().zone_id, MapPlaces.spot(map, sergeant.world_location().zone_id, map.runtime_body_for_character(sergeant.character_id).global_position, 96.0)), "beside the 武官")
 	await tree.physics_frame
 	await tree.physics_frame
 	map.select_npc(sergeant.character_id)
@@ -355,7 +355,7 @@ func _test_hollow(tree: SceneTree, session: WorldSessionController) -> void:
 func _test_lovers(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var girl: NpcRuntimeState = _npc(map, GIRL)
-	_check(girl != null and map.relocate_player(girl.world_location().zone_id, girl.spawn_point_id), "beside the 官家小姐")
+	_check(girl != null and map.place_player(girl.world_location().zone_id, MapPlaces.spot(map, girl.world_location().zone_id, map.runtime_body_for_character(girl.character_id).global_position, 96.0)), "beside the 官家小姐")
 	await tree.physics_frame
 	await tree.physics_frame
 	map.select_npc(girl.character_id)
@@ -370,7 +370,7 @@ func _test_lovers(tree: SceneTree, session: WorldSessionController) -> void:
 		await tree.physics_frame
 		map = session.active_map() as WorldMapController
 		youngman = _npc(map, YOUNGMAN)
-	_check(youngman != null and map.relocate_player(youngman.world_location().zone_id, youngman.spawn_point_id), "beside 游晋")
+	_check(youngman != null and map.place_player(youngman.world_location().zone_id, MapPlaces.spot(map, youngman.world_location().zone_id, map.runtime_body_for_character(youngman.character_id).global_position, 96.0)), "beside 游晋")
 	await tree.physics_frame
 	await tree.physics_frame
 	map.select_npc(youngman.character_id)
@@ -484,7 +484,7 @@ func _test_guye(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(player.world_location().zone_id == &"choyin.craneroom" and hud.log_lines().has("你七手八脚地爬上了古树。"), "up the tree to the cranes")
 	crown = session.active_map() as WorldMapController
 	var crane: NpcRuntimeState = _npc(crown, CRANE)
-	_check(crane != null and crown.relocate_player(&"choyin.craneroom", crane.spawn_point_id), "beside a 仙鹤")
+	_check(crane != null and crown.place_player(&"choyin.craneroom", MapPlaces.spot(crown, &"choyin.craneroom", crown.runtime_body_for_character(crane.character_id).global_position, 96.0)), "beside a 仙鹤")
 	await tree.physics_frame
 	await tree.physics_frame
 	crown.select_npc(crane.character_id)

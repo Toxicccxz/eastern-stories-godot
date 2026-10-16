@@ -66,6 +66,8 @@ func traverse(
 	# ES2 moves the living object directly (clearing.c climb, cliffside north). Physical embodiment is
 	# committed before the native logical projection, so the result records both.
 	body.global_position = destination_marker.global_position
+	if body is WorldCharacterBody2D:
+		(body as WorldCharacterBody2D).placed()
 	result._physical_position_updated = true
 	if not player.set_world_location(destination_location):
 		result._outcome = (

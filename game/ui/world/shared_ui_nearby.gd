@@ -86,7 +86,7 @@ func refresh() -> void:
 		var labels: PackedStringArray = []
 		for command: Array in entry[1]:
 			labels.append(command[0])
-		signature.append("%d:%s:%s:%s" % [thing.kind, thing.id, _shown_name(thing), ",".join(labels)])
+		signature.append("%d:%s:%s:%s" % [thing.kind, thing.id, shown_name(thing), ",".join(labels)])
 	var joined: String = "|".join(signature)
 	_presentation_layout.nearby.visible = not commands.is_empty()
 	if joined != _shown_signature:
@@ -165,7 +165,7 @@ func _keep_order(things: Array[WorldNearbyThing]) -> Array[WorldNearbyThing]:
 	return ordered
 
 
-func _shown_name(thing: WorldNearbyThing) -> String:
+func shown_name(thing: WorldNearbyThing) -> String:
 	match thing.kind:
 		WorldNearbyThing.Kind.NPC:
 			return thing.npc.short_name()
@@ -273,9 +273,9 @@ func _rebuild(commands: Array[Array]) -> void:
 	_shown.clear()
 	for entry: Array in commands:
 		var thing: WorldNearbyThing = entry[0]
-		var shown_name: String = _shown_name(thing)
-		var row: PanelContainer = _presentation_layout.nearby_row(shown_name)
-		row.set_meta(&"shown_name", shown_name)
+		var title: String = shown_name(thing)
+		var row: PanelContainer = _presentation_layout.nearby_row(title)
+		row.set_meta(&"shown_name", title)
 		if thing.kind == WorldNearbyThing.Kind.NPC:
 			row.set_meta(&"npc_id", thing.id)
 		var labels: Array[String] = []
@@ -287,7 +287,7 @@ func _rebuild(commands: Array[Array]) -> void:
 				button.theme_type_variation = &"AccentButton"
 			labels.append(button.text)
 		container.add_child(row)
-		_shown.append([shown_name, labels])
+		_shown.append([title, labels])
 	if _ui.card_nav_active() and container.is_inside_tree() and (place.x >= 0 or container.get_viewport().gui_get_focus_owner() == null):
 		if commands.is_empty():
 			_ui.leave_card_nav()

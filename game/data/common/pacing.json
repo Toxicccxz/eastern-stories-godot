@@ -10,6 +10,17 @@
 		"reaction_beat_ms": 400,
 		"trial_blow_ms": 700,
 		"heart_beat_ms": 2000,
-		"dim_fade_ms": 400
+		"dim_fade_ms": 400,
+		"feel": {
+			"map_fade_out_ms": 150,
+			"map_fade_in_ms": 200,
+			"map_banner_ms": 1600,
+			"camera_follow_speed": 6,
+			"move_accel_ms": 80,
+			"move_stop_ms": 60,
+			"speech_bubble_ms": 2500,
+			"speech_bubble_char_ms": 60,
+			"menu_fade_ms": 120
+		}
 	}
 }

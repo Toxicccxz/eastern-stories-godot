@@ -16,8 +16,19 @@ var _character_id: StringName = &""
 var _world_simulation_gate: WorldSimulationGate
 var _movement_input_quarantined: bool = false
 ## The player is in custody (WorldMapPatrols): their own walking does nothing; a walk the
-## world makes for them (being led) still moves the body.
-var held: bool = false
+## world makes for them (being led) still moves the body. That walk moves it frame by frame
+## (WorldNpcWalker), so it is drawn where it is rather than between physics steps.
+var held: bool = false:
+	set(value):
+		if held == value:
+			return
+		held = value
+		_interpolate(_player != null and not value)
+		if not value:
+			reset_physics_interpolation()
+## The view is fading around a map change (WorldSessionController._hold_view()): the
+## player stands while it does.
+var walk_paused: bool = false
 ## Collision in effect before a death/absence removed it; restored when the
 ## character comes back to life.
 var _suppressed_collision_layer: int = 0
@@ -32,6 +43,62 @@ var _ghost: bool = false
 var character_id: StringName:
 	get: return _character_id
 
+## The way the body last moved, one of eight (DECISIONS「手感」): a notch on its edge.
+var facing: Vector2 = Vector2.DOWN
+var _last_position: Vector2 = Vector2.INF
+const FACING_NOTCH_COLOR: Color = Color(1.0, 1.0, 1.0, 0.85)
+## A jump further than this in one physics step is a placement, not a step.
+const FACING_MAX_STEP: float = 48.0
+
+
+## Top-down walking (DECISIONS「手感」): a body slides along whatever it walks into, and
+## its square becomes the circle the square holds, so it rounds corners and passes
+## between two others instead of catching on their edges. The same width: any gap it
+## could not pass before, it still cannot.
+func _ready() -> void:
+	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
+	var shape_node: CollisionShape2D = get_node_or_null("CollisionShape2D") as CollisionShape2D
+	var square: RectangleShape2D = shape_node.shape as RectangleShape2D if shape_node != null else null
+	if square != null:
+		var circle: CircleShape2D = CircleShape2D.new()
+		circle.radius = minf(square.size.x, square.size.y) / 2.0
+		shape_node.shape = circle
+
+
+## The body was put somewhere rather than walked there: drawn there at once, no glide
+## from where it was, and its camera (the player's) is there too.
+func placed() -> void:
+	velocity = Vector2.ZERO
+	_last_position = Vector2.INF
+	reset_physics_interpolation()
+	var camera: Camera2D = get_node_or_null("Camera2D") as Camera2D
+	if camera != null and camera.enabled:
+		camera.reset_smoothing()
+
+
+func _draw() -> void:
+	var tip: Vector2 = facing * 31.0
+	var base: Vector2 = facing * 22.0
+	var side: Vector2 = facing.orthogonal() * 6.0
+	draw_colored_polygon(PackedVector2Array([tip, base + side, base - side]), FACING_NOTCH_COLOR)
+
+
+func _turn_to(direction: Vector2) -> void:
+	if direction == Vector2.ZERO:
+		return
+	var turned: Vector2 = Vector2.from_angle(snappedf(direction.angle(), PI / 4.0))
+	if not turned.is_equal_approx(facing):
+		facing = turned
+		queue_redraw()
+
+
+## A body the world moves (an NPC walking, the player led) turns the way it went.
+func _track_facing() -> void:
+	var moved: Vector2 = global_position - _last_position if _last_position.is_finite() else Vector2.ZERO
+	_last_position = global_position
+	if moved.length_squared() > 0.25 and moved.length() <= FACING_MAX_STEP:
+		_turn_to(moved)
+
 
 func bind_player(value: WorldPlayerRuntimeType) -> bool:
 	if value == null or not value.is_valid():
@@ -40,8 +107,20 @@ func bind_player(value: WorldPlayerRuntimeType) -> bool:
 	_npc = null
 	_character_id = value.character_id
 	_update_label(value.facts.display_name)
+	_interpolate(not held)
 	refresh_runtime_state()
 	return true
+
+
+## The player's walk (move_and_slide() in physics steps) is drawn between those steps on a
+## faster screen, and its camera with it (DECISIONS「手感」); NPCs, moved frame by frame,
+## are not.
+func _interpolate(on: bool) -> void:
+	# An interpolated camera follows in physics steps (Godot would switch it and warn).
+	var camera: Camera2D = get_node_or_null("Camera2D") as Camera2D
+	if camera != null:
+		camera.process_callback = Camera2D.CAMERA2D_PROCESS_PHYSICS if on else Camera2D.CAMERA2D_PROCESS_IDLE
+	physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_ON if on else Node.PHYSICS_INTERPOLATION_MODE_OFF
 
 
 func bind_npc(value: NpcRuntimeState) -> bool:
@@ -126,6 +205,7 @@ var _push_seconds: float = 0.0
 
 
 func _physics_process(delta: float) -> void:
+	_track_facing()
 	if (
 		not player_controlled
 		or not _exists()
@@ -143,7 +223,7 @@ func _physics_process(delta: float) -> void:
 		if not _movement_input_is_pressed():
 			_movement_input_quarantined = false
 		return
-	if held:
+	if held or walk_paused:
 		velocity = Vector2.ZERO
 		_push_target = null
 		_push_seconds = 0.0
@@ -154,9 +234,21 @@ func _physics_process(delta: float) -> void:
 		"move_up",
 		"move_down",
 	)
-	velocity = direction * movement_speed
+	_turn_to(direction)
+	velocity = _eased_velocity(direction * movement_speed, delta)
 	move_and_slide()
+	_last_position = global_position
 	_track_push(direction, delta)
+
+
+## The walk's speed eases toward `wanted` (DECISIONS「手感」: move_accel_ms to full speed,
+## move_stop_ms to a stop); 0 is at once. Only how it starts and stops: full speed is the same.
+func _eased_velocity(wanted: Vector2, delta: float) -> Vector2:
+	var feel: FeelDefinition = GameContent.catalog().pacing().feel
+	var seconds: float = feel.move_accel_seconds if wanted != Vector2.ZERO else feel.move_stop_seconds
+	if seconds <= 0.0:
+		return wanted
+	return velocity.move_toward(wanted, movement_speed / seconds * delta)
 
 
 ## Counts how long the player has pushed into the same standing NPC body; any frame

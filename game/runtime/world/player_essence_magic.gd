@@ -180,9 +180,6 @@ func _move_beside(npc: NpcRuntimeState, spot: Vector2) -> bool:
 		if not map.place_player(location.zone_id, spot):
 			push_error("drift_sense could not put the player beside %s" % npc.character_id)
 			return false
-		var camera: Camera2D = map.player_body.get_node_or_null("Camera2D") as Camera2D
-		if camera != null:
-			camera.reset_smoothing()
 		return true
 	var moved: OldPineMapHandoffResult = _session.handoff_to_point(map.map_id(), location.zone_id, location.combat_location_id, spot)
 	if not moved.succeeded():

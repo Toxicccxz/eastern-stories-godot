@@ -222,9 +222,28 @@ func present(tab: int = -1) -> void:
 		var focused: Control = root.get_viewport().gui_get_focus_owner() if root.is_inside_tree() else null
 		_return_focus = null if focused == null or root.is_ancestor_of(focused) else weakref(focused)
 	visible = true
+	if first:
+		_fade_in()
 	if first and _ui != null:
 		_ui.menu_presented()
 	show_tab(_current if tab < 0 else tab)
+
+
+var _fade: Tween
+
+
+## The window fades in over the feel's menu_fade_ms (DECISIONS「手感」); it takes its keys
+## and holds world time from the first frame, and closes at once so the player walks on.
+func _fade_in() -> void:
+	if _fade != null and _fade.is_valid():
+		_fade.kill()
+	var seconds: float = GameContent.catalog().pacing().feel.menu_fade_seconds
+	if seconds <= 0.0:
+		root.modulate.a = 1.0
+		return
+	root.modulate.a = 0.0
+	_fade = create_tween()
+	_fade.tween_property(root, "modulate:a", 1.0, seconds)
 
 
 func dismiss() -> void:

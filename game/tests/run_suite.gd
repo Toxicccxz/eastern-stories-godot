@@ -39,6 +39,7 @@ func _run() -> void:
 
 	# Suites build many worlds; parse each map scene once per process.
 	WorldSessionController.keep_map_scenes = true
+	TestFeel.turn_off()
 	var assertions: int = 0
 	var failures: Array[String] = []
 	var script_errors := ScriptErrors.new()

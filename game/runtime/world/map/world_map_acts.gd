@@ -71,6 +71,8 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 	var npc_name: String = "" if npc == null else npc.definition().display_name
 	var respect: String = RankWords.query_respect(state.gender, _player.facts.age, state.affiliation.class_id)
 	var said: Array[ColoredLine] = []
+	# What the NPC itself says, for the bubble over its head (DECISIONS「手感」).
+	var spoken: Array[String] = []
 	var moved_away: bool = false
 	for step: ScriptedAct.Step in act.steps:
 		if moved_away:
@@ -78,6 +80,7 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 		match step.kind:
 			ScriptedAct.Kind.LINE:
 				said.append(step.line.colored(npc_name, respect))
+				spoken.append(said[-1].text)
 			ScriptedAct.Kind.DAMAGE:
 				for key: String in ScriptedAct.RESOURCES:
 					if step.amounts.has(key):
@@ -105,11 +108,11 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 				if npc != null:
 					npc.character_state.recovery.inner_force.current += step.value
 			ScriptedAct.Kind.CLOSE_DOOR:
-				_show(said, hears)
+				_show(said, hears, npc, spoken)
 				if npc != null:
 					_close_door(npc, hears)
 			ScriptedAct.Kind.MOVE:
-				_show(said, hears)
+				_show(said, hears, npc, spoken)
 				var zone: ZoneDefinition = GameContent.catalog().zone(step.zone_id)
 				if zone != null and zone.map_id != _map.map_id() and npc != null:
 					push_error("%s's greeting cannot move the player off its map to %s" % [npc_name, step.zone_id])
@@ -124,6 +127,7 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 				if hears:
 					opening = said.duplicate()
 				said.clear()
+				spoken.clear()
 				var started: CombatSliceInitiationResult = _map.hostilities.npc_kills(npc, ColoredLine.texts(opening), opening)
 				if started.outcome != CombatSliceInitiationResult.Outcome.COMPLETED and not opening.is_empty() and _map.hud() != null:
 					_map.hud().append_colored_lines(opening)
@@ -176,7 +180,7 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 				state.recovery.water += step.value
 			ScriptedAct.Kind.REINCARNATE:
 				# reincarnate() and the move to REVIVE_ROOM: the lines first, then the session's move.
-				_show(said, hears)
+				_show(said, hears, npc, spoken)
 				if _map.session != null:
 					_map.session.request_reincarnation()
 			ScriptedAct.Kind.SET_ROOM:
@@ -185,7 +189,7 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 			ScriptedAct.Kind.CLEAR_ROOM:
 				if _map.session != null:
 					_map.session.room_states().clear_flag(room, step.flag)
-	_show(said, hears)
+	_show(said, hears, npc, spoken)
 	var hud: SharedGameplayUI = _map.hud()
 	if hud != null and hud.inventory_is_open():
 		hud.show_inventory(_map.session.player_inventory_rows())
@@ -214,10 +218,12 @@ func move_player(zone_id: StringName, point_id: StringName) -> bool:
 	return _map.session.handoff_led(zone.map_id, zone.zone_id, zone.combat_location_id, point_id).succeeded()
 
 
-func _show(said: Array[ColoredLine], hears: bool) -> void:
+func _show(said: Array[ColoredLine], hears: bool, npc: NpcRuntimeState, spoken: Array[String]) -> void:
 	if hears and not said.is_empty() and _map.hud() != null:
 		_map.hud().append_colored_lines(said.duplicate())
+		_map.hud().npc_bubble(npc, spoken.duplicate())
 	said.clear()
+	spoken.clear()
 
 
 ## command("close door") (cmds/std/close.c): the door the player came in by, else the

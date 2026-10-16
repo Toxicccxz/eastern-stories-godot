@@ -214,7 +214,9 @@ func _make_stage(character_id: StringName) -> void:
 	var here: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = _map.hud()
 	if _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and hud != null:
-		hud.append_colored_lines([making.lines[stage].colored(npc.definition().display_name, "")])
+		var told: ColoredLine = making.lines[stage].colored(npc.definition().display_name, "")
+		hud.append_colored_lines([told])
+		hud.npc_bubble(npc, [told.text])
 	stage += 1
 	if stage < making.lines.size():
 		pending["stage"] = stage
@@ -350,6 +352,7 @@ func _chant_stage(npc: NpcRuntimeState) -> void:
 	var name: String = tr(npc.definition().display_name)
 	if npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and player_hears(npc):
 		var lines: Array[String] = [tr("{npc}说道：{line}").format({"npc": name, "line": tr(stage.say)})]
+		_map.hud().npc_bubble(npc, lines.duplicate())
 		if not stage.line.is_empty():
 			lines.append(tr(stage.line).replace("$N", name))
 		_map.hud().append_log_lines(lines)
@@ -736,9 +739,11 @@ func _act(npc: NpcRuntimeState, entry: Variant) -> void:
 	if entry is String:
 		if player_hears(npc):
 			_map.hud().append_log_lines([NpcTalk.line(entry)])
+			_map.hud().npc_bubble(npc, [NpcTalk.line(entry)])
 	elif entry is ColoredLine:
 		if player_hears(npc):
 			_map.hud().append_colored_lines([ColoredLine.new(NpcTalk.line(entry.text), entry.color)])
+			_map.hud().npc_bubble(npc, [NpcTalk.line(entry.text)])
 	elif entry is StringName and entry == NpcTalk.RANDOM_MOVE:
 		random_move(npc)
 	elif entry is StringName and entry == NpcTalk.PATROL:

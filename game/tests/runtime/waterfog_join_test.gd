@@ -7,6 +7,7 @@ extends RefCounted
 ## arts' valid_learn() and practice_skill() (天邪神功 by 杀气, 天邪神掌's two lines,
 ## 七宝天岚舞's sen), the 正厅's join (std/room/class_guild.c) and score.c's rank.
 ## TEST-ONLY fixtures are marked.
+const MapPlaces := preload("res://tests/support/map_places.gd")
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const Specials := preload("res://tests/runtime/combat_specials_test.gd")
@@ -248,7 +249,7 @@ func _test_hall(tree: SceneTree, session: WorldSessionController) -> void:
 	var hud: SharedGameplayUI = session.shared_ui()
 	var master: NpcRuntimeState = _first(map, MASTER)
 	var champion: NpcRuntimeState = _first(map, CHAMPION)
-	_check(map.relocate_player(&"waterfog.guildhall", master.spawn_point_id), "beside 萧辟尘")
+	_check(map.place_player(&"waterfog.guildhall", MapPlaces.spot(map, &"waterfog.guildhall", map.runtime_body_for_character(master.character_id).global_position, 96.0)), "beside 萧辟尘")
 	await tree.physics_frame
 	var hall: TeacherService = map.service(&"waterfog.pavilion.guildhall.master") as TeacherService
 	hall.ui.interact()
@@ -276,7 +277,7 @@ func _test_hall(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(hud.character_sheet_text().contains(RankWords.query_rank(player.state.gender, &"fighter") + "天邪派第十七代弟子"), "score.c's rank on the sheet")
 	hud.dismiss_current_panel()
 	# 於兰天武's test: a strong player who asked him first.
-	_check(map.relocate_player(&"waterfog.guildhall", champion.spawn_point_id), "beside 於兰天武")
+	_check(map.place_player(&"waterfog.guildhall", MapPlaces.spot(map, &"waterfog.guildhall", map.runtime_body_for_character(champion.character_id).global_position, 96.0)), "beside 於兰天武")
 	await tree.physics_frame
 	session.configure_combat_random_source(Specials.Pattern.new([])) # TEST-ONLY: every roll its highest: every blow lands in full
 	player.state.vitality = CharacterResourceState.new(100000, 100000, 100000) # TEST-ONLY
@@ -302,7 +303,7 @@ func _test_hall(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(learned.failure_reason != LearnResult.FailureReason.RECOGNITION_REJECTED and learned.failure_reason != LearnResult.FailureReason.RECOGNITION_POLICY_ABSENT, "he teaches his apprentice")
 	panel.close_panel()
 	# Back to 萧辟尘 by the oath: a change of master, asked first.
-	_check(map.relocate_player(&"waterfog.guildhall", master.spawn_point_id), "beside 萧辟尘 again")
+	_check(map.place_player(&"waterfog.guildhall", MapPlaces.spot(map, &"waterfog.guildhall", map.runtime_body_for_character(master.character_id).global_position, 96.0)), "beside 萧辟尘 again")
 	await tree.physics_frame
 	hall.ui.interact()
 	ui.apprentice_button.pressed.emit()
@@ -313,7 +314,7 @@ func _test_hall(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(NpcApprenticeship.is_master_of(player.state, master.definition()) and player.state.family.generation == 17, "萧辟尘's apprentice again")
 	ui.close_panel()
 	# A weak one: falls on the heart beat after the first blow.
-	_check(map.relocate_player(&"waterfog.guildhall", champion.spawn_point_id), "beside 於兰天武 again")
+	_check(map.place_player(&"waterfog.guildhall", MapPlaces.spot(map, &"waterfog.guildhall", map.runtime_body_for_character(champion.character_id).global_position, 96.0)), "beside 於兰天武 again")
 	await tree.physics_frame
 	player.state.vitality = CharacterResourceState.new(50, 100000, 100000) # TEST-ONLY: a wound does not kill
 	test.ui.interact()
