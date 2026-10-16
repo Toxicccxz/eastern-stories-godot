@@ -604,16 +604,6 @@ msgstr ""
 msgid "竹林"
 msgstr ""
 
-#. es2:d/choyin/club short
-#: scenes/world/choyin/choyin_east.tscn data/choyin/rooms.json
-msgid "草堂"
-msgstr ""
-
-#. es2:d/choyin/yard short
-#: scenes/world/choyin/choyin_east.tscn data/choyin/rooms.json
-msgid "庭院"
-msgstr ""
-
 #. es2:d/choyin/tongbhill short
 #: scenes/world/choyin/choyin_east.tscn data/choyin/rooms.json
 msgid "桐柏山"
@@ -630,10 +620,6 @@ msgstr ""
 
 #: scenes/world/choyin/choyin_east.tscn
 msgid "大泽 · 装水"
-msgstr ""
-
-#: scenes/world/choyin/choyin_east.tscn
-msgid "书卷 · 拿书"
 msgstr ""
 
 #. es2:d/choyin/rockroad short
@@ -661,7 +647,7 @@ msgstr ""
 #. es2:d/choyin/hotel1 short
 #. es2:d/choyin/hotel2 short
 #. es2:d/choyin/hotel3 short
-#: scenes/world/choyin/choyin_hotel_2f.tscn scenes/world/choyin/choyin_hotel_3f.tscn scenes/world/choyin/choyin_town.tscn data/choyin/npcs.json data/choyin/rooms.json
+#: scenes/world/choyin/choyin_hotel_2f.tscn scenes/world/choyin/choyin_hotel_3f.tscn scenes/world/choyin/hotel_house.tscn data/choyin/npcs.json data/choyin/rooms.json
 msgid "福林酒楼"
 msgstr ""
 
@@ -669,7 +655,7 @@ msgstr ""
 msgid "方梯 · 下楼"
 msgstr ""
 
-#: scenes/world/choyin/choyin_hotel_2f.tscn scenes/world/choyin/choyin_town.tscn
+#: scenes/world/choyin/choyin_hotel_2f.tscn scenes/world/choyin/hotel_house.tscn
 msgid "方梯 · 上楼"
 msgstr ""
 
@@ -861,6 +847,73 @@ msgstr ""
 msgid "南 · 衙门口"
 msgstr ""
 
+#. es2:d/choyin/club short
+#: scenes/world/choyin/club_house.tscn data/choyin/rooms.json
+msgid "草堂"
+msgstr ""
+
+#. es2:d/choyin/yard short
+#: scenes/world/choyin/club_house.tscn data/choyin/rooms.json
+msgid "庭院"
+msgstr ""
+
+#: scenes/world/choyin/club_house.tscn
+msgid "书卷 · 拿书"
+msgstr ""
+
+#. es2:d/chuenyu/west_garden short
+#: scenes/world/chuenyu/castle.tscn data/chuenyu/rooms.json
+msgid "西花园"
+msgstr ""
+
+#. es2:d/chuenyu/west_blackge short
+#: scenes/world/chuenyu/castle.tscn data/chuenyu/rooms.json
+msgid "黑松阁西厅"
+msgstr ""
+
+#. es2:d/chuenyu/north_garden short
+#: scenes/world/chuenyu/castle.tscn data/chuenyu/rooms.json
+msgid "北花园"
+msgstr ""
+
+#. es2:d/snow/hockshop2 short
+#. es2:d/chuenyu/storage short
+#: scenes/world/chuenyu/castle.tscn scenes/world/snow/snow_hockshop_house.tscn data/snow/rooms.json data/chuenyu/rooms.json
+msgid "储藏室"
+msgstr ""
+
+#. es2:d/chuenyu/center short
+#: scenes/world/chuenyu/castle.tscn data/chuenyu/rooms.json
+msgid "黑松阁正厅"
+msgstr ""
+
+#. es2:d/chuenyu/east_blackge short
+#: scenes/world/chuenyu/castle.tscn data/chuenyu/rooms.json
+msgid "黑松阁东厅"
+msgstr ""
+
+#. es2:d/chuenyu/east_garden short
+#: scenes/world/chuenyu/castle.tscn data/chuenyu/rooms.json
+msgid "东花园"
+msgstr ""
+
+#. es2:d/chuenyu/south_garden short
+#: scenes/world/chuenyu/castle.tscn data/chuenyu/rooms.json
+msgid "南花园"
+msgstr ""
+
+#: scenes/world/chuenyu/castle.tscn scenes/world/chuenyu/chuenyu_main.tscn
+msgid "城墙 · 爬上去"
+msgstr ""
+
+#: scenes/world/chuenyu/castle.tscn
+msgid "绳子 · 拉"
+msgstr ""
+
+#: scenes/world/chuenyu/castle.tscn scenes/world/city/jiulou_house.tscn scenes/world/cloud/duchang_house.tscn scenes/world/cloud/jiyuan_house.tscn scenes/world/cloud/tearoom_house.tscn scenes/world/latemoon/latemoon_manor.tscn scenes/world/snow/snow_inn.tscn
+msgid "楼梯 · 上楼"
+msgstr ""
+
 #. es2:d/village/road1 short
 #. es2:d/chuenyu/croad1 short
 #: scenes/world/chuenyu/chuenyu_main.tscn scenes/world/village/village_main.tscn data/village/rooms.json data/chuenyu/rooms.json
@@ -920,51 +973,6 @@ msgstr ""
 msgid "夹道"
 msgstr ""
 
-#. es2:d/chuenyu/west_garden short
-#: scenes/world/chuenyu/chuenyu_main.tscn data/chuenyu/rooms.json
-msgid "西花园"
-msgstr ""
-
-#. es2:d/chuenyu/north_garden short
-#: scenes/world/chuenyu/chuenyu_main.tscn data/chuenyu/rooms.json
-msgid "北花园"
-msgstr ""
-
-#. es2:d/chuenyu/west_blackge short
-#: scenes/world/chuenyu/chuenyu_main.tscn data/chuenyu/rooms.json
-msgid "黑松阁西厅"
-msgstr ""
-
-#. es2:d/snow/hockshop2 short
-#. es2:d/chuenyu/storage short
-#: scenes/world/chuenyu/chuenyu_main.tscn scenes/world/snow/snow_hockshop_house.tscn data/snow/rooms.json data/chuenyu/rooms.json
-msgid "储藏室"
-msgstr ""
-
-#. es2:d/chuenyu/center short
-#: scenes/world/chuenyu/chuenyu_main.tscn data/chuenyu/rooms.json
-msgid "黑松阁正厅"
-msgstr ""
-
-#. es2:d/chuenyu/east_blackge short
-#: scenes/world/chuenyu/chuenyu_main.tscn data/chuenyu/rooms.json
-msgid "黑松阁东厅"
-msgstr ""
-
-#. es2:d/chuenyu/east_garden short
-#: scenes/world/chuenyu/chuenyu_main.tscn data/chuenyu/rooms.json
-msgid "东花园"
-msgstr ""
-
-#. es2:d/chuenyu/south_garden short
-#: scenes/world/chuenyu/chuenyu_main.tscn data/chuenyu/rooms.json
-msgid "南花园"
-msgstr ""
-
-#: scenes/world/chuenyu/chuenyu_main.tscn scenes/world/city/city_main.tscn scenes/world/cloud/duchang_house.tscn scenes/world/cloud/jiyuan_house.tscn scenes/world/cloud/tearoom_house.tscn scenes/world/latemoon/latemoon_manor.tscn scenes/world/snow/snow_inn.tscn
-msgid "楼梯 · 上楼"
-msgstr ""
-
 #: scenes/world/chuenyu/chuenyu_main.tscn
 msgid "东 · 玉螺湖村"
 msgstr ""
@@ -988,15 +996,7 @@ msgid "悬崖"
 msgstr ""
 
 #: scenes/world/chuenyu/chuenyu_main.tscn
-msgid "城墙 · 爬上去"
-msgstr ""
-
-#: scenes/world/chuenyu/chuenyu_main.tscn
 msgid "铁链 · 顺着走下去"
-msgstr ""
-
-#: scenes/world/chuenyu/chuenyu_main.tscn
-msgid "绳子 · 拉"
 msgstr ""
 
 #. es2:d/chuenyu/tunnel1 short
@@ -1040,6 +1040,25 @@ msgstr ""
 msgid "大床"
 msgstr ""
 
+#. es2:d/city/bank short
+#: scenes/world/city/bank_house.tscn data/city/rooms.json
+msgid "旺金钱庄"
+msgstr ""
+
+#: scenes/world/city/bank_house.tscn
+msgid "钱庄 · 兑换"
+msgstr ""
+
+#. es2:d/city/biaoju short
+#: scenes/world/city/biaoju_house.tscn data/city/rooms.json
+msgid "振远总局"
+msgstr ""
+
+#. es2:d/city/boots short
+#: scenes/world/city/boots_house.tscn data/city/rooms.json
+msgid "李记鞋店"
+msgstr ""
+
 #. es2:d/snow/secret_storage short
 #. es2:d/city/midao1 short
 #: scenes/world/city/city_cellar.tscn scenes/world/snow/snow_cellar.tscn data/snow/rooms.json data/city/rooms.json
@@ -1068,16 +1087,6 @@ msgstr ""
 #. es2:d/city/street16 short
 #: scenes/world/city/city_main.tscn data/city/rooms.json
 msgid "大栅栏"
-msgstr ""
-
-#. es2:d/city/bank short
-#: scenes/world/city/city_main.tscn data/city/rooms.json
-msgid "旺金钱庄"
-msgstr ""
-
-#. es2:d/city/weapon short
-#: scenes/world/city/city_main.tscn data/city/rooms.json
-msgid "京师武器店"
 msgstr ""
 
 #. es2:d/city/westdoor1 short
@@ -1114,16 +1123,6 @@ msgstr ""
 msgid "祭坛"
 msgstr ""
 
-#. es2:d/city/biaoju short
-#: scenes/world/city/city_main.tscn data/city/rooms.json
-msgid "振远总局"
-msgstr ""
-
-#. es2:d/city/cloth short
-#: scenes/world/city/city_main.tscn data/city/rooms.json
-msgid "四喜绸缎庄"
-msgstr ""
-
 #. es2:d/city/street6 short
 #. es2:d/city/street5 short
 #. es2:d/city/street4 short
@@ -1144,13 +1143,6 @@ msgstr ""
 msgid "京师东街"
 msgstr ""
 
-#. city.tavern title
-#. city.npc.boss inquiry topic
-#. es2:d/city/jiulou short
-#: scenes/world/city/city_main.tscn data/common/journal.json data/city/npcs.json data/city/rooms.json
-msgid "太白酒楼"
-msgstr ""
-
 #. es2:d/city/xiangguo/gate short
 #: scenes/world/city/city_main.tscn data/city/rooms.json
 msgid "相国府大门"
@@ -1164,11 +1156,6 @@ msgstr ""
 #. es2:d/city/jiaowu short
 #: scenes/world/city/city_main.tscn data/city/rooms.json
 msgid "校武场"
-msgstr ""
-
-#. es2:d/city/boots short
-#: scenes/world/city/city_main.tscn data/city/rooms.json
-msgid "李记鞋店"
 msgstr ""
 
 #. es2:d/city/westdoor2 short
@@ -1186,11 +1173,6 @@ msgstr ""
 msgid "京师东二门"
 msgstr ""
 
-#. es2:d/city/house1 short
-#: scenes/world/city/city_main.tscn data/city/rooms.json
-msgid "空房间"
-msgstr ""
-
 #. es2:d/city/southdoor short
 #: scenes/world/city/city_main.tscn data/city/rooms.json
 msgid "京师南门"
@@ -1199,75 +1181,6 @@ msgstr ""
 #. es2:d/city/shangshu/gate short
 #: scenes/world/city/city_main.tscn data/city/rooms.json
 msgid "尚书府大门"
-msgstr ""
-
-#. es2:d/city/shangshu/yuan short
-#: scenes/world/city/city_main.tscn data/city/rooms.json
-msgid "尚书府庭院"
-msgstr ""
-
-#. es2:d/city/shangshu/keting short
-#: scenes/world/city/city_main.tscn data/city/rooms.json
-msgid "尚书府客厅"
-msgstr ""
-
-#. es2:d/latemoon/sroad3 short
-#. es2:d/latemoon/sroad5 short
-#. es2:d/city/shangshu/road2 short
-#. es2:d/city/shangshu/road1 short
-#: scenes/world/city/city_main.tscn scenes/world/latemoon/latemoon_hills.tscn data/latemoon/rooms.json data/city/rooms.json
-msgid "小径"
-msgstr ""
-
-#. es2:d/snow/n_room short
-#. es2:d/snow/e_room short
-#. es2:d/snow/w_room short
-#. es2:d/snow/guestroom short
-#. es2:d/latemoon/room/guest1 short
-#. es2:d/city/shangshu/kefang short
-#: scenes/world/city/city_main.tscn scenes/world/latemoon/latemoon_manor.tscn scenes/world/snow/snow_inn_upstairs.tscn scenes/world/snow/snow_school_compound.tscn data/snow/rooms.json data/latemoon/rooms.json data/city/rooms.json
-msgid "客房"
-msgstr ""
-
-#. es2:d/city/shangshu/xiaowu short
-#: scenes/world/city/city_main.tscn data/city/rooms.json
-msgid "小屋"
-msgstr ""
-
-#. es2:d/city/shangshu/road3 short
-#: scenes/world/city/city_main.tscn data/city/rooms.json
-msgid "花园小径"
-msgstr ""
-
-#. es2:d/waterfog/kitchen short
-#. es2:d/latemoon/room/kitchen short
-#. es2:d/village/smallstorage short
-#. es2:d/city/shangshu/chufang short
-#: scenes/world/city/city_main.tscn scenes/world/latemoon/latemoon_manor.tscn scenes/world/village/liu_house.tscn scenes/world/waterfog/waterfog_pavilion.tscn data/waterfog/rooms.json data/latemoon/rooms.json data/village/rooms.json data/city/rooms.json
-msgid "厨房"
-msgstr ""
-
-#. es2:d/village/littlegarden short
-#. es2:d/city/shangshu/huayuan short
-#: scenes/world/city/city_main.tscn scenes/world/village/village_main.tscn data/village/rooms.json data/city/rooms.json
-msgid "花园"
-msgstr ""
-
-#. es2:d/city/shangshu/neizhai short
-#: scenes/world/city/city_main.tscn data/city/rooms.json
-msgid "内宅"
-msgstr ""
-
-#. es2:d/green/path4 short
-#. es2:d/green/path1 short
-#. es2:d/city/shangshu/road4 short
-#: scenes/world/city/city_main.tscn scenes/world/green/green_village.tscn data/green/rooms.json data/city/rooms.json
-msgid "小路"
-msgstr ""
-
-#. es2:d/city/shangshu/feiwu short
-#: scenes/world/city/city_main.tscn data/city/rooms.json
-msgid "废屋"
 msgstr ""
 
 #: scenes/world/city/city_main.tscn scenes/world/snow/snow_school_compound.tscn
@@ -1309,10 +1222,6 @@ msgid "刑场"
 msgstr ""
 
 #: scenes/world/city/city_main.tscn
-msgid "钱庄 · 兑换"
-msgstr ""
-
-#: scenes/world/city/city_main.tscn
 msgid "城门 · 出城"
 msgstr ""
 
@@ -1345,6 +1254,97 @@ msgstr ""
 
 #: scenes/world/city/city_wall_top.tscn
 msgid "尚书府 · 跳进去"
+msgstr ""
+
+#. es2:d/city/cloth short
+#: scenes/world/city/cloth_house.tscn data/city/rooms.json
+msgid "四喜绸缎庄"
+msgstr ""
+
+#. es2:d/city/house1 short
+#: scenes/world/city/house1_house.tscn data/city/rooms.json
+msgid "空房间"
+msgstr ""
+
+#. city.tavern title
+#. city.npc.boss inquiry topic
+#. es2:d/city/jiulou short
+#: scenes/world/city/jiulou_house.tscn data/common/journal.json data/city/npcs.json data/city/rooms.json
+msgid "太白酒楼"
+msgstr ""
+
+#. es2:d/city/shangshu/yuan short
+#: scenes/world/city/shangshu.tscn data/city/rooms.json
+msgid "尚书府庭院"
+msgstr ""
+
+#. es2:d/city/shangshu/keting short
+#: scenes/world/city/shangshu.tscn data/city/rooms.json
+msgid "尚书府客厅"
+msgstr ""
+
+#. es2:d/city/shangshu/road3 short
+#: scenes/world/city/shangshu.tscn data/city/rooms.json
+msgid "花园小径"
+msgstr ""
+
+#. es2:d/latemoon/sroad3 short
+#. es2:d/latemoon/sroad5 short
+#. es2:d/city/shangshu/road2 short
+#. es2:d/city/shangshu/road1 short
+#: scenes/world/city/shangshu.tscn scenes/world/latemoon/latemoon_hills.tscn data/latemoon/rooms.json data/city/rooms.json
+msgid "小径"
+msgstr ""
+
+#. es2:d/village/littlegarden short
+#. es2:d/city/shangshu/huayuan short
+#: scenes/world/city/shangshu.tscn scenes/world/village/village_main.tscn data/village/rooms.json data/city/rooms.json
+msgid "花园"
+msgstr ""
+
+#. es2:d/waterfog/kitchen short
+#. es2:d/latemoon/room/kitchen short
+#. es2:d/village/smallstorage short
+#. es2:d/city/shangshu/chufang short
+#: scenes/world/city/shangshu.tscn scenes/world/latemoon/latemoon_manor.tscn scenes/world/village/liu_house.tscn scenes/world/waterfog/waterfog_pavilion.tscn data/waterfog/rooms.json data/latemoon/rooms.json data/village/rooms.json data/city/rooms.json
+msgid "厨房"
+msgstr ""
+
+#. es2:d/snow/n_room short
+#. es2:d/snow/e_room short
+#. es2:d/snow/w_room short
+#. es2:d/snow/guestroom short
+#. es2:d/latemoon/room/guest1 short
+#. es2:d/city/shangshu/kefang short
+#: scenes/world/city/shangshu.tscn scenes/world/latemoon/latemoon_manor.tscn scenes/world/snow/snow_inn_upstairs.tscn scenes/world/snow/snow_school_compound.tscn data/snow/rooms.json data/latemoon/rooms.json data/city/rooms.json
+msgid "客房"
+msgstr ""
+
+#. es2:d/city/shangshu/neizhai short
+#: scenes/world/city/shangshu.tscn data/city/rooms.json
+msgid "内宅"
+msgstr ""
+
+#. es2:d/green/path4 short
+#. es2:d/green/path1 short
+#. es2:d/city/shangshu/road4 short
+#: scenes/world/city/shangshu.tscn scenes/world/green/green_village.tscn data/green/rooms.json data/city/rooms.json
+msgid "小路"
+msgstr ""
+
+#. es2:d/city/shangshu/xiaowu short
+#: scenes/world/city/shangshu.tscn data/city/rooms.json
+msgid "小屋"
+msgstr ""
+
+#. es2:d/city/shangshu/feiwu short
+#: scenes/world/city/shangshu.tscn data/city/rooms.json
+msgid "废屋"
+msgstr ""
+
+#. es2:d/city/weapon short
+#: scenes/world/city/weapon_house.tscn data/city/rooms.json
+msgid "京师武器店"
 msgstr ""
 
 #. es2:u/cloud/biaoju short
@@ -1564,16 +1564,6 @@ msgstr ""
 msgid "鬼门大道"
 msgstr ""
 
-#. es2:d/death/inn1 short
-#: scenes/world/death/death_realm.tscn data/death/rooms.json
-msgid "小店"
-msgstr ""
-
-#. es2:d/death/inn2 short
-#: scenes/world/death/death_realm.tscn data/death/rooms.json
-msgid "黑店"
-msgstr ""
-
 #. es2:d/death/gateway short
 #: scenes/world/death/death_realm.tscn data/death/rooms.json
 msgid "酆都城门"
@@ -1602,8 +1592,18 @@ msgstr ""
 msgid "大雾"
 msgstr ""
 
-#: scenes/world/death/death_realm.tscn
+#. es2:d/death/inn1 short
+#: scenes/world/death/inn1_house.tscn data/death/rooms.json
+msgid "小店"
+msgstr ""
+
+#: scenes/world/death/inn1_house.tscn
 msgid "人影 · 打听「回家」"
+msgstr ""
+
+#. es2:d/death/inn2 short
+#: scenes/world/death/inn2_house.tscn data/death/rooms.json
+msgid "黑店"
 msgstr ""
 
 #. es2:d/goathill/cavern1 short
