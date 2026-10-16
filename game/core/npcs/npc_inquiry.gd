@@ -65,6 +65,9 @@ class Answer:
 	var forgets: Array[String] = []
 	## What the NPC tells over the next seconds (the caller starts its call_outs).
 	var make: NpcMaking
+	## The NPC answered the topic itself (its fixed lines, or a rule that acted), not ask.c's
+	## 没听说过, a refusal or a relay (the 任务 page records only what was said).
+	var answered: bool = false
 
 	func texts() -> Array[String]:
 		return ColoredLine.texts(lines)
@@ -158,6 +161,7 @@ static func answer(
 			lines.append(_t("{npc}说道：{line}").format({"npc": npc, "line": NpcTalk.line(text).replace("$RESPECT", asker_respect)}))
 		# The functions among the lines run (oldman2.c set_flag(); ask.c skipped them).
 		result.marks.append_array(talk.answer_marks(key))
+		result.answered = true
 		return _with(result, lines)
 	# A function that acts (shen.c give_jade()): the first rule the asker's marks meet.
 	# Deviation (青石村 B): once it has said or given something, ask.c's 没听说过 that
@@ -172,6 +176,7 @@ static func answer(
 			result.lines.append(line.colored(name, asker_respect))
 		if taken:
 			return result
+		result.answered = true
 		result.hands_over = rule.hands_over
 		result.hands_over_amount = rule.amount
 		for line: NpcLine in rule.after:

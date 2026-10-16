@@ -12415,7 +12415,7 @@ msgstr ""
 
 #. canyon.camp/history text
 #: data/common/journal.json
-msgid "你向大队长打听黄石隘口，他讲起二十多年前先帝调大将军们驻守隘口；如今换上的小皇帝只忙著找剑，大家也不太服他。说完又催你快缴钱。"
+msgid "你向大队长打听黄石隘口，他讲起二十多年前先帝调大将军们驻守隘口的往事。"
 msgstr ""
 
 #. canyon.camp/permission text

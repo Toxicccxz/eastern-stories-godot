@@ -105,7 +105,8 @@ static func quote_lines(entry: JournalEntryDefinition, npc: NpcDefinition, asker
 	if npc == null or entry.quote_npc.is_empty():
 		return lines
 	for text: String in npc.talk().answer(entry.quote_topic):
-		var line: String = NpcTalk.line(text).replace("$RESPECT", asker_respect)
-		if not line.is_empty():
-			lines.append(line)
+		# An authored line of several lines quotes as several.
+		for line: String in NpcTalk.line(text).replace("$RESPECT", asker_respect).split("\n", false):
+			if not line.strip_edges().is_empty():
+				lines.append(line.strip_edges())
 	return lines

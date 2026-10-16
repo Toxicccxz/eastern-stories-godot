@@ -4,6 +4,8 @@ extends RefCounted
 ## ES2 help files for players without MUD commands (owner Q2) and lists only skills learned,
 ## items carried, families and people met.
 
+const Work := preload("res://tests/runtime/snow_work_income_test.gd")
+
 var _assertions: int = 0
 var _failures: Array[String] = []
 
@@ -14,6 +16,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_help_topics()
 	_test_journal_data()
 	await _test_menu_pages(tree)
+	await _test_ask_and_continue(tree)
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
 
 
@@ -147,6 +150,13 @@ func _test_menu_pages(tree: SceneTree) -> void:
 	tree.root.push_input(escape)
 	await tree.process_frame
 	_check(codex.open_key().is_empty() and codex.entry_list.visible and ui.menu.is_presented(), "Esc goes back to the list, the menu stays")
+	codex.open_entry("help.theme")
+	var pad_b := InputEventJoypadButton.new()
+	pad_b.button_index = JOY_BUTTON_B
+	pad_b.pressed = true
+	tree.root.push_input(pad_b)
+	await tree.process_frame
+	_check(codex.open_key().is_empty() and ui.menu.is_presented() and tree.root.gui_get_focus_owner() == codex.entry_buttons["help.theme"], "pad B too, the focus back on the entry")
 	codex.section_buttons[CodexContent.Section.ARTS].pressed.emit()
 	_check(codex.shown_text() == "你还没有学会任何武学。" or codex.entry_buttons.size() == state.skills.raw_skill_ids().size(), "武学: the skills learned: " + codex.shown_text().left(40))
 	codex.section_buttons[CodexContent.Section.ITEMS].pressed.emit()
@@ -161,6 +171,40 @@ func _test_menu_pages(tree: SceneTree) -> void:
 	codex.open_entry(String(stranger.definition_id))
 	_check(codex.shown_text().begins_with(stranger.short_name()), "the person's entry: " + codex.shown_text().left(40))
 	ui.menu.close()
+	session.queue_free()
+	await tree.process_frame
+
+
+## 打听 through the real ask: an answer is recorded, an NPC out cold records nothing; the
+## entries and the items carried come back exactly after Save/Continue.
+func _test_ask_and_continue(tree: SceneTree) -> void:
+	var session: WorldSessionController = Work.create_session(tree)
+	await tree.process_frame
+	await tree.process_frame
+	_check(session.handoff_to(&"snow.outdoor", &"snow.square", &"snow.square", &"snow.square.inn_entry").succeeded(), "to the square")
+	await tree.process_frame
+	var map: WorldMapController = session.active_map() as WorldMapController
+	_check(map.relocate_player(&"snow.school", &"snow.school.teacher.1"), "beside 魏无极")
+	await tree.process_frame
+	var teacher: NpcRuntimeState = null
+	for npc: NpcRuntimeState in map.npc_runtimes():
+		if npc.definition().definition_id == &"snow.npc.teacher":
+			teacher = npc
+	var state: CharacterState = session.player_runtime().state
+	map.select_npc(teacher.character_id)
+	teacher.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY: out cold
+	map.ask_selected("学费")
+	_check(not state.journal.has("snow.wei_wuji/asked_fee"), "an NPC out cold says nothing: nothing recorded")
+	teacher.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
+	_check(not map.ask_selected("学费").is_empty() and state.journal.has("snow.wei_wuji/asked_fee"), "asked and answered: recorded")
+	session.record_journal()
+	_check(state.known_items.has("es2:obj/cloth"), "the cloth worn is carried")
+	var snapshot: GameSaveSnapshot = Work.capture(session)
+	var decoded: GameSaveResult = GameSaveJsonCodec.decode(GameSaveJsonCodec.encode(snapshot).text)
+	_check(decoded.succeeded() and decoded.snapshot.player.character.journal == state.journal and decoded.snapshot.player.character.known_items == state.known_items, "the save holds the entries and the items")
+	var walker: RefCounted = Work.new()
+	await walker.round_trip(tree, session, snapshot, "界面重构 C")
+	_check(walker._failures.is_empty(), "Save/Continue restores exactly: " + str(walker._failures))
 	session.queue_free()
 	await tree.process_frame
 

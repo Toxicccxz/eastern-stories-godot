@@ -58,6 +58,8 @@ var quest_text: Label
 ## 任务: the story chains recorded (JournalLog).
 var journal_stories: JournalStories
 var codex_page: CodexPage
+## How many entries the 任务 page showed when it was filled last.
+var _journal_shown: int = -1
 var inspection_text: RichTextLabel
 var combat_log: RichTextLabel
 var loot_panel: OldPineLootPanel
@@ -580,6 +582,7 @@ func menu_tab_shown(tab: int) -> void:
 			if _session != null:
 				_session.record_journal()
 			journal_stories.fill(null if _player == null else _player.state, _player_respect())
+			_journal_shown = -1 if _player == null else _player.state.journal.size()
 		GameMenu.Tab.CODEX:
 			if _session != null:
 				_session.record_journal()
@@ -596,7 +599,10 @@ func _refresh_menu_page() -> void:
 		GameMenu.Tab.CHARACTER, GameMenu.Tab.MARTIAL_ARTS:
 			panels.refresh_character()
 		GameMenu.Tab.JOURNAL:
-			menu_tab_shown(GameMenu.Tab.JOURNAL)
+			# quest.c's time left changes; the stories only when something new was recorded.
+			quest_text.text = "" if _player == null else "\n".join(QuestStatus.lines(_player.state.quest))
+			if _player != null and _player.state.journal.size() != _journal_shown:
+				menu_tab_shown(GameMenu.Tab.JOURNAL)
 	message_log.collect_feedback()
 
 
