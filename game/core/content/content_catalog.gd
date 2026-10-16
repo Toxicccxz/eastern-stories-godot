@@ -24,6 +24,7 @@ var _doors: Dictionary[StringName, DoorDefinition] = {}
 var _landmarks: Dictionary[StringName, WorldLandmarkDefinition] = {}
 var _traps: Dictionary[StringName, RoomTrapDefinition] = {}
 var _hazards: Dictionary[StringName, RoomHazardDefinition] = {}
+var _called_over: Dictionary[StringName, bool] = {}
 var _exit_rules: Dictionary[StringName, ZoneExitRuleDefinition] = {}
 var _pacing: PacingDefinition = PacingDefinition.new()
 var _zone_of_room: Dictionary[StringName, StringName] = {}
@@ -223,6 +224,15 @@ func traps() -> Array[RoomTrapDefinition]:
 ## Called once by ContentCatalogBuilder after cross-checking.
 func set_hazards(p_hazards: Dictionary[StringName, RoomHazardDefinition]) -> void:
 	_hazards = p_hazards.duplicate()
+
+
+func set_called_over(p_called_over: Dictionary[StringName, bool]) -> void:
+	_called_over = p_called_over.duplicate()
+
+
+## Whether some act's COMES step calls an NPC of `npc_id` over from its room (the 瓜农).
+func called_over(npc_id: StringName) -> bool:
+	return _called_over.has(npc_id)
 
 
 func hazards() -> Array[RoomHazardDefinition]:

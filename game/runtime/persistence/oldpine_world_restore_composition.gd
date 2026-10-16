@@ -255,7 +255,8 @@ static func _restore_npc_ledger(
 				or NpcGeneration.of(saved.character_id, point_id) == 0
 				or not _location_is_current(saved.world_location)
 				# One that follows the player every way (小娟, owner 黑松山 plan F2) may stand on another map,
-				# and a wanderer that went through a door next to its home (NpcRandomMove's range).
+				# and one that went through a door next to its home (a wanderer, one called over, one
+				# that walked out of a fight).
 				or (
 					saved.world_location.map_id != spawn.map_id
 					and (definition.hooks() == null or not definition.hooks().follows_every_way)
@@ -659,12 +660,14 @@ static func _player_location_is_current(value: Values.WorldLocationSnapshot, rev
 
 
 ## A zone of the current content, on its own map and region.
-## Whether an NPC of `definition` living in `home_zone_id` can have walked to `zone_id` on
-## another map: it wanders (random_move), the zone is home or next door, and a portal leads
-## into it from home or next door (NpcRandomMove across maps).
+## Whether an NPC of `definition` living in `home_zone_id` can have come to `zone_id` on
+## another map: it can leave home — it wanders (random_move), walks out of a fight (go.c) or
+## is called over (a COMES act: the 瓜农 out of his 瓜棚, a map of its own since the remap) —
+## the zone is home or next door, and a portal leads into it from home or next door.
 static func _wandered_to(definition: NpcDefinition, home_zone_id: StringName, zone_id: StringName) -> bool:
 	var catalog: ContentCatalog = GameContent.catalog()
-	if not definition.talk().chat_entries().has(NpcTalk.RANDOM_MOVE):
+	var talk: NpcTalk = definition.talk()
+	if not talk.chat_entries().has(NpcTalk.RANDOM_MOVE) and not talk.combat_chat_entries().has(NpcTalk.RANDOM_MOVE) and not catalog.called_over(definition.definition_id):
 		return false
 	if zone_id != home_zone_id and not catalog.zones_adjacent(home_zone_id, zone_id):
 		return false

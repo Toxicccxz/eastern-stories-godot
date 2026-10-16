@@ -840,6 +840,12 @@ func world_map_of(map_id: StringName) -> WorldMapController:
 	return _resident_maps.get(map_id) as WorldMapController
 
 
+## The resident map a zone lies on (a shop's own since the remap); null when none is.
+func world_map_of_zone(zone_id: StringName) -> WorldMapController:
+	var zone: ZoneDefinition = GameContent.catalog().zone(zone_id)
+	return null if zone == null else world_map_of(zone.map_id)
+
+
 ## Every resident map, in content order (stable for saves).
 func world_maps() -> Array[WorldMapController]:
 	var result: Array[WorldMapController] = []
