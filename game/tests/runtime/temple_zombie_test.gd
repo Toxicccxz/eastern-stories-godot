@@ -74,8 +74,8 @@ func _test_data() -> void:
 	var necromancy: SkillDefinition = catalog.skill(&"necromancy")
 	var scribes: Array[StringName] = [&"haunt"]
 	_check(necromancy.cast_functions.has(&"animate") and necromancy.scribe_functions == scribes, "茅山道术 casts animate and draws haunt")
-	var spawn: ItemSpawnDefinition = catalog.item_spawn(&"snow.outdoor.temple.paper_seals")
-	_check(spawn != null and spawn.item_definition_id == PAPER and spawn.zone_id == &"snow.temple" and spawn.spawn_point_ids().size() == 2, "d/snow/temple.c: two 桃符纸 in the 城隍庙")
+	var spawn: ItemSpawnDefinition = catalog.item_spawn(&"snow.temple_house.temple.paper_seals")
+	_check(spawn != null and spawn.item_definition_id == PAPER and spawn.zone_id == &"snow.temple" and spawn.spawn_point_ids().size() == 2, "d/snow/temple.c: two 桃符纸 in the 城隍庙 (the item spawn is on the temple's own map, snow.temple_house, since the remap)")
 
 
 ## TEST-ONLY: 林忌's apprentice with spells and 茅山道术 10 enabled, 天师正道 20, 1000 mana,

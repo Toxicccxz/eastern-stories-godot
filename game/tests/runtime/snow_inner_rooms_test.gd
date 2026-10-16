@@ -13,8 +13,8 @@ const DOWN: StringName = &"snow.weapon_storage.down"
 const UP: StringName = &"snow.secret_storage.up"
 const NEW_ZONES: Dictionary[StringName, StringName] = {
 	&"snow.inn_2f": &"snow.inn_upstairs", &"snow.n_room": &"snow.inn_upstairs", &"snow.e_room": &"snow.inn_upstairs",
-	&"snow.w_room": &"snow.inn_upstairs", &"snow.inneryard": &"snow.outdoor", &"snow.innerhall": &"snow.outdoor",
-	&"snow.guestroom": &"snow.outdoor", &"snow.nyard": &"snow.outdoor", &"snow.weapon_storage": &"snow.outdoor",
+	&"snow.w_room": &"snow.inn_upstairs", &"snow.inneryard": &"snow.school_compound", &"snow.innerhall": &"snow.school_compound",
+	&"snow.guestroom": &"snow.school_compound", &"snow.nyard": &"snow.school_compound", &"snow.weapon_storage": &"snow.school_compound",
 	&"snow.secret_storage": &"snow.cellar",
 }
 
@@ -53,12 +53,13 @@ func _test_data() -> void:
 	_check(not catalog.zones_adjacent(&"snow.weapon_storage", &"snow.secret_storage"), "no static exit to the secret storage")
 	var rats: NpcSpawnDefinition = catalog.spawn(&"snow.inn_upstairs.inn_2f.rats")
 	_check(rats != null and rats.quantity == 6 and catalog.npc(&"snow.npc.rat").race_id == &"beast", "inn_2f.c: six rats (beasts)")
-	_check(catalog.spawn(&"snow.outdoor.nyard.girl") != null and catalog.spawn(&"snow.outdoor.nyard.girl").zone_id == &"snow.nyard", "柳绘心 stands in the study (offense/defense routes)")
+	_check(catalog.spawn(&"snow.school_compound.nyard.girl") != null and catalog.spawn(&"snow.school_compound.nyard.girl").zone_id == &"snow.nyard", "柳绘心 stands in the study (offense/defense routes)")
 	var items: Array[String] = []
-	for map_id: StringName in [&"snow.outdoor", &"snow.cellar", &"snow.inn_upstairs"]:
+	for map_id: StringName in [&"snow.outdoor", &"snow.temple_house", &"snow.school_compound", &"snow.cellar", &"snow.inn_upstairs"]:
 		for spawn: ItemSpawnDefinition in catalog.item_spawns_for_map(map_id):
 			items.append("%s %s ×%d" % [spawn.zone_id, spawn.item_definition_id, spawn.spawn_point_ids().size()])
-	_check(items == ["snow.temple es2:d/snow/obj/denotation ×1", "snow.weapon_storage es2:d/snow/obj/bamboo_sword ×1", "snow.temple es2:obj/paper_seal ×2", "snow.secret_storage es2:d/snow/obj/shield ×1"], "items on the floor: 功德箱, 竹剑, 牛皮盾, two 桃符纸 (茅山 D): %s" % [items])
+	items.sort()
+	_check(items == ["snow.secret_storage es2:d/snow/obj/shield ×1", "snow.temple es2:d/snow/obj/denotation ×1", "snow.temple es2:obj/paper_seal ×2", "snow.weapon_storage es2:d/snow/obj/bamboo_sword ×1"], "items on the floor: 功德箱, 竹剑, 牛皮盾, two 桃符纸 (茅山 D): %s" % [items])
 	var box: ItemContentDefinition = catalog.item(&"es2:d/snow/obj/denotation")
 	_check(box.no_get and box.own_weight == 0 and box.unit == "个", "功德箱: no_get, weight 0 (move.c default)")
 	var shield: ItemContentDefinition = catalog.item(&"es2:d/snow/obj/shield")
@@ -115,7 +116,12 @@ func _test_record_rules() -> void:
 
 ## Painted walkable tiles join every zone of each map to its entry (doors are floor too).
 func _test_tiles(session: WorldSessionController) -> void:
-	for map_id: StringName in [&"snow.outdoor", &"snow.inn_upstairs", &"snow.cellar"]:
+	# The town's outside and every building's own map (the remap), the upper floor, the cellar.
+	var map_ids: Array[StringName] = []
+	for definition: MapDefinition in GameContent.catalog().maps():
+		if definition.region_id == SnowWorldDefinitions.REGION_ID and definition.map_id != SnowWorldDefinitions.INN_MAP_ID:
+			map_ids.append(definition.map_id)
+	for map_id: StringName in map_ids:
 		var map: WorldMapController = session.world_map_of(map_id)
 		var layers: Array[TileMapLayer] = TerrainProbe.layers(map)
 		var walkable: Dictionary[Vector2i, bool] = {}
@@ -187,7 +193,13 @@ func _test_inner_school(tree: SceneTree, session: WorldSessionController) -> voi
 	var map: WorldMapController = session.active_map() as WorldMapController
 	_check(await MapPlaces.drive_through(tree, map, [&"snow.square", &"snow.mstreet1", &"snow.school1"]) and await MapPlaces.drive(tree, map, MapPlaces.door_spot(map, &"snow.school.gate", &"snow.school1")), "up the street to the school's red gate")
 	_check(map.open_door(&"snow.school.gate"), "the school gate opens")
-	_check(await MapPlaces.drive_through(tree, map, [&"snow.school2", &"snow.schoolhall", &"snow.inneryard"]), "across the yard, through the hall")
+	_check(await MapPlaces.take_passage(tree, map, &"snow.school1.east"), "through the red gate into the 武馆 (its own map)")
+	map = session.active_map() as WorldMapController
+	await tree.physics_frame
+	await tree.physics_frame
+	_check(map.map_id() == &"snow.school_compound" and player.world_location().zone_id == &"snow.school2", "in the practice yard behind the gate")
+	_check(map.door(&"snow.school.gate") != null and map.door(&"snow.school.gate").is_open(), "the gate stands open from inside too")
+	_check(await MapPlaces.drive_through(tree, map, [&"snow.schoolhall", &"snow.inneryard"]), "across the yard, through the hall")
 	_check(player.world_location().zone_id == &"snow.inneryard", "east of the hall is the inner yard (天井)")
 	_check(await MapPlaces.drive_to_zone(tree, map, &"snow.guestroom"), "south into the guest room")
 	_check(player.world_location().zone_id == &"snow.guestroom", "south of the yard is the guest room")
@@ -234,7 +246,7 @@ func _test_storage_and_cellar(tree: SceneTree, session: WorldSessionController) 
 	_check(hud.log_lines().back() == "地板忽然发出轧轧的声音，一块地面缓缓移动著，露出一个向下的阶梯。", "the floor moves (check_trigger)")
 	for _frame: int in range(10):
 		await tree.physics_frame
-	_check(session.active_map_id() == &"snow.outdoor" and player.world_location().zone_id == &"snow.weapon_storage", "the floor opening under the player does not drop them: the exit is there to take")
+	_check(session.active_map_id() == &"snow.school_compound" and player.world_location().zone_id == &"snow.weapon_storage", "the floor opening under the player does not drop them: the exit is there to take")
 	_check(await MapPlaces.drive(tree, map, MapPlaces.spot(map, &"snow.weapon_storage", hole.global_position + Vector2(0, 80))), "off the opening")
 	await _walk_until_map(tree, session, "move_up", &"snow.cellar")
 	_check(session.active_map_id() == &"snow.cellar" and player.world_location().zone_id == &"snow.secret_storage", "down the steps into the secret storage, and still there with the key held")
@@ -257,15 +269,18 @@ func _test_storage_and_cellar(tree: SceneTree, session: WorldSessionController) 
 	await walker.round_trip(tree, session, Work.capture(session), "4C below")
 	await _test_continue_below(tree, session)
 	await walker.walk_to(tree, session, "move_left", -104, 0)
-	await _walk_until_map(tree, session, "move_down", &"snow.outdoor")
-	_check(session.active_map_id() == &"snow.outdoor" and player.world_location().zone_id == &"snow.weapon_storage", "back up the steps, and still up with the key held")
+	await _walk_until_map(tree, session, "move_down", &"snow.school_compound")
+	_check(session.active_map_id() == &"snow.school_compound" and player.world_location().zone_id == &"snow.weapon_storage", "back up the steps, and still up with the key held")
 	await tree.process_frame
 	await tree.process_frame
 	_check(not passages.state(SHELF).is_open and not map.is_portal_open(DOWN), "the passage closes once nobody is below")
 	_check(hud.log_lines().slice(-3).has("地板忽然发出轧轧的声音，一块地面缓缓移动著，将向下的通道盖住了。"), "close_passage's line: " + str(hud.log_lines().slice(-3)))
 	# The temple's donation box is a container (4E): 拾取 lists what is in it, and it stays;
 	# it can be looked at from across the room.
-	_check(map.relocate_player(&"snow.temple", &"snow.temple.revive"), "to the temple")
+	map = MapPlaces.enter(session, &"snow.temple", &"snow.temple.revive")
+	_check(map != null and map.map_id() == SnowWorldDefinitions.temple_map_id(), "to the temple (its own map)")
+	await tree.physics_frame
+	await tree.physics_frame
 	var box: StringName = ItemSpawnDefinition.item_instance_id(scope, &"snow.temple.denotation.1")
 	_check(map.select_floor_item(box) and map.open_selected_loot() and hud.loot_rows().is_empty() and map.floor_item_ids().has(box), "功德箱: an empty container")
 	hud.dismiss_current_panel()
@@ -299,8 +314,12 @@ func _test_continue_below(tree: SceneTree, session: WorldSessionController) -> v
 	_check(fresh.hidden_passages().state(SHELF).is_open and stairs.is_open() and stairs.visible and not (stairs.get_node("CollisionShape2D") as CollisionShape2D).disabled, "Continue below: the way up is open, its shape on")
 	var scope: StringName = fresh.item_id_allocator().scope
 	var lying: Array[StringName] = [ItemSpawnDefinition.item_instance_id(scope, &"snow.temple.denotation.1"), ItemSpawnDefinition.item_instance_id(scope, &"snow.temple.paper_seal.1"), ItemSpawnDefinition.item_instance_id(scope, &"snow.temple.paper_seal.2")]
-	_check(fresh.world_map_of(&"snow.outdoor").floor_item_ids() == lying
-		and fresh.world_map_of(&"snow.cellar").floor_item_ids().is_empty(), "Continue: only the box and the temple's 桃符纸 still lie on the floor: %s" % [fresh.world_map_of(&"snow.outdoor").floor_item_ids()])
+	var temple: WorldMapController = fresh.world_map_of(SnowWorldDefinitions.temple_map_id())
+	var lies: Array[StringName] = temple.floor_item_ids()
+	lies.sort()
+	lying.sort()
+	_check(lies == lying and fresh.world_map_of(&"snow.school_compound").floor_item_ids().is_empty()
+		and fresh.world_map_of(&"snow.cellar").floor_item_ids().is_empty(), "Continue: only the box and the temple's 桃符纸 still lie on the floor: %s" % [temple.floor_item_ids()])
 	fresh.free()
 	await tree.process_frame
 

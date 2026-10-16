@@ -115,34 +115,45 @@ func physical_test(tree: SceneTree) -> void:
 	session.configure_npc_ambience_random_source(StillAmbience.new())
 	var ids: Array[Object] = [session.player_runtime(), session.inventory_state(), session.stack_collection(), session.item_instance_index(), session.item_id_allocator(), session.world_simulation_gate(), session.combat_encounter_coordinator()]
 	var snow: WorldMapController = session.resident_map(SnowWorldDefinitions.OUTDOOR_MAP_ID) as WorldMapController
-	var work: WorkService = snow.service(&"snow.workplace.mill") as WorkService
+	var mill_map: WorldMapController = session.resident_map(&"snow.workplace_house") as WorldMapController
+	var bank_map: WorldMapController = session.resident_map(&"snow.bank_house") as WorldMapController
+	var work: WorkService = mill_map.service(&"snow.workplace.mill") as WorkService
 	var residents: int = session.resident_map_count()
 	var npcs: int = session.world_npcs().size()
+	# Since the remap the mill and the bank are their own maps, joined to the street by doors.
+	_check(GameContent.catalog().zone(&"snow.workplace").map_id == &"snow.workplace_house" and GameContent.catalog().zone(&"snow.bank").map_id == &"snow.bank_house" and mill_map != snow, "remap: the mill and the bank are on their own maps, not the town's")
+	_check(GameContent.catalog().portal(&"snow.mstreet2.east").destination_map_id == &"snow.workplace_house" and GameContent.catalog().portal(&"snow.workplace.west").destination_map_id == SnowWorldDefinitions.OUTDOOR_MAP_ID, "remap: the mill's door joins mstreet2 and the workplace both ways")
 	var street_join: Vector2 = MapPlaces.doorway(snow, &"snow.square", &"snow.mstreet1")
-	var mill_door: Vector2 = MapPlaces.doorway(snow, &"snow.mstreet2", &"snow.workplace")
-	for entry: Array in [[&"snow.mstreet1", MapPlaces.zone_centre(snow, &"snow.mstreet1")], [&"snow.mstreet2", MapPlaces.zone_centre(snow, &"snow.mstreet2")], [&"snow.workplace", MapPlaces.zone_centre(snow, &"snow.workplace")], [&"snow.square", street_join + Vector2(0, 24)], [&"snow.mstreet1", street_join - Vector2(0, 24)], [&"snow.workplace", mill_door + Vector2(24, 0)]]:
-		_check(MapPlacementValidator.is_valid_character_position(snow, entry[0], entry[1]), "save position and half-open joins " + str(entry))
-	for row: Array in [[&"snow.square", &"snow.mstreet1", street_join], [&"snow.mstreet2", &"snow.workplace", mill_door]]:
-		var owner: StringName = MapPlaces.seam_owner(snow, row[0], row[1])
-		var other: StringName = row[1] if owner == row[0] else row[0]
-		_check(MapPlacementValidator.is_valid_character_position(snow, owner, row[2]) and not MapPlacementValidator.is_valid_character_position(snow, other, row[2]), "half-open join: the line itself is %s's" % owner)
+	for entry: Array in [[snow, &"snow.mstreet1", MapPlaces.zone_centre(snow, &"snow.mstreet1")], [snow, &"snow.mstreet2", MapPlaces.zone_centre(snow, &"snow.mstreet2")], [mill_map, &"snow.workplace", MapPlaces.zone_centre(mill_map, &"snow.workplace")], [snow, &"snow.square", street_join + Vector2(0, 24)], [snow, &"snow.mstreet1", street_join - Vector2(0, 24)]]:
+		_check(MapPlacementValidator.is_valid_character_position(entry[0], entry[1], entry[2]), "save position and half-open joins " + str(entry[1]) + str(entry[2]))
+	var owner: StringName = MapPlaces.seam_owner(snow, &"snow.square", &"snow.mstreet1")
+	var other: StringName = &"snow.mstreet1" if owner == &"snow.square" else &"snow.square"
+	_check(MapPlacementValidator.is_valid_character_position(snow, owner, street_join) and not MapPlacementValidator.is_valid_character_position(snow, other, street_join), "half-open join: the line itself is %s's" % owner)
 	# S7B opens mstreet2 north; the Workplace north wall remains closed.
 	var mstreet1: Rect2 = MapPlaces.zone_rect(snow, &"snow.mstreet1")
-	var mill: Rect2 = MapPlaces.zone_rect(snow, &"snow.workplace")
-	for entry: Array in [[&"snow.mstreet1", Vector2(mstreet1.end.x - 10, mstreet1.position.y + 40)], [&"snow.workplace", Vector2(mill.get_center().x, mill.position.y + 10)], [&"snow.workplace", Vector2(mill.end.x - 10, mill.get_center().y)], [&"snow.workplace", mill.position + Vector2(20, 30)], [&"snow.workplace", Vector2(mill.end.x + 10, mill.get_center().y)]]:
-		_check(not MapPlacementValidator.is_valid_character_position(snow, entry[0], entry[1]), "reject new walls/void " + str(entry))
+	var mill: Rect2 = MapPlaces.zone_rect(mill_map, &"snow.workplace")
+	for entry: Array in [[snow, &"snow.mstreet1", Vector2(mstreet1.end.x - 10, mstreet1.position.y + 40)], [mill_map, &"snow.workplace", Vector2(mill.get_center().x, mill.position.y + 10)], [mill_map, &"snow.workplace", Vector2(mill.end.x - 10, mill.get_center().y)], [mill_map, &"snow.workplace", mill.position + Vector2(20, 30)], [mill_map, &"snow.workplace", Vector2(mill.end.x + 10, mill.get_center().y)]]:
+		_check(not MapPlacementValidator.is_valid_character_position(entry[0], entry[1], entry[2]), "reject new walls/void " + str(entry[1]) + str(entry[2]))
 	_check(work.request_work().outcome == SnowWorkResult.Outcome.INTERACTION_BLOCKED, "inactive remote work rejected")
 	await tree.physics_frame
 	_check(await MapPlaces.take_passage(tree, session.active_map() as WorldMapController, SnowWorldDefinitions.INN_EXIT_PORTAL_ID), "out through the Inn's door")
 	_check(session.active_map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID, "real Inn east Area passage")
 	_check(await MapPlaces.drive_through(tree, snow, [&"snow.square", SnowWorldDefinitions.MSTREET1_ZONE_ID]), "up the street")
 	_check(session.player_runtime().world_location().zone_id == SnowWorldDefinitions.MSTREET1_ZONE_ID, "physical mstreet1")
-	_check(await MapPlaces.drive_to_zone(tree, snow, SnowWorldDefinitions.BANK_ZONE_ID), "west into the bank")
-	_check(session.player_runtime().world_location().zone_id == SnowWorldDefinitions.BANK_ZONE_ID, "S3C opens authored west Bank access")
-	_check(await MapPlaces.drive_through(tree, snow, [SnowWorldDefinitions.MSTREET1_ZONE_ID, SnowWorldDefinitions.MSTREET2_ZONE_ID]), "back out and on up the street")
+	_check(await MapPlaces.take_passage(tree, snow, &"snow.mstreet1.west"), "west through the bank's door")
+	await tree.physics_frame
+	await tree.physics_frame
+	_check(session.active_map_id() == &"snow.bank_house" and session.player_runtime().world_location().zone_id == SnowWorldDefinitions.BANK_ZONE_ID, "S3C opens authored west Bank access")
+	_check(await MapPlaces.take_passage(tree, bank_map, &"snow.bank.east"), "back out of the bank")
+	await tree.physics_frame
+	await tree.physics_frame
+	_check(session.active_map() == snow and await MapPlaces.drive_through(tree, snow, [SnowWorldDefinitions.MSTREET1_ZONE_ID, SnowWorldDefinitions.MSTREET2_ZONE_ID]), "back out and on up the street")
 	_check(session.player_runtime().world_location().zone_id == SnowWorldDefinitions.MSTREET2_ZONE_ID, "physical mstreet2")
-	_check(await MapPlaces.drive(tree, snow, MapPlaces.service_spot(snow, &"snow.workplace.mill")), "east into the mill, up to the millstone")
-	_check(work.in_reach() and session.player_runtime().world_location().zone_id == SnowWorldDefinitions.WORKPLACE_ZONE_ID, "physical workplace and proximity")
+	_check(await MapPlaces.take_passage(tree, snow, &"snow.mstreet2.east"), "east through the mill's door")
+	await tree.physics_frame
+	await tree.physics_frame
+	_check(await MapPlaces.drive(tree, mill_map, MapPlaces.service_spot(mill_map, &"snow.workplace.mill")), "into the mill, up to the millstone")
+	_check(work.in_reach() and session.active_map() == mill_map and session.player_runtime().world_location().zone_id == SnowWorldDefinitions.WORKPLACE_ZONE_ID, "physical workplace and proximity")
 	var rng: Array[int] = rng_state(session)
 	session.world_simulation_gate().acquire(&"s2.test")
 	_check(work.request_work().outcome == SnowWorkResult.Outcome.INTERACTION_BLOCKED, "frozen interaction denied")
@@ -152,7 +163,11 @@ func physical_test(tree: SceneTree) -> void:
 	_check(rng_state(session) == rng and work.silver_amount() == 1, "physical work RNG and real silver")
 	for obj: Object in ids: _check(is_instance_valid(obj), "same authorities remain alive")
 	_check(snow._player == ids[0] and snow._inventory == ids[1] and snow._stacks == ids[2] and snow._item_index == ids[3] and snow._item_id_allocator == ids[4] and snow._world_simulation_gate == ids[5], "same injected map authorities")
-	_check(await MapPlaces.drive_through(tree, snow, [SnowWorldDefinitions.MSTREET2_ZONE_ID, SnowWorldDefinitions.MSTREET1_ZONE_ID, &"snow.square"]), "back out and down the street")
+	_check(mill_map._player == ids[0] and mill_map._inventory == ids[1] and mill_map._stacks == ids[2] and mill_map._item_index == ids[3] and mill_map._item_id_allocator == ids[4] and mill_map._world_simulation_gate == ids[5], "same injected map authorities on the mill's own map")
+	_check(await MapPlaces.take_passage(tree, mill_map, &"snow.workplace.west"), "back out of the mill")
+	await tree.physics_frame
+	await tree.physics_frame
+	_check(session.active_map() == snow and await MapPlaces.drive_through(tree, snow, [SnowWorldDefinitions.MSTREET2_ZONE_ID, SnowWorldDefinitions.MSTREET1_ZONE_ID, &"snow.square"]), "back out and down the street")
 	_check(session.player_runtime().world_location().zone_id == &"snow.square", "real workplace west/south return to Square")
 	_check(snow.resident_npcs().size() == GameContent.catalog().spawns_for_map(snow.map_id()).reduce(func(total: int, spawn: NpcSpawnDefinition) -> int: return total + spawn.quantity, 0) and session.world_npcs().size() == npcs and session.resident_map_count() == residents, "no new NPC/resident")
 	session.free()

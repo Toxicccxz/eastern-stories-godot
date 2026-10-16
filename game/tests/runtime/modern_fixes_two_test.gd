@@ -27,13 +27,12 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(session.handoff_to(&"snow.outdoor", &"snow.square", &"snow.square", &"snow.square.inn_entry").succeeded(), "out on the square")
 	for frame: int in range(5):
 		await tree.process_frame
-	var map: WorldMapController = session.active_map() as WorldMapController
 	_test_max_kee(session)
 	_test_cultivation_hint(session)
-	_test_strength(session, map)
-	_test_give(session, map)
-	_test_battle_actions(session, map)
-	_test_quick_wake(session, map)
+	_test_strength(session)
+	_test_give(session)
+	_test_battle_actions(session)
+	_test_quick_wake(session)
 	session.free()
 	await tree.process_frame
 	return {"assertions": _count, "failures": _failures}
@@ -84,11 +83,11 @@ func _test_cultivation_hint(session: WorldSessionController) -> void:
 
 
 ## 目标详情 says how strong the NPC looks; 切磋 with one clearly stronger is asked first.
-func _test_strength(session: WorldSessionController, map: WorldMapController) -> void:
+func _test_strength(session: WorldSessionController) -> void:
 	var hud: SharedGameplayUI = session.shared_ui()
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
-	var trainee: NpcRuntimeState = map.find_resident_npc(TRAINEE)
-	_select(map, hud, &"snow.school2", trainee)
+	var trainee: NpcRuntimeState = _find(session, TRAINEE)
+	var map: WorldMapController = _select(session, hud, &"snow.school2", trainee)
 	_check(map.inspect_selected() and hud.inspection_text.text.ends_with("他看起来比你强。"), "a trainee looks stronger: " + hud.inspection_text.text)
 	_check(map.selected_spar_risk() == WorldMapController.SparRisk.NONE, "but not clearly: no question")
 	trainee.character_state.progression.combat_experience = 3000 # TEST-ONLY
@@ -100,8 +99,8 @@ func _test_strength(session: WorldSessionController, map: WorldMapController) ->
 	hud.confirm_prompt.cancel_button.pressed.emit()
 	_check(not coordinator.has_active_encounter(), "取消: no spar")
 	trainee.character_state.progression.combat_experience = 100
-	var guard: NpcRuntimeState = map.find_resident_npc(GUARD)
-	_select(map, hud, &"snow.school1", guard)
+	var guard: NpcRuntimeState = _find(session, GUARD)
+	map = _select(session, hud, &"snow.school1", guard) # the gate court is on the town map
 	hud.spar_button.pressed.emit()
 	text = hud.confirm_prompt.message.text
 	_check(hud.is_asking() and text.begins_with("刘安禄看起来比你强得多，而且有人手持兵刃："), "刘安禄: armed and much stronger: " + text)
@@ -117,10 +116,10 @@ func _test_strength(session: WorldSessionController, map: WorldMapController) ->
 
 ## 给: the worn 布衣 and a 黄金 are asked first; silver is not; the temple keeper's
 ## donation box is not asked about gold.
-func _test_give(session: WorldSessionController, map: WorldMapController) -> void:
+func _test_give(session: WorldSessionController) -> void:
 	var hud: SharedGameplayUI = session.shared_ui()
-	var trainee: NpcRuntimeState = map.find_resident_npc(TRAINEE)
-	_select(map, hud, &"snow.school2", trainee)
+	var trainee: NpcRuntimeState = _find(session, TRAINEE)
+	var map: WorldMapController = _select(session, hud, &"snow.school2", trainee)
 	var worn: StringName = &""
 	for row: PlayerInventoryRowProjection in session.player_inventory_rows():
 		if row.equipment_slot != PlayerInventoryRowProjection.EquipmentSlot.NONE:
@@ -143,14 +142,14 @@ func _test_give(session: WorldSessionController, map: WorldMapController) -> voi
 	# The question closes once the gift cannot be made: the trainee walked off.
 	hud.items.give_item(gold, 1)
 	_check(hud.is_asking(), "asked again")
-	trainee.set_world_location(map.location_for_zone(&"snow.school1")) # TEST-ONLY: he wandered off
+	trainee.set_world_location(map.location_for_zone(&"snow.schoolhall")) # TEST-ONLY: he wandered off (to the hall, the court's neighbour on the 武馆 map)
 	hud._presentation_layout.validate_open_panel()
 	_check(not hud.confirm_prompt.is_asking() and not hud._presentation_layout.frame.visible, "the recipient gone: the question closes")
 	trainee.set_world_location(map.location_for_zone(&"snow.school2"))
 	hud.items.give_item(silver, 1)
 	_check(not hud.is_asking(), "one silver tael is not asked")
-	var keeper: NpcRuntimeState = map.find_resident_npc(KEEPER)
-	_select(map, hud, &"snow.temple", keeper)
+	var keeper: NpcRuntimeState = _find(session, KEEPER)
+	_select(session, hud, &"snow.temple", keeper) # the temple is a map of its own
 	var before: int = Finance.amount(Finance.session_context(session), CurrencyDenomination.Value.GOLD)
 	hud.items.give_item(gold, 1)
 	_check(not hud.is_asking() and Finance.amount(Finance.session_context(session), CurrencyDenomination.Value.GOLD) == before - 1, "a donation to the temple keeper is not asked")
@@ -159,11 +158,11 @@ func _test_give(session: WorldSessionController, map: WorldMapController) -> voi
 
 ## The battle panel in a spar with a trainee: 运功疗伤 greyed with heal.c's line and
 ## pressing it does nothing; 运功恢复气 says what it does; no "你的目标是X。".
-func _test_battle_actions(session: WorldSessionController, map: WorldMapController) -> void:
+func _test_battle_actions(session: WorldSessionController) -> void:
 	var ui: BattlePresentationController = session.get_node("BattlePresentationLayer/BattleSurface")
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
-	var trainee: NpcRuntimeState = map.find_resident_npc(TRAINEE)
-	_select(map, session.shared_ui(), &"snow.school2", trainee)
+	var trainee: NpcRuntimeState = _find(session, TRAINEE)
+	var map: WorldMapController = _select(session, session.shared_ui(), &"snow.school2", trainee)
 	_check(map.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "a spar with the trainee")
 	ui.refresh_projection()
 	var heal: Button = _button(ui.action_panel, "运功疗伤")
@@ -193,10 +192,10 @@ func _test_battle_actions(session: WorldSessionController, map: WorldMapControll
 ## A9: knocked out, the player lies in the dark for player_wake_seconds (3) of real time
 ## while NPC heart beats, their waking and the rest of world time run the whole delay;
 ## with ES2's pace (0) the player waits the delay itself.
-func _test_quick_wake(session: WorldSessionController, map: WorldMapController) -> void:
+func _test_quick_wake(session: WorldSessionController) -> void:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var flow: PlayerLifeFlow = session.player_life_flow()
-	var trainee: NpcRuntimeState = map.find_resident_npc(TRAINEE)
+	var trainee: NpcRuntimeState = _find(session, TRAINEE)
 	_check(GameContent.catalog().pacing().player_wake_seconds == 3, "pacing.json: three seconds in the dark")
 	# TEST-ONLY: the trainee lies unconscious for 30 s, the player for 60 s.
 	trainee.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS)
@@ -221,9 +220,21 @@ func _test_quick_wake(session: WorldSessionController, map: WorldMapController) 
 	Es2Pacing.restore(previous)
 
 
-func _select(map: WorldMapController, hud: SharedGameplayUI, zone_id: StringName, npc: NpcRuntimeState) -> void:
-	_check(map.relocate_player(zone_id, npc.spawn_point_id) and map.select_npc(npc.character_id), "beside " + String(npc.character_id))
+## The player beside the NPC (on the map its zone lies on) with it selected; returns that map.
+func _select(session: WorldSessionController, hud: SharedGameplayUI, zone_id: StringName, npc: NpcRuntimeState) -> WorldMapController:
+	var map: WorldMapController = MapPlaces.enter(session, zone_id, npc.spawn_point_id)
+	_check(map != null and map.select_npc(npc.character_id), "beside " + String(npc.character_id))
 	hud.refresh_live_state()
+	return map
+
+
+## The NPC of a character id, on whichever map it stands (the buildings are maps of their own).
+func _find(session: WorldSessionController, character_id: StringName) -> NpcRuntimeState:
+	for map: WorldMapController in session.world_maps():
+		var npc: NpcRuntimeState = map.find_resident_npc(character_id)
+		if npc != null:
+			return npc
+	return null
 
 
 func _button(panel: BattleActionPanel, label: String) -> Button:

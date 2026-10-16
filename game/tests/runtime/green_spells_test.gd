@@ -438,7 +438,7 @@ func _test_vanish(tree: SceneTree, session: WorldSessionController) -> void:
 	await tree.physics_frame
 	await tree.physics_frame
 	var location: WorldLocationState = player.world_location()
-	_check(session.active_map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID and location.zone_id == SnowWorldDefinitions.TEMPLE_ZONE_ID, "the player is in Snow's temple: %s %s" % [session.active_map_id(), location.zone_id])
+	_check(session.active_map_id() == SnowWorldDefinitions.temple_map_id() and location.zone_id == SnowWorldDefinitions.TEMPLE_ZONE_ID, "the player is in Snow's temple: %s %s" % [session.active_map_id(), location.zone_id])
 	_ui(session).refresh_projection()
 	await tree.process_frame
 	var hud_log: Array[String] = session.shared_ui().log_lines()
@@ -452,7 +452,7 @@ func _test_vanish(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(BattleFeedbackReader.completion_text(receipt, CharacterRuntimeLifeStatus.Value.ACTIVE, false) == "你逃离了战斗。走远一些才能摆脱危险。", "a plain flight still says so")
 	session.advance_departure()
 	session.advance_departure()
-	_check(coordinator.pending_departure().is_empty() and session.active_map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID and player.world_location().zone_id == SnowWorldDefinitions.TEMPLE_ZONE_ID, "the move was made once")
+	_check(coordinator.pending_departure().is_empty() and session.active_map_id() == SnowWorldDefinitions.temple_map_id() and player.world_location().zone_id == SnowWorldDefinitions.TEMPLE_ZONE_ID, "the move was made once")
 	_check(OldPineSaveEligibility.inspect(session).allowed(), "Save is open in the temple")
 
 

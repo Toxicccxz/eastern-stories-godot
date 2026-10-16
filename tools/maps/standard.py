@@ -357,6 +357,11 @@ def prepare_interior(region, entry: dict) -> dict:
         if 'room' in point:
             box = _anchored(zones[point.pop('room')], point.pop('anchor', 'c'), STANDARD['body'] + 4, STANDARD['body'] + 4, snap=False)
             point['at'] = [(box[0] + box[2]) // 2, (box[1] + box[3]) // 2]
+    if scene.get('stairs'):
+        if not any(n.get('generated') == 'stairs' for n in scene.setdefault('nodes', [])):
+            scene['nodes'].append({'generated': 'stairs'})
+        if not any(n.get('generated') == 'stair_markers' for n in scene.setdefault('spawn_points', [])):
+            scene['spawn_points'].insert(0, {'generated': 'stair_markers'})
     for s in scene.get('stairs', []):
         if 'anchor' in s:
             w, h = scene['shapes'][s['shape']]

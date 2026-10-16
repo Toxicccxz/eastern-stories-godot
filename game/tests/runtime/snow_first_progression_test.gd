@@ -200,7 +200,9 @@ func physical_tests(tree: SceneTree) -> void:
 	var session := Recovery.create_session(tree,Recovery.RandomSequence.new())
 	var initial_npc_count: int = Work.capture(session).npc_spawn_states.size()
 	var map := session.resident_map(&"snow.outdoor") as WorldMapController
-	var school := map.service(&"snow.outdoor.schoolhall.master") as TeacherService
+	# The 武馆 is its own map behind the red gate (the remap); the gate stands on the way in.
+	var compound := session.resident_map(&"snow.school_compound") as WorldMapController
+	var school := compound.service(&"snow.school_compound.schoolhall.master") as TeacherService
 	check(school != null and not school.can_teach() and not school.request_learn(&"unarmed").success, "inactive resident cannot teach")
 	check(GameContent.catalog().zones_for_map(&"snow.outdoor").size() == WorldCounts.of("map_zones", "snow.outdoor"), "Snow's outdoor zones (world_counts.json)")
 	for i: int in range(3):
@@ -214,25 +216,36 @@ func physical_tests(tree: SceneTree) -> void:
 	var gate: CollisionShape2D = MapPlaces.door_wall(map, &"snow.school.gate")
 	check(await MapPlaces.drive(tree, map, MapPlaces.door_spot(map, &"snow.school.gate", &"snow.school1")), "up to the red gate")
 	await MapPlaces.push(tree, &"move_right", 30)
-	check(map.player_body.position.x < gate.global_position.x - 16.0 and not map.door(&"snow.school.gate").is_open(), "closed real collision")
+	check(map.player_body.position.x < gate.global_position.x - 16.0 and not map.door(&"snow.school.gate").is_open() and session.active_map() == map, "closed real collision")
 	check(map.open_door(&"snow.school.gate"),"open west")
 	await tree.physics_frame
-	var hall: Rect2 = MapPlaces.zone_rect(map, &"snow.schoolhall")
-	check(gate.disabled and TerrainProbe.blocks_at(map, hall.position + Vector2(8, 8)),"only door collision disabled")
-	check(not MapPlacementValidator.is_valid_character_position(map,&"snow.school2",gate.global_position),"open doorway save rejected")
-	check(await MapPlaces.drive(tree, map, MapPlaces.door_spot(map, &"snow.school.gate", &"snow.school2")), "through into the yard")
-	check(map.close_door(&"snow.school.gate"),"close east")
+	check(gate.disabled and TerrainProbe.blocks_at(map, gate.global_position + Vector2(48, -80)),"only door collision disabled: the compound's wall stands")
+	check(not MapPlacementValidator.is_valid_character_position(map,&"snow.school1",gate.global_position),"open doorway save rejected")
+	check(compound.door(&"snow.school.gate").is_open(), "opened from the street, open inside too (one door, two maps)")
+	check(await MapPlaces.take_passage(tree, map, &"snow.school1.east"), "through into the yard")
 	await tree.physics_frame
-	check(not gate.disabled,"close collision restored")
+	await tree.physics_frame
+	check(session.active_map() == compound and session.player_runtime().world_location().zone_id == &"snow.school2", "in the practice yard, the 武馆's own map")
+	var inner_gate: CollisionShape2D = MapPlaces.door_wall(compound, &"snow.school.gate")
+	check(await MapPlaces.drive(tree, compound, MapPlaces.door_spot(compound, &"snow.school.gate", &"snow.school2")), "beside the gate inside")
+	check(compound.close_door(&"snow.school.gate"),"close east")
+	await tree.physics_frame
+	check(not inner_gate.disabled and not map.door(&"snow.school.gate").is_open(),"close collision restored, shut on the street too")
 	await MapPlaces.push(tree, &"move_left", 30)
-	check(map.player_body.position.x > gate.global_position.x + 16.0,"inside closed blocks")
-	check(map.open_door(&"snow.school.gate"),"open east")
-	check(await MapPlaces.drive(tree, map, MapPlaces.door_spot(map, &"snow.school.gate", &"snow.school1")), "back through the gate")
+	check(compound.player_body.position.x > inner_gate.global_position.x + 16.0 and session.active_map() == compound,"inside closed blocks")
+	check(compound.open_door(&"snow.school.gate"),"open east")
+	check(await MapPlaces.take_passage(tree, compound, &"snow.school2.west"), "back through the gate")
+	await tree.physics_frame
+	await tree.physics_frame
+	check(session.active_map() == map and session.player_runtime().world_location().zone_id == &"snow.school1", "back in the gate court")
 	check(map.close_door(&"snow.school.gate"),"close west")
 	check(map.open_door(&"snow.school.gate"),"reopen west")
-	check(await MapPlaces.drive(tree, map, MapPlaces.spot(map, &"snow.schoolhall", MapPlaces.doorway(map, &"snow.school2", &"snow.schoolhall") + Vector2(48, 0))), "across the yard into the hall")
+	check(await MapPlaces.take_passage(tree, map, &"snow.school1.east"), "in again")
+	await tree.physics_frame
+	await tree.physics_frame
+	check(await MapPlaces.drive(tree, compound, MapPlaces.spot(compound, &"snow.schoolhall", MapPlaces.doorway(compound, &"snow.school2", &"snow.schoolhall") + Vector2(48, 0))), "across the yard into the hall")
 	check(not school.can_teach(),"hall but outside proximity")
-	check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, &"snow.outdoor.schoolhall.master", &"snow.schoolhall")), "up to 柳淳风")
+	check(await MapPlaces.drive(tree, compound, MapPlaces.service_spot(compound, &"snow.school_compound.schoolhall.master", &"snow.schoolhall")), "up to 柳淳风")
 	check(school.can_teach(),"actual hall contact")
 	var player := session.player_runtime()
 	var valid_location := player.world_location()
@@ -252,9 +265,9 @@ func physical_tests(tree: SceneTree) -> void:
 	check(GameSaveJsonCodec.encode(Work.capture(session)).text == before_state, "rejected contact requests preserve captured authority and RNG")
 	school.ui.interact()
 	check(school.ui.panel.visible,"narrow real panel")
-	var position := map.player_body.position
+	var position := compound.player_body.position
 	await walk.walk(tree,session,"move_left",12)
-	check(map.player_body.position.distance_to(position) < 0.1,"panel movement quarantine")
+	check(compound.player_body.position.distance_to(position) < 0.1,"panel movement quarantine")
 	school.ui.request_apprentice()
 	check(school.ui.is_confirming() and not NpcApprenticeship.is_master_of(session.player_runtime().state, Master.definition()), "the first master asks first")
 	school.ui.confirm_button.pressed.emit()

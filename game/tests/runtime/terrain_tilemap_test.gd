@@ -93,6 +93,28 @@ func _test_tile_collision_map(map: MapDefinition, scene: Node2D, layers: Array[T
 	_assert_eq(open_edges, 0, "%s has no walkable cell next to unpainted void" % map.map_id)
 
 
+## A door on the portal between two maps (a shop's door onto its street) stands over the
+## passage on this map: shut, nobody steps onto it; its shutter is drawn where it blocks.
+func _test_door_on_passage(map: MapDefinition, scene: Node2D, door: WorldDoor, definition: DoorDefinition, rect: Rect2) -> void:
+	var label: String = "%s door %s" % [map.map_id, door.door_id]
+	var covered: bool = false
+	for node: Node in scene.find_children("*", "Area2D", true, false):
+		var passage: WorldPassageArea2D = node as WorldPassageArea2D
+		var portal: PortalDefinition = null if passage == null else GameContent.catalog().portal(passage.portal_id)
+		if portal == null or not definition.zone_ids().has(portal.source_zone_id) or not definition.zone_ids().has(portal.destination_zone_id):
+			continue
+		var shape: CollisionShape2D = passage.get_node("CollisionShape2D") as CollisionShape2D
+		var size: Vector2 = (shape.shape as RectangleShape2D).size
+		covered = Rect2(_map_position(scene, passage) - size / 2.0, size).is_equal_approx(rect)
+	_assert_true(covered, "%s stands over its passage on this map" % label)
+	var shutter: Polygon2D = door.get_node_or_null(door.shutter) as Polygon2D
+	var drawn := Rect2(shutter.polygon[0], Vector2.ZERO)
+	for point: Vector2 in shutter.polygon:
+		drawn = drawn.expand(point)
+	drawn.position += _map_position(scene, shutter)
+	_assert_eq(drawn, rect, "%s shutter is drawn where the door blocks" % label)
+
+
 ## A closed door blocks exactly its doorway: the walkable cells between two wall tiles, and its
 ## shutter is drawn over the same cells.
 func _test_door_fits_opening(map: MapDefinition, scene: Node2D, door: WorldDoor) -> void:
@@ -104,6 +126,10 @@ func _test_door_fits_opening(map: MapDefinition, scene: Node2D, door: WorldDoor)
 		return
 	var size: Vector2 = (wall.shape as RectangleShape2D).size
 	var rect := Rect2(_map_position(scene, wall) - size / 2.0, size)
+	var definition: DoorDefinition = GameContent.catalog().door(door.door_id)
+	if definition != null and definition.map_ids().size() > 1:
+		_test_door_on_passage(map, scene, door, definition, rect)
+		return
 	_assert_true(is_zero_approx(fposmod(rect.position.x, TILE)) and is_zero_approx(fposmod(rect.position.y, TILE))
 		and is_zero_approx(fposmod(rect.size.x, TILE)) and is_zero_approx(fposmod(rect.size.y, TILE)), "%s sits on the tile grid (%s)" % [label, rect])
 	var drawn := Rect2(shutter.polygon[0], Vector2.ZERO)
@@ -150,17 +176,25 @@ func _test_terrain_spot_checks() -> void:
 	var snow: Node2D = _scene("res://scenes/world/snow/snow_outdoor.tscn")
 	for row: Array in [
 		[Vector2(0, 0), "town_ground", false], [Vector2(0, -1000), "street", false],
-		# the square's old wooden frame, the inn's front on its west side with the door's step
-		[Vector2(0, -88), "blocked", true], [Vector2(-312, 0), "town_ground", false], [Vector2(-328, 0), "wall_wood", true],
-		# the counters and the millstone are tiles, not node collision
-		[Vector2(-312, -384), "blocked", true], [Vector2(248, -1080), "blocked", true], [Vector2(344, -744), "blocked", true],
+		# the square's old wooden frame, the inn's outside on its west side, its door on the square
+		[Vector2(0, -72), "blocked", true], [Vector2(-400, 0), "town_ground", false], [Vector2(-424, 0), "wall_wood", true],
+		# a shop from outside is its walls round a roof, not walked on (the 钱庄)
+		[Vector2(-200, -560), "shop_front", true],
 		# the mountain wall east of the 山路; the road south to Old Pine runs to the map's closed edge
-		[Vector2(1296, 500), "cliff", true], [Vector2(1160, 920), "path", false], [Vector2(1160, 944), "boundary", true],
+		[Vector2(1600, 500), "cliff", true], [Vector2(1440, 1100), "path", false], [Vector2(1440, 1168), "boundary", true],
 		# just beyond the col east of the track to the next village (the edge keeps a skirt of boundary)
-		[Vector2(248, -1680), "boundary", true],
+		[Vector2(328, -2448), "boundary", true],
 	]:
 		_spot(snow, "Snow", row)
 	snow.free()
+	# The counters and the millstone are tiles, not node collision, in their buildings' own maps.
+	for row: Array in [
+		["snow_bank_house", Vector2(0, -120), "blocked", true], ["snow_hockshop_house", Vector2(-248, -88), "blocked", true],
+		["snow_workplace_house", Vector2(56, -8), "blocked", true],
+	]:
+		var building: Node2D = _scene("res://scenes/world/snow/%s.tscn" % row[0])
+		_spot(building, row[0], row.slice(1))
+		building.free()
 	var inn: Node2D = _scene("res://scenes/world/snow/snow_inn.tscn")
 	_spot(inn, "Inn", [Vector2(0, -304), "wall_wood", true])
 	_spot(inn, "Inn", [Vector2(0, -200), "blocked", true])

@@ -44,9 +44,11 @@ func _test_authored_facts(session: WorldSessionController) -> void:
 	_check(guard.definition().short_name() == "门房 刘安禄" and guard.definition().attitude == NpcDefinition.Attitude.HEROISM, "guard.c title and heroism")
 	_check(guard.character_state.equipment.primary_weapon_skill_type() == &"blade" and guard.armor.occupied_slots() == [&"cloth"], "guard wields the blade and wears cloth")
 	_check(guard.character_state.skills.raw_level(&"blade") == 40 and guard.character_state.skills.raw_level(&"parry") == 40 and guard.character_state.attributes.strength == 29, "guard skills and attributes")
-	var trainer: NpcRuntimeState = outdoor.find_resident_npc(&"snow.school2.fist_trainer.1.character")
+	# The 武馆's court and hall are on the school compound's own map since the remap.
+	var compound: WorldMapController = session.world_map_of(&"snow.school_compound")
+	var trainer: NpcRuntimeState = compound.find_resident_npc(&"snow.school2.fist_trainer.1.character")
 	_check(trainer.character_state.skills.mapped_skill(&"unarmed") == &"liuh-ken", "李火狮 fights with 柳家拳 (map_skill)")
-	var trainee: NpcRuntimeState = outdoor.find_resident_npc(&"snow.school2.trainee.1.character")
+	var trainee: NpcRuntimeState = compound.find_resident_npc(&"snow.school2.trainee.1.character")
 	_check(trainee.armor.aggregate_numeric_modifiers().armor == 2 and trainee.character_state.progression.combat_experience == 100, "trainee wears linen (armor 2)")
 	var dog: NpcRuntimeState = outdoor.find_resident_npc(&"snow.eroad2.dog.1.character")
 	_check(dog.definition().race_id == &"beast" and dog.loadout_items().is_empty() and dog.definition().authored_combat_facts().verbs() == [&"bite", &"claw"], "野狗 is a beast that bites and claws")
@@ -77,15 +79,19 @@ func _test_temple_forbids_fighting(tree: SceneTree, session: WorldSessionControl
 			break
 	Input.action_release("move_right")
 	await tree.physics_frame
-	# Selected from the square next door, the keeper is still inside a no_fight room.
+	# The temple is a map of its own since the remap: from the square next door the keeper (inside a
+	# no_fight room) has no body to select, so there is nothing to attack from outside.
 	var outdoor: WorldMapController = session.active_map() as WorldMapController
-	_check(session.player_runtime().world_location().zone_id == &"snow.square" and outdoor.select_npc(&"snow.temple.keeper.1.character"), "the keeper can be selected from the square")
+	_check(session.player_runtime().world_location().zone_id == &"snow.square" and not outdoor.select_npc(&"snow.temple.keeper.1.character"), "remap: the keeper cannot be selected from the square (the temple is another map)")
 	var square_log: int = session.shared_ui().log_lines().size()
 	outdoor.attack_selected()
-	_check(not session.combat_encounter_coordinator().has_active_encounter() and session.shared_ui().log_lines().slice(square_log) == ["这里不准战斗。"], "no fight with someone standing in the temple either")
+	_check(not session.combat_encounter_coordinator().has_active_encounter() and GameContent.catalog().zone_forbids_fighting(&"snow.temple") and session.shared_ui().log_lines().slice(square_log).size() <= 1, "no fight with someone standing in the temple either")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	_check(await MapPlaces.drive_to_zone(tree, outdoor, &"snow.temple") and player.world_location().zone_id == &"snow.temple", "walked from the Inn through the square into the temple")
-	var map: WorldMapController = session.active_map() as WorldMapController
+	var map: WorldMapController = await MapPlaces.go_to(tree, session, &"snow.temple")
+	_check(map != null and player.world_location().zone_id == &"snow.temple", "walked from the Inn through the square into the temple")
+	# The HUD meets the new map on its next frame and clears the selection then.
+	await tree.process_frame
+	await tree.process_frame
 	_check(map.select_npc(&"snow.temple.keeper.1.character"), "the keeper can be selected")
 	var before: int = session.shared_ui().log_lines().size()
 	var result: CombatSliceInitiationResult = map.attack_selected()
@@ -153,14 +159,14 @@ func _test_dog_fight_ends(tree: SceneTree) -> void:
 	await tree.physics_frame
 	var body: WorldCharacterBody2D = session.active_map().runtime_player_body()
 	_check(
-		player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and session.active_map_id() == &"snow.outdoor"
+		player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and session.active_map_id() == SnowWorldDefinitions.temple_map_id()
 		and player.world_location().zone_id == &"snow.temple" and body.visible
 		and body.global_position == (session.active_map() as WorldMapController).resolve_spawn_marker(&"snow.temple.revive").global_position,
 		"继续, 阴间 and the white gargoyle bring the player back at the temple",
 	)
 	# The former body still lies on the east road; saving and Continue keep it exactly.
 	session.set_process(false)
-	var corpses: int = (session.active_map() as WorldMapController).corpse_states().size()
+	var corpses: int = session.world_map_of(&"snow.outdoor").corpse_states().size()
 	var saved: GameSaveSnapshot = Work.capture(session)
 	_check(saved != null and corpses == 1 and saved.corpses.size() == 1 and saved.corpses[0].victim_character_id == player.character_id, "Save works after reincarnation, with the player's corpse")
 	if saved == null:

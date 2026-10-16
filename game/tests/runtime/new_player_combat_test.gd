@@ -32,42 +32,48 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 
 func _who_spars(tree: SceneTree) -> void:
-	var fixture: Array = await _snow(tree)
-	var session: WorldSessionController = fixture[0]
-	var map: WorldMapController = fixture[1]
+	var session: WorldSessionController = await _snow(tree)
 	var hud: SharedGameplayUI = session.shared_ui()
-	var lines: Array[String] = _spar(map, SCAVENGER, &"snow.mstreet2", &"snow.mstreet2.drunk.1")
+	var lines: Array[String] = _spar(session, SCAVENGER, &"snow.mstreet2", &"snow.mstreet2.drunk.1")
 	check(lines == ["你对著收破烂的说道：小女子雪工，领教壮士的高招！", "收破烂的说道：小姑娘饶命！小的这就离开！", "看起来收破烂的并不想跟你较量。"], "收破烂的 begs off (scavenger.c accept_fight) %s" % str(lines))
 	check(not session.combat_encounter_coordinator().has_active_encounter(), "a refusal starts nothing")
-	lines = _spar(map, FIST_TRAINER, &"snow.school2", &"snow.school2.trainee.6")
+	lines = _spar(session, FIST_TRAINER, &"snow.school2", &"snow.school2.trainee.6")
 	check(lines.slice(1) == ["李火狮说道：馆主吩咐过，不许和来这里的客人过招。", "看起来李火狮并不想跟你较量。"], "李火狮 will not spar with a guest %s" % str(lines))
-	var trainee: NpcRuntimeState = map.find_resident_npc(TRAINEE)
+	var trainee: NpcRuntimeState = _find(session, TRAINEE)
 	trainee.character_state.vitality.current = trainee.character_state.vitality.maximum / 2
-	lines = _spar(map, TRAINEE, &"snow.school2", &"snow.school2.trainee.6")
+	lines = _spar(session, TRAINEE, &"snow.school2", &"snow.school2.trainee.6")
 	check(lines.slice(1) == ["看起来武馆弟子并不想跟你较量。"], "a hurt NPC refuses without a word (npc.c < 90%%) %s" % str(lines))
 	trainee.character_state.vitality.current = trainee.character_state.vitality.maximum
 	trainee.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS)
-	check(_spar(map, TRAINEE, &"snow.school2", &"snow.school2.trainee.6") == ["武馆弟子已经无法战斗了。"], "fight.c: 已经无法战斗了")
+	check(_spar(session, TRAINEE, &"snow.school2", &"snow.school2.trainee.6") == ["武馆弟子已经无法战斗了。"], "fight.c: 已经无法战斗了")
 	trainee.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
 	trainee.relationship.add_opponent(session.player_runtime().character_id)
-	check(_spar(map, TRAINEE, &"snow.school2", &"snow.school2.trainee.6") == ["加油！加油！加油！"], "fight.c: already fighting you")
+	check(_spar(session, TRAINEE, &"snow.school2", &"snow.school2.trainee.6") == ["加油！加油！加油！"], "fight.c: already fighting you")
 	trainee.relationship.remove_opponent(session.player_runtime().character_id)
 	# Someone else's fight mark on the player: the encounter cannot hold a third
 	# party, so the trainee's yes would start nothing. It reads as a refusal.
 	session.player_runtime().relationship.add_opponent(SCAVENGER)
-	lines = _spar(map, TRAINEE, &"snow.school2", &"snow.school2.trainee.6")
+	lines = _spar(session, TRAINEE, &"snow.school2", &"snow.school2.trainee.6")
 	check(lines.slice(1) == ["看起来武馆弟子并不想跟你较量。"] and not session.combat_encounter_coordinator().has_active_encounter(), "no acceptance into nothing %s" % str(lines))
 	session.player_runtime().relationship.remove_opponent(SCAVENGER)
-	check(_spar(map, KEEPER, &"snow.temple", &"snow.temple.keeper.1") == ["这里禁止战斗。"], "fight.c in a no_fight room")
-	check(_spar(map, TRAINEE, &"snow.square", &"snow.square.inn_entry") == ["你想攻击谁？"], "fight.c: the one asked must be here")
-	map.relocate_player(&"snow.eroad2", &"snow.eroad2.dog.2")
+	check(_spar(session, KEEPER, &"snow.temple", &"snow.temple.keeper.1") == ["这里禁止战斗。"], "fight.c in a no_fight room")
+	# The trainee is chosen in the 武馆 court, then the player is in the hall: another room of the
+	# same map (a selection never reaches over to another map since the remap).
+	var court: WorldMapController = MapPlaces.enter(session, &"snow.school2", &"snow.school2.trainee.6")
+	court.select_npc(TRAINEE)
+	court.runtime_player_body().global_position = MapPlaces.zone_spot(court, &"snow.schoolhall")
+	check(session.player_runtime().set_world_location(court.location_for_zone(&"snow.schoolhall")), "the player walks on to the hall")
+	var asked_lines: int = hud.log_lines().size()
+	court.spar_selected()
+	check(hud.log_lines().slice(asked_lines) == ["你想攻击谁？"], "fight.c: the one asked must be here")
+	var map: WorldMapController = MapPlaces.enter(session, &"snow.eroad2", &"snow.eroad2.dog.2")
 	map.select_npc(DOG)
 	hud.refresh_exploration()
 	check(hud.attack_is_enabled() and not hud.spar_is_enabled() and hud.nearby.actions_of(map.find_resident_npc(DOG).definition().short_name()).has("攻击") and not hud.nearby.actions_of(map.find_resident_npc(DOG).definition().short_name()).has("切磋"), "a beast can be attacked but not asked to spar")
 	var before: int = hud.log_lines().size()
 	check(map.spar_selected().outcome != CombatSliceInitiationResult.Outcome.COMPLETED and hud.log_lines().size() == before, "nor does spar_selected() ask it")
 	session.player_runtime().state.family = FamilyState.new(&"family.fonxan", 14)
-	lines = _spar(map, FIST_TRAINER, &"snow.school2", &"snow.school2.trainee.6")
+	lines = _spar(session, FIST_TRAINER, &"snow.school2", &"snow.school2.trainee.6")
 	check(lines.slice(1) == ["李火狮点了点头。", "李火狮说道：进招吧。"] and session.combat_encounter_coordinator().has_active_encounter(), "李火狮 spars with 封山剑派 members %s" % str(lines))
 	_run(session)
 	check(not session.combat_encounter_coordinator().has_active_encounter(), "that spar ends too")
@@ -75,12 +81,10 @@ func _who_spars(tree: SceneTree) -> void:
 
 
 func _spar_runs_to_its_end(tree: SceneTree) -> void:
-	var fixture: Array = await _snow(tree)
-	var session: WorldSessionController = fixture[0]
-	var map: WorldMapController = fixture[1]
+	var session: WorldSessionController = await _snow(tree)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	var trainee: NpcRuntimeState = map.find_resident_npc(TRAINEE)
-	var lines: Array[String] = _spar(map, TRAINEE, &"snow.school2", &"snow.school2.trainee.6")
+	var trainee: NpcRuntimeState = _find(session, TRAINEE)
+	var lines: Array[String] = _spar(session, TRAINEE, &"snow.school2", &"snow.school2.trainee.6")
 	check(lines == ["你对著武馆弟子说道：小女子雪工，领教小兄弟的高招！", "武馆弟子说道：既然小姑娘赐教，在下只好奉陪。"], "npc.c accepts, in rankd.c's words %s" % str(lines))
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	check(coordinator.has_active_encounter() and coordinator.active_encounter().mode == CombatEncounterMode.Value.SPAR, "a spar, not a kill")
@@ -92,27 +96,25 @@ func _spar_runs_to_its_end(tree: SceneTree) -> void:
 	check(hit, "it ended on a blow that drew kee (combatd.c: first damage > 0)")
 	check(player.state.vitality.effective == player.state.vitality.maximum and trainee.character_state.vitality.effective == trainee.character_state.vitality.maximum, "bare hands leave no wound")
 	check(not player.relationship.is_fighting() and not trainee.relationship.is_fighting(), "both sides stop")
-	check(player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and map.corpse_states().is_empty(), "nobody falls")
+	check(player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and (session.active_map() as WorldMapController).corpse_states().is_empty(), "nobody falls")
 	check(OldPineSaveEligibility.inspect(session).allowed(), "Save is open again")
 	check(CombatEncounterCoordinator.take_aborted_total() == 0, "no abort")
 	await _close(tree, session)
 
 
 func _npc_heals_and_spars_again(tree: SceneTree) -> void:
-	var fixture: Array = await _snow(tree)
-	var session: WorldSessionController = fixture[0]
-	var map: WorldMapController = fixture[1]
-	var trainee: NpcRuntimeState = map.find_resident_npc(TRAINEE)
+	var session: WorldSessionController = await _snow(tree)
+	var trainee: NpcRuntimeState = _find(session, TRAINEE)
 	var kee: CharacterResourceState = trainee.character_state.vitality
 	kee.current = 100
-	check(_spar(map, TRAINEE, &"snow.school2", &"snow.school2.trainee.6").back() == "看起来武馆弟子并不想跟你较量。", "kee 100/200 refuses")
+	check(_spar(session, TRAINEE, &"snow.school2", &"snow.school2.trainee.6").back() == "看起来武馆弟子并不想跟你较量。", "kee 100/200 refuses")
 	var seconds: float = 0.0
 	var accepted: bool = false
 	while seconds < 600.0 and not accepted:
 		session.advance_npc_heartbeat(2.0)
 		seconds += 2.0
 		if kee.current * 100 / kee.maximum >= 90:
-			accepted = _spar(map, TRAINEE, &"snow.school2", &"snow.school2.trainee.6").size() == 2 and session.combat_encounter_coordinator().has_active_encounter()
+			accepted = _spar(session, TRAINEE, &"snow.school2", &"snow.school2.trainee.6").size() == 2 and session.combat_encounter_coordinator().has_active_encounter()
 	check(accepted, "heal_up brings the trainee back to 90%% and it accepts again (%d s)" % int(seconds))
 	check(seconds >= 12.0, "heal_up waits for the char.c tick")
 	_run(session)
@@ -124,14 +126,12 @@ func _npc_heals_and_spars_again(tree: SceneTree) -> void:
 
 
 func _knocked_out_npc_comes_to_after_continue(tree: SceneTree) -> void:
-	var fixture: Array = await _snow(tree)
-	var session: WorldSessionController = fixture[0]
-	var map: WorldMapController = fixture[1]
-	var trainee: NpcRuntimeState = map.find_resident_npc(TRAINEE)
-	_spar(map, TRAINEE, &"snow.school2", &"snow.school2.trainee.6")
+	var session: WorldSessionController = await _snow(tree)
+	var trainee: NpcRuntimeState = _find(session, TRAINEE)
+	_spar(session, TRAINEE, &"snow.school2", &"snow.school2.trainee.6")
 	trainee.character_state.vitality.current = -1
 	_run(session)
-	check(trainee.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS and map.corpse_states().is_empty(), "kee < 0 knocks the trainee out (char.c heart_beat)")
+	check(trainee.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS and (session.active_map() as WorldMapController).corpse_states().is_empty(), "kee < 0 knocks the trainee out (char.c heart_beat)")
 	check(trainee.revive_in_ms >= 30_000 and trainee.revive_in_ms < 130_000, "damage.c: revive in random(100 - con) + 30 s (%d ms)" % trainee.revive_in_ms)
 	check(not session.combat_encounter_coordinator().has_active_encounter(), "the spar is over")
 	session.advance_npc_heartbeat(10.0)
@@ -151,7 +151,7 @@ func _knocked_out_npc_comes_to_after_continue(tree: SceneTree) -> void:
 	var fresh: WorldSessionController = restored.candidate
 	check(fresh.activate_restore_candidate(), "Continue activates")
 	fresh.set_process(false)
-	var again: NpcRuntimeState = (fresh.active_map() as WorldMapController).find_resident_npc(TRAINEE)
+	var again: NpcRuntimeState = _find(fresh, TRAINEE)
 	check(again.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS and again.revive_in_ms == pending, "still out cold with the same countdown")
 	check(GameSaveJsonCodec.encode(Work.capture(fresh)).text == encoded.text, "Save after Continue is the same file")
 	var before: int = fresh.shared_ui().log_lines().size()
@@ -171,11 +171,9 @@ func _knocked_out_npc_comes_to_after_continue(tree: SceneTree) -> void:
 ## A kill goes through unconsciousness first; the dead keep no pending revive
 ## (die() destructs the object and its call_out), so Save still works.
 func _killed_after_knockout_still_saves(tree: SceneTree) -> void:
-	var fixture: Array = await _snow(tree)
-	var session: WorldSessionController = fixture[0]
-	var map: WorldMapController = fixture[1]
-	var trainee: NpcRuntimeState = map.find_resident_npc(TRAINEE)
-	map.relocate_player(&"snow.school2", &"snow.school2.trainee.6")
+	var session: WorldSessionController = await _snow(tree)
+	var trainee: NpcRuntimeState = _find(session, TRAINEE)
+	var map: WorldMapController = MapPlaces.enter(session, &"snow.school2", &"snow.school2.trainee.6")
 	map.select_npc(TRAINEE)
 	check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "attack the trainee")
 	trainee.character_state.vitality.current = -1
@@ -193,13 +191,12 @@ func _killed_after_knockout_still_saves(tree: SceneTree) -> void:
 ## whole way: killer_reward from last_damage_from, the gargoyle, the temple, then
 ## Save and Continue.
 func _armed_spar_death_reincarnation_and_continue(tree: SceneTree) -> void:
-	var fixture: Array = await _snow(tree)
-	var session: WorldSessionController = fixture[0]
-	var map: WorldMapController = fixture[1]
+	var session: WorldSessionController = await _snow(tree)
+	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var guard: NpcRuntimeState = map.find_resident_npc(GUARD)
 	var kee: CharacterResourceState = player.state.vitality
-	var lines: Array[String] = _spar(map, GUARD, &"snow.school1", guard.spawn_point_id)
+	var lines: Array[String] = _spar(session, GUARD, &"snow.school1", guard.spawn_point_id)
 	check(lines.back() == "刀剑无眼，持兵刃比试可能真的受伤。" and session.combat_encounter_coordinator().has_active_encounter(), "刘安禄 accepts; a blade brings the native warning %s" % str(lines))
 	_run(session)
 	check(not session.combat_encounter_coordinator().has_active_encounter(), "the armed spar ends")
@@ -207,7 +204,7 @@ func _armed_spar_death_reincarnation_and_continue(tree: SceneTree) -> void:
 	player.state.progression.combat_experience = 1000
 	kee.effective = 5
 	kee.current = 5
-	_spar(map, GUARD, &"snow.school1", guard.spawn_point_id)
+	_spar(session, GUARD, &"snow.school1", guard.spawn_point_id)
 	_run(session)
 	check(not session.combat_encounter_coordinator().has_active_encounter(), "the second armed spar ends")
 	check(player.life_status == CharacterRuntimeLifeStatus.Value.DEAD and map.corpse_states().size() == 1, "a wounded player dies of the next cut")
@@ -235,19 +232,17 @@ func _armed_spar_death_reincarnation_and_continue(tree: SceneTree) -> void:
 	fresh.set_process(false)
 	var back: WorldPlayerRuntimeState = fresh.player_runtime()
 	check(back.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and back.world_location().zone_id == SnowWorldDefinitions.TEMPLE_ZONE_ID and back.state.progression.combat_experience == experience, "the reincarnated player continues at the temple")
-	check((fresh.active_map() as WorldMapController).corpse_states().size() == 1, "with the corpse still in the school")
+	check(fresh.world_map_of(&"snow.outdoor").corpse_states().size() == 1, "with the corpse still in the school (the gate court, on the town map)")
 	check(GameSaveJsonCodec.encode(Work.capture(fresh)).text == encoded.text, "Save after Continue is the same file")
 	fresh.free()
 	await tree.process_frame
 
 
 func _failed_fight_ends_instead_of_freezing(tree: SceneTree) -> void:
-	var fixture: Array = await _snow(tree)
-	var session: WorldSessionController = fixture[0]
-	var map: WorldMapController = fixture[1]
+	var session: WorldSessionController = await _snow(tree)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	var trainee: NpcRuntimeState = map.find_resident_npc(TRAINEE)
-	_spar(map, TRAINEE, &"snow.school2", &"snow.school2.trainee.6")
+	var trainee: NpcRuntimeState = _find(session, TRAINEE)
+	_spar(session, TRAINEE, &"snow.school2", &"snow.school2.trainee.6")
 	trainee.character_state.vitality.current = 150
 	# A source that answers every draw out of range breaks the first opportunity.
 	var broken: ScriptedCombatRandomSource = ScriptedCombatRandomSource.new([])
@@ -265,28 +260,37 @@ func _failed_fight_ends_instead_of_freezing(tree: SceneTree) -> void:
 	check(not player.relationship.is_fighting() and not trainee.relationship.is_fighting(), "both sides disengage")
 	check(OldPineSaveEligibility.inspect(session).allowed(), "Save works")
 	trainee.character_state.vitality.current = trainee.character_state.vitality.maximum
-	_spar(map, TRAINEE, &"snow.school2", &"snow.school2.trainee.6")
+	_spar(session, TRAINEE, &"snow.school2", &"snow.school2.trainee.6")
 	_run(session)
 	check(not coordinator.has_active_encounter() and coordinator.last_completion().terminal_result.kind == CombatEncounterResultKind.Value.SPAR_CONCLUDED, "the next spar runs normally")
 	await _close(tree, session)
 
 
-## [session, Snow outdoor map]; the session is driven by hand.
-func _snow(tree: SceneTree) -> Array:
+## A session walked out to Snow's square; it is driven by hand.
+func _snow(tree: SceneTree) -> WorldSessionController:
 	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.set_process(false)
 	check(session.handoff_to(&"snow.outdoor", &"snow.square", &"snow.square", &"snow.square.inn_entry").succeeded(), "fixture walks out to the square")
 	for frame: int in range(5):
 		await tree.process_frame
-	return [session, session.active_map() as WorldMapController]
+	return session
 
 
-## Stands by the NPC, asks for a spar and returns the lines it printed.
-func _spar(map: WorldMapController, npc_id: StringName, zone_id: StringName, spawn_point_id: StringName) -> Array[String]:
-	map.relocate_player(zone_id, spawn_point_id)
+## The NPC of a character id, on whichever map it stands (the buildings are maps of their own).
+func _find(session: WorldSessionController, character_id: StringName) -> NpcRuntimeState:
+	for map: WorldMapController in session.world_maps():
+		var npc: NpcRuntimeState = map.find_resident_npc(character_id)
+		if npc != null:
+			return npc
+	return null
+
+
+## Stands by the NPC (on the map its zone lies on), asks for a spar and returns the lines it printed.
+func _spar(session: WorldSessionController, npc_id: StringName, zone_id: StringName, spawn_point_id: StringName) -> Array[String]:
+	var map: WorldMapController = MapPlaces.enter(session, zone_id, spawn_point_id)
 	map.select_npc(npc_id)
-	var hud: SharedGameplayUI = map.session.shared_ui()
+	var hud: SharedGameplayUI = session.shared_ui()
 	var before: int = hud.log_lines().size()
 	map.spar_selected()
 	return hud.log_lines().slice(before)

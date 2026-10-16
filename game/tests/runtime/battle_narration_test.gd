@@ -179,8 +179,11 @@ func _spar_in_snow(tree: SceneTree) -> void:
 	check(session.handoff_to(&"snow.outdoor", &"snow.square", &"snow.square", &"snow.square.inn_entry").succeeded(), "fixture walks out to the square")
 	for frame: int in range(5):
 		await tree.process_frame
-	var map := session.active_map() as WorldMapController
-	map.relocate_player(&"snow.school2", &"snow.school2.trainee.6")
+	# The 武馆 is its own map since the remap: the player is put on the trainee's point there.
+	var map: WorldMapController = MapPlaces.enter(session, &"snow.school2", &"snow.school2.trainee.6")
+	check(map != null, "the player stands in the 武馆 court")
+	await tree.physics_frame
+	await tree.physics_frame
 	map.select_npc(TRAINEE)
 	map.spar_selected()
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()

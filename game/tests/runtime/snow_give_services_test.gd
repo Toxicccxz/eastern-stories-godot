@@ -36,7 +36,8 @@ func _test_data() -> void:
 	_check(catalog.npc(&"snow.npc.waiter").dealings().vendor_id == &"snow.vendor.waiter" and catalog.npc(&"snow.npc.waiter").rank_respect == "小二哥", "店小二 sells from his body; rank_info/respect")
 	_check(not catalog.npc(&"snow.npc.annihir").dealings().is_fight_deferred() and not Master.definition().dealings().is_fight_deferred(), "安惜迩 and 柳淳风 can be fought (their skills are ported)")
 	var kinds: Array[StringName] = []
-	for map_id: StringName in [&"snow.outdoor", &"snow.inn"]:
+	# The town's rooms are maps of their own since the remap: the inn and the street, then every building.
+	for map_id: StringName in [&"snow.outdoor", &"snow.inn", &"snow.bank_house", &"snow.smithy_house", &"snow.herbshop_house", &"snow.postoffice_house", &"snow.workplace_house", &"snow.hockshop_house", &"snow.school_compound", &"snow.temple_house", &"snow.academy"]:
 		for service: ServiceDefinition in catalog.services_for_map(map_id):
 			kinds.append(service.kind)
 	_check(not kinds.has(&"vendor") and not kinds.has(&"teacher") and kinds.has(&"bank") and kinds.has(&"hockshop"), "only rooms' own commands are room services: " + str(kinds))
@@ -107,7 +108,8 @@ func _test_give(tree: SceneTree, session: WorldSessionController) -> void:
 	Finance.add_money(money, CurrencyDenomination.Value.COIN, 300, &"test.coins")
 	Finance.add_money(money, CurrencyDenomination.Value.SILVER, 12, &"test.silver")
 	# The keeper takes money (keeper.c accept_object()); give.c destructs a gift with a value.
-	_check(_beside(map, player, &"snow.temple", &"snow.temple.keeper.1"), "in the temple")
+	map = _visit(session, &"snow.temple", &"snow.temple.keeper.1")
+	_check(map != null, "in the temple")
 	var keeper: NpcRuntimeState = _npc(map, &"snow.temple.keeper.1")
 	map.select_npc(keeper.character_id)
 	var gift: ItemHandlingResult = map.give_to_selected(&"test.coins", 10)
@@ -127,7 +129,8 @@ func _test_give(tree: SceneTree, session: WorldSessionController) -> void:
 	_add_item(session, &"test.book", &"es2:obj/old_book")
 	_check(map.give_to_selected(&"test.book").lines == ["庙祝没有收下。"], "an old book (value 70) is no money either")
 	# An NPC without accept_object() takes nothing; one knocked out is not living().
-	_check(_beside(map, player, &"snow.sroad2", &"snow.sroad2.farmer.1"), "beside the farmers")
+	map = _visit(session, &"snow.sroad2", &"snow.sroad2.farmer.1")
+	_check(map != null, "beside the farmers")
 	var farmer: NpcRuntimeState = _npc(map, &"snow.sroad2.farmer.1")
 	map.select_npc(farmer.character_id)
 	_check(map.give_to_selected(&"test.coins", 1).lines == ["农夫没有收下。"], "the farmer has no accept_object()")
@@ -135,14 +138,16 @@ func _test_give(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not map.selected_npc_takes_gifts() and map.give_to_selected(&"test.coins", 1).lines == ["这里没有这个人。"], "give.c: living(who)")
 	farmer.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
 	# The scavenger takes anything: worth something it is destructed, worth nothing he carries it.
-	_check(_beside(map, player, &"snow.mstreet2", &"snow.mstreet2.scavenger.1"), "beside the scavenger")
+	map = _visit(session, &"snow.mstreet2", &"snow.mstreet2.scavenger.1")
+	_check(map != null, "beside the scavenger")
 	var scavenger: NpcRuntimeState = _npc(map, &"snow.mstreet2.scavenger.1")
 	map.select_npc(scavenger.character_id)
 	var cloth: ItemHandlingResult = map.give_to_selected(&"test.cloth")
 	_check(cloth.done() and not cloth.destroyed and cloth.lines == ["收破烂的说道：多谢这位小姑娘！", "你给收破烂的一件布衣。"], "give cloth to scavenger: " + str(cloth.lines))
 	_check(session.inventory_state().is_direct_child(&"test.cloth", ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, scavenger.character_id)), "he carries it now")
 	# 魏无极's tuition: under five taels he refuses, and the part stays with the player (DECISIONS 4E).
-	_check(_beside(map, player, &"snow.school", &"snow.school.teacher.1"), "in the school")
+	map = _visit(session, &"snow.school", &"snow.school.teacher.1")
+	_check(map != null, "in the school")
 	var teacher: NpcRuntimeState = _npc(map, &"snow.school.teacher.1")
 	map.select_npc(teacher.character_id)
 	var short: ItemHandlingResult = map.give_to_selected(&"test.silver", 4)
@@ -155,7 +160,7 @@ func _test_give(tree: SceneTree, session: WorldSessionController) -> void:
 
 
 func _test_drop_put(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
+	var map: WorldMapController = MapPlaces.enter(session, &"snow.mstreet1", &"snow.mstreet1.bank_return")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var money: MoneyInventoryContext = Finance.session_context(session)
 	var street: Vector2 = map.physical_zone(&"snow.mstreet1").global_rect().get_center()
@@ -172,7 +177,8 @@ func _test_drop_put(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(Finance.amount(money, CurrencyDenomination.Value.COIN) == before + 20 and map.dropped_item_ids().is_empty() and _coins(session) == dropped.item_id, "combined.c merges the player's coins into the stack picked up")
 	# The 功德箱: put in, see what is inside, take out (get.c `from`).
 	var box: StringName = ItemSpawnDefinition.item_instance_id(session.item_id_allocator().scope, &"snow.temple.denotation.1")
-	_check(_beside(map, player, &"snow.temple", &"snow.temple.denotation.1"), "beside the box")
+	map = _visit(session, &"snow.temple", &"snow.temple.denotation.1")
+	_check(map != null, "beside the box")
 	_check(map.container_in_reach() == box, "the box is in reach")
 	var put: ItemHandlingResult = map.put_in_container(_coins(session), 30)
 	_check(put.done() and put.lines == ["你将一些钱放进功德箱。"] and session.inventory_state().is_direct_child(put.item_id, ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, box)), "put 30 coin in box: %s %s" % [put.outcome, put.lines])
@@ -189,10 +195,10 @@ func _test_drop_put(tree: SceneTree, session: WorldSessionController) -> void:
 
 ## drunk.c do_drink(): drinks, drops the emptied wineskin, asks for wine; and gives.
 func _test_drunk(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
+	var map: WorldMapController = _visit(session, &"snow.mstreet2", &"snow.mstreet2.drunk.1")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var hud: SharedGameplayUI = session.shared_ui()
-	_check(_beside(map, player, &"snow.mstreet2", &"snow.mstreet2.drunk.1"), "beside the drunk")
+	_check(map != null, "beside the drunk")
 	var drunk: NpcRuntimeState = _npc(map, &"snow.mstreet2.drunk.1")
 	var action: NpcDrinkAction = drunk.definition().talk().chat_entries()[0]
 	var holder := ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, drunk.character_id)
@@ -210,8 +216,9 @@ func _test_drunk(tree: SceneTree, session: WorldSessionController) -> void:
 	# value(), std/money.c); he drinks from it next.
 	var bought: VendorPurchaseResult = VendorPurchaseService.buy(TestContent.waiter(), "wineskin", GameContent.catalog(), Finance.session_context(session), session.food_collection(), session.liquid_collection(), session.item_id_allocator(), player.maximum_encumbrance)
 	_check(bought.delivered, "a wineskin bought")
-	map.select_npc(_npc(map, &"snow.temple.keeper.1").character_id)
-	_check(map.give_to_selected(bought.item_id).outcome == ItemHandlingResult.Outcome.NOT_HERE, "the keeper is not here")
+	# The keeper is in the temple, on another map since the remap: the street has no body of his to select.
+	var far_keeper: NpcRuntimeState = MapPlaces.npc_at(session, &"snow.temple.keeper.1")
+	_check(not map.npc_runtimes().has(far_keeper) and not map.select_npc(far_keeper.character_id) and ItemHandlingService.give(player, far_keeper, false, bought.item_id, 0, _authorities(session), session.world_interaction_random_source()).outcome == ItemHandlingResult.Outcome.NOT_HERE, "the keeper is not here (no body of his on the street's map to select; give.c's present() fails)")
 	map.select_npc(drunk.character_id)
 	var given: ItemHandlingResult = map.give_to_selected(bought.item_id)
 	_check(not given.destroyed and given.lines == ["醉汉说道：多谢啦.....", "你给醉汉一个牛皮酒袋。"] and drunk.has_flag(&"has_alcohol") and session.inventory_state().is_direct_child(bought.item_id, holder), "give wineskin to drunk: " + str(given.lines))
@@ -226,12 +233,12 @@ func _test_drunk(tree: SceneTree, session: WorldSessionController) -> void:
 
 
 func _test_shops(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
+	var map: WorldMapController = _visit(session, &"snow.herbshop", &"snow.herbshop.herbalist.1")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var hud: SharedGameplayUI = session.shared_ui()
-	_check(_beside(map, player, &"snow.herbshop", &"snow.herbshop.herbalist.1"), "in the herbshop")
+	_check(map != null, "in the herbshop")
 	var herbalist: NpcRuntimeState = _npc(map, &"snow.herbshop.herbalist.1")
-	var shop: VendorService = map.service(&"snow.outdoor.herbshop.herbalist") as VendorService
+	var shop: VendorService = map.service(&"snow.herbshop_house.herbshop.herbalist") as VendorService
 	_check(shop != null and shop.in_reach() and shop.request_purchase("medicine").delivered, "buy medicine from 杨掌柜")
 	# heal_me(), judged on the asker (DECISIONS 4E).
 	map.select_npc(herbalist.character_id)
@@ -246,19 +253,21 @@ func _test_shops(tree: SceneTree, session: WorldSessionController) -> void:
 	vitality.cure(vitality.maximum)
 	vitality.heal(vitality.maximum)
 	# The smith's shop goes with his body.
-	_check(_beside(map, player, &"snow.smithy", &"snow.smithy.smith.1"), "in the smithy")
+	map = _visit(session, &"snow.smithy", &"snow.smithy.smith.1")
+	_check(map != null, "in the smithy")
 	var smith: NpcRuntimeState = _npc(map, &"snow.smithy.smith.1")
-	var forge: VendorService = map.service(&"snow.outdoor.smithy.smith") as VendorService
+	var forge: VendorService = map.service(&"snow.smithy_house.smithy.smith") as VendorService
 	_check(forge.in_reach() and map.interaction_title() == "王铁匠 · 购买", "王铁匠 · 购买")
 	smith.set_life_status(CharacterRuntimeLifeStatus.Value.DEAD)
 	smith.set_exists_in_map(false)
 	map.runtime_body_for_character(smith.character_id).refresh_runtime_state()
 	_check(not forge.in_reach(), "no smith, no hammer")
 	session.reset_room("d/snow/smithy.c")
-	var next: VendorService = map.service(&"snow.outdoor.smithy.smith") as VendorService
+	var next: VendorService = map.service(&"snow.smithy_house.smithy.smith") as VendorService
 	_check(next != null and next != forge and next.npc != smith and next.in_reach(), "the new smith sells again")
 	# 安惜迩 can be fought (offense/defense routes; the fight itself: offense_defense_routes_test).
-	_check(_beside(map, player, &"snow.bank", &"snow.bank.annihir.1"), "in the bank")
+	map = _visit(session, &"snow.bank", &"snow.bank.annihir.1")
+	_check(map != null, "in the bank")
 	map.select_npc(_npc(map, &"snow.bank.annihir.1").character_id)
 	hud.refresh_live_state()
 	_check(hud.attack_is_enabled() and hud.spar_is_enabled(), "攻击/切磋 on 安惜迩")
@@ -267,12 +276,12 @@ func _test_shops(tree: SceneTree, session: WorldSessionController) -> void:
 
 
 func _test_teachers(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
+	var map: WorldMapController = _visit(session, &"snow.school", &"snow.school.teacher.1")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var hud: SharedGameplayUI = session.shared_ui()
 	# 魏无极 teaches literate to the student he marked (recognize_apprentice()).
-	_check(_beside(map, player, &"snow.school", &"snow.school.teacher.1"), "in the school")
-	var school: TeacherService = map.service(&"snow.outdoor.school.teacher") as TeacherService
+	_check(map != null, "in the school")
+	var school: TeacherService = map.service(&"snow.academy.school.teacher") as TeacherService
 	_check(school != null and school.in_reach() and map.interaction_title() == "魏无极 · 请教", "魏无极 · 请教")
 	var learned: LearnResult = school.request_learn(&"literate")
 	_check(learned.success and school.last_lines[0] == "你向魏无极请教有关「读书识字」的疑问。" and player.state.skills.has_raw_level(&"literate"), "learn literate from wey: " + str(school.last_lines))
@@ -281,32 +290,34 @@ func _test_teachers(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(school.last_lines[0] == "魏无极说道：咦？我不记得收过你这个学生啊...." and school.last_lines.size() == 2 and school.last_lines[1].begins_with("魏无极"), "no mark: his say, then learn.c's refusal: " + str(school.last_lines))
 	player.state.marks["魏无极"] = 1
 	# 李火狮 teaches 封山剑派's students only; his refusal's notify_fail wins.
-	_check(_beside(map, player, &"snow.school2", &"snow.school2.fist_trainer.1"), "in the practice yard")
-	var yard: TeacherService = map.service(&"snow.outdoor.school2.fist_trainer") as TeacherService
+	map = _visit(session, &"snow.school2", &"snow.school2.fist_trainer.1")
+	_check(map != null, "in the practice yard")
+	var yard: TeacherService = map.service(&"snow.school_compound.school2.fist_trainer") as TeacherService
 	yard.request_learn(&"unarmed")
 	_check(yard.last_lines == ["李火狮说道：对不起，这位小姑娘，您不是我们武馆的弟子。", "李火狮不愿意教你拳法。"], "a guest: " + str(yard.last_lines))
 	# 柳淳风 takes the player as his apprentice, then 李火狮 teaches them.
-	_check(_beside(map, player, &"snow.schoolhall", &"snow.schoolhall.master.1"), "in the hall")
-	var hall: TeacherService = map.service(&"snow.outdoor.schoolhall.master") as TeacherService
+	_check(_visit(session, &"snow.schoolhall", &"snow.schoolhall.master.1") == map, "in the hall (the same compound map as the yard)")
+	var hall: TeacherService = map.service(&"snow.school_compound.schoolhall.master") as TeacherService
 	_check(hall.takes_apprentices() and hall.request_apprentice() == NpcApprenticeship.Outcome.RECRUITED and player.facts.title == "封山剑派第十四代弟子", "apprentice 柳淳风")
 	_check(hud.log_lines().back() == "恭喜您成为封山剑派的第十四代弟子。", "recruit.c's congratulation")
 	map.select_npc(_npc(map, &"snow.schoolhall.master.1").character_id)
 	hud.refresh_live_state()
 	_check(hud.attack_is_enabled() and hud.spar_is_enabled(), "攻击/切磋 on 柳淳风")
-	_check(_beside(map, player, &"snow.school2", &"snow.school2.fist_trainer.1"), "back in the yard")
+	_check(_visit(session, &"snow.school2", &"snow.school2.fist_trainer.1") == map, "back in the yard")
 	_check(yard.request_learn(&"unarmed").success, "李火狮 teaches a 封山剑派 student")
 	await tree.process_frame
 
 
 func _test_save(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
+	var map: WorldMapController = MapPlaces.enter(session, &"snow.mstreet1", &"snow.mstreet1.bank_return")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var street: Vector2 = map.physical_zone(&"snow.mstreet1").global_rect().get_center()
 	_check(_place(map, player, &"snow.mstreet1", street), "in the street")
 	var dropped: ItemHandlingResult = map.drop_item(_coins(session), 3)
 	# The 竹剑, taken in the weapon storage, lies dropped in the cellar (another map).
 	var sword: StringName = ItemSpawnDefinition.item_instance_id(session.item_id_allocator().scope, &"snow.weapon_storage.bamboo_sword.1")
-	_check(_beside(map, player, &"snow.weapon_storage", &"snow.weapon_storage.bamboo_sword.1") and map.select_floor_item(sword) and map.take_selected_floor_item() == FloorItemPickup.Outcome.TAKEN, "the 竹剑 taken")
+	map = _visit(session, &"snow.weapon_storage", &"snow.weapon_storage.bamboo_sword.1")
+	_check(map != null and map.select_floor_item(sword) and map.take_selected_floor_item() == FloorItemPickup.Outcome.TAKEN, "the 竹剑 taken")
 	var cellar: WorldMapController = session.world_map_of(&"snow.cellar")
 	var below: WorldLocationState = cellar.location_for_zone(&"snow.secret_storage")
 	var moved: InventoryTransferResult = InventoryTransferService.new().transfer(session.inventory_state(), sword, InventoryTransferDestination.new(ContainmentEndpoint.new(ContainmentEndpoint.Kind.WORLD, below.combat_location_id), true, true, WorldMapController.WORLD_CAPACITY), player.state.equipment, player.armor)
@@ -346,6 +357,13 @@ func _beside(map: WorldMapController, player: WorldPlayerRuntimeState, zone_id: 
 		if MapPlacementValidator.is_valid_character_position(map, zone_id, marker.global_position + offset):
 			return _place(map, player, zone_id, marker.global_position + offset)
 	return false
+
+
+## The player goes to the room of marker `point_id` (whichever map it is on since the remap)
+## and stands beside the marker; the map they are on, null when that failed.
+func _visit(session: WorldSessionController, zone_id: StringName, point_id: StringName) -> WorldMapController:
+	var map: WorldMapController = MapPlaces.enter(session, zone_id, point_id)
+	return map if map != null and _beside(map, session.player_runtime(), zone_id, point_id) else null
 
 
 func _place(map: WorldMapController, player: WorldPlayerRuntimeState, zone_id: StringName, at: Vector2) -> bool:

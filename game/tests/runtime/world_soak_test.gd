@@ -375,7 +375,9 @@ func _enter(room: StringName) -> bool:
 func _enter_map(map_id: StringName) -> bool:
 	if _session.active_map_id() == map_id:
 		return true
-	var entry: Array = ENTRIES[map_id]
+	# A building's own map (the remap) is entered at its entry marker, in the room it names.
+	var spawn: StringName = GameContent.catalog().map(map_id).entry_spawn_id
+	var entry: Array = ENTRIES.get(map_id, [StringName(String(spawn).substr(0, String(spawn).rfind("."))), spawn])
 	var handoff: OldPineMapHandoffResult = _session.handoff_to(map_id, entry[0], entry[0], entry[1])
 	await _tree.physics_frame
 	return check(handoff.succeeded(), "handoff to %s: %d" % [map_id, handoff.outcome])

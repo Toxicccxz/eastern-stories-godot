@@ -183,9 +183,15 @@ func _test_ask_and_continue(tree: SceneTree) -> void:
 	await tree.process_frame
 	_check(session.handoff_to(&"snow.outdoor", &"snow.square", &"snow.square", &"snow.square.inn_entry").succeeded(), "to the square")
 	await tree.process_frame
-	var map: WorldMapController = session.active_map() as WorldMapController
-	_check(map.relocate_player(&"snow.school", &"snow.school.teacher.1"), "beside 魏无极")
-	await tree.process_frame
+	# The 书院 is its own map (snow.academy) since the remap: place the player beside 魏无极 there.
+	var map: WorldMapController = MapPlaces.enter(session, &"snow.school", &"snow.school.teacher.1")
+	_check(map != null, "beside 魏无极")
+	await tree.physics_frame
+	await tree.physics_frame
+	# The teacher's own point is behind the desk since the remap (not a place a player can be
+	# saved at): stand on the nearest free spot beside it.
+	var beside: Vector2 = MapPlaces.spot(map, &"snow.school", map.resolve_spawn_marker(&"snow.school.teacher.1").global_position)
+	_check(map.place_player(&"snow.school", beside), "standing beside 魏无极's desk")
 	var teacher: NpcRuntimeState = null
 	for npc: NpcRuntimeState in map.npc_runtimes():
 		if npc.definition().definition_id == &"snow.npc.teacher":

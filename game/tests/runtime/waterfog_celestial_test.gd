@@ -21,9 +21,11 @@ var _state: CharacterState
 var _hud: SharedGameplayUI
 var _ui: BattlePresentationController
 var _map: WorldMapController
+var _tree: SceneTree
 
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
+	_tree = tree
 	await _open(tree)
 	_test_page()
 	await _reopen(tree)
@@ -102,10 +104,12 @@ func _test_roar(tree: SceneTree) -> void:
 	_state.vitality.maximum = 20000
 	_heal()
 	var first: NpcRuntimeState = _npc(&"snow.school2.trainee.1")
-	_check(_beside(&"snow.school2", &"snow.school2.trainee.1"), "beside a 武馆弟子")
+	_check(await _beside(&"snow.school2", &"snow.school2.trainee.1"), "beside a 武馆弟子")
 	await tree.physics_frame
 	var here: Array[NpcRuntimeState] = _here(&"snow.school2")
 	_check(here.size() >= 3, "several here: %d" % here.size())
+	# TEST-ONLY: cps is drawn per NPC (so per spawn id); the 拳脚教头 is the one who withstands.
+	_npc(&"snow.school2.fist_trainer.1").character_state.attributes.composure = 30
 	_map.select_npc(first.character_id)
 	_check(_map.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "a spar starts")
 	var coordinator: CombatEncounterCoordinator = _session.combat_encounter_coordinator()
@@ -171,7 +175,7 @@ func _test_roar_withstood(tree: SceneTree) -> void:
 	_state.progression.combat_experience = 20000000 # TEST-ONLY
 	var first: NpcRuntimeState = _npc(&"snow.school2.trainee.1")
 	first.character_state.attributes.composure = 40 # TEST-ONLY: 30 + 29 < 80: withstands
-	_check(_beside(&"snow.school2", &"snow.school2.trainee.1"), "beside a 武馆弟子")
+	_check(await _beside(&"snow.school2", &"snow.school2.trainee.1"), "beside a 武馆弟子")
 	await tree.physics_frame
 	_map.select_npc(first.character_id)
 	_check(_map.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "a spar starts")
@@ -206,7 +210,7 @@ func _test_roar_withstood(tree: SceneTree) -> void:
 ## the spar ends with them down.
 func _test_powerfade(tree: SceneTree) -> void:
 	_heal()
-	_check(_beside(&"snow.school2", &"snow.school2.trainee.1"), "beside a 武馆弟子")
+	_check(await _beside(&"snow.school2", &"snow.school2.trainee.1"), "beside a 武馆弟子")
 	await tree.physics_frame
 	_map.select_npc(_npc(&"snow.school2.trainee.1").character_id)
 	_check(_map.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "a spar starts")
@@ -237,7 +241,7 @@ func _test_berserk(tree: SceneTree) -> void:
 	var source := ScriptedWorldInteractionRandomSource.new(draws)
 	var original: WorldInteractionRandomSource = _session.world_interaction_random_source()
 	_session.configure_world_interaction_random_source(source)
-	_check(_beside(&"snow.school2", &"snow.school2.trainee.1"), "into the 武馆")
+	_check(await _beside(&"snow.school2", &"snow.school2.trainee.1"), "into the 武馆")
 	await tree.physics_frame
 	_map.npc_life._note_player_arrival()
 	_map.run_pending_player_berserk()
@@ -277,7 +281,7 @@ func _test_berserk(tree: SceneTree) -> void:
 	_state.family.generation = Master.definition().teaching().family_generation + 1
 	_check(PlayerKillerReward.is_own_master(_state, Master.definition()), "TEST-ONLY: his apprentice")
 	_state.recovery.inner_force.current = 0
-	_check(_beside(&"snow.schoolhall", &"snow.schoolhall.master.1"), "beside 柳淳风")
+	_check(await _beside(&"snow.schoolhall", &"snow.schoolhall.master.1"), "beside 柳淳风")
 	await tree.physics_frame
 	source = ScriptedWorldInteractionRandomSource.new([49, 0])
 	_session.configure_world_interaction_random_source(source)
@@ -297,7 +301,7 @@ func _test_look(tree: SceneTree) -> void:
 	var npc: NpcRuntimeState = _npc(&"snow.school2.trainee.1")
 	npc.character_state.attributes.bellicosity = 1000 # TEST-ONLY
 	npc.character_state.recovery.inner_force.current = 0
-	_check(_beside(&"snow.school2", &"snow.school2.trainee.1"), "beside a 武馆弟子")
+	_check(await _beside(&"snow.school2", &"snow.school2.trainee.1"), "beside a 武馆弟子")
 	await tree.physics_frame
 	var original: WorldInteractionRandomSource = _session.world_interaction_random_source()
 	var source := ScriptedWorldInteractionRandomSource.new([99, 0])
@@ -396,7 +400,8 @@ func _heal() -> void:
 
 func _here(zone_id: StringName) -> Array[NpcRuntimeState]:
 	var here: Array[NpcRuntimeState] = []
-	for npc: NpcRuntimeState in _map.npc_runtimes():
+	# The zone's own map (the 武馆 is a map of its own since the remap).
+	for npc: NpcRuntimeState in _session.world_map_of(MapPlaces.map_of(zone_id)).npc_runtimes():
 		if npc.exists_in_map and npc.world_location().zone_id == zone_id and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
 			here.append(npc)
 	return here
@@ -409,7 +414,14 @@ func _repeat(value: int, times: int) -> Array[int]:
 	return out
 
 
+## The player beside the NPC of a spawn point, on the map its zone lies on (_map follows).
 func _beside(zone_id: StringName, point_id: StringName) -> bool:
+	var map: WorldMapController = MapPlaces.enter(_session, zone_id, point_id)
+	if map == null:
+		return false
+	_map = map
+	await _tree.physics_frame
+	await _tree.physics_frame
 	var marker: WorldSpawnMarker2D = _map.resolve_spawn_marker(point_id)
 	if marker == null:
 		return false
@@ -420,11 +432,9 @@ func _beside(zone_id: StringName, point_id: StringName) -> bool:
 	return false
 
 
+## The NPC of a spawn point, on whichever map it stands.
 func _npc(point: StringName) -> NpcRuntimeState:
-	for npc: NpcRuntimeState in _map.npc_runtimes():
-		if npc.spawn_point_id == point:
-			return npc
-	return null
+	return MapPlaces.npc_at(_session, point)
 
 
 func _check(ok: bool, label: String) -> void:

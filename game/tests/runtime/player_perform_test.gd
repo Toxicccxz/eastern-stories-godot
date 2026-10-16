@@ -296,9 +296,9 @@ func _arm(tree: SceneTree) -> void:
 	state.essence = CharacterResourceState.new(5000, 5000, 5000)
 	state.vitality = CharacterResourceState.new(5000, 5000, 5000)
 	state.spirit = CharacterResourceState.new(5000, 5000, 5000)
-	var map: WorldMapController = _session.active_map() as WorldMapController
 	var sword: StringName = ItemSpawnDefinition.item_instance_id(_session.item_id_allocator().scope, &"snow.weapon_storage.bamboo_sword.1")
-	_check(_beside(map, &"snow.weapon_storage", &"snow.weapon_storage.bamboo_sword.1") and map.select_floor_item(sword) and map.take_selected_floor_item() == FloorItemPickup.Outcome.TAKEN, "the 竹剑 taken")
+	var map: WorldMapController = await _beside(tree, &"snow.weapon_storage", &"snow.weapon_storage.bamboo_sword.1")
+	_check(map != null and map.select_floor_item(sword) and map.take_selected_floor_item() == FloorItemPickup.Outcome.TAKEN, "the 竹剑 taken")
 	await tree.physics_frame
 	_check(not _offered().has(&"perform.swordjab"), "not in hand yet: no 字诀")
 	_check(_session.wield_player_item(sword) != null and _player.state.equipment.primary_weapon_skill_type() == &"sword", "the 竹剑 wielded")
@@ -310,10 +310,10 @@ func _arm(tree: SceneTree) -> void:
 ## waits while the player is busy and then strikes three times after its line, 「缺」
 ## against the current target ends seven rounds later with the strike both ways.
 func _test_fight(tree: SceneTree) -> void:
-	var map: WorldMapController = _session.active_map() as WorldMapController
-	_check(_beside(map, &"snow.school2", &"snow.school2.trainee.1"), "beside a trainee")
+	var map: WorldMapController = await _beside(tree, &"snow.school2", &"snow.school2.trainee.1")
+	_check(map != null, "beside a trainee")
 	await tree.physics_frame
-	var trainee: NpcRuntimeState = _npc(map, &"snow.school2.trainee.1")
+	var trainee: NpcRuntimeState = MapPlaces.npc_at(_session, &"snow.school2.trainee.1")
 	trainee.character_state.vitality = CharacterResourceState.new(100000, 100000, 100000)
 	map.select_npc(trainee.character_id)
 	_session.configure_combat_random_source(Specials.Pattern.new())
@@ -368,8 +368,7 @@ func _test_fight(tree: SceneTree) -> void:
 ## A killer still fights its unconscious victim (TEST-ONLY: the trainee's kee below
 ## zero): 「缺」 refuses him, 「逐」 strikes him and he dies of it.
 func _test_downed_target(tree: SceneTree) -> void:
-	var map: WorldMapController = _session.active_map() as WorldMapController
-	var trainee: NpcRuntimeState = _npc(map, &"snow.school2.trainee.1")
+	var trainee: NpcRuntimeState = MapPlaces.npc_at(_session, &"snow.school2.trainee.1")
 	var scheduler: CombatEncounterScheduler = _coordinator.active_scheduler()
 	trainee.character_state.vitality.current = -1
 	_coordinator.advance_scheduler(0.0)
@@ -396,9 +395,9 @@ func _test_downed_target(tree: SceneTree) -> void:
 ## owner, it strikes nobody in the next fight with the same trainee, and on world
 ## time it only takes its applies back.
 func _test_fakefault_outlives_its_fight(tree: SceneTree) -> void:
-	var map: WorldMapController = _session.active_map() as WorldMapController
-	var trainee: NpcRuntimeState = _npc(map, &"snow.school2.trainee.2")
-	_check(_beside(map, &"snow.school2", &"snow.school2.trainee.2"), "beside another trainee")
+	var trainee: NpcRuntimeState = MapPlaces.npc_at(_session, &"snow.school2.trainee.2")
+	var map: WorldMapController = await _beside(tree, &"snow.school2", &"snow.school2.trainee.2")
+	_check(map != null, "beside another trainee")
 	await tree.physics_frame
 	# TEST-ONLY: he lasts the next fight.
 	trainee.character_state.vitality = CharacterResourceState.new(100000, 100000, 100000)
@@ -424,8 +423,8 @@ func _test_fakefault_outlives_its_fight(tree: SceneTree) -> void:
 			break
 		_coordinator.advance_scheduler(1.0)
 	_check(not _coordinator.has_active_encounter() and CombatEncounterCoordinator.take_aborted_total() == 0, "that fight is over: " + _coordinator.last_abort_detail())
-	var other: NpcRuntimeState = _npc(map, &"snow.school2.trainee.3")
-	_check(_beside(map, &"snow.school2", &"snow.school2.trainee.3"), "beside a third trainee")
+	var other: NpcRuntimeState = MapPlaces.npc_at(_session, &"snow.school2.trainee.3")
+	_check(await _beside(tree, &"snow.school2", &"snow.school2.trainee.3") != null, "beside a third trainee")
 	await tree.physics_frame
 	_spar_with_fakefault(other)
 	_check(timed.entries().size() == 1, "「缺」 running after the spar")
@@ -534,21 +533,21 @@ func _to_snow(tree: SceneTree) -> void:
 	_check(_session.active_map_id() == &"snow.outdoor", "out of the Inn")
 
 
-func _beside(map: WorldMapController, zone_id: StringName, point_id: StringName) -> bool:
+## The player beside the NPC of a spawn point, on the map its zone lies on (the 武馆 and the
+## shops are their own maps since the remap); returns that map, or null.
+func _beside(tree: SceneTree, zone_id: StringName, point_id: StringName) -> WorldMapController:
+	var map: WorldMapController = MapPlaces.enter(_session, zone_id, point_id)
+	if map == null:
+		return null
+	await tree.physics_frame
+	await tree.physics_frame
 	var marker: WorldSpawnMarker2D = map.resolve_spawn_marker(point_id)
 	if marker == null:
-		return false
+		return null
 	for offset: Vector2 in [Vector2(0, 48), Vector2(48, 0), Vector2(-48, 0), Vector2(0, -48), Vector2(40, 40), Vector2(-40, 40)]:
 		if MapPlacementValidator.is_valid_character_position(map, zone_id, marker.global_position + offset):
 			map.runtime_player_body().global_position = marker.global_position + offset
-			return _player.set_world_location(map.location_for_zone(zone_id))
-	return false
-
-
-func _npc(map: WorldMapController, point: StringName) -> NpcRuntimeState:
-	for npc: NpcRuntimeState in map.npc_runtimes():
-		if npc.spawn_point_id == point:
-			return npc
+			return map if _player.set_world_location(map.location_for_zone(zone_id)) else null
 	return null
 
 

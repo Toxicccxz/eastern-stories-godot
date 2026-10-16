@@ -126,7 +126,11 @@ func _test_snow_adjacency_follows_room_exits() -> void:
 		"mstreet2|smithy", "mstreet3|herbshop", "mstreet4|postoffice", "hockshop|hockshop2",
 		"school2|weapon_storage", "schoolhall|inneryard", "inneryard|innerhall", "inneryard|guestroom", "inneryard|nyard",
 	]
-	var zones: Array[ZoneDefinition] = catalog.zones_for_map(SnowWorld.OUTDOOR_MAP_ID)
+	# The town and its buildings' own maps (the remap): the inn, its upper floor and the cellar apart.
+	var zones: Array[ZoneDefinition] = []
+	for map: MapDefinition in catalog.maps():
+		if map.region_id == SnowWorld.REGION_ID and not [SnowWorld.INN_MAP_ID, &"snow.inn_upstairs", &"snow.cellar"].has(map.map_id):
+			zones.append_array(catalog.zones_for_map(map.map_id))
 	var found: Array[String] = []
 	for i: int in zones.size():
 		for j: int in range(i + 1, zones.size()):
@@ -180,10 +184,12 @@ func _test_loader_rejects_broken_world_data() -> void:
 func _test_services_and_doors() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var ids: Array[StringName] = []
-	for service: ServiceDefinition in catalog.services_for_map(SnowWorld.OUTDOOR_MAP_ID):
-		ids.append(service.service_id)
-		_assert_eq(catalog.zone(service.zone_id).map_id, service.map_id, "%s map follows its zone" % service.service_id)
-	_assert_eq(ids, [&"snow.workplace.mill", &"snow.bank.counter", &"snow.hockshop.counter"], "Snow outdoor services: the rooms' own commands")
+	for map_id: StringName in [&"snow.workplace_house", &"snow.bank_house", &"snow.hockshop_house"]:
+		for service: ServiceDefinition in catalog.services_for_map(map_id):
+			ids.append(service.service_id)
+			_assert_eq(catalog.zone(service.zone_id).map_id, service.map_id, "%s map follows its zone" % service.service_id)
+	_assert_eq(ids, [&"snow.workplace.mill", &"snow.bank.counter", &"snow.hockshop.counter"], "Snow's services in their buildings' own maps: the rooms' own commands")
+	_assert_true(catalog.services_for_map(SnowWorld.OUTDOOR_MAP_ID).is_empty(), "the town's outside has no room service")
 	# The shopkeepers sell from their bodies (4E): the vendor record is on the NPC.
 	for row: Array in [[&"snow.npc.herbalist", &"snow.vendor.herbalist"], [&"snow.npc.smith", &"snow.vendor.smith"], [&"snow.npc.waiter", &"snow.vendor.waiter"]]:
 		_assert_eq(catalog.npc(row[0]).dealings().vendor_id, row[1], "%s sells %s" % row)
@@ -191,7 +197,8 @@ func _test_services_and_doors() -> void:
 	var gate: DoorDefinition = catalog.door(&"snow.school.gate")
 	_assert_eq([gate.display_name, gate.zone_ids(), gate.closable], ["红漆大门", [&"snow.school1", &"snow.school2"], true], "school1.c create_door")
 	var hockshop: DoorDefinition = catalog.door(&"snow.hockshop.door")
-	_assert_eq([hockshop.map_id, hockshop.closable], [SnowWorld.OUTDOOR_MAP_ID, false], "pawn shop door is open-only")
+	_assert_eq([hockshop.map_id, hockshop.map_ids(), hockshop.closable], [SnowWorld.OUTDOOR_MAP_ID, [SnowWorld.OUTDOOR_MAP_ID, &"snow.hockshop_house"], false], "pawn shop door is open-only, on its portal from the street into the shop's own map")
+	_assert_eq(gate.map_ids(), [SnowWorld.OUTDOOR_MAP_ID, &"snow.school_compound"], "the red gate stands on the way from the gate court into the 武馆")
 	for map: MapDefinition in catalog.maps():
 		_assert_false(map.entry_spawn_id.is_empty(), "%s has an entry spawn" % map.map_id)
 

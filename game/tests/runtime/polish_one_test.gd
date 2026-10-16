@@ -39,10 +39,12 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		await tree.process_frame
 	var map: WorldMapController = session.active_map() as WorldMapController
 	_test_seams(map)
-	await _test_step_aside(tree, session, map)
+	# The 武馆 is its own map since the remap: the yard's tests go in through the door's map and come back.
+	await _test_step_aside(tree, session)
+	map = await _back_on_the_square(tree, session)
 	_test_bone_and_dog(session, map)
 	_test_selection_dropped(session, map)
-	_test_death_announced(session, map)
+	await _test_death_announced(tree, session)
 	await _test_chess(tree, session)
 	session.free()
 	await tree.process_frame
@@ -77,11 +79,14 @@ func _test_seams(map: WorldMapController) -> void:
 
 ## A5: the player pushing into the standing trainee for over a second: it steps aside,
 ## within its own zone, to a spot a save accepts.
-func _test_step_aside(tree: SceneTree, session: WorldSessionController, map: WorldMapController) -> void:
+func _test_step_aside(tree: SceneTree, session: WorldSessionController) -> void:
+	var map: WorldMapController = MapPlaces.enter(session, &"snow.school2", &"snow.school2.trainee.1")
+	_check(map != null, "in the yard")
+	await tree.physics_frame
+	await tree.physics_frame
 	var trainee: NpcRuntimeState = map.find_resident_npc(TRAINEE)
 	var body: WorldCharacterBody2D = map.runtime_body_for_character(TRAINEE)
 	var before: Vector2 = body.global_position
-	_check(map.relocate_player(&"snow.school2", trainee.spawn_point_id), "in the yard")
 	map.player_body.global_position = before + Vector2(0, 40) # TEST-ONLY: just below him
 	session.set_process(true)
 	await tree.physics_frame
@@ -150,7 +155,11 @@ func _test_selection_dropped(_session: WorldSessionController, map: WorldMapCont
 
 
 ## announce("dead") in the battle log: the trainee killed in a fight.
-func _test_death_announced(session: WorldSessionController, map: WorldMapController) -> void:
+func _test_death_announced(tree: SceneTree, session: WorldSessionController) -> void:
+	var map: WorldMapController = MapPlaces.enter(session, &"snow.school2", &"snow.school2.trainee.1")
+	_check(map != null, "in the yard of the 武馆")
+	await tree.physics_frame
+	await tree.physics_frame
 	var trainee: NpcRuntimeState = map.find_resident_npc(TRAINEE)
 	var ui: BattlePresentationController = session.get_node("BattlePresentationLayer/BattleSurface")
 	session.player_runtime().state.progression.combat_experience = 100000 # TEST-ONLY: hits that land
@@ -169,6 +178,14 @@ func _test_death_announced(session: WorldSessionController, map: WorldMapControl
 	_check(log.contains("武馆弟子死了。"), "combatd.c announce(\"dead\") in the battle log")
 	_check(not log.contains("你死了。"), "never the player's own")
 	session.player_runtime().state.progression.combat_experience = 0
+
+
+## TEST-ONLY: out of the 武馆 and back on the town's square.
+func _back_on_the_square(tree: SceneTree, session: WorldSessionController) -> WorldMapController:
+	_check(session.handoff_to(&"snow.outdoor", &"snow.square", &"snow.square", &"snow.square.inn_entry").succeeded(), "back out on the square")
+	for frame: int in range(5):
+		await tree.process_frame
+	return session.active_map() as WorldMapController
 
 
 ## A3: 下棋 with the 弈者: a win (random(100) < 50) hands over two of his 棋子, a loss

@@ -30,23 +30,23 @@ func input_test() -> bool:
 		check(BankExchangePanel.positive_amount(row[0]) == row[1], "exact integer " + row[0])
 	check(GameContent.catalog().zones_adjacent(&"snow.mstreet1", &"snow.bank") and GameContent.catalog().zones_adjacent(&"snow.bank", &"snow.mstreet1"), "source two-way bank east")
 	check(not GameContent.catalog().zones_adjacent(&"snow.bank", &"snow.square"), "no bank-square shortcut")
-	check(GameContent.catalog().zone(&"snow.bank").map_id == &"snow.outdoor", "same map")
+	check(GameContent.catalog().zone(&"snow.bank").map_id == &"snow.bank_house" and GameContent.catalog().zone(&"snow.mstreet1").map_id == &"snow.outdoor", "remap: the bank is its own map, no longer the street's")
 	return true
 
 
 ## Typed/position setup ONLY for controller integration tests, never live route evidence.
 static func at_bank(session: WorldSessionController) -> BankService:
-	session.handoff_to(SnowWorldDefinitions.OUTDOOR_MAP_ID, &"snow.square", &"snow.square", SnowWorldDefinitions.SQUARE_ENTRY_SPAWN_ID)
-	var bank: BankService = (session.resident_map(SnowWorldDefinitions.OUTDOOR_MAP_ID) as WorldMapController).service(&"snow.bank.counter") as BankService
+	var map: WorldMapController = MapPlaces.enter(session, &"snow.bank", &"snow.bank.bank_entry")
+	var bank: BankService = map.service(&"snow.bank.counter") as BankService
 	bank.map.player_body.player_controlled = true
 	bank.map.player_body.position = MapPlaces.service_spot(bank.map, &"snow.bank.counter")
-	session.player_runtime().set_world_location(WorldLocationState.new(&"snow", &"snow.outdoor", &"snow.bank", &"snow.bank"))
+	session.player_runtime().set_world_location(bank.map.location_for_zone(&"snow.bank"))
 	return bank
 
 
 func integration_test(tree: SceneTree) -> bool:
 	var session: WorldSessionController = Work.create_session(tree)
-	var bank: BankService = (session.resident_map(&"snow.outdoor") as WorldMapController).service(&"snow.bank.counter") as BankService
+	var bank: BankService = (session.resident_map(&"snow.bank_house") as WorldMapController).service(&"snow.bank.counter") as BankService
 	check(bank.request_conversion(SILVER, COIN, "1").outcome == SnowBankInteractionResult.Outcome.BLOCKED, "inactive map blocked")
 	Work.work(session)
 	Work.work(session)
@@ -154,9 +154,14 @@ func physical_test(tree: SceneTree) -> bool:
 	check(await MapPlaces.take_passage(tree, session.active_map() as WorldMapController, SnowWorldDefinitions.INN_EXIT_PORTAL_ID), "out through the Inn's door")
 	var snow: WorldMapController = session.active_map() as WorldMapController
 	check(await MapPlaces.drive_through(tree, snow, [&"snow.square", &"snow.mstreet1", &"snow.school1"]), "up the street and in at the school entrance")
-	check(session.player_runtime().world_location().zone_id == &"snow.school1" and MapRoute.path(snow, snow.player_body.global_position, MapPlaces.zone_spot(snow, &"snow.school2"), MapPlaces.npc_bodies(snow)).is_empty(), "P2 school entrance opens east; inner closed gate still bounds travel")
-	check(await MapPlaces.drive(tree, snow, MapPlaces.service_spot(snow, &"snow.bank.counter")), "back out and west into the bank, up to its counter")
-	var bank: BankService = snow.service(&"snow.bank.counter") as BankService
+	# The inner court is another map since the remap; its way in is the school gate's portal, which the shut gate bounds.
+	check(session.player_runtime().world_location().zone_id == &"snow.school1" and not snow.door(&"snow.school.gate").is_open() and not await MapPlaces.take_passage(tree, snow, &"snow.school1.east", 240) and session.active_map() == snow and session.player_runtime().world_location().zone_id == &"snow.school1", "P2 school entrance opens east; inner closed gate still bounds travel")
+	check(await MapPlaces.take_passage(tree, snow, &"snow.mstreet1.west"), "back out and west into the bank's door")
+	await tree.physics_frame
+	await tree.physics_frame
+	var bank_map: WorldMapController = session.active_map() as WorldMapController
+	check(bank_map.map_id() == &"snow.bank_house" and await MapPlaces.drive(tree, bank_map, MapPlaces.service_spot(bank_map, &"snow.bank.counter")), "in the bank, up to its counter")
+	var bank: BankService = bank_map.service(&"snow.bank.counter") as BankService
 	check(bank != null and bank.in_reach(), "physical west entry/proximity")
 	if bank == null:
 		session.free()
@@ -176,19 +181,21 @@ func physical_test(tree: SceneTree) -> bool:
 	session.shared_ui()._presentation_layout.close_panel()
 	await tree.physics_frame
 	await tree.physics_frame
-	check(await MapPlaces.drive_to_zone(tree, snow, &"snow.mstreet1"), "out of the bank's door")
-	check(session.player_runtime().world_location().zone_id == &"snow.mstreet1" and not bank.in_reach(), "east exit clears availability")
+	check(await MapPlaces.take_passage(tree, bank_map, &"snow.bank.east"), "out of the bank's door")
+	await tree.physics_frame
+	await tree.physics_frame
+	check(session.active_map() == snow and session.player_runtime().world_location().zone_id == &"snow.mstreet1" and not bank.in_reach(), "east exit clears availability")
 	check(bank.map.resident_npcs().size() == GameContent.catalog().spawns_for_map(bank.map.map_id()).reduce(func(total: int, spawn: NpcSpawnDefinition) -> int: return total + spawn.quantity, 0) and session.world_npcs().size() == npcs and session.resident_map_count() == residents, "no NPC/map added")
-	var room: Rect2 = MapPlaces.zone_rect(snow, &"snow.bank")
-	var door: Vector2 = MapPlaces.doorway(snow, &"snow.bank", &"snow.mstreet1")
-	var counter: Vector2 = MapPlaces.first_blocked(snow, bank.point.global_position, room.get_center())
+	var room: Rect2 = MapPlaces.zone_rect(bank_map, &"snow.bank")
+	var door: Vector2 = MapPlaces.passage(bank_map, &"snow.bank.east").global_position
+	var street_door: Vector2 = MapPlaces.passage(snow, &"snow.mstreet1.west").global_position
+	var counter: Vector2 = MapPlaces.first_blocked(bank_map, bank.point.global_position, room.get_center())
 	check(counter.is_finite(), "the counter stands between its service point and the room")
-	for entry: Array in [[&"snow.bank", Vector2(room.position.x + 10, room.get_center().y)], [&"snow.bank", Vector2(room.get_center().x, room.position.y + 10)], [&"snow.bank", Vector2(room.get_center().x, room.end.y - 10)], [&"snow.bank", counter], [&"snow.mstreet1", door + Vector2(-20, -100)]]:
-		check(not MapPlacementValidator.is_valid_character_position(snow, entry[0], entry[1]), "restore rejects walls " + str(entry))
-	check(MapPlacementValidator.is_valid_character_position(snow, &"snow.mstreet1", door + Vector2(24, 0)) and MapPlacementValidator.is_valid_character_position(snow, &"snow.bank", door - Vector2(24, 0)), "both sides of the bank's door")
-	var owner: StringName = MapPlaces.seam_owner(snow, &"snow.bank", &"snow.mstreet1")
-	var other: StringName = &"snow.bank" if owner == &"snow.mstreet1" else &"snow.mstreet1"
-	check(MapPlacementValidator.is_valid_character_position(snow, owner, door) and not MapPlacementValidator.is_valid_character_position(snow, other, door), "half-open east join: the line itself is %s's" % owner)
+	for entry: Array in [[bank_map, &"snow.bank", Vector2(room.position.x + 10, room.get_center().y)], [bank_map, &"snow.bank", Vector2(room.get_center().x, room.position.y + 10)], [bank_map, &"snow.bank", Vector2(room.get_center().x, room.end.y - 10)], [bank_map, &"snow.bank", counter], [snow, &"snow.mstreet1", street_door + Vector2(-20, -100)]]:
+		check(not MapPlacementValidator.is_valid_character_position(entry[0], entry[1], entry[2]), "restore rejects walls " + str(entry[1]) + str(entry[2]))
+	check(MapPlacementValidator.is_valid_character_position(snow, &"snow.mstreet1", street_door + Vector2(24, 0)) and MapPlacementValidator.is_valid_character_position(bank_map, &"snow.bank", door - Vector2(24, 0)), "both sides of the bank's door")
+	# The street and the bank share no seam any more (the old half-open east join): the door is a portal pair.
+	check(GameContent.catalog().portal(&"snow.mstreet1.west").destination_map_id == &"snow.bank_house" and GameContent.catalog().portal(&"snow.bank.east").destination_map_id == &"snow.outdoor", "remap: instead of the half-open east join, the door is a portal pair between the two maps")
 	check(walk._failures.is_empty(), "all physical targets reached")
 	session.free()
 	await tree.process_frame

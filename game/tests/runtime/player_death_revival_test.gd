@@ -164,7 +164,7 @@ func _death_brings_player_back_at_temple(tree: SceneTree) -> void:
 	check(player.state.ghost and session.active_map_id() == DeathWorldDefinitions.MAP_ID, "still with the white gargoyle a second before his last line")
 	session._process(1.0)
 	check(not player.state.ghost and player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and player.exists_in_world, "alive again with his last line")
-	check(session.active_map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID and player.world_location().zone_id == SnowWorldDefinitions.TEMPLE_ZONE_ID, "back at the Snow temple")
+	check(session.active_map_id() == SnowWorldDefinitions.temple_map_id() and player.world_location().zone_id == SnowWorldDefinitions.TEMPLE_ZONE_ID, "back at the Snow temple (its own map since the remap)")
 	check([player.state.vitality.current, player.state.vitality.effective] == [1, player.state.vitality.maximum], "reincarnated with 1 kee and full effective kee")
 	check(session.active_map().runtime_player_body().player_controlled and session.active_map().runtime_player_body().visible, "the player can move again")
 	check(OldPineSaveEligibility.inspect(session).allowed(), "saving works again")
@@ -172,8 +172,21 @@ func _death_brings_player_back_at_temple(tree: SceneTree) -> void:
 	check(map.corpse_states().size() == 1 and session.inventory_state().direct_children(corpse_owner) == carried, "the corpse still waits in Old Pine")
 	# d/snow/temple.c exits: west to the square, south to the first east road.
 	var snow: WorldMapController = session.active_map() as WorldMapController
-	check(await MapPlaces.drive_to_zone(tree, snow, &"snow.square") and player.world_location().zone_id == &"snow.square", "the temple's west door leads to the square")
-	check(await MapPlaces.drive_through(tree, snow, [&"snow.temple", &"snow.eroad1"]) and player.world_location().zone_id == &"snow.eroad1", "the temple's south door leads to the east road")
+	# Since the remap the temple is its own map: its doors are portals, walked through with the move actions.
+	check(await MapPlaces.take_passage(tree, snow, &"snow.temple.west"), "the temple's west door takes the player off the temple's map")
+	await tree.physics_frame
+	await tree.physics_frame
+	check(session.active_map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID and player.world_location().zone_id == &"snow.square", "the temple's west door leads to the square")
+	var street: WorldMapController = session.active_map() as WorldMapController
+	check(await MapPlaces.take_passage(tree, street, &"snow.square.east"), "the square's east door takes the player into the temple again")
+	await tree.physics_frame
+	await tree.physics_frame
+	var inside: WorldMapController = session.active_map() as WorldMapController
+	check(inside.map_id() == SnowWorldDefinitions.temple_map_id() and player.world_location().zone_id == SnowWorldDefinitions.TEMPLE_ZONE_ID, "and the square's east door leads back to the temple")
+	check(await MapPlaces.take_passage(tree, inside, &"snow.temple.south"), "the temple's south door takes the player off the temple's map")
+	await tree.physics_frame
+	await tree.physics_frame
+	check(session.active_map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID and player.world_location().zone_id == &"snow.eroad1", "the temple's south door leads to the east road")
 	session.free()
 	await tree.process_frame
 

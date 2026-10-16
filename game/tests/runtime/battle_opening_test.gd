@@ -39,11 +39,11 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 
 func _test_attack(tree: SceneTree) -> void:
-	var map: WorldMapController = _session.active_map() as WorldMapController
 	_heal()
-	_check(_beside(map, &"snow.school2", &"snow.school2.trainee.2"), "beside a trainee")
+	var map: WorldMapController = await _beside(tree, &"snow.school2", &"snow.school2.trainee.2")
+	_check(map != null, "beside a trainee")
 	await tree.physics_frame
-	map.select_npc(_npc(map, &"snow.school2.trainee.2").character_id)
+	map.select_npc(MapPlaces.npc_at(_session, &"snow.school2.trainee.2").character_id)
 	var before: int = _hud.log_lines().size()
 	_check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "an attack starts")
 	var said: Array[String] = []
@@ -68,11 +68,11 @@ func _test_attack(tree: SceneTree) -> void:
 
 ## A spar after a lethal fight: nothing pinned is left over.
 func _test_spar(tree: SceneTree) -> void:
-	var map: WorldMapController = _session.active_map() as WorldMapController
 	_heal()
-	_check(_beside(map, &"snow.school2", &"snow.school2.trainee.1"), "beside another trainee")
+	var map: WorldMapController = await _beside(tree, &"snow.school2", &"snow.school2.trainee.1")
+	_check(map != null, "beside another trainee")
 	await tree.physics_frame
-	map.select_npc(_npc(map, &"snow.school2.trainee.1").character_id)
+	map.select_npc(MapPlaces.npc_at(_session, &"snow.school2.trainee.1").character_id)
 	var before: int = _hud.log_lines().size()
 	_check(map.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "a spar starts")
 	var said: Array[String] = []
@@ -90,11 +90,11 @@ func _test_spar(tree: SceneTree) -> void:
 
 ## A spar that ends before the panel ever shows it (the completed_cast path).
 func _test_spar_over_before_shown(tree: SceneTree) -> void:
-	var map: WorldMapController = _session.active_map() as WorldMapController
 	_heal()
-	_check(_beside(map, &"snow.school2", &"snow.school2.trainee.3"), "beside a third trainee")
+	var map: WorldMapController = await _beside(tree, &"snow.school2", &"snow.school2.trainee.3")
+	_check(map != null, "beside a third trainee")
 	await tree.physics_frame
-	map.select_npc(_npc(map, &"snow.school2.trainee.3").character_id)
+	map.select_npc(MapPlaces.npc_at(_session, &"snow.school2.trainee.3").character_id)
 	var before: int = _hud.log_lines().size()
 	_check(map.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "a spar starts")
 	var said: Array[String] = []
@@ -113,9 +113,8 @@ func _test_spar_over_before_shown(tree: SceneTree) -> void:
 
 func _test_crazy_dog(tree: SceneTree) -> void:
 	_heal()
-	var map: WorldMapController = _session.active_map() as WorldMapController
 	var before: int = _hud.log_lines().size()
-	_check(_beside(map, &"snow.sroad4", &"snow.sroad4.crazy_dog.1"), "beside the crazy dog")
+	_check(await _beside(tree, &"snow.sroad4", &"snow.sroad4.crazy_dog.1") != null, "beside the crazy dog")
 	for _frame: int in range(30):
 		await tree.physics_frame
 		if _coordinator.has_active_encounter():
@@ -136,10 +135,10 @@ func _test_annihir(tree: SceneTree) -> void:
 	_heal()
 	# TEST-ONLY: kee to outlast 安惜迩 while fleeing.
 	_player.state.vitality = CharacterResourceState.new(3000, 3000, 3000)
-	var map: WorldMapController = _session.active_map() as WorldMapController
-	_check(_beside(map, &"snow.bank", &"snow.bank.annihir.1"), "in the bank")
+	var map: WorldMapController = await _beside(tree, &"snow.bank", &"snow.bank.annihir.1")
+	_check(map != null, "in the bank")
 	await tree.physics_frame
-	map.select_npc(_npc(map, &"snow.bank.annihir.1").character_id)
+	map.select_npc(MapPlaces.npc_at(_session, &"snow.bank.annihir.1").character_id)
 	var before: int = _hud.log_lines().size()
 	_check(map.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "安惜迩 takes the challenge")
 	var warning: String = "看起来安惜迩想杀死你！"
@@ -219,21 +218,21 @@ func _to_snow(tree: SceneTree) -> void:
 	_check(_session.active_map_id() == &"snow.outdoor", "out of the Inn")
 
 
-func _beside(map: WorldMapController, zone_id: StringName, point_id: StringName) -> bool:
+## The player beside the NPC of a spawn point, on the map its zone lies on (the 武馆 and the
+## bank are their own maps since the remap); returns that map, or null.
+func _beside(tree: SceneTree, zone_id: StringName, point_id: StringName) -> WorldMapController:
+	var map: WorldMapController = MapPlaces.enter(_session, zone_id, point_id)
+	if map == null:
+		return null
+	await tree.physics_frame
+	await tree.physics_frame
 	var marker: WorldSpawnMarker2D = map.resolve_spawn_marker(point_id)
 	if marker == null:
-		return false
+		return null
 	for offset: Vector2 in [Vector2(0, 48), Vector2(48, 0), Vector2(-48, 0), Vector2(0, -48), Vector2(40, 40), Vector2(-40, 40)]:
 		if MapPlacementValidator.is_valid_character_position(map, zone_id, marker.global_position + offset):
 			map.runtime_player_body().global_position = marker.global_position + offset
-			return _player.set_world_location(map.location_for_zone(zone_id))
-	return false
-
-
-func _npc(map: WorldMapController, point: StringName) -> NpcRuntimeState:
-	for npc: NpcRuntimeState in map.npc_runtimes():
-		if npc.spawn_point_id == point:
-			return npc
+			return map if _player.set_world_location(map.location_for_zone(zone_id)) else null
 	return null
 
 

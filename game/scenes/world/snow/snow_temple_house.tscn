@@ -130,17 +130,17 @@ script = ExtResource("marker")
 spawn_point_id = &"snow.temple.keeper.1"
 
 [node name="TemplePaperSeal1" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(-360, -216)
+position = Vector2(-161, -187)
 script = ExtResource("marker")
 spawn_point_id = &"snow.temple.paper_seal.1"
 
 [node name="TemplePaperSeal2" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(-320, -216)
+position = Vector2(-120, -187)
 script = ExtResource("marker")
 spawn_point_id = &"snow.temple.paper_seal.2"
 
 [node name="TempleDenotation1" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(-280, -216)
+position = Vector2(9, 34)
 script = ExtResource("marker")
 spawn_point_id = &"snow.temple.denotation.1"
 

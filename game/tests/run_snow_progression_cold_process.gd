@@ -15,15 +15,15 @@ func _run() -> void:
 	var repository := SourceEntrySaveRepository.new(profile)
 	if args[0] == "write":
 		var session := Recovery.create_session(self,Recovery.RandomSequence.new())
-		var gate := GameContent.catalog().portal(SnowWorldDefinitions.INN_EXIT_PORTAL_ID)
-		check(session.handoff_to(gate.destination_map_id,gate.destination_zone_id,gate.destination_zone_id,gate.destination_spawn_point_id).succeeded(),"fixture outdoor")
-		var map := session.active_map() as WorldMapController
-		var school := map.service(&"snow.outdoor.schoolhall.master") as TeacherService
+		# The 武馆 is its own map behind the red gate (the remap).
+		var map := MapPlaces.enter(session, &"snow.school2", &"snow.school2.gate_entry")
+		check(map != null and map.map_id() == &"snow.school_compound","fixture in the 武馆")
+		var school := map.service(&"snow.school_compound.schoolhall.master") as TeacherService
 		# Serializer fixture only; physical/live routes have separate real-input proof.
-		map.player_body.position = MapPlaces.door_spot(map, &"snow.school.gate", &"snow.school1")
-		session.player_runtime().set_world_location(map.location_for_zone(&"snow.school1"))
+		map.player_body.position = MapPlaces.door_spot(map, &"snow.school.gate", &"snow.school2")
+		session.player_runtime().set_world_location(map.location_for_zone(&"snow.school2"))
 		check(map.open_door(&"snow.school.gate"),"writer opens transient door")
-		map.player_body.position = MapPlaces.service_spot(map, &"snow.outdoor.schoolhall.master", &"snow.schoolhall")
+		map.player_body.position = MapPlaces.service_spot(map, &"snow.school_compound.schoolhall.master", &"snow.schoolhall")
 		session.player_runtime().set_world_location(map.location_for_zone(&"snow.schoolhall"))
 		check(school.request_apprentice() == NpcApprenticeship.Outcome.RECRUITED,"writer recruits")
 		check(school.request_learn(&"unarmed").success,"writer world RNG Learn")
@@ -50,10 +50,10 @@ func _run() -> void:
 			var after := OldPineWorldSaveCapture.new().capture(session,loaded.snapshot.metadata.storage_profile,loaded.snapshot.metadata.saved_at_utc)
 			check(after.succeeded() and GameSaveJsonCodec.encode(after.snapshot).text == GameSaveJsonCodec.encode(loaded.snapshot).text,"whole snapshot exact")
 			var map := session.active_map() as WorldMapController
-			var school := map.service(&"snow.outdoor.schoolhall.master") as TeacherService
+			var school := map.service(&"snow.school_compound.schoolhall.master") as TeacherService
 			check(not map.door(&"snow.school.gate").is_open() and not MapPlaces.door_wall(map, &"snow.school.gate").disabled,"cold-closed gate")
 			check(not session.player_runtime().apprenticeship_request.is_pending() and not school.ui.panel.visible,"pending/UI not restored")
-			check(map.player_body.position == MapPlaces.service_spot(map, &"snow.outdoor.schoolhall.master", &"snow.schoolhall"),"exact school position")
+			check(map.player_body.position == MapPlaces.service_spot(map, &"snow.school_compound.schoolhall.master", &"snow.schoolhall"),"exact school position")
 			check(session.player_runtime().facts.title == "封山剑派第十四代弟子" and session.player_runtime().state.affiliation.class_id == &"swordsman","title/class")
 			var reference_rng := GodotWorldInteractionRandomSource.new()
 			check(reference_rng.restore_random_state(loaded.snapshot.world_interaction_rng),"RNG restore reference")

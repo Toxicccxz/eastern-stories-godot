@@ -1077,7 +1077,7 @@
         },
         "props": [
           ["wall_wood", "snow.herbshop", ["n", 0, 0], 11, 0.5, "the great medicine cabinet, its drawers unlabelled"],
-          ["blocked", "snow.herbshop", ["n", 0, 2.4], 9, 1, "the counter along the north side"]
+          ["blocked", "snow.herbshop", ["n", 0, 2.4], 9, 0.5, "the counter along the north side"]
         ],
         "placed": {
           "snow.herbshop.herbalist.1": [
@@ -1394,11 +1394,15 @@
           ],
           "snow.school2.fist_trainer.1": [
             "snow.school2",
-            ["n", -8, 1]
+            ["w", 2.2, -2.2]
           ],
           "snow.nyard.girl.1": [
             "snow.nyard",
             ["c", -1.5, 1]
+          ],
+          "snow.weapon_storage.bamboo_sword.1": [
+            "snow.weapon_storage",
+            ["c", 1, 1.5]
           ]
         },
         "reach_from": "School2GateEntry"
@@ -1547,6 +1551,18 @@
           "snow.temple.keeper.1": [
             "snow.temple",
             ["n", 4, 1]
+          ],
+          "snow.temple.denotation.1": [
+            "snow.temple",
+            ["c", 0.5, 1]
+          ],
+          "snow.temple.paper_seal.1": [
+            "snow.temple",
+            ["n", -4.5, 1]
+          ],
+          "snow.temple.paper_seal.2": [
+            "snow.temple",
+            ["n", -3.3, 1]
           ]
         },
         "reach_from": "TempleSquareEntry"

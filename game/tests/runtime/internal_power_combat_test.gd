@@ -94,10 +94,10 @@ func _test_battle(tree: SceneTree) -> void:
 	_state.recovery.inner_force.current = 100
 	_state.progression.combat_experience = 5000 # TEST-ONLY: hits that land.
 	_session.martial_arts().enforce(3)
-	var map: WorldMapController = _session.active_map() as WorldMapController
-	_check(_beside(map, &"snow.school2", &"snow.school2.trainee.1"), "beside a trainee")
+	var map: WorldMapController = await _beside(tree, &"snow.school2", &"snow.school2.trainee.1")
+	_check(map != null, "beside a trainee")
 	await tree.physics_frame
-	map.select_npc(_npc(map, &"snow.school2.trainee.1").character_id)
+	map.select_npc(MapPlaces.npc_at(_session, &"snow.school2.trainee.1").character_id)
 	_check(map.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "a spar starts")
 	# TEST-ONLY: without an enabled force there is no 加力 row and no 运功.
 	_state.skills.unmap_skill(&"force")
@@ -151,10 +151,10 @@ func _test_reflection(tree: SceneTree) -> void:
 	_heal()
 	_state.recovery.inner_force.current = 100
 	_session.martial_arts().enforce(1)
-	var map: WorldMapController = _session.active_map() as WorldMapController
-	_check(_beside(map, &"snow.schoolhall", &"snow.schoolhall.master.1"), "in the hall")
+	var map: WorldMapController = await _beside(tree, &"snow.schoolhall", &"snow.schoolhall.master.1")
+	_check(map != null, "in the hall")
 	await tree.physics_frame
-	map.select_npc(_npc(map, &"snow.schoolhall.master.1").character_id)
+	map.select_npc(MapPlaces.npc_at(_session, &"snow.schoolhall.master.1").character_id)
 	_check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the player attacks 柳淳风")
 	_reflected = null
 	for _second: int in range(300):
@@ -243,21 +243,21 @@ func _to_snow(tree: SceneTree) -> void:
 	_check(_session.active_map_id() == &"snow.outdoor", "out of the Inn")
 
 
-func _beside(map: WorldMapController, zone_id: StringName, point_id: StringName) -> bool:
+## The player beside the NPC of a spawn point, on the map its zone lies on (the 武馆 and the
+## shops are their own maps since the remap); returns that map, or null.
+func _beside(tree: SceneTree, zone_id: StringName, point_id: StringName) -> WorldMapController:
+	var map: WorldMapController = MapPlaces.enter(_session, zone_id, point_id)
+	if map == null:
+		return null
+	await tree.physics_frame
+	await tree.physics_frame
 	var marker: WorldSpawnMarker2D = map.resolve_spawn_marker(point_id)
 	if marker == null:
-		return false
+		return null
 	for offset: Vector2 in [Vector2(0, 48), Vector2(48, 0), Vector2(-48, 0), Vector2(0, -48), Vector2(40, 40), Vector2(-40, 40)]:
 		if MapPlacementValidator.is_valid_character_position(map, zone_id, marker.global_position + offset):
 			map.runtime_player_body().global_position = marker.global_position + offset
-			return _player.set_world_location(map.location_for_zone(zone_id))
-	return false
-
-
-func _npc(map: WorldMapController, point: StringName) -> NpcRuntimeState:
-	for npc: NpcRuntimeState in map.npc_runtimes():
-		if npc.spawn_point_id == point:
-			return npc
+			return map if _player.set_world_location(map.location_for_zone(zone_id)) else null
 	return null
 
 

@@ -62,10 +62,11 @@ func _test_page_opens() -> void:
 
 ## Apprentice, learn force and 封山派内功, enable it (force empties), exercise.
 func _test_force_route(tree: SceneTree) -> void:
-	var map: WorldMapController = _session.active_map() as WorldMapController
-	_check(_beside(map, &"snow.schoolhall", &"snow.schoolhall.master.1"), "in the hall")
+	# The 武馆 hall is on the school compound's own map since the remap.
+	var map: WorldMapController = _visit(&"snow.schoolhall", &"snow.schoolhall.master.1")
+	_check(map != null, "in the hall")
 	await tree.physics_frame
-	_school = map.service(&"snow.outdoor.schoolhall.master") as TeacherService
+	_school = map.service(&"snow.school_compound.schoolhall.master") as TeacherService
 	_school.request_apprentice()
 	_check(_state.family.family_id == &"family.fonxan", "apprenticed to 柳淳风")
 	_state.progression.combat_experience = 1000 # TEST-ONLY: lessons past level 2.
@@ -112,9 +113,10 @@ func _test_sword_route(tree: SceneTree) -> void:
 	_check(_school.last_lines == ["你必须先找一把剑才能练剑法。"], "no sword in hand: " + str(_school.last_lines))
 	var map: WorldMapController = _session.active_map() as WorldMapController
 	var sword: StringName = ItemSpawnDefinition.item_instance_id(_session.item_id_allocator().scope, &"snow.weapon_storage.bamboo_sword.1")
-	_check(_beside(map, &"snow.weapon_storage", &"snow.weapon_storage.bamboo_sword.1") and map.select_floor_item(sword) and map.take_selected_floor_item() == FloorItemPickup.Outcome.TAKEN, "the 竹剑 taken")
+	map = _visit(&"snow.weapon_storage", &"snow.weapon_storage.bamboo_sword.1")
+	_check(map != null and map.select_floor_item(sword) and map.take_selected_floor_item() == FloorItemPickup.Outcome.TAKEN, "the 竹剑 taken")
 	_check(_session.wield_player_item(sword) != null and _state.equipment.primary_weapon() != null, "the 竹剑 wielded")
-	_check(_beside(map, &"snow.schoolhall", &"snow.schoolhall.master.1"), "back in the hall")
+	_check(_visit(&"snow.schoolhall", &"snow.schoolhall.master.1") == map, "back in the hall")
 	await tree.physics_frame
 	_check(_learn_to(&"sword", 2) and _learn_to(&"fonxansword", 1), "基本剑法 and 封山剑法 learnt with the 竹剑")
 	_hud.open_martial_arts()
@@ -239,6 +241,13 @@ func _to_snow(tree: SceneTree) -> void:
 	await tree.physics_frame
 	_session.set_process(false)
 	_check(_session.active_map_id() == &"snow.outdoor", "out of the Inn")
+
+
+## The player goes to the room of marker `point_id` (whichever map it is on since the remap)
+## and stands beside the marker; the map they are on, null when that failed.
+func _visit(zone_id: StringName, point_id: StringName) -> WorldMapController:
+	var map: WorldMapController = MapPlaces.enter(_session, zone_id, point_id)
+	return map if map != null and _beside(map, zone_id, point_id) else null
 
 
 func _beside(map: WorldMapController, zone_id: StringName, point_id: StringName) -> bool:

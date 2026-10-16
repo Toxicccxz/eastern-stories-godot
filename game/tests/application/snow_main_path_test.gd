@@ -142,7 +142,7 @@ func _story(tree: SceneTree) -> void:
 		return
 	if not await _spar(tree, hud, player):
 		return
-	if not _ask(hud):
+	if not await _ask(tree, hud):
 		return
 	if not await _die_and_return(tree, player):
 		return
@@ -162,7 +162,10 @@ func _work(tree: SceneTree, hud: SharedGameplayUI, state: CharacterState) -> boo
 	check(_session.active_map_id() == &"snow.outdoor", "out through the Inn's east door")
 	var map: WorldMapController = _map()
 	check(await MapPlaces.drive_through(tree, map, [&"snow.square", &"snow.mstreet1", &"snow.mstreet2"]), "up the street")
-	check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, &"snow.workplace.mill")), "east into the mill, up to the millstone")
+	check(await MapPlaces.take_passage(tree, map, &"snow.mstreet2.east"), "east through the mill's door")
+	await _settle(tree)
+	map = _map()
+	check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, &"snow.workplace.mill")), "into the mill (its own map), up to the millstone")
 	var mill: WorkService = map.service(&"snow.workplace.mill") as WorkService
 	if not check(_zone() == &"snow.workplace" and mill.in_reach(), "walked to the workplace's mill"):
 		return false
@@ -179,8 +182,10 @@ func _work(tree: SceneTree, hud: SharedGameplayUI, state: CharacterState) -> boo
 
 ## Up the street on foot to the bank and 兑换 one of the two silvers.
 func _exchange(tree: SceneTree, hud: SharedGameplayUI) -> bool:
-	var map: WorldMapController = _map()
-	check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, &"snow.bank.counter")), "down the street and west into the bank, up to its counter")
+	var map: WorldMapController = await MapPlaces.go_to(tree, _session, &"snow.bank")
+	if not check(map != null, "out of the mill, down the street and west through the bank's door"):
+		return false
+	check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, &"snow.bank.counter")), "up to the bank's counter")
 	var bank: BankService = map.service(&"snow.bank.counter") as BankService
 	if not check(_zone() == &"snow.bank" and bank.in_reach(), "walked into the bank: %s at %s" % [_zone(), map.runtime_player_body().global_position]):
 		return false
@@ -197,7 +202,7 @@ func _exchange(tree: SceneTree, hud: SharedGameplayUI) -> bool:
 ## coins alone: feature/finance.c can_afford() wants coins for price % 100 and a silver
 ## object for the rest (kept as ES2 has it), and buy.c says so.
 func _buy(tree: SceneTree, hud: SharedGameplayUI, has_change: bool) -> bool:
-	check(await MapPlaces.drive_to_zone(tree, _map(), &"snow.square"), "down to the square")
+	check(await MapPlaces.go_to(tree, _session, &"snow.square") != null, "out of the bank and down to the square")
 	await MapPlaces.take_passage(tree, _map(), &"snow.square.west")
 	await _settle(tree)
 	if not check(_session.active_map_id() == &"snow.inn", "back into the Inn through the square's west door"):
@@ -240,7 +245,8 @@ func _learn(tree: SceneTree, hud: SharedGameplayUI, state: CharacterState) -> bo
 	var map: WorldMapController = _map()
 	check(_beside(map, &"snow.schoolhall", &"snow.schoolhall.master.1"), "TEST-ONLY placement in the hall")
 	await _settle(tree)
-	var hall: TeacherService = map.service(&"snow.outdoor.schoolhall.master") as TeacherService
+	map = _map()
+	var hall: TeacherService = map.service(&"snow.school_compound.schoolhall.master") as TeacherService
 	hud.open_current_context()
 	if not check(hall.ui != null and hall.ui.panel.visible, "柳淳风's panel: " + map.interaction_title()):
 		return false
@@ -268,7 +274,7 @@ func _learn(tree: SceneTree, hud: SharedGameplayUI, state: CharacterState) -> bo
 	check(_beside(map, &"snow.school2", &"snow.school2.fist_trainer.1") and map.can_operate_door(&"snow.school.gate"), "TEST-ONLY placement beside 李火狮, by the gate")
 	await _settle(tree)
 	check(_plain(map.interaction_title()) == "李火狮 · 请教", "the context button offers his lessons, not the gate: " + map.interaction_title())
-	var yard: TeacherService = map.service(&"snow.outdoor.school2.fist_trainer") as TeacherService
+	var yard: TeacherService = map.service(&"snow.school_compound.school2.fist_trainer") as TeacherService
 	hud.open_current_context()
 	if check(yard.ui.panel.visible, "李火狮's panel"):
 		yard.ui.learn_buttons[&"unarmed"].pressed.emit()
@@ -283,6 +289,7 @@ func _spar(tree: SceneTree, hud: SharedGameplayUI, player: WorldPlayerRuntimeSta
 	var map: WorldMapController = _map()
 	check(_beside(map, &"snow.school2", &"snow.school2.trainee.6"), "TEST-ONLY placement in the practice yard")
 	await _settle(tree)
+	map = _map()
 	var trainee: NpcRuntimeState = _npc(map, &"snow.school2.trainee.6")
 	map.select_npc(trainee.character_id)
 	hud.refresh_live_state()
@@ -307,9 +314,11 @@ func _spar(tree: SceneTree, hud: SharedGameplayUI, player: WorldPlayerRuntimeSta
 
 
 ## 打听 杨掌柜 about 治伤 through the HUD's topic buttons.
-func _ask(hud: SharedGameplayUI) -> bool:
+func _ask(tree: SceneTree, hud: SharedGameplayUI) -> bool:
 	var map: WorldMapController = _map()
 	check(_beside(map, &"snow.herbshop", &"snow.herbshop.herbalist.1"), "TEST-ONLY placement in the herbshop")
+	await _settle(tree)
+	map = _map()
 	map.select_npc(_npc(map, &"snow.herbshop.herbalist.1").character_id)
 	hud.refresh_live_state()
 	if not check(hud.ask_is_enabled(), "打听 offered on 杨掌柜"):
@@ -333,6 +342,7 @@ func _die_and_return(tree: SceneTree, player: WorldPlayerRuntimeState) -> bool:
 	# character also loses to it about half the time).
 	player.state.vitality.current = 1
 	check(_beside(map, &"snow.sroad4", &"snow.sroad4.crazy_dog.1"), "TEST-ONLY placement beside the crazy dog")
+	map = _map()
 	var coordinator: CombatEncounterCoordinator = _session.combat_encounter_coordinator()
 	for frame: int in 60:
 		await tree.physics_frame
@@ -370,9 +380,10 @@ func _die_and_return(tree: SceneTree, player: WorldPlayerRuntimeState) -> bool:
 ## South on foot from the temple to Old Pine; the slope bandits attack and are beaten;
 ## the short sword taken from a corpse. Returns its item id.
 func _old_pine_loot(tree: SceneTree, hud: SharedGameplayUI, player: WorldPlayerRuntimeState) -> StringName:
+	check(await MapPlaces.take_passage(tree, _map(), &"snow.temple.south"), "out of the temple onto the path")
+	await _settle(tree)
 	var snow: WorldMapController = _map()
-	check(await MapPlaces.drive_to_zone(tree, snow, &"snow.eroad1"), "out of the temple onto the path")
-	check(_zone() == &"snow.eroad1", "out of the temple's south door")
+	check(_zone() == &"snow.eroad1" and snow.map_id() == &"snow.outdoor", "out of the temple's south door")
 	check(await MapPlaces.drive_through(tree, snow, [&"snow.eroad2", &"snow.eroad3"]), "up the path east")
 	check(_zone() == &"snow.eroad3", "along the east road")
 	await MapPlaces.take_passage(tree, snow, &"snow.eroad3.south")
@@ -431,10 +442,11 @@ func _sell(tree: SceneTree, hud: SharedGameplayUI, sword: StringName) -> bool:
 	await _walk_until_map(tree, "move_up", &"snow.outdoor")
 	if not check(_session.active_map_id() == &"snow.outdoor" and _zone() == &"snow.eroad3", "north from Old Pine back to eroad3"):
 		return false
-	var map: WorldMapController = _map()
+	var map: WorldMapController = MapPlaces.enter(_session, &"snow.hockshop", &"snow.hockshop.hockshop_entry")
+	await _settle(tree)
 	var counter: HockshopService = map.service(&"snow.hockshop.counter") as HockshopService
-	var spot: Vector2 = map.physical_zone(&"snow.hockshop").global_rect().get_center()
-	check(_place(map, &"snow.hockshop", spot) and counter.in_reach(), "TEST-ONLY placement at the Hockshop counter")
+	var spot: Vector2 = MapPlaces.service_spot(map, &"snow.hockshop.counter")
+	check(_place(map, &"snow.hockshop", spot) and counter.in_reach(), "TEST-ONLY placement at the Hockshop counter (its own map)")
 	await _settle(tree)
 	var before: int = _money_value()
 	hud.open_current_context()
@@ -478,7 +490,11 @@ func _save_and_continue(tree: SceneTree, profile: GameSaveStorageProfile, files:
 	tree.root.add_child(_shell)
 	await _frames(tree, 3)
 	check(_shell.request_continue_from_menu(), "Continue from the menu")
-	await _frames(tree, 3)
+	for frame: int in 120:
+		await tree.process_frame
+		_session = _shell.runtime_host().current_session()
+		if _session != null:
+			break
 	_session = _shell.runtime_host().current_session()
 	if not check(_session != null, "Continue installs the journey"):
 		return
@@ -487,7 +503,7 @@ func _save_and_continue(tree: SceneTree, profile: GameSaveStorageProfile, files:
 	check(after != null and GameSaveJsonCodec.encode(after).text == encoded, "Continue restores the exact state")
 	var state: CharacterState = _session.player_runtime().state
 	check(state.family.family_id == &"family.fonxan" and state.apprenticeship.master_teacher_id == &"common.npc.swordsman.master", "still 柳淳风's apprentice")
-	check(_session.active_map_id() == &"snow.outdoor" and _zone() == &"snow.hockshop", "standing in the Hockshop")
+	check(_session.active_map_id() == &"snow.hockshop_house" and _zone() == &"snow.hockshop", "standing in the Hockshop")
 	var corpses: int = 0
 	for map: WorldMapController in _session.world_maps():
 		corpses += map.corpse_states().size()
@@ -561,11 +577,16 @@ func _npc(map: WorldMapController, point: StringName) -> NpcRuntimeState:
 	for npc: NpcRuntimeState in map.npc_runtimes():
 		if npc.spawn_point_id == point:
 			return npc
-	return null
+	return MapPlaces.npc_at(_session, point)
 
 
 ## Next to the marker `point_id` in `zone_id`, where a save could hold the player.
 func _beside(map: WorldMapController, zone_id: StringName, point_id: StringName) -> bool:
+	# On the zone's own map (a building's, since the remap): handed off there first.
+	if map.map_id() != MapPlaces.map_of(zone_id):
+		map = MapPlaces.enter(_session, zone_id, point_id)
+		if map == null:
+			return false
 	var marker: WorldSpawnMarker2D = map.resolve_spawn_marker(point_id)
 	if marker == null:
 		return false

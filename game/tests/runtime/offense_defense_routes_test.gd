@@ -21,7 +21,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await tree.process_frame
 	await _to_snow(tree, session)
 	_test_npc_internal_power(session)
-	_test_master_projection(session)
+	await _test_master_projection(tree, session)
 	await _test_girl(tree, session)
 	await _test_master_spar(tree, session)
 	await _test_annihir_kill(tree, session)
@@ -92,22 +92,23 @@ func _test_apply_values() -> void:
 
 
 func _test_npc_internal_power(session: WorldSessionController) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
-	var master: NpcRuntimeState = _npc(map, &"snow.schoolhall.master.1")
+	var master: NpcRuntimeState = MapPlaces.npc_at(session, &"snow.schoolhall.master.1")
 	var state: CharacterState = master.character_state
 	_check(state.recovery.inner_force.maximum == 1500 and state.recovery.inner_force.current == 1500 and state.attributes.force_factor == 3, "柳淳风: max_force 1500, force_factor 3")
 	_check(state.vitality.maximum == 220 + 1500 / 4, "race/human.c: max_kee 220 + max_force/4")
-	var annihir: CharacterState = _npc(map, &"snow.bank.annihir.1").character_state
+	var annihir: CharacterState = MapPlaces.npc_at(session, &"snow.bank.annihir.1").character_state
 	_check([annihir.essence.maximum, annihir.vitality.maximum, annihir.spirit.maximum] == [470, 470, 350], "安惜迩: max_gin/kee/sen with max_atman/force/mana / 4")
-	var girl: CharacterState = _npc(map, &"snow.nyard.girl.1").character_state
+	var girl: CharacterState = MapPlaces.npc_at(session, &"snow.nyard.girl.1").character_state
 	_check(girl.vitality.maximum == 120 + 200 / 4 and girl.gender == CharacterState.GENDER_FEMALE, "柳绘心: age 15, max_force 200")
 
 
-func _test_master_projection(session: WorldSessionController) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
+func _test_master_projection(tree: SceneTree, session: WorldSessionController) -> void:
+	# 柳淳风 (the 武馆) and 安惜迩 (the bank) are on maps of their own since the remap: each fight's
+	# participants are built where the player stands beside them.
+	var map: WorldMapController = await _beside(tree, session, session.player_runtime(), &"snow.schoolhall", &"snow.schoolhall.master.1")
+	_check(map != null, "in the hall")
 	var bindings: Array[CombatSliceCharacterBinding] = map.combat_lifecycle.build_participants()
-	var master := CombatSliceProjectionBuilder.find_binding(bindings, _npc(map, &"snow.schoolhall.master.1").character_id)
-	var annihir := CombatSliceProjectionBuilder.find_binding(bindings, _npc(map, &"snow.bank.annihir.1").character_id)
+	var master := CombatSliceProjectionBuilder.find_binding(bindings, MapPlaces.npc_at(session, &"snow.schoolhall.master.1").character_id)
 	var player := CombatSliceProjectionBuilder.find_binding(bindings, session.player_runtime().character_id)
 	var input: CombatAttackInput = CombatSliceProjectionBuilder.build_attack_input(master, player, master.content.approved_action_set(
 		master.state.equipment.primary_weapon(), &"sword", &"fonxansword").action_at(0))
@@ -116,17 +117,22 @@ func _test_master_projection(session: WorldSessionController) -> void:
 	var defending: CombatAttackInput = CombatSliceProjectionBuilder.build_attack_input(player, master, player.content.unarmed_action())
 	_check(defending != null and defending.defender.effective_dodge_skill_level == 6 + 80 / 2 + 100 - 5, "dodge: silk_cloth 6 + 80/2 + chaos-steps 100 - 玄苏剑 15000/3000 (equip.c)")
 	_check(defending != null and defending.defender.effective_parry_skill_level == 120 / 2 + 150, "parry: 120/2 + fonxansword 150")
+	map = await _beside(tree, session, session.player_runtime(), &"snow.bank", &"snow.bank.annihir.1")
+	_check(map != null, "in the bank")
+	bindings = map.combat_lifecycle.build_participants()
+	var annihir := CombatSliceProjectionBuilder.find_binding(bindings, MapPlaces.npc_at(session, &"snow.bank.annihir.1").character_id)
+	player = CombatSliceProjectionBuilder.find_binding(bindings, session.player_runtime().character_id)
 	var force: CombatAttackInput = CombatSliceProjectionBuilder.build_attack_input(annihir, player, annihir.content.approved_action_set(
 		annihir.state.equipment.primary_weapon(), &"sword", &"fonxansword").action_at(1))
 	_check(force != null and force.attacker.force_hit_policy_status == CombatHitPolicyStatus.Value.STANDARD_FORCE, "安惜迩's celestial: combatd.c's standard force hit")
 
 
 func _test_girl(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var hud: SharedGameplayUI = session.shared_ui()
-	_check(_beside(map, player, &"snow.nyard", &"snow.nyard.girl.1"), "in the study")
-	var girl: NpcRuntimeState = _npc(map, &"snow.nyard.girl.1")
+	var map: WorldMapController = await _beside(tree, session, player, &"snow.nyard", &"snow.nyard.girl.1")
+	_check(map != null, "in the study")
+	var girl: NpcRuntimeState = MapPlaces.npc_at(session, &"snow.nyard.girl.1")
 	_check(girl != null and girl.definition().display_name == "柳绘心", "柳绘心 is in the study")
 	map.select_npc(girl.character_id)
 	map.spar_selected()
@@ -147,10 +153,10 @@ func _test_girl(tree: SceneTree, session: WorldSessionController) -> void:
 
 
 func _test_master_spar(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	_check(_beside(map, player, &"snow.schoolhall", &"snow.schoolhall.master.1"), "in the hall")
-	var master: NpcRuntimeState = _npc(map, &"snow.schoolhall.master.1")
+	var map: WorldMapController = await _beside(tree, session, player, &"snow.schoolhall", &"snow.schoolhall.master.1")
+	_check(map != null, "in the hall")
+	var master: NpcRuntimeState = MapPlaces.npc_at(session, &"snow.schoolhall.master.1")
 	map.select_npc(master.character_id)
 	var started: CombatSliceInitiationResult = map.spar_selected()
 	_check(started.outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "柳淳风 accepts a spar (npc.c accept_fight)")
@@ -162,12 +168,12 @@ func _test_master_spar(tree: SceneTree, session: WorldSessionController) -> void
 
 
 func _test_annihir_kill(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var hud: SharedGameplayUI = session.shared_ui()
 	_heal(player.state)
-	_check(_beside(map, player, &"snow.bank", &"snow.bank.annihir.1"), "in the bank")
-	var annihir: NpcRuntimeState = _npc(map, &"snow.bank.annihir.1")
+	var map: WorldMapController = await _beside(tree, session, player, &"snow.bank", &"snow.bank.annihir.1")
+	_check(map != null, "in the bank")
+	var annihir: NpcRuntimeState = MapPlaces.npc_at(session, &"snow.bank.annihir.1")
 	map.select_npc(annihir.character_id)
 	var started: CombatSliceInitiationResult = map.spar_selected()
 	_check(started.outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "安惜迩 takes the challenge")
@@ -231,21 +237,21 @@ func _to_snow(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.active_map_id() == &"snow.outdoor", "out of the Inn")
 
 
-func _beside(map: WorldMapController, player: WorldPlayerRuntimeState, zone_id: StringName, point_id: StringName) -> bool:
+## The player beside the NPC of a spawn point, on the map its zone lies on (the 武馆 and the
+## shops are their own maps since the remap); returns that map, or null.
+func _beside(tree: SceneTree, session: WorldSessionController, player: WorldPlayerRuntimeState, zone_id: StringName, point_id: StringName) -> WorldMapController:
+	var map: WorldMapController = MapPlaces.enter(session, zone_id, point_id)
+	if map == null:
+		return null
+	await tree.physics_frame
+	await tree.physics_frame
 	var marker: WorldSpawnMarker2D = map.resolve_spawn_marker(point_id)
 	if marker == null:
-		return false
+		return null
 	for offset: Vector2 in [Vector2(0, 48), Vector2(48, 0), Vector2(-48, 0), Vector2(0, -48), Vector2(40, 40), Vector2(-40, 40)]:
 		if MapPlacementValidator.is_valid_character_position(map, zone_id, marker.global_position + offset):
 			map.runtime_player_body().global_position = marker.global_position + offset
-			return player.set_world_location(map.location_for_zone(zone_id))
-	return false
-
-
-func _npc(map: WorldMapController, point: StringName) -> NpcRuntimeState:
-	for npc: NpcRuntimeState in map.npc_runtimes():
-		if npc.spawn_point_id == point:
-			return npc
+			return map if player.set_world_location(map.location_for_zone(zone_id)) else null
 	return null
 
 

@@ -131,7 +131,7 @@ func _test_white_gargoyle(tree: SceneTree, session: WorldSessionController) -> v
 	_tick(session, 1)
 	_check(_said(hud, WHITE_LINES), "the last line and the fog: %s" % [hud.log_lines().slice(-3)])
 	await tree.physics_frame
-	_check(session.active_map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID and player.world_location().zone_id == SnowWorldDefinitions.TEMPLE_ZONE_ID, "back at the Snow temple")
+	_check(session.active_map_id() == SnowWorldDefinitions.temple_map_id() and player.world_location().zone_id == SnowWorldDefinitions.TEMPLE_ZONE_ID, "back at the Snow temple (its own map since the remap)")
 	_check(not player.state.ghost and player.state.vitality.effective == player.state.vitality.maximum, "reincarnate(): alive, full effective kee")
 	_check(session.reincarnations() == 1 and OldPineSaveEligibility.inspect(session).allowed(), "Save again")
 	var away: WorldMapController = session.world_map_of(DeathWorldDefinitions.MAP_ID)
@@ -200,7 +200,7 @@ func _test_little_shop(tree: SceneTree, session: WorldSessionController) -> void
 	_check(_said(hud, ["你走上前去, 低声的向那个长得跟你一样的人询问回家的事.", "那人一句话也不说就往你这边撞过来, 你眼前一阵黑...."]), "do_stuff()'s lines: %s" % [hud.log_lines().slice(-2)])
 	_tick(session, 1)
 	await tree.physics_frame
-	_check(session.active_map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID and player.world_location().zone_id == SnowWorldDefinitions.TEMPLE_ZONE_ID and not player.state.ghost, "back at the Snow temple, alive")
+	_check(session.active_map_id() == SnowWorldDefinitions.temple_map_id() and player.world_location().zone_id == SnowWorldDefinitions.TEMPLE_ZONE_ID and not player.state.ghost, "back at the Snow temple, alive")
 
 
 ## logind.c: a ghost logs in at DEATH_ROOM (D7): Continue puts it at 鬼门关 and the white
@@ -221,7 +221,7 @@ func _test_continue_as_ghost(tree: SceneTree, session: WorldSessionController) -
 	again.npc_life._advance_ambience(0.0)
 	_tick(restored, 26)
 	await tree.physics_frame
-	_check(restored.active_map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID and not player.state.ghost, "his lines again, then the temple")
+	_check(restored.active_map_id() == SnowWorldDefinitions.temple_map_id() and not player.state.ghost, "his lines again, then the temple")
 	# A ghost saved away from 阴间 (遁 takes a ghost along, dun.c): Continue puts it at the gate.
 	player.state.ghost = true # TEST-ONLY
 	var away: WorldSessionController = await _continue(tree, restored)
@@ -238,7 +238,7 @@ func _test_continue_as_ghost(tree: SceneTree, session: WorldSessionController) -
 	ghost.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE) # TEST-ONLY: comes to
 	away._advance_reincarnation()
 	await tree.physics_frame
-	_check(away.active_map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID and not ghost.state.ghost, "awake: to the temple")
+	_check(away.active_map_id() == SnowWorldDefinitions.temple_map_id() and not ghost.state.ghost, "awake: to the temple")
 	await _test_the_living(tree, away)
 	return away
 

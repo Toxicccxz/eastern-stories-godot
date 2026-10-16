@@ -299,15 +299,20 @@ func persistence_and_panel(tree: SceneTree) -> void:
 		var probe := Work.new()
 		await probe.round_trip(tree,session,snapshot,"liuh enabled=" + str(enabled))
 		check(probe._failures.is_empty(),"full state and all RNG exact; restore draws zero " + str(probe._failures))
-	var map := session.resident_map(&"snow.outdoor") as WorldMapController
-	var school := map.service(&"snow.outdoor.schoolhall.master") as TeacherService
+	# The 武馆 hall is on the school compound's own map since the remap.
+	var map := session.resident_map(&"snow.school_compound") as WorldMapController
+	var school := map.service(&"snow.school_compound.schoolhall.master") as TeacherService
 	var before := Work.rng_state(session)
 	check(not school.request_learn(&"liuh-ken").success,"out-of-range contact rejects")
 	check(Work.rng_state(session) == before,"rejected contact draws zero")
-	await MapPlaces.take_passage(tree, session.active_map() as WorldMapController, SnowWorldDefinitions.INN_EXIT_PORTAL_ID)
+	map = MapPlaces.enter(session, SnowWorldDefinitions.SCHOOLHALL_ZONE_ID, &"snow.schoolhall.master.1")
+	check(map == session.resident_map(&"snow.school_compound"),"the compound's map is the one active")
+	# The HUD closes its panels once when it meets a new map: let it bind before one is opened.
+	await tree.process_frame
+	await tree.process_frame
 	# Automated UI boundary fixture only; not claimed as natural/live journey.
-	map.player_body.position = MapPlaces.service_spot(map, &"snow.outdoor.schoolhall.master", SnowWorldDefinitions.SCHOOLHALL_ZONE_ID)
-	player.set_world_location(WorldLocationState.new(player.world_location().region_id,&"snow.outdoor",SnowWorldDefinitions.SCHOOLHALL_ZONE_ID,&"snow.schoolhall"))
+	map.player_body.position = MapPlaces.service_spot(map, &"snow.school_compound.schoolhall.master", SnowWorldDefinitions.SCHOOLHALL_ZONE_ID)
+	player.set_world_location(map.location_for_zone(SnowWorldDefinitions.SCHOOLHALL_ZONE_ID))
 	check(school.can_teach(),"contact fixture valid")
 	# enable.c is the player's own: the character panel's 武学 page, anywhere outside a fight.
 	var arts: PlayerMartialArts = session.martial_arts()
