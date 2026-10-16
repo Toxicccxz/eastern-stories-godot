@@ -1017,7 +1017,7 @@
           "chuenyu.west_blackge": {
             "floor": "floor_wood",
             "wall": "wall_wood",
-            "size": "hall",
+            "size": "large",
             "at": [0, 0]
           },
           "chuenyu.north_garden": {
@@ -1072,11 +1072,11 @@
         "placed": {
           "chuenyu.west_blackge.guard.1": [
             "chuenyu.west_blackge",
-            ["rel", 0.4, 0.45]
+            ["rel", 0.38, 0.45]
           ],
           "chuenyu.west_blackge.guard.2": [
             "chuenyu.west_blackge",
-            ["rel", 0.6, 0.45]
+            ["rel", 0.66, 0.5]
           ],
           "chuenyu.east_blackge.cleangirl.1": [
             "chuenyu.east_blackge",
@@ -1101,6 +1101,26 @@
           "chuenyu.storage.longsword.5": [
             "chuenyu.storage",
             ["rel", 0.75, 0.5]
+          ],
+          "chuenyu.west_garden.bee.1": [
+            "chuenyu.west_garden",
+            ["rel", 0.62, 0.55]
+          ],
+          "chuenyu.west_garden.bee.2": [
+            "chuenyu.west_garden",
+            ["rel", 0.52, 0.7]
+          ],
+          "chuenyu.east_garden.wolfdog.1": [
+            "chuenyu.east_garden",
+            ["rel", 0.38, 0.55]
+          ],
+          "chuenyu.east_garden.wolfdog.2": [
+            "chuenyu.east_garden",
+            ["rel", 0.4, 0.7]
+          ],
+          "chuenyu.east_garden.wolfdog.3": [
+            "chuenyu.east_garden",
+            ["rel", 0.46, 0.45]
           ]
         },
         "doors": {},

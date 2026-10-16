@@ -351,12 +351,12 @@ script = ExtResource("marker")
 spawn_point_id = &"chuenyu.west_garden.gardener.1"
 
 [node name="WestGardenBee1" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(-1952, -248)
+position = Vector2(-1549, 27)
 script = ExtResource("marker")
 spawn_point_id = &"chuenyu.west_garden.bee.1"
 
 [node name="WestGardenBee2" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(-1912, -248)
+position = Vector2(-1624, 108)
 script = ExtResource("marker")
 spawn_point_id = &"chuenyu.west_garden.bee.2"
 
@@ -371,12 +371,12 @@ script = ExtResource("marker")
 spawn_point_id = &"chuenyu.north_garden.smallgardener.2"
 
 [node name="WestBlackgeGuard1" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(-899, -27)
+position = Vector2(-914, -27)
 script = ExtResource("marker")
 spawn_point_id = &"chuenyu.west_blackge.guard.1"
 
 [node name="WestBlackgeGuard2" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(-748, -27)
+position = Vector2(-703, 0)
 script = ExtResource("marker")
 spawn_point_id = &"chuenyu.west_blackge.guard.2"
 
@@ -386,17 +386,17 @@ script = ExtResource("marker")
 spawn_point_id = &"chuenyu.east_blackge.cleangirl.1"
 
 [node name="EastGardenWolfdog1" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(1272, -248)
+position = Vector2(1533, 27)
 script = ExtResource("marker")
 spawn_point_id = &"chuenyu.east_garden.wolfdog.1"
 
 [node name="EastGardenWolfdog2" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(1312, -248)
+position = Vector2(1548, 108)
 script = ExtResource("marker")
 spawn_point_id = &"chuenyu.east_garden.wolfdog.2"
 
 [node name="EastGardenWolfdog3" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(1352, -248)
+position = Vector2(1593, -27)
 script = ExtResource("marker")
 spawn_point_id = &"chuenyu.east_garden.wolfdog.3"
 

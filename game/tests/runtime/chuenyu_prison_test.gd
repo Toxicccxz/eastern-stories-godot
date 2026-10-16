@@ -280,6 +280,10 @@ func _test_castle_ways(tree: SceneTree, session: WorldSessionController) -> Worl
 	var climb: ActService = map.service(&"chuenyu.east_castle.climb") as ActService
 	_check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, climb.service_id())) and climb.in_reach(), "by the east wall")
 	_where(session, juan, "she walked after the player to the wall")
+	var castle: WorldMapController = session.world_map_of(CASTLE)
+	for npc: NpcRuntimeState in castle.npc_runtimes():
+		if NpcDefinition.unnamed_id(npc.definition_id) == &"chuenyu.npc.wolfdog":
+			castle.npcs.vanish(npc) # TEST-ONLY: the 巨型犬 out of the way (by the wall, they set on whoever drops in)
 	climb.interact()
 	await tree.physics_frame
 	await tree.physics_frame

@@ -377,17 +377,17 @@ script = ExtResource("marker")
 spawn_point_id = &"city.shangshu.keting.shangshu.1"
 
 [node name="ShangshuRoad2Huyuan1" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(-264, -808)
+position = Vector2(88, -726)
 script = ExtResource("marker")
 spawn_point_id = &"city.shangshu.road2.huyuan.1"
 
 [node name="ShangshuRoad2Huyuan11" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(-224, -808)
+position = Vector2(253, -656)
 script = ExtResource("marker")
 spawn_point_id = &"city.shangshu.road2.huyuan1.1"
 
 [node name="ShangshuRoad1Huyuan1" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(-264, -1144)
+position = Vector2(178, -1004)
 script = ExtResource("marker")
 spawn_point_id = &"city.shangshu.road1.huyuan.1"
 

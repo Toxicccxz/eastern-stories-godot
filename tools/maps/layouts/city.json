@@ -1229,6 +1229,18 @@
           "city.shangshu.neizhai.qing_chen.1": [
             "city.shangshu.neizhai",
             ["rel", 0.625, 0.15]
+          ],
+          "city.shangshu.road2.huyuan.1": [
+            "city.shangshu.road2",
+            ["rel", 0.5, 0.3]
+          ],
+          "city.shangshu.road2.huyuan1.1": [
+            "city.shangshu.road2",
+            ["rel", 0.72, 0.5]
+          ],
+          "city.shangshu.road1.huyuan.1": [
+            "city.shangshu.road1",
+            ["rel", 0.62, 0.6]
           ]
         },
         "doors": {

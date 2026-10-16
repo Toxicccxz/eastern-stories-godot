@@ -288,6 +288,9 @@ func _test_halls(tree: SceneTree, session: WorldSessionController) -> void:
 		return
 	await tree.physics_frame
 	_finish_fight(session)
+	for npc: NpcRuntimeState in map.npc_runtimes():
+		if NpcDefinition.unnamed_id(npc.definition_id) == &"chuenyu.npc.bee":
+			map.npcs.vanish(npc) # TEST-ONLY: the bees out of the way (they stand by the way to the hall)
 	# Into the west hall: the 护院 attack as the player comes in (the walk stops there).
 	await MapPlaces.drive_to_zone(tree, map, &"chuenyu.west_blackge")
 	await tree.physics_frame
