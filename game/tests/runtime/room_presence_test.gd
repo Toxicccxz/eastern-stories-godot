@@ -23,6 +23,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_down_the_stairs(tree, session)
 	await _test_one_after_another(tree, session)
 	await _test_next_room(tree, session)
+	await _test_dragons_again(tree, session)
 	session.free()
 	await tree.process_frame
 	return {"assertions": _count, "failures": _failures}
@@ -124,6 +125,30 @@ func _test_next_room(tree: SceneTree, session: WorldSessionController) -> void:
 	await _frames(tree, coordinator)
 	_check(coordinator.has_active_encounter() and guard.relationship.has_opponent(session.player_runtime().character_id), "in his room: he falls on the player")
 	_finish_fight(session)
+
+
+## The ice cave's dragons (a complete-set room, indoors) fall on the player together; fled
+## and gone up the slope at once (another map), the player comes back down: they fall on
+## them again.
+func _test_dragons_again(tree: SceneTree, session: WorldSessionController) -> void:
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	var player: WorldPlayerRuntimeState = session.player_runtime()
+	player.state.vitality = CharacterResourceState.new(10000000, 10000000, 10000000) # TEST-ONLY: the player outlasts six dragons
+	var cave: WorldMapController = MapPlaces.enter(session, &"village.lakebottom2", &"village.lakebottom2.valley_arrival") # TEST-ONLY: down from the valley
+	if not _check(cave != null and cave.map_id() == &"village.icecave", "TEST-ONLY: down into the dragons' cave"):
+		return
+	await _frames(tree, coordinator)
+	_check(coordinator.has_active_encounter() and coordinator.active_encounter().participants().size() > 2, "the dragons fall on the player together")
+	_flee(session)
+	_check(not coordinator.has_active_encounter() and player.world_location().zone_id == &"village.lakebottom2", "fled, still in the cave")
+	for _frame: int in range(10): # the move keys come back a few frames after the fight
+		await tree.physics_frame
+	_check(await MapPlaces.take_passage(tree, cave, &"village.lakebottom2.westup") and session.active_map_id() == &"village.main", "up the slope at once, onto the village's map")
+	var back: WorldMapController = await MapPlaces.go_to(tree, session, &"village.lakebottom2")
+	_check(back != null or coordinator.has_active_encounter(), "back down into the cave")
+	await _frames(tree, coordinator)
+	_check(coordinator.has_active_encounter() and player.world_location().zone_id == &"village.lakebottom2", "back in their cave: they fall on the player again")
+	_flee(session)
 
 
 func _guards(map: WorldMapController) -> Array[NpcRuntimeState]:

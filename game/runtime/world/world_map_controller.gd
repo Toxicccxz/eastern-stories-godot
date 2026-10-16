@@ -407,7 +407,10 @@ func prepare_for_deactivation() -> void:
 	clear_passage_contacts()
 	selection.selected_target = null
 	hostilities.aggression.clear_all()
+	# The player left the map: whoever noticed them, or fought them in a complete-set room,
+	# meets them anew when they come back.
 	hostilities.room_present.clear()
+	hostilities.complete_set_consumed_contacts.clear()
 	hostilities.toll_contact_seconds.clear()
 	hostilities.toll_waiting.clear()
 	if hud() != null:
