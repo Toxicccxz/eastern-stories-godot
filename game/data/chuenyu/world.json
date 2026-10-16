@@ -4,7 +4,7 @@
 	],
 	"maps": [
 		{ "id": "chuenyu.main", "region": "chuenyu", "scene": "res://scenes/world/chuenyu/chuenyu_main.tscn", "entry": "chuenyu.croad1.village_arrival" },
-		{ "id": "chuenyu.upstairs", "region": "chuenyu", "scene": "res://scenes/world/chuenyu/chuenyu_upstairs.tscn", "entry": "chuenyu.bedroom.west_stairs_arrival" },
+		{ "id": "chuenyu.upstairs", "region": "chuenyu", "scene": "res://scenes/world/chuenyu/chuenyu_upstairs.tscn", "entry": "chuenyu.bedroom.west_stairs_arrival", "interior": true },
 		{ "id": "chuenyu.prison", "region": "chuenyu", "scene": "res://scenes/world/chuenyu/chuenyu_prison.tscn", "entry": "chuenyu.tunnel1.rope_arrival" }
 	],
 	"zones": [

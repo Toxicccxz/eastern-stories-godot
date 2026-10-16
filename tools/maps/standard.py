@@ -18,7 +18,8 @@ and repainting re-scales every map drawn from it. Three things read it:
   A facade stands against the street's `side` edge, centred at `at` along it (pixels on the
   edge's axis), walls round a roof that is not walkable. Each door is a portal of game/data
   from the street into the building: its passage stands just inside the street, its shutter
-  on the wall, and the marker of the portal back out (to_spawn) a body in front of it.
+  on the wall (a WorldDoor over the passage when world.json's doors has one between the two
+  zones), and the marker of the portal back out (to_spawn) a body in front of it.
   Facades may not overlap a zone or each other, and two on one side of a street keep an
   alley between them.
 
@@ -231,7 +232,14 @@ def _door(region, scene: dict, shapes: dict, portal: dict, portals: dict, zone: 
         shape = f'Rect_{door_px() + 2 * T}_{depth}'
         shapes[shape] = [door_px() + 2 * T, depth]
     scene.setdefault('nodes', [])
-    scene['nodes'].append({'node': 'rect', 'name': f'{name}Shutter', 'rect': shutter, 'color': DOOR_COLOR})
+    door = region.door_between(portal['from_zone'], portal['to_zone'])
+    if door is None:
+        scene['nodes'].append({'node': 'rect', 'name': f'{name}Shutter', 'rect': shutter, 'color': DOOR_COLOR})
+    else:
+        # An LPC door on this way (create_door()): the door stands over the passage, so shut
+        # it keeps everyone off it; both maps place it and share whether it is open.
+        _ensure_doors(scene)
+        scene.setdefault('doors', []).append({'name': f'{name}Door', 'id': door['id'], 'at': passage, 'shape': shape})
     scene['nodes'].append({'node': 'passage', 'name': f'{name}Passage', 'id': portal['id'], 'at': passage, 'shape': shape})
     back = [reverse_portal(region, portal, portals)] if reverse_portal(region, portal, portals) else []
     points = scene.setdefault('spawn_points', [])
@@ -239,6 +247,16 @@ def _door(region, scene: dict, shapes: dict, portal: dict, portals: dict, zone: 
     for p in back:
         points.insert(0, {'name': region.marker_name(p['to_spawn']), 'at': [int(marker[0]), int(marker[1])], 'id': p['to_spawn']})
     return edge
+
+
+def _ensure_doors(scene: dict) -> None:
+    """A scene that places doors has their style and node slots (as Snow's outdoor map)."""
+    scene.setdefault('door_style', {'walls': 'Terrain/DoorWalls', 'wall_suffix': 'Wall', 'shutters': 'Terrain',
+                                    'color': DOOR_COLOR})
+    nodes = scene.setdefault('nodes', [])
+    if not any(n.get('generated') == 'doors' for n in nodes):
+        nodes += [{'node': 'group', 'name': 'DoorWalls', 'type': 'StaticBody2D', 'parent': 'Terrain'},
+                  {'generated': 'door_walls'}, {'generated': 'shutters'}, {'generated': 'doors'}]
 
 
 # --- Interiors ------------------------------------------------------------------------------

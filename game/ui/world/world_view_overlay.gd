@@ -71,13 +71,17 @@ func _on_view_leaving(seconds: float) -> void:
 	_shade_tween = _fade(_shade_tween, _shade, 1.0, seconds)
 
 
-func _on_view_arriving(_map_id: StringName, arrived: bool) -> void:
+## Through a door (into or out of a building's own map) the fade is the door's, and no
+## banner names the place: the room's description does.
+func _on_view_arriving(_map_id: StringName, arrived: bool, door: bool) -> void:
 	var feel: FeelDefinition = GameContent.catalog().pacing().feel
-	if feel.map_fade_in_seconds <= 0.0:
+	var fade_in: float = feel.door_fade_in_seconds if door else feel.map_fade_in_seconds
+	var banner: float = 0.0 if door else feel.map_banner_seconds
+	if fade_in <= 0.0:
 		_kill(_shade_tween)
 		_shade.modulate.a = 0.0
 		if arrived:
-			_show_banner(feel.map_banner_seconds)
+			_show_banner(banner)
 		return
 	# A map change the player did not walk (a spell, waking at the temple) cuts to dark.
 	_kill(_shade_tween)
@@ -89,9 +93,9 @@ func _on_view_arriving(_map_id: StringName, arrived: bool) -> void:
 		await get_tree().process_frame
 	if arrival != _arrivals:
 		return
-	_shade_tween = _fade(_shade_tween, _shade, 0.0, feel.map_fade_in_seconds)
+	_shade_tween = _fade(_shade_tween, _shade, 0.0, fade_in)
 	if arrived:
-		_show_banner(feel.map_banner_seconds)
+		_show_banner(banner)
 
 
 func _show_banner(seconds: float) -> void:

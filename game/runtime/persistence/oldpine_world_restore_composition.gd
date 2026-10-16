@@ -254,8 +254,13 @@ static func _restore_npc_ledger(
 				or (saved.npc_definition_id != spawn.npc_definition_id and definition.name_pick().is_empty())
 				or NpcGeneration.of(saved.character_id, point_id) == 0
 				or not _location_is_current(saved.world_location)
-				# One that follows the player every way (小娟, owner 黑松山 plan F2) may stand on another map.
-				or (saved.world_location.map_id != spawn.map_id and (definition.hooks() == null or not definition.hooks().follows_every_way))
+				# One that follows the player every way (小娟, owner 黑松山 plan F2) may stand on another map,
+				# and a wanderer through a door next to its home (NpcRandomMove's range).
+				or (
+					saved.world_location.map_id != spawn.map_id
+					and (definition.hooks() == null or not definition.hooks().follows_every_way)
+					and not GameContent.catalog().zones_adjacent(spawn.zone_id, saved.world_location.zone_id)
+				)
 				# Alive and not in the world: only a summoned or drawn spawn's NPC waiting for its room.
 				or (not saved.exists_in_world and saved.life_status != &"dead" and not spawn.starts_absent)
 			):

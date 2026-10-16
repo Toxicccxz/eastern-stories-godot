@@ -39,8 +39,10 @@ func has_resident_map(map_id: StringName) -> bool:
 ## map (DECISIONS「手感」); nothing else changes then: the world is held (_hold_view()).
 signal view_leaving(seconds: float)
 ## The view comes back: on `map_id` after a handoff (`arrived`), or where it was when a
-## walked passage did not go after all.
-signal view_arriving(map_id: StringName, arrived: bool)
+## walked passage did not go after all; `door`: the way was a building's door (is_door()).
+signal view_arriving(map_id: StringName, arrived: bool, door: bool)
+## The walked passage under way is a door (set around its handoff).
+var _door_transition: bool = false
 
 
 func _on_passage_requested(portal: PortalDefinition, source: WorldResidentMapController) -> void:
@@ -48,7 +50,7 @@ func _on_passage_requested(portal: PortalDefinition, source: WorldResidentMapCon
 		return
 	# Never detach a physics Area while its query is flushing.
 	_passage_request_pending = true
-	var seconds: float = _fade_out_seconds()
+	var seconds: float = _fade_out_seconds(is_door(portal))
 	if seconds <= 0.0:
 		call_deferred("_execute_passage_request", portal, source)
 		return
@@ -65,18 +67,30 @@ func _on_faded_out(portal: PortalDefinition, source: WorldResidentMapController)
 		# The passage did not go after all: it can be taken again.
 		source.clear_passage_contacts()
 		_hold_view(false)
-		view_arriving.emit(_active_map_id, false)
+		view_arriving.emit(_active_map_id, false, is_door(portal))
 
 
-## A Session overrides these narrow hooks (the feel's map_fade_out_ms / map_fade_in_ms, and
-## holding world time and the player's walk while the view is dark). A physical-only
-## fixture changes maps at once.
-func _fade_out_seconds() -> float:
+## A Session overrides these narrow hooks (the feel's map_fade_* or, through a door,
+## door_fade_*, and holding world time and the player's walk while the view is dark). A
+## physical-only fixture changes maps at once.
+func _fade_out_seconds(_door: bool) -> float:
 	return 0.0
 
 
-func _fade_in_seconds() -> float:
+func _fade_in_seconds(_door: bool) -> float:
 	return 0.0
+
+
+## A passage between a building's own map and another (MapDefinition.interior on either
+## side): going through it is going through a door.
+static func is_door(portal: PortalDefinition) -> bool:
+	if portal == null:
+		return false
+	for map_id: StringName in [portal.source_map_id, portal.destination_map_id]:
+		var map: MapDefinition = GameContent.catalog().map(map_id)
+		if map != null and map.interior:
+			return true
+	return false
 
 
 func _hold_view(_on: bool) -> void:
@@ -85,9 +99,9 @@ func _hold_view(_on: bool) -> void:
 
 ## The view came back on the new map: the world goes on once it has faded in.
 func _arrived_on(map_id: StringName) -> void:
-	var seconds: float = _fade_in_seconds()
+	var seconds: float = _fade_in_seconds(_door_transition)
 	_view_serial += 1
-	view_arriving.emit(map_id, true)
+	view_arriving.emit(map_id, true, _door_transition)
 	if seconds <= 0.0:
 		_hold_view(false)
 		return
@@ -133,7 +147,9 @@ func _execute_passage_request(portal: PortalDefinition, source: WorldResidentMap
 	var target: WorldLocationState = destination.location_for_zone(portal.destination_zone_id)
 	if target == null:
 		return
+	_door_transition = is_door(portal)
 	handoff_led(portal.destination_map_id, target.zone_id, target.combat_location_id, portal.destination_spawn_point_id)
+	_door_transition = false
 
 
 ## A Session overrides this narrow hook: who follows the player out of `left` on `source`

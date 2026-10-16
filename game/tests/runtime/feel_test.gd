@@ -22,6 +22,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new()) # TEST-ONLY: nobody chats or wanders
+	await _test_door(tree, session)
 	await _test_passage(tree, session)
 	await _test_toll_bubble(tree, session)
 	session.free()
@@ -86,7 +87,8 @@ func _test_passage(tree: SceneTree, session: WorldSessionController) -> void:
 	var portal: PortalDefinition = null
 	var area: WorldPassageArea2D = null
 	for candidate: PortalDefinition in GameContent.catalog().portals_for_map(map.map_id()):
-		if candidate.destination_map_id == candidate.source_map_id:
+		# A door (into or out of a building's own map) is _test_door()'s.
+		if candidate.destination_map_id == candidate.source_map_id or WorldResidentMapCoordinator.is_door(candidate):
 			continue
 		for node: Node in map.find_children("*", "WorldPassageArea2D", true, false):
 			if (node as WorldPassageArea2D)._portal == candidate:
@@ -112,6 +114,28 @@ func _test_passage(tree: SceneTree, session: WorldSessionController) -> void:
 	var region: String = GameContent.catalog().region(player.world_location().region_id).display_name
 	_check(overlay.banner_text().begins_with(region) or overlay.banner_text() == GameContent.catalog().zone(player.world_location().zone_id).display_name, "the place's name: %s" % overlay.banner_text())
 	_check(overlay.shade_alpha() == 0.0 and not session.world_time_held() and not arrived.player_body.walk_paused and not map.player_body.walk_paused, "back: world time runs, the player walks")
+
+
+## Out of the inn by its door (a building's own map, DECISIONS「地图重构」): the shorter
+## door_fade_* and no banner, the room's description names the place.
+func _test_door(tree: SceneTree, session: WorldSessionController) -> void:
+	var map: WorldMapController = session.active_map() as WorldMapController
+	var portal: PortalDefinition = GameContent.catalog().portal(&"snow.inn.east")
+	var area: WorldPassageArea2D = MapPlaces.passage(map, portal.portal_id)
+	if not _check(map.map_id() == SnowWorldDefinitions.INN_MAP_ID and area != null and WorldResidentMapCoordinator.is_door(portal), "in the inn, by its door"):
+		return
+	map.player_body.global_position = area.global_position # TEST-ONLY: standing in the doorway
+	await tree.physics_frame
+	var overlay: WorldViewOverlay = session.shared_ui().view_overlay
+	map.passage_requested.emit(portal)
+	await tree.process_frame
+	_check(session.active_map() == map and session.world_time_held(), "the door darkens the view too, world time held")
+	await tree.create_timer(0.15).timeout
+	var arrived: WorldMapController = session.active_map() as WorldMapController
+	_check(arrived.map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID, "out on the square sooner than a map's fade (0.08 s, not 0.15)")
+	await tree.create_timer(0.2).timeout
+	_check(overlay.banner_text().is_empty(), "no banner through a door: %s" % overlay.banner_text())
+	_check(overlay.shade_alpha() == 0.0 and not session.world_time_held(), "back in 0.12 s: world time runs")
 
 
 ## The robber's shout: over his head in red, after the ridge's description in the log; the

@@ -4,9 +4,9 @@
 	],
 	"maps": [
 		{ "id": "cloud.outdoor", "region": "cloud", "scene": "res://scenes/world/cloud/cloud_outdoor.tscn", "entry": "cloud.dragonhill.nroad.snow_entry" },
-		{ "id": "cloud.tearoom_upstairs", "region": "cloud", "scene": "res://scenes/world/cloud/cloud_tearoom_upstairs.tscn", "entry": "cloud.tearoom2.stairs_arrival" },
-		{ "id": "cloud.jiyuan_upstairs", "region": "cloud", "scene": "res://scenes/world/cloud/cloud_jiyuan_upstairs.tscn", "entry": "cloud.jiyuan2.stairs_arrival" },
-		{ "id": "cloud.duchang_upstairs", "region": "cloud", "scene": "res://scenes/world/cloud/cloud_duchang_upstairs.tscn", "entry": "cloud.duchang2.stairs_arrival" }
+		{ "id": "cloud.tearoom_upstairs", "region": "cloud", "scene": "res://scenes/world/cloud/cloud_tearoom_upstairs.tscn", "entry": "cloud.tearoom2.stairs_arrival", "interior": true },
+		{ "id": "cloud.jiyuan_upstairs", "region": "cloud", "scene": "res://scenes/world/cloud/cloud_jiyuan_upstairs.tscn", "entry": "cloud.jiyuan2.stairs_arrival", "interior": true },
+		{ "id": "cloud.duchang_upstairs", "region": "cloud", "scene": "res://scenes/world/cloud/cloud_duchang_upstairs.tscn", "entry": "cloud.duchang2.stairs_arrival", "interior": true }
 	],
 	"zones": [
 		{ "id": "cloud.dragonhill.nroad", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/dragonhill/nroad"] },

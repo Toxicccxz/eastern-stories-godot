@@ -425,7 +425,7 @@ func door(door_id: StringName) -> DoorDefinition:
 func doors_for_map(map_id: StringName) -> Array[DoorDefinition]:
 	var result: Array[DoorDefinition] = []
 	for definition: DoorDefinition in _doors.values():
-		if definition.map_id == map_id:
+		if definition.map_ids().has(map_id):
 			result.append(definition)
 	return result
 

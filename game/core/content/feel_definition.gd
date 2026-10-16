@@ -7,6 +7,8 @@ extends RefCounted
 ## - map_fade_out_ms / map_fade_in_ms: the screen goes dark before a walked passage
 ##   changes the map, and comes back after any map change.
 ## - map_banner_ms: how long the region and place name shows on arriving on another map.
+## - door_fade_out_ms / door_fade_in_ms: the same, shorter, for a door: a walked passage
+##   into or out of a building's own map (MapDefinition.interior), which shows no banner.
 ## - camera_follow_speed: Camera2D position smoothing (0: the camera sticks to the player).
 ## - move_accel_ms / move_stop_ms: the player's walk reaches full speed / stops in this long.
 ## - speech_bubble_ms / speech_bubble_char_ms: how long a line an NPC says stays over its
@@ -28,6 +30,8 @@ const BUBBLE_SHORT_CHARACTERS: int = 24
 var _map_fade_out_ms: int = 0
 var _map_fade_in_ms: int = 0
 var _map_banner_ms: int = 0
+var _door_fade_out_ms: int = 0
+var _door_fade_in_ms: int = 0
 var _camera_follow_speed: int = 0
 var _move_accel_ms: int = 0
 var _move_stop_ms: int = 0
@@ -50,6 +54,12 @@ var map_fade_in_seconds: float:
 var map_banner_seconds: float:
 	get:
 		return float(_map_banner_ms) / 1000.0
+var door_fade_out_seconds: float:
+	get:
+		return float(_door_fade_out_ms) / 1000.0
+var door_fade_in_seconds: float:
+	get:
+		return float(_door_fade_in_ms) / 1000.0
 var camera_follow_speed: float:
 	get:
 		return float(_camera_follow_speed)
@@ -95,6 +105,8 @@ func with_values(values: Dictionary) -> FeelDefinition:
 	_map_fade_out_ms = int(values.get("map_fade_out_ms", _map_fade_out_ms))
 	_map_fade_in_ms = int(values.get("map_fade_in_ms", _map_fade_in_ms))
 	_map_banner_ms = int(values.get("map_banner_ms", _map_banner_ms))
+	_door_fade_out_ms = int(values.get("door_fade_out_ms", _door_fade_out_ms))
+	_door_fade_in_ms = int(values.get("door_fade_in_ms", _door_fade_in_ms))
 	_camera_follow_speed = int(values.get("camera_follow_speed", _camera_follow_speed))
 	_move_accel_ms = int(values.get("move_accel_ms", _move_accel_ms))
 	_move_stop_ms = int(values.get("move_stop_ms", _move_stop_ms))
@@ -111,7 +123,7 @@ func with_values(values: Dictionary) -> FeelDefinition:
 
 
 const KEYS: Array[String] = [
-	"map_fade_out_ms", "map_fade_in_ms", "map_banner_ms", "camera_follow_speed", "move_accel_ms",
+	"map_fade_out_ms", "map_fade_in_ms", "map_banner_ms", "door_fade_out_ms", "door_fade_in_ms", "camera_follow_speed", "move_accel_ms",
 	"move_stop_ms", "speech_bubble_ms", "speech_bubble_char_ms", "menu_fade_ms", "battle_slow_percent",
 	"battle_fast_percent", "battle_line_ms", "bar_tween_ms", "hit_flash_ms", "battle_end_hold_ms",
 ]

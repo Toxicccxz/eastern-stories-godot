@@ -215,6 +215,21 @@ class StandardTest(unittest.TestCase):
         self.assertEqual(sorted(ins), ['d.shop.front_in', 'd.shop.side_in'])
         paint.paint_map(region, shop)
 
+    def test_an_lpc_door_stands_over_the_passage_on_both_maps(self) -> None:
+        world = copy.deepcopy(WORLD)
+        world['doors'] = [{'id': 't.shop.door', 'name': '木门', 'zones': ['t.street', 't.shop'], 'reach': 90, 'legacy_room': 'es2:t/street'}]
+        (Path(self.dir.name) / 't' / 'world.json').write_text(json.dumps(world, ensure_ascii=False), encoding='utf-8')
+        region = self.region
+        for entry in (STREET, SHOP):
+            prepared = standard.prepare_town(region, entry) if entry is STREET else standard.prepare_interior(region, entry)
+            door = prepared['scene']['doors'][0]
+            passage = next(n for n in prepared['scene']['nodes'] if n.get('node') == 'passage')
+            self.assertEqual((door['id'], door['at'], door['shape']), ('t.shop.door', passage['at'], passage['shape']))
+            self.assertFalse(any(n.get('name', '').endswith('Shutter') for n in prepared['scene']['nodes']), 'the door draws its own shutter')
+            text = paint.paint_map(region, entry)
+            self.assertIn('door_id = &"t.shop.door"', text)
+            self.assertIn('[node name="DoorWalls" type="StaticBody2D" parent="Terrain"]', text)
+
     def test_the_filler_keeps_only_a_skirt(self) -> None:
         text = paint.paint_map(self.region, STREET)
         blob = re.search(r'name="TerrainStructures"[^\n]*\n(?:[^\n]*\n)*?tile_map_data = PackedByteArray\(([^)]*)\)', text).group(1)

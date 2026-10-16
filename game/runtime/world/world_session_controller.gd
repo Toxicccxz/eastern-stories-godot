@@ -184,12 +184,14 @@ const VIEW_TIME_HOLD: StringName = &"map_transition"
 var _presentation_holds: Dictionary[StringName, bool] = {}
 
 
-func _fade_out_seconds() -> float:
-	return GameContent.catalog().pacing().feel.map_fade_out_seconds
+func _fade_out_seconds(door: bool) -> float:
+	var feel: FeelDefinition = GameContent.catalog().pacing().feel
+	return feel.door_fade_out_seconds if door else feel.map_fade_out_seconds
 
 
-func _fade_in_seconds() -> float:
-	return GameContent.catalog().pacing().feel.map_fade_in_seconds
+func _fade_in_seconds(door: bool) -> float:
+	var feel: FeelDefinition = GameContent.catalog().pacing().feel
+	return feel.door_fade_in_seconds if door else feel.map_fade_in_seconds
 
 
 func _hold_view(on: bool) -> void:
@@ -1233,6 +1235,81 @@ func _carry_followers(source: WorldResidentMapController, destination: WorldResi
 	var adjacent: bool = GameContent.catalog().zones_adjacent(left.zone_id, _player.world_location().zone_id)
 	if adjacent or leading():
 		from_map.spells.carry_followers(to_map, left.zone_id, adjacent)
+
+
+## go.c for an NPC whose way leads onto another map (a wanderer leaving a shop by its door,
+## WorldMapNpcLife._depart()): it leaves `source`, body and all, and comes onto the portal's
+## map beside the portal's arrival marker, clear of whoever stands there. False when it
+## could not (it stays where it was).
+func move_npc_through(npc: NpcRuntimeState, source: WorldMapController, portal: PortalDefinition) -> bool:
+	var destination: WorldMapController = world_map_of(portal.destination_map_id)
+	var marker: WorldSpawnMarker2D = null if destination == null else destination.resolve_spawn_marker(portal.destination_spawn_point_id)
+	var location: WorldLocationState = null if destination == null else destination.location_for_zone(portal.destination_zone_id)
+	if marker == null or location == null or source == null or destination == source:
+		return false
+	var at: Vector2 = _clear_spot(destination, portal.destination_zone_id, marker.global_position)
+	if not source.npcs.release_follower(npc):
+		return false
+	if not destination.npcs.admit_follower(npc, location, at):
+		push_error("%s could not come onto %s through %s" % [npc.character_id, destination.map_id(), portal.portal_id])
+		return false
+	destination.npc_life.npc_arrived(npc)
+	return true
+
+
+## room.c reset() calling home (return_home()) an NPC of `home`'s spawn point that went
+## onto another map: it comes back to its marker from wherever it is, a dead one's record
+## too (the reset makes it anew). Null when no map holds it.
+func bring_npc_home(point_id: StringName, home: WorldMapController) -> NpcRuntimeState:
+	for map: WorldMapController in world_maps():
+		if map == home:
+			continue
+		for npc: NpcRuntimeState in map.npc_runtimes():
+			if npc.spawn_point_id != point_id:
+				continue
+			var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(npc.spawn_id)
+			var marker: WorldSpawnMarker2D = home.resolve_spawn_marker(point_id)
+			if spawn == null or marker == null or spawn.map_id != home.map_id():
+				return null
+			var alive: bool = npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD
+			# A fighting or senseless one does not leave (npc.c return_home()); nor one that
+			# follows the player every way (小娟), nor a summoned one.
+			if alive and (npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or npc.relationship.is_fighting() or map.npc_life.follows_every_way(npc)):
+				return null
+			if alive and map.npc_life.player_hears(npc) and map.hud() != null:
+				map.hud().append_log_lines([tr("%s急急忙忙地离开了。") % tr(npc.definition().display_name)])
+			# A dead one is made anew at home, unless it is gone for good (it stays a record there).
+			if not alive and not WorldMapNpcs.made_anew(spawn, npc):
+				return null
+			if not map.npcs.release_follower(npc):
+				return null
+			if not alive:
+				return npc
+			if not home.npcs.admit_follower(npc, home.location_for_zone(spawn.zone_id), _clear_spot(home, spawn.zone_id, marker.global_position)):
+				push_error("%s could not come home to %s" % [npc.character_id, home.map_id()])
+				return null
+			home.npc_life.npc_arrived(npc)
+			return npc
+	return null
+
+
+## `near`, or the first spot from it towards the zone's middle a body may stand on clear of
+## the other bodies (one arriving where the player arrives does not land on them).
+static func _clear_spot(map: WorldMapController, zone_id: StringName, near: Vector2) -> Vector2:
+	var zone: WorldPhysicalZoneArea2D = map.physical_zone(zone_id)
+	if zone == null:
+		return near
+	var inward: Vector2 = (zone.global_rect().get_center() - near).normalized()
+	var bodies: Array[Vector2] = [map.runtime_player_body().global_position]
+	for npc: NpcRuntimeState in map.npc_runtimes():
+		var body: Node2D = map.runtime_body_for_character(npc.character_id)
+		if body != null and npc.exists_in_map:
+			bodies.append(body.global_position)
+	for step: int in range(0, 10):
+		var spot: Vector2 = near + inward * 16.0 * step
+		if bodies.all(func(other: Vector2) -> bool: return other.distance_to(spot) >= 44.0) and MapPlacementValidator.is_valid_character_position(map, zone_id, spot):
+			return spot
+	return near
 
 
 func _reconcile_active_residents() -> bool:

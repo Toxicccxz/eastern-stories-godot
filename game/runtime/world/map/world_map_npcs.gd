@@ -507,6 +507,9 @@ func reset_room(legacy_room: String) -> void:
 		for point_id: StringName in spawn.spawn_point_ids():
 			var npc: NpcRuntimeState = _npc_at_point(point_id)
 			if npc == null:
+				# Gone through a door onto another map (a wanderer): brought home from there.
+				npc = session.bring_npc_home(point_id, _map)
+			if npc == null:
 				continue
 			if npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
 				if made_anew(spawn, npc):
@@ -796,9 +799,9 @@ func release(npc: NpcRuntimeState) -> StringName:
 	return caster_id
 
 
-## A placed NPC that follows the player every way (小娟) goes with them onto another map: it
-## leaves this map, body and all, and keeps its state and what it carries. False when it
-## was not here (or is a summoned one: release()).
+## A placed NPC that goes onto another map (小娟 following the player every way, a wanderer
+## through a door): it leaves this map, body and all, and keeps its state and what it
+## carries. False when it was not here (or is a summoned one: release()).
 func release_follower(npc: NpcRuntimeState) -> bool:
 	if npc == null or find_resident_npc(npc.character_id) == null or SummonedNpc.is_summoned(npc.character_id):
 		return false
@@ -923,6 +926,7 @@ func _drop_npc(npc: NpcRuntimeState) -> void:
 		_map.npc_life.ambience.cancel_greeting(character_id)
 		_map.npc_life.ambience.cancel_call(character_id)
 	_map.npc_life.pending_steals.erase(character_id)
+	_map.npc_life.departures.erase(character_id)
 	if _map.npc_life.walker != null:
 		_map.npc_life.walker.cancel(character_id)
 	if _map.npc_life.npc_heartbeat != null:

@@ -7,6 +7,7 @@ var _map_id: StringName
 var _region_id: StringName
 var _scene_path: String
 var _entry_spawn_id: StringName
+var _interior: bool = false
 
 var map_id: StringName:
 	get:
@@ -21,6 +22,11 @@ var scene_path: String:
 var entry_spawn_id: StringName:
 	get:
 		return _entry_spawn_id
+## A building's own map (world.json `interior`): the way in and out of it is a door
+## (FeelDefinition door_fade_*).
+var interior: bool:
+	get:
+		return _interior
 
 
 func _init(
@@ -42,6 +48,7 @@ static func from_record(reader: ContentRecordReader) -> MapDefinition:
 		reader.required_text("scene"),
 		StringName(reader.required_text("entry")),
 	)
+	definition._interior = reader.boolean("interior", false)
 	reader.finish()
 	return definition
 

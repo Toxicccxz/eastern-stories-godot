@@ -4,7 +4,7 @@
 	],
 	"maps": [
 		{ "id": "city.main", "region": "city", "scene": "res://scenes/world/city/city_main.tscn", "entry": "city.nroad2.village_arrival" },
-		{ "id": "city.upstairs", "region": "city", "scene": "res://scenes/world/city/city_upstairs.tscn", "entry": "city.jiulou_2.stairs_arrival" },
+		{ "id": "city.upstairs", "region": "city", "scene": "res://scenes/world/city/city_upstairs.tscn", "entry": "city.jiulou_2.stairs_arrival", "interior": true },
 		{ "id": "city.wall_top", "region": "city", "scene": "res://scenes/world/city/city_wall_top.tscn", "entry": "city.wall.climb_arrival" },
 		{ "id": "city.cellar", "region": "city", "scene": "res://scenes/world/city/city_cellar.tscn", "entry": "city.midao1.stairs_arrival" }
 	],

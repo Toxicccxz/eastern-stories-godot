@@ -157,6 +157,14 @@ func set_portal_open(portal_id: StringName, open: bool) -> bool:
 	return false
 
 
+## Where the scene passage of `portal_id` stands, or Vector2.INF when this map has none.
+func passage_position(portal_id: StringName) -> Vector2:
+	for passage: WorldPassageArea2D in _passages:
+		if passage.portal_id == portal_id:
+			return passage.global_position
+	return Vector2.INF
+
+
 func is_portal_open(portal_id: StringName) -> bool:
 	for passage: WorldPassageArea2D in _passages:
 		if passage.portal_id == portal_id:
