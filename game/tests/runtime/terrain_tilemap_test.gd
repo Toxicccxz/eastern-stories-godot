@@ -156,8 +156,8 @@ func _test_terrain_spot_checks() -> void:
 		[Vector2(-312, -384), "blocked", true], [Vector2(248, -1080), "blocked", true], [Vector2(344, -744), "blocked", true],
 		# the mountain wall east of the 山路; the road south to Old Pine runs to the map's closed edge
 		[Vector2(1296, 500), "cliff", true], [Vector2(1160, 920), "path", false], [Vector2(1160, 944), "boundary", true],
-		# beyond the col east of the track to the next village
-		[Vector2(300, -1680), "boundary", true],
+		# just beyond the col east of the track to the next village (the edge keeps a skirt of boundary)
+		[Vector2(248, -1680), "boundary", true],
 	]:
 		_spot(snow, "Snow", row)
 	snow.free()

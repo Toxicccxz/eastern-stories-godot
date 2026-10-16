@@ -22,7 +22,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 
 func definition_tests() -> void:
-	check(GameContent.catalog().zones_for_map(&"snow.outdoor").size() == 31, "S7B twelve outdoor zones plus H3 Hockshop, P2 three school zones, the revival temple, 4B's nine rooms and 4C's five")
+	check(GameContent.catalog().zones_for_map(&"snow.outdoor").size() == WorldCounts.of("map_zones", "snow.outdoor"), "Snow's outdoor zones (world_counts.json)")
 	var spine: Array[StringName] = [&"snow.mstreet2", &"snow.mstreet3", &"snow.mstreet4", &"snow.crossroad"]
 	for id: StringName in spine.slice(1):
 		var zone: ZoneDefinition = GameContent.catalog().zone(id)

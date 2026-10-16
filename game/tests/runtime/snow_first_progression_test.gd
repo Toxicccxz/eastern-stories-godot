@@ -1,4 +1,5 @@
 extends RefCounted
+const WorldCounts := preload("res://tests/support/world_counts.gd")
 
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const Recovery := preload("res://tests/runtime/player_recovery_cadence_test.gd")
@@ -201,7 +202,7 @@ func physical_tests(tree: SceneTree) -> void:
 	var map := session.resident_map(&"snow.outdoor") as WorldMapController
 	var school := map.service(&"snow.outdoor.schoolhall.master") as TeacherService
 	check(school != null and not school.can_teach() and not school.request_learn(&"unarmed").success, "inactive resident cannot teach")
-	check(GameContent.catalog().zones_for_map(&"snow.outdoor").size() == 31, "three school zones, the revival temple, 4B's nine rooms and 4C's five")
+	check(GameContent.catalog().zones_for_map(&"snow.outdoor").size() == WorldCounts.of("map_zones", "snow.outdoor"), "Snow's outdoor zones (world_counts.json)")
 	for i: int in range(3):
 		var id: StringName = [SnowWorldDefinitions.SCHOOL1_ZONE_ID, SnowWorldDefinitions.SCHOOL2_ZONE_ID, SnowWorldDefinitions.SCHOOLHALL_ZONE_ID][i]
 		check(GameContent.catalog().zone(id).room_ids() == [StringName("es2:d/snow/" + String(id).get_slice(".", 1))],"school source identity " + String(id))

@@ -1,0 +1,42 @@
+{
+  "note": "The scale standard the painter sizes maps by (docs: tools/maps/standard.py). Lengths are multiples of a body's width (`body`, pixels) and are rounded up to whole tiles; change them and repaint to re-scale every map drawn from them.",
+  "body": 34,
+  "tile": 16,
+  "skirt_tiles": 3,
+  "trimmed_bases": ["boundary"],
+  "street": {
+    "main": 6.0,
+    "lane": 4.5,
+    "road": 7.0
+  },
+  "door": 1.85,
+  "facade": {
+    "frontage": {"small": 7.5, "shop": 9.0, "wide": 12.0, "grand": 16.0},
+    "depth": {"small": 5.0, "shop": 5.5, "deep": 8.0, "grand": 12.0},
+    "alley": 2.0
+  },
+  "wall_tiles": 2,
+  "room": {
+    "closet": [6.0, 5.0],
+    "small": [8.0, 6.0],
+    "room": [10.0, 7.0],
+    "large": [13.0, 9.0],
+    "hall": [16.0, 10.0],
+    "yard": [16.0, 12.0],
+    "grand": [20.0, 14.0]
+  },
+  "building_note": "a building's floor, all its rooms together, at least (square bodies)",
+  "building": {
+    "house": 48,
+    "shop": 60,
+    "inn": 300,
+    "temple": 150,
+    "school": 500,
+    "compound": 500,
+    "manor": 800
+  },
+  "words": {
+    "large": ["宽敞", "宽广", "广大", "偌大", "巨大", "很大", "极大", "高大", "宏伟", "气派", "大厅", "大堂", "广场", "大殿", "正殿", "练武场", "教练场"],
+    "small": ["狭小", "窄小", "小小", "很小", "简陋", "狭窄", "斗室", "小房间", "小屋", "密室"]
+  }
+}

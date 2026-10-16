@@ -146,7 +146,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	if corpse_restore.succeeded():
 		var cold: WorldSessionController = corpse_restore.candidate
 		_check(cold.active_map().map_id() == SnowWorldDefinitions.INN_MAP_ID and cold.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size() == 1, "Snow active, detached outdoor corpse retained")
-		_check(cold.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes().size() == 23 and cold.world_npcs().size() == WorldCounts.number("world_npcs"), "dead NPC remains tombstone, no replacement")
+		_check(cold.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes().size() == WorldCounts.of("map_npcs", "oldpine.outdoor") and cold.world_npcs().size() == WorldCounts.number("world_npcs"), "dead NPC remains tombstone, no replacement")
 		_check(cold.inventory_state().registered_item_ids().size() == corpse_save.items.item_records.size(), "corpse nested graph exact")
 		_check(cold.activate_restore_candidate(), "corpse candidate activation")
 		var corpse_capture: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(cold, &"test", "2026-09-11T00:00:00Z")
@@ -218,7 +218,7 @@ func _repository_and_host(tree: SceneTree, source: WorldSessionController, snaps
 	legacy_host.request_continue()
 	await tree.process_frame
 	_check(legacy_host.last_load_result().succeeded(), "explicit internal fixture Continue current technical v2")
-	_check(legacy_host.current_session().resident_map_count() == 8 and legacy_host.current_session().resident_map(SnowWorldDefinitions.INN_MAP_ID) == null, "technical profile has no Snow")
+	_check(legacy_host.current_session().resident_map_count() == WorldCounts.number("technical_maps") and legacy_host.current_session().resident_map(SnowWorldDefinitions.INN_MAP_ID) == null, "technical profile has no Snow")
 	_check(files.read_bytes(profile.canonical_path(), 16777216).bytes == primary, "technical Continue does not rewrite bytes")
 	legacy_host.request_save()
 	await tree.process_frame

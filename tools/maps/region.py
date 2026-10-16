@@ -40,6 +40,32 @@ class Region:
                     pairs.add(tuple(sorted((a, b))))
         return pairs
 
+    def exits_between(self, zones) -> dict:
+        """Zone -> [(exit command, zone)] for the room exits that join two of `zones`."""
+        world = self._read('world.json')['zones']
+        zone_of = {room: z['id'] for z in world for room in z['rooms']}
+        out = {}
+        for room in self._read('rooms.json')['rooms']:
+            a = zone_of.get(room['id'])
+            for command, target in room.get('exits', {}).items():
+                b = zone_of.get(target)
+                if a in zones and b in zones and a != b:
+                    out.setdefault(a, []).append((command, b))
+        return out
+
+    def room_exits(self) -> dict:
+        """Room id -> its exits (command -> room id)."""
+        return {r['id']: r.get('exits', {}) for r in self._read('rooms.json')['rooms']}
+
+    def zone_maps(self) -> dict:
+        """Zone id -> its map id, from this region's world.json."""
+        return {z['id']: z['map'] for z in self._read('world.json')['zones']}
+
+    def zone_longs(self) -> dict:
+        """Zone id -> the description of its rooms, one after another."""
+        rooms = {r['id']: r.get('long', '') for r in self._read('rooms.json')['rooms']}
+        return {z['id']: ''.join(rooms.get(r, '') for r in z['rooms']) for z in self._read('world.json')['zones']}
+
     def portals(self) -> dict:
         """Portal id -> its record, from this region's world.json."""
         return {p['id']: p for p in self._read('world.json').get('portals', [])}

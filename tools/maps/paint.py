@@ -33,10 +33,14 @@ repository root:
 
 A layout's `maps` entry names its scene `file` under game/scenes/world/<region>/ and has:
 
-* `draw`: the technique that paints the tiles (fills, cells, town, canvas; each module's docstring
-  gives its data) and whatever that technique makes for the scene (zones, captions, markers).
+* `draw`: the technique that paints the tiles (fills, cells, town, canvas, interior; each module's
+  docstring gives its data, standard.py the interior's) and whatever that technique makes for the
+  scene (zones, captions, markers). Sizes come from the scale standard (standard.json): street
+  classes, building facades and their doors on town maps, interiors laid out from their exits;
+  a technique's `base` filler (the bare `boundary`; a wild map's forest or cliff is terrain) is
+  kept only within a skirt of walkable ground, a backdrop of its colour behind.
 * `scene`: the skeleton `style` (map or flat, see scene.py), the root node name, the `map` id,
-  `player_color`, camera `limits` (default: the drawing's bounds) or `zoom`, the `shapes`, and the
+  `player_color`, camera `limits` (default: the drawing's bounds, or where a trimmed map's tiles end) or `zoom`, the `shapes`, and the
   node lists `nodes` (after the tile layers), `zones`, `spawn_points` and `interactions`. A list
   item is a node block (`node` names the builder in scene.py; in zones, spawn_points and
   interactions it defaults to zone, marker and landmark) or {"generated": name} for what the
@@ -58,15 +62,19 @@ import json
 import sys
 from pathlib import Path
 
-from . import canvas, cells, fills, town
+from . import canvas, cells, fills, standard, town
 from . import scene as sc
 from .region import Region
+from .tiles import BACKDROP, T
 
 REPOSITORY = Path(__file__).resolve().parents[2]
 LAYOUTS = Path(__file__).resolve().parent / 'layouts'
 DATA = REPOSITORY / 'game/data'
 WORLD = REPOSITORY / 'game/scenes/world'
 TECHNIQUES = {'fills': fills.draw, 'cells': cells.draw, 'town': town.draw, 'canvas': canvas.draw}
+# What an entry becomes before its technique paints it: street classes and facades resolved,
+# an interior laid out as the town drawing that paints it (standard.py).
+PREPARE = {'town': standard.prepare_town, 'interior': standard.prepare_interior}
 
 
 def regions() -> list[str]:
@@ -79,11 +87,36 @@ def layout(region: str) -> dict:
 
 def paint_map(region: Region, entry: dict, notes: list | None = None) -> str:
     """The scene text of one layout entry."""
+    entry = PREPARE.get(entry['draw']['technique'], lambda _region, e: e)(region, entry)
     scene = entry['scene']
     style = scene['style']
     drawn = TECHNIQUES[entry['draw']['technique']](region, entry)
+    backdrop = None
+    if entry['draw'].get('base') in standard.STANDARD['trimmed_bases'] and scene['style'] == 'map':
+        zones = [v[:4] for v in entry['draw'].get('zones', {}).values() if isinstance(v, list)]
+        standard.trim_filler(drawn.tiles, entry['draw']['base'], zones)
+        backdrop = BACKDROP[entry['draw']['base']]
+    # The camera stops where the tiles end (WorldMapController.frame_camera() does the same
+    # from the used cells); the backdrop still covers the drawing's bounds.
+    limits = drawn.bounds
+    cells = list(drawn.tiles.ground) + list(drawn.tiles.structures)
+    if backdrop and cells:
+        xs, ys = [c[0] for c in cells], [c[1] for c in cells]
+        limits = (min(xs) * T, min(ys) * T, (max(xs) + 1) * T, (max(ys) + 1) * T)
+    interior = entry['draw'].get('interior')
+    if interior:
+        for other in interior['larger_than']:
+            other_region, key = other.split('/')
+            other_entry = layout(other_region)['maps'][key]
+            if other_entry['draw']['technique'] == 'interior':
+                floor = standard.prepare_interior(Region(other_region, DATA), other_entry)['draw']['interior']['floor']
+            else:
+                floor = standard.floor_of(other_entry)
+            assert interior['floor'] > floor, ('not larger than', other, scene['map'], round(interior['floor']), round(floor))
     if notes is not None:
         notes.extend(drawn.notes)
+        if interior:
+            notes.extend(interior['notes'])
     sizes = {k: tuple(v) for k, v in scene['shapes'].items()}
     for k, v in drawn.shapes.items():
         sizes[k] = v
@@ -112,7 +145,8 @@ def paint_map(region: Region, entry: dict, notes: list | None = None) -> str:
         interactions = sc.render(scene.get('interactions', []), 'landmark', style, fragments)
         has_services = any(n.get('node') == 'service' for n in scene.get('nodes', []))
         text = sc.map_scene(scene['root'], scene['map'], sizes, nodes, zones, points, interactions,
-                            scene.get('limits', drawn.bounds), scene['player_color'], has_doors, has_services)
+                            scene.get('limits', limits), scene['player_color'], has_doors, has_services,
+                            (backdrop, drawn.bounds) if backdrop else None)
     else:
         text = sc.flat_scene(scene['root'], scene['map'], sizes, nodes, zones, points,
                              scene['player_color'], scene['zoom'], has_doors)

@@ -1,4 +1,5 @@
 extends RefCounted
+const WorldCounts := preload("res://tests/support/world_counts.gd")
 
 ## 水烟阁 A (d/waterfog, daemon/class/fighter): the 28 rooms on three maps and the
 ## way in from Snow's sroad5; the eleven NPC types as imported, with what they wield and
@@ -139,7 +140,7 @@ func _test_mountain(tree: SceneTree, session: WorldSessionController) -> void:
 	await tree.physics_frame
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
-	_check(map.map_id() == &"waterfog.mountain" and map.resident_npcs().size() == 4, "two guards at the stairs' foot, the 司事 and the 天邪虎 at the pavilion")
+	_check(map.map_id() == &"waterfog.mountain" and map.resident_npcs().size() == WorldCounts.of("map_npcs", "waterfog.mountain"), "two guards at the stairs' foot, the 司事 and the 天邪虎 at the pavilion (world_counts.json)")
 	_check(map.select_landmark(&"waterfog.wpath2.landmark.stone"), "the stone tablet selected")
 	hud.refresh_live_state()
 	_check(not hud.portal_action_is_enabled(), "nothing to do with it but look")
@@ -245,7 +246,7 @@ func _test_elite_guard(tree: SceneTree, session: WorldSessionController) -> void
 	await tree.physics_frame
 	await tree.physics_frame
 	var map: WorldMapController = session.active_map() as WorldMapController
-	_check(map.resident_npcs().size() == 7, "four 红衣武士 and three elders upstairs")
+	_check(map.resident_npcs().size() == WorldCounts.of("map_npcs", "waterfog.upstairs"), "four 红衣武士 and three elders upstairs (world_counts.json)")
 	var guard: NpcRuntimeState = null
 	for npc: NpcRuntimeState in map.resident_npcs():
 		if guard == null and npc.definition().definition_id == &"waterfog.npc.elite_guard" and npc.world_location().zone_id == &"waterfog.west_2f":
