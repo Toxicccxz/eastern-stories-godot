@@ -27,8 +27,6 @@ const LAYER: int = 60
 const WINDOW_SIZE: Vector2 = Vector2(920, 600)
 # TRANSLATORS: the 声望 tab until reputation is built (ROADMAP step 6).
 const STANDING_PLACEHOLDER: String = "江湖上对你的看法，日后会记在这里。"
-# TRANSLATORS: the 百科 tab until its entries are built (the next UI package).
-const CODEX_PLACEHOLDER: String = "百科尚在编纂，日后会收录武学、物品、门派、人物与江湖常识。"
 # TRANSLATORS: the 系统 tab during a fight: the other tabs wait until it is over.
 const FIGHT_HINT: String = "战斗中只能使用系统功能。"
 
@@ -57,7 +55,7 @@ var _return_focus: WeakRef
 var _switching: bool = false
 
 
-func build(ui: SharedGameplayUI, character_page: Control, arts_page: Control, inventory_page: Control, journal_page: Control) -> void:
+func build(ui: SharedGameplayUI, character_page: Control, arts_page: Control, inventory_page: Control, journal_page: Control, codex_page: Control) -> void:
 	_ui = ui
 	name = "GameMenu"
 	layer = LAYER
@@ -139,9 +137,7 @@ func build(ui: SharedGameplayUI, character_page: Control, arts_page: Control, in
 	system_mount.add_child(fight_hint)
 	var standing := _placeholder(STANDING_PLACEHOLDER)
 	standing.name = "StandingPage"
-	var codex := _placeholder(CODEX_PLACEHOLDER)
-	codex.name = "CodexPage"
-	for page: Control in [character_page, arts_page, inventory_page, journal_page, standing, codex, system_mount]:
+	for page: Control in [character_page, arts_page, inventory_page, journal_page, standing, codex_page, system_mount]:
 		if page.get_parent() != null:
 			page.reparent(page_rows, false)
 		else:
@@ -326,12 +322,15 @@ func show_tab(tab: int) -> void:
 	tab_shown.emit(tab)
 
 
-## Keys and pad start on the page's first control (a 背包 row, a 武学 button, 继续), or on
-## its tab when the page has none (角色, 任务).
+## Keys and pad start on the page's first control (a 背包 row, a 武学 button, a 百科
+## section, 继续), or on its tab when the page has none (角色, 任务).
 func focus_page() -> void:
 	if not visible or _current < 0 or _current >= pages.size():
 		return
-	if not FocusNav.give(FocusNav.first_focusable(pages[_current])):
+	var page: Control = pages[_current]
+	# A page may say where it starts (百科: the section or the entry it shows).
+	var target: Control = page.call(&"focus_target") if page.has_method(&"focus_target") else FocusNav.first_focusable(page)
+	if not FocusNav.give(target):
 		FocusNav.give(tab_buttons[_current])
 
 

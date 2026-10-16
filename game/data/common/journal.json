@@ -1,0 +1,686 @@
+{
+	"journal_chains": [
+		{
+			"id": "snow.wei_wuji",
+			"title": "魏无极",
+			"region": "雪亭镇",
+			"sources": ["d/snow/npc/teacher.c"],
+			"entries": [
+				{
+					"id": "asked_fee",
+					"when": { "heard": { "npc": "snow.npc.teacher", "topic": "学费" } },
+					"text": "你向雪亭镇书院的魏无极打听学费。",
+					"quote": { "npc": "snow.npc.teacher", "topic": "学费" }
+				},
+				{
+					"id": "paid",
+					"when": { "mark": "魏无极" },
+					"text": "你交给魏无极学费，他点头说从今天起你随时可以去问他读书识字的学问。"
+				}
+			]
+		},
+		{
+			"id": "snow.weapon_storage",
+			"title": "兵器储藏室",
+			"region": "雪亭镇",
+			"sources": ["d/snow/weapon_storage.c", "d/snow/secret_storage.c", "d/snow/obj/shield.c"],
+			"entries": [
+				{
+					"id": "shield",
+					"when": { "item": "es2:d/snow/obj/shield" },
+					"text": "你在兵器储藏室底下的地下密室里拾到一面牛皮盾。"
+				}
+			]
+		},
+		{
+			"id": "green.jade",
+			"title": "玉佩",
+			"region": "青石村",
+			"sources": ["d/green/npc/oldman2.c", "d/snow/npc/drunk.c", "d/green/npc/shen.c", "d/green/obj/jade.c", "obj/slumber_drug.c"],
+			"entries": [
+				{
+					"id": "elder",
+					"when": { "mark": "elder_info" },
+					"text": "你向青石村的村长打听玉佩。",
+					"quote": { "npc": "green.npc.oldman2", "topic": "玉佩" }
+				},
+				{
+					"id": "drunk_jade",
+					"when": { "mark": "give_alcohol" },
+					"text": "你给雪亭镇的醉汉送酒，他悄声说：玉佩他卖给沈老板了，那东西不吉祥。"
+				},
+				{
+					"id": "drunk_drug",
+					"when": { "mark": "know_drug" },
+					"text": "你又给醉汉送酒，他悄声说：听说沈记商行有在卖蒙汗药。"
+				},
+				{
+					"id": "jade",
+					"when": { "item": "es2:d/green/obj/jade" },
+					"text": "你向沈记商行的沈万年问起玉佩，得到了那块刻著行气口诀的玉佩。"
+				},
+				{
+					"id": "drug_price",
+					"when": { "mark": "can_buy_drug" },
+					"text": "你向沈万年打听蒙汗药，他悄声说一份只要十两银子，保证有效。"
+				},
+				{
+					"id": "drug",
+					"when": { "item": "es2:obj/slumber_drug" },
+					"text": "你付给沈万年十两银子，他塞给你一包蒙汗药。"
+				}
+			]
+		},
+		{
+			"id": "green.maze",
+			"title": "迷阵",
+			"region": "青石村",
+			"sources": ["d/green/entrance.c", "d/green/eight7.c", "d/green/closed.c", "d/green/water.c", "d/green/obj/windsword.c"],
+			"entries": [
+				{
+					"id": "through",
+					"when": { "mark": "八卦阵" },
+					"text": "你依着路牌穿过了山路尽头的迷阵。"
+				},
+				{
+					"id": "windsword",
+					"when": { "item": "es2:d/green/obj/windsword" },
+					"text": "你跳入溪水中仔细寻找，竟从水中找出一把追风剑。"
+				}
+			]
+		},
+		{
+			"id": "oldpine.skeleton",
+			"title": "山洞里的骸骨",
+			"region": "老松岭",
+			"sources": ["d/oldpine/cave5.c", "d/oldpine/npc/skeleton.c", "d/oldpine/npc/obj/parrybook.c"],
+			"entries": [
+				{
+					"id": "buried",
+					"when": { "item": "es2:d/oldpine/npc/obj/parrybook" },
+					"text": "你在瀑布旁的山洞里埋好了那具骸骨，洞顶石壁「喀喇」一响，坠下一本过招要旨。"
+				}
+			]
+		},
+		{
+			"id": "cloud.toll",
+			"title": "买路钱",
+			"region": "绮云镇",
+			"sources": ["u/cloud/npc/gangster.c", "u/cloud/dragonhill/hummock.c"],
+			"entries": [
+				{
+					"id": "asked",
+					"when": { "heard": { "npc": "cloud.npc.gangster", "topic": "买路钱" } },
+					"text": "你向卧龙岗的强盗问起买路钱。",
+					"quote": { "npc": "cloud.npc.gangster", "topic": "买路钱" }
+				},
+				{
+					"id": "paid",
+					"when": { "mark": "强盗" },
+					"text": "你交给卧龙岗的强盗十两金子，他收下钱，说今天做个善人，放你一条生路。"
+				}
+			]
+		},
+		{
+			"id": "cloud.li_shishi",
+			"title": "李师师",
+			"region": "绮云镇",
+			"sources": ["u/cloud/npc/girl.c"],
+			"entries": [
+				{
+					"id": "asked",
+					"when": { "heard": { "npc": "cloud.npc.girl", "topic": "学艺" } },
+					"text": "你在怡红院二楼向李师师请教学艺。",
+					"quote": { "npc": "cloud.npc.girl", "topic": "学艺" }
+				},
+				{
+					"id": "keepsake",
+					"when": { "mark": "李师师" },
+					"text": "你留给李师师一件信物，她说：能做相公的老师，真是三生有幸。"
+				}
+			]
+		},
+		{
+			"id": "cloud.chess",
+			"title": "弈者",
+			"region": "绮云镇",
+			"sources": ["u/cloud/npc/chess_player.c", "u/cloud/obj/npc/chess_player/chess.c"],
+			"entries": [
+				{
+					"id": "played",
+					"when": { "heard": { "npc": "cloud.npc.chess_player", "topic": "下棋" } },
+					"text": "你在香茗坊二楼和弈者下了一盘棋。"
+				},
+				{
+					"id": "chess",
+					"when": { "item": "es2:u/cloud/obj/npc/chess_player/chess" },
+					"text": "你得到了弈者的棋子，一种较轻的暗器。"
+				}
+			]
+		},
+		{
+			"id": "cloud.wangyou_grass",
+			"title": "忘忧草",
+			"region": "绮云镇",
+			"sources": ["u/cloud/npc/b_header.c", "u/cloud/npc/obj/letter.c", "d/choyin/npc/crone.c", "d/choyin/npc/visitor.c", "d/choyin/w_street1.c", "d/choyin/lionroom.c", "d/choyin/npc/lion.c", "d/choyin/obj/grass.c", "d/city/npc/chen.c"],
+			"entries": [
+				{
+					"id": "uncle",
+					"when": { "heard": { "npc": "cloud.npc.b_header", "topic": "陈天星" } },
+					"text": "你向振远镖局的陈剑秋问起陈天星。",
+					"quote": { "npc": "cloud.npc.b_header", "topic": "陈天星" }
+				},
+				{
+					"id": "lost",
+					"when": { "heard": { "npc": "cloud.npc.b_header", "topic": "忘忧草" } },
+					"text": "你向陈剑秋问起忘忧草。",
+					"quote": { "npc": "cloud.npc.b_header", "topic": "忘忧草" }
+				},
+				{
+					"id": "crone",
+					"when": { "heard": { "npc": "choyin.npc.crone", "topic": "忘忧草" } },
+					"text": "你向乔阴县城的乾瘪老太婆打听忘忧草。",
+					"quote": { "npc": "choyin.npc.crone", "topic": "忘忧草" }
+				},
+				{
+					"id": "visitor",
+					"when": { "heard": { "npc": "choyin.npc.visitor", "topic": "忘忧草" } },
+					"text": "你向乔阴县城的游客打听忘忧草。",
+					"quote": { "npc": "choyin.npc.visitor", "topic": "忘忧草" }
+				},
+				{
+					"id": "grass",
+					"when": { "item": "es2:d/choyin/obj/grass" },
+					"text": "护草神兽倒下后，你在神秘洞穴里得到一棵发着晶莹光芒的忘忧草。"
+				},
+				{
+					"id": "letter",
+					"when": { "item": "es2:u/cloud/npc/obj/letter" },
+					"text": "你把忘忧草交给陈剑秋，他大喜过望，提笔写好一封信交给你，嘱咐你路上小心，把信直接交给陈师叔。"
+				},
+				{
+					"id": "chen",
+					"when": { "heard": { "npc": "city.npc.chen", "topic": "拜师" } },
+					"text": "你在京师振远总局向陈天星请教拜师。",
+					"quote": { "npc": "city.npc.chen", "topic": "拜师" }
+				}
+			]
+		},
+		{
+			"id": "latemoon.funlin",
+			"title": "芳绫",
+			"region": "晚月庄",
+			"sources": ["d/latemoon/npc/yumay.c", "d/latemoon/npc/shaowei.c", "d/latemoon/bamboo4.c", "d/latemoon/obj/bamboo.c", "d/latemoon/obj/dragonfly.c", "d/latemoon/npc/funlin.c", "d/latemoon/latemoon2.c", "d/latemoon/obj/bracelet.c"],
+			"entries": [
+				{
+					"id": "heard_funlin",
+					"when": { "heard": { "npc": "latemoon.npc.yumay", "topic": "芳绫" } },
+					"text": "你向傍厅的蓝雨梅问起芳绫。",
+					"quote": { "npc": "latemoon.npc.yumay", "topic": "芳绫" }
+				},
+				{
+					"id": "heard_dragonfly",
+					"when": { "heard": { "npc": "latemoon.npc.shaowei", "topic": "竹蜻蜓" } },
+					"text": "你向蓝筱薇问起竹蜻蜓。",
+					"quote": { "npc": "latemoon.npc.shaowei", "topic": "竹蜻蜓" }
+				},
+				{
+					"id": "bamboo",
+					"when": { "temp": "moon/竹子" },
+					"text": "你把一根竹子交给蓝筱薇，她看了看说是根玉竹，便灵巧地削凿起来。"
+				},
+				{
+					"id": "dragonfly",
+					"when": { "item": "es2:d/latemoon/obj/dragonfly" },
+					"text": "蓝筱薇把做好的竹蜻蜓递给了你。"
+				},
+				{
+					"id": "gift",
+					"when": { "temp": "moon/竹蜻蜓" },
+					"text": "你把竹蜻蜓送给禁闭房里的芳绫，她开心地把玩，在你耳边小声说：『庄内前厅某处藏有一宝物手镯哦！』"
+				},
+				{
+					"id": "bracelet",
+					"when": { "temp": "latemoon/手镯" },
+					"text": "你从内厅的碧纱橱里取出一串玛瑙手镯。"
+				}
+			]
+		},
+		{
+			"id": "latemoon.dances",
+			"title": "晚月庄的舞步",
+			"region": "晚月庄",
+			"sources": ["d/latemoon/npc/yumay.c", "d/latemoon/npc/girl.c", "d/latemoon/latebook.c", "d/latemoon/latemoon8.c", "d/latemoon/miroom.c", "d/latemoon/obj/hankie.c", "d/latemoon/upstar/npc/shinfun.c", "d/latemoon/obj/book.c"],
+			"entries": [
+				{
+					"id": "dance_out",
+					"when": { "mark": "dance_out" },
+					"text": "你记下了一曲舞步『西出阳关』。"
+				},
+				{
+					"id": "dance_yu_fong",
+					"when": { "mark": "dance_yu_fong" },
+					"text": "你记下了一曲舞步『有凤来仪』。"
+				},
+				{
+					"id": "hankie",
+					"when": { "item": "es2:d/latemoon/obj/hankie" },
+					"text": "你在一间密室里拾到一卷丝罗巾，上面绣着一幅幅翩然起舞的美女图。"
+				},
+				{
+					"id": "asked_book",
+					"when": { "mark": "dance-book" },
+					"text": "你在翠湘阁向莫欣芳问起舞曲谱。",
+					"quote": { "npc": "latemoon.npc.upstar.shinfun", "topic": "舞曲谱" }
+				},
+				{
+					"id": "book",
+					"when": { "item": "es2:d/latemoon/obj/book" },
+					"text": "你在密室的石床后面找到了一本舞曲谱。"
+				}
+			]
+		},
+		{
+			"id": "latemoon.old_woman",
+			"title": "无名老妇",
+			"region": "晚月庄",
+			"sources": ["d/latemoon/room/npc/old.c", "d/latemoon/room/npc/killer.c", "d/latemoon/room/npc/tguest.c", "d/latemoon/room/npc/obj/token.c", "d/latemoon/room/npc/obj/whip_book.c"],
+			"entries": [
+				{
+					"id": "trouble",
+					"when": { "heard": { "npc": "latemoon.npc.room.old", "topic": "心事" } },
+					"text": "你向内书房的无名老妇问起她的心事。",
+					"quote": { "npc": "latemoon.npc.room.old", "topic": "心事" }
+				},
+				{
+					"id": "about_token",
+					"when": { "heard": { "npc": "latemoon.npc.room.old", "topic": "令牌" } },
+					"text": "你向无名老妇问起令牌。",
+					"quote": { "npc": "latemoon.npc.room.old", "topic": "令牌" }
+				},
+				{
+					"id": "token",
+					"when": { "item": "es2:d/latemoon/room/npc/obj/token" },
+					"text": "你得到了一个黑木做的杀手令牌，上面刻著火焰的图腾标志。"
+				},
+				{
+					"id": "whip_book",
+					"when": { "item": "es2:d/latemoon/room/npc/obj/whip_book" },
+					"text": "你把杀手令牌交给无名老妇，她叹了口气，给了你一本寒雪鞭法密笈作为感谢。"
+				}
+			]
+		},
+		{
+			"id": "latemoon.secret_letter",
+			"title": "密函",
+			"region": "晚月庄",
+			"sources": ["d/latemoon/room/npc/guest.c", "d/latemoon/room/npc/obj/letter.c"],
+			"entries": [
+				{
+					"id": "letter",
+					"when": { "item": "es2:d/latemoon/room/npc/obj/letter" },
+					"text": "你得到了芙云身上的一封密函，信用蜡封著，上面有一个奇怪的图案。"
+				}
+			]
+		},
+		{
+			"id": "choyin.yam",
+			"title": "山药蛋",
+			"region": "乔阴东郊",
+			"sources": ["d/choyin/rockyu.c", "d/choyin/npc/oldman.c", "d/choyin/npc/obj/tomatoo.c"],
+			"entries": [
+				{
+					"id": "yam",
+					"when": { "temp": "choyin/山药蛋" },
+					"text": "你在青石峪遇见一位采药老者，他心疼你饿得面黄肌瘦，从小布包里拿出个山药蛋塞到你手里。"
+				}
+			]
+		},
+		{
+			"id": "choyin.hermit_books",
+			"title": "草堂的书",
+			"region": "乔阴东郊",
+			"sources": ["d/choyin/club.c", "d/choyin/npc/obj/book1.c", "d/choyin/npc/obj/book2.c"],
+			"entries": [
+				{
+					"id": "took",
+					"when": { "temp": "choyin/书" },
+					"text": "你在隐士的草堂里趁人不备，从矮几上抓起一本书藏入怀中。"
+				}
+			]
+		},
+		{
+			"id": "choyin.peach_chest",
+			"title": "桃木箱",
+			"region": "乔阴县城",
+			"sources": ["d/choyin/npc/sergeant.c", "d/choyin/tree_tomb.c", "d/choyin/tomb3.c", "d/choyin/obj/chest.c", "d/choyin/obj/magic_book.c"],
+			"entries": [
+				{
+					"id": "rumors",
+					"when": { "heard": { "npc": "choyin.npc.sergeant", "topic": "rumors" } },
+					"text": "你向福林酒楼里的武官打听传闻。",
+					"quote": { "npc": "choyin.npc.sergeant", "topic": "rumors" }
+				},
+				{
+					"id": "chest",
+					"when": { "item": "es2:d/choyin/obj/chest" },
+					"text": "你在树王坟内部找到一个刻工精细的桃木箱。"
+				},
+				{
+					"id": "book",
+					"when": { "item": "es2:d/choyin/obj/magic_book" },
+					"text": "你把桃木箱还给武官，他说出门在外没带太多银两，送你一本古书「白杨经」作为报答。"
+				}
+			]
+		},
+		{
+			"id": "choyin.silk_bag",
+			"title": "荷包",
+			"region": "乔阴县城",
+			"sources": ["d/choyin/npc/youngman.c", "d/choyin/npc/girl.c", "d/choyin/npc/obj/silk_bag.c"],
+			"entries": [
+				{
+					"id": "trouble",
+					"when": { "heard": { "npc": "choyin.npc.youngman", "topic": "心事" } },
+					"text": "你在福林酒楼二楼向贵公子问起他的心事。",
+					"quote": { "npc": "choyin.npc.youngman", "topic": "心事" }
+				},
+				{
+					"id": "bag",
+					"when": { "item": "es2:d/choyin/npc/obj/silk_bag" },
+					"text": "你向曲桥上的官家小姐提起游晋，她吞吞吐吐地托你把一个紫罗鸳鸯荷包交给游公子。"
+				}
+			]
+		},
+		{
+			"id": "choyin.windspring",
+			"title": "风泉之剑",
+			"region": "乔阴县城",
+			"sources": ["daemon/class/scholar/master.c", "daemon/class/scholar/windspring.c", "daemon/class/scholar/sword_soul.c"],
+			"entries": [
+				{
+					"id": "soul",
+					"when": { "seen": "common.npc.scholar.sword_soul" },
+					"text": "骆云舟死后，风泉之剑掉落在地，又飘了起来，一个人形忽然浮现，手中正握著风泉之剑。"
+				},
+				{
+					"id": "sword",
+					"when": { "item": "es2:daemon/class/scholar/windspring" },
+					"text": "你得到了步玄派历代相传的掌门信物——风泉之剑。"
+				}
+			]
+		},
+		{
+			"id": "choyin.taolin",
+			"title": "桃林",
+			"region": "乔阴县城",
+			"sources": ["daemon/class/scholar/master.c", "d/choyin/entrance.c", "d/choyin/taolin.c"],
+			"entries": [
+				{
+					"id": "sent",
+					"when": { "mark": "书生" },
+					"text": "你向骆云舟拜师，他说：你还是先走一趟东边的桃林吧。"
+				},
+				{
+					"id": "out",
+					"when": { "mark": "桃林" },
+					"text": "你读着树上的字条找路，走出了曼雩台东边的桃林。"
+				}
+			]
+		},
+		{
+			"id": "guye.mountain",
+			"title": "姑射山",
+			"region": "姑射山",
+			"sources": ["d/choyin/guyehill.c", "d/choyin/halfhole.c", "d/choyin/obj/goldenrope.c", "d/choyin/platform.c", "d/choyin/npc/lboy.c", "d/choyin/stove.c", "d/choyin/obj/tablet.c", "d/choyin/hollow3.c", "d/choyin/obj/orchid.c"],
+			"entries": [
+				{
+					"id": "rope",
+					"when": { "item": "es2:d/choyin/obj/goldenrope" },
+					"text": "你在绝壁上的山洞里得到一条金丝编成、刻满咒文的缚仙绳。"
+				},
+				{
+					"id": "immortal",
+					"when": { "heard": { "npc": "choyin.npc.lboy", "topic": "仙人" } },
+					"text": "你在云台向紫衣童子问起仙人。",
+					"quote": { "npc": "choyin.npc.lboy", "topic": "仙人" }
+				},
+				{
+					"id": "pill",
+					"when": { "item": "es2:d/choyin/obj/tablet" },
+					"text": "你在丹炉里得到了仙丹。"
+				},
+				{
+					"id": "orchid",
+					"when": { "item": "es2:d/choyin/obj/orchid" },
+					"text": "你在寒谷尽头采到一株寒谷幽兰，淡淡的香气似乎在哪里闻到过。"
+				}
+			]
+		},
+		{
+			"id": "canyon.camp",
+			"title": "军营",
+			"region": "天驼关",
+			"sources": ["d/canyon/npc/captain.c", "d/canyon/camp7.c", "d/canyon/npc/vice_general.c"],
+			"entries": [
+				{
+					"id": "history",
+					"when": { "heard": { "npc": "canyon.npc.captain", "topic": "黄石隘口" } },
+					"text": "你向大队长打听黄石隘口，他讲起二十多年前先帝调大将军们驻守隘口的往事。"
+				},
+				{
+					"id": "permission",
+					"when": { "heard": { "npc": "canyon.npc.captain", "topic": "允许" } },
+					"text": "你向大队长问起允许。",
+					"quote": { "npc": "canyon.npc.captain", "topic": "允许" }
+				},
+				{
+					"id": "listed",
+					"when": { "mark": "军营" },
+					"text": "你前后交给大队长三十两银子，他把你列入名册，说从今天起你可以自由出入营区。"
+				}
+			]
+		},
+		{
+			"id": "canyon.seal",
+			"title": "印鉴",
+			"region": "天驼关",
+			"sources": ["d/canyon/npc/general.c", "d/canyon/npc/captain.c", "d/canyon/npc/adviser.c", "d/canyon/canyon4.c", "d/canyon/blackmarket.c", "d/canyon/npc/seller.c", "d/canyon/npc/obj/fake_seal.c", "d/canyon/npc/obj/seal.c", "d/canyon/npc/obj/old_sword.c"],
+			"entries": [
+				{
+					"id": "asked_general",
+					"when": { "heard": { "npc": "canyon.npc.general", "topic": "印鉴" } },
+					"text": "你在将军营帐向严廷殷打听印鉴。",
+					"quote": { "npc": "canyon.npc.general", "topic": "印鉴" }
+				},
+				{
+					"id": "asked_captain",
+					"when": { "heard": { "npc": "canyon.npc.captain", "topic": "兵器库" } },
+					"text": "你向大队长打听兵器库。",
+					"quote": { "npc": "canyon.npc.captain", "topic": "兵器库" }
+				},
+				{
+					"id": "asked_adviser",
+					"when": { "heard": { "npc": "canyon.npc.adviser", "topic": "兵器库" } },
+					"text": "你向军师赫造基打听兵器库。",
+					"quote": { "npc": "canyon.npc.adviser", "topic": "兵器库" }
+				},
+				{
+					"id": "secret",
+					"when": { "temp": "军营/swear" },
+					"text": "你交给军师赫造基八两银子，他告诉你一项秘密：在那片光滑的山壁前发誓「我爱……」，或许可以发现奇特的事。"
+				},
+				{
+					"id": "armory",
+					"when": { "seen": "canyon.npc.seller" },
+					"text": "你在光滑的山壁前发了誓，一阵强光轰隆过后，来到一处兵器库，见到一名后备兵。"
+				},
+				{
+					"id": "bought",
+					"when": { "temp": "Get_seal" },
+					"text": "你交给后备兵三两黄金，他说你不愧是武林中人，一眼就看出端倪，用一方印鉴和你交换。"
+				},
+				{
+					"id": "kicked",
+					"when": { "temp": "将军/kick" },
+					"text": "你把那方印鉴交给严廷殷，他喝道别想拿这种东西来骗他，把你赶到了营火区。"
+				},
+				{
+					"id": "real_seal",
+					"when": { "item": "es2:d/canyon/npc/obj/seal" },
+					"text": "后备兵见被你识破，只好认栽，换给你一方泛著黄光的印鉴。"
+				},
+				{
+					"id": "old_sword",
+					"when": { "item": "es2:d/canyon/npc/obj/old_sword" },
+					"text": "你把印鉴交给严廷殷，他连声道谢，送你一把古剑作为报酬。"
+				}
+			]
+		},
+		{
+			"id": "canyon.bamboo",
+			"title": "竹林道",
+			"region": "天驼关",
+			"sources": ["d/canyon/stone_forest3.c", "d/canyon/bamboo/bamboo3.c", "d/canyon/bamboo/train.c", "d/canyon/bamboo/obj/slipcase.c", "d/canyon/bamboo/obj/parry_book.c"],
+			"entries": [
+				{
+					"id": "slipcase",
+					"when": { "item": "es2:d/canyon/bamboo/obj/slipcase" },
+					"text": "你在洞内石室的书柜里找到一个铜制的书匣。"
+				},
+				{
+					"id": "book",
+					"when": { "item": "es2:d/canyon/bamboo/obj/parry_book" },
+					"text": "书匣里是一本《悟疾风劲竹书》，书末署名柳淳风。"
+				}
+			]
+		},
+		{
+			"id": "village.melon",
+			"title": "瓜地",
+			"region": "玉螺湖村",
+			"sources": ["d/village/melonfarm.c", "d/village/npc/meloner.c"],
+			"entries": [
+				{
+					"id": "caught",
+					"when": { "temp": "melon/catch_thief" },
+					"text": "你在瓜地里摘西瓜，被瓜农逮了个正着。"
+				}
+			]
+		},
+		{
+			"id": "village.lake",
+			"title": "玉螺湖",
+			"region": "玉螺湖村",
+			"sources": ["d/village/lakeside.c", "d/village/lake.c", "d/village/lakebottom1.c", "d/village/lakebottom2.c", "d/village/npc/dragon.c", "d/village/npc/fisher.c"],
+			"entries": [
+				{
+					"id": "dragons",
+					"when": { "seen": "village.npc.dragon" },
+					"text": "你在湖底的水下岩洞里撞见了浑身长满白鳞的冰龙。"
+				}
+			]
+		},
+		{
+			"id": "chuenyu.xiaojuan",
+			"title": "小娟",
+			"region": "黑松山",
+			"sources": ["d/village/npc/oldliu.c", "d/village/npc/flowergirl.c", "d/chuenyu/npc/cleangirl.c", "d/chuenyu/dungeon.c", "d/chuenyu/xiaojuan2.c", "d/village/npc/obj/hengbing.c", "d/village/npc/obj/parrybook.c"],
+			"entries": [
+				{
+					"id": "asked_village",
+					"when": { "heard": { "npc": "village.npc.flowergirl", "topic": "小娟" } },
+					"text": "你向玉螺湖村的采花妞打听小娟。",
+					"quote": { "npc": "village.npc.flowergirl", "topic": "小娟" }
+				},
+				{
+					"id": "asked_castle",
+					"when": { "heard": { "npc": "chuenyu.npc.cleangirl", "topic": "小娟" } },
+					"text": "你向黑松堡的女佣人打听小娟。",
+					"quote": { "npc": "chuenyu.npc.cleangirl", "topic": "小娟" }
+				},
+				{
+					"id": "found",
+					"when": { "seen": "chuenyu.npc.xiaojuan2" },
+					"text": "你在黑松堡地牢的刑房里见到了刘老农的女儿小娟，她已被折磨得遍体鳞伤。"
+				},
+				{
+					"id": "follows",
+					"when": { "mark": "老刘" },
+					"text": "小娟从绳索里挣脱出来，跟着你走了。"
+				},
+				{
+					"id": "sword",
+					"when": { "item": "es2:d/village/npc/obj/hengbing" },
+					"text": "你从刘老农那里得到了一柄銮鱼衡冰。"
+				},
+				{
+					"id": "murder",
+					"when": { "mark": "murder" },
+					"text": "小娟死在了你的手里。"
+				},
+				{
+					"id": "revenge",
+					"when": { "mark": "老刘报仇" },
+					"text": "刘老农得知你杀了他的女儿，悲愤欲绝，要找你拼命。"
+				}
+			]
+		},
+		{
+			"id": "city.tavern",
+			"title": "太白酒楼",
+			"region": "京师",
+			"sources": ["d/city/jiulou.c", "d/city/npc/waiter.c"],
+			"entries": [
+				{
+					"id": "tipped",
+					"when": { "mark": "酒楼" },
+					"text": "你赏了太白酒楼的店小二十两银子，他笑着道谢。"
+				}
+			]
+		},
+		{
+			"id": "city.shangshu",
+			"title": "尚书府",
+			"region": "京师",
+			"sources": ["d/city/npc/walker.c", "d/city/shangshu/gate.c", "d/city/shangshu/npc/guard.c"],
+			"entries": [
+				{
+					"id": "office",
+					"when": { "heard": { "npc": "city.npc.walker", "topic": "买官" } },
+					"text": "你向京师的行人问起买官。",
+					"quote": { "npc": "city.npc.walker", "topic": "买官" }
+				},
+				{
+					"id": "porter",
+					"when": { "mark": "尚书" },
+					"text": "你塞给尚书府的门房三两黄金，他说：这位大人，里面请！"
+				}
+			]
+		},
+		{
+			"id": "city.token",
+			"title": "出城令牌",
+			"region": "京师",
+			"sources": ["d/city/npc/guard.c", "d/city/feiyuan.c", "d/city/obj/token.c"],
+			"entries": [
+				{
+					"id": "asked",
+					"when": { "heard": { "npc": "city.npc.guard", "topic": "出城" } },
+					"text": "你向京师守城兵问起出城。",
+					"quote": { "npc": "city.npc.guard", "topic": "出城" }
+				},
+				{
+					"id": "found",
+					"when": { "item": "es2:d/city/obj/token" },
+					"text": "你在废园的草丛里找到一块遗失多年的出城令牌。"
+				},
+				{
+					"id": "shown",
+					"when": { "mark": "令牌" },
+					"text": "你把令牌交给京师守城兵，他连忙说：原来是官府中人。"
+				}
+			]
+		}
+	]
+}

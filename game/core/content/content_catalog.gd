@@ -33,6 +33,8 @@ var _loadout_item_definitions: Array[NpcLoadoutItemDefinition] = []
 var _loadout_items_built: bool = false
 var _skills: Dictionary[StringName, SkillDefinition] = {}
 var _families: Dictionary[StringName, FamilyDefinition] = {}
+var _journal_chains: Array[JournalChainDefinition] = []
+var _codex_topics: Array[CodexTopicDefinition] = []
 var _combat_actions: CombatActionTables = CombatActionTables.new()
 var _quest_tiers: Array[QuestTier] = []
 var _quest_targets: Dictionary[String, bool] = {}
@@ -163,6 +165,22 @@ func family_named(display_name: String) -> FamilyDefinition:
 		if definition.display_name == display_name:
 			return definition
 	return null
+
+
+## Called once by ContentCatalogBuilder.
+func set_journal(chains: Array[JournalChainDefinition], topics: Array[CodexTopicDefinition]) -> void:
+	_journal_chains = chains.duplicate()
+	_codex_topics = topics.duplicate()
+
+
+## The 任务 page's story chains (journal.json), in authored order.
+func journal_chains() -> Array[JournalChainDefinition]:
+	return _journal_chains
+
+
+## The 百科's 江湖常识 (codex.json), in authored order.
+func codex_topics() -> Array[CodexTopicDefinition]:
+	return _codex_topics
 
 
 ## Called once by ContentCatalogBuilder.

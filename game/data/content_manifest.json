@@ -7,6 +7,8 @@
 		"common/families.json",
 		"common/npcs.json",
 		"common/quests.json",
+		"common/journal.json",
+		"common/codex.json",
 		"oldpine/items.json",
 		"oldpine/npcs.json",
 		"oldpine/spawns.json",

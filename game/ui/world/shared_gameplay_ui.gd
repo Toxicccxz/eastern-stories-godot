@@ -55,6 +55,11 @@ var supplies_mount: VBoxContainer
 var journal_page: VBoxContainer
 ## 任务: quest.c's lines for 朱鸿雪's task.
 var quest_text: Label
+## 任务: the story chains recorded (JournalLog).
+var journal_stories: JournalStories
+var codex_page: CodexPage
+## How many entries the 任务 page showed when it was filled last.
+var _journal_shown: int = -1
 var inspection_text: RichTextLabel
 var combat_log: RichTextLabel
 var loot_panel: OldPineLootPanel
@@ -503,12 +508,17 @@ func _build_menu() -> void:
 	# quest.c's lines, already in the shown language.
 	quest_text.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	journal_page.add_child(quest_text)
+	_heading(journal_page, "江湖见闻")
+	journal_stories = JournalStories.new()
+	journal_page.add_child(journal_stories)
 	_heading(journal_page, "消息记录")
 	_presentation_layout.messages.reparent(journal_page, false)
 	_presentation_layout.messages.show()
 	menu = GameMenu.new()
 	add_child(menu)
-	menu.build(self, character_sheet, arts_page, inventory_page, journal_page)
+	codex_page = CodexPage.new()
+	codex_page.blocked = func() -> bool: return _presentation_layout.frame.visible
+	menu.build(self, character_sheet, arts_page, inventory_page, journal_page, codex_page)
 
 
 func _heading(parent: Node, text: String) -> Label:
@@ -569,6 +579,14 @@ func menu_tab_shown(tab: int) -> void:
 			panels.show_supplies()
 		GameMenu.Tab.JOURNAL:
 			quest_text.text = "" if _player == null else "\n".join(QuestStatus.lines(_player.state.quest))
+			if _session != null:
+				_session.record_journal()
+			journal_stories.fill(null if _player == null else _player.state, _player_respect())
+			_journal_shown = -1 if _player == null else _player.state.journal.size()
+		GameMenu.Tab.CODEX:
+			if _session != null:
+				_session.record_journal()
+			codex_page.fill(null if _player == null else _player.state)
 
 
 ## Every page hides (another tab, the menu closed): the 背包 no longer counts as open.
@@ -581,7 +599,10 @@ func _refresh_menu_page() -> void:
 		GameMenu.Tab.CHARACTER, GameMenu.Tab.MARTIAL_ARTS:
 			panels.refresh_character()
 		GameMenu.Tab.JOURNAL:
-			menu_tab_shown(GameMenu.Tab.JOURNAL)
+			# quest.c's time left changes; the stories only when something new was recorded.
+			quest_text.text = "" if _player == null else "\n".join(QuestStatus.lines(_player.state.quest))
+			if _player != null and _player.state.journal.size() != _journal_shown:
+				menu_tab_shown(GameMenu.Tab.JOURNAL)
 	message_log.collect_feedback()
 
 
@@ -589,6 +610,13 @@ func _refresh_menu_page() -> void:
 func character_sheet_text() -> String:
 	panels.refresh_character()
 	return character_sheet.text()
+
+
+## How NPCs address the player (rankd.c query_respect(), as NpcInquiry asks it).
+func _player_respect() -> String:
+	if _player == null:
+		return ""
+	return tr(RankWords.query_respect(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id))
 
 
 ## The 任务 page's 朱鸿雪 lines (tests).

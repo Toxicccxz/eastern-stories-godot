@@ -17,6 +17,7 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_npc_memory()
 	_test_player_temps()
 	_test_counters_and_chant()
+	_test_journal_and_known_items()
 	return {"assertions": _assertion_count, "failures": _failures.duplicate()}
 
 
@@ -76,6 +77,34 @@ func _test_counters_and_chant() -> void:
 	_assert_false(_decode_root(root).succeeded(), "a negative note is refused")
 	root["maze_notes"] = {}
 	_assert_false(_decode_root(root).succeeded(), "empty maze_notes are refused (never written)")
+
+
+## The 任务 page's entries and the items carried (界面重构 C): written only when there are
+## some, read back exactly; a save without them (older ones) loads with none.
+func _test_journal_and_known_items() -> void:
+	var source: GameSaveSnapshot = Fixture.substantial()
+	var plain: String = GameSaveJsonCodec.encode(source).text
+	_assert_false(plain.contains("\"journal\"") or plain.contains("\"known_items\""), "nothing recorded: neither is written")
+	var player: GameSaveValueTypes.PlayerRuntimeSnapshot = source.player
+	player.character.journal = {"snow.wei_wuji/paid": 2, "green.jade/elder": 1}
+	player.character.known_items = {"es2:obj/cloth": 1}
+	var with_both := GameSaveSnapshot.new(source.metadata, source.session_kind, source.item_id_allocator, player, source.npc_spawn_states, source.corpses, source.items, source.combat_rng, source.npc_initialization_rng, source.world_interaction_rng)
+	var encoded: GameSaveResult = GameSaveJsonCodec.encode(with_both)
+	var decoded: GameSaveResult = GameSaveJsonCodec.decode(encoded.text)
+	_assert_true(encoded.succeeded() and decoded.succeeded(), "a save with journal entries and known items encodes and decodes")
+	if not decoded.succeeded():
+		return
+	_assert_eq(decoded.snapshot.player.character.journal, {"green.jade/elder": 1, "snow.wei_wuji/paid": 2}, "the entries come back with their order")
+	_assert_eq(decoded.snapshot.player.character.known_items, {"es2:obj/cloth": 1}, "the known items come back")
+	_assert_eq(GameSaveJsonCodec.encode(decoded.snapshot).text, encoded.text, "both re-encode the same")
+	var old: GameSaveResult = GameSaveJsonCodec.decode(plain)
+	_assert_true(old.succeeded() and old.snapshot.player.character.journal.is_empty() and old.snapshot.player.character.known_items.is_empty(), "a save without them loads with none")
+	var root: Dictionary = JSON.parse_string(encoded.text)
+	root["player"]["character"]["journal"] = {}
+	_assert_false(_decode_root(root).succeeded(), "an empty journal is refused (never written)")
+	root = JSON.parse_string(encoded.text)
+	root["player"]["character"]["known_items"] = {"es2:obj/cloth": "0"}
+	_assert_false(_decode_root(root).succeeded(), "an order below 1 is refused")
 
 
 ## An NPC's memory (owner, 乔阴 B): written only when it has some, its flags in name order,

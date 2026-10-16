@@ -57,6 +57,8 @@ var _recovery_random: RecoveryCadenceRandomSource
 var _player_recovery_cadence: PlayerRecoveryCadence
 var _player_timed_remainder_ms: float = 0.0
 var _quest_remainder_ms: float = 0.0
+## Real time since the 任务 page's entries were last looked for (JOURNAL_INTERVAL).
+var _journal_elapsed: float = 0.0
 ## Transient NPC streams (not in Save): heal ticks and revive delays.
 var _npc_recovery_random: RecoveryCadenceRandomSource
 var _npc_revive_random: CombatRandomSource
@@ -135,6 +137,7 @@ func _process(delta: float) -> void:
 	_advance_life_flow(world_delta)
 	_advance_reincarnation()
 	_sync_ghost_sight()
+	advance_journal(delta)
 
 
 ## The menu is open (owner, 2026-10-15, DECISIONS「菜单窗口」): world time stands still —
@@ -150,6 +153,7 @@ func _process_held(delta: float) -> void:
 		advance_departure()
 	_advance_reincarnation()
 	_sync_ghost_sight()
+	advance_journal(delta)
 
 
 ## Stops world time for `owner` until release_world_time() (the menu window). Not saved.
@@ -1518,6 +1522,41 @@ func _advance_reincarnation() -> void:
 	PlayerDeathRules.reincarnate(_player.state)
 	_reincarnations += 1
 	_refresh_ghost_sight()
+
+
+## How often (real seconds) the 任务 page's entries and the 百科's items are looked for.
+const JOURNAL_INTERVAL: float = 0.5
+
+
+## What happened is written down (JournalLog): the entries whose condition now holds and
+## the items carried, every JOURNAL_INTERVAL, world time or not (the menu's actions count).
+func advance_journal(delta: float) -> void:
+	_journal_elapsed += delta
+	if _journal_elapsed < JOURNAL_INTERVAL:
+		return
+	_journal_elapsed = 0.0
+	record_journal()
+
+
+## Looks for the entries and items now (tests; advance_journal()).
+func record_journal() -> void:
+	if not _initialized or _player == null or _player.state == null or _inventory == null or _item_index == null:
+		return
+	# What is carried, inside a carried container too (the 劲竹书 in its 书匣), by the item's
+	# own ID: a master, named, broken or eaten form counts as the item (the letter#master).
+	var held: Dictionary[StringName, bool] = {}
+	var open: Array[ContainmentEndpoint] = [ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)]
+	while not open.is_empty():
+		for item_id: StringName in _inventory.direct_children(open.pop_back()):
+			var item: ItemInstance = _item_index.resolve(item_id) if _inventory.is_registered(item_id) else null
+			if item == null:
+				continue
+			var base := StringName(String(item.item_definition_id).get_slice("#", 0))
+			if GameContent.catalog().item(base) != null:
+				held[base] = true
+			open.append(ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, item_id))
+	JournalLog.note_items(_player.state, held)
+	JournalLog.record(_player.state, _player.temp_marks, held, GameContent.catalog().journal_chains())
 
 
 ## 阴阳眼 began or ended (in a fight, on the 武学 page, on world time, from a save): the

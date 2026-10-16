@@ -322,8 +322,32 @@ def _unescape_scene(value: str) -> str:
 
 
 def extract_content(document: object, relative: str, catalog: Catalog) -> None:
+    if isinstance(document, dict) and ("journal_chains" in document or "codex_topics" in document):
+        _extract_journal(document, relative, catalog)
+        return
     for record in _records(document):
         _walk_json(record, relative, str(record.get("id", "")), catalog)
+
+
+def _extract_journal(document: dict, relative: str, catalog: Catalog) -> None:
+    """The 任务 page's chains (title, region, entry texts) and the 百科's topics (title, paragraphs)."""
+    for chain in document.get("journal_chains", []):
+        chain_id = str(chain.get("id", ""))
+        for key in ("title", "region"):
+            if isinstance(chain.get(key), str):
+                catalog.add(chain[key], relative, note=f"{chain_id} {key}")
+        for entry in chain.get("entries", []):
+            if isinstance(entry.get("text"), str):
+                catalog.add(entry["text"], relative, note=f"{chain_id}/{entry.get('id', '')} text")
+    for topic in document.get("codex_topics", []):
+        topic_id = str(topic.get("id", ""))
+        if isinstance(topic.get("title"), str):
+            catalog.add(topic["title"], relative, note=f"{topic_id} title")
+        for paragraph in topic.get("paragraphs", []):
+            if isinstance(paragraph, dict):
+                paragraph = paragraph.get("heading")
+            if isinstance(paragraph, str):
+                catalog.add(paragraph, relative, note=f"{topic_id} paragraphs")
 
 
 def _records(document: object) -> list[dict]:

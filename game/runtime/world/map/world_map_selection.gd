@@ -335,6 +335,9 @@ func ask_selected(topic: String) -> Array[String]:
 		target.forget_topic(forgotten)
 	for mark: String in answer.marks:
 		_player.state.marks[mark] = 1
+	# What was said goes on the 任务 page (an NPC out cold, or one that does not know, says nothing).
+	if answer.answered and target.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
+		JournalLog.heard(_player.state, target.definition().definition_id, NpcInquiry.asked_key(target.definition(), topic), GameContent.catalog().journal_chains())
 	for temp: String in answer.temps:
 		_player.temp_marks[temp] = 1
 	if not answer.hands_over.is_empty():

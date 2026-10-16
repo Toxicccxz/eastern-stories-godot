@@ -4,12 +4,13 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**界面重构 B** (`phase/ui-pad`, DECISIONS「手柄」): ROADMAP "After the grey box" step 2, which the
-owner put before step 1. A (the menu window, PR #124) is merged. B adds the gamepad beside mouse,
-keys and touch: the input map, focus on every panel (and back when it closes), the HUD's nearby list
-by pad, LB/RB tabs, Start = menu, Back = 系统, the battle's LB/RB/Y/B, button glyphs that follow the
-input in use, 随机名字 on New Game. Next: C (the 任务 journal's story chains and the 百科); step 1
-(responsiveness) after them.
+**界面重构 C** (`phase/ui-journal`, DECISIONS「任务日志与百科」): ROADMAP "After the grey box" step 2,
+which the owner put before step 1. A (the menu window, #124) and B (gamepad, #125) are merged. C
+fills the last two tabs: 任务 gets 江湖见闻, 29 story chains whose entries are recorded the first
+time they happen (marks, temp marks, items carried, people met, answers heard) and kept in the save,
+only what happened and what NPCs said; 百科 gets 江湖常识 (20 ES2 help files for players, with the
+game's button names) and the skills learned, items carried, families and people met. Next: step 1
+(responsiveness); 声望 stays a placeholder until step 6.
 
 ## 待决定
 
