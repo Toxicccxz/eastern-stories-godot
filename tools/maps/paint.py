@@ -92,14 +92,19 @@ def paint_map(region: Region, entry: dict, notes: list | None = None) -> str:
     style = scene['style']
     drawn = TECHNIQUES[entry['draw']['technique']](region, entry)
     backdrop = None
-    if entry['draw'].get('base') in standard.STANDARD['trimmed_bases']:
-        standard.trim_filler(drawn.tiles, entry['draw']['base'])
+    if entry['draw'].get('base') in standard.STANDARD['trimmed_bases'] and scene['style'] == 'map':
+        zones = [v[:4] for v in entry['draw'].get('zones', {}).values() if isinstance(v, list)]
+        standard.trim_filler(drawn.tiles, entry['draw']['base'], zones)
         backdrop = BACKDROP[entry['draw']['base']]
     interior = entry['draw'].get('interior')
     if interior:
         for other in interior['larger_than']:
             other_region, key = other.split('/')
-            floor = standard.floor_of(layout(other_region)['maps'][key])
+            other_entry = layout(other_region)['maps'][key]
+            if other_entry['draw']['technique'] == 'interior':
+                floor = standard.prepare_interior(Region(other_region, DATA), other_entry)['draw']['interior']['floor']
+            else:
+                floor = standard.floor_of(other_entry)
             assert interior['floor'] > floor, ('not larger than', other, scene['map'], round(interior['floor']), round(floor))
     if notes is not None:
         notes.extend(drawn.notes)

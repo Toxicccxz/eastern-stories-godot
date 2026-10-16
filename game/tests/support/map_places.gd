@@ -206,7 +206,10 @@ static func go_to(tree: SceneTree, session: WorldSessionController, zone_id: Str
 	var map: WorldMapController = session.active_map() as WorldMapController
 	if target.is_empty() or map == null:
 		return null
-	for portal: PortalDefinition in portal_chain(map.map_id(), target):
+	var chain: Array[PortalDefinition] = portal_chain(map.map_id(), target)
+	if chain.is_empty() and map.map_id() != target:
+		return null
+	for portal: PortalDefinition in chain:
 		if not await take_passage(tree, map, portal.portal_id):
 			return null
 		map = session.active_map() as WorldMapController

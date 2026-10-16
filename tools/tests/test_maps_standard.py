@@ -159,6 +159,62 @@ class StandardTest(unittest.TestCase):
         paint.paint_map(self.region, small, notes)
         self.assertTrue(any('t.shop' in n and '宽敞' in n for n in notes), notes)
 
+    def make_region(self, name: str, rooms: list, world: dict) -> Region:
+        data = Path(self.dir.name) / name
+        data.mkdir()
+        (data / 'rooms.json').write_text(json.dumps({'rooms': rooms}, ensure_ascii=False), encoding='utf-8')
+        (data / 'world.json').write_text(json.dumps(world, ensure_ascii=False), encoding='utf-8')
+        (data / 'spawns.json').write_text('{"spawns": []}', encoding='utf-8')
+        return Region(name, Path(self.dir.name))
+
+    def test_a_corner_room_keeps_both_walls(self) -> None:
+        # a has neighbours east and south; the grand room below d widens their column.
+        rooms = [{'id': f'es2:c/{n}', 'short': n, 'long': '', 'exits': exits} for n, exits in (
+            ('a', {'east': 'es2:c/b', 'south': 'es2:c/d'}), ('b', {'west': 'es2:c/a'}),
+            ('d', {'north': 'es2:c/a', 'south': 'es2:c/g'}), ('g', {'north': 'es2:c/d'}))]
+        world = {'zones': [{'id': f'c.{n}', 'map': 'c.m', 'rooms': [f'es2:c/{n}']} for n in 'abdg'], 'portals': []}
+        region = self.make_region('c', rooms, world)
+        entry = {'file': 'c.tscn', 'scene': scene('c.m', 'C', [{'name': 'Start', 'at': [0, 0], 'id': 'c.start'}]),
+                 'draw': {'technique': 'interior', 'building': 'house', 'reach_from': 'Start',
+                          'rooms': {'c.a': {'size': 'closet'}, 'c.b': {'size': 'closet'}, 'c.d': {'size': 'closet'},
+                                    'c.g': {'size': 'grand'}}}}
+        zones = standard.prepare_interior(region, entry)['draw']['zones']
+        a, d = zones['c.a'], zones['c.d']
+        self.assertEqual(a[3], d[1])
+        self.assertGreaterEqual(min(a[2], d[2]) - max(a[0], d[0]), standard.door_px() + 4 * standard.wall_px())
+        g = zones['c.g']
+        entry['scene']['spawn_points'][0]['at'] = [(g[0] + g[2]) // 2, (g[1] + g[3]) // 2]
+        paint.paint_map(region, entry)
+
+    def test_two_doors_pair_with_their_own_ways_back(self) -> None:
+        rooms = [{'id': 'es2:d/street', 'short': '街', 'long': '', 'exits': {'west': 'es2:d/shop', 'northwest': 'es2:d/shop'}},
+                 {'id': 'es2:d/shop', 'short': '店', 'long': '', 'exits': {'east': 'es2:d/street', 'north': 'es2:d/street'}}]
+        portals = [
+            {'id': 'd.front', 'from_zone': 'd.street', 'to_zone': 'd.shop', 'to_spawn': 'd.shop.front_in', 'legacy_room': 'es2:d/street', 'legacy_command': 'west'},
+            {'id': 'd.side', 'from_zone': 'd.street', 'to_zone': 'd.shop', 'to_spawn': 'd.shop.side_in', 'legacy_room': 'es2:d/street', 'legacy_command': 'northwest'},
+            {'id': 'd.front_out', 'from_zone': 'd.shop', 'to_zone': 'd.street', 'to_spawn': 'd.street.front_out', 'legacy_room': 'es2:d/shop', 'legacy_command': 'east'},
+            {'id': 'd.side_out', 'from_zone': 'd.shop', 'to_zone': 'd.street', 'to_spawn': 'd.street.side_out', 'legacy_room': 'es2:d/shop', 'legacy_command': 'north'},
+        ]
+        world = {'zones': [{'id': 'd.street', 'map': 'd.out', 'rooms': ['es2:d/street']}, {'id': 'd.shop', 'map': 'd.in', 'rooms': ['es2:d/shop']}],
+                 'portals': portals}
+        region = self.make_region('d', rooms, world)
+        street = copy.deepcopy(STREET)
+        street['draw']['zones'] = {'d.street': {'street': 'main', 'axis': 'y', 'centre': 0, 'span': [-512, 512]}}
+        street['draw']['buildings'] = [{'name': '店', 'street': 'd.street', 'side': 'west', 'frontage': 'wide', 'at': 0,
+                                        'doors': ['d.front', 'd.side'], 'door_at': [96, -96]}]
+        points = {m['id']: m['at'] for m in standard.prepare_town(region, street)['scene']['spawn_points'] if 'id' in m}
+        self.assertEqual(points['d.street.front_out'][1], 96, 'out by the front door, in front of it')
+        self.assertEqual(points['d.street.side_out'][1], -96)
+        shop = {'file': 's.tscn', 'scene': scene('d.in', 'S', []),
+                'draw': {'technique': 'interior', 'building': 'shop', 'reach_from': 'ShopFrontIn',
+                         'rooms': {'d.shop': {'size': 'large'}}, 'doors': {'d.front_out': 'east', 'd.side_out': 'east'}}}
+        entry = standard.prepare_interior(region, shop)
+        doors = sorted(n['at'][1] for n in entry['scene']['nodes'] if n.get('node') == 'passage')
+        self.assertEqual(len(set(doors)), 2, 'two doors on the east wall, apart')
+        ins = [m['id'] for m in entry['scene']['spawn_points'] if 'id' in m]
+        self.assertEqual(sorted(ins), ['d.shop.front_in', 'd.shop.side_in'])
+        paint.paint_map(region, shop)
+
     def test_the_filler_keeps_only_a_skirt(self) -> None:
         text = paint.paint_map(self.region, STREET)
         blob = re.search(r'name="TerrainStructures"[^\n]*\n(?:[^\n]*\n)*?tile_map_data = PackedByteArray\(([^)]*)\)', text).group(1)

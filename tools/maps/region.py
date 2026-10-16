@@ -53,6 +53,10 @@ class Region:
                     out.setdefault(a, []).append((command, b))
         return out
 
+    def room_exits(self) -> dict:
+        """Room id -> its exits (command -> room id)."""
+        return {r['id']: r.get('exits', {}) for r in self._read('rooms.json')['rooms']}
+
     def zone_maps(self) -> dict:
         """Zone id -> its map id, from this region's world.json."""
         return {z['id']: z['map'] for z in self._read('world.json')['zones']}

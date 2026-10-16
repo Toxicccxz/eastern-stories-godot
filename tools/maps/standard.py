@@ -34,7 +34,7 @@ and repainting re-scales every map drawn from it. Three things read it:
                "reach_from": "<marker name>"}
 
   The first room sits at column 0, row 0 and every other one beside the room whose exit leads
-  to it, in the exit's direction (an `at` overrides). A column is as wide as its widest room, a
+  to it, in the exit's direction (an `at` overrides; a diagonal exit needs one). A column is as wide as its widest room, a
   row as tall as its tallest; a room keeps its own size but reaches to the edges of its cell
   where a neighbour or a way out lies, so neighbours share a wall with a doorway in it. A
   portal from a room to another map is a door on that room's wall in the portal's direction, or
@@ -61,9 +61,13 @@ from pathlib import Path
 from .tiles import T
 
 STANDARD = json.loads((Path(__file__).resolve().parent / 'standard.json').read_text(encoding='utf-8'))
-DIRS = {'north': (0, -1), 'south': (0, 1), 'east': (1, 0), 'west': (-1, 0),
-        'northeast': (1, -1), 'northwest': (-1, -1), 'southeast': (1, 1), 'southwest': (-1, 1)}
+# Only the four sides place a room: rooms a diagonal exit joins need an `at` that puts them
+# side by side (two rooms touching at a corner share no wall for a doorway).
+DIRS = {'north': (0, -1), 'south': (0, 1), 'east': (1, 0), 'west': (-1, 0)}
 CARDINAL = {'north': 'n', 'south': 's', 'east': 'e', 'west': 'w'}
+OPPOSITE = {'north': 'south', 'south': 'north', 'east': 'west', 'west': 'east', 'northeast': 'southwest',
+            'southwest': 'northeast', 'northwest': 'southeast', 'southeast': 'northwest', 'up': 'down', 'down': 'up',
+            'enter': 'out', 'out': 'enter'}
 DOOR_COLOR = 'Color(0.42, 0.3, 0.18, 1)'
 
 
@@ -116,6 +120,7 @@ def prepare_town(region, entry: dict) -> dict:
     shapes = scene.setdefault('shapes', {})
     facades = []
     for index, b in enumerate(d.get('buildings', [])):
+        assert 'street' in b or not b.get('doors'), ('a building with doors names its street', b['name'])
         facade = b['rect'] if 'rect' in b else facade_rect(d['zones'][b['street']], b)
         for other_name, other in facades:
             assert not _overlap(facade, other), ('facades overlap', b['name'], other_name)
@@ -178,8 +183,30 @@ def _node(text: str) -> str:
     return ascii_part or 'B%04x' % (sum(ord(c) * (i + 1) for i, c in enumerate(text)) & 0xffff)
 
 
+def reverse_portal(region, portal: dict, portals: dict) -> dict | None:
+    """The portal back through the same door: from the room this one's exit leads into, by the
+    exit that leads back to this one's room (the LPC pair); failing that, the only portal
+    between the two zones the other way."""
+    exits = region.room_exits()
+    there = exits.get(portal['legacy_room'], {}).get(portal['legacy_command'])
+    back = [p for p in portals.values()
+            if p['legacy_room'] == there and exits.get(there, {}).get(p['legacy_command']) == portal['legacy_room']]
+    if len(back) > 1:
+        # Several exits lead back (a front door and a side door): the opposite direction, or the
+        # one that is no other door's opposite.
+        opposite = [p for p in back if OPPOSITE.get(portal['legacy_command']) == p['legacy_command']]
+        siblings = [q for q in portals.values() if q is not portal and q['legacy_room'] == portal['legacy_room']
+                    and exits.get(portal['legacy_room'], {}).get(q['legacy_command']) == there]
+        taken = {OPPOSITE.get(q['legacy_command']) for q in siblings}
+        back = opposite or [p for p in back if p['legacy_command'] not in taken]
+    if len(back) == 1:
+        return back[0]
+    others = [p for p in portals.values() if p['from_zone'] == portal['to_zone'] and p['to_zone'] == portal['from_zone']]
+    return others[0] if len(others) == 1 else None
+
+
 def _door(region, scene: dict, shapes: dict, portal: dict, portals: dict, zone: list, wall_side: str, at: int,
-          name: str) -> None:
+          name: str) -> int:
     """A door on `zone`'s `wall_side` edge at `at` along it: the portal's passage just inside the
     zone, the shutter on the edge and, for the portal that comes back through it, its marker a
     body inside. A wall of an enclosed zone is inside its box; an open zone's edge is its box's."""
@@ -206,8 +233,9 @@ def _door(region, scene: dict, shapes: dict, portal: dict, portals: dict, zone: 
     scene.setdefault('nodes', [])
     scene['nodes'].append({'node': 'rect', 'name': f'{name}Shutter', 'rect': shutter, 'color': DOOR_COLOR})
     scene['nodes'].append({'node': 'passage', 'name': f'{name}Passage', 'id': portal['id'], 'at': passage, 'shape': shape})
-    back = [p for p in portals.values() if p['from_zone'] == portal['to_zone'] and p['to_zone'] == portal['from_zone']]
+    back = [reverse_portal(region, portal, portals)] if reverse_portal(region, portal, portals) else []
     points = scene.setdefault('spawn_points', [])
+    assert all(m.get('id') != p['to_spawn'] for p in back for m in points), ('two doors for one way back', portal['id'])
     for p in back:
         points.insert(0, {'name': region.marker_name(p['to_spawn']), 'at': [int(marker[0]), int(marker[1])], 'id': p['to_spawn']})
     return edge
@@ -253,8 +281,17 @@ def prepare_interior(region, entry: dict) -> dict:
         cx0, cy0, cx1, cy1 = xs[c] + ox, ys[r] + oy, xs[c] + ox + cols[c], ys[r] + oy + rows[r]
         w, h = floors[z][0] + 2 * wall, floors[z][1] + 2 * wall
         reach = set(_neighbour_sides(z, grid, links)) | {side[0] for _, side in outside.get(z, [])}
-        rx0, rx1 = _stretch(cx0, cx1, w, 'w' in reach, 'e' in reach)
-        ry0, ry1 = _stretch(cy0, cy1, h, 'n' in reach, 's' in reach)
+        # Stretched to one side, a room would slide away from a neighbour across that axis
+        # (the room south of it is centred): with one there it fills the cell's width instead.
+        across_x, across_y = bool(reach & {'n', 's'}), bool(reach & {'w', 'e'})
+        to_w, to_e = 'w' in reach, 'e' in reach
+        to_n, to_s = 'n' in reach, 's' in reach
+        if to_w != to_e and across_x:
+            to_w = to_e = True
+        if to_n != to_s and across_y:
+            to_n = to_s = True
+        rx0, rx1 = _stretch(cx0, cx1, w, to_w, to_e)
+        ry0, ry1 = _stretch(cy0, cy1, h, to_n, to_s)
         spec = rooms[z]
         zones[z] = [rx0, ry0, rx1, ry1, 'enclosed', spec.get('floor', 'floor_wood'), spec.get('wall', 'wall_wood')]
     margin = 3 * T
@@ -262,11 +299,16 @@ def prepare_interior(region, entry: dict) -> dict:
     d['base'] = d.get('base', 'boundary')
     shapes = scene.setdefault('shapes', {})
     props = []
+    assert wall == 2 * T, 'town.py draws two-tile walls and doorways: keep wall_tiles at 2'
     for z, ps in outside.items():
+        on_side = {}
         for i, (p, side) in enumerate(ps):
             zx0, zy0, zx1, zy1 = zones[z][:4]
             at = (zy0 + zy1) // 2 // T * T if side in ('east', 'west') else (zx0 + zx1) // 2 // T * T
-            at += i * (door_px() + 2 * T)
+            k = on_side[side] = on_side.get(side, -1) + 1
+            at += (k + 1) // 2 * (door_px() + 2 * T) * (1 if k % 2 else -1)
+            lo, hi = (zy0, zy1) if side in ('east', 'west') else (zx0, zx1)
+            assert lo + wall <= at - door_px() // 2 and at + door_px() // 2 <= hi - wall, ('no room on the wall for the door', p['id'])
             edge = _door(region, scene, shapes, p, portals, zones[z], side, at, f'{_node(z.split(".")[-1])}Door{i}')
             props.append(_doorway(zones[z], side, at, edge))
     for row in d.get('props', []):
@@ -300,9 +342,8 @@ def prepare_interior(region, entry: dict) -> dict:
 
 
 def floor_of(entry: dict) -> float:
-    """A drawn map's floor in square bodies: its enclosed rooms' insides."""
-    if entry['draw']['technique'] == 'interior':
-        return sum(bodies2(*room_floor(s.get('size', 'room'))) for s in entry['draw']['rooms'].values())
+    """A town map's floor in square bodies: its enclosed rooms' insides (an interior's is
+    prepare_interior()'s `floor`, as drawn)."""
     wall = wall_px()
     total = 0.0
     for v in entry['draw'].get('zones', {}).values():
@@ -420,8 +461,9 @@ def _anchored(zone: list, anchor, w: int, h: int, snap: bool = True) -> list:
 
 # --- Filler -------------------------------------------------------------------------------------
 
-def trim_filler(tiles, base: str) -> None:
-    """Drops the base filler further than the skirt from any walkable cell."""
+def trim_filler(tiles, base: str, zones=()) -> None:
+    """Drops the base filler further than the skirt from any walkable cell and outside every
+    zone (inside one an empty cell would let a spot behind a thick wall pass for free ground)."""
     from .tiles import ATLAS
     skirt = STANDARD['skirt_tiles']
     kind = ATLAS[base]
@@ -429,4 +471,6 @@ def trim_filler(tiles, base: str) -> None:
     near = {(x + dx, y + dy) for x, y in walkable for dx in range(-skirt, skirt + 1) for dy in range(-skirt, skirt + 1)}
     for layer in (tiles.ground, tiles.structures):
         for cell in [c for c, v in layer.items() if (v[1], v[2]) == kind and c not in near]:
-            del layer[cell]
+            x, y = cell[0] * T + T // 2, cell[1] * T + T // 2
+            if not any(z[0] <= x < z[2] and z[1] <= y < z[3] for z in zones):
+                del layer[cell]
