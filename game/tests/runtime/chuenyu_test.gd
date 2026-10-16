@@ -268,6 +268,10 @@ func _test_walls(tree: SceneTree, session: WorldSessionController) -> void:
 		# The garden's killer bees may go berserk on whoever drops in (bellicosity 3000).
 		await tree.physics_frame
 		_finish_fight(session)
+		var garden: WorldMapController = session.active_map() as WorldMapController
+		for npc: NpcRuntimeState in garden.npc_runtimes():
+			if NpcDefinition.unnamed_id(npc.definition_id) == &"chuenyu.npc.bee":
+				garden.npcs.vanish(npc) # TEST-ONLY: the bees out of the way back to the wall (they stand by the ways)
 	map = session.active_map() as WorldMapController
 	_check(map.select_landmark(&"chuenyu.west_castle.landmark.vine"), "the vines")
 	map.inspect_selected()
