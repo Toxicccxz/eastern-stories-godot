@@ -17,9 +17,8 @@ func _run() -> void:
 	if args[0] == "write":
 		var session: WorldSessionController = Recovery.create_session(self, Recovery.RandomSequence.new())
 		check(Work.work(session).succeeded(), "nondefault work resource/money/allocator")
-		var portal: PortalDefinition = GameContent.catalog().portal(SnowWorldDefinitions.INN_EXIT_PORTAL_ID)
-		check(session.handoff_to(portal.destination_map_id, portal.destination_zone_id, portal.destination_zone_id, portal.destination_spawn_point_id).succeeded(), "serializer resident setup")
-		var map: WorldMapController = session.active_map() as WorldMapController
+		var map: WorldMapController = MapPlaces.enter(session, &"snow.hockshop", &"snow.hockshop.hockshop_entry")
+		check(map != null and map.map_id() == &"snow.hockshop_house", "serializer resident setup")
 		# Serializer fixture only. Separate H3 physical test/live path proves entry.
 		map.player_body.position = MapPlaces.door_spot(map, &"snow.hockshop.door", &"snow.hockshop")
 		session.player_runtime().set_world_location(map.location_for_zone(&"snow.hockshop"))
@@ -58,7 +57,9 @@ func _run() -> void:
 			var reached: bool = await MapPlaces.drive(self, map, MapPlaces.door_spot(map, &"snow.hockshop.door", &"snow.hockshop"))
 			check(map.open_door(&"snow.hockshop.door"), "inside opening")
 			await physics_frame
-			reached = reached and await MapPlaces.drive_to_zone(self, map, &"snow.mstreet3")
+			reached = reached and await MapPlaces.take_passage(self, map, &"snow.hockshop.west")
+			await physics_frame
+			await physics_frame
 			check(session.player_runtime().world_location().zone_id == &"snow.mstreet3" and reached, "ordinary physical exit")
 			host.free()
 		paused = false

@@ -199,7 +199,7 @@ func _test_bracelet(tree: SceneTree, session: WorldSessionController) -> void:
 	state.spirit = CharacterResourceState.new(300, 500, 500) # TEST-ONLY
 	_check(map.act_with_item(bracelet) and not hud.is_asking(), "pray start")
 	var location: WorldLocationState = player.world_location()
-	_check(session.active_map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID and location.zone_id == SnowWorldDefinitions.TEMPLE_ZONE_ID and state.spirit.current == 250, "in Snow's temple, 50 sen spent")
+	_check(session.active_map_id() == SnowWorldDefinitions.temple_map_id() and location.zone_id == SnowWorldDefinitions.TEMPLE_ZONE_ID and state.spirit.current == 250, "in Snow's temple, 50 sen spent")
 	_check(hud.log_lines().has("你双手合掌，虔诚的祈祷。\n手上的镯子嗡嗡作响。 突然一阵烟雾...."), "its line")
 	# From another map with too little sen: 确定, and the player falls where they arrive.
 	_check(session.handoff_to(&"latemoon.manor", &"latemoon.entrance", &"latemoon.entrance", &"latemoon.entrance.cloud_entry").succeeded(), "TEST-ONLY: back at the manor")
@@ -243,7 +243,7 @@ func _test_dance_book(tree: SceneTree, session: WorldSessionController) -> void:
 	state.spirit = CharacterResourceState.new(300, 500, 500) # TEST-ONLY
 	_check(map.act_with_item(book) and player.world_location().zone_id == &"latemoon.latemoon1" and state.spirit.current == 250, "「春宫怨」: to the hall, 50 sen")
 	_check(hud.log_lines().has("你双手合掌，脚步轻盈。一曲『 春宫怨 』......"), "its line")
-	_check(session.handoff_to(SnowWorldDefinitions.OUTDOOR_MAP_ID, SnowWorldDefinitions.TEMPLE_ZONE_ID, SnowWorldDefinitions.TEMPLE_ZONE_ID, SnowWorldDefinitions.REVIVE_SPAWN_ID).succeeded(), "TEST-ONLY: back to Snow")
+	_check(session.handoff_to(SnowWorldDefinitions.temple_map_id(), SnowWorldDefinitions.TEMPLE_ZONE_ID, SnowWorldDefinitions.TEMPLE_ZONE_ID, SnowWorldDefinitions.REVIVE_SPAWN_ID).succeeded(), "TEST-ONLY: back to Snow")
 	var snow: WorldMapController = session.active_map() as WorldMapController
 	_check(snow.act_with_item(book) and session.active_map_id() == &"latemoon.manor" and player.world_location().zone_id == &"latemoon.latemoon1", "from Snow too: it dances anywhere")
 	state.spirit = CharacterResourceState.new(20, 500, 500) # TEST-ONLY

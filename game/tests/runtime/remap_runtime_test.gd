@@ -6,7 +6,7 @@ extends RefCounted
 ## anyone on the way through at once; a save keeps it there and a room reset brings it
 ## home. A door may stand on a portal (two maps, one door: shut on one, shut on both). A
 ## door's fade is the shorter door_fade_* and names no place. The world revision is
-## SOURCE_ENTRY_REMAP_V1, read and written by its enum name.
+## SOURCE_ENTRY_REMAP_SNOW_V1 (the Snow pilot), read and written by its enum name.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const TRAVELLERS: StringName = &"snow.inn.travellers"
@@ -51,13 +51,13 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 
 
 func _test_revision() -> void:
-	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_REMAP_V1, "the remap's world revision is current")
+	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_REMAP_SNOW_V1, "the Snow pilot's world revision is current")
 	var named: bool = true
 	for value: int in WorldContentRevision.Value.values():
 		var text: String = WorldContentRevision.serialized(value as WorldContentRevision.Value)
 		named = named and text == WorldContentRevision.Value.keys()[value] and WorldContentRevision.parsed(text) == value
 	_check(named and WorldContentRevision.parsed("SOURCE_ENTRY_NONE") == -1, "every revision is saved and read by its enum name")
-	_check(WorldContentRevision.public_support(WorldContentRevision.Value.SOURCE_ENTRY_DEATH_V1).outcome == GameSaveResult.Outcome.INCOMPATIBLE_DEVELOPMENT_CONTRACT, "a save of the revision before is refused (New Game)")
+	_check(WorldContentRevision.public_support(WorldContentRevision.Value.SOURCE_ENTRY_REMAP_V1).outcome == GameSaveResult.Outcome.INCOMPATIBLE_DEVELOPMENT_CONTRACT, "a save of the revision before is refused (New Game)")
 
 
 func _test_door_data() -> void:

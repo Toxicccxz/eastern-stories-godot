@@ -97,10 +97,16 @@ func _test_details_page_and_combat() -> void:
 	for binding: CombatSliceCharacterBinding in map.combat_lifecycle.build_participants(true):
 		bindings[binding.character_id] = binding
 	_check(CombatSliceProjectionBuilder.apply_of(bindings[_player.character_id], &"dodge") == -4, "combat counts the player's -4")
+	# The woodcutter, the farmer and 安惜迩 stand on maps of their own since the remap (the
+	# workplace, the roads, the bank): each map's own fight participants are read.
 	var npcs: Dictionary = {}
-	for npc: NpcRuntimeState in map.npc_runtimes():
-		if npc.definition_id in [&"snow.npc.woodcutter", &"snow.npc.farmer", &"snow.npc.annihir"]:
-			npcs[npc.definition_id] = CombatSliceProjectionBuilder.apply_of(bindings[npc.character_id], &"dodge")
+	for each_map: WorldMapController in _session.world_maps():
+		var here: Dictionary[StringName, CombatSliceCharacterBinding] = {}
+		for binding: CombatSliceCharacterBinding in each_map.combat_lifecycle.build_participants(true):
+			here[binding.character_id] = binding
+		for npc: NpcRuntimeState in each_map.npc_runtimes():
+			if npc.definition_id in [&"snow.npc.woodcutter", &"snow.npc.farmer", &"snow.npc.annihir"]:
+				npcs[npc.definition_id] = CombatSliceProjectionBuilder.apply_of(here[npc.character_id], &"dodge")
 	_check(npcs == {&"snow.npc.woodcutter": -7, &"snow.npc.farmer": -2, &"snow.npc.annihir": -2}, "NPCs: the woodcutter's 铁斧 -7, the farmer's 蓑衣 -2, 安惜迩's 长剑 -2: %s" % [npcs])
 	_check(_session.unwield_player_item(&"test:sword").succeeded and _session.martial_arts().apply_modifier(&"dodge") == -2, "put the sword away: the leather's -2 stays")
 

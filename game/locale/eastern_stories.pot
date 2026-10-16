@@ -937,7 +937,7 @@ msgstr ""
 
 #. es2:d/snow/hockshop2 short
 #. es2:d/chuenyu/storage short
-#: scenes/world/chuenyu/chuenyu_main.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json data/chuenyu/rooms.json
+#: scenes/world/chuenyu/chuenyu_main.tscn scenes/world/snow/snow_hockshop_house.tscn data/snow/rooms.json data/chuenyu/rooms.json
 msgid "储藏室"
 msgstr ""
 
@@ -1225,7 +1225,7 @@ msgstr ""
 #. es2:d/snow/guestroom short
 #. es2:d/latemoon/room/guest1 short
 #. es2:d/city/shangshu/kefang short
-#: scenes/world/city/city_main.tscn scenes/world/latemoon/latemoon_manor.tscn scenes/world/snow/snow_inn_upstairs.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json data/latemoon/rooms.json data/city/rooms.json
+#: scenes/world/city/city_main.tscn scenes/world/latemoon/latemoon_manor.tscn scenes/world/snow/snow_inn_upstairs.tscn scenes/world/snow/snow_school_compound.tscn data/snow/rooms.json data/latemoon/rooms.json data/city/rooms.json
 msgid "客房"
 msgstr ""
 
@@ -1270,7 +1270,7 @@ msgstr ""
 msgid "废屋"
 msgstr ""
 
-#: scenes/world/city/city_main.tscn scenes/world/snow/snow_outdoor.tscn
+#: scenes/world/city/city_main.tscn scenes/world/snow/snow_school_compound.tscn
 msgid "向下的阶梯"
 msgstr ""
 
@@ -2393,6 +2393,48 @@ msgstr ""
 msgid "山烟寺"
 msgstr ""
 
+#. es2:d/snow/school short
+#: scenes/world/snow/snow_academy.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
+msgid "书院"
+msgstr ""
+
+#: scenes/world/snow/snow_academy.tscn
+msgid "山水画"
+msgstr ""
+
+#. es2:d/snow/bank short
+#: scenes/world/snow/snow_bank_house.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
+msgid "安记钱庄"
+msgstr ""
+
+#: scenes/world/snow/snow_bank_house.tscn
+msgid "柜台 · 靠近兑换"
+msgstr ""
+
+#. snow.npc.herbalist title
+#. es2:d/snow/herbshop short
+#: scenes/world/snow/snow_herbshop_house.tscn scenes/world/snow/snow_outdoor.tscn data/snow/npcs.json data/snow/rooms.json
+msgid "桑邻药铺"
+msgstr ""
+
+#: scenes/world/snow/snow_herbshop_house.tscn
+msgid "药柜"
+msgstr ""
+
+#. es2:d/snow/hockshop short
+#. snow.hockshop.counter name
+#: scenes/world/snow/snow_hockshop_house.tscn data/snow/rooms.json data/snow/world.json
+msgid "丰登当铺"
+msgstr ""
+
+#: scenes/world/snow/snow_hockshop_house.tscn
+msgid "柜台 · 估价 / 卖断"
+msgstr ""
+
+#: scenes/world/snow/snow_hockshop_house.tscn
+msgid "布帘"
+msgstr ""
+
 #. es2:d/snow/inn short
 #: scenes/world/snow/snow_inn.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
 msgid "饮风客栈"
@@ -2437,6 +2479,11 @@ msgstr ""
 msgid "山坳"
 msgstr ""
 
+#. es2:d/snow/school1 short
+#: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
+msgid "淳风武馆大门"
+msgstr ""
+
 #. es2:d/snow/sroad3 short
 #. es2:d/snow/sroad4 short
 #. es2:d/snow/sroad5 short
@@ -2454,83 +2501,34 @@ msgstr ""
 msgid "黄土小径"
 msgstr ""
 
-#. es2:d/snow/bank short
-#: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
-msgid "安记钱庄"
-msgstr ""
-
 #. es2:d/snow/smithy short
-#: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
+#: scenes/world/snow/snow_outdoor.tscn scenes/world/snow/snow_smithy_house.tscn data/snow/rooms.json
 msgid "打铁铺子"
 msgstr ""
 
-#. snow.npc.herbalist title
-#. es2:d/snow/herbshop short
-#: scenes/world/snow/snow_outdoor.tscn data/snow/npcs.json data/snow/rooms.json
-msgid "桑邻药铺"
-msgstr ""
-
 #. es2:d/snow/postoffice short
-#: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
+#: scenes/world/snow/snow_outdoor.tscn scenes/world/snow/snow_postoffice_house.tscn data/snow/rooms.json
 msgid "雪亭驿"
 msgstr ""
 
 #. es2:d/snow/workplace short
-#: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
+#: scenes/world/snow/snow_outdoor.tscn scenes/world/snow/snow_workplace_house.tscn data/snow/rooms.json
 msgid "谷物加工厂"
 msgstr ""
 
-#. es2:d/snow/hockshop short
-#. snow.hockshop.counter name
-#: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json data/snow/world.json
-msgid "丰登当铺"
+#: scenes/world/snow/snow_outdoor.tscn
+msgid "当"
 msgstr ""
 
-#. es2:d/snow/school1 short
-#: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
-msgid "淳风武馆大门"
-msgstr ""
-
-#. es2:d/snow/school2 short
-#: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
-msgid "淳风武馆教练场"
-msgstr ""
-
-#. snow.weapon_storage title
-#. es2:d/snow/weapon_storage short
-#: scenes/world/snow/snow_outdoor.tscn data/common/journal.json data/snow/rooms.json
-msgid "兵器储藏室"
-msgstr ""
-
-#. es2:d/snow/schoolhall short
-#: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
-msgid "淳风武馆大厅"
-msgstr ""
-
-#. es2:d/snow/inneryard short
-#. es2:d/temple/inneryard short
-#: scenes/world/snow/snow_outdoor.tscn scenes/world/temple/temple_grounds.tscn data/snow/rooms.json data/temple/rooms.json
-msgid "天井"
-msgstr ""
-
-#. es2:d/snow/nyard short
-#: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
-msgid "书房"
-msgstr ""
-
-#. es2:d/snow/innerhall short
-#: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
-msgid "武馆内院"
+#. common.npc.swordsman.master inquiry topic
+#. cloud.npc.b_header inquiry topic
+#: scenes/world/snow/snow_outdoor.tscn data/common/npcs.json data/cloud/npcs.json
+msgid "淳风武馆"
 msgstr ""
 
 #. es2:d/snow/temple short
-#: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
+#: scenes/world/snow/snow_outdoor.tscn scenes/world/snow/snow_temple_house.tscn data/snow/rooms.json
 msgid "城隍庙"
-msgstr ""
-
-#. es2:d/snow/school short
-#: scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
-msgid "书院"
 msgstr ""
 
 #: scenes/world/snow/snow_outdoor.tscn
@@ -2543,6 +2541,15 @@ msgstr ""
 
 #: scenes/world/snow/snow_outdoor.tscn
 msgid "告示牌"
+msgstr ""
+
+#. choyin.w_street1.landmark.statue name
+#: scenes/world/snow/snow_outdoor.tscn data/choyin/world.json
+msgid "石狮"
+msgstr ""
+
+#: scenes/world/snow/snow_outdoor.tscn
+msgid "旗杆"
 msgstr ""
 
 #: scenes/world/snow/snow_outdoor.tscn
@@ -2573,54 +2580,69 @@ msgstr ""
 msgid "西南 · 黄石隘口"
 msgstr ""
 
-#. choyin.w_street1.landmark.statue name
-#: scenes/world/snow/snow_outdoor.tscn data/choyin/world.json
-msgid "石狮"
+#. es2:d/snow/school2 short
+#: scenes/world/snow/snow_school_compound.tscn data/snow/rooms.json
+msgid "淳风武馆教练场"
 msgstr ""
 
-#: scenes/world/snow/snow_outdoor.tscn
-msgid "神桌"
+#. snow.weapon_storage title
+#. es2:d/snow/weapon_storage short
+#: scenes/world/snow/snow_school_compound.tscn data/common/journal.json data/snow/rooms.json
+msgid "兵器储藏室"
 msgstr ""
 
-#: scenes/world/snow/snow_outdoor.tscn
-msgid "太师椅"
+#. es2:d/snow/schoolhall short
+#: scenes/world/snow/snow_school_compound.tscn data/snow/rooms.json
+msgid "淳风武馆大厅"
 msgstr ""
 
-#: scenes/world/snow/snow_outdoor.tscn
-msgid "石柱"
+#. es2:d/snow/inneryard short
+#. es2:d/temple/inneryard short
+#: scenes/world/snow/snow_school_compound.tscn scenes/world/temple/temple_grounds.tscn data/snow/rooms.json data/temple/rooms.json
+msgid "天井"
 msgstr ""
 
-#: scenes/world/snow/snow_outdoor.tscn
-msgid "书架"
+#. es2:d/snow/nyard short
+#: scenes/world/snow/snow_school_compound.tscn data/snow/rooms.json
+msgid "书房"
 msgstr ""
 
-#: scenes/world/snow/snow_outdoor.tscn
-msgid "仕女图"
+#. es2:d/snow/innerhall short
+#: scenes/world/snow/snow_school_compound.tscn data/snow/rooms.json
+msgid "武馆内院"
 msgstr ""
 
 #. snow.weapon_storage.landmark.shelf name
-#: scenes/world/snow/snow_outdoor.tscn data/snow/world.json
+#: scenes/world/snow/snow_school_compound.tscn data/snow/world.json
 msgid "架子"
 msgstr ""
 
-#: scenes/world/snow/snow_outdoor.tscn
-msgid "药柜"
+#: scenes/world/snow/snow_school_compound.tscn
+msgid "太师椅"
 msgstr ""
 
-#: scenes/world/snow/snow_outdoor.tscn
-msgid "布帘"
+#: scenes/world/snow/snow_school_compound.tscn
+msgid "石柱"
 msgstr ""
 
-#: scenes/world/snow/snow_outdoor.tscn
+#: scenes/world/snow/snow_school_compound.tscn
+msgid "书架"
+msgstr ""
+
+#: scenes/world/snow/snow_school_compound.tscn
+msgid "仕女图"
+msgstr ""
+
+#: scenes/world/snow/snow_smithy_house.tscn
+msgid "火炉"
+msgstr ""
+
+#: scenes/world/snow/snow_temple_house.tscn
+msgid "神桌"
+msgstr ""
+
+#: scenes/world/snow/snow_workplace_house.tscn
 msgid "磨盘 · 靠近做工"
-msgstr ""
-
-#: scenes/world/snow/snow_outdoor.tscn
-msgid "柜台 · 靠近兑换"
-msgstr ""
-
-#: scenes/world/snow/snow_outdoor.tscn
-msgid "柜台 · 估价 / 卖断"
 msgstr ""
 
 #. es2:d/temple/book_room1 short
@@ -10624,12 +10646,6 @@ msgstr ""
 #. common.npc.scholar.master family.title
 #: data/common/npcs.json
 msgid "掌门人"
-msgstr ""
-
-#. common.npc.swordsman.master inquiry topic
-#. cloud.npc.b_header inquiry topic
-#: data/common/npcs.json data/cloud/npcs.json
-msgid "淳风武馆"
 msgstr ""
 
 #. common.npc.swordsman.master inquiry.淳风武馆

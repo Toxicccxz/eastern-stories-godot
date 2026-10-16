@@ -22,10 +22,10 @@ script = ExtResource("map")
 map = &"cloud.tearoom_upstairs"
 
 [node name="Backdrop" type="ColorRect" parent="."]
-offset_left = -32
-offset_top = -32
-offset_right = 384
-offset_bottom = 320
+offset_left = -2080
+offset_top = -2080
+offset_right = 2432
+offset_bottom = 2368
 mouse_filter = 2
 color = Color(0.17, 0.2, 0.14, 1)
 

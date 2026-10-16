@@ -26,5 +26,11 @@ const TEMPLE_ZONE_ID: StringName = &"snow.temple"
 const REVIVE_SPAWN_ID: StringName = &"snow.temple.revive"
 
 
+## The map the temple stands on (its own since the remap: data, snow/world.json).
+static func temple_map_id() -> StringName:
+	var zone: ZoneDefinition = GameContent.catalog().zone(TEMPLE_ZONE_ID)
+	return zone.map_id if zone != null else &""
+
+
 static func birth_location() -> WorldLocationState:
 	return WorldLocationState.new(REGION_ID, INN_MAP_ID, MAIN_FLOOR_ZONE_ID, MAIN_FLOOR_ZONE_ID)

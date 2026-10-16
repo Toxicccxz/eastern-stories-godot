@@ -79,6 +79,8 @@ class Town:
                 self.jumped.add(tuple(sorted(ends)))
         self.gap_at = {(row[0], row[1]): row[2] for row in d.get('gap_at', [])}
         self.stairs = scene.get('stairs', [])
+        # A door's passage (a building's door, the way out of town): nobody stands on it.
+        self.passages = [tuple(n['at']) for n in scene.get('nodes', []) if n.get('node') == 'passage']
         self.style = scene['style']
         self.pairs = region.neighbours(self.zones)
         self.spots = {}
@@ -243,7 +245,7 @@ class Town:
     def markers(self, tiles: Tiles, gaps: list) -> str:
         placed = {p: tuple(at) for p, at in self.d.get('placed', {}).items()}
         avoid = [((g[0] + g[2]) // 2, (g[1] + g[3]) // 2) for g in gaps]
-        avoid += [tuple(s['at']) for s in self.stairs] + [tuple(s['marker']['at']) for s in self.stairs]
+        avoid += [tuple(s['at']) for s in self.stairs] + [tuple(s['marker']['at']) for s in self.stairs] + self.passages
         text = ''
         used = {}
         for record in self.region.spawn_records():
@@ -252,6 +254,7 @@ class Town:
             for point in record['points']:
                 if point in placed:
                     pos = placed[point]
+                    assert all(abs(pos[0] - x) >= 52 or abs(pos[1] - y) >= 52 for x, y in self.passages), ('placed on a passage', point)
                 else:
                     taken = used.setdefault(record['zone'], [])
                     inside = [((g[0] + g[2]) // 2, (g[1] + g[3]) // 2) for g in gaps

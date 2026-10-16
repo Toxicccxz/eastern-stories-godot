@@ -130,13 +130,13 @@ class GeneratedDataTest(unittest.TestCase):
     def test_items_a_room_places_lie_on_its_floor(self) -> None:
         spawns = {r['id']: r for r in json.loads(self.files['snow/item_spawns.json'])['item_spawns']}
         # room.c make_inventory(): an object that is no NPC is an item on the floor.
-        self.assertEqual(spawns['snow.outdoor.weapon_storage.bamboo_sword']['points'], ['snow.weapon_storage.bamboo_sword.1'])
+        self.assertEqual(spawns['snow.school_compound.weapon_storage.bamboo_sword']['points'], ['snow.weapon_storage.bamboo_sword.1'])
         self.assertEqual(spawns['snow.cellar.secret_storage.shield']['zone'], 'snow.secret_storage')
         items = {r['id']: r for r in json.loads(self.files['snow/items.json'])['items']}
         # denotation.c: no set_weight() leaves move.c's `weight = 0`; set("no_get", 1) is data.
         box = items['es2:d/snow/obj/denotation']
         self.assertEqual((box['weight'], box['no_get']), (0, True))
-        self.assertNotIn('snow.outdoor.temple.paper_seal', spawns)
+        self.assertNotIn('snow.temple_house.temple.paper_seal', spawns)
 
     def test_a_book_teaches_what_its_skill_mapping_says(self) -> None:
         items = {r['id']: r for r in json.loads(self.files['common/items.json'])['items']}
@@ -155,7 +155,7 @@ class GeneratedDataTest(unittest.TestCase):
         self.assertEqual(master['family'], {'name': '封山剑派', 'generation': 13, 'title': '掌门人'})
         self.assertEqual((master['nickname'], master['f_master']), ('风雨双侠', True))
         spawns = {r['id']: r for r in json.loads(self.files['snow/spawns.json'])['spawns']}
-        self.assertEqual(spawns['snow.outdoor.schoolhall.master']['npc'], 'common.npc.swordsman.master')
+        self.assertEqual(spawns['snow.school_compound.schoolhall.master']['npc'], 'common.npc.swordsman.master')
         items = {r['id']: r for r in json.loads(self.files['common/items.json'])['items']}
         # silk_cloth.c inherits EQUIP and sets its armor_type itself.
         self.assertEqual(items['es2:daemon/class/swordsman/silk_cloth']['armor'], {'type': 'cloth', 'props': {'dodge': 6, 'armor': 1}})

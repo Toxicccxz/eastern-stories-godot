@@ -82,12 +82,17 @@ func physical_tests(tree: SceneTree) -> void:
 		if zone != &"snow.crossroad":
 			var street: Rect2 = MapPlaces.zone_rect(snow, zone)
 			await solid(tree, session, snow, zone, MapPlaces.spot(snow, zone, Vector2(street.end.x, street.get_center().y)), "move_right", "Hockshop's shut door or mst4's houses east")
-			# 4B: the west fronts are doorways (herbshop.c, postoffice.c).
+			# 4B: the west fronts are doors (herbshop.c, postoffice.c); each shop is its own map (the remap).
 			var shop: StringName = &"snow.herbshop" if zone == &"snow.mstreet3" else &"snow.postoffice"
-			check(await MapPlaces.drive_to_zone(tree, snow, shop), "into the shop west of " + String(zone))
-			check(session.player_runtime().world_location().zone_id == shop, "west doorway enters the shop from " + String(zone))
-			check(await MapPlaces.drive_to_zone(tree, snow, zone), "back out of " + String(shop))
-			check(session.player_runtime().world_location().zone_id == zone, "back out to " + String(zone))
+			check(await MapPlaces.take_passage(tree, snow, StringName(String(zone) + ".west")), "into the shop west of " + String(zone))
+			var inside: WorldMapController = session.active_map() as WorldMapController
+			await tree.physics_frame
+			await tree.physics_frame
+			check(session.player_runtime().world_location().zone_id == shop and inside.map_id() == MapPlaces.map_of(shop), "the west door enters the shop's own map from " + String(zone))
+			check(await MapPlaces.take_passage(tree, inside, StringName(String(shop) + ".east")), "back out of " + String(shop))
+			await tree.physics_frame
+			await tree.physics_frame
+			check(session.player_runtime().world_location().zone_id == zone and session.active_map() == snow, "back out to " + String(zone))
 	# 野羊山: the crossroad's north is a passage, there and back.
 	check(await MapPlaces.take_passage(tree, snow, &"snow.crossroad.north"), "north off the col")
 	check(session.active_map_id() == &"goathill.mountain" and session.player_runtime().world_location().zone_id == &"goathill.mroad1", "north out of the crossroad: 野羊山's mroad1")
@@ -180,10 +185,11 @@ func geometry_tests(snow: WorldMapController) -> void:
 	mst4.position = snow.physical_zone(&"snow.mstreet3").position
 	check(not MapPlacementValidator.is_valid_character_position(snow, &"snow.mstreet3", MapPlaces.zone_spot(snow, &"snow.mstreet3")), "ambiguous overlapping zones fail closed")
 	mst4.position = original
-	check(TerrainProbe.terrain_at(snow, MapPlaces.zone_centre(snow, &"snow.hockshop")) == "floor_shop" and MapPlaces.door_wall(snow, &"snow.hockshop.door") != null and MapPlaces.doorway(snow, &"snow.mstreet3", &"snow.hockshop").is_finite() and snow.get_node("Terrain/HockshopLabel") is Label, "the Hockshop's front: its door on the street and its name")
-	for row: Array in [[&"snow.mstreet3", &"snow.herbshop", "floor_shop", "HerbshopLabel"], [&"snow.mstreet4", &"snow.postoffice", "floor_wood", "PostofficeLabel"]]:
-		var way: Vector2 = MapPlaces.doorway(snow, row[0], row[1])
-		check(way.is_finite() and TerrainProbe.terrain_at(snow, way - Vector2(16, 0)) == row[2] and snow.get_node("Terrain/" + row[3]) is Label, "open doorway and name " + String(row[1]))
+	# A shop from outside: its door on the street and its name; inside is its own map (the remap).
+	check(snow.physical_zone(&"snow.hockshop") == null and MapPlaces.door_wall(snow, &"snow.hockshop.door") != null and MapPlaces.passage(snow, &"snow.mstreet3.east") != null and snow.get_node("Terrain/HockshopLabel") is Label, "the Hockshop's front: its door on the street and its name")
+	for row: Array in [[&"snow.mstreet3", &"snow.herbshop", "HerbshopLabel"], [&"snow.mstreet4", &"snow.postoffice", "PostofficeLabel"]]:
+		var door: WorldPassageArea2D = MapPlaces.passage(snow, StringName(String(row[0]) + ".west"))
+		check(door != null and snow.physical_zone(row[1]) == null and snow.get_node("Terrain/" + row[2]) is Label, "a door on the street and the name " + String(row[1]))
 
 
 func check(ok: bool, label: String) -> void:

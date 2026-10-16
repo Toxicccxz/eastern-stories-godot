@@ -75,9 +75,9 @@ func _test_settings() -> void:
 ## the task loses two, five and three seconds of its time.
 func _test_fight_clock(tree: SceneTree) -> void:
 	TestFeel.use()
-	var map: WorldMapController = _session.active_map() as WorldMapController
-	var trainee: NpcRuntimeState = _npc(map, &"snow.school2.trainee.2")
-	_check(_beside(map, &"snow.school2", &"snow.school2.trainee.2"), "beside a trainee")
+	var map: WorldMapController = await _beside(tree, &"snow.school2", &"snow.school2.trainee.2")
+	_check(map != null, "beside a trainee")
+	var trainee: NpcRuntimeState = MapPlaces.npc_at(_session, &"snow.school2.trainee.2")
 	await tree.physics_frame
 	map.select_npc(trainee.character_id)
 	_player.state.quest.assign(QuestDefinition.new("疯狗", QuestDefinition.KILL, 300, 20, 10, 5), 1) # TEST-ONLY: a task running
@@ -140,8 +140,7 @@ func _test_lines(tree: SceneTree) -> void:
 ## result, the world and the HUD.
 func _test_end_hold(tree: SceneTree) -> void:
 	TestFeel.use()
-	var map: WorldMapController = _session.active_map() as WorldMapController
-	var trainee: NpcRuntimeState = _npc(map, &"snow.school2.trainee.2")
+	var trainee: NpcRuntimeState = MapPlaces.npc_at(_session, &"snow.school2.trainee.2")
 	trainee.character_state.vitality = CharacterResourceState.new(1, 1, 100000) # TEST-ONLY: the next blow ends it
 	_player.state.progression.combat_experience = 100000 # TEST-ONLY: it lands
 	var lines_before: int = _session.shared_ui().log_lines().size()
@@ -201,21 +200,24 @@ func _to_snow(tree: SceneTree) -> void:
 	_check(_session.active_map_id() == &"snow.outdoor", "out of the Inn")
 
 
-func _beside(map: WorldMapController, zone_id: StringName, point_id: StringName) -> bool:
+## The player beside the NPC of a spawn point, on the map its zone lies on (the 武馆 is its own
+## map since the remap); returns that map, or null.
+func _beside(tree: SceneTree, zone_id: StringName, point_id: StringName) -> WorldMapController:
+	# The hand-off itself is no part of the feel under test: no fade holds the world after it.
+	TestFeel.restore()
+	var map: WorldMapController = MapPlaces.enter(_session, zone_id, point_id)
+	TestFeel.use()
+	if map == null:
+		return null
+	await tree.physics_frame
+	await tree.physics_frame
 	var marker: WorldSpawnMarker2D = map.resolve_spawn_marker(point_id)
 	if marker == null:
-		return false
+		return null
 	for offset: Vector2 in [Vector2(0, 48), Vector2(48, 0), Vector2(-48, 0), Vector2(0, -48), Vector2(40, 40), Vector2(-40, 40)]:
 		if MapPlacementValidator.is_valid_character_position(map, zone_id, marker.global_position + offset):
 			map.runtime_player_body().global_position = marker.global_position + offset
-			return _player.set_world_location(map.location_for_zone(zone_id))
-	return false
-
-
-func _npc(map: WorldMapController, point: StringName) -> NpcRuntimeState:
-	for npc: NpcRuntimeState in map.npc_runtimes():
-		if npc.spawn_point_id == point:
-			return npc
+			return map if _player.set_world_location(map.location_for_zone(zone_id)) else null
 	return null
 
 

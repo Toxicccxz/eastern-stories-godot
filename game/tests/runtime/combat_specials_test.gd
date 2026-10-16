@@ -230,10 +230,10 @@ func _test_surrender() -> void:
 
 ## npc.c chat() outside a fight: 安惜迩's one chat function, exert powerfade.
 func _test_powerfade_in_the_bank(tree: SceneTree) -> void:
-	var map: WorldMapController = _session.active_map() as WorldMapController
-	_check(_beside(map, &"snow.bank", &"snow.bank.annihir.1"), "in the bank")
+	var map: WorldMapController = await _beside(tree, &"snow.bank", &"snow.bank.annihir.1")
+	_check(map != null, "in the bank")
 	await tree.physics_frame
-	var annihir: NpcRuntimeState = _npc(map, &"snow.bank.annihir.1")
+	var annihir: NpcRuntimeState = MapPlaces.npc_at(_session, &"snow.bank.annihir.1")
 	var state: CharacterState = annihir.character_state
 	var low := Low.new()
 	_session.configure_npc_ambience_random_source(low)
@@ -253,8 +253,7 @@ func _test_powerfade_in_the_bank(tree: SceneTree) -> void:
 
 ## A powerup that runs on is saved and counts down on world time.
 func _test_powerup_is_saved(tree: SceneTree) -> void:
-	var map: WorldMapController = _session.active_map() as WorldMapController
-	var annihir: NpcRuntimeState = _npc(map, &"snow.bank.annihir.1")
+	var annihir: NpcRuntimeState = MapPlaces.npc_at(_session, &"snow.bank.annihir.1")
 	var state: CharacterState = annihir.character_state
 	# TEST-ONLY: his powerup outside a fight (npc.c only exerts it in one).
 	var side := SpecialSide.new(annihir.character_id, state, annihir.busy, annihir.relationship)
@@ -277,7 +276,7 @@ func _test_powerup_is_saved(tree: SceneTree) -> void:
 	var restored: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(decoded.snapshot, tree.root)
 	_check(restored.succeeded(), "Continue " + restored.path)
 	if restored.succeeded():
-		var back: NpcRuntimeState = restored.candidate.world_map_of(&"snow.outdoor").find_resident_npc(annihir.character_id)
+		var back: NpcRuntimeState = restored.candidate.world_map_of(MapPlaces.map_of(&"snow.bank")).find_resident_npc(annihir.character_id)
 		var entries: Array[CharacterTimedApplies.Entry] = []
 		if back != null:
 			entries = back.character_state.timed_applies.entries()
@@ -301,12 +300,12 @@ func _test_powerup_is_saved(tree: SceneTree) -> void:
 
 ## The farmer's combat talk; command("surrender") against a player who attacked him.
 func _test_farmer(tree: SceneTree) -> void:
-	var map: WorldMapController = _session.active_map() as WorldMapController
 	# TEST-ONLY: kee to outlast the farmer while he talks.
 	_player.state.vitality = CharacterResourceState.new(5000, 5000, 5000)
-	_check(_beside(map, &"snow.sroad2", &"snow.sroad2.farmer.1"), "beside a farmer")
+	var map: WorldMapController = await _beside(tree, &"snow.sroad2", &"snow.sroad2.farmer.1")
+	_check(map != null, "beside a farmer")
 	await tree.physics_frame
-	var farmer: NpcRuntimeState = _npc(map, &"snow.sroad2.farmer.1")
+	var farmer: NpcRuntimeState = MapPlaces.npc_at(_session, &"snow.sroad2.farmer.1")
 	map.select_npc(farmer.character_id)
 	_session.configure_combat_random_source(Seeded.new(7))
 	_check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the player attacks the farmer")
@@ -347,16 +346,16 @@ func _test_farmer(tree: SceneTree) -> void:
 
 ## 安惜迩 in a fight: lines in CYN, 「封」, the bolts and powerup, round by round.
 func _test_annihir_fight(tree: SceneTree) -> void:
-	var map: WorldMapController = _session.active_map() as WorldMapController
 	_heal()
 	# TEST-ONLY: enough of everything to last while he tries all he has.
 	_player.state.essence = CharacterResourceState.new(5000, 5000, 5000)
 	_player.state.vitality = CharacterResourceState.new(5000, 5000, 5000)
 	_player.state.spirit = CharacterResourceState.new(5000, 5000, 5000)
 	_player.state.progression.combat_experience = 0
-	_check(_beside(map, &"snow.bank", &"snow.bank.annihir.1"), "in the bank")
+	var map: WorldMapController = await _beside(tree, &"snow.bank", &"snow.bank.annihir.1")
+	_check(map != null, "in the bank")
 	await tree.physics_frame
-	var annihir: NpcRuntimeState = _npc(map, &"snow.bank.annihir.1")
+	var annihir: NpcRuntimeState = MapPlaces.npc_at(_session, &"snow.bank.annihir.1")
 	map.select_npc(annihir.character_id)
 	_session.configure_combat_random_source(Seeded.new(11))
 	var attack: CombatSliceInitiationResult = map.attack_selected()
@@ -428,10 +427,9 @@ func _test_last_hitter() -> void:
 ## std/char.c heart_beat() outside a fight: powerfade's 100 sen takes 安惜迩 below zero
 ## and he falls on his next beat.
 func _test_fall_outside_a_fight(tree: SceneTree) -> void:
-	var map: WorldMapController = _session.active_map() as WorldMapController
-	var annihir: NpcRuntimeState = _npc(map, &"snow.bank.annihir.1")
+	var annihir: NpcRuntimeState = MapPlaces.npc_at(_session, &"snow.bank.annihir.1")
 	var state: CharacterState = annihir.character_state
-	_check(_beside(map, &"snow.bank", &"snow.bank.annihir.1"), "back in the bank")
+	_check(await _beside(tree, &"snow.bank", &"snow.bank.annihir.1") != null, "back in the bank")
 	await tree.physics_frame
 	_check(annihir.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and not annihir.relationship.is_fighting(), "安惜迩 is up and not fighting")
 	# TEST-ONLY: bellicosity to calm, sen spent on his spells, nothing running.
@@ -456,7 +454,7 @@ func _test_fall_outside_a_fight(tree: SceneTree) -> void:
 ## calming down again.
 func _test_fall_between_batched_beats(tree: SceneTree) -> void:
 	var map: WorldMapController = _session.active_map() as WorldMapController
-	var annihir: NpcRuntimeState = _npc(map, &"snow.bank.annihir.1")
+	var annihir: NpcRuntimeState = MapPlaces.npc_at(_session, &"snow.bank.annihir.1")
 	var state: CharacterState = annihir.character_state
 	# TEST-ONLY: he comes to at once (revive()), then bellicosity to calm, little sen
 	# and plenty of force.
@@ -597,21 +595,21 @@ func _to_snow(tree: SceneTree) -> void:
 	_check(_session.active_map_id() == &"snow.outdoor", "out of the Inn")
 
 
-func _beside(map: WorldMapController, zone_id: StringName, point_id: StringName) -> bool:
+## The player beside the NPC of a spawn point, on the map its zone lies on (the bank is its own
+## map since the remap); returns that map, or null.
+func _beside(tree: SceneTree, zone_id: StringName, point_id: StringName) -> WorldMapController:
+	var map: WorldMapController = MapPlaces.enter(_session, zone_id, point_id)
+	if map == null:
+		return null
+	await tree.physics_frame
+	await tree.physics_frame
 	var marker: WorldSpawnMarker2D = map.resolve_spawn_marker(point_id)
 	if marker == null:
-		return false
+		return null
 	for offset: Vector2 in [Vector2(0, 48), Vector2(48, 0), Vector2(-48, 0), Vector2(0, -48), Vector2(40, 40), Vector2(-40, 40)]:
 		if MapPlacementValidator.is_valid_character_position(map, zone_id, marker.global_position + offset):
 			map.runtime_player_body().global_position = marker.global_position + offset
-			return _player.set_world_location(map.location_for_zone(zone_id))
-	return false
-
-
-func _npc(map: WorldMapController, point: StringName) -> NpcRuntimeState:
-	for npc: NpcRuntimeState in map.npc_runtimes():
-		if npc.spawn_point_id == point:
-			return npc
+			return map if _player.set_world_location(map.location_for_zone(zone_id)) else null
 	return null
 
 

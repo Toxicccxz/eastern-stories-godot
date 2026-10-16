@@ -74,11 +74,12 @@ func _story(tree: SceneTree) -> void:
 	check(files.files.is_empty(), "birth never autosaves")
 
 	# Declared contact placement fixture; no claim of keyboard/door traversal.
-	check(session.handoff_to(&"snow.outdoor",&"snow.square",&"snow.square",SnowWorldDefinitions.SQUARE_ENTRY_SPAWN_ID).succeeded(), "test contact map handoff")
-	var map := session.active_map() as WorldMapController
-	map.player_body.position = MapPlaces.service_spot(map, &"snow.outdoor.schoolhall.master", SnowWorldDefinitions.SCHOOLHALL_ZONE_ID)
-	check(player.set_world_location(WorldLocationState.new(SnowWorldDefinitions.REGION_ID,&"snow.outdoor",SnowWorldDefinitions.SCHOOLHALL_ZONE_ID,&"snow.schoolhall")), "test Liu contact placement")
-	var school := map.service(&"snow.outdoor.schoolhall.master") as TeacherService
+	# The 武馆 hall is on the school compound's own map since the remap.
+	var map := MapPlaces.enter(session, SnowWorldDefinitions.SCHOOLHALL_ZONE_ID, &"snow.schoolhall.master.1")
+	check(map != null and map.map_id() == &"snow.school_compound", "test contact map handoff")
+	map.player_body.position = MapPlaces.service_spot(map, &"snow.school_compound.schoolhall.master", SnowWorldDefinitions.SCHOOLHALL_ZONE_ID)
+	check(player.set_world_location(map.location_for_zone(SnowWorldDefinitions.SCHOOLHALL_ZONE_ID)), "test Liu contact placement")
+	var school := map.service(&"snow.school_compound.schoolhall.master") as TeacherService
 	check(school.request_apprentice() == NpcApprenticeship.Outcome.RECRUITED, "production Liu apprenticeship")
 	check(state.family.family_id == &"family.fonxan" and state.family.generation == 14 and state.apprenticeship.master_teacher_id == &"common.npc.swordsman.master" and state.affiliation.class_id == &"swordsman", "committed relationship")
 	var basic_rng := LearnDraws.new([29])

@@ -31,10 +31,10 @@ script = ExtResource("map")
 map = &"choyin.cliff_cave"
 
 [node name="Backdrop" type="ColorRect" parent="."]
-offset_left = -32
-offset_top = -32
-offset_right = 352
-offset_bottom = 288
+offset_left = -2080
+offset_top = -2080
+offset_right = 2400
+offset_bottom = 2336
 mouse_filter = 2
 color = Color(0.17, 0.2, 0.14, 1)
 

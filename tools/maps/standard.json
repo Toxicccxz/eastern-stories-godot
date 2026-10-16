@@ -17,13 +17,13 @@
   },
   "wall_tiles": 2,
   "room": {
-    "closet": [6.0, 5.0],
-    "small": [8.0, 6.0],
-    "room": [10.0, 7.0],
-    "large": [13.0, 9.0],
-    "hall": [16.0, 10.0],
-    "yard": [16.0, 12.0],
-    "grand": [20.0, 14.0]
+    "closet": [8.0, 6.0],
+    "small": [11.0, 8.0],
+    "room": [14.0, 10.0],
+    "large": [18.0, 12.0],
+    "hall": [22.0, 14.0],
+    "yard": [22.0, 16.0],
+    "grand": [26.0, 18.0]
   },
   "building_note": "a building's floor, all its rooms together, at least (square bodies)",
   "building": {

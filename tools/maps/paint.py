@@ -146,11 +146,21 @@ def paint_map(region: Region, entry: dict, notes: list | None = None) -> str:
         has_services = any(n.get('node') == 'service' for n in scene.get('nodes', []))
         text = sc.map_scene(scene['root'], scene['map'], sizes, nodes, zones, points, interactions,
                             scene.get('limits', limits), scene['player_color'], has_doors, has_services,
-                            (backdrop, drawn.bounds) if backdrop else None)
+                            (backdrop, _grown(drawn.bounds, BACKDROP_MARGIN)) if backdrop else None)
     else:
         text = sc.flat_scene(scene['root'], scene['map'], sizes, nodes, zones, points,
                              scene['player_color'], scene['zoom'], has_doors)
     return drawn.tiles.apply(text)
+
+
+# The backdrop reaches this far past a map's drawing: a room smaller than the screen sits on
+# it (the camera centres it), not on the window's clear colour.
+BACKDROP_MARGIN = 2048
+
+
+def _grown(box, margin: int) -> tuple:
+    x0, y0, x1, y1 = box
+    return (x0 - margin, y0 - margin, x1 + margin, y1 + margin)
 
 
 def generate(region: str, data: Path = DATA, notes: list | None = None) -> dict[str, str]:

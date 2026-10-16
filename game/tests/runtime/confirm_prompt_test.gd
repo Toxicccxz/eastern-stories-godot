@@ -30,10 +30,10 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	for frame: int in range(5):
 		await tree.process_frame
 	var map: WorldMapController = session.active_map() as WorldMapController
-	_test_spar(session, map)
-	_test_dissolve(session, map)
+	await _test_spar(session, map)
+	await _test_dissolve(session, map)
 	await _test_first_master(session, map)
-	_test_master_attack(session, map)
+	await _test_master_attack(session, map)
 	session.free()
 	await tree.process_frame
 	return {"assertions": _count, "failures": _failures}
@@ -77,16 +77,17 @@ func _test_component(tree: SceneTree) -> void:
 ## 安惜迩, who answers with kill_ob(), asked as a fight to the death; 柳绘心's refusal is
 ## not asked although she holds a sword.
 func _test_spar(session: WorldSessionController, map: WorldMapController) -> void:
+	# Each NPC stands on a map of its own room's since the remap: _select() goes there.
 	var hud: SharedGameplayUI = session.shared_ui()
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
-	var trainee: NpcRuntimeState = map.find_resident_npc(TRAINEE)
-	_select(map, hud, &"snow.school2", trainee)
+	var trainee: NpcRuntimeState = _find(session, TRAINEE)
+	map = await _select(session, hud, &"snow.school2", trainee)
 	_check(not map.spar_is_armed(trainee) and hud.spar_is_enabled(), "the trainee: an unarmed 切磋")
 	hud.spar_button.pressed.emit()
 	_check(not hud.is_asking() and coordinator.has_active_encounter(), "an unarmed 切磋 is not asked")
 	_run(session)
-	var guard: NpcRuntimeState = map.find_resident_npc(GUARD)
-	_select(map, hud, &"snow.school1", guard)
+	var guard: NpcRuntimeState = _find(session, GUARD)
+	map = await _select(session, hud, &"snow.school1", guard)
 	_check(map.spar_is_armed(guard), "刘安禄's blade arms the spar")
 	hud.spar_button.pressed.emit()
 	var text: String = hud.confirm_prompt.message.text
@@ -112,16 +113,16 @@ func _test_spar(session: WorldSessionController, map: WorldMapController) -> voi
 	hud.confirm_prompt.confirm_button.pressed.emit()
 	_check(coordinator.has_active_encounter() and coordinator.active_encounter().mode == CombatEncounterMode.Value.SPAR and hud.log_lines().back() == "刀剑无眼，持兵刃比试可能真的受伤。", "确定切磋: the spar, and its hint in the log")
 	_run(session)
-	var annihir: NpcRuntimeState = map.find_resident_npc(ANNIHIR)
-	_select(map, hud, &"snow.bank", annihir)
+	var annihir: NpcRuntimeState = _find(session, ANNIHIR)
+	map = await _select(session, hud, &"snow.bank", annihir)
 	_check(map.selected_spar_risk() == WorldMapController.SparRisk.DEADLY, "安惜迩's spar is a fight to the death")
 	hud.spar_button.pressed.emit()
 	text = hud.confirm_prompt.message.text
 	_check(hud.is_asking() and not coordinator.has_active_encounter() and text.begins_with("安惜迩不会只跟你点到为止：这一场切磋会变成生死相搏。"), "asked as a fight to the death: " + text)
 	hud.confirm_prompt.cancel_button.pressed.emit()
 	_check(not coordinator.has_active_encounter() and not hud.is_asking(), "取消: no fight")
-	var girl: NpcRuntimeState = map.find_resident_npc(GIRL)
-	_select(map, hud, &"snow.nyard", girl)
+	var girl: NpcRuntimeState = _find(session, GIRL)
+	map = await _select(session, hud, &"snow.nyard", girl)
 	_check(map.spar_is_armed(girl) and map.selected_spar_risk() == WorldMapController.SparRisk.NONE, "柳绘心 holds a sword but refuses")
 	hud.spar_button.pressed.emit()
 	_check(not hud.is_asking() and not coordinator.has_active_encounter() and hud.log_lines().back() == "看起来柳绘心并不想跟你较量。", "a refused spar is not asked: " + hud.log_lines().back())
@@ -133,8 +134,13 @@ func _test_dissolve(session: WorldSessionController, map: WorldMapController) ->
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	player.state.progression.combat_experience = 100000 # TEST-ONLY: a fresh character loses to anyone
-	var guard: NpcRuntimeState = map.find_resident_npc(GUARD)
-	_select(map, hud, &"snow.school1", guard)
+	# TEST-ONLY: and a blade or a bite cannot end the fight first whatever the draws are (the NPCs'
+	# rolled stats, hence every fight's course, shift with the order the maps are built in).
+	player.state.vitality.maximum = 5000
+	player.state.vitality.effective = 5000
+	player.state.vitality.current = 5000
+	var guard: NpcRuntimeState = _find(session, GUARD)
+	map = await _select(session, hud, &"snow.school1", guard)
 	_wound(guard)
 	hud.attack_button.pressed.emit()
 	_check(not hud.is_asking() and coordinator.has_active_encounter(), "攻击 on anyone but one's master is not asked")
@@ -150,8 +156,8 @@ func _test_dissolve(session: WorldSessionController, map: WorldMapController) ->
 	hud.inventory_panel.dissolve_requested.emit(dust)
 	hud.confirm_prompt.confirm_button.pressed.emit()
 	_check(_corpse_of(map, GUARD) == null and session.stack_collection().stack_state(dust).amount == 2 and hud.inventory_is_open(), "确定化掉: dissolved, back in the 背包")
-	var dog: NpcRuntimeState = map.find_resident_npc(DOG)
-	_select(map, hud, &"snow.eroad2", dog)
+	var dog: NpcRuntimeState = _find(session, DOG)
+	map = await _select(session, hud, &"snow.eroad2", dog)
 	_wound(dog)
 	map.attack_selected()
 	_run(session)
@@ -164,11 +170,14 @@ func _test_dissolve(session: WorldSessionController, map: WorldMapController) ->
 ## 拜师 柳淳风 without a family: asked only when he will take the player.
 func _test_first_master(session: WorldSessionController, map: WorldMapController) -> void:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	var master: NpcRuntimeState = _master(map)
+	var master: NpcRuntimeState = _master(session)
 	session.shared_ui().dismiss_current_panel() # the 背包 from the dissolve
-	_check(map.relocate_player(&"snow.schoolhall", master.spawn_point_id), "beside 柳淳风")
+	map = MapPlaces.enter(session, &"snow.schoolhall", master.spawn_point_id)
+	_check(map != null and map.npc_runtimes().has(master), "beside 柳淳风")
+	await session.get_tree().process_frame
+	await session.get_tree().process_frame
 	await session.get_tree().physics_frame
-	var school: TeacherService = map.service(&"snow.outdoor.schoolhall.master") as TeacherService
+	var school: TeacherService = map.service(&"snow.school_compound.schoolhall.master") as TeacherService
 	player.state.attributes.courage = 25 # TEST-ONLY
 	player.state.attributes.composure = 10 # TEST-ONLY: below his cps 20
 	school.ui.interact()
@@ -196,8 +205,8 @@ func _test_master_attack(session: WorldSessionController, map: WorldMapControlle
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	player.state.progression.score = 7 # TEST-ONLY
-	var master: NpcRuntimeState = _master(map)
-	_select(map, hud, &"snow.schoolhall", master)
+	var master: NpcRuntimeState = _master(session)
+	map = await _select(session, hud, &"snow.schoolhall", master)
 	_check(hud.attack_is_enabled(), "攻击 offered on 柳淳风")
 	hud.attack_button.pressed.emit()
 	var text: String = hud.confirm_prompt.message.text
@@ -209,15 +218,32 @@ func _test_master_attack(session: WorldSessionController, map: WorldMapControlle
 	_check(coordinator.has_active_encounter() and coordinator.active_encounter().mode != CombatEncounterMode.Value.SPAR, "确定攻击: a fight to the death")
 
 
-func _select(map: WorldMapController, hud: SharedGameplayUI, zone_id: StringName, npc: NpcRuntimeState) -> void:
-	_check(map.relocate_player(zone_id, npc.spawn_point_id) and map.select_npc(npc.character_id), "beside " + String(npc.character_id))
+## The player goes to the NPC's room (whichever map it is on since the remap), the HUD binds the
+## map on its next frames (it clears the selection once when it meets a new map), then the NPC is
+## selected. The map they are on.
+func _select(session: WorldSessionController, hud: SharedGameplayUI, zone_id: StringName, npc: NpcRuntimeState) -> WorldMapController:
+	var map: WorldMapController = MapPlaces.enter(session, zone_id, npc.spawn_point_id)
+	await session.get_tree().process_frame
+	await session.get_tree().process_frame
+	_check(map != null and map.select_npc(npc.character_id), "beside " + String(npc.character_id))
 	hud.refresh_live_state()
+	return map
 
 
-func _master(map: WorldMapController) -> NpcRuntimeState:
-	for npc: NpcRuntimeState in map.resident_npcs():
-		if npc.definition().definition_id == Master.MASTER_ID:
+## A resident NPC on whichever map it stands.
+func _find(session: WorldSessionController, character_id: StringName) -> NpcRuntimeState:
+	for map: WorldMapController in session.world_maps():
+		var npc: NpcRuntimeState = map.find_resident_npc(character_id)
+		if npc != null:
 			return npc
+	return null
+
+
+func _master(session: WorldSessionController) -> NpcRuntimeState:
+	for map: WorldMapController in session.world_maps():
+		for npc: NpcRuntimeState in map.resident_npcs():
+			if npc.definition().definition_id == Master.MASTER_ID:
+				return npc
 	return null
 
 

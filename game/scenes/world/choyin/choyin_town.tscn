@@ -62,10 +62,10 @@ script = ExtResource("map")
 map = &"choyin.town"
 
 [node name="Backdrop" type="ColorRect" parent="."]
-offset_left = 416
-offset_top = 64
-offset_right = 4352
-offset_bottom = 2880
+offset_left = -1632
+offset_top = -1984
+offset_right = 6400
+offset_bottom = 4928
 mouse_filter = 2
 color = Color(0.17, 0.2, 0.14, 1)
 

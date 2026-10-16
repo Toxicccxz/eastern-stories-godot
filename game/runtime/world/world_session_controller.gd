@@ -1619,11 +1619,11 @@ func _revive_from_unconscious() -> void:
 	_life_flow.finish()
 
 
-## /d/snow/temple (REVIVE_ROOM, and where dun.c sends its caster): on its own map (Snow's
-## streets) no scene change, just the move; else a handoff there. Whether the player is
-## there now.
+## /d/snow/temple (REVIVE_ROOM, and where dun.c sends its caster), on the temple's own map
+## (SnowWorldDefinitions.temple_map_id()): on that map already, just the move; else a handoff
+## there. Whether the player is there now.
 func _move_player_to_temple() -> bool:
-	return _move_player_to(SnowWorldDefinitions.OUTDOOR_MAP_ID, SnowWorldDefinitions.TEMPLE_ZONE_ID, SnowWorldDefinitions.REVIVE_SPAWN_ID)
+	return _move_player_to(SnowWorldDefinitions.temple_map_id(), SnowWorldDefinitions.TEMPLE_ZONE_ID, SnowWorldDefinitions.REVIVE_SPAWN_ID)
 
 
 ## ob->move(room) for the player: on the active map a move, else a handoff (its result in
@@ -1652,7 +1652,7 @@ func advance_departure() -> void:
 		return
 	if _transitioning or _restore_candidate_staged or coordinator.has_active_encounter() or not application_gameplay_allows_encounter_advance():
 		return
-	var on_snow: bool = active_map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID
+	var on_snow: bool = active_map_id() == SnowWorldDefinitions.temple_map_id()
 	if room == DunSpell.DESTINATION and _player != null and _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
 		if not _move_player_to_temple():
 			if not on_snow and _last_temple_handoff.outcome in [OldPineMapHandoffResult.Outcome.WORLD_SIMULATION_FROZEN, OldPineMapHandoffResult.Outcome.SESSION_NOT_READY]:
@@ -1703,7 +1703,7 @@ func _advance_reincarnation() -> void:
 	# Lying unconscious (a spell's cost): the move waits until they come to.
 	if _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
 		return
-	var on_snow: bool = active_map_id() == SnowWorldDefinitions.OUTDOOR_MAP_ID
+	var on_snow: bool = active_map_id() == SnowWorldDefinitions.temple_map_id()
 	if not _move_player_to_temple():
 		return
 	if not on_snow:

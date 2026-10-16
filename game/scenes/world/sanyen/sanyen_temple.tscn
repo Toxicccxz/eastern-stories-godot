@@ -57,10 +57,10 @@ script = ExtResource("map")
 map = &"sanyen.grounds"
 
 [node name="Backdrop" type="ColorRect" parent="."]
-offset_left = 0
-offset_top = 64
-offset_right = 1472
-offset_bottom = 1984
+offset_left = -2048
+offset_top = -1984
+offset_right = 3520
+offset_bottom = 4032
 mouse_filter = 2
 color = Color(0.17, 0.2, 0.14, 1)
 

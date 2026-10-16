@@ -6,7 +6,16 @@
 		{ "id": "snow.inn", "region": "snow", "scene": "res://scenes/world/snow/snow_inn.tscn", "entry": "snow.inn.main_floor.player_birth", "interior": true },
 		{ "id": "snow.outdoor", "region": "snow", "scene": "res://scenes/world/snow/snow_outdoor.tscn", "entry": "snow.square.inn_entry" },
 		{ "id": "snow.inn_upstairs", "region": "snow", "scene": "res://scenes/world/snow/snow_inn_upstairs.tscn", "entry": "snow.inn_2f.stairs_arrival", "interior": true },
-		{ "id": "snow.cellar", "region": "snow", "scene": "res://scenes/world/snow/snow_cellar.tscn", "entry": "snow.secret_storage.stairs_arrival", "interior": true }
+		{ "id": "snow.cellar", "region": "snow", "scene": "res://scenes/world/snow/snow_cellar.tscn", "entry": "snow.secret_storage.stairs_arrival", "interior": true },
+		{ "id": "snow.bank_house", "region": "snow", "scene": "res://scenes/world/snow/snow_bank_house.tscn", "entry": "snow.bank.bank_entry", "interior": true },
+		{ "id": "snow.smithy_house", "region": "snow", "scene": "res://scenes/world/snow/snow_smithy_house.tscn", "entry": "snow.smithy.smithy_entry", "interior": true },
+		{ "id": "snow.herbshop_house", "region": "snow", "scene": "res://scenes/world/snow/snow_herbshop_house.tscn", "entry": "snow.herbshop.herbshop_entry", "interior": true },
+		{ "id": "snow.postoffice_house", "region": "snow", "scene": "res://scenes/world/snow/snow_postoffice_house.tscn", "entry": "snow.postoffice.postoffice_entry", "interior": true },
+		{ "id": "snow.workplace_house", "region": "snow", "scene": "res://scenes/world/snow/snow_workplace_house.tscn", "entry": "snow.workplace.workplace_entry", "interior": true },
+		{ "id": "snow.hockshop_house", "region": "snow", "scene": "res://scenes/world/snow/snow_hockshop_house.tscn", "entry": "snow.hockshop.hockshop_entry", "interior": true },
+		{ "id": "snow.school_compound", "region": "snow", "scene": "res://scenes/world/snow/snow_school_compound.tscn", "entry": "snow.school2.gate_entry", "interior": true },
+		{ "id": "snow.temple_house", "region": "snow", "scene": "res://scenes/world/snow/snow_temple_house.tscn", "entry": "snow.temple.square_entry", "interior": true },
+		{ "id": "snow.academy", "region": "snow", "scene": "res://scenes/world/snow/snow_academy.tscn", "entry": "snow.school.academy_entry", "interior": true }
 	],
 	"zones": [
 		{ "id": "snow.inn.main_floor", "map": "snow.inn", "rooms": ["es2:d/snow/inn"] },
@@ -15,154 +24,86 @@
 		{ "id": "snow.eroad1", "map": "snow.outdoor", "rooms": ["es2:d/snow/eroad1"] },
 		{ "id": "snow.eroad2", "map": "snow.outdoor", "rooms": ["es2:d/snow/eroad2"] },
 		{ "id": "snow.eroad3", "map": "snow.outdoor", "rooms": ["es2:d/snow/eroad3"] },
-		{ "id": "snow.temple", "map": "snow.outdoor", "rooms": ["es2:d/snow/temple"] },
+		{ "id": "snow.temple", "map": "snow.temple_house", "rooms": ["es2:d/snow/temple"] },
 		{ "id": "snow.mstreet1", "map": "snow.outdoor", "rooms": ["es2:d/snow/mstreet1"] },
 		{ "id": "snow.mstreet2", "map": "snow.outdoor", "rooms": ["es2:d/snow/mstreet2"] },
 		{ "id": "snow.mstreet3", "map": "snow.outdoor", "rooms": ["es2:d/snow/mstreet3"] },
 		{ "id": "snow.mstreet4", "map": "snow.outdoor", "rooms": ["es2:d/snow/mstreet4"] },
 		{ "id": "snow.crossroad", "map": "snow.outdoor", "rooms": ["es2:d/snow/crossroad"] },
-		{ "id": "snow.workplace", "map": "snow.outdoor", "rooms": ["es2:d/snow/workplace"] },
-		{ "id": "snow.bank", "map": "snow.outdoor", "rooms": ["es2:d/snow/bank"] },
-		{ "id": "snow.hockshop", "map": "snow.outdoor", "rooms": ["es2:d/snow/hockshop"] },
+		{ "id": "snow.workplace", "map": "snow.workplace_house", "rooms": ["es2:d/snow/workplace"] },
+		{ "id": "snow.bank", "map": "snow.bank_house", "rooms": ["es2:d/snow/bank"] },
+		{ "id": "snow.hockshop", "map": "snow.hockshop_house", "rooms": ["es2:d/snow/hockshop"] },
 		{ "id": "snow.school1", "map": "snow.outdoor", "rooms": ["es2:d/snow/school1"] },
-		{ "id": "snow.school2", "map": "snow.outdoor", "rooms": ["es2:d/snow/school2"] },
-		{ "id": "snow.schoolhall", "map": "snow.outdoor", "rooms": ["es2:d/snow/schoolhall"] },
+		{ "id": "snow.school2", "map": "snow.school_compound", "rooms": ["es2:d/snow/school2"] },
+		{ "id": "snow.schoolhall", "map": "snow.school_compound", "rooms": ["es2:d/snow/schoolhall"] },
 		{ "id": "snow.sroad2", "map": "snow.outdoor", "rooms": ["es2:d/snow/sroad2"] },
 		{ "id": "snow.sroad3", "map": "snow.outdoor", "rooms": ["es2:d/snow/sroad3"] },
 		{ "id": "snow.sroad4", "map": "snow.outdoor", "rooms": ["es2:d/snow/sroad4"] },
 		{ "id": "snow.sroad5", "map": "snow.outdoor", "rooms": ["es2:d/snow/sroad5"] },
-		{ "id": "snow.school", "map": "snow.outdoor", "rooms": ["es2:d/snow/school"] },
-		{ "id": "snow.smithy", "map": "snow.outdoor", "rooms": ["es2:d/snow/smithy"] },
-		{ "id": "snow.herbshop", "map": "snow.outdoor", "rooms": ["es2:d/snow/herbshop"] },
-		{ "id": "snow.postoffice", "map": "snow.outdoor", "rooms": ["es2:d/snow/postoffice"] },
-		{ "id": "snow.hockshop2", "map": "snow.outdoor", "rooms": ["es2:d/snow/hockshop2"] },
+		{ "id": "snow.school", "map": "snow.academy", "rooms": ["es2:d/snow/school"] },
+		{ "id": "snow.smithy", "map": "snow.smithy_house", "rooms": ["es2:d/snow/smithy"] },
+		{ "id": "snow.herbshop", "map": "snow.herbshop_house", "rooms": ["es2:d/snow/herbshop"] },
+		{ "id": "snow.postoffice", "map": "snow.postoffice_house", "rooms": ["es2:d/snow/postoffice"] },
+		{ "id": "snow.hockshop2", "map": "snow.hockshop_house", "rooms": ["es2:d/snow/hockshop2"] },
 		{ "id": "snow.inn_2f", "map": "snow.inn_upstairs", "rooms": ["es2:d/snow/inn_2f"] },
 		{ "id": "snow.n_room", "map": "snow.inn_upstairs", "rooms": ["es2:d/snow/n_room"] },
 		{ "id": "snow.e_room", "map": "snow.inn_upstairs", "rooms": ["es2:d/snow/e_room"] },
 		{ "id": "snow.w_room", "map": "snow.inn_upstairs", "rooms": ["es2:d/snow/w_room"] },
-		{ "id": "snow.inneryard", "map": "snow.outdoor", "rooms": ["es2:d/snow/inneryard"] },
-		{ "id": "snow.innerhall", "map": "snow.outdoor", "rooms": ["es2:d/snow/innerhall"] },
-		{ "id": "snow.guestroom", "map": "snow.outdoor", "rooms": ["es2:d/snow/guestroom"] },
-		{ "id": "snow.nyard", "map": "snow.outdoor", "rooms": ["es2:d/snow/nyard"] },
-		{ "id": "snow.weapon_storage", "map": "snow.outdoor", "rooms": ["es2:d/snow/weapon_storage"] },
+		{ "id": "snow.inneryard", "map": "snow.school_compound", "rooms": ["es2:d/snow/inneryard"] },
+		{ "id": "snow.innerhall", "map": "snow.school_compound", "rooms": ["es2:d/snow/innerhall"] },
+		{ "id": "snow.guestroom", "map": "snow.school_compound", "rooms": ["es2:d/snow/guestroom"] },
+		{ "id": "snow.nyard", "map": "snow.school_compound", "rooms": ["es2:d/snow/nyard"] },
+		{ "id": "snow.weapon_storage", "map": "snow.school_compound", "rooms": ["es2:d/snow/weapon_storage"] },
 		{ "id": "snow.secret_storage", "map": "snow.cellar", "rooms": ["es2:d/snow/secret_storage"] }
 	],
 	"portals": [
-		{
-			"id": "snow.inn.east", "from_zone": "snow.inn.main_floor",
-			"to_zone": "snow.square", "to_spawn": "snow.square.inn_entry",
-			"legacy_room": "es2:d/snow/inn", "legacy_command": "east"
-		},
-		{
-			"id": "snow.square.west", "from_zone": "snow.square",
-			"to_zone": "snow.inn.main_floor", "to_spawn": "snow.inn.main_floor.square_return",
-			"legacy_room": "es2:d/snow/square", "legacy_command": "west"
-		},
-		{
-			"id": "snow.eroad3.south", "from_zone": "snow.eroad3",
-			"to_zone": "oldpine.outdoor.north_approach", "to_spawn": "oldpine.outdoor.north_approach.snow_entry",
-			"legacy_room": "es2:d/snow/eroad3", "legacy_command": "south"
-		},
-		{
-			"id": "snow.crossroad.north", "from_zone": "snow.crossroad",
-			"to_zone": "goathill.mroad1", "to_spawn": "goathill.mroad1.snow_entry",
-			"legacy_room": "es2:d/snow/crossroad", "legacy_command": "north"
-		},
-		{
-			"id": "snow.crossroad.east", "from_zone": "snow.crossroad",
-			"to_zone": "green.path6", "to_spawn": "green.path6.snow_entry",
-			"legacy_room": "es2:d/snow/crossroad", "legacy_command": "east"
-		},
-		{
-			"id": "snow.sroad1.south", "from_zone": "snow.sroad1",
-			"to_zone": "cloud.dragonhill.nroad", "to_spawn": "cloud.dragonhill.nroad.snow_entry",
-			"legacy_room": "es2:d/snow/sroad1", "legacy_command": "south"
-		},
-		{
-			"id": "snow.eroad3.east", "from_zone": "snow.eroad3",
-			"to_zone": "temple.sroad", "to_spawn": "temple.sroad.snow_entry",
-			"legacy_room": "es2:d/snow/eroad3", "legacy_command": "east"
-		},
-		{
-			"id": "snow.sroad5.west", "from_zone": "snow.sroad5",
-			"to_zone": "waterfog.sroad1", "to_spawn": "waterfog.sroad1.snow_entry",
-			"legacy_room": "es2:d/snow/sroad5", "legacy_command": "west"
-		},
-		{
-			"id": "snow.sroad4.southwest", "from_zone": "snow.sroad4",
-			"to_zone": "canyon.road", "to_spawn": "canyon.road.snow_arrival",
-			"legacy_room": "es2:d/snow/sroad4", "legacy_command": "southwest"
-		},
-		{
-			"id": "snow.inn.up", "from_zone": "snow.inn.main_floor",
-			"to_zone": "snow.inn_2f", "to_spawn": "snow.inn_2f.stairs_arrival",
-			"legacy_room": "es2:d/snow/inn", "legacy_command": "up"
-		},
-		{
-			"id": "snow.inn_2f.down", "from_zone": "snow.inn_2f",
-			"to_zone": "snow.inn.main_floor", "to_spawn": "snow.inn.main_floor.stairs_return",
-			"legacy_room": "es2:d/snow/inn_2f", "legacy_command": "down"
-		},
-		{
-			"id": "snow.weapon_storage.down", "from_zone": "snow.weapon_storage",
-			"to_zone": "snow.secret_storage", "to_spawn": "snow.secret_storage.stairs_arrival",
-			"legacy_room": "es2:d/snow/weapon_storage", "legacy_command": "down"
-		},
-		{
-			"id": "snow.secret_storage.up", "from_zone": "snow.secret_storage",
-			"to_zone": "snow.weapon_storage", "to_spawn": "snow.weapon_storage.stairs_return",
-			"legacy_room": "es2:d/snow/secret_storage", "legacy_command": "up"
-		}
+		{ "id": "snow.inn.east", "from_zone": "snow.inn.main_floor", "to_zone": "snow.square", "to_spawn": "snow.square.inn_entry", "legacy_room": "es2:d/snow/inn", "legacy_command": "east" },
+		{ "id": "snow.square.west", "from_zone": "snow.square", "to_zone": "snow.inn.main_floor", "to_spawn": "snow.inn.main_floor.square_return", "legacy_room": "es2:d/snow/square", "legacy_command": "west" },
+		{ "id": "snow.eroad3.south", "from_zone": "snow.eroad3", "to_zone": "oldpine.outdoor.north_approach", "to_spawn": "oldpine.outdoor.north_approach.snow_entry", "legacy_room": "es2:d/snow/eroad3", "legacy_command": "south" },
+		{ "id": "snow.crossroad.north", "from_zone": "snow.crossroad", "to_zone": "goathill.mroad1", "to_spawn": "goathill.mroad1.snow_entry", "legacy_room": "es2:d/snow/crossroad", "legacy_command": "north" },
+		{ "id": "snow.crossroad.east", "from_zone": "snow.crossroad", "to_zone": "green.path6", "to_spawn": "green.path6.snow_entry", "legacy_room": "es2:d/snow/crossroad", "legacy_command": "east" },
+		{ "id": "snow.sroad1.south", "from_zone": "snow.sroad1", "to_zone": "cloud.dragonhill.nroad", "to_spawn": "cloud.dragonhill.nroad.snow_entry", "legacy_room": "es2:d/snow/sroad1", "legacy_command": "south" },
+		{ "id": "snow.eroad3.east", "from_zone": "snow.eroad3", "to_zone": "temple.sroad", "to_spawn": "temple.sroad.snow_entry", "legacy_room": "es2:d/snow/eroad3", "legacy_command": "east" },
+		{ "id": "snow.sroad5.west", "from_zone": "snow.sroad5", "to_zone": "waterfog.sroad1", "to_spawn": "waterfog.sroad1.snow_entry", "legacy_room": "es2:d/snow/sroad5", "legacy_command": "west" },
+		{ "id": "snow.sroad4.southwest", "from_zone": "snow.sroad4", "to_zone": "canyon.road", "to_spawn": "canyon.road.snow_arrival", "legacy_room": "es2:d/snow/sroad4", "legacy_command": "southwest" },
+		{ "id": "snow.inn.up", "from_zone": "snow.inn.main_floor", "to_zone": "snow.inn_2f", "to_spawn": "snow.inn_2f.stairs_arrival", "legacy_room": "es2:d/snow/inn", "legacy_command": "up" },
+		{ "id": "snow.inn_2f.down", "from_zone": "snow.inn_2f", "to_zone": "snow.inn.main_floor", "to_spawn": "snow.inn.main_floor.stairs_return", "legacy_room": "es2:d/snow/inn_2f", "legacy_command": "down" },
+		{ "id": "snow.weapon_storage.down", "from_zone": "snow.weapon_storage", "to_zone": "snow.secret_storage", "to_spawn": "snow.secret_storage.stairs_arrival", "legacy_room": "es2:d/snow/weapon_storage", "legacy_command": "down" },
+		{ "id": "snow.secret_storage.up", "from_zone": "snow.secret_storage", "to_zone": "snow.weapon_storage", "to_spawn": "snow.weapon_storage.stairs_return", "legacy_room": "es2:d/snow/secret_storage", "legacy_command": "up" },
+		{ "id": "snow.mstreet1.west", "from_zone": "snow.mstreet1", "to_zone": "snow.bank", "to_spawn": "snow.bank.bank_entry", "legacy_room": "es2:d/snow/mstreet1", "legacy_command": "west" },
+		{ "id": "snow.bank.east", "from_zone": "snow.bank", "to_zone": "snow.mstreet1", "to_spawn": "snow.mstreet1.bank_return", "legacy_room": "es2:d/snow/bank", "legacy_command": "east" },
+		{ "id": "snow.mstreet2.west", "from_zone": "snow.mstreet2", "to_zone": "snow.smithy", "to_spawn": "snow.smithy.smithy_entry", "legacy_room": "es2:d/snow/mstreet2", "legacy_command": "west" },
+		{ "id": "snow.smithy.east", "from_zone": "snow.smithy", "to_zone": "snow.mstreet2", "to_spawn": "snow.mstreet2.smithy_return", "legacy_room": "es2:d/snow/smithy", "legacy_command": "east" },
+		{ "id": "snow.mstreet2.east", "from_zone": "snow.mstreet2", "to_zone": "snow.workplace", "to_spawn": "snow.workplace.workplace_entry", "legacy_room": "es2:d/snow/mstreet2", "legacy_command": "east" },
+		{ "id": "snow.workplace.west", "from_zone": "snow.workplace", "to_zone": "snow.mstreet2", "to_spawn": "snow.mstreet2.workplace_return", "legacy_room": "es2:d/snow/workplace", "legacy_command": "west" },
+		{ "id": "snow.mstreet3.west", "from_zone": "snow.mstreet3", "to_zone": "snow.herbshop", "to_spawn": "snow.herbshop.herbshop_entry", "legacy_room": "es2:d/snow/mstreet3", "legacy_command": "west" },
+		{ "id": "snow.herbshop.east", "from_zone": "snow.herbshop", "to_zone": "snow.mstreet3", "to_spawn": "snow.mstreet3.herbshop_return", "legacy_room": "es2:d/snow/herbshop", "legacy_command": "east" },
+		{ "id": "snow.mstreet3.east", "from_zone": "snow.mstreet3", "to_zone": "snow.hockshop", "to_spawn": "snow.hockshop.hockshop_entry", "legacy_room": "es2:d/snow/mstreet3", "legacy_command": "east" },
+		{ "id": "snow.hockshop.west", "from_zone": "snow.hockshop", "to_zone": "snow.mstreet3", "to_spawn": "snow.mstreet3.hockshop_return", "legacy_room": "es2:d/snow/hockshop", "legacy_command": "west" },
+		{ "id": "snow.mstreet4.west", "from_zone": "snow.mstreet4", "to_zone": "snow.postoffice", "to_spawn": "snow.postoffice.postoffice_entry", "legacy_room": "es2:d/snow/mstreet4", "legacy_command": "west" },
+		{ "id": "snow.postoffice.east", "from_zone": "snow.postoffice", "to_zone": "snow.mstreet4", "to_spawn": "snow.mstreet4.postoffice_return", "legacy_room": "es2:d/snow/postoffice", "legacy_command": "east" },
+		{ "id": "snow.school1.east", "from_zone": "snow.school1", "to_zone": "snow.school2", "to_spawn": "snow.school2.gate_entry", "legacy_room": "es2:d/snow/school1", "legacy_command": "east" },
+		{ "id": "snow.school2.west", "from_zone": "snow.school2", "to_zone": "snow.school1", "to_spawn": "snow.school1.gate_return", "legacy_room": "es2:d/snow/school2", "legacy_command": "west" },
+		{ "id": "snow.square.east", "from_zone": "snow.square", "to_zone": "snow.temple", "to_spawn": "snow.temple.square_entry", "legacy_room": "es2:d/snow/square", "legacy_command": "east" },
+		{ "id": "snow.temple.west", "from_zone": "snow.temple", "to_zone": "snow.square", "to_spawn": "snow.square.square_return", "legacy_room": "es2:d/snow/temple", "legacy_command": "west" },
+		{ "id": "snow.eroad1.north", "from_zone": "snow.eroad1", "to_zone": "snow.temple", "to_spawn": "snow.temple.path_entry", "legacy_room": "es2:d/snow/eroad1", "legacy_command": "north" },
+		{ "id": "snow.temple.south", "from_zone": "snow.temple", "to_zone": "snow.eroad1", "to_spawn": "snow.eroad1.path_return", "legacy_room": "es2:d/snow/temple", "legacy_command": "south" },
+		{ "id": "snow.sroad2.south", "from_zone": "snow.sroad2", "to_zone": "snow.school", "to_spawn": "snow.school.academy_entry", "legacy_room": "es2:d/snow/sroad2", "legacy_command": "south" },
+		{ "id": "snow.school.north", "from_zone": "snow.school", "to_zone": "snow.sroad2", "to_spawn": "snow.sroad2.academy_return", "legacy_room": "es2:d/snow/school", "legacy_command": "north" }
 	],
 	"services": [
-		{
-			"id": "snow.workplace.mill", "kind": "work", "zone": "snow.workplace",
-			"name": "短工", "reach": 96, "legacy_source": "d/snow/workplace.c"
-		},
-		{
-			"id": "snow.bank.counter", "kind": "bank", "zone": "snow.bank",
-			"name": "钱庄", "reach": 96, "legacy_source": "d/snow/bank.c"
-		},
-		{
-			"id": "snow.hockshop.counter", "kind": "hockshop", "zone": "snow.hockshop",
-			"name": "丰登当铺", "reach": 90, "legacy_source": "d/snow/hockshop.c"
-		}
+		{ "id": "snow.workplace.mill", "kind": "work", "zone": "snow.workplace", "name": "短工", "reach": 96, "legacy_source": "d/snow/workplace.c" },
+		{ "id": "snow.bank.counter", "kind": "bank", "zone": "snow.bank", "name": "钱庄", "reach": 96, "legacy_source": "d/snow/bank.c" },
+		{ "id": "snow.hockshop.counter", "kind": "hockshop", "zone": "snow.hockshop", "name": "丰登当铺", "reach": 90, "legacy_source": "d/snow/hockshop.c" }
 	],
 	"doors": [
-		{
-			"id": "snow.school.gate", "name": "红漆大门", "zones": ["snow.school1", "snow.school2"],
-			"reach": 90, "legacy_room": "es2:d/snow/school1"
-		},
-		{
-			"id": "snow.hockshop.door", "name": "木雕门", "zones": ["snow.mstreet3", "snow.hockshop"],
-			"reach": 85, "closable": false, "legacy_room": "es2:d/snow/hockshop"
-		},
-		{
-			"id": "snow.inn_2f.north_door", "name": "房门", "zones": ["snow.inn_2f", "snow.n_room"],
-			"reach": 90, "legacy_room": "es2:d/snow/inn_2f"
-		},
-		{
-			"id": "snow.inn_2f.east_door", "name": "房门", "zones": ["snow.inn_2f", "snow.e_room"],
-			"reach": 90, "legacy_room": "es2:d/snow/inn_2f"
-		},
-		{
-			"id": "snow.inn_2f.west_door", "name": "房门", "zones": ["snow.inn_2f", "snow.w_room"],
-			"reach": 90, "legacy_room": "es2:d/snow/inn_2f"
-		}
+		{ "id": "snow.school.gate", "name": "红漆大门", "zones": ["snow.school1", "snow.school2"], "reach": 90, "legacy_room": "es2:d/snow/school1" },
+		{ "id": "snow.hockshop.door", "name": "木雕门", "zones": ["snow.mstreet3", "snow.hockshop"], "reach": 85, "closable": false, "legacy_room": "es2:d/snow/hockshop" },
+		{ "id": "snow.inn_2f.north_door", "name": "房门", "zones": ["snow.inn_2f", "snow.n_room"], "reach": 90, "legacy_room": "es2:d/snow/inn_2f" },
+		{ "id": "snow.inn_2f.east_door", "name": "房门", "zones": ["snow.inn_2f", "snow.e_room"], "reach": 90, "legacy_room": "es2:d/snow/inn_2f" },
+		{ "id": "snow.inn_2f.west_door", "name": "房门", "zones": ["snow.inn_2f", "snow.w_room"], "reach": 90, "legacy_room": "es2:d/snow/inn_2f" }
 	],
 	"landmarks": [
-		{
-			"id": "snow.weapon_storage.landmark.shelf", "zone": "snow.weapon_storage",
-			"name": "架子", "action": "往左推", "policy": "hidden_passage",
-			"portals": ["snow.weapon_storage.down", "snow.secret_storage.up"],
-			"pushes": 3, "open_seconds": 10,
-			"long": "这个架子上空荡荡的，什么都没有。\n",
-			"messages": {
-				"push": "你将架子往左推...，忽然「喀」一声架子又移回原位。",
-				"open": "地板忽然发出轧轧的声音，一块地面缓缓移动著，露出一个向下的阶梯。",
-				"close": "地板忽然发出轧轧的声音，一块地面缓缓移动著，将向下的通道盖住了。"
-			},
-			"legacy_source": "d/snow/weapon_storage.c"
-		}
+		{ "id": "snow.weapon_storage.landmark.shelf", "zone": "snow.weapon_storage", "name": "架子", "action": "往左推", "policy": "hidden_passage", "portals": ["snow.weapon_storage.down", "snow.secret_storage.up"], "pushes": 3, "open_seconds": 10, "long": "这个架子上空荡荡的，什么都没有。\n", "messages": {"push": "你将架子往左推...，忽然「喀」一声架子又移回原位。", "open": "地板忽然发出轧轧的声音，一块地面缓缓移动著，露出一个向下的阶梯。", "close": "地板忽然发出轧轧的声音，一块地面缓缓移动著，将向下的通道盖住了。"}, "legacy_source": "d/snow/weapon_storage.c" }
 	]
 }

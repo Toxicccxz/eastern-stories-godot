@@ -350,12 +350,14 @@ func _test_surrender(tree: SceneTree) -> void:
 	_check(session.handoff_to(&"snow.outdoor", &"snow.square", &"snow.square", &"snow.square.inn_entry").succeeded(), "out on the square")
 	for frame: int in range(5):
 		await tree.process_frame
-	var map: WorldMapController = session.active_map() as WorldMapController
+	# The 武馆 is its own map (snow.school_compound) since the remap: the trainee lives there.
+	var map: WorldMapController = MapPlaces.enter(session, &"snow.school2", &"snow.school2.trainee.6")
+	await tree.physics_frame
+	await tree.physics_frame
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var ui: BattlePresentationController = session.get_node("BattlePresentationLayer/BattleSurface")
 	var trainee: NpcRuntimeState = map.find_resident_npc(TRAINEE)
-	map.relocate_player(&"snow.school2", &"snow.school2.trainee.6")
 	map.select_npc(TRAINEE)
 	player.state.progression.score = 60 # TEST-ONLY
 	map.spar_selected()

@@ -2,13 +2,20 @@ extends RefCounted
 
 ## Snow's south road and shops (4B): sroad2-5, the school (书院), the smithy, the
 ## herbshop, the post office and the Hockshop storage room are zones of the
-## outdoor map, walked into from their ES2 neighbours. Their NPCs come from the
+## outdoor map (since the remap: the school, smithy, herbshop, post office and storage
+## room are maps of their own, walked into through their doors). Their NPCs come from the
 ## importer; the herbshop and the smithy sell through vendor services (the smith
 ## at his own buy_object() price), and what they sell can be sold at the Hockshop.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const Finance := preload("res://tests/runtime/snow_finance_test.gd")
 const NEW_ZONES: Array[StringName] = [&"snow.sroad2", &"snow.sroad3", &"snow.sroad4", &"snow.sroad5", &"snow.school",
 	&"snow.smithy", &"snow.herbshop", &"snow.postoffice", &"snow.hockshop2"]
+## The map each of them lies on since the remap.
+const MAP_OF: Dictionary[StringName, StringName] = {
+	&"snow.sroad2": &"snow.outdoor", &"snow.sroad3": &"snow.outdoor", &"snow.sroad4": &"snow.outdoor", &"snow.sroad5": &"snow.outdoor",
+	&"snow.school": &"snow.academy", &"snow.smithy": &"snow.smithy_house", &"snow.herbshop": &"snow.herbshop_house",
+	&"snow.postoffice": &"snow.postoffice_house", &"snow.hockshop2": &"snow.hockshop_house",
+}
 
 var _count: int = 0
 var _failures: Array[String] = []
@@ -32,7 +39,7 @@ func _test_rooms_and_text() -> void:
 	for zone_id: StringName in NEW_ZONES:
 		var zone: ZoneDefinition = catalog.zone(zone_id)
 		var room: RoomDefinition = catalog.room(StringName("es2:d/snow/" + String(zone_id).get_slice(".", 1)))
-		_check(zone != null and zone.map_id == &"snow.outdoor" and zone.room_ids() == [room.room_id], "%s is one ES2 room on the outdoor map" % zone_id)
+		_check(zone != null and zone.map_id == MAP_OF[zone_id] and zone.room_ids() == [room.room_id], "%s is one ES2 room on its map (%s)" % [zone_id, MAP_OF[zone_id]])
 	_check(catalog.room(&"es2:d/snow/sroad3").short == "青石官道" and catalog.room(&"es2:d/snow/school").short == "书院", "room titles verbatim")
 	_check(catalog.room(&"es2:d/snow/hockshop2").long.begins_with("这里是丰登当铺的储藏室"), "room text verbatim")
 	# sroad4 south-west leads to 天驼关's clifftop (天驼关 A); sroad5 west leads to 水烟阁.
@@ -86,15 +93,15 @@ func _test_authored_facts(session: WorldSessionController) -> void:
 	var dog: NpcRuntimeState = outdoor.find_resident_npc(&"snow.sroad4.crazy_dog.1.character")
 	_check(dog != null and dog.definition().race_id == &"beast" and dog.definition().has_capability(NpcDefinition.CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE), "疯狗 is an aggressive beast")
 	_check(dog != null and dog.definition().authored_combat_facts().verbs() == [&"bite", &"claw"] and dog.character_state.progression.combat_experience == 100, "疯狗 bites and claws, 100 exp")
-	var teacher: NpcRuntimeState = outdoor.find_resident_npc(&"snow.school.teacher.1.character")
+	var teacher: NpcRuntimeState = _find(session, &"snow.school.teacher.1.character")
 	_check(teacher != null and teacher.definition().short_name() == "教书先生 魏无极" and teacher.character_state.skills.raw_level(&"literate") == 60, "魏无极: title and literate 60")
-	var woodcutter: NpcRuntimeState = outdoor.find_resident_npc(&"snow.herbshop.woodcutter.1.character")
+	var woodcutter: NpcRuntimeState = _find(session, &"snow.herbshop.woodcutter.1.character")
 	_check(woodcutter != null and woodcutter.character_state.equipment.primary_weapon_skill_type() == &"axe" and woodcutter.character_state.equipment.is_secondary_hand_empty(), "樵夫 wields the lumber axe")
-	var officer: NpcRuntimeState = outdoor.find_resident_npc(&"snow.postoffice.post_officer.1.character")
+	var officer: NpcRuntimeState = _find(session, &"snow.postoffice.post_officer.1.character")
 	_check(officer != null and officer.definition().short_name() == "雪亭驿长 杜宽" and officer.world_location().zone_id == &"snow.postoffice", "杜宽 in the post office")
 	# The herbalist and the smith sell from their bodies (4E).
 	for row: Array in [[&"snow.herbshop.herbalist.1.character", &"snow.herbshop"], [&"snow.smithy.smith.1.character", &"snow.smithy"]]:
-		var keeper: NpcRuntimeState = outdoor.find_resident_npc(row[0])
+		var keeper: NpcRuntimeState = _find(session, row[0])
 		_check(keeper != null and keeper.world_location().zone_id == row[1] and not keeper.definition().dealings().vendor_id.is_empty(), "%s keeps the shop" % row[0])
 
 
@@ -115,8 +122,16 @@ func _test_walk_the_south_road(tree: SceneTree, session: WorldSessionController)
 	var map: WorldMapController = session.active_map() as WorldMapController
 	_check(await MapPlaces.drive_through(tree, map, [&"snow.square", &"snow.sroad1", &"snow.sroad2"]), "south off the square and west")
 	_check(player.world_location().zone_id == &"snow.sroad2", "west of sroad1 is sroad2")
-	_check(await MapPlaces.drive_to_zone(tree, map, &"snow.school"), "in at the school's door")
-	_check(player.world_location().zone_id == &"snow.school", "south through the school door")
+	var street: WorldMapController = map
+	_check(await MapPlaces.take_passage(tree, map, &"snow.sroad2.south"), "in at the school's door")
+	await tree.physics_frame
+	await tree.physics_frame
+	_check(session.active_map_id() == &"snow.academy" and player.world_location().zone_id == &"snow.school", "south through the school door")
+	_check(await MapPlaces.take_passage(tree, session.active_map() as WorldMapController, &"snow.school.north"), "and out of it again")
+	await tree.physics_frame
+	await tree.physics_frame
+	map = session.active_map() as WorldMapController
+	_check(map == street and player.world_location().zone_id == &"snow.sroad2", "back on the road at sroad2")
 	var highway: Rect2 = MapPlaces.zone_rect(map, &"snow.sroad3")
 	_check(await MapPlaces.drive_through(tree, map, [&"snow.sroad2"]) and await MapPlaces.drive(tree, map, MapPlaces.spot(map, &"snow.sroad3", Vector2(highway.position.x + 40, highway.get_center().y))), "out and west to the highway's far end")
 	_check(player.world_location().zone_id == &"snow.sroad3", "on to the 青石官道")
@@ -136,6 +151,8 @@ func _test_walk_the_south_road(tree: SceneTree, session: WorldSessionController)
 ## the storage room, and Save/Continue keeps it all exactly.
 func _test_shops(tree: SceneTree) -> void:
 	var session: WorldSessionController = Work.create_session(tree)
+	# TEST-ONLY: nobody chats or wanders on the way, the shopkeepers stay at their counters.
+	session.configure_npc_ambience_random_source(Still.new())
 	await tree.process_frame
 	var money: MoneyInventoryContext = Finance.session_context(session)
 	Finance.add_money(money, CurrencyDenomination.Value.SILVER, 25, &"test.4b.silver")
@@ -144,27 +161,54 @@ func _test_shops(tree: SceneTree) -> void:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var map: WorldMapController = session.active_map() as WorldMapController
 	_check(await MapPlaces.drive_through(tree, map, [&"snow.square", &"snow.mstreet1", &"snow.mstreet2"]), "up the street")
-	_check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, &"snow.outdoor.smithy.smith", &"snow.smithy")), "west into the smithy, up to the smith")
+	var street: WorldMapController = map
+	_check(await MapPlaces.take_passage(tree, map, &"snow.mstreet2.west"), "west through the smithy's door")
+	await tree.physics_frame
+	await tree.physics_frame
+	var shop: WorldMapController = session.active_map() as WorldMapController
+	_check(shop.map_id() == &"snow.smithy_house" and await MapPlaces.drive(tree, shop, MapPlaces.service_spot(shop, &"snow.smithy_house.smithy.smith", &"snow.smithy")), "into the smithy, up to the smith")
 	_check(player.world_location().zone_id == &"snow.smithy", "west of mstreet2 is the smithy")
-	var smith: VendorService = map.service(&"snow.outdoor.smithy.smith") as VendorService
+	var smith: VendorService = shop.service(&"snow.smithy_house.smithy.smith") as VendorService
 	_check(smith.in_reach() and smith.context_title() == "王铁匠 · 购买", "the smith sells at the forge: " + smith.context_title())
 	_check((smith.goods_rows.get_child(0) as Button).text == "铁锤 · 3两银子 · 买一把", "price as vendor.c lists it")
 	var hammer: VendorPurchaseResult = smith.request_purchase("铁锤")
 	_check(hammer.delivered and hammer.price == 300 and Finance.amount(money, CurrencyDenomination.Value.SILVER) == 22, "a hammer for 300 coins (smith.c buy_object)")
-	_check(await MapPlaces.drive_through(tree, map, [&"snow.mstreet2", &"snow.mstreet3"]), "back out and on up the street")
-	_check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, &"snow.outdoor.herbshop.herbalist", &"snow.herbshop")), "west into the herbshop, up to its counter")
+	_check(await MapPlaces.take_passage(tree, shop, &"snow.smithy.east"), "back out of the smithy")
+	await tree.physics_frame
+	await tree.physics_frame
+	_check(session.active_map() == street and await MapPlaces.drive_through(tree, map, [&"snow.mstreet2", &"snow.mstreet3"]), "back out and on up the street")
+	_check(await MapPlaces.take_passage(tree, map, &"snow.mstreet3.west"), "west through the herbshop's door")
+	await tree.physics_frame
+	await tree.physics_frame
+	shop = session.active_map() as WorldMapController
+	_check(shop.map_id() == &"snow.herbshop_house" and await MapPlaces.drive(tree, shop, MapPlaces.service_spot(shop, &"snow.herbshop_house.herbshop.herbalist", &"snow.herbshop")), "into the herbshop, up to its counter")
 	_check(player.world_location().zone_id == &"snow.herbshop", "west of mstreet3 is the herbshop")
-	var herbalist: VendorService = map.service(&"snow.outdoor.herbshop.herbalist") as VendorService
+	var herbalist: VendorService = shop.service(&"snow.herbshop_house.herbshop.herbalist") as VendorService
+	# service_spot() aims 48 px from the herbalist towards the room's middle, which is on his
+	# counter: the free spot a path ends on is a step back, so a player steps up to the counter.
+	await _close_in(tree, herbalist)
 	_check(herbalist.in_reach() and herbalist.goods_rows.get_child_count() == 2 and (herbalist.goods_rows.get_child(0) as Button).text == "金疮药 · 20两银子 · 买一颗" and (herbalist.goods_rows.get_child(1) as Button).text == "蛇药 · 10两银子 · 买一包", "the counter sells 金疮药 and 蛇药")
 	var medicine: VendorPurchaseResult = herbalist.request_purchase("medicine")
 	_check(medicine.delivered and medicine.price == 2000 and Finance.amount(money, CurrencyDenomination.Value.SILVER) == 2, "金疮药 for its value, 2000 coins")
-	_check(await MapPlaces.drive_through(tree, map, [&"snow.mstreet3", &"snow.mstreet4", &"snow.postoffice"]), "on up the street and into the post office")
-	_check(player.world_location().zone_id == &"snow.postoffice", "west of mstreet4 is the post office")
-	_check(await MapPlaces.drive_through(tree, map, [&"snow.mstreet4", &"snow.mstreet3"]) and await MapPlaces.drive(tree, map, MapPlaces.door_spot(map, &"snow.hockshop.door", &"snow.mstreet3")), "back down to the Hockshop's door")
+	_check(await MapPlaces.take_passage(tree, shop, &"snow.herbshop.east"), "back out of the herbshop")
+	await tree.physics_frame
+	await tree.physics_frame
+	_check(session.active_map() == street and await MapPlaces.drive_through(tree, map, [&"snow.mstreet3", &"snow.mstreet4"]) and await MapPlaces.take_passage(tree, map, &"snow.mstreet4.west"), "on up the street and into the post office")
+	await tree.physics_frame
+	await tree.physics_frame
+	_check(session.active_map_id() == &"snow.postoffice_house" and player.world_location().zone_id == &"snow.postoffice", "west of mstreet4 is the post office")
+	_check(await MapPlaces.take_passage(tree, session.active_map() as WorldMapController, &"snow.postoffice.east"), "out of the post office")
+	await tree.physics_frame
+	await tree.physics_frame
+	_check(session.active_map() == street and await MapPlaces.drive_through(tree, map, [&"snow.mstreet4", &"snow.mstreet3"]) and await MapPlaces.drive(tree, map, MapPlaces.door_spot(map, &"snow.hockshop.door", &"snow.mstreet3")), "back down to the Hockshop's door")
 	_check(map.open_door(&"snow.hockshop.door"), "the Hockshop door opens")
-	_check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, &"snow.hockshop.counter")), "in, up to the counter")
+	_check(await MapPlaces.take_passage(tree, map, &"snow.mstreet3.east"), "in through the Hockshop's door")
+	await tree.physics_frame
+	await tree.physics_frame
+	shop = session.active_map() as WorldMapController
+	_check(shop.map_id() == &"snow.hockshop_house" and await MapPlaces.drive(tree, shop, MapPlaces.service_spot(shop, &"snow.hockshop.counter")), "in, up to the counter")
 	_check(player.world_location().zone_id == &"snow.hockshop", "in the Hockshop")
-	var hockshop: HockshopService = map.service(&"snow.hockshop.counter") as HockshopService
+	var hockshop: HockshopService = shop.service(&"snow.hockshop.counter") as HockshopService
 	hockshop.interact()
 	for row: Array in [[medicine.item_id, 1600], [hammer.item_id, 2]]:
 		hockshop.select_item(row[0])
@@ -174,7 +218,7 @@ func _test_shops(tree: SceneTree) -> void:
 	session.shared_ui().dismiss_current_panel()
 	await tree.physics_frame
 	_check(not hockshop.panel.visible, "the Hockshop panel closes")
-	_check(await MapPlaces.drive_to_zone(tree, map, &"snow.hockshop2"), "round the counter to the curtain")
+	_check(await MapPlaces.drive_to_zone(tree, shop, &"snow.hockshop2"), "round the counter to the curtain")
 	_check(player.world_location().zone_id == &"snow.hockshop2", "through the curtain into the storage room")
 	_check(walker._failures.is_empty(), "walked: " + str(walker._failures))
 	await walker.round_trip(tree, session, Work.capture(session), "4B shops")
@@ -182,6 +226,34 @@ func _test_shops(tree: SceneTree) -> void:
 	_failures.append_array(walker._failures)
 	session.free()
 	await tree.process_frame
+
+
+## Steps towards the NPC the service stands on (the longer way first) with the move keys until it
+## is in reach or the way is blocked.
+func _close_in(tree: SceneTree, service: NpcService) -> void:
+	var body: CharacterBody2D = service.map.runtime_player_body()
+	for _frame: int in range(60):
+		if service.in_reach():
+			break
+		var delta: Vector2 = service.anchor() - body.global_position
+		MapPlaces.release()
+		if absf(delta.y) >= absf(delta.x):
+			Input.action_press(&"move_up" if delta.y < 0.0 else &"move_down")
+		else:
+			Input.action_press(&"move_left" if delta.x < 0.0 else &"move_right")
+		await tree.physics_frame
+	MapPlaces.release()
+	await tree.physics_frame
+	await tree.physics_frame
+
+
+## A resident NPC on whichever map it stands.
+func _find(session: WorldSessionController, character_id: StringName) -> NpcRuntimeState:
+	for map: WorldMapController in session.world_maps():
+		var npc: NpcRuntimeState = map.find_resident_npc(character_id)
+		if npc != null:
+			return npc
+	return null
 
 
 func _zone_rect(map: WorldMapController, zone_id: StringName) -> Rect2:

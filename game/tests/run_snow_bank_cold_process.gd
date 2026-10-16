@@ -24,7 +24,11 @@ func _run() -> void:
 		var reached: bool = await MapPlaces.take_passage(self, inn, SnowWorldDefinitions.INN_EXIT_PORTAL_ID)
 		var snow: WorldMapController = session.active_map() as WorldMapController
 		reached = reached and await MapPlaces.drive_through(self, snow, [&"snow.square", &"snow.mstreet1"])
-		reached = reached and await MapPlaces.drive(self, snow, MapPlaces.service_spot(snow, &"snow.bank.counter"))
+		reached = reached and await MapPlaces.take_passage(self, snow, &"snow.mstreet1.west")
+		await physics_frame
+		await physics_frame
+		var bank_map: WorldMapController = session.active_map() as WorldMapController
+		reached = reached and bank_map.map_id() == &"snow.bank_house" and await MapPlaces.drive(self, bank_map, MapPlaces.service_spot(bank_map, &"snow.bank.counter"))
 		check(reached and walk._failures.is_empty(), "bank physically reached")
 		var bank: BankService = (session.active_map() as WorldMapController).service(&"snow.bank.counter") as BankService
 		check(bank.request_conversion(CurrencyDenomination.Value.SILVER, CurrencyDenomination.Value.COIN, "1").succeeded(), "exchange before Save")

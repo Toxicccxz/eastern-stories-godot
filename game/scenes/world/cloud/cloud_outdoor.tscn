@@ -80,10 +80,10 @@ script = ExtResource("map")
 map = &"cloud.outdoor"
 
 [node name="Backdrop" type="ColorRect" parent="."]
-offset_left = -64
-offset_top = -64
-offset_right = 2784
-offset_bottom = 2624
+offset_left = -2112
+offset_top = -2112
+offset_right = 4832
+offset_bottom = 4672
 mouse_filter = 2
 color = Color(0.17, 0.2, 0.14, 1)
 

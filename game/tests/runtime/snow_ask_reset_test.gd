@@ -179,18 +179,22 @@ func _test_wandering(tree: SceneTree, session: WorldSessionController) -> void:
 
 ## keeper.c init()/greeting(): one second after the player comes in, if still there.
 func _test_greeting(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
-	_check(map.relocate_player(&"snow.temple", &"snow.temple.keeper.1"), "into the temple")
+	# The temple is a map of its own since the remap: the keeper's room is the active map while the player is in it.
+	var map: WorldMapController = MapPlaces.enter(session, &"snow.temple", &"snow.temple.keeper.1")
+	_check(map != null, "into the temple")
 	map.advance_npc_heartbeat(0.5)
 	_check(not hud.log_lines().back().begins_with("庙祝说道"), "not yet")
 	map.advance_npc_heartbeat(0.6)
 	_check(hud.log_lines().back() == "庙祝说道：这位小姑娘，捐点香火钱积点阴德吧。", "the greeting, rankd.c respect for the player")
-	_check(map.relocate_player(&"snow.mstreet2", &"snow.mstreet2.drunk.1"), "out")
+	map = MapPlaces.enter(session, &"snow.mstreet2", &"snow.mstreet2.drunk.1")
+	_check(map != null, "out")
 	map.advance_npc_heartbeat(0.1)
-	_check(map.relocate_player(&"snow.temple", &"snow.temple.keeper.1"), "back in")
+	map = MapPlaces.enter(session, &"snow.temple", &"snow.temple.keeper.1")
+	_check(map != null, "back in")
 	map.advance_npc_heartbeat(0.5)
-	_check(map.relocate_player(&"snow.mstreet2", &"snow.mstreet2.drunk.1"), "and out within the second")
+	map = MapPlaces.enter(session, &"snow.mstreet2", &"snow.mstreet2.drunk.1")
+	_check(map != null, "and out within the second")
 	var before: int = hud.log_lines().size()
 	map.advance_npc_heartbeat(1.0)
 	_check(hud.log_lines().size() == before, "greeting(): nobody to greet, nothing said")
@@ -206,11 +210,16 @@ func _test_ask_panel(tree: SceneTree, session: WorldSessionController) -> void:
 	await tree.process_frame
 	hud.refresh_live_state()
 	_check(not hud.ask_is_enabled(), "a beast is not asked")
-	var trainer: NpcRuntimeState = _npc(map, &"snow.school2.fist_trainer.1")
-	map.select_npc(trainer.character_id)
+	var trainer: NpcRuntimeState = MapPlaces.npc_at(session, &"snow.school2.fist_trainer.1")
+	# He is in the 武馆, another map since the remap: there is no body of his here to select.
+	_check(not map.select_npc(trainer.character_id), "the trainer is not on the street's map")
 	hud.refresh_live_state()
 	_check(not hud.ask_is_enabled() and map.ask_selected("这里").is_empty(), "present(): only someone here")
-	_check(map.relocate_player(&"snow.school2", &"snow.school2.fist_trainer.1"), "into the practice yard")
+	map = MapPlaces.enter(session, &"snow.school2", &"snow.school2.fist_trainer.1")
+	_check(map != null and map.npc_runtimes().has(trainer), "into the practice yard")
+	# The HUD meets a new map on its next frame and clears the selection then: let it.
+	await tree.process_frame
+	await tree.process_frame
 	map.select_npc(trainer.character_id)
 	hud.refresh_live_state()
 	_check(hud.ask_is_enabled(), "打听 李火狮")
@@ -237,12 +246,16 @@ func _test_reset(tree: SceneTree, session: WorldSessionController) -> void:
 		var scheduled: int = _scheduled.get(room, -1)
 		_check(scheduled >= 900_000 and scheduled < 1_800_000 and resets.remaining_ms(room) <= scheduled, "%s resets in 15 to 30 minutes (scheduled %d ms)" % [room, scheduled])
 	# return_home(): the scavenger left mstreet2 in _test_wandering.
-	var scavenger: NpcRuntimeState = _npc(map, &"snow.mstreet2.scavenger.1")
+	var scavenger: NpcRuntimeState = MapPlaces.npc_at(session, &"snow.mstreet2.scavenger.1")
 	_check(scavenger.world_location().zone_id == &"snow.mstreet3", "the scavenger is still next door")
-	_check(_place(map, player, &"snow.mstreet3", map.npc_rest_position(scavenger.character_id)), "the player follows")
+	map = MapPlaces.enter(session, &"snow.mstreet3", &"snow.mstreet3.hockshop_return")
+	_check(map != null and map.npc_runtimes().has(scavenger) and _place(map, player, &"snow.mstreet3", map.npc_rest_position(scavenger.character_id)), "the player follows")
 	session.reset_room("d/snow/mstreet2.c")
 	_check(scavenger.world_location().zone_id == &"snow.mstreet2" and hud.log_lines().back() == "收破烂的急急忙忙地离开了。", "return_home(): 收破烂的急急忙忙地离开了。")
-	for step: int in 60:
+	# The streets are longer since the remap: the walk home takes as long as it takes (at most a minute).
+	for step: int in 600:
+		if not map.npc_walker().is_walking(scavenger.character_id):
+			break
 		map.advance_npc_heartbeat(0.1)
 	var marker: WorldSpawnMarker2D = map.resolve_spawn_marker(&"snow.mstreet2.scavenger.1")
 	_check(map.runtime_body_for_character(scavenger.character_id).global_position == marker.global_position, "it walks back to where it stood")
@@ -256,7 +269,8 @@ func _test_reset(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(unread.call_count() == 3 and hud.log_lines().size() == read, "an unconscious player reads no chat")
 	player.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
 	# A keeper made anew where the player stands greets them (make_inventory()'s init()).
-	_check(map.relocate_player(&"snow.temple", &"snow.temple.keeper.1"), "into the temple")
+	map = MapPlaces.enter(session, &"snow.temple", &"snow.temple.keeper.1")
+	_check(map != null, "into the temple")
 	map.advance_npc_heartbeat(1.5)
 	var keeper: NpcRuntimeState = _npc(map, &"snow.temple.keeper.1")
 	keeper.set_life_status(CharacterRuntimeLifeStatus.Value.DEAD)
@@ -276,7 +290,8 @@ func _test_reset(tree: SceneTree, session: WorldSessionController) -> void:
 	var marker_inn: WorldSpawnMarker2D = inn.resolve_spawn_marker(&"snow.inn.main_floor.inn.traveller.1")
 	_check(replacement != traveller and replacement.exists_in_map and inn.runtime_body_for_character(replacement.character_id).global_position == marker_inn.global_position, "a reset on a map the player is not on")
 	# A trainee killed in the practice yard.
-	_check(map.relocate_player(&"snow.school2", &"snow.school2.trainee.1"), "into the practice yard")
+	map = MapPlaces.enter(session, &"snow.school2", &"snow.school2.trainee.1")
+	_check(map != null, "into the practice yard")
 	var trainee: NpcRuntimeState = _npc(map, &"snow.school2.trainee.1")
 	# Test-only: a new character cannot beat a trainee (0/30); this one can.
 	trainee.character_state.vitality.apply_wound(trainee.character_state.vitality.effective - 1)
@@ -301,7 +316,7 @@ func _test_reset(tree: SceneTree, session: WorldSessionController) -> void:
 	var loadout: Array[ItemInstance] = fresh.loadout_items()
 	_check(not loadout.is_empty() and String(loadout[0].item_instance_id).contains(".character.2.loadout."), "its own loadout IDs")
 	# The 竹剑: carried, it is not replaced; gone, it is.
-	_check(map.relocate_player(&"snow.weapon_storage", &"snow.weapon_storage.bamboo_sword.1"), "into the weapon storage")
+	_check(MapPlaces.enter(session, &"snow.weapon_storage", &"snow.weapon_storage.bamboo_sword.1") == map, "into the weapon storage (the same compound map)")
 	var sword: StringName = ItemSpawnDefinition.item_instance_id(session.item_id_allocator().scope, &"snow.weapon_storage.bamboo_sword.1")
 	_check(map.select_floor_item(sword) and map.take_selected_floor_item() == FloorItemPickup.Outcome.TAKEN, "picked up")
 	session.reset_room("d/snow/weapon_storage.c")

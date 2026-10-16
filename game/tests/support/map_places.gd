@@ -172,6 +172,28 @@ static func map_of(zone_id: StringName) -> StringName:
 	return zone.map_id if zone != null else &""
 
 
+## TEST-ONLY placement: the player stands on spawn point `point_id` in `zone_id` wherever the zone
+## lies (a shop is its own map since the remap): relocated on the active map, else handed off to
+## the zone's map. Returns the map the player is on then (null when it failed).
+static func enter(session: WorldSessionController, zone_id: StringName, point_id: StringName) -> WorldMapController:
+	var target: StringName = map_of(zone_id)
+	var map: WorldMapController = session.active_map() as WorldMapController
+	if map != null and map.map_id() == target:
+		return map if map.relocate_player(zone_id, point_id) else null
+	if not session.handoff_to(target, zone_id, zone_id, point_id).succeeded():
+		return null
+	return session.active_map() as WorldMapController
+
+
+## The NPC of a spawn point, on whichever map it stands (null when none).
+static func npc_at(session: WorldSessionController, point_id: StringName) -> NpcRuntimeState:
+	for map: WorldMapController in session.world_maps():
+		for npc: NpcRuntimeState in map.npc_runtimes():
+			if npc.spawn_point_id == point_id:
+				return npc
+	return null
+
+
 ## The portals that lead from the map `from` to the map `to`, fewest maps first: a building's
 ## door, then the street's way out of town. Empty when no chain of portals joins them.
 static func portal_chain(from: StringName, to: StringName) -> Array[PortalDefinition]:
@@ -210,6 +232,9 @@ static func go_to(tree: SceneTree, session: WorldSessionController, zone_id: Str
 	if chain.is_empty() and map.map_id() != target:
 		return null
 	for portal: PortalDefinition in chain:
+		# To the room the door is in first (a compound's far court is a long way from its gate).
+		if session.player_runtime().world_location().zone_id != portal.source_zone_id and not await drive_to_zone(tree, map, portal.source_zone_id):
+			return null
 		if not await take_passage(tree, map, portal.portal_id):
 			return null
 		map = session.active_map() as WorldMapController
