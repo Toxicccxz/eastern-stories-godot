@@ -7,7 +7,7 @@ each zone a room exit joins them to.
              "zones": {"<zone>": [x0, y0, x1, y1, "open" | "enclosed", ground, wall | null], ...},
              "roads": [fill rows], "props": [fill rows],     painted over the zones, in that order
              "gap_at": [["<zone>", "<zone>", centre], ...],  a doorway not in the middle of the edge
-             "reach_from": "<marker name>",
+             "reach_from": "<marker name>" | ["<marker name>", ...],
              "markers_in_middle": ["<zone>", ...],           open zones that are not streets
              "placed": {"<spawn point>": [x, y], ...}}       spawn points not packed into slots
 
@@ -42,7 +42,14 @@ def draw(region, entry: dict) -> Drawn:
     town = Town(region, d, scene, jumps)
     tiles = Tiles()
     gaps = town.paint(tiles)
-    reached, bad = town.reach(tiles, explicit_markers(scene)[d['reach_from']], jumps)
+    # `reach_from` may list several markers: a building entered at more than one place whose
+    # parts the ground does not join (黑松堡's two halls, joined upstairs).
+    starts = d['reach_from'] if isinstance(d['reach_from'], list) else [d['reach_from']]
+    reached, bad = set(), set()
+    for start in starts:
+        got, wrong = town.reach(tiles, explicit_markers(scene)[start], jumps)
+        reached |= got
+        bad |= wrong
     assert not bad, ('walkable between rooms that are not neighbours', bad)
     missing = set(town.zones) - reached
     assert not missing, ('cut off', missing)
@@ -57,7 +64,9 @@ def draw(region, entry: dict) -> Drawn:
     fragments = {'zones': zones, 'captions': captions, 'markers': town.markers(tiles, gaps)}
     named = explicit_markers(scene)
     body = town.canvas(tiles)
-    seen = body.reach(named[d['reach_from']], town.pairs, jumps)
+    seen = set()
+    for start in starts:
+        seen |= set(body.reach(named[start], town.pairs, jumps))
     missing = set(town.zones) - {body.zone_at(x * T + 8, y * T + 8) for x, y in seen}
     assert not missing, ('no way for a body into', missing)
     within_reach(body, seen, scene, {**named, **town.spots}, region.service_reach(), region.contact_landmarks(),

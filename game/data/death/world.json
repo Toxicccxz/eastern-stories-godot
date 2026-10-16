@@ -3,7 +3,9 @@
 		{ "id": "death", "name": "阴间" }
 	],
 	"maps": [
-		{ "id": "death.realm", "region": "death", "scene": "res://scenes/world/death/death_realm.tscn", "entry": "death.gate.arrival" }
+		{ "id": "death.realm", "region": "death", "scene": "res://scenes/world/death/death_realm.tscn", "entry": "death.gate.arrival" },
+		{ "id": "death.inn1_house", "region": "death", "scene": "res://scenes/world/death/inn1_house.tscn", "entry": "death.inn1.road1_entry", "interior": true },
+		{ "id": "death.inn2_house", "region": "death", "scene": "res://scenes/world/death/inn2_house.tscn", "entry": "death.inn2.road1_entry", "interior": true }
 	],
 	"zones": [
 		{ "id": "death.bridge1", "map": "death.realm", "rooms": ["es2:d/death/bridge1"], "distinct": true },
@@ -11,8 +13,8 @@
 		{ "id": "death.gate", "map": "death.realm", "rooms": ["es2:d/death/gate"] },
 		{ "id": "death.gateway", "map": "death.realm", "rooms": ["es2:d/death/gateway"] },
 		{ "id": "death.road1", "map": "death.realm", "rooms": ["es2:d/death/road1"] },
-		{ "id": "death.inn1", "map": "death.realm", "rooms": ["es2:d/death/inn1"] },
-		{ "id": "death.inn2", "map": "death.realm", "rooms": ["es2:d/death/inn2"] },
+		{ "id": "death.inn1", "map": "death.inn1_house", "rooms": ["es2:d/death/inn1"] },
+		{ "id": "death.inn2", "map": "death.inn2_house", "rooms": ["es2:d/death/inn2"] },
 		{ "id": "death.road2", "map": "death.realm", "rooms": ["es2:d/death/road2"], "distinct": true },
 		{ "id": "death.road3", "map": "death.realm", "rooms": ["es2:d/death/road3"] }
 	],
@@ -25,12 +27,12 @@
 		{ "id": "death.inn2.landmark.wall", "zone": "death.inn2", "name": "墙", "policy": "look", "long": "几行你勉强分辨得出来的字:\n我被困在这里了.... 我要回家啦!!!!!!!!!!!\n                      ^^^^\n                        靠自己啦...\n什么叫靠自己啊?!?!? 这里连个活人都没有...\n\n看到你自己时问一下吧... 自己人都会互相帮忙的说.. \n                                    ^^^^\n                                 你... 确... 定?!?!\n喔.. \n", "legacy_source": "d/death/inn2.c" }
 	],
 	"services": [
-		{ "id": "death.inn1.ask_home", "kind": "act", "zone": "death.inn1", "name": "人影", "reach": 96, "legacy_source": "d/death/inn1.c", "act": { "verb": "打听「回家」", "acts": [
-			{ "steps": [
-				{ "line": "你走上前去, 低声的向那个长得跟你一样的人询问回家的事.\n" },
-				{ "line": "那人一句话也不说就往你这边撞过来, 你眼前一阵黑....\n" },
-				{ "reincarnate": true }
-			] }
-		] } }
+		{ "id": "death.inn1.ask_home", "kind": "act", "zone": "death.inn1", "name": "人影", "reach": 96, "legacy_source": "d/death/inn1.c", "act": {"verb": "打听「回家」", "acts": [{"steps": [{"line": "你走上前去, 低声的向那个长得跟你一样的人询问回家的事.\n"}, {"line": "那人一句话也不说就往你这边撞过来, 你眼前一阵黑....\n"}, {"reincarnate": true}]}]} }
+	],
+	"portals": [
+		{ "id": "death.road1.west", "from_zone": "death.road1", "to_zone": "death.inn1", "to_spawn": "death.inn1.road1_entry", "legacy_room": "es2:d/death/road1", "legacy_command": "west" },
+		{ "id": "death.road1.east", "from_zone": "death.road1", "to_zone": "death.inn2", "to_spawn": "death.inn2.road1_entry", "legacy_room": "es2:d/death/road1", "legacy_command": "east" },
+		{ "id": "death.inn1.east", "from_zone": "death.inn1", "to_zone": "death.road1", "to_spawn": "death.road1.inn1_return", "legacy_room": "es2:d/death/inn1", "legacy_command": "east" },
+		{ "id": "death.inn2.west", "from_zone": "death.inn2", "to_zone": "death.road1", "to_spawn": "death.road1.inn2_return", "legacy_room": "es2:d/death/inn2", "legacy_command": "west" }
 	]
 }

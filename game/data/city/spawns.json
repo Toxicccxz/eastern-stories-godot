@@ -19,24 +19,6 @@
 			"legacy_quantity": 3
 		},
 		{
-			"id": "city.main.bank.microsof",
-			"npc": "city.npc.microsof",
-			"map": "city.main",
-			"zone": "city.bank",
-			"points": ["city.bank.microsof.1"],
-			"legacy_room": "d/city/bank.c",
-			"legacy_quantity": 1
-		},
-		{
-			"id": "city.main.weapon.weaponor",
-			"npc": "city.npc.weaponor",
-			"map": "city.main",
-			"zone": "city.weapon",
-			"points": ["city.weapon.weaponor.1"],
-			"legacy_room": "d/city/weapon.c",
-			"legacy_quantity": 1
-		},
-		{
 			"id": "city.main.westdoor1.guards",
 			"npc": "city.npc.guard",
 			"map": "city.main",
@@ -73,42 +55,6 @@
 			"legacy_quantity": 3
 		},
 		{
-			"id": "city.main.biaoju.chen",
-			"npc": "city.npc.chen",
-			"map": "city.main",
-			"zone": "city.biaoju",
-			"points": ["city.biaoju.chen.1"],
-			"legacy_room": "d/city/biaoju.c",
-			"legacy_quantity": 1
-		},
-		{
-			"id": "city.main.cloth.clother",
-			"npc": "city.npc.clother",
-			"map": "city.main",
-			"zone": "city.cloth",
-			"points": ["city.cloth.clother.1"],
-			"legacy_room": "d/city/cloth.c",
-			"legacy_quantity": 1
-		},
-		{
-			"id": "city.main.jiulou.waiter",
-			"npc": "city.npc.waiter",
-			"map": "city.main",
-			"zone": "city.jiulou",
-			"points": ["city.jiulou.waiter.1"],
-			"legacy_room": "d/city/jiulou.c",
-			"legacy_quantity": 1
-		},
-		{
-			"id": "city.main.jiulou.boss",
-			"npc": "city.npc.boss",
-			"map": "city.main",
-			"zone": "city.jiulou",
-			"points": ["city.jiulou.boss.1"],
-			"legacy_room": "d/city/jiulou.c",
-			"legacy_quantity": 1
-		},
-		{
 			"id": "city.main.street2.walkers",
 			"npc": "city.npc.walker",
 			"map": "city.main",
@@ -133,15 +79,6 @@
 			"zone": "city.street4",
 			"points": ["city.street4.trader.1"],
 			"legacy_room": "d/city/street4.c",
-			"legacy_quantity": 1
-		},
-		{
-			"id": "city.main.boots.shoer",
-			"npc": "city.npc.shoer",
-			"map": "city.main",
-			"zone": "city.boots",
-			"points": ["city.boots.shoer.1"],
-			"legacy_room": "d/city/boots.c",
 			"legacy_quantity": 1
 		},
 		{
@@ -226,63 +163,126 @@
 			"legacy_quantity": 1
 		},
 		{
-			"id": "city.main.keting.shangshu",
+			"id": "city.bank_house.bank.microsof",
+			"npc": "city.npc.microsof",
+			"map": "city.bank_house",
+			"zone": "city.bank",
+			"points": ["city.bank.microsof.1"],
+			"legacy_room": "d/city/bank.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.weapon_house.weapon.weaponor",
+			"npc": "city.npc.weaponor",
+			"map": "city.weapon_house",
+			"zone": "city.weapon",
+			"points": ["city.weapon.weaponor.1"],
+			"legacy_room": "d/city/weapon.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.biaoju_house.biaoju.chen",
+			"npc": "city.npc.chen",
+			"map": "city.biaoju_house",
+			"zone": "city.biaoju",
+			"points": ["city.biaoju.chen.1"],
+			"legacy_room": "d/city/biaoju.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.cloth_house.cloth.clother",
+			"npc": "city.npc.clother",
+			"map": "city.cloth_house",
+			"zone": "city.cloth",
+			"points": ["city.cloth.clother.1"],
+			"legacy_room": "d/city/cloth.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.jiulou_house.jiulou.waiter",
+			"npc": "city.npc.waiter",
+			"map": "city.jiulou_house",
+			"zone": "city.jiulou",
+			"points": ["city.jiulou.waiter.1"],
+			"legacy_room": "d/city/jiulou.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.jiulou_house.jiulou.boss",
+			"npc": "city.npc.boss",
+			"map": "city.jiulou_house",
+			"zone": "city.jiulou",
+			"points": ["city.jiulou.boss.1"],
+			"legacy_room": "d/city/jiulou.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.boots_house.boots.shoer",
+			"npc": "city.npc.shoer",
+			"map": "city.boots_house",
+			"zone": "city.boots",
+			"points": ["city.boots.shoer.1"],
+			"legacy_room": "d/city/boots.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "city.shangshu.keting.shangshu",
 			"npc": "city.npc.shangshu.shangshu",
-			"map": "city.main",
+			"map": "city.shangshu",
 			"zone": "city.shangshu.keting",
 			"points": ["city.shangshu.keting.shangshu.1"],
 			"legacy_room": "d/city/shangshu/keting.c",
 			"legacy_quantity": 1
 		},
 		{
-			"id": "city.main.road2.huyuan",
+			"id": "city.shangshu.road2.huyuan",
 			"npc": "city.npc.shangshu.huyuan",
-			"map": "city.main",
+			"map": "city.shangshu",
 			"zone": "city.shangshu.road2",
 			"points": ["city.shangshu.road2.huyuan.1"],
 			"legacy_room": "d/city/shangshu/road2.c",
 			"legacy_quantity": 1
 		},
 		{
-			"id": "city.main.road2.huyuan1",
+			"id": "city.shangshu.road2.huyuan1",
 			"npc": "city.npc.shangshu.huyuan1",
-			"map": "city.main",
+			"map": "city.shangshu",
 			"zone": "city.shangshu.road2",
 			"points": ["city.shangshu.road2.huyuan1.1"],
 			"legacy_room": "d/city/shangshu/road2.c",
 			"legacy_quantity": 1
 		},
 		{
-			"id": "city.main.road1.huyuan",
+			"id": "city.shangshu.road1.huyuan",
 			"npc": "city.npc.shangshu.huyuan",
-			"map": "city.main",
+			"map": "city.shangshu",
 			"zone": "city.shangshu.road1",
 			"points": ["city.shangshu.road1.huyuan.1"],
 			"legacy_room": "d/city/shangshu/road1.c",
 			"legacy_quantity": 1
 		},
 		{
-			"id": "city.main.chufang.maid",
+			"id": "city.shangshu.chufang.maid",
 			"npc": "city.npc.shangshu.maid",
-			"map": "city.main",
+			"map": "city.shangshu",
 			"zone": "city.shangshu.chufang",
 			"points": ["city.shangshu.chufang.maid.1"],
 			"legacy_room": "d/city/shangshu/chufang.c",
 			"legacy_quantity": 1
 		},
 		{
-			"id": "city.main.huayuan.gardener",
+			"id": "city.shangshu.huayuan.gardener",
 			"npc": "city.npc.shangshu.gardener",
-			"map": "city.main",
+			"map": "city.shangshu",
 			"zone": "city.shangshu.huayuan",
 			"points": ["city.shangshu.huayuan.gardener.1"],
 			"legacy_room": "d/city/shangshu/huayuan.c",
 			"legacy_quantity": 1
 		},
 		{
-			"id": "city.main.neizhai.qing_chen",
+			"id": "city.shangshu.neizhai.qing_chen",
 			"npc": "city.npc.shangshu.qing_chen",
-			"map": "city.main",
+			"map": "city.shangshu",
 			"zone": "city.shangshu.neizhai",
 			"points": ["city.shangshu.neizhai.qing_chen.1"],
 			"legacy_room": "d/city/shangshu/neizhai.c",
