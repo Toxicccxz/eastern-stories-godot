@@ -99,9 +99,12 @@ func _hold_view(_on: bool) -> void:
 
 ## The view came back on the new map: the world goes on once it has faded in.
 func _arrived_on(map_id: StringName) -> void:
-	var seconds: float = _fade_in_seconds(_door_transition)
+	var door: bool = _door_transition
+	# One arrival's: a later one (a spell, an act) is no door unless its own passage says so.
+	_door_transition = false
+	var seconds: float = _fade_in_seconds(door)
 	_view_serial += 1
-	view_arriving.emit(map_id, true, _door_transition)
+	view_arriving.emit(map_id, true, door)
 	if seconds <= 0.0:
 		_hold_view(false)
 		return

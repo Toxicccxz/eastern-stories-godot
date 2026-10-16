@@ -958,6 +958,7 @@ func return_home(npc: NpcRuntimeState) -> bool:
 	if body == null or marker == null:
 		return false
 	_map.npc_life.npc_walker().cancel(npc.character_id)
+	_map.npc_life.departures.erase(npc.character_id)
 	var watched: bool = session != null and session.active_map() == _map
 	if not watched or not _map.npc_life.npc_walker().walk_to(npc.character_id, body, _map.physical_zone(from_zone_id), _map.physical_zone(spawn.zone_id), marker.global_position):
 		body.global_position = marker.global_position

@@ -25,6 +25,14 @@ class East:
 		return 0 if bound == 3 else bound - 1
 
 
+## The square's exits are north, west, south and east: west, the inn's door.
+class West:
+	extends WorldInteractionRandomSource
+
+	func next_below(bound: int) -> int:
+		return 1 if bound == 4 else bound - 1
+
+
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_revision()
 	_test_door_data()
@@ -35,6 +43,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new()) # TEST-ONLY: nobody chats or wanders
 	await _test_crossing(tree, session)
 	await _test_leaving_sends_through(tree, session)
+	await _test_save_on_the_way(tree, session)
 	_test_door_on_portal(session)
 	session.free()
 	await tree.process_frame
@@ -72,6 +81,12 @@ func _test_door_data() -> void:
 	without.add_document(document.duplicate(true), "x.json")
 	_check(without.build() == null and "\n".join(without.errors()).contains("x.json.doors[0].zones: a door's zones share one map or a portal joins them"), "a door between two maps needs the portal it stands on")
 	document["portals"] = [{"id": "x.in", "from_zone": "x.street", "to_zone": "x.shop", "to_spawn": "x.s", "legacy_room": "es2:d/x/street", "legacy_command": "west"}]
+	var unknown: Dictionary = document.duplicate(true)
+	unknown["doors"][0]["zones"] = ["x.street", "x.gone"]
+	var broken: ContentCatalogBuilder = ContentCatalogBuilder.new()
+	broken.add_document(unknown, "x.json")
+	_check(broken.build() == null and "
+".join(broken.errors()).contains("x.json.doors[0].zones: unknown zone 'x.gone'"), "a door's unknown zone is reported")
 	var builder: ContentCatalogBuilder = ContentCatalogBuilder.new()
 	builder.add_document(document, "x.json")
 	builder.build()
@@ -160,6 +175,38 @@ func _test_leaving_sends_through(tree: SceneTree, session: WorldSessionControlle
 	_check(inn.find_resident_npc(npc.character_id) == npc, "home again")
 
 
+## A traveller on the square on its way into the inn: a save then is one Continue takes (its
+## walk ends where a body may stand, not on the passage); stopped short (a fight), it does
+## not jump through the door afterwards.
+func _test_save_on_the_way(tree: SceneTree, session: WorldSessionController) -> void:
+	var square: WorldMapController = session.world_map_of(SnowWorldDefinitions.OUTDOOR_MAP_ID)
+	var npc: NpcRuntimeState = null
+	for candidate: NpcRuntimeState in square.npc_runtimes():
+		if candidate.spawn_id == &"snow.outdoor.square.trav_blades" and candidate.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
+			npc = candidate
+			break
+	if not _check(npc != null and session.active_map() == square, "a 飞刀 traveller on the square, the player there"):
+		return
+	session.configure_npc_ambience_random_source(West.new())
+	square.npc_life._advance_ambience(0.0)
+	_check(square.npc_life.random_move(npc) and square.npc_life.departures.has(npc.character_id), "west: on its way into the inn")
+	session.configure_npc_ambience_random_source(SouthRoad.Still.new())
+	var end: Vector2 = square.npc_life.npc_walker().rest_position(npc.character_id, square.runtime_body_for_character(npc.character_id))
+	_check(MapPlacementValidator.is_valid_character_position(square, &"snow.square", end), "its walk ends where a body may stand: %s" % end)
+	var snapshot: GameSaveSnapshot = Work.capture(session)
+	if _check(snapshot != null, "a save while it walks"):
+		var decoded: GameSaveResult = GameSaveJsonCodec.decode(GameSaveJsonCodec.encode(snapshot).text)
+		var restored: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(decoded.snapshot, tree.root)
+		_check(restored.succeeded(), "and Continue takes it: %s" % restored.path)
+		if restored.succeeded():
+			restored.candidate.free()
+			await tree.process_frame
+	# Stopped short (a fight cancels its walk): it stays, and may wander again.
+	square.npc_life.npc_walker().cancel(npc.character_id)
+	square.npc_life.finish_departures(true)
+	_check(square.find_resident_npc(npc.character_id) == npc and not square.npc_life.departures.has(npc.character_id), "stopped short, it stays on the square")
+
+
 ## One door seen from both maps: shut on one, it is shut on the other (TEST-ONLY: a door put
 ## on the inn's portal; the first real one is Snow's 当铺 door).
 func _test_door_on_portal(session: WorldSessionController) -> void:
@@ -204,7 +251,8 @@ func _traveller(map: WorldMapController) -> NpcRuntimeState:
 	return null
 
 
-func _check(ok: bool, label: String) -> void:
+func _check(ok: bool, label: String) -> bool:
 	_count += 1
 	if not ok:
 		_failures.append(label)
+	return ok

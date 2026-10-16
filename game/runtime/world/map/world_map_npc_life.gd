@@ -16,9 +16,10 @@ var makings: Dictionary[StringName, Dictionary] = {}
 ## TeacherService, result: NpcApprenticeTrial.Result, told: int} by master. Not saved.
 var trials: Dictionary[StringName, Dictionary] = {}
 var walker: WorldNpcWalker
-## Who is walking to a passage to leave by it for another map (a shop's door): the portal
-## by character ID. Not saved: a save takes the walk's end on this map.
-var departures: Dictionary[StringName, PortalDefinition] = {}
+## Who is walking to a passage to leave by it for another map (a shop's door): {portal,
+## spot (where the walk ends; INF: no walk)} by character ID. Not saved: a save takes the
+## walk's end on this map, a spot where a body may stand.
+var departures: Dictionary[StringName, Dictionary] = {}
 ## The player's place as the NPCs' init() last saw it; another one is an arrival.
 var arrival_zone_id: StringName = &""
 ## Where the player was before that arrival: the door they came in by (close.c's door).
@@ -149,18 +150,23 @@ func _advance_ambience(delta: float) -> void:
 
 
 ## Those walking out by a passage (departures) go through it: once at it (`arrived_only`),
-## or all now (nobody watches this map any more). One that stopped being able to (it fell,
-## a fight began) stays where it is.
+## or all now (nobody watches this map any more: its walks are at their ends). One that is
+## not at the walk's end (a fight stopped it, it was called home) or cannot go now (it fell,
+## the door shut) stays where it is and wanders again later.
 func finish_departures(arrived_only: bool) -> void:
 	for character_id: StringName in departures.keys():
 		if arrived_only and npc_walker().is_walking(character_id):
 			continue
-		var portal: PortalDefinition = departures[character_id]
+		var portal: PortalDefinition = departures[character_id]["portal"]
+		var spot: Vector2 = departures[character_id]["spot"]
 		departures.erase(character_id)
 		var npc: NpcRuntimeState = _map.npcs.find_resident_npc(character_id)
+		var body: Node2D = _map.npcs.runtime_body_for_character(character_id)
 		if (
 			npc == null or session == null or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE
 			or npc.relationship.is_fighting() or not _map.is_portal_open(portal.portal_id)
+			or npc.world_location().zone_id != portal.source_zone_id
+			or (spot.is_finite() and (body == null or body.global_position.distance_to(spot) > 4.0))
 			or (_door_closed_between(portal.source_zone_id, portal.destination_zone_id))
 		):
 			continue
@@ -875,20 +881,22 @@ func _depart(npc: NpcRuntimeState, move: NpcRandomMove.Move, body: WorldCharacte
 	var portal: PortalDefinition = GameContent.catalog().portal(move.portal_id)
 	if portal == null or session == null or session.world_map_of(portal.destination_map_id) == null or not _map.is_portal_open(portal.portal_id):
 		return false
-	departures[npc.character_id] = portal
 	var passage: Vector2 = _map.passage_position(portal.portal_id)
 	var zone: WorldPhysicalZoneArea2D = _map.physical_zone(portal.source_zone_id)
-	var walking: bool = false
+	var spot: Vector2 = Vector2.INF
 	if body != null and zone != null and passage.is_finite():
-		# As near the passage as a body walks (its cells keep a body's width from walls).
+		# As near the passage as a body may stand (a save takes the walk's end, and a passage
+		# or a door's footprint is no place to stand) and walk to.
 		var inward: Vector2 = (zone.global_rect().get_center() - passage).normalized()
-		for step: int in range(0, 7):
-			if npc_walker().walk_to(npc.character_id, body, zone, zone, passage + inward * 8.0 * step):
-				walking = true
+		for step: int in range(0, 12):
+			var near: Vector2 = passage + inward * 8.0 * step
+			if MapPlacementValidator.is_valid_character_position(_map, portal.source_zone_id, near) and npc_walker().walk_to(npc.character_id, body, zone, zone, near):
+				spot = near
 				break
+	departures[npc.character_id] = {"portal": portal, "spot": spot}
 	if seen:
 		_map.hud().append_log_lines([move.leave_line(npc.definition().display_name)])
-	if not walking:
+	if not spot.is_finite():
 		finish_departures(false)
 	return true
 
