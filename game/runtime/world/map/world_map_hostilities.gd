@@ -111,6 +111,24 @@ func refresh_room_presence() -> void:
 			toll_waiting.erase(id)
 
 
+## A fight is over (its encounter still names who was in it): indoors the NPCs in the
+## player's room that took no part were never let at the player (the fight's start
+## dropped their turn): they notice the player anew. Those that fought wait for the player
+## to leave the room and come back (a flight stands where it was: DECISIONS「室内察觉」).
+func after_fight() -> void:
+	var encounter: CombatEncounter = null if session == null else session.combat_encounter_coordinator().active_encounter()
+	if encounter == null:
+		return
+	for id: StringName in room_present.keys():
+		if encounter.participant_for(id) == null:
+			room_present.erase(id)
+
+
+## An NPC no longer on this map: it noticed nobody here.
+func forget_npc(id: StringName) -> void:
+	room_present.erase(id)
+
+
 ## A complete-set zone polls exact contact instead of queueing pair entries. Indoors the
 ## room is the presence (refresh_room_presence()), not the circle.
 func on_presence_entered(body: Node2D, character_id: StringName) -> void:
@@ -145,6 +163,10 @@ func process_pending_aggression() -> Array[CombatSliceInitiationResult]:
 	if not _map.gameplay_open() or session == null:
 		return []
 	_last_aggression_initiations.clear()
+	# The room's description first, then whoever falls on the player in it (as
+	# _player_berserk()): indoors one may be noticed the moment one comes in.
+	if _map.hud() != null:
+		_map.hud().describe_arrival()
 	if zone_entry(_player.world_location()) == &"complete_set":
 		if collect_complete_combat_entry(CombatTriggerCause.Value.NPC_AGGRESSION).size() > 1:
 			var started: CombatSliceInitiationResult = session.combat_encounter_coordinator().start_complete_production(CombatTriggerCause.Value.NPC_AGGRESSION)

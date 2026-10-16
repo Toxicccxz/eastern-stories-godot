@@ -234,6 +234,7 @@ func unregister_npc_body(character_id: StringName) -> bool:
 	residents.erase(npc)
 	map_characters.remove_character(character_id)
 	_map.hostilities.aggression.clear_npc(character_id)
+	_map.hostilities.forget_npc(character_id)
 	if _map.selection.selected_character_id() == character_id:
 		_map.selection.selected_target = null
 	return true
@@ -921,6 +922,7 @@ func _drop_npc(npc: NpcRuntimeState) -> void:
 	residents.erase(npc)
 	map_characters.remove_character(character_id)
 	_map.hostilities.aggression.clear_npc(character_id)
+	_map.hostilities.forget_npc(character_id)
 	_unbind_npc_services(character_id)
 	if _map.npc_life.ambience != null:
 		_map.npc_life.ambience.cancel_greeting(character_id)

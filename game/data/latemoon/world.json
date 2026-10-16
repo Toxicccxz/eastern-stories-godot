@@ -70,7 +70,7 @@
 		{ "id": "latemoon.upstar.upcenter", "map": "latemoon.upper", "indoors": true, "rooms": ["es2:d/latemoon/upstar/upcenter"] },
 		{ "id": "latemoon.upstar.uproom", "map": "latemoon.upper", "indoors": true, "rooms": ["es2:d/latemoon/upstar/uproom"] },
 		{ "id": "latemoon.upstar.upstarc", "map": "latemoon.upper", "indoors": true, "rooms": ["es2:d/latemoon/upstar/upstarc"] },
-		{ "id": "latemoon.upstar.uplook", "map": "latemoon.upper", "indoors": true, "rooms": ["es2:d/latemoon/upstar/uplook"] },
+		{ "id": "latemoon.upstar.uplook", "map": "latemoon.upper", "rooms": ["es2:d/latemoon/upstar/uplook"] },
 		{ "id": "latemoon.upstar.upstar2", "map": "latemoon.upper", "indoors": true, "rooms": ["es2:d/latemoon/upstar/upstar2"] },
 		{ "id": "latemoon.upstar.upstar3", "map": "latemoon.upper", "indoors": true, "rooms": ["es2:d/latemoon/upstar/upstar3"] },
 		{ "id": "latemoon.upstar.uproom3", "map": "latemoon.upper", "indoors": true, "rooms": ["es2:d/latemoon/upstar/uproom3"] },

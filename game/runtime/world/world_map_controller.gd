@@ -752,6 +752,7 @@ func thaw_world_gameplay(id: StringName) -> bool:
 	if id.is_empty() or _freeze_owner != id or _world_simulation_gate.freeze_owner_id() != id:
 		return false
 	_freeze_owner = &""
+	hostilities.after_fight()
 	npcs.dismiss_summoned()
 	for body: WorldCharacterBody2D in npcs.character_bodies():
 		body.quarantine_current_movement_input()

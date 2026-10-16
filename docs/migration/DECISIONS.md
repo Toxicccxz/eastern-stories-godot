@@ -3491,9 +3491,14 @@ configuration and verification. Birth, gameplay and Save schemas are unchanged.
 **Owner (2026-10-16, after 地图重构 R2):** ES2's aggressive NPCs act from init(), on whoever is
 in their room. The native stand-in was a presence circle (spawn `presence_radius`, 120 px);
 the remap grew rooms past it, so one could walk round a hall's 护院. Now a zone marked
-`indoors` (a building's room, a tent, a cave, a dungeon: 196 zones, from the remap survey's
+`indoors` (a building's room, a tent, a cave, a dungeon, from the remap survey's
 classification of the ES2 rooms) is the presence: an aggressive NPC there notices the player
 the moment both are in the room (the player's arrival or the NPC's, by any way), complete_set
 rooms and toll contact alike, and nobody in the next room. Streets and the wild keep the
 circle (owner: only rooms inside). The radius knobs of the 狮子 (400) and the 白鳞冰龙 (260)
-went with it: their rooms are indoors.
+went with it: their rooms are indoors. 194 zones: the survey's inside rooms less two
+balconies whose LPC sets outdoors (阳台, 观景台). An NPC that only may go berserk (attack.c
+init()'s roll: 淳于怀太, the 福林楼 guards) rolls on the player's arrival in its room too.
+Once noticed, an NPC waits for the player to leave the room and come back (a flight stands
+where it was, as the circle's leaving and coming back); one that took no part in the fight
+that started meanwhile notices the player anew when it ends (the next 护院).

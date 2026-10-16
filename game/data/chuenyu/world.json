@@ -30,7 +30,7 @@
 		{ "id": "chuenyu.east_garden", "map": "chuenyu.castle", "rooms": ["es2:d/chuenyu/east_garden"] },
 		{ "id": "chuenyu.south_garden", "map": "chuenyu.castle", "rooms": ["es2:d/chuenyu/south_garden"] },
 		{ "id": "chuenyu.bedroom", "map": "chuenyu.upstairs", "indoors": true, "rooms": ["es2:d/chuenyu/bedroom"] },
-		{ "id": "chuenyu.yiantai", "map": "chuenyu.upstairs", "indoors": true, "rooms": ["es2:d/chuenyu/yiantai"] },
+		{ "id": "chuenyu.yiantai", "map": "chuenyu.upstairs", "rooms": ["es2:d/chuenyu/yiantai"] },
 		{ "id": "chuenyu.kitchen", "map": "chuenyu.upstairs", "indoors": true, "rooms": ["es2:d/chuenyu/kitchen"] },
 		{ "id": "chuenyu.tunnel1", "map": "chuenyu.prison", "indoors": true, "rooms": ["es2:d/chuenyu/tunnel1"], "distinct": true },
 		{ "id": "chuenyu.tunnel2", "map": "chuenyu.prison", "indoors": true, "rooms": ["es2:d/chuenyu/tunnel2"], "distinct": true },

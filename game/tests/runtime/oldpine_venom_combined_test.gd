@@ -221,6 +221,8 @@ func _test_shop_and_hockshop(session: WorldSessionController) -> void:
 ## The snake bites: hit_ob() poisons; outside the fight it strikes on the beat; 蛇药
 ## lowers it; Save keeps it; 化尸粉 dissolves the snake's corpse.
 func _test_snake(tree: SceneTree, session: WorldSessionController) -> void:
+	var natural_kee: int = session.player_runtime().state.vitality.maximum
+	session.player_runtime().state.vitality = CharacterResourceState.new(5000, 5000, 5000) # TEST-ONLY: outlast the snake (it falls on whoever comes up)
 	_check(session.handoff_to(&"oldpine.stone", &"oldpine.stone.top", &"oldpine.stone.top", &"oldpine.stone.top.landing").succeeded(), "up on the stone")
 	await tree.physics_frame
 	var map: WorldMapController = session.active_map() as WorldMapController
@@ -232,8 +234,6 @@ func _test_snake(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(snake != null, "金银花蛇 is on the stone")
 	if snake == null:
 		return
-	var natural_kee: int = player.state.vitality.maximum
-	player.state.vitality = CharacterResourceState.new(5000, 5000, 5000) # TEST-ONLY: outlast the snake
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	# The stone is inside the cave: the snake notices whoever comes up onto it (室内察觉).
 	for _frame: int in range(3):
