@@ -16,6 +16,9 @@ ATLAS = {
     'water': (0, 2), 'deep_water': (1, 2), 'rock': (2, 2), 'blocked': (3, 2), 'cave_floor': (4, 2),
     'shallow_water': (5, 2), 'cliff': (6, 2), 'chasm': (7, 2),
 }
+# The colour behind a map whose base filler is trimmed (standard.trim_filler): the base tile's
+# average colour, so the empty edge reads as more of it.
+BACKDROP = {'boundary': 'Color(0.17, 0.2, 0.14, 1)'}
 # Kinds that go on the TerrainStructures layer (they collide); the rest are TerrainGround.
 BLOCKING = {'shop_front', 'shutter', 'wall', 'wall_wood', 'boundary', 'forest', 'water', 'deep_water',
             'blocked', 'cliff', 'chasm'}

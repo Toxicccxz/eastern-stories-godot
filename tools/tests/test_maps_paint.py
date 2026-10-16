@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import contextlib
 import io
+import json
 import sys
 import tempfile
 import unittest
@@ -14,26 +15,18 @@ if str(REPOSITORY) not in sys.path:
     sys.path.insert(0, str(REPOSITORY))
 from tools.maps import paint  # noqa: E402
 
-GENERATED = {
-    'oldpine': ['oldpine_outdoor.tscn', 'oldpine_cave.tscn', 'oldpine_gorge.tscn', 'oldpine_tree.tscn', 'oldpine_cliff.tscn',
-                'oldpine_stone.tscn', 'oldpine_caves.tscn', 'oldpine_cliff2.tscn'],
-    'snow': ['snow_outdoor.tscn', 'snow_inn.tscn', 'snow_inn_upstairs.tscn', 'snow_cellar.tscn'],
-    'cloud': ['cloud_outdoor.tscn', 'cloud_tearoom_upstairs.tscn', 'cloud_jiyuan_upstairs.tscn', 'cloud_duchang_upstairs.tscn'],
-    'goathill': ['goathill_mountain.tscn', 'goathill_caverns.tscn'],
-    'waterfog': ['waterfog_mountain.tscn', 'waterfog_pavilion.tscn', 'waterfog_upstairs.tscn'],
-    'green': ['green_village.tscn', 'green_mountain.tscn', 'green_maze.tscn'],
-    'temple': ['temple_mountain.tscn', 'temple_grounds.tscn', 'temple_library.tscn'],
-    'latemoon': ['latemoon_manor.tscn', 'latemoon_secret.tscn', 'latemoon_garden.tscn', 'latemoon_upper.tscn', 'latemoon_hills.tscn'],
-    'sanyen': ['sunhill_mountain.tscn', 'sanyen_temple.tscn'],
-    'choyin': ['choyin_town.tscn', 'choyin_yamen.tscn', 'choyin_altar.tscn', 'choyin_hotel_2f.tscn', 'choyin_hotel_3f.tscn',
-               'choyin_tree_hollow.tscn', 'choyin_lion_cave.tscn', 'choyin_east.tscn', 'choyin_furnace.tscn', 'choyin_guye.tscn',
-               'choyin_crown.tscn', 'choyin_cliff_cave.tscn', 'choyin_summit.tscn', 'choyin_valley.tscn'],
-    'canyon': ['canyon_clifftop.tscn', 'canyon_pass.tscn', 'canyon_armory.tscn', 'canyon_bamboo.tscn', 'canyon_stoneroom.tscn'],
-    'village': ['village_main.tscn', 'village_midlake.tscn', 'village_icecave.tscn'],
-    'city': ['city_main.tscn', 'city_upstairs.tscn', 'city_wall_top.tscn', 'city_cellar.tscn'],
-    'chuenyu': ['chuenyu_main.tscn', 'chuenyu_prison.tscn', 'chuenyu_upstairs.tscn'],
-    'death': ['death_realm.tscn'],
-}
+def generated() -> dict[str, list[str]]:
+    """Region folder -> the scene files of its maps, read from every game/data/*/world.json: a
+    map's scene lives under game/scenes/world/<folder>/ and is painted from layouts/<folder>.json."""
+    out: dict[str, list[str]] = {}
+    for world in sorted((REPOSITORY / 'game/data').glob('*/world.json')):
+        for m in json.loads(world.read_text(encoding='utf-8')).get('maps', []):
+            folder, file = m['scene'].removeprefix('res://scenes/world/').split('/')
+            out.setdefault(folder, []).append(file)
+    return out
+
+
+GENERATED = generated()
 
 
 def first_difference(committed: bytes, painted: bytes) -> str:
