@@ -139,7 +139,8 @@ func _world_cancel(tree: SceneTree, _shell: ApplicationShellController, session:
 	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var landmark: WorldLandmarkArea2D = outdoor.get_node("Interactions/VineInteraction")
 	# Before-route proximity/camera fixture. Stimulus is actual touch and physics picking.
-	outdoor.player_body.global_position = landmark.global_position + Vector2(0, 60)
+	# West of the vine: the camera centres on the player, so the vine shows clear of the HUD card.
+	outdoor.player_body.global_position = landmark.global_position + Vector2(-96, 60)
 	for frame: int in 30:
 		await tree.physics_frame
 	var point: Vector2 = landmark.get_global_transform_with_canvas().origin

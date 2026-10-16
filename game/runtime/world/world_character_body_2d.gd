@@ -20,8 +20,12 @@ var _movement_input_quarantined: bool = false
 ## (WorldNpcWalker), so it is drawn where it is rather than between physics steps.
 var held: bool = false:
 	set(value):
+		if held == value:
+			return
 		held = value
 		_interpolate(_player != null and not value)
+		if not value:
+			reset_physics_interpolation()
 ## The view is fading around a map change (WorldSessionController._hold_view()): the
 ## player stands while it does.
 var walk_paused: bool = false

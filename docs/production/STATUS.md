@@ -4,15 +4,14 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**现代化修正 III A「等待」** (`phase/pacing`, DECISIONS「响应性」): ROADMAP "After the grey box" step 1
-(step 2, the UI overhaul, is merged: #124–#126). Reactions to what the player just did come within
-0.4 s (masters' 拜师 answers, greetings that do no harm, 程不平's sentence, 化尸, a zombie's end,
-小娟's cry); a master's test (三招, 三鞭) is struck whole and a passed one told 0.7 s a blow; the
-卧龙岗 robber shouts the moment a passer-by
-who owes him comes near; told sequences (筱薇's making, 大队长's story, the gargoyles) keep their pace
-with 继续; the card shows busy, a steal, a test, 朱鸿雪's time and an NPC's wake. Every time is a
-`pacing.json` knob whose default is ES2's. Next: B「手感」 (fades, battle presentation and speed
-setting, movement, prompts, camera); 声望 stays a placeholder until step 6.
+**现代化修正 III B1「手感：世界」** (`phase/feel`, DECISIONS「手感」): ROADMAP "After the grey box"
+step 1, after A「等待」 (#127, DECISIONS「响应性」). A walked passage fades out and in under a
+world-time hold and names the place; the camera snaps on arrival and keeps inside the map; the walk
+eases in and out on round bodies that slide along walls, with a facing notch; a ring and a prompt
+mark what A goes to; NPCs' chat, greetings, stories and the robber's red shout show over their
+heads; the menu fades in. Every time is a `pacing.json` `feel` knob (0 = the old look). Next: B2
+「手感：战斗」 (慢/标准/快 battle speed in the settings, lines 0.12 s apart, bar tweens, hit flash,
+0.8 s end hold; 朱鸿雪's task time counts a fight by rounds); 声望 stays a placeholder until step 6.
 
 ## 待决定
 

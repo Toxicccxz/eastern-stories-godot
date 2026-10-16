@@ -15,6 +15,7 @@ const ALERT_TEXT_COLOR: Color = Color(0.78, 0.1, 0.08)
 const FILL: Color = Color(0.97, 0.95, 0.88, 0.94)
 ## A said line opens with who says it and how ("强盗喝道：", "店小二说道："): the bubble is over
 ## their head already, so it starts after that colon when it comes this soon and follows 道.
+# TRANSLATORS: how a said line hands over to what is said (店小二说道：客官里边请。); a bubble shows only what follows it, when it comes within the first ten characters.
 const SPEECH_MARK: String = "道："
 const SPEECH_MARK_REACH: int = 10
 
@@ -86,9 +87,10 @@ func forget(character_id: StringName) -> void:
 ## What a bubble says for `line`: what is said, without who says it.
 static func bubble_text(line: String) -> String:
 	var text: String = line.strip_edges()
-	var mark: int = text.find(SPEECH_MARK)
+	var said: String = TranslationServer.translate(SPEECH_MARK)
+	var mark: int = text.find(said)
 	if mark >= 0 and mark <= SPEECH_MARK_REACH:
-		text = text.substr(mark + SPEECH_MARK.length()).strip_edges()
+		text = text.substr(mark + said.length()).strip_edges()
 	return text
 
 

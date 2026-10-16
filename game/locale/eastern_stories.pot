@@ -8285,6 +8285,7 @@ msgstr ""
 msgid "想从{npc}身上偷什么？"
 msgstr ""
 
+#. how a said line hands over to what is said (店小二说道：客官里边请。); a bubble shows only what follows it, when it comes within the first ten characters.
 #: ui/world/world_speech_bubbles.gd
 msgid "道："
 msgstr ""

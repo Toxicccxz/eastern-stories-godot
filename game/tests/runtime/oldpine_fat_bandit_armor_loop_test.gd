@@ -48,16 +48,18 @@ func _test_live_fat_authority_and_stable_multi_aggression(tree: SceneTree) -> vo
 	_assert_eq(OldPineTestMap.body(controller, "FatBandit").global_position, (controller.get_node("SpawnPoints/Pine1FatBanditSpawn") as Marker2D).global_position, "Fat body uses stable authored marker")
 	_assert_ne(OldPineTestMap.body(controller, "FatBandit").global_position, OldPineTestMap.body(controller, "TallBandit").global_position, "Tall and Fat are not stacked")
 	# Pine Entrance obstacles are terrain tiles now (no PineMazeObstacles StaticBody2D).
-	var fat_shape: RectangleShape2D = (
+	# The body is the circle its 34 px square holds (DECISIONS「手感」): the square still clears.
+	var fat_shape: CircleShape2D = (
 		(OldPineTestMap.body(controller, "FatBandit").get_node("CollisionShape2D") as CollisionShape2D).shape
-		as RectangleShape2D
+		as CircleShape2D
 	)
+	_assert_eq(fat_shape.radius * 2.0, MapPlacementValidator.CHARACTER_FOOTPRINT.x, "Fat's body is as wide as a character's footprint")
 	_assert_true(
-		_rect_clear_of_blocking_terrain(controller, OldPineTestMap.body(controller, "FatBandit").global_position, fat_shape.size),
+		_rect_clear_of_blocking_terrain(controller, OldPineTestMap.body(controller, "FatBandit").global_position, MapPlacementValidator.CHARACTER_FOOTPRINT),
 		"Fat spawn body is outside every Pine Entrance obstacle tile",
 	)
 	_assert_false(
-		_rect_clear_of_blocking_terrain(controller, Vector2(736, 752), fat_shape.size),
+		_rect_clear_of_blocking_terrain(controller, Vector2(736, 752), MapPlacementValidator.CHARACTER_FOOTPRINT),
 		"the same probe detects the pines between pine1's gaps",
 	)
 	var tall_presence: Area2D = OldPineTestMap.body(controller, "TallBandit").get_node("AggressionPresence") as Area2D

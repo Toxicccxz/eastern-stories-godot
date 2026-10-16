@@ -971,6 +971,9 @@ func last_passage_traversal() -> RefCounted:
 func can_act(idle: bool) -> bool:
 	if not is_inside_tree() or not _initialized or get_tree().paused or not player_body.player_controlled or not _world_simulation_gate.is_open():
 		return false
+	# On the way through a passage (the view going dark, DECISIONS「手感」): nothing else now.
+	if session != null and session.passage_request_pending():
+		return false
 	if _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or _player.relationship.is_fighting() or _player.world_location().map_id != map:
 		return false
 	if not idle:

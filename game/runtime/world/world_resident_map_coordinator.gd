@@ -62,6 +62,8 @@ func _on_faded_out(portal: PortalDefinition, source: WorldResidentMapController)
 	var before: OldPineMapHandoffResult = _last_map_handoff
 	_execute_passage_request(portal, source)
 	if _last_map_handoff == before or not _last_map_handoff.succeeded():
+		# The passage did not go after all: it can be taken again.
+		source.clear_passage_contacts()
 		_hold_view(false)
 		view_arriving.emit(_active_map_id, false)
 
