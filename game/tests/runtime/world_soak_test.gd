@@ -40,8 +40,8 @@ const OLD_PINE_ROOMS: Array[StringName] = [&"oldpine.outdoor.north_approach", &"
 ## Killed in turn, one every KILL_EVERY_STAYS stays (spawn point, its map).
 const VICTIMS: Array[Array] = [
 	[&"snow.eroad2.dog.1", &"snow.outdoor"], [&"snow.sroad2.farmer.1", &"snow.outdoor"],
-	[&"snow.school2.trainee.1", &"snow.outdoor"], [&"snow.mstreet2.scavenger.1", &"snow.outdoor"],
-	[&"snow.herbshop.woodcutter.1", &"snow.outdoor"], [&"snow.inn_2f.rat.1", &"snow.inn_upstairs"],
+	[&"snow.school2.trainee.1", &"snow.school_compound"], [&"snow.mstreet2.scavenger.1", &"snow.outdoor"],
+	[&"snow.herbshop.woodcutter.1", &"snow.herbshop_house"], [&"snow.inn_2f.rat.1", &"snow.inn_upstairs"],
 ]
 const SWORD_POINT: StringName = &"snow.weapon_storage.bamboo_sword.1"
 
@@ -209,7 +209,9 @@ func _act(stay: int, room: StringName) -> void:
 				_knockouts += 1
 	if stay % KILL_EVERY_STAYS == KILL_EVERY_STAYS - 1 and not _session.combat_encounter_coordinator().has_active_encounter():
 		var victim: Array = VICTIMS[(stay / KILL_EVERY_STAYS) % VICTIMS.size()]
-		if not await _enter_map(victim[1]):
+		# Where it is now: a wanderer may have gone through a door onto another map (the remap).
+		var found: NpcRuntimeState = MapPlaces.npc_at(_session, victim[0])
+		if not await _enter_map(found.world_location().map_id if found != null else victim[1]):
 			return
 		map = _session.active_map() as WorldMapController
 		var npc: NpcRuntimeState = _npc(map, victim[0])
