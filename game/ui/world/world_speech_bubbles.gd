@@ -110,7 +110,9 @@ func _process(delta: float) -> void:
 		bubble.visible = map != null and body.is_visible_in_tree()
 		if bubble.visible:
 			bubble.reset_size()
-			var head: Vector2 = canvas * (body.global_position + Vector2(0.0, -LIFT))
+			# Over the prompt when the speaker is what A goes to.
+			var lift: float = maxf(LIFT, _ui.focus_marker.lift_over(body) + 4.0)
+			var head: Vector2 = canvas * (body.global_position + Vector2(0.0, -lift))
 			bubble.position = (head - Vector2(bubble.size.x / 2.0, bubble.size.y)).round()
 
 

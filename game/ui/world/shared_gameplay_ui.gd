@@ -227,6 +227,11 @@ func session() -> WorldSessionController:
 	return _session
 
 
+## Where the status card is on the screen (what overlays keep clear of).
+func card_rect() -> Rect2:
+	return _presentation_layout.bar.get_global_rect()
+
+
 ## A panel (a shop, a question, 打听) has the shared frame.
 func panel_open() -> bool:
 	return _presentation_layout.frame.visible

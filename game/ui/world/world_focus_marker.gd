@@ -2,15 +2,16 @@ class_name WorldFocusMarker
 extends Control
 
 ## The ring and the prompt on what the place's A goes to (DECISIONS「手感」): a ring round
-## the thing (WorldMapSelection.focus()) and under it the button and what it does — the
+## the thing (WorldMapSelection.focus()) and over its name the button and what it does — the
 ## door's or service's action, or the name of the nearest thing in reach, whose group on
 ## the card A goes into. Drawn over the map, under the HUD's panels; hidden while a panel,
 ## the menu or a fight has the screen. Only shows; A is still the HUD's.
 
 const RING_COLOR: Color = Color(0.95, 0.8, 0.35, 0.9)
 const RING_RADIUS: float = 26.0
-## The prompt's top edge below the thing's middle.
-const PROMPT_DROP: float = 30.0
+## The prompt's bottom edge above the thing's middle (over its name: the player often
+## stands just below it).
+const PROMPT_LIFT: float = 50.0
 const REFRESH_SECONDS: float = 0.1
 
 var _ui: SharedGameplayUI
@@ -49,6 +50,14 @@ func _ready() -> void:
 	_prompt.visible = false
 
 
+## How far over its middle the marked thing's top is now, with the prompt (0: unmarked).
+func lift_over(node: Node2D) -> float:
+	# The thing itself, or a service it offers from where it stands.
+	if not _prompt.visible or _focus == null or (_focus.node != node and _focus.at().distance_to(node.global_position) > RING_RADIUS):
+		return 0.0
+	return PROMPT_LIFT + _prompt.size.y
+
+
 ## The prompt's text now ("" when nothing is marked).
 func prompt_text() -> String:
 	return _prompt_text.text if _prompt.visible else ""
@@ -76,7 +85,7 @@ func _process(delta: float) -> void:
 	var screen: Vector2 = get_viewport().get_canvas_transform() * at
 	_prompt.visible = true
 	_prompt.reset_size()
-	_prompt.position = (screen + Vector2(-_prompt.size.x / 2.0, PROMPT_DROP)).round()
+	_prompt.position = (screen + Vector2(-_prompt.size.x / 2.0, -PROMPT_LIFT - _prompt.size.y)).round()
 	if not _ring_at.is_equal_approx(screen):
 		_ring_at = screen
 		queue_redraw()

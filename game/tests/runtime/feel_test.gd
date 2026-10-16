@@ -108,9 +108,9 @@ func _test_passage(tree: SceneTree, session: WorldSessionController) -> void:
 	await tree.create_timer(0.1).timeout
 	var arrived: WorldMapController = session.active_map() as WorldMapController
 	_check(arrived.map_id() == portal.destination_map_id and session.world_time_held(), "dark: the new map, world time still held while the view comes back")
+	await tree.create_timer(0.3).timeout
 	var region: String = GameContent.catalog().region(player.world_location().region_id).display_name
 	_check(overlay.banner_text().begins_with(region) or overlay.banner_text() == GameContent.catalog().zone(player.world_location().zone_id).display_name, "the place's name: %s" % overlay.banner_text())
-	await tree.create_timer(0.3).timeout
 	_check(overlay.shade_alpha() == 0.0 and not session.world_time_held() and not arrived.player_body.walk_paused and not map.player_body.walk_paused, "back: world time runs, the player walks")
 
 
