@@ -363,6 +363,42 @@ msgstr ""
 msgid "背包"
 msgstr ""
 
+#. es2:d/canyon/camp1 short
+#: scenes/world/canyon/camp.tscn data/canyon/rooms.json
+msgid "军营入口"
+msgstr ""
+
+#. es2:d/canyon/camp3 short
+#. es2:d/canyon/camp4 short
+#: scenes/world/canyon/camp.tscn data/canyon/rooms.json
+msgid "小兵营帐"
+msgstr ""
+
+#. es2:d/canyon/camp2 short
+#: scenes/world/canyon/camp.tscn data/canyon/rooms.json
+msgid "营火区"
+msgstr ""
+
+#. es2:d/canyon/camp5 short
+#. es2:d/canyon/camp6 short
+#: scenes/world/canyon/camp.tscn data/canyon/rooms.json
+msgid "小队长营帐"
+msgstr ""
+
+#. es2:d/canyon/camp7 short
+#: scenes/world/canyon/camp.tscn data/canyon/rooms.json
+msgid "副将营帐"
+msgstr ""
+
+#. es2:d/canyon/camp8 short
+#: scenes/world/canyon/camp.tscn data/canyon/rooms.json
+msgid "将军营帐"
+msgstr ""
+
+#: scenes/world/canyon/camp.tscn
+msgid "水井 · 装水"
+msgstr ""
+
 #. canyon.npc.captain inquiry topic
 #. canyon.npc.general inquiry topic
 #. canyon.npc.adviser inquiry topic
@@ -449,38 +485,6 @@ msgstr ""
 msgid "天驼关谷地"
 msgstr ""
 
-#. es2:d/canyon/camp3 short
-#. es2:d/canyon/camp4 short
-#: scenes/world/canyon/canyon_pass.tscn data/canyon/rooms.json
-msgid "小兵营帐"
-msgstr ""
-
-#. es2:d/canyon/camp1 short
-#: scenes/world/canyon/canyon_pass.tscn data/canyon/rooms.json
-msgid "军营入口"
-msgstr ""
-
-#. es2:d/canyon/camp5 short
-#. es2:d/canyon/camp6 short
-#: scenes/world/canyon/canyon_pass.tscn data/canyon/rooms.json
-msgid "小队长营帐"
-msgstr ""
-
-#. es2:d/canyon/camp2 short
-#: scenes/world/canyon/canyon_pass.tscn data/canyon/rooms.json
-msgid "营火区"
-msgstr ""
-
-#. es2:d/canyon/camp7 short
-#: scenes/world/canyon/canyon_pass.tscn data/canyon/rooms.json
-msgid "副将营帐"
-msgstr ""
-
-#. es2:d/canyon/camp8 short
-#: scenes/world/canyon/canyon_pass.tscn data/canyon/rooms.json
-msgid "将军营帐"
-msgstr ""
-
 #. es2:d/canyon/stone_forest1 short
 #: scenes/world/canyon/canyon_pass.tscn data/canyon/rooms.json
 msgid "黄石穿林路路口"
@@ -512,10 +516,6 @@ msgstr ""
 
 #: scenes/world/canyon/canyon_pass.tscn
 msgid "铁索 · 爬上去"
-msgstr ""
-
-#: scenes/world/canyon/canyon_pass.tscn
-msgid "水井 · 装水"
 msgstr ""
 
 #. es2:d/canyon/bamboo/train short
@@ -961,7 +961,7 @@ msgstr ""
 msgid "南花园"
 msgstr ""
 
-#: scenes/world/chuenyu/chuenyu_main.tscn scenes/world/city/city_main.tscn scenes/world/cloud/cloud_outdoor.tscn scenes/world/latemoon/latemoon_manor.tscn scenes/world/snow/snow_inn.tscn
+#: scenes/world/chuenyu/chuenyu_main.tscn scenes/world/city/city_main.tscn scenes/world/cloud/duchang_house.tscn scenes/world/cloud/jiyuan_house.tscn scenes/world/cloud/tearoom_house.tscn scenes/world/latemoon/latemoon_manor.tscn scenes/world/snow/snow_inn.tscn
 msgid "楼梯 · 上楼"
 msgstr ""
 
@@ -1243,7 +1243,7 @@ msgstr ""
 #. es2:d/latemoon/room/kitchen short
 #. es2:d/village/smallstorage short
 #. es2:d/city/shangshu/chufang short
-#: scenes/world/city/city_main.tscn scenes/world/latemoon/latemoon_manor.tscn scenes/world/village/village_main.tscn scenes/world/waterfog/waterfog_pavilion.tscn data/waterfog/rooms.json data/latemoon/rooms.json data/village/rooms.json data/city/rooms.json
+#: scenes/world/city/city_main.tscn scenes/world/latemoon/latemoon_manor.tscn scenes/world/village/liu_house.tscn scenes/world/waterfog/waterfog_pavilion.tscn data/waterfog/rooms.json data/latemoon/rooms.json data/village/rooms.json data/city/rooms.json
 msgid "厨房"
 msgstr ""
 
@@ -1347,9 +1347,26 @@ msgstr ""
 msgid "尚书府 · 跳进去"
 msgstr ""
 
+#. es2:u/cloud/biaoju short
+#: scenes/world/cloud/biaoju_house.tscn data/cloud/rooms.json
+msgid "镖局"
+msgstr ""
+
+#. cloud.npc.book_seller inquiry topic
+#. es2:u/cloud/bookstore short
+#: scenes/world/cloud/bookstore_house.tscn data/cloud/npcs.json data/cloud/rooms.json
+msgid "书局"
+msgstr ""
+
+#. cloud.npc.butcher title
+#. es2:u/cloud/butchery short
+#: scenes/world/cloud/butchery_house.tscn data/cloud/npcs.json data/cloud/rooms.json
+msgid "镇北肉铺"
+msgstr ""
+
 #. es2:u/cloud/duchang short
 #. es2:u/cloud/duchang2 short
-#: scenes/world/cloud/cloud_duchang_upstairs.tscn scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+#: scenes/world/cloud/cloud_duchang_upstairs.tscn scenes/world/cloud/duchang_house.tscn data/cloud/rooms.json
 msgid "赌场"
 msgstr ""
 
@@ -1435,105 +1452,9 @@ msgstr ""
 msgid "江北渡口"
 msgstr ""
 
-#. es2:u/cloud/tea_corridor short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
-msgid "香茗坊茶窖"
-msgstr ""
-
-#. cloud.npc.butcher inquiry topic
-#. cloud.npc.tea_waiter inquiry topic
-#. cloud.npc.box_boss inquiry topic
-#. cloud.npc.tailor inquiry topic
-#. es2:u/cloud/tearoom short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
-msgid "香茗坊"
-msgstr ""
-
-#. cloud.npc.butcher title
-#. es2:u/cloud/butchery short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
-msgid "镇北肉铺"
-msgstr ""
-
-#. cloud.npc.doctor title
-#. es2:u/cloud/drugstore short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
-msgid "药店"
-msgstr ""
-
-#. cloud.npc.weaponor title
-#. cloud.npc.weaponor inquiry topic
-#. es2:u/cloud/weapony short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
-msgid "兵器屋"
-msgstr ""
-
-#. cloud.npc.box_waiter title
-#. es2:u/cloud/woodboxy short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
-msgid "棺材铺"
-msgstr ""
-
-#. es2:u/cloud/god1 short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
-msgid "场院"
-msgstr ""
-
-#. es2:u/cloud/god2 short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
-msgid "场院前厅"
-msgstr ""
-
-#. cloud.npc.tailor title
-#. es2:u/cloud/tailory short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
-msgid "布庄"
-msgstr ""
-
-#. cloud.npc.seller title
-#. cloud.npc.seller inquiry topic
-#. es2:u/cloud/zaihuoy short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
-msgid "杂货铺"
-msgstr ""
-
-#. cloud.npc.mei_po title
-#. es2:u/cloud/marry_room short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
-msgid "红娘庄"
-msgstr ""
-
-#. cloud.npc.mother inquiry topic
-#. es2:u/cloud/jiyuan short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
-msgid "怡红院"
-msgstr ""
-
 #. es2:u/cloud/park short
 #: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
 msgid "张家花园"
-msgstr ""
-
-#. es2:u/cloud/rich short
-#. es2:u/cloud/m_house short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
-msgid "张百万家"
-msgstr ""
-
-#. cloud.npc.book_seller inquiry topic
-#. es2:u/cloud/bookstore short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/npcs.json data/cloud/rooms.json
-msgid "书局"
-msgstr ""
-
-#. es2:u/cloud/monky short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
-msgid "斋院"
-msgstr ""
-
-#. es2:u/cloud/biaoju short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
-msgid "镖局"
 msgstr ""
 
 #: scenes/world/cloud/cloud_outdoor.tscn scenes/world/sanyen/sunhill_mountain.tscn
@@ -1551,6 +1472,85 @@ msgstr ""
 #. es2:u/cloud/tearoom2 short
 #: scenes/world/cloud/cloud_tearoom_upstairs.tscn data/cloud/rooms.json
 msgid "香茗坊二楼"
+msgstr ""
+
+#. cloud.npc.doctor title
+#. es2:u/cloud/drugstore short
+#: scenes/world/cloud/drugstore_house.tscn data/cloud/npcs.json data/cloud/rooms.json
+msgid "药店"
+msgstr ""
+
+#. cloud.npc.mother inquiry topic
+#. es2:u/cloud/jiyuan short
+#: scenes/world/cloud/jiyuan_house.tscn data/cloud/npcs.json data/cloud/rooms.json
+msgid "怡红院"
+msgstr ""
+
+#. cloud.npc.mei_po title
+#. es2:u/cloud/marry_room short
+#: scenes/world/cloud/marry_house.tscn data/cloud/npcs.json data/cloud/rooms.json
+msgid "红娘庄"
+msgstr ""
+
+#. es2:u/cloud/monky short
+#: scenes/world/cloud/monky_house.tscn data/cloud/rooms.json
+msgid "斋院"
+msgstr ""
+
+#. es2:u/cloud/rich short
+#. es2:u/cloud/m_house short
+#: scenes/world/cloud/rich_house.tscn data/cloud/rooms.json
+msgid "张百万家"
+msgstr ""
+
+#. cloud.npc.tailor title
+#. es2:u/cloud/tailory short
+#: scenes/world/cloud/tailory_house.tscn data/cloud/npcs.json data/cloud/rooms.json
+msgid "布庄"
+msgstr ""
+
+#. cloud.npc.butcher inquiry topic
+#. cloud.npc.tea_waiter inquiry topic
+#. cloud.npc.box_boss inquiry topic
+#. cloud.npc.tailor inquiry topic
+#. es2:u/cloud/tearoom short
+#: scenes/world/cloud/tearoom_house.tscn data/cloud/npcs.json data/cloud/rooms.json
+msgid "香茗坊"
+msgstr ""
+
+#. es2:u/cloud/tea_corridor short
+#: scenes/world/cloud/tearoom_house.tscn data/cloud/rooms.json
+msgid "香茗坊茶窖"
+msgstr ""
+
+#. cloud.npc.weaponor title
+#. cloud.npc.weaponor inquiry topic
+#. es2:u/cloud/weapony short
+#: scenes/world/cloud/weapony_house.tscn data/cloud/npcs.json data/cloud/rooms.json
+msgid "兵器屋"
+msgstr ""
+
+#. es2:u/cloud/god1 short
+#: scenes/world/cloud/yard_house.tscn data/cloud/rooms.json
+msgid "场院"
+msgstr ""
+
+#. cloud.npc.box_waiter title
+#. es2:u/cloud/woodboxy short
+#: scenes/world/cloud/yard_house.tscn data/cloud/npcs.json data/cloud/rooms.json
+msgid "棺材铺"
+msgstr ""
+
+#. es2:u/cloud/god2 short
+#: scenes/world/cloud/yard_house.tscn data/cloud/rooms.json
+msgid "场院前厅"
+msgstr ""
+
+#. cloud.npc.seller title
+#. cloud.npc.seller inquiry topic
+#. es2:u/cloud/zaihuoy short
+#: scenes/world/cloud/zaihuoy_house.tscn data/cloud/npcs.json data/cloud/rooms.json
+msgid "杂货铺"
 msgstr ""
 
 #. es2:d/death/road3 short
@@ -2719,6 +2719,41 @@ msgstr ""
 msgid "灵心观"
 msgstr ""
 
+#. es2:d/village/farmhouse1 short
+#: scenes/world/village/farmhouse_house.tscn data/village/rooms.json
+msgid "农舍"
+msgstr ""
+
+#. es2:d/village/fmhousback short
+#: scenes/world/village/farmhouse_house.tscn data/village/rooms.json
+msgid "农舍后院"
+msgstr ""
+
+#. es2:d/village/home short
+#: scenes/world/village/liu_house.tscn data/village/rooms.json
+msgid "刘家小房"
+msgstr ""
+
+#. es2:d/village/lordhouse1 short
+#: scenes/world/village/lord_house.tscn data/village/rooms.json
+msgid "财主家前院"
+msgstr ""
+
+#. es2:d/village/lordhouse3 short
+#: scenes/world/village/lord_house.tscn data/village/rooms.json
+msgid "财主家南房"
+msgstr ""
+
+#. es2:d/village/lordhouse2 short
+#: scenes/world/village/lord_house.tscn data/village/rooms.json
+msgid "财主家东房"
+msgstr ""
+
+#. es2:d/village/melonguard short
+#: scenes/world/village/melonguard_house.tscn data/village/rooms.json
+msgid "瓜棚"
+msgstr ""
+
 #. es2:d/village/lakebottom1 short
 #. es2:d/village/lakebottom2 short
 #: scenes/world/village/village_icecave.tscn data/village/rooms.json
@@ -2750,41 +2785,6 @@ msgstr ""
 #. es2:d/village/valley2 short
 #: scenes/world/village/village_main.tscn data/village/rooms.json
 msgid "忘情谷外"
-msgstr ""
-
-#. es2:d/village/fmhousback short
-#: scenes/world/village/village_main.tscn data/village/rooms.json
-msgid "农舍后院"
-msgstr ""
-
-#. es2:d/village/farmhouse1 short
-#: scenes/world/village/village_main.tscn data/village/rooms.json
-msgid "农舍"
-msgstr ""
-
-#. es2:d/village/home short
-#: scenes/world/village/village_main.tscn data/village/rooms.json
-msgid "刘家小房"
-msgstr ""
-
-#. es2:d/village/melonguard short
-#: scenes/world/village/village_main.tscn data/village/rooms.json
-msgid "瓜棚"
-msgstr ""
-
-#. es2:d/village/lordhouse1 short
-#: scenes/world/village/village_main.tscn data/village/rooms.json
-msgid "财主家前院"
-msgstr ""
-
-#. es2:d/village/lordhouse2 short
-#: scenes/world/village/village_main.tscn data/village/rooms.json
-msgid "财主家东房"
-msgstr ""
-
-#. es2:d/village/lordhouse3 short
-#: scenes/world/village/village_main.tscn data/village/rooms.json
-msgid "财主家南房"
 msgstr ""
 
 #: scenes/world/village/village_main.tscn

@@ -6,179 +6,404 @@
       "draw": {
         "technique": "town",
         "base": "boundary",
-        "bounds": [-64, -64, 2784, 2624],
-        "ground": [["forest", 560, -64, 1072, 880, "卧龙岗's wooded slopes"]],
+        "bounds": [-80, -80, 3488, 3280],
+        "ground": [["forest", 704, -80, 1344, 1104, "卧龙岗's wooded slopes"]],
         "zones": {
-          "cloud.dragonhill.nroad": [688, 0, 944, 224, "open", "grass", null],
-          "cloud.dragonhill.nhillfoot": [688, 224, 944, 416, "open", "grass", null],
-          "cloud.dragonhill.hummock": [656, 416, 976, 672, "open", "rock", null],
-          "cloud.dragonhill.sroad": [656, 672, 816, 864, "open", "grass", null],
-          "cloud.dragonhill.shillfoot": [816, 672, 976, 864, "open", "grass", null],
-          "cloud.entrance": [672, 864, 928, 1088, "open", "town_ground", null],
-          "cloud.nwroad1": [768, 1088, 928, 1344, "open", "street", null],
-          "cloud.nwroad2": [768, 1344, 1024, 1504, "open", "street", null],
-          "cloud.nwroad3": [1024, 1344, 1280, 1504, "open", "street", null],
-          "cloud.nroad1": [1280, 1344, 1536, 1504, "open", "street", null],
-          "cloud.nroad2": [1360, 1504, 1520, 1760, "open", "street", null],
-          "cloud.cross": [1312, 1760, 1568, 2016, "open", "town_ground", null],
-          "cloud.wroad0": [544, 1824, 800, 1984, "open", "street", null],
-          "cloud.wroad1": [800, 1824, 1056, 1984, "open", "street", null],
-          "cloud.wroad2": [1056, 1824, 1312, 1984, "open", "street", null],
-          "cloud.eroad1": [1568, 1824, 1824, 1984, "open", "street", null],
-          "cloud.eroad2": [1824, 1824, 2080, 1984, "open", "street", null],
-          "cloud.eroad3": [2080, 1824, 2336, 1984, "open", "street", null],
-          "cloud.eroad4": [2336, 1696, 2720, 2112, "open", "grass", null],
-          "cloud.sroad1": [1360, 2016, 1520, 2272, "open", "street", null],
-          "cloud.dukou": [1280, 2272, 1600, 2560, "open", "riverbank", null],
-          "cloud.tea_corridor": [960, 864, 1248, 1056, "enclosed", "floor_wood", "wall_wood"],
-          "cloud.tearoom": [928, 1056, 1280, 1344, "enclosed", "floor_wood", "wall_wood"],
-          "cloud.butchery": [512, 1088, 768, 1344, "enclosed", "floor_shop", "wall_wood"],
-          "cloud.drugstore": [1280, 1120, 1536, 1344, "enclosed", "floor_shop", "wall_wood"],
-          "cloud.weapony": [1536, 1312, 1760, 1536, "enclosed", "floor_shop", "wall_wood"],
-          "cloud.woodboxy": [480, 1344, 768, 1632, "enclosed", "floor_shop", "wall_wood"],
-          "cloud.god1": [256, 1344, 480, 1600, "enclosed", "grass", "wall"],
-          "cloud.god2": [32, 1376, 256, 1568, "enclosed", "floor_wood", "wall_wood"],
-          "cloud.tailory": [800, 1504, 1024, 1824, "enclosed", "floor_shop", "wall_wood"],
-          "cloud.zaihuoy": [1056, 1504, 1360, 1760, "enclosed", "floor_shop", "wall_wood"],
-          "cloud.marry_room": [544, 1632, 800, 1824, "enclosed", "floor_wood", "wall_wood"],
-          "cloud.jiyuan": [1568, 1568, 1824, 1824, "enclosed", "floor_wood", "wall_wood"],
-          "cloud.park": [1824, 1568, 2080, 1824, "enclosed", "grass", "wall"],
-          "cloud.rich": [2080, 1536, 2336, 1824, "enclosed", "floor_yard", "wall"],
-          "cloud.m_house": [2080, 1280, 2336, 1536, "enclosed", "floor_wood", "wall_wood"],
-          "cloud.bookstore": [800, 1984, 1056, 2208, "enclosed", "floor_shop", "wall_wood"],
-          "cloud.monky": [1056, 1984, 1312, 2240, "enclosed", "floor_yard", "wall"],
-          "cloud.duchang": [1568, 1984, 1824, 2240, "enclosed", "floor_wood", "wall_wood"],
-          "cloud.biaoju": [1824, 1984, 2080, 2240, "enclosed", "floor_yard", "wall"]
+          "cloud.dragonhill.nroad": [864, 0, 1184, 288, "open", "grass", null],
+          "cloud.dragonhill.nhillfoot": [864, 288, 1184, 512, "open", "grass", null],
+          "cloud.dragonhill.hummock": [816, 512, 1216, 832, "open", "rock", null],
+          "cloud.dragonhill.sroad": [816, 832, 1024, 1088, "open", "grass", null],
+          "cloud.dragonhill.shillfoot": [1024, 832, 1216, 1088, "open", "grass", null],
+          "cloud.entrance": [832, 1088, 1152, 1360, "open", "town_ground", null],
+          "cloud.nwroad1": [960, 1360, 1152, 1680, "open", "street", null],
+          "cloud.nwroad2": [960, 1680, 1280, 1888, "open", "street", null],
+          "cloud.nwroad3": [1280, 1680, 1600, 1888, "open", "street", null],
+          "cloud.nroad1": [1600, 1680, 1920, 1888, "open", "street", null],
+          "cloud.nroad2": [1696, 1888, 1904, 2208, "open", "street", null],
+          "cloud.cross": [1632, 2208, 1952, 2528, "open", "town_ground", null],
+          "cloud.wroad0": [672, 2272, 992, 2480, "open", "street", null],
+          "cloud.wroad1": [992, 2272, 1312, 2480, "open", "street", null],
+          "cloud.wroad2": [1312, 2272, 1632, 2480, "open", "street", null],
+          "cloud.eroad1": [1952, 2272, 2272, 2480, "open", "street", null],
+          "cloud.eroad2": [2272, 2272, 2592, 2480, "open", "street", null],
+          "cloud.eroad3": [2592, 2272, 2912, 2480, "open", "street", null],
+          "cloud.eroad4": [2912, 2112, 3392, 2640, "open", "grass", null],
+          "cloud.sroad1": [1696, 2528, 1904, 2848, "open", "street", null],
+          "cloud.dukou": [1600, 2848, 2000, 3200, "open", "riverbank", null],
+          "cloud.park": [2272, 1952, 2592, 2272, "enclosed", "grass", "wall"]
         },
         "roads": [
-          ["path", 800, 0, 864, 224, "a road on the ridge and on the field; the path runs down the middle"],
-          ["path", 800, 224, 864, 416],
-          ["path", 816, 416, 880, 672],
-          ["path", 848, 672, 912, 864],
-          ["path", 704, 704, 768, 864],
-          ["path", 768, 720, 848, 768],
-          ["path", 2336, 1888, 2720, 1920]
+          ["path", 992, 0, 1088, 288, "a road on the ridge and on the field; the path runs down the middle"],
+          ["path", 992, 288, 1088, 512],
+          ["path", 1024, 512, 1104, 832],
+          ["path", 1056, 832, 1136, 1088],
+          ["path", 880, 880, 960, 1088],
+          ["path", 960, 896, 1056, 960],
+          ["path", 2912, 2368, 3392, 2400]
         ],
         "props": [
-          ["forest", 688, 0, 768, 160, "卧龙岗: the slopes close in on the path; rocks on the ridge"],
-          ["forest", 880, 48, 944, 224],
-          ["forest", 688, 256, 752, 416],
-          ["forest", 896, 224, 944, 352],
-          ["cliff", 656, 416, 704, 560],
-          ["cliff", 928, 480, 976, 672],
-          ["cliff", 656, 624, 816, 672, "the ridge drops away above the second 黄土路"],
-          ["forest", 656, 768, 704, 864],
-          ["forest", 928, 704, 976, 816],
-          ["wall", 672, 1056, 768, 1088, "the gate: the town wall either side of it"],
-          ["blocked", 784, 1104, 816, 1152, "market stalls along the street's edges"],
-          ["blocked", 784, 1280, 816, 1328],
-          ["blocked", 1040, 1456, 1104, 1488],
-          ["blocked", 1200, 1456, 1248, 1488],
-          ["blocked", 1488, 1520, 1504, 1584],
-          ["forest", 1504, 1776, 1552, 1824, "the crossroad's 古槐 and its notice"],
-          ["blocked", 1328, 1776, 1360, 1792],
-          ["water", 1888, 1632, 1984, 1712, "张家花园: a pond"],
-          ["forest", 2400, 1760, 2688, 1776, "茶场: rows of tea bushes"],
-          ["forest", 2400, 1856, 2688, 1872],
-          ["forest", 2400, 2016, 2688, 2032],
-          ["water", 1280, 2464, 1392, 2560, "江北渡口: the river"],
-          ["shallow_water", 1392, 2464, 1488, 2560, "the ford into 泓水 (山烟寺 A)"],
-          ["water", 1488, 2464, 1600, 2560],
-          ["blocked", 544, 1136, 560, 1264, "shop counters at the back walls"],
-          ["blocked", 1328, 1168, 1488, 1184],
-          ["blocked", 1712, 1376, 1728, 1472],
-          ["blocked", 848, 1776, 976, 1792],
-          ["blocked", 1104, 1712, 1232, 1728],
-          ["blocked", 848, 2160, 1008, 2176],
-          ["blocked", 576, 1584, 704, 1600],
-          ["forest", 288, 1376, 352, 1424, "场院's thorns and the old pavilion's posts"],
-          ["forest", 384, 1520, 448, 1568]
+          ["forest", 864, 0, 960, 192, "卧龙岗: the slopes close in on the path; rocks on the ridge"],
+          ["forest", 1104, 64, 1184, 288],
+          ["forest", 864, 320, 944, 512],
+          ["forest", 1120, 288, 1184, 448],
+          ["cliff", 816, 512, 880, 704],
+          ["cliff", 1152, 608, 1216, 832],
+          ["cliff", 816, 784, 1024, 832, "the ridge drops away above the second 黄土路"],
+          ["forest", 816, 960, 880, 1088],
+          ["forest", 1152, 880, 1216, 1024],
+          ["wall", 832, 1312, 960, 1360, "the gate: the town wall either side of it"],
+          ["blocked", 976, 1376, 1024, 1440, "market stalls along the street's edges"],
+          ["blocked", 976, 1600, 1024, 1664],
+          ["blocked", 1296, 1824, 1376, 1856],
+          ["blocked", 1504, 1824, 1568, 1856],
+          ["blocked", 1856, 1904, 1888, 1984],
+          ["forest", 1888, 2224, 1936, 2272, "the crossroad's 古槐 and its notice"],
+          ["blocked", 1664, 2224, 1696, 2240],
+          ["water", 2368, 2048, 2480, 2144, "张家花园: a pond"],
+          ["forest", 3008, 2208, 3360, 2224, "茶场: rows of tea bushes"],
+          ["forest", 3008, 2320, 3360, 2336],
+          ["forest", 3008, 2528, 3360, 2544],
+          ["water", 1600, 3072, 1744, 3200, "江北渡口: the river"],
+          ["shallow_water", 1744, 3072, 1856, 3200, "the ford into 泓水 (山烟寺 A)"],
+          ["water", 1856, 3072, 2000, 3200]
         ],
-        "gap_at": [
-          ["cloud.nwroad1", "cloud.tearoom", 1232, "香茗坊's west door, by the street's foot"],
-          ["cloud.nwroad3", "cloud.zaihuoy", 1152],
-          ["cloud.nroad2", "cloud.zaihuoy", 1632]
-        ],
+        "gap_at": [],
         "reach_from": "SnowEntry",
         "markers_in_middle": ["cloud.eroad4"],
-        "placed": {"cloud.dragonhill.hummock.gangster.1": [736, 544], "cloud.dragonhill.hummock.gangster.2": [896, 544]}
+        "placed": {
+          "cloud.dragonhill.hummock.gangster.1": [920, 680],
+          "cloud.dragonhill.hummock.gangster.2": [1120, 680]
+        },
+        "buildings": [
+          {
+            "name": "振远镖局",
+            "rect": [2304, 2480, 2560, 2768],
+            "wall": "wall",
+            "doors": [
+              {
+                "portal": "cloud.eroad2.south",
+                "street": "cloud.eroad2",
+                "side": "south",
+                "at": 2432
+              }
+            ]
+          },
+          {
+            "name": "书局",
+            "rect": [1024, 2480, 1280, 2720],
+            "wall": "wall_wood",
+            "doors": [
+              {
+                "portal": "cloud.wroad1.south",
+                "street": "cloud.wroad1",
+                "side": "south",
+                "at": 1152
+              }
+            ]
+          },
+          {
+            "name": "镇北肉铺",
+            "rect": [672, 1392, 960, 1648],
+            "wall": "wall_wood",
+            "doors": [
+              {
+                "portal": "cloud.nwroad1.west",
+                "street": "cloud.nwroad1",
+                "side": "west",
+                "at": 1520
+              }
+            ]
+          },
+          {
+            "name": "药店",
+            "rect": [1632, 1440, 1888, 1680],
+            "wall": "wall_wood",
+            "doors": [
+              {
+                "portal": "cloud.nroad1.north",
+                "street": "cloud.nroad1",
+                "side": "north",
+                "at": 1760
+              }
+            ]
+          },
+          {
+            "name": "赌场",
+            "rect": [1984, 2480, 2240, 2768],
+            "wall": "wall_wood",
+            "doors": [
+              {
+                "portal": "cloud.eroad1.south",
+                "street": "cloud.eroad1",
+                "side": "south",
+                "at": 2112
+              }
+            ]
+          },
+          {
+            "name": "场院",
+            "rect": [352, 1712, 576, 1968],
+            "wall": "wall",
+            "doors": []
+          },
+          {
+            "name": "场院",
+            "rect": [64, 1760, 288, 1920],
+            "wall": "wall_wood",
+            "doors": []
+          },
+          {
+            "name": "场院",
+            "rect": [640, 1712, 960, 2016],
+            "wall": "wall_wood",
+            "doors": [
+              {
+                "portal": "cloud.nwroad2.west",
+                "street": "cloud.nwroad2",
+                "side": "west",
+                "at": 1792
+              }
+            ]
+          },
+          {
+            "name": "怡红院",
+            "rect": [1984, 1984, 2240, 2272],
+            "wall": "wall_wood",
+            "doors": [
+              {
+                "portal": "cloud.eroad1.north",
+                "street": "cloud.eroad1",
+                "side": "north",
+                "at": 2112
+              }
+            ]
+          },
+          {
+            "name": "张百万家",
+            "rect": [2624, 1952, 2880, 2272],
+            "wall": "wall",
+            "doors": [
+              {
+                "portal": "cloud.eroad3.north",
+                "street": "cloud.eroad3",
+                "side": "north",
+                "at": 2752
+              }
+            ]
+          },
+          {
+            "name": "张百万家",
+            "rect": [2624, 1632, 2880, 1888],
+            "wall": "wall_wood",
+            "doors": []
+          },
+          {
+            "name": "红娘庄",
+            "rect": [704, 2080, 960, 2272],
+            "wall": "wall_wood",
+            "doors": [
+              {
+                "portal": "cloud.wroad0.north",
+                "street": "cloud.wroad0",
+                "side": "north",
+                "at": 832
+              }
+            ]
+          },
+          {
+            "name": "斋院",
+            "rect": [1344, 2480, 1600, 2768],
+            "wall": "wall",
+            "doors": [
+              {
+                "portal": "cloud.wroad2.south",
+                "street": "cloud.wroad2",
+                "side": "south",
+                "at": 1472
+              }
+            ]
+          },
+          {
+            "name": "布庄",
+            "rect": [1024, 1888, 1248, 2240],
+            "wall": "wall_wood",
+            "doors": [
+              {
+                "portal": "cloud.nwroad2.south",
+                "street": "cloud.nwroad2",
+                "side": "south",
+                "at": 1136
+              }
+            ]
+          },
+          {
+            "name": "香茗坊",
+            "rect": [1152, 1344, 1568, 1680],
+            "wall": "wall_wood",
+            "doors": [
+              {
+                "portal": "cloud.nwroad1.east",
+                "street": "cloud.nwroad1",
+                "side": "east",
+                "at": 1536
+              },
+              {
+                "portal": "cloud.nwroad3.north",
+                "street": "cloud.nwroad3",
+                "side": "north",
+                "at": 1440
+              }
+            ]
+          },
+          {
+            "name": "香茗坊",
+            "rect": [1232, 1120, 1536, 1280],
+            "wall": "wall_wood",
+            "doors": []
+          },
+          {
+            "name": "兵器屋",
+            "rect": [1920, 1664, 2176, 1888],
+            "wall": "wall_wood",
+            "doors": [
+              {
+                "portal": "cloud.nroad1.east",
+                "street": "cloud.nroad1",
+                "side": "east",
+                "at": 1792
+              }
+            ]
+          },
+          {
+            "name": "杂货铺",
+            "rect": [1344, 1888, 1696, 2176],
+            "wall": "wall_wood",
+            "doors": [
+              {
+                "portal": "cloud.nwroad3.south",
+                "street": "cloud.nwroad3",
+                "side": "south",
+                "at": 1440
+              },
+              {
+                "portal": "cloud.nroad2.west",
+                "street": "cloud.nroad2",
+                "side": "west",
+                "at": 2048
+              }
+            ]
+          }
+        ]
       },
       "scene": {
         "style": "map",
         "root": "CloudOutdoor",
         "map": "cloud.outdoor",
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
-        "shapes": {"Rect_64_32": [64, 32], "Rect_32_64": [32, 64], "StairsShape": [48, 48]},
+        "shapes": {
+          "Rect_64_32": [64, 32],
+          "Rect_32_64": [32, 64],
+          "StairsShape": [48, 48]
+        },
         "door_style": {
           "walls": "Terrain/DoorWalls",
           "wall_suffix": "Wall",
           "shutters": "Terrain",
           "color": "Color(0.42, 0.3, 0.18, 1)"
         },
-        "doors": [
-          {"name": "TeaDoor", "id": "cloud.tearoom.door", "between": ["cloud.tea_corridor", "cloud.tearoom"]},
-          {"name": "CoffinDoor", "id": "cloud.woodboxy.door", "between": ["cloud.god1", "cloud.woodboxy"]}
-        ],
-        "stairs": [
-          {
-            "zone": "cloud.tearoom",
-            "name": "TearoomStairsUp",
-            "at": [1216, 1120],
-            "id": "cloud.tearoom.up",
-            "shape": "StairsShape",
-            "color": "Color(0.55, 0.38, 0.22, 1)",
-            "text": "楼梯 · 上楼",
-            "marker": {"name": "TearoomStairsReturn", "at": [1160, 1120], "id": "cloud.tearoom.stairs_return"}
-          },
-          {
-            "zone": "cloud.jiyuan",
-            "name": "JiyuanStairsUp",
-            "at": [1760, 1632],
-            "id": "cloud.jiyuan.up",
-            "shape": "StairsShape",
-            "color": "Color(0.55, 0.38, 0.22, 1)",
-            "text": "楼梯 · 上楼",
-            "marker": {"name": "JiyuanStairsReturn", "at": [1704, 1632], "id": "cloud.jiyuan.stairs_return"}
-          },
-          {
-            "zone": "cloud.duchang",
-            "name": "DuchangStairsUp",
-            "at": [1760, 2176],
-            "id": "cloud.duchang.up",
-            "shape": "StairsShape",
-            "color": "Color(0.55, 0.38, 0.22, 1)",
-            "text": "楼梯 · 上楼",
-            "marker": {"name": "DuchangStairsReturn", "at": [1704, 2176], "id": "cloud.duchang.stairs_return"}
-          }
-        ],
+        "stairs": [],
         "nodes": [
-          {"generated": "captions"},
-          {"node": "caption", "name": "LatemoonLabel", "at": [440, 1872], "text": "西 · 晚月庄", "size": 14},
-          {"node": "caption", "name": "RiverLabel", "at": [1500, 2500], "text": "南 · 泓水", "size": 14},
-          {"node": "caption", "name": "SnowLabel", "at": [856, 4], "text": "北 · 雪亭镇", "size": 14},
-          {"node": "group", "name": "DoorWalls", "type": "StaticBody2D", "parent": "Terrain"},
-          {"generated": "door_walls"},
-          {"generated": "shutters"},
+          {
+            "generated": "captions"
+          },
+          {
+            "node": "caption",
+            "name": "LatemoonLabel",
+            "at": [552, 2340],
+            "text": "西 · 晚月庄",
+            "size": 14
+          },
+          {
+            "node": "caption",
+            "name": "RiverLabel",
+            "at": [1876, 3124],
+            "text": "南 · 泓水",
+            "size": 14
+          },
+          {
+            "node": "caption",
+            "name": "SnowLabel",
+            "at": [1072, 4],
+            "text": "北 · 雪亭镇",
+            "size": 14
+          },
+          {
+            "node": "group",
+            "name": "DoorWalls",
+            "type": "StaticBody2D",
+            "parent": "Terrain"
+          },
+          {
+            "generated": "door_walls"
+          },
+          {
+            "generated": "shutters"
+          },
           {
             "node": "passage",
             "name": "SnowPassage",
             "id": "cloud.dragonhill.nroad.north",
-            "at": [816, 16],
+            "at": [1020, 20],
             "shape": "Rect_64_32"
           },
-          {"node": "passage", "name": "LatemoonPassage", "id": "cloud.wroad0.west", "at": [560, 1904], "shape": "Rect_32_64"},
-          {"node": "passage", "name": "RiverPassage", "id": "cloud.dukou.south", "at": [1440, 2528], "shape": "Rect_64_32"},
-          {"generated": "stairs"},
-          {"generated": "doors"}
+          {
+            "node": "passage",
+            "name": "LatemoonPassage",
+            "id": "cloud.wroad0.west",
+            "at": [700, 2380],
+            "shape": "Rect_32_64"
+          },
+          {
+            "node": "passage",
+            "name": "RiverPassage",
+            "id": "cloud.dukou.south",
+            "at": [1800, 3160],
+            "shape": "Rect_64_32"
+          },
+          {
+            "generated": "stairs"
+          },
+          {
+            "generated": "doors"
+          }
         ],
-        "zones": [{"generated": "zones"}],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
         "spawn_points": [
-          {"generated": "stair_markers"},
-          {"name": "SnowEntry", "at": [816, 96], "id": "cloud.dragonhill.nroad.snow_entry"},
-          {"name": "LatemoonReturn", "at": [640, 1904], "id": "cloud.wroad0.latemoon_return"},
-          {"name": "RiverReturn", "at": [1440, 2432], "id": "cloud.dukou.river_return"},
-          {"name": "BiaojuWindArrival", "at": [1952, 2144], "id": "cloud.biaoju.wind_arrival"},
-          {"generated": "markers"}
+          {
+            "generated": "stair_markers"
+          },
+          {
+            "name": "SnowEntry",
+            "at": [1024, 120],
+            "id": "cloud.dragonhill.nroad.snow_entry"
+          },
+          {
+            "name": "LatemoonReturn",
+            "at": [800, 2384],
+            "id": "cloud.wroad0.latemoon_return"
+          },
+          {
+            "name": "RiverReturn",
+            "at": [1800, 3040],
+            "id": "cloud.dukou.river_return"
+          },
+          {
+            "generated": "markers"
+          }
         ]
       }
     },
@@ -386,6 +611,834 @@
             "generated": "markers"
           }
         ]
+      }
+    },
+    "biaoju": {
+      "note": "振远镖局: its own map (地图重构), carried over from the town map, its things where they stood in the room.",
+      "file": "biaoju_house.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "shop",
+        "rooms": {
+          "cloud.biaoju": {
+            "floor": "floor_yard",
+            "wall": "wall",
+            "size": "hall"
+          }
+        },
+        "props": [],
+        "placed": {},
+        "doors": {
+          "cloud.biaoju.north": "north"
+        },
+        "reach_from": "BiaojuEroad2Entry"
+      },
+      "scene": {
+        "style": "map",
+        "root": "BiaojuHouse",
+        "map": "cloud.biaoju_house",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [64, 32],
+          "Rect_32_64": [32, 64],
+          "StairsShape": [48, 48]
+        },
+        "stairs": [],
+        "nodes": [
+          {
+            "generated": "captions"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "name": "BiaojuWindArrival",
+            "id": "cloud.biaoju.wind_arrival",
+            "room": "cloud.biaoju",
+            "anchor": ["rel", 0.5, 0.667]
+          },
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": []
+      }
+    },
+    "bookstore": {
+      "note": "书局: its own map (地图重构), carried over from the town map, its things where they stood in the room.",
+      "file": "bookstore_house.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "shop",
+        "rooms": {
+          "cloud.bookstore": {
+            "floor": "floor_shop",
+            "wall": "wall_wood",
+            "size": "large"
+          }
+        },
+        "props": [
+          ["blocked", "cloud.bookstore", ["rel", 0.5, 0.95], 4.71, 0.5]
+        ],
+        "placed": {},
+        "doors": {
+          "cloud.bookstore.north": "north"
+        },
+        "reach_from": "BookstoreWroad1Entry"
+      },
+      "scene": {
+        "style": "map",
+        "root": "BookstoreHouse",
+        "map": "cloud.bookstore_house",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [64, 32],
+          "Rect_32_64": [32, 64],
+          "StairsShape": [48, 48]
+        },
+        "stairs": [],
+        "nodes": [
+          {
+            "generated": "captions"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": []
+      }
+    },
+    "butchery": {
+      "note": "镇北肉铺: its own map (地图重构), carried over from the town map, its things where they stood in the room.",
+      "file": "butchery_house.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "shop",
+        "rooms": {
+          "cloud.butchery": {
+            "floor": "floor_shop",
+            "wall": "wall_wood",
+            "size": "room"
+          }
+        },
+        "props": [
+          ["blocked", "cloud.butchery", ["rel", 0.042, 0.417], 0.5, 3.76, "shop counters at the back walls"]
+        ],
+        "placed": {},
+        "doors": {
+          "cloud.butchery.east": "east"
+        },
+        "reach_from": "ButcheryNwroad1Entry"
+      },
+      "scene": {
+        "style": "map",
+        "root": "ButcheryHouse",
+        "map": "cloud.butchery_house",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [64, 32],
+          "Rect_32_64": [32, 64],
+          "StairsShape": [48, 48]
+        },
+        "stairs": [],
+        "nodes": [
+          {
+            "generated": "captions"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": []
+      }
+    },
+    "drugstore": {
+      "note": "药店: its own map (地图重构), carried over from the town map, its things where they stood in the room.",
+      "file": "drugstore_house.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "shop",
+        "rooms": {
+          "cloud.drugstore": {
+            "floor": "floor_shop",
+            "wall": "wall_wood",
+            "size": "large"
+          }
+        },
+        "props": [
+          ["blocked", "cloud.drugstore", ["rel", 0.5, 0.15], 4.71, 0.5]
+        ],
+        "placed": {},
+        "doors": {
+          "cloud.drugstore.south": "south"
+        },
+        "reach_from": "DrugstoreNroad1Entry"
+      },
+      "scene": {
+        "style": "map",
+        "root": "DrugstoreHouse",
+        "map": "cloud.drugstore_house",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [64, 32],
+          "Rect_32_64": [32, 64],
+          "StairsShape": [48, 48]
+        },
+        "stairs": [],
+        "nodes": [
+          {
+            "generated": "captions"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": []
+      }
+    },
+    "duchang": {
+      "note": "赌场: its own map (地图重构), carried over from the town map, its things where they stood in the room.",
+      "file": "duchang_house.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "shop",
+        "rooms": {
+          "cloud.duchang": {
+            "floor": "floor_wood",
+            "wall": "wall_wood",
+            "size": "hall"
+          }
+        },
+        "props": [],
+        "placed": {},
+        "doors": {
+          "cloud.duchang.north": "north"
+        },
+        "reach_from": "DuchangStairsReturn"
+      },
+      "scene": {
+        "style": "map",
+        "root": "DuchangHouse",
+        "map": "cloud.duchang_house",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [64, 32],
+          "Rect_32_64": [32, 64],
+          "StairsShape": [48, 48]
+        },
+        "stairs": [
+          {
+            "zone": "cloud.duchang",
+            "name": "DuchangStairsUp",
+            "id": "cloud.duchang.up",
+            "shape": "StairsShape",
+            "color": "Color(0.55, 0.38, 0.22, 1)",
+            "text": "楼梯 · 上楼",
+            "marker": {
+              "name": "DuchangStairsReturn",
+              "id": "cloud.duchang.stairs_return"
+            },
+            "anchor": ["rel", 0.833, 0.833]
+          }
+        ],
+        "nodes": [
+          {
+            "generated": "captions"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": []
+      }
+    },
+    "yard": {
+      "note": "场院: its own map (地图重构), carried over from the town map, its things where they stood in the room.",
+      "file": "yard_house.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "compound",
+        "rooms": {
+          "cloud.god1": {
+            "floor": "grass",
+            "wall": "wall",
+            "size": "yard"
+          },
+          "cloud.god2": {
+            "floor": "floor_wood",
+            "wall": "wall_wood",
+            "size": "hall"
+          },
+          "cloud.woodboxy": {
+            "floor": "floor_shop",
+            "wall": "wall_wood",
+            "size": "room"
+          }
+        },
+        "props": [
+          ["blocked", "cloud.woodboxy", ["rel", 0.571, 0.964], 3.76, 0.5],
+          ["forest", "cloud.god1", ["rel", 0.2, 0.125], 1.88, 1.41, "场院's thorns and the old pavilion's posts"],
+          ["forest", "cloud.god1", ["rel", 0.8, 0.875], 1.88, 1.41]
+        ],
+        "placed": {},
+        "doors": {
+          "cloud.woodboxy.east": "east"
+        },
+        "reach_from": "WoodboxyNwroad2Entry"
+      },
+      "scene": {
+        "style": "map",
+        "root": "YardHouse",
+        "map": "cloud.yard_house",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [64, 32],
+          "Rect_32_64": [32, 64],
+          "StairsShape": [48, 48]
+        },
+        "door_style": {
+          "walls": "Terrain/DoorWalls",
+          "wall_suffix": "Wall",
+          "shutters": "Terrain",
+          "color": "Color(0.42, 0.3, 0.18, 1)"
+        },
+        "stairs": [],
+        "doors": [
+          {
+            "name": "CoffinDoor",
+            "id": "cloud.woodboxy.door",
+            "between": ["cloud.god1", "cloud.woodboxy"]
+          }
+        ],
+        "nodes": [
+          {
+            "generated": "captions"
+          },
+          {
+            "node": "group",
+            "name": "DoorWalls",
+            "type": "StaticBody2D",
+            "parent": "Terrain"
+          },
+          {
+            "generated": "door_walls"
+          },
+          {
+            "generated": "shutters"
+          },
+          {
+            "generated": "doors"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": []
+      }
+    },
+    "jiyuan": {
+      "note": "怡红院: its own map (地图重构), carried over from the town map, its things where they stood in the room.",
+      "file": "jiyuan_house.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "shop",
+        "rooms": {
+          "cloud.jiyuan": {
+            "floor": "floor_wood",
+            "wall": "wall_wood",
+            "size": "hall"
+          }
+        },
+        "props": [],
+        "placed": {},
+        "doors": {
+          "cloud.jiyuan.south": "south"
+        },
+        "reach_from": "JiyuanStairsReturn"
+      },
+      "scene": {
+        "style": "map",
+        "root": "JiyuanHouse",
+        "map": "cloud.jiyuan_house",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [64, 32],
+          "Rect_32_64": [32, 64],
+          "StairsShape": [48, 48]
+        },
+        "stairs": [
+          {
+            "zone": "cloud.jiyuan",
+            "name": "JiyuanStairsUp",
+            "id": "cloud.jiyuan.up",
+            "shape": "StairsShape",
+            "color": "Color(0.55, 0.38, 0.22, 1)",
+            "text": "楼梯 · 上楼",
+            "marker": {
+              "name": "JiyuanStairsReturn",
+              "id": "cloud.jiyuan.stairs_return"
+            },
+            "anchor": ["rel", 0.833, 0.167]
+          }
+        ],
+        "nodes": [
+          {
+            "generated": "captions"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": []
+      }
+    },
+    "rich": {
+      "note": "张百万家: its own map (地图重构), carried over from the town map, its things where they stood in the room.",
+      "file": "rich_house.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "house",
+        "rooms": {
+          "cloud.rich": {
+            "floor": "floor_yard",
+            "wall": "wall",
+            "size": "hall"
+          },
+          "cloud.m_house": {
+            "floor": "floor_wood",
+            "wall": "wall_wood",
+            "size": "large"
+          }
+        },
+        "props": [],
+        "placed": {},
+        "doors": {
+          "cloud.rich.south": "south"
+        },
+        "reach_from": "RichEroad3Entry"
+      },
+      "scene": {
+        "style": "map",
+        "root": "RichHouse",
+        "map": "cloud.rich_house",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [64, 32],
+          "Rect_32_64": [32, 64],
+          "StairsShape": [48, 48]
+        },
+        "stairs": [],
+        "nodes": [
+          {
+            "generated": "captions"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": []
+      }
+    },
+    "marry": {
+      "note": "红娘庄: its own map (地图重构), carried over from the town map, its things where they stood in the room.",
+      "file": "marry_house.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "shop",
+        "rooms": {
+          "cloud.marry_room": {
+            "floor": "floor_wood",
+            "wall": "wall_wood",
+            "size": "large"
+          }
+        },
+        "props": [],
+        "placed": {},
+        "doors": {
+          "cloud.marry_room.south": "south"
+        },
+        "reach_from": "MarryRoomWroad0Entry"
+      },
+      "scene": {
+        "style": "map",
+        "root": "MarryHouse",
+        "map": "cloud.marry_house",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [64, 32],
+          "Rect_32_64": [32, 64],
+          "StairsShape": [48, 48]
+        },
+        "stairs": [],
+        "nodes": [
+          {
+            "generated": "captions"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": []
+      }
+    },
+    "monky": {
+      "note": "斋院: its own map (地图重构), carried over from the town map, its things where they stood in the room.",
+      "file": "monky_house.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "shop",
+        "rooms": {
+          "cloud.monky": {
+            "floor": "floor_yard",
+            "wall": "wall",
+            "size": "large"
+          }
+        },
+        "props": [],
+        "placed": {},
+        "doors": {
+          "cloud.monky.north": "north"
+        },
+        "reach_from": "MonkyWroad2Entry"
+      },
+      "scene": {
+        "style": "map",
+        "root": "MonkyHouse",
+        "map": "cloud.monky_house",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [64, 32],
+          "Rect_32_64": [32, 64],
+          "StairsShape": [48, 48]
+        },
+        "stairs": [],
+        "nodes": [
+          {
+            "generated": "captions"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": []
+      }
+    },
+    "tailory": {
+      "note": "布庄: its own map (地图重构), carried over from the town map, its things where they stood in the room.",
+      "file": "tailory_house.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "shop",
+        "rooms": {
+          "cloud.tailory": {
+            "floor": "floor_shop",
+            "wall": "wall_wood",
+            "size": "large"
+          }
+        },
+        "props": [
+          ["blocked", "cloud.tailory", ["rel", 0.5, 0.969], 3.76, 0.5]
+        ],
+        "placed": {},
+        "doors": {
+          "cloud.tailory.north": "north"
+        },
+        "reach_from": "TailoryNwroad2Entry"
+      },
+      "scene": {
+        "style": "map",
+        "root": "TailoryHouse",
+        "map": "cloud.tailory_house",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [64, 32],
+          "Rect_32_64": [32, 64],
+          "StairsShape": [48, 48]
+        },
+        "stairs": [],
+        "nodes": [
+          {
+            "generated": "captions"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": []
+      }
+    },
+    "tearoom": {
+      "note": "香茗坊: its own map (地图重构), carried over from the town map, its things where they stood in the room.",
+      "file": "tearoom_house.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "shop",
+        "rooms": {
+          "cloud.tearoom": {
+            "floor": "floor_wood",
+            "wall": "wall_wood",
+            "size": "hall"
+          },
+          "cloud.tea_corridor": {
+            "floor": "floor_wood",
+            "wall": "wall_wood",
+            "size": "room"
+          }
+        },
+        "props": [],
+        "placed": {},
+        "doors": {
+          "cloud.tearoom.west": "west",
+          "cloud.tearoom.south": "south"
+        },
+        "reach_from": "TearoomStairsReturn"
+      },
+      "scene": {
+        "style": "map",
+        "root": "TearoomHouse",
+        "map": "cloud.tearoom_house",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [64, 32],
+          "Rect_32_64": [32, 64],
+          "StairsShape": [48, 48]
+        },
+        "door_style": {
+          "walls": "Terrain/DoorWalls",
+          "wall_suffix": "Wall",
+          "shutters": "Terrain",
+          "color": "Color(0.42, 0.3, 0.18, 1)"
+        },
+        "stairs": [
+          {
+            "zone": "cloud.tearoom",
+            "name": "TearoomStairsUp",
+            "id": "cloud.tearoom.up",
+            "shape": "StairsShape",
+            "color": "Color(0.55, 0.38, 0.22, 1)",
+            "text": "楼梯 · 上楼",
+            "marker": {
+              "name": "TearoomStairsReturn",
+              "id": "cloud.tearoom.stairs_return"
+            },
+            "anchor": ["rel", 0.889, 0.143]
+          }
+        ],
+        "doors": [
+          {
+            "name": "TeaDoor",
+            "id": "cloud.tearoom.door",
+            "between": ["cloud.tea_corridor", "cloud.tearoom"]
+          }
+        ],
+        "nodes": [
+          {
+            "generated": "captions"
+          },
+          {
+            "node": "group",
+            "name": "DoorWalls",
+            "type": "StaticBody2D",
+            "parent": "Terrain"
+          },
+          {
+            "generated": "door_walls"
+          },
+          {
+            "generated": "shutters"
+          },
+          {
+            "generated": "doors"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": []
+      }
+    },
+    "weapony": {
+      "note": "兵器屋: its own map (地图重构), carried over from the town map, its things where they stood in the room.",
+      "file": "weapony_house.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "shop",
+        "rooms": {
+          "cloud.weapony": {
+            "floor": "floor_shop",
+            "wall": "wall_wood",
+            "size": "large"
+          }
+        },
+        "props": [
+          ["blocked", "cloud.weapony", ["rel", 0.95, 0.5], 0.5, 2.82]
+        ],
+        "placed": {},
+        "doors": {
+          "cloud.weapony.west": "west"
+        },
+        "reach_from": "WeaponyNroad1Entry"
+      },
+      "scene": {
+        "style": "map",
+        "root": "WeaponyHouse",
+        "map": "cloud.weapony_house",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [64, 32],
+          "Rect_32_64": [32, 64],
+          "StairsShape": [48, 48]
+        },
+        "stairs": [],
+        "nodes": [
+          {
+            "generated": "captions"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": []
+      }
+    },
+    "zaihuoy": {
+      "note": "杂货铺: its own map (地图重构), carried over from the town map, its things where they stood in the room.",
+      "file": "zaihuoy_house.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "shop",
+        "rooms": {
+          "cloud.zaihuoy": {
+            "floor": "floor_shop",
+            "wall": "wall_wood",
+            "size": "large"
+          }
+        },
+        "props": [
+          ["blocked", "cloud.zaihuoy", ["rel", 0.333, 0.958], 3.76, 0.5]
+        ],
+        "placed": {},
+        "doors": {
+          "cloud.zaihuoy.north": "north",
+          "cloud.zaihuoy.east": "east"
+        },
+        "reach_from": "ZaihuoyNwroad3Entry"
+      },
+      "scene": {
+        "style": "map",
+        "root": "ZaihuoyHouse",
+        "map": "cloud.zaihuoy_house",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [64, 32],
+          "Rect_32_64": [32, 64],
+          "StairsShape": [48, 48]
+        },
+        "stairs": [],
+        "nodes": [
+          {
+            "generated": "captions"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": []
       }
     }
   }

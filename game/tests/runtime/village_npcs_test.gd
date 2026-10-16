@@ -25,9 +25,13 @@ const GEAR: Dictionary = {
 	&"village.npc.meloner": [&"es2:obj/cloth"],
 	&"village.npc.fisher": [&"es2:obj/cloth"],
 }
-## The maps the fights walk, with where the player stands at first.
+## The maps the fights walk, with where the player stands at first (the houses are their own
+## maps since the remap: the 农妇's, 刘老农's with the rats' storeroom, the 瓜棚).
 const MAPS: Array = [
 	[&"village.main", &"village.road1", &"village.road1.canyon_arrival"],
+	[&"village.farmhouse_house", &"village.farmhouse1", &"village.farmhouse1.road4_entry"],
+	[&"village.liu_house", &"village.home", &"village.home.littlegarden_entry"],
+	[&"village.melonguard_house", &"village.melonguard", &"village.melonguard.road7_entry"],
 	[&"village.icecave", &"village.lakebottom1", &"village.lakebottom1.dive_arrival"],
 ]
 
@@ -42,9 +46,50 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	session.set_process(false)
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new()) # TEST-ONLY: nobody chats or wanders
 	await _test_fights(tree, session)
+	await _test_walks_out_onto_another_map(tree, session)
 	session.free()
 	await tree.process_frame
 	return {"assertions": _count, "failures": _failures}
+
+
+## go.c in a fight onto another map (the 商人 walks out south to 京师's 北大街; since the remap a
+## shop's door is such a way too): he is there at once, his body goes through once the fight is
+## over, and a save finds him there.
+func _test_walks_out_onto_another_map(tree: SceneTree, session: WorldSessionController) -> void:
+	var village: WorldMapController = session.world_map_of(&"village.main")
+	var trader: NpcRuntimeState = null
+	for npc: NpcRuntimeState in village.npc_runtimes():
+		if NpcDefinition.unnamed_id(npc.definition_id) == &"village.npc.trader1" and npc.world_location().zone_id == &"village.road2" and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
+			trader = npc
+			break
+	var map: WorldMapController = null if trader == null else MapPlaces.enter(session, &"village.road2", trader.spawn_point_id)
+	if not _check(map == village, "beside the 商人 on 青石小路 (TEST-ONLY)"):
+		return
+	await tree.physics_frame
+	map.select_npc(trader.character_id)
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	if not _check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the player attacks the 商人"):
+		return
+	var encounter: CombatEncounter = coordinator.active_encounter()
+	coordinator._resolution.depart(session.encounter_combat_bindings(encounter), trader.character_id, &"city.nroad2") # TEST-ONLY: as his combat chat's random_move would
+	_check(trader.world_location().map_id == &"city.main" and trader.world_location().zone_id == &"city.nroad2", "in 北大街 at once, on 京师's map: %s" % trader.world_location().map_id)
+	var rounds: int = 0
+	while coordinator.has_active_encounter() and rounds < 20:
+		coordinator.advance_scheduler(1.0)
+		rounds += 1
+	var city: WorldMapController = session.world_map_of(&"city.main")
+	_check(not coordinator.has_active_encounter() and coordinator.npc_walked_out(encounter.encounter_id), "he walked out, and that ends it")
+	_check(city.find_resident_npc(trader.character_id) == trader and village.find_resident_npc(trader.character_id) == null and city.runtime_body_for_character(trader.character_id) != null, "his record and body went through onto 京师's map")
+	session.shared_ui().dismiss_current_panel()
+	await tree.physics_frame
+	var snapshot: GameSaveSnapshot = Work.capture(session)
+	if _check(snapshot != null, "a save with him in 北大街"):
+		var decoded: GameSaveResult = GameSaveJsonCodec.decode(GameSaveJsonCodec.encode(snapshot).text)
+		var restored: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(decoded.snapshot, tree.root)
+		_check(restored.succeeded() and restored.candidate.world_map_of(&"city.main").find_resident_npc(trader.character_id) != null, "and Continue finds him there: %s" % restored.path)
+		if restored.succeeded():
+			restored.candidate.free()
+			await tree.process_frame
 
 
 func _test_people() -> void:
@@ -147,7 +192,8 @@ func _full(player: WorldPlayerRuntimeState) -> void:
 	player.state.progression.combat_experience = 100000 # TEST-ONLY
 
 
-func _check(condition: bool, message: String) -> void:
+func _check(condition: bool, message: String) -> bool:
 	_count += 1
 	if not condition:
 		_failures.append("village npcs: " + message)
+	return condition

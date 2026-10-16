@@ -45,7 +45,9 @@ and repainting re-scales every map drawn from it. Three things read it:
   spawn points given a "room" and an "anchor" (a rect node also a "size" in bodies): a service
   point by a counter, a shelf on its wall, the temple's revival spot. Anchors are "c", "n", "s", "e", "w",
   "ne", "nw", "se", "sw", optionally with an offset in bodies: ["n", 2, 1]. Prop sizes are in
-  bodies. The building's floor (all rooms, as drawn) must reach its class's minimum and exceed the
+  bodies; ["rel", u, v] centres a thing at that fraction of the floor instead (a room carried
+  over from a town map keeps its arrangement). The building's floor (all rooms, as drawn)
+  must reach its class's minimum and exceed the
   floor of each map in `larger_than` (a 武馆 is bigger than the inn). The painter notes rooms
   whose description speaks of size against their class (宽敞 in a small room).
 
@@ -124,7 +126,7 @@ def prepare_town(region, entry: dict) -> dict:
     shapes = scene.setdefault('shapes', {})
     facades = []
     for index, b in enumerate(d.get('buildings', [])):
-        assert 'street' in b or not b.get('doors'), ('a building with doors names its street', b['name'])
+        assert 'street' in b or 'rect' in b or not b.get('doors'), ('a building with doors names its street', b['name'])
         facade = b['rect'] if 'rect' in b else facade_rect(d['zones'][b['street']], b)
         for other_name, other in facades:
             assert not _overlap(facade, other), ('facades overlap', b['name'], other_name)
@@ -166,7 +168,9 @@ def _check_alleys(d: dict, facades: list) -> None:
     alley = px(STANDARD['facade']['alley'])
     by_side = {}
     for b, (_, rect) in zip(d.get('buildings', []), facades):
-        if 'street' in b:
+        # An alley between two facades of a frontage class; a `rect` stands where it was drawn
+        # (a building carried over from an older town map, wall to wall with its neighbour).
+        if 'street' in b and 'rect' not in b:
             by_side.setdefault((b['street'], b['side']), []).append((b['name'], rect))
     for (street, side), rows in by_side.items():
         k = 1 if side in ('west', 'east') else 0
@@ -489,6 +493,14 @@ def _anchored(zone: list, anchor, w: int, h: int, snap: bool = True) -> list:
     where, ox, oy = anchor[0], anchor[1] if len(anchor) > 1 else 0, anchor[2] if len(anchor) > 2 else 0
     wall = wall_px()
     fx0, fy0, fx1, fy1 = zone[0] + wall, zone[1] + wall, zone[2] - wall, zone[3] - wall
+    if where == 'rel':
+        # ["rel", u, v]: centred at that fraction of the floor (a room carried over from a town
+        # map keeps its arrangement at its new size), kept inside the floor.
+        x = min(max(fx0 + ox * (fx1 - fx0) - w / 2, fx0), fx1 - w)
+        y = min(max(fy0 + oy * (fy1 - fy0) - h / 2, fy0), fy1 - h)
+        if snap:
+            x, y = int(x // T * T), int(y // T * T)
+        return [int(x), int(y), int(x) + w, int(y) + h]
     body = STANDARD['body']
     if 'w' in where:
         x = fx0 + ox * body

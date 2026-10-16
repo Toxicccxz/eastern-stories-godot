@@ -28,9 +28,9 @@ const GEAR: Dictionary = {
 	&"canyon.npc.adviser": [&"es2:d/canyon/npc/obj/fan_sword", &"es2:d/canyon/npc/obj/hat"],
 	&"canyon.npc.seller": [&"es2:d/canyon/npc/obj/blade"],
 }
-## The maps the fights walk, with where the player stands at first.
+## The maps the fights walk, with where the player stands at first (the camp is its own map).
 const MAPS: Array = [
-	[&"canyon.pass", &"canyon.camp2", &"canyon.camp2.tent_return"],
+	[&"canyon.camp", &"canyon.camp2", &"canyon.camp2.tent_return"],
 	[&"canyon.armory", &"canyon.blackmarket", &"canyon.blackmarket.swear_arrival"],
 ]
 

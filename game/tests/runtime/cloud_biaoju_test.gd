@@ -255,14 +255,15 @@ func _test_relations() -> void:
 ## The same rules from the biaoju: 拜师 and 请教 through his TeacherService, gifts by
 ## give.c, the relation in 目标详情, and a score that survives Save/Continue.
 func _test_in_the_biaoju(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.world_map_of(&"cloud.outdoor")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	_check(session.handoff_to(&"cloud.outdoor", &"cloud.duchang", &"cloud.duchang", &"cloud.duchang.stairs_return").succeeded(), "in the town (TEST-ONLY: by the 赌场's stairs)")
+	# The biaoju is its own map since the remap.
+	var map: WorldMapController = MapPlaces.enter(session, &"cloud.biaoju", &"cloud.biaoju.eroad2_entry")
+	_check(map != null and map.map_id() == &"cloud.biaoju_house", "in the biaoju (TEST-ONLY: in at its door, its own map)")
 	await tree.physics_frame
 	var header: NpcRuntimeState = _npc(map, &"cloud.biaoju.b_header.1")
 	_check(header != null and _beside(map, player, &"cloud.biaoju", &"cloud.biaoju.b_header.1"), "beside 陈剑秋 in the biaoju")
 	await tree.physics_frame
-	var school: TeacherService = map.service(&"cloud.outdoor.biaoju.b_header") as TeacherService
+	var school: TeacherService = map.service(&"cloud.biaoju_house.biaoju.b_header") as TeacherService
 	_check(school != null and school.can_teach() and school.takes_apprentices(), "he takes apprentices")
 	Master.recruit(player.state, 1789420000) # TEST-ONLY: 柳淳风's disciple without the walk to Snow
 	player.state.progression.score = 4 # TEST-ONLY: 3C's quests give score

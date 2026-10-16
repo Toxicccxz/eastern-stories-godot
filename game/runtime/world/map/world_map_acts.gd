@@ -36,7 +36,7 @@ func facts(room_zone_id: StringName = &"") -> ScriptedAct.Facts:
 	if _map.session != null:
 		known.room = _map.session.room_states().flags(here if room_zone_id.is_empty() else room_zone_id)
 	known.item_exists = _map.floor_items.item_exists
-	known.standing_in = func(definition_id: StringName, zone_id: StringName) -> bool: return _map.npcs.npc_present_in_zone(definition_id, zone_id, true)
+	known.standing_in = _standing_in
 	known.kar = _player.state.attributes.karma
 	known.ghost = _player.state.ghost
 	known.per = _player.state.attributes.personality
@@ -51,6 +51,13 @@ func facts(room_zone_id: StringName = &"") -> ScriptedAct.Facts:
 		if content != null:
 			known.carried.append_array(content.aliases())
 	return known
+
+
+## Whether an NPC of `definition_id` stands in `zone_id`, on whichever map the room lies (the
+## 瓜农 in his 瓜棚, a map of its own since the remap).
+func _standing_in(definition_id: StringName, zone_id: StringName) -> bool:
+	var there: WorldMapController = null if _map.session == null else _map.session.world_map_of_zone(zone_id)
+	return (_map if there == null else there).npcs.npc_present_in_zone(definition_id, zone_id, true)
 
 
 ## Runs `act` on the player; `npc` is the one acting (a greeting) or null (a room's or an
@@ -148,6 +155,14 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 						said.append(ColoredLine.new(feet))
 			ScriptedAct.Kind.COMES:
 				var comer: NpcRuntimeState = _map.npcs.first_npc_in_zone(step.npc_id, step.zone_id, true)
+				# From a room on another map (the 瓜农 out of his own 瓜棚 since the remap): he comes
+				# through onto this one first.
+				if comer == null and _map.session != null:
+					var home: WorldMapController = _map.session.world_map_of_zone(step.zone_id)
+					if home != null and home != _map:
+						comer = home.npcs.first_npc_in_zone(step.npc_id, step.zone_id, true)
+						if comer != null and not _map.session.bring_npc_onto(comer, home, _map, _player.world_location().zone_id):
+							comer = null
 				if comer != null and _map.npcs.bring_beside_player(comer):
 					npc = comer
 					npc_name = comer.definition().display_name

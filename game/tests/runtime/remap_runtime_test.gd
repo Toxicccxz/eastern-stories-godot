@@ -6,7 +6,8 @@ extends RefCounted
 ## anyone on the way through at once; a save keeps it there and a room reset brings it
 ## home. A door may stand on a portal (two maps, one door: shut on one, shut on both). A
 ## door's fade is the shorter door_fade_* and names no place. The world revision is
-## SOURCE_ENTRY_REMAP_SNOW_V1 (the Snow pilot), read and written by its enum name.
+## SOURCE_ENTRY_REMAP_R1_V1 (绮云镇, 玉螺湖村, 天驼关 after the Snow pilot), read and written by
+## its enum name.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const TRAVELLERS: StringName = &"snow.inn.travellers"
@@ -35,6 +36,7 @@ class West:
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_revision()
+	_test_who_leaves_home()
 	_test_door_data()
 	_test_door_feel()
 	var session: WorldSessionController = Work.create_session(tree)
@@ -50,14 +52,24 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	return {"assertions": _count, "failures": _failures}
 
 
+## Who a save may find next door on another map: one that wanders (in a mood too: 刘老农's
+## grief walks him out of 刘家小房), one a COMES act calls over (the 瓜农 out of his 瓜棚);
+## not the inn's waiter, who never leaves.
+func _test_who_leaves_home() -> void:
+	var catalog: ContentCatalog = GameContent.catalog()
+	_check(OldPineWorldRestoreComposition._wandered_to(catalog.npc(&"village.npc.oldliu"), &"village.home", &"village.littlegarden"), "刘老农 in his grief may be in the garden (a mood's random_move)")
+	_check(OldPineWorldRestoreComposition._wandered_to(catalog.npc(&"village.npc.meloner"), &"village.melonguard", &"village.melonfarm"), "the 瓜农 may be in the 瓜地 (called over)")
+	_check(not OldPineWorldRestoreComposition._wandered_to(catalog.npc(&"snow.npc.waiter"), &"snow.inn.main_floor", &"snow.square"), "the waiter never leaves the inn")
+
+
 func _test_revision() -> void:
-	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_REMAP_SNOW_V1, "the Snow pilot's world revision is current")
+	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_REMAP_R1_V1, "the R1 rollout's world revision is current")
 	var named: bool = true
 	for value: int in WorldContentRevision.Value.values():
 		var text: String = WorldContentRevision.serialized(value as WorldContentRevision.Value)
 		named = named and text == WorldContentRevision.Value.keys()[value] and WorldContentRevision.parsed(text) == value
 	_check(named and WorldContentRevision.parsed("SOURCE_ENTRY_NONE") == -1, "every revision is saved and read by its enum name")
-	_check(WorldContentRevision.public_support(WorldContentRevision.Value.SOURCE_ENTRY_REMAP_V1).outcome == GameSaveResult.Outcome.INCOMPATIBLE_DEVELOPMENT_CONTRACT, "a save of the revision before is refused (New Game)")
+	_check(WorldContentRevision.public_support(WorldContentRevision.Value.SOURCE_ENTRY_REMAP_SNOW_V1).outcome == GameSaveResult.Outcome.INCOMPATIBLE_DEVELOPMENT_CONTRACT, "a save of the revision before is refused (New Game)")
 
 
 func _test_door_data() -> void:

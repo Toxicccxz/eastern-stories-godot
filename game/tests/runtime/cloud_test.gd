@@ -58,19 +58,20 @@ func _test_data() -> void:
 		if catalog.room(StringName("es2:u/cloud/" + room)) == null or zone == null:
 			missing.append(room)
 	_check(missing.is_empty() and ROOMS.size() == 43, "forty-three rooms, a zone each: missing " + str(missing))
-	_check(catalog.zone(&"cloud.dragonhill.hummock").map_id == &"cloud.outdoor" and catalog.zone(&"cloud.tearoom2").map_id == &"cloud.tearoom_upstairs" and catalog.zone(&"cloud.jiyuan2").map_id == &"cloud.jiyuan_upstairs" and catalog.zone(&"cloud.duchang2").map_id == &"cloud.duchang_upstairs", "the ridge and the town's ground floor on one map; each upper floor its own (owner)")
+	_check(catalog.zone(&"cloud.dragonhill.hummock").map_id == &"cloud.outdoor" and catalog.zone(&"cloud.cross").map_id == &"cloud.outdoor" and catalog.zone(&"cloud.tearoom").map_id == &"cloud.tearoom_house" and catalog.zone(&"cloud.rich").map_id == &"cloud.rich_house" and catalog.zone(&"cloud.tearoom2").map_id == &"cloud.tearoom_upstairs" and catalog.zone(&"cloud.jiyuan2").map_id == &"cloud.jiyuan_upstairs" and catalog.zone(&"cloud.duchang2").map_id == &"cloud.duchang_upstairs", "the ridge and the town's streets on one map; each building (the remap) and each upper floor its own (owner)")
 	_check(catalog.zones_adjacent(&"snow.sroad1", &"cloud.dragonhill.nroad"), "Snow's 雪亭镇街道 south to 黄土路")
 	_check(catalog.zones_adjacent(&"cloud.dragonhill.shillfoot", &"cloud.entrance") and catalog.zones_adjacent(&"cloud.dragonhill.sroad", &"cloud.entrance") and catalog.zones_adjacent(&"cloud.dragonhill.sroad", &"cloud.dragonhill.shillfoot"), "南坡, the second 黄土路 and the town's entrance all lead to each other")
 	_check(catalog.zone(&"cloud.dragonhill.hummock").combat_entry == &"complete_set", "the two robbers on the ridge attack together")
 	var counts: Array[int] = []
-	for spawn_id: String in ["cloud.outdoor.hummock.gangsters", "cloud.outdoor.butchery.flys", "cloud.outdoor.woodboxy.box_waiters",
-			"cloud.outdoor.rich.room_guas", "cloud.outdoor.eroad4.workers", "cloud.outdoor.monky.beggars", "cloud.outdoor.nwroad3.garrisons",
-			"cloud.outdoor.biaoju.b_header", "cloud.outdoor.god2.god", "cloud.outdoor.duchang.judge", "cloud.outdoor.marry_room.mei_po",
+	# A spawn's id names the map it is on: a building's own since the remap.
+	for spawn_id: String in ["cloud.outdoor.hummock.gangsters", "cloud.butchery_house.butchery.flys", "cloud.yard_house.woodboxy.box_waiters",
+			"cloud.rich_house.rich.room_guas", "cloud.outdoor.eroad4.workers", "cloud.monky_house.monky.beggars", "cloud.outdoor.nwroad3.garrisons",
+			"cloud.biaoju_house.biaoju.b_header", "cloud.yard_house.god2.god", "cloud.duchang_house.duchang.judge", "cloud.marry_house.marry_room.mei_po",
 			"cloud.outdoor.dukou.boater", "cloud.jiyuan_upstairs.jiyuan2.girl"]:
 		var spawn: NpcSpawnDefinition = catalog.spawn(StringName(spawn_id))
 		counts.append(0 if spawn == null else spawn.quantity)
 	_check(counts == [2, 6, 8, 5, 6, 2, 2, 1, 1, 1, 1, 1, 1], "the rooms' objects, the later packages' masters and the boatman included: %s" % [counts])
-	_check(catalog.spawn(&"cloud.outdoor.monky.beggars").npc_definition_id == &"snow.npc.beggar", "the 斋院's two beggars are Snow's (d/snow/npc/beggar.c)")
+	_check(catalog.spawn(&"cloud.monky_house.monky.beggars").npc_definition_id == &"snow.npc.beggar", "the 斋院's two beggars are Snow's (d/snow/npc/beggar.c)")
 	var spring: SkillDefinition = catalog.skill(&"spring-blade")
 	var types: Array[String] = []
 	for action: CombatActionDefinition in spring.action_set().actions():
@@ -110,8 +111,15 @@ func _test_steal_rolls() -> void:
 
 
 func _test_tiles(session: WorldSessionController) -> void:
-	for map_id: StringName in [&"cloud.outdoor", &"cloud.tearoom_upstairs", &"cloud.jiyuan_upstairs", &"cloud.duchang_upstairs"]:
+	# The streets, every building's own map (the remap) and the three upper floors.
+	var map_ids: Array[StringName] = []
+	for definition: MapDefinition in GameContent.catalog().maps():
+		if definition.region_id == &"cloud":
+			map_ids.append(definition.map_id)
+	_check(map_ids.size() == 18, "the streets, fourteen buildings and three upper floors: %s" % [map_ids])
+	for map_id: StringName in map_ids:
 		var map: WorldMapController = session.world_map_of(map_id)
+		var entry: StringName = GameContent.catalog().map(map_id).entry_spawn_id
 		var layers: Array[TileMapLayer] = TerrainProbe.layers(map)
 		var walkable: Dictionary[Vector2i, bool] = {}
 		for layer: TileMapLayer in layers:
@@ -122,7 +130,7 @@ func _test_tiles(session: WorldSessionController) -> void:
 		var reached: Dictionary[Vector2i, bool] = {}
 		var frontier: Array[Vector2i] = []
 		for marker: WorldSpawnMarker2D in map.find_children("*", "WorldSpawnMarker2D", true, false):
-			if String(marker.spawn_point_id).ends_with("snow_entry") or String(marker.spawn_point_id).ends_with("stairs_arrival"):
+			if marker.spawn_point_id == entry or String(marker.spawn_point_id).ends_with("snow_entry") or String(marker.spawn_point_id).ends_with("stairs_arrival"):
 				var start: Vector2i = layers[0].local_to_map(marker.position)
 				reached[start] = true
 				frontier.append(start)
@@ -161,23 +169,26 @@ func _test_walks(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.shared_ui().log_lines().any(func(line: String) -> bool: return line.begins_with("【黄土路】")), "its room text on arrival")
 	await _goathill._walk_until_map(tree, session, &"snow.outdoor", "move_up")
 	_check(session.active_map_id() == &"snow.outdoor" and player.world_location().zone_id == &"snow.sroad1", "north again: Snow's street")
-	_check(session.handoff_to(&"cloud.outdoor", &"cloud.tearoom", &"cloud.tearoom", &"cloud.tearoom.stairs_return").succeeded(), "in 香茗坊")
+	# The tea house is its own map since the remap; its stairs lead from there.
+	_check(MapPlaces.enter(session, &"cloud.tearoom", &"cloud.tearoom.stairs_return") != null and session.active_map_id() == &"cloud.tearoom_house", "in 香茗坊 (its own map)")
 	await tree.physics_frame
 	await _goathill._walk_until_map(tree, session, &"cloud.tearoom_upstairs", "move_right")
 	_check(session.active_map_id() == &"cloud.tearoom_upstairs" and player.world_location().zone_id == &"cloud.tearoom2", "its stairs: 香茗坊二楼")
-	await _goathill._walk_until_map(tree, session, &"cloud.outdoor", "move_right")
-	_check(session.active_map_id() == &"cloud.outdoor" and player.world_location().zone_id == &"cloud.tearoom", "and down again")
-	# The other two upper floors, each its own map with its own stairs.
+	await _goathill._walk_until_map(tree, session, &"cloud.tearoom_house", "move_right")
+	_check(session.active_map_id() == &"cloud.tearoom_house" and player.world_location().zone_id == &"cloud.tearoom", "and down again (the tea house's own map)")
+	# The other two upper floors, each its own map with its own stairs, from their buildings' own maps.
 	for floor: Array in [[&"cloud.jiyuan", &"cloud.jiyuan_upstairs", &"cloud.jiyuan2"], [&"cloud.duchang", &"cloud.duchang_upstairs", &"cloud.duchang2"]]:
-		_check(session.world_map_of(&"cloud.outdoor").relocate_player(floor[0], StringName(String(floor[0]) + ".stairs_return")), "in %s, by its stairs" % floor[0])
+		var house: StringName = MapPlaces.map_of(floor[0])
+		_check(MapPlaces.enter(session, floor[0], StringName(String(floor[0]) + ".stairs_return")) != null and session.active_map_id() == house, "in %s, by its stairs (TEST-ONLY placement, its own map %s)" % [floor[0], house])
 		await tree.physics_frame
 		await _goathill._walk_until_map(tree, session, floor[1], "move_right")
 		_check(session.active_map_id() == floor[1] and player.world_location().zone_id == floor[2], "up its stairs: %s" % floor[2])
-		await _goathill._walk_until_map(tree, session, &"cloud.outdoor", "move_right")
-		_check(session.active_map_id() == &"cloud.outdoor" and player.world_location().zone_id == floor[0], "and down again into %s" % floor[0])
-	_check(session.world_map_of(&"cloud.outdoor").relocate_player(&"cloud.tearoom", &"cloud.tearoom.stairs_return"), "back in 香茗坊")
+		await _goathill._walk_until_map(tree, session, house, "move_right")
+		_check(session.active_map_id() == house and player.world_location().zone_id == floor[0], "and down again into %s" % floor[0])
+	_check(MapPlaces.enter(session, &"cloud.tearoom", &"cloud.tearoom.stairs_return") != null, "back in 香茗坊")
 	await tree.physics_frame
-	var map: WorldMapController = session.world_map_of(&"cloud.outdoor")
+	# The 木雕门 to the 茶窖 is inside the tea house's own map.
+	var map: WorldMapController = session.world_map_of(&"cloud.tearoom_house")
 	var door_at: Vector2 = map.door(&"cloud.tearoom.door").wall_shape().global_position
 	map.runtime_player_body().global_position = door_at + Vector2(0, 56) # TEST-ONLY: by the 木雕门
 	await tree.physics_frame
@@ -203,7 +214,7 @@ func _test_shops_and_study(session: WorldSessionController) -> void:
 	var dart: VendorPurchaseResult = VendorPurchaseService.buy(weapons, "dart", GameContent.catalog(), money,
 		session.food_collection(), session.liquid_collection(), session.item_id_allocator(), player.maximum_encumbrance)
 	_check(not dart.delivered, "飞镖 has no value(): buy.c does not sell it")
-	var shop: VendorService = session.world_map_of(&"cloud.outdoor").service(&"cloud.outdoor.weapony.weaponor") as VendorService
+	var shop: VendorService = session.world_map_of(&"cloud.weapony_house").service(&"cloud.weapony_house.weapony.weaponor") as VendorService
 	_check(shop != null and not shop.sellable_keys().has("dart") and shop.sellable_keys().has("blade") and shop.sellable_keys().size() == 7, "so the shop does not list it (modern fixes): " + str([] if shop == null else shop.sellable_keys()))
 	var illiterate: StudyResult = session.martial_arts().study(bought.item_id)
 	_check(illiterate != null and illiterate.outcome == StudyResult.Outcome.ILLITERATE, "study.c: an illiterate cannot read even 说文解字")
@@ -409,13 +420,14 @@ func _test_keepsake(session: WorldSessionController) -> void:
 ## 家丁 fight with 春风快意刀: its moves land and the fight never aborts. TEST-ONLY: a
 ## player who survives.
 func _test_spring_blade(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.world_map_of(&"cloud.outdoor")
+	# The 张家 house is its own map since the remap.
+	var map: WorldMapController = session.world_map_of(&"cloud.rich_house")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var guard: NpcRuntimeState = null
 	for npc: NpcRuntimeState in map.npc_runtimes():
 		if npc.definition().definition_id == &"cloud.npc.jiading":
 			guard = npc
-	session.handoff_to(&"cloud.outdoor", &"cloud.m_house", &"cloud.m_house", &"cloud.dragonhill.nroad.snow_entry")
+	map = MapPlaces.enter(session, &"cloud.rich", &"cloud.rich.eroad3_entry") # TEST-ONLY: in at its gate, then beside him
 	await tree.physics_frame
 	map.runtime_player_body().global_position = map.runtime_body_for_character(guard.character_id).global_position + Vector2(0, 46) # TEST-ONLY
 	player.set_world_location(map.location_for_zone(&"cloud.m_house"))

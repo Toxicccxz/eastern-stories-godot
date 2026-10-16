@@ -81,6 +81,11 @@ class Town:
         self.stairs = scene.get('stairs', [])
         # A door's passage (a building's door, the way out of town): nobody stands on it.
         self.passages = [tuple(n['at']) for n in scene.get('nodes', []) if n.get('node') == 'passage']
+        # A door standing over a passage (a building's door): its footprint is no place to stand,
+        # even open (MapPlacementValidator), so a body keeps half its width plus its own clear.
+        shapes = scene.get('shapes', {})
+        self.door_spots = [(d['at'][0], d['at'][1], shapes[d['shape']][0] / 2 + 18, shapes[d['shape']][1] / 2 + 18)
+                           for d in scene.get('doors', []) if 'at' in d and d.get('shape') in shapes]
         self.style = scene['style']
         self.pairs = region.neighbours(self.zones)
         self.spots = {}
@@ -231,6 +236,8 @@ class Town:
                     continue
                 if any(abs(x - ax) < 60 and abs(y - ay) < 60 for ax, ay in avoid):
                     continue
+                if any(abs(x - ax) < hw + 8 and abs(y - ay) < hh + 8 for ax, ay, hw, hh in self.door_spots):
+                    continue
                 if mode == ENCLOSED and any(_near_segment(x, y, dx, dy, hub[0], hub[1], 44) for dx, dy in doors):
                     continue
                 if mode == OPEN and zone_id not in self.d.get('markers_in_middle', []):
@@ -255,6 +262,7 @@ class Town:
                 if point in placed:
                     pos = placed[point]
                     assert all(abs(pos[0] - x) >= 52 or abs(pos[1] - y) >= 52 for x, y in self.passages), ('placed on a passage', point)
+                    assert all(abs(pos[0] - x) >= hw or abs(pos[1] - y) >= hh for x, y, hw, hh in self.door_spots), ('placed on a door', point)
                 else:
                     taken = used.setdefault(record['zone'], [])
                     inside = [((g[0] + g[2]) // 2, (g[1] + g[3]) // 2) for g in gaps

@@ -916,13 +916,16 @@ func walk_out_move(character_id: StringName, draw: Callable) -> NpcRandomMove.Mo
 	var spawn: NpcSpawnDefinition = null if npc == null else GameContent.catalog().spawn(npc.spawn_id)
 	if spawn == null:
 		return null
-	return NpcRandomMove.choose_with(GameContent.catalog(), npc.world_location().zone_id, spawn.zone_id, draw, _door_closed_between)
+	# Out by a building's door too (a shop is its own map since the remap): its body goes
+	# through once the fight is over (walk_out()).
+	return NpcRandomMove.choose_with(GameContent.catalog(), npc.world_location().zone_id, spawn.zone_id, draw, _door_closed_between, true)
 
 
 ## After the fight it walked out of (its 落荒而逃 told in the fight, and it was in
 ## `to_zone_id` from then on): the body walks there from where it stood, or is simply
-## there when no path leads in (a doorway, the player in the way). False when the zone
-## has no room for it.
+## there when no path leads in (a doorway, the player in the way). A room on another map
+## (a shop's own since the remap) it reaches through the passage that leads there.
+## False when the zone has no room for it.
 func walk_out(character_id: StringName, to_zone_id: StringName) -> bool:
 	var npc: NpcRuntimeState = _map.npcs.find_resident_npc(character_id)
 	if npc == null or session == null or not npc.exists_in_map:
@@ -934,10 +937,29 @@ func walk_out(character_id: StringName, to_zone_id: StringName) -> bool:
 	for zone: WorldPhysicalZoneArea2D in _map.physical_zones():
 		if body != null and zone.global_rect().has_point(body.global_position):
 			from = zone
+	if to == null:
+		return _walk_out_through(npc, to_zone_id, npc.world_location().zone_id if from == null else from.zone_id)
 	if not npc_walker().walk_into(npc.character_id, body, from, to, random) and not npc_walker().place_into(npc.character_id, body, to, random):
 		return false
 	npc.set_world_location(_map.location_for_zone(to_zone_id))
 	return true
+
+
+## walk_out() to a room on another map from `from_zone_id` (where its body stands): through
+## an open passage that leads there, the one from that room first, then one from next door,
+## else any of this map's (as a walk on one map ends simply there when no path leads in).
+func _walk_out_through(npc: NpcRuntimeState, to_zone_id: StringName, from_zone_id: StringName) -> bool:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var through: PortalDefinition = null
+	var best: int = 3
+	for portal: PortalDefinition in catalog.portals_for_map(_map.map_id()):
+		if portal.destination_zone_id != to_zone_id or portal.destination_map_id == _map.map_id() or not _map.is_portal_open(portal.portal_id):
+			continue
+		var rank: int = 0 if portal.source_zone_id == from_zone_id else 1 if catalog.zones_adjacent(from_zone_id, portal.source_zone_id) else 2
+		if rank < best:
+			through = portal
+			best = rank
+	return through != null and session.move_npc_through(npc, _map, through)
 
 
 ## room.c valid_leave(): a closed door between the two zones stops the move.

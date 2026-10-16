@@ -7,7 +7,8 @@
 		{ "id": "canyon.pass", "region": "canyon", "scene": "res://scenes/world/canyon/canyon_pass.tscn", "entry": "canyon.canyon1.chain_arrival" },
 		{ "id": "canyon.armory", "region": "canyon", "scene": "res://scenes/world/canyon/canyon_armory.tscn", "entry": "canyon.blackmarket.swear_arrival", "interior": true },
 		{ "id": "canyon.bamboo", "region": "canyon", "scene": "res://scenes/world/canyon/canyon_bamboo.tscn", "entry": "canyon.fantasy1.mirror_arrival" },
-		{ "id": "canyon.stoneroom", "region": "canyon", "scene": "res://scenes/world/canyon/canyon_stoneroom.tscn", "entry": "canyon.train.gap_arrival" }
+		{ "id": "canyon.stoneroom", "region": "canyon", "scene": "res://scenes/world/canyon/canyon_stoneroom.tscn", "entry": "canyon.train.gap_arrival" },
+		{ "id": "canyon.camp", "region": "canyon", "scene": "res://scenes/world/canyon/camp.tscn", "entry": "canyon.camp1.canyon4_entry", "interior": true }
 	],
 	"zones": [
 		{ "id": "canyon.road", "map": "canyon.clifftop", "rooms": ["es2:d/canyon/road"] },
@@ -18,14 +19,14 @@
 		{ "id": "canyon.canyon5", "map": "canyon.pass", "rooms": ["es2:d/canyon/canyon5"] },
 		{ "id": "canyon.canyon6", "map": "canyon.pass", "rooms": ["es2:d/canyon/canyon6"] },
 		{ "id": "canyon.canyon7", "map": "canyon.pass", "rooms": ["es2:d/canyon/canyon7"] },
-		{ "id": "canyon.camp1", "map": "canyon.pass", "rooms": ["es2:d/canyon/camp1"] },
-		{ "id": "canyon.camp2", "map": "canyon.pass", "rooms": ["es2:d/canyon/camp2"] },
-		{ "id": "canyon.camp3", "map": "canyon.pass", "rooms": ["es2:d/canyon/camp3"] },
-		{ "id": "canyon.camp4", "map": "canyon.pass", "rooms": ["es2:d/canyon/camp4"] },
-		{ "id": "canyon.camp5", "map": "canyon.pass", "rooms": ["es2:d/canyon/camp5"] },
-		{ "id": "canyon.camp6", "map": "canyon.pass", "rooms": ["es2:d/canyon/camp6"] },
-		{ "id": "canyon.camp7", "map": "canyon.pass", "rooms": ["es2:d/canyon/camp7"] },
-		{ "id": "canyon.camp8", "map": "canyon.pass", "rooms": ["es2:d/canyon/camp8"] },
+		{ "id": "canyon.camp1", "map": "canyon.camp", "rooms": ["es2:d/canyon/camp1"] },
+		{ "id": "canyon.camp2", "map": "canyon.camp", "rooms": ["es2:d/canyon/camp2"] },
+		{ "id": "canyon.camp3", "map": "canyon.camp", "rooms": ["es2:d/canyon/camp3"] },
+		{ "id": "canyon.camp4", "map": "canyon.camp", "rooms": ["es2:d/canyon/camp4"] },
+		{ "id": "canyon.camp5", "map": "canyon.camp", "rooms": ["es2:d/canyon/camp5"] },
+		{ "id": "canyon.camp6", "map": "canyon.camp", "rooms": ["es2:d/canyon/camp6"] },
+		{ "id": "canyon.camp7", "map": "canyon.camp", "rooms": ["es2:d/canyon/camp7"] },
+		{ "id": "canyon.camp8", "map": "canyon.camp", "rooms": ["es2:d/canyon/camp8"] },
 		{ "id": "canyon.blackmarket", "map": "canyon.armory", "rooms": ["es2:d/canyon/blackmarket"] },
 		{ "id": "canyon.stone_forest1", "map": "canyon.pass", "rooms": ["es2:d/canyon/stone_forest1"] },
 		{ "id": "canyon.stone_forest2", "map": "canyon.pass", "rooms": ["es2:d/canyon/stone_forest2"] },
@@ -42,7 +43,9 @@
 		{ "id": "canyon.blackmarket.east", "from_zone": "canyon.blackmarket", "to_zone": "canyon.canyon4", "to_spawn": "canyon.canyon4.armory_return", "legacy_room": "es2:d/canyon/blackmarket", "legacy_command": "east" },
 		{ "id": "canyon.stone_forest3.mirror", "from_zone": "canyon.stone_forest3", "to_zone": "canyon.fantasy1", "to_spawn": "canyon.fantasy1.mirror_arrival", "legacy_room": "es2:d/canyon/stone_forest3", "legacy_command": "mirror" },
 		{ "id": "canyon.fantasy1.back", "from_zone": "canyon.fantasy1", "to_zone": "canyon.stone_forest3", "to_spawn": "canyon.stone_forest3.mirror_return", "legacy_room": "es2:d/canyon/fantasy1", "legacy_command": "back" },
-		{ "id": "canyon.train.out", "from_zone": "canyon.train", "to_zone": "canyon.bamboo3", "to_spawn": "canyon.bamboo3.stoneroom_return", "legacy_room": "es2:d/canyon/bamboo/train", "legacy_command": "out" }
+		{ "id": "canyon.train.out", "from_zone": "canyon.train", "to_zone": "canyon.bamboo3", "to_spawn": "canyon.bamboo3.stoneroom_return", "legacy_room": "es2:d/canyon/bamboo/train", "legacy_command": "out" },
+		{ "id": "canyon.canyon4.east", "from_zone": "canyon.canyon4", "to_zone": "canyon.camp1", "to_spawn": "canyon.camp1.canyon4_entry", "legacy_room": "es2:d/canyon/canyon4", "legacy_command": "east" },
+		{ "id": "canyon.camp1.west", "from_zone": "canyon.camp1", "to_zone": "canyon.canyon4", "to_spawn": "canyon.canyon4.camp1_return", "legacy_room": "es2:d/canyon/camp1", "legacy_command": "west" }
 	],
 	"exit_rules": [
 		{ "id": "canyon.camp7.east", "room": "es2:d/canyon/camp7", "from_zone": "canyon.camp7", "to_zone": "canyon.camp8", "when": "no_mark", "mark": "军营", "lines": ["你还没被允许进入喔。"], "legacy_source": "d/canyon/camp7.c" }
@@ -55,62 +58,12 @@
 		{ "id": "canyon.train.landmark.bookcase", "zone": "canyon.train", "name": "书柜", "policy": "look", "long": "看起来是个普普通通的柜子，或许你可以search看看。\n", "legacy_source": "d/canyon/bamboo/train.c" }
 	],
 	"services": [
-		{ "id": "canyon.road.chain", "kind": "act", "zone": "canyon.road", "name": "铁索", "reach": 96, "legacy_source": "d/canyon/road.c", "act": { "verb": "爬下去", "acts": [
-			{ "steps": [
-				{ "line": "你手脚并用，努力地沿著铁索向下攀爬而去。\n" },
-				{ "damage": { "gin": 20, "kee": 30, "sen": 10 } },
-				{ "move": "canyon.canyon1", "point": "canyon.canyon1.chain_arrival" }
-			] }
-		] } },
-		{ "id": "canyon.canyon1.chain", "kind": "act", "zone": "canyon.canyon1", "name": "铁索", "reach": 96, "legacy_source": "d/canyon/canyon1.c", "act": { "verb": "爬上去", "acts": [
-			{ "steps": [
-				{ "line": "你手脚并用，努力地沿著铁索向上攀缘上去了\n" },
-				{ "damage": { "gin": 30, "kee": 40, "sen": 20 } },
-				{ "move": "canyon.road", "point": "canyon.road.chain_return" }
-			] }
-		] } },
-		{ "id": "canyon.canyon4.swear", "kind": "act", "zone": "canyon.canyon4", "name": "光滑的山壁", "reach": 96, "legacy_source": "d/canyon/canyon4.c", "act": { "verb": "发誓：我爱东方故事II", "acts": [
-			{ "temp": "军营/swear", "steps": [
-				{ "clear_temp": "军营/swear" },
-				{ "line": "突然间一阵强光将你给罩住了\n", "color": "HIB" },
-				{ "line": "轰隆～～～～～～～～～～～～～～～～～～\n", "color": "HIW" },
-				{ "line": "～～～～～轰隆～～～～～轰隆～～～～～～\n", "color": "HIW" },
-				{ "line": "～～～～～～～轰隆～～～～～～～～轰隆～\n", "color": "HIW" },
-				{ "line": "你惨叫了一声:哇，好痛啊～～～～～～\n", "color": "HIC" },
-				{ "line": "～～～～～～～～～～～～～～～～～～～～\n", "color": "HIW" },
-				{ "line": "～～～～～～～～～～～～～～～～～～～～\n", "color": "HIW" },
-				{ "line": "～～～～～～～～～～～～～～～～～～～～\n", "color": "HIW" },
-				{ "line": "～～～～～～～～～～～～～～～～～～～～\n", "color": "HIW" },
-				{ "line": "～～～～～～～～～～～～～～～～～～～～\n", "color": "HIW" },
-				{ "move": "canyon.blackmarket", "point": "canyon.blackmarket.swear_arrival" }
-			] }
-		] } },
+		{ "id": "canyon.road.chain", "kind": "act", "zone": "canyon.road", "name": "铁索", "reach": 96, "legacy_source": "d/canyon/road.c", "act": {"verb": "爬下去", "acts": [{"steps": [{"line": "你手脚并用，努力地沿著铁索向下攀爬而去。\n"}, {"damage": {"gin": 20, "kee": 30, "sen": 10}}, {"move": "canyon.canyon1", "point": "canyon.canyon1.chain_arrival"}]}]} },
+		{ "id": "canyon.canyon1.chain", "kind": "act", "zone": "canyon.canyon1", "name": "铁索", "reach": 96, "legacy_source": "d/canyon/canyon1.c", "act": {"verb": "爬上去", "acts": [{"steps": [{"line": "你手脚并用，努力地沿著铁索向上攀缘上去了\n"}, {"damage": {"gin": 30, "kee": 40, "sen": 20}}, {"move": "canyon.road", "point": "canyon.road.chain_return"}]}]} },
+		{ "id": "canyon.canyon4.swear", "kind": "act", "zone": "canyon.canyon4", "name": "光滑的山壁", "reach": 96, "legacy_source": "d/canyon/canyon4.c", "act": {"verb": "发誓：我爱东方故事II", "acts": [{"temp": "军营/swear", "steps": [{"clear_temp": "军营/swear"}, {"line": "突然间一阵强光将你给罩住了\n", "color": "HIB"}, {"line": "轰隆～～～～～～～～～～～～～～～～～～\n", "color": "HIW"}, {"line": "～～～～～轰隆～～～～～轰隆～～～～～～\n", "color": "HIW"}, {"line": "～～～～～～～轰隆～～～～～～～～轰隆～\n", "color": "HIW"}, {"line": "你惨叫了一声:哇，好痛啊～～～～～～\n", "color": "HIC"}, {"line": "～～～～～～～～～～～～～～～～～～～～\n", "color": "HIW"}, {"line": "～～～～～～～～～～～～～～～～～～～～\n", "color": "HIW"}, {"line": "～～～～～～～～～～～～～～～～～～～～\n", "color": "HIW"}, {"line": "～～～～～～～～～～～～～～～～～～～～\n", "color": "HIW"}, {"line": "～～～～～～～～～～～～～～～～～～～～\n", "color": "HIW"}, {"move": "canyon.blackmarket", "point": "canyon.blackmarket.swear_arrival"}]}]} },
 		{ "id": "canyon.camp2.well", "kind": "water", "zone": "canyon.camp2", "name": "水井", "reach": 96, "legacy_source": "d/canyon/camp2.c" },
-		{ "id": "canyon.bamboo3.stone", "kind": "act", "zone": "canyon.bamboo3", "name": "大黄石", "reach": 96, "legacy_source": "d/canyon/bamboo/bamboo3.c", "act": { "verb": "推开", "acts": [
-			{ "not_room": "exits/enter", "at_least": { "force": 560, "max_force": 560, "force_factor": 40 }, "steps": [
-				{ "damage": { "gin": 20, "kee": 60, "sen": 20 } },
-				{ "set_room": "exits/enter" },
-				{ "line": "你将大黄石缓缓的向左边移动，而出现了一个小小的隙缝。\n" }
-			] },
-			{ "not_room": "exits/enter", "steps": [
-				{ "line": "你出力不太够喔！\n" }
-			] }
-		] } },
-		{ "id": "canyon.bamboo3.gap", "kind": "act", "zone": "canyon.bamboo3", "name": "隙缝", "reach": 96, "legacy_source": "d/canyon/bamboo/bamboo3.c", "act": { "verb": "进去", "acts": [
-			{ "room": "exits/enter", "steps": [
-				{ "clear_room": "exits/enter" },
-				{ "line": "当你通过隙缝，大黄石又急速地合闭。\n" },
-				{ "move": "canyon.train", "point": "canyon.train.gap_arrival" }
-			] }
-		] } },
-		{ "id": "canyon.train.bookcase", "kind": "act", "zone": "canyon.train", "name": "书柜", "reach": 96, "legacy_source": "d/canyon/bamboo/train.c", "act": { "verb": "翻找", "acts": [
-			{ "exists": "es2:d/canyon/bamboo/obj/parry_book", "steps": [
-				{ "line": "你在书柜找了找但没找到些什么\n" }
-			] },
-			{ "steps": [
-				{ "line": "你在书柜中找了到一个书匣\n" },
-				{ "give": "es2:d/canyon/bamboo/obj/slipcase" }
-			] }
-		] } }
+		{ "id": "canyon.bamboo3.stone", "kind": "act", "zone": "canyon.bamboo3", "name": "大黄石", "reach": 96, "legacy_source": "d/canyon/bamboo/bamboo3.c", "act": {"verb": "推开", "acts": [{"not_room": "exits/enter", "at_least": {"force": 560, "max_force": 560, "force_factor": 40}, "steps": [{"damage": {"gin": 20, "kee": 60, "sen": 20}}, {"set_room": "exits/enter"}, {"line": "你将大黄石缓缓的向左边移动，而出现了一个小小的隙缝。\n"}]}, {"not_room": "exits/enter", "steps": [{"line": "你出力不太够喔！\n"}]}]} },
+		{ "id": "canyon.bamboo3.gap", "kind": "act", "zone": "canyon.bamboo3", "name": "隙缝", "reach": 96, "legacy_source": "d/canyon/bamboo/bamboo3.c", "act": {"verb": "进去", "acts": [{"room": "exits/enter", "steps": [{"clear_room": "exits/enter"}, {"line": "当你通过隙缝，大黄石又急速地合闭。\n"}, {"move": "canyon.train", "point": "canyon.train.gap_arrival"}]}]} },
+		{ "id": "canyon.train.bookcase", "kind": "act", "zone": "canyon.train", "name": "书柜", "reach": 96, "legacy_source": "d/canyon/bamboo/train.c", "act": {"verb": "翻找", "acts": [{"exists": "es2:d/canyon/bamboo/obj/parry_book", "steps": [{"line": "你在书柜找了找但没找到些什么\n"}]}, {"steps": [{"line": "你在书柜中找了到一个书匣\n"}, {"give": "es2:d/canyon/bamboo/obj/slipcase"}]}]} }
 	]
 }

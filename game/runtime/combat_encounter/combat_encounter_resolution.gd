@@ -210,7 +210,11 @@ func depart(bindings: Array[CombatSliceCharacterBinding], character_id: StringNa
 	var map: WorldMapController = _session.active_map() as WorldMapController
 	var npc: NpcRuntimeState = null if map == null else map.find_resident_npc(character_id)
 	if npc != null:
-		npc.set_world_location(map.location_for_zone(zone_id))
+		# A room on another map (out by a shop's door, the shop its own map since the remap):
+		# it is there already too, its body goes through once the fight is over.
+		var there: WorldLocationState = map.location_for_zone(zone_id)
+		var elsewhere: WorldMapController = _session.world_map_of_zone(zone_id) if there == null else null
+		npc.set_world_location(there if elsewhere == null else elsewhere.location_for_zone(zone_id))
 
 
 ## Those still here: an NPC that walked out is in no side's count.

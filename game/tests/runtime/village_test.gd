@@ -13,7 +13,8 @@ const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const Finance := preload("res://tests/runtime/snow_finance_test.gd")
 const MapPlaces := preload("res://tests/support/map_places.gd")
-const MAPS: Dictionary = {&"village.main": 23, &"village.midlake": 1, &"village.icecave": 2}
+## Since the remap every house is its own map, entered by its door from the village's.
+const MAPS: Dictionary = {&"village.main": 15, &"village.farmhouse_house": 2, &"village.liu_house": 2, &"village.melonguard_house": 1, &"village.lord_house": 3, &"village.midlake": 1, &"village.icecave": 2}
 const GRASS: StringName = &"village.road6.landmark.grass"
 const WEST: StringName = &"village.road6.west"
 const MELON: StringName = &"es2:d/village/obj/melon"
@@ -58,7 +59,7 @@ func _test_data() -> void:
 		if String(zone.zone_id).begins_with("village."):
 			maps[zone.map_id] = maps.get(zone.map_id, 0) + 1
 			_check(zone.room_ids().size() == 1 and catalog.room(zone.room_ids()[0]) != null, "%s: one room" % zone.zone_id)
-	_check(maps == MAPS, "26 rooms on three maps: %s" % maps)
+	_check(maps == MAPS, "26 rooms on the village's, its houses' (the remap), the lake's and the cave's maps: %s" % maps)
 	_check(catalog.region(&"village").display_name == "玉螺湖村", "the region is 玉螺湖村")
 	_check(catalog.zone(&"village.lakebottom2").combat_entry == &"complete_set", "the dragons' hall: all at once (默认)")
 	for id: StringName in [&"village.home.door", &"village.lordhouse1.door"]:
@@ -125,12 +126,16 @@ func _test_village(tree: SceneTree, session: WorldSessionController) -> void:
 	var hud: SharedGameplayUI = session.shared_ui()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var found: Dictionary = {}
-	for npc: NpcRuntimeState in map.resident_npcs():
+	var people: Array[NpcRuntimeState] = []
+	for map_id: StringName in MAPS:
+		if map_id != &"village.icecave":
+			people.append_array(session.world_map_of(map_id).resident_npcs())
+	for npc: NpcRuntimeState in people:
 		var zone: StringName = npc.world_location().zone_id
 		if not found.has(zone):
 			found[zone] = {}
 		found[zone][npc.definition().definition_id] = found[zone].get(npc.definition().definition_id, 0) + 1
-	_check(found == PEOPLE, "the villagers where the rooms put them: %s" % [found])
+	_check(found == PEOPLE, "the villagers where the rooms put them (the houses' on their own maps): %s" % [found])
 	_check(await MapPlaces.drive_through(tree, map, [&"village.road2", &"village.road3"]), "to the 三叉路口 and west onto the 青石小路")
 	_check(map.select_landmark(&"village.road3.landmark.tablet"), "the sign")
 	map.inspect_selected()
@@ -142,7 +147,11 @@ func _test_village(tree: SceneTree, session: WorldSessionController) -> void:
 	var door: WorldDoor = map.door(&"village.home.door")
 	_check(door != null and not door.is_open(), "the 木门 is shut")
 	_check(await MapPlaces.drive(tree, map, MapPlaces.door_spot(map, &"village.home.door", &"village.littlegarden")) and map.open_door(&"village.home.door"), "the 木门 opens")
-	_check(await MapPlaces.drive_to_zone(tree, map, &"village.home"), "into 刘家小房")
+	_check(await MapPlaces.take_passage(tree, map, &"village.littlegarden.north"), "through the 木门")
+	map = session.active_map() as WorldMapController
+	await tree.physics_frame
+	_check(map.map_id() == &"village.liu_house" and map.door(&"village.home.door") != null and map.door(&"village.home.door").is_open(), "the 木门 stands open inside too (one door on both maps)")
+	_check(await MapPlaces.drive_to_zone(tree, map, &"village.home"), "into 刘家小房 (its own map)")
 	map.npc_life._advance_ambience(0.0)
 	map.npc_life._advance_ambience(1.0)
 	var asked: Array[String] = []
@@ -163,6 +172,10 @@ func _test_grass(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
+	_check(await MapPlaces.take_passage(tree, map, &"village.home.south"), "out of 刘家小房 by the 木门")
+	map = session.active_map() as WorldMapController
+	await tree.physics_frame
+	_check(map.map_id() == &"village.main" and player.world_location().zone_id == &"village.littlegarden", "back in the garden")
 	_check(await MapPlaces.drive_through(tree, map, [&"village.littlegarden", &"village.road5", &"village.road6"]), "west to the path's end")
 	_check(await MapPlaces.drive(tree, map, MapPlaces.spot(map, &"village.road6", MapPlaces.passage(map, WEST).global_position + Vector2(64, 0))), "by the grass")
 	_check(not map.is_portal_open(WEST), "the grass shuts the way")

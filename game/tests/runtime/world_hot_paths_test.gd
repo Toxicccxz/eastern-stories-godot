@@ -62,7 +62,7 @@ func _test_clear_of(session: WorldSessionController) -> void:
 
 ## What the map keeps is what a walk of its whole tree finds.
 func _test_static_nodes(session: WorldSessionController) -> void:
-	for map_id: StringName in [&"snow.outdoor", &"cloud.outdoor"]:
+	for map_id: StringName in [&"snow.outdoor", &"cloud.tearoom_house"]: # a town and a building with a door of its own (the remap)
 		var map: WorldMapController = _map(session, map_id)
 		var parts: WorldMapStaticNodes = map.static_nodes()
 		var shapes: Array[CollisionShape2D] = []

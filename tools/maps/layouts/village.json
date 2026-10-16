@@ -6,98 +6,159 @@
       "draw": {
         "technique": "town",
         "base": "boundary",
-        "bounds": [-32, 128, 2016, 2016],
+        "bounds": [-32, 160, 2416, 2416],
         "ground": [
-          ["forest", -32, 128, 2016, 2016, "woods, hedges and hills round the village"],
-          ["water", 256, 960, 640, 1472, "玉螺湖, misty; its middle is the boat's map"],
-          ["forest", 256, 704, 352, 960, "the tall grass at the end of the 青石小路"]
+          ["forest", -32, 160, 2416, 2416, "woods, hedges and hills round the village"],
+          ["water", 304, 1152, 768, 1760, "玉螺湖, misty; its middle is the boat's map"],
+          ["forest", 304, 848, 416, 1152, "the tall grass at the end of the 青石小路"]
         ],
         "zones": {
-          "village.road1": [1408, 192, 1984, 704, "open", "grass", null],
-          "village.road2": [1600, 704, 1984, 1024, "open", "grass", null],
-          "village.road3": [1280, 768, 1600, 960, "open", "grass", null],
-          "village.road4": [960, 768, 1280, 960, "open", "grass", null],
-          "village.road5": [640, 768, 960, 960, "open", "grass", null],
-          "village.road6": [352, 768, 640, 960, "open", "grass", null],
-          "village.road7": [640, 960, 960, 1344, "open", "grass", null],
-          "village.road8": [640, 1344, 960, 1472, "open", "grass", null],
-          "village.road9": [640, 1472, 960, 1728, "open", "grass", null],
-          "village.lakeside": [384, 1024, 640, 1216, "open", "grass", null],
-          "village.field": [384, 1472, 640, 1728, "open", "grass", null],
-          "village.melonfarm": [960, 960, 1280, 1216, "open", "grass", null],
-          "village.valley2": [0, 704, 256, 960, "open", "forest_floor", null],
-          "village.valley1": [0, 960, 256, 1408, "open", "forest_floor", null],
-          "village.fmhousback": [960, 224, 1248, 480, "enclosed", "floor_yard", "wall"],
-          "village.farmhouse1": [960, 480, 1248, 768, "enclosed", "floor_wood", "wall_wood"],
-          "village.home": [640, 256, 928, 512, "enclosed", "floor_wood", "wall_wood"],
-          "village.smallstorage": [352, 256, 640, 512, "enclosed", "floor_wood", "wall"],
-          "village.littlegarden": [640, 512, 928, 768, "enclosed", "grass", "wall_wood"],
-          "village.melonguard": [960, 1216, 1216, 1472, "enclosed", "floor_yard", "wall_wood"],
-          "village.lordhouse1": [960, 1472, 1280, 1728, "enclosed", "floor_yard", "wall"],
-          "village.lordhouse2": [1280, 1472, 1536, 1728, "enclosed", "floor_wood", "wall"],
-          "village.lordhouse3": [960, 1728, 1280, 1984, "enclosed", "floor_wood", "wall"]
+          "village.road1": [1696, 224, 2384, 848, "open", "grass", null],
+          "village.road2": [1920, 848, 2384, 1232, "open", "grass", null],
+          "village.road3": [1536, 928, 1920, 1152, "open", "grass", null],
+          "village.road4": [1152, 928, 1536, 1152, "open", "grass", null],
+          "village.road5": [768, 928, 1152, 1152, "open", "grass", null],
+          "village.road6": [416, 928, 768, 1152, "open", "grass", null],
+          "village.road7": [768, 1152, 1152, 1616, "open", "grass", null],
+          "village.road8": [768, 1616, 1152, 1760, "open", "grass", null],
+          "village.road9": [768, 1760, 1152, 2080, "open", "grass", null],
+          "village.lakeside": [464, 1232, 768, 1456, "open", "grass", null],
+          "village.field": [464, 1760, 768, 2080, "open", "grass", null],
+          "village.melonfarm": [1152, 1152, 1536, 1456, "open", "grass", null],
+          "village.valley2": [0, 848, 304, 1152, "open", "forest_floor", null],
+          "village.valley1": [0, 1152, 304, 1696, "open", "forest_floor", null],
+          "village.littlegarden": [768, 608, 1120, 928, "enclosed", "grass", "wall_wood"]
         },
         "roads": [
-          ["path", 1664, 192, 1920, 1024, "the 黄土大道, wide enough for eight carts abreast"],
-          ["path", 1408, 320, 1664, 384, "a spur west toward 黑松山"],
-          ["street", 1280, 832, 1664, 896, "the 青石小路, its stones worn bright"],
-          ["street", 400, 832, 1280, 896],
-          ["street", 752, 896, 816, 1472, "south between the willows"],
-          ["street", 816, 1568, 960, 1632, "to 田老财's black gate"],
-          ["street", 576, 1088, 752, 1152, "down to the lakeside"],
-          ["riverbank", 384, 1024, 448, 1216, "the muddy shore"],
-          ["street", 32, 704, 128, 1408, "the path outside 忘情谷"],
-          ["street", 128, 832, 256, 896]
+          ["path", 2000, 224, 2304, 1232, "the 黄土大道, wide enough for eight carts abreast"],
+          ["path", 1696, 384, 2000, 464, "a spur west toward 黑松山"],
+          ["street", 1536, 992, 2000, 1072, "the 青石小路, its stones worn bright"],
+          ["street", 480, 992, 1536, 1072],
+          ["street", 896, 1072, 976, 1760, "south between the willows"],
+          ["street", 976, 1888, 1152, 1952, "to 田老财's black gate"],
+          ["street", 688, 1312, 896, 1376, "down to the lakeside"],
+          ["riverbank", 464, 1232, 544, 1456, "the muddy shore"],
+          ["street", 32, 848, 160, 1696, "the path outside 忘情谷"],
+          ["street", 160, 992, 304, 1072]
         ],
         "props": [
-          ["forest", 1408, 224, 1440, 320, "黑松山's pines either side of the spur"],
-          ["forest", 1408, 384, 1440, 448],
-          ["forest", 1440, 512, 1504, 576, "trees beside the 黄土大道"],
-          ["forest", 1504, 224, 1568, 288],
-          ["forest", 1440, 896, 1504, 928, "a few weeds by the path"],
-          ["blocked", 1536, 800, 1552, 816, "the weathered sign at the path's mouth (傅家坡)"],
-          ["chasm", 960, 960, 992, 1216, "the great ditch between the path and the melon field"],
-          ["forest", 656, 992, 688, 1024, "the weeping willows either side of the path"],
-          ["forest", 896, 1024, 928, 1056],
-          ["forest", 896, 1152, 928, 1184],
-          ["forest", 656, 1248, 688, 1280],
-          ["forest", 896, 1376, 928, 1408],
-          ["forest", 656, 1648, 688, 1680, "willows on road9, two swallows on a bough"],
-          ["shallow_water", 416, 1536, 608, 1552, "the rice field's flooded rows"],
-          ["shallow_water", 416, 1600, 608, 1616],
-          ["shallow_water", 416, 1664, 608, 1680],
-          ["blocked", 448, 1040, 512, 1072, "fishing boats left on the shore"],
-          ["blocked", 464, 1184, 528, 1216],
-          ["forest", 1024, 1008, 1056, 1040, "melon vines"],
-          ["forest", 1152, 1008, 1184, 1040],
-          ["forest", 1088, 1120, 1120, 1152],
-          ["forest", 1216, 1104, 1248, 1136],
-          ["blocked", 1008, 272, 1072, 336, "the back yard's pigsty, little white pigs"],
-          ["blocked", 1136, 272, 1200, 304, "the row of chicken coops"],
-          ["blocked", 1168, 528, 1200, 560, "the spinning wheel in the corner"],
-          ["blocked", 1008, 528, 1072, 576, "the big bed and the small one"],
-          ["blocked", 1008, 640, 1040, 672],
-          ["blocked", 1120, 624, 1168, 656, "the table: clay toys, a wooden sword"],
-          ["blocked", 736, 320, 800, 352, "刘家's table"],
-          ["blocked", 384, 336, 400, 432, "the kitchen's stove, cured meat on the walls"],
-          ["forest", 672, 544, 704, 576, "flower beds in the garden's corners"],
-          ["forest", 864, 704, 896, 736],
-          ["blocked", 1152, 1280, 1168, 1296, "the shed's bamboo posts"],
-          ["blocked", 1152, 1392, 1168, 1408],
-          ["forest", 1088, 1568, 1152, 1632, "the great locust tree in the front yard"],
-          ["blocked", 1344, 1536, 1472, 1568, "the 八仙桌"],
-          ["blocked", 1376, 1504, 1440, 1520, "关公's shrine, three sticks of incense"],
-          ["blocked", 1488, 1648, 1504, 1696, "the iron stick in the corner"],
-          ["blocked", 992, 1776, 1008, 1936, "the bookshelf on the west wall"],
-          ["blocked", 1168, 1840, 1232, 1888, "the great desk"]
+          ["forest", 1696, 272, 1728, 384, "黑松山's pines either side of the spur"],
+          ["forest", 1696, 464, 1728, 544],
+          ["forest", 1728, 608, 1808, 688, "trees beside the 黄土大道"],
+          ["forest", 1808, 272, 1888, 352],
+          ["forest", 1728, 1072, 1808, 1120, "a few weeds by the path"],
+          ["blocked", 1840, 960, 1856, 976, "the weathered sign at the path's mouth (傅家坡)"],
+          ["chasm", 1152, 1152, 1184, 1456, "the great ditch between the path and the melon field"],
+          ["forest", 784, 1184, 832, 1232, "the weeping willows either side of the path"],
+          ["forest", 1072, 1232, 1120, 1264],
+          ["forest", 1072, 1376, 1120, 1424],
+          ["forest", 784, 1504, 832, 1536],
+          ["forest", 1072, 1648, 1120, 1696],
+          ["forest", 784, 1984, 832, 2016, "willows on road9, two swallows on a bough"],
+          ["shallow_water", 496, 1840, 736, 1856, "the rice field's flooded rows"],
+          ["shallow_water", 496, 1920, 736, 1936],
+          ["shallow_water", 496, 2000, 736, 2016],
+          ["blocked", 544, 1248, 608, 1280, "fishing boats left on the shore"],
+          ["blocked", 560, 1424, 640, 1456],
+          ["forest", 1232, 1216, 1264, 1248, "melon vines"],
+          ["forest", 1376, 1216, 1424, 1248],
+          ["forest", 1312, 1344, 1344, 1376],
+          ["forest", 1456, 1328, 1504, 1360],
+          ["forest", 800, 656, 848, 688, "flower beds in the garden's corners"],
+          ["forest", 1040, 848, 1072, 880]
         ],
         "reach_from": "RoadCanyonArrival",
         "markers_in_middle": ["village.field", "village.melonfarm", "village.lakeside", "village.valley1", "village.valley2"],
         "placed": {
-          "village.lakeside.fisher.1": [608, 1048],
-          "village.lakeside.fisher.2": [608, 1184],
-          "village.lakeside.fisher.3": [560, 1184]
-        }
+          "village.lakeside.fisher.1": [728, 1256],
+          "village.lakeside.fisher.2": [728, 1424],
+          "village.lakeside.fisher.3": [672, 1424]
+        },
+        "gap_at": [],
+        "buildings": [
+          {
+            "name": "农舍",
+            "rect": [1184, 608, 1472, 928],
+            "wall": "wall_wood",
+            "doors": [
+              {
+                "portal": "village.road4.north",
+                "street": "village.road4",
+                "side": "north",
+                "at": 1328
+              }
+            ]
+          },
+          {
+            "name": "农舍",
+            "rect": [1184, 304, 1472, 544],
+            "wall": "wall",
+            "doors": []
+          },
+          {
+            "name": "刘家小房",
+            "rect": [800, 336, 1088, 608],
+            "wall": "wall_wood",
+            "doors": [
+              {
+                "portal": "village.littlegarden.north",
+                "street": "village.littlegarden",
+                "side": "north",
+                "at": 944
+              }
+            ]
+          },
+          {
+            "name": "刘家小房",
+            "rect": [448, 336, 736, 576],
+            "wall": "wall",
+            "doors": []
+          },
+          {
+            "name": "田老财家",
+            "rect": [1152, 1792, 1504, 2048],
+            "wall": "wall",
+            "doors": [
+              {
+                "portal": "village.road9.east",
+                "street": "village.road9",
+                "side": "east",
+                "at": 1920
+              }
+            ]
+          },
+          {
+            "name": "田老财家",
+            "rect": [1568, 1792, 1808, 2048],
+            "wall": "wall",
+            "doors": []
+          },
+          {
+            "name": "田老财家",
+            "rect": [1184, 2112, 1504, 2352],
+            "wall": "wall",
+            "doors": []
+          },
+          {
+            "name": "瓜棚",
+            "rect": [1152, 1456, 1424, 1728],
+            "wall": "wall_wood",
+            "doors": [
+              {
+                "portal": "village.road7.southeast",
+                "street": "village.road7",
+                "side": "east",
+                "at": 1536
+              },
+              {
+                "portal": "village.melonfarm.south",
+                "street": "village.melonfarm",
+                "side": "south",
+                "at": 1248
+              }
+            ]
+          }
+        ]
       },
       "scene": {
         "style": "map",
@@ -116,49 +177,204 @@
           "shutters": "Terrain",
           "color": "Color(0.42, 0.3, 0.18, 1)"
         },
-        "doors": [
-          {"name": "HomeDoor", "id": "village.home.door", "between": ["village.littlegarden", "village.home"]},
-          {"name": "LordGate", "id": "village.lordhouse1.door", "between": ["village.road9", "village.lordhouse1"], "color": "Color(0.12, 0.1, 0.1, 1)"}
-        ],
         "nodes": [
-          {"generated": "captions"},
-          {"node": "caption", "name": "CanyonLabel", "at": [1720, 136], "text": "北 · 天驼关", "size": 14},
-          {"node": "caption", "name": "HeisongLabel", "at": [1448, 420], "text": "西 · 黑松山", "size": 12},
-          {"node": "caption", "name": "CityLabel", "at": [1680, 1032], "text": "南 · 京师", "size": 14},
-          {"node": "caption", "name": "LakeLabel", "at": [300, 1296], "text": "玉螺湖", "size": 16},
-          {"node": "caption", "name": "GrassLabel", "at": [264, 736], "text": "茅草", "size": 12},
-          {"node": "caption", "name": "DitchLabel", "at": [940, 1100], "text": "大沟", "size": 12},
-          {"node": "caption", "name": "SignLabel", "at": [1500, 776], "text": "小牌子", "size": 12},
-          {"node": "group", "name": "DoorWalls", "type": "StaticBody2D", "parent": "Terrain"},
-          {"generated": "door_walls"},
-          {"generated": "shutters"},
-          {"node": "passage", "name": "CanyonPassage", "id": "village.road1.north", "at": [1792, 232], "shape": "Rect_64_32"},
-          {"node": "passage", "name": "CityPassage", "id": "village.road2.south", "at": [1792, 1000], "shape": "Rect_64_32"},
-          {"node": "passage", "name": "HeisongPassage", "id": "village.road1.west", "at": [1424, 352], "shape": "Rect_32_64"},
-          {"node": "passage", "name": "GrassPassage", "id": "village.road6.west", "at": [385, 864], "shape": "Rect_32_64"},
-          {"node": "passage", "name": "ValleyEastPassage", "id": "village.valley2.east", "at": [216, 864], "shape": "Rect_32_64"},
-          {"node": "passage", "name": "LakePassage", "id": "village.lakeside.west", "at": [420, 1120], "shape": "Rect_32_128"},
-          {"node": "passage", "name": "CavePassage", "id": "village.valley1.eastdown", "at": [216, 1184], "shape": "Rect_32_64"},
-          {"node": "service", "name": "LakesidePaddle", "id": "village.lakeside.paddle", "at": [544, 1088], "text": "木船 · 划向湖心"},
-          {"node": "service", "name": "MelonPick", "id": "village.melonfarm.pick", "at": [1120, 1072], "text": "瓜地 · 摘西瓜"},
-          {"generated": "doors"}
+          {
+            "generated": "captions"
+          },
+          {
+            "node": "caption",
+            "name": "CanyonLabel",
+            "at": [2064, 164],
+            "text": "北 · 天驼关",
+            "size": 14
+          },
+          {
+            "node": "caption",
+            "name": "HeisongLabel",
+            "at": [1736, 504],
+            "text": "西 · 黑松山",
+            "size": 12
+          },
+          {
+            "node": "caption",
+            "name": "CityLabel",
+            "at": [2016, 1240],
+            "text": "南 · 京师",
+            "size": 14
+          },
+          {
+            "node": "caption",
+            "name": "LakeLabel",
+            "at": [360, 1556],
+            "text": "玉螺湖",
+            "size": 16
+          },
+          {
+            "node": "caption",
+            "name": "GrassLabel",
+            "at": [316, 884],
+            "text": "茅草",
+            "size": 12
+          },
+          {
+            "node": "caption",
+            "name": "DitchLabel",
+            "at": [1128, 1320],
+            "text": "大沟",
+            "size": 12
+          },
+          {
+            "node": "caption",
+            "name": "SignLabel",
+            "at": [1800, 932],
+            "text": "小牌子",
+            "size": 12
+          },
+          {
+            "node": "group",
+            "name": "DoorWalls",
+            "type": "StaticBody2D",
+            "parent": "Terrain"
+          },
+          {
+            "generated": "door_walls"
+          },
+          {
+            "generated": "shutters"
+          },
+          {
+            "node": "passage",
+            "name": "CanyonPassage",
+            "id": "village.road1.north",
+            "at": [2152, 280],
+            "shape": "Rect_64_32"
+          },
+          {
+            "node": "passage",
+            "name": "CityPassage",
+            "id": "village.road2.south",
+            "at": [2152, 1200],
+            "shape": "Rect_64_32"
+          },
+          {
+            "node": "passage",
+            "name": "HeisongPassage",
+            "id": "village.road1.west",
+            "at": [1708, 424],
+            "shape": "Rect_32_64"
+          },
+          {
+            "node": "passage",
+            "name": "GrassPassage",
+            "id": "village.road6.west",
+            "at": [464, 1036],
+            "shape": "Rect_32_64"
+          },
+          {
+            "node": "passage",
+            "name": "ValleyEastPassage",
+            "id": "village.valley2.east",
+            "at": [260, 1036],
+            "shape": "Rect_32_64"
+          },
+          {
+            "node": "passage",
+            "name": "LakePassage",
+            "id": "village.lakeside.west",
+            "at": [504, 1344],
+            "shape": "Rect_32_128"
+          },
+          {
+            "node": "passage",
+            "name": "CavePassage",
+            "id": "village.valley1.eastdown",
+            "at": [260, 1420],
+            "shape": "Rect_32_64"
+          },
+          {
+            "node": "service",
+            "name": "LakesidePaddle",
+            "id": "village.lakeside.paddle",
+            "at": [652, 1304],
+            "text": "木船 · 划向湖心"
+          },
+          {
+            "node": "service",
+            "name": "MelonPick",
+            "id": "village.melonfarm.pick",
+            "at": [1344, 1288],
+            "text": "瓜地 · 摘西瓜"
+          },
+          {
+            "generated": "doors"
+          }
         ],
-        "zones": [{"generated": "zones"}],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
         "spawn_points": [
-          {"name": "RoadCanyonArrival", "at": [1792, 320], "id": "village.road1.canyon_arrival"},
-          {"name": "Road2CityReturn", "at": [1792, 928], "id": "village.road2.city_return"},
-          {"name": "Road1ChuenyuReturn", "at": [1504, 352], "id": "village.road1.chuenyu_return"},
-          {"name": "Road6GrassReturn", "at": [480, 864], "id": "village.road6.grass_return"},
-          {"name": "Valley2GrassArrival", "at": [128, 864], "id": "village.valley2.grass_arrival"},
-          {"name": "Valley1CaveReturn", "at": [128, 1184], "id": "village.valley1.cave_return"},
-          {"name": "LakesideBoatReturn", "at": [544, 1120], "id": "village.lakeside.boat_return"},
-          {"generated": "markers"}
+          {
+            "name": "RoadCanyonArrival",
+            "at": [2152, 384],
+            "id": "village.road1.canyon_arrival"
+          },
+          {
+            "name": "Road2CityReturn",
+            "at": [2152, 1112],
+            "id": "village.road2.city_return"
+          },
+          {
+            "name": "Road1ChuenyuReturn",
+            "at": [1808, 424],
+            "id": "village.road1.chuenyu_return"
+          },
+          {
+            "name": "Road6GrassReturn",
+            "at": [576, 1040],
+            "id": "village.road6.grass_return"
+          },
+          {
+            "name": "Valley2GrassArrival",
+            "at": [152, 1040],
+            "id": "village.valley2.grass_arrival"
+          },
+          {
+            "name": "Valley1CaveReturn",
+            "at": [152, 1424],
+            "id": "village.valley1.cave_return"
+          },
+          {
+            "name": "LakesideBoatReturn",
+            "at": [656, 1344],
+            "id": "village.lakeside.boat_return"
+          },
+          {
+            "generated": "markers"
+          }
         ],
         "interactions": [
-          {"name": "TabletInteraction", "id": "village.road3.landmark.tablet", "at": [1544, 808], "shape": "Rect_32_32"},
-          {"name": "BoatInteraction", "id": "village.lakeside.landmark.boat", "at": [480, 1056], "shape": "Rect_64_32"},
-          {"name": "GrassInteraction", "id": "village.road6.landmark.grass", "at": [336, 864], "shape": "Rect_32_64"}
-        ]
+          {
+            "name": "TabletInteraction",
+            "id": "village.road3.landmark.tablet",
+            "at": [1856, 968],
+            "shape": "Rect_32_32"
+          },
+          {
+            "name": "BoatInteraction",
+            "id": "village.lakeside.landmark.boat",
+            "at": [576, 1264],
+            "shape": "Rect_64_32"
+          },
+          {
+            "name": "GrassInteraction",
+            "id": "village.road6.landmark.grass",
+            "at": [400, 1040],
+            "shape": "Rect_32_64"
+          }
+        ],
+        "stairs": []
       }
     },
     "midlake": {
@@ -168,15 +384,11 @@
         "technique": "town",
         "base": "boundary",
         "bounds": [-64, -64, 384, 224],
-        "ground": [
-          ["water", -64, -64, 384, 224, "the lake all round"]
-        ],
+        "ground": [["water", -64, -64, 384, 224, "the lake all round"]],
         "zones": {
           "village.lake": [0, 0, 320, 160, "open", "water", null]
         },
-        "roads": [
-          ["floor_wood", 48, 32, 272, 128, "the boat"]
-        ],
+        "roads": [["floor_wood", 48, 32, 272, 128, "the boat"]],
         "props": [
           ["water", 48, 32, 64, 48, "the boat's rounded stern and bow"],
           ["water", 48, 112, 64, 128],
@@ -196,16 +408,52 @@
           "Rect_32_32": [32, 32]
         },
         "nodes": [
-          {"generated": "captions"},
-          {"node": "caption", "name": "ShoreLabel", "at": [296, 172], "text": "东 · 玉螺湖畔", "size": 12},
-          {"node": "passage", "name": "BowPassage", "id": "village.lake.east", "at": [232, 80], "shape": "Rect_32_32"},
-          {"node": "service", "name": "LakePaddle", "id": "village.lake.paddle", "at": [96, 64], "text": "小船 · 划回岸边"},
-          {"node": "service", "name": "LakeDive", "id": "village.lake.dive", "at": [176, 112], "text": "湖水 · 潜入湖中"}
+          {
+            "generated": "captions"
+          },
+          {
+            "node": "caption",
+            "name": "ShoreLabel",
+            "at": [296, 172],
+            "text": "东 · 玉螺湖畔",
+            "size": 12
+          },
+          {
+            "node": "passage",
+            "name": "BowPassage",
+            "id": "village.lake.east",
+            "at": [232, 80],
+            "shape": "Rect_32_32"
+          },
+          {
+            "node": "service",
+            "name": "LakePaddle",
+            "id": "village.lake.paddle",
+            "at": [96, 64],
+            "text": "小船 · 划回岸边"
+          },
+          {
+            "node": "service",
+            "name": "LakeDive",
+            "id": "village.lake.dive",
+            "at": [176, 112],
+            "text": "湖水 · 潜入湖中"
+          }
         ],
-        "zones": [{"generated": "zones"}],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
         "spawn_points": [
-          {"name": "LakeBoatArrival", "at": [128, 80], "id": "village.lake.boat_arrival"},
-          {"generated": "markers"}
+          {
+            "name": "LakeBoatArrival",
+            "at": [128, 80],
+            "id": "village.lake.boat_arrival"
+          },
+          {
+            "generated": "markers"
+          }
         ],
         "interactions": []
       }
@@ -251,19 +499,295 @@
           "Rect_32_32": [32, 32]
         },
         "nodes": [
-          {"generated": "captions"},
-          {"node": "caption", "name": "StairLabel", "at": [40, 120], "text": "冰阶", "size": 12},
-          {"node": "passage", "name": "IceStairPassage", "id": "village.lakebottom2.westup", "at": [72, 160], "shape": "Rect_32_64"}
+          {
+            "generated": "captions"
+          },
+          {
+            "node": "caption",
+            "name": "StairLabel",
+            "at": [40, 120],
+            "text": "冰阶",
+            "size": 12
+          },
+          {
+            "node": "passage",
+            "name": "IceStairPassage",
+            "id": "village.lakebottom2.westup",
+            "at": [72, 160],
+            "shape": "Rect_32_64"
+          }
         ],
-        "zones": [{"generated": "zones"}],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
         "spawn_points": [
-          {"name": "LakebottomDiveArrival", "at": [560, 160], "id": "village.lakebottom1.dive_arrival"},
-          {"name": "LakebottomValleyArrival", "at": [136, 160], "id": "village.lakebottom2.valley_arrival"},
-          {"generated": "markers"}
+          {
+            "name": "LakebottomDiveArrival",
+            "at": [560, 160],
+            "id": "village.lakebottom1.dive_arrival"
+          },
+          {
+            "name": "LakebottomValleyArrival",
+            "at": [136, 160],
+            "id": "village.lakebottom2.valley_arrival"
+          },
+          {
+            "generated": "markers"
+          }
         ],
         "interactions": [
-          {"name": "IceInteraction", "id": "village.lakebottom1.landmark.ice", "at": [600, 80], "shape": "Rect_32_32"}
+          {
+            "name": "IceInteraction",
+            "id": "village.lakebottom1.landmark.ice",
+            "at": [600, 80],
+            "shape": "Rect_32_32"
+          }
         ]
+      }
+    },
+    "farmhouse": {
+      "note": "农舍: its own map (地图重构), carried over from the town map, its things where they stood in the room.",
+      "file": "farmhouse_house.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "house",
+        "rooms": {
+          "village.farmhouse1": {
+            "floor": "floor_wood",
+            "wall": "wall_wood",
+            "size": "large"
+          },
+          "village.fmhousback": {
+            "floor": "floor_yard",
+            "wall": "wall",
+            "size": "yard"
+          }
+        },
+        "props": [
+          ["blocked", "village.fmhousback", ["rel", 0.214, 0.25], 1.88, 1.88, "the back yard's pigsty, little white pigs"],
+          ["blocked", "village.fmhousback", ["rel", 0.786, 0.167], 1.88, 0.94, "the row of chicken coops"],
+          ["blocked", "village.farmhouse1", ["rel", 0.857, 0.143], 0.94, 0.94, "the spinning wheel in the corner"],
+          ["blocked", "village.farmhouse1", ["rel", 0.214, 0.179], 1.88, 1.41, "the big bed and the small one"],
+          ["blocked", "village.farmhouse1", ["rel", 0.143, 0.643], 0.94, 0.94],
+          ["blocked", "village.farmhouse1", ["rel", 0.679, 0.571], 1.41, 0.94, "the table: clay toys, a wooden sword"]
+        ],
+        "placed": {},
+        "doors": {
+          "village.farmhouse1.south": "south"
+        },
+        "reach_from": "Farmhouse1Road4Entry"
+      },
+      "scene": {
+        "style": "map",
+        "root": "FarmhouseHouse",
+        "map": "village.farmhouse_house",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_32_64": [32, 64],
+          "Rect_64_32": [64, 32],
+          "Rect_32_32": [32, 32],
+          "Rect_32_128": [32, 128]
+        },
+        "stairs": [],
+        "nodes": [
+          {
+            "generated": "captions"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": []
+      }
+    },
+    "liu": {
+      "note": "刘家小房: its own map (地图重构), carried over from the town map, its things where they stood in the room.",
+      "file": "liu_house.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "house",
+        "rooms": {
+          "village.home": {
+            "floor": "floor_wood",
+            "wall": "wall_wood",
+            "size": "large",
+            "at": [0, 0]
+          },
+          "village.smallstorage": {
+            "floor": "floor_wood",
+            "wall": "wall",
+            "size": "small",
+            "at": [-1, 0]
+          }
+        },
+        "props": [
+          ["blocked", "village.home", ["rel", 0.429, 0.25], 1.88, 0.94, "刘家's table"],
+          ["blocked", "village.smallstorage", ["rel", 0.036, 0.5], 0.5, 2.82, "the kitchen's stove, cured meat on the walls"]
+        ],
+        "placed": {},
+        "doors": {
+          "village.home.south": "south"
+        },
+        "reach_from": "HomeLittlegardenEntry"
+      },
+      "scene": {
+        "style": "map",
+        "root": "LiuHouse",
+        "map": "village.liu_house",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_32_64": [32, 64],
+          "Rect_64_32": [64, 32],
+          "Rect_32_32": [32, 32],
+          "Rect_32_128": [32, 128]
+        },
+        "stairs": [],
+        "nodes": [
+          {
+            "generated": "captions"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": []
+      }
+    },
+    "lord": {
+      "note": "田老财家: its own map (地图重构), carried over from the town map, its things where they stood in the room.",
+      "file": "lord_house.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "compound",
+        "rooms": {
+          "village.lordhouse1": {
+            "floor": "floor_yard",
+            "wall": "wall",
+            "size": "yard"
+          },
+          "village.lordhouse2": {
+            "floor": "floor_wood",
+            "wall": "wall",
+            "size": "large"
+          },
+          "village.lordhouse3": {
+            "floor": "floor_wood",
+            "wall": "wall",
+            "size": "large"
+          }
+        },
+        "props": [
+          ["forest", "village.lordhouse1", ["rel", 0.5, 0.5], 1.88, 1.88, "the great locust tree in the front yard"],
+          ["blocked", "village.lordhouse2", ["rel", 0.5, 0.25], 3.76, 0.94, "the 八仙桌"],
+          ["blocked", "village.lordhouse2", ["rel", 0.5, 0.042], 1.88, 0.5, "关公's shrine, three sticks of incense"],
+          ["blocked", "village.lordhouse2", ["rel", 0.958, 0.875], 0.5, 1.41, "the iron stick in the corner"],
+          ["blocked", "village.lordhouse3", ["rel", 0.031, 0.5], 0.5, 4.71, "the bookshelf on the west wall"],
+          ["blocked", "village.lordhouse3", ["rel", 0.812, 0.542], 1.88, 1.41, "the great desk"]
+        ],
+        "placed": {},
+        "doors": {
+          "village.lordhouse1.west": "west"
+        },
+        "reach_from": "Lordhouse1Road9Entry"
+      },
+      "scene": {
+        "style": "map",
+        "root": "LordHouse",
+        "map": "village.lord_house",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_32_64": [32, 64],
+          "Rect_64_32": [64, 32],
+          "Rect_32_32": [32, 32],
+          "Rect_32_128": [32, 128]
+        },
+        "stairs": [],
+        "nodes": [
+          {
+            "generated": "captions"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": []
+      }
+    },
+    "melonguard": {
+      "note": "瓜棚: its own map (地图重构), carried over from the town map, its things where they stood in the room.",
+      "file": "melonguard_house.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "house",
+        "rooms": {
+          "village.melonguard": {
+            "floor": "floor_yard",
+            "wall": "wall_wood",
+            "size": "room"
+          }
+        },
+        "props": [
+          ["blocked", "village.melonguard", ["rel", 0.875, 0.208], 0.5, 0.5, "the shed's bamboo posts"],
+          ["blocked", "village.melonguard", ["rel", 0.875, 0.792], 0.5, 0.5]
+        ],
+        "placed": {},
+        "doors": {
+          "village.melonguard.northwest": "west",
+          "village.melonguard.north": "north"
+        },
+        "reach_from": "MelonguardRoad7Entry"
+      },
+      "scene": {
+        "style": "map",
+        "root": "MelonguardHouse",
+        "map": "village.melonguard_house",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_32_64": [32, 64],
+          "Rect_64_32": [64, 32],
+          "Rect_32_32": [32, 32],
+          "Rect_32_128": [32, 128]
+        },
+        "stairs": [],
+        "nodes": [
+          {
+            "generated": "captions"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": []
       }
     }
   }

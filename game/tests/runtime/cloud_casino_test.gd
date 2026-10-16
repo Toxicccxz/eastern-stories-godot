@@ -86,13 +86,14 @@ func _test_wager_rules() -> void:
 ## give <money> to judge in the 赌场: lost, won in silver, won in coins, won on gold
 ## (paid in silver), and something worth nothing (no roll).
 func _test_bets(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.world_map_of(&"cloud.outdoor")
+	# The 赌场 is its own map since the remap.
+	var map: WorldMapController = session.world_map_of(&"cloud.duchang_house")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var judge: NpcRuntimeState = _npc(map, &"cloud.npc.judge")
-	session.handoff_to(&"cloud.outdoor", &"cloud.duchang", &"cloud.duchang", &"cloud.duchang.stairs_return")
+	MapPlaces.enter(session, &"cloud.duchang", &"cloud.duchang.stairs_return") # TEST-ONLY: by its stairs
 	await tree.physics_frame
 	await tree.physics_frame
-	_check(player.world_location().zone_id == &"cloud.duchang" and judge.world_location().zone_id == &"cloud.duchang", "the player and the 宝官 in the 赌场")
+	_check(session.active_map_id() == &"cloud.duchang_house" and player.world_location().zone_id == &"cloud.duchang" and judge.world_location().zone_id == &"cloud.duchang", "the player and the 宝官 in the 赌场 (its own map)")
 	_check(map.select_npc(judge.character_id) and map.selected_npc_takes_gifts(), "he can be given things")
 	var money: MoneyInventoryContext = Finance.session_context(session)
 	Finance.add_money(money, CurrencyDenomination.Value.SILVER, 10, &"test.casino.silver") # TEST-ONLY
@@ -157,7 +158,7 @@ func _test_bets(tree: SceneTree, session: WorldSessionController) -> void:
 ## their feet (a gold tael's 200 taels with room for 10; 99 coins' 1 tael and 98 coins with
 ## room for the tael and 67 coins), the two piles apart. They stay through Save/Continue.
 func _test_winnings_at_feet(tree: SceneTree, session: WorldSessionController) -> Array[StringName]:
-	var map: WorldMapController = session.world_map_of(&"cloud.outdoor")
+	var map: WorldMapController = session.world_map_of(&"cloud.duchang_house")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var money: MoneyInventoryContext = Finance.session_context(session)
 	Finance.add_money(money, CurrencyDenomination.Value.GOLD, 1, &"test.casino.gold2") # TEST-ONLY
@@ -199,7 +200,7 @@ func _test_winnings_at_feet(tree: SceneTree, session: WorldSessionController) ->
 
 ## get.c on the piles: with room for 50 taels the 190 give 50 and 140 stay; then the rest.
 func _test_pick_up(tree: SceneTree, session: WorldSessionController, piles: Array[StringName]) -> void:
-	var map: WorldMapController = session.world_map_of(&"cloud.outdoor")
+	var map: WorldMapController = session.world_map_of(&"cloud.duchang_house")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var money: MoneyInventoryContext = Finance.session_context(session)
 	if piles.size() != 2:

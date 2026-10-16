@@ -43,6 +43,8 @@ const THANKS: Array[String] = [
 	"刘老农说道：“这处非久留之地，我等去也。”",
 	"刘老农领着娟儿匆匆离去。",
 ]
+## 刘家小房 is its own map since the remap, behind the 木门 on the garden.
+const LIU_HOUSE: StringName = &"village.liu_house"
 const REVENGE: String = "刘老农悲愤欲绝的骂道：你．．你．．你们居然杀了我女儿，纳命来！"
 
 var _count: int = 0
@@ -292,13 +294,14 @@ func _test_thanks(tree: SceneTree, session: WorldSessionController) -> WorldSess
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var hud: SharedGameplayUI = session.shared_ui()
 	var juan: NpcRuntimeState = _npc(village, XIAOJUAN)
-	var liu: NpcRuntimeState = _npc(village, LIU)
+	var liu: NpcRuntimeState = _npc(session.world_map_of(LIU_HOUSE), LIU)
 	if juan == null or liu == null:
-		_check(false, "小娟 and 刘老农 on the village's map")
+		_check(false, "小娟 on the village's map, 刘老农 on his house's")
 		return session
-	_check(await _walk(tree, village, [&"village.home"]), "into 刘家小房")
-	_check(juan.world_location().zone_id == &"village.home", "she came in through the door")
-	village.npc_life._advance_ambience(1.0)
+	_check(await _through(tree, village, &"village.littlegarden.north") and player.world_location().zone_id == &"village.home", "through the 木门 into 刘家小房")
+	var house: WorldMapController = session.active_map() as WorldMapController
+	_check(house.map_id() == LIU_HOUSE and juan.world_location().zone_id == &"village.home" and _npc(house, XIAOJUAN) == juan and _npc(village, XIAOJUAN) == null, "she came in through the door, onto the house's own map: %s" % juan.world_location().zone_id)
+	house.npc_life._advance_ambience(1.0)
 	var respect: String = RankWords.query_respect(player.state.gender, player.facts.age, player.state.affiliation.class_id)
 	var lines: Array[String] = []
 	for line: String in THANKS:
@@ -308,7 +311,7 @@ func _test_thanks(tree: SceneTree, session: WorldSessionController) -> WorldSess
 	_check(not juan.exists_in_map and not liu.exists_in_map and juan.has_flag(NpcDefinition.FLAG_GONE) and liu.has_flag(NpcDefinition.FLAG_GONE), "he leads 娟儿 away, both gone")
 	session.reset_room("d/village/home.c")
 	session.reset_room("d/chuenyu/dungeon.c")
-	_check(not liu.exists_in_map and _npc(village, LIU) == liu and not _npc(village, XIAOJUAN).exists_in_map, "刘家's reset does not make him anew (Q2 (a)); she stays gone")
+	_check(not liu.exists_in_map and _npc(house, LIU) == liu and _npc(house, XIAOJUAN) != null and not _npc(house, XIAOJUAN).exists_in_map, "刘家's reset does not make him anew (Q2 (a)); she stays gone")
 	session = await _continue(tree, session)
 	village = session.active_map() as WorldMapController
 	_check(_npc(village, LIU) != null and not _npc(village, LIU).exists_in_map and _npc(village, LIU).has_flag(NpcDefinition.FLAG_GONE), "Continue: 刘家 stands empty")
@@ -340,8 +343,8 @@ func _test_revenge(tree: SceneTree, session: WorldSessionController) -> WorldSes
 	hud.dismiss_current_panel()
 	session.reset_room("d/chuenyu/dungeon.c")
 	_check(_npc(prison, XIAOJUAN).life_status == CharacterRuntimeLifeStatus.Value.DEAD, "the 刑房's reset does not make her anew (once)")
-	var village: WorldMapController = session.world_map_of(&"village.main")
-	_check(session.handoff_to_point(&"village.main", &"village.home", GameContent.catalog().zone(&"village.home").combat_location_id, MapPlaces.spot(village, &"village.home", MapPlaces.zone_centre(village, &"village.home"))).succeeded(), "TEST-ONLY: into 刘家小房")
+	var village: WorldMapController = session.world_map_of(LIU_HOUSE)
+	_check(session.handoff_to_point(LIU_HOUSE, &"village.home", GameContent.catalog().zone(&"village.home").combat_location_id, MapPlaces.spot(village, &"village.home", MapPlaces.zone_centre(village, &"village.home"))).succeeded(), "TEST-ONLY: into 刘家小房 (its own map)")
 	await tree.physics_frame
 	village.npc_life._advance_ambience(0.0)
 	village.npc_life._advance_ambience(1.0)
@@ -361,10 +364,13 @@ func _test_revenge(tree: SceneTree, session: WorldSessionController) -> WorldSes
 	_check(liu.mood() != null and liu.short_name().begins_with("悲愤欲绝") and liu.character_state.applies.get("damage", 0) == 250, "Continue: still 悲愤欲绝")
 	session.reset_room("d/village/home.c")
 	_check(liu.mood() == null and not liu.short_name().contains("悲愤欲绝") and liu.character_state.applies.get("damage", 0) == 0 and not liu.has_flag(NpcDefinition.FLAG_HUNTS_PLAYER), "his room's reset: the grief is over (M7)")
-	village.place_player(&"village.littlegarden", MapPlaces.zone_centre(village, &"village.littlegarden"))
+	# TEST-ONLY: out into the garden (the village's map) and back into the house (its own).
+	var garden: WorldMapController = MapPlaces.enter(session, &"village.littlegarden", &"village.littlegarden.home_return")
+	_check(garden != null and garden.map_id() == &"village.main", "TEST-ONLY: out in the garden")
 	await tree.physics_frame
-	village.npc_life._advance_ambience(0.0)
-	village.place_player(&"village.home", MapPlaces.spot(village, &"village.home", MapPlaces.zone_centre(village, &"village.home")))
+	garden.npc_life._advance_ambience(0.0)
+	village = MapPlaces.enter(session, &"village.home", &"village.home.littlegarden_entry")
+	_check(village != null and village.map_id() == LIU_HOUSE and village.place_player(&"village.home", MapPlaces.spot(village, &"village.home", MapPlaces.zone_centre(village, &"village.home"))), "TEST-ONLY: back in the house")
 	await tree.physics_frame
 	var before: int = hud.log_lines().size()
 	village.npc_life._advance_ambience(0.0)
@@ -397,6 +403,19 @@ func _out_and_back(tree: SceneTree, map: WorldMapController) -> bool:
 	if not await MapPlaces.take_same_map_passage(tree, map, &"chuenyu.tunnel3.east"):
 		return false
 	map.npc_life._advance_ambience(0.0)
+	return true
+
+
+## Through a door onto another map, the NPCs there noticing the arrival and who follows
+## coming after (as _walk does zone by zone).
+func _through(tree: SceneTree, map: WorldMapController, portal_id: StringName) -> bool:
+	if not await MapPlaces.take_passage(tree, map, portal_id):
+		return false
+	var there: WorldMapController = map.session.active_map() as WorldMapController
+	await tree.physics_frame
+	there.npc_life._advance_ambience(0.0)
+	there.npc_life.npc_walker().advance(2.0)
+	await tree.physics_frame
 	return true
 
 

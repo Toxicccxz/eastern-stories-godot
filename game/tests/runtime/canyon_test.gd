@@ -1,9 +1,9 @@
 extends RefCounted
 
-## 天驼关 A (d/canyon): seventeen rooms on three maps — the 碎石小路 on the clifftop off Snow's
-## 青石官道, the pass below it with the garrison's camp, and the 兵器库 (its way in is the swear,
-## 天驼关 B) — the chain climbed both ways (its cost, asked first when it would knock the player
-## out), the iron gate and its winch, the camp's well; 大队长's toll that adds up (owner, canyon
+## 天驼关 A (d/canyon): seventeen rooms on four maps — the 碎石小路 on the clifftop off Snow's
+## 青石官道, the pass below it, the garrison's camp through its gate on 隘口中道 (its own map
+## since the remap), and the 兵器库 (its way in is the swear, 天驼关 B) — the chain climbed both
+## ways (its cost, asked first when it would knock the player out), the iron gate and its winch, the camp's well; 大队长's toll that adds up (owner, canyon
 ## plan Q2) and the mark that lets one past 李信 (his greeting throws the others out) into the
 ## 将军营帐; 大队长's story told two seconds a line. Walks use the move actions (MapPlaces).
 ## The 黄石穿林路, the mirror, the 竹林道 and the stone room (天驼关 C) are canyon_bamboo_test.
@@ -12,7 +12,7 @@ const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const Finance := preload("res://tests/runtime/snow_finance_test.gd")
 const MapPlaces := preload("res://tests/support/map_places.gd")
-const MAPS: Dictionary = {&"canyon.clifftop": 1, &"canyon.pass": 18, &"canyon.armory": 1, &"canyon.bamboo": 4, &"canyon.stoneroom": 1}
+const MAPS: Dictionary = {&"canyon.clifftop": 1, &"canyon.pass": 10, &"canyon.camp": 8, &"canyon.armory": 1, &"canyon.bamboo": 4, &"canyon.stoneroom": 1}
 const CAPTAIN: StringName = &"canyon.npc.captain"
 const VICE: StringName = &"canyon.npc.vice_general"
 const STORY: Array[String] = [
@@ -64,7 +64,7 @@ func _test_data() -> void:
 		if String(zone.zone_id).begins_with("canyon."):
 			maps[zone.map_id] = maps.get(zone.map_id, 0) + 1
 			_check(zone.room_ids().size() == 1 and catalog.room(zone.room_ids()[0]) != null, "%s: one room" % zone.zone_id)
-	_check(maps == MAPS, "25 rooms on five maps (C's eight with them): %s" % maps)
+	_check(maps == MAPS, "25 rooms on six maps (the camp's eight on its own, C's eight with them): %s" % maps)
 	_check(catalog.region(&"canyon").display_name == "天驼关", "the region is 天驼关")
 	_check(catalog.portal(&"snow.sroad4.southwest").destination_zone_id == &"canyon.road" and catalog.portal(&"canyon.road.northeast").destination_zone_id == &"snow.sroad4", "the 青石官道 south-west to the 碎石小路, and back")
 	_check(catalog.zone_of_room(&"es2:d/canyon/stone_forest1") != null and catalog.room(&"es2:d/canyon/canyon2").exits().get("west") == "es2:d/canyon/stone_forest1", "canyon2.c leads west into the 黄石穿林路 (repaired, owner Q1)")
@@ -174,26 +174,31 @@ func _test_pass(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(await MapPlaces.drive_through(tree, gorge, [&"canyon.canyon6", &"canyon.canyon7"]), "through the gate into the valley")
 	_check(session.place_name(session.player_runtime().world_location()) == "天驼关 · 天驼关谷地", "天驼关 · 天驼关谷地")
 	_check(Work.capture(session) != null, "Save in the valley")
-	_check(await MapPlaces.drive_through(tree, gorge, [&"canyon.canyon6", &"canyon.canyon5", &"canyon.canyon4", &"canyon.camp1", &"canyon.camp2"]), "back north and into the camp")
-	var well: WaterService = gorge.service(&"canyon.camp2.well") as WaterService
-	_check(await MapPlaces.drive(tree, gorge, MapPlaces.service_spot(gorge, &"canyon.camp2.well")) and well.available(), "the camp's well fills a wineskin")
+	_check(await MapPlaces.drive_through(tree, gorge, [&"canyon.canyon6", &"canyon.canyon5", &"canyon.canyon4"]), "back north to the camp's gate")
+	_check(await MapPlaces.take_passage(tree, gorge, &"canyon.canyon4.east"), "east through the gate into the camp")
+	var camp: WorldMapController = session.active_map() as WorldMapController
+	await tree.physics_frame # The arrival's zone Areas report a frame later.
+	_check(camp.map_id() == &"canyon.camp" and session.player_runtime().world_location().zone_id == &"canyon.camp1", "the camp is its own map, in at its gate: %s" % session.player_runtime().world_location().zone_id)
+	_check(await MapPlaces.drive_to_zone(tree, camp, &"canyon.camp2"), "on to the camp fire")
+	var well: WaterService = camp.service(&"canyon.camp2.well") as WaterService
+	_check(await MapPlaces.drive(tree, camp, MapPlaces.service_spot(camp, &"canyon.camp2.well")) and well.available(), "the camp's well fills a wineskin")
 
 
 ## Who stands where; 李信 throws out one the 大队长 has not listed; the 将军营帐 is barred.
 func _test_camp(tree: SceneTree, session: WorldSessionController) -> void:
-	var gorge: WorldMapController = session.active_map() as WorldMapController
+	var camp: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var found: Dictionary = {}
-	for npc: NpcRuntimeState in gorge.resident_npcs():
+	for npc: NpcRuntimeState in camp.resident_npcs():
 		var zone: StringName = npc.world_location().zone_id
 		if not found.has(zone):
 			found[zone] = {}
 		found[zone][npc.definition().definition_id] = found[zone].get(npc.definition().definition_id, 0) + 1
 	_check(found == PEOPLE, "the garrison where camp1-8.c put them: %s" % [found])
-	_check(await MapPlaces.drive_to_zone(tree, gorge, &"canyon.camp7"), "into the 副将营帐")
-	gorge.npc_life._advance_ambience(0.0)
-	gorge.npc_life._advance_ambience(1.0)
+	_check(await MapPlaces.drive_to_zone(tree, camp, &"canyon.camp7"), "into the 副将营帐")
+	camp.npc_life._advance_ambience(0.0)
+	camp.npc_life._advance_ambience(1.0)
 	await tree.physics_frame
 	await tree.physics_frame
 	_check(hud.log_lines().has("李信说道：大胆狂徒，竟私闯此地，给我滚出去") and player.world_location().zone_id == &"canyon.camp2", "大胆狂徒，竟私闯此地，给我滚出去: out at the camp fire (%s)" % player.world_location().zone_id)
@@ -202,38 +207,38 @@ func _test_camp(tree: SceneTree, session: WorldSessionController) -> void:
 
 ## captain.c tell_story(): nothing at once (no 没听说过 either), then a line every two seconds.
 func _test_story(tree: SceneTree, session: WorldSessionController) -> void:
-	var gorge: WorldMapController = session.active_map() as WorldMapController
+	var camp: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
-	_check(await MapPlaces.drive_to_zone(tree, gorge, &"canyon.camp6"), "into the squad leaders' tent")
-	gorge.npc_life._advance_ambience(0.0)
-	var captain: NpcRuntimeState = _npc(gorge, CAPTAIN)
-	_check(captain != null and gorge.select_npc(captain.character_id), "大队长")
-	_check(gorge.ask_topics_selected().has("允许") and gorge.ask_topics_selected().has("黄石隘口"), "允许, 兵器库, 黄石隘口")
-	_check(gorge.ask_selected("允许") == ["你向大队长打听有关『允许』的消息。", "大队长说道：先给钱再说吧。"], "允许: 先给钱再说吧。")
-	var said: Array[String] = gorge.ask_selected("黄石隘口")
+	_check(await MapPlaces.drive_to_zone(tree, camp, &"canyon.camp6"), "into the squad leaders' tent")
+	camp.npc_life._advance_ambience(0.0)
+	var captain: NpcRuntimeState = _npc(camp, CAPTAIN)
+	_check(captain != null and camp.select_npc(captain.character_id), "大队长")
+	_check(camp.ask_topics_selected().has("允许") and camp.ask_topics_selected().has("黄石隘口"), "允许, 兵器库, 黄石隘口")
+	_check(camp.ask_selected("允许") == ["你向大队长打听有关『允许』的消息。", "大队长说道：先给钱再说吧。"], "允许: 先给钱再说吧。")
+	var said: Array[String] = camp.ask_selected("黄石隘口")
 	_check(said == ["你向大队长打听有关『黄石隘口』的消息。"], "黄石隘口: nothing at once: %s" % [said])
 	var start: int = hud.log_lines().size()
-	gorge.npc_life._advance_ambience(1.0)
+	camp.npc_life._advance_ambience(1.0)
 	_check(hud.log_lines().size() == start, "nothing before two seconds")
 	for stage: int in range(STORY.size()):
-		gorge.npc_life._advance_ambience(1.0 if stage == 0 else 2.0)
+		camp.npc_life._advance_ambience(1.0 if stage == 0 else 2.0)
 		_check(hud.log_lines()[-1] == STORY[stage], "line %d: %s" % [stage, hud.log_lines()[-1]])
-	gorge.npc_life._advance_ambience(10.0)
-	_check(hud.log_lines()[-1] == STORY[-1] and not gorge.npc_life.makings.has(captain.character_id), "the story ends: 知道了，就快缴钱。")
+	camp.npc_life._advance_ambience(10.0)
+	_check(hud.log_lines()[-1] == STORY[-1] and not camp.npc_life.makings.has(captain.character_id), "the story ends: 知道了，就快缴钱。")
 
 
 ## captain.c accept_object(): 30 taels for the list; less is kept, and the owner's ruling
 ## (canyon plan Q2) adds it up; listed, more is thanked for; what is not money, too.
 func _test_toll(tree: SceneTree, session: WorldSessionController) -> void:
-	var gorge: WorldMapController = session.active_map() as WorldMapController
+	var camp: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var context: MoneyInventoryContext = Finance.session_context(session)
 	Finance.add_money(context, CurrencyDenomination.Value.SILVER, 31, &"test.toll") # TEST-ONLY
-	var captain: NpcRuntimeState = _npc(gorge, CAPTAIN)
-	_check(gorge.select_npc(captain.character_id), "大队长 again")
+	var captain: NpcRuntimeState = _npc(camp, CAPTAIN)
+	_check(camp.select_npc(captain.character_id), "大队长 again")
 	var silver: int = Finance.amount(context, CurrencyDenomination.Value.SILVER)
-	var first: ItemHandlingResult = gorge.give_to_selected(&"test.toll", 20)
+	var first: ItemHandlingResult = camp.give_to_selected(&"test.toll", 20)
 	_check(first.done() and first.lines[0] == "大队长说道:你的诚意不够喔，再多缴点吧。" and player.state.counters.get("tally/军营", 0) == 2000 and not player.state.marks.has("军营"), "twenty taels: not enough, kept, counted: %s" % [first.lines])
 	_check(Finance.amount(context, CurrencyDenomination.Value.SILVER) == silver - 20, "the twenty taels gone: %d of %d" % [Finance.amount(context, CurrencyDenomination.Value.SILVER), silver])
 	# What was paid survives Save and Continue.
@@ -249,21 +254,21 @@ func _test_toll(tree: SceneTree, session: WorldSessionController) -> void:
 		_check(restored.candidate.player_runtime().state.counters.get("tally/军营", 0) == 2000, "after Continue, twenty taels still paid")
 		restored.candidate.free()
 		await tree.process_frame
-	var second: ItemHandlingResult = gorge.give_to_selected(&"test.toll", 10)
+	var second: ItemHandlingResult = camp.give_to_selected(&"test.toll", 10)
 	_check(second.done() and second.lines[0] == "大队长说道:我已帮你列入名册了，从今天你可自由地出入营区了。" and player.state.marks.get("军营", 0) == 1 and not player.state.counters.has("tally/军营"), "ten more: thirty in all, listed (marks/军营), the count settled: %s" % [second.lines])
-	var third: ItemHandlingResult = gorge.give_to_selected(&"test.toll", 1)
+	var third: ItemHandlingResult = camp.give_to_selected(&"test.toll", 1)
 	_check(third.done() and third.lines[0] == "大队长说道:哦喔！还真有心啊，真是谢谢你了。", "listed, one more tael is thanked for")
 	var blade: StringName = _new_item(session, &"es2:d/canyon/npc/obj/blade")
-	var thing: ItemHandlingResult = gorge.give_to_selected(blade)
+	var thing: ItemHandlingResult = camp.give_to_selected(blade)
 	_check(thing.done() and thing.lines[0] == "大队长说道：ㄟ....Ｔhank Ｙou!!!", "not money: Thank You, and kept: %s" % [thing.lines])
 	# Listed: 李信 lets the player be, and the 将军营帐 is open.
-	_check(await MapPlaces.drive_through(tree, gorge, [&"canyon.camp2", &"canyon.camp7"]), "into the 副将营帐 again")
-	gorge.npc_life._advance_ambience(0.0)
-	gorge.npc_life._advance_ambience(1.0)
+	_check(await MapPlaces.drive_through(tree, camp, [&"canyon.camp2", &"canyon.camp7"]), "into the 副将营帐 again")
+	camp.npc_life._advance_ambience(0.0)
+	camp.npc_life._advance_ambience(1.0)
 	await tree.physics_frame
 	_check(player.world_location().zone_id == &"canyon.camp7", "李信 lets the listed stay")
-	_check(await MapPlaces.drive_to_zone(tree, gorge, &"canyon.camp8"), "on into the 将军营帐")
-	_check(_npc(gorge, &"canyon.npc.general").world_location().zone_id == &"canyon.camp8" and session.place_name(player.world_location()) == "天驼关 · 将军营帐", "严廷殷 and his 军师")
+	_check(await MapPlaces.drive_to_zone(tree, camp, &"canyon.camp8"), "on into the 将军营帐")
+	_check(_npc(camp, &"canyon.npc.general").world_location().zone_id == &"canyon.camp8" and session.place_name(player.world_location()) == "天驼关 · 将军营帐", "严廷殷 and his 军师")
 
 
 ## The 兵器库 (its way in is the swear, 天驼关 B): the 后备兵 there, and the way out east.

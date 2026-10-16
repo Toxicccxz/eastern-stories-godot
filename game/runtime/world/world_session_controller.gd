@@ -840,6 +840,12 @@ func world_map_of(map_id: StringName) -> WorldMapController:
 	return _resident_maps.get(map_id) as WorldMapController
 
 
+## The resident map a zone lies on (a shop's own since the remap); null when none is.
+func world_map_of_zone(zone_id: StringName) -> WorldMapController:
+	var zone: ZoneDefinition = GameContent.catalog().zone(zone_id)
+	return null if zone == null else world_map_of(zone.map_id)
+
+
 ## Every resident map, in content order (stable for saves).
 func world_maps() -> Array[WorldMapController]:
 	var result: Array[WorldMapController] = []
@@ -1252,6 +1258,17 @@ func move_npc_through(npc: NpcRuntimeState, source: WorldMapController, portal: 
 		return false
 	destination.npc_life.npc_arrived(npc)
 	return true
+
+
+## An NPC called over from a room on another map (ScriptedAct COMES): it leaves `source` and
+## stands on `destination` (the active map) in `zone_id`, clear of the player there. False
+## when it could not.
+func bring_npc_onto(npc: NpcRuntimeState, source: WorldMapController, destination: WorldMapController, zone_id: StringName) -> bool:
+	var location: WorldLocationState = destination.location_for_zone(zone_id)
+	if location == null:
+		return false
+	var near: Vector2 = destination.runtime_player_body().global_position
+	return _move_npc(npc, source, destination, location, _clear_spot(destination, zone_id, near))
 
 
 ## An NPC leaves `source` for `destination` (its record, body and all); when it cannot come

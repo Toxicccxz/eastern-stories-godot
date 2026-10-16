@@ -1,102 +1,102 @@
 {
 	"spawns": [
 		{
-			"id": "canyon.pass.camp1.door_guards",
-			"npc": "canyon.npc.door_guard",
-			"map": "canyon.pass",
-			"zone": "canyon.camp1",
-			"points": ["canyon.camp1.door_guard.1", "canyon.camp1.door_guard.2"],
-			"legacy_room": "d/canyon/camp1.c",
-			"legacy_quantity": 2
-		},
-		{
-			"id": "canyon.pass.camp3.guard1s",
-			"npc": "canyon.npc.guard1",
-			"map": "canyon.pass",
-			"zone": "canyon.camp3",
-			"points": ["canyon.camp3.guard1.1", "canyon.camp3.guard1.2"],
-			"legacy_room": "d/canyon/camp3.c",
-			"legacy_quantity": 2
-		},
-		{
-			"id": "canyon.pass.camp4.guard1s",
-			"npc": "canyon.npc.guard1",
-			"map": "canyon.pass",
-			"zone": "canyon.camp4",
-			"points": ["canyon.camp4.guard1.1", "canyon.camp4.guard1.2"],
-			"legacy_room": "d/canyon/camp4.c",
-			"legacy_quantity": 2
-		},
-		{
-			"id": "canyon.pass.camp4.guard2",
-			"npc": "canyon.npc.guard2",
-			"map": "canyon.pass",
-			"zone": "canyon.camp4",
-			"points": ["canyon.camp4.guard2.1"],
-			"legacy_room": "d/canyon/camp4.c",
-			"legacy_quantity": 1
-		},
-		{
-			"id": "canyon.pass.camp5.leader1s",
-			"npc": "canyon.npc.leader1",
-			"map": "canyon.pass",
-			"zone": "canyon.camp5",
-			"points": ["canyon.camp5.leader1.1", "canyon.camp5.leader1.2"],
-			"legacy_room": "d/canyon/camp5.c",
-			"legacy_quantity": 2
-		},
-		{
-			"id": "canyon.pass.camp6.captain",
-			"npc": "canyon.npc.captain",
-			"map": "canyon.pass",
-			"zone": "canyon.camp6",
-			"points": ["canyon.camp6.captain.1"],
-			"legacy_room": "d/canyon/camp6.c",
-			"legacy_quantity": 1
-		},
-		{
-			"id": "canyon.pass.camp6.leader2",
-			"npc": "canyon.npc.leader2",
-			"map": "canyon.pass",
-			"zone": "canyon.camp6",
-			"points": ["canyon.camp6.leader2.1"],
-			"legacy_room": "d/canyon/camp6.c",
-			"legacy_quantity": 1
-		},
-		{
-			"id": "canyon.pass.camp7.vice_general",
-			"npc": "canyon.npc.vice_general",
-			"map": "canyon.pass",
-			"zone": "canyon.camp7",
-			"points": ["canyon.camp7.vice_general.1"],
-			"legacy_room": "d/canyon/camp7.c",
-			"legacy_quantity": 1
-		},
-		{
-			"id": "canyon.pass.camp8.general",
-			"npc": "canyon.npc.general",
-			"map": "canyon.pass",
-			"zone": "canyon.camp8",
-			"points": ["canyon.camp8.general.1"],
-			"legacy_room": "d/canyon/camp8.c",
-			"legacy_quantity": 1
-		},
-		{
-			"id": "canyon.pass.camp8.adviser",
-			"npc": "canyon.npc.adviser",
-			"map": "canyon.pass",
-			"zone": "canyon.camp8",
-			"points": ["canyon.camp8.adviser.1"],
-			"legacy_room": "d/canyon/camp8.c",
-			"legacy_quantity": 1
-		},
-		{
 			"id": "canyon.armory.blackmarket.seller",
 			"npc": "canyon.npc.seller",
 			"map": "canyon.armory",
 			"zone": "canyon.blackmarket",
 			"points": ["canyon.blackmarket.seller.1"],
 			"legacy_room": "d/canyon/blackmarket.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "canyon.camp.camp1.door_guards",
+			"npc": "canyon.npc.door_guard",
+			"map": "canyon.camp",
+			"zone": "canyon.camp1",
+			"points": ["canyon.camp1.door_guard.1", "canyon.camp1.door_guard.2"],
+			"legacy_room": "d/canyon/camp1.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "canyon.camp.camp3.guard1s",
+			"npc": "canyon.npc.guard1",
+			"map": "canyon.camp",
+			"zone": "canyon.camp3",
+			"points": ["canyon.camp3.guard1.1", "canyon.camp3.guard1.2"],
+			"legacy_room": "d/canyon/camp3.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "canyon.camp.camp4.guard1s",
+			"npc": "canyon.npc.guard1",
+			"map": "canyon.camp",
+			"zone": "canyon.camp4",
+			"points": ["canyon.camp4.guard1.1", "canyon.camp4.guard1.2"],
+			"legacy_room": "d/canyon/camp4.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "canyon.camp.camp4.guard2",
+			"npc": "canyon.npc.guard2",
+			"map": "canyon.camp",
+			"zone": "canyon.camp4",
+			"points": ["canyon.camp4.guard2.1"],
+			"legacy_room": "d/canyon/camp4.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "canyon.camp.camp5.leader1s",
+			"npc": "canyon.npc.leader1",
+			"map": "canyon.camp",
+			"zone": "canyon.camp5",
+			"points": ["canyon.camp5.leader1.1", "canyon.camp5.leader1.2"],
+			"legacy_room": "d/canyon/camp5.c",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "canyon.camp.camp6.captain",
+			"npc": "canyon.npc.captain",
+			"map": "canyon.camp",
+			"zone": "canyon.camp6",
+			"points": ["canyon.camp6.captain.1"],
+			"legacy_room": "d/canyon/camp6.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "canyon.camp.camp6.leader2",
+			"npc": "canyon.npc.leader2",
+			"map": "canyon.camp",
+			"zone": "canyon.camp6",
+			"points": ["canyon.camp6.leader2.1"],
+			"legacy_room": "d/canyon/camp6.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "canyon.camp.camp7.vice_general",
+			"npc": "canyon.npc.vice_general",
+			"map": "canyon.camp",
+			"zone": "canyon.camp7",
+			"points": ["canyon.camp7.vice_general.1"],
+			"legacy_room": "d/canyon/camp7.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "canyon.camp.camp8.general",
+			"npc": "canyon.npc.general",
+			"map": "canyon.camp",
+			"zone": "canyon.camp8",
+			"points": ["canyon.camp8.general.1"],
+			"legacy_room": "d/canyon/camp8.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "canyon.camp.camp8.adviser",
+			"npc": "canyon.npc.adviser",
+			"map": "canyon.camp",
+			"zone": "canyon.camp8",
+			"points": ["canyon.camp8.adviser.1"],
+			"legacy_room": "d/canyon/camp8.c",
 			"legacy_quantity": 1
 		}
 	]

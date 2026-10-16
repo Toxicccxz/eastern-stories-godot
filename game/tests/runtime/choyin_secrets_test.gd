@@ -218,7 +218,7 @@ func _test_lion(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(Work.capture(session) != null, "Save holding the player's 忘忧草")
 	smell.interact()
 	await tree.physics_frame
-	_check(session.active_map_id() == &"cloud.outdoor" and player.world_location().zone_id == &"cloud.biaoju", "the wind carries the player to 振远镖局")
+	_check(session.active_map_id() == MapPlaces.map_of(&"cloud.biaoju") and player.world_location().zone_id == &"cloud.biaoju", "the wind carries the player to 振远镖局 (its own map)")
 	_check(hud.log_lines().has("一阵怪风骤然刮起，你仿佛腾云驾雾般。"), "the wind's line")
 	var town: WorldMapController = session.active_map() as WorldMapController
 	var chen: NpcRuntimeState = _npc(town, B_HEADER)

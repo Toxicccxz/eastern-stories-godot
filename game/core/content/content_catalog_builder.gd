@@ -24,6 +24,8 @@ var _doors: Dictionary[StringName, DoorDefinition] = {}
 var _landmarks: Dictionary[StringName, WorldLandmarkDefinition] = {}
 var _traps: Dictionary[StringName, RoomTrapDefinition] = {}
 var _hazards: Dictionary[StringName, RoomHazardDefinition] = {}
+# The NPCs a COMES step calls over (ContentCatalog.called_over()).
+var _called_over: Dictionary[StringName, bool] = {}
 var _exit_rules: Dictionary[StringName, ZoneExitRuleDefinition] = {}
 var _skills: Dictionary[StringName, SkillDefinition] = {}
 var _families: Dictionary[StringName, FamilyDefinition] = {}
@@ -175,6 +177,7 @@ func build() -> ContentCatalog:
 	catalog.set_world(_rooms, _regions, _maps, _zones, _portals)
 	catalog.set_places(_services, _doors, _landmarks, _traps)
 	catalog.set_hazards(_hazards)
+	catalog.set_called_over(_called_over)
 	catalog.set_exit_rules(_exit_rules)
 	catalog.set_item_spawns(_item_spawns)
 	catalog.set_pacing(_pacing)
@@ -807,6 +810,7 @@ func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false, drawn: b
 			_errors.append("%s: step %d needs the NPC of a greeting or one that came" % [origin, index])
 		if step.kind == ScriptedAct.Kind.COMES:
 			acting = true
+			_called_over[step.npc_id] = true
 			if not _npcs.has(step.npc_id) or not _zones.has(step.zone_id):
 				_errors.append("%s.comes: unknown NPC '%s' or zone '%s'" % [origin, step.npc_id, step.zone_id])
 		if step.kind == ScriptedAct.Kind.REINCARNATE and index != act.steps.size() - 1:

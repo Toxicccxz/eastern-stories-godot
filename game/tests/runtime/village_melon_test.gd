@@ -15,6 +15,8 @@ const MapPlaces := preload("res://tests/support/map_places.gd")
 const PICK: StringName = &"village.melonfarm.pick"
 const MELONER: StringName = &"village.npc.meloner"
 const MELON: StringName = &"es2:d/village/obj/melon"
+## The 瓜棚 is its own map since the remap (its door onto the 瓜地 and the road).
+const SHED: StringName = &"village.melonguard_house"
 const FLAG: String = "melon/catch_thief"
 const SETTLE: StringName = &"combat.settle.village.npc.meloner"
 const HELD: String = "你的去路被瓜农拦住了。"
@@ -113,7 +115,7 @@ func _test_pick(tree: SceneTree, session: WorldSessionController) -> void:
 	_pin(session, DOZING)
 	pick.interact()
 	_check(hud.log_lines().slice(-2) == [FOUND, "瓜农似乎正在打瞌睡，没有发现你的小动作。"] and _melons(session) == 1, "a melon, the 瓜农 dozing: %s" % [hud.log_lines().slice(-2)])
-	var shed: Array[NpcRuntimeState] = _meloners(map, &"village.melonguard")
+	var shed: Array[NpcRuntimeState] = _meloners(session, &"village.melonguard")
 	_check(shed.size() == 3, "three 瓜农 in the 瓜棚")
 	for npc: NpcRuntimeState in shed:
 		npc.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY: nobody watching
@@ -142,14 +144,15 @@ func _test_caught(tree: SceneTree, session: WorldSessionController) -> void:
 	hud.confirm_prompt.cancel_button.pressed.emit()
 	await tree.physics_frame
 	_check(source.call_count() == 0 and _melons(session) == 2, "取消: nothing drawn, nothing picked")
-	var catcher: NpcRuntimeState = _meloners(map, &"village.melonguard")[0]
+	var catcher: NpcRuntimeState = _meloners(session, &"village.melonguard")[0]
 	pick.interact()
 	await tree.physics_frame
 	hud.confirm_prompt.confirm_button.pressed.emit()
 	await tree.physics_frame
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	_check(_melons(session) == 3 and source.requested_bounds() == [20, 30, 20, 10], "found (the melon is the thief's either way)")
-	_check(catcher.world_location().zone_id == &"village.melonfarm" and _meloners(map, &"village.melonguard").size() == 2, "the first of them came over")
+	_check(catcher.world_location().zone_id == &"village.melonfarm" and _meloners(session, &"village.melonguard").size() == 2, "the first of them came over")
+	_check(map.find_resident_npc(catcher.character_id) == catcher and session.world_map_of(SHED).find_resident_npc(catcher.character_id) == null and map.runtime_body_for_character(catcher.character_id) != null, "out of his 瓜棚 (its own map) onto the 瓜地's, body and all")
 	_check(catcher.has_flag(StringName(FLAG)) and int(player.temp_marks.get(FLAG, 0)) == 1, "both marked melon/catch_thief")
 	_check(coordinator.has_active_encounter() and coordinator.active_encounter().mode == CombatEncounterMode.Value.LETHAL, "a fight to the death")
 	_check(hud.log_lines().has("糟糕，瓜农发现了你偷瓜，向这边冲过来！") and hud.log_lines().has(FOUND), "糟糕，瓜农发现了你偷瓜…")
@@ -184,7 +187,7 @@ func _test_caught(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(map.debts.last_lines == [SETTLED] and not coordinator.has_active_encounter(), "好，咱俩的账就算结了。: the fight is over")
 	_check(Finance.amount(money, CurrencyDenomination.Value.COIN) == 40 and Finance.amount(money, CurrencyDenomination.Value.SILVER) == 1, "60 文 paid")
 	_check(not catcher.has_flag(StringName(FLAG)) and int(player.temp_marks.get(FLAG, 0)) == 0, "both marks gone")
-	_check(catcher.world_location().zone_id == &"village.melonguard", "he went home: %s" % catcher.world_location().zone_id)
+	_check(catcher.world_location().zone_id == &"village.melonguard" and session.world_map_of(SHED).find_resident_npc(catcher.character_id) == catcher and map.find_resident_npc(catcher.character_id) == null, "he went home (into the 瓜棚's own map): %s" % catcher.world_location().zone_id)
 	hud.dismiss_current_panel()
 	for _frame: int in range(3):
 		await tree.physics_frame
@@ -203,7 +206,8 @@ func _test_held(tree: SceneTree, session: WorldSessionController) -> void:
 	if catcher == null:
 		return
 	_check(not await MapPlaces.drive_to_zone(tree, map, &"village.road4") and player.world_location().zone_id == &"village.melonfarm" and hud.log_lines().has(HELD), "north: 你的去路被瓜农拦住了。")
-	_check(not await MapPlaces.drive_to_zone(tree, map, &"village.melonguard") and player.world_location().zone_id == &"village.melonfarm", "south: held too")
+	var told: int = hud.log_lines().count(HELD)
+	_check(not await MapPlaces.take_passage(tree, map, &"village.melonfarm.south", 240) and session.active_map() == map and player.world_location().zone_id == &"village.melonfarm" and hud.log_lines().count(HELD) > told, "south (the 瓜棚's door, its own map): held too, told so")
 	var pick: ActService = map.service(PICK) as ActService
 	_check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, PICK)), "by the melons, held")
 	var snapshot: GameSaveSnapshot = Work.capture(session)
@@ -237,7 +241,7 @@ func _test_second_catch(tree: SceneTree, session: WorldSessionController) -> voi
 	var first: NpcRuntimeState = await _caught_and_fled(tree, session)
 	if first == null:
 		return
-	var second: NpcRuntimeState = _meloners(map, &"village.melonguard")[0]
+	var second: NpcRuntimeState = _meloners(session, &"village.melonguard")[0]
 	var original: WorldInteractionRandomSource = session.world_interaction_random_source()
 	_pin(session, CAUGHT)
 	(map.service(PICK) as ActService).interact()
@@ -264,14 +268,15 @@ func _test_second_catch(tree: SceneTree, session: WorldSessionController) -> voi
 func _test_lifted(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	var catcher: NpcRuntimeState = _meloners(map, &"village.melonguard")[0]
-	# TEST-ONLY: as a catch leaves it (the fight's own part is _test_caught's).
-	_check(map.npcs.bring_beside_player(catcher), "he came over")
+	var shed: WorldMapController = session.world_map_of(SHED)
+	var catcher: NpcRuntimeState = _meloners(session, &"village.melonguard")[0]
+	# TEST-ONLY: as a catch leaves it (the fight's own part is _test_caught's): out of the 瓜棚's map.
+	_check(session.bring_npc_onto(catcher, shed, map, &"village.melonfarm") and map.npcs.bring_beside_player(catcher), "he came over")
 	catcher.set_flag(StringName(FLAG), true)
 	player.temp_marks[FLAG] = 1
 	await tree.physics_frame
-	var other: NpcRuntimeState = _meloners(map, &"village.melonguard")[0]
-	_check(map.npcs.bring_beside_player(other), "TEST-ONLY: another 瓜农 stands by, unmarked")
+	var other: NpcRuntimeState = _meloners(session, &"village.melonguard")[0]
+	_check(session.bring_npc_onto(other, shed, map, &"village.melonfarm") and map.npcs.bring_beside_player(other), "TEST-ONLY: another 瓜农 stands by, unmarked")
 	await tree.physics_frame
 	_check(not await MapPlaces.drive_to_zone(tree, map, &"village.road4"), "held while he stands")
 	catcher.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY
@@ -279,9 +284,9 @@ func _test_lifted(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(await MapPlaces.drive_to_zone(tree, map, &"village.melonfarm"), "back in")
 	catcher.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
 	_check(not await MapPlaces.drive_to_zone(tree, map, &"village.road4"), "awake again: held")
-	catcher.set_world_location(map.location_for_zone(&"village.melonguard")) # TEST-ONLY: gone
+	_check(session.bring_npc_onto(catcher, map, shed, &"village.melonguard"), "TEST-ONLY: gone (into the 瓜棚, its own map)")
 	_check(await MapPlaces.drive_to_zone(tree, map, &"village.road4") and await MapPlaces.drive_to_zone(tree, map, &"village.melonfarm"), "he is gone: open")
-	catcher.set_world_location(map.location_for_zone(&"village.melonfarm"))
+	_check(session.bring_npc_onto(catcher, shed, map, &"village.melonfarm"), "TEST-ONLY: back in the 瓜地")
 	catcher.set_life_status(CharacterRuntimeLifeStatus.Value.DEAD) # TEST-ONLY
 	_check(await MapPlaces.drive_to_zone(tree, map, &"village.road4"), "he is dead: open (ES2 kept the thief in for good)")
 
@@ -292,7 +297,7 @@ func _test_death(tree: SceneTree, session: WorldSessionController) -> void:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	_check(await MapPlaces.drive_to_zone(tree, map, &"village.melonfarm") and await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, PICK)), "by the melons once more")
-	var catcher: NpcRuntimeState = _meloners(map, &"village.melonguard")[0]
+	var catcher: NpcRuntimeState = _meloners(session, &"village.melonguard")[0]
 	var original: WorldInteractionRandomSource = session.world_interaction_random_source()
 	_pin(session, CAUGHT)
 	(map.service(PICK) as ActService).interact()
@@ -316,7 +321,7 @@ func _caught_and_fled(tree: SceneTree, session: WorldSessionController) -> NpcRu
 	var pick: ActService = map.service(PICK) as ActService
 	_check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, PICK)), "by the melons")
 	var original: WorldInteractionRandomSource = session.world_interaction_random_source()
-	var catcher: NpcRuntimeState = _meloners(map, &"village.melonguard")[0]
+	var catcher: NpcRuntimeState = _meloners(session, &"village.melonguard")[0]
 	_pin(session, CAUGHT)
 	pick.interact()
 	session.configure_world_interaction_random_source(original)
@@ -375,10 +380,10 @@ func _melons(session: WorldSessionController) -> int:
 	return count
 
 
-## The 瓜农 standing in `zone_id`, in spawn order.
-func _meloners(map: WorldMapController, zone_id: StringName) -> Array[NpcRuntimeState]:
+## The 瓜农 standing in `zone_id`, in spawn order, on whichever map the zone lies (the 瓜棚's own).
+func _meloners(session: WorldSessionController, zone_id: StringName) -> Array[NpcRuntimeState]:
 	var found: Array[NpcRuntimeState] = []
-	for npc: NpcRuntimeState in map.resident_npcs():
+	for npc: NpcRuntimeState in session.world_map_of(MapPlaces.map_of(zone_id)).resident_npcs():
 		if npc.definition().definition_id == MELONER and npc.exists_in_map and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and npc.world_location().zone_id == zone_id:
 			found.append(npc)
 	return found
