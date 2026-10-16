@@ -433,6 +433,13 @@ func _test_revenge(tree: SceneTree, session: WorldSessionController) -> WorldSes
 	village = session.active_map() as WorldMapController
 	liu = _npc(village, LIU)
 	_check(liu.mood() != null and liu.short_name().begins_with("悲愤欲绝") and liu.character_state.applies.get("damage", 0) == 250, "Continue: still 悲愤欲绝")
+	# In his room with him, he falls on the player again (室内察觉: his hatred notices the room).
+	for _frame: int in range(3):
+		if coordinator.has_active_encounter():
+			break
+		await tree.process_frame
+	_check(coordinator.has_active_encounter() and liu.relationship.has_opponent(player.character_id), "Continue in his room: 纳命来 again")
+	_finish_fight(session)
 	session.reset_room("d/village/home.c")
 	_check(liu.mood() == null and not liu.short_name().contains("悲愤欲绝") and liu.character_state.applies.get("damage", 0) == 0 and not liu.has_flag(NpcDefinition.FLAG_HUNTS_PLAYER), "his room's reset: the grief is over (M7)")
 	# TEST-ONLY: out into the garden (the village's map) and back into the house (its own).
