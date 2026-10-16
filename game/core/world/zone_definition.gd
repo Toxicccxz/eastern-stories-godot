@@ -9,6 +9,8 @@ extends RefCounted
 ## 老松寨, cave5): its text is shown on arrival even from that neighbour. `refuses`: a
 ## carried item's command (RoomActDefinition.command) the room's own add_action() answers
 ## instead, with its line (d/choyin/club.c: pray and dancing fail in the hermit's hall).
+## `indoors`: a room inside (a building's, a tent, a cave, a dungeon): an aggressive NPC there
+## notices whoever is in the room (ES2 init()), not only who comes near it (DECISIONS「室内察觉」).
 const COMBAT_ENTRIES: Array[StringName] = [&"pair", &"complete_set"]
 
 var _zone_id: StringName
@@ -19,6 +21,7 @@ var _combat_entry: StringName = &"pair"
 var _link_ids: Array[StringName] = []
 var _distinct: bool = false
 var _refusals: Dictionary[String, String] = {}
+var _indoors: bool = false
 
 var zone_id: StringName:
 	get:
@@ -43,6 +46,9 @@ var combat_entry: StringName:
 var distinct: bool:
 	get:
 		return _distinct
+var indoors: bool:
+	get:
+		return _indoors
 
 
 func _init(
@@ -82,6 +88,7 @@ static func from_record(reader: ContentRecordReader) -> ZoneDefinition:
 		reader.boolean("distinct", false),
 	)
 	definition._refusals = reader.text_map("refuses")
+	definition._indoors = reader.boolean("indoors", false)
 	reader.finish()
 	if not COMBAT_ENTRIES.has(definition.combat_entry):
 		reader.fail("combat_entry", "unsupported combat entry '%s'" % definition.combat_entry)
@@ -92,6 +99,7 @@ static func from_record(reader: ContentRecordReader) -> ZoneDefinition:
 func with_primary_room(room: RoomDefinition) -> ZoneDefinition:
 	var copy := ZoneDefinition.new(_zone_id, _map_id, _room_ids, room, _combat_entry, _link_ids, _distinct)
 	copy._refusals = _refusals.duplicate()
+	copy._indoors = _indoors
 	return copy
 
 

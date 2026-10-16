@@ -13,8 +13,8 @@
 		{ "id": "death.gate", "map": "death.realm", "rooms": ["es2:d/death/gate"] },
 		{ "id": "death.gateway", "map": "death.realm", "rooms": ["es2:d/death/gateway"] },
 		{ "id": "death.road1", "map": "death.realm", "rooms": ["es2:d/death/road1"] },
-		{ "id": "death.inn1", "map": "death.inn1_house", "rooms": ["es2:d/death/inn1"] },
-		{ "id": "death.inn2", "map": "death.inn2_house", "rooms": ["es2:d/death/inn2"] },
+		{ "id": "death.inn1", "map": "death.inn1_house", "indoors": true, "rooms": ["es2:d/death/inn1"] },
+		{ "id": "death.inn2", "map": "death.inn2_house", "indoors": true, "rooms": ["es2:d/death/inn2"] },
 		{ "id": "death.road2", "map": "death.realm", "rooms": ["es2:d/death/road2"], "distinct": true },
 		{ "id": "death.road3", "map": "death.realm", "rooms": ["es2:d/death/road3"] }
 	],

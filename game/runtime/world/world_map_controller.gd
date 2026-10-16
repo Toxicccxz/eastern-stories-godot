@@ -407,6 +407,7 @@ func prepare_for_deactivation() -> void:
 	clear_passage_contacts()
 	selection.selected_target = null
 	hostilities.aggression.clear_all()
+	hostilities.room_present.clear()
 	hostilities.toll_contact_seconds.clear()
 	hostilities.toll_waiting.clear()
 	if hud() != null:
@@ -875,6 +876,7 @@ func _process(delta: float) -> void:
 	# aggression wait too.
 	if session != null and (session.world_time_held() or session.presentation_frozen()):
 		return
+	hostilities.refresh_room_presence()
 	for npc: NpcRuntimeState in npcs.residents:
 		if WorldMapHostilities.zone_entry(npc.world_location()) == &"complete_set" and not hostilities.complete_entry_contact(npc.character_id):
 			hostilities.complete_set_consumed_contacts.erase(npc.character_id)

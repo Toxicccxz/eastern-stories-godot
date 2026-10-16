@@ -325,8 +325,7 @@
 			"zone": "choyin.lionroom",
 			"points": ["choyin.lionroom.lion.1"],
 			"legacy_room": "d/choyin/lionroom.c",
-			"legacy_quantity": 1,
-			"presence_radius": 400
+			"legacy_quantity": 1
 		},
 		{
 			"id": "choyin.hotel_house.hotel1.boss",

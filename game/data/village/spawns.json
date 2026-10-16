@@ -47,8 +47,7 @@
 				"village.lakebottom2.dragon.6"
 			],
 			"legacy_room": "d/village/lakebottom2.c",
-			"legacy_quantity": 6,
-			"presence_radius": 260
+			"legacy_quantity": 6
 		},
 		{
 			"id": "village.farmhouse_house.fmhousback.woman1",
