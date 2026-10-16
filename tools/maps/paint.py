@@ -40,7 +40,7 @@ A layout's `maps` entry names its scene `file` under game/scenes/world/<region>/
   a technique's `base` filler (the bare `boundary`; a wild map's forest or cliff is terrain) is
   kept only within a skirt of walkable ground, a backdrop of its colour behind.
 * `scene`: the skeleton `style` (map or flat, see scene.py), the root node name, the `map` id,
-  `player_color`, camera `limits` (default: the drawing's bounds) or `zoom`, the `shapes`, and the
+  `player_color`, camera `limits` (default: the drawing's bounds, or where a trimmed map's tiles end) or `zoom`, the `shapes`, and the
   node lists `nodes` (after the tile layers), `zones`, `spawn_points` and `interactions`. A list
   item is a node block (`node` names the builder in scene.py; in zones, spawn_points and
   interactions it defaults to zone, marker and landmark) or {"generated": name} for what the
@@ -65,7 +65,7 @@ from pathlib import Path
 from . import canvas, cells, fills, standard, town
 from . import scene as sc
 from .region import Region
-from .tiles import BACKDROP
+from .tiles import BACKDROP, T
 
 REPOSITORY = Path(__file__).resolve().parents[2]
 LAYOUTS = Path(__file__).resolve().parent / 'layouts'
@@ -96,6 +96,13 @@ def paint_map(region: Region, entry: dict, notes: list | None = None) -> str:
         zones = [v[:4] for v in entry['draw'].get('zones', {}).values() if isinstance(v, list)]
         standard.trim_filler(drawn.tiles, entry['draw']['base'], zones)
         backdrop = BACKDROP[entry['draw']['base']]
+    # The camera stops where the tiles end (WorldMapController.frame_camera() does the same
+    # from the used cells); the backdrop still covers the drawing's bounds.
+    limits = drawn.bounds
+    cells = list(drawn.tiles.ground) + list(drawn.tiles.structures)
+    if backdrop and cells:
+        xs, ys = [c[0] for c in cells], [c[1] for c in cells]
+        limits = (min(xs) * T, min(ys) * T, (max(xs) + 1) * T, (max(ys) + 1) * T)
     interior = entry['draw'].get('interior')
     if interior:
         for other in interior['larger_than']:
@@ -138,7 +145,8 @@ def paint_map(region: Region, entry: dict, notes: list | None = None) -> str:
         interactions = sc.render(scene.get('interactions', []), 'landmark', style, fragments)
         has_services = any(n.get('node') == 'service' for n in scene.get('nodes', []))
         text = sc.map_scene(scene['root'], scene['map'], sizes, nodes, zones, points, interactions,
-                            scene.get('limits', drawn.bounds), scene['player_color'], has_doors, has_services, backdrop)
+                            scene.get('limits', limits), scene['player_color'], has_doors, has_services,
+                            (backdrop, drawn.bounds) if backdrop else None)
     else:
         text = sc.flat_scene(scene['root'], scene['map'], sizes, nodes, zones, points,
                              scene['player_color'], scene['zoom'], has_doors)

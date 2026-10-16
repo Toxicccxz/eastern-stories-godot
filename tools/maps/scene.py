@@ -168,10 +168,10 @@ def header(style: str, doors: bool, services: bool = False) -> str:
 
 def map_scene(root, map_id, sizes, nodes, zones, spawn_points, interactions, limits, player_color, doors=False,
               services=False, backdrop=None):
-    """`backdrop`: the colour drawn behind the tiles over the camera limits (a trimmed filler)."""
+    """`backdrop`: (colour, box) drawn behind the tiles, a trimmed filler's colour over the drawing."""
     sizes = dict(sizes)
     sizes['Rect_34_34'] = (34, 34)
-    behind = rect('Backdrop', limits, backdrop, parent='.') if backdrop else ''
+    behind = rect('Backdrop', backdrop[1], backdrop[0], parent='.') if backdrop else ''
     return (header('map', doors, services) + shapes(sizes) +
             f'[node name="{root}" type="Node2D"]\nscript = ExtResource("map")\nmap = &"{map_id}"\n\n' + behind +
             '[node name="Terrain" type="Node2D" parent="."]\n\n'

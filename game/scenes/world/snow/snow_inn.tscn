@@ -25,9 +25,9 @@ script = ExtResource("map")
 map = &"snow.inn"
 
 [node name="Backdrop" type="ColorRect" parent="."]
-offset_left = -576
+offset_left = -480
 offset_top = -352
-offset_right = 576
+offset_right = 480
 offset_bottom = 352
 mouse_filter = 2
 color = Color(0.17, 0.2, 0.14, 1)

@@ -225,10 +225,10 @@ theme_override_font_sizes/font_size = 16
 
 [node name="Camera2D" type="Camera2D" parent="Characters/Player"]
 enabled = false
-limit_left = 0
-limit_top = 0
-limit_right = 1024
-limit_bottom = 448
+limit_left = 48
+limit_top = 48
+limit_right = 976
+limit_bottom = 400
 position_smoothing_enabled = true
 position_smoothing_speed = 6.0
 

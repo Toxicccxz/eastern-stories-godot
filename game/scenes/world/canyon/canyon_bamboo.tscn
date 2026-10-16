@@ -196,7 +196,7 @@ enabled = false
 limit_left = -32
 limit_top = -32
 limit_right = 416
-limit_bottom = 1056
+limit_bottom = 1040
 position_smoothing_enabled = true
 position_smoothing_speed = 6.0
 

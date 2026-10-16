@@ -1358,8 +1358,8 @@ theme_override_font_sizes/font_size = 16
 enabled = false
 limit_left = -1472
 limit_top = -1888
-limit_right = 1936
-limit_bottom = 992
+limit_right = 1920
+limit_bottom = 976
 position_smoothing_enabled = true
 position_smoothing_speed = 6.0
 
