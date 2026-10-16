@@ -30,6 +30,7 @@ func load_and_apply() -> ApplicationSettingsServiceResult:
 		if not _localization.is_known(requested.language()):
 			requested = requested.with_language(LocalizationService.FOLLOW_SYSTEM)
 		_localization.apply(requested.language())
+	_apply_battle(requested)
 	if not _window_capability.can_edit_window_mode():
 		_committed = requested
 		return ApplicationSettingsServiceResult.new(
@@ -112,6 +113,33 @@ func apply_and_persist_language(language: String) -> ApplicationSettingsServiceR
 		repository_result.outcome(),
 		_committed,
 	)
+
+
+## The 战斗速度 and 受击闪红 (BattlePace) at once, kept with the other settings.
+func apply_and_persist_battle(speed: int, flash: bool) -> ApplicationSettingsServiceResult:
+	if not BattlePace.is_valid(speed):
+		return ApplicationSettingsServiceResult.new(
+			ApplicationSettingsServiceResult.Outcome.APPLY_FAILURE,
+			ApplicationSettingsResult.Outcome.INVALID_SETTINGS,
+			_committed,
+		)
+	_committed = _committed.with_battle(speed, flash)
+	_apply_battle(_committed)
+	var repository_result: ApplicationSettingsResult = _repository.write(_committed)
+	return ApplicationSettingsServiceResult.new(
+		(
+			ApplicationSettingsServiceResult.Outcome.SUCCESS
+			if repository_result.succeeded()
+			else ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE
+		),
+		repository_result.outcome(),
+		_committed,
+	)
+
+
+static func _apply_battle(settings: ApplicationSettingsSnapshot) -> void:
+	BattlePace.speed = settings.battle_speed()
+	BattlePace.hit_flash = settings.hit_flash()
 
 
 func committed_snapshot() -> ApplicationSettingsSnapshot:

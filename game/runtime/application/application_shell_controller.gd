@@ -40,6 +40,10 @@ signal interaction_changed
 @onready var window_mode_option: OptionButton = %WindowModeOption
 @onready var language_row: Control = %LanguageRow
 @onready var language_option: OptionButton = %LanguageOption
+## 战斗速度 and 受击闪红 (BattlePace, DECISIONS「手感」): on every platform.
+@onready var battle_speed_row: Control = %BattleSpeedRow
+@onready var battle_speed_option: OptionButton = %BattleSpeedOption
+@onready var hit_flash_check: CheckButton = %HitFlashCheck
 @onready var settings_status_label: Label = %SettingsStatusLabel
 @onready var settings_apply_button: Button = %SettingsApplyButton
 @onready var settings_cancel_button: Button = %SettingsCancelButton
@@ -216,7 +220,9 @@ func _ready() -> void:
 	_show_window_title()
 	_configure_window_mode_options()
 	_configure_language_options()
-	window_mode_option.get_popup().window_input.connect(_popup_system_input)
+	_configure_battle_options()
+	window_mode_option.get_popup().window_input.connect(_popup_system_input.bind(window_mode_option))
+	battle_speed_option.get_popup().window_input.connect(_popup_system_input.bind(battle_speed_option))
 	# Pad support (owner, ROADMAP "After the grey box" step 2): last, so it sees every
 	# input event before the touch adapter takes touches.
 	add_child(PadSupport.new())
@@ -350,15 +356,15 @@ func set_exit_capability(capability: ApplicationExitCapability) -> void:
 		_exit_capability = capability
 
 
-func _popup_system_input(event: InputEvent) -> void:
+func _popup_system_input(event: InputEvent, option: OptionButton) -> void:
 	if not interaction_allowed():
 		_release_transition_actions()
-		window_mode_option.get_popup().set_input_as_handled()
+		option.get_popup().set_input_as_handled()
 		return
 	# A native/embedded Popup is its own Viewport and receives focused input before
 	# the root. Keep the same Shell policy rather than inventing a popup-state flag.
 	if event.is_action(&"system_back"):
-		window_mode_option.get_popup().set_input_as_handled()
+		option.get_popup().set_input_as_handled()
 		if event.is_action_pressed(&"system_back"):
 			_handle_system_back()
 
@@ -369,9 +375,10 @@ func _handle_system_back() -> void:
 	if _state.mode() in [ApplicationShellState.Mode.BOOT, ApplicationShellState.Mode.STARTING_SESSION, ApplicationShellState.Mode.SAVING] or (_host != null and _host.request_pending()):
 		return
 	input_context_changing.emit()
-	if window_mode_option.get_popup().visible:
-		window_mode_option.get_popup().hide()
-		return
+	for option: OptionButton in [window_mode_option, battle_speed_option]:
+		if option.get_popup().visible:
+			option.get_popup().hide()
+			return
 	match _state.mode():
 		ApplicationShellState.Mode.RESULT:
 			dismiss_current_result()
@@ -607,8 +614,14 @@ func apply_settings() -> bool:
 			settings_status_label.text = "无法切换到这种语言。"
 			_select_committed_language()
 			return false
+	var committed: ApplicationSettingsSnapshot = _settings_service.committed_snapshot()
+	if battle_speed_option.get_selected_id() != committed.battle_speed() or hit_flash_check.button_pressed != committed.hit_flash():
+		var battle: ApplicationSettingsServiceResult = _settings_service.apply_and_persist_battle(battle_speed_option.get_selected_id(), hit_flash_check.button_pressed)
+		if battle.outcome() == ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE:
+			settings_status_label.text = "战斗设置已生效，但未能保存。"
+			return false
 	if not _settings_service.can_edit_window_mode():
-		if language_row.visible:
+		if language_row.visible or battle_speed_row.visible:
 			settings_status_label.text = ""
 			return _return_from_settings(_state.settings_origin())
 		settings_status_label.text = "窗口模式由这个平台管理。"
@@ -643,6 +656,7 @@ func _open_settings(origin: int) -> bool:
 	settings_status_label.text = ""
 	_select_committed_window_mode()
 	_select_committed_language()
+	_select_committed_battle()
 	return _set_state(ApplicationShellState.settings(origin))
 
 
@@ -1076,7 +1090,9 @@ func _render_state(defer_focus: bool = true) -> void:
 	# Shown on every platform, also while Simplified Chinese is the only language.
 	language_row.visible = _localization != null
 	language_option.disabled = not settings_interactive or not language_row.visible
-	settings_apply_button.visible = window_mode_row.visible or language_row.visible
+	battle_speed_option.disabled = not settings_interactive
+	hit_flash_check.disabled = not settings_interactive
+	settings_apply_button.visible = window_mode_row.visible or language_row.visible or battle_speed_row.visible
 	settings_apply_button.disabled = not settings_interactive
 	settings_cancel_button.disabled = not settings_interactive
 	status_label.text = (
@@ -1179,6 +1195,25 @@ func _configure_language_options() -> void:
 	_select_committed_language()
 
 
+## 慢, 标准, 快 (BattlePace.Speed as the ids).
+func _configure_battle_options() -> void:
+	battle_speed_option.clear()
+	battle_speed_option.add_item("慢", BattlePace.Speed.SLOW)
+	battle_speed_option.add_item("标准", BattlePace.Speed.NORMAL)
+	battle_speed_option.add_item("快", BattlePace.Speed.FAST)
+	_select_committed_battle()
+
+
+func _select_committed_battle() -> void:
+	if battle_speed_option == null or _settings_service == null:
+		return
+	var committed: ApplicationSettingsSnapshot = _settings_service.committed_snapshot()
+	var index: int = battle_speed_option.get_item_index(committed.battle_speed())
+	if index >= 0:
+		battle_speed_option.select(index)
+	hit_flash_check.set_pressed_no_signal(committed.hit_flash())
+
+
 func _selected_language() -> String:
 	var index: int = language_option.selected
 	return LocalizationService.FOLLOW_SYSTEM if index < 0 else String(language_option.get_item_metadata(index))
@@ -1217,6 +1252,8 @@ func _all_shell_focus_controls() -> Array[Control]:
 		return_button,
 		language_option,
 		window_mode_option,
+		battle_speed_option,
+		hit_flash_check,
 		settings_apply_button,
 		settings_cancel_button,
 		backup_recovery_button,
@@ -1255,6 +1292,7 @@ func _configure_active_focus_cycle(mode: int) -> void:
 				controls.append(window_mode_option)
 			if language_row.visible:
 				controls.append(language_option)
+			controls.append_array([battle_speed_option, hit_flash_check])
 			if settings_apply_button.visible:
 				controls.append(settings_apply_button)
 			controls.append(settings_cancel_button)

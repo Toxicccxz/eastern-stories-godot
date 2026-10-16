@@ -34,6 +34,20 @@ var _shown_participants: Array[StringName] = []
 var _title: Label
 ## kill_ob()'s 看起来X想杀死你！ lines, pinned under the title for the whole fight.
 var _warning: Label
+## The feel (DECISIONS「手感」): a round's lines are told one after another
+## (battle_line_ms), the cards follow once they are, and a fight's end holds the panel
+## on its last lines (battle_end_hold_ms) before the result and the world come back.
+const END_HOLD: StringName = &"battle_end"
+var _line_queue: Array[BattleNarrationLine] = []
+var _told: Array[BattleNarrationLine] = []
+var _line_wait: float = 0.0
+var _line_spacing: float = 0.0
+var _hold_left: float = 0.0
+var _held_result: String = ""
+var _hold_shield: Control
+## The cards take the finished fight's last 气 once its last lines are told.
+var _final_cards: bool = false
+var _fade: Tween
 var _recent: VBoxContainer
 var _receipt: Label
 var _yielded_hud: CanvasLayer
@@ -82,8 +96,72 @@ func _exit_tree() -> void:
 	_restore_world_hud()
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	refresh_projection()
+	_tell_lines(delta)
+	if _holding():
+		_hold_left -= delta
+		if _hold_left <= 0.0 and _line_queue.is_empty():
+			_end_hold()
+
+
+## The fight is over and the panel still shows its last lines.
+func _holding() -> bool:
+	return not _held_result.is_empty()
+
+
+func _end_hold() -> void:
+	var text: String = _held_result
+	_held_result = ""
+	_hold_left = 0.0
+	_final_cards = false
+	_hold_shield.visible = false
+	if _session != null:
+		_session.hold_presentation(END_HOLD, false)
+	if not _projection.active:
+		hide()
+		_restore_world_hud()
+	var hud: SharedGameplayUI = null if _session == null else _session.shared_ui()
+	if hud != null:
+		hud.show_combat_result(text)
+
+
+## The next waiting line joins the recent strip: battle_line_ms apart, closer when more wait
+## than a round leaves time for (they are all told before the next round's).
+func _tell_lines(delta: float) -> void:
+	if _line_queue.is_empty():
+		return
+	var spacing: float = _line_spacing
+	_line_wait -= delta
+	while not _line_queue.is_empty() and (spacing <= 0.0 or _line_wait <= 0.0):
+		_told.append(_line_queue.pop_front())
+		if spacing > 0.0:
+			_line_wait += spacing
+	if _told.size() > BattleFeedbackReader.RECENT_LINES:
+		_told = _told.slice(_told.size() - BattleFeedbackReader.RECENT_LINES)
+	_present_recent(_told)
+	if _line_queue.is_empty():
+		_line_wait = 0.0
+		if _projection.active:
+			_present_participants()
+		elif _final_cards:
+			_settle_final_cards()
+
+
+func _settle_final_cards() -> void:
+	_final_cards = false
+	for index: int in mini(_cards.size(), _shown_participants.size()):
+		var vitality: CharacterResourceState = _session.encounter_vitality(_shown_participants[index])
+		if vitality != null:
+			_cards[index].show_final_vitality(vitality)
+
+
+func _queue_lines(lines: Array[BattleNarrationLine]) -> void:
+	_line_queue.append_array(lines)
+	# Set as they come: what waits is told within nine tenths of a round.
+	var round_seconds: float = BattlePace.real_seconds(GameContent.catalog().pacing().combat_round_seconds)
+	_line_spacing = minf(GameContent.catalog().pacing().feel.battle_line_seconds, round_seconds * 0.9 / float(_line_queue.size()))
+	_tell_lines(0.0)
 
 
 func current_projection() -> BattlePresentationProjection:
@@ -103,14 +181,22 @@ func refresh_projection() -> void:
 		log_panel.close_log()
 		_receipt.text = ""
 		if _projection.active:
+			if _holding():
+				# A new fight before the last one's lines were done: its result now.
+				_end_hold()
 			log_panel.clear_entries()
 			_warning.text = ""
 			_warning.visible = false
+			_line_queue.clear()
+			_told.clear()
+			_line_wait = 0.0
 			if _intent == null:
 				_intent = BattleIntentAdapter.new(_session.combat_encounter_coordinator(), _projection.player_id)
-			_yield_world_hud()
+			if not visible:
+				_yield_world_hud()
+				_fade_in()
 			show()
-		else:
+		elif not _holding():
 			hide()
 			_restore_world_hud()
 	var entries: Array[BattleFeedbackProjection] = []
@@ -131,16 +217,18 @@ func refresh_projection() -> void:
 	if _projection.completion_outcome >= 0:
 		_title.text = "战斗无法正常结束，不会自动重试。"
 	_title.tooltip_text = _title.text
+	# The round's lines first: its blows wait on the cards until they are told.
+	if not entries.is_empty():
+		log_panel.append_entries(entries)
+		for entry: BattleFeedbackProjection in entries:
+			_queue_lines(entry.lines())
+	elif changed:
+		_present_recent([BattleNarrationLine.new(tr("战斗描写会显示在这里。"))])
 	_present_participants()
 	var others: Array[StringName] = _target_ids()
 	others.erase(_projection.current_target_id)
 	target_hints.set_hints([[[&"battle_target_previous", &"battle_target_next"], tr("换目标")]] if not others.is_empty() else [])
 	action_panel.present(_projection)
-	if not entries.is_empty():
-		log_panel.append_entries(entries)
-		_present_recent(_reader.recent())
-	elif changed:
-		_present_recent([BattleNarrationLine.new(tr("战斗描写会显示在这里。"))])
 	if changed:
 		_focus_battle.call_deferred()
 	elif not log_panel.visible:
@@ -179,7 +267,26 @@ func _present_completed_result() -> void:
 	log_panel.append_entries(entries)
 	for line: BattleNarrationLine in _reader.recent_events():
 		text += "\n" + line.text
-	hud.show_combat_result(text)
+	var hold: float = GameContent.catalog().pacing().feel.battle_end_hold_seconds
+	if _holding():
+		# Another fight ended before the last one's result was out: that one first.
+		_end_hold()
+	if hold <= 0.0 or not visible:
+		hud.show_combat_result(text)
+		return
+	# The panel stays on the fight's last lines, the world held, then the result.
+	_final_cards = true
+	for entry: BattleFeedbackProjection in entries:
+		_queue_lines(entry.lines())
+	if _line_queue.is_empty():
+		_settle_final_cards()
+	_held_result = text
+	_hold_left = hold
+	_hold_shield.visible = true
+	var focused: Control = get_viewport().gui_get_focus_owner()
+	if focused != null and is_ancestor_of(focused):
+		focused.release_focus()
+	_session.hold_presentation(END_HOLD, true)
 
 
 func _build() -> void:
@@ -275,6 +382,13 @@ func _build() -> void:
 	log_panel.name = "CombatLog"
 	log_panel.closed.connect(_focus_battle)
 	add_child(log_panel)
+	# Over the panel while it holds a finished fight's last lines: nothing is pressed then.
+	_hold_shield = Control.new()
+	_hold_shield.name = "EndHoldShield"
+	_hold_shield.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_hold_shield.mouse_filter = Control.MOUSE_FILTER_STOP
+	_hold_shield.visible = false
+	add_child(_hold_shield)
 
 
 func _apply_metrics(metrics: SafeAreaMetrics) -> void:
@@ -321,9 +435,11 @@ func _present_participants() -> void:
 			card.target_requested.connect(_change_target)
 			_participants.add_child(card)
 			_cards.append(card)
+	# A blow's 气 shows once its line is told (DECISIONS「手感」).
+	var told: bool = _line_queue.is_empty()
 	for index: int in values.size():
 		var queued: CombatQueuedAction = _projection.queued_action()
-		_cards[index].present(values[index], _projection.player_id, _projection.current_target_id, &"" if queued == null else queued.resolved_target_id)
+		_cards[index].present(values[index], _projection.player_id, _projection.current_target_id, &"" if queued == null else queued.resolved_target_id, not told)
 
 
 func _present_recent(lines: Array[BattleNarrationLine]) -> void:
@@ -367,6 +483,8 @@ func _mode_name(mode: int) -> String:
 ## answered 取消, else the planned action is dropped. Esc stays the pause.
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_visible_in_tree() or not _projection.active or event.is_echo() or not event.is_pressed() or get_tree().paused:
+		if _holding() and is_visible_in_tree() and not event.is_action(&"pause_game"):
+			get_viewport().set_input_as_handled()
 		return
 	if event.is_action_pressed(&"battle_log"):
 		if log_panel.visible:
@@ -510,7 +628,8 @@ func _enforce(points: int) -> void:
 	if lines.is_empty():
 		return
 	log_panel.append_entries([BattleFeedbackProjection.new(_reader.last_consumed_order, lines)])
-	_present_recent(_reader.note(lines))
+	_reader.note(lines)
+	_queue_lines(lines)
 
 
 func _cancel_action(expected_request_id: StringName) -> void:
@@ -524,6 +643,17 @@ func _cancel_action(expected_request_id: StringName) -> void:
 
 func _open_log() -> void:
 	log_panel.open_log()
+
+
+## The panel fades in over the feel's menu_fade_ms, as the menu does.
+func _fade_in() -> void:
+	if _fade != null and _fade.is_valid():
+		_fade.kill()
+	var seconds: float = GameContent.catalog().pacing().feel.menu_fade_seconds
+	modulate.a = 0.0 if seconds > 0.0 else 1.0
+	if seconds > 0.0:
+		_fade = create_tween()
+		_fade.tween_property(self, "modulate:a", 1.0, seconds)
 
 
 func _focus_battle() -> void:

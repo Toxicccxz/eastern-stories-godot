@@ -4,14 +4,13 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**现代化修正 III B1「手感：世界」** (`phase/feel`, DECISIONS「手感」): ROADMAP "After the grey box"
-step 1, after A「等待」 (#127, DECISIONS「响应性」). A walked passage fades out and in under a
-world-time hold and names the place; the camera snaps on arrival and keeps inside the map; the walk
-eases in and out on round bodies that slide along walls, with a facing notch; a ring and a prompt
-mark what A goes to; NPCs' chat, greetings, stories and the robber's red shout show over their
-heads; the menu fades in. Every time is a `pacing.json` `feel` knob (0 = the old look). Next: B2
-「手感：战斗」 (慢/标准/快 battle speed in the settings, lines 0.12 s apart, bar tweens, hit flash,
-0.8 s end hold; 朱鸿雪's task time counts a fight by rounds); 声望 stays a placeholder until step 6.
+**现代化修正 III B2「手感：战斗」** (`phase/feel-battle`, DECISIONS「手感：战斗」): the last package of
+ROADMAP "After the grey box" step 1, after A「等待」 (#127) and B1「世界」 (#128: fades, banner,
+camera, walk, prompts, bubbles). The settings' 战斗速度 (慢/标准/快) stretches only the real seconds of
+a fight's own clock (its rounds, and 朱鸿雪's task time while it runs, count the same); a round's
+lines come 0.12 s apart, the cards follow them with a moving 气 bar and a red flash (受击闪红 can be
+turned off), and a fight's end holds its last lines 0.8 s with the world held. Every time is a
+`pacing.json` `feel` knob. Next: step 3, the playtest checklist; 声望 stays a placeholder until step 6.
 
 ## 待决定
 

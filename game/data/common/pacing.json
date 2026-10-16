@@ -20,7 +20,13 @@
 			"move_stop_ms": 60,
 			"speech_bubble_ms": 2500,
 			"speech_bubble_char_ms": 60,
-			"menu_fade_ms": 120
+			"menu_fade_ms": 120,
+			"battle_slow_percent": 150,
+			"battle_fast_percent": 60,
+			"battle_line_ms": 120,
+			"bar_tween_ms": 250,
+			"hit_flash_ms": 150,
+			"battle_end_hold_ms": 800
 		}
 	}
 }

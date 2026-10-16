@@ -320,6 +320,14 @@ msgid "语言"
 msgstr ""
 
 #: scenes/application/application_shell.tscn
+msgid "战斗速度"
+msgstr ""
+
+#: scenes/application/application_shell.tscn
+msgid "受击闪红"
+msgstr ""
+
+#: scenes/application/application_shell.tscn
 msgid "应用"
 msgstr ""
 
@@ -5560,12 +5568,6 @@ msgid "参战"
 msgstr ""
 
 #: presentation/battle/battle_participant_card.gd
-msgid ""
-"气 %s\n"
-"精 %s · 神 %s"
-msgstr ""
-
-#: presentation/battle/battle_participant_card.gd
 msgid "当前／有效／上限"
 msgstr ""
 
@@ -5604,6 +5606,12 @@ msgstr ""
 
 #: presentation/battle/battle_participant_card.gd
 msgid "昏迷"
+msgstr ""
+
+#: presentation/battle/battle_participant_card.gd
+msgid ""
+"气 %s\n"
+"精 %s · 神 %s"
 msgstr ""
 
 #. asked before 天邪虎啸 (roar.c) in a fight: everyone here who does not withstand it turns on the player to the death.
@@ -5650,11 +5658,11 @@ msgid "战斗无法正常结束，不会自动重试。"
 msgstr ""
 
 #: presentation/battle/battle_presentation_controller.gd
-msgid "换目标"
+msgid "战斗描写会显示在这里。"
 msgstr ""
 
 #: presentation/battle/battle_presentation_controller.gd
-msgid "战斗描写会显示在这里。"
+msgid "换目标"
 msgstr ""
 
 #. the damage behind a battle line, as BattleNarrationLine.rich_text() shows it.
@@ -6158,6 +6166,10 @@ msgid "无法切换到这种语言。"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
+msgid "战斗设置已生效，但未能保存。"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
 msgid "窗口模式已在本次运行中生效，但这项设置未能保存。"
 msgstr ""
 
@@ -6203,6 +6215,18 @@ msgstr ""
 
 #: runtime/application/application_shell_controller.gd
 msgid "跟随系统"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "慢"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "标准"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "快"
 msgstr ""
 
 #: runtime/combat_encounter/combat_encounter_coordinator.gd runtime/world/map/world_map_hostilities.gd

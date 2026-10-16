@@ -124,6 +124,10 @@ func liquid_collection() -> LiquidCollection:
 
 
 func _process(delta: float) -> void:
+	if presentation_frozen():
+		_sync_ghost_sight()
+		advance_journal(delta)
+		return
 	if world_time_held():
 		_process_held(delta)
 		return
@@ -131,15 +135,19 @@ func _process(delta: float) -> void:
 	var world_delta: float = _world_delta(delta)
 	advance_player_recovery(delta)
 	advance_player_timed_applies(world_delta)
-	advance_quest_time(world_delta)
+	# A fight's own clock (BattlePace, owner B Q2): its rounds cost the task their
+	# combat_round_ms whatever the 战斗速度.
+	var fighting: bool = _combat_encounter_coordinator != null and _combat_encounter_coordinator.has_active_encounter()
+	advance_quest_time(BattlePace.fight_seconds(delta) if fighting else world_delta)
 	advance_npc_heartbeat(world_delta)
 	advance_hidden_passages(world_delta)
 	advance_room_hazards(world_delta)
 	advance_room_resets(world_delta)
 	if _initialized and _combat_encounter_coordinator != null:
-		_combat_encounter_coordinator.advance_scheduler(delta)
+		_combat_encounter_coordinator.advance_scheduler(BattlePace.fight_seconds(delta))
 		advance_departure()
-	_advance_life_flow(world_delta)
+	# One lying unconscious while the fight goes on wakes on its clock (BattlePace).
+	_advance_life_flow(BattlePace.fight_seconds(delta) if fighting else world_delta)
 	_advance_reincarnation()
 	_sync_ghost_sight()
 	advance_journal(delta)
@@ -154,7 +162,7 @@ func _process_held(delta: float) -> void:
 	if _player != null and _player.busy.is_busy():
 		advance_player_recovery(delta, true)
 	if _initialized and _combat_encounter_coordinator != null:
-		_combat_encounter_coordinator.advance_scheduler(delta)
+		_combat_encounter_coordinator.advance_scheduler(BattlePace.fight_seconds(delta))
 		advance_departure()
 	_advance_reincarnation()
 	_sync_ghost_sight()
@@ -173,6 +181,7 @@ func release_world_time(owner: StringName) -> void:
 ## While the view fades out and in around a map change (DECISIONS「手感」) world time
 ## stands still and the player does not walk: the fade takes nobody's time.
 const VIEW_TIME_HOLD: StringName = &"map_transition"
+var _presentation_holds: Dictionary[StringName, bool] = {}
 
 
 func _fade_out_seconds() -> float:
@@ -184,13 +193,39 @@ func _fade_in_seconds() -> float:
 
 
 func _hold_view(on: bool) -> void:
+	hold_presentation(VIEW_TIME_HOLD, on)
+
+
+## The battle panel is on the screen (a fight, or the last lines of one).
+func battle_panel_shown() -> bool:
+	var panel: CanvasItem = get_node_or_null("BattlePresentationLayer/BattleSurface") as CanvasItem
+	return panel != null and panel.visible
+
+
+func presentation_held(owner: StringName) -> bool:
+	return _presentation_holds.has(owner)
+
+
+## A presentation beat holds (hold_presentation()) and no fight runs: nothing at all
+## advances — not the player's busy, not a lying player's revive, whatever their state
+## (unlike the menu's hold, world_time_held()). It takes nobody's time.
+func presentation_frozen() -> bool:
+	return not _presentation_holds.is_empty() and (_combat_encounter_coordinator == null or not _combat_encounter_coordinator.has_active_encounter())
+
+
+## A presentation beat that takes nobody's time (the view's fade, a fight's last lines on
+## the battle panel: DECISIONS「手感」): world time stands still and the player does not
+## walk while any `owner` holds it.
+func hold_presentation(owner: StringName, on: bool) -> void:
 	if on:
-		hold_world_time(VIEW_TIME_HOLD)
+		hold_world_time(owner)
+		_presentation_holds[owner] = true
 	else:
-		release_world_time(VIEW_TIME_HOLD)
+		release_world_time(owner)
+		_presentation_holds.erase(owner)
 	var map: WorldMapController = active_map() as WorldMapController
 	if map != null and map.player_body != null:
-		map.player_body.walk_paused = on
+		map.player_body.walk_paused = not _presentation_holds.is_empty()
 
 
 ## Only while the player can act: one who falls, dies or is drawn into a fight under the
@@ -671,6 +706,15 @@ func encounter_display_name(character_id: StringName) -> String:
 		return _player.facts.display_name
 	var npc: NpcRuntimeState = _find_resident_npc(character_id)
 	return String(character_id) if npc == null else npc.definition().display_name
+
+
+## Content presentation lookup: someone's 气 now (the battle panel's last look at a
+## finished fight); null when nobody here has `character_id`.
+func encounter_vitality(character_id: StringName) -> CharacterResourceState:
+	if _player != null and character_id == _player.character_id:
+		return _player.state.vitality
+	var npc: NpcRuntimeState = _find_resident_npc(character_id)
+	return null if npc == null else npc.character_state.vitality
 
 
 ## Content presentation lookup: the legacy gender behind ES2's pronouns.
