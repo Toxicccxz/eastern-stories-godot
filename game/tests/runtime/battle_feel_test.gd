@@ -41,7 +41,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 func _test_pace() -> void:
 	TestFeel.use()
 	var percents: Array[int] = [BattlePace.percent(BattlePace.Speed.SLOW), BattlePace.percent(BattlePace.Speed.NORMAL), BattlePace.percent(BattlePace.Speed.FAST)]
-	_check(percents == [150, 100, 60], "pacing.json: 慢 a round in 150 %, 快 in 60 %: %s" % [percents])
+	_check(percents == [150, 100, 60], "pacing.json: 慢 a round in 150 %%, 快 in 60 %%: %s" % [percents])
 	BattlePace.speed = BattlePace.Speed.SLOW
 	_check(is_equal_approx(BattlePace.fight_seconds(1.5), 1.0) and is_equal_approx(BattlePace.real_seconds(1.0), 1.5), "慢: 1.5 real seconds are one second of the fight")
 	BattlePace.speed = BattlePace.Speed.FAST

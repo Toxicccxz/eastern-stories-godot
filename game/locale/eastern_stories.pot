@@ -5568,12 +5568,6 @@ msgid "参战"
 msgstr ""
 
 #: presentation/battle/battle_participant_card.gd
-msgid ""
-"气 %s\n"
-"精 %s · 神 %s"
-msgstr ""
-
-#: presentation/battle/battle_participant_card.gd
 msgid "当前／有效／上限"
 msgstr ""
 
@@ -5612,6 +5606,12 @@ msgstr ""
 
 #: presentation/battle/battle_participant_card.gd
 msgid "昏迷"
+msgstr ""
+
+#: presentation/battle/battle_participant_card.gd
+msgid ""
+"气 %s\n"
+"精 %s · 神 %s"
 msgstr ""
 
 #. asked before 天邪虎啸 (roar.c) in a fight: everyone here who does not withstand it turns on the player to the death.

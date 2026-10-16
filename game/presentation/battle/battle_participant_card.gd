@@ -14,6 +14,8 @@ var _vitality: ProgressBar
 ## (DECISIONS「手感」: bar_tween_ms, hit_flash_ms, the setting 受击闪红).
 var _shown_id: StringName = &""
 var _shown_vitality: int = -1
+## 气, 精 and 神 as last shown (held while a blow's line waits to be told).
+var _shown_resources: Array[BattleResourceProjection] = []
 var _bar: Tween
 var _flash: Tween
 const HIT_COLOR: Color = Color(1.0, 0.45, 0.42)
@@ -61,7 +63,8 @@ func _ready() -> void:
 	add_child(target_button) # Native focus/touch overlay; no extra narrow-screen row.
 
 
-func present(value: BattleParticipantProjection, player_id: StringName, current_id: StringName, queued_id: StringName = &"") -> void:
+## `hold_resources`: 气, 精 and 神 stay as shown (the blow's line is not told yet).
+func present(value: BattleParticipantProjection, player_id: StringName, current_id: StringName, queued_id: StringName = &"", hold_resources: bool = false) -> void:
 	_participant_id = value.participant_id
 	target_button.disabled = not value.targetable
 	target_button.tooltip_text = tr("选为目标：%s") % tr(value.display_name) if value.targetable else tr("不能选为目标")
@@ -71,9 +74,8 @@ func present(value: BattleParticipantProjection, player_id: StringName, current_
 	var border: StyleBoxFlat = _current_border if value.participant_id == current_id else _ordinary_border
 	if get_theme_stylebox("panel") != border:
 		add_theme_stylebox_override("panel", border)
-	_vitality.max_value = maxf(1, value.vitality.maximum) # Visual scale only; text retains exact values.
-	_show_vitality(value.participant_id, value.vitality.current)
-	_primary.text = tr("气 %s\n精 %s · 神 %s") % [_track(value.vitality), _track(value.essence), _track(value.spirit)]
+	if not hold_resources or value.participant_id != _shown_id or _shown_resources.is_empty():
+		_show_resources(value.participant_id, [value.vitality, value.essence, value.spirit])
 	_primary.tooltip_text = "当前／有效／上限"
 	var powers: Dictionary = {
 		"force": value.force.current, "max_force": value.force.maximum, "factor": value.force_factor,
@@ -124,9 +126,17 @@ func _show_vitality(id: StringName, current: int) -> void:
 		_flash.tween_property(self, "self_modulate", Color.WHITE, feel.hit_flash_seconds)
 
 
-## A finished fight's last blow on the card (its bar and flash; the numbers stay).
-func show_final_vitality(current: int) -> void:
-	_show_vitality(_shown_id, current)
+## A finished fight's last blow on the card.
+func show_final_vitality(vitality: CharacterResourceState) -> void:
+	if _shown_resources.size() == 3:
+		_show_resources(_shown_id, [BattleResourceProjection.new(vitality.current, vitality.effective, vitality.maximum), _shown_resources[1], _shown_resources[2]])
+
+
+func _show_resources(id: StringName, resources: Array[BattleResourceProjection]) -> void:
+	_vitality.max_value = maxf(1, resources[0].maximum) # Visual scale only; text retains exact values.
+	_show_vitality(id, resources[0].current)
+	_shown_resources = resources
+	_primary.text = tr("气 %s\n精 %s · 神 %s") % [_track(resources[0]), _track(resources[1]), _track(resources[2])]
 
 
 ## The 气 bar's value now (the tween's, while it moves).

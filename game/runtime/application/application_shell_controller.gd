@@ -222,6 +222,7 @@ func _ready() -> void:
 	_configure_language_options()
 	_configure_battle_options()
 	window_mode_option.get_popup().window_input.connect(_popup_system_input)
+	battle_speed_option.get_popup().window_input.connect(_popup_system_input)
 	# Pad support (owner, ROADMAP "After the grey box" step 2): last, so it sees every
 	# input event before the touch adapter takes touches.
 	add_child(PadSupport.new())

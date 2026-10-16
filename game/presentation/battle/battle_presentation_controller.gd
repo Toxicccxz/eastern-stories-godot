@@ -114,6 +114,7 @@ func _end_hold() -> void:
 	var text: String = _held_result
 	_held_result = ""
 	_hold_left = 0.0
+	_final_cards = false
 	_hold_shield.visible = false
 	if _session != null:
 		_session.hold_presentation(END_HOLD, false)
@@ -152,7 +153,7 @@ func _settle_final_cards() -> void:
 	for index: int in mini(_cards.size(), _shown_participants.size()):
 		var vitality: CharacterResourceState = _session.encounter_vitality(_shown_participants[index])
 		if vitality != null:
-			_cards[index].show_final_vitality(vitality.current)
+			_cards[index].show_final_vitality(vitality)
 
 
 func _queue_lines(lines: Array[BattleNarrationLine]) -> void:
@@ -216,9 +217,7 @@ func refresh_projection() -> void:
 	if _projection.completion_outcome >= 0:
 		_title.text = "战斗无法正常结束，不会自动重试。"
 	_title.tooltip_text = _title.text
-	# The cards follow the lines: a blow's 气 moves once it is told.
-	if changed or _cards.is_empty() or _line_queue.is_empty():
-		_present_participants()
+	_present_participants()
 	var others: Array[StringName] = _target_ids()
 	others.erase(_projection.current_target_id)
 	target_hints.set_hints([[[&"battle_target_previous", &"battle_target_next"], tr("换目标")]] if not others.is_empty() else [])
@@ -268,6 +267,9 @@ func _present_completed_result() -> void:
 	for line: BattleNarrationLine in _reader.recent_events():
 		text += "\n" + line.text
 	var hold: float = GameContent.catalog().pacing().feel.battle_end_hold_seconds
+	if _holding():
+		# Another fight ended before the last one's result was out: that one first.
+		_end_hold()
 	if hold <= 0.0 or not visible:
 		hud.show_combat_result(text)
 		return
@@ -432,9 +434,11 @@ func _present_participants() -> void:
 			card.target_requested.connect(_change_target)
 			_participants.add_child(card)
 			_cards.append(card)
+	# A blow's 气 shows once its line is told (DECISIONS「手感」).
+	var told: bool = _line_queue.is_empty()
 	for index: int in values.size():
 		var queued: CombatQueuedAction = _projection.queued_action()
-		_cards[index].present(values[index], _projection.player_id, _projection.current_target_id, &"" if queued == null else queued.resolved_target_id)
+		_cards[index].present(values[index], _projection.player_id, _projection.current_target_id, &"" if queued == null else queued.resolved_target_id, not told)
 
 
 func _present_recent(lines: Array[BattleNarrationLine]) -> void:

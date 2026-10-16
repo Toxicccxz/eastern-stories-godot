@@ -479,7 +479,8 @@ func _process(delta: float) -> void:
 		_bound_map = current
 		_elapsed = INF
 	var available: bool = not _session.is_restore_candidate_staged() and not _session.is_session_swap_suspended() and _session.can_process() and _session.application_gameplay_allows_encounter_advance()
-	var fighting: bool = _session.combat_encounter_coordinator().has_active_encounter()
+	# The battle panel still up (a finished fight's last lines) is the fight still.
+	var fighting: bool = _session.combat_encounter_coordinator().has_active_encounter() or _session.battle_panel_shown()
 	if not visible and available and not fighting:
 		_elapsed = INF
 	visible = available and not fighting

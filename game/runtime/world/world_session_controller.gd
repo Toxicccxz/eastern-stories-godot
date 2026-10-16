@@ -142,7 +142,8 @@ func _process(delta: float) -> void:
 	if _initialized and _combat_encounter_coordinator != null:
 		_combat_encounter_coordinator.advance_scheduler(BattlePace.fight_seconds(delta))
 		advance_departure()
-	_advance_life_flow(world_delta)
+	# One lying unconscious while the fight goes on wakes on its clock (BattlePace).
+	_advance_life_flow(BattlePace.fight_seconds(delta) if fighting else world_delta)
 	_advance_reincarnation()
 	_sync_ghost_sight()
 	advance_journal(delta)
@@ -158,7 +159,8 @@ func _process_held(delta: float) -> void:
 		advance_player_recovery(delta, true)
 	if _initialized and _combat_encounter_coordinator != null:
 		_combat_encounter_coordinator.advance_scheduler(BattlePace.fight_seconds(delta))
-		advance_departure()
+		if not presentation_held(BattlePresentationController.END_HOLD):
+			advance_departure()
 	_advance_reincarnation()
 	_sync_ghost_sight()
 	advance_journal(delta)
@@ -189,6 +191,16 @@ func _fade_in_seconds() -> float:
 
 func _hold_view(on: bool) -> void:
 	hold_presentation(VIEW_TIME_HOLD, on)
+
+
+## The battle panel is on the screen (a fight, or the last lines of one).
+func battle_panel_shown() -> bool:
+	var panel: CanvasItem = get_node_or_null("BattlePresentationLayer/BattleSurface") as CanvasItem
+	return panel != null and panel.visible
+
+
+func presentation_held(owner: StringName) -> bool:
+	return _presentation_holds.has(owner)
 
 
 ## A presentation beat that takes nobody's time (the view's fade, a fight's last lines on
