@@ -122,6 +122,7 @@ func offers_trial() -> bool:
 		and not NpcApprenticeship.is_master_of(map.player_runtime().state, npc.definition())
 		and not request.is_offered(npc.definition().definition_id)
 		and NpcApprenticeship.qualifies(map.player_runtime().state, teaching().apprentice)
+		and not map.npc_life.trial_running(npc)
 	)
 
 
@@ -140,11 +141,47 @@ func swear_oath() -> NpcApprenticeship.Outcome:
 
 ## accept test (champion.c do_accept()): the master's blows (NpcApprenticeTrial), each
 ## a do_attack() outside any fight; a player whose kee went below zero falls on the
-## heart beat that follows (char.c), run here at once.
+## heart beat that follows (char.c), run here at once. All three blows are struck now, as
+## ES2 does; a passed test is then told blow by blow, pacing.json's trial_blow_ms apart
+## (WorldMapNpcLife's call_out; DECISIONS「响应性」): nothing can happen between its blows.
+## A failed one is told at once with the fall it brings.
 func take_trial() -> NpcApprenticeTrial.Result:
 	last_lines = []
 	if not can_teach() or not offers_trial():
 		return NpcApprenticeTrial.Result.new()
+	var player: WorldPlayerRuntimeState = map.player_runtime()
+	var result: NpcApprenticeTrial.Result = _strike_trial()
+	# A failed test is the master's refusal: a request waiting on it is over (DECISIONS 山烟寺 C).
+	if result.outcome == NpcApprenticeTrial.Outcome.FAILED:
+		player.apprenticeship_request.end_request(npc.definition().definition_id)
+	var spacing: float = GameContent.catalog().pacing().trial_blow_seconds
+	if spacing <= 0.0 or result.outcome != NpcApprenticeTrial.Outcome.PASSED or result.steps.size() < 2:
+		_say_colored(result.lines)
+		if player.state.life_threshold() != CharacterState.LifeThreshold.ACTIVE:
+			map.player_fall_below_zero()
+		return result
+	tell_blow(result, 0)
+	map.npc_life.start_trial(npc, self, result, spacing)
+	return result
+
+
+## A passed test told up to blow `index`: that blow's lines in the log, all so far on the panel.
+func tell_blow(result: NpcApprenticeTrial.Result, index: int) -> void:
+	if index < 0 or index >= result.steps.size():
+		return
+	var told: Array[ColoredLine] = []
+	told.assign(result.steps[index])
+	_say_colored(told)
+	var so_far: Array[String] = []
+	for step: int in index + 1:
+		var lines: Array[ColoredLine] = []
+		lines.assign(result.steps[step])
+		so_far.append_array(ColoredLine.texts(lines))
+	last_lines = so_far
+	ui.show_answer()
+
+
+func _strike_trial() -> NpcApprenticeTrial.Result:
 	var player: WorldPlayerRuntimeState = map.player_runtime()
 	var master: NpcDefinition = npc.definition()
 	var family: FamilyDefinition = GameContent.catalog().family(teaching().family_id)
@@ -166,14 +203,7 @@ func take_trial() -> NpcApprenticeTrial.Result:
 		)
 	var recruit := func() -> NpcApprenticeship.Outcome:
 		return player.recruited_by(master, family, int(Time.get_unix_time_from_system()))
-	var result: NpcApprenticeTrial.Result = NpcApprenticeTrial.run(teaching().apprentice, player.apprenticeship_request, attack, stands, recruit)
-	# A failed test is the master's refusal: a request waiting on it is over (DECISIONS 山烟寺 C).
-	if result.outcome == NpcApprenticeTrial.Outcome.FAILED:
-		player.apprenticeship_request.end_request(master.definition_id)
-	_say_colored(result.lines)
-	if player.state.life_threshold() != CharacterState.LifeThreshold.ACTIVE:
-		map.player_fall_below_zero()
-	return result
+	return NpcApprenticeTrial.run(teaching().apprentice, player.apprenticeship_request, attack, stands, recruit)
 
 
 func cancel_apprentice() -> NpcApprenticeship.Outcome:

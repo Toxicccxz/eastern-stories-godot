@@ -12,6 +12,9 @@ var pending_steals: Dictionary[StringName, Dictionary] = {}
 ## make_stage() between its call_outs: {making: NpcMaking, stage: int} by maker. Not saved,
 ## as call_outs are not.
 var makings: Dictionary[StringName, Dictionary] = {}
+## A passed test still being told blow by blow (it was struck whole): {service:
+## TeacherService, result: NpcApprenticeTrial.Result, told: int} by master. Not saved.
+var trials: Dictionary[StringName, Dictionary] = {}
 var walker: WorldNpcWalker
 ## The player's place as the NPCs' init() last saw it; another one is an arrival.
 var arrival_zone_id: StringName = &""
@@ -119,6 +122,8 @@ func _advance_ambience(delta: float) -> void:
 		_answer_apprentice(_map.npcs.find_resident_npc(character_id))
 	for character_id: StringName in ambience.due_calls(delta, NpcAmbience.MAKE):
 		_make_stage(character_id)
+	for character_id: StringName in ambience.due_calls(delta, NpcAmbience.TRIAL):
+		_trial_step(character_id)
 	for character_id: StringName in ambience.due_calls(delta, WorldMapPatrols.SENTENCE):
 		_map.patrols.pass_sentence(_map.npcs.find_resident_npc(character_id))
 	_map.thefts.advance(delta)
@@ -173,6 +178,10 @@ func player_left() -> void:
 	for character_id: StringName in makings.keys():
 		while makings.has(character_id):
 			_make_stage(character_id)
+	# A test still being told: the rest at once (ES2 told it all in one command).
+	for character_id: StringName in trials.keys():
+		while trials.has(character_id):
+			_trial_step(character_id)
 	if ambience != null:
 		ambience.clear_calls()
 	pending_steals.clear()
@@ -222,6 +231,84 @@ func _make_stage(character_id: StringName) -> void:
 		hud.append_log_lines([at_feet])
 	if hud != null and hud.inventory_is_open():
 		hud.show_inventory(session.player_inventory_rows())
+
+
+## What the player waits for from this map's NPCs (DECISIONS「响应性」), as the HUD shows
+## it: a test's blows, and a told sequence (a making's lines, the lines of NpcHooks calls
+## marked `hurry`) with 继续 to bring its next line now.
+func waits() -> Array[WorldWait]:
+	var shown: Array[WorldWait] = []
+	if _player == null or ambience == null:
+		return shown
+	for character_id: StringName in trials:
+		var result: NpcApprenticeTrial.Result = trials[character_id]["result"]
+		var told: int = trials[character_id]["told"]
+		var master: NpcRuntimeState = _map.npcs.find_resident_npc(character_id)
+		if master != null and not result.steps.is_empty():
+			# TRANSLATORS: the HUD while a master's test (三招, 三鞭) is told blow by blow: {npc} the master, {n} the blows told, {total} all of them.
+			shown.append(WorldWait.new(tr("{npc}的测试：第 {n} / {total} 招").format({
+				"npc": tr(master.definition().display_name), "n": told, "total": result.steps.size(),
+			}), float(told) / result.steps.size()))
+	for character_id: StringName in makings:
+		var npc: NpcRuntimeState = _map.npcs.find_resident_npc(character_id)
+		var making: NpcMaking = makings[character_id]["making"]
+		# make_stage() tells the giver wherever they are.
+		if npc != null and ambience.has_call(character_id, NpcAmbience.MAKE):
+			shown.append(_told(npc, makings[character_id]["stage"], making.lines.size(), ambience.hurry_call.bind(character_id, NpcAmbience.MAKE)))
+	for npc: NpcRuntimeState in _map.npcs.residents:
+		var hooks: NpcHooks = npc.definition().hooks()
+		if hooks == null or not player_shares_zone(npc):
+			continue
+		var told: Array[int] = []
+		var waiting: Array[int] = []
+		for index: int in hooks.calls.size():
+			var call: NpcHooks.Call = hooks.calls[index]
+			if call.hurry and (call.act.ghost_state < 0 or (call.act.ghost_state == 1) == _player.state.ghost):
+				told.append(index)
+				if ambience.has_call(npc.character_id, NpcAmbience.own_call(index)):
+					waiting.append(index)
+		if not waiting.is_empty():
+			shown.append(_told(npc, told.size() - waiting.size(), told.size(), ambience.hurry_own_calls.bind(npc.character_id, waiting)))
+	return shown
+
+
+## A told sequence: {npc} and how many of its lines were told.
+func _told(npc: NpcRuntimeState, done: int, total: int, hurry: Callable) -> WorldWait:
+	# TRANSLATORS: the HUD while an NPC tells something line by line (a story, a making, a gargoyle's questions): {npc} the NPC, {n} the lines told, {total} all of them. 继续 brings the next line now.
+	var text: String = tr("{npc}：第 {n} / {total} 句").format({"npc": tr(npc.definition().display_name), "n": done, "total": total})
+	return WorldWait.new(text, float(done) / maxi(total, 1), hurry)
+
+
+## A passed test (TeacherService.take_trial(), its first blow told) is told on, a blow
+## `spacing` seconds after the last.
+func start_trial(npc: NpcRuntimeState, service: TeacherService, result: NpcApprenticeTrial.Result, spacing: float) -> void:
+	trials[npc.character_id] = {"service": service, "result": result, "told": 1}
+	npc_ambience().start_call(npc.character_id, spacing, NpcAmbience.TRIAL)
+
+
+## The master's test is still being told.
+func trial_running(npc: NpcRuntimeState) -> bool:
+	return npc != null and trials.has(npc.character_id)
+
+
+## The next blow of a test being told (its call_out came due, or the player left the map).
+func _trial_step(character_id: StringName) -> void:
+	var pending: Dictionary = trials.get(character_id, {})
+	if pending.is_empty():
+		return
+	if not is_instance_valid(pending["service"]):
+		trials.erase(character_id)
+		return
+	var service: TeacherService = pending["service"]
+	var result: NpcApprenticeTrial.Result = pending["result"]
+	var told: int = pending["told"]
+	service.tell_blow(result, told)
+	told += 1
+	pending["told"] = told
+	if told >= result.steps.size():
+		trials.erase(character_id)
+	else:
+		npc_ambience().start_call(character_id, GameContent.catalog().pacing().trial_blow_seconds, NpcAmbience.TRIAL)
 
 
 ## sword_soul.c chant(): call_out("chant_sword", 20, 1), and on from there.
@@ -279,8 +366,9 @@ func _chant_stage(npc: NpcRuntimeState) -> void:
 
 
 ## A master that answers 拜师 later (taolord.c): call_out("do_recruit", seconds).
+## It answers what the player just asked: within pacing.json's reaction beat.
 func start_apprentice_answer(npc: NpcRuntimeState, seconds: float) -> void:
-	npc_ambience().start_call(npc.character_id, seconds, NpcAmbience.RECRUIT)
+	npc_ambience().start_reaction(npc.character_id, seconds, NpcAmbience.RECRUIT)
 
 
 ## Its answer is still to come (find_call_out("do_recruit") != -1).
@@ -341,7 +429,7 @@ func _note_player_arrival() -> void:
 			and not npc.relationship.is_fighting()
 			and npc.definition().talk().has_greeting()
 		):
-			ambience.start_greeting(npc.character_id)
+			ambience.start_greeting(npc.character_id, npc.definition().talk().greeting_harms())
 		if npc.world_location().zone_id == zone_id:
 			_start_own_calls(npc)
 	var here: Array[NpcRuntimeState] = []
@@ -438,7 +526,11 @@ func _start_own_calls(npc: NpcRuntimeState) -> void:
 	if hooks == null or not npc.exists_in_map or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
 		return
 	for index: int in hooks.calls.size():
-		npc_ambience().start_call(npc.character_id, hooks.calls[index].after, NpcAmbience.own_call(index))
+		var call: NpcHooks.Call = hooks.calls[index]
+		if call.reaction:
+			npc_ambience().start_reaction(npc.character_id, call.after, NpcAmbience.own_call(index))
+		else:
+			npc_ambience().start_call(npc.character_id, call.after, NpcAmbience.own_call(index))
 
 
 ## One of them comes due: while the player is still there (present(ob)) and it is for them,
@@ -479,7 +571,7 @@ func npc_arrived(npc: NpcRuntimeState) -> void:
 		and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
 		and npc.definition().talk().has_greeting()
 	):
-		ambience.start_greeting(npc.character_id)
+		ambience.start_greeting(npc.character_id, npc.definition().talk().greeting_harms())
 	if ambience != null and player_shares_zone(npc):
 		_start_own_calls(npc)
 		_meet(npc)

@@ -30,6 +30,17 @@ func is_stealing() -> bool:
 	return not _pending.is_empty()
 
 
+## The steal under way as the HUD shows it (DECISIONS「响应性」): its three seconds kept, seen
+## filling; null when none.
+func wait() -> WorldWait:
+	if _pending.is_empty():
+		return null
+	var npc: NpcRuntimeState = _map.npcs.find_resident_npc(_pending["npc"])
+	var name: String = "" if npc == null else tr(npc.definition().display_name)
+	# TRANSLATORS: the HUD while the player's steal waits for its chance (steal.c's three seconds): {npc} the one stolen from.
+	return WorldWait.new(tr("等待机会对{npc}下手").format({"npc": name}), clampf(1.0 - float(_pending["left"]) / DELAY_SECONDS, 0.0, 1.0))
+
+
 ## The selected NPC can be stolen from: here (present(), awake or not), the player awake and
 ## free to act outside a fight.
 func can_steal_selected() -> bool:

@@ -326,7 +326,7 @@
 				{ "say": "小女子哪里是您的对手？", "accept": false }
 			],
 			"calls": [
-				{ "after": 3, "npc_in": "chuenyu.dungeon", "steps": [{ "say": "救我！救救我呀！" }, { "emote": "竭力挣扎，渐渐从绳索里摆脱出来……。" }] },
+				{ "after": 3, "reaction": true, "npc_in": "chuenyu.dungeon", "steps": [{ "say": "救我！救救我呀！" }, { "emote": "竭力挣扎，渐渐从绳索里摆脱出来……。" }] },
 				{ "after": 20, "npc_in": "chuenyu.dungeon", "steps": [{ "npc_flag": "follows_player" }, { "mark": "老刘" }] }
 			],
 			"die_marks_killer": "murder",

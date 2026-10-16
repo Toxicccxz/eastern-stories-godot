@@ -236,3 +236,18 @@ func _update_label(value: String) -> void:
 	var label: Label = get_node_or_null("NameLabel") as Label
 	if label != null:
 		label.text = value
+
+
+## The name over the body in red while it is about to attack the player (a toll-taker
+## waiting out its greeting: DECISIONS「响应性」), plain otherwise. The HUD's alert red.
+const ALERT_NAME_COLOR: Color = Color(1.0, 0.38, 0.38)
+
+
+func set_name_alert(on: bool) -> void:
+	var label: Label = get_node_or_null("NameLabel") as Label
+	if label == null or label.has_theme_color_override("font_color") == on:
+		return
+	if on:
+		label.add_theme_color_override("font_color", ALERT_NAME_COLOR)
+	else:
+		label.remove_theme_color_override("font_color")

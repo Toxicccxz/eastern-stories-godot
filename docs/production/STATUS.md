@@ -4,13 +4,15 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**界面重构 C** (`phase/ui-journal`, DECISIONS「任务日志与百科」): ROADMAP "After the grey box" step 2,
-which the owner put before step 1. A (the menu window, #124) and B (gamepad, #125) are merged. C
-fills the last two tabs: 任务 gets 江湖见闻, 29 story chains whose entries are recorded the first
-time they happen (marks, temp marks, items carried, people met, answers heard) and kept in the save,
-only what happened and what NPCs said; 百科 gets 江湖常识 (20 ES2 help files for players, with the
-game's button names) and the skills learned, items carried, families and people met. Next: step 1
-(responsiveness); 声望 stays a placeholder until step 6.
+**现代化修正 III A「等待」** (`phase/pacing`, DECISIONS「响应性」): ROADMAP "After the grey box" step 1
+(step 2, the UI overhaul, is merged: #124–#126). Reactions to what the player just did come within
+0.4 s (masters' 拜师 answers, greetings that do no harm, 程不平's sentence, 化尸, a zombie's end,
+小娟's cry); a master's test (三招, 三鞭) is struck whole and a passed one told 0.7 s a blow; the
+卧龙岗 robber shouts the moment a passer-by
+who owes him comes near; told sequences (筱薇's making, 大队长's story, the gargoyles) keep their pace
+with 继续; the card shows busy, a steal, a test, 朱鸿雪's time and an NPC's wake. Every time is a
+`pacing.json` knob whose default is ES2's. Next: B「手感」 (fades, battle presentation and speed
+setting, movement, prompts, camera); 声望 stays a placeholder until step 6.
 
 ## 待决定
 
@@ -314,7 +316,9 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   outer gates stay shut: their 守城兵 (vendetta authority; 反了！反了！ when attacked) turn everyone
   back (城门 · 出城). 尚书府, 护国寺, 紫禁城, 监狱 and 刑场 are drawn shut.
 * **Across both**: the status card offers the actions of what is within reach, one group per
-  thing, nearest first (a click on the map selects nothing); each zone shows its ES2 room title and description (on arrival and via 观察);
+  thing, nearest first (a click on the map selects nothing), and shows what the player waits for
+  (busy, a steal, a master's test, a told sequence with 继续, 朱鸿雪's time left, an NPC's wake, a
+  robber about to attack in red); each zone shows its ES2 room title and description (on arrival and via 观察);
   rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
   semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from
   unconsciousness; death makes the player a ghost in 阴间 (鬼门关: 奈何桥 and its 阴鬼牙将, the white

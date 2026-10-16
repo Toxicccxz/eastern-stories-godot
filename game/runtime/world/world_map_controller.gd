@@ -800,6 +800,17 @@ func gameplay_open() -> bool:
 	return _world_simulation_gate == null or _world_simulation_gate.is_open()
 
 
+## What the player waits for on this map (DECISIONS「响应性」): their steal, a master's
+## test, an NPC's told sequence.
+func player_waits() -> Array[WorldWait]:
+	var shown: Array[WorldWait] = []
+	var steal: WorldWait = thefts.wait()
+	if steal != null:
+		shown.append(steal)
+	shown.append_array(npc_life.waits())
+	return shown
+
+
 func _process(delta: float) -> void:
 	if not _initialized or not gameplay_open():
 		return

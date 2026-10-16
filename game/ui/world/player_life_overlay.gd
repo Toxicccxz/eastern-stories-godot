@@ -19,6 +19,9 @@ var _last_phase: PlayerLifeFlow.Phase = PlayerLifeFlow.Phase.NONE
 var _notice: String = ""
 var _notice_remaining: float = 0.0
 var _reincarnations_told: int = -1
+## Real seconds since the player fell unconscious: the screen goes dark over pacing.json's
+## dim_fade_ms (DECISIONS「响应性」), not at once.
+var _dark_for: float = 0.0
 
 
 func configure(session: WorldSessionController) -> void:
@@ -76,7 +79,10 @@ func _process(delta: float) -> void:
 		# The defeat heading no longer describes the player.
 		if _session.shared_ui() != null:
 			_session.shared_ui().show_combat_result(_notice)
+	_dark_for = _dark_for + delta if flow.phase == PlayerLifeFlow.Phase.UNCONSCIOUS and _last_phase == PlayerLifeFlow.Phase.UNCONSCIOUS else 0.0
 	_last_phase = flow.phase
+	var fade: float = GameContent.catalog().pacing().dim_fade_seconds
+	_dim.modulate.a = clampf(_dark_for / fade, 0.0, 1.0) if flow.phase == PlayerLifeFlow.Phase.UNCONSCIOUS and fade > 0.0 else 1.0
 	match flow.phase:
 		PlayerLifeFlow.Phase.UNCONSCIOUS:
 			var fighting: bool = _session.combat_encounter_coordinator() != null and _session.combat_encounter_coordinator().has_active_encounter()

@@ -14,5 +14,18 @@ static func use() -> PacingDefinition:
 	return production
 
 
+## Only the responsiveness knobs at ES2's (DECISIONS「响应性」): each call_out its own
+## seconds, a master's test in one go, no fade; the gains stay the game's. For suites that
+## pin a call_out's ES2 time (taolord.c's two seconds, a greeting's one, three lashes at once).
+static func use_reactions() -> PacingDefinition:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var production: PacingDefinition = catalog.pacing()
+	catalog.set_pacing(PacingDefinition.new(
+		roundi(production.combat_round_seconds * 1000.0), production.room_reset_seconds, production.player_exp_gain,
+		production.player_recovery_gain, production.quest_time_percent, production.npc_thirst, production.player_wake_seconds,
+	).with_responsiveness(0, 0, roundi(production.heart_beat_seconds * 1000.0), 0))
+	return production
+
+
 static func restore(previous: PacingDefinition) -> void:
 	GameContent.catalog().set_pacing(previous)

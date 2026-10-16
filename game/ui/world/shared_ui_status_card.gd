@@ -64,6 +64,7 @@ func refresh_exploration() -> void:
 	# TRANSLATORS: between two conditions on the HUD (蛇毒).
 	_ui.player_vitality_text.text = tr("、").join(_conditions.shown_names(state))
 	_ui.player_vitality_text.visible = not _ui.player_vitality_text.text.is_empty()
+	_ui.waits.refresh()
 	# What is in reach, one group each (owner, 2026-10-11); the selected thing's own
 	# buttons and the context button stay off the card.
 	_ui.nearby.refresh()

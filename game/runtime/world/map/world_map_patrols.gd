@@ -144,7 +144,7 @@ func await_sentence() -> void:
 	for npc: NpcRuntimeState in _map.npcs.residents:
 		var sentence: NpcSentence = npc.definition().dealings().sentence
 		if sentence != null and npc.exists_in_map and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
-			_map.npc_life.npc_ambience().start_call(npc.character_id, sentence.after, SENTENCE)
+			_map.npc_life.npc_ambience().start_reaction(npc.character_id, sentence.after, SENTENCE)
 			return
 	_player.awaiting_sentence = false
 

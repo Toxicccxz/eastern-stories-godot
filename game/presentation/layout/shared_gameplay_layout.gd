@@ -17,6 +17,8 @@ var context_button: Button
 var target_section: VBoxContainer
 ## One group per thing in reach (SharedUiNearby): its name, then its buttons.
 var nearby: VBoxContainer
+## What the player waits for (SharedUiWaits): a line, a thin bar, 继续 where it can be hurried.
+var waits: VBoxContainer
 ## What the keys or pad do here ([A] 开门 [Y] 选择附近 [X] 观察); none on touch.
 var hints: InputHintRow
 ## The card's button size now (touch or not), for the groups' buttons too.
@@ -134,6 +136,11 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	ui.player_vitality_text.add_theme_font_size_override("font_size", 13)
 	ui.player_vitality_text.add_theme_color_override("font_color", CONDITION_COLOR)
 	ui.player_vitality_text.hide()
+	waits = VBoxContainer.new()
+	waits.name = "Waits"
+	waits.add_theme_constant_override("separation", 6)
+	waits.hide()
+	_bar_rows.add_child(waits)
 	nearby = VBoxContainer.new()
 	nearby.name = "Nearby"
 	nearby.add_theme_constant_override("separation", 8)
@@ -467,6 +474,12 @@ func nearby_row(shown_name: String) -> PanelContainer:
 	label.add_theme_font_size_override("font_size", 14)
 	label.add_theme_color_override("font_color", ACCENT_COLOR)
 	rows.add_child(label)
+	# How it is now when that matters (昏迷不醒，约 N 秒后醒来): SharedUiNearby.
+	var status := _label(rows, "Status")
+	status.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	status.add_theme_font_size_override("font_size", 12)
+	status.add_theme_color_override("font_color", MUTED_COLOR)
+	status.hide()
 	var actions := HFlowContainer.new()
 	actions.name = "Actions"
 	var gap: int = 8 if button_size.y < 64 else 4
@@ -474,6 +487,45 @@ func nearby_row(shown_name: String) -> PanelContainer:
 	actions.add_theme_constant_override("v_separation", gap)
 	rows.add_child(actions)
 	return item
+
+
+## One row of `waits`: [line, bar, 继续 button] (the button hidden until it can hurry).
+func wait_row(hurry: Callable) -> Array:
+	var row := VBoxContainer.new()
+	row.name = "Wait"
+	row.add_theme_constant_override("separation", 3)
+	var line := HBoxContainer.new()
+	line.name = "Line"
+	line.add_theme_constant_override("separation", 8)
+	row.add_child(line)
+	var text := _label(line, "Text")
+	text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	text.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	text.add_theme_font_size_override("font_size", 13)
+	text.add_theme_color_override("font_color", CONDITION_COLOR)
+	var button: Button = _button(line, "Hurry", "继续", hurry)
+	button.custom_minimum_size = Vector2(64, 30)
+	button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	button.focus_mode = Control.FOCUS_NONE
+	InputGlyphs.decorate(button, &"ui_accept")
+	button.hide()
+	var progress := ProgressBar.new()
+	progress.name = "Bar"
+	progress.show_percentage = false
+	progress.custom_minimum_size.y = 4
+	progress.max_value = 1.0
+	progress.step = 0.0
+	var track := StyleBoxFlat.new()
+	track.bg_color = Color(1, 1, 1, 0.09)
+	track.set_corner_radius_all(2)
+	var fill := StyleBoxFlat.new()
+	fill.bg_color = CONDITION_COLOR
+	fill.set_corner_radius_all(2)
+	progress.add_theme_stylebox_override("background", track)
+	progress.add_theme_stylebox_override("fill", fill)
+	row.add_child(progress)
+	waits.add_child(row)
+	return [text, progress, button]
 
 
 ## A button in an item made by nearby_row().

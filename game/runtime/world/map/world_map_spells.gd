@@ -114,11 +114,11 @@ func raised_heal_up(npc: NpcRuntimeState, count: int) -> void:
 	var ambience: NpcAmbience = _map.npc_life.npc_ambience()
 	for _beat: int in count:
 		if npc.has_flag(NpcDefinition.FLAG_SENT) and not npc.relationship.is_fighting():
-			ambience.start_call(npc.character_id, NpcRaising.DISPELL_DELAY_SECONDS, DISPELL)
+			ambience.start_reaction(npc.character_id, NpcRaising.DISPELL_DELAY_SECONDS, DISPELL)
 			return
 		var master: bool = _player != null and _map.npcs.summoner_of(npc.character_id) == _player.character_id
 		if not master or not raising.feeds_on(_player.state.recovery.atman.current):
-			ambience.start_call(npc.character_id, NpcRaising.DISPELL_DELAY_SECONDS, DISPELL)
+			ambience.start_reaction(npc.character_id, NpcRaising.DISPELL_DELAY_SECONDS, DISPELL)
 			return
 		if _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
 			continue
@@ -175,7 +175,7 @@ func carry_followers(to: WorldMapController, left_zone_id: StringName, adjacent:
 			push_error("%s could not follow the player onto %s" % [npc.character_id, to.map])
 			continue
 		if dispelling:
-			to.npc_life.npc_ambience().start_call(npc.character_id, NpcRaising.DISPELL_DELAY_SECONDS, DISPELL)
+			to.npc_life.npc_ambience().start_reaction(npc.character_id, NpcRaising.DISPELL_DELAY_SECONDS, DISPELL)
 		_came_over(to, npc)
 
 
