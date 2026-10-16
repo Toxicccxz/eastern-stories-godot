@@ -10,15 +10,6 @@
 			"legacy_quantity": 2
 		},
 		{
-			"id": "village.main.fmhousback.woman1",
-			"npc": "village.npc.woman1",
-			"map": "village.main",
-			"zone": "village.fmhousback",
-			"points": ["village.fmhousback.woman1.1"],
-			"legacy_room": "d/village/fmhousback.c",
-			"legacy_quantity": 1
-		},
-		{
 			"id": "village.main.littlegarden.flowergirls",
 			"npc": "village.npc.flowergirl",
 			"map": "village.main",
@@ -32,40 +23,6 @@
 			],
 			"legacy_room": "d/village/littlegarden.c",
 			"legacy_quantity": 5
-		},
-		{
-			"id": "village.main.home.oldliu",
-			"npc": "village.npc.oldliu",
-			"map": "village.main",
-			"zone": "village.home",
-			"points": ["village.home.oldliu.1"],
-			"legacy_room": "d/village/home.c",
-			"legacy_quantity": 1
-		},
-		{
-			"id": "village.main.smallstorage.rats",
-			"npc": "village.npc.rat",
-			"map": "village.main",
-			"zone": "village.smallstorage",
-			"points": [
-				"village.smallstorage.rat.1",
-				"village.smallstorage.rat.2",
-				"village.smallstorage.rat.3",
-				"village.smallstorage.rat.4",
-				"village.smallstorage.rat.5",
-				"village.smallstorage.rat.6"
-			],
-			"legacy_room": "d/village/smallstorage.c",
-			"legacy_quantity": 6
-		},
-		{
-			"id": "village.main.melonguard.meloners",
-			"npc": "village.npc.meloner",
-			"map": "village.main",
-			"zone": "village.melonguard",
-			"points": ["village.melonguard.meloner.1", "village.melonguard.meloner.2", "village.melonguard.meloner.3"],
-			"legacy_room": "d/village/melonguard.c",
-			"legacy_quantity": 3
 		},
 		{
 			"id": "village.main.lakeside.fishers",
@@ -92,6 +49,49 @@
 			"legacy_room": "d/village/lakebottom2.c",
 			"legacy_quantity": 6,
 			"presence_radius": 260
+		},
+		{
+			"id": "village.farmhouse_house.fmhousback.woman1",
+			"npc": "village.npc.woman1",
+			"map": "village.farmhouse_house",
+			"zone": "village.fmhousback",
+			"points": ["village.fmhousback.woman1.1"],
+			"legacy_room": "d/village/fmhousback.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "village.liu_house.home.oldliu",
+			"npc": "village.npc.oldliu",
+			"map": "village.liu_house",
+			"zone": "village.home",
+			"points": ["village.home.oldliu.1"],
+			"legacy_room": "d/village/home.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "village.liu_house.smallstorage.rats",
+			"npc": "village.npc.rat",
+			"map": "village.liu_house",
+			"zone": "village.smallstorage",
+			"points": [
+				"village.smallstorage.rat.1",
+				"village.smallstorage.rat.2",
+				"village.smallstorage.rat.3",
+				"village.smallstorage.rat.4",
+				"village.smallstorage.rat.5",
+				"village.smallstorage.rat.6"
+			],
+			"legacy_room": "d/village/smallstorage.c",
+			"legacy_quantity": 6
+		},
+		{
+			"id": "village.melonguard_house.melonguard.meloners",
+			"npc": "village.npc.meloner",
+			"map": "village.melonguard_house",
+			"zone": "village.melonguard",
+			"points": ["village.melonguard.meloner.1", "village.melonguard.meloner.2", "village.melonguard.meloner.3"],
+			"legacy_room": "d/village/melonguard.c",
+			"legacy_quantity": 3
 		}
 	]
 }

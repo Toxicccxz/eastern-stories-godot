@@ -5,7 +5,11 @@
 	"maps": [
 		{ "id": "village.main", "region": "village", "scene": "res://scenes/world/village/village_main.tscn", "entry": "village.road1.canyon_arrival" },
 		{ "id": "village.midlake", "region": "village", "scene": "res://scenes/world/village/village_midlake.tscn", "entry": "village.lake.boat_arrival" },
-		{ "id": "village.icecave", "region": "village", "scene": "res://scenes/world/village/village_icecave.tscn", "entry": "village.lakebottom1.dive_arrival" }
+		{ "id": "village.icecave", "region": "village", "scene": "res://scenes/world/village/village_icecave.tscn", "entry": "village.lakebottom1.dive_arrival" },
+		{ "id": "village.farmhouse_house", "region": "village", "scene": "res://scenes/world/village/farmhouse_house.tscn", "entry": "village.farmhouse1.road4_entry", "interior": true },
+		{ "id": "village.liu_house", "region": "village", "scene": "res://scenes/world/village/liu_house.tscn", "entry": "village.home.littlegarden_entry", "interior": true },
+		{ "id": "village.lord_house", "region": "village", "scene": "res://scenes/world/village/lord_house.tscn", "entry": "village.lordhouse1.road9_entry", "interior": true },
+		{ "id": "village.melonguard_house", "region": "village", "scene": "res://scenes/world/village/melonguard_house.tscn", "entry": "village.melonguard.road7_entry", "interior": true }
 	],
 	"zones": [
 		{ "id": "village.road1", "map": "village.main", "rooms": ["es2:d/village/road1"] },
@@ -17,17 +21,17 @@
 		{ "id": "village.road7", "map": "village.main", "rooms": ["es2:d/village/road7"] },
 		{ "id": "village.road8", "map": "village.main", "rooms": ["es2:d/village/road8"] },
 		{ "id": "village.road9", "map": "village.main", "rooms": ["es2:d/village/road9"] },
-		{ "id": "village.farmhouse1", "map": "village.main", "rooms": ["es2:d/village/farmhouse1"] },
-		{ "id": "village.fmhousback", "map": "village.main", "rooms": ["es2:d/village/fmhousback"] },
+		{ "id": "village.farmhouse1", "map": "village.farmhouse_house", "rooms": ["es2:d/village/farmhouse1"] },
+		{ "id": "village.fmhousback", "map": "village.farmhouse_house", "rooms": ["es2:d/village/fmhousback"] },
 		{ "id": "village.littlegarden", "map": "village.main", "rooms": ["es2:d/village/littlegarden"] },
-		{ "id": "village.home", "map": "village.main", "rooms": ["es2:d/village/home"] },
-		{ "id": "village.smallstorage", "map": "village.main", "rooms": ["es2:d/village/smallstorage"] },
+		{ "id": "village.home", "map": "village.liu_house", "rooms": ["es2:d/village/home"] },
+		{ "id": "village.smallstorage", "map": "village.liu_house", "rooms": ["es2:d/village/smallstorage"] },
 		{ "id": "village.melonfarm", "map": "village.main", "rooms": ["es2:d/village/melonfarm"] },
-		{ "id": "village.melonguard", "map": "village.main", "rooms": ["es2:d/village/melonguard"] },
+		{ "id": "village.melonguard", "map": "village.melonguard_house", "rooms": ["es2:d/village/melonguard"] },
 		{ "id": "village.field", "map": "village.main", "rooms": ["es2:d/village/field"] },
-		{ "id": "village.lordhouse1", "map": "village.main", "rooms": ["es2:d/village/lordhouse1"] },
-		{ "id": "village.lordhouse2", "map": "village.main", "rooms": ["es2:d/village/lordhouse2"] },
-		{ "id": "village.lordhouse3", "map": "village.main", "rooms": ["es2:d/village/lordhouse3"] },
+		{ "id": "village.lordhouse1", "map": "village.lord_house", "rooms": ["es2:d/village/lordhouse1"] },
+		{ "id": "village.lordhouse2", "map": "village.lord_house", "rooms": ["es2:d/village/lordhouse2"] },
+		{ "id": "village.lordhouse3", "map": "village.lord_house", "rooms": ["es2:d/village/lordhouse3"] },
 		{ "id": "village.lakeside", "map": "village.main", "rooms": ["es2:d/village/lakeside"] },
 		{ "id": "village.valley1", "map": "village.main", "rooms": ["es2:d/village/valley1"] },
 		{ "id": "village.valley2", "map": "village.main", "rooms": ["es2:d/village/valley2"] },
@@ -45,7 +49,17 @@
 		{ "id": "village.lake.east", "from_zone": "village.lake", "to_zone": "village.lakeside", "to_spawn": "village.lakeside.boat_return", "legacy_room": "es2:d/village/lake", "legacy_command": "east" },
 		{ "id": "village.valley1.eastdown", "from_zone": "village.valley1", "to_zone": "village.lakebottom2", "to_spawn": "village.lakebottom2.valley_arrival", "legacy_room": "es2:d/village/valley1", "legacy_command": "eastdown" },
 		{ "id": "village.lakebottom2.westup", "from_zone": "village.lakebottom2", "to_zone": "village.valley1", "to_spawn": "village.valley1.cave_return", "legacy_room": "es2:d/village/lakebottom2", "legacy_command": "westup" },
-		{ "id": "village.lakebottom1.give_up", "from_zone": "village.lakebottom1", "to_zone": "snow.inn.main_floor", "to_spawn": "snow.inn.main_floor.player_birth", "legacy_room": "es2:d/village/lakebottom1", "legacy_command": "quit" }
+		{ "id": "village.lakebottom1.give_up", "from_zone": "village.lakebottom1", "to_zone": "snow.inn.main_floor", "to_spawn": "snow.inn.main_floor.player_birth", "legacy_room": "es2:d/village/lakebottom1", "legacy_command": "quit" },
+		{ "id": "village.road4.north", "from_zone": "village.road4", "to_zone": "village.farmhouse1", "to_spawn": "village.farmhouse1.road4_entry", "legacy_room": "es2:d/village/road4", "legacy_command": "north" },
+		{ "id": "village.road7.southeast", "from_zone": "village.road7", "to_zone": "village.melonguard", "to_spawn": "village.melonguard.road7_entry", "legacy_room": "es2:d/village/road7", "legacy_command": "southeast" },
+		{ "id": "village.road9.east", "from_zone": "village.road9", "to_zone": "village.lordhouse1", "to_spawn": "village.lordhouse1.road9_entry", "legacy_room": "es2:d/village/road9", "legacy_command": "east" },
+		{ "id": "village.farmhouse1.south", "from_zone": "village.farmhouse1", "to_zone": "village.road4", "to_spawn": "village.road4.farmhouse1_return", "legacy_room": "es2:d/village/farmhouse1", "legacy_command": "south" },
+		{ "id": "village.littlegarden.north", "from_zone": "village.littlegarden", "to_zone": "village.home", "to_spawn": "village.home.littlegarden_entry", "legacy_room": "es2:d/village/littlegarden", "legacy_command": "north" },
+		{ "id": "village.home.south", "from_zone": "village.home", "to_zone": "village.littlegarden", "to_spawn": "village.littlegarden.home_return", "legacy_room": "es2:d/village/home", "legacy_command": "south" },
+		{ "id": "village.melonfarm.south", "from_zone": "village.melonfarm", "to_zone": "village.melonguard", "to_spawn": "village.melonguard.melonfarm_entry", "legacy_room": "es2:d/village/melonfarm", "legacy_command": "south" },
+		{ "id": "village.melonguard.north", "from_zone": "village.melonguard", "to_zone": "village.melonfarm", "to_spawn": "village.melonfarm.melonguard_return", "legacy_room": "es2:d/village/melonguard", "legacy_command": "north" },
+		{ "id": "village.melonguard.northwest", "from_zone": "village.melonguard", "to_zone": "village.road7", "to_spawn": "village.road7.melonguard_return", "legacy_room": "es2:d/village/melonguard", "legacy_command": "northwest" },
+		{ "id": "village.lordhouse1.west", "from_zone": "village.lordhouse1", "to_zone": "village.road9", "to_spawn": "village.road9.lordhouse1_return", "legacy_room": "es2:d/village/lordhouse1", "legacy_command": "west" }
 	],
 	"exit_rules": [
 		{ "id": "village.lakeside.no_wading", "room": "es2:d/village/lakeside", "from_zone": "village.lakeside", "to_zone": "village.lake", "when": "always", "lines": ["这么大的一片湖，你想走过去吗？"], "legacy_source": "d/village/lakeside.c" },
@@ -60,73 +74,13 @@
 	"landmarks": [
 		{ "id": "village.road3.landmark.tablet", "zone": "village.road3", "name": "小牌子", "policy": "look", "long": "你勉强分辨出那上面模糊的字迹：傅家坡\n", "legacy_source": "d/village/road3.c" },
 		{ "id": "village.lakeside.landmark.boat", "zone": "village.lakeside", "name": "木船", "policy": "look", "long": "关内能经常见到的渔船，你可以划着(paddle)它到湖中心。\n", "legacy_source": "d/village/lakeside.c" },
-		{
-			"id": "village.road6.landmark.grass", "zone": "village.road6", "name": "茅草", "action": "拨开", "policy": "hidden_passage",
-			"portals": ["village.road6.west"],
-			"pushes": 1, "every_push": 1, "open_seconds": 5,
-			"long": "高高的茅草，可以拨开(pushaside)。\n",
-			"messages": {
-				"open": "你拨开茅草，发现了一条向西的路。",
-				"close": "茅草晃了晃，又遮住了向西的路。"
-			},
-			"legacy_source": "d/village/road6.c"
-		},
-		{
-			"id": "village.lakebottom1.landmark.ice", "zone": "village.lakebottom1", "name": "玄冰", "action": "放弃",
-			"portals": ["village.lakebottom1.give_up"],
-			"long": "身后的入口已经冻上了，冰层坚硬无比，再也砸不开。往上走只能穿过冰龙盘踞的冰厅；过不去的话，就只能在这里等下去了。\n",
-			"messages": { "use": "你在冰洞里苦等良久，冻得昏昏沉沉地睡了过去……醒来时，你已经躺在雪亭镇的饮风客栈里。" },
-			"legacy_source": "d/village/lakebottom1.c"
-		}
+		{ "id": "village.road6.landmark.grass", "zone": "village.road6", "name": "茅草", "action": "拨开", "policy": "hidden_passage", "portals": ["village.road6.west"], "pushes": 1, "every_push": 1, "open_seconds": 5, "long": "高高的茅草，可以拨开(pushaside)。\n", "messages": {"open": "你拨开茅草，发现了一条向西的路。", "close": "茅草晃了晃，又遮住了向西的路。"}, "legacy_source": "d/village/road6.c" },
+		{ "id": "village.lakebottom1.landmark.ice", "zone": "village.lakebottom1", "name": "玄冰", "action": "放弃", "portals": ["village.lakebottom1.give_up"], "long": "身后的入口已经冻上了，冰层坚硬无比，再也砸不开。往上走只能穿过冰龙盘踞的冰厅；过不去的话，就只能在这里等下去了。\n", "messages": {"use": "你在冰洞里苦等良久，冻得昏昏沉沉地睡了过去……醒来时，你已经躺在雪亭镇的饮风客栈里。"}, "legacy_source": "d/village/lakebottom1.c" }
 	],
 	"services": [
-		{ "id": "village.lakeside.paddle", "kind": "act", "zone": "village.lakeside", "name": "木船", "reach": 96, "legacy_source": "d/village/lakeside.c", "act": { "verb": "划向湖心", "acts": [
-			{ "steps": [
-				{ "line": "你跳上渔船，奋力向湖心划去。\n" },
-				{ "line": "你终于划到湖中心了。\n" },
-				{ "move": "village.lake", "point": "village.lake.boat_arrival" }
-			] }
-		] } },
-		{ "id": "village.lake.paddle", "kind": "act", "zone": "village.lake", "name": "小船", "reach": 96, "legacy_source": "d/village/lake.c", "act": { "verb": "划回岸边", "acts": [
-			{ "steps": [
-				{ "line": "你划动双桨，小船慢慢向岸边漂去。\n" },
-				{ "line": "你终于划到湖岸边。\n" },
-				{ "move": "village.lakeside", "point": "village.lakeside.boat_return" }
-			] }
-		] } },
-		{ "id": "village.lake.dive", "kind": "act", "zone": "village.lake", "name": "湖水", "reach": 96, "legacy_source": "d/village/lake.c", "act": { "verb": "潜入湖中", "acts": [
-			{ "ask": "这一潜下去就回不到船上了：湖底的出路只有一条，要穿过白鳞冰龙盘踞的冰厅；过不去的话，只能在冰洞里放弃（醒来时在雪亭镇的客栈）。\n确定要潜入湖中吗？", "choice": "确定潜入", "steps": [
-				{ "line": "你深深吸了一口气，一个猛子潜入水中！\n" },
-				{ "line": "你越潜越深，突然眼前一亮，一处湖底发出光亮。你用拳一砸，那湖底竟然碎了，原来是一层冰！你随着水流被冲进一个岩洞中。\n" },
-				{ "move": "village.lakebottom1", "point": "village.lakebottom1.dive_arrival" }
-			] }
-		] } },
-		{ "id": "village.melonfarm.pick", "kind": "act", "zone": "village.melonfarm", "name": "瓜地", "reach": 96, "legacy_source": "d/village/melonfarm.c", "act": {
-			"verb": "摘西瓜",
-			"stronger": { "npc": "village.npc.meloner", "zone": "village.melonguard", "ask": "瓜棚里的瓜农比你强得多。摘瓜要是被他发现，他会冲过来跟你拼命；不还瓜钱，就别想离开瓜地。\n确定要摘西瓜吗？", "choice": "确定摘瓜" },
-			"acts": [
-			{ "kar_above": [30, 10], "present_in": { "npc": "village.npc.meloner", "zone": "village.melonguard" }, "steps": [
-				{ "line": "你找来找去，终于找到了一个熟透了的大西瓜抱在怀中。\n" },
-				{ "give": "es2:d/village/obj/melon" },
-				{ "line": "糟糕，瓜农发现了你偷瓜，向这边冲过来！\n" },
-				{ "comes": "village.npc.meloner", "from": "village.melonguard" },
-				{ "npc_flag": "melon/catch_thief" },
-				{ "set_temp": "melon/catch_thief" },
-				{ "kill": true }
-			] },
-			{ "kar_above": [30], "present_in": { "npc": "village.npc.meloner", "zone": "village.melonguard" }, "steps": [
-				{ "line": "你找来找去，终于找到了一个熟透了的大西瓜抱在怀中。\n" },
-				{ "give": "es2:d/village/obj/melon" },
-				{ "line": "瓜农似乎正在打瞌睡，没有发现你的小动作。\n" }
-			] },
-			{ "kar_above": [30], "steps": [
-				{ "line": "你找来找去，终于找到了一个熟透了的大西瓜抱在怀中。\n" },
-				{ "give": "es2:d/village/obj/melon" },
-				{ "line": "你真幸运，瓜农没有在瓜棚看瓜。\n" }
-			] },
-			{ "steps": [
-				{ "line": "你找来找去，终于还是没找到熟透的西瓜。\n" }
-			] }
-		] } }
+		{ "id": "village.lakeside.paddle", "kind": "act", "zone": "village.lakeside", "name": "木船", "reach": 96, "legacy_source": "d/village/lakeside.c", "act": {"verb": "划向湖心", "acts": [{"steps": [{"line": "你跳上渔船，奋力向湖心划去。\n"}, {"line": "你终于划到湖中心了。\n"}, {"move": "village.lake", "point": "village.lake.boat_arrival"}]}]} },
+		{ "id": "village.lake.paddle", "kind": "act", "zone": "village.lake", "name": "小船", "reach": 96, "legacy_source": "d/village/lake.c", "act": {"verb": "划回岸边", "acts": [{"steps": [{"line": "你划动双桨，小船慢慢向岸边漂去。\n"}, {"line": "你终于划到湖岸边。\n"}, {"move": "village.lakeside", "point": "village.lakeside.boat_return"}]}]} },
+		{ "id": "village.lake.dive", "kind": "act", "zone": "village.lake", "name": "湖水", "reach": 96, "legacy_source": "d/village/lake.c", "act": {"verb": "潜入湖中", "acts": [{"ask": "这一潜下去就回不到船上了：湖底的出路只有一条，要穿过白鳞冰龙盘踞的冰厅；过不去的话，只能在冰洞里放弃（醒来时在雪亭镇的客栈）。\n确定要潜入湖中吗？", "choice": "确定潜入", "steps": [{"line": "你深深吸了一口气，一个猛子潜入水中！\n"}, {"line": "你越潜越深，突然眼前一亮，一处湖底发出光亮。你用拳一砸，那湖底竟然碎了，原来是一层冰！你随着水流被冲进一个岩洞中。\n"}, {"move": "village.lakebottom1", "point": "village.lakebottom1.dive_arrival"}]}]} },
+		{ "id": "village.melonfarm.pick", "kind": "act", "zone": "village.melonfarm", "name": "瓜地", "reach": 96, "legacy_source": "d/village/melonfarm.c", "act": {"verb": "摘西瓜", "stronger": {"npc": "village.npc.meloner", "zone": "village.melonguard", "ask": "瓜棚里的瓜农比你强得多。摘瓜要是被他发现，他会冲过来跟你拼命；不还瓜钱，就别想离开瓜地。\n确定要摘西瓜吗？", "choice": "确定摘瓜"}, "acts": [{"kar_above": [30, 10], "present_in": {"npc": "village.npc.meloner", "zone": "village.melonguard"}, "steps": [{"line": "你找来找去，终于找到了一个熟透了的大西瓜抱在怀中。\n"}, {"give": "es2:d/village/obj/melon"}, {"line": "糟糕，瓜农发现了你偷瓜，向这边冲过来！\n"}, {"comes": "village.npc.meloner", "from": "village.melonguard"}, {"npc_flag": "melon/catch_thief"}, {"set_temp": "melon/catch_thief"}, {"kill": true}]}, {"kar_above": [30], "present_in": {"npc": "village.npc.meloner", "zone": "village.melonguard"}, "steps": [{"line": "你找来找去，终于找到了一个熟透了的大西瓜抱在怀中。\n"}, {"give": "es2:d/village/obj/melon"}, {"line": "瓜农似乎正在打瞌睡，没有发现你的小动作。\n"}]}, {"kar_above": [30], "steps": [{"line": "你找来找去，终于找到了一个熟透了的大西瓜抱在怀中。\n"}, {"give": "es2:d/village/obj/melon"}, {"line": "你真幸运，瓜农没有在瓜棚看瓜。\n"}]}, {"steps": [{"line": "你找来找去，终于还是没找到熟透的西瓜。\n"}]}]} }
 	]
 }

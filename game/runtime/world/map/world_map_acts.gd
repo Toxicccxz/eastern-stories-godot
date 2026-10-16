@@ -148,6 +148,15 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 						said.append(ColoredLine.new(feet))
 			ScriptedAct.Kind.COMES:
 				var comer: NpcRuntimeState = _map.npcs.first_npc_in_zone(step.npc_id, step.zone_id, true)
+				# From a room on another map (the 瓜农 out of his own 瓜棚 since the remap): he comes
+				# through onto this one first.
+				if comer == null and _map.session != null:
+					var zone: ZoneDefinition = GameContent.catalog().zone(step.zone_id)
+					var home: WorldMapController = null if zone == null else _map.session.world_map_of(zone.map_id)
+					if home != null and home != _map:
+						comer = home.npcs.first_npc_in_zone(step.npc_id, step.zone_id, true)
+						if comer != null and not _map.session.bring_npc_onto(comer, home, _map, _player.world_location().zone_id):
+							comer = null
 				if comer != null and _map.npcs.bring_beside_player(comer):
 					npc = comer
 					npc_name = comer.definition().display_name
