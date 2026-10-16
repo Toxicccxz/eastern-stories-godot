@@ -10,6 +10,13 @@ var _current_border: StyleBoxFlat
 
 var _title: Label
 var _vitality: ProgressBar
+## Who the card showed and their 气 then: the bar moves and the card flashes from it
+## (DECISIONS「手感」: bar_tween_ms, hit_flash_ms, the setting 受击闪红).
+var _shown_id: StringName = &""
+var _shown_vitality: int = -1
+var _bar: Tween
+var _flash: Tween
+const HIT_COLOR: Color = Color(1.0, 0.45, 0.42)
 var _primary: Label
 var _secondary: Label
 var _status: Label
@@ -65,7 +72,7 @@ func present(value: BattleParticipantProjection, player_id: StringName, current_
 	if get_theme_stylebox("panel") != border:
 		add_theme_stylebox_override("panel", border)
 	_vitality.max_value = maxf(1, value.vitality.maximum) # Visual scale only; text retains exact values.
-	_vitality.value = value.vitality.current
+	_show_vitality(value.participant_id, value.vitality.current)
 	_primary.text = tr("气 %s\n精 %s · 神 %s") % [_track(value.vitality), _track(value.essence), _track(value.spirit)]
 	_primary.tooltip_text = "当前／有效／上限"
 	var powers: Dictionary = {
@@ -91,6 +98,40 @@ func present(value: BattleParticipantProjection, player_id: StringName, current_
 		states.append(tr("昏迷"))
 	_status.text = " · ".join(states)
 	_status.tooltip_text = _status.text
+
+
+func _show_vitality(id: StringName, current: int) -> void:
+	var same: bool = id == _shown_id
+	var lost: bool = same and current < _shown_vitality
+	var moved: bool = not same or current != _shown_vitality
+	_shown_id = id
+	_shown_vitality = current
+	if not moved:
+		return
+	var feel: FeelDefinition = GameContent.catalog().pacing().feel
+	if _bar != null and _bar.is_valid():
+		_bar.kill()
+	if same and feel.bar_tween_seconds > 0.0:
+		_bar = create_tween()
+		_bar.tween_property(_vitality, "value", float(current), feel.bar_tween_seconds)
+	else:
+		_vitality.value = current
+	if lost and BattlePace.hit_flash and feel.hit_flash_seconds > 0.0:
+		if _flash != null and _flash.is_valid():
+			_flash.kill()
+		self_modulate = HIT_COLOR
+		_flash = create_tween()
+		_flash.tween_property(self, "self_modulate", Color.WHITE, feel.hit_flash_seconds)
+
+
+## A finished fight's last blow on the card (its bar and flash; the numbers stay).
+func show_final_vitality(current: int) -> void:
+	_show_vitality(_shown_id, current)
+
+
+## The 气 bar's value now (the tween's, while it moves).
+func vitality_shown() -> float:
+	return _vitality.value
 
 
 func _request_target() -> void:

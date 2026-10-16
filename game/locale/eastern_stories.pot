@@ -320,6 +320,14 @@ msgid "语言"
 msgstr ""
 
 #: scenes/application/application_shell.tscn
+msgid "战斗速度"
+msgstr ""
+
+#: scenes/application/application_shell.tscn
+msgid "受击闪红"
+msgstr ""
+
+#: scenes/application/application_shell.tscn
 msgid "应用"
 msgstr ""
 
@@ -6158,6 +6166,10 @@ msgid "无法切换到这种语言。"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
+msgid "战斗设置已生效，但未能保存。"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
 msgid "窗口模式已在本次运行中生效，但这项设置未能保存。"
 msgstr ""
 
@@ -6203,6 +6215,18 @@ msgstr ""
 
 #: runtime/application/application_shell_controller.gd
 msgid "跟随系统"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "慢"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "标准"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "快"
 msgstr ""
 
 #: runtime/combat_encounter/combat_encounter_coordinator.gd runtime/world/map/world_map_hostilities.gd

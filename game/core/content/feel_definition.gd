@@ -11,7 +11,16 @@ extends RefCounted
 ## - move_accel_ms / move_stop_ms: the player's walk reaches full speed / stops in this long.
 ## - speech_bubble_ms / speech_bubble_char_ms: how long a line an NPC says stays over its
 ##   head, and how much longer for each character past BUBBLE_SHORT_CHARACTERS (0: none).
-## - menu_fade_ms: the menu window fades in and out (0: at once).
+## - menu_fade_ms: the menu window (and the battle panel) fades in (0: at once).
+## - battle_slow_percent / battle_fast_percent: the real time a round takes at the
+##   战斗速度 慢 / 快, in percent of the round (BattlePace; 0: as 标准).
+## - battle_line_ms: a round's lines come this far apart (sooner when they would not
+##   be told before the next round); 0: all at once.
+## - bar_tween_ms: a card's 气 bar moves to its new value in this long.
+## - hit_flash_ms: a card flashes red this long when its fighter loses 气 (the setting
+##   受击闪红 turns it off).
+## - battle_end_hold_ms: the battle panel stays this long on a fight's last lines, the
+##   world held, before the result and the world come back.
 
 ## A bubble of this many characters or fewer shows for speech_bubble_ms alone.
 const BUBBLE_SHORT_CHARACTERS: int = 24
@@ -25,6 +34,12 @@ var _move_stop_ms: int = 0
 var _speech_bubble_ms: int = 0
 var _speech_bubble_char_ms: int = 0
 var _menu_fade_ms: int = 0
+var _battle_slow_percent: int = 0
+var _battle_fast_percent: int = 0
+var _battle_line_ms: int = 0
+var _bar_tween_ms: int = 0
+var _hit_flash_ms: int = 0
+var _battle_end_hold_ms: int = 0
 
 var map_fade_out_seconds: float:
 	get:
@@ -47,6 +62,24 @@ var move_stop_seconds: float:
 var menu_fade_seconds: float:
 	get:
 		return float(_menu_fade_ms) / 1000.0
+var battle_slow_percent: int:
+	get:
+		return _battle_slow_percent
+var battle_fast_percent: int:
+	get:
+		return _battle_fast_percent
+var battle_line_seconds: float:
+	get:
+		return float(_battle_line_ms) / 1000.0
+var bar_tween_seconds: float:
+	get:
+		return float(_bar_tween_ms) / 1000.0
+var hit_flash_seconds: float:
+	get:
+		return float(_hit_flash_ms) / 1000.0
+var battle_end_hold_seconds: float:
+	get:
+		return float(_battle_end_hold_ms) / 1000.0
 
 
 ## Seconds a bubble saying `line` stays up (0: no bubbles).
@@ -68,12 +101,19 @@ func with_values(values: Dictionary) -> FeelDefinition:
 	_speech_bubble_ms = int(values.get("speech_bubble_ms", _speech_bubble_ms))
 	_speech_bubble_char_ms = int(values.get("speech_bubble_char_ms", _speech_bubble_char_ms))
 	_menu_fade_ms = int(values.get("menu_fade_ms", _menu_fade_ms))
+	_battle_slow_percent = int(values.get("battle_slow_percent", _battle_slow_percent))
+	_battle_fast_percent = int(values.get("battle_fast_percent", _battle_fast_percent))
+	_battle_line_ms = int(values.get("battle_line_ms", _battle_line_ms))
+	_bar_tween_ms = int(values.get("bar_tween_ms", _bar_tween_ms))
+	_hit_flash_ms = int(values.get("hit_flash_ms", _hit_flash_ms))
+	_battle_end_hold_ms = int(values.get("battle_end_hold_ms", _battle_end_hold_ms))
 	return self
 
 
 const KEYS: Array[String] = [
 	"map_fade_out_ms", "map_fade_in_ms", "map_banner_ms", "camera_follow_speed", "move_accel_ms",
-	"move_stop_ms", "speech_bubble_ms", "speech_bubble_char_ms", "menu_fade_ms",
+	"move_stop_ms", "speech_bubble_ms", "speech_bubble_char_ms", "menu_fade_ms", "battle_slow_percent",
+	"battle_fast_percent", "battle_line_ms", "bar_tween_ms", "hit_flash_ms", "battle_end_hold_ms",
 ]
 
 

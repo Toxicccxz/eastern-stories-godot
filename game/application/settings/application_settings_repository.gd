@@ -7,8 +7,12 @@ const SECTION: String = "application"
 const VERSION_KEY: String = "schema_version"
 const WINDOW_MODE_KEY: String = "window_mode"
 const LANGUAGE_KEY: String = "language"
+const BATTLE_SPEED_KEY: String = "battle_speed"
+const HIT_FLASH_KEY: String = "hit_flash"
 ## Version 1 had no language; it is read as following the system language.
 const VERSION_WITHOUT_LANGUAGE: int = 1
+## Version 2 had no battle settings; it is read as 标准 with the flash on.
+const VERSION_WITHOUT_BATTLE: int = 2
 
 var _files: SaveFileOperations
 
@@ -37,7 +41,7 @@ func load() -> ApplicationSettingsResult:
 	if typeof(version_value) != TYPE_INT:
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.INVALID_SETTINGS)
 	var version: int = int(version_value)
-	if version != ApplicationSettingsSnapshot.SCHEMA_VERSION and version != VERSION_WITHOUT_LANGUAGE:
+	if version != ApplicationSettingsSnapshot.SCHEMA_VERSION and version != VERSION_WITHOUT_LANGUAGE and version != VERSION_WITHOUT_BATTLE:
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.UNSUPPORTED_VERSION)
 	if not _has_exact_structure(config, version):
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.INVALID_SETTINGS)
@@ -50,8 +54,15 @@ func load() -> ApplicationSettingsResult:
 	var language: Variant = config.get_value(SECTION, LANGUAGE_KEY, LocalizationService.FOLLOW_SYSTEM)
 	if typeof(language) != TYPE_STRING:
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.INVALID_SETTINGS)
+	var speed_value: Variant = config.get_value(SECTION, BATTLE_SPEED_KEY, BattlePace.storage_value(BattlePace.Speed.NORMAL))
+	var flash_value: Variant = config.get_value(SECTION, HIT_FLASH_KEY, true)
+	if typeof(speed_value) != TYPE_STRING or typeof(flash_value) != TYPE_BOOL:
+		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.INVALID_SETTINGS)
+	var speed: int = BattlePace.from_storage(String(speed_value))
+	if not BattlePace.is_valid(speed):
+		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.INVALID_SETTINGS)
 	return ApplicationSettingsResult.success(
-		ApplicationSettingsSnapshot.new(ApplicationSettingsSnapshot.SCHEMA_VERSION, mode, language)
+		ApplicationSettingsSnapshot.new(ApplicationSettingsSnapshot.SCHEMA_VERSION, mode, language, speed, bool(flash_value))
 	)
 
 
@@ -68,6 +79,8 @@ func write(snapshot: ApplicationSettingsSnapshot) -> ApplicationSettingsResult:
 		ApplicationWindowMode.storage_value(snapshot.window_mode()),
 	)
 	config.set_value(SECTION, LANGUAGE_KEY, snapshot.language())
+	config.set_value(SECTION, BATTLE_SPEED_KEY, BattlePace.storage_value(snapshot.battle_speed()))
+	config.set_value(SECTION, HIT_FLASH_KEY, snapshot.hit_flash())
 	var error: int = _files.write_bytes(SETTINGS_PATH, config.encode_to_text().to_utf8_buffer())
 	if error != OK:
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.WRITE_FAILURE)
@@ -82,6 +95,8 @@ func _has_exact_structure(config: ConfigFile, version: int) -> bool:
 	var expected: PackedStringArray = [VERSION_KEY, WINDOW_MODE_KEY]
 	if version != VERSION_WITHOUT_LANGUAGE:
 		expected.append(LANGUAGE_KEY)
+	if version == ApplicationSettingsSnapshot.SCHEMA_VERSION:
+		expected.append_array([BATTLE_SPEED_KEY, HIT_FLASH_KEY])
 	if keys.size() != expected.size():
 		return false
 	for key: String in expected:

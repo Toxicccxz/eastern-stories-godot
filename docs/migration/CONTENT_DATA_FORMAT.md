@@ -292,7 +292,8 @@ the native ES2 heart_beat (1000 reproduces the pre-B2 feel), and MudOS's `time t
 resets half to all of this many seconds of world time after its last reset (default 1800,
 config.ES2; lower it locally to playtest resets). The other knobs are listed in `PacingDefinition`;
 `feel` `{map_fade_out_ms?, map_fade_in_ms?, map_banner_ms?, camera_follow_speed?, move_accel_ms?,
-move_stop_ms?, speech_bubble_ms?, speech_bubble_char_ms?, menu_fade_ms?}` holds the presentation's
+move_stop_ms?, speech_bubble_ms?, speech_bubble_char_ms?, menu_fade_ms?, battle_slow_percent?,
+battle_fast_percent?, battle_line_ms?, bar_tween_ms?, hit_flash_ms?, battle_end_hold_ms?}` holds the presentation's
 (`FeelDefinition`, DECISIONS「手感」; each left out is 0, the old look).
 
 ## skills, families
