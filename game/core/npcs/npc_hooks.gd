@@ -33,7 +33,10 @@ extends RefCounted
 ##   by every arrival (remove_call_out()); when due it acts (a ScriptedAct, its conditions and
 ##   steps) if the player is still there and it is for them. `calls_hold` (owner, 鬼门关 plan
 ##   Q2): while they are pending it does not wander (npc.c random_move()), so the white
-##   gargoyle's five lines are not cut short by his own walk.
+##   gargoyle's five lines are not cut short by his own walk. A call with `reaction` true
+##   answers the player's arrival and comes within pacing.json's reaction beat (小娟's cry);
+##   one with `hurry` true is a line of a told sequence the player may hurry (继续: the
+##   gargoyles' lines), DECISIONS「响应性」.
 ## - `moods` (d/village/npc/oldliu.c killhim()): {name: NpcMood}, put on by an act's `npc_mood`.
 ## - `attack_ask` with `attack_choice` (owner, 黑松山 plan F3): 攻击 asks this first (小娟, a
 ##   breath from death, whose death her father avenges).
@@ -71,6 +74,10 @@ class Call:
 	extends RefCounted
 	var after: float = 0.0
 	var act: ScriptedAct
+	## It answers the player's arrival: pacing.json's reaction beat at most.
+	var reaction: bool = false
+	## A line of a told sequence: 继续 brings it now.
+	var hurry: bool = false
 
 
 class Stage:
@@ -232,6 +239,10 @@ static func from_record(reader: ContentRecordReader) -> NpcHooks:
 		call.after = float(record.integer("after", 0))
 		if call.after < 0.0:
 			record.fail("after", "must not be negative")
+		call.reaction = record.boolean("reaction", false)
+		call.hurry = record.boolean("hurry", false)
+		if call.reaction and call.hurry:
+			record.fail("hurry", "a reaction is no told line")
 		call.act = ScriptedAct.from_record(record)
 		hooks.calls.append(call)
 	if reader.has("calls_hold"):

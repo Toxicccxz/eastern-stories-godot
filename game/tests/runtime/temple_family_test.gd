@@ -44,6 +44,8 @@ var _original_random: CombatRandomSource
 
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
+	# This suite pins ES2's call_out seconds (DECISIONS「响应性」: the game's come sooner).
+	var es2_reactions: PacingDefinition = Es2Pacing.use_reactions()
 	_catalog = GameContent.catalog()
 	_test_data()
 	_test_apprentice_rule()
@@ -70,6 +72,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_continue(tree, session)
 	session.free()
 	await tree.process_frame
+	Es2Pacing.restore(es2_reactions)
 	return {"assertions": _count, "failures": _failures}
 
 

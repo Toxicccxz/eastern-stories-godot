@@ -14,6 +14,8 @@ const GREETING_DELAY_SECONDS: float = 1.0
 const STEAL: StringName = &"steal"
 const RECRUIT: StringName = &"recruit"
 const MAKE: StringName = &"make"
+## champion.c's test blows, pacing.json trial_blow_ms apart (DECISIONS「响应性」).
+const TRIAL: StringName = &"trial"
 ## An NPC's own init() call_outs (NpcHooks calls): call/<index>.
 const CALL_PREFIX: String = "call/"
 
@@ -43,8 +45,9 @@ func due_beats(delta: float) -> int:
 	if _random == null or not is_finite(delta) or delta < 0.0:
 		return 0
 	_remainder += delta
-	var beats: int = int(_remainder / PlayerRecoveryCadence.BASE_PULSE_SECONDS)
-	_remainder -= beats * PlayerRecoveryCadence.BASE_PULSE_SECONDS
+	var pulse: float = GameContent.catalog().pacing().heart_beat_seconds
+	var beats: int = int(_remainder / pulse)
+	_remainder -= beats * pulse
 	return beats
 
 
@@ -62,8 +65,9 @@ func chat(talk: NpcTalk, chance: int = -1) -> Variant:
 	return entries[index] if index >= 0 and index < entries.size() else null
 
 
+## A greeting answers the player's arrival: within pacing.json's reaction beat.
 func start_greeting(character_id: StringName) -> void:
-	_greetings[character_id] = GREETING_DELAY_SECONDS
+	_greetings[character_id] = GameContent.catalog().pacing().reaction_seconds(GREETING_DELAY_SECONDS)
 
 
 func cancel_greeting(character_id: StringName) -> void:
@@ -74,6 +78,40 @@ func start_call(character_id: StringName, seconds: float, kind: StringName) -> v
 	if not _calls.has(kind):
 		_calls[kind] = {}
 	_calls[kind][character_id] = seconds
+
+
+## A call_out that answers what the player just did (a master's 拜师 answer, a sentence, a
+## zombie's end): ES2's `es2_seconds`, or pacing.json's reaction beat when that is sooner
+## (DECISIONS「响应性」).
+func start_reaction(character_id: StringName, es2_seconds: float, kind: StringName) -> void:
+	start_call(character_id, GameContent.catalog().pacing().reaction_seconds(es2_seconds), kind)
+
+
+## Seconds until the NPC's call_out of `kind` (-1: none).
+func call_left(character_id: StringName, kind: StringName) -> float:
+	return float(_calls[kind][character_id]) if has_call(character_id, kind) else -1.0
+
+
+## 继续 (DECISIONS「响应性」): the NPC's next call_out of `kind` comes now.
+func hurry_call(character_id: StringName, kind: StringName) -> void:
+	if has_call(character_id, kind):
+		_calls[kind][character_id] = 0.0
+
+
+## 继续 for the NPC's own calls `indices` (a told sequence): the soonest comes now and the
+## rest keep their spacing.
+func hurry_own_calls(character_id: StringName, indices: Array[int]) -> void:
+	var soonest: float = INF
+	for index: int in indices:
+		var left: float = call_left(character_id, own_call(index))
+		if left >= 0.0:
+			soonest = minf(soonest, left)
+	if soonest == INF or soonest <= 0.0:
+		return
+	for index: int in indices:
+		var kind: StringName = own_call(index)
+		if has_call(character_id, kind):
+			_calls[kind][character_id] = float(_calls[kind][character_id]) - soonest
 
 
 ## The kind of an NPC's own call_out (NpcHooks calls[index]).

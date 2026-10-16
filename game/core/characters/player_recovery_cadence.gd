@@ -8,6 +8,7 @@ extends RefCounted
 ## fight it is the heart beat that wears busy down (a fight's scheduler does inside one).
 ## On the tick, update_condition() runs before heal_up(), which a condition's
 ## CND_NO_HEAL_UP skips (char.c).
+## The beat when none is given; the game's comes from pacing.json heart_beat_ms.
 const BASE_PULSE_SECONDS: float = 2.0
 
 var _random: RecoveryCadenceRandomSource
@@ -17,22 +18,27 @@ var _is_player_character: bool = true
 var _recovery_gain: int = 1
 ## Water used up per heal_up() (pacing.json npc_thirst for NPCs; 1 is ES2).
 var _water_use: int = 1
+## Seconds of one heart beat.
+var _pulse: float = BASE_PULSE_SECONDS
 var _accumulator: float = 0.0
 var _source_tick: int = -1
 var _valid: bool = false
 
 var accumulated_seconds: float:
 	get: return _accumulator
+var pulse_seconds: float:
+	get: return _pulse
 var source_tick: int:
 	get: return _source_tick
 
 
-func _init(random: RecoveryCadenceRandomSource, is_player_character: bool = true, conditions: ConditionSystem = null, recovery_gain: int = 1, water_use: int = 1) -> void:
+func _init(random: RecoveryCadenceRandomSource, is_player_character: bool = true, conditions: ConditionSystem = null, recovery_gain: int = 1, water_use: int = 1, pulse_seconds: float = BASE_PULSE_SECONDS) -> void:
 	_random = random
 	_conditions = conditions if conditions != null else ConditionSystem.new()
 	_is_player_character = is_player_character
 	_recovery_gain = maxi(recovery_gain, 1)
 	_water_use = maxi(water_use, 1)
+	_pulse = pulse_seconds if is_finite(pulse_seconds) and pulse_seconds > 0.0 else BASE_PULSE_SECONDS
 	if _random != null:
 		_source_tick = _random.draw_reset_tick()
 		_valid = _source_tick >= 5 and _source_tick <= 14
@@ -54,15 +60,15 @@ func advance(delta: float, character: CharacterState, busy: ActionBusyState, con
 	var accumulated: float = _accumulator + delta
 	# Checked arithmetic: an input whose float cannot represent subtracting one
 	# pulse is not executable cadence time. Reject it, never clamp/discard a tail.
-	if not is_finite(accumulated) or (accumulated >= BASE_PULSE_SECONDS and accumulated - BASE_PULSE_SECONDS == accumulated):
+	if not is_finite(accumulated) or (accumulated >= _pulse and accumulated - _pulse == accumulated):
 		result.outcome = PlayerRecoveryCadenceResult.Outcome.INVALID_INPUT
 		return result
 	_accumulator = accumulated
-	while _accumulator >= BASE_PULSE_SECONDS:
+	while _accumulator >= _pulse:
 		if busy_only and not busy.is_busy():
-			_accumulator = minf(_accumulator, BASE_PULSE_SECONDS * 0.999)
+			_accumulator = minf(_accumulator, _pulse * 0.999)
 			break
-		_accumulator -= BASE_PULSE_SECONDS
+		_accumulator -= _pulse
 		result.pulses += 1
 		# char.c heart_beat(): a busy character spends the beat in continue_action().
 		if busy.is_busy():

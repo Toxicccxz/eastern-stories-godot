@@ -47,7 +47,9 @@ func killed_enemy(killer: NpcRuntimeState, heard: bool) -> void:
 	if not hook.say.is_empty() and heard:
 		_map.hud().append_log_lines([NpcLine.new(false, hook.say).sentence(killer.definition().display_name, "")])
 	if hook.dissolve_after_ms > 0:
-		_pending_dissolves.append([killer.character_id, float(hook.dissolve_after_ms)])
+		# It follows its own laugh: within pacing.json's reaction beat (DECISIONS「响应性」).
+		var seconds: float = GameContent.catalog().pacing().reaction_seconds(hook.dissolve_after_ms / 1000.0)
+		_pending_dissolves.append([killer.character_id, seconds * 1000.0])
 
 
 func advance_pending_dissolves(delta: float) -> void:

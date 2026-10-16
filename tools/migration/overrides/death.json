@@ -26,11 +26,11 @@
 				"白无常把长长的舌头伸出来，缓缓地舔了舔自己又白又长的手指。\n"
 			],
 			"calls": [
-				{ "after": 5, "steps": [{ "line": "白无常说道：喂！新来的，你叫什么名字？", "color": "HIW" }] },
-				{ "after": 10, "steps": [{ "line": "白无常用奇异的眼光盯著你，好像要看穿你的一切似的。", "color": "HIW" }] },
-				{ "after": 15, "steps": [{ "line": "白无常「哼」的一声，从袖中掏出一本像帐册的东西翻看著。", "color": "HIW" }] },
-				{ "after": 20, "steps": [{ "line": "白无常阁上册子，说道：咦？阳寿未尽？怎么可能？", "color": "HIW" }] },
-				{ "after": 25, "steps": [
+				{ "after": 5, "hurry": true, "steps": [{ "line": "白无常说道：喂！新来的，你叫什么名字？", "color": "HIW" }] },
+				{ "after": 10, "hurry": true, "steps": [{ "line": "白无常用奇异的眼光盯著你，好像要看穿你的一切似的。", "color": "HIW" }] },
+				{ "after": 15, "hurry": true, "steps": [{ "line": "白无常「哼」的一声，从袖中掏出一本像帐册的东西翻看著。", "color": "HIW" }] },
+				{ "after": 20, "hurry": true, "steps": [{ "line": "白无常阁上册子，说道：咦？阳寿未尽？怎么可能？", "color": "HIW" }] },
+				{ "after": 25, "hurry": true, "steps": [
 					{ "line": "白无常搔了搔头，叹道：罢了罢了，你走吧。", "color": "HIW" },
 					{ "line": "一股阴冷的浓雾突然出现，很快地包围了你。", "color": "HIW" },
 					{ "reincarnate": true }
@@ -45,11 +45,11 @@
 					{ "npc_flag": "hunts_player" },
 					{ "kill": true }
 				] },
-				{ "after": 5, "ghost": true, "steps": [{ "line": "黑无常说道：喂！新来的，你叫什么名字？", "color": "HIB" }] },
-				{ "after": 10, "ghost": true, "steps": [{ "line": "黑无常用奇异的眼光盯著你，好像要看穿你的一切似的。", "color": "HIB" }] },
-				{ "after": 15, "ghost": true, "steps": [{ "line": "黑无常「哼」的一声，从袖中掏出一本像帐册的东西翻看著。", "color": "HIB" }] },
-				{ "after": 20, "ghost": true, "steps": [{ "line": "黑无常阁上册子，说道：咦？阳寿未尽？怎么可能？", "color": "HIB" }] },
-				{ "after": 25, "ghost": true, "steps": [
+				{ "after": 5, "ghost": true, "hurry": true, "steps": [{ "line": "黑无常说道：喂！新来的，你叫什么名字？", "color": "HIB" }] },
+				{ "after": 10, "ghost": true, "hurry": true, "steps": [{ "line": "黑无常用奇异的眼光盯著你，好像要看穿你的一切似的。", "color": "HIB" }] },
+				{ "after": 15, "ghost": true, "hurry": true, "steps": [{ "line": "黑无常「哼」的一声，从袖中掏出一本像帐册的东西翻看著。", "color": "HIB" }] },
+				{ "after": 20, "ghost": true, "hurry": true, "steps": [{ "line": "黑无常阁上册子，说道：咦？阳寿未尽？怎么可能？", "color": "HIB" }] },
+				{ "after": 25, "ghost": true, "hurry": true, "steps": [
 					{ "line": "黑无常搔了搔头，叹道：罢了罢了，你走吧。", "color": "HIB" },
 					{ "line": "一股阴冷的浓雾突然出现，很快地包围了你。", "color": "HIB" },
 					{ "reincarnate": true }

@@ -122,6 +122,7 @@ func offers_trial() -> bool:
 		and not NpcApprenticeship.is_master_of(map.player_runtime().state, npc.definition())
 		and not request.is_offered(npc.definition().definition_id)
 		and NpcApprenticeship.qualifies(map.player_runtime().state, teaching().apprentice)
+		and not map.npc_life.trial_running(npc)
 	)
 
 
@@ -140,11 +141,48 @@ func swear_oath() -> NpcApprenticeship.Outcome:
 
 ## accept test (champion.c do_accept()): the master's blows (NpcApprenticeTrial), each
 ## a do_attack() outside any fight; a player whose kee went below zero falls on the
-## heart beat that follows (char.c), run here at once.
+## heart beat that follows (char.c), run here at once. ES2 strikes them in one go; with
+## pacing.json's trial_blow_ms the first comes now and each other that long after
+## (WorldMapNpcLife's call_out: the menu and a fight hold it), the result unchanged
+## (DECISIONS「响应性」). Returns the result so far.
 func take_trial() -> NpcApprenticeTrial.Result:
 	last_lines = []
 	if not can_teach() or not offers_trial():
 		return NpcApprenticeTrial.Result.new()
+	var test: NpcApprenticeTrial.Run = _start_trial()
+	var spacing: float = GameContent.catalog().pacing().trial_blow_seconds
+	if spacing <= 0.0:
+		while not test.finished:
+			test.step()
+		return _trial_over(test)
+	trial_step(test)
+	if not test.finished:
+		map.npc_life.start_trial(npc, self, test, spacing)
+	return test.result
+
+
+## The next blow of a test under way (its call_out came due): its lines in the log and
+## the panel, and the end when it was the last. One who left the master's room between
+## blows has walked out of the test.
+func trial_step(test: NpcApprenticeTrial.Run) -> void:
+	var player: WorldPlayerRuntimeState = map.player_runtime()
+	if test.result.blows > 0 and not _trial_stands(player):
+		test.abandon()
+		_trial_over(test)
+		return
+	_say_colored(test.step())
+	last_lines = ColoredLine.texts(test.result.lines)
+	if test.finished:
+		_trial_over(test)
+	ui.show_answer()
+
+
+## A test that ended between blows (the master gone, the player off the map): failed.
+func trial_abandoned(test: NpcApprenticeTrial.Run) -> void:
+	_trial_over(test)
+
+
+func _start_trial() -> NpcApprenticeTrial.Run:
 	var player: WorldPlayerRuntimeState = map.player_runtime()
 	var master: NpcDefinition = npc.definition()
 	var family: FamilyDefinition = GameContent.catalog().family(teaching().family_id)
@@ -158,19 +196,31 @@ func take_trial() -> NpcApprenticeTrial.Result:
 		for line: BattleNarrationLine in narrator.attack_chain(blow.forward_result, blow.chain_result, cast, blow.post_action_lines(), blow.reverse_post_action_lines()):
 			seen.append(ColoredLine.new(line.text, line.color))
 		return seen
-	var stands := func() -> bool:
-		var location: WorldLocationState = player.world_location()
-		return (
-			player.state.vitality.current >= 0 and player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
-			and location != null and location.zone_id == npc.world_location().zone_id
-		)
+	var stands := _trial_stands.bind(player)
 	var recruit := func() -> NpcApprenticeship.Outcome:
 		return player.recruited_by(master, family, int(Time.get_unix_time_from_system()))
-	var result: NpcApprenticeTrial.Result = NpcApprenticeTrial.run(teaching().apprentice, player.apprenticeship_request, attack, stands, recruit)
-	# A failed test is the master's refusal: a request waiting on it is over (DECISIONS 山烟寺 C).
+	return NpcApprenticeTrial.start(teaching().apprentice, player.apprenticeship_request, attack, stands, recruit)
+
+
+## Whether the student still stands before the master (champion.c's checks after a blow).
+func _trial_stands(player: WorldPlayerRuntimeState) -> bool:
+	var location: WorldLocationState = player.world_location()
+	return (
+		player.state.vitality.current >= 0 and player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+		and location != null and npc.exists_in_map and location.zone_id == npc.world_location().zone_id
+	)
+
+
+## The test is over: a failed one is the master's refusal, so a request waiting on it is
+## over (DECISIONS 山烟寺 C); struck all at once (ES2), its lines are said now; one left
+## below zero falls.
+func _trial_over(test: NpcApprenticeTrial.Run) -> NpcApprenticeTrial.Result:
+	var player: WorldPlayerRuntimeState = map.player_runtime()
+	var result: NpcApprenticeTrial.Result = test.result
 	if result.outcome == NpcApprenticeTrial.Outcome.FAILED:
-		player.apprenticeship_request.end_request(master.definition_id)
-	_say_colored(result.lines)
+		player.apprenticeship_request.end_request(npc.definition().definition_id)
+	if GameContent.catalog().pacing().trial_blow_seconds <= 0.0:
+		_say_colored(result.lines)
 	if player.state.life_threshold() != CharacterState.LifeThreshold.ACTIVE:
 		map.player_fall_below_zero()
 	return result

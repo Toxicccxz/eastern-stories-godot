@@ -13,6 +13,8 @@ var _scheduled: Dictionary[String, int] = {}
 
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
+	# This suite pins ES2's call_out seconds (DECISIONS「响应性」: the game's come sooner).
+	var es2_reactions: PacingDefinition = Es2Pacing.use_reactions()
 	_test_data()
 	_test_inquiry_rule()
 	_test_random_move_rule()
@@ -28,6 +30,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_reset(tree, session)
 	session.free()
 	await tree.process_frame
+	Es2Pacing.restore(es2_reactions)
 	return {"assertions": _count, "failures": _failures}
 
 

@@ -132,6 +132,7 @@ var items: SharedUiInventory = SharedUiInventory.new(self)
 var panels: SharedUiPanels = SharedUiPanels.new(self)
 var questions: SharedUiQuestions = SharedUiQuestions.new(self)
 var nearby: SharedUiNearby = SharedUiNearby.new(self)
+var waits: SharedUiWaits = SharedUiWaits.new(self)
 
 
 func _ready() -> void:
@@ -253,7 +254,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		if focused != null and focused.is_visible_in_tree():
 			# A button takes A on its release: the press is not the place's action.
 			return
-		if not actions.context_title().is_empty():
+		# Someone is telling the player something line by line: A is 继续 (DECISIONS「响应性」).
+		if waits.hurry():
+			get_viewport().set_input_as_handled()
+		elif not actions.context_title().is_empty():
 			get_viewport().set_input_as_handled()
 			actions.open_current_context()
 		elif enter_card_nav():
@@ -405,7 +409,9 @@ func _refresh_hints() -> void:
 		hints = [[&"ui_accept", tr("选择")], [&"ui_cancel", tr("返回")]]
 	else:
 		var title: String = actions.context_title()
-		if not title.is_empty():
+		if waits.can_hurry():
+			hints.append([&"ui_accept", tr("继续")])
+		elif not title.is_empty():
 			hints.append([&"ui_accept", title])
 		if _presentation_layout.nearby.visible:
 			hints.append([&"nearby_focus", tr("选择附近")])

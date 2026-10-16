@@ -9,6 +9,10 @@ extends RefCounted
 ## failure line ends the test. Past the last blow, `success` and the master's recruit
 ## (NpcApprenticeship.npc_recruit()). The student falls only on the heart beat after
 ## (char.c), which the caller runs.
+##
+## ES2 strikes the blows in one command (run()); the game strikes them pacing.json's
+## trial_blow_ms apart (DECISIONS「响应性」), one Run.step() at a time, the same blows,
+## lines and outcome.
 enum Outcome { NOT_RUN, FAILED, PASSED }
 
 
@@ -22,37 +26,90 @@ class Result:
 	var lines: Array[ColoredLine] = []
 
 
-## `attack` () -> Array[ColoredLine] or null; `stands` () -> bool; `recruit` () -> Outcome
-## after it set `request.lines` (NpcApprenticeship.npc_recruit()).
-static func run(rule: NpcTeaching.ApprenticeRule, request: NpcApprenticeship, attack: Callable, stands: Callable, recruit: Callable) -> Result:
+## A test under way: step() strikes the next blow.
+class Run:
+	extends RefCounted
 	var result := Result.new()
-	if rule == null or rule.kind != NpcTeaching.Kind.TRIAL or rule.blows.is_empty():
-		return result
-	for blow: NpcTeaching.TrialBlow in rule.blows:
-		result.lines.append(ColoredLine.new(_t(blow.say)))
-		var struck: Variant = attack.call()
+	## Every blow struck or the test over.
+	var finished: bool = false
+	var _rule: NpcTeaching.ApprenticeRule
+	var _request: NpcApprenticeship
+	var _attack: Callable
+	var _stands: Callable
+	var _recruit: Callable
+	var _next: int = 0
+
+	func _init(rule: NpcTeaching.ApprenticeRule, request: NpcApprenticeship, attack: Callable, stands: Callable, recruit: Callable) -> void:
+		_rule = rule
+		_request = request
+		_attack = attack
+		_stands = stands
+		_recruit = recruit
+		finished = rule == null or rule.kind != NpcTeaching.Kind.TRIAL or rule.blows.is_empty()
+
+	## How many blows the test has.
+	func blow_count() -> int:
+		return 0 if _rule == null else _rule.blows.size()
+
+	## The next blow, with its line before it and the end after it; the lines of this step.
+	func step() -> Array[ColoredLine]:
+		var lines: Array[ColoredLine] = []
+		if finished:
+			return lines
+		var blow: NpcTeaching.TrialBlow = _rule.blows[_next]
+		_next += 1
+		lines.append(ColoredLine.new(NpcApprenticeTrial._t(blow.say)))
+		var struck: Variant = _attack.call()
 		if struck == null:
+			finished = true
 			# Nothing said for a test that never began.
 			if result.blows == 0:
-				result.lines.clear()
+				lines.clear()
+				return lines
 			result.outcome = Outcome.NOT_RUN
-			return result
+			result.lines.append_array(lines)
+			return lines
 		var seen: Array[ColoredLine] = []
 		seen.assign(struck)
-		result.lines.append_array(seen)
+		lines.append_array(seen)
 		result.blows += 1
-		if not bool(stands.call()):
+		if not bool(_stands.call()):
 			# elon.c's first: command("sigh"), command("shake"): emotes print nothing.
 			if not blow.fail.is_empty():
-				result.lines.append(ColoredLine.new(_t(blow.fail)))
+				lines.append(ColoredLine.new(NpcApprenticeTrial._t(blow.fail)))
+			finished = true
 			result.outcome = Outcome.FAILED
-			return result
-	result.lines.append(ColoredLine.new(_t(rule.success)))
-	result.outcome = Outcome.PASSED
-	result.recruit = recruit.call()
-	for line: String in request.lines:
-		result.lines.append(ColoredLine.new(line))
-	return result
+		elif _next >= _rule.blows.size():
+			lines.append(ColoredLine.new(NpcApprenticeTrial._t(_rule.success)))
+			finished = true
+			result.outcome = Outcome.PASSED
+			result.recruit = _recruit.call()
+			for line: String in _request.lines:
+				lines.append(ColoredLine.new(line))
+		result.lines.append_array(lines)
+		return lines
+
+	## The student was gone before the next blow (they walked off between blows): the test
+	## is over, failed, with nothing said (the master's line finds nobody).
+	func abandon() -> void:
+		if finished:
+			return
+		finished = true
+		result.outcome = Outcome.FAILED
+
+
+## `attack` () -> Array[ColoredLine] or null; `stands` () -> bool; `recruit` () -> Outcome
+## after it set `request.lines` (NpcApprenticeship.npc_recruit()).
+static func start(rule: NpcTeaching.ApprenticeRule, request: NpcApprenticeship, attack: Callable, stands: Callable, recruit: Callable) -> Run:
+	return Run.new(rule, request, attack, stands, recruit)
+
+
+## champion.c: every blow in one go.
+static func run(rule: NpcTeaching.ApprenticeRule, request: NpcApprenticeship, attack: Callable, stands: Callable, recruit: Callable) -> Result:
+	var test: Run = start(rule, request, attack, stands, recruit)
+	while not test.finished:
+		test.step()
+	return test.result
 
 
 static func _t(text: String) -> String:

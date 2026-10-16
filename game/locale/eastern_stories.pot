@@ -31,7 +31,7 @@ msgstr ""
 msgid "新游戏"
 msgstr ""
 
-#: scenes/application/application_shell.tscn ui/world/player_life_overlay.gd
+#: scenes/application/application_shell.tscn presentation/layout/shared_gameplay_layout.gd ui/world/player_life_overlay.gd ui/world/shared_gameplay_ui.gd
 msgid "继续"
 msgstr ""
 
@@ -6473,6 +6473,16 @@ msgstr ""
 msgid "%s慢慢睁开眼睛，清醒了过来。"
 msgstr ""
 
+#. the HUD while a master's test (三招, 三鞭) goes on: {npc} the master, {n} the blows struck, {total} all of them.
+#: runtime/world/map/world_map_npc_life.gd
+msgid "{npc}的测试：第 {n} / {total} 招"
+msgstr ""
+
+#. the HUD while an NPC tells something line by line (a story, a making, a gargoyle's questions): {npc} the NPC, {n} the lines told, {total} all of them. 继续 brings the next line now.
+#: runtime/world/map/world_map_npc_life.gd
+msgid "{npc}：第 {n} / {total} 句"
+msgstr ""
+
 #. go.c: someone ({name}) comes into the player's room.
 #: runtime/world/map/world_map_npc_life.gd runtime/world/map/world_map_patrols.gd runtime/world/map/world_map_spells.gd
 msgid "{name}走了过来。"
@@ -6591,6 +6601,11 @@ msgstr ""
 #. cast.c's 这里没有…: the one ({name}) a 僵尸追魂符 names is not here; the sheet stays.
 #: runtime/world/map/world_map_spells.gd
 msgid "这里没有{name}。"
+msgstr ""
+
+#. the HUD while the player's steal waits for its chance (steal.c's three seconds): {npc} the one stolen from.
+#: runtime/world/map/world_map_thefts.gd
+msgid "等待机会对{npc}下手"
 msgstr ""
 
 #: runtime/world/map/world_map_thefts.gd
@@ -8178,6 +8193,11 @@ msgstr ""
 msgid "【{title}】{description}"
 msgstr ""
 
+#. the HUD's line under an NPC lying unconscious: {n} seconds until it comes to (damage.c revive), rounded up.
+#: ui/world/shared_ui_nearby.gd
+msgid "昏迷不醒，约 {n} 秒后醒来"
+msgstr ""
+
 #. sanyen.kitchen.steampot act.verb
 #: ui/world/shared_ui_nearby.gd data/sanyen/world.json
 msgid "打开"
@@ -8238,6 +8258,21 @@ msgstr ""
 #. a resource bar's tooltip: current / effective / maximum.
 #: ui/world/shared_ui_status_card.gd
 msgid "当前 {current} / 有效 {effective} / 最大 {maximum}"
+msgstr ""
+
+#. the HUD while the player is busy (their last action not done, char.c continue_action()): {n} seconds left, rounded up.
+#: ui/world/shared_ui_waits.gd
+msgid "忙碌：约 {n} 秒后空下来"
+msgstr ""
+
+#. the HUD once 朱鸿雪's task time ran out (quest.c: 但是你已经没有足够的时间来完成它了。).
+#: ui/world/shared_ui_waits.gd
+msgid "朱鸿雪的任务：时间已过"
+msgstr ""
+
+#. the HUD while 朱鸿雪's task runs: {time} the time left as time_period() writes it (五分零秒).
+#: ui/world/shared_ui_waits.gd
+msgid "朱鸿雪的任务：还有{time}"
 msgstr ""
 
 #. the 偷窃 list's choice for no thing in particular: steal.c takes one of everything the NPC carries.

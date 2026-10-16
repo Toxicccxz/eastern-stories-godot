@@ -206,7 +206,8 @@ func _initialize_player_recovery() -> bool:
 	if _player_recovery_cadence == null:
 		if _recovery_random == null:
 			_recovery_random = GodotRecoveryCadenceRandomSource.new()
-		_player_recovery_cadence = PlayerRecoveryCadence.new(_recovery_random, true, null, GameContent.catalog().pacing().player_recovery_gain)
+		var pacing: PacingDefinition = GameContent.catalog().pacing()
+		_player_recovery_cadence = PlayerRecoveryCadence.new(_recovery_random, true, null, pacing.player_recovery_gain, 1, pacing.heart_beat_seconds)
 	return _player_recovery_cadence.is_valid()
 
 

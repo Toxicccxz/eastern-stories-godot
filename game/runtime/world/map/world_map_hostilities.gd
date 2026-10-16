@@ -143,9 +143,41 @@ func process_pending_aggression() -> Array[CombatSliceInitiationResult]:
 func advance_toll_contacts(delta: float) -> void:
 	for npc: NpcRuntimeState in _map.npcs.residents:
 		if npc.definition().dealings().toll_attack_delay_ms > 0 and complete_entry_contact(npc.character_id):
+			if not toll_contact_seconds.has(npc.character_id):
+				_shout_toll(npc)
 			toll_contact_seconds[npc.character_id] = toll_contact_seconds.get(npc.character_id, 0.0) + delta
 		else:
 			toll_contact_seconds.erase(npc.character_id)
+
+
+## The toll-taker in reach will attack the player once its delay has passed (they have not
+## paid, it has not fought them): the HUD marks it.
+func toll_pending(npc: NpcRuntimeState) -> bool:
+	return (
+		npc != null and toll_contact_seconds.has(npc.character_id) and _player != null
+		and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and not npc.relationship.is_fighting()
+		and npc.definition().attacks_on_sight(npc.flags(), _player.state)
+		and npc.definition().toll_attack_delay_ms(npc.flags(), _player.state) > 0
+	)
+
+
+## Deviation (DECISIONS「响应性」): gangster.c's greeting attacks without a word, its 买路财
+## line only a 1% chat; here it shouts that line the moment a passer-by who owes the toll
+## comes into reach, so its wait is seen.
+func _shout_toll(npc: NpcRuntimeState) -> void:
+	var index: int = npc.definition().dealings().toll_shout
+	var entries: Array = npc.definition().talk().chat_entries()
+	if index < 0 or index >= entries.size() or _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
+		return
+	if npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or npc.relationship.is_fighting():
+		return
+	if not npc.definition().attacks_on_sight(npc.flags(), _player.state) or npc.definition().toll_attack_delay_ms(npc.flags(), _player.state) <= 0:
+		return
+	var entry: Variant = entries[index]
+	if entry is String:
+		_map.hud().append_log_lines([NpcTalk.line(entry)])
+	elif entry is ColoredLine:
+		_map.hud().append_colored_lines([ColoredLine.new(NpcTalk.line(entry.text), entry.color)])
 
 
 func _toll_due(npc: NpcRuntimeState) -> bool:

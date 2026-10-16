@@ -18,10 +18,23 @@ extends RefCounted
 ##   seconds, while world time runs damage.c's whole revive delay (random(100 - con)
 ##   + 30) that much faster (owner, modern fixes II, A9). 0 (ES2): the player waits
 ##   the delay itself.
+##
+## The responsiveness knobs (现代化修正 III, DECISIONS「响应性」): each changes when
+## something shows, never what happens; left out, each is ES2's:
+## - reaction_beat_ms: an NPC's call_out answering what the player just did (a master's
+##   拜师 answer, a greeting, a sentence, a dissolve, a zombie's end) comes at most this
+##   long after it (ES2: each call_out's own 1-3 s, kept in the NPC's data). 0: ES2.
+## - trial_blow_ms: the time between a master's test blows (三招, 三鞭); ES2's
+##   champion.c strikes all three in one command. 0: ES2.
+## - heart_beat_ms: the driver heart_beat outside a fight (ES2: "usually 2 seconds",
+##   DECISIONS S5B B): NPC chat, busy wearing off, heal_up's tick count.
+## - dim_fade_ms: how long the screen takes to go dark when the player falls unconscious.
+##   0 (ES2 has no screen): at once.
 const ES2_ROOM_RESET_SECONDS: int = 1800
 const ES2_GAIN: int = 1
 const ES2_QUEST_TIME_PERCENT: int = 100
 const ES2_WAKE_SECONDS: int = 0
+const ES2_HEART_BEAT_MS: int = 2000
 
 var _combat_round_ms: int
 var _room_reset_seconds: int
@@ -30,6 +43,10 @@ var _player_recovery_gain: int
 var _quest_time_percent: int
 var _npc_thirst: int
 var _player_wake_seconds: int
+var _reaction_beat_ms: int = 0
+var _trial_blow_ms: int = 0
+var _heart_beat_ms: int = ES2_HEART_BEAT_MS
+var _dim_fade_ms: int = 0
 
 ## Seconds between two combat rounds of an encounter (the scheduler's opportunity interval).
 var combat_round_seconds: float:
@@ -59,6 +76,35 @@ var npc_thirst: int:
 var player_wake_seconds: int:
 	get:
 		return _player_wake_seconds
+## Seconds between a master's test blows (0: all in one go).
+var trial_blow_seconds: float:
+	get:
+		return float(_trial_blow_ms) / 1000.0
+## Seconds of one heart beat outside a fight.
+var heart_beat_seconds: float:
+	get:
+		return float(_heart_beat_ms) / 1000.0
+## Seconds the screen takes to go dark for an unconscious player (0: at once).
+var dim_fade_seconds: float:
+	get:
+		return float(_dim_fade_ms) / 1000.0
+
+
+## When an NPC's call_out that answers the player comes: its ES2 time `es2_seconds`, or
+## the reaction beat when that is sooner.
+func reaction_seconds(es2_seconds: float) -> float:
+	if _reaction_beat_ms <= 0:
+		return es2_seconds
+	return minf(es2_seconds, float(_reaction_beat_ms) / 1000.0)
+
+
+## This record with the responsiveness knobs set (milliseconds; tests, and from_record()).
+func with_responsiveness(reaction_beat_ms: int, trial_blow_ms: int, heart_beat_ms: int = ES2_HEART_BEAT_MS, dim_fade_ms: int = 0) -> PacingDefinition:
+	_reaction_beat_ms = reaction_beat_ms
+	_trial_blow_ms = trial_blow_ms
+	_heart_beat_ms = heart_beat_ms
+	_dim_fade_ms = dim_fade_ms
+	return self
 
 
 func _init(
@@ -88,6 +134,11 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.integer("quest_time_percent", ES2_QUEST_TIME_PERCENT),
 		reader.integer("npc_thirst", ES2_GAIN),
 		reader.integer("player_wake_seconds", ES2_WAKE_SECONDS),
+	).with_responsiveness(
+		reader.integer("reaction_beat_ms", 0),
+		reader.integer("trial_blow_ms", 0),
+		reader.integer("heart_beat_ms", ES2_HEART_BEAT_MS),
+		reader.integer("dim_fade_ms", 0),
 	)
 	reader.finish()
 	if definition._combat_round_ms <= 0:
@@ -104,4 +155,12 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.fail("npc_thirst", "must be at least 1")
 	if definition._player_wake_seconds < 0:
 		reader.fail("player_wake_seconds", "must not be negative")
+	if definition._reaction_beat_ms < 0:
+		reader.fail("reaction_beat_ms", "must not be negative")
+	if definition._trial_blow_ms < 0:
+		reader.fail("trial_blow_ms", "must not be negative")
+	if definition._dim_fade_ms < 0:
+		reader.fail("dim_fade_ms", "must not be negative")
+	if definition._heart_beat_ms <= 0:
+		reader.fail("heart_beat_ms", "must be positive")
 	return definition

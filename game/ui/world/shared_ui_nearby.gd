@@ -89,10 +89,32 @@ func refresh() -> void:
 		signature.append("%d:%s:%s:%s" % [thing.kind, thing.id, _shown_name(thing), ",".join(labels)])
 	var joined: String = "|".join(signature)
 	_presentation_layout.nearby.visible = not commands.is_empty()
-	if joined == _shown_signature:
-		return
-	_shown_signature = joined
-	_rebuild(commands)
+	if joined != _shown_signature:
+		_shown_signature = joined
+		_rebuild(commands)
+	_refresh_states(map)
+
+
+## How each NPC listed is now, refreshed with the card (DECISIONS「响应性」: waits are seen):
+## one lying unconscious says when it comes to (damage.c's revive call_out); a toll-taker
+## about to attack has its name in red.
+func _refresh_states(map: WorldMapController) -> void:
+	for row: Node in _presentation_layout.nearby.get_children():
+		if row.is_queued_for_deletion() or not row.has_meta(&"npc_id") or map == null:
+			continue
+		var npc: NpcRuntimeState = map.npcs.find_resident_npc(row.get_meta(&"npc_id"))
+		var status: Label = row.get_node_or_null("Item/Status")
+		var name_label: Label = row.get_node_or_null("Item/Name")
+		if npc == null or status == null or name_label == null:
+			continue
+		var text: String = ""
+		if npc.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS and npc.revive_in_ms > 0:
+			# TRANSLATORS: the HUD's line under an NPC lying unconscious: {n} seconds until it comes to (damage.c revive), rounded up.
+			text = tr("昏迷不醒，约 {n} 秒后醒来").format({"n": ceili(npc.revive_in_ms / 1000.0)})
+		status.text = text
+		status.visible = not text.is_empty()
+		var color: Color = SharedGameplayUI.ALERT_COLOR if map.hostilities.toll_pending(npc) else SharedGameplayLayout.ACCENT_COLOR
+		name_label.add_theme_color_override("font_color", color)
 
 
 ## No panel open: the selection is the NPC the player stands by (`things` is nearest
@@ -254,6 +276,8 @@ func _rebuild(commands: Array[Array]) -> void:
 		var shown_name: String = _shown_name(thing)
 		var row: PanelContainer = _presentation_layout.nearby_row(shown_name)
 		row.set_meta(&"shown_name", shown_name)
+		if thing.kind == WorldNearbyThing.Kind.NPC:
+			row.set_meta(&"npc_id", thing.id)
 		var labels: Array[String] = []
 		for command: Array in entry[1]:
 			var button: Button = _presentation_layout.nearby_button(row, command[0], command[1])
