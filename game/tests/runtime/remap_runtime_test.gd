@@ -226,6 +226,19 @@ func _test_save_on_the_way(tree: SceneTree, session: WorldSessionController) -> 
 		_check(refused != null and not refused.succeeded() and refused.outcome == OldPineWorldRestoreResult.Outcome.INCONSISTENT_SPAWN_STATE, "the waiter on the square is refused")
 		if refused != null and refused.succeeded():
 			refused.candidate.free()
+	# A door shut across its way meanwhile (TEST-ONLY: one put on the inn's portal): a save
+	# leaves it on the square, as the walk's end would (finish_departures()).
+	var catalog: ContentCatalog = GameContent.catalog()
+	var id: StringName = &"test.inn.door"
+	catalog._doors[id] = DoorDefinition.new(id, &"", "门", [SnowWorldDefinitions.MAIN_FLOOR_ZONE_ID, &"snow.square"] as Array[StringName], 90, true, &"es2:d/snow/inn").with_maps([SnowWorldDefinitions.INN_MAP_ID, SnowWorldDefinitions.OUTDOOR_MAP_ID])
+	var shut: WorldDoor = _door_node(square, id)
+	square.set_door_open(id, false)
+	_check(square.npc_life.departures.has(npc.character_id) and session.departure_projection(npc, square).is_empty(), "the door shut across its way: a save keeps it on the square")
+	square.set_door_open(id, true)
+	_check(not session.departure_projection(npc, square).is_empty(), "open again: a save takes it through")
+	catalog._doors.erase(id)
+	square.doors_by_id.erase(id)
+	shut.free()
 	# Stopped short (a fight cancels its walk): it stays, and may wander again.
 	square.npc_life.npc_walker().cancel(npc.character_id)
 	square.npc_life.finish_departures(true)
