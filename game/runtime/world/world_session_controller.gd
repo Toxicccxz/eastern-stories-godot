@@ -1270,6 +1270,22 @@ func _move_npc(npc: NpcRuntimeState, source: WorldMapController, destination: Wo
 	return false
 
 
+## Where an NPC on its way out by a door (WorldMapNpcLife.departures) stands once through it:
+## [location, position] on the portal's map, as move_npc_through() would put it; [] when it
+## is not leaving. A save takes the move as made (the 往…离开 was told): Continue finds it there.
+func departure_projection(npc: NpcRuntimeState, source: WorldMapController) -> Array:
+	var departure: Dictionary = {} if source == null else source.npc_life.departures.get(npc.character_id, {})
+	if departure.is_empty() or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or npc.relationship.is_fighting():
+		return []
+	var portal: PortalDefinition = departure["portal"]
+	var destination: WorldMapController = world_map_of(portal.destination_map_id)
+	var marker: WorldSpawnMarker2D = null if destination == null else destination.resolve_spawn_marker(portal.destination_spawn_point_id)
+	var location: WorldLocationState = null if destination == null else destination.location_for_zone(portal.destination_zone_id)
+	if marker == null or location == null:
+		return []
+	return [location, _clear_spot(destination, portal.destination_zone_id, marker.global_position)]
+
+
 ## room.c reset() calling home (return_home()) an NPC of `home`'s spawn point that went
 ## onto another map: it comes back to its marker from wherever it is, a dead one's record
 ## too (the reset makes it anew). Null when no map holds it.
