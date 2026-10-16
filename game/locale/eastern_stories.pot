@@ -5658,11 +5658,11 @@ msgid "战斗无法正常结束，不会自动重试。"
 msgstr ""
 
 #: presentation/battle/battle_presentation_controller.gd
-msgid "换目标"
+msgid "战斗描写会显示在这里。"
 msgstr ""
 
 #: presentation/battle/battle_presentation_controller.gd
-msgid "战斗描写会显示在这里。"
+msgid "换目标"
 msgstr ""
 
 #. the damage behind a battle line, as BattleNarrationLine.rich_text() shows it.
