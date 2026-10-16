@@ -164,13 +164,20 @@ func finish_departures(arrived_only: bool) -> void:
 		var body: Node2D = _map.npcs.runtime_body_for_character(character_id)
 		if (
 			npc == null or session == null or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE
-			or npc.relationship.is_fighting() or not _map.is_portal_open(portal.portal_id)
-			or npc.world_location().zone_id != portal.source_zone_id
+			or npc.relationship.is_fighting() or not departure_open(npc, portal)
 			or (spot.is_finite() and (body == null or body.global_position.distance_to(spot) > 4.0))
-			or (_door_closed_between(portal.source_zone_id, portal.destination_zone_id))
 		):
 			continue
 		session.move_npc_through(npc, _map, portal)
+
+
+## Whether the way an NPC set out by is still open to it: the passage open, it still in the
+## room it leaves, no door shut across it since (a save projects it through only then).
+func departure_open(npc: NpcRuntimeState, portal: PortalDefinition) -> bool:
+	return (
+		_map.is_portal_open(portal.portal_id) and npc.world_location().zone_id == portal.source_zone_id
+		and not _door_closed_between(portal.source_zone_id, portal.destination_zone_id)
+	)
 
 
 ## The player kept pushing into a standing NPC (owner, polish, A5): a conscious one that
@@ -964,7 +971,7 @@ func _walk_out_through(npc: NpcRuntimeState, to_zone_id: StringName, from_zone_i
 
 ## room.c valid_leave(): a closed door between the two zones stops the move.
 func _door_closed_between(from_zone_id: StringName, to_zone_id: StringName) -> bool:
-	for door: WorldDoor in _map.doors():
+	for door: WorldDoor in _map.doors_by_id.values():
 		var definition: DoorDefinition = GameContent.catalog().door(door.door_id)
 		if definition != null and definition.zone_ids().has(from_zone_id) and definition.zone_ids().has(to_zone_id) and not door.is_open():
 			return true

@@ -329,7 +329,10 @@ func _test_hollow(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(await _take_floor(tree, hollow, CHEST, &"choyin.tomb3") and not _carried(session, CHEST).is_empty(), "the 桃木箱 lies in the sandalwood end: the player takes it")
 	_check(session.handoff_to(&"choyin.town", &"choyin.n_gate", &"choyin.n_gate", &"choyin.n_gate.road_arrival").succeeded(), "up again")
 	await tree.physics_frame
-	map = session.active_map() as WorldMapController
+	# TEST-ONLY: into the 福林楼's hall (its own map since the remap) without walking the town.
+	map = MapPlaces.enter(session, &"choyin.hotel1", &"choyin.hotel1.s_street2_entry")
+	await tree.physics_frame
+	_check(map != null and map.map_id() == &"choyin.hotel_house", "TEST-ONLY: in the 福林楼's hall, its own map")
 	var sergeant: NpcRuntimeState = _npc(map, SERGEANT)
 	_check(sergeant != null and map.place_player(sergeant.world_location().zone_id, MapPlaces.spot(map, sergeant.world_location().zone_id, map.runtime_body_for_character(sergeant.character_id).global_position, 96.0)), "beside the 武官")
 	await tree.physics_frame
@@ -349,6 +352,10 @@ func _test_hollow(tree: SceneTree, session: WorldSessionController) -> void:
 	var after: Array = await _continued(tree, session, sergeant.character_id)
 	var remembered: NpcRuntimeState = null if after.is_empty() else after[0]
 	_check(remembered != null and remembered.has_flag(&"chest_found") and remembered.forgotten_topics().has("桃木箱子") and remembered.forgotten_topics().has("rumors"), "after Continue the 武官 still has his chest and asks after none")
+	# Out by the hall's door to the 福林大街, where the 官家小姐 is.
+	_check(await MapPlaces.take_passage(tree, map, &"choyin.hotel1.west"), "out of the 福林楼 by its door")
+	await tree.physics_frame
+	_check(session.active_map_id() == &"choyin.town" and player.world_location().zone_id == &"choyin.s_street2", "on the 福林大街: %s" % player.world_location().zone_id)
 
 
 ## girl.c's 游晋: the 荷包, once (默认); youngman.c takes it, his 心事 is told.
@@ -383,12 +390,17 @@ func _test_lovers(tree: SceneTree, session: WorldSessionController) -> void:
 ## club.c: a book scratched off the table (its name drawn) goes back on leaving; one leaving
 ## without reads 你离开草堂!; the bracelet's pray fails there.
 func _test_hermit(tree: SceneTree, session: WorldSessionController) -> void:
-	_check(session.handoff_to(&"choyin.east", &"choyin.solidpath1", &"choyin.solidpath1", &"choyin.solidpath1.gate_arrival").succeeded(), "east of the town")
+	# TEST-ONLY: at the 竹篱 without walking up from the 东城门.
+	_check(session.handoff_to(&"choyin.east", &"choyin.fence", &"choyin.fence", &"choyin.fence.club_return").succeeded(), "east of the town, at the 竹篱")
 	await tree.physics_frame
-	var map: WorldMapController = session.active_map() as WorldMapController
+	var east: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
-	map.set_door_open(&"choyin.fence.door", true)
-	_check(map.place_player(&"choyin.club", MapPlaces.service_spot(map, &"choyin.club.scratch", &"choyin.club")), "in the 草堂 by the books")
+	# The 草堂 is its own map since the remap: through the 柴门, opened from the fence side.
+	_check(await MapPlaces.drive(tree, east, MapPlaces.door_spot(east, &"choyin.fence.door", &"choyin.fence")) and east.open_door(&"choyin.fence.door"), "the 柴门 opens")
+	_check(await MapPlaces.take_passage(tree, east, &"choyin.fence.west"), "west through the 柴门")
+	var map: WorldMapController = session.active_map() as WorldMapController
+	await tree.physics_frame # The arrival's zone Areas report a frame later.
+	_check(map.map_id() == &"choyin.club_house" and map.place_player(&"choyin.club", MapPlaces.service_spot(map, &"choyin.club.scratch", &"choyin.club")), "in the 草堂 by the books")
 	await tree.physics_frame
 	await tree.physics_frame
 	var scratch: WorldService = _service(map, &"choyin.club.scratch")
@@ -403,10 +415,16 @@ func _test_hermit(tree: SceneTree, session: WorldSessionController) -> void:
 	# Owner (after 乔阴 B): the player's set_temp() flags are saved too.
 	var continued: Array = await _continued(tree, session, &"")
 	_check(not continued.is_empty() and (continued[1] as Dictionary).get("choyin/书", 0) == 1, "after Continue the player still has the 草堂's choyin/书")
-	_check(await MapPlaces.drive_to_zone(tree, map, &"choyin.fence"), "out east to the bamboo")
+	_check(await MapPlaces.take_passage(tree, map, &"choyin.club.east"), "out east to the bamboo, through the 柴门")
+	east = session.active_map() as WorldMapController
+	await tree.physics_frame # The arrival's zone Areas report a frame later.
+	_check(east.map_id() == &"choyin.east" and session.player_runtime().world_location().zone_id == &"choyin.fence", "at the 竹篱: %s" % session.player_runtime().world_location().zone_id)
 	_check(_carried_kind(session, [BOOK1, BOOK2]).is_empty() and hud.log_lines().has("你将书放回到矮几。"), "the book goes back")
-	_check(await MapPlaces.drive_to_zone(tree, map, &"choyin.club"), "back in")
-	_check(await MapPlaces.drive_to_zone(tree, map, &"choyin.fence"), "out again")
+	_check(await MapPlaces.take_passage(tree, east, &"choyin.fence.west"), "back in")
+	map = session.active_map() as WorldMapController
+	await tree.physics_frame # The arrival's zone Areas report a frame later.
+	_check(map.map_id() == &"choyin.club_house" and session.player_runtime().world_location().zone_id == &"choyin.club", "in the 草堂 again: %s" % session.player_runtime().world_location().zone_id)
+	_check(await MapPlaces.take_passage(tree, map, &"choyin.club.east"), "out again")
 	_check(hud.log_lines()[-1] == "你离开草堂!" or hud.log_lines().slice(-3).has("你离开草堂!"), "without a book: 你离开草堂!: %s" % [hud.log_lines().slice(-3)])
 
 

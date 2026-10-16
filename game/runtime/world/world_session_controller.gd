@@ -1289,12 +1289,16 @@ func _move_npc(npc: NpcRuntimeState, source: WorldMapController, destination: Wo
 
 ## Where an NPC on its way out by a door (WorldMapNpcLife.departures) stands once through it:
 ## [location, position] on the portal's map, as move_npc_through() would put it; [] when it
-## is not leaving. A save takes the move as made (the 往…离开 was told): Continue finds it there.
+## is not leaving, or its way shut meanwhile (a door closed across it: it stays, as
+## finish_departures() would leave it). A save takes the move as made (the 往…离开 was told):
+## Continue finds it there.
 func departure_projection(npc: NpcRuntimeState, source: WorldMapController) -> Array:
 	var departure: Dictionary = {} if source == null else source.npc_life.departures.get(npc.character_id, {})
 	if departure.is_empty() or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or npc.relationship.is_fighting():
 		return []
 	var portal: PortalDefinition = departure["portal"]
+	if not source.npc_life.departure_open(npc, portal):
+		return []
 	var destination: WorldMapController = world_map_of(portal.destination_map_id)
 	var marker: WorldSpawnMarker2D = null if destination == null else destination.resolve_spawn_marker(portal.destination_spawn_point_id)
 	var location: WorldLocationState = null if destination == null else destination.location_for_zone(portal.destination_zone_id)

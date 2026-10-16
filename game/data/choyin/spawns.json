@@ -55,24 +55,6 @@
 			"legacy_quantity": 2
 		},
 		{
-			"id": "choyin.town.hotel1.boss",
-			"npc": "choyin.npc.boss",
-			"map": "choyin.town",
-			"zone": "choyin.hotel1",
-			"points": ["choyin.hotel1.boss.1"],
-			"legacy_room": "d/choyin/hotel1.c",
-			"legacy_quantity": 1
-		},
-		{
-			"id": "choyin.town.hotel1.sergeant",
-			"npc": "choyin.npc.sergeant",
-			"map": "choyin.town",
-			"zone": "choyin.hotel1",
-			"points": ["choyin.hotel1.sergeant.1"],
-			"legacy_room": "d/choyin/hotel1.c",
-			"legacy_quantity": 1
-		},
-		{
 			"id": "choyin.town.s_street1.cucurbit_seller",
 			"npc": "choyin.npc.cucurbit_seller",
 			"map": "choyin.town",
@@ -345,6 +327,24 @@
 			"legacy_room": "d/choyin/lionroom.c",
 			"legacy_quantity": 1,
 			"presence_radius": 400
+		},
+		{
+			"id": "choyin.hotel_house.hotel1.boss",
+			"npc": "choyin.npc.boss",
+			"map": "choyin.hotel_house",
+			"zone": "choyin.hotel1",
+			"points": ["choyin.hotel1.boss.1"],
+			"legacy_room": "d/choyin/hotel1.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "choyin.hotel_house.hotel1.sergeant",
+			"npc": "choyin.npc.sergeant",
+			"map": "choyin.hotel_house",
+			"zone": "choyin.hotel1",
+			"points": ["choyin.hotel1.sergeant.1"],
+			"legacy_room": "d/choyin/hotel1.c",
+			"legacy_quantity": 1
 		}
 	]
 }

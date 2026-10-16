@@ -6,8 +6,8 @@ extends RefCounted
 ## anyone on the way through at once; a save keeps it there and a room reset brings it
 ## home. A door may stand on a portal (two maps, one door: shut on one, shut on both). A
 ## door's fade is the shorter door_fade_* and names no place. The world revision is
-## SOURCE_ENTRY_REMAP_R1_V1 (绮云镇, 玉螺湖村, 天驼关 after the Snow pilot), read and written by
-## its enum name.
+## SOURCE_ENTRY_REMAP_R2_V1 (京师, 乔阴, 黑松山, 鬼门关 after R1), read and written by its enum
+## name.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const TRAVELLERS: StringName = &"snow.inn.travellers"
@@ -63,13 +63,13 @@ func _test_who_leaves_home() -> void:
 
 
 func _test_revision() -> void:
-	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_REMAP_R1_V1, "the R1 rollout's world revision is current")
+	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_REMAP_R2_V1, "the R2 rollout's world revision is current")
 	var named: bool = true
 	for value: int in WorldContentRevision.Value.values():
 		var text: String = WorldContentRevision.serialized(value as WorldContentRevision.Value)
 		named = named and text == WorldContentRevision.Value.keys()[value] and WorldContentRevision.parsed(text) == value
 	_check(named and WorldContentRevision.parsed("SOURCE_ENTRY_NONE") == -1, "every revision is saved and read by its enum name")
-	_check(WorldContentRevision.public_support(WorldContentRevision.Value.SOURCE_ENTRY_REMAP_SNOW_V1).outcome == GameSaveResult.Outcome.INCOMPATIBLE_DEVELOPMENT_CONTRACT, "a save of the revision before is refused (New Game)")
+	_check(WorldContentRevision.public_support(WorldContentRevision.Value.SOURCE_ENTRY_REMAP_R1_V1).outcome == GameSaveResult.Outcome.INCOMPATIBLE_DEVELOPMENT_CONTRACT, "a save of the revision before is refused (New Game)")
 
 
 func _test_door_data() -> void:
@@ -226,6 +226,19 @@ func _test_save_on_the_way(tree: SceneTree, session: WorldSessionController) -> 
 		_check(refused != null and not refused.succeeded() and refused.outcome == OldPineWorldRestoreResult.Outcome.INCONSISTENT_SPAWN_STATE, "the waiter on the square is refused")
 		if refused != null and refused.succeeded():
 			refused.candidate.free()
+	# A door shut across its way meanwhile (TEST-ONLY: one put on the inn's portal): a save
+	# leaves it on the square, as the walk's end would (finish_departures()).
+	var catalog: ContentCatalog = GameContent.catalog()
+	var id: StringName = &"test.inn.door"
+	catalog._doors[id] = DoorDefinition.new(id, &"", "门", [SnowWorldDefinitions.MAIN_FLOOR_ZONE_ID, &"snow.square"] as Array[StringName], 90, true, &"es2:d/snow/inn").with_maps([SnowWorldDefinitions.INN_MAP_ID, SnowWorldDefinitions.OUTDOOR_MAP_ID])
+	var shut: WorldDoor = _door_node(square, id)
+	square.set_door_open(id, false)
+	_check(square.npc_life.departures.has(npc.character_id) and session.departure_projection(npc, square).is_empty(), "the door shut across its way: a save keeps it on the square")
+	square.set_door_open(id, true)
+	_check(not session.departure_projection(npc, square).is_empty(), "open again: a save takes it through")
+	catalog._doors.erase(id)
+	square.doors_by_id.erase(id)
+	shut.free()
 	# Stopped short (a fight cancels its walk): it stays, and may wander again.
 	square.npc_life.npc_walker().cancel(npc.character_id)
 	square.npc_life.finish_departures(true)
