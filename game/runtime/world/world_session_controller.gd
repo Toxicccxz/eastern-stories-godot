@@ -1261,7 +1261,8 @@ func move_npc_through(npc: NpcRuntimeState, source: WorldMapController, portal: 
 
 
 ## An NPC called over from a room on another map (ScriptedAct COMES): it leaves `source` and
-## stands on `destination` in `zone_id`, clear of the player there. False when it could not.
+## stands on `destination` (the active map) in `zone_id`, clear of the player there. False
+## when it could not.
 func bring_npc_onto(npc: NpcRuntimeState, source: WorldMapController, destination: WorldMapController, zone_id: StringName) -> bool:
 	var location: WorldLocationState = destination.location_for_zone(zone_id)
 	if location == null:

@@ -206,7 +206,8 @@ func _test_held(tree: SceneTree, session: WorldSessionController) -> void:
 	if catcher == null:
 		return
 	_check(not await MapPlaces.drive_to_zone(tree, map, &"village.road4") and player.world_location().zone_id == &"village.melonfarm" and hud.log_lines().has(HELD), "north: 你的去路被瓜农拦住了。")
-	_check(not await MapPlaces.take_passage(tree, map, &"village.melonfarm.south", 240) and session.active_map() == map and player.world_location().zone_id == &"village.melonfarm", "south (the 瓜棚's door, its own map): held too")
+	var told: int = hud.log_lines().count(HELD)
+	_check(not await MapPlaces.take_passage(tree, map, &"village.melonfarm.south", 240) and session.active_map() == map and player.world_location().zone_id == &"village.melonfarm" and hud.log_lines().count(HELD) > told, "south (the 瓜棚's door, its own map): held too, told so")
 	var pick: ActService = map.service(PICK) as ActService
 	_check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, PICK)), "by the melons, held")
 	var snapshot: GameSaveSnapshot = Work.capture(session)
