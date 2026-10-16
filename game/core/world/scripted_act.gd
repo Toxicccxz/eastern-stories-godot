@@ -249,6 +249,12 @@ func moves_player() -> bool:
 	return steps.any(func(step: Step) -> bool: return step.kind == Kind.MOVE)
 
 
+## Whether a step hurts, poisons, attacks or moves the player (a greeting that does so keeps
+## ES2's second to walk past: DECISIONS「响应性」).
+func harms_player() -> bool:
+	return steps.any(func(step: Step) -> bool: return step.kind in [Kind.DAMAGE, Kind.HURT, Kind.CONDITION, Kind.KILL, Kind.MOVE])
+
+
 ## Whether a step brings the ghost back to life (`reincarnate`).
 func reincarnates() -> bool:
 	return steps.any(func(step: Step) -> bool: return step.kind == Kind.REINCARNATE)

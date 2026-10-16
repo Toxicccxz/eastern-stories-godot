@@ -6473,7 +6473,7 @@ msgstr ""
 msgid "%s慢慢睁开眼睛，清醒了过来。"
 msgstr ""
 
-#. the HUD while a master's test (三招, 三鞭) goes on: {npc} the master, {n} the blows struck, {total} all of them.
+#. the HUD while a master's test (三招, 三鞭) is told blow by blow: {npc} the master, {n} the blows told, {total} all of them.
 #: runtime/world/map/world_map_npc_life.gd
 msgid "{npc}的测试：第 {n} / {total} 招"
 msgstr ""

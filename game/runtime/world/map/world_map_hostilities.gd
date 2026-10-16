@@ -31,6 +31,8 @@ var complete_set_consumed_contacts: Array[StringName] = []
 var toll_contact_seconds: Dictionary[StringName, float] = {}
 ## Toll-takers put back in the pair queue while their greeting waits.
 var toll_waiting: Dictionary[StringName, bool] = {}
+## Toll-takers that shouted at the player since they came into its place (once a visit).
+var toll_shouted: Dictionary[StringName, bool] = {}
 
 # The map's authorities, read as the controller reads them.
 var session: WorldSessionController:
@@ -140,22 +142,37 @@ func process_pending_aggression() -> Array[CombatSliceInitiationResult]:
 ## player still in reach when its delay has passed; one who walked on meets nobody.
 ## Owner (pacing knobs): walking past makes no grudge either (ES2's greeting
 ## kill_ob()s a passer-by who has left, and it attacks at once next time).
+## Its seconds count while its greeting would come (it stands free and the player owes it):
+## they start with its shout (DECISIONS「响应性」), so the shout always comes the whole delay
+## before the attack.
 func advance_toll_contacts(delta: float) -> void:
 	for npc: NpcRuntimeState in _map.npcs.residents:
-		if npc.definition().dealings().toll_attack_delay_ms > 0 and complete_entry_contact(npc.character_id):
-			if not toll_contact_seconds.has(npc.character_id):
+		if npc.definition().dealings().toll_attack_delay_ms > 0 and complete_entry_contact(npc.character_id) and _toll_applies(npc):
+			if not toll_contact_seconds.has(npc.character_id) and not toll_shouted.has(npc.character_id):
+				toll_shouted[npc.character_id] = true
 				_shout_toll(npc)
 			toll_contact_seconds[npc.character_id] = toll_contact_seconds.get(npc.character_id, 0.0) + delta
 		else:
 			toll_contact_seconds.erase(npc.character_id)
+		# Once a visit: stepping back and forth at the edge of its reach is not a new arrival.
+		if toll_shouted.has(npc.character_id) and (_player == null or _player.world_location().zone_id != npc.world_location().zone_id):
+			toll_shouted.erase(npc.character_id)
+		if npc.definition().dealings().toll_attack_delay_ms > 0:
+			var body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(npc.character_id)
+			if body != null:
+				body.set_name_alert(toll_pending(npc))
 
 
-## The toll-taker in reach will attack the player once its delay has passed (they have not
-## paid, it has not fought them): the HUD marks it.
+## The toll-taker in reach will attack the player once its delay has passed: the HUD marks it.
 func toll_pending(npc: NpcRuntimeState) -> bool:
+	return npc != null and toll_contact_seconds.has(npc.character_id) and _toll_applies(npc)
+
+
+## Its greeting would attack the player: it stands free, they have not paid, it has not
+## fought them (then it attacks at once, no greeting to wait for).
+func _toll_applies(npc: NpcRuntimeState) -> bool:
 	return (
-		npc != null and toll_contact_seconds.has(npc.character_id) and _player != null
-		and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and not npc.relationship.is_fighting()
+		_player != null and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and not npc.relationship.is_fighting()
 		and npc.definition().attacks_on_sight(npc.flags(), _player.state)
 		and npc.definition().toll_attack_delay_ms(npc.flags(), _player.state) > 0
 	)
@@ -169,15 +186,12 @@ func _shout_toll(npc: NpcRuntimeState) -> void:
 	var entries: Array = npc.definition().talk().chat_entries()
 	if index < 0 or index >= entries.size() or _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
 		return
-	if npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or npc.relationship.is_fighting():
-		return
-	if not npc.definition().attacks_on_sight(npc.flags(), _player.state) or npc.definition().toll_attack_delay_ms(npc.flags(), _player.state) <= 0:
-		return
 	var entry: Variant = entries[index]
-	if entry is String:
-		_map.hud().append_log_lines([NpcTalk.line(entry)])
-	elif entry is ColoredLine:
-		_map.hud().append_colored_lines([ColoredLine.new(NpcTalk.line(entry.text), entry.color)])
+	if not (entry is String or entry is ColoredLine):
+		return
+	# A warning: in the alert red, whatever colour the chat line has.
+	var text: String = (entry as ColoredLine).text if entry is ColoredLine else String(entry)
+	_map.hud().append_log_lines([NpcTalk.line(text)], true)
 
 
 func _toll_due(npc: NpcRuntimeState) -> bool:

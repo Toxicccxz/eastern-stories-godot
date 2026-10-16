@@ -84,6 +84,10 @@ func _test_reaction_beat() -> void:
 	ambience.start_reaction(&"b", 2.0, NpcAmbience.RECRUIT)
 	_check(ambience.due_greetings(0.35).is_empty() and ambience.due_calls(0.35, NpcAmbience.RECRUIT).is_empty(), "not yet at 0.35 s")
 	_check(ambience.due_greetings(0.06) == [&"a"] and ambience.due_calls(0.06, NpcAmbience.RECRUIT) == [&"b"], "the greeting and the master's answer at 0.4 s")
+	ambience.start_greeting(&"h", true)
+	_check(ambience.due_greetings(0.5).is_empty() and ambience.due_greetings(0.5) == [&"h"], "a greeting that harms keeps ES2's second (the time to walk past)")
+	var catalog: ContentCatalog = GameContent.catalog()
+	_check(catalog.npc(&"chuenyu.npc.jiading3").talk().greeting_harms() and not catalog.npc(&"snow.npc.waiter").talk().greeting_harms(), "the 家丁's greeting (kill) harms; the waiter's does not")
 	var es2: PacingDefinition = Es2Pacing.use()
 	ambience.start_greeting(&"a")
 	ambience.start_reaction(&"b", 2.0, NpcAmbience.RECRUIT)
@@ -96,13 +100,14 @@ func _test_reaction_beat() -> void:
 func _test_hurry() -> void:
 	var ambience := NpcAmbience.new(null)
 	ambience.start_call(&"maker", 2.0, NpcAmbience.MAKE)
-	ambience.hurry_call(&"maker", NpcAmbience.MAKE)
+	_check(ambience.hurry_call(&"maker", NpcAmbience.MAKE) and not ambience.hurry_call(&"maker", NpcAmbience.MAKE), "继续 brings it; again in the same frame: nothing more to bring")
 	_check(ambience.due_calls(0.0, NpcAmbience.MAKE) == [&"maker"], "a making's next line: now")
+	_check(not ambience.hurry_call(&"maker", NpcAmbience.MAKE), "none left: nothing hurried")
 	for index: int in 3:
 		ambience.start_call(&"g", 5.0 * (index + 1), NpcAmbience.own_call(index))
 	ambience.start_call(&"g", 7.0, NpcAmbience.own_call(3)) # not part of the sequence
 	var told: Array[int] = [0, 1, 2]
-	ambience.hurry_own_calls(&"g", told)
+	_check(ambience.hurry_own_calls(&"g", told), "the gargoyle's lines hurried")
 	_check(ambience.due_own_calls(0.0) == [[&"g", 0]], "the gargoyle's first line now")
 	_check(is_equal_approx(ambience.call_left(&"g", NpcAmbience.own_call(1)), 5.0) and is_equal_approx(ambience.call_left(&"g", NpcAmbience.own_call(3)), 7.0), "the next five seconds after it; a call outside the sequence keeps its time")
 	var rest: Array[int] = [1, 2]
@@ -136,14 +141,18 @@ func _test_trial_steps() -> void:
 		func() -> bool: return true,
 		func() -> NpcApprenticeship.Outcome: return NpcApprenticeship.Outcome.AUTHORITY_FAILURE)
 	_check(ColoredLine.texts(whole.lines) == ColoredLine.texts(test.result.lines), "in one go (ES2): the same lines")
+	var steps: Array[int] = []
+	var joined: Array[String] = []
+	for step: Array in whole.steps:
+		steps.append(step.size())
+		var lines: Array[ColoredLine] = []
+		lines.assign(step)
+		joined.append_array(ColoredLine.texts(lines))
+	_check(steps == [2, 2, 3] and joined == ColoredLine.texts(whole.lines), "and blow by blow for the telling: %s" % [steps])
 	var failing: NpcApprenticeTrial.Run = make.call(1)
 	failing.step()
 	var second: Array[String] = ColoredLine.texts(failing.step())
 	_check(failing.finished and failing.result.outcome == NpcApprenticeTrial.Outcome.FAILED and second.back() == "於兰天武「哼」地一声，说道：便是有这许多不怕死的家伙....", "the second not stood: its line ends it")
-	var left: NpcApprenticeTrial.Run = make.call(-1)
-	left.step()
-	left.abandon()
-	_check(left.finished and left.result.outcome == NpcApprenticeTrial.Outcome.FAILED and left.step().is_empty() and left.result.blows == 1, "walked off between blows: failed, nothing more struck")
 
 
 func _test_data() -> void:
@@ -256,8 +265,8 @@ func _test_apprentice_answer(tree: SceneTree, session: WorldSessionController) -
 	_check(not map.npc_life.apprentice_answer_due(master) and session.shared_ui().log_lines().has(NO_WOMEN), "0.4 s: 不便收女徒 (ES2: two seconds): %s" % [session.shared_ui().log_lines().slice(-3)])
 
 
-## 於兰天武's test: the first blow at once, the others 0.7 s apart; the menu holds it; the
-## card shows which blow.
+## 於兰天武's test: struck whole at once (ES2), a passed one told a blow every 0.7 s (the menu
+## holds the telling; the card shows which blow); a failed one told at once with the fall.
 func _test_trial(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.handoff_to(&"waterfog.pavilion", &"waterfog.guildhall", &"waterfog.guildhall", &"waterfog.entrance.yard_arrival").succeeded() or session.handoff_to(&"waterfog.pavilion", &"waterfog.entrance", &"waterfog.entrance", &"waterfog.entrance.yard_arrival").succeeded(), "TEST-ONLY: in the pavilion")
 	await tree.physics_frame
@@ -281,26 +290,43 @@ func _test_trial(tree: SceneTree, session: WorldSessionController) -> void:
 	if not panel.is_confirming():
 		return
 	panel.confirm_button.pressed.emit()
-	_check(not service.last_lines.is_empty() and service.last_lines[0] == "於兰天武点了点头，说道：很好，这是第一招...." and not service.last_lines.has("於兰天武说道：这是第二招....") and map.npc_life.trial_running(champion), "the first blow at once, the second not yet: %s" % [service.last_lines])
+	var blow: int = roundi((100000 - player.state.vitality.current) / 3.0)
+	_check(blow > 0 and player.apprenticeship_request.is_offered(CHAMPION), "all three blows struck at once, his offer made (champion.c in one command): about %d a blow" % blow)
+	_check(not service.last_lines.is_empty() and service.last_lines[0] == "於兰天武点了点头，说道：很好，这是第一招...." and not service.last_lines.has("於兰天武说道：这是第二招....") and map.npc_life.trial_running(champion), "the first blow told, the second not yet: %s" % [service.last_lines])
 	panel.refresh()
 	hud.waits.refresh()
 	_check(not panel.trial_button.visible and hud.waits.texts() == ["於兰天武的测试：第 1 / 3 招"], "no second test meanwhile; the card: the first of three: %s" % [hud.waits.texts()])
+	var told: int = service.last_lines.size()
 	session.hold_world_time(&"test") # TEST-ONLY: as the menu does
 	session._process(1.0)
-	_check(service.last_lines.size() == ColoredLine.texts(map.npc_life.trials[champion.character_id]["test"].result.lines).size() and not service.last_lines.has("於兰天武说道：这是第二招...."), "the menu open: the test waits")
+	_check(service.last_lines.size() == told, "the menu open: the telling waits")
 	session.release_world_time(&"test")
 	map.npc_life._advance_ambience(0.6)
 	_check(not service.last_lines.has("於兰天武说道：这是第二招...."), "0.6 s: not yet")
-	map.npc_life._advance_ambience(0.1)
+	map.npc_life._advance_ambience(0.15)
 	_check(service.last_lines.has("於兰天武说道：这是第二招....") and not service.last_lines.has("於兰天武说道：第三招来了...."), "0.7 s: the second")
-	map.npc_life._advance_ambience(0.7)
+	map.npc_life._advance_ambience(0.75)
 	_check(service.last_lines.has("於兰天武说道：第三招来了....") and service.last_lines.has("於兰天武哈哈大笑，说道：今日老夫终於觅得一个可造之才！") and not map.npc_life.trial_running(champion), "the third and 可造之才: %s" % [service.last_lines])
 	_check(panel.apprentice_feedback.text.contains("可造之才"), "the panel shows the whole test")
-	_check(player.apprenticeship_request.is_offered(CHAMPION), "passed without asking him: his offer (champion.c, as in one go)")
 	player.apprenticeship_request._offers.erase(CHAMPION) # TEST-ONLY
+	# Standing one blow but not two: told at once, and the fall comes with it.
+	player.state.vitality = CharacterResourceState.new(roundi(blow * 1.5), 100000, 100000) # TEST-ONLY
+	panel.refresh()
+	panel.trial_button.pressed.emit()
+	panel.confirm_button.pressed.emit()
+	_check(service.last_lines.has("於兰天武说道：这是第二招....") and service.last_lines.back() == "於兰天武「哼」地一声，说道：便是有这许多不怕死的家伙...." and not map.npc_life.trial_running(champion), "the second not stood: the whole test at once: %s" % [service.last_lines])
+	_check(player.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS, "and she falls with it")
+	await tree.process_frame
 	panel.close_panel()
 	session.configure_combat_random_source(original)
 	player.state.vitality = CharacterResourceState.new(100, 100, 100) # TEST-ONLY
+	player.state.essence = CharacterResourceState.new(100, 100, 100)
+	player.state.spirit = CharacterResourceState.new(100, 100, 100)
+	for second: int in 12:
+		if player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
+			break
+		session._process(1.0) # the quick wake
+	_check(player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE, "TEST-ONLY: up again")
 
 
 ## 卧龙岗: the robber shouts the moment a passer-by who owes the toll comes near; his name
@@ -326,14 +352,30 @@ func _test_toll(tree: SceneTree, session: WorldSessionController) -> void:
 	hud.nearby.refresh()
 	var name: Label = _row_part(hud, robber, "Name")
 	_check(name != null and name.get_theme_color("font_color") == SharedGameplayUI.ALERT_COLOR, "his name in red on the card")
-	body.global_position = Vector2(ridge.get_center().x, ridge.position.y + 12) # walked on
+	var over: Label = map.runtime_body_for_character(robber.character_id).get_node("NameLabel") as Label
+	_check(over.get_theme_color("font_color") == WorldCharacterBody2D.ALERT_NAME_COLOR, "and over his head")
+	body.global_position = Vector2(ridge.get_center().x, ridge.position.y + 12) # stepped back out of reach
 	await tree.physics_frame
 	await tree.physics_frame
 	map._process(0.05)
-	_check(not map.hostilities.toll_pending(robber), "walked on: nothing pending")
+	_check(not map.hostilities.toll_pending(robber) and not over.has_theme_color_override("font_color"), "out of his reach: nothing pending, his name plain again")
+	said = hud.log_lines().size()
+	body.global_position = robber_at + Vector2(0, 60)
+	await tree.physics_frame
+	await tree.physics_frame
+	map._process(0.05)
+	_check(not hud.log_lines().slice(said).has(TOLL_SHOUT) and map.hostilities.toll_pending(robber), "back in reach on the same visit: no second shout, his time starts again")
+	# Off the ridge and back, paid.
+	body.global_position = map.physical_zone(&"cloud.dragonhill.nroad").global_rect().get_center()
+	player.set_world_location(map.location_for_zone(&"cloud.dragonhill.nroad"))
+	await tree.physics_frame
+	await tree.physics_frame
+	map._process(0.05)
+	_check(not map.hostilities.toll_shouted.has(robber.character_id), "left the ridge: the next visit is a new arrival")
 	player.state.marks["强盗"] = 1 # TEST-ONLY: the toll paid
 	said = hud.log_lines().size()
 	body.global_position = robber_at + Vector2(0, 60)
+	player.set_world_location(map.location_for_zone(&"cloud.dragonhill.hummock"))
 	await tree.physics_frame
 	await tree.physics_frame
 	map._process(0.05)

@@ -8,7 +8,8 @@ extends RefCounted
 var text: String
 ## How far it has come, 0 to 1; below 0: no bar.
 var progress: float
-## 继续: brings its next step now; not valid when it cannot be hurried.
+## 继续: brings its next step now (-> bool: whether anything was still to come); not valid
+## when it cannot be hurried.
 var hurry: Callable
 
 

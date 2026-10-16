@@ -10,9 +10,8 @@ extends RefCounted
 ## (NpcApprenticeship.npc_recruit()). The student falls only on the heart beat after
 ## (char.c), which the caller runs.
 ##
-## ES2 strikes the blows in one command (run()); the game strikes them pacing.json's
-## trial_blow_ms apart (DECISIONS「响应性」), one Run.step() at a time, the same blows,
-## lines and outcome.
+## ES2 strikes the blows in one command, and so does run(); the game then tells a passed
+## test blow by blow (`steps`, pacing.json's trial_blow_ms apart: DECISIONS「响应性」).
 enum Outcome { NOT_RUN, FAILED, PASSED }
 
 
@@ -24,6 +23,8 @@ class Result:
 	## The recruit's outcome after a passed test.
 	var recruit: NpcApprenticeship.Outcome = NpcApprenticeship.Outcome.AUTHORITY_FAILURE
 	var lines: Array[ColoredLine] = []
+	## `lines` blow by blow: each blow's line and what it did, the last with the end.
+	var steps: Array[Array] = []
 
 
 ## A test under way: step() strikes the next blow.
@@ -89,14 +90,6 @@ class Run:
 		result.lines.append_array(lines)
 		return lines
 
-	## The student was gone before the next blow (they walked off between blows): the test
-	## is over, failed, with nothing said (the master's line finds nobody).
-	func abandon() -> void:
-		if finished:
-			return
-		finished = true
-		result.outcome = Outcome.FAILED
-
 
 ## `attack` () -> Array[ColoredLine] or null; `stands` () -> bool; `recruit` () -> Outcome
 ## after it set `request.lines` (NpcApprenticeship.npc_recruit()).
@@ -108,7 +101,9 @@ static func start(rule: NpcTeaching.ApprenticeRule, request: NpcApprenticeship, 
 static func run(rule: NpcTeaching.ApprenticeRule, request: NpcApprenticeship, attack: Callable, stands: Callable, recruit: Callable) -> Result:
 	var test: Run = start(rule, request, attack, stands, recruit)
 	while not test.finished:
-		test.step()
+		var told: Array[ColoredLine] = test.step()
+		if not told.is_empty():
+			test.result.steps.append(told)
 	return test.result
 
 

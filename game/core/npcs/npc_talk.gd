@@ -215,6 +215,11 @@ func has_greeting() -> bool:
 	return not _greeting.is_empty()
 
 
+## A branch of the greeting hurts, poisons, attacks or moves the player.
+func greeting_harms() -> bool:
+	return _greeting.any(func(act: ScriptedAct) -> bool: return act.harms_player())
+
+
 ## What one greeting chooses from (waiter.c switch(random(3))); one for keeper.c; the
 ## branches in order when it goes by rule.
 func greeting_choices() -> Array[ScriptedAct]:

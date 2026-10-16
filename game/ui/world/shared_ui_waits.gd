@@ -4,7 +4,7 @@ extends RefCounted
 ## busy (char.c's beats left), what the map holds for them (their steal, a master's test,
 ## a told sequence with 继续: WorldMapController.player_waits()) and 朱鸿雪's task time.
 ## Rows are kept and refilled with the card's refresh; A (ui_accept) hurries the first
-## that can be hurried.
+## that can be hurried when the place offers no action of its own.
 
 var _ui: SharedGameplayUI
 ## [line, bar, button] per row made so far.
@@ -42,11 +42,11 @@ func can_hurry() -> bool:
 	return false
 
 
-## 继续: the first wait that can be hurried brings its next step now. False when none.
+## 继续: the first wait that can be hurried brings its next step now. False when nothing
+## was still to come.
 func hurry() -> bool:
 	for wait: WorldWait in _shown:
-		if wait.hurry.is_valid():
-			wait.hurry.call()
+		if wait.hurry.is_valid() and bool(wait.hurry.call()):
 			return true
 	return false
 

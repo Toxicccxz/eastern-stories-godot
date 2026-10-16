@@ -87,7 +87,7 @@ accepted together at step 3, the owner's one full playtest; what it finds is fix
    progress. Each change is a data knob whose ES2 value is recorded (`pacing.json`,
    [DECISIONS](../migration/DECISIONS.md)). Same pass: scene-transition fades, movement feel,
    interaction prompts, camera, a battle-round knob. Owner, 2026-10-15: A = the waits (reaction
-   beat, 三招/三鞭 0.7 s a blow, 继续 for told sequences, waits on the card), B = the feel (fades,
+   beat, 三招/三鞭 told 0.7 s a blow, 继续 for told sequences, waits on the card), B = the feel (fades,
    battle presentation and a 慢/标准/快 battle-speed setting, movement, prompts and speech
    bubbles, camera).
 2. **UI overhaul** (owner, 2026-10-15: before step 1; A = the menu window and its tabs, B = gamepad,

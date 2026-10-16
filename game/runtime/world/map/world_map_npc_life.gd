@@ -12,8 +12,8 @@ var pending_steals: Dictionary[StringName, Dictionary] = {}
 ## make_stage() between its call_outs: {making: NpcMaking, stage: int} by maker. Not saved,
 ## as call_outs are not.
 var makings: Dictionary[StringName, Dictionary] = {}
-## A master's test between its blows: {service: TeacherService, test: NpcApprenticeTrial.Run}
-## by master. Not saved.
+## A passed test still being told blow by blow (it was struck whole): {service:
+## TeacherService, result: NpcApprenticeTrial.Result, told: int} by master. Not saved.
 var trials: Dictionary[StringName, Dictionary] = {}
 var walker: WorldNpcWalker
 ## The player's place as the NPCs' init() last saw it; another one is an arrival.
@@ -178,13 +178,10 @@ func player_left() -> void:
 	for character_id: StringName in makings.keys():
 		while makings.has(character_id):
 			_make_stage(character_id)
-	# A test the player walked out of onto another map is over, failed.
+	# A test still being told: the rest at once (ES2 told it all in one command).
 	for character_id: StringName in trials.keys():
-		var pending: Dictionary = trials[character_id]
-		trials.erase(character_id)
-		var test: NpcApprenticeTrial.Run = pending["test"]
-		test.abandon()
-		(pending["service"] as TeacherService).trial_abandoned(test)
+		while trials.has(character_id):
+			_trial_step(character_id)
 	if ambience != null:
 		ambience.clear_calls()
 	pending_steals.clear()
@@ -244,13 +241,14 @@ func waits() -> Array[WorldWait]:
 	if _player == null or ambience == null:
 		return shown
 	for character_id: StringName in trials:
-		var test: NpcApprenticeTrial.Run = trials[character_id]["test"]
+		var result: NpcApprenticeTrial.Result = trials[character_id]["result"]
+		var told: int = trials[character_id]["told"]
 		var master: NpcRuntimeState = _map.npcs.find_resident_npc(character_id)
-		if master != null and test.blow_count() > 0:
-			# TRANSLATORS: the HUD while a master's test (三招, 三鞭) goes on: {npc} the master, {n} the blows struck, {total} all of them.
+		if master != null and not result.steps.is_empty():
+			# TRANSLATORS: the HUD while a master's test (三招, 三鞭) is told blow by blow: {npc} the master, {n} the blows told, {total} all of them.
 			shown.append(WorldWait.new(tr("{npc}的测试：第 {n} / {total} 招").format({
-				"npc": tr(master.definition().display_name), "n": test.result.blows, "total": test.blow_count(),
-			}), float(test.result.blows) / test.blow_count()))
+				"npc": tr(master.definition().display_name), "n": told, "total": result.steps.size(),
+			}), float(told) / result.steps.size()))
 	for character_id: StringName in makings:
 		var npc: NpcRuntimeState = _map.npcs.find_resident_npc(character_id)
 		var making: NpcMaking = makings[character_id]["making"]
@@ -281,33 +279,33 @@ func _told(npc: NpcRuntimeState, done: int, total: int, hurry: Callable) -> Worl
 	return WorldWait.new(text, float(done) / maxi(total, 1), hurry)
 
 
-## A master's test goes on blow by blow (TeacherService.take_trial()), `spacing` seconds apart.
-func start_trial(npc: NpcRuntimeState, service: TeacherService, test: NpcApprenticeTrial.Run, spacing: float) -> void:
-	trials[npc.character_id] = {"service": service, "test": test}
+## A passed test (TeacherService.take_trial(), its first blow told) is told on, a blow
+## `spacing` seconds after the last.
+func start_trial(npc: NpcRuntimeState, service: TeacherService, result: NpcApprenticeTrial.Result, spacing: float) -> void:
+	trials[npc.character_id] = {"service": service, "result": result, "told": 1}
 	npc_ambience().start_call(npc.character_id, spacing, NpcAmbience.TRIAL)
 
 
-## The master's test is under way.
+## The master's test is still being told.
 func trial_running(npc: NpcRuntimeState) -> bool:
 	return npc != null and trials.has(npc.character_id)
 
 
-## The next blow of a test (its call_out came due); a master killed meanwhile ends it.
+## The next blow of a test being told (its call_out came due, or the player left the map).
 func _trial_step(character_id: StringName) -> void:
 	var pending: Dictionary = trials.get(character_id, {})
 	if pending.is_empty():
 		return
-	var service: TeacherService = pending["service"]
-	var test: NpcApprenticeTrial.Run = pending["test"]
-	var npc: NpcRuntimeState = _map.npcs.find_resident_npc(character_id)
-	if npc == null or not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or not is_instance_valid(service):
+	if not is_instance_valid(pending["service"]):
 		trials.erase(character_id)
-		test.abandon()
-		if is_instance_valid(service):
-			service.trial_abandoned(test)
 		return
-	service.trial_step(test)
-	if test.finished:
+	var service: TeacherService = pending["service"]
+	var result: NpcApprenticeTrial.Result = pending["result"]
+	var told: int = pending["told"]
+	service.tell_blow(result, told)
+	told += 1
+	pending["told"] = told
+	if told >= result.steps.size():
 		trials.erase(character_id)
 	else:
 		npc_ambience().start_call(character_id, GameContent.catalog().pacing().trial_blow_seconds, NpcAmbience.TRIAL)
@@ -431,7 +429,7 @@ func _note_player_arrival() -> void:
 			and not npc.relationship.is_fighting()
 			and npc.definition().talk().has_greeting()
 		):
-			ambience.start_greeting(npc.character_id)
+			ambience.start_greeting(npc.character_id, npc.definition().talk().greeting_harms())
 		if npc.world_location().zone_id == zone_id:
 			_start_own_calls(npc)
 	var here: Array[NpcRuntimeState] = []
@@ -573,7 +571,7 @@ func npc_arrived(npc: NpcRuntimeState) -> void:
 		and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
 		and npc.definition().talk().has_greeting()
 	):
-		ambience.start_greeting(npc.character_id)
+		ambience.start_greeting(npc.character_id, npc.definition().talk().greeting_harms())
 	if ambience != null and player_shares_zone(npc):
 		_start_own_calls(npc)
 		_meet(npc)

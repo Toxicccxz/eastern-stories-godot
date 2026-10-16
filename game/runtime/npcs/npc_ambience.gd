@@ -65,9 +65,11 @@ func chat(talk: NpcTalk, chance: int = -1) -> Variant:
 	return entries[index] if index >= 0 and index < entries.size() else null
 
 
-## A greeting answers the player's arrival: within pacing.json's reaction beat.
-func start_greeting(character_id: StringName) -> void:
-	_greetings[character_id] = GameContent.catalog().pacing().reaction_seconds(GREETING_DELAY_SECONDS)
+## A greeting answers the player's arrival: within pacing.json's reaction beat, unless it
+## `harms` (hurts, poisons, attacks or throws out): that keeps ES2's second, the time to walk
+## past (as the toll's window; DECISIONS「响应性」).
+func start_greeting(character_id: StringName, harms: bool = false) -> void:
+	_greetings[character_id] = GREETING_DELAY_SECONDS if harms else GameContent.catalog().pacing().reaction_seconds(GREETING_DELAY_SECONDS)
 
 
 func cancel_greeting(character_id: StringName) -> void:
@@ -92,26 +94,30 @@ func call_left(character_id: StringName, kind: StringName) -> float:
 	return float(_calls[kind][character_id]) if has_call(character_id, kind) else -1.0
 
 
-## 继续 (DECISIONS「响应性」): the NPC's next call_out of `kind` comes now.
-func hurry_call(character_id: StringName, kind: StringName) -> void:
-	if has_call(character_id, kind):
-		_calls[kind][character_id] = 0.0
+## 继续 (DECISIONS「响应性」): the NPC's next call_out of `kind` comes now. False when there
+## was none still to come.
+func hurry_call(character_id: StringName, kind: StringName) -> bool:
+	if call_left(character_id, kind) <= 0.0:
+		return false
+	_calls[kind][character_id] = 0.0
+	return true
 
 
 ## 继续 for the NPC's own calls `indices` (a told sequence): the soonest comes now and the
-## rest keep their spacing.
-func hurry_own_calls(character_id: StringName, indices: Array[int]) -> void:
+## rest keep their spacing. False when none was still to come.
+func hurry_own_calls(character_id: StringName, indices: Array[int]) -> bool:
 	var soonest: float = INF
 	for index: int in indices:
 		var left: float = call_left(character_id, own_call(index))
 		if left >= 0.0:
 			soonest = minf(soonest, left)
 	if soonest == INF or soonest <= 0.0:
-		return
+		return false
 	for index: int in indices:
 		var kind: StringName = own_call(index)
 		if has_call(character_id, kind):
 			_calls[kind][character_id] = float(_calls[kind][character_id]) - soonest
+	return true
 
 
 ## The kind of an NPC's own call_out (NpcHooks calls[index]).

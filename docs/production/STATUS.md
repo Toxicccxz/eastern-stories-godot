@@ -6,8 +6,9 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 **现代化修正 III A「等待」** (`phase/pacing`, DECISIONS「响应性」): ROADMAP "After the grey box" step 1
 (step 2, the UI overhaul, is merged: #124–#126). Reactions to what the player just did come within
-0.4 s (masters' 拜师 answers, greetings, 程不平's sentence, 化尸, a zombie's end, 小娟's cry); a
-master's test (三招, 三鞭) is struck 0.7 s a blow; the 卧龙岗 robber shouts the moment a passer-by
+0.4 s (masters' 拜师 answers, greetings that do no harm, 程不平's sentence, 化尸, a zombie's end,
+小娟's cry); a master's test (三招, 三鞭) is struck whole and a passed one told 0.7 s a blow; the
+卧龙岗 robber shouts the moment a passer-by
 who owes him comes near; told sequences (筱薇's making, 大队长's story, the gargoyles) keep their pace
 with 继续; the card shows busy, a steal, a test, 朱鸿雪's time and an NPC's wake. Every time is a
 `pacing.json` knob whose default is ES2's. Next: B「手感」 (fades, battle presentation and speed

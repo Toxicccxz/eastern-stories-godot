@@ -254,12 +254,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		if focused != null and focused.is_visible_in_tree():
 			# A button takes A on its release: the press is not the place's action.
 			return
-		# Someone is telling the player something line by line: A is 继续 (DECISIONS「响应性」).
-		if waits.hurry():
-			get_viewport().set_input_as_handled()
-		elif not actions.context_title().is_empty():
+		if not actions.context_title().is_empty():
 			get_viewport().set_input_as_handled()
 			actions.open_current_context()
+		# Someone is telling the player something line by line and the place offers nothing
+		# else: A is 继续 (DECISIONS「响应性」); the row's button always is.
+		elif waits.hurry():
+			get_viewport().set_input_as_handled()
 		elif enter_card_nav():
 			get_viewport().set_input_as_handled()
 
@@ -409,10 +410,10 @@ func _refresh_hints() -> void:
 		hints = [[&"ui_accept", tr("选择")], [&"ui_cancel", tr("返回")]]
 	else:
 		var title: String = actions.context_title()
-		if waits.can_hurry():
-			hints.append([&"ui_accept", tr("继续")])
-		elif not title.is_empty():
+		if not title.is_empty():
 			hints.append([&"ui_accept", title])
+		elif waits.can_hurry():
+			hints.append([&"ui_accept", tr("继续")])
 		if _presentation_layout.nearby.visible:
 			hints.append([&"nearby_focus", tr("选择附近")])
 		hints.append([&"look_around", tr("观察")])
