@@ -62,10 +62,10 @@ script = ExtResource("map")
 map = &"green.village"
 
 [node name="Backdrop" type="ColorRect" parent="."]
-offset_left = 0
-offset_top = 0
-offset_right = 1728
-offset_bottom = 1664
+offset_left = -2048
+offset_top = -2048
+offset_right = 3776
+offset_bottom = 3712
 mouse_filter = 2
 color = Color(0.17, 0.2, 0.14, 1)
 

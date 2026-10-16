@@ -210,6 +210,9 @@ static func go_to(tree: SceneTree, session: WorldSessionController, zone_id: Str
 	if chain.is_empty() and map.map_id() != target:
 		return null
 	for portal: PortalDefinition in chain:
+		# To the room the door is in first (a compound's far court is a long way from its gate).
+		if session.player_runtime().world_location().zone_id != portal.source_zone_id and not await drive_to_zone(tree, map, portal.source_zone_id):
+			return null
 		if not await take_passage(tree, map, portal.portal_id):
 			return null
 		map = session.active_map() as WorldMapController

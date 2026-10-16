@@ -28,10 +28,10 @@ script = ExtResource("map")
 map = &"village.icecave"
 
 [node name="Backdrop" type="ColorRect" parent="."]
-offset_left = -32
-offset_top = -32
-offset_right = 672
-offset_bottom = 352
+offset_left = -2080
+offset_top = -2080
+offset_right = 2720
+offset_bottom = 2400
 mouse_filter = 2
 color = Color(0.17, 0.2, 0.14, 1)
 

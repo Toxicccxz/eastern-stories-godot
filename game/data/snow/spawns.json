@@ -19,15 +19,6 @@
 			"legacy_quantity": 2
 		},
 		{
-			"id": "snow.outdoor.temple.keeper",
-			"npc": "snow.npc.keeper",
-			"map": "snow.outdoor",
-			"zone": "snow.temple",
-			"points": ["snow.temple.keeper.1"],
-			"legacy_room": "d/snow/temple.c",
-			"legacy_quantity": 1
-		},
-		{
 			"id": "snow.outdoor.mstreet2.drunk",
 			"npc": "snow.npc.drunk",
 			"map": "snow.outdoor",
@@ -55,31 +46,6 @@
 			"legacy_quantity": 1
 		},
 		{
-			"id": "snow.outdoor.school2.trainees",
-			"npc": "snow.npc.trainee",
-			"map": "snow.outdoor",
-			"zone": "snow.school2",
-			"points": [
-				"snow.school2.trainee.1",
-				"snow.school2.trainee.2",
-				"snow.school2.trainee.3",
-				"snow.school2.trainee.4",
-				"snow.school2.trainee.5",
-				"snow.school2.trainee.6"
-			],
-			"legacy_room": "d/snow/school2.c",
-			"legacy_quantity": 6
-		},
-		{
-			"id": "snow.outdoor.school2.fist_trainer",
-			"npc": "snow.npc.fist_trainer",
-			"map": "snow.outdoor",
-			"zone": "snow.school2",
-			"points": ["snow.school2.fist_trainer.1"],
-			"legacy_room": "d/snow/school2.c",
-			"legacy_quantity": 1
-		},
-		{
 			"id": "snow.outdoor.sroad2.farmers",
 			"npc": "snow.npc.farmer",
 			"map": "snow.outdoor",
@@ -95,33 +61,6 @@
 			"zone": "snow.sroad4",
 			"points": ["snow.sroad4.crazy_dog.1"],
 			"legacy_room": "d/snow/sroad4.c",
-			"legacy_quantity": 1
-		},
-		{
-			"id": "snow.outdoor.school.teacher",
-			"npc": "snow.npc.teacher",
-			"map": "snow.outdoor",
-			"zone": "snow.school",
-			"points": ["snow.school.teacher.1"],
-			"legacy_room": "d/snow/school.c",
-			"legacy_quantity": 1
-		},
-		{
-			"id": "snow.outdoor.herbshop.woodcutter",
-			"npc": "snow.npc.woodcutter",
-			"map": "snow.outdoor",
-			"zone": "snow.herbshop",
-			"points": ["snow.herbshop.woodcutter.1"],
-			"legacy_room": "d/snow/herbshop.c",
-			"legacy_quantity": 1
-		},
-		{
-			"id": "snow.outdoor.postoffice.post_officer",
-			"npc": "snow.npc.post_officer",
-			"map": "snow.outdoor",
-			"zone": "snow.postoffice",
-			"points": ["snow.postoffice.post_officer.1"],
-			"legacy_room": "d/snow/postoffice.c",
 			"legacy_quantity": 1
 		},
 		{
@@ -150,51 +89,6 @@
 			"legacy_quantity": 1
 		},
 		{
-			"id": "snow.outdoor.bank.annihir",
-			"npc": "snow.npc.annihir",
-			"map": "snow.outdoor",
-			"zone": "snow.bank",
-			"points": ["snow.bank.annihir.1"],
-			"legacy_room": "d/snow/bank.c",
-			"legacy_quantity": 1
-		},
-		{
-			"id": "snow.outdoor.schoolhall.master",
-			"npc": "common.npc.swordsman.master",
-			"map": "snow.outdoor",
-			"zone": "snow.schoolhall",
-			"points": ["snow.schoolhall.master.1"],
-			"legacy_room": "d/snow/schoolhall.c",
-			"legacy_quantity": 1
-		},
-		{
-			"id": "snow.outdoor.smithy.smith",
-			"npc": "snow.npc.smith",
-			"map": "snow.outdoor",
-			"zone": "snow.smithy",
-			"points": ["snow.smithy.smith.1"],
-			"legacy_room": "d/snow/smithy.c",
-			"legacy_quantity": 1
-		},
-		{
-			"id": "snow.outdoor.herbshop.herbalist",
-			"npc": "snow.npc.herbalist",
-			"map": "snow.outdoor",
-			"zone": "snow.herbshop",
-			"points": ["snow.herbshop.herbalist.1"],
-			"legacy_room": "d/snow/herbshop.c",
-			"legacy_quantity": 1
-		},
-		{
-			"id": "snow.outdoor.nyard.girl",
-			"npc": "snow.npc.girl",
-			"map": "snow.outdoor",
-			"zone": "snow.nyard",
-			"points": ["snow.nyard.girl.1"],
-			"legacy_room": "d/snow/nyard.c",
-			"legacy_quantity": 1
-		},
-		{
 			"id": "snow.outdoor.square.trav_blades",
 			"npc": "snow.npc.trav_blade",
 			"map": "snow.outdoor",
@@ -202,6 +96,112 @@
 			"points": ["snow.square.trav_blade.1", "snow.square.trav_blade.2", "snow.square.trav_blade.3"],
 			"legacy_room": "d/snow/square.c",
 			"legacy_quantity": 3
+		},
+		{
+			"id": "snow.temple_house.temple.keeper",
+			"npc": "snow.npc.keeper",
+			"map": "snow.temple_house",
+			"zone": "snow.temple",
+			"points": ["snow.temple.keeper.1"],
+			"legacy_room": "d/snow/temple.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "snow.bank_house.bank.annihir",
+			"npc": "snow.npc.annihir",
+			"map": "snow.bank_house",
+			"zone": "snow.bank",
+			"points": ["snow.bank.annihir.1"],
+			"legacy_room": "d/snow/bank.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "snow.school_compound.school2.trainees",
+			"npc": "snow.npc.trainee",
+			"map": "snow.school_compound",
+			"zone": "snow.school2",
+			"points": [
+				"snow.school2.trainee.1",
+				"snow.school2.trainee.2",
+				"snow.school2.trainee.3",
+				"snow.school2.trainee.4",
+				"snow.school2.trainee.5",
+				"snow.school2.trainee.6"
+			],
+			"legacy_room": "d/snow/school2.c",
+			"legacy_quantity": 6
+		},
+		{
+			"id": "snow.school_compound.school2.fist_trainer",
+			"npc": "snow.npc.fist_trainer",
+			"map": "snow.school_compound",
+			"zone": "snow.school2",
+			"points": ["snow.school2.fist_trainer.1"],
+			"legacy_room": "d/snow/school2.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "snow.school_compound.schoolhall.master",
+			"npc": "common.npc.swordsman.master",
+			"map": "snow.school_compound",
+			"zone": "snow.schoolhall",
+			"points": ["snow.schoolhall.master.1"],
+			"legacy_room": "d/snow/schoolhall.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "snow.academy.school.teacher",
+			"npc": "snow.npc.teacher",
+			"map": "snow.academy",
+			"zone": "snow.school",
+			"points": ["snow.school.teacher.1"],
+			"legacy_room": "d/snow/school.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "snow.smithy_house.smithy.smith",
+			"npc": "snow.npc.smith",
+			"map": "snow.smithy_house",
+			"zone": "snow.smithy",
+			"points": ["snow.smithy.smith.1"],
+			"legacy_room": "d/snow/smithy.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "snow.herbshop_house.herbshop.herbalist",
+			"npc": "snow.npc.herbalist",
+			"map": "snow.herbshop_house",
+			"zone": "snow.herbshop",
+			"points": ["snow.herbshop.herbalist.1"],
+			"legacy_room": "d/snow/herbshop.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "snow.herbshop_house.herbshop.woodcutter",
+			"npc": "snow.npc.woodcutter",
+			"map": "snow.herbshop_house",
+			"zone": "snow.herbshop",
+			"points": ["snow.herbshop.woodcutter.1"],
+			"legacy_room": "d/snow/herbshop.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "snow.postoffice_house.postoffice.post_officer",
+			"npc": "snow.npc.post_officer",
+			"map": "snow.postoffice_house",
+			"zone": "snow.postoffice",
+			"points": ["snow.postoffice.post_officer.1"],
+			"legacy_room": "d/snow/postoffice.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "snow.school_compound.nyard.girl",
+			"npc": "snow.npc.girl",
+			"map": "snow.school_compound",
+			"zone": "snow.nyard",
+			"points": ["snow.nyard.girl.1"],
+			"legacy_room": "d/snow/nyard.c",
+			"legacy_quantity": 1
 		}
 	]
 }

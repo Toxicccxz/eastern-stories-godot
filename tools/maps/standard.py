@@ -13,7 +13,8 @@ and repainting re-scales every map drawn from it. Three things read it:
 
       {"name": "<what it is>", "street": "<zone>", "side": "west" | "east" | "north" | "south",
        "frontage": "small" | "shop" | "wide" | "grand", "depth": <a depth class>, "at": <along>,
-       "doors": ["<portal id>", ...], "wall": "wall_wood", "roof": "shop_front"}
+       "doors": ["<portal id>" | {"portal", "street", "side", "at"}, ...], "door_at": [<along>, ...],
+       "rect": [x0, y0, x1, y1] (instead of frontage and depth), "wall": "wall_wood", "roof": "shop_front"}
 
   A facade stands against the street's `side` edge, centred at `at` along it (pixels on the
   edge's axis), walls round a roof that is not walkable. Each door is a portal of game/data
@@ -40,7 +41,9 @@ and repainting re-scales every map drawn from it. Three things read it:
   where a neighbour or a way out lies, so neighbours share a wall with a doorway in it. A
   portal from a room to another map is a door on that room's wall in the portal's direction, or
   the wall `doors` names (its passage, shutter and the marker of the way back in); stairs (scene.stairs with "zone"
-  and an "anchor" instead of "at") stand in their room. Anchors are "c", "n", "s", "e", "w",
+  and an "anchor" instead of "at") stand in their room, as do scene nodes, interactions and
+  spawn points given a "room" and an "anchor" (a rect node also a "size" in bodies): a service
+  point by a counter, a shelf on its wall, the temple's revival spot. Anchors are "c", "n", "s", "e", "w",
   "ne", "nw", "se", "sw", optionally with an offset in bodies: ["n", 2, 1]. Prop sizes are in
   bodies. The building's floor (all rooms, as drawn) must reach its class's minimum and exceed the
   floor of each map in `larger_than` (a 武馆 is bigger than the inn). The painter notes rooms
@@ -131,12 +134,15 @@ def prepare_town(region, entry: dict) -> dict:
         x0, y0, x1, y1 = facade
         d.setdefault('ground', []).append([b.get('wall', 'wall_wood'), x0, y0, x1, y1, b['name']])
         d['ground'].append([b.get('roof', 'shop_front'), x0 + T, y0 + T, x1 - T, y1 - T])
-        for i, portal_id in enumerate(b.get('doors', [])):
-            portal = portals[portal_id]
-            assert portal['from_zone'] == b['street'], ('a door leads in from its street', portal_id)
-            at = b.get('door_at', [])[i] if i < len(b.get('door_at', [])) else _along_centre(facade, b['side'])
-            _door(region, scene, shapes, portal, portals, d['zones'][b['street']], b['side'], at,
-                  f"Building{index}Door{i}")
+        for i, door in enumerate(b.get('doors', [])):
+            # A door on another street of the building (the temple's back door onto the path):
+            # {"portal", "street", "side", "at"}.
+            spec = door if isinstance(door, dict) else {'portal': door}
+            street, side = spec.get('street', b.get('street')), spec.get('side', b.get('side'))
+            portal = portals[spec['portal']]
+            assert portal['from_zone'] == street, ('a door leads in from its street', spec['portal'])
+            at = spec.get('at', b.get('door_at', [])[i] if i < len(b.get('door_at', [])) else _along_centre(facade, side))
+            _door(region, scene, shapes, portal, portals, d['zones'][street], side, at, f"Building{index}Door{i}")
     _check_alleys(d, facades)
     return entry
 
@@ -275,8 +281,10 @@ def prepare_interior(region, entry: dict) -> dict:
     # the layout's `doors` gives it (an exit named "out" or "enter").
     sides = {'n': 'north', 's': 'south', 'e': 'east', 'w': 'west'}
     outside = {}
+    # A way the layout draws itself (stairs down to a cellar) is no door in a wall.
+    drawn = {s['id'] for s in scene.get('stairs', [])} | {n['id'] for n in scene.get('nodes', []) if n.get('node') == 'passage'}
     for p in portals.values():
-        if p['from_zone'] not in rooms or zones_world.get(p['to_zone']) == scene['map']:
+        if p['from_zone'] not in rooms or zones_world.get(p['to_zone']) == scene['map'] or p['id'] in drawn:
             continue
         side = d.get('doors', {}).get(p['id']) or (sides[CARDINAL[p['legacy_command']]] if p['legacy_command'] in CARDINAL else None)
         assert side, ('a way out needs a wall (give it in "doors")', p['id'])
@@ -332,6 +340,23 @@ def prepare_interior(region, entry: dict) -> dict:
     for row in d.get('props', []):
         kind, z, anchor, wide, deep, *note = row
         props.append([kind, *_anchored(zones[z], anchor, px(wide), px(deep)), *note])
+    # Scene nodes and interactions placed in a room ("room", "anchor", a "size" in bodies for a
+    # rect, else the node's shape or a body's square): their `at` (a rect's `rect`) from it.
+    for item in scene.get('nodes', []) + scene.get('interactions', []):
+        if 'room' not in item:
+            continue
+        room, anchor = item.pop('room'), item.pop('anchor', 'c')
+        if item.get('node') == 'rect':
+            w, h = item.pop('size')
+            item['rect'] = _anchored(zones[room], anchor, px(w), px(h))
+            continue
+        w, h = scene['shapes'][item['shape']] if 'shape' in item else (STANDARD['body'], STANDARD['body'])
+        box = _anchored(zones[room], anchor, w, h, snap=False)
+        item['at'] = [(box[0] + box[2]) // 2, (box[1] + box[3]) // 2]
+    for point in scene.get('spawn_points', []):
+        if 'room' in point:
+            box = _anchored(zones[point.pop('room')], point.pop('anchor', 'c'), STANDARD['body'] + 4, STANDARD['body'] + 4, snap=False)
+            point['at'] = [(box[0] + box[2]) // 2, (box[1] + box[3]) // 2]
     for s in scene.get('stairs', []):
         if 'anchor' in s:
             w, h = scene['shapes'][s['shape']]
