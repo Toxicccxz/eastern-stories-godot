@@ -135,6 +135,13 @@ func capture(
 				Result.Outcome.BODY_BINDING_MISSING,
 				"npc_spawn_states[%s].map_position" % String(npc.character_id),
 			)
+		# One on its way out by a door is saved through it (WorldSessionController.departure_projection()).
+		var saved_location: WorldLocationState = npc.world_location()
+		var saved_position: Vector2 = npc_map.npc_rest_position(npc.character_id)
+		var projected: Array = session.departure_projection(npc, npc_map)
+		if not projected.is_empty():
+			saved_location = projected[0]
+			saved_position = projected[1]
 		var live_loadout_ids: Array[StringName] = []
 		for item: ItemInstance in npc.loadout_items():
 			if session.inventory_state().is_registered(item.item_instance_id):
@@ -151,8 +158,8 @@ func capture(
 			npc.age,
 			npc.body_weight,
 			npc.maximum_encumbrance,
-			_location_snapshot(npc.world_location()),
-			_position_snapshot(npc_map.npc_rest_position(npc.character_id)),
+			_location_snapshot(saved_location),
+			_position_snapshot(saved_position),
 			live_loadout_ids,
 			npc.revive_in_ms,
 		)

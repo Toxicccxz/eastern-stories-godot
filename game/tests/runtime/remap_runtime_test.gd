@@ -199,8 +199,21 @@ func _test_save_on_the_way(tree: SceneTree, session: WorldSessionController) -> 
 		var restored: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(decoded.snapshot, tree.root)
 		_check(restored.succeeded(), "and Continue takes it: %s" % restored.path)
 		if restored.succeeded():
-			restored.candidate.free()
+			var fresh: WorldSessionController = restored.candidate
+			_check(fresh.world_map_of(SnowWorldDefinitions.INN_MAP_ID).find_resident_npc(npc.character_id) != null and fresh.world_map_of(SnowWorldDefinitions.OUTDOOR_MAP_ID).find_resident_npc(npc.character_id) == null, "saved through the door (its 往西离开 was told): Continue has it in the inn")
+			fresh.free()
 			await tree.process_frame
+		# A save that puts one who never wanders on another map is refused (the inn's waiter on the square).
+		var data: Dictionary = JSON.parse_string(GameSaveJsonCodec.encode(snapshot).text)
+		for record: Dictionary in data["npc_spawn_states"]:
+			if String(record["spawn_point_id"]).contains("waiter"):
+				record["world_location"] = {"region_id": "snow", "map_id": "snow.outdoor", "zone_id": "snow.square", "combat_location_id": "snow.square"}
+				record["map_position"] = {"x": 96.0, "y": 96.0}
+		var edited: GameSaveResult = GameSaveJsonCodec.decode(JSON.stringify(data))
+		var refused: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(edited.snapshot, tree.root) if edited.succeeded() else null
+		_check(refused != null and not refused.succeeded() and refused.outcome == OldPineWorldRestoreResult.Outcome.INCONSISTENT_SPAWN_STATE, "the waiter on the square is refused")
+		if refused != null and refused.succeeded():
+			refused.candidate.free()
 	# Stopped short (a fight cancels its walk): it stays, and may wander again.
 	square.npc_life.npc_walker().cancel(npc.character_id)
 	square.npc_life.finish_departures(true)

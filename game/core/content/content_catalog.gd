@@ -390,6 +390,12 @@ func portal(portal_id: StringName) -> PortalDefinition:
 	return _portals.get(portal_id)
 
 
+func portals() -> Array[PortalDefinition]:
+	var result: Array[PortalDefinition] = []
+	result.assign(_portals.values())
+	return result
+
+
 func portals_for_map(map_id: StringName) -> Array[PortalDefinition]:
 	var result: Array[PortalDefinition] = []
 	for definition: PortalDefinition in _portals.values():
