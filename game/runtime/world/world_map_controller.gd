@@ -869,8 +869,9 @@ func player_waits() -> Array[WorldWait]:
 func _process(delta: float) -> void:
 	if not _initialized or not gameplay_open():
 		return
-	# World time held (the menu): the toll's seconds and pending aggression wait too.
-	if session != null and session.world_time_held():
+	# World time held (the menu, a presentation beat): the toll's seconds and pending
+	# aggression wait too.
+	if session != null and (session.world_time_held() or session.presentation_frozen()):
 		return
 	for npc: NpcRuntimeState in npcs.residents:
 		if WorldMapHostilities.zone_entry(npc.world_location()) == &"complete_set" and not hostilities.complete_entry_contact(npc.character_id):

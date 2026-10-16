@@ -221,8 +221,8 @@ func _ready() -> void:
 	_configure_window_mode_options()
 	_configure_language_options()
 	_configure_battle_options()
-	window_mode_option.get_popup().window_input.connect(_popup_system_input)
-	battle_speed_option.get_popup().window_input.connect(_popup_system_input)
+	window_mode_option.get_popup().window_input.connect(_popup_system_input.bind(window_mode_option))
+	battle_speed_option.get_popup().window_input.connect(_popup_system_input.bind(battle_speed_option))
 	# Pad support (owner, ROADMAP "After the grey box" step 2): last, so it sees every
 	# input event before the touch adapter takes touches.
 	add_child(PadSupport.new())
@@ -356,15 +356,15 @@ func set_exit_capability(capability: ApplicationExitCapability) -> void:
 		_exit_capability = capability
 
 
-func _popup_system_input(event: InputEvent) -> void:
+func _popup_system_input(event: InputEvent, option: OptionButton) -> void:
 	if not interaction_allowed():
 		_release_transition_actions()
-		window_mode_option.get_popup().set_input_as_handled()
+		option.get_popup().set_input_as_handled()
 		return
 	# A native/embedded Popup is its own Viewport and receives focused input before
 	# the root. Keep the same Shell policy rather than inventing a popup-state flag.
 	if event.is_action(&"system_back"):
-		window_mode_option.get_popup().set_input_as_handled()
+		option.get_popup().set_input_as_handled()
 		if event.is_action_pressed(&"system_back"):
 			_handle_system_back()
 
@@ -375,9 +375,10 @@ func _handle_system_back() -> void:
 	if _state.mode() in [ApplicationShellState.Mode.BOOT, ApplicationShellState.Mode.STARTING_SESSION, ApplicationShellState.Mode.SAVING] or (_host != null and _host.request_pending()):
 		return
 	input_context_changing.emit()
-	if window_mode_option.get_popup().visible:
-		window_mode_option.get_popup().hide()
-		return
+	for option: OptionButton in [window_mode_option, battle_speed_option]:
+		if option.get_popup().visible:
+			option.get_popup().hide()
+			return
 	match _state.mode():
 		ApplicationShellState.Mode.RESULT:
 			dismiss_current_result()

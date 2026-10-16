@@ -124,6 +124,10 @@ func liquid_collection() -> LiquidCollection:
 
 
 func _process(delta: float) -> void:
+	if presentation_frozen():
+		_sync_ghost_sight()
+		advance_journal(delta)
+		return
 	if world_time_held():
 		_process_held(delta)
 		return
@@ -159,8 +163,7 @@ func _process_held(delta: float) -> void:
 		advance_player_recovery(delta, true)
 	if _initialized and _combat_encounter_coordinator != null:
 		_combat_encounter_coordinator.advance_scheduler(BattlePace.fight_seconds(delta))
-		if not presentation_held(BattlePresentationController.END_HOLD):
-			advance_departure()
+		advance_departure()
 	_advance_reincarnation()
 	_sync_ghost_sight()
 	advance_journal(delta)
@@ -201,6 +204,13 @@ func battle_panel_shown() -> bool:
 
 func presentation_held(owner: StringName) -> bool:
 	return _presentation_holds.has(owner)
+
+
+## A presentation beat holds (hold_presentation()) and no fight runs: nothing at all
+## advances — not the player's busy, not a lying player's revive, whatever their state
+## (unlike the menu's hold, world_time_held()). It takes nobody's time.
+func presentation_frozen() -> bool:
+	return not _presentation_holds.is_empty() and (_combat_encounter_coordinator == null or not _combat_encounter_coordinator.has_active_encounter())
 
 
 ## A presentation beat that takes nobody's time (the view's fade, a fight's last lines on

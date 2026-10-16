@@ -152,10 +152,19 @@ func _test_end_hold(tree: SceneTree) -> void:
 	_ui.refresh_projection()
 	_check(not _coordinator.has_active_encounter() and _ui._holding() and _ui.visible and _session.world_time_held(), "over: the panel holds, the world held")
 	_check(_session.shared_ui().log_lines().size() == lines_before, "no result yet")
+	_player.busy.start_busy(3) # TEST-ONLY: busy and a task running through the hold
+	_player.state.quest.assign(QuestDefinition.new("疯狗", QuestDefinition.KILL, 300, 20, 10, 5), 1)
+	var task: int = _player.state.quest.remaining_ms
+	for step: int in 5:
+		_session._process(0.1)
+	_check(_session.presentation_frozen() and _player.busy.busy_value == 3 and _player.state.quest.remaining_ms == task, "the hold takes nobody's time: busy %d, task %d ms less" % [_player.busy.busy_value, task - _player.state.quest.remaining_ms])
 	_ui._process(0.5)
 	_check(_ui._holding(), "still at 0.5 s")
 	_ui._process(0.4)
 	_check(not _ui._holding() and not _ui.visible and not _session.world_time_held() and _session.shared_ui().log_lines().size() > lines_before, "at 0.9 s: the result, the world, the HUD: %s" % [_session.shared_ui().log_lines().slice(lines_before)])
+	while _player.busy.is_busy():
+		_player.busy.advance()
+	_player.state.quest.clear_task()
 	TestFeel.restore()
 	await tree.process_frame
 

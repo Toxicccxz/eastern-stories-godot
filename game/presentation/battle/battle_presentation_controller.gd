@@ -217,17 +217,18 @@ func refresh_projection() -> void:
 	if _projection.completion_outcome >= 0:
 		_title.text = "战斗无法正常结束，不会自动重试。"
 	_title.tooltip_text = _title.text
-	_present_participants()
-	var others: Array[StringName] = _target_ids()
-	others.erase(_projection.current_target_id)
-	target_hints.set_hints([[[&"battle_target_previous", &"battle_target_next"], tr("换目标")]] if not others.is_empty() else [])
-	action_panel.present(_projection)
+	# The round's lines first: its blows wait on the cards until they are told.
 	if not entries.is_empty():
 		log_panel.append_entries(entries)
 		for entry: BattleFeedbackProjection in entries:
 			_queue_lines(entry.lines())
 	elif changed:
 		_present_recent([BattleNarrationLine.new(tr("战斗描写会显示在这里。"))])
+	_present_participants()
+	var others: Array[StringName] = _target_ids()
+	others.erase(_projection.current_target_id)
+	target_hints.set_hints([[[&"battle_target_previous", &"battle_target_next"], tr("换目标")]] if not others.is_empty() else [])
+	action_panel.present(_projection)
 	if changed:
 		_focus_battle.call_deferred()
 	elif not log_panel.visible:
