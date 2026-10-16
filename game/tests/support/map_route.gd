@@ -7,9 +7,43 @@ extends RefCounted
 
 
 ## Cell centres from `from` to `to` over the whole map, empty when there is no way.
-## The bodies in `avoid` (NPCs) count as obstacles.
+## The bodies in `avoid` (NPCs) count as obstacles. The way goes round the passages it is
+## not headed for (a shop's door on the street it walks down: a player passes it by), unless
+## no other way leads there.
 static func path(map: Node2D, from: Vector2, to: Vector2, avoid: Array[Node2D] = []) -> PackedVector2Array:
-	return grid(map, avoid).path(from, to)
+	var result: WorldNpcWalker.Grid = grid(map, avoid)
+	var shut: Array[Vector2i] = _shut_passages(result, map, from, to)
+	var points: PackedVector2Array = result.path(from, to)
+	if points.is_empty() and not shut.is_empty():
+		for cell: Vector2i in shut:
+			result._astar.set_point_solid(cell, false)
+		points = result.path(from, to)
+	return points
+
+
+## Makes the cells of the map's passages solid, but for one at either end of the way (within
+## a body of `from` or `to`); the cells it made solid.
+static func _shut_passages(result: WorldNpcWalker.Grid, map: Node2D, from: Vector2, to: Vector2) -> Array[Vector2i]:
+	var shut: Array[Vector2i] = []
+	for passage: Node in map.find_children("*", "Area2D", true, false):
+		if not passage is WorldPassageArea2D:
+			continue
+		var shape: CollisionShape2D = passage.get_node_or_null("CollisionShape2D") as CollisionShape2D
+		var rectangle: RectangleShape2D = null if shape == null else shape.shape as RectangleShape2D
+		if rectangle == null:
+			continue
+		var rect: Rect2 = Rect2(shape.global_position - rectangle.size / 2.0, rectangle.size)
+		if rect.grow(48.0).has_point(from) or rect.grow(48.0).has_point(to):
+			continue
+		var first: Vector2i = result.cell_of(rect.position)
+		var last: Vector2i = result.cell_of(rect.end - Vector2.ONE)
+		for y: int in range(first.y, last.y + 1):
+			for x: int in range(first.x, last.x + 1):
+				var cell: Vector2i = Vector2i(x, y)
+				if result._astar.is_in_boundsv(cell) and not result._astar.is_point_solid(cell):
+					result._astar.set_point_solid(cell, true)
+					shut.append(cell)
+	return shut
 
 
 ## The runtime's A* grid over the whole map, the bodies in `avoid` solid.

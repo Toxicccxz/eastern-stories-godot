@@ -25,9 +25,13 @@ const GEAR: Dictionary = {
 	&"village.npc.meloner": [&"es2:obj/cloth"],
 	&"village.npc.fisher": [&"es2:obj/cloth"],
 }
-## The maps the fights walk, with where the player stands at first.
+## The maps the fights walk, with where the player stands at first (the houses are their own
+## maps since the remap: the 农妇's, 刘老农's with the rats' storeroom, the 瓜棚).
 const MAPS: Array = [
 	[&"village.main", &"village.road1", &"village.road1.canyon_arrival"],
+	[&"village.farmhouse_house", &"village.farmhouse1", &"village.farmhouse1.road4_entry"],
+	[&"village.liu_house", &"village.home", &"village.home.littlegarden_entry"],
+	[&"village.melonguard_house", &"village.melonguard", &"village.melonguard.road7_entry"],
 	[&"village.icecave", &"village.lakebottom1", &"village.lakebottom1.dive_arrival"],
 ]
 

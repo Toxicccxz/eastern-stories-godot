@@ -14,7 +14,7 @@ const MONK: StringName = &"sanyen.npc.monk"
 const MAPS: Array = [
 	[&"sunhill.mountain", &"sanyen.gate", &"sanyen.gate.temple_return"],
 	[&"sanyen.grounds", &"sanyen.front_yard", &"sanyen.front_yard.gate_arrival"],
-	[&"cloud.outdoor", &"cloud.monky", &"cloud.monky.monk.1"],
+	[&"cloud.monky_house", &"cloud.monky", &"cloud.monky.monk.1"], # the 素面馆 is its own map (the remap)
 ]
 const KINDS: Array[StringName] = [
 	&"sanyen.npc.greeting", &"cloud.npc.monk_guard", MONK, &"sanyen.npc.bonze", MASTER, &"sanyen.npc.cripple",

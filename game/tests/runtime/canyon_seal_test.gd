@@ -6,7 +6,8 @@ extends RefCounted
 ## fake 印鉴 for exactly three gold, once (Get_seal); 严廷殷 throws out whoever offers it (camp2,
 ## 将军/kick, the fake stays with them); the 后备兵 then swaps it for the real one, once (his own
 ## check, saved); 严廷殷 gives the 古剑 for that, which teaches sword to 50 from 2500 exp.
-## Walks use the move actions (MapPlaces). TEST-ONLY fixtures are marked.
+## Walks use the move actions (MapPlaces); the camp is its own map, through its gate on 隘口中道.
+## TEST-ONLY fixtures are marked.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const Finance := preload("res://tests/runtime/snow_finance_test.gd")
@@ -47,8 +48,9 @@ const DONE_WITH: Array[String] = [
 	"后备兵说道：如果是钱的话，我先没收了。",
 	"后备兵说道：其他的东西我都不要，别再来烦我了。",
 ]
+## Inside the camp's gate, on to the 将军营帐; and back to the gate.
 const CAMP: Array[StringName] = [&"canyon.camp1", &"canyon.camp2", &"canyon.camp7", &"canyon.camp8"]
-const BACK: Array[StringName] = [&"canyon.camp7", &"canyon.camp2", &"canyon.camp1", &"canyon.canyon4"]
+const BACK: Array[StringName] = [&"canyon.camp7", &"canyon.camp2", &"canyon.camp1"]
 
 var _count: int = 0
 var _failures: Array[String] = []
@@ -123,21 +125,21 @@ func _test_no_secret(tree: SceneTree, session: WorldSessionController) -> void:
 ## adviser.c accept_object(): worth nothing → Thank You; under 800 → 钱太少了吧！没收。 (kept);
 ## 800 or more → the secret (军营/swear); told already → 勉强收起来 (kept).
 func _test_secret(tree: SceneTree, session: WorldSessionController) -> void:
-	var gorge: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	player.state.marks["军营"] = 1 # TEST-ONLY: listed by the 大队长 (天驼关 A)
-	_check(await MapPlaces.drive_through(tree, gorge, CAMP), "into the 将军营帐")
-	gorge.npc_life._advance_ambience(0.0)
+	var camp: WorldMapController = await _into_camp(tree, session)
+	_check(camp != null, "through the camp's gate into the 将军营帐")
+	camp.npc_life._advance_ambience(0.0)
 	var context: MoneyInventoryContext = Finance.session_context(session)
 	Finance.add_money(context, CurrencyDenomination.Value.SILVER, 40, &"test.silver") # TEST-ONLY
-	_check(gorge.select_npc(_npc(gorge, ADVISER).character_id), "赫造基")
-	var blade: ItemHandlingResult = gorge.give_to_selected(_new_item(session, &"es2:d/canyon/npc/obj/blade"))
+	_check(camp.select_npc(_npc(camp, ADVISER).character_id), "赫造基")
+	var blade: ItemHandlingResult = camp.give_to_selected(_new_item(session, &"es2:d/canyon/npc/obj/blade"))
 	_check(blade.done() and blade.lines[0] == "赫造基说道：ㄟ....Ｔhank Ｙou!!!", "a blade: Thank You, kept: %s" % [blade.lines])
-	var little: ItemHandlingResult = gorge.give_to_selected(&"test.silver", 7)
+	var little: ItemHandlingResult = camp.give_to_selected(&"test.silver", 7)
 	_check(little.done() and little.lines[0] == "赫造基说道：钱太少了吧！没收。" and _amount(session, &"test.silver") == 33 and not player.temp_marks.has("军营/swear"), "seven taels: 钱太少了吧！没收。, kept, no secret: %s" % [little.lines])
-	var enough: ItemHandlingResult = gorge.give_to_selected(&"test.silver", 8)
+	var enough: ItemHandlingResult = camp.give_to_selected(&"test.silver", 8)
 	_check(enough.done() and enough.lines.slice(0, 3) == SECRET and player.temp_marks.get("军营/swear", 0) == 1, "eight taels: the secret: %s" % [enough.lines])
-	var more: ItemHandlingResult = gorge.give_to_selected(&"test.silver", 1)
+	var more: ItemHandlingResult = camp.give_to_selected(&"test.silver", 1)
 	_check(more.done() and more.lines[0] == "赫造基说道：即然你那么有心，那我就勉强收起来了。" and _amount(session, &"test.silver") == 24, "told already: 勉强收起来, kept")
 	# The secret survives Save and Continue (set_temp() flags are saved, owner).
 	var snapshot: GameSaveSnapshot = Work.capture(session)
@@ -149,10 +151,10 @@ func _test_secret(tree: SceneTree, session: WorldSessionController) -> void:
 
 ## canyon4.c do_swear(): the lightning, the secret spent, and the 兵器库.
 func _test_swear(tree: SceneTree, session: WorldSessionController) -> void:
-	var gorge: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	_check(await MapPlaces.drive_through(tree, gorge, BACK), "back out to 隘口中道")
+	var gorge: WorldMapController = await _out_of_camp(tree, session)
+	_check(gorge != null, "back out through the camp's gate to 隘口中道")
 	var wall: ActService = gorge.service(SWEAR) as ActService
 	_check(await MapPlaces.drive(tree, gorge, MapPlaces.service_spot(gorge, SWEAR)) and wall.in_reach(), "at the smooth wall")
 	_check(gorge.interaction_title() == "光滑的山壁 · 发誓：我爱东方故事II", "光滑的山壁 · 发誓：我爱东方故事II: %s" % gorge.interaction_title())
@@ -199,17 +201,17 @@ func _test_fake_seal(tree: SceneTree, session: WorldSessionController) -> void:
 ## general.c accept_object(): the fake 印鉴 gets the player thrown out to the camp fire with
 ## 将军/kick, and they keep it (return 0).
 func _test_thrown_out(tree: SceneTree, session: WorldSessionController) -> void:
-	var gorge: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	_check(await MapPlaces.drive_through(tree, gorge, CAMP), "into the 将军营帐 again")
-	gorge.npc_life._advance_ambience(0.0)
-	_check(gorge.select_npc(_npc(gorge, GENERAL).character_id), "严廷殷")
-	var thing: ItemHandlingResult = gorge.give_to_selected(_new_item(session, &"es2:d/canyon/npc/obj/blade"))
+	var camp: WorldMapController = await _into_camp(tree, session)
+	_check(camp != null, "into the 将军营帐 again")
+	camp.npc_life._advance_ambience(0.0)
+	_check(camp.select_npc(_npc(camp, GENERAL).character_id), "严廷殷")
+	var thing: ItemHandlingResult = camp.give_to_selected(_new_item(session, &"es2:d/canyon/npc/obj/blade"))
 	_check(thing.done() and thing.lines[0] == "严廷殷说道：ㄟ....Ｔhank Ｙou!!!", "a blade: Thank You, kept: %s" % [thing.lines])
-	var tael: ItemHandlingResult = gorge.give_to_selected(&"test.silver", 1)
+	var tael: ItemHandlingResult = camp.give_to_selected(&"test.silver", 1)
 	_check(tael.done() and tael.lines[0] == "严廷殷说道：啊，真是谢谢你了。", "a tael: 啊，真是谢谢你了。: %s" % [tael.lines])
 	var fake: StringName = _carried(session, FAKE_SEAL)
-	var offered: ItemHandlingResult = gorge.give_to_selected(fake)
+	var offered: ItemHandlingResult = camp.give_to_selected(fake)
 	await tree.physics_frame
 	_check(not offered.done() and offered.lines == KICKED, "你拿给我的是什么东西啊!: %s" % [offered.lines])
 	_check(player.world_location().zone_id == &"canyon.camp2" and player.temp_marks.get("将军/kick", 0) == 1 and _carried(session, FAKE_SEAL) == fake, "out at the camp fire, 将军/kick, the fake still theirs")
@@ -222,12 +224,13 @@ func _test_thrown_out(tree: SceneTree, session: WorldSessionController) -> void:
 ## Eight taels more for the secret, the oath again; seller.c swaps the fake for the real one,
 ## once (his check, saved); then money is kept as he says (deviation) and the rest refused.
 func _test_real_seal(tree: SceneTree, session: WorldSessionController) -> void:
-	var gorge: WorldMapController = session.active_map() as WorldMapController
+	var camp: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	_check(await MapPlaces.drive_through(tree, gorge, [&"canyon.camp7", &"canyon.camp8"]), "back to the 军师")
-	gorge.npc_life._advance_ambience(0.0)
-	_check(gorge.select_npc(_npc(gorge, ADVISER).character_id) and gorge.give_to_selected(&"test.silver", 8).lines.slice(0, 3) == SECRET, "eight taels: the secret again")
-	_check(await MapPlaces.drive_through(tree, gorge, BACK), "out to 隘口中道")
+	_check(await MapPlaces.drive_through(tree, camp, [&"canyon.camp7", &"canyon.camp8"]), "back to the 军师")
+	camp.npc_life._advance_ambience(0.0)
+	_check(camp.select_npc(_npc(camp, ADVISER).character_id) and camp.give_to_selected(&"test.silver", 8).lines.slice(0, 3) == SECRET, "eight taels: the secret again")
+	var gorge: WorldMapController = await _out_of_camp(tree, session)
+	_check(gorge != null, "out through the camp's gate to 隘口中道")
 	_check(await MapPlaces.drive(tree, gorge, MapPlaces.service_spot(gorge, SWEAR)), "at the smooth wall")
 	gorge.interact()
 	await tree.physics_frame
@@ -262,14 +265,14 @@ func _test_real_seal(tree: SceneTree, session: WorldSessionController) -> void:
 
 ## general.c accept_object(): the real 印鉴 for the 古剑; study.c reads sword from it.
 func _test_old_sword(tree: SceneTree, session: WorldSessionController) -> void:
-	var gorge: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
 	var state: CharacterState = session.player_runtime().state
-	_check(await MapPlaces.drive_through(tree, gorge, CAMP), "to 严廷殷")
-	gorge.npc_life._advance_ambience(0.0)
-	var general: NpcRuntimeState = _npc(gorge, GENERAL)
-	_check(gorge.select_npc(general.character_id), "严廷殷 again")
-	var given: ItemHandlingResult = gorge.give_to_selected(_carried(session, SEAL))
+	var camp: WorldMapController = await _into_camp(tree, session)
+	_check(camp != null, "to 严廷殷")
+	camp.npc_life._advance_ambience(0.0)
+	var general: NpcRuntimeState = _npc(camp, GENERAL)
+	_check(camp.select_npc(general.character_id), "严廷殷 again")
+	var given: ItemHandlingResult = camp.give_to_selected(_carried(session, SEAL))
 	_check(given.done() and given.lines.slice(0, 2) == ["严廷殷说道：真是谢谢你了。", "严廷殷说道：为了答谢你，这把古剑送你，当做报酬吧。"], "the real 印鉴: %s" % [given.lines])
 	var sword: StringName = _carried(session, OLD_SWORD)
 	_check(sword != &"" and _carried(session, SEAL) == &"", "the 古剑 is the player's, the 印鉴 his")
@@ -280,6 +283,32 @@ func _test_old_sword(tree: SceneTree, session: WorldSessionController) -> void:
 	var read: StudyResult = session.martial_arts().study(sword)
 	_check(read.outcome == StudyResult.Outcome.STUDIED and hud.log_lines()[-1] == "你研读有关基本剑法的技巧，似乎有点心得。", "study: sword: %s" % hud.log_lines()[-1])
 	_check(Work.capture(session) != null, "Save with the 古剑")
+
+
+## From 隘口中道 east through the camp's gate (the camp is its own map) and on to the 将军营帐;
+## the camp's map, or null when a step fails.
+func _into_camp(tree: SceneTree, session: WorldSessionController) -> WorldMapController:
+	var gorge: WorldMapController = session.active_map() as WorldMapController
+	if not await MapPlaces.drive_to_zone(tree, gorge, &"canyon.canyon4") or not await MapPlaces.take_passage(tree, gorge, &"canyon.canyon4.east"):
+		return null
+	var camp: WorldMapController = session.active_map() as WorldMapController
+	await tree.physics_frame # The arrival's zone Areas report a frame later.
+	if camp == null or camp.map_id() != &"canyon.camp" or not await MapPlaces.drive_through(tree, camp, CAMP):
+		return null
+	return camp
+
+
+## Back through the camp to its gate and west out onto 隘口中道; the pass's map, or null when a
+## step fails.
+func _out_of_camp(tree: SceneTree, session: WorldSessionController) -> WorldMapController:
+	var camp: WorldMapController = session.active_map() as WorldMapController
+	if not await MapPlaces.drive_through(tree, camp, BACK) or not await MapPlaces.take_passage(tree, camp, &"canyon.camp1.west"):
+		return null
+	var gorge: WorldMapController = session.active_map() as WorldMapController
+	await tree.physics_frame
+	if gorge == null or gorge.map_id() != &"canyon.pass" or session.player_runtime().world_location().zone_id != &"canyon.canyon4":
+		return null
+	return gorge
 
 
 func _npc(map: WorldMapController, definition_id: StringName) -> NpcRuntimeState:

@@ -228,10 +228,11 @@ func _test_master_killed() -> void:
 ## 朱鸿雪 in god2: her 任务 beside her body, the task on the character sheet, the
 ## time running in play, the kill in a real fight, Save/Continue.
 func _test_in_town(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.world_map_of(&"cloud.outdoor")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var hud: SharedGameplayUI = session.shared_ui()
-	_check(session.handoff_to(&"cloud.outdoor", &"cloud.duchang", &"cloud.duchang", &"cloud.duchang.stairs_return").succeeded(), "in the town (TEST-ONLY: by the 赌场's stairs)")
+	# god2 lies behind the 棺材店's yard, on that building's own map since the remap.
+	var map: WorldMapController = MapPlaces.enter(session, &"cloud.woodboxy", &"cloud.woodboxy.nwroad2_entry")
+	_check(map != null and map.map_id() == &"cloud.yard_house", "in the 棺材店 (TEST-ONLY: in at its door, its own map)")
 	await tree.physics_frame
 	var zhu: NpcRuntimeState = _npc(map, &"cloud.god2.god.1")
 	_check(zhu != null and _beside(map, player, &"cloud.god2", &"cloud.god2.god.1"), "beside 朱鸿雪 in god2")
@@ -263,8 +264,12 @@ func _test_in_town(tree: SceneTree, session: WorldSessionController) -> void:
 	await work.round_trip(tree, session, Work.capture(session), "a task from 朱鸿雪")
 	_check(work._failures.is_empty(), "Save/Continue: " + str(work._failures))
 	_test_codec(JSON.parse_string(encoded))
+	# The 赌场 is its own map since the remap.
+	var yard: WorldMapController = map
+	map = MapPlaces.enter(session, &"cloud.duchang", &"cloud.duchang.stairs_return") # TEST-ONLY: by its stairs
+	await tree.physics_frame
 	var judge: NpcRuntimeState = _npc(map, &"cloud.duchang.judge.1")
-	_check(judge != null and _beside(map, player, &"cloud.duchang", &"cloud.duchang.judge.1"), "beside 宝官")
+	_check(map != null and map.map_id() == &"cloud.duchang_house" and judge != null and _beside(map, player, &"cloud.duchang", &"cloud.duchang.judge.1"), "beside 宝官 (in the 赌场, its own map)")
 	await tree.physics_frame
 	player.state.progression.combat_experience = 100000 # TEST-ONLY: a player who lands the blows
 	var kee: CharacterResourceState = player.state.vitality
@@ -293,7 +298,7 @@ func _test_in_town(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "the fight never aborts")
 	player.state.vitality = kee # Continue recomputes max kee (race/human.c)
 	var garrison: NpcRuntimeState = null
-	for npc: NpcRuntimeState in map.npc_runtimes():
+	for npc: NpcRuntimeState in session.world_map_of(&"cloud.outdoor").npc_runtimes():
 		if npc.definition().definition_id == GARRISON:
 			garrison = npc
 	player.state.vendetta = {"authority": 1} # TEST-ONLY: as a garrison's killer
@@ -304,13 +309,19 @@ func _test_in_town(tree: SceneTree, session: WorldSessionController) -> void:
 	await work.round_trip(tree, session, Work.capture(session), "after the task, with a vendetta")
 	_check(work._failures.is_empty(), "Save/Continue after the kill: " + str(work._failures))
 	player.state.vendetta.clear()
-	_check(_beside(map, player, &"cloud.god2", &"cloud.god2.god.1"), "back to 朱鸿雪")
+	map = MapPlaces.enter(session, &"cloud.woodboxy", &"cloud.woodboxy.nwroad2_entry") # TEST-ONLY
+	await tree.physics_frame
+	_check(map == yard and _beside(map, player, &"cloud.god2", &"cloud.god2.god.1"), "back to 朱鸿雪 (the 棺材店's own map)")
 	await tree.physics_frame
 	player.state.quest.assign(GameContent.catalog().quest_tiers()[0].quests[0], 10) # TEST-ONLY: a task that ran out
 	player.state.quest.remaining_ms = -1
 	player.state.vitality = CharacterResourceState.new(80, 100, 100)
 	_check(service.request_quest() == QuestGiver.Outcome.GIVEN and service.last_lines[0].text == SCOLD and player.state.vitality.current == 41 and player.state.quest.finished == 0 and player.state.quest.remaining_ms > 0, "the time ran out: 真没用, kee halved, another task")
+	# 陈剑秋 is in the biaoju, its own map since the remap: the player is there for his death.
+	map = MapPlaces.enter(session, &"cloud.biaoju", &"cloud.biaoju.eroad2_entry") # TEST-ONLY
+	await tree.physics_frame
 	var header: NpcRuntimeState = _npc(map, &"cloud.biaoju.b_header.1")
+	_check(map != null and map.map_id() == &"cloud.biaoju_house" and header != null, "in the biaoju with 陈剑秋 (its own map)")
 	_check(player.request_apprenticeship(header.definition(), GameContent.catalog().family(&"family.zhenyuan"), 1789420000) == NpcApprenticeship.Outcome.RECRUITED and player.shown_title() == "振远镖局第二代弟子", "TEST-ONLY: 陈剑秋's apprentice")
 	map.combat_lifecycle._player_killer_reward(header) # TEST-ONLY: as if the fight had ended in his death
 	_check(not player.state.family.has_family() and player.state.apprenticeship.betrayer_count == 1 and player.state.progression.score == 0 and player.facts.title == "普通百姓" and player.shown_title() == "普通百姓", "his killer betrays the family, leaves it and is 普通百姓 again: " + player.shown_title())
