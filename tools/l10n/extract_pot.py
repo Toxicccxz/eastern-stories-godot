@@ -344,6 +344,8 @@ def _extract_journal(document: dict, relative: str, catalog: Catalog) -> None:
         if isinstance(topic.get("title"), str):
             catalog.add(topic["title"], relative, note=f"{topic_id} title")
         for paragraph in topic.get("paragraphs", []):
+            if isinstance(paragraph, dict):
+                paragraph = paragraph.get("heading")
             if isinstance(paragraph, str):
                 catalog.add(paragraph, relative, note=f"{topic_id} paragraphs")
 

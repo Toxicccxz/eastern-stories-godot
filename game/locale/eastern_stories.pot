@@ -4293,11 +4293,13 @@ msgstr ""
 msgid "杖法"
 msgstr ""
 
-#: core/skills/skill_use_ids.gd ui/world/player_inventory_panel.gd
+#. help.martial paragraphs
+#: core/skills/skill_use_ids.gd ui/world/player_inventory_panel.gd data/common/codex.json
 msgid "暗器"
 msgstr ""
 
-#: core/skills/skill_use_ids.gd
+#. help.martial paragraphs
+#: core/skills/skill_use_ids.gd data/common/codex.json
 msgid "内功"
 msgstr ""
 
@@ -4305,15 +4307,18 @@ msgstr ""
 msgid "招架"
 msgstr ""
 
-#: core/skills/skill_use_ids.gd
+#. help.martial paragraphs
+#: core/skills/skill_use_ids.gd data/common/codex.json
 msgid "轻功"
 msgstr ""
 
-#: core/skills/skill_use_ids.gd ui/world/martial_arts_page.gd
+#. help.magic paragraphs
+#: core/skills/skill_use_ids.gd ui/world/martial_arts_page.gd data/common/codex.json
 msgid "法术"
 msgstr ""
 
-#: core/skills/skill_use_ids.gd
+#. help.magic paragraphs
+#: core/skills/skill_use_ids.gd data/common/codex.json
 msgid "咒文"
 msgstr ""
 
@@ -5244,15 +5249,18 @@ msgstr ""
 msgid "用 {force} 点内力恢复{track}"
 msgstr ""
 
-#: presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd ui/world/character_sheet.gd
+#. help.health paragraphs
+#: presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd ui/world/character_sheet.gd data/common/codex.json
 msgid "气"
 msgstr ""
 
-#: presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd ui/world/character_sheet.gd
+#. help.health paragraphs
+#: presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd ui/world/character_sheet.gd data/common/codex.json
 msgid "神"
 msgstr ""
 
-#: presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd ui/world/character_sheet.gd
+#. help.health paragraphs
+#: presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd ui/world/character_sheet.gd data/common/codex.json
 msgid "精"
 msgstr ""
 
@@ -6031,7 +6039,9 @@ msgstr ""
 msgid "物品"
 msgstr ""
 
-#: presentation/codex/codex_content.gd
+#. help.newbie paragraphs
+#. help.guild paragraphs
+#: presentation/codex/codex_content.gd data/common/codex.json
 msgid "门派"
 msgstr ""
 
@@ -6840,7 +6850,8 @@ msgstr ""
 msgid "你看到:"
 msgstr ""
 
-#: runtime/world/services/teacher_service.gd
+#. help.skill paragraphs
+#: runtime/world/services/teacher_service.gd data/common/codex.json
 msgid "请教"
 msgstr ""
 
@@ -7490,6 +7501,7 @@ msgid "施展「阴阳眼」：看得见鬼魂，持续的秒数等于你的有�
 msgstr ""
 
 #. help.skill title
+#. help.taoist paragraphs
 #: ui/world/martial_arts_page.gd data/common/codex.json
 msgid "技能"
 msgstr ""
@@ -7538,7 +7550,8 @@ msgstr ""
 msgid "自学"
 msgstr ""
 
-#: ui/world/martial_arts_page.gd
+#. help.skill paragraphs
+#: ui/world/martial_arts_page.gd data/common/codex.json
 msgid "研读"
 msgstr ""
 
@@ -12612,7 +12625,7 @@ msgstr ""
 
 #. help.newbie paragraphs
 #: data/common/codex.json
-msgid "□ 地理"
+msgid "地理"
 msgstr ""
 
 #. help.newbie paragraphs
@@ -12623,12 +12636,6 @@ msgstr ""
 #. help.newbie paragraphs
 #: data/common/codex.json
 msgid "雪亭镇往北是野羊寨的地盘，附近有个小村庄。镇口往西，沿著青石官道上山，是天邪派的大本营水烟阁，再翻过一座山就是茅山派林忌的地盘。"
-msgstr ""
-
-#. help.newbie paragraphs
-#. help.guild paragraphs
-#: data/common/codex.json
-msgid "□ 门派"
 msgstr ""
 
 #. help.newbie paragraphs
@@ -12808,27 +12815,12 @@ msgstr ""
 
 #. help.health paragraphs
 #: data/common/codex.json
-msgid "□ 精"
-msgstr ""
-
-#. help.health paragraphs
-#: data/common/codex.json
 msgid "精力，影响一个人恢复气力与心神的能力，是人类的能量中最根本的一种，若是精力不足，在受到各种伤害之後的恢复能力会降低，甚至停止。精力的另一个重要用途是学习，不论是学习任何新的技能、知识、武功都需要耗费精力。除此之外，长於修行的人能将精力转为「灵力」用来施展法术。"
 msgstr ""
 
 #. help.health paragraphs
 #: data/common/codex.json
-msgid "□ 气"
-msgstr ""
-
-#. help.health paragraphs
-#: data/common/codex.json
 msgid "气力，即一个人肉体活动的能力，人必须有气才能生存，气绝则身亡，人受到各种伤害时会失去气力，气的用途很广，修炼内功的人可以将气转为内力积存起来，用以在战斗中杀伤敌人。"
-msgstr ""
-
-#. help.health paragraphs
-#: data/common/codex.json
-msgid "□ 神"
 msgstr ""
 
 #. help.health paragraphs
@@ -12848,7 +12840,7 @@ msgstr ""
 
 #. help.health paragraphs
 #: data/common/codex.json
-msgid "□ 精气神的恢复"
+msgid "精气神的恢复"
 msgstr ""
 
 #. help.health paragraphs
@@ -12888,7 +12880,7 @@ msgstr ""
 
 #. help.stats paragraphs
 #: data/common/codex.json
-msgid "□ 精、气、神"
+msgid "精、气、神"
 msgstr ""
 
 #. help.stats paragraphs
@@ -12903,7 +12895,7 @@ msgstr ""
 
 #. help.stats paragraphs
 #: data/common/codex.json
-msgid "□ 内力"
+msgid "内力"
 msgstr ""
 
 #. help.stats paragraphs
@@ -12923,7 +12915,7 @@ msgstr ""
 
 #. help.stats paragraphs
 #: data/common/codex.json
-msgid "□ 法力"
+msgid "法力"
 msgstr ""
 
 #. help.stats paragraphs
@@ -12943,7 +12935,7 @@ msgstr ""
 
 #. help.stats paragraphs
 #: data/common/codex.json
-msgid "□ 灵力"
+msgid "灵力"
 msgstr ""
 
 #. help.stats paragraphs
@@ -12968,7 +12960,7 @@ msgstr ""
 
 #. help.stats paragraphs
 #: data/common/codex.json
-msgid "□ 有关练功"
+msgid "有关练功"
 msgstr ""
 
 #. help.stats paragraphs
@@ -12993,7 +12985,7 @@ msgstr ""
 
 #. help.gift paragraphs
 #: data/common/codex.json
-msgid "□ 膂力"
+msgid "膂力"
 msgstr ""
 
 #. help.gift paragraphs
@@ -13003,7 +12995,7 @@ msgstr ""
 
 #. help.gift paragraphs
 #: data/common/codex.json
-msgid "□ 胆识"
+msgid "胆识"
 msgstr ""
 
 #. help.gift paragraphs
@@ -13013,7 +13005,7 @@ msgstr ""
 
 #. help.gift paragraphs
 #: data/common/codex.json
-msgid "□ 悟性"
+msgid "悟性"
 msgstr ""
 
 #. help.gift paragraphs
@@ -13023,7 +13015,7 @@ msgstr ""
 
 #. help.gift paragraphs
 #: data/common/codex.json
-msgid "□ 灵性"
+msgid "灵性"
 msgstr ""
 
 #. help.gift paragraphs
@@ -13033,7 +13025,7 @@ msgstr ""
 
 #. help.gift paragraphs
 #: data/common/codex.json
-msgid "□ 定力"
+msgid "定力"
 msgstr ""
 
 #. help.gift paragraphs
@@ -13043,7 +13035,7 @@ msgstr ""
 
 #. help.gift paragraphs
 #: data/common/codex.json
-msgid "□ 根骨"
+msgid "根骨"
 msgstr ""
 
 #. help.gift paragraphs
@@ -13053,7 +13045,7 @@ msgstr ""
 
 #. help.gift paragraphs
 #: data/common/codex.json
-msgid "□ 福缘"
+msgid "福缘"
 msgstr ""
 
 #. help.gift paragraphs
@@ -13063,7 +13055,7 @@ msgstr ""
 
 #. help.gift paragraphs
 #: data/common/codex.json
-msgid "□ 容貌"
+msgid "容貌"
 msgstr ""
 
 #. help.gift paragraphs
@@ -13113,7 +13105,7 @@ msgstr ""
 
 #. help.rank paragraphs
 #: data/common/codex.json
-msgid "□ 职业"
+msgid "职业"
 msgstr ""
 
 #. help.rank paragraphs
@@ -13153,7 +13145,7 @@ msgstr ""
 
 #. help.combat paragraphs
 #: data/common/codex.json
-msgid "□ 战斗的目的"
+msgid "战斗的目的"
 msgstr ""
 
 #. help.combat paragraphs
@@ -13193,22 +13185,12 @@ msgstr ""
 
 #. help.skill paragraphs
 #: data/common/codex.json
-msgid "□ 研读"
-msgstr ""
-
-#. help.skill paragraphs
-#: data/common/codex.json
 msgid "当你找到一本书籍或秘笈，可以在武学页「研读」上面记载的武功或法术，当然，你必须先学会读书识字的技能才能研读，读书识字的能力越高，每次得到的学习点数越多。"
 msgstr ""
 
 #. help.skill paragraphs
 #: data/common/codex.json
 msgid "和向其他人物请教比较起来，研读所花的精力通常较低。"
-msgstr ""
-
-#. help.skill paragraphs
-#: data/common/codex.json
-msgid "□ 请教"
 msgstr ""
 
 #. help.skill paragraphs
@@ -13223,7 +13205,7 @@ msgstr ""
 
 #. help.skill paragraphs
 #: data/common/codex.json
-msgid "□ 实战"
+msgid "实战"
 msgstr ""
 
 #. help.skill paragraphs
@@ -13238,7 +13220,7 @@ msgstr ""
 
 #. help.martial paragraphs
 #: data/common/codex.json
-msgid "□ 拳脚、兵刃"
+msgid "拳脚、兵刃"
 msgstr ""
 
 #. help.martial paragraphs
@@ -13248,27 +13230,12 @@ msgstr ""
 
 #. help.martial paragraphs
 #: data/common/codex.json
-msgid "□ 暗器"
-msgstr ""
-
-#. help.martial paragraphs
-#: data/common/codex.json
 msgid "暗器通常没有特殊的武功，而是以暗器的种类区分，如袖箭、飞刀、毒针等，在战斗中使用暗器常常可以攻敌不备，发挥意想不到的效果。"
 msgstr ""
 
 #. help.martial paragraphs
 #: data/common/codex.json
-msgid "□ 轻功"
-msgstr ""
-
-#. help.martial paragraphs
-#: data/common/codex.json
 msgid "轻功除了在战斗中影响闪避的机会之外，在探险时也有许多额外的用途，轻功高强的人可以轻易地攀爬悬崖峭壁，飞檐走壁。"
-msgstr ""
-
-#. help.martial paragraphs
-#: data/common/codex.json
-msgid "□ 内功"
 msgstr ""
 
 #. help.martial paragraphs
@@ -13288,7 +13255,7 @@ msgstr ""
 
 #. help.force paragraphs
 #: data/common/codex.json
-msgid "□ 只需耗费内力"
+msgid "只需耗费内力"
 msgstr ""
 
 #. help.force paragraphs
@@ -13298,7 +13265,7 @@ msgstr ""
 
 #. help.force paragraphs
 #: data/common/codex.json
-msgid "□ 需要耗费真气"
+msgid "需要耗费真气"
 msgstr ""
 
 #. help.force paragraphs
@@ -13333,11 +13300,6 @@ msgstr ""
 
 #. help.magic paragraphs
 #: data/common/codex.json
-msgid "□ 法术"
-msgstr ""
-
-#. help.magic paragraphs
-#: data/common/codex.json
 msgid "「神通」，长期钻研佛法的高僧常常会因自己本身的修为，产生具有神奇力量的神通，如天眼通、大力神通等，愈是具有大智慧、大慈悲的高僧其神通愈强，这类的法术通常需要百分之百的精神集中，才能施展，但是所需耗费的灵力较少，而且大多是属於防御或辅助性质的功能。"
 msgstr ""
 
@@ -13349,11 +13311,6 @@ msgstr ""
 #. help.magic paragraphs
 #: data/common/codex.json
 msgid "「仙术」，这是一门相当古老的修行法门，讲究炼气与长生不死之术，修炼仙术的人并不膜拜任何神祇，只集中於修炼自己的肉身，使之达到不朽的境地，进而羽化成仙，仙术除了在炼气方面相当杰出之外，还有许多炼丹的法门，但是一般人想要学习仙术并不容易，因为除了要有慧根之外，要找到愿意传授仙术的仙人也是一项非常艰困的修炼。"
-msgstr ""
-
-#. help.magic paragraphs
-#: data/common/codex.json
-msgid "□ 咒文"
 msgstr ""
 
 #. help.magic paragraphs
@@ -13384,11 +13341,6 @@ msgstr ""
 #. help.taoist paragraphs
 #: data/common/codex.json
 msgid "道士的能力偏重於炼气，武术方面以内功、剑术见长，正统道家除炼气之外并不修习任何法术，但是许多道士往往会涉猎一些除妖降魔用的法术，以作为入山修炼时防身之用，有些支派的道士更发展成专研法术而舍弃修炼成仙的目的。"
-msgstr ""
-
-#. help.taoist paragraphs
-#: data/common/codex.json
-msgid "□ 技能"
 msgstr ""
 
 #. help.taoist paragraphs
@@ -13478,7 +13430,7 @@ msgstr ""
 
 #. help.guild paragraphs
 #: data/common/codex.json
-msgid "□ 帮会、教派"
+msgid "帮会、教派"
 msgstr ""
 
 #. help.guild paragraphs
@@ -13488,7 +13440,7 @@ msgstr ""
 
 #. help.guild paragraphs
 #: data/common/codex.json
-msgid "□ 山寨、镖局、庄院"
+msgid "山寨、镖局、庄院"
 msgstr ""
 
 #. help.guild paragraphs
@@ -13508,7 +13460,7 @@ msgstr ""
 
 #. help.weapon paragraphs
 #: data/common/codex.json
-msgid "□ 武器种类"
+msgid "武器种类"
 msgstr ""
 
 #. help.weapon paragraphs
@@ -13518,7 +13470,7 @@ msgstr ""
 
 #. help.weapon paragraphs
 #: data/common/codex.json
-msgid "□ 武器质料"
+msgid "武器质料"
 msgstr ""
 
 #. help.weapon paragraphs
@@ -13528,7 +13480,7 @@ msgstr ""
 
 #. help.weapon paragraphs
 #: data/common/codex.json
-msgid "□ 武器重量"
+msgid "武器重量"
 msgstr ""
 
 #. help.weapon paragraphs

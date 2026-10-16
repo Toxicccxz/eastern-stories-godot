@@ -8,8 +8,10 @@ extends RefCounted
 var topic_id: StringName
 ## Player text, as authored.
 var title: String = ""
-## Paragraphs, as authored; one starting with □ is a subheading.
+## Paragraphs, as authored.
 var paragraphs: Array[String] = []
+## The indexes in `paragraphs` that are subheadings.
+var headings: Dictionary[int, bool] = {}
 ## The help file's author and date, as written in it ("" none).
 var byline: String = ""
 ## The help file it comes from (doc/help/<name>; traceability, never shown).
@@ -20,7 +22,14 @@ static func from_record(reader: ContentRecordReader) -> CodexTopicDefinition:
 	var definition := CodexTopicDefinition.new()
 	definition.topic_id = StringName(reader.required_text("id"))
 	definition.title = reader.required_text("title")
-	definition.paragraphs = reader.text_list("paragraphs")
+	# A paragraph is a string, or { "heading": ... } for a subheading (ES2's □ lines).
+	for paragraph: Variant in reader.strings_or_children("paragraphs"):
+		if paragraph is ContentRecordReader:
+			definition.headings[definition.paragraphs.size()] = true
+			definition.paragraphs.append((paragraph as ContentRecordReader).required_text("heading"))
+			(paragraph as ContentRecordReader).finish()
+		else:
+			definition.paragraphs.append(paragraph)
 	definition.byline = reader.text("byline")
 	definition.source = reader.required_text("source")
 	if definition.paragraphs.is_empty():

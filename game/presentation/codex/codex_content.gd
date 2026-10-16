@@ -64,11 +64,8 @@ static func _lore(catalog: ContentCatalog) -> Array[Entry]:
 	var result: Array[Entry] = []
 	for topic: CodexTopicDefinition in catalog.codex_topics():
 		var entry := Entry.new(String(topic.topic_id), _t(topic.title))
-		for paragraph: String in topic.paragraphs:
-			if paragraph.begins_with("□"):
-				entry.add(_t(paragraph).trim_prefix("□").strip_edges(), Paragraph.Kind.HEADING)
-			else:
-				entry.add(_t(paragraph))
+		for index: int in topic.paragraphs.size():
+			entry.add(_t(topic.paragraphs[index]), Paragraph.Kind.HEADING if topic.headings.has(index) else Paragraph.Kind.BODY)
 		if not topic.byline.is_empty():
 			entry.add("—— " + topic.byline, Paragraph.Kind.NOTE)
 		result.append(entry)
