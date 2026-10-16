@@ -166,6 +166,57 @@ static func drive_to_zone(tree: SceneTree, map: WorldMapController, zone_id: Str
 	return await drive(tree, map, zone_spot(map, zone_id))
 
 
+## The map a zone lies on (the catalog's), so a suite names only the zone.
+static func map_of(zone_id: StringName) -> StringName:
+	var zone: ZoneDefinition = GameContent.catalog().zone(zone_id)
+	return zone.map_id if zone != null else &""
+
+
+## The portals that lead from the map `from` to the map `to`, fewest maps first: a building's
+## door, then the street's way out of town. Empty when no chain of portals joins them.
+static func portal_chain(from: StringName, to: StringName) -> Array[PortalDefinition]:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var came_by: Dictionary[StringName, PortalDefinition] = {}
+	var queue: Array[StringName] = [from]
+	var seen: Dictionary[StringName, bool] = {from: true}
+	while not queue.is_empty() and not seen.has(to):
+		var here: StringName = queue.pop_front()
+		for portal: PortalDefinition in catalog.portals_for_map(here):
+			var there: StringName = portal.destination_map_id
+			if there == here or seen.has(there):
+				continue
+			seen[there] = true
+			came_by[there] = portal
+			queue.append(there)
+	var chain: Array[PortalDefinition] = []
+	if not seen.has(to):
+		return chain
+	var at: StringName = to
+	while at != from:
+		chain.push_front(came_by[at])
+		at = came_by[at].source_map_id
+	return chain
+
+
+## Walks the player to the middle of `zone_id` wherever it lies: through the portals from the
+## active map to the zone's map with the move actions (doors and ways out of town), then into
+## the zone. Returns the zone's map, or null when a step fails.
+static func go_to(tree: SceneTree, session: WorldSessionController, zone_id: StringName) -> WorldMapController:
+	var target: StringName = map_of(zone_id)
+	var map: WorldMapController = session.active_map() as WorldMapController
+	if target.is_empty() or map == null:
+		return null
+	for portal: PortalDefinition in portal_chain(map.map_id(), target):
+		if not await take_passage(tree, map, portal.portal_id):
+			return null
+		map = session.active_map() as WorldMapController
+		if map == null or map.map_id() != portal.destination_map_id:
+			return null
+		# The arrival's zone Areas report a frame later.
+		await tree.physics_frame
+	return map if await drive_to_zone(tree, map, zone_id) else null
+
+
 ## Through each zone's middle in turn, so the walk takes exactly that order of rooms.
 static func drive_through(tree: SceneTree, map: WorldMapController, zone_ids: Array[StringName]) -> bool:
 	for zone_id: StringName in zone_ids:

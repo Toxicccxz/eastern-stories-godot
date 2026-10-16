@@ -31,7 +31,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var combat_rng: int = session.combat_random_source().capture_random_state().state
 	var world_rng: int = session.world_interaction_random_source().capture_random_state().state
 	_check(session.active_map_id() == &"snow.inn" and player.world_location().same_location(SnowWorldDefinitions.birth_location()), "inactive Old Pine initialization leaves authoritative Inn birth")
-	_check(npc_ids.size() == 23 and session.world_npcs().size() == WorldCounts.number("world_npcs") and session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).initialization_count() == 1 and session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID).initialization_count() == 1, "every region's NPCs initialized exactly once (world_counts.json)")
+	_check(npc_ids.size() == WorldCounts.of("map_npcs", "oldpine.outdoor") and session.world_npcs().size() == WorldCounts.number("world_npcs") and session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).initialization_count() == 1 and session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID).initialization_count() == 1, "every region's NPCs initialized exactly once (world_counts.json)")
 	_check(session.resident_map_count() == WorldCounts.number("resident_maps"), "source profile includes every region's maps (world_counts.json)")
 	_check(session.inventory_state().registered_item_ids().size() == WorldCounts.number("new_game_items"), "source cloth plus every NPC's loadout and the items on the floor (world_counts.json)")
 	_check(session.encounter_display_name(player.character_id) == "Snow Player", "presentation projects source name")
@@ -79,8 +79,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	technical.deterministic_combat_seed = true
 	technical.deterministic_world_interaction_seed = true
 	tree.root.add_child(technical)
-	_check(technical.resident_map_count() == 8 and technical.resident_map(&"snow.inn") == null and technical.resident_map(&"snow.outdoor") == null and technical.active_map_id() == &"oldpine.outdoor", "technical map set is the eight Old Pine maps")
-	_check(technical.player_runtime().facts.age == 20 and technical.player_runtime().state.progression.combat_experience == 600 and technical.player_runtime().state.equipment.primary_weapon_skill_type() == &"sword" and technical.inventory_state().registered_item_ids().size() == 56, "technical age/experience/sword/items unchanged")
+	_check(technical.resident_map_count() == WorldCounts.number("technical_maps") and technical.resident_map(&"snow.inn") == null and technical.resident_map(&"snow.outdoor") == null and technical.active_map_id() == &"oldpine.outdoor", "technical map set is the eight Old Pine maps")
+	_check(technical.player_runtime().facts.age == 20 and technical.player_runtime().state.progression.combat_experience == 600 and technical.player_runtime().state.equipment.primary_weapon_skill_type() == &"sword" and technical.inventory_state().registered_item_ids().size() == WorldCounts.number("technical_items"), "technical age/experience/sword/items unchanged")
 	# The path north ends at the map's edge, closed ground beyond its (unconfigured) passage.
 	var technical_outdoor: WorldMapController = technical.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var north_exit: Vector2 = (technical_outdoor.get_node("SnowPassage") as Node2D).global_position

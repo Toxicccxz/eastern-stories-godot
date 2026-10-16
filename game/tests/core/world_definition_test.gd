@@ -44,7 +44,7 @@ func _test_maps_have_scenes() -> void:
 func _test_zones_and_rooms() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	_assert_eq(catalog.zones_for_map(SnowWorld.INN_MAP_ID).size(), 1, "Inn main floor")
-	_assert_eq(catalog.zones_for_map(SnowWorld.OUTDOOR_MAP_ID).size(), 31, "Snow outdoor zones")
+	_assert_eq(catalog.zones_for_map(SnowWorld.OUTDOOR_MAP_ID).size(), WorldCounts.of("map_zones", "snow.outdoor"), "Snow outdoor zones (world_counts.json)")
 	_assert_eq([catalog.zones_for_map(&"snow.inn_upstairs").size(), catalog.zones_for_map(&"snow.cellar").size()], [4, 1], "Inn upstairs: corridor and three rooms; the secret storage")
 	_assert_eq(catalog.zones_for_map(OldPineWorld.OUTDOOR_MAP_ID).size(), 11, "Old Pine forest zones and the keep's three")
 	_assert_eq(catalog.zones_for_map(OldPineWorld.GORGE_MAP_ID).size(), 3, "Old Pine gorge: waterfall, river, lake")

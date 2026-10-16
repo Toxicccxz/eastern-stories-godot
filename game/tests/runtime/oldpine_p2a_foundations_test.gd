@@ -1,6 +1,5 @@
 extends "res://tests/runtime/combat_flee_test.gd"
 
-const WorldCounts := preload("res://tests/support/world_counts.gd")
 const Memory := preload("res://tests/runtime/game_save_repository_test.gd")
 const Failing := preload("res://tests/support/failing_combat_relationship_state.gd")
 

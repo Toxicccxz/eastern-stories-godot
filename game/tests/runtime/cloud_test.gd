@@ -1,4 +1,5 @@
 extends RefCounted
+const WorldCounts := preload("res://tests/support/world_counts.gd")
 
 ## 卧龙岗 + 绮云镇 (u/cloud/dragonhill, u/cloud; region plan #3, package 3A): the road
 ## south from Snow's 雪亭镇街道 over the ridge into the town, its streets and shops. What
@@ -147,7 +148,7 @@ func _test_tiles(session: WorldSessionController) -> void:
 	var upstairs: Array[int] = []
 	for map_id: StringName in [&"cloud.tearoom_upstairs", &"cloud.jiyuan_upstairs", &"cloud.duchang_upstairs"]:
 		upstairs.append(session.world_map_of(map_id).npc_runtimes().size())
-	_check(session.world_map_of(&"cloud.outdoor").npc_runtimes().size() == 51 and upstairs == [1, 1, 0], "51 people in the town and on the ridge; upstairs the chess player, 李师师 and nobody: %d, %s" % [session.world_map_of(&"cloud.outdoor").npc_runtimes().size(), upstairs])
+	_check(session.world_map_of(&"cloud.outdoor").npc_runtimes().size() == WorldCounts.of("map_npcs", "cloud.outdoor") and upstairs == [WorldCounts.of("map_npcs", "cloud.tearoom_upstairs"), WorldCounts.of("map_npcs", "cloud.jiyuan_upstairs"), WorldCounts.of("map_npcs", "cloud.duchang_upstairs")], "the people in the town and on the ridge; upstairs the chess player, 李师师 and nobody (world_counts.json): %d, %s" % [session.world_map_of(&"cloud.outdoor").npc_runtimes().size(), upstairs])
 
 
 ## South from Snow, up the tea house's stairs and through its 木雕门, walked.

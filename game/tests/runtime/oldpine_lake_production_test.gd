@@ -1,6 +1,5 @@
 extends "res://tests/runtime/combat_flee_test.gd"
 
-const WorldCounts := preload("res://tests/support/world_counts.gd")
 const Water := preload("res://tests/runtime/snow_water_test.gd")
 const Memory := preload("res://tests/runtime/game_save_repository_test.gd")
 
@@ -19,7 +18,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(session.active_map_id() == SnowWorldDefinitions.INN_MAP_ID, "source birth still Inn")
 	_check(session.player_recovery_cadence() != null, "source recovery consumer retained")
 	_check(session.world_npcs().size() == WorldCounts.number("world_npcs"), "every region's production slots (world_counts.json)")
-	_check(map.npc_runtimes().size() == 5, "the five serpents live on the gorge")
+	_check(map.npc_runtimes().size() == WorldCounts.of("map_npcs", "oldpine.gorge"), "the five serpents live on the gorge (world_counts.json)")
 	var ids: Array[StringName] = []
 	for npc: NpcRuntimeState in map.npc_runtimes():
 		_check(not ids.has(npc.character_id), "distinct production serpent identity")

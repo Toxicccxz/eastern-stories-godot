@@ -1,4 +1,5 @@
 extends RefCounted
+const WorldCounts := preload("res://tests/support/world_counts.gd")
 
 ## 青石村 A (d/green): the 39 rooms on three maps and the way in from Snow's 山坳; the
 ## spawns and items as imported; the exits as data: the 迷阵's passages (to itself, back,
@@ -136,7 +137,7 @@ func _test_village(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(await MapPlaces.take_passage(tree, snow, &"snow.crossroad.east"), "east off the col")
 	var map: WorldMapController = session.active_map() as WorldMapController
 	_check(map.map_id() == &"green.village" and session.player_runtime().world_location().zone_id == &"green.path6", "on 青石村's stone road")
-	_check(map.resident_npcs().size() == 21, "twenty villagers, the spiders waiting in the web: %d" % map.resident_npcs().size())
+	_check(map.resident_npcs().size() == WorldCounts.of("map_npcs", "green.village"), "the villagers, the spiders waiting in the web (world_counts.json): %d" % map.resident_npcs().size())
 	var visible: int = 0
 	for npc: NpcRuntimeState in map.resident_npcs():
 		visible += 1 if npc.exists_in_map else 0

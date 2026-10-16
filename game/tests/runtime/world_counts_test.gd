@@ -3,9 +3,12 @@ extends RefCounted
 ## tests/fixtures/world_counts.json against the live world (tests/support/world_counts.gd):
 ## the catalog's maps, rooms, Snow's outdoor portals and spawn order; a source New Game's
 ## NPCs, items, resident maps and Snow outdoor passages; and how many NPC creation draws
-## the source world makes after the technical (Old Pine only) world's. With
-## UPDATE_WORLD_COUNTS=1 it writes the fixture first.
+## the source world makes after the technical (Old Pine only) world's; per map, its zones and
+## the NPCs a New Game puts on it; the technical world's maps and items; and the two-map Snow
+## route fixture's NPCs, items and creation draws. With UPDATE_WORLD_COUNTS=1 it writes the
+## fixture first.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
+const SnowRoute := preload("res://tests/qa/nge3_snow_route.gd")
 const WorldCounts := preload("res://tests/support/world_counts.gd")
 const FIXTURE: String = "res://tests/fixtures/world_counts.json"
 const MAX_DRAWS: int = 20000
@@ -45,6 +48,9 @@ func _measure(tree: SceneTree) -> Dictionary:
 	var spawns: Array[String] = []
 	for spawn: NpcSpawnDefinition in catalog.spawns():
 		spawns.append(String(spawn.spawn_id))
+	var map_zones: Dictionary = {}
+	for map: MapDefinition in catalog.maps():
+		map_zones[String(map.map_id)] = catalog.zones_for_map(map.map_id).size()
 	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.set_process(false)
@@ -58,7 +64,12 @@ func _measure(tree: SceneTree) -> Dictionary:
 		"resident_maps": session.resident_map_count(),
 		"new_game_items": session.inventory_state().registered_item_ids().size(),
 		"snow_outdoor_passages": session.resident_map(&"snow.outdoor")._passages.size(),
+		"map_zones": map_zones,
 	}
+	var map_npcs: Dictionary = {}
+	for map: WorldMapController in session.world_maps():
+		map_npcs[String(map.map_id())] = map.npc_runtimes().size()
+	counts["map_npcs"] = map_npcs
 	session.free()
 	await tree.process_frame
 	var technical: WorldSessionController = (load("res://scenes/world/oldpine/oldpine_world_session.tscn") as PackedScene).instantiate()
@@ -73,9 +84,34 @@ func _measure(tree: SceneTree) -> Dictionary:
 		count += 1
 	_check(count < MAX_DRAWS, "the source world's NPC draws continue the technical world's")
 	counts["npc_draws_after_oldpine"] = count
+	counts["technical_maps"] = technical.resident_map_count()
+	counts["technical_items"] = technical.inventory_state().registered_item_ids().size()
 	technical.free()
 	await tree.process_frame
+	counts["snow_route"] = _snow_route(tree)
+	await tree.process_frame
 	return counts
+
+
+## tests/qa/nge3_snow_route.tscn, the Inn and Snow's outdoor map alone: NPCs on each, the items
+## a birth there registers and how many NPC creation draws its spawns take.
+func _snow_route(tree: SceneTree) -> Dictionary:
+	var entry: SnowRoute = (load("res://tests/qa/nge3_snow_route.tscn") as PackedScene).instantiate()
+	tree.root.add_child(entry)
+	var fresh: GodotNpcInitializationRandomSource = GodotNpcInitializationRandomSource.new(21, true)
+	var draws: int = 0
+	while fresh.capture_random_state().state != entry.npc_random.capture_random_state().state and draws < MAX_DRAWS:
+		fresh.next_below(10)
+		draws += 1
+	_check(draws < MAX_DRAWS, "the Snow route's NPC draws are counted")
+	var result: Dictionary = {
+		"inn_npcs": entry.inn.resident_npcs().size(),
+		"outdoor_npcs": entry.outdoor.resident_npcs().size(),
+		"items": entry.birth.inventory.registered_item_ids().size(),
+		"draws": draws,
+	}
+	entry.free()
+	return result
 
 
 func _check(ok: bool, label: String) -> void:
