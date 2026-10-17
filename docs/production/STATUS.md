@@ -4,17 +4,19 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**地图重构** (owner, 2026-10-16; DECISIONS「地图重构」) is done: every map follows the scale standard
-(`tools/maps/standard.json`, in body widths), and every enterable room is a building's own map
-entered through its door from the street — 雪亭镇 (#132), R1 绮云镇/玉螺湖村/天驼关 (#133), R2
-京师/乔阴/黑松山/鬼门关 (#134), R3 青石村/道观/山烟寺/羊山/老松林 (#136) and R4, which grew 晚月庄's
-and 水烟阁's compound maps ×1.5. With it, 室内察觉 (#135): indoors an aggressive NPC notices whoever
-comes into its room. Next: ROADMAP "After the grey box" step 3, the playtest checklist and the
+**地图重构** (owner, 2026-10-16; DECISIONS「地图重构」) is done: the scale standard
+(`tools/maps/standard.json`, in body widths) and its tools and runtime (#130, #131), and every
+enterable room on its building's own map, entered through its door from the street — 雪亭镇 (#132),
+R1 绮云镇/玉螺湖村/天驼关 (#133), R2 京师/乔阴/黑松山/鬼门关 (#134), R3 青石村/茅山/山烟寺/野羊山/
+老松岭 (#136) and R4, which grew 晚月庄's and 水烟阁's compound maps ×1.5 as they were drawn (their
+rooms are not laid by class: some halls are smaller than the standard's, a question in R4's PR).
+With it, 室内察觉 (#135): indoors an aggressive NPC notices whoever comes into its room. Next:
+ROADMAP "After the grey box" step 3, the playtest checklist and the
 owner's full playtest.
 
 ## 待决定
 
-两项等 owner 完整试玩后再定。规则（owner，2026-10-08）：PR 合并时 owner 没有回答的问题，按 PR 里的推荐
+三项等 owner 完整试玩后再定。规则（owner，2026-10-08）：PR 合并时 owner 没有回答的问题，按 PR 里的推荐
 方案生效，在 [DECISIONS](../migration/DECISIONS.md) 里标「默认」，owner 随时可以否决；已批准的积压决定
 也在那里（「积压问题的处理」）。
 
@@ -58,10 +60,10 @@ Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game
   top with six butterflies, both cliff niches, the secret passage, the stone and the caves (bury the
   bones for 过招要旨, or fall to the waterfall); 疯老头子 on the east path, 狼狗 in the pine maze,
   金银花蛇 (蛇毒) on the stone, 黑衣人 (飞刀, 化尸粉) in the pine.
-* **野羊山**: north of Snow's crossroad, all 15 rooms on two maps: the mountain road (土匪爪牙,
+* **野羊山**: north of Snow's crossroad, all 15 rooms on three maps: the mountain road (土匪爪牙,
   土匪首领 and 黄霸 in the small temple) and the caverns below the canyon (岩蛭, 肥岩蛭, 大岩蛭,
   巨岩蛭).
-* **卧龙岗 + 绮云镇**: south of Snow's 雪亭镇街道, all 43 rooms on four maps (the ridge and the town, and each upper floor on its own): 卧龙岗强盗 and their toll (walk straight past them; they attack
+* **卧龙岗 + 绮云镇**: south of Snow's 雪亭镇街道, all 43 rooms on eighteen maps (the ridge and the town, each shop and house, and each upper floor on its own): 卧龙岗强盗 and their toll (walk straight past them; they attack
 whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   布庄, 兵器屋) with their keepers' greetings, 李师师's literate after a keepsake, the 飞贼's steal,
   the 家丁's 春风快意刀, 化缘和尚 and Snow's two 乞丐 in the 斋院, 茶工 and 县城官兵 walking,
@@ -80,7 +82,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   learning from both (於兰天武 teaches only his apprentices), practising 天邪神掌, 六阴追魂剑法, 火蝠身法
   and 七宝天岚舞 (women, spi 20, costs sen); 天邪神功 is learnt with 杀气; the 正厅's sign makes the
   player a 武者; the player's 天邪神功: 提升战斗力, 压制杀气 and 天邪虎啸, and 杀气 that boils over.
-* **青石村**: east of Snow's 山坳, all 39 rooms on three maps: the village (the work station's
+* **青石村**: east of Snow's 山坳, all 39 rooms on twelve maps: the village (the work station's
   well, the quarry yard, the square's banyan, 沈记商行, the 土地庙), its 采石工 (a hammer or a
   rope), 工匠, the women (one draws her 菜刀 in a fight), the children (two wander, two peer at the
   cave door), 老公公 and 老婆婆 (attack one and the other comes to kill you), 村长 and his 玉佩
@@ -93,7 +95,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   hall: joining 绝尘派 (spi 24, 100000 combat_exp; a family's member is attacked for asking, asked
   first), his fourteen skills, his 遁 and the 天将 he calls in a fight; his apprentices cast 遁
   (to Snow's 城隍庙), 困 and 召天将 (a 天将 on their side) from the battle panel.
-* **茅山**: east of Snow's mountain road (its steps north), 25 of 27 rooms on three maps: the
+* **茅山**: east of Snow's mountain road (its steps north), 25 of 27 rooms on nine maps: the
   青石官道 and the white quartz stairs up between the pines (进香客, 玄真 sweeping) to the 山门;
   inside, the square, the hall with 林忌, 僵尸侍者 and 僵尸护法, the walkways round the courtyard
   (玄和), the guest rooms (老道士), the training hall (清虚, 明心), the rear hall behind its shut
@@ -163,7 +165,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   (else a random enemy) for 50 force and 20 sen, and the player's blows carry its cold
   (iceshock).
 * **泓水南岸 + 山烟寺**: south of 绮云镇's 江北渡口 and east through 晚月庄's tunnel, all 26 rooms on
-  two maps: the ford across 泓水 (泓水北侧, 江心, 泓水南侧; wade it either way, or give the 船夫 two
+  seven maps: the ford across 泓水 (泓水北侧, 江心, 泓水南侧; wade it either way, or give the 船夫 two
   coins or more and his boat puts you in at 江南渡口: owner, Q1), the path up 日照山 (the road east
   to 乔阴县城), the mossy 山路, the 山门 with two 知客僧, the tunnel west through
   the cliff to 晚月庄's bamboo hills; inside the gate the yard where two 护寺武僧 train (front_yard.c
@@ -190,7 +192,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   name, across maps; a strong 灵力 or a clumsy hand fails). A refused 拜师 is over: asking
   again asks anew (every master).
 * **乔阴县城**: east from 泓水南岸's foot of the hill to the 北门 (its road north into the pines
-  goes nowhere, as ES2), 61 of 62 rooms on fourteen maps: the 福林大街 (卖饼大叔, 卖包子的, 陆得财
+  goes nowhere, as ES2), 61 of 62 rooms on sixteen maps: the 福林大街 (卖饼大叔, 卖包子的, 陆得财
   wandering) to the raised 树王坟 (the stump's hole and the little shrine to look at), the 西大街
   to the standing stone lion, the 东大街 to the 东城门, the market street to the 福林楼 (汤掌柜, the
   武官; upstairs 贵公子 and three 家丁; the guest rooms' three 酒楼守卫: none spars, and attack one
@@ -250,7 +252,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   killed, and three at 1 knock them out), the crime cleared, and puts them out at the 衙门口.
   On the way 行贿 on the 巡捕: ten gold or more frees them, less is refused (a crime more);
   killing a 巡捕 is five crimes; no Save while led.
-* **天驼关**: south-west from Snow's 青石官道 (sroad4), 25 of 27 rooms on five maps: the gravel
+* **天驼关**: south-west from Snow's 青石官道 (sroad4), 25 of 27 rooms on six maps: the gravel
   path on the clifftop to the mound where the iron chain hangs down (爬下去: 20 gin, 30 kee, 10
   sen; 爬上去 from below: 30, 40, 20; asked first when it would knock the player out), the
   黄石隘口 winding south between its walls (the west wall of 隘口中道 strangely smooth), the
@@ -271,7 +273,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   great yellow stone: with 560 force and max_force and 加力 40 it is pushed aside (20 gin, 60 kee,
   20 sen), and the gap lets the player into the stone room, where the bookcase gives a 书匣 holding
   the 悟疾风劲竹书 while none exists (taken out in the 背包; 研读: parry to 50 from 20000 exp).
-* **玉螺湖村**: south of 天驼关's valley, all 26 rooms on three maps: the 黄土大道 (two 商人 who
+* **玉螺湖村**: south of 天驼关's valley, all 26 rooms on seven maps: the 黄土大道 (two 商人 who
   walk out of a fight; its spur west to 黑松山; the 三叉路口's road south to 京师), the
   青石小路 west through the village (its sign: 傅家坡): the farmhouse and its back yard (the 农妇
   weeping for her son, her 菜刀 in a fight), 刘家's garden (five 采花妞 throwing 紫花瓣儿), behind
@@ -289,7 +291,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   (asked first while he is clearly stronger): while he stands there both ways out are held (你的去
   路被瓜农拦住了。), in the fight he demands his money, and 还瓜钱 (HUD and battle panel) pays him 60 文
   and sends him home.
-* **黑松山**: west off 玉螺湖村's 黄土大道, 32 of 37 rooms on three maps: the road past a tea house to the
+* **黑松山**: west off 玉螺湖村's 黄土大道, 32 of 37 rooms on four maps: the road past a tea house to the
   crossing, the 山脚乡田 (no fighting, no magic; the 卖花姑娘 sells six flowers), the mountain path up
   the west side, the granite streets either side of the chasm and the 铁索桥 (two 紫衣家丁 stop one
   whose looks they mistrust and hunt them after; its chain leads straight down), 黑松堡's gate (below
@@ -305,7 +307,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   地牢's slab open the way up to the east clifftop for five seconds. Brought home to 刘家, 刘老农
   thanks the player (銮鱼衡冰, 过招要旨) and leaves with her for good; her killer meets his revenge
   (悲愤欲绝, until his room resets), once.
-* **京师**: south of 玉螺湖村's 三叉路口, 40 of 55 rooms on two maps: the 北驿道 between two small
+* **京师**: south of 玉螺湖村's 三叉路口, 40 of 55 rooms on twelve maps: the 北驿道 between two small
   woods (桃X仙 picks up what is dropped there, puts it on and wields it), the 北门 in the north wall
   and its three 守城兵, 大栅栏 to the 十字路口; 护国道 from the 西一门 to the 东一门 (旺金钱庄, no
   fighting, 兑换; the 武器店's nine wares; 收破烂的); south past the 皇家祭坛, 神武门 and the walled
@@ -349,12 +351,13 @@ Code:
 * Beasts cannot be asked to spar (ES2's `fight` on a beast is a one-sided kill); attack them.
 * 刘安禄's 刘老三/血手刘三 are not listed until his reveal is ported. Corpses never decay, so the
   corpses of NPCs that came back stay.
-* An NPC acts only on the map the player is on (see 待决定): one that walked out of a shop stands
-  on the street until the player comes out; a hurt 武馆 student heals only while the player is in
-  the 武馆. New Game builds 127 maps (about 2.8 s in the editor, headless).
   NPCs never flee a losing fight (`wimpy`) and do not follow who flees (`pursuer`).
   The dog takes no bone (no
   chicken leg, no following); nothing can be put into a corpse.
+* An NPC acts only on the map the player is on (see 待决定): one that walked out of a shop stands
+  on the street until the player comes out; a hurt 武馆 student heals only while the player is in
+  the 武馆. New Game builds 127 maps (about 2.8 s in the editor, headless, measured before R4's
+  maps grew).
 * With the pacing knobs, 打坐 from max_force 0 to 50 takes about 2.4 hours of play at con 30
   (6.4 at ES2's pace); `tests/runtime/run_with_max_force.gd` gives a playtest 49. combat_exp 0 to
   1001 (朱鸿雪's quests) still takes some 6–12 hours with a family's skills: past about 150 few
@@ -393,6 +396,6 @@ Licensing: no root project license; ES2 rights are unresolved
 See [BUILD](BUILD.md). Full gate: `python tools/ci/verify.py --godot <godot>` (~6 min locally; fails on a
 `SCRIPT ERROR` line, or when `python tools/l10n/extract_pot.py` was not run after a text change). Single suites: `<godot> --headless --path game --script res://tests/run_suite.gd
 -- <suite paths>`. Every map is generated: edit `tools/maps/layouts/<region>.json`, then
-`python -m tools.maps.paint` (the tools tests fail on a hand-edited one; the painter checks sizes
-against `tools/maps/standard.json`). A longer soak: `ES_SOAK_HOURS=8` before the `world_soak_test` suite (8 hours
+`python -m tools.maps.paint` (the tools tests fail on a hand-edited one; the painter checks the
+sizes of the maps it lays out itself against `tools/maps/standard.json`). A longer soak: `ES_SOAK_HOURS=8` before the `world_soak_test` suite (8 hours
 passed).
