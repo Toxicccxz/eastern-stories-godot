@@ -153,6 +153,11 @@ func _world_cancel(tree: SceneTree, _shell: ApplicationShellController, session:
 	_check(selections[0] == 0 and outdoor.selected_interaction_target() == null, "cancelled world contact never commits selection")
 	await _mouse_click(tree, point)
 	_check(selections[0] == 1, "fresh completed world tap picks exactly once")
+	# The tap on the vine in reach opened its interaction popup (DECISIONS「说话和交互」): never 抓住藤蔓 at once.
+	var hud: SharedGameplayUI = session.shared_ui()
+	_check(hud.interaction_open() and hud._presentation_layout.frame_title.text == "藤蔓", "the tap opens the vine's popup, nothing done yet")
+	hud.dismiss_current_panel()
+	await _settle(tree)
 
 
 func _mouse_collision(tree: SceneTree, touch: MobileTouchAdapter, shell: ApplicationShellController) -> void:
