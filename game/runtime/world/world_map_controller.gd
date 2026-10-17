@@ -369,6 +369,15 @@ func frame_camera() -> void:
 	camera.limit_bottom = ceili(limits.end.y)
 
 
+## `point` (world) is on the screen now: inside what the player's camera shows.
+func in_view(point: Vector2) -> bool:
+	var camera: Camera2D = null if player_body == null else player_body.get_node_or_null("Camera2D") as Camera2D
+	if camera == null or not camera.enabled or not camera.is_inside_tree():
+		return true
+	var half: Vector2 = get_viewport_rect().size / camera.zoom / 2.0
+	return Rect2(camera.get_screen_center_position() - half, half * 2.0).has_point(point)
+
+
 ## The camera's limits for a map drawing `drawn` seen through a view of `view`: the map's
 ## edges, widened evenly on a side where the map is smaller than the view.
 static func camera_limits(drawn: Rect2, view: Vector2) -> Rect2:

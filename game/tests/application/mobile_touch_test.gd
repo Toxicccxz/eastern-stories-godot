@@ -341,14 +341,11 @@ func _test_item_and_handoff(tree: SceneTree, shell: ApplicationShellController, 
 	(outdoor.player_body.get_node("Camera2D") as Camera2D).reset_smoothing()
 	for frame: int in 30:
 		await tree.physics_frame
-	# A tap on the corpse selects nothing (owner, 2026-10-11): its nearby group's 拾取 does.
+	# A tap on the corpse in reach opens its interaction popup (DECISIONS「说话和交互」), whose 拾取 opens it.
+	outdoor.session.shared_ui().nearby.refresh()
 	await _mouse_click(tree, view.get_global_transform_with_canvas().origin)
-	var take: Button = null
-	for row: Node in outdoor.session.shared_ui()._presentation_layout.nearby.get_children():
-		for child: Node in row.find_children("*", "Button", true, false):
-			if take == null and (child as Button).text == "拾取":
-				take = child as Button
-	_check(take != null and take.is_visible_in_tree(), "the corpse's nearby group offers 拾取")
+	var take: Button = outdoor.session.shared_ui().interaction_panel.button_of("拾取")
+	_check(outdoor.session.shared_ui().interaction_open() and take != null and take.is_visible_in_tree(), "a tap on the corpse: its popup offers 拾取")
 	if take != null:
 		await _tap(tree, take)
 	var loot: OldPineLootPanel = outdoor.session.shared_ui().loot_panel

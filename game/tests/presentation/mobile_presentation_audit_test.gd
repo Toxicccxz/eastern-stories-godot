@@ -149,22 +149,21 @@ func _test_reflow_lifetime(tree: SceneTree) -> void:
 		_check(hud.is_ancestor_of(control), "reparent preserves authored information identity")
 	capability.metrics = _metrics(Rect2(0, 0, 1152, 648), Rect2(0, 0, 800, 480))
 	presenter.refresh()
-	# The card's nearby groups (owner, 2026-10-11): each landmark's action label, as its
-	# group shows it, fits the compact card.
+	# The interaction popup (DECISIONS「说话和交互」): each landmark's action label, as its
+	# row shows it, fits the compact screen.
 	var layout: SharedGameplayLayout = hud.get_node("PresentationLayout") as SharedGameplayLayout
-	# TEST-ONLY: the live refresh would rebuild or hide the groups under the measured row.
+	# TEST-ONLY: the live refresh would close the popup on nothing in reach.
 	hud.set_process(false)
 	for landmark: WorldLandmarkDefinition in GameContent.catalog().landmarks_for_map(OldPineWorldDefinitions.OUTDOOR_MAP_ID):
 		if landmark.action_label.is_empty():
 			continue
-		var row: PanelContainer = layout.nearby_row(landmark.display_name)
-		var button: Button = layout.nearby_button(row, landmark.action_label, Callable())
-		layout.nearby.add_child(row)
-		layout.nearby.show()
+		var options: Array[InteractionOption] = [InteractionOption.new(landmark.action_label, Callable()), InteractionOption.new("查看", Callable())]
+		hud.interaction_panel.show_thing([], [], options)
+		layout.open_panel(landmark.display_name, hud.interaction_panel)
 		await _settle(tree)
-		_check(capability.metrics.content_rect().encloses(button.get_global_rect()), "current authored traversal label fits compact action grid")
-		layout.nearby.remove_child(row)
-		row.free()
+		var button: Button = hud.interaction_panel.button_of(landmark.action_label)
+		_check(button != null and capability.metrics.content_rect().encloses(button.get_global_rect()), "current authored traversal label fits the compact popup")
+		layout.close_panel()
 	hud.set_process(true)
 	hud.set_selected_target(null)
 	await _dynamic_rows(tree, shell, hud, capability, presenter)

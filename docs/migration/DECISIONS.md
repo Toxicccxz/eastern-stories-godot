@@ -3529,3 +3529,36 @@ What follows from it:
   the playtest).
 - A door's fade is the shorter `door_fade_*` and names no place; world revisions
   `SOURCE_ENTRY_REMAP_*` (development saves need a New Game).
+
+## 说话和交互 (owner, 2026-10-17)
+
+Before the unified playtest, NPC speech and interaction were rebuilt as presentation and entry
+points (owner's plan, Q1–Q3 as recommended). **Rules are unchanged**: who says what, when a fight
+starts, what each action does and refuses are ES2's; the feel's knobs (`pacing.json` `feel`)
+decide only where and when the player sees them, and the suites run with them off (as ES2).
+- **问候** (init()'s greeting call_out): ES2 starts it as the player comes into the room. Here it
+  waits until the player first comes near the NPC (within `speech_reach_px` 136, four body
+  widths, and on the screen) and starts then, once per visit to the room (Q1): its wait, and a
+  harmful greeting's second to step aside, count from that moment. A player who never comes near
+  is not greeted (nor hurt by a greeting that harms).
+- **闲聊** (npc.c chat()): the roll is ES2's; a line drawn while the player is far off is not shown
+  to them (not even in 消息). What the NPC does on a chat (walks, drinks, steals) happens as before.
+- **Where lines show**: what NPCs say (greetings, chat, stories, chants, the toll robber's 喝令)
+  shows over their heads and goes into 消息; the bottom left's toasts keep the game's own messages.
+  A room's title and description show in the top right for 4 s (+40 ms a character past 40,
+  `room_text_ms` / `room_text_char_ms`) and go into 消息 (Q3); 观察 shows them again.
+- **交互**: E (pad A) or a click / tap on a thing in reach goes to the target (the nearest, or a
+  near one the player faces; Tab / Y and Q / LB / RB step to the others), marked with a ring and
+  「E 交互」. A thing that does one thing (a door, an item on the floor, a room's service, a sign
+  only looked at) does it at once (Q2); the others open the interaction popup: the thing's name and
+  title, how it is (昏迷不醒，约 N 秒后醒来; 正等着你留下买路财), what it is to the player
+  (look.c's relation, the strength line), then every option it offers. One the rules refuse now
+  is greyed with ES2's own line where it has one (fight.c: 这里禁止战斗。 / %s已经无法战斗了。,
+  kill.c: 这里不准战斗。, apprentice.c: 你必须先把%s弄醒。), else a short native one (拾取:
+  离得太远，够不着。; 给予 to one lying unconscious: give.c's 这里没有这个人。 would contradict
+  what the player sees, so {npc}昏迷不醒，收不了东西。). A landmark with an action (放弃,
+  抓住藤蔓) always opens the popup, never a stray click. A greeting still waiting when a fight
+  starts in the room is forgotten (ES2's had long been said). World time stands still while the
+  popup shows (as the menu's); a row closes it, and one that starts a fight closes it with the HUD.
+  拜师 and 给予 (the 背包 with 给) are on the popup; the HUD's card keeps the name, 菜单, 精气神,
+  conditions and waits only.

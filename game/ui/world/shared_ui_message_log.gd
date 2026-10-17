@@ -3,6 +3,10 @@ extends RefCounted
 ## The HUD's messages: the log (消息) in ES2's colours, the toasts and when they are held
 ## back, lines kept for after a fight, a room's text on arrival, and a panel's Feedback
 ## copied into the log. Code moved from SharedGameplayUI as it was; the HUD is `_ui`.
+##
+## Every line goes into 消息. The bottom left's toasts keep the game's own messages
+## (DECISIONS「说话和交互」): what NPCs say shows over their heads (append_speech()) and a
+## room's text at the top (describe_new_zone()), while the feel shows them there.
 
 
 var _ui: SharedGameplayUI
@@ -66,6 +70,12 @@ static func _colored(lines: Array[String], alert: bool = false) -> Array[Colored
 ## fight shows its own lines.
 func append_colored_lines(lines: Array[ColoredLine]) -> void:
 	_append(lines, true)
+
+
+## What an NPC says (its bubble shows it): in 消息; a toast only while the feel shows no
+## bubbles.
+func append_speech(lines: Array[ColoredLine]) -> void:
+	_append(lines, not GameContent.catalog().pacing().feel.shows_bubbles())
 
 
 func _append(lines: Array[ColoredLine], toast: bool) -> void:
@@ -149,8 +159,20 @@ func describe_new_zone() -> void:
 	if (previous != null and previous.map_id == zone.map_id and previous.display_name == zone.display_name
 			and not previous.distinct and not zone.distinct and GameContent.catalog().zones_adjacent(previous.zone_id, zone.zone_id)):
 		return
+	var title: String = tr(zone.display_name)
+	var description: String = room_prose(tr(zone.description))
 	# TRANSLATORS: a room's title and its description, as the log shows them on arrival.
-	append_log_lines([tr("【{title}】{description}").format({"title": tr(zone.display_name), "description": room_prose(tr(zone.description))})])
+	var line: String = tr("【{title}】{description}").format({"title": title, "description": description})
+	var seconds: float = GameContent.catalog().pacing().feel.room_text_seconds(description)
+	if seconds > 0.0 and is_instance_valid(_ui.view_overlay):
+		_append(_colored([line]), false)
+		# The overlay joins the session a frame late (the first arrival of a game).
+		if _ui.view_overlay.is_inside_tree():
+			_ui.view_overlay.show_room(title, description, seconds)
+		else:
+			_ui.view_overlay.show_room.call_deferred(title, description, seconds)
+		return
+	append_log_lines([line])
 
 
 ## Opens a panel that shows its own lines: toasts stay off while it is open.

@@ -1,9 +1,8 @@
 class_name WorldFocus
 extends RefCounted
 
-## What the place's A (ui_accept) goes to now (DECISIONS「手感」), for the ring and the
-## prompt over it: the place's context action (a door, a service: `title` is its button
-## text) or, with none, the nearest thing in reach (`thing`), whose group A goes into.
+## What E / A goes to now (DECISIONS「手感」,「说话和交互」), for the ring and the prompt
+## over it: the target in reach (`thing`) and the prompt's text (`title`: 交互, 开门 …).
 
 var title: String = ""
 var thing: WorldNearbyThing

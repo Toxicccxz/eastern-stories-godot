@@ -31,7 +31,7 @@ func _test_tabs_and_keys(tree: SceneTree) -> void:
 		titles.append(button.text)
 	_check(titles == ["角色", "武学", "背包", "任务", "声望", "百科", "系统"], "the seven tabs in order: %s" % [titles])
 	_check(not menu.is_presented() and layout.menu_button.is_visible_in_tree() and layout.bar.find_child("Navigation", true, false) == null, "the HUD keeps one 菜单 entry, no row of panels")
-	_check(layout.place_chip.tooltip_text == "观察", "the place is 观察")
+	_check(layout.bar.find_child("PlaceChip", true, false) == null, "the card names no place: the room's text shows at the top (DECISIONS「说话和交互」)")
 
 	await _key(tree, KEY_C)
 	_check(menu.is_presented() and menu.current_tab() == GameMenu.Tab.CHARACTER and ui.character_sheet.is_visible_in_tree(), "C opens 角色")

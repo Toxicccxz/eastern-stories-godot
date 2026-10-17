@@ -31,7 +31,7 @@ msgstr ""
 msgid "新游戏"
 msgstr ""
 
-#: scenes/application/application_shell.tscn presentation/layout/shared_gameplay_layout.gd ui/world/player_life_overlay.gd ui/world/shared_gameplay_ui.gd
+#: scenes/application/application_shell.tscn presentation/layout/shared_gameplay_layout.gd ui/world/player_life_overlay.gd
 msgid "继续"
 msgstr ""
 
@@ -6141,10 +6141,6 @@ msgstr ""
 msgid "窗口模式由这个平台管理。"
 msgstr ""
 
-#: presentation/layout/shared_gameplay_layout.gd ui/world/player_inventory_panel.gd ui/world/shared_gameplay_ui.gd
-msgid "观察"
-msgstr ""
-
 #: presentation/layout/shared_gameplay_layout.gd
 msgid "菜单"
 msgstr ""
@@ -6153,7 +6149,7 @@ msgstr ""
 msgid "目标"
 msgstr ""
 
-#: presentation/layout/shared_gameplay_layout.gd
+#: presentation/layout/shared_gameplay_layout.gd ui/world/shared_ui_nearby.gd
 msgid "交互"
 msgstr ""
 
@@ -6169,6 +6165,7 @@ msgstr ""
 msgid "通行"
 msgstr ""
 
+#. why 拾取 on a corpse is greyed: the player stands too far from it.
 #: presentation/layout/shared_gameplay_layout.gd ui/world/shared_ui_nearby.gd
 msgid "拾取"
 msgstr ""
@@ -6267,7 +6264,7 @@ msgstr ""
 msgid "看起来%s想杀死你！"
 msgstr ""
 
-#: runtime/combat_encounter/combat_encounter_coordinator.gd runtime/world/map/world_map_selection.gd
+#: runtime/combat_encounter/combat_encounter_coordinator.gd runtime/world/map/world_map_selection.gd ui/world/shared_ui_nearby.gd
 msgid "这里不准战斗。"
 msgstr ""
 
@@ -6598,7 +6595,7 @@ msgstr ""
 msgid "（{npc}要把你押到县衙受审：被押着走不开；可以向他行贿，也可以拒捕跟他动手。）"
 msgstr ""
 
-#: runtime/world/map/world_map_selection.gd
+#: runtime/world/map/world_map_selection.gd ui/world/shared_ui_nearby.gd
 msgid "这里禁止战斗。"
 msgstr ""
 
@@ -6610,7 +6607,7 @@ msgstr ""
 msgid "加油！加油！加油！"
 msgstr ""
 
-#: runtime/world/map/world_map_selection.gd
+#: runtime/world/map/world_map_selection.gd ui/world/shared_ui_nearby.gd
 msgid "%s已经无法战斗了。"
 msgstr ""
 
@@ -6928,7 +6925,7 @@ msgstr ""
 msgid "请教"
 msgstr ""
 
-#: runtime/world/services/teacher_service.gd
+#: runtime/world/services/teacher_service.gd ui/world/shared_ui_nearby.gd
 msgid "你必须先把%s弄醒。"
 msgstr ""
 
@@ -7829,6 +7826,10 @@ msgid "轻功：%+d"
 msgstr ""
 
 #: ui/world/player_inventory_panel.gd
+msgid "观察"
+msgstr ""
+
+#: ui/world/player_inventory_panel.gd
 msgid "装备"
 msgstr ""
 
@@ -8011,18 +8012,6 @@ msgid ""
 "· 综合评价清零（现在是 {score}）。\n"
 "· 背叛师门的次数变成 {next} 次。\n"
 "确定要攻击吗？"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "选择"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "返回"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "选择附近"
 msgstr ""
 
 #: ui/world/shared_gameplay_ui.gd
@@ -8251,14 +8240,66 @@ msgstr ""
 msgid "【{title}】{description}"
 msgstr ""
 
+#. the prompt over a door or an item on the floor: {action} what E / A does (打开, 拾取), {thing} its name.
+#: ui/world/shared_ui_nearby.gd
+msgid "{action}{thing}"
+msgstr ""
+
 #. the HUD's line under an NPC lying unconscious: {n} seconds until it comes to (damage.c revive), rounded up.
 #: ui/world/shared_ui_nearby.gd
 msgid "昏迷不醒，约 {n} 秒后醒来"
 msgstr ""
 
+#. the HUD's line under an NPC lying unconscious: {n} seconds until it comes to (damage.c revive), rounded up.
+#: ui/world/shared_ui_nearby.gd
+msgid "昏迷不醒"
+msgstr ""
+
+#. the popup's line under a toll-taker about to attack the player (gangster.c's 买路财).
+#: ui/world/shared_ui_nearby.gd
+msgid "正等着你留下买路财"
+msgstr ""
+
+#. look.c: {pronoun} is 他/她/它, {relation} what the NPC is to the player (师父, 同门师兄 …).
+#: ui/world/shared_ui_nearby.gd ui/world/shared_ui_selection.gd
+msgid "{pronoun}是你的{relation}。"
+msgstr ""
+
+#. the popup's line under a corpse: how many things it holds.
+#: ui/world/shared_ui_nearby.gd
+msgid "里面有{count}件物品。"
+msgstr ""
+
+#. why 拾取 on a corpse is greyed: the player stands too far from it.
+#: ui/world/shared_ui_nearby.gd
+msgid "离得太远，够不着。"
+msgstr ""
+
 #. sanyen.kitchen.steampot act.verb
 #: ui/world/shared_ui_nearby.gd data/sanyen/world.json
 msgid "打开"
+msgstr ""
+
+#: ui/world/shared_ui_nearby.gd
+msgid "请安"
+msgstr ""
+
+#. common.npc.fighter.champion inquiry topic
+#. common.npc.juechen.master inquiry topic
+#. latemoon.npc.room.elon inquiry topic
+#. city.npc.chen inquiry topic
+#: ui/world/shared_ui_nearby.gd data/common/npcs.json data/latemoon/npcs.json data/city/npcs.json
+msgid "拜师"
+msgstr ""
+
+#. why 给予 is greyed: the NPC ({npc}) lies unconscious and takes nothing (give.c says 这里没有这个人。, which reads wrong beside him; DECISIONS「说话和交互」).
+#: ui/world/shared_ui_nearby.gd
+msgid "给予"
+msgstr ""
+
+#. why 给予 is greyed: the NPC ({npc}) lies unconscious and takes nothing (give.c says 这里没有这个人。, which reads wrong beside him; DECISIONS「说话和交互」).
+#: ui/world/shared_ui_nearby.gd
+msgid "{npc}昏迷不醒，收不了东西。"
 msgstr ""
 
 #. asked before 空识神通 (void_sense.c) when its 50 gin ({gin}) would knock the player out.
@@ -8296,11 +8337,6 @@ msgstr ""
 
 #: ui/world/shared_ui_selection.gd
 msgid "目标详情"
-msgstr ""
-
-#. look.c: {pronoun} is 他/她/它, {relation} what the NPC is to the player (师父, 同门师兄 …).
-#: ui/world/shared_ui_selection.gd
-msgid "{pronoun}是你的{relation}。"
 msgstr ""
 
 #: ui/world/shared_ui_selection.gd
@@ -10768,14 +10804,6 @@ msgstr ""
 #: data/common/npcs.json
 msgid ""
 "水烟阁乃是历届武林盟主的行馆，你有什麽事要见武林盟主？\n"
-msgstr ""
-
-#. common.npc.fighter.champion inquiry topic
-#. common.npc.juechen.master inquiry topic
-#. latemoon.npc.room.elon inquiry topic
-#. city.npc.chen inquiry topic
-#: data/common/npcs.json data/latemoon/npcs.json data/city/npcs.json
-msgid "拜师"
 msgstr ""
 
 #. common.npc.fighter.champion inquiry.拜师

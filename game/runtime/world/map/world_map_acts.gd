@@ -235,8 +235,7 @@ func move_player(zone_id: StringName, point_id: StringName) -> bool:
 
 func _show(said: Array[ColoredLine], hears: bool, npc: NpcRuntimeState, spoken: Array[String]) -> void:
 	if hears and not said.is_empty() and _map.hud() != null:
-		_map.hud().append_colored_lines(said.duplicate())
-		_map.hud().npc_bubble(npc, spoken.duplicate())
+		_map.hud().npc_says(npc, said.duplicate(), spoken.duplicate())
 	said.clear()
 	spoken.clear()
 
