@@ -8,8 +8,9 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 (`tools/maps/standard.json`, in body widths) and its tools and runtime (#130, #131), and every
 enterable room on its building's own map, entered through its door from the street — 雪亭镇 (#132),
 R1 绮云镇/玉螺湖村/天驼关 (#133), R2 京师/乔阴/黑松山/鬼门关 (#134), R3 青石村/茅山/山烟寺/野羊山/
-老松岭 (#136) and R4, which grew 晚月庄's and 水烟阁's compound maps ×1.5 as they were drawn (their
-rooms are not laid by class: some halls are smaller than the standard's, a question in R4's PR).
+老松岭 (#136) and R4 (#137), which grew 晚月庄's and 水烟阁's compound maps ×1.5 as they were drawn
+and the halls their descriptions call large (晚月庄大厅, the dining rooms, the 密室, 水烟阁正厅, the
+servants' room) to their class.
 With it, 室内察觉 (#135): indoors an aggressive NPC notices whoever comes into its room. Next:
 ROADMAP "After the grey box" step 3, the playtest checklist and the
 owner's full playtest.

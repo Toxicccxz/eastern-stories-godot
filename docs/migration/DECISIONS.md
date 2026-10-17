@@ -3516,7 +3516,8 @@ pair on its door, the town keeping its facade. Rules and content are unchanged: 
 (one-way ones stay one-way), doors and locks (a door on a passage is one door on both maps), exit
 rules, scripted moves and where each NPC stands. Owner Q2–Q4: towns scaled and buildings' maps
 laid from their exits; wild maps not rescaled, their buildings and caves moved out; every map
-stays resident. 晚月庄's and 水烟阁's compounds were already their own maps: grown ×1.5 as drawn.
+stays resident. 晚月庄's and 水烟阁's compounds were already their own maps: grown ×1.5 as drawn,
+and the rooms their descriptions call large grown to that class (owner).
 What follows from it:
 - An NPC walks through a door onto the next map as it walks into the next room (wanderers, one
   called over, one walking out of a fight, followers); a save counts one on its way out as through
