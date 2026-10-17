@@ -24,11 +24,12 @@ func _init(ui: SharedGameplayUI) -> void:
 ## Asks in the shared frame before an important or deadly choice (owner,
 ## 2026-10-06): `action` runs on the choice; 取消, 关闭 or Back drop it, and 取消 then
 ## runs `on_cancel` (back where the question came from). While `still_valid` returns
-## false the question closes, as any panel does.
-func ask_first(text: String, choice: String, action: Callable, still_valid: Callable = Callable(), on_cancel: Callable = Callable()) -> void:
+## false the question closes, as any panel does. `about` (in the shown language) says above
+## the question what the choice is about.
+func ask_first(text: String, choice: String, action: Callable, still_valid: Callable = Callable(), on_cancel: Callable = Callable(), about: String = "") -> void:
 	_confirmed_action = action
 	_cancelled_action = on_cancel
-	_ui.confirm_prompt.ask(text, choice)
+	_ui.confirm_prompt.ask(text, choice, "取消", about)
 	_presentation_layout.open_panel(tr("请确认"), _ui.confirm_prompt, still_valid)
 	if _presentation_layout._content == _ui.confirm_prompt:
 		# A question that wraps is taller than the frame's first layout.

@@ -7,6 +7,9 @@ var blocks_touch_gameplay: bool = false
 ## A panel drawn over another one (the shared frame's question over the menu) is the top
 ## one whatever the group's tree order.
 var raised: bool = false
+## The size the panel keeps whatever its content, within the area (the interaction popup:
+## owner, 2026-10-17); zero: it fits its content.
+var fixed_size: Vector2 = Vector2.ZERO
 
 
 static func top_interaction_panel(tree: SceneTree) -> ResponsivePanelLayout:
@@ -111,7 +114,10 @@ func _layout() -> void:
 	_forget_removed_controls()
 	var width: float = minf(_preferred_width, _available.size.x) if _centered else _available.size.x
 	var height: float = _available.size.y
-	if _centered:
+	if fixed_size != Vector2.ZERO:
+		width = minf(fixed_size.x, _available.size.x)
+		height = minf(fixed_size.y, _available.size.y)
+	elif _centered:
 		var margins: float = panel.get_theme_stylebox("panel").get_minimum_size().y
 		height = minf(height, content.get_combined_minimum_size().y + margins)
 	panel.set_anchors_preset(Control.PRESET_TOP_LEFT)

@@ -17,6 +17,8 @@ const STATUS_COLOR: Color = Color(1.0, 0.78, 0.45)
 const ROW_WIDTH: float = 150.0
 
 var _rows: VBoxContainer
+var _options_scroll: ScrollContainer
+var _page_scroll: ScrollContainer
 var _heading: Label
 var _status: VBoxContainer
 var _about: VBoxContainer
@@ -38,23 +40,34 @@ var _looked: bool = false
 func _ready() -> void:
 	name = "InteractionPanel"
 	add_theme_constant_override("separation", 14)
+	# The frame keeps one size (SharedGameplayLayout.HOST_SHARE): each column scrolls itself.
+	size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_rows = VBoxContainer.new()
 	_rows.name = "Options"
 	_rows.add_theme_constant_override("separation", 6)
-	add_child(_rows)
+	_options_scroll = _scroll("OptionsScroll", _rows, false)
+	add_child(_options_scroll)
 	var rule := VSeparator.new()
 	rule.name = "Rule"
 	add_child(rule)
-	var page := VBoxContainer.new()
-	page.name = "Page"
-	page.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	page.add_theme_constant_override("separation", 8)
-	add_child(page)
+	var column := VBoxContainer.new()
+	column.name = "Column"
+	column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	column.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	column.add_theme_constant_override("separation", 8)
+	add_child(column)
 	_heading = Label.new()
 	_heading.name = "Heading"
 	_heading.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_heading.add_theme_color_override("font_color", SharedGameplayLayout.ACCENT_COLOR)
-	page.add_child(_heading)
+	column.add_child(_heading)
+	var page := VBoxContainer.new()
+	page.name = "Page"
+	page.add_theme_constant_override("separation", 8)
+	_page_scroll = _scroll("PageScroll", page, true)
+	# The right stick scrolls a long page (a teacher's list) as it does the frame.
+	_page_scroll.add_to_group(PadSupport.SCROLL_GROUP)
+	column.add_child(_page_scroll)
 	_status = _box(page, "Status")
 	_about = _box(page, "About")
 	_look = _box(page, "Look")
@@ -86,6 +99,9 @@ func page_mount() -> Control:
 func show_look(fresh: bool = false) -> void:
 	if fresh:
 		_current = ""
+		_options_scroll.scroll_vertical = 0
+	if fresh or _mount.visible:
+		_page_scroll.scroll_vertical = 0
 	_heading.hide()
 	_mount.hide()
 	_status.visible = _status.get_child_count() > 0
@@ -96,6 +112,7 @@ func show_look(fresh: bool = false) -> void:
 
 ## The right column shows a page titled `title`; the row that opened it is marked.
 func show_page(title: String) -> void:
+	_page_scroll.scroll_vertical = 0
 	_heading.text = title
 	_heading.show()
 	_status.hide()
@@ -292,6 +309,20 @@ func _lines(box: VBoxContainer, lines: Array[String], color: Color) -> bool:
 		label.add_theme_color_override("font_color", color)
 		box.add_child(label)
 	return true
+
+
+## A column that scrolls up and down, `content` filling its width.
+static func _scroll(node_name: String, content: Control, expand: bool) -> ScrollContainer:
+	var scroll := ScrollContainer.new()
+	scroll.name = node_name
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.follow_focus = true
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	if expand:
+		scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(content)
+	return scroll
 
 
 static func _box(parent: Node, node_name: String) -> VBoxContainer:

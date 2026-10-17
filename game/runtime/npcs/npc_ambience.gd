@@ -154,6 +154,25 @@ func has_call(character_id: StringName, kind: StringName) -> bool:
 	return _calls.has(kind) and _calls[kind].has(character_id)
 
 
+## Every call_out waiting now (greetings aside), as "kind|NPC" → seconds left: a later
+## snapshot with a new key or more seconds left means one was started in between.
+func snapshot() -> Dictionary[String, float]:
+	var calls: Dictionary[String, float] = {}
+	for kind: StringName in _calls:
+		for character_id: StringName in _calls[kind]:
+			calls["%s|%s" % [kind, character_id]] = float(_calls[kind][character_id])
+	return calls
+
+
+## Whether a call_out was started since `before` (snapshot()).
+func started_since(before: Dictionary[String, float]) -> bool:
+	var now: Dictionary[String, float] = snapshot()
+	for key: String in now:
+		if not before.has(key) or now[key] > before[key]:
+			return true
+	return false
+
+
 ## Every NPC call_out: the player left the map, and each would find nobody (its time
 ## does not flow while the map is not active).
 func clear_calls() -> void:
