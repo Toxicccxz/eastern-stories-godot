@@ -242,26 +242,45 @@ func _test_walking_hud(tree: SceneTree) -> void:
 	var second: Control = tree.root.gui_get_focus_owner()
 	_check(second != first and ui.interaction_panel.is_ancestor_of(second), "D-pad ↓: the next row")
 	_check(InputGlyphBinding.action_of(layout.close_button) == &"ui_cancel", "关闭 shows B")
-	# 查看 replaces the popup with the details; its time runs again.
-	var look: Button = ui.interaction_panel.button_of("查看")
-	look.grab_focus()
+	# A on a row: its page in the popup's right column, focused there; B (as the shell routes
+	# it) back to 查看 with the focus on that row; B again: back to walking.
+	var row: Button = second as Button
+	var label: String = ""
+	for shown: Array in ui.interaction_panel.shown():
+		if ui.interaction_panel.button_of(shown[0]) == row:
+			label = shown[0]
+	row.grab_focus()
 	await _joy(tree, JOY_BUTTON_A)
 	await _frames(tree, 2)
-	_check(layout.frame.visible and layout._content == layout.details and layout.frame.is_ancestor_of(tree.root.gui_get_focus_owner()), "A on 查看: the details, focused")
-	_check(not session.world_time_held(), "the popup gone: world time runs")
-	ui.dismiss_current_panel()
+	var page: Control = layout.page()
+	_check(ui.interaction_open() and page != null and ui.interaction_panel.current() == label, "A on %s: its page, in the popup" % label)
+	var focused: Control = tree.root.gui_get_focus_owner()
+	_check(focused != null and (page.is_ancestor_of(focused) or focused == layout.close_button), "the page has the focus: %s" % focused)
+	if focused != null and page.is_ancestor_of(focused):
+		await _joy(tree, JOY_BUTTON_DPAD_LEFT)
+		var moved: Control = tree.root.gui_get_focus_owner()
+		_check(moved != null and ui.interaction_panel.is_ancestor_of(moved) and not page.is_ancestor_of(moved), "D-pad ←: from the page to the rows: %s" % moved)
+		await _joy(tree, JOY_BUTTON_DPAD_RIGHT)
+		moved = tree.root.gui_get_focus_owner()
+		_check(moved != null and page.is_ancestor_of(moved), "D-pad →: back into the page: %s" % moved)
+	await _back(tree)
 	await _frames(tree, 2)
-	_check(not layout.frame.visible and tree.root.gui_get_focus_owner() == null, "B: back to walking")
+	_check(ui.interaction_open() and layout.page() == null and tree.root.gui_get_focus_owner() == row, "B: back to 查看, on its row")
+	_check(session.world_time_held(), "查看 holds world time again")
+	await _back(tree)
+	await _frames(tree, 2)
+	_check(not layout.frame.visible and tree.root.gui_get_focus_owner() == null, "B again: back to walking")
 
 	# A button's A press is its own (it fires on release): nothing else opens on the press.
 	await _joy(tree, JOY_BUTTON_A)
-	ui.interaction_panel.button_of("查看").grab_focus()
+	ui.interaction_panel.button_of(label).grab_focus()
 	Input.parse_input_event(_joy_button(JOY_BUTTON_A, true))
 	await tree.process_frame
-	_check(ui.interaction_open(), "the press on a focused row opens nothing else")
+	_check(ui.interaction_open() and layout.page() == null, "the press on a focused row opens nothing else")
 	Input.parse_input_event(_joy_button(JOY_BUTTON_A, false))
 	await tree.process_frame
-	_check(layout.frame.visible and layout._content == layout.details, "its release presses it")
+	_check(layout.page() != null and ui.interaction_panel.current() == label, "its release presses it")
+	ui.dismiss_current_panel()
 	ui.dismiss_current_panel()
 	await tree.process_frame
 
@@ -367,6 +386,17 @@ func _test_battle(tree: SceneTree, session: WorldSessionController, map: WorldMa
 
 
 # --- helpers -------------------------------------------------------------------------
+
+## B as the game's shell routes it while a panel is up (no shell here): the top panel's Back.
+func _back(tree: SceneTree) -> void:
+	Input.parse_input_event(_joy_button(JOY_BUTTON_B, true))
+	var panel: ResponsivePanelLayout = ResponsivePanelLayout.top_interaction_panel(tree)
+	if panel != null:
+		panel.dismiss_requested.emit()
+	await tree.process_frame
+	Input.parse_input_event(_joy_button(JOY_BUTTON_B, false))
+	await tree.process_frame
+
 
 func _fill_rows(rows: VBoxContainer) -> void:
 	for row_index: int in 3:

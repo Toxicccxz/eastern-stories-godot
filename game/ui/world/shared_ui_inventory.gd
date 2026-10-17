@@ -32,6 +32,9 @@ const GIVE_RECRUITS_AT_ONCE: String = "{npc}收下{item}，就会当场收你为
 var _ui: SharedGameplayUI
 ## The rows show_inventory() opens the 背包 page with.
 var _opening_rows: Array[PlayerInventoryRowProjection] = []
+## 给予's page in the interaction popup, and the log's count when it opened.
+var give_panel: GivePanel
+var _give_mark: int = 0
 
 # The HUD's authorities, read as SharedGameplayUI reads them.
 var _session: WorldSessionController:
@@ -148,7 +151,10 @@ func inspect_item(id: StringName) -> void:
 	open_inventory()
 
 
-func give_item(id: StringName, amount: int) -> void:
+## give.c from the 背包 or the popup's 给予 page; asked first where the owner's rules say.
+## `back`: where the question goes back to (and, asked from a page, where the gift goes on):
+## the 背包 by default.
+func give_item(id: StringName, amount: int, back: Callable = Callable()) -> void:
 	var map := _session.active_map() as WorldMapController
 	if map == null:
 		return
@@ -158,6 +164,8 @@ func give_item(id: StringName, amount: int) -> void:
 		return
 	var give: Callable = func() -> void:
 		map.give_to_selected(id, amount)
+		if back.is_valid():
+			back.call()
 	# The question closes once the gift can no longer be made: the NPC walked away or is
 	# no longer selected, the thing is gone, or the player cannot handle items now.
 	var npc_id: StringName = map.selected_character_id()
@@ -166,8 +174,41 @@ func give_item(id: StringName, amount: int) -> void:
 			_session.active_map() == map and map.selected_character_id() == npc_id
 			and map.can_handle_items() and map.selected_npc_takes_gifts() and _carries(id)
 		)
-	# 取消 goes back to the 背包 the question came from.
-	_ui.questions.ask_first(warning, "确定送出", give, still_valid, open_inventory)
+	# 取消 goes back to the 背包 (or the page) the question came from.
+	_ui.questions.ask_first(warning, "确定送出", give, still_valid, back if back.is_valid() else open_inventory)
+
+
+## 给予 in the interaction popup (DECISIONS「说话和交互」): its page lists what the player
+## carries, each with 给 to the selected NPC. `fresh`: a new list (not back from its question).
+func open_give(fresh: bool = true) -> void:
+	var map := _session.active_map() as WorldMapController
+	if map == null or not _session.portable_inventory_available() or not map.can_handle_items() or not map.selected_npc_takes_gifts():
+		return
+	if give_panel == null:
+		give_panel = GivePanel.new()
+		give_panel.hide()
+		_presentation_layout.holding.add_child(give_panel)
+		give_panel.give_requested.connect(func(id: StringName, amount: int) -> void:
+			give_item(id, amount, open_give.bind(false))
+			refresh_give())
+	if fresh:
+		give_panel.reset()
+		_give_mark = _ui.message_log.appended()
+	give_panel.fill(_session.player_inventory_rows())
+	give_panel.show_answer(_ui.message_log.lines_since(_give_mark))
+	var npc_id: StringName = map.selected_character_id()
+	var still_valid: Callable = func() -> bool:
+		return _session.active_map() == map and map.selected_character_id() == npc_id and map.can_handle_items() and map.selected_npc_takes_gifts()
+	# TRANSLATORS: the 给予 page's title: {npc} whom the player gives to.
+	_ui.message_log.open_panel_with_lines(tr("给予 · {npc}").format({"npc": tr(map.selected_npc().definition().display_name)}), give_panel, still_valid)
+
+
+## The 给予 page while it shows: what the player carries now and what came of the gifts.
+func refresh_give() -> void:
+	if give_panel == null or _presentation_layout._content != give_panel:
+		return
+	give_panel.fill(_session.player_inventory_rows())
+	give_panel.show_answer(_ui.message_log.lines_since(_give_mark))
 
 
 func _carries(id: StringName) -> bool:

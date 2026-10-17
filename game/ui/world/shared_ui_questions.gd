@@ -47,9 +47,14 @@ func on_prompt_confirmed() -> void:
 	var action: Callable = _confirmed_action
 	_confirmed_action = Callable()
 	_cancelled_action = Callable()
+	# Asked in the interaction popup (its page): a choice that opens nothing more (攻击
+	# begun) is done there, and the popup closes as after a row that opens nothing.
+	var in_popup: bool = _ui.interaction_open()
 	_presentation_layout.close_panel()
 	if action.is_valid():
 		action.call()
+	if in_popup and _ui.interaction_open() and _presentation_layout.page() == null:
+		_presentation_layout.close_frame()
 
 
 func on_prompt_cancelled() -> void:

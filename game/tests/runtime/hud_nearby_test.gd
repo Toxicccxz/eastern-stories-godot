@@ -2,9 +2,10 @@ extends RefCounted
 
 ## What the player stands by (DECISIONS「说话和交互」): the things in reach, nearest first;
 ## the target E / A goes to, its prompt, stepping to the next; the interaction popup (its
-## title, its rows, greyed ones with the reason, world time held while it shows, a row
-## closing it); a thing that does one thing done at once (a door); a click on a thing in
-## reach interacting with it; the selection following reach.
+## title, its rows, greyed ones with the reason, 查看 on its right by default, a row's page
+## there and B back from it, 给予's page, world time held on 查看); a thing that does one
+## thing done at once (a door); a click on a thing in reach interacting with it; the
+## selection following reach.
 
 var assertions: int = 0
 var failures: Array[String] = []
@@ -59,20 +60,78 @@ func run_all(tree: SceneTree) -> Dictionary:
 	hud.focus_marker._process(0.2)
 	check(hud.focus_marker.prompt_text() == "交互", "his prompt: %s" % hud.focus_marker.prompt_text())
 
-	# E: his popup, titled with his name; world time stands still while it shows.
+	# E: his popup, titled with his name, opened on its 查看 (the right column: him as
+	# looking at him shows him); 查看 is no row. World time stands still on 查看.
 	check(hud.interact() and hud.interaction_open(), "E opens his popup")
-	check(hud._presentation_layout.frame_title.text == waiter_name, "titled with his name: %s" % hud._presentation_layout.frame_title.text)
+	var layout: SharedGameplayLayout = hud._presentation_layout
+	check(layout.frame_title.text == waiter_name, "titled with his name: %s" % layout.frame_title.text)
 	var rows: Array = hud.interaction_panel.shown().map(func(row: Array) -> String: return row[0])
-	check(rows.has("购买") and rows.has("给予") and rows.has("查看"), "its rows: %s" % [rows])
+	check(rows.has("购买") and rows.has("给予") and not rows.has("查看"), "its rows, no 查看 among them: %s" % [rows])
+	check(layout.page() == null and hud.interaction_panel.look_text().contains(waiter_name) and hud.inspection_display().begins_with(waiter_name), "its right column is 查看: %s" % hud.interaction_panel.look_text())
+	check(map.selected_character_id() == waiter.character_id, "opening it looks at him (selects him)")
 	await tree.process_frame
 	await tree.process_frame
-	check(session.world_time_held(), "world time stands still")
-	# A row closes it and does its thing: 购买 opens the shop, and time runs again.
+	check(session.world_time_held(), "world time stands still on 查看")
+	# 购买: the shop is the popup's page, its row marked; the shop's time runs as before.
 	check(hud.interaction_panel.press("购买"), "购买 pressed")
-	check(not hud.interaction_open() and hud._presentation_layout.frame.visible, "the popup gives way to the shop")
+	check(hud.interaction_open() and layout.page() != null and layout.page() != hud.interaction_panel and hud.interaction_panel.page_mount().is_ancestor_of(layout.page()), "the shop opens in the popup's right column, no other window")
+	check(hud.interaction_panel.current() == "购买" and layout.frame_title.text == waiter_name and layout.close_button.text == "返回", "its row marked, the title kept, 关闭 reads 返回")
+	await tree.process_frame
+	await tree.process_frame
+	check(not session.world_time_held(), "world time runs on the shop's page")
+	# Back (B / Esc) goes back to 查看 first, then closes the popup.
+	hud.dismiss_current_panel()
+	check(hud.interaction_open() and layout.page() == null and hud.interaction_panel.current() == "" and layout.close_button.text == "关闭", "B: back to 查看")
+	check(hud.interaction_panel.look_text().contains(waiter_name), "查看 still shows him after a page (a row selects him again): %s" % hud.interaction_panel.look_text())
+	await tree.process_frame
+	await tree.process_frame
+	check(session.world_time_held(), "查看 holds world time again")
+	# 给予: his page lists what the player carries, each with 给 (the 背包's rules).
+	map.floor_items.give_new_item_to_player(&"es2:obj/longsword") # TEST-ONLY: something to give
+	check(hud.interaction_panel.press("给予") and layout.page() == hud.items.give_panel, "给予: its page in the popup, not the 背包")
+	check(not hud.menu.is_presented() and hud.items.give_panel.labels().size() == session.player_inventory_rows().size(), "every carried thing listed: %s" % [hud.items.give_panel.labels()])
+	var gift: PlayerInventoryRowProjection = null
+	for row: PlayerInventoryRowProjection in session.player_inventory_rows():
+		if row.equipment_slot == PlayerInventoryRowProjection.EquipmentSlot.NONE and GameContent.catalog().item(row.item_definition_id).currency_base_value == 0:
+			gift = row
+	check(gift != null, "something to give: %s" % [hud.items.give_panel.labels()])
+	if gift != null:
+		var before: int = session.player_inventory_rows().size()
+		hud.items.give_panel.give_button(PlayerInventoryPanel.row_label(gift)).pressed.emit()
+		check(layout.page() == hud.items.give_panel and not hud.items.give_panel.answer_text().is_empty(), "给: the page stays, saying what came of it: %s" % hud.items.give_panel.answer_text())
+		check(session.player_inventory_rows().size() <= before, "the gift is made (or refused) by give.c's rules")
+	var worn: PlayerInventoryRowProjection = null
+	for row: PlayerInventoryRowProjection in session.player_inventory_rows():
+		if row.equipment_slot != PlayerInventoryRowProjection.EquipmentSlot.NONE:
+			worn = row
+	check(worn != null, "something worn")
+	if worn != null:
+		hud.items.give_panel.give_button(PlayerInventoryPanel.row_label(worn)).pressed.emit()
+		check(hud.is_asking() and layout.page() == hud.confirm_prompt and hud.interaction_open(), "something worn: the 背包's question, in the popup's page")
+		hud.confirm_prompt.cancel()
+		check(layout.page() == hud.items.give_panel, "取消: back to the 给予 page")
+		hud.items.give_panel.give_button(PlayerInventoryPanel.row_label(worn)).pressed.emit()
+		hud.dismiss_current_panel()
+		check(not hud.is_asking() and layout.page() == hud.items.give_panel, "B on the question is its 取消: back to the 给予 page")
+	hud.dismiss_current_panel()
+	check(layout.page() == null and hud.interaction_open(), "B on 给予: back to 查看")
+	hud.dismiss_current_panel()
+	check(not layout.frame.visible, "B on 查看: the popup closes")
 	await tree.process_frame
 	await tree.process_frame
 	check(not session.world_time_held(), "world time runs again")
+	# 偷窃: his list in the popup; a theft begun closes the popup (its moment needs world time).
+	check(hud.interact() and hud.interaction_panel.press("偷窃") and layout.page() == hud.steal_panel, "偷窃: his list in the popup's right column")
+	# 随手摸一样 (no item named).
+	hud.steal_panel.chosen.emit(&"")
+	if hud.is_asking():
+		check(layout.page() == hud.confirm_prompt, "a stronger mark: the question in the popup")
+		hud.confirm_prompt.confirm_button.pressed.emit()
+	check(not layout.frame.visible, "the theft begun: the popup closes")
+	await tree.process_frame
+	await tree.process_frame
+	check(not session.world_time_held(), "and world time runs for it")
+	hud.dismiss_current_panel()
 	hud.dismiss_current_panel()
 	await tree.process_frame
 
@@ -100,7 +159,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 	hud.refresh_exploration()
 	(traveller_body as WorldCharacterBody2D).selection_requested.emit(traveller.character_id)
 	check(hud.interaction_open() and hud._presentation_layout.frame_title.text == traveller_name, "beside him, a click opens his popup")
-	check(hud.interaction_panel.press("查看") and map.selected_character_id() == traveller.character_id and hud.inspection_display().begins_with(traveller_name), "查看 selects him and shows him: %s" % hud.inspection_display())
+	check(map.selected_character_id() == traveller.character_id and hud.inspection_display().begins_with(traveller_name), "its 查看 selects him and shows him: %s" % hud.inspection_display())
 	hud.dismiss_current_panel()
 	check(not hud.nearby.press(waiter_name, "购买"), "the waiter's 购买 is not offered from here")
 	# The other traveller's popup has the same rows: its buttons act on him, not on the first.
@@ -109,8 +168,12 @@ func run_all(tree: SceneTree) -> Dictionary:
 		await _stand(tree, map, other_body.global_position + Vector2(0, -50))
 		hud.refresh_exploration()
 		check(hud.nearby.choose(other.character_id) and hud.interact() and hud.interaction_open(), "the other traveller's popup")
-		hud.interaction_panel.button_of("查看").pressed.emit()
-		check(map.selected_character_id() == other.character_id, "its 查看 button looks at him, not the first traveller")
+		check(map.selected_character_id() == other.character_id, "its 查看 looks at him, not the first traveller")
+		var row: Button = hud.interaction_panel.button_of("给予")
+		if row != null:
+			row.pressed.emit()
+			check(hud._presentation_layout.page() == hud.items.give_panel and map.selected_character_id() == other.character_id, "its 给予 row gives to him, not the first")
+			hud.dismiss_current_panel()
 		hud.dismiss_current_panel()
 
 	# Off by oneself: nothing in reach, no target, no selection.
@@ -131,11 +194,12 @@ func run_all(tree: SceneTree) -> Dictionary:
 	check(hud.nearby.target().id != first, "a chosen target stays while in reach")
 	check(hud.nearby.cycle(1) and hud.nearby.target().id == first, "and back")
 
-	# 攻击 from the popup: the popup closes as the fight begins.
+	# 攻击 from the popup: its question (if any) in the popup; the popup closes as the fight begins.
 	check(hud.nearby.choose(traveller.character_id) and hud.interact() and hud.interaction_open(), "the traveller's popup")
 	hud.interaction_panel.press("攻击")
 	if hud.is_asking():
-		hud.confirm_prompt.confirm()
+		check(hud.interaction_open() and hud._presentation_layout.page() == hud.confirm_prompt, "攻击's question is the popup's page")
+		hud.confirm_prompt.confirm_button.pressed.emit()
 	check(session.combat_encounter_coordinator().has_active_encounter() and not hud.interaction_open(), "攻击: the fight begins, the popup is gone")
 	await tree.process_frame
 	check(not session.world_time_held(), "and nothing holds world time")

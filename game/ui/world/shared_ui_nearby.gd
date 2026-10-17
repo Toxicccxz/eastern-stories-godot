@@ -405,10 +405,9 @@ static func _apprentice(teacher: TeacherService) -> void:
 	teacher.ui.request_apprentice()
 
 
-## 给予 from the popup: the 背包, whose rows offer 给 to the selected NPC.
+## 给予 from the popup: its page, the things carried with 给 to the selected NPC.
 func _give() -> void:
-	if _session.portable_inventory_available():
-		_ui.menu.open(GameMenu.Tab.INVENTORY)
+	_ui.items.open_give()
 
 
 ## `select` first (the thing is the one the action works on), then `action` if it took.

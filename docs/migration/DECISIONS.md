@@ -3556,9 +3556,25 @@ decide only where and when the player sees them, and the suites run with them of
   is greyed with ES2's own line where it has one (fight.c: 这里禁止战斗。 / %s已经无法战斗了。,
   kill.c: 这里不准战斗。, apprentice.c: 你必须先把%s弄醒。), else a short native one (拾取:
   离得太远，够不着。; 给予 to one lying unconscious: give.c's 这里没有这个人。 would contradict
-  what the player sees, so {npc}昏迷不醒，收不了东西。). A landmark with an action (放弃,
+  what the player sees, so {npc}昏迷不醒，收不了东西。; owner, 2026-10-17). A landmark with an action (放弃,
   抓住藤蔓) always opens the popup, never a stray click. A greeting still waiting when a fight
-  starts in the room is forgotten (ES2's had long been said). World time stands still while the
-  popup shows (as the menu's); a row closes it, and one that starts a fight closes it with the HUD.
-  拜师 and 给予 (the 背包 with 给) are on the popup; the HUD's card keeps the name, 菜单, 精气神,
-  conditions and waits only.
+  starts in the room is forgotten (ES2's had long been said). 拜师 and 给予 are on the popup;
+  the HUD's card keeps the name, 菜单, 精气神, conditions and waits only.
+- **The popup is one window, two columns** (owner's playtest, 2026-10-17): the options on the
+  left (no 查看 row), on the right its 查看 — opening the popup looks at the thing (look.c: name
+  and title, description, relation, strength; the status lines above; a corpse's or landmark's
+  own look; the target's 气 bar is not shown there). Opening it therefore does what 查看 did,
+  ES2's look side effects included (look.c's berserk, a landmark's look function). A row whose
+  action opens something shows it as a page in the right column — 打听, 购买 / 请教 / any
+  service's panel, 拜师 (the teacher's panel), 给予 (the things carried, each with 给; the 背包's
+  rules and questions, its answer under the list), 偷窃, 行贿, 拾取 on a corpse — titled, its
+  row marked; the frame's 关闭 reads 返回 there, and B / Esc / 返回 go back to 查看, then close.
+  Questions asked first (ConfirmPrompt: 攻击 one's master, a risky 切磋, an equipped gift) are
+  pages too. A row (or a question's choice) that opens nothing — a fight begun, a dial turned,
+  疗伤他人 — is done and the popup closes, as before. World time stands still on 查看 only; a
+  page lets it run as that panel did on its own (拜师's answer after its 2 s, 筱薇's story, 接话's
+  reply, a shop's NPC all need world time).
+- **系统 keeps the status card** (owner, 2026-10-17): the pause (系统) still pauses the tree; the
+  HUD's card stays behind the menu there, as behind its other tabs.
+- **界面缩放 and the map's own text** (#138, owner 2026-10-17): the 界面缩放 grows the interface
+  only; names over bodies, landmark and floor-item labels are drawn on the map and stay its size.
