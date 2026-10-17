@@ -14,6 +14,11 @@ const MONK: StringName = &"sanyen.npc.monk"
 const MAPS: Array = [
 	[&"sunhill.mountain", &"sanyen.gate", &"sanyen.gate.temple_return"],
 	[&"sanyen.grounds", &"sanyen.front_yard", &"sanyen.front_yard.gate_arrival"],
+	# The temple's buildings are their own maps since the remap.
+	[&"sanyen.hall_house", &"sanyen.temple", &"sanyen.temple.road1_entry"],
+	[&"sanyen.heal_room_house", &"sanyen.heal_room", &"sanyen.heal_room.inner_yard_entry"],
+	[&"sanyen.kitchen_house", &"sanyen.kitchen", &"sanyen.kitchen.corridor1_entry"],
+	[&"sanyen.back_temple_house", &"sanyen.back_temple", &"sanyen.back_temple.corridor_entry"],
 	[&"cloud.monky_house", &"cloud.monky", &"cloud.monky.monk.1"], # the 素面馆 is its own map (the remap)
 ]
 const KINDS: Array[StringName] = [
@@ -116,9 +121,10 @@ func _test_walk_out_chat() -> void:
 		func(_id: StringName, _draw: Callable) -> NpcRandomMove.Move: return null)
 	_check(stuck._walk_out(actor, monk, Zeros.new()) == null, "a go that fails: nothing")
 	var catalog: ContentCatalog = GameContent.catalog()
-	var move: NpcRandomMove.Move = NpcRandomMove.choose_with(catalog, &"sanyen.road1", &"sanyen.road1", func(_n: int) -> int: return 0, func(_a: StringName, _b: StringName) -> bool: return false)
-	_check(move != null and move.direction == "north" and move.to_zone_id == &"sanyen.temple", "road1.c's first exit is north, into the hall")
-	_check(NpcRandomMove.choose_with(catalog, &"sanyen.road1", &"sanyen.road1", func(_n: int) -> int: return 0, func(_a: StringName, _b: StringName) -> bool: return true) == null, "a shut 金门 keeps him")
+	# The hall is its own map since the remap: north is through the 金门's door (across maps).
+	var move: NpcRandomMove.Move = NpcRandomMove.choose_with(catalog, &"sanyen.road1", &"sanyen.road1", func(_n: int) -> int: return 0, func(_a: StringName, _b: StringName) -> bool: return false, true)
+	_check(move != null and move.direction == "north" and move.to_zone_id == &"sanyen.temple" and move.portal_id == &"sanyen.road1.north", "road1.c's first exit is north, into the hall (through its door onto the hall's own map)")
+	_check(NpcRandomMove.choose_with(catalog, &"sanyen.road1", &"sanyen.road1", func(_n: int) -> int: return 0, func(_a: StringName, _b: StringName) -> bool: return true, true) == null, "a shut 金门 keeps him")
 
 
 ## A real fight with the 独眼头陀 on the flagstones: his chat walks him into the hall, the
@@ -155,8 +161,12 @@ func _test_walk_out_fight(tree: SceneTree, session: WorldSessionController) -> v
 				said = said or line.template == "独眼头陀往北落荒而逃了。"
 	_check(said, "told in the fight: 独眼头陀往北落荒而逃了。")
 	_check(monk.world_location().zone_id == &"sanyen.temple" and monk.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE, "he stands in the hall: %s" % monk.world_location().zone_id)
+	# The hall is its own map since the remap: he went through the 金门's door onto it.
+	var hall: WorldMapController = session.world_map_of(&"sanyen.hall_house")
+	_check(monk.world_location().map_id == &"sanyen.hall_house" and hall.find_resident_npc(monk.character_id) == monk and map.find_resident_npc(monk.character_id) == null and hall.runtime_body_for_character(monk.character_id) != null, "through the door: one of the hall's map now, his body there")
 	_check(not monk.relationship.is_fighting() and not player.relationship.is_fighting(), "neither fights the other")
-	_check(map.return_home(monk) and monk.world_location().zone_id == &"sanyen.road1", "the room's reset calls him home")
+	session.reset_room(GameContent.catalog().spawn(monk.spawn_id).legacy_source_room_path)
+	_check(map.find_resident_npc(monk.character_id) == monk and monk.world_location().map_id == &"sanyen.grounds" and monk.world_location().zone_id == &"sanyen.road1", "the room's reset calls him home (from the hall's map)")
 	await tree.physics_frame
 
 
@@ -200,7 +210,13 @@ func _test_walk_out_leaves_the_rest(tree: SceneTree, session: WorldSessionContro
 	var receipt: CombatEncounterCompletionResult = coordinator.last_completion()
 	_check(not coordinator.has_active_encounter() and receipt.succeeded() and coordinator.npc_walked_out(encounter.encounter_id), "he walks out too, and that ends it")
 	_check(cripple.world_location().zone_id == &"sanyen.temple", "the 跛僧人 in the hall: %s" % cripple.world_location().zone_id)
-	_check(map.return_home(monk) and map.return_home(cripple), "both called home")
+	# The hall is its own map since the remap: both through the 金门's door onto it.
+	var hall: WorldMapController = session.world_map_of(&"sanyen.hall_house")
+	_check(hall.find_resident_npc(monk.character_id) == monk and hall.find_resident_npc(cripple.character_id) == cripple, "both on the hall's map")
+	var catalog: ContentCatalog = GameContent.catalog()
+	session.reset_room(catalog.spawn(monk.spawn_id).legacy_source_room_path)
+	session.reset_room(catalog.spawn(cripple.spawn_id).legacy_source_room_path)
+	_check(map.find_resident_npc(monk.character_id) == monk and monk.world_location().zone_id == &"sanyen.road1" and map.find_resident_npc(cripple.character_id) == cripple and cripple.world_location().zone_id == &"sanyen.inner_yard", "both called home (from the hall's map)")
 	await tree.physics_frame
 
 

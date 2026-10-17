@@ -5,38 +5,47 @@
 	"maps": [
 		{ "id": "green.village", "region": "green", "scene": "res://scenes/world/green/green_village.tscn", "entry": "green.path6.snow_entry" },
 		{ "id": "green.mountain", "region": "green", "scene": "res://scenes/world/green/green_mountain.tscn", "entry": "green.cave0.path_arrival" },
-		{ "id": "green.maze", "region": "green", "scene": "res://scenes/world/green/green_maze.tscn", "entry": "green.eight0.west_arrival" }
+		{ "id": "green.maze", "region": "green", "scene": "res://scenes/world/green/green_maze.tscn", "entry": "green.eight0.west_arrival" },
+		{ "id": "green.shop0_house", "region": "green", "scene": "res://scenes/world/green/shop0_house.tscn", "entry": "green.shop0.path4_entry", "interior": true },
+		{ "id": "green.house0_house", "region": "green", "scene": "res://scenes/world/green/house0_house.tscn", "entry": "green.house0.path3_entry", "interior": true },
+		{ "id": "green.house1_house", "region": "green", "scene": "res://scenes/world/green/house1_house.tscn", "entry": "green.house1.path8_entry", "interior": true },
+		{ "id": "green.house2_house", "region": "green", "scene": "res://scenes/world/green/house2_house.tscn", "entry": "green.house2.field0_entry", "interior": true },
+		{ "id": "green.house3_house", "region": "green", "scene": "res://scenes/world/green/house3_house.tscn", "entry": "green.house3.field1_entry", "interior": true },
+		{ "id": "green.house4_house", "region": "green", "scene": "res://scenes/world/green/house4_house.tscn", "entry": "green.house4.field0_entry", "interior": true },
+		{ "id": "green.temple0_house", "region": "green", "scene": "res://scenes/world/green/temple0_house.tscn", "entry": "green.temple0.path2_entry", "interior": true },
+		{ "id": "green.cave", "region": "green", "scene": "res://scenes/world/green/cave.tscn", "entry": "green.cave1.cave0_entry", "interior": true },
+		{ "id": "green.stone_house", "region": "green", "scene": "res://scenes/world/green/stone_house.tscn", "entry": "green.outdoor.water_arrival", "interior": true }
 	],
 	"zones": [
 		{ "id": "green.path6", "map": "green.village", "rooms": ["es2:d/green/path6"] },
 		{ "id": "green.path5", "map": "green.village", "rooms": ["es2:d/green/path5"] },
 		{ "id": "green.station0", "map": "green.village", "rooms": ["es2:d/green/station0"] },
 		{ "id": "green.path4", "map": "green.village", "rooms": ["es2:d/green/path4"] },
-		{ "id": "green.shop0", "map": "green.village", "indoors": true, "rooms": ["es2:d/green/shop0"] },
+		{ "id": "green.shop0", "map": "green.shop0_house", "indoors": true, "rooms": ["es2:d/green/shop0"] },
 		{ "id": "green.path3", "map": "green.village", "rooms": ["es2:d/green/path3"] },
-		{ "id": "green.house0", "map": "green.village", "indoors": true, "rooms": ["es2:d/green/house0"] },
+		{ "id": "green.house0", "map": "green.house0_house", "indoors": true, "rooms": ["es2:d/green/house0"] },
 		{ "id": "green.path8", "map": "green.village", "rooms": ["es2:d/green/path8"] },
-		{ "id": "green.house1", "map": "green.village", "indoors": true, "rooms": ["es2:d/green/house1"] },
+		{ "id": "green.house1", "map": "green.house1_house", "indoors": true, "rooms": ["es2:d/green/house1"] },
 		{ "id": "green.field0", "map": "green.village", "rooms": ["es2:d/green/field0"] },
-		{ "id": "green.house2", "map": "green.village", "indoors": true, "rooms": ["es2:d/green/house2"] },
-		{ "id": "green.house4", "map": "green.village", "indoors": true, "rooms": ["es2:d/green/house4"] },
+		{ "id": "green.house2", "map": "green.house2_house", "indoors": true, "rooms": ["es2:d/green/house2"] },
+		{ "id": "green.house4", "map": "green.house4_house", "indoors": true, "rooms": ["es2:d/green/house4"] },
 		{ "id": "green.field1", "map": "green.village", "rooms": ["es2:d/green/field1"] },
-		{ "id": "green.house3", "map": "green.village", "indoors": true, "rooms": ["es2:d/green/house3"] },
+		{ "id": "green.house3", "map": "green.house3_house", "indoors": true, "rooms": ["es2:d/green/house3"] },
 		{ "id": "green.station1", "map": "green.village", "rooms": ["es2:d/green/station1"] },
 		{ "id": "green.path2", "map": "green.village", "rooms": ["es2:d/green/path2"] },
-		{ "id": "green.temple0", "map": "green.village", "indoors": true, "rooms": ["es2:d/green/temple0"] },
+		{ "id": "green.temple0", "map": "green.temple0_house", "indoors": true, "rooms": ["es2:d/green/temple0"] },
 		{ "id": "green.path1", "map": "green.village", "rooms": ["es2:d/green/path1"] },
 		{ "id": "green.path0", "map": "green.village", "rooms": ["es2:d/green/path0"] },
 		{ "id": "green.cave0", "map": "green.mountain", "rooms": ["es2:d/green/cave0"] },
-		{ "id": "green.cave1", "map": "green.mountain", "indoors": true, "rooms": ["es2:d/green/cave1"] },
-		{ "id": "green.cave2", "map": "green.mountain", "indoors": true, "rooms": ["es2:d/green/cave2"] },
+		{ "id": "green.cave1", "map": "green.cave", "indoors": true, "rooms": ["es2:d/green/cave1"] },
+		{ "id": "green.cave2", "map": "green.cave", "indoors": true, "rooms": ["es2:d/green/cave2"] },
 		{ "id": "green.mpath0", "map": "green.mountain", "rooms": ["es2:d/green/mpath0"] },
 		{ "id": "green.mpath1", "map": "green.mountain", "rooms": ["es2:d/green/mpath1"] },
 		{ "id": "green.mpath2", "map": "green.mountain", "rooms": ["es2:d/green/mpath2"] },
 		{ "id": "green.entrance", "map": "green.mountain", "rooms": ["es2:d/green/entrance"] },
-		{ "id": "green.outdoor", "map": "green.mountain", "indoors": true, "rooms": ["es2:d/green/outdoor"] },
-		{ "id": "green.cavehall", "map": "green.mountain", "indoors": true, "rooms": ["es2:d/green/cavehall"] },
-		{ "id": "green.stoneroom", "map": "green.mountain", "indoors": true, "rooms": ["es2:d/green/stoneroom"] },
+		{ "id": "green.outdoor", "map": "green.stone_house", "indoors": true, "rooms": ["es2:d/green/outdoor"] },
+		{ "id": "green.cavehall", "map": "green.stone_house", "indoors": true, "rooms": ["es2:d/green/cavehall"] },
+		{ "id": "green.stoneroom", "map": "green.stone_house", "indoors": true, "rooms": ["es2:d/green/stoneroom"] },
 		{ "id": "green.water", "map": "green.mountain", "rooms": ["es2:d/green/water"] },
 		{ "id": "green.eight0", "map": "green.maze", "rooms": ["es2:d/green/eight0"], "distinct": true },
 		{ "id": "green.eight1", "map": "green.maze", "rooms": ["es2:d/green/eight1"], "distinct": true },
@@ -88,7 +97,29 @@
 		{ "id": "green.eight7.west", "from_zone": "green.eight7", "to_zone": "green.eight6", "to_spawn": "green.eight6.east_arrival", "legacy_room": "es2:d/green/eight7", "legacy_command": "west" },
 		{ "id": "green.eight7.east", "from_zone": "green.eight7", "to_zone": "green.closed", "to_spawn": "green.closed.arrival", "legacy_room": "es2:d/green/eight7", "legacy_command": "east" },
 		{ "id": "green.closed.push", "from_zone": "green.closed", "to_zone": "green.entrance", "to_spawn": "green.entrance.hole_arrival", "legacy_room": "es2:d/green/closed", "legacy_command": "push stone" },
-		{ "id": "green.closed.give_up", "from_zone": "green.closed", "to_zone": "snow.inn.main_floor", "to_spawn": "snow.inn.main_floor.player_birth", "legacy_room": "es2:d/green/closed", "legacy_command": "quit" }
+		{ "id": "green.closed.give_up", "from_zone": "green.closed", "to_zone": "snow.inn.main_floor", "to_spawn": "snow.inn.main_floor.player_birth", "legacy_room": "es2:d/green/closed", "legacy_command": "quit" },
+		{ "id": "green.path4.east", "from_zone": "green.path4", "to_zone": "green.shop0", "to_spawn": "green.shop0.path4_entry", "legacy_room": "es2:d/green/path4", "legacy_command": "east" },
+		{ "id": "green.shop0.west", "from_zone": "green.shop0", "to_zone": "green.path4", "to_spawn": "green.path4.shop0_return", "legacy_room": "es2:d/green/shop0", "legacy_command": "west" },
+		{ "id": "green.path3.west", "from_zone": "green.path3", "to_zone": "green.house0", "to_spawn": "green.house0.path3_entry", "legacy_room": "es2:d/green/path3", "legacy_command": "west" },
+		{ "id": "green.house0.east", "from_zone": "green.house0", "to_zone": "green.path3", "to_spawn": "green.path3.house0_return", "legacy_room": "es2:d/green/house0", "legacy_command": "east" },
+		{ "id": "green.path8.north", "from_zone": "green.path8", "to_zone": "green.house1", "to_spawn": "green.house1.path8_entry", "legacy_room": "es2:d/green/path8", "legacy_command": "north" },
+		{ "id": "green.house1.south", "from_zone": "green.house1", "to_zone": "green.path8", "to_spawn": "green.path8.house1_return", "legacy_room": "es2:d/green/house1", "legacy_command": "south" },
+		{ "id": "green.field0.south", "from_zone": "green.field0", "to_zone": "green.house4", "to_spawn": "green.house4.field0_entry", "legacy_room": "es2:d/green/field0", "legacy_command": "south" },
+		{ "id": "green.field0.north", "from_zone": "green.field0", "to_zone": "green.house2", "to_spawn": "green.house2.field0_entry", "legacy_room": "es2:d/green/field0", "legacy_command": "north" },
+		{ "id": "green.house2.south", "from_zone": "green.house2", "to_zone": "green.field0", "to_spawn": "green.field0.house2_return", "legacy_room": "es2:d/green/house2", "legacy_command": "south" },
+		{ "id": "green.house4.north", "from_zone": "green.house4", "to_zone": "green.field0", "to_spawn": "green.field0.house4_return", "legacy_room": "es2:d/green/house4", "legacy_command": "north" },
+		{ "id": "green.field1.north", "from_zone": "green.field1", "to_zone": "green.house3", "to_spawn": "green.house3.field1_entry", "legacy_room": "es2:d/green/field1", "legacy_command": "north" },
+		{ "id": "green.house3.south", "from_zone": "green.house3", "to_zone": "green.field1", "to_spawn": "green.field1.house3_return", "legacy_room": "es2:d/green/house3", "legacy_command": "south" },
+		{ "id": "green.path2.west", "from_zone": "green.path2", "to_zone": "green.temple0", "to_spawn": "green.temple0.path2_entry", "legacy_room": "es2:d/green/path2", "legacy_command": "west" },
+		{ "id": "green.temple0.east", "from_zone": "green.temple0", "to_zone": "green.path2", "to_spawn": "green.path2.temple0_return", "legacy_room": "es2:d/green/temple0", "legacy_command": "east" },
+		{ "id": "green.cave0.north", "from_zone": "green.cave0", "to_zone": "green.cave1", "to_spawn": "green.cave1.cave0_entry", "legacy_room": "es2:d/green/cave0", "legacy_command": "north" },
+		{ "id": "green.cave1.south", "from_zone": "green.cave1", "to_zone": "green.cave0", "to_spawn": "green.cave0.cave1_return", "legacy_room": "es2:d/green/cave1", "legacy_command": "south" },
+		{ "id": "green.cave2.north", "from_zone": "green.cave2", "to_zone": "green.mpath0", "to_spawn": "green.mpath0.cave2_return", "legacy_room": "es2:d/green/cave2", "legacy_command": "north" },
+		{ "id": "green.mpath0.south", "from_zone": "green.mpath0", "to_zone": "green.cave2", "to_spawn": "green.cave2.mpath0_entry", "legacy_room": "es2:d/green/mpath0", "legacy_command": "south" },
+		{ "id": "green.entrance.north", "from_zone": "green.entrance", "to_zone": "green.outdoor", "to_spawn": "green.outdoor.entrance_entry", "legacy_room": "es2:d/green/entrance", "legacy_command": "north" },
+		{ "id": "green.outdoor.south", "from_zone": "green.outdoor", "to_zone": "green.entrance", "to_spawn": "green.entrance.outdoor_return", "legacy_room": "es2:d/green/outdoor", "legacy_command": "south" },
+		{ "id": "green.stoneroom.south", "from_zone": "green.stoneroom", "to_zone": "green.water", "to_spawn": "green.water.stoneroom_return", "legacy_room": "es2:d/green/stoneroom", "legacy_command": "south" },
+		{ "id": "green.water.north", "from_zone": "green.water", "to_zone": "green.stoneroom", "to_spawn": "green.stoneroom.water_entry", "legacy_room": "es2:d/green/water", "legacy_command": "north" }
 	],
 	"doors": [
 		{ "id": "green.cave.door", "name": "木门", "zones": ["green.cave0", "green.cave1"], "reach": 90, "legacy_room": "es2:d/green/cave0" },
@@ -99,68 +130,25 @@
 		{ "id": "green.station0.well", "kind": "water", "zone": "green.station0", "name": "井", "reach": 96, "legacy_source": "d/green/station0.c" }
 	],
 	"spawns": [
-		{
-			"id": "green.village.house3.spiders",
-			"npc": "green.npc.spider",
-			"map": "green.village",
-			"zone": "green.house3",
-			"points": ["green.house3.spider.1", "green.house3.spider.2", "green.house3.spider.3"],
-			"legacy_room": "d/green/house3.c",
-			"legacy_quantity": 3,
-			"summoned": true
-		}
+		{ "id": "green.village.house3.spiders", "npc": "green.npc.spider", "map": "green.house3_house", "zone": "green.house3", "points": ["green.house3.spider.1", "green.house3.spider.2", "green.house3.spider.3"], "legacy_room": "d/green/house3.c", "legacy_quantity": 3, "summoned": true }
 	],
 	"landmarks": [
-		{"id": "green.entrance.landmark.painting", "zone": "green.entrance", "name": "图", "policy": "look", "long": "这是一副八卦阵图,图下面有一行模糊的小字：八卦古阵\n", "legacy_source": "d/green/entrance.c"},
-		{"id": "green.eight0.landmark.sign", "zone": "green.eight0", "name": "路牌", "policy": "look", "long": "路牌上写着：  坤--坤为地，遇青龙而生，遇玄武而死，遇白虎而困，遇朱雀而涉。\n", "legacy_source": "d/green/eight0.c"},
-		{"id": "green.eight1.landmark.sign", "zone": "green.eight1", "name": "路牌", "policy": "look", "long": "路牌上写着：  艮--艮为山，遇青龙而涉，遇玄武而生，遇白虎而死，遇朱雀而困。\n", "legacy_source": "d/green/eight1.c"},
-		{"id": "green.eight2.landmark.sign", "zone": "green.eight2", "name": "路牌", "policy": "look", "long": "路牌上写着：  坎--坎为水，遇青龙而死，遇玄武而涉，遇白虎而生，遇朱雀而困。\n", "legacy_source": "d/green/eight2.c"},
-		{"id": "green.eight3.landmark.sign", "zone": "green.eight3", "name": "路牌", "policy": "look", "long": "路牌上写着：  巽--巽为风，遇青龙而生，遇玄武而死，遇白虎而涉，遇朱雀而困。\n", "legacy_source": "d/green/eight3.c"},
-		{"id": "green.eight4.landmark.sign", "zone": "green.eight4", "name": "路牌", "policy": "look", "long": "路牌上写着：  震--震为雷，遇青龙而涉，遇玄武而生，遇白虎而困，遇朱雀而死。\n", "legacy_source": "d/green/eight4.c"},
-		{"id": "green.eight5.landmark.sign", "zone": "green.eight5", "name": "路牌", "policy": "look", "long": "路牌上写着：  离--离为火，遇青龙而死，遇玄武而涉，遇白虎而生，遇朱雀而困。\n", "legacy_source": "d/green/eight5.c"},
-		{"id": "green.eight6.landmark.sign", "zone": "green.eight6", "name": "路牌", "policy": "look", "long": "路牌上写着：  兑--兑为泽，遇青龙而困，遇玄武而生，遇白虎而死，遇朱雀而涉。\n", "legacy_source": "d/green/eight6.c"},
-		{"id": "green.eight7.landmark.sign", "zone": "green.eight7", "name": "路牌", "policy": "look", "long": "路牌上写着：  乾--乾为天，遇青龙而死，遇玄武而困，遇白虎而涉，遇朱雀而生。\n", "legacy_source": "d/green/eight7.c"},
-		{
-			"id": "green.closed.landmark.stone", "zone": "green.closed", "name": "大石", "action": "推", "policy": "push_stone",
-			"portals": ["green.closed.push"],
-			"long": "远方有一块大石动了一下,走近一看,似乎可以推一下。\n",
-			"force": 560, "max_force": 560, "force_factor": 40, "gin": 20, "kee": 60, "sen": 20, "random": 3,
-			"messages": {
-				"weak": "你出力不太够喔！",
-				"push": "你用力推活动的大岩石,大岩石动了一下",
-				"rolled": "大岩石滚开了,你从大岩石后面的小洞钻了出去"
-			},
-			"legacy_source": "d/green/closed.c"
-		},
-		{
-			"id": "green.closed.landmark.fog", "zone": "green.closed", "name": "绝地", "action": "放弃",
-			"portals": ["green.closed.give_up"],
-			"long": "四周没有任何出口。推不动那块大石的话，就只能在这里等下去了。\n",
-			"messages": { "use": "你在绝地里苦等良久，终于昏昏沉沉地睡了过去……醒来时，你已经躺在雪亭镇的饮风客栈里。" },
-			"legacy_source": "d/green/closed.c"
-		},
-		{
-			"id": "green.water.landmark.water", "zone": "green.water", "name": "水", "action": "下水寻找", "policy": "search",
-			"long": "溪水很清澈，水中忽然有一道亮光闪过，不过看不清是什么。\n",
-			"mark": "八卦阵", "random": 2,
-			"items": { "reward": "es2:d/green/obj/windsword" },
-			"messages": {
-				"search": "你跳入溪水之中，开始仔细寻找....",
-				"found": "你竟从水中找出一把追风剑!",
-				"nothing": "你在水中忙了半天，结果一无所获。"
-			},
-			"legacy_source": "d/green/water.c"
-		},
-		{
-			"id": "green.house3.landmark.web", "zone": "green.house3", "name": "蜘蛛网", "policy": "look_spawn",
-			"long": "一个很大的蜘蛛网.\n",
-			"spawn": "green.village.house3.spiders", "limit": 3,
-			"messages": { "spawn": "突然你觉得头上有个阴影, 不自觉的抬起头来一看 ............好大的 ..... 蜘蛛..... \n" },
-			"legacy_source": "d/green/house3.c"
-		}
+		{ "id": "green.entrance.landmark.painting", "zone": "green.entrance", "name": "图", "policy": "look", "long": "这是一副八卦阵图,图下面有一行模糊的小字：八卦古阵\n", "legacy_source": "d/green/entrance.c" },
+		{ "id": "green.eight0.landmark.sign", "zone": "green.eight0", "name": "路牌", "policy": "look", "long": "路牌上写着：  坤--坤为地，遇青龙而生，遇玄武而死，遇白虎而困，遇朱雀而涉。\n", "legacy_source": "d/green/eight0.c" },
+		{ "id": "green.eight1.landmark.sign", "zone": "green.eight1", "name": "路牌", "policy": "look", "long": "路牌上写着：  艮--艮为山，遇青龙而涉，遇玄武而生，遇白虎而死，遇朱雀而困。\n", "legacy_source": "d/green/eight1.c" },
+		{ "id": "green.eight2.landmark.sign", "zone": "green.eight2", "name": "路牌", "policy": "look", "long": "路牌上写着：  坎--坎为水，遇青龙而死，遇玄武而涉，遇白虎而生，遇朱雀而困。\n", "legacy_source": "d/green/eight2.c" },
+		{ "id": "green.eight3.landmark.sign", "zone": "green.eight3", "name": "路牌", "policy": "look", "long": "路牌上写着：  巽--巽为风，遇青龙而生，遇玄武而死，遇白虎而涉，遇朱雀而困。\n", "legacy_source": "d/green/eight3.c" },
+		{ "id": "green.eight4.landmark.sign", "zone": "green.eight4", "name": "路牌", "policy": "look", "long": "路牌上写着：  震--震为雷，遇青龙而涉，遇玄武而生，遇白虎而困，遇朱雀而死。\n", "legacy_source": "d/green/eight4.c" },
+		{ "id": "green.eight5.landmark.sign", "zone": "green.eight5", "name": "路牌", "policy": "look", "long": "路牌上写着：  离--离为火，遇青龙而死，遇玄武而涉，遇白虎而生，遇朱雀而困。\n", "legacy_source": "d/green/eight5.c" },
+		{ "id": "green.eight6.landmark.sign", "zone": "green.eight6", "name": "路牌", "policy": "look", "long": "路牌上写着：  兑--兑为泽，遇青龙而困，遇玄武而生，遇白虎而死，遇朱雀而涉。\n", "legacy_source": "d/green/eight6.c" },
+		{ "id": "green.eight7.landmark.sign", "zone": "green.eight7", "name": "路牌", "policy": "look", "long": "路牌上写着：  乾--乾为天，遇青龙而死，遇玄武而困，遇白虎而涉，遇朱雀而生。\n", "legacy_source": "d/green/eight7.c" },
+		{ "id": "green.closed.landmark.stone", "zone": "green.closed", "name": "大石", "action": "推", "policy": "push_stone", "portals": ["green.closed.push"], "long": "远方有一块大石动了一下,走近一看,似乎可以推一下。\n", "force": 560, "max_force": 560, "force_factor": 40, "gin": 20, "kee": 60, "sen": 20, "random": 3, "messages": {"weak": "你出力不太够喔！", "push": "你用力推活动的大岩石,大岩石动了一下", "rolled": "大岩石滚开了,你从大岩石后面的小洞钻了出去"}, "legacy_source": "d/green/closed.c" },
+		{ "id": "green.closed.landmark.fog", "zone": "green.closed", "name": "绝地", "action": "放弃", "portals": ["green.closed.give_up"], "long": "四周没有任何出口。推不动那块大石的话，就只能在这里等下去了。\n", "messages": {"use": "你在绝地里苦等良久，终于昏昏沉沉地睡了过去……醒来时，你已经躺在雪亭镇的饮风客栈里。"}, "legacy_source": "d/green/closed.c" },
+		{ "id": "green.water.landmark.water", "zone": "green.water", "name": "水", "action": "下水寻找", "policy": "search", "long": "溪水很清澈，水中忽然有一道亮光闪过，不过看不清是什么。\n", "mark": "八卦阵", "random": 2, "items": {"reward": "es2:d/green/obj/windsword"}, "messages": {"search": "你跳入溪水之中，开始仔细寻找....", "found": "你竟从水中找出一把追风剑!", "nothing": "你在水中忙了半天，结果一无所获。"}, "legacy_source": "d/green/water.c" },
+		{ "id": "green.house3.landmark.web", "zone": "green.house3", "name": "蜘蛛网", "policy": "look_spawn", "long": "一个很大的蜘蛛网.\n", "spawn": "green.village.house3.spiders", "limit": 3, "messages": {"spawn": "突然你觉得头上有个阴影, 不自觉的抬起头来一看 ............好大的 ..... 蜘蛛..... \n"}, "legacy_source": "d/green/house3.c" }
 	],
 	"exit_rules": [
-		{"id": "green.entrance.wind", "room": "es2:d/green/entrance", "from_zone": "green.entrance", "to_zone": "green.eight0", "when": "combat_exp_below", "value": 100000, "lines": ["你向石洞走去，忽然一阵狂风涌至，你抵受不住，只好退了回来"], "legacy_source": "d/green/entrance.c"},
-		{"id": "green.outdoor.seal", "room": "es2:d/green/outdoor", "from_zone": "green.outdoor", "to_zone": "green.cavehall", "when": "not_apprentice_of", "npc": "common.npc.juechen.master", "lines": ["入口被魔法封住了！"], "legacy_source": "d/green/outdoor.c"}
+		{ "id": "green.entrance.wind", "room": "es2:d/green/entrance", "from_zone": "green.entrance", "to_zone": "green.eight0", "when": "combat_exp_below", "value": 100000, "lines": ["你向石洞走去，忽然一阵狂风涌至，你抵受不住，只好退了回来"], "legacy_source": "d/green/entrance.c" },
+		{ "id": "green.outdoor.seal", "room": "es2:d/green/outdoor", "from_zone": "green.outdoor", "to_zone": "green.cavehall", "when": "not_apprentice_of", "npc": "common.npc.juechen.master", "lines": ["入口被魔法封住了！"], "legacy_source": "d/green/outdoor.c" }
 	]
 }

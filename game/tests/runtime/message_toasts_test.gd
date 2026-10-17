@@ -142,11 +142,12 @@ func _test_hud(tree: SceneTree) -> void:
 			_check(hud.log_lines().back() != before and hud.log_lines().back().begins_with(title), "%s is described" % step[0])
 		else:
 			_check(hud.log_lines().back() == before, "on into %s says nothing new" % step[0])
-	# A distinct room of the name (the hall of 老松寨) is described both ways.
-	var forest: WorldMapController = session.world_map_of(&"oldpine.outdoor")
+	# A distinct room of the name (the hall of 老松寨, its own map since the remap) is described
+	# both ways.
 	for zone_id: StringName in [&"oldpine.outdoor.keep_yard", &"oldpine.outdoor.keep_hall", &"oldpine.outdoor.keep_yard"]:
 		var before: String = hud.log_lines().back()
-		_check(player.set_world_location(forest.location_for_zone(zone_id)), "fixture: the player in %s" % zone_id)
+		var map: WorldMapController = session.world_map_of(MapPlaces.map_of(zone_id))
+		_check(map != null and player.set_world_location(map.location_for_zone(zone_id)), "fixture: the player in %s (on %s)" % [zone_id, MapPlaces.map_of(zone_id)])
 		hud.describe_arrival()
 		_check(hud.log_lines().back() != before and hud.log_lines().back().begins_with("【老松寨】"), "%s is described" % zone_id)
 	session.free()

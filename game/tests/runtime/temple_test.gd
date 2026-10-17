@@ -1,7 +1,10 @@
 extends RefCounted
 
-## 茅山 A (d/temple): 25 of its 27 rooms on three maps (broom1.c and broom2.c, copies of
+## 茅山 A (d/temple): 25 of its 27 rooms on nine maps (broom1.c and broom2.c, copies of
 ## the 藏经楼 no exit leads to, are not placed) and the steps up from Snow's mountain road;
+## since the remap the 大殿, the 后殿, the 练功房, the two 厢房 and the 藏经楼 are each a map
+## of their own behind their door, and the walkways round the courtyard are reached through
+## the 大殿 as in ES2;
 ## the NPCs as imported, each taoist calling itself 贫道 (rankd.c by class); road2.c's
 ## guards on duty, drawn at each reset; the doors (open as create_door() leaves them, the
 ## rear hall's shut); road2.c's invisible wall, road1.c's moss, book_room1.c's door lines,
@@ -57,7 +60,12 @@ func _test_data() -> void:
 		_check(catalog.room(room_id) != null and zone != null and zone.room_ids() == [room_id], "%s: a zone of its own" % room)
 		if zone != null:
 			maps[zone.map_id] = maps.get(zone.map_id, 0) + 1
-	_check(maps == {&"temple.mountain": 7, &"temple.grounds": 17, &"temple.library": 1}, "7 rooms on the climb, 17 inside the gate, the 经楼's upper floor: %s" % maps)
+	var expected_maps: Dictionary[StringName, int] = {
+		&"temple.mountain": 7, &"temple.grounds": 11, &"temple.temple1_house": 1, &"temple.temple2_house": 1,
+		&"temple.trainroom_house": 1, &"temple.restroom1_house": 1, &"temple.restroom2_house": 1,
+		&"temple.book_room1_house": 1, &"temple.library": 1,
+	}
+	_check(maps == expected_maps, "7 rooms on the climb, 11 inside the gate on temple.grounds, the 大殿, 后殿, 练功房, two 厢房 and 藏经楼 each on its own map, the 经楼's upper floor: %s" % maps)
 	_check(catalog.room(&"es2:d/temple/broom1") == null and catalog.room(&"es2:d/temple/broom2") == null, "broom1.c and broom2.c: no exit leads in, not placed")
 	_check(catalog.room(&"es2:d/temple/ladder3").outdoors and catalog.room(&"es2:d/temple/inneryard").outdoors and not catalog.room(&"es2:d/temple/road1").outdoors, "set(\"outdoors\") as authored: the stairs and the courtyard yes, the mossy path not")
 	var spawns: Dictionary[StringName, int] = {}
@@ -176,23 +184,27 @@ func _test_guards(session: WorldSessionController) -> void:
 func _test_words(session: WorldSessionController) -> void:
 	var grounds: WorldMapController = session.world_map_of(&"temple.grounds")
 	var mountain: WorldMapController = session.world_map_of(&"temple.mountain")
+	# The 大殿, the guest room and the 练功房 are maps of their own since the remap.
+	var hall: WorldMapController = session.world_map_of(&"temple.temple1_house")
+	var guest_room: WorldMapController = session.world_map_of(&"temple.restroom1_house")
+	var training: WorldMapController = session.world_map_of(&"temple.trainroom_house")
 	var asker := NpcSparConsent.Challenger.new(CharacterState.GENDER_MALE, 20, &"", &"")
 	var boy: NpcSparConsent = NpcSparConsent.decide(_npc(grounds, &"temple.npc.little_taoist2"), asker)
 	_check(boy.accepted and boy.npc_self == "贫道" and boy.lines[0].text == "既然$RESPECT赐教，$SELF只好奉陪。", "玄和: 既然…赐教，贫道只好奉陪")
 	var guest: NpcSparConsent = NpcSparConsent.decide(_npc(mountain, &"temple.npc.guest"), asker)
 	_check(not guest.accepted and guest.npc_self == "在下" and guest.lines[0].text == "$SELF怎麽可能是$RESPECT的对手？", "the pilgrim: 在下怎麽可能是…的对手")
-	var old: NpcSparConsent = NpcSparConsent.decide(_npc(grounds, &"temple.npc.old_taoist"), asker)
+	var old: NpcSparConsent = NpcSparConsent.decide(_npc(guest_room, &"temple.npc.old_taoist"), asker)
 	_check(not old.accepted and old.lines[0].text == "无量寿佛 ! 贫道年迈力衰, 怎是施主的对手。", "老道士 never spars")
 	var respect: Callable = func(id: StringName) -> String:
-		var npc: NpcRuntimeState = _npc(grounds if id != &"temple.npc.little_taoist1" else mountain, id)
+		var npc: NpcRuntimeState = _npc(training if id != &"temple.npc.little_taoist1" else mountain, id)
 		return RankWords.query_respect(npc.character_state.gender, npc.age, npc.definition().class_id, npc.definition().rank_respect)
 	_check(respect.call(&"temple.npc.taoist") == "道长" and respect.call(&"temple.npc.little_taoist1") == "道兄", "fight.c's 领教…的高招: 道长 for 清虚, 道兄 for the boy 玄真")
 	var guard: NpcRuntimeState = _npc(grounds, _on_duty(grounds, ON_DUTY)[0])
 	_check(RankWords.query_rude(guard.character_state.gender, guard.age, guard.definition().class_id) == "死牛鼻子", "kill.c's rude word for a taoist: 死牛鼻子")
 	for id: StringName in [&"temple.npc.trainer", &"temple.npc.tfighter"]:
-		var outsider: NpcSparConsent = NpcSparConsent.decide(_npc(grounds, id), asker)
+		var outsider: NpcSparConsent = NpcSparConsent.decide(_npc(hall, id), asker)
 		_check(not outsider.accepted and outsider.lines[0].text == "茅山派不和别派的人过招。", "%s: not with another family's" % id)
-		var brother: NpcSparConsent = NpcSparConsent.decide(_npc(grounds, id), NpcSparConsent.Challenger.new(CharacterState.GENDER_MALE, 20, &"taoist", FAMILY))
+		var brother: NpcSparConsent = NpcSparConsent.decide(_npc(hall, id), NpcSparConsent.Challenger.new(CharacterState.GENDER_MALE, 20, &"taoist", FAMILY))
 		_check(brother.accepted and brother.lines[0].emote and brother.lines[1].text == "进招吧。", "%s: a 茅山派 brother: nod, 进招吧" % id)
 
 
@@ -211,19 +223,44 @@ func _test_the_climb(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.active_map().map_id() == &"temple.grounds" and player.world_location().zone_id == &"temple.square", "on the square")
 
 
-## The open red door into the hall, round the walkways, the shut rear hall.
+## The open red door into the hall, round the walkways, the shut rear hall. Since the remap
+## the 大殿, the guest room, the 后殿 and the 练功房 are maps of their own, each through its
+## door; the walkways are reached through the 大殿 (as ES2: the square leads only north).
 func _test_grounds(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	_check(map.door(&"temple.square.door").is_open() and not map.door(&"temple.corridor5.door").is_open(), "the hall's door stands open, the rear hall's is shut")
-	_check(await MapPlaces.drive_through(tree, map, [&"temple.temple1", &"temple.corridor2", &"temple.corridor6", &"temple.inneryard", &"temple.corridor7", &"temple.restroom1"]), "into the hall, west round the courtyard and into the east guest room")
-	_check(player.world_location().zone_id == &"temple.restroom1", "with the old taoist")
-	_check(await MapPlaces.drive_through(tree, map, [&"temple.corridor7", &"temple.corridor3", &"temple.corridor5"]), "out and along to the north walkway")
+	_check(await MapPlaces.take_passage(tree, map, &"temple.square.north"), "north through the red door into the hall")
+	var hall: WorldMapController = session.active_map() as WorldMapController
+	await tree.physics_frame # The arrival's zone Areas report a frame later.
+	_check(hall.map_id() == &"temple.temple1_house" and player.world_location().zone_id == &"temple.temple1", "the 大殿, its own map: %s" % player.world_location().zone_id)
+	_check(await MapPlaces.take_passage(tree, hall, &"temple.temple1.west"), "west out of the hall")
+	map = session.active_map() as WorldMapController
+	await tree.physics_frame # The arrival's zone Areas report a frame later.
+	_check(map.map_id() == &"temple.grounds" and player.world_location().zone_id == &"temple.corridor2", "on the west walkway: %s" % player.world_location().zone_id)
+	_check(await MapPlaces.drive_through(tree, map, [&"temple.corridor6", &"temple.inneryard", &"temple.corridor7"]), "round the courtyard to the east walkway")
+	_check(await MapPlaces.take_passage(tree, map, &"temple.corridor7.east"), "east through the door into the guest room")
+	var guest_room: WorldMapController = session.active_map() as WorldMapController
+	await tree.physics_frame # The arrival's zone Areas report a frame later.
+	_check(guest_room.map_id() == &"temple.restroom1_house" and player.world_location().zone_id == &"temple.restroom1", "with the old taoist, the guest room its own map: %s" % player.world_location().zone_id)
+	_check(await MapPlaces.take_passage(tree, guest_room, &"temple.restroom1.west"), "out of the guest room")
+	map = session.active_map() as WorldMapController
+	await tree.physics_frame # The arrival's zone Areas report a frame later.
+	_check(map.map_id() == &"temple.grounds" and player.world_location().zone_id == &"temple.corridor7", "back on the walkway: %s" % player.world_location().zone_id)
+	_check(await MapPlaces.drive_through(tree, map, [&"temple.corridor3", &"temple.corridor5"]), "out and along to the north walkway")
 	_check(await MapPlaces.drive(tree, map, MapPlaces.door_spot(map, &"temple.corridor5.door", &"temple.corridor5")) and map.open_door(&"temple.corridor5.door"), "the red door opens")
 	await tree.physics_frame
-	_check(await MapPlaces.drive_to_zone(tree, map, &"temple.temple2"), "into the rear hall")
-	_check(await MapPlaces.drive_through(tree, map, [&"temple.corridor5", &"temple.corridor4", &"temple.trainroom"]), "and to the training hall")
-	_check(player.world_location().zone_id == &"temple.trainroom", "among the wooden dummies")
+	_check(await MapPlaces.take_passage(tree, map, &"temple.corridor5.north"), "into the rear hall")
+	var rear: WorldMapController = session.active_map() as WorldMapController
+	await tree.physics_frame # The arrival's zone Areas report a frame later.
+	_check(rear.map_id() == &"temple.temple2_house" and player.world_location().zone_id == &"temple.temple2" and rear.door(&"temple.corridor5.door").is_open(), "the 后殿, its own map, its door open on this side too: %s" % player.world_location().zone_id)
+	_check(await MapPlaces.take_passage(tree, rear, &"temple.temple2.south"), "out of the rear hall")
+	map = session.active_map() as WorldMapController
+	await tree.physics_frame # The arrival's zone Areas report a frame later.
+	_check(map.map_id() == &"temple.grounds" and await MapPlaces.drive_through(tree, map, [&"temple.corridor5", &"temple.corridor4"]), "along to the training hall's door")
+	_check(await MapPlaces.take_passage(tree, map, &"temple.corridor4.north"), "and to the training hall")
+	await tree.physics_frame # The arrival's zone Areas report a frame later.
+	_check(session.active_map_id() == &"temple.trainroom_house" and player.world_location().zone_id == &"temple.trainroom", "among the wooden dummies, the 练功房 its own map")
 
 
 ## road2.c's wall and book_room1.c's door, the ladder up and down.
@@ -232,7 +269,11 @@ func _test_library(tree: SceneTree, session: WorldSessionController) -> void:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var hud: SharedGameplayUI = session.shared_ui()
 	player.state.attributes.karma = 20 # TEST-ONLY
-	_check(await MapPlaces.drive_through(tree, map, [&"temple.corridor4", &"temple.corridor5", &"temple.corridor3", &"temple.road1"]), "onto the mossy path")
+	_check(await MapPlaces.take_passage(tree, map, &"temple.trainroom.south"), "out of the training hall")
+	map = session.active_map() as WorldMapController
+	await tree.physics_frame # The arrival's zone Areas report a frame later.
+	_check(map.map_id() == &"temple.grounds" and player.world_location().zone_id == &"temple.corridor4", "on the walkway: %s" % player.world_location().zone_id)
+	_check(await MapPlaces.drive_through(tree, map, [&"temple.corridor5", &"temple.corridor3", &"temple.road1"]), "onto the mossy path")
 	session.configure_world_interaction_random_source(ScriptedWorldInteractionRandomSource.new([3])) # TEST-ONLY: random(kar) 3, no slip
 	_check(await MapPlaces.drive_to_zone(tree, map, &"temple.road2"), "round behind the rear hall")
 	map.select_landmark(&"temple.road2.landmark.slab")
@@ -241,20 +282,23 @@ func _test_library(tree: SceneTree, session: WorldSessionController) -> void:
 	hud.dismiss_current_panel()
 	await tree.physics_frame
 	await tree.physics_frame
-	var library: WorldPhysicalZoneArea2D = map.physical_zone(&"temple.book_room1")
-	var door: Vector2 = MapPlaces.doorway(map, &"temple.road2", &"temple.book_room1")
-	map.runtime_player_body().global_position = Vector2(door.x, map.physical_zone(&"temple.road2").global_rect().position.y - 8) # TEST-ONLY: just past the threshold
-	_check(not map.accept_zone_presence(library) and player.world_location().zone_id == &"temple.road2" and hud.log_lines()[-1] == WALL, "not 茅山派: the invisible wall")
+	# The 藏经楼 is its own map since the remap: its door (road2.c's enter) is a way onto it.
+	_check(not await MapPlaces.take_passage(tree, map, &"temple.road2.enter", 240) and session.active_map() == map and player.world_location().zone_id == &"temple.road2" and hud.log_lines()[-1] == WALL, "not 茅山派: the invisible wall")
 	player.state.family = FamilyState.new(FAMILY, 6) # TEST-ONLY
-	map.runtime_player_body().global_position = Vector2(door.x, map.physical_zone(&"temple.road2").global_rect().position.y - 8)
-	_check(map.accept_zone_presence(library) and player.world_location().zone_id == &"temple.book_room1" and hud.log_lines().has("你推开门走了进去, 顺手把门关了起来。"), "a 茅山派 disciple goes in, the door shut behind")
-	_check(await MapPlaces.take_passage(tree, map, &"temple.book_room1.up"), "up the little ladder")
+	_check(await MapPlaces.take_passage(tree, map, &"temple.road2.enter"), "a 茅山派 disciple goes in")
+	var library: WorldMapController = session.active_map() as WorldMapController
+	await tree.physics_frame # The arrival's zone Areas report a frame later.
+	_check(library.map_id() == &"temple.book_room1_house" and player.world_location().zone_id == &"temple.book_room1" and hud.log_lines().has("你推开门走了进去, 顺手把门关了起来。"), "a 茅山派 disciple goes in, the door shut behind, the 藏经楼 its own map")
+	_check(await MapPlaces.take_passage(tree, library, &"temple.book_room1.up"), "up the little ladder")
 	var upstairs: WorldMapController = session.active_map() as WorldMapController
 	hud.describe_arrival()
 	_check(upstairs.map_id() == &"temple.library" and hud.log_lines()[-1].begins_with("【经楼】上了楼来"), "upstairs: 张天师's portrait: " + hud.log_lines()[-1])
 	_check(await MapPlaces.take_passage(tree, upstairs, &"temple.book_room2.down"), "and down")
-	map = session.active_map() as WorldMapController
-	_check(await MapPlaces.drive_to_zone(tree, map, &"temple.road2"), "out of the door")
+	library = session.active_map() as WorldMapController
+	await tree.physics_frame # The arrival's zone Areas report a frame later.
+	_check(library.map_id() == &"temple.book_room1_house" and await MapPlaces.take_passage(tree, library, &"temple.book_room1.out"), "out of the door")
+	await tree.physics_frame # The arrival's zone Areas report a frame later.
+	_check(session.active_map_id() == &"temple.grounds" and player.world_location().zone_id == &"temple.road2", "on the path behind the rear hall: %s" % player.world_location().zone_id)
 	_check(hud.log_lines().has("你拉开门大步走了出去, 随手把门带上。"), "pulling it shut behind")
 
 

@@ -276,11 +276,15 @@ func _test_beast_killed_by_guard(tree: SceneTree, session: WorldSessionControlle
 	_check(player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE, "the player wakes")
 
 
-## In a spar with 僵尸护法 (茅山派 only), 召护法 is asked first.
+## In a spar with 僵尸护法 (茅山派 only), 召护法 is asked first. The 大殿 is its own map
+## since the remap: the player walks in from the square through its door.
 func _test_spar_question(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	_settle(player)
+	var map: WorldMapController = await MapPlaces.go_to(tree, session, &"temple.temple1")
+	_check(map != null and map.map_id() == &"temple.temple1_house" and player.world_location().zone_id == &"temple.temple1", "north from the square through the door into the hall, its own map")
+	if map == null:
+		return
 	player.state.recovery.mana.current = 1000
 	player.state.spirit.current = player.state.spirit.effective
 	var tfighter: NpcRuntimeState = _first(map, TFIGHTER)

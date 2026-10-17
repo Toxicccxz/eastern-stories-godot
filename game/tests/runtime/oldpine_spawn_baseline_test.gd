@@ -8,7 +8,9 @@ extends RefCounted
 ## they draw after Old Pine, so only next_npc_draw moved; 4E added the empty marks, combat specials
 ## the empty timed applies) and when Old Pine got its remainder (the keep's and the east path's
 ## NPCs draw on the forest map before the gorge, so the five serpents' drawn attributes moved; the
-## forest's first five are unchanged); set UPDATE_OLDPINE_SPAWN_BASELINE=1 to rewrite it
+## forest's first five are unchanged) and when the keep's hall got its own map (remap R3: its four
+## draw last, after the stone, so they and everyone drawn after keep2's leader got other rolls; the
+## first fourteen and next_npc_draw are unchanged); set UPDATE_OLDPINE_SPAWN_BASELINE=1 to rewrite it
 ## deliberately.
 const SessionScene := preload("res://scenes/world/oldpine/oldpine_world_session.tscn")
 const BASELINE_PATH: String = "res://tests/fixtures/oldpine_spawn_baseline.json"

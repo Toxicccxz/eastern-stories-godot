@@ -250,14 +250,15 @@ func _test_making(_tree: SceneTree, session: WorldSessionController) -> void:
 
 ## 林忌's answer to 拜师 (taolord.c: call_out("do_recruit", 2)): within the reaction beat.
 func _test_apprentice_answer(tree: SceneTree, session: WorldSessionController) -> void:
-	_check(session.handoff_to(&"temple.grounds", &"temple.square", &"temple.square", &"temple.square.gate_arrival").succeeded(), "TEST-ONLY: inside 茅山's gate")
+	# 林忌's 灵心观大殿 is its own map since the remap: TEST-ONLY in at its door from the square.
+	var map: WorldMapController = MapPlaces.enter(session, &"temple.temple1", &"temple.temple1.square_entry")
+	_check(map != null and map.map_id() == &"temple.temple1_house", "TEST-ONLY: inside 茅山's 灵心观大殿 (its own map)")
 	await tree.physics_frame
 	await tree.physics_frame
-	var map: WorldMapController = session.active_map() as WorldMapController
 	var master: NpcRuntimeState = _first(map, TAOLORD)
 	await _beside(tree, session, map, master)
 	map.npc_life._advance_ambience(0.0) # TEST-ONLY: the arrival noted
-	var service: TeacherService = map.service(&"temple.grounds.temple1.taolord") as TeacherService
+	var service: TeacherService = map.service(&"temple.temple1_house.temple1.taolord") as TeacherService
 	_check(service.request_apprentice() == NpcApprenticeship.Outcome.ANSWER_DUE, "拜师: his answer is due")
 	map.npc_life._advance_ambience(0.3)
 	_check(map.npc_life.apprentice_answer_due(master), "0.3 s: not yet")

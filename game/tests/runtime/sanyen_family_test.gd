@@ -19,7 +19,7 @@ const MASTER: StringName = &"common.npc.bonze.master"
 const LITTLE: StringName = &"sanyen.npc.little_bonze"
 const FAMILY: StringName = &"family.sanyen"
 const BROOM: StringName = &"es2:d/sanyen/obj/broom"
-const SERVICE: StringName = &"sanyen.grounds.temple.master"
+const SERVICE: StringName = &"sanyen.hall_house.temple.master"
 const TEMP: String = "pending/join_bonze"
 const PREFIXES: String = "空明圆净虚悟方渡慧法"
 const KNEEL_SAY: String = "玄智和尚说道：阿弥陀佛！善哉！善哉！施主若真心皈依我佛，请跪下(kneel)受戒。"
@@ -52,7 +52,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await tree.process_frame
 	session.set_process(false)
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new()) # TEST-ONLY: nobody chats or wanders
-	_check(session.handoff_to(&"sanyen.grounds", &"sanyen.front_yard", &"sanyen.front_yard", &"sanyen.front_yard.gate_arrival").succeeded(), "TEST-ONLY: onto the temple grounds")
+	# The 大雄宝殿 is its own map since the remap: TEST-ONLY in at its door from the flagstones.
+	_check(session.handoff_to(&"sanyen.hall_house", &"sanyen.temple", &"sanyen.temple", &"sanyen.temple.road1_entry").succeeded(), "TEST-ONLY: into the 大雄宝殿 (its own map)")
 	await tree.physics_frame
 	await tree.physics_frame
 	session.player_runtime().state.gender = CharacterState.GENDER_MALE # TEST-ONLY: 雪工 is a man here
@@ -383,7 +384,11 @@ func _test_join(tree: SceneTree, session: WorldSessionController) -> void:
 ## 疗伤他人 on the HUD with 小沙弥 selected (莲华心法 enabled): his eff_kee rises, 150 force
 ## goes; with too little force the button still shows and the press says why.
 func _test_lifeheal_hud(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
+	# The 小沙弥's 后殿 is its own map since the remap: TEST-ONLY in at its door from the corridor.
+	var map: WorldMapController = MapPlaces.enter(session, &"sanyen.back_temple", &"sanyen.back_temple.corridor_entry")
+	_check(map != null and map.map_id() == &"sanyen.back_temple_house", "TEST-ONLY: into the 后殿 (its own map)")
+	await tree.physics_frame
+	await tree.physics_frame
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var hud: SharedGameplayUI = session.shared_ui()
 	var little: NpcRuntimeState = _first(map, LITTLE)

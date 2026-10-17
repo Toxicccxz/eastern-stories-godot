@@ -92,10 +92,10 @@ func _test_scene_spawn_and_authored_data(tree: SceneTree) -> void:
 		return
 	await tree.physics_frame
 	_assert_true(controller.player_runtime() != null, "world player runtime initializes")
-	_assert_eq(controller.npc_runtimes().size(), 23, "forest map initializes three scouts, Tall, Fat and the remainder's 18 (five summoned absent)")
+	_assert_eq(controller.npc_runtimes().size(), 19, "forest map initializes three scouts, Tall, Fat and the remainder's 14 (five summoned absent; the keep's hall and its four are their own map since the remap)")
 	_assert_eq(controller.session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID).npc_runtimes().size(), 5, "gorge map initializes the five lake serpents")
-	_assert_eq(controller.session.world_npcs().size(), 36, "23 in the forest, six butterflies, five serpents, 黑衣人 and 金银花蛇 initialize across the Old Pine maps")
-	_assert_eq(controller.map_character_state().ordered_active_characters().size(), 18, "forest map-local collection owns its 18 present NPCs")
+	_assert_eq(controller.session.world_npcs().size(), 36, "19 in the forest, the keep hall's four, six butterflies, five serpents, 黑衣人 and 金银花蛇 initialize across the Old Pine maps")
+	_assert_eq(controller.map_character_state().ordered_active_characters().size(), 14, "forest map-local collection owns its 14 present NPCs (the keep's hall is its own map since the remap)")
 	_assert_true(not HistoricalCombat.cadence_running(controller), "passive authored bandits do not autostart cadence")
 	_assert_true(controller.find_children("ResetButton", "Button", true, false).is_empty(), "persisted Old Pine hierarchy excludes obsolete Reset control")
 	_assert_true(controller.session.shared_ui() != null, "world HUD initializes")
@@ -144,7 +144,7 @@ func _test_projection_authority_and_committed_status(tree: SceneTree) -> void:
 	var controller: ControllerType = _instantiate_scene(tree)
 	await tree.physics_frame
 	var participants: Array[CombatSliceCharacterBinding] = controller.combat_lifecycle.build_participants()
-	_assert_eq(participants.size(), 19, "current projection contains player plus the forest map's 18 live NPCs")
+	_assert_eq(participants.size(), 15, "current projection contains player plus the forest map's 14 live NPCs (the keep's hall is its own map since the remap)")
 	var player_binding: CombatSliceCharacterBinding = participants[0]
 	var player: WorldPlayerRuntimeState = controller.player_runtime()
 	_assert_true(player_binding.state == player.state, "player projection aliases live CharacterState")
@@ -585,7 +585,7 @@ func _test_lifecycle_death_corpse_and_continued_map(tree: SceneTree) -> void:
 	_assert_true(controller.is_inside_tree(), "NPC death does not reload or end map")
 	_assert_true(controller.select_npc(bandits[2].character_id), "remaining bandit stays selectable")
 	_assert_true(HistoricalCombat.tick(controller).is_empty(), "dead bandit never respawns or re-enters future cadence")
-	_assert_eq(controller.map_character_state().ordered_active_characters().size(), 17, "live forest map quantity naturally falls by one after death")
+	_assert_eq(controller.map_character_state().ordered_active_characters().size(), 13, "live forest map quantity naturally falls by one after death (14 present since the remap)")
 	controller.player_body.set_world_location(controller.resolve_location(
 		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
@@ -638,7 +638,7 @@ func _test_fresh_scene_reset_boundary(tree: SceneTree) -> void:
 				"fresh scene owns fresh NPC ItemInstance IDs",
 			)
 	_assert_eq(reset.session.world_npcs().size(), 36, "fresh scene reconstructs all 36 Old Pine NPCs")
-	_assert_eq(reset.npc_runtimes().size(), 23, "fresh scene reconstructs the forest map's 23")
+	_assert_eq(reset.npc_runtimes().size(), 19, "fresh scene reconstructs the forest map's 19 (the keep's hall is its own map since the remap)")
 	_assert_eq(reset.corpse_states().size(), 0, "fresh scene contains no stale corpse authority")
 	_assert_false(reset.player_runtime().relationship.is_fighting(), "fresh scene contains no stale player relation")
 	for npc: NpcRuntimeState in reset.npc_runtimes():

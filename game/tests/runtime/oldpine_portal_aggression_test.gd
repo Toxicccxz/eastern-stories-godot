@@ -846,7 +846,7 @@ func _test_aggressive_death_and_fresh_scene_boundary(tree: SceneTree) -> void:
 	_assert_true(controller.npc_runtimes()[1].exists_in_map and controller.npc_runtimes()[2].exists_in_map, "other authored bandits remain after aggressive death")
 	presence.body_entered.emit(controller.player_body)
 	_assert_eq(controller.aggression_adapter().pending_count(), 0, "dead NPC Presence cannot retrigger aggression")
-	_assert_eq(controller.map_character_state().ordered_active_characters().size(), 17, "dead aggressor does not respawn")
+	_assert_eq(controller.map_character_state().ordered_active_characters().size(), 13, "dead aggressor does not respawn (14 present in the forest since the remap)")
 	var before_move: Vector2 = controller.player_body.position
 	Input.action_press("move_right")
 	controller.player_body._physics_process(1.0 / 30.0)
@@ -869,7 +869,7 @@ func _test_aggressive_death_and_fresh_scene_boundary(tree: SceneTree) -> void:
 	_assert_true(fresh.npc_random_source() != old_npc_random, "fresh scene owns new NPC RNG authority")
 	_assert_true(fresh.combat_random_source() != old_combat_random, "fresh scene owns new combat RNG authority")
 	_assert_eq(fresh.corpse_states().size(), 0, "fresh scene clears corpses")
-	_assert_eq(fresh.npc_runtimes().size(), 23, "fresh scene restores all 23 of the forest")
+	_assert_eq(fresh.npc_runtimes().size(), 19, "fresh scene restores all 19 of the forest (the keep's hall is its own map since the remap)")
 	_assert_eq(
 		OldPineTestMap.body(fresh, "Bandit01").get_node("AggressionPresence").get_signal_connection_list("body_entered").size(),
 		1,

@@ -145,7 +145,7 @@ func _test_persisted_maze_geometry_and_zone_transitions(tree: SceneTree) -> void
 	if controller == null:
 		return
 	var initial_npcs: Array[NpcRuntimeState] = controller.npc_runtimes()
-	_assert_eq(initial_npcs.size(), 23, "scene ready constructs all forest NPCs before Area signals")
+	_assert_eq(initial_npcs.size(), 19, "scene ready constructs all 19 forest NPCs before Area signals (the keep's hall is its own map since the remap)")
 	_assert_eq(initial_npcs[3].world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "Tall starts logically in Pine Entrance before Area signals")
 	await tree.physics_frame
 	_assert_true(controller.find_children("ResetButton", "Button", true, false).is_empty(), "fixed Pine Maze hierarchy reflects Phase 10C1A Reset removal")
@@ -297,7 +297,7 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	var controller: WorldMapController = _instantiate_scene(tree)
 	await tree.physics_frame
 	var npcs: Array[NpcRuntimeState] = controller.npc_runtimes()
-	_assert_eq(npcs.size(), 23, "forest runtime owns its 23 NPCs")
+	_assert_eq(npcs.size(), 19, "forest runtime owns its 19 NPCs (the keep's hall is its own map since the remap)")
 	_assert_eq(controller.session.world_npcs().size(), 36, "Old Pine runtime owns its 36 NPCs")
 	var tall: NpcRuntimeState = npcs[3]
 	_assert_eq(tall.definition_id, TestContent.TALL_BANDIT_NPC_ID, "fourth runtime is exact tall bandit")
@@ -340,7 +340,7 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	_assert_eq(controller.stack_collection().stack_state(silver.item_instance_id).amount, 6, "tall silver stack amount is six")
 	_assert_eq(controller.inventory_state().own_weight(silver.item_instance_id), 222, "six silver weighs 6 * 37")
 	var participants: Array[CombatSliceCharacterBinding] = controller.combat_lifecycle.build_participants()
-	_assert_eq(participants.size(), 19, "combat projection includes player and the forest map's 18 present NPCs")
+	_assert_eq(participants.size(), 15, "combat projection includes player and the forest map's 14 present NPCs (the keep's hall is its own map since the remap)")
 	_assert_eq(participants[4].content.projected_apply_damage(participants[4].state.equipment.primary_weapon()), 25, "tall combat projection uses long-sword damage 25")
 	var tall_primary: EquippedWeaponRef = tall.character_state.equipment.primary_weapon()
 	_assert_true(tall.character_state.equipment.unwield(tall_primary.instance_id).succeeded, "audit can remove Tall current primary through Equipment authority")

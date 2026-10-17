@@ -46,7 +46,8 @@ func _test_zones_and_rooms() -> void:
 	_assert_eq(catalog.zones_for_map(SnowWorld.INN_MAP_ID).size(), 1, "Inn main floor")
 	_assert_eq(catalog.zones_for_map(SnowWorld.OUTDOOR_MAP_ID).size(), WorldCounts.of("map_zones", "snow.outdoor"), "Snow outdoor zones (world_counts.json)")
 	_assert_eq([catalog.zones_for_map(&"snow.inn_upstairs").size(), catalog.zones_for_map(&"snow.cellar").size()], [4, 1], "Inn upstairs: corridor and three rooms; the secret storage")
-	_assert_eq(catalog.zones_for_map(OldPineWorld.OUTDOOR_MAP_ID).size(), 11, "Old Pine forest zones and the keep's three")
+	_assert_eq(catalog.zones_for_map(OldPineWorld.OUTDOOR_MAP_ID).size(), 10, "Old Pine forest zones and the keep's gate and yard (the keep's hall is its own map since the remap)")
+	_assert_eq(catalog.zones_for_map(&"oldpine.keep_hall").size(), 1, "the keep's hall, on its own map")
 	_assert_eq(catalog.zones_for_map(OldPineWorld.GORGE_MAP_ID).size(), 3, "Old Pine gorge: waterfall, river, lake")
 	_assert_eq([catalog.zones_for_map(OldPineWorld.TREE_MAP_ID).size(), catalog.zones_for_map(OldPineWorld.CLIFF_MAP_ID).size()], [1, 1], "tree top and cliff niche")
 	_assert_eq(catalog.zones_for_map(OldPineWorld.CAVE_MAP_ID).size(), 3, "Passage Cave: passage, secrectpath1, path3")
@@ -105,7 +106,7 @@ func _test_portals() -> void:
 	_assert_eq(south.source_map_id, SnowWorld.OUTDOOR_MAP_ID, "Snow south road starts in Snow")
 	_assert_eq(south.destination_map_id, OldPineWorld.OUTDOOR_MAP_ID, "and ends in Old Pine")
 	_assert_eq(catalog.portals_for_map(SnowWorld.OUTDOOR_MAP_ID).size(), WorldCounts.ids("snow_outdoor_portals").size(), "Snow outdoor: Inn door, Old Pine road, 野羊山 north, 卧龙岗 south, 水烟阁 west, 茅山's steps and the weapon storage's hidden way down")
-	_assert_eq(catalog.portals_for_map(OldPineWorld.OUTDOOR_MAP_ID).size(), 5, "Old Pine forest: Snow road, pine, two vine branches, cliffdown")
+	_assert_eq(catalog.portals_for_map(OldPineWorld.OUTDOOR_MAP_ID).size(), 6, "Old Pine forest: Snow road, pine, two vine branches, cliffdown and the keep's hall door (its own map since the remap)")
 	# One map per height level (DECISIONS 3B5): every Old Pine move that is not a walk changes map.
 	for map: MapDefinition in catalog.maps():
 		if map.region_id == OldPineWorld.REGION_ID:

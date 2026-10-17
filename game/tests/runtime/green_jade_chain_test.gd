@@ -81,7 +81,13 @@ func _test_stranger_wine(tree: SceneTree, session: WorldSessionController) -> vo
 func _test_elder(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.handoff_to(&"green.village", &"green.path6", &"green.path6", &"green.path6.snow_entry").succeeded(), "TEST-ONLY: into the village")
 	await tree.physics_frame
-	var map: WorldMapController = session.active_map() as WorldMapController
+	# The 村长家 is its own map since the remap, in by its door from the 田间小路.
+	var map: WorldMapController = MapPlaces.enter(session, &"green.house4", &"green.house4.field0_entry")
+	_check(map != null and map.map_id() == &"green.house4_house", "TEST-ONLY: into the 村长家 (its own map)")
+	await tree.physics_frame
+	# The HUD takes up the new map in its _process (process_frame comes just before it).
+	await tree.process_frame
+	await tree.process_frame
 	var hud: SharedGameplayUI = session.shared_ui()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var elder: NpcRuntimeState = _beside_npc(map, session, &"green.house4.oldman2.1")
@@ -127,7 +133,13 @@ func _test_whispers(tree: SceneTree, session: WorldSessionController) -> void:
 func _test_shen(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.handoff_to(&"green.village", &"green.path6", &"green.path6", &"green.path6.snow_entry").succeeded(), "TEST-ONLY: to the village")
 	await tree.physics_frame
-	var map: WorldMapController = session.active_map() as WorldMapController
+	# 沈记商行 is its own map since the remap, in by its door from the path.
+	var map: WorldMapController = MapPlaces.enter(session, &"green.shop0", &"green.shop0.path4_entry")
+	_check(map != null and map.map_id() == &"green.shop0_house", "TEST-ONLY: into 沈记商行 (its own map)")
+	await tree.physics_frame
+	# The HUD takes up the new map in its _process (process_frame comes just before it).
+	await tree.process_frame
+	await tree.process_frame
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var money: MoneyInventoryContext = Finance.session_context(session)
 	var shen: NpcRuntimeState = _beside_npc(map, session, &"green.shop0.shen.1")

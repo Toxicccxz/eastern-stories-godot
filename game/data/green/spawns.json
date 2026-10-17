@@ -10,42 +10,6 @@
 			"legacy_quantity": 3
 		},
 		{
-			"id": "green.village.shop0.shen",
-			"npc": "green.npc.shen",
-			"map": "green.village",
-			"zone": "green.shop0",
-			"points": ["green.shop0.shen.1"],
-			"legacy_room": "d/green/shop0.c",
-			"legacy_quantity": 1
-		},
-		{
-			"id": "green.village.shop0.woman1",
-			"npc": "green.npc.woman1",
-			"map": "green.village",
-			"zone": "green.shop0",
-			"points": ["green.shop0.woman1.1"],
-			"legacy_room": "d/green/shop0.c",
-			"legacy_quantity": 1
-		},
-		{
-			"id": "green.village.house0.woman1",
-			"npc": "green.npc.woman1",
-			"map": "green.village",
-			"zone": "green.house0",
-			"points": ["green.house0.woman1.1"],
-			"legacy_room": "d/green/house0.c",
-			"legacy_quantity": 1
-		},
-		{
-			"id": "green.village.house0.woman2",
-			"npc": "green.npc.woman2",
-			"map": "green.village",
-			"zone": "green.house0",
-			"points": ["green.house0.woman2.1"],
-			"legacy_room": "d/green/house0.c",
-			"legacy_quantity": 1
-		},
-		{
 			"id": "green.village.path8.kid3s",
 			"npc": "green.npc.kid3",
 			"map": "green.village",
@@ -53,42 +17,6 @@
 			"points": ["green.path8.kid3.1", "green.path8.kid3.2"],
 			"legacy_room": "d/green/path8.c",
 			"legacy_quantity": 2
-		},
-		{
-			"id": "green.village.house1.worker1",
-			"npc": "green.npc.worker1",
-			"map": "green.village",
-			"zone": "green.house1",
-			"points": ["green.house1.worker1.1"],
-			"legacy_room": "d/green/house1.c",
-			"legacy_quantity": 1
-		},
-		{
-			"id": "green.village.house2.oldman",
-			"npc": "green.npc.oldman",
-			"map": "green.village",
-			"zone": "green.house2",
-			"points": ["green.house2.oldman.1"],
-			"legacy_room": "d/green/house2.c",
-			"legacy_quantity": 1
-		},
-		{
-			"id": "green.village.house2.oldwoman",
-			"npc": "green.npc.oldwoman",
-			"map": "green.village",
-			"zone": "green.house2",
-			"points": ["green.house2.oldwoman.1"],
-			"legacy_room": "d/green/house2.c",
-			"legacy_quantity": 1
-		},
-		{
-			"id": "green.village.house4.oldman2",
-			"npc": "green.npc.oldman2",
-			"map": "green.village",
-			"zone": "green.house4",
-			"points": ["green.house4.oldman2.1"],
-			"legacy_room": "d/green/house4.c",
-			"legacy_quantity": 1
 		},
 		{
 			"id": "green.village.field1.kid1",
@@ -127,9 +55,81 @@
 			"legacy_quantity": 2
 		},
 		{
-			"id": "green.mountain.cavehall.master",
+			"id": "green.shop0_house.shop0.shen",
+			"npc": "green.npc.shen",
+			"map": "green.shop0_house",
+			"zone": "green.shop0",
+			"points": ["green.shop0.shen.1"],
+			"legacy_room": "d/green/shop0.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "green.shop0_house.shop0.woman1",
+			"npc": "green.npc.woman1",
+			"map": "green.shop0_house",
+			"zone": "green.shop0",
+			"points": ["green.shop0.woman1.1"],
+			"legacy_room": "d/green/shop0.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "green.house0_house.house0.woman1",
+			"npc": "green.npc.woman1",
+			"map": "green.house0_house",
+			"zone": "green.house0",
+			"points": ["green.house0.woman1.1"],
+			"legacy_room": "d/green/house0.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "green.house0_house.house0.woman2",
+			"npc": "green.npc.woman2",
+			"map": "green.house0_house",
+			"zone": "green.house0",
+			"points": ["green.house0.woman2.1"],
+			"legacy_room": "d/green/house0.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "green.house1_house.house1.worker1",
+			"npc": "green.npc.worker1",
+			"map": "green.house1_house",
+			"zone": "green.house1",
+			"points": ["green.house1.worker1.1"],
+			"legacy_room": "d/green/house1.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "green.house2_house.house2.oldman",
+			"npc": "green.npc.oldman",
+			"map": "green.house2_house",
+			"zone": "green.house2",
+			"points": ["green.house2.oldman.1"],
+			"legacy_room": "d/green/house2.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "green.house2_house.house2.oldwoman",
+			"npc": "green.npc.oldwoman",
+			"map": "green.house2_house",
+			"zone": "green.house2",
+			"points": ["green.house2.oldwoman.1"],
+			"legacy_room": "d/green/house2.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "green.house4_house.house4.oldman2",
+			"npc": "green.npc.oldman2",
+			"map": "green.house4_house",
+			"zone": "green.house4",
+			"points": ["green.house4.oldman2.1"],
+			"legacy_room": "d/green/house4.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "green.stone_house.cavehall.master",
 			"npc": "common.npc.juechen.master",
-			"map": "green.mountain",
+			"map": "green.stone_house",
 			"zone": "green.cavehall",
 			"points": ["green.cavehall.master.1"],
 			"legacy_room": "d/green/cavehall.c",

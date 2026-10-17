@@ -11,10 +11,16 @@ const TRAP: StringName = &"oldpine.keep2.gate_trap"
 const TRAP_GUARDS: StringName = &"oldpine.outdoor.keep2.trap_guards"
 const YARD: StringName = &"oldpine.outdoor.keep_yard"
 const HALL: StringName = &"oldpine.outdoor.keep_hall"
+## keep3 is its own map since the remap, through its door on the yard's east side.
+const HALL_MAP: StringName = &"oldpine.keep_hall"
+const INTO_HALL: StringName = &"oldpine.outdoor.keep_yard.east"
+const OUT_OF_HALL: StringName = &"oldpine.outdoor.keep_hall.west"
 const WALL: StringName = &"oldpine.caves.landmark.wall"
 const SKELETON: StringName = &"es2:d/oldpine/npc/skeleton"
 const PARRYBOOK: StringName = &"es2:d/oldpine/npc/obj/parrybook"
 const PIPE: StringName = &"es2:d/oldpine/obj/bamboo_pipe"
+const SHOUT: String = "你听到你身后有几个声音大叫：把门关上！把门关上！一个也不许让他们溜走！"
+const BOULDER: String = "接著「轰」地一声，通往外面的大门已经被一块大石堵死了。"
 const NEW_ZONES: Dictionary[StringName, Array] = {
 	&"oldpine.cave.secret_path": [&"oldpine.cave", ["secrectpath1"]],
 	&"oldpine.cave.inner_path": [&"oldpine.cave", ["path3"]],
@@ -23,7 +29,7 @@ const NEW_ZONES: Dictionary[StringName, Array] = {
 	&"oldpine.caves.mouth": [&"oldpine.caves", ["cave5"]],
 	&"oldpine.outdoor.keep_gate": [&"oldpine.outdoor", ["keep1"]],
 	&"oldpine.outdoor.keep_yard": [&"oldpine.outdoor", ["keep2"]],
-	&"oldpine.outdoor.keep_hall": [&"oldpine.outdoor", ["keep3"]],
+	&"oldpine.outdoor.keep_hall": [&"oldpine.keep_hall", ["keep3"]],
 	&"oldpine.cliff2.niche": [&"oldpine.cliff2", ["cliff2"]],
 }
 
@@ -79,11 +85,15 @@ func _test_data() -> void:
 	_check(missing.is_empty(), "the ten remaining Old Pine rooms are there: missing " + str(missing))
 	_check(catalog.room(&"es2:d/oldpine/keep1").short == "老松寨秘密入口" and catalog.room(&"es2:d/oldpine/cave5").long.contains("石壁(wall)"), "room text verbatim")
 	_check(catalog.zones_adjacent(&"oldpine.outdoor.pine_entrance", &"oldpine.outdoor.keep_gate") and catalog.zones_adjacent(&"oldpine.outdoor.keep_gate", YARD) and catalog.zones_adjacent(YARD, HALL), "pine2 east → keep1 → keep2 → keep3")
+	var into: PortalDefinition = catalog.portal(INTO_HALL)
+	var out: PortalDefinition = catalog.portal(OUT_OF_HALL)
+	_check(into != null and into.source_map_id == &"oldpine.outdoor" and into.source_zone_id == YARD and into.destination_map_id == HALL_MAP and into.destination_zone_id == HALL, "keep2 east: the hall's door leads onto its own map")
+	_check(out != null and out.source_map_id == HALL_MAP and out.source_zone_id == HALL and out.destination_map_id == &"oldpine.outdoor" and out.destination_zone_id == YARD, "keep3 west: back out into the yard")
 	_check(catalog.zones_adjacent(&"oldpine.cave.waterfall_passage", &"oldpine.cave.secret_path") and catalog.zones_adjacent(&"oldpine.cave.secret_path", &"oldpine.cave.inner_path"), "passage north → secrectpath1 → path3")
 	_check(catalog.zones_adjacent(&"oldpine.caves.maze", &"oldpine.caves.mouth"), "the caves' fixed maze leads to cave5")
 	var counts: Dictionary[StringName, int] = {}
 	for spawn_id: StringName in [&"oldpine.outdoor.keep1.bandit_guards", &"oldpine.outdoor.keep2.bandit_guards", &"oldpine.outdoor.keep2.bandit_leader",
-			&"oldpine.outdoor.keep3.bandit_leaders", &"oldpine.outdoor.keep3.bandit_commander", TRAP_GUARDS,
+			&"oldpine.keep_hall.keep3.bandit_leaders", &"oldpine.keep_hall.keep3.bandit_commander", TRAP_GUARDS,
 			&"oldpine.outdoor.epath3.maniac", &"oldpine.outdoor.pine7.wolf_dog", &"oldpine.tree.tree2.butterflys"]:
 		var spawn: NpcSpawnDefinition = catalog.spawn(spawn_id)
 		counts[spawn_id] = 0 if spawn == null else spawn.quantity
@@ -189,9 +199,9 @@ func _test_netherbolt() -> void:
 
 
 ## Painted walkable tiles join every zone of each new map to its entry; the keep is
-## reached from the forest.
+## reached from the forest, its hall (its own map) from its door on the yard.
 func _test_tiles(session: WorldSessionController) -> void:
-	for map_id: StringName in [&"oldpine.outdoor", &"oldpine.cave", &"oldpine.stone", &"oldpine.caves", &"oldpine.cliff2"]:
+	for map_id: StringName in [&"oldpine.outdoor", HALL_MAP, &"oldpine.cave", &"oldpine.stone", &"oldpine.caves", &"oldpine.cliff2"]:
 		var map: WorldMapController = session.world_map_of(map_id)
 		var layers: Array[TileMapLayer] = TerrainProbe.layers(map)
 		var walkable: Dictionary[Vector2i, bool] = {}
@@ -227,7 +237,8 @@ func _test_new_world(session: WorldSessionController) -> void:
 	var outdoor: WorldMapController = session.world_map_of(&"oldpine.outdoor")
 	var present: Dictionary[StringName, int] = {}
 	var absent: int = 0
-	for npc: NpcRuntimeState in outdoor.npc_runtimes():
+	# keep1 and keep2 on the forest's map, keep3 on the hall's own.
+	for npc: NpcRuntimeState in outdoor.npc_runtimes() + session.world_map_of(HALL_MAP).npc_runtimes():
 		if npc.spawn_id == TRAP_GUARDS:
 			absent += 0 if npc.exists_in_map else 1
 		elif npc.exists_in_map and String(npc.world_location().zone_id).contains("keep"):
@@ -246,9 +257,11 @@ func _test_new_world(session: WorldSessionController) -> void:
 
 ## keep2.c valid_leave(): leaving east while the gate is open shuts it with a shout and
 ## calls in five guards; the pipe in keep2 opens it (pipe_notify), as does keep2's reset.
-## The guards that came stay through a Save.
+## The guards that came stay through a Save. keep2's way east is the hall's door since the
+## remap (the hall is its own map): walked through with the move actions.
 func _test_trap(tree: SceneTree, session: WorldSessionController) -> void:
 	var outdoor: WorldMapController = session.world_map_of(&"oldpine.outdoor")
+	var hall: WorldMapController = session.world_map_of(HALL_MAP)
 	var clearing: StringName = &"oldpine.outdoor.central_clearing"
 	var moved: OldPineMapHandoffResult = session.handoff_to(&"oldpine.outdoor", clearing, clearing, &"oldpine.outdoor.central_clearing.player_start")
 	_check(moved.succeeded(), "to the clearing")
@@ -258,14 +271,26 @@ func _test_trap(tree: SceneTree, session: WorldSessionController) -> void:
 		outdoor.player_body.global_position = step[0]
 		outdoor.accept_zone_presence(outdoor.physical_zone(step[1]))
 	_check(session.player_runtime().world_location().zone_id == YARD, "pine2 east to keep1, through the open gate into keep2")
+	# TEST-ONLY: keep2's and keep3's own people out of the way (they fall on whoever walks in:
+	# keep2 is a complete_set room, keep3 indoors, 室内察觉).
+	for map: WorldMapController in [outdoor, hall]:
+		for npc: NpcRuntimeState in map.npc_runtimes():
+			if npc.exists_in_map and npc.spawn_id != TRAP_GUARDS and npc.world_location().zone_id in [YARD, HALL]:
+				map.npcs.vanish(npc)
 	var hud: SharedGameplayUI = session.shared_ui()
 	var traps: WorldRoomTraps = session.room_traps()
-	outdoor.player_body.global_position = Vector2(1780, 864)
-	outdoor.accept_zone_presence(outdoor.physical_zone(HALL))
-	_check(session.player_runtime().world_location().zone_id == HALL, "on east into the hall")
+	var before: int = hud.log_lines().size()
+	_check(await _through(tree, session, outdoor, INTO_HALL, HALL), "on east through the hall's door into the hall (its own map)")
 	_check(traps.is_shut(TRAP) and not outdoor.door(GATE).is_open(), "east into the hall: the gate is shut")
-	var lines: PackedStringArray = hud.log_lines()
-	_check(lines[lines.size() - 2] == "你听到你身后有几个声音大叫：把门关上！把门关上！一个也不许让他们溜走！" and lines[lines.size() - 1] == "接著「轰」地一声，通往外面的大门已经被一块大石堵死了。", "the shout and the boulder")
+	var said: PackedStringArray = hud.log_lines().slice(before)
+	var shout_at: int = said.find(SHOUT)
+	var hall_text: String = GameContent.catalog().room(&"es2:d/oldpine/keep3").long.substr(0, 16)
+	var hall_text_at: int = -1
+	for index: int in said.size():
+		if said[index].contains(hall_text):
+			hall_text_at = index
+			break
+	_check(shout_at >= 0 and shout_at + 1 < said.size() and said[shout_at + 1] == BOULDER and shout_at < hall_text_at, "the shout and the boulder, heard in keep2 before the hall's text: %s" % [said])
 	var came: int = 0
 	for npc: NpcRuntimeState in outdoor.npc_runtimes():
 		if npc.spawn_id == TRAP_GUARDS and npc.exists_in_map and npc.world_location().zone_id == YARD:
@@ -278,31 +303,47 @@ func _test_trap(tree: SceneTree, session: WorldSessionController) -> void:
 			if entry.spawn_id == TRAP_GUARDS and entry.exists_in_world:
 				saved_present += 1
 	_check(saved_present == 5, "the save keeps them there: %d" % saved_present)
-	outdoor.player_body.global_position = Vector2(1450, 864)
-	outdoor.accept_zone_presence(outdoor.physical_zone(YARD))
-	outdoor.player_body.global_position = Vector2(1780, 864)
-	outdoor.accept_zone_presence(outdoor.physical_zone(HALL))
-	_check(hud.log_lines().size() == lines.size(), "back and east again with the gate shut: nothing more happens")
-	outdoor.player_body.global_position = Vector2(1450, 864)
-	outdoor.accept_zone_presence(outdoor.physical_zone(YARD))
+	# TEST-ONLY: the five knocked out where they stand (alive, still there), so the walks back
+	# through keep2 meet no fight (they fall on whoever comes into keep2).
+	for npc: NpcRuntimeState in outdoor.npc_runtimes():
+		if npc.spawn_id == TRAP_GUARDS and npc.exists_in_map:
+			npc.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS)
+	before = hud.log_lines().size()
+	_check(await _through(tree, session, hall, OUT_OF_HALL, YARD) and await _through(tree, session, outdoor, INTO_HALL, HALL), "back west into the yard and east again")
+	said = hud.log_lines().slice(before)
+	# Only the rooms' own texts (each map's arrival describes its room), and the TEST-ONLY
+	# knocked-out guards coming to while the walks take their time.
+	var room_texts_only: bool = Array(said).all(func(line: String) -> bool: return line.begins_with("【老松寨】") or line == "土匪喽罗慢慢睁开眼睛，清醒了过来。")
+	_check(room_texts_only and traps.is_shut(TRAP) and _trap_guards(outdoor) == 5, "back and east again with the gate shut: nothing more happens but the rooms' texts: %s" % [said])
+	_check(await _through(tree, session, hall, OUT_OF_HALL, YARD), "back west into the yard")
 	var pipe: StringName = outdoor.place_new_floor_item(PIPE)
 	_check(not pipe.is_empty() and outdoor.select_floor_item(pipe), "a 竹管 at the player's feet")
 	outdoor.take_selected_floor_item()
 	_check(outdoor.play_item(pipe), "吹奏 the pipe")
-	lines = hud.log_lines()
+	var lines: PackedStringArray = hud.log_lines()
 	_check(lines[lines.size() - 2] == "你拿起一根竹管呜嘟嘟地吹了起来。" and lines[lines.size() - 1] == "你听到一阵轧轧的轮盘绞动声，堵住门口的大石慢慢地被移开了。", "pipe_notify(): the stone rolls away")
 	_check(not traps.is_shut(TRAP) and outdoor.door(GATE).is_open(), "the gate is open again")
-	outdoor.player_body.global_position = Vector2(1780, 864)
-	outdoor.accept_zone_presence(outdoor.physical_zone(HALL))
-	_check(traps.is_shut(TRAP), "it shuts again on the way east")
-	came = 0
+	_check(await _through(tree, session, outdoor, INTO_HALL, HALL) and traps.is_shut(TRAP), "it shuts again on the way east")
+	_check(_trap_guards(outdoor) == 5, "the five still alive stay; none is added")
+	var quiet: int = hud.log_lines().size()
+	session.reset_room("d/oldpine/keep2.c")
+	_check(not traps.is_shut(TRAP) and outdoor.door(GATE).is_open() and hud.log_lines().size() == quiet, "keep2's reset opens it without a word")
+
+
+## Walks the player through `portal_id` on `map` (the move actions) onto the zone `to_zone`.
+func _through(tree: SceneTree, session: WorldSessionController, map: WorldMapController, portal_id: StringName, to_zone: StringName) -> bool:
+	if not await MapPlaces.take_passage(tree, map, portal_id):
+		return false
+	await tree.physics_frame # The arrival's zone Areas report a frame later.
+	return session.player_runtime().world_location().zone_id == to_zone
+
+
+func _trap_guards(outdoor: WorldMapController) -> int:
+	var count: int = 0
 	for npc: NpcRuntimeState in outdoor.npc_runtimes():
 		if npc.spawn_id == TRAP_GUARDS and npc.exists_in_map:
-			came += 1
-	_check(came == 5, "the five still alive stay; none is added")
-	var said: int = hud.log_lines().size()
-	session.reset_room("d/oldpine/keep2.c")
-	_check(not traps.is_shut(TRAP) and outdoor.door(GATE).is_open() and hud.log_lines().size() == said, "keep2's reset opens it without a word")
+			count += 1
+	return count
 
 
 ## path3's stone up and down into the caves; cliffdown down to cliff2, and down to epath3.

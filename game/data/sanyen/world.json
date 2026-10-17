@@ -5,7 +5,12 @@
 	],
 	"maps": [
 		{ "id": "sunhill.mountain", "region": "sunhill", "scene": "res://scenes/world/sanyen/sunhill_mountain.tscn", "entry": "sunhill.northriver.dukou_arrival" },
-		{ "id": "sanyen.grounds", "region": "sanyen", "scene": "res://scenes/world/sanyen/sanyen_temple.tscn", "entry": "sanyen.front_yard.gate_arrival" }
+		{ "id": "sanyen.grounds", "region": "sanyen", "scene": "res://scenes/world/sanyen/sanyen_temple.tscn", "entry": "sanyen.front_yard.gate_arrival" },
+		{ "id": "sanyen.hall_house", "region": "sanyen", "scene": "res://scenes/world/sanyen/hall_house.tscn", "entry": "sanyen.temple.road1_entry", "interior": true },
+		{ "id": "sanyen.back_temple_house", "region": "sanyen", "scene": "res://scenes/world/sanyen/back_temple_house.tscn", "entry": "sanyen.back_temple.corridor_entry", "interior": true },
+		{ "id": "sanyen.heal_room_house", "region": "sanyen", "scene": "res://scenes/world/sanyen/heal_room_house.tscn", "entry": "sanyen.heal_room.inner_yard_entry", "interior": true },
+		{ "id": "sanyen.kitchen_house", "region": "sanyen", "scene": "res://scenes/world/sanyen/kitchen_house.tscn", "entry": "sanyen.kitchen.corridor1_entry", "interior": true },
+		{ "id": "sanyen.tunnels", "region": "sanyen", "scene": "res://scenes/world/sanyen/tunnels.tscn", "entry": "sanyen.tunnele.gate_entry", "interior": true }
 	],
 	"zones": [
 		{ "id": "sunhill.northriver", "map": "sunhill.mountain", "rooms": ["es2:u/cloud/sunhill/northriver"] },
@@ -19,20 +24,20 @@
 		{ "id": "sanyen.sroad1", "map": "sunhill.mountain", "rooms": ["es2:d/sanyen/sroad1"] },
 		{ "id": "sanyen.sroad2", "map": "sunhill.mountain", "rooms": ["es2:d/sanyen/sroad2"] },
 		{ "id": "sanyen.gate", "map": "sunhill.mountain", "rooms": ["es2:d/sanyen/gate"] },
-		{ "id": "sanyen.tunnele", "map": "sunhill.mountain", "indoors": true, "rooms": ["es2:d/sanyen/tunnele"] },
-		{ "id": "sanyen.tunnel", "map": "sunhill.mountain", "indoors": true, "rooms": ["es2:d/sanyen/tunnel"] },
+		{ "id": "sanyen.tunnele", "map": "sanyen.tunnels", "indoors": true, "rooms": ["es2:d/sanyen/tunnele"] },
+		{ "id": "sanyen.tunnel", "map": "sanyen.tunnels", "indoors": true, "rooms": ["es2:d/sanyen/tunnel"] },
 		{ "id": "sanyen.front_yard", "map": "sanyen.grounds", "rooms": ["es2:d/sanyen/front_yard"] },
 		{ "id": "sanyen.door", "map": "sanyen.grounds", "rooms": ["es2:d/sanyen/door"] },
 		{ "id": "sanyen.road1", "map": "sanyen.grounds", "rooms": ["es2:d/sanyen/road1"] },
 		{ "id": "sanyen.road2", "map": "sanyen.grounds", "rooms": ["es2:d/sanyen/road2"] },
 		{ "id": "sanyen.drug_field", "map": "sanyen.grounds", "rooms": ["es2:d/sanyen/drug_field"] },
-		{ "id": "sanyen.temple", "map": "sanyen.grounds", "indoors": true, "rooms": ["es2:d/sanyen/temple"] },
+		{ "id": "sanyen.temple", "map": "sanyen.hall_house", "indoors": true, "rooms": ["es2:d/sanyen/temple"] },
 		{ "id": "sanyen.inner_yard", "map": "sanyen.grounds", "rooms": ["es2:d/sanyen/inner_yard"] },
-		{ "id": "sanyen.heal_room", "map": "sanyen.grounds", "indoors": true, "rooms": ["es2:d/sanyen/heal_room"] },
+		{ "id": "sanyen.heal_room", "map": "sanyen.heal_room_house", "indoors": true, "rooms": ["es2:d/sanyen/heal_room"] },
 		{ "id": "sanyen.corridor", "map": "sanyen.grounds", "rooms": ["es2:d/sanyen/corridor"] },
 		{ "id": "sanyen.corridor1", "map": "sanyen.grounds", "rooms": ["es2:d/sanyen/corridor1"] },
-		{ "id": "sanyen.kitchen", "map": "sanyen.grounds", "indoors": true, "rooms": ["es2:d/sanyen/kitchen"] },
-		{ "id": "sanyen.back_temple", "map": "sanyen.grounds", "indoors": true, "rooms": ["es2:d/sanyen/back_temple"] },
+		{ "id": "sanyen.kitchen", "map": "sanyen.kitchen_house", "indoors": true, "rooms": ["es2:d/sanyen/kitchen"] },
+		{ "id": "sanyen.back_temple", "map": "sanyen.back_temple_house", "indoors": true, "rooms": ["es2:d/sanyen/back_temple"] },
 		{ "id": "sanyen.tower", "map": "sanyen.grounds", "rooms": ["es2:d/sanyen/tower"] }
 	],
 	"portals": [
@@ -40,7 +45,23 @@
 		{ "id": "sunhill.road1.east", "from_zone": "sunhill.road1", "to_zone": "choyin.n_gate", "to_spawn": "choyin.n_gate.road_arrival", "legacy_room": "es2:u/cloud/sunhill/road1", "legacy_command": "east" },
 		{ "id": "sanyen.tunnel.west", "from_zone": "sanyen.tunnel", "to_zone": "latemoon.sroad5", "to_spawn": "latemoon.sroad5.tunnel_return", "legacy_room": "es2:d/sanyen/tunnel", "legacy_command": "west" },
 		{ "id": "sanyen.gate.north", "from_zone": "sanyen.gate", "to_zone": "sanyen.front_yard", "to_spawn": "sanyen.front_yard.gate_arrival", "legacy_room": "es2:d/sanyen/gate", "legacy_command": "north" },
-		{ "id": "sanyen.front_yard.south", "from_zone": "sanyen.front_yard", "to_zone": "sanyen.gate", "to_spawn": "sanyen.gate.temple_return", "legacy_room": "es2:d/sanyen/front_yard", "legacy_command": "south" }
+		{ "id": "sanyen.front_yard.south", "from_zone": "sanyen.front_yard", "to_zone": "sanyen.gate", "to_spawn": "sanyen.gate.temple_return", "legacy_room": "es2:d/sanyen/front_yard", "legacy_command": "south" },
+		{ "id": "sanyen.road1.north", "from_zone": "sanyen.road1", "to_zone": "sanyen.temple", "to_spawn": "sanyen.temple.road1_entry", "legacy_room": "es2:d/sanyen/road1", "legacy_command": "north" },
+		{ "id": "sanyen.temple.south", "from_zone": "sanyen.temple", "to_zone": "sanyen.road1", "to_spawn": "sanyen.road1.temple_return", "legacy_room": "es2:d/sanyen/temple", "legacy_command": "south" },
+		{ "id": "sanyen.temple.west", "from_zone": "sanyen.temple", "to_zone": "sanyen.inner_yard", "to_spawn": "sanyen.inner_yard.temple_return", "legacy_room": "es2:d/sanyen/temple", "legacy_command": "west" },
+		{ "id": "sanyen.temple.north", "from_zone": "sanyen.temple", "to_zone": "sanyen.corridor", "to_spawn": "sanyen.corridor.temple_return", "legacy_room": "es2:d/sanyen/temple", "legacy_command": "north" },
+		{ "id": "sanyen.inner_yard.north", "from_zone": "sanyen.inner_yard", "to_zone": "sanyen.heal_room", "to_spawn": "sanyen.heal_room.inner_yard_entry", "legacy_room": "es2:d/sanyen/inner_yard", "legacy_command": "north" },
+		{ "id": "sanyen.inner_yard.east", "from_zone": "sanyen.inner_yard", "to_zone": "sanyen.temple", "to_spawn": "sanyen.temple.inner_yard_entry", "legacy_room": "es2:d/sanyen/inner_yard", "legacy_command": "east" },
+		{ "id": "sanyen.heal_room.south", "from_zone": "sanyen.heal_room", "to_zone": "sanyen.inner_yard", "to_spawn": "sanyen.inner_yard.heal_room_return", "legacy_room": "es2:d/sanyen/heal_room", "legacy_command": "south" },
+		{ "id": "sanyen.corridor.north", "from_zone": "sanyen.corridor", "to_zone": "sanyen.back_temple", "to_spawn": "sanyen.back_temple.corridor_entry", "legacy_room": "es2:d/sanyen/corridor", "legacy_command": "north" },
+		{ "id": "sanyen.corridor.south", "from_zone": "sanyen.corridor", "to_zone": "sanyen.temple", "to_spawn": "sanyen.temple.corridor_entry", "legacy_room": "es2:d/sanyen/corridor", "legacy_command": "south" },
+		{ "id": "sanyen.corridor1.west", "from_zone": "sanyen.corridor1", "to_zone": "sanyen.kitchen", "to_spawn": "sanyen.kitchen.corridor1_entry", "legacy_room": "es2:d/sanyen/corridor1", "legacy_command": "west" },
+		{ "id": "sanyen.kitchen.east", "from_zone": "sanyen.kitchen", "to_zone": "sanyen.corridor1", "to_spawn": "sanyen.corridor1.kitchen_return", "legacy_room": "es2:d/sanyen/kitchen", "legacy_command": "east" },
+		{ "id": "sanyen.back_temple.south", "from_zone": "sanyen.back_temple", "to_zone": "sanyen.corridor", "to_spawn": "sanyen.corridor.back_temple_return", "legacy_room": "es2:d/sanyen/back_temple", "legacy_command": "south" },
+		{ "id": "sanyen.back_temple.east", "from_zone": "sanyen.back_temple", "to_zone": "sanyen.tower", "to_spawn": "sanyen.tower.back_temple_return", "legacy_room": "es2:d/sanyen/back_temple", "legacy_command": "east" },
+		{ "id": "sanyen.tower.west", "from_zone": "sanyen.tower", "to_zone": "sanyen.back_temple", "to_spawn": "sanyen.back_temple.tower_entry", "legacy_room": "es2:d/sanyen/tower", "legacy_command": "west" },
+		{ "id": "sanyen.gate.west", "from_zone": "sanyen.gate", "to_zone": "sanyen.tunnele", "to_spawn": "sanyen.tunnele.gate_entry", "legacy_room": "es2:d/sanyen/gate", "legacy_command": "west" },
+		{ "id": "sanyen.tunnele.east", "from_zone": "sanyen.tunnele", "to_zone": "sanyen.gate", "to_spawn": "sanyen.gate.tunnele_return", "legacy_room": "es2:d/sanyen/tunnele", "legacy_command": "east" }
 	],
 	"doors": [
 		{ "id": "sanyen.road1.door", "name": "金门", "zones": ["sanyen.road1", "sanyen.temple"], "reach": 90, "open": true, "legacy_room": "es2:d/sanyen/road1" }
@@ -48,12 +69,9 @@
 	"landmarks": [
 		{ "id": "sanyen.heal_room.landmark.plaque", "zone": "sanyen.heal_room", "name": "檀木扁额", "policy": "look", "long": "┌————————┐ ┌————————┐ ┌————————┐\n│                │ │                │ │                │\n│ 妙  手  回  春 │ │ 华  陀  再  世 │ │ 扁  鹊  重  生 │\n│                │ │                │ │                │\n│    发呆部部长  │ │    打混部部长  │ │    摸鱼部部长  │\n│    兼奸商部部长│ │    兼强盗部部长│ │    兼奸商部次长│\n│         Elon 赠│ │     风火血舞 赠│ │       梦忆柔 赠│\n└————————┘ └————————┘ └————————┘\n┌————————┐ ┌————————┐ ┌————————┐\n│                │ │                │ │                │\n│ 药  到  病  除 │ │ 仁  心  德  术 │ │ 杏  坛  佳  话 │\n│                │ │                │ │                │\n│                │ │                │ │                │\n│    插花部部长  │ │    无言部部长  │ │    发呆部次长  │\n│     雷神之子 赠│ │     上官逸倩 赠│ │       克某某 赠│\n└————————┘ └————————┘ └————————┘\n┌————————┐ ┌————————┐ ┌————————┐\n│                │ │                │ │                │\n│ 悬  壶  济  世 │ │ 技  惊  关  羽 │ │ 医  界  圣  手 │\n│                │ │ 吓  死  曹  操 │ │                │\n│    打混部次长  │ │                │ │                │\n│    兼强盗部次长│ │    摸鱼部次长  │ │    发呆部食客  │\n│      托佛尼亚赠│ │         陈平 赠│ │         悟明 赠│\n└————————┘ └————————┘ └————————┘\n          ┌———————————————————┐ \n          │                                      │ \n          │      全      是      放      屁      │ \n          │                                      │ \n          │                                      │ \n          │                超  级  打  屁  大  神│ \n          │                  安 尼 席 洛 特 尔 赠│ \n          └———————————————————┘ \n", "legacy_source": "d/sanyen/heal_room.c" },
 		{ "id": "sanyen.kitchen.landmark.pot", "zone": "sanyen.kitchen", "name": "大锅", "policy": "look", "long": "一个冒著腾腾的热气的黑色大铁锅, 里头正煮著小米粥。\n", "legacy_source": "d/sanyen/kitchen.c" },
-		{ "id": "sanyen.kitchen.landmark.steampot", "zone": "sanyen.kitchen", "name": "蒸笼", "action": "拿馒头", "policy": "take", "limit": 5, "guard": "sanyen.npc.cook_bonze", "items": { "reward": "es2:d/sanyen/obj/maintal" }, "messages": { "take": "你从蒸笼里拿出一粒热乎乎的馒头。", "empty": "突然房间里好像传来梦忆柔的声音说拿太多小心吃到噎著哦!!", "guarded": "烧饭僧说:阿弥陀佛 !! 施主偷东西是不好的行为哦!!!" }, "long": "一个竹藤编成的蒸笼, 阵阵的香味使你想打开(open)来瞧一瞧。\n", "legacy_source": "d/sanyen/kitchen.c" }
+		{ "id": "sanyen.kitchen.landmark.steampot", "zone": "sanyen.kitchen", "name": "蒸笼", "action": "拿馒头", "policy": "take", "limit": 5, "guard": "sanyen.npc.cook_bonze", "items": {"reward": "es2:d/sanyen/obj/maintal"}, "messages": {"take": "你从蒸笼里拿出一粒热乎乎的馒头。", "empty": "突然房间里好像传来梦忆柔的声音说拿太多小心吃到噎著哦!!", "guarded": "烧饭僧说:阿弥陀佛 !! 施主偷东西是不好的行为哦!!!"}, "long": "一个竹藤编成的蒸笼, 阵阵的香味使你想打开(open)来瞧一瞧。\n", "legacy_source": "d/sanyen/kitchen.c" }
 	],
 	"services": [
-		{ "id": "sanyen.kitchen.steampot", "kind": "act", "zone": "sanyen.kitchen", "name": "蒸笼", "reach": 120, "legacy_source": "d/sanyen/kitchen.c", "act": { "verb": "打开", "acts": [
-			{ "present": "sanyen.npc.cook_bonze", "steps": [ { "line": "烧饭僧说:阿弥陀佛 !! 施主请勿动手动脚, 妨碍贫僧煮饭。\n" } ] },
-			{ "steps": [ { "line": "你打开蒸笼的盖子, 一股热气冒向你的脸上。\n你仔细一看, 只见蒸笼里排著一粒粒又白又Ｑ的大馒头(maintal)。\n" } ] }
-		] } }
+		{ "id": "sanyen.kitchen.steampot", "kind": "act", "zone": "sanyen.kitchen", "name": "蒸笼", "reach": 120, "legacy_source": "d/sanyen/kitchen.c", "act": {"verb": "打开", "acts": [{"present": "sanyen.npc.cook_bonze", "steps": [{"line": "烧饭僧说:阿弥陀佛 !! 施主请勿动手动脚, 妨碍贫僧煮饭。\n"}]}, {"steps": [{"line": "你打开蒸笼的盖子, 一股热气冒向你的脸上。\n你仔细一看, 只见蒸笼里排著一粒粒又白又Ｑ的大馒头(maintal)。\n"}]}]} }
 	]
 }

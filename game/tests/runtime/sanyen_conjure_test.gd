@@ -322,47 +322,60 @@ func _test_met(tree: SceneTree, session: WorldSessionController) -> void:
 	grounds.npc_life._advance_ambience(0.0)
 	_check(player.state.seen_npcs.has("cloud.npc.monk_guard"), "the 护寺武僧 in the yard are met")
 	_check(not player.state.seen_npcs.has(String(MASTER)), "玄智, in the hall, not yet")
-	await _beside(tree, session, grounds, _first(grounds, MASTER))
-	grounds.npc_life._advance_ambience(0.0)
+	# The 大雄宝殿 and the 后殿 are each their own map since the remap: TEST-ONLY in at their doors.
+	var hall_map: WorldMapController = await _enter(tree, session, &"sanyen.temple", &"sanyen.temple.road1_entry", &"sanyen.hall_house")
+	await _beside(tree, session, hall_map, _first(hall_map, MASTER))
+	hall_map.npc_life._advance_ambience(0.0)
 	_check(player.state.seen_npcs.has(String(MASTER)), "in the hall: 玄智 met")
-	var little: NpcRuntimeState = _first(grounds, LITTLE)
-	await _beside(tree, session, grounds, little)
-	grounds.npc_life._advance_ambience(0.0)
+	var back_temple: WorldMapController = await _enter(tree, session, &"sanyen.back_temple", &"sanyen.back_temple.corridor_entry", &"sanyen.back_temple_house")
+	var little: NpcRuntimeState = _first(back_temple, LITTLE)
+	await _beside(tree, session, back_temple, little)
+	back_temple.npc_life._advance_ambience(0.0)
 	_check(player.state.seen_npcs.has(String(LITTLE)), "in the 后殿: 小沙弥 met")
 	# One who walks in where the player stands is met (random_move's init()); the 跛僧人
-	# (forced to wander, TEST-ONLY) walks from the garden into the player's room.
+	# (forced to wander, TEST-ONLY) walks from the garden into the player's room — through
+	# its door onto that room's own map since the remap (npc_arrived()).
 	var cripple: NpcRuntimeState = _first(grounds, &"sanyen.npc.cripple")
 	_check(cripple != null and not player.state.seen_npcs.has("sanyen.npc.cripple"), "the 跛僧人 not met yet")
 	if cripple != null:
 		var spawn: NpcSpawnDefinition = _catalog.spawn(cripple.spawn_id)
-		var move: NpcRandomMove.Move = NpcRandomMove.choose(_catalog, cripple.world_location().zone_id, spawn.zone_id, grounds.npc_life.ambience.random(), grounds.npc_life._door_closed_between)
-		_check(move != null, "the 跛僧人 has a way out")
-		if move != null:
-			await _into(tree, session, grounds, move.to_zone_id)
-			grounds.npc_life._advance_ambience(0.0)
+		var move: NpcRandomMove.Move = NpcRandomMove.choose(_catalog, cripple.world_location().zone_id, spawn.zone_id, grounds.npc_life.ambience.random(), grounds.npc_life._door_closed_between, true)
+		_check(move != null and not move.portal_id.is_empty(), "the 跛僧人 has a way out (through a door onto another map since the remap)")
+		if move != null and not move.portal_id.is_empty():
+			var portal: PortalDefinition = _catalog.portal(move.portal_id)
+			var there: WorldMapController = await _enter(tree, session, move.to_zone_id, portal.destination_spawn_point_id, portal.destination_map_id)
+			await _into(tree, session, there, move.to_zone_id) # clear of the way he comes in by
+			there.npc_life._advance_ambience(0.0)
 			_check(not player.state.seen_npcs.has("sanyen.npc.cripple"), "still not met in %s" % move.to_zone_id)
-			_check(grounds.random_move(cripple) and cripple.world_location().zone_id == move.to_zone_id and player.state.seen_npcs.has("sanyen.npc.cripple"), "he walks in: met")
+			_check(grounds.random_move(cripple) and grounds.npc_life.departures.has(cripple.character_id), "he sets out for the door")
+			grounds.npc_life.npc_walker().advance(30.0)
+			grounds.npc_life.finish_departures(true)
+			_check(cripple.world_location().zone_id == move.to_zone_id and there.find_resident_npc(cripple.character_id) == cripple and player.state.seen_npcs.has("sanyen.npc.cripple"), "he walks in through the door: met")
 	# Continue: the restored room's people were met before the save; a new one there is not
 	# met by the first note (TEST-ONLY: forgotten), but by coming back.
 	var room: StringName = player.world_location().zone_id
+	var room_map: WorldMapController = session.active_map() as WorldMapController
 	player.state.seen_npcs.erase("sanyen.npc.cripple") # TEST-ONLY
-	grounds.npc_life.restored_zone_id = room # TEST-ONLY: as activate_restore_candidate() sets it
-	grounds.npc_life.arrival_zone_id = &""
-	grounds.npc_life._advance_ambience(0.0)
-	_check(not player.state.seen_npcs.has("sanyen.npc.cripple") and grounds.npc_life.restored_zone_id.is_empty(), "the first note after Continue meets nobody in the restored room")
-	await _into(tree, session, grounds, &"sanyen.road1" if room == &"sanyen.temple" else &"sanyen.temple")
-	grounds.npc_life._advance_ambience(0.0)
-	await _into(tree, session, grounds, room)
-	grounds.npc_life._advance_ambience(0.0)
+	room_map.npc_life.restored_zone_id = room # TEST-ONLY: as activate_restore_candidate() sets it
+	room_map.npc_life.arrival_zone_id = &""
+	room_map.npc_life._advance_ambience(0.0)
+	_check(not player.state.seen_npcs.has("sanyen.npc.cripple") and room_map.npc_life.restored_zone_id.is_empty(), "the first note after Continue meets nobody in the restored room")
+	# Out and back in through the room's door (the hall's or 流云轩's, its own map since the remap).
+	var out_zone: StringName = &"sanyen.road1" if room == &"sanyen.temple" else &"sanyen.inner_yard"
+	var out_point: StringName = &"sanyen.road1.temple_return" if room == &"sanyen.temple" else &"sanyen.inner_yard.heal_room_return"
+	var in_point: StringName = &"sanyen.temple.road1_entry" if room == &"sanyen.temple" else &"sanyen.heal_room.inner_yard_entry"
+	(await _enter(tree, session, out_zone, out_point, &"sanyen.grounds")).npc_life._advance_ambience(0.0)
+	(await _enter(tree, session, room, in_point, room_map.map_id())).npc_life._advance_ambience(0.0)
 	_check(player.state.seen_npcs.has("sanyen.npc.cripple"), "back in the room: met")
 	# 玄智's refusal said to an empty room ends the request (DECISIONS 山烟寺 C).
-	var master: NpcRuntimeState = _first(grounds, MASTER)
-	await _beside(tree, session, grounds, master)
-	var hall: TeacherService = grounds.service(&"sanyen.grounds.temple.master") as TeacherService
+	hall_map = await _enter(tree, session, &"sanyen.temple", &"sanyen.temple.road1_entry", &"sanyen.hall_house")
+	var master: NpcRuntimeState = _first(hall_map, MASTER)
+	await _beside(tree, session, hall_map, master)
+	var hall: TeacherService = hall_map.service(&"sanyen.hall_house.temple.master") as TeacherService
 	_check(hall.request_apprentice() == NpcApprenticeship.Outcome.ANSWER_DUE and player.apprenticeship_request.is_pending(), "拜师 (a woman): his answer is two seconds off")
-	await _into(tree, session, grounds, &"sanyen.road1")
-	grounds.advance_npc_heartbeat(2.0)
-	_check(not player.apprenticeship_request.is_pending() and not grounds.npc_life.apprentice_answer_due(master), "he answers the empty hall: the request is over")
+	# Out through the 金门 onto the flagstones (the grounds' map since the remap).
+	await _enter(tree, session, &"sanyen.road1", &"sanyen.road1.temple_return", &"sanyen.grounds")
+	_check(not player.apprenticeship_request.is_pending() and not hall_map.npc_life.apprentice_answer_due(master), "he answers the empty hall as the player steps out onto the flagstones (another map): the request is over: pending %s, answer due %s" % [player.apprenticeship_request.is_pending(), hall_map.npc_life.apprentice_answer_due(master)])
 	var names: Array[String] = session.essence_magic().drift_names()
 	_check(names.has("玄智和尚") and names.has("小沙弥") and names.has("护寺武僧") and names.find("护寺武僧") < names.find("玄智和尚"), "the names, in the order met: %s" % [names])
 
@@ -435,15 +448,20 @@ func _test_drift_session(tree: SceneTree, session: WorldSessionController) -> vo
 	var log: Array[String] = hud.log_lines().slice(before)
 	_check(log.size() >= 2 and log[0] == DRIFT_LINE and log[1].begins_with("【"), "its line, then the room: %s" % [log])
 	_check(player.state.recovery.atman.current == 225 and hud._presentation_layout._content != hud.drift_panel, "75 atman; the question closed")
-	# Back to the temple's 玄智 (another map again), then to the 小沙弥 on the same map.
+	# Back to the temple's 玄智 (another map again), then to the 跛僧人 on the same map (he
+	# walked into the hall), then to the 小沙弥 (the 后殿: its own map since the remap).
 	while player.busy.is_busy():
 		player.busy.advance()
 	_check(magic.drift_begin(), "asked again")
+	# TEST-ONLY: 75 atman more for the third 游识 (to the 跛僧人): 75 left after, as before the remap.
+	player.state.recovery.atman = CharacterInternalResourceState.new(player.state.recovery.atman.current + 75, 300)
 	var original: WorldInteractionRandomSource = session.world_interaction_random_source()
-	# TEST-ONLY: 玄智's 灵力 sensed (random(max_atman) = 0), the skill beats his atman / 50.
-	session.configure_world_interaction_random_source(ScriptedWorldInteractionRandomSource.new([0, 999, 0, 999]))
-	_check(magic.drift_to("玄智和尚") and session.active_map_id() == &"sanyen.grounds" and player.world_location().zone_id == _first(session.active_map() as WorldMapController, MASTER).world_location().zone_id, "游识 to 玄智: his room in the temple")
-	_check(magic.drift_begin() and magic.drift_to("小沙弥") and player.world_location().zone_id == _first(session.active_map() as WorldMapController, LITTLE).world_location().zone_id, "on the same map: the 小沙弥's room")
+	# TEST-ONLY: each one's 灵力 sensed (random(max_atman) = 0), the skill beats their atman / 50.
+	session.configure_world_interaction_random_source(ScriptedWorldInteractionRandomSource.new([0, 999, 0, 999, 0, 999]))
+	_check(magic.drift_to("玄智和尚") and session.active_map_id() == &"sanyen.hall_house" and player.world_location().zone_id == _first(session.active_map() as WorldMapController, MASTER).world_location().zone_id, "游识 to 玄智: his room in the temple (the 大雄宝殿, its own map since the remap)")
+	var cripple: NpcRuntimeState = _first(session.active_map() as WorldMapController, &"sanyen.npc.cripple")
+	_check(cripple != null and magic.drift_begin() and magic.drift_to("跛僧人") and session.active_map_id() == &"sanyen.hall_house" and player.world_location().zone_id == cripple.world_location().zone_id, "on the same map: the 跛僧人's room (he walked into the hall)")
+	_check(magic.drift_begin() and magic.drift_to("小沙弥") and session.active_map_id() == &"sanyen.back_temple_house" and player.world_location().zone_id == _first(session.active_map() as WorldMapController, LITTLE).world_location().zone_id, "游识 to the 小沙弥: the 后殿 (its own map since the remap)")
 	session.configure_world_interaction_random_source(original)
 	# Nobody of that name now: the question asks again, nothing spent.
 	var little: NpcRuntimeState = _first(session.active_map() as WorldMapController, LITTLE)
@@ -611,6 +629,16 @@ func _into(tree: SceneTree, session: WorldSessionController, map: WorldMapContro
 	_check(at != Vector2.INF and session.player_runtime().set_world_location(map.location_for_zone(zone_id)), "TEST-ONLY: into %s" % zone_id)
 	await tree.physics_frame
 	await tree.physics_frame
+
+
+## TEST-ONLY: the player on spawn point `point_id` in `zone_id`, on whichever map it lies (the
+## temple's buildings are their own maps since the remap); `map_id` the map that is.
+func _enter(tree: SceneTree, session: WorldSessionController, zone_id: StringName, point_id: StringName, map_id: StringName) -> WorldMapController:
+	var map: WorldMapController = MapPlaces.enter(session, zone_id, point_id)
+	_check(map != null and map.map_id() == map_id and session.player_runtime().world_location().zone_id == zone_id, "TEST-ONLY: into %s on %s" % [zone_id, map_id])
+	await tree.physics_frame
+	await tree.physics_frame
+	return session.active_map() as WorldMapController
 
 
 ## TEST-ONLY: the player beside the NPC, in its room.
