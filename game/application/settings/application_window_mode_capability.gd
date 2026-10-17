@@ -14,6 +14,12 @@ func apply_window_mode(_mode: int) -> bool:
 	return false
 
 
+## Whether 全屏 (exclusive) differs from 无边框全屏 here; where it does not, only the
+## borderless kind is offered.
+func offers_exclusive_fullscreen() -> bool:
+	return true
+
+
 ## What the platform itself asks of the window before any setting applies.
 func prepare_platform_window() -> void:
 	pass

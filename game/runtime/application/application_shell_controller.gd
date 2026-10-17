@@ -1190,7 +1190,8 @@ func _configure_window_mode_options() -> void:
 	window_mode_option.clear()
 	window_mode_option.add_item("窗口", ApplicationWindowMode.Value.WINDOWED)
 	window_mode_option.add_item("无边框全屏", ApplicationWindowMode.Value.BORDERLESS)
-	window_mode_option.add_item("全屏", ApplicationWindowMode.Value.FULLSCREEN)
+	if _settings_service == null or _settings_service.offers_exclusive_fullscreen():
+		window_mode_option.add_item("全屏", ApplicationWindowMode.Value.FULLSCREEN)
 	_select_committed_window_mode()
 
 

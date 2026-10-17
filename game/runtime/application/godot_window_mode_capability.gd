@@ -41,6 +41,11 @@ func apply_window_mode(mode: int) -> bool:
 	return current_window_mode() == mode
 
 
+## Wayland has no exclusive full screen: Godot shows it as the ordinary (borderless) kind.
+func offers_exclusive_fullscreen() -> bool:
+	return DisplayServer.get_name() != "Wayland"
+
+
 ## Phones and tablets always play full screen, in landscape (project.godot's orientation).
 func prepare_platform_window() -> void:
 	if (OS.has_feature("android") or OS.has_feature("ios")) and DisplayServer.get_name() != "headless":

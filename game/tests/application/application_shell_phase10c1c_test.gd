@@ -50,6 +50,7 @@ class FakeWindowCapability extends ApplicationWindowModeCapability:
 	var fail_apply: bool = false
 	var apply_calls: Array[int] = []
 	var ui_scale: int = ApplicationUiScale.DEFAULT
+	var exclusive: bool = true
 
 	func can_edit_window_mode() -> bool:
 		return editable
@@ -66,6 +67,9 @@ class FakeWindowCapability extends ApplicationWindowModeCapability:
 
 	func apply_ui_scale(percent: int) -> void:
 		ui_scale = percent
+
+	func offers_exclusive_fullscreen() -> bool:
+		return exclusive
 
 
 var _assertions: int = 0
@@ -233,6 +237,14 @@ func _test_service_policy() -> void:
 	_assert_eq(unsupported_result.outcome(), ApplicationSettingsServiceResult.Outcome.UNSUPPORTED_CAPABILITY, "platform-managed mode is typed")
 	_assert_eq(unsupported.apply_calls.size(), 0, "unsupported platform attempts no DisplayServer mutation")
 	_assert_eq(unsupported.ui_scale, 100, "the UI scale applies on every platform")
+	var wayland := FakeWindowCapability.new()
+	wayland.exclusive = false
+	var wayland_files := MemoryFiles.new()
+	ApplicationSettingsRepository.new(wayland_files).write(ApplicationSettingsSnapshot.defaults().with_window_mode(ApplicationWindowMode.Value.FULLSCREEN))
+	var wayland_service := ApplicationSettingsService.new(ApplicationSettingsRepository.new(wayland_files), wayland)
+	wayland_service.load_and_apply()
+	_assert_eq(wayland.mode, ApplicationWindowMode.Value.BORDERLESS, "where exclusive full screen is the borderless kind (Wayland), a stored 全屏 opens borderless")
+	_assert_false(wayland_service.apply_and_persist(ApplicationWindowMode.Value.FULLSCREEN).succeeded(), "and 全屏 is not taken there")
 	for case: Array in [
 		[Vector2i(2560, 1440), Vector2i(1920, 1080)],
 		[Vector2i(1920, 1080), Vector2i(1600, 900)],

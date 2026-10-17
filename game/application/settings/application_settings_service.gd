@@ -34,6 +34,8 @@ func load_and_apply() -> ApplicationSettingsServiceResult:
 	_apply_battle(requested)
 	_window_capability.prepare_platform_window()
 	_window_capability.apply_ui_scale(requested.ui_scale())
+	if requested.window_mode() == ApplicationWindowMode.Value.FULLSCREEN and not _window_capability.offers_exclusive_fullscreen():
+		requested = requested.with_window_mode(ApplicationWindowMode.Value.BORDERLESS)
 	if not _window_capability.can_edit_window_mode():
 		_committed = requested
 		return ApplicationSettingsServiceResult.new(
@@ -68,7 +70,11 @@ func apply_and_persist(mode: int) -> ApplicationSettingsServiceResult:
 			ApplicationSettingsResult.Outcome.INVALID_SETTINGS,
 			_committed,
 		)
-	if not ApplicationWindowMode.is_valid(mode) or not _window_capability.apply_window_mode(mode):
+	if (
+		not ApplicationWindowMode.is_valid(mode)
+		or (mode == ApplicationWindowMode.Value.FULLSCREEN and not _window_capability.offers_exclusive_fullscreen())
+		or not _window_capability.apply_window_mode(mode)
+	):
 		return ApplicationSettingsServiceResult.new(
 			ApplicationSettingsServiceResult.Outcome.APPLY_FAILURE,
 			ApplicationSettingsResult.Outcome.INVALID_SETTINGS,
@@ -173,3 +179,7 @@ func committed_snapshot() -> ApplicationSettingsSnapshot:
 
 func can_edit_window_mode() -> bool:
 	return _window_capability.can_edit_window_mode()
+
+
+func offers_exclusive_fullscreen() -> bool:
+	return _window_capability.offers_exclusive_fullscreen()
