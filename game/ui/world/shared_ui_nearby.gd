@@ -371,7 +371,7 @@ func _npc_options(map: WorldMapController, thing: WorldNearbyThing, player_avail
 			if teacher.offers_trial():
 				offered.append(InteractionOption.new("接受测试", _after(select, _trial.bind(teacher))))
 			if _player.apprenticeship_request.is_pending():
-				offered.append(InteractionOption.new("取消拜师请求", _after(select, teacher.cancel_apprentice)))
+				offered.append(InteractionOption.new("取消拜师请求", _after(select, _cancel_request.bind(teacher))))
 	if here:
 		# TRANSLATORS: why 给予 is greyed: the NPC ({npc}) lies unconscious and takes nothing (give.c says 这里没有这个人。, which reads wrong beside him; DECISIONS「说话和交互」).
 		offered.append(InteractionOption.new("给予", _after(select, _give), "", false, "" if awake else tr("{npc}昏迷不醒，收不了东西。").format({"npc": name})))
@@ -436,6 +436,13 @@ func _oath(teacher: TeacherService) -> void:
 func _trial(teacher: TeacherService) -> void:
 	var question: Array[String] = teacher.ui.trial_question()
 	_ui.questions.ask_first(question[0], question[1], teacher.ui.take_trial_now, teacher.offers_trial, Callable(), _profile(teacher))
+
+
+## Withdrawing a 拜师 request still waiting (apprentice.c's cancel), on its confirm page.
+func _cancel_request(teacher: TeacherService) -> void:
+	var request: NpcApprenticeship = _player.apprenticeship_request
+	# TRANSLATORS: the confirm page before withdrawing a 拜师 request that still waits for an answer.
+	_ui.actions.confirm_in_popup(tr("确定取消拜师请求吗？"), "确定取消", teacher.cancel_apprentice, request.is_pending, _profile(teacher))
 
 
 ## Who a master is, above his pages: his name and title, his family, what he teaches.

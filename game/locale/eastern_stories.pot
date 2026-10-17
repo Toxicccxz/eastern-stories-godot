@@ -8377,6 +8377,16 @@ msgstr ""
 msgid "确定向{npc}发誓恪守门规吗？"
 msgstr ""
 
+#. the confirm page before withdrawing a 拜师 request that still waits for an answer.
+#: ui/world/shared_ui_nearby.gd
+msgid "确定取消拜师请求吗？"
+msgstr ""
+
+#. the confirm page before withdrawing a 拜师 request that still waits for an answer.
+#: ui/world/shared_ui_nearby.gd
+msgid "确定取消"
+msgstr ""
+
 #. what a master teaches, on his 拜师 page: {skills} the skills, joined by 、.
 #: ui/world/shared_ui_nearby.gd
 msgid "传授：{skills}"

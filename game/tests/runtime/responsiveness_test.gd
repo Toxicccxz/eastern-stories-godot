@@ -271,6 +271,11 @@ func _test_apprentice_answer(tree: SceneTree, session: WorldSessionController) -
 	_check(not page.message.text.is_empty() and page.confirm_button.text == "确定拜师", "then its question and 确定拜师: %s" % page.message.text)
 	page.confirm_button.pressed.emit()
 	_check(not hud._presentation_layout.frame.visible and map.npc_life.apprentice_answer_due(master), "确定拜师: the popup closes; his answer is due")
+	# While it waits, 取消拜师请求 is a row, asked on its page too: 取消 keeps the request.
+	_check(hud.interact() and hud.interaction_panel.press("取消拜师请求") and hud._presentation_layout.page() == page and page.confirm_button.text == "确定取消", "取消拜师请求: its confirm page")
+	page.cancel()
+	_check(session.player_runtime().apprenticeship_request.is_pending(), "取消: the request still waits")
+	hud._presentation_layout.close_frame()
 	map.npc_life._advance_ambience(0.3)
 	_check(map.npc_life.apprentice_answer_due(master), "0.3 s: not yet")
 	map.npc_life._advance_ambience(0.15)
