@@ -215,8 +215,19 @@ func _test_story(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(captain != null and camp.select_npc(captain.character_id), "大队长")
 	_check(camp.ask_topics_selected().has("允许") and camp.ask_topics_selected().has("黄石隘口"), "允许, 兵器库, 黄石隘口")
 	_check(camp.ask_selected("允许") == ["你向大队长打听有关『允许』的消息。", "大队长说道：先给钱再说吧。"], "允许: 先给钱再说吧。")
-	var said: Array[String] = camp.ask_selected("黄石隘口")
-	_check(said == ["你向大队长打听有关『黄石隘口』的消息。"], "黄石隘口: nothing at once: %s" % [said])
+	# Asked in the interaction popup (world time stands still there): 允许 answers on its
+	# page; 黄石隘口 starts the story, so the popup closes for it to be told (owner Q2).
+	var body: Node2D = camp.runtime_body_for_character(captain.character_id)
+	camp.runtime_player_body().global_position = MapPlaces.spot(camp, &"canyon.camp6", body.global_position + Vector2(0, 56), 60.0) # TEST-ONLY: beside him
+	await tree.physics_frame
+	await tree.physics_frame
+	hud.refresh_exploration()
+	_check(hud.nearby.choose(captain.character_id) and hud.interact() and hud.interaction_panel.press("打听"), "his popup's 打听")
+	_ask_in_popup(hud, "允许")
+	_check(hud.interaction_open() and hud.ask_answer_text().contains("先给钱再说吧"), "允许: answered on its page, the popup stays: %s" % hud.ask_answer_text())
+	_ask_in_popup(hud, "黄石隘口")
+	_check(not hud._presentation_layout.frame.visible, "黄石隘口: the story starts, the popup closes")
+	_check(hud.toasts().latest_text() == "你向大队长打听有关『黄石隘口』的消息。", "what was asked shows as a toast: %s" % hud.toasts().latest_text())
 	var start: int = hud.log_lines().size()
 	camp.npc_life._advance_ambience(1.0)
 	_check(hud.log_lines().size() == start, "nothing before two seconds")
@@ -286,6 +297,15 @@ func _resources(player: WorldPlayerRuntimeState, gin: int, kee: int, sen: int) -
 	player.state.essence = CharacterResourceState.new(gin, 100, 100)
 	player.state.vitality = CharacterResourceState.new(kee, 100, 100)
 	player.state.spirit = CharacterResourceState.new(sen, 100, 100)
+
+
+## Presses the topic `topic` on the open 打听 page.
+func _ask_in_popup(hud: SharedGameplayUI, topic: String) -> void:
+	for button: Node in hud.ask._ask_topics.get_children():
+		if (button as Button).text == topic and not button.is_queued_for_deletion():
+			(button as Button).pressed.emit()
+			return
+	_check(false, "no topic %s: %s" % [topic, hud.ask_topics_shown()])
 
 
 func _npc(map: WorldMapController, definition_id: StringName) -> NpcRuntimeState:

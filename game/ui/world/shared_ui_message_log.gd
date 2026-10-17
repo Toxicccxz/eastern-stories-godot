@@ -21,8 +21,6 @@ var _after_fight_lines: Array[ColoredLine] = []
 ## writes the new one, as ES2 printed a room on arrival.
 var _described_zone_id: StringName = &""
 var business_feedback: String = ""
-## Lines taken in all (lines_since()).
-var _appended: int = 0
 ## The open panel shows its own lines (an NPC's panel, 打听): no toasts while it is open.
 var _panel_shows_lines: bool = false
 
@@ -87,7 +85,6 @@ func _append(lines: Array[ColoredLine], toast: bool) -> void:
 		if not line.text.is_empty():
 			_log_lines.append(line.text)
 			_log_colors.append(line.color)
-			_appended += 1
 			if toast:
 				# A message of several lines (god.c's 朱鸿雪沉思了一会儿，说道： / 请在…) is shown whole.
 				stack.push(line.text.replace("\n", " "), SharedGameplayUI.ES2_COLORS.get(line.color, MessageToasts.PLAIN_TEXT), SharedGameplayUI.ES2_COLORS.has(line.color))
@@ -129,20 +126,6 @@ func _toasts_suppressed() -> bool:
 
 func log_lines() -> Array[String]:
 	return _log_lines.duplicate()
-
-
-## How many lines the log has taken in all (a mark for lines_since()).
-func appended() -> int:
-	return _appended
-
-
-## The lines the log took after `mark` (appended() then), as many as it still keeps.
-func lines_since(mark: int) -> Array[String]:
-	var lines: Array[String] = []
-	var count: int = mini(_appended - mark, _log_lines.size())
-	if count > 0:
-		lines.assign(_log_lines.slice(_log_lines.size() - count))
-	return lines
 
 
 ## ES2 room text keeps the MUD's hard line breaks; the UI wraps it itself.

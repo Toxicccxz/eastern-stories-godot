@@ -318,10 +318,10 @@ func options_for(map: WorldMapController, thing: WorldNearbyThing) -> Array[Inte
 			# A dial's turns come before its own action (jitan.c: turn, then press).
 			for turn: WorldLandmarkDefinition.Turn in landmark.turns:
 				if player_available:
-					offered.append(InteractionOption.new(turn.action, _after(pick_landmark, actions.landmark_action_context.bind(turn.count))))
+					offered.append(InteractionOption.new(turn.action, _after(pick_landmark, _confirm_landmark.bind(landmark, turn.action, actions.landmark_action_context.bind(turn.count)))))
 			# A sign is only looked at.
 			if player_available and not landmark.action_label.is_empty():
-				offered.append(InteractionOption.new(landmark.action_label, _after(pick_landmark, actions.traverse_context)))
+				offered.append(InteractionOption.new(landmark.action_label, _after(pick_landmark, _confirm_landmark.bind(landmark, landmark.action_label, actions.traverse_context))))
 			offered.append(InteractionOption.new("查看", _after(pick_landmark, actions.inspect_context)))
 		WorldNearbyThing.Kind.DOOR:
 			var door_open: bool = map.doors_by_id[thing.id].is_open()
@@ -362,9 +362,16 @@ func _npc_options(map: WorldMapController, thing: WorldNearbyThing, player_avail
 			# apprentice.c with one's own master is a greeting (向师父请安).
 			var own: bool = PlayerKillerReward.is_own_master(_player.state, definition)
 			offered.append(InteractionOption.new(
-				"请安" if own else "拜师", _after(select, _apprentice.bind(teacher)), "", false,
+				"请安" if own else "拜师", _after(select, _greet.bind(teacher) if own else _apprentice.bind(teacher)), "", false,
 				"" if awake else tr("你必须先把%s弄醒。") % name,
 			))
+			# What follows a 拜师: the teacher panel's own buttons, here rows on their pages.
+			if teacher.awaits_oath():
+				offered.append(InteractionOption.new("发誓恪守门规", _after(select, _oath.bind(teacher))))
+			if teacher.offers_trial():
+				offered.append(InteractionOption.new("接受测试", _after(select, _trial.bind(teacher))))
+			if _player.apprenticeship_request.is_pending():
+				offered.append(InteractionOption.new("取消拜师请求", _after(select, _cancel_request.bind(teacher))))
 	if here:
 		# TRANSLATORS: why 给予 is greyed: the NPC ({npc}) lies unconscious and takes nothing (give.c says 这里没有这个人。, which reads wrong beside him; DECISIONS「说话和交互」).
 		offered.append(InteractionOption.new("给予", _after(select, _give), "", false, "" if awake else tr("{npc}昏迷不醒，收不了东西。").format({"npc": name})))
@@ -389,7 +396,9 @@ func _npc_options(map: WorldMapController, thing: WorldNearbyThing, player_avail
 	if map.debts.can_settle(npc):
 		var settle: NpcSettle = definition.dealings().settle
 		# TRANSLATORS: a button's hover: {action} its label (还瓜钱), {what} what it does.
-		offered.append(InteractionOption.new(settle.label, _after(select, map.debts.settle_here.bind(npc)), tr("{action}：{what}").format({"action": tr(settle.label), "what": tr(settle.hint)})))
+		# TRANSLATORS: the interaction popup's confirm page before an NPC's own deal ({action}: 还瓜钱).
+		var settle_now: Callable = actions.confirm_in_popup.bind(tr("确定{action}吗？").format({"action": tr(settle.label)}), settle.label, map.debts.settle_here.bind(npc), func() -> bool: return map.debts.can_settle(npc), tr(settle.hint))
+		offered.append(InteractionOption.new(settle.label, _after(select, settle_now), tr("{action}：{what}").format({"action": tr(settle.label), "what": tr(settle.hint)})))
 	if here and _session.martial_arts().exert_at_functions().has(&"lifeheal"):
 		offered.append(InteractionOption.new(ExertFunctions.LABELS[&"lifeheal"], _after(select, actions.lifeheal_context), SharedUiContextActions.LIFEHEAL_HINT))
 	if _session.essence_magic().heart_target_for(npc) == npc:
@@ -398,11 +407,66 @@ func _npc_options(map: WorldMapController, thing: WorldNearbyThing, player_avail
 	return offered
 
 
-## 拜师 from the popup: the teacher's panel, asking its own questions (a family change,
-## betrayal) as its button does.
-static func _apprentice(teacher: TeacherService) -> void:
-	teacher.interact()
-	teacher.ui.request_apprentice()
+## 拜师 from the popup, on its confirm page: who the master is (his family, what he
+## teaches), the teacher panel's own question when it has one (a betrayal, a first master,
+## a change of master), 确认; the answer comes once the popup has closed (owner Q1: whether
+## he takes the player is not told before).
+func _apprentice(teacher: TeacherService) -> void:
+	var question: Array[String] = teacher.ui.apprentice_question()
+	# TRANSLATORS: the 拜师 page's question when no warning applies: {npc} the master.
+	var text: String = question[0] if not question[0].is_empty() else tr("确定要拜{npc}为师吗？").format({"npc": tr(teacher.npc.definition().display_name)})
+	var choice: String = question[1] if not question[1].is_empty() else "确定拜师"
+	_ui.questions.ask_first(text, choice, teacher.ui.request_apprentice_now, teacher.can_teach, Callable(), _profile(teacher))
+
+
+## 请安 to one's own master: done at once.
+static func _greet(teacher: TeacherService) -> void:
+	teacher.ui.request_apprentice_now()
+
+
+## The oath a master waits for (萧辟尘), on its confirm page.
+func _oath(teacher: TeacherService) -> void:
+	var question: Array[String] = teacher.ui.oath_question()
+	# TRANSLATORS: the oath page's question when no warning applies: {npc} the master.
+	var text: String = question[0] if not question[0].is_empty() else tr("确定向{npc}发誓恪守门规吗？").format({"npc": tr(teacher.npc.definition().display_name)})
+	_ui.questions.ask_first(text, "确定发誓", teacher.ui.swear_now, teacher.awaits_oath, Callable(), _profile(teacher))
+
+
+## The master's accept test (三招, 三鞭), on its confirm page; told once the popup closes.
+func _trial(teacher: TeacherService) -> void:
+	var question: Array[String] = teacher.ui.trial_question()
+	_ui.questions.ask_first(question[0], question[1], teacher.ui.take_trial_now, teacher.offers_trial, Callable(), _profile(teacher))
+
+
+## Withdrawing a 拜师 request still waiting (apprentice.c's cancel), on its confirm page.
+func _cancel_request(teacher: TeacherService) -> void:
+	var request: NpcApprenticeship = _player.apprenticeship_request
+	# TRANSLATORS: the confirm page before withdrawing a 拜师 request that still waits for an answer.
+	_ui.actions.confirm_in_popup(tr("确定取消拜师请求吗？"), "确定取消", teacher.cancel_apprentice, request.is_pending, _profile(teacher))
+
+
+## Who a master is, above his pages: his name and title, his family, what he teaches.
+func _profile(teacher: TeacherService) -> String:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var lines: PackedStringArray = [teacher.npc.short_name()]
+	var family: FamilyDefinition = catalog.family(teacher.teaching().family_id)
+	if family != null:
+		# TRANSLATORS: a master's family on his 拜师 page.
+		lines.append(tr("门派：{family}").format({"family": tr(family.display_name)}))
+	var skills: PackedStringArray = []
+	for skill_id: StringName in teacher.teachable_skills():
+		skills.append(tr(catalog.skill(skill_id).display_name))
+	if not skills.is_empty():
+		# TRANSLATORS: what a master teaches, on his 拜师 page: {skills} the skills, joined by 、.
+		lines.append(tr("传授：{skills}").format({"skills": "、".join(skills)}))
+	return "\n".join(lines)
+
+
+## A landmark's action in the popup, on its confirm page: the landmark as it is described,
+## then the action.
+func _confirm_landmark(landmark: WorldLandmarkDefinition, label: String, act: Callable) -> void:
+	# TRANSLATORS: the interaction popup's confirm page before a landmark's action ({action}: 抓住藤蔓, 顺时针转).
+	_ui.actions.confirm_in_popup(tr("确定{action}吗？").format({"action": tr(label)}), label, act, Callable(), tr(landmark.description).strip_edges())
 
 
 ## 给予 from the popup: its page, the things carried with 给 to the selected NPC.

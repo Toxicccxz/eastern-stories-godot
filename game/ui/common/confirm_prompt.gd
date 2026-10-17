@@ -28,6 +28,9 @@ var cancel_action: StringName = &"ui_cancel":
 		cancel_action = value
 		InputGlyphs.decorate(cancel_button, value)
 
+## What the choice is about, above the question (the interaction popup's confirm pages:
+## who the master is, what the spell does); hidden when empty.
+var detail: Label
 var message: Label
 var confirm_button: Button
 var cancel_button: Button
@@ -37,6 +40,13 @@ var _asking: bool = false
 func _init() -> void:
 	name = "ConfirmPrompt"
 	add_theme_constant_override("separation", 12)
+	detail = Label.new()
+	detail.name = "Detail"
+	detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	detail.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	detail.add_theme_color_override("font_color", DETAIL_COLOR)
+	detail.hide()
+	add_child(detail)
 	message = Label.new()
 	message.name = "Message"
 	message.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -69,9 +79,15 @@ func _button(parent: Node, node_name: String) -> Button:
 	return button
 
 
+const DETAIL_COLOR: Color = Color(0.74, 0.78, 0.72)
+
+
 ## Asks. `text` is the question (a source text, or one already put together in the
-## shown language); `choice` and `cancel` are source texts the buttons translate.
-func ask(text: String, choice: String, cancel: String = "取消") -> void:
+## shown language); `choice` and `cancel` are source texts the buttons translate;
+## `about` (in the shown language) goes above the question.
+func ask(text: String, choice: String, cancel: String = "取消", about: String = "") -> void:
+	detail.text = about
+	detail.visible = not about.is_empty()
 	_show(text)
 	confirm_button.text = choice
 	cancel_button.text = cancel
@@ -81,6 +97,7 @@ func ask(text: String, choice: String, cancel: String = "取消") -> void:
 
 ## A notice with one button, which answers `confirmed`.
 func tell(text: String, acknowledge: String = "确定") -> void:
+	detail.hide()
 	_show(text)
 	confirm_button.text = acknowledge
 	cancel_button.hide()

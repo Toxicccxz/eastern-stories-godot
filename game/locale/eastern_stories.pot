@@ -287,7 +287,7 @@ msgstr ""
 msgid "开始旅程"
 msgstr ""
 
-#: scenes/application/application_shell.tscn ui/common/confirm_prompt.gd
+#: scenes/application/application_shell.tscn ui/common/confirm_prompt.gd ui/world/shared_ui_questions.gd
 msgid "取消"
 msgstr ""
 
@@ -5371,7 +5371,6 @@ msgid "你也上去和对手性命相搏，对手会反过来对你下杀手"
 msgstr ""
 
 #. a battle button's hover: {action} its label (施法「遁」), {what} what it does.
-#. a button's hover: {action} its label (还瓜钱), {what} what it does.
 #: presentation/battle/battle_action_presentation_catalog.gd ui/world/shared_ui_nearby.gd
 msgid "{action}：{what}"
 msgstr ""
@@ -5721,6 +5720,7 @@ msgstr ""
 msgid "确定施展"
 msgstr ""
 
+#. the interaction popup's confirm page before 攻击 on {npc} (kill.c): a fight to the death.
 #. chuenyu.npc.xiaojuan2 attack_choice
 #. death.npc.hell_guard attack_choice
 #: presentation/battle/battle_presentation_controller.gd ui/world/shared_ui_context_actions.gd data/chuenyu/npcs.json data/death/npcs.json
@@ -6104,8 +6104,9 @@ msgstr ""
 msgid "可以激发为：{uses}"
 msgstr ""
 
+#. what a master teaches, on his 拜师 page: {skills} the skills, joined by 、.
 #. between two conditions on the HUD (蛇毒).
-#: presentation/codex/codex_content.gd ui/world/shared_ui_status_card.gd
+#: presentation/codex/codex_content.gd ui/world/shared_ui_nearby.gd ui/world/shared_ui_status_card.gd
 msgid "、"
 msgstr ""
 
@@ -6133,7 +6134,8 @@ msgstr ""
 msgid "你没有特别留意过此人的模样。"
 msgstr ""
 
-#: presentation/codex/codex_content.gd
+#. a master's family on his 拜师 page.
+#: presentation/codex/codex_content.gd ui/world/shared_ui_nearby.gd
 msgid "门派：{family}"
 msgstr ""
 
@@ -7272,15 +7274,15 @@ msgstr ""
 msgid "拜师 / 向师父请安"
 msgstr ""
 
-#: ui/teacher/teacher_panel.gd
+#: ui/teacher/teacher_panel.gd ui/world/shared_ui_nearby.gd
 msgid "发誓恪守门规"
 msgstr ""
 
-#: ui/teacher/teacher_panel.gd
+#: ui/teacher/teacher_panel.gd ui/world/shared_ui_nearby.gd
 msgid "接受测试"
 msgstr ""
 
-#: ui/teacher/teacher_panel.gd
+#: ui/teacher/teacher_panel.gd ui/world/shared_ui_nearby.gd
 msgid "取消拜师请求"
 msgstr ""
 
@@ -7304,7 +7306,7 @@ msgstr ""
 msgid "精 {gin}（须大于消耗才可进步） · 可用潜能 {potential} · 实战经验 {exp}"
 msgstr ""
 
-#: ui/teacher/teacher_panel.gd
+#: ui/teacher/teacher_panel.gd ui/world/shared_ui_nearby.gd
 msgid "确定拜师"
 msgstr ""
 
@@ -7324,7 +7326,7 @@ msgstr ""
 msgid "再想想"
 msgstr ""
 
-#: ui/teacher/teacher_panel.gd
+#: ui/teacher/teacher_panel.gd ui/world/shared_ui_nearby.gd
 msgid "确定发誓"
 msgstr ""
 
@@ -7474,7 +7476,7 @@ msgid "战斗中只能使用系统功能。"
 msgstr ""
 
 #: ui/world/give_panel.gd
-msgid "给"
+msgid "确认给予"
 msgstr ""
 
 #. the 任务 page before any story entry is recorded.
@@ -8152,14 +8154,58 @@ msgstr ""
 msgid "施法「驱尸」：让这具尸体站起来跟着你（50 法力、30 神）。僵尸靠吸你的灵力维持，灵力不足时就会倒下化为血水。"
 msgstr ""
 
+#. the interaction popup's confirm page before 驱尸 (animate.c).
+#: ui/world/shared_ui_context_actions.gd
+msgid "确定施法驱尸吗？"
+msgstr ""
+
+#. the interaction popup's confirm page before 驱尸 (animate.c).
 #: ui/world/shared_ui_context_actions.gd
 msgid "确定施法"
 msgstr ""
 
+#. the interaction popup's confirm page before 疗伤他人 (lifeheal.c) on {npc}.
+#: ui/world/shared_ui_context_actions.gd
+msgid "确定为{npc}运功疗伤吗？"
+msgstr ""
+
+#. the interaction popup's confirm page before 疗伤他人 (lifeheal.c) on {npc}.
+#: ui/world/shared_ui_context_actions.gd
+msgid "确定运功"
+msgstr ""
+
+#. the interaction popup's confirm page before 偷窃: {item} what the player reaches for.
+#: ui/world/shared_ui_context_actions.gd
+msgid "下手目标：{item}"
+msgstr ""
+
+#. the interaction popup's confirm page before 偷窃: {item} what the player reaches for.
+#. the 偷窃 list's choice for no thing in particular: steal.c takes one of everything the NPC carries.
+#: ui/world/shared_ui_context_actions.gd ui/world/steal_panel.gd
+msgid "随手摸一样"
+msgstr ""
+
+#. the interaction popup's confirm page before 偷窃 from {npc} (steal.c): caught at it, a fight to the death.
 #: ui/world/shared_ui_context_actions.gd
 msgid "确定下手"
 msgstr ""
 
+#. the interaction popup's confirm page before 偷窃 from {npc} (steal.c): caught at it, a fight to the death.
+#: ui/world/shared_ui_context_actions.gd
+msgid "失手被发现，{npc}会和你拼命。确定要下手吗？"
+msgstr ""
+
+#. the interaction popup's confirm page before 攻击 on {npc} (kill.c): a fight to the death.
+#: ui/world/shared_ui_context_actions.gd
+msgid "攻击就是生死相搏。确定要攻击{npc}吗？"
+msgstr ""
+
+#. the interaction popup's confirm page before a 切磋 with no risk named (fight.c): {npc} the one asked.
+#: ui/world/shared_ui_context_actions.gd
+msgid "切磋点到为止。确定要和{npc}切磋吗？"
+msgstr ""
+
+#. the interaction popup's confirm page before a 切磋 with no risk named (fight.c): {npc} the one asked.
 #: ui/world/shared_ui_context_actions.gd
 msgid "确定切磋"
 msgstr ""
@@ -8315,6 +8361,37 @@ msgstr ""
 msgid "{npc}昏迷不醒，收不了东西。"
 msgstr ""
 
+#. the interaction popup's confirm page before an NPC's own deal ({action}: 还瓜钱).
+#. the interaction popup's confirm page before a landmark's action ({action}: 抓住藤蔓, 顺时针转).
+#: ui/world/shared_ui_nearby.gd
+msgid "确定{action}吗？"
+msgstr ""
+
+#. the 拜师 page's question when no warning applies: {npc} the master.
+#: ui/world/shared_ui_nearby.gd
+msgid "确定要拜{npc}为师吗？"
+msgstr ""
+
+#. the oath page's question when no warning applies: {npc} the master.
+#: ui/world/shared_ui_nearby.gd
+msgid "确定向{npc}发誓恪守门规吗？"
+msgstr ""
+
+#. the confirm page before withdrawing a 拜师 request that still waits for an answer.
+#: ui/world/shared_ui_nearby.gd
+msgid "确定取消拜师请求吗？"
+msgstr ""
+
+#. the confirm page before withdrawing a 拜师 request that still waits for an answer.
+#: ui/world/shared_ui_nearby.gd
+msgid "确定取消"
+msgstr ""
+
+#. what a master teaches, on his 拜师 page: {skills} the skills, joined by 、.
+#: ui/world/shared_ui_nearby.gd
+msgid "传授：{skills}"
+msgstr ""
+
 #. asked before 空识神通 (void_sense.c) when its 50 gin ({gin}) would knock the player out.
 #: ui/world/shared_ui_panels.gd
 msgid ""
@@ -8380,11 +8457,6 @@ msgstr ""
 #. the HUD while 朱鸿雪's task runs: {time} the time left as time_period() writes it (五分零秒).
 #: ui/world/shared_ui_waits.gd
 msgid "朱鸿雪的任务：还有{time}"
-msgstr ""
-
-#. the 偷窃 list's choice for no thing in particular: steal.c takes one of everything the NPC carries.
-#: ui/world/steal_panel.gd
-msgid "随手摸一样"
 msgstr ""
 
 #. the 偷窃 list's question: {npc} the one the player means to steal from.

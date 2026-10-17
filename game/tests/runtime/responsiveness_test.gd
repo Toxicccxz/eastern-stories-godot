@@ -256,8 +256,26 @@ func _test_apprentice_answer(tree: SceneTree, session: WorldSessionController) -
 	var master: NpcRuntimeState = _first(map, TAOLORD)
 	await _beside(tree, session, map, master)
 	map.npc_life._advance_ambience(0.0) # TEST-ONLY: the arrival noted
+	# 拜师 from the interaction popup: its confirm page says who he is (family, what he
+	# teaches); 确认 closes the popup, and his answer comes in world time.
+	var hud: SharedGameplayUI = session.shared_ui()
+	hud.refresh_exploration()
+	_check(hud.nearby.choose(master.character_id) and hud.interact(), "his popup")
 	var service: TeacherService = map.service(&"temple.temple1_house.temple1.taolord") as TeacherService
-	_check(service.request_apprentice() == NpcApprenticeship.Outcome.ANSWER_DUE, "拜师: his answer is due")
+	# His 请教 is a page; its own 拜师 button gives way to the popup's row.
+	_check(hud.interaction_panel.press(service.verb()) and hud._presentation_layout.page() == service.ui.panel and not service.ui.apprentice_button.visible, "%s: his panel in the popup, without its own 拜师" % service.verb())
+	hud.dismiss_current_panel()
+	_check(hud.interaction_panel.press("拜师"), "his popup's 拜师")
+	var page: ConfirmPrompt = hud.confirm_prompt
+	_check(hud.interaction_open() and hud._presentation_layout.page() == page and page.detail.text.contains("门派：") and page.detail.text.contains("传授："), "拜师: who he is, on its page: %s" % page.detail.text)
+	_check(not page.message.text.is_empty() and page.confirm_button.text == "确定拜师", "then its question and 确定拜师: %s" % page.message.text)
+	page.confirm_button.pressed.emit()
+	_check(not hud._presentation_layout.frame.visible and map.npc_life.apprentice_answer_due(master), "确定拜师: the popup closes; his answer is due")
+	# While it waits, 取消拜师请求 is a row, asked on its page too: 取消 keeps the request.
+	_check(hud.interact() and hud.interaction_panel.press("取消拜师请求") and hud._presentation_layout.page() == page and page.confirm_button.text == "确定取消", "取消拜师请求: its confirm page")
+	page.cancel()
+	_check(session.player_runtime().apprenticeship_request.is_pending(), "取消: the request still waits")
+	hud._presentation_layout.close_frame()
 	map.npc_life._advance_ambience(0.3)
 	_check(map.npc_life.apprentice_answer_due(master), "0.3 s: not yet")
 	map.npc_life._advance_ambience(0.15)

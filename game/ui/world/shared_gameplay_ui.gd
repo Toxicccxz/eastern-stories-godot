@@ -429,16 +429,16 @@ func interaction_open() -> bool:
 	return _presentation_layout.hosting() and _presentation_layout._frame_content == interaction_panel
 
 
-## The popup's 查看 holds world time (as the menu does); a page lets it run, as that panel
-## did on its own (an NPC answers 拜师 after a while, tells a story, takes up a 接话).
+## World time stands still while the popup shows, its pages too (owner, 2026-10-17): what
+## needs it (an NPC's answer, a story told, a theft's moment) comes after the popup closes,
+## which every act that starts one does.
 func _hold_for_interaction() -> void:
 	if _session == null:
 		return
-	if interaction_open() and _presentation_layout.page() == null:
+	if interaction_open():
 		_session.hold_world_time(INTERACTION_TIME_HOLD)
 	else:
-		if not interaction_open():
-			_interacting = null
+		_interacting = null
 		_session.release_world_time(INTERACTION_TIME_HOLD)
 
 
@@ -536,7 +536,6 @@ func _process(delta: float) -> void:
 	card.refresh_exploration()
 	if interaction_open():
 		_fill_interaction()
-		items.refresh_give()
 	if menu.is_presented():
 		_refresh_menu_page()
 
@@ -980,8 +979,8 @@ func close_business(form: Control) -> void:
 # --- forwarded to SharedUiQuestions (questions) ---
 
 
-func ask_first(text: String, choice: String, action: Callable, still_valid: Callable = Callable(), on_cancel: Callable = Callable()) -> void:
-	questions.ask_first(text, choice, action, still_valid, on_cancel)
+func ask_first(text: String, choice: String, action: Callable, still_valid: Callable = Callable(), on_cancel: Callable = Callable(), about: String = "") -> void:
+	questions.ask_first(text, choice, action, still_valid, on_cancel, about)
 
 
 func is_asking() -> bool:

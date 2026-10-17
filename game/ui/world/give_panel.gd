@@ -1,15 +1,21 @@
 class_name GivePanel
 extends VBoxContainer
 ## 给予 in the interaction popup (give.c; DECISIONS「说话和交互」): what the player carries,
-## one row each with 给 (a stack's amount beside it, as in the 背包), and what came of the
-## gifts made here. SharedUiInventory fills it and gives, asking first as the 背包's 给 does.
+## one row each to tick (a stack's amount beside it, as in the 背包); under the list what
+## the gifts ask first (the 背包's questions, as warnings) and 确认给予, which can be pressed
+## once something is ticked. SharedUiInventory fills it and makes the gifts.
 
-## `amount` 0 hands over the whole object.
-signal give_requested(item_instance_id: StringName, amount: int)
+## The ticked things changed (the warnings follow).
+signal picks_changed
+## 确认给予: `picks` as [item id, amount] pairs in the list's order; amount 0 is the whole.
+signal confirmed(picks: Array)
+
+const WARNING_COLOR: Color = Color(1.0, 0.55, 0.45)
 
 var _rows: VBoxContainer
 var _empty: Label
-var _answer: Label
+var _warning: Label
+var confirm_button: Button
 ## The rows shown ("id:amount:slot|…"): unchanged, nothing is rebuilt.
 var _signature: String = ""
 var _shown: Array[PlayerInventoryRowProjection] = []
@@ -26,14 +32,27 @@ func _ready() -> void:
 	_empty.name = "Empty"
 	_empty.text = "空无一物"
 	add_child(_empty)
-	_answer = Label.new()
-	_answer.name = "Answer"
-	_answer.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_answer.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
-	add_child(_answer)
+	_warning = Label.new()
+	_warning.name = "Warning"
+	_warning.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_warning.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	_warning.add_theme_color_override("font_color", WARNING_COLOR)
+	_warning.hide()
+	add_child(_warning)
+	confirm_button = Button.new()
+	confirm_button.name = "Confirm"
+	confirm_button.text = "确认给予"
+	confirm_button.custom_minimum_size = Vector2(140, 44)
+	confirm_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	confirm_button.theme_type_variation = &"AccentButton"
+	confirm_button.pressed.connect(func() -> void:
+		if not picks().is_empty():
+			confirmed.emit(picks()))
+	add_child(confirm_button)
+	_refresh_confirm()
 
 
-## The carried things; rebuilt only when they changed.
+## The carried things, none ticked; rebuilt only when they changed.
 func fill(rows: Array[PlayerInventoryRowProjection]) -> void:
 	var parts: PackedStringArray = []
 	for row: PlayerInventoryRowProjection in rows:
@@ -51,15 +70,36 @@ func fill(rows: Array[PlayerInventoryRowProjection]) -> void:
 		_shown.append(row)
 		_rows.add_child(_row(row))
 	_empty.visible = _shown.is_empty()
+	_refresh_confirm()
 
 
-## What came of the gifts made here (the player's line, the NPC's answer).
-func show_answer(lines: Array[String]) -> void:
-	_answer.text = "\n".join(lines)
+## A new list: the next fill() rebuilds it with nothing ticked.
+func reset() -> void:
+	_signature = "-"
+	show_warning("")
 
 
-func answer_text() -> String:
-	return _answer.text
+## The ticked things as [item id, amount] pairs, in the list's order.
+func picks() -> Array:
+	var picked: Array = []
+	for index: int in mini(_shown.size(), _rows.get_child_count()):
+		var line: Node = _rows.get_child(index)
+		if not (line.get_node("Pick") as Button).button_pressed:
+			continue
+		var row: PlayerInventoryRowProjection = _shown[index]
+		var amount: SpinBox = line.get_node_or_null("Amount") as SpinBox
+		picked.append([row.item_instance_id, 0 if amount == null or int(amount.value) >= row.amount else int(amount.value)])
+	return picked
+
+
+## What the ticked gifts ask first, above 确认给予 ("" for nothing).
+func show_warning(text: String) -> void:
+	_warning.text = text
+	_warning.visible = not text.is_empty()
+
+
+func warning_text() -> String:
+	return _warning.text if _warning.visible else ""
 
 
 ## The rows as shown (tests and the walk).
@@ -70,49 +110,76 @@ func labels() -> Array[String]:
 	return shown
 
 
-## The 给 of the row shown as `label`, or null.
-func give_button(label: String) -> Button:
+## The tick (a toggle) of the row shown as `label`, or null.
+func pick_box(label: String) -> Button:
 	for index: int in _shown.size():
 		if PlayerInventoryPanel.row_label(_shown[index]) == label and index < _rows.get_child_count():
-			return _rows.get_child(index).get_node("Give") as Button
+			return _rows.get_child(index).get_node("Pick") as Button
 	return null
 
 
-## A new list: the next fill() rebuilds it, the last gift's lines go.
-func reset() -> void:
-	_signature = "-"
-	_answer.text = ""
+## Keys and pad start on the first row.
+func focus_default() -> void:
+	if _rows.get_child_count() > 0:
+		FocusNav.give(_rows.get_child(0).get_node("Pick") as Control)
+
+
+static func _picked_style() -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(SharedGameplayLayout.ACCENT_COLOR, 0.22)
+	style.border_color = Color(SharedGameplayLayout.ACCENT_COLOR, 0.6)
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(6)
+	style.content_margin_left = 12.0
+	style.content_margin_right = 12.0
+	style.content_margin_top = 6.0
+	style.content_margin_bottom = 6.0
+	return style
+
+
+func _refresh_confirm() -> void:
+	if confirm_button != null:
+		var none: bool = picks().is_empty()
+		confirm_button.disabled = none
+		confirm_button.focus_mode = Control.FOCUS_NONE if none else Control.FOCUS_ALL
 
 
 func _row(row: PlayerInventoryRowProjection) -> HBoxContainer:
 	var line := HBoxContainer.new()
 	line.name = "Row"
 	line.add_theme_constant_override("separation", 8)
-	var label := Label.new()
-	label.name = "Item"
-	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	label.text = PlayerInventoryPanel.row_label(row)
-	label.tooltip_text = row.description.strip_edges()
-	label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
-	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	line.add_child(label)
+	# A row-wide toggle, marked in the accent colour with a tick while picked.
+	var pick := Button.new()
+	pick.name = "Pick"
+	pick.toggle_mode = true
+	pick.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	pick.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	pick.custom_minimum_size.y = 38
+	pick.tooltip_text = row.description.strip_edges()
+	pick.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	var label: String = PlayerInventoryPanel.row_label(row)
+	pick.text = "○  " + label
+	pick.toggled.connect(func(on: bool) -> void:
+		pick.text = ("●  " if on else "○  ") + label
+		for state: StringName in [&"normal", &"hover", &"pressed", &"hover_pressed"]:
+			if on:
+				pick.add_theme_stylebox_override(state, _picked_style())
+			else:
+				pick.remove_theme_stylebox_override(state)
+		_refresh_confirm()
+		picks_changed.emit())
+	line.add_child(pick)
 	# A stack can be handed over in part (give 5 silver to ...).
 	var content: ItemContentDefinition = GameContent.catalog().item(row.item_definition_id)
-	var amount: SpinBox = null
 	if content != null and content.is_stack and row.amount > 1:
-		amount = SpinBox.new()
+		var amount := SpinBox.new()
 		amount.name = "Amount"
 		amount.min_value = 1
 		amount.max_value = row.amount
 		amount.value = row.amount
 		amount.rounded = true
+		amount.value_changed.connect(func(_value: float) -> void:
+			if pick.button_pressed:
+				picks_changed.emit())
 		line.add_child(amount)
-	var give := Button.new()
-	give.name = "Give"
-	give.text = "给"
-	give.custom_minimum_size = Vector2(64, 36)
-	give.pressed.connect(func() -> void:
-		var count: int = 0 if amount == null or int(amount.value) >= row.amount else int(amount.value)
-		give_requested.emit(row.item_instance_id, count))
-	line.add_child(give)
 	return line

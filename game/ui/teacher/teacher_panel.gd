@@ -143,7 +143,7 @@ func interact() -> void:
 	_present()
 	_contact.open_panel(_contact.context_title(), panel)
 	refresh()
-	var first: Button = apprentice_button if apprentice_button != null else (learn_buttons.values()[0] if not learn_buttons.is_empty() else null)
+	var first: Button = apprentice_button if apprentice_button != null and apprentice_button.visible else (learn_buttons.values()[0] if not learn_buttons.is_empty() else null)
 	if first != null:
 		first.grab_focus()
 
@@ -192,50 +192,66 @@ func refresh() -> void:
 		"exp": state.progression.combat_experience,
 	}))
 	status.text = "\n".join(lines)
+	# As the interaction popup's page (请教), 拜师 and what follows it are the popup's own
+	# rows, asked on its pages (DECISIONS「说话和交互」).
+	var here: bool = not _hosted()
+	if apprentice_button != null:
+		apprentice_button.visible = here and not is_confirming()
+		apprentice_feedback.visible = here and not is_confirming()
 	if cancel_button != null:
-		cancel_button.visible = player.apprenticeship_request.is_pending() and not is_confirming()
+		cancel_button.visible = here and player.apprenticeship_request.is_pending() and not is_confirming()
 	if oath_button != null:
-		oath_button.visible = _contact.awaits_oath() and not is_confirming()
+		oath_button.visible = here and _contact.awaits_oath() and not is_confirming()
 	if trial_button != null:
-		trial_button.visible = _contact.offers_trial() and not is_confirming()
+		trial_button.visible = here and _contact.offers_trial() and not is_confirming()
+
+
+## Shown as the interaction popup's page (its rows do 拜师 and what follows).
+func _hosted() -> bool:
+	var session: WorldSessionController = _contact.map.session
+	return session != null and session.has_node(^"SharedGameplayUI") and session.shared_ui().interaction_open()
 
 
 ## 拜师: a member of another family is told what betraying it costs, and one
 ## without a family what changing it later would cost; both are asked first. A master
 ## who would take the player for a traitor and attack them asks first too.
 func request_apprentice() -> void:
-	if not panel.visible:
+	if not panel.visible or _hosted():
 		return
+	var question: Array[String] = apprentice_question()
+	if question[0].is_empty():
+		request_apprentice_now()
+	else:
+		_ask(question[0], question[1], question[2], request_apprentice_now)
+
+
+## What 拜师 asks first, as [question, choice, cancel]; the question "" when it asks
+## nothing. Asked only when 拜师 will take place: the master takes the player (it has
+## offered, or its requirements hold) and no request already waits on him (apprentice.c
+## then only says he has not answered). The interaction popup asks it on its page.
+func apprentice_question() -> Array[String]:
 	var player: WorldPlayerRuntimeState = _contact.map.session.player_runtime()
 	var master: NpcDefinition = _contact.npc.definition()
-	var family: FamilyDefinition = GameContent.catalog().family(_contact.teaching().family_id)
-	var family_name: String = tr(family.display_name) if family != null else ""
-	# Asked only when 拜师 will take place: the master takes the player (it has offered,
-	# or its requirements hold) and no request already waits on him (apprentice.c then
-	# only says he has not answered).
 	var awake: bool = _contact.npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
 	player.apprenticeship_request.affords = _contact.map.player_can_afford
 	# juechen/master.c: a family's member is attacked for it; asked first (owner).
 	if awake and player.would_be_attacked_by(master):
-		_ask(tr(TRAITOR_WARNING).format({"master": tr(master.display_name), "pronoun": _pronoun(master), "title": player.shown_title()}), "确定拜师", "不拜了", _request_apprentice_now)
-		return
-	var takes: bool = awake and player.would_be_taken_by(master)
-	if takes and _ask_family_change(player, master, family_name, "确定改投", "确定拜师", _request_apprentice_now):
-		return
-	_request_apprentice_now()
+		return [tr(TRAITOR_WARNING).format({"master": tr(master.display_name), "pronoun": _pronoun(master), "title": player.shown_title()}), "确定拜师", "不拜了"]
+	if awake and player.would_be_taken_by(master):
+		return _family_change_question(player, master, "确定改投", "确定拜师")
+	return ["", "", ""]
 
 
-## Asks before a step that makes the player `master`'s apprentice when that changes
-## their family (betrayal) or gives them their first master; true when it asked.
-func _ask_family_change(player: WorldPlayerRuntimeState, master: NpcDefinition, family_name: String, betray_choice: String, first_choice: String, action: Callable) -> bool:
-	var text: String = family_change_warning(player, master, family_name)
+## The family-change question before a step that makes the player `master`'s apprentice
+## (betrayal, a first master, a change of master), as [question, choice, cancel]; the
+## question "" when it changes none of these.
+func _family_change_question(player: WorldPlayerRuntimeState, master: NpcDefinition, betray_choice: String, first_choice: String) -> Array[String]:
+	var text: String = family_change_warning(player, master, _family_name())
 	if text.is_empty():
-		return false
+		return ["", "", ""]
 	if NpcApprenticeship.would_betray(player.state, master):
-		_ask(text, betray_choice, "不改投了", action)
-	else:
-		_ask(text, first_choice, "再想想", action)
-	return true
+		return [text, betray_choice, "不改投了"]
+	return [text, first_choice, "再想想"]
 
 
 ## The question before the player becomes `master`'s apprentice when that makes them
@@ -281,7 +297,7 @@ static func _t(text: String) -> String:
 	return TranslationServer.translate(text)
 
 
-func _request_apprentice_now() -> void:
+func request_apprentice_now() -> void:
 	_contact.request_apprentice()
 	_show_apprentice_last()
 
@@ -289,16 +305,25 @@ func _request_apprentice_now() -> void:
 ## The oath: asked first when it will make the player his apprentice and that
 ## changes their family or is their first master (the 拜师 that waits on him).
 func swear_oath() -> void:
-	if not panel.visible or not _contact.awaits_oath():
+	if not panel.visible or _hosted() or not _contact.awaits_oath():
 		return
+	var question: Array[String] = oath_question()
+	if question[0].is_empty():
+		swear_now()
+	else:
+		_ask(question[0], question[1], question[2], swear_now)
+
+
+## What the oath asks first, as [question, choice, cancel] (question "" for nothing).
+func oath_question() -> Array[String]:
 	var player: WorldPlayerRuntimeState = _contact.map.session.player_runtime()
 	var master: NpcDefinition = _contact.npc.definition()
-	if player.apprenticeship_request.recruit_takes_at_once(player.state, master) and _ask_family_change(player, master, _family_name(), "确定发誓", "确定发誓", _swear_now):
-		return
-	_swear_now()
+	if player.apprenticeship_request.recruit_takes_at_once(player.state, master):
+		return _family_change_question(player, master, "确定发誓", "确定发誓")
+	return ["", "", ""]
 
 
-func _swear_now() -> void:
+func swear_now() -> void:
 	_contact.swear_oath()
 	_show_apprentice_last()
 
@@ -306,8 +331,14 @@ func _swear_now() -> void:
 ## The accept test: always asked first (owner): three real blows, a fall, maybe death,
 ## and what passing it does.
 func take_trial() -> void:
-	if not panel.visible or not _contact.offers_trial():
+	if not panel.visible or _hosted() or not _contact.offers_trial():
 		return
+	var question: Array[String] = trial_question()
+	_ask(question[0], question[1], question[2], take_trial_now)
+
+
+## The accept test's question, as [question, choice, cancel].
+func trial_question() -> Array[String]:
 	var player: WorldPlayerRuntimeState = _contact.map.session.player_runtime()
 	var master: NpcDefinition = _contact.npc.definition()
 	var npc_name: String = tr(master.display_name)
@@ -325,10 +356,10 @@ func take_trial() -> void:
 			after = tr(TRIAL_RECRUITS).format({"master": npc_name, "family": _family_name()})
 			if NpcApprenticeship.would_join_first(player.state, master):
 				after += "\n" + tr(TRIAL_FIRST_MASTER)
-	_ask(tr(TRIAL_WARNING).format({"master": npc_name, "after": after}), "接受测试", "不试了", _take_trial_now)
+	return [tr(TRIAL_WARNING).format({"master": npc_name, "after": after}), "接受测试", "不试了"]
 
 
-func _take_trial_now() -> void:
+func take_trial_now() -> void:
 	_contact.take_trial()
 	_show_apprentice_last()
 
@@ -349,8 +380,9 @@ func _family_name() -> String:
 
 func _ask(text: String, choice: String, cancel: String, action: Callable) -> void:
 	_on_confirm = action
-	_set_confirming(true)
+	# Asking first: refresh() (from _set_confirming) keeps 拜师's buttons hidden while it asks.
 	confirm_box.ask(text, choice, cancel)
+	_set_confirming(true)
 	confirm_box.focus_default()
 
 
@@ -390,7 +422,7 @@ func _set_confirming(on: bool) -> void:
 
 
 func cancel_apprentice() -> void:
-	if panel.visible:
+	if panel.visible and not _hosted():
 		_contact.cancel_apprentice()
 		_show_apprentice_last()
 

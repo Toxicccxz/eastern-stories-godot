@@ -201,6 +201,9 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	InputGlyphs.decorate(close_button, &"ui_cancel")
 	mount = VBoxContainer.new()
 	mount.name = "Content"
+	# A panel of fixed size (the interaction popup) fills the frame's height.
+	rows.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	mount.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	rows.add_child(mount)
 	_frame_layout = ResponsivePanelLayout.new()
 	add_child(_frame_layout)
@@ -309,10 +312,12 @@ func _reflow(metrics: SafeAreaMetrics) -> void:
 	_apply_frame_width()
 
 
-## The frame's place on the screen: wider while it shows the interaction popup.
+## The frame's place on the screen: a fixed share of it while it shows the interaction popup.
 func _apply_frame_width() -> void:
 	if _panel_metrics != null:
-		_frame_layout.apply(_panel_metrics, _panel_area, true, HOST_FRAME_WIDTH if _host != null else FRAME_WIDTH)
+		var area: Vector2 = _panel_area.size
+		_frame_layout.fixed_size = Vector2.ZERO if _host == null else Vector2(maxf(area.x * HOST_SHARE.x, HOST_MIN.x), maxf(area.y * HOST_SHARE.y, HOST_MIN.y))
+		_frame_layout.apply(_panel_metrics, _panel_area, true, FRAME_WIDTH)
 
 
 ## Shrinks the HUD to its content, but never past the safe content area.
@@ -338,7 +343,10 @@ var _page_valid: Callable
 var _frame_content: Control
 ## The popup's frame is wider: its two columns hold what a panel alone held.
 const FRAME_WIDTH: float = 660.0
-const HOST_FRAME_WIDTH: float = 860.0
+## The popup keeps one size, a share of the screen, whatever its page holds (owner,
+## 2026-10-17); never under HOST_MIN, so a small or scaled screen is nearly all popup.
+const HOST_SHARE: Vector2 = Vector2(0.75, 0.7)
+const HOST_MIN: Vector2 = Vector2(820, 440)
 
 
 ## The popup's page now, or null (its 查看, or no popup).

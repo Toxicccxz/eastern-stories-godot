@@ -104,9 +104,12 @@ func ask_answer_text() -> String:
 func _ask_topic(topic: String) -> void:
 	var map := _session.active_map() as WorldMapController
 	if map != null:
-		_ask_answer.text = "\n".join(map.ask_selected(topic))
+		var waiting: Dictionary[String, float] = map.npc_life.npc_ambience().snapshot()
+		var lines: Array[String] = map.ask_selected(topic)
+		_ask_answer.text = "\n".join(lines)
 		_refresh_ask_verbs(map)
 		_presentation_layout.refresh_rows()
+		_close_if_started(map, waiting, lines)
 
 
 ## The kneel command of a master whose 剃度 the player asked for (daemon/class/bonze/master.c).
@@ -156,7 +159,21 @@ func _kneel() -> void:
 func _say_beside(phrase: String) -> void:
 	var map := _session.active_map() as WorldMapController
 	if map != null:
-		_ask_answer.text = "\n".join(map.say_beside_selected(phrase))
+		var waiting: Dictionary[String, float] = map.npc_life.npc_ambience().snapshot()
+		var lines: Array[String] = map.say_beside_selected(phrase)
+		_ask_answer.text = "\n".join(lines)
+		_close_if_started(map, waiting, lines)
+
+
+## Asked in the interaction popup, where world time stands still: an answer that starts
+## something an NPC goes on with later (大队长's story told line by line, a call_out of its
+## own) closes the popup so it can happen (owner Q2, 2026-10-17); the answer shows as toasts.
+func _close_if_started(map: WorldMapController, waiting: Dictionary[String, float], lines: Array[String]) -> void:
+	if not _ui.interaction_open() or not map.npc_life.npc_ambience().started_since(waiting):
+		return
+	_presentation_layout.close_frame()
+	for line: String in lines:
+		_presentation_layout.toasts.push(line.replace("\n", " "))
 
 
 ## The 接话 lines the open 打听 panel offers (as shown).
