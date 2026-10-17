@@ -46,6 +46,9 @@ var _bar_scroll: ScrollContainer
 var _bar_area: Rect2
 ## Where the frame and its barrier live while the menu does not cover them.
 var _frame_home: Node
+## The safe area and the frame's area there, as last laid out.
+var _panel_metrics: SafeAreaMetrics
+var _panel_area: Rect2
 
 
 func build(owner_ui: SharedGameplayUI) -> void:
@@ -301,7 +304,15 @@ func _reflow(metrics: SafeAreaMetrics) -> void:
 	if metrics.touch_sized():
 		panel_area.position.y += 72
 		panel_area.size.y = maxf(1, panel_area.size.y - 72)
-	_frame_layout.apply(metrics, panel_area, true, 660)
+	_panel_metrics = metrics
+	_panel_area = panel_area
+	_apply_frame_width()
+
+
+## The frame's place on the screen: wider while it shows the interaction popup.
+func _apply_frame_width() -> void:
+	if _panel_metrics != null:
+		_frame_layout.apply(_panel_metrics, _panel_area, true, HOST_FRAME_WIDTH if _host != null else FRAME_WIDTH)
 
 
 ## Shrinks the HUD to its content, but never past the safe content area.
@@ -315,8 +326,40 @@ func fit_bar() -> void:
 	bar.size.y = 0
 
 
+## The interaction popup while the frame shows it (DECISIONS「说话和交互」): whatever else
+## opens then (打听, a shop, 偷窃, a question) is its page, in its right column, and closing
+## that page goes back to its 查看.
+var _host: InteractionPanel
+## The page the popup shows (_content then), where it goes back to, and while it stays.
+var _page: Control
+var _page_parent: Node
+var _page_valid: Callable
+## The frame's own content (the popup while it has a page).
+var _frame_content: Control
+## The popup's frame is wider: its two columns hold what a panel alone held.
+const FRAME_WIDTH: float = 660.0
+const HOST_FRAME_WIDTH: float = 860.0
+
+
+## The popup's page now, or null (its 查看, or no popup).
+func page() -> Control:
+	return _page
+
+
+## The frame shows the interaction popup (its 查看 or a page).
+func hosting() -> bool:
+	return frame.visible and _host != null
+
+
 func open_panel(title: String, content: Control, valid: Callable = Callable()) -> void:
 	if _content == content:
+		return
+	if hosting() and content != _host:
+		# Its 查看 (the details live in it) goes back there; anything else is its page.
+		if _host.is_ancestor_of(content) and not _host.page_mount().is_ancestor_of(content):
+			close_page()
+		else:
+			_open_page(title, content, valid)
 		return
 	# The focus goes back where it was when this panel closes (a panel replacing another
 	# keeps the first one's place).
@@ -324,13 +367,15 @@ func open_panel(title: String, content: Control, valid: Callable = Callable()) -
 	# Only the menu's own questions show over it; anything else replaces it.
 	if ui.menu != null and ui.menu.is_presented() and not ui.is_menu_dialog(content):
 		ui.menu.close()
-	close_panel(false)
+	close_frame(false)
 	_return_focus = back
 	_valid = valid
 	if valid.is_valid() and not valid.call():
 		_valid = Callable()
 		return
 	_content = content
+	_frame_content = content
+	_host = content as InteractionPanel if content == ui.interaction_panel else null
 	_return_parent = content.get_parent()
 	content.reparent(mount, false)
 	content.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
@@ -338,10 +383,36 @@ func open_panel(title: String, content: Control, valid: Callable = Callable()) -
 	content.custom_minimum_size = Vector2.ZERO
 	content.show()
 	frame_title.text = title
+	close_button.text = "关闭"
 	frame.show()
 	barrier.show()
+	if _host != null:
+		_host.show_look(true)
+		_apply_frame_width()
 	ui.panel_opened()
 	ui.quarantine_movement()
+	_frame_layout.restyle_dynamic_content()
+	focus_content()
+
+
+## `content` becomes the popup's page (its right column), replacing the page before.
+func _open_page(title: String, content: Control, valid: Callable) -> void:
+	if valid.is_valid() and not valid.call():
+		return
+	_close_page()
+	_page = content
+	_page_valid = valid
+	_page_parent = content.get_parent()
+	_content = content
+	content.reparent(_host.page_mount(), false)
+	content.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	content.custom_minimum_size = Vector2.ZERO
+	content.show()
+	_host.show_page(title)
+	# 关闭 (B) goes back to 查看 first.
+	close_button.text = "返回"
+	ui.panel_opened()
 	_frame_layout.restyle_dynamic_content()
 	focus_content()
 
@@ -358,27 +429,75 @@ func focus_content() -> void:
 		close_button.grab_focus()
 
 
-## `restore`: the focus goes back where it was before the panel opened.
+## Closes what shows on top: the popup's page (back to its 查看), else the frame.
+## `restore`: the focus goes back where it was before.
 func close_panel(restore: bool = true) -> void:
+	if _page != null and hosting():
+		close_page(restore)
+	else:
+		close_frame(restore)
+
+
+## The popup's page closes: its 查看 shows again, the focus on the row that opened the page.
+func close_page(restore: bool = true) -> void:
+	if _page == null:
+		return
+	var focused: Control = get_viewport().gui_get_focus_owner()
+	var lost: bool = focused != null and _page.is_ancestor_of(focused)
+	if lost:
+		focused.release_focus()
+	var row: String = _host.current()
+	_close_page()
+	close_button.text = "关闭"
+	_host.show_look()
+	ui.panel_opened()
+	_frame_layout.restyle_dynamic_content()
+	if restore or lost:
+		_host.focus_row(row)
+
+
+func _close_page() -> void:
+	var content: Control = _page
+	var destination: Node = _page_parent
+	_page = null
+	_page_parent = null
+	_page_valid = Callable()
+	_content = _frame_content
+	if is_instance_valid(content):
+		content.hide()
+		if is_instance_valid(destination):
+			content.reparent(destination, false)
+
+
+## The frame closes with whatever it shows (the popup and its page).
+## `restore`: the focus goes back where it was before the panel opened.
+func close_frame(restore: bool = true) -> void:
 	if not is_instance_valid(frame) or not frame.visible:
 		return
 	var focused: Control = get_viewport().gui_get_focus_owner()
 	if focused != null and frame.is_ancestor_of(focused):
 		focused.release_focus()
+	_close_page()
 	var back: Control = FocusNav.held(_return_focus)
 	_return_focus = null
 	var content: Control = _content
 	var destination: Node = _return_parent
+	var hosted: bool = _host != null
 	_content = null
+	_frame_content = null
+	_host = null
 	_return_parent = null
 	_valid = Callable()
 	frame.hide()
 	barrier.hide()
+	close_button.text = "关闭"
 	ui.refresh_toasts()
 	if is_instance_valid(content):
 		content.hide()
 		if is_instance_valid(destination):
 			content.reparent(destination, false)
+	if hosted:
+		_apply_frame_width()
 	ui.quarantine_movement()
 	if restore and not FocusNav.give(back):
 		ui.refocus()
@@ -409,9 +528,14 @@ func lower_frame() -> void:
 	_frame_layout.raised = false
 
 
+## A page that no longer holds goes back to 查看; a frame whose content no longer holds closes.
 func validate_open_panel() -> void:
-	if frame.visible and (not is_instance_valid(_content) or not _content.visible or (_valid.is_valid() and not _valid.call())):
-		close_panel()
+	if not frame.visible:
+		return
+	if _page != null and (not is_instance_valid(_page) or not _page.visible or (_page_valid.is_valid() and not _page_valid.call())):
+		close_page()
+	if not is_instance_valid(_frame_content) or not _frame_content.visible or (_valid.is_valid() and not _valid.call()):
+		close_frame()
 
 
 func refresh_rows() -> void:

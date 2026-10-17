@@ -146,8 +146,7 @@ func _steal_now(npc_id: StringName, item_id: StringName) -> void:
 	var map := _session.active_map() as WorldMapController
 	if map == null:
 		return
-	if _presentation_layout._content == _ui.steal_panel:
-		_presentation_layout.close_panel()
+	_ui.panel_done(_ui.steal_panel)
 	map.thefts.begin(map.npcs.find_resident_npc(npc_id), item_id)
 
 
@@ -181,8 +180,8 @@ func bribe(item_id: StringName, amount: int) -> void:
 		return
 	if map.patrols.can_bribe(_ui.selection.selected_target):
 		bribe_context(map.patrols.last_lines)
-	elif _presentation_layout._content == _ui.bribe_panel:
-		_presentation_layout.close_panel()
+	else:
+		_ui.panel_done(_ui.bribe_panel)
 
 
 func inspect_context() -> void:

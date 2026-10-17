@@ -134,7 +134,7 @@ func _button(node_name: String, text: String, action: Callable) -> Button:
 
 
 func interact() -> void:
-	if ExplorationPresentationBlocker.is_blocked(get_tree()) or not _contact.can_teach():
+	if not _contact.panel_may_open() or not _contact.can_teach():
 		return
 	_set_confirming(false)
 	feedback.text = ""

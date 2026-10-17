@@ -171,6 +171,11 @@ func dismiss_current_panel() -> void:
 	if not _presentation_layout.frame.visible and _ui.menu.is_presented():
 		_ui.menu.close()
 		return
+	# A question in the interaction popup: Back is its 取消, one step back to where it was
+	# asked (给予's page after an equipped gift's question).
+	if _ui.interaction_open() and _presentation_layout.page() == _ui.confirm_prompt and _ui.is_asking():
+		_ui.confirm_prompt.cancel()
+		return
 	var map := _session.active_map() as WorldMapController
 	if map != null and map.dismiss_panel(_presentation_layout._content):
 		_presentation_layout.validate_open_panel()

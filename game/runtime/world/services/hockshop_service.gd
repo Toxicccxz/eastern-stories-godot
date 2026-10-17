@@ -93,7 +93,7 @@ func requires_idle() -> bool:
 
 
 func interact() -> void:
-	if in_reach() and not ExplorationPresentationBlocker.is_blocked(get_tree()):
+	if in_reach() and panel_may_open():
 		# The title in the shown language, put together again on each opening.
 		_title.text = tr("%s · 估价 / 卖断") % tr(definition.display_name)
 		open_panel(tr(definition.display_name), panel)

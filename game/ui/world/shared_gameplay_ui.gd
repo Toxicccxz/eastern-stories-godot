@@ -206,6 +206,7 @@ func _ready() -> void:
 	inventory_panel.attach_requested.connect(items.attach_sheet)
 	interaction_panel = InteractionPanel.new()
 	_presentation_layout.holding.add_child(interaction_panel)
+	interaction_panel.hold_look(_presentation_layout.details)
 	interaction_panel.chosen.connect(_on_interaction_chosen)
 	confirm_prompt.confirmed.connect(questions.on_prompt_confirmed)
 	confirm_prompt.cancelled.connect(questions.on_prompt_cancelled)
@@ -260,7 +261,10 @@ func _notification(what: int) -> void:
 		# The selection's name and an open panel were put together in the old language;
 		# the heading and the status line follow on the next refresh, the log keeps its lines.
 		selected_target_label.text = selection.selection_text()
-		_presentation_layout.close_panel()
+		_presentation_layout.close_frame()
+		# The card shows behind 系统 too, where the language is changed (设置): its lines now.
+		if _player != null:
+			card.refresh_exploration()
 		if menu != null and menu.is_presented():
 			menu_tab_shown(menu.current_tab())
 
@@ -330,6 +334,8 @@ func _input(event: InputEvent) -> void:
 # --- interacting (DECISIONS「说话和交互」) ---
 
 const INTERACTION_TIME_HOLD: StringName = &"interaction"
+## The option the popup's right column shows by itself.
+const LOOK: String = "查看"
 ## The thing the interaction popup shows, while it shows.
 var _interacting: WorldNearbyThing
 
@@ -355,16 +361,30 @@ func interact_with(id: StringName) -> bool:
 	return interact()
 
 
-## The interaction popup on `thing`, in the shared frame; world time stands still while it
-## shows (as the menu's). It closes when the thing leaves reach.
+## The interaction popup on `thing`, in the shared frame, opened on its 查看: opening it
+## looks at the thing (look.c), as 查看 did. It closes when the thing leaves reach.
 func open_interaction(thing: WorldNearbyThing) -> void:
 	_interacting = thing
+	# The target stays on it while the popup shows (time runs on a page; others walk by).
+	nearby.choose(thing.id)
 	_fill_interaction()
 	var key: StringName = thing.id
 	_presentation_layout.open_panel(nearby.shown_name(thing), interaction_panel, func() -> bool: return nearby.target() != null and nearby.target().id == key)
+	if not interaction_open():
+		return
+	var look: InteractionOption = null
+	for option: InteractionOption in nearby.options_for(_session.active_map() as WorldMapController, thing):
+		if option.label == LOOK:
+			look = option
+	inspection_text.text = ""
+	if look != null:
+		# Selects it and shows the details: the popup keeps their text as its 查看.
+		look.action.call()
+	interaction_panel.set_look(inspection_text.get_parsed_text().strip_edges() if look != null else "")
 
 
-## The popup shows the target as it is now (its options greyed or not).
+## The popup shows the target as it is now (its options greyed or not); 查看 is its right
+## column, not a row.
 func _fill_interaction() -> void:
 	var thing: WorldNearbyThing = nearby.target()
 	if thing == null or _interacting == null or thing.id != _interacting.id:
@@ -375,31 +395,50 @@ func _fill_interaction() -> void:
 	status.assign(lines[0])
 	var about: Array[String] = []
 	about.assign(lines[1])
-	interaction_panel.show_thing(status, about, nearby.options_for(_session.active_map() as WorldMapController, thing))
+	var options: Array[InteractionOption] = []
+	for option: InteractionOption in nearby.options_for(_session.active_map() as WorldMapController, thing):
+		if option.label != LOOK:
+			options.append(option)
+	interaction_panel.show_thing(status, about, options)
 
 
-## A row chosen: the popup closes, then the thing is done (it may open its own panel, ask
-## first, or start a fight, which hides the HUD).
+## A row chosen: it is done with the popup open. What it opens (打听, a shop, 给予, its
+## question first) is the popup's page; one that opens nothing (a fight begun, a dial
+## turned, 疗伤他人) is done and the popup closes, as before.
 func _on_interaction_chosen(option: InteractionOption) -> void:
-	if interaction_open():
-		_presentation_layout.close_panel()
-	_hold_for_interaction()
 	option.action.call()
+	if interaction_open() and _presentation_layout.page() == null:
+		_presentation_layout.close_frame()
+	_hold_for_interaction()
 
 
-## The popup shows now.
+## What `panel` was opened for is done (偷窃 begun, a bribe taken): it closes; shown as the
+## interaction popup's page, the popup closes with it, as after a row that opens nothing
+## (world time then runs for what follows: the theft's moment).
+func panel_done(panel: Control) -> void:
+	if _presentation_layout._content != panel:
+		return
+	if interaction_open():
+		_presentation_layout.close_frame()
+	else:
+		_presentation_layout.close_panel()
+
+
+## The popup shows now (its 查看 or a page).
 func interaction_open() -> bool:
-	return _presentation_layout.frame.visible and _presentation_layout._content == interaction_panel
+	return _presentation_layout.hosting() and _presentation_layout._frame_content == interaction_panel
 
 
-## World time stands still while the popup shows; anything else in the frame lets it run.
+## The popup's 查看 holds world time (as the menu does); a page lets it run, as that panel
+## did on its own (an NPC answers 拜师 after a while, tells a story, takes up a 接话).
 func _hold_for_interaction() -> void:
 	if _session == null:
 		return
-	if interaction_open():
+	if interaction_open() and _presentation_layout.page() == null:
 		_session.hold_world_time(INTERACTION_TIME_HOLD)
 	else:
-		_interacting = null
+		if not interaction_open():
+			_interacting = null
 		_session.release_world_time(INTERACTION_TIME_HOLD)
 
 
@@ -447,19 +486,21 @@ func _process(delta: float) -> void:
 	if _session == null or not _session.is_initialized() or _session.active_map_child_count() == 0:
 		visible = false
 		if _presentation_layout != null:
-			_presentation_layout.close_panel()
+			_presentation_layout.close_frame()
 			menu.dismiss()
 		return
 	var current: WorldResidentMapController = _session.active_map()
 	# A new map or a HUD that just reappeared refreshes now, not 0.1 s later.
 	if current != _bound_map:
-		_presentation_layout.close_panel()
+		_presentation_layout.close_frame()
 		if not menu.in_pause_view():
 			menu.dismiss()
 		selection.set_selected_target(null)
 		_bound_map = current
 		_elapsed = INF
-	var available: bool = not _session.is_restore_candidate_staged() and not _session.is_session_swap_suspended() and _session.can_process() and _session.application_gameplay_allows_encounter_advance()
+	# 系统 is the shell's pause: the card stays behind the menu there, as behind its other tabs.
+	var running: bool = (_session.can_process() and _session.application_gameplay_allows_encounter_advance()) or (menu.in_pause_view() and get_tree().paused)
+	var available: bool = not _session.is_restore_candidate_staged() and not _session.is_session_swap_suspended() and running
 	# The battle panel still up (a finished fight's last lines) is the fight still.
 	var fighting: bool = _session.combat_encounter_coordinator().has_active_encounter() or _session.battle_panel_shown()
 	if not visible and available and not fighting:
@@ -470,7 +511,7 @@ func _process(delta: float) -> void:
 		_presentation_layout.validate_open_panel()
 		return
 	if not visible:
-		_presentation_layout.close_panel()
+		_presentation_layout.close_frame()
 		# A fight closes the menu as it closed the HUD's panels (the interaction popup too).
 		menu.dismiss()
 		_hold_for_interaction()
@@ -495,6 +536,7 @@ func _process(delta: float) -> void:
 	card.refresh_exploration()
 	if interaction_open():
 		_fill_interaction()
+		items.refresh_give()
 	if menu.is_presented():
 		_refresh_menu_page()
 
@@ -583,7 +625,7 @@ func is_menu_dialog(content: Control) -> bool:
 ## The menu opened: the frame's panel closes, its questions now show over the menu. Over
 ## the running world the player stops walking; the shell's pause freezes things itself.
 func menu_presented() -> void:
-	_presentation_layout.close_panel()
+	_presentation_layout.close_frame()
 	_presentation_layout.lift_frame(menu.root)
 	# The world stands still while the menu is open (owner, 2026-10-15).
 	if _session != null:
@@ -593,7 +635,7 @@ func menu_presented() -> void:
 
 
 func menu_dismissed(from_pause: bool) -> void:
-	_presentation_layout.close_panel()
+	_presentation_layout.close_frame()
 	_presentation_layout.lower_frame()
 	if _session != null:
 		_session.release_world_time(MENU_TIME_HOLD)
