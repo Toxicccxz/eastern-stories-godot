@@ -18,8 +18,10 @@ logical 1280x720 everywhere, the desktop window at 1920x1080 / 1600x900 / 1280x7
 85% of the screen), 设置 with 窗口 / 无边框全屏 / 全屏 and 界面缩放 100/125/150%; 2. talking and
 interacting (DECISIONS「说话和交互」) — NPCs greet and chat to a player near them, in bubbles; a room's
 text in the top right; E / A (or a click) on the target in reach: a door or an item at once, a person
-or a corpse through the two-column interaction popup (options left, greyed ones say why; 查看 on the
-right, where 打听 / 购买 / 给予 / its questions open too; world time held on 查看); the card keeps
+or a corpse through the two-column interaction popup (one size; options left, greyed ones say why;
+查看 on the right, where 打听 / 购买 open and every act is confirmed — 拜师 with the master's family and
+teachings, 给予 several things at once — before the popup closes and it happens; world time held while
+it shows); the card keeps
 the player's name, 菜单, 精气神, conditions and waits, behind 系统 too. Then:
 ROADMAP "After the grey box" step 3, the playtest checklist and the owner's full playtest.
 

@@ -3560,20 +3560,40 @@ decide only where and when the player sees them, and the suites run with them of
   抓住藤蔓) always opens the popup, never a stray click. A greeting still waiting when a fight
   starts in the room is forgotten (ES2's had long been said). 拜师 and 给予 are on the popup;
   the HUD's card keeps the name, 菜单, 精气神, conditions and waits only.
-- **The popup is one window, two columns** (owner's playtest, 2026-10-17): the options on the
-  left (no 查看 row), on the right its 查看 — opening the popup looks at the thing (look.c: name
-  and title, description, relation, strength; the status lines above; a corpse's or landmark's
-  own look; the target's 气 bar is not shown there). Opening it therefore does what 查看 did,
-  ES2's look side effects included (look.c's berserk, a landmark's look function). A row whose
-  action opens something shows it as a page in the right column — 打听, 购买 / 请教 / any
-  service's panel, 拜师 (the teacher's panel), 给予 (the things carried, each with 给; the 背包's
-  rules and questions, its answer under the list), 偷窃, 行贿, 拾取 on a corpse — titled, its
-  row marked; the frame's 关闭 reads 返回 there, and B / Esc / 返回 go back to 查看, then close.
-  Questions asked first (ConfirmPrompt: 攻击 one's master, a risky 切磋, an equipped gift) are
-  pages too. A row (or a question's choice) that opens nothing — a fight begun, a dial turned,
-  疗伤他人 — is done and the popup closes, as before. World time stands still on 查看 only; a
-  page lets it run as that panel did on its own (拜师's answer after its 2 s, 筱薇's story, 接话's
-  reply, a shop's NPC all need world time).
+- **The popup is one window, two columns, one size** (owner's playtest, 2026-10-17): it keeps
+  a fixed share of the screen (75 % × 70 %, never under 820 × 440, so a small or scaled
+  screen is nearly all popup), each column
+  scrolling itself. The options on the left (no 查看 row); on the right its 查看 — opening the
+  popup looks at the thing (look.c: name and title, description, relation, strength; the status
+  lines above; a corpse's or landmark's own look). Opening it therefore does what 查看 did, ES2's
+  look side effects included (look.c's berserk, a landmark's look function). B / Esc / 返回 (the
+  frame's 关闭 on a page) go back to 查看, then close; B on a question is its 取消.
+- **World time stands still while the popup shows, every page included; acts are confirmed
+  on the right, then done in the world** (owner, 2026-10-17, like Skyrim's menus): a row shows
+  what it is about and a 确认 on the right; 确认 closes the popup and the act happens with world
+  time running, so an NPC's answer (拜师's within the 0.4 s reaction beat, a story told line by
+  line, a 接话) comes in the world, in bubbles.
+  - **Deviation: 攻击 and 切磋 always ask** (ES2 and the HUD before: only when risky): the page
+    says how strong the NPC looks, then the risk's warning or a plain question. So do 疗伤他人,
+    驱尸, 还瓜钱 and a landmark's actions (抓住藤蔓, a dial's turn: each turn reopens the popup).
+  - **拜师** (and 发誓恪守门规, 接受测试, 取消拜师请求, which follow it and were the teacher panel's
+    own buttons): the master's name, family and what he teaches, the teacher panel's question
+    when one applies (betrayal, first master, change of master, a master who attacks a traitor),
+    确认. Whether he takes the player is not told before (owner Q1: ES2 tells only by asking).
+    请安 to one's own master is done at once. The teacher panel shown as 请教's page leaves these
+    to the popup's rows.
+  - **Deviation: 给予 gives several things at once** (ES2: one give per command): the page lists
+    what the player carries to tick (a stack's amount beside it); the 背包's questions (an
+    equipped thing, a large sum, a letter that recruits at once) show as warnings above
+    确认给予, which can be pressed once something is ticked. 确认 closes the popup, then give.c
+    runs for each ticked thing in the list's order while the NPC still takes gifts.
+  - **偷窃**: a thing chosen (or 随手摸一样) is confirmed with what is aimed at and the warning;
+    the theft's three seconds then pass in the world. **行贿**: the amount and its button are
+    the confirmation; taken, the popup closes.
+  - **Pages done on the spot stay**: 购买 / 请教 / any service's panel, 打听, 拾取 on a corpse
+    — their results come at once, world time stopped. An 打听 answer that starts something the
+    NPC goes on with (大队长's 黄石隘口 told line by line, an NPC's own call_out) closes the
+    popup for it to happen, the answer shown as toasts (owner Q2).
 - **系统 keeps the status card** (owner, 2026-10-17): the pause (系统) still pauses the tree; the
   HUD's card stays behind the menu there, as behind its other tabs.
 - **界面缩放 and the map's own text** (#138, owner 2026-10-17): the 界面缩放 grows the interface
