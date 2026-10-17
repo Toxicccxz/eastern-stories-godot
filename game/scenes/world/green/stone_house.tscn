@@ -124,6 +124,16 @@ mouse_filter = 2
 theme_override_font_sizes/font_size = 12
 text = "蒲团"
 
+[node name="StoneroomPassage" type="Area2D" parent="."]
+position = Vector2(140, -304)
+collision_layer = 0
+input_pickable = false
+script = ExtResource("passage")
+portal_id = &"green.stoneroom.west"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StoneroomPassage"]
+shape = SubResource("Rect_32_96")
+
 [node name="DoorWalls" type="StaticBody2D" parent="Terrain"]
 
 [node name="OutdoorDoor0DoorWall" type="CollisionShape2D" parent="Terrain/DoorWalls"]
