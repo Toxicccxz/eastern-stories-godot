@@ -65,8 +65,10 @@ only they or nobody use; `d/npc` (wizard-saved characters).
   the reasonable behaviour as a recorded deviation (AGENTS.md); the first batch is done.
 * **Pacing**: `common/pacing.json`'s knobs are tuned from owner playtests; the slow stretch is a
   new character's combat_exp from about 150 to 1001 (few opponents of the right strength).
-* **Maps**: every map is `tools/maps/layouts/` data drawn by the painter (Snow's streets and Inn
-  were the last hand-made ones); a region's new maps are drawn the same way.
+* **Maps**: every map is `tools/maps/layouts/` data drawn by the painter to the scale standard
+  (`tools/maps/standard.json`: streets, doors, facades and room classes in body widths); a town
+  shows its streets and facades, and every enterable room is a building's own map behind its door
+  (地图重构, done 2026-10-16). New content is drawn the same way.
 * **Presentation**: art direction and assets, audio, animation, consistent Chinese UI.
 
 ## After the grey box

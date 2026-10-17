@@ -4,13 +4,13 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**现代化修正 III B2「手感：战斗」** (`phase/feel-battle`, DECISIONS「手感：战斗」): the last package of
-ROADMAP "After the grey box" step 1, after A「等待」 (#127) and B1「世界」 (#128: fades, banner,
-camera, walk, prompts, bubbles). The settings' 战斗速度 (慢/标准/快) stretches only the real seconds of
-a fight's own clock (its rounds, and 朱鸿雪's task time while it runs, count the same); a round's
-lines come 0.12 s apart, the cards follow them with a moving 气 bar and a red flash (受击闪红 can be
-turned off), and a fight's end holds its last lines 0.8 s with the world held. Every time is a
-`pacing.json` `feel` knob. Next: step 3, the playtest checklist; 声望 stays a placeholder until step 6.
+**地图重构** (owner, 2026-10-16; DECISIONS「地图重构」) is done: every map follows the scale standard
+(`tools/maps/standard.json`, in body widths), and every enterable room is a building's own map
+entered through its door from the street — 雪亭镇 (#132), R1 绮云镇/玉螺湖村/天驼关 (#133), R2
+京师/乔阴/黑松山/鬼门关 (#134), R3 青石村/道观/山烟寺/羊山/老松林 (#136) and R4, which grew 晚月庄's
+and 水烟阁's compound maps ×1.5. With it, 室内察觉 (#135): indoors an aggressive NPC notices whoever
+comes into its room. Next: ROADMAP "After the grey box" step 3, the playtest checklist and the
+owner's full playtest.
 
 ## 待决定
 
@@ -23,6 +23,9 @@ turned off), and a fight's end holds its last lines 0.8 s with the world held. E
   对手（进香客、玄和、玄真、老道士）；它的 8 个任务目标离朱鸿雪最远（绮云镇→雪亭→山路→石阶→观内）。
 * **A6 「进门一起上」是否扩大到所有房间**（#68）：ES2 同房间的凶徒全部出手；现在只有 6 个区域用
   `complete_set`（老松寨三间、水潭、野羊山转角、卧龙岗）。
+* **地图重构：别的地图上时间停住**（#132）：NPC 只在玩家所在的那张地图上走动、回血、说话（DECISIONS
+  「茅山 B」：玩家在别的地图时，那张图的世界时间停住）。店铺和街道分成两张图后，玩家在店里时
+  街上的人停着，反之亦然。推荐先这样，试玩时若明显不自然，再让同一区域的地图一起走时间。
 
 ## Playable now
 
@@ -344,9 +347,11 @@ Code:
 * A failed attack chain ends the fight with 战斗出错，已中止。 (development builds log why); the
   cause still has to be fixed in the content or rule that tripped it.
 * Beasts cannot be asked to spar (ES2's `fight` on a beast is a one-sided kill); attack them.
-* 刘安禄's 刘老三/血手刘三 are not listed until his reveal is ported. The Inn's travellers stay in
-  the Inn (its exits all lead to other maps; only the player's zombie follows them onto another map). Corpses never decay, so the
+* 刘安禄's 刘老三/血手刘三 are not listed until his reveal is ported. Corpses never decay, so the
   corpses of NPCs that came back stay.
+* An NPC acts only on the map the player is on (see 待决定): one that walked out of a shop stands
+  on the street until the player comes out; a hurt 武馆 student heals only while the player is in
+  the 武馆. New Game builds 127 maps (about 2.8 s in the editor, headless).
   NPCs never flee a losing fight (`wimpy`) and do not follow who flees (`pursuer`).
   The dog takes no bone (no
   chicken leg, no following); nothing can be put into a corpse.
@@ -385,8 +390,9 @@ Licensing: no root project license; ES2 rights are unresolved
 
 ## How to verify
 
-See [BUILD](BUILD.md). Full gate: `python tools/ci/verify.py --godot <godot>` (~3 min locally; fails on a
+See [BUILD](BUILD.md). Full gate: `python tools/ci/verify.py --godot <godot>` (~6 min locally; fails on a
 `SCRIPT ERROR` line, or when `python tools/l10n/extract_pot.py` was not run after a text change). Single suites: `<godot> --headless --path game --script res://tests/run_suite.gd
--- <suite paths>`. The generated maps (all but Snow's Inn and streets): edit `tools/maps/layouts/<region>.json`, then
-`python -m tools.maps.paint` (the tools tests fail on a hand-edited one). A longer soak: `ES_SOAK_HOURS=8` before the `world_soak_test` suite (8 hours
+-- <suite paths>`. Every map is generated: edit `tools/maps/layouts/<region>.json`, then
+`python -m tools.maps.paint` (the tools tests fail on a hand-edited one; the painter checks sizes
+against `tools/maps/standard.json`). A longer soak: `ES_SOAK_HOURS=8` before the `world_soak_test` suite (8 hours
 passed).
