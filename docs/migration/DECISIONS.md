@@ -3505,3 +3505,27 @@ init()'s roll: 淳于怀太, the 福林楼 guards) rolls on the player's arrival
 Once noticed, an NPC waits for the player to leave the room and come back (a flight stands
 where it was, as the circle's leaving and coming back); one that took no part in the fight
 that started meanwhile notices the player anew when it ends (the next 护院).
+
+## 地图重构 (owner, 2026-10-16)
+
+ES2's rooms have no size; the first native maps drew a town's rooms side by side on one map, too
+small for a body and its NPCs. Now maps follow a scale standard in body widths
+(`tools/maps/standard.json`; owner: a building no smaller than its description says), and every
+enterable room is on its building's (or walled compound's: owner Q1) own map, entered by a passage
+pair on its door, the town keeping its facade. Rules and content are unchanged: rooms, exits
+(one-way ones stay one-way), doors and locks (a door on a passage is one door on both maps), exit
+rules, scripted moves and where each NPC stands. Owner Q2–Q4: towns scaled and buildings' maps
+laid from their exits; wild maps not rescaled, their buildings and caves moved out; every map
+stays resident. 晚月庄's and 水烟阁's compounds were already their own maps: grown ×1.5 as drawn,
+and the rooms their descriptions call large grown to that class (owner).
+What follows from it:
+- An NPC walks through a door onto the next map as it walks into the next room (wanderers, one
+  called over, one walking out of a fight, followers); a save counts one on its way out as through
+  the door.
+- Leaving a room by its door is leaving it (a trap on the way out); a master's 拜师 answer still
+  due is said to the empty room as the player leaves the map (茅山 B).
+- 茅山 B's rule stands (a map's world time stands still while the player is on another): NPCs act
+  only on the player's map, which since the remap is a building or its street (owner to judge at
+  the playtest).
+- A door's fade is the shorter `door_fade_*` and names no place; world revisions
+  `SOURCE_ENTRY_REMAP_*` (development saves need a New Game).

@@ -39,7 +39,8 @@ Re-estimate the schedule after each region.
 | 13 | 鬼门关 (`d/death`) | dying | 9/12 | 3/3 | — | — | — | Plan (owner): A 阴间 and the way back, B 阴阳眼 and the 孤魂野鬼's 布条. A done: one map walked south to north (奈何桥 with its four 阴鬼牙将, 鬼门关, 酆都城门 with no way back, the 鬼门大道 and its two houses, the long road that turns on itself until the fifth try, its end a wall of fog: Q3); a dead player is a ghost and, past the death card, stands before the white gargoyle, whose five lines bring them back to the Snow temple (he holds still while talking: Q2); the black gargoyle does the same, the little shop's double answers 回家; a ghost sees ghosts, cannot eat, may Save (Continue at 鬼门关) and dies again without a corpse. block.c and jail.c (wizard rooms) and spath1.c (no way in) are not placed. B done: 茅山道术's 阴阳眼 (30 mana, 5 sen, as many seconds as 基本咒文) lets the living see ghosts, so 乔阴's 孤魂野鬼 is fought for its 布条 (基本咒文 to 40). |
 | | **Total** | | **536/551** | **239/286** | **9/9** | **32/36** special, **17/25** basic | **84/84** | |
 
-How the columns count (`reference/es2/mudlib`, 2026-10-04):
+How the columns count (`reference/es2/mudlib`, 2026-10-04). The maps a package names are the ones
+it built; since 地图重构 every building is a map of its own.
 
 * **Rooms**: room files of the region. **NPC types**: NPC files of the region, including the ones
   only code spawns; a family master under `daemon/class` counts where a room places it.
@@ -65,8 +66,10 @@ only they or nobody use; `d/npc` (wizard-saved characters).
   the reasonable behaviour as a recorded deviation (AGENTS.md); the first batch is done.
 * **Pacing**: `common/pacing.json`'s knobs are tuned from owner playtests; the slow stretch is a
   new character's combat_exp from about 150 to 1001 (few opponents of the right strength).
-* **Maps**: every map is `tools/maps/layouts/` data drawn by the painter (Snow's streets and Inn
-  were the last hand-made ones); a region's new maps are drawn the same way.
+* **Maps**: every map is `tools/maps/layouts/` data drawn by the painter to the scale standard
+  (`tools/maps/standard.json`: streets, doors, facades and room classes in body widths); a town
+  shows its streets and facades, and every enterable room is on its building's own map behind its
+  door. New content is drawn the same way.
 * **Presentation**: art direction and assets, audio, animation, consistent Chinese UI.
 
 ## After the grey box
