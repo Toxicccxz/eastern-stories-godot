@@ -3556,9 +3556,11 @@ decide only where and when the player sees them, and the suites run with them of
   is greyed with ES2's own line where it has one (fight.c: 这里禁止战斗。 / %s已经无法战斗了。,
   kill.c: 这里不准战斗。, apprentice.c: 你必须先把%s弄醒。), else a short native one (拾取:
   离得太远，够不着。; 给予 to one lying unconscious: give.c's 这里没有这个人。 would contradict
-  what the player sees, so {npc}昏迷不醒，收不了东西。). A landmark with an action (放弃,
+  what the player sees, so {npc}昏迷不醒，收不了东西。; owner, 2026-10-17). A landmark with an action (放弃,
   抓住藤蔓) always opens the popup, never a stray click. A greeting still waiting when a fight
   starts in the room is forgotten (ES2's had long been said). World time stands still while the
   popup shows (as the menu's); a row closes it, and one that starts a fight closes it with the HUD.
   拜师 and 给予 (the 背包 with 给) are on the popup; the HUD's card keeps the name, 菜单, 精气神,
   conditions and waits only.
+- **界面缩放 and the map's own text** (#138, owner 2026-10-17): the 界面缩放 grows the interface
+  only; names over bodies, landmark and floor-item labels are drawn on the map and stay its size.
