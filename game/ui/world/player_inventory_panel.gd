@@ -342,12 +342,17 @@ static func held_label(held: Array) -> String:
 
 
 func _row_label(row: PlayerInventoryRowProjection) -> String:
-	var label: String = tr(row.display_name)
+	return row_label(row)
+
+
+## A carried thing as its row names it: a stack with its amount, what is on with how.
+static func row_label(row: PlayerInventoryRowProjection) -> String:
+	var label: String = TranslationServer.translate(row.display_name)
 	if row.amount != 1:
-		label = tr("{item} ×{amount}").format({"item": label, "amount": row.amount})
+		label = TranslationServer.translate("{item} ×{amount}").format({"item": label, "amount": row.amount})
 	if row.equipment_slot != PlayerInventoryRowProjection.EquipmentSlot.NONE:
 		# TRANSLATORS: an item the player has on, and how: 短剑 · 主手.
-		label = tr("{item} · {slot}").format({"item": label, "slot": tr(row.equipment_label())})
+		label = TranslationServer.translate("{item} · {slot}").format({"item": label, "slot": TranslationServer.translate(row.equipment_label())})
 	return label
 
 

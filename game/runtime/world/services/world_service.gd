@@ -72,8 +72,16 @@ func ui_layer() -> CanvasLayer:
 	return _ui
 
 
+## This service's panel may open now: nothing covers the world, or the interaction popup
+## shows (the panel is its page; DECISIONS「说话和交互」).
+func panel_may_open() -> bool:
+	if map.session == null:
+		return false
+	return not ExplorationPresentationBlocker.is_blocked(get_tree()) or map.session.shared_ui().interaction_open()
+
+
 func open_panel(title: String, panel: Control) -> void:
-	if map.session == null or ExplorationPresentationBlocker.is_blocked(get_tree()):
+	if not panel_may_open():
 		return
 	map.session.shared_ui().open_business(title, panel, in_reach)
 	map.player_body.quarantine_current_movement_input()

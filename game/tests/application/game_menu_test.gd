@@ -129,8 +129,13 @@ func _test_system_is_the_pause(tree: SceneTree) -> void:
 	var menu: GameMenu = ui.menu
 	ui.open_character()
 	_check(menu.is_presented() and not tree.paused and session.world_time_held() and shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING, "角色 opens with world time held, the tree running")
+	await _frames(tree, 2)
+	var card: Control = ui._presentation_layout.bar
+	_check(card.is_visible_in_tree(), "角色: the status card stays behind the menu")
 	menu.tab_buttons[GameMenu.Tab.SYSTEM].pressed.emit()
 	_check(tree.paused and shell.shell_state().mode() == ApplicationShellState.Mode.PAUSED and menu.in_pause_view() and menu.current_tab() == GameMenu.Tab.SYSTEM, "系统 pauses the world")
+	await _frames(tree, 2)
+	_check(card.is_visible_in_tree() and ui.visible, "系统 (the pause): the status card stays behind the menu, as on the other tabs")
 	_check(shell.menu_hosted() and shell.pause_visible() and not shell.pause_panel.visible and menu.system_mount.is_ancestor_of(shell.resume_button), "系统 holds the pause's buttons")
 	menu.tab_buttons[GameMenu.Tab.INVENTORY].pressed.emit()
 	_check(not tree.paused and session.world_time_held() and shell.shell_state().mode() == ApplicationShellState.Mode.PLAYING and menu.is_presented() and menu.current_tab() == GameMenu.Tab.INVENTORY, "another tab leaves the shell's pause; world time stays held")

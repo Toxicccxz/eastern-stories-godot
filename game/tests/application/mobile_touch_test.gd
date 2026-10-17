@@ -355,8 +355,13 @@ func _test_item_and_handoff(tree: SceneTree, shell: ApplicationShellController, 
 		var before: int = loot.visible_rows().size()
 		await _tap(tree, loot.row_container.get_child(0).get_child(1) as Button)
 		_check(_takes == 1 and loot.visible_rows().size() == before - 1, "touch Take once removes exactly one authoritative row")
-		await _tap(tree, outdoor.session.shared_ui()._presentation_layout.close_button)
-		_check(not loot.visible, "touch Loot Close")
+		# The loot is the popup's page: 返回 goes back to its 查看, 关闭 then closes it.
+		var layout: SharedGameplayLayout = outdoor.session.shared_ui()._presentation_layout
+		_check(layout.page() == loot and layout.close_button.text == "返回", "the loot opens in the popup's right column")
+		await _tap(tree, layout.close_button)
+		_check(not loot.visible and outdoor.session.shared_ui().interaction_open() and layout.page() == null, "touch 返回: the corpse's 查看 again")
+		await _tap(tree, layout.close_button)
+		_check(not layout.frame.visible, "touch Loot Close")
 	await _tap(tree, outdoor.session.shared_ui()._presentation_layout.menu_button)
 	await _tap(tree, outdoor.session.shared_ui().menu.tab_buttons[GameMenu.Tab.INVENTORY])
 	var inventory: PlayerInventoryPanel = outdoor.session.shared_ui().inventory_panel

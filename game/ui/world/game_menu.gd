@@ -274,7 +274,7 @@ func begin_pause_view(system_only: bool) -> void:
 	_system_only = system_only
 	# A question asked over a gameplay tab is dropped: nothing is done in the pause.
 	if visible and _ui != null:
-		_ui._presentation_layout.close_panel()
+		_ui._presentation_layout.close_frame()
 	present(Tab.SYSTEM)
 
 
