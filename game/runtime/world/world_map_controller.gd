@@ -353,10 +353,12 @@ func frame_camera() -> void:
 	if speed > 0.0:
 		camera.position_smoothing_speed = speed
 	# The 界面缩放 grows everything the window draws; the camera divides it back out so
-	# the map shows as much as at 100% (the scene's own zoom is kept as authored).
+	# the map shows as much as at 100% (the scene's own zoom is kept as authored). What the
+	# map itself draws (names over bodies, landmark and floor labels) stays the map's size.
 	if not camera.has_meta(&"authored_zoom"):
 		camera.set_meta(&"authored_zoom", camera.zoom)
-	camera.zoom = (camera.get_meta(&"authored_zoom") as Vector2) / SafeAreaCapability.ui_scale_of(get_tree().root)
+	var window: Window = get_viewport() as Window
+	camera.zoom = (camera.get_meta(&"authored_zoom") as Vector2) / (window.content_scale_factor if window != null else 1.0)
 	var drawn: Rect2 = drawn_rect()
 	if not drawn.has_area():
 		return

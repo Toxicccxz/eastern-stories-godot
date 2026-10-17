@@ -7,8 +7,8 @@ const SIZES: Array[Vector2i] = [Vector2i(1920, 1080), Vector2i(1600, 900), Vecto
 const SCREEN_SHARE: float = 0.85
 
 
-static func initial(usable: Vector2i) -> Vector2i:
-	var room: Vector2 = Vector2(usable) * SCREEN_SHARE
+static func initial(screen: Vector2i) -> Vector2i:
+	var room: Vector2 = Vector2(screen) * SCREEN_SHARE
 	for size: Vector2i in SIZES:
 		if size.x <= room.x and size.y <= room.y:
 			return size

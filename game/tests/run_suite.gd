@@ -57,6 +57,9 @@ func _run() -> void:
 		var started_msec: int = Time.get_ticks_msec()
 		var errors_before: int = script_errors.count()
 		var result: Dictionary = SuiteResult.checked(path.get_file().get_basename(), await suite.callv("run_all", arguments))
+		# A shell started without test settings reads the developer's own file, 界面缩放
+		# included: no suite hands a scaled window on to the next.
+		root.content_scale_factor = 1.0
 		var suite_failures: Array = result["failures"]
 		if script_errors.count() > errors_before:
 			suite_failures.append("%d script error(s) (see SCRIPT ERROR above)" % (script_errors.count() - errors_before))

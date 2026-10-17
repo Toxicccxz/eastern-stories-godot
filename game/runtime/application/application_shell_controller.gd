@@ -228,6 +228,7 @@ func _ready() -> void:
 	window_mode_option.get_popup().window_input.connect(_popup_system_input.bind(window_mode_option))
 	battle_speed_option.get_popup().window_input.connect(_popup_system_input.bind(battle_speed_option))
 	ui_scale_option.get_popup().window_input.connect(_popup_system_input.bind(ui_scale_option))
+	language_option.get_popup().window_input.connect(_popup_system_input.bind(language_option))
 	# Pad support (owner, ROADMAP "After the grey box" step 2): last, so it sees every
 	# input event before the touch adapter takes touches.
 	add_child(PadSupport.new())
@@ -380,7 +381,7 @@ func _handle_system_back() -> void:
 	if _state.mode() in [ApplicationShellState.Mode.BOOT, ApplicationShellState.Mode.STARTING_SESSION, ApplicationShellState.Mode.SAVING] or (_host != null and _host.request_pending()):
 		return
 	input_context_changing.emit()
-	for option: OptionButton in [window_mode_option, ui_scale_option, battle_speed_option]:
+	for option: OptionButton in [window_mode_option, ui_scale_option, language_option, battle_speed_option]:
 		if option.get_popup().visible:
 			option.get_popup().hide()
 			return
@@ -631,11 +632,9 @@ func apply_settings() -> bool:
 			settings_status_label.text = "战斗设置已生效，但未能保存。"
 			return false
 	if not _settings_service.can_edit_window_mode():
-		if language_row.visible or battle_speed_row.visible or ui_scale_row.visible:
-			settings_status_label.text = ""
-			return _return_from_settings(_state.settings_origin())
-		settings_status_label.text = "窗口模式由这个平台管理。"
-		return false
+		# The platform keeps the window; every other setting has applied above.
+		settings_status_label.text = ""
+		return _return_from_settings(_state.settings_origin())
 	var selected_mode: int = window_mode_option.get_selected_id()
 	var result: ApplicationSettingsServiceResult = _settings_service.apply_and_persist(selected_mode)
 	match result.outcome():
