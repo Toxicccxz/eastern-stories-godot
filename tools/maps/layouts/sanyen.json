@@ -637,9 +637,9 @@
         ]
       }
     },
-    "tunnel": {
+    "tunnels": {
       "note": "地道: its own map (地图重构), carried over from the hand-drawn map, its things where they stood in the room.",
-      "file": "tunnel.tscn",
+      "file": "tunnels.tscn",
       "draw": {
         "technique": "interior",
         "building": "house",
@@ -665,8 +665,8 @@
       },
       "scene": {
         "style": "map",
-        "root": "Tunnel",
-        "map": "sanyen.tunnel",
+        "root": "Tunnels",
+        "map": "sanyen.tunnels",
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "Rect_96_32": [96, 32],

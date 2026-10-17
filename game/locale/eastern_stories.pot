@@ -1638,11 +1638,6 @@ msgstr ""
 msgid "山路"
 msgstr ""
 
-#. es2:d/goathill/temple1 short
-#: scenes/world/goathill/goathill_mountain.tscn data/goathill/rooms.json
-msgid "小土地庙"
-msgstr ""
-
 #. es2:d/goathill/mroad4 short
 #: scenes/world/goathill/goathill_mountain.tscn data/goathill/rooms.json
 msgid "山路转角"
@@ -1662,6 +1657,17 @@ msgstr ""
 
 #: scenes/world/goathill/goathill_mountain.tscn
 msgid "南 · 雪亭镇"
+msgstr ""
+
+#. es2:d/goathill/temple1 short
+#: scenes/world/goathill/temple_house.tscn data/goathill/rooms.json
+msgid "小土地庙"
+msgstr ""
+
+#. es2:d/green/cave1 short
+#. es2:d/green/cave2 short
+#: scenes/world/green/cave.tscn data/green/rooms.json
+msgid "黑暗山洞"
 msgstr ""
 
 #. green.maze title
@@ -1688,26 +1694,9 @@ msgstr ""
 msgid "洞口"
 msgstr ""
 
-#. es2:d/green/cave1 short
-#. es2:d/green/cave2 short
-#: scenes/world/green/green_mountain.tscn data/green/rooms.json
-msgid "黑暗山洞"
-msgstr ""
-
 #. es2:d/green/entrance short
 #: scenes/world/green/green_mountain.tscn data/green/rooms.json
 msgid "山路尽头"
-msgstr ""
-
-#. es2:d/green/outdoor short
-#. es2:d/green/stoneroom short
-#: scenes/world/green/green_mountain.tscn data/green/rooms.json
-msgid "石室"
-msgstr ""
-
-#. es2:d/green/cavehall short
-#: scenes/world/green/green_mountain.tscn data/green/rooms.json
-msgid "石室大厅"
 msgstr ""
 
 #. es2:d/green/water short
@@ -1721,22 +1710,6 @@ msgstr ""
 
 #: scenes/world/green/green_mountain.tscn
 msgid "石洞"
-msgstr ""
-
-#: scenes/world/green/green_mountain.tscn
-msgid "佛像"
-msgstr ""
-
-#: scenes/world/green/green_mountain.tscn
-msgid "石椅"
-msgstr ""
-
-#: scenes/world/green/green_mountain.tscn
-msgid "木剑"
-msgstr ""
-
-#: scenes/world/green/green_mountain.tscn
-msgid "蒲团"
 msgstr ""
 
 #. es2:d/green/path0 short
@@ -1778,33 +1751,6 @@ msgstr ""
 msgid "工作站"
 msgstr ""
 
-#. es2:d/green/temple0 short
-#: scenes/world/green/green_village.tscn data/green/rooms.json
-msgid "土地庙"
-msgstr ""
-
-#. es2:d/green/house0 short
-#. es2:d/green/house2 short
-#. es2:d/green/house3 short
-#: scenes/world/green/green_village.tscn data/green/rooms.json
-msgid "民宅"
-msgstr ""
-
-#. es2:d/green/house1 short
-#: scenes/world/green/green_village.tscn data/green/rooms.json
-msgid "工匠的家"
-msgstr ""
-
-#. es2:d/green/house4 short
-#: scenes/world/green/green_village.tscn data/green/rooms.json
-msgid "村长的家"
-msgstr ""
-
-#. es2:d/green/shop0 short
-#: scenes/world/green/green_village.tscn data/green/rooms.json
-msgid "沈记商行"
-msgstr ""
-
 #: scenes/world/green/green_village.tscn scenes/world/temple/temple_mountain.tscn
 msgid "西 · 雪亭镇"
 msgstr ""
@@ -1830,11 +1776,65 @@ msgid "木屋"
 msgstr ""
 
 #: scenes/world/green/green_village.tscn
+msgid "井 · 装水"
+msgstr ""
+
+#. es2:d/green/house0 short
+#. es2:d/green/house2 short
+#. es2:d/green/house3 short
+#: scenes/world/green/house0_house.tscn scenes/world/green/house2_house.tscn scenes/world/green/house3_house.tscn data/green/rooms.json
+msgid "民宅"
+msgstr ""
+
+#. es2:d/green/house1 short
+#: scenes/world/green/house1_house.tscn data/green/rooms.json
+msgid "工匠的家"
+msgstr ""
+
+#. es2:d/green/house4 short
+#: scenes/world/green/house4_house.tscn data/green/rooms.json
+msgid "村长的家"
+msgstr ""
+
+#. es2:d/green/shop0 short
+#: scenes/world/green/shop0_house.tscn data/green/rooms.json
+msgid "沈记商行"
+msgstr ""
+
+#: scenes/world/green/shop0_house.tscn
 msgid "破木牌"
 msgstr ""
 
-#: scenes/world/green/green_village.tscn
-msgid "井 · 装水"
+#. es2:d/green/outdoor short
+#. es2:d/green/stoneroom short
+#: scenes/world/green/stone_house.tscn data/green/rooms.json
+msgid "石室"
+msgstr ""
+
+#. es2:d/green/cavehall short
+#: scenes/world/green/stone_house.tscn data/green/rooms.json
+msgid "石室大厅"
+msgstr ""
+
+#: scenes/world/green/stone_house.tscn
+msgid "佛像"
+msgstr ""
+
+#: scenes/world/green/stone_house.tscn
+msgid "石椅"
+msgstr ""
+
+#: scenes/world/green/stone_house.tscn
+msgid "木剑"
+msgstr ""
+
+#: scenes/world/green/stone_house.tscn
+msgid "蒲团"
+msgstr ""
+
+#. es2:d/green/temple0 short
+#: scenes/world/green/temple0_house.tscn data/green/rooms.json
+msgid "土地庙"
 msgstr ""
 
 #. es2:d/latemoon/park/yard1 short
@@ -2135,6 +2135,12 @@ msgstr ""
 msgid "缀芳阁 · 静修"
 msgstr ""
 
+#. es2:d/oldpine/keep2 short
+#. es2:d/oldpine/keep3 short
+#: scenes/world/oldpine/keep_hall.tscn scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/rooms.json
+msgid "老松寨"
+msgstr ""
+
 #. es2:d/oldpine/passage short
 #: scenes/world/oldpine/oldpine_cave.tscn data/oldpine/rooms.json
 msgid "秘密通道入口"
@@ -2230,12 +2236,6 @@ msgstr ""
 msgid "老松寨秘密入口"
 msgstr ""
 
-#. es2:d/oldpine/keep2 short
-#. es2:d/oldpine/keep3 short
-#: scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/rooms.json
-msgid "老松寨"
-msgstr ""
-
 #. oldpine.outdoor.landmark.ancient_pine name
 #: scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/world.json
 msgid "大松树"
@@ -2259,15 +2259,29 @@ msgstr ""
 msgid "大松树上"
 msgstr ""
 
+#. es2:d/temple/temple2 short
+#. es2:d/sanyen/back_temple short
+#: scenes/world/sanyen/back_temple_house.tscn scenes/world/temple/temple2_house.tscn data/temple/rooms.json data/sanyen/rooms.json
+msgid "后殿"
+msgstr ""
+
+#. es2:d/sanyen/temple short
+#: scenes/world/sanyen/hall_house.tscn data/sanyen/rooms.json
+msgid "大雄宝殿"
+msgstr ""
+
+#. es2:d/sanyen/heal_room short
+#: scenes/world/sanyen/heal_room_house.tscn data/sanyen/rooms.json
+msgid "流云轩"
+msgstr ""
+
 #. es2:d/sanyen/kitchen short
-#: scenes/world/sanyen/sanyen_temple.tscn data/sanyen/rooms.json
+#: scenes/world/sanyen/kitchen_house.tscn data/sanyen/rooms.json
 msgid "香积厨"
 msgstr ""
 
-#. es2:d/temple/temple2 short
-#. es2:d/sanyen/back_temple short
-#: scenes/world/sanyen/sanyen_temple.tscn scenes/world/temple/temple_grounds.tscn data/temple/rooms.json data/sanyen/rooms.json
-msgid "后殿"
+#: scenes/world/sanyen/kitchen_house.tscn
+msgid "蒸笼 · 打开"
 msgstr ""
 
 #. es2:d/sanyen/tower short
@@ -2281,19 +2295,9 @@ msgstr ""
 msgid "走廊"
 msgstr ""
 
-#. es2:d/sanyen/heal_room short
-#: scenes/world/sanyen/sanyen_temple.tscn data/sanyen/rooms.json
-msgid "流云轩"
-msgstr ""
-
 #. es2:d/sanyen/inner_yard short
 #: scenes/world/sanyen/sanyen_temple.tscn data/sanyen/rooms.json
 msgid "庭园"
-msgstr ""
-
-#. es2:d/sanyen/temple short
-#: scenes/world/sanyen/sanyen_temple.tscn data/sanyen/rooms.json
-msgid "大雄宝殿"
 msgstr ""
 
 #. es2:d/sanyen/drug_field short
@@ -2323,10 +2327,6 @@ msgstr ""
 
 #: scenes/world/sanyen/sanyen_temple.tscn scenes/world/temple/temple_grounds.tscn
 msgid "南 · 山门"
-msgstr ""
-
-#: scenes/world/sanyen/sanyen_temple.tscn
-msgid "蒸笼 · 打开"
 msgstr ""
 
 #. es2:u/cloud/sunhill/northriver short
@@ -2366,16 +2366,6 @@ msgstr ""
 msgid "山烟寺山门"
 msgstr ""
 
-#. es2:d/sanyen/tunnele short
-#: scenes/world/sanyen/sunhill_mountain.tscn data/sanyen/rooms.json
-msgid "隧道口"
-msgstr ""
-
-#. es2:d/sanyen/tunnel short
-#: scenes/world/sanyen/sunhill_mountain.tscn data/sanyen/rooms.json
-msgid "隧道"
-msgstr ""
-
 #: scenes/world/sanyen/sunhill_mountain.tscn
 msgid "北 · 江北渡口"
 msgstr ""
@@ -2391,6 +2381,16 @@ msgstr ""
 #. sanyen name
 #: scenes/world/sanyen/sunhill_mountain.tscn data/common/families.json data/common/npcs.json data/cloud/npcs.json data/sanyen/world.json
 msgid "山烟寺"
+msgstr ""
+
+#. es2:d/sanyen/tunnel short
+#: scenes/world/sanyen/tunnels.tscn data/sanyen/rooms.json
+msgid "隧道"
+msgstr ""
+
+#. es2:d/sanyen/tunnele short
+#: scenes/world/sanyen/tunnels.tscn data/sanyen/rooms.json
+msgid "隧道口"
 msgstr ""
 
 #. es2:d/snow/school short
@@ -2647,25 +2647,29 @@ msgstr ""
 
 #. es2:d/temple/book_room1 short
 #. es2:d/temple/book_room2 short
-#: scenes/world/temple/temple_grounds.tscn scenes/world/temple/temple_library.tscn data/temple/rooms.json
+#: scenes/world/temple/book_room1_house.tscn scenes/world/temple/temple_library.tscn data/temple/rooms.json
 msgid "经楼"
+msgstr ""
+
+#: scenes/world/temple/book_room1_house.tscn
+msgid "木梯 · 上楼"
+msgstr ""
+
+#. es2:d/temple/restroom1 short
+#. es2:d/temple/restroom2 short
+#: scenes/world/temple/restroom1_house.tscn scenes/world/temple/restroom2_house.tscn data/temple/rooms.json
+msgid "厢房"
+msgstr ""
+
+#. es2:d/temple/temple1 short
+#: scenes/world/temple/temple1_house.tscn data/temple/rooms.json
+msgid "灵心观大殿"
 msgstr ""
 
 #. es2:d/temple/road1 short
 #. es2:d/temple/road2 short
 #: scenes/world/temple/temple_grounds.tscn data/temple/rooms.json
 msgid "青石小径"
-msgstr ""
-
-#. es2:d/temple/trainroom short
-#: scenes/world/temple/temple_grounds.tscn data/temple/rooms.json
-msgid "练功房"
-msgstr ""
-
-#. es2:d/temple/restroom1 short
-#. es2:d/temple/restroom2 short
-#: scenes/world/temple/temple_grounds.tscn data/temple/rooms.json
-msgid "厢房"
 msgstr ""
 
 #. es2:d/temple/corridor1 short
@@ -2679,11 +2683,6 @@ msgstr ""
 msgid "回廊"
 msgstr ""
 
-#. es2:d/temple/temple1 short
-#: scenes/world/temple/temple_grounds.tscn data/temple/rooms.json
-msgid "灵心观大殿"
-msgstr ""
-
 #. es2:d/temple/square short
 #: scenes/world/temple/temple_grounds.tscn data/temple/rooms.json
 msgid "灵心观广场"
@@ -2691,10 +2690,6 @@ msgstr ""
 
 #: scenes/world/temple/temple_grounds.tscn
 msgid "藏经楼"
-msgstr ""
-
-#: scenes/world/temple/temple_grounds.tscn
-msgid "木梯 · 上楼"
 msgstr ""
 
 #: scenes/world/temple/temple_library.tscn
@@ -2717,6 +2712,11 @@ msgstr ""
 
 #: scenes/world/temple/temple_mountain.tscn
 msgid "灵心观"
+msgstr ""
+
+#. es2:d/temple/trainroom short
+#: scenes/world/temple/trainroom_house.tscn data/temple/rooms.json
+msgid "练功房"
 msgstr ""
 
 #. es2:d/village/farmhouse1 short
@@ -20399,7 +20399,7 @@ msgstr ""
 msgid "你推开门走了进去, 顺手把门关了起来。"
 msgstr ""
 
-#. temple.book_room1.out pass_lines
+#. temple.book_room1.out_door pass_lines
 #: data/temple/world.json
 msgid "你拉开门大步走了出去, 随手把门带上。"
 msgstr ""

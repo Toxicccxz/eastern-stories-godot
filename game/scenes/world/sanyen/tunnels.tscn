@@ -23,9 +23,9 @@ size = Vector2(544, 416)
 [sub_resource type="RectangleShape2D" id="Rect_34_34"]
 size = Vector2(34, 34)
 
-[node name="Tunnel" type="Node2D"]
+[node name="Tunnels" type="Node2D"]
 script = ExtResource("map")
-map = &"sanyen.tunnel"
+map = &"sanyen.tunnels"
 
 [node name="Backdrop" type="ColorRect" parent="."]
 offset_left = -2640

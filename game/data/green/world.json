@@ -130,7 +130,7 @@
 		{ "id": "green.station0.well", "kind": "water", "zone": "green.station0", "name": "井", "reach": 96, "legacy_source": "d/green/station0.c" }
 	],
 	"spawns": [
-		{ "id": "green.village.house3.spiders", "npc": "green.npc.spider", "map": "green.village", "zone": "green.house3", "points": ["green.house3.spider.1", "green.house3.spider.2", "green.house3.spider.3"], "legacy_room": "d/green/house3.c", "legacy_quantity": 3, "summoned": true }
+		{ "id": "green.village.house3.spiders", "npc": "green.npc.spider", "map": "green.house3_house", "zone": "green.house3", "points": ["green.house3.spider.1", "green.house3.spider.2", "green.house3.spider.3"], "legacy_room": "d/green/house3.c", "legacy_quantity": 3, "summoned": true }
 	],
 	"landmarks": [
 		{ "id": "green.entrance.landmark.painting", "zone": "green.entrance", "name": "图", "policy": "look", "long": "这是一副八卦阵图,图下面有一行模糊的小字：八卦古阵\n", "legacy_source": "d/green/entrance.c" },

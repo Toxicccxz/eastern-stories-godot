@@ -10,7 +10,7 @@
 		{ "id": "sanyen.back_temple_house", "region": "sanyen", "scene": "res://scenes/world/sanyen/back_temple_house.tscn", "entry": "sanyen.back_temple.corridor_entry", "interior": true },
 		{ "id": "sanyen.heal_room_house", "region": "sanyen", "scene": "res://scenes/world/sanyen/heal_room_house.tscn", "entry": "sanyen.heal_room.inner_yard_entry", "interior": true },
 		{ "id": "sanyen.kitchen_house", "region": "sanyen", "scene": "res://scenes/world/sanyen/kitchen_house.tscn", "entry": "sanyen.kitchen.corridor1_entry", "interior": true },
-		{ "id": "sanyen.tunnel", "region": "sanyen", "scene": "res://scenes/world/sanyen/tunnel.tscn", "entry": "sanyen.tunnele.gate_entry", "interior": true }
+		{ "id": "sanyen.tunnels", "region": "sanyen", "scene": "res://scenes/world/sanyen/tunnels.tscn", "entry": "sanyen.tunnele.gate_entry", "interior": true }
 	],
 	"zones": [
 		{ "id": "sunhill.northriver", "map": "sunhill.mountain", "rooms": ["es2:u/cloud/sunhill/northriver"] },
@@ -24,8 +24,8 @@
 		{ "id": "sanyen.sroad1", "map": "sunhill.mountain", "rooms": ["es2:d/sanyen/sroad1"] },
 		{ "id": "sanyen.sroad2", "map": "sunhill.mountain", "rooms": ["es2:d/sanyen/sroad2"] },
 		{ "id": "sanyen.gate", "map": "sunhill.mountain", "rooms": ["es2:d/sanyen/gate"] },
-		{ "id": "sanyen.tunnele", "map": "sanyen.tunnel", "indoors": true, "rooms": ["es2:d/sanyen/tunnele"] },
-		{ "id": "sanyen.tunnel", "map": "sanyen.tunnel", "indoors": true, "rooms": ["es2:d/sanyen/tunnel"] },
+		{ "id": "sanyen.tunnele", "map": "sanyen.tunnels", "indoors": true, "rooms": ["es2:d/sanyen/tunnele"] },
+		{ "id": "sanyen.tunnel", "map": "sanyen.tunnels", "indoors": true, "rooms": ["es2:d/sanyen/tunnel"] },
 		{ "id": "sanyen.front_yard", "map": "sanyen.grounds", "rooms": ["es2:d/sanyen/front_yard"] },
 		{ "id": "sanyen.door", "map": "sanyen.grounds", "rooms": ["es2:d/sanyen/door"] },
 		{ "id": "sanyen.road1", "map": "sanyen.grounds", "rooms": ["es2:d/sanyen/road1"] },

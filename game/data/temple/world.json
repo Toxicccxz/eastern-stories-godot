@@ -83,7 +83,7 @@
 	],
 	"exit_rules": [
 		{ "id": "temple.road2.wall", "room": "es2:d/temple/road2", "from_zone": "temple.road2", "to_zone": "temple.book_room1", "when": "not_family", "family": "family.maoshan", "lines": ["一道无形的墙挡住了门口, 差点把你的鼻子给撞扁了。"], "pass_lines": ["你推开门走了进去, 顺手把门关了起来。"], "legacy_source": "d/temple/road2.c" },
-		{ "id": "temple.book_room1.out", "room": "es2:d/temple/book_room1", "from_zone": "temple.book_room1", "to_zone": "temple.road2", "when": "never", "pass_lines": ["你拉开门大步走了出去, 随手把门带上。"], "legacy_source": "d/temple/book_room1.c" },
+		{ "id": "temple.book_room1.out_door", "room": "es2:d/temple/book_room1", "from_zone": "temple.book_room1", "to_zone": "temple.road2", "when": "never", "pass_lines": ["你拉开门大步走了出去, 随手把门带上。"], "legacy_source": "d/temple/book_room1.c" },
 		{ "id": "temple.road1.moss.south", "room": "es2:d/temple/road1", "from_zone": "temple.road1", "to_zone": "temple.corridor3", "when": "kar_slip", "value": 3, "lines": ["你一脚踩在青苔上, 不小心滑了一跤, 四脚朝天地摔在地上起不来。"], "legacy_source": "d/temple/road1.c" },
 		{ "id": "temple.road1.moss.northwest", "room": "es2:d/temple/road1", "from_zone": "temple.road1", "to_zone": "temple.road2", "when": "kar_slip", "value": 3, "lines": ["你一脚踩在青苔上, 不小心滑了一跤, 四脚朝天地摔在地上起不来。"], "legacy_source": "d/temple/road1.c" }
 	]
