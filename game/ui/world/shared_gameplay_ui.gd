@@ -1,7 +1,8 @@
 class_name SharedGameplayUI
 extends CanvasLayer
-## The exploration HUD: the status card, the context buttons, the shared panel frame,
-## the toasts (laid out by SharedGameplayLayout) and the menu window (GameMenu). This class keeps the Node lifecycle, the
+## The exploration HUD: the status card, the target's prompt and the interaction popup,
+## the shared panel frame, the toasts (laid out by SharedGameplayLayout) and the menu
+## window (GameMenu). This class keeps the Node lifecycle, the
 ## widgets the layout fills and the constants other scripts read; the rest lives in its
 ## components (message_log, card, selection, actions, ask, items, panels, questions), and
 ## every public method here forwards to one of them.
@@ -92,8 +93,10 @@ var _presentation_layout: SharedGameplayLayout
 var life_overlay: PlayerLifeOverlay
 ## The fade and the place's banner around a map change (DECISIONS「手感」).
 var view_overlay: WorldViewOverlay
-## The ring and prompt on what A goes to (DECISIONS「手感」).
+## The ring and prompt on what E / A goes to (DECISIONS「手感」,「说话和交互」).
 var focus_marker: WorldFocusMarker
+## The interaction popup (DECISIONS「说话和交互」): what the target is and offers.
+var interaction_panel: InteractionPanel
 ## What NPCs say, over their heads (DECISIONS「手感」).
 var speech_bubbles: WorldSpeechBubbles
 var _session: WorldSessionController
@@ -201,11 +204,13 @@ func _ready() -> void:
 	inventory_panel.put_into_requested.connect(items.put_into_carried)
 	inventory_panel.scribe_requested.connect(items.scribe_on)
 	inventory_panel.attach_requested.connect(items.attach_sheet)
+	interaction_panel = InteractionPanel.new()
+	_presentation_layout.holding.add_child(interaction_panel)
+	interaction_panel.chosen.connect(_on_interaction_chosen)
 	confirm_prompt.confirmed.connect(questions.on_prompt_confirmed)
 	confirm_prompt.cancelled.connect(questions.on_prompt_cancelled)
 	_build_menu()
 	arts_page.configure(_session)
-	InputDevices.shared().changed.connect(_on_input_devices_changed)
 	if _session != null:
 		life_overlay = PlayerLifeOverlay.new()
 		life_overlay.name = "PlayerLifeOverlay"
@@ -217,9 +222,11 @@ func _ready() -> void:
 		_session.add_child.call_deferred(view_overlay)
 
 
-## `speaker` says `lines` (already in the log): a bubble over their head.
-func npc_bubble(speaker: NpcRuntimeState, lines: Array[String], alert: bool = false) -> void:
-	speech_bubbles.say(speaker, lines, alert)
+## `speaker` says `lines` (DECISIONS「说话和交互」): into 消息, and over their head as
+## `spoken` (what is said, in the alert red when `alert`); no toast while bubbles show.
+func npc_says(speaker: NpcRuntimeState, lines: Array[ColoredLine], spoken: Array[String], alert: bool = false) -> void:
+	message_log.append_speech(lines)
+	speech_bubbles.say(speaker, spoken, alert)
 
 
 ## The session this HUD shows (null in a bare fixture).
@@ -262,22 +269,30 @@ func configure(player: WorldPlayerRuntimeType) -> bool:
 	return true
 
 
-## The HUD's input while the player walks (keys and pad, owner: gamepad support):
-## ui_accept (Enter/Space, A) opens the place's context action, or with none moves into
-## the card's list; nearby_focus (Tab, Y) moves into the list or back out; a menu key
-## (C, K, I, J) opens that tab, menu_open (M, Start) the menu on its last tab, look_around
-## (L, X) is 观察. In the list the focused button takes A; B or Tab/Y leaves it, and so
-## does walking with WASD (the arrows and the pad move the focus there). The open menu
-## takes its own keys (GameMenu).
+## The HUD's input while the player walks (keys and pad; DECISIONS「说话和交互」): interact
+## (E, A) or Enter / Space does what the target offers (SharedUiNearby: a door opens, a
+## thing with several options opens the interaction popup), or 继续 when someone is telling
+## the player something and only people stand by; nearby_focus (Tab, Y), Q / LB and RB
+## step the target through what is in reach; a menu key (C, K, I, J) opens that tab,
+## menu_open (M, Start) the menu on its last tab, look_around (L, X) is 观察. The open menu
+## and the popup take their own keys.
 func _unhandled_input(event: InputEvent) -> void:
 	if not visible or _presentation_layout.frame.visible or menu.is_presented() or event.is_echo() or not event.is_pressed():
 		return
-	if _card_nav and (event.is_action_pressed(&"ui_cancel") or event.is_action_pressed(&"nearby_focus") or walks_away(event)):
-		get_viewport().set_input_as_handled()
-		leave_card_nav(walks_away(event))
-		return
 	var tab: int = GameMenu.tab_for_event(event)
-	if tab >= 0:
+	if event.is_action_pressed(&"interact") or event.is_action_pressed("ui_accept"):
+		var focused: Control = get_viewport().gui_get_focus_owner()
+		if focused != null and focused.is_visible_in_tree():
+			# A button takes A on its release: the press is not the place's action.
+			return
+		get_viewport().set_input_as_handled()
+		var thing: WorldNearbyThing = nearby.target()
+		# Someone is telling the player something line by line and only people stand by:
+		# A is 继续 (DECISIONS「响应性」); the row's button always is.
+		if (thing == null or thing.kind == WorldNearbyThing.Kind.NPC) and waits.hurry():
+			return
+		interact()
+	elif tab >= 0:
 		get_viewport().set_input_as_handled()
 		if _session.portable_inventory_available():
 			menu.open(tab)
@@ -285,113 +300,102 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		if _session.portable_inventory_available():
 			menu.open()
-	elif event.is_action_pressed(&"nearby_focus"):
+	elif event.is_action_pressed(&"nearby_focus") or (event is InputEventJoypadButton and event.is_action_pressed(&"menu_tab_next")):
 		get_viewport().set_input_as_handled()
-		enter_card_nav()
+		nearby.cycle(1)
+	elif event.is_action_pressed(&"menu_tab_previous"):
+		get_viewport().set_input_as_handled()
+		nearby.cycle(-1)
 	elif event.is_action_pressed(&"look_around"):
 		get_viewport().set_input_as_handled()
 		open_look()
-	elif event.is_action_pressed("ui_accept"):
-		var focused: Control = get_viewport().gui_get_focus_owner()
-		if focused != null and focused.is_visible_in_tree():
-			# A button takes A on its release: the press is not the place's action.
-			return
-		if not actions.context_title().is_empty():
-			get_viewport().set_input_as_handled()
-			actions.open_current_context()
-		# Someone is telling the player something line by line and the place offers nothing
-		# else: A is 继续 (DECISIONS「响应性」); the row's button always is.
-		elif waits.hurry():
-			get_viewport().set_input_as_handled()
-		elif enter_card_nav():
-			get_viewport().set_input_as_handled()
 
 
-## A mouse click leaves the card's list to the pointer; Tab / Y leaves it here, before the
-## focus takes Tab as "next control".
+## Tab is the GUI's "next control" before _unhandled_input sees it: while the player walks
+## with nothing focused it steps the target here.
 func _input(event: InputEvent) -> void:
-	if not _card_nav:
+	if not event.is_action_pressed(&"nearby_focus") or event.is_echo() or not visible or _presentation_layout.frame.visible or menu.is_presented():
 		return
-	if event is InputEventMouseButton and event.pressed and event.device != InputDevices.TOUCH_POINTER_DEVICE:
-		leave_card_nav()
-	elif event.is_action_pressed(&"nearby_focus") and not event.is_echo() and visible and not _presentation_layout.frame.visible and not menu.is_presented():
+	var focused: Control = get_viewport().gui_get_focus_owner()
+	if focused == null or not focused.is_visible_in_tree():
 		get_viewport().set_input_as_handled()
-		leave_card_nav()
+		nearby.cycle(1)
 
 
-## A walking key that is not also a focus key (WASD; the arrows and the pad move the focus
-## in the list).
-static func walks_away(event: InputEvent) -> bool:
-	for pair: Array in [[&"move_left", &"ui_left"], [&"move_right", &"ui_right"], [&"move_up", &"ui_up"], [&"move_down", &"ui_down"]]:
-		if event.is_action_pressed(pair[0]) and not event.is_action(pair[1]):
-			return true
-	return false
+# --- interacting (DECISIONS「说话和交互」) ---
+
+const INTERACTION_TIME_HOLD: StringName = &"interaction"
+## The thing the interaction popup shows, while it shows.
+var _interacting: WorldNearbyThing
 
 
-# --- keys and pad: the card's list (owner, gamepad support) ---
-
-## Whether the focus moves through the card's buttons (the player stands still meanwhile).
-var _card_nav: bool = false
-
-
-func card_nav_active() -> bool:
-	return _card_nav
-
-
-## Moves keys and pad focus into the card's list, on its first button. False when the
-## list is empty.
-func enter_card_nav() -> bool:
-	if not visible or _card_buttons().is_empty():
+## E / A on the target: what a thing that does one thing does, else its popup. False when
+## nothing is in reach (or the player cannot act).
+func interact() -> bool:
+	var thing: WorldNearbyThing = nearby.target()
+	if thing == null or _session == null or not _session.portable_inventory_available():
 		return false
-	_card_nav = true
-	_set_card_focusable(true)
-	focus_card(0, 0)
-	quarantine_movement()
-	_refresh_hints()
+	var single: InteractionOption = nearby.direct(thing)
+	if single != null:
+		single.action.call()
+		return true
+	open_interaction(thing)
 	return true
 
 
-## Back to walking. `walking`: a walking key left it, so the player walks at once.
-func leave_card_nav(walking: bool = false) -> void:
-	if not _card_nav:
+## A click or tap on the thing with `id`: it becomes the target and E / A goes to it.
+func interact_with(id: StringName) -> bool:
+	if not visible or _presentation_layout.frame.visible or menu.is_presented() or not nearby.choose(id):
+		return false
+	return interact()
+
+
+## The interaction popup on `thing`, in the shared frame; world time stands still while it
+## shows (as the menu's). It closes when the thing leaves reach.
+func open_interaction(thing: WorldNearbyThing) -> void:
+	_interacting = thing
+	_fill_interaction()
+	var key: StringName = thing.id
+	_presentation_layout.open_panel(nearby.shown_name(thing), interaction_panel, func() -> bool: return nearby.target() != null and nearby.target().id == key)
+
+
+## The popup shows the target as it is now (its options greyed or not).
+func _fill_interaction() -> void:
+	var thing: WorldNearbyThing = nearby.target()
+	if thing == null or _interacting == null or thing.id != _interacting.id:
 		return
-	_card_nav = false
-	var focused: Control = get_viewport().gui_get_focus_owner() if is_inside_tree() else null
-	if focused != null and _presentation_layout.nearby.is_ancestor_of(focused):
-		focused.release_focus()
-	_set_card_focusable(false)
-	if walking and _session != null and _session.is_initialized() and _session.active_map_child_count() > 0 and _session.active_map() != null:
-		_session.active_map().runtime_player_body().release_movement_quarantine()
-	_refresh_hints()
+	_interacting = thing
+	var lines: Array[Array] = nearby.about(thing)
+	var status: Array[String] = []
+	status.assign(lines[0])
+	var about: Array[String] = []
+	about.assign(lines[1])
+	interaction_panel.show_thing(status, about, nearby.options_for(_session.active_map() as WorldMapController, thing))
 
 
-## Focuses the card's button `index` of group `group` (the nearest one there is).
-func focus_card(group: int, index: int) -> bool:
-	var rows: Array[Node] = []
-	for row: Node in _presentation_layout.nearby.get_children():
-		if not row.is_queued_for_deletion():
-			rows.append(row)
-	if rows.is_empty():
-		return false
-	var buttons: Array[Node] = rows[clampi(group, 0, rows.size() - 1)].get_node("Item/Actions").get_children()
-	if buttons.is_empty():
-		return false
-	return FocusNav.give(buttons[clampi(index, 0, buttons.size() - 1)] as Control)
+## A row chosen: the popup closes, then the thing is done (it may open its own panel, ask
+## first, or start a fight, which hides the HUD).
+func _on_interaction_chosen(option: InteractionOption) -> void:
+	if interaction_open():
+		_presentation_layout.close_panel()
+	_hold_for_interaction()
+	option.action.call()
 
 
-func _card_buttons() -> Array[Button]:
-	var buttons: Array[Button] = []
-	for row: Node in _presentation_layout.nearby.get_children():
-		if row.is_queued_for_deletion():
-			continue
-		for button: Node in row.get_node("Item/Actions").get_children():
-			buttons.append(button as Button)
-	return buttons
+## The popup shows now.
+func interaction_open() -> bool:
+	return _presentation_layout.frame.visible and _presentation_layout._content == interaction_panel
 
 
-func _set_card_focusable(focusable: bool) -> void:
-	for button: Button in _card_buttons():
-		button.focus_mode = Control.FOCUS_ALL if focusable else Control.FOCUS_NONE
+## World time stands still while the popup shows; anything else in the frame lets it run.
+func _hold_for_interaction() -> void:
+	if _session == null:
+		return
+	if interaction_open():
+		_session.hold_world_time(INTERACTION_TIME_HOLD)
+	else:
+		_interacting = null
+		_session.release_world_time(INTERACTION_TIME_HOLD)
 
 
 ## Where the focus was on the frame's panel or the menu's page: [that root, the path
@@ -399,9 +403,9 @@ func _set_card_focusable(focusable: bool) -> void:
 var _focus_place: Array = []
 
 
-## Keys and pad keep a focus while a panel, the menu or the card's list is up: a focused
-## row that went away (the 背包 after using an item, a shop's list after a purchase) hands
-## it to the same place in the rebuilt list, so the next A does not hit another item.
+## Keys and pad keep a focus while a panel or the menu is up: a focused row that went away
+## (the 背包 after using an item, a shop's list after a purchase) hands it to the same
+## place in the rebuilt list, so the next A does not hit another item.
 func _keep_focus() -> void:
 	if InputDevices.shared().is_touch() or not is_inside_tree():
 		return
@@ -426,40 +430,12 @@ func _focus_surface() -> Control:
 	return null
 
 
-## The focus goes to the top surface's first control: the frame's panel, the menu's page,
-## or the card's list while the player moves through it.
+## The focus goes to the top surface's first control: the frame's panel or the menu's page.
 func refocus() -> void:
 	if _presentation_layout.frame.visible:
 		_presentation_layout.focus_content()
 	elif menu.is_presented() and not menu.in_pause_view():
 		menu.focus_page()
-	elif _card_nav and visible and not focus_card(0, 0):
-		leave_card_nav()
-
-
-func _on_input_devices_changed() -> void:
-	if InputDevices.shared().is_touch():
-		leave_card_nav()
-	_refresh_hints()
-
-
-## The card's hints for keys and pad: the place's action, the list, 观察.
-func _refresh_hints() -> void:
-	if _presentation_layout == null or not visible:
-		return
-	var hints: Array = []
-	if _card_nav:
-		hints = [[&"ui_accept", tr("选择")], [&"ui_cancel", tr("返回")]]
-	else:
-		var title: String = actions.context_title()
-		if not title.is_empty():
-			hints.append([&"ui_accept", title])
-		elif waits.can_hurry():
-			hints.append([&"ui_accept", tr("继续")])
-		if _presentation_layout.nearby.visible:
-			hints.append([&"nearby_focus", tr("选择附近")])
-		hints.append([&"look_around", tr("观察")])
-	_presentation_layout.hints.set_hints(hints)
 
 
 func _process(delta: float) -> void:
@@ -490,9 +466,9 @@ func _process(delta: float) -> void:
 		return
 	if not visible:
 		_presentation_layout.close_panel()
-		# A fight closes the menu as it closed the HUD's panels, and the card's list.
+		# A fight closes the menu as it closed the HUD's panels (the interaction popup too).
 		menu.dismiss()
-		leave_card_nav()
+		_hold_for_interaction()
 		# A fight clears the toasts from before it.
 		message_log.refresh_toasts()
 		return
@@ -501,6 +477,7 @@ func _process(delta: float) -> void:
 		# cover what happens.
 		menu.dismiss()
 	_presentation_layout.validate_open_panel()
+	_hold_for_interaction()
 	_keep_focus()
 	if _presentation_layout._content == _presentation_layout.details:
 		if (selection.selected_target != null and (not selection.selected_target.exists_in_map or selection.selected_target.life_status == CharacterRuntimeLifeStatus.Value.DEAD)) or (selection.selected_landmark != null and not selection.selected_landmark_source_available) or (selection.selected_corpse_available and not selection.selected_corpse_in_range and not selection.selected_floor_item):
@@ -511,13 +488,14 @@ func _process(delta: float) -> void:
 	_elapsed = 0.0
 	selection.refresh_live_state()
 	card.refresh_exploration()
-	_refresh_hints()
+	if interaction_open():
+		_fill_interaction()
 	if menu.is_presented():
 		_refresh_menu_page()
 
 
 func _physics_process(_delta: float) -> void:
-	if _presentation_layout != null and (_presentation_layout.frame.visible or _card_nav or (menu.is_presented() and not menu.in_pause_view())):
+	if _presentation_layout != null and (_presentation_layout.frame.visible or (menu.is_presented() and not menu.in_pause_view())):
 		quarantine_movement()
 
 

@@ -16,7 +16,10 @@ With it, 室内察觉 (#135): indoors an aggressive NPC notices whoever comes in
 Before the unified playtest (owner, 2026-10-17), one more interface round in two PRs: 1. the screen —
 logical 1280x720 everywhere, the desktop window at 1920x1080 / 1600x900 / 1280x720 (the largest within
 85% of the screen), 设置 with 窗口 / 无边框全屏 / 全屏 and 界面缩放 100/125/150%; 2. talking and
-interacting — NPC lines as bubbles when the player is near, and one interaction popup per thing. Then:
+interacting (DECISIONS「说话和交互」) — NPCs greet and chat to a player near them, in bubbles; a room's
+text in the top right; E / A (or a click) on the target in reach: a door or an item at once, a person
+or a corpse through the interaction popup (greyed options say why; world time held); the card keeps
+the player's name, 菜单, 精气神, conditions and waits. Then:
 ROADMAP "After the grey box" step 3, the playtest checklist and the owner's full playtest.
 
 ## 待决定

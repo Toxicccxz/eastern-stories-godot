@@ -255,8 +255,7 @@ func _shout_toll(npc: NpcRuntimeState) -> void:
 	var text: String = (entry as ColoredLine).text if entry is ColoredLine else String(entry)
 	# The ridge's description first, then what is shouted on it (as _player_berserk()).
 	_map.hud().describe_arrival()
-	_map.hud().append_log_lines([NpcTalk.line(text)], true)
-	_map.hud().npc_bubble(npc, [NpcTalk.line(text)], true)
+	_map.hud().npc_says(npc, [ColoredLine.new(NpcTalk.line(text), ColoredLine.HIR)], [NpcTalk.line(text)], true)
 
 
 func _toll_due(npc: NpcRuntimeState) -> bool:

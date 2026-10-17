@@ -41,15 +41,16 @@ func selected_npc() -> NpcRuntimeState:
 	return _map.npcs.find_resident_npc(selected_character_id())
 
 
-## A click on an NPC selects nothing (owner, 2026-10-11): the HUD offers the actions of
-## what is in reach (nearby()), and pressing one selects its thing.
-func on_npc_selection_requested(_character_id: StringName) -> void:
-	pass
+## A click or tap on an NPC in reach interacts with it (DECISIONS「说话和交互」), as E / A
+## on it would; one out of reach does nothing.
+func on_npc_selection_requested(character_id: StringName) -> void:
+	on_thing_clicked(character_id)
 
 
-## A click on a landmark, a corpse or a floor item selects nothing either.
-func on_thing_clicked(_id: StringName) -> void:
-	pass
+## A click or tap on a landmark, a corpse or a floor item in reach does the same.
+func on_thing_clicked(id: StringName) -> void:
+	if _map.gameplay_open() and _map.hud() != null:
+		_map.hud().interact_with(id)
 
 
 func select_npc(character_id: StringName) -> bool:
@@ -502,31 +503,20 @@ func interact() -> void:
 			_map.open_door(target)
 
 
-## What A goes to (WorldFocus), or null when nothing is in reach.
-func focus() -> WorldFocus:
-	var target: Variant = _context_target()
-	if target is StringName:
-		return WorldFocus.new(interaction_title(), null, _map.doors_by_id[target].wall_shape())
-	if target is WorldService:
-		return WorldFocus.new(interaction_title(), null, null, (target as WorldService).anchor())
-	var things: Array[WorldNearbyThing] = nearby()
-	for thing: WorldNearbyThing in things:
-		if thing.bribe_only:
-			continue
-		match thing.kind:
-			WorldNearbyThing.Kind.NPC:
-				return WorldFocus.new("", thing, _map.npcs.runtime_body_for_character(thing.id))
-			WorldNearbyThing.Kind.CORPSE:
-				return WorldFocus.new("", thing, _map.corpses.corpse_view_for(thing.id))
-			WorldNearbyThing.Kind.ITEM:
-				return WorldFocus.new("", thing, _map.floor_items.floor_item_view(thing.id))
-			WorldNearbyThing.Kind.LANDMARK:
-				return WorldFocus.new("", thing, _map.landmark_areas[thing.id])
-			WorldNearbyThing.Kind.DOOR:
-				return WorldFocus.new("", thing, _map.doors_by_id[thing.id].wall_shape())
-			WorldNearbyThing.Kind.SERVICE:
-				return WorldFocus.new("", thing, null, thing.services[0].anchor())
-	return null
+## Where `thing` is for the ring and the prompt (`title`) over it.
+func focus_of(thing: WorldNearbyThing, title: String) -> WorldFocus:
+	match thing.kind:
+		WorldNearbyThing.Kind.NPC:
+			return WorldFocus.new(title, thing, _map.npcs.runtime_body_for_character(thing.id))
+		WorldNearbyThing.Kind.CORPSE:
+			return WorldFocus.new(title, thing, _map.corpses.corpse_view_for(thing.id))
+		WorldNearbyThing.Kind.ITEM:
+			return WorldFocus.new(title, thing, _map.floor_items.floor_item_view(thing.id))
+		WorldNearbyThing.Kind.LANDMARK:
+			return WorldFocus.new(title, thing, _map.landmark_areas[thing.id])
+		WorldNearbyThing.Kind.DOOR:
+			return WorldFocus.new(title, thing, _map.doors_by_id[thing.id].wall_shape())
+	return WorldFocus.new(title, thing, null, thing.services[0].anchor())
 
 
 ## A door's id or a WorldService, or null.

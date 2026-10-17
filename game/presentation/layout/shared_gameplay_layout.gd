@@ -6,22 +6,19 @@ extends Node
 var ui: SharedGameplayUI
 var overlay: Control
 var bar: PanelContainer
-## The card's header: the name, the place (a click is 观察) and 菜单.
-var place_chip: PanelContainer
+## The card's header (DECISIONS「说话和交互」): the player's name and 菜单; under it 精气神,
+## the conditions and the waits. What is near shows on the map (the prompt over the
+## target, the interaction popup); the room's name and text at the top on coming in.
 var menu_button: Button
 ## The selected thing's commands (SharedGameplayUI's inspect_button … bribe_button) and the
-## nearest door or service's context_button, kept off the card: the card shows `nearby`.
+## nearest door or service's context_button, kept off the card.
 var contexts: HFlowContainer
 var context_button: Button
 ## The selected thing's name (SharedGameplayUI.selected_target_label), off the card too.
 var target_section: VBoxContainer
-## One group per thing in reach (SharedUiNearby): its name, then its buttons.
-var nearby: VBoxContainer
 ## What the player waits for (SharedUiWaits): a line, a thin bar, 继续 where it can be hurried.
 var waits: VBoxContainer
-## What the keys or pad do here ([A] 开门 [Y] 选择附近 [X] 观察); none on touch.
-var hints: InputHintRow
-## The card's button size now (touch or not), for the groups' buttons too.
+## The card's button size now (touch or not).
 var button_size: Vector2 = Vector2(80, 38)
 ## The scene's messages at the bottom left (owner, 2026-10-06).
 var toasts: MessageToasts
@@ -94,28 +91,9 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	ui.player_name.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	ui.player_name.add_theme_color_override("font_color", NAME_COLOR)
 	header.add_child(ui.player_name)
-	var place := PanelContainer.new()
-	place.name = "PlaceChip"
-	place.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	place.add_theme_stylebox_override("panel", _chip_style(Color(1, 1, 1, 0.07)))
-	# A click on the place is 观察 (the room's text), as the 观察 button was.
-	place.mouse_filter = Control.MOUSE_FILTER_STOP
-	place.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-	place.gui_input.connect(_on_place_input)
-	place.tooltip_text = "观察"
-	header.add_child(place)
-	place_chip = place
-	ui.world_title = Label.new()
-	ui.world_title.name = "Location"
-	ui.world_title.add_theme_font_size_override("font_size", 13)
-	# Already in the shown language (tr()).
-	ui.world_title.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
-	ui.world_title.add_theme_color_override("font_color", MUTED_COLOR)
-	place.add_child(ui.world_title)
 	menu_button = _button(header, "Menu", "菜单", ui.open_menu)
 	menu_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	# Start / M opens it; the card's buttons take the focus only while the player moves
-	# through them with keys or a pad (SharedGameplayUI.enter_card_nav()).
+	# Start / M opens it: the card takes no focus.
 	menu_button.focus_mode = Control.FOCUS_NONE
 	InputGlyphs.decorate(menu_button, &"menu_open")
 	var vitals := HBoxContainer.new()
@@ -141,13 +119,11 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	waits.add_theme_constant_override("separation", 6)
 	waits.hide()
 	_bar_rows.add_child(waits)
-	nearby = VBoxContainer.new()
-	nearby.name = "Nearby"
-	nearby.add_theme_constant_override("separation", 8)
-	nearby.hide()
-	_bar_rows.add_child(nearby)
-	hints = InputHintRow.new()
-	_bar_rows.add_child(hints)
+	# Where the player is (card.refresh_exploration()), kept off the card.
+	ui.world_title = Label.new()
+	ui.world_title.name = "Location"
+	ui.world_title.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	holding.add_child(ui.world_title)
 	target_section = VBoxContainer.new()
 	target_section.name = "TargetSection"
 	target_section.add_theme_constant_override("separation", 8)
@@ -292,7 +268,7 @@ func _reflow(metrics: SafeAreaMetrics) -> void:
 	var area: Rect2 = metrics.content_rect()
 	_bar_area = area
 	if metrics.touch_sized():
-		# The card ends above the movement pad's corner; taller (nearby items), it scrolls.
+		# The card ends above the movement pad's corner; taller (waits), it scrolls.
 		# Not below the name, the bars and the navigation row (a very short screen keeps the
 		# whole height, as before).
 		var above_pad: float = metrics.future_movement_rect().position.y - area.position.y - 8.0
@@ -309,17 +285,10 @@ func _reflow(metrics: SafeAreaMetrics) -> void:
 	var gap: int = 4 if metrics.touch_sized() else 8
 	button_size = Vector2(64, 64) if metrics.touch_sized() else Vector2(80, 38)
 	menu_button.custom_minimum_size = Vector2(64, 64) if metrics.touch_sized() else Vector2(72, 32)
-	var flows: Array[Node] = [contexts]
-	for item: Node in nearby.get_children():
-		flows.append(item.get_node("Item/Actions"))
-	for flow: Node in flows:
-		(flow as Control).add_theme_constant_override("h_separation", gap)
-		(flow as Control).add_theme_constant_override("v_separation", gap)
+	contexts.add_theme_constant_override("h_separation", gap)
+	contexts.add_theme_constant_override("v_separation", gap)
 	for button: Node in contexts.get_children():
 		(button as Control).custom_minimum_size = button_size
-	for item: Node in nearby.get_children():
-		for button: Node in item.get_node("Item/Actions").get_children():
-			(button as Control).custom_minimum_size = button_size
 	# Touch screens keep the world visible: shorter toasts, the full text in Messages/Look,
 	# right of the movement pad's corner.
 	var toast_area: Rect2 = area
@@ -440,13 +409,6 @@ func lower_frame() -> void:
 	_frame_layout.raised = false
 
 
-func _on_place_input(event: InputEvent) -> void:
-	var click := event as InputEventMouseButton
-	if click != null and click.button_index == MOUSE_BUTTON_LEFT and not click.pressed:
-		place_chip.accept_event()
-		ui.open_look()
-
-
 func validate_open_panel() -> void:
 	if frame.visible and (not is_instance_valid(_content) or not _content.visible or (_valid.is_valid() and not _valid.call())):
 		close_panel()
@@ -454,39 +416,6 @@ func validate_open_panel() -> void:
 
 func refresh_rows() -> void:
 	_frame_layout.restyle_dynamic_content()
-
-
-## One thing's item in the card's list (owner, 2026-10-11): a box with its name on top
-## and (nearby_button()) its own buttons below, wrapping.
-func nearby_row(shown_name: String) -> PanelContainer:
-	var item := PanelContainer.new()
-	item.name = "Group"
-	item.add_theme_stylebox_override("panel", item_style())
-	var rows := VBoxContainer.new()
-	rows.name = "Item"
-	rows.add_theme_constant_override("separation", 6)
-	item.add_child(rows)
-	var label := Label.new()
-	label.name = "Name"
-	label.text = shown_name
-	# Already in the shown language (tr()).
-	label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
-	label.add_theme_font_size_override("font_size", 14)
-	label.add_theme_color_override("font_color", ACCENT_COLOR)
-	rows.add_child(label)
-	# How it is now when that matters (昏迷不醒，约 N 秒后醒来): SharedUiNearby.
-	var status := _label(rows, "Status")
-	status.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
-	status.add_theme_font_size_override("font_size", 12)
-	status.add_theme_color_override("font_color", MUTED_COLOR)
-	status.hide()
-	var actions := HFlowContainer.new()
-	actions.name = "Actions"
-	var gap: int = 8 if button_size.y < 64 else 4
-	actions.add_theme_constant_override("h_separation", gap)
-	actions.add_theme_constant_override("v_separation", gap)
-	rows.add_child(actions)
-	return item
 
 
 ## One row of `waits`: [line, bar, 继续 button] (the button hidden until it can hurry).
@@ -526,14 +455,6 @@ func wait_row(hurry: Callable) -> Array:
 	row.add_child(progress)
 	waits.add_child(row)
 	return [text, progress, button]
-
-
-## A button in an item made by nearby_row().
-func nearby_button(item: Control, text: String, action: Callable) -> Button:
-	var button: Button = _button(item.get_node("Item/Actions"), "Action", text, action)
-	button.custom_minimum_size = button_size
-	button.focus_mode = Control.FOCUS_ALL if ui.card_nav_active() else Control.FOCUS_NONE
-	return button
 
 
 ## A list item's box: a little lighter than the card, rounded.

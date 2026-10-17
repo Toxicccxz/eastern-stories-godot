@@ -3,13 +3,18 @@ extends CanvasLayer
 
 ## The view around a map change (DECISIONS「手感」): it goes dark before a passage the
 ## player walked into (the session's view_leaving), comes back on the new map (or where it
-## was) and names the place there: the region and the zone, as on the status card. Only how
-## it looks; the session holds world time and the player's walk meanwhile.
+## was) and names the place there: the region and the zone. A room the player comes
+## into shows its title and description in the top right for a while (DECISIONS「说话和交互」;
+## 消息 keeps them). Only how it looks; the session holds world time and the player's walk
+## meanwhile.
 
 const BANNER_FADE_SHARE: float = 0.2
 const BANNER_MARGIN: float = 16.0
 ## The frame a map changes in is a long one: the view comes back from the frames after it.
 const SETTLE_FRAMES: int = 2
+const ROOM_TEXT_WIDTH: float = 440.0
+## Narrower than this beside the status card, the room's text goes under it instead.
+const ROOM_TEXT_MIN_WIDTH: float = 280.0
 
 var _session: WorldSessionController
 var _shade: ColorRect
@@ -17,6 +22,10 @@ var _banner: PanelContainer
 var _banner_text: Label
 var _shade_tween: Tween
 var _banner_tween: Tween
+var _room: PanelContainer
+var _room_title: Label
+var _room_text: Label
+var _room_tween: Tween
 ## Counts arrivals; one waiting out SETTLE_FRAMES gives way to a later one.
 var _arrivals: int = 0
 
@@ -53,6 +62,28 @@ func _ready() -> void:
 	_banner_text.add_theme_font_size_override("font_size", 24)
 	_banner_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_banner.add_child(_banner_text)
+	_room = PanelContainer.new()
+	_room.name = "RoomText"
+	_room.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_room.add_theme_stylebox_override("panel", style.duplicate())
+	_room.modulate.a = 0.0
+	add_child(_room)
+	var room_rows: VBoxContainer = VBoxContainer.new()
+	room_rows.add_theme_constant_override("separation", 4)
+	_room.add_child(room_rows)
+	_room_title = Label.new()
+	_room_title.name = "RoomTitle"
+	_room_title.add_theme_font_size_override("font_size", 17)
+	_room_title.add_theme_color_override("font_color", SharedGameplayLayout.ACCENT_COLOR)
+	# Already in the shown language (the log's line holds the same).
+	_room_title.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	room_rows.add_child(_room_title)
+	_room_text = Label.new()
+	_room_text.name = "RoomDescription"
+	_room_text.add_theme_font_size_override("font_size", 14)
+	_room_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_room_text.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	room_rows.add_child(_room_text)
 	if _session != null:
 		_session.view_leaving.connect(_on_view_leaving)
 		_session.view_arriving.connect(_on_view_arriving)
@@ -64,6 +95,53 @@ func shade_alpha() -> float:
 
 func banner_text() -> String:
 	return _banner_text.text if _banner.modulate.a > 0.0 else ""
+
+
+## The room's title and description at the top now ("" when none shows).
+func room_text() -> String:
+	return "" if _room.modulate.a <= 0.0 else "%s %s" % [_room_title.text, _room_text.text]
+
+
+## `title` and `description` (shown language) at the top for `seconds`, fading in and out.
+func show_room(title: String, description: String, seconds: float) -> void:
+	_room_title.text = title
+	_room_text.text = description
+	_kill(_room_tween)
+	_place_room()
+	var fade: float = minf(0.3, seconds * BANNER_FADE_SHARE)
+	_room_tween = create_tween()
+	_room_tween.tween_property(_room, "modulate:a", 1.0, fade)
+	_room_tween.tween_interval(maxf(0.0, seconds - 2.0 * fade))
+	_room_tween.tween_property(_room, "modulate:a", 0.0, fade)
+
+
+## The room's text gives way to a panel, the menu or a fight (its time runs on); while it
+## shows it keeps the height its wrapped lines take (known only once they are laid out).
+func _process(_delta: float) -> void:
+	var hud: SharedGameplayUI = null if _session == null else _session.shared_ui()
+	_room.visible = hud != null and hud.visible and not hud.panel_open() and not hud.menu.is_presented()
+	if _room.visible and _room.modulate.a > 0.0:
+		_place_room()
+
+
+## In the top right corner beside the status card, clear of the middle where the player and
+## those they talk to are; under the card when the screen is too narrow beside it (the
+## 界面缩放 at 150%). The text wraps at the panel's width (a wrapping label has none alone).
+func _place_room() -> void:
+	var view: Rect2 = get_viewport().get_visible_rect()
+	var top: float = view.position.y + BANNER_MARGIN
+	var beside: float = view.size.x - 2.0 * BANNER_MARGIN
+	var hud: SharedGameplayUI = null if _session == null else _session.shared_ui()
+	if hud != null and hud.visible:
+		var card: Rect2 = hud.card_rect()
+		beside = view.end.x - card.end.x - 2.0 * BANNER_MARGIN
+		if beside < ROOM_TEXT_MIN_WIDTH:
+			beside = view.size.x - 2.0 * BANNER_MARGIN
+			top = card.end.y + BANNER_MARGIN
+	var width: float = minf(ROOM_TEXT_WIDTH, beside)
+	_room_text.custom_minimum_size.x = width - _room.get_theme_stylebox("panel").get_minimum_size().x
+	_room.reset_size()
+	_room.position = Vector2(view.end.x - _room.size.x - BANNER_MARGIN, top).round()
 
 
 func _on_view_leaving(seconds: float) -> void:

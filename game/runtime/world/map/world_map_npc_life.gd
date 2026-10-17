@@ -27,6 +27,10 @@ var came_from_zone_id: StringName = &""
 ## The room Continue put the player back in, until its first arrival note: its people were
 ## met before the save, so a save right after Continue writes what was loaded.
 var restored_zone_id: StringName = &""
+## Greetings waiting for the player to come near (DECISIONS「说话和交互」): whether each
+## one harms, by character ID. Set as the player comes into the room (or the NPC into
+## theirs), started once they stand by it; leaving the room forgets them. Not saved.
+var approach_greetings: Dictionary[StringName, bool] = {}
 
 # The map's authorities, read as the controller reads them.
 var session: WorldSessionController:
@@ -116,6 +120,7 @@ func _advance_ambience(delta: float) -> void:
 	if not _map.gameplay_open():
 		return
 	_note_player_arrival()
+	_greet_on_approach()
 	for character_id: StringName in ambience.due_greetings(delta):
 		_greet(_map.npcs.find_resident_npc(character_id))
 	for due: Array in ambience.due_own_calls(delta):
@@ -257,8 +262,7 @@ func _make_stage(character_id: StringName) -> void:
 	var hud: SharedGameplayUI = _map.hud()
 	if _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and hud != null:
 		var told: ColoredLine = making.lines[stage].colored(npc.definition().display_name, "")
-		hud.append_colored_lines([told])
-		hud.npc_bubble(npc, [told.text])
+		hud.npc_says(npc, [told], [told.text])
 	stage += 1
 	if stage < making.lines.size():
 		pending["stage"] = stage
@@ -393,11 +397,11 @@ func _chant_stage(npc: NpcRuntimeState) -> void:
 	var stage: NpcHooks.Stage = hooks.chant_stages[npc.chant_stage]
 	var name: String = tr(npc.definition().display_name)
 	if npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and player_hears(npc):
-		var lines: Array[String] = [tr("{npc}说道：{line}").format({"npc": name, "line": tr(stage.say)})]
-		_map.hud().npc_bubble(npc, lines.duplicate())
+		var said: String = tr("{npc}说道：{line}").format({"npc": name, "line": tr(stage.say)})
+		var lines: Array[ColoredLine] = [ColoredLine.new(said)]
 		if not stage.line.is_empty():
-			lines.append(tr(stage.line).replace("$N", name))
-		_map.hud().append_log_lines(lines)
+			lines.append(ColoredLine.new(tr(stage.line).replace("$N", name)))
+		_map.hud().npc_says(npc, lines, [said])
 	npc.character_state.progression.combat_experience += stage.combat_exp
 	var next: int = npc.chant_stage + 1
 	var wait: float = 0.0
@@ -463,6 +467,7 @@ func _note_player_arrival() -> void:
 	var left: StringName = arrival_zone_id
 	arrival_zone_id = zone_id
 	came_from_zone_id = left
+	approach_greetings.clear()
 	# go.c calls follow_me() when the player walks out by an exit: into a neighbouring
 	# room. Being moved (reincarnation, a relocation) takes nobody along.
 	if not left.is_empty() and not zone_id.is_empty() and GameContent.catalog().zones_adjacent(left, zone_id):
@@ -474,7 +479,7 @@ func _note_player_arrival() -> void:
 			and not npc.relationship.is_fighting()
 			and npc.definition().talk().has_greeting()
 		):
-			ambience.start_greeting(npc.character_id, npc.definition().talk().greeting_harms())
+			_await_greeting(npc)
 		if npc.world_location().zone_id == zone_id:
 			_start_own_calls(npc)
 	var here: Array[NpcRuntimeState] = []
@@ -547,6 +552,43 @@ func lead_followers(left_zone_id: StringName, zone_id: StringName) -> void:
 			_map.hud().append_log_lines([tr("{name}走了过来。").format({"name": tr(npc.definition().display_name)})])
 
 
+## init()'s greeting call_out (keeper.c, waiter.c): ES2 starts it as the player comes into
+## the room; here it starts once the player comes near the NPC (DECISIONS「说话和交互」),
+## its wait (and a harmful greeting's second to step aside) counted from then. With the
+## feel's speech_reach at 0 it starts at once, as ES2.
+func _await_greeting(npc: NpcRuntimeState) -> void:
+	if GameContent.catalog().pacing().feel.speech_reach <= 0.0:
+		ambience.start_greeting(npc.character_id, npc.definition().talk().greeting_harms())
+	else:
+		approach_greetings[npc.character_id] = npc.definition().talk().greeting_harms()
+
+
+## Starts the waiting greetings of those the player now stands by; one gone from the
+## player's room is forgotten.
+func _greet_on_approach() -> void:
+	for character_id: StringName in approach_greetings.keys():
+		var npc: NpcRuntimeState = _map.npcs.find_resident_npc(character_id)
+		if npc == null or not npc.exists_in_map or not player_shares_zone(npc):
+			approach_greetings.erase(character_id)
+		elif npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and player_near(npc):
+			ambience.start_greeting(character_id, approach_greetings[character_id])
+			approach_greetings.erase(character_id)
+
+
+## The player stands by `npc` and has it on the screen (the feel's speech_reach; 0:
+## anywhere in its room, as ES2).
+func player_near(npc: NpcRuntimeState) -> bool:
+	var reach: float = GameContent.catalog().pacing().feel.speech_reach
+	if reach <= 0.0:
+		return true
+	var body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(npc.character_id)
+	return (
+		body != null and _map.player_body != null
+		and body.global_position.distance_to(_map.player_body.global_position) <= reach
+		and _map.in_view(body.global_position)
+	)
+
+
 ## keeper.c and waiter.c greeting(): only if the player is still there (present(),
 ## which finds one lying unconscious too: what it does is done, its lines go unread);
 ## the waiter picks one of its lines then (switch(random(3))); a draw past the lines
@@ -616,7 +658,7 @@ func npc_arrived(npc: NpcRuntimeState) -> void:
 		and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
 		and npc.definition().talk().has_greeting()
 	):
-		ambience.start_greeting(npc.character_id, npc.definition().talk().greeting_harms())
+		_await_greeting(npc)
 	if ambience != null and player_shares_zone(npc):
 		_start_own_calls(npc)
 		_meet(npc)
@@ -777,15 +819,15 @@ func _chats(npc: NpcRuntimeState) -> bool:
 	)
 
 
+## One chat entry: a line is read by a player who hears the NPC and stands by it (far off it
+## says nothing to them; DECISIONS「说话和交互」); the others act as npc.c's chat() does.
 func _act(npc: NpcRuntimeState, entry: Variant) -> void:
 	if entry is String:
-		if player_hears(npc):
-			_map.hud().append_log_lines([NpcTalk.line(entry)])
-			_map.hud().npc_bubble(npc, [NpcTalk.line(entry)])
+		if player_hears(npc) and player_near(npc):
+			_map.hud().npc_says(npc, [ColoredLine.new(NpcTalk.line(entry))], [NpcTalk.line(entry)])
 	elif entry is ColoredLine:
-		if player_hears(npc):
-			_map.hud().append_colored_lines([ColoredLine.new(NpcTalk.line(entry.text), entry.color)])
-			_map.hud().npc_bubble(npc, [NpcTalk.line(entry.text)])
+		if player_hears(npc) and player_near(npc):
+			_map.hud().npc_says(npc, [ColoredLine.new(NpcTalk.line(entry.text), entry.color)], [NpcTalk.line(entry.text)])
 	elif entry is StringName and entry == NpcTalk.RANDOM_MOVE:
 		random_move(npc)
 	elif entry is StringName and entry == NpcTalk.PATROL:

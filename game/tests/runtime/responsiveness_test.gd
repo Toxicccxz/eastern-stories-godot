@@ -211,12 +211,11 @@ func _test_card(tree: SceneTree, session: WorldSessionController) -> void:
 	npc.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY
 	npc.set_revive_in_ms(29500)
 	hud.nearby.refresh()
-	var status: Label = _row_part(hud, npc, "Status")
-	_check(status != null and status.visible and status.text == "昏迷不醒，约 30 秒后醒来", "its row: when it comes to: %s" % ("" if status == null else status.text))
+	_check(_status(hud, npc) == ["昏迷不醒，约 30 秒后醒来"], "its popup says when it comes to: %s" % [_status(hud, npc)])
 	npc.set_revive_in_ms(0)
 	npc.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
 	hud.nearby.refresh()
-	_check(status != null and not status.visible, "awake: no line")
+	_check(_status(hud, npc).is_empty(), "awake: no line")
 
 
 ## 筱薇's making (shaowei.c: a line every 2 s): shown with 继续, which brings the next line now.
@@ -232,7 +231,6 @@ func _test_making(_tree: SceneTree, session: WorldSessionController) -> void:
 	hud.waits.refresh()
 	var name: String = maker.definition().display_name
 	_check(hud.waits.texts() == ["%s：第 0 / 5 句" % name] and hud.waits.can_hurry(), "her making: no line yet, 继续 offered: %s" % [hud.waits.texts()])
-	hud._refresh_hints()
 	_check(hud.waits.hurry(), "继续")
 	map.npc_life._advance_ambience(0.0)
 	hud.waits.refresh()
@@ -351,8 +349,7 @@ func _test_toll(tree: SceneTree, session: WorldSessionController) -> void:
 	map._process(0.05)
 	_check(hud.log_lines().slice(said).has(TOLL_SHOUT) and map.hostilities.toll_pending(robber) and not session.combat_encounter_coordinator().has_active_encounter(), "he shouts at once; his attack still waits: %s" % [hud.log_lines().slice(said)])
 	hud.nearby.refresh()
-	var name: Label = _row_part(hud, robber, "Name")
-	_check(name != null and name.get_theme_color("font_color") == SharedGameplayUI.ALERT_COLOR, "his name in red on the card")
+	_check(_status(hud, robber).has("正等着你留下买路财"), "his popup says he waits for the toll: %s" % [_status(hud, robber)])
 	var over: Label = map.runtime_body_for_character(robber.character_id).get_node("NameLabel") as Label
 	_check(over.get_theme_color("font_color") == WorldCharacterBody2D.ALERT_NAME_COLOR, "and over his head")
 	body.global_position = Vector2(ridge.get_center().x, ridge.position.y + 12) # stepped back out of reach
@@ -382,8 +379,7 @@ func _test_toll(tree: SceneTree, session: WorldSessionController) -> void:
 	map._process(0.05)
 	_check(not hud.log_lines().slice(said).has(TOLL_SHOUT) and not map.hostilities.toll_pending(robber), "paid: no shout, nothing pending")
 	hud.nearby.refresh()
-	name = _row_part(hud, robber, "Name")
-	_check(name == null or name.get_theme_color("font_color") != SharedGameplayUI.ALERT_COLOR, "and no red")
+	_check(not _status(hud, robber).has("正等着你留下买路财"), "and no waiting")
 	player.state.marks.erase("强盗")
 	body.global_position = Vector2(ridge.get_center().x, ridge.position.y + 12)
 	await tree.physics_frame
@@ -406,12 +402,10 @@ func _awake_resident(map: WorldMapController) -> NpcRuntimeState:
 	return null
 
 
-## A part ("Name", "Status") of the card's row for `npc`; null when it has none.
-func _row_part(hud: SharedGameplayUI, npc: NpcRuntimeState, part: String) -> Label:
-	for row: Node in hud._presentation_layout.nearby.get_children():
-		if not row.is_queued_for_deletion() and row.get_meta(&"npc_id", &"") == npc.character_id:
-			return row.get_node_or_null("Item/" + part) as Label
-	return null
+## How the interaction popup says `npc` is now (its warmer lines); [] when it is not in reach.
+func _status(hud: SharedGameplayUI, npc: NpcRuntimeState) -> Array:
+	var thing: WorldNearbyThing = hud.nearby.find(npc.character_id)
+	return [] if thing == null else hud.nearby.about(thing)[0]
 
 
 func _beside(tree: SceneTree, session: WorldSessionController, map: WorldMapController, npc: NpcRuntimeState) -> void:

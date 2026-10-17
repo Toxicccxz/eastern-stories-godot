@@ -58,7 +58,7 @@ func _test_devices() -> void:
 func _test_glyphs() -> void:
 	var devices := InputDevices.new()
 	devices.set_kind(InputDevices.Kind.GAMEPAD, InputDevices.PadStyle.XBOX)
-	_check(_text(&"ui_accept", devices) == "A" and _text(&"ui_cancel", devices) == "B" and _text(&"nearby_focus", devices) == "Y" and _text(&"look_around", devices) == "X", "Xbox: A B Y X")
+	_check(_text(&"ui_accept", devices) == "A" and _text(&"ui_cancel", devices) == "B" and _text(&"nearby_focus", devices) == "Y" and _text(&"look_around", devices) == "X" and _text(&"interact", devices) == "A", "Xbox: A B Y X, interact A")
 	_check(_text(&"menu_open", devices) == "Start" and _text(&"pause_game", devices) == "Back" and _text(&"menu_tab_previous", devices) == "LB" and _text(&"menu_tab_next", devices) == "RB", "Start, Back, LB, RB")
 	_check(_text(&"scroll_down", devices) == "RS", "the right stick scrolls")
 	_check(InputGlyphs.glyph_for(&"menu_character", devices) == null, "no pad glyph for a key-only action")
@@ -67,7 +67,7 @@ func _test_glyphs() -> void:
 	devices.set_kind(InputDevices.Kind.GAMEPAD, InputDevices.PadStyle.NINTENDO)
 	_check(_text(&"ui_accept", devices) == "B" and _text(&"ui_cancel", devices) == "A", "Nintendo names the bottom button B")
 	devices.set_kind(InputDevices.Kind.KEYBOARD_MOUSE)
-	_check(_text(&"ui_accept", devices) == "Enter" and _text(&"ui_cancel", devices) == "Esc" and _text(&"menu_open", devices) == "M" and _text(&"nearby_focus", devices) == "Tab" and _text(&"battle_back", devices) == "Backspace", "keys: Enter Esc M Tab Backspace")
+	_check(_text(&"ui_accept", devices) == "Enter" and _text(&"ui_cancel", devices) == "Esc" and _text(&"menu_open", devices) == "M" and _text(&"nearby_focus", devices) == "Tab" and _text(&"battle_back", devices) == "Backspace" and _text(&"interact", devices) == "E", "keys: Enter Esc M Tab Backspace, interact E")
 	devices.set_kind(InputDevices.Kind.TOUCH)
 	_check(InputGlyphs.glyph_for(&"ui_accept", devices) == null, "touch shows no glyph")
 	# Every action the game binds to a pad shows one.
@@ -207,7 +207,7 @@ func _test_walking_hud(tree: SceneTree) -> void:
 	var layout: SharedGameplayLayout = ui._presentation_layout
 	var map := session.active_map() as WorldMapController
 	_check(layout.menu_button.focus_mode == Control.FOCUS_NONE and InputGlyphBinding.action_of(layout.menu_button) == &"menu_open", "菜单 shows Start and takes no focus from a click")
-	# Beside 店小二 at the counter: his group's buttons, and the counter's 购买 under A.
+	# Beside 店小二 at the counter: the prompt marks what A goes to (DECISIONS「说话和交互」).
 	var waiter: NpcRuntimeState = null
 	for npc: NpcRuntimeState in map.npc_runtimes():
 		if NpcDefinition.unnamed_id(npc.definition().definition_id) == &"snow.npc.waiter":
@@ -215,16 +215,22 @@ func _test_walking_hud(tree: SceneTree) -> void:
 	var zone: StringName = waiter.world_location().zone_id
 	_check(map.place_player(zone, MapPlaces.spot(map, zone, map.runtime_body_for_character(waiter.character_id).global_position + Vector2(0, 52))), "beside 店小二")
 	map.npc_life._advance_ambience(0.0)
-	await _until(tree, func() -> bool: return layout.nearby.visible and not ui.actions.context_title().is_empty())
-	_check(layout.hints.visible and layout.hints.shown_hints()[0].begins_with("A ") and layout.hints.shown_hints().has("Y 选择附近") and layout.hints.shown_hints().has("X 观察"), "the card's hints: %s" % [layout.hints.shown_hints()])
-	for button: Button in ui._card_buttons():
-		_check(button.focus_mode == Control.FOCUS_NONE, "walking: the list's buttons take no focus")
+	await _until(tree, func() -> bool: return ui.nearby.target() != null)
+	_check(layout.bar.find_child("Nearby", true, false) == null, "the card lists nothing near: the prompt over the target does")
 
+	# Y steps the target through what is in reach.
+	var first_target: WorldNearbyThing = ui.nearby.target()
 	await _joy(tree, JOY_BUTTON_Y)
-	var first: Control = tree.root.gui_get_focus_owner()
-	_check(ui.card_nav_active() and first != null and layout.nearby.is_ancestor_of(first), "Y: the focus is in the list")
-	_check(layout.hints.shown_hints() == ["A 选择", "B 返回"], "the list's hints: %s" % [layout.hints.shown_hints()])
+	_check(ui.nearby.groups().size() < 2 or ui.nearby.target().id != first_target.id, "Y: the next thing in reach (%d near)" % ui.nearby.groups().size())
+	_check(ui.nearby.choose(waiter.character_id), "the waiter as the target")
+
+	# A on him: his popup, on its first row; world time stands still; the stick moves the focus.
 	var standing: Vector2 = map.runtime_player_body().global_position
+	await _joy(tree, JOY_BUTTON_A)
+	var first: Control = tree.root.gui_get_focus_owner()
+	_check(ui.interaction_open() and first is Button and not (first as Button).disabled and ui.interaction_panel.is_ancestor_of(first), "A: his popup, on its first row: %s" % first)
+	await _frames(tree, 2)
+	_check(session.world_time_held(), "the popup holds world time")
 	Input.parse_input_event(_joy_motion(JOY_AXIS_LEFT_Y, 1.0))
 	for frame: int in 6:
 		await tree.physics_frame
@@ -232,36 +238,27 @@ func _test_walking_hud(tree: SceneTree) -> void:
 	await tree.process_frame
 	_check(map.runtime_player_body().global_position == standing, "the stick moves the focus, not the player")
 	first.grab_focus()
-	await _joy(tree, JOY_BUTTON_DPAD_RIGHT)
+	await _joy(tree, JOY_BUTTON_DPAD_DOWN)
 	var second: Control = tree.root.gui_get_focus_owner()
-	_check(second != first and layout.nearby.is_ancestor_of(second), "D-pad →: the next button")
-	# 查看 opens the details: the focus goes into the frame, and back when it closes.
-	var look: Button = _card_button(ui, "查看")
+	_check(second != first and ui.interaction_panel.is_ancestor_of(second), "D-pad ↓: the next row")
+	_check(InputGlyphBinding.action_of(layout.close_button) == &"ui_cancel", "关闭 shows B")
+	# 查看 replaces the popup with the details; its time runs again.
+	var look: Button = ui.interaction_panel.button_of("查看")
 	look.grab_focus()
 	await _joy(tree, JOY_BUTTON_A)
-	_check(layout.frame.visible and layout.frame.is_ancestor_of(tree.root.gui_get_focus_owner()), "A on 查看: the panel has the focus")
-	_check(InputGlyphBinding.action_of(layout.close_button) == &"ui_cancel", "关闭 shows B")
-	ui.dismiss_current_panel()
-	await tree.process_frame
-	_check(tree.root.gui_get_focus_owner() == look, "the focus goes back to 查看")
-	await _joy(tree, JOY_BUTTON_B)
-	_check(not ui.card_nav_active() and tree.root.gui_get_focus_owner() == null, "B: back to walking")
-	await tree.physics_frame
-	await tree.physics_frame
-
-	# A with nothing focused is the place's action: the counter's 购买.
-	await _joy(tree, JOY_BUTTON_A)
-	var shop_focus: Control = tree.root.gui_get_focus_owner()
-	_check(layout.frame.visible and shop_focus != null and layout.frame.is_ancestor_of(shop_focus) and shop_focus != layout.close_button, "A: the shop, on its first good: %s" % shop_focus)
+	await _frames(tree, 2)
+	_check(layout.frame.visible and layout._content == layout.details and layout.frame.is_ancestor_of(tree.root.gui_get_focus_owner()), "A on 查看: the details, focused")
+	_check(not session.world_time_held(), "the popup gone: world time runs")
 	ui.dismiss_current_panel()
 	await _frames(tree, 2)
+	_check(not layout.frame.visible and tree.root.gui_get_focus_owner() == null, "B: back to walking")
 
-	# A button's A press is its own (it fires on release): the place's action waits.
-	await _joy(tree, JOY_BUTTON_Y)
-	_card_button(ui, "查看").grab_focus()
+	# A button's A press is its own (it fires on release): nothing else opens on the press.
+	await _joy(tree, JOY_BUTTON_A)
+	ui.interaction_panel.button_of("查看").grab_focus()
 	Input.parse_input_event(_joy_button(JOY_BUTTON_A, true))
 	await tree.process_frame
-	_check(not layout.frame.visible, "the press on a focused button opens nothing else")
+	_check(ui.interaction_open(), "the press on a focused row opens nothing else")
 	Input.parse_input_event(_joy_button(JOY_BUTTON_A, false))
 	await tree.process_frame
 	_check(layout.frame.visible and layout._content == layout.details, "its release presses it")
@@ -269,8 +266,7 @@ func _test_walking_hud(tree: SceneTree) -> void:
 	await tree.process_frame
 
 	# Start: the menu on its last tab, the focus on the page or its tab; RB, LB; Start closes
-	# it and the focus goes back to the list.
-	var from: Control = tree.root.gui_get_focus_owner()
+	# it and the player walks again.
 	await _joy(tree, JOY_BUTTON_START)
 	await tree.process_frame
 	var menu: GameMenu = ui.menu
@@ -296,9 +292,13 @@ func _test_walking_hud(tree: SceneTree) -> void:
 	await tree.process_frame
 	_check(menu.pages[GameMenu.Tab.INVENTORY].is_ancestor_of(tree.root.gui_get_focus_owner()), "取消: the focus back on the page")
 	await _joy(tree, JOY_BUTTON_START)
-	_check(not menu.is_presented() and tree.root.gui_get_focus_owner() == from and ui.card_nav_active(), "Start closes it; the focus back on the list")
+	_check(not menu.is_presented() and tree.root.gui_get_focus_owner() == null, "Start closes it")
 
-	# Tab leaves the list (the focus would take it as "next control").
+	# Walking, RB and Tab step the target too (Tab is not "next control" with nothing focused).
+	var before: WorldNearbyThing = ui.nearby.target()
+	await _joy(tree, JOY_BUTTON_RIGHT_SHOULDER)
+	_check(ui.nearby.groups().size() < 2 or ui.nearby.target().id != before.id, "RB: the next thing in reach")
+	before = ui.nearby.target()
 	var tab := InputEventKey.new()
 	tab.keycode = KEY_TAB
 	tab.pressed = true
@@ -307,31 +307,7 @@ func _test_walking_hud(tree: SceneTree) -> void:
 	tab.pressed = false
 	Input.parse_input_event(tab)
 	await tree.process_frame
-	_check(not ui.card_nav_active() and tree.root.gui_get_focus_owner() == null, "Tab leaves the list")
-	await _joy(tree, JOY_BUTTON_Y)
-	# WASD leaves the list and walks at once; a click leaves it too.
-	var key := InputEventKey.new()
-	key.keycode = KEY_S
-	key.physical_keycode = KEY_S
-	key.pressed = true
-	Input.parse_input_event(key)
-	await tree.process_frame
-	_check(not ui.card_nav_active() and not map.runtime_player_body().movement_input_quarantined(), "S: back to walking, not held")
-	key.pressed = false
-	Input.parse_input_event(key)
-	await tree.physics_frame
-	await _joy(tree, JOY_BUTTON_Y)
-	_check(ui.card_nav_active(), "Y again")
-	var click := InputEventMouseButton.new()
-	click.button_index = MOUSE_BUTTON_LEFT
-	click.pressed = true
-	click.position = Vector2(1100, 600)
-	Input.parse_input_event(click)
-	await tree.process_frame
-	click.pressed = false
-	Input.parse_input_event(click)
-	await tree.process_frame
-	_check(not ui.card_nav_active(), "a click leaves the list to the pointer")
+	_check(tree.root.gui_get_focus_owner() == null and (ui.nearby.groups().size() < 2 or ui.nearby.target().id != before.id), "Tab: the next thing in reach, no focus taken")
 
 	# X is 观察.
 	await _joy(tree, JOY_BUTTON_X)

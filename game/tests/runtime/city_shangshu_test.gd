@@ -278,7 +278,7 @@ func _test_altar(tree: SceneTree, session: WorldSessionController) -> void:
 	await tree.physics_frame
 	_check(map.select_landmark(&"city.jitan.landmark.altar") and map.select_landmark(&"city.jitan.landmark.platform") and map.select_landmark(BUTTON), "祭坛, 台子 and 凸起 in reach")
 	hud.nearby.refresh()
-	_check(hud.nearby.actions_of("凸起") == ["查看", "顺时针转", "逆时针转", "按下"], "the button's buttons: %s" % [hud.nearby.actions_of("凸起")])
+	_check(hud.nearby.actions_of("凸起") == ["顺时针转", "逆时针转", "按下", "查看"], "the button's buttons: %s" % [hud.nearby.actions_of("凸起")])
 	_check(not map.is_portal_open(DOWN) and not session.world_map_of(&"city.cellar").is_portal_open(UP), "the floor is shut")
 	map.traverse_selected_portal("forward")
 	_check(hud.log_lines()[-1] == "你将按钮沿顺时针转了一圈，什么事情也没发生。", "顺时针转: %s" % hud.log_lines()[-1])
