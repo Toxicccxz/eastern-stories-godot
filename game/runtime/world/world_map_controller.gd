@@ -535,6 +535,10 @@ func leave_by_passage(portal: PortalDefinition, passage: WorldPassageArea2D) -> 
 		_refuse_passage(refusal, portal.source_zone_id, passage)
 		return false
 	_tell_passing(portal.source_zone_id, portal.destination_zone_id)
+	# Leaving the room by a door is leaving it (a trap on the way out: keep2.c's boulder as
+	# one goes east into the keep's hall, a map of its own since the remap).
+	if session != null:
+		session.player_leaving_zone(portal.source_zone_id, portal.destination_zone_id)
 	if not portal.set_mark.is_empty():
 		_player.state.marks[portal.set_mark] = 1
 	mazes.entering(portal, _player.state)

@@ -50,7 +50,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_original_random = session.combat_random_source()
 	_kee = session.player_runtime().state.vitality.maximum
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new()) # TEST-ONLY: nobody chats or wanders
-	_check(session.handoff_to(&"green.mountain", &"green.cavehall", &"green.cavehall", &"green.cavehall.stoneroom_arrival").succeeded(), "TEST-ONLY: in the hall")
+	_check(session.handoff_to(&"green.stone_house", &"green.cavehall", &"green.cavehall", &"green.cavehall.stoneroom_arrival").succeeded(), "TEST-ONLY: in the hall (the stone house's map since the remap)")
 	await tree.physics_frame
 	await tree.physics_frame
 	await _test_master_in_the_hall(tree, session)
@@ -89,7 +89,7 @@ func _test_data() -> void:
 	_check(staff_item.weapon_apply.get(&"spells", 0) == 10 and staff_item.weapon_apply.get(&"dodge", 0) == -5 and hat != null, "金刚杖: spells 10, dodge -5; 紫金冠")
 	var soldier: NpcDefinition = _catalog.npc(SOLDIER)
 	_check(soldier.name_pick().size() == 10 and soldier.name_pick()[9] == "天癸神兵" and soldier.summoning().arrive.size() == 2 and soldier.summoning().color == ColoredLine.HIY, "the heaven soldier draws one of ten names; its coming and going in HIY")
-	_check(_catalog.spawns_for_map(&"green.mountain").any(func(spawn: NpcSpawnDefinition) -> bool: return spawn.npc_definition_id == MASTER and spawn.zone_id == &"green.cavehall"), "cavehall.c places him in the hall")
+	_check(_catalog.spawns_for_map(&"green.stone_house").any(func(spawn: NpcSpawnDefinition) -> bool: return spawn.npc_definition_id == MASTER and spawn.zone_id == &"green.cavehall"), "cavehall.c places him in the hall (on the stone house's map since the remap)")
 
 
 # --- Spells -------------------------------------------------------------------------
@@ -225,7 +225,7 @@ func _test_traitor(tree: SceneTree, session: WorldSessionController) -> void:
 	player.state.affiliation.family_title = "弟子"
 	player.take_title("封山剑派第十四代弟子")
 	player.state.vitality = CharacterResourceState.new(100000, 100000, 100000)
-	var service: TeacherService = map.service(&"green.mountain.cavehall.master") as TeacherService
+	var service: TeacherService = map.service(&"green.stone_house.cavehall.master") as TeacherService
 	_check(service != null and service.takes_apprentices(), "he takes apprentices")
 	service.ui.interact()
 	var ui: TeacherPanel = service.ui
@@ -259,7 +259,7 @@ func _test_join(tree: SceneTree, session: WorldSessionController) -> void:
 	player.apprenticeship_request.cancel()
 	_beside(tree, map, session, master)
 	await tree.physics_frame
-	var service: TeacherService = map.service(&"green.mountain.cavehall.master") as TeacherService
+	var service: TeacherService = map.service(&"green.stone_house.cavehall.master") as TeacherService
 	service.ui.interact()
 	var ui: TeacherPanel = service.ui
 	ui.apprentice_button.pressed.emit()

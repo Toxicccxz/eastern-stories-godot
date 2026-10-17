@@ -205,10 +205,10 @@ func _test_enable(session: WorldSessionController) -> void:
 
 ## 困 on 工匠 in a spar: busy (mana / 200 less his max_mana / 100, plus 2); 你失败了; 正自顾不暇.
 func _test_trap(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	var worker: NpcRuntimeState = _first(map, WORKER)
-	await _beside(tree, map, session, worker)
+	# 工匠 is at home in house1, its own map since the remap.
+	var worker: NpcRuntimeState = _first(session.world_map_of(&"green.house1_house"), WORKER)
+	var map: WorldMapController = await _beside(tree, session, worker)
 	session.configure_combat_random_source(Juechen.Forced.new()) # TEST-ONLY: every draw at its highest
 	map.select_npc(worker.character_id)
 	_check(map.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the player spars 工匠")
@@ -245,7 +245,7 @@ func _test_summon_in_spar(tree: SceneTree, session: WorldSessionController) -> v
 	_whole(worker.character_state) # TEST-ONLY: healthy enough to accept
 	player.state.recovery.mana.current = 1000
 	player.state.spirit.current = player.state.spirit.effective
-	await _beside(tree, map, session, worker)
+	map = await _beside(tree, session, worker)
 	session.configure_combat_random_source(Juechen.Forced.new()) # TEST-ONLY
 	map.select_npc(worker.character_id)
 	_check(map.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the player spars 工匠 again")
@@ -318,11 +318,12 @@ func _test_summon_in_spar(tree: SceneTree, session: WorldSessionController) -> v
 ## 老公公 kill_ob()s the player's soldier as it comes: ask_for_help() then sends 老婆婆 at
 ## the soldier (query_temp("killer"), his last kill_ob()), not at the player.
 func _test_old_couple(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	var man: NpcRuntimeState = _first(map, &"green.npc.oldman")
-	var wife: NpcRuntimeState = _first(map, &"green.npc.oldwoman")
-	await _beside(tree, map, session, man)
+	# The old couple are at home in house2, its own map since the remap.
+	var home: WorldMapController = session.world_map_of(&"green.house2_house")
+	var man: NpcRuntimeState = _first(home, &"green.npc.oldman")
+	var wife: NpcRuntimeState = _first(home, &"green.npc.oldwoman")
+	var map: WorldMapController = await _beside(tree, session, man)
 	player.state.recovery.mana.current = 1000
 	session.configure_combat_random_source(Juechen.Forced.new()) # TEST-ONLY
 	map.select_npc(man.character_id)
@@ -354,15 +355,15 @@ func _test_old_couple(tree: SceneTree, session: WorldSessionController) -> void:
 
 ## A no_magic room (cast.c): the spell is refused and costs nothing.
 func _test_no_magic(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var forbidden: Array[StringName] = []
 	for zone: ZoneDefinition in _catalog.zones():
 		if _catalog.zone_forbids_magic(zone.zone_id):
 			forbidden.append(zone.zone_id)
 	_check(forbidden == [&"choyin.dragon_temple", &"choyin.altar", &"choyin.lionroom", &"choyin.club", &"choyin.hollow", &"choyin.hollow3", &"city.bank", &"chuenyu.sunnyroad"], "乔阴's six rooms, 京师's 旺金钱庄 and 黑松山's 山脚乡田 are the only no_magic ones placed (Snow's bank has it commented out): %s" % [forbidden])
-	var quarryman: NpcRuntimeState = _first(map, QUARRYMAN)
-	await _beside(tree, map, session, quarryman)
+	# Back out in the village (the old couple's house is its own map).
+	var quarryman: NpcRuntimeState = _first(session.world_map_of(&"green.village"), QUARRYMAN)
+	var map: WorldMapController = await _beside(tree, session, quarryman)
 	player.state.recovery.mana.current = 1000
 	map.select_npc(quarryman.character_id)
 	_check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the player attacks a 采石工")
@@ -530,15 +531,23 @@ static func _whole(state: CharacterState) -> void:
 		resource.current = resource.maximum
 
 
-## TEST-ONLY: the player beside an NPC, on a free spot of its zone.
-func _beside(tree: SceneTree, map: WorldMapController, session: WorldSessionController, npc: NpcRuntimeState) -> void:
-	var body: WorldCharacterBody2D = map.runtime_body_for_character(npc.character_id)
+## TEST-ONLY: the player beside an NPC, on a free spot of its zone, on whichever map it stands
+## (a house is its own map since the remap: in at the NPC's spawn point first); that map.
+func _beside(tree: SceneTree, session: WorldSessionController, npc: NpcRuntimeState) -> WorldMapController:
 	var zone_id: StringName = npc.world_location().zone_id
+	var map: WorldMapController = session.active_map() as WorldMapController
+	if map == null or map.map_id() != MapPlaces.map_of(zone_id):
+		map = MapPlaces.enter(session, zone_id, npc.spawn_point_id)
+		_check(map != null, "TEST-ONLY: onto %s's map" % npc.definition().display_name)
+		await tree.physics_frame
+		await tree.physics_frame
+	var body: WorldCharacterBody2D = map.runtime_body_for_character(npc.character_id)
 	var at: Vector2 = MapPlaces.spot(map, zone_id, body.global_position + Vector2(0, 56), 80.0)
 	map.runtime_player_body().global_position = at
 	_check(at != Vector2.INF and session.player_runtime().set_world_location(map.location_for_zone(zone_id)), "TEST-ONLY: beside %s" % npc.definition().display_name)
 	await tree.physics_frame
 	await tree.physics_frame
+	return map
 
 
 func _check(ok: bool, label: String) -> void:

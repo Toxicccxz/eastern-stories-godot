@@ -218,7 +218,12 @@ func player_left() -> void:
 	for character_id: StringName in trials.keys():
 		while trials.has(character_id):
 			_trial_step(character_id)
+	# A master's answer to 拜师 still to come is said to the room the player left (a refusal
+	# ends the request: DECISIONS 山烟寺 C), as on one map; gone, it would leave it pending.
 	if ambience != null:
+		for npc: NpcRuntimeState in _map.npcs.residents:
+			if ambience.has_call(npc.character_id, NpcAmbience.RECRUIT):
+				_answer_apprentice(npc)
 		ambience.clear_calls()
 	pending_steals.clear()
 	_map.thefts.player_left()

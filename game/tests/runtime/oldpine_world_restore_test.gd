@@ -16,6 +16,7 @@ const INACTIVE_FROM_OUTDOOR: Array[StringName] = [
 	OldPineWorldDefinitions.GORGE_MAP_ID,
 	OldPineWorldDefinitions.TREE_MAP_ID,
 	OldPineWorldDefinitions.CLIFF_MAP_ID,
+	&"oldpine.keep_hall",
 ]
 ## Forest tiles inside the North Approach zone, west of the Snow road: blocked terrain.
 const NORTH_APPROACH_FOREST: Vector2 = Vector2(-600.0, -180.0)
@@ -135,7 +136,7 @@ func _test_outdoor_restore_and_identity_injection(tree: SceneTree) -> void:
 	for map_id: StringName in INACTIVE_FROM_OUTDOOR:
 		_assert_true(candidate.world_map_of(map_id).get_parent() == null, "inactive %s is detached" % map_id)
 	_assert_eq(candidate.active_map_child_count(), 1, "exactly one resident is attached")
-	_assert_eq(candidate.resident_map_count(), 8, "all eight Old Pine residents are fresh and retained")
+	_assert_eq(candidate.resident_map_count(), 9, "all nine Old Pine residents are fresh and retained (the keep's hall is its own map since the remap)")
 	_assert_eq(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).initialization_count(), 1, "Outdoor initializes once")
 	for map_id: StringName in INACTIVE_FROM_OUTDOOR:
 		_assert_eq(candidate.world_map_of(map_id).initialization_count(), 1, "%s initializes once" % map_id)
@@ -754,7 +755,7 @@ func _test_cave_restore_and_candidate_activation(tree: SceneTree) -> void:
 	_assert_eq(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).process_mode, Node.PROCESS_MODE_DISABLED, "inactive restored Outdoor remains frozen")
 	_assert_true(candidate.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID).get_parent() == null, "restored Gorge remains detached")
 	_assert_eq(candidate.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID).process_mode, Node.PROCESS_MODE_DISABLED, "inactive restored Gorge remains frozen")
-	_assert_eq(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes().size(), 23, "inactive Outdoor retains restored NPC ledger")
+	_assert_eq(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes().size(), 19, "inactive Outdoor retains restored NPC ledger (the keep's hall is its own map since the remap)")
 	_assert_eq(candidate.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID).npc_runtimes().size(), 5, "inactive Gorge retains restored serpent ledger")
 	_assert_eq(candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size(), 1, "inactive Outdoor retains restored corpse ledger")
 	_assert_eq(candidate.inventory_state().registered_item_ids().size(), 57, "Cave-active staging retains exact restored item count")

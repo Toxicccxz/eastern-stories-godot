@@ -309,20 +309,20 @@
           {
             "op": "fill",
             "fills": [
-              ["cliff", 576, 1920, 832, 2208, "山洞 (its own map since the remap)"],
-              ["cliff", 576, 1632, 832, 1920, "山洞 (its own map since the remap)"],
               ["cliff", 448, 32, 960, 288, "石室 (its own map since the remap)"],
               ["cliff", 544, 288, 864, 544, "石室 (its own map since the remap)"],
               ["cliff", 960, 32, 1248, 288, "石室 (its own map since the remap)"],
+              ["cliff", 576, 1920, 832, 2208, "山洞 (its own map since the remap)"],
+              ["cliff", 576, 1632, 832, 1920, "山洞 (its own map since the remap)"],
               ["chasm", 576, 800, 624, 1632, "the bottomless chasm west of the road, water far below"],
-              ["path", 672, 544, 736, 640, "the way into 石室"],
-              ["grass", 1072, 288, 1136, 384, "the way into 石室"],
               ["grass", 672, 2208, 736, 2304, "the way into 山洞"],
-              ["path", 672, 1568, 736, 1600, "the way into 山洞"]
+              ["path", 672, 1568, 736, 1600, "the way into 山洞"],
+              ["path", 672, 544, 736, 640, "the way into 石室"],
+              ["grass", 1072, 288, 1136, 384, "the way into 石室"]
             ]
           }
         ],
-        "reach_from": ["PathArrival", "EntranceOutdoorReturn", "WaterStoneroomReturn", "Cave0Cave1Return", "Mpath0Cave2Return"],
+        "reach_from": ["PathArrival", "Cave0Cave1Return", "Mpath0Cave2Return", "EntranceOutdoorReturn", "WaterStoneroomReturn"],
         "caption_near": {
           "green.cave0": [520, 2440],
           "green.mpath0": [760, 1400],
@@ -466,20 +466,6 @@
           },
           {
             "node": "passage",
-            "name": "EntranceNorthPassage",
-            "id": "green.entrance.north",
-            "at": [704, 560],
-            "shape": "Rect_64_32"
-          },
-          {
-            "node": "passage",
-            "name": "WaterNorthPassage",
-            "id": "green.water.north",
-            "at": [1104, 304],
-            "shape": "Rect_64_32"
-          },
-          {
-            "node": "passage",
             "name": "Cave0NorthPassage",
             "id": "green.cave0.north",
             "at": [704, 2224],
@@ -490,6 +476,20 @@
             "name": "Mpath0SouthPassage",
             "id": "green.mpath0.south",
             "at": [704, 1616],
+            "shape": "Rect_64_32"
+          },
+          {
+            "node": "passage",
+            "name": "EntranceNorthPassage",
+            "id": "green.entrance.north",
+            "at": [704, 560],
+            "shape": "Rect_64_32"
+          },
+          {
+            "node": "passage",
+            "name": "WaterNorthPassage",
+            "id": "green.water.north",
+            "at": [1104, 304],
             "shape": "Rect_64_32"
           },
           {
@@ -528,16 +528,6 @@
             "id": "green.entrance.hole_arrival"
           },
           {
-            "name": "EntranceOutdoorReturn",
-            "at": [704, 624],
-            "id": "green.entrance.outdoor_return"
-          },
-          {
-            "name": "WaterStoneroomReturn",
-            "at": [1104, 368],
-            "id": "green.water.stoneroom_return"
-          },
-          {
             "name": "Cave0Cave1Return",
             "at": [704, 2288],
             "id": "green.cave0.cave1_return"
@@ -546,6 +536,16 @@
             "name": "Mpath0Cave2Return",
             "at": [704, 1552],
             "id": "green.mpath0.cave2_return"
+          },
+          {
+            "name": "EntranceOutdoorReturn",
+            "at": [704, 624],
+            "id": "green.entrance.outdoor_return"
+          },
+          {
+            "name": "WaterStoneroomReturn",
+            "at": [1104, 368],
+            "id": "green.water.stoneroom_return"
           }
         ],
         "interactions": [
@@ -1459,6 +1459,64 @@
         "interactions": []
       }
     },
+    "cave": {
+      "note": "山洞: its own map (地图重构), carried over from the hand-drawn map, its things where they stood in the room.",
+      "file": "cave.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "house",
+        "rooms": {
+          "green.cave1": {
+            "floor": "cave_floor",
+            "wall": "wall",
+            "size": "room"
+          },
+          "green.cave2": {
+            "floor": "cave_floor",
+            "wall": "wall",
+            "size": "room"
+          }
+        },
+        "props": [],
+        "placed": {},
+        "doors": {
+          "green.cave1.south": "south",
+          "green.cave2.north": "north"
+        },
+        "reach_from": "Cave1Cave0Entry"
+      },
+      "scene": {
+        "style": "map",
+        "root": "Cave",
+        "map": "green.cave",
+        "player_color": "Color(0.62, 0.74, 0.58, 1)",
+        "shapes": {
+          "Rect_32_64": [32, 64],
+          "Rect_32_96": [32, 96],
+          "Rect_64_32": [64, 32],
+          "Rect_96_32": [96, 32],
+          "Rect_48_48": [48, 48],
+          "Rect_48_96": [48, 96]
+        },
+        "stairs": [],
+        "nodes": [
+          {
+            "generated": "captions"
+          }
+        ],
+        "zones": [
+          {
+            "generated": "zones"
+          }
+        ],
+        "spawn_points": [
+          {
+            "generated": "markers"
+          }
+        ],
+        "interactions": []
+      }
+    },
     "stone_house": {
       "note": "石室: its own map (地图重构), carried over from the hand-drawn map, its things where they stood in the room.",
       "file": "stone_house.tscn",
@@ -1490,7 +1548,12 @@
           ["blocked", "green.outdoor", ["rel", 0.125, 0.75], 0.94, 0.94],
           ["blocked", "green.cavehall", ["rel", 0.5, 0.125], 1.88, 1.41, "the Buddha, a night pearl on its head"]
         ],
-        "placed": {},
+        "placed": {
+          "green.cavehall.master.1": [
+            "green.cavehall",
+            ["rel", 0.5, 0.5]
+          ]
+        },
         "doors": {
           "green.outdoor.south": "south",
           "green.stoneroom.south": "south"
@@ -1575,75 +1638,11 @@
             "anchor": ["rel", 0.893, 0.583]
           },
           {
-            "name": "CavehallMaster1",
-            "id": "green.cavehall.master.1",
-            "room": "green.cavehall",
-            "anchor": ["rel", 0.5, 0.5]
-          },
-          {
             "name": "MazeArrival",
             "id": "green.stoneroom.maze_arrival",
             "room": "green.stoneroom",
             "anchor": ["rel", 0.5, 0.333]
           },
-          {
-            "generated": "markers"
-          }
-        ],
-        "interactions": []
-      }
-    },
-    "cave": {
-      "note": "山洞: its own map (地图重构), carried over from the hand-drawn map, its things where they stood in the room.",
-      "file": "cave.tscn",
-      "draw": {
-        "technique": "interior",
-        "building": "house",
-        "rooms": {
-          "green.cave1": {
-            "floor": "cave_floor",
-            "wall": "wall",
-            "size": "room"
-          },
-          "green.cave2": {
-            "floor": "cave_floor",
-            "wall": "wall",
-            "size": "room"
-          }
-        },
-        "props": [],
-        "placed": {},
-        "doors": {
-          "green.cave1.south": "south",
-          "green.cave2.north": "north"
-        },
-        "reach_from": "Cave1Cave0Entry"
-      },
-      "scene": {
-        "style": "map",
-        "root": "Cave",
-        "map": "green.cave",
-        "player_color": "Color(0.62, 0.74, 0.58, 1)",
-        "shapes": {
-          "Rect_32_64": [32, 64],
-          "Rect_32_96": [32, 96],
-          "Rect_64_32": [64, 32],
-          "Rect_96_32": [96, 32],
-          "Rect_48_48": [48, 48],
-          "Rect_48_96": [48, 96]
-        },
-        "stairs": [],
-        "nodes": [
-          {
-            "generated": "captions"
-          }
-        ],
-        "zones": [
-          {
-            "generated": "zones"
-          }
-        ],
-        "spawn_points": [
           {
             "generated": "markers"
           }

@@ -45,8 +45,9 @@ func _test_data() -> void:
 	_check(catalog.room(&"es2:d/goathill/cavern1.c") == null, "cavern1.c.c (an empty stray copy nothing leads to) is not a room")
 	_check(catalog.room(&"es2:d/goathill/mroad4").short == "山路转角" and catalog.zone(&"goathill.mroad4").map_id == &"goathill.mountain" and catalog.zone(&"goathill.cavern3").map_id == &"goathill.caverns", "room text and maps")
 	_check(catalog.zones_adjacent(&"snow.crossroad", &"goathill.mroad1") and catalog.zones_adjacent(&"goathill.canyon3", &"goathill.cavern1"), "crossroad north to mroad1; canyon3 east to cavern1")
+	_check(catalog.zone(&"goathill.temple1").map_id == &"goathill.temple_house" and catalog.portal(&"goathill.mroad3.east").destination_zone_id == &"goathill.temple1" and catalog.portal(&"goathill.temple1.west").destination_zone_id == &"goathill.mroad3", "黄霸's 土地庙 is its own map since the remap: mroad3 east into it, and back")
 	var counts: Dictionary[String, int] = {}
-	for spawn_id: String in ["goathill.mountain.mroad4.bandits", "goathill.mountain.mroad4.bandit_leader", "goathill.mountain.temple1.bandit_hwang",
+	for spawn_id: String in ["goathill.mountain.mroad4.bandits", "goathill.mountain.mroad4.bandit_leader", "goathill.temple_house.temple1.bandit_hwang",
 			"goathill.caverns.cavern1.worms", "goathill.caverns.cavern2.fat_worm", "goathill.caverns.cavern2.worms",
 			"goathill.caverns.cavern3.big_worms", "goathill.caverns.cavern3.huge_worms", "goathill.caverns.cavern4.worms", "goathill.caverns.cavern4.big_worm"]:
 		var spawn: NpcSpawnDefinition = catalog.spawn(StringName(spawn_id))
@@ -70,7 +71,7 @@ func _test_data() -> void:
 
 
 func _test_tiles(session: WorldSessionController) -> void:
-	for map_id: StringName in [&"goathill.mountain", &"goathill.caverns"]:
+	for map_id: StringName in [&"goathill.mountain", &"goathill.caverns", &"goathill.temple_house"]: # the 土地庙 its own map since the remap
 		var map: WorldMapController = session.world_map_of(map_id)
 		var layers: Array[TileMapLayer] = TerrainProbe.layers(map)
 		var walkable: Dictionary[Vector2i, bool] = {}
@@ -113,7 +114,9 @@ func _test_tiles(session: WorldSessionController) -> void:
 ## weapon_prop counts too (damage included); only the first attacks.
 func _test_two_hands(session: WorldSessionController) -> void:
 	var mountain: WorldMapController = session.world_map_of(&"goathill.mountain")
-	var hwang: NpcRuntimeState = _find(mountain, &"goathill.npc.bandit_hwang")
+	# 黄霸's 土地庙 is its own map since the remap.
+	var temple: WorldMapController = session.world_map_of(&"goathill.temple_house")
+	var hwang: NpcRuntimeState = _find(temple, &"goathill.npc.bandit_hwang")
 	var leader: NpcRuntimeState = _find(mountain, &"goathill.npc.bandit_leader")
 	var held: Array[String] = []
 	for npc: NpcRuntimeState in [hwang, leader]:
@@ -122,7 +125,7 @@ func _test_two_hands(session: WorldSessionController) -> void:
 		held.append("%s %s" % ["" if primary == null else primary.weapon_id, "" if secondary == null else secondary.weapon_id])
 	_check(held == ["%s %s" % [HAMMER, HAMMER], "%s %s" % [AXE, AXE]], "黄霸 holds a 大金槌 in each hand, the leader a 短斧 in each: " + str(held))
 	var binding: CombatSliceCharacterBinding = null
-	for candidate: CombatSliceCharacterBinding in mountain.combat_lifecycle.build_participants(true):
+	for candidate: CombatSliceCharacterBinding in temple.combat_lifecycle.build_participants(true):
 		if candidate.character_id == hwang.character_id:
 			binding = candidate
 	_check(binding != null and CombatSliceProjectionBuilder.apply_of(binding, &"attack") == 100 - 4 - 4 and CombatSliceProjectionBuilder.apply_of(binding, &"defense") == 90 + 5 + 5 + 1, "apply/attack 100 - 4 - 4, apply/defense 90 + 5 + 5 and the boots' 1: both hammers' weapon_prop")
@@ -247,7 +250,8 @@ func _test_bash(tree: SceneTree, session: WorldSessionController) -> void:
 	# A parrying stack (飞刀) breaks whole and stays a stack, of broken ones (review on #55).
 	var knives: StringName = _give_stack(session, &"es2:d/snow/npc/obj/throwing_knife", 10) # TEST-ONLY
 	_check(session.wield_player_item(knives).succeeded and player.state.equipment.primary_weapon().instance_id == knives, "the player parries with 飞刀")
-	var hwang: CombatSliceCharacterBinding = _binding(map, _find(map, &"goathill.npc.bandit_hwang").character_id)
+	var temple: WorldMapController = session.world_map_of(&"goathill.temple_house") # 黄霸's 土地庙, its own map since the remap
+	var hwang: CombatSliceCharacterBinding = _binding(temple, _find(temple, &"goathill.npc.bandit_hwang").character_id)
 	me = _binding(map, player.character_id)
 	@warning_ignore("integer_division")
 	var wdp: int = session.inventory_state().own_weight(knives) / 500 + player.state.attributes.strength
@@ -268,10 +272,11 @@ func _test_bash(tree: SceneTree, session: WorldSessionController) -> void:
 ## 黄霸 fought: his 大金槌 bash, crush and slam, and 伏蛟功's force hit lands without
 ## aborting the fight. TEST-ONLY: a strong player who only parries with a weapon.
 func _test_hwang_fight(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.world_map_of(&"goathill.mountain")
+	# 黄霸's 土地庙 is its own map since the remap: TEST-ONLY in at its door from mroad3.
+	var map: WorldMapController = session.world_map_of(&"goathill.temple_house")
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var hwang: NpcRuntimeState = _find(map, &"goathill.npc.bandit_hwang")
-	session.handoff_to(&"goathill.mountain", &"goathill.temple1", &"goathill.temple1", &"goathill.canyon3.cavern_return")
+	_check(session.handoff_to(&"goathill.temple_house", &"goathill.temple1", &"goathill.temple1", &"goathill.temple1.mroad3_entry").succeeded() and session.active_map() == map, "TEST-ONLY: into the 土地庙 (its own map)")
 	await tree.physics_frame
 	map.runtime_player_body().global_position = map.runtime_body_for_character(hwang.character_id).global_position + Vector2(0, 46) # TEST-ONLY
 	player.set_world_location(map.location_for_zone(&"goathill.temple1"))

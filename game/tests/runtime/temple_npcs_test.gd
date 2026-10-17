@@ -87,7 +87,8 @@ func _fight_a_while(tree: SceneTree, session: WorldSessionController, map: World
 ## 林忌's chat: random(100) 0 < 30, entry 3 (invocation); random(2000) 1999, random(3) 1:
 ## a 阴鬼卒 comes to his side; the player flees and it leaves with its HIB lines.
 func _test_hell_guard(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.world_map_of(&"temple.grounds")
+	# The 大殿 is its own map since the remap.
+	var map: WorldMapController = session.world_map_of(&"temple.temple1_house")
 	var master: NpcRuntimeState = _first(map, MASTER)
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	map = await _beside(tree, session, map, master)
@@ -161,8 +162,12 @@ func _battle_log(session: WorldSessionController) -> String:
 	return battle.log_panel._text.get_parsed_text()
 
 
+## The temple's maps (its buildings each a map of their own since the remap).
 func _map_of(session: WorldSessionController, kind: StringName) -> WorldMapController:
-	for map_id: StringName in [&"temple.mountain", &"temple.grounds"]:
+	for map_id: StringName in [
+		&"temple.mountain", &"temple.grounds", &"temple.temple1_house", &"temple.temple2_house", &"temple.trainroom_house",
+		&"temple.restroom1_house", &"temple.restroom2_house", &"temple.book_room1_house", &"temple.library",
+	]:
 		if _first(session.world_map_of(map_id), kind) != null:
 			return session.world_map_of(map_id)
 	return null

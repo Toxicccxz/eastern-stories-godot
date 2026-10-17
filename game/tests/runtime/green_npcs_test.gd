@@ -8,6 +8,7 @@ extends RefCounted
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const Specials := preload("res://tests/runtime/combat_specials_test.gd")
+const MapPlaces := preload("res://tests/support/map_places.gd")
 const KNIFE: StringName = &"es2:d/green/npc/obj/knife"
 const HAMMER: StringName = &"es2:d/green/obj/hammer"
 const ROPE: StringName = &"es2:d/green/obj/rope"
@@ -56,7 +57,11 @@ func _test_definitions() -> void:
 func _test_created(session: WorldSessionController, village: WorldMapController) -> void:
 	var hammers: int = 0
 	var ropes: int = 0
-	for npc: NpcRuntimeState in village.resident_npcs():
+	# The houses' people (woman1, the 工匠) stand on their own maps since the remap.
+	var villagers: Array[NpcRuntimeState] = village.resident_npcs()
+	for map_id: StringName in [&"green.shop0_house", &"green.house0_house", &"green.house1_house", &"green.house2_house", &"green.house4_house"]:
+		villagers.append_array(session.world_map_of(map_id).resident_npcs())
+	for npc: NpcRuntimeState in villagers:
 		var id: StringName = npc.definition().definition_id
 		var dodge: int = npc.character_state.applies.get("dodge", -1)
 		match id:
@@ -111,13 +116,11 @@ func _test_attitude(tree: SceneTree, session: WorldSessionController) -> void:
 
 ## woman1.c in a fight: wield_weapon() once (then chat_chance_combat 10), converse_one().
 func _test_woman(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	var woman: NpcRuntimeState = null
-	for npc: NpcRuntimeState in map.resident_npcs():
-		if npc.definition().definition_id == &"green.npc.woman1" and npc.world_location().zone_id == &"green.house0":
-			woman = npc
-	await _beside(tree, map, woman)
+	# The woman at home in house0 (its own map since the remap).
+	var woman: NpcRuntimeState = MapPlaces.npc_at(session, &"green.house0.woman1.1")
+	_check(woman != null and woman.world_location().zone_id == &"green.house0", "a woman at home in house0")
+	var map: WorldMapController = await _beside(tree, session, woman)
 	player.state.vitality = CharacterResourceState.new(50000, 50000, 50000) # TEST-ONLY: outlast her
 	map.select_npc(woman.character_id)
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
@@ -141,11 +144,11 @@ func _test_woman(tree: SceneTree, session: WorldSessionController) -> void:
 ## ask_for_help(): attacked to the death, the old man calls; the old woman shouts and
 ## comes in to kill the player; in a spar nobody comes.
 func _test_old_couple(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	var man: NpcRuntimeState = _first(map, &"green.npc.oldman")
-	var wife: NpcRuntimeState = _first(map, &"green.npc.oldwoman")
-	await _beside(tree, map, man)
+	# The old couple at home in house2 (its own map since the remap).
+	var man: NpcRuntimeState = MapPlaces.npc_at(session, &"green.house2.oldman.1")
+	var wife: NpcRuntimeState = MapPlaces.npc_at(session, &"green.house2.oldwoman.1")
+	var map: WorldMapController = await _beside(tree, session, man)
 	player.state.vitality = CharacterResourceState.new(50000, 50000, 50000) # TEST-ONLY
 	map.select_npc(man.character_id)
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
@@ -166,9 +169,12 @@ func _test_old_couple(tree: SceneTree, session: WorldSessionController) -> void:
 	_end_fight(session)
 
 
-func _beside(tree: SceneTree, map: WorldMapController, npc: NpcRuntimeState) -> void:
-	_check(npc != null and map.relocate_player(npc.world_location().zone_id, npc.spawn_point_id), "TEST-ONLY: beside %s" % ("?" if npc == null else npc.definition().display_name))
+## TEST-ONLY: beside the NPC, on whichever map it stands; that map.
+func _beside(tree: SceneTree, session: WorldSessionController, npc: NpcRuntimeState) -> WorldMapController:
+	var map: WorldMapController = null if npc == null else MapPlaces.enter(session, npc.world_location().zone_id, npc.spawn_point_id)
+	_check(map != null, "TEST-ONLY: beside %s" % ("?" if npc == null else npc.definition().display_name))
 	await tree.physics_frame
+	return map
 
 
 func _carries(session: WorldSessionController, npc: NpcRuntimeState, definition_id: StringName) -> bool:

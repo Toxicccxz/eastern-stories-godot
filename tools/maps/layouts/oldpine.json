@@ -1388,7 +1388,24 @@
           ["blocked", "oldpine.outdoor.keep_hall", ["rel", 0.026, 0.969], 0.5, 0.5],
           ["blocked", "oldpine.outdoor.keep_hall", ["rel", 0.974, 0.969], 0.5, 0.5]
         ],
-        "placed": {},
+        "placed": {
+          "oldpine.outdoor.keep_hall.keep3.bandit_leader.1": [
+            "oldpine.outdoor.keep_hall",
+            ["rel", 0.158, 0.25]
+          ],
+          "oldpine.outdoor.keep_hall.keep3.bandit_leader.2": [
+            "oldpine.outdoor.keep_hall",
+            ["rel", 0.158, 0.75]
+          ],
+          "oldpine.outdoor.keep_hall.keep3.bandit_leader.3": [
+            "oldpine.outdoor.keep_hall",
+            ["rel", 0.842, 0.75]
+          ],
+          "oldpine.outdoor.keep_hall.keep3.bandit_commander.1": [
+            "oldpine.outdoor.keep_hall",
+            ["rel", 0.842, 0.188]
+          ]
+        },
         "doors": {
           "oldpine.outdoor.keep_hall.west": "west"
         },
@@ -1420,30 +1437,6 @@
           }
         ],
         "spawn_points": [
-          {
-            "name": "Keep3Leader01",
-            "id": "oldpine.outdoor.keep_hall.keep3.bandit_leader.1",
-            "room": "oldpine.outdoor.keep_hall",
-            "anchor": ["rel", 0.158, 0.25]
-          },
-          {
-            "name": "Keep3Leader02",
-            "id": "oldpine.outdoor.keep_hall.keep3.bandit_leader.2",
-            "room": "oldpine.outdoor.keep_hall",
-            "anchor": ["rel", 0.158, 0.75]
-          },
-          {
-            "name": "Keep3Leader03",
-            "id": "oldpine.outdoor.keep_hall.keep3.bandit_leader.3",
-            "room": "oldpine.outdoor.keep_hall",
-            "anchor": ["rel", 0.842, 0.75]
-          },
-          {
-            "name": "Keep3Commander",
-            "id": "oldpine.outdoor.keep_hall.keep3.bandit_commander.1",
-            "room": "oldpine.outdoor.keep_hall",
-            "anchor": ["rel", 0.842, 0.188]
-          },
           {
             "generated": "markers"
           }

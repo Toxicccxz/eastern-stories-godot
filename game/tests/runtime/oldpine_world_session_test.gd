@@ -184,13 +184,13 @@ func _test_session_authorities_and_resident_lifetime(tree: SceneTree) -> void:
 	var cave: WorldMapController = session.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID)
 	var session_allocator: SessionItemIdAllocator = session.item_id_allocator()
 	_assert_true(outdoor != null and cave != null, "session retains the Outdoor and Cave typed resident maps")
-	_assert_eq(session.resident_map_count(), 8, "session has exactly eight Old Pine resident maps")
+	_assert_eq(session.resident_map_count(), 9, "session has exactly nine Old Pine resident maps (the keep's hall is its own map since the remap)")
 	_assert_eq(session.active_map_child_count(), 1, "exactly one resident map is tree-active")
 	_assert_eq(session.active_map_id(), OldPineWorldDefinitions.OUTDOOR_MAP_ID, "Outdoor starts active")
 	_assert_eq(session.player_runtime().world_location().map_id, OldPineWorldDefinitions.OUTDOOR_MAP_ID, "inactive Cave prewarm never changes player location")
 	_assert_true(outdoor.get_parent() == session.active_map_slot, "Outdoor is the attached resident")
 	_assert_true(cave.get_parent() == null, "Cave starts detached and frozen")
-	for map_id: StringName in [OldPineWorldDefinitions.GORGE_MAP_ID, OldPineWorldDefinitions.TREE_MAP_ID, OldPineWorldDefinitions.CLIFF_MAP_ID]:
+	for map_id: StringName in [OldPineWorldDefinitions.GORGE_MAP_ID, OldPineWorldDefinitions.TREE_MAP_ID, OldPineWorldDefinitions.CLIFF_MAP_ID, &"oldpine.keep_hall"]:
 		var resident: WorldMapController = session.world_map_of(map_id)
 		_assert_true(resident != null and resident.get_parent() == null, "%s starts detached and frozen" % map_id)
 		_assert_eq(resident.initialization_count(), 1, "%s initializes exactly once" % map_id)

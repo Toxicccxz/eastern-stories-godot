@@ -427,7 +427,12 @@
         "props": [
           ["blocked", "goathill.temple1", ["rel", 0.95, 0.5], 0.5, 0.94, "the shrine against its east wall"]
         ],
-        "placed": {},
+        "placed": {
+          "goathill.temple1.bandit_hwang.1": [
+            "goathill.temple1",
+            ["rel", 0.75, 0.219]
+          ]
+        },
         "doors": {
           "goathill.temple1.west": "west"
         },
@@ -454,12 +459,6 @@
           }
         ],
         "spawn_points": [
-          {
-            "name": "Hwang01",
-            "id": "goathill.temple1.bandit_hwang.1",
-            "room": "goathill.temple1",
-            "anchor": ["rel", 0.75, 0.219]
-          },
           {
             "generated": "markers"
           }

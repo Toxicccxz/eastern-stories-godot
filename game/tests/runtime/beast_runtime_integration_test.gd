@@ -24,7 +24,7 @@ func _run_case(tree: SceneTree, wounded: bool) -> void:
 	await tree.process_frame
 	var map: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var gorge: WorldMapController = session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID)
-	_eq(map.npc_runtimes().size(), 23, "normal bootstrap has 23 in the forest")
+	_eq(map.npc_runtimes().size(), 19, "normal bootstrap has 19 in the forest (the keep's hall and its four are their own map since the remap)")
 	_eq(gorge.npc_runtimes().size(), 5, "normal bootstrap has five serpents in the gorge")
 	var bootstrap_npcs: int = map.npc_runtimes().size()
 	var capture: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, &"test", "2026-09-10T12:00:00Z")

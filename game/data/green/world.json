@@ -13,8 +13,8 @@
 		{ "id": "green.house3_house", "region": "green", "scene": "res://scenes/world/green/house3_house.tscn", "entry": "green.house3.field1_entry", "interior": true },
 		{ "id": "green.house4_house", "region": "green", "scene": "res://scenes/world/green/house4_house.tscn", "entry": "green.house4.field0_entry", "interior": true },
 		{ "id": "green.temple0_house", "region": "green", "scene": "res://scenes/world/green/temple0_house.tscn", "entry": "green.temple0.path2_entry", "interior": true },
-		{ "id": "green.stone_house", "region": "green", "scene": "res://scenes/world/green/stone_house.tscn", "entry": "green.outdoor.water_arrival", "interior": true },
-		{ "id": "green.cave", "region": "green", "scene": "res://scenes/world/green/cave.tscn", "entry": "green.cave1.cave0_entry", "interior": true }
+		{ "id": "green.cave", "region": "green", "scene": "res://scenes/world/green/cave.tscn", "entry": "green.cave1.cave0_entry", "interior": true },
+		{ "id": "green.stone_house", "region": "green", "scene": "res://scenes/world/green/stone_house.tscn", "entry": "green.outdoor.water_arrival", "interior": true }
 	],
 	"zones": [
 		{ "id": "green.path6", "map": "green.village", "rooms": ["es2:d/green/path6"] },
@@ -112,14 +112,14 @@
 		{ "id": "green.house3.south", "from_zone": "green.house3", "to_zone": "green.field1", "to_spawn": "green.field1.house3_return", "legacy_room": "es2:d/green/house3", "legacy_command": "south" },
 		{ "id": "green.path2.west", "from_zone": "green.path2", "to_zone": "green.temple0", "to_spawn": "green.temple0.path2_entry", "legacy_room": "es2:d/green/path2", "legacy_command": "west" },
 		{ "id": "green.temple0.east", "from_zone": "green.temple0", "to_zone": "green.path2", "to_spawn": "green.path2.temple0_return", "legacy_room": "es2:d/green/temple0", "legacy_command": "east" },
-		{ "id": "green.entrance.north", "from_zone": "green.entrance", "to_zone": "green.outdoor", "to_spawn": "green.outdoor.entrance_entry", "legacy_room": "es2:d/green/entrance", "legacy_command": "north" },
-		{ "id": "green.outdoor.south", "from_zone": "green.outdoor", "to_zone": "green.entrance", "to_spawn": "green.entrance.outdoor_return", "legacy_room": "es2:d/green/outdoor", "legacy_command": "south" },
-		{ "id": "green.stoneroom.south", "from_zone": "green.stoneroom", "to_zone": "green.water", "to_spawn": "green.water.stoneroom_return", "legacy_room": "es2:d/green/stoneroom", "legacy_command": "south" },
-		{ "id": "green.water.north", "from_zone": "green.water", "to_zone": "green.stoneroom", "to_spawn": "green.stoneroom.water_entry", "legacy_room": "es2:d/green/water", "legacy_command": "north" },
 		{ "id": "green.cave0.north", "from_zone": "green.cave0", "to_zone": "green.cave1", "to_spawn": "green.cave1.cave0_entry", "legacy_room": "es2:d/green/cave0", "legacy_command": "north" },
 		{ "id": "green.cave1.south", "from_zone": "green.cave1", "to_zone": "green.cave0", "to_spawn": "green.cave0.cave1_return", "legacy_room": "es2:d/green/cave1", "legacy_command": "south" },
 		{ "id": "green.cave2.north", "from_zone": "green.cave2", "to_zone": "green.mpath0", "to_spawn": "green.mpath0.cave2_return", "legacy_room": "es2:d/green/cave2", "legacy_command": "north" },
-		{ "id": "green.mpath0.south", "from_zone": "green.mpath0", "to_zone": "green.cave2", "to_spawn": "green.cave2.mpath0_entry", "legacy_room": "es2:d/green/mpath0", "legacy_command": "south" }
+		{ "id": "green.mpath0.south", "from_zone": "green.mpath0", "to_zone": "green.cave2", "to_spawn": "green.cave2.mpath0_entry", "legacy_room": "es2:d/green/mpath0", "legacy_command": "south" },
+		{ "id": "green.entrance.north", "from_zone": "green.entrance", "to_zone": "green.outdoor", "to_spawn": "green.outdoor.entrance_entry", "legacy_room": "es2:d/green/entrance", "legacy_command": "north" },
+		{ "id": "green.outdoor.south", "from_zone": "green.outdoor", "to_zone": "green.entrance", "to_spawn": "green.entrance.outdoor_return", "legacy_room": "es2:d/green/outdoor", "legacy_command": "south" },
+		{ "id": "green.stoneroom.south", "from_zone": "green.stoneroom", "to_zone": "green.water", "to_spawn": "green.water.stoneroom_return", "legacy_room": "es2:d/green/stoneroom", "legacy_command": "south" },
+		{ "id": "green.water.north", "from_zone": "green.water", "to_zone": "green.stoneroom", "to_spawn": "green.stoneroom.water_entry", "legacy_room": "es2:d/green/water", "legacy_command": "north" }
 	],
 	"doors": [
 		{ "id": "green.cave.door", "name": "木门", "zones": ["green.cave0", "green.cave1"], "reach": 90, "legacy_room": "es2:d/green/cave0" },

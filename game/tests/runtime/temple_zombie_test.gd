@@ -5,7 +5,8 @@ extends RefCounted
 ## a save; 桃符纸 (obj/paper_seal.c, two in Snow's 城隍庙) take a 僵尸追魂符 with the
 ## selected NPC's name (cmds/std/scribe.c, haunt.c), and put on the zombie (attach.c) it
 ## goes after them while the player stands by, then falls apart. In the real session on
-## the temple grounds and the climb. TEST-ONLY fixtures are marked.
+## the temple grounds, through the doors of its guest room and 大殿 (maps of their own since
+## the remap), and the climb. TEST-ONLY fixtures are marked.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const MapPlaces := preload("res://tests/support/map_places.gd")
@@ -146,21 +147,28 @@ func _test_animate(tree: SceneTree, session: WorldSessionController) -> NpcRunti
 
 
 ## The player walks on into the 回廊 and the guest room: it walks after them (go.c's
-## follow_me()), 玄和的僵尸走了过来。
+## follow_me()), 玄和的僵尸走了过来。 The guest room is its own map since the remap: the
+## player goes in through its door, and the zombie comes along onto that map.
 func _test_follows(tree: SceneTree, session: WorldSessionController, zombie: NpcRuntimeState) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	map.npc_life._advance_ambience(0.0) # the NPCs' init() see the player in the courtyard
-	for zone_id: StringName in [&"temple.corridor7", &"temple.restroom1"]:
-		await _place(tree, session, map, zone_id)
-		var lines: int = session.shared_ui().log_lines().size()
-		map.npc_life._advance_ambience(0.0)
-		_check(zombie.world_location().zone_id == zone_id and session.shared_ui().log_lines().slice(lines).has("玄和的僵尸走了过来。"), "it follows into %s: %s" % [zone_id, session.shared_ui().log_lines().slice(lines)])
-	# It is still a room behind on its walk when the player goes on: it walks on from there.
-	var body: WorldCharacterBody2D = map.runtime_body_for_character(zombie.character_id)
+	await _place(tree, session, map, &"temple.corridor7")
+	var lines: int = session.shared_ui().log_lines().size()
+	map.npc_life._advance_ambience(0.0)
+	_check(zombie.world_location().zone_id == &"temple.corridor7" and session.shared_ui().log_lines().slice(lines).has("玄和的僵尸走了过来。"), "it follows into temple.corridor7: %s" % [session.shared_ui().log_lines().slice(lines)])
+	lines = session.shared_ui().log_lines().size()
+	_check(await MapPlaces.take_passage(tree, map, &"temple.corridor7.east"), "east through the door into the guest room")
+	var guest_room: WorldMapController = session.active_map() as WorldMapController
+	await tree.physics_frame # The arrival's zone Areas report a frame later.
+	_check(guest_room.map_id() == &"temple.restroom1_house" and session.player_runtime().world_location().zone_id == &"temple.restroom1", "in the guest room, its own map: %s" % session.player_runtime().world_location().zone_id)
+	guest_room.npc_life._advance_ambience(0.0)
+	_check(zombie.world_location().zone_id == &"temple.restroom1" and guest_room.find_resident_npc(zombie.character_id) == zombie and map.find_resident_npc(zombie.character_id) == null and session.shared_ui().log_lines().slice(lines).has("玄和的僵尸走了过来。"), "it follows into temple.restroom1, onto the guest room's map: %s" % [session.shared_ui().log_lines().slice(lines)])
+	# Through the door it stands beside the player at once (not a room behind on its walk).
+	var body: WorldCharacterBody2D = guest_room.runtime_body_for_character(zombie.character_id)
 	for _frame: int in range(240):
-		map.npc_life.npc_walker().advance(1.0 / 30.0)
+		guest_room.npc_life.npc_walker().advance(1.0 / 30.0)
 		await tree.physics_frame
-	_check(not map.npc_life.npc_walker().is_walking(zombie.character_id) and map.physical_zone(&"temple.restroom1").global_rect().has_point(body.global_position), "its body caught up into the guest room")
+	_check(body != null and not guest_room.npc_life.npc_walker().is_walking(zombie.character_id) and guest_room.physical_zone(&"temple.restroom1").global_rect().has_point(body.global_position), "its body caught up into the guest room")
 
 
 ## Two 桃符纸; 老道士 selected: 画追魂符 refuses without 20 mana or 30 sen (nothing paid), asks
@@ -318,11 +326,20 @@ func _test_drain(tree: SceneTree, session: WorldSessionController) -> NpcRuntime
 
 
 ## A sheet for 林忌 on it in the hall: asked first, as 攻击 on one's master (弑师); 取消
-## leaves all as it was.
+## leaves all as it was. The guest room and the 大殿 are maps of their own since the remap:
+## the player walks out of the one and into the other by their doors, the zombie after them.
 func _test_master_question(tree: SceneTree, session: WorldSessionController, zombie: NpcRuntimeState) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
-	await _place(tree, session, map, &"temple.temple1")
+	map = await _walk_with(tree, session, zombie, map, &"temple.restroom1.west", &"temple.grounds", &"temple.corridor7")
+	_check(map != null and await MapPlaces.drive_to_zone(tree, map, &"temple.corridor1"), "south along the walkway")
+	if map == null:
+		return
+	map.npc_life._advance_ambience(0.0)
+	_check(zombie.world_location().zone_id == &"temple.corridor1", "it follows along the walkway: %s" % zombie.world_location().zone_id)
+	map = await _walk_with(tree, session, zombie, map, &"temple.corridor1.west", &"temple.temple1_house", &"temple.temple1")
+	if map == null:
+		return
 	_move(map, zombie, &"temple.temple1") # TEST-ONLY
 	map.give_new_item_to_player(ItemContentDefinition.haunting_sheet_id(PAPER, MASTER)) # TEST-ONLY
 	var sheet_id: StringName = _carried(session, ItemContentDefinition.haunting_sheet_id(PAPER, MASTER))
@@ -335,9 +352,14 @@ func _test_master_question(tree: SceneTree, session: WorldSessionController, zom
 
 
 ## Out of the 山门 onto the climb: it comes along onto the other map beside the player
-## (owner, 茅山 A), 老道士的僵尸走了过来。
+## (owner, 茅山 A), 老道士的僵尸走了过来。 First out of the 大殿 (its own map since the
+## remap) by its door onto the square.
 func _test_across_maps(tree: SceneTree, session: WorldSessionController, zombie: NpcRuntimeState) -> void:
-	var grounds: WorldMapController = session.active_map() as WorldMapController
+	session.shared_ui().close_inventory() # 取消 went back to the 背包: closed before walking on
+	await tree.process_frame
+	var grounds: WorldMapController = await _walk_with(tree, session, zombie, session.active_map() as WorldMapController, &"temple.temple1.south", &"temple.grounds", &"temple.square")
+	if grounds == null:
+		return
 	await _place(tree, session, grounds, &"temple.square")
 	_move(grounds, zombie, &"temple.square") # TEST-ONLY
 	_check(session.handoff_to(&"temple.mountain", &"temple.entrance", &"temple.entrance", &"temple.entrance.gate_return").succeeded(), "out of the 山门")
@@ -512,6 +534,18 @@ func _first(map: WorldMapController, definition_id: StringName) -> NpcRuntimeSta
 		if npc.definition().definition_id == definition_id and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
 			return npc
 	return null
+
+
+## The player walks through a door (`portal_id`) onto another map, its zombie following:
+## both stand in `zone_id` on `map_id` then. Returns that map (null when a step failed).
+func _walk_with(tree: SceneTree, session: WorldSessionController, zombie: NpcRuntimeState, map: WorldMapController, portal_id: StringName, map_id: StringName, zone_id: StringName) -> WorldMapController:
+	_check(await MapPlaces.take_passage(tree, map, portal_id), "through the door: %s" % portal_id)
+	var there: WorldMapController = session.active_map() as WorldMapController
+	await tree.physics_frame # The arrival's zone Areas report a frame later.
+	_check(there.map_id() == map_id and session.player_runtime().world_location().zone_id == zone_id, "on %s in %s: %s" % [map_id, zone_id, session.player_runtime().world_location().zone_id])
+	_check(there.find_resident_npc(zombie.character_id) == zombie and zombie.world_location().zone_id == zone_id, "%s came along through the door" % zombie.definition().display_name)
+	there.npc_life._advance_ambience(0.0) # the arrival noticed (the NPCs' time is driven by hand here)
+	return there if there.map_id() == map_id else null
 
 
 ## TEST-ONLY: the player in the middle of `zone_id`.

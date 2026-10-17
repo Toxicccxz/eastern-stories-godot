@@ -1,7 +1,8 @@
 extends RefCounted
 const WorldCounts := preload("res://tests/support/world_counts.gd")
 
-## 青石村 A (d/green): the 39 rooms on three maps and the way in from Snow's 山坳; the
+## 青石村 A (d/green): the 39 rooms on twelve maps (the village's, its seven buildings' own
+## since the remap, the mountain's, the cave's, the stone house's and the 迷阵's) and the way in from Snow's 山坳; the
 ## spawns and items as imported; the exits as data: the 迷阵's passages (to itself, back,
 ## on, into 绝地), eight7.c's 八卦阵 mark, entrance.c's 100000 combat_exp, outdoor.c's
 ## seal, the two one-way ways; closed.c's push and the native way out (放弃); water.c's
@@ -60,7 +61,12 @@ func _test_data() -> void:
 		_check(catalog.room(room_id) != null and zone != null and zone.room_ids() == [room_id], "%s: a zone of its own" % room)
 		if zone != null:
 			maps[zone.map_id] = maps.get(zone.map_id, 0) + 1
-	_check(maps == {&"green.village": 19, &"green.mountain": 11, &"green.maze": 9}, "19 rooms in the village, 11 in the mountain, 9 in the 迷阵: %s" % maps)
+	var expected: Dictionary[StringName, int] = {
+		&"green.village": 12, &"green.shop0_house": 1, &"green.house0_house": 1, &"green.house1_house": 1, &"green.house2_house": 1,
+		&"green.house4_house": 1, &"green.house3_house": 1, &"green.temple0_house": 1,
+		&"green.mountain": 6, &"green.cave": 2, &"green.stone_house": 3, &"green.maze": 9,
+	}
+	_check(maps == expected, "the village's 19 rooms: 12 on its map and its seven buildings each on its own (the remap); the mountain's 11: 6 on its map, the 山洞's 2 and the stone house's 3; 9 in the 迷阵: %s" % maps)
 	_check(catalog.room(&"es2:d/green/path6").outdoors and not catalog.room(&"es2:d/green/field0").outdoors and not catalog.room(&"es2:d/green/house0").outdoors, "set(\"outdoors\") as authored: the road yes, the square and the houses not")
 	for room: String in MAZE.slice(0, 8):
 		_check(catalog.zone(StringName("green." + room)).distinct, "%s has its own say (every 迷阵 room is named 迷阵)" % room)
@@ -139,9 +145,10 @@ func _test_village(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(map.map_id() == &"green.village" and session.player_runtime().world_location().zone_id == &"green.path6", "on 青石村's stone road")
 	_check(map.resident_npcs().size() == WorldCounts.of("map_npcs", "green.village"), "the villagers, the spiders waiting in the web (world_counts.json): %d" % map.resident_npcs().size())
 	var visible: int = 0
-	for npc: NpcRuntimeState in map.resident_npcs():
-		visible += 1 if npc.exists_in_map else 0
-	_check(visible == 18, "eighteen in sight (three spiders absent): %d" % visible)
+	for map_id: StringName in [&"green.village", &"green.shop0_house", &"green.house0_house", &"green.house1_house", &"green.house2_house", &"green.house3_house", &"green.house4_house", &"green.temple0_house"]:
+		for npc: NpcRuntimeState in session.world_map_of(map_id).resident_npcs():
+			visible += 1 if npc.exists_in_map else 0
+	_check(visible == 18, "eighteen in sight on the village's map and its buildings' (three spiders absent): %d" % visible)
 	_check(await MapPlaces.drive_through(tree, map, [&"green.path5", &"green.path4", &"green.path3", &"green.path8", &"green.field0", &"green.field1"]), "up the street, along the lane, across the square to the quarry yard")
 	_check(session.player_runtime().world_location().zone_id == &"green.field1", "in the yard")
 	_check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, &"green.station0.well")), "to the well")
@@ -150,9 +157,9 @@ func _test_village(tree: SceneTree, session: WorldSessionController) -> void:
 
 ## house3.c's web: three spiders a reset, then only the web.
 func _test_web(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
-	_check(await MapPlaces.drive_to_zone(tree, map, &"green.house3"), "into the empty house")
+	var map: WorldMapController = await MapPlaces.go_to(tree, session, &"green.house3")
+	_check(map != null and map.map_id() == &"green.house3_house" and session.player_runtime().world_location().zone_id == &"green.house3", "into the empty house (through its door, its own map)")
 	_check(map.select_landmark(&"green.house3.landmark.web"), "the web selected")
 	hud.refresh_live_state()
 	_check(not hud.portal_action_is_enabled(), "only looked at")
@@ -193,14 +200,17 @@ func _test_web(tree: SceneTree, session: WorldSessionController) -> void:
 
 ## rope.c: outdoors nowhere to hang it; indoors, asked first, then death.
 func _test_rope(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
 	var rope: StringName = _give(session, ROPE)
-	_check(await MapPlaces.drive_to_zone(tree, map, &"green.field1"), "out in the yard (outdoors)")
+	await tree.physics_frame # the web's panel's movement quarantine ends with the frame
+	await tree.physics_frame
+	var map: WorldMapController = await MapPlaces.go_to(tree, session, &"green.field1")
+	_check(map != null and map.map_id() == &"green.village", "out in the yard (outdoors), out of the house's door")
 	_check(not map.can_hang_here() and not map.hang_with(rope), "nowhere to hang it")
 	_check(WorldMapController.zone_outdoors(&"oldpine.tree.canopy") and not WorldMapController.zone_outdoors(&"green.house3"), "a zone of rooms that disagree (the pine's canopy, tree3 outdoors) counts as outdoors")
 	_check(hud.log_lines()[-1] == "你四处看看, 实在找不到地方挂绳子说...", "rope.c's line: " + hud.log_lines()[-1])
-	_check(await MapPlaces.drive_to_zone(tree, map, &"green.house3"), "back indoors")
+	map = await MapPlaces.go_to(tree, session, &"green.house3")
+	_check(map != null and map.map_id() == &"green.house3_house", "back indoors (through the door)")
 	hud.items.hang_with(rope)
 	_check(hud.is_asking() and hud.confirm_prompt.confirm_button.text == "确定上吊", "deadly: asked first")
 	hud.confirm_prompt.cancel_button.pressed.emit()
@@ -245,7 +255,7 @@ func _test_maze(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(hud.log_lines()[-1].begins_with("【迷阵】从这里向四周望去，只见长天一碧"), "乾's own words (a 迷阵 room is distinct): " + hud.log_lines()[-1])
 	_check(not player.state.marks.has("八卦阵"), "no mark yet")
 	_check(await MapPlaces.take_passage(tree, maze, &"green.eight7.south"), "south out of 乾 (朱雀而生)")
-	_check(session.active_map().map_id() == &"green.mountain" and player.world_location().zone_id == &"green.stoneroom", "in the east stone room")
+	_check(session.active_map().map_id() == &"green.stone_house" and player.world_location().zone_id == &"green.stoneroom", "in the east stone room (the stone house's map since the remap)")
 	_check(player.state.marks.get("八卦阵", 0) == 1, "marked 八卦阵 (eight7.c valid_leave())")
 
 
@@ -257,7 +267,10 @@ func _test_stone_rooms(tree: SceneTree, session: WorldSessionController) -> void
 	var door: WorldDoor = map.door(&"green.stoneroom.door")
 	_check(await MapPlaces.drive(tree, map, MapPlaces.door_spot(map, &"green.stoneroom.door", &"green.stoneroom")), "before the secret door")
 	_check(door != null and map.open_door(&"green.stoneroom.door"), "the 密门 opens")
-	_check(await MapPlaces.drive_to_zone(tree, map, &"green.water"), "out to the stream")
+	_check(await MapPlaces.take_passage(tree, map, &"green.stoneroom.south"), "out through the 密门")
+	map = session.active_map() as WorldMapController
+	await tree.physics_frame # The arrival's zone Areas report a frame later.
+	_check(map.map_id() == &"green.mountain" and player.world_location().zone_id == &"green.water", "out to the stream (the mountain's map): %s" % player.world_location().zone_id)
 	_check(map.select_landmark(&"green.water.landmark.water"), "the water")
 	session.configure_world_interaction_random_source(ScriptedWorldInteractionRandomSource.new([1, 0])) # TEST-ONLY: found, then nothing
 	map.traverse_selected_portal()
@@ -267,8 +280,10 @@ func _test_stone_rooms(tree: SceneTree, session: WorldSessionController) -> void
 	_check(hud.log_lines()[-1] == "你在水中忙了半天，结果一无所获。" and not player.state.marks.has("八卦阵"), "random(2) 0: nothing, and the mark is gone")
 	map.traverse_selected_portal()
 	_check(hud.log_lines()[-1] == "你在水中忙了半天，结果一无所获。", "without it, nothing")
-	_check(await MapPlaces.take_same_map_passage(tree, map, &"green.water.west"), "west through the bushes")
-	_check(player.world_location().zone_id == &"green.outdoor", "into the stone room behind the great door (one way)")
+	_check(await MapPlaces.take_passage(tree, map, &"green.water.west"), "west through the bushes (off the mountain's map)")
+	map = session.active_map() as WorldMapController
+	await tree.physics_frame
+	_check(map.map_id() == &"green.stone_house" and player.world_location().zone_id == &"green.outdoor", "into the stone room behind the great door (one way), the stone house's map")
 	var hall: WorldPhysicalZoneArea2D = map.physical_zone(&"green.cavehall")
 	var room: Rect2 = map.physical_zone(&"green.outdoor").global_rect()
 	map.runtime_player_body().global_position = Vector2(MapPlaces.doorway(map, &"green.outdoor", &"green.cavehall").x, room.position.y - 8) # TEST-ONLY: just past the edge

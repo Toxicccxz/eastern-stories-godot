@@ -236,26 +236,6 @@ portal_id = &"green.water.west"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WaterPassage"]
 shape = SubResource("Rect_32_96")
 
-[node name="EntranceNorthPassage" type="Area2D" parent="."]
-position = Vector2(704, 560)
-collision_layer = 0
-input_pickable = false
-script = ExtResource("passage")
-portal_id = &"green.entrance.north"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EntranceNorthPassage"]
-shape = SubResource("Rect_64_32")
-
-[node name="WaterNorthPassage" type="Area2D" parent="."]
-position = Vector2(1104, 304)
-collision_layer = 0
-input_pickable = false
-script = ExtResource("passage")
-portal_id = &"green.water.north"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WaterNorthPassage"]
-shape = SubResource("Rect_64_32")
-
 [node name="Cave0NorthPassage" type="Area2D" parent="."]
 position = Vector2(704, 2224)
 collision_layer = 0
@@ -274,6 +254,26 @@ script = ExtResource("passage")
 portal_id = &"green.mpath0.south"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Mpath0SouthPassage"]
+shape = SubResource("Rect_64_32")
+
+[node name="EntranceNorthPassage" type="Area2D" parent="."]
+position = Vector2(704, 560)
+collision_layer = 0
+input_pickable = false
+script = ExtResource("passage")
+portal_id = &"green.entrance.north"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EntranceNorthPassage"]
+shape = SubResource("Rect_64_32")
+
+[node name="WaterNorthPassage" type="Area2D" parent="."]
+position = Vector2(1104, 304)
+collision_layer = 0
+input_pickable = false
+script = ExtResource("passage")
+portal_id = &"green.water.north"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WaterNorthPassage"]
 shape = SubResource("Rect_64_32")
 
 [node name="CaveDoor" type="Node" parent="."]
@@ -377,16 +377,6 @@ position = Vector2(624, 720)
 script = ExtResource("marker")
 spawn_point_id = &"green.entrance.hole_arrival"
 
-[node name="EntranceOutdoorReturn" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(704, 624)
-script = ExtResource("marker")
-spawn_point_id = &"green.entrance.outdoor_return"
-
-[node name="WaterStoneroomReturn" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(1104, 368)
-script = ExtResource("marker")
-spawn_point_id = &"green.water.stoneroom_return"
-
 [node name="Cave0Cave1Return" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(704, 2288)
 script = ExtResource("marker")
@@ -396,6 +386,16 @@ spawn_point_id = &"green.cave0.cave1_return"
 position = Vector2(704, 1552)
 script = ExtResource("marker")
 spawn_point_id = &"green.mpath0.cave2_return"
+
+[node name="EntranceOutdoorReturn" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(704, 624)
+script = ExtResource("marker")
+spawn_point_id = &"green.entrance.outdoor_return"
+
+[node name="WaterStoneroomReturn" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1104, 368)
+script = ExtResource("marker")
+spawn_point_id = &"green.water.stoneroom_return"
 
 [node name="Characters" type="Node2D" parent="."]
 

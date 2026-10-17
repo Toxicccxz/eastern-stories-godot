@@ -105,43 +105,23 @@ position = Vector2(-285, 0)
 script = ExtResource("marker")
 spawn_point_id = &"oldpine.outdoor.keep_hall.keep_yard_entry"
 
-[node name="Keep3Leader01" type="Marker2D" parent="SpawnPoints"]
+[node name="OutdoorKeepHallKeep3BanditLeader1" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(-265, -120)
 script = ExtResource("marker")
 spawn_point_id = &"oldpine.outdoor.keep_hall.keep3.bandit_leader.1"
 
-[node name="Keep3Leader02" type="Marker2D" parent="SpawnPoints"]
+[node name="OutdoorKeepHallKeep3BanditLeader2" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(-265, 120)
 script = ExtResource("marker")
 spawn_point_id = &"oldpine.outdoor.keep_hall.keep3.bandit_leader.2"
 
-[node name="Keep3Leader03" type="Marker2D" parent="SpawnPoints"]
+[node name="OutdoorKeepHallKeep3BanditLeader3" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(249, 120)
 script = ExtResource("marker")
 spawn_point_id = &"oldpine.outdoor.keep_hall.keep3.bandit_leader.3"
 
-[node name="Keep3Commander" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(249, -149)
-script = ExtResource("marker")
-spawn_point_id = &"oldpine.outdoor.keep_hall.keep3.bandit_commander.1"
-
-[node name="OutdoorKeepHallKeep3BanditLeader1" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(-328, -216)
-script = ExtResource("marker")
-spawn_point_id = &"oldpine.outdoor.keep_hall.keep3.bandit_leader.1"
-
-[node name="OutdoorKeepHallKeep3BanditLeader2" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(-288, -216)
-script = ExtResource("marker")
-spawn_point_id = &"oldpine.outdoor.keep_hall.keep3.bandit_leader.2"
-
-[node name="OutdoorKeepHallKeep3BanditLeader3" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(-248, -216)
-script = ExtResource("marker")
-spawn_point_id = &"oldpine.outdoor.keep_hall.keep3.bandit_leader.3"
-
 [node name="OutdoorKeepHallKeep3BanditCommander1" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(-208, -216)
+position = Vector2(249, -149)
 script = ExtResource("marker")
 spawn_point_id = &"oldpine.outdoor.keep_hall.keep3.bandit_commander.1"
 

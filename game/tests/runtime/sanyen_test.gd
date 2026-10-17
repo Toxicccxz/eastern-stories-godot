@@ -1,7 +1,9 @@
 extends RefCounted
 
-## 山烟寺 A (u/cloud/sunhill, d/sanyen): all 26 rooms on two maps — the ford across 泓水
-## and 日照山 up to the 山门 and the tunnel, and the temple inside its gate — the ways in
+## 山烟寺 A (u/cloud/sunhill, d/sanyen): all 26 rooms on seven maps — the ford across 泓水
+## and 日照山 up to the 山门, the tunnel (its own map since the remap, through the 山门's west),
+## and the temple inside its gate, its 大雄宝殿, 后殿, 流云轩 and 香积厨 each its own map
+## through its doors since the remap — the ways in
 ## from 江北渡口 (waded, as ES2's river was) and from 晚月庄's tunnel; the boatman's boat
 ## (owner, plan Q1: his fare takes the payer to 江南渡口); the 金门, open as the road side
 ## leaves it; the plaques, the pot and the steamer (open, take: refused while the cook is
@@ -10,7 +12,10 @@ const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const Finance := preload("res://tests/runtime/snow_finance_test.gd")
 const MapPlaces := preload("res://tests/support/map_places.gd")
-const MAPS: Dictionary = {&"sunhill.mountain": 13, &"sanyen.grounds": 13}
+const MAPS: Dictionary = {
+	&"sunhill.mountain": 11, &"sanyen.tunnels": 2, &"sanyen.grounds": 9, &"sanyen.hall_house": 1,
+	&"sanyen.back_temple_house": 1, &"sanyen.heal_room_house": 1, &"sanyen.kitchen_house": 1,
+}
 const COIN: StringName = &"es2:obj/money/coin"
 const MAINTAL: StringName = &"es2:d/sanyen/obj/maintal"
 const COOK: StringName = &"sanyen.npc.cook_bonze"
@@ -44,7 +49,8 @@ func _test_data() -> void:
 		if String(zone.zone_id).begins_with("sanyen.") or String(zone.zone_id).begins_with("sunhill."):
 			maps[zone.map_id] = maps.get(zone.map_id, 0) + 1
 			_check(zone.room_ids().size() == 1 and catalog.room(zone.room_ids()[0]) != null, "%s: one room" % zone.zone_id)
-	_check(maps == MAPS, "26 rooms on two maps: %s" % maps)
+	_check(maps == MAPS, "26 rooms on seven maps (the tunnel, the 大雄宝殿, 后殿, 流云轩 and 香积厨 on their own): %s" % maps)
+	_check(catalog.portal(&"sanyen.gate.west").destination_zone_id == &"sanyen.tunnele" and catalog.portal(&"sanyen.tunnele.east").destination_zone_id == &"sanyen.gate", "the 山门 west into the tunnel, and back")
 	_check(catalog.region(&"sunhill").display_name == "日照山" and catalog.region(&"sanyen").display_name == "山烟寺", "日照山 and 山烟寺")
 	var south: PortalDefinition = catalog.portal(&"cloud.dukou.south")
 	_check(south != null and south.destination_zone_id == &"sunhill.northriver" and catalog.portal(&"sunhill.northriver.north").destination_zone_id == &"cloud.dukou", "江北渡口 into the river, and back")
@@ -129,16 +135,28 @@ func _test_temple(tree: SceneTree, session: WorldSessionController) -> void:
 			guards += 1
 	_check(guards == 2, "two 护寺武僧 train there: %d" % guards)
 	_check(map.door(&"sanyen.road1.door").is_open(), "the 金门 stands open")
-	_check(await MapPlaces.drive_through(tree, map, [&"sanyen.door", &"sanyen.road1", &"sanyen.temple"]), "through the gate house, up the flagstones, into the hall")
-	_check(_npc(map, &"common.npc.bonze.master") != null and _npc(map, &"common.npc.bonze.master").world_location().zone_id == &"sanyen.temple", "玄智和尚 in the hall")
-	_check(await MapPlaces.drive_through(tree, map, [&"sanyen.inner_yard", &"sanyen.heal_room"]), "the garden and 流云轩")
-	_check(map.select_landmark(&"sanyen.heal_room.landmark.plaque"), "the plaques")
-	map.inspect_selected()
+	# The 大雄宝殿, 流云轩, 后殿 and 香积厨 are each their own map since the remap: in and out
+	# through their doors.
+	_check(await MapPlaces.drive_through(tree, map, [&"sanyen.door", &"sanyen.road1"]), "through the gate house, up the flagstones")
+	var hall: WorldMapController = await _cross(tree, session, &"sanyen.road1.north", &"sanyen.hall_house", &"sanyen.temple", "into the hall through the 金门")
+	_check(_npc(hall, &"common.npc.bonze.master") != null and _npc(hall, &"common.npc.bonze.master").world_location().zone_id == &"sanyen.temple", "玄智和尚 in the hall")
+	await _cross(tree, session, &"sanyen.temple.west", &"sanyen.grounds", &"sanyen.inner_yard", "the garden west of the hall")
+	var heal: WorldMapController = await _cross(tree, session, &"sanyen.inner_yard.north", &"sanyen.heal_room_house", &"sanyen.heal_room", "流云轩")
+	_check(heal.select_landmark(&"sanyen.heal_room.landmark.plaque"), "the plaques")
+	heal.inspect_selected()
 	_check(hud.inspection_text.text.contains("华  陀  再  世"), "华陀再世: %s" % hud.inspection_text.text.left(40))
 	hud.dismiss_current_panel()
 	await tree.physics_frame
-	_check(await MapPlaces.drive_through(tree, map, [&"sanyen.inner_yard", &"sanyen.temple", &"sanyen.corridor", &"sanyen.back_temple", &"sanyen.tower"]), "behind the curtain to the 后殿 and the 塔林")
-	_check(await MapPlaces.drive_through(tree, map, [&"sanyen.back_temple", &"sanyen.corridor", &"sanyen.temple", &"sanyen.road1", &"sanyen.road2", &"sanyen.drug_field"]), "out to the herb garden")
+	await _cross(tree, session, &"sanyen.heal_room.south", &"sanyen.grounds", &"sanyen.inner_yard", "out to the garden")
+	await _cross(tree, session, &"sanyen.inner_yard.east", &"sanyen.hall_house", &"sanyen.temple", "back into the hall")
+	await _cross(tree, session, &"sanyen.temple.north", &"sanyen.grounds", &"sanyen.corridor", "behind the curtain")
+	await _cross(tree, session, &"sanyen.corridor.north", &"sanyen.back_temple_house", &"sanyen.back_temple", "the 后殿")
+	await _cross(tree, session, &"sanyen.back_temple.east", &"sanyen.grounds", &"sanyen.tower", "behind the curtain to the 后殿 and the 塔林")
+	await _cross(tree, session, &"sanyen.tower.west", &"sanyen.back_temple_house", &"sanyen.back_temple", "back into the 后殿")
+	await _cross(tree, session, &"sanyen.back_temple.south", &"sanyen.grounds", &"sanyen.corridor", "the corridor")
+	await _cross(tree, session, &"sanyen.corridor.south", &"sanyen.hall_house", &"sanyen.temple", "the hall")
+	map = await _cross(tree, session, &"sanyen.temple.south", &"sanyen.grounds", &"sanyen.road1", "out through the 金门")
+	_check(await MapPlaces.drive_through(tree, map, [&"sanyen.road2", &"sanyen.drug_field"]), "out to the herb garden")
 	_check(Work.capture(session) != null, "Save in the temple")
 
 
@@ -146,9 +164,13 @@ func _test_temple(tree: SceneTree, session: WorldSessionController) -> void:
 ## lying unconscious says nothing); without him the steamer's lines, five 馒头 a reset and
 ## then 梦忆柔's voice.
 func _test_kitchen(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
+	var grounds: WorldMapController = session.active_map() as WorldMapController
 	var hud: SharedGameplayUI = session.shared_ui()
-	_check(await MapPlaces.drive_through(tree, map, [&"sanyen.road2", &"sanyen.road1", &"sanyen.temple", &"sanyen.corridor", &"sanyen.corridor1", &"sanyen.kitchen"]), "round to the 香积厨")
+	_check(await MapPlaces.drive_through(tree, grounds, [&"sanyen.road2", &"sanyen.road1"]), "back to the hall's door")
+	await _cross(tree, session, &"sanyen.road1.north", &"sanyen.hall_house", &"sanyen.temple", "through the hall")
+	grounds = await _cross(tree, session, &"sanyen.temple.north", &"sanyen.grounds", &"sanyen.corridor", "to the corridor")
+	_check(await MapPlaces.drive_to_zone(tree, grounds, &"sanyen.corridor1"), "west along the corridor")
+	var map: WorldMapController = await _cross(tree, session, &"sanyen.corridor1.west", &"sanyen.kitchen_house", &"sanyen.kitchen", "round to the 香积厨")
 	var steamer: ActService = map.service(&"sanyen.kitchen.steampot") as ActService
 	_check(await MapPlaces.drive(tree, map, MapPlaces.service_spot(map, &"sanyen.kitchen.steampot")) and steamer.in_reach(), "by the stoves")
 	steamer.interact()
@@ -180,17 +202,38 @@ func _test_kitchen(tree: SceneTree, session: WorldSessionController) -> void:
 
 ## West of the gate the tunnel through the cliff to 晚月庄's bamboo hills, and back.
 func _test_tunnel(tree: SceneTree, session: WorldSessionController) -> void:
-	var map: WorldMapController = session.active_map() as WorldMapController
-	_check(await MapPlaces.drive_through(tree, map, [&"sanyen.corridor1", &"sanyen.corridor", &"sanyen.temple", &"sanyen.road1", &"sanyen.door", &"sanyen.front_yard"]), "back to the yard")
+	var map: WorldMapController = await _cross(tree, session, &"sanyen.kitchen.east", &"sanyen.grounds", &"sanyen.corridor1", "out of the 香积厨")
+	_check(await MapPlaces.drive_to_zone(tree, map, &"sanyen.corridor"), "along the corridor")
+	await _cross(tree, session, &"sanyen.corridor.south", &"sanyen.hall_house", &"sanyen.temple", "through the hall")
+	map = await _cross(tree, session, &"sanyen.temple.south", &"sanyen.grounds", &"sanyen.road1", "out through the 金门")
+	_check(await MapPlaces.drive_through(tree, map, [&"sanyen.door", &"sanyen.front_yard"]), "back to the yard")
 	_check(await MapPlaces.take_passage(tree, map, &"sanyen.front_yard.south"), "out of the gate")
 	var mountain: WorldMapController = session.active_map() as WorldMapController
 	_check(mountain.map_id() == &"sunhill.mountain" and session.player_runtime().world_location().zone_id == &"sanyen.gate", "the 山门")
-	_check(await MapPlaces.drive_through(tree, mountain, [&"sanyen.tunnele", &"sanyen.tunnel"]), "into the tunnel")
-	_check(await MapPlaces.take_passage(tree, mountain, &"sanyen.tunnel.west"), "out at its west end")
+	# The tunnel is its own map since the remap: west from the 山门 into its east end.
+	var tunnels: WorldMapController = await _cross(tree, session, &"sanyen.gate.west", &"sanyen.tunnels", &"sanyen.tunnele", "west into the tunnel's east end")
+	_check(await MapPlaces.drive_to_zone(tree, tunnels, &"sanyen.tunnel"), "into the tunnel")
+	_check(await MapPlaces.take_passage(tree, tunnels, &"sanyen.tunnel.west"), "out at its west end")
 	var hills: WorldMapController = session.active_map() as WorldMapController
 	_check(hills.map_id() == &"latemoon.hills" and session.player_runtime().world_location().zone_id == &"latemoon.sroad5", "晚月庄's slope")
 	_check(await MapPlaces.take_passage(tree, hills, &"latemoon.sroad5.east"), "east into the tunnel again")
-	_check(session.player_runtime().world_location().zone_id == &"sanyen.tunnel", "the tunnel")
+	await tree.physics_frame # The arrival's zone Areas report a frame later.
+	_check(session.active_map_id() == &"sanyen.tunnels" and session.player_runtime().world_location().zone_id == &"sanyen.tunnel", "the tunnel (its own map)")
+	tunnels = session.active_map() as WorldMapController
+	_check(await MapPlaces.drive_to_zone(tree, tunnels, &"sanyen.tunnele"), "east through the tunnel")
+	await _cross(tree, session, &"sanyen.tunnele.east", &"sunhill.mountain", &"sanyen.gate", "out east at the 山门")
+
+
+## Through a door or way onto another map (the remap's buildings and the tunnel): the map and
+## zone the player is in after. Returns the map (the active one).
+func _cross(tree: SceneTree, session: WorldSessionController, portal_id: StringName, map_id: StringName, zone_id: StringName, label: String) -> WorldMapController:
+	var map: WorldMapController = session.active_map() as WorldMapController
+	_check(await MapPlaces.take_passage(tree, map, portal_id), "%s (%s)" % [label, portal_id])
+	var there: WorldMapController = session.active_map() as WorldMapController
+	await tree.physics_frame # The arrival's zone Areas report a frame later.
+	var zone: StringName = session.player_runtime().world_location().zone_id
+	_check(there != null and there.map_id() == map_id and zone == zone_id, "%s: on %s in %s: %s %s" % [label, map_id, zone_id, there.map_id() if there != null else &"", zone])
+	return there
 
 
 func _npc(map: WorldMapController, definition_id: StringName) -> NpcRuntimeState:

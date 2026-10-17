@@ -19,6 +19,8 @@ const MASTER: StringName = &"common.npc.taoist.taolord"
 const TRAINER: StringName = &"temple.npc.trainer"
 const TFIGHTER: StringName = &"temple.npc.tfighter"
 const FAMILY: StringName = &"family.maoshan"
+## The 大殿 is its own map since the remap (its NPCs' spawns, and so their services, follow it).
+const HALL: StringName = &"temple.temple1_house"
 const LONGSWORD: StringName = &"es2:obj/longsword"
 const ASKED: String = "你想要拜林忌为师。"
 const TAKES: String = "林忌说道：嗯... 想入我茅山派？也好...."
@@ -62,6 +64,9 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(session.handoff_to(&"temple.grounds", &"temple.square", &"temple.square", &"temple.square.gate_arrival").succeeded(), "TEST-ONLY: inside the gate")
 	await tree.physics_frame
 	await tree.physics_frame
+	# The 大殿 is its own map since the remap: north from the square through its door.
+	var hall: WorldMapController = await MapPlaces.go_to(tree, session, &"temple.temple1")
+	_check(hall != null and hall.map_id() == HALL and session.player_runtime().world_location().zone_id == &"temple.temple1", "through the door into the 大殿, its own map")
 	await _test_refused(tree, session)
 	await _test_nobody_hears(tree, session)
 	await _test_answer_cases(tree, session)
@@ -321,7 +326,7 @@ func _test_refused(tree: SceneTree, session: WorldSessionController) -> void:
 	var master: NpcRuntimeState = _first(map, MASTER)
 	player.state.gender = CharacterState.GENDER_FEMALE # TEST-ONLY
 	await _beside(tree, session, map, master)
-	var service: TeacherService = map.service(&"temple.grounds.temple1.taolord") as TeacherService
+	var service: TeacherService = map.service(&"temple.temple1_house.temple1.taolord") as TeacherService
 	_check(service != null and service.takes_apprentices(), "林忌 takes apprentices")
 	service.ui.interact()
 	var ui: TeacherPanel = service.ui
@@ -335,7 +340,7 @@ func _test_refused(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not ui.cancel_button.visible and not player.apprenticeship_request.is_pending(), "the refusal ended her request: no 取消拜师请求")
 	ui.close_panel()
 	await _beside(tree, session, map, _first(map, TRAINER))
-	var trainer: TeacherService = map.service(&"temple.grounds.temple1.trainer") as TeacherService
+	var trainer: TeacherService = map.service(&"temple.temple1_house.temple1.trainer") as TeacherService
 	player.state.progression.potential = 1000 # TEST-ONLY
 	var refused: LearnResult = trainer.request_learn(&"sword")
 	_check(refused.failure_reason == LearnResult.FailureReason.RECOGNITION_POLICY_ABSENT and trainer.last_lines.size() == 1 and _reject_lines("僵尸侍者").has(trainer.last_lines[0]), "僵尸侍者 will not teach one not of 茅山派: %s" % [trainer.last_lines])
@@ -343,14 +348,16 @@ func _test_refused(tree: SceneTree, session: WorldSessionController) -> void:
 
 
 ## The answer comes while the player stands in the square: no one hears it, nothing changes.
+## The square is another map than the 大殿 since the remap.
 func _test_nobody_hears(tree: SceneTree, session: WorldSessionController) -> void:
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var master: NpcRuntimeState = _first(map, MASTER)
 	await _beside(tree, session, map, master)
-	var service: TeacherService = map.service(&"temple.grounds.temple1.taolord") as TeacherService
+	var service: TeacherService = map.service(&"temple.temple1_house.temple1.taolord") as TeacherService
 	_check(service.request_apprentice() == NpcApprenticeship.Outcome.ANSWER_DUE, "拜师 (no panel: the question is the panel's)")
-	_check(map.relocate_player(&"temple.square", &"temple.square.gate_arrival"), "TEST-ONLY: out into the square at once")
+	var square: WorldMapController = MapPlaces.enter(session, &"temple.square", &"temple.square.temple1_return")
+	_check(square != null and square.map_id() == &"temple.grounds" and player.world_location().zone_id == &"temple.square", "TEST-ONLY: out into the square at once (temple.grounds, off the 大殿's map)")
 	await tree.physics_frame
 	await tree.physics_frame
 	var lines: int = session.shared_ui().log_lines().size()
@@ -358,6 +365,7 @@ func _test_nobody_hears(tree: SceneTree, session: WorldSessionController) -> voi
 	_check(not map.npc_life.apprentice_answer_due(master) and session.shared_ui().log_lines().size() == lines and not player.state.family.has_family(), "his answer came and went unheard; no recruit (recruit.c finds nobody)")
 	_check(player.apprenticeship_request.is_pending_with(MASTER), "the request still waits on him")
 	player.apprenticeship_request.cancel()
+	_check(await MapPlaces.go_to(tree, session, &"temple.temple1") == map, "back north through the door into the 大殿")
 
 
 ## His answer to one lying before him: the request waiting on him takes nobody (recruit.c's
@@ -371,7 +379,7 @@ func _test_answer_cases(tree: SceneTree, session: WorldSessionController) -> voi
 	var request: NpcApprenticeship = player.apprenticeship_request
 	var master: NpcRuntimeState = _first(map, MASTER)
 	await _beside(tree, session, map, master)
-	var service: TeacherService = map.service(&"temple.grounds.temple1.taolord") as TeacherService
+	var service: TeacherService = map.service(&"temple.temple1_house.temple1.taolord") as TeacherService
 	service.request_apprentice()
 	player.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY: lying there
 	var lines: int = session.shared_ui().log_lines().size()
@@ -404,6 +412,7 @@ func _test_answer_cases(tree: SceneTree, session: WorldSessionController) -> voi
 	_check(session.handoff_to(&"temple.grounds", &"temple.square", &"temple.square", &"temple.square.gate_arrival").succeeded(), "TEST-ONLY: back inside")
 	await tree.physics_frame
 	await tree.physics_frame
+	_check(await MapPlaces.go_to(tree, session, &"temple.temple1") == map, "north through the door into the 大殿")
 	await _beside(tree, session, map, master)
 	map.advance_npc_heartbeat(3.0)
 	_check(not player.state.family.has_family() and request.is_pending_with(MASTER), "back before him: no answer comes, the request still waits")
@@ -417,7 +426,7 @@ func _test_join(tree: SceneTree, session: WorldSessionController) -> void:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var master: NpcRuntimeState = _first(map, MASTER)
 	await _beside(tree, session, map, master)
-	var service: TeacherService = map.service(&"temple.grounds.temple1.taolord") as TeacherService
+	var service: TeacherService = map.service(&"temple.temple1_house.temple1.taolord") as TeacherService
 	service.ui.interact()
 	var ui: TeacherPanel = service.ui
 	ui.apprentice_button.pressed.emit()
@@ -442,11 +451,11 @@ func _test_join(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(_taught(learned) and service.last_lines[0] == "你向林忌请教有关「天师正道」的疑问。", "林忌 teaches his apprentice 天师正道: %s" % [service.last_lines])
 	ui.close_panel()
 	await _beside(tree, session, map, _first(map, TRAINER))
-	var trainer: TeacherService = map.service(&"temple.grounds.temple1.trainer") as TeacherService
+	var trainer: TeacherService = map.service(&"temple.temple1_house.temple1.trainer") as TeacherService
 	learned = trainer.request_learn(&"sword")
 	_check(_taught(learned) and trainer.last_lines[0] == "你向僵尸侍者请教有关「基本剑法」的疑问。", "僵尸侍者 teaches him now: %s" % [trainer.last_lines])
 	await _beside(tree, session, map, _first(map, TFIGHTER))
-	var tfighter: TeacherService = map.service(&"temple.grounds.temple1.tfighter") as TeacherService
+	var tfighter: TeacherService = map.service(&"temple.temple1_house.temple1.tfighter") as TeacherService
 	learned = tfighter.request_learn(&"dodge")
 	_check(_taught(learned), "and 僵尸护法")
 
