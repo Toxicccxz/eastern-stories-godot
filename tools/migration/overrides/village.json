@@ -80,7 +80,6 @@
 				"say": "好，咱俩的账就算结了。\n"
 			}
 		},
-		"village.icecave.lakebottom2.dragons": { "presence_radius": 260 },
 		"es2:d/village/obj/melon": {
 			"food": {
 				"remaining": 8, "supply": 20, "water": 40,

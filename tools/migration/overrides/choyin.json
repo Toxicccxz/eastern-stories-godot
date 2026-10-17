@@ -29,9 +29,6 @@
 		"choyin.npc.shadow": {
 			"ghost": true
 		},
-		"choyin.lion_cave.lionroom.lion": {
-			"presence_radius": 400
-		},
 		"choyin.npc.lion": {
 			"die_carries": { "item": "es2:d/choyin/obj/grass", "master": true }
 		},

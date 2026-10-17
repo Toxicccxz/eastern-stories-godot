@@ -319,6 +319,10 @@ func _test_climbs(tree: SceneTree, session: WorldSessionController) -> void:
 			await tree.physics_frame
 	_check(player.world_location().zone_id == inner.zone_id, "north through secrectpath1 into path3")
 	_check(cave.select_landmark(&"oldpine.cave.landmark.stone") and hud.portal_action_text() == "往上爬", "the big stone: 往上爬")
+	var top: WorldMapController = session.world_map_of(&"oldpine.stone")
+	for npc: NpcRuntimeState in top.npc_runtimes():
+		if npc.definition().definition_id == &"oldpine.npc.venomsnake":
+			top.npcs.vanish(npc) # TEST-ONLY: the snake out of the way (it falls on whoever comes up: oldpine_venom_combined)
 	cave.traverse_selected_portal()
 	await tree.physics_frame
 	_check(session.active_map_id() == &"oldpine.stone" and player.world_location().zone_id == &"oldpine.stone.top" and hud.log_lines().has("你慢慢地攀上大青石。"), "up onto the stone, with path3.c's line")

@@ -407,6 +407,10 @@ func prepare_for_deactivation() -> void:
 	clear_passage_contacts()
 	selection.selected_target = null
 	hostilities.aggression.clear_all()
+	# The player left the map: whoever noticed them, or fought them in a complete-set room,
+	# meets them anew when they come back.
+	hostilities.room_present.clear()
+	hostilities.complete_set_consumed_contacts.clear()
 	hostilities.toll_contact_seconds.clear()
 	hostilities.toll_waiting.clear()
 	if hud() != null:
@@ -751,6 +755,7 @@ func thaw_world_gameplay(id: StringName) -> bool:
 	if id.is_empty() or _freeze_owner != id or _world_simulation_gate.freeze_owner_id() != id:
 		return false
 	_freeze_owner = &""
+	hostilities.after_fight()
 	npcs.dismiss_summoned()
 	for body: WorldCharacterBody2D in npcs.character_bodies():
 		body.quarantine_current_movement_input()
@@ -875,6 +880,7 @@ func _process(delta: float) -> void:
 	# aggression wait too.
 	if session != null and (session.world_time_held() or session.presentation_frozen()):
 		return
+	hostilities.refresh_room_presence()
 	for npc: NpcRuntimeState in npcs.residents:
 		if WorldMapHostilities.zone_entry(npc.world_location()) == &"complete_set" and not hostilities.complete_entry_contact(npc.character_id):
 			hostilities.complete_set_consumed_contacts.erase(npc.character_id)

@@ -33,6 +33,9 @@ var toll_contact_seconds: Dictionary[StringName, float] = {}
 var toll_waiting: Dictionary[StringName, bool] = {}
 ## Toll-takers that shouted at the player since they came into its place (once a visit).
 var toll_shouted: Dictionary[StringName, bool] = {}
+## Indoors (ZoneDefinition.indoors) the NPCs in the player's room: each arrival there, the
+## player's or the NPC's, is one presence (refresh_room_presence()).
+var room_present: Dictionary[StringName, bool] = {}
 
 # The map's authorities, read as the controller reads them.
 var session: WorldSessionController:
@@ -74,14 +77,69 @@ func _combat_allowed(npc: NpcRuntimeState = null) -> bool:
 	return npc == null or not catalog.zone_forbids_fighting(npc.world_location().zone_id)
 
 
-## A complete-set zone polls exact contact instead of queueing pair entries.
+## Whether an NPC notices by its room: it stands indoors (a building's room, a cave, a
+## dungeon), where ES2's init() met whoever was in the room; outdoors its presence circle
+## stands in for the room (DECISIONS「室内察觉」).
+static func notices_room(npc: NpcRuntimeState) -> bool:
+	var zone: ZoneDefinition = null if npc == null else GameContent.catalog().zone(npc.world_location().zone_id)
+	return zone != null and zone.indoors
+
+
+## Whether an NPC that notices by its room shares it with the player now.
+func shares_room(npc: NpcRuntimeState) -> bool:
+	return (
+		npc != null and npc.exists_in_map and _player != null
+		and _player.world_location().map_id == map and npc.world_location().zone_id == _player.world_location().zone_id
+	)
+
+
+## Indoors, presence is the room: the NPCs that came to share it with the player since the
+## last look enter presence (pair rooms queue them), those that no longer do leave it.
+## Run each world tick, so the player's arrival (walking in, a door, stairs, a handoff) and
+## an NPC's (wandering in, called over) count alike.
+func refresh_room_presence() -> void:
+	for npc: NpcRuntimeState in _map.npcs.residents:
+		var id: StringName = npc.character_id
+		var here: bool = notices_room(npc) and shares_room(npc)
+		if here and not room_present.has(id):
+			room_present[id] = true
+			if zone_entry(npc.world_location()) != &"complete_set":
+				aggression.enter_player_presence(npc, _player, _combat_allowed(npc))
+		elif not here and room_present.erase(id):
+			complete_set_consumed_contacts.erase(id)
+			aggression.leave_player_presence(id)
+			toll_waiting.erase(id)
+
+
+## A fight is over (its encounter still names who was in it): indoors the NPCs in the
+## player's room that took no part were never let at the player (the fight's start
+## dropped their turn): they notice the player anew. Those that fought wait for the player
+## to leave the room and come back (a flight stands where it was: DECISIONS「室内察觉」).
+func after_fight() -> void:
+	var encounter: CombatEncounter = null if session == null else session.combat_encounter_coordinator().active_encounter()
+	if encounter == null:
+		return
+	for id: StringName in room_present.keys():
+		if encounter.participant_for(id) == null:
+			room_present.erase(id)
+
+
+## An NPC no longer on this map: it noticed nobody here.
+func forget_npc(id: StringName) -> void:
+	room_present.erase(id)
+
+
+## A complete-set zone polls exact contact instead of queueing pair entries. Indoors the
+## room is the presence (refresh_room_presence()), not the circle.
 func on_presence_entered(body: Node2D, character_id: StringName) -> void:
 	var npc: NpcRuntimeState = _map.npcs.find_resident_npc(character_id)
-	if _map.gameplay_open() and body == player_body and npc != null and zone_entry(npc.world_location()) != &"complete_set":
+	if _map.gameplay_open() and body == player_body and npc != null and not notices_room(npc) and zone_entry(npc.world_location()) != &"complete_set":
 		aggression.enter_player_presence(npc, _player, _combat_allowed(npc))
 
 
 func on_presence_exited(body: Node2D, character_id: StringName) -> void:
+	if notices_room(_map.npcs.find_resident_npc(character_id)):
+		return
 	if body == player_body and not complete_entry_contact(character_id):
 		complete_set_consumed_contacts.erase(character_id)
 	if _map.gameplay_open() and body == player_body:
@@ -105,6 +163,10 @@ func process_pending_aggression() -> Array[CombatSliceInitiationResult]:
 	if not _map.gameplay_open() or session == null:
 		return []
 	_last_aggression_initiations.clear()
+	# The room's description first, then whoever falls on the player in it (as
+	# _player_berserk()): indoors one may be noticed the moment one comes in.
+	if _map.hud() != null:
+		_map.hud().describe_arrival()
 	if zone_entry(_player.world_location()) == &"complete_set":
 		if collect_complete_combat_entry(CombatTriggerCause.Value.NPC_AGGRESSION).size() > 1:
 			var started: CombatSliceInitiationResult = session.combat_encounter_coordinator().start_complete_production(CombatTriggerCause.Value.NPC_AGGRESSION)
@@ -450,11 +512,15 @@ func collect_complete_combat_entry(cause: int, requested_target: StringName = &"
 	return result
 
 
-## Exact current shapes, not cached Area overlap lists or deferred signal order.
+## Exact current shapes, not cached Area overlap lists or deferred signal order; indoors,
+## the player in the NPC's room.
 func complete_entry_contact(id: StringName) -> bool:
 	var body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(id)
 	if not is_instance_valid(body) or not body.is_inside_tree():
 		return false
+	var npc: NpcRuntimeState = _map.npcs.find_resident_npc(id)
+	if notices_room(npc):
+		return shares_room(npc)
 	var area: Area2D = _map.npcs.npc_presence.get(id)
 	if not is_instance_valid(area) or not area.monitoring or not area.is_inside_tree():
 		return false
