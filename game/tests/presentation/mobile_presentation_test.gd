@@ -49,15 +49,21 @@ func _test_metrics() -> void:
 	var other := FakeSafe.new()
 	independent.metrics = extreme
 	_check(not independent.metrics.equivalent(other.metrics), "capabilities have no shared mutable metrics")
-	_check(ProjectSettings.get_setting("display/window/size/viewport_width") == 1152, "desktop logical width preserved")
-	_check(ProjectSettings.get_setting("display/window/size/viewport_width.mobile") == 960, "mobile feature width")
-	_check(ProjectSettings.get_setting("display/window/size/viewport_height.mobile") == 540, "mobile feature height")
+	_check(ProjectSettings.get_setting("display/window/size/viewport_width") == 1280, "logical width 1280")
+	_check(ProjectSettings.get_setting("display/window/size/viewport_height") == 720, "logical height 720")
+	_check(not ProjectSettings.has_setting("display/window/size/viewport_width.mobile"), "one logical size on every platform")
 	_check(ProjectSettings.get_setting("display/window/stretch/mode") == "canvas_items", "canvas_items preserved")
 	_check(ProjectSettings.get_setting("display/window/stretch/aspect") == "expand", "expand preserved")
 	_check(ProjectSettings.get_setting("display/window/handheld/orientation") == 4, "sensor landscape, both landscape directions")
 	_check(InputMap.has_action(&"system_back") and InputMap.action_get_events(&"system_back").is_empty(), "Phase10C2B Back is semantic only, never a duplicate key alias")
 	var wide_mobile: SafeAreaMetrics = SafeAreaMetrics.normalize(Rect2(0, 0, 1280, 720), Rect2(0, 0, 1280, 720), Rect2(0, 0, 1280, 720), Transform2D.IDENTITY, true)
 	_check(wide_mobile.touch_sized() and not wide_mobile.is_compact(), "mobile target size and compact breakpoint are separate facts")
+	# The 界面缩放 draws a 1280x720 window's interface in 853x480 at 150%: still the
+	# desktop layout (mouse-sized), not the compact one a small window gets.
+	var at_150: Rect2 = Rect2(0, 0, 1280.0 / 1.5, 720.0 / 1.5)
+	_check(not SafeAreaMetrics.new(at_150, at_150, false, false, 1.5).is_compact(), "a UI scale alone makes no window compact")
+	_check(SafeAreaMetrics.new(at_150, at_150).is_compact(), "the same logical size unscaled is a small window")
+	_check(not SafeAreaMetrics.new(at_150, at_150, false, false, 1.5).equivalent(SafeAreaMetrics.new(at_150, at_150)), "a UI scale change invalidates")
 
 
 func _test_matrix(tree: SceneTree) -> void:
@@ -70,14 +76,16 @@ func _test_matrix(tree: SceneTree) -> void:
 		Rect2(0, 0, 1212, 540), Rect2(48, 0, 912, 540), Rect2(0, 0, 912, 540),
 		Rect2(0, 0, 960, 516), Rect2(0, 0, 1024, 768), Rect2(0, 0, 800, 480),
 		Rect2(0, 0, 480, 320), Rect2(0, 0, 1280, 720),
+		# A 4:3 tablet (1280x960 logical) and a 19.5:9 phone (1560x720) with its notch.
+		Rect2(0, 0, 1280, 960), Rect2(64, 0, 1432, 720),
 	]
 	for index: int in cases.size():
 		var safe: Rect2 = cases[index]
-		var viewport: Rect2 = Rect2(Vector2.ZERO, Vector2(960, 540) if index in [4, 5, 6] else safe.end)
+		var viewport: Rect2 = Rect2(Vector2.ZERO, Vector2(960, 540) if index in [4, 5, 6] else Vector2(1560, 720) if index == 12 else safe.end)
 		tree.root.size = Vector2i(viewport.size)
 		var capability := FakeSafe.new()
 		capability.metrics = _metrics(viewport, safe)
-		if index == 10:
+		if index >= 10:
 			capability.metrics = SafeAreaMetrics.normalize(viewport, viewport, safe, Transform2D.IDENTITY, true)
 		var files := SettingsFixtures.MemoryFiles.new()
 		var profile: GameSaveStorageProfile = GameSaveStorageProfile.isolated_test("phase10c2a-%d" % index)

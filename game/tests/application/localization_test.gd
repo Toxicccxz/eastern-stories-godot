@@ -79,7 +79,7 @@ func _settings() -> void:
 	var repository := ApplicationSettingsRepository.new(files)
 	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = "[application]\nschema_version=1\nwindow_mode=\"fullscreen\"\n".to_utf8_buffer()
 	var old: ApplicationSettingsResult = repository.load()
-	check(old.succeeded() and old.snapshot().window_mode() == ApplicationWindowMode.Value.FULLSCREEN and old.snapshot().language() == "", "a version 1 file keeps its window mode and follows the system language")
+	check(old.succeeded() and old.snapshot().window_mode() == ApplicationWindowMode.Value.BORDERLESS and old.snapshot().language() == "", "a version 1 file keeps its (borderless) full screen and follows the system language")
 	check(repository.write(ApplicationSettingsSnapshot.defaults().with_language("zh_TW")).succeeded() and repository.load().snapshot().language() == "zh_TW", "the language round-trips")
 	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = "[application]\nschema_version=2\nwindow_mode=\"windowed\"\nlanguage=3\n".to_utf8_buffer()
 	check(repository.load().outcome() == ApplicationSettingsResult.Outcome.INVALID_SETTINGS, "a language that is not text is rejected")

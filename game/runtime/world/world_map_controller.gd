@@ -341,7 +341,8 @@ func complete_activation() -> bool:
 	return true
 
 
-## The player's camera on this map (DECISIONS「手感」): it follows at the feel's
+## The player's camera on this map (DECISIONS「手感」), also on a window resize or a new
+## 界面缩放: it follows at the feel's
 ## camera_follow_speed (0: stuck to the player) and stops at the edges of what is drawn
 ## (every TileMapLayer's tiles), so the view never shows past the map; a map smaller
 ## than the view sits in its middle.
@@ -351,6 +352,13 @@ func frame_camera() -> void:
 	camera.position_smoothing_enabled = speed > 0.0
 	if speed > 0.0:
 		camera.position_smoothing_speed = speed
+	# The 界面缩放 grows everything the window draws; the camera divides it back out so
+	# the map shows as much as at 100% (the scene's own zoom is kept as authored). What the
+	# map itself draws (names over bodies, landmark and floor labels) stays the map's size.
+	if not camera.has_meta(&"authored_zoom"):
+		camera.set_meta(&"authored_zoom", camera.zoom)
+	var window: Window = get_viewport() as Window
+	camera.zoom = (camera.get_meta(&"authored_zoom") as Vector2) / (window.content_scale_factor if window != null else 1.0)
 	var drawn: Rect2 = drawn_rect()
 	if not drawn.has_area():
 		return

@@ -49,6 +49,8 @@ class FakeWindowCapability extends ApplicationWindowModeCapability:
 	var mode: int = ApplicationWindowMode.Value.WINDOWED
 	var fail_apply: bool = false
 	var apply_calls: Array[int] = []
+	var ui_scale: int = ApplicationUiScale.DEFAULT
+	var exclusive: bool = true
 
 	func can_edit_window_mode() -> bool:
 		return editable
@@ -62,6 +64,12 @@ class FakeWindowCapability extends ApplicationWindowModeCapability:
 			return false
 		mode = requested_mode
 		return true
+
+	func apply_ui_scale(percent: int) -> void:
+		ui_scale = percent
+
+	func offers_exclusive_fullscreen() -> bool:
+		return exclusive
 
 
 var _assertions: int = 0
@@ -88,9 +96,11 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 func _test_snapshot_and_repository() -> void:
 	var defaults: ApplicationSettingsSnapshot = ApplicationSettingsSnapshot.defaults()
 	_assert_true(defaults.is_valid(), "default settings snapshot is valid")
-	_assert_eq(defaults.version(), 3, "settings schema is v3 (the language, the battle settings)")
+	_assert_eq(defaults.version(), 4, "settings schema is v4 (the language, the battle settings, borderless, the UI scale)")
 	_assert_eq(defaults.window_mode(), ApplicationWindowMode.Value.WINDOWED, "desktop-safe default is Windowed")
-	_assert_false(ApplicationSettingsSnapshot.new(4).is_valid(), "unsupported snapshot version rejects")
+	_assert_false(ApplicationSettingsSnapshot.new(5).is_valid(), "unsupported snapshot version rejects")
+	_assert_eq(defaults.ui_scale(), 100, "the UI scale starts at 100%")
+	_assert_false(defaults.with_ui_scale(110).is_valid(), "a UI scale off the list rejects")
 	_assert_false(ApplicationSettingsSnapshot.new(2, 99).is_valid(), "unknown window mode rejects")
 
 	var files := MemoryFiles.new()
@@ -107,10 +117,55 @@ func _test_snapshot_and_repository() -> void:
 
 	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = "not a cfg [".to_utf8_buffer()
 	_assert_eq(repository.load().outcome(), ApplicationSettingsResult.Outcome.INVALID_SETTINGS, "malformed ConfigFile rejects")
-	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = _config_bytes(4, "windowed")
+	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = _config_bytes(5, "windowed")
 	_assert_eq(repository.load().outcome(), ApplicationSettingsResult.Outcome.UNSUPPORTED_VERSION, "unknown schema rejects distinctly")
-	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = _config_bytes(1, "borderless")
+	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = _config_bytes(1, "maximized")
 	_assert_eq(repository.load().outcome(), ApplicationSettingsResult.Outcome.INVALID_SETTINGS, "unknown enum rejects")
+	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = _config_bytes(1, "borderless")
+	_assert_eq(repository.load().outcome(), ApplicationSettingsResult.Outcome.INVALID_SETTINGS, "borderless did not exist before version 4")
+	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = (
+		"[application]
+schema_version=3
+window_mode=\"fullscreen\"
+language=\"\"
+battle_speed=\"normal\"
+hit_flash=true
+".to_utf8_buffer()
+	)
+	var v3: ApplicationSettingsResult = repository.load()
+	_assert_true(
+		v3.succeeded() and v3.snapshot().window_mode() == ApplicationWindowMode.Value.BORDERLESS and v3.snapshot().ui_scale() == 100,
+		"a version 3 full screen (Godot's borderless kind) reads as borderless, at 100%",
+	)
+	var scaled: ApplicationSettingsResult = repository.write(
+		ApplicationSettingsSnapshot.defaults().with_window_mode(ApplicationWindowMode.Value.BORDERLESS).with_ui_scale(150)
+	)
+	var scaled_back: ApplicationSettingsResult = repository.load()
+	_assert_true(
+		scaled.succeeded() and scaled_back.succeeded() and scaled_back.snapshot().window_mode() == ApplicationWindowMode.Value.BORDERLESS and scaled_back.snapshot().ui_scale() == 150,
+		"borderless and 150% round-trip",
+	)
+	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = (
+		"[application]
+schema_version=4
+window_mode=\"windowed\"
+language=\"\"
+battle_speed=\"normal\"
+hit_flash=true
+ui_scale=110
+".to_utf8_buffer()
+	)
+	_assert_eq(repository.load().outcome(), ApplicationSettingsResult.Outcome.INVALID_SETTINGS, "a stored UI scale off the list rejects")
+	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = (
+		"[application]
+schema_version=4
+window_mode=\"windowed\"
+language=\"\"
+battle_speed=\"normal\"
+hit_flash=true
+".to_utf8_buffer()
+	)
+	_assert_eq(repository.load().outcome(), ApplicationSettingsResult.Outcome.INVALID_SETTINGS, "version 4 must hold the UI scale")
 	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = (
 		"[application]\nschema_version=1\nwindow_mode=1\n".to_utf8_buffer()
 	)
@@ -166,14 +221,37 @@ func _test_service_policy() -> void:
 	_assert_eq(capability.mode, ApplicationWindowMode.Value.WINDOWED, "write failure keeps runtime-applied value for this run")
 	_assert_eq(service.committed_snapshot().window_mode(), ApplicationWindowMode.Value.WINDOWED, "runtime-applied value becomes committed for this run")
 
+	files.write_error = OK
+	var scaled: ApplicationSettingsServiceResult = service.apply_and_persist_ui_scale(125)
+	_assert_true(scaled.succeeded() and capability.ui_scale == 125, "the UI scale applies at once")
+	_assert_eq(ApplicationSettingsRepository.new(files).load().snapshot().ui_scale(), 125, "and is kept")
+	_assert_false(service.apply_and_persist_ui_scale(90).succeeded(), "a UI scale off the list is refused")
+
 	var unsupported := FakeWindowCapability.new()
 	unsupported.editable = false
+	unsupported.ui_scale = 0
 	var unsupported_service := ApplicationSettingsService.new(
 		ApplicationSettingsRepository.new(MemoryFiles.new()), unsupported
 	)
 	var unsupported_result: ApplicationSettingsServiceResult = unsupported_service.load_and_apply()
 	_assert_eq(unsupported_result.outcome(), ApplicationSettingsServiceResult.Outcome.UNSUPPORTED_CAPABILITY, "platform-managed mode is typed")
 	_assert_eq(unsupported.apply_calls.size(), 0, "unsupported platform attempts no DisplayServer mutation")
+	_assert_eq(unsupported.ui_scale, 100, "the UI scale applies on every platform")
+	var wayland := FakeWindowCapability.new()
+	wayland.exclusive = false
+	var wayland_files := MemoryFiles.new()
+	ApplicationSettingsRepository.new(wayland_files).write(ApplicationSettingsSnapshot.defaults().with_window_mode(ApplicationWindowMode.Value.FULLSCREEN))
+	var wayland_service := ApplicationSettingsService.new(ApplicationSettingsRepository.new(wayland_files), wayland)
+	wayland_service.load_and_apply()
+	_assert_eq(wayland.mode, ApplicationWindowMode.Value.BORDERLESS, "where exclusive full screen is the borderless kind (Wayland), a stored 全屏 opens borderless")
+	_assert_false(wayland_service.apply_and_persist(ApplicationWindowMode.Value.FULLSCREEN).succeeded(), "and 全屏 is not taken there")
+	for case: Array in [
+		[Vector2i(2560, 1440), Vector2i(1920, 1080)],
+		[Vector2i(1920, 1080), Vector2i(1600, 900)],
+		[Vector2i(1536, 864), Vector2i(1280, 720)],
+		[Vector2i(1366, 768), Vector2i(1160, 652)],
+	]:
+		_assert_eq(ApplicationWindowSize.initial(case[0]), case[1], "the window opens at the largest size within 85%% of a %s screen" % case[0])
 
 
 func _test_state_model() -> void:
@@ -320,7 +398,7 @@ func _test_unsupported_capability_ui(tree: SceneTree) -> void:
 	await tree.process_frame
 	_assert_false(shell.window_mode_row.visible, "unsupported platform exposes no fake editable control")
 	_assert_true(shell.language_row.visible and shell.settings_apply_button.visible, "the language is still chosen there, with Apply")
-	_assert_true(shell.get_viewport().gui_get_focus_owner() == shell.language_option, "the language takes the focus")
+	_assert_true(shell.get_viewport().gui_get_focus_owner() == shell.ui_scale_option, "the first setting there (the UI scale) takes the focus")
 	_assert_eq(capability.apply_calls.size(), 0, "unsupported UI attempts no mode mutation")
 	_assert_true(shell.cancel_settings(), "unsupported Settings still navigates coherently")
 	_free_node(shell)
@@ -536,7 +614,7 @@ func _test_valid_save_independence_and_ui_failure(tree: SceneTree) -> void:
 	shell.configure_before_start(profile, game_files, null, settings_files, capability)
 	tree.root.add_child(shell)
 	await _wait_frames(tree, 3)
-	_assert_eq(shell.committed_window_mode(), ApplicationWindowMode.Value.FULLSCREEN, "corrupt gameplay save cannot reset valid settings")
+	_assert_eq(shell.committed_window_mode(), ApplicationWindowMode.Value.BORDERLESS, "corrupt gameplay save cannot reset valid settings")
 	_assert_false(shell.continue_enabled(), "invalid canonical independently disables Continue")
 	_assert_true(shell.recovery_enabled(), "settings cannot alter available backup Recovery")
 	_assert_true(shell.runtime_host().current_session() == null, "recovery remains explicit with no automatic Session")
@@ -544,7 +622,7 @@ func _test_valid_save_independence_and_ui_failure(tree: SceneTree) -> void:
 	capability.fail_apply = true
 	shell.window_mode_option.select(0)
 	_assert_false(shell.apply_settings(), "UI reports runtime apply failure")
-	_assert_eq(shell.window_mode_option.get_selected_id(), ApplicationWindowMode.Value.FULLSCREEN, "failed apply restores effective selection")
+	_assert_eq(shell.window_mode_option.get_selected_id(), ApplicationWindowMode.Value.BORDERLESS, "failed apply restores effective selection")
 	_assert_true(shell.settings_status_label.text.contains("无法切换窗口模式"), "runtime failure has distinct product message")
 	_free_node(shell)
 	await tree.process_frame

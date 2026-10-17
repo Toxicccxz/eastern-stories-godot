@@ -71,9 +71,12 @@ recovered gameplay state canonical. Controls never receive file-operation author
 
 ## Independent application settings
 
-ApplicationSettingsSnapshot v1 owns only Windowed/Fullscreen. ApplicationSettingsRepository validates
+ApplicationSettingsSnapshot v4 owns the window mode (窗口 / 无边框全屏 / 全屏), the 界面缩放
+(100/125/150%), the language and the battle settings. ApplicationSettingsRepository validates
 ConfigFile data at `user://settings/application-v1.cfg`: the application section, integer schema_version,
-and recognized window_mode. This is not GameSaveSnapshot, not a save-data profile, and not gameplay
+and exactly the keys of that version; versions 1–3 still read (their "fullscreen" was the borderless
+kind and reads as 无边框全屏). A desktop window opens at the largest of 1920x1080 / 1600x900 / 1280x720
+within 85% of the screen. This is not GameSaveSnapshot, not a save-data profile, and not gameplay
 recovery. Settings and gameplay have independent schema, paths, failures, and authority.
 
 Settings load/default and apply before Host startup and menu inspection. Missing/unusable settings

@@ -11,9 +11,13 @@ R1 绮云镇/玉螺湖村/天驼关 (#133), R2 京师/乔阴/黑松山/鬼门关
 老松岭 (#136) and R4 (#137), which grew 晚月庄's and 水烟阁's compound maps ×1.5 as they were drawn
 and the halls their descriptions call large (晚月庄大厅, the dining rooms, the 密室, 水烟阁正厅, the
 servants' room) to their class.
-With it, 室内察觉 (#135): indoors an aggressive NPC notices whoever comes into its room. Next:
-ROADMAP "After the grey box" step 3, the playtest checklist and the
-owner's full playtest.
+With it, 室内察觉 (#135): indoors an aggressive NPC notices whoever comes into its room.
+
+Before the unified playtest (owner, 2026-10-17), one more interface round in two PRs: 1. the screen —
+logical 1280x720 everywhere, the desktop window at 1920x1080 / 1600x900 / 1280x720 (the largest within
+85% of the screen), 设置 with 窗口 / 无边框全屏 / 全屏 and 界面缩放 100/125/150%; 2. talking and
+interacting — NPC lines as bubbles when the player is near, and one interaction popup per thing. Then:
+ROADMAP "After the grey box" step 3, the playtest checklist and the owner's full playtest.
 
 ## 待决定
 

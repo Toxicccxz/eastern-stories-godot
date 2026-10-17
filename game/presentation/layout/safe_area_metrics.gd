@@ -9,15 +9,18 @@ var _viewport: Rect2
 var _safe: Rect2
 var _fallback: bool
 var _mobile: bool
+## The 界面缩放 factor (ApplicationUiScale) the logical rects are drawn at.
+var _ui_scale: float
 
 
-func _init(viewport: Rect2, safe: Rect2, fallback: bool = false, mobile: bool = false) -> void:
+func _init(viewport: Rect2, safe: Rect2, fallback: bool = false, mobile: bool = false, ui_scale: float = 1.0) -> void:
 	_viewport = viewport if _valid_rect(viewport) else Rect2(0, 0, 1, 1)
 	_safe = safe.intersection(_viewport) if _valid_rect(safe) else Rect2()
 	_fallback = fallback or _viewport != viewport or not _valid_rect(_safe)
 	if not _valid_rect(_safe):
 		_safe = _viewport
 	_mobile = mobile
+	_ui_scale = ui_scale if is_finite(ui_scale) and ui_scale > 0.0 else 1.0
 
 
 static func normalize(
@@ -26,11 +29,12 @@ static func normalize(
 	physical_safe: Rect2,
 	logical_to_screen: Transform2D,
 	mobile: bool = false,
+	ui_scale: float = 1.0,
 ) -> SafeAreaMetrics:
 	var viewport: Rect2 = logical_viewport
 	if not _valid_rect(viewport):
 		viewport = Rect2(0, 0, 1, 1)
-		return SafeAreaMetrics.new(viewport, viewport, true, mobile)
+		return SafeAreaMetrics.new(viewport, viewport, true, mobile, ui_scale)
 	var determinant: float = logical_to_screen.determinant()
 	if (
 		not _valid_rect(physical_content)
@@ -39,20 +43,20 @@ static func normalize(
 		or not is_finite(determinant)
 		or determinant == 0.0
 	):
-		return SafeAreaMetrics.new(viewport, viewport, true, mobile)
+		return SafeAreaMetrics.new(viewport, viewport, true, mobile, ui_scale)
 	var intersection: Rect2 = physical_content.intersection(physical_safe)
 	if not _valid_rect(intersection):
-		return SafeAreaMetrics.new(viewport, viewport, true, mobile)
+		return SafeAreaMetrics.new(viewport, viewport, true, mobile, ui_scale)
 	var inverse: Transform2D = logical_to_screen.affine_inverse()
 	if not inverse.is_finite():
-		return SafeAreaMetrics.new(viewport, viewport, true, mobile)
+		return SafeAreaMetrics.new(viewport, viewport, true, mobile, ui_scale)
 	var transformed: Rect2 = inverse * intersection
 	if not _valid_rect(transformed):
-		return SafeAreaMetrics.new(viewport, viewport, true, mobile)
+		return SafeAreaMetrics.new(viewport, viewport, true, mobile, ui_scale)
 	var safe: Rect2 = transformed.intersection(viewport)
 	if not _valid_rect(safe):
-		return SafeAreaMetrics.new(viewport, viewport, true, mobile)
-	return SafeAreaMetrics.new(viewport, safe, false, mobile)
+		return SafeAreaMetrics.new(viewport, viewport, true, mobile, ui_scale)
+	return SafeAreaMetrics.new(viewport, safe, false, mobile, ui_scale)
 
 
 static func _valid_rect(rect: Rect2) -> bool:
@@ -77,8 +81,11 @@ func used_fallback() -> bool:
 	return _fallback
 
 
+## A small window or screen. The 界面缩放 does not make a window compact: a desktop
+## window at 150% keeps the desktop layout, drawn larger, and its mouse-sized controls.
 func is_compact() -> bool:
-	return _safe.size.x < 1100.0 or _safe.size.y < 640.0
+	var unscaled: Vector2 = _safe.size * _ui_scale
+	return unscaled.x < 1100.0 or unscaled.y < 640.0
 
 
 func touch_sized() -> bool:
@@ -102,4 +109,4 @@ func future_pause_rect() -> Rect2:
 
 
 func equivalent(other: SafeAreaMetrics) -> bool:
-	return other != null and _viewport.is_equal_approx(other._viewport) and _safe.is_equal_approx(other._safe) and _fallback == other._fallback and _mobile == other._mobile
+	return other != null and _viewport.is_equal_approx(other._viewport) and _safe.is_equal_approx(other._safe) and _fallback == other._fallback and _mobile == other._mobile and is_equal_approx(_ui_scale, other._ui_scale)

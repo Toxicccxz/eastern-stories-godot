@@ -303,8 +303,8 @@ workspace.
 ## Mobile product boundary
 
 The shared mobile layer now provides responsive Shell/HUD/item panels, SafeArea, a fixed digital
-pad, Android Back and lifecycle freeze/explicit Resume, with manual saves only. It keeps desktop
-1152x648, mobile logical 960x540, canvas_items/expand and both sensor-landscape directions. See the
+pad, Android Back and lifecycle freeze/explicit Resume, with manual saves only. It keeps one
+logical 1280x720 base, canvas_items/expand and both sensor-landscape directions. See the
 [Mobile Application contract](contracts/MOBILE_APPLICATION_CONTRACT.md) for supported boundaries.
 
 Installed x86_64 Android emulator evidence does not qualify physical Android multitouch, ARM64,

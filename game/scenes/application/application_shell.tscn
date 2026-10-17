@@ -352,6 +352,22 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(220, 48)
 layout_mode = 2
 
+[node name="UiScaleRow" type="HFlowContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/UiScaleRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "界面缩放"
+vertical_alignment = 1
+
+[node name="UiScaleOption" type="OptionButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/UiScaleRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 48)
+layout_mode = 2
+
 [node name="LanguageRow" type="HFlowContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 layout_mode = 2

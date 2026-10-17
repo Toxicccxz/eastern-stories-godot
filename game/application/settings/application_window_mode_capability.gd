@@ -12,3 +12,19 @@ func current_window_mode() -> int:
 
 func apply_window_mode(_mode: int) -> bool:
 	return false
+
+
+## Whether 全屏 (exclusive) differs from 无边框全屏 here; where it does not, only the
+## borderless kind is offered.
+func offers_exclusive_fullscreen() -> bool:
+	return true
+
+
+## What the platform itself asks of the window before any setting applies.
+func prepare_platform_window() -> void:
+	pass
+
+
+## Draws the whole interface at `percent` (ApplicationUiScale); every platform has it.
+func apply_ui_scale(_percent: int) -> void:
+	pass

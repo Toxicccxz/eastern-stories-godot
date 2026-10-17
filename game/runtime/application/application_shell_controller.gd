@@ -38,6 +38,9 @@ signal interaction_changed
 @onready var settings_panel: Control = %SettingsPanel
 @onready var window_mode_row: Control = %WindowModeRow
 @onready var window_mode_option: OptionButton = %WindowModeOption
+## 界面缩放 (ApplicationUiScale): on every platform.
+@onready var ui_scale_row: Control = %UiScaleRow
+@onready var ui_scale_option: OptionButton = %UiScaleOption
 @onready var language_row: Control = %LanguageRow
 @onready var language_option: OptionButton = %LanguageOption
 ## 战斗速度 and 受击闪红 (BattlePace, DECISIONS「手感」): on every platform.
@@ -219,10 +222,13 @@ func _ready() -> void:
 	_settings_bootstrap_result = _settings_service.load_and_apply()
 	_show_window_title()
 	_configure_window_mode_options()
+	_configure_ui_scale_options()
 	_configure_language_options()
 	_configure_battle_options()
 	window_mode_option.get_popup().window_input.connect(_popup_system_input.bind(window_mode_option))
 	battle_speed_option.get_popup().window_input.connect(_popup_system_input.bind(battle_speed_option))
+	ui_scale_option.get_popup().window_input.connect(_popup_system_input.bind(ui_scale_option))
+	language_option.get_popup().window_input.connect(_popup_system_input.bind(language_option))
 	# Pad support (owner, ROADMAP "After the grey box" step 2): last, so it sees every
 	# input event before the touch adapter takes touches.
 	add_child(PadSupport.new())
@@ -375,7 +381,7 @@ func _handle_system_back() -> void:
 	if _state.mode() in [ApplicationShellState.Mode.BOOT, ApplicationShellState.Mode.STARTING_SESSION, ApplicationShellState.Mode.SAVING] or (_host != null and _host.request_pending()):
 		return
 	input_context_changing.emit()
-	for option: OptionButton in [window_mode_option, battle_speed_option]:
+	for option: OptionButton in [window_mode_option, ui_scale_option, language_option, battle_speed_option]:
 		if option.get_popup().visible:
 			option.get_popup().hide()
 			return
@@ -614,6 +620,11 @@ func apply_settings() -> bool:
 			settings_status_label.text = "无法切换到这种语言。"
 			_select_committed_language()
 			return false
+	if ui_scale_option.get_selected_id() != _settings_service.committed_snapshot().ui_scale():
+		var scaled: ApplicationSettingsServiceResult = _settings_service.apply_and_persist_ui_scale(ui_scale_option.get_selected_id())
+		if scaled.outcome() == ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE:
+			settings_status_label.text = "界面缩放已生效，但未能保存。"
+			return false
 	var committed: ApplicationSettingsSnapshot = _settings_service.committed_snapshot()
 	if battle_speed_option.get_selected_id() != committed.battle_speed() or hit_flash_check.button_pressed != committed.hit_flash():
 		var battle: ApplicationSettingsServiceResult = _settings_service.apply_and_persist_battle(battle_speed_option.get_selected_id(), hit_flash_check.button_pressed)
@@ -621,11 +632,9 @@ func apply_settings() -> bool:
 			settings_status_label.text = "战斗设置已生效，但未能保存。"
 			return false
 	if not _settings_service.can_edit_window_mode():
-		if language_row.visible or battle_speed_row.visible:
-			settings_status_label.text = ""
-			return _return_from_settings(_state.settings_origin())
-		settings_status_label.text = "窗口模式由这个平台管理。"
-		return false
+		# The platform keeps the window; every other setting has applied above.
+		settings_status_label.text = ""
+		return _return_from_settings(_state.settings_origin())
 	var selected_mode: int = window_mode_option.get_selected_id()
 	var result: ApplicationSettingsServiceResult = _settings_service.apply_and_persist(selected_mode)
 	match result.outcome():
@@ -655,6 +664,7 @@ func _open_settings(origin: int) -> bool:
 		return false
 	settings_status_label.text = ""
 	_select_committed_window_mode()
+	_select_committed_ui_scale()
 	_select_committed_language()
 	_select_committed_battle()
 	return _set_state(ApplicationShellState.settings(origin))
@@ -1090,9 +1100,10 @@ func _render_state(defer_focus: bool = true) -> void:
 	# Shown on every platform, also while Simplified Chinese is the only language.
 	language_row.visible = _localization != null
 	language_option.disabled = not settings_interactive or not language_row.visible
+	ui_scale_option.disabled = not settings_interactive
 	battle_speed_option.disabled = not settings_interactive
 	hit_flash_check.disabled = not settings_interactive
-	settings_apply_button.visible = window_mode_row.visible or language_row.visible or battle_speed_row.visible
+	settings_apply_button.visible = window_mode_row.visible or ui_scale_row.visible or language_row.visible or battle_speed_row.visible
 	settings_apply_button.disabled = not settings_interactive
 	settings_cancel_button.disabled = not settings_interactive
 	status_label.text = (
@@ -1178,8 +1189,27 @@ func _result_asks() -> bool:
 func _configure_window_mode_options() -> void:
 	window_mode_option.clear()
 	window_mode_option.add_item("窗口", ApplicationWindowMode.Value.WINDOWED)
-	window_mode_option.add_item("全屏", ApplicationWindowMode.Value.FULLSCREEN)
+	window_mode_option.add_item("无边框全屏", ApplicationWindowMode.Value.BORDERLESS)
+	if _settings_service == null or _settings_service.offers_exclusive_fullscreen():
+		window_mode_option.add_item("全屏", ApplicationWindowMode.Value.FULLSCREEN)
 	_select_committed_window_mode()
+
+
+## 100%, 125%, 150% (the percent as the id).
+func _configure_ui_scale_options() -> void:
+	ui_scale_option.clear()
+	for percent: int in ApplicationUiScale.PERCENTS:
+		ui_scale_option.add_item("%d%%" % percent, percent)
+		ui_scale_option.get_popup().set_item_auto_translate_mode(ui_scale_option.item_count - 1, Node.AUTO_TRANSLATE_MODE_DISABLED)
+	_select_committed_ui_scale()
+
+
+func _select_committed_ui_scale() -> void:
+	if ui_scale_option == null or _settings_service == null:
+		return
+	var index: int = ui_scale_option.get_item_index(_settings_service.committed_snapshot().ui_scale())
+	if index >= 0:
+		ui_scale_option.select(index)
 
 
 ## 跟随系统 first, then each language by its own name (never translated).
@@ -1252,6 +1282,7 @@ func _all_shell_focus_controls() -> Array[Control]:
 		return_button,
 		language_option,
 		window_mode_option,
+		ui_scale_option,
 		battle_speed_option,
 		hit_flash_check,
 		settings_apply_button,
@@ -1290,6 +1321,7 @@ func _configure_active_focus_cycle(mode: int) -> void:
 		ApplicationShellState.Mode.SETTINGS:
 			if window_mode_row.visible:
 				controls.append(window_mode_option)
+			controls.append(ui_scale_option)
 			if language_row.visible:
 				controls.append(language_option)
 			controls.append_array([battle_speed_option, hit_flash_check])
@@ -1353,6 +1385,8 @@ func _focus_settings_control() -> void:
 		return
 	if window_mode_row.visible and not window_mode_option.disabled:
 		window_mode_option.grab_focus()
+	elif not ui_scale_option.disabled:
+		ui_scale_option.grab_focus()
 	elif language_row.visible and not language_option.disabled:
 		language_option.grab_focus()
 	else:
