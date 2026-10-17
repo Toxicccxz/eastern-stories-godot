@@ -227,21 +227,21 @@
       "draw": {
         "technique": "town",
         "base": "boundary",
-        "bounds": [0, 0, 1632, 1488],
+        "bounds": [0, 0, 1936, 1728],
         "ground": [],
         "zones": {
-          "waterfog.storage": [96, 96, 480, 432, "enclosed", "floor_wood", "wall_wood"],
-          "waterfog.servroom": [480, 96, 864, 432, "enclosed", "floor_wood", "wall_wood"],
-          "waterfog.kitchen": [1152, 96, 1536, 432, "enclosed", "floor_shop", "wall_wood"],
-          "waterfog.weststair": [96, 432, 480, 864, "enclosed", "floor_wood", "wall_wood"],
-          "waterfog.guildhall": [576, 480, 1056, 864, "enclosed", "floor_wood", "wall_wood"],
-          "waterfog.eaststair": [1152, 432, 1536, 864, "enclosed", "floor_wood", "wall_wood"],
-          "waterfog.westhall": [96, 864, 480, 1248, "enclosed", "floor_yard", "wall"],
-          "waterfog.entrance": [480, 864, 1152, 1392, "enclosed", "floor_wood", "wall_wood"],
-          "waterfog.easthall": [1152, 864, 1536, 1248, "enclosed", "floor_yard", "wall"]
+          "waterfog.storage": [96, 96, 480, 544, "enclosed", "floor_wood", "wall_wood"],
+          "waterfog.servroom": [480, 96, 1168, 544, "enclosed", "floor_wood", "wall_wood"],
+          "waterfog.kitchen": [1456, 96, 1840, 544, "enclosed", "floor_shop", "wall_wood"],
+          "waterfog.weststair": [96, 544, 480, 1104, "enclosed", "floor_wood", "wall_wood"],
+          "waterfog.guildhall": [576, 592, 1360, 1104, "enclosed", "floor_wood", "wall_wood"],
+          "waterfog.eaststair": [1456, 544, 1840, 1104, "enclosed", "floor_wood", "wall_wood"],
+          "waterfog.westhall": [96, 1104, 480, 1488, "enclosed", "floor_yard", "wall"],
+          "waterfog.entrance": [480, 1104, 1456, 1632, "enclosed", "floor_wood", "wall_wood"],
+          "waterfog.easthall": [1456, 1104, 1840, 1488, "enclosed", "floor_yard", "wall"]
         },
         "roads": [],
-        "props": [["blocked", 800, 656, 832, 688, "the black 太师椅 in the middle of the main hall"]],
+        "props": [["blocked", 1104, 896, 1136, 928, "the black 太师椅 in the middle of the main hall"]],
         "reach_from": "YardArrival",
         "markers_in_middle": [],
         "gap_at": [],
@@ -262,28 +262,28 @@
           {
             "zone": "waterfog.weststair",
             "name": "WeststairStairsUp",
-            "at": [192, 528],
+            "at": [192, 640],
             "id": "waterfog.weststair.up",
             "shape": "StairsShape",
             "color": "Color(0.85, 0.85, 0.8, 1)",
             "text": "白石梯 · 上楼",
             "marker": {
               "name": "WeststairStairsReturn",
-              "at": [272, 528],
+              "at": [272, 640],
               "id": "waterfog.weststair.stairs_return"
             }
           },
           {
             "zone": "waterfog.eaststair",
             "name": "EaststairStairsUp",
-            "at": [1440, 528],
+            "at": [1744, 640],
             "id": "waterfog.eaststair.up",
             "shape": "StairsShape",
             "color": "Color(0.85, 0.85, 0.8, 1)",
             "text": "阶梯 · 上楼",
             "marker": {
               "name": "EaststairStairsReturn",
-              "at": [1360, 528],
+              "at": [1664, 640],
               "id": "waterfog.eaststair.stairs_return"
             }
           }
@@ -295,7 +295,7 @@
           {
             "node": "caption",
             "name": "GateLabel",
-            "at": [752, 1408],
+            "at": [752, 1648],
             "text": "南 · 水烟阁前",
             "size": 14
           },
@@ -303,7 +303,7 @@
             "node": "passage",
             "name": "YardPassage",
             "id": "waterfog.entrance.south",
-            "at": [816, 1332],
+            "at": [1120, 1572],
             "shape": "Rect_64_32"
           },
           {
@@ -321,7 +321,7 @@
           },
           {
             "name": "YardArrival",
-            "at": [816, 1248],
+            "at": [1120, 1488],
             "id": "waterfog.entrance.yard_arrival"
           },
           {
@@ -332,7 +332,7 @@
           {
             "name": "SignInteraction",
             "id": "waterfog.guildhall.landmark.sign",
-            "at": [816, 528],
+            "at": [1120, 640],
             "shape": "Rect_96_32"
           }
         ]
