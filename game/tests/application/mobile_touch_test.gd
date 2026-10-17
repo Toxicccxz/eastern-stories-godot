@@ -169,7 +169,7 @@ func _test_viewport(tree: SceneTree) -> void:
 	# that engine capability on desktop; synthesized mouse goes through Viewport only.
 	Input.set_emulate_touch_from_mouse(true)
 	tree.root.content_scale_size = Vector2i.ZERO
-	tree.root.size = Vector2i(960, 540)
+	tree.root.size = Vector2i(1280, 720)
 	var shell: ApplicationShellController = ShellScene.instantiate()
 	var files := Fixtures.MemoryFiles.new()
 	var settings_files := Fixtures.MemoryFiles.new()
@@ -182,7 +182,7 @@ func _test_viewport(tree: SceneTree) -> void:
 	touch.set_capability(EnabledTouch.new())
 	var presenter: SafeAreaPresenter = shell.get_node("SafeAreaPresentation") as SafeAreaPresenter
 	var safe := FakeSafe.new()
-	safe.metrics = SafeAreaMetrics.normalize(Rect2(0, 0, 960, 540), Rect2(0, 0, 960, 540), Rect2(0, 0, 960, 540), Transform2D.IDENTITY, true)
+	safe.metrics = SafeAreaMetrics.normalize(Rect2(0, 0, 1280, 720), Rect2(0, 0, 1280, 720), Rect2(0, 0, 1280, 720), Transform2D.IDENTITY, true)
 	presenter.set_capability(safe)
 	tree.root.add_child(shell)
 	await _settle(tree)

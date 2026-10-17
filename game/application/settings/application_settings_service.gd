@@ -18,7 +18,8 @@ func _init(
 	_localization = localization
 
 
-## The language applies on every platform, whatever the window mode capability says.
+## The language, battle settings and 界面缩放 apply on every platform, whatever the
+## window mode capability says.
 func load_and_apply() -> ApplicationSettingsServiceResult:
 	var repository_result: ApplicationSettingsResult = _repository.load()
 	var requested: ApplicationSettingsSnapshot = (
@@ -31,6 +32,8 @@ func load_and_apply() -> ApplicationSettingsServiceResult:
 			requested = requested.with_language(LocalizationService.FOLLOW_SYSTEM)
 		_localization.apply(requested.language())
 	_apply_battle(requested)
+	_window_capability.prepare_platform_window()
+	_window_capability.apply_ui_scale(requested.ui_scale())
 	if not _window_capability.can_edit_window_mode():
 		_committed = requested
 		return ApplicationSettingsServiceResult.new(
@@ -125,6 +128,28 @@ func apply_and_persist_battle(speed: int, flash: bool) -> ApplicationSettingsSer
 		)
 	_committed = _committed.with_battle(speed, flash)
 	_apply_battle(_committed)
+	var repository_result: ApplicationSettingsResult = _repository.write(_committed)
+	return ApplicationSettingsServiceResult.new(
+		(
+			ApplicationSettingsServiceResult.Outcome.SUCCESS
+			if repository_result.succeeded()
+			else ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE
+		),
+		repository_result.outcome(),
+		_committed,
+	)
+
+
+## The 界面缩放 at once, kept with the other settings.
+func apply_and_persist_ui_scale(percent: int) -> ApplicationSettingsServiceResult:
+	if not ApplicationUiScale.is_valid(percent):
+		return ApplicationSettingsServiceResult.new(
+			ApplicationSettingsServiceResult.Outcome.APPLY_FAILURE,
+			ApplicationSettingsResult.Outcome.INVALID_SETTINGS,
+			_committed,
+		)
+	_committed = _committed.with_ui_scale(percent)
+	_window_capability.apply_ui_scale(percent)
 	var repository_result: ApplicationSettingsResult = _repository.write(_committed)
 	return ApplicationSettingsServiceResult.new(
 		(

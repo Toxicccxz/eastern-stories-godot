@@ -139,15 +139,11 @@ class PrepareReleaseProjectTest(unittest.TestCase):
     def test_mobile_presentation_survives_sanitizing_without_fakes(self) -> None:
         source_config = (REPOSITORY / "game/project.godot").read_text(encoding="utf-8")
         sanitized = sanitize_project_config(source_config)
-        # 1152x648 is Godot's own default window size, and the editor drops settings
-        # that equal their default whenever it saves: the desktop size is "unset or
-        # the default", never another value.
-        for key, default in (("viewport_width", "1152"), ("viewport_height", "648")):
-            lines = [line for line in sanitized.splitlines() if line.startswith(f"window/size/{key}=")]
-            self.assertIn(lines, ([], [f"window/size/{key}={default}"]))
+        # One logical size, 1280x720, on desktop and mobile alike (no per-platform override).
+        self.assertNotIn(".mobile=", sanitized)
         for entry in (
-            "window/size/viewport_width.mobile=960",
-            "window/size/viewport_height.mobile=540",
+            "window/size/viewport_width=1280",
+            "window/size/viewport_height=720",
             'window/stretch/mode="canvas_items"',
             'window/stretch/aspect="expand"',
             "window/handheld/orientation=4",

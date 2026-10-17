@@ -52,11 +52,10 @@ func _test_adversarial_metrics() -> void:
 	var consumer_rect: Rect2 = metrics.safe_rect()
 	consumer_rect.size = Vector2.ONE
 	_check(metrics.safe_rect() == viewport, "Rect2 accessor is a defensive value copy")
-	_check(ProjectSettings.get_setting_with_override("display/window/size/viewport_width") == 1152, "native desktop override resolution keeps desktop width")
-	for features: PackedStringArray in [PackedStringArray(["android", "mobile"]), PackedStringArray(["ios", "mobile"]), PackedStringArray(["mobile"])]:
-		_check(ProjectSettings.get_setting_with_override_and_custom_features("display/window/size/viewport_width", features) == 960, "native feature-set resolver applies mobile width")
-		_check(ProjectSettings.get_setting_with_override_and_custom_features("display/window/size/viewport_height", features) == 540, "native feature-set resolver applies mobile height")
-	_check(ProjectSettings.get_setting_with_override_and_custom_features("display/window/size/viewport_height", PackedStringArray(["windows", "pc"])) == 648, "desktop feature set retains base height")
+	_check(ProjectSettings.get_setting_with_override("display/window/size/viewport_width") == 1280, "native desktop resolution is 1280 wide")
+	for features: PackedStringArray in [PackedStringArray(["android", "mobile"]), PackedStringArray(["ios", "mobile"]), PackedStringArray(["mobile"]), PackedStringArray(["windows", "pc"])]:
+		_check(ProjectSettings.get_setting_with_override_and_custom_features("display/window/size/viewport_width", features) == 1280, "every feature set resolves the one logical width")
+		_check(ProjectSettings.get_setting_with_override_and_custom_features("display/window/size/viewport_height", features) == 720, "every feature set resolves the one logical height")
 	_check(DisplayServer.SCREEN_SENSOR_LANDSCAPE == 4, "pinned native enum matches project orientation")
 	_assert_bounded_metrics(SafeAreaMetrics.new(Rect2(), Rect2(INF, 0, 10, 10)), "direct construction is defensive")
 

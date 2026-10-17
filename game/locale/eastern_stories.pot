@@ -316,6 +316,10 @@ msgid "窗口模式"
 msgstr ""
 
 #: scenes/application/application_shell.tscn
+msgid "界面缩放"
+msgstr ""
+
+#: scenes/application/application_shell.tscn
 msgid "语言"
 msgstr ""
 
@@ -6188,6 +6192,10 @@ msgid "无法切换到这种语言。"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
+msgid "界面缩放已生效，但未能保存。"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
 msgid "战斗设置已生效，但未能保存。"
 msgstr ""
 
@@ -6229,6 +6237,10 @@ msgstr ""
 
 #: runtime/application/application_shell_controller.gd
 msgid "窗口"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "无边框全屏"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd

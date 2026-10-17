@@ -16,9 +16,12 @@ remains authoritative for eligibility, storage, recovery and restore transaction
 
 ## Shared presentation and safe area
 
-Use one responsive hierarchy with `canvas_items` / `expand`: desktop logical base 1152x648,
-mobile feature override 960x540. Sensor landscape supports both landscape directions;
-portrait gameplay, split-screen and platform multiwindow qualification are not promised.
+Use one responsive hierarchy with `canvas_items` / `expand` on one logical base, 1280x720, on
+desktop and mobile alike (a 19.5:9 phone widens it to about 1560x720, a 4:3 tablet heightens it to
+1280x960). Phones and tablets play full screen; sensor landscape supports both landscape
+directions; portrait gameplay, split-screen and platform multiwindow qualification are not promised.
+The 界面缩放 (100/125/150%) is the root window's content scale; it does not count towards the
+compact layout, and the world camera divides it back out.
 
 `GodotSafeAreaCapability` is the production native measurement boundary; `SafeAreaMetrics`
 normalizes physical content/safe bounds through the root viewport screen transform into

@@ -9,10 +9,14 @@ const WINDOW_MODE_KEY: String = "window_mode"
 const LANGUAGE_KEY: String = "language"
 const BATTLE_SPEED_KEY: String = "battle_speed"
 const HIT_FLASH_KEY: String = "hit_flash"
+const UI_SCALE_KEY: String = "ui_scale"
 ## Version 1 had no language; it is read as following the system language.
 const VERSION_WITHOUT_LANGUAGE: int = 1
 ## Version 2 had no battle settings; it is read as 标准 with the flash on.
 const VERSION_WITHOUT_BATTLE: int = 2
+## Version 3 had no 无边框全屏 and no 界面缩放: its "fullscreen" was the borderless
+## kind, so it reads as BORDERLESS, the scale as 100%.
+const VERSION_WITHOUT_UI_SCALE: int = 3
 
 var _files: SaveFileOperations
 
@@ -41,7 +45,7 @@ func load() -> ApplicationSettingsResult:
 	if typeof(version_value) != TYPE_INT:
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.INVALID_SETTINGS)
 	var version: int = int(version_value)
-	if version != ApplicationSettingsSnapshot.SCHEMA_VERSION and version != VERSION_WITHOUT_LANGUAGE and version != VERSION_WITHOUT_BATTLE:
+	if version not in [ApplicationSettingsSnapshot.SCHEMA_VERSION, VERSION_WITHOUT_LANGUAGE, VERSION_WITHOUT_BATTLE, VERSION_WITHOUT_UI_SCALE]:
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.UNSUPPORTED_VERSION)
 	if not _has_exact_structure(config, version):
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.INVALID_SETTINGS)
@@ -51,6 +55,11 @@ func load() -> ApplicationSettingsResult:
 	var mode: int = ApplicationWindowMode.from_storage(String(mode_value))
 	if not ApplicationWindowMode.is_valid(mode):
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.INVALID_SETTINGS)
+	if version < ApplicationSettingsSnapshot.SCHEMA_VERSION:
+		if mode == ApplicationWindowMode.Value.BORDERLESS:
+			return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.INVALID_SETTINGS)
+		if mode == ApplicationWindowMode.Value.FULLSCREEN:
+			mode = ApplicationWindowMode.Value.BORDERLESS
 	var language: Variant = config.get_value(SECTION, LANGUAGE_KEY, LocalizationService.FOLLOW_SYSTEM)
 	if typeof(language) != TYPE_STRING:
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.INVALID_SETTINGS)
@@ -61,8 +70,13 @@ func load() -> ApplicationSettingsResult:
 	var speed: int = BattlePace.from_storage(String(speed_value))
 	if not BattlePace.is_valid(speed):
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.INVALID_SETTINGS)
+	var scale_value: Variant = config.get_value(SECTION, UI_SCALE_KEY, ApplicationUiScale.DEFAULT)
+	if typeof(scale_value) != TYPE_INT or not ApplicationUiScale.is_valid(int(scale_value)):
+		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.INVALID_SETTINGS)
 	return ApplicationSettingsResult.success(
-		ApplicationSettingsSnapshot.new(ApplicationSettingsSnapshot.SCHEMA_VERSION, mode, language, speed, bool(flash_value))
+		ApplicationSettingsSnapshot.new(
+			ApplicationSettingsSnapshot.SCHEMA_VERSION, mode, language, speed, bool(flash_value), int(scale_value)
+		)
 	)
 
 
@@ -81,6 +95,7 @@ func write(snapshot: ApplicationSettingsSnapshot) -> ApplicationSettingsResult:
 	config.set_value(SECTION, LANGUAGE_KEY, snapshot.language())
 	config.set_value(SECTION, BATTLE_SPEED_KEY, BattlePace.storage_value(snapshot.battle_speed()))
 	config.set_value(SECTION, HIT_FLASH_KEY, snapshot.hit_flash())
+	config.set_value(SECTION, UI_SCALE_KEY, snapshot.ui_scale())
 	var error: int = _files.write_bytes(SETTINGS_PATH, config.encode_to_text().to_utf8_buffer())
 	if error != OK:
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.WRITE_FAILURE)
@@ -95,8 +110,10 @@ func _has_exact_structure(config: ConfigFile, version: int) -> bool:
 	var expected: PackedStringArray = [VERSION_KEY, WINDOW_MODE_KEY]
 	if version != VERSION_WITHOUT_LANGUAGE:
 		expected.append(LANGUAGE_KEY)
-	if version == ApplicationSettingsSnapshot.SCHEMA_VERSION:
+	if version >= VERSION_WITHOUT_UI_SCALE:
 		expected.append_array([BATTLE_SPEED_KEY, HIT_FLASH_KEY])
+	if version == ApplicationSettingsSnapshot.SCHEMA_VERSION:
+		expected.append(UI_SCALE_KEY)
 	if keys.size() != expected.size():
 		return false
 	for key: String in expected:

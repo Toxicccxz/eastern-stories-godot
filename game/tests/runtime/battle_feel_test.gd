@@ -60,7 +60,7 @@ func _test_settings() -> void:
 	_check(old.succeeded() and old.snapshot().battle_speed() == BattlePace.Speed.NORMAL and old.snapshot().hit_flash() and old.snapshot().language() == "zh_CN", "a version 2 file: 标准, the flash on, its language kept")
 	var written: ApplicationSettingsResult = repository.write(ApplicationSettingsSnapshot.defaults().with_battle(BattlePace.Speed.FAST, false))
 	var back: ApplicationSettingsResult = repository.load()
-	_check(written.succeeded() and back.succeeded() and back.snapshot().battle_speed() == BattlePace.Speed.FAST and not back.snapshot().hit_flash() and back.snapshot().version() == 3, "written and read back: 快, no flash (schema 3)")
+	_check(written.succeeded() and back.succeeded() and back.snapshot().battle_speed() == BattlePace.Speed.FAST and not back.snapshot().hit_flash() and back.snapshot().version() == ApplicationSettingsSnapshot.SCHEMA_VERSION, "written and read back: 快, no flash")
 	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = "[application]\nschema_version=3\nwindow_mode=\"windowed\"\nlanguage=\"\"\nbattle_speed=\"brisk\"\nhit_flash=true\n".to_utf8_buffer()
 	_check(repository.load().outcome() == ApplicationSettingsResult.Outcome.INVALID_SETTINGS, "an unknown speed is refused")
 	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = "[application]\nschema_version=3\nwindow_mode=\"windowed\"\nlanguage=\"\"\n".to_utf8_buffer()
