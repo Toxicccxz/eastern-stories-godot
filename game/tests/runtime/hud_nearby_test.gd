@@ -99,6 +99,10 @@ func run_all(tree: SceneTree) -> Dictionary:
 		var before: int = session.player_inventory_rows().size()
 		hud.items.give_panel.give_button(PlayerInventoryPanel.row_label(gift)).pressed.emit()
 		check(layout.page() == hud.items.give_panel and not hud.items.give_panel.answer_text().is_empty(), "给: the page stays, saying what came of it: %s" % hud.items.give_panel.answer_text())
+		var answer: String = hud.items.give_panel.answer_text()
+		hud.append_log_lines(["TEST-ONLY: someone else talks meanwhile"])
+		hud.items.refresh_give()
+		check(hud.items.give_panel.answer_text() == answer, "what others say meanwhile is not the gift's answer: %s" % hud.items.give_panel.answer_text())
 		check(session.player_inventory_rows().size() <= before, "the gift is made (or refused) by give.c's rules")
 	var worn: PlayerInventoryRowProjection = null
 	for row: PlayerInventoryRowProjection in session.player_inventory_rows():

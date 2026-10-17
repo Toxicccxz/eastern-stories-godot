@@ -32,9 +32,10 @@ const GIVE_RECRUITS_AT_ONCE: String = "{npc}收下{item}，就会当场收你为
 var _ui: SharedGameplayUI
 ## The rows show_inventory() opens the 背包 page with.
 var _opening_rows: Array[PlayerInventoryRowProjection] = []
-## 给予's page in the interaction popup, and the log's count when it opened.
+## 给予's page in the interaction popup, and the lines the gifts made there printed
+## (only theirs: world time runs on the page, others talk meanwhile).
 var give_panel: GivePanel
-var _give_mark: int = 0
+var _give_lines: Array[String] = []
 
 # The HUD's authorities, read as SharedGameplayUI reads them.
 var _session: WorldSessionController:
@@ -160,10 +161,10 @@ func give_item(id: StringName, amount: int, back: Callable = Callable()) -> void
 		return
 	var warning: String = _give_warning(map, id, amount)
 	if warning.is_empty():
-		map.give_to_selected(id, amount)
+		_give(map, id, amount)
 		return
 	var give: Callable = func() -> void:
-		map.give_to_selected(id, amount)
+		_give(map, id, amount)
 		if back.is_valid():
 			back.call()
 	# The question closes once the gift can no longer be made: the NPC walked away or is
@@ -193,9 +194,9 @@ func open_give(fresh: bool = true) -> void:
 			refresh_give())
 	if fresh:
 		give_panel.reset()
-		_give_mark = _ui.message_log.appended()
+		_give_lines.clear()
 	give_panel.fill(_session.player_inventory_rows())
-	give_panel.show_answer(_ui.message_log.lines_since(_give_mark))
+	give_panel.show_answer(_give_lines)
 	var npc_id: StringName = map.selected_character_id()
 	var still_valid: Callable = func() -> bool:
 		return _session.active_map() == map and map.selected_character_id() == npc_id and map.can_handle_items() and map.selected_npc_takes_gifts()
@@ -208,7 +209,14 @@ func refresh_give() -> void:
 	if give_panel == null or _presentation_layout._content != give_panel:
 		return
 	give_panel.fill(_session.player_inventory_rows())
-	give_panel.show_answer(_ui.message_log.lines_since(_give_mark))
+	give_panel.show_answer(_give_lines)
+
+
+## give.c to the selected NPC; what it printed is the 给予 page's answer.
+func _give(map: WorldMapController, id: StringName, amount: int) -> void:
+	var mark: int = _ui.message_log.appended()
+	map.give_to_selected(id, amount)
+	_give_lines = _ui.message_log.lines_since(mark)
 
 
 func _carries(id: StringName) -> bool:
