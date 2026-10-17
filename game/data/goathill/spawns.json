@@ -1,15 +1,6 @@
 {
 	"spawns": [
 		{
-			"id": "goathill.mountain.temple1.bandit_hwang",
-			"npc": "goathill.npc.bandit_hwang",
-			"map": "goathill.mountain",
-			"zone": "goathill.temple1",
-			"points": ["goathill.temple1.bandit_hwang.1"],
-			"legacy_room": "d/goathill/temple1.c",
-			"legacy_quantity": 1
-		},
-		{
 			"id": "goathill.mountain.mroad4.bandits",
 			"npc": "goathill.npc.bandit",
 			"map": "goathill.mountain",
@@ -88,6 +79,15 @@
 			"zone": "goathill.cavern4",
 			"points": ["goathill.cavern4.big_worm.1"],
 			"legacy_room": "d/goathill/cavern4.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "goathill.temple_house.temple1.bandit_hwang",
+			"npc": "goathill.npc.bandit_hwang",
+			"map": "goathill.temple_house",
+			"zone": "goathill.temple1",
+			"points": ["goathill.temple1.bandit_hwang.1"],
+			"legacy_room": "d/goathill/temple1.c",
 			"legacy_quantity": 1
 		}
 	]

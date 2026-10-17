@@ -19,33 +19,6 @@
 			"legacy_quantity": 1
 		},
 		{
-			"id": "temple.grounds.temple1.taolord",
-			"npc": "common.npc.taoist.taolord",
-			"map": "temple.grounds",
-			"zone": "temple.temple1",
-			"points": ["temple.temple1.taolord.1"],
-			"legacy_room": "d/temple/temple1.c",
-			"legacy_quantity": 1
-		},
-		{
-			"id": "temple.grounds.temple1.trainer",
-			"npc": "temple.npc.trainer",
-			"map": "temple.grounds",
-			"zone": "temple.temple1",
-			"points": ["temple.temple1.trainer.1"],
-			"legacy_room": "d/temple/temple1.c",
-			"legacy_quantity": 1
-		},
-		{
-			"id": "temple.grounds.temple1.tfighter",
-			"npc": "temple.npc.tfighter",
-			"map": "temple.grounds",
-			"zone": "temple.temple1",
-			"points": ["temple.temple1.tfighter.1"],
-			"legacy_room": "d/temple/temple1.c",
-			"legacy_quantity": 1
-		},
-		{
 			"id": "temple.grounds.inneryard.little_taoist2",
 			"npc": "temple.npc.little_taoist2",
 			"map": "temple.grounds",
@@ -55,27 +28,54 @@
 			"legacy_quantity": 1
 		},
 		{
-			"id": "temple.grounds.restroom1.old_taoist",
+			"id": "temple.temple1_house.temple1.taolord",
+			"npc": "common.npc.taoist.taolord",
+			"map": "temple.temple1_house",
+			"zone": "temple.temple1",
+			"points": ["temple.temple1.taolord.1"],
+			"legacy_room": "d/temple/temple1.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "temple.temple1_house.temple1.trainer",
+			"npc": "temple.npc.trainer",
+			"map": "temple.temple1_house",
+			"zone": "temple.temple1",
+			"points": ["temple.temple1.trainer.1"],
+			"legacy_room": "d/temple/temple1.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "temple.temple1_house.temple1.tfighter",
+			"npc": "temple.npc.tfighter",
+			"map": "temple.temple1_house",
+			"zone": "temple.temple1",
+			"points": ["temple.temple1.tfighter.1"],
+			"legacy_room": "d/temple/temple1.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "temple.restroom1_house.restroom1.old_taoist",
 			"npc": "temple.npc.old_taoist",
-			"map": "temple.grounds",
+			"map": "temple.restroom1_house",
 			"zone": "temple.restroom1",
 			"points": ["temple.restroom1.old_taoist.1"],
 			"legacy_room": "d/temple/restroom1.c",
 			"legacy_quantity": 1
 		},
 		{
-			"id": "temple.grounds.trainroom.taoist",
+			"id": "temple.trainroom_house.trainroom.taoist",
 			"npc": "temple.npc.taoist",
-			"map": "temple.grounds",
+			"map": "temple.trainroom_house",
 			"zone": "temple.trainroom",
 			"points": ["temple.trainroom.taoist.1"],
 			"legacy_room": "d/temple/trainroom.c",
 			"legacy_quantity": 1
 		},
 		{
-			"id": "temple.grounds.trainroom.taoist2",
+			"id": "temple.trainroom_house.trainroom.taoist2",
 			"npc": "temple.npc.taoist2",
-			"map": "temple.grounds",
+			"map": "temple.trainroom_house",
 			"zone": "temple.trainroom",
 			"points": ["temple.trainroom.taoist2.1"],
 			"legacy_room": "d/temple/trainroom.c",

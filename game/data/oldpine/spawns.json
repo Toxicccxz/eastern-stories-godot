@@ -117,28 +117,6 @@
 			"legacy_quantity": 1
 		},
 		{
-			"id": "oldpine.outdoor.keep3.bandit_leaders",
-			"npc": "oldpine.npc.bandit_leader",
-			"map": "oldpine.outdoor",
-			"zone": "oldpine.outdoor.keep_hall",
-			"points": [
-				"oldpine.outdoor.keep_hall.keep3.bandit_leader.1",
-				"oldpine.outdoor.keep_hall.keep3.bandit_leader.2",
-				"oldpine.outdoor.keep_hall.keep3.bandit_leader.3"
-			],
-			"legacy_room": "d/oldpine/keep3.c",
-			"legacy_quantity": 3
-		},
-		{
-			"id": "oldpine.outdoor.keep3.bandit_commander",
-			"npc": "oldpine.npc.bandit_commander",
-			"map": "oldpine.outdoor",
-			"zone": "oldpine.outdoor.keep_hall",
-			"points": ["oldpine.outdoor.keep_hall.keep3.bandit_commander.1"],
-			"legacy_room": "d/oldpine/keep3.c",
-			"legacy_quantity": 1
-		},
-		{
 			"id": "oldpine.tree.tree1.spy",
 			"npc": "oldpine.npc.spy",
 			"map": "oldpine.tree",
@@ -154,6 +132,28 @@
 			"zone": "oldpine.stone.top",
 			"points": ["oldpine.stone.top.stone.venomsnake.1"],
 			"legacy_room": "d/oldpine/stone.c",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "oldpine.keep_hall.keep3.bandit_leaders",
+			"npc": "oldpine.npc.bandit_leader",
+			"map": "oldpine.keep_hall",
+			"zone": "oldpine.outdoor.keep_hall",
+			"points": [
+				"oldpine.outdoor.keep_hall.keep3.bandit_leader.1",
+				"oldpine.outdoor.keep_hall.keep3.bandit_leader.2",
+				"oldpine.outdoor.keep_hall.keep3.bandit_leader.3"
+			],
+			"legacy_room": "d/oldpine/keep3.c",
+			"legacy_quantity": 3
+		},
+		{
+			"id": "oldpine.keep_hall.keep3.bandit_commander",
+			"npc": "oldpine.npc.bandit_commander",
+			"map": "oldpine.keep_hall",
+			"zone": "oldpine.outdoor.keep_hall",
+			"points": ["oldpine.outdoor.keep_hall.keep3.bandit_commander.1"],
+			"legacy_room": "d/oldpine/keep3.c",
 			"legacy_quantity": 1
 		}
 	]
