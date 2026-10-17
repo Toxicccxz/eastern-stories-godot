@@ -48,7 +48,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 	await tree.process_frame
 	check(hud.view_overlay.room_text().begins_with(GameContent.catalog().zone(zone).display_name), "the room's title and text at the top: %s" % hud.view_overlay.room_text().left(20))
 	check(hud.log_lines().back().begins_with("【"), "and in 消息")
-	check(not hud.toasts().shown_texts().any(func(text: String) -> bool: return text.begins_with("【")), "not as a toast: %s" % [hud.toasts().shown_texts()])
+	check(not hud.toasts().latest_text().begins_with("【"), "not as a toast: %s" % hud.toasts().latest_text())
 
 	# Far off in the room (and the waiter on the screen or not): his greeting waits.
 	var far: Vector2 = MapPlaces.spot(map, zone, waiter_body.global_position + Vector2(0, 260), 80.0)
@@ -69,7 +69,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 	check(not _said_by(hud, said, waiter), "not said yet: its wait runs from here")
 	life._advance_ambience(1.0)
 	check(_said_by(hud, said, waiter) and not hud.speech_bubbles.text_of(waiter.character_id).is_empty(), "then said, over his head: %s" % hud.speech_bubbles.text_of(waiter.character_id))
-	check(not hud.toasts().shown_texts().any(func(text: String) -> bool: return text.contains(waiter.definition().display_name)), "and no toast: %s" % [hud.toasts().shown_texts()])
+	check(not hud.toasts().latest_text().contains(waiter.definition().display_name), "and no toast: %s" % hud.toasts().latest_text())
 	said = hud.log_lines().size()
 	life._advance_ambience(3.0)
 	check(not _said_by(hud, said, waiter), "once for this visit to the room")
@@ -97,7 +97,12 @@ func run_all(tree: SceneTree) -> Dictionary:
 	hud.toasts().clear()
 	life._act(waiter, CHAT)
 	check(hud.log_lines().back() == CHAT and hud.speech_bubbles.text_of(waiter.character_id) == "客官里边请。", "near him: in 消息 and over his head")
-	check(not hud.toasts().shown_texts().has(CHAT), "not as a toast: %s" % [hud.toasts().shown_texts()])
+	check(hud.toasts().latest_text() != CHAT, "not as a toast: %s" % hud.toasts().latest_text())
+
+	# An act with no speaker (an item's: the golden rope, a letter) is the game's own message: a toast.
+	hud.toasts().clear()
+	hud.npc_says(null, [ColoredLine.new("你拉了拉金绳。")], ["你拉了拉金绳。"])
+	check(hud.toasts().latest_text() == "你拉了拉金绳。" and hud.log_lines().back() == "你拉了拉金绳。", "no speaker: toasted and in 消息: %s" % hud.toasts().latest_text())
 
 	# The feel off: as ES2, the greeting starts on coming into the room, wherever he stands.
 	TestFeel.restore()

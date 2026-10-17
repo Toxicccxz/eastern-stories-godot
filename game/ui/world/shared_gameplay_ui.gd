@@ -224,7 +224,12 @@ func _ready() -> void:
 
 ## `speaker` says `lines` (DECISIONS「说话和交互」): into 消息, and over their head as
 ## `spoken` (what is said, in the alert red when `alert`); no toast while bubbles show.
+## With no speaker (an item's act: the golden rope, a letter) they are the game's own
+## message, toasted as ever.
 func npc_says(speaker: NpcRuntimeState, lines: Array[ColoredLine], spoken: Array[String], alert: bool = false) -> void:
+	if speaker == null:
+		message_log.append_colored_lines(lines)
+		return
 	message_log.append_speech(lines)
 	speech_bubbles.say(speaker, spoken, alert)
 
