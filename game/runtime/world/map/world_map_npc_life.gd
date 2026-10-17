@@ -204,10 +204,11 @@ func npc_ambience() -> NpcAmbience:
 	return ambience
 
 
-## The player went to another map (a completed handoff): its NPCs' call_outs (a theft, a
-## master's answer) would come due while they are away and find nobody (steal_it(),
-## recruit.c's present()), so they go now: the map's time stands still until the player is
-## back. A deactivation that is rolled back (a failed handoff or Continue) keeps them.
+## The player went to another map (a completed handoff): its NPCs' call_outs (a theft)
+## would come due while they are away and find nobody (steal_it()), so they go now: the map's
+## time stands still until the player is back; a master's answer to 拜师 is said to the empty
+## room now (DECISIONS 茅山 B). A deactivation that is rolled back (a failed handoff or
+## Continue) keeps them.
 func player_left() -> void:
 	# make_stage() tells and hands to the giver wherever they are (tell_object(), move(who)):
 	# leaving, the player hears the rest at once and gets the thing (DECISIONS 晚月庄 C).

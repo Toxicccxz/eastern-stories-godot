@@ -1225,7 +1225,10 @@ What each LPC function became (林忌's two-second answer, the women's refusal, 
   player is on another map. One that comes due in a fight waits for its end; leaving the map
   drops them all, since ES2's would come while the player is away and find nobody (recruit.c's
   present(), steal_it()). Except 风泉剑灵's chant (owner, 乔阴 C): it says nothing to anyone in
-  particular, so it waits, kept on the NPC and saved, and goes on when the player is back.
+  particular, so it waits, kept on the NPC and saved, and goes on when the player is back. And
+  a master's answer to 拜师 (地图重构 R3): it is said to the empty room as the player leaves the
+  map, as when they walked off on one map (a refusal ends the request: 山烟寺 C); since the
+  remap a hall's door is a way off the map, and dropped, the request would stay pending.
 - **The question before 拜师** (first master, betrayal) is asked at the 拜师, as with 柳淳风 and
   绝尘子, though with 林忌 the change itself comes with his answer two seconds later.
 

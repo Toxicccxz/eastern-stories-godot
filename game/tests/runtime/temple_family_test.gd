@@ -361,8 +361,7 @@ func _test_nobody_hears(tree: SceneTree, session: WorldSessionController) -> voi
 	await tree.physics_frame
 	await tree.physics_frame
 	var lines: int = session.shared_ui().log_lines().size()
-	map.advance_npc_heartbeat(2.0)
-	_check(not map.npc_life.apprentice_answer_due(master) and session.shared_ui().log_lines().size() == lines and not player.state.family.has_family(), "his answer came and went unheard; no recruit (recruit.c finds nobody)")
+	_check(not map.npc_life.apprentice_answer_due(master) and session.shared_ui().log_lines().size() == lines and not player.state.family.has_family(), "his answer said to the empty 大殿 as the player left its map, unheard; no recruit (recruit.c finds nobody)")
 	_check(player.apprenticeship_request.is_pending_with(MASTER), "the request still waits on him")
 	player.apprenticeship_request.cancel()
 	_check(await MapPlaces.go_to(tree, session, &"temple.temple1") == map, "back north through the door into the 大殿")

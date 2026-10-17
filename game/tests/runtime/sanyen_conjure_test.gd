@@ -375,8 +375,7 @@ func _test_met(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(hall.request_apprentice() == NpcApprenticeship.Outcome.ANSWER_DUE and player.apprenticeship_request.is_pending(), "拜师 (a woman): his answer is two seconds off")
 	# Out through the 金门 onto the flagstones (the grounds' map since the remap).
 	await _enter(tree, session, &"sanyen.road1", &"sanyen.road1.temple_return", &"sanyen.grounds")
-	hall_map.advance_npc_heartbeat(2.0)
-	_check(not player.apprenticeship_request.is_pending() and not hall_map.npc_life.apprentice_answer_due(master), "he answers the empty hall (the player out on the flagstones, another map): the request is over: pending %s, answer due %s" % [player.apprenticeship_request.is_pending(), hall_map.npc_life.apprentice_answer_due(master)])
+	_check(not player.apprenticeship_request.is_pending() and not hall_map.npc_life.apprentice_answer_due(master), "he answers the empty hall as the player steps out onto the flagstones (another map): the request is over: pending %s, answer due %s" % [player.apprenticeship_request.is_pending(), hall_map.npc_life.apprentice_answer_due(master)])
 	var names: Array[String] = session.essence_magic().drift_names()
 	_check(names.has("玄智和尚") and names.has("小沙弥") and names.has("护寺武僧") and names.find("护寺武僧") < names.find("玄智和尚"), "the names, in the order met: %s" % [names])
 
