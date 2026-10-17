@@ -133,8 +133,8 @@ func choose(id: StringName) -> bool:
 
 
 ## What a thing that does one thing does (a door, an item on the floor, a room's service,
-## a sign); null for one whose popup lists its options (an NPC, a corpse, a landmark with
-## several).
+## a sign that is only looked at); null for one whose popup lists its options (an NPC, a
+## corpse, a landmark with an action: 放弃 or 抓住藤蔓 is never done by a stray click).
 func direct(thing: WorldNearbyThing) -> InteractionOption:
 	if thing == null or thing.kind in [WorldNearbyThing.Kind.NPC, WorldNearbyThing.Kind.CORPSE]:
 		return null
@@ -145,11 +145,9 @@ func direct(thing: WorldNearbyThing) -> InteractionOption:
 			look = option
 		elif option.available():
 			doing.append(option)
-	if doing.size() == 1:
-		return doing[0]
-	if doing.is_empty() and thing.kind == WorldNearbyThing.Kind.LANDMARK:
-		return look
-	return null
+	if thing.kind == WorldNearbyThing.Kind.LANDMARK:
+		return look if doing.is_empty() else null
+	return doing[0] if doing.size() == 1 else null
 
 
 ## The prompt over the target: what E / A does there (开门, 拾取, a service's own title) or 交互.
@@ -217,13 +215,14 @@ func _pick_target() -> void:
 		_target_key = _key(ranked[0])
 
 
-## The things E / A can go to, best first: the nearest, a faced one counting nearer.
+## The things E / A can go to, best first: the nearest, a faced one counting nearer; the
+## constable leading the player from afar (his 行贿 only) after everything at hand.
 func _ranked() -> Array[WorldNearbyThing]:
 	var ranked: Array[WorldNearbyThing] = []
 	for thing: WorldNearbyThing in _things:
 		if not options_for(_map(), thing).is_empty():
 			ranked.append(thing)
-	ranked.sort_custom(func(a: WorldNearbyThing, b: WorldNearbyThing) -> bool: return _score(a) < _score(b))
+	ranked.sort_custom(func(a: WorldNearbyThing, b: WorldNearbyThing) -> bool: return [a.bribe_only, _score(a)] < [b.bribe_only, _score(b)])
 	return ranked
 
 
@@ -367,7 +366,7 @@ func _npc_options(map: WorldMapController, thing: WorldNearbyThing, player_avail
 				"" if awake else tr("你必须先把%s弄醒。") % name,
 			))
 	if here:
-		# TRANSLATORS: why 给予 is greyed: the NPC ({npc}) lies unconscious and takes nothing.
+		# TRANSLATORS: why 给予 is greyed: the NPC ({npc}) lies unconscious and takes nothing (give.c says 这里没有这个人。, which reads wrong beside him; DECISIONS「说话和交互」).
 		offered.append(InteractionOption.new("给予", _after(select, _give), "", false, "" if awake else tr("{npc}昏迷不醒，收不了东西。").format({"npc": name})))
 	# Fights with an NPC whose skills are not ported yet would abort (fight_deferred, DECISIONS 4E).
 	var fightable: bool = not definition.dealings().is_fight_deferred()

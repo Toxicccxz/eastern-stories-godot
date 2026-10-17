@@ -56,7 +56,8 @@ func show_thing(status: Array[String], about: Array[String], options: Array[Inte
 	for child: Node in _rows.get_children():
 		_rows.remove_child(child)
 		child.queue_free()
-	for option: InteractionOption in options:
+	for index: int in options.size():
+		var option: InteractionOption = options[index]
 		var row: HBoxContainer = HBoxContainer.new()
 		row.name = "Option"
 		row.add_theme_constant_override("separation", 10)
@@ -70,7 +71,11 @@ func show_thing(status: Array[String], about: Array[String], options: Array[Inte
 		button.focus_mode = Control.FOCUS_NONE if button.disabled else Control.FOCUS_ALL
 		if option.accent:
 			button.theme_type_variation = &"AccentButton"
-		button.pressed.connect(func() -> void: chosen.emit(option))
+		# The row's place, not its option: the same rows on another thing are not rebuilt.
+		button.pressed.connect(_choose.bind(index))
+		# A service's verb comes in the shown language already.
+		if option.accent:
+			button.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 		row.add_child(button)
 		if not option.available():
 			var why: Label = Label.new()
@@ -85,6 +90,11 @@ func show_thing(status: Array[String], about: Array[String], options: Array[Inte
 			row.add_child(why)
 	if place >= 0:
 		_focus_row(place)
+
+
+func _choose(index: int) -> void:
+	if index < _options.size() and _options[index].available():
+		chosen.emit(_options[index])
 
 
 ## The rows as [label, reason] (tests and the walk).

@@ -116,8 +116,10 @@ func _advance_ambience(delta: float) -> void:
 	npc_ambience().set_random(session.npc_ambience_random_source())
 	_note_bellicosity()
 	_map.hostilities.run_pending_player_berserk()
-	# A fight began: the world stands still from here.
+	# A fight began: the world stands still from here. A greeting still waiting for the
+	# player to come near is late now (ES2's had long been said): it is forgotten.
 	if not _map.gameplay_open():
+		approach_greetings.clear()
 		return
 	_note_player_arrival()
 	_greet_on_approach()
@@ -398,10 +400,10 @@ func _chant_stage(npc: NpcRuntimeState) -> void:
 	var name: String = tr(npc.definition().display_name)
 	if npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and player_hears(npc):
 		var said: String = tr("{npc}说道：{line}").format({"npc": name, "line": tr(stage.say)})
-		var lines: Array[ColoredLine] = [ColoredLine.new(said)]
+		_map.hud().npc_says(npc, [ColoredLine.new(said)], [said])
+		# What happens with it (narration, not speech) is the game's own message.
 		if not stage.line.is_empty():
-			lines.append(ColoredLine.new(tr(stage.line).replace("$N", name)))
-		_map.hud().npc_says(npc, lines, [said])
+			_map.hud().append_log_lines([tr(stage.line).replace("$N", name)])
 	npc.character_state.progression.combat_experience += stage.combat_exp
 	var next: int = npc.chant_stage + 1
 	var wait: float = 0.0

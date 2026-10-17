@@ -8292,12 +8292,12 @@ msgstr ""
 msgid "拜师"
 msgstr ""
 
-#. why 给予 is greyed: the NPC ({npc}) lies unconscious and takes nothing.
+#. why 给予 is greyed: the NPC ({npc}) lies unconscious and takes nothing (give.c says 这里没有这个人。, which reads wrong beside him; DECISIONS「说话和交互」).
 #: ui/world/shared_ui_nearby.gd
 msgid "给予"
 msgstr ""
 
-#. why 给予 is greyed: the NPC ({npc}) lies unconscious and takes nothing.
+#. why 给予 is greyed: the NPC ({npc}) lies unconscious and takes nothing (give.c says 这里没有这个人。, which reads wrong beside him; DECISIONS「说话和交互」).
 #: ui/world/shared_ui_nearby.gd
 msgid "{npc}昏迷不醒，收不了东西。"
 msgstr ""

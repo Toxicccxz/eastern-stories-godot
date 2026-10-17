@@ -29,11 +29,15 @@ func run_all(tree: SceneTree) -> Dictionary:
 	session.set_process(false) # TEST-ONLY: nobody wanders while the player is placed
 	var waiter: NpcRuntimeState = null
 	var traveller: NpcRuntimeState = null
+	var other: NpcRuntimeState = null
 	for npc: NpcRuntimeState in map.npc_runtimes():
 		if npc.spawn_point_id == WAITER_POINT:
 			waiter = npc
-		elif npc.definition().display_name == "旅客" and npc.world_location().zone_id == &"snow.inn.main_floor" and traveller == null:
-			traveller = npc
+		elif npc.definition().display_name == "旅客" and npc.world_location().zone_id == &"snow.inn.main_floor":
+			if traveller == null:
+				traveller = npc
+			elif other == null:
+				other = npc
 	check(waiter != null and traveller != null, "the waiter and a traveller in the Inn")
 	if waiter == null or traveller == null:
 		session.queue_free()
@@ -99,6 +103,15 @@ func run_all(tree: SceneTree) -> Dictionary:
 	check(hud.interaction_panel.press("查看") and map.selected_character_id() == traveller.character_id and hud.inspection_display().begins_with(traveller_name), "查看 selects him and shows him: %s" % hud.inspection_display())
 	hud.dismiss_current_panel()
 	check(not hud.nearby.press(waiter_name, "购买"), "the waiter's 购买 is not offered from here")
+	# The other traveller's popup has the same rows: its buttons act on him, not on the first.
+	if other != null:
+		var other_body: Node2D = map.runtime_body_for_character(other.character_id)
+		await _stand(tree, map, other_body.global_position + Vector2(0, -50))
+		hud.refresh_exploration()
+		check(hud.nearby.choose(other.character_id) and hud.interact() and hud.interaction_open(), "the other traveller's popup")
+		hud.interaction_panel.button_of("查看").pressed.emit()
+		check(map.selected_character_id() == other.character_id, "its 查看 button looks at him, not the first traveller")
+		hud.dismiss_current_panel()
 
 	# Off by oneself: nothing in reach, no target, no selection.
 	await _stand(tree, map, (waiter_body.global_position + traveller_body.global_position) / 2.0 + Vector2(220, 0))

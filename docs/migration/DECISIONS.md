@@ -3549,12 +3549,16 @@ decide only where and when the player sees them, and the suites run with them of
   `room_text_ms` / `room_text_char_ms`) and go into 消息 (Q3); 观察 shows them again.
 - **交互**: E (pad A) or a click / tap on a thing in reach goes to the target (the nearest, or a
   near one the player faces; Tab / Y and Q / LB / RB step to the others), marked with a ring and
-  「E 交互」. A thing that does one thing (a door, an item on the floor, a room's service, a sign,
-  the stairs) does it at once (Q2); the others open the interaction popup: the thing's name and
+  「E 交互」. A thing that does one thing (a door, an item on the floor, a room's service, a sign
+  only looked at) does it at once (Q2); the others open the interaction popup: the thing's name and
   title, how it is (昏迷不醒，约 N 秒后醒来; 正等着你留下买路财), what it is to the player
   (look.c's relation, the strength line), then every option it offers. One the rules refuse now
   is greyed with ES2's own line where it has one (fight.c: 这里禁止战斗。 / %s已经无法战斗了。,
-  kill.c: 这里不准战斗。, apprentice.c: 你必须先把%s弄醒。). World time stands still while the
+  kill.c: 这里不准战斗。, apprentice.c: 你必须先把%s弄醒。), else a short native one (拾取:
+  离得太远，够不着。; 给予 to one lying unconscious: give.c's 这里没有这个人。 would contradict
+  what the player sees, so {npc}昏迷不醒，收不了东西。). A landmark with an action (放弃,
+  抓住藤蔓) always opens the popup, never a stray click. A greeting still waiting when a fight
+  starts in the room is forgotten (ES2's had long been said). World time stands still while the
   popup shows (as the menu's); a row closes it, and one that starts a fight closes it with the HUD.
   拜师 and 给予 (the 背包 with 给) are on the popup; the HUD's card keeps the name, 菜单, 精气神,
   conditions and waits only.
