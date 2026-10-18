@@ -351,7 +351,7 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   No art or audio yet.
 
 Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 536/551 rooms, 239/286 NPC
-types, 9/9 joinable families, 33/36 special and 18/25 basic martial arts, 84/84 quest targets.
+types, 9/9 joinable families, 33/36 special and 22/26 basic martial arts, 84/84 quest targets.
 
 ## Known issues
 
