@@ -489,6 +489,9 @@ class PlayerRuntimeSnapshot extends RefCounted:
 	## The player's set_temp() flags (WorldPlayerRuntimeState.temp_marks): a quest chain's
 	## steps (晚月庄's 竹蜻蜓 secret), a cup in hand; empty when there are none.
 	var temps: Dictionary[String, int] = {}
+	## The player's busy (ActionBusyState): the beats left and the interrupt value; 0 when free.
+	var busy_value: int = 0
+	var busy_interrupt: int = 0
 
 	func _init(
 		p_character_id: StringName = &"", p_character: CharacterStateSnapshot = null,
@@ -510,6 +513,8 @@ class PlayerRuntimeSnapshot extends RefCounted:
 	func duplicate_snapshot() -> PlayerRuntimeSnapshot:
 		var copy := PlayerRuntimeSnapshot.new(character_id, character, life_status, exists_in_world, combat_available, world_location, map_position, identity, body_facts)
 		copy.temps = temps.duplicate()
+		copy.busy_value = busy_value
+		copy.busy_interrupt = busy_interrupt
 		return copy
 
 
@@ -545,6 +550,9 @@ class NpcSpawnStateSnapshot extends RefCounted:
 	## sword_soul.c's chant under way: the stage it says next (-1: none) and the ms till then.
 	var chant_stage: int = -1
 	var chant_left_ms: int = 0
+	## Its busy (ActionBusyState): the beats left and the interrupt value; 0 when free.
+	var busy_value: int = 0
+	var busy_interrupt: int = 0
 
 	func _init(
 		p_spawn_id: StringName = &"", p_spawn_point_id: StringName = &"",
@@ -582,6 +590,8 @@ class NpcSpawnStateSnapshot extends RefCounted:
 		copy.times_caught = times_caught
 		copy.chant_stage = chant_stage
 		copy.chant_left_ms = chant_left_ms
+		copy.busy_value = busy_value
+		copy.busy_interrupt = busy_interrupt
 		return copy
 
 	## Whether there is any memory to write (a fresh NPC remembers nothing).

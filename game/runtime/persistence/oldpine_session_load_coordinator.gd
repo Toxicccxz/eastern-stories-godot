@@ -172,27 +172,22 @@ static func _candidate_transients_are_fresh(session: WorldSessionController) -> 
 		if map.aggression_adapter().pending_count() != 0 or map.lifecycle_is_pending():
 			return false
 	var player: WorldPlayerRuntimeState = session.player_runtime()
-	if not _runtime_transients_are_fresh(player.relationship, player.busy):
+	if not _runtime_transients_are_fresh(player.relationship):
 		return false
 	for npc: NpcRuntimeState in session.world_npcs():
-		if not _runtime_transients_are_fresh(npc.relationship, npc.busy):
+		if not _runtime_transients_are_fresh(npc.relationship):
 			return false
 	return true
 
 
-static func _runtime_transients_are_fresh(
-	relationship: CombatRelationshipState,
-	busy: ActionBusyState,
-) -> bool:
+## Busy is saved and restored as it was (owner, 2026-10-17); the fight relations start fresh.
+static func _runtime_transients_are_fresh(relationship: CombatRelationshipState) -> bool:
 	return (
 		relationship != null
 		and relationship.opponent_ids().is_empty()
 		and relationship.lethal_target_ids().is_empty()
 		and not relationship.guarding
 		and relationship.last_opponent_id.is_empty()
-		and busy != null
-		and busy.busy_value == 0
-		and busy.interrupt_threshold == 0
 	)
 
 

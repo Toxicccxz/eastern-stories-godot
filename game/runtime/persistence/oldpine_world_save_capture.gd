@@ -115,6 +115,9 @@ func capture(
 	)
 	# The player's set_temp() flags (owner): a quest chain's steps survive Continue.
 	player_snapshot.temps = player.saved_temps()
+	# A busy that stands is saved as it is (owner, 2026-10-17): Save never waits on it.
+	player_snapshot.busy_value = player.busy.busy_value
+	player_snapshot.busy_interrupt = player.busy.interrupt_threshold
 
 	var npc_snapshots: Array[Values.NpcSpawnStateSnapshot] = []
 	for npc: NpcRuntimeState in session.world_npcs():
@@ -170,6 +173,8 @@ func capture(
 		npc_snapshot.chat_chance = npc.chat_chance
 		npc_snapshot.pills_left = npc.pills_left
 		npc_snapshot.times_caught = npc.times_caught
+		npc_snapshot.busy_value = npc.busy.busy_value
+		npc_snapshot.busy_interrupt = npc.busy.interrupt_threshold
 		# Its chant under way (owner, 乔阴 C): the next stage and the time till it.
 		var chanting: bool = npc.chant_stage >= 0 and npc.exists_in_map and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD
 		npc_snapshot.chant_stage = npc.chant_stage if chanting else -1

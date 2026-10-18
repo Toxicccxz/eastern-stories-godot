@@ -161,11 +161,6 @@ func _test_typed_state_and_save_mapping() -> void:
 			&"save.blocked.combat_or_action",
 		],
 		[
-			OldPineSaveEligibilityResult.Outcome.INTERRUPT_THRESHOLD,
-			ApplicationOperationResult.Outcome.SAVE_BLOCKED_COMBAT_OR_ACTION,
-			&"save.blocked.combat_or_action",
-		],
-		[
 			OldPineSaveEligibilityResult.Outcome.GUARDING,
 			ApplicationOperationResult.Outcome.SAVE_BLOCKED_COMBAT_OR_ACTION,
 			&"save.blocked.combat_or_action",
