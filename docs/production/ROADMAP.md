@@ -49,7 +49,8 @@ it built; since 地图重构 every building is a map of its own.
   regions shows in each row and once in the total. Basic skills (unarmed, sword, blade, parry,
   dodge, force, literate, magic, spells, staff, throwing, …) are counted apart. Totals recounted
   2026-10-17 from `common/skills.json` against the placed NPCs' `set_skill()`/`map_skill()`
-  (basic now 26 with 鬼门关's fork; still missing: axe, dagger, fork, hammer).
+  (basic now 26 with 鬼门关's fork; axe, dagger, fork and hammer have no skill definition yet,
+  though NPCs carry their levels).
 * **Quest targets**: distinct names in `quest/qlist*.c` that live in the region (84 names, 220
   live entries over 15 combat_exp tiers; 33 more are commented out); one counts once an NPC of that name is placed and can be
   fought, so 朱鸿雪 can give it. `tests/fixtures/quest_targets.json` is the list (the total counts

@@ -305,11 +305,12 @@ func _spar(tree: SceneTree, hud: SharedGameplayUI, player: WorldPlayerRuntimeSta
 	_pass(4.0)
 	check(not player.busy.is_busy() and OldPineSaveEligibility.inspect(_session).allowed(), "after the fight Save is open")
 	# TEST-ONLY: the busy 1 a pickup in a fight leaves (get.c start_busy(1)); no fight
-	# here can leave one yet. The heart beat outside the fight wears it off (char.c).
+	# here can leave one yet. Save keeps it (owner, 2026-10-17); the heart beat outside
+	# the fight wears it off (char.c).
 	player.busy.start_busy(1)
-	check(not OldPineSaveEligibility.inspect(_session).allowed(), "busy keeps Save closed")
+	check(OldPineSaveEligibility.inspect(_session).allowed(), "busy does not close Save: it is saved")
 	_pass(2.0)
-	check(not player.busy.is_busy() and OldPineSaveEligibility.inspect(_session).allowed(), "one beat later busy is gone and Save is open")
+	check(not player.busy.is_busy() and OldPineSaveEligibility.inspect(_session).allowed(), "one beat later busy is gone")
 	return true
 
 

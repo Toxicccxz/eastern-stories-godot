@@ -109,7 +109,7 @@ func _waiting_replace_cancel(tree: SceneTree) -> void:
 	var ordinary_count: int = scheduler.events().size()
 	coordinator.advance_scheduler(10000)
 	_check(coordinator.last_completion().succeeded() and encounter.terminal_result.kind == CombatEncounterResultKind.Value.FLED and scheduler.events().size() == ordinary_count and rng.calls == 0, "next boundary executes once without catch-up")
-	_check(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[0].busy.busy_value == 2 and not OldPineSaveEligibility.inspect(session).allowed(), "Flee never clears other busy to force Save permission")
+	_check(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[0].busy.busy_value == 2 and OldPineSaveEligibility.inspect(session).allowed(), "Flee clears no other busy; Save keeps it (owner, 2026-10-17)")
 	session.free()
 	await _settle(tree, 2)
 

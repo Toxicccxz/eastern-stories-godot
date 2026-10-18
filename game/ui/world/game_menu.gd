@@ -55,6 +55,7 @@ var _return_focus: WeakRef
 var _switching: bool = false
 ## Frames left in which the shown page is brought back to its top (_reveal_after_layout).
 var _reveal_frames: int = 0
+var _reveal_tree: SceneTree
 
 
 func build(ui: SharedGameplayUI, character_page: Control, arts_page: Control, inventory_page: Control, journal_page: Control, codex_page: Control) -> void:
@@ -164,6 +165,7 @@ func _enter_tree() -> void:
 
 
 func _exit_tree() -> void:
+	_stop_revealing()
 	if is_instance_valid(_safe) and _safe.metrics_changed.is_connected(_reflow):
 		_safe.metrics_changed.disconnect(_reflow)
 	_safe = null
@@ -362,6 +364,7 @@ func _focus_page_later() -> void:
 	_reveal_frames = 2
 	if not get_tree().process_frame.is_connected(_reveal_after_layout):
 		get_tree().process_frame.connect(_reveal_after_layout)
+		_reveal_tree = get_tree()
 	var focused: Control = root.get_viewport().gui_get_focus_owner()
 	if focused != null and focused.is_visible_in_tree() and (pages[_current].is_ancestor_of(focused) or (_ui != null and _ui._presentation_layout.frame.is_ancestor_of(focused))):
 		return
@@ -375,13 +378,19 @@ func _focus_page_later() -> void:
 func _reveal_after_layout() -> void:
 	_reveal_frames -= 1
 	if _reveal_frames <= 0:
-		get_tree().process_frame.disconnect(_reveal_after_layout)
-	if not visible or not is_instance_valid(_page_scroll):
+		_stop_revealing()
+	if not visible or not is_inside_tree() or not root.is_inside_tree() or not is_instance_valid(_page_scroll):
 		return
 	_page_scroll.scroll_vertical = 0
 	var focused: Control = root.get_viewport().gui_get_focus_owner()
 	if focused != null and _page_scroll.is_ancestor_of(focused):
 		_page_scroll.ensure_control_visible(focused)
+
+
+func _stop_revealing() -> void:
+	if _reveal_tree != null and _reveal_tree.process_frame.is_connected(_reveal_after_layout):
+		_reveal_tree.process_frame.disconnect(_reveal_after_layout)
+	_reveal_tree = null
 
 
 ## The tab buttons show the shown tab (a refused switch leaves the pressed one wrong).
