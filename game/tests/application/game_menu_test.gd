@@ -11,9 +11,47 @@ var _failures: Array[String] = []
 
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
+	await _test_first_open_starts_at_the_top(tree)
 	await _test_tabs_and_keys(tree)
 	await _test_system_is_the_pause(tree)
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
+
+
+## The first time the window shows, its page is sorted after the focus landed on the
+## first row, and the scroll that followed the focus stayed past the top: 布衣's name and
+## its buttons were cut off (project review, 2026-10-17). Every opening starts at the top
+## with the focused row whole, the first, after a tab switch, and after closing.
+func _test_first_open_starts_at_the_top(tree: SceneTree) -> void:
+	var session: WorldSessionController = load("res://scenes/world/oldpine/oldpine_world_session.tscn").instantiate()
+	_check(session.configure_source_entry("背包", CharacterState.GENDER_MALE), "source setup")
+	tree.root.add_child(session)
+	await tree.process_frame
+	await tree.process_frame
+	var ui: SharedGameplayUI = session.shared_ui()
+	var menu: GameMenu = ui.menu
+	for opening: String in ["the first opening", "after a tab switch", "after closing"]:
+		if opening == "after a tab switch":
+			await _key(tree, KEY_E)
+			await _frames(tree, 4)
+			await _key(tree, KEY_Q)
+		else:
+			await _key(tree, KEY_I)
+		await _frames(tree, 4)
+		var scroll: ScrollContainer = menu._page_scroll
+		var focused: Control = tree.root.gui_get_focus_owner()
+		var rows: Node = menu.pages[GameMenu.Tab.INVENTORY].find_child("PlayerInventoryRows", true, false)
+		var row: Control = null if rows == null or rows.get_child_count() == 0 else rows.get_child(0) as Control
+		_check(menu.current_tab() == GameMenu.Tab.INVENTORY and row != null and focused != null and row.is_ancestor_of(focused), "%s: 背包 with the focus on its first row" % opening)
+		if row == null or focused == null:
+			continue
+		var view: Rect2 = scroll.get_global_rect()
+		_check(scroll.scroll_vertical == 0, "%s: the page starts at the top (scrolled %d)" % [opening, scroll.scroll_vertical])
+		_check(view.encloses(row.get_global_rect()) and view.encloses(focused.get_global_rect()), "%s: the row and its buttons are whole: %s in %s" % [opening, row.get_global_rect(), view])
+		if opening == "after a tab switch":
+			await _key(tree, KEY_I)
+			await _frames(tree, 4)
+	session.queue_free()
+	await tree.process_frame
 
 
 ## A Session without a shell: the menu opens on its own and pauses nothing.

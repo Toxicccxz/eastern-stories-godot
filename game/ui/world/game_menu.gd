@@ -53,6 +53,8 @@ var _paused_view: bool = false
 var _return_focus: WeakRef
 ## Set while show_tab() asks the shell to resume: the window stays open.
 var _switching: bool = false
+## Frames left in which the shown page is brought back to its top (_reveal_after_layout).
+var _reveal_frames: int = 0
 
 
 func build(ui: SharedGameplayUI, character_page: Control, arts_page: Control, inventory_page: Control, journal_page: Control, codex_page: Control) -> void:
@@ -357,10 +359,29 @@ func focus_page() -> void:
 func _focus_page_later() -> void:
 	if not visible or not root.is_inside_tree():
 		return
+	_reveal_frames = 2
+	if not get_tree().process_frame.is_connected(_reveal_after_layout):
+		get_tree().process_frame.connect(_reveal_after_layout)
 	var focused: Control = root.get_viewport().gui_get_focus_owner()
 	if focused != null and focused.is_visible_in_tree() and (pages[_current].is_ancestor_of(focused) or (_ui != null and _ui._presentation_layout.frame.is_ancestor_of(focused))):
 		return
 	focus_page()
+
+
+## The first time the window shows, its page is sorted at a narrow width after the focus
+## landed, so the scroll that followed the focus ends up past the top and clips the first
+## row (project review, 2026-10-17). On the next two frames, once laid out: back to the
+## top, and the focused control shown again (a 百科 entry further down).
+func _reveal_after_layout() -> void:
+	_reveal_frames -= 1
+	if _reveal_frames <= 0:
+		get_tree().process_frame.disconnect(_reveal_after_layout)
+	if not visible or not is_instance_valid(_page_scroll):
+		return
+	_page_scroll.scroll_vertical = 0
+	var focused: Control = root.get_viewport().gui_get_focus_owner()
+	if focused != null and _page_scroll.is_ancestor_of(focused):
+		_page_scroll.ensure_control_visible(focused)
 
 
 ## The tab buttons show the shown tab (a refused switch leaves the pressed one wrong).
