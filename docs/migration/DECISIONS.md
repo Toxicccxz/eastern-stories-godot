@@ -3598,3 +3598,14 @@ decide only where and when the player sees them, and the suites run with them of
   HUD's card stays behind the menu there, as behind its other tabs.
 - **界面缩放 and the map's own text** (#138, owner 2026-10-17): the 界面缩放 grows the interface
   only; names over bodies, landmark and floor-item labels are drawn on the map and stay its size.
+
+## Busy is saved, not waited on (owner, 2026-10-17)
+
+- **What changed:** Save no longer refuses while the player or an NPC is busy (the
+  "Inactive resident maps" and Save-eligibility entries above blocked it). Both busy facts
+  (action.c's busy and interrupt) are saved with their character on every map and restored
+  exactly; a spent busy whose interrupt value stands stays so, as action.c leaves it.
+- **Why:** inactive maps freeze, so an NPC left busy there (the player's 遁 away from a fight)
+  kept Save refused until the player went back. A modern RPG saves the state instead of making
+  the player wait on something they cannot see. Busy's formulas and its wearing off on the
+  heart beat are unchanged; guarding, opponents and lethal intent still block.

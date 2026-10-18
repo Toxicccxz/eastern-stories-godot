@@ -48,13 +48,13 @@ long-lived operational policy, not a gameplay substitution or authorization to i
 
 ### Policy versus implementation snapshot
 
-P2B publishes root schema2, item schema3 and current public **SOURCE_ENTRY_LAKE_V1**,
-with ten authored NPC slots: the existing five humans plus five independent INITIAL_ONLY serpents.
-`WorldContentRevision.CURRENT_PUBLIC` defines public support. Lake geometry, placement validation,
-physical body binding and full current capture/restore are published together. Source birth,
-Snow supplies/recovery, native item definitions and Vine behavior retain their source-entry rules.
+The current public content is **SOURCE_ENTRY_REMAP_R4_V1** (`WorldContentRevision.CURRENT_PUBLIC`)
+with root schema2 and item schema3: every region's maps, with one NPC record per authored spawn point
+(see below). P2B first published this shape with SOURCE_ENTRY_LAKE_V1 and ten NPC slots; each
+later world publication added one revision. Placement validation, physical body binding and full
+current capture/restore are published together.
 
-Recognized unsupported content (including SOURCE_ENTRY_V1 and LEGACY_OLDPINE_V1) uses
+Recognized unsupported content (every earlier revision, LEGACY_OLDPINE_V1 included) uses
 `INCOMPATIBLE_DEVELOPMENT_CONTRACT` and the explicit Chinese New Game message; unknown content
 uses `UNKNOWN_WORLD_REVISION`; current corruption remains a validation failure. I/O and unsupported
 schemas retain separate typed outcomes. The public repository checks support before nested decode
@@ -85,7 +85,7 @@ The following version-specific details are the current implementation snapshot d
   arrays. Each version has a strict key set. Legal v1/v2 decode into v3 without granting/refilling
   consumables; definition validation rejects a food/liquid item missing its required state. Liquid
   records contain only stable item ID, typed content and remaining (empty0 is live). Root schema2 /
-  SOURCE_ENTRY_LAKE_V1 is the current public content marker; the root format is unchanged. See
+  SOURCE_ENTRY_REMAP_R4_V1 is the current public content marker; the root format is unchanged. See
   [S6B](../../migration/PHASE_SNOW_TOWN_CORE_HUB_FRESH_WATER_SUPPLY_LOOP.md).
 - `WorldItemInstanceIndex` is derived from restored Inventory and is never serialized as authority.
 - Semantic character, item, NPC, corpse, spawn, and world identities persist across Load. Runtime Godot
@@ -106,9 +106,11 @@ The following version-specific details are the current implementation snapshot d
   clamping it.
 - Stable ACTIVE, fully committed UNCONSCIOUS, and coherent completed DEAD character states are durable.
 - Save is rejected while any restart-unsafe transition is present: incomplete lifecycle work, a live
-  FINAL corpse, opponents or lethal intent, busy/interrupt or guarding state, pending aggression or combat
-  cadence, an active/partial map handoff or Cave exit, staged/disabled runtime owners, or temporary
-  attribute modifiers without durable provenance.
+  FINAL corpse, opponents or lethal intent, guarding state, pending aggression or combat cadence, an
+  active/partial map handoff or Cave exit, staged/disabled runtime owners, or temporary attribute
+  modifiers without durable provenance.
+- Busy is saved, not waited on (owner, 2026-10-17): the player's and every NPC's busy value and
+  interrupt value, on every map, written only while one is non-zero and restored exactly.
 - Transient combat, cadence, Area membership, UI, and presentation state are rebuilt fresh after Load;
   they are not serialized.
 

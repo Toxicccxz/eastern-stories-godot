@@ -18,6 +18,7 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_player_temps()
 	_test_counters_and_chant()
 	_test_journal_and_known_items()
+	_test_busy()
 	return {"assertions": _assertion_count, "failures": _failures.duplicate()}
 
 
@@ -38,6 +39,39 @@ func _test_player_temps() -> void:
 	var root: Dictionary = JSON.parse_string(encoded.text)
 	root["player"]["temps"] = {}
 	_assert_false(_decode_root(root).succeeded(), "empty temps are refused (never written)")
+
+
+## A busy that stands (owner, 2026-10-17: Save never waits on it): the player's and an
+## NPC's, written only while they stand, read back exactly, a spent busy whose interrupt
+## value still stands and a negative one included; a free one written is refused.
+func _test_busy() -> void:
+	var source: GameSaveSnapshot = Fixture.substantial()
+	var plain: String = GameSaveJsonCodec.encode(source).text
+	_assert_false(plain.contains("\"busy\""), "nobody busy: no busy is written")
+	var player: GameSaveValueTypes.PlayerRuntimeSnapshot = source.player
+	player.busy_value = 0
+	player.busy_interrupt = 3
+	var npc: GameSaveValueTypes.NpcSpawnStateSnapshot = source.npc_spawn_states[0]
+	npc.busy_value = 5
+	var busy := GameSaveSnapshot.new(source.metadata, source.session_kind, source.item_id_allocator, player, [npc], source.corpses, source.items, source.combat_rng, source.npc_initialization_rng, source.world_interaction_rng)
+	var encoded: GameSaveResult = GameSaveJsonCodec.encode(busy)
+	var decoded: GameSaveResult = GameSaveJsonCodec.decode(encoded.text)
+	_assert_true(encoded.succeeded() and decoded.succeeded(), "a save with busy encodes and decodes")
+	if not decoded.succeeded():
+		return
+	_assert_eq([decoded.snapshot.player.busy_value, decoded.snapshot.player.busy_interrupt], [0, 3], "the player's spent busy keeps its interrupt value")
+	_assert_eq([decoded.snapshot.npc_spawn_states[0].busy_value, decoded.snapshot.npc_spawn_states[0].busy_interrupt], [5, 0], "the NPC's busy comes back")
+	_assert_eq(GameSaveJsonCodec.encode(decoded.snapshot).text, encoded.text, "busy re-encodes the same")
+	var old: GameSaveResult = GameSaveJsonCodec.decode(plain)
+	_assert_true(old.succeeded() and old.snapshot.player.busy_value == 0 and old.snapshot.npc_spawn_states[0].busy_value == 0, "a save without busy loads everyone free")
+	var root: Dictionary = JSON.parse_string(encoded.text)
+	root["npc_spawn_states"][0]["busy"] = {"value": "-2", "interrupt": "0"}
+	var negative: GameSaveResult = _decode_root(root)
+	_assert_true(negative.succeeded() and negative.snapshot.npc_spawn_states[0].busy_value == -2, "a negative busy (action.c allows it) comes back")
+	root["npc_spawn_states"][0]["busy"] = {"value": "0", "interrupt": "0"}
+	_assert_false(_decode_root(root).succeeded(), "a free busy is refused (never written)")
+	root["npc_spawn_states"][0]["busy"] = {"value": "1"}
+	_assert_false(_decode_root(root).succeeded(), "a busy without its interrupt value is refused")
 
 
 ## The player's set("taolin_steps") (CharacterState.counters) and an NPC's chant under way

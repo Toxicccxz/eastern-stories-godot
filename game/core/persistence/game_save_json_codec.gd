@@ -210,6 +210,7 @@ func _encode_player(value: Values.PlayerRuntimeSnapshot) -> Dictionary[String, V
 		for name: String in names:
 			temps[name] = _i(value.temps[name])
 		result["temps"] = temps
+	_encode_busy(result, value.busy_value, value.busy_interrupt)
 	return result
 
 
@@ -243,7 +244,14 @@ func _encode_npc(value: Values.NpcSpawnStateSnapshot) -> Dictionary[String, Vari
 		if value.chant_stage >= 0:
 			memory["chant"] = {"stage": _i(value.chant_stage), "left_ms": _i(value.chant_left_ms)}
 		record["memory"] = memory
+	_encode_busy(record, value.busy_value, value.busy_interrupt)
 	return record
+
+
+## A character's busy (ActionBusyState), only while it stands, so a free one keeps its shape.
+func _encode_busy(into: Dictionary[String, Variant], busy_value: int, busy_interrupt: int) -> void:
+	if busy_value != 0 or busy_interrupt != 0:
+		into["busy"] = {"value": _i(busy_value), "interrupt": _i(busy_interrupt)}
 
 
 func _encode_corpse(value: Values.CorpseSnapshot) -> Dictionary[String, Variant]:
@@ -609,6 +617,8 @@ func _decode_player(value: Variant, path: String) -> Values.PlayerRuntimeSnapsho
 	var fields: Array[String] = ["character_id", "character", "life_status", "exists_in_world", "combat_available", "world_location", "map_position", "identity", "body_facts"]
 	if value is Dictionary and value.has("temps"):
 		fields.append("temps")
+	if value is Dictionary and value.has("busy"):
+		fields.append("busy")
 	var object: Dictionary = _obj(value, path, fields)
 	if _error: return null
 	var i: Dictionary = _obj(object["identity"], path + ".identity", ["display_name", "title", "age", "race_id"])
@@ -626,6 +636,10 @@ func _decode_player(value: Variant, path: String) -> Values.PlayerRuntimeSnapsho
 				_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".temps", "expected flag names")
 				return player
 			player.temps[name] = _int64(object["temps"][name], path + ".temps." + name)
+	if object.has("busy"):
+		var busy: Array[int] = _decode_busy(object["busy"], path + ".busy")
+		player.busy_value = busy[0]
+		player.busy_interrupt = busy[1]
 	return player
 
 func _decode_npc(value: Variant, path: String) -> Values.NpcSpawnStateSnapshot:
@@ -634,6 +648,8 @@ func _decode_npc(value: Variant, path: String) -> Values.NpcSpawnStateSnapshot:
 		fields.append("revive_in_ms")
 	if value is Dictionary and value.has("memory"):
 		fields.append("memory")
+	if value is Dictionary and value.has("busy"):
+		fields.append("busy")
 	var object: Dictionary = _obj(value, path, fields)
 	if _error: return null
 	var ids: Array[StringName] = _decode_id_array(object["live_loadout_item_ids"], path + ".live_loadout_item_ids")
@@ -642,7 +658,21 @@ func _decode_npc(value: Variant, path: String) -> Values.NpcSpawnStateSnapshot:
 	var decoded := Values.NpcSpawnStateSnapshot.new(StringName(_string(object["spawn_id"], path + ".spawn_id")), StringName(_string(object["spawn_point_id"], path + ".spawn_point_id")), StringName(_string(object["npc_definition_id"], path + ".npc_definition_id")), StringName(_string(object["character_id"], path + ".character_id")), _bool(object["exists_in_world"], path + ".exists_in_world"), StringName(_string(object["life_status"], path + ".life_status")), _bool(object["combat_available"], path + ".combat_available"), _decode_character(object["character"], path + ".character"), _int64(object["age"], path + ".age"), _int64(object["body_weight"], path + ".body_weight"), _int64(object["maximum_encumbrance"], path + ".maximum_encumbrance"), _decode_location(object["world_location"], path + ".world_location"), _decode_position(object["map_position"], path + ".map_position"), ids, revive_in_ms)
 	if object.has("memory"):
 		_decode_memory(object["memory"], path + ".memory", decoded)
+	if object.has("busy"):
+		var busy: Array[int] = _decode_busy(object["busy"], path + ".busy")
+		decoded.busy_value = busy[0]
+		decoded.busy_interrupt = busy[1]
 	return decoded
+
+
+## {value, interrupt}: a busy that stands (a free one is not written).
+func _decode_busy(value: Variant, path: String) -> Array[int]:
+	var object: Dictionary = _obj(value, path, ["value", "interrupt"])
+	if _error: return [0, 0]
+	var busy: Array[int] = [_int64(object["value"], path + ".value"), _int64(object["interrupt"], path + ".interrupt")]
+	if busy[0] == 0 and busy[1] == 0:
+		_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path, "a free busy is not written")
+	return busy
 
 
 ## An NPC's memory: {flags?: {name: bool}, combat_chat_chance?, chat_chance?, pills_left?, times_caught?,

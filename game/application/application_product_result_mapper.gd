@@ -165,7 +165,6 @@ static func _save_blocked(
 		OldPineSaveEligibilityResult.Outcome.OPPONENT_RELATIONSHIP, \
 		OldPineSaveEligibilityResult.Outcome.LETHAL_MARKER, \
 		OldPineSaveEligibilityResult.Outcome.BUSY, \
-		OldPineSaveEligibilityResult.Outcome.INTERRUPT_THRESHOLD, \
 		OldPineSaveEligibilityResult.Outcome.GUARDING:
 			outcome = ApplicationOperationResult.Outcome.SAVE_BLOCKED_COMBAT_OR_ACTION
 			message_key = &"save.blocked.combat_or_action"

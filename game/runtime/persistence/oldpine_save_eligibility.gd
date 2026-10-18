@@ -66,7 +66,6 @@ static func inspect(
 		player.character_id if player != null else &"",
 		player.state if player != null else null,
 		player.relationship if player != null else null,
-		player.busy if player != null else null,
 		player.life_status if player != null else -1,
 		player.exists_in_world if player != null else false,
 	)
@@ -83,7 +82,6 @@ static func inspect(
 			npc.character_id,
 			npc.character_state,
 			npc.relationship,
-			npc.busy,
 			npc.life_status,
 			npc.exists_in_map,
 			_summoned(npc),
@@ -115,7 +113,6 @@ static func _inspect_character(
 	character_id: StringName,
 	state: CharacterState,
 	relationship: CombatRelationshipState,
-	busy: ActionBusyState,
 	life_status: int,
 	exists_in_world: bool,
 	may_be_absent: bool = false,
@@ -124,7 +121,6 @@ static func _inspect_character(
 		character_id.is_empty()
 		or state == null
 		or relationship == null
-		or busy == null
 		or not CharacterRuntimeLifeStatus.is_valid(life_status)
 	):
 		return Result.block(Result.Outcome.SESSION_NOT_READY, character_id)
@@ -132,10 +128,8 @@ static func _inspect_character(
 		return Result.block(Result.Outcome.OPPONENT_RELATIONSHIP, character_id)
 	if not relationship.lethal_target_ids().is_empty():
 		return Result.block(Result.Outcome.LETHAL_MARKER, character_id)
-	if busy.busy_value != 0:
-		return Result.block(Result.Outcome.BUSY, character_id)
-	if busy.interrupt_threshold != 0:
-		return Result.block(Result.Outcome.INTERRUPT_THRESHOLD, character_id)
+	# A busy that stands does not stop a save: it is saved with the character (owner,
+	# 2026-10-17), on any map, the ones left frozen behind included.
 	if relationship.guarding:
 		return Result.block(Result.Outcome.GUARDING, character_id)
 	# A summoned NPC is alive and not in the world until its room calls it in (a drawn

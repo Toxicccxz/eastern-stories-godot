@@ -128,6 +128,7 @@ static func _prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 			"player",
 		)
 	player.restore_temps(saved_player.temps)
+	player.busy.restore(saved_player.busy_value, saved_player.busy_interrupt)
 
 	var npc_result: OldPineWorldRestoreResult = _restore_npc_ledger(
 		snapshot,
@@ -340,6 +341,7 @@ static func _restore_npc_ledger(
 					path,
 				)
 			runtime.set_revive_in_ms(saved.revive_in_ms)
+			runtime.busy.restore(saved.busy_value, saved.busy_interrupt)
 			# What it remembered; a saved NPC that remembered nothing keeps create()'s flags.
 			if saved.has_memory():
 				runtime.restore_memory_flags(saved.flags)

@@ -90,13 +90,18 @@ func _test_eligibility_matrix(tree: SceneTree) -> void:
 	player.relationship._remove_opponent_for_cleanup(target_id)
 	_assert_blocked(session, OldPineSaveEligibilityResult.Outcome.LETHAL_MARKER, "lethal marker alone blocks")
 	player.relationship.remove_lethal_relation(target_id)
+	# Busy is saved, not waited on (owner, 2026-10-17).
 	player.busy.start_busy(1, 0)
-	_assert_blocked(session, OldPineSaveEligibilityResult.Outcome.BUSY, "busy blocks")
+	_assert_allowed(session, "the player's busy allows Save")
 	player.busy.advance()
 	player.busy.start_busy(1, 2)
 	player.busy.try_interrupt()
-	_assert_blocked(session, OldPineSaveEligibilityResult.Outcome.INTERRUPT_THRESHOLD, "leftover interrupt threshold blocks")
+	_assert_allowed(session, "a leftover interrupt value allows Save")
 	player.busy.advance()
+	var busy_npc: NpcRuntimeState = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[0]
+	busy_npc.busy.start_busy(5)
+	_assert_allowed(session, "an NPC's busy allows Save")
+	busy_npc.busy.restore(0, 0)
 	player.relationship.set_guarding(true)
 	_assert_blocked(session, OldPineSaveEligibilityResult.Outcome.GUARDING, "guarding blocks")
 	player.relationship.set_guarding(false)
@@ -315,15 +320,15 @@ func _test_blocked_save_and_failed_load_preserve_current(tree: SceneTree) -> voi
 	var current: WorldSessionController = host.current_session()
 	var allocator_sequence: int = current.item_id_allocator().next_dynamic_sequence
 	var rng_state: int = current.combat_random_source().capture_random_state().state
-	current.player_runtime().busy.start_busy(1, 0)
+	current.player_runtime().relationship.set_guarding(true)
 	_assert_true(host.request_save(), "blocked Save request queues once")
 	_assert_true(not host.request_load(), "queued Save rejects interleaved Load request")
 	await tree.process_frame
 	await tree.process_frame
-	_assert_eq(host.last_save_result().outcome, OldPineRuntimeSaveLoadResult.Outcome.SAVE_BLOCKED, "busy blocks save")
+	_assert_eq(host.last_save_result().outcome, OldPineRuntimeSaveLoadResult.Outcome.SAVE_BLOCKED, "guarding blocks save")
 	_assert_eq(current.item_id_allocator().next_dynamic_sequence, allocator_sequence, "blocked save consumes no item ID")
 	_assert_eq(current.combat_random_source().capture_random_state().state, rng_state, "blocked save consumes no gameplay RNG")
-	current.player_runtime().busy.advance()
+	current.player_runtime().relationship.set_guarding(false)
 	var current_id: int = current.get_instance_id()
 	var current_position: Vector2 = current.active_map().runtime_player_body().global_position
 	host.request_load()

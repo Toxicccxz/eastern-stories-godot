@@ -29,6 +29,14 @@ func start_busy(value: int, threshold: int = 0) -> bool:
 	return true
 
 
+## Continue: both facts as they were saved, a spent busy whose interrupt value still
+## stands included (continue_action() runs only while busy, so it stays until the next
+## start_busy(), harmless: try_interrupt() needs a busy).
+func restore(value: int, threshold: int) -> void:
+	_busy_value = value
+	_interrupt_threshold = threshold
+
+
 ## Returns whether either stored fact changed. Positive values decrement and
 ## return immediately; non-positive values clear both facts.
 func advance() -> bool:
