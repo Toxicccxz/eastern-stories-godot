@@ -1,0 +1,9 @@
+{
+	"note": "Which picture a world body wears: <id>.tres beside this file (SpriteFrames drawn with Pixel Loom, tools/art/characters.py). A list gives the instances of one NPC their own looks, chosen by the number its character id ends in. A body named nowhere keeps its placeholder shape.",
+	"player": { "男性": "player_male", "女性": "player_female" },
+	"player_default": "player_male",
+	"npcs": {
+		"snow.npc.waiter": ["waiter"],
+		"snow.npc.traveller": ["traveller_a", "traveller_b"]
+	}
+}

@@ -51,3 +51,14 @@ This file is an evidence ledger, not legal advice or a commercial-clearance opin
 The only tracked non-code visual asset under `game/` at the Phase 10A baseline is `game/icon.svg`,
 the Godot project icon. No external authored art/audio pack was found in the current game tree. This
 inventory is not a guarantee about future content.
+
+## Pixel art (东方漆木 art trial)
+
+- Files: `game/presentation/art/` (饮风客栈's room, its furniture, five walking characters with their
+  SpriteFrames) and `game/ui/theme/ui_skin.png` (the UI atlas).
+- Original work drawn in this repository with [Pixel Loom](https://github.com/yangsir2077/pixel-loom)
+  0.7.17 (MIT; Windows portable release SHA-256
+  `0f8175c4a500cb877e1508a79659b9f3ed5bf31e4cb223613f4bcd3bc8344901`) through its MCP's native
+  drawing operations, from the scripts in `tools/art/`; editable projects in `tools/art/pixloom/`.
+- No third-party asset pack, reference image or image-generation model was used; every export passed
+  Pixel Loom's review gate (`reviewed_final`). The tool itself is not committed or shipped.
