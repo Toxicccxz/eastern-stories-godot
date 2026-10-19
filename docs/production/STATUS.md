@@ -347,8 +347,10 @@ whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
   火蝠身法); armor, weapon and NPC
   `apply/*` bonuses (a heavy weapon or armor's 轻功 cost too) and internal power count: force_factor on every landed blow, and a bare-handed
   blow against stronger force is thrown back (std/force.c, told in the battle log).
-* Placeholder visuals: flat-colour terrain tiles; characters and objects are still coloured boxes.
-  No art or audio yet.
+* Placeholder visuals: flat-colour terrain tiles; characters and objects are still coloured boxes —
+  except the 东方漆木 art trial: 饮风客栈's ground floor (room, tables, counter, jar rack), the player
+  (male/female), the waiter and the two travellers walking in four directions, and the UI skin
+  (paper menu and dialogs, lacquer over the map), drawn with Pixel Loom (`tools/art/`). No audio yet.
 
 Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 536/551 rooms, 239/286 NPC
 types, 9/9 joinable families, 33/36 special and 22/26 basic martial arts, 84/84 quest targets.
