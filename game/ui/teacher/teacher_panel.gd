@@ -67,11 +67,7 @@ func _ready() -> void:
 	panel.name = "Panel"
 	panel.hide()
 	add_child(panel)
-	var background := StyleBoxFlat.new()
-	background.bg_color = Color(0.09, 0.10, 0.085, 1)
-	for side: String in ["left", "right", "top", "bottom"]:
-		background.set("content_margin_" + side, 14.0)
-	panel.add_theme_stylebox_override("panel", background)
+	panel.add_theme_stylebox_override("panel", UiSkin.inset(false, 14.0))
 	_rows = VBoxContainer.new()
 	_rows.name = "Rows"
 	panel.add_child(_rows)

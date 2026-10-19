@@ -59,7 +59,7 @@ func _ready() -> void:
 	_heading = Label.new()
 	_heading.name = "Heading"
 	_heading.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_heading.add_theme_color_override("font_color", SharedGameplayLayout.ACCENT_COLOR)
+	_heading.theme_type_variation = &"AccentLabel"
 	column.add_child(_heading)
 	var page := VBoxContainer.new()
 	page.name = "Page"
@@ -186,7 +186,7 @@ func show_thing(status: Array[String], about: Array[String], options: Array[Inte
 			why.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 			why.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 			why.add_theme_font_size_override("font_size", 13)
-			why.add_theme_color_override("font_color", REASON_COLOR)
+			why.theme_type_variation = &"MutedLabel"
 			row.add_child(why)
 	_mark_current()
 	if place >= 0:
@@ -269,7 +269,7 @@ func _mark_current() -> void:
 			for state: StringName in [&"normal", &"hover"]:
 				button.add_theme_stylebox_override(state, _marked_style())
 			for color: StringName in [&"font_color", &"font_hover_color", &"font_focus_color"]:
-				button.add_theme_color_override(color, SharedGameplayLayout.ACCENT_COLOR.lightened(0.3))
+				button.add_theme_color_override(color, UiSkin.ON_LACQUER_BUTTON)
 		else:
 			for state: StringName in [&"normal", &"hover"]:
 				button.remove_theme_stylebox_override(state)
@@ -277,17 +277,8 @@ func _mark_current() -> void:
 				button.remove_theme_color_override(color)
 
 
-static func _marked_style() -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(SharedGameplayLayout.ACCENT_COLOR, 0.24)
-	style.border_color = Color(SharedGameplayLayout.ACCENT_COLOR, 0.6)
-	style.border_width_left = 3
-	style.set_corner_radius_all(6)
-	style.content_margin_left = 12.0
-	style.content_margin_right = 12.0
-	style.content_margin_top = 6.0
-	style.content_margin_bottom = 6.0
-	return style
+static func _marked_style() -> StyleBox:
+	return UiSkin.button(UiSkin.TAB_SELECTED)
 
 
 ## Puts `lines` into `box`; false when it showed them already.

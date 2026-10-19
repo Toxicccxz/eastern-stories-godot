@@ -89,7 +89,7 @@ func _rebuild() -> void:
 		label.text = hint[1]
 		label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 		label.add_theme_font_size_override("font_size", 13)
-		label.add_theme_color_override("font_color", SharedGameplayLayout.MUTED_COLOR)
+		label.theme_type_variation = &"MutedLabel"
 		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		item.add_child(label)
 		add_child(item)

@@ -73,13 +73,10 @@ func _init() -> void:
 		toast.panel = PanelContainer.new()
 		toast.panel.name = "Toast%d" % index
 		toast.panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		toast.style = StyleBoxFlat.new()
-		toast.style.bg_color = Color(0.045, 0.06, 0.07, 0.84)
+		toast.style = UiSkin.overlay(0.86)
 		toast.style.border_color = ACCENT
+		toast.style.set_border_width_all(0)
 		toast.style.border_width_left = 3
-		toast.style.set_corner_radius_all(10)
-		toast.style.shadow_color = Color(0, 0, 0, 0.3)
-		toast.style.shadow_size = 6
 		toast.style.content_margin_left = 14.0
 		toast.style.content_margin_right = 14.0
 		toast.style.content_margin_top = 8.0

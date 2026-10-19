@@ -44,7 +44,7 @@ func _init() -> void:
 	detail.name = "Detail"
 	detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	detail.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
-	detail.add_theme_color_override("font_color", DETAIL_COLOR)
+	detail.theme_type_variation = &"MutedLabel"
 	detail.hide()
 	add_child(detail)
 	message = Label.new()
@@ -77,9 +77,6 @@ func _button(parent: Node, node_name: String) -> Button:
 	button.custom_minimum_size = Vector2(120, 44)
 	parent.add_child(button)
 	return button
-
-
-const DETAIL_COLOR: Color = Color(0.74, 0.78, 0.72)
 
 
 ## Asks. `text` is the question (a source text, or one already put together in the

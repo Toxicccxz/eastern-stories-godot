@@ -10,8 +10,6 @@ signal picks_changed
 ## 确认给予: `picks` as [item id, amount] pairs in the list's order; amount 0 is the whole.
 signal confirmed(picks: Array)
 
-const WARNING_COLOR: Color = Color(1.0, 0.55, 0.45)
-
 var _rows: VBoxContainer
 var _empty: Label
 var _warning: Label
@@ -36,7 +34,7 @@ func _ready() -> void:
 	_warning.name = "Warning"
 	_warning.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_warning.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
-	_warning.add_theme_color_override("font_color", WARNING_COLOR)
+	_warning.theme_type_variation = &"WarningLabel"
 	_warning.hide()
 	add_child(_warning)
 	confirm_button = Button.new()
@@ -124,17 +122,8 @@ func focus_default() -> void:
 		FocusNav.give(_rows.get_child(0).get_node("Pick") as Control)
 
 
-static func _picked_style() -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(SharedGameplayLayout.ACCENT_COLOR, 0.22)
-	style.border_color = Color(SharedGameplayLayout.ACCENT_COLOR, 0.6)
-	style.set_border_width_all(1)
-	style.set_corner_radius_all(6)
-	style.content_margin_left = 12.0
-	style.content_margin_right = 12.0
-	style.content_margin_top = 6.0
-	style.content_margin_bottom = 6.0
-	return style
+static func _picked_style() -> StyleBox:
+	return UiSkin.button(UiSkin.TAB_SELECTED)
 
 
 func _refresh_confirm() -> void:

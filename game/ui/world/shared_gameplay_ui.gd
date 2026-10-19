@@ -600,7 +600,7 @@ func _heading(parent: Node, text: String) -> Label:
 	label.name = "Heading"
 	label.text = text
 	label.add_theme_font_size_override("font_size", 14)
-	label.add_theme_color_override("font_color", SharedGameplayLayout.ACCENT_COLOR)
+	label.theme_type_variation = &"AccentLabel"
 	parent.add_child(label)
 	return label
 

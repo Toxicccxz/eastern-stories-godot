@@ -122,7 +122,8 @@ func _dodge_row() -> String:
 
 
 func _red(level: int) -> String:
-	return "[color=#%s]%d[/color]" % [SharedGameplayUI.ES2_COLORS[ColoredLine.HIR].to_html(false), level]
+	# HIR as it reads on the menu's paper (UiSkin.on_paper()).
+	return "[color=#%s]%d[/color]" % [UiSkin.on_paper(SharedGameplayUI.ES2_COLORS[ColoredLine.HIR]).to_html(false), level]
 
 
 func _add_item(id: StringName, definition_id: StringName) -> void:

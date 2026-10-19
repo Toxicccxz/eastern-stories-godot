@@ -34,9 +34,14 @@ func _ready() -> void:
 		"ShellCanvas/ResultOverlay/ResultCenter/Panel",
 		"ShellCanvas/NewGameSetupPanel/Center/Panel",
 	]:
+		# The shell's dialogs are paper (UiSkin), pixel art drawn without smoothing.
+		var panel: PanelContainer = shell.get_node(path) as PanelContainer
+		panel.theme = UiSkin.paper_theme()
+		panel.add_theme_stylebox_override("panel", UiSkin.panel(true, 24.0))
+		panel.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		var layout: ResponsivePanelLayout = ResponsivePanelLayout.new()
 		add_child(layout)
-		layout.initialize(shell.get_node(path) as PanelContainer)
+		layout.initialize(panel)
 		_dialogs.append(layout)
 		_spacing.append(_authored_spacing(layout.content))
 	_busy = shell.get_node("ShellCanvas/BusyOverlay/BusyCenter/BusyLabel") as Label

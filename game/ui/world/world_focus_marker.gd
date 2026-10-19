@@ -10,7 +10,7 @@ const RING_COLOR: Color = Color(0.95, 0.8, 0.35, 0.9)
 const RING_RADIUS: float = 26.0
 ## The prompt's bottom edge above the thing's middle (over its name: the player often
 ## stands just below it).
-const PROMPT_LIFT: float = 50.0
+const PROMPT_LIFT: float = 68.0
 ## With no room above (the screen's top, the status card), the prompt's top this far below
 ## the ring (screen units).
 const PROMPT_DROP: float = 6.0

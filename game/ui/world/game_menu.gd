@@ -68,6 +68,7 @@ func build(ui: SharedGameplayUI, character_page: Control, arts_page: Control, in
 	root.name = "Root"
 	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	root.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	root.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	add_child(root)
 	barrier = ColorRect.new()
 	barrier.name = "Barrier"
@@ -78,6 +79,8 @@ func build(ui: SharedGameplayUI, character_page: Control, arts_page: Control, in
 	window = PanelContainer.new()
 	window.name = "Window"
 	window.add_theme_stylebox_override("panel", _window_style())
+	# The menu is paper (UiSkin): ink text, the pages' label roles read on it.
+	window.theme = UiSkin.paper_theme()
 	root.add_child(window)
 	var rows := VBoxContainer.new()
 	rows.name = "Rows"
@@ -87,7 +90,7 @@ func build(ui: SharedGameplayUI, character_page: Control, arts_page: Control, in
 	var header := HBoxContainer.new()
 	header.name = "Header"
 	header.add_theme_constant_override("separation", 8)
-	header.theme = SharedGameplayLayout.card_theme()
+	header.theme = UiSkin.theme(true, 15)
 	rows.add_child(header)
 	var tabs := HFlowContainer.new()
 	tabs.name = "Tabs"
@@ -117,8 +120,8 @@ func build(ui: SharedGameplayUI, character_page: Control, arts_page: Control, in
 	_show_tab_glyphs()
 	var rule := ColorRect.new()
 	rule.name = "Rule"
-	rule.color = Color(1, 1, 1, 0.08)
-	rule.custom_minimum_size.y = 1
+	rule.color = Color("c4ae88")
+	rule.custom_minimum_size.y = 2
 	rule.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	rows.add_child(rule)
 	_page_scroll = ScrollContainer.new()
@@ -480,18 +483,9 @@ func _placeholder(text: String) -> Label:
 	var label := Label.new()
 	label.text = text
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	label.add_theme_color_override("font_color", SharedGameplayLayout.MUTED_COLOR)
+	label.theme_type_variation = &"MutedLabel"
 	return label
 
 
-func _window_style() -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.05, 0.065, 0.075, 0.98)
-	style.border_color = Color(1, 1, 1, 0.1)
-	style.set_border_width_all(1)
-	style.set_corner_radius_all(14)
-	style.shadow_color = Color(0, 0, 0, 0.4)
-	style.shadow_size = 14
-	for side: String in ["left", "right", "top", "bottom"]:
-		style.set("content_margin_" + side, 16.0)
-	return style
+func _window_style() -> StyleBox:
+	return UiSkin.panel(true, 18.0)

@@ -47,9 +47,7 @@ func _ready() -> void:
 	_banner = PanelContainer.new()
 	_banner.name = "MapBanner"
 	_banner.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var style: StyleBoxFlat = StyleBoxFlat.new()
-	style.bg_color = Color(0.05, 0.05, 0.06, 0.72)
-	style.set_corner_radius_all(10)
+	var style: StyleBoxFlat = UiSkin.overlay(0.8)
 	style.content_margin_left = 22.0
 	style.content_margin_right = 22.0
 	style.content_margin_top = 8.0

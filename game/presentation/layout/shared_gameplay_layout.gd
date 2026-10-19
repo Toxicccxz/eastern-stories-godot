@@ -57,6 +57,8 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	overlay.name = "Overlay"
 	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# The skin is pixel art (UiSkin): drawn without smoothing.
+	overlay.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	ui.add_child(overlay)
 	holding = Control.new()
 	holding.name = "ClosedPanels"
@@ -66,7 +68,7 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	bar.name = "ExplorationHUD"
 	overlay.add_child(bar)
 	# The status card (owner, 2026-10-06: a more modern top left): the name and the
-	# place, 精/气/神 as bars, then the actions as flat rounded buttons.
+	# place, 精/气/神 as bars, then the actions; a lacquer card in the skin (UiSkin).
 	bar.add_theme_stylebox_override("panel", _card_style())
 	bar.theme = card_theme()
 	# Small screens scroll the HUD instead of letting it leave the safe area.
@@ -231,6 +233,8 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	# Alert lines are coloured (SharedGameplayUI escapes the rest).
 	ui.combat_log.bbcode_enabled = true
 	ui.combat_log.add_theme_color_override("default_color", SharedGameplayUI.PLAIN_LOG_COLOR)
+	# Shown on the menu's paper too (任务 › 消息记录): a lacquer ground keeps ES2's bright colours.
+	ui.combat_log.add_theme_stylebox_override("normal", UiSkin.inset(false, 10.0))
 	messages.add_child(ui.combat_log)
 	ui.inventory_panel = load("res://scenes/ui/player_inventory_panel.tscn").instantiate() as PlayerInventoryPanel
 	holding.add_child(ui.inventory_panel)
@@ -283,7 +287,7 @@ func _reflow(metrics: SafeAreaMetrics) -> void:
 	bar.position = area.position
 	bar.size = Vector2(minf(CARD_WIDTH, maxf(1, area.size.x - (80 if metrics.touch_sized() else 0))), 0)
 	# Touch rows keep five 64 px buttons on one line at 480 px, with room for a scrollbar.
-	var card: StyleBoxFlat = bar.get_theme_stylebox("panel") as StyleBoxFlat
+	var card: StyleBox = bar.get_theme_stylebox("panel")
 	if card != null:
 		card.content_margin_left = 10.0 if metrics.touch_sized() else 16.0
 		card.content_margin_right = 10.0 if metrics.touch_sized() else 16.0
@@ -589,13 +593,9 @@ func wait_row(hurry: Callable) -> Array:
 	return [text, progress, button]
 
 
-## A list item's box: a little lighter than the card, rounded.
-static func item_style() -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(1, 1, 1, 0.05)
-	style.border_color = Color(1, 1, 1, 0.07)
-	style.set_border_width_all(1)
-	style.set_corner_radius_all(10)
+## A list item's box on the menu's paper: a sunken section.
+static func item_style() -> StyleBox:
+	var style: StyleBoxTexture = UiSkin.inset(true)
 	style.content_margin_left = 10.0
 	style.content_margin_right = 10.0
 	style.content_margin_top = 7.0
@@ -608,9 +608,10 @@ const CARD_WIDTH: float = 480.0
 ## The least height the card keeps above the movement pad (name, bars, navigation row).
 const BAR_MIN_ABOVE_PAD: float = 200.0
 const TOAST_WIDTH: float = 440.0
-const NAME_COLOR: Color = Color(0.96, 0.95, 0.9)
-const MUTED_COLOR: Color = Color(0.74, 0.78, 0.72)
-const ACCENT_COLOR: Color = Color(0.88, 0.74, 0.44)
+## Text on the lacquer over the map (UiSkin); paper pages use the theme's label variations.
+const NAME_COLOR: Color = UiSkin.TEXT_NAME
+const MUTED_COLOR: Color = UiSkin.TEXT_MUTED
+const ACCENT_COLOR: Color = UiSkin.TEXT_ACCENT
 const CONDITION_COLOR: Color = Color(0.95, 0.68, 0.42)
 const ESSENCE_COLOR: Color = Color(0.86, 0.72, 0.34)
 const VITALITY_COLOR: Color = Color(0.86, 0.38, 0.33)
@@ -659,20 +660,8 @@ func _stat(parent: Node, node_name: String, caption: String, color: Color, stret
 	return [bar_control, value]
 
 
-func _card_style() -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.045, 0.06, 0.07, 0.86)
-	style.border_color = Color(1, 1, 1, 0.09)
-	style.set_border_width_all(1)
-	style.set_corner_radius_all(14)
-	style.shadow_color = Color(0, 0, 0, 0.32)
-	style.shadow_size = 10
-	style.shadow_offset = Vector2(0, 3)
-	style.content_margin_left = 16.0
-	style.content_margin_right = 16.0
-	style.content_margin_top = 14.0
-	style.content_margin_bottom = 14.0
-	return style
+func _card_style() -> StyleBox:
+	return UiSkin.panel(false, 16.0)
 
 
 func _chip_style(color: Color) -> StyleBoxFlat:
@@ -686,60 +675,15 @@ func _chip_style(color: Color) -> StyleBoxFlat:
 	return style
 
 
-## Flat rounded buttons for the card; AccentButton for the place's own action.
+## The card's lacquer theme with its smaller text: paper plaques, AccentButton for the place's
+## own action (UiSkin).
 static func card_theme() -> Theme:
-	var theme := Theme.new()
-	theme.default_font_size = 15
-	var states: Dictionary[String, Color] = {
-		"normal": Color(1, 1, 1, 0.07), "hover": Color(1, 1, 1, 0.14), "pressed": Color(ACCENT_COLOR, 0.32),
-		"disabled": Color(1, 1, 1, 0.03), "focus": Color(0, 0, 0, 0),
-	}
-	for state: String in states:
-		theme.set_stylebox(state, "Button", _button_style(states[state], state == "focus"))
-	theme.set_color("font_color", "Button", NAME_COLOR)
-	theme.set_color("font_hover_color", "Button", Color.WHITE)
-	theme.set_color("font_pressed_color", "Button", Color.WHITE)
-	theme.set_color("font_focus_color", "Button", Color.WHITE)
-	theme.set_color("font_disabled_color", "Button", Color(1, 1, 1, 0.35))
-	theme.set_type_variation(&"AccentButton", &"Button")
-	var accents: Dictionary[String, Color] = {
-		"normal": Color(ACCENT_COLOR, 0.26), "hover": Color(ACCENT_COLOR, 0.38), "pressed": Color(ACCENT_COLOR, 0.5),
-	}
-	for state: String in accents:
-		theme.set_stylebox(state, &"AccentButton", _button_style(accents[state], false))
-	theme.set_color("font_color", &"AccentButton", Color(1.0, 0.93, 0.78))
-	return theme
+	return UiSkin.theme(false, 15)
 
 
-static func _button_style(color: Color, focus: bool) -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = color
-	style.set_corner_radius_all(9)
-	style.content_margin_left = 12.0
-	style.content_margin_right = 12.0
-	style.content_margin_top = 6.0
-	style.content_margin_bottom = 6.0
-	if focus:
-		# Keyboard and pad focus: a clear ring, drawn over the button's own state.
-		style.draw_center = false
-		style.border_color = ACCENT_COLOR
-		style.set_border_width_all(2)
-		style.expand_margin_left = 2.0
-		style.expand_margin_right = 2.0
-		style.expand_margin_top = 2.0
-		style.expand_margin_bottom = 2.0
-	return style
-
-
+## The shared frame (the interaction popup, the log, loot): lacquer, so ES2's colours read.
 func _style(panel: PanelContainer) -> void:
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.055, 0.075, 0.085, 0.97)
-	style.border_color = Color(0.39, 0.43, 0.34)
-	style.set_border_width_all(1)
-	style.set_corner_radius_all(6)
-	for side: String in ["left", "right", "top", "bottom"]:
-		style.set("content_margin_" + side, 12.0)
-	panel.add_theme_stylebox_override("panel", style)
+	panel.add_theme_stylebox_override("panel", UiSkin.panel(false, 16.0))
 
 
 func _label(parent: Node, node_name: String) -> Label:

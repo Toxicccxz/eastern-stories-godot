@@ -146,7 +146,7 @@ func _test_sword_route(tree: SceneTree) -> void:
 	_check(_hud.combat_log.text.ends_with(yellow), "practice.c's line in HIY")
 	_page.buttons["practice:parry"].pressed.emit()
 	_check(_last().back() == "你的封山剑法进步了！", "practising parry practises 封山剑法 too")
-	# A jacket with armor_prop/dodge 6 (柳淳风's 丝绸马褂): the effective level in HIC.
+	# A jacket with armor_prop/dodge 6 (柳淳风's 丝绸马褂): the effective level in HIC, as it reads on paper.
 	_add_item(&"test:silk_cloth", &"es2:daemon/class/swordsman/silk_cloth") # TEST-ONLY
 	for row: PlayerInventoryRowProjection in _session.player_inventory_rows():
 		if _player.armor.is_worn(row.item_instance_id):
@@ -154,7 +154,7 @@ func _test_sword_route(tree: SceneTree) -> void:
 	_session.wear_player_item(&"test:silk_cloth")
 	_check(_player.armor.is_worn(&"test:silk_cloth"), "the jacket worn")
 	_page.refresh()
-	var cyan: String = "[color=#%s]6[/color]" % SharedGameplayUI.ES2_COLORS[ColoredLine.HIC].to_html(false)
+	var cyan: String = "[color=#%s]6[/color]" % UiSkin.on_paper(SharedGameplayUI.ES2_COLORS[ColoredLine.HIC]).to_html(false)
 	_check(_page._use_texts.has(&"dodge") and _page._use_texts[&"dodge"].text == "轻功：无 · 有效等级 %s" % cyan, "apply/dodge counts, in HIC: " + str(_page._use_texts.get(&"dodge")))
 	_hud.dismiss_current_panel()
 

@@ -268,7 +268,7 @@ func _use_rows(arts: PlayerMartialArts, state: CharacterState, catalog: ContentC
 		var level: String = str(effective)
 		if modifier != 0:
 			# enable.c colours an effective level that apply/* changes: HIC up, HIR down.
-			var color: Color = SharedGameplayUI.ES2_COLORS[ColoredLine.HIC if modifier > 0 else ColoredLine.HIR]
+			var color: Color = UiSkin.on_paper(SharedGameplayUI.ES2_COLORS[ColoredLine.HIC if modifier > 0 else ColoredLine.HIR])
 			level = "[color=#%s]%d[/color]" % [color.to_html(false), effective]
 		var mapped_skill: SkillDefinition = catalog.skill(mapped)
 		# TRANSLATORS: enable.c: a use (拳脚, 剑法 …), the skill enabled for it (or 无) and the effective level.
@@ -477,7 +477,7 @@ func _cost_box(node_name: String) -> SpinBox:
 func _title(text: String) -> Label:
 	var label := _label("")
 	label.text = text
-	label.add_theme_color_override("font_color", Color(0.85, 0.8, 0.6))
+	label.theme_type_variation = &"AccentLabel"
 	return label
 
 

@@ -9,16 +9,16 @@ extends Control
 
 const MAX_WIDTH: float = 220.0
 ## The bubble's bottom edge above the body's middle (over its name).
-const LIFT: float = 54.0
+const LIFT: float = 72.0
 ## With no room above (the screen's top, the status card), its top edge below the body's middle.
 const DROP: float = 26.0
 const EDGE: float = 4.0
 const TEXT_COLOR: Color = Color(0.12, 0.11, 0.1)
 const ALERT_TEXT_COLOR: Color = Color(0.78, 0.1, 0.08)
-const FILL: Color = Color(0.97, 0.95, 0.88, 0.94)
+const FILL: Color = Color(UiSkin.PAPER, 0.96)
 ## What the NPC does rather than says.
 const EMOTE_TEXT_COLOR: Color = Color(0.86, 0.85, 0.8)
-const EMOTE_FILL: Color = Color(0.1, 0.1, 0.11, 0.78)
+const EMOTE_FILL: Color = Color(UiSkin.LACQUER, 0.82)
 ## A said line opens with who says it and how ("强盗喝道：", "店小二说道："): the bubble is over
 ## their head already, so it starts after that colon when it comes this soon and follows 道.
 # TRANSLATORS: how a said line hands over to what is said (店小二说道：客官里边请。); a bubble shows only what follows it, when it comes within the first ten characters.
@@ -62,7 +62,10 @@ func say(speaker: NpcRuntimeState, lines: Array[String], alert: bool = false) ->
 	bubble.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var style: StyleBoxFlat = StyleBoxFlat.new()
 	style.bg_color = EMOTE_FILL if emote and not alert else FILL
-	style.set_corner_radius_all(8)
+	# A paper slip or a lacquer one (UiSkin), squared like the rest of the skin.
+	style.border_color = UiSkin.INK if not emote or alert else UiSkin.GOLD_DARK
+	style.set_border_width_all(2)
+	style.anti_aliasing = false
 	style.set_content_margin_all(6.0)
 	bubble.add_theme_stylebox_override("panel", style)
 	var label: Label = Label.new()

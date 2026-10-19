@@ -41,6 +41,7 @@ func _ready() -> void:
 	_dim.add_child(center)
 	var panel: PanelContainer = PanelContainer.new()
 	panel.custom_minimum_size = Vector2(320, 0)
+	panel.add_theme_stylebox_override("panel", UiSkin.panel(false, 20.0))
 	center.add_child(panel)
 	var rows: VBoxContainer = VBoxContainer.new()
 	rows.add_theme_constant_override("separation", 12)

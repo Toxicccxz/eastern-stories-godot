@@ -23,12 +23,12 @@ func _init() -> void:
 	var who: VBoxContainer = _block(top, "Who", "身份")
 	identity = _line(who, "Identity")
 	identity.add_theme_font_size_override("font_size", 19)
-	identity.add_theme_color_override("font_color", SharedGameplayLayout.NAME_COLOR)
+	identity.theme_type_variation = &"NameLabel"
 	rank = _line(who, "Rank")
-	rank.add_theme_color_override("font_color", SharedGameplayLayout.ACCENT_COLOR)
+	rank.theme_type_variation = &"AccentLabel"
 	var body: VBoxContainer = _block(top, "Body", "精气神")
 	# TRANSLATORS: the character sheet's heading over the 精/气/神 numbers (score.c's three columns).
-	_line(body, "Columns", "当前 / 有效 / 最大").add_theme_color_override("font_color", SharedGameplayLayout.MUTED_COLOR)
+	_line(body, "Columns", "当前 / 有效 / 最大").theme_type_variation = &"MutedLabel"
 	for entry: Array in [[&"essence", "精", SharedGameplayLayout.ESSENCE_COLOR], [&"vitality", "气", SharedGameplayLayout.VITALITY_COLOR], [&"spirit", "神", SharedGameplayLayout.SPIRIT_COLOR]]:
 		_resource(body, entry[0], entry[1], entry[2])
 	powers = _line(body, "Powers")
@@ -40,7 +40,7 @@ func _init() -> void:
 	var nature: VBoxContainer = _block(bottom, "Nature", "天赋")
 	gifts = _line(nature, "Gifts")
 	burden = _line(self, "Burden")
-	burden.add_theme_color_override("font_color", SharedGameplayLayout.MUTED_COLOR)
+	burden.theme_type_variation = &"MutedLabel"
 
 
 ## Fills the sheet from the player's state, in the shown language.
@@ -122,7 +122,7 @@ func _block(parent: Node, node_name: String, heading: String) -> VBoxContainer:
 	title.name = "Heading"
 	title.text = heading
 	title.add_theme_font_size_override("font_size", 13)
-	title.add_theme_color_override("font_color", SharedGameplayLayout.ACCENT_COLOR)
+	title.theme_type_variation = &"AccentLabel"
 	rows.add_child(title)
 	return rows
 
@@ -154,7 +154,7 @@ func _resource(parent: Node, key: StringName, caption: String, color: Color) -> 
 	name_label.name = "Caption"
 	name_label.text = caption
 	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	name_label.add_theme_color_override("font_color", color.lightened(0.25))
+	name_label.add_theme_color_override("font_color", UiSkin.on_paper(color))
 	row.add_child(name_label)
 	var value := Label.new()
 	value.name = "Value"
@@ -169,8 +169,7 @@ func _resource(parent: Node, key: StringName, caption: String, color: Color) -> 
 	bar.show_percentage = false
 	bar.custom_minimum_size.y = 8
 	var track := StyleBoxFlat.new()
-	track.bg_color = Color(1, 1, 1, 0.09)
-	track.set_corner_radius_all(4)
+	track.bg_color = Color("d6c4a0")
 	var fill := StyleBoxFlat.new()
 	fill.bg_color = color
 	fill.set_corner_radius_all(4)

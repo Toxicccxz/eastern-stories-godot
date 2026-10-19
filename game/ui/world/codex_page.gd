@@ -58,7 +58,7 @@ func _init() -> void:
 	empty_label = Label.new()
 	empty_label.name = "Empty"
 	empty_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	empty_label.add_theme_color_override("font_color", SharedGameplayLayout.MUTED_COLOR)
+	empty_label.theme_type_variation = &"MutedLabel"
 	add_child(empty_label)
 	article = VBoxContainer.new()
 	article.name = "Article"
@@ -76,7 +76,7 @@ func _init() -> void:
 	article_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	article_title.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	article_title.add_theme_font_size_override("font_size", 18)
-	article_title.add_theme_color_override("font_color", SharedGameplayLayout.ACCENT_COLOR)
+	article_title.theme_type_variation = &"AccentLabel"
 	article.add_child(article_title)
 	article_body = VBoxContainer.new()
 	article_body.name = "Body"
@@ -192,9 +192,9 @@ func _show_article(entry: CodexContent.Entry) -> void:
 		label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 		match paragraph.kind:
 			CodexContent.Paragraph.Kind.HEADING:
-				label.add_theme_color_override("font_color", SharedGameplayLayout.ACCENT_COLOR)
+				label.theme_type_variation = &"AccentLabel"
 			CodexContent.Paragraph.Kind.NOTE:
-				label.add_theme_color_override("font_color", SharedGameplayLayout.MUTED_COLOR)
+				label.theme_type_variation = &"MutedLabel"
 		article_body.add_child(label)
 
 
