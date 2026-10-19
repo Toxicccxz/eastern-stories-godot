@@ -47,6 +47,11 @@ var character_id: StringName:
 var facing: Vector2 = Vector2.DOWN
 var _last_position: Vector2 = Vector2.INF
 const FACING_NOTCH_COLOR: Color = Color(1.0, 1.0, 1.0, 0.85)
+## A body with a picture (WorldCharacterSprite) shows its facing itself, without the notch.
+var show_facing_notch: bool = true:
+	set(value):
+		show_facing_notch = value
+		queue_redraw()
 ## A jump further than this in one physics step is a placement, not a step.
 const FACING_MAX_STEP: float = 48.0
 
@@ -77,6 +82,8 @@ func placed() -> void:
 
 
 func _draw() -> void:
+	if not show_facing_notch:
+		return
 	var tip: Vector2 = facing * 31.0
 	var base: Vector2 = facing * 22.0
 	var side: Vector2 = facing.orthogonal() * 6.0
@@ -134,6 +141,11 @@ func bind_npc(value: NpcRuntimeState) -> bool:
 	_update_label(value.definition().display_name)
 	refresh_runtime_state()
 	return true
+
+
+## The definition of the NPC this body is (&"" for the player or a body not bound yet).
+func npc_definition_id() -> StringName:
+	return &"" if _npc == null else _npc.definition().definition_id
 
 
 ## char.c visible(): whether the player sees ghosts now (they are one).

@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" path="res://scenes/battle/battle_presentation.tscn" id="2_battle"]
 
 [ext_resource type="Script" path="res://ui/world/shared_gameplay_ui.gd" id="3_ui"]
+[ext_resource type="Script" path="res://presentation/world/world_character_art.gd" id="4_art"]
 
 [node name="OldPineWorldSession" type="Node" unique_id=291591878]
 script = ExtResource("1_session")
@@ -14,5 +15,8 @@ visible = false
 
 [node name="ActiveMapSlot" type="Node" parent="." unique_id=1860299874]
 unique_name_in_owner = true
+
+[node name="CharacterArt" type="Node" parent="."]
+script = ExtResource("4_art")
 
 [node name="BattlePresentationLayer" parent="." instance=ExtResource("2_battle")]
