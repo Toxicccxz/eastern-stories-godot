@@ -544,14 +544,14 @@
         "roads": [],
         "props": [
           ["floor_wood", 416, -48, 448, 48, "the door east onto the square"],
-          ["blocked", -192, -288, 192, -272, "wine jars and shelves behind the counter"],
-          ["blocked", -160, -208, 160, -192, "the counter"],
-          ["blocked", -336, -80, -272, -48, "tables where travellers trade news"],
-          ["blocked", -176, -80, -112, -48],
-          ["blocked", -336, 112, -272, 144],
-          ["blocked", -176, 112, -112, 144],
-          ["blocked", 144, 160, 208, 192],
-          ["blocked", 288, 160, 352, 192]
+          ["blocked", -192, -288, 192, -272, "wine jars and shelves behind the counter", {"art": "res://presentation/art/props/inn_jar_shelf.png"}],
+          ["blocked", -160, -208, 160, -192, "the counter", {"art": "res://presentation/art/props/inn_counter.png"}],
+          ["blocked", -336, -80, -272, -48, "tables where travellers trade news", {"art": "res://presentation/art/props/inn_table_tea.png"}],
+          ["blocked", -176, -80, -112, -48, {"art": "res://presentation/art/props/inn_table_meal.png"}],
+          ["blocked", -336, 112, -272, 144, {"art": "res://presentation/art/props/inn_table_wine.png"}],
+          ["blocked", -176, 112, -112, 144, {"art": "res://presentation/art/props/inn_table_tea.png"}],
+          ["blocked", 144, 160, 208, 192, {"art": "res://presentation/art/props/inn_table_meal.png"}],
+          ["blocked", 288, 160, 352, 192, {"art": "res://presentation/art/props/inn_table_wine.png"}]
         ],
         "reach_from": "PlayerBirth",
         "markers_in_middle": [],
@@ -566,6 +566,7 @@
         "root": "SnowInn",
         "map": "snow.inn",
         "player_color": "Color(0.68, 0.73, 0.8, 1)",
+        "art": {"room": "res://presentation/art/snow/inn_room.png", "surround": "Color(0.07, 0.05, 0.063, 1)"},
         "limits": [-576, -352, 576, 352],
         "shapes": {
           "Rect_32_96": [32, 96],

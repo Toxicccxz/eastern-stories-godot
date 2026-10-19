@@ -914,7 +914,7 @@ msgstr ""
 msgid "绳子 · 拉"
 msgstr ""
 
-#: scenes/world/chuenyu/castle.tscn scenes/world/city/jiulou_house.tscn scenes/world/cloud/duchang_house.tscn scenes/world/cloud/jiyuan_house.tscn scenes/world/cloud/tearoom_house.tscn scenes/world/latemoon/latemoon_manor.tscn scenes/world/snow/snow_inn.tscn
+#: scenes/world/chuenyu/castle.tscn scenes/world/city/jiulou_house.tscn scenes/world/cloud/duchang_house.tscn scenes/world/cloud/jiyuan_house.tscn scenes/world/cloud/tearoom_house.tscn scenes/world/latemoon/latemoon_manor.tscn
 msgid "楼梯 · 上楼"
 msgstr ""
 

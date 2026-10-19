@@ -96,13 +96,17 @@ def label(name, at, text, size=0, parent='Ground'):
             f'text = "{text}"\n{font}mouse_filter = 2\n\n')
 
 
-def stairs(name, at, id, shape, extent, color, text, script='passage', parent='.'):
-    """A passage drawn as a flight of steps the size of its shape, named above it."""
+def stairs(name, at, id, shape, extent, color, text, script='passage', parent='.', drawn=True):
+    """A passage drawn as a flight of steps the size of its shape, named above it; on a map drawn
+    by pictures (`scene.art`) the picture shows the stairs and the passage is bare."""
     w, h = extent
     child = name if parent == '.' else f'{parent}/{name}'
-    return (f'[node name="{name}" type="Area2D" parent="{parent}"]\nposition = Vector2({at[0]}, {at[1]})\n'
+    area = (f'[node name="{name}" type="Area2D" parent="{parent}"]\nposition = Vector2({at[0]}, {at[1]})\n'
             f'collision_layer = 0\ninput_pickable = false\nscript = ExtResource("{script}")\nportal_id = &"{id}"\n\n'
-            f'[node name="CollisionShape2D" type="CollisionShape2D" parent="{child}"]\nshape = SubResource("{shape}")\n\n'
+            f'[node name="CollisionShape2D" type="CollisionShape2D" parent="{child}"]\nshape = SubResource("{shape}")\n\n')
+    if not drawn:
+        return area
+    return (area +
             f'[node name="Steps" type="Polygon2D" parent="{child}"]\n'
             f'polygon = PackedVector2Array({-w // 2}, {-h // 2}, {w // 2}, {-h // 2}, {w // 2}, {h // 2}, {-w // 2}, {h // 2})\n'
             f'color = {color}\n\n'
@@ -159,28 +163,76 @@ def build(kind: str, style: str, **fields) -> str:
 
 # --- Skeletons ------------------------------------------------------------------------------
 
-def header(style: str, doors: bool, services: bool = False) -> str:
+def header(style: str, doors: bool, services: bool = False, textures: dict | None = None) -> str:
     scripts = STYLES[style]['scripts'] + ([DOOR_SCRIPT] if doors else []) + ([SERVICE_SCRIPT] if services else [])
     return ('[gd_scene format=3]\n\n'
             + ''.join(f'[ext_resource type="Script" path="{WORLD}{path}" id="{rid}"]\n' for path, rid in scripts)
+            + ''.join(f'[ext_resource type="Texture2D" path="{path}" id="{rid}"]\n' for path, rid in (textures or {}).items())
             + TILESET)
 
 
+# --- Art ------------------------------------------------------------------------------------
+# A map with `scene.art` is drawn by pictures instead of its tiles: the tiles stay (hidden) and
+# keep every collision; the room's picture lies under everything and each prop that names its
+# picture stands on the bottom edge of its box, sorted by y with the characters.
+
+def art_textures(art: dict, props: list) -> dict:
+    """Texture path -> resource id, the room's first, then the props' in the order they appear."""
+    paths = [art['room']] + [row[-1]['art'] for row in props if isinstance(row[-1], dict) and 'art' in row[-1]]
+    ids: dict = {}
+    for path in paths:
+        ids.setdefault(path, 'art_room' if not ids else f'art_{len(ids)}')
+    return ids
+
+
+def art_room(art: dict, bounds, textures: dict) -> str:
+    k = art.get('scale', 2)
+    return ('[node name="Art" type="Node2D" parent="."]\nz_index = -10\ntexture_filter = 1\n\n'
+            f'[node name="Room" type="Sprite2D" parent="Art"]\nposition = Vector2({bounds[0]}, {bounds[1]})\n'
+            f'scale = Vector2({k}, {k})\ntexture = ExtResource("{textures[art["room"]]}")\ncentered = false\n\n')
+
+
+def art_props(art: dict, props: list, textures: dict, sizes: dict) -> str:
+    """Each prop's picture (`sizes`: its texture size in art px), centred on its box's bottom edge."""
+    k = art.get('scale', 2)
+    out = '[node name="Props" type="Node2D" parent="."]\ny_sort_enabled = true\ntexture_filter = 1\n\n'
+    counts: dict = {}
+    for row in props:
+        if not (isinstance(row[-1], dict) and 'art' in row[-1]):
+            continue
+        path = row[-1]['art']
+        x0, _y0, x1, y1 = row[1:5]
+        w, h = sizes[path]
+        stem = ''.join(part.capitalize() for part in path.rsplit('/', 1)[-1].split('.')[0].split('_'))
+        counts[stem] = counts.get(stem, 0) + 1
+        assert (x0 + x1) % 2 == 0 and w % 2 == 0, ('a prop centres on whole pixels', path, row)
+        out += (f'[node name="{stem}{counts[stem]}" type="Sprite2D" parent="Props"]\n'
+                f'position = Vector2({(x0 + x1) // 2}, {y1})\nscale = Vector2({k}, {k})\n'
+                f'texture = ExtResource("{textures[path]}")\ncentered = false\noffset = Vector2({-w // 2}, {-h})\n\n')
+    return out
+
+
 def map_scene(root, map_id, sizes, nodes, zones, spawn_points, interactions, limits, player_color, doors=False,
-              services=False, backdrop=None):
-    """`backdrop`: (colour, box) drawn behind the tiles, a trimmed filler's colour over the drawing."""
+              services=False, backdrop=None, art=None):
+    """`backdrop`: (colour, box) drawn behind the tiles, a trimmed filler's colour over the drawing.
+    `art`: (scene.art, its textures, the room's nodes, the props' nodes) for a map drawn by pictures."""
     sizes = dict(sizes)
     sizes['Rect_34_34'] = (34, 34)
+    if art and backdrop:
+        backdrop = (art[0].get('surround', backdrop[0]), backdrop[1])
     behind = rect('Backdrop', backdrop[1], backdrop[0], parent='.') if backdrop else ''
-    return (header('map', doors, services) + shapes(sizes) +
-            f'[node name="{root}" type="Node2D"]\nscript = ExtResource("map")\nmap = &"{map_id}"\n\n' + behind +
-            '[node name="Terrain" type="Node2D" parent="."]\n\n'
+    if art and behind:
+        behind = behind.replace('parent="."]\n', 'parent="."]\nz_index = -20\n', 1)
+    return (header('map', doors, services, art[1] if art else None) + shapes(sizes) +
+            f'[node name="{root}" type="Node2D"]\n' + ('y_sort_enabled = true\n' if art else '') +
+            f'script = ExtResource("map")\nmap = &"{map_id}"\n\n' + behind +
+            '[node name="Terrain" type="Node2D" parent="."]\n' + ('visible = false\n' if art else '') + '\n'
             '[node name="TerrainGround" type="TileMapLayer" parent="Terrain"]\ntile_map_data = PackedByteArray()\ntile_set = ExtResource("terrain_tiles")\n\n'
             '[node name="TerrainStructures" type="TileMapLayer" parent="Terrain"]\ntile_map_data = PackedByteArray()\ntile_set = ExtResource("terrain_tiles")\n\n'
-            + nodes +
+            + nodes + (art[2] if art else '') +
             '[node name="Zones" type="Node2D" parent="."]\n\n' + zones +
-            '[node name="SpawnPoints" type="Node2D" parent="."]\n\n' + spawn_points +
-            '[node name="Characters" type="Node2D" parent="."]\n\n'
+            '[node name="SpawnPoints" type="Node2D" parent="."]\n' + ('z_index = -1\n' if art else '') + '\n' + spawn_points +
+            '[node name="Characters" type="Node2D" parent="."]\n' + ('y_sort_enabled = true\n' if art else '') + '\n'
             '[node name="Player" type="CharacterBody2D" parent="Characters"]\nunique_name_in_owner = true\nscript = ExtResource("body")\n\n'
             '[node name="Visual" type="ColorRect" parent="Characters/Player"]\noffset_left = -18.0\noffset_top = -18.0\n'
             f'offset_right = 18.0\noffset_bottom = 18.0\nmouse_filter = 2\ncolor = {player_color}\n\n'
@@ -190,8 +242,9 @@ def map_scene(root, map_id, sizes, nodes, zones, spawn_points, interactions, lim
             '[node name="Camera2D" type="Camera2D" parent="Characters/Player"]\nenabled = false\n'
             f'limit_left = {limits[0]}\nlimit_top = {limits[1]}\nlimit_right = {limits[2]}\nlimit_bottom = {limits[3]}\n'
             'position_smoothing_enabled = true\nposition_smoothing_speed = 6.0\n\n'
-            '[node name="CorpseLayer" type="Node2D" parent="."]\n\n'
-            '[node name="Interactions" type="Node2D" parent="."]\n\n' + interactions)
+            + (art[3] if art else '') +
+            '[node name="CorpseLayer" type="Node2D" parent="."]\n' + ('z_index = -1\n' if art else '') + '\n'
+            '[node name="Interactions" type="Node2D" parent="."]\n' + ('z_index = -1\n' if art else '') + '\n' + interactions)
 
 
 def flat_scene(root, map_id, sizes, nodes, zones, spawn_points, player_color, zoom, doors=False):

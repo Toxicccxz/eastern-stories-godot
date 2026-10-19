@@ -47,6 +47,11 @@ A layout's `maps` entry names its scene `file` under game/scenes/world/<region>/
   drawing, the `stairs` or the `doors` made: zones, captions, markers, stairs, stair_markers,
   door_walls, shutters, doors.
 * `scene.stairs`: passages drawn as steps, each with its arrival or return marker.
+* `scene.art`: the map drawn by pictures (map style): `room`, a res:// PNG over the drawing's bounds
+  at `scale` world px per art px (default 2), and `surround`, the backdrop's colour around it.
+  The tiles stay, hidden, and keep every collision; stairs are bare passages. A prop row ending in
+  {"art": "<res:// PNG>"} stands that picture on its box's bottom edge (the box is its collision),
+  sorted by y with the characters (tools/art/ draws the pictures with Pixel Loom).
 * `scene.doors` and `scene.door_style`: a door is placed `at` with a `shape`, or `between` two
   zones of a town (in their doorway); a door's own `color` overrides the style's.
 
@@ -124,7 +129,7 @@ def paint_map(region: Region, entry: dict, notes: list | None = None) -> str:
     stairs = arrivals = ''
     for s in scene.get('stairs', []):
         stairs += sc.build('stairs', style, name=s['name'], at=s['at'], id=s['id'], shape=s['shape'],
-                           extent=sizes[s['shape']], color=s['color'], text=s['text'])
+                           extent=sizes[s['shape']], color=s['color'], text=s['text'], drawn='art' not in scene)
         arrivals += sc.build('marker', style, **s['marker'])
     walls = shutters = doors = ''
     for door in scene.get('doors', []):
@@ -144,13 +149,27 @@ def paint_map(region: Region, entry: dict, notes: list | None = None) -> str:
     if style == 'map':
         interactions = sc.render(scene.get('interactions', []), 'landmark', style, fragments)
         has_services = any(n.get('node') == 'service' for n in scene.get('nodes', []))
+        art = None
+        if 'art' in scene:
+            assert not scene.get('doors'), ('a map drawn by pictures draws its doors too: not yet', scene['map'])
+            props = entry['draw'].get('props', [])
+            textures = sc.art_textures(scene['art'], props)
+            art = (scene['art'], textures, sc.art_room(scene['art'], drawn.bounds, textures),
+                   sc.art_props(scene['art'], props, textures, {path: png_size(path) for path in textures}))
         text = sc.map_scene(scene['root'], scene['map'], sizes, nodes, zones, points, interactions,
                             scene.get('limits', limits), scene['player_color'], has_doors, has_services,
-                            (backdrop, _grown(drawn.bounds, BACKDROP_MARGIN)) if backdrop else None)
+                            (backdrop, _grown(drawn.bounds, BACKDROP_MARGIN)) if backdrop else None, art)
     else:
         text = sc.flat_scene(scene['root'], scene['map'], sizes, nodes, zones, points,
                              scene['player_color'], scene['zoom'], has_doors)
     return drawn.tiles.apply(text)
+
+
+def png_size(res_path: str) -> tuple[int, int]:
+    """A res:// PNG's width and height, read from its header."""
+    data = (REPOSITORY / 'game' / res_path.removeprefix('res://')).read_bytes()[:24]
+    assert data[:8] == b'\x89PNG\r\n\x1a\n', res_path
+    return int.from_bytes(data[16:20], 'big'), int.from_bytes(data[20:24], 'big')
 
 
 # The backdrop reaches this far past a map's drawing: a room smaller than the screen sits on
