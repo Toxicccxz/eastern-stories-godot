@@ -7,7 +7,9 @@ extends RefCounted
 ## Buttons are paper plaques with ink text on both. Text roles are theme type variations
 ## (MutedLabel, AccentLabel, NameLabel, WarningLabel), so one label reads right on either.
 
-const ATLAS: Texture2D = preload("res://ui/theme/ui_skin.png")
+## Loaded when first used, not preloaded: the project theme is built while the editor starts,
+## before a fresh checkout has imported the atlas.
+const ATLAS_PATH: String = "res://ui/theme/ui_skin.png"
 
 ## Paper: ink and its quieter shades; the accent is lacquer red.
 const INK: Color = Color("2b1d1a")
@@ -41,14 +43,25 @@ const DARK_INSET := Rect2(48, 96, 48, 48)
 const FOCUS_RING := Rect2(96, 96, 48, 48)
 
 static var _themes: Dictionary = {}
+static var _atlas: Texture2D
 
 
 ## The theme of a surface; `font_size` 0 keeps the default size.
 static func theme(paper: bool, font_size: int = 0) -> Theme:
 	var key: String = "%s:%d" % [paper, font_size]
-	if not _themes.has(key):
-		_themes[key] = _build(paper, font_size)
-	return _themes[key]
+	if _themes.has(key):
+		return _themes[key]
+	var built: Theme = _build(paper, font_size)
+	# Without the atlas yet (an editor's first import) the theme is not kept.
+	if atlas() != null:
+		_themes[key] = built
+	return built
+
+
+static func atlas() -> Texture2D:
+	if _atlas == null and ResourceLoader.exists(ATLAS_PATH):
+		_atlas = load(ATLAS_PATH) as Texture2D
+	return _atlas
 
 
 static func paper_theme() -> Theme:
@@ -111,7 +124,7 @@ static func overlay(alpha: float = 0.88) -> StyleBoxFlat:
 
 static func _texture_box(region: Rect2, margin_x: float, margin_y: float) -> StyleBoxTexture:
 	var style := StyleBoxTexture.new()
-	style.texture = ATLAS
+	style.texture = atlas()
 	style.region_rect = region
 	style.texture_margin_left = margin_x
 	style.texture_margin_right = margin_x
