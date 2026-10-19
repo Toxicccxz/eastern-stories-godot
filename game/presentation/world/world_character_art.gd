@@ -21,7 +21,12 @@ func _ready() -> void:
 	if _slot == null:
 		set_process(false)
 		return
-	_slot.child_entered_tree.connect(func(_map: Variant) -> void: refresh(), CONNECT_DEFERRED)
+	# A method, not a lambda: a deferred lambda still runs after the session is freed.
+	_slot.child_entered_tree.connect(_on_map_entered, CONNECT_DEFERRED)
+	refresh()
+
+
+func _on_map_entered(_map: Variant) -> void:
 	refresh()
 
 
