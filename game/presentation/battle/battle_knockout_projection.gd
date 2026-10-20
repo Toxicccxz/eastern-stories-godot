@@ -4,7 +4,7 @@ extends RefCounted
 ## DECISIONS「了结 / 放过」: one who fell while the player's side was killing them, waiting
 ## on the player's choice. Read-only value snapshot.
 var _revive_seconds: int
-## Seconds until they come to, counted on the fight's clock (0: any moment now).
+## Real seconds until they come to (the fight's clock at the 战斗速度), at least 1.
 var revive_seconds: int:
 	get: return _revive_seconds
 var _quest_target: bool

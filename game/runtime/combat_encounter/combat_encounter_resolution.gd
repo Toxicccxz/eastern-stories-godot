@@ -23,10 +23,13 @@ var _walked_out: Dictionary[StringName, StringName] = {}
 ## The fight ended because a side's last one walked out (not because nobody fought on).
 var _ended_by_walking: bool = false
 ## DECISIONS「了结 / 放过」: one the player's side was killing fell, and its blow waits on
-## the player's choice. Fallen ID -> [[the one who held, where the fallen stood among its
-## kill marks and among its enemies], ...]: the player and those they called (BattlePace.after_knockout ASK).
+## the player's choice. Fallen ID -> [[the one who held, whether it was among its enemies],
+## ...]: the player and those they called (BattlePace.after_knockout ASK).
 var _held: Dictionary[StringName, Array] = {}
 var _revive_remainder_ms: Dictionary[StringName, float] = {}
+## Each holder's kill marks and enemies in their order before it held anyone (those held
+## since kept in their places), so what is given back stands where it stood.
+var _orders: Dictionary[StringName, Array] = {}
 
 var failure: Failure:
 	get: return _failure
@@ -286,6 +289,7 @@ func inspect(
 			_hold(bindings, victim)
 		elif receipt.outcome == CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE:
 			_announcements.append(CombatLifecycleAnnouncement.new(victim.character_id, CombatLifecycleAnnouncement.DEAD))
+			_drop(victim.character_id)
 	# A player who fell (or died) cannot choose: the fight goes on as ES2's.
 	if not _held.is_empty():
 		var me: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(bindings, _session.player_runtime().character_id)
@@ -296,11 +300,12 @@ func inspect(
 	return _result == null
 
 
-## DECISIONS「了结 / 放过」: `victim` fell, and the player, standing, or one they called
-## (WorldMapNpcs.summoner_of()) was killing it: they stop (remove_killer()), remembering
-## where it stood among their enemies, until the player finishes or spares it, or it
-## comes to. The fight goes on meanwhile. Not with 击倒后 at 直接了结 (ES2: the next
-## blow kills), nor for one of the player's own side.
+## DECISIONS「了结 / 放过」: `victim` fell, and the player, standing, or one standing they
+## called (WorldMapNpcs.summoner_of()) was killing it: they stop (remove_killer()),
+## remembering where it stood among their enemies, until the player finishes or spares it,
+## or it comes to. The fight goes on meanwhile. Not with 击倒后 at 直接了结 (ES2: the next
+## blow kills), nor for one of the player's own side; one of theirs lying down keeps its
+## mark (it strikes nobody), and with nobody standing to strike there is nothing to ask.
 func _hold(bindings: Array[CombatSliceCharacterBinding], victim: CombatSliceCharacterBinding) -> void:
 	if BattlePace.after_knockout != BattlePace.AfterKnockout.ASK or _encounter.mode != CombatEncounterMode.Value.LETHAL:
 		return
@@ -312,12 +317,14 @@ func _hold(bindings: Array[CombatSliceCharacterBinding], victim: CombatSliceChar
 		return
 	var holders: Array = []
 	for binding: CombatSliceCharacterBinding in bindings:
-		if _plays_for_player(binding.character_id, player) and binding.relationship.has_lethal_target(victim.character_id):
-			holders.append([binding.character_id, binding.relationship.lethal_target_ids().find(victim.character_id), binding.relationship.opponent_ids().find(victim.character_id)])
+		if _plays_for_player(binding.character_id, player) and _standing(binding) and binding.relationship.has_lethal_target(victim.character_id):
+			holders.append([binding.character_id, binding.relationship.has_opponent(victim.character_id)])
 	if holders.is_empty():
 		return
 	for holder: Array in holders:
-		CombatSliceProjectionBuilder.find_binding(bindings, holder[0]).relationship.remove_lethal_relation(victim.character_id)
+		var relationship: CombatRelationshipState = CombatSliceProjectionBuilder.find_binding(bindings, holder[0]).relationship
+		_remember_order(holder[0], relationship)
+		relationship.remove_lethal_relation(victim.character_id)
 	_held[victim.character_id] = holders
 	_revive_remainder_ms.erase(victim.character_id)
 
@@ -362,8 +369,7 @@ func finish(bindings: Array[CombatSliceCharacterBinding], victim_id: StringName)
 func spare(victim_id: StringName) -> bool:
 	if not _held.has(victim_id) or _result != null:
 		return false
-	_held.erase(victim_id)
-	_revive_remainder_ms.erase(victim_id)
+	_drop(victim_id)
 	_announcements.append(CombatLifecycleAnnouncement.new(victim_id, CombatLifecycleAnnouncement.SPARED))
 	return true
 
@@ -371,10 +377,47 @@ func spare(victim_id: StringName) -> bool:
 func _resume(bindings: Array[CombatSliceCharacterBinding], victim_id: StringName) -> void:
 	for holder: Array in _held.get(victim_id, []):
 		var binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(bindings, holder[0])
+		var order: Array = _orders.get(holder[0], [[], []])
 		if binding != null:
-			binding.relationship.restore_lethal_target(victim_id, holder[1], holder[2])
+			binding.relationship.restore_lethal_target(victim_id, _before(order[0], victim_id), _before(order[1], victim_id) if holder[1] else null)
+	_drop(victim_id)
+
+
+## Held no more (given back, spared, dead): a holder that holds nobody now forgets its order.
+func _drop(victim_id: StringName) -> void:
+	var holders: Array = _held.get(victim_id, [])
 	_held.erase(victim_id)
 	_revive_remainder_ms.erase(victim_id)
+	for holder: Array in holders:
+		var still: bool = false
+		for others: Array in _held.values():
+			still = still or others.any(func(other: Array) -> bool: return other[0] == holder[0])
+		if not still:
+			_orders.erase(holder[0])
+
+
+## The holder's kill marks and enemies in their order now, those it holds already kept
+## where they stood.
+func _remember_order(holder_id: StringName, relationship: CombatRelationshipState) -> void:
+	var order: Array = _orders.get(holder_id, [[], []])
+	_orders[holder_id] = [_merged(order[0], relationship.lethal_target_ids()), _merged(order[1], relationship.opponent_ids())]
+
+
+## `known` with each of `now` not in it placed after the one before it in `now`.
+static func _merged(known: Array, now: Array[StringName]) -> Array:
+	var merged: Array = known.duplicate()
+	for index: int in now.size():
+		if merged.has(now[index]):
+			continue
+		merged.insert(0 if index == 0 else merged.find(now[index - 1]) + 1, now[index])
+	return merged
+
+
+## The ones that stood before `id` in `order`.
+static func _before(order: Array, id: StringName) -> Array[StringName]:
+	var before: Array[StringName] = []
+	before.assign(order.slice(0, maxi(order.find(id), 0)))
+	return before
 
 
 ## The revive call_out of each held one runs on the fight's clock (owner: the others lying
@@ -388,8 +431,7 @@ func advance_held(delta_seconds: float, bindings: Array[CombatSliceCharacterBind
 	for victim_id: StringName in held():
 		var npc: NpcRuntimeState = null if map == null else map.find_resident_npc(victim_id)
 		if npc == null or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
-			_held.erase(victim_id)
-			_revive_remainder_ms.erase(victim_id)
+			_drop(victim_id)
 			continue
 		if npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
 			_resume(bindings, victim_id)

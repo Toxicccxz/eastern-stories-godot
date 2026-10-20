@@ -3686,6 +3686,10 @@ decide only where and when the player sees them, and the suites run with them of
   - **Owner (Q2): the player's summons follow the choice.** Anyone else on any side — 老公公 come to
     help, an NPC with its own kill_ob() — keeps to ES2.
   - The player falls or dies while one is held: nobody can choose, the held kill_ob()s are back.
+    Only those standing hold: one of the player's called lying down keeps its mark (it strikes
+    nobody), and with nobody standing to strike nothing is asked.
+  - A won fight in which nobody of the other side died says 你赢了这场战斗。 without pointing at a
+    corpse to loot (after 放过, or when the player only fought back).
   - Not saved: a held one lives only inside a fight, and Save is refused in a fight.
 - **Owner (Q3): the setting 击倒后 — 询问 / 直接了结**, 询问 by default; 直接了结 is ES2 throughout.
   Settings schema 5 (`after_knockout`: ask / finish); an older file reads as 询问. The suites run

@@ -30,6 +30,7 @@ var _knockout_before: int
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_knockout_before = BattlePace.after_knockout
 	_test_settings()
+	_test_restore_order()
 	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.set_process(false)
@@ -76,6 +77,28 @@ func _test_settings() -> void:
 	_check(ApplicationSettingsSnapshot.defaults().after_knockout() == BattlePace.AfterKnockout.ASK, "询问 by default")
 
 
+## One holding two who fell gives them back where they stood, whichever is given back
+## first; one that was no enemy of it comes back as a kill mark only.
+func _test_restore_order() -> void:
+	for first: StringName in [&"a", &"b"]:
+		var relationship := CombatRelationshipState.new(&"p")
+		for id: StringName in [&"a", &"b", &"c"]:
+			relationship.mark_lethal_target(id)
+		var order: Array = CombatEncounterResolution._merged([], relationship.lethal_target_ids())
+		relationship.remove_lethal_relation(&"a")
+		order = CombatEncounterResolution._merged(order, relationship.lethal_target_ids())
+		relationship.remove_lethal_relation(&"b")
+		order = CombatEncounterResolution._merged(order, relationship.lethal_target_ids())
+		var second: StringName = &"b" if first == &"a" else &"a"
+		for id: StringName in [first, second]:
+			var before: Array[StringName] = CombatEncounterResolution._before(order, id)
+			relationship.restore_lethal_target(id, before, before)
+		_check(relationship.lethal_target_ids() == [&"a", &"b", &"c"] and relationship.opponent_ids() == [&"a", &"b", &"c"], "%s given back first: a, b, c as before: %s" % [first, relationship.lethal_target_ids()])
+	var marked := CombatRelationshipState.new(&"p")
+	marked.restore_lethal_target(&"a", [], null)
+	_check(marked.has_lethal_target(&"a") and not marked.has_opponent(&"a"), "no enemy before: a kill mark only")
+
+
 ## 了结: the 工匠 falls; nobody strikes him while the card asks (its countdown, its two
 ## buttons, 任务目标 for 朱鸿雪's target); 了结 turns the player on him again and the next
 ## blows kill him: MKS, bellicosity and the task as ever. No save while he waits.
@@ -103,6 +126,7 @@ func _test_finish(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not _struck(coordinator, worker.character_id), "and nobody struck him")
 	var card: BattleParticipantCard = await _card(tree, session, worker.character_id)
 	_check(card != null and card.choice_row.visible and not card.target_button.visible, "his card shows the choice")
+	_check(_ui(session).current_projection().current_target_id.is_empty() and not card._title.text.ends_with("当前目标"), "he is nobody's target while held: " + ("" if card == null else card._title.text))
 	if card == null:
 		return
 	_check(card.finish_button.text == "了结（任务目标）" and card.spare_button.text == "放过", "了结（任务目标） / 放过: %s / %s" % [card.finish_button.text, card.spare_button.text])
@@ -314,13 +338,39 @@ func _test_summons(tree: SceneTree, session: WorldSessionController) -> void:
 	_run(coordinator)
 	_check(other.life_status == CharacterRuntimeLifeStatus.Value.DEAD, "it finishes him")
 	await _settle(tree, session)
+	# The player only fights back and their 天将 lies down: nobody standing would strike, so
+	# nothing is asked (ES2: nobody kills him).
+	var last: NpcRuntimeState = _first(session.world_map_of(&"green.village"), QUARRYMAN)
+	if last == null:
+		_check(false, "a last 采石工")
+		return
+	map = await _beside(tree, session, last)
+	map.select_npc(last.character_id)
+	_check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the player attacks the last 采石工")
+	soldier = _summon(session, map)
+	if soldier == null:
+		return
+	player.relationship.remove_lethal_relation(last.character_id) # TEST-ONLY: as if the player only fought back
+	player.relationship.add_opponent(last.character_id)
+	_fell(coordinator, soldier)
+	_fell(coordinator, last)
+	_check(coordinator.held_victims().is_empty() and not coordinator.has_active_encounter() and last.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS, "the 天将 lies down: nothing asked; nobody standing kills him, the fight is over and he lives")
+	_run(coordinator)
+	_check(last.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS, "nobody standing kills him: he lives")
+	await _settle(tree, session)
 
 
 ## 击倒后 at 直接了结: no hold, no buttons; the next blow kills (ES2).
 func _test_es2_setting(tree: SceneTree, session: WorldSessionController) -> void:
 	BattlePace.after_knockout = BattlePace.AfterKnockout.FINISH
-	var kid: NpcRuntimeState = _first(session.world_map_of(&"green.village"), QUARRYMAN)
-	_check(kid != null, "a fourth 采石工")
+	var kid: NpcRuntimeState = null
+	for npc: NpcRuntimeState in session.world_map_of(&"green.village").resident_npcs():
+		if npc.definition().definition_id == QUARRYMAN and npc.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS:
+			kid = npc
+	if kid != null:
+		(session.world_map_of(&"green.village") as WorldMapController).npc_life.revive(kid) # TEST-ONLY: one spared, up again
+		Spells._whole(kid.character_state)
+	_check(kid != null, "a spared 采石工, up again")
 	if kid == null:
 		BattlePace.after_knockout = BattlePace.AfterKnockout.ASK
 		return

@@ -145,8 +145,8 @@ func _present_choice(value: BattleParticipantProjection, knockout: BattleKnockou
 		marks.append(tr("弑师"))
 	# TRANSLATORS: the 了结 button with what killing them means: {marks} is 任务目标 and/or 弑师.
 	finish_button.text = tr(FINISH_LABEL) if marks.is_empty() else tr("了结（{marks}）").format({"marks": tr("、").join(marks)})
-	# TRANSLATORS: hover on 了结: {name} lies unconscious; the player's next blow kills them.
-	finish_button.tooltip_text = tr("了结{name}：你的下一招就会要了{name}的命。").format({"name": name})
+	# TRANSLATORS: hover on 了结: {name} lies unconscious; the next blow of the player's side (theirs or what they called) kills them.
+	finish_button.tooltip_text = tr("了结{name}：下一招就会要了{name}的命。").format({"name": name})
 	spare_button.text = tr(SPARE_LABEL)
 	# TRANSLATORS: hover on 放过: nobody on the player's side strikes {name} again; they lie there and come to on their own.
 	spare_button.tooltip_text = tr("放{name}一条生路：你这一方不再出手，{name}昏在原地，到时自己醒来。").format({"name": name})

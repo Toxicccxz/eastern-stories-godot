@@ -45,8 +45,12 @@ static func build(session: WorldSessionController) -> BattlePresentationProjecti
 	var enforce_limit: int = -1
 	if session.martial_arts().in_own_fight() and not session.player_runtime().state.skills.mapped_skill(EnforceService.BASIC_FORCE).is_empty():
 		enforce_limit = session.martial_arts().enforce_limit()
+	# One held for 了结 / 放过 is nobody's target, whatever the fight last named.
+	var current: StringName = encounter.current_target_for(player_id)
+	if held.has(current):
+		current = &""
 	return BattlePresentationProjection.new(
-		encounter.encounter_id, encounter.mode, player_id, encounter.current_target_for(player_id),
+		encounter.encounter_id, encounter.mode, player_id, current,
 		participants, actions,
 		encounter.queued_player_action(),
 		CombatQueuedAction.Status.EMPTY if tactical == null else tactical.queue_status(),
@@ -95,8 +99,9 @@ static func _knockout(session: WorldSessionController, character_id: StringName)
 	if npc == null:
 		return BattleKnockoutProjection.new()
 	var player: CharacterState = session.player_runtime().state
+	# The fight's clock in the real seconds the 战斗速度 makes of it; never 0 while it lies there.
 	return BattleKnockoutProjection.new(
-		ceili(npc.revive_in_ms / 1000.0),
+		maxi(1, ceili(BattlePace.real_seconds(npc.revive_in_ms / 1000.0))),
 		PlayerKillerReward.is_quest_target(player, npc.definition()),
 		PlayerKillerReward.is_own_master(player, npc.definition()),
 	)

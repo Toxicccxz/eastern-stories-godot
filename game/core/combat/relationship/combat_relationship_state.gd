@@ -80,23 +80,25 @@ func mark_lethal_target(character_id: StringName) -> bool:
 
 
 ## kill_ob() given back after a held one (DECISIONS「了结 / 放过」): the lethal mark again,
-## and the enemy, each at its place among the others (`lethal_index`, `opponent_index`:
-## where it stood; at the end when that place is gone), so select_opponent() draws as it
-## would have.
-func restore_lethal_target(character_id: StringName, lethal_index: int, opponent_index: int) -> bool:
+## and the enemy unless `opponents_before` is null (it was none), each right after the last
+## of those that stood before it (`lethal_before`, `opponents_before`) still there, else
+## first, so select_opponent() draws as it would have.
+func restore_lethal_target(character_id: StringName, lethal_before: Array[StringName], opponents_before: Variant) -> bool:
 	if not _is_valid_target(character_id):
 		return false
 	if not _lethal_target_ids.has(character_id):
-		if lethal_index >= 0 and lethal_index <= _lethal_target_ids.size():
-			_lethal_target_ids.insert(lethal_index, character_id)
-		else:
-			_lethal_target_ids.append(character_id)
-	if not _opponent_ids.has(character_id):
-		if opponent_index >= 0 and opponent_index <= _opponent_ids.size():
-			_opponent_ids.insert(opponent_index, character_id)
-		else:
-			_opponent_ids.append(character_id)
+		_lethal_target_ids.insert(_after(_lethal_target_ids, lethal_before), character_id)
+	if opponents_before is Array and not _opponent_ids.has(character_id):
+		_opponent_ids.insert(_after(_opponent_ids, opponents_before), character_id)
 	return true
+
+
+static func _after(ids: Array[StringName], before: Array) -> int:
+	var at: int = 0
+	for index: int in ids.size():
+		if before.has(ids[index]):
+			at = index + 1
+	return at
 
 
 ## Mirrors remove_enemy: an active local lethal marker prevents removal.

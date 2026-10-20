@@ -6001,9 +6001,9 @@ msgstr ""
 msgid "、"
 msgstr ""
 
-#. hover on 了结: {name} lies unconscious; the player's next blow kills them.
+#. hover on 了结: {name} lies unconscious; the next blow of the player's side (theirs or what they called) kills them.
 #: presentation/battle/battle_participant_card.gd
-msgid "了结{name}：你的下一招就会要了{name}的命。"
+msgid "了结{name}：下一招就会要了{name}的命。"
 msgstr ""
 
 #. hover on 放过: nobody on the player's side strikes {name} again; they lie there and come to on their own.

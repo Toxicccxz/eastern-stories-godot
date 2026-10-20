@@ -246,7 +246,7 @@ func _present_completed_result() -> void:
 	var coordinator: CombatEncounterCoordinator = _session.combat_encounter_coordinator()
 	var text: String = BattleFeedbackReader.completion_text(
 		receipt, _session.player_runtime().life_status, coordinator.departed(receipt.encounter_id),
-		coordinator.npc_walked_out(receipt.encounter_id), BattleFeedbackReader.left_a_corpse(coordinator.completed_feedback(), receipt.encounter_id, _session.player_runtime().character_id),
+		coordinator.npc_walked_out(receipt.encounter_id), BattleFeedbackReader.left_a_corpse(coordinator.completed_feedback(), receipt.encounter_id, _hostile_to_player),
 	)
 	if text.is_empty():
 		return
@@ -618,6 +618,13 @@ func _submit_action(id: StringName) -> void:
 	var result: CombatTacticalResult = _intent.submit(id, target)
 	_receipt.text = tr("下令：%s") % BattleFeedbackReader.reason(result.code)
 	intent_received.emit(result)
+
+
+## Whether `id` fought against the player in the fight the panel last showed (one it never
+## showed: anyone but the player).
+func _hostile_to_player(id: StringName) -> bool:
+	var value: BattleParticipantProjection = _projection.participant(id)
+	return value.hostile_to_player if value != null else id != _session.player_runtime().character_id
 
 
 ## DECISIONS「了结 / 放过」: the button is the choice (no second question).

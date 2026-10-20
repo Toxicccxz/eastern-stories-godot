@@ -111,12 +111,13 @@ static func completion_text(receipt: CombatEncounterCompletionResult, player_lif
 	return TranslationServer.translate("战斗结束。")
 
 
-## Whether anyone but the player died in the finished fight `encounter_id` (its corpse lies there).
-static func left_a_corpse(feedback: CombatCompletedFeedback, encounter_id: StringName, player_id: StringName) -> bool:
+## Whether one of the other side (`hostile`: whether an ID was) died in the finished fight
+## `encounter_id`: its corpse lies there.
+static func left_a_corpse(feedback: CombatCompletedFeedback, encounter_id: StringName, hostile: Callable) -> bool:
 	if feedback == null or feedback.encounter_id != encounter_id:
 		return true
 	for announcement: CombatLifecycleAnnouncement in feedback.announcements_after(0):
-		if announcement.event == CombatLifecycleAnnouncement.DEAD and announcement.victim_id != player_id:
+		if announcement.event == CombatLifecycleAnnouncement.DEAD and hostile.call(announcement.victim_id):
 			return true
 	return false
 
