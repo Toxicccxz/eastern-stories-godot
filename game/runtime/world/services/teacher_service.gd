@@ -249,7 +249,8 @@ func request_learn(skill_id: StringName, quiet: bool = false) -> LearnResult:
 ## random source (LearnPreview), or null when it cannot be asked.
 func preview_learn(skill_id: StringName) -> LearnResult:
 	var catalog: ContentCatalog = GameContent.catalog()
-	if not teachable_skills().has(skill_id) or not can_teach():
+	# request_learn()'s own gate, the world's random source included.
+	if not teachable_skills().has(skill_id) or not can_teach() or map.world_interaction_random_source() == null:
 		return null
 	var player: WorldPlayerRuntimeState = map.player_runtime()
 	# The recognition policy draws its refusal line: a source that draws nothing.

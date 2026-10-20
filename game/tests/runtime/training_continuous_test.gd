@@ -230,6 +230,14 @@ func _test_while_running(tree: SceneTree) -> void:
 	_check(not panel.progress.running() and not panel.progress.visible, "B stops it")
 	_check(panel.feedback.text.ends_with("你停了下来。") and not panel.run_buttons[&"sword"].disabled, "stopped, the buttons back: " + panel.feedback.text)
 	_check(panel.get_viewport().gui_get_focus_owner() == panel.run_buttons[&"sword"], "the focus back on 连续请教")
+	# The pause: the panel closes (its NPC out of reach while the tree is paused, as
+	# before), so the run stops there, after the steps it took; none is lost.
+	panel.run_buttons[&"sword"].pressed.emit()
+	tree.paused = true
+	await tree.process_frame
+	_check(not panel.progress.running() and panel.feedback.text.ends_with("你停了下来。"), "the pause closes the panel and stops the run")
+	tree.paused = false
+	await tree.process_frame
 	panel.close_panel()
 	_heal()
 	_hud.open_martial_arts()
@@ -240,6 +248,12 @@ func _test_while_running(tree: SceneTree) -> void:
 	_check(page.progress.running() and page.exercise_button.disabled and not page.exercise_amount.editable, "连续打坐 runs, 打坐 and its amount grey")
 	_hud.menu.show_tab(GameMenu.Tab.CHARACTER)
 	_check(not page.progress.running() and ColoredLine.texts(_session.martial_arts().last_lines).back() == "你停了下来。", "another tab stops it")
+	# A run started further down shows under its own row (the bar sat above it).
+	_hud.menu.show_tab(GameMenu.Tab.MARTIAL_ARTS)
+	_heal()
+	page.meditate_run_button.pressed.emit()
+	_check(page.progress.running() and page.progress.get_index() == page.meditate_amount.get_parent().get_index() + 1, "连续冥思's bar under 冥思's row")
+	page.progress.stop()
 	_hud.dismiss_current_panel()
 	TestFeel.restore()
 

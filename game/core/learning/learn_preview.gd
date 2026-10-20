@@ -9,6 +9,8 @@ extends RefCounted
 ## level-up is the draw's to decide). Continuous 请教 looks with it before each step
 ## (TrainingRun). `context`'s recognition policy may draw for its refusal line: build
 ## it with a random source apart from the world's (TeacherService.preview_learn()).
+## learn()'s legacy errors (a 0 or negative int, combat_exp near -1000000) all read as
+## LEGACY_ERROR here; which of them comes first may differ, as no character reaches them.
 
 
 static func next(

@@ -5,8 +5,8 @@ extends VBoxContainer
 ## it does and the count, a bar (the skill's progress to its next level, or the internal
 ## power to twice its maximum), and 停止. It takes a step each pacing.json
 ## `training_step_ms` (all at once with 0, as in the suites). B / Esc and 停止 stop it, and
-## so does the page going away (the menu closed, another tab). The host greys its own
-## buttons while running() and gets `finished` with the run's lines.
+## so does the page going away (the menu closed, another tab); the pause holds it. The
+## host greys its own buttons while running() and gets `finished` with the run's lines.
 signal finished(lines: Array[ColoredLine])
 
 var status: Label
@@ -52,11 +52,10 @@ func start(run: PlayerTrainingRun, what: String, after: Control = null) -> void:
 	if running():
 		return
 	if after != null and after.get_parent() != null:
-		if get_parent() != after.get_parent():
-			if get_parent() != null:
-				get_parent().remove_child(self)
-			after.get_parent().add_child(self)
-		after.get_parent().move_child(self, after.get_index() + 1)
+		# Out first: moving within the parent would count this among the rows above.
+		if get_parent() != null:
+			get_parent().remove_child(self)
+		after.add_sibling(self)
 	_run = run
 	_what = what
 	_waited = 0.0
@@ -77,7 +76,8 @@ func stop() -> void:
 
 
 func _process(delta: float) -> void:
-	if not running():
+	# The pause (系统, Start) holds the run until the game goes on.
+	if not running() or get_tree().paused:
 		return
 	_waited += delta
 	var every: float = GameContent.catalog().pacing().feel.training_step_seconds
@@ -91,7 +91,7 @@ func _process(delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if running() and is_visible_in_tree() and event.is_action_pressed(&"ui_cancel") and not event.is_echo():
+	if running() and is_visible_in_tree() and not get_tree().paused and event.is_action_pressed(&"ui_cancel") and not event.is_echo():
 		stop()
 		get_viewport().set_input_as_handled()
 
