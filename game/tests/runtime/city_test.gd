@@ -164,7 +164,8 @@ func _test_gates(tree: SceneTree, session: WorldSessionController) -> void:
 	player.state.marks["令牌"] = 1
 	out.interact()
 	await tree.physics_frame
-	_check(hud.log_lines()[-1] == "这个方向没有出路。", "with marks/令牌: 这个方向没有出路。 %s" % hud.log_lines()[-1])
+	# Among the last lines: the gate's room text may come in the same frame, after it.
+	_check(_said(hud, ["这个方向没有出路。"]), "with marks/令牌: 这个方向没有出路。 %s" % [hud.log_lines().slice(-3)])
 	player.state.marks.erase("令牌")
 	# Guards lying unconscious stop nobody (默认): there is still no way out.
 	var guards: Array[NpcRuntimeState] = []

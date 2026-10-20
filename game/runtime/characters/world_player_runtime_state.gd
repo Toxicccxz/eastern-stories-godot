@@ -145,6 +145,12 @@ func would_be_attacked_by(master: NpcDefinition) -> bool:
 	return apprenticeship_request.would_attack(_state, master, _facts.title)
 
 
+## `master`'s conditions for taking the player, with their values (ApprenticeConditions);
+## `affords` the player's can_afford().
+func apprentice_conditions(master: NpcDefinition, affords: Callable) -> Array[ApprenticeConditions.Row]:
+	return ApprenticeConditions.of(_state, master, apprenticeship_request, affords, _facts.title, _respect())
+
+
 ## 拜师 with `master` would take the player at once (NpcApprenticeship.takes_at_once()).
 func would_be_taken_by(master: NpcDefinition) -> bool:
 	return apprenticeship_request.takes_at_once(_state, master, _facts.title)

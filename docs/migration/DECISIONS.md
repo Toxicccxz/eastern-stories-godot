@@ -3579,7 +3579,8 @@ decide only where and when the player sees them, and the suites run with them of
   - **拜师** (and 发誓恪守门规, 接受测试, 取消拜师请求, which follow it and were the teacher panel's
     own buttons): the master's name, family and what he teaches, the teacher panel's question
     when one applies (betrayal, first master, change of master, a master who attacks a traitor),
-    确认. Whether he takes the player is not told before (owner Q1: ES2 tells only by asking).
+    确认. Whether he takes the player was not told before (owner Q1: ES2 tells only by asking);
+    since 2026-10-19 the page lists his conditions (「上限预览和拜师条件」).
     请安 to one's own master is done at once. The teacher panel shown as 请教's page leaves these
     to the popup's rows.
   - **Deviation: 给予 gives several things at once** (ES2: one give per command): the page lists
@@ -3633,3 +3634,21 @@ decide only where and when the player sees them, and the suites run with them of
   是缺乏实战经验), practice in weak mode once this level's progress is past (L+1)² (improve_skill()
   drops the rest at the level), a sitting that gains nothing (酸麻), a sitting at the bottleneck
   that would take the power back to its maximum. The single buttons still do what ES2 does.
+
+## 上限预览和拜师条件 (owner, 2026-10-19)
+
+- **ES2:** learn.c says why a lesson fails only when it is asked, one reason at a time; how far
+  a teacher takes a skill (the teacher's level, master.c's 20 levels a betrayal and a third of
+  the level for one not his own, valid_learn(), level³/10 combat_exp) is never told. A master's
+  attempt_apprentice() says only the first check the student fails, when asked.
+- **Ours (deviation, owner):** the 请教 page says under each skill how far the player can learn
+  it there and what stops it (还能学到 22 级（22 级要再学，须实战经验 ≥ 1064）。), or why not at all
+  (学不了：你已学到柳淳风的 150 级。), and what stops a lesson now (潜能已经用完, 精不够). LearnQuote
+  walks learn.c's level-bound checks up from the player's level, nothing changed. The 武学 page
+  says how far 练习 takes a skill (the basic skill's level; progress only, or full, at it) and
+  how far 打坐 / 冥思 / 修行 raise their maximum (the bottleneck).
+- **拜师 (deviation, owner):** the popup's 拜师 page lists the master's checks with the player's
+  values, met or not (定力 ≥ 20（你 30） ✓), 查看 counts them. What a master asks without saying
+  it is told no more (owner Q3): 须通过考验 (三招, 三鞭), 拜师时另有要求 (the oath), 须另有机缘 (陈天星's
+  letter); 骆云舟's mark reads 另有条件 until he has said it (his refusal sets marks/书生), then his
+  own line.
