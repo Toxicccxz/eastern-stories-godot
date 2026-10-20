@@ -18,6 +18,7 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_learn_preview_wastes()
 	_test_cultivation_preview()
 	_test_weak_progress_full()
+	_test_practice_preview()
 	_test_stops()
 	_test_run_lines()
 	return {"assertions": _count, "failures": _failures}
@@ -133,6 +134,39 @@ func _test_weak_progress_full() -> void:
 	character.skills.set_raw_level(&"unarmed", 11)
 	_check(not PracticeService.weak_progress_full(character, &"unarmed"), "basic above special: not weak mode")
 	_check(not PracticeService.weak_progress_full(character, &"sword"), "nothing enabled for the use")
+
+
+## PracticeService's preview: the command's refusal, or PROGRESSED where it would go on;
+## nothing paid. A weapon refused comes before a full progress (the run looks at both).
+func _test_practice_preview() -> void:
+	var kee := VitalityInnerForcePracticePolicy.new(&"liuh-ken", 30, 30)
+	var sword := VitalityInnerForcePracticePolicy.new(&"liuh-ken", 30, 30, 0, 0, &"sword")
+	var cases: Array = [
+		[kee, 100, "practice goes through"], [kee, 10, "kee short"], [sword, 100, "no sword in hand"],
+		[UnpracticeablePracticePolicy.new(&"liuh-ken"), 100, "never practised (fonxanforce.c)"],
+	]
+	for case: Array in cases:
+		var looked: CharacterState = _practiser(case[1])
+		var preview: PracticeResult = PracticeService.practice(looked, &"unarmed", case[0], DefaultSkillLearnPolicy.new(&"liuh-ken"), false, true, null, Callable(), "", true, true)
+		var real: CharacterState = _practiser(case[1])
+		var result: PracticeResult = PracticeService.practice(real, &"unarmed", case[0], DefaultSkillLearnPolicy.new(&"liuh-ken"), false)
+		var same: bool = preview.failure_reason == result.failure_reason and preview.refusal == result.refusal and (preview.failure_reason != PracticeResult.FailureReason.NONE or preview.completion == PracticeResult.Completion.PROGRESSED)
+		_check(same, "%s: the preview is the command (%d %s, %d %s)" % [case[2], preview.failure_reason, preview.refusal, result.failure_reason, result.refusal])
+		_check(looked.vitality.current == case[1] and looked.skills.learned_progress(&"liuh-ken") == 122, "%s: the preview pays nothing" % case[2])
+	var unarmed: CharacterState = _practiser(100)
+	_check(PracticeService.weak_progress_full(unarmed, &"unarmed"), "the cases' progress is full")
+
+
+func _practiser(kee: int) -> CharacterState:
+	var character := CharacterState.new()
+	character.vitality.maximum = 100
+	character.vitality.effective = 100
+	character.vitality.current = kee
+	character.skills.set_raw_level(&"unarmed", 10)
+	character.skills.set_raw_level(&"liuh-ken", 10)
+	character.skills.map_skill(&"unarmed", &"liuh-ken")
+	character.skills.set_learned_progress(&"liuh-ken", 122)
+	return character
 
 
 func _test_stops() -> void:

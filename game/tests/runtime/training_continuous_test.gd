@@ -165,6 +165,11 @@ func _test_practice() -> void:
 	page.buttons["practice_run:unarmed"].pressed.emit()
 	lines = ColoredLine.texts(_session.martial_arts().last_lines)
 	_check(lines == ["停下：「柳家拳」这一级的进度已经攒满。先把基本拳脚提高到 11 级，再练才有长进。"] and _state.vitality.current == kee, "weak mode, progress full: %s" % [lines])
+	# Too little kee as well: the single practice's own refusal comes first.
+	_state.vitality.current = 10 # TEST-ONLY
+	page.buttons["practice_run:unarmed"].pressed.emit()
+	lines = ColoredLine.texts(_session.martial_arts().last_lines)
+	_check(lines == ["你的体力不够了，休息一下再练吧。"], "kee short before progress full: %s" % [lines])
 	_hud.dismiss_current_panel()
 
 

@@ -5,3 +5,7 @@ extends "res://core/training/practice_policy.gd"
 ## practice_skill() always rejects direct practice.
 func practice(_character: CharacterStateType) -> bool:
 	return false
+
+
+func refuses(_character: CharacterStateType) -> bool:
+	return true

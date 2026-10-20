@@ -223,7 +223,7 @@ func disable(use_id: StringName) -> bool:
 ## beside the player and kill_ob()s them, who fight back (me->fight(bug)). `quiet` (a
 ## continuous run's step, PlayerTrainingRun) keeps the lines in last_lines only; a
 ## conjuring's lines open the fight and are always told.
-func practice(use_id: StringName, quiet: bool = false) -> PracticeResult:
+func practice(use_id: StringName, quiet: bool = false, preview: bool = false) -> PracticeResult:
 	if not available():
 		return null
 	var state: CharacterState = _state()
@@ -237,12 +237,20 @@ func practice(use_id: StringName, quiet: bool = false) -> PracticeResult:
 		_fighting(), true, _effects(), _session.world_interaction_random_source().legacy_random,
 		"" if standing == null else standing.definition().display_name,
 		location != null and GameContent.catalog().zone_has_water(location.zone_id),
+		preview,
 	)
+	if preview:
+		return result
 	if result.failure_reason == PracticeResult.FailureReason.PRACTICE_CONJURED:
 		_conjure(result, special)
 	else:
 		_tell(TrainingLines.practice(result, special), quiet)
 	return result
+
+
+## What practice <use> would do now, nothing changed (PracticeService's preview), or null.
+func preview_practice(use_id: StringName) -> PracticeResult:
+	return practice(use_id, true, true)
 
 
 ## practice <use> now would only add progress already full (PracticeService.weak_progress_full()).

@@ -151,7 +151,12 @@ func _learn_step() -> void:
 
 func _practice_step() -> void:
 	var arts: PlayerMartialArts = _session.martial_arts()
-	if arts.practice_progress_full(_use_id):
+	# The command's own refusals come first (weapon, water, kee …), as a single practice's.
+	var preview: PracticeResult = arts.preview_practice(_use_id)
+	if preview == null:
+		training.end(TrainingRun.Stop.INTERRUPTED)
+		return
+	if preview.failure_reason == PracticeResult.FailureReason.NONE and arts.practice_progress_full(_use_id):
 		training.end(TrainingRun.Stop.PROGRESS_FULL)
 		return
 	var result: PracticeResult = arts.practice(_use_id, true)
