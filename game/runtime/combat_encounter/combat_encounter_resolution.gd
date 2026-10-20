@@ -420,12 +420,24 @@ static func _before(order: Array, id: StringName) -> Array[StringName]:
 	return before
 
 
+## Fight seconds until the first held one's revive call_out comes due (0 when one is due).
+func next_revive_seconds() -> float:
+	var map: WorldMapController = _session.active_map() as WorldMapController
+	var soonest: float = INF
+	for victim_id: StringName in held():
+		var npc: NpcRuntimeState = null if map == null else map.find_resident_npc(victim_id)
+		if npc == null or npc.life_status != CharacterRuntimeLifeStatus.Value.UNCONSCIOUS:
+			return 0.0
+		soonest = minf(soonest, maxf(0.0, float(npc.revive_in_ms) - _revive_remainder_ms.get(victim_id, 0.0)) / 1000.0)
+	return soonest
+
+
 ## The revive call_out of each held one runs on the fight's clock (owner: the others lying
 ## in a fight wake after it): one whose time comes before the player chose comes to, and
 ## the fight goes on as ES2's (the held kill_ob()s back first). One that died or woke
 ## otherwise is held no more.
 func advance_held(delta_seconds: float, bindings: Array[CombatSliceCharacterBinding]) -> void:
-	if _held.is_empty() or _failure != Failure.NONE or _result != null or delta_seconds <= 0.0:
+	if _held.is_empty() or _failure != Failure.NONE or _result != null or delta_seconds < 0.0:
 		return
 	var map: WorldMapController = _session.active_map() as WorldMapController
 	for victim_id: StringName in held():

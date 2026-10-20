@@ -221,8 +221,25 @@ func _test_comes_to(tree: SceneTree, session: WorldSessionController) -> void:
 	# He falls again: held again; 了结 this time.
 	_fell(coordinator, quarryman)
 	_check(coordinator.held_victims() == [quarryman.character_id], "felled again: held again")
-	_check(coordinator.finish_downed(quarryman.character_id), "了结")
-	_run(coordinator)
+	# One long step (a hitch) over his waking: the rounds before it see him lying there.
+	quarryman.set_revive_in_ms(2500) # TEST-ONLY
+	var scheduler: CombatEncounterScheduler = coordinator.active_scheduler()
+	var start: float = scheduler.logical_time_seconds
+	events_from = scheduler.events().size()
+	var stepped: CombatSchedulerAdvanceResult = coordinator.advance_scheduler(4.0)
+	var early: bool = false
+	var late: bool = false
+	for event: CombatSchedulerEvent in scheduler.events().slice(events_from):
+		if event.actor_id == player.character_id and event.target_id == quarryman.character_id and event.resolution != null:
+			early = early or event.logical_time_seconds < start + 2.5
+			late = late or event.logical_time_seconds > start + 2.5
+	_check(not early and late and stepped.cycles_processed == 4, "four rounds in one step: none at him before 2.5 s, then at him (%d rounds)" % stepped.cycles_processed)
+	for _round: int in range(300):
+		if not coordinator.has_active_encounter():
+			break
+		if coordinator.held_victims().has(quarryman.character_id):
+			coordinator.finish_downed(quarryman.character_id) # 了结 each time he lies there again
+		coordinator.advance_scheduler(1.0)
 	_check(quarryman.life_status == CharacterRuntimeLifeStatus.Value.DEAD, "dead")
 	await _settle(tree, session)
 
