@@ -79,6 +79,26 @@ func mark_lethal_target(character_id: StringName) -> bool:
 	return changed
 
 
+## kill_ob() given back after a held one (DECISIONS「了结 / 放过」): the lethal mark again,
+## and the enemy, each at its place among the others (`lethal_index`, `opponent_index`:
+## where it stood; at the end when that place is gone), so select_opponent() draws as it
+## would have.
+func restore_lethal_target(character_id: StringName, lethal_index: int, opponent_index: int) -> bool:
+	if not _is_valid_target(character_id):
+		return false
+	if not _lethal_target_ids.has(character_id):
+		if lethal_index >= 0 and lethal_index <= _lethal_target_ids.size():
+			_lethal_target_ids.insert(lethal_index, character_id)
+		else:
+			_lethal_target_ids.append(character_id)
+	if not _opponent_ids.has(character_id):
+		if opponent_index >= 0 and opponent_index <= _opponent_ids.size():
+			_opponent_ids.insert(opponent_index, character_id)
+		else:
+			_opponent_ids.append(character_id)
+	return true
+
+
 ## Mirrors remove_enemy: an active local lethal marker prevents removal.
 func remove_opponent(character_id: StringName) -> bool:
 	if _lethal_target_ids.has(character_id) or not _opponent_ids.has(character_id):

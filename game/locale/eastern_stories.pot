@@ -334,6 +334,10 @@ msgid "受击闪红"
 msgstr ""
 
 #: scenes/application/application_shell.tscn
+msgid "击倒后"
+msgstr ""
+
+#: scenes/application/application_shell.tscn
 msgid "应用"
 msgstr ""
 
@@ -5794,6 +5798,10 @@ msgid "双方都停了手，战斗结束。"
 msgstr ""
 
 #: presentation/battle/battle_feedback_reader.gd
+msgid "你赢了这场战斗。"
+msgstr ""
+
+#: presentation/battle/battle_feedback_reader.gd
 msgid "你赢了这场战斗。选择倒下对手的尸体可以查看或搜刮。"
 msgstr ""
 
@@ -5825,6 +5833,16 @@ msgstr ""
 #. combatd.c announce("dead"): {name} dies in the fight.
 #: presentation/battle/battle_feedback_reader.gd
 msgid "{name}死了。"
+msgstr ""
+
+#. combatd.c announce("revive"): {name}, whom the player had not finished or spared, comes to in the fight.
+#: presentation/battle/battle_feedback_reader.gd
+msgid "{name}慢慢睁开眼睛，清醒了过来。"
+msgstr ""
+
+#. the player chose 放过 for {name}, who lies unconscious: nobody on their side strikes them again.
+#: presentation/battle/battle_feedback_reader.gd
+msgid "你住了手，放了{name}一条生路。"
 msgstr ""
 
 #: presentation/battle/battle_feedback_reader.gd
@@ -5886,6 +5904,16 @@ msgstr ""
 msgid "( $N{status} )"
 msgstr ""
 
+#. the battle card of one who fell while the player was killing them: the button that kills them with the next blow.
+#: presentation/battle/battle_participant_card.gd
+msgid "了结"
+msgstr ""
+
+#. the battle card of one who fell: the button that lets them live (the player's side strikes them no more).
+#: presentation/battle/battle_participant_card.gd
+msgid "放过"
+msgstr ""
+
 #: presentation/battle/battle_participant_card.gd
 msgid "选为目标：%s"
 msgstr ""
@@ -5945,6 +5973,42 @@ msgstr ""
 
 #: presentation/battle/battle_participant_card.gd
 msgid "昏迷"
+msgstr ""
+
+#: presentation/battle/battle_participant_card.gd
+msgid "约 {n} 秒后醒来"
+msgstr ""
+
+#. on the 了结 button: killing them does the task 朱鸿雪 gave.
+#: presentation/battle/battle_participant_card.gd
+msgid "任务目标"
+msgstr ""
+
+#. on the 了结 button: they are the player's own master (killing them leaves the family).
+#: presentation/battle/battle_participant_card.gd
+msgid "弑师"
+msgstr ""
+
+#. the 了结 button with what killing them means: {marks} is 任务目标 and/or 弑师.
+#: presentation/battle/battle_participant_card.gd
+msgid "了结（{marks}）"
+msgstr ""
+
+#. the 了结 button with what killing them means: {marks} is 任务目标 and/or 弑师.
+#. joins the skills a master teaches on his 拜师 page (基本拳脚、基本招架).
+#. between two conditions on the HUD (蛇毒).
+#: presentation/battle/battle_participant_card.gd presentation/codex/codex_content.gd ui/world/shared_ui_nearby.gd ui/world/shared_ui_status_card.gd
+msgid "、"
+msgstr ""
+
+#. hover on 了结: {name} lies unconscious; the player's next blow kills them.
+#: presentation/battle/battle_participant_card.gd
+msgid "了结{name}：你的下一招就会要了{name}的命。"
+msgstr ""
+
+#. hover on 放过: nobody on the player's side strikes {name} again; they lie there and come to on their own.
+#: presentation/battle/battle_participant_card.gd
+msgid "放{name}一条生路：你这一方不再出手，{name}昏在原地，到时自己醒来。"
 msgstr ""
 
 #: presentation/battle/battle_participant_card.gd
@@ -6418,12 +6482,6 @@ msgstr ""
 msgid "可以激发为：{uses}"
 msgstr ""
 
-#. joins the skills a master teaches on his 拜师 page (基本拳脚、基本招架).
-#. between two conditions on the HUD (蛇毒).
-#: presentation/codex/codex_content.gd ui/world/shared_ui_nearby.gd ui/world/shared_ui_status_card.gd
-msgid "、"
-msgstr ""
-
 #: presentation/codex/codex_content.gd
 msgid "运功：{functions}"
 msgstr ""
@@ -6578,6 +6636,18 @@ msgstr ""
 
 #: runtime/application/application_shell_controller.gd
 msgid "快"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "询问"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "直接了结"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "打倒你要杀的人时：先问你了结还是放过，或者直接下杀手"
 msgstr ""
 
 #: runtime/combat_encounter/combat_encounter_coordinator.gd runtime/world/map/world_map_hostilities.gd

@@ -79,24 +79,25 @@ func advance_npc_heartbeat(delta: float) -> void:
 
 
 ## feature/damage.c revive() called on an NPC lying unconscious (heart_sense.c's
-## target->revive()): it wakes now, its revive call_out gone.
-func revive(npc: NpcRuntimeState) -> void:
+## target->revive()): it wakes now, its revive call_out gone. `told`: its line goes to
+## the log (a fight tells it on the battle panel instead).
+func revive(npc: NpcRuntimeState, told: bool = true) -> void:
 	if npc == null or npc.life_status != CharacterRuntimeLifeStatus.Value.UNCONSCIOUS:
 		return
 	npc.set_revive_in_ms(0)
 	npc.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
 	if npc_heartbeat != null:
 		npc_heartbeat.forget_revive(npc.character_id)
-	_woke(npc)
+	_woke(npc, told)
 
 
 ## An NPC woke: its body stands up, and combatd.c announce("revive") is heard in its room.
-func _woke(npc: NpcRuntimeState) -> void:
+func _woke(npc: NpcRuntimeState, told: bool = true) -> void:
 	_revive_growth(npc)
 	var body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(npc.character_id)
 	if body != null:
 		body.refresh_runtime_state()
-	if player_hears(npc):
+	if told and player_hears(npc):
 		_map.hud().append_log_lines([tr("%s慢慢睁开眼睛，清醒了过来。") % tr(npc.definition().display_name)])
 
 

@@ -2,6 +2,14 @@ class_name BattleParticipantCard
 extends PanelContainer
 
 signal target_requested(participant_id: StringName)
+## DECISIONS「了结 / 放过」: the player's choice for one who fell.
+signal finish_requested(participant_id: StringName)
+signal spare_requested(participant_id: StringName)
+
+# TRANSLATORS: the battle card of one who fell while the player was killing them: the button that kills them with the next blow.
+const FINISH_LABEL: String = "了结"
+# TRANSLATORS: the battle card of one who fell: the button that lets them live (the player's side strikes them no more).
+const SPARE_LABEL: String = "放过"
 
 var target_button: Button
 var _participant_id: StringName
@@ -22,6 +30,10 @@ const HIT_COLOR: Color = Color(1.0, 0.45, 0.42)
 var _primary: Label
 var _secondary: Label
 var _status: Label
+## 了结 / 放过, shown while the one on the card waits on the player's choice.
+var choice_row: HBoxContainer
+var finish_button: Button
+var spare_button: Button
 
 
 func _ready() -> void:
@@ -49,6 +61,15 @@ func _ready() -> void:
 	_primary = _label(content)
 	_secondary = _label(content)
 	_status = _label(content)
+	choice_row = HBoxContainer.new()
+	choice_row.name = "KnockoutChoice"
+	choice_row.add_theme_constant_override("separation", 8)
+	choice_row.visible = false
+	content.add_child(choice_row)
+	finish_button = _choice_button("FinishButton")
+	finish_button.pressed.connect(func() -> void: finish_requested.emit(_participant_id))
+	spare_button = _choice_button("SpareButton")
+	spare_button.pressed.connect(func() -> void: spare_requested.emit(_participant_id))
 	target_button = Button.new()
 	target_button.name = "SelectTarget"
 	target_button.custom_minimum_size = Vector2(64, 64)
@@ -98,8 +119,37 @@ func present(value: BattleParticipantProjection, player_id: StringName, current_
 		states.append(tr("死亡"))
 	elif value.life_status == CombatSliceLifeStatus.Value.UNCONSCIOUS or value.threshold == CharacterState.LifeThreshold.UNCONSCIOUS:
 		states.append(tr("昏迷"))
+	var knockout: BattleKnockoutProjection = value.knockout
+	if knockout != null:
+		states.append(tr("约 {n} 秒后醒来").format({"n": knockout.revive_seconds}))
 	_status.text = " · ".join(states)
 	_status.tooltip_text = _status.text
+	_present_choice(value, knockout)
+
+
+## The card of one held for the player's choice: 了结 (marked when it does 朱鸿雪's task or
+## kills the player's master) and 放过 in place of picking the card as a target.
+func _present_choice(value: BattleParticipantProjection, knockout: BattleKnockoutProjection) -> void:
+	choice_row.visible = knockout != null
+	# The card's own button covers it: away while the choice shows (one held is no target).
+	target_button.visible = knockout == null
+	if knockout == null:
+		return
+	var name: String = tr(value.display_name)
+	var marks := PackedStringArray()
+	if knockout.quest_target:
+		# TRANSLATORS: on the 了结 button: killing them does the task 朱鸿雪 gave.
+		marks.append(tr("任务目标"))
+	if knockout.own_master:
+		# TRANSLATORS: on the 了结 button: they are the player's own master (killing them leaves the family).
+		marks.append(tr("弑师"))
+	# TRANSLATORS: the 了结 button with what killing them means: {marks} is 任务目标 and/or 弑师.
+	finish_button.text = tr(FINISH_LABEL) if marks.is_empty() else tr("了结（{marks}）").format({"marks": tr("、").join(marks)})
+	# TRANSLATORS: hover on 了结: {name} lies unconscious; the player's next blow kills them.
+	finish_button.tooltip_text = tr("了结{name}：你的下一招就会要了{name}的命。").format({"name": name})
+	spare_button.text = tr(SPARE_LABEL)
+	# TRANSLATORS: hover on 放过: nobody on the player's side strikes {name} again; they lie there and come to on their own.
+	spare_button.tooltip_text = tr("放{name}一条生路：你这一方不再出手，{name}昏在原地，到时自己醒来。").format({"name": name})
 
 
 func _show_vitality(id: StringName, current: int) -> void:
@@ -150,6 +200,15 @@ func _request_target() -> void:
 
 static func _track(value: BattleResourceProjection) -> String:
 	return "%d/%d/%d" % [value.current, value.effective, value.maximum]
+
+
+func _choice_button(node_name: String) -> Button:
+	var button := Button.new()
+	button.name = node_name
+	button.custom_minimum_size = Vector2(96, 48)
+	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	choice_row.add_child(button)
+	return button
 
 
 static func _label(parent: Node) -> Label:

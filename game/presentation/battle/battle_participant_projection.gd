@@ -62,6 +62,10 @@ var _force_factor: int
 ## enforce.c's force_factor (hp.c's "(+N)" beside 内力).
 var force_factor: int:
 	get: return _force_factor
+var _knockout: BattleKnockoutProjection
+## Fell while the player's side was killing them and waits on 了结 / 放过; null otherwise.
+var knockout: BattleKnockoutProjection:
+	get: return _knockout
 
 
 func _init(
@@ -84,6 +88,7 @@ func _init(
 	p_gender: StringName = &"",
 	p_dodge_skill_id: StringName = &"",
 	p_force_factor: int = 0,
+	p_knockout: BattleKnockoutProjection = null,
 ) -> void:
 	_participant_id = p_participant_id
 	_display_name = p_display_name
@@ -104,3 +109,4 @@ func _init(
 	_gender = p_gender
 	_dodge_skill_id = p_dodge_skill_id
 	_force_factor = p_force_factor
+	_knockout = p_knockout

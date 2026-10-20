@@ -6,6 +6,10 @@ extends RefCounted
 ## log. Read-only once the scheduler gave it its place.
 const UNCONSCIOUS: StringName = &"unconcious"
 const DEAD: StringName = &"dead"
+## combatd.c announce(ob, "revive"): one held for the player's choice came to in the fight.
+const REVIVE: StringName = &"revive"
+## DECISIONS「了结 / 放过」: the player spared one who fell.
+const SPARED: StringName = &"spared"
 
 var _victim_id: StringName
 var victim_id: StringName:

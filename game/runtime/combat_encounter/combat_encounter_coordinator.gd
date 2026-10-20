@@ -345,6 +345,37 @@ func player_can_target(target_id: StringName) -> bool:
 	)
 
 
+## DECISIONS「了结 / 放过」: those who fell while the player's side was killing them and
+## wait on the player's choice, in the fight's order.
+func held_victims() -> Array[StringName]:
+	if _active_encounter == null or _resolution == null:
+		return []
+	return _resolution.held()
+
+
+## 了结: the held blow falls (ES2): the player (who was killing it) turns on it again,
+## and so do those they called. False when it is not held (any more).
+func finish_downed(victim_id: StringName) -> bool:
+	if not _fight_input_allowed() or _resolution == null:
+		return false
+	var player_id: StringName = _session.player_runtime().character_id
+	var player_killed: bool = _resolution.player_held(victim_id)
+	if not _resolution.finish(_session.encounter_combat_bindings(_active_encounter), victim_id):
+		return false
+	if player_killed and _active_encounter.set_current_target(player_id, victim_id):
+		_active_scheduler.record_target_change()
+	return true
+
+
+## 放过: the player's side lets it be. False when it is not held (any more).
+func spare_downed(victim_id: StringName) -> bool:
+	return _fight_input_allowed() and _resolution != null and _resolution.spare(victim_id)
+
+
+func _fight_input_allowed() -> bool:
+	return _target_input_allowed() and _world_gate.freeze_owner_id() == _active_encounter.encounter_id
+
+
 func _target_input_allowed() -> bool:
 	return (
 		is_valid() and _active_encounter != null and _active_scheduler != null
@@ -483,6 +514,9 @@ func advance_scheduler(delta_seconds: float) -> CombatSchedulerAdvanceResult:
 		return CombatSchedulerAdvanceResult.new()
 	if _resolution != null and _resolution.failure != CombatEncounterResolution.Failure.NONE:
 		return CombatSchedulerAdvanceResult.new()
+	# The held ones' revive call_outs run on the fight's clock (DECISIONS「了结 / 放过」).
+	if _resolution != null and not _resolution.held().is_empty() and _fight_input_allowed():
+		_resolution.advance_held(delta_seconds, _session.encounter_combat_bindings(_active_encounter))
 	var advanced: CombatSchedulerAdvanceResult = _active_scheduler.advance(
 		delta_seconds,
 		_session.application_gameplay_allows_encounter_advance(),

@@ -5,7 +5,8 @@ extends RefCounted
 ## Version 3 adds the 战斗速度 and 受击闪红 (DECISIONS「手感」); older files read as 标准, on.
 ## Version 4 adds 无边框全屏 and the 界面缩放; an older "fullscreen" reads as 无边框全屏
 ## (what it showed), and the scale as 100%.
-const SCHEMA_VERSION: int = 4
+## Version 5 adds 击倒后 (DECISIONS「了结 / 放过」); an older file reads as 询问.
+const SCHEMA_VERSION: int = 5
 
 var _version: int
 var _window_mode: int
@@ -13,6 +14,7 @@ var _language: String
 var _battle_speed: int
 var _hit_flash: bool
 var _ui_scale: int
+var _after_knockout: int
 
 
 func _init(
@@ -22,6 +24,7 @@ func _init(
 	p_battle_speed: int = BattlePace.Speed.NORMAL,
 	p_hit_flash: bool = true,
 	p_ui_scale: int = ApplicationUiScale.DEFAULT,
+	p_after_knockout: int = BattlePace.AfterKnockout.ASK,
 ) -> void:
 	_version = p_version
 	_window_mode = p_window_mode
@@ -29,6 +32,7 @@ func _init(
 	_battle_speed = p_battle_speed
 	_hit_flash = p_hit_flash
 	_ui_scale = p_ui_scale
+	_after_knockout = p_after_knockout
 
 
 func version() -> int:
@@ -58,20 +62,25 @@ func ui_scale() -> int:
 	return _ui_scale
 
 
+## BattlePace.AfterKnockout.
+func after_knockout() -> int:
+	return _after_knockout
+
+
 func with_window_mode(mode: int) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, mode, _language, _battle_speed, _hit_flash, _ui_scale)
+	return ApplicationSettingsSnapshot.new(_version, mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout)
 
 
 func with_language(language: String) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, language, _battle_speed, _hit_flash, _ui_scale)
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, language, _battle_speed, _hit_flash, _ui_scale, _after_knockout)
 
 
-func with_battle(speed: int, flash: bool) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, speed, flash, _ui_scale)
+func with_battle(speed: int, flash: bool, after_knockout: int) -> ApplicationSettingsSnapshot:
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, speed, flash, _ui_scale, after_knockout)
 
 
 func with_ui_scale(percent: int) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, percent)
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, percent, _after_knockout)
 
 
 func is_valid() -> bool:
@@ -79,6 +88,7 @@ func is_valid() -> bool:
 		_version == SCHEMA_VERSION
 		and ApplicationWindowMode.is_valid(_window_mode)
 		and BattlePace.is_valid(_battle_speed)
+		and BattlePace.is_valid_knockout(_after_knockout)
 		and ApplicationUiScale.is_valid(_ui_scale)
 	)
 

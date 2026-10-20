@@ -58,7 +58,7 @@ func _test_settings() -> void:
 	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = "[application]\nschema_version=2\nwindow_mode=\"windowed\"\nlanguage=\"zh_CN\"\n".to_utf8_buffer()
 	var old: ApplicationSettingsResult = repository.load()
 	_check(old.succeeded() and old.snapshot().battle_speed() == BattlePace.Speed.NORMAL and old.snapshot().hit_flash() and old.snapshot().language() == "zh_CN", "a version 2 file: 标准, the flash on, its language kept")
-	var written: ApplicationSettingsResult = repository.write(ApplicationSettingsSnapshot.defaults().with_battle(BattlePace.Speed.FAST, false))
+	var written: ApplicationSettingsResult = repository.write(ApplicationSettingsSnapshot.defaults().with_battle(BattlePace.Speed.FAST, false, BattlePace.AfterKnockout.ASK))
 	var back: ApplicationSettingsResult = repository.load()
 	_check(written.succeeded() and back.succeeded() and back.snapshot().battle_speed() == BattlePace.Speed.FAST and not back.snapshot().hit_flash() and back.snapshot().version() == ApplicationSettingsSnapshot.SCHEMA_VERSION, "written and read back: 快, no flash")
 	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = "[application]\nschema_version=3\nwindow_mode=\"windowed\"\nlanguage=\"\"\nbattle_speed=\"brisk\"\nhit_flash=true\n".to_utf8_buffer()
@@ -69,6 +69,7 @@ func _test_settings() -> void:
 	_check(BattlePace.speed == BattlePace.Speed.FAST and not BattlePace.hit_flash, "applied: the fight's clock and the cards follow them")
 	BattlePace.speed = BattlePace.Speed.NORMAL
 	BattlePace.hit_flash = true
+	BattlePace.after_knockout = BattlePace.AfterKnockout.FINISH # the suites run ES2 (run_suite.gd)
 
 
 ## The fight's own clock: three real seconds are two rounds at 慢, five at 快, three at 标准;
