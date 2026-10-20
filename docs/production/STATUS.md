@@ -28,7 +28,7 @@ ROADMAP "After the grey box" step 3, the playtest checklist and the owner's full
 修炼与拜师的提示 (owner, 2026-10-19, borrowing a menu RPG's presentation of the same MUD rules),
 two PRs: A 连续修炼 — 连续请教 / 练习 / 打坐 / 冥思 / 修行 told in one summary and stopped before a
 step that would gain nothing (DECISIONS「连续修炼」); B how far a teacher can take the player and
-why not further, and a master's conditions to 拜师 with the player's values.
+why not further, and a master's conditions to 拜师 with the player's values (DECISIONS「上限预览和拜师条件」).
 
 ## 待决定
 

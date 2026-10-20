@@ -136,12 +136,12 @@ static func refusal(student: CharacterState, rule: NpcTeaching.ApprenticeRule, s
 		if check.cannot_afford > 0 and student_affords.is_valid() and bool(student_affords.call(check.cannot_afford)):
 			return check
 		for key: StringName in check.requires:
-			if _requirement_value(student, key) < check.requires[key]:
+			if requirement_value(student, key) < check.requires[key]:
 				return check
 	return null
 
 
-static func _requirement_value(student: CharacterState, key: StringName) -> int:
+static func requirement_value(student: CharacterState, key: StringName) -> int:
 	match key:
 		&"cor":
 			return student.attributes.effective_courage()

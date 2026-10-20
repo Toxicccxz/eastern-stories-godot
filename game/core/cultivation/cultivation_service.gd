@@ -78,14 +78,7 @@ static func exercise(
 		vitality_cost * (raw_force + character.attributes.constitution),
 		GAIN_DIVISOR,
 	)
-	var effective_force: int = character.skills.effective_level(
-		SkillIdsType.FORCE,
-		force_temporary_modifier,
-	)
-	var skill_cap: int = (
-		raw_force
-		+ _legacy_int_divide(effective_force, 5)
-	) * MAXIMUM_SKILL_MULTIPLIER
+	var skill_cap: int = exercise_cap(character, force_temporary_modifier)
 	return _apply_gain(
 		action,
 		vitality_cost,
@@ -154,9 +147,7 @@ static func meditate(
 		spirit_cost * (effective_spells + character.attributes.spirituality),
 		GAIN_DIVISOR,
 	)
-	var skill_cap: int = (
-		character.skills.raw_level(SkillIdsType.SPELLS) * MAXIMUM_SKILL_MULTIPLIER
-	)
+	var skill_cap: int = meditate_cap(character)
 	return _apply_gain(action, spirit_cost, character.recovery.mana, gain, skill_cap, preview)
 
 
@@ -218,9 +209,7 @@ static func respirate(
 		essence_cost * (effective_magic + character.attributes.spirituality),
 		GAIN_DIVISOR,
 	)
-	var skill_cap: int = (
-		character.skills.raw_level(SkillIdsType.MAGIC) * MAXIMUM_SKILL_MULTIPLIER
-	)
+	var skill_cap: int = respirate_cap(character)
 	return _apply_gain(action, essence_cost, character.recovery.atman, gain, skill_cap, preview)
 
 
@@ -286,6 +275,24 @@ static func _failure(action: int, reason: int, requested_cost: int) -> Cultivati
 		CultivationResultType.Completion.NONE,
 		requested_cost,
 	)
+
+
+## exercise.c's bottleneck: max_force grows no further than (force, 1 + force / 5) * 10.
+static func exercise_cap(character: CharacterStateType, force_temporary_modifier: int = 0) -> int:
+	var effective_force: int = character.skills.effective_level(SkillIdsType.FORCE, force_temporary_modifier)
+	return (
+		character.skills.raw_level(SkillIdsType.FORCE) + _legacy_int_divide(effective_force, 5)
+	) * MAXIMUM_SKILL_MULTIPLIER
+
+
+## meditate.c's bottleneck: max_mana grows no further than spells (raw) * 10.
+static func meditate_cap(character: CharacterStateType) -> int:
+	return character.skills.raw_level(SkillIdsType.SPELLS) * MAXIMUM_SKILL_MULTIPLIER
+
+
+## respirate.c's bottleneck: max_atman grows no further than magic (raw) * 10.
+static func respirate_cap(character: CharacterStateType) -> int:
+	return character.skills.raw_level(SkillIdsType.MAGIC) * MAXIMUM_SKILL_MULTIPLIER
 
 
 static func _is_below_required_health(current: int, maximum: int) -> bool:

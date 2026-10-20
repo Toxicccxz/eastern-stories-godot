@@ -245,6 +245,18 @@ func request_learn(skill_id: StringName, quiet: bool = false) -> LearnResult:
 	return last_learn
 
 
+## How far the player can learn <skill> from <npc> and why not further (LearnQuote),
+## nothing changed and no draw from the world's random source, or null.
+func quote(skill_id: StringName) -> LearnQuote:
+	if not teachable_skills().has(skill_id) or not can_teach() or map.world_interaction_random_source() == null:
+		return null
+	var player: WorldPlayerRuntimeState = map.player_runtime()
+	var context: TeachingContext = NpcTeacher.context(npc, skill_id, true, player.relationship.is_fighting(), WorldInteractionRandomSource.new())
+	var registry := SkillLearnPolicyRegistry.new()
+	registry.register_known_legacy_policies()
+	return LearnQuote.of(player.state, context, GameContent.catalog().skill(skill_id), registry.policy_for(skill_id))
+
+
 ## What learn <skill> from <npc> would do now, nothing changed and no draw from the world's
 ## random source (LearnPreview), or null when it cannot be asked.
 func preview_learn(skill_id: StringName) -> LearnResult:

@@ -276,6 +276,9 @@ func about(thing: WorldNearbyThing) -> Array[Array]:
 				var strength: String = RelativeStrength.line(_player.state.progression.combat_experience, npc.character_state.progression.combat_experience)
 				if not strength.is_empty():
 					lines.append(tr(strength).format({"pronoun": pronoun}))
+				var conditions: String = _conditions_count(map, thing)
+				if not conditions.is_empty():
+					lines.append(conditions)
 		WorldNearbyThing.Kind.CORPSE:
 			var corpse: CorpseState = null if map == null else map.corpses.find_corpse(thing.id)
 			if corpse != null:
@@ -408,15 +411,62 @@ func _npc_options(map: WorldMapController, thing: WorldNearbyThing, player_avail
 
 
 ## 拜师 from the popup, on its confirm page: who the master is (his family, what he
-## teaches), the teacher panel's own question when it has one (a betrayal, a first master,
-## a change of master), 确认; the answer comes once the popup has closed (owner Q1: whether
-## he takes the player is not told before).
+## teaches), his conditions with the player's values (ApprenticeConditions; DECISIONS
+## 「上限预览和拜师条件」), the teacher panel's own question when it has one (a betrayal, a
+## first master, a change of master), 确认; the answer comes once the popup has closed.
 func _apprentice(teacher: TeacherService) -> void:
 	var question: Array[String] = teacher.ui.apprentice_question()
 	# TRANSLATORS: the 拜师 page's question when no warning applies: {npc} the master.
 	var text: String = question[0] if not question[0].is_empty() else tr("确定要拜{npc}为师吗？").format({"npc": tr(teacher.npc.definition().display_name)})
 	var choice: String = question[1] if not question[1].is_empty() else "确定拜师"
-	_ui.questions.ask_first(text, choice, teacher.ui.request_apprentice_now, teacher.can_teach, Callable(), _profile(teacher))
+	var about: String = _profile(teacher)
+	var conditions: String = conditions_text(teacher)
+	if not conditions.is_empty():
+		about += "\n" + conditions
+	_ui.questions.ask_first(text, choice, teacher.ui.request_apprentice_now, teacher.can_teach, Callable(), about)
+
+
+## A master's conditions as the 拜师 page lists them: a heading, then a row each, met (✓)
+## or not (✗), or told no more (a test, an oath). "" for none.
+func conditions_text(teacher: TeacherService) -> String:
+	var rows: Array[ApprenticeConditions.Row] = _player.apprentice_conditions(teacher.npc.definition(), _map().player_can_afford)
+	if rows.is_empty():
+		return ""
+	# TRANSLATORS: the heading of a master's conditions on his 拜师 page.
+	var lines: PackedStringArray = [tr("收徒条件：")]
+	for row: ApprenticeConditions.Row in rows:
+		match row.state:
+			ApprenticeConditions.State.MET:
+				# TRANSLATORS: a 拜师 condition the player meets: {condition} the condition.
+				lines.append(tr("· {condition} ✓").format({"condition": row.text}))
+			ApprenticeConditions.State.UNMET:
+				# TRANSLATORS: a 拜师 condition the player does not meet.
+				lines.append(tr("· {condition} ✗").format({"condition": row.text}))
+			_:
+				# TRANSLATORS: a 拜师 condition told no more before (a test, an oath).
+				lines.append(tr("· {condition}").format({"condition": row.text}))
+	return "\n".join(lines)
+
+
+## 查看's line for a master who takes apprentices (not the player's own): how many of his
+## conditions the player meets; the 拜师 page lists them. "" for none.
+func _conditions_count(map: WorldMapController, thing: WorldNearbyThing) -> String:
+	for service: WorldService in thing.services:
+		var teacher: TeacherService = service as TeacherService
+		if teacher == null or not teacher.takes_apprentices() or map == null:
+			continue
+		if teacher.teaching().apprentice.kind == NpcTeaching.Kind.REFUSES:
+			# TRANSLATORS: 查看's line for one who takes no apprentice (annihi.c).
+			return tr("不收徒。")
+		var counts: Array[int] = ApprenticeConditions.counts(_player.apprentice_conditions(thing.npc.definition(), map.player_can_afford))
+		if counts[1] == 0:
+			return ""
+		if counts[0] == counts[1]:
+			# TRANSLATORS: 查看's line for a master whose told conditions the player all meets (the 拜师 page lists them).
+			return tr("拜师条件都已满足（详见拜师）。")
+		# TRANSLATORS: 查看's line for a master: {missing} of his told conditions the player does not meet.
+		return tr("拜师条件还差 {missing} 项（详见拜师）。").format({"missing": counts[1] - counts[0]})
+	return ""
 
 
 ## 请安 to one's own master: done at once.

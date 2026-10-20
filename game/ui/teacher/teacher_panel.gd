@@ -29,6 +29,11 @@ var keep_button: Button
 var learn_buttons: Dictionary[StringName, Button] = {}
 ## Skill ID -> its 连续请教 button.
 var run_buttons: Dictionary[StringName, Button] = {}
+## Skill ID -> the line above its buttons: how far the player can learn it here and why
+## not further (LearnQuote).
+var quote_labels: Dictionary[StringName, Label] = {}
+## The quote lines are put together again on the next refresh (after an act, on opening).
+var _quotes_dirty: bool = true
 ## The continuous 请教 under way, shown under its skill's row.
 var progress: TrainingProgress
 ## The skill of the continuous 请教 last started (its button takes the focus back).
@@ -60,6 +65,10 @@ const TRIAL_BETRAYS: String = "· 你现在是{title}；三招都接住，就改
 const TRIAL_OFFERS: String = "· 三招都接住，{master}便愿意收你为徒，再向{pronoun}拜师即可。"
 # TRANSLATORS: asked before 拜师 with 绝尘子 or 瑷伦, who take only commoners (juechen/master.c, elon.c): one with a family's title is taken for a traitor and killed. {master} the master, {pronoun} 他 or 她 for the master, {title} the player's title now.
 const TRAITOR_WARNING: String = "{master}只收没有门派的普通百姓为徒。你现在是{title}，向{pronoun}拜师：\n· {pronoun}会当你要背叛师门，当众大声喝破。\n· 然后当场出手要杀你，这是一场生死之战。\n确定要向{pronoun}拜师吗？"
+
+
+## The quote lines' colour: quieter than the lines the teacher says.
+const QUOTE_COLOR: Color = Color(0.78, 0.76, 0.66)
 
 
 func configure(contact: TeacherService) -> void:
@@ -103,6 +112,8 @@ func _ready() -> void:
 		confirm_box.confirmed.connect(_confirmed)
 		confirm_box.cancelled.connect(_keep_family)
 	for skill_id: StringName in _contact.teachable_skills():
+		quote_labels[skill_id] = _label("", "LearnHint_" + String(skill_id))
+		quote_labels[skill_id].add_theme_color_override("font_color", QUOTE_COLOR)
 		var row := HBoxContainer.new()
 		row.name = "LearnRow_" + String(skill_id)
 		row.add_theme_constant_override("separation", 8)
@@ -154,6 +165,7 @@ func interact() -> void:
 	if not _contact.panel_may_open() or not _contact.can_teach():
 		return
 	_set_confirming(false)
+	_quotes_dirty = true
 	feedback.text = ""
 	if apprentice_feedback != null:
 		apprentice_feedback.text = ""
@@ -221,6 +233,13 @@ func refresh() -> void:
 		oath_button.visible = here and _contact.awaits_oath() and not is_confirming()
 	if trial_button != null:
 		trial_button.visible = here and _contact.offers_trial() and not is_confirming()
+	if _quotes_dirty:
+		_quotes_dirty = false
+		for skill_id: StringName in quote_labels:
+			var quote: LearnQuote = _contact.quote(skill_id)
+			quote_labels[skill_id].text = "" if quote == null else LearnLines.quote_line(quote, _contact.display_name(), catalog.skill(skill_id))
+	for skill_id: StringName in quote_labels:
+		quote_labels[skill_id].visible = not quote_labels[skill_id].text.is_empty() and not is_confirming()
 	# While a continuous 请教 runs, only its 停止 (and 离开) can be pressed.
 	var running: bool = progress != null and progress.running()
 	for button: Button in [apprentice_button, cancel_button, oath_button, trial_button]:
@@ -482,11 +501,13 @@ func _run_finished(_lines: Array[ColoredLine]) -> void:
 
 func _show_last() -> void:
 	feedback.text = "\n".join(_contact.last_lines)
+	_quotes_dirty = true
 	refresh()
 
 
 func _show_apprentice_last() -> void:
 	apprentice_feedback.text = "\n".join(_contact.last_lines)
+	_quotes_dirty = true
 	refresh()
 
 

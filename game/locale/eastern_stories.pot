@@ -63,6 +63,7 @@ msgstr ""
 msgid "性别"
 msgstr ""
 
+#. a 拜师 condition: the gender the master takes (taolord.c, dancer master.c).
 #. common.npc.swordsman.master gender
 #. common.npc.fighter.champion gender
 #. common.npc.fighter.master gender
@@ -210,10 +211,11 @@ msgstr ""
 #. chuenyu.npc.smallgardener gender
 #. chuenyu.npc.cook gender
 #. chuenyu.npc.chuenyu gender
-#: scenes/application/application_shell.tscn core/characters/character_state.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json
+#: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json
 msgid "男性"
 msgstr ""
 
+#. a 拜师 condition: the gender the master takes (taolord.c, dancer master.c).
 #. common.npc.dancer.master gender
 #. common.npc.dancer.master apprentice.requires.gender
 #. common.npc.scholar.sword_soul gender
@@ -279,7 +281,7 @@ msgstr ""
 #. chuenyu.npc.flower_seller gender
 #. chuenyu.npc.cleangirl gender
 #. chuenyu.npc.xiaojuan2 gender
-#: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json
+#: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json
 msgid "女性"
 msgstr ""
 
@@ -3864,6 +3866,82 @@ msgstr ""
 msgid "你听了%s的指导，似乎有些心得。"
 msgstr ""
 
+#. the teacher panel under a skill: the student can reach {level}; {why} says what stops it there (one of the QUOTE_ reasons below).
+#: core/learning/learn_lines.gd
+msgid "还能学到 {level} 级（{why}）"
+msgstr ""
+
+#. the teacher panel under a skill the student cannot learn now: {why} one of the QUOTE_ reasons below.
+#: core/learning/learn_lines.gd
+msgid "学不了：{why}"
+msgstr ""
+
+#. ends the teacher panel's line under a skill: {head} QUOTE_UP_TO or QUOTE_NOT_NOW.
+#. a continuous run's summary when nothing it shows changed: {head} what was done.
+#: core/learning/learn_lines.gd core/training/training_lines.gd
+msgid "{head}。"
+msgstr ""
+
+#. the same with what stops a learn right now: {problem} (潜能已经用完, 精不够 …).
+#: core/learning/learn_lines.gd
+msgid "{head}；{problem}。"
+msgstr ""
+
+#. why the student can learn no higher: the teacher ({npc}) is at {teacher} (learn.c: only below the teacher's level).
+#: core/learning/learn_lines.gd
+msgid "{npc}自己是 {teacher} 级"
+msgstr ""
+
+#. why the student cannot learn: they are at the teacher's ({npc}) level {teacher}.
+#: core/learning/learn_lines.gd
+msgid "你已学到{npc}的 {teacher} 级"
+msgstr ""
+
+#. why the student can learn no higher (master.c prevent_learn()): betrayed a family {count} times, so {npc} teaches only to {teacher} - 20 × {count} = {cap}.
+#: core/learning/learn_lines.gd
+msgid "背叛师门 {count} 次，{npc}只教到 {teacher} - 20×{count} = {cap} 级"
+msgstr ""
+
+#. why the student can learn no higher (master.c prevent_learn()): not {npc}'s own apprentice, taught only while {npc}'s level ({teacher}) is above three times theirs.
+#: core/learning/learn_lines.gd
+msgid "不是{npc}的嫡传弟子，只学得到{npc}等级（{teacher}）的三分之一以内"
+msgstr ""
+
+#. why the student can learn no higher than {level} for now: learning at {level} needs {required} combat_exp (learn.c: level³/10).
+#: core/learning/learn_lines.gd
+msgid "{level} 级要再学，须实战经验 ≥ {required}"
+msgstr ""
+
+#. why the student cannot learn now: their level needs {required} combat_exp, they have {have}.
+#: core/learning/learn_lines.gd
+msgid "经验不足，要再学须实战经验 ≥ {required}（你 {have}）"
+msgstr ""
+
+#. the teacher panel under a skill when the teacher ({npc}) does not teach the student (recognize_apprentice()).
+#: core/learning/learn_lines.gd
+msgid "学不了：{npc}不肯指点你。"
+msgstr ""
+
+#. what stops a learn now: no potential left.
+#: core/learning/learn_lines.gd
+msgid "潜能已经用完"
+msgstr ""
+
+#. what stops a learn now: the teacher ({npc}) is too tired.
+#: core/learning/learn_lines.gd
+msgid "{npc}太累了"
+msgstr ""
+
+#. what stops a learn now: the teacher ({npc}) answers no questions now (no_teach).
+#: core/learning/learn_lines.gd
+msgid "{npc}现在不答问题"
+msgstr ""
+
+#. what stops a learn now: gin not above the learn's cost {cost} (learn.c).
+#: core/learning/learn_lines.gd
+msgid "精不够：每次耗精 {cost}，精须多于此数"
+msgstr ""
+
 #: core/learning/npc_recognition_policy.gd
 msgid "%s说道：您太客气了，这怎麽敢当？"
 msgstr ""
@@ -4143,6 +4221,119 @@ msgstr ""
 #. time_period(): a number of seconds, {n} in Chinese numerals (零 too).
 #: core/quests/quest_status.gd
 msgid "{n}秒"
+msgstr ""
+
+#. a 拜师 condition: an attribute ({what}: 胆识, 定力, 灵性, 实战经验) at least {required}; the student has {have}.
+#: core/relationships/apprentice_conditions.gd
+msgid "{what} ≥ {required}（你 {have}）"
+msgstr ""
+
+#. the attributes attempt_apprentice() checks, as the character sheet names them.
+#. help.gift paragraphs
+#: core/relationships/apprentice_conditions.gd data/common/codex.json
+msgid "胆识"
+msgstr ""
+
+#. the attributes attempt_apprentice() checks, as the character sheet names them.
+#. help.gift paragraphs
+#: core/relationships/apprentice_conditions.gd data/common/codex.json
+msgid "定力"
+msgstr ""
+
+#. the attributes attempt_apprentice() checks, as the character sheet names them.
+#. help.gift paragraphs
+#: core/relationships/apprentice_conditions.gd data/common/codex.json
+msgid "灵性"
+msgstr ""
+
+#. the attributes attempt_apprentice() checks, as the character sheet names them.
+#: core/relationships/apprentice_conditions.gd
+msgid "实战经验"
+msgstr ""
+
+#. a 拜师 condition: the gender the master takes (taolord.c, dancer master.c).
+#: core/relationships/apprentice_conditions.gd
+msgid "只收男弟子"
+msgstr ""
+
+#. a 拜师 condition: the gender the master takes (taolord.c, dancer master.c).
+#: core/relationships/apprentice_conditions.gd
+msgid "只收女弟子"
+msgstr ""
+
+#. a 拜师 condition: the class the master takes (bonze master.c: 剃度 first).
+#: core/relationships/apprentice_conditions.gd
+msgid "须先剃度出家"
+msgstr ""
+
+#. a 拜师 condition of a class this table does not name.
+#: core/relationships/apprentice_conditions.gd
+msgid "身份须合师门的规矩"
+msgstr ""
+
+#. a 拜师 condition the master does not say before he is asked (a mark: scholar master.c's 桃林); met or not.
+#: core/relationships/apprentice_conditions.gd
+msgid "另有条件"
+msgstr ""
+
+#. the same, not met, the master not asked yet.
+#: core/relationships/apprentice_conditions.gd
+msgid "另有条件（拜师时便知）"
+msgstr ""
+
+#. the same, not met, once the master ({npc}) said what it is: {line} his refusal.
+#: core/relationships/apprentice_conditions.gd
+msgid "{npc}说过：{line}"
+msgstr ""
+
+#. a 拜师 condition (beggar master.c can_afford()): the student carries less than {money}.
+#: core/relationships/apprentice_conditions.gd
+msgid "身上的钱不到{money}"
+msgstr ""
+
+#. a 拜师 condition (juechen master.c, elon.c): one who belongs to a family is taken for a traitor.
+#: core/relationships/apprentice_conditions.gd
+msgid "只收没有门派的人"
+msgstr ""
+
+#. a 拜师 condition: the master's test (champion.c's 三招, elon.c's 三鞭), not told before.
+#: core/relationships/apprentice_conditions.gd
+msgid "须通过考验"
+msgstr ""
+
+#. a 拜师 condition: the master asks for something when asked (master.c's oath), not told before.
+#: core/relationships/apprentice_conditions.gd
+msgid "拜师时另有要求"
+msgstr ""
+
+#. a 拜师 condition: the master takes no one who just asks (chen.c); how, not told before.
+#: core/relationships/apprentice_conditions.gd
+msgid "须另有机缘"
+msgstr ""
+
+#. the master takes no apprentice at all (annihi.c).
+#: core/relationships/apprentice_conditions.gd
+msgid "不收徒"
+msgstr ""
+
+#. the master has said he will take the student (recruit.c's offer, a test passed).
+#: core/relationships/apprentice_conditions.gd
+msgid "{npc}已经愿意收你"
+msgstr ""
+
+#. money in a 拜师 condition: {n} taels of gold, of silver, or coins.
+#: core/relationships/apprentice_conditions.gd
+msgid "{n} 两黄金"
+msgstr ""
+
+#. money in a 拜师 condition: {n} taels of silver.
+#: core/relationships/apprentice_conditions.gd
+msgid "{n} 两银子"
+msgstr ""
+
+#. money in a 拜师 condition: {n} coins.
+#: core/relationships/apprentice_conditions.gd
+msgid "{n} 文钱"
 msgstr ""
 
 #: core/relationships/family_relation.gd
@@ -5176,11 +5367,6 @@ msgstr ""
 #. a continuous run's summary: {head} what was done (one of the lines above), {changes} what it changed, joined by RUN_JOIN.
 #: core/training/training_lines.gd
 msgid "{head}：{changes}。"
-msgstr ""
-
-#. a continuous run's summary when nothing it shows changed: {head} what was done.
-#: core/training/training_lines.gd
-msgid "{head}。"
 msgstr ""
 
 #. joins the changes of a continuous run's summary (精 -96，潜能 -12).
@@ -7815,6 +8001,31 @@ msgstr ""
 msgid "{use}：{skill} · 有效等级 {level}"
 msgstr ""
 
+#. the 武学 page under 打坐 / 冥思 / 修行: the maximum {resource} (内力 …) can grow to {cap} (the bottleneck).
+#: ui/world/martial_arts_page.gd
+msgid "最大{resource}可练到 {cap}"
+msgstr ""
+
+#. the same at the bottleneck {cap}: {basic} (基本内功 …) must grow first.
+#: ui/world/martial_arts_page.gd
+msgid "最大{resource}已到瓶颈（{cap}），先提高{basic}"
+msgstr ""
+
+#. the 武学 page under an enabled skill: 练习 raises it to {level}, the level of {basic} (practice.c).
+#: ui/world/martial_arts_page.gd
+msgid "练习可练到 {level} 级（{basic}的等级）"
+msgstr ""
+
+#. the same once it is not below {basic}: practice only adds progress, the level comes when {basic} reaches {level}.
+#: ui/world/martial_arts_page.gd
+msgid "练习只攒进度，{basic}到 {level} 级才会升级"
+msgstr ""
+
+#. the same with this level's progress full: {basic} must reach {level} first.
+#: ui/world/martial_arts_page.gd
+msgid "这一级的进度已攒满，先把{basic}提高到 {level} 级"
+msgstr ""
+
 #: ui/world/martial_arts_page.gd
 msgid "激发%s"
 msgstr ""
@@ -8526,6 +8737,41 @@ msgstr ""
 #. the 拜师 page's question when no warning applies: {npc} the master.
 #: ui/world/shared_ui_nearby.gd
 msgid "确定要拜{npc}为师吗？"
+msgstr ""
+
+#. the heading of a master's conditions on his 拜师 page.
+#: ui/world/shared_ui_nearby.gd
+msgid "收徒条件："
+msgstr ""
+
+#. a 拜师 condition the player meets: {condition} the condition.
+#: ui/world/shared_ui_nearby.gd
+msgid "· {condition} ✓"
+msgstr ""
+
+#. a 拜师 condition the player does not meet.
+#: ui/world/shared_ui_nearby.gd
+msgid "· {condition} ✗"
+msgstr ""
+
+#. a 拜师 condition told no more before (a test, an oath).
+#: ui/world/shared_ui_nearby.gd
+msgid "· {condition}"
+msgstr ""
+
+#. 查看's line for one who takes no apprentice (annihi.c).
+#: ui/world/shared_ui_nearby.gd
+msgid "不收徒。"
+msgstr ""
+
+#. 查看's line for a master whose told conditions the player all meets (the 拜师 page lists them).
+#: ui/world/shared_ui_nearby.gd
+msgid "拜师条件都已满足（详见拜师）。"
+msgstr ""
+
+#. 查看's line for a master: {missing} of his told conditions the player does not meet.
+#: ui/world/shared_ui_nearby.gd
+msgid "拜师条件还差 {missing} 项（详见拜师）。"
 msgstr ""
 
 #. the oath page's question when no warning applies: {npc} the master.
@@ -13346,11 +13592,6 @@ msgstr ""
 
 #. help.gift paragraphs
 #: data/common/codex.json
-msgid "胆识"
-msgstr ""
-
-#. help.gift paragraphs
-#: data/common/codex.json
 msgid "人物天生的攻击性、侵略性，胆识高的人比较有冒险犯难的倾向，因此在战斗中要比一般人更勇於主动出击，对於一个武者而言，膂力不足尚可用锋利的武器弥补，胆识不够却是强求不来的。胆识高的人攻击次数较多，找出敌人破绽而趁机攻击的机会也较高，但是因主动攻击失败而露出破绽的机会也相对比一般人高。"
 msgstr ""
 
@@ -13366,17 +13607,7 @@ msgstr ""
 
 #. help.gift paragraphs
 #: data/common/codex.json
-msgid "灵性"
-msgstr ""
-
-#. help.gift paragraphs
-#: data/common/codex.json
 msgid "人物「精神」方面的体质，灵性高的人对於精神层面的活动较为热衷与活跃，而且常常能感受到一般人感受不到的讯息，使得这类型的人物常被人归类於「多愁善感」，虽然高灵性的人通常比一般人来得快乐。高度的灵性常常意味著高深的法力，可是这种人的反应通常是属於慢半拍型，面对面的肉搏战常常容易吃亏。"
-msgstr ""
-
-#. help.gift paragraphs
-#: data/common/codex.json
-msgid "定力"
 msgstr ""
 
 #. help.gift paragraphs

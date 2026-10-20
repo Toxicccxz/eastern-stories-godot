@@ -26,6 +26,10 @@ const UNMAPPED_MARK: String = "  "
 
 var skills_text: Label
 var force_text: Label
+## How far 打坐 / 冥思 / 修行 can raise their maximum (CultivationService's caps).
+var force_cap_text: Label
+var mana_cap_text: Label
+var atman_cap_text: Label
 var bellicosity_text: Label
 var no_uses: Label
 var uses_box: VBoxContainer
@@ -93,6 +97,7 @@ func _init() -> void:
 	add_child(uses_box)
 	_title("打坐")
 	force_text = _label("Force")
+	force_cap_text = _label("ForceCap")
 	bellicosity_text = _label("Bellicosity")
 	_label("ExerciseCost").text = "每次花费的气"
 	var exercise := HBoxContainer.new()
@@ -127,6 +132,7 @@ func _init() -> void:
 	enforce_button.pressed.connect(_enforce)
 	_title("冥思")
 	mana_text = _label("Mana")
+	mana_cap_text = _label("ManaCap")
 	_label("MeditateCost").text = "每次花费的神"
 	meditate_amount = _cost_box("Meditate")
 	meditate_button = _button(meditate_amount.get_parent(), "MeditateButton", "冥思")
@@ -136,6 +142,7 @@ func _init() -> void:
 	meditate_run_button.pressed.connect(_cultivate.bind(TrainingRun.Kind.MEDITATE))
 	_title("修行")
 	atman_text = _label("Atman")
+	atman_cap_text = _label("AtmanCap")
 	_label("RespirateCost").text = "每次花费的精"
 	respirate_amount = _cost_box("Respirate")
 	respirate_button = _button(respirate_amount.get_parent(), "RespirateButton", "修行")
@@ -190,6 +197,13 @@ func refresh() -> void:
 	bellicosity_text.text = tr("杀气 {bellicosity} · 定力 {cps}").format({
 		"bellicosity": state.attributes.bellicosity, "cps": state.attributes.composure,
 	})
+	var caps: Array = [
+		[force_cap_text, TrainingRun.Kind.EXERCISE, state.recovery.inner_force.maximum, CultivationService.exercise_cap(state, arts.apply_modifier(&"force")), SkillIds.FORCE],
+		[mana_cap_text, TrainingRun.Kind.MEDITATE, state.recovery.mana.maximum, CultivationService.meditate_cap(state), SkillIds.SPELLS],
+		[atman_cap_text, TrainingRun.Kind.RESPIRATE, state.recovery.atman.maximum, CultivationService.respirate_cap(state), SkillIds.MAGIC],
+	]
+	for cap: Array in caps:
+		(cap[0] as Label).text = _cap_line(cap[1], cap[2], cap[3], catalog.skill(cap[4]))
 	# Native hint (owner, modern fixes II): what 冥思 and 修行 need before they grow anything.
 	meditate_button.tooltip_text = arts.cultivation_hint(SkillIds.SPELLS)
 	respirate_button.tooltip_text = arts.cultivation_hint(SkillIds.MAGIC)
@@ -305,8 +319,47 @@ func _use_rows(arts: PlayerMartialArts, state: CharacterState, catalog: ContentC
 			"skill": tr(mapped_skill.display_name) if mapped_skill != null else tr("无"),
 			"level": level,
 		})
+		var practice: String = _practice_line(state, basic, mapped_skill)
+		if not practice.is_empty():
+			text += "\n" + practice
 		rows.append({"use": use_id, "text": text, "actions": actions})
 	return rows
+
+
+## How far 练习 takes the skill enabled for `basic`'s use (practice.c: no level once
+## the basic skill is not above it, feature/skill.c: progress past (level + 1)^2 is lost);
+## "" for a skill practice refuses whatever (a force style).
+func _practice_line(state: CharacterState, basic: SkillDefinition, special: SkillDefinition) -> String:
+	if special == null or special.practice_policy() == null or special.practice_policy() is UnpracticeablePracticePolicy:
+		return ""
+	var basic_level: int = state.skills.raw_level(basic.skill_id)
+	var special_level: int = state.skills.raw_level(special.skill_id)
+	var values: Dictionary = {"basic": tr(basic.display_name), "level": basic_level if basic_level > special_level else special_level + 1}
+	if basic_level > special_level:
+		return tr(PRACTICE_UP_TO).format(values)
+	if PracticeService.weak_progress_full(state, basic.skill_id):
+		return tr(PRACTICE_FULL).format(values)
+	return tr(PRACTICE_BANKING).format(values)
+
+
+## How far the maximum `kind` builds can grow (`cap`, the bottleneck) and what moves it.
+func _cap_line(kind: TrainingRun.Kind, maximum: int, cap: int, basic: SkillDefinition) -> String:
+	var values: Dictionary = {
+		"resource": tr(TrainingLines.RUN_RESOURCES[kind]), "cap": cap, "basic": tr(basic.display_name) if basic != null else "",
+	}
+	return tr(CAP_UP_TO if maximum < cap else CAP_REACHED).format(values)
+
+
+# TRANSLATORS: the 武学 page under 打坐 / 冥思 / 修行: the maximum {resource} (内力 …) can grow to {cap} (the bottleneck).
+const CAP_UP_TO: String = "最大{resource}可练到 {cap}"
+# TRANSLATORS: the same at the bottleneck {cap}: {basic} (基本内功 …) must grow first.
+const CAP_REACHED: String = "最大{resource}已到瓶颈（{cap}），先提高{basic}"
+# TRANSLATORS: the 武学 page under an enabled skill: 练习 raises it to {level}, the level of {basic} (practice.c).
+const PRACTICE_UP_TO: String = "练习可练到 {level} 级（{basic}的等级）"
+# TRANSLATORS: the same once it is not below {basic}: practice only adds progress, the level comes when {basic} reaches {level}.
+const PRACTICE_BANKING: String = "练习只攒进度，{basic}到 {level} 级才会升级"
+# TRANSLATORS: the same with this level's progress full: {basic} must reach {level} first.
+const PRACTICE_FULL: String = "这一级的进度已攒满，先把{basic}提高到 {level} 级"
 
 
 func _rebuild(rows: Array[Dictionary], functions: Array[StringName], conjures: Array[StringName], spells: Array[StringName], learnable: Array[StringName], books: Array[PlayerInventoryRowProjection]) -> void:

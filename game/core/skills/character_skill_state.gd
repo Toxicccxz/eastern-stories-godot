@@ -32,6 +32,24 @@ func set_learned_progress(skill_id: StringName, progress: int) -> void:
 	_learned_progress[skill_id] = progress
 
 
+## `probe` called as if `skill_id` were at raw `level`, then this state exactly as it was
+## (how far a teacher can take a skill, LearnQuote: valid_learn() reads levels): its
+## result.
+func probe_raw_level(skill_id: StringName, level: int, probe: Callable) -> Variant:
+	var had_mapping: bool = _has_skills_mapping
+	var had_entry: bool = _raw_levels.has(skill_id)
+	var before: int = _raw_levels.get(skill_id, 0)
+	_has_skills_mapping = true
+	_raw_levels[skill_id] = level
+	var result: Variant = probe.call()
+	if had_entry:
+		_raw_levels[skill_id] = before
+	else:
+		_raw_levels.erase(skill_id)
+	_has_skills_mapping = had_mapping
+	return result
+
+
 func remove_skill(skill_id: StringName) -> bool:
 	if not _has_skills_mapping:
 		return false
