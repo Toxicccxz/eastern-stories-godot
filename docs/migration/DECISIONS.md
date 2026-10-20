@@ -3609,3 +3609,27 @@ decide only where and when the player sees them, and the suites run with them of
   kept Save refused until the player went back. A modern RPG saves the state instead of making
   the player wait on something they cannot see. Busy's formulas and its wearing off on the
   heart beat are unchanged; guarding, opponents and lethal intent still block.
+
+## 连续修炼 (owner, 2026-10-19)
+
+- **ES2:** learn, practice, exercise, meditate and respirate do one step per command, set no busy
+  and take no count (exercise's number is the kee each sitting spends); the player types the
+  command again. feature/alias.c's MAX_REPEAT 30 throws out a player who sends one command 30
+  times running: a server's guard against bots, not ported (as the login daemons).
+- **Ours:** 请教 (the teacher panel) and 练习, 打坐, 冥思, 修行 (the 武学 page) also have 连续…: the
+  same command again and again through the same services, every rule and draw unchanged (a run
+  leaves the save, RNG included, as the single button pressed as often), a step every
+  `training_step_ms` (150; 0 all at once, as in the suites) with a count, a bar and 停止 (B / Esc).
+  World time stays held on those pages (owner Q1), so nobody comes in meanwhile; a step that
+  starts a fight (茅山道术's 观想虫) ends the run. A run stops on a refusal (the command's own
+  lines: potential, kee, force or sen short, the 70 % thresholds, the teacher tired …), a level
+  or a maximum up, a fall, a fight, the teacher out of reach, the page closed or left, 停止.
+- **Deviation — the log:** a run is told in one summary (你向柳淳风请教「基本剑法」3 次：基本剑法进度
+  +31，精 -66，潜能 -3。), the lines a level, a skill_improved() or a maximum gives, then why it
+  stopped; each step's own lines are not printed. The single buttons keep ES2's lines.
+- **Deviation — no step for nothing (owner Q2):** a run stops *before* a step that would spend
+  and gain nothing, and says why: learn with gin not above its cost (learn.c takes all the gin
+  left: 你今天太累了), learn of a martial skill whose level³/10 is above combat_exp (gin spent: 也许
+  是缺乏实战经验), practice in weak mode once this level's progress is past (L+1)² (improve_skill()
+  drops the rest at the level), a sitting that gains nothing (酸麻), a sitting at the bottleneck
+  that would take the power back to its maximum. The single buttons still do what ES2 does.

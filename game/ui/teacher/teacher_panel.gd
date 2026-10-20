@@ -1,10 +1,10 @@
 class_name TeacherPanel
 extends CanvasLayer
 
-## A teacher's panel: apprenticeship when the NPC takes apprentices, one learn
-## button per skill it teaches. The TeacherService owns the rules; this only
-## presents them and repeats the last lines the log received. Enabling a skill is
-## on the character panel's 武学 page.
+## A teacher's panel: apprenticeship when the NPC takes apprentices, a learn button
+## and a continuous one per skill it teaches (连续请教, TrainingProgress). The
+## TeacherService owns the rules; this only presents them and repeats the last lines
+## the log received. Enabling a skill is on the character panel's 武学 page.
 var _contact: TeacherService
 var _rows: VBoxContainer
 var _title: Label
@@ -27,6 +27,12 @@ var confirm_button: Button
 var keep_button: Button
 ## Skill ID -> its learn button.
 var learn_buttons: Dictionary[StringName, Button] = {}
+## Skill ID -> its 连续请教 button.
+var run_buttons: Dictionary[StringName, Button] = {}
+## The continuous 请教 under way, shown under its skill's row.
+var progress: TrainingProgress
+## The skill of the continuous 请教 last started (its button takes the focus back).
+var _run_skill: StringName = &""
 ## What 确定 does for the question showing.
 var _on_confirm: Callable = Callable()
 
@@ -97,7 +103,16 @@ func _ready() -> void:
 		confirm_box.confirmed.connect(_confirmed)
 		confirm_box.cancelled.connect(_keep_family)
 	for skill_id: StringName in _contact.teachable_skills():
-		learn_buttons[skill_id] = _button("Learn_" + String(skill_id), "", _learn.bind(skill_id))
+		var row := HBoxContainer.new()
+		row.name = "LearnRow_" + String(skill_id)
+		row.add_theme_constant_override("separation", 8)
+		_rows.add_child(row)
+		learn_buttons[skill_id] = _button("Learn_" + String(skill_id), "", _learn.bind(skill_id), row)
+		learn_buttons[skill_id].size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		run_buttons[skill_id] = _button("LearnRun_" + String(skill_id), "", _run_learn.bind(skill_id), row)
+	progress = TrainingProgress.new()
+	_rows.add_child(progress)
+	progress.finished.connect(_run_finished)
 	# Not "Feedback": SharedGameplayUI copies a panel's Feedback label into the log, and
 	# TeacherService has logged these lines already.
 	feedback = _label("", "LastLines")
@@ -112,6 +127,8 @@ func _present() -> void:
 	for skill_id: StringName in learn_buttons:
 		var skill: String = tr(catalog.skill(skill_id).display_name)
 		learn_buttons[skill_id].text = tr("请教%s（一次）") % skill
+		# TRANSLATORS: the teacher panel's button that asks again and again until something stops it (DECISIONS「连续修炼」).
+		run_buttons[skill_id].text = tr("连续请教")
 
 
 func _label(text: String, node_name: String) -> Label:
@@ -123,13 +140,13 @@ func _label(text: String, node_name: String) -> Label:
 	return label
 
 
-func _button(node_name: String, text: String, action: Callable) -> Button:
+func _button(node_name: String, text: String, action: Callable, parent: Node = null) -> Button:
 	var button := Button.new()
 	button.name = node_name
 	button.text = text
 	button.custom_minimum_size.y = 44
 	button.pressed.connect(action)
-	_rows.add_child(button)
+	(_rows if parent == null else parent).add_child(button)
 	return button
 
 
@@ -204,6 +221,14 @@ func refresh() -> void:
 		oath_button.visible = here and _contact.awaits_oath() and not is_confirming()
 	if trial_button != null:
 		trial_button.visible = here and _contact.offers_trial() and not is_confirming()
+	# While a continuous 请教 runs, only its 停止 (and 离开) can be pressed.
+	var running: bool = progress != null and progress.running()
+	for button: Button in [apprentice_button, cancel_button, oath_button, trial_button]:
+		if button != null:
+			button.disabled = running
+	for skill_id: StringName in learn_buttons:
+		learn_buttons[skill_id].disabled = running
+		run_buttons[skill_id].disabled = running
 
 
 ## Shown as the interaction popup's page (its rows do 拜师 and what follows).
@@ -416,6 +441,8 @@ func _set_confirming(on: bool) -> void:
 		if child == confirm_box:
 			if not on:
 				confirm_box.hide()
+		elif child == progress:
+			progress.visible = not on and progress.running()
 		elif child != _title and child is CanvasItem:
 			(child as CanvasItem).visible = not on
 	refresh()
@@ -428,9 +455,29 @@ func cancel_apprentice() -> void:
 
 
 func _learn(skill_id: StringName) -> void:
-	if panel.visible:
+	if panel.visible and not progress.running():
 		_contact.request_learn(skill_id)
 		_show_last()
+
+
+## 连续请教: learn again and again until something stops it (TrainingRun).
+func _run_learn(skill_id: StringName) -> void:
+	if not panel.visible or progress.running():
+		return
+	feedback.text = ""
+	var skill: String = tr(GameContent.catalog().skill(skill_id).display_name)
+	var run: PlayerTrainingRun = PlayerTrainingRun.learn(_contact.map.session, _contact, skill_id)
+	_run_skill = skill_id
+	# TRANSLATORS: a continuous 请教 under way: %s the skill.
+	progress.start(run, tr("连续请教「%s」") % skill, learn_buttons[skill_id].get_parent() as Control)
+	refresh()
+
+
+func _run_finished(_lines: Array[ColoredLine]) -> void:
+	_show_last()
+	var focus: Button = run_buttons.get(_run_skill)
+	if focus != null and focus.is_visible_in_tree():
+		focus.grab_focus()
 
 
 func _show_last() -> void:
@@ -460,10 +507,9 @@ func close_panel() -> void:
 
 
 ## learn.c's gin cost with the teacher's own int: 150/int + 150/int, doubled for a new skill.
-@warning_ignore("integer_division")
 func _cost_text(state: CharacterState, skill_id: StringName) -> String:
 	var teacher_int: int = _contact.npc.character_state.attributes.intelligence
 	if state.attributes.intelligence == 0 or teacher_int == 0:
 		return tr("无法计算")
-	var cost: int = 150 / teacher_int + 150 / state.attributes.intelligence
+	var cost: int = LearnService.base_essence_cost(teacher_int, state.attributes.intelligence)
 	return str(cost * 2 if state.skills.raw_level(skill_id) == 0 else cost)

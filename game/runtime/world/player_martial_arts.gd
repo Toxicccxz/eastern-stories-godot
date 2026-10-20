@@ -220,8 +220,10 @@ func disable(use_id: StringName) -> bool:
 
 
 ## practice <use>. necromancy.c's may conjure an NPC instead (PracticeConjuring): it comes
-## beside the player and kill_ob()s them, who fight back (me->fight(bug)).
-func practice(use_id: StringName) -> PracticeResult:
+## beside the player and kill_ob()s them, who fight back (me->fight(bug)). `quiet` (a
+## continuous run's step, PlayerTrainingRun) keeps the lines in last_lines only; a
+## conjuring's lines open the fight and are always told.
+func practice(use_id: StringName, quiet: bool = false) -> PracticeResult:
 	if not available():
 		return null
 	var state: CharacterState = _state()
@@ -239,8 +241,13 @@ func practice(use_id: StringName) -> PracticeResult:
 	if result.failure_reason == PracticeResult.FailureReason.PRACTICE_CONJURED:
 		_conjure(result, special)
 	else:
-		_say(TrainingLines.practice(result, special))
+		_tell(TrainingLines.practice(result, special), quiet)
 	return result
+
+
+## practice <use> now would only add progress already full (PracticeService.weak_progress_full()).
+func practice_progress_full(use_id: StringName) -> bool:
+	return PracticeService.weak_progress_full(_state(), use_id)
 
 
 ## query_temp("mind_bug"): the NPC the player's practice conjured, while it is not dead
@@ -291,18 +298,18 @@ func practice_hint(use_id: StringName) -> String:
 	})
 
 
-## exercise <kee>.
-func exercise(kee: int) -> CultivationResult:
+## exercise <kee>; `quiet` as practice()'s.
+func exercise(kee: int, quiet: bool = false) -> CultivationResult:
 	if not available():
 		return null
 	var result: CultivationResult = CultivationService.exercise(_state(), kee, _fighting(), apply_modifier(&"force"))
 	_refresh_maxima(result)
-	_say(TrainingLines.exercise(result))
+	_tell(TrainingLines.exercise(result), quiet)
 	return result
 
 
-## meditate <sen>.
-func meditate(sen: int) -> CultivationResult:
+## meditate <sen>; `quiet` as practice()'s.
+func meditate(sen: int, quiet: bool = false) -> CultivationResult:
 	if not available():
 		return null
 	var result: CultivationResult = CultivationService.meditate(_state(), sen, _fighting(), apply_modifier(&"spells"))
@@ -310,12 +317,12 @@ func meditate(sen: int) -> CultivationResult:
 	var lines: Array[ColoredLine] = TrainingLines.meditate(result)
 	if result.success and _state().skills.raw_level(SkillIds.SPELLS) <= 0:
 		lines.append(ColoredLine.new(tr(MEDITATE_NEEDS_SPELLS)))
-	_say(lines)
+	_tell(lines, quiet)
 	return result
 
 
-## respirate <gin>.
-func respirate(gin: int) -> CultivationResult:
+## respirate <gin>; `quiet` as practice()'s.
+func respirate(gin: int, quiet: bool = false) -> CultivationResult:
 	if not available():
 		return null
 	var result: CultivationResult = CultivationService.respirate(_state(), gin, _fighting(), apply_modifier(&"magic"))
@@ -323,8 +330,23 @@ func respirate(gin: int) -> CultivationResult:
 	var lines: Array[ColoredLine] = TrainingLines.respirate(result)
 	if result.success and _state().skills.raw_level(SkillIds.MAGIC) <= 0:
 		lines.append(ColoredLine.new(tr(RESPIRATE_NEEDS_MAGIC)))
-	_say(lines)
+	_tell(lines, quiet)
 	return result
+
+
+## What exercise / meditate / respirate (TrainingRun.Kind) with `amount` would do now,
+## nothing changed (CultivationService's preview), or null when the player cannot act.
+func preview_cultivation(kind: TrainingRun.Kind, amount: int) -> CultivationResult:
+	if not available():
+		return null
+	match kind:
+		TrainingRun.Kind.EXERCISE:
+			return CultivationService.exercise(_state(), amount, _fighting(), apply_modifier(&"force"), true)
+		TrainingRun.Kind.MEDITATE:
+			return CultivationService.meditate(_state(), amount, _fighting(), apply_modifier(&"spells"), true)
+		TrainingRun.Kind.RESPIRATE:
+			return CultivationService.respirate(_state(), amount, _fighting(), apply_modifier(&"magic"), true)
+	return null
 
 
 ## Native hints (owner, modern fixes II): with no 基本咒文 (基本法术) meditate.c
@@ -409,6 +431,14 @@ func in_own_fight() -> bool:
 
 func _effects() -> SkillImprovementEffectRegistry:
 	return _session.encounter_skill_effect_registry()
+
+
+## To the log, or (quiet) only to last_lines.
+func _tell(lines: Array[ColoredLine], quiet: bool) -> void:
+	if quiet:
+		last_lines = lines
+	else:
+		_say(lines)
 
 
 func _say(lines: Array[ColoredLine]) -> void:

@@ -210,6 +210,21 @@ static func practice(
 	)
 
 
+## practice.c with the basic skill not above the special one (weak mode) only adds to a
+## player's learning progress; improve_skill() levels up once the progress is past
+## (level + 1)^2 and sets it to 0, so what is past that is lost: continuous 练习 stops
+## before it (TrainingRun.Stop.PROGRESS_FULL).
+static func weak_progress_full(character: CharacterStateType, basic_skill_id: StringName) -> bool:
+	var special_skill_id: StringName = character.skills.mapped_skill(basic_skill_id)
+	if special_skill_id == &"":
+		return false
+	var special_level: int = character.skills.raw_level(special_skill_id)
+	if character.skills.raw_level(basic_skill_id) > special_level:
+		return false
+	var next_level: int = special_level + 1
+	return character.skills.learned_progress(special_skill_id) > next_level * next_level
+
+
 static func _failure(
 	reason: int,
 	basic_skill_id: StringName,
