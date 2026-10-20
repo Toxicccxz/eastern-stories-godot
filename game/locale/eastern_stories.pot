@@ -6418,7 +6418,7 @@ msgstr ""
 msgid "可以激发为：{uses}"
 msgstr ""
 
-#. what a master teaches, on his 拜师 page: {skills} the skills, joined by 、.
+#. joins the skills a master teaches on his 拜师 page (基本拳脚、基本招架).
 #. between two conditions on the HUD (蛇毒).
 #: presentation/codex/codex_content.gd ui/world/shared_ui_nearby.gd ui/world/shared_ui_status_card.gd
 msgid "、"
@@ -8794,7 +8794,7 @@ msgstr ""
 msgid "确定取消"
 msgstr ""
 
-#. what a master teaches, on his 拜师 page: {skills} the skills, joined by 、.
+#. joins the skills a master teaches on his 拜师 page (基本拳脚、基本招架).
 #: ui/world/shared_ui_nearby.gd
 msgid "传授：{skills}"
 msgstr ""

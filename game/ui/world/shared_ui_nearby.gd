@@ -266,6 +266,11 @@ func about(thing: WorldNearbyThing) -> Array[Array]:
 			if map != null and map.hostilities.toll_pending(npc):
 				# TRANSLATORS: the popup's line under a toll-taker about to attack the player (gangster.c's 买路财).
 				status.append(tr("正等着你留下买路财"))
+			# Above 查看 (its look.c text replaces the lines below once shown): how many of a
+			# master's conditions the player meets.
+			var conditions: String = _conditions_count(map, thing)
+			if not conditions.is_empty():
+				status.append(conditions)
 			var gender: StringName = npc.character_state.gender
 			var pronoun: String = tr(Es2CombatMessages.pronoun(gender))
 			if _player != null:
@@ -276,9 +281,6 @@ func about(thing: WorldNearbyThing) -> Array[Array]:
 				var strength: String = RelativeStrength.line(_player.state.progression.combat_experience, npc.character_state.progression.combat_experience)
 				if not strength.is_empty():
 					lines.append(tr(strength).format({"pronoun": pronoun}))
-				var conditions: String = _conditions_count(map, thing)
-				if not conditions.is_empty():
-					lines.append(conditions)
 		WorldNearbyThing.Kind.CORPSE:
 			var corpse: CorpseState = null if map == null else map.corpses.find_corpse(thing.id)
 			if corpse != null:
@@ -508,7 +510,8 @@ func _profile(teacher: TeacherService) -> String:
 		skills.append(tr(catalog.skill(skill_id).display_name))
 	if not skills.is_empty():
 		# TRANSLATORS: what a master teaches, on his 拜师 page: {skills} the skills, joined by 、.
-		lines.append(tr("传授：{skills}").format({"skills": "、".join(skills)}))
+		# TRANSLATORS: joins the skills a master teaches on his 拜师 page (基本拳脚、基本招架).
+		lines.append(tr("传授：{skills}").format({"skills": tr("、").join(skills)}))
 	return "\n".join(lines)
 
 

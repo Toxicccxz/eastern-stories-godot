@@ -105,12 +105,12 @@ func _test_apprentice_page() -> void:
 	var composure: int = NpcApprenticeship.requirement_value(_state, &"cps")
 	_check(text == "收徒条件：\n· 胆识 ≥ 20（你 %d） ✓\n· 定力 ≥ 20（你 %d） ✗" % [courage, composure], "the 拜师 page's list: " + text)
 	var thing: WorldNearbyThing = _thing()
-	_check(thing != null and nearby.about(thing)[1].has("拜师条件还差 1 项（详见拜师）。"), "查看 counts them: %s" % [nearby.about(thing) if thing != null else null])
+	_check(thing != null and nearby.about(thing)[0].has("拜师条件还差 1 项（详见拜师）。"), "查看 counts them: %s" % [nearby.about(thing) if thing != null else null])
 	_state.attributes.composure = 30
-	_check(nearby.about(thing)[1].has("拜师条件都已满足（详见拜师）。"), "all met: %s" % [nearby.about(thing)])
+	_check(nearby.about(thing)[0].has("拜师条件都已满足（详见拜师）。"), "all met: %s" % [nearby.about(thing)])
 	_school.request_apprentice()
 	_check(_state.family.family_id == &"family.fonxan", "his apprentice")
-	_check(nearby.conditions_text(_school).is_empty() and not "\n".join(nearby.about(thing)[1]).contains("拜师条件"), "his own master: no conditions")
+	_check(nearby.conditions_text(_school).is_empty() and not "\n".join(nearby.about(thing)[0]).contains("拜师条件"), "his own master: no conditions")
 
 
 ## The 请教 page's line under each skill.
