@@ -5153,6 +5153,144 @@ msgstr ""
 msgid "你现在无法研读。"
 msgstr ""
 
+#: core/training/training_lines.gd
+msgid "你向{npc}请教「{skill}」{count} 次"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你练习{skill} {count} 次"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你打坐 {count} 次"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你冥思 {count} 次"
+msgstr ""
+
+#: core/training/training_lines.gd
+msgid "你修行 {count} 次"
+msgstr ""
+
+#. a continuous run's summary: {head} what was done (one of the lines above), {changes} what it changed, joined by RUN_JOIN.
+#: core/training/training_lines.gd
+msgid "{head}：{changes}。"
+msgstr ""
+
+#. a continuous run's summary when nothing it shows changed: {head} what was done.
+#: core/training/training_lines.gd
+msgid "{head}。"
+msgstr ""
+
+#. joins the changes of a continuous run's summary (精 -96，潜能 -12).
+#: core/training/training_lines.gd
+msgid "，"
+msgstr ""
+
+#. a continuous run's summary: the skill went from level {from} to {to}.
+#: core/training/training_lines.gd
+msgid "{skill} {from}→{to} 级"
+msgstr ""
+
+#. a continuous run's summary: the skill's learning progress changed by {change} (+12), no level.
+#: core/training/training_lines.gd
+msgid "{skill}进度 {change}"
+msgstr ""
+
+#. gin (精) in a continuous run's summary.
+#. help.health paragraphs
+#: core/training/training_lines.gd presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd ui/world/character_sheet.gd data/common/codex.json
+msgid "精"
+msgstr ""
+
+#. kee (气) in a continuous run's summary.
+#. help.health paragraphs
+#: core/training/training_lines.gd presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd ui/world/character_sheet.gd data/common/codex.json
+msgid "气"
+msgstr ""
+
+#. sen (神) in a continuous run's summary.
+#. help.health paragraphs
+#: core/training/training_lines.gd presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd ui/world/character_sheet.gd data/common/codex.json
+msgid "神"
+msgstr ""
+
+#. force (内力) in a continuous run's summary.
+#. help.stats paragraphs
+#: core/training/training_lines.gd data/common/codex.json
+msgid "内力"
+msgstr ""
+
+#. mana (法力) in a continuous run's summary.
+#. help.stats paragraphs
+#: core/training/training_lines.gd data/common/codex.json
+msgid "法力"
+msgstr ""
+
+#. atman (灵力) in a continuous run's summary.
+#. help.stats paragraphs
+#: core/training/training_lines.gd data/common/codex.json
+msgid "灵力"
+msgstr ""
+
+#. potential left (潜能) in a continuous run's summary.
+#: core/training/training_lines.gd
+msgid "潜能"
+msgstr ""
+
+#: core/training/training_lines.gd ui/world/martial_arts_page.gd
+msgid "打坐"
+msgstr ""
+
+#: core/training/training_lines.gd ui/world/martial_arts_page.gd
+msgid "冥思"
+msgstr ""
+
+#: core/training/training_lines.gd ui/world/martial_arts_page.gd
+msgid "修行"
+msgstr ""
+
+#. continuous 请教 stopped before a learn that would spend the gin left for nothing (learn.c: gin must be above the cost): {cost} the cost, {have} the gin left.
+#: core/training/training_lines.gd
+msgid "停下：精不够了。请教一次耗精 {cost}，精须多于此数（你还有 {have}）；再请教只会白白累垮，先休息吧。"
+msgstr ""
+
+#. continuous 请教 stopped before a learn that would spend gin while combat_exp is too low (learn.c: level³/10): {skill}, its {level}, the {required} combat_exp and the player's {have}.
+#: core/training/training_lines.gd
+msgid "停下：实战经验不足。「{skill}」{level} 级要再学，须实战经验 ≥ {required}（你 {have}）。"
+msgstr ""
+
+#. continuous 练习 stopped: with the basic skill not above the special one practice only adds progress, and this level's is full; {basic} must reach {level}.
+#: core/training/training_lines.gd
+msgid "停下：「{skill}」这一级的进度已经攒满。先把{basic}提高到 {level} 级，再练才有长进。"
+msgstr ""
+
+#. continuous 打坐/冥思/修行 stopped before a step that would gain nothing: {amount} of {source} (气, 神, 精) each time, {action} 打坐 …
+#: core/training/training_lines.gd
+msgid "停下：每次只花 {amount} 点{source}，{action}不会有任何长进；多花一些再试。"
+msgstr ""
+
+#. continuous 打坐/冥思/修行 stopped at the bottleneck: another step would take {resource} (内力 …) back to its maximum {maximum}; {basic} (基本内功 …) must grow first.
+#: core/training/training_lines.gd
+msgid "停下：{resource}的修为已到瓶颈（上限 {maximum}），再{action}，{resource}只会回落到 {maximum}。先提高{basic}吧。"
+msgstr ""
+
+#. a continuous run stopped by a fight, a fall or the teacher out of reach.
+#: core/training/training_lines.gd
+msgid "停下：你被打断了。"
+msgstr ""
+
+#. the player stopped a continuous run.
+#: core/training/training_lines.gd
+msgid "你停了下来。"
+msgstr ""
+
+#. a continuous run stopped after {count} times (a guard; it ends on its own long before).
+#: core/training/training_lines.gd
+msgid "停下：已经连续 {count} 次了，歇一歇吧。"
+msgstr ""
+
 #. enable.c's answer when a skill is enabled or disabled; ES2 prints it in English.
 #: core/training/training_lines.gd
 msgid "Ok."
@@ -5281,21 +5419,6 @@ msgstr ""
 #. hover of 运功恢复气/神/精 (recover.c …): {force} internal power brings {track} back.
 #: presentation/battle/battle_action_presentation_catalog.gd
 msgid "用 {force} 点内力恢复{track}"
-msgstr ""
-
-#. help.health paragraphs
-#: presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd ui/world/character_sheet.gd data/common/codex.json
-msgid "气"
-msgstr ""
-
-#. help.health paragraphs
-#: presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd ui/world/character_sheet.gd data/common/codex.json
-msgid "神"
-msgstr ""
-
-#. help.health paragraphs
-#: presentation/battle/battle_action_presentation_catalog.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/act_service.gd ui/world/character_sheet.gd data/common/codex.json
-msgid "精"
 msgstr ""
 
 #. hover of 运功灵神诀 (谷衣心法's concentrate.c): {force} internal power and {sen} sen bring mana back.
@@ -7072,6 +7195,15 @@ msgstr ""
 msgid "确定"
 msgstr ""
 
+#: ui/common/training_progress.gd
+msgid "停止"
+msgstr ""
+
+#. a continuous run under way: {what} 连续请教「基本剑法」 …, {count} the times done so far.
+#: ui/common/training_progress.gd
+msgid "{what}：已做 {count} 次"
+msgstr ""
+
 #: ui/food/held_food_panel.gd
 msgid "随身食物"
 msgstr ""
@@ -7294,6 +7426,11 @@ msgstr ""
 msgid "请教%s（一次）"
 msgstr ""
 
+#. the teacher panel's button that asks again and again until something stops it (DECISIONS「连续修炼」).
+#: ui/teacher/teacher_panel.gd
+msgid "连续请教"
+msgstr ""
+
 #: ui/teacher/teacher_panel.gd
 msgid "{skill} {level} · 学习进度 {progress} · 耗精 {cost}"
 msgstr ""
@@ -7332,6 +7469,11 @@ msgstr ""
 
 #: ui/teacher/teacher_panel.gd
 msgid "不试了"
+msgstr ""
+
+#. a continuous 请教 under way: %s the skill.
+#: ui/teacher/teacher_panel.gd
+msgid "连续请教「%s」"
 msgstr ""
 
 #: ui/teacher/teacher_panel.gd
@@ -7595,27 +7737,31 @@ msgid "你现在没有使用任何特殊技能。"
 msgstr ""
 
 #: ui/world/martial_arts_page.gd
-msgid "打坐"
-msgstr ""
-
-#: ui/world/martial_arts_page.gd
 msgid "每次花费的气"
 msgstr ""
 
+#. the 武学 page's button that does 打坐 again and again until something stops it (DECISIONS「连续修炼」).
+#. a continuous 打坐 / 冥思 / 修行 under way.
 #: ui/world/martial_arts_page.gd
-msgid "冥思"
+msgid "连续打坐"
 msgstr ""
 
 #: ui/world/martial_arts_page.gd
 msgid "每次花费的神"
 msgstr ""
 
+#. the 武学 page's button that does 冥思 again and again until something stops it.
 #: ui/world/martial_arts_page.gd
-msgid "修行"
+msgid "连续冥思"
 msgstr ""
 
 #: ui/world/martial_arts_page.gd
 msgid "每次花费的精"
+msgstr ""
+
+#. the 武学 page's button that does 修行 again and again until something stops it.
+#: ui/world/martial_arts_page.gd
+msgid "连续修行"
 msgstr ""
 
 #: ui/world/martial_arts_page.gd
@@ -7677,6 +7823,11 @@ msgstr ""
 msgid "练习"
 msgstr ""
 
+#. the 武学 page's button that practises again and again until something stops it (DECISIONS「连续修炼」).
+#: ui/world/martial_arts_page.gd
+msgid "连续练习"
+msgstr ""
+
 #: ui/world/martial_arts_page.gd
 msgid "停用"
 msgstr ""
@@ -7687,6 +7838,11 @@ msgstr ""
 
 #: ui/world/martial_arts_page.gd
 msgid "研读%s"
+msgstr ""
+
+#. a continuous 练习 under way: %s the skill practised.
+#: ui/world/martial_arts_page.gd
+msgid "连续练习%s"
 msgstr ""
 
 #: ui/world/oldpine_loot_panel.gd ui/world/player_inventory_panel.gd
@@ -13105,11 +13261,6 @@ msgstr ""
 
 #. help.stats paragraphs
 #: data/common/codex.json
-msgid "内力"
-msgstr ""
-
-#. help.stats paragraphs
-#: data/common/codex.json
 msgid "内力可说是武者的第二生命，内力的多寡不但影响武者的攻击力，也影响防御力，内力是将人体的气用某种方式转换为能够储备的能量，不同的内功转换的效率各不相同，而且转换的效率随内功等级而异，等级越高，转换的效率也越高，转换效率随技能成长的曲线也不同，有些内功初时进境极快，但是很快就达到极限，有些内功却是循序渐进，几无止境。"
 msgstr ""
 
@@ -13125,11 +13276,6 @@ msgstr ""
 
 #. help.stats paragraphs
 #: data/common/codex.json
-msgid "法力"
-msgstr ""
-
-#. help.stats paragraphs
-#: data/common/codex.json
 msgid "法力其实是一种比较抽象的能量，一般人不需要学习任何技能就可以拥有法力，事实上，所有具有灵性的生物都或多或少具有一些法力，人类便是其中的一种，当人们静下来进行「冥思」（用现代的名词解释，和「做白日梦」、「发呆」有点类似）的时候，具有灵性的生物就会在体内凝聚一种精神能量，这种能量在平时是一产生马上就消耗掉的，唯有坐下来，忽略身体所有感官所传来的信号，这种能量才能聚集到足以停留在体内的量，当然，我们提到这种能量时不必罗哩罗唆地说这麽多，它就是我们在其他游戏常见到的「法力」。"
 msgstr ""
 
@@ -13141,11 +13287,6 @@ msgstr ""
 #. help.stats paragraphs
 #: data/common/codex.json
 msgid "和真气蓄积的效果十分类似，当灵神充裕到某一程度以後，人物的精神能力也会发生些许改变，使得人物的「魔力」稍微提高，并且这些「灵神」会永远成为人物精神力的一部份，馀下的法力会马上调节到和魔力相同的程度，以维持魔力所造成的效用。"
-msgstr ""
-
-#. help.stats paragraphs
-#: data/common/codex.json
-msgid "灵力"
 msgstr ""
 
 #. help.stats paragraphs

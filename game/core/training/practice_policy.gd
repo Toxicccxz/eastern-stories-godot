@@ -30,3 +30,9 @@ func refuses_weapon(_character: CharacterStateType) -> bool:
 ## &"force", &"mana", &"sen"), or &"" when none does. Pure: changes nothing.
 func refusal(_character: CharacterStateType) -> StringName:
 	return &""
+
+
+## practice() would refuse `character` now. Pure: changes nothing (a continuous run
+## looks with it first, PracticeService's preview).
+func refuses(character: CharacterStateType) -> bool:
+	return not refusal(character).is_empty()

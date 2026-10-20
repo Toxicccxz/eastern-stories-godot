@@ -4,7 +4,8 @@ extends VBoxContainer
 ## The character panel's 武学 page: cmds/usr/skills.c's list, enable.c's uses with
 ## their enable, disable and practice buttons, exercise, enforce, meditate, respirate,
 ## exert, the 神通 conjured at oneself (conjure.c: 空识, 游识), the spells cast at oneself
-## (cast.c: 阴阳眼), self-learning and study.
+## (cast.c: 阴阳眼), self-learning and study. 练习, 打坐, 冥思 and 修行 also go on and on
+## (连续练习 …, TrainingProgress) until something stops them.
 ## PlayerMartialArts owns the rules; the page shows the state and repeats the lines
 ## the log received last. Buttons are rebuilt only when the set of actions changes.
 
@@ -30,14 +31,17 @@ var no_uses: Label
 var uses_box: VBoxContainer
 var exercise_amount: SpinBox
 var exercise_button: Button
+var exercise_run_button: Button
 var enforce_amount: SpinBox
 var enforce_button: Button
 var mana_text: Label
 var meditate_amount: SpinBox
 var meditate_button: Button
+var meditate_run_button: Button
 var atman_text: Label
 var respirate_amount: SpinBox
 var respirate_button: Button
+var respirate_run_button: Button
 var exert_title: Label
 var exert_row: HFlowContainer
 var conjure_title: Label
@@ -49,9 +53,11 @@ var self_learn_row: HFlowContainer
 var study_title: Label
 var study_row: HFlowContainer
 var feedback: Label
+## The continuous 练习 / 打坐 / 冥思 / 修行 under way, under the row that started it.
+var progress: TrainingProgress
 ## Action -> its button: enable:<use>:<skill>, disable:<use>, practice:<use>,
-## exert:<function>, conjure:<function>, cast:<function>, self_learn:<skill>,
-## study:<item instance>.
+## practice_run:<use>, exert:<function>, conjure:<function>, cast:<function>,
+## self_learn:<skill>, study:<item instance>.
 var buttons: Dictionary[String, Button] = {}
 var _session: WorldSessionController
 var _layout_key: String = "-"
@@ -59,6 +65,8 @@ var _use_texts: Dictionary[StringName, RichTextLabel] = {}
 var _shown_factor: int = -1
 ## The 神通's lines after a 神通 button, else null (the page repeats PlayerMartialArts').
 var _last_lines: Variant = null
+## The button that started the run under way (it takes the focus back).
+var _run_button: Button
 
 # TRANSLATORS: the 武学 page's 神通 buttons' tooltips (daemon/class/bonze/essencemagic/): their costs and what may come of them.
 const CONJURE_HINTS: Dictionary[StringName, String] = {
@@ -101,6 +109,9 @@ func _init() -> void:
 	exercise.add_child(exercise_amount)
 	exercise_button = _button(exercise, "ExerciseButton", "打坐")
 	exercise_button.pressed.connect(_exercise)
+	# TRANSLATORS: the 武学 page's button that does 打坐 again and again until something stops it (DECISIONS「连续修炼」).
+	exercise_run_button = _button(exercise, "ExerciseRunButton", "连续打坐")
+	exercise_run_button.pressed.connect(_cultivate.bind(TrainingRun.Kind.EXERCISE))
 	_title("加力")
 	var enforce := HBoxContainer.new()
 	enforce.name = "Enforce"
@@ -120,12 +131,18 @@ func _init() -> void:
 	meditate_amount = _cost_box("Meditate")
 	meditate_button = _button(meditate_amount.get_parent(), "MeditateButton", "冥思")
 	meditate_button.pressed.connect(_meditate)
+	# TRANSLATORS: the 武学 page's button that does 冥思 again and again until something stops it.
+	meditate_run_button = _button(meditate_amount.get_parent(), "MeditateRunButton", "连续冥思")
+	meditate_run_button.pressed.connect(_cultivate.bind(TrainingRun.Kind.MEDITATE))
 	_title("修行")
 	atman_text = _label("Atman")
 	_label("RespirateCost").text = "每次花费的精"
 	respirate_amount = _cost_box("Respirate")
 	respirate_button = _button(respirate_amount.get_parent(), "RespirateButton", "修行")
 	respirate_button.pressed.connect(_respirate)
+	# TRANSLATORS: the 武学 page's button that does 修行 again and again until something stops it.
+	respirate_run_button = _button(respirate_amount.get_parent(), "RespirateRunButton", "连续修行")
+	respirate_run_button.pressed.connect(_cultivate.bind(TrainingRun.Kind.RESPIRATE))
 	exert_title = _title("运功")
 	exert_row = _flow("Exert")
 	conjure_title = _title("神通")
@@ -139,6 +156,9 @@ func _init() -> void:
 	# Not "Feedback": SharedGameplayUI copies a panel's Feedback label into the log,
 	# and these lines are there already.
 	feedback = _label("LastLines")
+	progress = TrainingProgress.new()
+	add_child(progress)
+	progress.finished.connect(_run_finished)
 
 
 func configure(session: WorldSessionController) -> void:
@@ -214,6 +234,13 @@ func refresh() -> void:
 		var practice: String = "practice:%s" % row.use
 		if buttons.has(practice):
 			buttons[practice].tooltip_text = arts.practice_hint(row.use)
+			buttons["practice_run:%s" % row.use].tooltip_text = arts.practice_hint(row.use)
+	# While a run goes on, only its 停止 can be pressed.
+	var running: bool = progress.running()
+	for button: Button in buttons.values() + [exercise_button, exercise_run_button, enforce_button, meditate_button, meditate_run_button, respirate_button, respirate_run_button]:
+		button.disabled = running
+	for amount: SpinBox in [exercise_amount, enforce_amount, meditate_amount, respirate_amount]:
+		amount.editable = not running
 	feedback.text = "\n".join(ColoredLine.texts(_last_lines if _last_lines != null else arts.last_lines))
 
 
@@ -263,6 +290,7 @@ func _use_rows(arts: PlayerMartialArts, state: CharacterState, catalog: ContentC
 				actions.append("enable:%s:%s" % [use_id, skill_id])
 		if not mapped.is_empty():
 			actions.append("practice:%s" % use_id)
+			actions.append("practice_run:%s" % use_id)
 			actions.append("disable:%s" % use_id)
 		var modifier: int = arts.apply_modifier(use_id)
 		var level: String = str(effective)
@@ -349,6 +377,9 @@ func _label_buttons(rows: Array[Dictionary], learnable: Array[StringName], books
 					buttons[action].text = tr("激发%s") % tr(catalog.skill(StringName(parts[2])).display_name)
 				"practice":
 					buttons[action].text = tr("练习")
+				"practice_run":
+					# TRANSLATORS: the 武学 page's button that practises again and again until something stops it (DECISIONS「连续修炼」).
+					buttons[action].text = tr("连续练习")
 				"disable":
 					buttons[action].text = tr("停用")
 	for key: String in buttons:
@@ -383,6 +414,11 @@ func _act(action: String) -> void:
 			arts.disable(StringName(subject))
 		"practice":
 			arts.practice(StringName(subject))
+		"practice_run":
+			var special: SkillDefinition = GameContent.catalog().skill(_session.player_runtime().state.skills.mapped_skill(StringName(subject)))
+			# TRANSLATORS: a continuous 练习 under way: %s the skill practised.
+			_start_run(PlayerTrainingRun.practice(_session, StringName(subject)), tr("连续练习%s") % (tr(special.display_name) if special != null else ""), buttons[action], uses_box)
+			return
 		"exert":
 			arts.exert(StringName(subject))
 		"conjure":
@@ -428,6 +464,40 @@ func _conjure(function_id: StringName) -> void:
 	if is_visible_in_tree():
 		refresh()
 		_refocus("conjure:%s" % function_id)
+
+
+## 连续打坐 / 冥思 / 修行 with the amount in its box.
+func _cultivate(kind: TrainingRun.Kind) -> void:
+	if _session == null:
+		return
+	var rows: Dictionary[TrainingRun.Kind, Array] = {
+		# TRANSLATORS: a continuous 打坐 / 冥思 / 修行 under way.
+		TrainingRun.Kind.EXERCISE: [exercise_amount, exercise_run_button, "连续打坐"],
+		TrainingRun.Kind.MEDITATE: [meditate_amount, meditate_run_button, "连续冥思"],
+		TrainingRun.Kind.RESPIRATE: [respirate_amount, respirate_run_button, "连续修行"],
+	}
+	var row: Array = rows[kind]
+	var amount: SpinBox = row[0]
+	_start_run(PlayerTrainingRun.cultivate(_session, kind, int(amount.value)), tr(row[2]), row[1], amount.get_parent() as Control)
+
+
+func _start_run(run: PlayerTrainingRun, what: String, button: Button, after: Control) -> void:
+	if progress.running():
+		return
+	_last_lines = null
+	_run_button = button
+	progress.start(run, what, after)
+	if is_visible_in_tree():
+		refresh()
+
+
+func _run_finished(_lines: Array[ColoredLine]) -> void:
+	_last_lines = null
+	if not is_visible_in_tree():
+		return
+	refresh()
+	if is_instance_valid(_run_button) and _run_button.is_visible_in_tree():
+		_run_button.grab_focus()
 
 
 func _exercise() -> void:

@@ -25,6 +25,11 @@ it shows); the card keeps
 the player's name, 菜单, 精气神, conditions and waits, behind 系统 too. Then:
 ROADMAP "After the grey box" step 3, the playtest checklist and the owner's full playtest.
 
+修炼与拜师的提示 (owner, 2026-10-19, borrowing a menu RPG's presentation of the same MUD rules),
+two PRs: A 连续修炼 — 连续请教 / 练习 / 打坐 / 冥思 / 修行 told in one summary and stopped before a
+step that would gain nothing (DECISIONS「连续修炼」); B how far a teacher can take the player and
+why not further, and a master's conditions to 拜师 with the player's values.
+
 ## 待决定
 
 三项等 owner 完整试玩后再定。规则（owner，2026-10-08）：PR 合并时 owner 没有回答的问题，按 PR 里的推荐

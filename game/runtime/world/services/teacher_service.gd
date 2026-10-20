@@ -9,6 +9,8 @@ extends NpcService
 var ui: TeacherPanel
 var last_learn: LearnResult
 var last_lines: Array[String] = []
+## last_lines with their colours (a quiet learn's, for the continuous run).
+var last_colored: Array[ColoredLine] = []
 
 
 func bind_npc(p_map: WorldMapController, p_npc: NpcRuntimeState) -> void:
@@ -216,9 +218,11 @@ func cancel_apprentice() -> NpcApprenticeship.Outcome:
 	return outcome
 
 
-## learn <skill> from <npc>, with fresh facts on every request.
-func request_learn(skill_id: StringName) -> LearnResult:
+## learn <skill> from <npc>, with fresh facts on every request. `quiet` (a continuous
+## run's step, PlayerTrainingRun) keeps the lines in last_lines and last_colored only.
+func request_learn(skill_id: StringName, quiet: bool = false) -> LearnResult:
 	last_lines = []
+	last_colored = []
 	var catalog: ContentCatalog = GameContent.catalog()
 	var random: WorldInteractionRandomSource = map.world_interaction_random_source()
 	if not teachable_skills().has(skill_id) or not can_teach() or random == null:
@@ -232,8 +236,28 @@ func request_learn(skill_id: StringName) -> LearnResult:
 	var skill: SkillDefinition = catalog.skill(skill_id)
 	last_learn = LearnService.learn(player.state, context, skill, registry.policy_for(skill_id), map.encounter_skill_effect_registry(), random)
 	var respect: String = RankWords.query_respect(player.state.gender, player.facts.age, player.state.affiliation.class_id)
-	_say_colored(LearnLines.colored(last_learn, display_name(), skill, player.state, context, respect))
+	var lines: Array[ColoredLine] = LearnLines.colored(last_learn, display_name(), skill, player.state, context, respect)
+	if quiet:
+		last_colored = lines
+		last_lines = ColoredLine.texts(lines)
+	else:
+		_say_colored(lines)
 	return last_learn
+
+
+## What learn <skill> from <npc> would do now, nothing changed and no draw from the world's
+## random source (LearnPreview), or null when it cannot be asked.
+func preview_learn(skill_id: StringName) -> LearnResult:
+	var catalog: ContentCatalog = GameContent.catalog()
+	# request_learn()'s own gate, the world's random source included.
+	if not teachable_skills().has(skill_id) or not can_teach() or map.world_interaction_random_source() == null:
+		return null
+	var player: WorldPlayerRuntimeState = map.player_runtime()
+	# The recognition policy draws its refusal line: a source that draws nothing.
+	var context: TeachingContext = NpcTeacher.context(npc, skill_id, true, player.relationship.is_fighting(), WorldInteractionRandomSource.new())
+	var registry := SkillLearnPolicyRegistry.new()
+	registry.register_known_legacy_policies()
+	return LearnPreview.next(player.state, context, catalog.skill(skill_id), registry.policy_for(skill_id))
 
 
 func _say(lines: Array[String]) -> void:
@@ -244,6 +268,7 @@ func _say(lines: Array[String]) -> void:
 
 
 func _say_colored(lines: Array[ColoredLine]) -> void:
+	last_colored = lines
 	last_lines = ColoredLine.texts(lines)
 	if map.session != null and not lines.is_empty():
 		map.session.shared_ui().append_colored_lines(lines)

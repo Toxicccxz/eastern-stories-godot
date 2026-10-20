@@ -264,6 +264,144 @@ static func improved(improvement: SkillImprovementResult, effect: SkillImproveme
 	return out
 
 
+## A continuous run (TrainingRun; DECISIONS「连续修炼」): what it did in one line, the
+## lines kept from its steps (a level, a skill_improved() effect, a maximum), then why it
+## stopped (the refusing command's own lines, or a native one). `skill` is the skill a
+## step improves (null for cultivation), `teacher` learn's teacher as authored, `basic`
+## practice's basic skill or the one a cultivation's bottleneck waits on, `amount` what
+## each cultivation step spends.
+static func run(training: TrainingRun, skill: SkillDefinition, teacher: String = "", basic: SkillDefinition = null, amount: int = 0) -> Array[ColoredLine]:
+	var out: Array[ColoredLine] = []
+	if training.steps > 0:
+		out.append(ColoredLine.new(_run_summary(training, skill, teacher)))
+	out.append_array(training.kept)
+	var skill_name: String = _t(skill.display_name) if skill != null else ""
+	var basic_name: String = _t(basic.display_name) if basic != null else ""
+	match training.stop:
+		TrainingRun.Stop.REFUSED:
+			out.append_array(training.refused_lines)
+		TrainingRun.Stop.WASTE_ESSENCE:
+			out.append(ColoredLine.new(_t(RUN_WASTE_ESSENCE).format({"cost": training.cost, "have": training.have})))
+		TrainingRun.Stop.WASTE_EXPERIENCE:
+			out.append(ColoredLine.new(_t(RUN_WASTE_EXPERIENCE).format({
+				"skill": skill_name, "level": training.after.level, "required": training.required, "have": training.have,
+			})))
+		TrainingRun.Stop.PROGRESS_FULL:
+			out.append(ColoredLine.new(_t(RUN_PROGRESS_FULL).format({
+				"skill": skill_name, "basic": basic_name, "level": training.after.level + 1,
+			})))
+		TrainingRun.Stop.NO_GAIN:
+			out.append(ColoredLine.new(_t(RUN_NO_GAIN).format({
+				"amount": amount, "source": _t(RUN_SOURCES[training.kind]), "action": _t(RUN_ACTIONS[training.kind]),
+			})))
+		TrainingRun.Stop.BOTTLENECK:
+			out.append(ColoredLine.new(_t(RUN_BOTTLENECK).format({
+				"resource": _t(RUN_RESOURCES[training.kind]), "maximum": training.have,
+				"action": _t(RUN_ACTIONS[training.kind]), "basic": basic_name,
+			})))
+		TrainingRun.Stop.INTERRUPTED:
+			out.append(ColoredLine.new(_t(RUN_INTERRUPTED)))
+		TrainingRun.Stop.CANCELLED:
+			out.append(ColoredLine.new(_t(RUN_CANCELLED)))
+		TrainingRun.Stop.LIMIT:
+			out.append(ColoredLine.new(_t(RUN_LIMIT).format({"count": training.steps})))
+	return out
+
+
+static func _run_summary(training: TrainingRun, skill: SkillDefinition, teacher: String) -> String:
+	var skill_name: String = _t(skill.display_name) if skill != null else ""
+	var changes: PackedStringArray = []
+	if skill != null:
+		if training.after.level != training.before.level:
+			changes.append(_t(RUN_LEVELS).format({"skill": skill_name, "from": training.before.level, "to": training.after.level}))
+		elif training.after.learned != training.before.learned:
+			changes.append(_t(RUN_PROGRESS).format({"skill": skill_name, "change": _signed(training.after.learned - training.before.learned)}))
+	var deltas: Array = [
+		[RUN_ESSENCE, training.after.essence - training.before.essence],
+		[RUN_VITALITY, training.after.vitality - training.before.vitality],
+		[RUN_SPIRIT, training.after.spirit - training.before.spirit],
+		[RUN_INNER_FORCE, training.after.inner_force - training.before.inner_force],
+		[RUN_MANA, training.after.mana - training.before.mana],
+		[RUN_ATMAN, training.after.atman - training.before.atman],
+		[RUN_POTENTIAL, training.after.potential - training.before.potential],
+	]
+	for delta: Array in deltas:
+		if int(delta[1]) != 0:
+			changes.append(_t(RUN_CHANGE).format({"what": _t(delta[0]), "change": _signed(int(delta[1]))}))
+	var head: String = _t(RUN_HEADS[training.kind]).format({"npc": _t(teacher), "skill": skill_name, "count": training.steps})
+	if changes.is_empty():
+		return _t(RUN_SUMMARY_PLAIN).format({"head": head})
+	return _t(RUN_SUMMARY).format({"head": head, "changes": _t(RUN_JOIN).join(changes)})
+
+
+static func _signed(value: int) -> String:
+	return ("+%d" % value) if value > 0 else str(value)
+
+
+# TRANSLATORS: the start of a continuous run's summary, by kind: {npc} the teacher, {skill} the skill, {count} how many times the command was done. The changes follow after a colon.
+const RUN_HEADS: Dictionary[TrainingRun.Kind, String] = {
+	TrainingRun.Kind.LEARN: "你向{npc}请教「{skill}」{count} 次",
+	TrainingRun.Kind.PRACTICE: "你练习{skill} {count} 次",
+	TrainingRun.Kind.EXERCISE: "你打坐 {count} 次",
+	TrainingRun.Kind.MEDITATE: "你冥思 {count} 次",
+	TrainingRun.Kind.RESPIRATE: "你修行 {count} 次",
+}
+# TRANSLATORS: a continuous run's summary: {head} what was done (one of the lines above), {changes} what it changed, joined by RUN_JOIN.
+const RUN_SUMMARY: String = "{head}：{changes}。"
+# TRANSLATORS: a continuous run's summary when nothing it shows changed: {head} what was done.
+const RUN_SUMMARY_PLAIN: String = "{head}。"
+# TRANSLATORS: joins the changes of a continuous run's summary (精 -96，潜能 -12).
+const RUN_JOIN: String = "，"
+# TRANSLATORS: a continuous run's summary: the skill went from level {from} to {to}.
+const RUN_LEVELS: String = "{skill} {from}→{to} 级"
+# TRANSLATORS: a continuous run's summary: the skill's learning progress changed by {change} (+12), no level.
+const RUN_PROGRESS: String = "{skill}进度 {change}"
+# TRANSLATORS: a continuous run's summary: one of the player's numbers ({what}: 精, 气 …) changed by {change} (-96, +12).
+const RUN_CHANGE: String = "{what} {change}"
+# TRANSLATORS: gin (精) in a continuous run's summary.
+const RUN_ESSENCE: String = "精"
+# TRANSLATORS: kee (气) in a continuous run's summary.
+const RUN_VITALITY: String = "气"
+# TRANSLATORS: sen (神) in a continuous run's summary.
+const RUN_SPIRIT: String = "神"
+# TRANSLATORS: force (内力) in a continuous run's summary.
+const RUN_INNER_FORCE: String = "内力"
+# TRANSLATORS: mana (法力) in a continuous run's summary.
+const RUN_MANA: String = "法力"
+# TRANSLATORS: atman (灵力) in a continuous run's summary.
+const RUN_ATMAN: String = "灵力"
+# TRANSLATORS: potential left (潜能) in a continuous run's summary.
+const RUN_POTENTIAL: String = "潜能"
+# TRANSLATORS: what each cultivation step spends: 气 for 打坐, 神 for 冥思, 精 for 修行.
+const RUN_SOURCES: Dictionary[TrainingRun.Kind, String] = {
+	TrainingRun.Kind.EXERCISE: "气", TrainingRun.Kind.MEDITATE: "神", TrainingRun.Kind.RESPIRATE: "精",
+}
+# TRANSLATORS: what each cultivation builds: 内力 for 打坐, 法力 for 冥思, 灵力 for 修行.
+const RUN_RESOURCES: Dictionary[TrainingRun.Kind, String] = {
+	TrainingRun.Kind.EXERCISE: "内力", TrainingRun.Kind.MEDITATE: "法力", TrainingRun.Kind.RESPIRATE: "灵力",
+}
+# TRANSLATORS: the name of each cultivation: 打坐, 冥思, 修行 (the 武学 page's buttons).
+const RUN_ACTIONS: Dictionary[TrainingRun.Kind, String] = {
+	TrainingRun.Kind.EXERCISE: "打坐", TrainingRun.Kind.MEDITATE: "冥思", TrainingRun.Kind.RESPIRATE: "修行",
+}
+# TRANSLATORS: continuous 请教 stopped before a learn that would spend the gin left for nothing (learn.c: gin must be above the cost): {cost} the cost, {have} the gin left.
+const RUN_WASTE_ESSENCE: String = "停下：精不够了。请教一次耗精 {cost}，精须多于此数（你还有 {have}）；再请教只会白白累垮，先休息吧。"
+# TRANSLATORS: continuous 请教 stopped before a learn that would spend gin while combat_exp is too low (learn.c: level³/10): {skill}, its {level}, the {required} combat_exp and the player's {have}.
+const RUN_WASTE_EXPERIENCE: String = "停下：实战经验不足。「{skill}」{level} 级要再学，须实战经验 ≥ {required}（你 {have}）。"
+# TRANSLATORS: continuous 练习 stopped: with the basic skill not above the special one practice only adds progress, and this level's is full; {basic} must reach {level}.
+const RUN_PROGRESS_FULL: String = "停下：「{skill}」这一级的进度已经攒满。先把{basic}提高到 {level} 级，再练才有长进。"
+# TRANSLATORS: continuous 打坐/冥思/修行 stopped before a step that would gain nothing: {amount} of {source} (气, 神, 精) each time, {action} 打坐 …
+const RUN_NO_GAIN: String = "停下：每次只花 {amount} 点{source}，{action}不会有任何长进；多花一些再试。"
+# TRANSLATORS: continuous 打坐/冥思/修行 stopped at the bottleneck: another step would take {resource} (内力 …) back to its maximum {maximum}; {basic} (基本内功 …) must grow first.
+const RUN_BOTTLENECK: String = "停下：{resource}的修为已到瓶颈（上限 {maximum}），再{action}，{resource}只会回落到 {maximum}。先提高{basic}吧。"
+# TRANSLATORS: a continuous run stopped by a fight, a fall or the teacher out of reach.
+const RUN_INTERRUPTED: String = "停下：你被打断了。"
+# TRANSLATORS: the player stopped a continuous run.
+const RUN_CANCELLED: String = "你停了下来。"
+# TRANSLATORS: a continuous run stopped after {count} times (a guard; it ends on its own long before).
+const RUN_LIMIT: String = "停下：已经连续 {count} 次了，歇一歇吧。"
+
+
 static func _ok() -> ColoredLine:
 	# TRANSLATORS: enable.c's answer when a skill is enabled or disabled; ES2 prints it in English.
 	return ColoredLine.new(TranslationServer.translate("Ok."))

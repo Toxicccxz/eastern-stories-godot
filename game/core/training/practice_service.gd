@@ -23,6 +23,8 @@ const EffectResultType := preload(
 ## conjures (PracticeConjuring) draws with `random` (a legacy_random()) and refuses while
 ## `standing_conjured` (the name of the one an earlier practice conjured) still stands.
 ## `at_water`: the practiser's room has resource/water (serpentforce.c asks it first).
+## With `preview` nothing changes and nothing is drawn: a refusal is the command's, and
+## a practice that would go through reads PROGRESSED (a continuous run looks first).
 static func practice(
 	character: CharacterStateType,
 	basic_skill_id: StringName,
@@ -34,6 +36,7 @@ static func practice(
 	random: Callable = Callable(),
 	standing_conjured: String = "",
 	at_water: bool = true,
+	preview: bool = false,
 ) -> PracticeResultType:
 	if is_fighting:
 		return _failure(PracticeResultType.FailureReason.IN_COMBAT, basic_skill_id)
@@ -120,7 +123,10 @@ static func practice(
 	var dry: bool = practice_policy.needs_water and not at_water
 	if dry:
 		refusal = &"water"
-	if dry or not practice_policy.practice(character):
+	var refused_now: bool = dry or (
+		practice_policy.refuses(character) if preview else not practice_policy.practice(character)
+	)
+	if refused_now:
 		var reason: int = PracticeResultType.FailureReason.PRACTICE_HOOK_REJECTED
 		if refusal == &"weapon":
 			reason = PracticeResultType.FailureReason.PRACTICE_WEAPON_REJECTED
@@ -145,6 +151,25 @@ static func practice(
 		)
 		refused.refusal = refusal
 		return refused
+
+	if preview:
+		return PracticeResultType.new(
+			true,
+			PracticeResultType.FailureReason.NONE,
+			PracticeResultType.Completion.PROGRESSED,
+			basic_skill_id,
+			special_skill_id,
+			basic_level,
+			special_level,
+			special_level,
+			0,
+			basic_level <= special_level,
+			learned_before,
+			learned_before,
+			null,
+			null,
+			learn_policy_result,
+		)
 
 	# Paid for: a mind gone astray conjures its NPC and practice.c improves nothing.
 	if practice_policy.conjuring != null:
@@ -208,6 +233,21 @@ static func practice(
 		authored_effect,
 		learn_policy_result,
 	)
+
+
+## practice.c with the basic skill not above the special one (weak mode) only adds to a
+## player's learning progress; improve_skill() levels up once the progress is past
+## (level + 1)^2 and sets it to 0, so what is past that is lost: continuous 练习 stops
+## before it (TrainingRun.Stop.PROGRESS_FULL).
+static func weak_progress_full(character: CharacterStateType, basic_skill_id: StringName) -> bool:
+	var special_skill_id: StringName = character.skills.mapped_skill(basic_skill_id)
+	if special_skill_id == &"":
+		return false
+	var special_level: int = character.skills.raw_level(special_skill_id)
+	if character.skills.raw_level(basic_skill_id) > special_level:
+		return false
+	var next_level: int = special_level + 1
+	return character.skills.learned_progress(special_skill_id) > next_level * next_level
 
 
 static func _failure(

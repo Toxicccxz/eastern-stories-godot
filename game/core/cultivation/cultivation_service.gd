@@ -16,11 +16,14 @@ const MAXIMUM_SKILL_MULTIPLIER: int = 10
 
 ## Pure domain translation of cmds/std/exercise.c. Runtime combat state and
 ## temporary skill modifiers are explicit inputs rather than service dependencies.
+## With `preview` (as in meditate() and respirate()) nothing changes: the result is what
+## the command would do now (the continuous mode looks before each step, TrainingRun).
 static func exercise(
 	character: CharacterStateType,
 	vitality_cost: int,
 	is_fighting: bool,
 	force_temporary_modifier: int = 0,
+	preview: bool = false,
 ) -> CultivationResultType:
 	var action: int = CultivationResultType.Action.EXERCISE
 	if is_fighting:
@@ -68,7 +71,8 @@ static func exercise(
 			vitality_cost,
 		)
 
-	character.vitality.apply_damage(vitality_cost)
+	if not preview:
+		character.vitality.apply_damage(vitality_cost)
 	var raw_force: int = character.skills.raw_level(SkillIdsType.FORCE)
 	var gain: int = _legacy_int_divide(
 		vitality_cost * (raw_force + character.attributes.constitution),
@@ -88,6 +92,7 @@ static func exercise(
 		character.recovery.inner_force,
 		gain,
 		skill_cap,
+		preview,
 	)
 
 
@@ -97,6 +102,7 @@ static func meditate(
 	spirit_cost: int,
 	is_fighting: bool,
 	spells_temporary_modifier: int = 0,
+	preview: bool = false,
 ) -> CultivationResultType:
 	var action: int = CultivationResultType.Action.MEDITATE
 	if is_fighting:
@@ -138,7 +144,8 @@ static func meditate(
 			spirit_cost,
 		)
 
-	character.spirit.apply_damage(spirit_cost)
+	if not preview:
+		character.spirit.apply_damage(spirit_cost)
 	var effective_spells: int = character.skills.effective_level(
 		SkillIdsType.SPELLS,
 		spells_temporary_modifier,
@@ -150,7 +157,7 @@ static func meditate(
 	var skill_cap: int = (
 		character.skills.raw_level(SkillIdsType.SPELLS) * MAXIMUM_SKILL_MULTIPLIER
 	)
-	return _apply_gain(action, spirit_cost, character.recovery.mana, gain, skill_cap)
+	return _apply_gain(action, spirit_cost, character.recovery.mana, gain, skill_cap, preview)
 
 
 ## Pure domain translation of cmds/std/respirate.c.
@@ -159,6 +166,7 @@ static func respirate(
 	essence_cost: int,
 	is_fighting: bool,
 	magic_temporary_modifier: int = 0,
+	preview: bool = false,
 ) -> CultivationResultType:
 	var action: int = CultivationResultType.Action.RESPIRATE
 	if is_fighting:
@@ -200,7 +208,8 @@ static func respirate(
 			essence_cost,
 		)
 
-	character.essence.apply_damage(essence_cost)
+	if not preview:
+		character.essence.apply_damage(essence_cost)
 	var effective_magic: int = character.skills.effective_level(
 		SkillIdsType.MAGIC,
 		magic_temporary_modifier,
@@ -212,7 +221,7 @@ static func respirate(
 	var skill_cap: int = (
 		character.skills.raw_level(SkillIdsType.MAGIC) * MAXIMUM_SKILL_MULTIPLIER
 	)
-	return _apply_gain(action, essence_cost, character.recovery.atman, gain, skill_cap)
+	return _apply_gain(action, essence_cost, character.recovery.atman, gain, skill_cap, preview)
 
 
 static func _apply_gain(
@@ -221,6 +230,7 @@ static func _apply_gain(
 	internal_resource: CharacterInternalResourceStateType,
 	calculated_gain: int,
 	skill_cap: int,
+	preview: bool = false,
 ) -> CultivationResultType:
 	var internal_before: int = internal_resource.current
 	var maximum_before: int = internal_resource.maximum
@@ -239,15 +249,19 @@ static func _apply_gain(
 			internal_resource.maximum,
 		)
 
-	internal_resource.current += calculated_gain
+	var current: int = internal_resource.current + calculated_gain
+	var maximum: int = internal_resource.maximum
 	var completion: int = CultivationResultType.Completion.GAINED
-	if internal_resource.current > internal_resource.maximum * 2:
-		if internal_resource.maximum >= skill_cap:
+	if current > maximum * 2:
+		if maximum >= skill_cap:
 			completion = CultivationResultType.Completion.SKILL_CAP_REACHED
 		else:
-			internal_resource.maximum += 1
+			maximum += 1
 			completion = CultivationResultType.Completion.MAXIMUM_INCREASED
-		internal_resource.current = internal_resource.maximum
+		current = maximum
+	if not preview:
+		internal_resource.current = current
+		internal_resource.maximum = maximum
 
 	return CultivationResultType.new(
 		action,
@@ -258,9 +272,9 @@ static func _apply_gain(
 		requested_cost,
 		calculated_gain,
 		internal_before,
-		internal_resource.current,
+		current,
 		maximum_before,
-		internal_resource.maximum,
+		maximum,
 	)
 
 

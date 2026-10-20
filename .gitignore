@@ -32,3 +32,6 @@ __pycache__/
 # Agent scratch and in-project editor environments
 /.codex_tmp/
 /game/build/
+
+# Local-only reference material (another game; not redistributable)
+/reference/analysis/

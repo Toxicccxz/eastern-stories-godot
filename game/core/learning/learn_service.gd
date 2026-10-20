@@ -49,44 +49,9 @@ static func learn(
 
 	## 3. Preserve learn.c's private ID+generation predicate separately from
 	## feature/apprentice.c's ID+legacy-name predicate used by F_MASTER.
-	var is_learn_private_direct: bool = (
-		student.apprenticeship.has_master()
-		and student.apprenticeship.master_teacher_id == context.teacher_id
-		and student.family.generation == context.teacher_generation + 1
-	)
-	if is_learn_private_direct:
-		result.relationship_admission = LearnResultType.RelationshipAdmission.LEARN_PRIVATE_DIRECT
-	elif context.teacher_is_spouse:
-		result.relationship_admission = LearnResultType.RelationshipAdmission.SPOUSE_EXEMPTION
-	elif (
-		student.family.has_family()
-		and context.teacher_family_id != &""
-		and student.family.family_id == context.teacher_family_id
-		and context.legacy_family_privileges == -1
-	):
-		result.relationship_admission = (
-			LearnResultType.RelationshipAdmission.SAME_FAMILY_FULL_PRIVILEGE
-		)
-	else:
-		var recognition: TeacherPolicyResultType = context.recognition_policy.evaluate(
-			student,
-			context,
-		)
-		if recognition.status == TeacherPolicyResultType.Status.NO_ADDITIONAL_POLICY:
-			return _fail(
-				result,
-				LearnResultType.FailureReason.RECOGNITION_POLICY_ABSENT,
-			)
-		if recognition.status == TeacherPolicyResultType.Status.DEPENDENCY_UNAVAILABLE:
-			return _fail(
-				result,
-				LearnResultType.FailureReason.RECOGNITION_DEPENDENCY_UNAVAILABLE,
-			)
-		if recognition.status != TeacherPolicyResultType.Status.ALLOWED:
-			return _fail(result, LearnResultType.FailureReason.RECOGNITION_REJECTED)
-		result.relationship_admission = (
-			LearnResultType.RelationshipAdmission.AUTHORED_RECOGNITION
-		)
+	var admission_failure: int = admit(result, student, context)
+	if admission_failure != LearnResultType.FailureReason.NONE:
+		return _fail(result, admission_failure)
 
 	## 4. LPC truthiness rejects exactly zero, not negative raw values.
 	if context.teacher_raw_level == 0:
@@ -136,15 +101,15 @@ static func learn(
 			result,
 			LearnResultType.FailureReason.LEGACY_TEACHER_INTELLIGENCE_DIVISION_BY_ZERO,
 		)
-	@warning_ignore("integer_division")
-	var calculated_cost: int = ESSENCE_COST_NUMERATOR / context.base_intelligence
 	if student.attributes.intelligence == 0:
 		return _legacy_error(
 			result,
 			LearnResultType.FailureReason.LEGACY_STUDENT_INTELLIGENCE_DIVISION_BY_ZERO,
 		)
-	@warning_ignore("integer_division")
-	calculated_cost += ESSENCE_COST_NUMERATOR / student.attributes.intelligence
+	var calculated_cost: int = base_essence_cost(
+		context.base_intelligence,
+		student.attributes.intelligence,
+	)
 
 	## 9. A raw value of zero (missing or explicit) doubles cost and writes an
 	## explicit zero entry before every later rejection.
@@ -203,13 +168,7 @@ static func learn(
 
 	## 15. Martial experience gate uses the raw level before this Learn.
 	if skill_definition.skill_type == SkillDefinitionType.Type.MARTIAL:
-		@warning_ignore("integer_division")
-		var required_experience: int = (
-			result.student_raw_before
-			* result.student_raw_before
-			* result.student_raw_before
-			/ COMBAT_EXPERIENCE_DIVISOR
-		)
+		var required_experience: int = required_combat_experience(result.student_raw_before)
 		result.required_combat_experience = required_experience
 		if required_experience > student.progression.combat_experience:
 			if not _apply_student_essence_cost(result, student, context, calculated_cost):
@@ -281,6 +240,65 @@ static func learn(
 		else LearnResultType.Completion.PROGRESSED
 	)
 	return result
+
+
+## learn.c's teacher check (step 3): sets `result.relationship_admission` and returns
+## FailureReason.NONE, or the failure. The recognition policy may draw (its refusal line).
+static func admit(
+	result: LearnResultType,
+	student: CharacterStateType,
+	context: TeachingContextType,
+) -> int:
+	var is_learn_private_direct: bool = (
+		student.apprenticeship.has_master()
+		and student.apprenticeship.master_teacher_id == context.teacher_id
+		and student.family.generation == context.teacher_generation + 1
+	)
+	if is_learn_private_direct:
+		result.relationship_admission = LearnResultType.RelationshipAdmission.LEARN_PRIVATE_DIRECT
+	elif context.teacher_is_spouse:
+		result.relationship_admission = LearnResultType.RelationshipAdmission.SPOUSE_EXEMPTION
+	elif (
+		student.family.has_family()
+		and context.teacher_family_id != &""
+		and student.family.family_id == context.teacher_family_id
+		and context.legacy_family_privileges == -1
+	):
+		result.relationship_admission = (
+			LearnResultType.RelationshipAdmission.SAME_FAMILY_FULL_PRIVILEGE
+		)
+	else:
+		var recognition: TeacherPolicyResultType = context.recognition_policy.evaluate(
+			student,
+			context,
+		)
+		if recognition.status == TeacherPolicyResultType.Status.NO_ADDITIONAL_POLICY:
+			return LearnResultType.FailureReason.RECOGNITION_POLICY_ABSENT
+		if recognition.status == TeacherPolicyResultType.Status.DEPENDENCY_UNAVAILABLE:
+			return LearnResultType.FailureReason.RECOGNITION_DEPENDENCY_UNAVAILABLE
+		if recognition.status != TeacherPolicyResultType.Status.ALLOWED:
+			return LearnResultType.FailureReason.RECOGNITION_REJECTED
+		result.relationship_admission = (
+			LearnResultType.RelationshipAdmission.AUTHORED_RECOGNITION
+		)
+	return LearnResultType.FailureReason.NONE
+
+
+## learn.c's gin cost before a new skill's doubling: 150 / the teacher's int + 150 / the
+## student's (neither 0).
+@warning_ignore("integer_division")
+static func base_essence_cost(teacher_intelligence: int, student_intelligence: int) -> int:
+	return (
+		ESSENCE_COST_NUMERATOR / teacher_intelligence
+		+ ESSENCE_COST_NUMERATOR / student_intelligence
+	)
+
+
+## learn.c's martial experience gate: a raw level of `raw_level` learns only with at
+## least this much combat_exp.
+@warning_ignore("integer_division")
+static func required_combat_experience(raw_level: int) -> int:
+	return raw_level * raw_level * raw_level / COMBAT_EXPERIENCE_DIVISOR
 
 
 static func _snapshot_initial(
