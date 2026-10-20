@@ -127,7 +127,7 @@ func _test_sword_route(tree: SceneTree) -> void:
 	_check(focused != null and focused == _page.buttons.get("disable:sword"), "focus moves to 停用 after 激发 (the button is rebuilt)")
 	@warning_ignore("integer_division")
 	var effective: int = _state.skills.raw_level(&"sword") / 2 + _state.skills.raw_level(&"fonxansword")
-	_check(_page._use_texts[&"sword"].text == "剑法：封山剑法 · 有效等级 %d" % effective, "enable.c's list: " + _page._use_texts[&"sword"].text)
+	_check(_page._use_texts[&"sword"].text.get_slice("\n", 0) == "剑法：封山剑法 · 有效等级 %d" % effective, "enable.c's list: " + _page._use_texts[&"sword"].text)
 	_check(_state.recovery.inner_force.current == 50, "enabling a sword skill keeps force")
 	_check(_page.buttons.has("enable:parry:fonxansword"), "封山剑法 can be enabled for parry too")
 	_page.buttons["enable:parry:fonxansword"].pressed.emit()

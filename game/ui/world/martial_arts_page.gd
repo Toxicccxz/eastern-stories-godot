@@ -334,6 +334,8 @@ func _practice_line(state: CharacterState, basic: SkillDefinition, special: Skil
 		return ""
 	var basic_level: int = state.skills.raw_level(basic.skill_id)
 	var special_level: int = state.skills.raw_level(special.skill_id)
+	if basic_level < 1 or special_level < 1:
+		return "" # practice.c refuses (一窍不通): nothing to reach.
 	var values: Dictionary = {"basic": tr(basic.display_name), "level": basic_level if basic_level > special_level else special_level + 1}
 	if basic_level > special_level:
 		return tr(PRACTICE_UP_TO).format(values)

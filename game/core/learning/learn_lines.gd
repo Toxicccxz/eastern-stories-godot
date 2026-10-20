@@ -102,7 +102,8 @@ static func quote_line(quote: LearnQuote, teacher: String, skill: SkillDefinitio
 		LearnQuote.Bound.TEACHER:
 			why = _t(QUOTE_TEACHER if quote.ceiling > quote.level else QUOTE_TEACHER_REACHED)
 		LearnQuote.Bound.BETRAYAL:
-			why = _t(QUOTE_BETRAYAL)
+			# master.c's 「师父能教你的都教了」 once the betrayals leave nothing above the student.
+			why = _t(QUOTE_BETRAYAL if quote.ceiling > quote.level else QUOTE_BETRAYAL_DONE)
 		LearnQuote.Bound.NOT_DIRECT:
 			why = _t(QUOTE_NOT_DIRECT)
 		LearnQuote.Bound.POLICY:
@@ -149,7 +150,9 @@ const QUOTE_TEACHER_REACHED: String = "你已学到{npc}的 {teacher} 级"
 # TRANSLATORS: why the student can learn no higher (master.c prevent_learn()): betrayed a family {count} times, so {npc} teaches only to {teacher} - 20 × {count} = {cap}.
 const QUOTE_BETRAYAL: String = "背叛师门 {count} 次，{npc}只教到 {teacher} - 20×{count} = {cap} 级"
 # TRANSLATORS: why the student can learn no higher (master.c prevent_learn()): not {npc}'s own apprentice, taught only while {npc}'s level ({teacher}) is above three times theirs.
-const QUOTE_NOT_DIRECT: String = "不是{npc}的嫡传弟子，只学得到{npc}等级（{teacher}）的三分之一以内"
+const QUOTE_NOT_DIRECT: String = "不是{npc}的嫡传弟子，只学得到{npc}等级（{teacher}）的三分之一左右"
+# TRANSLATORS: why the student cannot learn (master.c prevent_learn()): betrayed a family {count} times, {npc} teaches them no more of it.
+const QUOTE_BETRAYAL_DONE: String = "背叛师门 {count} 次，{npc}能教你的都教了"
 # TRANSLATORS: why the student can learn no higher than {level} for now: learning at {level} needs {required} combat_exp (learn.c: level³/10).
 const QUOTE_EXPERIENCE: String = "{level} 级要再学，须实战经验 ≥ {required}"
 # TRANSLATORS: why the student cannot learn now: their level needs {required} combat_exp, they have {have}.

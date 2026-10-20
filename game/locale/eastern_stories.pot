@@ -3904,7 +3904,12 @@ msgstr ""
 
 #. why the student can learn no higher (master.c prevent_learn()): not {npc}'s own apprentice, taught only while {npc}'s level ({teacher}) is above three times theirs.
 #: core/learning/learn_lines.gd
-msgid "不是{npc}的嫡传弟子，只学得到{npc}等级（{teacher}）的三分之一以内"
+msgid "不是{npc}的嫡传弟子，只学得到{npc}等级（{teacher}）的三分之一左右"
+msgstr ""
+
+#. why the student cannot learn (master.c prevent_learn()): betrayed a family {count} times, {npc} teaches them no more of it.
+#: core/learning/learn_lines.gd
+msgid "背叛师门 {count} 次，{npc}能教你的都教了"
 msgstr ""
 
 #. why the student can learn no higher than {level} for now: learning at {level} needs {required} combat_exp (learn.c: level³/10).
@@ -4288,7 +4293,7 @@ msgstr ""
 
 #. a 拜师 condition (beggar master.c can_afford()): the student carries less than {money}.
 #: core/relationships/apprentice_conditions.gd
-msgid "身上的钱不到{money}"
+msgid "身上的钱不到 {money}"
 msgstr ""
 
 #. a 拜师 condition (juechen master.c, elon.c): one who belongs to a family is taken for a traitor.

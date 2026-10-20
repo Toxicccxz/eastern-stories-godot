@@ -77,7 +77,10 @@ func _test_lines() -> void:
 	expected["还能学到 20 级（背叛师门 2 次，柳淳风只教到 60 - 20×2 = 20 级）。"] = _quote(betrayer, 60, true)
 	var stranger: CharacterState = _student(10, 100000)
 	stranger.apprenticeship = ApprenticeshipState.new(&"teacher.other", "别人", 0)
-	expected["还能学到 20 级（不是柳淳风的嫡传弟子，只学得到柳淳风等级（60）的三分之一以内）。"] = _quote(stranger, 60, true)
+	expected["还能学到 20 级（不是柳淳风的嫡传弟子，只学得到柳淳风等级（60）的三分之一左右）。"] = _quote(stranger, 60, true)
+	var beyond: CharacterState = _student(25, 100000)
+	beyond.apprenticeship = ApprenticeshipState.new(TEACHER_ID, TEACHER_NAME, 2)
+	expected["学不了：背叛师门 2 次，柳淳风能教你的都教了。"] = _quote(beyond, 60, true)
 	var spent: CharacterState = _student(10, 100000)
 	spent.progression.potential_spent = spent.progression.potential
 	expected["还能学到 60 级（柳淳风自己是 60 级）；潜能已经用完。"] = _quote(spent, 60)

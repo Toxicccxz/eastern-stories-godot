@@ -38,7 +38,7 @@ const UNSAID_MARK_UNMET: String = "另有条件（拜师时便知）"
 # TRANSLATORS: the same, not met, once the master ({npc}) said what it is: {line} his refusal.
 const SAID_MARK: String = "{npc}说过：{line}"
 # TRANSLATORS: a 拜师 condition (beggar master.c can_afford()): the student carries less than {money}.
-const POOR: String = "身上的钱不到{money}"
+const POOR: String = "身上的钱不到 {money}"
 # TRANSLATORS: a 拜师 condition (juechen master.c, elon.c): one who belongs to a family is taken for a traitor.
 const COMMONERS: String = "只收没有门派的人"
 # TRANSLATORS: a 拜师 condition: the master's test (champion.c's 三招, elon.c's 三鞭), not told before.

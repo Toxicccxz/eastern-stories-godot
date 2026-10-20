@@ -58,7 +58,7 @@ func _test_every_master() -> void:
 		&"common.npc.taoist.taolord": [["只收男弟子", true]],
 		&"common.npc.dancer.master": [["只收女弟子", false]],
 		&"common.npc.bonze.master": [["只收男弟子", true], ["须先剃度出家", false]],
-		&"common.npc.beggar.master": [["身上的钱不到1 两银子", true]],
+		&"common.npc.beggar.master": [["身上的钱不到 1 两银子", true]],
 		&"common.npc.scholar.master": [["另有条件（拜师时便知）", false]],
 		&"common.npc.fighter.champion": [["须通过考验", null]],
 		&"common.npc.fighter.master": [["拜师时另有要求", null]],
@@ -89,7 +89,7 @@ func _test_every_master() -> void:
 	_check(_rows(rows) == [["另有条件", true]], "walked: met, still not named: %s" % [_rows(rows)])
 	var rich: Callable = func(_price: int) -> bool: return true
 	rows = ApprenticeConditions.of(student, catalog.npc(&"common.npc.beggar.master"), NpcApprenticeship.new(), rich, NpcApprenticeship.COMMONER_TITLE, "阁下")
-	_check(_rows(rows) == [["身上的钱不到1 两银子", false]], "carrying a tael: %s" % [_rows(rows)])
+	_check(_rows(rows) == [["身上的钱不到 1 两银子", false]], "carrying a tael: %s" % [_rows(rows)])
 	rows = ApprenticeConditions.of(student, catalog.npc(&"common.npc.juechen.master"), NpcApprenticeship.new(), poor, "封山剑派第十四代弟子", "阁下")
 	_check(_rows(rows).back() == ["只收没有门派的人", false], "a family's member: %s" % [_rows(rows)])
 	_check(ApprenticeConditions.money(10000) == "1 两黄金" and ApprenticeConditions.money(250) == "250 文钱", "money")
