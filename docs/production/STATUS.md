@@ -29,6 +29,9 @@ ROADMAP "After the grey box" step 3, the playtest checklist and the owner's full
 two PRs: A 连续修炼 — 连续请教 / 练习 / 打坐 / 冥思 / 修行 told in one summary and stopped before a
 step that would gain nothing (DECISIONS「连续修炼」); B how far a teacher can take the player and
 why not further, and a master's conditions to 拜师 with the player's values (DECISIONS「上限预览和拜师条件」).
+Then 了结 / 放过 (item 4 of that list, DECISIONS「了结 / 放过」): one the player (or what they called)
+is killing who falls waits on the card's 了结 / 放过 while the fight goes on and their countdown runs;
+放过 bears no grudge; 设置「击倒后」 询问 / 直接了结 (ES2). Items 5–9 wait.
 
 ## 待决定
 

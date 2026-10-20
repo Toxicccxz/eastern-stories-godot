@@ -35,6 +35,11 @@ static func is_own_master(state: CharacterState, npc: NpcDefinition) -> bool:
 	return state.apprenticeship.master_teacher_id == npc.definition_id and state.family.generation == generation + 1
 
 
+## Whether killing `npc` now does the task 朱鸿雪 gave (its target, its time not out).
+static func is_quest_target(state: CharacterState, npc: NpcDefinition) -> bool:
+	return state != null and npc != null and state.quest.kill_counts() and npc.display_name == state.quest.current.target
+
+
 ## `random` (n) -> MudOS random(n).
 static func apply(state: CharacterState, victim: NpcDefinition, random: Callable) -> Result:
 	var result := Result.new()
@@ -55,7 +60,7 @@ static func apply(state: CharacterState, victim: NpcDefinition, random: Callable
 @warning_ignore("integer_division")
 static func _complete_quest(state: CharacterState, victim: NpcDefinition, random: Callable, result: Result) -> void:
 	var quest: CharacterQuestState = state.quest
-	if not quest.kill_counts() or victim.display_name != quest.current.target:
+	if not is_quest_target(state, victim):
 		return
 	result.lines.append(ColoredLine.new(_t("恭喜你！你又完成了一项任务！")))
 	var task: QuestDefinition = quest.current

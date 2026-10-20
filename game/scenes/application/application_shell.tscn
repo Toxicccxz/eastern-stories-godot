@@ -406,6 +406,22 @@ custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 text = "受击闪红"
 
+[node name="KnockoutRow" type="HFlowContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/KnockoutRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "击倒后"
+vertical_alignment = 1
+
+[node name="KnockoutOption" type="OptionButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/KnockoutRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 48)
+layout_mode = 2
+
 [node name="SettingsStatusLabel" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 54)

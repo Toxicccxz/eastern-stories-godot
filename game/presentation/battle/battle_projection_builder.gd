@@ -14,6 +14,7 @@ static func build(session: WorldSessionController) -> BattlePresentationProjecti
 	var player_id: StringName = session.player_runtime().character_id
 	var participants: Array[BattleParticipantProjection] = []
 	var bindings: Array[CombatSliceCharacterBinding] = session.encounter_combat_bindings(encounter)
+	var held: Array[StringName] = coordinator.held_victims()
 	for participant: CombatParticipant in encounter.participants():
 		# go.c: one who walked out of the fight is no longer in it.
 		if coordinator.walked_out_of_active_fight(participant.participant_id):
@@ -32,6 +33,7 @@ static func build(session: WorldSessionController) -> BattlePresentationProjecti
 				state.life_threshold(), binding.exists_in_encounter and binding.combat_available,
 				coordinator.player_can_target(binding.character_id),
 				state.gender, state.skills.mapped_skill(&"dodge"), state.attributes.force_factor,
+				_knockout(session, binding.character_id) if held.has(binding.character_id) else null,
 			))
 			break
 	var scheduler: CombatEncounterScheduler = coordinator.active_scheduler()
@@ -43,8 +45,12 @@ static func build(session: WorldSessionController) -> BattlePresentationProjecti
 	var enforce_limit: int = -1
 	if session.martial_arts().in_own_fight() and not session.player_runtime().state.skills.mapped_skill(EnforceService.BASIC_FORCE).is_empty():
 		enforce_limit = session.martial_arts().enforce_limit()
+	# One held for 了结 / 放过 is nobody's target, whatever the fight last named.
+	var current: StringName = encounter.current_target_for(player_id)
+	if held.has(current):
+		current = &""
 	return BattlePresentationProjection.new(
-		encounter.encounter_id, encounter.mode, player_id, encounter.current_target_for(player_id),
+		encounter.encounter_id, encounter.mode, player_id, current,
 		participants, actions,
 		encounter.queued_player_action(),
 		CombatQueuedAction.Status.EMPTY if tactical == null else tactical.queue_status(),
@@ -84,6 +90,21 @@ static func cast_of(session: WorldSessionController, ids: Array[StringName], enc
 			session.encounter_dodge_skill(id),
 		))
 	return BattlePresentationProjection.new(encounter_id, -1, player_id, &"", participants)
+
+
+## One held for 了结 / 放过: when they come to, and what killing them would mean.
+static func _knockout(session: WorldSessionController, character_id: StringName) -> BattleKnockoutProjection:
+	var map: WorldMapController = session.active_map() as WorldMapController
+	var npc: NpcRuntimeState = null if map == null else map.find_resident_npc(character_id)
+	if npc == null:
+		return BattleKnockoutProjection.new()
+	var player: CharacterState = session.player_runtime().state
+	# The fight's clock in the real seconds the 战斗速度 makes of it; never 0 while it lies there.
+	return BattleKnockoutProjection.new(
+		maxi(1, ceili(BattlePace.real_seconds(npc.revive_in_ms / 1000.0))),
+		PlayerKillerReward.is_quest_target(player, npc.definition()),
+		PlayerKillerReward.is_own_master(player, npc.definition()),
+	)
 
 
 static func _resource(state: CharacterResourceState) -> BattleResourceProjection:

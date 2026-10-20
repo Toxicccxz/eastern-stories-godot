@@ -345,6 +345,37 @@ func player_can_target(target_id: StringName) -> bool:
 	)
 
 
+## DECISIONS「了结 / 放过」: those who fell while the player's side was killing them and
+## wait on the player's choice, in the fight's order.
+func held_victims() -> Array[StringName]:
+	if _active_encounter == null or _resolution == null:
+		return []
+	return _resolution.held()
+
+
+## 了结: the held blow falls (ES2): the player (who was killing it) turns on it again,
+## and so do those they called. False when it is not held (any more).
+func finish_downed(victim_id: StringName) -> bool:
+	if not _fight_input_allowed() or _resolution == null:
+		return false
+	var player_id: StringName = _session.player_runtime().character_id
+	var player_killed: bool = _resolution.player_held(victim_id)
+	if not _resolution.finish(_session.encounter_combat_bindings(_active_encounter), victim_id):
+		return false
+	if player_killed and _active_encounter.set_current_target(player_id, victim_id):
+		_active_scheduler.record_target_change()
+	return true
+
+
+## 放过: the player's side lets it be. False when it is not held (any more).
+func spare_downed(victim_id: StringName) -> bool:
+	return _fight_input_allowed() and _resolution != null and _resolution.spare(victim_id)
+
+
+func _fight_input_allowed() -> bool:
+	return _target_input_allowed() and _world_gate.freeze_owner_id() == _active_encounter.encounter_id
+
+
 func _target_input_allowed() -> bool:
 	return (
 		is_valid() and _active_encounter != null and _active_scheduler != null
@@ -483,15 +514,38 @@ func advance_scheduler(delta_seconds: float) -> CombatSchedulerAdvanceResult:
 		return CombatSchedulerAdvanceResult.new()
 	if _resolution != null and _resolution.failure != CombatEncounterResolution.Failure.NONE:
 		return CombatSchedulerAdvanceResult.new()
-	var advanced: CombatSchedulerAdvanceResult = _active_scheduler.advance(
-		delta_seconds,
-		_session.application_gameplay_allows_encounter_advance(),
-		_world_gate.freeze_owner_id(),
-		_session.encounter_combat_bindings(_active_encounter),
-		_session.combat_random_source(),
-		_session.encounter_skill_effect_registry(),
-		_resolution,
-	)
+	# The held ones' revive call_outs run on the fight's clock (DECISIONS「了结 / 放过」): the
+	# rounds before one comes to are fought with it lying there, so a long step is cut where
+	# the first of them wakes.
+	var remaining: float = delta_seconds
+	var cycles: int = 0
+	var events: Array[CombatSchedulerEvent] = []
+	var advanced: CombatSchedulerAdvanceResult = null
+	var steps: int = 0
+	for _step: int in 64:
+		var holding: bool = _resolution != null and not _resolution.held().is_empty() and _fight_input_allowed()
+		var step: float = minf(remaining, _resolution.next_revive_seconds()) if holding else remaining
+		advanced = _active_scheduler.advance(
+			step,
+			_session.application_gameplay_allows_encounter_advance(),
+			_world_gate.freeze_owner_id(),
+			_session.encounter_combat_bindings(_active_encounter),
+			_session.combat_random_source(),
+			_session.encounter_skill_effect_registry(),
+			_resolution,
+		)
+		steps += 1
+		cycles += advanced.cycles_processed
+		events.append_array(advanced.events())
+		if _resolution == null or _resolution.failure != CombatEncounterResolution.Failure.NONE or _resolution.result != null:
+			break
+		if holding:
+			_resolution.advance_held(step, _session.encounter_combat_bindings(_active_encounter))
+		remaining -= step
+		if remaining <= 0.0 or not holding:
+			break
+	if steps > 1:
+		advanced = CombatSchedulerAdvanceResult.new(advanced.outcome if cycles == 0 else CombatSchedulerAdvanceResult.Outcome.ADVANCED, cycles, events)
 	if _resolution != null:
 		if _resolution.failure != CombatEncounterResolution.Failure.NONE:
 			_abort_failed_resolution()

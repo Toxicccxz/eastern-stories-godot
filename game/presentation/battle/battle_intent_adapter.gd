@@ -41,3 +41,12 @@ func cancel(expected_request_id: StringName) -> CombatTacticalResult:
 
 func change_target(displayed_encounter_id: StringName, target_id: StringName) -> CombatTargetResult:
 	return _coordinator.change_player_target(CombatTargetRequest.new(displayed_encounter_id, _player_id, target_id))
+
+
+## DECISIONS「了结 / 放过」: the player's choice for one who fell (held by their side).
+func finish_downed(target_id: StringName) -> bool:
+	return _coordinator.finish_downed(target_id)
+
+
+func spare_downed(target_id: StringName) -> bool:
+	return _coordinator.spare_downed(target_id)

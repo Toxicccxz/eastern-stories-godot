@@ -53,6 +53,9 @@ func _run() -> void:
 		if not suite.has_method("run_all"):
 			failures.append("%s: no run_all()" % path)
 			continue
+		# 击倒后 at 直接了结 (DECISIONS「了结 / 放过」): the suites pin ES2's rules, where one
+		# killed who falls dies on the next blow; spare_or_finish_test turns on 询问.
+		BattlePace.after_knockout = BattlePace.AfterKnockout.FINISH
 		var arguments: Array = [self] if _run_all_argument_count(suite) == 1 else []
 		var started_msec: int = Time.get_ticks_msec()
 		var errors_before: int = script_errors.count()

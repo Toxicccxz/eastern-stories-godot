@@ -47,6 +47,7 @@ signal interaction_changed
 @onready var battle_speed_row: Control = %BattleSpeedRow
 @onready var battle_speed_option: OptionButton = %BattleSpeedOption
 @onready var hit_flash_check: CheckButton = %HitFlashCheck
+@onready var knockout_option: OptionButton = %KnockoutOption
 @onready var settings_status_label: Label = %SettingsStatusLabel
 @onready var settings_apply_button: Button = %SettingsApplyButton
 @onready var settings_cancel_button: Button = %SettingsCancelButton
@@ -227,6 +228,7 @@ func _ready() -> void:
 	_configure_battle_options()
 	window_mode_option.get_popup().window_input.connect(_popup_system_input.bind(window_mode_option))
 	battle_speed_option.get_popup().window_input.connect(_popup_system_input.bind(battle_speed_option))
+	knockout_option.get_popup().window_input.connect(_popup_system_input.bind(knockout_option))
 	ui_scale_option.get_popup().window_input.connect(_popup_system_input.bind(ui_scale_option))
 	language_option.get_popup().window_input.connect(_popup_system_input.bind(language_option))
 	# Pad support (owner, ROADMAP "After the grey box" step 2): last, so it sees every
@@ -381,7 +383,7 @@ func _handle_system_back() -> void:
 	if _state.mode() in [ApplicationShellState.Mode.BOOT, ApplicationShellState.Mode.STARTING_SESSION, ApplicationShellState.Mode.SAVING] or (_host != null and _host.request_pending()):
 		return
 	input_context_changing.emit()
-	for option: OptionButton in [window_mode_option, ui_scale_option, language_option, battle_speed_option]:
+	for option: OptionButton in [window_mode_option, ui_scale_option, language_option, battle_speed_option, knockout_option]:
 		if option.get_popup().visible:
 			option.get_popup().hide()
 			return
@@ -626,8 +628,8 @@ func apply_settings() -> bool:
 			settings_status_label.text = "界面缩放已生效，但未能保存。"
 			return false
 	var committed: ApplicationSettingsSnapshot = _settings_service.committed_snapshot()
-	if battle_speed_option.get_selected_id() != committed.battle_speed() or hit_flash_check.button_pressed != committed.hit_flash():
-		var battle: ApplicationSettingsServiceResult = _settings_service.apply_and_persist_battle(battle_speed_option.get_selected_id(), hit_flash_check.button_pressed)
+	if battle_speed_option.get_selected_id() != committed.battle_speed() or hit_flash_check.button_pressed != committed.hit_flash() or knockout_option.get_selected_id() != committed.after_knockout():
+		var battle: ApplicationSettingsServiceResult = _settings_service.apply_and_persist_battle(battle_speed_option.get_selected_id(), hit_flash_check.button_pressed, knockout_option.get_selected_id())
 		if battle.outcome() == ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE:
 			settings_status_label.text = "战斗设置已生效，但未能保存。"
 			return false
@@ -1103,6 +1105,7 @@ func _render_state(defer_focus: bool = true) -> void:
 	ui_scale_option.disabled = not settings_interactive
 	battle_speed_option.disabled = not settings_interactive
 	hit_flash_check.disabled = not settings_interactive
+	knockout_option.disabled = not settings_interactive
 	settings_apply_button.visible = window_mode_row.visible or ui_scale_row.visible or language_row.visible or battle_speed_row.visible
 	settings_apply_button.disabled = not settings_interactive
 	settings_cancel_button.disabled = not settings_interactive
@@ -1231,6 +1234,11 @@ func _configure_battle_options() -> void:
 	battle_speed_option.add_item("慢", BattlePace.Speed.SLOW)
 	battle_speed_option.add_item("标准", BattlePace.Speed.NORMAL)
 	battle_speed_option.add_item("快", BattlePace.Speed.FAST)
+	# 击倒后 (DECISIONS「了结 / 放过」): 直接了结 is ES2.
+	knockout_option.clear()
+	knockout_option.add_item("询问", BattlePace.AfterKnockout.ASK)
+	knockout_option.add_item("直接了结", BattlePace.AfterKnockout.FINISH)
+	knockout_option.tooltip_text = "打倒你要杀的人时：先问你了结还是放过，或者直接下杀手"
 	_select_committed_battle()
 
 
@@ -1242,6 +1250,9 @@ func _select_committed_battle() -> void:
 	if index >= 0:
 		battle_speed_option.select(index)
 	hit_flash_check.set_pressed_no_signal(committed.hit_flash())
+	var knockout: int = knockout_option.get_item_index(committed.after_knockout())
+	if knockout >= 0:
+		knockout_option.select(knockout)
 
 
 func _selected_language() -> String:
@@ -1285,6 +1296,7 @@ func _all_shell_focus_controls() -> Array[Control]:
 		ui_scale_option,
 		battle_speed_option,
 		hit_flash_check,
+		knockout_option,
 		settings_apply_button,
 		settings_cancel_button,
 		backup_recovery_button,
@@ -1324,7 +1336,7 @@ func _configure_active_focus_cycle(mode: int) -> void:
 			controls.append(ui_scale_option)
 			if language_row.visible:
 				controls.append(language_option)
-			controls.append_array([battle_speed_option, hit_flash_check])
+			controls.append_array([battle_speed_option, hit_flash_check, knockout_option])
 			if settings_apply_button.visible:
 				controls.append(settings_apply_button)
 			controls.append(settings_cancel_button)

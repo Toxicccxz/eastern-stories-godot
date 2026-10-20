@@ -124,15 +124,15 @@ func apply_and_persist_language(language: String) -> ApplicationSettingsServiceR
 	)
 
 
-## The 战斗速度 and 受击闪红 (BattlePace) at once, kept with the other settings.
-func apply_and_persist_battle(speed: int, flash: bool) -> ApplicationSettingsServiceResult:
-	if not BattlePace.is_valid(speed):
+## The 战斗速度, 受击闪红 and 击倒后 (BattlePace) at once, kept with the other settings.
+func apply_and_persist_battle(speed: int, flash: bool, after_knockout: int) -> ApplicationSettingsServiceResult:
+	if not BattlePace.is_valid(speed) or not BattlePace.is_valid_knockout(after_knockout):
 		return ApplicationSettingsServiceResult.new(
 			ApplicationSettingsServiceResult.Outcome.APPLY_FAILURE,
 			ApplicationSettingsResult.Outcome.INVALID_SETTINGS,
 			_committed,
 		)
-	_committed = _committed.with_battle(speed, flash)
+	_committed = _committed.with_battle(speed, flash, after_knockout)
 	_apply_battle(_committed)
 	var repository_result: ApplicationSettingsResult = _repository.write(_committed)
 	return ApplicationSettingsServiceResult.new(
@@ -171,6 +171,7 @@ func apply_and_persist_ui_scale(percent: int) -> ApplicationSettingsServiceResul
 static func _apply_battle(settings: ApplicationSettingsSnapshot) -> void:
 	BattlePace.speed = settings.battle_speed()
 	BattlePace.hit_flash = settings.hit_flash()
+	BattlePace.after_knockout = settings.after_knockout()
 
 
 func committed_snapshot() -> ApplicationSettingsSnapshot:

@@ -82,7 +82,9 @@ func note(lines: Array[BattleNarrationLine]) -> Array[BattleNarrationLine]:
 ## No rewards, lifecycle, thaw, or completion decision belongs to this projection.
 ## `departed`: the player left the fight by a spell that took them away (dun.c).
 ## `walked_out`: an NPC walked out of it (go.c's 落荒而逃, told in the fight).
-static func completion_text(receipt: CombatEncounterCompletionResult, player_life: int, departed: bool = false, walked_out: bool = false) -> String:
+## `corpse`: someone of the other side died in it (a won fight whose fallen all live — one
+## spared, DECISIONS「了结 / 放过」, or one the player only fought back — has nobody to loot).
+static func completion_text(receipt: CombatEncounterCompletionResult, player_life: int, departed: bool = false, walked_out: bool = false, corpse: bool = true) -> String:
 	if receipt == null or not receipt.succeeded() or receipt.terminal_result == null:
 		return ""
 	if departed and receipt.terminal_result.kind == CombatEncounterResultKind.Value.FLED:
@@ -93,6 +95,8 @@ static func completion_text(receipt: CombatEncounterCompletionResult, player_lif
 			# (a sparring partner who withstood 天邪虎啸, or who outlasted the 天将).
 			if receipt.terminal_result.losing_side_ids().is_empty():
 				return TranslationServer.translate("战斗结束。" if walked_out else "双方都停了手，战斗结束。")
+			if not corpse:
+				return TranslationServer.translate("你赢了这场战斗。")
 			return TranslationServer.translate("你赢了这场战斗。选择倒下对手的尸体可以查看或搜刮。")
 		CombatEncounterResultKind.Value.DEFEAT:
 			if player_life == CharacterRuntimeLifeStatus.Value.DEAD:
@@ -105,6 +109,17 @@ static func completion_text(receipt: CombatEncounterCompletionResult, player_lif
 		CombatEncounterResultKind.Value.ABORTED:
 			return TranslationServer.translate("战斗出错，已中止。")
 	return TranslationServer.translate("战斗结束。")
+
+
+## Whether one of the other side (`hostile`: whether an ID was) died in the finished fight
+## `encounter_id`: its corpse lies there.
+static func left_a_corpse(feedback: CombatCompletedFeedback, encounter_id: StringName, hostile: Callable) -> bool:
+	if feedback == null or feedback.encounter_id != encounter_id:
+		return true
+	for announcement: CombatLifecycleAnnouncement in feedback.announcements_after(0):
+		if announcement.event == CombatLifecycleAnnouncement.DEAD and hostile.call(announcement.victim_id):
+			return true
+	return false
 
 
 func read_new(
@@ -192,6 +207,12 @@ static func _announce(announcement: CombatLifecycleAnnouncement, projection: Bat
 	elif announcement.event == CombatLifecycleAnnouncement.DEAD:
 		# TRANSLATORS: combatd.c announce("dead"): {name} dies in the fight.
 		lines.append(BattleNarrationLine.new(TranslationServer.translate("{name}死了。").format({"name": name})))
+	elif announcement.event == CombatLifecycleAnnouncement.REVIVE:
+		# TRANSLATORS: combatd.c announce("revive"): {name}, whom the player had not finished or spared, comes to in the fight.
+		lines.append(BattleNarrationLine.new(TranslationServer.translate("{name}慢慢睁开眼睛，清醒了过来。").format({"name": name})))
+	elif announcement.event == CombatLifecycleAnnouncement.SPARED:
+		# TRANSLATORS: the player chose 放过 for {name}, who lies unconscious: nobody on their side strikes them again.
+		lines.append(BattleNarrationLine.new(TranslationServer.translate("你住了手，放了{name}一条生路。").format({"name": name})))
 	return lines
 
 

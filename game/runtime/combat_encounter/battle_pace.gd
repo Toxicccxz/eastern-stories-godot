@@ -9,12 +9,17 @@ extends RefCounted
 ## these once loaded and on 应用.
 
 enum Speed { SLOW, NORMAL, FAST }
+## 击倒后 (DECISIONS「了结 / 放过」): ASK holds the player's side's blow on one they were
+## killing who falls and lets the player choose; FINISH is ES2 (the next blow kills).
+enum AfterKnockout { ASK, FINISH }
 
 const STORAGE: Dictionary[int, String] = {Speed.SLOW: "slow", Speed.NORMAL: "normal", Speed.FAST: "fast"}
+const KNOCKOUT_STORAGE: Dictionary[int, String] = {AfterKnockout.ASK: "ask", AfterKnockout.FINISH: "finish"}
 
 static var speed: int = Speed.NORMAL
 ## The fighters' cards flash red when they lose 气.
 static var hit_flash: bool = true
+static var after_knockout: int = AfterKnockout.ASK
 
 
 ## Real time a round takes at `at`, in percent of the round (100: 标准).
@@ -48,3 +53,15 @@ static func storage_value(at: int) -> String:
 
 static func is_valid(at: int) -> bool:
 	return STORAGE.has(at)
+
+
+static func knockout_from_storage(text: String) -> int:
+	return KNOCKOUT_STORAGE.find_key(text) if KNOCKOUT_STORAGE.values().has(text) else -1
+
+
+static func knockout_storage_value(choice: int) -> String:
+	return KNOCKOUT_STORAGE.get(choice, KNOCKOUT_STORAGE[AfterKnockout.ASK])
+
+
+static func is_valid_knockout(choice: int) -> bool:
+	return KNOCKOUT_STORAGE.has(choice)

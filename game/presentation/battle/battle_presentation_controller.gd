@@ -246,7 +246,7 @@ func _present_completed_result() -> void:
 	var coordinator: CombatEncounterCoordinator = _session.combat_encounter_coordinator()
 	var text: String = BattleFeedbackReader.completion_text(
 		receipt, _session.player_runtime().life_status, coordinator.departed(receipt.encounter_id),
-		coordinator.npc_walked_out(receipt.encounter_id),
+		coordinator.npc_walked_out(receipt.encounter_id), BattleFeedbackReader.left_a_corpse(coordinator.completed_feedback(), receipt.encounter_id, _hostile_to_player),
 	)
 	if text.is_empty():
 		return
@@ -433,6 +433,8 @@ func _present_participants() -> void:
 			card.name = "Participant%d" % _cards.size()
 			card.custom_minimum_size.x = 300
 			card.target_requested.connect(_change_target)
+			card.finish_requested.connect(_finish_downed)
+			card.spare_requested.connect(_spare_downed)
 			_participants.add_child(card)
 			_cards.append(card)
 	# A blow's 气 shows once its line is told (DECISIONS「手感」).
@@ -616,6 +618,24 @@ func _submit_action(id: StringName) -> void:
 	var result: CombatTacticalResult = _intent.submit(id, target)
 	_receipt.text = tr("下令：%s") % BattleFeedbackReader.reason(result.code)
 	intent_received.emit(result)
+
+
+## Whether `id` fought against the player in the fight the panel last showed (one it never
+## showed: anyone but the player).
+func _hostile_to_player(id: StringName) -> bool:
+	var value: BattleParticipantProjection = _projection.participant(id)
+	return value.hostile_to_player if value != null else id != _session.player_runtime().character_id
+
+
+## DECISIONS「了结 / 放过」: the button is the choice (no second question).
+func _finish_downed(id: StringName) -> void:
+	if _intent != null and _projection.active:
+		_intent.finish_downed(id)
+
+
+func _spare_downed(id: StringName) -> void:
+	if _intent != null and _projection.active:
+		_intent.spare_downed(id)
 
 
 ## enforce.c in the fight: set now; its lines join the battle log.

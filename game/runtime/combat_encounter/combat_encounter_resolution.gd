@@ -22,6 +22,14 @@ var _departure: StringName
 var _walked_out: Dictionary[StringName, StringName] = {}
 ## The fight ended because a side's last one walked out (not because nobody fought on).
 var _ended_by_walking: bool = false
+## DECISIONS「了结 / 放过」: one the player's side was killing fell, and its blow waits on
+## the player's choice. Fallen ID -> [[the one who held, whether it was among its enemies],
+## ...]: the player and those they called (BattlePace.after_knockout ASK).
+var _held: Dictionary[StringName, Array] = {}
+var _revive_remainder_ms: Dictionary[StringName, float] = {}
+## Each holder's kill marks and enemies in their order before it held anyone (those held
+## since kept in their places), so what is given back stands where it stood.
+var _orders: Dictionary[StringName, Array] = {}
 
 var failure: Failure:
 	get: return _failure
@@ -278,10 +286,178 @@ func inspect(
 		# damage.c unconcious() and die(): announce() tells the room.
 		if receipt.outcome == CombatSliceLifecycleResult.Outcome.UNCONSCIOUS_COMPLETE:
 			_announcements.append(CombatLifecycleAnnouncement.new(victim.character_id, CombatLifecycleAnnouncement.UNCONSCIOUS))
+			_hold(bindings, victim)
 		elif receipt.outcome == CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE:
 			_announcements.append(CombatLifecycleAnnouncement.new(victim.character_id, CombatLifecycleAnnouncement.DEAD))
+			_drop(victim.character_id)
+	# A player who fell (or died) cannot choose: the fight goes on as ES2's.
+	if not _held.is_empty():
+		var me: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(bindings, _session.player_runtime().character_id)
+		if me == null or me.life_status != CombatSliceLifeStatus.Value.ACTIVE:
+			for victim_id: StringName in _held.keys():
+				_resume(bindings, victim_id)
 	_derive_result(_present(bindings))
 	return _result == null
+
+
+## DECISIONS「了结 / 放过」: `victim` fell, and the player, standing, or one standing they
+## called (WorldMapNpcs.summoner_of()) was killing it: they stop (remove_killer()),
+## remembering where it stood among their enemies, until the player finishes or spares it,
+## or it comes to. The fight goes on meanwhile. Not with 击倒后 at 直接了结 (ES2: the next
+## blow kills), nor for one of the player's own side; one of theirs lying down keeps its
+## mark (it strikes nobody), and with nobody standing to strike there is nothing to ask.
+func _hold(bindings: Array[CombatSliceCharacterBinding], victim: CombatSliceCharacterBinding) -> void:
+	if BattlePace.after_knockout != BattlePace.AfterKnockout.ASK or _encounter.mode != CombatEncounterMode.Value.LETHAL:
+		return
+	var player_id: StringName = _session.player_runtime().character_id
+	var player: CombatParticipant = _encounter.participant_for(player_id)
+	var fallen: CombatParticipant = _encounter.participant_for(victim.character_id)
+	var me: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(bindings, player_id)
+	if player == null or fallen == null or me == null or fallen.side_id == player.side_id or me.life_status != CombatSliceLifeStatus.Value.ACTIVE:
+		return
+	var holders: Array = []
+	for binding: CombatSliceCharacterBinding in bindings:
+		if _plays_for_player(binding.character_id, player) and _standing(binding) and binding.relationship.has_lethal_target(victim.character_id):
+			holders.append([binding.character_id, binding.relationship.has_opponent(victim.character_id)])
+	if holders.is_empty():
+		return
+	for holder: Array in holders:
+		var relationship: CombatRelationshipState = CombatSliceProjectionBuilder.find_binding(bindings, holder[0]).relationship
+		_remember_order(holder[0], relationship)
+		relationship.remove_lethal_relation(victim.character_id)
+	_held[victim.character_id] = holders
+	_revive_remainder_ms.erase(victim.character_id)
+
+
+## The player, or one on their side they called (a soldier, a 阴鬼卒, their zombie).
+func _plays_for_player(character_id: StringName, player: CombatParticipant) -> bool:
+	if character_id == player.participant_id:
+		return true
+	var participant: CombatParticipant = _encounter.participant_for(character_id)
+	var map: WorldMapController = _session.active_map() as WorldMapController
+	return participant != null and participant.side_id == player.side_id and map != null and map.summoner_of(character_id) == player.participant_id
+
+
+## Those the player's side holds its blow on, in the fight's order.
+func held() -> Array[StringName]:
+	var ids: Array[StringName] = []
+	for participant: CombatParticipant in _encounter.participants():
+		if _held.has(participant.participant_id):
+			ids.append(participant.participant_id)
+	return ids
+
+
+## Whether the player themself was killing `victim_id` when it fell.
+func player_held(victim_id: StringName) -> bool:
+	for holder: Array in _held.get(victim_id, []):
+		if holder[0] == _session.player_runtime().character_id:
+			return true
+	return false
+
+
+## 了结: the held kill_ob()s are back, each where it stood; the next blow kills (ES2).
+func finish(bindings: Array[CombatSliceCharacterBinding], victim_id: StringName) -> bool:
+	if not _held.has(victim_id) or _result != null:
+		return false
+	_resume(bindings, victim_id)
+	return true
+
+
+## 放过: the player's side no longer kills it (remove_killer() stands). It lies where it
+## fell and comes to on its own time, after the fight; with nobody else to fight, the
+## fight is over at the next look.
+func spare(victim_id: StringName) -> bool:
+	if not _held.has(victim_id) or _result != null:
+		return false
+	_drop(victim_id)
+	_announcements.append(CombatLifecycleAnnouncement.new(victim_id, CombatLifecycleAnnouncement.SPARED))
+	return true
+
+
+func _resume(bindings: Array[CombatSliceCharacterBinding], victim_id: StringName) -> void:
+	for holder: Array in _held.get(victim_id, []):
+		var binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(bindings, holder[0])
+		var order: Array = _orders.get(holder[0], [[], []])
+		if binding != null:
+			binding.relationship.restore_lethal_target(victim_id, _before(order[0], victim_id), _before(order[1], victim_id) if holder[1] else null)
+	_drop(victim_id)
+
+
+## Held no more (given back, spared, dead): a holder that holds nobody now forgets its order.
+func _drop(victim_id: StringName) -> void:
+	var holders: Array = _held.get(victim_id, [])
+	_held.erase(victim_id)
+	_revive_remainder_ms.erase(victim_id)
+	for holder: Array in holders:
+		var still: bool = false
+		for others: Array in _held.values():
+			still = still or others.any(func(other: Array) -> bool: return other[0] == holder[0])
+		if not still:
+			_orders.erase(holder[0])
+
+
+## The holder's kill marks and enemies in their order now, those it holds already kept
+## where they stood.
+func _remember_order(holder_id: StringName, relationship: CombatRelationshipState) -> void:
+	var order: Array = _orders.get(holder_id, [[], []])
+	_orders[holder_id] = [_merged(order[0], relationship.lethal_target_ids()), _merged(order[1], relationship.opponent_ids())]
+
+
+## `known` with each of `now` not in it placed after the one before it in `now`.
+static func _merged(known: Array, now: Array[StringName]) -> Array:
+	var merged: Array = known.duplicate()
+	for index: int in now.size():
+		if merged.has(now[index]):
+			continue
+		merged.insert(0 if index == 0 else merged.find(now[index - 1]) + 1, now[index])
+	return merged
+
+
+## The ones that stood before `id` in `order`.
+static func _before(order: Array, id: StringName) -> Array[StringName]:
+	var before: Array[StringName] = []
+	before.assign(order.slice(0, maxi(order.find(id), 0)))
+	return before
+
+
+## Fight seconds until the first held one's revive call_out comes due (0 when one is due).
+func next_revive_seconds() -> float:
+	var map: WorldMapController = _session.active_map() as WorldMapController
+	var soonest: float = INF
+	for victim_id: StringName in held():
+		var npc: NpcRuntimeState = null if map == null else map.find_resident_npc(victim_id)
+		if npc == null or npc.life_status != CharacterRuntimeLifeStatus.Value.UNCONSCIOUS:
+			return 0.0
+		soonest = minf(soonest, maxf(0.0, float(npc.revive_in_ms) - _revive_remainder_ms.get(victim_id, 0.0)) / 1000.0)
+	return soonest
+
+
+## The revive call_out of each held one runs on the fight's clock (owner: the others lying
+## in a fight wake after it): one whose time comes before the player chose comes to, and
+## the fight goes on as ES2's (the held kill_ob()s back first). One that died or woke
+## otherwise is held no more.
+func advance_held(delta_seconds: float, bindings: Array[CombatSliceCharacterBinding]) -> void:
+	if _held.is_empty() or _failure != Failure.NONE or _result != null or delta_seconds < 0.0:
+		return
+	var map: WorldMapController = _session.active_map() as WorldMapController
+	for victim_id: StringName in held():
+		var npc: NpcRuntimeState = null if map == null else map.find_resident_npc(victim_id)
+		if npc == null or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
+			_drop(victim_id)
+			continue
+		if npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
+			_resume(bindings, victim_id)
+			continue
+		var elapsed: float = _revive_remainder_ms.get(victim_id, 0.0) + delta_seconds * 1000.0
+		var whole: int = int(elapsed)
+		_revive_remainder_ms[victim_id] = elapsed - whole
+		npc.set_revive_in_ms(npc.revive_in_ms - whole)
+		if npc.revive_in_ms > 0:
+			continue
+		_resume(bindings, victim_id)
+		map.npc_life.revive(npc, false)
+		# combatd.c announce(ob, "revive").
+		_announcements.append(CombatLifecycleAnnouncement.new(victim_id, CombatLifecycleAnnouncement.REVIVE))
 
 ## What a special file did since the last check: a timed apply's remove_effect()
 ## (the event) or the player's perform (the tactical result).
@@ -374,6 +550,9 @@ func _derive_result(bindings: Array[CombatSliceCharacterBinding]) -> void:
 		if any_fight and player_active and any_hostile_active:
 			return
 		_result = CombatEncounterResult.new(_encounter.encounter_id, _encounter.mode, CombatEncounterResultKind.Value.SPAR_CONCLUDED, [], [], subjects)
+		return
+	# One fallen waits on the player's 了结 / 放过: the fight goes on until they choose.
+	if player_active and not _held.is_empty():
 		return
 	# Nobody standing still fights someone it can strike (roar.c's spar partner who
 	# withstood it stops after the first blow, as any spar): the fight is over.

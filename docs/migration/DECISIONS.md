@@ -3652,3 +3652,46 @@ decide only where and when the player sees them, and the suites run with them of
   it is told no more (owner Q3): 须通过考验 (三招, 三鞭), 拜师时另有要求 (the oath), 须另有机缘 (陈天星's
   letter); 骆云舟's mark reads 另有条件 until he has said it (his refusal sets marks/书生), then his
   own line.
+
+## 了结 / 放过 (owner 批准, 2026-10-20)
+
+- **ES2:** after the player's 攻击 (kill.c: kill_ob() both ways), feature/attack.c remove_enemy()
+  keeps a killer's unconscious victim, combatd.c fight() always strikes one lying unconscious,
+  and std/char.c heart_beat() kills it on the next wound: about a second after the fall it is
+  dead, with no way to change one's mind (no halt command; surrender.c is refused while the
+  enemy kills the player). Only walking out of the room as it falls spares it. One the player
+  only fights back (fight_ob()) is let be when it falls (clean_up_enemy()), as here already.
+- **Ours (deviation, owner 批准):** a player today does not mean every won fight to end in a
+  death, and many NPCs refuse a 切磋. When one the player's side is killing falls — the player
+  (standing) or one they called (WorldMapNpcs.summoner_of(): the 天将, the 护法's 天将 or 阴鬼卒,
+  the zombie and its 追魂符) has its kill_ob() — those of them who kill it hold their blow
+  (remove_killer(), remembering where it stood among their kill marks and enemies) and its
+  battle card shows 了结 and 放过; the button is the choice, nothing asks again. The fight is not
+  paused: the others fight on, and while one waits the fight goes on.
+  - **了结:** the held kill_ob()s are back where they stood and the player turns on it: the next
+    blow kills, as ES2. Everything a death does is unchanged (MKS, 杀气, 朱鸿雪's task, the
+    vendetta mark, 弑师). The button reads 了结（任务目标） for 朱鸿雪's target, 了结（弑师） for the
+    player's own master.
+  - **放过:** the player's side no longer kills it. It lies where it fell and comes to on its own
+    time; with nobody else to fight, the fight is over (won). 你住了手，放了X一条生路。
+  - **Owner (2026-10-20): 放过 bears no grudge** (reverses the plan's Q1, ES2's attack.c
+    init() hatred): a fight's end forgets the player, as it does after a flight and for every NPC
+    but a conjured one. One that attacks anyone on sight (a robber, a garrison on a vendetta)
+    still does, by its own rule.
+  - **Owner (2026-10-20): the countdown runs.** NPCs' revive call_outs stand still in a fight
+    here (their heart beat runs outside fights), unlike ES2. A held one's runs on the fight's
+    clock (as the player's own waking in a fight), shown on its card (昏迷 · 约 N 秒后醒来); if it
+    comes to before the player chose, the held kill_ob()s are back and the fight goes on as ES2's
+    (X慢慢睁开眼睛，清醒了过来。). Others lying in a fight still wake after it.
+  - **Owner (Q2): the player's summons follow the choice.** Anyone else on any side — 老公公 come to
+    help, an NPC with its own kill_ob() — keeps to ES2.
+  - The player falls or dies while one is held: nobody can choose, the held kill_ob()s are back.
+    Only those standing hold: one of the player's called lying down keeps its mark (it strikes
+    nobody), and with nobody standing to strike nothing is asked.
+  - A won fight in which nobody of the other side died says 你赢了这场战斗。 without pointing at a
+    corpse to loot (after 放过, or when the player only fought back).
+  - Not saved: a held one lives only inside a fight, and Save is refused in a fight.
+- **Owner (Q3): the setting 击倒后 — 询问 / 直接了结**, 询问 by default; 直接了结 is ES2 throughout.
+  Settings schema 5 (`after_knockout`: ask / finish); an older file reads as 询问. The suites run
+  直接了结 (run_suite.gd, as TestFeel): the rules they pin are ES2's; `spare_or_finish_test`
+  turns on 询问.
