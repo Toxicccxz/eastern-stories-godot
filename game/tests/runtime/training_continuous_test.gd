@@ -70,7 +70,8 @@ func _test_learn_until_gin_would_be_wasted() -> void:
 	]
 	_check(_hud.log_lines().slice(logged) == expected, "the log has the summary and why it stopped, no lesson's lines: %s" % [_hud.log_lines().slice(logged)])
 	_check(_school.ui.feedback.text == "\n".join(expected), "the panel repeats them")
-	_check(not _school.ui.progress.visible and not _school.ui.run_buttons[&"sword"].disabled, "the run is over, the buttons back")
+	_check(not _school.ui.progress.running() and _school.ui.progress.status.text == "\n".join(expected) and not _school.ui.progress.bar.visible, "the run is over, its lines under the row")
+	_check(not _school.ui.run_buttons[&"sword"].disabled, "the buttons back")
 	_school.ui.close_panel()
 
 
@@ -227,7 +228,7 @@ func _test_while_running(tree: SceneTree) -> void:
 	back.action = &"ui_cancel"
 	back.pressed = true
 	panel.progress._input(back)
-	_check(not panel.progress.running() and not panel.progress.visible, "B stops it")
+	_check(not panel.progress.running() and panel.progress.status.text.ends_with("你停了下来。") and not panel.progress.stop_button.visible, "B stops it")
 	_check(panel.feedback.text.ends_with("你停了下来。") and not panel.run_buttons[&"sword"].disabled, "stopped, the buttons back: " + panel.feedback.text)
 	_check(panel.get_viewport().gui_get_focus_owner() == panel.run_buttons[&"sword"], "the focus back on 连续请教")
 	# The pause: the panel closes (its NPC out of reach while the tree is paused, as
