@@ -33,6 +33,11 @@ extends RefCounted
 ## - away_catch_up_limit_seconds (DECISIONS「别的地图时间补算」): a map the player was away
 ##   from longer catches up this much of its NPCs' heart beat, and the rest comes to what
 ##   it would given time enough (healed, awake, conditions over). 0 (ES2): all of it.
+## - away_wander_moves: how many random_move()s and patrol()s a map's wanderers and
+##   constables make at most while the player is away, where they end up when the player
+##   comes back. 0 (ES2: a healed NPC's heart beat stops where no player is): none.
+## - away_neighbour_pulse_seconds: how often the maps a door leads to from the player's are
+##   caught up, so a wanderer may come in through the door (邻图来客). 0 (ES2): never.
 const ES2_ROOM_RESET_SECONDS: int = 1800
 const ES2_GAIN: int = 1
 const ES2_QUEST_TIME_PERCENT: int = 100
@@ -51,6 +56,8 @@ var _trial_blow_ms: int = 0
 var _heart_beat_ms: int = ES2_HEART_BEAT_MS
 var _dim_fade_ms: int = 0
 var _away_catch_up_limit_seconds: int = 0
+var _away_wander_moves: int = 0
+var _away_neighbour_pulse_seconds: int = 0
 
 ## Seconds between two combat rounds of an encounter (the scheduler's opportunity interval).
 var combat_round_seconds: float:
@@ -96,6 +103,14 @@ var dim_fade_seconds: float:
 var away_catch_up_limit_seconds: int:
 	get:
 		return _away_catch_up_limit_seconds
+## Moves a wanderer or constable makes at most while the player is away (0: none).
+var away_wander_moves: int:
+	get:
+		return _away_wander_moves
+## Seconds between neighbour pulses (0: none).
+var away_neighbour_pulse_seconds: int:
+	get:
+		return _away_neighbour_pulse_seconds
 ## The presentation's feel knobs (the record's `feel`; all 0 when left out).
 var feel: FeelDefinition = FeelDefinition.new()
 
@@ -108,9 +123,23 @@ func reaction_seconds(es2_seconds: float) -> float:
 	return minf(es2_seconds, float(_reaction_beat_ms) / 1000.0)
 
 
+## A copy of this record (a suite changes a knob on it, never on the game's).
+func copy() -> PacingDefinition:
+	var record: PacingDefinition = PacingDefinition.new(
+		_combat_round_ms, _room_reset_seconds, _player_exp_gain, _player_recovery_gain,
+		_quest_time_percent, _npc_thirst, _player_wake_seconds,
+	).with_responsiveness(_reaction_beat_ms, _trial_blow_ms, _heart_beat_ms, _dim_fade_ms).with_away_catch_up_limit(
+		_away_catch_up_limit_seconds, _away_wander_moves, _away_neighbour_pulse_seconds,
+	)
+	record.feel = feel
+	return record
+
+
 ## This record with the away catch-up limit set (seconds; tests, and from_record()).
-func with_away_catch_up_limit(seconds: int) -> PacingDefinition:
+func with_away_catch_up_limit(seconds: int, wander_moves: int = 0, neighbour_pulse_seconds: int = 0) -> PacingDefinition:
 	_away_catch_up_limit_seconds = seconds
+	_away_wander_moves = wander_moves
+	_away_neighbour_pulse_seconds = neighbour_pulse_seconds
 	return self
 
 
@@ -155,7 +184,11 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.integer("trial_blow_ms", 0),
 		reader.integer("heart_beat_ms", ES2_HEART_BEAT_MS),
 		reader.integer("dim_fade_ms", 0),
-	).with_away_catch_up_limit(reader.integer("away_catch_up_limit_seconds", 0))
+	).with_away_catch_up_limit(
+		reader.integer("away_catch_up_limit_seconds", 0),
+		reader.integer("away_wander_moves", 0),
+		reader.integer("away_neighbour_pulse_seconds", 0),
+	)
 	var feel: ContentRecordReader = reader.child("feel")
 	if feel != null:
 		definition.feel = FeelDefinition.from_record(feel)
@@ -182,6 +215,10 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.fail("dim_fade_ms", "must not be negative")
 	if definition._away_catch_up_limit_seconds < 0:
 		reader.fail("away_catch_up_limit_seconds", "must not be negative")
+	if definition._away_wander_moves < 0:
+		reader.fail("away_wander_moves", "must not be negative")
+	if definition._away_neighbour_pulse_seconds < 0:
+		reader.fail("away_neighbour_pulse_seconds", "must not be negative")
 	if definition._heart_beat_ms <= 0:
 		reader.fail("heart_beat_ms", "must be positive")
 	return definition

@@ -6929,7 +6929,7 @@ msgid "{npc}：第 {n} / {total} 句"
 msgstr ""
 
 #. go.c: someone ({name}) comes into the player's room.
-#: runtime/world/map/world_map_npc_life.gd runtime/world/map/world_map_patrols.gd runtime/world/map/world_map_spells.gd
+#: runtime/world/map/world_map_npc_life.gd runtime/world/map/world_map_patrols.gd runtime/world/map/world_map_spells.gd runtime/world/world_session_controller.gd
 msgid "{name}走了过来。"
 msgstr ""
 
