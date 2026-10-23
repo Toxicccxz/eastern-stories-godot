@@ -29,6 +29,9 @@ var held: bool = false:
 ## The view is fading around a map change (WorldSessionController._hold_view()): the
 ## player stands while it does.
 var walk_paused: bool = false
+## Maps with a fixed angled view rotate screen input onto the existing walking plane.
+## Positions, speed, collisions and saved locations keep their original units.
+var movement_basis: Transform2D = Transform2D.IDENTITY
 ## Collision in effect before a death/absence removed it; restored when the
 ## character comes back to life.
 var _suppressed_collision_layer: int = 0
@@ -234,6 +237,7 @@ func _physics_process(delta: float) -> void:
 		"move_up",
 		"move_down",
 	)
+	direction = movement_basis.basis_xform(direction)
 	_turn_to(direction)
 	velocity = _eased_velocity(direction * movement_speed, delta)
 	move_and_slide()

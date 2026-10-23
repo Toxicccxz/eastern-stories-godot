@@ -94,6 +94,12 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	ui.player_name.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	ui.player_name.add_theme_color_override("font_color", NAME_COLOR)
 	header.add_child(ui.player_name)
+	var day_night := VoxelDayNightButton.new()
+	day_night.name = "DayNight"
+	day_night.ui = ui
+	day_night.custom_minimum_size = Vector2(100,38)
+	day_night.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	header.add_child(day_night)
 	menu_button = _button(header, "Menu", "菜单", ui.open_menu)
 	menu_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	# Start / M opens it: the card takes no focus.

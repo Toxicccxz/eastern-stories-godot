@@ -51,7 +51,10 @@ A layout's `maps` entry names its scene `file` under game/scenes/world/<region>/
   zones of a town (in their doorway); a door's own `color` overrides the style's.
 
 Positions and boxes are pixels; boxes are [x0, y0, x1, y1]. A `note` field, and a trailing string
-in a fill, gap_at, line point or blob row, is a comment. Captions, neighbours and auto-placed
+in a fill, gap_at, line point or blob row, is a comment. A fill row may end with
+{"look": {"kind": ..., ...}}: what stands on its blocked box, drawn by the map's voxel view from
+the scene's `Furnishings` nodes (furnishings()); `scene.presentation` names that view and its
+config, game/data/<region>/voxel/<map>.json (AGENTS.md「地图」). Captions, neighbours and auto-placed
 markers read game/data/<region>/ (rooms, world, spawns, item_spawns).
 """
 
@@ -150,7 +153,36 @@ def paint_map(region: Region, entry: dict, notes: list | None = None) -> str:
     else:
         text = sc.flat_scene(scene['root'], scene['map'], sizes, nodes, zones, points,
                              scene['player_color'], scene['zoom'], has_doors)
+    if presentation := scene.get('presentation'):
+        resource = ('[ext_resource type="Script" path="' + presentation['script'] + '" id="map_view"]\n\n')
+        text = text.replace('[ext_resource', resource + '[ext_resource', 1)
+        text += ('\n[node name="MapView" type="Node" parent="."]\n'
+                 'script = ExtResource("map_view")\n'
+                 'layout_path = "' + presentation['layout'] + '"\n')
+    text += furnishings(entry['draw'])
     return drawn.tiles.apply(text)
+
+
+def furnishings(draw: dict) -> str:
+    """The `Furnishings` nodes: every fill row ending in {"look": {...}} says what stands on its
+    (blocked) box. The box, its centre and size, is the one fact for collision and model; the
+    look gives the kind and how it is drawn. WorldVoxelView reads these nodes."""
+    rows = [row for value in draw.values() if isinstance(value, list) for row in value
+            if isinstance(row, list) and row and isinstance(row[-1], dict) and 'look' in row[-1]]
+    # A look anywhere else (a nested or non-box row) would be dropped without a model.
+    assert json.dumps(draw).count('"look"') == len(rows), 'a "look" outside a top-level fill row'
+    assert all(len(row) >= 6 and all(isinstance(v, int) for v in row[1:5]) for row in rows), 'a "look" on a row that is not a box'
+    if not rows:
+        return ''
+    text = '\n[node name="Furnishings" type="Node2D" parent="."]\n'
+    for index, row in enumerate(rows, 1):
+        x0, y0, x1, y1 = row[1:5]
+        look = json.dumps(row[-1]['look'], ensure_ascii=False)
+        text += (f'\n[node name="Furnishing{index:02d}" type="Node2D" parent="Furnishings"]\n'
+                 f'position = Vector2({(x0 + x1) / 2:g}, {(y0 + y1) / 2:g})\n'
+                 f'metadata/look = {look}\n'
+                 f'metadata/footprint = Vector2({x1 - x0}, {y1 - y0})\n')
+    return text
 
 
 # The backdrop reaches this far past a map's drawing: a room smaller than the screen sits on

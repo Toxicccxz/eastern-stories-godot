@@ -113,7 +113,6 @@ func _process(delta: float) -> void:
 	if _bubbles.is_empty():
 		return
 	var map: WorldMapController = _shown_map()
-	var canvas: Transform2D = get_viewport().get_canvas_transform()
 	for character_id: StringName in _bubbles.keys():
 		var entry: Array = _bubbles[character_id]
 		entry[1] = float(entry[1]) - delta
@@ -127,13 +126,15 @@ func _process(delta: float) -> void:
 			bubble.reset_size()
 			# Over the prompt when the speaker is what A goes to.
 			var lift: float = maxf(LIFT, _ui.focus_marker.lift_over(body) + 4.0)
-			var head: Vector2 = canvas * (body.global_position + Vector2(0.0, -lift))
+			var head: Vector2 = map.screen_position(body.global_position, lift)
+			if map.projected_view:
+				head = map.screen_position(body.global_position, 90.0) + Vector2.UP * maxf(0.0, lift-LIFT)
 			var at: Vector2 = head - Vector2(bubble.size.x / 2.0, bubble.size.y)
 			var view: Rect2 = get_viewport().get_visible_rect().grow(-EDGE)
 			if at.y < view.position.y or Rect2(at, bubble.size).intersects(_ui.card_rect()):
 				# Under the prompt when that shows below the speaker too (screen units).
-				var drop: float = maxf(DROP * canvas.get_scale().y, _ui.focus_marker.drop_under(body) + 4.0)
-				at.y = (canvas * body.global_position).y + drop
+				var drop: float = maxf(DROP * map.screen_scale().y, _ui.focus_marker.drop_under(body) + 4.0)
+				at.y = map.screen_position(body.global_position).y + drop
 			at.x = clampf(at.x, view.position.x, maxf(view.position.x, view.end.x - bubble.size.x))
 			bubble.position = at.round()
 

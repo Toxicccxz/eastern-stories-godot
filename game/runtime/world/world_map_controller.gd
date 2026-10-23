@@ -46,7 +46,11 @@ const BODY_HALF_EXTENT: float = 17.0
 var service_nodes: Array[WorldService] = []
 var doors_by_id: Dictionary[StringName, WorldDoor] = {}
 var landmark_areas: Dictionary[StringName, WorldLandmarkArea2D] = {}
-
+## Optional presentation projection, published by a map's visual child. Gameplay stays
+## on its authored plane; screen markers must use the same projection as the models.
+var projected_view: bool = false
+var view_ground: Transform2D = Transform2D.IDENTITY
+var view_up: Vector2 = Vector2.UP
 var _last_landmark_use: RefCounted
 var _last_passage_traversal: RefCounted
 
@@ -56,6 +60,16 @@ var _last_passage_traversal: RefCounted
 ## when it is clearly stronger than the player (RelativeStrength, owner A10), NONE when
 ## none of these or it will not take place (spar_selected()'s refusals, or the NPC's).
 enum SparRisk { NONE, ARMED, DEADLY, STRONGER }
+
+
+func screen_position(point: Vector2, height: float = 0.0) -> Vector2:
+	if projected_view:
+		return view_ground * point + view_up * height
+	return get_viewport().get_canvas_transform() * (point + Vector2.UP * height)
+
+
+func screen_scale() -> Vector2:
+	return view_ground.get_scale().abs() if projected_view else get_viewport().get_canvas_transform().get_scale().abs()
 
 
 func _ready() -> void:
@@ -371,6 +385,8 @@ func frame_camera() -> void:
 
 ## `point` (world) is on the screen now: inside what the player's camera shows.
 func in_view(point: Vector2) -> bool:
+	if projected_view:
+		return get_viewport_rect().has_point(screen_position(point))
 	var camera: Camera2D = null if player_body == null else player_body.get_node_or_null("Camera2D") as Camera2D
 	if camera == null or not camera.enabled or not camera.is_inside_tree():
 		return true

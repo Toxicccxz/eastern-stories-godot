@@ -24,6 +24,7 @@ var _prompt_text: Label
 var _ring_at: Vector2 = Vector2.INF
 ## The prompt shows under the thing (no room over it).
 var _below: bool = false
+var _ring_scale: float = 1.0
 
 
 func configure(ui: SharedGameplayUI) -> void:
@@ -98,14 +99,15 @@ func _process(delta: float) -> void:
 	if not at.is_finite():
 		_hide()
 		return
-	var screen: Vector2 = get_viewport().get_canvas_transform() * at
+	var screen: Vector2 = map.screen_position(at)
+	_ring_scale = map.screen_scale().x
 	_prompt.visible = true
 	_prompt.reset_size()
 	var place: Vector2 = screen + Vector2(-_prompt.size.x / 2.0, -PROMPT_LIFT - _prompt.size.y)
 	var view: Rect2 = get_viewport().get_visible_rect().grow(-4.0)
 	_below = place.y < view.position.y or Rect2(place, _prompt.size).intersects(_ui.card_rect())
 	if _below:
-		place.y = screen.y + RING_RADIUS * get_viewport().get_canvas_transform().get_scale().y + PROMPT_DROP
+		place.y = screen.y + RING_RADIUS * map.screen_scale().y + PROMPT_DROP
 	place.x = clampf(place.x, view.position.x, maxf(view.position.x, view.end.x - _prompt.size.x))
 	_prompt.position = place.round()
 	if not _ring_at.is_equal_approx(screen):
@@ -121,7 +123,7 @@ func _on_prompt_input(event: InputEvent) -> void:
 
 func _draw() -> void:
 	if _ring_at.is_finite():
-		draw_arc(_ring_at, RING_RADIUS * get_viewport().get_canvas_transform().get_scale().x, 0.0, TAU, 40, RING_COLOR, 2.0, true)
+		draw_arc(_ring_at, RING_RADIUS * _ring_scale, 0.0, TAU, 40, RING_COLOR, 2.0, true)
 
 
 func _hide() -> void:
