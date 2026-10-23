@@ -142,12 +142,12 @@ func physical_tests(tree: SceneTree) -> void:
 
 
 func _walk_until_map(tree: SceneTree, session: WorldSessionController, target: StringName, action: String) -> void:
-	Input.action_press(action)
 	for _step: int in range(400):
+		MapRoute.press_action(session.active_map().runtime_player_body(), action)
 		await tree.physics_frame
 		if session.active_map_id() == target:
 			break
-	Input.action_release(action)
+	MapPlaces.release()
 	for _step: int in range(3):
 		await tree.physics_frame
 

@@ -219,24 +219,28 @@ static func rng_state(session: WorldSessionController) -> Array[int]:
 	return [session.combat_random_source().capture_random_state().state, session.npc_random_source().capture_random_state().state, session.world_interaction_random_source().capture_random_state().state]
 
 
-func walk(tree: SceneTree, _session: WorldSessionController, action: String, frames: int) -> void:
-	Input.action_press(action)
-	for i: int in range(frames): await tree.physics_frame
-	Input.action_release(action)
+func walk(tree: SceneTree, session: WorldSessionController, action: String, frames: int) -> void:
+	var direction: Vector2 = {"move_left":Vector2.LEFT,"move_right":Vector2.RIGHT,"move_up":Vector2.UP,"move_down":Vector2.DOWN}[action]
+	for i: int in range(frames):
+		MapRoute.press_toward(session.active_map().runtime_player_body(),direction)
+		await tree.physics_frame
+	MapPlaces.release()
 	await tree.physics_frame
 	await tree.physics_frame
 
 
 func walk_to(tree: SceneTree, session: WorldSessionController, action: String, target: float, axis: int) -> void:
 	var sign_value: float = -1.0 if action in ["move_left", "move_up"] else 1.0
-	Input.action_press(action)
 	var arrived: bool = false
 	for i: int in range(700):
 		if (session.active_map().runtime_player_body().position[axis] - target) * sign_value >= 0:
 			arrived = true
 			break
+		var direction := Vector2.ZERO
+		direction[axis] = sign_value
+		MapRoute.press_toward(session.active_map().runtime_player_body(),direction)
 		await tree.physics_frame
-	Input.action_release(action)
+	MapPlaces.release()
 	await tree.physics_frame
 	await tree.physics_frame
 	_check(arrived, "physical target reachable " + action + str(target))

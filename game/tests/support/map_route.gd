@@ -116,10 +116,7 @@ static func drive(tree: SceneTree, map: Node2D, body: CharacterBody2D, target: V
 		if index >= points.size():
 			break
 		var delta: Vector2 = points[index] - body.global_position
-		_press(&"move_right", delta.x > 4.0)
-		_press(&"move_left", delta.x < -4.0)
-		_press(&"move_down", delta.y > 4.0)
-		_press(&"move_up", delta.y < -4.0)
+		press_toward(body, delta)
 		await tree.physics_frame
 	for action: StringName in [&"move_left", &"move_right", &"move_up", &"move_down"]:
 		Input.action_release(action)
@@ -132,3 +129,21 @@ static func _press(action: StringName, on: bool) -> void:
 		Input.action_press(action)
 	else:
 		Input.action_release(action)
+
+
+## A move action named as a map direction (move_up = north), pressed as the current view's controls.
+static func press_action(body: CharacterBody2D, action: StringName) -> void:
+	press_toward(body, {&"move_left": Vector2.LEFT, &"move_right": Vector2.RIGHT, &"move_up": Vector2.UP, &"move_down": Vector2.DOWN}[action])
+
+
+## Tests describe world routes; convert them to the current view's screen controls.
+static func press_toward(body: CharacterBody2D, direction: Vector2) -> void:
+	var vector: Vector2 = direction.normalized()
+	if body is WorldCharacterBody2D:
+		vector = (body as WorldCharacterBody2D).movement_basis.affine_inverse().basis_xform(vector)
+	for action: StringName in [&"move_left", &"move_right", &"move_up", &"move_down"]:
+		Input.action_release(action)
+	if absf(vector.x)>0.001:
+		Input.action_press("move_right" if vector.x>0 else "move_left", absf(vector.x))
+	if absf(vector.y)>0.001:
+		Input.action_press("move_down" if vector.y>0 else "move_up", absf(vector.y))

@@ -48,12 +48,12 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 func _open(tree: SceneTree) -> void:
 	_session = Work.create_session(tree)
 	await tree.process_frame
-	Input.action_press("move_right")
 	for _step: int in range(400):
+		MapRoute.press_toward(_session.active_map().runtime_player_body(), Vector2.RIGHT)
 		await tree.physics_frame
 		if _session.active_map_id() == &"snow.outdoor":
 			break
-	Input.action_release("move_right")
+	MapPlaces.release()
 	await tree.physics_frame
 	_session.set_process(false)
 	_check(_session.active_map_id() == &"snow.outdoor", "out of the Inn")
