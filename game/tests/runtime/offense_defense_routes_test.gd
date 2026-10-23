@@ -226,12 +226,12 @@ func _heal(state: CharacterState) -> void:
 
 
 func _to_snow(tree: SceneTree, session: WorldSessionController) -> void:
-	Input.action_press("move_right")
 	for _step: int in range(400):
+		MapRoute.press_toward(session.active_map().runtime_player_body(), Vector2.RIGHT)
 		await tree.physics_frame
 		if session.active_map_id() == &"snow.outdoor":
 			break
-	Input.action_release("move_right")
+	MapPlaces.release()
 	await tree.physics_frame
 	session.set_process(false)
 	_check(session.active_map_id() == &"snow.outdoor", "out of the Inn")

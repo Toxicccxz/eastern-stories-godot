@@ -2,7 +2,9 @@
 
 ## Mission
 
-Rebuild classic Eastern Stories / ES2 as a **native 2D Godot RPG** with a modern UI.
+Rebuild classic Eastern Stories / ES2 as a **native Godot RPG** with a modern UI: rules and
+movement on authored 2D maps, every map shown through a fixed-angle 3D voxel view (owner,
+2026-10-22; see [Maps and art](#maps-and-art)).
 
 This is not a graphical shell around a MUD client. Keep the original game's meaningful content and
 rules — rooms, NPCs, items, skills, families, quests, formulas, progression — and rebuild maps,
@@ -102,8 +104,44 @@ or rules, and runtime does not construct UI directly.
 * Location state is region/map/zone/position, not a single `current_room_id`.
 * Physical walking is Godot-native (`CharacterBody2D`, collision). Core decides whether an action is
   allowed; runtime performs it.
-* Map visuals are placeholder art for now; build terrain with `TileMapLayer` so art can be swapped
-  by replacing the TileSet. Logic (zones, portals, spawn markers) stays separate from visuals.
+* Floors, climbs, caves and drops are transitions between maps (portals, stairs, room verbs), not
+  3D height. A slope or stair run is a 2D path; its height, if shown, is presentation only.
+
+## Maps and art
+
+Owner decision (2026-10-22): **every map in the project gets a fixed-angle voxel view, dressed
+as richly as 饮风客栈's upper floor.** Long-term rules:
+
+* **One source per fact.** `tools/maps/layouts/<region>.json` is the map: tiles (walkable area,
+  collision), zones, portals, doors, spawn points, and every piece that blocks — a blocked box with
+  its `{"look": {...}}` (kind, rotation, colours). `python -m tools.maps.paint` writes the scene,
+  its `Furnishings` nodes included. The voxel view draws furniture only from those nodes; never
+  copy a footprint or coordinate into a second file.
+* **Voxel config** per map: `game/data/<region>/voxel/<map>.json` (map id without the region,
+  e.g. `snow.inn_upstairs` → `snow/voxel/inn_upstairs.json`), named by the layout's
+  `scene.presentation`. It holds only what blocks nothing: lights, windows, rugs, wall hangings,
+  small floor things, cut-away walls (`low_walls`), buildings' outward shape, flora, actor looks,
+  entrance labels.
+* **Code** in `game/presentation/voxel/`: the view, geometry, lighting and occlusion at the top;
+  `props/` (shapes, furniture, fixtures, architecture), `terrain/` (ground, landmass, foliage,
+  trees), `actors/`, `shaders/`. A new prop kind goes in the props file of its category and is
+  data-configured (size, colours); no per-map or per-region scripts.
+* **The 2D runtime stays authoritative.** Positions, collision, reach, doors, saves and RNG are
+  the 2D map's; the voxel view only shows them and never changes a rule or a saved value.
+* **Richness standard** for every room, street and wild map, whatever its region's style:
+  - Everything ES2's text names is there (饮风客栈's 招牌 and 红木门, the square's 木架, 武馆's
+    旗杆 and 石狮). Additions fit the room's purpose and never contradict the text.
+  - Each room is furnished for what it is (a guest room: bed, linen, washstand, rack, chest;
+    a shop: counter, goods, stock), plus lived-in detail (slippers, teapots, books, jars).
+  - Repeated rooms differ (theme, furniture, colours); each region keeps its palette and
+    materials ([美术规划](docs/design/美术规划.md)).
+  - Light for day and night (windows, lamps, lanterns); outdoor maps get flora and ground detail.
+  - Doors, exits, spawn points and NPC reach stay clear; added furniture is blocked in the layout
+    and the walk-through tests still pass.
+* **Assets.** Today all forms are code-built boxes. Imported art goes under `game/assets/<kind>/`
+  (`models/`, `textures/`, `audio/`, `fonts/`), named by what it is, with its source in
+  [LICENSE_PROVENANCE](docs/production/LICENSE_PROVENANCE.md). Scratch renders and archives stay
+  in `build/`.
 
 ## Data-Driven Content
 
@@ -199,6 +237,8 @@ Write logs and scratch output under `build/`, never the repository root or `game
 ```text
 reference/es2/   original LPC (read-only, outside res://)
 docs/            production/ (status, roadmap, build, policies) and migration/ (decisions, notes)
-tools/           ci/, build/, migration/, maps/ (Python, standard library)
+tools/           ci/, build/, migration/, maps/ (Python, standard library; maps/layouts = map source)
 game/            Godot project: core/ runtime/ application/ data/ presentation/ ui/ scenes/ tests/
+                 data/<region>/voxel/ map visual configs; scenes/world/<region>/ painted maps;
+                 presentation/voxel/ the voxel view
 ```

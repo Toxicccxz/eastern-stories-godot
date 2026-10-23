@@ -162,12 +162,12 @@ func _test_corner(tree: SceneTree, session: WorldSessionController) -> void:
 		player.set_world_location(map.location_for_zone(way[0]))
 		for _step: int in range(3):
 			await tree.physics_frame
-		Input.action_press(way[2])
 		for _step: int in range(300):
+			MapRoute.press_action(map.runtime_player_body(), way[2])
 			await tree.physics_frame
 			if coordinator.has_active_encounter():
 				break
-		Input.action_release(way[2])
+		MapPlaces.release()
 		var joined: Array[String] = []
 		if coordinator.has_active_encounter():
 			for participant: CombatParticipant in coordinator.active_encounter().participants():
@@ -302,12 +302,12 @@ func _test_hwang_fight(tree: SceneTree, session: WorldSessionController) -> void
 
 
 func _walk_until_map(tree: SceneTree, session: WorldSessionController, target: StringName, action: String) -> void:
-	Input.action_press(action)
 	for _step: int in range(400):
+		MapRoute.press_action(session.active_map().runtime_player_body(), action)
 		await tree.physics_frame
 		if session.active_map_id() == target:
 			break
-	Input.action_release(action)
+	MapPlaces.release()
 	for _step: int in range(3):
 		await tree.physics_frame
 

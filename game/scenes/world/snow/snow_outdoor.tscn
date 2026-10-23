@@ -1,5 +1,7 @@
 [gd_scene format=3]
 
+[ext_resource type="Script" path="res://presentation/voxel/world_voxel_view.gd" id="map_view"]
+
 [ext_resource type="Script" path="res://runtime/world/world_map_controller.gd" id="map"]
 [ext_resource type="Script" path="res://runtime/world/world_spawn_marker_2d.gd" id="marker"]
 [ext_resource type="Script" path="res://runtime/world/world_character_body_2d.gd" id="body"]
@@ -1012,3 +1014,34 @@ position_smoothing_speed = 6.0
 
 [node name="Interactions" type="Node2D" parent="."]
 
+
+[node name="MapView" type="Node" parent="."]
+script = ExtResource("map_view")
+layout_path = "res://data/snow/voxel/outdoor.json"
+
+[node name="Furnishings" type="Node2D" parent="."]
+
+[node name="Furnishing01" type="Node2D" parent="Furnishings"]
+position = Vector2(0, -72)
+metadata/look = {"kind": "board"}
+metadata/footprint = Vector2(96, 48)
+
+[node name="Furnishing02" type="Node2D" parent="Furnishings"]
+position = Vector2(152, -2376)
+metadata/look = {"kind": "board"}
+metadata/footprint = Vector2(48, 16)
+
+[node name="Furnishing03" type="Node2D" parent="Furnishings"]
+position = Vector2(176, -672)
+metadata/look = {"kind": "stone_lion", "rotation": -90}
+metadata/footprint = Vector2(32, 32)
+
+[node name="Furnishing04" type="Node2D" parent="Furnishings"]
+position = Vector2(176, -448)
+metadata/look = {"kind": "stone_lion", "rotation": -90}
+metadata/footprint = Vector2(32, 32)
+
+[node name="Furnishing05" type="Node2D" parent="Furnishings"]
+position = Vector2(344, -696)
+metadata/look = {"kind": "flagpole", "text": "淳风武馆"}
+metadata/footprint = Vector2(16, 16)

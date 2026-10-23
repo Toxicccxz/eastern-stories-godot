@@ -72,12 +72,12 @@ func _test_authored_facts(session: WorldSessionController) -> void:
 
 func _test_temple_forbids_fighting(tree: SceneTree, session: WorldSessionController) -> void:
 	# Inn east door to the square, then the temple's west door (d/snow/temple.c).
-	Input.action_press("move_right")
 	for _step: int in range(400):
+		MapRoute.press_toward(session.active_map().runtime_player_body(), Vector2.RIGHT)
 		await tree.physics_frame
 		if session.active_map_id() == &"snow.outdoor":
 			break
-	Input.action_release("move_right")
+	MapPlaces.release()
 	await tree.physics_frame
 	# The temple is a map of its own since the remap: from the square next door the keeper (inside a
 	# no_fight room) has no body to select, so there is nothing to attack from outside.
@@ -108,12 +108,12 @@ func _test_dog_fight_ends(tree: SceneTree) -> void:
 	# draw from the one ambience stream, and a new region shifts when they wander.
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new())
 	await tree.process_frame
-	Input.action_press("move_right")
 	for _step: int in range(400):
+		MapRoute.press_toward(session.active_map().runtime_player_body(), Vector2.RIGHT)
 		await tree.physics_frame
 		if session.active_map_id() == &"snow.outdoor":
 			break
-	Input.action_release("move_right")
+	MapPlaces.release()
 	await tree.physics_frame
 	var road: WorldMapController = session.active_map() as WorldMapController
 	_check(await MapPlaces.drive_through(tree, road, [&"snow.square", &"snow.sroad1", &"snow.eroad1", &"snow.eroad2"]) and session.player_runtime().world_location().zone_id == &"snow.eroad2", "walked to the dogs on the east road")

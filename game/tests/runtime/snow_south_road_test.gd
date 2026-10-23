@@ -236,11 +236,7 @@ func _close_in(tree: SceneTree, service: NpcService) -> void:
 		if service.in_reach():
 			break
 		var delta: Vector2 = service.anchor() - body.global_position
-		MapPlaces.release()
-		if absf(delta.y) >= absf(delta.x):
-			Input.action_press(&"move_up" if delta.y < 0.0 else &"move_down")
-		else:
-			Input.action_press(&"move_left" if delta.x < 0.0 else &"move_right")
+		MapRoute.press_toward(body, Vector2(0.0, signf(delta.y)) if absf(delta.y) >= absf(delta.x) else Vector2(signf(delta.x), 0.0))
 		await tree.physics_frame
 	MapPlaces.release()
 	await tree.physics_frame
@@ -266,12 +262,12 @@ func _zone_rect(map: WorldMapController, zone_id: StringName) -> Rect2:
 
 
 func _leave_inn(tree: SceneTree, session: WorldSessionController) -> void:
-	Input.action_press("move_right")
 	for _step: int in range(400):
+		MapRoute.press_toward(session.active_map().runtime_player_body(), Vector2.RIGHT)
 		await tree.physics_frame
 		if session.active_map_id() == &"snow.outdoor":
 			break
-	Input.action_release("move_right")
+	MapPlaces.release()
 	await tree.physics_frame
 
 

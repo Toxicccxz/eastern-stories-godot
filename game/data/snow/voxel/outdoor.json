@@ -1,0 +1,61 @@
+{
+  "indoor": false,
+  "camera_size": 23,
+  "edge": {
+    "minimum_margin": 48,
+    "maximum_margin": 112,
+    "depth": 2.2
+  },
+  "flora": {
+    "grass_density": 0.78,
+    "flower_threshold": 0.08,
+    "blossom_trees": 0.38,
+    "tree_types": ["pine", "broadleaf", "broadleaf", "slender", "shrub"]
+  },
+  "actors": {
+    "default": {"coat": "887b56"},
+    "snow.npc.waiter": {"coat": "667d84"},
+    "snow.npc.traveller": {"coat": "817b52", "hat": true},
+    "snow.npc.trav_blade": {"coat": "8d6e4e", "hat": true},
+    "snow.npc.scavenger": {"coat": "856448", "hat": true},
+    "snow.npc.dog": {"animal": true},
+    "snow.npc.crazy_dog": {"animal": true}
+  },
+  "buildings": [
+    {"rect": [-880, -192, -416, 624], "portals": ["snow.square.west"], "roof": "425861", "wall": "c4b898", "height": 4.5, "enclosure_height": 2.6, "construction": "plaster", "timber": "78503c", "lattice": true, "gallery": true, "porch": "tiled", "masses": [{"bounds": [0, 0, 1, 0.48], "height": 4.7, "roof_form": "hip", "ridge": "z", "rise": 1.8, "eave_lift": 0.3}, {"bounds": [0, 0.48, 0.72, 1], "height": 3.2, "roof_form": "gable", "ridge": "z", "rise": 1.2}, {"bounds": [0.72, 0.62, 1, 1], "height": 2.6, "roof_form": "shed", "ridge": "z", "rise": 0.65}]},
+    {"rect": [-304, -720, -112, -400], "portals": ["snow.mstreet1.west"], "roof": "4c5b62", "wall": "d5cfb3", "height": 3.5, "construction": "plaster", "timber": "6b5141", "foundation": 0.75, "roof_form": "hip", "rise": 1.3, "eave_lift": 0.18, "lattice": true, "bay": 7, "porch": "tiled"},
+    {"rect": [-304, -1200, -112, -880], "portals": ["snow.mstreet2.west"], "roof": "424e50", "wall": "7e8676", "height": 2.7, "chimney": true, "enclosure_height": 2.3, "construction": "brick", "timber": "62513b", "foundation": 0.65, "rise": 0.9, "porch": "wood", "goods": "tools", "bay": 8, "masses": [{"bounds": [0, 0, 1, 0.65], "height": 2.9, "roof_form": "gable", "ridge": "x", "rise": 1.0}, {"bounds": [0, 0.65, 1, 1], "height": 2.35, "roof_form": "shed", "ridge": "x", "rise": 0.6}]},
+    {"rect": [-304, -1728, -112, -1312], "portals": ["snow.mstreet3.west"], "roof": "526f61", "wall": "bdc3a3", "height": 3.15, "construction": "plaster", "timber": "72543a", "roof_form": "hip", "rise": 1.55, "eave_lift": 0.25, "porch": "cloth", "lattice": true, "bay": 7},
+    {"rect": [-304, -2160, -112, -1840], "portals": ["snow.mstreet4.west"], "roof": "746951", "wall": "c9b791", "height": 2.95, "construction": "timber", "timber": "6d5339", "roof_form": "gable", "ridge": "x", "rise": 1.35, "porch": "wood", "goods": "sacks", "bay": 6},
+    {"rect": [112, -1200, 304, -880], "portals": ["snow.mstreet2.east"], "roof": "687365", "wall": "a08b62", "height": 3.3, "enclosure_height": 2.8, "construction": "timber", "timber": "69573d", "porch": "wood", "goods": "sacks", "bay": 8, "masses": [{"bounds": [0, 0, 1, 0.72], "roof_form": "gable", "ridge": "x", "rise": 1.4}, {"bounds": [0, 0.72, 1, 1], "height": 2.6, "roof_form": "shed", "ridge": "x", "rise": 0.65}]},
+    {"rect": [112, -1728, 384, -1312], "portals": ["snow.mstreet3.east"], "roof": "3d6262", "wall": "b7bfa5", "height": 4.0, "construction": "plaster", "timber": "6c4939", "roof_form": "hip", "rise": 1.8, "eave_lift": 0.3, "porch": "tiled", "lattice": true, "gallery": true, "bay": 8},
+    {"rect": [400, -1248, 1312, -352], "portals": ["snow.school1.east"], "roof": "536774", "wall": "c7c4a6", "height": 3.7, "enclosure_height": 1.9, "construction": "plaster", "timber": "80533c", "porch": "tiled", "lattice": true, "bay": 9, "masses": [{"bounds": [0, 0, 1, 0.26], "roof_form": "hip", "ridge": "x", "height": 4.1, "rise": 1.5, "eave_lift": 0.25}, {"bounds": [0, 0.27, 0.24, 0.77], "roof_form": "gable", "ridge": "z", "height": 2.9, "rise": 1.1}, {"bounds": [0.76, 0.27, 1, 0.77], "roof_form": "gable", "ridge": "z", "height": 2.9, "rise": 1.1}, {"bounds": [0.2, 0.78, 0.8, 1], "roof_form": "hip", "ridge": "x", "height": 3.25, "rise": 1.2}]},
+    {"rect": [416, -96, 704, 544], "portals": ["snow.square.east", "snow.eroad1.north"], "roof": "596c5e", "wall": "bbad88", "height": 3.6, "enclosure_height": 1.7, "construction": "plaster", "timber": "935340", "porch": "tiled", "lattice": true, "masses": [{"bounds": [0, 0, 1, 0.56], "roof_form": "hip", "height": 4.4, "rise": 1.8, "eave_lift": 0.45}, {"bounds": [0, 0.56, 0.32, 1], "roof_form": "shed", "height": 2.4, "rise": 0.65}, {"bounds": [0.68, 0.56, 1, 1], "roof_form": "shed", "height": 2.4, "rise": 0.65}]},
+    {"rect": [-576, 864, -256, 1136], "portals": ["snow.sroad2.south"], "roof": "4f6870", "wall": "d0cdb5", "height": 3.4, "construction": "plaster", "timber": "735640", "roof_form": "hip", "ridge": "x", "rise": 1.4, "eave_lift": 0.22, "lattice": true, "porch": "tiled"},
+    {"rect": [-368, 368, -160, 592], "portals": [], "roof": "6c6a54", "wall": "c9b791", "height": 2.6, "construction": "timber", "roof_form": "shed", "rise": 1.1, "porch": "wood"},
+    {"rect": [128, -2208, 336, -2032], "portals": [], "roof": "5b6f69", "wall": "c7c7aa", "height": 3.6, "construction": "plaster", "roof_form": "hip", "rise": 1.4, "eave_lift": 0.2, "lattice": true},
+    {"rect": [128, -1952, 336, -1776], "portals": [], "roof": "516064", "wall": "cab58a", "height": 2.7, "construction": "brick", "roof_form": "gable", "ridge": "z", "rise": 1.2},
+    {"rect": [-688, -896, -400, -656], "portals": [], "roof": "5e7560", "wall": "c2b894", "height": 3.0, "construction": "plaster", "roof_form": "gable", "ridge": "z", "rise": 1.2},
+    {"rect": [-688, -1424, -400, -1184], "portals": [], "roof": "847553", "wall": "b59e7b", "height": 2.5, "construction": "timber", "roof_form": "shed", "ridge": "x", "rise": 0.85},
+    {"rect": [736, -32, 960, 192], "portals": [], "roof": "4e6067", "wall": "cec9ac", "height": 3.5, "construction": "plaster", "roof_form": "hip", "rise": 1.5, "eave_lift": 0.22},
+    {"rect": [736, 224, 960, 432], "portals": [], "roof": "5b715f", "wall": "c9b791", "height": 2.65, "construction": "timber", "roof_form": "gable", "ridge": "z", "rise": 1.1},
+    {"rect": [1360, -1184, 1600, -928], "portals": [], "roof": "7c6c55", "wall": "b59e7b", "height": 3.05, "construction": "brick", "roof_form": "gable", "ridge": "x", "rise": 1.3}
+  ],
+  "props": [
+    {"kind": "lantern", "at": [-368, 240]},
+    {"kind": "lantern", "at": [368, 240]},
+    {"kind": "lantern", "at": [-80, -400]},
+    {"kind": "lantern", "at": [80, -880]},
+    {"kind": "lantern", "at": [-80, -1350]},
+    {"kind": "lantern", "at": [80, -1900]}
+  ],
+  "weather": [
+    {"at": [-205, 88], "radius": [62, 36], "water": true},
+    {"at": [230, -150], "radius": [48, 30], "water": false},
+    {"at": [-68, -984], "radius": [31, 53], "water": true},
+    {"at": [68, -1470], "radius": [35, 65], "water": false},
+    {"at": [-70, -1970], "radius": [29, 48], "water": true},
+    {"at": [-10, -2260], "radius": [44, 28], "water": false},
+    {"at": [24, -2400], "radius": [29, 23], "water": true}
+  ]
+}

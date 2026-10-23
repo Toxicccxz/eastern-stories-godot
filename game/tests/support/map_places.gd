@@ -150,10 +150,7 @@ static func drive(tree: SceneTree, map: WorldMapController, target: Vector2) -> 
 		var delta: Vector2 = target - body.global_position
 		if absf(delta.x) <= 3.0 and absf(delta.y) <= 3.0:
 			break
-		_press(&"move_right", delta.x > 3.0)
-		_press(&"move_left", delta.x < -3.0)
-		_press(&"move_down", delta.y > 3.0)
-		_press(&"move_up", delta.y < -3.0)
+		MapRoute.press_toward(body, delta)
 		await tree.physics_frame
 	release()
 	# The zone Areas report the last crossing a frame later.
@@ -272,10 +269,7 @@ static func take_passage(tree: SceneTree, map: WorldMapController, portal_id: St
 		while index < points.size() - 1 and body.global_position.distance_to(points[index]) <= 8.0:
 			index += 1
 		var delta: Vector2 = points[index] - body.global_position
-		_press(&"move_right", delta.x > 4.0)
-		_press(&"move_left", delta.x < -4.0)
-		_press(&"move_down", delta.y > 4.0)
-		_press(&"move_up", delta.y < -4.0)
+		MapRoute.press_toward(body, delta)
 		await tree.physics_frame
 		if each_frame.is_valid():
 			each_frame.call()
@@ -305,10 +299,7 @@ static func take_same_map_passage(tree: SceneTree, map: WorldMapController, port
 		while index < points.size() - 1 and body.global_position.distance_to(points[index]) <= 8.0:
 			index += 1
 		var delta: Vector2 = points[index] - body.global_position
-		_press(&"move_right", delta.x > 4.0)
-		_press(&"move_left", delta.x < -4.0)
-		_press(&"move_down", delta.y > 4.0)
-		_press(&"move_up", delta.y < -4.0)
+		MapRoute.press_toward(body, delta)
 		await tree.physics_frame
 	release()
 	await tree.physics_frame
@@ -316,14 +307,27 @@ static func take_same_map_passage(tree: SceneTree, map: WorldMapController, port
 	return moved
 
 
-## Holds one move action for `frames` physics frames (a push against a wall or a shut door).
+## Holds one move action, a map direction, for `frames` physics frames (a push against a wall
+## or a shut door), on whatever map the player is.
 static func push(tree: SceneTree, action: StringName, frames: int) -> void:
-	Input.action_press(action)
 	for _frame: int in range(frames):
+		var body: CharacterBody2D = _controlled_body(tree)
+		if body != null:
+			MapRoute.press_action(body, action)
+		else:
+			Input.action_press(action)
 		await tree.physics_frame
-	Input.action_release(action)
+	release()
 	await tree.physics_frame
 	await tree.physics_frame
+
+
+## The body the player moves now (the one whose input is live), on any map in the tree.
+static func _controlled_body(tree: SceneTree) -> CharacterBody2D:
+	for node: Node in tree.root.find_children("*", "CharacterBody2D", true, false):
+		if node is WorldCharacterBody2D and (node as WorldCharacterBody2D).player_controlled and node.is_inside_tree():
+			return node as CharacterBody2D
+	return null
 
 
 static func release() -> void:

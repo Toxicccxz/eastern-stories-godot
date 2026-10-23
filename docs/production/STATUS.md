@@ -4,6 +4,14 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
+**体素地图**（owner，2026-10-22，DECISIONS「固定俯视体素地图」）：全部地图都将用固定斜视的体素表现，
+`phase/voxel-view-trial` 本地修改（未提交）。已完成：饮风客栈一楼、二楼（走廊与三间客房：双床行李、
+书案笔墨、茶席屏风）和雪亭镇街道。原 2D 地图仍决定行走、碰撞、交互、门和存档；WASD 按屏幕方向移动，
+镜头只平移；近侧墙剖成矮墙，遮挡只在人物附近局部透明；昼夜光照按钮只改画面。家具只记在地图布局的
+阻挡格上（`look`），体素层从场景的 Furnishings 读取；广场木架、武馆旗杆与石狮也由此画出。
+其他商铺与各区域室内仍为 2D，往返时恢复各自镜头。下一步：雪亭镇其余室内，然后按区域铺开；
+手机帧率未测。
+
 **地图重构** (owner, 2026-10-16; DECISIONS「地图重构」) is done: the scale standard
 (`tools/maps/standard.json`, in body widths) and its tools and runtime (#130, #131), and every
 enterable room on its building's own map, entered through its door from the street — 雪亭镇 (#132),

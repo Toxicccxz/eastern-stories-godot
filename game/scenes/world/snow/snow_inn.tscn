@@ -1,5 +1,7 @@
 [gd_scene format=3]
 
+[ext_resource type="Script" path="res://presentation/voxel/world_voxel_view.gd" id="map_view"]
+
 [ext_resource type="Script" path="res://runtime/world/world_map_controller.gd" id="map"]
 [ext_resource type="Script" path="res://runtime/world/world_spawn_marker_2d.gd" id="marker"]
 [ext_resource type="Script" path="res://runtime/world/world_character_body_2d.gd" id="body"]
@@ -219,3 +221,49 @@ position_smoothing_speed = 6.0
 
 [node name="Interactions" type="Node2D" parent="."]
 
+
+[node name="MapView" type="Node" parent="."]
+script = ExtResource("map_view")
+layout_path = "res://data/snow/voxel/inn.json"
+
+[node name="Furnishings" type="Node2D" parent="."]
+
+[node name="Furnishing01" type="Node2D" parent="Furnishings"]
+position = Vector2(0, -280)
+metadata/look = {"kind": "shelf"}
+metadata/footprint = Vector2(384, 16)
+
+[node name="Furnishing02" type="Node2D" parent="Furnishings"]
+position = Vector2(0, -200)
+metadata/look = {"kind": "counter"}
+metadata/footprint = Vector2(320, 16)
+
+[node name="Furnishing03" type="Node2D" parent="Furnishings"]
+position = Vector2(-304, -64)
+metadata/look = {"kind": "table"}
+metadata/footprint = Vector2(64, 32)
+
+[node name="Furnishing04" type="Node2D" parent="Furnishings"]
+position = Vector2(-144, -64)
+metadata/look = {"kind": "table"}
+metadata/footprint = Vector2(64, 32)
+
+[node name="Furnishing05" type="Node2D" parent="Furnishings"]
+position = Vector2(-304, 128)
+metadata/look = {"kind": "table"}
+metadata/footprint = Vector2(64, 32)
+
+[node name="Furnishing06" type="Node2D" parent="Furnishings"]
+position = Vector2(-144, 128)
+metadata/look = {"kind": "table"}
+metadata/footprint = Vector2(64, 32)
+
+[node name="Furnishing07" type="Node2D" parent="Furnishings"]
+position = Vector2(176, 176)
+metadata/look = {"kind": "table"}
+metadata/footprint = Vector2(64, 32)
+
+[node name="Furnishing08" type="Node2D" parent="Furnishings"]
+position = Vector2(320, 176)
+metadata/look = {"kind": "table"}
+metadata/footprint = Vector2(64, 32)

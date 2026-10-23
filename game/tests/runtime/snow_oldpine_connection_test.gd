@@ -165,12 +165,12 @@ func _handoff(session: WorldSessionController, portal: PortalDefinition) -> OldP
 
 
 func _walk_until_map(tree: SceneTree, session: WorldSessionController, target: StringName, action: String) -> void:
-	Input.action_press(action)
 	for _step: int in range(400):
+		MapRoute.press_action(session.active_map().runtime_player_body(), action)
 		await tree.physics_frame
 		if session.active_map_id() == target:
 			break
-	Input.action_release(action)
+	MapPlaces.release()
 	await tree.physics_frame
 	await tree.process_frame
 	_check(session.active_map_id() == target, "physical passage reaches " + String(target))

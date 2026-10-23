@@ -327,14 +327,16 @@ func _test_continue_below(tree: SceneTree, session: WorldSessionController) -> v
 ## Walks until a passage has handed the player to `map_id`, then keeps the key
 ## held for a moment, as a player does: arrival must not lead straight back.
 func _walk_until_map(tree: SceneTree, session: WorldSessionController, action: String, map_id: StringName) -> void:
-	Input.action_press(action)
+	var direction: Vector2 = {"move_left":Vector2.LEFT,"move_right":Vector2.RIGHT,"move_up":Vector2.UP,"move_down":Vector2.DOWN}[action]
 	for _frame: int in range(400):
+		MapRoute.press_toward(session.active_map().runtime_player_body(), direction)
 		await tree.physics_frame
 		if session.active_map_id() == map_id and not session.is_transitioning() and not session.passage_request_pending():
 			break
 	for _frame: int in range(40):
+		MapRoute.press_toward(session.active_map().runtime_player_body(), direction)
 		await tree.physics_frame
-	Input.action_release(action)
+	MapPlaces.release()
 	await tree.physics_frame
 	await tree.physics_frame
 

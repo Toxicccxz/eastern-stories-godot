@@ -1,0 +1,36 @@
+{
+  "indoor": true,
+  "camera_size": 25,
+  "low_walls": [
+    [-576, 0, 576, 384],
+    [320, -384, 576, 384]
+  ],
+  "actors": {
+    "default": {"coat": "887b56"},
+    "snow.npc.waiter": {"coat": "667d84"},
+    "snow.npc.traveller": {"coat": "817b52", "hat": true},
+    "snow.npc.trav_blade": {"coat": "8d6e4e", "hat": true},
+    "snow.npc.scavenger": {"coat": "856448", "hat": true},
+    "snow.npc.dog": {"animal": true},
+    "snow.npc.crazy_dog": {"animal": true}
+  },
+  "props": [
+    {"kind": "rug", "at": [-224, 64], "size": [304, 336]},
+    {"kind": "red_door", "at": [-368, -280]},
+    {"kind": "stairs", "at": [352, -248], "size": [96, 48]},
+    {"kind": "sign", "at": [432, -88], "size": [88, 16], "rotation": 0, "text": "饮风客栈"},
+    {"kind": "lantern", "at": [-392, 240]},
+    {"kind": "lantern", "at": [96, 192]},
+    {"kind": "lantern", "at": [-392, -240]},
+    {"kind": "pot", "at": [-384, 0]},
+    {"kind": "pot", "at": [392, 240]},
+    {"kind": "hanging_lantern", "at": [-96, -168]},
+    {"kind": "hanging_lantern", "at": [160, -168]},
+    {"kind": "hanging_lantern", "at": [-224, 32]},
+    {"kind": "hanging_lantern", "at": [64, 32]},
+    {"kind": "window", "at": [-256, -284], "size": [72, 16]},
+    {"kind": "window", "at": [256, -284], "size": [72, 16]},
+    {"kind": "window", "at": [-412, -64], "size": [80, 16], "rotation": 90},
+    {"kind": "runner", "at": [208, 0], "size": [384, 48]}
+  ]
+}

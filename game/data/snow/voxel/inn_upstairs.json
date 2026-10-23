@@ -1,0 +1,45 @@
+{
+  "indoor": true,
+  "camera_size": 25,
+  "low_walls": [
+    [-576, 224, 576, 256],
+    [544, -480, 576, 256],
+    [192, -480, 224, 256],
+    [-224, -96, -192, 256],
+    [-224, -128, 224, -96]
+  ],
+  "actors": {
+    "default": {"coat": "887b56"},
+    "snow.npc.rat": {"animal": true, "scale": 0.55, "fur": ["8a8075", "756c62", "5f574e"], "tail": true, "name_distance": 60, "name_font_size": 27, "name_alpha": 0.82}
+  },
+  "entrances": {
+    "snow.inn_2f.down": {"title": "楼梯 · 下楼", "label_height": 1.5, "floor_guides": false}
+  },
+  "props": [
+    {"kind": "rug", "at": [0, -264], "size": [160, 112], "cloth": "936346", "border": "c7ac78", "motif": "c39a68"},
+    {"kind": "rug", "at": [-400, 96], "size": [128, 96], "cloth": "687b61", "border": "b4ae83", "motif": "96a07b"},
+    {"kind": "rug", "at": [384, 80], "size": [112, 128], "cloth": "526f79", "border": "b4b19a", "motif": "93a69c"},
+    {"kind": "slippers", "at": [-112, -344], "rotation": -12, "cloth": "7b6146"},
+    {"kind": "slippers", "at": [100, -344], "rotation": 9, "cloth": "886251"},
+    {"kind": "wall_scroll", "at": [-420, -92], "size": [40, 8]},
+    {"kind": "slippers", "at": [-464, 4], "rotation": -5, "cloth": "68745c"},
+    {"kind": "wall_scroll", "at": [420, -92], "size": [40, 8]},
+    {"kind": "slippers", "at": [464, 8], "rotation": 14, "cloth": "596f80"},
+    {"kind": "runner", "at": [0, 16], "size": [240, 56], "rotation": 90},
+    {"kind": "stairwell", "at": [0, 200], "size": [96, 48]},
+    {"kind": "window", "at": [0, -444], "size": [72, 16]},
+    {"kind": "window", "at": [-304, -92], "size": [72, 16]},
+    {"kind": "window", "at": [304, -92], "size": [72, 16]},
+    {"kind": "window", "at": [-540, 128], "size": [80, 16], "rotation": 90},
+    {"kind": "hanging_lantern", "at": [0, -288]},
+    {"kind": "hanging_lantern", "at": [-352, 24]},
+    {"kind": "hanging_lantern", "at": [352, 24]},
+    {"kind": "hanging_lantern", "at": [0, -32]},
+    {"kind": "hanging_lantern", "at": [0, 112]},
+    {"kind": "pot", "at": [-168, -72]},
+    {"kind": "pot", "at": [168, -72]},
+    {"kind": "pot", "at": [-172, -150]},
+    {"kind": "pot", "at": [520, 200]},
+    {"kind": "pot", "at": [-512, 96]}
+  ]
+}
