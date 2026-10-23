@@ -303,7 +303,8 @@ func _wander(seconds: float, seed: int, arrivals: bool) -> void:
 	for npc: NpcRuntimeState in npcs:
 		if not _wanders(npc):
 			continue
-		var random: WorldInteractionRandomSource = GodotWorldInteractionRandomSource.new(hash([seed, String(npc.character_id), "walk"]), true)
+		# The world clock too: pulses owing the same thirty seconds draw on, not the same again.
+		var random: WorldInteractionRandomSource = GodotWorldInteractionRandomSource.new(hash([seed, String(npc.character_id), "walk", session.away_times().clock_ms()]), true)
 		var chat: NpcAmbience = NpcAmbience.new(random)
 		var talk: NpcTalk = npc.chat_talk()
 		var chance: int = npc.chat_chance if npc.mood() == null else -1
