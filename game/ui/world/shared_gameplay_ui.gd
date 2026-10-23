@@ -250,6 +250,11 @@ func panel_open() -> bool:
 	return _presentation_layout.frame.visible
 
 
+## The selected thing's details (目标详情) are open.
+func details_shown() -> bool:
+	return panel_open() and _presentation_layout.details.is_visible_in_tree()
+
+
 ## The overlays join the session a frame late; free them if the session never got them.
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:

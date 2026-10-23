@@ -15,6 +15,8 @@ var _loot: CorpseLootAdapter = CorpseLootAdapter.new()
 ## When each corpse here was made, on the world clock (WorldAwayTimes), by corpse ID: its
 ## age decides its decay stage (decay()). Saved as its age.
 var _made_ms: Dictionary[StringName, int] = {}
+## Corpses whose scattering failed (an inconsistent item state): told once, not retried.
+var _stuck: Dictionary[StringName, bool] = {}
 var _last_loot_transfer_result: CorpseLootTransferResult
 
 # The map's authorities, read as the controller reads them.
@@ -217,19 +219,16 @@ func advance_decay() -> void:
 	var pacing: PacingDefinition = GameContent.catalog().pacing()
 	var stages: Array[int] = [pacing.corpse_rot_seconds, pacing.corpse_bones_seconds, pacing.corpse_scatter_seconds]
 	for corpse: CorpseState in _corpse_states.duplicate():
-		if not corpse_is_live_in_world(corpse):
+		if _stuck.has(corpse.corpse_item_instance_id) or not corpse_is_live_in_world(corpse):
 			continue
-		var age: int = age_ms(corpse)
-		var due_ms: int = 0
-		for stage: int in range(CorpseState.Stage.ROTTEN, CorpseState.Stage.FINAL + 1):
-			var seconds: int = stages[stage - 1]
-			if seconds <= 0:
+		var due: int = CorpseDecayService.stage_for_age(age_ms(corpse), stages)
+		while corpse.decay_stage < due:
+			if not _decay(corpse, corpse.decay_stage + 1):
+				_stuck[corpse.corpse_item_instance_id] = true
+				push_error("%s could not decay to stage %d" % [corpse.corpse_item_instance_id, corpse.decay_stage + 1])
 				break
-			due_ms += seconds * 1000
-			if age < due_ms:
-				break
-			if corpse.decay_stage < stage and not _decay(corpse, stage):
-				push_error("%s could not decay to stage %d" % [corpse.corpse_item_instance_id, stage])
+			# Scattered: it is gone (its stage stays where it was).
+			if find_corpse(corpse.corpse_item_instance_id) == null:
 				break
 
 
@@ -261,13 +260,27 @@ func _decay(corpse: CorpseState, stage: int) -> bool:
 			refresh_selected_corpse()
 			if _map.hud().loot_is_open():
 				_refresh_loot_panel(corpse)
+			# Its open details say what it is now.
+			if _map.hud().details_shown():
+				_map.selection.inspect_selected()
 	if heard:
 		_map.hud().append_log_lines([line])
 	return true
 
 
-## decay(3): all_inventory()->move(environment()), then destruct(this_object()).
+## decay(3): all_inventory()->move(environment()), then destruct(this_object()). The player's
+## own corpse is remembered as scattered (the death card says where their things lie).
 func _scatter(corpse: CorpseState) -> bool:
+	if not _empty_onto_floor(corpse) or not _destruct_corpse(corpse):
+		return false
+	if session != null and _player != null and corpse.victim_character_id == _player.character_id:
+		session.note_corpse_scattered(corpse.corpse_item_instance_id)
+	return true
+
+
+## What a corpse holds falls where it lies, worn things too (move() does not ask, nor does
+## a zombie standing up: animate()). False when the item state is inconsistent.
+func _empty_onto_floor(corpse: CorpseState) -> bool:
 	var corpse_id: StringName = corpse.corpse_item_instance_id
 	var location: WorldLocationState = corpse_world_location(corpse_id)
 	var position: Vector2 = lying_at(corpse)
@@ -280,7 +293,7 @@ func _scatter(corpse: CorpseState) -> bool:
 			return false
 		if not _map.floor_items.add_dropped_item_view(item_id, location, _map.floor_items.at_feet(location, position, true)):
 			return false
-	return _destruct_corpse(corpse)
+	return true
 
 
 ## Where a corpse lies on the map (its view), or Vector2.INF.
@@ -293,18 +306,7 @@ func lying_at(corpse: CorpseState) -> Vector2:
 ## gone and what it held falls where it lay (owner, DECISIONS 茅山 A; ES2 destructs it
 ## with the corpse). False when the item state is inconsistent.
 func raise_corpse(corpse: CorpseState) -> bool:
-	var corpse_id: StringName = corpse.corpse_item_instance_id
-	var location: WorldLocationState = corpse_world_location(corpse_id)
-	var position: Vector2 = lying_at(corpse)
-	if location == null or position == Vector2.INF:
-		return false
-	var floor := InventoryTransferDestination.new(WorldMapFloorItems.floor_endpoint(location), true, true, _map.WORLD_CAPACITY)
-	for item_id: StringName in _inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse_id)):
-		if not CorpseContentTransferService.transfer_out(corpse, _inventory, item_id, floor).succeeded:
-			return false
-		if not _map.floor_items.add_dropped_item_view(item_id, location, _map.floor_items.at_feet(location, position, true)):
-			return false
-	return _destruct_corpse(corpse)
+	return _empty_onto_floor(corpse) and _destruct_corpse(corpse)
 
 
 ## destruct(corpse) with what it still holds: its item, state, view and selection go.
@@ -321,6 +323,7 @@ func _destruct_corpse(corpse: CorpseState) -> bool:
 	_corpse_states.erase(corpse)
 	_corpse_locations.erase(corpse_id)
 	_made_ms.erase(corpse_id)
+	_stuck.erase(corpse_id)
 	var view: CombatSliceCorpseView = _corpse_views.get(corpse_id)
 	_corpse_views.erase(corpse_id)
 	if view != null:

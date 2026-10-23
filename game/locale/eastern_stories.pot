@@ -8483,6 +8483,10 @@ msgid "你的尸体和随身物品留在：%s"
 msgstr ""
 
 #: ui/world/player_life_overlay.gd
+msgid "你的尸体已经化成骨灰，随身物品散落在：%s"
+msgstr ""
+
+#: ui/world/player_life_overlay.gd
 msgid "你的尸体已经不在了。"
 msgstr ""
 

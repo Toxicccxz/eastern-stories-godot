@@ -224,7 +224,8 @@ func capture(
 				_position_snapshot(view.global_position),
 			)
 		)
-		if corpse_map != null:
+		# Its age, while corpses decay (with corpse_rot_seconds 0 it would change nothing).
+		if corpse_map != null and GameContent.catalog().pacing().corpse_rot_seconds > 0:
 			corpse_snapshots[-1].age_ms = corpse_map.corpses.age_ms(corpse)
 
 	# The note each note maze shows (默认, 乔阴 C: the 字条 the player read).

@@ -301,7 +301,7 @@ func _test_snake(tree: SceneTree, session: WorldSessionController) -> void:
 			corpse = candidate
 	_check(corpse != null and map.select_corpse(corpse.corpse_item_instance_id), "the snake's corpse, selected")
 	var dust: StringName = _give(session, DUST, 2) # TEST-ONLY
-	_check(map.dissolvable_corpse_name() == "金银花蛇", "化尸粉 is offered on it")
+	_check(map.dissolvable_corpse_name() == "金银花蛇的尸体", "化尸粉 is offered on it (by its name, 金银花蛇的尸体)")
 	session.shared_ui().show_inventory(session.player_inventory_rows())
 	_check(_row_has(session.shared_ui().inventory_panel, dust, "Dissolve"), "the 化尸粉 row has 化去金银花蛇的尸体")
 	_check(map.dissolve_selected_corpse(dust), "dissolve corpse")

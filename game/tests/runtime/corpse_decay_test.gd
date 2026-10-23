@@ -13,10 +13,14 @@ var _failures: Array[String] = []
 
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
+	# pacing.json's decay, which the suite runner turns off (TestAway).
+	TestAway.use()
 	await _decays_in_sight(tree)
 	await _decays_away(tree)
 	await _continue_keeps_its_age(tree)
+	await _raised_rotten(tree)
 	await _knob_off(tree)
+	TestAway.restore()
 	return {"assertions": _count, "failures": _failures}
 
 
@@ -68,9 +72,9 @@ func _decays_away(tree: SceneTree) -> void:
 	var held: Array[StringName] = session.inventory_state().direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse.corpse_item_instance_id))
 	var zone: ZoneDefinition = GameContent.catalog().zone(&"snow.square")
 	_check(session.handoff_to(&"snow.outdoor", &"snow.square", zone.combat_location_id, &"snow.square.inn_entry").succeeded(), "out onto the square")
+	# The inn is next door: the neighbour pulse catches it up while the player stands outside.
 	_beats(session, 360)
-	_check(inn.corpses.find_corpse(corpse.corpse_item_instance_id) != null, "while nobody looks the inn waits")
-	_check(not _heard(session, "化成骨灰吹散了"), "nothing of it is read on the square")
+	_check(not _heard(session, "化成骨灰吹散了") and not _heard(session, "开始腐烂了"), "nothing of it is read on the square")
 	session.catch_up_map(inn)
 	_check(inn.corpses.find_corpse(corpse.corpse_item_instance_id) == null, "caught up, it has scattered")
 	var on_floor: int = 0
@@ -122,6 +126,29 @@ func _continue_keeps_its_age(tree: SceneTree) -> void:
 	_beats(world, 1)
 	_check(back.decay_stage == CorpseState.Stage.SKELETON, "at 240 s bones, as without the save")
 	world.free()
+	await tree.process_frame
+
+
+## 驱尸 on a rotten corpse that wears its cloth: the zombie stands, what it held (the cloth
+## too) falls where it lay.
+func _raised_rotten(tree: SceneTree) -> void:
+	var session: WorldSessionController = await _session(tree)
+	var map: WorldMapController = session.active_map() as WorldMapController
+	var corpse: CorpseState = _kill(session, T1)
+	if corpse == null:
+		_check(false, "the raise run kills the 旅客")
+		session.free()
+		return
+	var held: Array[StringName] = session.inventory_state().direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse.corpse_item_instance_id))
+	_beats(session, 130)
+	_check(corpse.decay_stage == CorpseState.Stage.ROTTEN and not corpse.occupied_worn_slots().is_empty(), "rotten, still wearing its cloth")
+	_check(map.corpses.raise_corpse(corpse), "it can be raised (its things fall, worn ones too)")
+	var on_floor: int = 0
+	for item_id: StringName in held:
+		if map.dropped_item_ids().has(item_id):
+			on_floor += 1
+	_check(on_floor == held.size() and map.corpses.find_corpse(corpse.corpse_item_instance_id) == null, "the corpse is gone and its things lie on the floor")
+	session.free()
 	await tree.process_frame
 
 

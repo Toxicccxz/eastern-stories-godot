@@ -310,9 +310,13 @@ func _object(id: StringName, at: Vector2, title: String, corpse: bool) -> void:
 		var s := Shapes.new()
 		s.box(node,Vector3(0,0.15,0),Vector3(0.75,0.3,1.45) if corpse else Vector3(0.4,0.3,0.35),"6b6860" if corpse else "b5a079")
 		s.flush()
-		_label(node,title,0.7)
+		_label(node,title,0.7).name = "Title"
 		objects[id] = node
 	objects[id].position = VoxelMapGeometry.point(at)
+	# A corpse's name changes as it decays (obj/corpse.c).
+	var label := objects[id].get_node_or_null("Title") as Label3D
+	if label != null and label.text != title:
+		label.text = title
 
 func _make_entrances() -> void:
 	for node: Node in map.find_children("*","Area2D",true,false):
