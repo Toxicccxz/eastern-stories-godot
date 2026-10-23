@@ -89,6 +89,10 @@ var _maps_by_room: Dictionary[String, Array] = {}
 var _away: WorldAwayTimes = WorldAwayTimes.new()
 ## A catch-up's own revive draws (one falling while the player was away), while it runs.
 var _catch_up_revive_random: CombatRandomSource
+## The neighbour the pulse looks at next (_door_neighbours() order). Not saved.
+var _neighbour_pulse_index: int = 0
+## The maps a door leads to from each map (_door_neighbours()), by map ID.
+var _neighbours_by_map: Dictionary[StringName, Array] = {}
 
 
 func _ready() -> void:
@@ -371,6 +375,44 @@ func advance_npc_heartbeat(delta: float) -> void:
 	var map: WorldMapController = active_map() as WorldMapController
 	if map != null and map.is_inside_tree() and map.can_process():
 		map.advance_npc_heartbeat(delta)
+		_advance_neighbour_pulse(delta, map)
+
+
+## 邻图来客 (owner Q1, DECISIONS「别的地图时间补算」): each map within two doors of the
+## player's is caught up once it owes pacing.json away_neighbour_pulse_seconds of world time,
+## and one of its wanderers whose move leads in comes in through the door, as it would to a
+## player standing in the shop while the street goes on. One map a beat, in turn, so the
+## work is spread. 0 (ES2): never.
+func _advance_neighbour_pulse(_delta: float, map: WorldMapController) -> void:
+	var pulse: int = GameContent.catalog().pacing().away_neighbour_pulse_seconds
+	var neighbours: Array = _door_neighbours(map.map_id())
+	if pulse <= 0 or neighbours.is_empty():
+		return
+	for _tried: int in neighbours.size():
+		_neighbour_pulse_index = (_neighbour_pulse_index + 1) % neighbours.size()
+		var map_id: StringName = neighbours[_neighbour_pulse_index]
+		if _away.owed_ms(map_id) >= pulse * 1000:
+			catch_up_map(world_map_of(map_id), true)
+			return
+
+
+## The maps within two passages of `map_id`, nearest first: a wanderer ranges over its home
+## and the rooms next to it, so one that could come in by a door stands at most two doors off.
+func _door_neighbours(map_id: StringName) -> Array:
+	if not _neighbours_by_map.has(map_id):
+		var maps: Array[StringName] = []
+		var ring: Array[StringName] = [map_id]
+		for _depth: int in 2:
+			var next: Array[StringName] = []
+			for from: StringName in ring:
+				for portal: PortalDefinition in GameContent.catalog().portals_for_map(from):
+					var to: StringName = portal.destination_map_id
+					if to != map_id and not maps.has(to) and world_map_of(to) != null:
+						maps.append(to)
+						next.append(to)
+			ring = next
+		_neighbours_by_map[map_id] = maps
+	return _neighbours_by_map[map_id]
 
 
 func away_times() -> WorldAwayTimes:
@@ -385,7 +427,7 @@ func away_times() -> WorldAwayTimes:
 ## never from a session stream, so leaving and coming back draws nothing the map's own beat
 ## would, and a Continue owes and draws the same; only a death the player caused (a drug)
 ## gives its reward as on the player's map. Nothing for the player's map.
-func catch_up_map(map: WorldMapController) -> void:
+func catch_up_map(map: WorldMapController, arrivals: bool = false) -> void:
 	if map == null or map == active_map() or not _initialized or _world_content_revision != WorldContentRevision.CURRENT_PUBLIC:
 		return
 	var owed: int = _away.owed_ms(map.map_id())
@@ -395,7 +437,7 @@ func catch_up_map(map: WorldMapController) -> void:
 	var limit: int = GameContent.catalog().pacing().away_catch_up_limit_seconds * 1000
 	var seed: int = _away_seed(map.map_id(), owed)
 	_catch_up_revive_random = GodotCombatRandomSource.new(hash([seed, "revive"]), true)
-	map.npc_life.catch_up((owed if limit <= 0 else mini(owed, limit)) / 1000.0, seed)
+	map.npc_life.catch_up((owed if limit <= 0 else mini(owed, limit)) / 1000.0, seed, arrivals)
 	_catch_up_revive_random = null
 	if limit > 0 and owed > limit:
 		map.npc_life.settle()
@@ -913,6 +955,43 @@ func world_map_of(map_id: StringName) -> WorldMapController:
 func world_map_of_zone(zone_id: StringName) -> WorldMapController:
 	var zone: ZoneDefinition = GameContent.catalog().zone(zone_id)
 	return null if zone == null else world_map_of(zone.map_id)
+
+
+## room.c valid_leave() for a door between two zones, on whichever map holds the first.
+func door_closed_between(from_zone_id: StringName, to_zone_id: StringName) -> bool:
+	var map: WorldMapController = world_map_of_zone(from_zone_id)
+	return map != null and map.npc_life.door_closed_between(from_zone_id, to_zone_id)
+
+
+## Where a catch-up's moves left an NPC of `source` (WorldMapNpcLife._wander()): on a free
+## spot of `zone_id`, drawn from the catch-up's `random`, on whichever map holds it (through a
+## building's door: onto that map, caught up first). False when it could not be put there
+## (it stays where it stood).
+func place_away(npc: NpcRuntimeState, source: WorldMapController, zone_id: StringName, random: WorldInteractionRandomSource) -> bool:
+	var destination: WorldMapController = world_map_of_zone(zone_id)
+	var location: WorldLocationState = null if destination == null else destination.location_for_zone(zone_id)
+	var zone: WorldPhysicalZoneArea2D = null if destination == null else destination.physical_zone(zone_id)
+	if location == null or zone == null or destination == active_map():
+		return false
+	if destination != source:
+		if not _move_npc(npc, source, destination, location, _clear_spot(destination, zone_id, zone.global_rect().get_center())):
+			return false
+	else:
+		npc.set_world_location(location)
+	destination.npc_life.npc_walker().place_into(npc.character_id, destination.npcs.runtime_body_for_character(npc.character_id), zone, random)
+	return true
+
+
+## A neighbour's wanderer coming in through `portal` onto the player's map (the neighbour
+## pulse): beside its arrival marker, met as one walking in (greeting, notice), and go.c's
+## 走了过来。 where the player hears it.
+func arrive_away(npc: NpcRuntimeState, source: WorldMapController, portal: PortalDefinition) -> bool:
+	var destination: WorldMapController = active_map() as WorldMapController
+	if destination == null or portal == null or portal.destination_map_id != destination.map_id() or not move_npc_through(npc, source, portal):
+		return false
+	if destination.npc_life.player_hears(npc) and destination.hud() != null:
+		destination.hud().append_log_lines([tr("{name}走了过来。").format({"name": tr(npc.definition().display_name)})])
+	return true
 
 
 ## world_map_of_zone() for a look at who is there now, to decide on it (a scripted act's

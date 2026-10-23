@@ -248,7 +248,9 @@ func player_left() -> void:
 ## corpse whose heal_up() comes has no master here to feed it: it is dispelled
 ## (zombie.c dispell()). The NPCs' own call_outs still standing come due: an NPC dissolving
 ## a corpse (the player's own ones went as they left, player_left()). Nobody hears any of it.
-func catch_up(seconds: float, seed: int) -> void:
+## Then its wanderers and constables are where their moves took them (_wander(); `arrivals`:
+## one may come in through a door onto the player's map, the neighbour pulse).
+func catch_up(seconds: float, seed: int, arrivals: bool = false) -> void:
 	if not _initialized or session == null or not is_finite(seconds) or seconds <= 0.0:
 		return
 	_map.corpses.advance_pending_dissolves(seconds)
@@ -277,6 +279,94 @@ func catch_up(seconds: float, seed: int) -> void:
 		ceiling.hold(npc.character_state, before)
 		if npc_heartbeat != null:
 			npc_heartbeat.forget_revive(npc.character_id)
+	_wander(seconds, seed, arrivals)
+
+
+## 别的地图时间补算 B (DECISIONS): where the map's wanderers and constables went while the
+## player was away. Their chat beats are drawn as npc.c chat() draws them (NpcAmbience.chat(),
+## on a stream of the catch-up's own), up to pacing.json away_wander_moves moves: a
+## random_move() by NpcRandomMove's rule (home and next door, no shut door, through a
+## building's door onto its map), a constable's patrol() along its beat, turning at its ends.
+## It walks no path: it stands on a free spot of the room the moves end in. A way onto the
+## player's map is not taken, but with `arrivals` (the neighbour pulse) it comes in through
+## that door, seen as go.c's 走了过来. ES2 (away_wander_moves 0): a healed
+## NPC's heart beat stops where no player is, and it stays where it stood.
+func _wander(seconds: float, seed: int, arrivals: bool) -> void:
+	var pacing: PacingDefinition = GameContent.catalog().pacing()
+	var most: int = pacing.away_wander_moves
+	var beats: int = int(seconds / pacing.heart_beat_seconds)
+	if most <= 0 or beats <= 0 or session == null:
+		return
+	var catalog: ContentCatalog = GameContent.catalog()
+	var npcs: Array[NpcRuntimeState] = _map.npcs.npc_runtimes()
+	npcs.sort_custom(func(a: NpcRuntimeState, b: NpcRuntimeState) -> bool: return String(a.character_id) < String(b.character_id))
+	for npc: NpcRuntimeState in npcs:
+		if not _wanders(npc):
+			continue
+		var random: WorldInteractionRandomSource = GodotWorldInteractionRandomSource.new(hash([seed, String(npc.character_id), "walk"]), true)
+		var chat: NpcAmbience = NpcAmbience.new(random)
+		var talk: NpcTalk = npc.chat_talk()
+		var chance: int = npc.chat_chance if npc.mood() == null else -1
+		var patrol: NpcPatrol = npc.definition().dealings().patrol
+		var spawn: NpcSpawnDefinition = catalog.spawn(npc.spawn_id)
+		var zone_id: StringName = npc.world_location().zone_id
+		var back: bool = npc.has_flag(WorldMapPatrols.FLAG_BACK)
+		var moves: int = 0
+		var arrival: PortalDefinition = null
+		for _beat: int in beats:
+			if moves >= most:
+				break
+			var entry: Variant = chat.chat(talk, chance)
+			if not entry is StringName:
+				continue
+			if entry == NpcTalk.PATROL and patrol != null:
+				var next: StringName = patrol.next_zone(zone_id, back)
+				if next.is_empty():
+					back = not back
+					next = patrol.next_zone(zone_id, back)
+				if not next.is_empty():
+					zone_id = next
+					moves += 1
+			elif entry == NpcTalk.RANDOM_MOVE and spawn != null:
+				var move: NpcRandomMove.Move = NpcRandomMove.choose(catalog, zone_id, spawn.zone_id, random, session.door_closed_between, true)
+				if move == null:
+					continue
+				if catalog.zone(move.to_zone_id).map_id == session.active_map_id():
+					if arrivals:
+						arrival = catalog.portal(move.portal_id)
+						break
+					continue
+				zone_id = move.to_zone_id
+				moves += 1
+		if patrol != null:
+			if back:
+				npc.set_flag(WorldMapPatrols.FLAG_BACK, true)
+			else:
+				npc.clear_flag(WorldMapPatrols.FLAG_BACK)
+		var at: WorldMapController = _map
+		if moves > 0 and session.place_away(npc, _map, zone_id, random):
+			at = session.world_map_of_zone(zone_id)
+		# In by the door from the room it stands in now (where its moves left it).
+		if arrival != null and npc.world_location().zone_id == arrival.source_zone_id:
+			session.arrive_away(npc, at, arrival)
+
+
+## Whether the NPC's own chat may move it while nobody looks: standing, free, with chat, not
+## called, raised or following the player, not on its way out by a door.
+func _wanders(npc: NpcRuntimeState) -> bool:
+	return (
+		npc.exists_in_map and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+		and not npc.relationship.is_fighting() and not npc.busy.is_busy()
+		and npc.chat_talk() != null and npc.chat_talk().has_chat()
+		and npc.definition().raising() == null and _map.npcs.summoner_of(npc.character_id).is_empty()
+		and not follows_every_way(npc) and not departures.has(npc.character_id)
+		and not (_player != null and _player.led_by == npc.character_id)
+	)
+
+
+## room.c valid_leave() for a door between two zones of this map (NpcRandomMove).
+func door_closed_between(from_zone_id: StringName, to_zone_id: StringName) -> bool:
+	return _door_closed_between(from_zone_id, to_zone_id)
 
 
 ## Whether time away could change this map (DECISIONS「别的地图时间补算」): an NPC not still
