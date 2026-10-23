@@ -19,6 +19,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _decays_away(tree)
 	await _continue_keeps_its_age(tree)
 	await _raised_rotten(tree)
+	await _dies_away(tree)
 	await _knob_off(tree)
 	TestAway.restore()
 	return {"assertions": _count, "failures": _failures}
@@ -148,6 +149,35 @@ func _raised_rotten(tree: SceneTree) -> void:
 		if map.dropped_item_ids().has(item_id):
 			on_floor += 1
 	_check(on_floor == held.size() and map.corpses.find_corpse(corpse.corpse_item_instance_id) == null, "the corpse is gone and its things lie on the floor")
+	session.free()
+	await tree.process_frame
+
+
+## One that dies on a map while the player is away (its catch-up's first beat lets it fall)
+## has lain dead the rest of the time: coming back after 400 s, its bones have scattered and
+## what it held lies there (Codex review on #151).
+func _dies_away(tree: SceneTree) -> void:
+	var session: WorldSessionController = await _session(tree)
+	var inn: WorldMapController = session.active_map() as WorldMapController
+	var npc: NpcRuntimeState = inn.npcs.find_resident_npc(T1)
+	var zone: ZoneDefinition = GameContent.catalog().zone(&"snow.square")
+	_check(session.handoff_to(&"snow.outdoor", &"snow.square", zone.combat_location_id, &"snow.square.inn_entry").succeeded(), "out onto the square")
+	# TEST-ONLY: wounded past death where nobody looks; its map owes 400 s (the clock alone,
+	# no beat that would pulse the inn).
+	npc.character_state.vitality.effective = -1
+	session.away_times().advance(400.0)
+	var held: Array[StringName] = session.inventory_state().direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, T1))
+	session.catch_up_map(inn)
+	_check(npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD, "it died while the player was away")
+	var lying: int = 0
+	for corpse: CorpseState in inn.corpses.corpse_states():
+		if corpse.victim_character_id == T1:
+			lying += 1
+	var on_floor: int = 0
+	for item_id: StringName in held:
+		if inn.dropped_item_ids().has(item_id):
+			on_floor += 1
+	_check(lying == 0 and held.size() >= 2 and on_floor == held.size(), "400 s on, its bones scattered and what it held lies there (%d of %d)" % [on_floor, held.size()])
 	session.free()
 	await tree.process_frame
 
