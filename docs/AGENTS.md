@@ -5,6 +5,8 @@ Supplements the root `AGENTS.md` for everything under `docs/`.
 * `docs/production/` holds current, long-lived documents: `STATUS.md` (one page, overwritten),
   `ROADMAP.md` (forward plan only), `BUILD.md`, `REPOSITORY_POLICY.md`, `GODOT_AI_DEVELOPMENT.md`,
   `LICENSE_PROVENANCE.md`, `PROJECT_SCOPE.md` and `contracts/`.
+* `docs/design/` holds the owner's design documents, e.g. `美术规划.md` (the voxel art standard
+  per region, kept current with AGENTS.md「Maps and art」).
 * `docs/migration/` holds `DECISIONS.md` and, when useful, one short note per content package
   (LPC→native mapping, source anomalies, deferred items). Name new notes by content, e.g.
   `SNOW_SHOPS.md`, not by phase code.

@@ -51,3 +51,13 @@ This file is an evidence ledger, not legal advice or a commercial-clearance opin
 The only tracked non-code visual asset under `game/` at the Phase 10A baseline is `game/icon.svg`,
 the Godot project icon. No external authored art/audio pack was found in the current game tree. This
 inventory is not a guarantee about future content.
+
+## Voxel maps
+
+`game/presentation/voxel/` builds original coloured box meshes and animations in GDScript;
+`game/data/<region>/voxel/*.json` and the map layouts' furniture `look`s configure them. No
+external pack files are included. Owner-provided visual references: Max Parata's
+[ancient environment](https://maxparata.itch.io/voxel-ancient-environment),
+[rocky mountains](https://maxparata.itch.io/rocky-mountains), and
+[voxel interiors](https://maxparata.itch.io/voxelinterior). Imported art, when it comes, goes under
+`game/assets/` with its source recorded here.

@@ -187,6 +187,14 @@ initialize when scene and data disagree.
 Terrain is not data: each scene paints it on `TileMapLayer`s with the shared placeholder TileSet
 ([TERRAIN_TILES](TERRAIN_TILES.md)); on Old Pine the tiles are also the collision. Tiles carry no IDs.
 
+A map shown in 3D has a `MapView` node (`WorldVoxelView`) naming its voxel config,
+`game/data/<region>/voxel/<map>.json` (not in the manifest; read by the view): `indoor`,
+`camera_size`, `low_walls` (cut-away wall boxes), `props` (things that block nothing: `kind`,
+`at`, `size`, `rotation`, colours), `buildings`, `flora`, `edge`, `weather`, `actors` (looks by NPC
+id) and `entrances` (labels by portal id). What blocks is not here: a layout fill row ends with
+`{"look": {...}}` and the painter writes it as a `Furnishings` child (position = the box's centre,
+`metadata/look`, `metadata/footprint`) — see AGENTS.md「Maps and art」.
+
 ## zones
 
 `{id, map, rooms}` — a walkable part of a map made of one or more rooms. The **first room is the

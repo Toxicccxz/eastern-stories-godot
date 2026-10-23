@@ -2,7 +2,8 @@
 
 ## Goal
 
-A native 2D Godot RPG that carries ES2's content and rules — regions, NPCs, items, skills,
+A native Godot RPG — rules and movement on 2D maps, every map shown in a fixed-angle voxel view
+(owner, 2026-10-22) — that carries ES2's content and rules — regions, NPCs, items, skills,
 families, quests — with modern maps, movement and UI, reliable Save/Continue, and a coherent
 start → early → middle → late play chain. Faithful to the LPC where it matters; deliberate
 single-player adaptations are owner decisions recorded in
@@ -72,8 +73,13 @@ only they or nobody use; `d/npc` (wizard-saved characters).
 * **Maps**: every map is `tools/maps/layouts/` data drawn by the painter to the scale standard
   (`tools/maps/standard.json`: streets, doors, facades and room classes in body widths); a town
   shows its streets and facades, and every enterable room is on its building's own map behind its
-  door. New content is drawn the same way.
-* **Presentation**: art direction and assets, audio, animation, consistent Chinese UI.
+  door. New content is drawn the same way. Every map also gets its voxel view, dressed to the
+  richness standard (AGENTS.md「Maps and art」); furniture is a blocked box with a `look` in the
+  layout, decor is the map's `game/data/<region>/voxel/<map>.json`.
+* **Presentation**: the voxel maps (below), characters and animation, audio, consistent Chinese UI.
+* **Voxel maps** (owner, 2026-10-22): 雪亭镇's inn (both floors) and street are done. Next, region by
+  region in the table's order: Snow's shops and rooms, then each region's maps, every room dressed
+  and lit; per region a mobile frame-rate check (Android export) before moving on.
 
 ## After the grey box
 
@@ -120,8 +126,8 @@ accepted together at step 3, the owner's one full playtest; what it finds is fix
    mutual exclusion; the journal; per-faction standing with a deed table; dialogue variants by
    standing, deed, family and gender; a reputation page. Then the main story's first chapter and
    the first faction lines, in the sandbox with the player's own character.
-7. **Art pilot**, in parallel from step 2 once style, tile size and asset source are chosen: one
-   region re-skinned through the painter's layouts, then the rest; characters and objects after.
+7. **Voxel maps and characters**, in parallel from step 2: the voxel rollout above for every
+   map; then characters (bodies, faces, clothing by family and class) and animation.
 
 ## Later — release readiness
 
