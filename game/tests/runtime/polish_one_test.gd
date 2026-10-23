@@ -91,14 +91,14 @@ func _test_step_aside(tree: SceneTree, session: WorldSessionController) -> void:
 	session.set_process(true)
 	await tree.physics_frame
 	await tree.physics_frame
-	Input.action_press(&"move_up")
 	var stepped: bool = false
 	for frame: int in range(120):
+		MapRoute.press_action(map.player_body, &"move_up")
 		await tree.physics_frame
 		if map.npc_walker().is_walking(TRAINEE):
 			stepped = true
 			break
-	Input.action_release(&"move_up")
+	MapPlaces.release()
 	session.set_process(false)
 	var rest: Vector2 = map.npc_walker().rest_position(TRAINEE, body)
 	_check(stepped, "pushed into for a second, the trainee steps aside")
