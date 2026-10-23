@@ -51,7 +51,7 @@ func asks_stronger() -> bool:
 	if act.stronger_npc_id.is_empty() or map == null or map.player_runtime() == null:
 		return false
 	# Its room may be on another map (the 瓜棚 since the remap).
-	var there: WorldMapController = null if map.session == null else map.session.world_map_of_zone(act.stronger_zone_id)
+	var there: WorldMapController = null if map.session == null else map.session.caught_up_map_of_zone(act.stronger_zone_id)
 	var npc: NpcRuntimeState = (map if there == null else there).npcs.first_npc_in_zone(act.stronger_npc_id, act.stronger_zone_id, true)
 	return npc != null and RelativeStrength.clearly_stronger(
 		map.player_runtime().state.progression.combat_experience, npc.character_state.progression.combat_experience,

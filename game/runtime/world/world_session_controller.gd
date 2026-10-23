@@ -915,6 +915,15 @@ func world_map_of_zone(zone_id: StringName) -> WorldMapController:
 	return null if zone == null else world_map_of(zone.map_id)
 
 
+## world_map_of_zone() for a look at who is there now, to decide on it (a scripted act's
+## NPC in a room on another map): that map caught up first (catch_up_map()), so nobody
+## drugged there meanwhile still seems to stand.
+func caught_up_map_of_zone(zone_id: StringName) -> WorldMapController:
+	var map: WorldMapController = world_map_of_zone(zone_id)
+	catch_up_map(map)
+	return map
+
+
 ## Every resident map, in content order (stable for saves).
 func world_maps() -> Array[WorldMapController]:
 	var result: Array[WorldMapController] = []

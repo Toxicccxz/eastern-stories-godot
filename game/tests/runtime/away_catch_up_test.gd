@@ -217,7 +217,11 @@ func _poison_away(tree: SceneTree) -> void:
 	_check(_go(session, out), "the player leaves the drugged")
 	# The first heal_up() tick comes within 15 beats (and pair[0]'s three busy ones).
 	session.away_times().advance(40.0)
-	session.catch_up_map(session.world_map_of(home))
+	# A scripted act looking at who stands in that room from another map (the 瓜农 called out
+	# of his 瓜棚) sees the map caught up first: nobody drugged there still seems to stand.
+	var zone: StringName = pair[0].world_location().zone_id
+	var there: WorldMapController = session.caught_up_map_of_zone(zone)
+	_check(there != null and not there.npcs.npc_present_in_zone(pair[0].definition_id, zone, true) and not there.npcs.npc_present_in_zone(pair[1].definition_id, zone, true), "a look from another map finds the drugged lying, not standing")
 	for npc: NpcRuntimeState in pair:
 		_check(npc.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS and npc.revive_in_ms > 0, "the drug laid %s low while the player was away" % npc.character_id)
 	session.away_times().advance(600.0)

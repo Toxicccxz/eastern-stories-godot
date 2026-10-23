@@ -56,7 +56,7 @@ func facts(room_zone_id: StringName = &"") -> ScriptedAct.Facts:
 ## Whether an NPC of `definition_id` stands in `zone_id`, on whichever map the room lies (the
 ## 瓜农 in his 瓜棚, a map of its own since the remap).
 func _standing_in(definition_id: StringName, zone_id: StringName) -> bool:
-	var there: WorldMapController = null if _map.session == null else _map.session.world_map_of_zone(zone_id)
+	var there: WorldMapController = null if _map.session == null else _map.session.caught_up_map_of_zone(zone_id)
 	return (_map if there == null else there).npcs.npc_present_in_zone(definition_id, zone_id, true)
 
 
@@ -158,7 +158,7 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 				# From a room on another map (the 瓜农 out of his own 瓜棚 since the remap): he comes
 				# through onto this one first.
 				if comer == null and _map.session != null:
-					var home: WorldMapController = _map.session.world_map_of_zone(step.zone_id)
+					var home: WorldMapController = _map.session.caught_up_map_of_zone(step.zone_id)
 					if home != null and home != _map:
 						comer = home.npcs.first_npc_in_zone(step.npc_id, step.zone_id, true)
 						if comer != null and not _map.session.bring_npc_onto(comer, home, _map, _player.world_location().zone_id):
