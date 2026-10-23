@@ -120,10 +120,7 @@ func _neighbour_comes_in(tree: SceneTree) -> void:
 
 
 func _pacing(pacing: PacingDefinition, moves: int, pulse: int) -> PacingDefinition:
-	return PacingDefinition.new(
-		roundi(pacing.combat_round_seconds * 1000.0), pacing.room_reset_seconds, pacing.player_exp_gain,
-		pacing.player_recovery_gain, pacing.quest_time_percent, pacing.npc_thirst, pacing.player_wake_seconds,
-	).with_responsiveness(roundi(pacing.reaction_seconds(10.0) * 1000.0), roundi(pacing.trial_blow_seconds * 1000.0), roundi(pacing.heart_beat_seconds * 1000.0), roundi(pacing.dim_fade_seconds * 1000.0)).with_away_catch_up_limit(pacing.away_catch_up_limit_seconds, moves, pulse)
+	return pacing.copy().with_away_catch_up_limit(pacing.away_catch_up_limit_seconds, moves, pulse)
 
 
 ## Each NPC standing in the world, by ID: its zone.

@@ -329,7 +329,7 @@ func _wander(seconds: float, seed: int, arrivals: bool) -> void:
 					moves += 1
 			elif entry == NpcTalk.RANDOM_MOVE and spawn != null:
 				var move: NpcRandomMove.Move = NpcRandomMove.choose(catalog, zone_id, spawn.zone_id, random, session.door_closed_between, true)
-				if move == null:
+				if move == null or not _way_open(move, zone_id):
 					continue
 				if catalog.zone(move.to_zone_id).map_id == session.active_map_id():
 					if arrivals:
@@ -338,17 +338,32 @@ func _wander(seconds: float, seed: int, arrivals: bool) -> void:
 					continue
 				zone_id = move.to_zone_id
 				moves += 1
-		if patrol != null:
+		var at: WorldMapController = _map
+		var placed: bool = moves > 0 and session.place_away(npc, _map, zone_id, random)
+		if placed:
+			at = session.world_map_of_zone(zone_id)
+		# A constable turns only where it got to.
+		if patrol != null and placed:
 			if back:
 				npc.set_flag(WorldMapPatrols.FLAG_BACK, true)
 			else:
 				npc.clear_flag(WorldMapPatrols.FLAG_BACK)
-		var at: WorldMapController = _map
-		if moves > 0 and session.place_away(npc, _map, zone_id, random):
-			at = session.world_map_of_zone(zone_id)
 		# In by the door from the room it stands in now (where its moves left it).
 		if arrival != null and npc.world_location().zone_id == arrival.source_zone_id:
 			session.arrive_away(npc, at, arrival)
+
+
+## Whether a move's way is open now: through a building's door, the passage open, onto a map
+## of this world (as _depart() asks).
+func _way_open(move: NpcRandomMove.Move, from_zone_id: StringName) -> bool:
+	if move.portal_id.is_empty():
+		return true
+	var portal: PortalDefinition = GameContent.catalog().portal(move.portal_id)
+	var there: WorldMapController = session.world_map_of_zone(from_zone_id)
+	return (
+		portal != null and there != null and there.is_portal_open(portal.portal_id)
+		and session.world_map_of(portal.destination_map_id) != null
+	)
 
 
 ## Whether the NPC's own chat may move it while nobody looks: standing, free, with chat, not

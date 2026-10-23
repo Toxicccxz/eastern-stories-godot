@@ -306,7 +306,10 @@ func _track_resets() -> void:
 			elif not dead and _dead_since.has(point):
 				_dead_since.erase(point)
 				_respawns += 1
-			var away: bool = not dead and npc.world_location().zone_id != catalog.spawn(npc.spawn_id).zone_id
+			# A constable on its beat is at its post (reset leaves it: WorldMapPatrols.keeps_out()).
+			var patrol: NpcPatrol = npc.definition().dealings().patrol
+			var on_beat: bool = patrol != null and patrol.route.has(npc.world_location().zone_id)
+			var away: bool = not dead and not on_beat and npc.world_location().zone_id != catalog.spawn(npc.spawn_id).zone_id
 			if away and not _away_since.has(point):
 				_away_since[point] = _now
 			elif not away and _away_since.has(point):

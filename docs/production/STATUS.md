@@ -4,10 +4,11 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**别的地图时间补算**（owner，2026-10-23，DECISIONS 同名条目）：分三个 PR。A（分支
-`phase/away-catch-up-a`）：玩家回到一张图、那里的房间重置、有 NPC 进出那张图之前，先把它离开期间的
-NPC 心跳一次补算完，包括回复、状态、忙碌、计时效果和昏迷醒来，超过一小时的部分直接算到结束；存档记录
-每张图欠下的时间。B：游走和巡街的位置补算，加上邻图来客。C：尸体腐烂。
+**别的地图时间补算**（owner，2026-10-23，DECISIONS 同名条目）：分三个 PR。A（#149，已合并）：玩家回到
+一张图、那里的房间重置、有 NPC 进出那张图之前，先把它离开期间的 NPC 心跳一次补算完，包括回复、状态、
+忙碌、计时效果和昏迷醒来，最多回到造出来时的样子；存档记录每张图欠下的时间。B（分支
+`phase/away-catch-up-b`）：游走和巡街的人按自己的节拍换了位置；站在店外时，店里的游走 NPC 会从门口出来，
+反过来也一样。C：尸体腐烂。
 
 **体素地图**（owner，2026-10-22，DECISIONS「固定俯视体素地图」）：全部地图都将用固定斜视的体素表现，
 当前分支 `phase/snow-voxel-interiors`。雪亭镇全部可进入地图已接入：饮风客栈一、二楼、
@@ -386,9 +387,10 @@ Code:
   NPCs never flee a losing fight (`wimpy`) and do not follow who flees (`pursuer`).
   The dog takes no bone (no
   chicken leg, no following); nothing can be put into a corpse.
-* An NPC walks and talks only on the map the player is on; another map's heart beat (healing,
-  conditions, waking) is caught up when the player comes back, but its wanderers stay where
-  they were until B: one that walked out of a shop stands on the street until the player comes out. New Game builds 127 maps (about 2.8 s in the editor, headless, measured before R4's
+* An NPC talks only near the player; another map's heart beat (healing, conditions, waking) and
+  its wanderers' moves are caught up when the player comes back, and a wanderer two doors off
+  or nearer may come in through the door while the player stands there. On the player's own map
+  a wanderer still moves only where the player is (ES2's heart beat). New Game builds 127 maps (about 2.8 s in the editor, headless, measured before R4's
   maps grew).
 * With the pacing knobs, 打坐 from max_force 0 to 50 takes about 2.4 hours of play at con 30
   (6.4 at ES2's pace); `tests/runtime/run_with_max_force.gd` gives a playtest 49. combat_exp 0 to

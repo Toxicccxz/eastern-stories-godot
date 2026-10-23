@@ -123,6 +123,18 @@ func reaction_seconds(es2_seconds: float) -> float:
 	return minf(es2_seconds, float(_reaction_beat_ms) / 1000.0)
 
 
+## A copy of this record (a suite changes a knob on it, never on the game's).
+func copy() -> PacingDefinition:
+	var record: PacingDefinition = PacingDefinition.new(
+		_combat_round_ms, _room_reset_seconds, _player_exp_gain, _player_recovery_gain,
+		_quest_time_percent, _npc_thirst, _player_wake_seconds,
+	).with_responsiveness(_reaction_beat_ms, _trial_blow_ms, _heart_beat_ms, _dim_fade_ms).with_away_catch_up_limit(
+		_away_catch_up_limit_seconds, _away_wander_moves, _away_neighbour_pulse_seconds,
+	)
+	record.feel = feel
+	return record
+
+
 ## This record with the away catch-up limit set (seconds; tests, and from_record()).
 func with_away_catch_up_limit(seconds: int, wander_moves: int = 0, neighbour_pulse_seconds: int = 0) -> PacingDefinition:
 	_away_catch_up_limit_seconds = seconds

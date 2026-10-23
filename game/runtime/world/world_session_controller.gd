@@ -89,8 +89,10 @@ var _maps_by_room: Dictionary[String, Array] = {}
 var _away: WorldAwayTimes = WorldAwayTimes.new()
 ## A catch-up's own revive draws (one falling while the player was away), while it runs.
 var _catch_up_revive_random: CombatRandomSource
-## The neighbour the pulse looks at next (_door_neighbours() order). Not saved.
+## The neighbour the pulse looks at next (_door_neighbours() order), and world seconds to its
+## next look (one a heart beat). Not saved.
 var _neighbour_pulse_index: int = 0
+var _neighbour_pulse_wait: float = 0.0
 ## The maps a door leads to from each map (_door_neighbours()), by map ID.
 var _neighbours_by_map: Dictionary[StringName, Array] = {}
 
@@ -375,19 +377,25 @@ func advance_npc_heartbeat(delta: float) -> void:
 	var map: WorldMapController = active_map() as WorldMapController
 	if map != null and map.is_inside_tree() and map.can_process():
 		map.advance_npc_heartbeat(delta)
-		_advance_neighbour_pulse(delta, map)
+		# The map's beat may have begun a fight or taken the player elsewhere.
+		if npc_world_time_allowed() and active_map() == map and map.gameplay_open():
+			_advance_neighbour_pulse(delta, map)
 
 
 ## 邻图来客 (owner Q1, DECISIONS「别的地图时间补算」): each map within two doors of the
 ## player's is caught up once it owes pacing.json away_neighbour_pulse_seconds of world time,
 ## and one of its wanderers whose move leads in comes in through the door, as it would to a
-## player standing in the shop while the street goes on. One map a beat, in turn, so the
+## player standing in the shop while the street goes on. One map a heart beat, in turn, so the
 ## work is spread. 0 (ES2): never.
-func _advance_neighbour_pulse(_delta: float, map: WorldMapController) -> void:
+func _advance_neighbour_pulse(delta: float, map: WorldMapController) -> void:
 	var pulse: int = GameContent.catalog().pacing().away_neighbour_pulse_seconds
 	var neighbours: Array = _door_neighbours(map.map_id())
 	if pulse <= 0 or neighbours.is_empty():
 		return
+	_neighbour_pulse_wait -= delta
+	if _neighbour_pulse_wait > 0.0:
+		return
+	_neighbour_pulse_wait = GameContent.catalog().pacing().heart_beat_seconds
 	for _tried: int in neighbours.size():
 		_neighbour_pulse_index = (_neighbour_pulse_index + 1) % neighbours.size()
 		var map_id: StringName = neighbours[_neighbour_pulse_index]
@@ -425,8 +433,9 @@ func away_times() -> WorldAwayTimes:
 ## away_catch_up_limit_seconds beat by beat, the rest settled. Its draws (heal ticks, the
 ## revive of one falling) come from the world-interaction seed, the map and the time owed,
 ## never from a session stream, so leaving and coming back draws nothing the map's own beat
-## would, and a Continue owes and draws the same; only a death the player caused (a drug)
-## gives its reward as on the player's map. Nothing for the player's map.
+## would, and a Continue owes the same where time changes its people's state (where its
+## wanderers stand goes on from the save); only a death the player caused (a drug) gives its
+## reward as on the player's map. Nothing for the player's map.
 func catch_up_map(map: WorldMapController, arrivals: bool = false) -> void:
 	if map == null or map == active_map() or not _initialized or _world_content_revision != WorldContentRevision.CURRENT_PUBLIC:
 		return
@@ -973,12 +982,27 @@ func place_away(npc: NpcRuntimeState, source: WorldMapController, zone_id: Strin
 	var zone: WorldPhysicalZoneArea2D = null if destination == null else destination.physical_zone(zone_id)
 	if location == null or zone == null or destination == active_map():
 		return false
-	if destination != source:
-		if not _move_npc(npc, source, destination, location, _clear_spot(destination, zone_id, zone.global_rect().get_center())):
+	if destination == source:
+		if not source.npc_life.npc_walker().place_into(npc.character_id, source.npcs.runtime_body_for_character(npc.character_id), zone, random):
 			return false
-	else:
 		npc.set_world_location(location)
-	destination.npc_life.npc_walker().place_into(npc.character_id, destination.npcs.runtime_body_for_character(npc.character_id), zone, random)
+		return true
+	var body: Node2D = source.npcs.runtime_body_for_character(npc.character_id)
+	if body == null:
+		return false
+	var was: WorldLocationState = npc.world_location()
+	var stood: Vector2 = body.global_position
+	# Caught up before its spot is chosen, so the spot is clear of who stands there now.
+	catch_up_map(destination)
+	if not _move_npc(npc, source, destination, location, _clear_spot(destination, zone_id, zone.global_rect().get_center())):
+		return false
+	var moved: Node2D = destination.npcs.runtime_body_for_character(npc.character_id)
+	if (
+		not destination.npc_life.npc_walker().place_into(npc.character_id, moved, zone, random)
+		and (moved == null or not MapPlacementValidator.is_valid_character_position(destination, zone_id, moved.global_position))
+	):
+		_move_npc(npc, destination, source, was, stood)
+		return false
 	return true
 
 
@@ -1474,37 +1498,53 @@ func departure_projection(npc: NpcRuntimeState, source: WorldMapController) -> A
 ## onto another map: it comes back to its marker from wherever it is, a dead one's record
 ## too (the reset makes it anew). Null when no map holds it.
 func bring_npc_home(point_id: StringName, home: WorldMapController) -> NpcRuntimeState:
+	# Whether it may leave is as it is now (awake, not fighting): its map caught up first,
+	# which may move it (home too, where the reset finds it).
+	var away: Array = _npc_away_from(point_id, home)
+	if away.is_empty():
+		return null
+	catch_up_map(away[0])
+	for npc: NpcRuntimeState in home.npc_runtimes():
+		if npc.spawn_point_id == point_id:
+			return npc
+	away = _npc_away_from(point_id, home)
+	if not away.is_empty():
+		var map: WorldMapController = away[0]
+		var npc: NpcRuntimeState = away[1]
+		var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(npc.spawn_id)
+		var marker: WorldSpawnMarker2D = home.resolve_spawn_marker(point_id)
+		var location: WorldLocationState = null if spawn == null else home.location_for_zone(spawn.zone_id)
+		if spawn == null or marker == null or location == null or spawn.map_id != home.map_id():
+			return null
+		var alive: bool = npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD
+		# A fighting or senseless one does not leave (npc.c return_home()); nor one that
+		# follows the player every way (小娟), nor a summoned one.
+		if alive and (npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or npc.relationship.is_fighting() or map.npc_life.follows_every_way(npc)):
+			return null
+		# A dead one is made anew at home, unless it is gone for good (it stays a record there).
+		if not alive and not WorldMapNpcs.made_anew(spawn, npc):
+			return null
+		if not alive:
+			return npc if map.npcs.release_follower(npc) else null
+		var heard: bool = map.npc_life.player_hears(npc) and map.hud() != null
+		if not _move_npc(npc, map, home, location, _clear_spot(home, spawn.zone_id, marker.global_position)):
+			return null
+		if heard:
+			map.hud().append_log_lines([tr("%s急急忙忙地离开了。") % tr(npc.definition().display_name)])
+		home.npc_life.npc_arrived(npc)
+		return npc
+	return null
+
+
+## [map, NPC] of the NPC of `point_id` on a map other than `home`, or [].
+func _npc_away_from(point_id: StringName, home: WorldMapController) -> Array:
 	for map: WorldMapController in world_maps():
 		if map == home:
 			continue
 		for npc: NpcRuntimeState in map.npc_runtimes():
-			if npc.spawn_point_id != point_id:
-				continue
-			# Whether it may leave is as it is now (awake, not fighting).
-			catch_up_map(map)
-			var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(npc.spawn_id)
-			var marker: WorldSpawnMarker2D = home.resolve_spawn_marker(point_id)
-			var location: WorldLocationState = null if spawn == null else home.location_for_zone(spawn.zone_id)
-			if spawn == null or marker == null or location == null or spawn.map_id != home.map_id():
-				return null
-			var alive: bool = npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD
-			# A fighting or senseless one does not leave (npc.c return_home()); nor one that
-			# follows the player every way (小娟), nor a summoned one.
-			if alive and (npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or npc.relationship.is_fighting() or map.npc_life.follows_every_way(npc)):
-				return null
-			# A dead one is made anew at home, unless it is gone for good (it stays a record there).
-			if not alive and not WorldMapNpcs.made_anew(spawn, npc):
-				return null
-			if not alive:
-				return npc if map.npcs.release_follower(npc) else null
-			var heard: bool = map.npc_life.player_hears(npc) and map.hud() != null
-			if not _move_npc(npc, map, home, location, _clear_spot(home, spawn.zone_id, marker.global_position)):
-				return null
-			if heard:
-				map.hud().append_log_lines([tr("%s急急忙忙地离开了。") % tr(npc.definition().display_name)])
-			home.npc_life.npc_arrived(npc)
-			return npc
-	return null
+			if npc.spawn_point_id == point_id:
+				return [map, npc]
+	return []
 
 
 ## The first spot from two bodies inside `near` (an arrival marker, where the player too
