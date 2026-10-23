@@ -62,7 +62,10 @@ func run_all(tree: SceneTree) -> Dictionary:
 		var actor: Node3D = up_view.actors.get(npc.character_id)
 		if npc.definition().definition_id==&"snow.npc.rat" and actor!=null and not (actor.get_child(0) is Person) and (actor.get_child(0) as Node3D).scale.x<1.0:
 			rats += 1
-			rat_id = npc.character_id
+			# The southern-most rat: the corridor north of it is open floor to stand on.
+			var body: WorldCharacterBody2D = upstairs.runtime_body_for_character(npc.character_id)
+			if rat_id.is_empty() or body.global_position.y>upstairs.runtime_body_for_character(rat_id).global_position.y:
+				rat_id = npc.character_id
 			if not up_view.labels[rat_id].visible:
 				quiet_names += 1
 	_check(rats==6,"the six corridor rats have small animal bodies: %d" % rats)
@@ -73,7 +76,8 @@ func run_all(tree: SceneTree) -> Dictionary:
 	var rat_body: WorldCharacterBody2D = upstairs.runtime_body_for_character(rat_id)
 	# Original interactions need 96px reach; the name's proximity reveal is only 60px.
 	_check(upstairs.place_player(&"snow.inn_2f",rat_body.global_position+Vector2(0,-80)),"approach within interaction reach but outside name proximity")
-	await _frames(tree,4)
+	await _frames(tree,8)
+	_check(rat_body.global_position.distance_to(upstairs.player_body.global_position)<96.0,"the player stands within the rat's reach: %s" % [rat_body.global_position-upstairs.player_body.global_position])
 	click.position = up_view.camera.unproject_position(rat_actor.position+Vector3.UP*0.30)
 	click.pressed = true
 	tree.root.push_input(click,true)
