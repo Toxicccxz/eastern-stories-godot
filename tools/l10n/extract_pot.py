@@ -462,6 +462,16 @@ def build_catalog(repository: Path = REPOSITORY) -> Catalog:
     for name in manifest["files"]:
         path = root / "data" / name
         extract_content(json.loads(path.read_text(encoding="utf-8")), f"data/{name}", catalog)
+    # Map presentation signs and entrance titles are also translated by the voxel view.
+    for path in sorted((root / "data").glob("*/voxel/*.json")):
+        config = json.loads(path.read_text(encoding="utf-8"))
+        source = path.relative_to(root).as_posix()
+        for prop in config.get("props", []):
+            if isinstance(prop.get("text"), str):
+                catalog.add(prop["text"], source)
+        for entrance in config.get("entrances", {}).values():
+            if isinstance(entrance.get("title"), str):
+                catalog.add(entrance["title"], source)
     return catalog
 
 

@@ -100,6 +100,12 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	day_night.custom_minimum_size = Vector2(100,38)
 	day_night.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	header.add_child(day_night)
+	var view_side := VoxelViewSideButton.new()
+	view_side.name = "ViewSide"
+	view_side.ui = ui
+	view_side.custom_minimum_size = Vector2(88,38)
+	view_side.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	header.add_child(view_side)
 	menu_button = _button(header, "Menu", "菜单", ui.open_menu)
 	menu_button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	# Start / M opens it: the card takes no focus.

@@ -5,6 +5,9 @@ extends Node
 ## grants items or changes a rule. Runtime bodies remain the single position authority.
 const Person = preload("res://presentation/voxel/actors/voxel_person.gd")
 const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
+const VIEW_ROTATION_SECONDS: float = 0.6
+const VIEW_SIDE_ANGLE: float = PI/4.0
+const VIEW_RADIUS: float = 30.0
 @export_file("*.json") var layout_path: String
 var map: WorldMapController
 var camera: Camera3D
@@ -14,6 +17,7 @@ var occlusion := VoxelOcclusion.new()
 var layout: Dictionary
 var lighting := VoxelLighting.new()
 var night: bool = false
+var left_view: bool = false
 var actors: Dictionary[StringName, Node3D] = {}
 var labels: Dictionary[StringName, Label3D] = {}
 var objects: Dictionary[StringName, Node3D] = {}
@@ -24,7 +28,11 @@ var _active: bool = false
 var _old_modulate: Color = Color.WHITE
 var _old_msaa: Viewport.MSAA = Viewport.MSAA_DISABLED
 var _target: Vector3
-var _offset := Vector3(18,26,24)
+var _offset := Vector3(21.213203,26,21.213203)
+var _view_yaw: float = VIEW_SIDE_ANGLE
+var _turn_from: float = VIEW_SIDE_ANGLE
+var _turn_elapsed: float = VIEW_ROTATION_SECONDS
+var _cutaway_left: bool = false
 var _last_player: Vector2 = Vector2.INF
 var _context_names: bool = false
 
@@ -43,9 +51,11 @@ func _process(delta: float) -> void:
 		_build()
 	if not _active:
 		_activate()
+	_advance_view_rotation(delta)
 	_follow(delta)
 	_sync_actors(delta)
 	_sync_objects()
+	geometry.sync_passages(map)
 	_reveal_entrances()
 	_update_occlusion()
 	lighting.advance(delta,VoxelMapGeometry.point(map.player_body.global_position))
@@ -60,6 +70,7 @@ func _build() -> void:
 	geometry = VoxelMapGeometry.new()
 	world.add_child(geometry)
 	geometry.make(map,layout)
+	geometry.set_view_side(_cutaway_left)
 	camera = Camera3D.new()
 	# This camera is already smoothed in _process; engine physics interpolation would
 	# interpolate its first projection from a stale transform during map handoff.
@@ -92,10 +103,12 @@ func _activate() -> void:
 	_target = VoxelMapGeometry.point(map.player_body.global_position,0.7)
 	_active = true
 	map.projected_view = true
+	set_view_side(left_view,true)
+
+func _update_movement_basis() -> void:
 	var right := Vector2(camera.basis.x.x,camera.basis.x.z).normalized()
 	var down := Vector2(camera.basis.z.x,camera.basis.z.z).normalized()
 	map.player_body.movement_basis = Transform2D(right,down,Vector2.ZERO)
-	_follow(0.0)
 
 func _deactivate() -> void:
 	if not _active:
@@ -120,6 +133,33 @@ func set_night(enabled: bool, immediate: bool = false) -> void:
 	if _built:
 		lighting.set_night(enabled,immediate)
 
+## Orbit between two fixed angles, sharing the same height and distance to the player.
+## Nothing in the map, reach, collision or saved location rotates with the camera.
+func set_view_side(left: bool, immediate: bool = false) -> void:
+	left_view = left
+	_turn_from = _view_yaw
+	_turn_elapsed = 0.0
+	# A new/reactivated map inherits the chosen side without replaying a stale turn.
+	if immediate or not _active:
+		_advance_view_rotation(VIEW_ROTATION_SECONDS)
+		if _active:
+			_follow(0.0)
+			_update_occlusion()
+
+func _advance_view_rotation(delta: float) -> void:
+	if _turn_elapsed>=VIEW_ROTATION_SECONDS:
+		return
+	_turn_elapsed = minf(_turn_elapsed+delta,VIEW_ROTATION_SECONDS)
+	var progress: float = smoothstep(0.0,1.0,_turn_elapsed/VIEW_ROTATION_SECONDS)
+	_view_yaw = lerpf(_turn_from,-VIEW_SIDE_ANGLE if left_view else VIEW_SIDE_ANGLE,progress)
+	_offset = Vector3(sin(_view_yaw)*VIEW_RADIUS,26,cos(_view_yaw)*VIEW_RADIUS)
+	# Swap the cutaway when the camera crosses the centre, not when the button is hit.
+	var near_left: bool = _view_yaw<0.0
+	if near_left!=_cutaway_left:
+		_cutaway_left = near_left
+		if _built:
+			geometry.set_view_side(near_left)
+
 func _follow(delta: float) -> void:
 	# Large changes are placements/arrivals; never pan across the whole map after restore.
 	var at: Vector2 = map.player_body.global_position
@@ -130,7 +170,9 @@ func _follow(delta: float) -> void:
 		_target = _target.lerp(wanted,1.0-exp(-delta*8.0))
 	_last_player = at
 	camera.position = _target+_offset
-	# Projection changes with viewport size/UI scale, while the camera basis never does.
+	camera.look_at(_target,Vector3.UP)
+	_update_movement_basis()
+	# Reproject on resize; orientation stays fixed between explicit side switches.
 	var zero: Vector2 = camera.unproject_position(Vector3.ZERO)
 	var projection := Transform2D(
 		camera.unproject_position(Vector3.RIGHT/VoxelMapGeometry.UNIT)-zero,

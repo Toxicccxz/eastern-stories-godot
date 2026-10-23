@@ -1,0 +1,23 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 23,
+  "palette": {
+    "wood": ["8d7252", "967a57", "9e805b"],
+    "wall": "c8c1a0"
+  },
+  "props": [
+    {"kind": "window", "at": [-160, -204], "size": [64, 16], "rotation": 0},
+    {"kind": "window", "at": [144, -204], "size": [64, 16], "rotation": 0},
+    {"kind": "wall_scroll", "at": [-316, 32], "size": [40, 8], "rotation": 90, "calligraphy": true},
+    {"kind": "hanging_lantern", "at": [-112, 8]},
+    {"kind": "hanging_lantern", "at": [152, 24]},
+    {"kind": "rug", "at": [-8, 0], "size": [224, 112], "cloth": "64766c", "border": "b4a078"},
+    {"kind": "sign", "at": [80, -202], "size": [100, 16], "text": "钱庄", "wall_mounted": true}
+  ],
+  "actors": {
+    "default": {
+      "coat": "887b56"
+    }
+  }
+}

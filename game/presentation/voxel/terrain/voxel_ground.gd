@@ -66,7 +66,7 @@ func paving(cell: Vector2i, cells: Dictionary[Vector2i,String], painted: Diction
 		# Selected broken corners and fissures, not a grid-wide noise overlay.
 		if rng.randf()<0.08:
 			shapes.tilted_box(parent,p+Vector3(size.x*0.26,0.047,0.04),Vector3(size.x*0.27,0.008,0.018),"707c72",Vector3(0,-0.35,0))
-	if rng.randf()<0.10 or worn>0.15 and rng.randf()<0.25:
+	if foliage != null and (rng.randf()<0.10 or worn>0.15 and rng.randf()<0.25):
 		foliage.plant(p+Vector3(-width*0.25+0.03,0.03,depth*0.19),0,rng.randf_range(0.19,0.40),rng.randf()*TAU)
 
 func edge(cell: Vector2i, cells: Dictionary[Vector2i,String]) -> void:

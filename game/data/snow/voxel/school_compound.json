@@ -1,0 +1,64 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 27,
+  "courtyard": true,
+  "palette": {
+    "wood": ["967858", "a07f5b", "a68862"],
+    "wall": "c6b697"
+  },
+  "surfaces": {
+    "snow.school2": "path",
+    "snow.innerhall": "floor_yard"
+  },
+  "props": [
+    {"kind": "hanging_lantern", "at": [-1560, -208]},
+    {"kind": "hanging_lantern", "at": [-900, 192]},
+    {"kind": "hanging_lantern", "at": [-1360, -640]},
+    {"kind": "hanging_lantern", "at": [-1120, -448]},
+    {"kind": "window", "at": [-1232, -732], "size": [64, 16], "rotation": 0},
+    {"kind": "stairwell", "at": [-1208, -568], "size": [48, 48], "portal": "snow.weapon_storage.down"},
+    {"kind": "wall_scroll", "at": [-560, -252], "size": [40, 8], "rotation": 0, "calligraphy": true},
+    {"kind": "wall_scroll", "at": [-272, -252], "size": [40, 8], "rotation": 0, "calligraphy": true},
+    {"kind": "window", "at": [-416, -252], "size": [64, 16], "rotation": 0},
+    {"kind": "rug", "at": [-352, -16], "size": [352, 176], "cloth": "775a4d", "border": "b4a078"},
+    {"kind": "hanging_lantern", "at": [-560, -96]},
+    {"kind": "hanging_lantern", "at": [-176, 128]},
+    {"kind": "hanging_lantern", "at": [200, -176]},
+    {"kind": "hanging_lantern", "at": [736, 144]},
+    {"kind": "pot", "at": [144, 144]},
+    {"kind": "pot", "at": [736, -144]},
+    {"kind": "window", "at": [368, -732], "size": [64, 16], "rotation": 0},
+    {"kind": "window", "at": [592, -732], "size": [64, 16], "rotation": 0},
+    {"kind": "hanging_lantern", "at": [464, -464]},
+    {"kind": "runner", "at": [464, -432], "size": [176, 48]},
+    {"kind": "window", "at": [304, 372], "size": [64, 16], "rotation": 180},
+    {"kind": "window", "at": [624, 372], "size": [64, 16], "rotation": 180},
+    {"kind": "wall_scroll", "at": [700, 512], "size": [40, 8], "rotation": -90, "portrait": true},
+    {"kind": "hanging_lantern", "at": [368, 512]},
+    {"kind": "hanging_lantern", "at": [592, 624]},
+    {"kind": "rug", "at": [448, 560], "size": [176, 112], "cloth": "88736c", "border": "b4a078"},
+    {"kind": "slippers", "at": [304, 608], "cloth": "827766"},
+    {"kind": "closed_door", "at": [1660, -16], "size": [80, 16], "rotation": -90},
+    {"kind": "closed_door", "at": [1280, -284], "size": [80, 16]},
+    {"kind": "closed_door", "at": [1280, 252], "size": [80, 16], "rotation": 180},
+    {"kind": "hanging_lantern", "at": [1024, -176]},
+    {"kind": "hanging_lantern", "at": [1536, 144]},
+    {"kind": "pot", "at": [960, -240]},
+    {"kind": "pot", "at": [1616, 208]}
+  ],
+  "actors": {
+    "default": {
+      "coat": "887b56"
+    },
+    "snow.npc.trainee": {
+      "coat": "87978a"
+    },
+    "snow.npc.fist_trainer": {
+      "coat": "826957"
+    },
+    "snow.npc.girl": {
+      "coat": "9e6e7b"
+    }
+  }
+}

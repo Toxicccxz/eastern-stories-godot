@@ -10,6 +10,33 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 	s = shapes
 	root = parent
 	match String(data["kind"]):
+		"curtain":
+			s.box(root,Vector3(0,2.85,0),Vector3(w,0.12,0.12),"77583b")
+			for side: float in [-1,1]:
+				for fold: int in 4:
+					s.box(root,Vector3(side*(w*0.34+fold*w*0.033),1.58,0.045*(fold%2)),Vector3(w*0.05,2.42,0.06),"465e80" if fold%2 else "5a7295")
+				s.box(root,Vector3(side*w*0.39,1.40,0.08),Vector3(w*0.20,0.08,0.05),"b1a477")
+			if data.has("text"):
+				var label := Label3D.new()
+				label.text = tr(String(data["text"]))
+				label.position = Vector3(0,2.55,0.08)
+				label.font_size = 32
+				label.pixel_size = 0.005
+				label.modulate = Color("d3c49c")
+				root.add_child(label)
+		"closed_door":
+			s.box(root,Vector3(0,1.35,0),Vector3(w,2.7,0.12),"6b4d38")
+			for i: int in 6:
+				s.box(root,Vector3(-w*0.42+i*w*0.168,1.35,0.08),Vector3(w*0.15,2.56,0.08),"906d49")
+			for y: float in [0.4,2.2]:
+				s.box(root,Vector3(0,y,0.14),Vector3(w*0.94,0.13,0.06),"634b35")
+			for x: float in [-0.12,0.12]:
+				s.box(root,Vector3(x,1.2,0.17),Vector3(0.10,0.17,0.08),"ac9767")
+		"straw_patch":
+			for i: int in 32:
+				var x: float = sin(i*7.13)*w*0.43
+				var z: float = cos(i*4.31)*d*0.43
+				s.tilted_box(root,Vector3(x,0.02+(i%3)*0.007,z),Vector3(0.035,0.014,0.20+(i%4)*0.07),"a49667" if i%2 else "b6aa7a",Vector3(0,i*0.91,0))
 		"rug":
 			var cloth: String = String(data.get("cloth","883f3f"))
 			var border: String = String(data.get("border","bd9d62"))

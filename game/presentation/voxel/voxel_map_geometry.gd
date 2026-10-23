@@ -5,6 +5,7 @@ extends Node3D
 const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
 const Furniture = preload("res://presentation/voxel/props/voxel_furniture.gd")
 const Fixtures = preload("res://presentation/voxel/props/voxel_fixtures.gd")
+const TradeProps = preload("res://presentation/voxel/props/voxel_trade_props.gd")
 const UNIT: float = 32.0
 var shapes := Shapes.new()
 var rng := RandomNumberGenerator.new()
@@ -23,11 +24,19 @@ var landmass: VoxelLandmass
 var edge_config: Dictionary = {}
 ## Indoor walls on the camera's near side, cut low (layout `low_walls`: pixel rects).
 var low_walls: Array[Rect2] = []
+var left_low_walls: Array[Rect2] = []
+var side_walls: Array[Node3D] = []
+var _side_high_walls: Array[Node3D] = []
+var mounted_props: Array[Dictionary] = []
+var passage_props: Array[Dictionary] = []
+var palette: Dictionary = {}
+var surfaces: Dictionary = {}
 var floor_openings: Array[Rect2] = []
 ## Prop kinds no props file draws (layout looks and voxel configs); tests require none.
 var unknown_kinds: Array[String] = []
 var furniture := Furniture.new()
 var fixtures := Fixtures.new()
+var trade_props := TradeProps.new()
 
 static func point(at: Vector2, height: float = 0.0) -> Vector3:
 	return Vector3(at.x / UNIT, height, at.y / UNIT)
@@ -37,13 +46,24 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	furniture.rng = rng
 	shapes.spatial_batching = true
 	indoor = layout.get("indoor", false)
-	# Smaller indoor batches keep each floor patch within Mobile's local-light
-	# budget, instead of sharing distant lamps across half the dining room.
 	shapes.spatial_cell_size = 6.0 if indoor else 12.0
 	flora = layout.get("flora", {})
+	palette = layout.get("palette", {})
+	surfaces = layout.get("surfaces", {})
 	edge_config = layout.get("edge", {})
 	for a: Array in layout.get("low_walls", []):
 		low_walls.append(Rect2(Vector2(a[0],a[1]), Vector2(a[2]-a[0],a[3]-a[1])))
+	for a: Array in layout.get("low_walls_left", layout.get("low_walls", [])):
+		left_low_walls.append(Rect2(Vector2(a[0],a[1]), Vector2(a[2]-a[0],a[3]-a[1])))
+	if layout.get("cutaway_rooms",false):
+		for node: Node in map.find_children("*","Area2D",true,false):
+			if node is WorldPhysicalZoneArea2D:
+				var room: Rect2 = (node as WorldPhysicalZoneArea2D).global_rect()
+				var south := Rect2(Vector2(room.position.x,room.end.y-32),Vector2(room.size.x,32))
+				low_walls.append(south)
+				left_low_walls.append(south)
+				low_walls.append(Rect2(Vector2(room.end.x-32,room.position.y),Vector2(32,room.size.y)))
+				left_low_walls.append(Rect2(room.position,Vector2(32,room.size.y)))
 	for prop: Dictionary in layout.get("props", []):
 		if prop.get("kind","")=="stairwell":
 			var at: Array = prop["at"]
@@ -56,21 +76,26 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	_walls = _node()
 	occluders.append({"node": _walls})
 	_low_walls = _node()
-	if not indoor:
+	for side: int in 2 if indoor else 0:
+		var group: Node3D = _node()
+		side_walls.append(group)
+		var high: Node3D = _node(Vector3.ZERO,group)
+		_side_high_walls.append(high)
+		occluders.append({"node":high})
+	if not indoor or layout.get("courtyard",false):
 		foliage = VoxelFoliage.new()
 		add_child(foliage)
 	for building: Dictionary in layout.get("buildings", []):
 		var a: Array = building["rect"]
 		footprints.append(Rect2(Vector2(a[0],a[1]), Vector2(a[2]-a[0],a[3]-a[1])))
-	if not indoor:
-		ground = VoxelGround.new()
-		ground.parent = self
-		ground.shapes = shapes
-		ground.rng = rng
-		ground.noise = meadow
-		ground.foliage = foliage
-		ground.footprints = footprints
-		ground.weather = layout.get("weather",[])
+	ground = VoxelGround.new()
+	ground.parent = self
+	ground.shapes = shapes
+	ground.rng = rng
+	ground.noise = meadow
+	ground.foliage = foliage
+	ground.footprints = footprints
+	ground.weather = layout.get("weather",[])
 	_terrain(map)
 	for building: Dictionary in layout.get("buildings", []):
 		_building(map, building)
@@ -80,9 +105,37 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	if furnishings != null:
 		for node: Node in furnishings.get_children():
 			_prop(furnishing(node as Node2D))
-	shapes.flush()
+	# Split only batches exceeding Mobile's eight local omni lights. Making every
+	# street tile batch smaller needlessly multiplies draw calls away from doorways.
+	var light_bounds: Array[AABB] = []
+	for lamp: Node in find_children("*","OmniLight3D",true,false):
+		var light := lamp as OmniLight3D
+		light_bounds.append(light.global_transform*light.get_aabb())
+	shapes.flush(light_bounds)
 	if foliage != null:
 		foliage.finish()
+	set_view_side(false)
+	sync_passages(map)
+
+func set_view_side(left: bool) -> void:
+	if side_walls.size()==2:
+		side_walls[0].visible = not left
+		side_walls[1].visible = left
+	for entry: Dictionary in mounted_props:
+		(entry["node"] as Node3D).visible = not _mounted_cut(entry["at"],left)
+
+func _mounted_cut(at: Vector2, left: bool) -> bool:
+	for rect: Rect2 in left_low_walls if left else low_walls:
+		if rect.grow(12).has_point(at):
+			return true
+	return false
+
+## The hidden passage's original state decides whether its floor is closed.
+func sync_passages(map: WorldMapController) -> void:
+	for entry: Dictionary in passage_props:
+		var open: bool = map.is_portal_open(entry["portal"])
+		(entry["node"] as Node3D).visible = open
+		(entry["cover"] as Node3D).visible = not open
 
 ## A layout furnishing as prop data: its look, standing on its blocked box. The visual size
 ## defaults to the box (in the prop's own axes, so turned a quarter it swaps).
@@ -115,6 +168,12 @@ func _terrain(map: WorldMapController) -> void:
 			if tile != null:
 				var at: Vector2 = layer.to_global(layer.map_to_local(cell))
 				cells[Vector2i(at)] = String(tile.get_custom_data("terrain"))
+	for node: Node in map.find_children("*","Area2D",true,false):
+		if node is WorldPhysicalZoneArea2D and surfaces.has(String((node as WorldPhysicalZoneArea2D).zone_id)):
+			var zone := node as WorldPhysicalZoneArea2D
+			for cell: Vector2i in cells:
+				if zone.global_rect().has_point(Vector2(cell)) and cells[cell] in ["floor_wood","floor_shop","floor_yard","blocked","rock"]:
+					cells[cell] = String(surfaces[String(zone.zone_id)])
 	if not indoor:
 		var required: Array[Rect2] = footprints.duplicate()
 		for node: Node in map.find_children("*","Area2D",true,false):
@@ -127,6 +186,10 @@ func _terrain(map: WorldMapController) -> void:
 		_ground_under_blocks(cells)
 	var trees: Dictionary[Vector2i, bool] = {}
 	var painted: Dictionary[Vector2i, bool] = {}
+	# Merged paving and boards must also see the hole, not bridge over a skipped cell.
+	for cell: Vector2i in cells.keys():
+		if _floor_opening(Vector2(cell)):
+			cells.erase(cell)
 	for cell: Vector2i in cells:
 		if painted.has(cell):
 			continue
@@ -148,7 +211,7 @@ func _terrain(map: WorldMapController) -> void:
 		var growth: float = meadow.get_noise_2d(pos.x, pos.y)
 		var palette: Array = ["68814e", "718a50", "799456"] if growth>0 else ["56754b", "60804b", "688550"]
 		if wood:
-			palette = ["9f7953", "a37e57", "a7815b", "99754f"]
+			palette = self.palette.get("wood",["9f7953", "a37e57", "a7815b", "99754f"])
 		elif road:
 			palette = ["acac98", "a0a695", "9ba492", "b6b49b"]
 		elif kind in ["path", "riverbank"]:
@@ -167,33 +230,33 @@ func _terrain(map: WorldMapController) -> void:
 			size.x = boards*0.5-0.015
 			p.x += (boards-1)*0.25
 			size.z = 0.47
-		if road and ground != null:
+		if road:
 			ground.paving(cell,cells,painted)
 		else:
 			# Ground colour changes in broad patches, not independently on every tile.
 			var tint: String = _pick(palette) if indoor or wall else String(palette[clampi(roundi((growth+0.5)*2),0,palette.size()-1)])
 			shapes.box(self,p-Vector3(0,0.06,0),size,tint)
 		if wall:
-			# The south/east room walls are a low cutaway; the actual walls stay solid.
-			var height: float = 0.36 if indoor and low_wall(pos) else 3.2
-			var walls: Node3D = _low_walls if height<1.0 else _walls
-			shapes.box(walls,p+Vector3(0,height/2,0),Vector3(0.5,height,0.5),"c9b997" if indoor else "83917b")
-			shapes.box(walls,p+Vector3(0,height+0.05,0),Vector3(0.53,0.12,0.53),"78513b" if indoor else "607a60")
-			if indoor:
-				var horizontal: bool = cells.get(cell+Vector2i(16,0),"") in ["wall","wall_wood"] or cells.get(cell-Vector2i(16,0),"") in ["wall","wall_wood"]
-				_interior_wall(walls,p,height,horizontal)
+			var right_low: bool = indoor and low_wall(pos)
+			var left_low: bool = indoor and low_wall(pos,true)
+			var horizontal: bool = cells.get(cell+Vector2i(16,0),"") in ["wall","wall_wood"] or cells.get(cell-Vector2i(16,0),"") in ["wall","wall_wood"]
+			if right_low==left_low:
+				_wall_cell(_low_walls if right_low else _walls,p,0.36 if right_low else 3.2,horizontal)
+			else:
+				_wall_cell(side_walls[0] if right_low else _side_high_walls[0],p,0.36 if right_low else 3.2,horizontal)
+				_wall_cell(side_walls[1] if left_low else _side_high_walls[1],p,0.36 if left_low else 3.2,horizontal)
 		elif kind in ["forest", "boundary"] and not indoor:
 			var cluster := Vector2i(floori(pos.x/120),floori(pos.y/120))
 			if not trees.has(cluster) and rng.randf()<0.15 and landmass.supports(pos,64):
 				trees[cluster] = true
 				_tree(p, rng.randf()<float(flora.get("blossom_trees",0.35)))
-		if not indoor and not wall:
+		if foliage != null and not wall and (not indoor or kind in ["grass","forest","forest_floor"]):
 			_dress_ground(cell, p, kind, growth, cells)
 	# Indoor floors keep their cutaway plinth. Outdoors has only the finite,
 	# contoured landmass above, with no rectangle spanning its gaps or surroundings.
 	if indoor:
 		_plinth(cells)
-	if not indoor:
+	if foliage != null:
 		for edge_cell: Vector2i in cells:
 			var hidden: bool = false
 			for footprint: Rect2 in footprints:
@@ -230,11 +293,17 @@ func _floor_opening(at: Vector2) -> bool:
 			return true
 	return false
 
-func low_wall(at: Vector2) -> bool:
-	for rect: Rect2 in low_walls:
+func low_wall(at: Vector2, left: bool = false) -> bool:
+	for rect: Rect2 in left_low_walls if left else low_walls:
 		if rect.has_point(at):
 			return true
 	return false
+
+func _wall_cell(into: Node3D, p: Vector3, height: float, horizontal: bool) -> void:
+	shapes.box(into,p+Vector3(0,height/2,0),Vector3(0.5,height,0.5),String(palette.get("wall","c9b997" if indoor else "83917b")))
+	shapes.box(into,p+Vector3(0,height+0.05,0),Vector3(0.53,0.12,0.53),"78513b" if indoor else "607a60")
+	if indoor:
+		_interior_wall(into,p,height,horizontal)
 
 ## The plinth under an interior follows its drawn cells, so an L- or T-shaped floor
 ## leaves its empty corners open. Rows with the same runs merge into one slab.
@@ -349,7 +418,14 @@ func _prop(data: Dictionary) -> void:
 	var size: Array = data.get("size",[64,32])
 	var w: float = float(size[0])/UNIT
 	var d: float = float(size[1])/UNIT
-	if furniture.draw(shapes,root,data,w,d) or fixtures.draw(shapes,root,data,w,d):
+	if furniture.draw(shapes,root,data,w,d) or fixtures.draw(shapes,root,data,w,d) or trade_props.draw(shapes,root,data,w,d):
+		if data.get("wall_mounted",false) or data["kind"] in ["window","wall_scroll","closed_door"]:
+			mounted_props.append({"node":root,"at":Vector2(a[0],a[1])})
+		if data.has("portal"):
+			var cover := _node(at)
+			for i: int in 3:
+				shapes.box(cover,Vector3(0,-0.045,(i-1)*d/3),Vector3(w,0.09,d/3-0.015),"9f7953")
+			passage_props.append({"node":root,"cover":cover,"portal":StringName(data["portal"])})
 		if data.get("occludes",false):
 			occluders.append({"node":root})
 	else:

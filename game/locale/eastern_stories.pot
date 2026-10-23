@@ -1042,7 +1042,7 @@ msgstr ""
 msgid "膳房"
 msgstr ""
 
-#: scenes/world/chuenyu/chuenyu_upstairs.tscn scenes/world/city/city_upstairs.tscn scenes/world/cloud/cloud_duchang_upstairs.tscn scenes/world/cloud/cloud_jiyuan_upstairs.tscn scenes/world/cloud/cloud_tearoom_upstairs.tscn scenes/world/latemoon/latemoon_upper.tscn scenes/world/snow/snow_inn_upstairs.tscn scenes/world/waterfog/waterfog_upstairs.tscn
+#: scenes/world/chuenyu/chuenyu_upstairs.tscn scenes/world/city/city_upstairs.tscn scenes/world/cloud/cloud_duchang_upstairs.tscn scenes/world/cloud/cloud_jiyuan_upstairs.tscn scenes/world/cloud/cloud_tearoom_upstairs.tscn scenes/world/latemoon/latemoon_upper.tscn scenes/world/snow/snow_inn_upstairs.tscn scenes/world/waterfog/waterfog_upstairs.tscn data/snow/voxel/inn_upstairs.json
 msgid "楼梯 · 下楼"
 msgstr ""
 
@@ -2404,7 +2404,7 @@ msgid "隧道口"
 msgstr ""
 
 #. es2:d/snow/school short
-#: scenes/world/snow/snow_academy.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
+#: scenes/world/snow/snow_academy.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json data/snow/voxel/academy.json
 msgid "书院"
 msgstr ""
 
@@ -2446,7 +2446,7 @@ msgid "布帘"
 msgstr ""
 
 #. es2:d/snow/inn short
-#: scenes/world/snow/snow_inn.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
+#: scenes/world/snow/snow_inn.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json data/snow/voxel/inn.json
 msgid "饮风客栈"
 msgstr ""
 
@@ -2537,7 +2537,7 @@ msgid "淳风武馆"
 msgstr ""
 
 #. es2:d/snow/temple short
-#: scenes/world/snow/snow_outdoor.tscn scenes/world/snow/snow_temple_house.tscn data/snow/rooms.json
+#: scenes/world/snow/snow_outdoor.tscn scenes/world/snow/snow_temple_house.tscn data/snow/rooms.json data/snow/voxel/temple_house.json
 msgid "城隍庙"
 msgstr ""
 
@@ -8953,6 +8953,18 @@ msgstr ""
 msgid "切换白天"
 msgstr ""
 
+#: ui/world/voxel_view_side_button.gd
+msgid "切至左侧"
+msgstr ""
+
+#: ui/world/voxel_view_side_button.gd
+msgid "切换左侧与右侧 45° 固定视角"
+msgstr ""
+
+#: ui/world/voxel_view_side_button.gd
+msgid "切至右侧"
+msgstr ""
+
 #. how a said line hands over to what is said (店小二说道：客官里边请。); a bubble shows only what follows it, when it comes within the first ten characters.
 #: ui/world/world_speech_bubbles.gd
 msgid "道："
@@ -14991,7 +15003,7 @@ msgid ""
 msgstr ""
 
 #. snow.npc.post_officer inquiry topic
-#: data/snow/npcs.json
+#: data/snow/npcs.json data/snow/voxel/postoffice_house.json
 msgid "驿站"
 msgstr ""
 
@@ -15543,7 +15555,7 @@ msgstr ""
 
 #. snow.bank.counter name
 #. city.bank.counter name
-#: data/snow/world.json data/city/world.json
+#: data/snow/world.json data/city/world.json data/snow/voxel/bank_house.json
 msgid "钱庄"
 msgstr ""
 
@@ -31057,4 +31069,24 @@ msgstr ""
 #: data/death/world.json
 msgid ""
 "那人一句话也不说就往你这边撞过来, 你眼前一阵黑....\n"
+msgstr ""
+
+#: data/snow/voxel/herbshop_house.json
+msgid "药铺"
+msgstr ""
+
+#: data/snow/voxel/hockshop_house.json
+msgid "非请莫入"
+msgstr ""
+
+#: data/snow/voxel/hockshop_house.json
+msgid "当铺"
+msgstr ""
+
+#: data/snow/voxel/smithy_house.json
+msgid "打铁铺"
+msgstr ""
+
+#: data/snow/voxel/workplace_house.json
+msgid "米厂"
 msgstr ""

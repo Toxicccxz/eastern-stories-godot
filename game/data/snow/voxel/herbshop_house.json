@@ -1,0 +1,27 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 23,
+  "palette": {
+    "wood": ["8d7555", "99815e", "a58c66"],
+    "wall": "c3c39f"
+  },
+  "props": [
+    {"kind": "window", "at": [-316, 64], "size": [72, 16], "rotation": 90},
+    {"kind": "window", "at": [300, 64], "size": [72, 16], "rotation": -90},
+    {"kind": "hanging_lantern", "at": [-112, -8]},
+    {"kind": "hanging_lantern", "at": [152, 64]},
+    {"kind": "pot", "at": [-272, -48]},
+    {"kind": "pot", "at": [264, -48]},
+    {"kind": "rug", "at": [-8, 40], "size": [224, 128], "cloth": "7b8461", "border": "b4a078"},
+    {"kind": "sign", "at": [-256, -204], "size": [64, 16], "text": "药铺", "wall_mounted": true}
+  ],
+  "actors": {
+    "default": {
+      "coat": "887b56"
+    },
+    "snow.npc.herbalist": {
+      "coat": "718365"
+    }
+  }
+}

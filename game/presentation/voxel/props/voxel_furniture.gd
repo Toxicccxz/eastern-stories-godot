@@ -81,6 +81,8 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 					s.box(root,Vector3(x,0.5,z),Vector3(0.16,1.0 if x<0 else 0.86,0.16),"5c3f2b")
 		"writing_desk":
 			_table(w,d,1.12)
+			if data.has("cloth"):
+				s.box(root,Vector3(0,1.251,-d*0.15),Vector3(w*0.96,0.025,d*0.65),tone)
 			# A tucked stool, open paper, stitched books, inkstone and two brushes.
 			_stool(Vector3(0,0,d*0.34),0.64,"896b49")
 			s.box(root,Vector3(-w*0.15,1.25,-d*0.16),Vector3(w*0.4,0.035,d*0.40),"e4d8af")
@@ -164,10 +166,22 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 			s.box(root,Vector3(0,2.17,0.05),Vector3(w*0.76,1.46,0.025),"ddd3af")
 			for y: float in [1.27,3.03]:
 				s.box(root,Vector3(0,y,0.04),Vector3(w+0.16,0.07,0.09),"71563c")
-			for i: int in 7:
-				var h: float = [0.25,0.48,0.66,0.52,0.34,0.43,0.27][i]
-				s.box(root,Vector3(-w*0.30+i*w*0.10,1.54+h/2,0.071),Vector3(w*0.11,h,0.012),"7f9385")
-			s.box(root,Vector3(w*0.15,2.57,0.076),Vector3(0.20,0.20,0.015),"b88b65")
+			if data.get("portrait",false):
+				s.box(root,Vector3(0,1.93,0.073),Vector3(w*0.40,0.70,0.015),"9b607a")
+				s.box(root,Vector3(0,2.47,0.073),Vector3(w*0.24,0.33,0.015),"d4ad83")
+				s.box(root,Vector3(0,2.66,0.074),Vector3(w*0.32,0.16,0.015),"393c3b")
+				s.box(root,Vector3(0,2.18,0.084),Vector3(w*0.12,0.27,0.015),"d4c18e")
+			elif data.get("calligraphy",false):
+				for col: int in 3:
+					for row: int in 4:
+						var at := Vector3((col-1)*w*0.23,2.65-row*0.28,0.075)
+						s.box(root,at,Vector3(w*0.12,0.035,0.015),"515a50")
+						s.box(root,at+Vector3(w*0.03,-0.05,0),Vector3(0.025,0.18,0.015),"515a50")
+			else:
+				for i: int in 7:
+					var h: float = [0.25,0.48,0.66,0.52,0.34,0.43,0.27][i]
+					s.box(root,Vector3(-w*0.30+i*w*0.10,1.54+h/2,0.071),Vector3(w*0.11,h,0.012),"7f9385")
+				s.box(root,Vector3(w*0.15,2.57,0.076),Vector3(0.20,0.20,0.015),"b88b65")
 		"slippers":
 			for x: float in [-0.17,0.17]:
 				s.box(root,Vector3(x,0.045,0),Vector3(0.22,0.07,0.43),"5c4a3a")

@@ -1,0 +1,26 @@
+{
+  "indoor": true,
+  "cutaway_rooms": false,
+  "camera_size": 17,
+  "low_walls": [
+    [-192, 128, 192, 160],
+    [160, -160, 192, 160]
+  ],
+  "low_walls_left": [
+    [-192, 128, 192, 160],
+    [-192, -160, -160, 160]
+  ],
+  "palette": {
+    "wall": "8b8c79"
+  },
+  "props": [
+    {"kind": "straw_patch", "at": [80, 72], "size": [96, 80]},
+    {"kind": "stairs", "at": [-104, 104], "size": [48, 48], "rotation": 180},
+    {"kind": "lantern", "at": [-136, -104]}
+  ],
+  "actors": {
+    "default": {
+      "coat": "887b56"
+    }
+  }
+}

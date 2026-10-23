@@ -1,0 +1,24 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 21,
+  "palette": {
+    "wood": ["997c58", "a48660", "ad8d66"]
+  },
+  "props": [
+    {"kind": "window", "at": [96, -172], "size": [64, 16], "rotation": 0},
+    {"kind": "wall_scroll", "at": [-236, 32], "size": [40, 8], "rotation": 90, "calligraphy": true},
+    {"kind": "hanging_lantern", "at": [-104, 16]},
+    {"kind": "hanging_lantern", "at": [112, 32]},
+    {"kind": "runner", "at": [16, 80], "size": [192, 48]},
+    {"kind": "sign", "at": [16, -172], "size": [80, 16], "text": "驿站", "wall_mounted": true}
+  ],
+  "actors": {
+    "default": {
+      "coat": "887b56"
+    },
+    "snow.npc.post_officer": {
+      "coat": "5f7281"
+    }
+  }
+}

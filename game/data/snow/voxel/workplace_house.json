@@ -1,0 +1,25 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 23,
+  "palette": {
+    "wall": "c0b28e"
+  },
+  "surfaces": {
+    "snow.workplace": "path"
+  },
+  "props": [
+    {"kind": "window", "at": [80, -204], "size": [64, 16], "rotation": 0},
+    {"kind": "window", "at": [300, 32], "size": [72, 16], "rotation": -90},
+    {"kind": "hanging_lantern", "at": [-96, 56]},
+    {"kind": "hanging_lantern", "at": [176, -80]},
+    {"kind": "straw_patch", "at": [152, -112], "size": [112, 80]},
+    {"kind": "straw_patch", "at": [224, 112], "size": [88, 72]},
+    {"kind": "sign", "at": [-8, -204], "size": [80, 16], "text": "米厂", "wall_mounted": true}
+  ],
+  "actors": {
+    "default": {
+      "coat": "887b56"
+    }
+  }
+}

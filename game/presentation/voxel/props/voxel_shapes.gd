@@ -61,25 +61,61 @@ func _stone_mesh(variant: int) -> ArrayMesh:
 				surface.add_vertex(vertex)
 	return surface.commit()
 
-func flush() -> void:
+func flush(light_bounds: Array[AABB] = []) -> void:
 	for key: String in batches:
 		var entry: Dictionary = batches[key]
-		var transforms: Array = entry["transforms"]
-		var multi := MultiMesh.new()
-		multi.transform_format = MultiMesh.TRANSFORM_3D
-		multi.mesh = entry["mesh"]
-		multi.instance_count = transforms.size()
-		for i: int in transforms.size():
-			multi.set_instance_transform(i,transforms[i])
-		var instance := MultiMeshInstance3D.new()
-		instance.multimesh = multi
-		instance.material_override = material(entry["color"])
-		if entry["color"] in ["ffd88a","ffb858"] or (entry["parent"] as Node3D).get_meta("light_fixture",false):
-			# Tiny opaque lantern caps otherwise project enormous square shadows from
-			# the point source inside them. The housing represents a diffuse emitter.
-			instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-		(entry["parent"] as Node3D).add_child(instance)
+		_flush_batch(entry,entry["transforms"],light_bounds)
 	batches.clear()
+
+func _flush_batch(entry: Dictionary, transforms: Array, light_bounds: Array[AABB], depth: int = 0) -> void:
+	var mesh: Mesh = entry["mesh"]
+	var parent: Node3D = entry["parent"]
+	if not light_bounds.is_empty() and depth<12:
+		var bounds: AABB = (transforms[0] as Transform3D)*mesh.get_aabb()
+		for i: int in range(1,transforms.size()):
+			bounds = bounds.merge((transforms[i] as Transform3D)*mesh.get_aabb())
+		var world_bounds: AABB = parent.global_transform*bounds
+		var overlaps: int = 0
+		for light: AABB in light_bounds:
+			if world_bounds.intersects(light):
+				overlaps += 1
+			if overlaps>8:
+				break
+		if overlaps>8:
+			if transforms.size()>1:
+				var axis: int = bounds.size.max_axis_index()
+				transforms.sort_custom(func(a: Transform3D,b: Transform3D) -> bool: return a.origin[axis]<b.origin[axis])
+				var middle: int = transforms.size()/2
+				_flush_batch(entry,transforms.slice(0,middle),light_bounds,depth+1)
+				_flush_batch(entry,transforms.slice(middle),light_bounds,depth+1)
+				return
+			# Long plinths and beams are one box, but must not collect the lights of
+			# an entire building. Subdivide without moving or overlapping their faces.
+			var transform: Transform3D = transforms[0]
+			var size: Vector3 = transform.basis.get_scale().abs()
+			var axis: int = size.max_axis_index()
+			if mesh==cube and size[axis]>1.0:
+				var offset: Vector3 = transform.basis[axis]*0.25
+				transform.basis[axis] *= 0.5
+				transform.origin -= offset
+				_flush_batch(entry,[transform],light_bounds,depth+1)
+				transform.origin += offset*2.0
+				_flush_batch(entry,[transform],light_bounds,depth+1)
+				return
+	var multi := MultiMesh.new()
+	multi.transform_format = MultiMesh.TRANSFORM_3D
+	multi.mesh = mesh
+	multi.instance_count = transforms.size()
+	for i: int in transforms.size():
+		multi.set_instance_transform(i,transforms[i])
+	var instance := MultiMeshInstance3D.new()
+	instance.multimesh = multi
+	instance.material_override = material(entry["color"])
+	if entry["color"] in ["ffd88a","ffb858"] or parent.get_meta("light_fixture",false):
+		# Tiny opaque lantern caps otherwise project enormous square shadows from
+		# the point source inside them. The housing represents a diffuse emitter.
+		instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	parent.add_child(instance)
 
 func material(hex: String) -> StandardMaterial3D:
 	if not materials.has(hex):

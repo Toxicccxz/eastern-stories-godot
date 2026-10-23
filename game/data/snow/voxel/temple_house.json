@@ -1,0 +1,24 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 25,
+  "palette": {
+    "wood": ["74634c", "806c51", "8d7759"],
+    "wall": "969781"
+  },
+  "props": [
+    {"kind": "window", "at": [-240, -236], "size": [64, 16], "rotation": 0},
+    {"kind": "window", "at": [240, -236], "size": [64, 16], "rotation": 0},
+    {"kind": "hanging_lantern", "at": [-240, -64]},
+    {"kind": "hanging_lantern", "at": [256, 48]},
+    {"kind": "hanging_lantern", "at": [16, 152]},
+    {"kind": "rug", "at": [-8, -32], "size": [160, 112], "cloth": "766b51", "border": "b4a078"},
+    {"kind": "pot", "at": [-344, 192]},
+    {"kind": "sign", "at": [-8, -236], "size": [112, 16], "text": "城隍庙", "wall_mounted": true}
+  ],
+  "actors": {
+    "default": {
+      "coat": "887b56"
+    }
+  }
+}

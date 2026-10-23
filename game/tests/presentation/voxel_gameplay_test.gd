@@ -9,7 +9,6 @@ var failures: Array[String] = []
 func run_all(tree: SceneTree) -> Dictionary:
 	for scene: String in ["snow_inn","snow_inn_upstairs","snow_outdoor"]:
 		_check_furnishings(load("res://scenes/world/snow/%s.tscn" % scene) as PackedScene,scene)
-	var msaa_before: Viewport.MSAA = tree.root.msaa_3d
 	var session: WorldSessionController = Work.create_session(tree)
 	session.configure_npc_ambience_random_source(Still.Still.new())
 	await _frames(tree,4)
@@ -181,15 +180,14 @@ func run_all(tree: SceneTree) -> Dictionary:
 	_check(await MapPlaces.take_passage(tree,outdoor,mill.portal_id),"the revealed mill entrance is physically usable")
 	await _frames(tree,4)
 	var mill_map := session.active_map() as WorldMapController
-	_check(not day_night.visible and day_night.night,"2D interiors hide the switch but retain the session's lighting preference")
-	_check(mill_map.map_id()==&"snow.workplace_house" and not mill_map.projected_view,"existing 2D interiors remain enterable")
-	_check(mill_map.player_body.movement_basis==Transform2D.IDENTITY,"2D interior controls restored")
-	_check((mill_map.player_body.get_node("Camera2D") as Camera2D).enabled,"2D interior camera restored")
-	_check(tree.root.msaa_3d==msaa_before and tree.root.get_camera_3d()==null,"a 2D interior gets back the window's MSAA and no 3D camera")
+	_check(day_night.visible and day_night.night,"the mill retains the session's lighting preference and switch")
+	_check(mill_map.map_id()==&"snow.workplace_house" and mill_map.projected_view,"the original mill entrance now activates its voxel interior")
+	var mill_view := mill_map.get_node("MapView") as WorldVoxelView
+	_check(mill_view.camera.current and mill_view.night,"the mill takes over the 3D camera in the chosen lighting")
 	_check(await MapPlaces.take_passage(tree,mill_map,&"snow.workplace.west"),"walk back to the street")
 	await _frames(tree,4)
 	_check(outdoor.projected_view and street_view.camera.current,"resident 3D street reactivates on return")
-	_check(street_view.night and day_night.visible,"returning from a 2D shop restores the selected night view and switch")
+	_check(street_view.night and day_night.visible,"returning from the mill restores the selected night view and switch")
 	# View state cannot alter saves or consume gameplay RNG. Freeze the world for the comparison.
 	session.set_process(false)
 	var saved: String = GameSaveJsonCodec.encode(Work.capture(session)).text

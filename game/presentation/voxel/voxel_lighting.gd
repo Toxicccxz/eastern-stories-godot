@@ -2,6 +2,8 @@ class_name VoxelLighting
 extends RefCounted
 
 ## A presentation-only day/night blend. It never advances the authored game clock.
+const LAMP_FADE_BEGIN: float = 18.0
+const LAMP_FADE_END: float = 26.0
 var environment: Environment
 var sun: DirectionalLight3D
 var occlusion: VoxelOcclusion
@@ -10,7 +12,7 @@ var windows: Array[StandardMaterial3D] = []
 var amount: float = 0.0
 var target: float = 0.0
 var indoor: bool = false
-var _shadow_elapsed: float = 1.0
+var _player: Vector3 = Vector3.ZERO
 
 func build(world: Node3D, reveal: VoxelOcclusion, interior: bool) -> void:
 	indoor = interior
@@ -39,6 +41,9 @@ func build(world: Node3D, reveal: VoxelOcclusion, interior: bool) -> void:
 		light.shadow_bias = 0.06
 		light.shadow_normal_bias = 0.45
 		light.shadow_blur = 1.5
+		# Never alternate a lit doorway between shadowed and unshadowed as nearby
+		# lamps exchange distance ranks. Cull the entire distant light after it fades.
+		light.shadow_enabled = true
 		lamps.append(light)
 	var seen: Dictionary[int,bool] = {}
 	for node: Node in world.find_children("*","GeometryInstance3D",true,false):
@@ -53,23 +58,27 @@ func set_night(enabled: bool, immediate: bool = false) -> void:
 	if immediate:
 		amount = target
 		_apply()
-	_shadow_elapsed = 1.0
 
 func advance(delta: float, player: Vector3) -> void:
+	_player = player
 	if not is_equal_approx(amount,target):
 		amount = move_toward(amount,target,delta/0.9)
 		_apply()
-	_shadow_elapsed += delta
-	if _shadow_elapsed<0.2:
-		return
-	_shadow_elapsed = 0.0
-	# Only nearby lights need shadow maps; light colour/energy stays continuous.
-	var sorted: Array[Light3D] = lamps.duplicate()
-	sorted.sort_custom(func(a: Light3D,b: Light3D) -> bool: return a.global_position.distance_squared_to(player)<b.global_position.distance_squared_to(player))
-	for i: int in sorted.size():
-		# All indoor lamps are stable and shadowed in both modes. Their housings
-		# no longer block their own source; walls and furnishings still cast shadows.
-		sorted[i].shadow_enabled = indoor or (amount>0.1 and i<8 and sorted[i].global_position.distance_squared_to(player)<225)
+	elif not indoor:
+		_apply_lamps(smoothstep(0.0,1.0,amount))
+
+func _apply_lamps(blend: float) -> void:
+	for lamp: Light3D in lamps:
+		var fade: float = 1.0
+		if not indoor:
+			var offset: Vector3 = lamp.global_position-_player
+			fade = 1.0-smoothstep(LAMP_FADE_BEGIN,LAMP_FADE_END,Vector2(offset.x,offset.z).length())
+		var energy: float = lerpf(float(lamp.get_meta("day_energy")),float(lamp.get_meta("night_energy")),blend)*fade
+		if not is_equal_approx(lamp.light_energy,energy):
+			lamp.light_energy = energy
+		var emitting: bool = energy>0.0
+		if lamp.visible!=emitting:
+			lamp.visible = emitting
 
 func _apply() -> void:
 	if environment==null:
@@ -81,8 +90,7 @@ func _apply() -> void:
 	sun.light_color = Color("fff0d6").lerp(Color("91b3ee"),blend)
 	sun.light_energy = lerpf(0.40,0.10,blend) if indoor else lerpf(0.85,0.32,blend)
 	sun.rotation_degrees = Vector3(-55,-32,0).lerp(Vector3(-43,-55,0),blend)
-	for lamp: Light3D in lamps:
-		lamp.light_energy = lerpf(float(lamp.get_meta("day_energy")),float(lamp.get_meta("night_energy")),blend)
+	_apply_lamps(blend)
 	for mat: StandardMaterial3D in windows:
 		mat.emission_energy_multiplier = blend*0.9
 	occlusion.set_night(blend)

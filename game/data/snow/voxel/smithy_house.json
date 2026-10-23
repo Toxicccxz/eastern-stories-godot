@@ -1,0 +1,26 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 21,
+  "palette": {
+    "wood": ["7e735b", "897b61", "8d8066"],
+    "wall": "98977f"
+  },
+  "surfaces": {
+    "snow.smithy": "rock"
+  },
+  "props": [
+    {"kind": "window", "at": [64, -172], "size": [64, 16], "rotation": 0},
+    {"kind": "hanging_lantern", "at": [144, 88]},
+    {"kind": "straw_patch", "at": [-180, 80], "size": [64, 40]},
+    {"kind": "sign", "at": [-52, -172], "size": [64, 16], "text": "打铁铺", "wall_mounted": true}
+  ],
+  "actors": {
+    "default": {
+      "coat": "887b56"
+    },
+    "snow.npc.smith": {
+      "coat": "77604b"
+    }
+  }
+}

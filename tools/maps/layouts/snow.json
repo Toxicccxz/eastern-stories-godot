@@ -877,7 +877,7 @@
           ["wall", -192, -160, 192, 160],
           ["rock", -160, -128, 160, 128],
           ["path", 32, 32, 128, 112, "乾草"],
-          ["wall_wood", 64, -112, 144, -48, "破旧的小床"]
+          ["blocked", 64, -112, 144, -48, "破旧的小床", {"look": {"kind": "bed", "quilt": "867e61"}}]
         ]
       },
       "scene": {
@@ -945,7 +945,11 @@
             "at": [-24, 72],
             "id": "snow.secret_storage.shield.1"
           }
-        ]
+        ],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/snow/voxel/cellar.json"
+        }
       }
     },
     "bank": {
@@ -963,14 +967,12 @@
           }
         },
         "props": [
-          ["blocked", "snow.bank", ["n", 0, 2], 8, 1, "the counter, its sign on it"],
-          ["blocked", "snow.bank", ["nw", 1, 0], 1, 1, "the strongbox"]
+          ["blocked", "snow.bank", ["n", 0, 2], 8, 1, "the counter, its sign on it", {"look": {"kind": "shop_counter", "goods": "coins", "cloth": "596b67"}}],
+          ["blocked", "snow.bank", ["nw", 1, 0], 1, 1, "the strongbox", {"look": {"kind": "strongbox"}}],
+          ["blocked", "snow.bank", ["sw", 1, 0], 3, 1, {"look": {"kind": "bookcase", "occludes": true}}]
         ],
         "placed": {
-          "snow.bank.annihir.1": [
-            "snow.bank",
-            ["n", 0, 0]
-          ]
+          "snow.bank.annihir.1": ["snow.bank", ["n", 0, 0]]
         },
         "reach_from": "BankBankEntry"
       },
@@ -1004,7 +1006,11 @@
             "generated": "markers"
           }
         ],
-        "interactions": []
+        "interactions": [],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/snow/voxel/bank_house.json"
+        }
       }
     },
     "smithy": {
@@ -1022,15 +1028,13 @@
           }
         },
         "props": [
-          ["blocked", "snow.smithy", ["nw", 1, 0], 2, 2, "the forge"],
-          ["blocked", "snow.smithy", ["n", 1, 2], 1, 1, "the anvil"],
-          ["blocked", "snow.smithy", ["sw", 0, 0], 2, 1, "iron goods, finished and not"]
+          ["blocked", "snow.smithy", ["nw", 1, 0], 2, 2, "the forge", {"look": {"kind": "forge", "occludes": true}}],
+          ["blocked", "snow.smithy", ["n", 1, 2], 1, 1, "the anvil", {"look": {"kind": "anvil"}}],
+          ["blocked", "snow.smithy", ["sw", 0, 0], 2, 1, "iron goods, finished and not", {"look": {"kind": "tool_rack"}}],
+          ["blocked", "snow.smithy", ["ne", 0, 0], 1, 1, {"look": {"kind": "washstand"}}]
         ],
         "placed": {
-          "snow.smithy.smith.1": [
-            "snow.smithy",
-            ["n", 3, 1]
-          ]
+          "snow.smithy.smith.1": ["snow.smithy", ["n", 3, 1]]
         },
         "reach_from": "SmithySmithyEntry"
       },
@@ -1072,7 +1076,11 @@
             "generated": "markers"
           }
         ],
-        "interactions": []
+        "interactions": [],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/snow/voxel/smithy_house.json"
+        }
       }
     },
     "herbshop": {
@@ -1090,14 +1098,12 @@
           }
         },
         "props": [
-          ["wall_wood", "snow.herbshop", ["n", 0, 0], 11, 0.5, "the great medicine cabinet, its drawers unlabelled"],
-          ["blocked", "snow.herbshop", ["n", 0, 2.4], 9, 0.5, "the counter along the north side"]
+          ["blocked", "snow.herbshop", ["n", 0, 0], 11, 0.5, "the great medicine cabinet, its drawers unlabelled", {"look": {"kind": "herb_cabinet", "occludes": true}}],
+          ["blocked", "snow.herbshop", ["n", 0, 2.4], 9, 0.5, "the counter along the north side", {"look": {"kind": "shop_counter", "goods": "herbs", "wood": "75503b", "cloth": "7d8861"}}],
+          ["blocked", "snow.herbshop", ["sw", 1, 0], 2, 1, {"look": {"kind": "shelf", "occludes": true}}]
         ],
         "placed": {
-          "snow.herbshop.herbalist.1": [
-            "snow.herbshop",
-            ["n", 0, 0.95]
-          ]
+          "snow.herbshop.herbalist.1": ["snow.herbshop", ["n", 0, 0.95]]
         },
         "reach_from": "HerbshopHerbshopEntry"
       },
@@ -1131,7 +1137,11 @@
             "generated": "markers"
           }
         ],
-        "interactions": []
+        "interactions": [],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/snow/voxel/herbshop_house.json"
+        }
       }
     },
     "postoffice": {
@@ -1149,14 +1159,13 @@
           }
         },
         "props": [
-          ["blocked", "snow.postoffice", ["n", 0, 2], 3, 1, "the post's desk"],
-          ["blocked", "snow.postoffice", ["sw", 1, 1], 1, 1, "mail sacks"]
+          ["blocked", "snow.postoffice", ["n", 0, 2], 3, 1, "the post's desk", {"look": {"kind": "shop_counter", "goods": "mail", "cloth": "657b8a"}}],
+          ["blocked", "snow.postoffice", ["sw", 1, 1], 1, 1, "mail sacks", {"look": {"kind": "grain_sacks", "cloth": "87937c"}}],
+          ["blocked", "snow.postoffice", ["nw", 1, 0], 3, 0.5, {"look": {"kind": "bookcase", "occludes": true}}],
+          ["blocked", "snow.postoffice", ["se", 1, 0], 2, 1, {"look": {"kind": "travel_chest", "cloth": "526c7c"}}]
         ],
         "placed": {
-          "snow.postoffice.post_officer.1": [
-            "snow.postoffice",
-            ["n", 0, 0]
-          ]
+          "snow.postoffice.post_officer.1": ["snow.postoffice", ["n", 0, 0]]
         },
         "reach_from": "PostofficePostofficeEntry"
       },
@@ -1182,7 +1191,11 @@
             "generated": "markers"
           }
         ],
-        "interactions": []
+        "interactions": [],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/snow/voxel/postoffice_house.json"
+        }
       }
     },
     "workplace": {
@@ -1200,9 +1213,10 @@
           }
         },
         "props": [
-          ["blocked", "snow.workplace", ["c", 2, 0], 2, 2, "the millstone"],
-          ["blocked", "snow.workplace", ["ne", 0, 0], 2, 1, "sacks of grain"],
-          ["blocked", "snow.workplace", ["se", 0, 0], 2, 1]
+          ["blocked", "snow.workplace", ["c", 2, 0], 2, 2, "the millstone", {"look": {"kind": "millstone"}}],
+          ["blocked", "snow.workplace", ["ne", 0, 0], 2, 1, "sacks of grain", {"look": {"kind": "grain_sacks", "cloth": "b29d69"}}],
+          ["blocked", "snow.workplace", ["se", 0, 0], 2, 1, {"look": {"kind": "grain_sacks", "cloth": "9e9065"}}],
+          ["blocked", "snow.workplace", ["nw", 1, 0], 2, 1, {"look": {"kind": "tool_rack"}}]
         ],
         "placed": {},
         "reach_from": "WorkplaceWorkplaceEntry"
@@ -1237,7 +1251,11 @@
             "generated": "markers"
           }
         ],
-        "interactions": []
+        "interactions": [],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/snow/voxel/workplace_house.json"
+        }
       }
     },
     "hockshop": {
@@ -1260,10 +1278,11 @@
           }
         },
         "props": [
-          ["blocked", "snow.hockshop", ["n", 1, 2], 4, 1, "the old counter"],
-          ["blocked", "snow.hockshop2", ["n", -2, 0], 2, 1, "locked chests"],
-          ["blocked", "snow.hockshop2", ["n", 2, 0], 2, 1],
-          ["blocked", "snow.hockshop2", ["s", 0, 0], 2, 1]
+          ["blocked", "snow.hockshop", ["n", 1, 2], 4, 1, "the old counter", {"look": {"kind": "shop_counter", "goods": "silver", "wood": "6b5141"}}],
+          ["blocked", "snow.hockshop2", ["n", -2, 0], 2, 1, "locked chests", {"look": {"kind": "strongbox"}}],
+          ["blocked", "snow.hockshop2", ["n", 2, 0], 2, 1, {"look": {"kind": "strongbox"}}],
+          ["blocked", "snow.hockshop2", ["s", 0, 0], 2, 1, {"look": {"kind": "strongbox"}}],
+          ["blocked", "snow.hockshop", ["nw", 1, 0], 2, 0.5, {"look": {"kind": "shelf", "occludes": true}}]
         ],
         "placed": {},
         "reach_from": "HockshopHockshopEntry"
@@ -1314,7 +1333,11 @@
             "generated": "markers"
           }
         ],
-        "interactions": []
+        "interactions": [],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/snow/voxel/hockshop_house.json"
+        }
       }
     },
     "school": {
@@ -1362,62 +1385,36 @@
           }
         },
         "props": [
-          ["blocked", "snow.school2", ["s", 0, 0], 12, 0.5, "weapon racks along the yard's south wall"],
-          ["blocked", "snow.weapon_storage", ["w", 1, 0], 0.5, 4, "weapons by kind and length"],
-          ["blocked", "snow.schoolhall", ["c", 4, -3], 1, 1, "five 太师椅 facing the door"],
-          ["blocked", "snow.schoolhall", ["c", 4, -1.5], 1, 1],
-          ["blocked", "snow.schoolhall", ["c", 4, 0], 1, 1],
-          ["blocked", "snow.schoolhall", ["c", 4, 1.5], 1, 1],
-          ["blocked", "snow.schoolhall", ["c", 4, 3], 1, 1],
-          ["blocked", "snow.inneryard", ["c", 0, 0], 1, 1, "the stone pillar with writing on it"],
-          ["forest", "snow.inneryard", ["nw", 1, 1], 2, 1.5, "flowers and rare herbs"],
-          ["forest", "snow.inneryard", ["ne", 1, 1], 2, 1.5],
-          ["forest", "snow.inneryard", ["se", 1, 1], 2, 1.5],
-          ["blocked", "snow.nyard", ["w", 0, 0], 0.5, 4, "the bookshelf of old books"],
-          ["blocked", "snow.nyard", ["c", 1.5, 0], 2, 1, "the red-wood desk"],
-          ["blocked", "snow.guestroom", ["sw", 0, 0], 2, 2, "the bed"]
+          ["blocked", "snow.school2", ["s", 0, 0], 12, 0.5, "weapon racks along the yard's south wall", {"look": {"kind": "weapon_rack", "occludes": true}}],
+          ["blocked", "snow.weapon_storage", ["w", 1, 0], 0.5, 4, "weapons by kind and length", {"look": {"kind": "weapon_rack", "rotation": 90, "occludes": true}}],
+          ["blocked", "snow.schoolhall", ["c", 4, -3], 1, 1, "five 太师椅 facing the door", {"look": {"kind": "chair", "rotation": -90, "wood": "79503b", "cloth": "526c66"}}],
+          ["blocked", "snow.schoolhall", ["c", 4, -1.5], 1, 1, {"look": {"kind": "chair", "rotation": -90, "wood": "79503b", "cloth": "526c66"}}],
+          ["blocked", "snow.schoolhall", ["c", 4, 0], 1, 1, {"look": {"kind": "chair", "rotation": -90, "wood": "79503b", "cloth": "526c66"}}],
+          ["blocked", "snow.schoolhall", ["c", 4, 1.5], 1, 1, {"look": {"kind": "chair", "rotation": -90, "wood": "79503b", "cloth": "526c66"}}],
+          ["blocked", "snow.schoolhall", ["c", 4, 3], 1, 1, {"look": {"kind": "chair", "rotation": -90, "wood": "79503b", "cloth": "526c66"}}],
+          ["blocked", "snow.inneryard", ["c", 0, 0], 1, 1, "the stone pillar with writing on it", {"look": {"kind": "stone_pillar", "occludes": true}}],
+          ["blocked", "snow.inneryard", ["nw", 1, 1], 2, 1.5, "flowers and rare herbs", {"look": {"kind": "flower_bed"}}],
+          ["blocked", "snow.inneryard", ["ne", 1, 1], 2, 1.5, {"look": {"kind": "flower_bed"}}],
+          ["blocked", "snow.inneryard", ["se", 1, 1], 2, 1.5, {"look": {"kind": "flower_bed"}}],
+          ["blocked", "snow.nyard", ["w", 0, 0], 0.5, 4, "the bookshelf of old books", {"look": {"kind": "bookcase", "rotation": 90, "occludes": true}}],
+          ["blocked", "snow.nyard", ["c", 1.5, 0], 2, 1, "the red-wood desk", {"look": {"kind": "writing_desk", "cloth": "486981"}}],
+          ["blocked", "snow.guestroom", ["sw", 0, 0], 2, 2, "the bed", {"look": {"kind": "bed", "quilt": "a5786c"}}],
+          ["blocked", "snow.weapon_storage", ["e", 0, 0], 0.5, 2.5, {"look": {"kind": "empty_shelf", "rotation": -90, "occludes": true}}],
+          ["blocked", "snow.guestroom", ["se", 0, 0], 1.5, 1, {"look": {"kind": "washstand"}}],
+          ["blocked", "snow.guestroom", ["nw", 0, 0], 2.5, 1.5, {"look": {"kind": "tea_table", "cloth": "8f7065"}}],
+          ["blocked", "snow.nyard", ["ne", 0, 0], 1.5, 1, {"look": {"kind": "travel_chest", "cloth": "567183"}}]
         ],
         "placed": {
-          "snow.schoolhall.master.1": [
-            "snow.schoolhall",
-            ["c", 2, 0]
-          ],
-          "snow.school2.trainee.1": [
-            "snow.school2",
-            ["n", -5, 3]
-          ],
-          "snow.school2.trainee.2": [
-            "snow.school2",
-            ["n", 0, 3]
-          ],
-          "snow.school2.trainee.3": [
-            "snow.school2",
-            ["n", 5, 3]
-          ],
-          "snow.school2.trainee.4": [
-            "snow.school2",
-            ["s", -5, 3]
-          ],
-          "snow.school2.trainee.5": [
-            "snow.school2",
-            ["s", 0, 3]
-          ],
-          "snow.school2.trainee.6": [
-            "snow.school2",
-            ["s", 5, 3]
-          ],
-          "snow.school2.fist_trainer.1": [
-            "snow.school2",
-            ["w", 2.2, -2.2]
-          ],
-          "snow.nyard.girl.1": [
-            "snow.nyard",
-            ["c", -1.5, 1]
-          ],
-          "snow.weapon_storage.bamboo_sword.1": [
-            "snow.weapon_storage",
-            ["c", 1, 1.5]
-          ]
+          "snow.schoolhall.master.1": ["snow.schoolhall", ["c", 2, 0]],
+          "snow.school2.trainee.1": ["snow.school2", ["n", -5, 3]],
+          "snow.school2.trainee.2": ["snow.school2", ["n", 0, 3]],
+          "snow.school2.trainee.3": ["snow.school2", ["n", 5, 3]],
+          "snow.school2.trainee.4": ["snow.school2", ["s", -5, 3]],
+          "snow.school2.trainee.5": ["snow.school2", ["s", 0, 3]],
+          "snow.school2.trainee.6": ["snow.school2", ["s", 5, 3]],
+          "snow.school2.fist_trainer.1": ["snow.school2", ["w", 2.2, -2.2]],
+          "snow.nyard.girl.1": ["snow.nyard", ["c", -1.5, 1]],
+          "snow.weapon_storage.bamboo_sword.1": ["snow.weapon_storage", ["c", 1, 1.5]]
         },
         "reach_from": "School2GateEntry"
       },
@@ -1541,7 +1538,11 @@
             "anchor": ["e", 0, 0],
             "shape": "ShelfShape"
           }
-        ]
+        ],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/snow/voxel/school_compound.json"
+        }
       }
     },
     "temple": {
@@ -1559,25 +1560,14 @@
           }
         },
         "props": [
-          ["blocked", "snow.temple", ["n", 0, 1], 4, 1.5, "the altar and the red-faced 城隍"]
+          ["blocked", "snow.temple", ["n", 0, 1], 4, 1.5, "the altar and the red-faced 城隍", {"look": {"kind": "altar", "occludes": true}}],
+          ["blocked", "snow.temple", ["ne", 1, 0], 2, 1, {"look": {"kind": "travel_chest", "packed": false}}]
         ],
         "placed": {
-          "snow.temple.keeper.1": [
-            "snow.temple",
-            ["n", 4, 1]
-          ],
-          "snow.temple.denotation.1": [
-            "snow.temple",
-            ["c", 0.5, 1]
-          ],
-          "snow.temple.paper_seal.1": [
-            "snow.temple",
-            ["n", -4.5, 1]
-          ],
-          "snow.temple.paper_seal.2": [
-            "snow.temple",
-            ["n", -3.3, 1]
-          ]
+          "snow.temple.keeper.1": ["snow.temple", ["n", 4, 1]],
+          "snow.temple.denotation.1": ["snow.temple", ["c", 0.5, 1]],
+          "snow.temple.paper_seal.1": ["snow.temple", ["n", -4.5, 1]],
+          "snow.temple.paper_seal.2": ["snow.temple", ["n", -3.3, 1]]
         },
         "reach_from": "TempleSquareEntry"
       },
@@ -1617,7 +1607,11 @@
             "generated": "markers"
           }
         ],
-        "interactions": []
+        "interactions": [],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/snow/voxel/temple_house.json"
+        }
       }
     },
     "academy": {
@@ -1635,17 +1629,15 @@
           }
         },
         "props": [
-          ["blocked", "snow.school", ["c", -3, 0], 1.5, 0.5, "the 书院's desks"],
-          ["blocked", "snow.school", ["c", 3, 0], 1.5, 0.5],
-          ["blocked", "snow.school", ["c", -3, 2], 1.5, 0.5],
-          ["blocked", "snow.school", ["c", 3, 2], 1.5, 0.5],
-          ["blocked", "snow.school", ["s", 0, 1], 2.5, 0.5, "the teacher's desk"]
+          ["blocked", "snow.school", ["c", -3, 0], 1.5, 0.5, "the 书院's desks", {"look": {"kind": "writing_desk"}}],
+          ["blocked", "snow.school", ["c", 3, 0], 1.5, 0.5, {"look": {"kind": "writing_desk"}}],
+          ["blocked", "snow.school", ["c", -3, 2], 1.5, 0.5, {"look": {"kind": "writing_desk"}}],
+          ["blocked", "snow.school", ["c", 3, 2], 1.5, 0.5, {"look": {"kind": "writing_desk"}}],
+          ["blocked", "snow.school", ["s", 0, 1], 2.5, 0.5, "the teacher's desk", {"look": {"kind": "writing_desk"}}],
+          ["blocked", "snow.school", ["se", 0, 0], 0.5, 4, {"look": {"kind": "bookcase", "rotation": -90, "occludes": true}}]
         ],
         "placed": {
-          "snow.school.teacher.1": [
-            "snow.school",
-            ["s", 0, 0]
-          ]
+          "snow.school.teacher.1": ["snow.school", ["s", 0, 0]]
         },
         "reach_from": "SchoolAcademyEntry"
       },
@@ -1695,7 +1687,11 @@
             "generated": "markers"
           }
         ],
-        "interactions": []
+        "interactions": [],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/snow/voxel/academy.json"
+        }
       }
     }
   }

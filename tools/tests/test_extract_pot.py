@@ -157,6 +157,12 @@ class ContentTest(unittest.TestCase):
 
 
 class RenderTest(unittest.TestCase):
+    def test_voxel_signs_and_entrances_reach_translators(self) -> None:
+        catalog = extract_pot.build_catalog(REPOSITORY)
+        for message in ["非请莫入", "楼梯 · 下楼"]:
+            entry = next(e for e in catalog.entries() if e.msgid == message)
+            self.assertTrue(any("/voxel/" in source for source in entry.sources))
+
     def test_multiline_and_context(self) -> None:
         catalog = extract_pot.Catalog()
         catalog.add("第一行\n第二行\n", "data/a.json", note="room long")
