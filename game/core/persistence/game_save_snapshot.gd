@@ -23,6 +23,9 @@ var _floor_items: Array[ValueTypes.FloorItemSnapshot] = []
 ## The note each note_maze landmark shows (WorldMapMazes), by landmark ID: an index into its
 ## notes. Only those drawn are written (默认, 乔阴 C).
 var _maze_notes: Dictionary[StringName, int] = {}
+## The world time each map but the player's was owed, in ms, by map ID (DECISIONS「别的地图
+## 时间补算」). Only maps owed some are written.
+var _away_ms: Dictionary[StringName, int] = {}
 ## Something worked out from exactly this content (the runtime's restore preparation after
 ## a check): kept for one taker, moved to an exact copy, dropped when the content changes.
 var _derived: RefCounted
@@ -61,6 +64,9 @@ var corpses: Array[ValueTypes.CorpseSnapshot]:
 var maze_notes: Dictionary[StringName, int]:
 	get:
 		return _maze_notes.duplicate()
+var away_ms: Dictionary[StringName, int]:
+	get:
+		return _away_ms.duplicate()
 ## Items lying on the floor away from their spawn markers (dropped).
 var floor_items: Array[ValueTypes.FloorItemSnapshot]:
 	get:
@@ -104,7 +110,7 @@ func _init(
 
 
 func duplicate_snapshot() -> GameSaveSnapshot:
-	var copy: GameSaveSnapshot = GameSaveSnapshot.new(_metadata, _session_kind, _item_id_allocator, _player, _npc_spawn_states, _corpses, _items, _combat_rng, _npc_initialization_rng, _world_interaction_rng, _world_content_revision).with_floor_items(_floor_items).with_maze_notes(_maze_notes)
+	var copy: GameSaveSnapshot = GameSaveSnapshot.new(_metadata, _session_kind, _item_id_allocator, _player, _npc_spawn_states, _corpses, _items, _combat_rng, _npc_initialization_rng, _world_interaction_rng, _world_content_revision).with_floor_items(_floor_items).with_maze_notes(_maze_notes).with_away_ms(_away_ms)
 	copy._derived = take_derived()
 	return copy
 
@@ -123,6 +129,12 @@ func take_derived() -> RefCounted:
 func with_maze_notes(notes: Dictionary[StringName, int]) -> GameSaveSnapshot:
 	_derived = null
 	_maze_notes = notes.duplicate()
+	return self
+
+
+func with_away_ms(owed: Dictionary[StringName, int]) -> GameSaveSnapshot:
+	_derived = null
+	_away_ms = owed.duplicate()
 	return self
 
 

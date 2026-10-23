@@ -11,6 +11,7 @@
 		"trial_blow_ms": 700,
 		"heart_beat_ms": 2000,
 		"dim_fade_ms": 400,
+		"away_catch_up_limit_seconds": 3600,
 		"feel": {
 			"map_fade_out_ms": 150,
 			"map_fade_in_ms": 200,

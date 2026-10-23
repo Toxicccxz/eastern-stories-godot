@@ -65,6 +65,7 @@ var _class_id: StringName = &""
 var _dealings: NpcDealings
 var _teaching: NpcTeaching
 var _internal_power: Dictionary[StringName, int] = {}
+var _heal_ceiling: NpcHealCeiling
 ## create()'s set_name() with a drawn name (heaven_soldier.c: "天" + order[random(10)] + "神兵"):
 ## the names it may draw, in order; empty for a fixed name.
 var _name_pick: Array[String] = []
@@ -308,6 +309,17 @@ func with_internal_power(values: Dictionary[StringName, int]) -> NpcDefinition:
 
 func internal_power(key: StringName) -> int:
 	return _internal_power.get(key, 0)
+
+
+func has_internal_power(key: StringName) -> bool:
+	return _internal_power.has(key)
+
+
+## How far time away heals this NPC (NpcHealCeiling), made on first use.
+func heal_ceiling() -> NpcHealCeiling:
+	if _heal_ceiling == null:
+		_heal_ceiling = NpcHealCeiling.of(self)
+	return _heal_ceiling
 
 
 ## set("bellicosity") (杀气): courage in a fight (attribute.c query_cor()) and, for

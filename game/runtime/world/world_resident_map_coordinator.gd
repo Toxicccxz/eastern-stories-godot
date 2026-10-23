@@ -161,6 +161,19 @@ func _carry_followers(_source: WorldResidentMapController, _destination: WorldRe
 	pass
 
 
+## A Session overrides this narrow hook: `destination` is about to be the player's map
+## (its time away is caught up, DECISIONS「别的地图时间补算」). Before the handoff's
+## preparation, so a handoff that fails leaves it caught up, not changed otherwise.
+func _entering(_destination: WorldResidentMapController) -> void:
+	pass
+
+
+## A Session overrides this narrow hook: the player's map is `destination` now, not `source`
+## (even if the handoff fails after this, `source` is no longer the player's).
+func _switched(_source: WorldResidentMapController, _destination: WorldResidentMapController) -> void:
+	pass
+
+
 ## A Session overrides this narrow hook with its existing relationship cleanup.
 ## A physical-only fixture has no NPCs or encounter relationships to reconcile.
 func _reconcile_active_residents() -> bool:
@@ -303,6 +316,7 @@ func _handoff_to_impl(
 		result._outcome = OldPineMapHandoffResult.Outcome.SOURCE_LOCATION_INVALID
 		return result
 
+	_entering(destination)
 	_transitioning = true
 	result._failure_stage = OldPineMapHandoffResult.FailureStage.PREPARATION
 	var prepared: bool = (
@@ -331,6 +345,7 @@ func _handoff_to_impl(
 		return result
 	result._location_committed = true
 	_active_map_id = destination_map_id
+	_switched(source, destination)
 
 	result._failure_stage = OldPineMapHandoffResult.FailureStage.ACTIVATION
 	active_map_slot.add_child(destination)

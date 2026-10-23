@@ -52,6 +52,10 @@ func killed_enemy(killer: NpcRuntimeState, heard: bool) -> void:
 		_pending_dissolves.append([killer.character_id, seconds * 1000.0])
 
 
+func has_pending_dissolves() -> bool:
+	return not _pending_dissolves.is_empty()
+
+
 func advance_pending_dissolves(delta: float) -> void:
 	var due: Array[StringName] = []
 	for index: int in range(_pending_dissolves.size() - 1, -1, -1):

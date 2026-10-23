@@ -16,6 +16,8 @@ var _corpse_entries: Array[OldPineRestoredCorpseEntry] = []
 var floor_items: Array[GameSaveValueTypes.FloorItemSnapshot] = []
 ## The note each note maze shows (GameSaveSnapshot.maze_notes).
 var maze_notes: Dictionary[StringName, int] = {}
+## The world time each map was owed (GameSaveSnapshot.away_ms).
+var away_ms: Dictionary[StringName, int] = {}
 
 
 func _init(

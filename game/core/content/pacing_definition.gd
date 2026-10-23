@@ -30,6 +30,9 @@ extends RefCounted
 ##   DECISIONS S5B B): NPC chat, busy wearing off, heal_up's tick count.
 ## - dim_fade_ms: how long the screen takes to go dark when the player falls unconscious.
 ##   0 (ES2 has no screen): at once.
+## - away_catch_up_limit_seconds (DECISIONS「别的地图时间补算」): a map the player was away
+##   from longer catches up this much of its NPCs' heart beat, and the rest comes to what
+##   it would given time enough (healed, awake, conditions over). 0 (ES2): all of it.
 const ES2_ROOM_RESET_SECONDS: int = 1800
 const ES2_GAIN: int = 1
 const ES2_QUEST_TIME_PERCENT: int = 100
@@ -47,6 +50,7 @@ var _reaction_beat_ms: int = 0
 var _trial_blow_ms: int = 0
 var _heart_beat_ms: int = ES2_HEART_BEAT_MS
 var _dim_fade_ms: int = 0
+var _away_catch_up_limit_seconds: int = 0
 
 ## Seconds between two combat rounds of an encounter (the scheduler's opportunity interval).
 var combat_round_seconds: float:
@@ -88,6 +92,10 @@ var heart_beat_seconds: float:
 var dim_fade_seconds: float:
 	get:
 		return float(_dim_fade_ms) / 1000.0
+## Seconds of a map's absence caught up beat by beat (0: all of them).
+var away_catch_up_limit_seconds: int:
+	get:
+		return _away_catch_up_limit_seconds
 ## The presentation's feel knobs (the record's `feel`; all 0 when left out).
 var feel: FeelDefinition = FeelDefinition.new()
 
@@ -98,6 +106,12 @@ func reaction_seconds(es2_seconds: float) -> float:
 	if _reaction_beat_ms <= 0:
 		return es2_seconds
 	return minf(es2_seconds, float(_reaction_beat_ms) / 1000.0)
+
+
+## This record with the away catch-up limit set (seconds; tests, and from_record()).
+func with_away_catch_up_limit(seconds: int) -> PacingDefinition:
+	_away_catch_up_limit_seconds = seconds
+	return self
 
 
 ## This record with the responsiveness knobs set (milliseconds; tests, and from_record()).
@@ -141,7 +155,7 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.integer("trial_blow_ms", 0),
 		reader.integer("heart_beat_ms", ES2_HEART_BEAT_MS),
 		reader.integer("dim_fade_ms", 0),
-	)
+	).with_away_catch_up_limit(reader.integer("away_catch_up_limit_seconds", 0))
 	var feel: ContentRecordReader = reader.child("feel")
 	if feel != null:
 		definition.feel = FeelDefinition.from_record(feel)
@@ -166,6 +180,8 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.fail("trial_blow_ms", "must not be negative")
 	if definition._dim_fade_ms < 0:
 		reader.fail("dim_fade_ms", "must not be negative")
+	if definition._away_catch_up_limit_seconds < 0:
+		reader.fail("away_catch_up_limit_seconds", "must not be negative")
 	if definition._heart_beat_ms <= 0:
 		reader.fail("heart_beat_ms", "must be positive")
 	return definition

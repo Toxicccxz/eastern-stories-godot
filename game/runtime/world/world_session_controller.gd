@@ -85,6 +85,10 @@ var _room_resets: WorldRoomResets
 ## obj/user.c reset() of the player object, on a schedule of its own (WorldRoomResets).
 var _player_resets: WorldRoomResets
 var _maps_by_room: Dictionary[String, Array] = {}
+## The world clock and each map's time without the player (DECISIONS「别的地图时间补算」).
+var _away: WorldAwayTimes = WorldAwayTimes.new()
+## A catch-up's own revive draws (one falling while the player was away), while it runs.
+var _catch_up_revive_random: CombatRandomSource
 
 
 func _ready() -> void:
@@ -323,6 +327,8 @@ func npc_recovery_random_source() -> RecoveryCadenceRandomSource:
 
 
 func npc_revive_random_source() -> CombatRandomSource:
+	if _catch_up_revive_random != null:
+		return _catch_up_revive_random
 	if _npc_revive_random == null:
 		_npc_revive_random = GodotCombatRandomSource.new()
 	return _npc_revive_random
@@ -357,12 +363,67 @@ func npc_world_time_allowed() -> bool:
 	)
 
 
+## The world clock runs with it (DECISIONS「别的地图时间补算」): the time the other maps owe.
 func advance_npc_heartbeat(delta: float) -> void:
 	if not npc_world_time_allowed():
 		return
+	_away.advance(delta)
 	var map: WorldMapController = active_map() as WorldMapController
 	if map != null and map.is_inside_tree() and map.can_process():
 		map.advance_npc_heartbeat(delta)
+
+
+func away_times() -> WorldAwayTimes:
+	return _away
+
+
+## 别的地图时间补算 (DECISIONS): the world time `map` went without the player, caught up at
+## once (WorldMapNpcLife.catch_up()), before anything looks at it or changes it: the player
+## coming onto it, a room reset there, an NPC leaving it or coming onto it. Up to pacing.json
+## away_catch_up_limit_seconds beat by beat, the rest settled. Its draws (heal ticks, the
+## revive of one falling) come from the world-interaction seed, the map and the time owed,
+## never from a session stream, so leaving and coming back draws nothing the map's own beat
+## would, and a Continue owes and draws the same; only a death the player caused (a drug)
+## gives its reward as on the player's map. Nothing for the player's map.
+func catch_up_map(map: WorldMapController) -> void:
+	if map == null or map == active_map() or not _initialized or _world_content_revision != WorldContentRevision.CURRENT_PUBLIC:
+		return
+	var owed: int = _away.owed_ms(map.map_id())
+	_away.stamp(map.map_id())
+	if owed <= 0:
+		return
+	var limit: int = GameContent.catalog().pacing().away_catch_up_limit_seconds * 1000
+	var seed: int = _away_seed(map.map_id(), owed)
+	_catch_up_revive_random = GodotCombatRandomSource.new(hash([seed, "revive"]), true)
+	map.npc_life.catch_up((owed if limit <= 0 else mini(owed, limit)) / 1000.0, seed)
+	_catch_up_revive_random = null
+	if limit > 0 and owed > limit:
+		map.npc_life.settle()
+
+
+func _away_seed(map_id: StringName, owed_ms: int) -> int:
+	var source: WorldInteractionRandomSource = world_interaction_random_source()
+	var stream: RandomStreamSnapshot = source.capture_random_state() if source != null and source.has_method(&"capture_random_state") else null
+	return hash([0 if stream == null else stream.seed, String(map_id), owed_ms])
+
+
+func _entering(destination: WorldResidentMapController) -> void:
+	catch_up_map(destination as WorldMapController)
+
+
+func _switched(source: WorldResidentMapController, destination: WorldResidentMapController) -> void:
+	_away.stamp(source.map_id())
+	_away.stamp(destination.map_id())
+
+
+## What each map but the player's is owed (the save's away_ms), leaving out those time
+## could not change (WorldMapNpcLife.owes_time(): their catch-up would do and draw nothing).
+func away_owed_by_map() -> Dictionary[StringName, int]:
+	var away: Array[StringName] = []
+	for map: WorldMapController in world_maps():
+		if map != active_map() and map.npc_life.owes_time():
+			away.append(map.map_id())
+	return _away.owed_by_map(away)
 
 
 ## The player's timed applies (fakefault.c's, 阴阳眼) count down on world time outside a
@@ -440,6 +501,7 @@ func reset_room(legacy_room: String) -> void:
 	var maps: Array = _maps_by_room.get(legacy_room, [])
 	for map: WorldMapController in world_maps():
 		if legacy_room.is_empty() or maps.has(map.map_id()):
+			catch_up_map(map)
 			map.reset_room(legacy_room)
 	if _hidden_passages != null:
 		_hidden_passages.reset_room(legacy_room)
@@ -615,6 +677,12 @@ func restored_maze_notes() -> Dictionary[StringName, int]:
 	return none if _restore_preparation == null else _restore_preparation.maze_notes.duplicate()
 
 
+## What each map was owed at the save (DECISIONS「别的地图时间补算」).
+func restored_away_ms() -> Dictionary[StringName, int]:
+	var none: Dictionary[StringName, int] = {}
+	return none if _restore_preparation == null else _restore_preparation.away_ms.duplicate()
+
+
 func activate_restore_candidate() -> bool:
 	if (
 		_bootstrap_mode != BootstrapMode.RESTORE
@@ -640,6 +708,7 @@ func activate_restore_candidate() -> bool:
 		process_mode = Node.PROCESS_MODE_DISABLED
 		return false
 	_restore_candidate_staged = false
+	_away.restore(restored_away_ms())
 	var world_map: WorldMapController = map as WorldMapController
 	if world_map != null:
 		world_map.npc_life.restored_zone_id = _player.world_location().zone_id
@@ -844,6 +913,15 @@ func world_map_of(map_id: StringName) -> WorldMapController:
 func world_map_of_zone(zone_id: StringName) -> WorldMapController:
 	var zone: ZoneDefinition = GameContent.catalog().zone(zone_id)
 	return null if zone == null else world_map_of(zone.map_id)
+
+
+## world_map_of_zone() for a look at who is there now, to decide on it (a scripted act's
+## NPC in a room on another map): that map caught up first (catch_up_map()), so nobody
+## drugged there meanwhile still seems to stand.
+func caught_up_map_of_zone(zone_id: StringName) -> WorldMapController:
+	var map: WorldMapController = world_map_of_zone(zone_id)
+	catch_up_map(map)
+	return map
 
 
 ## Every resident map, in content order (stable for saves).
@@ -1053,11 +1131,14 @@ func _initialize_restore_authorities() -> bool:
 
 func _initialize_source_residents() -> bool:
 	# Every map binds the same authority graph. Fresh source entry alone starts in Inn.
-	return (
-		_bind_residents_staged()
-		and _activate_first_map(SnowWorldDefinitions.INN_MAP_ID)
-		and _initialize_player_recovery()
-	)
+	if not (_bind_residents_staged() and _activate_first_map(SnowWorldDefinitions.INN_MAP_ID) and _initialize_player_recovery()):
+		return false
+	# The world ran before the player came into it (DECISIONS「别的地图时间补算」): every
+	# NPC is as time away leaves it (one create() made with less force than its maximum has
+	# it), so no map owes time from the start.
+	for map: WorldMapController in world_maps():
+		map.npc_life.settle()
+	return true
 
 
 ## Ready-time binding once per resident map, in initialization order. Each map is
@@ -1274,6 +1355,9 @@ func bring_npc_onto(npc: NpcRuntimeState, source: WorldMapController, destinatio
 ## An NPC leaves `source` for `destination` (its record, body and all); when it cannot come
 ## there, it stays on `source` where it stood, as it was. False then.
 func _move_npc(npc: NpcRuntimeState, source: WorldMapController, destination: WorldMapController, location: WorldLocationState, at: Vector2) -> bool:
+	# Each map is caught up to now first: the NPC brings its own time along, no more.
+	catch_up_map(source)
+	catch_up_map(destination)
 	var body: Node2D = source.runtime_body_for_character(npc.character_id)
 	var was: WorldLocationState = npc.world_location()
 	var stood: Vector2 = Vector2.INF if body == null else body.global_position
@@ -1317,6 +1401,8 @@ func bring_npc_home(point_id: StringName, home: WorldMapController) -> NpcRuntim
 		for npc: NpcRuntimeState in map.npc_runtimes():
 			if npc.spawn_point_id != point_id:
 				continue
+			# Whether it may leave is as it is now (awake, not fighting).
+			catch_up_map(map)
 			var spawn: NpcSpawnDefinition = GameContent.catalog().spawn(npc.spawn_id)
 			var marker: WorldSpawnMarker2D = home.resolve_spawn_marker(point_id)
 			var location: WorldLocationState = null if spawn == null else home.location_for_zone(spawn.zone_id)
