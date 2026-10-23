@@ -112,7 +112,8 @@ The following version-specific details are the current implementation snapshot d
 - Busy is saved, not waited on (owner, 2026-10-17): the player's and every NPC's busy value and
   interrupt value, on every map, written only while one is non-zero and restored exactly.
 - 别的地图时间补算 (owner, 2026-10-23): the optional root key `away_ms` holds the world time each
-  map other than the player's is owed, in ms (only maps owed some). Continue owes each the same and
+  map other than the player's is owed, in ms (only maps owed some that time could change: one
+  whose NPCs are all healed as made owes nothing, so New Game saves have none). Continue owes each the same and
   catches it up when the player comes onto it, drawing from no saved stream. Restore rejects a map
   outside the world or the player's own. A save without the key owes nothing; no revision change.
 - Transient combat, cadence, Area membership, UI, and presentation state are rebuilt fresh after Load;
