@@ -27,15 +27,5 @@ static func use_reactions() -> PacingDefinition:
 	return production
 
 
-## The game's pacing with nobody moved while the player is away (away_wander_moves and the
-## neighbour pulse at ES2's 0, DECISIONS「别的地图时间补算」): for suites that walk past or
-## count a map's people where its rooms put them.
-static func use_still() -> PacingDefinition:
-	var catalog: ContentCatalog = GameContent.catalog()
-	var production: PacingDefinition = catalog.pacing()
-	catalog.set_pacing(production.copy().with_away_catch_up_limit(production.away_catch_up_limit_seconds, 0, 0))
-	return production
-
-
 static func restore(previous: PacingDefinition) -> void:
 	GameContent.catalog().set_pacing(previous)

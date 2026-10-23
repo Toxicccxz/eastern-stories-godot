@@ -12,9 +12,12 @@ var _failures: Array[String] = []
 
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
+	# pacing.json's wandering, which the suite runner turns off (TestAway).
+	TestAway.use()
 	await _wanderers_move(tree)
 	await _es2_stays(tree)
 	await _neighbour_comes_in(tree)
+	TestAway.restore()
 	return _result()
 
 

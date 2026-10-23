@@ -60,9 +60,6 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_learn()
 	_test_practice()
 	_test_perform()
-	# The way over the bridge clear of the town's people (DECISIONS「别的地图时间补算」: nobody
-	# moved away).
-	var pacing: PacingDefinition = Es2Pacing.use_still()
 	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	session.set_process(false)
@@ -79,7 +76,6 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_hasten(tree, session)
 	session.free()
 	await tree.process_frame
-	Es2Pacing.restore(pacing)
 	return {"assertions": _count, "failures": _failures}
 
 

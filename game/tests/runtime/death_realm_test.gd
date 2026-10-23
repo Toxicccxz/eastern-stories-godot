@@ -43,8 +43,6 @@ class Wander extends WorldInteractionRandomSource:
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_data()
-	# Its people where the rooms put them (DECISIONS「别的地图时间补算」: nobody moved away).
-	var pacing: PacingDefinition = Es2Pacing.use_still()
 	var session: WorldSessionController = await _new_session(tree)
 	await _test_dying(tree, session)
 	await _test_white_gargoyle(tree, session)
@@ -55,7 +53,6 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_dying_again(tree, session)
 	session.free()
 	await tree.process_frame
-	Es2Pacing.restore(pacing)
 	return {"assertions": _count, "failures": _failures}
 
 

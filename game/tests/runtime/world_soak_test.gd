@@ -87,7 +87,10 @@ func run_all(tree: SceneTree) -> Dictionary:
 	_tree = tree
 	var errors := LoggedErrors.new()
 	OS.add_logger(errors)
+	# The world as the game runs it: its people move while the player is away (TestAway).
+	TestAway.use()
 	await _soak()
+	TestAway.restore()
 	OS.remove_logger(errors)
 	check(errors.lines.is_empty(), "no error logged in %d world seconds: %s" % [_now, errors.lines.slice(0, 5)])
 	check(CombatEncounterCoordinator.take_aborted_total() == 0, "no fight aborted")
@@ -209,12 +212,17 @@ func _act(stay: int, room: StringName) -> void:
 				_knockouts += 1
 	if stay % KILL_EVERY_STAYS == KILL_EVERY_STAYS - 1 and not _session.combat_encounter_coordinator().has_active_encounter():
 		var victim: Array = VICTIMS[(stay / KILL_EVERY_STAYS) % VICTIMS.size()]
-		# Where it is now: a wanderer may have gone through a door onto another map (the remap).
-		var found: NpcRuntimeState = MapPlaces.npc_at(_session, victim[0])
-		if not await _enter_map(found.world_location().map_id if found != null else victim[1]):
-			return
-		map = _session.active_map() as WorldMapController
-		var npc: NpcRuntimeState = _npc(map, victim[0])
+		# Where it is now: a wanderer may have gone through a door onto another map (the remap),
+		# and coming onto its map catches up its moves (别的地图时间补算): looked for again there.
+		var npc: NpcRuntimeState = null
+		for _look: int in 3:
+			var found: NpcRuntimeState = MapPlaces.npc_at(_session, victim[0])
+			if not await _enter_map(found.world_location().map_id if found != null else victim[1]):
+				return
+			map = _session.active_map() as WorldMapController
+			npc = _npc(map, victim[0])
+			if npc != null:
+				break
 		check(npc != null, "someone at %s" % victim[0])
 		# A victim still dead from an earlier stay waits for its room's reset.
 		if npc != null and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
