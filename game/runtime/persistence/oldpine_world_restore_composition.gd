@@ -195,6 +195,12 @@ static func _prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 		if maze == null or maze.policy != &"note_maze" or snapshot.maze_notes[landmark_id] >= maze.notes.size():
 			return Result.failure(Result.Outcome.INVALID_SNAPSHOT, "maze_notes.%s" % String(landmark_id), "no such note")
 	preparation.maze_notes = snapshot.maze_notes
+	# What each map was owed: one of the world's maps, not the player's (it owes nothing).
+	var world_maps: Array[StringName] = WorldSessionController.world_map_ids_for(snapshot.world_content_revision)
+	for map_id: StringName in snapshot.away_ms:
+		if not world_maps.has(map_id) or map_id == saved_player.world_location.map_id:
+			return Result.failure(Result.Outcome.INVALID_SNAPSHOT, "away_ms.%s" % String(map_id), "no such map away from the player")
+	preparation.away_ms = snapshot.away_ms
 	if not preparation.is_valid():
 		return Result.failure(
 			Result.Outcome.RECONSTRUCTION_FAILED,

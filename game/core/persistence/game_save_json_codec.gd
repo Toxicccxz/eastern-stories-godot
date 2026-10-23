@@ -66,6 +66,12 @@ func _encode_root(snapshot: GameSaveSnapshot) -> Dictionary[String, Variant]:
 		for landmark_id: StringName in snapshot.maze_notes:
 			notes[String(landmark_id)] = _i(snapshot.maze_notes[landmark_id])
 		root["maze_notes"] = notes
+	# What each map is owed of world time: written only when one is.
+	if not snapshot.away_ms.is_empty():
+		var owed: Dictionary[String, Variant] = {}
+		for map_id: StringName in snapshot.away_ms:
+			owed[String(map_id)] = _i(snapshot.away_ms[map_id])
+		root["away_ms"] = owed
 	return root
 
 
@@ -323,6 +329,8 @@ func _decode_root(value: Variant) -> GameSaveSnapshot:
 		root_keys.append("floor_items")
 	if root.has("maze_notes"):
 		root_keys.append("maze_notes")
+	if root.has("away_ms"):
+		root_keys.append("away_ms")
 	var revision: WorldContentRevision.Value = WorldContentRevision.Value.LEGACY_OLDPINE_V1
 	root = _obj(value, "root", root_keys)
 	if _error: return null
@@ -362,9 +370,14 @@ func _decode_root(value: Variant) -> GameSaveSnapshot:
 		for key: String in indices:
 			maze_notes[StringName(key)] = indices[key]
 			if indices[key] < 0: _fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, "maze_notes." + key, "expected an index")
+	var away_ms: Dictionary[StringName, int] = {}
+	if root.has("away_ms"):
+		var owed: Dictionary[String, int] = _decode_counts(root["away_ms"], "away_ms")
+		for key: String in owed:
+			away_ms[StringName(key)] = owed[key]
 	var rng_object: Dictionary = _obj(root["rng"], "rng", ["combat", "npc_initialization", "world_interaction"])
 	if _error: return null
-	return GameSaveSnapshot.new(metadata, StringName(_string(root["session_kind"], "session_kind")), allocator, _decode_player(root["player"], "player"), npcs, corpses, _decode_items(root["items"], "items"), _decode_rng(rng_object["combat"], "rng.combat"), _decode_rng(rng_object["npc_initialization"], "rng.npc_initialization"), _decode_rng(rng_object["world_interaction"], "rng.world_interaction"), revision).with_floor_items(floor_items).with_maze_notes(maze_notes)
+	return GameSaveSnapshot.new(metadata, StringName(_string(root["session_kind"], "session_kind")), allocator, _decode_player(root["player"], "player"), npcs, corpses, _decode_items(root["items"], "items"), _decode_rng(rng_object["combat"], "rng.combat"), _decode_rng(rng_object["npc_initialization"], "rng.npc_initialization"), _decode_rng(rng_object["world_interaction"], "rng.world_interaction"), revision).with_floor_items(floor_items).with_maze_notes(maze_notes).with_away_ms(away_ms)
 
 
 func _decode_character(value: Variant, path: String) -> Values.CharacterStateSnapshot:

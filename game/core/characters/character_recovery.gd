@@ -80,6 +80,47 @@ static func apply_tick(
 	return update_count
 
 
+## Whether a heal_up() tick would change nothing for `character` (DECISIONS「别的地图时间
+## 补算」): nothing left to eat or drink up, gin/kee/sen and their effective values whole,
+## atman/force/mana full or not growing. char.c turns such an NPC's heart beat off.
+static func is_settled(character: CharacterStateType, skills: RecoverySkillLevelsType) -> bool:
+	return (
+		character.recovery.water <= 0 and character.recovery.food <= 0
+		and _primary_whole(character.essence) and _primary_whole(character.vitality)
+		and _primary_whole(character.spirit)
+		and _internal_full(character.recovery.atman, skills.raw_magic)
+		and _internal_full(character.recovery.inner_force, skills.raw_force)
+		and _internal_full(character.recovery.mana, skills.raw_spells)
+	)
+
+
+## What heal_up() ticks come to given time enough (DECISIONS「别的地图时间补算」, past
+## pacing.json away_catch_up_limit_seconds): food and water used up, gin/kee/sen and their
+## effective values whole, atman/force/mana full where the skill grows them.
+static func settle(character: CharacterStateType, skills: RecoverySkillLevelsType) -> void:
+	character.recovery.water = 0
+	character.recovery.food = 0
+	for resource: CharacterResourceStateType in [character.essence, character.vitality, character.spirit]:
+		resource.effective = resource.maximum
+		resource.current = resource.maximum
+	_fill_internal(character.recovery.atman, skills.raw_magic)
+	_fill_internal(character.recovery.inner_force, skills.raw_force)
+	_fill_internal(character.recovery.mana, skills.raw_spells)
+
+
+static func _primary_whole(resource: CharacterResourceStateType) -> bool:
+	return resource.current >= resource.maximum and resource.effective >= resource.maximum
+
+
+static func _internal_full(resource: CharacterInternalResourceStateType, raw_skill: int) -> bool:
+	return resource.maximum == 0 or resource.current >= resource.maximum or raw_skill / 2 <= 0
+
+
+static func _fill_internal(resource: CharacterInternalResourceStateType, raw_skill: int) -> void:
+	if resource.maximum > 0 and raw_skill / 2 > 0:
+		resource.current = maxi(resource.current, resource.maximum)
+
+
 static func maximum_food_capacity(body_weight: int) -> int:
 	return body_weight / 200
 

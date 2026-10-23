@@ -239,6 +239,71 @@ func player_left() -> void:
 	_map.patrols.player_left()
 
 
+## 别的地图时间补算 (DECISIONS): `seconds` of this map's NPC heart beat while the player was
+## on another map, at once, before anything comes to look (WorldSessionController
+## catch_up_map()). Each NPC heals, ails, wears busy and its timed applies down and wakes as
+## its beats would have, on a cadence of its own drawn from `seed` and its ID (so the order
+## of the NPCs changes nothing, and the session's streams are not drawn); one a condition
+## leaves below zero falls as on this map's beat, and its remaining time follows. A raised
+## corpse whose heal_up() comes has no master here to feed it: it is dispelled
+## (zombie.c dispell()). The NPCs' own call_outs still standing come due: an NPC dissolving
+## a corpse (the player's own ones went as they left, player_left()). Nobody hears any of it.
+func catch_up(seconds: float, seed: int) -> void:
+	if not _initialized or session == null or not is_finite(seconds) or seconds <= 0.0:
+		return
+	_map.corpses.advance_pending_dissolves(seconds)
+	var npcs: Array[NpcRuntimeState] = _map.npcs.npc_runtimes()
+	npcs.sort_custom(func(a: NpcRuntimeState, b: NpcRuntimeState) -> bool: return String(a.character_id) < String(b.character_id))
+	for npc: NpcRuntimeState in npcs:
+		var away: NpcHeartbeat = NpcHeartbeat.new(GodotRecoveryCadenceRandomSource.new(hash([seed, String(npc.character_id)]), true))
+		var left: float = seconds
+		while left > 0.0 and npc.exists_in_map and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
+			var done: NpcHeartbeat.CatchUp = away.catch_up(npc, left)
+			if done.woke:
+				_woke(npc, false)
+			if done.heal_ups > 0 and npc.definition().raising() != null:
+				_map.spells.dispell(npc)
+				break
+			if done.left <= 0.0 or done.left >= left:
+				break
+			_map.combat_lifecycle.fall_below_zero()
+			left = done.left
+		if npc_heartbeat != null:
+			npc_heartbeat.forget_revive(npc.character_id)
+
+
+## Past pacing.json away_catch_up_limit_seconds (DECISIONS「别的地图时间补算」): the rest of
+## the time comes to what it would given time enough. Every NPC awake (a lying one wakes),
+## not busy, its timed applies and conditions over and heal_up() done; a raised corpse
+## dispelled; an NPC's own call_outs come due.
+func settle() -> void:
+	if not _initialized or session == null:
+		return
+	_map.corpses.advance_pending_dissolves(INF)
+	for npc: NpcRuntimeState in _map.npcs.npc_runtimes():
+		if not npc.exists_in_map or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
+			continue
+		if npc.definition().raising() != null:
+			_map.spells.dispell(npc)
+			continue
+		var character: CharacterState = npc.character_state
+		while npc.busy.is_busy():
+			npc.busy.advance()
+		for entry: CharacterTimedApplies.Entry in character.timed_applies.entries():
+			character.timed_applies.advance(entry.remaining_ms)
+		character.conditions.clear()
+		CharacterRecovery.settle(character, RecoverySkillLevels.new(
+			character.skills.raw_level(&"magic"), character.skills.raw_level(&"force"),
+			character.skills.raw_level(&"spells"),
+		))
+		if npc.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS:
+			npc.set_revive_in_ms(0)
+			npc.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)
+			if npc_heartbeat != null:
+				npc_heartbeat.forget_revive(npc.character_id)
+			_woke(npc, false)
+
+
 ## shaowei.c accept_object(): call_out("make_stage", every, who, 0).
 func start_making(npc: NpcRuntimeState, making: NpcMaking) -> void:
 	if npc == null or making == null:

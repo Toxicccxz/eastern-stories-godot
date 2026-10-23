@@ -48,6 +48,30 @@ func is_valid() -> bool:
 	return _valid
 
 
+## The heal_up() ticks `seconds` of beats come to for a character that is not busy
+## (DECISIONS「别的地图时间补算」): counted as advance() counts them, drawing as it draws,
+## without running them; the caller runs them (CharacterRecovery.apply_tick()). -1 when the
+## time or a draw is not valid (as advance() refuses them).
+func ticks_in(seconds: float) -> int:
+	if not _valid or not is_finite(seconds) or seconds < 0.0:
+		return -1
+	_accumulator += seconds
+	var pulses: int = int(_accumulator / _pulse)
+	_accumulator -= pulses * _pulse
+	var ticks: int = 0
+	while pulses > 0:
+		if _source_tick >= pulses:
+			_source_tick -= pulses
+			break
+		pulses -= _source_tick + 1
+		ticks += 1
+		_source_tick = _random.draw_reset_tick()
+		if _source_tick < 5 or _source_tick > 14:
+			_valid = false
+			return -1
+	return ticks
+
+
 ## `conscious` is living(me) for the conditions that ask it (an NPC's heart beat runs
 ## on while it lies unconscious; the player's conditions wait, owner). `busy_only`: world
 ## time is held (the menu) and only the beats busy spends run; once it is over the advance
