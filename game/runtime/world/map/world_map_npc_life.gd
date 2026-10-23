@@ -256,6 +256,8 @@ func catch_up(seconds: float, seed: int) -> void:
 	npcs.sort_custom(func(a: NpcRuntimeState, b: NpcRuntimeState) -> bool: return String(a.character_id) < String(b.character_id))
 	for npc: NpcRuntimeState in npcs:
 		var away: NpcHeartbeat = NpcHeartbeat.new(GodotRecoveryCadenceRandomSource.new(hash([seed, String(npc.character_id)]), true))
+		var ceiling: NpcHealCeiling = npc.definition().heal_ceiling()
+		var before: Array[int] = ceiling.snapshot(npc.character_state)
 		var left: float = seconds
 		while left > 0.0 and npc.exists_in_map and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
 			var done: NpcHeartbeat.CatchUp = away.catch_up(npc, left)
@@ -264,18 +266,36 @@ func catch_up(seconds: float, seed: int) -> void:
 			if done.heal_ups > 0 and npc.definition().raising() != null:
 				_map.spells.dispell(npc)
 				break
-			if done.left <= 0.0 or done.left >= left:
+			if done.fell:
+				_map.combat_lifecycle.fall_below_zero()
+				if npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
+					break
+			if done.left <= 0.0 or (done.left >= left and not done.fell):
 				break
-			_map.combat_lifecycle.fall_below_zero()
 			left = done.left
+		# No further than as made (NpcHealCeiling: clean_up() reloaded it so).
+		ceiling.hold(npc.character_state, before)
 		if npc_heartbeat != null:
 			npc_heartbeat.forget_revive(npc.character_id)
 
 
+## Whether time away could change this map (DECISIONS「别的地图时间补算」): an NPC not still
+## (NpcHeartbeat.is_still()) or a corpse being dissolved. One that could not owes no time:
+## catching it up would change nothing and draw nothing, so the save leaves it out.
+func owes_time() -> bool:
+	if _map.corpses.has_pending_dissolves():
+		return true
+	for npc: NpcRuntimeState in _map.npcs.residents:
+		if not NpcHeartbeat.is_still(npc):
+			return true
+	return false
+
+
 ## Past pacing.json away_catch_up_limit_seconds (DECISIONS「别的地图时间补算」): the rest of
 ## the time comes to what it would given time enough. Every NPC awake (a lying one wakes),
-## not busy, its timed applies and conditions over and heal_up() done; a raised corpse
-## dispelled; an NPC's own call_outs come due.
+## not busy, its timed applies and conditions over, healed as far as time away heals it
+## (NpcHealCeiling); a raised corpse dispelled; an NPC's own call_outs come due. New Game
+## settles every map once: the world ran before the player came into it.
 func settle() -> void:
 	if not _initialized or session == null:
 		return
@@ -292,10 +312,9 @@ func settle() -> void:
 		for entry: CharacterTimedApplies.Entry in character.timed_applies.entries():
 			character.timed_applies.advance(entry.remaining_ms)
 		character.conditions.clear()
-		CharacterRecovery.settle(character, RecoverySkillLevels.new(
-			character.skills.raw_level(&"magic"), character.skills.raw_level(&"force"),
-			character.skills.raw_level(&"spells"),
-		))
+		character.recovery.water = 0
+		character.recovery.food = 0
+		npc.definition().heal_ceiling().fill(character, NpcHeartbeat.skills_of(character))
 		if npc.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS:
 			npc.set_revive_in_ms(0)
 			npc.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE)

@@ -18,6 +18,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _limit_settles(tree)
 	await _continue_owes_the_same(tree)
 	await _poison_away(tree)
+	await _as_made(tree)
 	await _in_and_out(tree)
 	await _every_map_in_time(tree)
 	return _result()
@@ -40,9 +41,20 @@ func _catch_up_is_the_beat(tree: SceneTree) -> void:
 			var woke: bool = false
 			for _frame: int in 6000:
 				woke = not beat.advance(0.1, [live[index]]).is_empty() or woke
-			var caught: NpcHeartbeat.CatchUp = NpcHeartbeat.new(GodotRecoveryCadenceRandomSource.new(SEED + index, true)).catch_up(away[index], 600.0)
+			# As the map runs it: on from where it woke, until the time is done.
+			var catching: NpcHeartbeat = NpcHeartbeat.new(GodotRecoveryCadenceRandomSource.new(SEED + index, true))
+			var left: float = 600.0
+			var caught_woke: bool = false
+			var fell: bool = false
+			while left > 0.0:
+				var caught: NpcHeartbeat.CatchUp = catching.catch_up(away[index], left)
+				caught_woke = caught.woke or caught_woke
+				fell = caught.fell or fell
+				if caught.left >= left:
+					break
+				left = caught.left
 			_check(_body(live[index]) == _body(away[index]), "catch-up gives what the beat gives (%s): %s vs %s" % [live[index].character_id, _body(live[index]), _body(away[index])])
-			_check(caught.woke == woke and caught.left == 0.0, "it wakes as the beat would, and stays standing")
+			_check(caught_woke == woke and not fell, "it wakes as the beat would, and stays standing")
 		_check(away[1].life_status == CharacterRuntimeLifeStatus.Value.ACTIVE, "the one lying unconscious woke")
 		_check(away[0].character_state.conditions.size() == 0 and not away[0].busy.is_busy(), "the poison ran out and busy wore off")
 	live_world.free()
@@ -212,6 +224,37 @@ func _poison_away(tree: SceneTree) -> void:
 	session.catch_up_map(session.world_map_of(home))
 	for npc: NpcRuntimeState in pair:
 		_check(npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and npc.character_state.conditions.size() == 0, "%s woke, the drug spent" % npc.character_id)
+	session.free()
+	await tree.process_frame
+
+
+## The world ran before the player came: at New Game no map owes time (the save writes no
+## away_ms). Time away heals an NPC as far as create() made it (NpcHealCeiling: clean_up()
+## reloaded it so): 小娟 stays 只剩一口气, 陈天星's force comes back to 2000 of 3200.
+func _as_made(tree: SceneTree) -> void:
+	var session: WorldSessionController = Work.create_session(tree)
+	await tree.process_frame
+	session.set_process(false)
+	session.away_times().advance(600.0)
+	_check(session.away_owed_by_map().is_empty(), "at New Game no map owes time: %s" % [session.away_owed_by_map().keys()])
+	var juan: NpcRuntimeState = _npc(session, &"chuenyu.dungeon.xiaojuan2.1.character")
+	var chen: NpcRuntimeState = null
+	for npc: NpcRuntimeState in session.world_npcs():
+		if npc.definition_id == &"city.npc.chen":
+			chen = npc
+	_check(juan != null and chen != null, "小娟 in the 地牢 and 陈天星 are in the world")
+	if juan == null or chen == null:
+		session.free()
+		return
+	var weak: Array = [juan.character_state.essence.current, juan.character_state.vitality.effective, juan.character_state.spirit.maximum]
+	_check(weak == [1, 1, 500], "小娟 is made 只剩一口气 (1, 1 of 500)")
+	chen.character_state.recovery.inner_force.current = 100
+	session.away_times().advance(7200.0)
+	session.catch_up_map(session.world_map_of(juan.world_location().map_id))
+	session.catch_up_map(session.world_map_of(chen.world_location().map_id))
+	_check([juan.character_state.essence.current, juan.character_state.vitality.effective, juan.character_state.spirit.maximum] == weak, "two hours on, 小娟 is still as made")
+	_check(chen.character_state.recovery.inner_force.current == 2000, "陈天星's force comes back to 2000, as made, not 3200: %d" % chen.character_state.recovery.inner_force.current)
+	_check(session.away_owed_by_map().is_empty(), "healed as made, they owe no more time")
 	session.free()
 	await tree.process_frame
 

@@ -1,5 +1,35 @@
 # Migration Decisions
 
+## 别的地图时间补算 (owner 批准, 2026-10-23)
+
+- **ES2:** 没人的房间照样走时间。受伤的 NPC 心跳不停，回到满才关（char.c:111-120），状态照常发作
+  （condition.c），昏迷到点醒来（damage.c `call_out("revive")`），重置按定时器跑（room.c）。
+  回满的游走 NPC 心跳关掉后就停在原地，直到重置叫它回家（npc.c random_move 只在心跳开着时跑）。
+- **以前（茅山 B、地图重构、Inactive resident maps）:** 玩家不在的地图时间完全停住。地图重构后
+  店和街分成两张图，在店里时街上的人全都停着。
+- **现在:** 世界时钟跟 NPC 心跳时间同步走（打架、菜单、转场时停），每张图记下玩家离开的时刻。
+  下面这些事之前，先把那张图「补算」到现在：玩家走进来、那里的房间重置、有 NPC 进出那张图。
+  补算一次算完，结果和心跳一直在跑一样：回气、精、神，内力、法力；状态发作（可能把人药倒，
+  owner Q3 按 ES2）；忙碌消退；计时效果到期；昏迷的人到点醒来；NPC 自己到点的化尸。
+  每个 NPC 用自己的节拍，种子来自世界交互流的种子、地图和欠下的时长，**不抽会话里的任何随机流**，
+  所以进出一张图不改变别处的抽签，读档前后结果一样。冲着玩家来的 call_out（偷窃、拜师答复、制作、
+  测试、判决）仍按茅山 B 在离开时处理；风泉剑灵念咒仍等玩家回来（乔阴 C）。
+  被唤起的僵尸（zombie.c）补算到回复时主人不在，就散去。昏倒时醒来的时间也从补算自己的种子抽；
+  唯一会动会话随机流的是玩家下药致死后的击杀奖励，和在玩家眼前时一样。
+- **最多回到造出来的样子（NpcHealCeiling）:** 你不在时，NPC 最多回到 create() 造出它时的数值，不会更多。
+  定义里没写的值按上限算。ES2 的 `clean_up()` 会把没人去的房间连同里面的人按原样重新载入，所以
+  原作造得虚弱的人，玩家找到时还是那样：地牢里的小娟「只剩一口气」（1/1/500），陈天星内力 2000/3200。
+  在玩家眼前，心跳照 ES2 一直回。
+- **开局:** 新游戏时每张图结算一次（世界在玩家来之前就在运转），所以开局没有哪张图欠时间。
+  唯一的变化是 create() 抽到的内力不满上限的人（尚书府护院）开局就是满的。
+- **偏离:** `pacing.json away_catch_up_limit_seconds`（3600）：离开更久时，前 3600 秒按节拍算，
+  其余直接算到结束：精气神和有效值满、内力法力满、状态和忙碌结束、昏迷的人醒来。ES2 没有上限，
+  有效值每次只修 1 点，可能要回几个小时；设成 0 就是 ES2。
+- 重置本来就按世界时间在所有地图上跑，跟进不进图无关，进出地图刷不出重置。补算不给玩家任何东西。
+- 存档：根节点可选键 `away_ms`，记录每张图（玩家所在的图除外）欠多少毫秒，只写欠着的。没有这个键的
+  存档在读档时视为谁都不欠，不升版本。
+- 下一步（owner 已批准）：B 游走和巡街的位置补算，加上邻图来客（Q1）；C 尸体腐烂（Q2）。
+
 ## 固定俯视体素地图 (owner, 2026-10-22)
 
 - ES2 的地方是房间、出口和文字描述；原生版先以 2D 地图承载，画面是占位色块。
@@ -1237,7 +1267,8 @@ except:
 
 What each LPC function became (林忌's two-second answer, the women's refusal, 灵神诀) is in
 [TEMPLE_CONTENT](TEMPLE_CONTENT.md); it follows the LPC except:
-- **NPC call_outs and the player's absence** (global rule): an NPC's call_out (林忌's answer,
+- **NPC call_outs and the player's absence** (global rule; a map's own heart beat is caught up
+  since「别的地图时间补算」, these call_outs still go as below): an NPC's call_out (林忌's answer,
   the thief's steal) runs on its map's world time, which stands still in a fight and while the
   player is on another map. One that comes due in a fight waits for its end; leaving the map
   drops them all, since ES2's would come while the player is away and find nobody (recruit.c's
@@ -3543,7 +3574,7 @@ What follows from it:
   due is said to the empty room as the player leaves the map (茅山 B).
 - 茅山 B's rule stands (a map's world time stands still while the player is on another): NPCs act
   only on the player's map, which since the remap is a building or its street (owner to judge at
-  the playtest).
+  the playtest). Superseded by「别的地图时间补算」(2026-10-23): a map catches up when the player comes back.
 - A door's fade is the shorter `door_fade_*` and names no place; world revisions
   `SOURCE_ENTRY_REMAP_*` (development saves need a New Game).
 

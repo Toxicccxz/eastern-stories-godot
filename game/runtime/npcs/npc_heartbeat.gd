@@ -59,61 +59,101 @@ func advance(delta: float, npcs: Array[NpcRuntimeState]) -> Array[NpcRuntimeStat
 ## What catch_up() came to for one NPC.
 class CatchUp:
 	extends RefCounted
-	## Seconds still to catch up: the NPC fell below zero with these left (the map lets it
-	## fall, then catches up the rest); 0 when done.
+	## Seconds still to catch up when it stopped early: it woke (the map wakes it) or fell
+	## below zero (the map lets it fall); 0 when done.
 	var left: float = 0.0
 	var woke: bool = false
+	## It stands below zero: char.c's next beat lets it fall (the map's fall_below_zero()).
+	var fell: bool = false
 	var heal_ups: int = 0
 
 
 ## 别的地图时间补算 (DECISIONS): `seconds` of the NPC's heart beat on a map the player was
 ## away from, at once, as advance() would have run them: in steps that end at its next
 ## heal_up() tick or its revive, so a tick never meets the revive out of order. Stops once
-## a tick would change nothing (CharacterRecovery.is_settled(): char.c turns that heart beat
-## off), or when the NPC falls below zero (CatchUp.left). Room lines go unheard.
+## a tick would change nothing (is_still(): char.c turns that heart beat off), when it wakes,
+## or when it stands below zero (CatchUp). Room lines go unheard.
 func catch_up(npc: NpcRuntimeState, seconds: float) -> CatchUp:
 	var result: CatchUp = CatchUp.new()
 	var left: float = seconds if is_finite(seconds) else 0.0
 	while left > 0.0:
 		if npc == null or not npc.exists_in_map or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
 			return result
-		var skills: RecoverySkillLevels = _skills(npc.character_state)
+		if npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and npc.character_state.life_threshold() != CharacterState.LifeThreshold.ACTIVE:
+			result.fell = true
+			result.left = left
+			return result
 		if _plain(npc):
-			# Only heal_up() is left to come: its ticks counted at once and run, until one
-			# changes nothing (nothing will after it).
-			if CharacterRecovery.is_settled(npc.character_state, skills):
+			# Only heal_up() is left to come: its ticks counted at once and run, until it is
+			# healed as far as time away takes it (is_still()). A raised corpse's heal_up()
+			# does more (zombie.c): its ticks are counted even when it is whole.
+			var raised: bool = npc.definition().raising() != null
+			if is_still(npc) and not raised:
 				return result
-			var cadence: PlayerRecoveryCadence = _cadence(npc)
-			var ticks: int = cadence.ticks_in(left)
+			var skills: RecoverySkillLevels = _skills(npc.character_state)
+			var ticks: int = _cadence(npc).ticks_in(left)
 			var water_use: int = GameContent.catalog().pacing().npc_thirst
+			# One made whole is healed once a tick changes nothing; one made short of a
+			# maximum once it is as made.
+			var capped: bool = npc.definition().heal_ceiling().caps_anything()
 			for _tick: int in maxi(ticks, 0):
 				result.heal_ups += 1
-				if CharacterRecovery.apply_tick(npc.character_state, skills, false, false, 1, water_use) == 0:
+				if raised:
+					break
+				if CharacterRecovery.apply_tick(npc.character_state, skills, false, false, 1, water_use) == 0 or (capped and _healed(npc, skills)):
 					break
 			return result
 		var step: float = minf(left, _seconds_to_next_tick(npc))
 		if npc.life_status == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS:
 			step = minf(step, maxf(npc.revive_in_ms, 1) / 1000.0)
 		step = maxf(step, 0.001)
-		if not advance(step, [npc]).is_empty():
-			result.woke = true
+		var woke: bool = not advance(step, [npc]).is_empty()
 		result.heal_ups += heal_ups.get(npc.character_id, 0)
-		left -= step
-		if npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and npc.character_state.life_threshold() != CharacterState.LifeThreshold.ACTIVE:
-			result.left = maxf(left, 0.0)
+		left = maxf(left - step, 0.0)
+		if woke:
+			result.woke = true
+			result.left = left
 			return result
+	result.fell = npc != null and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and npc.character_state.life_threshold() != CharacterState.LifeThreshold.ACTIVE
 	return result
+
+
+## Nothing time away would change in the NPC (DECISIONS「别的地图时间补算」): awake and
+## standing, not busy, nothing timed or ailing, nothing left to eat or drink up, and healed
+## as far as time away takes it (NpcHealCeiling: as made). A map whose NPCs are all still
+## owes no time (the save leaves it out).
+static func is_still(npc: NpcRuntimeState) -> bool:
+	if npc == null or not npc.exists_in_map or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
+		return true
+	return (
+		_plain(npc) and npc.definition().raising() == null
+		and npc.character_state.life_threshold() == CharacterState.LifeThreshold.ACTIVE
+		and _healed(npc, _skills(npc.character_state))
+	)
+
+
+static func _healed(npc: NpcRuntimeState, skills: RecoverySkillLevels) -> bool:
+	var character: CharacterState = npc.character_state
+	return (
+		character.recovery.water <= 0 and character.recovery.food <= 0
+		and npc.definition().heal_ceiling().reached(character, skills)
+	)
 
 
 ## Only heal_up() is left for a beat to do: the NPC awake, not fighting or busy, nothing
 ## timed or ailing.
-func _plain(npc: NpcRuntimeState) -> bool:
+static func _plain(npc: NpcRuntimeState) -> bool:
 	var character: CharacterState = npc.character_state
 	return (
 		npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and not npc.busy.is_busy()
 		and not npc.relationship.is_fighting()
 		and character.timed_applies.is_empty() and character.conditions.size() == 0
 	)
+
+
+## The raw magic, force and spells levels heal_up() reads.
+static func skills_of(character: CharacterState) -> RecoverySkillLevels:
+	return _skills(character)
 
 
 static func _skills(character: CharacterState) -> RecoverySkillLevels:
@@ -137,8 +177,7 @@ func _cadence(npc: NpcRuntimeState) -> PlayerRecoveryCadence:
 func _seconds_to_next_tick(npc: NpcRuntimeState) -> float:
 	var cadence: PlayerRecoveryCadence = _cadences.get(npc.character_id)
 	if cadence == null or not cadence.is_valid():
-		var pulse: float = GameContent.catalog().pacing().heart_beat_seconds
-		return pulse
+		return GameContent.catalog().pacing().heart_beat_seconds
 	var beats: int = 1 if npc.busy.is_busy() else cadence.source_tick + 1
 	return beats * cadence.pulse_seconds - cadence.accumulated_seconds
 

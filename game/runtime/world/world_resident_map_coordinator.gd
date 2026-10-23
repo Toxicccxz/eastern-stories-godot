@@ -168,9 +168,9 @@ func _entering(_destination: WorldResidentMapController) -> void:
 	pass
 
 
-## A Session overrides this narrow hook: the player left `source` for `destination` (a
-## handoff that completed).
-func _departed(_source: WorldResidentMapController, _destination: WorldResidentMapController) -> void:
+## A Session overrides this narrow hook: the player's map is `destination` now, not `source`
+## (even if the handoff fails after this, `source` is no longer the player's).
+func _switched(_source: WorldResidentMapController, _destination: WorldResidentMapController) -> void:
 	pass
 
 
@@ -345,6 +345,7 @@ func _handoff_to_impl(
 		return result
 	result._location_committed = true
 	_active_map_id = destination_map_id
+	_switched(source, destination)
 
 	result._failure_stage = OldPineMapHandoffResult.FailureStage.ACTIVATION
 	active_map_slot.add_child(destination)
@@ -367,7 +368,6 @@ func _handoff_to_impl(
 	destination.resume_after_relationship_reconciliation()
 	_carry_followers(source, destination, source_location)
 	source.player_departed()
-	_departed(source, destination)
 	result._outcome = OldPineMapHandoffResult.Outcome.COMPLETED
 	result._failure_stage = OldPineMapHandoffResult.FailureStage.NONE
 	_transitioning = false

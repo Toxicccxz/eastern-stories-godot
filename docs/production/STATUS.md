@@ -4,6 +4,11 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
+**别的地图时间补算**（owner，2026-10-23，DECISIONS 同名条目）：分三个 PR。A（分支
+`phase/away-catch-up-a`）：玩家回到一张图、那里的房间重置、有 NPC 进出那张图之前，先把它离开期间的
+NPC 心跳一次补算完，包括回复、状态、忙碌、计时效果和昏迷醒来，超过一小时的部分直接算到结束；存档记录
+每张图欠下的时间。B：游走和巡街的位置补算，加上邻图来客。C：尸体腐烂。
+
 **体素地图**（owner，2026-10-22，DECISIONS「固定俯视体素地图」）：全部地图都将用固定斜视的体素表现，
 当前分支 `phase/snow-voxel-interiors`。雪亭镇全部可进入地图已接入：饮风客栈一、二楼、
 街道、钱庄、药铺、铁匠铺、驿站、米厂、当铺及库房、城隍庙、书院、武馆各房和地下密室。
@@ -46,7 +51,7 @@ is killing who falls waits on the card's 了结 / 放过 while the fight goes on
 
 ## 待决定
 
-三项等 owner 完整试玩后再定。规则（owner，2026-10-08）：PR 合并时 owner 没有回答的问题，按 PR 里的推荐
+两项等 owner 完整试玩后再定。规则（owner，2026-10-08）：PR 合并时 owner 没有回答的问题，按 PR 里的推荐
 方案生效，在 [DECISIONS](../migration/DECISIONS.md) 里标「默认」，owner 随时可以否决；已批准的积压决定
 也在那里（「积压问题的处理」）。
 
@@ -55,9 +60,6 @@ is killing who falls waits on the card's 了结 / 放过 while the fight goes on
   对手（进香客、玄和、玄真、老道士）；它的 8 个任务目标离朱鸿雪最远（绮云镇→雪亭→山路→石阶→观内）。
 * **A6 「进门一起上」是否扩大到所有房间**（#68）：ES2 同房间的凶徒全部出手；现在只有 6 个区域用
   `complete_set`（老松寨三间、水潭、野羊山转角、卧龙岗）。
-* **地图重构：别的地图上时间停住**（#132）：NPC 只在玩家所在的那张地图上走动、回血、说话（DECISIONS
-  「茅山 B」：玩家在别的地图时，那张图的世界时间停住）。店铺和街道分成两张图后，玩家在店里时
-  街上的人停着，反之亦然。推荐先这样，试玩时若明显不自然，再让同一区域的地图一起走时间。
 
 ## Playable now
 
@@ -384,9 +386,9 @@ Code:
   NPCs never flee a losing fight (`wimpy`) and do not follow who flees (`pursuer`).
   The dog takes no bone (no
   chicken leg, no following); nothing can be put into a corpse.
-* An NPC acts only on the map the player is on (see 待决定): one that walked out of a shop stands
-  on the street until the player comes out; a hurt 武馆 student heals only while the player is in
-  the 武馆. New Game builds 127 maps (about 2.8 s in the editor, headless, measured before R4's
+* An NPC walks and talks only on the map the player is on; another map's heart beat (healing,
+  conditions, waking) is caught up when the player comes back, but its wanderers stay where
+  they were until B: one that walked out of a shop stands on the street until the player comes out. New Game builds 127 maps (about 2.8 s in the editor, headless, measured before R4's
   maps grew).
 * With the pacing knobs, 打坐 from max_force 0 to 50 takes about 2.4 hours of play at con 30
   (6.4 at ES2's pace); `tests/runtime/run_with_max_force.gd` gives a playtest 49. combat_exp 0 to
