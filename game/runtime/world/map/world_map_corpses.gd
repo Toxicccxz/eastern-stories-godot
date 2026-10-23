@@ -12,6 +12,9 @@ var _corpse_locations: Dictionary[StringName, WorldLocationState] = {}
 ## left] (transient).
 var _pending_dissolves: Array[Array] = []
 var _loot: CorpseLootAdapter = CorpseLootAdapter.new()
+## When each corpse here was made, on the world clock (WorldAwayTimes), by corpse ID: its
+## age decides its decay stage (decay()). Saved as its age.
+var _made_ms: Dictionary[StringName, int] = {}
 var _last_loot_transfer_result: CorpseLootTransferResult
 
 # The map's authorities, read as the controller reads them.
@@ -78,7 +81,7 @@ func _npc_dissolves_corpse(npc: NpcRuntimeState) -> void:
 	if dust.is_empty() or corpse == null:
 		return
 	var heard: bool = _map.npc_life.player_hears(npc)
-	var victim_name: String = corpse.victim_display_name
+	var victim_name: String = corpse_name(corpse)
 	var owner := ItemLifecycleOwnerContext.new(npc.character_id, npc.character_state.equipment, npc.armor)
 	if not _dissolve_corpse(corpse, dust, owner):
 		push_error("dissolving %s failed: the item state is inconsistent" % corpse.corpse_item_instance_id)
@@ -98,10 +101,10 @@ func dissolve_selected_corpse(dust_id: StringName) -> bool:
 	if content == null or not content.dissolves or not _inventory.is_direct_child(dust_id, carried):
 		return false
 	var corpse: CorpseState = _selected_corpse()
-	if corpse == null or not corpse_is_live_in_world(corpse) or not corpse_in_location(corpse, _player.world_location()):
+	if corpse == null or not corpse.is_legacy_corpse() or not corpse_is_live_in_world(corpse) or not corpse_in_location(corpse, _player.world_location()):
 		_map.hud().append_log_lines([tr("这里没有这样东西。")])
 		return false
-	var victim_name: String = corpse.victim_display_name
+	var victim_name: String = corpse_name(corpse)
 	var owner := ItemLifecycleOwnerContext.new(_player.character_id, _player.state.equipment, _player.armor)
 	if not _dissolve_corpse(corpse, dust_id, owner):
 		push_error("dissolving %s failed: the item state is inconsistent" % corpse.corpse_item_instance_id)
@@ -116,9 +119,9 @@ func dissolve_selected_corpse(dust_id: StringName) -> bool:
 ## 化尸粉 row offers to dissolve).
 func dissolvable_corpse_name() -> String:
 	var corpse: CorpseState = _selected_corpse()
-	if _player == null or corpse == null or not corpse_is_live_in_world(corpse) or not corpse_in_location(corpse, _player.world_location()):
+	if _player == null or corpse == null or not corpse.is_legacy_corpse() or not corpse_is_live_in_world(corpse) or not corpse_in_location(corpse, _player.world_location()):
 		return ""
-	return corpse.victim_display_name
+	return corpse_name(corpse)
 
 
 ## How many things lie in the corpse 化尸粉 would dissolve (dust.c destructs it whole).
@@ -140,7 +143,7 @@ func _carried_dissolver(holder: ContainmentEndpoint) -> StringName:
 func _newest_corpse_in(location: WorldLocationState) -> CorpseState:
 	for index: int in range(_corpse_states.size() - 1, -1, -1):
 		var corpse: CorpseState = _corpse_states[index]
-		if corpse_is_live_in_world(corpse) and corpse_in_location(corpse, location):
+		if corpse.is_legacy_corpse() and corpse_is_live_in_world(corpse) and corpse_in_location(corpse, location):
 			return corpse
 	return null
 
@@ -150,11 +153,11 @@ func corpse_in_location(corpse: CorpseState, location: WorldLocationState) -> bo
 	return at != null and location != null and at.shares_combat_location(location)
 
 
-## obj/dust.c: $N用指甲挑了一点化尸粉在$n上……$n只剩下一滩黄水。
-func _dissolve_line(who: String, victim_name: String) -> String:
+## obj/dust.c: $N用指甲挑了一点化尸粉在$n上……$n只剩下一滩黄水。 `corpse`: its name now.
+func _dissolve_line(who: String, corpse: String) -> String:
 	# TRANSLATORS: dust.c: {who} (你 or an NPC) dissolves a corpse ({corpse}, e.g. 狼狗的尸体) with 化尸粉.
 	return tr("{who}用指甲挑了一点化尸粉在{corpse}上，只听见一阵「嗤嗤」声响带著一股可怕的恶臭，{corpse}只剩下一滩黄水。").format({
-		"who": who, "corpse": tr("%s的尸体") % tr(victim_name),
+		"who": who, "corpse": corpse,
 	})
 
 
@@ -176,9 +179,108 @@ func corpse_here(corpse: CorpseState) -> CorpseState:
 	return corpse
 
 
-## The name a corpse goes by (chard.c make_corpse(): 某某的尸体), in the shown language.
+## The name a corpse goes by at its stage (CombatSliceCorpseView.shown_name()), shown.
 func corpse_name(corpse: CorpseState) -> String:
-	return tr("%s的尸体") % tr(corpse.victim_display_name)
+	return CombatSliceCorpseView.shown_name(corpse.decay_stage, corpse.victim_display_name)
+
+
+## corpse.c's long once it decays (look.c), "" while fresh.
+func corpse_long(corpse: CorpseState) -> String:
+	if corpse.decay_stage >= CorpseState.Stage.SKELETON:
+		return tr("这副骸骨已经躺在这里很久了。")
+	if corpse.decay_stage == CorpseState.Stage.ROTTEN:
+		return tr("这具尸体显然已经躺在这里有一段时间了，正散发著一股腐尸的味道。")
+	return ""
+
+
+## Milliseconds of world time since the corpse was made.
+func age_ms(corpse: CorpseState) -> int:
+	if session == null or corpse == null:
+		return 0
+	return maxi(session.away_times().clock_ms() - _made_ms.get(corpse.corpse_item_instance_id, session.away_times().clock_ms()), 0)
+
+
+## Continue: the corpse was `age` ms old at the save.
+func set_age(corpse_id: StringName, age: int) -> void:
+	if session != null:
+		_made_ms[corpse_id] = session.away_times().clock_ms() - maxi(age, 0)
+
+
+## obj/corpse.c decay() on world time (pacing.json corpse_rot_seconds, corpse_bones_seconds,
+## corpse_scatter_seconds; ES2's 120, 120 and 60; 0: it goes no further): each corpse here
+## comes to the stage its age gives, one stage at a time. 腐烂的尸体, then 一具枯乾的骸骨 (no
+## corpse any more: nothing raises or dissolves it), then a gust scatters it and what it held
+## falls where it lay. Its say() is heard by the player in its room on the player's map.
+func advance_decay() -> void:
+	if session == null or not _map.is_map_initialized():
+		return
+	var pacing: PacingDefinition = GameContent.catalog().pacing()
+	var stages: Array[int] = [pacing.corpse_rot_seconds, pacing.corpse_bones_seconds, pacing.corpse_scatter_seconds]
+	for corpse: CorpseState in _corpse_states.duplicate():
+		if not corpse_is_live_in_world(corpse):
+			continue
+		var age: int = age_ms(corpse)
+		var due_ms: int = 0
+		for stage: int in range(CorpseState.Stage.ROTTEN, CorpseState.Stage.FINAL + 1):
+			var seconds: int = stages[stage - 1]
+			if seconds <= 0:
+				break
+			due_ms += seconds * 1000
+			if age < due_ms:
+				break
+			if corpse.decay_stage < stage and not _decay(corpse, stage):
+				push_error("%s could not decay to stage %d" % [corpse.corpse_item_instance_id, stage])
+				break
+
+
+func _decay(corpse: CorpseState, stage: int) -> bool:
+	var before: String = corpse_name(corpse)
+	var heard: bool = (
+		session.active_map() == _map and _player != null and _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+		and corpse_in_location(corpse, _player.world_location())
+	)
+	var line: String = ""
+	if stage == CorpseState.Stage.FINAL:
+		# TRANSLATORS: corpse.c decay(3): a gust scatters the bones ({name}, 一具枯乾的骸骨).
+		line = tr("一阵风吹过，把{name}化成骨灰吹散了。").format({"name": before})
+		if not _scatter(corpse):
+			return false
+	else:
+		if not corpse._apply_next_decay_stage(stage):
+			return false
+		var view: CombatSliceCorpseView = _corpse_views.get(corpse.corpse_item_instance_id)
+		if view != null:
+			view.set_stage(stage)
+		if stage == CorpseState.Stage.ROTTEN:
+			# TRANSLATORS: corpse.c decay(1): the corpse ({name}, e.g. 狼狗的尸体) begins to rot.
+			line = tr("{name}开始腐烂了，发出一股难闻的恶臭。").format({"name": before})
+		else:
+			# TRANSLATORS: corpse.c decay(2): the rotten corpse ({name}) dries to bones.
+			line = tr("{name}被风吹乾了，变成一具骸骨。").format({"name": before})
+		if _map.selection.selected_target != null and _map.selection.selected_target.target_id == corpse.corpse_item_instance_id:
+			refresh_selected_corpse()
+			if _map.hud().loot_is_open():
+				_refresh_loot_panel(corpse)
+	if heard:
+		_map.hud().append_log_lines([line])
+	return true
+
+
+## decay(3): all_inventory()->move(environment()), then destruct(this_object()).
+func _scatter(corpse: CorpseState) -> bool:
+	var corpse_id: StringName = corpse.corpse_item_instance_id
+	var location: WorldLocationState = corpse_world_location(corpse_id)
+	var position: Vector2 = lying_at(corpse)
+	if location == null or position == Vector2.INF:
+		return false
+	corpse._release_all_worn_for_scatter()
+	var floor := InventoryTransferDestination.new(WorldMapFloorItems.floor_endpoint(location), true, true, _map.WORLD_CAPACITY)
+	for item_id: StringName in _inventory.direct_children(ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, corpse_id)):
+		if not CorpseContentTransferService.transfer_out(corpse, _inventory, item_id, floor).succeeded:
+			return false
+		if not _map.floor_items.add_dropped_item_view(item_id, location, _map.floor_items.at_feet(location, position, true)):
+			return false
+	return _destruct_corpse(corpse)
 
 
 ## Where a corpse lies on the map (its view), or Vector2.INF.
@@ -218,6 +320,7 @@ func _destruct_corpse(corpse: CorpseState) -> bool:
 		return false
 	_corpse_states.erase(corpse)
 	_corpse_locations.erase(corpse_id)
+	_made_ms.erase(corpse_id)
 	var view: CombatSliceCorpseView = _corpse_views.get(corpse_id)
 	_corpse_views.erase(corpse_id)
 	if view != null:
@@ -253,6 +356,8 @@ func publish_corpse_view(corpse: CorpseState, position: Vector2, location: World
 
 func add_corpse_view(corpse: CorpseState, position: Vector2, location: WorldLocationState) -> CombatSliceCorpseView:
 	_corpse_states.append(corpse)
+	if session != null:
+		_made_ms[corpse.corpse_item_instance_id] = session.away_times().clock_ms()
 	if location != null:
 		_corpse_locations[corpse.corpse_item_instance_id] = location.duplicate_snapshot()
 	var view: CombatSliceCorpseView = CombatSliceCorpseView.new()
@@ -339,7 +444,7 @@ func refresh_selected_corpse() -> void:
 			_map.selection.selected_target = null
 		_map.hud().set_selected_corpse("", 0, false, true)
 		return
-	_map.hud().set_selected_corpse(corpse.victim_display_name, corpse_content_count(corpse), _player_is_in_corpse_loot_range(corpse.corpse_item_instance_id), false)
+	_map.hud().set_selected_corpse(corpse_name(corpse), corpse_content_count(corpse), _player_is_in_corpse_loot_range(corpse.corpse_item_instance_id), false)
 
 
 func _on_corpse_loot_range_changed(corpse_id: StringName, body: Node2D, _is_inside: bool) -> void:
@@ -348,7 +453,7 @@ func _on_corpse_loot_range_changed(corpse_id: StringName, body: Node2D, _is_insi
 
 
 func _refresh_loot_panel(corpse: CorpseState) -> void:
-	_map.hud().show_loot(tr("%s的尸体") % tr(corpse.victim_display_name), _loot.project_rows(corpse, _inventory, _stacks, _item_index))
+	_map.hud().show_loot(corpse_name(corpse), _loot.project_rows(corpse, _inventory, _stacks, _item_index))
 
 
 func select_corpse(corpse_id: StringName) -> bool:
@@ -358,7 +463,7 @@ func select_corpse(corpse_id: StringName) -> bool:
 	if corpse == null or not corpse_is_live_in_world(corpse):
 		return false
 	_map.selection.selected_target = WorldInteractionTarget.item(corpse_id)
-	_map.hud().set_selected_corpse(corpse.victim_display_name, corpse_content_count(corpse), _player_is_in_corpse_loot_range(corpse_id))
+	_map.hud().set_selected_corpse(corpse_name(corpse), corpse_content_count(corpse), _player_is_in_corpse_loot_range(corpse_id))
 	return true
 
 

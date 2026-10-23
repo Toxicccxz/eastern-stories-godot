@@ -90,7 +90,7 @@ func inspect_selected() -> bool:
 			var corpse: CorpseState = _map.corpses.find_corpse(selected_target.target_id)
 			if corpse == null or not _map.corpses.corpse_is_live_in_world(corpse):
 				return false
-			_map.hud().show_corpse_inspection(corpse.victim_display_name, _map.corpses.corpse_content_count(corpse))
+			_map.hud().show_corpse_inspection(_map.corpses.corpse_name(corpse), _map.corpses.corpse_content_count(corpse), _map.corpses.corpse_long(corpse))
 			return true
 		WorldInteractionTarget.Kind.LANDMARK:
 			var landmark: WorldLandmarkDefinition = GameContent.catalog().landmark(selected_target.target_id)
@@ -591,7 +591,7 @@ func nearby() -> Array[WorldNearbyThing]:
 		if view == null or not _map.corpses.corpse_is_live_in_world(corpse) or not _map.corpses.corpse_in_location(corpse, location):
 			continue
 		if at.distance_to(view.global_position) <= NEARBY_REACH or view.is_body_in_loot_range(player_body):
-			found.append(WorldNearbyThing.new(WorldNearbyThing.Kind.CORPSE, corpse.corpse_item_instance_id, corpse.victim_display_name, at.distance_to(view.global_position)))
+			found.append(WorldNearbyThing.new(WorldNearbyThing.Kind.CORPSE, corpse.corpse_item_instance_id, _map.corpses.corpse_name(corpse), at.distance_to(view.global_position)))
 	for item_id: StringName in _map.floor_items.floor_item_ids():
 		var floor_view: WorldFloorItemView = _map.floor_items.floor_item_view(item_id)
 		if floor_view != null and floor_view.is_body_in_reach(player_body) and _map.floor_items.floor_item_in_player_zone(floor_view):

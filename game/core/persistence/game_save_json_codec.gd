@@ -263,7 +263,11 @@ func _encode_busy(into: Dictionary[String, Variant], busy_value: int, busy_inter
 func _encode_corpse(value: Values.CorpseSnapshot) -> Dictionary[String, Variant]:
 	var worn: Array[Variant] = []
 	for record: Values.CorpseWornItemSnapshot in value.worn_items: worn.append({"armor_type": String(record.armor_type), "item_instance_id": String(record.item_instance_id)})
-	return {"corpse_item_instance_id": String(value.corpse_item_instance_id), "victim_character_id": String(value.victim_character_id), "victim_display_name": value.victim_display_name, "victim_gender": String(value.victim_gender), "victim_age": _i(value.victim_age), "decay_stage": _i(value.decay_stage), "maximum_contents_encumbrance": _i(value.maximum_contents_encumbrance), "worn_items": worn, "world_location": _encode_location(value.world_location), "map_position": {"x": value.map_position.x, "y": value.map_position.y}}
+	var corpse: Dictionary[String, Variant] = {"corpse_item_instance_id": String(value.corpse_item_instance_id), "victim_character_id": String(value.victim_character_id), "victim_display_name": value.victim_display_name, "victim_gender": String(value.victim_gender), "victim_age": _i(value.victim_age), "decay_stage": _i(value.decay_stage), "maximum_contents_encumbrance": _i(value.maximum_contents_encumbrance), "worn_items": worn, "world_location": _encode_location(value.world_location), "map_position": {"x": value.map_position.x, "y": value.map_position.y}}
+	# Its age (obj/corpse.c decay()): written once it has one.
+	if value.age_ms > 0:
+		corpse["age_ms"] = _i(value.age_ms)
+	return corpse
 
 
 func _encode_location(value: Values.WorldLocationSnapshot) -> Dictionary[String, Variant]:
@@ -731,14 +735,21 @@ func _decode_memory(value: Variant, path: String, into: Values.NpcSpawnStateSnap
 
 
 func _decode_corpse(value: Variant, path: String) -> Values.CorpseSnapshot:
-	var object: Dictionary = _obj(value, path, ["corpse_item_instance_id", "victim_character_id", "victim_display_name", "victim_gender", "victim_age", "decay_stage", "maximum_contents_encumbrance", "worn_items", "world_location", "map_position"])
+	var fields: Array[String] = ["corpse_item_instance_id", "victim_character_id", "victim_display_name", "victim_gender", "victim_age", "decay_stage", "maximum_contents_encumbrance", "worn_items", "world_location", "map_position"]
+	if value is Dictionary and value.has("age_ms"):
+		fields.append("age_ms")
+	var object: Dictionary = _obj(value, path, fields)
 	if _error: return null
 	var worn_values: Array = _array(object["worn_items"], path + ".worn_items")
 	var worn: Array[Values.CorpseWornItemSnapshot] = []
 	for index: int in range(worn_values.size()):
 		var record: Dictionary = _obj(worn_values[index], path + ".worn_items[%d]" % index, ["armor_type", "item_instance_id"])
 		worn.append(Values.CorpseWornItemSnapshot.new(StringName(_string(record.get("armor_type"), path + ".worn_items[%d].armor_type" % index)), StringName(_string(record.get("item_instance_id"), path + ".worn_items[%d].item_instance_id" % index))))
-	return Values.CorpseSnapshot.new(StringName(_string(object["corpse_item_instance_id"], path + ".corpse_item_instance_id")), StringName(_string(object["victim_character_id"], path + ".victim_character_id")), _string(object["victim_display_name"], path + ".victim_display_name"), StringName(_string(object["victim_gender"], path + ".victim_gender")), _int64(object["victim_age"], path + ".victim_age"), _int64(object["decay_stage"], path + ".decay_stage"), _int64(object["maximum_contents_encumbrance"], path + ".maximum_contents_encumbrance"), worn, _decode_location(object["world_location"], path + ".world_location"), _decode_position(object["map_position"], path + ".map_position"))
+	var corpse := Values.CorpseSnapshot.new(StringName(_string(object["corpse_item_instance_id"], path + ".corpse_item_instance_id")), StringName(_string(object["victim_character_id"], path + ".victim_character_id")), _string(object["victim_display_name"], path + ".victim_display_name"), StringName(_string(object["victim_gender"], path + ".victim_gender")), _int64(object["victim_age"], path + ".victim_age"), _int64(object["decay_stage"], path + ".decay_stage"), _int64(object["maximum_contents_encumbrance"], path + ".maximum_contents_encumbrance"), worn, _decode_location(object["world_location"], path + ".world_location"), _decode_position(object["map_position"], path + ".map_position"))
+	if object.has("age_ms"):
+		corpse.age_ms = _int64(object["age_ms"], path + ".age_ms")
+		if corpse.age_ms <= 0: _fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".age_ms", "written only above 0")
+	return corpse
 
 
 func _decode_location(value: Variant, path: String) -> Values.WorldLocationSnapshot:

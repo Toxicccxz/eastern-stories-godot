@@ -6755,8 +6755,15 @@ msgstr ""
 msgid "右脚"
 msgstr ""
 
-#. dust.c's dissolve on the selected corpse ({corpse}, e.g. 狼狗的尸体).
-#: runtime/combat_slice/combat_slice_corpse_view.gd runtime/world/map/world_map_corpses.gd ui/world/player_inventory_panel.gd ui/world/shared_ui_nearby.gd
+#: runtime/combat_slice/combat_slice_corpse_view.gd
+msgid "一具枯乾的骸骨"
+msgstr ""
+
+#: runtime/combat_slice/combat_slice_corpse_view.gd
+msgid "腐烂的尸体"
+msgstr ""
+
+#: runtime/combat_slice/combat_slice_corpse_view.gd
 msgid "%s的尸体"
 msgstr ""
 
@@ -6802,6 +6809,29 @@ msgstr ""
 #. dust.c: {who} (你 or an NPC) dissolves a corpse ({corpse}, e.g. 狼狗的尸体) with 化尸粉.
 #: runtime/world/map/world_map_corpses.gd
 msgid "{who}用指甲挑了一点化尸粉在{corpse}上，只听见一阵「嗤嗤」声响带著一股可怕的恶臭，{corpse}只剩下一滩黄水。"
+msgstr ""
+
+#: runtime/world/map/world_map_corpses.gd
+msgid "这副骸骨已经躺在这里很久了。"
+msgstr ""
+
+#: runtime/world/map/world_map_corpses.gd
+msgid "这具尸体显然已经躺在这里有一段时间了，正散发著一股腐尸的味道。"
+msgstr ""
+
+#. corpse.c decay(3): a gust scatters the bones ({name}, 一具枯乾的骸骨).
+#: runtime/world/map/world_map_corpses.gd
+msgid "一阵风吹过，把{name}化成骨灰吹散了。"
+msgstr ""
+
+#. corpse.c decay(1): the corpse ({name}, e.g. 狼狗的尸体) begins to rot.
+#: runtime/world/map/world_map_corpses.gd
+msgid "{name}开始腐烂了，发出一股难闻的恶臭。"
+msgstr ""
+
+#. corpse.c decay(2): the rotten corpse ({name}) dries to bones.
+#: runtime/world/map/world_map_corpses.gd
+msgid "{name}被风吹乾了，变成一具骸骨。"
 msgstr ""
 
 #: runtime/world/map/world_map_debts.gd runtime/world/services/vendor_service.gd
@@ -8655,7 +8685,7 @@ msgstr ""
 #. asked before 化尸粉 dissolves a corpse that still holds things (dust.c destructs it whole): {name} whose corpse, {count} how many things are in it.
 #: ui/world/shared_ui_inventory.gd
 msgid ""
-"化尸粉会把{name}的尸体连同里面的 {count} 件物品一起化成一滩黄水，化掉的东西再也找不回来。\n"
+"化尸粉会把{name}连同里面的 {count} 件物品一起化成一滩黄水，化掉的东西再也找不回来。\n"
 "确定要化掉吗？"
 msgstr ""
 
@@ -8767,7 +8797,7 @@ msgid "{pronoun}是你的{relation}。"
 msgstr ""
 
 #. the popup's line under a corpse: how many things it holds.
-#: ui/world/shared_ui_nearby.gd
+#: ui/world/shared_ui_nearby.gd ui/world/shared_ui_selection.gd
 msgid "里面有{count}件物品。"
 msgstr ""
 
@@ -8898,18 +8928,13 @@ msgstr ""
 msgid "请确认"
 msgstr ""
 
+#. the selected corpse ({name}: 狼狗的尸体, 腐烂的尸体, 一具枯乾的骸骨) and what it holds.
 #: ui/world/shared_ui_selection.gd
-msgid "{name}的尸体 · {count}件物品"
+msgid "{name} · {count}件物品"
 msgstr ""
 
 #: ui/world/shared_ui_selection.gd
 msgid "目标详情"
-msgstr ""
-
-#: ui/world/shared_ui_selection.gd
-msgid ""
-"{name}的尸体\n"
-"里面有{count}件物品。"
 msgstr ""
 
 #: ui/world/shared_ui_selection.gd

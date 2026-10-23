@@ -36,6 +36,10 @@ extends RefCounted
 ## - away_wander_moves: how many random_move()s and patrol()s a map's wanderers and
 ##   constables make at most while the player is away, where they end up when the player
 ##   comes back. 0 (ES2: a healed NPC's heart beat stops where no player is): none.
+## - corpse_rot_seconds, corpse_bones_seconds, corpse_scatter_seconds (obj/corpse.c decay(),
+##   DECISIONS「尸体腐烂」): a corpse rots this long after it is made, dries to bones this long
+##   after that, and scatters (what it held falls where it lay) this long after that; ES2's
+##   120, 120 and 60. 0: it goes no further than the stage before (0 rot: corpses stay).
 ## - away_neighbour_pulse_seconds: how often the maps a door leads to from the player's are
 ##   caught up, so a wanderer may come in through the door (邻图来客). 0 (ES2): never.
 const ES2_ROOM_RESET_SECONDS: int = 1800
@@ -43,6 +47,8 @@ const ES2_GAIN: int = 1
 const ES2_QUEST_TIME_PERCENT: int = 100
 const ES2_WAKE_SECONDS: int = 0
 const ES2_HEART_BEAT_MS: int = 2000
+## obj/corpse.c: call_out("decay", 120, 1), then 120, then 60.
+const ES2_CORPSE_DECAY_SECONDS: Array[int] = [120, 120, 60]
 
 var _combat_round_ms: int
 var _room_reset_seconds: int
@@ -58,6 +64,7 @@ var _dim_fade_ms: int = 0
 var _away_catch_up_limit_seconds: int = 0
 var _away_wander_moves: int = 0
 var _away_neighbour_pulse_seconds: int = 0
+var _corpse_decay_seconds: Array[int] = ES2_CORPSE_DECAY_SECONDS.duplicate()
 
 ## Seconds between two combat rounds of an encounter (the scheduler's opportunity interval).
 var combat_round_seconds: float:
@@ -111,6 +118,16 @@ var away_wander_moves: int:
 var away_neighbour_pulse_seconds: int:
 	get:
 		return _away_neighbour_pulse_seconds
+## Seconds from a corpse's making to its rotting, then to its bones, then to its scattering.
+var corpse_rot_seconds: int:
+	get:
+		return _corpse_decay_seconds[0]
+var corpse_bones_seconds: int:
+	get:
+		return _corpse_decay_seconds[1]
+var corpse_scatter_seconds: int:
+	get:
+		return _corpse_decay_seconds[2]
 ## The presentation's feel knobs (the record's `feel`; all 0 when left out).
 var feel: FeelDefinition = FeelDefinition.new()
 
@@ -123,6 +140,12 @@ func reaction_seconds(es2_seconds: float) -> float:
 	return minf(es2_seconds, float(_reaction_beat_ms) / 1000.0)
 
 
+## This record with the corpse decay knobs set (seconds; tests, and from_record()).
+func with_corpse_decay(rot: int, bones: int, scatter: int) -> PacingDefinition:
+	_corpse_decay_seconds = [rot, bones, scatter]
+	return self
+
+
 ## A copy of this record (a suite changes a knob on it, never on the game's).
 func copy() -> PacingDefinition:
 	var record: PacingDefinition = PacingDefinition.new(
@@ -131,6 +154,7 @@ func copy() -> PacingDefinition:
 	).with_responsiveness(_reaction_beat_ms, _trial_blow_ms, _heart_beat_ms, _dim_fade_ms).with_away_catch_up_limit(
 		_away_catch_up_limit_seconds, _away_wander_moves, _away_neighbour_pulse_seconds,
 	)
+	record.with_corpse_decay(corpse_rot_seconds, corpse_bones_seconds, corpse_scatter_seconds)
 	record.feel = feel
 	return record
 
@@ -188,6 +212,10 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.integer("away_catch_up_limit_seconds", 0),
 		reader.integer("away_wander_moves", 0),
 		reader.integer("away_neighbour_pulse_seconds", 0),
+	).with_corpse_decay(
+		reader.integer("corpse_rot_seconds", ES2_CORPSE_DECAY_SECONDS[0]),
+		reader.integer("corpse_bones_seconds", ES2_CORPSE_DECAY_SECONDS[1]),
+		reader.integer("corpse_scatter_seconds", ES2_CORPSE_DECAY_SECONDS[2]),
 	)
 	var feel: ContentRecordReader = reader.child("feel")
 	if feel != null:
@@ -215,6 +243,9 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.fail("dim_fade_ms", "must not be negative")
 	if definition._away_catch_up_limit_seconds < 0:
 		reader.fail("away_catch_up_limit_seconds", "must not be negative")
+	for index: int in 3:
+		if definition._corpse_decay_seconds[index] < 0:
+			reader.fail(["corpse_rot_seconds", "corpse_bones_seconds", "corpse_scatter_seconds"][index], "must not be negative")
 	if definition._away_wander_moves < 0:
 		reader.fail("away_wander_moves", "must not be negative")
 	if definition._away_neighbour_pulse_seconds < 0:

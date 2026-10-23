@@ -6,9 +6,10 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 **别的地图时间补算**（owner，2026-10-23，DECISIONS 同名条目）：分三个 PR。A（#149，已合并）：玩家回到
 一张图、那里的房间重置、有 NPC 进出那张图之前，先把它离开期间的 NPC 心跳一次补算完，包括回复、状态、
-忙碌、计时效果和昏迷醒来，最多回到造出来时的样子；存档记录每张图欠下的时间。B（分支
-`phase/away-catch-up-b`）：游走和巡街的人按自己的节拍换了位置；站在店外时，店里的游走 NPC 会从门口出来，
-反过来也一样。C：尸体腐烂。
+忙碌、计时效果和昏迷醒来，最多回到造出来时的样子；存档记录每张图欠下的时间。B（#150，已合并）：
+游走和巡街的人按自己的节拍换了位置；站在店外时，店里的游走 NPC 会从门口出来，反过来也一样。C（分支
+`phase/corpse-decay`，DECISIONS「尸体腐烂」）：尸体照 ES2 两分钟腐烂、四分钟变骸骨、五分钟吹散，里面的
+东西落在地上；时长是 pacing 开关。
 
 **体素地图**（owner，2026-10-22，DECISIONS「固定俯视体素地图」）：全部地图都将用固定斜视的体素表现，
 当前分支 `phase/snow-voxel-interiors`。雪亭镇全部可进入地图已接入：饮风客栈一、二楼、
@@ -382,8 +383,7 @@ Code:
 * A failed attack chain ends the fight with 战斗出错，已中止。 (development builds log why); the
   cause still has to be fixed in the content or rule that tripped it.
 * Beasts cannot be asked to spar (ES2's `fight` on a beast is a one-sided kill); attack them.
-* 刘安禄's 刘老三/血手刘三 are not listed until his reveal is ported. Corpses never decay, so the
-  corpses of NPCs that came back stay.
+* 刘安禄's 刘老三/血手刘三 are not listed until his reveal is ported.
   NPCs never flee a losing fight (`wimpy`) and do not follow who flees (`pursuer`).
   The dog takes no bone (no
   chicken leg, no following); nothing can be put into a corpse.

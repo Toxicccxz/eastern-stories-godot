@@ -247,7 +247,8 @@ func shown_name(thing: WorldNearbyThing) -> String:
 		WorldNearbyThing.Kind.NPC:
 			return thing.npc.short_name()
 		WorldNearbyThing.Kind.CORPSE:
-			return tr("%s的尸体") % tr(thing.display_name)
+			# The corpse's name at its stage, shown (WorldMapCorpses.corpse_name()).
+			return thing.display_name
 	return tr(thing.display_name)
 
 

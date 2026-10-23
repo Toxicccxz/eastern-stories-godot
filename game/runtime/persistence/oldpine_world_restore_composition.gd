@@ -525,11 +525,13 @@ static func _restore_corpses(
 					Result.Outcome.RECONSTRUCTION_FAILED,
 					path + ".decay_stage",
 				)
-		entries.append(OldPineRestoredCorpseEntry.new(
+		var entry := OldPineRestoredCorpseEntry.new(
 			corpse,
 			_location(saved.world_location),
 			Vector2(saved.map_position.x, saved.map_position.y),
-		))
+		)
+		entry.age_ms = saved.age_ms
+		entries.append(entry)
 	return OldPineWorldRestoreResult.new(
 		Result.Outcome.SUCCESS,
 		"",

@@ -628,6 +628,8 @@ class CorpseSnapshot extends RefCounted:
 			return result
 	var world_location: WorldLocationSnapshot
 	var map_position: MapPositionSnapshot
+	## Milliseconds of world time since it was made (DECISIONS「尸体腐烂」); written when above 0.
+	var age_ms: int = 0
 
 	func _init(
 		p_corpse_item_instance_id: StringName = &"", p_victim_character_id: StringName = &"",
@@ -651,4 +653,6 @@ class CorpseSnapshot extends RefCounted:
 		map_position = MapPositionSnapshot.new() if p_map_position == null else p_map_position.duplicate_snapshot()
 
 	func duplicate_snapshot() -> CorpseSnapshot:
-		return CorpseSnapshot.new(corpse_item_instance_id, victim_character_id, victim_display_name, victim_gender, victim_age, decay_stage, maximum_contents_encumbrance, _worn_items, world_location, map_position)
+		var copy := CorpseSnapshot.new(corpse_item_instance_id, victim_character_id, victim_display_name, victim_gender, victim_age, decay_stage, maximum_contents_encumbrance, _worn_items, world_location, map_position)
+		copy.age_ms = age_ms
+		return copy
