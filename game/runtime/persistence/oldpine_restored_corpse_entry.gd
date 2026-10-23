@@ -4,6 +4,8 @@ extends RefCounted
 var state: CorpseState
 var world_location: WorldLocationState
 var map_position: Vector2
+## Milliseconds of world time since it was made, at the save.
+var age_ms: int = 0
 
 
 func _init(

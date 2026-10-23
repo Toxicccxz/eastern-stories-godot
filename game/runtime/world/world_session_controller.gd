@@ -87,6 +87,9 @@ var _player_resets: WorldRoomResets
 var _maps_by_room: Dictionary[String, Array] = {}
 ## The world clock and each map's time without the player (DECISIONS「别的地图时间补算」).
 var _away: WorldAwayTimes = WorldAwayTimes.new()
+## The player's corpses that scattered (obj/corpse.c decay(3)): what they held lies where they
+## lay. Not saved (the death card that reads it cannot be saved on).
+var _scattered_corpses: Dictionary[StringName, bool] = {}
 ## A catch-up's own revive draws (one falling while the player was away), while it runs.
 var _catch_up_revive_random: CombatRandomSource
 ## The neighbour the pulse looks at next (_door_neighbours() order), and world seconds to its
@@ -421,6 +424,14 @@ func _door_neighbours(map_id: StringName) -> Array:
 			ring = next
 		_neighbours_by_map[map_id] = maps
 	return _neighbours_by_map[map_id]
+
+
+func note_corpse_scattered(corpse_id: StringName) -> void:
+	_scattered_corpses[corpse_id] = true
+
+
+func corpse_scattered(corpse_id: StringName) -> bool:
+	return _scattered_corpses.has(corpse_id)
 
 
 func away_times() -> WorldAwayTimes:

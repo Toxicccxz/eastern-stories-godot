@@ -209,6 +209,7 @@ func capture(
 					corpse.worn_item_in_slot(armor_type),
 				)
 			)
+		var corpse_map: WorldMapController = corpse_maps[index]
 		corpse_snapshots.append(
 			Values.CorpseSnapshot.new(
 				corpse.corpse_item_instance_id,
@@ -223,6 +224,9 @@ func capture(
 				_position_snapshot(view.global_position),
 			)
 		)
+		# Its age, while corpses decay (with corpse_rot_seconds 0 it would change nothing).
+		if corpse_map != null and GameContent.catalog().pacing().corpse_rot_seconds > 0:
+			corpse_snapshots[-1].age_ms = corpse_map.corpses.age_ms(corpse)
 
 	# The note each note maze shows (默认, 乔阴 C: the 字条 the player read).
 	var maze_notes: Dictionary[StringName, int] = {}

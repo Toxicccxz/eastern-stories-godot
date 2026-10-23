@@ -59,6 +59,7 @@ func advance_npc_heartbeat(delta: float) -> void:
 		npc_heartbeat = NpcHeartbeat.new(session.npc_recovery_random_source())
 	_map.combat_lifecycle.fall_below_zero()
 	_map.corpses.advance_pending_dissolves(delta)
+	_map.corpses.advance_decay()
 	for npc: NpcRuntimeState in npc_heartbeat.advance(delta, _map.npcs.npc_runtimes()):
 		_woke(npc)
 	# What the NPCs' conditions show their room (drunk.c, slumber_drug.c).
@@ -269,7 +270,12 @@ func catch_up(seconds: float, seed: int, arrivals: bool = false) -> void:
 				_map.spells.dispell(npc)
 				break
 			if done.fell:
+				var corpses: Array[CorpseState] = _map.corpses.corpse_states()
 				_map.combat_lifecycle.fall_below_zero()
+				# One that died there has lain dead for the rest of the time (DECISIONS「尸体腐烂」).
+				for corpse: CorpseState in _map.corpses.corpse_states():
+					if not corpses.has(corpse):
+						_map.corpses.set_age(corpse.corpse_item_instance_id, roundi(done.left * 1000.0))
 				if npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
 					break
 			if done.left <= 0.0 or (done.left >= left and not done.fell):
@@ -279,6 +285,9 @@ func catch_up(seconds: float, seed: int, arrivals: bool = false) -> void:
 		ceiling.hold(npc.character_state, before)
 		if npc_heartbeat != null:
 			npc_heartbeat.forget_revive(npc.character_id)
+	# Its corpses decay by their age, unheard (DECISIONS「尸体腐烂」): those that died in the
+	# time caught up too.
+	_map.corpses.advance_decay()
 	_wander(seconds, seed, arrivals)
 
 

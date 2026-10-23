@@ -250,6 +250,11 @@ func panel_open() -> bool:
 	return _presentation_layout.frame.visible
 
 
+## The selected thing's details (目标详情) are open.
+func details_shown() -> bool:
+	return panel_open() and _presentation_layout.details.is_visible_in_tree()
+
+
 ## The overlays join the session a frame late; free them if the session never got them.
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
@@ -780,8 +785,9 @@ func set_selected_landmark_source_available(value: bool) -> void:
 	selection.set_selected_landmark_source_available(value)
 
 
-func set_selected_corpse(victim_display_name: String, content_count: int, in_range: bool, clear_inspection: bool = true) -> void:
-	selection.set_selected_corpse(victim_display_name, content_count, in_range, clear_inspection)
+## `corpse_name`: the corpse's name at its stage, shown (WorldMapCorpses.corpse_name()).
+func set_selected_corpse(corpse_name: String, content_count: int, in_range: bool, clear_inspection: bool = true) -> void:
+	selection.set_selected_corpse(corpse_name, content_count, in_range, clear_inspection)
 
 
 func set_selected_floor_item(display_name: String, in_range: bool, clear_inspection: bool = true) -> void:
@@ -800,8 +806,8 @@ func show_item_inspection(display_name: String, description: String) -> void:
 	selection.show_item_inspection(display_name, description)
 
 
-func show_corpse_inspection(victim_display_name: String, content_count: int) -> void:
-	selection.show_corpse_inspection(victim_display_name, content_count)
+func show_corpse_inspection(corpse_name: String, content_count: int, long: String = "") -> void:
+	selection.show_corpse_inspection(corpse_name, content_count, long)
 
 
 func refresh_live_state() -> void:

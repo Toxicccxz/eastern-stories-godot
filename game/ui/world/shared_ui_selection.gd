@@ -42,7 +42,8 @@ func selection_text() -> String:
 	if selected_floor_item:
 		return tr(_selected_corpse_name)
 	if selected_corpse_available:
-		return tr("{name}的尸体 · {count}件物品").format({"name": tr(_selected_corpse_name), "count": _selected_corpse_count})
+		# TRANSLATORS: the selected corpse ({name}: 狼狗的尸体, 腐烂的尸体, 一具枯乾的骸骨) and what it holds.
+		return tr("{name} · {count}件物品").format({"name": _selected_corpse_name, "count": _selected_corpse_count})
 	return ""
 
 
@@ -151,10 +152,14 @@ func show_item_inspection(display_name: String, description: String) -> void:
 	_ui.inspection_text.text = "%s\n%s" % [tr(display_name), description.strip_edges()]
 
 
-func show_corpse_inspection(victim_display_name: String, content_count: int) -> void:
+## `corpse_name`: its name at its stage (shown); `long`: corpse.c's long once it decays.
+func show_corpse_inspection(corpse_name: String, content_count: int, long: String = "") -> void:
 	_presentation_layout.open_panel("目标详情", _presentation_layout.details)
-	# chard.c make_corpse(): set_name(victim->name(1) + "的尸体").
-	_ui.inspection_text.text = tr("{name}的尸体\n里面有{count}件物品。").format({"name": tr(victim_display_name), "count": content_count})
+	var lines: Array[String] = [corpse_name]
+	if not long.is_empty():
+		lines.append(long)
+	lines.append(tr("里面有{count}件物品。").format({"count": content_count}))
+	_ui.inspection_text.text = "\n".join(lines)
 
 
 func refresh_live_state() -> void:

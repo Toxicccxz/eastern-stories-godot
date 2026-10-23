@@ -154,6 +154,9 @@ func _death_text(flow: PlayerLifeFlow) -> String:
 		var corpse: StringName = flow.corpse_item_instance_id
 		if corpse.is_empty() or _session.inventory_state().is_registered(corpse):
 			lines.append(tr("你的尸体和随身物品留在：%s") % flow.corpse_place)
+		elif _session.corpse_scattered(corpse):
+			# The bones scattered (obj/corpse.c decay(3)): what it held lies there.
+			lines.append(tr("你的尸体已经化成骨灰，随身物品散落在：%s") % flow.corpse_place)
 		else:
 			# The corpse is gone (化尸粉); the dead do not see how.
 			lines.append(tr("你的尸体已经不在了。"))

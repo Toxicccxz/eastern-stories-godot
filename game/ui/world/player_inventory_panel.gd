@@ -244,7 +244,7 @@ func _build_row(row: PlayerInventoryRowProjection) -> BoxContainer:
 		var dissolve_button: Button = Button.new()
 		dissolve_button.name = "Dissolve"
 		# TRANSLATORS: dust.c's dissolve on the selected corpse ({corpse}, e.g. 狼狗的尸体).
-		dissolve_button.text = tr("化去{corpse}").format({"corpse": tr("%s的尸体") % tr(_corpse)})
+		dissolve_button.text = tr("化去{corpse}").format({"corpse": _corpse})
 		dissolve_button.pressed.connect(func() -> void: dissolve_requested.emit(row.item_instance_id))
 		container.add_child(dissolve_button)
 	# scribe.c: 僵尸追魂符 on a 桃符纸, with the selected NPC's name (haunt.c).

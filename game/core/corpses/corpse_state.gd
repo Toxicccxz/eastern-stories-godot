@@ -129,6 +129,12 @@ func _release_worn_for_transfer(item_instance_id: StringName) -> bool:
 	return true
 
 
+## corpse.c decay(3): all_inventory()->move(environment()) takes worn armor too: nothing is
+## worn any more once the bones scatter.
+func _release_all_worn_for_scatter() -> void:
+	_worn_by_slot.clear()
+
+
 func _apply_next_decay_stage(next_stage: int) -> bool:
 	if next_stage != _decay_stage + 1 or next_stage > Stage.FINAL:
 		return false

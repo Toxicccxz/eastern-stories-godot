@@ -111,6 +111,8 @@ The following version-specific details are the current implementation snapshot d
   modifiers without durable provenance.
 - Busy is saved, not waited on (owner, 2026-10-17): the player's and every NPC's busy value and
   interrupt value, on every map, written only while one is non-zero and restored exactly.
+- 尸体腐烂 (owner, 2026-10-23): a corpse record's optional `age_ms` (written above 0) is the world
+  time since it was made; Continue goes on from it. A record without it starts at the Continue.
 - 别的地图时间补算 (owner, 2026-10-23): the optional root key `away_ms` holds the world time each
   map other than the player's is owed, in ms (only maps owed some that time could change: one
   whose NPCs are all healed as made owes nothing, so New Game saves have none). Continue owes each the same and

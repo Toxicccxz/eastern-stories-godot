@@ -111,7 +111,9 @@ func restore_actors() -> bool:
 		npc.set_exists_in_map(saved_exists)
 		_npc_bodies[npc.character_id].refresh_runtime_state()
 	for entry: OldPineRestoredCorpseEntry in session.restored_corpse_entries():
-		if entry.world_location.map_id == map and not _map.corpses.publish_corpse_view(entry.state, entry.map_position, entry.world_location):
+		if entry.world_location.map_id == map and _map.corpses.publish_corpse_view(entry.state, entry.map_position, entry.world_location):
+			_map.corpses.set_age(entry.state.corpse_item_instance_id, entry.age_ms)
+		elif entry.world_location.map_id == map:
 			return false
 	# Every saved NPC standing on this map is here: its own spawn's, and one that followed
 	# the player here from another (小娟).

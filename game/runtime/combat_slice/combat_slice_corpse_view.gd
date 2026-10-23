@@ -18,6 +18,8 @@ var _bodies_in_loot_range: Array[Node2D] = []
 
 var corpse_item_instance_id: StringName:
 	get: return _corpse_item_instance_id
+## Its decay stage (CorpseState.Stage), for its name.
+var _stage: int = 0
 var victim_display_name: String:
 	get: return _victim_display_name
 
@@ -27,10 +29,28 @@ func configure(corpse: CorpseState) -> bool:
 		return false
 	_corpse_item_instance_id = corpse.corpse_item_instance_id
 	_victim_display_name = corpse.victim_display_name
+	_stage = corpse.decay_stage
 	_ensure_interaction_children()
 	_show_name()
 	queue_redraw()
 	return true
+
+
+## The corpse decayed (obj/corpse.c decay()): it shows its new name.
+func set_stage(stage: int) -> void:
+	_stage = stage
+	_show_name()
+
+
+## The name a corpse goes by at `stage`, in the shown language: chard.c make_corpse()'s
+## 某某的尸体, then corpse.c decay()'s 腐烂的尸体 (its switch on gender falls through to
+## the last case, so ES2 never says 男尸 or 女尸) and 一具枯乾的骸骨.
+static func shown_name(stage: int, victim_display_name: String) -> String:
+	if stage >= CorpseState.Stage.SKELETON:
+		return TranslationServer.translate("一具枯乾的骸骨")
+	if stage == CorpseState.Stage.ROTTEN:
+		return TranslationServer.translate("腐烂的尸体")
+	return TranslationServer.translate("%s的尸体") % TranslationServer.translate(victim_display_name)
 
 
 ## chard.c make_corpse(): set_name(victim->name(1) + "的尸体"), in the shown language,
@@ -46,7 +66,7 @@ func _show_name() -> void:
 		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 		add_child(label)
-	label.text = tr("%s的尸体") % tr(_victim_display_name)
+	label.text = shown_name(_stage, _victim_display_name)
 
 
 func _notification(what: int) -> void:

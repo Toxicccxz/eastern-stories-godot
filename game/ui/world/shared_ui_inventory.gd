@@ -6,7 +6,7 @@ extends RefCounted
 ## SharedGameplayUI as it was; the HUD is `_ui`.
 
 # TRANSLATORS: asked before 化尸粉 dissolves a corpse that still holds things (dust.c destructs it whole): {name} whose corpse, {count} how many things are in it.
-const DISSOLVE_WARNING: String = "化尸粉会把{name}的尸体连同里面的 {count} 件物品一起化成一滩黄水，化掉的东西再也找不回来。\n确定要化掉吗？"
+const DISSOLVE_WARNING: String = "化尸粉会把{name}连同里面的 {count} 件物品一起化成一滩黄水，化掉的东西再也找不回来。\n确定要化掉吗？"
 # TRANSLATORS: asked before the rope's 上吊 (rope.c hang_self(): die()): the character dies as in a fight.
 const HANG_WARNING: String = "把绳子往脖子上一套，就是寻死：你会就此死去，和战死一样付出死亡的代价。\n确定要上吊吗？"
 # TRANSLATORS: asked before 画符 (scribe.c, haunt.c) when its 40 神 ({sen}) would leave the player below zero: they faint.
@@ -320,7 +320,7 @@ func dissolve_with(id: StringName) -> void:
 		if map.dissolve_selected_corpse(id):
 			open_inventory()
 	# 取消 goes back to the 背包 the question came from.
-	_ui.questions.ask_first(tr(DISSOLVE_WARNING).format({"name": tr(map.dissolvable_corpse_name()), "count": count}), "确定化掉", dissolve, Callable(), open_inventory)
+	_ui.questions.ask_first(tr(DISSOLVE_WARNING).format({"name": map.dissolvable_corpse_name(), "count": count}), "确定化掉", dissolve, Callable(), open_inventory)
 
 
 ## 画符 on a 桃符纸 for the selected NPC; asked first when its cost would kill the player or

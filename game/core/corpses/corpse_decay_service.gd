@@ -27,6 +27,23 @@ const LifecycleServiceType := preload(
 )
 
 
+## obj/corpse.c decay() by age (DECISIONS「尸体腐烂」): the stage a corpse `age_ms` old has
+## come to, `seconds` being the times from its making to its rotting, then to its bones, then
+## to its scattering (pacing.json; ES2's 120, 120, 60). A time of 0 stops it at the stage
+## before. Stage.FINAL: it scatters.
+static func stage_for_age(age_ms: int, seconds: Array[int]) -> int:
+	var stage: int = CorpseStateType.Stage.FRESH
+	var due_ms: int = 0
+	for index: int in mini(seconds.size(), CorpseStateType.Stage.FINAL):
+		if seconds[index] <= 0:
+			break
+		due_ms += seconds[index] * 1000
+		if age_ms < due_ms:
+			break
+		stage = index + 1
+	return stage
+
+
 static func initial_intent(corpse: CorpseStateType) -> IntentType:
 	if corpse == null or not corpse.is_valid():
 		return null
