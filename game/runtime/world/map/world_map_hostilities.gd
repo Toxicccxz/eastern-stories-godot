@@ -34,6 +34,13 @@ var gang_noticer: StringName = &""
 ## start holds as noticed while the queue it read is resolved (`_noticed`).
 var gang_fresh: Array[StringName] = []
 var _noticed: Array[StringName] = []
+## The gang's alert beat (pacing hostile_alert_ms; DECISIONS「进门一起上」): the zone it
+## noticed the player in, its members, the seconds left, and the lines its shout drew
+## (a hunter's catch_hunt_msg, not said again when the fight opens). Not saved.
+var _alert_zone: StringName = &""
+var _alert_members: Array[StringName] = []
+var _alert_left: float = 0.0
+var _alert_drawn: Dictionary[StringName, String] = {}
 ## Seconds each toll-taker (NpcDealings.toll_attack_delay_ms) has been touching the
 ## player without a break; its greeting attacks once that reaches the delay.
 var toll_contact_seconds: Dictionary[StringName, float] = {}
@@ -198,12 +205,16 @@ func process_pending_aggression() -> Array[CombatSliceInitiationResult]:
 		if not _last_aggression_decisions.any(func(decision: NpcAggressionDecision) -> bool: return decision.npc_id == binding.character_id):
 			var npc: NpcRuntimeState = _map.npcs.find_resident_npc(binding.character_id)
 			_last_aggression_decisions.append(aggression._evaluate(npc, _player, _combat_allowed(npc)))
-	if gang.size() > 1:
-		_last_aggression_initiations.append(_gang_attacks(gang))
+	if gang.size() > 1 and _alert_zone.is_empty():
+		if _alert_beat_for(gang_noticer) > 0.0:
+			_begin_alert(gang)
+		else:
+			_last_aggression_initiations.append(_gang_attacks(gang))
 	_noticed.clear()
-	# A fight began this tick: the berserk rolls wait for it to end (after_fight() lets the
-	# room notice the player anew), no stare drawn into its opening.
-	if queued and not session.combat_encounter_coordinator().has_active_encounter():
+	# A fight began this tick, or the gang's falls on the player in a moment: the berserk rolls
+	# wait for it to end (after_fight() lets the room notice the player anew), no stare drawn
+	# into its opening, no fight of two before it.
+	if queued and _alert_zone.is_empty() and not session.combat_encounter_coordinator().has_active_encounter():
 		for decision: NpcAggressionDecision in _last_aggression_decisions:
 			var npc: NpcRuntimeState = _map.npcs.find_resident_npc(decision.npc_id)
 			if decision.outcome == NpcAggressionDecision.Outcome.READY and npc != null and not npc.definition().attacks_on_sight(npc.flags(), _player.state):
@@ -215,7 +226,7 @@ func process_pending_aggression() -> Array[CombatSliceInitiationResult]:
 ## once (combatd.c start_hatred(): one of catch_hunt_msg and a kill the player only fights
 ## back; start_vendetta() and start_aggressive() say nothing, their kill_ob() warns). A gang
 ## of one is the pair fight it always was: it first, then the player.
-func _gang_attacks(gang: Array[CombatSliceCharacterBinding]) -> CombatSliceInitiationResult:
+func _gang_attacks(gang: Array[CombatSliceCharacterBinding], drawn: Dictionary[StringName, String] = {}) -> CombatSliceInitiationResult:
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var noticer: StringName = gang_noticer
 	var started: CombatSliceInitiationResult = (
@@ -228,10 +239,129 @@ func _gang_attacks(gang: Array[CombatSliceCharacterBinding]) -> CombatSliceIniti
 	var lines: Array[String] = []
 	for binding: CombatSliceCharacterBinding in gang.slice(1):
 		var npc: NpcRuntimeState = _map.npcs.find_resident_npc(binding.character_id)
-		if npc != null and npc.has_flag(NpcDefinition.FLAG_HUNTS_PLAYER):
+		# A hunter that shouted it in the alert beat said it already.
+		if npc != null and npc.has_flag(NpcDefinition.FLAG_HUNTS_PLAYER) and not drawn.has(binding.character_id):
 			lines.append(catch_hunt_line(npc))
 	announce_fight(lines, noticer)
 	return started
+
+
+## The alert beat before the gang falls on the player, in seconds: pacing's (0 in ES2,
+## combatd.c auto_fight()'s call_out(0)); none after a toll-taker's greeting, whose shout
+## and wait came before (DECISIONS「响应性」).
+func _alert_beat_for(noticer_id: StringName) -> float:
+	var noticer: NpcRuntimeState = _map.npcs.find_resident_npc(noticer_id)
+	if noticer == null or _player == null or noticer.definition().toll_attack_delay_ms(noticer.flags(), _player.state) > 0:
+		return 0.0
+	return GameContent.catalog().pacing().hostile_alert_seconds
+
+
+## Deviation (DECISIONS「进门一起上」): the gang's first to notice the player shouts, a red ！
+## over its head, and the others turn to the player; they fall on them when the beat is
+## over, unless the player has left the place (ES2's start_*(): not in the same room).
+func _begin_alert(gang: Array[CombatSliceCharacterBinding]) -> void:
+	_alert_zone = _player.world_location().zone_id
+	_alert_left = GameContent.catalog().pacing().hostile_alert_seconds
+	_alert_members.clear()
+	_alert_drawn.clear()
+	var at: Vector2 = player_body.global_position
+	for binding: CombatSliceCharacterBinding in gang.slice(1):
+		_alert_members.append(binding.character_id)
+		var body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(binding.character_id)
+		if body != null:
+			body.face_toward(at)
+			body.set_name_alert(true)
+	var noticer: NpcRuntimeState = _map.npcs.find_resident_npc(gang_noticer)
+	var noticer_body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(gang_noticer)
+	if noticer_body != null:
+		noticer_body.set_alert_mark(true)
+	if noticer != null:
+		_alert_shout(noticer)
+
+
+## What the gang's first to notice the player shouts: a hunter's catch_hunt_msg
+## (start_hatred()), else one of its own ES2 fight lines that is speech, else a plain native
+## line; a beast says nothing (owner, A6 Q3).
+func _alert_shout(npc: NpcRuntimeState) -> void:
+	var hud: SharedGameplayUI = _map.hud()
+	var name: String = tr(npc.definition().display_name)
+	var text: String = ""
+	if npc.has_flag(NpcDefinition.FLAG_HUNTS_PLAYER):
+		text = catch_hunt_line(npc)
+		_alert_drawn[npc.character_id] = text
+	else:
+		var speech: Array[String] = []
+		for entry: Variant in npc.definition().talk().combat_chat_entries():
+			var line: String = (entry as ColoredLine).text if entry is ColoredLine else String(entry) if entry is String else ""
+			if line.contains("道："):
+				speech.append(NpcTalk.line(line))
+		if not speech.is_empty():
+			text = speech[clampi(_world_interaction_random.legacy_random(speech.size()), 0, speech.size() - 1)]
+		elif npc.definition().race_id == &"beast":
+			if hud != null:
+				# TRANSLATORS: native (A6): a beast of the gang notices the player (it says nothing).
+				hud.append_log_lines([tr("{npc}发现了你！").format({"npc": name})], true)
+			return
+		else:
+			# TRANSLATORS: native (A6): the gang's first to notice the player, who has no ES2 fight line.
+			text = tr("{npc}发现了你，大喝一声！").format({"npc": name})
+	if hud != null:
+		hud.npc_says(npc, [ColoredLine.new(text, ColoredLine.HIR)], [text], true)
+
+
+## The beat runs on world time (the menu holds it): the player who leaves the place, or
+## can no longer be fallen on, escapes it; when it is over the gang there falls on them,
+## everyone who attacks on sight there now (one who came in meanwhile too).
+func advance_alert(delta: float) -> void:
+	if _alert_zone.is_empty():
+		return
+	if (
+		not _map.gameplay_open() or session == null or _player == null or _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE
+		or _player.world_location().map_id != map or _player.world_location().zone_id != _alert_zone
+	):
+		clear_alert()
+		return
+	_alert_left -= delta
+	if _alert_left > 0.0:
+		return
+	_noticed = _alert_members.duplicate()
+	var gang: Array[CombatSliceCharacterBinding] = collect_complete_combat_entry(CombatTriggerCause.Value.NPC_AGGRESSION)
+	if gang.size() < 2:
+		# Nobody of it left to fall on the player.
+		_noticed.clear()
+		clear_alert()
+		return
+	_last_aggression_initiations.clear()
+	var started: CombatSliceInitiationResult = _gang_attacks(gang, _alert_drawn.duplicate())
+	_last_aggression_initiations.append(started)
+	_noticed.clear()
+	# The fight's start took the marks off (freeze_world_gameplay()); one refused is tried
+	# again next tick, the beat over and nothing said again.
+	if started.outcome != CombatSliceInitiationResult.Outcome.COMPLETED:
+		_alert_left = 0.0
+
+
+## The beat is over or gone: the marks come off.
+func clear_alert() -> void:
+	for id: StringName in _alert_members:
+		var body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(id)
+		if body != null and is_instance_valid(body):
+			body.set_alert_mark(false)
+			body.set_name_alert(false)
+	_alert_zone = &""
+	_alert_members.clear()
+	_alert_drawn.clear()
+	_alert_left = 0.0
+
+
+## Whether `id` is of a gang in its alert beat (its name in the alert red).
+func alerted(id: StringName) -> bool:
+	return _alert_members.has(id)
+
+
+## Seconds left of the alert beat (0 when none runs).
+func alert_seconds_left() -> float:
+	return _alert_left if not _alert_zone.is_empty() else 0.0
 
 
 ## combatd.c start_hatred()'s message_vision(): one of catch_hunt_msg, `npc` the hunter.
@@ -262,7 +392,7 @@ func advance_toll_contacts(delta: float) -> void:
 		if npc.definition().dealings().toll_attack_delay_ms > 0:
 			var body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(npc.character_id)
 			if body != null:
-				body.set_name_alert(toll_pending(npc))
+				body.set_name_alert(toll_pending(npc) or alerted(npc.character_id))
 
 
 ## The toll-taker in reach will attack the player once its delay has passed: the HUD marks it.
@@ -424,6 +554,9 @@ func player_init(others: Array[NpcRuntimeState]) -> void:
 func run_pending_player_berserk() -> void:
 	var npc: NpcRuntimeState = _map.npcs.find_resident_npc(pending_player_berserk)
 	pending_player_berserk = &""
+	# The gang's alert beat runs: its fight comes first (as when it fell on the player at once).
+	if not _alert_zone.is_empty():
+		return
 	if (
 		npc == null or not _map.gameplay_open() or session == null or _player == null or not npc.exists_in_map
 		or _player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or not _map.npc_life.player_shares_zone(npc)

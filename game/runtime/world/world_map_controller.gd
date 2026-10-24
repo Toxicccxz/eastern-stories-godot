@@ -445,6 +445,7 @@ func prepare_for_deactivation() -> void:
 	hostilities.room_present.clear()
 	hostilities.spent.clear()
 	hostilities.toll_contact_seconds.clear()
+	hostilities.clear_alert()
 	if hud() != null:
 		hud().set_selected_target(null)
 		hud().close_loot()
@@ -777,6 +778,7 @@ func freeze_world_gameplay(id: StringName) -> bool:
 		npc_life.walker.finish_all()
 	hostilities.aggression.clear_all()
 	hostilities.pending_player_berserk = &""
+	hostilities.clear_alert()
 	selection.selected_target = null
 	if hud() != null:
 		hud().set_selected_target(null)
@@ -919,6 +921,7 @@ func _process(delta: float) -> void:
 	hostilities.refresh_room_presence()
 	hostilities.forget_spent()
 	hostilities.advance_toll_contacts(delta)
+	hostilities.advance_alert(delta)
 	hostilities.process_pending_aggression()
 	if selection.selected_target != null and selection.selected_target.kind == WorldInteractionTarget.Kind.ITEM:
 		if floor_items.item_views.has(selection.selected_target.target_id):
