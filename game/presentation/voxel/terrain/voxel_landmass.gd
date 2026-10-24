@@ -10,6 +10,8 @@ var patches: Dictionary[Vector2i, bool] = {}
 var minimum_margin: float = 48.0
 var maximum_margin: float = 112.0
 var depth: float = 2.2
+## Layout `edge`: "top", "bottom" and three "strata" colours (soil by default).
+var colors: Dictionary = {}
 var _contour := FastNoiseLite.new()
 
 func build(source: Dictionary[Vector2i,String], required_rects: Array[Rect2], config: Dictionary) -> void:
@@ -17,6 +19,7 @@ func build(source: Dictionary[Vector2i,String], required_rects: Array[Rect2], co
 	minimum_margin = maxf(16.0,float(config.get("minimum_margin",48.0)))
 	maximum_margin = maxf(minimum_margin,float(config.get("maximum_margin",112.0)))
 	depth = maxf(0.8,float(config.get("depth",2.2)))
+	colors = config
 	_contour.seed = 3927
 	_contour.frequency = 0.009
 	_contour.fractal_octaves = 2
@@ -80,8 +83,8 @@ func make_base(parent: Node3D) -> void:
 	for patch: Vector2i in patches:
 		var x: float = float(patch.x)
 		var z: float = float(patch.y)
-		_quad(surface,Vector3(x,-0.12,z),Vector3(x+1,-0.12,z),Vector3(x+1,-0.12,z+1),Vector3(x,-0.12,z+1),Vector3.UP,Color("6b7951"))
-		_quad(surface,Vector3(x,-depth,z),Vector3(x,-depth,z+1),Vector3(x+1,-depth,z+1),Vector3(x+1,-depth,z),Vector3.DOWN,Color("665e4b"))
+		_quad(surface,Vector3(x,-0.12,z),Vector3(x+1,-0.12,z),Vector3(x+1,-0.12,z+1),Vector3(x,-0.12,z+1),Vector3.UP,Color(String(colors.get("top","6b7951"))))
+		_quad(surface,Vector3(x,-depth,z),Vector3(x,-depth,z+1),Vector3(x+1,-depth,z+1),Vector3(x+1,-depth,z),Vector3.DOWN,Color(String(colors.get("bottom","665e4b"))))
 		for direction: Vector2i in DIRECTIONS:
 			if patches.has(patch+direction):
 				continue
@@ -91,13 +94,14 @@ func make_base(parent: Node3D) -> void:
 			var a: Vector3 = center-tangent*0.5
 			var b: Vector3 = center+tangent*0.5
 			var shade: float = _contour.get_noise_2d(x*58,z*58)
-			var colors: Array[Color] = [Color("8a805b"),Color("9b8966"),Color("786b54")]
+			var strata: Array = colors.get("strata",["8a805b","9b8966","786b54"])
 			for layer: int in 3:
 				var top_a: Vector3 = a+Vector3.UP*_level(a,layer)
 				var top_b: Vector3 = b+Vector3.UP*_level(b,layer)
 				var low_a: Vector3 = a+Vector3.UP*_level(a,layer+1)
 				var low_b: Vector3 = b+Vector3.UP*_level(b,layer+1)
-				var color: Color = colors[layer].lightened(shade*0.12) if shade>0 else colors[layer].darkened(-shade*0.14)
+				var base := Color(String(strata[layer]))
+				var color: Color = base.lightened(shade*0.12) if shade>0 else base.darkened(-shade*0.14)
 				_quad(surface,top_a,top_b,low_b,low_a,normal,color)
 	var geometry := MeshInstance3D.new()
 	geometry.name = "LandmassCutaway"

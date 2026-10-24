@@ -17,6 +17,12 @@ var _meshes: Dictionary[int, ArrayMesh] = {}
 var butterflies: Array[Node3D] = []
 var _butterfly_homes := PackedVector3Array()
 var _near: Vector3 = Vector3.INF
+## Blade colours, dark to light, and the four flower colours (layout flora `grass_colors`,
+## `flower_colors`); the gust strength of the wind over long grass (flora `wind`).
+var greens: Array = ["3e6947", "60884d", "8da85d", "b1b96d"]
+var petals: Array = ["f2e8c5", "edc26b", "dba4b9", "a7a2cf"]
+var gust: float = 0.0
+var butterfly_count: int = 8
 
 func plant(at: Vector3, kind: int, size: float, angle: float) -> void:
 	var chunk := Vector2i(floori(at.x / 8.0), floori(at.z / 8.0))
@@ -31,6 +37,7 @@ func plant(at: Vector3, kind: int, size: float, angle: float) -> void:
 func finish() -> void:
 	material = ShaderMaterial.new()
 	material.shader = SHADER
+	material.set_shader_parameter("gust", gust)
 	for batch: Array in _batches.values():
 		var kind: int = batch[0]
 		if not _meshes.has(kind):
@@ -83,7 +90,6 @@ func advance(delta: float, positions: PackedVector3Array) -> void:
 func _tuft(kind: int) -> ArrayMesh:
 	var surface := SurfaceTool.new()
 	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var greens: Array[String] = ["3e6947", "60884d", "8da85d", "b1b96d"]
 	for blade: int in 5:
 		var angle: float = blade * TAU / 5.0 + kind * 0.3
 		var direction := Vector3(sin(angle), 0, cos(angle))
@@ -96,9 +102,9 @@ func _tuft(kind: int) -> ArrayMesh:
 			for leaf: int in 4:
 				var distance: float = 0.13+leaf*0.13
 				var at := Vector3(sin(angle)*distance,0.75-leaf*0.12-frond*0.009,cos(angle)*distance)
-				_box(surface,at,Vector3(0.22-leaf*0.03,0.08,0.23-leaf*0.03),Color(greens[(frond+leaf)%4]))
+				_box(surface,at,Vector3(0.22-leaf*0.03,0.08,0.23-leaf*0.03),Color(String(greens[(frond+leaf)%4])))
 	elif kind > 0:
-		var color: Color = [Color("f2e8c5"), Color("edc26b"), Color("dba4b9"), Color("a7a2cf")][(kind - 1) % 4]
+		var color: Color = Color(String(petals[(kind - 1) % 4]))
 		for stem: int in 2:
 			var at := Vector3(-0.12 if stem == 0 else 0.17, 0, 0.1 * stem)
 			var height: float = 0.65 + stem * 0.19
@@ -110,7 +116,7 @@ func _tuft(kind: int) -> ArrayMesh:
 	surface.index()
 	return surface.commit()
 
-static func _blade(surface: SurfaceTool, direction: Vector3, height: float, greens: Array[String], blade: int) -> void:
+static func _blade(surface: SurfaceTool, direction: Vector3, height: float, greens: Array, blade: int) -> void:
 	# A continuous tapered prism: no segment caps, intersecting steps or coplanar tops.
 	var across: Vector3 = direction.cross(Vector3.UP)
 	for segment: int in 3:
@@ -127,7 +133,7 @@ static func _blade(surface: SurfaceTool, direction: Vector3, height: float, gree
 			var b: Vector3 = rings[0][next]
 			var c: Vector3 = rings[1][next]
 			var d: Vector3 = rings[1][side]
-			surface.set_color(Color(greens[(blade+segment)%4]).srgb_to_linear())
+			surface.set_color(Color(String(greens[(blade+segment)%4])).srgb_to_linear())
 			surface.set_normal((c-a).cross(b-a).normalized())
 			for p: Vector3 in [a,b,c,a,c,d]:
 				surface.add_vertex(p)
@@ -150,7 +156,7 @@ static func _box(surface: SurfaceTool, at: Vector3, size: Vector3, color: Color)
 
 func _make_butterflies() -> void:
 	var shapes := preload("res://presentation/voxel/props/voxel_shapes.gd").new()
-	for i: int in 8:
+	for i: int in butterfly_count:
 		var insect := Node3D.new()
 		add_child(insect)
 		butterflies.append(insect)

@@ -8,8 +8,9 @@ var stones: Dictionary[int, ArrayMesh] = {}
 var spatial_batching: bool = false
 var spatial_cell_size: float = 12.0
 
+## A colour key; "<hex>:gloss" is the same colour, wet and shiny (its own material).
 func color(hex: String) -> Color:
-	return Color.html(hex)
+	return Color.html(hex.get_slice(":",0))
 
 func box(parent: Node3D, at: Vector3, size: Vector3, hex: String) -> void:
 	_instance(parent, Transform3D(Basis.from_scale(size), at), hex, cube)
@@ -122,6 +123,9 @@ func material(hex: String) -> StandardMaterial3D:
 		var mat := StandardMaterial3D.new()
 		mat.albedo_color = color(hex)
 		mat.roughness = 0.93
+		if hex.ends_with(":gloss"):
+			mat.roughness = 0.08
+			mat.metallic = 0.3
 		if hex == "ffd88a" or hex == "ffb858":
 			mat.emission_enabled = true
 			mat.emission = color(hex)

@@ -79,6 +79,19 @@ func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, e
 			if construction=="timber":
 				for board: int in ceili(height/0.21):
 					shapes.box(body,Vector3(at.x,board*0.21+0.1,at.z)+out*0.14,Vector3(0.495,0.19,0.035) if along_x else Vector3(0.035,0.19,0.495),["96744e","896747","a17c53"][(board+i/3)%3])
+			elif construction=="rubble":
+				# Dry-laid field stone: courses of irregular blocks proud of the face.
+				for course: int in ceili(height/0.3):
+					var stone_at := Vector3(at.x+sin(i*2.7+course)*0.06,course*0.3+0.15,at.z)+out*0.14
+					var stones: Array = data.get("stones",["8a7c64","978a70","7a6e5a","a39577"])
+					shapes.shard(body,stone_at,Vector3(0.52,0.28,0.12) if along_x else Vector3(0.12,0.28,0.52),String(stones[(i*3+course)%stones.size()]),i+course,0.0)
+			elif construction=="earth":
+				# 土墙: rammed earth in bands, rain-scored, a crack here and there.
+				var bands: Array = data.get("bands",["a68a5f","9a7f57","b0946a"])
+				for band: int in ceili(height/0.35):
+					shapes.box(body,Vector3(at.x,band*0.35+0.17,at.z)+out*0.13,Vector3(0.5,0.33,0.03) if along_x else Vector3(0.03,0.33,0.5),String(bands[(band+floori(i/4.0))%bands.size()]))
+				if i%5==2:
+					shapes.box(body,Vector3(at.x,height*0.55,at.z)+out*0.15,Vector3(0.04,height*0.4,0.02) if along_x else Vector3(0.02,height*0.4,0.04),"5e4a35")
 			elif construction=="brick":
 				for course: int in ceili(height/0.28):
 					var brick_at := Vector3(at.x,course*0.28+0.13,at.z)+out*0.15
@@ -184,9 +197,20 @@ func _entrance(body: Node3D, door: Vector3, w: float, d: float, data: Dictionary
 	var timber: String = data.get("timber","79533d")
 	for x: float in [-1.13,1.13]:
 		shapes.box(front,Vector3(x,1.3,0),Vector3(0.2,2.6,0.27),timber)
-		shapes.lantern(front,Vector3(x*1.23,2.15,0.25))
+		if data.get("lanterns",true):
+			shapes.lantern(front,Vector3(x*1.23,2.15,0.25))
 	shapes.box(front,Vector3(0,2.68,0),Vector3(2.55,0.25,0.38),timber)
-	shapes.box(front,Vector3(0,0.025,0),Vector3(2.2,0.07,1.0),"b7b091")
+	shapes.box(front,Vector3(0,0.025,0),Vector3(2.2,0.07,1.0),String(data.get("step","b7b091")))
+	if data.get("doorway","")=="shut":
+		# A door nobody goes through stays shut: planks, a bar across.
+		shapes.box(front,Vector3(0,1.15,-0.05),Vector3(1.9,2.3,0.14),String(data.get("leaf","6b5038")))
+		for plank: int in 5:
+			shapes.box(front,Vector3(-0.76+plank*0.38,1.15,0.03),Vector3(0.05,2.2,0.04),"4f3c2c")
+		shapes.box(front,Vector3(0,1.2,0.07),Vector3(2.1,0.14,0.08),"3f3226")
+	elif data.get("doorway","")=="dark":
+		# An unlit doorway (黑漆漆): black within, one leaf hanging open on a hinge.
+		shapes.box(front,Vector3(0,1.2,-0.3),Vector3(2.0,2.4,0.5),"14110f")
+		shapes.tilted_box(front,Vector3(-0.75,1.1,0.25),Vector3(0.75,2.1,0.08),String(data.get("leaf","6b5038")),Vector3(0,-0.9,0))
 	var porch: String = data.get("porch","tiled")
 	if porch=="cloth":
 		for stripe: int in 10:
@@ -198,7 +222,7 @@ func _entrance(body: Node3D, door: Vector3, w: float, d: float, data: Dictionary
 		for plank: int in 10:
 			shapes.tilted_box(front,Vector3(-1.6+plank*0.35,2.85,0.65),Vector3(0.34,0.10,1.65),["8e7451","9b7c53","806746"][plank%3],Vector3(0.12,0,0))
 	var goods: String = data.get("goods","pots")
-	for side: float in [-1.0,1.0]:
+	for side: float in [] if goods=="none" else [-1.0,1.0]:
 		var pos := Vector3(side*1.85,0,0.35)
 		if goods=="sacks":
 			for sack: int in 3:
@@ -213,5 +237,5 @@ func _entrance(body: Node3D, door: Vector3, w: float, d: float, data: Dictionary
 			for stem: int in 3:
 				shapes.box(front,pos+Vector3((stem-1)*0.12,0.9+stem*0.08,0.04),Vector3(0.14,0.07,0.13),["ead7a1","d799af","f1e5c2"][stem])
 	# Rain stains and climbing leaves stay on the facade and use its local reveal mask.
-	for leaf: int in 10 if goods=="pots" else 3:
+	for leaf: int in 10 if goods=="pots" else (0 if goods=="none" else 3):
 		shapes.box(front,Vector3(-2.3+sin(leaf*1.6)*0.15,0.35+leaf*0.20,-0.12),Vector3(0.27,0.15,0.18),["507855","739351","91a962"][leaf%3])

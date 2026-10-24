@@ -18,6 +18,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_data()
 	_test_camera_limits()
 	await _test_body(tree)
+	await _test_slide(tree)
 	TestFeel.use()
 	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
@@ -76,6 +77,56 @@ func _test_body(tree: SceneTree) -> void:
 	body.velocity = Vector2.ZERO
 	_check(body._eased_velocity(Vector2(220.0, 0.0), step) == Vector2(220.0, 0.0), "the feel off: full speed at once")
 	body.free()
+	await tree.process_frame
+
+
+## corner_slide_px: into a wall the walk keeps its speed along it; nearly head-on into an
+## edge it slips toward the side that is open within the knob's reach, and no further.
+func _test_slide(tree: SceneTree) -> void:
+	_check(is_equal_approx(TestFeel.production.corner_slide_px, 12.0), "pacing.json: a corner slide of 12 px")
+	var wall := StaticBody2D.new()
+	var block := CollisionShape2D.new()
+	var rect := RectangleShape2D.new()
+	rect.size = Vector2(64, 64)
+	block.shape = rect
+	wall.add_child(block)
+	tree.root.add_child(wall)
+	var body: WorldNpcBody2D = (load("res://scenes/world/common/world_npc_body.tscn") as PackedScene).instantiate()
+	tree.root.add_child(body)
+	body.global_position = Vector2(28, 50) # TEST-ONLY: just under the block, 4 px short of its east edge
+	await tree.physics_frame
+	await tree.physics_frame
+	var step: float = 1.0 / 60.0
+	var up := Vector2(0, -220)
+	var slipped: Vector2 = body._slid_velocity(up, step, 12.0)
+	_check(slipped.distance_to(Vector2(220, 0)) < 0.01, "head-on just short of the edge: it slips east round it at full speed: %s" % [slipped])
+	_check(body._slid_velocity(up, step, 6.0) == up, "an edge further than the reach: it just pushes, as before")
+	body.global_position = Vector2(0, 50)
+	await tree.physics_frame
+	_check(body._slid_velocity(up, step, 12.0) == up, "square under the block's middle: no side to slip to")
+	var slant: Vector2 = Vector2(1, -1).normalized() * 220.0
+	var along: Vector2 = body._slid_velocity(slant, step, 12.0)
+	_check(along.distance_to(Vector2(220, 0)) < 0.01, "slanting into it: along the wall at full speed: %s" % [along])
+	# With the feel on, frame after frame as _physics_process does it: slide, then ease.
+	TestFeel.use()
+	body.global_position = Vector2(-20, 50) # TEST-ONLY: under the block, well short of its east end
+	body.velocity = Vector2.ZERO
+	await tree.physics_frame
+	for _frame: int in 10:
+		body.velocity = body._eased_velocity(body._slid_velocity(slant, step, 12.0), step)
+		body.move_and_slide()
+	TestFeel.restore()
+	_check(absf(body.velocity.x - 220.0) < 1.0, "eased frame by frame, the walk along the wall settles at full speed: %s" % [body.velocity])
+	var other: WorldNpcBody2D = (load("res://scenes/world/common/world_npc_body.tscn") as PackedScene).instantiate()
+	tree.root.add_child(other)
+	other.global_position = Vector2(300, 300)
+	body.global_position = Vector2(306, 336) # TEST-ONLY: just south of another body, a little east
+	await tree.physics_frame
+	await tree.physics_frame
+	_check(body._slid_velocity(up, step, 12.0) == up, "into another body: no slip, the push stays (A5 step aside)")
+	other.free()
+	body.free()
+	wall.free()
 	await tree.process_frame
 
 

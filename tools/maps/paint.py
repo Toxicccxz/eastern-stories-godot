@@ -167,7 +167,10 @@ def furnishings(draw: dict) -> str:
     """The `Furnishings` nodes: every fill row ending in {"look": {...}} says what stands on its
     (blocked) box. The box, its centre and size, is the one fact for collision and model; the
     look gives the kind and how it is drawn. WorldVoxelView reads these nodes."""
-    rows = [row for value in draw.values() if isinstance(value, list) for row in value
+    lists = [value for value in draw.values() if isinstance(value, list)]
+    # A canvas map's fills are inside its steps ({"op": "fill", "fills": [...]}).
+    lists += [step['fills'] for step in draw.get('steps', []) if isinstance(step, dict) and step.get('op') == 'fill']
+    rows = [row for value in lists for row in value
             if isinstance(row, list) and row and isinstance(row[-1], dict) and 'look' in row[-1]]
     # A look anywhere else (a nested or non-box row) would be dropped without a model.
     assert json.dumps(draw).count('"look"') == len(rows), 'a "look" outside a top-level fill row'

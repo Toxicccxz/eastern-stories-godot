@@ -1,0 +1,101 @@
+{
+  "indoor": false,
+  "camera_size": 21,
+  "edge": {
+    "minimum_margin": 24,
+    "maximum_margin": 56,
+    "depth": 2.8,
+    "top": "2f2a25",
+    "bottom": "1a1714",
+    "strata": ["4a4239", "3d3630", "2f2a25"]
+  },
+  "light": {
+    "sky": ["120f0c", "0c0a09"],
+    "ambient": ["9a8f7e", "8f8a8e"],
+    "ambient_energy": [1.0, 0.9],
+    "sun": ["b3a792", "9fa3b4"],
+    "sun_energy": [0.3, 0.24],
+    "carried": {"color": "ffd8a8", "range": 9.5, "day": 2.6, "night": 2.8, "attenuation": 0.9},
+    "note": "underground: night changes little but the daylight at the mouth"
+  },
+  "cliffs": {
+    "low": 1.8,
+    "high": 3.6,
+    "rise": 90,
+    "step": 0.5,
+    "rough": 0.55,
+    "keep": 88,
+    "trim": ["cliff"],
+    "grooves": 0.2,
+    "strata": ["4c453c", "585046", "655b4f", "706557", "5a5147", "51493f"],
+    "tops": ["443f37", "4d473e", "575046"],
+    "lifts": [
+      {"rect": [736, 0, 1152, 400], "by": 0.5, "note": "cavern3 is the deepest and darkest (岩穴)"}
+    ],
+    "areas": [
+      {"rect": [-176, 176, 384, 640], "strata": ["5a4c3c", "665643", "73604a", "7d6a51", "675743", "5f513f"], "tops": ["4d4337", "574b3d", "615343"], "note": "cavern1: warm brown, the daylight reaches it"},
+      {"rect": [384, -176, 736, 384], "strata": ["434740", "4d5249", "575c51", "60665a", "4b5047", "464a42"], "tops": ["3b3f37", "43483e", "4d5246"], "grooves": 0.26, "note": "cavern2: damp grey-green, slime underfoot"},
+      {"rect": [736, -176, 1328, 480], "strata": ["2f2b27", "38332e", "413b35", "4a433c", "37322d", "332f2a"], "tops": ["2a2723", "312d29", "38342f"], "grooves": 0.34, "note": "cavern3: the darkest, gouged deepest (岩穴)"},
+      {"rect": [384, 448, 736, 1008], "strata": ["5a5034", "66593a", "726440", "7e6d45", "625639", "5c5136"], "tops": ["4e4630", "585036", "625a3c"], "grooves": 0.14, "note": "cavern4: yellow mineral streaks, its 暗黄色 slime"}
+    ]
+  },
+  "ground": {
+    "cave_floor": {"style": "scree", "colors": ["443d35", "4d453c", "575045"], "gravel": 0.3, "stones": 0.05, "wet": true, "wet_chance": 0.3, "pebbles": ["4f483f", "5a5248", "463f37", "625a4e"], "sheen": "4a5a5e"},
+    "boundary": {"style": "scree", "colors": ["342f2a", "3b3530", "433c35"], "gravel": 0.12, "stones": 0.02, "pebbles": ["3f3933", "48413a", "38332d"]}
+  },
+  "flora": {
+    "grass_density": 0.0,
+    "density": {"cave_floor": 0.03, "boundary": 0.0},
+    "grass_colors": ["2f3a30", "3f4b3a", "566249", "6e7a5a"],
+    "flower_colors": ["d8d2b8", "c9b36a", "a9a28e", "8e9a8a"],
+    "tree_kinds": [],
+    "cliff_tufts": 0.02,
+    "cliff_flowers": 0.0,
+    "outcrop_colors": ["4e463d", "5a5146", "3f3932"],
+    "wind": 0.0,
+    "butterflies": 0
+  },
+  "props": [
+    {"kind": "light_shaft", "at": [36, 400], "size": [64, 64], "rotation": 90, "height": 2.8, "day": 1.8, "night": 0.4, "light": "ffe8bc", "range": 7.5, "note": "cavern1: the way out to the west 透著微光"},
+    {"kind": "stalagmites", "at": [176, 268], "size": [40, 40], "on_cliff": true, "count": 4, "height": 1.5, "occludes": true},
+    {"kind": "stalagmites", "at": [150, 516], "size": [36, 36], "on_cliff": true, "count": 3, "height": 1.2},
+    {"kind": "overhang", "at": [210, 284], "size": [80, 40], "on_cliff": true, "perch": "highest", "height": 0.0, "count": 7, "occludes": true},
+    {"kind": "overhang", "at": [100, 350], "size": [48, 56], "on_cliff": true, "perch": "highest", "height": 0.0, "count": 4, "drips": false},
+    {"kind": "slime", "at": [250, 430], "size": [40, 32], "color": "7d7a63", "lobes": 3, "trails": 4},
+    {"kind": "lost_pack", "at": [300, 330], "note": "someone who came in to look and did not go out"},
+    {"kind": "bones", "at": [318, 348], "size": [40, 28], "skull": false},
+
+    {"kind": "stalagmites", "at": [612, 60], "size": [40, 36], "on_cliff": true, "count": 4, "height": 1.6, "occludes": true, "note": "cavern2"},
+    {"kind": "stalagmites", "at": [480, 50], "size": [28, 28], "on_cliff": true, "count": 2, "height": 1.2},
+    {"kind": "overhang", "at": [560, 44], "size": [96, 44], "on_cliff": true, "perch": "highest", "height": 0.0, "count": 8, "occludes": true},
+    {"kind": "slime", "at": [520, 190], "size": [48, 40], "color": "6f7158", "lobes": 5, "trails": 4, "strands": true, "note": "脚边黏黏的"},
+    {"kind": "slime", "at": [600, 200], "size": [36, 32], "color": "6f7158", "lobes": 3},
+    {"kind": "pool", "at": [700, 170], "size": [44, 32], "height": 3.0, "note": "the dripping to the east"},
+    {"kind": "drip", "at": [660, 130], "height": 3.2},
+
+    {"kind": "stalagmites", "at": [1072, 64], "size": [32, 32], "on_cliff": true, "count": 5, "height": 1.9, "occludes": true, "note": "cavern3: 岩穴, the leeches' nest"},
+    {"kind": "stalagmites", "at": [1062, 308], "size": [40, 40], "on_cliff": true, "count": 4, "height": 1.7, "occludes": true},
+    {"kind": "stalagmites", "at": [926, 322], "size": [32, 32], "on_cliff": true, "count": 3, "height": 1.3},
+    {"kind": "overhang", "at": [1000, 66], "size": [112, 44], "on_cliff": true, "perch": "highest", "height": 0.0, "count": 9, "occludes": true},
+    {"kind": "overhang", "at": [1120, 160], "size": [48, 96], "on_cliff": true, "perch": "highest", "height": 0.0, "count": 6, "occludes": true},
+    {"kind": "slime", "at": [1000, 160], "size": [64, 52], "color": "75704f", "lobes": 6, "trails": 5, "strands": true, "note": "地上布满了许多又黏又稠的不知名东西"},
+    {"kind": "slime", "at": [900, 250], "size": [52, 44], "color": "75704f", "lobes": 5, "trails": 4},
+    {"kind": "slime", "at": [960, 300], "size": [40, 32], "color": "75704f", "lobes": 4},
+    {"kind": "bones", "at": [870, 140], "size": [44, 32]},
+
+    {"kind": "stalagmites", "at": [658, 750], "size": [32, 32], "on_cliff": true, "count": 3, "height": 1.4, "note": "cavern4: the dead end"},
+    {"kind": "stalagmites", "at": [480, 752], "size": [32, 32], "on_cliff": true, "count": 3, "height": 1.2},
+    {"kind": "overhang", "at": [640, 700], "size": [48, 80], "on_cliff": true, "perch": "highest", "height": 0.0, "count": 5},
+    {"kind": "slime", "at": [520, 640], "size": [52, 44], "color": "a38c34", "lobes": 5, "trails": 3, "note": "一滩滩暗黄色的黏稠物"},
+    {"kind": "slime", "at": [560, 720], "size": [44, 36], "color": "a38c34", "lobes": 4, "trails": 2},
+    {"kind": "slime", "at": [460, 700], "size": [36, 30], "color": "a38c34", "lobes": 3},
+    {"kind": "glow", "at": [470, 600], "color": "d9cba6", "day": 0.5, "night": 0.15, "range": 4.0, "height": 2.2, "note": "几道微光 from the north-east"}
+  ],
+  "actors": {
+    "default": {"coat": "7d6a4e"},
+    "goathill.npc.worm": {"body": "crawler", "colors": ["8f8c84", "a29f96", "7b786f"], "spots": "dedad0", "name_distance": 120},
+    "goathill.npc.fat_worm": {"body": "crawler", "scale": 1.3, "colors": ["98948a", "aaa59a", "838076"], "spots": "e4dfd2"},
+    "goathill.npc.big_worm": {"body": "crawler", "scale": 1.55, "colors": ["85827a", "98958b", "706d66"], "spots": "d8d4c8"},
+    "goathill.npc.huge_worm": {"body": "crawler", "scale": 1.9, "colors": ["7a776f", "8d8a80", "67645d"], "spots": "d0ccbf"}
+  }
+}

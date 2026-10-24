@@ -4,6 +4,7 @@ extends Node
 ## A 3D presentation of an existing physical map. It never moves actors, takes exits,
 ## grants items or changes a rule. Runtime bodies remain the single position authority.
 const Person = preload("res://presentation/voxel/actors/voxel_person.gd")
+const Crawler = preload("res://presentation/voxel/actors/voxel_crawler.gd")
 const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
 const VIEW_ROTATION_SECONDS: float = 0.6
 const VIEW_SIDE_ANGLE: float = PI/4.0
@@ -25,6 +26,10 @@ var alert_marks: Dictionary[StringName, Label3D] = {}
 var objects: Dictionary[StringName, Node3D] = {}
 var entrances: Dictionary[StringName, Dictionary] = {}
 var shutters: Dictionary[StringName, Node3D] = {}
+## The bobbing triangle over every exit (owner's map rule 2): a passage's points out of
+## its room, a door's away from the side the player stands on.
+var arrows: Dictionary[StringName, Node3D] = {}
+var _arrow_clock: float = 0.0
 var _built: bool = false
 var _active: bool = false
 var _old_modulate: Color = Color.WHITE
@@ -59,10 +64,12 @@ func _process(delta: float) -> void:
 	_sync_objects()
 	geometry.sync_passages(map)
 	_reveal_entrances()
+	_bob_arrows(delta)
 	_update_occlusion()
 	lighting.advance(delta,VoxelMapGeometry.point(map.player_body.global_position))
 	if geometry.foliage != null:
 		geometry.foliage.advance(delta, _plant_contacts())
+	geometry.ambience.advance(delta)
 
 func _build() -> void:
 	layout = JSON.parse_string(FileAccess.get_file_as_string(layout_path))
@@ -90,7 +97,7 @@ func _build() -> void:
 		occlusion.register(entry["node"])
 	for shutter: Node3D in shutters.values():
 		occlusion.register(shutter)
-	lighting.build(world,occlusion,layout.get("indoor",false))
+	lighting.build(world,occlusion,layout.get("indoor",false),layout.get("light",{}))
 	lighting.set_night(night,true)
 	_built = true
 
@@ -220,7 +227,7 @@ func _sync_actors(delta: float) -> void:
 		var step: float = actor.position.distance_to(next)
 		actor.position = next
 		var model: Node3D = actor.get_child(0) as Node3D
-		if model is Person:
+		if model is Person or model is Crawler:
 			# Render frames may outnumber physics steps: a held direction must not flicker
 			# between the walk and idle poses on the intervening frames.
 			model.walking = (body.velocity.length_squared()>1.0 if body == map.player_body else step>0.003) and step<1.5
@@ -269,7 +276,14 @@ func _make_actor(body: WorldCharacterBody2D) -> void:
 		look = {"coat":"397c87"}
 	var model: Node3D
 	var size: float = float(look.get("scale",1.0))
-	if look.get("animal",false):
+	var crawler: bool = look.get("body","")=="crawler"
+	if crawler:
+		model = Crawler.new()
+		model.scale = Vector3.ONE*size
+		model.colors = look.get("colors",model.colors)
+		model.spots = String(look.get("spots",model.spots))
+		actor.add_child(model)
+	elif look.get("animal",false):
 		model = Node3D.new()
 		model.scale = Vector3.ONE*size
 		actor.add_child(model)
@@ -288,14 +302,15 @@ func _make_actor(body: WorldCharacterBody2D) -> void:
 		model.coat = look.get("coat","817755")
 		model.hat = look.get("hat",false)
 		actor.add_child(model)
-	labels[body.character_id] = _label(actor,"",0.4+0.9*size if look.get("animal",false) else 2.2)
+	var low: bool = crawler or look.get("animal",false)
+	labels[body.character_id] = _label(actor,"",(0.55*size+0.35 if crawler else 0.4+0.9*size) if low else 2.2)
 	var label: Label3D = labels[body.character_id]
 	label.font_size = int(look.get("name_font_size",36))
 	label.set_meta("name_alpha",float(look.get("name_alpha",1.0)))
 	label.set_meta("name_distance",float(look.get("name_distance",-1.0)))
 	_context_names = _context_names or float(look.get("name_distance",-1.0))>=0
-	actor.set_meta("pick_height",1.15*size if look.get("animal",false) else 1.85)
-	actor.set_meta("pick_width",maxf(10,20*size) if look.get("animal",false) else 20.0)
+	actor.set_meta("pick_height",(0.5*size if crawler else 1.15*size) if low else 1.85)
+	actor.set_meta("pick_width",maxf(10,20*size) if low else 20.0)
 
 func _sync_objects() -> void:
 	var seen: Dictionary[StringName,bool] = {}
@@ -354,6 +369,92 @@ func _make_entrances() -> void:
 				s.box(marker,Vector3(x,0.035,0),Vector3(0.1,0.04,1.1),"d5ba7e")
 		s.flush()
 		entrances[passage.portal_id] = {"passage":passage,"node":marker,"label":label}
+		var arrow: Node3D = _arrow(marker,_outward(passage,portal))
+		arrows[passage.portal_id] = arrow
+	for id: StringName in map.doors_by_id:
+		var door: WorldDoor = map.doors_by_id[id]
+		var holder := Node3D.new()
+		holder.position = VoxelMapGeometry.point(door.wall_shape().global_position)
+		world.add_child(holder)
+		arrows[id] = _arrow(holder,Vector2.ZERO)
+		arrows[id].set_meta("door",true)
+
+## The way the exit leads: its original command's compass direction (diagonals too);
+## for a verb without one (stairs, `enter`), across the passage's thin side, away from
+## the middle of the room it belongs to.
+func _outward(passage: WorldPassageArea2D, portal: PortalDefinition) -> Vector2:
+	var shaped: Vector2 = _shape_outward(passage)
+	var compass: Vector2 = VoxelMapGeometry.compass(portal.legacy_command)
+	var settings: Dictionary = layout.get("entrances",{}).get(String(portal.portal_id),{})
+	if settings.has("arrow"):
+		var fixed: Array = settings["arrow"]
+		return Vector2(float(fixed[0]),float(fixed[1])).normalized()
+	# The command's compass unless the painted way out goes off another way (an "east"
+	# exit drawn at the top of a north-south road): then the way the player walks out.
+	return compass if compass != Vector2.ZERO and compass.dot(shaped) > 0.0 else shaped
+
+func _shape_outward(passage: WorldPassageArea2D) -> Vector2:
+	var at: Vector2 = passage.global_position
+	var shape := passage.get_node_or_null("CollisionShape2D") as CollisionShape2D
+	var across: Vector2 = Vector2.DOWN
+	if shape != null and shape.shape is RectangleShape2D:
+		var size: Vector2 = (shape.shape as RectangleShape2D).size
+		across = Vector2.RIGHT if size.x < size.y else Vector2.DOWN
+	var room: Vector2 = at
+	var nearest: float = INF
+	for node: Node in map.find_children("*","Area2D",true,false):
+		var zone := node as WorldPhysicalZoneArea2D
+		if zone == null:
+			continue
+		var rect: Rect2 = zone.global_rect()
+		var gap: float = 0.0 if rect.has_point(at) else rect.get_center().distance_to(at)
+		if gap < nearest:
+			nearest = gap
+			room = rect.get_center()
+	var side: float = signf((at-room).dot(across))
+	return across*(side if side != 0.0 else 1.0)
+
+func _arrow(parent: Node3D, direction: Vector2) -> Node3D:
+	var arrow := Node3D.new()
+	arrow.set_meta("direction",direction)
+	parent.add_child(arrow)
+	var s := Shapes.new()
+	# Flat, so it reads the same from either fixed angle; the wide row trails, the tip leads.
+	for row: int in 5:
+		s.box(arrow,Vector3(0,0,-0.4+row*0.2),Vector3(0.95-row*0.21,0.12,0.2),"f2a43a")
+	s.flush()
+	# A warm amber of its own: readable on pale ground by day and glowing by night.
+	var glow := StandardMaterial3D.new()
+	glow.albedo_color = Color("f2a43a")
+	glow.emission_enabled = true
+	glow.emission = Color("e8902a")
+	glow.emission_energy_multiplier = 0.55
+	for mesh: Node in arrow.find_children("*","GeometryInstance3D",true,false):
+		(mesh as GeometryInstance3D).material_override = glow
+		(mesh as GeometryInstance3D).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	return arrow
+
+func _bob_arrows(delta: float) -> void:
+	_arrow_clock += delta
+	var player: Vector2 = map.player_body.global_position
+	for id: StringName in arrows:
+		var arrow: Node3D = arrows[id]
+		var direction: Vector2 = arrow.get_meta("direction")
+		var near: bool
+		if direction == Vector2.ZERO:
+			var door: WorldDoor = map.doors_by_id[id]
+			var wall: CollisionShape2D = door.wall_shape()
+			var size: Vector2 = (wall.shape as RectangleShape2D).size
+			var across: Vector2 = Vector2.RIGHT if size.x < size.y else Vector2.DOWN
+			var side: float = signf((wall.global_position-player).dot(across))
+			direction = across*(side if side != 0.0 else 1.0)
+			near = wall.global_position.distance_to(player) < 360.0
+		else:
+			near = (arrow.get_parent() as Node3D).visible
+		arrow.visible = near
+		arrow.rotation.y = atan2(direction.x,direction.y)
+		# A door's floats over its lintel, clear of the shut leaf; a passage's over the floor.
+		arrow.position.y = (2.75 if arrow.get_meta("door",false) else 0.8)+sin(_arrow_clock*3.2)*0.14
 
 func _make_shutters() -> void:
 	for id: StringName in map.doors_by_id:

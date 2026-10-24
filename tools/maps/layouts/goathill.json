@@ -1,7 +1,7 @@
 {
   "maps": {
     "mountain": {
-      "note": "野羊山: the road from Snow's crossroad climbs a gully between cliffs (mroad1), through knee-high weeds with the wooded slope to the west (mroad2), past the crack in the east wall that holds the small 土地庙 (temple1: a little house, its door on the road), up a steep pitch to the corner (mroad4), where the four bandits wait on a ledge inside the bend; east along the narrow road between big rocks and long grass (mroad5) to the rocky slope with its stone hut (slope1); north (mroad6) into the canyon, whose dry stream bed runs along the foot of the east wall (canyon1-3) to the black cave mouth.",
+      "note": "野羊山 (road widened 2026-10-24, owner: the narrow road with walls close on both sides hid the view): the road from Snow's crossroad climbs a gully between cliffs (mroad1), through knee-high weeds with the wooded slope to the west (mroad2), past the crack in the east wall that holds the small 土地庙 (temple1: a little house, its door on the road), up a steep pitch to the corner (mroad4), where the four bandits wait on a ledge inside the bend; east along the narrow road between big rocks and long grass (mroad5) to the rocky slope with its stone hut (slope1); north (mroad6) into the canyon, whose dry stream bed runs along the foot of the east wall (canyon1-3) to the black cave mouth.",
       "file": "goathill_mountain.tscn",
       "draw": {
         "technique": "canvas",
@@ -21,7 +21,7 @@
         },
         "lines": {
           "roads": [
-            [[416, 2208, 32, 32, 32, 0], [416, 2096, 32, 44, 44, 6], [404, 2000, 32, 56, 60, 12], [376, 1912, 32, 64, 52, 12, "mroad1: a gully, cliffs both sides"], [356, 1808, 32, 92, 64, 14], [372, 1704, 32, 96, 76, 14, "mroad2: knee-high weeds, the wood to the west"], [432, 1632, 32, 76, 64, 12], [520, 1584, 32, 60, 52, 10], [596, 1520, 32, 52, 44, 8, "mroad3: the temple's crack to the east"], [632, 1456, 32, 44, 40, 4], [640, 1392, 32, 34, 32, 0], [640, 1344, 32, 32, 32, 0, "the steep pitch up to the corner: rock both sides"], [640, 1216, 32, 52, 32, 6, "mroad4: the turn; the ledge inside it is drawn apart"], [768, 1216, 32, 32, 32, 0], [848, 1220, 32, 60, 64, 12, "mroad5: narrow, long grass, big rocks either side"], [936, 1212, 32, 56, 52, 10], [992, 1144, 32, 48, 48, 8], [1036, 1056, 32, 60, 60, 12, "mroad6"], [1044, 960, 32, 52, 52, 10], [1032, 900, 28, 48, 36, 6, "the canyon's mouth under 飞火崖"], [1060, 832, 20, 88, 20, 10, "canyon1-2: the dry bed along the foot of the east wall"], [1088, 752, 20, 96, 20, 12], [1084, 672, 20, 100, 20, 12], [1064, 592, 20, 92, 20, 12], [1072, 512, 20, 80, 24, 10], [1104, 456, 20, 64, 40, 8], [1160, 428, 20, 64, 56, 10, "canyon3: the floor widens under the steepest walls"], [1248, 424, 22, 92, 76, 14], [1336, 432, 24, 56, 56, 8], [1408, 432, 24, 32, 32, 0]],
+            [[416, 2208, 32, 56, 56, 0], [416, 2096, 32, 68, 68, 6], [404, 2000, 32, 80, 84, 12], [376, 1912, 32, 88, 76, 12, "mroad1: a gully, cliffs both sides"], [356, 1808, 32, 116, 88, 14], [372, 1704, 32, 120, 100, 14, "mroad2: knee-high weeds, the wood to the west"], [432, 1632, 32, 100, 88, 12], [520, 1584, 32, 84, 76, 10], [596, 1520, 32, 76, 68, 8, "mroad3: the temple's crack to the east"], [632, 1456, 32, 68, 64, 4], [640, 1392, 32, 58, 56, 0], [640, 1344, 32, 56, 56, 0, "the steep pitch up to the corner: rock both sides"], [640, 1216, 32, 76, 56, 6, "mroad4: the turn; the ledge inside it is drawn apart"], [768, 1216, 32, 56, 56, 0], [848, 1220, 32, 84, 88, 12, "mroad5: narrow, long grass, big rocks either side"], [936, 1212, 32, 80, 76, 10], [992, 1144, 32, 72, 72, 8], [1036, 1056, 32, 84, 84, 12, "mroad6"], [1044, 960, 32, 76, 76, 10], [1032, 900, 28, 72, 60, 6, "the canyon's mouth under 飞火崖"], [1060, 832, 28, 112, 52, 10, "canyon1-2: the dry bed along the foot of the east wall"], [1088, 752, 28, 120, 52, 12], [1084, 672, 28, 124, 52, 12], [1064, 592, 28, 116, 52, 12], [1072, 512, 28, 104, 52, 10], [1104, 456, 28, 88, 64, 8], [1160, 428, 28, 88, 80, 10, "canyon3: the floor widens under the steepest walls"], [1248, 424, 28, 116, 100, 14], [1336, 432, 28, 80, 80, 8], [1408, 432, 28, 56, 56, 0]],
             [[626, 1488, 22, 34, 34, 4], [700, 1488, 22, 30, 30, 4], [760, 1488, 22, 22, 22, 0]],
             [[944, 1224, 0, 40, 40, 8, "back west to the road"], [1060, 1244, 0, 52, 52, 10]],
             [[1124, 1196, 0, 44, 44, 8], [1088, 1120, 0, 44, 44, 8], [1040, 1084, 0, 40, 40, 6]]
@@ -135,6 +135,15 @@
               ["cave_floor", 1360, 400, 1408, 464, "the black cave mouth in the east wall"],
               ["grass", 672, 1440, 704, 1520, "the way into 土地庙"]
             ]
+          },
+          {
+            "op": "fill",
+            "note": "the bandits' look-out (冈哨) by the stone hut on the rocky slope: off the road from mroad5 to mroad6, the fire with room to walk round it (their flag and jars stand on the rock by the hut: game/data/goathill/voxel/mountain.json)",
+            "fills": [
+              ["blocked", 1072, 1232, 1104, 1264, "their fire, a pot over it, open ground to its east", {"look": {"kind": "campfire", "pot": true}}],
+              ["blocked", 1104, 1296, 1136, 1328, "crates and cloth taken off the road", {"look": {"kind": "loot_crates"}}],
+              ["blocked", 1088, 1136, 1136, 1184, "a straw lean-to against the wind", {"look": {"kind": "lean_to"}}]
+            ]
           }
         ],
         "reach_from": ["SnowEntry", "Mroad3Temple1Return"],
@@ -154,6 +163,7 @@
       "scene": {
         "style": "map",
         "root": "GoathillMountain",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/goathill/voxel/mountain.json"},
         "map": "goathill.mountain",
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
@@ -276,10 +286,10 @@
         },
         "lines": {
           "tunnels": [
-            [[-24, 400, 0, 34, 34, 0, "out west to the canyon"], [80, 400, 0, 34, 34, 0], [132, 396, 0, 42, 42, 6]],
-            [[292, 336, 0, 38, 38, 6], [384, 290, 0, 36, 36, 2], [440, 250, 0, 38, 38, 4], [484, 218, 0, 40, 40, 6]],
-            [[656, 170, 0, 38, 38, 4], [736, 186, 0, 36, 36, 4], [800, 198, 0, 38, 38, 4], [852, 208, 0, 40, 40, 6]],
-            [[292, 464, 0, 38, 38, 6], [384, 520, 0, 36, 36, 2], [440, 560, 0, 38, 38, 4], [484, 602, 0, 40, 40, 6]]
+            [[-24, 400, 0, 34, 34, 0, "out west to the canyon"], [80, 400, 0, 46, 46, 0], [132, 396, 0, 54, 54, 6]],
+            [[292, 336, 0, 50, 50, 6], [384, 290, 0, 48, 48, 2], [440, 250, 0, 50, 50, 4], [484, 218, 0, 52, 52, 6]],
+            [[656, 170, 0, 50, 50, 4], [736, 186, 0, 48, 48, 4], [800, 198, 0, 50, 50, 4], [852, 208, 0, 52, 52, 6]],
+            [[292, 464, 0, 50, 50, 6], [384, 520, 0, 48, 48, 2], [440, 560, 0, 50, 50, 4], [484, 602, 0, 52, 52, 6]]
           ]
         },
         "steps": [
@@ -370,6 +380,7 @@
       "scene": {
         "style": "map",
         "root": "GoathillCaverns",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/goathill/voxel/caverns.json"},
         "map": "goathill.caverns",
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
@@ -425,7 +436,14 @@
           }
         },
         "props": [
-          ["blocked", "goathill.temple1", ["rel", 0.95, 0.5], 0.5, 0.94, "the shrine against its east wall"]
+          ["blocked", "goathill.temple1", ["rel", 0.97, 0.5], 0.9, 2.2, "the shrine in the east wall: 残破不堪的土地爷爷", {"look": {"kind": "shrine_niche", "rotation": -90, "broken": true}}],
+          ["blocked", "goathill.temple1", ["rel", 0.86, 0.5], 0.9, 2.0, "the offering table before it", {"look": {"kind": "altar_table", "rotation": -90}}],
+          ["blocked", "goathill.temple1", ["rel", 0.62, 0.5], 0.9, 0.9, "the incense burner", {"look": {"kind": "incense_burner"}}],
+          ["blocked", "goathill.temple1", ["rel", 0.97, 0.05], 0.9, 0.9, "黄霸's wine jars in the corner", {"look": {"kind": "wine_jars", "count": 3, "tipped": 1}}],
+          ["blocked", "goathill.temple1", ["rel", 0.6, 0.1], 0.9, 0.9, "his cooking fire on the floor, a pot over it", {"look": {"kind": "campfire", "pot": true, "range": 4.5}}],
+          ["blocked", "goathill.temple1", ["rel", 0.05, 0.93], 1.4, 0.9, "what he brought from the road", {"look": {"kind": "loot_crates", "rotation": 180}}],
+          ["blocked", "goathill.temple1", ["rel", 0.35, 0.1], 0.5, 0.5, "posts under the roof beam", {"look": {"kind": "post"}}],
+          ["blocked", "goathill.temple1", ["rel", 0.35, 0.9], 0.5, 0.5, {"look": {"kind": "post"}}]
         ],
         "placed": {
           "goathill.temple1.bandit_hwang.1": [
@@ -441,6 +459,7 @@
       "scene": {
         "style": "map",
         "root": "TempleHouse",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/goathill/voxel/temple_house.json"},
         "map": "goathill.temple_house",
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {

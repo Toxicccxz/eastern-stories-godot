@@ -10,7 +10,23 @@
     "grass_density": 0.78,
     "flower_threshold": 0.08,
     "blossom_trees": 0.38,
-    "tree_types": ["pine", "broadleaf", "broadleaf", "slender", "shrub"]
+    "tree_types": ["pine", "broadleaf", "broadleaf", "slender", "shrub"],
+    "zones": {
+      "snow.crossroad": {"margin": 96, "blossom_trees": 0, "tree_types": ["shrub", "scrub", "dead"], "grass_density": 0.42, "flower_threshold": 1.0, "ground": ["737a49", "7f824d", "8b8a52"], "note": "the col: the town's blossoms give out toward 野羊山's bare rock"},
+      "snow.mstreet4": {"margin": 32, "blossom_trees": 0.08, "tree_types": ["slender", "shrub"], "grass_density": 0.55, "flower_threshold": 0.24, "ground": ["627d4c", "6c844e", "768b52"]}
+    }
+  },
+  "cliffs": {
+    "low": 0.8,
+    "high": 2.6,
+    "rise": 120,
+    "step": 0.5,
+    "rough": 0.45,
+    "strata": ["7a7262", "8a8170", "958b77", "a39883", "857c6a"],
+    "tops": ["6f7a50", "7a8256", "86895c"],
+    "areas": [
+      {"rect": [-400, -2720, 400, -2400], "strata": ["7d6c55", "8c7a5e", "9a8766", "a6926d", "86745b"], "tops": ["6c6a42", "787449", "857e50"], "grooves": 0.06, "note": "the col's rocks already take 野羊山's colours"}
+    ]
   },
   "actors": {
     "default": {"coat": "887b56"},
@@ -47,7 +63,8 @@
     {"kind": "lantern", "at": [-80, -400]},
     {"kind": "lantern", "at": [80, -880]},
     {"kind": "lantern", "at": [-80, -1350]},
-    {"kind": "lantern", "at": [80, -1900]}
+    {"kind": "lantern", "at": [80, -1900]},
+    {"kind": "rock_pile", "at": [0, -2590], "size": [72, 120], "count": 16, "colors": ["b09a70", "9d8a66", "897b59"], "note": "scree where the col's 碎石路 starts north (last: the props before it keep their dressing)"}
   ],
   "weather": [
     {"at": [-205, 88], "radius": [62, 36], "water": true},
