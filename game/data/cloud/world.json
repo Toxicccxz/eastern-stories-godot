@@ -25,7 +25,7 @@
 	"zones": [
 		{ "id": "cloud.dragonhill.nroad", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/dragonhill/nroad"] },
 		{ "id": "cloud.dragonhill.nhillfoot", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/dragonhill/nhillfoot"] },
-		{ "id": "cloud.dragonhill.hummock", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/dragonhill/hummock"], "combat_entry": "complete_set" },
+		{ "id": "cloud.dragonhill.hummock", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/dragonhill/hummock"] },
 		{ "id": "cloud.dragonhill.shillfoot", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/dragonhill/shillfoot"] },
 		{ "id": "cloud.dragonhill.sroad", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/dragonhill/sroad"] },
 		{ "id": "cloud.entrance", "map": "cloud.outdoor", "rooms": ["es2:u/cloud/entrance"] },

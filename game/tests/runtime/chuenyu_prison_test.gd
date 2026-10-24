@@ -92,8 +92,6 @@ func _test_data() -> void:
 		for way: String in exits:
 			var portal: PortalDefinition = catalog.portal(StringName("chuenyu.%s.%s" % [room, way]))
 			_check(portal != null and portal.destination_zone_id == StringName("chuenyu." + exits[way]) and portal.destination_map_id == &"chuenyu.prison", "%s %s leads to %s (M3)" % [room, way, exits[way]])
-	for room: StringName in [&"chuenyu.tortureroom", &"chuenyu.tortureroom2"]:
-		_check(catalog.zone(room).combat_entry == &"complete_set", "%s: its two 狱卒 together" % room)
 	var slab: WorldLandmarkDefinition = catalog.landmark(SLAB)
 	_check(slab.policy == &"hidden_passage" and slab.setting("pushes") == 5 and slab.setting("open_seconds") == 5 and slab.setting("closes_on_time") == 1, "the slab: five pushes, five seconds, shut on time")
 	_check(slab.portal_ids() == [&"chuenyu.tunnel4.up", &"chuenyu.east_castle.down"] and catalog.portal(&"chuenyu.tunnel4.up").destination_zone_id == &"chuenyu.east_castle", "up to the east clifftop and down again")

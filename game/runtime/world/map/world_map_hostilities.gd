@@ -1,8 +1,8 @@
 class_name WorldMapHostilities
 extends RefCounted
-## How fights start on this map: presence and the aggression queue, toll-takers,
-## complete_set rooms, berserk (an NPC's and the player's), the opening lines and the
-## lethal start. Code moved from WorldMapController as it was; the map is `_map`.
+## How fights start on this map: presence and the aggression queue, toll-takers, the
+## gang that falls on the player together (DECISIONS「进门一起上」), berserk (an NPC's and
+## the player's), the opening lines and the lethal start. The map is `_map`.
 
 var _map: WorldMapController
 var _last_player_berserk := CombatSliceInitiationResult.new()
@@ -23,14 +23,20 @@ var pending_player_berserk: StringName = &""
 var aggression: NpcAggressionAdapter = NpcAggressionAdapter.new()
 var _last_aggression_decisions: Array[NpcAggressionDecision] = []
 var _last_aggression_initiations: Array[CombatSliceInitiationResult] = []
-## Aggressive NPCs of a complete-set zone whose current contact already started
-## an encounter; contact must break before it can start another.
-var complete_set_consumed_contacts: Array[StringName] = []
+## NPCs that fought the player since the player came into their zone (DECISIONS「进门一起上」):
+## they start no fight until the player has left their zone (ES2: init() runs on coming
+## into the room); a fight someone fresh starts takes them along.
+var spent: Dictionary[StringName, bool] = {}
+## The gang's NPC that noticed the player first (the nearest of the fresh ones in reach):
+## its kill_ob() warning comes first. Set by collect_complete_combat_entry().
+var gang_noticer: StringName = &""
+## The fresh ones in reach the last collection found (`gang_fresh`), and those this tick's
+## start holds as noticed while the queue it read is resolved (`_noticed`).
+var gang_fresh: Array[StringName] = []
+var _noticed: Array[StringName] = []
 ## Seconds each toll-taker (NpcDealings.toll_attack_delay_ms) has been touching the
 ## player without a break; its greeting attacks once that reaches the delay.
 var toll_contact_seconds: Dictionary[StringName, float] = {}
-## Toll-takers put back in the pair queue while their greeting waits.
-var toll_waiting: Dictionary[StringName, bool] = {}
 ## Toll-takers that shouted at the player since they came into its place (once a visit).
 var toll_shouted: Dictionary[StringName, bool] = {}
 ## Indoors (ZoneDefinition.indoors) the NPCs in the player's room: each arrival there, the
@@ -58,11 +64,6 @@ var _world_interaction_random: WorldInteractionRandomSource:
 
 func _init(controller: WorldMapController) -> void:
 	_map = controller
-
-
-static func zone_entry(location: WorldLocationState) -> StringName:
-	var zone: ZoneDefinition = null if location == null else GameContent.catalog().zone(location.zone_id)
-	return &"" if zone == null else zone.combat_entry
 
 
 ## combatd.c start_aggressive/hatred/vendetta return in a no_fight room; an
@@ -94,7 +95,7 @@ func shares_room(npc: NpcRuntimeState) -> bool:
 
 
 ## Indoors, presence is the room: the NPCs that came to share it with the player since the
-## last look enter presence (pair rooms queue them), those that no longer do leave it.
+## last look enter presence (queued for their berserk roll), those that no longer do leave it.
 ## Run each world tick, so the player's arrival (walking in, a door, stairs, a handoff) and
 ## an NPC's (wandering in, called over) count alike.
 func refresh_room_presence() -> void:
@@ -103,18 +104,29 @@ func refresh_room_presence() -> void:
 		var here: bool = notices_room(npc) and shares_room(npc)
 		if here and not room_present.has(id):
 			room_present[id] = true
-			if zone_entry(npc.world_location()) != &"complete_set":
-				aggression.enter_player_presence(npc, _player, _combat_allowed(npc))
+			aggression.enter_player_presence(npc, _player, _combat_allowed(npc))
 		elif not here and room_present.erase(id):
-			complete_set_consumed_contacts.erase(id)
 			aggression.leave_player_presence(id)
-			toll_waiting.erase(id)
+
+
+## Those that fought the player and are no longer in the player's zone (the player left, or
+## they walked out) may start a fight again: as ES2's init() on coming into the room.
+func forget_spent() -> void:
+	var location: WorldLocationState = null if _player == null else _player.world_location()
+	for id: StringName in spent.keys():
+		var npc: NpcRuntimeState = _map.npcs.find_resident_npc(id)
+		if (
+			npc == null or not npc.exists_in_map or location == null or location.map_id != map
+			or not npc.world_location().shares_combat_location(location)
+		):
+			spent.erase(id)
 
 
 ## A fight is over (its encounter still names who was in it): indoors the NPCs in the
 ## player's room that took no part were never let at the player (the fight's start
-## dropped their turn): they notice the player anew. Those that fought wait for the player
-## to leave the room and come back (a flight stands where it was: DECISIONS「室内察觉」).
+## dropped their turn): they notice the player anew. Those that fought are `spent`: they
+## wait for the player to leave their zone and come back (a flight stands where it was:
+## DECISIONS「室内察觉」「进门一起上」).
 func after_fight() -> void:
 	var encounter: CombatEncounter = null if session == null else session.combat_encounter_coordinator().active_encounter()
 	if encounter == null:
@@ -122,6 +134,9 @@ func after_fight() -> void:
 	for id: StringName in room_present.keys():
 		if encounter.participant_for(id) == null:
 			room_present.erase(id)
+	for participant: CombatParticipant in encounter.participants():
+		if _map.npcs.find_resident_npc(participant.participant_id) != null:
+			spent[participant.participant_id] = true
 
 
 ## An NPC no longer on this map: it noticed nobody here.
@@ -129,22 +144,20 @@ func forget_npc(id: StringName) -> void:
 	room_present.erase(id)
 
 
-## A complete-set zone polls exact contact instead of queueing pair entries. Indoors the
-## room is the presence (refresh_room_presence()), not the circle.
+## Outdoors the circle queues the NPC's berserk roll; the gang polls exact contact
+## (collect_complete_combat_entry()). Indoors the room is the presence
+## (refresh_room_presence()), not the circle.
 func on_presence_entered(body: Node2D, character_id: StringName) -> void:
 	var npc: NpcRuntimeState = _map.npcs.find_resident_npc(character_id)
-	if _map.gameplay_open() and body == player_body and npc != null and not notices_room(npc) and zone_entry(npc.world_location()) != &"complete_set":
+	if _map.gameplay_open() and body == player_body and npc != null and not notices_room(npc):
 		aggression.enter_player_presence(npc, _player, _combat_allowed(npc))
 
 
 func on_presence_exited(body: Node2D, character_id: StringName) -> void:
 	if notices_room(_map.npcs.find_resident_npc(character_id)):
 		return
-	if body == player_body and not complete_entry_contact(character_id):
-		complete_set_consumed_contacts.erase(character_id)
 	if _map.gameplay_open() and body == player_body:
 		aggression.leave_player_presence(character_id)
-		toll_waiting.erase(character_id)
 
 
 func aggression_adapter() -> NpcAggressionAdapter:
@@ -159,45 +172,72 @@ func last_aggression_initiations() -> Array[CombatSliceInitiationResult]:
 	return _last_aggression_initiations.duplicate()
 
 
+## Each world tick: the gang falls on the player when one of it is fresh in reach
+## (collect_complete_combat_entry()), then the queued NPCs that only may go berserk roll
+## (attack.c init()'s last case; those that attack on sight are the gang's).
 func process_pending_aggression() -> Array[CombatSliceInitiationResult]:
 	if not _map.gameplay_open() or session == null:
+		return []
+	var gang: Array[CombatSliceCharacterBinding] = collect_complete_combat_entry(CombatTriggerCause.Value.NPC_AGGRESSION)
+	var queued: bool = aggression.pending_count() > 0
+	if gang.size() < 2 and not queued:
 		return []
 	_last_aggression_initiations.clear()
 	# The room's description first, then whoever falls on the player in it (as
 	# _player_berserk()): indoors one may be noticed the moment one comes in.
 	if _map.hud() != null:
 		_map.hud().describe_arrival()
-	if zone_entry(_player.world_location()) == &"complete_set":
-		if collect_complete_combat_entry(CombatTriggerCause.Value.NPC_AGGRESSION).size() > 1:
-			var started: CombatSliceInitiationResult = session.combat_encounter_coordinator().start_complete_production(CombatTriggerCause.Value.NPC_AGGRESSION)
-			if started.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
-				announce_fight([])
-			_last_aggression_initiations.append(started)
-		return _last_aggression_initiations.duplicate()
-	_last_aggression_decisions = aggression.resolve_pending(_map.npcs.residents, _player, _combat_allowed())
-	for decision: NpcAggressionDecision in _last_aggression_decisions:
-		var npc: NpcRuntimeState = _map.npcs.find_resident_npc(decision.npc_id)
-		if decision.outcome != NpcAggressionDecision.Outcome.READY or npc == null:
-			continue
-		if not npc.definition().attacks_on_sight(npc.flags(), _player.state):
-			# Paid while its greeting waited: attack.c init() rolled berserk on arrival, not now.
-			if not toll_waiting.erase(npc.character_id):
+	# Who noticed the player stays noticed for the start, the queue being read now.
+	_noticed = gang_fresh.duplicate()
+	if queued:
+		_last_aggression_decisions = aggression.resolve_pending(_map.npcs.residents, _player, _combat_allowed())
+	elif gang.size() > 1:
+		_last_aggression_decisions = []
+	# The gang's own decisions too (in reach by the exact shapes before its circle reported).
+	for binding: CombatSliceCharacterBinding in gang.slice(1):
+		if not _last_aggression_decisions.any(func(decision: NpcAggressionDecision) -> bool: return decision.npc_id == binding.character_id):
+			var npc: NpcRuntimeState = _map.npcs.find_resident_npc(binding.character_id)
+			_last_aggression_decisions.append(aggression._evaluate(npc, _player, _combat_allowed(npc)))
+	if gang.size() > 1:
+		_last_aggression_initiations.append(_gang_attacks(gang))
+	_noticed.clear()
+	# A fight began this tick: the berserk rolls wait for it to end (after_fight() lets the
+	# room notice the player anew), no stare drawn into its opening.
+	if queued and not session.combat_encounter_coordinator().has_active_encounter():
+		for decision: NpcAggressionDecision in _last_aggression_decisions:
+			var npc: NpcRuntimeState = _map.npcs.find_resident_npc(decision.npc_id)
+			if decision.outcome == NpcAggressionDecision.Outcome.READY and npc != null and not npc.definition().attacks_on_sight(npc.flags(), _player.state):
 				_go_berserk(npc)
-			continue
-		if not _toll_due(npc):
-			# Its greeting has not come yet: wait while the player stays in reach.
-			toll_waiting[npc.character_id] = true
-			aggression.enter_player_presence(npc, _player, _combat_allowed(npc))
-			continue
-		toll_waiting.erase(npc.character_id)
-		if npc.has_flag(NpcDefinition.FLAG_HUNTS_PLAYER):
-			# combatd.c start_hatred(): one of catch_hunt_msg, then kill_ob(): the player fights back.
-			var line: String = CATCH_HUNT[clampi(_world_interaction_random.legacy_random(CATCH_HUNT.size()), 0, CATCH_HUNT.size() - 1)]
-			_last_aggression_initiations.append(npc_kills(npc, [tr(line).replace("$N", tr(npc.definition().display_name)).replace("$n", tr("你"))]))
-			continue
-		# combatd.c start_aggressive() says nothing itself; its kill_ob() warns the player.
-		_last_aggression_initiations.append(initiate_lethal_combat(npc.character_id, _player.character_id, []))
 	return _last_aggression_initiations.duplicate()
+
+
+## The gang's fight (`gang`: the player, then the NPCs): each one's own init() case at
+## once (combatd.c start_hatred(): one of catch_hunt_msg and a kill the player only fights
+## back; start_vendetta() and start_aggressive() say nothing, their kill_ob() warns). A gang
+## of one is the pair fight it always was: it first, then the player.
+func _gang_attacks(gang: Array[CombatSliceCharacterBinding]) -> CombatSliceInitiationResult:
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	var noticer: StringName = gang_noticer
+	var started: CombatSliceInitiationResult = (
+		coordinator.start_production(gang[1], gang[0], CombatTriggerCause.Value.NPC_AGGRESSION, kills_one_way(gang[1].character_id)) if gang.size() == 2
+		else coordinator.start_complete_production(CombatTriggerCause.Value.NPC_AGGRESSION)
+	)
+	if started.outcome != CombatSliceInitiationResult.Outcome.COMPLETED:
+		return started
+	# Drawn once the fight is on (a start refused is tried again next tick, drawing nothing).
+	var lines: Array[String] = []
+	for binding: CombatSliceCharacterBinding in gang.slice(1):
+		var npc: NpcRuntimeState = _map.npcs.find_resident_npc(binding.character_id)
+		if npc != null and npc.has_flag(NpcDefinition.FLAG_HUNTS_PLAYER):
+			lines.append(catch_hunt_line(npc))
+	announce_fight(lines, noticer)
+	return started
+
+
+## combatd.c start_hatred()'s message_vision(): one of catch_hunt_msg, `npc` the hunter.
+func catch_hunt_line(npc: NpcRuntimeState) -> String:
+	var line: String = CATCH_HUNT[clampi(_world_interaction_random.legacy_random(CATCH_HUNT.size()), 0, CATCH_HUNT.size() - 1)]
+	return tr(line).replace("$N", tr(npc.definition().display_name)).replace("$n", tr("你"))
 
 
 ## gangster.c init(): call_out("greeting", 1). The toll-taker's greeting attacks a
@@ -457,9 +497,17 @@ func last_player_berserk() -> CombatSliceInitiationResult:
 	return _last_player_berserk
 
 
-## Owner decision P2A-M: every eligible aggressive enemy in current physical
-## contact, plus a manual target, enters one encounter in stable ID order.
+## The gang (DECISIONS「进门一起上」): attack.c init() runs for every NPC in the room the
+## player comes into, so all that attack the player on sight there (hatred, vendetta,
+## aggressive, a toll-taker whose greeting is due) fall on them together: one encounter,
+## the player first, then stable ID order, a manual target (the player's 攻击) in it too.
+## Every such NPC in the player's zone belongs to it, near or far (owner, A6 Q1); it
+## starts when one of them is fresh in reach (indoors the room, outdoors its presence
+## circle; not `spent`). Toll-takers still waiting out their greeting join a fight that
+## starts. `gang_noticer`: the nearest of the fresh ones in reach.
 func collect_complete_combat_entry(cause: int, requested_target: StringName = &"") -> Array[CombatSliceCharacterBinding]:
+	gang_noticer = &""
+	gang_fresh.clear()
 	if not _map.gameplay_open() or session == null or session.active_map() != _map:
 		return []
 	if cause not in [CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK, CombatTriggerCause.Value.NPC_AGGRESSION]:
@@ -470,36 +518,39 @@ func collect_complete_combat_entry(cause: int, requested_target: StringName = &"
 	if player_body._player != _player:
 		return []
 	var ids: Array[StringName] = []
-	var fresh_contact: bool = false
 	var waiting: Array[StringName] = []
+	var noticer_distance: float = INF
 	for npc: NpcRuntimeState in _map.npcs.residents:
-		if npc.exists_in_map:
-			var body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(npc.character_id)
-			if not is_instance_valid(body) or body._npc != npc or _map.npcs.map_characters.find_npc(npc.character_id) != npc:
-				return []
-		var contact: bool = complete_entry_contact(npc.character_id)
-		if not contact:
-			complete_set_consumed_contacts.erase(npc.character_id)
-		var decision: NpcAggressionDecision = aggression._evaluate(npc, _player, _combat_allowed(npc))
+		var id: StringName = npc.character_id
+		var named: bool = manual and id == requested_target
 		var on_sight: bool = (
-			contact and decision.outcome in [NpcAggressionDecision.Outcome.READY, NpcAggressionDecision.Outcome.NPC_ALREADY_FIGHTING]
-			and npc.definition().attacks_on_sight(npc.flags(), _player.state)
+			npc.definition().attacks_on_sight(npc.flags(), _player.state)
+			and aggression._evaluate(npc, _player, _combat_allowed(npc)).outcome == NpcAggressionDecision.Outcome.READY
 		)
-		var aggressive: bool = on_sight and _toll_due(npc)
-		if on_sight and not aggressive:
-			waiting.append(npc.character_id)
-		if aggressive or (manual and npc.character_id == requested_target):
-			if ids.has(npc.character_id):
-				return []
-			ids.append(npc.character_id)
-			fresh_contact = fresh_contact or (aggressive and not complete_set_consumed_contacts.has(npc.character_id))
-	if ids.is_empty() or (not manual and not fresh_contact):
+		if not on_sight and not named:
+			continue
+		var body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(id)
+		if npc.exists_in_map and (not is_instance_valid(body) or body._npc != npc or _map.npcs.map_characters.find_npc(id) != npc):
+			return []
+		if ids.has(id) or waiting.has(id):
+			return []
+		if on_sight and not named and not _toll_due(npc):
+			waiting.append(id)
+			continue
+		ids.append(id)
+		# In reach: the exact shapes now, or its presence entered since the last tick.
+		if on_sight and _toll_due(npc) and not spent.has(id) and (complete_entry_contact(id) or aggression.has_pending(id) or _noticed.has(id)):
+			gang_fresh.append(id)
+			var distance: float = body.global_position.distance_squared_to(player_body.global_position)
+			if distance < noticer_distance:
+				noticer_distance = distance
+				gang_noticer = id
+	if ids.is_empty() or (not manual and gang_noticer.is_empty()):
+		gang_noticer = &""
 		return []
 	# gangster.c: every robber's greeting comes from the same arrival (each init()), so the
-	# toll-takers still waiting in reach join the fight that starts here.
-	for id: StringName in waiting:
-		if not ids.has(id):
-			ids.append(id)
+	# toll-takers still waiting in the place join the fight that starts here.
+	ids.append_array(waiting)
 	ids.sort_custom(func(first: StringName, second: StringName) -> bool: return String(first) < String(second))
 	ids.push_front(_player.character_id)
 	var available: Array[CombatSliceCharacterBinding] = _map.combat_lifecycle.build_participants()
@@ -508,9 +559,18 @@ func collect_complete_combat_entry(cause: int, requested_target: StringName = &"
 		var binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(available, id)
 		# kill.c: the one the player's 攻击 names may lie unconscious.
 		if binding == null or not session.encounter_participant_is_available(id, manual and id == requested_target):
+			gang_noticer = &""
 			return []
 		result.append(binding)
 	return result
+
+
+## Whether the gang's `id` only kills, the player fighting it back: one that hunts the
+## player (combatd.c start_hatred()'s kill_ob(): attack.c is_killing()), unless it is the
+## one the player's 攻击 names (then both kill, as kill.c).
+func kills_one_way(id: StringName, requested_target: StringName = &"") -> bool:
+	var npc: NpcRuntimeState = _map.npcs.find_resident_npc(id)
+	return npc != null and id != requested_target and npc.has_flag(NpcDefinition.FLAG_HUNTS_PLAYER)
 
 
 ## Exact current shapes, not cached Area overlap lists or deferred signal order; indoors,
@@ -535,19 +595,16 @@ func complete_entry_contact(id: StringName) -> bool:
 	return false
 
 
-func consume_complete_entry_contacts(ids: Array[StringName]) -> void:
-	for id: StringName in ids:
-		if complete_entry_contact(id) and not complete_set_consumed_contacts.has(id):
-			complete_set_consumed_contacts.append(id)
-
-
+## The player's own 攻击 (kill.c) or an NPC's attack by `initiator_id`: the player's falls
+## in with the gang of the place (collect_complete_combat_entry()), whose own kill_ob()s
+## came with the player into it.
 func initiate_lethal_combat(initiator_id: StringName, target_id: StringName, lines: Array[String]) -> CombatSliceInitiationResult:
 	if not _map.gameplay_open() or session == null:
 		return CombatSliceInitiationResult.new()
 	var cause: int = CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK if initiator_id == _player.character_id else CombatTriggerCause.Value.NPC_AGGRESSION
 	var result: CombatSliceInitiationResult
-	if zone_entry(_player.world_location()) == &"complete_set":
-		result = session.combat_encounter_coordinator().start_complete_production(cause, target_id if cause == CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK else &"")
+	if cause == CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK and collect_complete_combat_entry(cause, target_id).size() > 2:
+		result = session.combat_encounter_coordinator().start_complete_production(cause, target_id)
 	else:
 		var participants: Array[CombatSliceCharacterBinding] = _map.combat_lifecycle.build_participants()
 		result = session.combat_encounter_coordinator().start_production(

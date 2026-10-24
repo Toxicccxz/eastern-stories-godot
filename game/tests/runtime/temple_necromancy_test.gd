@@ -175,7 +175,8 @@ func _test_hatred(tree: SceneTree, session: WorldSessionController, bug: NpcRunt
 	forced.queues[7] = [1]
 	session.configure_world_interaction_random_source(forced) # TEST-ONLY
 	session.configure_combat_random_source(Forced.new()) # TEST-ONLY: no chat
-	map.hostilities.aggression.enter_player_presence(bug, player, true) # TEST-ONLY: the player comes into its reach
+	map.hostilities.spent.clear() # TEST-ONLY: the player left its place and comes back into its reach
+	map.hostilities.aggression.enter_player_presence(bug, player, true) # TEST-ONLY
 	map.hostilities.process_pending_aggression()
 	session.configure_world_interaction_random_source(_original_world)
 	_check(coordinator.has_active_encounter() and bug.relationship.has_lethal_target(player.character_id) and not player.relationship.has_lethal_target(bug.character_id), "its hatred attacks; the player only fights back")

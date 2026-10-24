@@ -21,7 +21,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await tree.process_frame
 	session.configure_npc_ambience_random_source(SouthRoad.Still.new()) # TEST-ONLY: nobody wanders off
 	await _test_down_the_stairs(tree, session)
-	await _test_one_after_another(tree, session)
+	await _test_together(tree, session)
 	await _test_next_room(tree, session)
 	await _test_dragons_again(tree, session)
 	session.free()
@@ -51,39 +51,30 @@ func _test_down_the_stairs(tree: SceneTree, session: WorldSessionController) -> 
 	_check(coordinator.has_active_encounter() and _guards(map).any(func(npc: NpcRuntimeState) -> bool: return npc.relationship.has_opponent(session.player_runtime().character_id)), "the 护院 fall on whoever comes into their hall")
 
 
-## The first 护院's fight over (he falls, TEST-ONLY), the other, who took no part, comes on;
-## the player flees him and stands still in the hall: he lets them be until they leave the room
-## and come back (a flight stands where it was).
-func _test_one_after_another(tree: SceneTree, session: WorldSessionController) -> void:
+## Both 护院 fall on the player together, in one fight (DECISIONS「进门一起上」); the player
+## flees them and stands still in the hall: they let them be until they leave the room and
+## come back (a flight stands where it was), then both come on again.
+func _test_together(tree: SceneTree, session: WorldSessionController) -> void:
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var map: WorldMapController = session.active_map() as WorldMapController
 	var encounter: CombatEncounter = coordinator.active_encounter()
-	if not _check(encounter != null, "the first fight is on"):
+	if not _check(encounter != null, "the fight is on"):
 		return
 	var fighting: Array[NpcRuntimeState] = _guards(map).filter(func(npc: NpcRuntimeState) -> bool: return encounter.participant_for(npc.character_id) != null)
-	var other: Array[NpcRuntimeState] = _guards(map).filter(func(npc: NpcRuntimeState) -> bool: return encounter.participant_for(npc.character_id) == null)
-	if not _check(fighting.size() == 1 and other.size() == 1, "one 护院 fights, the other waits: %d / %d" % [fighting.size(), other.size()]):
+	if not _check(fighting.size() == 2 and encounter.participants().size() == 3, "both 护院 in the one fight: %d" % fighting.size()):
 		_finish_fight(session)
 		return
 	player.state.vitality = CharacterResourceState.new(100000, 100000, 100000) # TEST-ONLY: the player outlasts them
-	fighting[0].character_state.vitality = CharacterResourceState.new(-1, -1, 200) # TEST-ONLY: the first falls
-	for _round: int in range(10):
-		if not coordinator.has_active_encounter():
-			break
-		coordinator.advance_scheduler(1.0)
-	session.shared_ui().dismiss_current_panel()
-	_check(not coordinator.has_active_encounter(), "the first 护院's fight is over")
-	await _frames(tree, coordinator)
-	_check(coordinator.has_active_encounter() and other[0].relationship.has_opponent(player.character_id), "the other, who took no part, comes on")
 	_flee(session)
 	_check(not coordinator.has_active_encounter() and player.world_location().zone_id == HALL, "fled, still in the hall")
 	await _frames(tree, coordinator)
-	_check(not coordinator.has_active_encounter(), "standing still after the flight: he lets the player be")
+	_check(not coordinator.has_active_encounter(), "standing still after the flight: they let the player be")
 	_check(await MapPlaces.drive_to_zone(tree, map, GARDEN) and not coordinator.has_active_encounter(), "out into the garden")
 	_check(await MapPlaces.drive_to_zone(tree, map, HALL) or coordinator.has_active_encounter(), "and back into the hall")
 	await _frames(tree, coordinator)
-	_check(coordinator.has_active_encounter() and other[0].relationship.has_opponent(player.character_id), "back in his room: he comes on again")
+	encounter = coordinator.active_encounter()
+	_check(encounter != null and fighting.all(func(npc: NpcRuntimeState) -> bool: return encounter.participant_for(npc.character_id) != null), "back in their room: both come on again")
 	_finish_fight(session)
 
 

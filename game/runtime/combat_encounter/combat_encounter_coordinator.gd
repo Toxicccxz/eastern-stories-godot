@@ -253,21 +253,26 @@ func start_complete_production(cause: int, requested_target: StringName = &"") -
 		saved_lethal.append(binding.relationship.lethal_target_ids())
 	var receipt: CombatSliceInitiationResult = failed
 	for enemy: CombatSliceCharacterBinding in bindings.slice(1):
-		receipt = CombatSliceOpportunityExecutor.initiate_lethal_combat(player, enemy)
+		# start_hatred()'s kill_ob(): it kills, the player fights back; the rest kill both ways.
+		receipt = (
+			CombatSliceOpportunityExecutor.initiate_directed_kill(enemy, player) if map.kills_one_way(enemy.character_id, requested_target)
+			else CombatSliceOpportunityExecutor.initiate_lethal_combat(player, enemy)
+		)
 		if receipt.outcome != CombatSliceInitiationResult.Outcome.COMPLETED:
 			break
 	if receipt.outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
 		var candidates: Array[CombatTriggerCandidate] = []
 		for binding: CombatSliceCharacterBinding in bindings:
 			candidates.append(CombatTriggerCandidate.new(binding.character_id, &"player" if binding == player else &"enemies"))
-		var initiator: StringName = player.character_id if cause == CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK else ids[1]
+		# The gang's first to notice the player starts it (进门一起上), else the first in order.
+		var noticer: StringName = map.hostilities.gang_noticer
+		var initiator: StringName = player.character_id if cause == CombatTriggerCause.Value.PLAYER_LETHAL_ATTACK else (noticer if ids.has(noticer) else ids[1])
 		_entry_sequence += 1
 		var trigger := CombatTrigger.new(StringName("production:%d" % _entry_sequence), cause,
 			CombatEncounterMode.Value.LETHAL, initiator, candidates, _session.resolve_encounter_location(initiator))
 		if start(trigger).succeeded():
 			if not requested_target.is_empty():
 				_active_encounter.set_current_target(player.character_id, requested_target)
-			map.consume_complete_entry_contacts(ids)
 			receipt._initiator_id = initiator
 			receipt._target_id = player.character_id if cause == CombatTriggerCause.Value.NPC_AGGRESSION else requested_target
 			return receipt

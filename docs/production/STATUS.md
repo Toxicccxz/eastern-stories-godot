@@ -4,6 +4,10 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
+**A6 进门一起上**（owner 批准 2026-10-24，DECISIONS「进门一起上」）：两个 PR。A（分支 `phase/gang-entry`）：
+同一区块里见人就打的人一起出手，全游戏一条规则（`combat_entry` 删除）；打过的人等玩家离开那块地方再回来。
+B：出手前的提示一拍（红「！」、喊话、同伙转身，约 0.5 秒，经典 0），离开区块就躲开。
+
 **A2 经验节奏**（owner 批准 2026-10-24，DECISIONS「经验节奏」）：两个 PR。A（#153，已合并）：一次性的
 「历练」奖励、落后补偿、潜能上限按阶段、打坐 ×6，模拟 `tests/sim/`。B（分支 `phase/exp-pacing-b`）：
 雪亭驿门外的悬赏榜（5 档恶人，放过也算）和淳风武馆教练场的五具木人。全是 pacing 开关，经典值等于 ES2。
@@ -57,14 +61,12 @@ is killing who falls waits on the card's 了结 / 放过 while the fight goes on
 
 ## 待决定
 
-两项等 owner 完整试玩后再定。规则（owner，2026-10-08）：PR 合并时 owner 没有回答的问题，按 PR 里的推荐
+一项等 owner 完整试玩后再定。规则（owner，2026-10-08）：PR 合并时 owner 没有回答的问题，按 PR 里的推荐
 方案生效，在 [DECISIONS](../migration/DECISIONS.md) 里标「默认」，owner 随时可以否决；已批准的积压决定
 也在那里（「积压问题的处理」）。
 
 * **A2 经验节奏**（#62）：三管齐下已做（DECISIONS「经验节奏」，A #153，B 悬赏和木人）；节奏留给统一
   试玩核验。仍待试玩：60 秒的任务限时在要走路的地图上是否来得及。
-* **A6 「进门一起上」是否扩大到所有房间**（#68）：ES2 同房间的凶徒全部出手；现在只有 6 个区域用
-  `complete_set`（老松寨三间、水潭、野羊山转角、卧龙岗）。
 
 ## Playable now
 

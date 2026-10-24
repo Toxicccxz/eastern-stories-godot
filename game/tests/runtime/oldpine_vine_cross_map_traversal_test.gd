@@ -226,6 +226,8 @@ func _test_passage_roundtrip(tree: SceneTree) -> void:
 		return
 	var remaining_loot_id: StringName = remaining_loot.item_instance_id
 	var silver_id: StringName = looted_silver.item_instance_id
+	# TEST-ONLY: the slope's other bandits keep out of the loot step (进门一起上: a fresh one in reach starts a gang).
+	var aside: Array[NpcRuntimeState] = OldPineTestMap.stand_aside(outdoor, OldPineWorldDefinitions.SLOPE_ZONE_ID, [])
 	outdoor.player_body.global_position = corpse_view.global_position
 	await tree.physics_frame
 	await tree.physics_frame
@@ -271,6 +273,7 @@ func _test_passage_roundtrip(tree: SceneTree) -> void:
 	var gorge: WorldMapController = session.world_map_of(OldPineWorldDefinitions.GORGE_MAP_ID)
 	var primary_id: StringName = player.state.equipment.primary_weapon().instance_id
 	var secondary_before: EquippedWeaponRef = player.state.equipment.secondary_weapon()
+	OldPineTestMap.rejoin(aside)
 	var result: VineTraversalResult = _attempt_from_east(outdoor)
 	_assert_eq(result.outcome, VineTraversalResult.Outcome.COMPLETED_PASSAGE, "high dodge real player reaches Passage")
 	_assert_true(result.map_handoff_result != null and result.map_handoff_result.succeeded(), "Vine success uses exact B1 handoff")
@@ -374,7 +377,9 @@ func _test_reactivated_zone_contacts(tree: SceneTree) -> void:
 		var source_area: Area2D = outdoor.get_node(
 			"Zones/SlopeZone" if from_slope else "Zones/EastBridgeZone"
 		)
-		# On the slope path, clear of the three bandits' presence.
+		# On the slope path. TEST-ONLY: the spot is inside Bandit01's presence circle, so the
+		# slope's bandits stand aside while contacts warm (进门一起上 would start their gang).
+		var aside: Array[NpcRuntimeState] = OldPineTestMap.stand_aside(outdoor, OldPineWorldDefinitions.SLOPE_ZONE_ID, [])
 		_move_player(outdoor, source_zone, Vector2(450, -50) if from_slope else Vector2(1200, 300))
 		for frame: int in 8:
 			await tree.physics_frame
@@ -395,6 +400,7 @@ func _test_reactivated_zone_contacts(tree: SceneTree) -> void:
 		session.player_runtime().state.skills.set_raw_level(&"dodge", 16)
 		session.configure_world_interaction_random_source(ScriptedWorldInteractionRandomSource.new([5]))
 		_assert_true(_attempt_from_east(outdoor).succeeded(), "contact fixture uses normal Vine handoff")
+		OldPineTestMap.rejoin(aside)
 		await _physically_enter_south_exit(session.world_map_of(OldPineWorldDefinitions.CAVE_MAP_ID), tree)
 		_assert_eq(session.active_map_id(), OldPineWorldDefinitions.GORGE_MAP_ID, "SouthExit returns to the Gorge waterfall")
 		var climb_up: PortalDefinition = GameContent.catalog().portal(OldPineWorldDefinitions.CLIFF1_UP_PORTAL_ID)
@@ -724,7 +730,11 @@ func _kill_bandit(
 	))
 	if not controller.select_npc(victim.character_id):
 		return null
-	if controller.attack_selected().outcome != CombatSliceInitiationResult.Outcome.COMPLETED:
+	# TEST-ONLY: the fixture's fight is the victim alone (进门一起上 would bring the slope's others).
+	var aside: Array[NpcRuntimeState] = OldPineTestMap.stand_aside(controller, OldPineWorldDefinitions.SLOPE_ZONE_ID, [victim.character_id])
+	var started: bool = controller.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED
+	OldPineTestMap.rejoin(aside)
+	if not started:
 		return null
 	HistoricalCombat.set_running(controller, false)
 	controller.player_runtime().busy.start_busy(1)

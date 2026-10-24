@@ -337,6 +337,8 @@ func _test_selection_inspect_attack_and_no_aggression(tree: SceneTree) -> void:
 	controller.player_body.set_world_location(controller.resolve_location(
 		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
+	# TEST-ONLY: the cadence fixture's fight is bandit 2 alone (进门一起上 would bring bandits 1 and 3).
+	var aside: Array[NpcRuntimeState] = OldPineTestMap.stand_aside(controller, OldPineWorldDefinitions.SLOPE_ZONE_ID, [bandit2.character_id])
 	var initiation: CombatSliceInitiationResult = controller.attack_selected()
 	_assert_eq(initiation.outcome, CombatSliceInitiationResult.Outcome.COMPLETED, "explicit Attack delegates to closed lethal initiation")
 	_assert_true(controller.player_runtime().relationship.has_lethal_target(bandit2.character_id), "player lethal relation targets selected bandit only")
@@ -365,6 +367,7 @@ func _test_selection_inspect_attack_and_no_aggression(tree: SceneTree) -> void:
 	))
 	_assert_false(controller.player_runtime().relationship.is_fighting(), "returning to same zone does not invent combat restart")
 	HistoricalCombat.set_running(controller, false)
+	OldPineTestMap.rejoin(aside)
 	controller.queue_free()
 	await tree.process_frame
 
@@ -377,6 +380,8 @@ func _test_blocked_death_remains_partial(tree: SceneTree) -> void:
 		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	controller.select_npc(victim.character_id)
+	# TEST-ONLY: the partial-death fight is bandit 2 alone (进门一起上 would bring the slope's others).
+	var aside: Array[NpcRuntimeState] = OldPineTestMap.stand_aside(controller, OldPineWorldDefinitions.SLOPE_ZONE_ID, [victim.character_id])
 	controller.attack_selected()
 	HistoricalCombat.set_running(controller, false)
 	var unknown_item: ItemInstance = ItemInstance.new(&"audit.unknown-item", &"audit.unknown-definition")
@@ -405,6 +410,7 @@ func _test_blocked_death_remains_partial(tree: SceneTree) -> void:
 	var corpse_count: int = controller.corpse_states().size()
 	_assert_true(HistoricalCombat.tick(controller).is_empty(), "blocked lifecycle character is not restarted from the beginning")
 	_assert_eq(controller.corpse_states().size(), corpse_count, "blocked lifecycle retry gate prevents duplicate corpse creation")
+	OldPineTestMap.rejoin(aside)
 	controller.queue_free()
 	await tree.process_frame
 
@@ -541,6 +547,8 @@ func _test_lifecycle_death_corpse_and_continued_map(tree: SceneTree) -> void:
 		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	controller.select_npc(victim.character_id)
+	# TEST-ONLY: each fight here is one bandit alone (进门一起上 would bring the slope's others).
+	var aside: Array[NpcRuntimeState] = OldPineTestMap.stand_aside(controller, OldPineWorldDefinitions.SLOPE_ZONE_ID, [victim.character_id])
 	controller.attack_selected()
 	HistoricalCombat.set_running(controller, false)
 	controller.player_runtime().busy.start_busy(1)
@@ -590,6 +598,8 @@ func _test_lifecycle_death_corpse_and_continued_map(tree: SceneTree) -> void:
 		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	controller.select_npc(bandits[0].character_id)
+	OldPineTestMap.rejoin(aside)
+	aside = OldPineTestMap.stand_aside(controller, OldPineWorldDefinitions.SLOPE_ZONE_ID, [bandits[0].character_id])
 	var second_initiation: CombatSliceInitiationResult = controller.attack_selected()
 	_assert_eq(second_initiation.outcome, CombatSliceInitiationResult.Outcome.COMPLETED, "surviving second bandit can begin a new combat")
 	_assert_true(controller.player_runtime().relationship.has_lethal_target(bandits[0].character_id), "second combat targets the new selected bandit")
@@ -599,6 +609,7 @@ func _test_lifecycle_death_corpse_and_continued_map(tree: SceneTree) -> void:
 	controller.player_body._physics_process(1.0 / 30.0)
 	Input.action_release("move_right")
 	_assert_true(controller.player_body.position != before_move, "player can continue walking after NPC death")
+	OldPineTestMap.rejoin(aside)
 	controller.queue_free()
 	await tree.process_frame
 

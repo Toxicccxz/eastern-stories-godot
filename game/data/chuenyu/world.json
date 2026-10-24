@@ -39,8 +39,8 @@
 		{ "id": "chuenyu.tunnel5", "map": "chuenyu.prison", "indoors": true, "rooms": ["es2:d/chuenyu/tunnel5"], "distinct": true },
 		{ "id": "chuenyu.tunnel6", "map": "chuenyu.prison", "indoors": true, "rooms": ["es2:d/chuenyu/tunnel6"], "distinct": true },
 		{ "id": "chuenyu.dungeon", "map": "chuenyu.prison", "indoors": true, "rooms": ["es2:d/chuenyu/dungeon"], "distinct": true },
-		{ "id": "chuenyu.tortureroom", "map": "chuenyu.prison", "indoors": true, "rooms": ["es2:d/chuenyu/tortureroom"], "distinct": true, "combat_entry": "complete_set" },
-		{ "id": "chuenyu.tortureroom2", "map": "chuenyu.prison", "indoors": true, "rooms": ["es2:d/chuenyu/tortureroom2"], "distinct": true, "combat_entry": "complete_set" }
+		{ "id": "chuenyu.tortureroom", "map": "chuenyu.prison", "indoors": true, "rooms": ["es2:d/chuenyu/tortureroom"], "distinct": true },
+		{ "id": "chuenyu.tortureroom2", "map": "chuenyu.prison", "indoors": true, "rooms": ["es2:d/chuenyu/tortureroom2"], "distinct": true }
 	],
 	"portals": [
 		{ "id": "chuenyu.croad1.south", "from_zone": "chuenyu.croad1", "to_zone": "village.road1", "to_spawn": "village.road1.chuenyu_return", "legacy_room": "es2:d/chuenyu/croad1", "legacy_command": "south" },
