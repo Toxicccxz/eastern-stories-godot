@@ -368,6 +368,14 @@ func _repeat_sessions(tree: SceneTree, shell: ApplicationShellController, touch:
 			await _tap(tree, shell.new_game_button)
 			await _tap(tree, shell.confirm_button)
 			TechnicalShellFixture.start(shell)
+		# The world (the forest's voxel view is built on its first frame) may take a few frames
+		# under load; the checks below are about the adapter, not about how fast it starts.
+		for _frame: int in 300:
+			session = shell.runtime_host().current_session()
+			if session != null and session.is_initialized() and session.active_map() != null and not shell.menu_visible():
+				break
+			await tree.process_frame
+		await tree.process_frame
 		session = shell.runtime_host().current_session()
 		_check(session != null and touch.get_instance_id() == touch_id and shell.get_node("TouchCanvas").get_child_count() == 1, "Continue/New Game has exactly one persistent adapter")
 		ledger.edges.clear()
