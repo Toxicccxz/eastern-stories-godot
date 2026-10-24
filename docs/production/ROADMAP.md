@@ -68,8 +68,9 @@ only they or nobody use; `d/npc` (wizard-saved characters).
   floor holds them since 茅山 D (Snow's 桃符纸).
 * **Modern fixes** (2026-10-06, owner): ES2 behaviour that reads as a bug to today's players gets
   the reasonable behaviour as a recorded deviation (AGENTS.md); the first batch is done.
-* **Pacing**: `common/pacing.json`'s knobs are tuned from owner playtests; the slow stretch is a
-  new character's combat_exp from about 150 to 1001 (few opponents of the right strength).
+* **Pacing**: `common/pacing.json`'s knobs are tuned from owner playtests and the A2 simulation
+  (`tests/sim/`); A2 (DECISIONS「经验节奏」) fills a new character's 150 to 1001 with one-time 历练,
+  落后补偿 and, in PR B, the 雪亭驿 bounties and 武馆 木人.
 * **Maps**: every map is `tools/maps/layouts/` data drawn by the painter to the scale standard
   (`tools/maps/standard.json`: streets, doors, facades and room classes in body widths); a town
   shows its streets and facades, and every enterable room is on its building's own map behind its
@@ -114,7 +115,7 @@ accepted together at step 3, the owner's one full playtest; what it finds is fix
    for time taken, confusion and defects; dev launchers reach late content without grinding. The
    owner works through it once.
 4. **Fixes and pacing from the playtest.** The defect list, 润色 2, and the pending decisions
-   A2 (exp pacing, quest deadlines) and A6 (all-attack-at-once) from
+   A2's quest deadlines (exp pacing itself is under way: DECISIONS「经验节奏」) and A6 (all-attack-at-once) from
    [STATUS](STATUS.md#待决定).
 5. **The 游戏圣经.** First a one-page canon questionnaire for the owner (the dozen choices that
    fix the story: the emperor and 水烟阁, what 东方神教 wants, who betrayed 南危水, whether the
