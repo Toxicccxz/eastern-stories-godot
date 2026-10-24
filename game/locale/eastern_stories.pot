@@ -77,16 +77,6 @@ msgstr ""
 #. common.npc.beggar.master gender
 #. common.npc.scholar.master gender
 #. common.npc.chater2 gender
-#. native.npc.wooden_dummy.1 gender
-#. native.npc.wooden_dummy.2 gender
-#. native.npc.wooden_dummy.3 gender
-#. native.npc.wooden_dummy.4 gender
-#. native.npc.wooden_dummy.5 gender
-#. native.npc.outlaw.1 gender
-#. native.npc.outlaw.2 gender
-#. native.npc.outlaw.3 gender
-#. native.npc.outlaw.4 gender
-#. native.npc.outlaw.5 gender
 #. oldpine.npc.bandit gender
 #. oldpine.npc.tall_bandit gender
 #. oldpine.npc.fat_bandit gender
@@ -222,7 +212,17 @@ msgstr ""
 #. chuenyu.npc.smallgardener gender
 #. chuenyu.npc.cook gender
 #. chuenyu.npc.chuenyu gender
-#: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/native/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json
+#. native.npc.wooden_dummy.1 gender
+#. native.npc.wooden_dummy.2 gender
+#. native.npc.wooden_dummy.3 gender
+#. native.npc.wooden_dummy.4 gender
+#. native.npc.wooden_dummy.5 gender
+#. native.npc.outlaw.1 gender
+#. native.npc.outlaw.2 gender
+#. native.npc.outlaw.3 gender
+#. native.npc.outlaw.4 gender
+#. native.npc.outlaw.5 gender
+#: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/native/npcs.json
 msgid "男性"
 msgstr ""
 
@@ -7329,6 +7329,11 @@ msgstr ""
 msgid "你揭下了告示。"
 msgstr ""
 
+#. native (A2): the bounty board after the player gave a bounty up.
+#: runtime/world/services/bounty_service.gd
+msgid "你放弃了这张悬赏。"
+msgstr ""
+
 #: runtime/world/services/dance_service.gd
 msgid ""
 "这一曲要耗去 {sen} 点神，你现在撑不住，跳完就会昏过去。\n"
@@ -13517,125 +13522,6 @@ msgstr ""
 #. native.bounty/done text
 #: data/common/journal.json
 msgid "你第一次领到了雪亭驿的悬赏。告示上隔些时候就会贴出新的。"
-msgstr ""
-
-#. native.npc.wooden_dummy.1 name
-#: data/native/npcs.json
-msgid "木人（初阶）"
-msgstr ""
-
-#. native.npc.wooden_dummy.1 long
-#: data/native/npcs.json
-msgid ""
-"这是一具硬木削成的练功木人，手臂和腰身装著机括，一碰便会还手。胸前贴著一张褪色的红纸，写著「初阶」两个字，是武馆给初学的弟子拆招用的。\n"
-msgstr ""
-
-#. native.npc.wooden_dummy.1 accept_fight.emote
-#. native.npc.wooden_dummy.2 accept_fight.emote
-#. native.npc.wooden_dummy.3 accept_fight.emote
-#. native.npc.wooden_dummy.4 accept_fight.emote
-#. native.npc.wooden_dummy.5 accept_fight.emote
-#: data/native/npcs.json
-msgid "身上的机括「咔嗒」一响，摆好了架势。"
-msgstr ""
-
-#. native.npc.wooden_dummy.2 name
-#: data/native/npcs.json
-msgid "木人（二阶）"
-msgstr ""
-
-#. native.npc.wooden_dummy.2 long
-#: data/native/npcs.json
-msgid ""
-"这是一具硬木削成的练功木人，手臂和腰身装著机括，一碰便会还手。胸前的红纸写著「二阶」，木头上满是拳脚留下的印子。\n"
-msgstr ""
-
-#. native.npc.wooden_dummy.3 name
-#: data/native/npcs.json
-msgid "木人（三阶）"
-msgstr ""
-
-#. native.npc.wooden_dummy.3 long
-#: data/native/npcs.json
-msgid ""
-"这是一具铁木削成的练功木人，机括比旁边几具紧得多，还手又快又沉。胸前的红纸写著「三阶」。\n"
-msgstr ""
-
-#. native.npc.wooden_dummy.4 name
-#: data/native/npcs.json
-msgid "木人（四阶）"
-msgstr ""
-
-#. native.npc.wooden_dummy.4 long
-#: data/native/npcs.json
-msgid ""
-"这是一具铁木削成的练功木人，关节处包著铜皮，听说是柳馆主亲手调过机括的。胸前的红纸写著「四阶」。\n"
-msgstr ""
-
-#. native.npc.wooden_dummy.5 name
-#: data/native/npcs.json
-msgid "木人（五阶）"
-msgstr ""
-
-#. native.npc.wooden_dummy.5 long
-#: data/native/npcs.json
-msgid ""
-"这具木人通体乌黑，是一整块铁木雕成的，机括藏在里头看不见。胸前的红纸写著「五阶」，武馆里能把它打得摇晃的人没有几个。\n"
-msgstr ""
-
-#. native.npc.outlaw.1 name
-#: data/native/npcs.json
-msgid "流窜毛贼"
-msgstr ""
-
-#. native.npc.outlaw.1 long
-#: data/native/npcs.json
-msgid ""
-"一个贼眉鼠眼的毛贼，衣衫上补丁叠著补丁，腰间却鼓鼓囊囊的，不知又从谁家摸来了什么。雪亭驿的告示上正画著他的像。\n"
-msgstr ""
-
-#. native.npc.outlaw.2 name
-#: data/native/npcs.json
-msgid "剪径贼"
-msgstr ""
-
-#. native.npc.outlaw.2 long
-#: data/native/npcs.json
-msgid ""
-"一个满脸横肉的汉子，专在山路上拦人剪径，不知劫过多少过往的客商。雪亭驿的告示上正画著他的像。\n"
-msgstr ""
-
-#. native.npc.outlaw.3 name
-#: data/native/npcs.json
-msgid "采花贼"
-msgstr ""
-
-#. native.npc.outlaw.3 long
-#: data/native/npcs.json
-msgid ""
-"一个油头粉面的年轻人，手里摇著一柄折扇，眼神却阴鸷得很。官府悬赏捉拿他已有好些日子了。\n"
-msgstr ""
-
-#. native.npc.outlaw.4 name
-#: data/native/npcs.json
-msgid "江洋大盗"
-msgstr ""
-
-#. native.npc.outlaw.4 long
-#: data/native/npcs.json
-msgid ""
-"一个虬髯大汉，身上带著好几处刀疤，据说在江北做过好几票大买卖，官府悬了重赏要他的人头。\n"
-msgstr ""
-
-#. native.npc.outlaw.5 name
-#: data/native/npcs.json
-msgid "杀人魔头"
-msgstr ""
-
-#. native.npc.outlaw.5 long
-#: data/native/npcs.json
-msgid ""
-"一个面色青白的中年人，目光扫过来便叫人背脊发凉。告示上说他一夜之间屠了邻县一户人家，官府悬了最重的赏。\n"
 msgstr ""
 
 #. help.newbie title
@@ -31385,6 +31271,125 @@ msgstr ""
 #: data/death/world.json
 msgid ""
 "那人一句话也不说就往你这边撞过来, 你眼前一阵黑....\n"
+msgstr ""
+
+#. native.npc.wooden_dummy.1 name
+#: data/native/npcs.json
+msgid "木人（初阶）"
+msgstr ""
+
+#. native.npc.wooden_dummy.1 long
+#: data/native/npcs.json
+msgid ""
+"这是一具硬木削成的练功木人，手臂和腰身装著机括，一碰便会还手。胸前贴著一张褪色的红纸，写著「初阶」两个字，是武馆给初学的弟子拆招用的。\n"
+msgstr ""
+
+#. native.npc.wooden_dummy.1 accept_fight.emote
+#. native.npc.wooden_dummy.2 accept_fight.emote
+#. native.npc.wooden_dummy.3 accept_fight.emote
+#. native.npc.wooden_dummy.4 accept_fight.emote
+#. native.npc.wooden_dummy.5 accept_fight.emote
+#: data/native/npcs.json
+msgid "身上的机括「咔嗒」一响，摆好了架势。"
+msgstr ""
+
+#. native.npc.wooden_dummy.2 name
+#: data/native/npcs.json
+msgid "木人（二阶）"
+msgstr ""
+
+#. native.npc.wooden_dummy.2 long
+#: data/native/npcs.json
+msgid ""
+"这是一具硬木削成的练功木人，手臂和腰身装著机括，一碰便会还手。胸前的红纸写著「二阶」，木头上满是拳脚留下的印子。\n"
+msgstr ""
+
+#. native.npc.wooden_dummy.3 name
+#: data/native/npcs.json
+msgid "木人（三阶）"
+msgstr ""
+
+#. native.npc.wooden_dummy.3 long
+#: data/native/npcs.json
+msgid ""
+"这是一具铁木削成的练功木人，机括比旁边几具紧得多，还手又快又沉。胸前的红纸写著「三阶」。\n"
+msgstr ""
+
+#. native.npc.wooden_dummy.4 name
+#: data/native/npcs.json
+msgid "木人（四阶）"
+msgstr ""
+
+#. native.npc.wooden_dummy.4 long
+#: data/native/npcs.json
+msgid ""
+"这是一具铁木削成的练功木人，关节处包著铜皮，听说是柳馆主亲手调过机括的。胸前的红纸写著「四阶」。\n"
+msgstr ""
+
+#. native.npc.wooden_dummy.5 name
+#: data/native/npcs.json
+msgid "木人（五阶）"
+msgstr ""
+
+#. native.npc.wooden_dummy.5 long
+#: data/native/npcs.json
+msgid ""
+"这具木人通体乌黑，是一整块铁木雕成的，机括藏在里头看不见。胸前的红纸写著「五阶」，武馆里能把它打得摇晃的人没有几个。\n"
+msgstr ""
+
+#. native.npc.outlaw.1 name
+#: data/native/npcs.json
+msgid "流窜毛贼"
+msgstr ""
+
+#. native.npc.outlaw.1 long
+#: data/native/npcs.json
+msgid ""
+"一个贼眉鼠眼的毛贼，衣衫上补丁叠著补丁，腰间却鼓鼓囊囊的，不知又从谁家摸来了什么。雪亭驿的告示上正画著他的像。\n"
+msgstr ""
+
+#. native.npc.outlaw.2 name
+#: data/native/npcs.json
+msgid "剪径贼"
+msgstr ""
+
+#. native.npc.outlaw.2 long
+#: data/native/npcs.json
+msgid ""
+"一个满脸横肉的汉子，专在山路上拦人剪径，不知劫过多少过往的客商。雪亭驿的告示上正画著他的像。\n"
+msgstr ""
+
+#. native.npc.outlaw.3 name
+#: data/native/npcs.json
+msgid "采花贼"
+msgstr ""
+
+#. native.npc.outlaw.3 long
+#: data/native/npcs.json
+msgid ""
+"一个油头粉面的年轻人，手里摇著一柄折扇，眼神却阴鸷得很。官府悬赏捉拿他已有好些日子了。\n"
+msgstr ""
+
+#. native.npc.outlaw.4 name
+#: data/native/npcs.json
+msgid "江洋大盗"
+msgstr ""
+
+#. native.npc.outlaw.4 long
+#: data/native/npcs.json
+msgid ""
+"一个虬髯大汉，身上带著好几处刀疤，据说在江北做过好几票大买卖，官府悬了重赏要他的人头。\n"
+msgstr ""
+
+#. native.npc.outlaw.5 name
+#: data/native/npcs.json
+msgid "杀人魔头"
+msgstr ""
+
+#. native.npc.outlaw.5 long
+#: data/native/npcs.json
+msgid ""
+"一个面色青白的中年人，目光扫过来便叫人背脊发凉。告示上说他一夜之间屠了邻县一户人家，官府悬了最重的赏。\n"
 msgstr ""
 
 #: data/snow/voxel/herbshop_house.json

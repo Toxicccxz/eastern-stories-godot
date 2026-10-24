@@ -58,6 +58,9 @@ class GeneratedDataTest(unittest.TestCase):
         ghosts = []
         for path in sorted(ci.DATA.rglob('npcs.json')):
             for record in json.loads(path.read_text(encoding='utf-8')).get('npcs', []):
+                # Native content (data/native, A2) has no LPC source.
+                if record['legacy_source'].startswith('native:'):
+                    continue
                 source = ci.MUDLIB / record['legacy_source']
                 # A definition, not a call (d/death/npc/bgargoyle.c asks ob->is_ghost()).
                 if re.search(r'\bint\s+is_ghost\s*\(', source.read_text(encoding='utf-8', errors='replace')) and not record.get('ghost'):
