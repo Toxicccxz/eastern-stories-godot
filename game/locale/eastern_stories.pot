@@ -7284,54 +7284,8 @@ msgstr ""
 msgid "请输入范围内的正整数，不支持小数或自动取整。"
 msgstr ""
 
-#. native (A2): the 雪亭驿 bounty board's heading.
-#: runtime/world/services/bounty_service.gd
-msgid "官府悬赏：捉拿以下恶人者，赏银由雪亭驿代付。放过的恶人押送官府，一样领赏。"
-msgstr ""
-
 #: runtime/world/services/bounty_service.gd
 msgid "看榜"
-msgstr ""
-
-#. native (A2): the bounty board has nothing for the player now.
-#: runtime/world/services/bounty_service.gd
-msgid "榜上暂时没有与阁下相称的悬赏，过些时候再来看看吧。"
-msgstr ""
-
-#. native (A2): one bounty on the board: the outlaw, where it was last seen ({place} in {region}), its silver.
-#: runtime/world/services/bounty_service.gd
-msgid "{outlaw} · 出没于{region}{place}一带 · 赏银{silver}两"
-msgstr ""
-
-#: runtime/world/services/bounty_service.gd
-msgid "（已揭）"
-msgstr ""
-
-#. green.closed.landmark.fog action
-#. choyin.lionroom.landmark.dark action
-#. choyin.taolin.landmark.grove action
-#. village.lakebottom1.landmark.ice action
-#: runtime/world/services/bounty_service.gd data/green/world.json data/choyin/world.json data/village/world.json
-msgid "放弃"
-msgstr ""
-
-#: runtime/world/services/bounty_service.gd
-msgid "揭榜"
-msgstr ""
-
-#. native (A2): why 揭榜 is greyed: one bounty at a time.
-#: runtime/world/services/bounty_service.gd
-msgid "一次只能揭一张榜。"
-msgstr ""
-
-#. native (A2): the bounty board after the player took a bounty.
-#: runtime/world/services/bounty_service.gd
-msgid "你揭下了告示。"
-msgstr ""
-
-#. native (A2): the bounty board after the player gave a bounty up.
-#: runtime/world/services/bounty_service.gd
-msgid "你放弃了这张悬赏。"
 msgstr ""
 
 #: runtime/world/services/dance_service.gd
@@ -7822,6 +7776,52 @@ msgstr ""
 
 #: ui/teacher/teacher_panel.gd
 msgid "无法计算"
+msgstr ""
+
+#. native (A2): the 雪亭驿 bounty board's heading.
+#: ui/world/bounty_board_panel.gd
+msgid "官府悬赏：捉拿以下恶人者，赏银由雪亭驿代付。放过的恶人押送官府，一样领赏。"
+msgstr ""
+
+#. native (A2): the bounty board has nothing for the player now.
+#: ui/world/bounty_board_panel.gd
+msgid "榜上暂时没有与阁下相称的悬赏，过些时候再来看看吧。"
+msgstr ""
+
+#. native (A2): one bounty on the board: the outlaw, where it was last seen ({place} in {region}), its silver.
+#: ui/world/bounty_board_panel.gd
+msgid "{outlaw} · 出没于{region}{place}一带 · 赏银{silver}两"
+msgstr ""
+
+#: ui/world/bounty_board_panel.gd
+msgid "（已揭）"
+msgstr ""
+
+#. green.closed.landmark.fog action
+#. choyin.lionroom.landmark.dark action
+#. choyin.taolin.landmark.grove action
+#. village.lakebottom1.landmark.ice action
+#: ui/world/bounty_board_panel.gd data/green/world.json data/choyin/world.json data/village/world.json
+msgid "放弃"
+msgstr ""
+
+#: ui/world/bounty_board_panel.gd
+msgid "揭榜"
+msgstr ""
+
+#. native (A2): why 揭榜 is greyed: one bounty at a time.
+#: ui/world/bounty_board_panel.gd
+msgid "一次只能揭一张榜。"
+msgstr ""
+
+#. native (A2): the bounty board after the player took a bounty, or gave one up.
+#: ui/world/bounty_board_panel.gd
+msgid "你揭下了告示。"
+msgstr ""
+
+#. native (A2): the bounty board after the player took a bounty, or gave one up.
+#: ui/world/bounty_board_panel.gd
+msgid "你放弃了这张悬赏。"
 msgstr ""
 
 #. the 行贿 panel when the player carries no money.
