@@ -1,0 +1,47 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 19,
+  "palette": {
+    "wall": "a68a5f"
+  },
+  "light": {
+    "sky": ["4f463b", "15120f"],
+    "ambient": ["c7b69a", "8a8698"],
+    "ambient_energy": [0.5, 0.36]
+  },
+  "surfaces": {
+    "goathill.temple1": "path"
+  },
+  "ground": {
+    "path": {"colors": ["7f6a4d", "8a7454", "947d5b"]},
+    "wall_wood": {"colors": ["6e604c", "766652"]}
+  },
+  "wall_looks": [
+    {"rect": [-288, -224, 288, -176], "style": "rock", "colors": ["74644f", "826f57", "6a5b48", "8d7a5f"], "note": "利用了山壁而建: the north side is the mountain"},
+    {"rect": [-288, 160, 288, 208], "style": "rock", "colors": ["74644f", "826f57", "6a5b48", "8d7a5f"], "note": "and the south side"},
+    {"rect": [240, -176, 288, 160], "style": "earth", "colors": ["a68a5f", "98805a", "b19470"], "note": "只有东面一面土墙"},
+    {"rect": [-288, -176, -240, 160], "style": "earth", "colors": ["9c825a", "a68a5f", "8f7752"], "note": "the front, with its door"}
+  ],
+  "props": [
+    {"kind": "paper_charms", "at": [236, -100], "size": [96, 8], "rotation": -90, "count": 4, "height": 1.9, "wall_mounted": true, "note": "old charms either side of the niche"},
+    {"kind": "paper_charms", "at": [236, 92], "size": [80, 8], "rotation": -90, "count": 3, "height": 1.7, "wall_mounted": true},
+    {"kind": "cobweb", "at": [228, -168], "size": [40, 8], "rotation": 45, "height": 2.7},
+    {"kind": "cobweb", "at": [-232, 152], "size": [36, 8], "rotation": 45, "height": 2.5},
+    {"kind": "cobweb", "at": [228, 152], "size": [32, 8], "rotation": -45, "height": 2.8},
+    {"kind": "prayer_cushion", "at": [0, -34], "size": [28, 28]},
+    {"kind": "prayer_cushion", "at": [4, 16], "size": [28, 28], "worn": false},
+    {"kind": "straw_patch", "at": [150, -138], "size": [96, 64], "note": "黄霸 sleeps by his fire"},
+    {"kind": "bedroll", "at": [156, -138], "rotation": 90, "blanket": "5d4a3e"},
+    {"kind": "straw_patch", "at": [-196, -8], "size": [56, 52]},
+    {"kind": "rubble", "at": [-150, -160], "size": [72, 24], "count": 9},
+    {"kind": "rubble", "at": [64, 146], "size": [72, 24], "count": 8},
+    {"kind": "rubble", "at": [-196, 140], "size": [48, 28], "count": 6},
+    {"kind": "bones", "at": [-60, 120], "size": [36, 28], "skull": false, "count": 4, "ribs": false, "note": "gnawed bones from his meals"},
+    {"kind": "glow", "at": [-226, -8], "color": "e8dcc0", "day": 0.9, "night": 0.05, "range": 4.5, "height": 1.6, "note": "daylight through the door"}
+  ],
+  "actors": {
+    "default": {"coat": "7d6a4e"},
+    "goathill.npc.bandit_hwang": {"coat": "6b2f2a", "scale": 1.0}
+  }
+}

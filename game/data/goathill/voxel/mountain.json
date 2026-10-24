@@ -1,0 +1,168 @@
+{
+  "indoor": false,
+  "camera_size": 23,
+  "edge": {
+    "minimum_margin": 32,
+    "maximum_margin": 80,
+    "depth": 2.6,
+    "top": "6e6142",
+    "bottom": "5a4d3c",
+    "strata": ["8a7559", "9a8464", "7a6650"]
+  },
+  "light": {
+    "sky": ["7f8b8b", "111726"],
+    "ambient": ["c9b89c", "6d7ca6"],
+    "ambient_energy": [0.42, 0.3],
+    "sun": ["ffe2b8", "9db5ec"],
+    "sun_energy": [0.95, 0.34]
+  },
+  "cliffs": {
+    "low": 1.6,
+    "high": 5.2,
+    "rise": 170,
+    "step": 0.5,
+    "rough": 0.5,
+    "keep": 176,
+    "trim": ["cliff", "chasm", "forest"],
+    "grooves": 0.07,
+    "strata": ["6f6252", "82705a", "8f7b61", "9d8a6c", "7c6f5f", "8a7a63"],
+    "tops": ["5e5c3a", "6b6841", "787349", "857c50"],
+    "lifts": [
+      {"rect": [544, 1040, 672, 1176], "by": 3.0, "note": "the high north wall of the corner, its crack 三四丈 up"},
+      {"rect": [720, 1360, 992, 1424], "by": 1.5, "note": "the cleft the temple stands in"},
+      {"rect": [720, 1552, 992, 1616], "by": 1.5},
+      {"rect": [880, 1424, 992, 1552], "by": 2.0},
+      {"rect": [880, 300, 1200, 560], "by": 2.5, "note": "canyon2's north wall leaning over: the sky 遮去了七、八分"},
+      {"rect": [1100, 260, 1470, 520], "by": 2.0, "note": "canyon3, the steepest walls"},
+      {"rect": [1120, 880, 1260, 1000], "by": 2.0, "note": "under 飞火崖"},
+      {"rect": [768, 1248, 800, 1296], "by": -9.0, "note": "a low shelf of rock beside the corner: the bandits' stakes"},
+      {"rect": [672, 1344, 768, 1376], "by": -9.0, "note": "and behind the ledge, their flag"},
+      {"rect": [336, 2176, 512, 2336], "by": -1.0, "note": "lower banks where the road goes on out of the gully"}
+    ]
+  },
+  "reshape": [
+    {"rect": [384, 2176, 464, 2336], "to": "path", "note": "the road runs on south out of the gully, toward 雪亭镇"},
+    {"rect": [736, 1392, 960, 1424], "from": ["wall_wood"], "to": "cliff", "note": "the crack in the wall round the little temple"},
+    {"rect": [736, 1552, 960, 1584], "from": ["wall_wood"], "to": "cliff"},
+    {"rect": [880, 1424, 960, 1552], "from": ["wall_wood"], "to": "cliff"}
+  ],
+  "ground": {
+    "path": {"colors": ["9c8460", "a68d66", "b0976d"]},
+    "rock": {"style": "scree", "colors": ["93805f", "a08b68", "ab9670"], "gravel": 0.85, "stones": 0.08},
+    "grass": {"colors": ["6f6b3e", "7b7745", "88834c"]},
+    "boundary": {"style": "scree", "colors": ["86745a", "917e60", "9c8866"], "gravel": 0.5, "stones": 0.05},
+    "cave_floor": {"style": "scree", "colors": ["4a4038", "544a40", "5e5347"], "gravel": 0.4, "wet": true}
+  },
+  "ground_tints": {
+    "bank": "77733f",
+    "mud": "9a855e",
+    "chips": ["958670", "a59579", "b3a281"],
+    "dust": "b49c72",
+    "grit": "c2ad86"
+  },
+  "flora": {
+    "grass_density": 0.85,
+    "density": {"rock": 0.14, "path": 0.05, "boundary": 0.22},
+    "grass_colors": ["58592f", "77753a", "9a9150", "bfae69"],
+    "flower_colors": ["ede1b4", "d9a441", "c46a45", "9c8ac2"],
+    "flower_threshold": 0.18,
+    "blossom_trees": 0.0,
+    "tree_types": ["mountain_pine", "dead", "scrub", "scrub", "mountain_pine"],
+    "tree_kinds": ["forest"],
+    "tree_chance": 0.4,
+    "tree_spacing": 72,
+    "cliff_tufts": 0.22,
+    "cliff_flowers": 0.07,
+    "cliff_trees": 0.01,
+    "cliff_tree_types": ["scrub", "dead", "mountain_pine", "scrub"],
+    "outcrop_colors": ["8a755a", "9a8566", "7a6851"],
+    "wind": 0.24,
+    "butterflies": 2,
+    "meadows": [
+      {"rect": [240, 1568, 576, 1872], "on": ["path", "grass", "rock"], "scale": [0.95, 1.4], "density": 0.62, "note": "mroad2: 及膝的杂草 over the road itself"},
+      {"rect": [768, 1152, 1024, 1296], "on": ["grass", "rock", "cliff"], "below": 2.6, "scale": [1.8, 2.5], "density": 1.0, "tufts": 3, "note": "mroad5: 及腰的长草, rolling like waves"},
+      {"rect": [1024, 1152, 1264, 1376], "on": ["grass"], "scale": [1.1, 1.6], "density": 0.8, "note": "slope1's 杂草"}
+    ]
+  },
+  "ambience": {
+    "birds": [
+      {"at": [1100, 640], "radius": 230, "count": 2, "height": 11, "color": "4a3d33", "note": "hawks over the canyon"},
+      {"at": [600, 1480], "radius": 170, "count": 3, "height": 8, "color": "2a2522", "note": "crows over the temple and the corner"},
+      {"at": [420, 1980], "radius": 140, "count": 2, "height": 7.5, "color": "3b322b"}
+    ],
+    "dust": [
+      {"rect": [768, 1120, 1264, 1376], "count": 34, "color": "c9b58e", "wind": [1.0, -0.3]},
+      {"rect": [300, 1872, 560, 2200], "count": 22, "color": "c2ad84", "wind": [0.25, -1.0]},
+      {"rect": [940, 300, 1420, 900], "count": 26, "color": "bca77d", "wind": [-0.2, 1.0]}
+    ]
+  },
+  "buildings": [
+    {"rect": [736, 1424, 880, 1552], "portals": ["goathill.mroad3.east"], "note": "the little 土地庙 in the crack: earth walls, an old grey roof, no lamp, its door 黑漆漆",
+      "construction": "earth", "wall": "a68a5f", "bands": ["a68a5f", "98805a", "b19470"], "roof": "5b5850", "timber": "7a3b2c",
+      "height": 2.4, "roof_form": "hip", "rise": 1.0, "eave_lift": 0.3, "foundation": 0.3,
+      "porch": "none", "lanterns": false, "goods": "none", "doorway": "dark", "step": "8e8068"},
+    {"rect": [1184, 1216, 1248, 1296], "portals": [], "doors": [[1184, 1256]], "note": "the stone hut by the rock wall (冈哨; no room in the source)",
+      "construction": "rubble", "wall": "8a7c64", "stones": ["7e705a", "8f8066", "6f6350", "9d8d70"], "roof": "6a6656", "timber": "5c4a38",
+      "height": 2.3, "roof_form": "shed", "ridge": "z", "rise": 0.6, "foundation": 0.2,
+      "porch": "none", "lanterns": false, "goods": "none", "doorway": "dark"}
+  ],
+  "props": [
+    {"kind": "boulder", "at": [500, 2040], "size": [64, 52], "on_cliff": true, "note": "mroad1: 凹凹凸凸的山石"},
+    {"kind": "boulder", "at": [356, 2100], "size": [48, 40], "on_cliff": true},
+    {"kind": "boulder", "at": [488, 1900], "size": [44, 40], "on_cliff": true, "tall": 0.9},
+    {"kind": "standing_rock", "at": [330, 2010], "size": [40, 36], "height": 2.4, "on_cliff": true, "occludes": true},
+    {"kind": "standing_rock", "at": [520, 2150], "size": [36, 32], "height": 1.8, "on_cliff": true},
+    {"kind": "rock_pile", "at": [444, 2010], "size": [32, 28], "count": 7},
+    {"kind": "rock_pile", "at": [304, 1904], "size": [32, 28], "count": 6},
+    {"kind": "bones", "at": [452, 1940], "size": [40, 32], "on_cliff": true},
+    {"kind": "cairn", "at": [452, 2150], "on_cliff": true, "note": "a stone pile where the gully opens toward the town"},
+
+    {"kind": "cart_wheel", "at": [330, 1760], "note": "mroad2: no carts for a long time"},
+    {"kind": "trail", "points": [[396, 1860], [372, 1790], [356, 1730], [372, 1680], [420, 1640]], "color": "907b56", "note": "old cart ruts under the weeds"},
+    {"kind": "trail", "points": [[416, 1860], [392, 1790], [376, 1730], [392, 1680], [440, 1640]], "color": "907b56"},
+    {"kind": "trail", "points": [[340, 1712], [312, 1700], [292, 1676], [280, 1640]], "color": "a99169", "note": "a goat track into the wood"},
+    {"kind": "boulder", "at": [500, 1720], "size": [56, 44], "on_cliff": true},
+    {"kind": "dead_log", "at": [470, 1800], "size": [64, 20], "rotation": 30, "on_cliff": true},
+    {"kind": "cairn", "at": [470, 1590], "stones": 6, "note": "past here, 野羊山's ground: a stone pile with a goat skull on it"},
+    {"kind": "bones", "at": [482, 1606], "size": [32, 24], "ribs": false, "count": 2},
+
+    {"kind": "rough_steps", "at": [632, 1372], "size": [64, 92], "count": 6, "note": "mroad3: the steep pitch up to the corner"},
+    {"kind": "rubble", "at": [712, 1440], "size": [32, 32], "on_cliff": true},
+    {"kind": "glow", "at": [748, 1488], "color": "ffb26a", "day": 0.15, "night": 1.5, "range": 3.6, "height": 1.0, "flicker": 0.15, "note": "candlelight inside the dark doorway"},
+    {"kind": "boulder", "at": [520, 1400], "size": [48, 44], "on_cliff": true},
+
+    {"kind": "crack", "at": [600, 1174], "size": [26, 8], "from": 2.4, "to": 5.6, "note": "mroad4: the crack 离地约有三到四丈"},
+    {"kind": "barricade", "at": [784, 1272], "size": [64, 24], "rotation": 90, "on_cliff": true},
+    {"kind": "torch", "at": [784, 1256], "on_cliff": true, "height": 1.7},
+    {"kind": "banner", "at": [720, 1360], "on_cliff": true, "cloth": "7d3428", "height": 3.4},
+    {"kind": "bones", "at": [740, 1340], "size": [36, 28], "skull": false},
+
+    {"kind": "boulder", "at": [808, 1170], "size": [48, 44], "on_cliff": true, "tall": 0.95, "note": "mroad5: 许多大石, a fine place for an ambush"},
+    {"kind": "boulder", "at": [874, 1166], "size": [52, 46], "on_cliff": true, "tall": 0.95},
+    {"kind": "boulder", "at": [800, 1272], "size": [44, 40], "on_cliff": true},
+    {"kind": "boulder", "at": [870, 1280], "size": [56, 48], "on_cliff": true, "tall": 0.95},
+    {"kind": "boulder", "at": [946, 1270], "size": [44, 40], "on_cliff": true},
+
+    {"kind": "rock_pile", "at": [1150, 1336], "size": [36, 28], "count": 8, "note": "slope1: 乱石"},
+    {"kind": "bones", "at": [1100, 1300], "size": [36, 28], "skull": true},
+    {"kind": "torch", "at": [1176, 1210], "height": 1.6},
+    {"kind": "banner", "at": [1208, 1200], "on_cliff": true, "cloth": "8e3b2c", "height": 3.6, "note": "the look-out's flag on the rock by the hut"},
+    {"kind": "wine_jars", "at": [1232, 1308], "size": [40, 32], "on_cliff": true, "count": 4, "broken": 3},
+
+    {"kind": "crag", "at": [1170, 940], "size": [104, 88], "height": 10.0, "on_cliff": true, "occludes": true, "note": "飞火崖 over the canyon's mouth"},
+    {"kind": "stone_beam", "at": [1040, 872], "size": [236, 64], "height": 8.0, "occludes": true, "colors": ["7d7262", "8a7d6a", "6e6455", "958670"], "note": "the 五、六丈宽的石梁 across the canyon mouth, 摇摇欲坠"},
+    {"kind": "standing_rock", "at": [1110, 1060], "size": [36, 32], "height": 2.0, "on_cliff": true},
+
+    {"kind": "dry_stream", "points": [[1032, 900], [1060, 832], [1088, 752], [1084, 672], [1064, 592], [1072, 512], [1104, 456], [1160, 428], [1248, 424], [1336, 432]], "width": 30, "note": "canyon1-3: 乾涸的山涧"},
+    {"kind": "rock_pile", "at": [1200, 462], "size": [40, 30], "count": 9, "note": "canyon3: rockfall off the steep walls"},
+    {"kind": "rock_pile", "at": [1290, 470], "size": [36, 28], "count": 7},
+    {"kind": "cave_mouth", "at": [1416, 432], "size": [96, 32], "rotation": -90, "height": 2.8, "note": "the black hole in the east wall where something 蠕蠕而动"},
+    {"kind": "slime", "at": [1384, 440], "size": [40, 36], "color": "8c8749", "lobes": 3},
+    {"kind": "bones", "at": [1340, 462], "size": [40, 30]}
+  ],
+  "actors": {
+    "default": {"coat": "7d6a4e"},
+    "goathill.npc.bandit": {"coat": "5b4a3a"},
+    "goathill.npc.bandit_leader": {"coat": "7b3a2c", "hat": true}
+  }
+}
