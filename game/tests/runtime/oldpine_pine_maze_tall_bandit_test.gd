@@ -353,6 +353,8 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	_assert_true(HistoricalCombat.tick(controller).is_empty(), "idle Tall creates no combat opportunity")
 	_assert_eq(random.calls, 0, "idle Tall consumes zero Combat RNG")
 	controller.set_process(false)
+	# TEST-ONLY: the loot loop's fights are Tall alone (进门一起上 would bring Fat).
+	var aside: Array[NpcRuntimeState] = OldPineTestMap.stand_aside(controller, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, [tall.character_id])
 	# A teleport, not a walk: the zone follows the body before its presence reports it.
 	controller.player_body.set_world_location(controller.location_for_zone(OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID))
 	controller.player_body.global_position = OldPineTestMap.body(controller, "TallBandit").global_position
@@ -509,6 +511,7 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	var old_tall_state: CharacterState = tall.character_state
 	var old_long_id: StringName = long_sword.item_instance_id
 	var old_silver_id: StringName = silver.item_instance_id
+	OldPineTestMap.rejoin(aside)
 	controller.queue_free()
 	await tree.process_frame
 	var fresh: WorldMapController = _instantiate_scene(tree)
@@ -540,6 +543,8 @@ func _test_partial_tall_death_is_not_lootable(tree: SceneTree) -> void:
 		OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID,
 	))
 	_assert_true(controller.select_npc(tall.character_id), "partial Tall fixture selects exact Tall")
+	# TEST-ONLY: the partial-death fight is Tall alone (进门一起上 would bring Fat).
+	var aside: Array[NpcRuntimeState] = OldPineTestMap.stand_aside(controller, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, [tall.character_id])
 	_assert_eq(controller.attack_selected().outcome, CombatSliceInitiationResult.Outcome.COMPLETED, "partial Tall fixture starts lethal combat")
 	HistoricalCombat.set_running(controller, false)
 	var unknown: ItemInstance = ItemInstance.new(
@@ -569,6 +574,7 @@ func _test_partial_tall_death_is_not_lootable(tree: SceneTree) -> void:
 	_assert_false(controller.item_instance_index().has_snapshot(corpse.corpse_item_instance_id), "partial Tall corpse is absent from interaction index")
 	_assert_true(controller.corpse_view_for(corpse.corpse_item_instance_id) == null, "partial Tall corpse has no loot-range binding")
 	_assert_false(controller.select_corpse(corpse.corpse_item_instance_id), "partial Tall corpse cannot become loot target")
+	OldPineTestMap.rejoin(aside)
 	controller.queue_free()
 	await tree.process_frame
 

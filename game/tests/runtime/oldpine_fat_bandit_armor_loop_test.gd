@@ -124,12 +124,21 @@ func _test_live_fat_authority_and_stable_multi_aggression(tree: SceneTree) -> vo
 	fat_presence.body_entered.emit(controller.player_body)
 	_assert_eq(controller.aggression_adapter().pending_count(), 2, "actual overlapping Presence Areas queue Tall and Fat once each")
 	var starts: Array[CombatSliceInitiationResult] = controller.process_pending_aggression()
-	_assert_eq(starts.size(), 2, "overlapping Tall and Fat presences initiate both eligible aggressors")
-	if starts.size() == 2:
-		_assert_eq(starts[0].initiator_id, npcs[3].character_id, "multi-aggressor order follows map-local Tall insertion")
-		_assert_eq(starts[1].initiator_id, fat.character_id, "multi-aggressor order follows map-local Fat insertion")
+	# 进门一起上: both eligible aggressors fall on the player in one encounter, the player first, then stable ID order.
+	_assert_eq(starts.size(), 1, "overlapping Tall and Fat presences start one gang fight")
+	if starts.size() == 1:
+		_assert_eq(starts[0].outcome, CombatSliceInitiationResult.Outcome.COMPLETED, "the gang fight starts")
+	var encounter: CombatEncounter = controller.session.combat_encounter_coordinator().active_encounter()
+	var gang_ids: Array[StringName] = [npcs[3].character_id, fat.character_id]
+	gang_ids.sort_custom(func(first: StringName, second: StringName) -> bool: return String(first) < String(second))
+	gang_ids.push_front(controller.player_runtime().character_id)
+	var participant_ids: Array[StringName] = []
+	if encounter != null:
+		for participant: CombatParticipant in encounter.participants():
+			participant_ids.append(participant.participant_id)
+	_assert_eq(participant_ids, gang_ids, "multi-aggressor encounter holds the player, then Tall and Fat in stable ID order")
 	_assert_true(npcs[3].relationship.has_lethal_target(controller.player_runtime().character_id), "Tall relationship established")
-	_assert_true(fat.relationship.has_lethal_target(controller.player_runtime().character_id), "Fat relationship established independently")
+	_assert_true(fat.relationship.has_lethal_target(controller.player_runtime().character_id), "Fat relationship established in the same fight")
 	controller.queue_free()
 	await tree.process_frame
 
@@ -149,9 +158,12 @@ func _test_death_loot_player_wear_remove_and_reset(tree: SceneTree) -> void:
 	controller.player_body.global_position = (
 		OldPineTestMap.body(controller, "FatBandit").global_position + Vector2(50, 50)
 	)
+	# TEST-ONLY: the loot loop's fight is Fat alone (进门一起上 would bring Tall).
+	var aside: Array[NpcRuntimeState] = OldPineTestMap.stand_aside(controller, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, [fat.character_id])
 	await tree.physics_frame
 	await tree.physics_frame
 	var starts: Array[CombatSliceInitiationResult] = controller.process_pending_aggression()
+	OldPineTestMap.rejoin(aside)
 	_assert_eq(starts.size(), 1, "physical Fat presence produces one deferred aggression initiation")
 	if starts.size() == 1:
 		_assert_eq(starts[0].initiator_id, fat.character_id, "physical Fat presence initiates exact Fat runtime")

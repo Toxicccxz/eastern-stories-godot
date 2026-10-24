@@ -164,9 +164,16 @@ func _group(tree: SceneTree, count: int, manual: bool) -> void:
 			_check(npc.relationship.opponent_ids().is_empty() and npc.relationship.lethal_target_ids().is_empty(), "all enemy relationships cleared")
 		_check(map.collect_complete_combat_entry(CombatTriggerCause.Value.NPC_AGGRESSION).is_empty(), "thaw does not rearm same contact")
 		map.player_body.position += Vector2(500, 0)
-		map.collect_complete_combat_entry(CombatTriggerCause.Value.NPC_AGGRESSION)
+		map.hostilities.forget_spent()
 		map.player_body.position -= Vector2(500, 0)
-		_check(map.collect_complete_combat_entry(CombatTriggerCause.Value.NPC_AGGRESSION).size() == count + 1, "actual separated shapes then reentry rearm")
+		_check(map.collect_complete_combat_entry(CombatTriggerCause.Value.NPC_AGGRESSION).is_empty(), "out of reach and back within the place: still spent (进门一起上)")
+		# TEST-ONLY: the player leaves the place and comes back.
+		var here: WorldLocationState = session.player_runtime().world_location()
+		var away: StringName = OldPineWorldDefinitions.SLOPE_ZONE_ID if here.zone_id != OldPineWorldDefinitions.SLOPE_ZONE_ID else OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID
+		session.player_runtime().set_world_location(map.location_for_zone(away))
+		map.hostilities.forget_spent()
+		session.player_runtime().set_world_location(here)
+		_check(map.collect_complete_combat_entry(CombatTriggerCause.Value.NPC_AGGRESSION).size() == count + 1, "leaving the place and coming back rearms")
 	session.free()
 	await _settle(tree, 2)
 
@@ -179,7 +186,8 @@ func _refusals(tree: SceneTree) -> void:
 	snakes[1]._combat_available = false
 	snakes[2]._life_status = CharacterRuntimeLifeStatus.Value.DEAD
 	map.runtime_body_for_character(snakes[3].character_id).position += Vector2(500, 0)
-	_check(map.collect_complete_combat_entry(cause).size() == 2, "absent/unavailable/dead/non-contact excluded")
+	# Owner (A6 Q1): one out of reach in the same place joins the gang another started.
+	_check(map.collect_complete_combat_entry(cause).size() == 3, "absent/unavailable/dead excluded, the one out of reach in the place joins")
 	# A foreign combat location is never fixed up by admission.
 	snakes[4]._world_location = WorldLocationState.new(&"other", &"other", &"other", &"other")
 	_check(map.collect_complete_combat_entry(cause).is_empty(), "different combat location excluded")
@@ -204,8 +212,10 @@ func _rollback(tree: SceneTree) -> void:
 	_check(not coordinator.has_active_encounter() and coordinator.active_scheduler() == null and session.world_simulation_gate().is_open(), "no partial engine or freeze")
 	failing.fail_add_id = &""
 	snakes[4].relationship.add_opponent(&"unrelated")
-	_check(coordinator.start_complete_production(CombatTriggerCause.Value.NPC_AGGRESSION).outcome != CombatSliceInitiationResult.Outcome.COMPLETED, "third-party relation refuses full set")
-	_check(snakes[4].relationship.opponent_ids() == [&"unrelated"] and player.relationship.opponent_ids() == before, "conflict never erased")
+	# attack.c init(): one already fighting (is_fighting()) stays out; the rest come (进门一起上).
+	var started: CombatSliceInitiationResult = coordinator.start_complete_production(CombatTriggerCause.Value.NPC_AGGRESSION)
+	_check(started.outcome == CombatSliceInitiationResult.Outcome.COMPLETED and coordinator.active_encounter().participant_for(snakes[4].character_id) == null and coordinator.active_encounter().participants().size() == 5, "one fighting another stays out of the set")
+	_check(snakes[4].relationship.opponent_ids() == [&"unrelated"], "its own fight never erased")
 	session.free()
 	await _settle(tree, 2)
 

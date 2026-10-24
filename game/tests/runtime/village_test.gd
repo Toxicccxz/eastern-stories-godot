@@ -61,7 +61,6 @@ func _test_data() -> void:
 			_check(zone.room_ids().size() == 1 and catalog.room(zone.room_ids()[0]) != null, "%s: one room" % zone.zone_id)
 	_check(maps == MAPS, "26 rooms on the village's, its houses' (the remap), the lake's and the cave's maps: %s" % maps)
 	_check(catalog.region(&"village").display_name == "玉螺湖村", "the region is 玉螺湖村")
-	_check(catalog.zone(&"village.lakebottom2").combat_entry == &"complete_set", "the dragons' hall: all at once (默认)")
 	for id: StringName in [&"village.home.door", &"village.lordhouse1.door"]:
 		_check(catalog.door(id) != null and not catalog.door(id).starts_open, "%s shut" % id)
 	_check(catalog.door(&"village.lordhouse1.door").display_name == "田老财家大门" and catalog.door(&"village.home.door").display_name == "木门", "刘家's 木门, 田老财家大门")

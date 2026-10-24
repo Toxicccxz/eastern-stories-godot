@@ -1,5 +1,26 @@
 # Migration Decisions
 
+## 进门一起上 (A6, owner 批准 2026-10-24; Q1 整片区块, Q2 单个也给提示, Q3 通用喊话)
+
+- **ES2：** 玩家进房间时，房里每个 NPC 的 feature/attack.c `init()` 各判一次（hatred → vendetta →
+  aggressive → berserk），判中就 combatd.c `auto_fight()`：`call_out("start_"+type, 0)`，注释说这一拍是
+  给玩家「从凶徒中间溜过去」的机会；`start_*()` 时玩家已不在同一房间就作罢。所以同一房间的凶徒全部出手；
+  aggressive 和 vendetta 一声不出（只有 kill_ob 的「看起来X想杀死你！」），hatred 喊 catch_hunt_msg。
+- **以前：** 只有 9 个区块（老松寨三间和水潭、野羊山 mroad4、卧龙岗、刑房×2、冰龙厅）用
+  `combat_entry: complete_set`，户外只算圈子碰到玩家的；其余是一个打完再来下一个（京师六门、乔阴三门、
+  巨蟒池、古墓、福林楼西院、奈何桥、水烟阁二楼等约 19 处）。
+- **我们：** 一条规则，`combat_entry` 删除（写了就是 unknown field）。「一伙」= 此刻在玩家所在区块里、
+  见人就打的 NPC（hatred、vendetta、aggressive、买路钱到点的强盗；还在等买路钱的强盗跟着上）：其中一个
+  还没和玩家打过、够得着玩家（室内同屋，户外它的圈子），整伙进一场战斗，远近都算（owner Q1）。
+  518 个区块里 508 个就是一个原房间；合并的 10 个里没有住着两个原房间的凶徒（`hostile_gang_test`
+  核对）。hatred 的人只它杀、玩家还手，并喊 catch_hunt_msg，其余互杀，和以前单个出手一样。玩家自己的
+  攻击也带上这一伙。berserk 不算在内，照旧各自掷骰、两个人打（#68）；路人、同门、没仇的官兵、玩家这边的
+  召唤物和跟班都不算。
+- **偏离：打过的人等玩家离开这块地方再回来。** 打过（任何一场有玩家的战斗）的人，玩家还在它的区块里就
+  不再先出手，离开再回来才重新察觉（ES2 的 init 是进房间时跑）；户外以前走出圈子再进来就算，现在要
+  离开区块。一伙里有新来的人出手时，打过的照样跟上。
+- 战斗中世界停住，没人能走进门，所以「战斗中进门的人加入」碰不到，不做。
+
 ## 经验节奏 (A2, owner 批准 2026-10-24; Q1 分档潜能上限, Q2 打坐约 6 倍, Q3 放过也算)
 
 - **ES2：** combat_exp 只从 combatd.c `do_attack()` 来：打中、躲开或挡住比自己强的人才加 1（潜能只在
@@ -2073,6 +2094,7 @@ The region plan's first package (owner confirmed the order); what is placed wher
 - **The keep's three rooms enter fights as the Lake does** (`combat_entry: complete_set`, P2A-M):
   every aggressive guard in contact joins one encounter, as each one's init() kill_ob()s the
   player on arrival in ES2; a pair entry left guards standing beside the player after a fight.
+  Superseded by「进门一起上」(2026-10-24): every zone works so, `combat_entry` is gone.
 - **A beast's authored kee above its race's maximum raises the maximum** (wolf_dog.c: kee and
   eff_kee 200 at age 4, max_kee 50). LPC keeps eff_kee over max_kee; a resource state cannot.
   The dog fights with 200 kee as in ES2; it heals back to 200, not to 50.
@@ -3638,7 +3660,9 @@ balconies whose LPC sets outdoors (阳台, 观景台). An NPC that only may go b
 init()'s roll: 淳于怀太, the 福林楼 guards) rolls on the player's arrival in its room too.
 Once noticed, an NPC waits for the player to leave the room and come back (a flight stands
 where it was, as the circle's leaving and coming back); one that took no part in the fight
-that started meanwhile notices the player anew when it ends (the next 护院).
+that started meanwhile notices the player anew when it ends (the next 护院). Since「进门一起上」
+(2026-10-24) everyone there who attacks on sight comes at once, and outdoors too those who fought wait
+for the player to leave their zone.
 
 ## 地图重构 (owner, 2026-10-16)
 

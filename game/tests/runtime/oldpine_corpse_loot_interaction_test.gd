@@ -561,11 +561,14 @@ func _test_partial_death_does_not_activate_loot(tree: SceneTree) -> void:
 	))
 	var victim: NpcRuntimeState = controller.npc_runtimes()[0]
 	_assert_true(controller.select_npc(victim.character_id), "partial-death fixture selects a bandit")
+	# TEST-ONLY: the fixture's fight is the victim alone (进门一起上 would bring the slope's others).
+	var aside: Array[NpcRuntimeState] = OldPineTestMap.stand_aside(controller, OldPineWorldDefinitions.SLOPE_ZONE_ID, [victim.character_id])
 	_assert_eq(
 		controller.attack_selected().outcome,
 		CombatSliceInitiationResult.Outcome.COMPLETED,
 		"partial-death fixture starts lethal combat",
 	)
+	OldPineTestMap.rejoin(aside)
 	HistoricalCombat.set_running(controller, false)
 	controller.player_runtime().state.vitality.effective = -1
 	HistoricalCombat.tick(controller)
@@ -607,7 +610,10 @@ func _test_unconscious_consumes_gap_without_item(tree: SceneTree) -> void:
 		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	_assert_true(controller.select_npc(victim.character_id), "unconscious fixture selects a bandit")
+	# TEST-ONLY: the fixture's fight is the victim alone (进门一起上 would bring the slope's others).
+	var aside: Array[NpcRuntimeState] = OldPineTestMap.stand_aside(controller, OldPineWorldDefinitions.SLOPE_ZONE_ID, [victim.character_id])
 	_assert_eq(controller.attack_selected().outcome, CombatSliceInitiationResult.Outcome.COMPLETED, "unconscious fixture starts combat through normal boundary")
+	OldPineTestMap.rejoin(aside)
 	HistoricalCombat.set_running(controller, false)
 	controller.player_runtime().busy.start_busy(1)
 	victim.character_state.attributes.strength = 30
@@ -996,7 +1002,10 @@ func _kill_bandit(
 		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	controller.select_npc(victim.character_id)
+	# TEST-ONLY: the fixture's fight is the victim alone (进门一起上 would bring the slope's others).
+	var aside: Array[NpcRuntimeState] = OldPineTestMap.stand_aside(controller, OldPineWorldDefinitions.SLOPE_ZONE_ID, [victim.character_id])
 	controller.attack_selected()
+	OldPineTestMap.rejoin(aside)
 	HistoricalCombat.set_running(controller, false)
 	controller.player_runtime().busy.start_busy(1)
 	victim.character_state.attributes.strength = 30

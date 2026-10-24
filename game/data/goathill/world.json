@@ -12,7 +12,7 @@
 		{ "id": "goathill.mroad2", "map": "goathill.mountain", "rooms": ["es2:d/goathill/mroad2"] },
 		{ "id": "goathill.mroad3", "map": "goathill.mountain", "rooms": ["es2:d/goathill/mroad3"] },
 		{ "id": "goathill.temple1", "map": "goathill.temple_house", "indoors": true, "rooms": ["es2:d/goathill/temple1"] },
-		{ "id": "goathill.mroad4", "map": "goathill.mountain", "rooms": ["es2:d/goathill/mroad4"], "combat_entry": "complete_set" },
+		{ "id": "goathill.mroad4", "map": "goathill.mountain", "rooms": ["es2:d/goathill/mroad4"] },
 		{ "id": "goathill.mroad5", "map": "goathill.mountain", "rooms": ["es2:d/goathill/mroad5"] },
 		{ "id": "goathill.slope1", "map": "goathill.mountain", "rooms": ["es2:d/goathill/slope1"] },
 		{ "id": "goathill.mroad6", "map": "goathill.mountain", "rooms": ["es2:d/goathill/mroad6"] },

@@ -61,7 +61,6 @@ func _test_data() -> void:
 	_check(catalog.zone(&"cloud.dragonhill.hummock").map_id == &"cloud.outdoor" and catalog.zone(&"cloud.cross").map_id == &"cloud.outdoor" and catalog.zone(&"cloud.tearoom").map_id == &"cloud.tearoom_house" and catalog.zone(&"cloud.rich").map_id == &"cloud.rich_house" and catalog.zone(&"cloud.tearoom2").map_id == &"cloud.tearoom_upstairs" and catalog.zone(&"cloud.jiyuan2").map_id == &"cloud.jiyuan_upstairs" and catalog.zone(&"cloud.duchang2").map_id == &"cloud.duchang_upstairs", "the ridge and the town's streets on one map; each building (the remap) and each upper floor its own (owner)")
 	_check(catalog.zones_adjacent(&"snow.sroad1", &"cloud.dragonhill.nroad"), "Snow's 雪亭镇街道 south to 黄土路")
 	_check(catalog.zones_adjacent(&"cloud.dragonhill.shillfoot", &"cloud.entrance") and catalog.zones_adjacent(&"cloud.dragonhill.sroad", &"cloud.entrance") and catalog.zones_adjacent(&"cloud.dragonhill.sroad", &"cloud.dragonhill.shillfoot"), "南坡, the second 黄土路 and the town's entrance all lead to each other")
-	_check(catalog.zone(&"cloud.dragonhill.hummock").combat_entry == &"complete_set", "the two robbers on the ridge attack together")
 	var counts: Array[int] = []
 	# A spawn's id names the map it is on: a building's own since the remap.
 	for spawn_id: String in ["cloud.outdoor.hummock.gangsters", "cloud.butchery_house.butchery.flys", "cloud.yard_house.woodboxy.box_waiters",
@@ -274,11 +273,16 @@ func _test_toll_window(tree: SceneTree, session: WorldSessionController) -> void
 	robbers[0].set_flag(NpcDefinition.FLAG_FOUGHT_PLAYER, false) # TEST-ONLY
 	# Between the two (in both reaches), the first's time up and the second's not yet:
 	# both greetings come from the same arrival, so both attack (review on pacing knobs).
-	body.global_position = Vector2(ridge.get_center().x, ridge.position.y + 12) # out of reach: a new arrival
+	# Down off the ridge and back: a new arrival (those who fought wait until the player has
+	# left their place: DECISIONS「进门一起上」).
+	body.global_position = map.physical_zone(&"cloud.dragonhill.nroad").global_rect().get_center()
+	player.set_world_location(map.location_for_zone(&"cloud.dragonhill.nroad"))
 	await tree.physics_frame
 	await tree.physics_frame
 	map._process(0.0)
+	_check(map.hostilities.spent.is_empty(), "off the ridge: the robbers who fought may meet the player anew")
 	body.global_position = (robber_at + map.runtime_body_for_character(robbers[1].character_id).global_position) / 2.0
+	player.set_world_location(map.location_for_zone(&"cloud.dragonhill.hummock"))
 	await tree.physics_frame
 	await tree.physics_frame
 	map.hostilities.toll_contact_seconds[robbers[0].character_id] = delay * 0.6 # TEST-ONLY

@@ -57,7 +57,6 @@ func _test_data() -> void:
 	var hwang: NpcDefinition = catalog.npc(&"goathill.npc.bandit_hwang")
 	_check(hwang.skill_map().get(&"force") == &"serpentforce" and catalog.skill(&"serpentforce").standard_force_hit and catalog.skill(&"serpentforce").display_name == "伏蛟功", "黄霸's force is 伏蛟功, std/force.c's hit")
 	_check(hwang.attitude == NpcDefinition.Attitude.FRIENDLY and catalog.npc(&"goathill.npc.bandit").attitude == NpcDefinition.Attitude.AGGRESSIVE and catalog.npc(&"goathill.npc.worm").attitude == NpcDefinition.Attitude.PEACEFUL, "黄霸 friendly, the bandits aggressive, the leeches peaceful")
-	_check(catalog.zone(&"goathill.mroad4").combat_entry == &"complete_set", "the corner's four join one fight together")
 	var hammer: ItemContentDefinition = catalog.item(HAMMER)
 	_check(hammer.weapon_skill_type == &"hammer" and hammer.weapon_damage == 45 and hammer.can_wield_secondary and hammer.weapon_apply == {&"attack": -4, &"defense": 5, &"dodge": -13}, "大金槌: hammer 45, SECONDARY, attack -4, defense 5, dodge -40000/3000 (equip.c)")
 	_check(catalog.item(AXE).can_wield_secondary and catalog.item(AXE).weapon_skill_type == &"axe", "短斧: SECONDARY")

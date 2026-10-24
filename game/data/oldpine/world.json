@@ -24,7 +24,7 @@
 		{ "id": "oldpine.outdoor.cliffside", "map": "oldpine.outdoor", "rooms": ["es2:d/oldpine/cliffside"] },
 		{ "id": "oldpine.gorge.waterfall", "map": "oldpine.gorge", "rooms": ["es2:d/oldpine/waterfall"] },
 		{ "id": "oldpine.gorge.river", "map": "oldpine.gorge", "rooms": ["es2:d/oldpine/riverbank1", "es2:d/oldpine/riverbank2"] },
-		{ "id": "oldpine.gorge.lake", "map": "oldpine.gorge", "rooms": ["es2:d/oldpine/lake"], "combat_entry": "complete_set" },
+		{ "id": "oldpine.gorge.lake", "map": "oldpine.gorge", "rooms": ["es2:d/oldpine/lake"] },
 		{ "id": "oldpine.tree.canopy", "map": "oldpine.tree", "rooms": ["es2:d/oldpine/tree1", "es2:d/oldpine/tree2", "es2:d/oldpine/tree3"] },
 		{ "id": "oldpine.cliff.hole", "map": "oldpine.cliff", "rooms": ["es2:d/oldpine/cliff1"] },
 		{ "id": "oldpine.cave.waterfall_passage", "map": "oldpine.cave", "indoors": true, "rooms": ["es2:d/oldpine/passage"] },
@@ -33,9 +33,9 @@
 		{ "id": "oldpine.stone.top", "map": "oldpine.stone", "indoors": true, "rooms": ["es2:d/oldpine/stone"] },
 		{ "id": "oldpine.caves.maze", "map": "oldpine.caves", "indoors": true, "rooms": ["es2:d/oldpine/cave1", "es2:d/oldpine/cave2", "es2:d/oldpine/cave3", "es2:d/oldpine/cave4"], "links": ["oldpine.caves.mouth"] },
 		{ "id": "oldpine.caves.mouth", "map": "oldpine.caves", "indoors": true, "rooms": ["es2:d/oldpine/cave5"], "distinct": true },
-		{ "id": "oldpine.outdoor.keep_gate", "map": "oldpine.outdoor", "rooms": ["es2:d/oldpine/keep1"], "combat_entry": "complete_set" },
-		{ "id": "oldpine.outdoor.keep_yard", "map": "oldpine.outdoor", "rooms": ["es2:d/oldpine/keep2"], "combat_entry": "complete_set" },
-		{ "id": "oldpine.outdoor.keep_hall", "map": "oldpine.keep_hall", "indoors": true, "rooms": ["es2:d/oldpine/keep3"], "combat_entry": "complete_set", "distinct": true },
+		{ "id": "oldpine.outdoor.keep_gate", "map": "oldpine.outdoor", "rooms": ["es2:d/oldpine/keep1"] },
+		{ "id": "oldpine.outdoor.keep_yard", "map": "oldpine.outdoor", "rooms": ["es2:d/oldpine/keep2"] },
+		{ "id": "oldpine.outdoor.keep_hall", "map": "oldpine.keep_hall", "indoors": true, "rooms": ["es2:d/oldpine/keep3"], "distinct": true },
 		{ "id": "oldpine.cliff2.niche", "map": "oldpine.cliff2", "rooms": ["es2:d/oldpine/cliff2"] }
 	],
 	"portals": [

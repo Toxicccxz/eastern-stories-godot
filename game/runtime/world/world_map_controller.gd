@@ -440,12 +440,11 @@ func prepare_for_deactivation() -> void:
 	clear_passage_contacts()
 	selection.selected_target = null
 	hostilities.aggression.clear_all()
-	# The player left the map: whoever noticed them, or fought them in a complete-set room,
-	# meets them anew when they come back.
+	# The player left the map: whoever noticed them, or fought them, meets them anew when
+	# they come back.
 	hostilities.room_present.clear()
-	hostilities.complete_set_consumed_contacts.clear()
+	hostilities.spent.clear()
 	hostilities.toll_contact_seconds.clear()
-	hostilities.toll_waiting.clear()
 	if hud() != null:
 		hud().set_selected_target(null)
 		hud().close_loot()
@@ -918,12 +917,9 @@ func _process(delta: float) -> void:
 	if session != null and (session.world_time_held() or session.presentation_frozen()):
 		return
 	hostilities.refresh_room_presence()
-	for npc: NpcRuntimeState in npcs.residents:
-		if WorldMapHostilities.zone_entry(npc.world_location()) == &"complete_set" and not hostilities.complete_entry_contact(npc.character_id):
-			hostilities.complete_set_consumed_contacts.erase(npc.character_id)
+	hostilities.forget_spent()
 	hostilities.advance_toll_contacts(delta)
-	if hostilities.aggression.pending_count() > 0 or WorldMapHostilities.zone_entry(_player.world_location()) == &"complete_set":
-		hostilities.process_pending_aggression()
+	hostilities.process_pending_aggression()
 	if selection.selected_target != null and selection.selected_target.kind == WorldInteractionTarget.Kind.ITEM:
 		if floor_items.item_views.has(selection.selected_target.target_id):
 			floor_items.refresh_selected_floor_item()
@@ -1579,8 +1575,8 @@ func collect_complete_combat_entry(cause: int, requested_target: StringName = &"
 	return hostilities.collect_complete_combat_entry(cause, requested_target)
 
 
-func consume_complete_entry_contacts(ids: Array[StringName]) -> void:
-	hostilities.consume_complete_entry_contacts(ids)
+func kills_one_way(id: StringName, requested_target: StringName = &"") -> bool:
+	return hostilities.kills_one_way(id, requested_target)
 
 
 func attack_player_outside_fight(npc: NpcRuntimeState) -> CombatSliceOpportunityResult:

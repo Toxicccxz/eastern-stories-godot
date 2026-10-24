@@ -115,8 +115,8 @@ accepted together at step 3, the owner's one full playtest; what it finds is fix
    for time taken, confusion and defects; dev launchers reach late content without grinding. The
    owner works through it once.
 4. **Fixes and pacing from the playtest.** The defect list, 润色 2, and the pending decisions
-   A2's quest deadlines (exp pacing itself is under way: DECISIONS「经验节奏」) and A6 (all-attack-at-once) from
-   [STATUS](STATUS.md#待决定).
+   A2's quest deadlines (exp pacing itself is under way: DECISIONS「经验节奏」) from
+   [STATUS](STATUS.md#待决定); A6 (all-attack-at-once) is under way (DECISIONS「进门一起上」).
 5. **The 游戏圣经.** First a one-page canon questionnaire for the owner (the dozen choices that
    fix the story: the emperor and 水烟阁, what 东方神教 wants, who betrayed 南危水, whether the
    prophecy is real, what 岚城 is …), then the bible: timeline, politics and geography, each

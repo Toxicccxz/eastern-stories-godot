@@ -228,8 +228,6 @@ func _test_landmarks_water_and_pacing() -> void:
 		water.append(service.service_id)
 		_assert_eq(service.kind, &"water", "%s is a water source (resource/water)" % service.service_id)
 	_assert_eq(water.size(), 3, "waterfall, stream and lake are water sources (乔阴 D: riverbank1.c's resource/water)")
-	_assert_eq(catalog.zone(OldPineWorld.LAKE_ZONE_ID).combat_entry, &"complete_set", "Lake serpents enter as one set")
-	_assert_eq(catalog.zone(OldPineWorld.SLOPE_ZONE_ID).combat_entry, &"pair", "elsewhere fights start one pair at a time")
 	_assert_eq(catalog.spawn(&"oldpine.gorge.lake.serpents").presence_radius, 210, "serpent presence radius")
 	_assert_eq(catalog.spawn(&"oldpine.outdoor.spath1.bandits").presence_radius, 120, "default presence radius")
 
@@ -241,7 +239,7 @@ func _test_loader_rejects_broken_landmarks_and_pacing() -> void:
 		"regions": [{"id": "x", "name": "X"}],
 		"maps": [{"id": "x.one", "region": "x", "scene": "res://x.tscn", "entry": "x.s"}],
 		"zones": [
-			{"id": "x.a", "map": "x.one", "rooms": ["es2:d/x/a"], "combat_entry": "brawl"},
+			{"id": "x.a", "map": "x.one", "rooms": ["es2:d/x/a"], "combat_entry": "complete_set"},
 			{"id": "x.b", "map": "x.one", "rooms": ["es2:d/x/b"]},
 		],
 		"portals": [{"id": "x.up", "from_zone": "x.b", "to_zone": "x.a", "to_spawn": "x.s", "legacy_room": "es2:d/x/b", "legacy_command": "up"}],
@@ -256,7 +254,8 @@ func _test_loader_rejects_broken_landmarks_and_pacing() -> void:
 	_assert_true(builder.build() == null, "broken landmarks and pacing do not build")
 	var errors: String = "\n".join(builder.errors())
 	for expected: String in [
-		"l.json.zones[0].combat_entry: unsupported combat entry 'brawl'",
+		# 进门一起上: every zone's gang falls on the player together; the old knob is gone.
+		"l.json.zones[0].combat_entry: unknown field",
 		"l.json.landmarks[0].portals: 'x.up' does not leave from x.a",
 		"l.json.landmarks[1].portals: policy 'vine' needs 2 portal(s)",
 		"l.json.landmarks[1].messages: policy 'vine' needs exactly",

@@ -36,6 +36,24 @@ static func presence(map: WorldMapController, name: String) -> Area2D:
 	return body(map, name).get_node("AggressionPresence") as Area2D
 
 
+## TEST-ONLY: since 进门一起上 (DECISIONS) everyone in the player's zone who attacks on sight
+## comes into a fight together (the slope's three 探哨, the pine entrance's two 土匪). A suite
+## whose setup fight is the pair it was written for stands the others of `zone_id` aside
+## (combat unavailable) and gives them back with rejoin().
+static func stand_aside(map: WorldMapController, zone_id: StringName, keep: Array[StringName]) -> Array[NpcRuntimeState]:
+	var aside: Array[NpcRuntimeState] = []
+	for npc: NpcRuntimeState in map.npc_runtimes():
+		if npc.world_location().zone_id == zone_id and not keep.has(npc.character_id) and npc.combat_available and npc.definition().attacks_on_sight(npc.flags(), map.player_runtime().state):
+			npc._combat_available = false
+			aside.append(npc)
+	return aside
+
+
+static func rejoin(aside: Array[NpcRuntimeState]) -> void:
+	for npc: NpcRuntimeState in aside:
+		npc._combat_available = true
+
+
 ## The presence Area of spawned NPC `index` (spawn order) reports `other`.
 static func presence_entered(map: WorldMapController, index: int, other: Node2D) -> void:
 	map.hostilities.on_presence_entered(other, map.npc_runtimes()[index].character_id)

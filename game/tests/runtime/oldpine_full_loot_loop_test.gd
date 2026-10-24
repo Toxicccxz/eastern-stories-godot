@@ -176,7 +176,10 @@ func _test_full_loot_inventory_equip_second_fight_loop(
 		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	_assert_true(controller.select_npc(second.character_id), "second bandit becomes current world target")
+	# TEST-ONLY: the second fight is this bandit alone (进门一起上 would bring the third).
+	var aside: Array[NpcRuntimeState] = OldPineTestMap.stand_aside(controller, OldPineWorldDefinitions.SLOPE_ZONE_ID, [second.character_id])
 	_assert_eq(controller.attack_selected().outcome, CombatSliceInitiationResult.Outcome.COMPLETED, "second fight starts through world combat initiation")
+	OldPineTestMap.rejoin(aside)
 	HistoricalCombat.set_running(controller, false)
 	var actual_apply_damage: int = -1
 	for _tick: int in range(12):
@@ -322,11 +325,14 @@ func _test_weapon_switch_during_live_combat_and_unsupported_gate(
 		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	_assert_true(controller.select_npc(opponent.character_id), "live-combat fixture selects first bandit")
+	# TEST-ONLY: the fixture's fight is the opponent alone (进门一起上 would bring the slope's others).
+	var aside: Array[NpcRuntimeState] = OldPineTestMap.stand_aside(controller, OldPineWorldDefinitions.SLOPE_ZONE_ID, [opponent.character_id])
 	_assert_eq(
 		controller.attack_selected().outcome,
 		CombatSliceInitiationResult.Outcome.COMPLETED,
 		"live-combat fixture establishes real reciprocal lethal fight",
 	)
+	OldPineTestMap.rejoin(aside)
 	HistoricalCombat.set_running(controller, false)
 	_assert_true(
 		controller.player_runtime().relationship.is_fighting(),
@@ -466,7 +472,10 @@ func _kill_bandit(
 		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	controller.select_npc(victim.character_id)
+	# TEST-ONLY: the fixture's fight is the victim alone (进门一起上 would bring the slope's others).
+	var aside: Array[NpcRuntimeState] = OldPineTestMap.stand_aside(controller, OldPineWorldDefinitions.SLOPE_ZONE_ID, [victim.character_id])
 	controller.attack_selected()
+	OldPineTestMap.rejoin(aside)
 	HistoricalCombat.set_running(controller, false)
 	controller.player_runtime().busy.start_busy(1)
 	victim.character_state.attributes.strength = 30

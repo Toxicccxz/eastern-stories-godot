@@ -514,6 +514,8 @@ func _test_deferred_aggression_and_deduplication(tree: SceneTree) -> void:
 		OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.SLOPE_ZONE_ID,
 	))
 	var npc: NpcRuntimeState = controller.npc_runtimes()[0]
+	# TEST-ONLY: the deferred fight is bandit 1 alone (进门一起上 would bring the slope's others).
+	var aside: Array[NpcRuntimeState] = OldPineTestMap.stand_aside(controller, OldPineWorldDefinitions.SLOPE_ZONE_ID, [npc.character_id])
 	OldPineTestMap.presence_entered(controller, 0, controller.player_body)
 	_assert_true(controller.aggression_adapter().has_pending(npc.character_id), "presence queues one zero-delay opportunity")
 	_assert_false(npc.relationship.is_fighting(), "presence callback itself mutates no relationship")
@@ -537,6 +539,7 @@ func _test_deferred_aggression_and_deduplication(tree: SceneTree) -> void:
 	_assert_eq(controller.last_aggression_initiations().size(), 1, "successful pending fires exactly once")
 	OldPineTestMap.presence_exited(controller, 0, controller.player_body)
 	_assert_true(npc.relationship.is_fighting(), "presence exit does not clear established combat")
+	OldPineTestMap.rejoin(aside)
 	OldPineTestMap.presence_entered(controller, 1, OldPineTestMap.body(controller, "Bandit01"))
 	_assert_eq(controller.aggression_adapter().pending_count(), 0, "non-player body never becomes aggression target")
 	controller.queue_free()
@@ -666,6 +669,8 @@ func _test_area_escape_and_current_authority_rechecks(tree: SceneTree) -> void:
 	var changed_npc: NpcRuntimeState = changed.npc_runtimes()[0]
 	OldPineTestMap.presence_entered(changed, 0, changed.player_body)
 	changed.select_npc(changed_npc.character_id)
+	# TEST-ONLY: the manual fight is bandit 1 alone (进门一起上 would bring the slope's others).
+	var changed_aside: Array[NpcRuntimeState] = OldPineTestMap.stand_aside(changed, OldPineWorldDefinitions.SLOPE_ZONE_ID, [changed_npc.character_id])
 	_assert_eq(
 		changed.attack_selected().outcome,
 		CombatSliceInitiationResult.Outcome.COMPLETED,
@@ -686,6 +691,7 @@ func _test_area_escape_and_current_authority_rechecks(tree: SceneTree) -> void:
 	)
 	_assert_eq(already_fighting.outcome, NpcAggressionDecision.Outcome.NPC_ALREADY_FIGHTING, "already-fighting NPC never enters pending")
 	_assert_eq(changed.aggression_adapter().pending_count(), 0, "already-fighting enter adds no duplicate pending")
+	OldPineTestMap.rejoin(changed_aside)
 	changed.queue_free()
 	await tree.process_frame
 
@@ -740,7 +746,11 @@ func _test_player_already_fighting_and_timer_semantics(tree: SceneTree) -> void:
 	))
 	var npcs: Array[NpcRuntimeState] = controller.npc_runtimes()
 	controller.select_npc(npcs[0].character_id)
+	# TEST-ONLY: each fight is one pair (进门一起上 would bring the slope's others): bandit 1 first, then bandit 2 alone.
+	var aside: Array[NpcRuntimeState] = OldPineTestMap.stand_aside(controller, OldPineWorldDefinitions.SLOPE_ZONE_ID, [npcs[0].character_id])
 	_assert_eq(controller.attack_selected().outcome, CombatSliceInitiationResult.Outcome.COMPLETED, "first manual opponent establishes player combat")
+	OldPineTestMap.rejoin(aside)
+	aside = OldPineTestMap.stand_aside(controller, OldPineWorldDefinitions.SLOPE_ZONE_ID, [npcs[1].character_id])
 	HistoricalCombat.set_running(controller, true)
 	var queued: NpcAggressionDecision = OldPineTestMap.queue_presence(controller, 
 		1,
@@ -757,6 +767,7 @@ func _test_player_already_fighting_and_timer_semantics(tree: SceneTree) -> void:
 	_assert_eq(repeated.outcome, CombatSliceInitiationResult.Outcome.COMPLETED, "manual Attack after aggression remains idempotently accepted")
 	_assert_true(HistoricalCombat.cadence_running(controller), "idempotent manual Attack keeps the cadence running")
 	_assert_eq(controller.player_runtime().relationship.opponent_ids().size(), 2, "idempotent manual Attack adds no duplicate opponent")
+	OldPineTestMap.rejoin(aside)
 	controller.queue_free()
 	await tree.process_frame
 
@@ -775,12 +786,18 @@ func _test_multiple_bandits_are_stable_and_rng_free(tree: SceneTree) -> void:
 	OldPineTestMap.presence_entered(controller, 1, controller.player_body)
 	_assert_eq(controller.aggression_adapter().pending_count(), 3, "three overlapping presences queue independently")
 	var results: Array[CombatSliceInitiationResult] = controller.process_pending_aggression()
-	_assert_eq(results.size(), 3, "all three authored aggressors initiate")
+	# 进门一起上: the three fall on the player in one encounter, the player first, then stable (spawn = ID) order.
+	_assert_eq(results.size(), 1, "all three authored aggressors start one gang fight")
 	var npcs: Array[NpcRuntimeState] = controller.npc_runtimes()
-	for index: int in range(3):
-		_assert_eq(results[index].initiator_id, npcs[index].character_id, "multi-aggression follows stable spawn order %d" % index)
-		_assert_eq(results[index].target_id, controller.player_runtime().character_id, "multi-aggression target remains player")
-		_assert_eq(results[index].outcome, CombatSliceInitiationResult.Outcome.COMPLETED, "multi-aggression uses completed lethal path")
+	if results.size() == 1:
+		_assert_eq(results[0].target_id, controller.player_runtime().character_id, "multi-aggression target remains player")
+		_assert_eq(results[0].outcome, CombatSliceInitiationResult.Outcome.COMPLETED, "multi-aggression uses completed lethal path")
+	var encounter: CombatEncounter = controller.session.combat_encounter_coordinator().active_encounter()
+	var participant_ids: Array[StringName] = []
+	if encounter != null:
+		for participant: CombatParticipant in encounter.participants():
+			participant_ids.append(participant.participant_id)
+	_assert_eq(participant_ids, [controller.player_runtime().character_id, npcs[0].character_id, npcs[1].character_id, npcs[2].character_id] as Array[StringName], "multi-aggression encounter follows stable spawn order")
 	_assert_eq(random.call_count(), 0, "aggression initiation consumes no combat RNG")
 	_assert_eq(
 		controller.npc_random_source().next_below(1000),
@@ -804,6 +821,8 @@ func _test_aggressive_death_and_fresh_scene_boundary(tree: SceneTree) -> void:
 	var victim_body: WorldCharacterBody2D = OldPineTestMap.body(controller, "Bandit01")
 	var presence: Area2D = OldPineTestMap.body(controller, "Bandit01").get_node("AggressionPresence") as Area2D
 	controller.set_process(false)
+	# TEST-ONLY: the death fixture's fight is bandit 1 alone (进门一起上 would bring the slope's others).
+	var aside: Array[NpcRuntimeState] = OldPineTestMap.stand_aside(controller, OldPineWorldDefinitions.SLOPE_ZONE_ID, [victim.character_id])
 	controller.player_body.global_position = victim_body.global_position
 	await tree.physics_frame
 	await tree.physics_frame
@@ -855,6 +874,7 @@ func _test_aggressive_death_and_fresh_scene_boundary(tree: SceneTree) -> void:
 	var old_adapter: NpcAggressionAdapter = controller.aggression_adapter()
 	var old_npc_random: NpcInitializationRandomSource = controller.npc_random_source()
 	var old_combat_random: CombatRandomSource = controller.combat_random_source()
+	OldPineTestMap.rejoin(aside)
 	controller.queue_free()
 	await tree.process_frame
 

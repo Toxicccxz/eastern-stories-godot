@@ -243,6 +243,8 @@ func _test_complete_physical_route_and_authority_preservation(
 		_assert_true(npcs_after[index] == npc_authorities[index], "route preserves NPC authority identity %d" % index)
 		_assert_eq(npcs_after[index].character_state.vitality.current, npc_vitality_before[index], "route preserves NPC vitality %d" % index)
 		_assert_eq(_npc_item_ids(npcs_after[index]), npc_item_ids_before[index], "route preserves exact NPC item identities %d" % index)
+	# TEST-ONLY: the route's fight is Tall alone until Pine Deep (进门一起上 would bring Fat).
+	var aside: Array[NpcRuntimeState] = OldPineTestMap.stand_aside(outdoor, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, [outdoor.npc_runtimes()[3].character_id])
 	_assert_true(await _walk(outdoor.player_body, Vector2(435, 1000), tree), "player physically enters existing Tall aggression Presence")
 	await _settle(tree)
 	var pending_initiations: Array[CombatSliceInitiationResult] = outdoor.process_pending_aggression()
@@ -251,6 +253,7 @@ func _test_complete_physical_route_and_authority_preservation(
 	_assert_true(await _walk(outdoor.player_body, Vector2(-150, 690), tree), "complete route reaches Pine Deep without teleport, round the bandits' bodies")
 	await _settle(tree)
 	_assert_eq(player.world_location().zone_id, OldPineWorldDefinitions.PINE_DEEP_ZONE_ID, "complete Waterfall-to-Pine route ends in Pine Deep")
+	OldPineTestMap.rejoin(aside)
 	var old_maps: Array[WeakRef] = [weakref(outdoor), weakref(gorge), weakref(cliff)]
 	var old_rngs: Array[Variant] = [session.npc_random_source(), session.combat_random_source(), session.world_interaction_random_source()]
 	await _free_session(session, tree)
