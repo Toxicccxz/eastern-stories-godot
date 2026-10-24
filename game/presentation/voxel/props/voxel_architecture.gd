@@ -201,7 +201,13 @@ func _entrance(body: Node3D, door: Vector3, w: float, d: float, data: Dictionary
 			shapes.lantern(front,Vector3(x*1.23,2.15,0.25))
 	shapes.box(front,Vector3(0,2.68,0),Vector3(2.55,0.25,0.38),timber)
 	shapes.box(front,Vector3(0,0.025,0),Vector3(2.2,0.07,1.0),String(data.get("step","b7b091")))
-	if data.get("doorway","")=="dark":
+	if data.get("doorway","")=="shut":
+		# A door nobody goes through stays shut: planks, a bar across.
+		shapes.box(front,Vector3(0,1.15,-0.05),Vector3(1.9,2.3,0.14),String(data.get("leaf","6b5038")))
+		for plank: int in 5:
+			shapes.box(front,Vector3(-0.76+plank*0.38,1.15,0.03),Vector3(0.05,2.2,0.04),"4f3c2c")
+		shapes.box(front,Vector3(0,1.2,0.07),Vector3(2.1,0.14,0.08),"3f3226")
+	elif data.get("doorway","")=="dark":
 		# An unlit doorway (黑漆漆): black within, one leaf hanging open on a hinge.
 		shapes.box(front,Vector3(0,1.2,-0.3),Vector3(2.0,2.4,0.5),"14110f")
 		shapes.tilted_box(front,Vector3(-0.75,1.1,0.25),Vector3(0.75,2.1,0.08),String(data.get("leaf","6b5038")),Vector3(0,-0.9,0))

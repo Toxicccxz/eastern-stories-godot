@@ -44,10 +44,10 @@ func configure(data: Dictionary) -> void:
 			var mote := Node3D.new()
 			add_child(mote)
 			shapes.box(mote,Vector3.ZERO,Vector3(0.07,0.05,0.07),String(cloud.get("color","c8b48a")))
-			var seed: float = i*12.9898
+			var phase: float = i*12.9898
 			_motes.append({"node":mote,"x0":float(r[0])/32.0,"z0":float(r[1])/32.0,"w":(float(r[2])-float(r[0]))/32.0,"d":(float(r[3])-float(r[1]))/32.0,
-				"u":fposmod(sin(seed)*43758.5,1.0),"v":fposmod(sin(seed*1.7)*24634.6,1.0),"h":0.2+fposmod(sin(seed*2.3)*1531.2,1.0)*1.6,
-				"wind":Vector2(float(wind[0]),float(wind[1])),"speed":0.06+fposmod(sin(seed*3.1)*812.7,1.0)*0.08})
+				"u":fposmod(sin(phase)*43758.5,1.0),"v":fposmod(sin(phase*1.7)*24634.6,1.0),"h":0.2+fposmod(sin(phase*2.3)*1531.2,1.0)*1.6,
+				"wind":Vector2(float(wind[0]),float(wind[1])),"speed":0.06+fposmod(sin(phase*3.1)*812.7,1.0)*0.08})
 	shapes.flush()
 
 ## Grey puffs rising from a fire's (local) point, swelling and thinning as they go.

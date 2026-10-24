@@ -78,8 +78,8 @@ only they or nobody use; `d/npc` (wizard-saved characters).
   richness standard (AGENTS.md「Maps and art」); furniture is a blocked box with a `look` in the
   layout, decor is the map's `game/data/<region>/voxel/<map>.json`.
 * **Presentation**: the voxel maps (below), characters and animation, audio, consistent Chinese UI.
-* **Voxel maps** (owner, 2026-10-22): 雪亭镇's inn (both floors) and street are done. Next, region by
-  region in the table's order: Snow's shops and rooms, then each region's maps, every room dressed
+* **Voxel maps** (owner, 2026-10-22): 雪亭镇 (every map) and 野羊山 (road, caverns, temple; the
+  wild-mountain and cave kit) are done. Next, region by region in the table's order, every room dressed
   and lit; per region a mobile frame-rate check (Android export) before moving on.
 
 ## After the grey box

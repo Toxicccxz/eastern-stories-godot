@@ -377,6 +377,7 @@ func _make_entrances() -> void:
 		holder.position = VoxelMapGeometry.point(door.wall_shape().global_position)
 		world.add_child(holder)
 		arrows[id] = _arrow(holder,Vector2.ZERO)
+		arrows[id].set_meta("door",true)
 
 ## Out of the room the passage belongs to: across its thin side, away from that room's middle.
 func _outward(passage: WorldPassageArea2D) -> Vector2:
@@ -439,7 +440,8 @@ func _bob_arrows(delta: float) -> void:
 			near = (arrow.get_parent() as Node3D).visible
 		arrow.visible = near
 		arrow.rotation.y = atan2(direction.x,direction.y)
-		arrow.position.y = 0.8+sin(_arrow_clock*3.2)*0.14
+		# A door's floats over its lintel, clear of the shut leaf; a passage's over the floor.
+		arrow.position.y = (2.75 if arrow.get_meta("door",false) else 0.8)+sin(_arrow_clock*3.2)*0.14
 
 func _make_shutters() -> void:
 	for id: StringName in map.doors_by_id:

@@ -9,6 +9,10 @@ const Still := preload("res://tests/runtime/snow_south_road_test.gd")
 const Existing := preload("res://tests/presentation/voxel_gameplay_test.gd")
 const Crawler := preload("res://presentation/voxel/actors/voxel_crawler.gd")
 const BANDITS: Array[StringName] = [&"goathill.npc.bandit", &"goathill.npc.bandit_leader"]
+## Decor tall enough to walk into: in a voxel config it must stand on rock (anything on
+## walkable ground is a blocked box in the layout instead).
+const TALL: Array[String] = ["torch", "cairn", "banner", "standing_rock", "boulder", "crag", "barricade",
+	"wine_jars", "stalagmites", "dead_log", "lean_to", "loot_crates", "campfire"]
 var assertions: int = 0
 var failures: Array[String] = []
 
@@ -32,14 +36,16 @@ func run_all(tree: SceneTree) -> Dictionary:
 	await _frames(tree, 4)
 	var mountain := MapPlaces.enter(session, &"goathill.mroad1", &"goathill.mroad1.snow_entry")
 	_check(mountain != null, "on 野羊山's mroad1")
-	await _frames(tree, 4)
-	await _check_mountain(tree, session, mountain)
-	await _check_caverns(tree, session, mountain)
-	await _check_temple(tree, session)
+	if mountain != null:
+		await _frames(tree, 4)
+		await _check_mountain(tree, session, mountain)
+		await _check_caverns(tree, session, mountain)
+		await _check_temple(tree, session)
+	# The shared definitions as they were, for any suite run after this one in the process.
 	for id: StringName in BANDITS:
 		var npc: NpcDefinition = GameContent.catalog().npc(id)
 		npc.attitude = aggressive[id][0]
-		if aggressive[id][1]:
+		if aggressive[id][1] and not npc.has_capability(NpcDefinition.CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE):
 			npc._capability_ids.append(NpcDefinition.CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE)
 	session.free()
 	await _frames(tree, 2)
@@ -50,6 +56,7 @@ func _check_mountain(tree: SceneTree, session: WorldSessionController, map: Worl
 	var view := map.get_node("MapView") as WorldVoxelView
 	_check(map.projected_view and view.camera.current, "the mountain road uses its voxel view")
 	_check(view.geometry.unknown_kinds.is_empty(), "every mountain prop kind is drawn: %s" % [view.geometry.unknown_kinds])
+	_check_footing(view, "the mountain")
 	var cliffs: VoxelCliffs = view.geometry.cliffs
 	_check(cliffs != null and cliffs.heights.size() > 500 and cliffs.face_count > 1000, "the cliffs stand as raised rock")
 	var occluding: bool = false
@@ -74,12 +81,12 @@ func _check_mountain(tree: SceneTree, session: WorldSessionController, map: Worl
 		var arrow: Node3D = view.arrows.get(row[0])
 		_check(arrow != null and arrow.get_meta("direction") == row[1], "the exit arrow of %s points out of its room: %s" % [row[0], arrow.get_meta("direction") if arrow != null else null])
 	_check(view.geometry.ambience._birds.size() >= 5 and view.geometry.ambience._puffs.size() >= 6, "birds wheel overhead and the look-out's fire smokes")
-	var arrow: Node3D = view.arrows[&"goathill.mroad1.south"]
+	var arrow: Node3D = view.arrows.get(&"goathill.mroad1.south")
 	var heights: Array[float] = []
 	for _step: int in range(3):
-		heights.append(arrow.position.y)
+		heights.append(arrow.position.y if arrow != null else 0.0)
 		await _frames(tree, 12)
-	_check(arrow.visible and heights[0] != heights[1] and heights[1] != heights[2], "the arrow by the near exit shows and bobs: %s" % [heights])
+	_check(arrow != null and arrow.visible and heights[0] != heights[1] and heights[1] != heights[2], "the arrow by the near exit shows and bobs: %s" % [heights])
 	var road: Array[StringName] = [&"goathill.mroad2", &"goathill.mroad3", &"goathill.mroad4", &"goathill.mroad5", &"goathill.slope1", &"goathill.mroad6", &"goathill.canyon1", &"goathill.canyon2", &"goathill.canyon3"]
 	for zone: StringName in road:
 		_check(await MapPlaces.drive_to_zone(tree, map, zone), "walk the road into " + String(zone))
@@ -111,6 +118,8 @@ func _check_caverns(tree: SceneTree, session: WorldSessionController, mountain: 
 	_check(map.map_id() == &"goathill.caverns" and map.projected_view and view.camera.current, "the caverns take over the voxel camera")
 	_check(view.geometry.unknown_kinds.is_empty(), "every cave prop kind is drawn: %s" % [view.geometry.unknown_kinds])
 	_check(view.lighting.carried != null and view.geometry.cliffs != null, "a light goes with the player among the cave walls")
+	_check(view.lighting.carried != null and not view.lighting.carried.shadow_enabled, "the carried light casts no moving shadow")
+	_check_footing(view, "the caverns")
 	var leeches: int = 0
 	for npc: NpcRuntimeState in map.npc_runtimes():
 		var actor: Node3D = view.actors.get(npc.character_id)
@@ -147,6 +156,27 @@ func _check_temple(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(await MapPlaces.take_passage(tree, map, &"goathill.temple1.west"), "out by the temple door")
 	await _frames(tree, 4)
 	_check(session.active_map_id() == &"goathill.mountain", "back on the mountain road")
+
+
+## Every tall decor piece of a map's voxel config stands wholly on raised rock.
+func _check_footing(view: WorldVoxelView, place: String) -> void:
+	var loose: Array[String] = []
+	for prop: Dictionary in view.layout.get("props", []):
+		if not String(prop["kind"]) in TALL:
+			continue
+		var size: Array = prop.get("size", [16, 16])
+		var box := Vector2(float(size[0]), float(size[1]))
+		if absi(roundi(float(prop.get("rotation", 0)))) % 180 == 90:
+			box = Vector2(box.y, box.x)
+		var at := Vector2(float(prop["at"][0]), float(prop["at"][1]))
+		var area := Rect2(at - box / 2.0, box)
+		var rock: bool = prop.get("on_cliff", false)
+		for y: int in range(floori(area.position.y / 16.0), ceili(area.end.y / 16.0)):
+			for x: int in range(floori(area.position.x / 16.0), ceili(area.end.x / 16.0)):
+				rock = rock and view.geometry.cliffs.heights.has(Vector2i(x * 16 + 8, y * 16 + 8))
+		if not rock:
+			loose.append("%s %s" % [prop["kind"], prop["at"]])
+	_check(loose.is_empty(), "tall decor in %s stands on rock, not on walkable ground: %s" % [place, loose])
 
 
 func _click(tree: SceneTree, button: Button) -> void:

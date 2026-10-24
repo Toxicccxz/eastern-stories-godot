@@ -118,6 +118,9 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	ground.footprints = footprints
 	ground.weather = layout.get("weather",[])
 	ground.tints = layout.get("ground_tints",{})
+	for kind: String in ground_styles:
+		if ground_styles[kind].get("style","")=="scree":
+			ground.loose.append(kind)
 	ambience = VoxelAmbience.new()
 	ambience.name = "Ambience"
 	add_child(ambience)
@@ -441,10 +444,10 @@ func _dress_ground(cell: Vector2i, p: Vector3, kind: String, growth: float, cell
 	var tall: Dictionary = _meadow(Vector2(cell),kind)
 	if not tall.is_empty():
 		# Long grass (layout flora `meadows`): taller tufts, thick enough to read as a sward.
-		var scale: Array = tall.get("scale",[1.6,2.4])
+		var sizes: Array = tall.get("scale",[1.6,2.4])
 		for i: int in int(tall.get("tufts",2)):
 			if rng.randf() < float(tall.get("density",0.9)):
-				foliage.plant(p+Vector3(rng.randf_range(-0.22,0.22),0.025,rng.randf_range(-0.22,0.22)),0,rng.randf_range(float(scale[0]),float(scale[1])),rng.randf()*TAU)
+				foliage.plant(p+Vector3(rng.randf_range(-0.22,0.22),0.025,rng.randf_range(-0.22,0.22)),0,rng.randf_range(float(sizes[0]),float(sizes[1])),rng.randf()*TAU)
 		return
 	if rng.randf() < density:
 		var at: Vector3 = p+Vector3(rng.randf_range(-0.19,0.19),0.025,rng.randf_range(-0.19,0.19))
@@ -468,7 +471,8 @@ func _meadow(at: Vector2, kind: String) -> Dictionary:
 	return {}
 
 ## Rock the cliffs raise: outcrops and tufts on the faces beside the road, dry growth,
-## boulders and the odd stunted tree on the tops. Parented to the rock so it fades with it.
+## boulders and the odd stunted tree on the tops. The stones and trees are parented to the
+## rock so they fade with it; grass tufts stay in the shared foliage (small, they hide nobody).
 func _dress_cliffs() -> void:
 	var rock: Array = flora.get("outcrop_colors",["8a7b62","9b8a6d","7a6c57"])
 	var on_top: float = float(flora.get("cliff_tufts",0.18))
@@ -486,10 +490,10 @@ func _dress_cliffs() -> void:
 		var tall: Dictionary = _meadow(Vector2(cell),"cliff") if foliage != null else {}
 		if not tall.is_empty() and h<=float(tall.get("below",1.6)):
 			# Long grass over the low banks beside a road, as on the road's own verges.
-			var scale: Array = tall.get("scale",[1.6,2.4])
+			var sizes: Array = tall.get("scale",[1.6,2.4])
 			for i: int in int(tall.get("tufts",2)):
 				if rng.randf() < float(tall.get("density",0.9)):
-					foliage.plant(p+Vector3(rng.randf_range(-0.22,0.22),h+0.01,rng.randf_range(-0.22,0.22)),0,rng.randf_range(float(scale[0]),float(scale[1])),rng.randf()*TAU)
+					foliage.plant(p+Vector3(rng.randf_range(-0.22,0.22),h+0.01,rng.randf_range(-0.22,0.22)),0,rng.randf_range(float(sizes[0]),float(sizes[1])),rng.randf()*TAU)
 		elif foliage != null and rng.randf()<on_top:
 			var kind_index: int = 1+rng.randi_range(0,3) if rng.randf()<float(flora.get("cliff_flowers",0.0)) else 0
 			foliage.plant(p+Vector3(rng.randf_range(-0.2,0.2),h,rng.randf_range(-0.2,0.2)),kind_index,rng.randf_range(0.6,1.3),rng.randf()*TAU)
@@ -547,8 +551,11 @@ func _prop(data: Dictionary) -> void:
 	var a: Array = data.get("at",[0,0])
 	var at: Vector3 = point(Vector2(a[0],a[1]))
 	if data.get("on_cliff",false) and cliffs != null:
-		# Stands on the rock's top where the cliffs raised it (a boulder, a flag on a shelf).
-		at.y = cliffs.height(Vector2i(floori(float(a[0])/16.0)*16+8,floori(float(a[1])/16.0)*16+8))
+		# Stands on the rock's top where the cliffs raised it (a boulder, a flag on a shelf):
+		# the lowest rock under its footprint, so no part of it hangs over open ground.
+		var extent: Array = data.get("size",[16,16])
+		var box := Vector2(float(extent[0]),float(extent[1]))
+		at.y = cliffs.footing(Rect2(Vector2(a[0],a[1])-box/2.0,box),data.get("perch","")=="highest")
 	var root: Node3D = _node(at)
 	root.rotation.y = deg_to_rad(float(data.get("rotation",0)))
 	var size: Array = data.get("size",[64,32])

@@ -76,6 +76,16 @@ func shape(cells: Dictionary[Vector2i, String]) -> void:
 func height(cell: Vector2i) -> float:
 	return heights.get(cell,0.0)
 
+## The lowest top under a footprint (pixels): 0 when any of it lies on open ground. With
+## `highest`, the top it juts out from (a lip of rock over a cave floor).
+func footing(area: Rect2, highest: bool = false) -> float:
+	var result: float = -INF if highest else INF
+	for y: int in range(floori(area.position.y/TILE),ceili(area.end.y/TILE)):
+		for x: int in range(floori(area.position.x/TILE),ceili(area.end.x/TILE)):
+			var h: float = heights.get(Vector2i(x*TILE+8,y*TILE+8),0.0)
+			result = maxf(result,h) if highest else minf(result,h)
+	return 0.0 if is_inf(result) else result
+
 ## One merged mesh per chunk: tops and only the faces that show above a lower neighbour.
 func build(parent: Node3D) -> void:
 	root = Node3D.new()

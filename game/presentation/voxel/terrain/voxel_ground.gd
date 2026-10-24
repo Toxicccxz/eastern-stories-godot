@@ -12,6 +12,8 @@ var footprints: Array[Rect2] = []
 var weather: Array = []
 ## Map colours for shoulders and chips (layout `ground_tints`); defaults are the town's.
 var tints: Dictionary = {}
+## Ground kinds drawn as loose scree (layout `ground`): no paved shoulders or curbs.
+var loose: Array = []
 const GRASS: Array[String] = ["grass", "forest_floor", "forest", "boundary"]
 const PAVING: Array[String] = ["town_ground", "street", "floor_yard", "rock"]
 const STONE: Array[String] = ["899794", "98a29d", "a6ada3", "939e9b", "afb4aa"]
@@ -73,7 +75,7 @@ func paving(cell: Vector2i, cells: Dictionary[Vector2i,String], painted: Diction
 
 func edge(cell: Vector2i, cells: Dictionary[Vector2i,String]) -> void:
 	var kind: String = cells[cell]
-	if kind not in PAVING and kind not in ["path","riverbank"]:
+	if kind not in PAVING and kind not in ["path","riverbank"] or kind in loose:
 		return
 	var paved: bool = kind in PAVING
 	var p: Vector3 = _point(cell)
@@ -160,7 +162,4 @@ func scree(cell: Vector2i, p: Vector3, colors: Array, growth: float, style: Dict
 		var size: float = rng.randf_range(0.18,0.34)
 		shapes.shard(parent,p+Vector3(rng.randf_range(-0.12,0.12),size*0.18,rng.randf_range(-0.12,0.12)),Vector3(size*1.3,size*0.7,size),String(pebbles[rng.randi_range(0,pebbles.size()-1)]),rng.randi(),rng.randf()*TAU)
 	if style.get("wet",false) and rng.randf()<float(style.get("wet_chance",0.12)):
-		var glint: StandardMaterial3D = shapes.material(String(style.get("sheen","4c5a5c")))
-		glint.roughness = 0.12
-		glint.metallic = 0.35
-		shapes.shard(parent,p+Vector3(rng.randf_range(-0.15,0.15),0.008,rng.randf_range(-0.15,0.15)),Vector3(rng.randf_range(0.18,0.4),0.012,rng.randf_range(0.14,0.3)),String(style.get("sheen","4c5a5c")),rng.randi(),rng.randf()*TAU)
+		shapes.shard(parent,p+Vector3(rng.randf_range(-0.15,0.15),0.008,rng.randf_range(-0.15,0.15)),Vector3(rng.randf_range(0.18,0.4),0.012,rng.randf_range(0.14,0.3)),String(style.get("sheen","4c5a5c"))+":gloss",rng.randi(),rng.randf()*TAU)

@@ -86,18 +86,19 @@ func _altar_table(w: float, d: float) -> void:
 			s.box(root,Vector3(x,0.4,z),Vector3(0.1,0.8,0.1),wood)
 	s.box(root,Vector3(0,0.98,0),Vector3(0.36,0.2,0.3),"6f6656")
 	s.box(root,Vector3(0,1.09,0),Vector3(0.3,0.03,0.24),"b4ab98")
+	# Burnt-out stubs of incense in cold ash: nobody tends it (似乎没有人照顾).
 	for stick: int in 3:
-		s.box(root,Vector3((stick-1)*0.06,1.2,0),Vector3(0.02,0.22,0.02),"8a3b2a")
-	if ambience != null:
-		ambience.smoke(root,Vector3(0,1.32,0),"c9c3b8",4,0.07)
-	# A plate of withered fruit and buns, a cup of wine: someone still leaves offerings.
-	s.box(root,Vector3(-w*0.3,0.9,0.05),Vector3(0.3,0.03,0.3),"d8d2c0")
+		s.tilted_box(root,Vector3((stick-1)*0.06,1.13,0),Vector3(0.02,0.08,0.02),"5a2f25",Vector3(0,0,(stick-1)*0.4))
+	# Old offerings gone dry and grey with dust, a cracked cup.
+	s.box(root,Vector3(-w*0.3,0.9,0.05),Vector3(0.3,0.03,0.3),"b8b2a2")
 	for fruit: int in 3:
-		s.box(root,Vector3(-w*0.3+(fruit-1)*0.08,0.96,0.05+fruit%2*0.06),Vector3(0.09,0.09,0.09),["b0632f","a84a2c","c9a24e"][fruit])
-	s.box(root,Vector3(w*0.28,0.93,0.08),Vector3(0.1,0.1,0.1),"d8d2c0")
-	s.box(root,Vector3(w*0.18,0.94,-0.1),Vector3(0.18,0.1,0.18),"e8dfc7")
-	_candles(Vector3(w*0.4,0.88,-0.05),2)
-	_candles(Vector3(-w*0.42,0.88,-0.05),1)
+		s.box(root,Vector3(-w*0.3+(fruit-1)*0.08,0.94,0.05+fruit%2*0.06),Vector3(0.08,0.06,0.08),["6e5638","5f4a33","7a6644"][fruit])
+	s.box(root,Vector3(w*0.28,0.93,0.08),Vector3(0.1,0.1,0.1),"bdb6a4")
+	s.box(root,Vector3(w*0.31,0.93,0.08),Vector3(0.02,0.1,0.11),"6e675a")
+	# 残烛: one guttering stub the hiding 黄霸 keeps alight, a dead one beside it.
+	_candles(Vector3(w*0.4,0.88,-0.05),1)
+	s.box(root,Vector3(-w*0.42,0.9,-0.05),Vector3(0.14,0.04,0.14),"e6dcc2")
+	s.box(root,Vector3(-w*0.42,0.94,-0.05),Vector3(0.07,0.05,0.07),"d8cdb2")
 
 func _incense_burner(w: float) -> void:
 	var bronze: String = String(data.get("bronze","6f5a3e"))
@@ -109,10 +110,9 @@ func _incense_burner(w: float) -> void:
 	s.box(root,Vector3(0,0.74,0),Vector3(w*0.7,0.03,w*0.7),"aaa294")
 	for side: float in [-1.0,1.0]:
 		s.box(root,Vector3(side*w*0.47,0.8,0),Vector3(0.06,0.18,0.14),bronze)
+	# Cold: burnt-down sticks leaning in the ash.
 	for stick: int in 5:
-		s.box(root,Vector3((stick-2)*0.07,0.9,sin(stick*1.7)*0.06),Vector3(0.02,0.3,0.02),"8a3b2a")
-	if ambience != null:
-		ambience.smoke(root,Vector3(0,1.05,0),"c9c3b8",5,0.08)
+		s.tilted_box(root,Vector3((stick-2)*0.07,0.82,sin(stick*1.7)*0.06),Vector3(0.02,0.14,0.02),"5a2f25",Vector3(0,0,(stick-2)*0.3))
 
 ## 蒲团: a round straw cushion, worn through on one side.
 func _cushion(w: float) -> void:

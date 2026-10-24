@@ -25,15 +25,6 @@ func build(world: Node3D, reveal: VoxelOcclusion, interior: bool, settings: Dict
 	indoor = interior
 	profile = settings
 	occlusion = reveal
-	if profile.has("carried"):
-		var lamp: Dictionary = profile["carried"]
-		carried = OmniLight3D.new()
-		carried.light_color = Color(String(lamp.get("color","ffc78a")))
-		carried.omni_range = float(lamp.get("range",5.0))
-		carried.omni_attenuation = float(lamp.get("attenuation",1.4))
-		carried.set_meta("day_energy",float(lamp.get("day",0.8)))
-		carried.set_meta("night_energy",float(lamp.get("night",1.2)))
-		world.add_child(carried)
 	var sky := WorldEnvironment.new()
 	environment = Environment.new()
 	environment.background_mode = Environment.BG_COLOR
@@ -70,6 +61,18 @@ func build(world: Node3D, reveal: VoxelOcclusion, interior: bool, settings: Dict
 		if mat != null and mat.get_meta("night_only",false) and not seen.has(mat.get_instance_id()):
 			seen[mat.get_instance_id()] = true
 			windows.append(mat)
+	if profile.has("carried"):
+		# Moves every frame: no shadow (its cube map would re-render the whole map each frame).
+		var lamp: Dictionary = profile["carried"]
+		carried = OmniLight3D.new()
+		carried.light_color = Color(String(lamp.get("color","ffc78a")))
+		carried.omni_range = float(lamp.get("range",5.0))
+		carried.omni_attenuation = float(lamp.get("attenuation",1.4))
+		carried.shadow_enabled = false
+		carried.set_meta("day_energy",float(lamp.get("day",0.8)))
+		carried.set_meta("night_energy",float(lamp.get("night",1.2)))
+		world.add_child(carried)
+		lamps.append(carried)
 	_apply()
 
 func set_night(enabled: bool, immediate: bool = false) -> void:
@@ -97,8 +100,8 @@ func _apply_lamps(blend: float) -> void:
 			fade = 1.0-smoothstep(LAMP_FADE_BEGIN,LAMP_FADE_END,Vector2(offset.x,offset.z).length())
 		var energy: float = lerpf(float(lamp.get_meta("day_energy")),float(lamp.get_meta("night_energy")),blend)*fade
 		if lamp.has_meta("flicker"):
-			var seed: float = lamp.global_position.x*3.1+lamp.global_position.z*1.7
-			energy *= 1.0+float(lamp.get_meta("flicker"))*(sin(_clock*13.0+seed)*0.5+sin(_clock*7.3+seed*2.0)*0.35+sin(_clock*29.0)*0.15)
+			var phase: float = lamp.global_position.x*3.1+lamp.global_position.z*1.7
+			energy *= 1.0+float(lamp.get_meta("flicker"))*(sin(_clock*13.0+phase)*0.5+sin(_clock*7.3+phase*2.0)*0.35+sin(_clock*29.0)*0.15)
 		if not is_equal_approx(lamp.light_energy,energy):
 			lamp.light_energy = energy
 		var emitting: bool = energy>0.0

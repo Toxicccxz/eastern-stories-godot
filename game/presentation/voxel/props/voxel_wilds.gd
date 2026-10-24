@@ -420,7 +420,7 @@ func _overhang(w: float, d: float) -> void:
 	s.shard(root,Vector3(0,height,0),Vector3(w,0.4,d),String(stone[0]),rng.randi())
 	for i: int in int(data.get("count",6)):
 		var at := Vector3(rng.randf_range(-0.42,0.42)*w,height-0.2,rng.randf_range(-0.42,0.42)*d)
-		var length: float = rng.randf_range(0.4,1.1)
+		var length: float = rng.randf_range(0.3,0.7)
 		var courses: int = ceili(length/0.18)
 		for c: int in courses:
 			var span: float = lerpf(0.26,0.05,float(c)/courses)
@@ -430,10 +430,7 @@ func _overhang(w: float, d: float) -> void:
 
 ## Slime the leeches leave: glossy puddles and trailing smears (cavern4's 暗黄色的黏稠物).
 func _slime(w: float, d: float) -> void:
-	var color: String = String(data.get("color","9a8a3c"))
-	var gloss: StandardMaterial3D = s.material(color)
-	gloss.roughness = 0.08
-	gloss.metallic = 0.25
+	var color: String = String(data.get("color","9a8a3c"))+":gloss"
 	for lobe: int in int(data.get("lobes",4)):
 		var at := Vector3(rng.randf_range(-0.35,0.35)*w,0.012+lobe*0.002,rng.randf_range(-0.35,0.35)*d)
 		s.shard(root,at,Vector3(rng.randf_range(0.3,0.6)*w,0.025,rng.randf_range(0.3,0.6)*d),color,rng.randi(),rng.randf()*TAU)
@@ -446,10 +443,7 @@ func _slime(w: float, d: float) -> void:
 			s.box(root,Vector3(rng.randf_range(-0.3,0.3)*w,0.12,rng.randf_range(-0.3,0.3)*d),Vector3(0.025,0.22,0.025),color)
 
 func _pool(w: float, d: float) -> void:
-	var water: String = String(data.get("color","2f4246"))
-	var mat: StandardMaterial3D = s.material(water)
-	mat.roughness = 0.05
-	mat.metallic = 0.45
+	var water: String = String(data.get("color","2f4246"))+":gloss"
 	s.shard(root,Vector3(0,0.008,0),Vector3(w*1.05,0.02,d*1.05),String(data.get("rim","4b4a42")),rng.randi())
 	s.shard(root,Vector3(0,0.02,0),Vector3(w*0.9,0.02,d*0.9),water,rng.randi())
 	for glint: int in 3:

@@ -3,7 +3,7 @@
   "cutaway_rooms": true,
   "camera_size": 19,
   "palette": {
-    "wall": "a68a5f"
+    "wall": "7a6248"
   },
   "light": {
     "sky": ["4f463b", "15120f"],
@@ -21,8 +21,7 @@
   "wall_looks": [
     {"rect": [-288, -224, 288, -176], "style": "rock", "colors": ["74644f", "826f57", "6a5b48", "8d7a5f"], "note": "利用了山壁而建: the north side is the mountain"},
     {"rect": [-288, 160, 288, 208], "style": "rock", "colors": ["74644f", "826f57", "6a5b48", "8d7a5f"], "note": "and the south side"},
-    {"rect": [240, -176, 288, 160], "style": "earth", "colors": ["a68a5f", "98805a", "b19470"], "note": "只有东面一面土墙"},
-    {"rect": [-288, -176, -240, 160], "style": "earth", "colors": ["9c825a", "a68a5f", "8f7752"], "note": "the front, with its door"}
+    {"rect": [240, -176, 288, 160], "style": "earth", "colors": ["a68a5f", "98805a", "b19470"], "note": "只有东面一面土墙; the west front with its door is timber (the palette's wall)"}
   ],
   "props": [
     {"kind": "paper_charms", "at": [236, -100], "size": [96, 8], "rotation": -90, "count": 4, "height": 1.9, "wall_mounted": true, "note": "old charms either side of the niche"},
