@@ -376,7 +376,7 @@ msgstr ""
 msgid "空无一物"
 msgstr ""
 
-#: scenes/ui/oldpine_loot_panel.tscn scenes/ui/player_inventory_panel.tscn presentation/battle/battle_log_panel.gd presentation/layout/shared_gameplay_layout.gd runtime/world/services/hockshop_service.gd ui/world/game_menu.gd ui/world/shared_ui_nearby.gd
+#: scenes/ui/oldpine_loot_panel.tscn scenes/ui/player_inventory_panel.tscn presentation/battle/battle_log_panel.gd presentation/layout/shared_gameplay_layout.gd ui/world/game_menu.gd ui/world/hockshop_panel.gd ui/world/shared_ui_nearby.gd
 msgid "关闭"
 msgstr ""
 
@@ -6899,15 +6899,15 @@ msgstr ""
 msgid "{name}被风吹乾了，变成一具骸骨。"
 msgstr ""
 
-#: runtime/world/map/world_map_debts.gd runtime/world/services/vendor_service.gd
+#: runtime/world/map/world_map_debts.gd ui/world/vendor_panel.gd
 msgid "你没有足够的零钱，而对方也找不开...。"
 msgstr ""
 
-#: runtime/world/map/world_map_debts.gd runtime/world/services/vendor_service.gd
+#: runtime/world/map/world_map_debts.gd ui/world/vendor_panel.gd
 msgid "你的钱不够。"
 msgstr ""
 
-#: runtime/world/map/world_map_debts.gd runtime/world/services/vendor_service.gd
+#: runtime/world/map/world_map_debts.gd ui/world/vendor_panel.gd
 msgid "交易未完成，状态异常；已发生的扣款不会退回。"
 msgstr ""
 
@@ -7284,54 +7284,8 @@ msgstr ""
 msgid "请输入范围内的正整数，不支持小数或自动取整。"
 msgstr ""
 
-#. native (A2): the 雪亭驿 bounty board's heading.
-#: runtime/world/services/bounty_service.gd
-msgid "官府悬赏：捉拿以下恶人者，赏银由雪亭驿代付。放过的恶人押送官府，一样领赏。"
-msgstr ""
-
 #: runtime/world/services/bounty_service.gd
 msgid "看榜"
-msgstr ""
-
-#. native (A2): the bounty board has nothing for the player now.
-#: runtime/world/services/bounty_service.gd
-msgid "榜上暂时没有与阁下相称的悬赏，过些时候再来看看吧。"
-msgstr ""
-
-#. native (A2): one bounty on the board: the outlaw, where it was last seen ({place} in {region}), its silver.
-#: runtime/world/services/bounty_service.gd
-msgid "{outlaw} · 出没于{region}{place}一带 · 赏银{silver}两"
-msgstr ""
-
-#: runtime/world/services/bounty_service.gd
-msgid "（已揭）"
-msgstr ""
-
-#. green.closed.landmark.fog action
-#. choyin.lionroom.landmark.dark action
-#. choyin.taolin.landmark.grove action
-#. village.lakebottom1.landmark.ice action
-#: runtime/world/services/bounty_service.gd data/green/world.json data/choyin/world.json data/village/world.json
-msgid "放弃"
-msgstr ""
-
-#: runtime/world/services/bounty_service.gd
-msgid "揭榜"
-msgstr ""
-
-#. native (A2): why 揭榜 is greyed: one bounty at a time.
-#: runtime/world/services/bounty_service.gd
-msgid "一次只能揭一张榜。"
-msgstr ""
-
-#. native (A2): the bounty board after the player took a bounty.
-#: runtime/world/services/bounty_service.gd
-msgid "你揭下了告示。"
-msgstr ""
-
-#. native (A2): the bounty board after the player gave a bounty up.
-#: runtime/world/services/bounty_service.gd
-msgid "你放弃了这张悬赏。"
 msgstr ""
 
 #: runtime/world/services/dance_service.gd
@@ -7341,36 +7295,11 @@ msgid ""
 msgstr ""
 
 #: runtime/world/services/dance_service.gd
-msgid "你想跳哪一曲？"
-msgstr ""
-
-#: runtime/world/services/dance_service.gd
 msgid "跳舞"
-msgstr ""
-
-#. a dance the player may dance on the floor ({name}: 西出阳关).
-#: runtime/world/services/dance_service.gd
-msgid "跳「{name}」"
-msgstr ""
-
-#: runtime/world/services/dance_service.gd
-msgid "随意起舞"
 msgstr ""
 
 #: runtime/world/services/dance_service.gd
 msgid "确定起舞"
-msgstr ""
-
-#: runtime/world/services/hockshop_service.gd
-msgid "请选择随身物品。"
-msgstr ""
-
-#: runtime/world/services/hockshop_service.gd
-msgid "估价"
-msgstr ""
-
-#: runtime/world/services/hockshop_service.gd
-msgid "卖断…"
 msgstr ""
 
 #: runtime/world/services/hockshop_service.gd
@@ -7403,53 +7332,17 @@ msgid "直接携带的钱：%s"
 msgstr ""
 
 #: runtime/world/services/hockshop_service.gd
-msgid "价值{value}文 · 卖断可得{payout}文（以实际交付为准）。"
-msgstr ""
-
-#: runtime/world/services/hockshop_service.gd
-msgid "一文不值，不能卖断。"
-msgstr ""
-
-#: runtime/world/services/hockshop_service.gd
-msgid "物品已变化或现在不可交易，请重新选择。"
-msgstr ""
-
-#: runtime/world/services/hockshop_service.gd
 msgid ""
 "卖断 {item}\n"
 "报价{price}文。物品将永久移除；负重不足可能只收到部分钱款，甚至0文，无退款。"
 msgstr ""
 
 #: runtime/world/services/hockshop_service.gd
-msgid "确认卖断（不可撤销）"
-msgstr ""
-
-#: runtime/world/services/hockshop_service.gd
 msgid "位置或物品状态已变化，未执行卖断；请重新选择。"
-msgstr ""
-
-#: runtime/world/services/hockshop_service.gd
-msgid "卖断完成，物品已移除；实际收到%d文。部分钱款因负重不足未能交付，已销毁，不会补发或退款。"
-msgstr ""
-
-#: runtime/world/services/hockshop_service.gd
-msgid "卖断完成，物品已移除；实际收到%d文。"
-msgstr ""
-
-#: runtime/world/services/hockshop_service.gd
-msgid "交易技术异常（阶段{stage}），请停止操作。已交付{delivered}文；物品与钱款以当前实际状态为准，未回滚，请勿重复尝试。"
-msgstr ""
-
-#: runtime/world/services/hockshop_service.gd
-msgid "卖断未执行，物品状态已变化；请重新选择。"
 msgstr ""
 
 #: runtime/world/services/quest_service.gd ui/world/game_menu.gd
 msgid "任务"
-msgstr ""
-
-#: runtime/world/services/shop_front_service.gd runtime/world/services/vendor_service.gd
-msgid "购买"
 msgstr ""
 
 #: runtime/world/services/shop_front_service.gd
@@ -7469,20 +7362,8 @@ msgstr ""
 msgid "你必须先把%s弄醒。"
 msgstr ""
 
-#: runtime/world/services/vendor_service.gd
-msgid "已付款，%s已放入你的随身物品。"
-msgstr ""
-
-#: runtime/world/services/vendor_service.gd
-msgid "已付款，但未收到%s。"
-msgstr ""
-
-#: runtime/world/services/vendor_service.gd
-msgid "负重过高。"
-msgstr ""
-
-#: runtime/world/services/vendor_service.gd ui/food/held_food_panel.gd ui/liquid/held_liquid_panel.gd
-msgid "物品状态异常，请停止操作。"
+#: runtime/world/services/vendor_service.gd ui/world/shop_front_panel.gd
+msgid "购买"
 msgstr ""
 
 #. what a container holds when it is sold: 红酒15份.
@@ -7507,35 +7388,7 @@ msgid "%d文钱"
 msgstr ""
 
 #: runtime/world/services/work_service.gd
-msgid "工作 · 消耗精30 / 神30 · 工钱一两"
-msgstr ""
-
-#: runtime/world/services/work_service.gd
-msgid "靠近磨盘，可以在这里工作。"
-msgstr ""
-
-#: runtime/world/services/work_service.gd
 msgid "工作"
-msgstr ""
-
-#: runtime/world/services/work_service.gd
-msgid "精 {gin} / 神 {sen} · 银子 {silver} 两"
-msgstr ""
-
-#: runtime/world/services/work_service.gd
-msgid "你完成了一份工作，得到一两银子。"
-msgstr ""
-
-#: runtime/world/services/work_service.gd
-msgid "你的精神太差了，现在不能工作。"
-msgstr ""
-
-#: runtime/world/services/work_service.gd
-msgid "工作已完成，但你负重过高，未能取得工钱。"
-msgstr ""
-
-#: runtime/world/services/work_service.gd
-msgid "工作状态异常，请停止操作。"
 msgstr ""
 
 #. native (A2): the player took the 雪亭驿 bounty on {outlaw}, last seen in {place} ({region}).
@@ -7688,6 +7541,10 @@ msgstr ""
 
 #: ui/food/held_food_panel.gd ui/liquid/held_liquid_panel.gd
 msgid "你上一个动作还没有完成。"
+msgstr ""
+
+#: ui/food/held_food_panel.gd ui/liquid/held_liquid_panel.gd ui/world/vendor_panel.gd
+msgid "物品状态异常，请停止操作。"
 msgstr ""
 
 #: ui/food/held_food_panel.gd
@@ -7921,6 +7778,52 @@ msgstr ""
 msgid "无法计算"
 msgstr ""
 
+#. native (A2): the 雪亭驿 bounty board's heading.
+#: ui/world/bounty_board_panel.gd
+msgid "官府悬赏：捉拿以下恶人者，赏银由雪亭驿代付。放过的恶人押送官府，一样领赏。"
+msgstr ""
+
+#. native (A2): the bounty board has nothing for the player now.
+#: ui/world/bounty_board_panel.gd
+msgid "榜上暂时没有与阁下相称的悬赏，过些时候再来看看吧。"
+msgstr ""
+
+#. native (A2): one bounty on the board: the outlaw, where it was last seen ({place} in {region}), its silver.
+#: ui/world/bounty_board_panel.gd
+msgid "{outlaw} · 出没于{region}{place}一带 · 赏银{silver}两"
+msgstr ""
+
+#: ui/world/bounty_board_panel.gd
+msgid "（已揭）"
+msgstr ""
+
+#. green.closed.landmark.fog action
+#. choyin.lionroom.landmark.dark action
+#. choyin.taolin.landmark.grove action
+#. village.lakebottom1.landmark.ice action
+#: ui/world/bounty_board_panel.gd data/green/world.json data/choyin/world.json data/village/world.json
+msgid "放弃"
+msgstr ""
+
+#: ui/world/bounty_board_panel.gd
+msgid "揭榜"
+msgstr ""
+
+#. native (A2): why 揭榜 is greyed: one bounty at a time.
+#: ui/world/bounty_board_panel.gd
+msgid "一次只能揭一张榜。"
+msgstr ""
+
+#. native (A2): the bounty board after the player took a bounty, or gave one up.
+#: ui/world/bounty_board_panel.gd
+msgid "你揭下了告示。"
+msgstr ""
+
+#. native (A2): the bounty board after the player took a bounty, or gave one up.
+#: ui/world/bounty_board_panel.gd
+msgid "你放弃了这张悬赏。"
+msgstr ""
+
 #. the 行贿 panel when the player carries no money.
 #: ui/world/bribe_panel.gd
 msgid "你身上没有钱。"
@@ -8037,6 +7940,19 @@ msgstr ""
 msgid "返回列表"
 msgstr ""
 
+#: ui/world/dance_panel.gd
+msgid "你想跳哪一曲？"
+msgstr ""
+
+#. a dance the player may dance on the floor ({name}: 西出阳关).
+#: ui/world/dance_panel.gd
+msgid "跳「{name}」"
+msgstr ""
+
+#: ui/world/dance_panel.gd
+msgid "随意起舞"
+msgstr ""
+
 #. 游识神通's question when the player has met nobody it could go to yet.
 #: ui/world/drift_sense_panel.gd
 msgid "你还没有见过什么人。"
@@ -8075,6 +7991,50 @@ msgstr ""
 
 #: ui/world/give_panel.gd
 msgid "确认给予"
+msgstr ""
+
+#: ui/world/hockshop_panel.gd
+msgid "请选择随身物品。"
+msgstr ""
+
+#: ui/world/hockshop_panel.gd
+msgid "估价"
+msgstr ""
+
+#: ui/world/hockshop_panel.gd
+msgid "卖断…"
+msgstr ""
+
+#: ui/world/hockshop_panel.gd
+msgid "确认卖断（不可撤销）"
+msgstr ""
+
+#: ui/world/hockshop_panel.gd
+msgid "价值{value}文 · 卖断可得{payout}文（以实际交付为准）。"
+msgstr ""
+
+#: ui/world/hockshop_panel.gd
+msgid "一文不值，不能卖断。"
+msgstr ""
+
+#: ui/world/hockshop_panel.gd
+msgid "物品已变化或现在不可交易，请重新选择。"
+msgstr ""
+
+#: ui/world/hockshop_panel.gd
+msgid "卖断完成，物品已移除；实际收到%d文。部分钱款因负重不足未能交付，已销毁，不会补发或退款。"
+msgstr ""
+
+#: ui/world/hockshop_panel.gd
+msgid "卖断完成，物品已移除；实际收到%d文。"
+msgstr ""
+
+#: ui/world/hockshop_panel.gd
+msgid "交易技术异常（阶段{stage}），请停止操作。已交付{delivered}文；物品与钱款以当前实际状态为准，未回滚，请勿重复尝试。"
+msgstr ""
+
+#: ui/world/hockshop_panel.gd
+msgid "卖断未执行，物品状态已变化；请重新选择。"
 msgstr ""
 
 #. the 任务 page before any story entry is recorded.
@@ -9135,6 +9095,18 @@ msgstr ""
 msgid "想从{npc}身上偷什么？"
 msgstr ""
 
+#: ui/world/vendor_panel.gd
+msgid "已付款，%s已放入你的随身物品。"
+msgstr ""
+
+#: ui/world/vendor_panel.gd
+msgid "已付款，但未收到%s。"
+msgstr ""
+
+#: ui/world/vendor_panel.gd
+msgid "负重过高。"
+msgstr ""
+
 #: ui/world/voxel_day_night_button.gd
 msgid "切换夜景"
 msgstr ""
@@ -9157,6 +9129,34 @@ msgstr ""
 
 #: ui/world/voxel_view_side_button.gd
 msgid "切至右侧"
+msgstr ""
+
+#: ui/world/work_panel.gd
+msgid "工作 · 消耗精30 / 神30 · 工钱一两"
+msgstr ""
+
+#: ui/world/work_panel.gd
+msgid "靠近磨盘，可以在这里工作。"
+msgstr ""
+
+#: ui/world/work_panel.gd
+msgid "精 {gin} / 神 {sen} · 银子 {silver} 两"
+msgstr ""
+
+#: ui/world/work_panel.gd
+msgid "你完成了一份工作，得到一两银子。"
+msgstr ""
+
+#: ui/world/work_panel.gd
+msgid "你的精神太差了，现在不能工作。"
+msgstr ""
+
+#: ui/world/work_panel.gd
+msgid "工作已完成，但你负重过高，未能取得工钱。"
+msgstr ""
+
+#: ui/world/work_panel.gd
+msgid "工作状态异常，请停止操作。"
 msgstr ""
 
 #. how a said line hands over to what is said (店小二说道：客官里边请。); a bubble shows only what follows it, when it comes within the first ten characters.
