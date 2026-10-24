@@ -150,6 +150,22 @@ func run_all(tree: SceneTree) -> Dictionary:
 		intact = intact and (entry["node"] as Node3D).visible
 	_check(intact,"local reveal never hides an entire building or crown")
 	_check(not street_view.occlusion.materials.is_empty(),"actual occluders use the fragment reveal material")
+	var occlusion: VoxelOcclusion = street_view.occlusion
+	var matched: bool = true
+	for index: int in occlusion.surfaces.size():
+		var surface: Dictionary = occlusion.surfaces[index]
+		matched = matched and (surface["node"] as GeometryInstance3D).material_override==(surface["reveal"] if occlusion.revealing.has(index) else surface["plain"])
+	_check(not occlusion.revealing.is_empty() and occlusion.revealing.size()*4<occlusion.surfaces.size() and matched,
+		"only occluders a subject may be behind draw the reveal passes; the rest draw plain (%d of %d)" % [occlusion.revealing.size(),occlusion.surfaces.size()])
+	_check(_reveals_cover_subjects(street_view),"every occluder in front of a subject's opening still reveals")
+	street_view._deactivate()
+	street_view.quality = VoxelRenderQuality.named("mobile")
+	await _frames(tree,2)
+	_check(tree.root.msaa_3d==Viewport.MSAA_DISABLED and is_equal_approx(tree.root.scaling_3d_scale,street_view.quality.scale_3d),"a phone profile renders the 3D view at its own resolution without MSAA")
+	street_view._deactivate()
+	street_view.quality = VoxelRenderQuality.named("desktop")
+	await _frames(tree,2)
+	_check(tree.root.msaa_3d==Viewport.MSAA_4X and is_equal_approx(tree.root.scaling_3d_scale,1.0),"the desktop profile keeps full resolution and 4x MSAA")
 	var player_point: Vector3 = VoxelMapGeometry.point(outdoor.player_body.global_position,1.0)
 	var player_revealed: bool = false
 	for subject: Vector4 in street_view.occlusion.subjects:
@@ -237,6 +253,24 @@ func _frames(tree: SceneTree, count: int) -> void:
 	for frame: int in count:
 		await tree.physics_frame
 		await tree.process_frame
+
+## Brute force local_reveal's own test: a surface whose box reaches into a subject's
+## opening, in front of it, must be drawing the reveal material.
+func _reveals_cover_subjects(view: WorldVoxelView) -> bool:
+	var basis: Basis = view.camera.global_basis
+	for index: int in view.occlusion.surfaces.size():
+		var node := view.occlusion.surfaces[index]["node"] as GeometryInstance3D
+		var box: AABB = node.global_transform*node.get_aabb()
+		for subject: Vector4 in view.occlusion.subjects:
+			var centre := Vector3(subject.x,subject.y,subject.z)
+			var d: Vector3 = centre.clamp(box.position,box.end)-centre
+			var inside: bool = Vector2(d.dot(basis.x),d.dot(basis.y)/1.25).length()<subject.w*0.5
+			var front: bool = false
+			for corner: int in 8:
+				front = front or (box.get_endpoint(corner)-centre).dot(basis.z)>0.5
+			if inside and front and not view.occlusion.revealing.has(index):
+				return false
+	return true
 
 func _check(value: bool, message: String) -> void:
 	assertions += 1

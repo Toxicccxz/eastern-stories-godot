@@ -17,6 +17,8 @@ var geometry: VoxelMapGeometry
 var occlusion := VoxelOcclusion.new()
 var layout: Dictionary
 var lighting := VoxelLighting.new()
+## How hard this view works the GPU (phones draw a lighter profile; see VoxelRenderQuality).
+var quality: VoxelRenderQuality
 var night: bool = false
 var left_view: bool = false
 var actors: Dictionary[StringName, Node3D] = {}
@@ -34,6 +36,8 @@ var _built: bool = false
 var _active: bool = false
 var _old_modulate: Color = Color.WHITE
 var _old_msaa: Viewport.MSAA = Viewport.MSAA_DISABLED
+var _old_scale: float = 1.0
+var _old_scaling: Viewport.Scaling3DMode = Viewport.SCALING_3D_MODE_BILINEAR
 var _target: Vector3
 var _offset := Vector3(21.213203,26,21.213203)
 var _view_yaw: float = VIEW_SIDE_ANGLE
@@ -76,7 +80,9 @@ func _build() -> void:
 	world = Node3D.new()
 	world.name = "VoxelWorld"
 	add_child(world)
+	quality = VoxelRenderQuality.current()
 	geometry = VoxelMapGeometry.new()
+	geometry.foliage_density = quality.foliage_density
 	world.add_child(geometry)
 	geometry.make(map,layout)
 	geometry.set_view_side(_cutaway_left)
@@ -97,6 +103,7 @@ func _build() -> void:
 		occlusion.register(entry["node"])
 	for shutter: Node3D in shutters.values():
 		occlusion.register(shutter)
+	lighting.quality = quality
 	lighting.build(world,occlusion,layout.get("indoor",false),layout.get("light",{}))
 	lighting.set_night(night,true)
 	_built = true
@@ -104,8 +111,13 @@ func _build() -> void:
 func _activate() -> void:
 	_old_modulate = map.modulate
 	map.modulate.a = 0.0
-	_old_msaa = get_viewport().msaa_3d
-	get_viewport().msaa_3d = Viewport.MSAA_4X
+	var viewport: Viewport = get_viewport()
+	_old_msaa = viewport.msaa_3d
+	_old_scale = viewport.scaling_3d_scale
+	_old_scaling = viewport.scaling_3d_mode
+	viewport.msaa_3d = quality.msaa
+	viewport.scaling_3d_mode = quality.upscale
+	viewport.scaling_3d_scale = quality.scale_3d
 	(map.player_body.get_node("Camera2D") as Camera2D).enabled = false
 	world.visible = true
 	camera.current = true
@@ -136,6 +148,8 @@ func _deactivate() -> void:
 			camera.current = false
 		viewport.canvas_transform = Transform2D.IDENTITY
 		viewport.msaa_3d = _old_msaa
+		viewport.scaling_3d_mode = _old_scaling
+		viewport.scaling_3d_scale = _old_scale
 
 func set_night(enabled: bool, immediate: bool = false) -> void:
 	night = enabled

@@ -4,6 +4,8 @@ extends RefCounted
 ## A presentation-only day/night blend. It never advances the authored game clock.
 const LAMP_FADE_BEGIN: float = 18.0
 const LAMP_FADE_END: float = 26.0
+## Seconds a lamp's shadow takes to fade in or out where only the nearest lamps cast one.
+const LAMP_SHADOW_FADE: float = 0.4
 var environment: Environment
 var sun: DirectionalLight3D
 var occlusion: VoxelOcclusion
@@ -20,11 +22,15 @@ var _player: Vector3 = Vector3.ZERO
 ## Fire and candle lights (meta `flicker`: how much their energy wavers).
 var flickering: Array[Light3D] = []
 var _clock: float = 0.0
+## The render profile: the sun's cascades and which lamps cast shadows (all on desktop).
+var quality: VoxelRenderQuality
 
 func build(world: Node3D, reveal: VoxelOcclusion, interior: bool, settings: Dictionary = {}) -> void:
 	indoor = interior
 	profile = settings
 	occlusion = reveal
+	if quality == null:
+		quality = VoxelRenderQuality.current()
 	var sky := WorldEnvironment.new()
 	environment = Environment.new()
 	environment.background_mode = Environment.BG_COLOR
@@ -34,8 +40,8 @@ func build(world: Node3D, reveal: VoxelOcclusion, interior: bool, settings: Dict
 	world.add_child(sky)
 	sun = DirectionalLight3D.new()
 	sun.shadow_enabled = true
-	sun.directional_shadow_max_distance = 80
-	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_PARALLEL_4_SPLITS
+	sun.directional_shadow_max_distance = quality.sun_shadow_distance
+	sun.directional_shadow_mode = quality.sun_shadow_mode()
 	sun.directional_shadow_blend_splits = true
 	sun.shadow_bias = 0.15
 	sun.shadow_normal_bias = 0.65
@@ -51,7 +57,8 @@ func build(world: Node3D, reveal: VoxelOcclusion, interior: bool, settings: Dict
 		light.shadow_blur = 1.5
 		# Never alternate a lit doorway between shadowed and unshadowed as nearby
 		# lamps exchange distance ranks. Cull the entire distant light after it fades.
-		light.shadow_enabled = true
+		# A profile with a lamp shadow limit (phones) fades shadows in near the player.
+		light.shadow_enabled = quality.lamp_shadow_limit<0
 		lamps.append(light)
 		if light.has_meta("flicker"):
 			flickering.append(light)
@@ -90,7 +97,44 @@ func advance(delta: float, player: Vector3) -> void:
 		_apply()
 	elif not indoor or not flickering.is_empty():
 		_apply_lamps(smoothstep(0.0,1.0,amount))
+	_shade_lamps(delta)
 	_clock += delta
+
+## Only the nearest lamps within reach cast shadows, weaker towards the reach. A shadow
+## changing hands fades out, then the next fades in (LAMP_SHADOW_FADE each), so neither
+## pops and no more than the limit ever render. Every lamp still lights. Profiles
+## without a limit (desktop) skip this.
+func _shade_lamps(delta: float) -> void:
+	if quality.lamp_shadow_limit<0:
+		return
+	var reach: float = quality.lamp_shadow_reach
+	var near: Array[Light3D] = []
+	for lamp: Light3D in lamps:
+		if lamp!=carried and lamp.visible and _planar_distance(lamp)<reach:
+			near.append(lamp)
+	near.sort_custom(func(a: Light3D,b: Light3D) -> bool: return _planar_distance(a)<_planar_distance(b))
+	near.resize(mini(near.size(),quality.lamp_shadow_limit))
+	var shadowed: int = 0
+	for lamp: Light3D in lamps:
+		if lamp!=carried and not lamp in near and lamp.shadow_enabled:
+			_shade(lamp,0.0,delta)
+		if lamp!=carried and lamp.shadow_enabled:
+			shadowed += 1
+	for lamp: Light3D in near:
+		if lamp.shadow_enabled or shadowed<quality.lamp_shadow_limit:
+			shadowed += int(not lamp.shadow_enabled)
+			_shade(lamp,1.0-smoothstep(reach*0.6,reach,_planar_distance(lamp)),delta)
+
+func _shade(lamp: Light3D, wanted: float, delta: float) -> void:
+	var opacity: float = move_toward(lamp.shadow_opacity if lamp.shadow_enabled else 0.0,wanted,delta/LAMP_SHADOW_FADE)
+	if not is_equal_approx(lamp.shadow_opacity,opacity):
+		lamp.shadow_opacity = opacity
+	if lamp.shadow_enabled!=(opacity>0.0):
+		lamp.shadow_enabled = opacity>0.0
+
+func _planar_distance(lamp: Light3D) -> float:
+	var offset: Vector3 = lamp.global_position-_player
+	return Vector2(offset.x,offset.z).length()
 
 func _apply_lamps(blend: float) -> void:
 	for lamp: Light3D in lamps:
