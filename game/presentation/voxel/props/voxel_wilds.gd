@@ -467,18 +467,19 @@ func _light_shaft(w: float, d: float) -> void:
 	var haze := StandardMaterial3D.new()
 	haze.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	haze.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	haze.albedo_color = Color(String(data.get("color","f3e3b8")),0.13)
+	haze.albedo_color = Color(String(data.get("color","f3e3b8")),0.07)
 	haze.cull_mode = BaseMaterial3D.CULL_DISABLED
 	var height: float = float(data.get("height",2.6))
-	for beam: int in 3:
+	# A few thin slanting rays, falling inward (+z) from above the opening.
+	for beam: int in 4:
 		var mesh := BoxMesh.new()
-		mesh.size = Vector3(w*(0.5-beam*0.12),0.05,height*1.4)
+		mesh.size = Vector3(0.12+beam%2*0.1,0.12+beam%2*0.1,height*1.5)
 		var shaft := MeshInstance3D.new()
 		shaft.mesh = mesh
 		shaft.material_override = haze
 		shaft.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-		shaft.position = Vector3((beam-1)*w*0.22,height*0.5,0)
-		shaft.rotation = Vector3(-0.85,0,0)
+		shaft.position = Vector3((beam-1.5)*w*0.18,height*0.5,0.2*beam)
+		shaft.rotation = Vector3(0.75,0,0)
 		root.add_child(shaft)
 	s.shard(root,Vector3(0,0.006,d*0.2),Vector3(w,0.01,d*0.8),String(data.get("floor","a6987a")),rng.randi())
 	var light := OmniLight3D.new()

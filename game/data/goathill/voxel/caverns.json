@@ -10,12 +10,13 @@
     "strata": ["4a4239", "3d3630", "2f2a25"]
   },
   "light": {
-    "sky": ["17130f", "0c0a09"],
-    "ambient": ["9a8f7e", "616482"],
-    "ambient_energy": [1.0, 0.75],
-    "sun": ["b3a792", "7d86a0"],
-    "sun_energy": [0.32, 0.18],
-    "carried": {"color": "ffd8a8", "range": 9.5, "day": 2.6, "night": 2.8, "attenuation": 0.9}
+    "sky": ["120f0c", "0c0a09"],
+    "ambient": ["9a8f7e", "8f8a8e"],
+    "ambient_energy": [1.0, 0.9],
+    "sun": ["b3a792", "9fa3b4"],
+    "sun_energy": [0.3, 0.24],
+    "carried": {"color": "ffd8a8", "range": 9.5, "day": 2.6, "night": 2.8, "attenuation": 0.9},
+    "note": "underground: night changes little but the daylight at the mouth"
   },
   "cliffs": {
     "low": 1.8,
@@ -30,11 +31,17 @@
     "tops": ["443f37", "4d473e", "575046"],
     "lifts": [
       {"rect": [736, 0, 1152, 400], "by": 0.5, "note": "cavern3 is the deepest and darkest (岩穴)"}
+    ],
+    "areas": [
+      {"rect": [-176, 176, 384, 640], "strata": ["5a4c3c", "665643", "73604a", "7d6a51", "675743", "5f513f"], "tops": ["4d4337", "574b3d", "615343"], "note": "cavern1: warm brown, the daylight reaches it"},
+      {"rect": [384, -176, 736, 384], "strata": ["434740", "4d5249", "575c51", "60665a", "4b5047", "464a42"], "tops": ["3b3f37", "43483e", "4d5246"], "grooves": 0.26, "note": "cavern2: damp grey-green, slime underfoot"},
+      {"rect": [736, -176, 1328, 480], "strata": ["2f2b27", "38332e", "413b35", "4a433c", "37322d", "332f2a"], "tops": ["2a2723", "312d29", "38342f"], "grooves": 0.34, "note": "cavern3: the darkest, gouged deepest (岩穴)"},
+      {"rect": [384, 448, 736, 1008], "strata": ["5a5034", "66593a", "726440", "7e6d45", "625639", "5c5136"], "tops": ["4e4630", "585036", "625a3c"], "grooves": 0.14, "note": "cavern4: yellow mineral streaks, its 暗黄色 slime"}
     ]
   },
   "ground": {
     "cave_floor": {"style": "scree", "colors": ["443d35", "4d453c", "575045"], "gravel": 0.3, "stones": 0.05, "wet": true, "wet_chance": 0.3, "pebbles": ["4f483f", "5a5248", "463f37", "625a4e"], "sheen": "4a5a5e"},
-    "boundary": {"style": "scree", "colors": ["342f2a", "3b3530", "433c35"], "gravel": 0.3, "stones": 0.04}
+    "boundary": {"style": "scree", "colors": ["342f2a", "3b3530", "433c35"], "gravel": 0.12, "stones": 0.02, "pebbles": ["3f3933", "48413a", "38332d"]}
   },
   "flora": {
     "grass_density": 0.0,

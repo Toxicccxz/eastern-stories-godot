@@ -15,7 +15,8 @@
   },
   "ground": {
     "path": {"colors": ["7f6a4d", "8a7454", "947d5b"]},
-    "wall_wood": {"colors": ["6e604c", "766652"]}
+    "wall_wood": {"colors": ["6e604c", "766652"]},
+    "boundary": {"colors": ["5c5043", "655849", "54493d"]}
   },
   "wall_looks": [
     {"rect": [-288, -224, 288, -176], "style": "rock", "colors": ["74644f", "826f57", "6a5b48", "8d7a5f"], "note": "利用了山壁而建: the north side is the mountain"},

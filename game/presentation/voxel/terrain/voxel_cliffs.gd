@@ -81,11 +81,8 @@ func build(parent: Node3D) -> void:
 	root = Node3D.new()
 	root.name = "Cliffs"
 	parent.add_child(root)
-	var strata: Array = config.get("strata",["7d6e58","8c7b60","9a876a","a48f6d","8f7d63"])
-	var tops: Array = config.get("tops",["8b8a5c","978f62","a0956a"])
 	var dark: String = String(config.get("dark","2a2420"))
 	var band: float = float(config.get("band",0.5))
-	var grooves: float = float(config.get("grooves",0.0))
 	var by_chunk: Dictionary[Vector2i, Array] = {}
 	for cell: Vector2i in heights:
 		var chunk := Vector2i(floori(float(cell.x)/CHUNK),floori(float(cell.y)/CHUNK))
@@ -100,6 +97,10 @@ func build(parent: Node3D) -> void:
 		var surface := SurfaceTool.new()
 		surface.begin(Mesh.PRIMITIVE_TRIANGLES)
 		for cell: Vector2i in by_chunk[chunk]:
+			var look: Dictionary = _look(cell)
+			var strata: Array = look.get("strata",["7d6e58","8c7b60","9a876a","a48f6d","8f7d63"])
+			var tops: Array = look.get("tops",["8b8a5c","978f62","a0956a"])
+			var grooves: float = float(look.get("grooves",0.0))
 			var h: float = heights[cell]
 			var x0: float = (cell.x-8)/32.0
 			var z0: float = (cell.y-8)/32.0
@@ -148,6 +149,17 @@ func remember(cells: Dictionary[Vector2i, String]) -> void:
 	_kinds_by_cell.clear()
 	for cell: Vector2i in heights:
 		_kinds_by_cell[cell] = cells.get(cell,"cliff")
+
+## The rock's colours where it stands: the first `areas` entry whose rect holds the cell
+## (a cave of yellow mineral, a canyon's cold grey walls), else the map's own.
+func _look(cell: Vector2i) -> Dictionary:
+	for area: Dictionary in config.get("areas",[]):
+		var r: Array = area["rect"]
+		if Rect2(r[0],r[1],r[2]-r[0],r[3]-r[1]).has_point(Vector2(cell)):
+			var merged: Dictionary = config.duplicate()
+			merged.merge(area,true)
+			return merged
+	return config
 
 func cells_kind(cell: Vector2i) -> String:
 	return _kinds_by_cell.get(cell,"cliff")

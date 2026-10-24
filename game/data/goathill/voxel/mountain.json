@@ -27,6 +27,11 @@
     "grooves": 0.07,
     "strata": ["6f6252", "82705a", "8f7b61", "9d8a6c", "7c6f5f", "8a7a63"],
     "tops": ["5e5c3a", "6b6841", "787349", "857c50"],
+    "areas": [
+      {"rect": [880, 260, 1480, 900], "strata": ["69625a", "77706a", "857d73", "908779", "726b62", "7e776d"], "tops": ["5d5b40", "686545", "73704c"], "grooves": 0.12, "note": "the canyon: colder, greyer, scored walls (高不可攀的峭壁)"},
+      {"rect": [928, 900, 1264, 1150], "strata": ["7a5f4c", "8a6b52", "98785a", "a58463", "86684f", "927256"], "note": "under 飞火崖: the rock goes ruddy"},
+      {"rect": [96, 1560, 600, 1880], "tops": ["556038", "5f6a3e", "6a7344", "737b4a"], "note": "mroad2's wooded slope: greener tops"}
+    ],
     "lifts": [
       {"rect": [544, 1040, 672, 1176], "by": 3.0, "note": "the high north wall of the corner, its crack 三四丈 up"},
       {"rect": [720, 1360, 992, 1424], "by": 1.5, "note": "the cleft the temple stands in"},
