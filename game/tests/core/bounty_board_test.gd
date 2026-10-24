@@ -93,8 +93,8 @@ func _test_far_stronger_gets_none() -> void:
 	var rules: BountyRules = GameContent.catalog().bounties()
 	var state := BountyState.new()
 	BountyBoard.tick(state, rules, 100000, 0, _exp)
-	_assert_eq(state.tiers, [-1, -1, -1], "100000 against the 杀人魔头 (6500): far weaker, nothing posted")
-	_assert_eq(BountyBoard.worthy_tier(rules, 25000, _exp), 4, "25000: still worth the top tier")
+	_assert_eq(state.tiers, [-1, -1, -1], "100000 against the 杀人魔头 (5500): far weaker, nothing posted")
+	_assert_eq([BountyBoard.worthy_tier(rules, 20000, _exp), BountyBoard.worthy_tier(rules, 22000, _exp)], [4, -1], "20000: still worth the top tier; 22000 (four times and more): none")
 
 
 func _test_reward() -> void:

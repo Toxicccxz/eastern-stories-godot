@@ -90,10 +90,10 @@
 			"age": 24,
 			"long": "一个贼眉鼠眼的毛贼，衣衫上补丁叠著补丁，腰间却鼓鼓囊囊的，不知又从谁家摸来了什么。雪亭驿的告示上正画著他的像。\n",
 			"attributes": { "str": 24, "cor": 22, "int": 18, "spi": 15, "cps": 15, "per": 12, "con": 24, "kar": 12 },
-			"combat_exp": 200,
+			"combat_exp": 100,
 			"attitude": "aggressive",
 			"capabilities": ["aggressive_on_player_presence"],
-			"skills": { "unarmed": 5, "dodge": 5, "parry": 3 }
+			"skills": { "unarmed": 3, "dodge": 3, "parry": 2 }
 		},
 		{
 			"id": "native.npc.outlaw.2",
@@ -105,10 +105,10 @@
 			"age": 30,
 			"long": "一个满脸横肉的汉子，专在山路上拦人剪径，不知劫过多少过往的客商。雪亭驿的告示上正画著他的像。\n",
 			"attributes": { "str": 24, "cor": 22, "int": 18, "spi": 15, "cps": 15, "per": 12, "con": 24, "kar": 12 },
-			"combat_exp": 500,
+			"combat_exp": 400,
 			"attitude": "aggressive",
 			"capabilities": ["aggressive_on_player_presence"],
-			"skills": { "unarmed": 8, "dodge": 8, "parry": 5 }
+			"skills": { "unarmed": 6, "dodge": 6, "parry": 4 }
 		},
 		{
 			"id": "native.npc.outlaw.3",
@@ -120,10 +120,10 @@
 			"age": 28,
 			"long": "一个油头粉面的年轻人，手里摇著一柄折扇，眼神却阴鸷得很。官府悬赏捉拿他已有好些日子了。\n",
 			"attributes": { "str": 24, "cor": 22, "int": 18, "spi": 15, "cps": 15, "per": 12, "con": 24, "kar": 12 },
-			"combat_exp": 1200,
+			"combat_exp": 1000,
 			"attitude": "aggressive",
 			"capabilities": ["aggressive_on_player_presence"],
-			"skills": { "unarmed": 12, "dodge": 14, "parry": 8 }
+			"skills": { "unarmed": 10, "dodge": 12, "parry": 6 }
 		},
 		{
 			"id": "native.npc.outlaw.4",
@@ -135,10 +135,10 @@
 			"age": 38,
 			"long": "一个虬髯大汉，身上带著好几处刀疤，据说在江北做过好几票大买卖，官府悬了重赏要他的人头。\n",
 			"attributes": { "str": 24, "cor": 22, "int": 18, "spi": 15, "cps": 15, "per": 12, "con": 24, "kar": 12 },
-			"combat_exp": 3000,
+			"combat_exp": 2500,
 			"attitude": "aggressive",
 			"capabilities": ["aggressive_on_player_presence"],
-			"skills": { "unarmed": 18, "dodge": 18, "parry": 12 }
+			"skills": { "unarmed": 15, "dodge": 15, "parry": 10 }
 		},
 		{
 			"id": "native.npc.outlaw.5",
@@ -150,10 +150,10 @@
 			"age": 45,
 			"long": "一个面色青白的中年人，目光扫过来便叫人背脊发凉。告示上说他一夜之间屠了邻县一户人家，官府悬了最重的赏。\n",
 			"attributes": { "str": 24, "cor": 22, "int": 18, "spi": 15, "cps": 15, "per": 12, "con": 24, "kar": 12 },
-			"combat_exp": 6500,
+			"combat_exp": 5500,
 			"attitude": "aggressive",
 			"capabilities": ["aggressive_on_player_presence"],
-			"skills": { "unarmed": 25, "dodge": 25, "parry": 20 }
+			"skills": { "unarmed": 22, "dodge": 22, "parry": 16 }
 		}
 	]
 }
