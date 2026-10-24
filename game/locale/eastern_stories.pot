@@ -6973,6 +6973,21 @@ msgstr ""
 msgid "$N喝道：「$n，看招！」"
 msgstr ""
 
+#. how a said line hands over to what is said (店小二说道：客官里边请。); a bubble shows only what follows it, when it comes within the first ten characters.
+#: runtime/world/map/world_map_hostilities.gd ui/world/world_speech_bubbles.gd
+msgid "道："
+msgstr ""
+
+#. native (A6): a beast of the gang notices the player (it says nothing).
+#: runtime/world/map/world_map_hostilities.gd
+msgid "{npc}发现了你！"
+msgstr ""
+
+#. native (A6): the gang's first to notice the player, who has no ES2 fight line.
+#: runtime/world/map/world_map_hostilities.gd
+msgid "{npc}发现了你，大喝一声！"
+msgstr ""
+
 #: runtime/world/map/world_map_hostilities.gd
 msgid "%s用一种异样的眼神扫视著在场的每一个人。"
 msgstr ""
@@ -7414,6 +7429,10 @@ msgstr ""
 #. native (A2): the bounty's silver ({silver}, e.g. 五) the 驿站 pays the player.
 #: runtime/world/world_bounties.gd
 msgid "雪亭驿付给你{silver}两银子的赏银。"
+msgstr ""
+
+#: runtime/world/world_character_body_2d.gd
+msgid "！"
 msgstr ""
 
 #: runtime/world/world_map_controller.gd
@@ -9157,11 +9176,6 @@ msgstr ""
 
 #: ui/world/work_panel.gd
 msgid "工作状态异常，请停止操作。"
-msgstr ""
-
-#. how a said line hands over to what is said (店小二说道：客官里边请。); a bubble shows only what follows it, when it comes within the first ten characters.
-#: ui/world/world_speech_bubbles.gd
-msgid "道："
 msgstr ""
 
 #. the banner on arriving on another map: {region} the region (绮云镇), {place} where the player stands (卧龙岗).

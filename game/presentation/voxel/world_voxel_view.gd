@@ -20,6 +20,8 @@ var night: bool = false
 var left_view: bool = false
 var actors: Dictionary[StringName, Node3D] = {}
 var labels: Dictionary[StringName, Label3D] = {}
+## The red marks over the heads of NPCs whose 2D body shows its AlertMark (进门一起上).
+var alert_marks: Dictionary[StringName, Label3D] = {}
 var objects: Dictionary[StringName, Node3D] = {}
 var entrances: Dictionary[StringName, Dictionary] = {}
 var shutters: Dictionary[StringName, Node3D] = {}
@@ -237,11 +239,22 @@ func _sync_actors(delta: float) -> void:
 			label.modulate = color
 			var reveal_distance: float = float(label.get_meta("name_distance",-1.0))
 			label.visible = reveal_distance<0 or at.distance_squared_to(map.player_body.global_position)<=reveal_distance*reveal_distance or id==hovered or id==map.selected_character_id()
+		var mark := body.get_node_or_null("AlertMark") as Label
+		var marked: bool = mark != null and mark.visible
+		if marked and not alert_marks.has(id):
+			# Over the name, whatever the body's size (a beast's name sits lower or higher).
+			var alert: Label3D = _label(actor, mark.text, (labels[id].position.y if labels.has(id) else 2.2) + 0.55)
+			alert.font_size = 60
+			alert.modulate = mark.get_theme_color("font_color")
+			alert_marks[id] = alert
+		if alert_marks.has(id):
+			alert_marks[id].visible = marked
 	for id: StringName in actors.keys():
 		if not seen.has(id):
 			actors[id].queue_free()
 			actors.erase(id)
 			labels.erase(id)
+			alert_marks.erase(id)
 
 func _make_actor(body: WorldCharacterBody2D) -> void:
 	var actor := Node3D.new()

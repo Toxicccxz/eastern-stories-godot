@@ -339,6 +339,43 @@ func _update_label(value: String) -> void:
 const ALERT_NAME_COLOR: Color = Color(1.0, 0.38, 0.38)
 
 
+## A red ！ over the name: the gang's first to notice the player, in its alert beat
+## (DECISIONS「进门一起上」). Made the first time it shows.
+func set_alert_mark(on: bool) -> void:
+	var mark: Label = get_node_or_null("AlertMark") as Label
+	if mark == null:
+		if not on:
+			return
+		var name_label: Label = get_node_or_null("NameLabel") as Label
+		mark = Label.new()
+		mark.name = "AlertMark"
+		mark.text = "！"
+		mark.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		mark.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		mark.add_theme_font_size_override("font_size", 22)
+		mark.add_theme_color_override("font_color", ALERT_NAME_COLOR)
+		mark.add_theme_color_override("font_outline_color", Color.BLACK)
+		mark.add_theme_constant_override("outline_size", 4)
+		# Left of the name, on its line: a speech bubble shows above the name.
+		var left: float = -58.0 if name_label == null else name_label.offset_left
+		var top: float = -48.0 if name_label == null else name_label.offset_top
+		mark.position = Vector2(left - 24.0, top - 5.0)
+		mark.size = Vector2(22.0, 30.0)
+		add_child(mark)
+	mark.visible = on
+
+
+## Whether its ! shows.
+func alert_mark_shown() -> bool:
+	var mark: Label = get_node_or_null("AlertMark") as Label
+	return mark != null and mark.visible
+
+
+## Turns to look at `point` (the gang turning to the player): presentation only.
+func face_toward(point: Vector2) -> void:
+	_turn_to(point - global_position)
+
+
 func set_name_alert(on: bool) -> void:
 	var label: Label = get_node_or_null("NameLabel") as Label
 	if label == null or label.has_theme_color_override("font_color") == on:

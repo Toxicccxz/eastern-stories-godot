@@ -4,9 +4,9 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**A6 进门一起上**（owner 批准 2026-10-24，DECISIONS「进门一起上」）：两个 PR。A（分支 `phase/gang-entry`）：
+**A6 进门一起上**（owner 批准 2026-10-24，DECISIONS「进门一起上」）：两个 PR。A（#156，已合并）：
 同一区块里见人就打的人一起出手，全游戏一条规则（`combat_entry` 删除）；打过的人等玩家离开那块地方再回来。
-B：出手前的提示一拍（红「！」、喊话、同伙转身，约 0.5 秒，经典 0），离开区块就躲开。
+B（分支 `phase/gang-alert`）：出手前的提示一拍（红「！」、喊话、同伙转身，0.5 秒，经典 0），离开区块就躲开。
 
 **A2 经验节奏**（owner 批准 2026-10-24，DECISIONS「经验节奏」）：两个 PR。A（#153，已合并）：一次性的
 「历练」奖励、落后补偿、潜能上限按阶段、打坐 ×6，模拟 `tests/sim/`。B（分支 `phase/exp-pacing-b`）：

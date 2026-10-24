@@ -26,6 +26,9 @@ extends RefCounted
 ##   long after it (ES2: each call_out's own 1-3 s, kept in the NPC's data). 0: ES2.
 ## - trial_blow_ms: the time between a master's test blows (三招, 三鞭); ES2's
 ##   champion.c strikes all three in one command. 0: ES2.
+## - hostile_alert_ms: the beat between a gang noticing the player and falling on them (its
+##   first to notice shouts, a red ！ over its head, the rest turn; DECISIONS「进门一起上」).
+##   The player who leaves the place within it escapes. 0 (ES2's call_out(0)): at once.
 ## - heart_beat_ms: the driver heart_beat outside a fight (ES2: "usually 2 seconds",
 ##   DECISIONS S5B B): NPC chat, busy wearing off, heal_up's tick count.
 ## - dim_fade_ms: how long the screen takes to go dark when the player falls unconscious.
@@ -74,6 +77,7 @@ var _npc_thirst: int
 var _player_wake_seconds: int
 var _reaction_beat_ms: int = 0
 var _trial_blow_ms: int = 0
+var _hostile_alert_ms: int = 0
 var _heart_beat_ms: int = ES2_HEART_BEAT_MS
 var _dim_fade_ms: int = 0
 var _away_catch_up_limit_seconds: int = 0
@@ -120,6 +124,10 @@ var player_wake_seconds: int:
 var trial_blow_seconds: float:
 	get:
 		return float(_trial_blow_ms) / 1000.0
+## Seconds between a gang noticing the player and falling on them (0: at once).
+var hostile_alert_seconds: float:
+	get:
+		return float(_hostile_alert_ms) / 1000.0
 ## Seconds of one heart beat outside a fight.
 var heart_beat_seconds: float:
 	get:
@@ -207,8 +215,15 @@ func copy() -> PacingDefinition:
 	record.with_corpse_decay(corpse_rot_seconds, corpse_bones_seconds, corpse_scatter_seconds)
 	record.with_progression(_milestone_rewards, _catch_up_max_percent, _staged_potential_cap, _player_exercise_gain)
 	record.with_training(_bounty_board, _bounty_refresh_seconds, _training_dummies)
+	record.with_hostile_alert(_hostile_alert_ms)
 	record.feel = feel
 	return record
+
+
+## This record with the gang's alert beat set (milliseconds; tests, and from_record()).
+func with_hostile_alert(milliseconds: int) -> PacingDefinition:
+	_hostile_alert_ms = milliseconds
+	return self
 
 
 ## This record with the bounty board and 木人 knobs set (tests, and from_record()).
@@ -294,7 +309,7 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.boolean("bounty_board", false),
 		reader.integer("bounty_refresh_seconds", 600),
 		reader.boolean("training_dummies", false),
-	)
+	).with_hostile_alert(reader.integer("hostile_alert_ms", 0))
 	var feel: ContentRecordReader = reader.child("feel")
 	if feel != null:
 		definition.feel = FeelDefinition.from_record(feel)
@@ -317,6 +332,8 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.fail("reaction_beat_ms", "must not be negative")
 	if definition._trial_blow_ms < 0:
 		reader.fail("trial_blow_ms", "must not be negative")
+	if definition._hostile_alert_ms < 0:
+		reader.fail("hostile_alert_ms", "must not be negative")
 	if definition._dim_fade_ms < 0:
 		reader.fail("dim_fade_ms", "must not be negative")
 	if definition._away_catch_up_limit_seconds < 0:
