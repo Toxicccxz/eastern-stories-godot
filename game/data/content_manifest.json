@@ -96,6 +96,9 @@
 		"death/npcs.json",
 		"death/spawns.json",
 		"death/rooms.json",
-		"death/world.json"
+		"death/world.json",
+		"native/npcs.json",
+		"native/spawns.json",
+		"native/bounties.json"
 	]
 }

@@ -229,6 +229,7 @@
           ["cliff", -320, -2656, -160, -2560, "the col's rocks"],
           ["cliff", 160, -2656, 320, -2592],
           ["blocked", 128, -2384, 176, -2368, "the government notice about the 野羊山 bandits", {"look": {"kind": "board"}}],
+          ["blocked", -96, -2112, -80, -2064, "雪亭驿's bounty board on the street (native, A2 经验节奏)", {"look": {"kind": "board", "rotation": 90}}],
           ["blocked", 160, -688, 192, -656, "the stone lions either side of the gate", {"look": {"kind": "stone_lion", "rotation": -90}}],
           ["blocked", 160, -464, 192, -432, {"look": {"kind": "stone_lion", "rotation": -90}}],
           ["blocked", 336, -704, 352, -688, "the flagpole: 「淳风武馆」", {"look": {"kind": "flagpole", "text": "淳风武馆"}}],
@@ -314,6 +315,13 @@
             "at": [-288, -2020],
             "text": "雪亭驿",
             "size": 12
+          },
+          {
+            "node": "service",
+            "name": "BountyBoard",
+            "id": "snow.mstreet4.bounty",
+            "at": [-56, -2088],
+            "text": "官府悬赏 · 靠近看榜"
           },
           {
             "node": "caption",
@@ -1413,6 +1421,11 @@
           "snow.school2.trainee.5": ["snow.school2", ["s", 0, 3]],
           "snow.school2.trainee.6": ["snow.school2", ["s", 5, 3]],
           "snow.school2.fist_trainer.1": ["snow.school2", ["w", 2.2, -2.2]],
+          "snow.school2.wooden_dummy.1": ["snow.school2", ["n", 8, 2]],
+          "snow.school2.wooden_dummy.2": ["snow.school2", ["n", 10.5, 2]],
+          "snow.school2.wooden_dummy.3": ["snow.school2", ["s", 8, 2]],
+          "snow.school2.wooden_dummy.4": ["snow.school2", ["s", 10.5, 2]],
+          "snow.school2.wooden_dummy.5": ["snow.school2", ["e", 2, -3.5]],
           "snow.nyard.girl.1": ["snow.nyard", ["c", -1.5, 1]],
           "snow.weapon_storage.bamboo_sword.1": ["snow.weapon_storage", ["c", 1, 1.5]]
         },

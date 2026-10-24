@@ -860,6 +860,9 @@ func dismiss_summoned() -> void:
 			continue
 		if (npc.definition().conjuring() != null or npc.definition().raising() != null) and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
 			continue
+		# A2: a bounty's outlaw came for no fight; it stays until it falls or is taken away.
+		if npc.definition().native_role() == NpcDefinition.ROLE_BOUNTY_TARGET and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
+			continue
 		if npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD:
 			var summoning: NpcSummoning = npc.definition().summoning()
 			if summoning != null and _map.npc_life.player_hears(npc) and session != null and not departing:
@@ -871,6 +874,29 @@ func dismiss_summoned() -> void:
 		_summon_spawns.erase(npc.spawn_id)
 		summoners.erase(npc.character_id)
 		_drop_npc(npc)
+
+
+## Native (A2): a bounty's outlaw (`definition_id`) comes out beside the player, as a
+## summoned NPC does (no room placed it; a save leaves it out, OldPineSaveEligibility).
+## Null when it could not come.
+func bring_outlaw(definition_id: StringName) -> NpcRuntimeState:
+	var definition: NpcDefinition = GameContent.catalog().npc(definition_id)
+	if definition == null or definition.native_role() != NpcDefinition.ROLE_BOUNTY_TARGET or _player == null:
+		return null
+	return _new_beside(_player.character_id, definition)
+
+
+## Native (A2): a bounty's outlaw the player spared is taken away to the 驿站 (押送官府),
+## with what it carries; no corpse.
+func escort_away(npc: NpcRuntimeState) -> void:
+	if npc == null or find_resident_npc(npc.character_id) == null:
+		return
+	_take_away(npc)
+	_summon_spawns.erase(npc.spawn_id)
+	summoners.erase(npc.character_id)
+	if _map.selection.selected_character_id() == npc.character_id:
+		_map.selection.selected_target = null
+	_drop_npc(npc)
 
 
 ## An act's `leave` (d/village/npc/oldliu.c destruct() after his thanks; owner, 黑松山 plan

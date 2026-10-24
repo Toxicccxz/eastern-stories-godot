@@ -106,7 +106,16 @@ class Region:
         """NPC spawns, then item spawns, in file order, then the spawns world.json authors
         (summoned ones: house3.c's spiders); each has a zone and its points."""
         items = self._read('item_spawns.json')['item_spawns'] if (self.data / 'item_spawns.json').exists() else []
-        return self._read('spawns.json')['spawns'] + items + self._read('world.json').get('spawns', [])
+        return self._read('spawns.json')['spawns'] + items + self._read('world.json').get('spawns', []) + self.native_spawns()
+
+    def native_spawns(self) -> list:
+        """Native content's NPC spawns (data/native/spawns.json, not ES2's: A2's 木人) on this
+        region's maps."""
+        native = self.data.parent / 'native' / 'spawns.json'
+        if not native.exists():
+            return []
+        maps = {m['id'] for m in self._read('world.json').get('maps', [])}
+        return [s for s in json.loads(native.read_text(encoding='utf-8'))['spawns'] if s['map'] in maps]
 
     def marker_name(self, point: str) -> str:
         """cloud.nroad1.waiter.1 -> Nroad1Waiter1."""

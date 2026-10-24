@@ -193,7 +193,8 @@ func refresh_live_state() -> void:
 	)
 	# Fights with an NPC whose skills are not ported yet would abort (fight_deferred, DECISIONS 4E).
 	var fightable: bool = target_available and not selected_target.definition().dealings().is_fight_deferred()
-	_ui.attack_button.disabled = not fightable or not player_available
+	# A2's 木人 only spar.
+	_ui.attack_button.disabled = not fightable or not player_available or selected_target.definition().spar_only()
 	# fight.c: a speaking character is asked; beasts are not (see DECISIONS).
 	_ui.spar_button.disabled = not fightable or not player_available or not selected_target.definition().can_speak()
 	# ask.c: the same speakers, who must be here (present()).

@@ -99,6 +99,10 @@ static func inspect(
 static func left_out(npc: NpcRuntimeState) -> bool:
 	if not SummonedNpc.is_summoned(npc.character_id):
 		return false
+	# A2: a bounty's outlaw comes out again when the player walks back in; a dead one is
+	# forgotten (its corpse, if any, is kept as a summoned one's).
+	if npc.definition().native_role() == NpcDefinition.ROLE_BOUNTY_TARGET:
+		return true
 	if npc.definition().raising() != null:
 		return true
 	return npc.definition().conjuring() != null and npc.life_status != CharacterRuntimeLifeStatus.Value.DEAD

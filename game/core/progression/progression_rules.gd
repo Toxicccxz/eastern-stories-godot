@@ -14,11 +14,12 @@ extends RefCounted
 ## - notable_npcs: NPC definitions whose defeat is the `defeat` kind, not `spar`.
 ## - places: zones whose first visit is the `place` kind (each region's first is `region`).
 
-enum Kind { SPAR, DEFEAT, CHAIN, BOOK, REGION, PLACE }
+## BOUNTY: a 雪亭驿 bounty done (repeatable: BountyBoard, no ledger key).
+enum Kind { SPAR, DEFEAT, CHAIN, BOOK, REGION, PLACE, BOUNTY }
 
 const KIND_KEYS: Dictionary[String, Kind] = {
 	"spar": Kind.SPAR, "defeat": Kind.DEFEAT, "chain": Kind.CHAIN, "book": Kind.BOOK,
-	"region": Kind.REGION, "place": Kind.PLACE,
+	"region": Kind.REGION, "place": Kind.PLACE, "bounty": Kind.BOUNTY,
 }
 ## combatd.c: potential grows while less than 100 of it is unspent.
 const ES2_POTENTIAL_CAP: int = 100

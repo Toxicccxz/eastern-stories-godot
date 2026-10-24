@@ -375,6 +375,8 @@ func spare(victim_id: StringName) -> bool:
 		return false
 	_drop(victim_id)
 	_announcements.append(CombatLifecycleAnnouncement.new(victim_id, CombatLifecycleAnnouncement.SPARED))
+	# A2: a bounty's outlaw spared is taken to the 驿站 and paid for (WorldBounties).
+	_session.bounties().outlaw_spared(_session.resident_npc(victim_id))
 	return true
 
 

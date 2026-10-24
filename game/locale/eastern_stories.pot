@@ -18,6 +18,7 @@ msgstr ""
 
 #. snow.wei_wuji region
 #. snow.weapon_storage region
+#. native.bounty region
 #. snow name
 #: scenes/application/application_shell.tscn data/common/journal.json data/snow/world.json
 msgid "雪亭镇"
@@ -211,7 +212,17 @@ msgstr ""
 #. chuenyu.npc.smallgardener gender
 #. chuenyu.npc.cook gender
 #. chuenyu.npc.chuenyu gender
-#: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json
+#. native.npc.wooden_dummy.1 gender
+#. native.npc.wooden_dummy.2 gender
+#. native.npc.wooden_dummy.3 gender
+#. native.npc.wooden_dummy.4 gender
+#. native.npc.wooden_dummy.5 gender
+#. native.npc.outlaw.1 gender
+#. native.npc.outlaw.2 gender
+#. native.npc.outlaw.3 gender
+#. native.npc.outlaw.4 gender
+#. native.npc.outlaw.5 gender
+#: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/native/npcs.json
 msgid "男性"
 msgstr ""
 
@@ -2521,6 +2532,10 @@ msgstr ""
 msgid "雪亭驿"
 msgstr ""
 
+#: scenes/world/snow/snow_outdoor.tscn
+msgid "官府悬赏 · 靠近看榜"
+msgstr ""
+
 #. es2:d/snow/workplace short
 #: scenes/world/snow/snow_outdoor.tscn scenes/world/snow/snow_workplace_house.tscn data/snow/rooms.json
 msgid "谷物加工厂"
@@ -4171,6 +4186,11 @@ msgstr ""
 #. native 历练 reward (A2): the player has read {name} through (it teaches them no more).
 #: core/progression/milestone_rewards.gd
 msgid "你读通了{name}"
+msgstr ""
+
+#. native 历练 reward (A2): the player did the 雪亭驿 bounty on {name} (an outlaw).
+#: core/progression/milestone_rewards.gd
+msgid "你完成了官府悬赏「{name}」"
 msgstr ""
 
 #. native 历练 reward (A2): the player's first time in {name} (a region or a named place).
@@ -7060,6 +7080,11 @@ msgstr ""
 msgid "（{npc}要把你押到县衙受审：被押着走不开；可以向他行贿，也可以拒捕跟他动手。）"
 msgstr ""
 
+#. native (A2): 攻击 on one of the 武馆's 木人 (training dummies), which are for sparring only.
+#: runtime/world/map/world_map_selection.gd
+msgid "木人是武馆拆招用的，只能切磋，打坏了还得赔。"
+msgstr ""
+
 #: runtime/world/map/world_map_selection.gd ui/world/shared_ui_nearby.gd
 msgid "这里禁止战斗。"
 msgstr ""
@@ -7257,6 +7282,56 @@ msgstr ""
 
 #: runtime/world/services/bank_service.gd
 msgid "请输入范围内的正整数，不支持小数或自动取整。"
+msgstr ""
+
+#. native (A2): the 雪亭驿 bounty board's heading.
+#: runtime/world/services/bounty_service.gd
+msgid "官府悬赏：捉拿以下恶人者，赏银由雪亭驿代付。放过的恶人押送官府，一样领赏。"
+msgstr ""
+
+#: runtime/world/services/bounty_service.gd
+msgid "看榜"
+msgstr ""
+
+#. native (A2): the bounty board has nothing for the player now.
+#: runtime/world/services/bounty_service.gd
+msgid "榜上暂时没有与阁下相称的悬赏，过些时候再来看看吧。"
+msgstr ""
+
+#. native (A2): one bounty on the board: the outlaw, where it was last seen ({place} in {region}), its silver.
+#: runtime/world/services/bounty_service.gd
+msgid "{outlaw} · 出没于{region}{place}一带 · 赏银{silver}两"
+msgstr ""
+
+#: runtime/world/services/bounty_service.gd
+msgid "（已揭）"
+msgstr ""
+
+#. green.closed.landmark.fog action
+#. choyin.lionroom.landmark.dark action
+#. choyin.taolin.landmark.grove action
+#. village.lakebottom1.landmark.ice action
+#: runtime/world/services/bounty_service.gd data/green/world.json data/choyin/world.json data/village/world.json
+msgid "放弃"
+msgstr ""
+
+#: runtime/world/services/bounty_service.gd
+msgid "揭榜"
+msgstr ""
+
+#. native (A2): why 揭榜 is greyed: one bounty at a time.
+#: runtime/world/services/bounty_service.gd
+msgid "一次只能揭一张榜。"
+msgstr ""
+
+#. native (A2): the bounty board after the player took a bounty.
+#: runtime/world/services/bounty_service.gd
+msgid "你揭下了告示。"
+msgstr ""
+
+#. native (A2): the bounty board after the player gave a bounty up.
+#: runtime/world/services/bounty_service.gd
+msgid "你放弃了这张悬赏。"
 msgstr ""
 
 #: runtime/world/services/dance_service.gd
@@ -7461,6 +7536,31 @@ msgstr ""
 
 #: runtime/world/services/work_service.gd
 msgid "工作状态异常，请停止操作。"
+msgstr ""
+
+#. native (A2): the player took the 雪亭驿 bounty on {outlaw}, last seen in {place} ({region}).
+#: runtime/world/world_bounties.gd
+msgid "你揭下了雪亭驿的悬赏告示：{outlaw}，最近在{region}的{place}一带出没。"
+msgstr ""
+
+#. native (A2): the player gave up the 雪亭驿 bounty on {outlaw}.
+#: runtime/world/world_bounties.gd
+msgid "你放弃了捉拿{outlaw}的悬赏。"
+msgstr ""
+
+#. native (A2): the bounty's outlaw ({outlaw}) jumps out where the player walks.
+#: runtime/world/world_bounties.gd
+msgid "路旁人影一晃，{outlaw}跳了出来！"
+msgstr ""
+
+#. native (A2): the player spared the bounty's outlaw ({outlaw}); it is taken to the 驿站.
+#: runtime/world/world_bounties.gd
+msgid "你把{outlaw}捆了个结实，托路过的官差押往雪亭驿。"
+msgstr ""
+
+#. native (A2): the bounty's silver ({silver}, e.g. 五) the 驿站 pays the player.
+#: runtime/world/world_bounties.gd
+msgid "雪亭驿付给你{silver}两银子的赏银。"
 msgstr ""
 
 #: runtime/world/world_map_controller.gd
@@ -13406,6 +13506,22 @@ msgstr ""
 #. city.token/shown text
 #: data/common/journal.json
 msgid "你把令牌交给京师守城兵，他连忙说：原来是官府中人。"
+msgstr ""
+
+#. native.bounty title
+#. snow.mstreet4.bounty name
+#: data/common/journal.json data/snow/world.json
+msgid "官府悬赏"
+msgstr ""
+
+#. native.bounty/taken text
+#: data/common/journal.json
+msgid "你在雪亭驿门外揭下了一张官府悬赏告示，照告示上说的地方去找那个恶人。"
+msgstr ""
+
+#. native.bounty/done text
+#: data/common/journal.json
+msgid "你第一次领到了雪亭驿的悬赏。告示上隔些时候就会贴出新的。"
 msgstr ""
 
 #. help.newbie title
@@ -20554,14 +20670,6 @@ msgstr ""
 #. green.closed.landmark.stone messages.rolled
 #: data/green/world.json
 msgid "大岩石滚开了,你从大岩石后面的小洞钻了出去"
-msgstr ""
-
-#. green.closed.landmark.fog action
-#. choyin.lionroom.landmark.dark action
-#. choyin.taolin.landmark.grove action
-#. village.lakebottom1.landmark.ice action
-#: data/green/world.json data/choyin/world.json data/village/world.json
-msgid "放弃"
 msgstr ""
 
 #. green.closed.landmark.fog long
@@ -31163,6 +31271,125 @@ msgstr ""
 #: data/death/world.json
 msgid ""
 "那人一句话也不说就往你这边撞过来, 你眼前一阵黑....\n"
+msgstr ""
+
+#. native.npc.wooden_dummy.1 name
+#: data/native/npcs.json
+msgid "木人（初阶）"
+msgstr ""
+
+#. native.npc.wooden_dummy.1 long
+#: data/native/npcs.json
+msgid ""
+"这是一具硬木削成的练功木人，手臂和腰身装著机括，一碰便会还手。胸前贴著一张褪色的红纸，写著「初阶」两个字，是武馆给初学的弟子拆招用的。\n"
+msgstr ""
+
+#. native.npc.wooden_dummy.1 accept_fight.emote
+#. native.npc.wooden_dummy.2 accept_fight.emote
+#. native.npc.wooden_dummy.3 accept_fight.emote
+#. native.npc.wooden_dummy.4 accept_fight.emote
+#. native.npc.wooden_dummy.5 accept_fight.emote
+#: data/native/npcs.json
+msgid "身上的机括「咔嗒」一响，摆好了架势。"
+msgstr ""
+
+#. native.npc.wooden_dummy.2 name
+#: data/native/npcs.json
+msgid "木人（二阶）"
+msgstr ""
+
+#. native.npc.wooden_dummy.2 long
+#: data/native/npcs.json
+msgid ""
+"这是一具硬木削成的练功木人，手臂和腰身装著机括，一碰便会还手。胸前的红纸写著「二阶」，木头上满是拳脚留下的印子。\n"
+msgstr ""
+
+#. native.npc.wooden_dummy.3 name
+#: data/native/npcs.json
+msgid "木人（三阶）"
+msgstr ""
+
+#. native.npc.wooden_dummy.3 long
+#: data/native/npcs.json
+msgid ""
+"这是一具铁木削成的练功木人，机括比旁边几具紧得多，还手又快又沉。胸前的红纸写著「三阶」。\n"
+msgstr ""
+
+#. native.npc.wooden_dummy.4 name
+#: data/native/npcs.json
+msgid "木人（四阶）"
+msgstr ""
+
+#. native.npc.wooden_dummy.4 long
+#: data/native/npcs.json
+msgid ""
+"这是一具铁木削成的练功木人，关节处包著铜皮，听说是柳馆主亲手调过机括的。胸前的红纸写著「四阶」。\n"
+msgstr ""
+
+#. native.npc.wooden_dummy.5 name
+#: data/native/npcs.json
+msgid "木人（五阶）"
+msgstr ""
+
+#. native.npc.wooden_dummy.5 long
+#: data/native/npcs.json
+msgid ""
+"这具木人通体乌黑，是一整块铁木雕成的，机括藏在里头看不见。胸前的红纸写著「五阶」，武馆里能把它打得摇晃的人没有几个。\n"
+msgstr ""
+
+#. native.npc.outlaw.1 name
+#: data/native/npcs.json
+msgid "流窜毛贼"
+msgstr ""
+
+#. native.npc.outlaw.1 long
+#: data/native/npcs.json
+msgid ""
+"一个贼眉鼠眼的毛贼，衣衫上补丁叠著补丁，腰间却鼓鼓囊囊的，不知又从谁家摸来了什么。雪亭驿的告示上正画著他的像。\n"
+msgstr ""
+
+#. native.npc.outlaw.2 name
+#: data/native/npcs.json
+msgid "剪径贼"
+msgstr ""
+
+#. native.npc.outlaw.2 long
+#: data/native/npcs.json
+msgid ""
+"一个满脸横肉的汉子，专在山路上拦人剪径，不知劫过多少过往的客商。雪亭驿的告示上正画著他的像。\n"
+msgstr ""
+
+#. native.npc.outlaw.3 name
+#: data/native/npcs.json
+msgid "采花贼"
+msgstr ""
+
+#. native.npc.outlaw.3 long
+#: data/native/npcs.json
+msgid ""
+"一个油头粉面的年轻人，手里摇著一柄折扇，眼神却阴鸷得很。官府悬赏捉拿他已有好些日子了。\n"
+msgstr ""
+
+#. native.npc.outlaw.4 name
+#: data/native/npcs.json
+msgid "江洋大盗"
+msgstr ""
+
+#. native.npc.outlaw.4 long
+#: data/native/npcs.json
+msgid ""
+"一个虬髯大汉，身上带著好几处刀疤，据说在江北做过好几票大买卖，官府悬了重赏要他的人头。\n"
+msgstr ""
+
+#. native.npc.outlaw.5 name
+#: data/native/npcs.json
+msgid "杀人魔头"
+msgstr ""
+
+#. native.npc.outlaw.5 long
+#: data/native/npcs.json
+msgid ""
+"一个面色青白的中年人，目光扫过来便叫人背脊发凉。告示上说他一夜之间屠了邻县一户人家，官府悬了最重的赏。\n"
 msgstr ""
 
 #: data/snow/voxel/herbshop_house.json

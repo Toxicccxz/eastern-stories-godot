@@ -59,6 +59,21 @@
     },
     "snow.npc.girl": {
       "coat": "9e6e7b"
+    },
+    "native.npc.wooden_dummy.1": {
+      "coat": "a07c4e"
+    },
+    "native.npc.wooden_dummy.2": {
+      "coat": "94703f"
+    },
+    "native.npc.wooden_dummy.3": {
+      "coat": "7a5a35"
+    },
+    "native.npc.wooden_dummy.4": {
+      "coat": "6b4e2c"
+    },
+    "native.npc.wooden_dummy.5": {
+      "coat": "3a2e24"
     }
   }
 }

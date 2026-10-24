@@ -34,10 +34,15 @@ var reached: Dictionary[int, float] = {}
 ## The log lines the 历练 rewards printed.
 var rewards: Array[String] = []
 var deaths: int = 0
+## When and by whom the player died.
+var death_notes: Array[String] = []
+var death_times: Array[float] = []
 ## The first play second each specialized (family) skill reached level 1.
 var first_special: Dictionary[StringName, float] = {}
 ## The play second max_force reached each exercise_to target.
 var exercised: Dictionary[int, float] = {}
+## Bounties paid.
+var bounties_done: int = 0
 ## The last 拜师's outcome.
 var joined: String = ""
 ## Why a spar did not begin (the NPC's name and the log's last line) -> how often.
@@ -98,6 +103,8 @@ func run(route: Array) -> void:
 			for use_id: String in step["enable"]:
 				session.martial_arts().enable(StringName(use_id), StringName(step["enable"][use_id]))
 			_pass(ACTION_SECONDS)
+		elif step.has("bounties"):
+			await bounties(int(step["bounties"]), float(step.get("walk_seconds", 240)), float(step.get("max_minutes", 60)) * 60.0)
 		elif step.has("story"):
 			story(StringName(step["story"]), float(step.get("minutes", 10)) * 60.0)
 		elif step.has("exercise_to"):
@@ -224,6 +231,67 @@ func learn(spawn_id: StringName, skills: Array, until_level: int, max_seconds: f
 		open.push_back(open.pop_front())
 
 
+## 雪亭驿's bounties, `count` of them: each taken at the board (BountyService's 揭榜), walked
+## to (`walk_seconds` there and back), its outlaw met where it comes out and fought to the
+## end (attacked; 了结 or 放过 as the HUD asks: here 了结), then rest. A board with nothing
+## for the player, or the time spent, ends the run; so does a fall.
+func bounties(count: int, walk_seconds: float, max_seconds: float) -> void:
+	var started: float = seconds
+	var board: WorldBounties = session.bounties()
+	for bounty: int in count:
+		if seconds - started >= max_seconds:
+			break
+		var postings: Array[WorldBounties.Posting] = board.postings()
+		while postings.is_empty() and seconds - started < max_seconds:
+			_pass(30.0)
+			board.advance(30.0)
+			postings = board.postings()
+		if postings.is_empty() or not board.take(postings[0].slot):
+			break
+		var posting: WorldBounties.Posting = board.taken()
+		_pass(walk_seconds / 2.0)
+		var map_definition: MapDefinition = GameContent.catalog().map(posting.place.map_id)
+		if session.active_map_id() != posting.place.map_id:
+			# Onto the map at its entry (its zone: the marker's ID less its last part), then on foot.
+			var entry: String = String(map_definition.entry_spawn_id)
+			var entry_zone := StringName(entry.substr(0, entry.rfind(".")))
+			session.handoff_to(posting.place.map_id, entry_zone, entry_zone, map_definition.entry_spawn_id)
+			await _settle()
+		var map: WorldMapController = session.active_map() as WorldMapController
+		if session.player_runtime().world_location().zone_id != posting.place.zone_id:
+			var area: WorldPhysicalZoneArea2D = map.physical_zone(posting.place.zone_id)
+			var spot: Vector2 = Vector2.INF if area == null else MapPlaces.spot(map, posting.place.zone_id, area.global_position)
+			if spot.is_finite():
+				map.runtime_player_body().global_position = spot
+				session.player_runtime().set_world_location(map.location_for_zone(posting.place.zone_id))
+			await _settle()
+		_look()
+		await _settle()
+		var outlaw: NpcRuntimeState = null
+		for npc: NpcRuntimeState in session.world_npcs():
+			if npc.definition().definition_id == posting.tier.npc_id and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
+				outlaw = npc
+		if outlaw == null:
+			push_error("sim: no outlaw came out at %s" % posting.place.zone_id)
+			board.give_up()
+			continue
+		if not session.combat_encounter_coordinator().has_active_encounter():
+			map.select_npc(outlaw.character_id)
+			map.attack_selected()
+		_pass(ACTION_SECONDS)
+		var previous: int = BattlePace.after_knockout
+		BattlePace.after_knockout = BattlePace.AfterKnockout.FINISH
+		_fight()
+		BattlePace.after_knockout = previous
+		bounties_done += 1 if board.taken() == null else 0
+		if board.taken() != null:
+			board.give_up()
+		_rest()
+		_pass(walk_seconds / 2.0)
+		if deaths > 0 or session.player_runtime().life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
+			break
+
+
 ## TEST-ONLY: the player sees chain `chain_id` through in `duration` (its entries are
 ## recorded, as if each condition had held in turn): the reward comes from the game's
 ## own look(). The time is the route's estimate of walking, asking and fighting for it.
@@ -318,8 +386,10 @@ func _fight() -> void:
 	# The fight's result is shown; the lines that wait for it follow.
 	(session.get_node("BattlePresentationLayer/BattleSurface") as BattlePresentationController).refresh_projection()
 	_look()
-	if session.player_runtime().life_status == CharacterRuntimeLifeStatus.Value.DEAD:
+	if session.player_runtime().life_status == CharacterRuntimeLifeStatus.Value.DEAD or state().ghost:
 		deaths += 1
+		death_times.append(seconds)
+		death_notes.append("%.1f min, exp %d, by %s" % [seconds / 60.0, state().progression.combat_experience, session.player_runtime().relationship.last_damage_from_id])
 
 
 ## Until kee and effective kee are full again (or the player has come to and healed).
@@ -347,6 +417,7 @@ func _pulse() -> void:
 	s.recovery.water = maxi(s.recovery.water, 300)
 	session.advance_player_recovery(PULSE_SECONDS)
 	session.advance_npc_heartbeat(PULSE_SECONDS)
+	session.bounties().advance(PULSE_SECONDS)
 	seconds += PULSE_SECONDS
 	_reach()
 
@@ -383,6 +454,9 @@ func report() -> String:
 	for target: int in exercised:
 		lines.append("max_force %d at %.1f min" % [target, exercised[target] / 60.0])
 	lines.append("joined: %s; skills %s" % [joined, _skills_text()])
+	lines.append("bounties paid %d" % bounties_done)
+	for note: String in death_notes:
+		lines.append("died: " + note)
 	lines.append("spars %d (first wins rewarded %d), deaths %d" % [spars, spar_wins, deaths])
 	for why: String in refusals:
 		lines.append("refused %d× %s" % [refusals[why], why])

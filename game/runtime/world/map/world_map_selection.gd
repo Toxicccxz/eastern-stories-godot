@@ -7,6 +7,8 @@ extends RefCounted
 ## How near a thing must be for the HUD to offer its actions (owner, 2026-10-11): about
 ## a shop counter's reach. Doors and room services keep their own authored reach.
 const NEARBY_REACH: float = 96.0
+# TRANSLATORS: native (A2): 攻击 on one of the 武馆's 木人 (training dummies), which are for sparring only.
+const SPAR_ONLY: String = "木人是武馆拆招用的，只能切磋，打坏了还得赔。"
 
 var _map: WorldMapController
 var selected_target: WorldInteractionTarget
@@ -125,6 +127,10 @@ func attack_selected() -> CombatSliceInitiationResult:
 	# present(arg, environment(me)): an NPC selected before it walked away is not here.
 	if not target.world_location().shares_combat_location(_player.world_location()):
 		_map.hud().append_log_lines([tr("这里没有这个人。")])
+		return CombatSliceInitiationResult.new()
+	# A2: the 武馆's 木人 are for sparring only.
+	if target.definition().spar_only():
+		_map.hud().append_log_lines([tr(SPAR_ONLY)])
 		return CombatSliceInitiationResult.new()
 	# cmds/std/kill.c: $N对著$n喝道：「<rude>！今日不是你死就是我活！」, then
 	# obj->kill_ob(me) warns the player (_map.hostilities.announce_fight()).
@@ -254,6 +260,7 @@ func selected_attack_starts() -> bool:
 	var catalog: ContentCatalog = GameContent.catalog()
 	return (
 		target != null and not target.definition().dealings().is_fight_deferred()
+		and not target.definition().spar_only()
 		and not catalog.zone_forbids_fighting(_player.world_location().zone_id)
 		and not catalog.zone_forbids_fighting(target.world_location().zone_id)
 		and target.world_location().shares_combat_location(_player.world_location())

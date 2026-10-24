@@ -380,6 +380,31 @@ position = Vector2(-1198, -509)
 script = ExtResource("marker")
 spawn_point_id = &"snow.weapon_storage.bamboo_sword.1"
 
+[node name="School2WoodenDummy1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-960, -233)
+script = ExtResource("marker")
+spawn_point_id = &"snow.school2.wooden_dummy.1"
+
+[node name="School2WoodenDummy2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-875, -233)
+script = ExtResource("marker")
+spawn_point_id = &"snow.school2.wooden_dummy.2"
+
+[node name="School2WoodenDummy3" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-960, 217)
+script = ExtResource("marker")
+spawn_point_id = &"snow.school2.wooden_dummy.3"
+
+[node name="School2WoodenDummy4" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-875, 217)
+script = ExtResource("marker")
+spawn_point_id = &"snow.school2.wooden_dummy.4"
+
+[node name="School2WoodenDummy5" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-871, -127)
+script = ExtResource("marker")
+spawn_point_id = &"snow.school2.wooden_dummy.5"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

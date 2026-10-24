@@ -35,7 +35,7 @@ func _test_population(session: WorldSessionController) -> void:
 				var body: WorldCharacterBody2D = map.runtime_body_for_character(npc.character_id)
 				_check(body != null and MapPlacementValidator.is_valid_character_position(map, spawn.zone_id, body.global_position), "%s body is inside its zone, clear of walls" % point_id)
 				placed += 1
-	_check(placed == 36, "thirty-six Snow NPCs: travellers 2, dogs 2, keeper, drunk, scavenger, guard, trainees 6, trainer (4A); farmers 2, crazy dog, teacher, woodcutter, post officer (4B); rats 6 (4C); waiter, 安惜迩, 柳淳风, smith, herbalist (4E); 柳绘心 (offense/defense routes); 飞刀 travellers 3 (Old Pine B)")
+	_check(placed == 41, "forty-one Snow NPCs: travellers 2, dogs 2, keeper, drunk, scavenger, guard, trainees 6, trainer (4A); farmers 2, crazy dog, teacher, woodcutter, post officer (4B); rats 6 (4C); waiter, 安惜迩, 柳淳风, smith, herbalist (4E); 柳绘心 (offense/defense routes); 飞刀 travellers 3 (Old Pine B); the 武馆's five 木人 (A2, native)")
 
 
 func _test_authored_facts(session: WorldSessionController) -> void:

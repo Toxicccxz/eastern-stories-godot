@@ -4,10 +4,9 @@ _One page, overwritten as work progresses. History lives in git and PRs._
 
 ## Current work
 
-**A2 经验节奏**（owner 批准 2026-10-24，DECISIONS「经验节奏」）：两个 PR。A（分支 `phase/exp-pacing-a`）：
-一次性的「历练」奖励（切磋首胜、有名人物、任务链、读通书、首到区域和名胜）、落后补偿（区域推荐经验）、
-潜能上限按阶段、打坐 ×6，全是 pacing 开关，经典值等于 ES2；模拟 `tests/sim/`。B：雪亭驿悬赏榜和
-淳风武馆的木人。
+**A2 经验节奏**（owner 批准 2026-10-24，DECISIONS「经验节奏」）：两个 PR。A（#153，已合并）：一次性的
+「历练」奖励、落后补偿、潜能上限按阶段、打坐 ×6，模拟 `tests/sim/`。B（分支 `phase/exp-pacing-b`）：
+雪亭驿门外的悬赏榜（5 档恶人，放过也算）和淳风武馆教练场的五具木人。全是 pacing 开关，经典值等于 ES2。
 
 **别的地图时间补算**（owner，2026-10-23，DECISIONS 同名条目）：分三个 PR。A（#149，已合并）：玩家回到
 一张图、那里的房间重置、有 NPC 进出那张图之前，先把它离开期间的 NPC 心跳一次补算完，包括回复、状态、
@@ -62,8 +61,8 @@ is killing who falls waits on the card's 了结 / 放过 while the fight goes on
 方案生效，在 [DECISIONS](../migration/DECISIONS.md) 里标「默认」，owner 随时可以否决；已批准的积压决定
 也在那里（「积压问题的处理」）。
 
-* **A2 经验节奏**（#62）：已批准三管齐下（DECISIONS「经验节奏」），A 在做，B（悬赏、木人）其次；节奏
-  留给统一试玩核验。仍待试玩：60 秒的任务限时在要走路的地图上是否来得及。
+* **A2 经验节奏**（#62）：三管齐下已做（DECISIONS「经验节奏」，A #153，B 悬赏和木人）；节奏留给统一
+  试玩核验。仍待试玩：60 秒的任务限时在要走路的地图上是否来得及。
 * **A6 「进门一起上」是否扩大到所有房间**（#68）：ES2 同房间的凶徒全部出手；现在只有 6 个区域用
   `complete_set`（老松寨三间、水潭、野羊山转角、卧龙岗）。
 
@@ -398,8 +397,8 @@ Code:
   maps grew).
 * With the pacing knobs, 打坐 from max_force 0 to 50 takes about 24 minutes at con 30 (47 at con 20;
   108 at the classic ×1); `tests/runtime/run_with_max_force.gd` gives a playtest 49. combat_exp 0 to
-  1001 takes some 1.5–2 hours on the simulated route (`tests/sim/`), mostly from the one-time 历练:
-  a pure spar grinder still stalls past about 150 until PR B's 木人 and 悬赏. Conditions do not tick
+  1001 takes some 1.7–1.8 hours on the simulated route (`tests/sim/`), from the one-time 历练, the
+  武馆's 木人 and 雪亭驿's bounties. Conditions do not tick
   in a fight (owner) nor while the player lies unconscious.
 * A zone that merges several rooms shows only its first room's text.
 * 绮云镇: 牛腿 is a hammer only (food that is also a weapon is not supported), so it leaves no

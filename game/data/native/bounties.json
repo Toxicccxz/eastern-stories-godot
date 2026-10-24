@@ -1,0 +1,22 @@
+{
+	"bounty_board": {
+		"source": "native: owner A2 经验节奏 (2026-10-24), DECISIONS「经验节奏」; ES2 has no bounty board",
+		"postings": 3,
+		"tiers": [
+			{ "min_exp": 0, "npc": "native.npc.outlaw.1", "silver": 5 },
+			{ "min_exp": 400, "npc": "native.npc.outlaw.2", "silver": 10 },
+			{ "min_exp": 1000, "npc": "native.npc.outlaw.3", "silver": 20 },
+			{ "min_exp": 2500, "npc": "native.npc.outlaw.4", "silver": 50 },
+			{ "min_exp": 6000, "npc": "native.npc.outlaw.5", "silver": 100 }
+		],
+		"places": [
+			{ "map": "oldpine.outdoor", "zone": "oldpine.outdoor.central_clearing" },
+			{ "map": "goathill.mountain", "zone": "goathill.mroad1" },
+			{ "map": "green.village", "zone": "green.path6" },
+			{ "map": "cloud.outdoor", "zone": "cloud.dragonhill.nroad" },
+			{ "map": "temple.mountain", "zone": "temple.sroad" },
+			{ "map": "waterfog.mountain", "zone": "waterfog.sroad1" },
+			{ "map": "snow.outdoor", "zone": "snow.sroad5" }
+		]
+	}
+}

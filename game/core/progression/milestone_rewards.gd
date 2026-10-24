@@ -10,6 +10,7 @@ const KIND_NAMES: Dictionary[ProgressionRules.Kind, String] = {
 	ProgressionRules.Kind.SPAR: "spar", ProgressionRules.Kind.DEFEAT: "defeat",
 	ProgressionRules.Kind.CHAIN: "chain", ProgressionRules.Kind.BOOK: "book",
 	ProgressionRules.Kind.REGION: "region", ProgressionRules.Kind.PLACE: "place",
+	ProgressionRules.Kind.BOUNTY: "bounty",
 }
 
 
@@ -54,14 +55,29 @@ static func grant(
 	var key: String = key_of(kind, id)
 	if state.milestones.has(key):
 		return null
-	var progression: CharacterProgressionState = state.progression
-	var base: int = rules.reward_exp(kind, progression.combat_experience, id if kind == ProgressionRules.Kind.CHAIN else &"")
-	if base <= 0:
+	var grant: Grant = award(state, rules, kind, catch_up, staged, id if kind == ProgressionRules.Kind.CHAIN else &"")
+	if grant == null:
 		return null
 	state.milestones[key] = state.milestones.size() + 1
+	grant.key = key
+	return grant
+
+
+## The reward of `kind` now, written down nowhere (a bounty: BountyBoard keeps it from
+## being worked faster than its refresh). Null when it is worth nothing.
+@warning_ignore("integer_division")
+static func award(
+	state: CharacterState, rules: ProgressionRules, kind: ProgressionRules.Kind, catch_up: int, staged: bool,
+	chain_id: StringName = &"",
+) -> Grant:
+	if state == null or rules == null:
+		return null
+	var progression: CharacterProgressionState = state.progression
+	var base: int = rules.reward_exp(kind, progression.combat_experience, chain_id)
+	if base <= 0:
+		return null
 	var grant := Grant.new()
 	grant.kind = kind
-	grant.key = key
 	grant.catch_up_percent = catch_up
 	grant.exp_gain = ProgressionGain.scaled(progression, base, catch_up)
 	progression.combat_experience += grant.exp_gain
@@ -94,6 +110,9 @@ static func lines(grant: Grant, name: String) -> Array[ColoredLine]:
 		ProgressionRules.Kind.BOOK:
 			# TRANSLATORS: native 历练 reward (A2): the player has read {name} through (it teaches them no more).
 			done = _t("你读通了{name}")
+		ProgressionRules.Kind.BOUNTY:
+			# TRANSLATORS: native 历练 reward (A2): the player did the 雪亭驿 bounty on {name} (an outlaw).
+			done = _t("你完成了官府悬赏「{name}」")
 		_:
 			# TRANSLATORS: native 历练 reward (A2): the player's first time in {name} (a region or a named place).
 			done = _t("你第一次来到{name}")

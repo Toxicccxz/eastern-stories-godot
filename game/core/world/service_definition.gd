@@ -6,7 +6,7 @@ extends RefCounted
 ## the player: `act`, RoomActDefinition). The kind picks the rules;
 ## the scene places it with a WorldServicePoint of the same ID. What an NPC offers
 ## (goods, teaching) is on its NPC record and goes with its body (NpcService).
-const KINDS: Array[StringName] = [&"bank", &"work", &"hockshop", &"water", &"dance", &"act"]
+const KINDS: Array[StringName] = [&"bank", &"work", &"hockshop", &"water", &"dance", &"act", &"bounty"]
 
 var _service_id: StringName
 var _kind: StringName

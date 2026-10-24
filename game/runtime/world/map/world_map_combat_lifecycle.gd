@@ -50,6 +50,8 @@ func exert_room(actor_id: StringName, bindings: Array[CombatSliceCharacterBindin
 		if (
 			npc.character_id == actor_id or not npc.exists_in_map or not npc.world_location().shares_combat_location(location)
 			or npc.definition().dealings().is_fight_deferred()
+			# A2's 木人 have no mind a roar could turn: they only spar.
+			or npc.definition().spar_only()
 		):
 			continue
 		var binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(bindings, npc.character_id)
@@ -329,6 +331,8 @@ func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunit
 		and receipt.outcome in [CombatSliceLifecycleResult.Outcome.UNCONSCIOUS_COMPLETE, CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE]
 	):
 		session.progression_rewards().defeated(victim_npc)
+		if receipt.outcome == CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE:
+			session.bounties().outlaw_killed(victim_npc)
 	if receipt.completed() and receipt.outcome == CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE and is_player and location != null:
 		# damage.c die(): all_inventory(environment())->remove_killer(this_object()).
 		for npc: NpcRuntimeState in _map.npcs.npc_runtimes():

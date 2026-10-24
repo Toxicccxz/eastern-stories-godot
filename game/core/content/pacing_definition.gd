@@ -52,6 +52,11 @@ extends RefCounted
 ##   (progression.json) where combatd.c stops at 100. false (ES2): 100.
 ## - player_exercise_gain: what exercise.c's force_gain gives the player (打坐), times this;
 ##   a step that gains nothing stays nothing. 1 (ES2).
+## - bounty_board: the 雪亭驿 board's bounties (BountyBoard, native/bounties.json). false (ES2):
+##   no board.
+## - bounty_refresh_seconds: play time a bounty's slot stays empty once it is done or given up.
+## - training_dummies: the 武馆 教练场's 木人 stand (native/spawns.json `pacing`). false (ES2):
+##   none.
 const ES2_ROOM_RESET_SECONDS: int = 1800
 const ES2_GAIN: int = 1
 const ES2_QUEST_TIME_PERCENT: int = 100
@@ -79,6 +84,9 @@ var _milestone_rewards: bool = false
 var _catch_up_max_percent: int = 0
 var _staged_potential_cap: bool = false
 var _player_exercise_gain: int = ES2_GAIN
+var _bounty_board: bool = false
+var _bounty_refresh_seconds: int = 600
+var _training_dummies: bool = false
 
 ## Seconds between two combat rounds of an encounter (the scheduler's opportunity interval).
 var combat_round_seconds: float:
@@ -158,6 +166,18 @@ var staged_potential_cap: bool:
 var player_exercise_gain: int:
 	get:
 		return _player_exercise_gain
+## Whether the 雪亭驿 board posts bounties (false: ES2).
+var bounty_board: bool:
+	get:
+		return _bounty_board
+## Seconds of play a bounty's slot stays empty once done or given up.
+var bounty_refresh_seconds: int:
+	get:
+		return _bounty_refresh_seconds
+## Whether the 武馆's 木人 stand (false: ES2).
+var training_dummies: bool:
+	get:
+		return _training_dummies
 ## The presentation's feel knobs (the record's `feel`; all 0 when left out).
 var feel: FeelDefinition = FeelDefinition.new()
 
@@ -186,8 +206,17 @@ func copy() -> PacingDefinition:
 	)
 	record.with_corpse_decay(corpse_rot_seconds, corpse_bones_seconds, corpse_scatter_seconds)
 	record.with_progression(_milestone_rewards, _catch_up_max_percent, _staged_potential_cap, _player_exercise_gain)
+	record.with_training(_bounty_board, _bounty_refresh_seconds, _training_dummies)
 	record.feel = feel
 	return record
+
+
+## This record with the bounty board and 木人 knobs set (tests, and from_record()).
+func with_training(board: bool, refresh_seconds: int, dummies: bool) -> PacingDefinition:
+	_bounty_board = board
+	_bounty_refresh_seconds = refresh_seconds
+	_training_dummies = dummies
+	return self
 
 
 ## This record with the progression knobs set (tests, and from_record()).
@@ -261,6 +290,10 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.integer("catch_up_max_percent", 0),
 		reader.boolean("staged_potential_cap", false),
 		reader.integer("player_exercise_gain", ES2_GAIN),
+	).with_training(
+		reader.boolean("bounty_board", false),
+		reader.integer("bounty_refresh_seconds", 600),
+		reader.boolean("training_dummies", false),
 	)
 	var feel: ContentRecordReader = reader.child("feel")
 	if feel != null:
@@ -301,4 +334,6 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.fail("catch_up_max_percent", "must not be negative")
 	if definition._player_exercise_gain < 1:
 		reader.fail("player_exercise_gain", "must be at least 1")
+	if definition._bounty_refresh_seconds < 0:
+		reader.fail("bounty_refresh_seconds", "must not be negative")
 	return definition

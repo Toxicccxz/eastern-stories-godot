@@ -1,0 +1,159 @@
+{
+	"npcs": [
+		{
+			"id": "native.npc.wooden_dummy.1",
+			"legacy_source": "native: A2 经验节奏 (淳风武馆教练场的木人, DECISIONS「经验节奏」)",
+			"native": { "role": "training_dummy" },
+			"name": "木人（初阶）",
+			"aliases": ["wooden dummy", "dummy"],
+			"gender": "男性",
+			"age": 20,
+			"long": "这是一具硬木削成的练功木人，手臂和腰身装著机括，一碰便会还手。胸前贴著一张褪色的红纸，写著「初阶」两个字，是武馆给初学的弟子拆招用的。\n",
+			"attributes": { "str": 20, "cor": 20, "int": 20, "spi": 20, "cps": 20, "per": 10, "con": 30, "kar": 10 },
+			"combat_exp": 300,
+			"skills": { "unarmed": 10, "dodge": 10, "parry": 10 },
+			"accept_fight": [
+				{ "emote": "身上的机括「咔嗒」一响，摆好了架势。", "accept": true }
+			]
+		},
+		{
+			"id": "native.npc.wooden_dummy.2",
+			"legacy_source": "native: A2 经验节奏 (淳风武馆教练场的木人, DECISIONS「经验节奏」)",
+			"native": { "role": "training_dummy" },
+			"name": "木人（二阶）",
+			"aliases": ["wooden dummy", "dummy"],
+			"gender": "男性",
+			"age": 20,
+			"long": "这是一具硬木削成的练功木人，手臂和腰身装著机括，一碰便会还手。胸前的红纸写著「二阶」，木头上满是拳脚留下的印子。\n",
+			"attributes": { "str": 20, "cor": 20, "int": 20, "spi": 20, "cps": 20, "per": 10, "con": 30, "kar": 10 },
+			"combat_exp": 700,
+			"skills": { "unarmed": 15, "dodge": 15, "parry": 15 },
+			"accept_fight": [
+				{ "emote": "身上的机括「咔嗒」一响，摆好了架势。", "accept": true }
+			]
+		},
+		{
+			"id": "native.npc.wooden_dummy.3",
+			"legacy_source": "native: A2 经验节奏 (淳风武馆教练场的木人, DECISIONS「经验节奏」)",
+			"native": { "role": "training_dummy" },
+			"name": "木人（三阶）",
+			"aliases": ["wooden dummy", "dummy"],
+			"gender": "男性",
+			"age": 20,
+			"long": "这是一具铁木削成的练功木人，机括比旁边几具紧得多，还手又快又沉。胸前的红纸写著「三阶」。\n",
+			"attributes": { "str": 20, "cor": 20, "int": 20, "spi": 20, "cps": 20, "per": 10, "con": 30, "kar": 10 },
+			"combat_exp": 1500,
+			"skills": { "unarmed": 20, "dodge": 20, "parry": 20 },
+			"accept_fight": [
+				{ "emote": "身上的机括「咔嗒」一响，摆好了架势。", "accept": true }
+			]
+		},
+		{
+			"id": "native.npc.wooden_dummy.4",
+			"legacy_source": "native: A2 经验节奏 (淳风武馆教练场的木人, DECISIONS「经验节奏」)",
+			"native": { "role": "training_dummy" },
+			"name": "木人（四阶）",
+			"aliases": ["wooden dummy", "dummy"],
+			"gender": "男性",
+			"age": 20,
+			"long": "这是一具铁木削成的练功木人，关节处包著铜皮，听说是柳馆主亲手调过机括的。胸前的红纸写著「四阶」。\n",
+			"attributes": { "str": 20, "cor": 20, "int": 20, "spi": 20, "cps": 20, "per": 10, "con": 30, "kar": 10 },
+			"combat_exp": 3000,
+			"skills": { "unarmed": 30, "dodge": 30, "parry": 30 },
+			"accept_fight": [
+				{ "emote": "身上的机括「咔嗒」一响，摆好了架势。", "accept": true }
+			]
+		},
+		{
+			"id": "native.npc.wooden_dummy.5",
+			"legacy_source": "native: A2 经验节奏 (淳风武馆教练场的木人, DECISIONS「经验节奏」)",
+			"native": { "role": "training_dummy" },
+			"name": "木人（五阶）",
+			"aliases": ["wooden dummy", "dummy"],
+			"gender": "男性",
+			"age": 20,
+			"long": "这具木人通体乌黑，是一整块铁木雕成的，机括藏在里头看不见。胸前的红纸写著「五阶」，武馆里能把它打得摇晃的人没有几个。\n",
+			"attributes": { "str": 20, "cor": 20, "int": 20, "spi": 20, "cps": 20, "per": 10, "con": 30, "kar": 10 },
+			"combat_exp": 6000,
+			"skills": { "unarmed": 40, "dodge": 40, "parry": 40 },
+			"accept_fight": [
+				{ "emote": "身上的机括「咔嗒」一响，摆好了架势。", "accept": true }
+			]
+		},
+		{
+			"id": "native.npc.outlaw.1",
+			"legacy_source": "native: A2 经验节奏 (雪亭驿的官府悬赏, DECISIONS「经验节奏」)",
+			"native": { "role": "bounty_target" },
+			"name": "流窜毛贼",
+			"aliases": ["outlaw", "thief"],
+			"gender": "男性",
+			"age": 24,
+			"long": "一个贼眉鼠眼的毛贼，衣衫上补丁叠著补丁，腰间却鼓鼓囊囊的，不知又从谁家摸来了什么。雪亭驿的告示上正画著他的像。\n",
+			"attributes": { "str": 24, "cor": 22, "int": 18, "spi": 15, "cps": 15, "per": 12, "con": 24, "kar": 12 },
+			"combat_exp": 100,
+			"attitude": "aggressive",
+			"capabilities": ["aggressive_on_player_presence"],
+			"skills": { "unarmed": 3, "dodge": 3, "parry": 2 }
+		},
+		{
+			"id": "native.npc.outlaw.2",
+			"legacy_source": "native: A2 经验节奏 (雪亭驿的官府悬赏, DECISIONS「经验节奏」)",
+			"native": { "role": "bounty_target" },
+			"name": "剪径贼",
+			"aliases": ["outlaw", "robber"],
+			"gender": "男性",
+			"age": 30,
+			"long": "一个满脸横肉的汉子，专在山路上拦人剪径，不知劫过多少过往的客商。雪亭驿的告示上正画著他的像。\n",
+			"attributes": { "str": 24, "cor": 22, "int": 18, "spi": 15, "cps": 15, "per": 12, "con": 24, "kar": 12 },
+			"combat_exp": 400,
+			"attitude": "aggressive",
+			"capabilities": ["aggressive_on_player_presence"],
+			"skills": { "unarmed": 6, "dodge": 6, "parry": 4 }
+		},
+		{
+			"id": "native.npc.outlaw.3",
+			"legacy_source": "native: A2 经验节奏 (雪亭驿的官府悬赏, DECISIONS「经验节奏」)",
+			"native": { "role": "bounty_target" },
+			"name": "采花贼",
+			"aliases": ["outlaw", "rake"],
+			"gender": "男性",
+			"age": 28,
+			"long": "一个油头粉面的年轻人，手里摇著一柄折扇，眼神却阴鸷得很。官府悬赏捉拿他已有好些日子了。\n",
+			"attributes": { "str": 24, "cor": 22, "int": 18, "spi": 15, "cps": 15, "per": 12, "con": 24, "kar": 12 },
+			"combat_exp": 1000,
+			"attitude": "aggressive",
+			"capabilities": ["aggressive_on_player_presence"],
+			"skills": { "unarmed": 10, "dodge": 12, "parry": 6 }
+		},
+		{
+			"id": "native.npc.outlaw.4",
+			"legacy_source": "native: A2 经验节奏 (雪亭驿的官府悬赏, DECISIONS「经验节奏」)",
+			"native": { "role": "bounty_target" },
+			"name": "江洋大盗",
+			"aliases": ["outlaw", "bandit"],
+			"gender": "男性",
+			"age": 38,
+			"long": "一个虬髯大汉，身上带著好几处刀疤，据说在江北做过好几票大买卖，官府悬了重赏要他的人头。\n",
+			"attributes": { "str": 24, "cor": 22, "int": 18, "spi": 15, "cps": 15, "per": 12, "con": 24, "kar": 12 },
+			"combat_exp": 2500,
+			"attitude": "aggressive",
+			"capabilities": ["aggressive_on_player_presence"],
+			"skills": { "unarmed": 15, "dodge": 15, "parry": 10 }
+		},
+		{
+			"id": "native.npc.outlaw.5",
+			"legacy_source": "native: A2 经验节奏 (雪亭驿的官府悬赏, DECISIONS「经验节奏」)",
+			"native": { "role": "bounty_target" },
+			"name": "杀人魔头",
+			"aliases": ["outlaw", "killer"],
+			"gender": "男性",
+			"age": 45,
+			"long": "一个面色青白的中年人，目光扫过来便叫人背脊发凉。告示上说他一夜之间屠了邻县一户人家，官府悬了最重的赏。\n",
+			"attributes": { "str": 24, "cor": 22, "int": 18, "spi": 15, "cps": 15, "per": 12, "con": 24, "kar": 12 },
+			"combat_exp": 5500,
+			"attitude": "aggressive",
+			"capabilities": ["aggressive_on_player_presence"],
+			"skills": { "unarmed": 22, "dodge": 22, "parry": 16 }
+		}
+	]
+}
