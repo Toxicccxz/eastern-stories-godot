@@ -26,8 +26,9 @@ var _walls: Node3D
 var _low_walls: Node3D
 var ground: VoxelGround
 var tree_shapes := VoxelTree.new()
-## Trees by 8-unit chunk: {"node": the grove, "crowns": crown mesh -> transforms}.
-const GROVE: float = 8.0
+## Trees by 16-unit chunk: {"node": the grove, "crowns": crown mesh -> transforms}. A big
+## forest is a few hundred draws this way, not thousands.
+const GROVE: float = 16.0
 var _groves: Dictionary[Vector2i, Dictionary] = {}
 var landmass: VoxelLandmass
 ## Raised rock for `cliff`/`chasm` cells (layout `cliffs`); null where a map has none.
@@ -146,6 +147,8 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 		footprints.append(Rect2(Vector2(a[0],a[1]), Vector2(a[2]-a[0],a[3]-a[1])))
 	ground = VoxelGround.new()
 	ground.parent = self
+	set_meta("flat",true)
+	ground.root_ferns = flora.get("root_ferns",true)
 	ground.shapes = shapes
 	ground.rng = rng
 	ground.noise = meadow
@@ -287,13 +290,6 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 	if cliffs != null:
 		cliffs.shape(cells)
 		cliffs.remember(cells)
-	# A map in the air (the great pine's boughs) has no ground slab under it.
-	if landmass != null and not edge_config.get("none",false):
-		var holes: Dictionary[Vector2i, bool] = {}
-		if cliffs != null:
-			holes = cliffs.holes()
-			cliffs.base_depth = landmass.depth
-		landmass.make_base(self,holes)
 	water = VoxelWater.new(water_config)
 	var beds: Dictionary = {}
 	if cliffs != null and cliffs.sink.has("bed"):
@@ -301,6 +297,17 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 		for cell: Vector2i in cliffs.holes():
 			beds[cell] = {"kind":String(cliffs.sink["bed"]),"level":cliffs.heights[cell]+float(cliffs.sink.get("bed_level",0.25))}
 	water.collect(cells,beds)
+	# A map in the air (the great pine's boughs) has no ground slab under it.
+	if landmass != null and not edge_config.get("none",false):
+		var holes: Dictionary[Vector2i, bool] = {}
+		if cliffs != null:
+			holes = cliffs.holes()
+			cliffs.base_depth = landmass.depth
+		# Water set below the slab's top (a stream, a deep pool) is not covered by it.
+		for cell: Vector2i in water.levels:
+			if water.levels[cell] < -0.1:
+				holes[cell] = true
+		landmass.make_base(self,holes)
 	var trees: Dictionary[Vector2i, bool] = {}
 	var painted: Dictionary[Vector2i, bool] = {}
 	# Merged paving and boards must also see the hole, not bridge over a skipped cell.

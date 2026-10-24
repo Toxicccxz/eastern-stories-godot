@@ -116,7 +116,9 @@ func _flush_batch(entry: Dictionary, transforms: Array, light_bounds: Array[AABB
 	var instance := MultiMeshInstance3D.new()
 	instance.multimesh = multi
 	instance.material_override = material(entry["color"])
-	if entry["color"] in ["ffd88a","ffb858"] or parent.get_meta("light_fixture",false):
+	# The ground's own boxes and stones lie flat: their shadows would fall on nothing, yet they
+	# would fill every shadow map pass (meta `flat` on the parent they are drawn into).
+	if entry["color"] in ["ffd88a","ffb858"] or parent.get_meta("light_fixture",false) or parent.get_meta("flat",false):
 		# Tiny opaque lantern caps otherwise project enormous square shadows from
 		# the point source inside them. The housing represents a diffuse emitter.
 		instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF

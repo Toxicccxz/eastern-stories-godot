@@ -14,6 +14,8 @@ var weather: Array = []
 var tints: Dictionary = {}
 ## Ground kinds drawn as loose scree (layout `ground`): no paved shoulders or curbs.
 var loose: Array = []
+## A fern at the foot of each tree (flora `root_ferns`; a dense forest leaves them out).
+var root_ferns: bool = true
 const GRASS: Array[String] = ["grass", "forest_floor", "forest", "boundary"]
 const PAVING: Array[String] = ["town_ground", "street", "floor_yard", "rock"]
 const STONE: Array[String] = ["899794", "98a29d", "a6ada3", "939e9b", "afb4aa"]
@@ -135,7 +137,8 @@ func roots(at: Vector3, scale: float) -> void:
 			var bend: float = angle+segment*0.11
 			var thick: float = (0.22-segment*0.045)*scale
 			shapes.tilted_box(parent,at+Vector3(cos(bend)*distance,thick*0.24,sin(bend)*distance),Vector3(0.38*scale,thick,thick),"6b6244",Vector3(0,-bend,0.025))
-		foliage.plant(at+Vector3(cos(angle)*1.1*scale,0,sin(angle)*1.1*scale),5,0.6,rng.randf()*TAU)
+		if root_ferns:
+			foliage.plant(at+Vector3(cos(angle)*1.1*scale,0,sin(angle)*1.1*scale),5,0.6,rng.randf()*TAU)
 
 func dirt(cell: Vector2i) -> void:
 	var p: Vector3 = _point(cell)

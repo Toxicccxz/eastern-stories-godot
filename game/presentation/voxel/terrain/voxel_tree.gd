@@ -16,6 +16,9 @@ var barks: Dictionary = {}
 ## box is placed by `frame`, so a whole grove batches by colour under one parent.
 func build(parent: Node3D, shapes: Shapes, species: String, variant: int, frame := Transform3D.IDENTITY, collect: Variant = null) -> void:
 	parent.set_meta("species",species)
+	# The forest pines come in three shapes each: a forest of them batches into few crowns.
+	if species in ["old_pine","tall_pine","young_pine","stunted_pine"]:
+		variant %= 3
 	shapes.frame = frame
 	if species=="dead":
 		_dead(parent,shapes,variant)
@@ -66,9 +69,10 @@ func material() -> StandardMaterial3D:
 		leaf_material.metallic_specular = 0.08
 	return leaf_material
 
+## Two bark shades per species: each colour is one more batch in every grove.
 func _bark(species: String, shade: int) -> String:
-	var colors: Array = barks.get(species,["5f4a3b","6f5847","4e3d31","846a52"])
-	return String(colors[shade%colors.size()])
+	var colors: Array = barks.get(species,["5f4a3b","4e3d31"])
+	return String(colors[shade%mini(2,colors.size())])
 
 func _greens(species: String, fallback: Array[String]) -> Array[String]:
 	var result: Array[String] = []
