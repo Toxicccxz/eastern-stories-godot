@@ -292,6 +292,7 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 		var holes: Dictionary[Vector2i, bool] = {}
 		if cliffs != null:
 			holes = cliffs.holes()
+			cliffs.base_depth = landmass.depth
 		landmass.make_base(self,holes)
 	water = VoxelWater.new(water_config)
 	var beds: Dictionary = {}
@@ -642,6 +643,10 @@ func _band(local: Dictionary, cell: Vector2i) -> Array:
 	if cliffs == null:
 		return []
 	var near: float = cliffs.distances.get(cell,INF)
+	# Both views look from the south: a tree south of the open ground stands between it and the
+	# camera, so there the bands reach further (flora `south_reach`, a factor).
+	if cliffs.distances.get(cell-Vector2i(0,16),INF) < cliffs.distances.get(cell+Vector2i(0,16),INF):
+		near /= float(local.get("south_reach",1.0))
 	for band: Dictionary in local.get("bands",[]):
 		if near < float(band["within"]):
 			_band_hit = true

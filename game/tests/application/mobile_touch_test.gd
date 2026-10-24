@@ -370,6 +370,9 @@ func _test_item_and_handoff(tree: SceneTree, shell: ApplicationShellController, 
 	_check(not inventory.visible, "touch Inventory Close")
 	var id: int = touch.get_instance_id()
 	var right: Vector2 = touch.pad_rect().position + Vector2(160, 96)
+	# Held right walks screen-right (north-east on the map in the forest's fixed-angle view):
+	# start in the open south-west of the clearing, clear of the slope's bandits.
+	_check(outdoor.place_player(OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, Vector2(380, 430)), "TEST-ONLY: in the open clearing before holding the pad")
 	await _touch(tree, 4, right, true)
 	# Unit-level handoff boundary setup; live player route is separately validated.
 	var to_cave: OldPineMapHandoffResult = session.handoff_to(OldPineWorldDefinitions.CAVE_MAP_ID, OldPineWorldDefinitions.WATERFALL_PASSAGE_ZONE_ID, OldPineWorldDefinitions.WATERFALL_PASSAGE_ZONE_ID, &"oldpine.cave.waterfall_passage.vine_landing")

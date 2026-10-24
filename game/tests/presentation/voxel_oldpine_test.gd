@@ -73,6 +73,16 @@ func _check_forest(tree: SceneTree, session: WorldSessionController, map: WorldM
 	_check(cliffs != null and cliffs.holes().size() > 300, "the gorge under the bridge is sunk into a deep pit: %d cells" % (cliffs.holes().size() if cliffs != null else 0))
 	_check(view.geometry.water.levels.size() > 100, "a stream runs along the gorge's floor")
 	_check(view.geometry._groves.size() > 20, "the pines stand in groves")
+	var crowns: int = 0
+	for chunk: Vector2i in view.geometry._groves:
+		for node: Node in (view.geometry._groves[chunk]["node"] as Node3D).get_children():
+			if node is MultiMeshInstance3D:
+				crowns += (node as MultiMeshInstance3D).multimesh.instance_count
+	_check(crowns > 300, "the groves' crowns are drawn: %d" % crowns)
+	var banked_in_pit: int = 0
+	for cell: Vector2i in view.geometry.water.banked:
+		banked_in_pit += 1 if cliffs.heights.get(cell, 0.0) < 0.0 else 0
+	_check(banked_in_pit == 0, "the stream at the gorge's bottom has the gorge's walls for banks, no second face on them: %d" % banked_in_pit)
 	var kinds: Array[String] = _kinds(view)
 	for kind: String in ["great_pine", "stone_bridge", "waterfall", "plank_road", "vines", "bone_gate", "notice_post", "sandbags", "stakes", "mossy_log", "mossy_rock", "tracks", "sun_flecks"]:
 		_check(kind in kinds, "the forest has its %s" % kind)

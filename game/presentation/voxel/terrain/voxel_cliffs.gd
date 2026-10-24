@@ -20,6 +20,8 @@ var _kinds_by_cell: Dictionary[Vector2i, String] = {}
 ## "rough", "floor", "strata"}): a gorge under a bridge, the drop below a ledge. Their
 ## heights are negative; the walls go down from the ground at their rim.
 var sink: Dictionary = {}
+## How deep the landmass's own sides go (its skirt already shows a pit's end down to there).
+var base_depth: float = 0.0
 var _present: Dictionary[Vector2i, bool] = {}
 
 func _init(settings: Dictionary = {}) -> void:
@@ -206,6 +208,8 @@ func _pit(surface: SurfaceTool, cell: Vector2i, h: float, shade: float, box: Vec
 			a = Vector3(x1,0,z0)
 			b = Vector3(x0,0,z0)
 		var normal := Vector3(shift.x,0,shift.y)/16.0*(1.0 if outside else -1.0)
+		if outside:
+			rim = minf(rim,-base_depth)
 		var y: float = h
 		while y < rim-0.001:
 			var next_y: float = minf(rim,floorf(y/band+1.001)*band)

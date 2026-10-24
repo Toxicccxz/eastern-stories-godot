@@ -63,12 +63,12 @@ func configure(data: Dictionary) -> void:
 		var r: Array = drift["rect"]
 		var colors: Array = drift.get("colors",["8a5a36","a8794a","6e8a47"])
 		var wind: Array = drift.get("wind",[0.4,0.2])
-		for i: int in int(drift.get("count",20)):
-			var needle := Node3D.new()
-			add_child(needle)
-			shapes.box(needle,Vector3.ZERO,Vector3(0.18,0.018,0.035),String(colors[i%colors.size()]))
+		# One MultiMesh for the whole drift (a draw call, not one per needle).
+		var needles: MultiMesh = _swarm(Vector3(0.18,0.018,0.035),int(drift.get("count",20)),false)
+		for i: int in needles.instance_count:
+			needles.set_instance_color(i,Color(String(colors[i%colors.size()])))
 			var phase: float = i*7.3121+index*3.1
-			_falling.append({"node":needle,"x0":float(r[0])/32.0,"z0":float(r[1])/32.0,"w":(float(r[2])-float(r[0]))/32.0,"d":(float(r[3])-float(r[1]))/32.0,
+			_falling.append({"multi":needles,"index":i,"x0":float(r[0])/32.0,"z0":float(r[1])/32.0,"w":(float(r[2])-float(r[0]))/32.0,"d":(float(r[3])-float(r[1]))/32.0,
 				"u":fposmod(sin(phase)*43758.5,1.0),"v":fposmod(sin(phase*1.9)*24634.6,1.0),"t":fposmod(sin(phase*2.7)*9137.1,1.0),
 				"height":float(drift.get("height",5.0)),"wind":Vector2(float(wind[0]),float(wind[1])),"rate":0.09+fposmod(sin(phase*3.3)*512.9,1.0)*0.06})
 		index += 1
@@ -79,19 +79,39 @@ func configure(data: Dictionary) -> void:
 			_glow.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 			_glow.albedo_color = Color(String(swarm.get("color","d9f27a")))
 			_glow.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-		var cube := BoxMesh.new()
-		cube.size = Vector3.ONE*0.07
-		for i: int in int(swarm.get("count",12)):
-			var fly := MeshInstance3D.new()
-			fly.mesh = cube
-			fly.material_override = _glow
-			fly.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-			add_child(fly)
+		var flies: MultiMesh = _swarm(Vector3.ONE*0.07,int(swarm.get("count",12)),true)
+		var holder := get_child(get_child_count()-1) as MultiMeshInstance3D
+		for i: int in flies.instance_count:
 			var phase: float = i*5.137+index*1.3
-			_fireflies.append({"node":fly,"x0":float(r[0])/32.0,"z0":float(r[1])/32.0,"w":(float(r[2])-float(r[0]))/32.0,"d":(float(r[3])-float(r[1]))/32.0,
+			_fireflies.append({"node":holder,"multi":flies,"index":i,"x0":float(r[0])/32.0,"z0":float(r[1])/32.0,"w":(float(r[2])-float(r[0]))/32.0,"d":(float(r[3])-float(r[1]))/32.0,
 				"u":fposmod(sin(phase)*43758.5,1.0),"v":fposmod(sin(phase*1.3)*24634.6,1.0),"h":float(swarm.get("height",1.0)),"phase":phase})
 		index += 1
 	shapes.flush()
+
+## Many small boxes moved together each frame: one MultiMesh (instance colours for needles,
+## the shared glow for fireflies) under one instance.
+func _swarm(size: Vector3, count: int, glowing: bool) -> MultiMesh:
+	var cube := BoxMesh.new()
+	cube.size = size
+	var multi := MultiMesh.new()
+	multi.transform_format = MultiMesh.TRANSFORM_3D
+	multi.use_colors = not glowing
+	multi.mesh = cube
+	multi.instance_count = count
+	var instance := MultiMeshInstance3D.new()
+	instance.multimesh = multi
+	instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	# Never culled by its first frame's bounds: the instances move all over their rect.
+	instance.extra_cull_margin = 64.0
+	if glowing:
+		instance.material_override = _glow
+	else:
+		var needle := StandardMaterial3D.new()
+		needle.vertex_color_use_as_albedo = true
+		needle.roughness = 0.95
+		instance.material_override = needle
+	add_child(instance)
+	return multi
 
 ## Spray and mist where falling water strikes (a waterfall's foot): pale puffs billowing
 ## out across `radius` (units) about a (local) point and rising as they thin.
@@ -221,22 +241,23 @@ func advance(delta: float) -> void:
 	for needle: Dictionary in _falling:
 		var life: float = fposmod(clock*float(needle["rate"])+float(needle["t"]),1.0)
 		var wind: Vector2 = needle["wind"]
-		var node: Node3D = needle["node"]
 		var u: float = fposmod(float(needle["u"])+life*wind.x*0.08,1.0)
 		var v: float = fposmod(float(needle["v"])+life*wind.y*0.08,1.0)
-		node.position = Vector3(float(needle["x0"])+u*float(needle["w"])+sin(clock*1.7+float(needle["t"])*9.0)*0.2,float(needle["height"])*(1.0-life),float(needle["z0"])+v*float(needle["d"]))
-		node.rotation = Vector3(sin(clock*2.1+float(needle["u"])*7.0)*0.6,clock*1.3+float(needle["v"])*6.0,0)
+		var at := Vector3(float(needle["x0"])+u*float(needle["w"])+sin(clock*1.7+float(needle["t"])*9.0)*0.2,float(needle["height"])*(1.0-life),float(needle["z0"])+v*float(needle["d"]))
+		var turn := Basis.from_euler(Vector3(sin(clock*2.1+float(needle["u"])*7.0)*0.6,clock*1.3+float(needle["v"])*6.0,0))
+		(needle["multi"] as MultiMesh).set_instance_transform(int(needle["index"]),Transform3D(turn,at))
 	var dark: float = clampf((night-0.35)/0.5,0.0,1.0)
 	if _glow != null:
 		_glow.albedo_color.a = dark
 	for fly: Dictionary in _fireflies:
-		var node: MeshInstance3D = fly["node"]
+		var node: MultiMeshInstance3D = fly["node"]
 		node.visible = dark > 0.01
 		if not node.visible:
 			continue
 		var t: float = clock*0.25+float(fly["phase"])
-		node.position = Vector3(float(fly["x0"])+fposmod(float(fly["u"])+sin(t)*0.08+sin(t*2.3)*0.03,1.0)*float(fly["w"]),float(fly["h"])+sin(t*3.1)*0.35,float(fly["z0"])+fposmod(float(fly["v"])+cos(t*0.8)*0.08,1.0)*float(fly["d"]))
-		node.scale = Vector3.ONE*(0.4+0.6*maxf(0.0,sin(clock*2.7+float(fly["phase"])*3.0)))
+		var at := Vector3(float(fly["x0"])+fposmod(float(fly["u"])+sin(t)*0.08+sin(t*2.3)*0.03,1.0)*float(fly["w"]),float(fly["h"])+sin(t*3.1)*0.35,float(fly["z0"])+fposmod(float(fly["v"])+cos(t*0.8)*0.08,1.0)*float(fly["d"]))
+		var glow: float = 0.4+0.6*maxf(0.0,sin(clock*2.7+float(fly["phase"])*3.0))
+		(fly["multi"] as MultiMesh).set_instance_transform(int(fly["index"]),Transform3D(Basis.from_scale(Vector3.ONE*glow),at))
 	for spray: Dictionary in _sprays:
 		var life: float = fposmod(clock*0.35+float(spray["phase"]),1.0)
 		var a: float = float(spray["angle"])+life*0.6

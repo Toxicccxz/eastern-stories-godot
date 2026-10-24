@@ -152,9 +152,11 @@ func _world_cancel(tree: SceneTree, _shell: ApplicationShellController, session:
 	await _touch(tree, 44, point, false, true)
 	_check(selections[0] == 0 and outdoor.selected_interaction_target() == null, "cancelled world contact never commits selection")
 	await _mouse_click(tree, point)
-	_check(selections[0] == 1, "fresh completed world tap picks exactly once")
-	# The tap on the vine in reach opened its interaction popup (DECISIONS「说话和交互」): never 抓住藤蔓 at once.
 	var hud: SharedGameplayUI = session.shared_ui()
+	# On a voxel map the view picks what lies under the tap (WorldVoxelView.pick_at), in place
+	# of the hidden 2D Area: one pick, by that one route.
+	_check(selections[0] == (0 if outdoor.projected_view else 1) and hud.interaction_open(), "fresh completed world tap picks exactly once")
+	# The tap on the vine in reach opened its interaction popup (DECISIONS「说话和交互」): never 抓住藤蔓 at once.
 	_check(hud.interaction_open() and hud._presentation_layout.frame_title.text == "藤蔓", "the tap opens the vine's popup, nothing done yet")
 	hud.dismiss_current_panel()
 	await _settle(tree)

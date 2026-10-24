@@ -24,6 +24,8 @@ var root: Node3D
 var levels: Dictionary[Vector2i, float] = {}
 var looks: Dictionary[Vector2i, Dictionary] = {}
 var materials: Dictionary[String, ShaderMaterial] = {}
+## Water cells that got an earth or stone bank on some side.
+var banked: Dictionary[Vector2i, bool] = {}
 
 func _init(settings: Dictionary = {}) -> void:
 	config = settings
@@ -118,14 +120,15 @@ func build(parent: Node3D, cells: Dictionary[Vector2i, String], cliffs: VoxelCli
 				continue
 			if not cells.has(next) and not (cliffs != null and cliffs.heights.has(next)):
 				continue
-			# The bank: from below the surface up to the ground (or the rock's foot).
-			# Beside a pit the pit's own wall closes the side.
+			# The bank: from below the surface up to the ground (or the rock's foot). A stream
+			# at a pit's bottom, or beside a pit, has the pit's own wall there instead.
 			var top: float = 0.0
-			if cliffs != null and cliffs.heights.get(next,0.0)<0.0 or top <= level:
+			if cliffs != null and (cliffs.heights.get(next,0.0)<0.0 or cliffs.heights.get(cell,0.0)<0.0) or top <= level:
 				continue
 			var normal := Vector3(-shift.x,0,-shift.y)/16.0
 			var bank: Array = look.get("bank",config.get("bank",["5a5142","4c4539","665c4a"]))
 			var low: float = level-0.35
+			banked[cell] = true
 			_quad(banks,a+Vector3.UP*top,b+Vector3.UP*top,b+Vector3.UP*low,a+Vector3.UP*low,normal,Color(String(bank[absi(cell.x+cell.y)/16%bank.size()])).srgb_to_linear())
 			bank_count += 1
 		if look.get("clear",false):
