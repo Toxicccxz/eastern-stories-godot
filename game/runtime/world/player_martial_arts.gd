@@ -310,7 +310,7 @@ func practice_hint(use_id: StringName) -> String:
 func exercise(kee: int, quiet: bool = false) -> CultivationResult:
 	if not available():
 		return null
-	var result: CultivationResult = CultivationService.exercise(_state(), kee, _fighting(), apply_modifier(&"force"))
+	var result: CultivationResult = CultivationService.exercise(_state(), kee, _fighting(), apply_modifier(&"force"), false, GameContent.catalog().pacing().player_exercise_gain)
 	_refresh_maxima(result)
 	_tell(TrainingLines.exercise(result), quiet)
 	return result
@@ -349,7 +349,7 @@ func preview_cultivation(kind: TrainingRun.Kind, amount: int) -> CultivationResu
 		return null
 	match kind:
 		TrainingRun.Kind.EXERCISE:
-			return CultivationService.exercise(_state(), amount, _fighting(), apply_modifier(&"force"), true)
+			return CultivationService.exercise(_state(), amount, _fighting(), apply_modifier(&"force"), true, GameContent.catalog().pacing().player_exercise_gain)
 		TrainingRun.Kind.MEDITATE:
 			return CultivationService.meditate(_state(), amount, _fighting(), apply_modifier(&"spells"), true)
 		TrainingRun.Kind.RESPIRATE:
@@ -388,13 +388,18 @@ func study(item_instance_id: StringName) -> StudyResult:
 	if not available():
 		return null
 	var material: StudyMaterial = null
+	var book_id: StringName = &""
 	for row: PlayerInventoryRowProjection in _session.player_inventory_rows():
 		if row.item_instance_id == item_instance_id:
 			var content: ItemContentDefinition = GameContent.catalog().item(row.item_definition_id)
 			material = null if content == null else content.study
+			book_id = &"" if content == null else content.item_definition_id
 	var policy: SkillLearnPolicy = null if material == null else _learn_policies.policy_for(material.skill_id)
 	var result: StudyResult = StudyService.study(_state(), material, policy, _fighting(), _effects())
 	_say(TrainingLines.study(result, null if material == null else GameContent.catalog().skill(material.skill_id)))
+	# A2: this study took the skill past what the book teaches (study.c's 太浅了 from now on).
+	if result.outcome == StudyResult.Outcome.STUDIED and _state().skills.raw_level(material.skill_id) > material.max_skill:
+		_session.progression_rewards().book_read_through(book_id)
 	return result
 
 

@@ -1,0 +1,191 @@
+{
+	"source": "native: A2 经验节奏 pacing simulation (tests/sim/exp_pacing_sim.gd). A new player's first hours as the route guesses them: join 封山剑派 at once, learn from 李火狮 and 柳淳风, spar whoever spars (npc.c accept_fight(): friendly NPCs never do), 打坐 to 50 for 封山剑法, see the near stories through, visit the near regions. walk_seconds are path lengths at 220 px/s estimated from the layouts, plus doors; a story's minutes are the walking, asking and fighting it takes",
+	"route": [
+		{
+			"note": "饮风客栈 → 淳风武馆大厅，拜柳淳风为师",
+			"go": {
+				"map": "snow.school_compound",
+				"zone": "snow.schoolhall",
+				"spawn": "snow.schoolhall.master.1"
+			},
+			"walk_seconds": 50
+		},
+		{
+			"join": "snow.school_compound.schoolhall.master"
+		},
+		{
+			"note": "向柳淳风请教内功",
+			"learn": "snow.school_compound.schoolhall.master",
+			"skills": [
+				"force",
+				"fonxanforce"
+			],
+			"until_level": 6,
+			"max_minutes": 8
+		},
+		{
+			"note": "向李火狮请教拳脚",
+			"learn": "snow.school_compound.school2.fist_trainer",
+			"skills": [
+				"liuh-ken",
+				"unarmed",
+				"dodge"
+			],
+			"until_level": 8,
+			"max_minutes": 10
+		},
+		{
+			"enable": {
+				"force": "fonxanforce",
+				"unarmed": "liuh-ken"
+			}
+		},
+		{
+			"note": "和武馆弟子切磋",
+			"spar": "snow.school_compound.school2.trainees",
+			"max_minutes": 15
+		},
+		{
+			"note": "再向两位师父请教",
+			"learn": "snow.school_compound.school2.fist_trainer",
+			"skills": [
+				"liuh-ken",
+				"unarmed",
+				"dodge"
+			],
+			"max_minutes": 10
+		},
+		{
+			"learn": "snow.school_compound.schoolhall.master",
+			"skills": [
+				"force",
+				"fonxanforce",
+				"sword",
+				"parry"
+			],
+			"max_minutes": 10
+		},
+		{
+			"note": "和李火狮过招",
+			"spar": "snow.school_compound.school2.fist_trainer",
+			"times": 4,
+			"max_minutes": 10
+		},
+		{
+			"note": "打坐到内力 50（封山剑法）",
+			"exercise_to": 50,
+			"max_minutes": 40
+		},
+		{
+			"note": "向魏无极交学费、读书识字",
+			"story": "snow.wei_wuji",
+			"minutes": 4
+		},
+		{
+			"note": "南下卧龙岗、绮云镇",
+			"go": {
+				"map": "cloud.outdoor",
+				"zone": "cloud.dragonhill.nroad",
+				"spawn": "cloud.dragonhill.nroad.snow_entry"
+			},
+			"walk_seconds": 150
+		},
+		{
+			"note": "江北渡口：船夫",
+			"spar": "cloud.outdoor.dukou.boater",
+			"times": 3,
+			"max_minutes": 8
+		},
+		{
+			"note": "肉铺：郑屠夫",
+			"spar": "cloud.butchery_house.butchery.butcher",
+			"times": 4,
+			"max_minutes": 10
+		},
+		{
+			"note": "木匣坊：伙计和林三爷",
+			"spar": "cloud.yard_house.woodboxy.box_waiters",
+			"times": 6,
+			"max_minutes": 10
+		},
+		{
+			"spar": "cloud.yard_house.woodboxy.box_boss",
+			"times": 4,
+			"max_minutes": 10
+		},
+		{
+			"note": "药店的伙计",
+			"spar": "cloud.drugstore_house.drugstore.doctor",
+			"times": 2,
+			"max_minutes": 5
+		},
+		{
+			"note": "香茗坊二楼和弈者下棋",
+			"story": "cloud.chess",
+			"minutes": 4
+		},
+		{
+			"note": "回雪亭、东去青石村",
+			"go": {
+				"map": "green.village",
+				"zone": "green.path6",
+				"spawn": "green.path6.snow_entry"
+			},
+			"walk_seconds": 240
+		},
+		{
+			"note": "玉佩：村长、醉汉、沈万年",
+			"story": "green.jade",
+			"minutes": 15
+		},
+		{
+			"note": "南下老松岭",
+			"go": {
+				"map": "oldpine.outdoor",
+				"zone": "oldpine.outdoor.central_clearing",
+				"spawn": "oldpine.outdoor.central_clearing.player_start"
+			},
+			"walk_seconds": 240
+		},
+		{
+			"note": "瀑布",
+			"go": {
+				"map": "oldpine.gorge",
+				"zone": "oldpine.gorge.waterfall",
+				"spawn": "oldpine.gorge.waterfall.landing"
+			},
+			"walk_seconds": 60
+		},
+		{
+			"note": "山洞里的骸骨",
+			"story": "oldpine.skeleton",
+			"minutes": 8
+		},
+		{
+			"note": "回武馆，再向两位师父请教",
+			"learn": "snow.school_compound.school2.fist_trainer",
+			"skills": [
+				"liuh-ken",
+				"unarmed",
+				"dodge"
+			],
+			"max_minutes": 10
+		},
+		{
+			"learn": "snow.school_compound.schoolhall.master",
+			"skills": [
+				"force",
+				"fonxanforce",
+				"sword",
+				"parry"
+			],
+			"max_minutes": 10
+		},
+		{
+			"note": "和李火狮过招",
+			"spar": "snow.school_compound.school2.fist_trainer",
+			"times": 6,
+			"max_minutes": 15
+		}
+	]
+}

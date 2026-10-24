@@ -30,6 +30,9 @@ var _revive_remainder_ms: Dictionary[StringName, float] = {}
 ## Each holder's kill marks and enemies in their order before it held anyone (those held
 ## since kept in their places), so what is given back stands where it stood.
 var _orders: Dictionary[StringName, Array] = {}
+## combatd.c's winner_msg in a spar: whose blow ended it, and on whom (A2's 切磋首胜).
+var _spar_winner: StringName = &""
+var _spar_loser: StringName = &""
 
 var failure: Failure:
 	get: return _failure
@@ -267,6 +270,7 @@ func inspect(
 	if event != null and event.resolution != null and event.resolution.outcome in FAILED_OPPORTUNITIES:
 		fail(Failure.OPPORTUNITY_FAILED)
 		return false
+	_note_spar_winner(event)
 	for victim: CombatSliceCharacterBinding in bindings:
 		if (not victim.exists_in_encounter and victim.life_status != CombatSliceLifeStatus.Value.DEAD) or (victim.life_status == CombatSliceLifeStatus.Value.ACTIVE and not victim.combat_available):
 			fail(Failure.PARTICIPANT_STATE_INVALID)
@@ -472,6 +476,24 @@ static func _special_of(event: CombatSchedulerEvent, tactical: CombatTacticalExe
 ## damage.c last_damage_from: who hit the victim last in this opportunity (the
 ## riposte comes after the forward blow), NPC chat (a spell) or special (its
 ## attacks), or empty when nobody did.
+## The blow that ended a spar (combatd.c: a friendly hit that drew kee stops both, and the
+## hitter wins): its attacker and victim are kept.
+func _note_spar_winner(event: CombatSchedulerEvent) -> void:
+	if _encounter.mode != CombatEncounterMode.Value.SPAR or event == null:
+		return
+	var opportunity: CombatSliceOpportunityResult = event.resolution
+	if opportunity == null:
+		return
+	var forward: CombatSingleAttackExecutionResult = opportunity.forward_result
+	if forward != null and forward.post_relationship_result != null and forward.post_relationship_result.winner_selection_reached:
+		_spar_winner = forward.attacker_id
+		_spar_loser = forward.victim_id
+	var chain: CombatAttackChainResult = opportunity.chain_result
+	if chain != null and chain.reverse_execution_reached and chain.reverse_relationship_result != null and chain.reverse_relationship_result.winner_selection_reached:
+		_spar_winner = chain.reverse_attacker_id
+		_spar_loser = chain.reverse_victim_id
+
+
 static func last_hitter(event: CombatSchedulerEvent, victim_id: StringName) -> StringName:
 	if event != null and event.special != null:
 		return event.special.last_hitter(victim_id)
@@ -550,6 +572,8 @@ func _derive_result(bindings: Array[CombatSliceCharacterBinding]) -> void:
 		if any_fight and player_active and any_hostile_active:
 			return
 		_result = CombatEncounterResult.new(_encounter.encounter_id, _encounter.mode, CombatEncounterResultKind.Value.SPAR_CONCLUDED, [], [], subjects)
+		if _spar_winner == player_id:
+			_session.progression_rewards().spar_won(_session.resident_npc(_spar_loser))
 		return
 	# One fallen waits on the player's 了结 / 放过: the fight goes on until they choose.
 	if player_active and not _held.is_empty():

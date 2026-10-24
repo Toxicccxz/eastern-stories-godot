@@ -1,6 +1,6 @@
 {
 	"regions": [
-		{ "id": "canyon", "name": "天驼关" }
+		{ "id": "canyon", "name": "天驼关", "recommended_exp": 60000 }
 	],
 	"maps": [
 		{ "id": "canyon.clifftop", "region": "canyon", "scene": "res://scenes/world/canyon/canyon_clifftop.tscn", "entry": "canyon.road.snow_arrival" },

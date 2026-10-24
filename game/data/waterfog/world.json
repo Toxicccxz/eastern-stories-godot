@@ -1,6 +1,6 @@
 {
 	"regions": [
-		{ "id": "waterfog", "name": "水烟阁" }
+		{ "id": "waterfog", "name": "水烟阁", "recommended_exp": 30000 }
 	],
 	"maps": [
 		{ "id": "waterfog.mountain", "region": "waterfog", "scene": "res://scenes/world/waterfog/waterfog_mountain.tscn", "entry": "waterfog.sroad1.snow_entry" },

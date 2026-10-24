@@ -1,6 +1,6 @@
 {
 	"regions": [
-		{ "id": "latemoon", "name": "晚月庄" }
+		{ "id": "latemoon", "name": "晚月庄", "recommended_exp": 10000 }
 	],
 	"maps": [
 		{ "id": "latemoon.manor", "region": "latemoon", "scene": "res://scenes/world/latemoon/latemoon_manor.tscn", "entry": "latemoon.entrance.cloud_entry" },

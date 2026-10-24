@@ -8,8 +8,11 @@ var _completed_cases: int = 0
 
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
+	# The draws pin the player's combat_exp: no 历练 or catch-up on top (A2's knobs at ES2's).
+	var previous: PacingDefinition = Es2Pacing.use_without_progression()
 	for wounded: bool in [false, true]:
 		await _run_case(tree, wounded)
+	Es2Pacing.restore(previous)
 	_eq(_completed_cases, 2, "both integration cases reached cleanup without script failure")
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
 

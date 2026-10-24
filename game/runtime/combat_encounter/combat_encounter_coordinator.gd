@@ -10,6 +10,7 @@ var _active_scheduler: CombatEncounterScheduler
 var _tactical_registry := CombatTacticalActionRegistry.new()
 var _resolution: CombatEncounterResolution
 var _last_completion: CombatEncounterCompletionResult
+var _unspent_at_start: int = 0
 var _completed_feedback: CombatCompletedFeedback
 var _entry_sequence: int = 0
 var _last_abort_detail: String = ""
@@ -722,6 +723,8 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 	_active_encounter = encounter
 	_active_scheduler = scheduler
 	_last_completion = null
+	_unspent_at_start = _player_unspent()
+	_session.progression_rewards().fight_began()
 	_completed_feedback = null
 	_resolution = null if encounter.mode == CombatEncounterMode.Value.SCRIPTED else CombatEncounterResolution.new(_session, encounter)
 	return CombatEncounterStartResult.new(
@@ -909,7 +912,16 @@ func _return_world(result: CombatEncounterResult) -> CombatEncounterCompletionRe
 				push_error("%s could not walk out to %s" % [character_id, walked[character_id]])
 	_active_scheduler = null
 	_active_encounter = null
+	_session.progression_rewards().fight_ended(_unspent_at_start)
 	return _last_completion
+
+
+## The player's unspent potential (A2: told once a fight fills it).
+func _player_unspent() -> int:
+	var player: WorldPlayerRuntimeState = _session.player_runtime()
+	if player == null or player.state == null:
+		return 0
+	return player.state.progression.potential - player.state.progression.potential_spent
 
 
 func _location_matches_trigger(

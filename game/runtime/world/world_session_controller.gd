@@ -664,6 +664,8 @@ func initialize_session() -> bool:
 		_room_states = WorldRoomStates.new()
 		_room_resets = WorldRoomResets.new(WorldRoomResets.resetting_rooms(), GameContent.catalog().pacing().room_reset_seconds, npc_ambience_random_source())
 		_player_resets = WorldRoomResets.new([PLAYER_RESET], GameContent.catalog().pacing().room_reset_seconds, npc_ambience_random_source())
+		if _bootstrap_mode == BootstrapMode.SOURCE_ENTRY:
+			progression_rewards().note_birthplace()
 	return ready
 
 
@@ -1645,6 +1647,11 @@ func _location_for_character(character_id: StringName) -> WorldLocationState:
 	return null if npc == null else npc.world_location()
 
 
+## The NPC `character_id` on any resident map, or null.
+func resident_npc(character_id: StringName) -> NpcRuntimeState:
+	return _find_resident_npc(character_id)
+
+
 func _find_resident_npc(character_id: StringName) -> NpcRuntimeState:
 	for map: WorldResidentMapController in _resident_maps.values():
 		var npc: NpcRuntimeState = map.find_resident_npc(character_id)
@@ -1693,6 +1700,14 @@ func remove_player_item(id: StringName) -> OldPineArmorInteractionResult:
 var _last_portable_equipment: OldPineEquipmentInteractionResult
 var _last_portable_armor: OldPineArmorInteractionResult
 var _martial_arts: PlayerMartialArts
+var _progression_rewards: WorldProgressionRewards
+
+
+## The one-time 历练 rewards and the player's catch-up (A2).
+func progression_rewards() -> WorldProgressionRewards:
+	if _progression_rewards == null:
+		_progression_rewards = WorldProgressionRewards.new(self)
+	return _progression_rewards
 var _essence_magic: PlayerEssenceMagic
 
 
@@ -1984,6 +1999,7 @@ func record_journal() -> void:
 			open.append(ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, item_id))
 	JournalLog.note_items(_player.state, held)
 	JournalLog.record(_player.state, _player.temp_marks, held, GameContent.catalog().journal_chains())
+	progression_rewards().look()
 
 
 ## 阴阳眼 began or ended (in a fight, on the 武学 page, on world time, from a save): the

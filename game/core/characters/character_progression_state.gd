@@ -14,6 +14,9 @@ var kills: int
 ## Native: the player has been told once that their bellicosity can now boil over
 ## (Berserk.can_lose_control()); owner, 水烟阁 C.
 var berserk_warned: bool
+## Native (A2): hundredths of a point a 落后补偿 gain left over (ProgressionGain.scaled()),
+## 0-99. Saved.
+var gain_carry: int = 0
 
 
 func _init(

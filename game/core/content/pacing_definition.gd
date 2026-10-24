@@ -42,6 +42,16 @@ extends RefCounted
 ##   120, 120 and 60. 0: it goes no further than the stage before (0 rot: corpses stay).
 ## - away_neighbour_pulse_seconds: how often the maps a door leads to from the player's are
 ##   caught up, so a wanderer may come in through the door (邻图来客). 0 (ES2): never.
+##
+## The progression knobs (owner, A2 经验节奏; DECISIONS「经验节奏」); left out, each is ES2's:
+## - milestone_rewards: the one-time 历练 rewards (MilestoneRewards, common/progression.json).
+##   false (ES2): none.
+## - catch_up_max_percent: 落后补偿, the most a gain grows (percent) while the player's
+##   combat_exp is below the region's recommended_exp (ProgressionGain). 0 (ES2): none.
+## - staged_potential_cap: the player keeps up to the stage's potential_cap unspent
+##   (progression.json) where combatd.c stops at 100. false (ES2): 100.
+## - player_exercise_gain: what exercise.c's force_gain gives the player (打坐), times this;
+##   a step that gains nothing stays nothing. 1 (ES2).
 const ES2_ROOM_RESET_SECONDS: int = 1800
 const ES2_GAIN: int = 1
 const ES2_QUEST_TIME_PERCENT: int = 100
@@ -65,6 +75,10 @@ var _away_catch_up_limit_seconds: int = 0
 var _away_wander_moves: int = 0
 var _away_neighbour_pulse_seconds: int = 0
 var _corpse_decay_seconds: Array[int] = ES2_CORPSE_DECAY_SECONDS.duplicate()
+var _milestone_rewards: bool = false
+var _catch_up_max_percent: int = 0
+var _staged_potential_cap: bool = false
+var _player_exercise_gain: int = ES2_GAIN
 
 ## Seconds between two combat rounds of an encounter (the scheduler's opportunity interval).
 var combat_round_seconds: float:
@@ -128,6 +142,22 @@ var corpse_bones_seconds: int:
 var corpse_scatter_seconds: int:
 	get:
 		return _corpse_decay_seconds[2]
+## Whether the one-time 历练 rewards are given (false: ES2).
+var milestone_rewards: bool:
+	get:
+		return _milestone_rewards
+## The most 落后补偿 adds to a gain, in percent (0: ES2).
+var catch_up_max_percent: int:
+	get:
+		return _catch_up_max_percent
+## Whether the player's unspent potential stops at the stage's cap (false: combatd.c's 100).
+var staged_potential_cap: bool:
+	get:
+		return _staged_potential_cap
+## Times exercise.c's force_gain for the player (1: ES2).
+var player_exercise_gain: int:
+	get:
+		return _player_exercise_gain
 ## The presentation's feel knobs (the record's `feel`; all 0 when left out).
 var feel: FeelDefinition = FeelDefinition.new()
 
@@ -155,8 +185,18 @@ func copy() -> PacingDefinition:
 		_away_catch_up_limit_seconds, _away_wander_moves, _away_neighbour_pulse_seconds,
 	)
 	record.with_corpse_decay(corpse_rot_seconds, corpse_bones_seconds, corpse_scatter_seconds)
+	record.with_progression(_milestone_rewards, _catch_up_max_percent, _staged_potential_cap, _player_exercise_gain)
 	record.feel = feel
 	return record
+
+
+## This record with the progression knobs set (tests, and from_record()).
+func with_progression(milestones: bool, catch_up_max_percent: int, staged_potential_cap: bool, exercise_gain: int = ES2_GAIN) -> PacingDefinition:
+	_milestone_rewards = milestones
+	_catch_up_max_percent = catch_up_max_percent
+	_staged_potential_cap = staged_potential_cap
+	_player_exercise_gain = exercise_gain
+	return self
 
 
 ## This record with the away catch-up limit set (seconds; tests, and from_record()).
@@ -216,6 +256,11 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.integer("corpse_rot_seconds", ES2_CORPSE_DECAY_SECONDS[0]),
 		reader.integer("corpse_bones_seconds", ES2_CORPSE_DECAY_SECONDS[1]),
 		reader.integer("corpse_scatter_seconds", ES2_CORPSE_DECAY_SECONDS[2]),
+	).with_progression(
+		reader.boolean("milestone_rewards", false),
+		reader.integer("catch_up_max_percent", 0),
+		reader.boolean("staged_potential_cap", false),
+		reader.integer("player_exercise_gain", ES2_GAIN),
 	)
 	var feel: ContentRecordReader = reader.child("feel")
 	if feel != null:
@@ -252,4 +297,8 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.fail("away_neighbour_pulse_seconds", "must not be negative")
 	if definition._heart_beat_ms <= 0:
 		reader.fail("heart_beat_ms", "must be positive")
+	if definition._catch_up_max_percent < 0:
+		reader.fail("catch_up_max_percent", "must not be negative")
+	if definition._player_exercise_gain < 1:
+		reader.fail("player_exercise_gain", "must be at least 1")
 	return definition

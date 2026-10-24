@@ -365,6 +365,7 @@ func _character_snapshot(
 			state.progression.score,
 			state.progression.kills,
 			state.progression.berserk_warned,
+			state.progression.gain_carry,
 		),
 		Values.SkillStateSnapshot.new(
 			state.skills.has_skills_mapping(),
@@ -384,7 +385,7 @@ func _character_snapshot(
 			state.apprenticeship.betrayer_count,
 		),
 		state.affiliation,
-	).with_marks(state.marks).with_timed_applies(state.timed_applies.entries()).with_quest(state.quest).with_vendetta(state.vendetta).with_applies(state.applies).with_seen_npcs(state.seen_npcs).with_journal(state.journal, state.known_items).with_counters(state.counters).with_ghost(state.ghost)
+	).with_marks(state.marks).with_timed_applies(state.timed_applies.entries()).with_quest(state.quest).with_vendetta(state.vendetta).with_applies(state.applies).with_seen_npcs(state.seen_npcs).with_journal(state.journal, state.known_items).with_counters(state.counters).with_ghost(state.ghost).with_milestones(state.milestones)
 
 
 func _character_failure() -> OldPineWorldCaptureResult:

@@ -1,7 +1,7 @@
 {
 	"regions": [
-		{ "id": "sunhill", "name": "日照山" },
-		{ "id": "sanyen", "name": "山烟寺" }
+		{ "id": "sunhill", "name": "日照山", "recommended_exp": 2000 },
+		{ "id": "sanyen", "name": "山烟寺", "recommended_exp": 2000 }
 	],
 	"maps": [
 		{ "id": "sunhill.mountain", "region": "sunhill", "scene": "res://scenes/world/sanyen/sunhill_mountain.tscn", "entry": "sunhill.northriver.dukou_arrival" },

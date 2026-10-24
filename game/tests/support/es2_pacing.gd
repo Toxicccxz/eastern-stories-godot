@@ -23,7 +23,19 @@ static func use_reactions() -> PacingDefinition:
 	catalog.set_pacing(PacingDefinition.new(
 		roundi(production.combat_round_seconds * 1000.0), production.room_reset_seconds, production.player_exp_gain,
 		production.player_recovery_gain, production.quest_time_percent, production.npc_thirst, production.player_wake_seconds,
-	).with_responsiveness(0, 0, roundi(production.heart_beat_seconds * 1000.0), 0))
+	).with_responsiveness(0, 0, roundi(production.heart_beat_seconds * 1000.0), 0).with_progression(
+		production.milestone_rewards, production.catch_up_max_percent, production.staged_potential_cap, production.player_exercise_gain,
+	))
+	return production
+
+
+## The game's pacing with the A2 progression knobs at ES2's (no 历练, no catch-up, cap 100,
+## 打坐 ×1): for suites that pin a fight's or a sitting's numbers (combat_exp, its draw
+## bounds) while the rest of the pacing stays the game's.
+static func use_without_progression() -> PacingDefinition:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var production: PacingDefinition = catalog.pacing()
+	catalog.set_pacing(production.copy().with_progression(false, 0, false, 1))
 	return production
 
 

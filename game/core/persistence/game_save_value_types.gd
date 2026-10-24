@@ -143,17 +143,20 @@ class ProgressionSnapshot extends RefCounted:
 	var score: int
 	var kills: int
 	var berserk_warned: bool
+	## CharacterProgressionState.gain_carry (A2); 0 for most characters.
+	var gain_carry: int
 
-	func _init(p_combat_experience: int = 0, p_potential: int = 0, p_potential_spent: int = 0, p_score: int = 0, p_kills: int = 0, p_berserk_warned: bool = false) -> void:
+	func _init(p_combat_experience: int = 0, p_potential: int = 0, p_potential_spent: int = 0, p_score: int = 0, p_kills: int = 0, p_berserk_warned: bool = false, p_gain_carry: int = 0) -> void:
 		combat_experience = p_combat_experience
 		potential = p_potential
 		potential_spent = p_potential_spent
 		score = p_score
 		kills = p_kills
 		berserk_warned = p_berserk_warned
+		gain_carry = p_gain_carry
 
 	func duplicate_snapshot() -> ProgressionSnapshot:
-		return ProgressionSnapshot.new(combat_experience, potential, potential_spent, score, kills, berserk_warned)
+		return ProgressionSnapshot.new(combat_experience, potential, potential_spent, score, kills, berserk_warned, gain_carry)
 
 
 class SkillValueSnapshot extends RefCounted:
@@ -321,6 +324,8 @@ class CharacterStateSnapshot extends RefCounted:
 	## CharacterState.journal and known_items (任务 page, 百科); empty for NPCs.
 	var journal: Dictionary[String, int] = {}
 	var known_items: Dictionary[String, int] = {}
+	## CharacterState.milestones (A2 历练 rewards); empty for NPCs.
+	var milestones: Dictionary[String, int] = {}
 	## CharacterState.counters (taolin_steps); empty for most characters.
 	var counters: Dictionary[String, int] = {}
 	## CharacterState.ghost (damage.c); false for most characters.
@@ -350,7 +355,11 @@ class CharacterStateSnapshot extends RefCounted:
 		affiliation = CharacterAffiliationState.legacy(not family.family_id.is_empty() or not apprenticeship.master_teacher_id.is_empty()) if p_affiliation == null else p_affiliation.duplicate_snapshot()
 
 	func duplicate_snapshot() -> CharacterStateSnapshot:
-		return CharacterStateSnapshot.new(gender, attributes, gin, kee, sen, internal_resources, progression, skills, _conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed_applies).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen_npcs).with_journal(journal, known_items).with_counters(counters).with_ghost(ghost)
+		return CharacterStateSnapshot.new(gender, attributes, gin, kee, sen, internal_resources, progression, skills, _conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed_applies).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen_npcs).with_journal(journal, known_items).with_counters(counters).with_ghost(ghost).with_milestones(milestones)
+
+	func with_milestones(p_milestones: Dictionary[String, int]) -> CharacterStateSnapshot:
+		milestones = p_milestones.duplicate()
+		return self
 
 	func with_marks(p_marks: Dictionary[String, int]) -> CharacterStateSnapshot:
 		marks = p_marks.duplicate()

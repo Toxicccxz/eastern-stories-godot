@@ -31,12 +31,16 @@ var text: String = ""
 ## An NPC's inquiry answer shown under the text (quote_npc asked about quote_topic), or "".
 var quote_npc: StringName
 var quote_topic: String = ""
+## Native (A2): the chain's story is seen through once this entry is recorded (one of its
+## `final` entries, any of them): the 历练 reward for the chain (MilestoneRewards).
+var final: bool = false
 
 
 static func from_record(reader: ContentRecordReader) -> JournalEntryDefinition:
 	var definition := JournalEntryDefinition.new()
 	definition.entry_id = StringName(reader.required_text("id"))
 	definition.text = reader.required_text("text")
+	definition.final = reader.boolean("final", false)
 	var when: ContentRecordReader = reader.child("when")
 	if when == null:
 		reader.fail("when", "expected an object")

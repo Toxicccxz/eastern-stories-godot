@@ -1,6 +1,6 @@
 {
 	"regions": [
-		{ "id": "temple", "name": "茅山" }
+		{ "id": "temple", "name": "茅山", "recommended_exp": 3000 }
 	],
 	"maps": [
 		{ "id": "temple.mountain", "region": "temple", "scene": "res://scenes/world/temple/temple_mountain.tscn", "entry": "temple.sroad.snow_entry" },

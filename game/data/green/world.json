@@ -1,6 +1,6 @@
 {
 	"regions": [
-		{ "id": "green", "name": "青石村" }
+		{ "id": "green", "name": "青石村", "recommended_exp": 300 }
 	],
 	"maps": [
 		{ "id": "green.village", "region": "green", "scene": "res://scenes/world/green/green_village.tscn", "entry": "green.path6.snow_entry" },

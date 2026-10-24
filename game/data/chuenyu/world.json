@@ -1,6 +1,6 @@
 {
 	"regions": [
-		{ "id": "chuenyu", "name": "黑松山" }
+		{ "id": "chuenyu", "name": "黑松山", "recommended_exp": 3000 }
 	],
 	"maps": [
 		{ "id": "chuenyu.main", "region": "chuenyu", "scene": "res://scenes/world/chuenyu/chuenyu_main.tscn", "entry": "chuenyu.croad1.village_arrival" },

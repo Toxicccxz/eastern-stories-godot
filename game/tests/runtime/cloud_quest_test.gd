@@ -149,7 +149,8 @@ func _test_reward() -> void:
 	state.quest.assign(catalog.quest_tiers()[0].quests[0], 10)
 	var draws := ScriptedWorldInteractionRandomSource.new([7, 3, 1])
 	var result: PlayerKillerReward.Result = PlayerKillerReward.apply(state, catalog.npc(BEGGAR), draws.legacy_random)
-	_check(ColoredLine.texts(result.lines) == ["恭喜你！你又完成了一项任务！", "你被奖励了：\n二十二点实战经验\n十三点潜能\n四点综合评价"] and result.lines[1].color == ColoredLine.HIW, "the reward lines: " + str(ColoredLine.texts(result.lines)))
+	# A2: the line says 十三点潜能; 99 unspent at a cap of 100 keeps 1, and the rest is said.
+	_check(ColoredLine.texts(result.lines) == ["恭喜你！你又完成了一项任务！", "你被奖励了：\n二十二点实战经验\n十三点潜能\n四点综合评价", "潜能已满（最多 100 点未用），多出的 12 点没有记下。先去请教师父或研读书籍，用掉一些潜能吧。"] and result.lines[1].color == ColoredLine.HIW, "the reward lines: " + str(ColoredLine.texts(result.lines)))
 	_check(draws.requested_bounds() == [15, 10, 3], "random(exp_bonus / 2), random(pot_bonus / 2), random(score / 2)")
 	_check(state.progression.combat_experience == 1522 and state.progression.potential == 100 and state.progression.score == 4, "exp + 22; unspent potential 99 + 13 ends at 100; score + 4")
 	_check(not state.quest.has_task() and state.quest.finished == 1 and state.quest.factor == 10 and state.progression.kills == 1 and state.attributes.bellicosity == 1, "the task is done, tfinished 1, MKS 1, bellicosity 1")
@@ -275,6 +276,7 @@ func _test_in_town(tree: SceneTree, session: WorldSessionController) -> void:
 	var kee: CharacterResourceState = player.state.vitality
 	player.state.vitality = CharacterResourceState.new(50000, 50000, 50000) # TEST-ONLY
 	var exp_before: int = player.state.progression.combat_experience
+	var pot_before: int = player.state.progression.potential
 	map.select_npc(judge.character_id)
 	_check(map.attack_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED, "the player attacks 宝官")
 	judge.character_state.vitality.current = -1 # TEST-ONLY
@@ -293,7 +295,7 @@ func _test_in_town(tree: SceneTree, session: WorldSessionController) -> void:
 	var done: int = lines.find("恭喜你！你又完成了一项任务！")
 	_check(won >= 0 and done == won + 1 and done + 2 == lines.size() and lines[done + 1].begins_with("你被奖励了：\n%s点实战经验\n" % ChineseNumber.of(gained)), "the reward in the log after the fight's result: " + str(lines))
 	_check(hud.toasts().latest_text() == lines.back().replace("\n", " "), "the HUD's last toast shows the whole reward: " + hud.toasts().latest_text())
-	_check(gained >= 20 and gained <= 39 and player.state.progression.score >= 2 and player.state.progression.score <= 3 and player.state.progression.potential == 100, "qlist1000.c's 宝官: 40/30/4 halved plus a draw: exp %d, score %d" % [gained, player.state.progression.score])
+	_check(gained >= 20 and gained <= 39 and player.state.progression.score >= 2 and player.state.progression.score <= 3 and player.state.progression.potential - pot_before >= 15 and player.state.progression.potential - pot_before <= 29, "qlist1000.c's 宝官: 40/30/4 halved plus a draw: exp %d, score %d, potential %d (A2: the stage's cap at 100000 keeps it all)" % [gained, player.state.progression.score, player.state.progression.potential - pot_before])
 	_check(not player.state.quest.has_task() and player.state.quest.finished == 1 and player.state.progression.kills == 1 and player.state.attributes.bellicosity == 1, "the task done, tfinished 1, MKS 1, bellicosity 1")
 	_check(CombatEncounterCoordinator.take_aborted_total() == 0, "the fight never aborts")
 	player.state.vitality = kee # Continue recomputes max kee (race/human.c)

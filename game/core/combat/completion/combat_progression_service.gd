@@ -106,7 +106,7 @@ static func _apply_dodge(
 		result._defender_roll_succeeded = defender_draw > 50
 		result._reached_stage = CombatProgressionResult.ReachedStage.DEFENDER_RANDOM_EVALUATED
 		if result._defender_roll_succeeded:
-			defender.progression.combat_experience += defender_facts.experience_gain
+			defender.progression.combat_experience += _gain_of(defender, defender_facts)
 			_improve_defender(
 				result,
 				defender,
@@ -132,7 +132,7 @@ static func _apply_dodge(
 		result._attacker_first_roll_succeeded = exp_draw > 15
 		result._reached_stage = CombatProgressionResult.ReachedStage.ATTACKER_FIRST_RANDOM_EVALUATED
 		if result._attacker_first_roll_succeeded:
-			attacker.progression.combat_experience += attacker_facts.experience_gain
+			attacker.progression.combat_experience += _gain_of(attacker, attacker_facts)
 
 		var skill_draw: int = _draw(result, random_source, attacker_bound)
 		if not _valid_draw(skill_draw, attacker_bound):
@@ -186,7 +186,7 @@ static func _apply_parry(
 		result._defender_roll_succeeded = defender_draw > 50
 		result._reached_stage = CombatProgressionResult.ReachedStage.DEFENDER_RANDOM_EVALUATED
 		if result._defender_roll_succeeded:
-			defender.progression.combat_experience += defender_facts.experience_gain
+			defender.progression.combat_experience += _gain_of(defender, defender_facts)
 			_improve_defender(
 				result,
 				defender,
@@ -236,7 +236,7 @@ static func _apply_hit(
 		result._attacker_first_roll_succeeded = attacker_draw > 30
 		result._reached_stage = CombatProgressionResult.ReachedStage.HIT_ATTACKER_RANDOM_EVALUATED
 		if result._attacker_first_roll_succeeded:
-			_gain(attacker, attacker_facts.experience_gain)
+			_gain(attacker, attacker_facts)
 			if not _improve_attacker(
 				result,
 				attacker,
@@ -258,19 +258,25 @@ static func _apply_hit(
 	result._defender_roll_succeeded = defender_draw < calculation.requested_damage
 	result._reached_stage = CombatProgressionResult.ReachedStage.HIT_DEFENDER_RANDOM_EVALUATED
 	if result._defender_roll_succeeded:
-		_gain(defender, defender_facts.experience_gain)
+		_gain(defender, defender_facts)
 		result._reached_stage = CombatProgressionResult.ReachedStage.HIT_DEFENDER_MUTATION_COMPLETED
 	_complete(result)
 
 
 ## do_attack()'s "(7) Give experience": combat_exp += 1, and potential += 1 while
-## less than 100 of it is unspent. A pacing gain above 1 adds that much of each,
-## potential still only up to 100 unspent.
-static func _gain(character: CharacterState, gain: int) -> void:
+## less than 100 of it is unspent. A pacing gain above 1 adds that much of each, and the
+## player's 落后补偿 (A2) more; potential still only up to the cap unspent (100, or the
+## player's stage cap, A2).
+static func _gain(character: CharacterState, facts: CombatProgressionFacts) -> void:
+	var gain: int = _gain_of(character, facts)
 	character.progression.combat_experience += gain
-	var unspent: int = character.progression.potential - character.progression.potential_spent
-	if unspent < 100:
-		character.progression.potential += mini(gain, 100 - unspent)
+	ProgressionGain.add_potential(character.progression, gain, facts.potential_cap)
+
+
+## What one of combatd.c's +1 is worth to `character`: the pacing gain, with the catch-up
+## percent on top (ProgressionGain.scaled(): ES2's 1 when both are ES2's).
+static func _gain_of(character: CharacterState, facts: CombatProgressionFacts) -> int:
+	return ProgressionGain.scaled(character.progression, facts.experience_gain, facts.gain_percent)
 
 
 static func _health_intelligence_bound(

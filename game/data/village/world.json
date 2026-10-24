@@ -1,6 +1,6 @@
 {
 	"regions": [
-		{ "id": "village", "name": "玉螺湖村" }
+		{ "id": "village", "name": "玉螺湖村", "recommended_exp": 5000 }
 	],
 	"maps": [
 		{ "id": "village.main", "region": "village", "scene": "res://scenes/world/village/village_main.tscn", "entry": "village.road1.canyon_arrival" },
