@@ -7,6 +7,9 @@ var cube := BoxMesh.new()
 var stones: Dictionary[int, ArrayMesh] = {}
 var spatial_batching: bool = false
 var spatial_cell_size: float = 12.0
+## Placed in front of every form drawn while set: many trees share one grove parent (and so
+## one batch per colour) yet each keeps its own position, turn and size.
+var frame := Transform3D.IDENTITY
 
 ## A colour key; "<hex>:gloss" is the same colour, wet and shiny (its own material).
 func color(hex: String) -> Color:
@@ -26,6 +29,7 @@ func shard(parent: Node3D, at: Vector3, size: Vector3, hex: String, variant: int
 	_instance(parent, Transform3D(Basis(Vector3.UP, yaw).scaled_local(size), at), hex, stones[variant])
 
 func _instance(parent: Node3D, transform: Transform3D, hex: String, mesh: Mesh) -> void:
+	transform = frame*transform
 	var key: String = str(parent.get_instance_id()) + hex + str(mesh.get_instance_id())
 	if spatial_batching:
 		# Mobile lighting chooses lights per instance. A map-wide ground instance

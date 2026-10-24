@@ -146,6 +146,47 @@ func dirt(cell: Vector2i) -> void:
 		var at: Vector3 = p+Vector3(rng.randf_range(-0.24,0.24),0.025,rng.randf_range(-0.24,0.24))
 		shapes.shard(parent,at,Vector3(0.09,0.035,0.12),String(tints.get("grit","b8ad8b")),rng.randi())
 
+## A forest floor (layout `ground`, style "litter"): a tile in broad tint patches strewn with
+## fallen needles (`needles`: colours, `strew`: about how many to a tile), the odd cone,
+## twig and cushion of moss.
+func litter(cell: Vector2i, p: Vector3, colors: Array, growth: float, style: Dictionary) -> void:
+	var tint: String = String(colors[clampi(roundi((growth+0.5)*(colors.size()-1)),0,colors.size()-1)])
+	shapes.box(parent,p-Vector3(0,0.06,0),Vector3(0.5,0.12,0.5),tint)
+	var needles: Array = style.get("needles",["8a5a36","9c6a3e","7a4f31","a8794a"])
+	var strew: float = float(style.get("strew",1.2))
+	while strew > 0.0:
+		if rng.randf() < strew:
+			var at: Vector3 = p+Vector3(rng.randf_range(-0.21,0.21),0.008,rng.randf_range(-0.21,0.21))
+			shapes.tilted_box(parent,at,Vector3(rng.randf_range(0.12,0.22),0.014,0.024),String(needles[rng.randi_range(0,needles.size()-1)]),Vector3(0,rng.randf()*TAU,0))
+		strew -= 1.0
+	if rng.randf() < float(style.get("cones",0.03)):
+		var at: Vector3 = p+Vector3(rng.randf_range(-0.18,0.18),0.05,rng.randf_range(-0.18,0.18))
+		var cone := Vector3(0,rng.randf()*TAU,1.45)
+		shapes.tilted_box(parent,at,Vector3(0.1,0.16,0.1),String(style.get("cone","6e4a2e")),cone)
+		shapes.tilted_box(parent,at+Vector3(0,0.01,0),Vector3(0.13,0.07,0.13),String(style.get("cone_scales","8a5f3a")),cone)
+	if rng.randf() < float(style.get("twigs",0.04)):
+		shapes.tilted_box(parent,p+Vector3(rng.randf_range(-0.15,0.15),0.02,rng.randf_range(-0.15,0.15)),Vector3(0.42,0.035,0.035),"5d4634",Vector3(0,rng.randf()*TAU,0))
+	if growth < float(style.get("moss_below",-0.1)) and rng.randf() < float(style.get("moss",0.18)):
+		var moss: Array = style.get("moss_colors",["4f6b38","5d7a3f","6e8a47"])
+		shapes.shard(parent,p+Vector3(rng.randf_range(-0.15,0.15),0.012,rng.randf_range(-0.15,0.15)),Vector3(rng.randf_range(0.2,0.4),0.03,rng.randf_range(0.18,0.34)),String(moss[rng.randi_range(0,moss.size()-1)]),rng.randi(),rng.randf()*TAU)
+
+## A bough of a great tree walked along in the air (layout `ground`, style "bark"): thick
+## grey-brown wood with ridged bark, sprigs of needles out over its edges.
+func bark(cell: Vector2i, p: Vector3, colors: Array, cells: Dictionary[Vector2i,String], style: Dictionary) -> void:
+	var thick: float = float(style.get("thickness",0.45))
+	shapes.box(parent,p-Vector3(0,thick/2,0),Vector3(0.5,thick,0.5),String(colors[absi(cell.x*7+cell.y*3)/16%colors.size()]))
+	if rng.randf() < 0.45:
+		shapes.box(parent,p+Vector3(rng.randf_range(-0.16,0.16),0.012,0),Vector3(0.06,0.03,0.42),String(style.get("ridge","4a3a2e")))
+	var sprigs: Array = style.get("sprigs",["2c4a36","3a5c40","4b6d48"])
+	for shift: Vector2i in [Vector2i(-16,0),Vector2i(16,0),Vector2i(0,-16),Vector2i(0,16)]:
+		if cells.get(cell+shift,"") == cells[cell]:
+			continue
+		var out := Vector3(shift.x,0,shift.y)/16.0
+		shapes.box(parent,p+out*0.24-Vector3(0,thick*0.5,0),Vector3(0.5 if shift.x==0 else 0.06,thick*0.9,0.06 if shift.x==0 else 0.5),String(style.get("side","56443a")))
+		if rng.randf() < float(style.get("sprig_chance",0.35)):
+			var at: Vector3 = p+out*rng.randf_range(0.3,0.5)+Vector3(rng.randf_range(-0.15,0.15),-0.05,rng.randf_range(-0.15,0.15))
+			shapes.box(parent,at,Vector3(rng.randf_range(0.2,0.36),0.14,rng.randf_range(0.2,0.36)),String(sprigs[rng.randi_range(0,sprigs.size()-1)]))
+
 ## Loose ground on a wild map (layout `ground`, style "scree"): a tile in broad tint
 ## patches, scattered gravel and the odd half-buried stone. `wet` adds slick glints.
 func scree(cell: Vector2i, p: Vector3, colors: Array, growth: float, style: Dictionary) -> void:

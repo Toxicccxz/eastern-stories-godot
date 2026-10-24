@@ -70,9 +70,9 @@ func run_all(tree: SceneTree) -> Dictionary:
 	_check(GameSaveJsonCodec.encode(Work.capture(session)).text==saved,"view and night toggles change no saved values or RNG")
 	session.set_process(true)
 	# Leaving this region still restores the unchanged 2D fallback.
-	var fallback: MapDefinition = GameContent.catalog().map(&"oldpine.outdoor")
+	var fallback: MapDefinition = GameContent.catalog().map(&"canyon.pass")
 	if fallback!=null:
-		var map := MapPlaces.enter(session,&"oldpine.outdoor.central_clearing",fallback.entry_spawn_id)
+		var map := MapPlaces.enter(session,&"canyon.canyon1",fallback.entry_spawn_id)
 		await _frames(tree,3)
 		_check(map!=null and not map.projected_view and not button.visible and not day.visible,"unconverted regions keep their 2D presentation")
 		_check(tree.root.get_camera_3d()==null and tree.root.msaa_3d==initial_msaa,"2D handoff restores viewport camera and MSAA")

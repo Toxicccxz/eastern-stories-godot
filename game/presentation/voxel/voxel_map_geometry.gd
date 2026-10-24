@@ -8,6 +8,7 @@ const Fixtures = preload("res://presentation/voxel/props/voxel_fixtures.gd")
 const TradeProps = preload("res://presentation/voxel/props/voxel_trade_props.gd")
 const Wilds = preload("res://presentation/voxel/props/voxel_wilds.gd")
 const ShrineProps = preload("res://presentation/voxel/props/voxel_shrine_props.gd")
+const Woods = preload("res://presentation/voxel/props/voxel_woods.gd")
 const UNIT: float = 32.0
 var shapes := Shapes.new()
 var rng := RandomNumberGenerator.new()
@@ -25,9 +26,15 @@ var _walls: Node3D
 var _low_walls: Node3D
 var ground: VoxelGround
 var tree_shapes := VoxelTree.new()
+## Trees by 8-unit chunk: {"node": the grove, "crowns": crown mesh -> transforms}.
+const GROVE: float = 8.0
+var _groves: Dictionary[Vector2i, Dictionary] = {}
 var landmass: VoxelLandmass
 ## Raised rock for `cliff`/`chasm` cells (layout `cliffs`); null where a map has none.
 var cliffs: VoxelCliffs
+## Water surfaces (layout `water`); a map without water cells draws none.
+var water: VoxelWater
+var water_config: Dictionary = {}
 ## Ground kind -> {"style": "scree", "colors": [...]} (layout `ground`); a town keeps its paving.
 var ground_styles: Dictionary = {}
 var edge_config: Dictionary = {}
@@ -51,6 +58,7 @@ var fixtures := Fixtures.new()
 var trade_props := TradeProps.new()
 var wilds := Wilds.new()
 var shrine_props := ShrineProps.new()
+var woods := Woods.new()
 ## Birds, dust, smoke and drips (layout `ambience`, and the props that make them).
 var ambience: VoxelAmbience
 
@@ -71,6 +79,15 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	indoor = layout.get("indoor", false)
 	shapes.spatial_cell_size = 6.0 if indoor else 12.0
 	flora = layout.get("flora", {})
+	tree_shapes.palettes = flora.get("crown_colors",{})
+	tree_shapes.barks = flora.get("bark_colors",{})
+	# flora `areas`: [{"rect": px, overrides}] for a stretch inside a zone (npath3's starved
+	# pines); they come before the zones, so the smaller patch wins.
+	for area: Dictionary in flora.get("areas",[]):
+		var r: Array = area["rect"]
+		var merged: Dictionary = flora.duplicate()
+		merged.merge(area,true)
+		flora_regions.append({"rect":Rect2(r[0],r[1],r[2]-r[0],r[3]-r[1]),"style":merged})
 	for node: Node in map.find_children("*","Area2D",true,false):
 		var zone := node as WorldPhysicalZoneArea2D
 		if zone != null and flora.get("zones",{}).has(String(zone.zone_id)):
@@ -83,6 +100,7 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	wall_looks = layout.get("wall_looks", [])
 	edge_config = layout.get("edge", {})
 	ground_styles = layout.get("ground", {})
+	water_config = layout.get("water", {})
 	if layout.has("cliffs"):
 		cliffs = VoxelCliffs.new(layout["cliffs"])
 	for a: Array in layout.get("low_walls", []):
@@ -145,6 +163,10 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	wilds.ambience = ambience
 	wilds.rng = rng
 	shrine_props.ambience = ambience
+	woods.ambience = ambience
+	fixtures.ambience = ambience
+	woods.rng = rng
+	woods.tree_shapes = tree_shapes
 	_terrain(map, layout.get("reshape",[]), layout.get("exit_trails",{}))
 	for building: Dictionary in layout.get("buildings", []):
 		_building(map, building)
@@ -154,6 +176,7 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	if furnishings != null:
 		for node: Node in furnishings.get_children():
 			_prop(furnishing(node as Node2D))
+	_plant_groves()
 	# Split only batches exceeding Mobile's eight local omni lights. Making every
 	# street tile batch smaller needlessly multiplies draw calls away from doorways.
 	var light_bounds: Array[AABB] = []
@@ -260,11 +283,23 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 		landmass = VoxelLandmass.new()
 		landmass.build(cells,required,edge_config)
 		cells = landmass.terrain(cells)
-		landmass.make_base(self)
 		_ground_under_blocks(cells)
 	if cliffs != null:
 		cliffs.shape(cells)
 		cliffs.remember(cells)
+	# A map in the air (the great pine's boughs) has no ground slab under it.
+	if landmass != null and not edge_config.get("none",false):
+		var holes: Dictionary[Vector2i, bool] = {}
+		if cliffs != null:
+			holes = cliffs.holes()
+		landmass.make_base(self,holes)
+	water = VoxelWater.new(water_config)
+	var beds: Dictionary = {}
+	if cliffs != null and cliffs.sink.has("bed"):
+		# A stream along the bottom of a gorge, a little above its floor.
+		for cell: Vector2i in cliffs.holes():
+			beds[cell] = {"kind":String(cliffs.sink["bed"]),"level":cliffs.heights[cell]+float(cliffs.sink.get("bed_level",0.25))}
+	water.collect(cells,beds)
 	var trees: Dictionary[Vector2i, bool] = {}
 	var painted: Dictionary[Vector2i, bool] = {}
 	# Merged paving and boards must also see the hole, not bridge over a skipped cell.
@@ -284,9 +319,11 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 			if rect.has_point(pos):
 				covered = true
 				break
-		if covered or cliffs != null and cliffs.heights.has(cell):
+		if covered or cliffs != null and cliffs.heights.has(cell) or water.levels.has(cell):
 			continue
 		var style: Dictionary = ground_styles.get(kind,{})
+		if style.get("style","")=="void":
+			continue
 		var wood: bool = kind in ["floor_wood", "floor_shop", "blocked"] and indoor
 		var road: bool = kind in ["town_ground", "street", "floor_yard", "rock"]
 		var wall: bool = kind in ["wall", "wall_wood", "shutter", "shop_front"]
@@ -319,6 +356,10 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 			size.z = 0.47
 		if style.get("style","")=="scree":
 			ground.scree(cell,p,palette,growth,style)
+		elif style.get("style","")=="litter":
+			ground.litter(cell,p,palette,growth,style)
+		elif style.get("style","")=="bark":
+			ground.bark(cell,p,palette,cells,style)
 		elif road and not style.has("colors"):
 			ground.paving(cell,cells,painted)
 		else:
@@ -337,10 +378,18 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 		elif kind in flora.get("tree_kinds",["forest", "boundary"]) and not indoor:
 			var spacing: float = float(flora.get("tree_spacing",120))
 			var cluster := Vector2i(floori(pos.x/spacing),floori(pos.y/spacing))
-			if not trees.has(cluster) and rng.randf()<float(flora.get("tree_chance",0.15)) and landmass.supports(pos,64):
+			if not trees.has(cluster) and not _treeless(pos) and rng.randf()<float(flora.get("tree_chance",0.15)) and landmass.supports(pos,64):
 				trees[cluster] = true
 				var local: Dictionary = _flora_at(pos)
-				_tree(p, rng.randf()<float(local.get("blossom_trees",0.35)), local)
+				# Close to a path only low growth (flora `bands`: [{"within": px of open ground,
+				# "types": [...]}], nearest first): a tall pine there would wall the way off
+				# from the camera. An empty band plants nothing.
+				var band: Array = _band(local,cell)
+				if _band_hit:
+					local = local.duplicate()
+					local["tree_types"] = band
+				if not local.get("tree_types",[0]).is_empty():
+					_tree(p, rng.randf()<float(local.get("blossom_trees",0.35)), local)
 		if foliage != null and not wall and (not indoor or kind in ["grass","forest","forest_floor"]):
 			_dress_ground(cell, p, kind, growth, cells)
 	# Indoor floors keep their cutaway plinth. Outdoors has only the finite,
@@ -351,6 +400,7 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 		cliffs.build(self)
 		occluders.append({"node":cliffs.root})
 		_dress_cliffs()
+	water.build(self,cells,cliffs,shapes,rng)
 	if foliage != null:
 		for edge_cell: Vector2i in cells:
 			var hidden: bool = false
@@ -398,7 +448,7 @@ func _wall_cell(into: Node3D, p: Vector3, height: float, horizontal: bool) -> vo
 	for look: Dictionary in wall_looks:
 		var r: Array = look["rect"]
 		if Rect2(r[0],r[1],r[2]-r[0],r[3]-r[1]).has_point(Vector2(p.x,p.z)*UNIT):
-			_styled_wall_cell(into,p,height,look)
+			_styled_wall_cell(into,p,height,look,horizontal)
 			return
 	shapes.box(into,p+Vector3(0,height/2,0),Vector3(0.5,height,0.5),String(palette.get("wall","c9b997" if indoor else "83917b")))
 	shapes.box(into,p+Vector3(0,height+0.05,0),Vector3(0.53,0.12,0.53),"78513b" if indoor else "607a60")
@@ -406,8 +456,18 @@ func _wall_cell(into: Node3D, p: Vector3, height: float, horizontal: bool) -> vo
 		_interior_wall(into,p,height,horizontal)
 
 ## A wall cell of rock (rough courses proud of each other) or rammed earth (bands).
-func _styled_wall_cell(into: Node3D, p: Vector3, height: float, look: Dictionary) -> void:
+func _styled_wall_cell(into: Node3D, p: Vector3, height: float, look: Dictionary, horizontal: bool = true) -> void:
 	var colors: Array = look.get("colors",["7c6e58","8b7c63","6e6250","978869"])
+	if look.get("style","rock")=="palisade":
+		# 老松寨's wall: logs stood side by side, sharpened, lashed at two heights.
+		for log_index: int in 2:
+			var offset := Vector3(-0.125+log_index*0.25,0,0) if horizontal else Vector3(0,0,-0.125+log_index*0.25)
+			var tall: float = height*rng.randf_range(0.85,1.05)
+			shapes.box(into,p+offset+Vector3(0,tall/2,0),Vector3(0.24,tall,0.24),_pick(colors))
+			shapes.box(into,p+offset+Vector3(0,tall+0.09,0),Vector3(0.14,0.18,0.14),String(look.get("tips","8a7254")))
+		for band: float in [0.9,height-0.7]:
+			shapes.box(into,p+Vector3(0,band,0),Vector3(0.52 if horizontal else 0.27,0.07,0.27 if horizontal else 0.52),String(look.get("rope","8e7c55")))
+		return
 	if look.get("style","rock")=="earth":
 		for band: int in ceili(height/0.35):
 			var h: float = minf(0.35,height-band*0.35)
@@ -519,6 +579,8 @@ func _dress_cliffs() -> void:
 	var tree_chance: float = float(flora.get("cliff_trees",0.0))
 	for cell: Vector2i in cliffs.heights:
 		var h: float = cliffs.heights[cell]
+		if h <= 0.0:
+			continue
 		var p: Vector3 = point(Vector2(cell))
 		for shift: Vector2i in cliffs.faces_open(cell):
 			var out := Vector3(shift.x,0,shift.y)/16.0
@@ -571,6 +633,45 @@ func _building(map: WorldMapController, data: Dictionary) -> void:
 	architecture.build(center,w,d,data,entrances)
 	occluders.append_array(architecture.occluders)
 
+var _band_hit: bool = false
+
+## The tree kinds of the first flora band the cell lies within (see _terrain); `_band_hit`
+## says whether any band applied (an empty list then means: no tree here).
+func _band(local: Dictionary, cell: Vector2i) -> Array:
+	_band_hit = false
+	if cliffs == null:
+		return []
+	var near: float = cliffs.distances.get(cell,INF)
+	for band: Dictionary in local.get("bands",[]):
+		if near < float(band["within"]):
+			_band_hit = true
+			return band.get("types",[])
+	return []
+
+## flora `no_trees`: rects (px) where no tree is planted (a landmark's own ground).
+func _treeless(at: Vector2) -> bool:
+	for r: Array in flora.get("no_trees",[]):
+		if Rect2(r[0],r[1],r[2]-r[0],r[3]-r[1]).has_point(at):
+			return true
+	return false
+
+func _plant_groves() -> void:
+	for chunk: Vector2i in _groves:
+		var grove: Node3D = _groves[chunk]["node"]
+		var crowns: Dictionary = _groves[chunk]["crowns"]
+		for crown: ArrayMesh in crowns:
+			var placed: Array = crowns[crown]
+			var multi := MultiMesh.new()
+			multi.transform_format = MultiMesh.TRANSFORM_3D
+			multi.mesh = crown
+			multi.instance_count = placed.size()
+			for i: int in placed.size():
+				multi.set_instance_transform(i,placed[i])
+			var instance := MultiMeshInstance3D.new()
+			instance.multimesh = multi
+			instance.material_override = tree_shapes.material()
+			grove.add_child(instance)
+
 func _flora_at(at: Vector2) -> Dictionary:
 	for entry: Dictionary in flora_regions:
 		if (entry["rect"] as Rect2).has_point(at):
@@ -582,18 +683,33 @@ func _tree(at: Vector3, pink: bool, local: Dictionary = {}) -> void:
 		local = flora
 	var choices: Array = local.get("tree_types",["pine","broadleaf","broadleaf","slender","shrub"])
 	var species: String = "blossom" if pink else String(choices[rng.randi_range(0,choices.size()-1)])
-	var tree: Node3D = _node(at)
 	var size: float = rng.randf_range(0.82,1.32)
-	tree.scale = Vector3(size*rng.randf_range(0.86,1.18),size*rng.randf_range(0.90,1.23),size)
-	tree.rotation.y = rng.randf()*TAU
-	tree_shapes.build(tree,shapes,species,rng.randi_range(0,5))
+	var scale := Vector3(size*rng.randf_range(0.86,1.18),size*rng.randf_range(0.90,1.23),size)
+	var frame := Transform3D(Basis(Vector3.UP,rng.randf()*TAU)*Basis.from_scale(scale),at)
+	# Trees near each other share one grove node: one batch per colour and one crown
+	# MultiMesh per silhouette instead of a handful of draws for every tree.
+	var chunk := Vector2i(floori(at.x/GROVE),floori(at.z/GROVE))
+	if not _groves.has(chunk):
+		var grove: Node3D = _node()
+		_groves[chunk] = {"node":grove,"crowns":{}}
+		occluders.append({"node":grove})
+	tree_shapes.build(_groves[chunk]["node"],shapes,species,rng.randi_range(0,5),frame,_groves[chunk]["crowns"])
 	if ground != null and species!="shrub":
 		ground.roots(at,size)
-	occluders.append({"node":tree})
 	for petal: int in 10 if pink else 3:
 		var drop := Vector3(rng.randf_range(-1.8,1.8),0.032+petal*0.001,rng.randf_range(-1.8,1.8))
 		if landmass == null or landmass.contains(Vector2(at.x+drop.x,at.z+drop.z)*UNIT):
 			shapes.box(self,at+drop,Vector3(0.1,0.025,0.08),"d095ae" if pink else "9c995e")
+
+## Draws a look (a door's closed state, a floor item) into a node of the view's own; false
+## if no props file knows its kind.
+func draw_look(into: Shapes, parent: Node3D, data: Dictionary) -> bool:
+	var size: Array = data.get("size",[32,32])
+	parent.rotation.y = deg_to_rad(float(data.get("rotation",0)))
+	return _draw_kind(into,parent,data,float(size[0])/UNIT,float(size[1])/UNIT)
+
+func _draw_kind(into: Shapes, root: Node3D, data: Dictionary, w: float, d: float) -> bool:
+	return furniture.draw(into,root,data,w,d) or fixtures.draw(into,root,data,w,d) or trade_props.draw(into,root,data,w,d) or wilds.draw(into,root,data,w,d) or shrine_props.draw(into,root,data,w,d) or woods.draw(into,root,data,w,d)
 
 func _prop(data: Dictionary) -> void:
 	var a: Array = data.get("at",[0,0])
@@ -604,12 +720,14 @@ func _prop(data: Dictionary) -> void:
 		var extent: Array = data.get("size",[16,16])
 		var box := Vector2(float(extent[0]),float(extent[1]))
 		at.y = cliffs.footing(Rect2(Vector2(a[0],a[1])-box/2.0,box),data.get("perch","")=="highest")
+	# `elevation`: up or down from there (what is seen far below a ledge, a pad in the air).
+	at.y += float(data.get("elevation",0.0))
 	var root: Node3D = _node(at)
 	root.rotation.y = deg_to_rad(float(data.get("rotation",0)))
 	var size: Array = data.get("size",[64,32])
 	var w: float = float(size[0])/UNIT
 	var d: float = float(size[1])/UNIT
-	if furniture.draw(shapes,root,data,w,d) or fixtures.draw(shapes,root,data,w,d) or trade_props.draw(shapes,root,data,w,d) or wilds.draw(shapes,root,data,w,d) or shrine_props.draw(shapes,root,data,w,d):
+	if _draw_kind(shapes,root,data,w,d):
 		if data.get("wall_mounted",false) or data["kind"] in ["window","wall_scroll","closed_door"]:
 			mounted_props.append({"node":root,"at":Vector2(a[0],a[1])})
 		if data.has("portal"):

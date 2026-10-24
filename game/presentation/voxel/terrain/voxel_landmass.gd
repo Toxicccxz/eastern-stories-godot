@@ -77,13 +77,26 @@ func terrain(source: Dictionary[Vector2i,String]) -> Dictionary[Vector2i,String]
 					result[at] = "boundary"
 	return result
 
-func make_base(parent: Node3D) -> void:
+## `holes`: sunken cells (a gorge) whose ground the base must not cover.
+func make_base(parent: Node3D, holes: Dictionary[Vector2i, bool] = {}) -> void:
 	var surface := SurfaceTool.new()
 	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var top := Color(String(colors.get("top","6b7951")))
 	for patch: Vector2i in patches:
 		var x: float = float(patch.x)
 		var z: float = float(patch.y)
-		_quad(surface,Vector3(x,-0.12,z),Vector3(x+1,-0.12,z),Vector3(x+1,-0.12,z+1),Vector3(x,-0.12,z+1),Vector3.UP,Color(String(colors.get("top","6b7951"))))
+		var cut: bool = false
+		for cell: Vector2i in [patch*PATCH+Vector2i(8,8),patch*PATCH+Vector2i(24,8),patch*PATCH+Vector2i(8,24),patch*PATCH+Vector2i(24,24)]:
+			cut = cut or holes.has(cell)
+		if not cut:
+			_quad(surface,Vector3(x,-0.12,z),Vector3(x+1,-0.12,z),Vector3(x+1,-0.12,z+1),Vector3(x,-0.12,z+1),Vector3.UP,top)
+		else:
+			for cell: Vector2i in [Vector2i(0,0),Vector2i(1,0),Vector2i(0,1),Vector2i(1,1)]:
+				if holes.has(patch*PATCH+cell*TILE+Vector2i(8,8)):
+					continue
+				var cx: float = x+cell.x*0.5
+				var cz: float = z+cell.y*0.5
+				_quad(surface,Vector3(cx,-0.12,cz),Vector3(cx+0.5,-0.12,cz),Vector3(cx+0.5,-0.12,cz+0.5),Vector3(cx,-0.12,cz+0.5),Vector3.UP,top)
 		_quad(surface,Vector3(x,-depth,z),Vector3(x,-depth,z+1),Vector3(x+1,-depth,z+1),Vector3(x+1,-depth,z),Vector3.DOWN,Color(String(colors.get("bottom","665e4b"))))
 		for direction: Vector2i in DIRECTIONS:
 			if patches.has(patch+direction):
