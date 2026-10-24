@@ -619,6 +619,8 @@ func look_berserk(npc: NpcRuntimeState) -> void:
 	if (
 		npc.relationship.has_opponent(_player.character_id) or not _combat_allowed(npc)
 		or npc.definition().dealings().is_fight_deferred() or session.combat_encounter_coordinator().has_active_encounter()
+		# The gang's alert beat runs: its fight comes first (进门一起上).
+		or not _alert_zone.is_empty()
 	):
 		_map.hud().append_log_lines(lines)
 		return

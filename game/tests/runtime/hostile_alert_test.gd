@@ -33,6 +33,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		await _test_latecomer(tree, session, map)
 		await _test_hunter(tree, session, map)
 		await _test_own_attack(tree, session, map)
+		await _test_glare(tree, session, map)
 		TestAlert.restore()
 		await _test_classic(tree, session, map)
 		map.set_process(true)
@@ -167,6 +168,25 @@ func _test_own_attack(tree: SceneTree, session: WorldSessionController, map: Wor
 	var started: CombatSliceInitiationResult = map.attack_selected()
 	_check(started.outcome == CombatSliceInitiationResult.Outcome.COMPLETED and coordinator.active_encounter().participants().size() == 4, "攻击 in the beat: all three at once")
 	_check(map.hostilities.alert_seconds_left() == 0.0 and guards.all(func(npc: NpcRuntimeState) -> bool: return not _body(map, npc).alert_mark_shown() and not _red(_body(map, npc))), "the beat is gone, its marks too")
+	await _leave(tree, session, map)
+
+
+## look.c's glare at one of the gang within the beat (观察): it turns to glare, nothing more;
+## the beat runs out and the whole gang falls on the player.
+func _test_glare(tree: SceneTree, session: WorldSessionController, map: WorldMapController) -> void:
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	var noticer: NpcRuntimeState = _westmost(map, _guards(map, GATE))
+	var bellicosity: int = noticer.character_state.attributes.bellicosity
+	await _into_gate(tree, map, noticer)
+	map._process(0.0)
+	noticer.character_state.attributes.bellicosity = 1000000 # TEST-ONLY: its glare goes over
+	var said: int = session.shared_ui().log_lines().size()
+	map.hostilities.look_berserk(noticer)
+	noticer.character_state.attributes.bellicosity = bellicosity
+	_check(session.shared_ui().log_lines().slice(said).has("京师守城兵突然转过头来瞪你一眼。"), "it glares")
+	_check(not coordinator.has_active_encounter() and map.hostilities.alert_seconds_left() > 0.0, "no fight of two: the beat runs on")
+	map._process(0.6)
+	_check(coordinator.has_active_encounter() and coordinator.active_encounter().participants().size() == 4, "then all three")
 	await _leave(tree, session, map)
 
 
