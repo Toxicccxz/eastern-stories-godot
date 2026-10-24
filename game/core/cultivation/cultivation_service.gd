@@ -18,12 +18,15 @@ const MAXIMUM_SKILL_MULTIPLIER: int = 10
 ## temporary skill modifiers are explicit inputs rather than service dependencies.
 ## With `preview` (as in meditate() and respirate()) nothing changes: the result is what
 ## the command would do now (the continuous mode looks before each step, TrainingRun).
+## `gain_multiplier` (pacing player_exercise_gain, A2) times force_gain once it is at least
+## 1; 1 is ES2.
 static func exercise(
 	character: CharacterStateType,
 	vitality_cost: int,
 	is_fighting: bool,
 	force_temporary_modifier: int = 0,
 	preview: bool = false,
+	gain_multiplier: int = 1,
 ) -> CultivationResultType:
 	var action: int = CultivationResultType.Action.EXERCISE
 	if is_fighting:
@@ -78,6 +81,8 @@ static func exercise(
 		vitality_cost * (raw_force + character.attributes.constitution),
 		GAIN_DIVISOR,
 	)
+	if gain >= 1:
+		gain *= maxi(gain_multiplier, 1)
 	var skill_cap: int = exercise_cap(character, force_temporary_modifier)
 	return _apply_gain(
 		action,

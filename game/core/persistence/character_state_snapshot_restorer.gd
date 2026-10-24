@@ -135,6 +135,8 @@ static func restore(
 	state.seen_npcs = snapshot.seen_npcs.duplicate()
 	state.journal = snapshot.journal.duplicate()
 	state.known_items = snapshot.known_items.duplicate()
+	state.milestones = snapshot.milestones.duplicate()
+	state.progression.gain_carry = snapshot.progression.gain_carry
 	state.counters = snapshot.counters.duplicate()
 	state.ghost = snapshot.ghost
 	if not snapshot.quest.is_valid():

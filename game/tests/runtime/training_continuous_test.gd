@@ -188,7 +188,7 @@ func _test_cultivation() -> void:
 	page.exercise_amount.value = 30
 	page.exercise_run_button.pressed.emit()
 	var lines: Array[String] = ColoredLine.texts(_session.martial_arts().last_lines)
-	_check(lines == ["你打坐 3 次：气 -90，内力 +9。", "你现在的气太少了，无法产生内息运行全身经脉。"], "three sittings then exercise.c's line: %s" % [lines])
+	_check(lines == ["你打坐 3 次：气 -90，内力 +54。", "你现在的气太少了，无法产生内息运行全身经脉。"], "three sittings then exercise.c's line: %s" % [lines])
 	_heal()
 	_state.recovery.inner_force.maximum = 49 # TEST-ONLY: below the cap of (5 + 3 / 5) * 10 = 50
 	_state.recovery.inner_force.current = 98

@@ -1,6 +1,6 @@
 {
 	"regions": [
-		{ "id": "cloud", "name": "绮云镇" }
+		{ "id": "cloud", "name": "绮云镇", "recommended_exp": 1500 }
 	],
 	"maps": [
 		{ "id": "cloud.outdoor", "region": "cloud", "scene": "res://scenes/world/cloud/cloud_outdoor.tscn", "entry": "cloud.dragonhill.nroad.snow_entry" },

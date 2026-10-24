@@ -8,6 +8,7 @@
 		"common/npcs.json",
 		"common/quests.json",
 		"common/journal.json",
+		"common/progression.json",
 		"common/codex.json",
 		"oldpine/items.json",
 		"oldpine/npcs.json",

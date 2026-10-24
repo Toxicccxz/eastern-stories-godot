@@ -143,8 +143,8 @@ func _encode_character(value: Values.CharacterStateSnapshot) -> Dictionary[Strin
 			seen[key] = _i(value.seen_npcs[key])
 		result["seen_npcs"] = seen
 	# The 任务 page's entries and the items carried (百科), in order: written only when there are some.
-	for field: String in ["journal", "known_items"]:
-		var counts: Dictionary[String, int] = value.journal if field == "journal" else value.known_items
+	for field: String in ["journal", "known_items", "milestones"]:
+		var counts: Dictionary[String, int] = value.journal if field == "journal" else value.known_items if field == "known_items" else value.milestones
 		if not counts.is_empty():
 			var written: Dictionary[String, Variant] = {}
 			for key: String in counts:
@@ -184,6 +184,9 @@ func _encode_progression(value: Values.ProgressionSnapshot) -> Dictionary[String
 	# The one-time berserk warning: written only once it was given.
 	if value.berserk_warned:
 		result["berserk_warned"] = true
+	# The 落后补偿 hundredths left over (A2): written only when there are some.
+	if value.gain_carry != 0:
+		result["gain_carry"] = _i(value.gain_carry)
 	return result
 
 
@@ -394,7 +397,7 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 		fields.append("marks")
 	if value is Dictionary and value.has("timed_applies"):
 		fields.append("timed_applies")
-	for optional: String in ["quest", "vendetta", "applies", "seen_npcs", "journal", "known_items", "counters", "ghost"]:
+	for optional: String in ["quest", "vendetta", "applies", "seen_npcs", "journal", "known_items", "milestones", "counters", "ghost"]:
 		if value is Dictionary and value.has(optional):
 			fields.append(optional)
 	var object: Dictionary = _obj(value, path, fields)
@@ -405,7 +408,7 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 	var internal: Dictionary = _obj(object["internal_resources"], path + ".internal_resources", ["force", "max_force", "mana", "max_mana", "atman", "max_atman", "food", "water"])
 	var internal_resources := Values.InternalResourcesSnapshot.new(_int64(internal.get("force"), path + ".internal_resources.force"), _int64(internal.get("max_force"), path + ".internal_resources.max_force"), _int64(internal.get("mana"), path + ".internal_resources.mana"), _int64(internal.get("max_mana"), path + ".internal_resources.max_mana"), _int64(internal.get("atman"), path + ".internal_resources.atman"), _int64(internal.get("max_atman"), path + ".internal_resources.max_atman"), _int64(internal.get("food"), path + ".internal_resources.food"), _int64(internal.get("water"), path + ".internal_resources.water"))
 	var progression_fields: Array[String] = ["combat_experience", "potential", "potential_spent"]
-	for optional: String in ["score", "kills", "berserk_warned"]:
+	for optional: String in ["score", "kills", "berserk_warned", "gain_carry"]:
 		if object["progression"] is Dictionary and (object["progression"] as Dictionary).has(optional):
 			progression_fields.append(optional)
 	var progression_object: Dictionary = _obj(object["progression"], path + ".progression", progression_fields)
@@ -423,6 +426,10 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 		progression.berserk_warned = _bool(progression_object.get("berserk_warned"), path + ".progression.berserk_warned")
 		if not _error and not progression.berserk_warned:
 			_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".progression.berserk_warned", "false is never written")
+	if progression_object.has("gain_carry"):
+		progression.gain_carry = _int64(progression_object.get("gain_carry"), path + ".progression.gain_carry")
+		if not _error and (progression.gain_carry < 1 or progression.gain_carry > 99):
+			_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".progression.gain_carry", "expected 1-99")
 	var skills_object: Dictionary = _obj(object["skills"], path + ".skills", ["has_skills_mapping", "has_learned_mapping", "raw_levels", "learned_progress", "mappings"])
 	var raw: Array[Values.SkillValueSnapshot] = _decode_skill_values(skills_object.get("raw_levels"), path + ".skills.raw_levels")
 	var learned: Array[Values.SkillValueSnapshot] = _decode_skill_values(skills_object.get("learned_progress"), path + ".skills.learned_progress")
@@ -471,6 +478,9 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 	var known_items: Dictionary[String, int] = {}
 	if object.has("known_items"):
 		known_items = _decode_counts(object["known_items"], path + ".known_items")
+	var milestones: Dictionary[String, int] = {}
+	if object.has("milestones"):
+		milestones = _decode_counts(object["milestones"], path + ".milestones")
 	var counters: Dictionary[String, int] = {}
 	if object.has("counters"):
 		counters = _decode_values(object["counters"], path + ".counters")
@@ -484,7 +494,7 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 	if object.has("quest"):
 		quest = _decode_quest(object["quest"], path + ".quest")
 	if _error: return null
-	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen).with_journal(journal, known_items).with_counters(counters).with_ghost(ghost)
+	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen).with_journal(journal, known_items).with_counters(counters).with_ghost(ghost).with_milestones(milestones)
 
 
 ## A non-empty {name: integer} object (create()'s drawn apply/<key>, a room's counters).

@@ -17,6 +17,10 @@
 		"corpse_rot_seconds": 120,
 		"corpse_bones_seconds": 120,
 		"corpse_scatter_seconds": 60,
+		"milestone_rewards": true,
+		"catch_up_max_percent": 100,
+		"staged_potential_cap": true,
+		"player_exercise_gain": 6,
 		"feel": {
 			"map_fade_out_ms": 150,
 			"map_fade_in_ms": 200,

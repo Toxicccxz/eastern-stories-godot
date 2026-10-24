@@ -1,6 +1,6 @@
 {
 	"regions": [
-		{ "id": "death", "name": "阴间" }
+		{ "id": "death", "name": "阴间", "recommended_exp": 50000 }
 	],
 	"maps": [
 		{ "id": "death.realm", "region": "death", "scene": "res://scenes/world/death/death_realm.tscn", "entry": "death.gate.arrival" },

@@ -11,6 +11,9 @@ var resource_values: Dictionary[StringName, Label] = {}
 var powers: Label
 var supplies: Label
 var progress: Label
+## A2: unspent potential against the cap, and 落后补偿 while it applies.
+var potential_cap: Label
+var catch_up: Label
 var standing: Label
 var gifts: Label
 var burden: Label
@@ -36,6 +39,9 @@ func _init() -> void:
 	var bottom := _row("Bottom")
 	var growth: VBoxContainer = _block(bottom, "Growth", "修为")
 	progress = _line(growth, "Progress")
+	potential_cap = _line(growth, "PotentialCap")
+	catch_up = _line(growth, "CatchUp")
+	catch_up.add_theme_color_override("font_color", SharedGameplayLayout.ACCENT_COLOR)
 	standing = _line(growth, "Standing")
 	var nature: VBoxContainer = _block(bottom, "Nature", "天赋")
 	gifts = _line(nature, "Gifts")
@@ -69,6 +75,7 @@ func refresh(player: WorldPlayerRuntimeState, session: WorldSessionController) -
 	progress.text = tr("实战经验 {exp} · 潜能 {potential}（已用 {spent}）").format({
 		"exp": state.progression.combat_experience, "potential": state.progression.potential, "spent": state.progression.potential_spent,
 	})
+	_show_pacing(player)
 	# TRANSLATORS: the character sheet, score.c's lines: 杀气 (bellicosity), 综合评价 (score) and the NPCs the player has killed.
 	standing.text = tr("杀气 {bellicosity} · 综合评价 {score}\n总共杀过 {kills} 个人。").format({
 		"bellicosity": attr.bellicosity, "score": state.progression.score, "kills": state.progression.kills,
@@ -82,6 +89,25 @@ func refresh(player: WorldPlayerRuntimeState, session: WorldSessionController) -
 		burden.text = tr("负重 {carried} / {capacity} · 体重 {weight}").format({
 			"carried": session.inventory_state().contents_weight(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, player.character_id)),
 			"capacity": player.maximum_encumbrance, "weight": player.body_facts.body_weight,
+		})
+
+
+## Native (A2): the potential the player can keep unspent, and the catch-up where they are.
+func _show_pacing(player: WorldPlayerRuntimeState) -> void:
+	var state: CharacterState = player.state
+	var unspent: int = state.progression.potential - state.progression.potential_spent
+	var cap: int = WorldProgressionRewards.potential_cap(state)
+	# TRANSLATORS: the character sheet (A2): unspent potential / the most kept unspent; full when it is there.
+	potential_cap.text = tr("可用潜能 {unspent} / {cap}").format({"unspent": unspent, "cap": cap}) + (tr("（已满，先去请教或研读）") if unspent >= cap else "")
+	var location: WorldLocationState = player.world_location()
+	var zone_id: StringName = &"" if location == null else location.zone_id
+	var percent: int = WorldProgressionRewards.catch_up_percent(state, zone_id)
+	catch_up.visible = percent > 0
+	if percent > 0:
+		var region: RegionDefinition = WorldProgressionRewards.region_of_zone(zone_id)
+		# TRANSLATORS: the character sheet (A2 落后补偿): {region} recommends {recommended} combat experience; below it the player's gains are {percent}% larger.
+		catch_up.text = tr("落后补偿：{region}推荐实战经验 {recommended}，你在这里所得的经验和潜能 +{percent}%，赶上后恢复。").format({
+			"region": tr(region.display_name), "recommended": region.recommended_exp, "percent": percent,
 		})
 
 

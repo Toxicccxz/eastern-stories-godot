@@ -27,6 +27,7 @@ var _hazards: Dictionary[StringName, RoomHazardDefinition] = {}
 var _called_over: Dictionary[StringName, bool] = {}
 var _exit_rules: Dictionary[StringName, ZoneExitRuleDefinition] = {}
 var _pacing: PacingDefinition = PacingDefinition.new()
+var _progression: ProgressionRules
 var _zone_of_room: Dictionary[StringName, StringName] = {}
 var _currency_items: Dictionary[CurrencyDenomination.Value, ItemContentDefinition] = {}
 var _native_item_projections: NativeItemDefinitionProjections
@@ -190,6 +191,15 @@ func set_pacing(value: PacingDefinition) -> void:
 
 
 ## Game-wide timing (combat rounds); an empty catalog has none (0 s).
+## The native progression table (A2), or null when no document has one (rewards off).
+func set_progression(value: ProgressionRules) -> void:
+	_progression = value
+
+
+func progression() -> ProgressionRules:
+	return _progression
+
+
 func pacing() -> PacingDefinition:
 	return _pacing
 

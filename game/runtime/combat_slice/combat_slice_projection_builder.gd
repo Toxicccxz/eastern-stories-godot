@@ -219,8 +219,9 @@ static func build_progression_facts(
 	var attack_skill_id: StringName = (
 		primary.skill_type if primary != null else UNARMED_SKILL_ID
 	)
-	# The player's exp knob (pacing.json); NPCs grow at ES2's pace.
-	return CombatProgressionFacts.new(
+	# The player's exp knob (pacing.json), 落后补偿 where they fight and their stage's
+	# potential cap (A2); NPCs grow at ES2's pace.
+	var facts := CombatProgressionFacts.new(
 		binding.character_id,
 		binding.is_user,
 		binding.state.attributes.intelligence,
@@ -229,6 +230,12 @@ static func build_progression_facts(
 		binding.content.has_attack_skill_definition(attack_skill_id),
 		GameContent.catalog().pacing().player_exp_gain if binding.is_user else 1,
 	)
+	if binding.is_user:
+		facts.with_progression(
+			WorldProgressionRewards.catch_up_percent(binding.state, binding.location_id),
+			WorldProgressionRewards.potential_cap(binding.state),
+		)
+	return facts
 
 
 static func build_busy_projection(

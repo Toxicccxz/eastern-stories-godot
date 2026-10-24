@@ -1,8 +1,8 @@
 {
 	"regions": [
-		{ "id": "choyin", "name": "乔阴县城" },
-		{ "id": "choyin_east", "name": "乔阴东郊" },
-		{ "id": "guye", "name": "姑射山" }
+		{ "id": "choyin", "name": "乔阴县城", "recommended_exp": 20000 },
+		{ "id": "choyin_east", "name": "乔阴东郊", "recommended_exp": 20000 },
+		{ "id": "guye", "name": "姑射山", "recommended_exp": 50000 }
 	],
 	"maps": [
 		{ "id": "choyin.town", "region": "choyin", "scene": "res://scenes/world/choyin/choyin_town.tscn", "entry": "choyin.n_gate.road_arrival" },

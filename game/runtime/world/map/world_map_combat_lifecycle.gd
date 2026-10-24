@@ -322,6 +322,13 @@ func execute_encounter_lifecycle(victim: CombatSliceCharacterBinding, opportunit
 		var rewarded: StringName = _map.npcs.summoners.get(killer.character_id, killer.character_id)
 		if rewarded == _player.character_id and victim_npc != null:
 			_player_killer_reward(victim_npc)
+	# A2: the player's own blow felled or killed someone of note (历练).
+	if (
+		receipt.completed() and victim_npc != null and killer != null and _player != null and session != null
+		and killer.character_id == _player.character_id
+		and receipt.outcome in [CombatSliceLifecycleResult.Outcome.UNCONSCIOUS_COMPLETE, CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE]
+	):
+		session.progression_rewards().defeated(victim_npc)
 	if receipt.completed() and receipt.outcome == CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE and is_player and location != null:
 		# damage.c die(): all_inventory(environment())->remove_killer(this_object()).
 		for npc: NpcRuntimeState in _map.npcs.npc_runtimes():
@@ -465,7 +472,7 @@ func player_fall_below_zero(even_unconscious: bool = false) -> void:
 ## combatd.c killer_reward() when the player killed an NPC (PlayerKillerReward): its
 ## tell_object() lines go to the log after the fight's result, so the HUD shows them last.
 func _player_killer_reward(victim: NpcRuntimeState) -> void:
-	var result: PlayerKillerReward.Result = PlayerKillerReward.apply(_player.state, victim.definition(), _world_interaction_random.legacy_random)
+	var result: PlayerKillerReward.Result = PlayerKillerReward.apply(_player.state, victim.definition(), _world_interaction_random.legacy_random, WorldProgressionRewards.potential_cap(_player.state))
 	if result.left_family:
 		_player.take_title(PlayerKillerReward.REBEL_TITLE)
 	if not result.lines.is_empty() and _map.hud() != null:

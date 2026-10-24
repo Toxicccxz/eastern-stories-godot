@@ -1,0 +1,58 @@
+{
+	"progression": {
+		"source": "native: owner A2 经验节奏 (2026-10-24), DECISIONS「经验节奏」; ES2 has no such table",
+		"potential_percent": 50,
+		"stages": [
+			{ "min_exp": 0, "unit": 15, "potential_cap": 100 },
+			{ "min_exp": 150, "unit": 40, "potential_cap": 120 },
+			{ "min_exp": 400, "unit": 80, "potential_cap": 240 },
+			{ "min_exp": 1000, "unit": 150, "potential_cap": 450 },
+			{ "min_exp": 2500, "unit": 300, "potential_cap": 900 },
+			{ "min_exp": 6000, "unit": 600, "potential_cap": 1800 },
+			{ "min_exp": 15000, "unit": 1200, "potential_cap": 3600 },
+			{ "min_exp": 40000, "unit": 2500, "potential_cap": 7500 },
+			{ "min_exp": 100000, "unit": 5000, "potential_cap": 15000 },
+			{ "min_exp": 300000, "unit": 10000, "potential_cap": 30000 }
+		],
+		"rewards": { "spar": 100, "defeat": 300, "chain": 500, "book": 200, "region": 150, "place": 50 },
+		"chain_percent": {
+			"snow.wei_wuji": 200,
+			"snow.weapon_storage": 200,
+			"cloud.chess": 200,
+			"latemoon.secret_letter": 200,
+			"canyon.camp": 200,
+			"city.shangshu": 200
+		},
+		"notable_npcs": [
+			"snow.npc.fist_trainer", "snow.npc.guard", "snow.npc.girl", "snow.npc.annihir",
+			"cloud.npc.butcher", "cloud.npc.box_boss", "cloud.npc.thief", "cloud.npc.gangster", "cloud.npc.monk",
+			"cloud.npc.b_header", "cloud.npc.god",
+			"oldpine.npc.bandit_guard", "oldpine.npc.bandit_leader", "oldpine.npc.bandit_commander",
+			"oldpine.npc.maniac", "oldpine.npc.spy", "oldpine.npc.serpent", "oldpine.npc.venomsnake",
+			"goathill.npc.bandit_leader", "goathill.npc.bandit_hwang", "goathill.npc.huge_worm",
+			"green.npc.oldman2",
+			"temple.npc.old_taoist", "temple.npc.taoist", "temple.npc.tfighter",
+			"sanyen.npc.greeting", "sanyen.npc.monk",
+			"chuenyu.npc.chuenyu", "chuenyu.npc.wolfdog",
+			"village.npc.dragon",
+			"latemoon.npc.yumay", "latemoon.npc.zauron", "latemoon.npc.shaowei", "latemoon.npc.room.old",
+			"latemoon.npc.room.killer", "latemoon.npc.upstar.shinfun", "latemoon.npc.upstar.huei",
+			"choyin.npc.sergeant", "choyin.npc.judgeman", "choyin.npc.magistra", "choyin.npc.yamen_po",
+			"choyin.npc.lion", "choyin.npc.serpent", "choyin.npc.lboy",
+			"canyon.npc.captain", "canyon.npc.adviser", "canyon.npc.vice_general", "canyon.npc.general",
+			"city.npc.chen", "city.npc.weaponor", "city.npc.shangshu.shangshu",
+			"waterfog.npc.watcher", "waterfog.npc.celes_tiger", "waterfog.npc.elder5", "waterfog.npc.elder6",
+			"waterfog.npc.elder7",
+			"death.npc.hell_guard", "death.npc.wgargoyle", "death.npc.bgargoyle",
+			"common.npc.swordsman.master", "common.npc.fighter.champion", "common.npc.fighter.master",
+			"common.npc.fighter.executioner", "common.npc.juechen.master", "common.npc.taoist.taolord",
+			"common.npc.dancer.master", "common.npc.bonze.master", "common.npc.beggar.master",
+			"common.npc.scholar.master", "common.npc.scholar.sword_soul"
+		],
+		"places": [
+			"oldpine.tree.canopy", "oldpine.gorge.waterfall", "green.entrance", "waterfog.clifftop",
+			"waterfog.swordtomb", "temple.temple1", "sanyen.front_yard", "cloud.dukou", "choyin.platform",
+			"choyin.hollow3", "choyin.tomb2", "village.lake", "city.feiyuan", "death.gate"
+		]
+	}
+}

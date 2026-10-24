@@ -1,6 +1,6 @@
 {
 	"regions": [
-		{ "id": "snow", "name": "雪亭镇" }
+		{ "id": "snow", "name": "雪亭镇", "recommended_exp": 300 }
 	],
 	"maps": [
 		{ "id": "snow.inn", "region": "snow", "scene": "res://scenes/world/snow/snow_inn.tscn", "entry": "snow.inn.main_floor.player_birth", "interior": true },

@@ -1,6 +1,6 @@
 {
 	"regions": [
-		{ "id": "oldpine", "name": "老松岭" }
+		{ "id": "oldpine", "name": "老松岭", "recommended_exp": 1000 }
 	],
 	"maps": [
 		{ "id": "oldpine.outdoor", "region": "oldpine", "scene": "res://scenes/world/oldpine/oldpine_outdoor.tscn", "entry": "oldpine.outdoor.central_clearing.player_start" },

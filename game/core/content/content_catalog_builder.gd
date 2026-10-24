@@ -6,7 +6,7 @@ extends RefCounted
 ## `vendors`, `rooms`, `regions`, `maps`, `zones`, `portals`, `services`,
 ## `doors`, `landmarks`, `traps`, `exit_rules`, `skills`, `families`, `race_actions`, `weapon_actions`,
 ## `quest_tiers`, `journal_chains`, `codex_topics` arrays, and at most one document has the
-## `pacing` object.
+## `pacing` object (and at most one the `progression` object).
 ## build() returns null when anything was reported; errors() says what.
 var _errors: Array[String] = []
 var _items: Dictionary[StringName, ItemContentDefinition] = {}
@@ -34,6 +34,7 @@ var _quest_tiers: Array[QuestTier] = []
 var _journal_chains: Array[JournalChainDefinition] = []
 var _codex_topics: Array[CodexTopicDefinition] = []
 var _pacing: PacingDefinition
+var _progression: ProgressionRules
 var _origins: Dictionary[StringName, String] = {}
 
 
@@ -137,6 +138,11 @@ func add_document(document: Variant, origin: String) -> void:
 		if _pacing != null:
 			pacing.fail("", "pacing is already defined")
 		_pacing = PacingDefinition.from_record(pacing)
+	var progression: ContentRecordReader = reader.child("progression")
+	if progression != null:
+		if _progression != null:
+			progression.fail("", "progression is already defined")
+		_progression = ProgressionRules.from_record(progression)
 	reader.finish()
 
 
@@ -169,6 +175,7 @@ func build() -> ContentCatalog:
 	_check_combat_data()
 	_check_quest_tiers()
 	_check_journal()
+	_check_progression()
 	if _pacing == null:
 		_errors.append("pacing: no document defines it")
 	if not _errors.is_empty():
@@ -185,6 +192,7 @@ func build() -> ContentCatalog:
 	catalog.set_combat_actions(_combat_actions)
 	catalog.set_quest_tiers(_quest_tiers)
 	catalog.set_journal(_journal_chains, _codex_topics)
+	catalog.set_progression(_progression)
 	# Backstop for role combinations the item rules cannot represent; saves
 	# validate against these projections.
 	if not catalog.native_item_projections().is_valid:
@@ -320,6 +328,24 @@ func _check_journal() -> void:
 		if topics.has(topic.topic_id):
 			_errors.append("codex_topics: duplicate topic '%s'" % topic.topic_id)
 		topics[topic.topic_id] = true
+
+
+## The progression table names NPCs, zones and chains the game has.
+func _check_progression() -> void:
+	if _progression == null:
+		return
+	for npc_id: StringName in _progression.notable_npcs:
+		if not _npcs.has(npc_id):
+			_errors.append("progression.notable_npcs: no NPC '%s'" % npc_id)
+	for zone_id: StringName in _progression.places:
+		if not _zones.has(zone_id):
+			_errors.append("progression.places: no zone '%s'" % zone_id)
+	var chains: Dictionary[StringName, bool] = {}
+	for chain: JournalChainDefinition in _journal_chains:
+		chains[chain.chain_id] = true
+	for chain_id: StringName in _progression.chain_percent:
+		if not chains.has(chain_id):
+			_errors.append("progression.chain_percent: no chain '%s'" % chain_id)
 
 
 ## IDs are unique across every kind, so one ID never means two things.

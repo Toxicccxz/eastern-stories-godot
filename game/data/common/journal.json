@@ -14,6 +14,7 @@
 				},
 				{
 					"id": "paid",
+					"final": true,
 					"when": { "mark": "魏无极" },
 					"text": "你交给魏无极学费，他点头说从今天起你随时可以去问他读书识字的学问。"
 				}
@@ -27,6 +28,7 @@
 			"entries": [
 				{
 					"id": "shield",
+					"final": true,
 					"when": { "item": "es2:d/snow/obj/shield" },
 					"text": "你在兵器储藏室底下的地下密室里拾到一面牛皮盾。"
 				}
@@ -56,6 +58,7 @@
 				},
 				{
 					"id": "jade",
+					"final": true,
 					"when": { "item": "es2:d/green/obj/jade" },
 					"text": "你向沈记商行的沈万年问起玉佩，得到了那块刻著行气口诀的玉佩。"
 				},
@@ -84,6 +87,7 @@
 				},
 				{
 					"id": "windsword",
+					"final": true,
 					"when": { "item": "es2:d/green/obj/windsword" },
 					"text": "你跳入溪水中仔细寻找，竟从水中找出一把追风剑。"
 				}
@@ -97,6 +101,7 @@
 			"entries": [
 				{
 					"id": "buried",
+					"final": true,
 					"when": { "item": "es2:d/oldpine/npc/obj/parrybook" },
 					"text": "你在瀑布旁的山洞里埋好了那具骸骨，洞顶石壁「喀喇」一响，坠下一本过招要旨。"
 				}
@@ -135,6 +140,7 @@
 				},
 				{
 					"id": "keepsake",
+					"final": true,
 					"when": { "mark": "李师师" },
 					"text": "你留给李师师一件信物，她说：能做相公的老师，真是三生有幸。"
 				}
@@ -153,6 +159,7 @@
 				},
 				{
 					"id": "chess",
+					"final": true,
 					"when": { "item": "es2:u/cloud/obj/npc/chess_player/chess" },
 					"text": "你得到了弈者的棋子，一种较轻的暗器。"
 				}
@@ -195,6 +202,7 @@
 				},
 				{
 					"id": "letter",
+					"final": true,
 					"when": { "item": "es2:u/cloud/npc/obj/letter" },
 					"text": "你把忘忧草交给陈剑秋，他大喜过望，提笔写好一封信交给你，嘱咐你路上小心，把信直接交给陈师叔。"
 				},
@@ -241,6 +249,7 @@
 				},
 				{
 					"id": "bracelet",
+					"final": true,
 					"when": { "temp": "latemoon/手镯" },
 					"text": "你从内厅的碧纱橱里取出一串玛瑙手镯。"
 				}
@@ -275,6 +284,7 @@
 				},
 				{
 					"id": "book",
+					"final": true,
 					"when": { "item": "es2:d/latemoon/obj/book" },
 					"text": "你在密室的石床后面找到了一本舞曲谱。"
 				}
@@ -305,6 +315,7 @@
 				},
 				{
 					"id": "whip_book",
+					"final": true,
 					"when": { "item": "es2:d/latemoon/room/npc/obj/whip_book" },
 					"text": "你把杀手令牌交给无名老妇，她叹了口气，给了你一本寒雪鞭法密笈作为感谢。"
 				}
@@ -318,6 +329,7 @@
 			"entries": [
 				{
 					"id": "letter",
+					"final": true,
 					"when": { "item": "es2:d/latemoon/room/npc/obj/letter" },
 					"text": "你得到了芙云身上的一封密函，信用蜡封著，上面有一个奇怪的图案。"
 				}
@@ -368,6 +380,7 @@
 				},
 				{
 					"id": "book",
+					"final": true,
 					"when": { "item": "es2:d/choyin/obj/magic_book" },
 					"text": "你把桃木箱还给武官，他说出门在外没带太多银两，送你一本古书「白杨经」作为报答。"
 				}
@@ -405,6 +418,7 @@
 				},
 				{
 					"id": "sword",
+					"final": true,
 					"when": { "item": "es2:daemon/class/scholar/windspring" },
 					"text": "你得到了步玄派历代相传的掌门信物——风泉之剑。"
 				}
@@ -423,6 +437,7 @@
 				},
 				{
 					"id": "out",
+					"final": true,
 					"when": { "mark": "桃林" },
 					"text": "你读着树上的字条找路，走出了曼雩台东边的桃林。"
 				}
@@ -447,11 +462,13 @@
 				},
 				{
 					"id": "pill",
+					"final": true,
 					"when": { "item": "es2:d/choyin/obj/tablet" },
 					"text": "你在丹炉里得到了仙丹。"
 				},
 				{
 					"id": "orchid",
+					"final": true,
 					"when": { "item": "es2:d/choyin/obj/orchid" },
 					"text": "你在寒谷尽头采到一株寒谷幽兰，淡淡的香气似乎在哪里闻到过。"
 				}
@@ -476,6 +493,7 @@
 				},
 				{
 					"id": "listed",
+					"final": true,
 					"when": { "mark": "军营" },
 					"text": "你前后交给大队长三十两银子，他把你列入名册，说从今天起你可以自由出入营区。"
 				}
@@ -532,6 +550,7 @@
 				},
 				{
 					"id": "old_sword",
+					"final": true,
 					"when": { "item": "es2:d/canyon/npc/obj/old_sword" },
 					"text": "你把印鉴交给严廷殷，他连声道谢，送你一把古剑作为报酬。"
 				}
@@ -550,6 +569,7 @@
 				},
 				{
 					"id": "book",
+					"final": true,
 					"when": { "item": "es2:d/canyon/bamboo/obj/parry_book" },
 					"text": "书匣里是一本《悟疾风劲竹书》，书末署名柳淳风。"
 				}
@@ -611,6 +631,7 @@
 				},
 				{
 					"id": "sword",
+					"final": true,
 					"when": { "item": "es2:d/village/npc/obj/hengbing" },
 					"text": "你从刘老农那里得到了一柄銮鱼衡冰。"
 				},
@@ -653,6 +674,7 @@
 				},
 				{
 					"id": "porter",
+					"final": true,
 					"when": { "mark": "尚书" },
 					"text": "你塞给尚书府的门房三两黄金，他说：这位大人，里面请！"
 				}
@@ -677,6 +699,7 @@
 				},
 				{
 					"id": "shown",
+					"final": true,
 					"when": { "mark": "令牌" },
 					"text": "你把令牌交给京师守城兵，他连忙说：原来是官府中人。"
 				}

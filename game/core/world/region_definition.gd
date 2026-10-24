@@ -3,6 +3,7 @@ extends RefCounted
 
 var _region_id: StringName
 var _display_name: String
+var _recommended_exp: int = 0
 
 var region_id: StringName:
 	get:
@@ -10,6 +11,11 @@ var region_id: StringName:
 var display_name: String:
 	get:
 		return _display_name
+## Native (A2 落后补偿): the combat_exp the region is meant for (world.json
+## `recommended_exp`); below it the player's gains are larger (ProgressionGain). 0: none.
+var recommended_exp: int:
+	get:
+		return _recommended_exp
 
 
 func _init(p_region_id: StringName = &"", p_display_name: String = "") -> void:
@@ -22,6 +28,9 @@ static func from_record(reader: ContentRecordReader) -> RegionDefinition:
 		StringName(reader.required_text("id")),
 		reader.required_text("name"),
 	)
+	definition._recommended_exp = reader.integer("recommended_exp", 0)
+	if definition._recommended_exp < 0:
+		reader.fail("recommended_exp", "must not be negative")
 	reader.finish()
 	return definition
 

@@ -1,6 +1,6 @@
 {
 	"regions": [
-		{ "id": "goathill", "name": "野羊山" }
+		{ "id": "goathill", "name": "野羊山", "recommended_exp": 3000 }
 	],
 	"maps": [
 		{ "id": "goathill.mountain", "region": "goathill", "scene": "res://scenes/world/goathill/goathill_mountain.tscn", "entry": "goathill.mroad1.snow_entry" },

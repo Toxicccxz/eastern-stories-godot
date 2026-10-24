@@ -77,6 +77,19 @@ static func holds(entry: JournalEntryDefinition, state: CharacterState, temps: D
 	return false
 
 
+## The chains whose story is seen through: one of their `final` entries is recorded.
+static func finished_chains(state: CharacterState, chains: Array[JournalChainDefinition]) -> Array[JournalChainDefinition]:
+	var result: Array[JournalChainDefinition] = []
+	if state == null:
+		return result
+	for chain: JournalChainDefinition in chains:
+		for entry: JournalEntryDefinition in chain.entries:
+			if entry.final and state.journal.has(chain.key_of(entry)):
+				result.append(chain)
+				break
+	return result
+
+
 ## The chains with something recorded, the one with the newest entry first.
 static func shown(state: CharacterState, chains: Array[JournalChainDefinition]) -> Array[Shown]:
 	var result: Array[Shown] = []

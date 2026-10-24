@@ -83,6 +83,9 @@ var journal: Dictionary[String, int] = {}
 ## The item definitions the player has carried (百科's 物品), each with the order it was
 ## first carried in. Saved; empty for NPCs.
 var known_items: Dictionary[String, int] = {}
+## The one-time 历练 rewards given (MilestoneRewards, "<kind>/<id>"), each with the order
+## it was given in. Native (A2). Saved; empty for NPCs.
+var milestones: Dictionary[String, int] = {}
 ## LPC set("<name>", n) a room keeps on the character outside marks/ (d/choyin/entrance.c
 ## taolin_steps: how far the 桃林's way out is). Saved; empty for most characters.
 var counters: Dictionary[String, int] = {}

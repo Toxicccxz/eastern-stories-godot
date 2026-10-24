@@ -8,6 +8,8 @@ var _base_spirituality: int
 var _attack_skill_definition_id: StringName
 var _attack_skill_definition_available: bool
 var _experience_gain: int
+var _gain_percent: int = 0
+var _potential_cap: int = ProgressionRules.ES2_POTENTIAL_CAP
 
 var character_id: StringName:
 	get:
@@ -32,6 +34,15 @@ var attack_skill_definition_available: bool:
 var experience_gain: int:
 	get:
 		return _experience_gain
+## Native (A2 落后补偿): percent more on top of experience_gain (ProgressionGain.scaled()).
+## 0: ES2.
+var gain_percent: int:
+	get:
+		return _gain_percent
+## The most potential that stays unspent: combatd.c's 100, or the player's stage cap (A2).
+var potential_cap: int:
+	get:
+		return _potential_cap
 
 
 func _init(
@@ -52,11 +63,20 @@ func _init(
 	_experience_gain = p_experience_gain
 
 
+## These facts with the A2 knobs set (the player's; NPCs keep ES2's).
+func with_progression(gain_percent: int, potential_cap: int) -> CombatProgressionFacts:
+	_gain_percent = gain_percent
+	_potential_cap = potential_cap
+	return self
+
+
 func is_valid() -> bool:
 	return (
 		not _character_id.is_empty()
 		and not _attack_skill_definition_id.is_empty()
 		and _experience_gain >= 1
+		and _gain_percent >= 0
+		and _potential_cap >= ProgressionRules.ES2_POTENTIAL_CAP
 	)
 
 
@@ -76,4 +96,4 @@ func duplicate_snapshot() -> CombatProgressionFacts:
 		_attack_skill_definition_id,
 		_attack_skill_definition_available,
 		_experience_gain,
-	)
+	).with_progression(_gain_percent, _potential_cap)

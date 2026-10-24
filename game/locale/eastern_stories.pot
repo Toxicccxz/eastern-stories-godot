@@ -4153,6 +4153,51 @@ msgstr ""
 msgid "not a task 朱鸿雪 gives, or all default"
 msgstr ""
 
+#. native 历练 reward (A2): the first spar the player won against {name}.
+#: core/progression/milestone_rewards.gd
+msgid "你第一次在切磋中胜过了{name}"
+msgstr ""
+
+#. native 历练 reward (A2): the first time the player beat {name}, someone of note.
+#: core/progression/milestone_rewards.gd
+msgid "你第一次击败了{name}"
+msgstr ""
+
+#. native 历练 reward (A2): the player saw the story {name} (a 任务 chain's title) through.
+#: core/progression/milestone_rewards.gd
+msgid "你了结了「{name}」这段经历"
+msgstr ""
+
+#. native 历练 reward (A2): the player has read {name} through (it teaches them no more).
+#: core/progression/milestone_rewards.gd
+msgid "你读通了{name}"
+msgstr ""
+
+#. native 历练 reward (A2): the player's first time in {name} (a region or a named place).
+#: core/progression/milestone_rewards.gd
+msgid "你第一次来到{name}"
+msgstr ""
+
+#. native 历练 reward (A2): {done} what was done, then the gain.
+#: core/progression/milestone_rewards.gd
+msgid "【历练】{done}：实战经验 +{exp}，潜能 +{pot}。"
+msgstr ""
+
+#. native 历练 reward (A2) with no potential added: {done} what was done, then the gain.
+#: core/progression/milestone_rewards.gd
+msgid "【历练】{done}：实战经验 +{exp}。"
+msgstr ""
+
+#. native (A2) after a reward line: the catch-up bonus it had, {percent} (e.g. 40).
+#: core/progression/milestone_rewards.gd
+msgid "（落后补偿 +{percent}%）"
+msgstr ""
+
+#. native (A2): potential is full ({cap} unspent at most); {cut} points were not kept.
+#: core/progression/milestone_rewards.gd
+msgid "潜能已满（最多 {cap} 点未用），多出的 {cut} 点没有记下。先去请教师父或研读书籍，用掉一些潜能吧。"
+msgstr ""
+
 #. quests.quest_type
 #: core/quests/quest_definition.gd data/common/quests.json
 msgid "杀"
@@ -7422,6 +7467,11 @@ msgstr ""
 msgid "你来到%s。"
 msgstr ""
 
+#. native (A2): the fight's blows filled the player's potential ({cap} unspent at most).
+#: runtime/world/world_progression_rewards.gd
+msgid "潜能已满（最多 {cap} 点未用），再打下去潜能不会增长。先去请教师父或研读书籍，用掉一些潜能吧。"
+msgstr ""
+
 #: runtime/world/world_session_controller.gd
 msgid "遁 could not reach %s from %s"
 msgstr ""
@@ -7850,6 +7900,21 @@ msgstr ""
 
 #: ui/world/character_sheet.gd
 msgid "负重 {carried} / {capacity} · 体重 {weight}"
+msgstr ""
+
+#. the character sheet (A2): unspent potential / the most kept unspent; full when it is there.
+#: ui/world/character_sheet.gd
+msgid "可用潜能 {unspent} / {cap}"
+msgstr ""
+
+#. the character sheet (A2): unspent potential / the most kept unspent; full when it is there.
+#: ui/world/character_sheet.gd
+msgid "（已满，先去请教或研读）"
+msgstr ""
+
+#. the character sheet (A2 落后补偿): {region} recommends {recommended} combat experience; below it the player's gains are {percent}% larger.
+#: ui/world/character_sheet.gd
+msgid "落后补偿：{region}推荐实战经验 {recommended}，你在这里所得的经验和潜能 +{percent}%，赶上后恢复。"
 msgstr ""
 
 #: ui/world/codex_page.gd

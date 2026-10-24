@@ -1,6 +1,6 @@
 {
 	"regions": [
-		{ "id": "city", "name": "京师" }
+		{ "id": "city", "name": "京师", "recommended_exp": 50000 }
 	],
 	"maps": [
 		{ "id": "city.main", "region": "city", "scene": "res://scenes/world/city/city_main.tscn", "entry": "city.nroad2.village_arrival" },
