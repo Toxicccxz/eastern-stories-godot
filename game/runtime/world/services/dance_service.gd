@@ -5,31 +5,19 @@ extends WorldService
 ## the dances the player heard named (雨梅's 学舞, 昭仪, the 书房's picture) and one of their
 ## own, which ES2 answers 不得要领 after the sen is spent. A dance that would knock the
 ## player out is asked first (owner's rule on choices that knock out); one that moves them
-## does so through its portal, and the faint comes where they arrive.
+## does so through its portal, and the faint comes where they arrive. Its panel is
+## DancePanel (ui/).
 const FAINT_WARNING: String = "这一曲要耗去 {sen} 点神，你现在撑不住，跳完就会昏过去。\n确定要跳吗？"
 
-var panel: PanelContainer
-var steps: VBoxContainer
+var panel: DancePanel
 var last_result: DanceDefinition.Result
 
 
 func setup(p_map: WorldMapController, p_definition: ServiceDefinition, p_point: WorldServicePoint) -> void:
 	super.setup(p_map, p_definition, p_point)
-	panel = PanelContainer.new()
-	panel.name = "Panel"
+	panel = DancePanel.new()
 	panel.hide()
-	var rows := VBoxContainer.new()
-	rows.name = "Rows"
-	rows.add_theme_constant_override("separation", 10)
-	panel.add_child(rows)
-	var heading := Label.new()
-	heading.name = "Heading"
-	heading.text = "你想跳哪一曲？"
-	heading.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	rows.add_child(heading)
-	steps = VBoxContainer.new()
-	steps.name = "Steps"
-	rows.add_child(steps)
+	panel.step_chosen.connect(choose)
 	ui_layer().add_child(panel)
 
 
@@ -40,32 +28,13 @@ func verb() -> String:
 func interact() -> void:
 	if not in_reach():
 		return
-	_refill()
+	panel.show_steps(known_steps())
 	open_panel(context_title(), panel)
 
 
 func _process(_delta: float) -> void:
 	if panel.visible and not in_reach():
 		panel.hide()
-
-
-## The buttons: each known dance, then the player's own.
-func _refill() -> void:
-	for child: Node in steps.get_children():
-		child.queue_free()
-	for step: DanceDefinition.Step in known_steps():
-		# TRANSLATORS: a dance the player may dance on the floor ({name}: 西出阳关).
-		steps.add_child(_button(tr("跳「{name}」").format({"name": tr(step.name)}), step))
-	steps.add_child(_button(tr("随意起舞"), null))
-
-
-func _button(text: String, step: DanceDefinition.Step) -> Button:
-	var button := Button.new()
-	button.name = "Step"
-	button.text = text
-	button.custom_minimum_size = Vector2(0, 44)
-	button.pressed.connect(choose.bind(step))
-	return button
 
 
 ## The dances the player knows here, in the floor's order.

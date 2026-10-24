@@ -3,26 +3,15 @@ extends WorldService
 
 ## inherit HOCKSHOP (d/snow/hockshop.c): value and sell carried goods. One
 ## transient view; H2 alone owns appraisal/payout/destruction. No merchant,
-## saved UI state, timer, RNG, or duplicated item/equipment authority.
-var _title: Label
-var _rows: VBoxContainer
-var _goods: VBoxContainer
-var _actions: HBoxContainer
+## saved UI state, timer, RNG, or duplicated item/equipment authority. Its panel is
+## HockshopPanel (ui/).
 var _pending: HockshopValuationResult
 var _pending_state: Array[int] = []
 var _pending_equipment: String = ""
 var _ids: Array[StringName] = []
 var _labels: Array[String] = []
 var _selected_id: StringName = &""
-var panel: PanelContainer
-var feedback: Label
-var holdings: Label
-var selection: Label
-var value_button: Button
-var sell_button: Button
-## Asks before a sale (ConfirmPrompt); its confirm button is `confirm_button`.
-var sale_prompt: ConfirmPrompt
-var confirm_button: Button
+var panel: HockshopPanel
 var last_valuation: HockshopValuationResult
 var last_sell: HockshopSellResult
 
@@ -30,58 +19,16 @@ var last_sell: HockshopSellResult
 func setup(p_map: WorldMapController, p_definition: ServiceDefinition, p_point: WorldServicePoint) -> void:
 	super.setup(p_map, p_definition, p_point)
 	process_mode = Node.PROCESS_MODE_ALWAYS # Hide/disarm during Pause, never advance gameplay.
-	panel = PanelContainer.new()
-	panel.name = "Panel"
+	panel = HockshopPanel.new()
 	panel.hide()
 	ui_layer().add_child(panel)
-	var background: StyleBoxFlat = StyleBoxFlat.new()
-	background.bg_color = Color(0.07, 0.09, 0.085, 1)
-	for side: String in ["left", "right", "top", "bottom"]:
-		background.set("content_margin_" + side, 12.0)
-	panel.add_theme_stylebox_override("panel", background)
-	_rows = VBoxContainer.new()
-	_rows.name = "Rows"
-	panel.add_child(_rows)
-	_title = _label("", "Title")
-	holdings = _label("", "Holdings")
-	_goods = VBoxContainer.new()
-	_goods.name = "Goods"
-	_rows.add_child(_goods)
-	selection = _label("请选择随身物品。", "Selection")
-	_actions = HBoxContainer.new()
-	_rows.add_child(_actions)
-	value_button = _button(_actions, "Value", "估价", request_value)
-	sell_button = _button(_actions, "Sell", "卖断…", request_confirmation)
-	sale_prompt = ConfirmPrompt.new()
-	sale_prompt.name = "SaleConfirm"
-	sale_prompt.hide()
-	_rows.add_child(sale_prompt)
-	confirm_button = sale_prompt.confirm_button
-	sale_prompt.confirmed.connect(confirm_sale)
-	sale_prompt.cancelled.connect(cancel_confirmation)
-	feedback = _label("", "Feedback")
-	_button(_rows, "Close", "关闭", close_panel)
+	panel.item_selected.connect(select_item)
+	panel.value_requested.connect(request_value)
+	panel.sell_requested.connect(request_confirmation)
+	panel.sale_confirmed.connect(confirm_sale)
+	panel.sale_cancelled.connect(cancel_confirmation)
+	panel.close_requested.connect(close_panel)
 	panel.visibility_changed.connect(_shared_visibility_changed)
-
-
-func _label(text: String, node_name: String) -> Label:
-	var label: Label = Label.new()
-	label.name = node_name
-	label.text = text
-	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_rows.add_child(label)
-	return label
-
-
-func _button(parent: Node, node_name: String, text: String, action: Callable) -> Button:
-	var button: Button = Button.new()
-	button.name = node_name
-	button.text = text
-	button.custom_minimum_size.y = 44
-	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	button.pressed.connect(action)
-	parent.add_child(button)
-	return button
 
 
 func verb() -> String:
@@ -95,10 +42,10 @@ func requires_idle() -> bool:
 func interact() -> void:
 	if in_reach() and panel_may_open():
 		# The title in the shown language, put together again on each opening.
-		_title.text = tr("%s · 估价 / 卖断") % tr(definition.display_name)
+		panel.title.text = tr("%s · 估价 / 卖断") % tr(definition.display_name)
 		open_panel(tr(definition.display_name), panel)
 		refresh()
-		value_button.grab_focus()
+		panel.value_button.grab_focus()
 
 
 func _process(_delta: float) -> void:
@@ -169,8 +116,8 @@ func select_item(id: StringName) -> void:
 	if not in_reach() or not _ids.has(id) or _pending != null:
 		return
 	_selected_id = id
-	selection.text = item_label(id)
-	feedback.text = ""
+	panel.show_selection(item_label(id))
+	panel.feedback.text = ""
 	refresh()
 
 
@@ -194,42 +141,25 @@ func refresh() -> void:
 		if appraisal.outcome in [HockshopValuationResult.Outcome.SELLABLE, HockshopValuationResult.Outcome.WORTHLESS]:
 			ids.append(id)
 			labels.append(item_label(id))
-	holdings.text = tr("直接携带的钱：%s") % (tr("无") if money.is_empty() else " / ".join(money))
+	panel.holdings.text = tr("直接携带的钱：%s") % (tr("无") if money.is_empty() else " / ".join(money))
 	if ids != _ids or labels != _labels:
 		_ids = ids
 		_labels = labels
-		for child: Node in _goods.get_children():
-			_goods.remove_child(child)
-			child.queue_free()
-		for i: int in range(ids.size()):
-			var button: Button = _button(_goods, "Item%d" % i, labels[i], select_item.bind(ids[i]))
-			button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		panel.show_goods(ids, labels)
 		map.session.shared_ui().refresh_panel_rows()
 	if _pending == null and not _ids.has(_selected_id):
 		_selected_id = &""
-		selection.text = "请选择随身物品。"
-	value_button.disabled = _selected_id == &"" or _pending != null
-	sell_button.disabled = value_button.disabled or quote(_selected_id).outcome != HockshopValuationResult.Outcome.SELLABLE
-	for child: Node in _goods.get_children():
-		(child as Button).disabled = _pending != null
+		panel.show_selection("")
+	var can_value: bool = _selected_id != &"" and _pending == null
+	panel.enable(can_value, can_value and quote(_selected_id).outcome == HockshopValuationResult.Outcome.SELLABLE, _pending == null)
 
 
 func request_value() -> void:
 	if not panel.visible or not in_reach() or _pending != null:
 		return
 	last_valuation = quote(_selected_id)
-	feedback.text = valuation_text(last_valuation)
+	panel.feedback.text = HockshopPanel.valuation_text(last_valuation)
 	refresh()
-
-
-static func valuation_text(result: HockshopValuationResult) -> String:
-	if result.outcome == HockshopValuationResult.Outcome.SELLABLE:
-		return TranslationServer.translate("价值{value}文 · 卖断可得{payout}文（以实际交付为准）。").format({
-			"value": result.source_value, "payout": result.actual_payout,
-		})
-	if result.outcome == HockshopValuationResult.Outcome.WORTHLESS:
-		return TranslationServer.translate("一文不值，不能卖断。")
-	return TranslationServer.translate("物品已变化或现在不可交易，请重新选择。")
 
 
 func _item_state(id: StringName) -> Array[int]:
@@ -243,30 +173,26 @@ func request_confirmation() -> void:
 		return
 	var appraisal: HockshopValuationResult = quote(_selected_id)
 	if appraisal.outcome != HockshopValuationResult.Outcome.SELLABLE:
-		feedback.text = valuation_text(appraisal)
+		panel.feedback.text = HockshopPanel.valuation_text(appraisal)
 		refresh()
 		return
 	_pending = appraisal
 	_pending_state = _item_state(_selected_id)
 	_pending_equipment = equipment_label(_selected_id)
-	sale_prompt.ask(tr("卖断 {item}\n报价{price}文。物品将永久移除；负重不足可能只收到部分钱款，甚至0文，无退款。").format({
-		"item": item_label(_selected_id), "price": appraisal.actual_payout,
-	}), "确认卖断（不可撤销）")
 	# The question names the item: the selection line waits.
-	selection.hide()
-	_actions.hide()
+	panel.ask_sale(tr("卖断 {item}\n报价{price}文。物品将永久移除；负重不足可能只收到部分钱款，甚至0文，无退款。").format({
+		"item": item_label(_selected_id), "price": appraisal.actual_payout,
+	}))
 	refresh()
 	# Deliberate fresh activation: opening confirmation does not execute a sale.
-	sale_prompt.focus_default()
+	panel.sale_prompt.focus_default()
 
 
 func cancel_confirmation() -> void:
 	_pending = null
 	_pending_state.clear()
-	sale_prompt.dismiss()
-	selection.show()
-	_actions.show()
-	selection.text = "请选择随身物品。" if _selected_id == &"" else item_label(_selected_id)
+	panel.end_sale()
+	panel.show_selection("" if _selected_id == &"" else item_label(_selected_id))
 	refresh()
 
 
@@ -278,29 +204,14 @@ func confirm_sale() -> void:
 	var unchanged: bool = current.outcome == HockshopValuationResult.Outcome.SELLABLE and current.definition_id == confirmed.definition_id and current.source_value == confirmed.source_value and current.actual_payout == confirmed.actual_payout and _item_state(confirmed.item_id) == _pending_state and equipment_label(confirmed.item_id) == _pending_equipment
 	_pending = null # Consume once, including rejection; no callback replay/retry.
 	_pending_state.clear()
-	sale_prompt.dismiss()
-	selection.show()
-	_actions.show()
+	panel.end_sale()
 	if not panel.visible or not in_reach() or not unchanged:
-		feedback.text = "位置或物品状态已变化，未执行卖断；请重新选择。"
+		panel.feedback.text = "位置或物品状态已变化，未执行卖断；请重新选择。"
 		refresh()
 		return
 	last_sell = HockshopSellService.sell(context(), map.session.food_collection(), map.session.liquid_collection(), map.session.item_id_allocator(), map.session.player_runtime().maximum_encumbrance, confirmed.item_id)
-	feedback.text = sell_text(last_sell)
+	panel.feedback.text = HockshopPanel.sell_text(last_sell)
 	refresh()
-
-
-static func sell_text(result: HockshopSellResult) -> String:
-	var delivered: int = 0 if result.payout == null else result.payout.delivered_value
-	if result.outcome == HockshopSellResult.Outcome.SOLD:
-		if delivered < result.valuation.actual_payout:
-			return TranslationServer.translate("卖断完成，物品已移除；实际收到%d文。部分钱款因负重不足未能交付，已销毁，不会补发或退款。") % delivered
-		return TranslationServer.translate("卖断完成，物品已移除；实际收到%d文。") % delivered
-	if result.outcome == HockshopSellResult.Outcome.AUTHORITY_FAILURE:
-		return TranslationServer.translate("交易技术异常（阶段{stage}），请停止操作。已交付{delivered}文；物品与钱款以当前实际状态为准，未回滚，请勿重复尝试。").format({
-			"stage": result.stage, "delivered": delivered,
-		})
-	return TranslationServer.translate("卖断未执行，物品状态已变化；请重新选择。")
 
 
 ## Back first cancels a pending sale confirmation, then closes the panel.
@@ -326,9 +237,7 @@ func close_panel() -> void:
 	_pending = null
 	_pending_state.clear()
 	_selected_id = &""
-	sale_prompt.dismiss()
-	selection.show()
-	_actions.show()
+	panel.end_sale()
 	panel.hide()
 	map.session.shared_ui().close_business(panel)
 	if was_open and is_instance_valid(map.player_body):

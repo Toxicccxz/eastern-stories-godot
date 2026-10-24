@@ -170,7 +170,7 @@ func _test_shops(tree: SceneTree) -> void:
 	_check(player.world_location().zone_id == &"snow.smithy", "west of mstreet2 is the smithy")
 	var smith: VendorService = shop.service(&"snow.smithy_house.smithy.smith") as VendorService
 	_check(smith.in_reach() and smith.context_title() == "王铁匠 · 购买", "the smith sells at the forge: " + smith.context_title())
-	_check((smith.goods_rows.get_child(0) as Button).text == "铁锤 · 3两银子 · 买一把", "price as vendor.c lists it")
+	_check((smith.panel.goods_rows.get_child(0) as Button).text == "铁锤 · 3两银子 · 买一把", "price as vendor.c lists it")
 	var hammer: VendorPurchaseResult = smith.request_purchase("铁锤")
 	_check(hammer.delivered and hammer.price == 300 and Finance.amount(money, CurrencyDenomination.Value.SILVER) == 22, "a hammer for 300 coins (smith.c buy_object)")
 	_check(await MapPlaces.take_passage(tree, shop, &"snow.smithy.east"), "back out of the smithy")
@@ -187,7 +187,7 @@ func _test_shops(tree: SceneTree) -> void:
 	# service_spot() aims 48 px from the herbalist towards the room's middle, which is on his
 	# counter: the free spot a path ends on is a step back, so a player steps up to the counter.
 	await _close_in(tree, herbalist)
-	_check(herbalist.in_reach() and herbalist.goods_rows.get_child_count() == 2 and (herbalist.goods_rows.get_child(0) as Button).text == "金疮药 · 20两银子 · 买一颗" and (herbalist.goods_rows.get_child(1) as Button).text == "蛇药 · 10两银子 · 买一包", "the counter sells 金疮药 and 蛇药")
+	_check(herbalist.in_reach() and herbalist.panel.goods_rows.get_child_count() == 2 and (herbalist.panel.goods_rows.get_child(0) as Button).text == "金疮药 · 20两银子 · 买一颗" and (herbalist.panel.goods_rows.get_child(1) as Button).text == "蛇药 · 10两银子 · 买一包", "the counter sells 金疮药 and 蛇药")
 	var medicine: VendorPurchaseResult = herbalist.request_purchase("medicine")
 	_check(medicine.delivered and medicine.price == 2000 and Finance.amount(money, CurrencyDenomination.Value.SILVER) == 2, "金疮药 for its value, 2000 coins")
 	_check(await MapPlaces.take_passage(tree, shop, &"snow.herbshop.east"), "back out of the herbshop")

@@ -216,14 +216,14 @@ func _buy(tree: SceneTree, hud: SharedGameplayUI, has_change: bool) -> bool:
 	hud.open_current_context()
 	check(shop.panel.visible, "his goods open")
 	var dumpling: Button = null
-	for button: Node in shop.goods_rows.get_children():
+	for button: Node in shop.panel.goods_rows.get_children():
 		if _plain((button as Button).text).begins_with("包子"):
 			dumpling = button as Button
 	if not check(dumpling != null, "a 包子 on his list"):
 		return false
 	dumpling.pressed.emit()
 	if has_change:
-		check(shop.last_purchase.delivered and _money_value() == before - 15, "vendor.c: a 包子 for 15 coins: %d -> %d (%s)" % [before, _money_value(), shop.feedback.text])
+		check(shop.last_purchase.delivered and _money_value() == before - 15, "vendor.c: a 包子 for 15 coins: %d -> %d (%s)" % [before, _money_value(), shop.panel.feedback.text])
 		hud.dismiss_current_panel()
 		await _settle(tree)
 		hud.open_supplies()
@@ -232,7 +232,7 @@ func _buy(tree: SceneTree, hud: SharedGameplayUI, has_change: bool) -> bool:
 		var eaten: FoodUseResult = hud.panels._food.last_result
 		check(eaten != null and eaten.outcome == FoodUseResult.Outcome.TOO_FULL and _plain(hud.panels._food._feedback.text) == "你已经吃太饱了，再也塞不下任何东西了。", "补给: food.c, too full to eat at birth: " + hud.panels._food._feedback.text)
 	else:
-		check(not shop.last_purchase.delivered and _money_value() == before and _plain(shop.feedback.text) == "你没有足够的零钱，而对方也找不开...。", "buy.c: no change for two silvers: " + shop.feedback.text)
+		check(not shop.last_purchase.delivered and _money_value() == before and _plain(shop.panel.feedback.text) == "你没有足够的零钱，而对方也找不开...。", "buy.c: no change for two silvers: " + shop.panel.feedback.text)
 	hud.dismiss_current_panel()
 	await _settle(tree)
 	await MapPlaces.take_passage(tree, inn, SnowWorldDefinitions.INN_EXIT_PORTAL_ID)
@@ -455,12 +455,12 @@ func _sell(tree: SceneTree, hud: SharedGameplayUI, sword: StringName) -> bool:
 	hud.open_current_context()
 	check(counter.panel.visible, "丰登当铺's panel")
 	counter.select_item(sword)
-	check(_plain(counter.selection.text) == "短剑 · 未装备", "the sword by its name, no item ID: " + counter.selection.text)
-	counter.value_button.pressed.emit()
+	check(_plain(counter.panel.selection.text) == "短剑 · 未装备", "the sword by its name, no item ID: " + counter.panel.selection.text)
+	counter.panel.value_button.pressed.emit()
 	var price: int = 0 if counter.last_valuation == null else counter.last_valuation.actual_payout
 	check(price > 0, "hockshop.c 估价 the short sword: %d coins" % price)
-	counter.sell_button.pressed.emit()
-	counter.confirm_button.pressed.emit()
+	counter.panel.sell_button.pressed.emit()
+	counter.panel.confirm_button.pressed.emit()
 	check(counter.last_sell != null and counter.last_sell.outcome == HockshopSellResult.Outcome.SOLD and not _session.inventory_state().is_registered(sword), "卖断: the sword is gone")
 	check(_money_value() == before + price, "paid what it was valued at")
 	hud.dismiss_current_panel()

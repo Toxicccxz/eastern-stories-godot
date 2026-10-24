@@ -135,14 +135,14 @@ func panel_tests(tree: SceneTree) -> void:
 		ui.select_item(&"h3.sword")
 		var before: int = session.item_id_allocator().next_dynamic_sequence
 		ui.request_value()
-		check(ui.last_valuation.source_value == 300 and ui.last_valuation.actual_payout == 240 and ui.feedback.text.contains("240"), "Value uses H2 short300/240")
+		check(ui.last_valuation.source_value == 300 and ui.last_valuation.actual_payout == 240 and ui.panel.feedback.text.contains("240"), "Value uses H2 short300/240")
 		check(session.item_id_allocator().next_dynamic_sequence == before, "Value no ID")
 		ui.request_confirmation()
-		check(ui.last_sell == null and session.inventory_state().is_registered(&"h3.sword") and ui.confirm_button.is_visible_in_tree(), "confirmation before payout")
+		check(ui.last_sell == null and session.inventory_state().is_registered(&"h3.sword") and ui.panel.confirm_button.is_visible_in_tree(), "confirmation before payout")
 		ui.confirm_sale()
 		var expected: int = {114:240,50:40,90:200,20:0}[free_capacity]
 		check(ui.last_sell.outcome == HockshopSellResult.Outcome.SOLD and ui.last_sell.payout.delivered_value == expected, "H2 delivered literal " + str(expected))
-		check(ui.feedback.text.contains("实际收到%d文" % expected) and not ui.visible_ids().has(&"h3.sword"), "truthful receipt and removed row")
+		check(ui.panel.feedback.text.contains("实际收到%d文" % expected) and not ui.visible_ids().has(&"h3.sword"), "truthful receipt and removed row")
 		var after: int = session.item_id_allocator().next_dynamic_sequence
 		ui.confirm_sale()
 		check(session.item_id_allocator().next_dynamic_sequence == after, "confirmation consumed exactly once")
@@ -161,9 +161,9 @@ func panel_tests(tree: SceneTree) -> void:
 	session.food_collection().state(&"h3.food").consume_portion()
 	var sequence: int = session.item_id_allocator().next_dynamic_sequence
 	ui.confirm_sale()
-	check(ui.last_sell == null and sequence == session.item_id_allocator().next_dynamic_sequence and ui.feedback.text.contains("未执行"), "changed food cancels confirmation/no payout")
+	check(ui.last_sell == null and sequence == session.item_id_allocator().next_dynamic_sequence and ui.panel.feedback.text.contains("未执行"), "changed food cancels confirmation/no payout")
 	ui.request_value()
-	check(ui.last_valuation.outcome == O.WORTHLESS and ui.sell_button.disabled, "bitten food worthless")
+	check(ui.last_valuation.outcome == O.WORTHLESS and ui.panel.sell_button.disabled, "bitten food worthless")
 	ui.select_item(&"h3.a"); ui.request_confirmation()
 	session.inventory_state()._apply_reparent(&"h3.a", ContainmentEndpoint.new(ContainmentEndpoint.Kind.WORLD, &"test"))
 	ui.confirm_sale()
@@ -202,7 +202,7 @@ func equipment_and_error_tests(tree: SceneTree) -> void:
 	ui.select_item(&"h3.weapon1"); ui.request_value()
 	check(ui.item_label(&"h3.weapon1").contains("主手") and player.state.equipment.has_weapon_instance(&"h3.weapon1"), "Value labels equipped, never detaches")
 	ui.request_confirmation()
-	check(ui.sale_prompt.message.text.contains("主手") and ui.sale_prompt.message.text.contains("240"), "confirmation identifies equipped item/quote")
+	check(ui.panel.sale_prompt.message.text.contains("主手") and ui.panel.sale_prompt.message.text.contains("240"), "confirmation identifies equipped item/quote")
 	ui.confirm_sale()
 	check(player.state.equipment.is_primary_hand_empty() and not player.state.equipment.is_secondary_hand_empty(), "UI sale no auto promotion")
 	check(ui.last_sell.removal.weapon_detached and not ui.visible_ids().has(&"h3.weapon1"), "equipped sale live lifecycle + refresh")
@@ -211,24 +211,24 @@ func equipment_and_error_tests(tree: SceneTree) -> void:
 	H2.add_item(ui.context(), session.food_collection(), session.liquid_collection(), H2.LEATHER, &"h3.leather")
 	player.armor._apply_wear(EquippedArmorRef.new(&"h3.leather", definitions.armor_definition(H2.LEATHER)))
 	ui.refresh(); ui.select_item(&"h3.leather"); ui.request_confirmation()
-	check(ui.sale_prompt.message.text.contains("已穿戴") and ui.sale_prompt.message.text.contains("160"), "worn leather confirmation")
+	check(ui.panel.sale_prompt.message.text.contains("已穿戴") and ui.panel.sale_prompt.message.text.contains("160"), "worn leather confirmation")
 	ui.confirm_sale()
 	check(ui.last_sell.payout.delivered_value == 160 and player.armor.aggregate_numeric_modifiers().armor == 0 and player.armor.aggregate_numeric_modifiers().dodge == 0, "worn leather exact removal")
 	check(not ui.visible_ids().has(&"h3.leather"), "worn row removed")
 	for id: StringName in ui.visible_ids():
 		check(GameContent.catalog().denomination_of(session.item_instance_index().resolve(id).item_definition_id) == CurrencyDenomination.Value.UNSUPPORTED, "money omitted from goods")
-	check(ui.holdings.text.contains("银") and ui.holdings.text.contains("钱"), "physical silver and coin projected")
+	check(ui.panel.holdings.text.contains("银") and ui.panel.holdings.text.contains("钱"), "physical silver and coin projected")
 	var cloth: StringName = &""
 	for id: StringName in ui.visible_ids():
 		if session.item_instance_index().resolve(id).item_definition_id == TestContent.CLOTH_ITEM_ID: cloth = id
 	ui.select_item(cloth); ui.request_value()
-	check(ui.last_valuation.outcome == O.WORTHLESS and ui.sell_button.disabled, "birth cloth visible worthless")
+	check(ui.last_valuation.outcome == O.WORTHLESS and ui.panel.sell_button.disabled, "birth cloth visible worthless")
 	# A real existing lifecycle failure seam: do not alter H2 or bypass its body.
 	player.state.equipment = H2.RefusingEquipment.new()
 	player.state.equipment.wield(EquippedWeaponRef.new(&"h3.weapon2", definitions.weapon_definition(H2.SHORT)), false)
 	ui.refresh(); ui.select_item(&"h3.weapon2"); ui.request_confirmation(); ui.confirm_sale()
 	check(ui.last_sell.outcome == HockshopSellResult.Outcome.AUTHORITY_FAILURE and ui.last_sell.payout.delivered_value == 240, "post-payout authority failure from actual H2")
-	check(ui.feedback.text.contains("技术异常") and ui.feedback.text.contains("未回滚") and not ui.feedback.text.contains("卖断完成"), "truthful failure, not success/refund")
+	check(ui.panel.feedback.text.contains("技术异常") and ui.panel.feedback.text.contains("未回滚") and not ui.panel.feedback.text.contains("卖断完成"), "truthful failure, not success/refund")
 	check(ui.visible_ids().has(&"h3.weapon2") and player.state.equipment.has_weapon_instance(&"h3.weapon2"), "failed removal retained live row/equipment")
 	var sequence: int = session.item_id_allocator().next_dynamic_sequence
 	await tree.process_frame
@@ -240,7 +240,7 @@ func equipment_and_error_tests(tree: SceneTree) -> void:
 	var at_counter: Vector2 = snow.player_body.position
 	snow.player_body.position = MapPlaces.spot(snow, &"snow.hockshop", shop_doorway(snow) + Vector2(48, 0))
 	ui.confirm_sale()
-	check(sequence == session.item_id_allocator().next_dynamic_sequence and ui.feedback.text.contains("未执行"), "counter distance revalidated before sale")
+	check(sequence == session.item_id_allocator().next_dynamic_sequence and ui.panel.feedback.text.contains("未执行"), "counter distance revalidated before sale")
 	await tree.process_frame
 	await tree.process_frame
 	check(not ui.panel.visible and not ui.in_reach(), "walk-away panel inactive")
@@ -257,10 +257,10 @@ func equipment_and_error_tests(tree: SceneTree) -> void:
 	await tree.process_frame
 	await tree.process_frame
 	check(metrics.content_rect().encloses(session.shared_ui()._presentation_layout.frame.get_global_rect()), "touch safe-area bounded panel")
-	check(ui.confirm_button.custom_minimum_size.y >= 64 and ui.value_button.custom_minimum_size.y >= 64, "touch-sized actions")
+	check(ui.panel.confirm_button.custom_minimum_size.y >= 64 and ui.panel.value_button.custom_minimum_size.y >= 64, "touch-sized actions")
 	check(ResponsivePanelLayout.top_interaction_panel(tree) == session.shared_ui()._presentation_layout._frame_layout and ExplorationPresentationBlocker.is_blocked(tree), "existing Back/input panel boundary")
 	ui.select_item(&"h3.weapon2"); ui.request_confirmation(); session.shared_ui()._presentation_layout._frame_layout.dismiss_requested.emit()
-	check(ui.panel.visible and not ui.confirm_button.is_visible_in_tree(), "Back cancels confirmation first")
+	check(ui.panel.visible and not ui.panel.confirm_button.is_visible_in_tree(), "Back cancels confirmation first")
 	session.shared_ui()._presentation_layout._frame_layout.dismiss_requested.emit()
 	check(not ui.panel.visible, "next Back closes panel")
 	session.free()

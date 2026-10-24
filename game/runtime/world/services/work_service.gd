@@ -1,40 +1,18 @@
 class_name WorkService
 extends WorldService
 
-## d/snow/workplace.c `work`: spend gin/sen for one silver (SnowWorkService).
-var panel: PanelContainer
-var resources: Label
-var feedback: Label
+## d/snow/workplace.c `work`: spend gin/sen for one silver (SnowWorkService). Its panel
+## (WorkPanel, ui/) shows the player's gin/sen/silver and says when they ask to work.
+var panel: WorkPanel
 var last_result: SnowWorkResult
 
 
 func setup(p_map: WorldMapController, p_definition: ServiceDefinition, p_point: WorldServicePoint) -> void:
 	super.setup(p_map, p_definition, p_point)
-	panel = PanelContainer.new()
-	panel.name = "Panel"
+	panel = WorkPanel.new()
 	panel.hide()
-	var rows: VBoxContainer = VBoxContainer.new()
-	rows.name = "Rows"
-	panel.add_child(rows)
-	resources = _label(rows, "Resources", "")
-	var work: Button = Button.new()
-	work.name = "WorkButton"
-	work.custom_minimum_size = Vector2(0, 48)
-	work.text = "工作 · 消耗精30 / 神30 · 工钱一两"
-	work.pressed.connect(request_work)
-	rows.add_child(work)
-	feedback = _label(rows, "Feedback", "靠近磨盘，可以在这里工作。")
+	panel.work_requested.connect(request_work)
 	ui_layer().add_child(panel)
-
-
-func _label(rows: VBoxContainer, node_name: String, text: String) -> Label:
-	var label: Label = Label.new()
-	label.name = node_name
-	label.text = text
-	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	rows.add_child(label)
-	return label
 
 
 func verb() -> String:
@@ -51,9 +29,7 @@ func _process(_delta: float) -> void:
 		panel.hide()
 	if panel.visible:
 		var state: CharacterState = map.player_runtime().state
-		resources.text = tr("精 {gin} / 神 {sen} · 银子 {silver} 两").format({
-			"gin": state.essence.current, "sen": state.spirit.current, "silver": silver_amount(),
-		})
+		panel.show_resources(state.essence.current, state.spirit.current, silver_amount())
 
 
 func request_work() -> SnowWorkResult:
@@ -64,16 +40,7 @@ func request_work() -> SnowWorkResult:
 	var player: WorldPlayerRuntimeState = map.player_runtime()
 	last_result = SnowWorkService.work(player.state, player.character_id, player.maximum_encumbrance,
 		player.armor, map.inventory_state(), map.stack_collection(), map.item_instance_index(), map.item_id_allocator())
-	match last_result.outcome:
-		SnowWorkResult.Outcome.SUCCESS:
-			feedback.text = "你完成了一份工作，得到一两银子。"
-		SnowWorkResult.Outcome.TOO_TIRED:
-			feedback.text = "你的精神太差了，现在不能工作。"
-		SnowWorkResult.Outcome.DELIVERY_FAILED_CAPACITY:
-			feedback.text = "工作已完成，但你负重过高，未能取得工钱。"
-		_:
-			feedback.text = "工作状态异常，请停止操作。"
-			push_error("Work authority failure: %s" % last_result.outcome)
+	panel.show_work(last_result)
 	return last_result
 
 
