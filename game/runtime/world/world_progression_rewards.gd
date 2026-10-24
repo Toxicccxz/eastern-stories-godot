@@ -7,6 +7,8 @@ extends RefCounted
 ## Owned by the session.
 
 var _session: WorldSessionController
+## A reward's cut was said since the fight began: fight_ended() says nothing more.
+var _cut_said: bool = false
 
 
 func _init(session: WorldSessionController) -> void:
@@ -91,6 +93,11 @@ func look() -> void:
 		_give(ProgressionRules.Kind.PLACE, location.zone_id, tr(zone.display_name), false)
 
 
+## A fight began: what its rewards' cuts say starts afresh.
+func fight_began() -> void:
+	_cut_said = false
+
+
 ## A fight ended: when its blows filled the player's potential (from below the cap), the
 ## player is told once, as a reward's cut is.
 func fight_ended(unspent_before: int) -> void:
@@ -99,7 +106,9 @@ func fight_ended(unspent_before: int) -> void:
 		return
 	var cap: int = potential_cap(player.state)
 	var unspent: int = player.state.progression.potential - player.state.progression.potential_spent
-	if unspent_before < cap and unspent >= cap and _session.shared_ui() != null:
+	var said: bool = _cut_said
+	_cut_said = false
+	if unspent_before < cap and unspent >= cap and not said and _session.shared_ui() != null:
 		# TRANSLATORS: native (A2): the fight's blows filled the player's potential ({cap} unspent at most).
 		_session.shared_ui().append_after_fight([ColoredLine.new(tr("潜能已满（最多 {cap} 点未用），再打下去潜能不会增长。先去请教师父或研读书籍，用掉一些潜能吧。").format({"cap": cap}))])
 
@@ -127,6 +136,7 @@ func _give(kind: ProgressionRules.Kind, id: StringName, name: String, after_figh
 	if grant == null or hud == null:
 		return
 	var lines: Array[ColoredLine] = MilestoneRewards.lines(grant, name)
+	_cut_said = _cut_said or grant.potential_cut > 0
 	if after_fight:
 		hud.append_after_fight(lines)
 	else:

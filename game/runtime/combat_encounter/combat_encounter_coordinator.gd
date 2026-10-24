@@ -724,6 +724,7 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 	_active_scheduler = scheduler
 	_last_completion = null
 	_unspent_at_start = _player_unspent()
+	_session.progression_rewards().fight_began()
 	_completed_feedback = null
 	_resolution = null if encounter.mode == CombatEncounterMode.Value.SCRIPTED else CombatEncounterResolution.new(_session, encounter)
 	return CombatEncounterStartResult.new(

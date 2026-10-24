@@ -53,6 +53,11 @@ func _test_spar_won(tree: SceneTree, session: WorldSessionController) -> void:
 		var lines: Array[String] = _rewards(session).slice(before)
 		won += lines.filter(func(line: String) -> bool: return line.begins_with("【历练】你第一次在切磋中胜过了武馆弟子")).size()
 	_check(won == 1, "won spars against the trainees: one reward in all, %d" % won)
+	var log: Array[String] = session.shared_ui().log_lines()
+	var twice: bool = false
+	for index: int in range(1, log.size()):
+		twice = twice or (log[index].begins_with("潜能已满") and log[index - 1].begins_with("潜能已满"))
+	_check(not twice, "a full potential is said once a fight, not by the reward and the fight both")
 	_check(state.milestones.has("spar/snow.npc.trainee"), "written down by the NPC's definition")
 	var line: String = _rewards(session).filter(func(l: String) -> bool: return l.contains("武馆弟子")).front() if won > 0 else ""
 	# 40 at stage 150; 落后补偿 in 雪亭镇 (300) at about 150: +50%, less as the spars added exp.
