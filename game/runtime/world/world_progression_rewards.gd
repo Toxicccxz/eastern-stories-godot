@@ -131,7 +131,7 @@ func _give(kind: ProgressionRules.Kind, id: StringName, name: String, after_figh
 	var state: CharacterState = player.state
 	var location: WorldLocationState = player.world_location()
 	var zone_id: StringName = &"" if location == null else location.zone_id
-	var grant: MilestoneRewards.Grant = MilestoneRewards.grant(state, _rules(), kind, id, catch_up_percent(state, zone_id), potential_cap(state))
+	var grant: MilestoneRewards.Grant = MilestoneRewards.grant(state, _rules(), kind, id, catch_up_percent(state, zone_id), GameContent.catalog().pacing().staged_potential_cap)
 	var hud: SharedGameplayUI = _session.shared_ui()
 	if grant == null or hud == null:
 		return

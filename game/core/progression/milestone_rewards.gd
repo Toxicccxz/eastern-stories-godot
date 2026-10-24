@@ -41,12 +41,13 @@ static func opponent_counts(player_exp: int, opponent_exp: int) -> bool:
 
 
 ## Gives the reward of `kind` for `id` once: the stage's exp (with `catch_up` percent more)
-## and its potential share up to `potential_cap` unspent. Null when already given or
+## and its potential share up to the cap unspent: the stage's the exp has reached
+## (`staged`, pacing staged_potential_cap) or combatd.c's 100. Null when already given or
 ## worth nothing (the key is then not written).
 @warning_ignore("integer_division")
 static func grant(
 	state: CharacterState, rules: ProgressionRules, kind: ProgressionRules.Kind, id: StringName,
-	catch_up: int, potential_cap: int,
+	catch_up: int, staged: bool,
 ) -> Grant:
 	if state == null or rules == null or id.is_empty():
 		return null
@@ -64,6 +65,8 @@ static func grant(
 	grant.catch_up_percent = catch_up
 	grant.exp_gain = ProgressionGain.scaled(progression, base, catch_up)
 	progression.combat_experience += grant.exp_gain
+	# The cap of the stage this reward brought the player to.
+	var potential_cap: int = ProgressionGain.potential_cap(rules, progression.combat_experience, staged)
 	var potential: int = grant.exp_gain * rules.potential_percent / 100
 	grant.potential_gain = ProgressionGain.add_potential(progression, potential, potential_cap)
 	grant.potential_cut = potential - grant.potential_gain

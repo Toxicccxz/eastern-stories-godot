@@ -472,7 +472,7 @@ func player_fall_below_zero(even_unconscious: bool = false) -> void:
 ## combatd.c killer_reward() when the player killed an NPC (PlayerKillerReward): its
 ## tell_object() lines go to the log after the fight's result, so the HUD shows them last.
 func _player_killer_reward(victim: NpcRuntimeState) -> void:
-	var result: PlayerKillerReward.Result = PlayerKillerReward.apply(_player.state, victim.definition(), _world_interaction_random.legacy_random, WorldProgressionRewards.potential_cap(_player.state))
+	var result: PlayerKillerReward.Result = PlayerKillerReward.apply(_player.state, victim.definition(), _world_interaction_random.legacy_random, GameContent.catalog().progression(), GameContent.catalog().pacing().staged_potential_cap)
 	if result.left_family:
 		_player.take_title(PlayerKillerReward.REBEL_TITLE)
 	if not result.lines.is_empty() and _map.hud() != null:

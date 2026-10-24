@@ -40,14 +40,15 @@ static func is_quest_target(state: CharacterState, npc: NpcDefinition) -> bool:
 	return state != null and npc != null and state.quest.kill_counts() and npc.display_name == state.quest.current.target
 
 
-## `random` (n) -> MudOS random(n); `potential_cap` the most potential kept unspent
-## (killer_reward()'s 100, or the player's stage cap: A2).
-static func apply(state: CharacterState, victim: NpcDefinition, random: Callable, potential_cap: int = ProgressionRules.ES2_POTENTIAL_CAP) -> Result:
+## `random` (n) -> MudOS random(n). The most potential kept unspent is killer_reward()'s
+## 100, or (A2, `staged` with `rules`) the cap of the stage the task's exp brings the
+## player to.
+static func apply(state: CharacterState, victim: NpcDefinition, random: Callable, rules: ProgressionRules = null, staged: bool = false) -> Result:
 	var result := Result.new()
 	if state == null or victim == null:
 		return result
 	state.progression.kills += 1
-	_complete_quest(state, victim, random, result, potential_cap)
+	_complete_quest(state, victim, random, result, rules, staged)
 	# NPC got 10 times of bellicosity than user: a user killer gains bls (1).
 	state.attributes.bellicosity += 1
 	var mark: String = victim.dealings().vendetta_mark
@@ -59,7 +60,7 @@ static func apply(state: CharacterState, victim: NpcDefinition, random: Callable
 
 ## killer_reward()'s quest part (added May 27, 1996).
 @warning_ignore("integer_division")
-static func _complete_quest(state: CharacterState, victim: NpcDefinition, random: Callable, result: Result, potential_cap: int) -> void:
+static func _complete_quest(state: CharacterState, victim: NpcDefinition, random: Callable, result: Result, rules: ProgressionRules, staged: bool) -> void:
 	var quest: CharacterQuestState = state.quest
 	if not is_quest_target(state, victim):
 		return
@@ -79,6 +80,7 @@ static func _complete_quest(state: CharacterState, victim: NpcDefinition, random
 	# killer_reward() caps unspent potential at 100 and so lowered it for a player
 	# above 100. Deviation (owner, 3C): the cap only stops the gain. A2: the cap is the
 	# player's stage cap when staged_potential_cap is on.
+	var potential_cap: int = ProgressionGain.potential_cap(rules, progression.combat_experience, staged)
 	var before: int = progression.potential - progression.potential_spent
 	var unspent: int = maxi(before, mini(before + pot, potential_cap))
 	progression.potential = unspent + progression.potential_spent

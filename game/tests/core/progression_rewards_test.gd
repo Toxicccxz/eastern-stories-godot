@@ -105,16 +105,26 @@ func _test_grant_once() -> void:
 	var rules: ProgressionRules = GameContent.catalog().progression()
 	var state := CharacterState.new()
 	state.progression.combat_experience = 200
-	var grant: MilestoneRewards.Grant = MilestoneRewards.grant(state, rules, ProgressionRules.Kind.SPAR, &"snow.npc.trainee", 0, 120)
+	var grant: MilestoneRewards.Grant = MilestoneRewards.grant(state, rules, ProgressionRules.Kind.SPAR, &"snow.npc.trainee", 0, true)
 	_assert_true(grant != null and grant.exp_gain == 40 and grant.potential_gain == 20, "first spar won at 200: 40 exp, 20 potential")
 	_assert_eq([state.progression.combat_experience, state.progression.potential, state.milestones.keys()], [240, 20, ["spar/snow.npc.trainee"]], "given and written down")
-	_assert_true(MilestoneRewards.grant(state, rules, ProgressionRules.Kind.SPAR, &"snow.npc.trainee", 0, 120) == null, "the same NPC again: nothing")
+	_assert_true(MilestoneRewards.grant(state, rules, ProgressionRules.Kind.SPAR, &"snow.npc.trainee", 0, true) == null, "the same NPC again: nothing")
 	_assert_eq(state.progression.combat_experience, 240, "nothing the second time")
-	var bonus: MilestoneRewards.Grant = MilestoneRewards.grant(state, rules, ProgressionRules.Kind.REGION, &"cloud", 50, 120)
+	var bonus: MilestoneRewards.Grant = MilestoneRewards.grant(state, rules, ProgressionRules.Kind.REGION, &"cloud", 50, true)
 	_assert_eq([bonus.exp_gain, bonus.potential_gain, bonus.catch_up_percent], [90, 45, 50], "a region at +50%: 60 → 90 exp, 45 potential")
+	var crossing := CharacterState.new()
+	crossing.progression.combat_experience = 149
+	crossing.progression.potential = 99
+	var crossed: MilestoneRewards.Grant = MilestoneRewards.grant(crossing, rules, ProgressionRules.Kind.SPAR, &"snow.npc.trainee", 0, true)
+	_assert_eq([crossing.progression.combat_experience, crossed.potential_gain, crossed.potential_cut, crossing.progression.potential], [164, 7, 0, 106], "149 → 164 crosses into stage 150: its cap (120) holds the reward's 7 potential")
+	var classic := CharacterState.new()
+	classic.progression.combat_experience = 149
+	classic.progression.potential = 99
+	var es2: MilestoneRewards.Grant = MilestoneRewards.grant(classic, rules, ProgressionRules.Kind.SPAR, &"snow.npc.trainee", 0, false)
+	_assert_eq([es2.potential_gain, es2.potential_cut, es2.potential_cap], [1, 6, 100], "classic: the fixed 100")
 	var empty := ProgressionRules.new()
 	empty.stages.append(rules.stages[0])
-	_assert_true(MilestoneRewards.grant(state, empty, ProgressionRules.Kind.BOOK, &"x", 0, 100) == null and not state.milestones.has("book/x"), "worth nothing: not given, not written")
+	_assert_true(MilestoneRewards.grant(state, empty, ProgressionRules.Kind.BOOK, &"x", 0, false) == null and not state.milestones.has("book/x"), "worth nothing: not given, not written")
 
 
 func _test_far_weaker_is_nothing() -> void:
@@ -128,7 +138,7 @@ func _test_lines() -> void:
 	var state := CharacterState.new()
 	state.progression.combat_experience = 1000
 	state.progression.potential = 400
-	var grant: MilestoneRewards.Grant = MilestoneRewards.grant(state, rules, ProgressionRules.Kind.CHAIN, &"green.jade", 20, 450)
+	var grant: MilestoneRewards.Grant = MilestoneRewards.grant(state, rules, ProgressionRules.Kind.CHAIN, &"green.jade", 20, true)
 	var lines: Array[ColoredLine] = MilestoneRewards.lines(grant, "玉佩")
 	_assert_eq(ColoredLine.texts(lines), ["【历练】你了结了「玉佩」这段经历：实战经验 +900，潜能 +50。（落后补偿 +20%）", "潜能已满（最多 450 点未用），多出的 400 点没有记下。先去请教师父或研读书籍，用掉一些潜能吧。"], "the reward, its catch-up, and what the cap kept back")
 	_assert_eq(lines[0].color, ColoredLine.HIY, "in yellow")
@@ -173,8 +183,14 @@ func _test_quest_reward_cap() -> void:
 	quest.time_seconds = 100
 	state.quest.assign(quest, 10)
 	var victim: NpcDefinition = GameContent.catalog().npc(&"cloud.npc.judge")
-	PlayerKillerReward.apply(state, victim, func(_n: int) -> int: return 0, 900)
-	_assert_eq(state.progression.potential, 110, "the stage cap (900) lets 15 + 0 potential in: 95 → 110")
+	PlayerKillerReward.apply(state, victim, func(_n: int) -> int: return 0, GameContent.catalog().progression(), true)
+	_assert_eq(state.progression.potential, 110, "the stage cap (900 at 5000) lets 15 + 0 potential in: 95 → 110")
+	var crossing := CharacterState.new()
+	crossing.progression.combat_experience = 990
+	crossing.progression.potential = 240
+	crossing.quest.assign(quest.duplicate_definition(), 10)
+	PlayerKillerReward.apply(crossing, victim, func(_n: int) -> int: return 0, GameContent.catalog().progression(), true)
+	_assert_eq([crossing.progression.combat_experience, crossing.progression.potential], [1010, 255], "990 at stage 400's cap (240) full: the task's 20 exp reach 1000, whose cap (450) keeps its 15 potential")
 	var es2 := CharacterState.new()
 	es2.progression.potential = 95
 	es2.quest.assign(quest.duplicate_definition(), 10)
