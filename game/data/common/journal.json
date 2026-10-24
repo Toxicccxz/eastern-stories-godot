@@ -704,6 +704,24 @@
 					"text": "你把令牌交给京师守城兵，他连忙说：原来是官府中人。"
 				}
 			]
+		},
+		{
+			"id": "native.bounty",
+			"title": "官府悬赏",
+			"region": "雪亭镇",
+			"sources": ["native: A2 经验节奏 (雪亭驿的悬赏榜, DECISIONS「经验节奏」)"],
+			"entries": [
+				{
+					"id": "taken",
+					"when": { "mark": "a2_bounty_taken" },
+					"text": "你在雪亭驿门外揭下了一张官府悬赏告示，照告示上说的地方去找那个恶人。"
+				},
+				{
+					"id": "done",
+					"when": { "mark": "a2_bounty_done" },
+					"text": "你第一次领到了雪亭驿的悬赏。告示上隔些时候就会贴出新的。"
+				}
+			]
 		}
 	]
 }

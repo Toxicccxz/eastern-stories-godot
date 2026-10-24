@@ -162,6 +162,9 @@ func _encode_character(value: Values.CharacterStateSnapshot) -> Dictionary[Strin
 	# 朱鸿雪's task, quest_factor and tfinished: written only when one is set.
 	if not value.quest.is_default():
 		result["quest"] = _encode_quest(value.quest)
+	# The 雪亭驿 board (A2): written only once something was posted.
+	if not value.bounty.is_default():
+		result["bounty"] = _encode_bounty(value.bounty)
 	# CharacterTimedApplies: written only when one runs.
 	if not value.timed_applies.is_empty():
 		var timed: Array[Variant] = []
@@ -200,6 +203,17 @@ func _encode_quest(value: CharacterQuestState) -> Dictionary[String, Variant]:
 			"remaining_ms": _i(value.remaining_ms),
 		}
 	return result
+
+
+func _encode_bounty(value: BountyState) -> Dictionary[String, Variant]:
+	var tiers: Array = []
+	var places: Array = []
+	var refill: Array = []
+	for slot: int in value.tiers.size():
+		tiers.append(_i(value.tiers[slot]))
+		places.append(_i(value.places[slot]))
+		refill.append(_i(value.refill_ms[slot]))
+	return {"tiers": tiers, "places": places, "refill_ms": refill, "active": _i(value.active), "serial": _i(value.serial)}
 
 
 func _encode_track(value: Values.ResourceTrackSnapshot) -> Dictionary[String, Variant]:
@@ -397,7 +411,7 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 		fields.append("marks")
 	if value is Dictionary and value.has("timed_applies"):
 		fields.append("timed_applies")
-	for optional: String in ["quest", "vendetta", "applies", "seen_npcs", "journal", "known_items", "milestones", "counters", "ghost"]:
+	for optional: String in ["quest", "vendetta", "applies", "seen_npcs", "journal", "known_items", "milestones", "bounty", "counters", "ghost"]:
 		if value is Dictionary and value.has(optional):
 			fields.append(optional)
 	var object: Dictionary = _obj(value, path, fields)
@@ -493,8 +507,11 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 	var quest := CharacterQuestState.new()
 	if object.has("quest"):
 		quest = _decode_quest(object["quest"], path + ".quest")
+	var bounty := BountyState.new()
+	if object.has("bounty"):
+		bounty = _decode_bounty(object["bounty"], path + ".bounty")
 	if _error: return null
-	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen).with_journal(journal, known_items).with_counters(counters).with_ghost(ghost).with_milestones(milestones)
+	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen).with_journal(journal, known_items).with_counters(counters).with_ghost(ghost).with_milestones(milestones).with_bounty(bounty)
 
 
 ## A non-empty {name: integer} object (create()'s drawn apply/<key>, a room's counters).
@@ -525,6 +542,24 @@ func _decode_counts(value: Variant, path: String) -> Dictionary[String, int]:
 		if not _error and result[key] <= 0:
 			_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + "." + String(key), "expected a count above 0")
 	return result
+
+
+## {tiers, places, refill_ms, active, serial} (A2's board); never the default (then it is
+## not written).
+func _decode_bounty(value: Variant, path: String) -> BountyState:
+	var bounty := BountyState.new()
+	var object: Dictionary = _obj(value, path, ["tiers", "places", "refill_ms", "active", "serial"])
+	if _error: return bounty
+	for field: String in ["tiers", "places", "refill_ms"]:
+		var values: Array = _array(object[field], path + "." + field)
+		var into: Array[int] = bounty.tiers if field == "tiers" else bounty.places if field == "places" else bounty.refill_ms
+		for index: int in values.size():
+			into.append(_int64(values[index], "%s.%s[%d]" % [path, field, index]))
+	bounty.active = _int64(object["active"], path + ".active")
+	bounty.serial = _int64(object["serial"], path + ".serial")
+	if not _error and (not bounty.is_valid() or bounty.is_default()):
+		_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path, "an inconsistent board, or the default (never written)")
+	return bounty
 
 
 ## {factor, finished, task?: {target, type, time, exp_bonus, pot_bonus, score, remaining_ms}};

@@ -190,7 +190,10 @@ func _test_services_and_doors() -> void:
 			ids.append(service.service_id)
 			_assert_eq(catalog.zone(service.zone_id).map_id, service.map_id, "%s map follows its zone" % service.service_id)
 	_assert_eq(ids, [&"snow.workplace.mill", &"snow.bank.counter", &"snow.hockshop.counter"], "Snow's services in their buildings' own maps: the rooms' own commands")
-	_assert_true(catalog.services_for_map(SnowWorld.OUTDOOR_MAP_ID).is_empty(), "the town's outside has no room service")
+	var outside: Array[StringName] = []
+	for service: ServiceDefinition in catalog.services_for_map(SnowWorld.OUTDOOR_MAP_ID):
+		outside.append(service.service_id)
+	_assert_eq(outside, [&"snow.mstreet4.bounty"], "the town's outside has no ES2 room service, only 雪亭驿's bounty board (A2, native)")
 	# The shopkeepers sell from their bodies (4E): the vendor record is on the NPC.
 	for row: Array in [[&"snow.npc.herbalist", &"snow.vendor.herbalist"], [&"snow.npc.smith", &"snow.vendor.smith"], [&"snow.npc.waiter", &"snow.vendor.waiter"]]:
 		_assert_eq(catalog.npc(row[0]).dealings().vendor_id, row[1], "%s sells %s" % row)

@@ -21,6 +21,9 @@
 		"catch_up_max_percent": 100,
 		"staged_potential_cap": true,
 		"player_exercise_gain": 6,
+		"bounty_board": true,
+		"bounty_refresh_seconds": 600,
+		"training_dummies": true,
 		"feel": {
 			"map_fade_out_ms": 150,
 			"map_fade_in_ms": 200,

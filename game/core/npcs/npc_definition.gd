@@ -86,6 +86,7 @@ var _raising: NpcRaising
 var _ordination: NpcOrdination
 ## Its own functions run as data (NpcHooks: oldman.c, sword_soul.c); null for none.
 var _hooks: NpcHooks
+var _native_role: StringName = &""
 ## The victim a raised NPC was (corpse.c's query("victim_name")): its name follows
 ## NpcRaising.name_template; empty for any other NPC.
 var _raised_from: String = ""
@@ -452,6 +453,28 @@ func with_hooks(p_hooks: NpcHooks) -> NpcDefinition:
 ## null: none of them.
 func hooks() -> NpcHooks:
 	return _hooks
+
+
+## Native (A2 经验节奏, data/native/npcs.json `native.role`), not ES2's: a 木人 of the 武馆
+## (ROLE_TRAINING_DUMMY: it only spars) or an outlaw of the 雪亭驿 board (ROLE_BOUNTY_TARGET:
+## it comes for a bounty and is not kept by a save). "" for every ES2 NPC.
+const ROLE_TRAINING_DUMMY: StringName = &"training_dummy"
+const ROLE_BOUNTY_TARGET: StringName = &"bounty_target"
+const NATIVE_ROLES: Array[StringName] = [ROLE_TRAINING_DUMMY, ROLE_BOUNTY_TARGET]
+
+
+func with_native_role(role: StringName) -> NpcDefinition:
+	_native_role = role
+	return self
+
+
+func native_role() -> StringName:
+	return _native_role
+
+
+## A 木人: 切磋 only, never 攻击.
+func spar_only() -> bool:
+	return _native_role == ROLE_TRAINING_DUMMY
 
 
 ## is_ghost() (NpcHooks.ghost): unseen by whoever is no ghost (char.c visible()).

@@ -402,7 +402,8 @@ func _here(zone_id: StringName) -> Array[NpcRuntimeState]:
 	var here: Array[NpcRuntimeState] = []
 	# The zone's own map (the 武馆 is a map of its own since the remap).
 	for npc: NpcRuntimeState in _session.world_map_of(MapPlaces.map_of(zone_id)).npc_runtimes():
-		if npc.exists_in_map and npc.world_location().zone_id == zone_id and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
+		# The 武馆's 木人 (A2) are nobody's berserk target: they only spar.
+		if npc.exists_in_map and npc.world_location().zone_id == zone_id and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and not npc.definition().spar_only():
 			here.append(npc)
 	return here
 

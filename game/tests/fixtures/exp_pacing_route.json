@@ -1,5 +1,5 @@
 {
-	"source": "native: A2 经验节奏 pacing simulation (tests/sim/exp_pacing_sim.gd). A new player's first hours as the route guesses them: join 封山剑派 at once, learn from 李火狮 and 柳淳风, spar whoever spars (npc.c accept_fight(): friendly NPCs never do), 打坐 to 50 for 封山剑法, see the near stories through, visit the near regions. walk_seconds are path lengths at 220 px/s estimated from the layouts, plus doors; a story's minutes are the walking, asking and fighting it takes",
+	"source": "native: A2 经验节奏 pacing simulation (tests/sim/exp_pacing_sim.gd). A new player's first hours as the route guesses them: join 封山剑派 at once, learn from 李火狮 and 柳淳风, spar whoever spars (npc.c accept_fight(): friendly NPCs never do), 打坐 to 50 for 封山剑法, see the near stories through, visit the near regions, spar the 武馆's 木人 and take 雪亭驿's bounties (A2 PR B). walk_seconds are path lengths at 220 px/s estimated from the layouts, plus doors; a story's minutes are the walking, asking and fighting it takes",
 	"route": [
 		{
 			"note": "饮风客栈 → 淳风武馆大厅，拜柳淳风为师",
@@ -72,6 +72,15 @@
 			"max_minutes": 10
 		},
 		{
+			"note": "和木人（初阶）、（二阶）拆招",
+			"spar": "native.school2.wooden_dummy.1",
+			"max_minutes": 10
+		},
+		{
+			"spar": "native.school2.wooden_dummy.2",
+			"max_minutes": 10
+		},
+		{
 			"note": "打坐到内力 50（封山剑法）",
 			"exercise_to": 50,
 			"max_minutes": 40
@@ -118,6 +127,12 @@
 			"spar": "cloud.drugstore_house.drugstore.doctor",
 			"times": 2,
 			"max_minutes": 5
+		},
+		{
+			"note": "揭雪亭驿的悬赏",
+			"bounties": 2,
+			"walk_seconds": 300,
+			"max_minutes": 30
 		},
 		{
 			"note": "香茗坊二楼和弈者下棋",
@@ -186,6 +201,21 @@
 			"spar": "snow.school_compound.school2.fist_trainer",
 			"times": 6,
 			"max_minutes": 15
+		},
+		{
+			"note": "木人（三阶）、（四阶）",
+			"spar": "native.school2.wooden_dummy.3",
+			"max_minutes": 10
+		},
+		{
+			"spar": "native.school2.wooden_dummy.4",
+			"max_minutes": 10
+		},
+		{
+			"note": "再揭悬赏",
+			"bounties": 4,
+			"walk_seconds": 300,
+			"max_minutes": 50
 		}
 	]
 }

@@ -152,6 +152,7 @@ func _process(delta: float) -> void:
 	# combat_round_ms whatever the 战斗速度.
 	var fighting: bool = _combat_encounter_coordinator != null and _combat_encounter_coordinator.has_active_encounter()
 	advance_quest_time(BattlePace.fight_seconds(delta) if fighting else world_delta)
+	advance_bounty_time(BattlePace.fight_seconds(delta) if fighting else world_delta)
 	advance_npc_heartbeat(world_delta)
 	advance_hidden_passages(world_delta)
 	advance_room_hazards(world_delta)
@@ -525,6 +526,17 @@ func advance_quest_time(delta: float) -> void:
 	var whole: int = int(elapsed)
 	_quest_remainder_ms = elapsed - whole
 	quest.advance(whole)
+
+
+## The 雪亭驿 board's empty slots fill on the same play time as 朱鸿雪's task (A2).
+func advance_bounty_time(delta: float) -> void:
+	if (
+		not _initialized or not application_gameplay_allows_encounter_advance() or not can_process()
+		or _restore_candidate_staged or _session_swap_reparenting or _player == null
+		or not is_finite(delta) or delta < 0.0
+	):
+		return
+	bounties().advance(delta)
 
 
 ## Hidden passages close on world time, which stops in a fight.
@@ -1701,6 +1713,14 @@ var _last_portable_equipment: OldPineEquipmentInteractionResult
 var _last_portable_armor: OldPineArmorInteractionResult
 var _martial_arts: PlayerMartialArts
 var _progression_rewards: WorldProgressionRewards
+var _bounties: WorldBounties
+
+
+## The 雪亭驿 board's bounties (A2).
+func bounties() -> WorldBounties:
+	if _bounties == null:
+		_bounties = WorldBounties.new(self)
+	return _bounties
 
 
 ## The one-time 历练 rewards and the player's catch-up (A2).
@@ -2000,6 +2020,7 @@ func record_journal() -> void:
 	JournalLog.note_items(_player.state, held)
 	JournalLog.record(_player.state, _player.temp_marks, held, GameContent.catalog().journal_chains())
 	progression_rewards().look()
+	bounties().look()
 
 
 ## 阴阳眼 began or ended (in a fight, on the 武学 page, on world time, from a save): the

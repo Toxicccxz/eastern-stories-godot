@@ -35,6 +35,7 @@ var _journal_chains: Array[JournalChainDefinition] = []
 var _codex_topics: Array[CodexTopicDefinition] = []
 var _pacing: PacingDefinition
 var _progression: ProgressionRules
+var _bounties: BountyRules
 var _origins: Dictionary[StringName, String] = {}
 
 
@@ -143,6 +144,11 @@ func add_document(document: Variant, origin: String) -> void:
 		if _progression != null:
 			progression.fail("", "progression is already defined")
 		_progression = ProgressionRules.from_record(progression)
+	var bounties: ContentRecordReader = reader.child("bounty_board")
+	if bounties != null:
+		if _bounties != null:
+			bounties.fail("", "bounty_board is already defined")
+		_bounties = BountyRules.from_record(bounties)
 	reader.finish()
 
 
@@ -193,6 +199,7 @@ func build() -> ContentCatalog:
 	catalog.set_quest_tiers(_quest_tiers)
 	catalog.set_journal(_journal_chains, _codex_topics)
 	catalog.set_progression(_progression)
+	catalog.set_bounties(_bounties)
 	# Backstop for role combinations the item rules cannot represent; saves
 	# validate against these projections.
 	if not catalog.native_item_projections().is_valid:
@@ -346,6 +353,16 @@ func _check_progression() -> void:
 	for chain_id: StringName in _progression.chain_percent:
 		if not chains.has(chain_id):
 			_errors.append("progression.chain_percent: no chain '%s'" % chain_id)
+	if _bounties == null:
+		return
+	for tier: BountyRules.Tier in _bounties.tiers:
+		var npc: NpcDefinition = _npcs.get(tier.npc_id)
+		if npc == null or npc.native_role() != NpcDefinition.ROLE_BOUNTY_TARGET:
+			_errors.append("bounty_board.tiers: '%s' is no NPC of native role bounty_target" % tier.npc_id)
+	for place: BountyRules.Place in _bounties.places:
+		var zone: ZoneDefinition = _zones.get(place.zone_id)
+		if zone == null or zone.map_id != place.map_id:
+			_errors.append("bounty_board.places: no zone '%s' on map '%s'" % [place.zone_id, place.map_id])
 
 
 ## IDs are unique across every kind, so one ID never means two things.

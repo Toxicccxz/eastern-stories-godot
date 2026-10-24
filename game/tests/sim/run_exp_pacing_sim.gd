@@ -4,7 +4,8 @@ extends SceneTree
 ## common/progression.json and pacing.json's progression knobs. Never an autoload;
 ## tests/ is not in a release:
 ## <godot> --headless --path game --script res://tests/sim/run_exp_pacing_sim.gd -- [seeds] [classic]
-## `classic`: the progression knobs at ES2's (no 历练 rewards, no catch-up, cap 100, 打坐 ×1).
+## `classic`: the progression knobs at ES2's (no 历练 rewards, no catch-up, cap 100, 打坐 ×1, no
+## bounty board, no 木人).
 ## Prints the route's timeline per seed, then 打坐 to max_force 50 (con 30 and 20).
 
 
@@ -17,7 +18,7 @@ func _run() -> void:
 	var seeds: int = int(args[0]) if not args.is_empty() and args[0].is_valid_int() else 1
 	var previous: PacingDefinition = GameContent.catalog().pacing()
 	if args.has("classic"):
-		GameContent.catalog().set_pacing(previous.copy().with_progression(false, 0, false, 1))
+		GameContent.catalog().set_pacing(previous.copy().with_progression(false, 0, false, 1).with_training(false, previous.bounty_refresh_seconds, false))
 	var route: Array = ExpPacingSim.load_route("res://tests/fixtures/exp_pacing_route.json")["route"]
 	var times: Array[float] = []
 	for seed: int in seeds:

@@ -63,6 +63,13 @@
 						"strength": 25.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -231,6 +238,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 20.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -401,6 +415,13 @@
 						"strength": 27.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -569,6 +590,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 13.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -812,6 +840,13 @@
 						"strength": 12.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -1046,6 +1081,13 @@
 						"strength": 30.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -1196,6 +1238,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 26.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -1348,6 +1397,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 27.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -1518,6 +1574,13 @@
 						"strength": 19.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -1686,6 +1749,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 15.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -1856,6 +1926,13 @@
 						"strength": 11.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -2025,6 +2102,13 @@
 						"strength": 10.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -2193,6 +2277,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 14.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -2436,6 +2527,13 @@
 						"strength": 26.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -2604,6 +2702,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 15.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -2774,6 +2879,13 @@
 						"strength": 10.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -2942,6 +3054,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 30.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -3112,6 +3231,13 @@
 						"strength": 10.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -3281,6 +3407,13 @@
 						"strength": 17.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -3441,6 +3574,13 @@
 						"strength": 40.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -3583,6 +3723,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 40.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -3727,6 +3874,13 @@
 						"strength": 40.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -3869,6 +4023,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 40.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -4013,6 +4174,13 @@
 						"strength": 40.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -4155,6 +4323,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 6.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -4299,6 +4474,13 @@
 						"strength": 6.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -4441,6 +4623,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 6.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -4585,6 +4774,13 @@
 						"strength": 6.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -4728,6 +4924,13 @@
 						"strength": 6.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -4870,6 +5073,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 6.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -5096,6 +5306,13 @@
 						"strength": 25.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -5257,6 +5474,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 10.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -5482,6 +5706,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 17.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -5725,6 +5956,13 @@
 						"strength": 22.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -5966,6 +6204,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 15.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -6284,6 +6529,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 10.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -6460,6 +6712,13 @@
 						"strength": 25.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -6628,6 +6887,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 20.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -6798,6 +7064,13 @@
 						"strength": 27.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -6966,6 +7239,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 13.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -7209,6 +7489,13 @@
 						"strength": 12.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -7443,6 +7730,13 @@
 						"strength": 30.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -7593,6 +7887,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 26.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -7745,6 +8046,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 27.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -7915,6 +8223,13 @@
 						"strength": 19.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -8083,6 +8398,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 15.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -8253,6 +8575,13 @@
 						"strength": 11.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -8422,6 +8751,13 @@
 						"strength": 10.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -8590,6 +8926,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 14.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -8833,6 +9176,13 @@
 						"strength": 26.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -9001,6 +9351,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 15.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -9171,6 +9528,13 @@
 						"strength": 10.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -9339,6 +9703,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 30.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -9509,6 +9880,13 @@
 						"strength": 10.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -9678,6 +10056,13 @@
 						"strength": 17.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -9838,6 +10223,13 @@
 						"strength": 40.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -9980,6 +10372,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 40.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -10124,6 +10523,13 @@
 						"strength": 40.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -10266,6 +10672,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 40.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -10410,6 +10823,13 @@
 						"strength": 40.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -10552,6 +10972,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 6.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -10696,6 +11123,13 @@
 						"strength": 6.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -10838,6 +11272,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 6.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -10982,6 +11423,13 @@
 						"strength": 6.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -11125,6 +11573,13 @@
 						"strength": 6.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -11267,6 +11722,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 6.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -11493,6 +11955,13 @@
 						"strength": 25.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -11654,6 +12123,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 10.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -11879,6 +12355,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 17.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -12122,6 +12605,13 @@
 						"strength": 22.0,
 						"strength_modifier": 0.0
 					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
+					},
 					"conditions": {
 						"_conditions": {}
 					},
@@ -12363,6 +12853,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 15.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}
@@ -12681,6 +13178,13 @@
 						"spirituality_modifier": 0.0,
 						"strength": 10.0,
 						"strength_modifier": 0.0
+					},
+					"bounty": {
+						"active": -1.0,
+						"places": [],
+						"refill_ms": [],
+						"serial": 0.0,
+						"tiers": []
 					},
 					"conditions": {
 						"_conditions": {}

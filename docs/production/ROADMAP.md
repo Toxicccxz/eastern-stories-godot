@@ -70,7 +70,7 @@ only they or nobody use; `d/npc` (wizard-saved characters).
   the reasonable behaviour as a recorded deviation (AGENTS.md); the first batch is done.
 * **Pacing**: `common/pacing.json`'s knobs are tuned from owner playtests and the A2 simulation
   (`tests/sim/`); A2 (DECISIONS「经验节奏」) fills a new character's 150 to 1001 with one-time 历练,
-  落后补偿 and, in PR B, the 雪亭驿 bounties and 武馆 木人.
+  落后补偿, the 雪亭驿 bounties and the 武馆's 木人.
 * **Maps**: every map is `tools/maps/layouts/` data drawn by the painter to the scale standard
   (`tools/maps/standard.json`: streets, doors, facades and room classes in body widths); a town
   shows its streets and facades, and every enterable room is on its building's own map behind its

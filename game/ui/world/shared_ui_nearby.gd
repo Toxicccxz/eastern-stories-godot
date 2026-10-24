@@ -393,7 +393,10 @@ func _npc_options(map: WorldMapController, thing: WorldNearbyThing, player_avail
 		offered.append(InteractionOption.new("切磋", _after(select, actions.spar_context), "", false, spar_refusal))
 	if fightable:
 		var forbids: bool = catalog.zone_forbids_fighting(_player.world_location().zone_id) or catalog.zone_forbids_fighting(npc.world_location().zone_id)
-		offered.append(InteractionOption.new("攻击", _after(select, actions.attack_context), "", false, tr("这里不准战斗。") if forbids else ""))
+		var refusal: String = tr("这里不准战斗。") if forbids else ""
+		if definition.spar_only():
+			refusal = tr(WorldMapSelection.SPAR_ONLY)
+		offered.append(InteractionOption.new("攻击", _after(select, actions.attack_context), "", false, refusal))
 	if here and map.thefts.can_steal(npc):
 		offered.append(InteractionOption.new("偷窃", _after(select, actions.steal_context), SharedUiContextActions.STEAL_HINT))
 	if map.patrols.can_bribe(npc):

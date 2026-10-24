@@ -28,6 +28,7 @@ var _called_over: Dictionary[StringName, bool] = {}
 var _exit_rules: Dictionary[StringName, ZoneExitRuleDefinition] = {}
 var _pacing: PacingDefinition = PacingDefinition.new()
 var _progression: ProgressionRules
+var _bounties: BountyRules
 var _zone_of_room: Dictionary[StringName, StringName] = {}
 var _currency_items: Dictionary[CurrencyDenomination.Value, ItemContentDefinition] = {}
 var _native_item_projections: NativeItemDefinitionProjections
@@ -200,6 +201,15 @@ func progression() -> ProgressionRules:
 	return _progression
 
 
+## The 雪亭驿 bounty board (A2), or null when no document has one.
+func set_bounties(value: BountyRules) -> void:
+	_bounties = value
+
+
+func bounties() -> BountyRules:
+	return _bounties
+
+
 func pacing() -> PacingDefinition:
 	return _pacing
 
@@ -303,18 +313,30 @@ func spawn(spawn_id: StringName) -> NpcSpawnDefinition:
 
 ## All spawns in authored order. The order is significant: NPCs are created in
 ## it, which fixes their random draws and loadout item identities.
+## A spawn a pacing knob places (A2's 木人) is left out while the knob is off.
 func spawns() -> Array[NpcSpawnDefinition]:
 	var result: Array[NpcSpawnDefinition] = []
-	result.assign(_spawns.values())
+	for definition: NpcSpawnDefinition in _spawns.values():
+		if _placed(definition):
+			result.append(definition)
 	return result
 
 
 func spawns_for_map(map_id: StringName) -> Array[NpcSpawnDefinition]:
 	var result: Array[NpcSpawnDefinition] = []
 	for definition: NpcSpawnDefinition in _spawns.values():
-		if definition.map_id == map_id:
+		if definition.map_id == map_id and _placed(definition):
 			result.append(definition)
 	return result
+
+
+func _placed(spawn: NpcSpawnDefinition) -> bool:
+	match spawn.pacing:
+		&"":
+			return true
+		&"training_dummies":
+			return _pacing.training_dummies
+	return false
 
 
 func item_spawn(spawn_id: StringName) -> ItemSpawnDefinition:

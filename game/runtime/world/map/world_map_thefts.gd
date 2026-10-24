@@ -50,7 +50,8 @@ func can_steal_selected() -> bool:
 ## can_steal_selected() for any NPC.
 func can_steal(target: NpcRuntimeState) -> bool:
 	var npc: NpcRuntimeState = _map.selection.npc_here(target)
-	return npc != null and _player != null and _map.can_act(false)
+	# A2's 木人 carry nothing and only spar.
+	return npc != null and _player != null and _map.can_act(false) and not npc.definition().spar_only()
 
 
 ## What look.c shows the NPC to carry: the things it wears or wields, in the order it carries

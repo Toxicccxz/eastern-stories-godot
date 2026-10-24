@@ -19,7 +19,10 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var report: String = sim.report()
 	var minutes: float = sim.reached.get(1001, -60.0) / 60.0
 	_check(minutes >= 60.0 and minutes <= 130.0, "exp 1001 at %.1f min (60-130):\n%s" % [minutes, report])
-	_check(sim.deaths == 0, "nobody dies on the route")
+	# The route's late bounties may beat its player, who learns less than a real one: no
+	# death before 1001.
+	_check(sim.death_times.all(func(t: float) -> bool: return sim.reached.has(1001) and t > sim.reached[1001]), "no death before 1001: %s" % [sim.death_notes])
+	_check(sim.bounties_done >= 2, "bounties paid on the route: %d" % sim.bounties_done)
 	_check(sim.rewards.size() >= 8, "the route's 历练: %d" % sim.rewards.size())
 	_check(sim.first_special.has(&"liuh-ken") and sim.first_special[&"liuh-ken"] < 10.0 * 60.0, "柳家拳 within ten minutes of New Game")
 	await sim.finish()

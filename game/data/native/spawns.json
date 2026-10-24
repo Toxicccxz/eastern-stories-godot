@@ -1,0 +1,9 @@
+{
+	"spawns": [
+		{ "id": "native.school2.wooden_dummy.1", "npc": "native.npc.wooden_dummy.1", "map": "snow.school_compound", "zone": "snow.school2", "points": ["snow.school2.wooden_dummy.1"], "legacy_room": "native: A2 经验节奏", "legacy_quantity": 1, "pacing": "training_dummies" },
+		{ "id": "native.school2.wooden_dummy.2", "npc": "native.npc.wooden_dummy.2", "map": "snow.school_compound", "zone": "snow.school2", "points": ["snow.school2.wooden_dummy.2"], "legacy_room": "native: A2 经验节奏", "legacy_quantity": 1, "pacing": "training_dummies" },
+		{ "id": "native.school2.wooden_dummy.3", "npc": "native.npc.wooden_dummy.3", "map": "snow.school_compound", "zone": "snow.school2", "points": ["snow.school2.wooden_dummy.3"], "legacy_room": "native: A2 经验节奏", "legacy_quantity": 1, "pacing": "training_dummies" },
+		{ "id": "native.school2.wooden_dummy.4", "npc": "native.npc.wooden_dummy.4", "map": "snow.school_compound", "zone": "snow.school2", "points": ["snow.school2.wooden_dummy.4"], "legacy_room": "native: A2 经验节奏", "legacy_quantity": 1, "pacing": "training_dummies" },
+		{ "id": "native.school2.wooden_dummy.5", "npc": "native.npc.wooden_dummy.5", "map": "snow.school_compound", "zone": "snow.school2", "points": ["snow.school2.wooden_dummy.5"], "legacy_room": "native: A2 经验节奏", "legacy_quantity": 1, "pacing": "training_dummies" }
+	]
+}

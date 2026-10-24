@@ -110,6 +110,20 @@ var once: bool:
 		return _once
 
 
+## Native (A2): the pacing knob that places this spawn at all (`training_dummies`: the
+## 武馆's 木人); "" for every ES2 spawn. With the knob off the world has no such spawn.
+const PACING_KNOBS: Array[StringName] = [&"training_dummies"]
+var _pacing: StringName = &""
+var pacing: StringName:
+	get:
+		return _pacing
+
+
+func with_pacing(knob: StringName) -> NpcSpawnDefinition:
+	_pacing = knob
+	return self
+
+
 func with_once(value: bool) -> NpcSpawnDefinition:
 	_once = value
 	return self

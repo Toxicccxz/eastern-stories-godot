@@ -86,6 +86,9 @@ var known_items: Dictionary[String, int] = {}
 ## The one-time 历练 rewards given (MilestoneRewards, "<kind>/<id>"), each with the order
 ## it was given in. Native (A2). Saved; empty for NPCs.
 var milestones: Dictionary[String, int] = {}
+## The 雪亭驿 bounty board as this player sees it (BountyBoard). Native (A2). Saved while
+## something was posted; empty for NPCs.
+var bounty := BountyState.new()
 ## LPC set("<name>", n) a room keeps on the character outside marks/ (d/choyin/entrance.c
 ## taolin_steps: how far the 桃林's way out is). Saved; empty for most characters.
 var counters: Dictionary[String, int] = {}

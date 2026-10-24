@@ -94,7 +94,8 @@
 	"services": [
 		{ "id": "snow.workplace.mill", "kind": "work", "zone": "snow.workplace", "name": "短工", "reach": 96, "legacy_source": "d/snow/workplace.c" },
 		{ "id": "snow.bank.counter", "kind": "bank", "zone": "snow.bank", "name": "钱庄", "reach": 96, "legacy_source": "d/snow/bank.c" },
-		{ "id": "snow.hockshop.counter", "kind": "hockshop", "zone": "snow.hockshop", "name": "丰登当铺", "reach": 90, "legacy_source": "d/snow/hockshop.c" }
+		{ "id": "snow.hockshop.counter", "kind": "hockshop", "zone": "snow.hockshop", "name": "丰登当铺", "reach": 90, "legacy_source": "d/snow/hockshop.c" },
+		{ "id": "snow.mstreet4.bounty", "kind": "bounty", "zone": "snow.mstreet4", "name": "官府悬赏", "reach": 96, "legacy_source": "native: A2 经验节奏 (雪亭驿的悬赏榜, DECISIONS「经验节奏」)" }
 	],
 	"doors": [
 		{ "id": "snow.school.gate", "name": "红漆大门", "zones": ["snow.school1", "snow.school2"], "reach": 90, "legacy_room": "es2:d/snow/school1" },
