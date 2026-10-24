@@ -17,9 +17,9 @@
     "sun_energy": [0.95, 0.34]
   },
   "cliffs": {
-    "low": 1.6,
+    "low": 0.9,
     "high": 5.2,
-    "rise": 170,
+    "rise": 230,
     "step": 0.5,
     "rough": 0.5,
     "keep": 176,
@@ -45,8 +45,8 @@
       {"rect": [336, 2176, 512, 2336], "by": -1.0, "note": "lower banks where the road goes on out of the gully"}
     ]
   },
+  "exit_trails": {"goathill.mroad1.south": 12, "note": "the road runs on south out of the gully, toward 雪亭镇"},
   "reshape": [
-    {"rect": [384, 2176, 464, 2336], "to": "path", "note": "the road runs on south out of the gully, toward 雪亭镇"},
     {"rect": [736, 1392, 960, 1424], "from": ["wall_wood"], "to": "cliff", "note": "the crack in the wall round the little temple"},
     {"rect": [736, 1552, 960, 1584], "from": ["wall_wood"], "to": "cliff"},
     {"rect": [880, 1424, 960, 1552], "from": ["wall_wood"], "to": "cliff"}
@@ -112,21 +112,21 @@
       "porch": "none", "lanterns": false, "goods": "none", "doorway": "shut"}
   ],
   "props": [
-    {"kind": "boulder", "at": [512, 2040], "size": [64, 52], "on_cliff": true, "note": "mroad1: 凹凹凸凸的山石"},
-    {"kind": "boulder", "at": [344, 2100], "size": [48, 40], "on_cliff": true},
+    {"kind": "boulder", "at": [528, 2040], "size": [64, 52], "on_cliff": true, "note": "mroad1: 凹凹凸凸的山石"},
+    {"kind": "boulder", "at": [328, 2100], "size": [48, 40], "on_cliff": true},
     {"kind": "boulder", "at": [488, 1900], "size": [44, 40], "on_cliff": true, "tall": 0.9},
-    {"kind": "standing_rock", "at": [330, 2018], "size": [40, 36], "height": 2.4, "on_cliff": true, "occludes": true},
+    {"kind": "standing_rock", "at": [298, 2018], "size": [40, 36], "height": 2.4, "on_cliff": true, "occludes": true},
     {"kind": "standing_rock", "at": [520, 2150], "size": [36, 32], "height": 1.8, "on_cliff": true},
     {"kind": "rock_pile", "at": [444, 2010], "size": [32, 28], "count": 7},
     {"kind": "rock_pile", "at": [304, 1904], "size": [32, 28], "count": 6},
     {"kind": "bones", "at": [452, 1940], "size": [40, 32], "on_cliff": true},
-    {"kind": "cairn", "at": [456, 2150], "on_cliff": true, "note": "a stone pile where the gully opens toward the town"},
+    {"kind": "cairn", "at": [488, 2150], "on_cliff": true, "note": "a stone pile where the gully opens toward the town"},
 
     {"kind": "cart_wheel", "at": [330, 1760], "note": "mroad2: no carts for a long time"},
     {"kind": "trail", "points": [[396, 1860], [372, 1790], [356, 1730], [372, 1680], [420, 1640]], "color": "907b56", "note": "old cart ruts under the weeds"},
     {"kind": "trail", "points": [[416, 1860], [392, 1790], [376, 1730], [392, 1680], [440, 1640]], "color": "907b56"},
     {"kind": "trail", "points": [[340, 1712], [312, 1700], [292, 1676], [280, 1640]], "color": "a99169", "note": "a goat track into the wood"},
-    {"kind": "boulder", "at": [508, 1720], "size": [56, 44], "on_cliff": true},
+    {"kind": "boulder", "at": [524, 1720], "size": [56, 44], "on_cliff": true},
     {"kind": "dead_log", "at": [482, 1804], "size": [64, 20], "rotation": 30, "on_cliff": true},
     {"kind": "bones", "at": [482, 1606], "size": [32, 24], "ribs": false, "count": 2, "note": "a goat skull where 野羊山's ground begins"},
 
@@ -140,11 +140,11 @@
     {"kind": "banner", "at": [720, 1360], "on_cliff": true, "cloth": "7d3428", "height": 3.4},
     {"kind": "bones", "at": [740, 1340], "size": [36, 28], "skull": false},
 
-    {"kind": "boulder", "at": [808, 1162], "size": [48, 44], "on_cliff": true, "tall": 0.95, "note": "mroad5: 许多大石, a fine place for an ambush"},
-    {"kind": "boulder", "at": [874, 1142], "size": [52, 46], "on_cliff": true, "tall": 0.95},
-    {"kind": "boulder", "at": [792, 1284], "size": [44, 40], "on_cliff": true},
-    {"kind": "boulder", "at": [878, 1288], "size": [56, 48], "on_cliff": true, "tall": 0.95},
-    {"kind": "boulder", "at": [946, 1286], "size": [44, 40], "on_cliff": true},
+    {"kind": "boulder", "at": [808, 1130], "size": [48, 44], "on_cliff": true, "tall": 0.95, "note": "mroad5: 许多大石, a fine place for an ambush"},
+    {"kind": "boulder", "at": [874, 1126], "size": [52, 46], "on_cliff": true, "tall": 0.95},
+    {"kind": "boulder", "at": [792, 1316], "size": [44, 40], "on_cliff": true},
+    {"kind": "boulder", "at": [878, 1320], "size": [56, 48], "on_cliff": true, "tall": 0.95},
+    {"kind": "boulder", "at": [946, 1302], "size": [44, 40], "on_cliff": true},
 
     {"kind": "rock_pile", "at": [1150, 1336], "size": [36, 28], "count": 8, "note": "slope1: 乱石"},
     {"kind": "bones", "at": [1100, 1300], "size": [36, 28], "skull": true},
@@ -152,9 +152,9 @@
     {"kind": "banner", "at": [1208, 1200], "on_cliff": true, "cloth": "8e3b2c", "height": 3.6, "note": "the look-out's flag on the rock by the hut"},
     {"kind": "wine_jars", "at": [1236, 1312], "size": [40, 32], "on_cliff": true, "count": 4, "broken": 3},
 
-    {"kind": "crag", "at": [1170, 940], "size": [104, 88], "height": 10.0, "on_cliff": true, "occludes": true, "note": "飞火崖 over the canyon's mouth"},
+    {"kind": "crag", "at": [1174, 940], "size": [104, 88], "height": 10.0, "on_cliff": true, "occludes": true, "note": "飞火崖 over the canyon's mouth"},
     {"kind": "stone_beam", "at": [1040, 872], "size": [236, 64], "height": 8.0, "occludes": true, "colors": ["7d7262", "8a7d6a", "6e6455", "958670"], "note": "the 五、六丈宽的石梁 across the canyon mouth, 摇摇欲坠"},
-    {"kind": "standing_rock", "at": [1122, 1060], "size": [36, 32], "height": 2.0, "on_cliff": true},
+    {"kind": "standing_rock", "at": [1138, 1060], "size": [36, 32], "height": 2.0, "on_cliff": true},
 
     {"kind": "dry_stream", "points": [[1032, 900], [1060, 832], [1088, 752], [1084, 672], [1064, 592], [1072, 512], [1104, 456], [1160, 428], [1248, 424], [1336, 432]], "width": 30, "note": "canyon1-3: 乾涸的山涧"},
     {"kind": "rock_pile", "at": [1200, 462], "size": [40, 30], "count": 9, "note": "canyon3: rockfall off the steep walls"},

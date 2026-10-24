@@ -17,6 +17,9 @@ var indoor: bool = false
 var foliage: VoxelFoliage
 var meadow := FastNoiseLite.new()
 var flora: Dictionary = {}
+## flora `zones`: zone id -> overrides (grown by `margin` px) where a place shades into the
+## next region (雪亭镇's north end thinning toward the bare mountain).
+var flora_regions: Array[Dictionary] = []
 var _walls: Node3D
 ## Cut-away walls are knee height and hide nothing, so they are not occluders.
 var _low_walls: Node3D
@@ -51,6 +54,13 @@ var shrine_props := ShrineProps.new()
 ## Birds, dust, smoke and drips (layout `ambience`, and the props that make them).
 var ambience: VoxelAmbience
 
+## An exit command's compass direction on the map (north is up); zero for any other verb.
+static func compass(command: String) -> Vector2:
+	var base: String = command.trim_suffix("up").trim_suffix("down") if command not in ["up","down"] else ""
+	var directions: Dictionary = {"north":Vector2.UP,"south":Vector2.DOWN,"east":Vector2.RIGHT,"west":Vector2.LEFT,
+		"northeast":Vector2(1,-1),"northwest":Vector2(-1,-1),"southeast":Vector2(1,1),"southwest":Vector2(-1,1)}
+	return (directions.get(base,Vector2.ZERO) as Vector2).normalized()
+
 static func point(at: Vector2, height: float = 0.0) -> Vector3:
 	return Vector3(at.x / UNIT, height, at.y / UNIT)
 
@@ -61,6 +71,13 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	indoor = layout.get("indoor", false)
 	shapes.spatial_cell_size = 6.0 if indoor else 12.0
 	flora = layout.get("flora", {})
+	for node: Node in map.find_children("*","Area2D",true,false):
+		var zone := node as WorldPhysicalZoneArea2D
+		if zone != null and flora.get("zones",{}).has(String(zone.zone_id)):
+			var settings: Dictionary = flora["zones"][String(zone.zone_id)]
+			var merged: Dictionary = flora.duplicate()
+			merged.merge(settings,true)
+			flora_regions.append({"rect":zone.global_rect().grow(float(settings.get("margin",0))),"style":merged})
 	palette = layout.get("palette", {})
 	surfaces = layout.get("surfaces", {})
 	wall_looks = layout.get("wall_looks", [])
@@ -128,7 +145,7 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	wilds.ambience = ambience
 	wilds.rng = rng
 	shrine_props.ambience = ambience
-	_terrain(map, layout.get("reshape",[]))
+	_terrain(map, layout.get("reshape",[]), layout.get("exit_trails",{}))
 	for building: Dictionary in layout.get("buildings", []):
 		_building(map, building)
 	for prop: Dictionary in layout.get("props", []):
@@ -193,7 +210,7 @@ func _pick(colors: Array) -> String:
 
 const BLOCKING: Array[String] = ["cliff","chasm","forest","boundary","wall","wall_wood","shutter","shop_front","blocked","water","deep_water"]
 
-func _terrain(map: WorldMapController, reshape: Array = []) -> void:
+func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Dictionary = {}) -> void:
 	var cells: Dictionary[Vector2i, String] = {}
 	for node: Node in map.find_children("*", "TileMapLayer", true, false):
 		var layer := node as TileMapLayer
@@ -215,6 +232,21 @@ func _terrain(map: WorldMapController, reshape: Array = []) -> void:
 		for cell: Vector2i in cells:
 			if area.has_point(Vector2(cell)) and (not entry.has("from") or cells[cell] in entry["from"]):
 				cells[cell] = String(entry["to"])
+	# Visual only: a road runs on past an exit to another map (layout `exit_trails`: portal id
+	# -> length in cells, three cells wide), the way its command points.
+	for node: Node in map.find_children("*","Area2D",true,false):
+		var passage := node as WorldPassageArea2D
+		if passage == null or not exit_trails.has(String(passage.portal_id)):
+			continue
+		var portal: PortalDefinition = GameContent.catalog().portal(passage.portal_id)
+		var toward: Vector2 = compass(portal.legacy_command) if portal != null else Vector2.ZERO
+		var across := Vector2(-toward.y,toward.x)
+		for step: int in int(exit_trails[String(passage.portal_id)]):
+			for width: int in range(-1,2):
+				var at: Vector2 = passage.global_position+toward*step*16+across*width*16
+				var cell := Vector2i(floori(at.x/16)*16+8,floori(at.y/16)*16+8)
+				if toward != Vector2.ZERO:
+					cells[cell] = "path"
 	if cliffs != null:
 		cliffs.prepare(cells,BLOCKING)
 	if not indoor:
@@ -257,6 +289,9 @@ func _terrain(map: WorldMapController, reshape: Array = []) -> void:
 		var wall: bool = kind in ["wall", "wall_wood", "shutter", "shop_front"]
 		var growth: float = meadow.get_noise_2d(pos.x, pos.y)
 		var palette: Array = ["68814e", "718a50", "799456"] if growth>0 else ["56754b", "60804b", "688550"]
+		if not flora_regions.is_empty() and kind in ["grass","forest_floor","forest","boundary"]:
+			# A flora zone's own ground (`ground`: dark to light), as a town gives way to bare hills.
+			palette = _flora_at(pos).get("ground",palette)
 		if wood:
 			palette = self.palette.get("wood",["9f7953", "a37e57", "a7815b", "99754f"])
 		elif road:
@@ -301,7 +336,8 @@ func _terrain(map: WorldMapController, reshape: Array = []) -> void:
 			var cluster := Vector2i(floori(pos.x/spacing),floori(pos.y/spacing))
 			if not trees.has(cluster) and rng.randf()<float(flora.get("tree_chance",0.15)) and landmass.supports(pos,64):
 				trees[cluster] = true
-				_tree(p, rng.randf()<float(flora.get("blossom_trees",0.35)))
+				var local: Dictionary = _flora_at(pos)
+				_tree(p, rng.randf()<float(local.get("blossom_trees",0.35)), local)
 		if foliage != null and not wall and (not indoor or kind in ["grass","forest","forest_floor"]):
 			_dress_ground(cell, p, kind, growth, cells)
 	# Indoor floors keep their cutaway plinth. Outdoors has only the finite,
@@ -439,8 +475,9 @@ func _dress_ground(cell: Vector2i, p: Vector3, kind: String, growth: float, cell
 	for shift: Vector2i in [Vector2i(-16,0),Vector2i(16,0),Vector2i(0,-16),Vector2i(0,16)]:
 		if (cells.get(cell+shift, "") in ["grass", "forest_floor", "forest", "boundary"]) != grassy:
 			roadside = true
-	var density: float = float(flora.get("grass_density",0.72)) if grassy else (0.38 if roadside else 0.025)
-	density = float(flora.get("density",{}).get(kind,density))
+	var local: Dictionary = _flora_at(Vector2(cell))
+	var density: float = float(local.get("grass_density",0.72)) if grassy else (0.38 if roadside else 0.025)
+	density = float(local.get("density",{}).get(kind,density))
 	var tall: Dictionary = _meadow(Vector2(cell),kind)
 	if not tall.is_empty():
 		# Long grass (layout flora `meadows`): taller tufts, thick enough to read as a sward.
@@ -451,7 +488,7 @@ func _dress_ground(cell: Vector2i, p: Vector3, kind: String, growth: float, cell
 		return
 	if rng.randf() < density:
 		var at: Vector3 = p+Vector3(rng.randf_range(-0.19,0.19),0.025,rng.randf_range(-0.19,0.19))
-		var flower: bool = growth>float(flora.get("flower_threshold",0.08)) and rng.randf()<0.28
+		var flower: bool = growth>float(local.get("flower_threshold",0.08)) and rng.randf()<0.28
 		var kind_index: int = 1+rng.randi_range(0,3) if flower and grassy else 0
 		if grassy and growth< -0.15 and rng.randf()<0.2:
 			kind_index = 5
@@ -531,8 +568,16 @@ func _building(map: WorldMapController, data: Dictionary) -> void:
 	architecture.build(center,w,d,data,entrances)
 	occluders.append_array(architecture.occluders)
 
-func _tree(at: Vector3, pink: bool) -> void:
-	var choices: Array = flora.get("tree_types",["pine","broadleaf","broadleaf","slender","shrub"])
+func _flora_at(at: Vector2) -> Dictionary:
+	for entry: Dictionary in flora_regions:
+		if (entry["rect"] as Rect2).has_point(at):
+			return entry["style"]
+	return flora
+
+func _tree(at: Vector3, pink: bool, local: Dictionary = {}) -> void:
+	if local.is_empty():
+		local = flora
+	var choices: Array = local.get("tree_types",["pine","broadleaf","broadleaf","slender","shrub"])
 	var species: String = "blossom" if pink else String(choices[rng.randi_range(0,choices.size()-1)])
 	var tree: Node3D = _node(at)
 	var size: float = rng.randf_range(0.82,1.32)

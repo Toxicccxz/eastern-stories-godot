@@ -57,6 +57,7 @@ func _check_mountain(tree: SceneTree, session: WorldSessionController, map: Worl
 	_check(map.projected_view and view.camera.current, "the mountain road uses its voxel view")
 	_check(view.geometry.unknown_kinds.is_empty(), "every mountain prop kind is drawn: %s" % [view.geometry.unknown_kinds])
 	_check_footing(view, "the mountain")
+	_check_access_and_saves(session, map, view)
 	var cliffs: VoxelCliffs = view.geometry.cliffs
 	_check(cliffs != null and cliffs.heights.size() > 500 and cliffs.face_count > 1000, "the cliffs stand as raised rock")
 	var occluding: bool = false
@@ -120,6 +121,7 @@ func _check_caverns(tree: SceneTree, session: WorldSessionController, mountain: 
 	_check(view.lighting.carried != null and view.geometry.cliffs != null, "a light goes with the player among the cave walls")
 	_check(view.lighting.carried != null and not view.lighting.carried.shadow_enabled, "the carried light casts no moving shadow")
 	_check_footing(view, "the caverns")
+	_check_access_and_saves(session, map, view)
 	var leeches: int = 0
 	for npc: NpcRuntimeState in map.npc_runtimes():
 		var actor: Node3D = view.actors.get(npc.character_id)
@@ -142,6 +144,7 @@ func _check_temple(tree: SceneTree, session: WorldSessionController) -> void:
 	var view := map.get_node("MapView") as WorldVoxelView
 	_check(map.map_id() == &"goathill.temple_house" and map.projected_view, "the temple is a voxel interior")
 	_check(view.geometry.unknown_kinds.is_empty(), "every temple prop kind is drawn: %s" % [view.geometry.unknown_kinds])
+	_check_access_and_saves(session, map, view)
 	var kinds: Array[String] = []
 	for node: Node in map.get_node("Furnishings").get_children():
 		kinds.append(String((node.get_meta("look") as Dictionary)["kind"]))
@@ -156,6 +159,38 @@ func _check_temple(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(await MapPlaces.take_passage(tree, map, &"goathill.temple1.west"), "out by the temple door")
 	await _frames(tree, 4)
 	_check(session.active_map_id() == &"goathill.mountain", "back on the mountain road")
+
+
+## On the 2D map the voxel view never changes: every room has a way to it from where the
+## player stands, every NPC a spot within interaction reach on that way, and day, night,
+## the view side and the animations leave the save (and gameplay RNG) as they were.
+func _check_access_and_saves(session: WorldSessionController, map: WorldMapController, view: WorldVoxelView) -> void:
+	var start: Vector2 = map.player_body.global_position
+	var cut_off: Array[String] = []
+	for zone: ZoneDefinition in GameContent.catalog().zones_for_map(map.map_id()):
+		var at: Vector2 = MapPlaces.zone_spot(map, zone.zone_id)
+		if not at.is_finite() or MapRoute.path(map, start, at).is_empty():
+			cut_off.append(String(zone.zone_id))
+	_check(cut_off.is_empty(), "every room of %s can be walked to: cut off %s" % [map.map_id(), cut_off])
+	var out_of_reach: Array[String] = []
+	for npc: NpcRuntimeState in map.npc_runtimes():
+		var body: WorldCharacterBody2D = map.runtime_body_for_character(npc.character_id)
+		if body == null:
+			continue
+		var reach: float = WorldMapSelection.NEARBY_REACH
+		var at: Vector2 = MapPlaces.spot(map, npc.world_location().zone_id, body.global_position, reach)
+		if not at.is_finite() or at.distance_to(body.global_position) > reach or MapRoute.path(map, start, at).is_empty():
+			out_of_reach.append(String(npc.spawn_point_id))
+	_check(out_of_reach.is_empty(), "every NPC of %s can be walked up to within reach: %s" % [map.map_id(), out_of_reach])
+	session.set_process(false)
+	var saved: String = GameSaveJsonCodec.encode(Work.capture(session)).text
+	for left: bool in [true, false]:
+		view.set_view_side(left, true)
+		for night: bool in [true, false]:
+			view.set_night(night, true)
+			view._process(0.1)
+	_check(GameSaveJsonCodec.encode(Work.capture(session)).text == saved, "%s: light, view side, wind, smoke and crawling leave the save and RNG unchanged" % map.map_id())
+	session.set_process(true)
 
 
 ## Every tall decor piece of a map's voxel config stands wholly on raised rock.

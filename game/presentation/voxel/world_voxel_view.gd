@@ -369,7 +369,7 @@ func _make_entrances() -> void:
 				s.box(marker,Vector3(x,0.035,0),Vector3(0.1,0.04,1.1),"d5ba7e")
 		s.flush()
 		entrances[passage.portal_id] = {"passage":passage,"node":marker,"label":label}
-		var arrow: Node3D = _arrow(marker,_outward(passage))
+		var arrow: Node3D = _arrow(marker,_outward(passage,portal))
 		arrows[passage.portal_id] = arrow
 	for id: StringName in map.doors_by_id:
 		var door: WorldDoor = map.doors_by_id[id]
@@ -379,8 +379,13 @@ func _make_entrances() -> void:
 		arrows[id] = _arrow(holder,Vector2.ZERO)
 		arrows[id].set_meta("door",true)
 
-## Out of the room the passage belongs to: across its thin side, away from that room's middle.
-func _outward(passage: WorldPassageArea2D) -> Vector2:
+## The way the exit leads: its original command's compass direction (diagonals too);
+## for a verb without one (stairs, `enter`), across the passage's thin side, away from
+## the middle of the room it belongs to.
+func _outward(passage: WorldPassageArea2D, portal: PortalDefinition) -> Vector2:
+	var compass: Vector2 = VoxelMapGeometry.compass(portal.legacy_command)
+	if compass != Vector2.ZERO:
+		return compass
 	var at: Vector2 = passage.global_position
 	var shape := passage.get_node_or_null("CollisionShape2D") as CollisionShape2D
 	var across: Vector2 = Vector2.DOWN

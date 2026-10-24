@@ -240,9 +240,43 @@ func _physics_process(delta: float) -> void:
 	direction = movement_basis.basis_xform(direction)
 	_turn_to(direction)
 	velocity = _eased_velocity(direction * movement_speed, delta)
+	var corner: float = GameContent.catalog().pacing().feel.corner_slide_px
+	if corner > 0.0 and direction != Vector2.ZERO:
+		velocity = _slid_velocity(velocity, delta, corner)
 	move_and_slide()
 	_last_position = global_position
 	_track_push(direction, delta)
+
+
+## Into a wall, the walk goes on along it at the same speed instead of the part of it that
+## move_and_slide() keeps; nearly head-on into an edge (a rock's corner, a narrow pass's
+## step), it slips toward the side within `corner` pixels where the way is clear. Only how
+## the player's own walking turns: the body, its collision and the gaps it fits stay.
+func _slid_velocity(wanted: Vector2, delta: float, corner: float) -> Vector2:
+	var motion: Vector2 = wanted * delta
+	var hit: KinematicCollision2D = move_and_collide(motion, true)
+	if hit == null:
+		return wanted
+	var normal: Vector2 = hit.get_normal()
+	var tangent := Vector2(-normal.y, normal.x)
+	var along: float = wanted.dot(tangent)
+	var speed: float = wanted.length()
+	if absf(along) >= speed * 0.35:
+		return tangent * signf(along) * speed
+	# Nearly head-on: the nearer side where, that much further along, the push would meet
+	# the edge (and round it) or nothing, the way the push leans tried first.
+	var first: float = signf(along) if along != 0.0 else 1.0
+	var probe := KinematicCollision2D.new()
+	var offset: float = 2.0
+	while offset <= corner:
+		for side: float in [first, -first]:
+			var aside: Vector2 = tangent * side * offset
+			if test_move(global_transform, aside):
+				continue
+			if not test_move(global_transform.translated(aside), motion, probe) or absf(probe.get_normal().dot(tangent)) >= 0.35:
+				return tangent * side * speed
+		offset += 2.0
+	return wanted
 
 
 ## The walk's speed eases toward `wanted` (DECISIONS「手感」: move_accel_ms to full speed,
