@@ -63,6 +63,16 @@ class MapsPaintTest(unittest.TestCase):
                                      (paint.WORLD / 'snow' / file).read_bytes())
             self.assertEqual(paint.main(['snow', '--check']), 0)
 
+    def test_a_canvas_maps_fill_steps_carry_furnishings(self) -> None:
+        draw = {'technique': 'canvas', 'steps': [
+            {'op': 'blobs', 'blobs': []},
+            {'op': 'fill', 'fills': [['grass', 0, 0, 32, 32],
+                                     ['blocked', 32, 48, 64, 64, 'a fire', {'look': {'kind': 'campfire'}}]]}]}
+        text = paint.furnishings(draw)
+        self.assertIn('metadata/look = {"kind": "campfire"}', text)
+        self.assertIn('position = Vector2(48, 56)', text)
+        self.assertIn('metadata/footprint = Vector2(32, 16)', text)
+
 
 if __name__ == '__main__':
     unittest.main()

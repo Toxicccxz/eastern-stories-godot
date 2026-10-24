@@ -10,6 +10,8 @@ var rng: RandomNumberGenerator
 var noise: FastNoiseLite
 var footprints: Array[Rect2] = []
 var weather: Array = []
+## Map colours for shoulders and chips (layout `ground_tints`); defaults are the town's.
+var tints: Dictionary = {}
 const GRASS: Array[String] = ["grass", "forest_floor", "forest", "boundary"]
 const PAVING: Array[String] = ["town_ground", "street", "floor_yard", "rock"]
 const STONE: Array[String] = ["899794", "98a29d", "a6ada3", "939e9b", "afb4aa"]
@@ -85,16 +87,16 @@ func edge(cell: Vector2i, cells: Dictionary[Vector2i,String]) -> void:
 		var drift: float = noise.get_noise_2d(cell.x*2.2,cell.y*2.2)*0.30
 		# An uneven soil shoulder overlaps both original tiles and hides their hard seam.
 		var mud_at: Vector3 = edge_at+outward*drift
-		shapes.shard(parent,mud_at+Vector3(0,0.014,0),Vector3(0.70,0.025,0.80),"91805c" if paved else "ae9669",rng.randi(),rng.randf()*TAU)
+		shapes.shard(parent,mud_at+Vector3(0,0.014,0),Vector3(0.70,0.025,0.80),String(tints.get("mud","91805c" if paved else "ae9669")),rng.randi(),rng.randf()*TAU)
 		if not paved:
 			var bank_at: Vector3 = edge_at+outward*(0.18+drift)+along*rng.randf_range(-0.13,0.13)
-			shapes.shard(parent,bank_at+Vector3(0,0.031,0),Vector3(rng.randf_range(0.42,0.67),0.035,rng.randf_range(0.38,0.66)),"718a50",rng.randi(),rng.randf()*TAU)
+			shapes.shard(parent,bank_at+Vector3(0,0.031,0),Vector3(rng.randf_range(0.42,0.67),0.035,rng.randf_range(0.38,0.66)),String(tints.get("bank","718a50")),rng.randi(),rng.randf()*TAU)
 		if paved and rng.randf()<0.67:
 			var curb_at: Vector3 = edge_at+outward*(0.10+drift)+along*rng.randf_range(-0.08,0.08)
 			shapes.shard(parent,curb_at+Vector3(0,0.055,0),Vector3(0.24,0.14,rng.randf_range(0.32,0.49)),"8c9680",rng.randi(),atan2(outward.z,outward.x)+rng.randf_range(-0.12,0.12))
 		for chip: int in rng.randi_range(2,4):
 			var chip_at: Vector3 = edge_at+outward*rng.randf_range(-0.23,0.52)+along*rng.randf_range(-0.30,0.30)
-			shapes.shard(parent,chip_at+Vector3(0,0.04,0),Vector3(rng.randf_range(0.06,0.17),0.065,rng.randf_range(0.07,0.2)),["89917a","a6aa8b","b1ab8e"][chip%3],rng.randi(),rng.randf()*TAU)
+			shapes.shard(parent,chip_at+Vector3(0,0.04,0),Vector3(rng.randf_range(0.06,0.17),0.065,rng.randf_range(0.07,0.2)),String(tints.get("chips",["89917a","a6aa8b","b1ab8e"])[chip%3]),rng.randi(),rng.randf()*TAU)
 		for tuft: int in 2:
 			var tuft_at: Vector3 = edge_at+outward*rng.randf_range(0.03,0.55)+along*rng.randf_range(-0.25,0.25)
 			foliage.plant(tuft_at,1 if rng.randf()<0.17 else 0,rng.randf_range(0.32,0.73),rng.randf()*TAU)
@@ -137,7 +139,28 @@ func dirt(cell: Vector2i) -> void:
 	var p: Vector3 = _point(cell)
 	var grain: float = noise.get_noise_2d(cell.x*1.7,cell.y*1.7)
 	if grain>0.08:
-		shapes.shard(parent,p+Vector3(0,0.007,0),Vector3(0.62,0.016,0.46),"ae976d",rng.randi(),rng.randf()*TAU)
+		shapes.shard(parent,p+Vector3(0,0.007,0),Vector3(0.62,0.016,0.46),String(tints.get("dust","ae976d")),rng.randi(),rng.randf()*TAU)
 	if rng.randf()<0.32:
 		var at: Vector3 = p+Vector3(rng.randf_range(-0.24,0.24),0.025,rng.randf_range(-0.24,0.24))
-		shapes.shard(parent,at,Vector3(0.09,0.035,0.12),"b8ad8b",rng.randi())
+		shapes.shard(parent,at,Vector3(0.09,0.035,0.12),String(tints.get("grit","b8ad8b")),rng.randi())
+
+## Loose ground on a wild map (layout `ground`, style "scree"): a tile in broad tint
+## patches, scattered gravel and the odd half-buried stone. `wet` adds slick glints.
+func scree(cell: Vector2i, p: Vector3, colors: Array, growth: float, style: Dictionary) -> void:
+	var tint: String = String(colors[clampi(roundi((growth+0.5)*(colors.size()-1)),0,colors.size()-1)])
+	shapes.box(parent,p-Vector3(0,0.06,0),Vector3(0.5,0.12,0.5),tint)
+	var pebbles: Array = style.get("pebbles",["9a8d72","847a64","b0a283","6f6656"])
+	var density: float = float(style.get("gravel",0.7))
+	for i: int in 3:
+		if rng.randf()<density*(0.6 if i else 1.0):
+			var at: Vector3 = p+Vector3(rng.randf_range(-0.22,0.22),0.02,rng.randf_range(-0.22,0.22))
+			var size: float = rng.randf_range(0.05,0.13)
+			shapes.shard(parent,at,Vector3(size*rng.randf_range(0.8,1.5),size*0.6,size),String(pebbles[rng.randi_range(0,pebbles.size()-1)]),rng.randi(),rng.randf()*TAU)
+	if rng.randf()<float(style.get("stones",0.05)):
+		var size: float = rng.randf_range(0.18,0.34)
+		shapes.shard(parent,p+Vector3(rng.randf_range(-0.12,0.12),size*0.18,rng.randf_range(-0.12,0.12)),Vector3(size*1.3,size*0.7,size),String(pebbles[rng.randi_range(0,pebbles.size()-1)]),rng.randi(),rng.randf()*TAU)
+	if style.get("wet",false) and rng.randf()<float(style.get("wet_chance",0.12)):
+		var glint: StandardMaterial3D = shapes.material(String(style.get("sheen","4c5a5c")))
+		glint.roughness = 0.12
+		glint.metallic = 0.35
+		shapes.shard(parent,p+Vector3(rng.randf_range(-0.15,0.15),0.008,rng.randf_range(-0.15,0.15)),Vector3(rng.randf_range(0.18,0.4),0.012,rng.randf_range(0.14,0.3)),String(style.get("sheen","4c5a5c")),rng.randi(),rng.randf()*TAU)
