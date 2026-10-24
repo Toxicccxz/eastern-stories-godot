@@ -55,6 +55,9 @@ func _test_dummies(tree: SceneTree, session: WorldSessionController) -> void:
 
 func _test_board(tree: SceneTree, session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
+	session.record_journal()
+	session.bounties().advance(1200.0)
+	_check(state.bounty.is_default(), "the journal's beat and play time leave a board nobody has read unposted (out of a save)")
 	state.progression.combat_experience = 200 # TEST-ONLY
 	_check(session.handoff_to(&"snow.outdoor", &"snow.mstreet4", &"snow.mstreet4", &"snow.mstreet4.postoffice_return").succeeded(), "on the street by 雪亭驿")
 	await _settle(tree)

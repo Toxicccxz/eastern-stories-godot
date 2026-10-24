@@ -71,11 +71,20 @@ func postings() -> Array[Posting]:
 
 
 ## The posting taken, or null.
+## The posting taken, or null. It only reads: an unread board stays unposted (and out of
+## a save) until postings() is called for the board itself.
 func taken() -> Posting:
-	for posting: Posting in postings():
-		if posting.taken:
-			return posting
-	return null
+	var state: CharacterState = _state()
+	var rules: BountyRules = GameContent.catalog().bounties()
+	if not enabled() or state == null or state.bounty.active < 0 or not BountyBoard.fits(state.bounty, rules):
+		return null
+	var slot: int = state.bounty.active
+	var posting := Posting.new()
+	posting.slot = slot
+	posting.tier = rules.tiers[state.bounty.tiers[slot]]
+	posting.place = rules.places[state.bounty.places[slot]]
+	posting.taken = true
+	return posting
 
 
 ## 揭榜: the bounty in `slot` is the player's (one at a time).
