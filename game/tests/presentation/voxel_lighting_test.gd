@@ -147,6 +147,12 @@ func _check_profiles(tree: SceneTree) -> void:
 	for lamp: Light3D in lighting.lamps:
 		settled += int(lamp.shadow_enabled)
 	_check(settled<=mobile.lamp_shadow_limit,"standing still, no more than the limit cast shadows")
+	var nearest: Array[Light3D] = lighting.lamps.duplicate()
+	nearest.sort_custom(func(a: Light3D,b: Light3D) -> bool: return a.position.distance_to(Vector3(2,2,2))<b.position.distance_to(Vector3(2,2,2)))
+	var chosen: bool = true
+	for lamp: Light3D in lighting.lamps:
+		chosen = chosen and (not lamp.shadow_enabled or nearest.find(lamp)<mobile.lamp_shadow_limit+1)
+	_check(chosen,"the shadows standing still are the nearest lamps'")
 	var near: Light3D = null
 	for lamp: Light3D in lighting.lamps:
 		if near==null or lamp.position.distance_to(Vector3(2,2,2))<near.position.distance_to(Vector3(2,2,2)):

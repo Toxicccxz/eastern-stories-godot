@@ -110,7 +110,8 @@ func _shade_lamps(delta: float) -> void:
 	var reach: float = quality.lamp_shadow_reach
 	var near: Array[Light3D] = []
 	for lamp: Light3D in lamps:
-		if lamp!=carried and lamp.visible and _planar_distance(lamp)<reach:
+		# A window light on a cut-away wall is hidden with it and must not take a slot.
+		if lamp!=carried and lamp.is_visible_in_tree() and _planar_distance(lamp)<reach:
 			near.append(lamp)
 	near.sort_custom(func(a: Light3D,b: Light3D) -> bool: return _planar_distance(a)<_planar_distance(b))
 	near.resize(mini(near.size(),quality.lamp_shadow_limit))

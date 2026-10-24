@@ -48,7 +48,8 @@ func finish() -> void:
 		var transforms: Array = batch[1]
 		if density<1.0:
 			var kept: Array = []
-			var share: float = 0.0
+			# Rounded, not floored: a lone flower or fern in its chunk stays.
+			var share: float = 0.5
 			for transform: Transform3D in transforms:
 				share += density
 				if share>=1.0:

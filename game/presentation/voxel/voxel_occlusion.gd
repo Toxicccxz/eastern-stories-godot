@@ -10,6 +10,9 @@ const PLAIN = preload("res://presentation/voxel/shaders/local_occlusion_plain.gd
 const LIMIT: int = 16
 ## Side of a cell of the screen-plane grid that finds the occluders a subject may be behind.
 const CELL: float = 3.0
+## Slack around each surface's box: flickering flames scale a little, and the camera angle
+## is matched to four decimals.
+const PAD: float = 0.25
 var materials: Dictionary[String, ShaderMaterial] = {}
 ## The same colours without the reveal: occluders no subject is behind draw in one opaque
 ## pass, so a phone keeps its early depth test and skips two passes over every building.
@@ -114,7 +117,8 @@ func update(camera: Camera3D, points: PackedVector4Array) -> void:
 	_choose_materials(camera)
 
 ## Reveal only the surfaces a subject can be behind (local_reveal's test against each
-## surface's box in the camera plane); the rest draw plain. Occluders never move.
+## surface's box in the camera plane); the rest draw plain. Occluders stay where they were
+## built (shutters and cutaways only show or hide; flames sway within PAD).
 func _choose_materials(camera: Camera3D) -> void:
 	var basis: Basis = camera.global_basis
 	var key: String = "%.4f,%.4f,%.4f" % [basis.z.x, basis.z.y, basis.z.z]
@@ -165,7 +169,7 @@ func _build_grid(basis: Basis) -> void:
 		var spans: Array[float] = []
 		for axis: Vector3 in [basis.x, basis.y, basis.z]:
 			spans.append(centre.dot(axis))
-			spans.append(absf(half.x*axis.x)+absf(half.y*axis.y)+absf(half.z*axis.z))
+			spans.append(absf(half.x*axis.x)+absf(half.y*axis.y)+absf(half.z*axis.z)+PAD)
 		var extent := Vector4(spans[0]-spans[1], spans[0]+spans[1], spans[2]-spans[3], spans[2]+spans[3])
 		_grid_extents[index*2] = extent
 		_grid_extents[index*2+1] = Vector4(spans[4]+spans[5], 0, 0, 0)
