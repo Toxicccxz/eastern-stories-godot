@@ -240,13 +240,16 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 			continue
 		var portal: PortalDefinition = GameContent.catalog().portal(passage.portal_id)
 		var toward: Vector2 = compass(portal.legacy_command) if portal != null else Vector2.ZERO
+		if toward == Vector2.ZERO:
+			continue
 		var across := Vector2(-toward.y,toward.x)
-		for step: int in int(exit_trails[String(passage.portal_id)]):
-			for width: int in range(-1,2):
-				var at: Vector2 = passage.global_position+toward*step*16+across*width*16
-				var cell := Vector2i(floori(at.x/16)*16+8,floori(at.y/16)*16+8)
-				if toward != Vector2.ZERO:
-					cells[cell] = "path"
+		# One cell further each step on the long axis (a diagonal steps without gaps), four
+		# cells wide about the passage's middle, starting past its mouth.
+		var stride: float = 16.0/maxf(absf(toward.x),absf(toward.y))
+		for step: int in range(1,int(exit_trails[String(passage.portal_id)])+1):
+			for width: float in [-1.5,-0.5,0.5,1.5]:
+				var at: Vector2 = passage.global_position+toward*step*stride+across*width*16
+				cells[Vector2i(floori(at.x/16)*16+8,floori(at.y/16)*16+8)] = "path"
 	if cliffs != null:
 		cliffs.prepare(cells,BLOCKING)
 	if not indoor:

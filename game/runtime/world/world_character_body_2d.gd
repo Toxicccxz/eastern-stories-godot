@@ -204,6 +204,8 @@ func refresh_runtime_state() -> void:
 signal pushed_against(other: WorldCharacterBody2D)
 const PUSH_SECONDS: float = 1.0
 var _push_target: WorldCharacterBody2D
+## Reused by the corner slide's sideways look (_slid_velocity).
+var _probe := KinematicCollision2D.new()
 var _push_seconds: float = 0.0
 
 
@@ -239,10 +241,12 @@ func _physics_process(delta: float) -> void:
 	)
 	direction = movement_basis.basis_xform(direction)
 	_turn_to(direction)
-	velocity = _eased_velocity(direction * movement_speed, delta)
+	var wanted: Vector2 = direction * movement_speed
 	var corner: float = GameContent.catalog().pacing().feel.corner_slide_px
 	if corner > 0.0 and direction != Vector2.ZERO:
-		velocity = _slid_velocity(velocity, delta, corner)
+		# The way the walk turns along a wall is what it eases toward, so it keeps full speed.
+		wanted = _slid_velocity(wanted, delta, corner)
+	velocity = _eased_velocity(wanted, delta)
 	move_and_slide()
 	_last_position = global_position
 	_track_push(direction, delta)
@@ -255,7 +259,8 @@ func _physics_process(delta: float) -> void:
 func _slid_velocity(wanted: Vector2, delta: float, corner: float) -> Vector2:
 	var motion: Vector2 = wanted * delta
 	var hit: KinematicCollision2D = move_and_collide(motion, true)
-	if hit == null:
+	# Another body is not an edge: pushing into someone still asks them to step aside (A5).
+	if hit == null or hit.get_collider() is WorldCharacterBody2D:
 		return wanted
 	var normal: Vector2 = hit.get_normal()
 	var tangent := Vector2(-normal.y, normal.x)
@@ -266,14 +271,13 @@ func _slid_velocity(wanted: Vector2, delta: float, corner: float) -> Vector2:
 	# Nearly head-on: the nearer side where, that much further along, the push would meet
 	# the edge (and round it) or nothing, the way the push leans tried first.
 	var first: float = signf(along) if along != 0.0 else 1.0
-	var probe := KinematicCollision2D.new()
 	var offset: float = 2.0
 	while offset <= corner:
 		for side: float in [first, -first]:
 			var aside: Vector2 = tangent * side * offset
 			if test_move(global_transform, aside):
 				continue
-			if not test_move(global_transform.translated(aside), motion, probe) or absf(probe.get_normal().dot(tangent)) >= 0.35:
+			if not test_move(global_transform.translated(aside), motion, _probe) or absf(_probe.get_normal().dot(tangent)) >= 0.35:
 				return tangent * side * speed
 		offset += 2.0
 	return wanted

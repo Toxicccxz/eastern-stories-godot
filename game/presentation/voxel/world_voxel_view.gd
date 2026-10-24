@@ -383,9 +383,17 @@ func _make_entrances() -> void:
 ## for a verb without one (stairs, `enter`), across the passage's thin side, away from
 ## the middle of the room it belongs to.
 func _outward(passage: WorldPassageArea2D, portal: PortalDefinition) -> Vector2:
+	var shaped: Vector2 = _shape_outward(passage)
 	var compass: Vector2 = VoxelMapGeometry.compass(portal.legacy_command)
-	if compass != Vector2.ZERO:
-		return compass
+	var settings: Dictionary = layout.get("entrances",{}).get(String(portal.portal_id),{})
+	if settings.has("arrow"):
+		var fixed: Array = settings["arrow"]
+		return Vector2(float(fixed[0]),float(fixed[1])).normalized()
+	# The command's compass unless the painted way out goes off another way (an "east"
+	# exit drawn at the top of a north-south road): then the way the player walks out.
+	return compass if compass != Vector2.ZERO and compass.dot(shaped) > 0.0 else shaped
+
+func _shape_outward(passage: WorldPassageArea2D) -> Vector2:
 	var at: Vector2 = passage.global_position
 	var shape := passage.get_node_or_null("CollisionShape2D") as CollisionShape2D
 	var across: Vector2 = Vector2.DOWN

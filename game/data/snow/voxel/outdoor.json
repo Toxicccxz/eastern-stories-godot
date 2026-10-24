@@ -58,13 +58,13 @@
     {"rect": [1360, -1184, 1600, -928], "portals": [], "roof": "7c6c55", "wall": "b59e7b", "height": 3.05, "construction": "brick", "roof_form": "gable", "ridge": "x", "rise": 1.3}
   ],
   "props": [
-    {"kind": "rock_pile", "at": [0, -2590], "size": [72, 120], "count": 16, "colors": ["b09a70", "9d8a66", "897b59"], "note": "scree where the col's 碎石路 starts north"},
     {"kind": "lantern", "at": [-368, 240]},
     {"kind": "lantern", "at": [368, 240]},
     {"kind": "lantern", "at": [-80, -400]},
     {"kind": "lantern", "at": [80, -880]},
     {"kind": "lantern", "at": [-80, -1350]},
-    {"kind": "lantern", "at": [80, -1900]}
+    {"kind": "lantern", "at": [80, -1900]},
+    {"kind": "rock_pile", "at": [0, -2590], "size": [72, 120], "count": 16, "colors": ["b09a70", "9d8a66", "897b59"], "note": "scree where the col's 碎石路 starts north (last: the props before it keep their dressing)"}
   ],
   "weather": [
     {"at": [-205, 88], "radius": [62, 36], "water": true},
