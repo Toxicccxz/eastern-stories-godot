@@ -2,33 +2,39 @@
 
 ## Mission
 
-Rebuild classic Eastern Stories / ES2 as a **native Godot RPG** with a modern UI: rules and
-movement on authored 2D maps, every map shown through a fixed-angle 3D voxel view (owner,
-2026-10-22; see [Maps and art](#maps-and-art)).
+Build a **modern wuxia RPG on the foundation of Eastern Stories / ES2**, for today's players
+(owner, 2026-10-23; DECISIONS「产品定位」): rules and movement on authored 2D maps, every map shown
+through a fixed-angle 3D voxel view (owner, 2026-10-22; see [Maps and art](#maps-and-art)).
 
-This is not a graphical shell around a MUD client. Keep the original game's meaningful content and
-rules — rooms, NPCs, items, skills, families, quests, formulas, progression — and rebuild maps,
-movement, interaction and presentation as a real RPG.
+This is not a graphical shell around a MUD client. ES2's world — rooms, people, items, skills,
+families, quests, formulas, progression and its authored text — is the foundation. Where its rules,
+pacing or presentation would put a modern player off, we change them; where the world has gaps, we
+add regions, families, NPCs and quests that fit it.
 
-The measure of progress is **playable, faithful content in the game**, not documents, audits or
-tooling. Work steadily: every change leaves the game runnable, and each content package adds
-something the owner can walk to, see and use.
+The measure of progress is **playable content a player enjoys**, not documents, audits or tooling.
+Work steadily: every change leaves the game runnable, and each content package adds something the
+owner can walk to, see and use.
 
 ## Roles
 
-* **Owner**: sets direction, decides ES2 content trade-offs and deviations, playtests player-visible
+* **Owner**: sets direction, decides changes to ES2 and new content, playtests player-visible
   changes, merges PRs.
 * **Agent**: plans, implements, tests, self-reviews, commits, pushes branches and opens PRs.
   The agent never merges.
 
-## Authoritative Source
+## Sources
 
-* `reference/es2/` is the original ES2 LPC mudlib and the behavioral reference. It is read-only.
+* `reference/es2/` is the original ES2 LPC mudlib and the source for everything ported from ES2.
+  It is read-only.
 * Read the relevant LPC (including inherited/included code) before porting a mechanic or content.
-* Preserve formulas, conditions, state transitions and authored text. When behavior is ambiguous,
-  follow the LPC, not assumptions.
+  Port its formulas, conditions, state transitions and authored text as they are; when behavior is
+  ambiguous, follow the LPC, not assumptions. Changing them is a separate, recorded step
+  ([Changing ES2](#changing-es2)).
 * Keep legacy paths/IDs on definitions (e.g. `es2:d/oldpine/npc/bandit`) for traceability.
-* Do not use external ports or reimplementations as sources unless the owner asks.
+* New content (not in ES2) needs an owner-approved plan and must fit the world bible once it
+  exists; its data says where it comes from, so ES2 and new content stay distinguishable.
+* Do not use external ports or reimplementations as sources unless the owner asks; other games
+  inspire designs, never text or content.
 * `u/cloud/` contains real gameplay content linked from `d/` (a whole town); treat it as content,
   not wizard space.
 
@@ -48,21 +54,22 @@ the behavior, don't reproduce the tree.
 Known driver semantics may be applied as one global rule instead of per-site exceptions
 (e.g. MudOS `random(n)` with `n <= 0` returns 0). Record such rules once in `DECISIONS.md`.
 
-## Deviations
+## Changing ES2
 
-Do not silently redesign original mechanics. A deliberate deviation (single-player adaptation,
-removing a broken LPC feature, UI-driven change) needs owner agreement and one short entry in
-`docs/migration/DECISIONS.md`: what the LPC does, what we do, why.
+The game is for today's players. Plans lead with how a modern RPG would handle it and show ES2's
+behaviour beside it — whether ES2 would read as a bug to them (a line that speaks of other players,
+a loss nobody tells the player about, an NPC that refuses a gift and keeps it, an offer that can
+never be taken, a loophole such as killing one's master to change families for free) or just as
+slow, opaque or punishing.
 
-Balance/pacing adaptations for single-player must not edit ported formulas. Put them in explicit,
-data-configured knobs whose default reproduces the original.
-
-The game is for today's players. When ES2 behaviour would read as a bug to them — a line that
-speaks of other players, a loss nobody tells the player about, a line that contradicts what happens
-(an NPC refuses a gift and keeps it), an offer that can never be taken, a loophole (killing one's
-master to change families for free) — the plan proposes the reasonable behaviour by default, with
-the ES2 behaviour beside it, and the agreed change is a recorded deviation. Everything else stays
-faithful.
+* Nothing changes silently. Every change to ES2 behaviour gets one short entry in
+  `docs/migration/DECISIONS.md`: what ES2 does, what we do, why.
+* Ported formulas are not edited in place. Pacing, balance and rule changes go into explicit,
+  data-configured knobs; the knob keeps ES2's value as its **经典模式** (classic) value, and the
+  default is the agreed modern one.
+* Changes inside an owner-approved plan need no further question. Changes that alter the game's
+  direction — a system's design, a region's story, removing ES2 content — need the owner's
+  agreement first.
 
 ## Technology
 
