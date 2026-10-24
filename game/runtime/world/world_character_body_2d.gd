@@ -356,9 +356,11 @@ func set_alert_mark(on: bool) -> void:
 		mark.add_theme_color_override("font_color", ALERT_NAME_COLOR)
 		mark.add_theme_color_override("font_outline_color", Color.BLACK)
 		mark.add_theme_constant_override("outline_size", 4)
+		# Left of the name, on its line: a speech bubble shows above the name.
+		var left: float = -58.0 if name_label == null else name_label.offset_left
 		var top: float = -48.0 if name_label == null else name_label.offset_top
-		mark.position = Vector2(-16.0, top - 30.0)
-		mark.size = Vector2(32.0, 30.0)
+		mark.position = Vector2(left - 24.0, top - 5.0)
+		mark.size = Vector2(22.0, 30.0)
 		add_child(mark)
 	mark.visible = on
 
