@@ -1,0 +1,55 @@
+{
+  "indoor": true,
+  "camera_size": 22,
+  "rock_terrain": {
+    "default": {"height": 3.4, "floor": ["454b40", "59604f", "70745a"], "stone": ["3d453c", "545f4e", "737b61", "91957a"], "grass": 0, "gravel": 0.33, "grooves": true},
+    "zones": {
+      "goathill.cavern1": {"height": 3.7, "floor": ["5c5e4e", "767864", "8d8a70"]},
+      "goathill.cavern2": {"height": 3.2, "floor": ["4a5040", "60684e", "788365"]},
+      "goathill.cavern3": {"height": 4.2, "floor": ["3f4941", "556052", "6b7762"], "stone": ["353f39", "4c594e", "6a7864", "87947c"]},
+      "goathill.cavern4": {"height": 2.7, "floor": ["5e5840", "767047", "8f8856"], "stone": ["494b39", "626448", "81825b", "9e9a6e"]}
+    }
+  },
+  "lighting": {
+    "day_background": "1f2725",
+    "night_background": "141c20",
+    "ambient_color": "9da994",
+    "night_ambient_color": "8c9c98",
+    "ambient": 0.35,
+    "night_ambient": 0.32,
+    "sun": 0.14,
+    "moon": 0.09
+  },
+  "actors": {
+    "default": {"coat": "81734f"},
+    "goathill.npc.worm": {"crawler": true, "scale": 0.85, "color": "a7ada2", "name_distance": 100, "name_font_size": 28},
+    "goathill.npc.fat_worm": {"crawler": true, "scale": 1.05, "color": "a7ada2", "name_distance": 100, "name_font_size": 28},
+    "goathill.npc.big_worm": {"crawler": true, "scale": 1.2, "color": "a7ada2", "name_distance": 100, "name_font_size": 28},
+    "goathill.npc.huge_worm": {"crawler": true, "scale": 1.45, "color": "a7ada2", "name_distance": 100, "name_font_size": 28}
+  },
+  "props": [
+    {"kind": "slick", "at": [196, 448], "size": [84, 38], "color": "777544", "glint": "a5ac83"},
+    {"kind": "slick", "at": [268, 382], "size": [47, 32], "color": "666c4f", "glint": "a5ac83"},
+    {"kind": "slick", "at": [508, 178], "size": [76, 46], "color": "6e784a", "glint": "a5ac83"},
+    {"kind": "slick", "at": [588, 206], "size": [88, 45], "color": "77824e", "glint": "a5ac83"},
+    {"kind": "slick", "at": [935, 208], "size": [120, 65], "color": "63734d", "glint": "a5ac83"},
+    {"kind": "slick", "at": [1012, 247], "size": [104, 50], "color": "6c794d", "glint": "a5ac83"},
+    {"kind": "slick", "at": [970, 133], "size": [60, 36], "color": "6e7750", "glint": "a5ac83"},
+    {"kind": "slick", "at": [516, 675], "size": [100, 53], "color": "9c883c", "glint": "a5ac83"},
+    {"kind": "slick", "at": [586, 704], "size": [70, 48], "color": "b09749", "glint": "a5ac83"},
+    {"kind": "slick", "at": [553, 622], "size": [53, 32], "color": "8d813c", "glint": "a5ac83"},
+    {"kind": "light_pool", "at": [40, 400], "height": 2.3, "range": 6, "energy": 0.85, "night_energy": 0.7224999999999999, "color": "afc4b8"},
+    {"kind": "light_pool", "at": [220, 350], "height": 2.3, "range": 6, "energy": 0.32, "night_energy": 0.272, "color": "95ad91"},
+    {"kind": "light_pool", "at": [560, 120], "height": 2.3, "range": 6, "energy": 0.45, "night_energy": 0.3825, "color": "7b9b88"},
+    {"kind": "light_pool", "at": [966, 250], "height": 2.3, "range": 6, "energy": 0.38, "night_energy": 0.323, "color": "829b85"},
+    {"kind": "light_pool", "at": [540, 660], "height": 2.3, "range": 6, "energy": 0.4, "night_energy": 0.34, "color": "adab75"},
+    {"kind": "cliff_grooves", "at": [190, 297], "size": [100, 8], "height": 2.8, "dark": "303d33"},
+    {"kind": "cliff_grooves", "at": [525, 47], "size": [80, 8], "height": 2.8, "dark": "303d33"},
+    {"kind": "cliff_grooves", "at": [946, 70], "size": [130, 8], "height": 2.8, "dark": "303d33"},
+    {"kind": "cliff_grooves", "at": [527, 591], "size": [70, 8], "height": 2.8, "dark": "303d33"}
+  ],
+  "effects": [
+    {"kind": "drip", "at": [620, 140], "height": 3, "radius": 0.5, "count": 5, "color": "a2b5a0"},
+    {"kind": "drip", "at": [1074, 230], "height": 3, "radius": 0.5, "count": 5, "color": "a2b5a0"}
+  ]
+}

@@ -89,6 +89,9 @@ def draw(region, entry: dict) -> Drawn:
         else:
             raise ValueError(f'unknown canvas step {op!r}')
 
+    for row in d.get('furnishings', []):
+        c.fill(*fill_row(row))
+
     starts = d['reach_from'] if isinstance(d['reach_from'], list) else [d['reach_from']]
     reached = c.reach([named[s] for s in starts], pairs, jumps(region, scene, named, zones))
     assert {c.zone_at(x * T + 8, y * T + 8) for x, y in reached} == set(zones), ('cut off', set(zones) - {c.zone_at(x * T + 8, y * T + 8) for x, y in reached})

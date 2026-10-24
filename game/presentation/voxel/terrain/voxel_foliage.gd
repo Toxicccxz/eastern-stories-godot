@@ -5,6 +5,8 @@ extends Node3D
 ## fading trail. Nothing here adds collision, consumes gameplay RNG or enters saves.
 const SHADER = preload("res://presentation/voxel/shaders/meadow.gdshader")
 const CONTACT_LIMIT: int = 32
+var colors: Array = []
+var butterfly_count: int = 8
 var material: ShaderMaterial
 var roots := PackedVector3Array()
 var flowers := PackedVector3Array()
@@ -84,6 +86,8 @@ func _tuft(kind: int) -> ArrayMesh:
 	var surface := SurfaceTool.new()
 	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
 	var greens: Array[String] = ["3e6947", "60884d", "8da85d", "b1b96d"]
+	if not colors.is_empty():
+		greens.assign(colors)
 	for blade: int in 5:
 		var angle: float = blade * TAU / 5.0 + kind * 0.3
 		var direction := Vector3(sin(angle), 0, cos(angle))
@@ -150,7 +154,7 @@ static func _box(surface: SurfaceTool, at: Vector3, size: Vector3, color: Color)
 
 func _make_butterflies() -> void:
 	var shapes := preload("res://presentation/voxel/props/voxel_shapes.gd").new()
-	for i: int in 8:
+	for i: int in butterfly_count:
 		var insect := Node3D.new()
 		add_child(insect)
 		butterflies.append(insect)

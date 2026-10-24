@@ -86,7 +86,7 @@
           },
           {
             "op": "fill",
-            "fills": [["wall", 1184, 1216, 1248, 1296, "the stone hut (no room in d/goathill: not entered)"]]
+            "fills": []
           },
           {
             "op": "blobs",
@@ -131,11 +131,29 @@
           {
             "op": "fill",
             "fills": [
-              ["wall_wood", 736, 1392, 960, 1584, "土地庙 (its own map since the remap)"],
               ["cave_floor", 1360, 400, 1408, 464, "the black cave mouth in the east wall"],
               ["grass", 672, 1440, 704, 1520, "the way into 土地庙"]
             ]
           }
+        ],
+        "furnishings": [
+          ["blocked", 1184, 1216, 1248, 1296, "the stone hut (no room in d/goathill: not entered)", {"look": {"kind": "stone_hut", "stone": "837557", "occludes": true}}],
+          ["blocked", 736, 1392, 960, 1584, "土地庙 (its own map since the remap)", {"look": {"kind": "cleft_shrine", "occludes": true}}],
+          ["blocked", 304, 1968, 336, 2032, {"look": {"kind": "weathered_rock", "height": 2.3}}],
+          ["blocked", 464, 2048, 496, 2096, {"look": {"kind": "weathered_rock", "height": 1.9, "stone": "ad9165"}}],
+          ["blocked", 256, 1712, 288, 1744, {"look": {"kind": "dead_tree", "height": 3.4}}],
+          ["blocked", 464, 1680, 496, 1712, {"look": {"kind": "weathered_rock", "height": 1.5}}],
+          ["blocked", 560, 1152, 592, 1184, {"look": {"kind": "campfire", "effects": [{"kind": "flame", "at": [0, 0], "height": 0.3, "count": 6, "color": "f8b749"}, {"kind": "smoke", "at": [0, 0], "height": 0.55, "count": 7, "color": "95896e"}]}}],
+          ["blocked", 688, 1136, 736, 1168, {"look": {"kind": "camp_cache", "cloth": "963f2a"}}],
+          ["blocked", 576, 1120, 592, 1136, {"look": {"kind": "flag_pole", "height": 3.5, "effects": [{"kind": "flag", "at": [0, 0], "height": 3.2, "count": 1, "color": "963f2e"}]}}],
+          ["blocked", 720, 1088, 784, 1120, {"look": {"kind": "lean_to", "height": 2.1}}],
+          ["blocked", 800, 1264, 832, 1296, {"look": {"kind": "weathered_rock", "height": 2.2, "stone": "9f885c"}}],
+          ["blocked", 864, 1136, 896, 1168, {"look": {"kind": "weathered_rock", "height": 2.5}}],
+          ["blocked", 1152, 1328, 1184, 1360, {"look": {"kind": "dead_tree", "height": 2.8}}],
+          ["blocked", 1152, 1008, 1200, 1056, {"look": {"kind": "weathered_rock", "height": 4.1, "stone": "ab8659"}}],
+          ["blocked", 944, 736, 976, 784, {"look": {"kind": "weathered_rock", "height": 2.7, "stone": "716c58"}}],
+          ["blocked", 960, 480, 992, 528, {"look": {"kind": "weathered_rock", "height": 4.0, "stone": "6d6a59"}}],
+          ["blocked", 1248, 304, 1296, 336, {"look": {"kind": "weathered_rock", "height": 4.7, "stone": "69695a"}}]
         ],
         "reach_from": ["SnowEntry", "Mroad3Temple1Return"],
         "caption_near": {
@@ -152,6 +170,7 @@
         }
       },
       "scene": {
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/goathill/voxel/mountain.json"},
         "style": "map",
         "root": "GoathillMountain",
         "map": "goathill.mountain",
@@ -323,6 +342,12 @@
             ]
           }
         ],
+        "furnishings": [
+          ["blocked", 160, 304, 176, 320, {"look": {"kind": "stalagmite", "height": 2.6, "stone": "9c9476"}}],
+          ["blocked", 592, 64, 608, 80, {"look": {"kind": "stalagmite", "height": 3.0, "stone": "8f957c"}}],
+          ["blocked", 1040, 96, 1056, 112, {"look": {"kind": "stalagmite", "height": 3.7, "stone": "858872"}}],
+          ["blocked", 608, 736, 624, 752, {"look": {"kind": "stalagmite", "height": 2.2, "stone": "b0a15c"}}]
+        ],
         "reach_from": "CanyonEntry",
         "caption_near": {
           "goathill.cavern1": [170.8, 464.8],
@@ -368,6 +393,7 @@
         }
       },
       "scene": {
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/goathill/voxel/caverns.json"},
         "style": "map",
         "root": "GoathillCaverns",
         "map": "goathill.caverns",
@@ -425,7 +451,9 @@
           }
         },
         "props": [
-          ["blocked", "goathill.temple1", ["rel", 0.95, 0.5], 0.5, 0.94, "the shrine against its east wall"]
+          ["blocked", "goathill.temple1", ["rel", 0.94, 0.5], 1.88, 3.0, {"look": {"kind": "earth_shrine", "rotation": -90, "occludes": true}}],
+          ["blocked", "goathill.temple1", ["rel", 0.73, 0.62], 1.4, 2.0, {"look": {"kind": "offering_table", "rotation": -90, "effects": [{"kind": "smoke", "at": [0, 0], "height": 1.7, "count": 4, "color": "a99c7f"}]}}],
+          ["blocked", "goathill.temple1", ["rel", 0.2, 0.88], 1.5, 1.0, {"look": {"kind": "camp_cache", "cloth": "6e713f"}}]
         ],
         "placed": {
           "goathill.temple1.bandit_hwang.1": [
@@ -439,6 +467,7 @@
         "reach_from": "Temple1Mroad3Entry"
       },
       "scene": {
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/goathill/voxel/temple_house.json"},
         "style": "map",
         "root": "TempleHouse",
         "map": "goathill.temple_house",

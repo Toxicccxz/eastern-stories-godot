@@ -1,0 +1,62 @@
+{
+  "indoor": false,
+  "camera_size": 23,
+  "entrances": {"goathill.canyon3.east": {"trail_length": 3, "hood": {"kind": "cave_mouth", "size": [112, 56], "height": 2.8, "stone": "626b5a", "dark": "222b25"}}},
+  "edge": {"minimum_margin": 16, "maximum_margin": 48, "depth": 3.5},
+  "flora": {"colors": ["4a502d", "69703b", "91934c", "b8ad66"], "butterflies": 0},
+  "lighting": {
+    "day_background": "a59c7e",
+    "night_background": "18232b",
+    "ambient_color": "c4bea1",
+    "night_ambient_color": "899dab",
+    "ambient": 0.43,
+    "night_ambient": 0.36,
+    "sun": 0.92,
+    "moon": 0.4
+  },
+  "rock_terrain": {
+    "default": {"stone": ["5d5846", "796d53", "a18a60", "bca276"], "floor": ["706746", "8a7750", "a68d60"], "height": 3.0, "grass": 0.22, "grass_height": 1.1, "gravel": 0.55},
+    "zones": {
+      "goathill.mroad1": {"height": 3.8, "grass": 0.09, "floor": ["877955", "998660", "b49b6b"], "gravel": 0.8},
+      "goathill.mroad2": {"height": 2.4, "grass": 0.8, "grass_height": 1.25, "floor": ["777348", "8a7d4f", "9c8a5b"]},
+      "goathill.mroad3": {"height": 3.9, "grass": 0.45, "grass_height": 0.9, "floor": ["7f704c", "97805a", "aa9061"]},
+      "goathill.mroad4": {"height": 3.8, "grass": 0.1, "floor": ["756141", "947c53", "aa8d60"]},
+      "goathill.mroad5": {"height": 3.4, "grass": 0.95, "grass_height": 2.1, "floor": ["66613c", "7c7345", "968454"]},
+      "goathill.slope1": {"height": 2.1, "grass": 0.25, "gravel": 0.9, "floor": ["84775b", "9d8b6b", "b19b73"]},
+      "goathill.mroad6": {"height": 4.7, "grass": 0.18, "stone": ["665b48", "8a7150", "b3986b", "cbb081"]},
+      "goathill.canyon1": {"height": 5.1, "grass": 0.04, "floor": ["8c8063", "a09270", "b8a680"], "stone": ["514e42", "746d57", "95896c", "b2a181"]},
+      "goathill.canyon2": {"height": 5.8, "grass": 0.025, "floor": ["67654f", "807c60", "97916f"], "stone": ["484b40", "606556", "7e7f65", "9a9777"]},
+      "goathill.canyon3": {"height": 5.5, "grass": 0.01, "floor": ["5d604f", "787d64", "929579"], "stone": ["454c43", "626b5a", "7c8269", "95977b"]}
+    }
+  },
+  "actors": {"default": {"coat": "84714d"}, "goathill.npc.bandit": {"coat": "8f542f"}, "goathill.npc.bandit_leader": {"coat": "773f30", "hat": true}},
+  "props": [
+    {"kind": "bones", "at": [475, 1945], "size": [30, 22], "rotation": 25},
+    {"kind": "bones", "at": [1180, 485], "size": [27, 18], "rotation": -35},
+    {"kind": "stone_arch", "at": [1040, 874], "size": [208, 55], "height": 5.7, "stone": "ab916c", "occludes": true},
+    {"kind": "cliff_grooves", "at": [600, 1138], "size": [32, 10], "height": 6.0, "dark": "34392e"},
+    {"kind": "light_pool", "at": [1060, 802], "height": 4.5, "range": 8, "color": "a0b4b1", "energy": 0.3, "night_energy": 0.6},
+    {"kind": "light_pool", "at": [1260, 430], "height": 4.2, "range": 7, "color": "9eafb8", "energy": 0.22, "night_energy": 0.5},
+    {"kind": "light_pool", "at": [720, 1488], "height": 1.4, "range": 3, "color": "bb925d", "energy": 0.18, "night_energy": 0.5},
+    {"kind": "scrub", "at": [450, 1970], "size": [30, 20], "leaf": "656d38"},
+    {"kind": "scrub", "at": [332, 1790], "size": [24, 27], "leaf": "6c733d"},
+    {"kind": "scrub", "at": [440, 1730], "size": [32, 22], "leaf": "697239"},
+    {"kind": "scrub", "at": [572, 1500], "size": [28, 28], "leaf": "777b3f"},
+    {"kind": "scrub", "at": [692, 1509], "size": [26, 20], "leaf": "596637"},
+    {"kind": "scrub", "at": [814, 1200], "size": [28, 16], "leaf": "4f5f32"},
+    {"kind": "scrub", "at": [954, 1241], "size": [32, 23], "leaf": "707b3c"},
+    {"kind": "scrub", "at": [1110, 1300], "size": [26, 22], "leaf": "787c40"},
+    {"kind": "scrub", "at": [1020, 983], "size": [22, 20], "leaf": "6c7245"},
+    {"kind": "scrub", "at": [1020, 711], "size": [23, 16], "leaf": "747b58"},
+    {"kind": "scrub", "at": [1088, 482], "size": [18, 22], "leaf": "6c7653"},
+    {"kind": "scrub", "at": [1232, 452], "size": [22, 15], "leaf": "6a775a"}
+  ],
+  "effects": [
+    {"kind": "bird", "at": [414, 1980], "height": 6, "count": 2, "color": "494633", "radius": 6},
+    {"kind": "bird", "at": [1040, 1000], "height": 8, "count": 3, "color": "4f4837", "radius": 8},
+    {"kind": "dust", "at": [380, 1750], "height": 0.2, "count": 8, "radius": 5, "color": "b5a078"},
+    {"kind": "dust", "at": [890, 1216], "height": 0.2, "count": 8, "radius": 5, "color": "b5a078"},
+    {"kind": "dust", "at": [1040, 950], "height": 0.2, "count": 8, "radius": 5, "color": "b5a078"},
+    {"kind": "dust", "at": [1070, 620], "height": 0.2, "count": 8, "radius": 5, "color": "b5a078"}
+  ]
+}

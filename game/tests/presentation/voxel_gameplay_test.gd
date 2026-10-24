@@ -15,6 +15,8 @@ func run_all(tree: SceneTree) -> Dictionary:
 	var inn := session.active_map() as WorldMapController
 	var view := inn.get_node("MapView") as WorldVoxelView
 	_check(inn.map_id()==&"snow.inn" and inn.projected_view and view.camera.current,"New Game uses the live inn's 3D presentation")
+	var stairs_arrow := view.entrances[&"snow.inn.up"]["arrow"] as MeshInstance3D
+	_check((stairs_arrow.basis*Vector3.FORWARD).z>0.99,"the up verb's arrow follows the northbound physical stairs")
 	var basis: Basis = view.camera.basis
 	var state: WorldPlayerRuntimeState = session.player_runtime()
 	var inventory: InventoryState = session.inventory_state()

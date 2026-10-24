@@ -15,6 +15,7 @@ var indoor: bool = false
 var foliage: VoxelFoliage
 var meadow := FastNoiseLite.new()
 var flora: Dictionary = {}
+var flora_regions: Array[Dictionary] = []
 var _walls: Node3D
 ## Cut-away walls are knee height and hide nothing, so they are not occluders.
 var _low_walls: Node3D
@@ -37,6 +38,12 @@ var unknown_kinds: Array[String] = []
 var furniture := Furniture.new()
 var fixtures := Fixtures.new()
 var trade_props := TradeProps.new()
+var wild_props := preload("res://presentation/voxel/props/voxel_wilderness_props.gd").new()
+var shrine_props := preload("res://presentation/voxel/props/voxel_rural_shrine.gd").new()
+var rock_terrain: RefCounted
+var effects: Node3D
+var prop_motions: Array[Node3D] = []
+var entrance_settings: Dictionary = {}
 
 static func point(at: Vector2, height: float = 0.0) -> Vector3:
 	return Vector3(at.x / UNIT, height, at.y / UNIT)
@@ -48,9 +55,18 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	indoor = layout.get("indoor", false)
 	shapes.spatial_cell_size = 6.0 if indoor else 12.0
 	flora = layout.get("flora", {})
+	for node: Node in map.find_children("*","Area2D",true,false):
+		if node is WorldPhysicalZoneArea2D:
+			var zone := node as WorldPhysicalZoneArea2D
+			var settings: Dictionary = flora.get("zones",{}).get(String(zone.zone_id),{})
+			if not settings.is_empty():
+				var merged: Dictionary = flora.duplicate()
+				merged.merge(settings,true)
+				flora_regions.append({"rect":zone.global_rect().grow(float(settings.get("margin",0))),"style":merged})
 	palette = layout.get("palette", {})
 	surfaces = layout.get("surfaces", {})
 	edge_config = layout.get("edge", {})
+	entrance_settings = layout.get("entrances", {})
 	for a: Array in layout.get("low_walls", []):
 		low_walls.append(Rect2(Vector2(a[0],a[1]), Vector2(a[2]-a[0],a[3]-a[1])))
 	for a: Array in layout.get("low_walls_left", layout.get("low_walls", [])):
@@ -76,7 +92,7 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	_walls = _node()
 	occluders.append({"node": _walls})
 	_low_walls = _node()
-	for side: int in 2 if indoor else 0:
+	for side: int in 2 if indoor or layout.has("rock_terrain") else 0:
 		var group: Node3D = _node()
 		side_walls.append(group)
 		var high: Node3D = _node(Vector3.ZERO,group)
@@ -85,6 +101,8 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	if not indoor or layout.get("courtyard",false):
 		foliage = VoxelFoliage.new()
 		add_child(foliage)
+		foliage.colors = flora.get("colors",[])
+		foliage.butterfly_count = int(flora.get("butterflies",8))
 	for building: Dictionary in layout.get("buildings", []):
 		var a: Array = building["rect"]
 		footprints.append(Rect2(Vector2(a[0],a[1]), Vector2(a[2]-a[0],a[3]-a[1])))
@@ -96,11 +114,38 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	ground.foliage = foliage
 	ground.footprints = footprints
 	ground.weather = layout.get("weather",[])
+	if layout.has("rock_terrain"):
+		rock_terrain = preload("res://presentation/voxel/terrain/voxel_rock_terrain.gd").new()
+		rock_terrain.shapes = shapes
+		rock_terrain.rng = rng
+		rock_terrain.parent = self
+		rock_terrain.foliage = foliage
+		rock_terrain.sides = side_walls
+		rock_terrain.defaults = layout["rock_terrain"].get("default",{})
+		for group: Node3D in side_walls:
+			occluders.append({"node":group})
+		for node: Node in map.find_children("*","Area2D",true,false):
+			if node is WorldPhysicalZoneArea2D:
+				var zone := node as WorldPhysicalZoneArea2D
+				var style: Dictionary = rock_terrain.defaults.duplicate()
+				style.merge(layout["rock_terrain"].get("zones",{}).get(String(zone.zone_id),{}),true)
+				rock_terrain.profiles.append({"rect":zone.global_rect(),"style":style})
 	_terrain(map)
 	for building: Dictionary in layout.get("buildings", []):
 		_building(map, building)
 	for prop: Dictionary in layout.get("props", []):
 		_prop(prop)
+	for node: Node in map.find_children("*","Area2D",true,false):
+		if node is WorldPassageArea2D:
+			var passage := node as WorldPassageArea2D
+			var setting: Dictionary = entrance_settings.get(String(passage.portal_id),{})
+			if setting.has("hood"):
+				var hood: Dictionary = setting["hood"].duplicate()
+				hood["at"] = [passage.global_position.x,passage.global_position.y]
+				var portal: PortalDefinition = GameContent.catalog().portal(passage.portal_id)
+				var toward: Vector2 = preload("res://presentation/voxel/props/voxel_passage_marker.gd").for_passage(map,passage,portal)
+				hood["rotation"] = rad_to_deg(atan2(toward.x,toward.y))
+				_prop(hood)
 	var furnishings: Node = map.get_node_or_null("Furnishings")
 	if furnishings != null:
 		for node: Node in furnishings.get_children():
@@ -114,6 +159,10 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	shapes.flush(light_bounds)
 	if foliage != null:
 		foliage.finish()
+	if layout.has("effects"):
+		effects = preload("res://presentation/voxel/voxel_weather_effects.gd").new()
+		add_child(effects)
+		effects.build(layout["effects"])
 	set_view_side(false)
 	sync_passages(map)
 
@@ -174,6 +223,33 @@ func _terrain(map: WorldMapController) -> void:
 			for cell: Vector2i in cells:
 				if zone.global_rect().has_point(Vector2(cell)) and cells[cell] in ["floor_wood","floor_shop","floor_yard","blocked","rock"]:
 					cells[cell] = String(surfaces[String(zone.zone_id)])
+	if rock_terrain != null:
+		var furnishings: Node = map.get_node_or_null("Furnishings")
+		if furnishings != null:
+			for node: Node2D in furnishings.get_children():
+				var extent: Vector2 = node.get_meta("footprint")
+				var rect := Rect2(node.global_position-extent/2,extent)
+				for cell: Vector2i in cells:
+					if rect.has_point(Vector2(cell)):
+						cells[cell] = "blocked"
+		cells = rock_terrain.contour(cells)
+		# A transition happens at the passage; its visual trail continues beyond it.
+		for node: Node in map.find_children("*","Area2D",true,false):
+			if node is WorldPassageArea2D:
+				var passage := node as WorldPassageArea2D
+				var portal: PortalDefinition = GameContent.catalog().portal(passage.portal_id)
+				if portal == null or portal.destination_map_id==map.map_id():
+					continue
+				var toward: Vector2 = preload("res://presentation/voxel/props/voxel_passage_marker.gd").direction(portal.legacy_command)
+				if toward==Vector2.ZERO:
+					continue
+				var across := Vector2(-toward.y,toward.x)
+				var settings: Dictionary = entrance_settings.get(String(passage.portal_id),{})
+				for step: int in int(settings.get("trail_length",7)):
+					for width: int in range(-1,2):
+						var at: Vector2 = passage.global_position+toward*step*16+across*width*16
+						var cell := Vector2i(floori(at.x/16)*16+8,floori(at.y/16)*16+8)
+						cells[cell] = "path"
 	if not indoor:
 		var required: Array[Rect2] = footprints.duplicate()
 		for node: Node in map.find_children("*","Area2D",true,false):
@@ -183,7 +259,8 @@ func _terrain(map: WorldMapController) -> void:
 		landmass.build(cells,required,edge_config)
 		cells = landmass.terrain(cells)
 		landmass.make_base(self)
-		_ground_under_blocks(cells)
+		if rock_terrain == null:
+			_ground_under_blocks(cells)
 	var trees: Dictionary[Vector2i, bool] = {}
 	var painted: Dictionary[Vector2i, bool] = {}
 	# Merged paving and boards must also see the hole, not bridge over a skipped cell.
@@ -204,6 +281,9 @@ func _terrain(map: WorldMapController) -> void:
 				covered = true
 				break
 		if covered:
+			continue
+		if rock_terrain != null:
+			rock_terrain.draw(cell,kind,cells)
 			continue
 		var wood: bool = kind in ["floor_wood", "floor_shop", "blocked"] and indoor
 		var road: bool = kind in ["town_ground", "street", "floor_yard", "rock"]
@@ -249,14 +329,15 @@ func _terrain(map: WorldMapController) -> void:
 			var cluster := Vector2i(floori(pos.x/120),floori(pos.y/120))
 			if not trees.has(cluster) and rng.randf()<0.15 and landmass.supports(pos,64):
 				trees[cluster] = true
-				_tree(p, rng.randf()<float(flora.get("blossom_trees",0.35)))
+				var settings: Dictionary = _flora_at(pos)
+				_tree(p, rng.randf()<float(settings.get("blossom_trees",0.35)),settings)
 		if foliage != null and not wall and (not indoor or kind in ["grass","forest","forest_floor"]):
 			_dress_ground(cell, p, kind, growth, cells)
 	# Indoor floors keep their cutaway plinth. Outdoors has only the finite,
 	# contoured landmass above, with no rectangle spanning its gaps or surroundings.
 	if indoor:
 		_plinth(cells)
-	if foliage != null:
+	if foliage != null and rock_terrain == null:
 		for edge_cell: Vector2i in cells:
 			var hidden: bool = false
 			for footprint: Rect2 in footprints:
@@ -354,15 +435,16 @@ func _interior_wall(walls: Node3D, p: Vector3, height: float, horizontal: bool) 
 		shapes.box(walls,p+Vector3(0,1.60,0),Vector3(0.58,3.20,0.58),"6e4d37")
 
 func _dress_ground(cell: Vector2i, p: Vector3, kind: String, growth: float, cells: Dictionary[Vector2i,String]) -> void:
+	var settings: Dictionary = _flora_at(Vector2(cell))
 	var grassy: bool = kind in ["grass", "forest_floor", "forest", "boundary"]
 	var roadside: bool = false
 	for shift: Vector2i in [Vector2i(-16,0),Vector2i(16,0),Vector2i(0,-16),Vector2i(0,16)]:
 		if (cells.get(cell+shift, "") in ["grass", "forest_floor", "forest", "boundary"]) != grassy:
 			roadside = true
-	var density: float = float(flora.get("grass_density",0.72)) if grassy else (0.38 if roadside else 0.025)
+	var density: float = float(settings.get("grass_density",0.72)) if grassy else (0.38 if roadside else 0.025)
 	if rng.randf() < density:
 		var at: Vector3 = p+Vector3(rng.randf_range(-0.19,0.19),0.025,rng.randf_range(-0.19,0.19))
-		var flower: bool = growth>float(flora.get("flower_threshold",0.08)) and rng.randf()<0.28
+		var flower: bool = growth>float(settings.get("flower_threshold",0.08)) and rng.randf()<0.28
 		var kind_index: int = 1+rng.randi_range(0,3) if flower and grassy else 0
 		if grassy and growth< -0.15 and rng.randf()<0.2:
 			kind_index = 5
@@ -394,8 +476,14 @@ func _building(map: WorldMapController, data: Dictionary) -> void:
 	architecture.build(center,w,d,data,entrances)
 	occluders.append_array(architecture.occluders)
 
-func _tree(at: Vector3, pink: bool) -> void:
-	var choices: Array = flora.get("tree_types",["pine","broadleaf","broadleaf","slender","shrub"])
+func _flora_at(at: Vector2) -> Dictionary:
+	for entry: Dictionary in flora_regions:
+		if (entry["rect"] as Rect2).has_point(at):
+			return entry["style"]
+	return flora
+
+func _tree(at: Vector3, pink: bool, settings: Dictionary = {}) -> void:
+	var choices: Array = settings.get("tree_types",flora.get("tree_types",["pine","broadleaf","broadleaf","slender","shrub"]))
 	var species: String = "blossom" if pink else String(choices[rng.randi_range(0,choices.size()-1)])
 	var tree: Node3D = _node(at)
 	var size: float = rng.randf_range(0.82,1.32)
@@ -418,7 +506,12 @@ func _prop(data: Dictionary) -> void:
 	var size: Array = data.get("size",[64,32])
 	var w: float = float(size[0])/UNIT
 	var d: float = float(size[1])/UNIT
-	if furniture.draw(shapes,root,data,w,d) or fixtures.draw(shapes,root,data,w,d) or trade_props.draw(shapes,root,data,w,d):
+	if furniture.draw(shapes,root,data,w,d) or fixtures.draw(shapes,root,data,w,d) or trade_props.draw(shapes,root,data,w,d) or wild_props.draw(shapes,root,data,w,d) or shrine_props.draw(shapes,root,data,w,d):
+		if data.has("effects"):
+			var motion := preload("res://presentation/voxel/voxel_weather_effects.gd").new()
+			root.add_child(motion)
+			motion.build(data["effects"])
+			prop_motions.append(motion)
 		if data.get("wall_mounted",false) or data["kind"] in ["window","wall_scroll","closed_door"]:
 			mounted_props.append({"node":root,"at":Vector2(a[0],a[1])})
 		if data.has("portal"):

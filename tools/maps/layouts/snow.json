@@ -223,6 +223,10 @@
           ["path", -1344, 784, -736, 800]
         ],
         "props": [
+          ["blocked", -144, -2592, -112, -2560, {"look": {"kind": "weathered_rock", "height": 1.4, "stone": "a18c63"}}],
+          ["blocked", 112, -2640, 144, -2608, {"look": {"kind": "weathered_rock", "height": 1.8, "stone": "958361"}}],
+          ["blocked", -192, -2384, -160, -2352, {"look": {"kind": "weathered_rock", "height": 0.8, "stone": "8a8062"}}],
+
           ["blocked", -48, -96, 48, -48, "the square's old wooden frame", {"look": {"kind": "board"}}],
           ["wall", -112, -2240, -96, -2224, "the old memorial arch (牌坊) at the town's north end"],
           ["wall", 96, -2240, 112, -2224],

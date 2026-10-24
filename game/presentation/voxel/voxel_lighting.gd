@@ -12,10 +12,12 @@ var windows: Array[StandardMaterial3D] = []
 var amount: float = 0.0
 var target: float = 0.0
 var indoor: bool = false
+var style: Dictionary = {}
 var _player: Vector3 = Vector3.ZERO
 
-func build(world: Node3D, reveal: VoxelOcclusion, interior: bool) -> void:
+func build(world: Node3D, reveal: VoxelOcclusion, interior: bool, config: Dictionary = {}) -> void:
 	indoor = interior
+	style = config
 	occlusion = reveal
 	var sky := WorldEnvironment.new()
 	environment = Environment.new()
@@ -90,6 +92,11 @@ func _apply() -> void:
 	sun.light_color = Color("fff0d6").lerp(Color("91b3ee"),blend)
 	sun.light_energy = lerpf(0.40,0.10,blend) if indoor else lerpf(0.85,0.32,blend)
 	sun.rotation_degrees = Vector3(-55,-32,0).lerp(Vector3(-43,-55,0),blend)
+	if not style.is_empty():
+		environment.background_color = Color(String(style.get("day_background","a3977b"))).lerp(Color(String(style.get("night_background","141c27"))),blend)
+		environment.ambient_light_color = Color(String(style.get("ambient_color","b9b49b"))).lerp(Color(String(style.get("night_ambient_color","869baf"))),blend)
+		environment.ambient_light_energy = lerpf(float(style.get("ambient",0.38)),float(style.get("night_ambient",0.30)),blend)
+		sun.light_energy = lerpf(float(style.get("sun",0.85)),float(style.get("moon",0.32)),blend)
 	_apply_lamps(blend)
 	for mat: StandardMaterial3D in windows:
 		mat.emission_energy_multiplier = blend*0.9

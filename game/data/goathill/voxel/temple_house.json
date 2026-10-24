@@ -1,0 +1,38 @@
+{
+  "indoor": true,
+  "camera_size": 22,
+  "cutaway_rooms": true,
+  "rock_terrain": {
+    "default": {
+      "height": 3.3,
+      "floor": ["89764f", "938057", "9e895e"],
+      "stone": ["45483d", "616453", "7e8069", "96947a"],
+      "grass": 0,
+      "gravel": 0.24,
+      "earth_east_wall": true
+    }
+  },
+  "lighting": {
+    "day_background": "6c6954",
+    "night_background": "252b29",
+    "ambient_color": "b4aa89",
+    "night_ambient_color": "9b9d8b",
+    "ambient": 0.54,
+    "night_ambient": 0.43,
+    "sun": 0.36,
+    "moon": 0.17
+  },
+  "actors": {"default": {"coat": "7b5333"}, "goathill.npc.bandit_hwang": {"coat": "a67b35"}},
+  "props": [
+    {"kind": "torn_mat", "at": [60, 30], "size": [57, 53], "rotation": 8},
+    {"kind": "torn_mat", "at": [-40, 75], "size": [52, 43], "rotation": -16},
+    {"kind": "votive_candles", "at": [185, 70], "size": [26, 20]},
+    {"kind": "votive_candles", "at": [175, -64], "size": [20, 14]},
+    {"kind": "paper_charms", "at": [234, 120], "size": [60, 5], "rotation": -90, "wall_mounted": true},
+    {"kind": "paper_charms", "at": [-125, -175], "size": [48, 5], "wall_mounted": true},
+    {"kind": "bones", "at": [-194, 156], "size": [24, 20]},
+    {"kind": "straw_patch", "at": [-112, 130], "size": [60, 40]},
+    {"kind": "light_pool", "at": [-220, 0], "height": 2.5, "energy": 0.3, "night_energy": 0.18, "range": 5, "color": "adbaa2"}
+  ],
+  "effects": []
+}

@@ -24,6 +24,7 @@ var labels: Dictionary[StringName, Label3D] = {}
 var alert_marks: Dictionary[StringName, Label3D] = {}
 var objects: Dictionary[StringName, Node3D] = {}
 var entrances: Dictionary[StringName, Dictionary] = {}
+var _entrance_clock: float = 0.0
 var shutters: Dictionary[StringName, Node3D] = {}
 var _built: bool = false
 var _active: bool = false
@@ -58,9 +59,14 @@ func _process(delta: float) -> void:
 	_sync_actors(delta)
 	_sync_objects()
 	geometry.sync_passages(map)
+	_entrance_clock += delta
 	_reveal_entrances()
 	_update_occlusion()
 	lighting.advance(delta,VoxelMapGeometry.point(map.player_body.global_position))
+	if geometry.effects != null:
+		geometry.effects.advance(delta)
+	for motion: Node3D in geometry.prop_motions:
+		motion.advance(delta)
 	if geometry.foliage != null:
 		geometry.foliage.advance(delta, _plant_contacts())
 
@@ -90,7 +96,7 @@ func _build() -> void:
 		occlusion.register(entry["node"])
 	for shutter: Node3D in shutters.values():
 		occlusion.register(shutter)
-	lighting.build(world,occlusion,layout.get("indoor",false))
+	lighting.build(world,occlusion,layout.get("indoor",false),layout.get("lighting",{}))
 	lighting.set_night(night,true)
 	_built = true
 
@@ -224,6 +230,8 @@ func _sync_actors(delta: float) -> void:
 			# Render frames may outnumber physics steps: a held direction must not flicker
 			# between the walk and idle poses on the intervening frames.
 			model.walking = (body.velocity.length_squared()>1.0 if body == map.player_body else step>0.003) and step<1.5
+		if model.has_method("advance"):
+			model.advance(delta)
 		var direction: float = atan2(body.facing.x,body.facing.y)
 		model.rotation.y = lerp_angle(model.rotation.y,direction,minf(1.0,delta*17))
 		var npc: NpcRuntimeState = map.npcs.find_resident_npc(id) if body != map.player_body else null
@@ -269,7 +277,12 @@ func _make_actor(body: WorldCharacterBody2D) -> void:
 		look = {"coat":"397c87"}
 	var model: Node3D
 	var size: float = float(look.get("scale",1.0))
-	if look.get("animal",false):
+	if look.get("crawler",false):
+		model = preload("res://presentation/voxel/actors/voxel_crawler.gd").new()
+		model.color = look.get("color","a7ada2")
+		model.scale = Vector3.ONE*size
+		actor.add_child(model)
+	elif look.get("animal",false):
 		model = Node3D.new()
 		model.scale = Vector3.ONE*size
 		actor.add_child(model)
@@ -288,14 +301,14 @@ func _make_actor(body: WorldCharacterBody2D) -> void:
 		model.coat = look.get("coat","817755")
 		model.hat = look.get("hat",false)
 		actor.add_child(model)
-	labels[body.character_id] = _label(actor,"",0.4+0.9*size if look.get("animal",false) else 2.2)
+	labels[body.character_id] = _label(actor,"",0.4+0.9*size if look.get("animal",false) or look.get("crawler",false) else 2.2)
 	var label: Label3D = labels[body.character_id]
 	label.font_size = int(look.get("name_font_size",36))
 	label.set_meta("name_alpha",float(look.get("name_alpha",1.0)))
 	label.set_meta("name_distance",float(look.get("name_distance",-1.0)))
 	_context_names = _context_names or float(look.get("name_distance",-1.0))>=0
-	actor.set_meta("pick_height",1.15*size if look.get("animal",false) else 1.85)
-	actor.set_meta("pick_width",maxf(10,20*size) if look.get("animal",false) else 20.0)
+	actor.set_meta("pick_height",1.15*size if look.get("animal",false) or look.get("crawler",false) else 1.85)
+	actor.set_meta("pick_width",maxf(10,20*size) if look.get("animal",false) or look.get("crawler",false) else 20.0)
 
 func _sync_objects() -> void:
 	var seen: Dictionary[StringName,bool] = {}
@@ -353,7 +366,9 @@ func _make_entrances() -> void:
 			for x: float in [-0.65,0.65]:
 				s.box(marker,Vector3(x,0.035,0),Vector3(0.1,0.04,1.1),"d5ba7e")
 		s.flush()
-		entrances[passage.portal_id] = {"passage":passage,"node":marker,"label":label}
+		const Directions = preload("res://presentation/voxel/props/voxel_passage_marker.gd")
+		var arrow: MeshInstance3D = Directions.make(marker,Directions.for_passage(map,passage,portal))
+		entrances[passage.portal_id] = {"passage":passage,"node":marker,"label":label,"arrow":arrow}
 
 func _make_shutters() -> void:
 	for id: StringName in map.doors_by_id:
@@ -397,6 +412,7 @@ func _reveal_entrances() -> void:
 		var passage: WorldPassageArea2D = entry["passage"]
 		var distance: float = passage.global_position.distance_to(map.player_body.global_position)
 		(entry["node"] as Node3D).visible = passage.is_open() and distance<500.0
+		(entry["arrow"] as MeshInstance3D).position.y = 0.75+sin(_entrance_clock*3.2)*0.16
 
 func _plant_contacts() -> PackedVector3Array:
 	var contacts := PackedVector3Array()
