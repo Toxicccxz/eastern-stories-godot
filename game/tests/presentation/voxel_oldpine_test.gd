@@ -216,6 +216,12 @@ func _check_behind_falls(tree: SceneTree, session: WorldSessionController) -> vo
 	for look: Dictionary in water.looks.values():
 		kinds_of_water[look["kind"]] = true
 	_check(kinds_of_water.has("shallow_water") and kinds_of_water.has("water") and kinds_of_water.has("deep_water"), "the pool, the stream and the bottomless pool are water: %s" % [kinds_of_water.keys()])
+	var buried: int = 0
+	for cell: Vector2i in water.looks:
+		var landmass: VoxelLandmass = gorge_view.geometry.landmass
+		if water.looks[cell].get("clear", false) and landmass.contains(Vector2(cell)) and not _slab_open(gorge_view, cell):
+			buried += 1
+	_check(buried == 0, "the clear pool's stony bed is not hidden under the ground slab: %d cells" % buried)
 	for kind: String in ["waterfall", "stone_bridge", "bubbles", "reeds", "vines"]:
 		_check(kind in _kinds(gorge_view), "the gorge has its %s" % kind)
 	var snakes: int = 0
@@ -342,6 +348,24 @@ func _calm_maniac(map: WorldMapController) -> void:
 	for npc: NpcRuntimeState in map.npc_runtimes():
 		if npc.definition().definition_id == &"oldpine.npc.maniac":
 			npc.character_state.attributes.bellicosity = 0
+
+
+## Whether the ground slab leaves a cell open: no top face of the slab lies on it.
+func _slab_open(view: WorldVoxelView, cell: Vector2i) -> bool:
+	var slab := view.geometry.get_node_or_null("LandmassCutaway") as MeshInstance3D
+	if slab == null:
+		return true
+	var faces: PackedVector3Array = slab.mesh.get_faces()
+	var centre := Vector3(cell.x / 32.0, -0.12, cell.y / 32.0)
+	for i: int in range(0, faces.size(), 3):
+		var a: Vector3 = faces[i]
+		var b: Vector3 = faces[i + 1]
+		var c: Vector3 = faces[i + 2]
+		if not is_equal_approx(a.y, -0.12) or not is_equal_approx(b.y, -0.12) or not is_equal_approx(c.y, -0.12):
+			continue
+		if Geometry2D.point_is_inside_triangle(Vector2(centre.x, centre.z), Vector2(a.x, a.z), Vector2(b.x, b.z), Vector2(c.x, c.z)):
+			return false
+	return true
 
 
 func _view_of(map: WorldMapController) -> WorldVoxelView:
