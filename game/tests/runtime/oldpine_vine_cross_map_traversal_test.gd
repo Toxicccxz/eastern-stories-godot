@@ -380,7 +380,7 @@ func _test_reactivated_zone_contacts(tree: SceneTree) -> void:
 		# On the slope path. TEST-ONLY: the spot is inside Bandit01's presence circle, so the
 		# slope's bandits stand aside while contacts warm (进门一起上 would start their gang).
 		var aside: Array[NpcRuntimeState] = OldPineTestMap.stand_aside(outdoor, OldPineWorldDefinitions.SLOPE_ZONE_ID, [])
-		_move_player(outdoor, source_zone, Vector2(450, -50) if from_slope else Vector2(1200, 300))
+		_move_player(outdoor, source_zone, Vector2(450, 650) if from_slope else Vector2(1200, 300))
 		for frame: int in 8:
 			await tree.physics_frame
 			await tree.process_frame
@@ -435,7 +435,7 @@ func _test_reactivated_zone_contacts(tree: SceneTree) -> void:
 		# Zones own the body's center (half-open), not its footprint edge.
 		OldPineTestMap.enter_zone(outdoor, OldPineWorldDefinitions.SLOPE_ZONE_ID, outdoor.player_body)
 		_assert_eq(session.player_runtime().world_location().zone_id, OldPineWorldDefinitions.CLIFFSIDE_ZONE_ID, "disjoint stale Slope callback is rejected")
-		outdoor.player_body.global_position = Vector2(435, 1108)
+		outdoor.player_body.global_position = Vector2(1700, 708)
 		OldPineTestMap.enter_zone(outdoor, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, outdoor.player_body)
 		_assert_eq(session.player_runtime().world_location().zone_id, OldPineWorldDefinitions.CLIFFSIDE_ZONE_ID, "a body edge over Pine Entrance keeps the Cliffside center owner")
 		await _free_session(session, tree)

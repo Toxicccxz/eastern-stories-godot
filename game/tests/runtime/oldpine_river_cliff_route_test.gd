@@ -201,7 +201,7 @@ func _test_complete_physical_route_and_authority_preservation(
 	var vitality_before_pine: int = player.state.vitality.current
 	var relationships_before_pine: Array[StringName] = player.relationship.opponent_ids()
 	# cliffside.c north is an ordinary exit: the player walks into pine1.
-	var pine_arrival: Vector2 = Vector2(435, 1060)
+	var pine_arrival: Vector2 = Vector2(1696, 660)
 	_assert_true(await _walk(outdoor.player_body, pine_arrival, tree), "player physically walks north from the cliffside into the pine forest")
 	await _settle(tree)
 	_assert_eq(player.world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "walking north reaches Pine Entrance")
@@ -218,8 +218,8 @@ func _test_complete_physical_route_and_authority_preservation(
 		)
 		_assert_true(outdoor.player_body.global_position.distance_to(npc_body.global_position) > 150.0, "Pine arrival avoids authored bandit body/presence")
 		_assert_false((npc_body.get_node("AggressionPresence") as Area2D).overlaps_body(outdoor.player_body), "Pine arrival is outside authored aggression Presence")
-	# The clearing's native link into the pines is on its south side (DECISIONS 3B5).
-	_assert_true(outdoor.player_body.global_position.distance_to(Vector2(450, 616)) > 200.0, "Pine arrival avoids the clearing's direct Pine threshold")
+	# The native way up into the pines is the plank road from epath3 (DECISIONS「老松林按原文方位排布」).
+	_assert_true(outdoor.player_body.global_position.distance_to(Vector2(1576, 470)) > 200.0, "Pine arrival avoids the plank road's top")
 	for _frame: int in range(3):
 		await tree.physics_frame
 		_assert_eq(player.world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "Pine side of the threshold remains stable")
@@ -245,12 +245,12 @@ func _test_complete_physical_route_and_authority_preservation(
 		_assert_eq(_npc_item_ids(npcs_after[index]), npc_item_ids_before[index], "route preserves exact NPC item identities %d" % index)
 	# TEST-ONLY: the route's fight is Tall alone until Pine Deep (进门一起上 would bring Fat).
 	var aside: Array[NpcRuntimeState] = OldPineTestMap.stand_aside(outdoor, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, [outdoor.npc_runtimes()[3].character_id])
-	_assert_true(await _walk(outdoor.player_body, Vector2(435, 1000), tree), "player physically enters existing Tall aggression Presence")
+	_assert_true(await _walk(outdoor.player_body, Vector2(1944, 590), tree), "player physically enters existing Tall aggression Presence")
 	await _settle(tree)
 	var pending_initiations: Array[CombatSliceInitiationResult] = outdoor.process_pending_aggression()
 	_assert_true(player.relationship.is_fighting() or not pending_initiations.is_empty() or not outdoor.last_aggression_initiations().is_empty(), "only physical entry into existing Presence starts authored aggression")
 	HistoricalCombat.set_running(outdoor, false)
-	_assert_true(await _walk(outdoor.player_body, Vector2(-150, 690), tree), "complete route reaches Pine Deep without teleport, round the bandits' bodies")
+	_assert_true(await _walk(outdoor.player_body, Vector2(2240, 0), tree), "complete route reaches Pine Deep without teleport, round the bandits' bodies")
 	await _settle(tree)
 	_assert_eq(player.world_location().zone_id, OldPineWorldDefinitions.PINE_DEEP_ZONE_ID, "complete Waterfall-to-Pine route ends in Pine Deep")
 	OldPineTestMap.rejoin(aside)
@@ -435,16 +435,17 @@ func _test_direct_pine_shortcut_and_route_collisions(tree: SceneTree) -> void:
 	var cliff_camera: Camera2D = cliff.get_node("Characters/Player/Camera2D") as Camera2D
 	var niche: Rect2 = _zone_rect(cliff, OldPineWorldDefinitions.CLIFF_HOLE_ZONE_ID)
 	_assert_true(cliff_camera.limit_top <= niche.position.y and cliff_camera.limit_bottom >= niche.end.y, "camera covers the cliff niche")
-	_assert_true((outdoor.get_node("Characters/Player/Camera2D") as Camera2D).limit_bottom >= 1392, "camera covers the cliffside")
-	# The clearing's native link into the pines (B2) is on its south side now.
-	_assert_true(await _walk(outdoor.player_body, Vector2(450, 700), tree), "direct Outdoor to Pine shortcut remains physical")
+	_assert_true((outdoor.get_node("Characters/Player/Camera2D") as Camera2D).limit_bottom >= 1000, "camera covers the cliffside")
+	# The native way into the pines (B2) is the plank road up from epath3 now
+	# (DECISIONS「老松林按原文方位排布」): east over the bridge, up, and back down.
+	_assert_true(await _walk(outdoor.player_body, Vector2(1430, 400), tree), "player walks over the bridge to the plank road's foot")
+	_assert_true(await _walk(outdoor.player_body, Vector2(1640, 474), tree), "direct Outdoor to Pine shortcut remains physical")
 	await _settle(tree)
 	_assert_eq(outdoor.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "direct shortcut still reaches Pine Entrance")
-	_assert_true(await _walk(outdoor.player_body, Vector2(450, 500), tree), "Pine shortcut remains bidirectional")
+	_assert_true(await _walk(outdoor.player_body, Vector2(1430, 400), tree), "Pine shortcut remains bidirectional")
 	await _settle(tree)
-	_assert_eq(outdoor.player_runtime().world_location().zone_id, OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, "direct shortcut returns to Outdoor")
-	_assert_true(await _walk(outdoor.player_body, Vector2(450, 300), tree), "player returns to the clearing centre")
-	_assert_true(await _walk(outdoor.player_body, Vector2(1200, 300), tree), "player avoids authored Slope bodies through East Bridge")
+	_assert_eq(outdoor.player_runtime().world_location().zone_id, OldPineWorldDefinitions.EAST_BRIDGE_ZONE_ID, "direct shortcut returns to Outdoor")
+	_assert_true(await _walk(outdoor.player_body, Vector2(1200, 300), tree), "player returns onto the bridge, clear of the slope's bodies")
 	# The stone bridge stands high above the gorge (epath2.c); only the vine or
 	# the cave lead down. Start from the vine's Waterfall landing on the gorge map.
 	_assert_true(session.handoff_to(
@@ -462,8 +463,8 @@ func _test_direct_pine_shortcut_and_route_collisions(tree: SceneTree) -> void:
 	_assert_true(lake_collision == null, "Lake north connection is physically open")
 	_assert_eq(gorge.player_runtime().world_location().zone_id, OldPineWorldDefinitions.RIVER_GORGE_ZONE_ID, "direct displacement awaits zone observation")
 	_assert_true(await _walk(gorge.player_body, Vector2(1380, 2000), tree), "player can return north from Lake")
-	_assert_eq(TerrainProbe.terrain_at(outdoor, Vector2(-1480, 850)), "cliff", "Pine cliffdown edge is painted cliff")
-	_assert_true(TerrainProbe.blocks_at(outdoor, Vector2(-1480, 850)), "Pine cliffdown boundary remains closed")
+	_assert_eq(TerrainProbe.terrain_at(outdoor, Vector2(1548, 140)), "cliff", "Pine cliffdown edge is painted cliff")
+	_assert_true(TerrainProbe.blocks_at(outdoor, Vector2(1548, 140)), "Pine cliffdown boundary remains closed")
 	await _free_session(session, tree)
 
 

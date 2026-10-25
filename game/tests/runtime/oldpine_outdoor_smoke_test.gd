@@ -100,9 +100,9 @@ func _test_scene_spawn_and_authored_data(tree: SceneTree) -> void:
 	_assert_true(controller.find_children("ResetButton", "Button", true, false).is_empty(), "persisted Old Pine hierarchy excludes obsolete Reset control")
 	_assert_true(controller.session.shared_ui() != null, "world HUD initializes")
 	# The world edge and forest obstacles are terrain tiles now, not StaticBody2D shapes.
-	_assert_true(TerrainProbe.blocks_at(controller, Vector2(450.0, -512.0)), "world top boundary tile collides north of the slope")
-	_assert_true(controller.player_body.test_move(Transform2D(0.0, Vector2(450.0, -470.0)), Vector2(0.0, -60.0)), "world top boundary physically stops the player")
-	_assert_eq(TerrainProbe.terrain_at(controller, Vector2(-100.0, -200.0)), "forest", "forest obstacle is drawn between the approach and the slope")
+	_assert_true(TerrainProbe.blocks_at(controller, Vector2(450.0, 1112.0)), "the pines close the slope's south end")
+	_assert_true(controller.player_body.test_move(Transform2D(0.0, Vector2(450.0, 1070.0)), Vector2(0.0, 60.0)), "the slope's end physically stops the player")
+	_assert_eq(TerrainProbe.terrain_at(controller, Vector2(-100.0, -200.0)), "forest", "forest obstacle is drawn between the approach and the clearing")
 	_assert_true(controller.player_body.test_move(Transform2D(0.0, Vector2(60.0, 400.0)), Vector2(-150.0, 0.0)), "forest obstacle physically bounds the clearing's west edge")
 	_assert_true((controller.get_node("Characters/Player/Camera2D") as Camera2D).enabled, "player Camera2D is active")
 	for zone_name: String in ["CentralClearingZone", "SlopeZone", "NorthApproachZone", "EastBridgeZone"]:
@@ -247,11 +247,12 @@ func _test_zone_movement_and_same_location(tree: SceneTree) -> void:
 	var state: CharacterState = controller.player_runtime().state
 	var vitality_before: Array[int] = [state.vitality.current, state.vitality.effective, state.vitality.maximum]
 	var start_position: Vector2 = controller.player_body.position
-	# The bandit slope (spath1) lies north of the clearing, as clearing.c's north exit says.
-	controller.player_body.position = Vector2(450.0, 15.0)
+	# The bandit slope (spath1) lies south of the clearing, as clearing.c and spath1.c describe it
+	# (DECISIONS「老松林按原文方位排布」).
+	controller.player_body.position = Vector2(450.0, 585.0)
 	await tree.physics_frame
 	for _frame: int in range(12):
-		MapRoute.press_action(controller.player_body, &"move_up")
+		MapRoute.press_action(controller.player_body, &"move_down")
 		await tree.physics_frame
 	MapPlaces.release()
 	await tree.physics_frame
@@ -309,11 +310,11 @@ func _test_selection_inspect_attack_and_no_aggression(tree: SceneTree) -> void:
 	for npc: NpcRuntimeState in controller.npc_runtimes():
 		_assert_false(npc.relationship.is_fighting(), "out-of-range bandit remains out of combat before explicit Attack")
 	var bandit2: NpcRuntimeState = controller.npc_runtimes()[1]
-	# Staged on the open slope grass (x 192..704), north of the clearing.
-	controller.player_body.global_position = Vector2(250.0, -150.0)
-	OldPineTestMap.body(controller, "Bandit01").global_position = Vector2(400.0, -150.0)
-	OldPineTestMap.body(controller, "Bandit02").global_position = Vector2(500.0, -150.0)
-	OldPineTestMap.body(controller, "Bandit03").global_position = Vector2(600.0, -150.0)
+	# Staged across the slope (x 192..704), south of the clearing.
+	controller.player_body.global_position = Vector2(250.0, 750.0)
+	OldPineTestMap.body(controller, "Bandit01").global_position = Vector2(400.0, 750.0)
+	OldPineTestMap.body(controller, "Bandit02").global_position = Vector2(500.0, 750.0)
+	OldPineTestMap.body(controller, "Bandit03").global_position = Vector2(600.0, 750.0)
 	var camera: Camera2D = controller.get_node("Characters/Player/Camera2D") as Camera2D
 	camera.enabled = true
 	camera.make_current()

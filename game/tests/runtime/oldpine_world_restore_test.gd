@@ -20,9 +20,9 @@ const INACTIVE_FROM_OUTDOOR: Array[StringName] = [
 ]
 ## Forest tiles inside the North Approach zone, west of the Snow road: blocked terrain.
 const NORTH_APPROACH_FOREST: Vector2 = Vector2(-600.0, -180.0)
-## The narrow way from the clearing into the pines (pine1): a 34x34 character fits, the
-## wider 76x18 corpse footprint overlaps the trees either side.
-const PINE1_NARROW_WAY: Vector2 = Vector2(428.0, 624.0)
+## The narrow way from the plank road's top into the pines (pine1), against its northern
+## trees: a 34x34 character fits, the wider 76x18 corpse footprint overlaps them.
+const PINE1_NARROW_WAY: Vector2 = Vector2(1592.0, 438.0)
 
 var _assertion_count: int = 0
 var _failures: Array[String] = []
