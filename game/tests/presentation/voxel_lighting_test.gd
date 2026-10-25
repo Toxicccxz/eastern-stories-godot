@@ -134,6 +134,10 @@ func _check_profiles(tree: SceneTree) -> void:
 	var steady_light: bool = true
 	var previous: Dictionary[Light3D, float] = {}
 	var previous_energy: Dictionary[Light3D, float] = {}
+	# Arriving picks the lit lamps at once (the view builds and advances in one frame).
+	lighting.advance(1.0/30.0,Vector3(-4.0,0,2))
+	for lamp: Light3D in lighting.lamps:
+		previous_energy[lamp] = lamp.light_energy
 	for step: int in 120:
 		lighting.advance(1.0/30.0,Vector3(-4.0+step*0.1,0,2))
 		var shadowed: int = 0
@@ -171,6 +175,30 @@ func _check_profiles(tree: SceneTree) -> void:
 	_check(near.shadow_enabled and is_equal_approx(near.shadow_opacity,1.0),"the lamp beside the player casts its full shadow on a phone")
 	_check(near.visible and is_equal_approx(near.light_energy,2.0),"the lamp beside the player lights at its authored brightness on a phone")
 	world.free()
+	# By day a window lamp is dark: it must not take a slot from a lantern that lights.
+	var street := Node3D.new()
+	tree.root.add_child(street)
+	var lanterns: Array[OmniLight3D] = []
+	for i: int in 4:
+		var lamp := OmniLight3D.new()
+		lamp.position = Vector3(i*1.0,2.0,0)
+		if i<2:
+			lamp.set_meta("day_energy",0.0)
+			lamp.set_meta("night_energy",1.2)
+		else:
+			lamp.set_meta("day_energy",1.1)
+			lamp.set_meta("night_energy",2.8)
+			lanterns.append(lamp)
+		street.add_child(lamp)
+	var day := VoxelLighting.new()
+	day.quality = VoxelRenderQuality.named("mobile")
+	day.quality.lamp_light_limit = 2
+	day.build(street,VoxelOcclusion.new(),false)
+	day.set_night(false,true)
+	day.advance(1.0/30.0,Vector3.ZERO)
+	_check(lanterns.all(func(l: OmniLight3D) -> bool: return l.visible and is_equal_approx(l.light_energy,1.1)),
+		"by day the phone's lit lamps are the nearest that give light, lit at once on arrival")
+	street.free()
 	var room := Node3D.new()
 	tree.root.add_child(room)
 	for i: int in 6:
@@ -248,7 +276,42 @@ func _check_merged_batches(tree: SceneTree) -> void:
 	var lamp_batch := fixture.get_child(0) as MultiMeshInstance3D
 	_check(fixture.get_child_count()==1 and not lamp_batch.multimesh.use_colors and lamp_batch.cast_shadow==GeometryInstance3D.SHADOW_CASTING_SETTING_OFF,
 		"a lantern housing keeps its own unshadowed batch")
+	# An occluder drawn in merged batches: its colours reach the reveal shaders through the
+	# instance colours, and its shadow-only caster keeps casting.
+	var occlusion := VoxelOcclusion.new()
+	occlusion.register(holder)
+	var reveal := tinted[0].material_override as ShaderMaterial
+	_check(reveal!=null and reveal.get_shader_parameter("vertex_tint") and shadows[0].material_override is StandardMaterial3D
+		and shadows[0].cast_shadow==GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY,"a merged occluder reveals in its instance colours and keeps its shadow")
 	holder.free()
+	# Splitting a merged batch to stay within Mobile's eight lights keeps each box's colour.
+	var row := Node3D.new()
+	tree.root.add_child(row)
+	var split := Shapes.new()
+	split.merged = true
+	var hexes: Array[String] = []
+	for i: int in 24:
+		hexes.append(["91836a","4f6b47","c9a37a"][i%3])
+		split.box(row,Vector3(i*1.5,0,0),Vector3.ONE,hexes[i])
+	var lights: Array[AABB] = []
+	for i: int in 12:
+		lights.append(AABB(Vector3(i*3.0-1.0,-1,-1),Vector3(2,3,2)))
+	split.flush(lights)
+	var pieces: int = 0
+	var boxes: int = 0
+	var kept: bool = true
+	for child: Node in row.get_children():
+		var batch := child as MultiMeshInstance3D
+		if batch==null or not batch.multimesh.use_colors:
+			continue
+		pieces += 1
+		boxes += batch.multimesh.instance_count
+		if DisplayServer.get_name()!="headless":
+			for i: int in batch.multimesh.instance_count:
+				var at: Vector3 = batch.multimesh.get_instance_transform(i).origin
+				kept = kept and batch.multimesh.get_instance_color(i).is_equal_approx(Color(hexes[roundi(at.x/1.5)]).srgb_to_linear())
+	_check(pieces>1 and boxes==24 and kept,"a merged batch split for the light budget keeps every box in its own colour")
+	row.free()
 
 func _check(ok: bool, label: String) -> void:
 	assertions += 1

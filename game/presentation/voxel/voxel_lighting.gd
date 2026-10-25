@@ -25,6 +25,9 @@ var flickering: Array[Light3D] = []
 var _clock: float = 0.0
 ## The render profile: the sun's cascades and which lamps cast shadows (all on desktop).
 var quality: VoxelRenderQuality
+## False until the lamp light limit has picked its lamps once: on entering a map, or after
+## an immediate day/night switch, the chosen lamps light at once instead of fading in.
+var _lamps_chosen: bool = false
 
 func build(world: Node3D, reveal: VoxelOcclusion, interior: bool, settings: Dictionary = {}) -> void:
 	indoor = interior
@@ -87,6 +90,7 @@ func set_night(enabled: bool, immediate: bool = false) -> void:
 	target = 1.0 if enabled else 0.0
 	if immediate:
 		amount = target
+		_lamps_chosen = false
 		_apply()
 
 func advance(delta: float, player: Vector3) -> void:
@@ -135,29 +139,42 @@ func _shade(lamp: Light3D, wanted: float, delta: float) -> void:
 	if lamp.shadow_enabled!=(opacity>0.0):
 		lamp.shadow_enabled = opacity>0.0
 
-## Outdoors, a profile with a lamp light limit (phones) lights only the nearest lamps: each
-## lamp's meta `presence` (0..1) scales its energy, and a light changing hands fades out
-## before the next fades in. Rooms keep every lamp.
+## Outdoors, a profile with a lamp light limit (phones) lights only the nearest lamps that
+## would give light now (a window lamp is dark by day; a lamp on a cut-away wall is hidden):
+## each lamp's meta `presence` (0..1) scales its energy, and a light changing hands fades
+## out before the next fades in. Rooms keep every lamp.
 func _limit_lamps(delta: float) -> void:
 	if quality.lamp_light_limit<0 or indoor:
 		return
+	var blend: float = smoothstep(0.0,1.0,amount)
 	var order: Array[Light3D] = []
 	for lamp: Light3D in lamps:
-		if lamp!=carried:
+		if lamp!=carried and _unlimited_energy(lamp,blend)>0.0 and lamp.get_parent().is_visible_in_tree():
 			order.append(lamp)
 	order.sort_custom(func(a: Light3D,b: Light3D) -> bool: return _planar_distance(a)<_planar_distance(b))
 	var near: Array[Light3D] = order.slice(0,quality.lamp_light_limit)
+	var step: float = INF if not _lamps_chosen else delta/LAMP_SHADOW_FADE
+	_lamps_chosen = true
 	var lit: int = 0
-	for lamp: Light3D in order:
+	for lamp: Light3D in lamps:
+		if lamp==carried:
+			continue
 		if not lamp in near:
-			lamp.set_meta("presence",move_toward(float(lamp.get_meta("presence",0.0)),0.0,delta/LAMP_SHADOW_FADE))
+			lamp.set_meta("presence",move_toward(float(lamp.get_meta("presence",0.0)),0.0,step))
 		if float(lamp.get_meta("presence",0.0))>0.0:
 			lit += 1
 	for lamp: Light3D in near:
 		var presence: float = float(lamp.get_meta("presence",0.0))
 		if presence>0.0 or lit<quality.lamp_light_limit:
 			lit += int(is_zero_approx(presence))
-			lamp.set_meta("presence",move_toward(presence,1.0,delta/LAMP_SHADOW_FADE))
+			lamp.set_meta("presence",move_toward(presence,1.0,step))
+
+## A lamp's day/night energy faded by its distance outdoors, before any phone limit or flicker.
+func _unlimited_energy(lamp: Light3D, blend: float) -> float:
+	var fade: float = 1.0
+	if not indoor:
+		fade = 1.0-smoothstep(LAMP_FADE_BEGIN,LAMP_FADE_END,_planar_distance(lamp))
+	return lerpf(float(lamp.get_meta("day_energy")),float(lamp.get_meta("night_energy")),blend)*fade
 
 func _planar_distance(lamp: Light3D) -> float:
 	var offset: Vector3 = lamp.global_position-_player
@@ -165,11 +182,7 @@ func _planar_distance(lamp: Light3D) -> float:
 
 func _apply_lamps(blend: float) -> void:
 	for lamp: Light3D in lamps:
-		var fade: float = 1.0
-		if not indoor:
-			var offset: Vector3 = lamp.global_position-_player
-			fade = 1.0-smoothstep(LAMP_FADE_BEGIN,LAMP_FADE_END,Vector2(offset.x,offset.z).length())
-		var energy: float = lerpf(float(lamp.get_meta("day_energy")),float(lamp.get_meta("night_energy")),blend)*fade*float(lamp.get_meta("presence",1.0))
+		var energy: float = _unlimited_energy(lamp,blend)*float(lamp.get_meta("presence",1.0))
 		if lamp.has_meta("flicker"):
 			var phase: float = lamp.global_position.x*3.1+lamp.global_position.z*1.7
 			energy *= 1.0+float(lamp.get_meta("flicker"))*(sin(_clock*13.0+phase)*0.5+sin(_clock*7.3+phase*2.0)*0.35+sin(_clock*29.0)*0.15)
