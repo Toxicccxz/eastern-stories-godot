@@ -1,0 +1,26 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 24,
+  "palette": {"wood": ["6e5643", "775d48", "6a513f"], "wall": "b19a7c"},
+  "props": [
+    {"kind": "sign", "at": [-120, -238], "size": [96, 16], "text": "赌，胜者赢双", "wall_mounted": true, "board": "262220", "letters": "d8452f", "wrap": true, "tall": 0.7, "pixel_size": 0.005},
+    {"kind": "stairs", "at": [256, 152], "size": [64, 48], "rotation": -90},
+    {"kind": "hanging_lantern", "at": [-224, -48], "flicker": 0.08, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [112, -48], "flicker": 0.08, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [-224, 112], "flicker": 0.08, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [80, 128], "flicker": 0.08, "paper": "d8452f:glow"},
+    {"kind": "rug", "at": [-60, 40], "size": [352, 256], "cloth": "6a2a24", "border": "b89548", "motif": "c9a35e"},
+    {"kind": "stains", "at": [-120, 160], "size": [96, 48], "count": 3, "colors": ["5a3a2a", "6a4a2a"]},
+    {"kind": "window", "at": [-382, 64], "size": [80, 16], "rotation": 90},
+    {"kind": "clutter", "at": [272, -176], "size": [48, 32], "items": ["abacus"], "rotation": 0},
+    {"kind": "clutter", "at": [-336, 120], "size": [64, 32], "items": ["jar", "cups"], "rotation": 0},
+    {"kind": "clutter", "at": [16, 120], "size": [64, 32], "items": ["cups", "bundle"], "rotation": 0},
+    {"kind": "stains", "at": [120, 40], "size": [64, 48], "count": 3, "colors": ["5a3a2a", "6a4a2a"]},
+    {"kind": "clutter", "at": [-100, 200], "size": [64, 32], "items": ["umbrella", "bundle"], "rotation": 0}
+  ],
+  "actors": {
+    "default": {"coat": "7d7a62"},
+    "cloud.npc.judge": {"coat": "5a2a24"}
+  }
+}

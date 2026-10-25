@@ -9,6 +9,9 @@ const TradeProps = preload("res://presentation/voxel/props/voxel_trade_props.gd"
 const Wilds = preload("res://presentation/voxel/props/voxel_wilds.gd")
 const ShrineProps = preload("res://presentation/voxel/props/voxel_shrine_props.gd")
 const Woods = preload("res://presentation/voxel/props/voxel_woods.gd")
+const Town = preload("res://presentation/voxel/props/voxel_town.gd")
+const Waterside = preload("res://presentation/voxel/props/voxel_waterside.gd")
+const Garden = preload("res://presentation/voxel/props/voxel_garden.gd")
 const UNIT: float = 32.0
 var shapes := Shapes.new()
 var rng := RandomNumberGenerator.new()
@@ -60,6 +63,9 @@ var trade_props := TradeProps.new()
 var wilds := Wilds.new()
 var shrine_props := ShrineProps.new()
 var woods := Woods.new()
+var town := Town.new()
+var waterside := Waterside.new()
+var garden := Garden.new()
 ## Birds, dust, smoke and drips (layout `ambience`, and the props that make them).
 var ambience: VoxelAmbience
 
@@ -170,6 +176,15 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	fixtures.ambience = ambience
 	woods.rng = rng
 	woods.tree_shapes = tree_shapes
+	furniture.ambience = ambience
+	trade_props.rng = rng
+	trade_props.ambience = ambience
+	town.rng = rng
+	town.ambience = ambience
+	waterside.rng = rng
+	waterside.ambience = ambience
+	garden.rng = rng
+	garden.ambience = ambience
 	_terrain(map, layout.get("reshape",[]), layout.get("exit_trails",{}))
 	for building: Dictionary in layout.get("buildings", []):
 		_building(map, building)
@@ -369,8 +384,8 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 			ground.litter(cell,p,palette,growth,style)
 		elif style.get("style","")=="bark":
 			ground.bark(cell,p,palette,cells,style)
-		elif road and not style.has("colors"):
-			ground.paving(cell,cells,painted)
+		elif style.get("style","")=="paving" or road and not style.has("colors"):
+			ground.paving(cell,cells,painted,style)
 		else:
 			# Ground colour changes in broad patches, not independently on every tile.
 			var tint: String = _pick(palette) if indoor or wall else String(palette[clampi(roundi((growth+0.5)*2),0,palette.size()-1)])
@@ -639,6 +654,7 @@ func _building(map: WorldMapController, data: Dictionary) -> void:
 	architecture.shapes = shapes
 	architecture.rng = rng
 	architecture.noise = meadow
+	architecture.ambience = ambience
 	architecture.build(center,w,d,data,entrances)
 	occluders.append_array(architecture.occluders)
 
@@ -685,6 +701,15 @@ func _plant_groves() -> void:
 			instance.material_override = tree_shapes.material()
 			grove.add_child(instance)
 
+var _static_chunks: Dictionary[Vector2i, Node3D] = {}
+
+## The shared node the still props of a neighbourhood (a GROVE square) batch in.
+func _static_chunk(at: Vector3) -> Node3D:
+	var chunk := Vector2i(floori(at.x/GROVE),floori(at.z/GROVE))
+	if not _static_chunks.has(chunk):
+		_static_chunks[chunk] = _node()
+	return _static_chunks[chunk]
+
 func _flora_at(at: Vector2) -> Dictionary:
 	for entry: Dictionary in flora_regions:
 		if (entry["rect"] as Rect2).has_point(at):
@@ -722,7 +747,9 @@ func draw_look(into: Shapes, parent: Node3D, data: Dictionary) -> bool:
 	return _draw_kind(into,parent,data,float(size[0])/UNIT,float(size[1])/UNIT)
 
 func _draw_kind(into: Shapes, root: Node3D, data: Dictionary, w: float, d: float) -> bool:
-	return furniture.draw(into,root,data,w,d) or fixtures.draw(into,root,data,w,d) or trade_props.draw(into,root,data,w,d) or wilds.draw(into,root,data,w,d) or shrine_props.draw(into,root,data,w,d) or woods.draw(into,root,data,w,d)
+	return furniture.draw(into,root,data,w,d) or fixtures.draw(into,root,data,w,d) or trade_props.draw(into,root,data,w,d) or wilds.draw(into,root,data,w,d) \
+		or shrine_props.draw(into,root,data,w,d) or woods.draw(into,root,data,w,d) or town.draw(into,root,data,w,d) \
+		or waterside.draw(into,root,data,w,d) or garden.draw(into,root,data,w,d)
 
 func _prop(data: Dictionary) -> void:
 	var a: Array = data.get("at",[0,0])
@@ -740,6 +767,11 @@ func _prop(data: Dictionary) -> void:
 	var size: Array = data.get("size",[64,32])
 	var w: float = float(size[0])/UNIT
 	var d: float = float(size[1])/UNIT
+	# A prop that never fades, hides or moves as a whole batches with its neighbours (its
+	# swaying, glowing and smoking parts are nodes of their own and stay so).
+	var shown_alone: bool = data.get("occludes",false) or data.get("wall_mounted",false) or data.has("portal") 		or data["kind"] in ["window","wall_scroll","closed_door"]
+	if not shown_alone:
+		shapes.merge(root,_static_chunk(at))
 	if _draw_kind(shapes,root,data,w,d):
 		if data.get("wall_mounted",false) or data["kind"] in ["window","wall_scroll","closed_door"]:
 			mounted_props.append({"node":root,"at":Vector2(a[0],a[1])})

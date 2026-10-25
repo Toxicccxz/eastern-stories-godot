@@ -10,8 +10,18 @@ var spatial_cell_size: float = 12.0
 ## Placed in front of every form drawn while set: many trees share one grove parent (and so
 ## one batch per colour) yet each keeps its own position, turn and size.
 var frame := Transform3D.IDENTITY
+## Nodes whose forms go into another node's batches (`merge`): a prop that never moves into
+## its neighbourhood's shared node, a facade's parts into the building's body. The same
+## picture with one batch per colour there instead of one per part; both nodes must be in
+## the tree, posed, before anything is drawn into the first.
+var merged: Dictionary[Node3D, Node3D] = {}
+## Nodes already as small as a batch cell (a building's body, a neighbourhood of props): their
+## batches are not cut again by position.
+var compact: Dictionary[Node3D, bool] = {}
 
-## A colour key; "<hex>:gloss" is the same colour, wet and shiny (its own material).
+## A colour key; "<hex>:gloss" is the same colour, wet and shiny (its own material);
+## "<hex>:glow" gives off its own light (a red paper lantern, gilt letters catching the sun);
+## "<hex>:haze" is seen through, flat, as far hills in the mist (fainter by night).
 func color(hex: String) -> Color:
 	return Color.html(hex.get_slice(":",0))
 
@@ -28,10 +38,18 @@ func shard(parent: Node3D, at: Vector3, size: Vector3, hex: String, variant: int
 		stones[variant] = _stone_mesh(variant)
 	_instance(parent, Transform3D(Basis(Vector3.UP, yaw).scaled_local(size), at), hex, stones[variant])
 
+func merge(node: Node3D, into: Node3D) -> void:
+	merged[node] = into
+	compact[into] = true
+
 func _instance(parent: Node3D, transform: Transform3D, hex: String, mesh: Mesh) -> void:
 	transform = frame*transform
+	if merged.has(parent):
+		var into: Node3D = merged[parent]
+		transform = into.global_transform.affine_inverse()*parent.global_transform*transform
+		parent = into
 	var key: String = str(parent.get_instance_id()) + hex + str(mesh.get_instance_id())
-	if spatial_batching:
+	if spatial_batching and not compact.has(parent):
 		# Mobile lighting chooses lights per instance. A map-wide ground instance
 		# otherwise exceeds that budget and changes lights abruptly while walking.
 		key += ":%d:%d" % [floori(transform.origin.x/spatial_cell_size),floori(transform.origin.z/spatial_cell_size)]
@@ -118,7 +136,7 @@ func _flush_batch(entry: Dictionary, transforms: Array, light_bounds: Array[AABB
 	instance.material_override = material(entry["color"])
 	# The ground's own boxes and stones lie flat: their shadows would fall on nothing, yet they
 	# would fill every shadow map pass (meta `flat` on the parent they are drawn into).
-	if entry["color"] in ["ffd88a","ffb858"] or parent.get_meta("light_fixture",false) or parent.get_meta("flat",false):
+	if entry["color"] in ["ffd88a","ffb858"] or String(entry["color"]).ends_with(":glow") or String(entry["color"]).ends_with(":haze") or parent.get_meta("light_fixture",false) or parent.get_meta("flat",false):
 		# Tiny opaque lantern caps otherwise project enormous square shadows from
 		# the point source inside them. The housing represents a diffuse emitter.
 		instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
@@ -132,6 +150,15 @@ func material(hex: String) -> StandardMaterial3D:
 		if hex.ends_with(":gloss"):
 			mat.roughness = 0.08
 			mat.metallic = 0.3
+		if hex.ends_with(":haze"):
+			mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+			mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+			mat.albedo_color.a = 0.5
+			mat.set_meta("haze",[0.5,0.22])
+		if hex.ends_with(":glow"):
+			mat.emission_enabled = true
+			mat.emission = color(hex)
+			mat.emission_energy_multiplier = 0.9
 		if hex == "ffd88a" or hex == "ffb858":
 			mat.emission_enabled = true
 			mat.emission = color(hex)
@@ -150,13 +177,14 @@ func solid(parent: Node3D, at: Vector3, size: Vector3) -> StaticBody3D:
 	parent.add_child(body)
 	return body
 
-func lantern(parent: Node3D, at: Vector3, standing: bool = false) -> void:
+## A paper lantern with its light; `paper` another glowing colour ("d8452f:glow", a red one).
+func lantern(parent: Node3D, at: Vector3, standing: bool = false, paper: String = "ffb858") -> void:
 	var housing := Node3D.new()
 	housing.set_meta("light_fixture",true)
 	parent.add_child(housing)
 	if standing:
 		box(housing,at+Vector3(0,-0.65,0),Vector3(0.12,1.3,0.12),"483b32")
-	box(housing,at,Vector3(0.34,0.45,0.34),"ffb858")
+	box(housing,at,Vector3(0.34,0.45,0.34),paper)
 	for y: float in [-0.25,0.25]:
 		box(housing,at+Vector3(0,y,0),Vector3(0.44,0.07,0.44),"993f35")
 	for x: float in [-0.17,0.17]:
@@ -164,7 +192,7 @@ func lantern(parent: Node3D, at: Vector3, standing: bool = false) -> void:
 	box(housing,at+Vector3(0,-0.36,0),Vector3(0.06,0.16,0.06),"b54135")
 	var lamp := OmniLight3D.new()
 	lamp.position = at
-	lamp.light_color = color("ffbd72")
+	lamp.light_color = color("ffbd72") if paper == "ffb858" else color(paper).lerp(color("ffbd72"),0.55)
 	lamp.light_energy = 1.1
 	lamp.omni_range = 3.2
 	lamp.set_meta("night_energy",2.8)
