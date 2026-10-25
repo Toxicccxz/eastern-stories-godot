@@ -25,7 +25,8 @@
     "rough": 0.5,
     "grooves": 0.08,
     "strata": ["7a7464", "857e6c", "908875", "9b927d", "7f7869"],
-    "tops": ["4f6a3c", "5a7542", "668048"]
+    "tops": ["4f6a3c", "5a7542", "668048"],
+    "lifts": [{"rect": [780, 500, 1260, 880], "by": 1.8, "note": "hummock.c: 一道山梁 — the crest stands higher either side of the road"}]
   },
   "reshape": [
     {"rect": [700, 470, 1300, 880], "from": ["forest"], "to": "cliff", "note": "hummock.c: 一道山梁 — the ridge rises in rock either side of the road over it"},
@@ -54,8 +55,8 @@
     "tree_types": ["locust", "broadleaf", "slender", "locust", "willow", "broadleaf"],
     "tree_chance": 0.32,
     "tree_spacing": 84,
-    "bands": [{"within": 40, "types": ["shrub"]}, {"within": 96, "types": ["slender", "shrub", "locust"]}],
-    "south_reach": 1.6,
+    "bands": [{"within": 56, "types": ["shrub"]}, {"within": 128, "types": ["slender", "shrub", "slender"]}],
+    "south_reach": 2.0,
     "cliff_tufts": 0.22,
     "cliff_flowers": 0.05,
     "cliff_trees": 0.05,
@@ -70,7 +71,7 @@
   "ambience": {
     "birds": [{"at": [1000, 600], "radius": 260, "count": 2, "height": 13, "color": "3a3029", "note": "kites over 卧龙岗"}, {"at": [1800, 3300], "radius": 320, "count": 4, "height": 7.5, "color": "e8e4dc", "note": "egrets over 泓水"}, {"at": [1500, 1800], "radius": 200, "count": 3, "height": 9, "color": "4a3f36", "note": "sparrows over the market"}, {"at": [3150, 2380], "radius": 220, "count": 3, "height": 8, "color": "4a3f36"}],
     "fall": [{"rect": [1760, 2120, 2040, 2400], "count": 24, "height": 6.0, "colors": ["eae6c8", "d9d6b0", "9fb46a"], "wind": [0.4, 0.2], "note": "blossom off the 古槐"}, {"rect": [1100, 2900, 2500, 3060], "count": 20, "height": 4.0, "colors": ["9cb664", "86a352", "b8c47a"], "wind": [0.6, 0.1], "note": "willow leaves on the bank"}],
-    "fireflies": [{"rect": [2912, 2140, 3380, 2620], "count": 18, "height": 1.0, "note": "the tea field at night"}, {"rect": [1100, 2980, 1600, 3070], "count": 10, "height": 0.9}, {"rect": [2310, 1990, 2550, 2230], "count": 8, "height": 0.9}]
+    "fireflies": [{"rect": [2912, 2140, 3380, 2620], "count": 18, "height": 1.0, "note": "the tea field at night"}, {"rect": [880, 280, 1180, 1080], "count": 14, "height": 1.1, "note": "over the road on 卧龙岗 at night"}, {"rect": [1100, 2980, 1600, 3070], "count": 10, "height": 0.9}, {"rect": [2310, 1990, 2550, 2230], "count": 8, "height": 0.9}]
   },
   "actors": {
     "default": {"coat": "7d7a62"},
@@ -196,13 +197,13 @@
     {"kind": "reeds", "at": [1900, 3590], "size": [300, 32], "count": 10, "height": 1.0, "colors": ["6f8a44", "7f9a50", "8faa5a", "a3b46a"], "elevation": -0.1},
     {"kind": "reeds", "at": [2300, 3590], "size": [300, 32], "count": 10, "height": 1.0, "colors": ["6f8a44", "7f9a50", "8faa5a", "a3b46a"], "elevation": -0.1},
     {"kind": "reeds", "at": [2700, 3590], "size": [300, 32], "count": 10, "height": 1.0, "colors": ["6f8a44", "7f9a50", "8faa5a", "a3b46a"], "elevation": -0.1},
-    {"kind": "far_shore", "at": [1800, 3740], "size": [2600, 320], "peaks": [[-300, 8.0, 8.0], [500, 5.5, 6.0], [-1100, 4.5, 6.0], [1200, 4.0, 5.0]], "smoke": [-300, 8.5], "temple": 0, "note": "dukou.c: 隐约可见对岸日照山的轮廓，山顶有袅袅炊烟升起"},
+    {"kind": "far_shore", "at": [1800, 3690], "size": [2600, 300], "peaks": [[-8, 10.5, 9.0], [16, 7.0, 6.5], [-34, 6.0, 6.5], [36, 5.0, 5.5]], "smoke": [-8, 11.0], "temple": 0, "colors": ["4f6a70", "587379", "627c80", "48636a"], "rock": ["74868a", "7e8f92", "6a7c80"], "note": "dukou.c: 隐约可见对岸日照山的轮廓，山顶有袅袅炊烟升起"},
     {"kind": "boundary_stone", "at": [1576, 2860], "text": "江北渡口"}
   ],
   "weather": [
     {"at": [1050, 1500], "radius": [40, 60], "water": false},
     {"at": [1760, 2380], "radius": [70, 50], "water": false},
-    {"at": [1800, 2980], "radius": [70, 40], "water": true},
+    {"at": [1700, 2900], "radius": [60, 34], "water": false},
     {"at": [2430, 2380], "radius": [50, 36], "water": true},
     {"at": [1440, 1780], "radius": [44, 30], "water": false}
   ]

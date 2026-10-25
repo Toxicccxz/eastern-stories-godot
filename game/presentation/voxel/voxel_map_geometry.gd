@@ -701,6 +701,15 @@ func _plant_groves() -> void:
 			instance.material_override = tree_shapes.material()
 			grove.add_child(instance)
 
+var _static_chunks: Dictionary[Vector2i, Node3D] = {}
+
+## The shared node the still props of a neighbourhood (a GROVE square) batch in.
+func _static_chunk(at: Vector3) -> Node3D:
+	var chunk := Vector2i(floori(at.x/GROVE),floori(at.z/GROVE))
+	if not _static_chunks.has(chunk):
+		_static_chunks[chunk] = _node()
+	return _static_chunks[chunk]
+
 func _flora_at(at: Vector2) -> Dictionary:
 	for entry: Dictionary in flora_regions:
 		if (entry["rect"] as Rect2).has_point(at):
@@ -758,6 +767,11 @@ func _prop(data: Dictionary) -> void:
 	var size: Array = data.get("size",[64,32])
 	var w: float = float(size[0])/UNIT
 	var d: float = float(size[1])/UNIT
+	# A prop that never fades, hides or moves as a whole batches with its neighbours (its
+	# swaying, glowing and smoking parts are nodes of their own and stay so).
+	var shown_alone: bool = data.get("occludes",false) or data.get("wall_mounted",false) or data.has("portal") 		or data["kind"] in ["window","wall_scroll","closed_door"]
+	if not shown_alone:
+		shapes.merge(root,_static_chunk(at))
 	if _draw_kind(shapes,root,data,w,d):
 		if data.get("wall_mounted",false) or data["kind"] in ["window","wall_scroll","closed_door"]:
 			mounted_props.append({"node":root,"at":Vector2(a[0],a[1])})

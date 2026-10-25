@@ -11,14 +11,22 @@ var occluders: Array[Dictionary] = []
 ## Chimney smoke and flags stirring on a facade (null where nothing moves).
 var ambience: VoxelAmbience
 
-func _node(at: Vector3, into: Node3D) -> Node3D:
+var _body: Node3D
+
+## A part of the building; unless it moves (a flag in the wind), its forms batch with the
+## building's body (Shapes.merge: its pose is read when something is drawn into it).
+func _node(at: Vector3, into: Node3D, moves: bool = false) -> Node3D:
 	var node := Node3D.new()
 	node.position = at
 	into.add_child(node)
+	if _body != null and not moves:
+		shapes.merge(node,_body)
 	return node
 
 func build(center: Vector3, w: float, d: float, data: Dictionary, entrances: Array[Vector3]) -> void:
+	_body = null
 	var body: Node3D = _node(center,parent)
+	_body = body
 	occluders.append({"node":body})
 	var height: float = data.get("height",3.4)
 	var masses: Array = data.get("masses",[])
@@ -141,8 +149,8 @@ func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, e
 				shapes.box(body,(Vector3(along,height-0.90,fixed) if along_x else Vector3(fixed,height-0.90,along))+out*0.32,Vector3(0.065,0.5,0.065),timber)
 
 func _roof(into: Node3D, at: Vector3, w: float, d: float, height: float, data: Dictionary) -> void:
-	var root: Node3D = _node(at,into)
 	var direction: String = data.get("ridge", "z" if d>w else "x")
+	var root: Node3D = _node(at,into)
 	if direction=="z":
 		root.rotation.y = PI/2
 	var wide: float = (d if direction=="z" else w)+float(data.get("overhang",0.7))
@@ -333,7 +341,7 @@ func _hanging_flag(front: Node3D, flag_data: Dictionary) -> void:
 	var side: float = float(flag_data.get("side",1.0))
 	var pole: Node3D = _node(Vector3(side*1.45,3.35,0.1),front)
 	shapes.tilted_box(pole,Vector3(side*0.55,0.18,0.35),Vector3(0.08,0.08,1.6),"5b4433",Vector3(0.22,side*0.6,0))
-	var cloth: Node3D = _node(Vector3(side*0.95,0.1,0.75),pole)
+	var cloth: Node3D = _node(Vector3(side*0.95,0.1,0.75),pole,true)
 	shapes.box(cloth,Vector3(0,-0.75,0),Vector3(0.62,1.5,0.04),String(flag_data.get("cloth","b8412f")))
 	shapes.box(cloth,Vector3(0,-0.02,0),Vector3(0.7,0.1,0.06),String(flag_data.get("trim","2f2a24")))
 	for tail: int in 3:

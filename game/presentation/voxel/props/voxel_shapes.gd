@@ -10,6 +10,14 @@ var spatial_cell_size: float = 12.0
 ## Placed in front of every form drawn while set: many trees share one grove parent (and so
 ## one batch per colour) yet each keeps its own position, turn and size.
 var frame := Transform3D.IDENTITY
+## Nodes whose forms go into another node's batches (`merge`): a prop that never moves into
+## its neighbourhood's shared node, a facade's parts into the building's body. The same
+## picture with one batch per colour there instead of one per part; both nodes must be in
+## the tree, posed, before anything is drawn into the first.
+var merged: Dictionary[Node3D, Node3D] = {}
+## Nodes already as small as a batch cell (a building's body, a neighbourhood of props): their
+## batches are not cut again by position.
+var compact: Dictionary[Node3D, bool] = {}
 
 ## A colour key; "<hex>:gloss" is the same colour, wet and shiny (its own material);
 ## "<hex>:glow" gives off its own light (a red paper lantern, gilt letters catching the sun);
@@ -30,10 +38,18 @@ func shard(parent: Node3D, at: Vector3, size: Vector3, hex: String, variant: int
 		stones[variant] = _stone_mesh(variant)
 	_instance(parent, Transform3D(Basis(Vector3.UP, yaw).scaled_local(size), at), hex, stones[variant])
 
+func merge(node: Node3D, into: Node3D) -> void:
+	merged[node] = into
+	compact[into] = true
+
 func _instance(parent: Node3D, transform: Transform3D, hex: String, mesh: Mesh) -> void:
 	transform = frame*transform
+	if merged.has(parent):
+		var into: Node3D = merged[parent]
+		transform = into.global_transform.affine_inverse()*parent.global_transform*transform
+		parent = into
 	var key: String = str(parent.get_instance_id()) + hex + str(mesh.get_instance_id())
-	if spatial_batching:
+	if spatial_batching and not compact.has(parent):
 		# Mobile lighting chooses lights per instance. A map-wide ground instance
 		# otherwise exceeds that budget and changes lights abruptly while walking.
 		key += ":%d:%d" % [floori(transform.origin.x/spatial_cell_size),floori(transform.origin.z/spatial_cell_size)]

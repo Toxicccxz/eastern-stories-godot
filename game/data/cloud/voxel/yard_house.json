@@ -10,7 +10,7 @@
     "flower_threshold": 0.0,
     "wind": 0.14,
     "butterflies": 6,
-    "meadows": [{"rect": [-240, -272, 512, 272], "on": ["grass"], "scale": [1.2, 2.0], "density": 0.6, "tufts": 2, "note": "荒草场"}]
+    "meadows": [{"rect": [-240, -272, 512, -48], "on": ["grass"], "scale": [1.2, 2.0], "density": 0.55, "tufts": 2, "note": "荒草场"}, {"rect": [-240, 48, 512, 272], "on": ["grass"], "scale": [1.1, 1.9], "density": 0.5, "tufts": 2}, {"rect": [-240, -48, 512, 48], "on": ["grass"], "scale": [0.5, 0.9], "density": 0.15, "tufts": 1, "note": "a way trodden through it, the coffin shop's door to the hall"}]
   },
   "props": [
     {"kind": "rubble", "at": [-60, -150], "size": [48, 32]},
@@ -37,5 +37,9 @@
     "cloud.npc.god": {"coat": "7a3a5a"},
     "cloud.npc.box_boss": {"coat": "3d3028"},
     "cloud.npc.box_waiter": {"coat": "6b6256"}
+  },
+  "ambience": {
+    "fireflies": [{"rect": [-200, -240, 480, 240], "count": 12, "height": 1.0}],
+    "birds": [{"at": [100, 0], "radius": 180, "count": 2, "height": 7, "color": "4a3f36"}]
   }
 }

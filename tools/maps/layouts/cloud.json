@@ -856,7 +856,8 @@
           ["blocked", "cloud.drugstore", ["rel", 0.92348, 0.23137], 2.8235, 0.9411, {"look": {"kind": "drying_rack", "colors": ["8a7a4a", "9a6a3a", "7d8a52", "a3955c"], "tiers": 3}}],
           ["blocked", "cloud.drugstore", ["rel", 0.9363, 0.55829], 1.4117, 1.4117, "a pot of medicine simmering", {"look": {"kind": "tea_stove"}}],
           ["blocked", "cloud.drugstore", ["rel", 0.10296, 0.76983], 2.8235, 0.9411, "a bench for those waiting", {"look": {"kind": "bench_seat", "cloth": "6f8a6a"}}],
-          ["blocked", "cloud.drugstore", ["rel", 0.01322, 0.23137], 0.4705, 2.8235, "books of remedies", {"look": {"kind": "bookcase", "rotation": 90, "occludes": true}}]
+          ["blocked", "cloud.drugstore", ["rel", 0.01322, 0.23137], 0.4705, 2.8235, "books of remedies", {"look": {"kind": "bookcase", "rotation": 90, "occludes": true}}],
+          ["blocked", "cloud.drugstore", ["rel", 0.30809, 0.65445], 2.8235, 1.8823, "where the doctor feels a pulse", {"look": {"kind": "square_table", "set": "tea", "stools": [[-0.38, 0], [0.38, 0]], "teapot": "8b5440"}}]
         ],
         "placed": {},
         "doors": {
@@ -1361,7 +1362,8 @@
           ["blocked", "cloud.tailory", ["rel", 0.8722, 0.69291], 2.8235, 0.9411, {"look": {"kind": "clothes_rack", "cloth": "3d5a7a", "occludes": true}}],
           ["blocked", "cloud.tailory", ["rel", 0.07732, 0.71214], 1.8823, 1.4117, "a mirror for fittings", {"look": {"kind": "dressing_table", "rotation": 90, "cloth": "8a6a45"}}],
           ["blocked", "cloud.tailory", ["rel", 0.94912, 0.86599], 1.8823, 0.4705, {"look": {"kind": "folding_screen", "cloth": "617c86"}}],
-          ["blocked", "cloud.tailory", ["rel", 0.48758, 0.96214], 3.7647, 0.9411, "the counter", {"look": {"kind": "shop_counter", "goods": "cloth", "rotation": 180, "cloth": "3d5a7a"}}]
+          ["blocked", "cloud.tailory", ["rel", 0.48758, 0.96214], 3.7647, 0.9411, "the counter", {"look": {"kind": "shop_counter", "goods": "cloth", "rotation": 180, "cloth": "3d5a7a"}}],
+          ["blocked", "cloud.tailory", ["rel", 0.69271, 0.28906], 2.8235, 1.4117, "lengths laid out to be chosen", {"look": {"kind": "stall", "goods": "cloth", "awning": []}}]
         ],
         "placed": {},
         "doors": {
@@ -1534,7 +1536,8 @@
           ["blocked", "cloud.weapony", ["rel", 0.94912, 0.5006], 0.9411, 2.8235, "the counter", {"look": {"kind": "shop_counter", "goods": "blades", "rotation": -90, "wood": "5a4433", "cloth": "5a5a52"}}],
           ["blocked", "cloud.weapony", ["rel", 0.46194, 0.71214], 3.7647, 1.4117, "blades laid out to be tried", {"look": {"kind": "shop_counter", "goods": "blades", "wood": "6a4c33", "cloth": "6a3a2e"}}],
           ["blocked", "cloud.weapony", ["rel", 0.97476, 0.88522], 0.9411, 2.8235, {"look": {"kind": "weapon_rack", "rotation": -90, "occludes": true}}],
-          ["blocked", "cloud.weapony", ["rel", 0.15425, 0.26983], 0.9411, 0.9411, "a post to try a blade on", {"look": {"kind": "training_post"}}]
+          ["blocked", "cloud.weapony", ["rel", 0.15425, 0.26983], 0.9411, 0.9411, "a post to try a blade on", {"look": {"kind": "training_post"}}],
+          ["blocked", "cloud.weapony", ["rel", 0.76963, 0.63522], 2.8235, 1.4117, "sheaths, sashes and tassels", {"look": {"kind": "stall", "goods": "cloth", "awning": [], "board": "5a4433"}}]
         ],
         "placed": {},
         "doors": {
@@ -1591,7 +1594,9 @@
           ["blocked", "cloud.zaihuoy", ["rel", 0.02604, 0.42368], 0.9411, 5.647, {"look": {"kind": "sundry_shelf", "rotation": 90, "occludes": true}}],
           ["blocked", "cloud.zaihuoy", ["rel", 0.30809, 0.92368], 3.7647, 0.9411, "the counter", {"look": {"kind": "shop_counter", "goods": "coins", "rotation": 180, "wood": "6a4a34", "cloth": "8a7044"}}],
           ["blocked", "cloud.zaihuoy", ["rel", 0.76963, 0.86599], 3.7647, 1.4117, {"look": {"kind": "grain_sacks", "cloth": "bdaa7b"}}],
-          ["blocked", "cloud.zaihuoy", ["rel", 0.07732, 0.80829], 1.8823, 1.8823, {"look": {"kind": "wine_jars", "count": 4}}]
+          ["blocked", "cloud.zaihuoy", ["rel", 0.07732, 0.80829], 1.8823, 1.8823, {"look": {"kind": "wine_jars", "count": 4}}],
+          ["blocked", "cloud.zaihuoy", ["rel", 0.70553, 0.2506], 3.2941, 1.4117, "goods laid out on a trestle", {"look": {"kind": "stall", "goods": "pottery", "awning": []}}],
+          ["blocked", "cloud.zaihuoy", ["rel", 0.23117, 0.34675], 1.8823, 1.8823, {"look": {"kind": "cargo"}}]
         ],
         "placed": {},
         "doors": {
