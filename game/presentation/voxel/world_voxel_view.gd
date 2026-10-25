@@ -11,6 +11,8 @@ const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
 const VIEW_ROTATION_SECONDS: float = 0.6
 const VIEW_SIDE_ANGLE: float = PI/4.0
 const VIEW_RADIUS: float = 30.0
+## The exits' amber: the arrow over each way out and the frame round it on the ground.
+const EXIT_GLOW: String = "f2a43a:glow"
 @export_file("*.json") var layout_path: String
 var map: WorldMapController
 var camera: Camera3D
@@ -387,13 +389,18 @@ func _make_entrances() -> void:
 		var marker := Node3D.new()
 		marker.position = VoxelMapGeometry.point(passage.global_position)
 		world.add_child(marker)
-		var label: Label3D = _label(marker,title+"  ›",float(settings.get("label_height",1.4)))
-		label.modulate = Color("efd28a")
-		label.font_size = 30
+		var label: Label3D = _label(marker,title+"  ›",float(settings.get("label_height",1.6)))
+		label.modulate = Color("f6d98e")
+		label.font_size = 36
+		label.outline_size = 9
+		label.outline_modulate = Color("2a1c10")
 		var s := Shapes.new()
 		if settings.get("floor_guides",true):
-			for x: float in [-0.65,0.65]:
-				s.box(marker,Vector3(x,0.035,0),Vector3(0.1,0.04,1.1),"d5ba7e")
+			# A glowing frame on the ground round the way out, so it reads from across the map.
+			var size := _passage_size(passage)
+			for side: float in [-1.0,1.0]:
+				s.box(marker,Vector3(side*size.x/2,0.04,0),Vector3(0.1,0.05,size.y),EXIT_GLOW)
+				s.box(marker,Vector3(0,0.04,side*size.y/2),Vector3(size.x+0.1,0.05,0.1),EXIT_GLOW)
 		s.flush()
 		entrances[passage.portal_id] = {"passage":passage,"node":marker,"label":label}
 		var arrow: Node3D = _arrow(marker,_outward(passage,portal))
@@ -441,14 +448,26 @@ func _shape_outward(passage: WorldPassageArea2D) -> Vector2:
 	var side: float = signf((at-room).dot(across))
 	return across*(side if side != 0.0 else 1.0)
 
+## The size (units) of a passage's area on the ground.
+func _passage_size(passage: WorldPassageArea2D) -> Vector2:
+	var shape := passage.get_node_or_null("CollisionShape2D") as CollisionShape2D
+	if shape != null and shape.shape is RectangleShape2D:
+		return (shape.shape as RectangleShape2D).size/VoxelMapGeometry.UNIT
+	return Vector2(2.0,1.0)
+
 func _arrow(parent: Node3D, direction: Vector2) -> Node3D:
 	var arrow := Node3D.new()
 	arrow.set_meta("direction",direction)
 	parent.add_child(arrow)
 	var s := Shapes.new()
-	# Flat, so it reads the same from either fixed angle; the wide row trails, the tip leads.
+	# Flat, so it reads the same from either fixed angle; the wide row trails, the tip leads. A dark
+	# rim under it keeps it readable on pale ground.
+	var rim := Node3D.new()
+	arrow.add_child(rim)
 	for row: int in 5:
-		s.box(arrow,Vector3(0,0,-0.4+row*0.2),Vector3(0.95-row*0.21,0.12,0.2),"f2a43a")
+		s.box(rim,Vector3(0,-0.04,-0.6+row*0.3),Vector3((0.95-row*0.21)*1.5+0.16,0.08,0.32),"3a2414")
+	for row: int in 5:
+		s.box(arrow,Vector3(0,0,-0.6+row*0.3),Vector3((0.95-row*0.21)*1.5,0.14,0.3),"f2a43a")
 	s.flush()
 	# A warm amber of its own: readable on pale ground by day and glowing by night.
 	var glow := StandardMaterial3D.new()
@@ -457,8 +476,10 @@ func _arrow(parent: Node3D, direction: Vector2) -> Node3D:
 	glow.emission = Color("e8902a")
 	glow.emission_energy_multiplier = 0.55
 	for mesh: Node in arrow.find_children("*","GeometryInstance3D",true,false):
-		(mesh as GeometryInstance3D).material_override = glow
-		(mesh as GeometryInstance3D).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		var instance := mesh as GeometryInstance3D
+		if instance.get_parent() == arrow:
+			instance.material_override = glow
+		instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	return arrow
 
 func _bob_arrows(delta: float) -> void:
@@ -475,13 +496,13 @@ func _bob_arrows(delta: float) -> void:
 			var across: Vector2 = Vector2.RIGHT if size.x < size.y else Vector2.DOWN
 			var side: float = signf((wall.global_position-player).dot(across))
 			direction = across*(side if side != 0.0 else 1.0)
-			near = wall.global_position.distance_to(player) < 360.0
+			near = wall.global_position.distance_to(player) < 600.0
 		else:
 			near = (arrow.get_parent() as Node3D).visible
 		arrow.visible = near
 		arrow.rotation.y = atan2(direction.x,direction.y)
 		# A door's floats over its lintel, clear of the shut leaf; a passage's over the floor.
-		arrow.position.y = (2.75 if arrow.get_meta("door",false) else 0.8)+sin(_arrow_clock*3.2)*0.14
+		arrow.position.y = (2.85 if arrow.get_meta("door",false) else 1.0)+sin(_arrow_clock*3.2)*0.2
 
 func _make_shutters() -> void:
 	for id: StringName in map.doors_by_id:
@@ -529,7 +550,7 @@ func _reveal_entrances() -> void:
 		var entry: Dictionary = entrances[id]
 		var passage: WorldPassageArea2D = entry["passage"]
 		var distance: float = passage.global_position.distance_to(map.player_body.global_position)
-		(entry["node"] as Node3D).visible = passage.is_open() and distance<500.0
+		(entry["node"] as Node3D).visible = passage.is_open() and distance<900.0
 
 func _plant_contacts() -> PackedVector3Array:
 	var contacts := PackedVector3Array()
