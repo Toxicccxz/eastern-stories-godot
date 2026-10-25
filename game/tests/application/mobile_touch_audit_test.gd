@@ -292,6 +292,13 @@ func _scroll_adversarial(tree: SceneTree, shell: ApplicationShellController, pre
 func _reflow_and_blocker(tree: SceneTree, shell: ApplicationShellController, touch: MobileTouchAdapter, presenter: SafeAreaPresenter, safe: SafeAreaCapability) -> void:
 	var session: WorldSessionController = shell.runtime_host().current_session()
 	var hud: SharedGameplayUI = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).session.shared_ui()
+	# TEST-ONLY: the held pad walks the player east over the bridge (the ways are wide since
+	# DECISIONS「地图尺寸以体素视角为准」); epath3's madman keeps out of these input checks, so a
+	# fight never stands in the way of the Save below.
+	var forest: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
+	for npc: NpcRuntimeState in forest.npc_runtimes():
+		if npc.spawn_point_id == &"oldpine.outdoor.east_bridge.epath3.maniac.1" and npc.exists_in_map:
+			forest.npcs.vanish(npc)
 	for extent: Vector2 in [Vector2(960, 540), Vector2(1280, 720)]:
 		tree.root.size = Vector2i(extent)
 		(safe as FakeSafe).metrics = SafeAreaMetrics.normalize(Rect2(Vector2.ZERO, extent), Rect2(Vector2.ZERO, extent), Rect2(Vector2.ZERO, extent), Transform2D.IDENTITY, true)

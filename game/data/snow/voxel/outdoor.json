@@ -11,18 +11,18 @@
     "flower_threshold": 0.08,
     "blossom_trees": 0.38,
     "tree_types": ["pine", "broadleaf", "broadleaf", "slender", "shrub"],
-    "no_trees": [[-1904, 336, -1696, 496]],
+    "no_trees": [[-1952, 336, -1744, 496]],
     "areas": [
-      {"rect": [-320, 720, 320, 1240], "blossom_trees": 0.12, "tree_types": ["pine", "broadleaf", "broadleaf", "tall_pine", "slender"], "tree_chance": 0.4, "grass_density": 0.66, "ground": ["5f7a46", "68804a", "728750"], "note": "sroad1's south end: the town gives way to 卧龙岗's wooded slopes (u/cloud/dragonhill/nroad.c)"},
-      {"rect": [1248, 760, 1640, 1200], "blossom_trees": 0.04, "tree_types": ["tall_pine", "pine", "old_pine", "tall_pine", "broadleaf"], "tree_chance": 0.5, "grass_density": 0.6, "ground": ["4f6a3e", "586f42", "617646"], "note": "eroad3's south end: the pines of 老松林 begin (npath1.c: 小路两旁长满了许多高耸的松树)"},
-      {"rect": [-1888, 160, -1680, 680], "blossom_trees": 0.1, "tree_types": ["maple", "maple", "broadleaf", "slender"], "tree_chance": 0.5, "ground": ["5f7a44", "6a854a", "769152"], "note": "sroad5's west end: the maples of 水烟阁's slopes begin (waterfog/sroad1.c: 山上茂密的枫树林)"}
+      {"rect": [-368, 720, 368, 1336], "blossom_trees": 0.12, "tree_types": ["pine", "broadleaf", "broadleaf", "tall_pine", "slender"], "tree_chance": 0.4, "grass_density": 0.66, "ground": ["5f7a46", "68804a", "728750"], "note": "sroad1's south end: the town gives way to 卧龙岗's wooded slopes (u/cloud/dragonhill/nroad.c)"},
+      {"rect": [1296, 760, 1688, 1296], "blossom_trees": 0.04, "tree_types": ["tall_pine", "pine", "old_pine", "tall_pine", "broadleaf"], "tree_chance": 0.5, "grass_density": 0.6, "ground": ["4f6a3e", "586f42", "617646"], "note": "eroad3's south end: the pines of 老松林 begin (npath1.c: 小路两旁长满了许多高耸的松树)"},
+      {"rect": [-1936, 160, -1728, 680], "blossom_trees": 0.1, "tree_types": ["maple", "maple", "broadleaf", "slender"], "tree_chance": 0.5, "ground": ["5f7a44", "6a854a", "769152"], "note": "sroad5's west end: the maples of 水烟阁's slopes begin (waterfog/sroad1.c: 山上茂密的枫树林)"}
     ],
     "zones": {
       "snow.crossroad": {"margin": 96, "blossom_trees": 0, "tree_types": ["shrub", "scrub", "dead"], "grass_density": 0.42, "flower_threshold": 1.0, "ground": ["737a49", "7f824d", "8b8a52"], "note": "the col: the town's blossoms give out toward 野羊山's bare rock"},
       "snow.mstreet4": {"margin": 32, "blossom_trees": 0.08, "tree_types": ["slender", "shrub"], "grass_density": 0.55, "flower_threshold": 0.24, "ground": ["627d4c", "6c844e", "768b52"]}
     }
   },
-  "exit_trails": {"snow.eroad3.south": 8, "snow.sroad1.south": 10, "snow.sroad5.west": {"cells": 10, "kind": "street", "width": 8}, "note": "the forest path runs on south into 老松林; the 黄土路 south over 卧龙岗 to 绮云镇; the 青石官道 west toward 水烟阁"},
+  "exit_trails": {"snow.eroad3.south": 8, "snow.sroad1.south": {"cells": 10, "kind": "path", "width": 8}, "snow.sroad5.west": {"cells": 10, "kind": "street", "width": 10}, "note": "the forest path runs on south into 老松林; the 黄土路 south over 卧龙岗 to 绮云镇; the 青石官道 west toward 水烟阁"},
   "cliffs": {
     "low": 0.8,
     "high": 2.6,
@@ -32,7 +32,7 @@
     "strata": ["7a7262", "8a8170", "958b77", "a39883", "857c6a"],
     "tops": ["6f7a50", "7a8256", "86895c"],
     "areas": [
-      {"rect": [-400, -2720, 400, -2400], "strata": ["7d6c55", "8c7a5e", "9a8766", "a6926d", "86745b"], "tops": ["6c6a42", "787449", "857e50"], "grooves": 0.06, "note": "the col's rocks already take 野羊山's colours"}
+      {"rect": [-448, -2720, 448, -2400], "strata": ["7d6c55", "8c7a5e", "9a8766", "a6926d", "86745b"], "tops": ["6c6a42", "787449", "857e50"], "grooves": 0.06, "note": "the col's rocks already take 野羊山's colours"}
     ]
   },
   "actors": {
@@ -45,37 +45,37 @@
     "snow.npc.crazy_dog": {"animal": true}
   },
   "buildings": [
-    {"rect": [-880, -192, -416, 624], "portals": ["snow.square.west"], "roof": "425861", "wall": "c4b898", "height": 4.5, "enclosure_height": 2.6, "construction": "plaster", "timber": "78503c", "lattice": true, "gallery": true, "porch": "tiled", "masses": [{"bounds": [0, 0, 1, 0.48], "height": 4.7, "roof_form": "hip", "ridge": "z", "rise": 1.8, "eave_lift": 0.3}, {"bounds": [0, 0.48, 0.72, 1], "height": 3.2, "roof_form": "gable", "ridge": "z", "rise": 1.2}, {"bounds": [0.72, 0.62, 1, 1], "height": 2.6, "roof_form": "shed", "ridge": "z", "rise": 0.65}]},
-    {"rect": [-304, -720, -112, -400], "portals": ["snow.mstreet1.west"], "roof": "4c5b62", "wall": "d5cfb3", "height": 3.5, "construction": "plaster", "timber": "6b5141", "foundation": 0.75, "roof_form": "hip", "rise": 1.3, "eave_lift": 0.18, "lattice": true, "bay": 7, "porch": "tiled"},
-    {"rect": [-304, -1200, -112, -880], "portals": ["snow.mstreet2.west"], "roof": "424e50", "wall": "7e8676", "height": 2.7, "chimney": true, "enclosure_height": 2.3, "construction": "brick", "timber": "62513b", "foundation": 0.65, "rise": 0.9, "porch": "wood", "goods": "tools", "bay": 8, "masses": [{"bounds": [0, 0, 1, 0.65], "height": 2.9, "roof_form": "gable", "ridge": "x", "rise": 1.0}, {"bounds": [0, 0.65, 1, 1], "height": 2.35, "roof_form": "shed", "ridge": "x", "rise": 0.6}]},
-    {"rect": [-304, -1728, -112, -1312], "portals": ["snow.mstreet3.west"], "roof": "526f61", "wall": "bdc3a3", "height": 3.15, "construction": "plaster", "timber": "72543a", "roof_form": "hip", "rise": 1.55, "eave_lift": 0.25, "porch": "cloth", "lattice": true, "bay": 7},
-    {"rect": [-304, -2160, -112, -1840], "portals": ["snow.mstreet4.west"], "roof": "746951", "wall": "c9b791", "height": 2.95, "construction": "timber", "timber": "6d5339", "roof_form": "gable", "ridge": "x", "rise": 1.35, "porch": "wood", "goods": "sacks", "bay": 6},
-    {"rect": [112, -1200, 304, -880], "portals": ["snow.mstreet2.east"], "roof": "687365", "wall": "a08b62", "height": 3.3, "enclosure_height": 2.8, "construction": "timber", "timber": "69573d", "porch": "wood", "goods": "sacks", "bay": 8, "masses": [{"bounds": [0, 0, 1, 0.72], "roof_form": "gable", "ridge": "x", "rise": 1.4}, {"bounds": [0, 0.72, 1, 1], "height": 2.6, "roof_form": "shed", "ridge": "x", "rise": 0.65}]},
-    {"rect": [112, -1728, 384, -1312], "portals": ["snow.mstreet3.east"], "roof": "3d6262", "wall": "b7bfa5", "height": 4.0, "construction": "plaster", "timber": "6c4939", "roof_form": "hip", "rise": 1.8, "eave_lift": 0.3, "porch": "tiled", "lattice": true, "gallery": true, "bay": 8},
-    {"rect": [400, -1248, 1312, -352], "portals": ["snow.school1.east"], "roof": "536774", "wall": "c7c4a6", "height": 3.7, "enclosure_height": 1.9, "construction": "plaster", "timber": "80533c", "porch": "tiled", "lattice": true, "bay": 9, "masses": [{"bounds": [0, 0, 1, 0.26], "roof_form": "hip", "ridge": "x", "height": 4.1, "rise": 1.5, "eave_lift": 0.25}, {"bounds": [0, 0.27, 0.24, 0.77], "roof_form": "gable", "ridge": "z", "height": 2.9, "rise": 1.1}, {"bounds": [0.76, 0.27, 1, 0.77], "roof_form": "gable", "ridge": "z", "height": 2.9, "rise": 1.1}, {"bounds": [0.2, 0.78, 0.8, 1], "roof_form": "hip", "ridge": "x", "height": 3.25, "rise": 1.2}]},
-    {"rect": [416, -96, 704, 544], "portals": ["snow.square.east", "snow.eroad1.north"], "roof": "596c5e", "wall": "bbad88", "height": 3.6, "enclosure_height": 1.7, "construction": "plaster", "timber": "935340", "porch": "tiled", "lattice": true, "masses": [{"bounds": [0, 0, 1, 0.56], "roof_form": "hip", "height": 4.4, "rise": 1.8, "eave_lift": 0.45}, {"bounds": [0, 0.56, 0.32, 1], "roof_form": "shed", "height": 2.4, "rise": 0.65}, {"bounds": [0.68, 0.56, 1, 1], "roof_form": "shed", "height": 2.4, "rise": 0.65}]},
-    {"rect": [-576, 864, -256, 1136], "portals": ["snow.sroad2.south"], "roof": "4f6870", "wall": "d0cdb5", "height": 3.4, "construction": "plaster", "timber": "735640", "roof_form": "hip", "ridge": "x", "rise": 1.4, "eave_lift": 0.22, "lattice": true, "porch": "tiled"},
-    {"rect": [-368, 368, -160, 592], "portals": [], "roof": "6c6a54", "wall": "c9b791", "height": 2.6, "construction": "timber", "roof_form": "shed", "rise": 1.1, "porch": "wood"},
-    {"rect": [128, -2208, 336, -2032], "portals": [], "roof": "5b6f69", "wall": "c7c7aa", "height": 3.6, "construction": "plaster", "roof_form": "hip", "rise": 1.4, "eave_lift": 0.2, "lattice": true},
-    {"rect": [128, -1952, 336, -1776], "portals": [], "roof": "516064", "wall": "cab58a", "height": 2.7, "construction": "brick", "roof_form": "gable", "ridge": "z", "rise": 1.2},
-    {"rect": [-688, -896, -400, -656], "portals": [], "roof": "5e7560", "wall": "c2b894", "height": 3.0, "construction": "plaster", "roof_form": "gable", "ridge": "z", "rise": 1.2},
-    {"rect": [-688, -1424, -400, -1184], "portals": [], "roof": "847553", "wall": "b59e7b", "height": 2.5, "construction": "timber", "roof_form": "shed", "ridge": "x", "rise": 0.85},
-    {"rect": [736, -32, 960, 192], "portals": [], "roof": "4e6067", "wall": "cec9ac", "height": 3.5, "construction": "plaster", "roof_form": "hip", "rise": 1.5, "eave_lift": 0.22},
-    {"rect": [736, 224, 960, 432], "portals": [], "roof": "5b715f", "wall": "c9b791", "height": 2.65, "construction": "timber", "roof_form": "gable", "ridge": "z", "rise": 1.1},
-    {"rect": [1360, -1184, 1600, -928], "portals": [], "roof": "7c6c55", "wall": "b59e7b", "height": 3.05, "construction": "brick", "roof_form": "gable", "ridge": "x", "rise": 1.3}
+    {"rect": [-928, -192, -464, 624], "portals": ["snow.square.west"], "roof": "425861", "wall": "c4b898", "height": 4.5, "enclosure_height": 2.6, "construction": "plaster", "timber": "78503c", "lattice": true, "gallery": true, "porch": "tiled", "masses": [{"bounds": [0, 0, 1, 0.48], "height": 4.7, "roof_form": "hip", "ridge": "z", "rise": 1.8, "eave_lift": 0.3}, {"bounds": [0, 0.48, 0.72, 1], "height": 3.2, "roof_form": "gable", "ridge": "z", "rise": 1.2}, {"bounds": [0.72, 0.62, 1, 1], "height": 2.6, "roof_form": "shed", "ridge": "z", "rise": 0.65}]},
+    {"rect": [-352, -720, -160, -400], "portals": ["snow.mstreet1.west"], "roof": "4c5b62", "wall": "d5cfb3", "height": 3.5, "construction": "plaster", "timber": "6b5141", "foundation": 0.75, "roof_form": "hip", "rise": 1.3, "eave_lift": 0.18, "lattice": true, "bay": 7, "porch": "tiled"},
+    {"rect": [-352, -1200, -160, -880], "portals": ["snow.mstreet2.west"], "roof": "424e50", "wall": "7e8676", "height": 2.7, "chimney": true, "enclosure_height": 2.3, "construction": "brick", "timber": "62513b", "foundation": 0.65, "rise": 0.9, "porch": "wood", "goods": "tools", "bay": 8, "masses": [{"bounds": [0, 0, 1, 0.65], "height": 2.9, "roof_form": "gable", "ridge": "x", "rise": 1.0}, {"bounds": [0, 0.65, 1, 1], "height": 2.35, "roof_form": "shed", "ridge": "x", "rise": 0.6}]},
+    {"rect": [-352, -1728, -160, -1312], "portals": ["snow.mstreet3.west"], "roof": "526f61", "wall": "bdc3a3", "height": 3.15, "construction": "plaster", "timber": "72543a", "roof_form": "hip", "rise": 1.55, "eave_lift": 0.25, "porch": "cloth", "lattice": true, "bay": 7},
+    {"rect": [-352, -2160, -160, -1840], "portals": ["snow.mstreet4.west"], "roof": "746951", "wall": "c9b791", "height": 2.95, "construction": "timber", "timber": "6d5339", "roof_form": "gable", "ridge": "x", "rise": 1.35, "porch": "wood", "goods": "sacks", "bay": 6},
+    {"rect": [160, -1200, 352, -880], "portals": ["snow.mstreet2.east"], "roof": "687365", "wall": "a08b62", "height": 3.3, "enclosure_height": 2.8, "construction": "timber", "timber": "69573d", "porch": "wood", "goods": "sacks", "bay": 8, "masses": [{"bounds": [0, 0, 1, 0.72], "roof_form": "gable", "ridge": "x", "rise": 1.4}, {"bounds": [0, 0.72, 1, 1], "height": 2.6, "roof_form": "shed", "ridge": "x", "rise": 0.65}]},
+    {"rect": [160, -1728, 432, -1312], "portals": ["snow.mstreet3.east"], "roof": "3d6262", "wall": "b7bfa5", "height": 4.0, "construction": "plaster", "timber": "6c4939", "roof_form": "hip", "rise": 1.8, "eave_lift": 0.3, "porch": "tiled", "lattice": true, "gallery": true, "bay": 8},
+    {"rect": [448, -1248, 1360, -352], "portals": ["snow.school1.east"], "roof": "536774", "wall": "c7c4a6", "height": 3.7, "enclosure_height": 1.9, "construction": "plaster", "timber": "80533c", "porch": "tiled", "lattice": true, "bay": 9, "masses": [{"bounds": [0, 0, 1, 0.26], "roof_form": "hip", "ridge": "x", "height": 4.1, "rise": 1.5, "eave_lift": 0.25}, {"bounds": [0, 0.27, 0.24, 0.77], "roof_form": "gable", "ridge": "z", "height": 2.9, "rise": 1.1}, {"bounds": [0.76, 0.27, 1, 0.77], "roof_form": "gable", "ridge": "z", "height": 2.9, "rise": 1.1}, {"bounds": [0.2, 0.78, 0.8, 1], "roof_form": "hip", "ridge": "x", "height": 3.25, "rise": 1.2}]},
+    {"rect": [464, -96, 752, 544], "portals": ["snow.square.east", "snow.eroad1.north"], "roof": "596c5e", "wall": "bbad88", "height": 3.6, "enclosure_height": 1.7, "construction": "plaster", "timber": "935340", "porch": "tiled", "lattice": true, "masses": [{"bounds": [0, 0, 1, 0.56], "roof_form": "hip", "height": 4.4, "rise": 1.8, "eave_lift": 0.45}, {"bounds": [0, 0.56, 0.32, 1], "roof_form": "shed", "height": 2.4, "rise": 0.65}, {"bounds": [0.68, 0.56, 1, 1], "roof_form": "shed", "height": 2.4, "rise": 0.65}]},
+    {"rect": [-624, 960, -304, 1232], "portals": ["snow.sroad2.south"], "roof": "4f6870", "wall": "d0cdb5", "height": 3.4, "construction": "plaster", "timber": "735640", "roof_form": "hip", "ridge": "x", "rise": 1.4, "eave_lift": 0.22, "lattice": true, "porch": "tiled"},
+    {"rect": [-416, 368, -208, 592], "portals": [], "roof": "6c6a54", "wall": "c9b791", "height": 2.6, "construction": "timber", "roof_form": "shed", "rise": 1.1, "porch": "wood"},
+    {"rect": [176, -2208, 384, -2032], "portals": [], "roof": "5b6f69", "wall": "c7c7aa", "height": 3.6, "construction": "plaster", "roof_form": "hip", "rise": 1.4, "eave_lift": 0.2, "lattice": true},
+    {"rect": [176, -1952, 384, -1776], "portals": [], "roof": "516064", "wall": "cab58a", "height": 2.7, "construction": "brick", "roof_form": "gable", "ridge": "z", "rise": 1.2},
+    {"rect": [-736, -896, -448, -656], "portals": [], "roof": "5e7560", "wall": "c2b894", "height": 3.0, "construction": "plaster", "roof_form": "gable", "ridge": "z", "rise": 1.2},
+    {"rect": [-736, -1424, -448, -1184], "portals": [], "roof": "847553", "wall": "b59e7b", "height": 2.5, "construction": "timber", "roof_form": "shed", "ridge": "x", "rise": 0.85},
+    {"rect": [784, -32, 1008, 192], "portals": [], "roof": "4e6067", "wall": "cec9ac", "height": 3.5, "construction": "plaster", "roof_form": "hip", "rise": 1.5, "eave_lift": 0.22},
+    {"rect": [784, 224, 1008, 432], "portals": [], "roof": "5b715f", "wall": "c9b791", "height": 2.65, "construction": "timber", "roof_form": "gable", "ridge": "z", "rise": 1.1},
+    {"rect": [1408, -1184, 1648, -928], "portals": [], "roof": "7c6c55", "wall": "b59e7b", "height": 3.05, "construction": "brick", "roof_form": "gable", "ridge": "x", "rise": 1.3}
   ],
   "props": [
-    {"kind": "lantern", "at": [-368, 240]},
-    {"kind": "lantern", "at": [368, 240]},
-    {"kind": "lantern", "at": [-80, -400]},
-    {"kind": "lantern", "at": [80, -880]},
-    {"kind": "lantern", "at": [-80, -1350]},
-    {"kind": "lantern", "at": [80, -1900]},
+    {"kind": "lantern", "at": [-416, 240]},
+    {"kind": "lantern", "at": [416, 240]},
+    {"kind": "lantern", "at": [-128, -400]},
+    {"kind": "lantern", "at": [128, -880]},
+    {"kind": "lantern", "at": [-128, -1350]},
+    {"kind": "lantern", "at": [128, -1900]},
     {"kind": "rock_pile", "at": [0, -2590], "size": [72, 120], "count": 16, "colors": ["b09a70", "9d8a66", "897b59"], "note": "scree where the col's 碎石路 starts north (last: the props before it keep their dressing)"}
   ],
   "weather": [
-    {"at": [-205, 88], "radius": [62, 36], "water": true},
-    {"at": [230, -150], "radius": [48, 30], "water": false},
+    {"at": [-253, 88], "radius": [62, 36], "water": true},
+    {"at": [278, -150], "radius": [48, 30], "water": false},
     {"at": [-68, -984], "radius": [31, 53], "water": true},
     {"at": [68, -1470], "radius": [35, 65], "water": false},
     {"at": [-70, -1970], "radius": [29, 48], "water": true},

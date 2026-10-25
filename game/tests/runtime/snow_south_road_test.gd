@@ -111,8 +111,8 @@ class Still extends WorldInteractionRandomSource:
 		return bound - 1
 
 
-## Inn → square → sroad1 → sroad2 (farmers) → the school and back → sroad3 → sroad4,
-## where the crazy dog attacks (set("attitude", "aggressive")).
+## Inn → square → sroad1 → sroad2 (farmers) → the school and back → sroad3 → sroad4, up to
+## the crazy dog off the junction's middle, who attacks (set("attitude", "aggressive")).
 func _test_walk_the_south_road(tree: SceneTree, session: WorldSessionController) -> void:
 	# Nobody chats or wanders on the way (npc.c chat()); the crazy dog stays in sroad4.
 	session.configure_npc_ambience_random_source(Still.new())
@@ -138,8 +138,21 @@ func _test_walk_the_south_road(tree: SceneTree, session: WorldSessionController)
 	await tree.physics_frame
 	_check(not session.combat_encounter_coordinator().has_active_encounter(), "the crazy dog does not notice anyone at sroad3's west end")
 	_check(walker._failures.is_empty(), "walked: " + str(walker._failures))
-	await walker.walk(tree, session, "move_left", 160)
+	# The dog lurks off the junction's middle (DECISIONS「地图尺寸以体素视角为准」): walked up to, it attacks.
+	var dog_at: Vector2 = map.resolve_spawn_marker(&"snow.sroad4.crazy_dog.1").global_position
+	await MapPlaces.drive(tree, map, MapPlaces.spot(map, &"snow.sroad4", dog_at + Vector2(0, -170), 40.0))
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	var body: CharacterBody2D = map.runtime_player_body()
+	# Up to it, stopping once it is close (a fight is not walked out of).
+	for frame: int in 240:
+		if coordinator.has_active_encounter():
+			break
+		if body.global_position.distance_to(dog_at) > 90.0:
+			MapRoute.press_toward(body, dog_at - body.global_position)
+		else:
+			MapPlaces.release()
+		await tree.physics_frame
+	MapPlaces.release()
 	var opponents: Array[StringName] = []
 	if coordinator.has_active_encounter():
 		for participant: CombatParticipant in coordinator.active_encounter().participants():

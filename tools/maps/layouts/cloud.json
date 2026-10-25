@@ -6,122 +6,122 @@
       "draw": {
         "technique": "town",
         "base": "boundary",
-        "bounds": [-80, -80, 3520, 3760],
-        "ground": [["forest", 704, -80, 1344, 1104, "卧龙岗's wooded slopes"]],
+        "bounds": [-176, -176, 3616, 3856],
+        "ground": [["forest", 608, -176, 1344, 1008, "卧龙岗's wooded slopes"]],
         "zones": {
-          "cloud.dragonhill.nroad": [864, 0, 1184, 288, "open", "grass", null],
-          "cloud.dragonhill.nhillfoot": [864, 288, 1184, 512, "open", "grass", null],
-          "cloud.dragonhill.hummock": [816, 512, 1216, 832, "open", "rock", null],
-          "cloud.dragonhill.sroad": [816, 832, 1024, 1088, "open", "grass", null],
-          "cloud.dragonhill.shillfoot": [1024, 832, 1216, 1088, "open", "grass", null],
-          "cloud.entrance": [832, 1088, 1152, 1360, "open", "town_ground", null],
-          "cloud.nwroad1": [960, 1360, 1152, 1680, "open", "street", null],
-          "cloud.nwroad2": [960, 1680, 1280, 1888, "open", "street", null],
-          "cloud.nwroad3": [1280, 1680, 1600, 1888, "open", "street", null],
-          "cloud.nroad1": [1600, 1680, 1920, 1888, "open", "street", null],
-          "cloud.nroad2": [1696, 1888, 1904, 2208, "open", "street", null],
-          "cloud.cross": [1632, 2208, 1952, 2528, "open", "town_ground", null],
-          "cloud.wroad0": [672, 2272, 992, 2480, "open", "street", null],
-          "cloud.wroad1": [992, 2272, 1312, 2480, "open", "street", null],
-          "cloud.wroad2": [1312, 2272, 1632, 2480, "open", "street", null],
-          "cloud.eroad1": [1952, 2272, 2272, 2480, "open", "street", null],
-          "cloud.eroad2": [2272, 2272, 2592, 2480, "open", "street", null],
-          "cloud.eroad3": [2592, 2272, 2912, 2480, "open", "street", null],
-          "cloud.eroad4": [2912, 2112, 3392, 2640, "open", "grass", null],
-          "cloud.sroad1": [1696, 2528, 1904, 2848, "open", "street", null],
-          "cloud.dukou": [1600, 2848, 2000, 3200, "open", "riverbank", null],
-          "cloud.park": [2272, 1952, 2592, 2272, "enclosed", "grass", "wall"]
+          "cloud.dragonhill.nroad": [768, -96, 1184, 192, "open", "grass", null],
+          "cloud.dragonhill.nhillfoot": [768, 192, 1184, 416, "open", "grass", null],
+          "cloud.dragonhill.hummock": [720, 416, 1216, 736, "open", "rock", null],
+          "cloud.dragonhill.sroad": [720, 736, 976, 992, "open", "grass", null],
+          "cloud.dragonhill.shillfoot": [976, 736, 1216, 992, "open", "grass", null],
+          "cloud.entrance": [736, 992, 1152, 1264, "open", "town_ground", null],
+          "cloud.nwroad1": [864, 1264, 1152, 1584, "open", "street", null],
+          "cloud.nwroad2": [864, 1584, 1280, 1888, "open", "street", null],
+          "cloud.nwroad3": [1280, 1584, 1600, 1888, "open", "street", null],
+          "cloud.nroad1": [1600, 1584, 2016, 1888, "open", "street", null],
+          "cloud.nroad2": [1696, 1888, 2000, 2208, "open", "street", null],
+          "cloud.cross": [1632, 2208, 2048, 2624, "open", "town_ground", null],
+          "cloud.wroad0": [576, 2272, 944, 2576, "open", "street", null],
+          "cloud.wroad1": [944, 2272, 1312, 2576, "open", "street", null],
+          "cloud.wroad2": [1312, 2272, 1632, 2576, "open", "street", null],
+          "cloud.eroad1": [2048, 2272, 2368, 2576, "open", "street", null],
+          "cloud.eroad2": [2368, 2272, 2688, 2576, "open", "street", null],
+          "cloud.eroad3": [2688, 2272, 3008, 2576, "open", "street", null],
+          "cloud.eroad4": [3008, 2112, 3488, 2736, "open", "grass", null],
+          "cloud.sroad1": [1696, 2624, 2000, 2944, "open", "street", null],
+          "cloud.dukou": [1600, 2944, 2096, 3296, "open", "riverbank", null],
+          "cloud.park": [2368, 1952, 2688, 2272, "enclosed", "grass", "wall"]
         },
         "roads": [
-          ["path", 992, 0, 1088, 288, "a road on the ridge and on the field; the path runs down the middle"],
-          ["path", 992, 288, 1088, 512],
-          ["path", 1024, 512, 1104, 832],
-          ["path", 1056, 832, 1136, 1088],
-          ["path", 880, 880, 960, 1088],
-          ["path", 960, 896, 1056, 960],
-          ["path", 2912, 2368, 3392, 2400]
+          ["path", 928, -96, 1056, 192, "a road on the ridge and on the field; the path runs down the middle"],
+          ["path", 928, 192, 1056, 416],
+          ["path", 960, 416, 1088, 736],
+          ["path", 992, 736, 1120, 992],
+          ["path", 768, 784, 880, 992],
+          ["path", 864, 784, 1008, 880],
+          ["path", 3008, 2352, 3488, 2432]
         ],
         "props": [
-          ["forest", 864, 0, 960, 192, "卧龙岗: the slopes close in on the path; rocks on the ridge"],
-          ["forest", 1104, 64, 1184, 288],
-          ["forest", 864, 320, 944, 512],
-          ["forest", 1120, 288, 1184, 448],
-          ["cliff", 816, 512, 880, 704],
-          ["cliff", 1152, 608, 1216, 832],
-          ["cliff", 816, 784, 1024, 832, "the ridge drops away above the second 黄土路"],
-          ["forest", 816, 960, 880, 1088],
-          ["forest", 1152, 880, 1216, 1024],
-          ["wall", 832, 1312, 960, 1360, "the gate: the town wall either side of it"],
-          ["wall", 640, 1312, 832, 1360, "the wall runs on west of the gate and east up to 香茗坊 (voxel 美术)"],
-          ["wall", 1152, 1312, 1232, 1344],
-          ["blocked", 848, 1248, 896, 1264, "the government notice at the gate (entrance.c's sign)", {"look": {"kind": "notice_post", "text": "[启事] 由此入镇收取黄金一两", "paper": "e6dcbf"}}],
-          ["blocked", 1088, 1216, 1136, 1264, "a tea stall for travellers just inside the gate", {"look": {"kind": "tea_stall"}}],
-          ["blocked", 976, 1376, 1024, 1440, "market stalls along the street's edges: the butcher's by its door (腥膻)", {"look": {"kind": "stall", "goods": "meat", "rotation": 90, "awning": ["b8a27a", "7a4a3a"]}}],
-          ["blocked", 976, 1600, 1024, 1664, "tea by the tea house (茶香)", {"look": {"kind": "stall", "goods": "tea", "rotation": 90, "awning": ["c8bc94", "4f6f5a"]}}],
-          ["blocked", 1184, 1680, 1264, 1712, {"look": {"kind": "stall", "goods": "sweets", "awning": ["d8c49c", "a8442f"]}}],
+          ["forest", 768, -96, 816, 96, "卧龙岗: the slopes close in on the path; rocks on the ridge"],
+          ["forest", 1120, -32, 1184, 192],
+          ["forest", 768, 224, 816, 416],
+          ["forest", 1120, 192, 1184, 352],
+          ["cliff", 720, 416, 784, 608],
+          ["cliff", 1184, 512, 1216, 736],
+          ["cliff", 720, 688, 976, 736, "the ridge drops away above the second 黄土路"],
+          ["forest", 720, 864, 784, 992],
+          ["forest", 1152, 784, 1216, 928],
+          ["wall", 736, 1216, 864, 1264, "the gate: the town wall either side of it"],
+          ["wall", 544, 1216, 736, 1264, "the wall runs on west of the gate and east up to 香茗坊 (voxel 美术)"],
+          ["wall", 1152, 1216, 1232, 1248],
+          ["blocked", 752, 1152, 800, 1168, "the government notice at the gate (entrance.c's sign)", {"look": {"kind": "notice_post", "text": "[启事] 由此入镇收取黄金一两", "paper": "e6dcbf"}}],
+          ["blocked", 1040, 1120, 1088, 1168, "a tea stall for travellers just inside the gate", {"look": {"kind": "tea_stall"}}],
+          ["blocked", 928, 1280, 976, 1344, "market stalls along the street's edges: the butcher's by its door (腥膻)", {"look": {"kind": "stall", "goods": "meat", "rotation": 90, "awning": ["b8a27a", "7a4a3a"]}}],
+          ["blocked", 928, 1504, 976, 1568, "tea by the tea house (茶香)", {"look": {"kind": "stall", "goods": "tea", "rotation": 90, "awning": ["c8bc94", "4f6f5a"]}}],
+          ["blocked", 1184, 1584, 1264, 1616, {"look": {"kind": "stall", "goods": "sweets", "awning": ["d8c49c", "a8442f"]}}],
           ["blocked", 1296, 1824, 1376, 1856, {"look": {"kind": "stall", "goods": "greens", "rotation": 180, "awning": ["c8bc94", "5f7f8c"]}}],
           ["blocked", 1504, 1824, 1568, 1856, {"look": {"kind": "stall", "goods": "pottery", "rotation": 180, "awning": ["b9ad86", "6a5a8c"]}}],
           ["blocked", 1616, 1840, 1680, 1872, {"look": {"kind": "stall", "goods": "straw", "rotation": 180, "awning": ["d2c290", "8a6a3a"]}}],
-          ["blocked", 1856, 1904, 1888, 1984, {"look": {"kind": "stall", "goods": "fruit", "rotation": -90, "awning": ["e0cfa0", "b8542f"]}}],
-          ["blocked", 1856, 2080, 1888, 2160, {"look": {"kind": "stall", "goods": "toys", "rotation": -90, "awning": ["d8c49c", "3f6a8f"]}}],
-          ["blocked", 1888, 2224, 1936, 2272, "the crossroad's 古槐, as thick as two men can reach round (cross.c)", {"look": {"kind": "great_tree", "height": 5.6, "canopy": 4.6, "trunk": 0.62, "roots": 0.35, "occludes": true, "size": [48, 48], "bark": ["5a4a3a", "65533f", "4a3d30", "736049"], "needles": ["35603a", "467346", "5c8a50", "77a160"], "moss": "5e7a44", "cone": "a9b878", "blossoms": "eae6c8"}}],
-          ["blocked", 1840, 2240, 1888, 2256, "the notice under the 古槐, set up by the government", {"look": {"kind": "notice_post", "text": "告示", "paper": "e6dcbf"}}],
+          ["blocked", 1904, 1904, 1936, 1984, {"look": {"kind": "stall", "goods": "fruit", "rotation": -90, "awning": ["e0cfa0", "b8542f"]}}],
+          ["blocked", 1904, 2080, 1936, 2160, {"look": {"kind": "stall", "goods": "toys", "rotation": -90, "awning": ["d8c49c", "3f6a8f"]}}],
+          ["blocked", 1984, 2224, 2032, 2272, "the crossroad's 古槐, as thick as two men can reach round (cross.c)", {"look": {"kind": "great_tree", "height": 5.6, "canopy": 4.6, "trunk": 0.62, "roots": 0.35, "occludes": true, "size": [48, 48], "bark": ["5a4a3a", "65533f", "4a3d30", "736049"], "needles": ["35603a", "467346", "5c8a50", "77a160"], "moss": "5e7a44", "cone": "a9b878", "blossoms": "eae6c8"}}],
+          ["blocked", 1888, 2240, 1936, 2256, "the notice under the 古槐, set up by the government", {"look": {"kind": "notice_post", "text": "告示", "paper": "e6dcbf"}}],
           ["blocked", 1664, 2224, 1696, 2256, "a fire vat at the crossroads", {"look": {"kind": "water_vat", "lid": true}}],
-          ["water", 2368, 2048, 2480, 2144, "张家花园: a pond"],
-          ["blocked", 2496, 1984, 2560, 2048, "the garden's pavilion", {"look": {"kind": "pavilion", "height": 2.4, "occludes": true}}],
-          ["blocked", 2304, 2192, 2352, 2240, "a rockery in the corner", {"look": {"kind": "rockery", "height": 2.3, "pine": true}}],
-          ["blocked", 2384, 1984, 2464, 2000, {"look": {"kind": "flower_bed", "flowers": ["e8a4b4", "d65a6a", "f1e3bd", "c47aa0"]}}],
-          ["blocked", 2352, 2032, 2368, 2048, "willows by the pond", {"look": {"kind": "tree", "species": "willow", "size": [16, 16], "occludes": true}}],
-          ["blocked", 2480, 2144, 2496, 2160, {"look": {"kind": "tree", "species": "willow", "variant": 3, "size": [16, 16], "occludes": true}}],
-          ["blocked", 2512, 2176, 2560, 2224, {"look": {"kind": "stone_table", "chess": true}}],
-          ["blocked", 2672, 2272, 2704, 2304, "张百万家's stone lions", {"look": {"kind": "stone_lion"}}],
-          ["blocked", 2800, 2272, 2832, 2304, {"look": {"kind": "stone_lion"}}],
-          ["blocked", 3008, 2144, 3360, 2160, "茶场: rows of tea bushes", {"look": {"kind": "tea_bushes"}}],
-          ["blocked", 3008, 2208, 3360, 2224, {"look": {"kind": "tea_bushes"}}],
-          ["blocked", 3008, 2320, 3360, 2336, {"look": {"kind": "tea_bushes"}}],
-          ["blocked", 3008, 2448, 3360, 2464, {"look": {"kind": "tea_bushes"}}],
-          ["blocked", 3008, 2528, 3360, 2544, {"look": {"kind": "tea_bushes"}}],
-          ["blocked", 3008, 2592, 3360, 2608, {"look": {"kind": "tea_bushes"}}],
-          ["blocked", 1632, 2896, 1696, 2912, "benches for those waiting on the ferry (过客甚多)", {"look": {"kind": "bench", "cups": true}}],
-          ["blocked", 1904, 2896, 1968, 2912, {"look": {"kind": "bench"}}],
-          ["blocked", 1936, 2960, 1984, 3008, "goods waiting for the ferry", {"look": {"kind": "cargo"}}],
-          ["water", 480, 3072, 1744, 3600, "江北渡口: 泓水, wide and never still (dukou.c)"],
-          ["bridge", 1744, 3072, 1856, 3200, "the jetty out to the ferry (the ford into 泓水, 山烟寺 A)"],
-          ["water", 1744, 3200, 1856, 3600],
-          ["water", 1856, 3072, 3200, 3600],
-          ["water", 480, 3024, 912, 3072, "the banks wander: a bay here, a spit of land there"],
-          ["boundary", 1184, 3072, 1456, 3104],
-          ["water", 2224, 3040, 2592, 3072],
-          ["boundary", 2720, 3072, 3008, 3120],
-          ["boundary", 592, 3536, 1216, 3600],
-          ["water", 1312, 3600, 1712, 3648],
-          ["boundary", 2032, 3552, 2528, 3600],
-          ["water", 2752, 3600, 3200, 3632]
+          ["water", 2464, 2048, 2576, 2144, "张家花园: a pond"],
+          ["blocked", 2592, 1984, 2656, 2048, "the garden's pavilion", {"look": {"kind": "pavilion", "height": 2.4, "occludes": true}}],
+          ["blocked", 2400, 2192, 2448, 2240, "a rockery in the corner", {"look": {"kind": "rockery", "height": 2.3, "pine": true}}],
+          ["blocked", 2480, 1984, 2560, 2000, {"look": {"kind": "flower_bed", "flowers": ["e8a4b4", "d65a6a", "f1e3bd", "c47aa0"]}}],
+          ["blocked", 2448, 2032, 2464, 2048, "willows by the pond", {"look": {"kind": "tree", "species": "willow", "size": [16, 16], "occludes": true}}],
+          ["blocked", 2576, 2144, 2592, 2160, {"look": {"kind": "tree", "species": "willow", "variant": 3, "size": [16, 16], "occludes": true}}],
+          ["blocked", 2608, 2176, 2656, 2224, {"look": {"kind": "stone_table", "chess": true}}],
+          ["blocked", 2768, 2272, 2800, 2304, "张百万家's stone lions", {"look": {"kind": "stone_lion"}}],
+          ["blocked", 2896, 2272, 2928, 2304, {"look": {"kind": "stone_lion"}}],
+          ["blocked", 3104, 2144, 3456, 2160, "茶场: rows of tea bushes", {"look": {"kind": "tea_bushes"}}],
+          ["blocked", 3104, 2208, 3456, 2224, {"look": {"kind": "tea_bushes"}}],
+          ["blocked", 3104, 2288, 3456, 2304, {"look": {"kind": "tea_bushes"}}],
+          ["blocked", 3104, 2480, 3456, 2496, {"look": {"kind": "tea_bushes"}}],
+          ["blocked", 3104, 2624, 3456, 2640, {"look": {"kind": "tea_bushes"}}],
+          ["blocked", 3104, 2688, 3456, 2704, {"look": {"kind": "tea_bushes"}}],
+          ["blocked", 1632, 2992, 1696, 3008, "benches for those waiting on the ferry (过客甚多)", {"look": {"kind": "bench", "cups": true}}],
+          ["blocked", 2000, 2992, 2064, 3008, {"look": {"kind": "bench"}}],
+          ["blocked", 2032, 3056, 2080, 3104, "goods waiting for the ferry", {"look": {"kind": "cargo"}}],
+          ["water", 384, 3168, 1776, 3696, "江北渡口: 泓水, wide and never still (dukou.c)"],
+          ["bridge", 1776, 3168, 1936, 3296, "the jetty out to the ferry (the ford into 泓水, 山烟寺 A)"],
+          ["water", 1776, 3296, 1936, 3696],
+          ["water", 1936, 3168, 3296, 3696],
+          ["water", 384, 3120, 816, 3168, "the banks wander: a bay here, a spit of land there"],
+          ["boundary", 1184, 3168, 1456, 3200],
+          ["water", 2320, 3136, 2688, 3168],
+          ["boundary", 2816, 3168, 3104, 3216],
+          ["boundary", 496, 3632, 1216, 3696],
+          ["water", 1312, 3696, 1760, 3744],
+          ["boundary", 2128, 3648, 2624, 3696],
+          ["water", 2848, 3696, 3296, 3728]
         ],
-        "gap_at": [],
+        "gap_at": [["cloud.eroad2", "cloud.park", 2528, 128]],
         "reach_from": "SnowEntry",
         "markers_in_middle": ["cloud.eroad4"],
         "placed": {
-          "cloud.dragonhill.hummock.gangster.1": [920, 680],
-          "cloud.dragonhill.hummock.gangster.2": [1120, 680]
+          "cloud.dragonhill.hummock.gangster.1": [924, 584],
+          "cloud.dragonhill.hummock.gangster.2": [1124, 584]
         },
         "buildings": [
           {
             "name": "振远镖局",
-            "rect": [2304, 2480, 2560, 2768],
+            "rect": [2400, 2576, 2656, 2864],
             "wall": "wall",
             "doors": [
               {
                 "portal": "cloud.eroad2.south",
                 "street": "cloud.eroad2",
                 "side": "south",
-                "at": 2432
+                "at": 2528
               }
             ]
           },
           {
             "name": "书局",
-            "rect": [1024, 2480, 1280, 2720],
+            "rect": [976, 2576, 1280, 2816],
             "wall": "wall_wood",
             "doors": [
               {
@@ -134,58 +134,58 @@
           },
           {
             "name": "镇北肉铺",
-            "rect": [672, 1392, 960, 1648],
+            "rect": [576, 1296, 864, 1552],
             "wall": "wall_wood",
             "doors": [
               {
                 "portal": "cloud.nwroad1.west",
                 "street": "cloud.nwroad1",
                 "side": "west",
-                "at": 1520
+                "at": 1424
               }
             ]
           },
           {
             "name": "药店",
-            "rect": [1632, 1440, 1888, 1680],
+            "rect": [1632, 1344, 1984, 1584],
             "wall": "wall_wood",
             "doors": [
               {
                 "portal": "cloud.nroad1.north",
                 "street": "cloud.nroad1",
                 "side": "north",
-                "at": 1760
+                "at": 1808
               }
             ]
           },
           {
             "name": "赌场",
-            "rect": [1984, 2480, 2240, 2768],
+            "rect": [2080, 2576, 2336, 2864],
             "wall": "wall_wood",
             "doors": [
               {
                 "portal": "cloud.eroad1.south",
                 "street": "cloud.eroad1",
                 "side": "south",
-                "at": 2112
+                "at": 2208
               }
             ]
           },
           {
             "name": "场院",
-            "rect": [352, 1712, 576, 1968],
+            "rect": [256, 1712, 480, 1968],
             "wall": "wall",
             "doors": []
           },
           {
             "name": "场院",
-            "rect": [64, 1760, 288, 1920],
+            "rect": [-32, 1760, 192, 1920],
             "wall": "wall_wood",
             "doors": []
           },
           {
             "name": "场院",
-            "rect": [640, 1712, 960, 2016],
+            "rect": [544, 1712, 864, 2016],
             "wall": "wall_wood",
             "doors": [
               {
@@ -198,52 +198,52 @@
           },
           {
             "name": "怡红院",
-            "rect": [1984, 1984, 2240, 2272],
+            "rect": [2080, 1984, 2336, 2272],
             "wall": "wall_wood",
             "doors": [
               {
                 "portal": "cloud.eroad1.north",
                 "street": "cloud.eroad1",
                 "side": "north",
-                "at": 2112
+                "at": 2208
               }
             ]
           },
           {
             "name": "张百万家",
-            "rect": [2624, 1952, 2880, 2272],
+            "rect": [2720, 1952, 2976, 2272],
             "wall": "wall",
             "doors": [
               {
                 "portal": "cloud.eroad3.north",
                 "street": "cloud.eroad3",
                 "side": "north",
-                "at": 2752
+                "at": 2848
               }
             ]
           },
           {
             "name": "张百万家",
-            "rect": [2624, 1632, 2880, 1888],
+            "rect": [2720, 1536, 2976, 1888],
             "wall": "wall_wood",
             "doors": []
           },
           {
             "name": "红娘庄",
-            "rect": [704, 2080, 960, 2272],
+            "rect": [608, 2080, 864, 2272],
             "wall": "wall_wood",
             "doors": [
               {
                 "portal": "cloud.wroad0.north",
                 "street": "cloud.wroad0",
                 "side": "north",
-                "at": 832
+                "at": 736
               }
             ]
           },
           {
             "name": "斋院",
-            "rect": [1344, 2480, 1600, 2768],
+            "rect": [1344, 2576, 1600, 2864],
             "wall": "wall",
             "doors": [
               {
@@ -256,27 +256,27 @@
           },
           {
             "name": "布庄",
-            "rect": [1024, 1888, 1248, 2240],
+            "rect": [976, 1888, 1248, 2240],
             "wall": "wall_wood",
             "doors": [
               {
                 "portal": "cloud.nwroad2.south",
                 "street": "cloud.nwroad2",
                 "side": "south",
-                "at": 1136
+                "at": 1088
               }
             ]
           },
           {
             "name": "香茗坊",
-            "rect": [1152, 1344, 1568, 1680],
+            "rect": [1152, 1248, 1568, 1584],
             "wall": "wall_wood",
             "doors": [
               {
                 "portal": "cloud.nwroad1.east",
                 "street": "cloud.nwroad1",
                 "side": "east",
-                "at": 1536
+                "at": 1440
               },
               {
                 "portal": "cloud.nwroad3.north",
@@ -288,13 +288,13 @@
           },
           {
             "name": "香茗坊",
-            "rect": [1232, 1120, 1536, 1280],
+            "rect": [1232, 1024, 1536, 1184],
             "wall": "wall_wood",
             "doors": []
           },
           {
             "name": "兵器屋",
-            "rect": [1920, 1664, 2176, 1888],
+            "rect": [2016, 1568, 2272, 1888],
             "wall": "wall_wood",
             "doors": [
               {
@@ -335,6 +335,7 @@
         "shapes": {
           "Rect_64_32": [64, 32],
           "Rect_32_64": [32, 64],
+          "Rect_128_32": [128, 32],
           "StairsShape": [48, 48]
         },
         "door_style": {
@@ -351,21 +352,21 @@
           {
             "node": "caption",
             "name": "LatemoonLabel",
-            "at": [552, 2340],
+            "at": [456, 2340],
             "text": "西 · 晚月庄",
             "size": 14
           },
           {
             "node": "caption",
             "name": "RiverLabel",
-            "at": [1876, 3124],
+            "at": [1924, 3220],
             "text": "南 · 泓水",
             "size": 14
           },
           {
             "node": "caption",
             "name": "SnowLabel",
-            "at": [1072, 4],
+            "at": [1024, -92],
             "text": "北 · 雪亭镇",
             "size": 14
           },
@@ -385,21 +386,21 @@
             "node": "passage",
             "name": "SnowPassage",
             "id": "cloud.dragonhill.nroad.north",
-            "at": [1020, 20],
-            "shape": "Rect_64_32"
+            "at": [992, -76],
+            "shape": "Rect_128_32"
           },
           {
             "node": "passage",
             "name": "LatemoonPassage",
             "id": "cloud.wroad0.west",
-            "at": [700, 2380],
+            "at": [604, 2380],
             "shape": "Rect_32_64"
           },
           {
             "node": "passage",
             "name": "RiverPassage",
             "id": "cloud.dukou.south",
-            "at": [1800, 3160],
+            "at": [1848, 3256],
             "shape": "Rect_64_32"
           },
           {
@@ -420,17 +421,17 @@
           },
           {
             "name": "SnowEntry",
-            "at": [1024, 120],
+            "at": [976, 24],
             "id": "cloud.dragonhill.nroad.snow_entry"
           },
           {
             "name": "LatemoonReturn",
-            "at": [800, 2384],
+            "at": [704, 2384],
             "id": "cloud.wroad0.latemoon_return"
           },
           {
             "name": "RiverReturn",
-            "at": [1800, 3040],
+            "at": [1848, 3136],
             "id": "cloud.dukou.river_return"
           },
           {

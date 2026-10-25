@@ -156,7 +156,7 @@ func _test_terrain_spot_checks() -> void:
 	var forest: Node2D = _scene("res://scenes/world/oldpine/oldpine_outdoor.tscn")
 	for row: Array in [
 		[Vector2(450, -250), "path", false], [Vector2(1200, 100), "chasm", true], [Vector2(1200, 300), "bridge", false],
-		[Vector2(150, 845), "forest", true], [Vector2(-820, 700), "forest", true], [Vector2(-1480, 850), "cliff", true],
+		[Vector2(150, 845), "forest", true], [Vector2(-820, 620), "forest", true], [Vector2(-1480, 850), "cliff", true],
 		[Vector2(880, 860), "forest_floor", false], [Vector2(325, 1250), "cliff", true], [Vector2(450, 616), "path", false],
 	]:
 		_spot(forest, "Old Pine forest", row)
@@ -177,13 +177,13 @@ func _test_terrain_spot_checks() -> void:
 	for row: Array in [
 		[Vector2(0, 0), "town_ground", false], [Vector2(0, -1000), "street", false],
 		# the square's old wooden frame, the inn's outside on its west side, its door on the square
-		[Vector2(0, -72), "blocked", true], [Vector2(-400, 0), "town_ground", false], [Vector2(-424, 0), "wall_wood", true],
+		[Vector2(0, -72), "blocked", true], [Vector2(-448, 0), "town_ground", false], [Vector2(-472, 0), "wall_wood", true],
 		# a shop from outside is its walls round a roof, not walked on (the 钱庄)
-		[Vector2(-200, -560), "shop_front", true],
+		[Vector2(-248, -560), "shop_front", true],
 		# the mountain wall east of the 山路; the road south to Old Pine runs to the map's closed edge
-		[Vector2(1600, 500), "cliff", true], [Vector2(1440, 1100), "path", false], [Vector2(1440, 1168), "boundary", true],
+		[Vector2(1648, 500), "cliff", true], [Vector2(1488, 1196), "path", false], [Vector2(1488, 1264), "boundary", true],
 		# just beyond the col east of the track to the next village (the edge keeps a skirt of boundary)
-		[Vector2(328, -2448), "boundary", true],
+		[Vector2(376, -2448), "boundary", true],
 	]:
 		_spot(snow, "Snow", row)
 	snow.free()

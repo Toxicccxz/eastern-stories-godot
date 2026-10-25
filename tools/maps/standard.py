@@ -8,7 +8,9 @@ and repainting re-scales every map drawn from it. Three things read it:
       "<zone>": {"street": "main" | "lane" | "road", "axis": "x" | "y", "centre": c,
                  "span": [from, to], "ground": "street"}
 
-  (axis "y" runs north-south: x = centre +- half the class's width, y = span). A town map's
+  (axis "y" runs north-south: x = centre +- half the class's width, y = span); "width": px
+  instead of the class's width where the voxel view needs the street wider (DECISIONS「地图尺寸以
+  体素视角为准」). A town map's
   `buildings` are the outsides of the buildings that have maps of their own:
 
       {"name": "<what it is>", "street": "<zone>", "side": "west" | "east" | "north" | "south",
@@ -103,7 +105,7 @@ def bodies2(w: int, h: int) -> float:
 
 def street_rect(spec: dict) -> list:
     """[x0, y0, x1, y1] of a street zone from its class, centre line and span."""
-    width = px(STANDARD['street'][spec['street']], 2 * T)
+    width = spec.get('width') or px(STANDARD['street'][spec['street']], 2 * T)
     lo, hi = sorted(spec['span'])
     c = spec['centre']
     if spec['axis'] == 'y':
