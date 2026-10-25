@@ -18,6 +18,12 @@ var merged: Dictionary[Node3D, Node3D] = {}
 ## Nodes already as small as a batch cell (a building's body, a neighbourhood of props): their
 ## batches are not cut again by position.
 var compact: Dictionary[Node3D, bool] = {}
+## The render profile's batching (phones): plain matte colours of one parent, mesh and cell
+## share a batch with a colour per instance, and every shadow caster of a parent, mesh and
+## cell, whatever its colour, is one shadow-only batch. Far fewer draws, the same picture.
+var merged_batches: bool = VoxelRenderQuality.current().merged_batches
+var _tinted: StandardMaterial3D
+var _shadow_material: StandardMaterial3D
 
 ## A colour key; "<hex>:gloss" is the same colour, wet and shiny (its own material);
 ## "<hex>:glow" gives off its own light (a red paper lantern, gilt letters catching the sun);
@@ -49,13 +55,14 @@ func _instance(parent: Node3D, transform: Transform3D, hex: String, mesh: Mesh) 
 		var into: Node3D = merged[parent]
 		transform = into.global_transform.affine_inverse()*parent.global_transform*transform
 		parent = into
-	var key: String = str(parent.get_instance_id()) + hex + str(mesh.get_instance_id())
+	var cell: String = ""
 	if spatial_batching and not compact.has(parent):
 		# Mobile lighting chooses lights per instance. A map-wide ground instance
 		# otherwise exceeds that budget and changes lights abruptly while walking.
-		key += ":%d:%d" % [floori(transform.origin.x/spatial_cell_size),floori(transform.origin.z/spatial_cell_size)]
+		cell = ":%d:%d" % [floori(transform.origin.x/spatial_cell_size),floori(transform.origin.z/spatial_cell_size)]
+	var key: String = str(parent.get_instance_id()) + hex + str(mesh.get_instance_id()) + cell
 	if not batches.has(key):
-		batches[key] = {"parent":parent,"color":hex,"mesh":mesh,"transforms":[]}
+		batches[key] = {"parent":parent,"color":hex,"mesh":mesh,"transforms":[],"cell":cell}
 	var transforms: Array = batches[key]["transforms"]
 	transforms.append(transform)
 
@@ -86,12 +93,75 @@ func _stone_mesh(variant: int) -> ArrayMesh:
 	return surface.commit()
 
 func flush(light_bounds: Array[AABB] = []) -> void:
+	if merged_batches:
+		_flush_merged(light_bounds)
+		return
 	for key: String in batches:
 		var entry: Dictionary = batches[key]
 		_flush_batch(entry,entry["transforms"],light_bounds)
 	batches.clear()
 
-func _flush_batch(entry: Dictionary, transforms: Array, light_bounds: Array[AABB], depth: int = 0) -> void:
+func _flush_merged(light_bounds: Array[AABB]) -> void:
+	var tinted: Dictionary = {}
+	var casters: Dictionary = {}
+	for key: String in batches:
+		var entry: Dictionary = batches[key]
+		var group: String = str((entry["parent"] as Node3D).get_instance_id())+"|"+str((entry["mesh"] as Mesh).get_instance_id())+String(entry["cell"])
+		var shadow: bool = _casts_shadow(entry)
+		if shadow:
+			if not casters.has(group):
+				casters[group] = {"parent":entry["parent"],"mesh":entry["mesh"],"transforms":[]}
+			(casters[group]["transforms"] as Array).append_array(entry["transforms"])
+		if not _plain(entry):
+			entry["shadowless"] = shadow
+			_flush_batch(entry,entry["transforms"],light_bounds)
+			continue
+		if not tinted.has(group):
+			tinted[group] = {"parent":entry["parent"],"mesh":entry["mesh"],"color":"","transforms":[],"colors":[],"shadowless":true}
+		var linear: Color = color(entry["color"]).srgb_to_linear()
+		(tinted[group]["transforms"] as Array).append_array(entry["transforms"])
+		for i: int in (entry["transforms"] as Array).size():
+			(tinted[group]["colors"] as Array).append(linear)
+	for group: String in tinted:
+		_flush_batch(tinted[group],tinted[group]["transforms"],light_bounds,0,tinted[group]["colors"])
+	if _shadow_material == null and not casters.is_empty():
+		_shadow_material = StandardMaterial3D.new()
+	for group: String in casters:
+		var entry: Dictionary = casters[group]
+		var instance := _multimesh(entry["mesh"],entry["transforms"],[])
+		instance.material_override = _shadow_material
+		instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
+		(entry["parent"] as Node3D).add_child(instance)
+	batches.clear()
+
+## A colour that can share a batch: Shapes' own matte material, left as made by its caller.
+func _plain(entry: Dictionary) -> bool:
+	var mat: StandardMaterial3D = material(entry["color"])
+	return not mat.emission_enabled and mat.transparency==BaseMaterial3D.TRANSPARENCY_DISABLED and is_equal_approx(mat.roughness,0.93) \
+		and is_zero_approx(mat.metallic) and mat.get_meta_list().is_empty() and is_equal_approx(mat.albedo_color.a,1.0) \
+		and not (entry["parent"] as Node3D).get_meta("light_fixture",false)
+
+func _casts_shadow(entry: Dictionary) -> bool:
+	var hex: String = entry["color"]
+	return not (hex in ["ffd88a","ffb858"] or hex.ends_with(":glow") or hex.ends_with(":haze") or hex.ends_with(":mist") or (entry["parent"] as Node3D).get_meta("light_fixture",false) \
+		or (entry["parent"] as Node3D).get_meta("flat",false)) \
+		and material(entry["color"]).transparency==BaseMaterial3D.TRANSPARENCY_DISABLED
+
+func _multimesh(mesh: Mesh, transforms: Array, colors: Array) -> MultiMeshInstance3D:
+	var multi := MultiMesh.new()
+	multi.transform_format = MultiMesh.TRANSFORM_3D
+	multi.use_colors = not colors.is_empty()
+	multi.mesh = mesh
+	multi.instance_count = transforms.size()
+	for i: int in transforms.size():
+		multi.set_instance_transform(i,transforms[i])
+		if not colors.is_empty():
+			multi.set_instance_color(i,colors[i])
+	var instance := MultiMeshInstance3D.new()
+	instance.multimesh = multi
+	return instance
+
+func _flush_batch(entry: Dictionary, transforms: Array, light_bounds: Array[AABB], depth: int = 0, colors: Array = []) -> void:
 	var mesh: Mesh = entry["mesh"]
 	var parent: Node3D = entry["parent"]
 	if not light_bounds.is_empty() and depth<12:
@@ -108,10 +178,13 @@ func _flush_batch(entry: Dictionary, transforms: Array, light_bounds: Array[AABB
 		if overlaps>8:
 			if transforms.size()>1:
 				var axis: int = bounds.size.max_axis_index()
-				transforms.sort_custom(func(a: Transform3D,b: Transform3D) -> bool: return a.origin[axis]<b.origin[axis])
+				var order: Array = range(transforms.size())
+				order.sort_custom(func(a: int,b: int) -> bool: return (transforms[a] as Transform3D).origin[axis]<(transforms[b] as Transform3D).origin[axis])
+				var sorted: Array = order.map(func(i: int) -> Transform3D: return transforms[i])
+				var tints: Array = [] if colors.is_empty() else order.map(func(i: int) -> Color: return colors[i])
 				var middle: int = transforms.size()/2
-				_flush_batch(entry,transforms.slice(0,middle),light_bounds,depth+1)
-				_flush_batch(entry,transforms.slice(middle),light_bounds,depth+1)
+				_flush_batch(entry,sorted.slice(0,middle),light_bounds,depth+1,tints.slice(0,middle))
+				_flush_batch(entry,sorted.slice(middle),light_bounds,depth+1,tints.slice(middle))
 				return
 			# Long plinths and beams are one box, but must not collect the lights of
 			# an entire building. Subdivide without moving or overlapping their faces.
@@ -122,22 +195,24 @@ func _flush_batch(entry: Dictionary, transforms: Array, light_bounds: Array[AABB
 				var offset: Vector3 = transform.basis[axis]*0.25
 				transform.basis[axis] *= 0.5
 				transform.origin -= offset
-				_flush_batch(entry,[transform],light_bounds,depth+1)
+				_flush_batch(entry,[transform],light_bounds,depth+1,colors)
 				transform.origin += offset*2.0
-				_flush_batch(entry,[transform],light_bounds,depth+1)
+				_flush_batch(entry,[transform],light_bounds,depth+1,colors)
 				return
-	var multi := MultiMesh.new()
-	multi.transform_format = MultiMesh.TRANSFORM_3D
-	multi.mesh = mesh
-	multi.instance_count = transforms.size()
-	for i: int in transforms.size():
-		multi.set_instance_transform(i,transforms[i])
-	var instance := MultiMeshInstance3D.new()
-	instance.multimesh = multi
-	instance.material_override = material(entry["color"])
+	var instance := _multimesh(mesh,transforms,colors)
+	if colors.is_empty():
+		instance.material_override = material(entry["color"])
+	else:
+		if _tinted == null:
+			_tinted = StandardMaterial3D.new()
+			_tinted.vertex_color_use_as_albedo = true
+			_tinted.roughness = 0.93
+		instance.material_override = _tinted
+	# A merged batch's shadow is drawn by its parent's shadow-only batch.
 	# The ground's own boxes and stones lie flat: their shadows would fall on nothing, yet they
 	# would fill every shadow map pass (meta `flat` on the parent they are drawn into).
-	if entry["color"] in ["ffd88a","ffb858"] or String(entry["color"]).ends_with(":glow") or String(entry["color"]).ends_with(":haze") or String(entry["color"]).ends_with(":mist") or parent.get_meta("light_fixture",false) or parent.get_meta("flat",false):
+	if entry.get("shadowless",false) or entry["color"] in ["ffd88a","ffb858"] or String(entry["color"]).ends_with(":glow") or String(entry["color"]).ends_with(":haze") \
+			or String(entry["color"]).ends_with(":mist") or parent.get_meta("light_fixture",false) or parent.get_meta("flat",false):
 		# Tiny opaque lantern caps otherwise project enormous square shadows from
 		# the point source inside them. The housing represents a diffuse emitter.
 		instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF

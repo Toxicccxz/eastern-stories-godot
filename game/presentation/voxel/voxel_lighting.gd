@@ -4,6 +4,9 @@ extends RefCounted
 ## A presentation-only day/night blend. It never advances the authored game clock.
 const LAMP_FADE_BEGIN: float = 18.0
 const LAMP_FADE_END: float = 26.0
+## Seconds a lamp's light or shadow takes to fade in or out where only the nearest lamps
+## light or cast one.
+const LAMP_SHADOW_FADE: float = 0.4
 var environment: Environment
 var sun: DirectionalLight3D
 var occlusion: VoxelOcclusion
@@ -25,11 +28,18 @@ var _player: Vector3 = Vector3.ZERO
 ## Fire and candle lights (meta `flicker`: how much their energy wavers).
 var flickering: Array[Light3D] = []
 var _clock: float = 0.0
+## The render profile: the sun's cascades and which lamps cast shadows (all on desktop).
+var quality: VoxelRenderQuality
+## False until the lamp light limit has picked its lamps once: on entering a map, or after
+## an immediate day/night switch, the chosen lamps light at once instead of fading in.
+var _lamps_chosen: bool = false
 
 func build(world: Node3D, reveal: VoxelOcclusion, interior: bool, settings: Dictionary = {}) -> void:
 	indoor = interior
 	profile = settings
 	occlusion = reveal
+	if quality == null:
+		quality = VoxelRenderQuality.current()
 	var sky := WorldEnvironment.new()
 	environment = Environment.new()
 	environment.background_mode = Environment.BG_COLOR
@@ -39,8 +49,8 @@ func build(world: Node3D, reveal: VoxelOcclusion, interior: bool, settings: Dict
 	world.add_child(sky)
 	sun = DirectionalLight3D.new()
 	sun.shadow_enabled = true
-	sun.directional_shadow_max_distance = 80
-	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_PARALLEL_4_SPLITS
+	sun.directional_shadow_max_distance = quality.sun_shadow_distance
+	sun.directional_shadow_mode = quality.sun_shadow_mode()
 	sun.directional_shadow_blend_splits = true
 	sun.shadow_bias = 0.15
 	sun.shadow_normal_bias = 0.65
@@ -56,7 +66,8 @@ func build(world: Node3D, reveal: VoxelOcclusion, interior: bool, settings: Dict
 		light.shadow_blur = 1.5
 		# Never alternate a lit doorway between shadowed and unshadowed as nearby
 		# lamps exchange distance ranks. Cull the entire distant light after it fades.
-		light.shadow_enabled = true
+		# A profile with a lamp shadow limit (phones) fades shadows in near the player.
+		light.shadow_enabled = quality.lamp_shadow_limit<0
 		lamps.append(light)
 		if light.has_meta("flicker"):
 			flickering.append(light)
@@ -87,10 +98,12 @@ func set_night(enabled: bool, immediate: bool = false) -> void:
 	target = 1.0 if enabled else 0.0
 	if immediate:
 		amount = target
+		_lamps_chosen = false
 		_apply()
 
 func advance(delta: float, player: Vector3) -> void:
 	_player = player
+	_limit_lamps(delta)
 	if carried != null:
 		carried.position = player+Vector3(0.3,1.9,0.3)
 	if not is_equal_approx(amount,target):
@@ -98,15 +111,86 @@ func advance(delta: float, player: Vector3) -> void:
 		_apply()
 	elif not indoor or not flickering.is_empty():
 		_apply_lamps(smoothstep(0.0,1.0,amount))
+	_shade_lamps(delta)
 	_clock += delta
+
+## Only the nearest lamps within reach cast shadows, weaker towards the reach. A shadow
+## changing hands fades out, then the next fades in (LAMP_SHADOW_FADE each), so neither
+## pops and no more than the limit ever render. Every lamp still lights. Profiles
+## without a limit (desktop) skip this.
+func _shade_lamps(delta: float) -> void:
+	if quality.lamp_shadow_limit<0:
+		return
+	var reach: float = quality.lamp_shadow_reach
+	var near: Array[Light3D] = []
+	for lamp: Light3D in lamps:
+		# A window light on a cut-away wall is hidden with it and must not take a slot.
+		if lamp!=carried and lamp.is_visible_in_tree() and _planar_distance(lamp)<reach:
+			near.append(lamp)
+	near.sort_custom(func(a: Light3D,b: Light3D) -> bool: return _planar_distance(a)<_planar_distance(b))
+	near.resize(mini(near.size(),quality.lamp_shadow_limit))
+	var shadowed: int = 0
+	for lamp: Light3D in lamps:
+		if lamp!=carried and not lamp in near and lamp.shadow_enabled:
+			_shade(lamp,0.0,delta)
+		if lamp!=carried and lamp.shadow_enabled:
+			shadowed += 1
+	for lamp: Light3D in near:
+		if lamp.shadow_enabled or shadowed<quality.lamp_shadow_limit:
+			shadowed += int(not lamp.shadow_enabled)
+			_shade(lamp,1.0-smoothstep(reach*0.6,reach,_planar_distance(lamp)),delta)
+
+func _shade(lamp: Light3D, wanted: float, delta: float) -> void:
+	var opacity: float = move_toward(lamp.shadow_opacity if lamp.shadow_enabled else 0.0,wanted,delta/LAMP_SHADOW_FADE)
+	if not is_equal_approx(lamp.shadow_opacity,opacity):
+		lamp.shadow_opacity = opacity
+	if lamp.shadow_enabled!=(opacity>0.0):
+		lamp.shadow_enabled = opacity>0.0
+
+## Outdoors, a profile with a lamp light limit (phones) lights only the nearest lamps that
+## would give light now (a window lamp is dark by day; a lamp on a cut-away wall is hidden):
+## each lamp's meta `presence` (0..1) scales its energy, and a light changing hands fades
+## out before the next fades in. Rooms keep every lamp.
+func _limit_lamps(delta: float) -> void:
+	if quality.lamp_light_limit<0 or indoor:
+		return
+	var blend: float = smoothstep(0.0,1.0,amount)
+	var order: Array[Light3D] = []
+	for lamp: Light3D in lamps:
+		if lamp!=carried and _unlimited_energy(lamp,blend)>0.0 and lamp.get_parent().is_visible_in_tree():
+			order.append(lamp)
+	order.sort_custom(func(a: Light3D,b: Light3D) -> bool: return _planar_distance(a)<_planar_distance(b))
+	var near: Array[Light3D] = order.slice(0,quality.lamp_light_limit)
+	var step: float = INF if not _lamps_chosen else delta/LAMP_SHADOW_FADE
+	_lamps_chosen = true
+	var lit: int = 0
+	for lamp: Light3D in lamps:
+		if lamp==carried:
+			continue
+		if not lamp in near:
+			lamp.set_meta("presence",move_toward(float(lamp.get_meta("presence",0.0)),0.0,step))
+		if float(lamp.get_meta("presence",0.0))>0.0:
+			lit += 1
+	for lamp: Light3D in near:
+		var presence: float = float(lamp.get_meta("presence",0.0))
+		if presence>0.0 or lit<quality.lamp_light_limit:
+			lit += int(is_zero_approx(presence))
+			lamp.set_meta("presence",move_toward(presence,1.0,step))
+
+## A lamp's day/night energy faded by its distance outdoors, before any phone limit or flicker.
+func _unlimited_energy(lamp: Light3D, blend: float) -> float:
+	var fade: float = 1.0
+	if not indoor:
+		fade = 1.0-smoothstep(LAMP_FADE_BEGIN,LAMP_FADE_END,_planar_distance(lamp))
+	return lerpf(float(lamp.get_meta("day_energy")),float(lamp.get_meta("night_energy")),blend)*fade
+
+func _planar_distance(lamp: Light3D) -> float:
+	var offset: Vector3 = lamp.global_position-_player
+	return Vector2(offset.x,offset.z).length()
 
 func _apply_lamps(blend: float) -> void:
 	for lamp: Light3D in lamps:
-		var fade: float = 1.0
-		if not indoor:
-			var offset: Vector3 = lamp.global_position-_player
-			fade = 1.0-smoothstep(LAMP_FADE_BEGIN,LAMP_FADE_END,Vector2(offset.x,offset.z).length())
-		var energy: float = lerpf(float(lamp.get_meta("day_energy")),float(lamp.get_meta("night_energy")),blend)*fade
+		var energy: float = _unlimited_energy(lamp,blend)*float(lamp.get_meta("presence",1.0))
 		if lamp.has_meta("flicker"):
 			var phase: float = lamp.global_position.x*3.1+lamp.global_position.z*1.7
 			energy *= 1.0+float(lamp.get_meta("flicker"))*(sin(_clock*13.0+phase)*0.5+sin(_clock*7.3+phase*2.0)*0.35+sin(_clock*29.0)*0.15)

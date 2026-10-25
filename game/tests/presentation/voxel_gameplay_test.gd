@@ -150,6 +150,26 @@ func run_all(tree: SceneTree) -> Dictionary:
 		intact = intact and (entry["node"] as Node3D).visible
 	_check(intact,"local reveal never hides an entire building or crown")
 	_check(not street_view.occlusion.materials.is_empty(),"actual occluders use the fragment reveal material")
+	var occlusion: VoxelOcclusion = street_view.occlusion
+	var matched: bool = true
+	for index: int in occlusion.surfaces.size():
+		var surface: Dictionary = occlusion.surfaces[index]
+		matched = matched and (surface["node"] as GeometryInstance3D).material_override==(surface["reveal"] if occlusion.revealing.has(index) else surface["plain"])
+	_check(matched,"each occluder draws the reveal passes or the plain colour as chosen")
+	# The headless dummy renderer gives every MultiMesh an empty box; boxes are real only
+	# in a windowed run.
+	if DisplayServer.get_name()!="headless":
+		_check(not occlusion.revealing.is_empty() and occlusion.revealing.size()*4<occlusion.surfaces.size(),
+			"only occluders a subject may be behind draw the reveal passes (%d of %d)" % [occlusion.revealing.size(),occlusion.surfaces.size()])
+		_check(_reveals_cover_subjects(street_view),"every occluder piece reaching into a subject's opening, in front of it, still reveals")
+	street_view._deactivate()
+	street_view.quality = VoxelRenderQuality.named("mobile")
+	await _frames(tree,2)
+	_check(tree.root.msaa_3d==Viewport.MSAA_DISABLED and is_equal_approx(tree.root.scaling_3d_scale,street_view.quality.scale_3d),"a phone profile renders the 3D view at its own resolution without MSAA")
+	street_view._deactivate()
+	street_view.quality = VoxelRenderQuality.named("desktop")
+	await _frames(tree,2)
+	_check(tree.root.msaa_3d==Viewport.MSAA_4X and is_equal_approx(tree.root.scaling_3d_scale,1.0),"the desktop profile keeps full resolution and 4x MSAA")
 	var player_point: Vector3 = VoxelMapGeometry.point(outdoor.player_body.global_position,1.0)
 	var player_revealed: bool = false
 	for subject: Vector4 in street_view.occlusion.subjects:
@@ -237,6 +257,36 @@ func _frames(tree: SceneTree, count: int) -> void:
 	for frame: int in count:
 		await tree.physics_frame
 		await tree.process_frame
+
+## local_reveal's own test, piece by piece (each MultiMesh instance's box, not the
+## surface's box the code uses): a piece whose screen rect reaches into a subject's
+## elliptical opening and lies in front of it must belong to a revealing surface.
+func _reveals_cover_subjects(view: WorldVoxelView) -> bool:
+	var basis: Basis = view.camera.global_basis
+	for index: int in view.occlusion.surfaces.size():
+		if view.occlusion.revealing.has(index):
+			continue
+		var node := view.occlusion.surfaces[index]["node"] as GeometryInstance3D
+		var boxes: Array[AABB] = []
+		if node is MultiMeshInstance3D:
+			var multi: MultiMesh = (node as MultiMeshInstance3D).multimesh
+			for i: int in multi.instance_count:
+				boxes.append(node.global_transform*multi.get_instance_transform(i)*multi.mesh.get_aabb())
+		else:
+			boxes.append(node.global_transform*(node as MeshInstance3D).mesh.get_aabb())
+		for box: AABB in boxes:
+			for subject: Vector4 in view.occlusion.subjects:
+				var low := Vector3.INF
+				var high := -Vector3.INF
+				for corner: int in 8:
+					var d: Vector3 = box.get_endpoint(corner)-Vector3(subject.x,subject.y,subject.z)
+					var eye := Vector3(d.dot(basis.x),d.dot(basis.y),d.dot(basis.z))
+					low = low.min(eye)
+					high = high.max(eye)
+				var nearest := Vector2(clampf(0.0,low.x,high.x),clampf(0.0,low.y,high.y))
+				if Vector2(nearest.x,nearest.y/1.25).length()<subject.w and high.z>0.12:
+					return false
+	return true
 
 func _check(value: bool, message: String) -> void:
 	assertions += 1

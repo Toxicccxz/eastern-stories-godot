@@ -19,6 +19,8 @@ var occluders: Array[Dictionary] = []
 var footprints: Array[Rect2] = []
 var indoor: bool = false
 var foliage: VoxelFoliage
+## The share of meadow tufts drawn (the render profile's; 1 draws every tuft).
+var foliage_density: float = 1.0
 var meadow := FastNoiseLite.new()
 var flora: Dictionary = {}
 ## flora `zones`: zone id -> overrides (grown by `margin` px) where a place shades into the
@@ -147,6 +149,7 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 		foliage.petals = flora.get("flower_colors",foliage.petals)
 		foliage.gust = float(flora.get("wind",0.0))
 		foliage.butterfly_count = int(flora.get("butterflies",8))
+		foliage.density = foliage_density
 		add_child(foliage)
 	for building: Dictionary in layout.get("buildings", []):
 		var a: Array = building["rect"]
