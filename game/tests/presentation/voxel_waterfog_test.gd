@@ -142,7 +142,9 @@ func _walk(tree: SceneTree, session: WorldSessionController, mountain: WorldMapC
 			await _check_map(tree, session, there, String(zone))
 			_check_interior(there)
 		if zone == &"waterfog.weststair":
-			_check_passing(there, [&"waterfog.entrance", &"waterfog.westhall", &"waterfog.weststair"])
+			_check_passing(there, [&"waterfog.entrance", &"waterfog.westhall", &"waterfog.weststair", &"waterfog.storage", &"waterfog.servroom"])
+			_check_passing(there, [&"waterfog.entrance", &"waterfog.easthall", &"waterfog.eaststair", &"waterfog.kitchen"])
+			_check_passing(there, [&"waterfog.entrance", &"waterfog.guildhall"])
 		if zone == &"waterfog.east_2f":
 			_check_passing(there, [&"waterfog.west_2f", &"waterfog.forehall", &"waterfog.east_2f"])
 	var back: WorldMapController = await MapPlaces.go_to(tree, session, &"waterfog.frontyard")
@@ -228,7 +230,7 @@ func _check_footing(map: WorldMapController, view: WorldVoxelView, place: String
 			continue
 		if not kind in TALL or float(prop.get("elevation", 0.0)) >= 0.9:
 			continue
-		var size: Array = prop.get("size", [16, 16])
+		var size: Array = prop.get("size", [64, 32])
 		var box := Vector2(float(size[0]), float(size[1]))
 		if absi(roundi(float(prop.get("rotation", 0)))) % 180 == 90:
 			box = Vector2(box.y, box.x)

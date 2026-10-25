@@ -525,12 +525,12 @@ func _kang(w: float, d: float, look: Dictionary) -> void:
 	s.box(root,Vector3(-w*0.25,1.04,-d*0.3),Vector3(w*0.34,0.08,d*0.26),"6b5a8a")
 
 ## 太师椅: a black lacquered armchair, its tall back with a carved panel, the arms stepped down,
-## a footrest in front; set on a low dais (`dais`) in a hall.
+## a footrest in front; set on a low dais (`dais`, its colour `dais_color`) in a hall.
 func _grand_chair(w: float, d: float, look: Dictionary) -> void:
 	var lacquer: String = _wood(look,"wood","1f1b19")
 	var trim: String = _wood(look,"trim","b8923e")
 	if look.get("dais",true):
-		s.box(root,Vector3(0,0.08,0),Vector3(w,0.16,d),_wood(look,"dais","5c3f2b"))
+		s.box(root,Vector3(0,0.08,0),Vector3(w,0.16,d),_wood(look,"dais_color","5c3f2b"))
 	var y: float = 0.16 if look.get("dais",true) else 0.0
 	s.box(root,Vector3(0,y+0.62,0),Vector3(w*0.72,0.12,d*0.62),lacquer)
 	for x: float in [-w*0.32,w*0.32]:

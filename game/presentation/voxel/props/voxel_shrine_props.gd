@@ -100,19 +100,34 @@ func _altar_table(w: float, d: float) -> void:
 	s.box(root,Vector3(-w*0.42,0.9,-0.05),Vector3(0.14,0.04,0.14),"e6dcc2")
 	s.box(root,Vector3(-w*0.42,0.94,-0.05),Vector3(0.07,0.05,0.07),"d8cdb2")
 
+## `tall`: raised on a carved stand (a hall's); `lit`: sticks burning, their smoke rising.
 func _incense_burner(w: float) -> void:
 	var bronze: String = String(data.get("bronze","6f5a3e"))
+	var y: float = 0.0
+	if data.get("tall",false):
+		y = 0.7
+		s.box(root,Vector3(0,0.05,0),Vector3(w*0.9,0.1,w*0.9),"5c3f2b")
+		s.box(root,Vector3(0,0.38,0),Vector3(w*0.4,0.6,w*0.4),"6e4a34")
+		s.box(root,Vector3(0,0.69,0),Vector3(w*0.85,0.06,w*0.85),"5c3f2b")
 	for leg: int in 3:
 		var a: float = leg*TAU/3.0
-		s.box(root,Vector3(cos(a)*w*0.3,0.18,sin(a)*w*0.3),Vector3(0.1,0.36,0.1),bronze)
-	s.box(root,Vector3(0,0.5,0),Vector3(w*0.8,0.4,w*0.8),bronze)
-	s.box(root,Vector3(0,0.72,0),Vector3(w*0.9,0.06,w*0.9),"8a7350")
-	s.box(root,Vector3(0,0.74,0),Vector3(w*0.7,0.03,w*0.7),"aaa294")
+		s.box(root,Vector3(cos(a)*w*0.3,y+0.18,sin(a)*w*0.3),Vector3(0.1,0.36,0.1),bronze)
+	s.box(root,Vector3(0,y+0.5,0),Vector3(w*0.8,0.4,w*0.8),bronze)
+	s.box(root,Vector3(0,y+0.72,0),Vector3(w*0.9,0.06,w*0.9),"8a7350")
+	s.box(root,Vector3(0,y+0.74,0),Vector3(w*0.7,0.03,w*0.7),"aaa294")
 	for side: float in [-1.0,1.0]:
-		s.box(root,Vector3(side*w*0.47,0.8,0),Vector3(0.06,0.18,0.14),bronze)
+		s.box(root,Vector3(side*w*0.47,y+0.8,0),Vector3(0.06,0.18,0.14),bronze)
+	if data.get("lit",false):
+		# Three sticks burning, their tips glowing, a thread of smoke.
+		for stick: int in 3:
+			s.box(root,Vector3((stick-1)*0.07,y+0.9,0),Vector3(0.02,0.3,0.02),"8a3a2a")
+			s.box(root,Vector3((stick-1)*0.07,y+1.06,0),Vector3(0.03,0.03,0.03),"ff8a3a:glow")
+		if ambience != null:
+			ambience.smoke(root,Vector3(0,y+1.1,0),String(data.get("smoke","d8d2c4")),5,0.1)
+		return
 	# Cold: burnt-down sticks leaning in the ash.
 	for stick: int in 5:
-		s.tilted_box(root,Vector3((stick-2)*0.07,0.82,sin(stick*1.7)*0.06),Vector3(0.02,0.14,0.02),"5a2f25",Vector3(0,0,(stick-2)*0.3))
+		s.tilted_box(root,Vector3((stick-2)*0.07,y+0.82,sin(stick*1.7)*0.06),Vector3(0.02,0.14,0.02),"5a2f25",Vector3(0,0,(stick-2)*0.3))
 
 ## 蒲团: a round straw cushion, worn through on one side.
 func _cushion(w: float) -> void:

@@ -144,7 +144,8 @@ class Town:
         """A door across the doorway between two zones: (centre, shape, extent). Between two
         buildings it straddles the shared edge; from a street it fills the building's wall."""
         vertical, edge, centre = self.gap(*between)
-        w, h = (32, 64) if vertical else (64, 32)
+        span = 2 * self.half_width(*between)
+        w, h = (32, span) if vertical else (span, 32)
         across = edge
         open_side = [z for z in between if self.zones[z][4] == OPEN]
         assert len(open_side) < 2, ('a door between two open zones', between)

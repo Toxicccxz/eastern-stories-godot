@@ -194,18 +194,27 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 			s.box(root,Vector3(0,0.12,0),Vector3(0.7,0.24,0.7),"8c8a7f")
 			s.box(root,Vector3(0,3.2,0),Vector3(0.16,6.4,0.16),"6e5038")
 			s.box(root,Vector3(0,6.45,0),Vector3(0.24,0.14,0.24),"c9a35e")
-			s.box(root,Vector3(0.62,5.2,0),Vector3(1.1,2.2,0.04),"b8432f")
 			s.box(root,Vector3(0.62,6.33,0),Vector3(1.2,0.07,0.07),"6e5038")
+			# `flutter`: the cloth on a node of its own that stirs in the wind about the pole.
+			var cloth: Node3D = root
+			if data.get("flutter",false):
+				cloth = Node3D.new()
+				cloth.position = Vector3(0.08,5.2,0)
+				root.add_child(cloth)
+				if ambience != null:
+					ambience.flutter(cloth,root.position.x*0.7)
+			var at: Vector3 = Vector3(0.54,0,0) if cloth != root else Vector3(0.62,5.2,0)
+			s.box(cloth,at,Vector3(1.1,2.2,0.04),String(data.get("cloth","b8432f")))
 			var title := Label3D.new()
 			title.text = tr(String(data.get("text","")))
-			title.position = Vector3(0.62,5.2,0.03)
+			title.position = at+Vector3(0,0,0.03)
 			title.pixel_size = 0.009
 			title.font_size = 52
 			title.width = 120.0
 			title.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
 			title.modulate = Color("f1d9a0")
 			title.outline_size = 0
-			root.add_child(title)
+			cloth.add_child(title)
 		"bear_skin":
 			# 熊皮 (keep3.c): a great bear's hide spread flat, head and paws at its corners.
 			var fur: String = String(data.get("fur","4a3426"))

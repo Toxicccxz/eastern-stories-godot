@@ -32,8 +32,8 @@
     {"rect": [480, 544, 576, 1104], "from": ["blocked"], "to": "grass", "note": "the light wells either side of the main hall"},
     {"rect": [1360, 544, 1456, 1104], "from": ["blocked"], "to": "grass"},
     {"rect": [1168, 96, 1456, 544], "from": ["blocked"], "to": "grass", "note": "the kitchen court"},
-    {"rect": [1824, 560, 1904, 1088], "from": ["blocked", "boundary"], "to": "chasm", "note": "eaststair.c: 东边隔著栏杆就是深不见底的深谷"},
-    {"rect": [32, 704, 112, 976], "from": ["blocked", "boundary"], "to": "chasm", "note": "weststair.c: the balcony looks over the valley"}
+    {"rect": [1824, 560, 1904, 1088], "from": ["blocked", "boundary", "floor_wood"], "to": "chasm", "note": "eaststair.c: 东边隔著栏杆就是深不见底的深谷"},
+    {"rect": [32, 704, 112, 976], "from": ["blocked", "boundary", "rock"], "to": "chasm", "note": "weststair.c: the balcony looks over the valley"}
   ],
   "flora": {"grass_density": 0.9, "grass_colors": ["3f5a33", "4f6c3c", "628048", "78924f"], "flower_colors": ["e8a0b4", "c8342c", "f2e6c8", "f4d47a"], "flower_threshold": 0.05, "butterflies": 3},
   "props": [
@@ -76,7 +76,7 @@
     {"kind": "cloud_sea", "at": [-200, 860], "size": [400, 640], "elevation": -4.0, "count": 20, "drift": 1.2, "note": "the valley under the balcony"},
     {"kind": "far_peak", "at": [-560, 760], "size": [320, 320], "height": 9.0, "platform": true, "pillar": 5.0, "note": "虹台 far off west"},
 
-    {"kind": "runner", "at": [960, 920], "size": [96, 288], "rotation": 90, "note": "guildhall.c: a carpet from the door to the chair"},
+    {"kind": "runner", "at": [968, 976], "size": [192, 96], "rotation": 90, "note": "guildhall.c: a carpet from the door to the chair"},
     {"kind": "rug", "at": [968, 840], "size": [160, 128], "cloth": "7a2a24", "border": "c9a24a", "motif": "a8382c"},
     {"kind": "sign", "at": [968, 630], "size": [160, 16], "text": "武者同盟", "board": "a07a4a", "letters": "3a2a1a", "frame": "6e4e30", "height": 2.5, "tall": 0.8, "wall_mounted": true, "note": "北边的墙上挂著一樟木匾(sign)"},
     {"kind": "wall_scroll", "at": [840, 632], "size": [48, 8], "calligraphy": true, "wall_mounted": true},
@@ -111,7 +111,7 @@
     {"kind": "clutter", "at": [1560, 1216], "size": [48, 32], "items": ["books", "cups"]},
     {"kind": "pot", "at": [1776, 1424]},
 
-    {"kind": "runner", "at": [960, 1368], "size": [464, 128], "note": "entrance.c: the way in through the three gates"},
+    {"kind": "runner", "at": [960, 1368], "size": [464, 128], "rotation": 90, "note": "entrance.c: the way in through the three gates"},
     {"kind": "hanging_lantern", "at": [960, 1456], "flicker": 0.06, "paper": "d8452f:glow"},
     {"kind": "hanging_lantern", "at": [960, 1320], "flicker": 0.06, "paper": "d8452f:glow"},
     {"kind": "hanging_lantern", "at": [960, 1184], "flicker": 0.06, "paper": "d8452f:glow"},

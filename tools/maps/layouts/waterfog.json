@@ -105,10 +105,10 @@
               ["blocked", 1440, 1136, 1456, 1200, "and east", {"look": {"kind": "balustrade"}}],
               ["blocked", 1424, 1184, 1440, 1200, {"look": {"kind": "balustrade"}}],
               ["floor_yard", 1312, 1008, 1456, 1136, "clifftop: the white stone pavilion, open south and west"],
-              ["blocked", 1312, 1008, 1328, 1024, {"look": {"kind": "pavilion_post"}}],
-              ["blocked", 1440, 1008, 1456, 1024, {"look": {"kind": "pavilion_post"}}],
-              ["blocked", 1312, 1120, 1328, 1136, {"look": {"kind": "pavilion_post"}}],
-              ["blocked", 1440, 1120, 1456, 1136, {"look": {"kind": "pavilion_post"}}],
+              ["blocked", 1312, 1008, 1328, 1024, {"look": {"kind": "pavilion_post", "column": "e2ded3", "band": "b8b4a8", "bracket": "cfcabd"}}],
+              ["blocked", 1440, 1008, 1456, 1024, {"look": {"kind": "pavilion_post", "column": "e2ded3", "band": "b8b4a8", "bracket": "cfcabd"}}],
+              ["blocked", 1312, 1120, 1328, 1136, {"look": {"kind": "pavilion_post", "column": "e2ded3", "band": "b8b4a8", "bracket": "cfcabd"}}],
+              ["blocked", 1440, 1120, 1456, 1136, {"look": {"kind": "pavilion_post", "column": "e2ded3", "band": "b8b4a8", "bracket": "cfcabd"}}],
               ["blocked", 1328, 1008, 1440, 1024, "a rail seat on its cliff sides", {"look": {"kind": "balustrade", "seat": true}}],
               ["blocked", 1440, 1024, 1456, 1120, {"look": {"kind": "balustrade", "seat": true}}],
               ["blocked", 976, 1456, 992, 1920, "stair1-2's railings", {"look": {"kind": "balustrade"}}],
@@ -284,7 +284,7 @@
       }
     },
     "pavilion": {
-      "note": "水烟阁's ground floor, on one axis: the three-part gate hall of sandalwood (entrance), its three gateways one behind the other, opens north into the main hall (guildhall) and west and east into the flower halls, whose outer sides are white railings over beds of camellias; north of each flower hall a side hall with the white stone stairs up (west: a balcony over the valley; east: a railing over the chasm), then the woodshed and the servants' room (west) and the kitchen (east). Light wells separate the main hall from the side halls. Doorways 96-128 px, so a body standing in one can be passed.",
+      "note": "水烟阁's ground floor, on one axis: the three-part gate hall of sandalwood (entrance), its three gateways one behind the other, opens north into the main hall (guildhall) and west and east into the flower halls, whose outer sides are white railings over beds of camellias; north of each flower hall a side hall with the white stone stairs up (west: a balcony over the valley; east: a railing over the chasm), then the woodshed and the servants' room (west) and the kitchen (east). Light wells separate the main hall from the side halls. Doorways 128 px, so a body standing in one can be passed.",
       "file": "waterfog_pavilion.tscn",
       "draw": {
         "technique": "town",
@@ -308,9 +308,9 @@
           ["waterfog.entrance", "waterfog.easthall", 1296, 128],
           ["waterfog.westhall", "waterfog.weststair", 288, 128],
           ["waterfog.easthall", "waterfog.eaststair", 1648, 128],
-          ["waterfog.weststair", "waterfog.storage", 288, 96],
-          ["waterfog.eaststair", "waterfog.kitchen", 1648, 96],
-          ["waterfog.storage", "waterfog.servroom", 320, 96]
+          ["waterfog.weststair", "waterfog.storage", 288, 128],
+          ["waterfog.eaststair", "waterfog.kitchen", 1648, 128],
+          ["waterfog.storage", "waterfog.servroom", 320, 128]
         ],
         "roads": [],
         "props": [
@@ -330,11 +330,11 @@
           ["blocked", 1360, 544, 1456, 1104],
           ["blocked", 1168, 96, 1456, 544, "the kitchen court"],
 
-          ["blocked", 144, 128, 240, 176, "storage.c: 一捆一捆劈好的柴薪都整齐地堆放在柴房北侧", {"look": {"kind": "firewood", "stacked": true}}],
-          ["blocked", 256, 128, 352, 176, {"look": {"kind": "firewood", "stacked": true}}],
-          ["blocked", 368, 128, 448, 192, {"look": {"kind": "firewood", "stacked": true}}],
+          ["blocked", 144, 128, 240, 176, "storage.c: 一捆一捆劈好的柴薪都整齐地堆放在柴房北侧", {"look": {"kind": "firewood", "layers": 6}}],
+          ["blocked", 256, 128, 352, 176, {"look": {"kind": "firewood", "layers": 6}}],
+          ["blocked", 368, 128, 448, 192, {"look": {"kind": "firewood", "layers": 6}}],
           ["blocked", 128, 128, 144, 240, {"look": {"kind": "firewood"}}],
-          ["blocked", 160, 432, 192, 464, "the chopping block, its axe in it", {"look": {"kind": "chopping_block", "axe": true}}],
+          ["blocked", 160, 432, 192, 464, "a stump to split logs on, the axe in it", {"look": {"kind": "stump", "axe": true, "height": 0.55, "moss": "6b5746"}}],
           ["blocked", 384, 432, 432, 480, "a saw-horse with a log on it", {"look": {"kind": "saw_horse"}}],
 
           ["blocked", 608, 208, 976, 304, "servroom.c: 东西向一张大通铺最少可以睡二、三十人", {"look": {"kind": "long_bed", "quilts": ["5a6e86", "8a5a48", "6f7f5a", "a08a5a", "52605c", "7d5a6e"]}}],
@@ -352,7 +352,7 @@
           ["blocked", 1488, 224, 1520, 384, "西边则是一个橱柜", {"look": {"kind": "sundry_shelf", "rotation": 90, "goods": ["bowls", "jars", "bowls"]}}],
           ["blocked", 1536, 448, 1584, 496, {"look": {"kind": "water_vat"}}],
 
-          ["blocked", 160, 592, 224, 624, "beside the white stone stairs: a stand of potted orchids", {"look": {"kind": "flower_stand", "flower": "e8dcef"}}],
+          ["blocked", 128, 672, 160, 704, "beside the white stone stairs: a stand of potted orchids", {"look": {"kind": "flower_stand", "flower": "e8dcef"}}],
           ["blocked", 160, 816, 224, 864, "by the balcony: a tea table and two stools", {"look": {"kind": "tea_table", "cloth": "6f8a96"}}],
           ["blocked", 400, 1008, 432, 1056, {"look": {"kind": "flower_stand", "flower": "f1d0d6"}}],
 
@@ -374,8 +374,8 @@
           ["blocked", 608, 624, 672, 656, "weapon racks in the corners", {"look": {"kind": "weapon_rack"}}],
           ["blocked", 1264, 624, 1328, 656, {"look": {"kind": "weapon_rack"}}],
 
-          ["blocked", 1520, 816, 1616, 848, "eaststair: a couch facing the chasm", {"look": {"kind": "couch", "rotation": 90}}],
-          ["blocked", 1648, 1008, 1680, 1040, {"look": {"kind": "flower_stand", "flower": "e8a4b4"}}],
+          ["blocked", 1520, 784, 1552, 880, "eaststair: a couch facing the chasm", {"look": {"kind": "couch", "rotation": 90}}],
+          ["blocked", 1504, 1008, 1536, 1040, {"look": {"kind": "flower_stand", "flower": "e8a4b4"}}],
 
           ["blocked", 160, 1168, 256, 1200, "westhall: a zither by the jade railing", {"look": {"kind": "zither_table"}}],
           ["blocked", 288, 1296, 352, 1360, {"look": {"kind": "chess_table"}}],
@@ -390,8 +390,8 @@
           ["blocked", 1040, 1392, 1136, 1408, {"look": {"kind": "gate_frame", "rotation": 180, "colors": ["84503a", "9a6242", "643c2a"]}}],
           ["blocked", 784, 1248, 880, 1264, "the innermost gateway: 最里的门上悬著一块匾额，上面龙飞凤舞地写著几个大字，可是你全然看不出到底是什么字", {"look": {"kind": "gate_frame", "colors": ["8e5638", "a46a46", "6e4430"], "plaque": {"scrawl": true}}}],
           ["blocked", 1040, 1248, 1136, 1264, {"look": {"kind": "gate_frame", "rotation": 180, "colors": ["8e5638", "a46a46", "6e4430"]}}],
-          ["blocked", 576, 1280, 608, 1312, "sandalwood burning in tall censers (一股沁人心脾的檀香)", {"look": {"kind": "incense_burner", "size": [32, 32], "tall": true}}],
-          ["blocked", 1312, 1280, 1344, 1312, {"look": {"kind": "incense_burner", "size": [32, 32], "tall": true}}],
+          ["blocked", 576, 1280, 608, 1312, "sandalwood burning in tall censers (一股沁人心脾的檀香)", {"look": {"kind": "incense_burner", "size": [32, 32], "tall": true, "lit": true}}],
+          ["blocked", 1312, 1280, 1344, 1312, {"look": {"kind": "incense_burner", "size": [32, 32], "tall": true, "lit": true}}],
           ["blocked", 1184, 1152, 1264, 1184, "the guards' rack for the weapons visitors set down", {"look": {"kind": "weapon_rack"}}],
           ["blocked", 528, 1440, 560, 1584, "benches for visitors along the walls", {"look": {"kind": "bench", "rotation": 90}}],
           ["blocked", 1376, 1440, 1408, 1584, {"look": {"kind": "bench", "rotation": 90}}],
@@ -503,7 +503,7 @@
       }
     },
     "upstairs": {
-      "note": "水烟阁's upper floor: the walkways of the two tall side halls (west_2f, east_2f), each with its stairs down, a railing along the drop into the hall below and two red-coated guards by the door to the middle; between them 聆啸厅, its hall under the roof, the five grey-green stones on its southern terrace and the shut door north to 春秋水色斋.",
+      "note": "水烟阁's upper floor: the walkways (176 px) of the two tall side halls (west_2f, east_2f), each with its stairs down, a railing along the drop into the hall below and two red-coated guards by the door to the middle; between them 聆啸厅, its hall under the roof, the five grey-green stones on its southern terrace and the shut door north to 春秋水色斋.",
       "file": "waterfog_upstairs.tscn",
       "draw": {
         "technique": "town",
@@ -516,15 +516,15 @@
           "waterfog.east_2f": [1056, 96, 1440, 480, "enclosed", "floor_wood", "wall_wood"]
         },
         "gap_at": [
-          ["waterfog.west_2f", "waterfog.forehall", 256, 128],
-          ["waterfog.forehall", "waterfog.east_2f", 256, 128]
+          ["waterfog.west_2f", "waterfog.forehall", 240, 128],
+          ["waterfog.forehall", "waterfog.east_2f", 240, 128]
         ],
         "roads": [],
         "props": [
-          ["blocked", 128, 384, 448, 448, "west_2f.c: 由于侧厅是挑高建筑，因此这里只有一条走道 (the drop into the hall below)"],
-          ["blocked", 128, 368, 448, 384, {"look": {"kind": "balustrade", "timber": true}}],
-          ["blocked", 1088, 384, 1408, 448, "east_2f.c: the drop into the hall below"],
-          ["blocked", 1088, 368, 1408, 384, {"look": {"kind": "balustrade", "timber": true}}],
+          ["blocked", 128, 320, 448, 448, "west_2f.c: 由于侧厅是挑高建筑，因此这里只有一条约七、八尺宽的走道 (the drop into the hall below; the walkway 176 px)"],
+          ["blocked", 128, 304, 448, 320, {"look": {"kind": "balustrade", "wooden": true}}],
+          ["blocked", 1088, 320, 1408, 448, "east_2f.c: the drop into the hall below"],
+          ["blocked", 1088, 304, 1408, 320, {"look": {"kind": "balustrade", "wooden": true}}],
           ["blocked", 544, 448, 576, 496, "forehall.c: 按著西、西南、南、东南、东等方向立著五块灰绿色的怪石: west", {"look": {"kind": "strange_stone", "height": 2.2}}],
           ["blocked", 640, 496, 672, 528, "south-west", {"look": {"kind": "strange_stone", "height": 1.7}}],
           ["blocked", 752, 512, 784, 544, "south", {"look": {"kind": "strange_stone", "height": 2.5}}],
@@ -541,10 +541,10 @@
         "reach_from": "WestStairsArrival",
         "markers_in_middle": [],
         "placed": {
-          "waterfog.west_2f.elite_guard.1": [424, 160],
-          "waterfog.west_2f.elite_guard.2": [424, 344],
-          "waterfog.east_2f.elite_guard.1": [1120, 160],
-          "waterfog.east_2f.elite_guard.2": [1120, 344],
+          "waterfog.west_2f.elite_guard.1": [424, 152],
+          "waterfog.west_2f.elite_guard.2": [360, 152],
+          "waterfog.east_2f.elite_guard.1": [1120, 152],
+          "waterfog.east_2f.elite_guard.2": [1184, 152],
           "waterfog.forehall.elder5.1": [672, 192],
           "waterfog.forehall.elder6.1": [768, 176],
           "waterfog.forehall.elder7.1": [864, 192]

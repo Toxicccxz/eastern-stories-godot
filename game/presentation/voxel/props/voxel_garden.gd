@@ -253,12 +253,12 @@ func _frame(turn: float) -> Node3D:
 
 ## 白石栏杆: a stone kerb, posts with bud caps every half unit, a top rail and carved panels
 ## between, along the box's long side (a 16 px box at a way's edge). `jade`: the purest white
-## (白玉); `timber`: red lacquered wood; `seat`: a plank along it at sitting height (美人靠).
+## (白玉); `wooden`: red lacquered wood; `seat`: a plank along it at sitting height (美人靠).
 func _balustrade(w: float, d: float) -> void:
 	var along_x: bool = w>=d
 	var length: float = maxf(w,d)
 	var depth: float = minf(w,d)
-	var wooden: bool = data.get("timber",false)
+	var wooden: bool = data.get("wooden",false)
 	var fallback: Array = ["d9d6cc","e8e5dc","c4c0b4"]
 	if data.get("jade",false):
 		fallback = ["e8ebe6","f5f6f1","d2d8d2"]
@@ -340,7 +340,8 @@ func _pavilion_roof(w: float, d: float) -> void:
 	if data.get("bells",true):
 		for corner: Vector2 in [Vector2(-1,-1),Vector2(1,-1),Vector2(1,1),Vector2(-1,1)]:
 			var bell := Node3D.new()
-			bell.position = Vector3(corner.x*span.x/2,0.35,corner.y*span.y/2)
+			# Hung from the swept-up corner itself.
+			bell.position = Vector3(corner.x*span.x/2,0.82,corner.y*span.y/2)
 			root.add_child(bell)
 			s.box(bell,Vector3(0,-0.18,0),Vector3(0.03,0.3,0.03),"4a3a2a")
 			s.box(bell,Vector3(0,-0.4,0),Vector3(0.14,0.18,0.14),String(data.get("bell","b88a3a")))

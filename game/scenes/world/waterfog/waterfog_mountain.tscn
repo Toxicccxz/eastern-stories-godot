@@ -568,22 +568,22 @@ metadata/footprint = Vector2(16, 16)
 
 [node name="Furnishing13" type="Node2D" parent="Furnishings"]
 position = Vector2(1320, 1016)
-metadata/look = {"kind": "pavilion_post"}
+metadata/look = {"kind": "pavilion_post", "column": "e2ded3", "band": "b8b4a8", "bracket": "cfcabd"}
 metadata/footprint = Vector2(16, 16)
 
 [node name="Furnishing14" type="Node2D" parent="Furnishings"]
 position = Vector2(1448, 1016)
-metadata/look = {"kind": "pavilion_post"}
+metadata/look = {"kind": "pavilion_post", "column": "e2ded3", "band": "b8b4a8", "bracket": "cfcabd"}
 metadata/footprint = Vector2(16, 16)
 
 [node name="Furnishing15" type="Node2D" parent="Furnishings"]
 position = Vector2(1320, 1128)
-metadata/look = {"kind": "pavilion_post"}
+metadata/look = {"kind": "pavilion_post", "column": "e2ded3", "band": "b8b4a8", "bracket": "cfcabd"}
 metadata/footprint = Vector2(16, 16)
 
 [node name="Furnishing16" type="Node2D" parent="Furnishings"]
 position = Vector2(1448, 1128)
-metadata/look = {"kind": "pavilion_post"}
+metadata/look = {"kind": "pavilion_post", "column": "e2ded3", "band": "b8b4a8", "bracket": "cfcabd"}
 metadata/footprint = Vector2(16, 16)
 
 [node name="Furnishing17" type="Node2D" parent="Furnishings"]

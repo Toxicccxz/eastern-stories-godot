@@ -18,18 +18,18 @@
   "props": [
     {"kind": "stairwell", "at": [192, 216], "size": [64, 64], "note": "west_2f.c: the stairs down"},
     {"kind": "stairwell", "at": [1344, 216], "size": [64, 64]},
-    {"kind": "drop", "at": [288, 416], "size": [320, 64], "below": "e0ddd4", "rug": "6f8a96", "note": "west_2f.c: 侧厅是挑高建筑, the hall below with its white stone floor"},
-    {"kind": "drop", "at": [1248, 416], "size": [320, 64], "below": "8a5a3c", "rug": "7a3a30"},
+    {"kind": "drop", "at": [288, 384], "size": [320, 128], "below": "e0ddd4", "rug": "6f8a96", "note": "west_2f.c: 侧厅是挑高建筑, the hall below with its white stone floor"},
+    {"kind": "drop", "at": [1248, 384], "size": [320, 128], "below": "8a5a3c", "rug": "7a3a30"},
 
     {"kind": "window", "at": [320, 116], "size": [64, 16]},
-    {"kind": "hanging_lantern", "at": [336, 256], "flicker": 0.06},
-    {"kind": "wall_scroll", "at": [112, 300], "size": [40, 8], "rotation": 90, "wall_mounted": true},
-    {"kind": "runner", "at": [320, 288], "size": [224, 48], "note": "the walkway from the stairs to the door"},
+    {"kind": "hanging_lantern", "at": [336, 224], "flicker": 0.06},
+    {"kind": "wall_scroll", "at": [112, 220], "size": [40, 8], "rotation": 90, "wall_mounted": true},
+    {"kind": "runner", "at": [336, 240], "size": [224, 48], "note": "the walkway from the stairs to the door"},
 
     {"kind": "window", "at": [1216, 116], "size": [64, 16]},
-    {"kind": "hanging_lantern", "at": [1200, 256], "flicker": 0.06, "paper": "d8452f:glow"},
-    {"kind": "wall_scroll", "at": [1424, 300], "size": [40, 8], "rotation": -90, "calligraphy": true, "wall_mounted": true},
-    {"kind": "runner", "at": [1216, 288], "size": [224, 48]},
+    {"kind": "hanging_lantern", "at": [1200, 224], "flicker": 0.06, "paper": "d8452f:glow"},
+    {"kind": "wall_scroll", "at": [1424, 220], "size": [40, 8], "rotation": -90, "calligraphy": true, "wall_mounted": true},
+    {"kind": "runner", "at": [1200, 240], "size": [224, 48]},
 
     {"kind": "closed_door", "at": [768, 104], "size": [96, 16], "wall_mounted": true, "note": "forehall.c: 往北则是水烟阁主所居的春秋水色斋 (no room: shut)"},
     {"kind": "sign", "at": [768, 108], "size": [128, 16], "text": "春秋水色斋", "board": "1e3436", "letters": "efcd6c:glow", "frame": "b89548", "height": 3.0, "tall": 0.6, "wall_mounted": true},
