@@ -162,6 +162,23 @@
 - 新增家具会缩小可走区域：属于地图布局改动，各房的门、出口和刷怪点保持可达（走查测试）。
 - 原 2D 色块地砖不再显示，只作布局与碰撞；`docs/design/美术规划.md` 的像素画法由体素规范取代。
 
+## 老松林按原文方位排布 (owner, 2026-10-25)
+
+- **ES2:** clearing.c's exits send `north` to spath1, but its own text has three ways east, west
+  and south with the sign by the south one, and spath1-4 describe a slope south of it, 北高南低;
+  cliffside and cliffdown each have a cliff to the west: the gorge's, climbed up from riverbank1
+  by cliff1 to the cliffside (it has no way down), and the one climbed down by cliff2 to epath3
+  below the bridge; epath3 has a broken plank road up the cliff. Drawn by the exits alone, the slope ran back north beside the way in, and the climbs
+  from the maze's far west edge landed on the other side of the map.
+- **We:** the exits are kept, the places are drawn where the rooms say they are: the slope south
+  of the clearing, the sign by its head; the gorge running south from the falls under the
+  bridge; the pine maze and 老松寨 on the high ground east of it, cliffdown on its west edge
+  straight above epath3 and the cliffside on the same edge over the gorge. The maze's native way
+  in (B2's link, no ES2 exit) moves from the clearing's south side to the plank road up from
+  epath3 into pine1; the clearing has only its three ways. The maze keeps its structure (a loop,
+  two dead ends, one way on to cliffdown), pine1's two bandits stand by the way to the keep.
+  World revision SOURCE_ENTRY_OLDPINE_RELAYOUT_V1.
+
 ## 地图尺寸以体素视角为准 (owner, 2026-10-25)
 
 - **以前:** 2D 地图的路、台阶、院子和门洞按俯视色块的比例画；画上体素的建筑、岩石、栏杆和人物之后，路被南边
@@ -2588,11 +2605,11 @@ Owner decisions for Package 3B5:
   freezes the world), but after a Flee the separated opponent mark used to wait for the next round
   (as LPC's `clean_up_enemy` on the next heart_beat); a transition now clears it on arrival.
   Lethal (killer) marks stay.
-- **The forest follows the ES2 exits.** spath1-4 lie north of the clearing (`clearing.c`
-  north → spath1), npath enters from the west (`clearing.c` west → npath3), and cliffside is
-  walked into pine1 (`cliffside.c` north). The walk works both ways although pine1 has no exit
-  back: cliffside is a dead end with no way down, so this opens no route. The maze keeps B2's
-  native link from the clearing, now on its south side, where ES2 has no exit.
+- **The forest follows the ES2 exits.** (Placement superseded by「老松林按原文方位排布」,
+  2026-10-25; the exits themselves are unchanged.) npath enters from the west (`clearing.c`
+  west → npath3), and cliffside is walked into pine1 (`cliffside.c` north). The walk works both
+  ways although pine1 has no exit back: cliffside is a dead end with no way down, so this opens
+  no route.
 - **Static terrain collides through its tiles.** Walls, forest, water, cliffs and chasms carry a
   TileSet physics shape; the map's walkable area is what is painted with walkable tiles. Doors,
   exits closed in one world (e.g. `SnowBlocker`) and other switchable blockers stay nodes. Old Pine
