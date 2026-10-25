@@ -69,12 +69,12 @@ func _run_case(tree: SceneTree, wounded: bool) -> void:
 		_eq(qa.player_precondition.experience_before, 600, "normal starting experience unchanged")
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	# Real physics input in automated integration; no Area callback/combat start.
-	Input.action_press("move_right")
 	for _frame: int in 100:
+		MapRoute.press_action(session.active_map().runtime_player_body(), &"move_right")
 		await tree.physics_frame
 		if coordinator.has_active_encounter():
 			break
-	Input.action_release("move_right")
+	MapPlaces.release()
 	await tree.process_frame
 	_eq(coordinator.has_active_encounter(), true, "physical approach triggers aggression entry")
 	if not coordinator.has_active_encounter():

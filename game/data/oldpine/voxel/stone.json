@@ -1,0 +1,67 @@
+{
+  "indoor": false,
+  "camera_size": 18,
+  "edge": {
+    "minimum_margin": 24,
+    "maximum_margin": 48,
+    "depth": 3.0,
+    "top": "2a2c26",
+    "bottom": "181915",
+    "strata": ["3e423a", "343730", "2a2c26"]
+  },
+  "light": {
+    "sky": ["0f0d0b", "0a0908"],
+    "ambient": ["9b9282", "8a8a96"],
+    "ambient_energy": [0.95, 0.85],
+    "sun": ["b3a792", "9fa3b4"],
+    "sun_energy": [0.28, 0.22],
+    "carried": {"color": "ffd8a8", "range": 9.0, "day": 2.4, "night": 2.6, "attenuation": 0.9}
+  },
+  "reshape": [
+    {"rect": [-176, -128, 176, 112], "from": ["cliff"], "to": "chasm", "note": "the cave floor all round the stone, below its slippery top"}
+  ],
+  "cliffs": {
+    "kinds": ["cliff", "chasm"],
+    "low": 2.5,
+    "high": 4.5,
+    "rise": 60,
+    "step": 0.5,
+    "rough": 0.5,
+    "keep": 96,
+    "trim": ["cliff"],
+    "grooves": 0.2,
+    "strata": ["3f4a36", "48553c", "526044", "5b6a4b", "44503a"],
+    "tops": ["3a5230", "446036", "4f6e3e"],
+    "sink": {"kinds": ["chasm"], "depth": 3.0, "floor": ["3a3730", "433f37"], "strata": ["5a6650", "647058", "6e7a60", "546048"], "gloom": 0.3, "note": "path3.c: 一块比人还高的钟乳石"}
+  },
+  "ground": {
+    "rock": {"style": "scree", "colors": ["5e6a56", "68745e", "727e66"], "gravel": 0.3, "stones": 0.03, "wet": true, "wet_chance": 0.45, "sheen": "6a7a6a", "note": "stone.c: 虽然有点滑"},
+    "grass": {"colors": ["3f6a34", "4a783a", "558442"]},
+    "boundary": {"style": "scree", "colors": ["2f302b", "363731"], "gravel": 0.1}
+  },
+  "flora": {
+    "grass_density": 0.9,
+    "density": {"rock": 0.08, "grass": 0.9},
+    "grass_colors": ["2f4a2a", "3d5e33", "4d7240", "5e864a"],
+    "flower_threshold": 1.0,
+    "tree_kinds": [],
+    "cliff_tufts": 0.1,
+    "outcrop_colors": ["4a5444", "55604d"],
+    "wind": 0.0,
+    "butterflies": 0
+  },
+  "props": [
+    {"kind": "light_shaft", "at": [-20, -40], "size": [96, 96], "height": 5.5, "day": 1.2, "night": 0.3, "range": 6.0, "light": "e8e2c8", "floor_patch": false},
+    {"kind": "drip", "at": [80, -60], "height": 3.0},
+    {"kind": "bones", "at": [-60, 50], "size": [28, 20], "skull": false, "ribs": false, "count": 3, "note": "the snake's meals"},
+    {"kind": "ferns", "at": [90, 40], "size": [24, 24], "count": 2, "fern": ["3a5a34", "46683c", "527444"]},
+    {"kind": "stalagmites", "at": [-150, -110], "size": [32, 32], "on_cliff": true, "count": 3, "height": 1.4, "colors": ["5d6857", "6a7563", "78826f"]},
+    {"kind": "stalagmites", "at": [150, -110], "size": [32, 32], "on_cliff": true, "count": 3, "height": 1.4, "colors": ["5d6857", "6a7563", "78826f"]},
+    {"kind": "stalagmites", "at": [-150, 100], "size": [32, 32], "on_cliff": true, "count": 3, "height": 1.4, "colors": ["5d6857", "6a7563", "78826f"]},
+    {"kind": "stalagmites", "at": [160, 90], "size": [32, 32], "on_cliff": true, "count": 3, "height": 1.4, "colors": ["5d6857", "6a7563", "78826f"]}
+  ],
+  "actors": {
+    "default": {"coat": "7d6a4e"},
+    "oldpine.npc.venomsnake": {"body": "snake", "rear": true, "scale": 1.0, "colors": ["c9a23a", "d8d0b8", "b38a2a"], "bands": "2a2622", "belly": "e0d6b8", "note": "venomsnake.c: 一支昂首吐信的毒蛇 (金银花蛇)"}
+  }
+}

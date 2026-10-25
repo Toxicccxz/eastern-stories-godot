@@ -180,15 +180,15 @@ func _test_projection_authority_and_committed_status(tree: SceneTree) -> void:
 	_assert_eq(player.state.life_threshold(), CharacterState.LifeThreshold.UNCONSCIOUS, "resource threshold evidence is unconscious")
 	_assert_eq(player.life_status, CharacterRuntimeLifeStatus.Value.ACTIVE, "threshold evidence does not commit world status")
 	var move_start: Vector2 = controller.player_body.position
-	Input.action_press("move_right")
+	MapRoute.press_action(controller.player_body, &"move_right")
 	controller.player_body._physics_process(1.0 / 30.0)
-	Input.action_release("move_right")
+	MapPlaces.release()
 	_assert_true(controller.player_body.position != move_start, "committed ACTIVE status still governs movement")
 	player.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS)
 	move_start = controller.player_body.position
-	Input.action_press("move_right")
+	MapRoute.press_action(controller.player_body, &"move_right")
 	controller.player_body._physics_process(1.0 / 30.0)
-	Input.action_release("move_right")
+	MapPlaces.release()
 	_assert_eq(controller.player_body.position, move_start, "committed non-ACTIVE status blocks movement")
 	var victim: NpcRuntimeState = controller.npc_runtimes()[0]
 	# BF3: chard.c copies stored query_weight/query_max_encumbrance. A raw
@@ -250,10 +250,10 @@ func _test_zone_movement_and_same_location(tree: SceneTree) -> void:
 	# The bandit slope (spath1) lies north of the clearing, as clearing.c's north exit says.
 	controller.player_body.position = Vector2(450.0, 15.0)
 	await tree.physics_frame
-	Input.action_press("move_up")
 	for _frame: int in range(12):
+		MapRoute.press_action(controller.player_body, &"move_up")
 		await tree.physics_frame
-	Input.action_release("move_up")
+	MapPlaces.release()
 	await tree.physics_frame
 	_assert_true(controller.player_body.position != start_position, "CharacterBody2D moves continuously through physical space")
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.SLOPE_ZONE_ID, "Area2D transition updates typed logical zone")
@@ -278,14 +278,14 @@ func _test_zone_movement_and_same_location(tree: SceneTree) -> void:
 	controller.player_body.position = Vector2(100.0, 262.0)
 	await tree.physics_frame
 	_assert_true(await MapRoute.drive(tree, controller, controller.player_body, Vector2(-250.0, 0.0)), "the path leads west out of the clearing")
-	Input.action_press("move_left")
+	MapRoute.press_action(controller.player_body, &"move_left")
 	var last_x: float = INF
 	for _step: int in range(1200):
 		controller.player_body._physics_process(1.0 / 60.0)
 		if is_equal_approx(controller.player_body.position.x, last_x):
 			break
 		last_x = controller.player_body.position.x
-	Input.action_release("move_left")
+	MapPlaces.release()
 	_assert_true(controller.player_body.position.x < 0.0, "player walks west out of the clearing through the continuous map")
 	# The path turns north there; the pines beside it hold the body.
 	var west_side: Array[String] = []
@@ -605,9 +605,9 @@ func _test_lifecycle_death_corpse_and_continued_map(tree: SceneTree) -> void:
 	_assert_true(controller.player_runtime().relationship.has_lethal_target(bandits[0].character_id), "second combat targets the new selected bandit")
 	HistoricalCombat.set_running(controller, false)
 	var before_move: Vector2 = controller.player_body.position
-	Input.action_press("move_right")
+	MapRoute.press_action(controller.player_body, &"move_right")
 	controller.player_body._physics_process(1.0 / 30.0)
-	Input.action_release("move_right")
+	MapPlaces.release()
 	_assert_true(controller.player_body.position != before_move, "player can continue walking after NPC death")
 	OldPineTestMap.rejoin(aside)
 	controller.queue_free()

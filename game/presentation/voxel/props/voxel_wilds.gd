@@ -48,6 +48,13 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"rough_steps": _rough_steps(w,d)
 		"torch": _torch()
 		"glow": _glow()
+		"bone_gate": _bone_gate(w,d)
+		"sandbags": _sandbags(w,d)
+		"stakes": _stakes(w,d)
+		"skull_pit": _skull_pit(w,d)
+		"carved_wall": _carved_wall(w)
+		"candlestick": _candlestick()
+		"brazier": _brazier(w)
 		_:
 			return false
 	return true
@@ -456,16 +463,20 @@ func _drip() -> void:
 	if ambience != null:
 		ambience.drip(root,Vector3(0,0.02,0),float(data.get("height",2.6)))
 
-## Daylight coming into a cave mouth: a pale shaft and its glow, dimmer by night.
+## Daylight coming into a cave mouth: a pale shaft and its glow, dimmer by night. With
+## `haze` [day, night] the rays' opacity follows the light (moonlight through the pines
+## shows only at night); `rays` how many.
 func _light_shaft(w: float, d: float) -> void:
 	var haze := StandardMaterial3D.new()
 	haze.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	haze.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	haze.albedo_color = Color(String(data.get("color","f3e3b8")),0.07)
 	haze.cull_mode = BaseMaterial3D.CULL_DISABLED
+	if data.has("haze"):
+		haze.set_meta("haze",data["haze"])
 	var height: float = float(data.get("height",2.6))
 	# A few thin slanting rays, falling inward (+z) from above the opening.
-	for beam: int in 4:
+	for beam: int in int(data.get("rays",4)):
 		var mesh := BoxMesh.new()
 		mesh.size = Vector3(0.12+beam%2*0.1,0.12+beam%2*0.1,height*1.5)
 		var shaft := MeshInstance3D.new()
@@ -473,9 +484,10 @@ func _light_shaft(w: float, d: float) -> void:
 		shaft.material_override = haze
 		shaft.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		shaft.position = Vector3((beam-1.5)*w*0.18,height*0.5,0.2*beam)
-		shaft.rotation = Vector3(0.75,0,0)
+		shaft.rotation = Vector3(float(data.get("slant",0.75)),0,0)
 		root.add_child(shaft)
-	s.shard(root,Vector3(0,0.006,d*0.2),Vector3(w,0.01,d*0.8),String(data.get("floor","a6987a")),rng.randi())
+	if data.get("floor_patch",true):
+		s.shard(root,Vector3(0,0.006,d*0.2),Vector3(w,0.01,d*0.8),String(data.get("floor","a6987a")),rng.randi())
 	var light := OmniLight3D.new()
 	light.position = Vector3(0,height*0.7,0)
 	light.light_color = Color(String(data.get("light","ffe7b5")))
@@ -542,3 +554,153 @@ func _glow() -> void:
 	if data.has("flicker"):
 		light.set_meta("flicker",float(data["flicker"]))
 	root.add_child(light)
+
+## 老松寨's hidden gate (keep1.c): a frame of rough logs across the opening, four or five
+## beasts' skulls and iron chains hung from the lintel, dry pine boughs laid over the top so
+## it is hard to make out in the forest. Spans the box's width.
+func _bone_gate(w: float, d: float) -> void:
+	var height: float = float(data.get("height",3.0))
+	var wood: Array = _colors("colors",["5a4634","6a533d","4b3a2b"])
+	for x: float in [-w/2+0.18,w/2-0.18]:
+		s.box(root,Vector3(x,height/2,0),Vector3(0.36,height,0.4),_pick(wood))
+		s.box(root,Vector3(x,height+0.08,0),Vector3(0.3,0.2,0.34),String(wood[2]))
+	s.box(root,Vector3(0,height-0.15,0),Vector3(w+0.5,0.32,0.36),_pick(wood))
+	s.tilted_box(root,Vector3(0,height-0.6,0.05),Vector3(w*0.9,0.14,0.12),String(wood[1]),Vector3(0,0,0.08))
+	# The skulls, an odd number of different beasts, and the chains between them.
+	var count: int = int(data.get("skulls",5))
+	for i: int in count:
+		var x: float = -w*0.4+i*w*0.8/maxf(1,count-1)
+		var hang: float = 0.35+(i%2)*0.2
+		s.box(root,Vector3(x,height-0.3-hang*0.5,0.22),Vector3(0.03,hang,0.03),"4a4a48")
+		var skull := Vector3(x,height-0.42-hang,0.24)
+		s.box(root,skull,Vector3(0.26,0.22,0.3),_pick(["e2dbc6","d4cbb0","c7bc9d"]))
+		s.box(root,skull+Vector3(0,-0.06,0.18),Vector3(0.16,0.12,0.14),_pick(["d4cbb0","c7bc9d"]))
+		for side: float in [-1.0,1.0]:
+			s.box(root,skull+Vector3(side*0.07,0.02,0.14),Vector3(0.06,0.06,0.03),"2e2620")
+			if i%2==0:
+				s.tilted_box(root,skull+Vector3(side*0.14,0.14,-0.04),Vector3(0.06,0.06,0.2),"b3a98c",Vector3(-0.7,0,side*0.5))
+	for link: int in ceili(w/0.18):
+		var x: float = -w/2+0.09+link*0.18
+		var sag: float = sin(float(link)/ceili(w/0.18)*PI)*0.35
+		s.box(root,Vector3(x,height-0.38-sag,0.2),Vector3(0.12,0.06,0.04) if link%2 else Vector3(0.12,0.04,0.07),"55524c")
+	# Dry pine boughs heaped over the frame (乾枯的松枝).
+	var dry: Array = _colors("boughs",["7a6a3e","8a7744","6a5c38","94834e"])
+	for i: int in ceili(w/0.35)+2:
+		var x: float = -w/2-0.3+i*0.35
+		s.tilted_box(root,Vector3(x,height+0.2+rng.randf()*0.2,rng.randf_range(-0.2,0.2)),Vector3(0.7,0.14,0.4),_pick(dry),Vector3(rng.randf_range(-0.3,0.3),rng.randf()*TAU,rng.randf_range(-0.2,0.2)))
+		if i%2==0:
+			s.tilted_box(root,Vector3(x,height-0.1,0.3),Vector3(0.12,0.6,0.08),_pick(dry),Vector3(0.2,0,rng.randf_range(-0.4,0.4)))
+
+## 沙包石堆: sandbags stacked at a stockade's strong point, a pile of stones beside them.
+func _sandbags(w: float, d: float) -> void:
+	var cloth: Array = _colors("colors",["9a8a62","a8976b","8a7b56"])
+	var rows: int = int(data.get("rows",3))
+	for row: int in rows:
+		var count: int = maxi(1,floori(w/0.55))-row%2
+		for i: int in count:
+			var x: float = -w/2+0.3+i*0.55+(row%2)*0.27
+			s.shard(root,Vector3(x,0.15+row*0.26,-d*0.15),Vector3(0.58,0.3,0.38),_pick(cloth),rng.randi(),rng.randf_range(-0.1,0.1))
+	var rock: Array = ["7f7a6c","8d8778","6f6a5e"]
+	for i: int in 8:
+		var size: float = rng.randf_range(0.18,0.32)
+		s.shard(root,Vector3(rng.randf_range(-0.4,0.4)*w,size*0.4+(0.2 if i>5 else 0.0),d*0.22+rng.randf_range(-0.1,0.1)),Vector3(size*1.2,size*0.8,size),_pick(rock),rng.randi(),rng.randf()*TAU)
+
+## 一排木桩: sharpened stakes driven into the ground in a row.
+func _stakes(w: float, d: float) -> void:
+	var wood: Array = _colors("colors",["6a5038","7d6044","5a4430"])
+	for i: int in maxi(1,ceili(w/0.3)):
+		var x: float = -w/2+0.15+i*0.3
+		var h: float = float(data.get("height",1.6))*rng.randf_range(0.8,1.05)
+		s.tilted_box(root,Vector3(x,h/2,0),Vector3(0.18,h,0.18),_pick(wood),Vector3(rng.randf_range(-0.06,0.06),0,rng.randf_range(-0.06,0.06)))
+		s.box(root,Vector3(x,h+0.06,0),Vector3(0.1,0.14,0.1),"b59d78")
+	s.box(root,Vector3(0,0.5,0),Vector3(w,0.06,0.22),String(data.get("rope","8e7c55")))
+
+## 大坑 (keep3.c): a pit dug in the floor, skulls soaking in a stinking yellow water.
+func _skull_pit(w: float, d: float) -> void:
+	var rim: Array = _colors("rim",["5c5446","6b6150","4f483c"])
+	for i: int in ceili((w+d)*2/0.4):
+		var t: float = float(i)/ceili((w+d)*2/0.4)
+		var a: float = t*TAU
+		s.shard(root,Vector3(cos(a)*w*0.5,0.08,sin(a)*d*0.5),Vector3(0.42,0.18,0.34),_pick(rim),i,a)
+	s.box(root,Vector3(0,-0.02,0),Vector3(w*0.9,0.04,d*0.9),"3a3226")
+	s.box(root,Vector3(0,0.03,0),Vector3(w*0.84,0.02,d*0.84),String(data.get("water","a8973a"))+":gloss")
+	for i: int in int(data.get("skulls",9)):
+		var at := Vector3(rng.randf_range(-0.35,0.35)*w,0.05,rng.randf_range(-0.35,0.35)*d)
+		s.tilted_box(root,at,Vector3(0.24,0.18,0.28),_pick(["d9d0b4","c9be9e","b8ad8c"]),Vector3(rng.randf_range(-0.4,0.4),rng.randf()*TAU,0))
+		s.box(root,at+Vector3(0,0.05,0.1),Vector3(0.06,0.05,0.04),"2e2620")
+	if ambience != null:
+		ambience.smoke(root,Vector3(0,0.1,0),String(data.get("fumes","9a9a58")),4,0.25)
+
+## Words cut into a rock face with a sword (cave5.c's wall): rows of pale strokes.
+func _carved_wall(w: float) -> void:
+	var low: float = float(data.get("from",0.9))
+	var rows: int = int(data.get("rows",5))
+	for row: int in rows:
+		for stroke: int in maxi(2,floori(w/0.16)):
+			if rng.randf()<0.2:
+				continue
+			var x: float = -w/2+0.08+stroke*0.16
+			var y: float = low+row*0.3
+			var tall: bool = rng.randf()<0.5
+			s.tilted_box(root,Vector3(x,y,0),Vector3(0.025 if tall else 0.12,0.2 if tall else 0.025,0.03),String(data.get("color","c9bea2")),Vector3(0,0,rng.randf_range(-0.5,0.5)))
+
+## 铜铸的烛台 (passage.c): a bronze candlestick taller than a man's waist, three candles
+## burning on its arms.
+func _candlestick() -> void:
+	var bronze: Array = _colors("colors",["8a6a32","a07c3c","6e5428"])
+	var height: float = float(data.get("height",1.4))
+	s.box(root,Vector3(0,0.06,0),Vector3(0.4,0.12,0.4),String(bronze[2]))
+	s.box(root,Vector3(0,0.16,0),Vector3(0.24,0.1,0.24),String(bronze[0]))
+	s.box(root,Vector3(0,height/2,0),Vector3(0.08,height,0.08),String(bronze[1]))
+	s.box(root,Vector3(0,height*0.55,0),Vector3(0.16,0.08,0.16),String(bronze[0]))
+	for arm: int in 3:
+		var x: float = (arm-1)*0.24
+		s.box(root,Vector3(x*0.5,height,0),Vector3(absf(x)+0.06,0.05,0.05),String(bronze[1]))
+		s.box(root,Vector3(x,height+0.04,0),Vector3(0.12,0.05,0.12),String(bronze[0]))
+		s.box(root,Vector3(x,height+0.15,0),Vector3(0.07,0.18,0.07),"e8dcc0")
+		var flame := Node3D.new()
+		flame.position = Vector3(x,height+0.27,0)
+		flame.set_meta("light_fixture",true)
+		root.add_child(flame)
+		s.box(flame,Vector3(0,0.04,0),Vector3(0.05,0.09,0.05),"ffd88a")
+		if ambience != null:
+			ambience.flame(flame)
+	var light := OmniLight3D.new()
+	light.position = Vector3(0,height+0.4,0)
+	light.light_color = Color("ffb867")
+	light.omni_range = float(data.get("range",4.0))
+	light.set_meta("day_energy",float(data.get("day",1.4)))
+	light.set_meta("night_energy",float(data.get("night",1.6)))
+	light.set_meta("flicker",0.1)
+	root.add_child(light)
+
+## 火盆 (keep3.c): an iron basin of coals on three legs, flames and smoke rising.
+func _brazier(w: float) -> void:
+	var iron: Array = _colors("colors",["3a3532","4a4440","2e2a28"])
+	for leg: int in 3:
+		var a: float = leg*TAU/3.0
+		s.tilted_box(root,Vector3(cos(a)*w*0.28,0.3,sin(a)*w*0.28),Vector3(0.07,0.66,0.07),String(iron[2]),Vector3(-sin(a)*0.3,0,cos(a)*0.3))
+	s.box(root,Vector3(0,0.66,0),Vector3(w*0.75,0.22,w*0.75),String(iron[0]))
+	s.box(root,Vector3(0,0.78,0),Vector3(w*0.8,0.05,w*0.8),String(iron[1]))
+	s.box(root,Vector3(0,0.79,0),Vector3(w*0.6,0.04,w*0.6),"8a3a1e")
+	var flames := Node3D.new()
+	flames.position = Vector3(0,0.8,0)
+	flames.set_meta("light_fixture",true)
+	root.add_child(flames)
+	for tongue: int in 4:
+		var flame := Node3D.new()
+		flame.position = Vector3(cos(tongue*1.6)*0.1,0,sin(tongue*1.6)*0.1)
+		flames.add_child(flame)
+		s.box(flame,Vector3(0,0.15,0),Vector3(0.12,0.3-tongue*0.04,0.12),"ffb858" if tongue%2 else "ffd88a")
+		if ambience != null:
+			ambience.flame(flame)
+	var light := OmniLight3D.new()
+	light.position = Vector3(0,1.3,0)
+	light.light_color = Color("ff9f55")
+	light.omni_range = float(data.get("range",5.0))
+	light.set_meta("day_energy",float(data.get("day",1.6)))
+	light.set_meta("night_energy",float(data.get("night",2.2)))
+	light.set_meta("flicker",0.16)
+	root.add_child(light)
+	if ambience != null:
+		ambience.smoke(root,Vector3(0,1.2,0),"6f6a62",3)

@@ -1,0 +1,87 @@
+{
+  "indoor": false,
+  "camera_size": 20,
+  "edge": {
+    "minimum_margin": 24,
+    "maximum_margin": 56,
+    "depth": 2.8,
+    "top": "2f2a25",
+    "bottom": "1a1714",
+    "strata": ["4a4239", "3d3630", "2f2a25"]
+  },
+  "light": {
+    "sky": ["0f0d0b", "0a0908"],
+    "ambient": ["9b9282", "8a8a96"],
+    "ambient_energy": [0.8, 0.75],
+    "sun": ["b3a792", "9fa3b4"],
+    "sun_energy": [0.28, 0.22],
+    "carried": {"color": "ffd8a8", "range": 8.5, "day": 2.6, "night": 2.8, "attenuation": 0.9}
+  },
+  "cliffs": {
+    "low": 1.2,
+    "high": 3.2,
+    "rise": 70,
+    "step": 0.5,
+    "rough": 0.5,
+    "keep": 72,
+    "trim": ["cliff"],
+    "grooves": 0.24,
+    "strata": ["3b3631", "45403a", "4f4942", "58524a", "423d37"],
+    "tops": ["302c28", "38332e", "403b35"],
+    "areas": [{"rect": [752, 280, 1100, 520], "strata": ["4c4a46", "57544f", "615e58", "6b6862"], "tops": ["3d4a3e", "475446"], "note": "cave5: the falls' spray greens the rock"}]
+  },
+  "ground": {
+    "cave_floor": {"style": "scree", "colors": ["443e36", "4d463d", "575045"], "gravel": 0.3, "stones": 0.05, "wet": true, "wet_chance": 0.3, "pebbles": ["4f483f", "5a5248", "463f37", "625a4e"], "sheen": "4a5a5e"},
+    "boundary": {"style": "scree", "colors": ["2a2723", "312d29"], "gravel": 0.1}
+  },
+  "flora": {
+    "grass_density": 0.0,
+    "density": {"cave_floor": 0.02},
+    "grass_colors": ["2f3a30", "3f4b3a", "566249", "6e7a5a"],
+    "tree_kinds": [],
+    "cliff_tufts": 0.02,
+    "outcrop_colors": ["4e463d", "5a5146", "3f3932"],
+    "wind": 0.0,
+    "butterflies": 0
+  },
+  "ambience": {
+    "birds": [{"at": [380, 380], "radius": 90, "count": 3, "height": 2.6, "color": "1e1b19", "note": "bats"}],
+    "dust": [{"rect": [960, 360, 1060, 460], "count": 14, "color": "dfe8ea", "wind": [-1.0, 0.1], "note": "spray from the falls drifting in"}]
+  },
+  "items": {
+    "es2:d/oldpine/npc/skeleton": {"kind": "bones", "size": [64, 40], "count": 8, "ribs": true, "skull": true, "colors": ["d4cbb0", "c7bc9d", "b8ad8c"], "note": "cave5.c: 南危水 lies where he died; buried, he goes"}
+  },
+  "props": [
+    {"kind": "carved_wall", "at": [888, 296], "size": [168, 8], "from": 0.8, "rows": 5, "note": "cave5.c: 石壁上有一些用利剑雕刻的字"},
+    {"kind": "light_shaft", "at": [1016, 408], "size": [64, 64], "rotation": -90, "height": 2.8, "day": 2.4, "night": 0.5, "range": 9.5, "light": "e8f0f0", "note": "cave5.c: 东面就是洞口了"},
+    {"kind": "drip", "at": [800, 360], "height": 2.8},
+    {"kind": "drip", "at": [950, 470], "height": 2.8},
+    {"kind": "pool", "at": [930, 360], "size": [44, 32], "height": 2.8, "color": "3a4a4e"},
+    {"kind": "glow", "at": [24, 70], "color": "c9d4d0", "day": 0.7, "night": 0.25, "range": 4.0, "height": 2.0},
+    {"kind": "glow", "at": [216, 70], "color": "c9d4d0", "day": 0.7, "night": 0.25, "range": 4.0, "height": 2.0},
+    {"kind": "glow", "at": [408, 70], "color": "c9d4d0", "day": 0.7, "night": 0.25, "range": 4.0, "height": 2.0},
+    {"kind": "glow", "at": [600, 70], "color": "c9d4d0", "day": 0.7, "night": 0.25, "range": 4.0, "height": 2.0},
+    {"kind": "stalagmites", "at": [32, 256], "size": [32, 32], "on_cliff": true, "count": 3, "height": 1.2793735926268632, "colors": ["5a5348", "665f52", "72695b", "807664"]},
+    {"kind": "stalagmites", "at": [32, 352], "size": [32, 32], "on_cliff": true, "count": 3, "height": 1.2814414286692983, "colors": ["5a5348", "665f52", "72695b", "807664"]},
+    {"kind": "stalagmites", "at": [224, 352], "size": [32, 32], "on_cliff": true, "count": 3, "height": 1.3262565155415582, "colors": ["5a5348", "665f52", "72695b", "807664"]},
+    {"kind": "stalagmites", "at": [608, 352], "size": [32, 32], "on_cliff": true, "count": 3, "height": 1.1300378802783089, "colors": ["5a5348", "665f52", "72695b", "807664"]},
+    {"kind": "stalagmites", "at": [736, 368], "size": [32, 32], "on_cliff": true, "count": 3, "height": 1.5498072230851312, "colors": ["5a5348", "665f52", "72695b", "807664"]},
+    {"kind": "stalagmites", "at": [320, 448], "size": [32, 32], "on_cliff": true, "count": 3, "height": 1.4782881948587225, "colors": ["5a5348", "665f52", "72695b", "807664"]},
+    {"kind": "stalagmites", "at": [512, 448], "size": [32, 32], "on_cliff": true, "count": 3, "height": 1.37047151227967, "colors": ["5a5348", "665f52", "72695b", "807664"]},
+    {"kind": "stalagmites", "at": [32, 544], "size": [32, 32], "on_cliff": true, "count": 3, "height": 1.0010649173215207, "colors": ["5a5348", "665f52", "72695b", "807664"]},
+    {"kind": "stalagmites", "at": [512, 544], "size": [32, 32], "on_cliff": true, "count": 3, "height": 1.1292887015348394, "colors": ["5a5348", "665f52", "72695b", "807664"]},
+    {"kind": "stalagmites", "at": [416, 640], "size": [32, 32], "on_cliff": true, "count": 3, "height": 1.57688679337005, "colors": ["5a5348", "665f52", "72695b", "807664"]},
+    {"kind": "bones", "at": [56, 360], "size": [36, 28], "skull": false, "ribs": true, "note": "others who lost their way"},
+    {"kind": "bones", "at": [360, 456], "size": [36, 28], "skull": false, "ribs": false, "note": "others who lost their way"},
+    {"kind": "bones", "at": [600, 648], "size": [36, 28], "skull": false, "ribs": false, "note": "others who lost their way"},
+    {"kind": "bones", "at": [216, 648], "size": [36, 28], "skull": true, "ribs": true, "note": "others who lost their way"},
+    {"kind": "bones", "at": [456, 168], "size": [36, 28], "skull": true, "ribs": true, "note": "others who lost their way"},
+    {"kind": "drip", "at": [120, 264], "height": 2.6},
+    {"kind": "drip", "at": [504, 360], "height": 2.6},
+    {"kind": "drip", "at": [312, 552], "height": 2.6},
+    {"kind": "drip", "at": [648, 264], "height": 2.6}
+  ],
+  "actors": {
+    "default": {"coat": "7d6a4e"}
+  }
+}

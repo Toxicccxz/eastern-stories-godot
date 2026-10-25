@@ -7,6 +7,9 @@ var cube := BoxMesh.new()
 var stones: Dictionary[int, ArrayMesh] = {}
 var spatial_batching: bool = false
 var spatial_cell_size: float = 12.0
+## Placed in front of every form drawn while set: many trees share one grove parent (and so
+## one batch per colour) yet each keeps its own position, turn and size.
+var frame := Transform3D.IDENTITY
 ## The render profile's batching (phones): plain matte colours of one parent, mesh and cell
 ## share a batch with a colour per instance, and every shadow caster of a parent, mesh and
 ## cell, whatever its colour, is one shadow-only batch. Far fewer draws, the same picture.
@@ -32,6 +35,7 @@ func shard(parent: Node3D, at: Vector3, size: Vector3, hex: String, variant: int
 	_instance(parent, Transform3D(Basis(Vector3.UP, yaw).scaled_local(size), at), hex, stones[variant])
 
 func _instance(parent: Node3D, transform: Transform3D, hex: String, mesh: Mesh) -> void:
+	transform = frame*transform
 	var cell: String = ""
 	if spatial_batching:
 		# Mobile lighting chooses lights per instance. A map-wide ground instance
@@ -119,7 +123,7 @@ func _plain(entry: Dictionary) -> bool:
 		and not (entry["parent"] as Node3D).get_meta("light_fixture",false)
 
 func _casts_shadow(entry: Dictionary) -> bool:
-	return not (entry["color"] in ["ffd88a","ffb858"] or (entry["parent"] as Node3D).get_meta("light_fixture",false)) \
+	return not (entry["color"] in ["ffd88a","ffb858"] or (entry["parent"] as Node3D).get_meta("light_fixture",false) or (entry["parent"] as Node3D).get_meta("flat",false)) \
 		and material(entry["color"]).transparency==BaseMaterial3D.TRANSPARENCY_DISABLED
 
 func _multimesh(mesh: Mesh, transforms: Array, colors: Array) -> MultiMeshInstance3D:
@@ -184,7 +188,9 @@ func _flush_batch(entry: Dictionary, transforms: Array, light_bounds: Array[AABB
 			_tinted.roughness = 0.93
 		instance.material_override = _tinted
 	# A merged batch's shadow is drawn by its parent's shadow-only batch.
-	if entry.get("shadowless",false) or entry["color"] in ["ffd88a","ffb858"] or parent.get_meta("light_fixture",false):
+	# The ground's own boxes and stones lie flat: their shadows would fall on nothing, yet they
+	# would fill every shadow map pass (meta `flat` on the parent they are drawn into).
+	if entry.get("shadowless",false) or entry["color"] in ["ffd88a","ffb858"] or parent.get_meta("light_fixture",false) or parent.get_meta("flat",false):
 		# Tiny opaque lantern caps otherwise project enormous square shadows from
 		# the point source inside them. The housing represents a diffuse emitter.
 		instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF

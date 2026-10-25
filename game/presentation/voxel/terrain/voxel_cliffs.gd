@@ -16,10 +16,18 @@ var noise := FastNoiseLite.new()
 var root: Node3D
 var face_count: int = 0
 var _kinds_by_cell: Dictionary[Vector2i, String] = {}
+## Kinds that drop into a pit instead of rising (layout cliffs `sink`: {"kinds", "depth",
+## "rough", "floor", "strata"}): a gorge under a bridge, the drop below a ledge. Their
+## heights are negative; the walls go down from the ground at their rim.
+var sink: Dictionary = {}
+## How deep the landmass's own sides go (its skirt already shows a pit's end down to there).
+var base_depth: float = 0.0
+var _present: Dictionary[Vector2i, bool] = {}
 
 func _init(settings: Dictionary = {}) -> void:
 	config = settings
 	kinds = settings.get("kinds",["cliff","chasm"])
+	sink = settings.get("sink",{})
 	noise.seed = int(settings.get("seed",5281))
 	noise.frequency = 0.02
 	noise.fractal_octaves = 2
@@ -62,7 +70,15 @@ func shape(cells: Dictionary[Vector2i, String]) -> void:
 	var step: float = float(config.get("step",0.5))
 	var rough: float = float(config.get("rough",0.6))
 	var lifts: Array = config.get("lifts",[])
+	var sinking: Array = sink.get("kinds",[])
+	var drop: float = float(sink.get("depth",8.0))
+	_present.clear()
 	for cell: Vector2i in cells:
+		_present[cell] = true
+		if cells[cell] in sinking:
+			var below: float = drop+noise.get_noise_2d(cell.x*1.3,cell.y*1.3)*float(sink.get("rough",0.0))
+			heights[cell] = -maxf(step,snappedf(below,step))
+			continue
 		if not cells[cell] in kinds:
 			continue
 		var t: float = smoothstep(0.0,rise,distances.get(cell,rise))
@@ -118,6 +134,9 @@ func build(parent: Node3D) -> void:
 			var z1: float = z0+0.5
 			var shade: float = noise.get_noise_2d(cell.x*3.0,cell.y*3.0)
 			var top: Color = Color(String(tops[clampi(roundi((shade+0.5)*(tops.size()-1)),0,tops.size()-1)]))
+			if h < 0.0:
+				_pit(surface,cell,h,shade,Vector4(x0,z0,x1,z1))
+				continue
 			_quad(surface,Vector3(x0,h,z0),Vector3(x1,h,z0),Vector3(x1,h,z1),Vector3(x0,h,z1),Vector3.UP,top)
 			for shift: Vector2i in NEIGHBOURS:
 				var below: float = heights.get(cell+shift,0.0)
@@ -155,6 +174,59 @@ func build(parent: Node3D) -> void:
 		instance.material_override = material
 		root.add_child(instance)
 
+## A sunken cell: its floor far down, and the walls on every side where the ground (or a
+## shallower part of the pit) stands higher, darkening with depth. Where the landmass ends
+## the wall faces outward too, a cut through the rock seen from beyond the map's edge.
+func _pit(surface: SurfaceTool, cell: Vector2i, h: float, shade: float, box: Vector4) -> void:
+	var floor_colors: Array = sink.get("floor",["2b2a26","33312c","3b3832"])
+	var strata: Array = sink.get("strata",config.get("strata",["7d6e58","8c7b60","9a876a"]))
+	var band: float = float(config.get("band",0.5))
+	var x0: float = box.x
+	var z0: float = box.y
+	var x1: float = box.z
+	var z1: float = box.w
+	_quad(surface,Vector3(x0,h,z0),Vector3(x1,h,z0),Vector3(x1,h,z1),Vector3(x0,h,z1),Vector3.UP,Color(String(floor_colors[clampi(roundi((shade+0.5)*(floor_colors.size()-1)),0,floor_colors.size()-1)])))
+	for shift: Vector2i in NEIGHBOURS:
+		var next: Vector2i = cell+shift
+		var outside: bool = not _present.has(next)
+		var rim: float = 0.0 if outside or not heights.has(next) else heights[next]
+		# A higher neighbour in the rock (a cliff) draws its own face down into the pit.
+		if not outside and (heights.has(next) and rim > 0.0 or rim <= h):
+			continue
+		var a: Vector3
+		var b: Vector3
+		if shift.x > 0:
+			a = Vector3(x1,0,z1)
+			b = Vector3(x1,0,z0)
+		elif shift.x < 0:
+			a = Vector3(x0,0,z0)
+			b = Vector3(x0,0,z1)
+		elif shift.y > 0:
+			a = Vector3(x0,0,z1)
+			b = Vector3(x1,0,z1)
+		else:
+			a = Vector3(x1,0,z0)
+			b = Vector3(x0,0,z0)
+		var normal := Vector3(shift.x,0,shift.y)/16.0*(1.0 if outside else -1.0)
+		if outside:
+			rim = minf(rim,-base_depth)
+		var y: float = h
+		while y < rim-0.001:
+			var next_y: float = minf(rim,floorf(y/band+1.001)*band)
+			var course: int = floori(y/band+0.001)
+			var tint := Color(String(strata[posmod(course+roundi(shade*2.0),strata.size())]))
+			tint = tint.darkened(clampf(-y/maxf(1.0,-h),0.0,1.0)*float(sink.get("gloom",0.45)))
+			_quad(surface,a+Vector3.UP*next_y,b+Vector3.UP*next_y,b+Vector3.UP*y,a+Vector3.UP*y,normal,tint)
+			y = next_y
+
+## Sunken cells (for the landmass to leave open).
+func holes() -> Dictionary[Vector2i, bool]:
+	var result: Dictionary[Vector2i, bool] = {}
+	for cell: Vector2i in heights:
+		if heights[cell] < 0.0:
+			result[cell] = true
+	return result
+
 func remember(cells: Dictionary[Vector2i, String]) -> void:
 	_kinds_by_cell.clear()
 	for cell: Vector2i in heights:
@@ -177,6 +249,8 @@ func cells_kind(cell: Vector2i) -> String:
 ## Rock faces that look onto open ground, for scattered outcrops and growth.
 func faces_open(cell: Vector2i) -> Array[Vector2i]:
 	var result: Array[Vector2i] = []
+	if heights.get(cell,0.0) < 0.0:
+		return result
 	for shift: Vector2i in NEIGHBOURS:
 		if not heights.has(cell+shift) and distances.get(cell+shift,INF) == 0.0:
 			result.append(shift)

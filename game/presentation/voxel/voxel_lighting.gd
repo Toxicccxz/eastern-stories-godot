@@ -12,11 +12,16 @@ var sun: DirectionalLight3D
 var occlusion: VoxelOcclusion
 var lamps: Array[Light3D] = []
 var windows: Array[StandardMaterial3D] = []
+## Translucent light (a moonbeam through the pines): materials whose meta `haze` holds
+## their [day, night] opacity.
+var hazes: Array[StandardMaterial3D] = []
 var amount: float = 0.0
 var target: float = 0.0
 var indoor: bool = false
 ## Layout `light`: [day, night] pairs for "sky", "ambient", "ambient_energy", "sun",
-## "sun_energy"; "carried": a soft light that goes with the player (a dark cave).
+## "sun_energy"; "carried": a soft light that goes with the player (a dark cave); "fog":
+## {"color": [day, night], "density": [day, night], "height", "height_density"}: haze that
+## thickens below `height` (the depths of a gorge, the ground far under a tree).
 var profile: Dictionary = {}
 var carried: OmniLight3D
 var _player: Vector3 = Vector3.ZERO
@@ -72,6 +77,9 @@ func build(world: Node3D, reveal: VoxelOcclusion, interior: bool, settings: Dict
 		if mat != null and mat.get_meta("night_only",false) and not seen.has(mat.get_instance_id()):
 			seen[mat.get_instance_id()] = true
 			windows.append(mat)
+		if mat != null and mat.has_meta("haze") and not seen.has(mat.get_instance_id()):
+			seen[mat.get_instance_id()] = true
+			hazes.append(mat)
 	if profile.has("carried"):
 		# Moves every frame: no shadow (its cube map would re-render the whole map each frame).
 		var lamp: Dictionary = profile["carried"]
@@ -205,6 +213,19 @@ func _apply() -> void:
 	_apply_lamps(blend)
 	for mat: StandardMaterial3D in windows:
 		mat.emission_energy_multiplier = blend*0.9
+	for mat: StandardMaterial3D in hazes:
+		var opacity: Array = mat.get_meta("haze")
+		mat.albedo_color.a = lerpf(float(opacity[0]),float(opacity[1]),blend)
+	if profile.has("fog"):
+		var fog: Dictionary = profile["fog"]
+		environment.fog_enabled = true
+		var tint: Array = fog.get("color",["9fb0a8","1c2433"])
+		environment.fog_light_color = Color(String(tint[0])).lerp(Color(String(tint[1])),blend)
+		var density: Array = fog.get("density",[0.0,0.0])
+		environment.fog_density = lerpf(float(density[0]),float(density[1]),blend)
+		environment.fog_height = float(fog.get("height",-1.0))
+		environment.fog_height_density = float(fog.get("height_density",0.4))
+		environment.fog_sky_affect = 0.0
 	occlusion.set_night(blend)
 
 func _color(key: String, fallback: Array, blend: float) -> Color:

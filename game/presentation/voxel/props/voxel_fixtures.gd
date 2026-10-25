@@ -5,6 +5,7 @@ extends RefCounted
 const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
 var s: Shapes
 var root: Node3D
+var ambience: VoxelAmbience
 
 func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) -> bool:
 	s = shapes
@@ -170,6 +171,34 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 			title.modulate = Color("f1d9a0")
 			title.outline_size = 0
 			root.add_child(title)
+		"bear_skin":
+			# 熊皮 (keep3.c): a great bear's hide spread flat, head and paws at its corners.
+			var fur: String = String(data.get("fur","4a3426"))
+			var dark: String = String(data.get("dark","3a281d"))
+			s.box(root,Vector3(0,0.025,0),Vector3(w*0.62,0.04,d*0.78),fur)
+			s.box(root,Vector3(0,0.03,0),Vector3(w*0.3,0.042,d*0.5),dark)
+			for side: float in [-1.0,1.0]:
+				for end: float in [-1.0,1.0]:
+					s.tilted_box(root,Vector3(side*w*0.38,0.024,end*d*0.3),Vector3(w*0.26,0.035,d*0.12),fur,Vector3(0,side*end*0.5,0))
+					for claw: int in 3:
+						s.box(root,Vector3(side*w*0.5,0.03,end*d*0.3+(claw-1)*0.07),Vector3(0.08,0.03,0.025),"d8d0bc")
+			s.box(root,Vector3(0,0.09,d*0.45),Vector3(w*0.22,0.16,d*0.18),fur)
+			s.box(root,Vector3(0,0.07,d*0.56),Vector3(w*0.12,0.1,d*0.08),dark)
+			for side: float in [-1.0,1.0]:
+				s.box(root,Vector3(side*w*0.08,0.19,d*0.42),Vector3(0.08,0.06,0.06),fur)
+		"silk_curtain":
+			# 亮晶晶的帘幕 (passage.c): very thin silk in hanging strips, shimmering and stirring
+			# in the draught from the water behind it.
+			var height: float = float(data.get("height",2.6))
+			s.box(root,Vector3(0,height+0.06,0),Vector3(w+0.2,0.1,0.1),String(data.get("rod","8a6a32")))
+			var colors: Array = data.get("colors",["d8e4e8","c4d6dc","e8f0f2"])
+			for i: int in ceili(w/0.22):
+				var strip := Node3D.new()
+				strip.position = Vector3(-w/2+0.11+i*0.22,height,0)
+				root.add_child(strip)
+				s.box(strip,Vector3(0,-height/2,0),Vector3(0.2,height,0.02),String(colors[i%colors.size()])+":gloss")
+				if ambience != null:
+					ambience.sway(strip,i*0.7,0.05)
 		_:
 			return false
 	return true

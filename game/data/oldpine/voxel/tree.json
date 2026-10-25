@@ -1,0 +1,75 @@
+{
+  "indoor": false,
+  "camera_size": 21,
+  "edge": {
+    "none": true
+  },
+  "light": {
+    "sky": ["a9c4cf", "101a2a"],
+    "ambient": ["c5cfbe", "6f84ae"],
+    "ambient_energy": [0.5, 0.42],
+    "sun": ["fff0d0", "aac4f2"],
+    "sun_energy": [1.0, 0.45],
+    "fog": {"color": ["8fa8a8", "121a26"], "density": [0.0, 0.0], "height": -3.0, "height_density": 0.035}
+  },
+  "ground": {
+    "bridge": {"style": "bark", "colors": ["5b4636", "64503d", "4f3e31"], "thickness": 0.5, "ridge": "43352a", "side": "4a3a2e"},
+    "forest_floor": {"style": "bark", "colors": ["3f4a2e", "4a5634", "54613a"], "thickness": 0.35, "ridge": "33402a", "side": "2f3d28", "sprig_chance": 0.6, "note": "needle mats along the boughs"},
+    "forest": {"style": "void"},
+    "chasm": {"style": "void"},
+    "boundary": {"style": "void"}
+  },
+  "flora": {
+    "grass_density": 0.0,
+    "density": {"bridge": 0.0, "forest_floor": 0.15},
+    "grass_colors": ["2b4a33", "3a5c40", "4b6d48", "5e8050"],
+    "tree_kinds": [],
+    "wind": 0.4,
+    "butterflies": 0
+  },
+  "ambience": {
+    "birds": [{"at": [2000, 200], "radius": 260, "count": 3, "height": 3.5, "color": "4a3f36"}, {"at": [2000, 0], "radius": 160, "count": 2, "height": 6.0, "color": "3a302a"}],
+    "fall": [{"rect": [1700, -100, 2300, 500], "count": 30, "height": 4.0, "colors": ["8a5a36", "a8794a", "6e8a47"], "wind": [0.8, 0.3], "note": "tree3.c: 一阵阵凉风从四面八方吹来"}],
+    "fireflies": [{"rect": [1760, 100, 2240, 380], "count": 10, "height": 0.8}]
+  },
+  "props": [
+    {"kind": "pine_trunk", "at": [2000, 504], "from": -28.0, "to": -0.4, "trunk": 1.0, "note": "down to the clearing, out of sight below"},
+    {"kind": "pine_trunk", "at": [2000, -56], "from": -0.4, "to": 1.8, "trunk": 0.45, "note": "tree3: the leader, the very top"},
+    {"kind": "needle_pad", "at": [2000, -76], "size": [96, 80], "height": 2.2, "thick": 0.6, "elevation": 0.0},
+    {"kind": "far_ground", "at": [2000, 200], "size": [1200, 1000], "elevation": -14.0, "trees": 70, "clearing": [0.0, 6.0, 18.0, 16.0], "note": "the clearing far below: 离地面至少也有十五、六丈高"},
+    {"kind": "glow", "at": [2000, 300], "color": "a9c0f0", "day": 0.0, "night": 1.3, "range": 9.0, "height": 5.0, "note": "moonlight on the boughs"},
+    {"kind": "glow", "at": [2000, 20], "color": "a9c0f0", "day": 0.0, "night": 1.3, "range": 9.0, "height": 5.0},
+    {"kind": "needle_pad", "at": [1746, 336], "size": [96, 80], "height": 0.1, "cones": 5, "note": "tree2.c: 松树上结了许多球果，大部分都离树干很远"},
+    {"kind": "needle_pad", "at": [2246, 284], "size": [96, 80], "height": 0.1, "cones": 5, "note": "tree2.c: 松树上结了许多球果，大部分都离树干很远"},
+    {"kind": "needle_pad", "at": [1736, 154], "size": [96, 80], "height": 0.1, "cones": 5, "note": "tree2.c: 松树上结了许多球果，大部分都离树干很远"},
+    {"kind": "needle_pad", "at": [2262, 118], "size": [96, 80], "height": 0.1, "cones": 5, "note": "tree2.c: 松树上结了许多球果，大部分都离树干很远"},
+    {"kind": "needle_pad", "at": [1770, 14], "size": [96, 80], "height": 0.1, "cones": 5, "note": "tree2.c: 松树上结了许多球果，大部分都离树干很远"},
+    {"kind": "needle_pad", "at": [2232, -6], "size": [96, 80], "height": 0.1, "cones": 5, "note": "tree2.c: 松树上结了许多球果，大部分都离树干很远"},
+    {"kind": "needle_pad", "at": [1924, -100], "size": [64, 56], "height": -0.2, "thick": 0.45, "cones": 1},
+    {"kind": "needle_pad", "at": [2092, -100], "size": [64, 56], "height": 0.3, "thick": 0.45, "cones": 0},
+    {"kind": "needle_pad", "at": [1812, -52], "size": [64, 56], "height": -0.2, "thick": 0.45, "cones": 2},
+    {"kind": "needle_pad", "at": [1868, -52], "size": [64, 56], "height": 0.3, "thick": 0.45, "cones": 2},
+    {"kind": "needle_pad", "at": [2148, -52], "size": [64, 56], "height": -0.2, "thick": 0.45, "cones": 2},
+    {"kind": "needle_pad", "at": [2204, -52], "size": [64, 56], "height": -0.6, "thick": 0.45, "cones": 0},
+    {"kind": "needle_pad", "at": [1756, -4], "size": [64, 56], "height": -0.6, "thick": 0.45, "cones": 2},
+    {"kind": "needle_pad", "at": [1756, 44], "size": [64, 56], "height": 0.3, "thick": 0.45, "cones": 1},
+    {"kind": "needle_pad", "at": [1868, 92], "size": [64, 56], "height": -0.6, "thick": 0.45, "cones": 2},
+    {"kind": "needle_pad", "at": [1756, 236], "size": [64, 56], "height": -0.2, "thick": 0.45, "cones": 0},
+    {"kind": "needle_pad", "at": [1812, 236], "size": [64, 56], "height": -0.6, "thick": 0.45, "cones": 1},
+    {"kind": "needle_pad", "at": [2092, 236], "size": [64, 56], "height": -0.2, "thick": 0.45, "cones": 1},
+    {"kind": "needle_pad", "at": [2148, 236], "size": [64, 56], "height": -0.6, "thick": 0.45, "cones": 1},
+    {"kind": "needle_pad", "at": [1812, 284], "size": [64, 56], "height": 0.3, "thick": 0.45, "cones": 0},
+    {"kind": "needle_pad", "at": [1924, 284], "size": [64, 56], "height": -0.6, "thick": 0.45, "cones": 0},
+    {"kind": "needle_pad", "at": [2260, 332], "size": [64, 56], "height": -0.6, "thick": 0.45, "cones": 2},
+    {"kind": "needle_pad", "at": [1756, 380], "size": [64, 56], "height": -0.2, "thick": 0.45, "cones": 2},
+    {"kind": "needle_pad", "at": [2148, 380], "size": [64, 56], "height": -0.2, "thick": 0.45, "cones": 0},
+    {"kind": "needle_pad", "at": [1756, 428], "size": [64, 56], "height": 0.3, "thick": 0.45, "cones": 0},
+    {"kind": "needle_pad", "at": [1812, 428], "size": [64, 56], "height": 0.3, "thick": 0.45, "cones": 2},
+    {"kind": "needle_pad", "at": [1924, 476], "size": [64, 56], "height": 0.3, "thick": 0.45, "cones": 2}
+  ],
+  "actors": {
+    "default": {"coat": "6d5a44"},
+    "oldpine.npc.spy": {"coat": "1f1e22", "hat": true, "note": "spy.c: 黑衣人, 鬼鬼祟祟"},
+    "oldpine.npc.butterfly": {"body": "flyer", "scale": 1.6, "hover": 0.9, "wings": ["e8c45a", "d98a3a"], "name_distance": 120}
+  }
+}
