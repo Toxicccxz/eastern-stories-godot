@@ -4,6 +4,8 @@ extends RefCounted
 ## Cached silhouettes, then varied in height, width and rotation at each planting.
 const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
 const PINES: Array[String] = ["pine","mountain_pine","old_pine","tall_pine","young_pine","stunted_pine"]
+## Bark colours by species where they differ from the default brown.
+const BARKS: Dictionary = {"willow": ["6b5a46","5a4b3b"], "bamboo": ["6f8a44","7f9a50"], "locust": ["4f4234","5d4e3e"]}
 var crowns: Dictionary[String, ArrayMesh] = {}
 var leaf_material: StandardMaterial3D
 ## Crown colours by species, dark to light (layout flora `crown_colors`); bark the same
@@ -39,6 +41,8 @@ func build(parent: Node3D, shapes: Shapes, species: String, variant: int, frame 
 	match species:
 		"old_pine": _old_pine_wood(parent,shapes,variant)
 		"tall_pine": _tall_pine_wood(parent,shapes,variant)
+		"willow": _willow_wood(parent,shapes,variant)
+		"bamboo": _bamboo_wood(parent,shapes,variant)
 		"young_pine":
 			shapes.box(parent,Vector3(0,0.5,0),Vector3(0.14,1.0,0.15),_bark(species,0))
 		"stunted_pine":
@@ -53,6 +57,8 @@ func build(parent: Node3D, shapes: Shapes, species: String, variant: int, frame 
 				# Bent by the wind off the ridge: the trunk leans the way the crown streams.
 				lean = 0.28 if variant%2==0 else -0.24
 			shapes.tilted_box(parent,Vector3(0,height/2,0),Vector3(0.28,height,0.32),"65553e",Vector3(0,0,lean))
+			if species=="locust":
+				height = 2.9
 			if not species in ["pine","shrub","scrub","mountain_pine"]:
 				for side: float in [-1.0,1.0]:
 					shapes.tilted_box(parent,Vector3(side*0.48,height*0.77,0.07),Vector3(1.25,0.19,0.20),"776046",Vector3(0,side*0.2,side*0.50))
@@ -71,7 +77,7 @@ func material() -> StandardMaterial3D:
 
 ## Two bark shades per species: each colour is one more batch in every grove.
 func _bark(species: String, shade: int) -> String:
-	var colors: Array = barks.get(species,["5f4a3b","4e3d31"])
+	var colors: Array = barks.get(species,BARKS.get(species,["5f4a3b","4e3d31"]))
 	return String(colors[shade%mini(2,colors.size())])
 
 func _greens(species: String, fallback: Array[String]) -> Array[String]:
@@ -147,6 +153,25 @@ func _crown(species: String, variant: int) -> ArrayMesh:
 			surface.cell_size = 0.22
 			for lobe: int in 3:
 				surface.ellipsoid(Vector3((lobe-1)*0.48,0.7+(lobe%2)*0.24,0),Vector3(0.66,0.63,0.62),green,lobe+variant)
+		"willow":
+			# 垂柳: a light dome; the long hanging strands are drawn with the wood.
+			green = _greens(species,["5f7f3e","729048","88a456","a3b866"])
+			for lobe: int in 3:
+				var angle: float = lobe*2.1+variant*0.5
+				surface.ellipsoid(Vector3(cos(angle)*0.45,3.0+(lobe%2)*0.25,sin(angle)*0.4),Vector3(1.05,0.6,1.0),green,lobe+variant)
+		"locust":
+			# 槐: a broad, rounded head of small pale leaves over a short thick trunk.
+			green = _greens(species,["3f6a3a","527d44","6a9450","86aa5e"])
+			for lobe: int in 5:
+				var angle: float = lobe*1.4+variant
+				surface.ellipsoid(Vector3(cos(angle)*0.85,3.1+random.randf_range(-0.2,0.5),sin(angle)*0.8),Vector3(1.15,0.8,1.1),green,variant+lobe)
+		"bamboo":
+			# 竹: feathery tufts of leaves up a clump of slender culms.
+			surface.cell_size = 0.22
+			green = _greens(species,["3f6a3a","568246","6f9a52","8db463"])
+			for tuft: int in 5:
+				var angle: float = tuft*1.3+variant
+				surface.ellipsoid(Vector3(cos(angle)*0.35,2.2+tuft*0.45,sin(angle)*0.3),Vector3(0.45,0.32,0.4),green,tuft+variant)
 	crowns[key] = surface.mesh()
 	return crowns[key]
 
@@ -230,3 +255,27 @@ func _dead(root: Node3D, shapes: Shapes, variant: int) -> void:
 		var tip: Vector3 = at+reach*length
 		shapes.tilted_box(root,tip+Vector3(0,0.18,0),Vector3(0.06,0.45,0.06),bark[2],Vector3(0.4,0,0.3*(1 if limb%2 else -1)))
 	shapes.shard(root,Vector3(0,0.06,0),Vector3(0.7,0.14,0.62),bark[2],variant)
+
+## A willow's short trunk and the curtain of strands hanging from its crown to near the
+## ground (the strands are leaf-green boxes, batched with the grove's wood).
+func _willow_wood(parent: Node3D, shapes: Shapes, variant: int) -> void:
+	shapes.tilted_box(parent,Vector3(0,1.3,0),Vector3(0.34,2.6,0.36),_bark("willow",0),Vector3(0,0,0.08 if variant%2 else -0.08))
+	for limb: int in 3:
+		var a: float = limb*2.1+variant
+		shapes.tilted_box(parent,Vector3(cos(a)*0.35,2.5,sin(a)*0.35),Vector3(0.12,0.9,0.12),_bark("willow",1),Vector3(sin(a)*0.7,0,-cos(a)*0.7))
+	var strands: Array[String] = _greens("willow_strands",["6f8f44","86a352","9cb664"])
+	for i: int in 22:
+		var a: float = i*TAU/22.0+variant*0.3
+		var r: float = 0.75+0.35*sin(i*1.7+variant)
+		var length: float = 1.4+0.6*sin(i*2.3+variant*1.1)
+		shapes.box(parent,Vector3(cos(a)*r,3.0-length/2,sin(a)*r),Vector3(0.07,length,0.07),strands[i%strands.size()])
+
+## A clump of bamboo: green jointed culms leaning a little apart.
+func _bamboo_wood(parent: Node3D, shapes: Shapes, variant: int) -> void:
+	for culm: int in 5:
+		var a: float = culm*1.3+variant
+		var lean := Vector3(cos(a)*0.08,0,sin(a)*0.08)
+		var height: float = 3.2+0.5*sin(culm*2.0+variant)
+		shapes.tilted_box(parent,Vector3(cos(a)*0.18,height/2,sin(a)*0.18),Vector3(0.09,height,0.09),_bark("bamboo",culm%2),Vector3(lean.z,0,-lean.x))
+		for joint: int in int(height/0.6):
+			shapes.box(parent,Vector3(cos(a)*0.18+lean.x*joint*0.6,0.5+joint*0.6,sin(a)*0.18+lean.z*joint*0.6),Vector3(0.11,0.03,0.11),"8a9a52")

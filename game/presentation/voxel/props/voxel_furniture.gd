@@ -6,6 +6,8 @@ const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
 var s: Shapes
 var root: Node3D
 var rng: RandomNumberGenerator
+## The tea stove's steam (null where nothing moves).
+var ambience: VoxelAmbience
 
 func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) -> bool:
 	s = shapes
@@ -186,9 +188,25 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 			for x: float in [-0.17,0.17]:
 				s.box(root,Vector3(x,0.045,0),Vector3(0.22,0.07,0.43),"5c4a3a")
 				s.box(root,Vector3(x,0.095,-0.10),Vector3(0.22,0.07,0.23),tone)
+		"square_table": _square_table(w,d,data)
+		"chess_table": _chess_table(w,d,data)
+		"zither_table": _zither_table(w,d,data)
+		"dressing_table": _dressing_table(w,d,tone)
+		"tea_stove": _tea_stove(w,d)
+		"tea_baskets": _tea_baskets(w,d,data)
+		"couch": _couch(w,d,tone,data)
+		"flower_stand": _flower_stand(w,data)
+		"ceremony_table": _ceremony_table(w,d,data)
+		"wardrobe": _wardrobe(w,d,data)
+		"bench_seat": _bench_seat(w,d,data)
+		"clutter": _clutter(w,d,data)
 		_:
 			return false
 	return true
+
+## The colours of a lacquered or plain piece: `top`, `legs`, `trim` (defaults plain wood).
+func _wood(look: Dictionary, key: String, fallback: String) -> String:
+	return String(look.get(key,fallback))
 
 func _pick(colors: Array) -> String:
 	return String(colors[rng.randi_range(0,colors.size()-1)])
@@ -226,3 +244,240 @@ func _chest(w: float, d: float) -> void:
 		s.box(root,Vector3(x,0.42,d/2+0.015),Vector3(0.07,0.68,0.035),"574b37")
 		s.box(root,Vector3(x,0.837,0),Vector3(0.07,0.02,d),"6f6044")
 	s.box(root,Vector3(0,0.61,d/2+0.03),Vector3(0.17,0.24,0.06),"c2a666")
+
+## 八仙桌: a square table for eight, its apron and corner brackets; black lacquer inlaid with
+## gold where a grand house has it (`top`, `legs`, `trim`), a tea set or wine on it (`set`).
+func _square_table(w: float, d: float, look: Dictionary) -> void:
+	var top: String = _wood(look,"top","8d6744")
+	var legs: String = _wood(look,"legs","6e4d37")
+	var trim: String = _wood(look,"trim","a88255")
+	s.box(root,Vector3(0,0.86,0),Vector3(w,0.1,d),top)
+	s.box(root,Vector3(0,0.92,0),Vector3(w-0.06,0.025,d-0.06),trim)
+	s.box(root,Vector3(0,0.93,0),Vector3(w-0.16,0.026,d-0.16),top)
+	for x: float in [-w/2+0.08,w/2-0.08]:
+		for z: float in [-d/2+0.08,d/2-0.08]:
+			s.box(root,Vector3(x,0.42,z),Vector3(0.11,0.84,0.11),legs)
+	for side: float in [-1.0,1.0]:
+		s.box(root,Vector3(0,0.74,side*(d/2-0.05)),Vector3(w-0.2,0.12,0.04),legs)
+		s.box(root,Vector3(side*(w/2-0.05),0.74,0),Vector3(0.04,0.12,d-0.2),legs)
+		s.box(root,Vector3(0,0.75,side*(d/2-0.03)),Vector3(w*0.3,0.05,0.02),trim)
+	match String(look.get("set","tea")):
+		"tea":
+			_teapot(Vector3(-0.15,0.94,0.0),String(look.get("teapot","6c9690")))
+			for c: int in 4:
+				var a: float = c*TAU/4.0+0.5
+				s.box(root,Vector3(cos(a)*w*0.3,0.99,sin(a)*d*0.3),Vector3(0.1,0.1,0.1),"e3d5b4")
+		"wine":
+			s.box(root,Vector3(0,1.08,0),Vector3(0.2,0.3,0.2),"6b4a35")
+			s.box(root,Vector3(0,1.26,0),Vector3(0.1,0.06,0.1),"b23a2b")
+			for c: int in 3:
+				s.box(root,Vector3(-0.3+c*0.3,0.97,0.25),Vector3(0.08,0.07,0.08),"d9cfb4")
+			s.box(root,Vector3(0.25,0.95,-0.25),Vector3(0.36,0.03,0.36),"d8d2c2")
+			s.box(root,Vector3(0.25,0.98,-0.25),Vector3(0.24,0.04,0.24),String(look.get("dish","b8743a")))
+		"incense":
+			s.box(root,Vector3(0,1.0,-0.1),Vector3(0.3,0.12,0.24),"7a6a4a")
+			s.box(root,Vector3(0,1.15,-0.1),Vector3(0.02,0.2,0.02),"c9a35e")
+	# `stools`: [[x, z], ...] as fractions of the table's size (outside it: inside its box).
+	for stool: Array in look.get("stools",[]):
+		_stool(Vector3(float(stool[0])*w,0,float(stool[1])*d),0.45,_wood(look,"stool","896b49"))
+
+## 棋桌: a low table with a Go board ruled on it, bowls of black and white stones, a game
+## half played.
+func _chess_table(w: float, d: float, look: Dictionary) -> void:
+	_table(w,d,float(look.get("height",0.72)))
+	var y: float = float(look.get("height",0.72))+0.13
+	var board: float = minf(w,d)*0.62
+	s.box(root,Vector3(0,y,-d*0.15),Vector3(board,0.06,board),"c9a96a")
+	for i: int in 7:
+		var t: float = -board/2+0.05+i*(board-0.1)/6.0
+		s.box(root,Vector3(t,y+0.032,-d*0.15),Vector3(0.012,0.006,board-0.1),"5a4632")
+		s.box(root,Vector3(0,y+0.032,-d*0.15+t),Vector3(board-0.1,0.006,0.012),"5a4632")
+	for i: int in 14:
+		var at := Vector3(rng.randf_range(-0.42,0.42)*board,y+0.045,-d*0.15+rng.randf_range(-0.42,0.42)*board)
+		s.box(root,at,Vector3(0.05,0.025,0.05),"2a2622" if i%2 else "efe8d6")
+	for x: float in [-board*0.65,board*0.65]:
+		s.box(root,Vector3(x,y+0.05,-d*0.15),Vector3(0.18,0.12,0.18),"6b4a35")
+		s.box(root,Vector3(x,y+0.11,-d*0.15),Vector3(0.12,0.02,0.12),"2a2622" if x<0 else "efe8d6")
+
+## 琴桌: a long low table with a seven-stringed 琴 laid along it, an incense burner at its end.
+func _zither_table(w: float, d: float, look: Dictionary) -> void:
+	_table(w,d,float(look.get("height",0.7)))
+	var y: float = float(look.get("height",0.7))+0.15
+	var long_x: bool = w>=d
+	var length: float = maxf(w,d)*0.78
+	s.box(root,Vector3(-0.05,y+0.04,-d*0.15),Vector3(length,0.07,0.32) if long_x else Vector3(0.32,0.07,length),String(look.get("zither","5a3b2c")))
+	for string: int in 7:
+		var offset: float = -0.12+string*0.04
+		s.box(root,Vector3(-0.05,y+0.085,-d*0.15+offset) if long_x else Vector3(offset,y+0.085,-d*0.15),Vector3(length*0.9,0.006,0.008) if long_x else Vector3(0.008,0.006,length*0.9),"e8e0cc")
+	s.box(root,Vector3(w*0.4,y+0.08,-d*0.15) if long_x else Vector3(0,y+0.08,d*0.32),Vector3(0.18,0.16,0.18),"8b6f45")
+
+## 梳妆台: a small table with a round bronze mirror on a stand, a comb box and a powder jar.
+func _dressing_table(w: float, d: float, tone: String) -> void:
+	_table(w,d,0.82)
+	s.box(root,Vector3(0,1.05,-d*0.3),Vector3(0.08,0.36,0.08),"6a4c33")
+	s.box(root,Vector3(0,1.42,-d*0.3),Vector3(0.62,0.62,0.05),"b89548")
+	s.box(root,Vector3(0,1.42,-d*0.3+0.03),Vector3(0.5,0.5,0.02),"d9d2b8:gloss")
+	s.box(root,Vector3(-w*0.3,0.98,0),Vector3(0.3,0.16,0.22),tone)
+	s.box(root,Vector3(w*0.28,0.99,0.05),Vector3(0.14,0.16,0.14),"e3d5b4")
+	_stool(Vector3(0,0,d*0.55),0.5,"896b49")
+
+## 茶炉: a clay stove with its charcoal glowing, a kettle steaming on top, a fan and a
+## basket of charcoal beside it.
+func _tea_stove(w: float, d: float) -> void:
+	s.box(root,Vector3(0,0.38,0),Vector3(w*0.62,0.76,d*0.62),"8a5a3e")
+	s.box(root,Vector3(0,0.78,0),Vector3(w*0.7,0.06,d*0.7),"6b4a35")
+	s.box(root,Vector3(0,0.3,d*0.31+0.01),Vector3(0.24,0.2,0.02),"ff8a3a:glow")
+	s.box(root,Vector3(0,0.98,0),Vector3(0.38,0.32,0.38),"4a4440")
+	s.box(root,Vector3(0,1.16,0),Vector3(0.12,0.06,0.12),"6a625a")
+	s.tilted_box(root,Vector3(0.24,1.04,0),Vector3(0.22,0.07,0.07),"4a4440",Vector3(0,0,0.5))
+	s.box(root,Vector3(-w*0.42,0.16,d*0.25),Vector3(0.3,0.3,0.3),"a68a55")
+	s.box(root,Vector3(-w*0.42,0.32,d*0.25),Vector3(0.24,0.04,0.24),"2a2622")
+	s.tilted_box(root,Vector3(w*0.35,0.81,d*0.25),Vector3(0.24,0.02,0.3),"c9b98e",Vector3(0,0.6,0))
+	var glow := OmniLight3D.new()
+	glow.position = Vector3(0,0.4,d*0.5)
+	glow.light_color = Color("ff9a4a")
+	glow.omni_range = 2.4
+	glow.set_meta("day_energy",0.3)
+	glow.set_meta("night_energy",0.7)
+	glow.set_meta("flicker",0.15)
+	root.add_child(glow)
+	if ambience != null:
+		ambience.smoke(root,Vector3(0.3,1.15,0),"eeece6",4,0.12)
+
+## 大竹箩: great round bamboo baskets brimming with tea, a scoop in one.
+func _tea_baskets(w: float, d: float, look: Dictionary) -> void:
+	var count: int = int(look.get("count",maxi(1,floori(w/0.9))))
+	var leaves: Array = look.get("leaves",["4f5a32","5c6b38","6f7c42","3f4a2c"])
+	for i: int in count:
+		var at := Vector3(-w/2+(i+0.5)*w/count,0,0)
+		var size: float = minf(w/count,d)*0.92
+		s.box(root,at+Vector3(0,0.42,0),Vector3(size,0.84,size),"a68a55")
+		for band: float in [0.18,0.5,0.8]:
+			s.box(root,at+Vector3(0,band,0),Vector3(size+0.03,0.05,size+0.03),"8a7044")
+		s.box(root,at+Vector3(0,0.86,0),Vector3(size*0.88,0.08,size*0.88),String(leaves[i%leaves.size()]))
+		s.box(root,at+Vector3(0,0.92,0),Vector3(size*0.5,0.06,size*0.5),String(leaves[(i+1)%leaves.size()]))
+	s.tilted_box(root,Vector3(-w/2+0.5,0.95,0.1),Vector3(0.08,0.06,0.5),"8a6a45",Vector3(0.5,0.3,0))
+
+## 罗汉床: a broad couch with railed back and sides, a low table on it, cushions.
+func _couch(w: float, d: float, tone: String, look: Dictionary) -> void:
+	var wood: String = _wood(look,"wood","5c3f2b")
+	s.box(root,Vector3(0,0.28,0),Vector3(w,0.12,d),wood)
+	for x: float in [-w/2+0.08,w/2-0.08]:
+		for z: float in [-d/2+0.08,d/2-0.08]:
+			s.box(root,Vector3(x,0.12,z),Vector3(0.12,0.24,0.12),wood)
+	s.box(root,Vector3(0,0.37,0),Vector3(w-0.1,0.08,d-0.1),tone)
+	s.box(root,Vector3(0,0.75,-d/2+0.06),Vector3(w,0.75,0.08),wood)
+	for x: float in [-w/2+0.06,w/2-0.06]:
+		s.box(root,Vector3(x,0.58,0),Vector3(0.08,0.45,d),wood)
+	s.box(root,Vector3(0,0.75,-d/2+0.11),Vector3(w*0.7,0.5,0.03),_wood(look,"panel","8d6744"))
+	s.box(root,Vector3(0,0.55,0.05),Vector3(w*0.28,0.16,d*0.42),_wood(look,"table","6e4d37"))
+	_teapot(Vector3(0,0.63,0.05),"6c9690")
+	for x: float in [-w*0.32,w*0.32]:
+		s.box(root,Vector3(x,0.52,-d*0.2),Vector3(0.5,0.22,0.3),_wood(look,"cushion","9b4a3a"))
+
+## 花架: a tall slender stand with a potted orchid (or another flower: `flower`).
+func _flower_stand(w: float, look: Dictionary) -> void:
+	var wood: String = _wood(look,"wood","5c3f2b")
+	for x: float in [-w*0.3,w*0.3]:
+		for z: float in [-w*0.3,w*0.3]:
+			s.box(root,Vector3(x,0.5,z),Vector3(0.06,1.0,0.06),wood)
+	s.box(root,Vector3(0,1.0,0),Vector3(w*0.75,0.06,w*0.75),wood)
+	s.box(root,Vector3(0,1.15,0),Vector3(0.26,0.24,0.26),String(look.get("pot","d8d2c2")))
+	for leaf: int in 5:
+		var a: float = leaf*TAU/5.0
+		s.tilted_box(root,Vector3(cos(a)*0.12,1.4,sin(a)*0.12),Vector3(0.04,0.4,0.02),"4f7a3c",Vector3(sin(a)*0.6,a,-cos(a)*0.6))
+	s.box(root,Vector3(0.05,1.62,0),Vector3(0.1,0.08,0.1),String(look.get("flower","e8dcef")))
+
+## 喜案 (红娘庄): a table under red silk, a pair of red candles, a double-happiness card,
+## red thread on spools, a wedding register and a brush.
+func _ceremony_table(w: float, d: float, look: Dictionary) -> void:
+	_table(w,d,0.84)
+	var red: String = String(look.get("cloth","b8322a"))
+	s.box(root,Vector3(0,0.96,-d*0.15),Vector3(w+0.04,0.03,d*0.66),red)
+	s.box(root,Vector3(0,0.66,d*0.18),Vector3(w*0.8,0.6,0.03),red)
+	s.box(root,Vector3(0,0.7,d*0.2),Vector3(0.3,0.3,0.02),"e6c66e")
+	for x: float in [-w*0.35,w*0.35]:
+		s.box(root,Vector3(x,1.05,-d*0.3),Vector3(0.12,0.12,0.12),"b89548")
+		s.box(root,Vector3(x,1.25,-d*0.3),Vector3(0.07,0.3,0.07),"c0392b")
+		s.box(root,Vector3(x,1.44,-d*0.3),Vector3(0.04,0.08,0.04),"ffd88a")
+	s.box(root,Vector3(0,1.1,-d*0.38),Vector3(0.36,0.36,0.03),"c0392b")
+	s.box(root,Vector3(0,1.1,-d*0.36),Vector3(0.2,0.2,0.01),"e6c66e")
+	s.box(root,Vector3(-w*0.12,1.0,0.0),Vector3(0.5,0.06,0.36),"d8ccaa")
+	for spool: int in 3:
+		s.box(root,Vector3(w*0.2+spool*0.13,1.03,0.05),Vector3(0.09,0.1,0.09),"c0392b")
+	var candle := OmniLight3D.new()
+	candle.position = Vector3(0,1.5,-d*0.1)
+	candle.light_color = Color("ffc27d")
+	candle.omni_range = 3.5
+	candle.set_meta("day_energy",0.4)
+	candle.set_meta("night_energy",1.0)
+	candle.set_meta("flicker",0.12)
+	root.add_child(candle)
+
+## 衣柜: a tall two-door cabinet with brass plates, something folded on top.
+func _wardrobe(w: float, d: float, look: Dictionary) -> void:
+	var wood: String = _wood(look,"wood","6a4a34")
+	var height: float = float(look.get("height",2.3))
+	s.box(root,Vector3(0,height/2,0),Vector3(w,height,d),wood)
+	s.box(root,Vector3(0,height+0.05,0),Vector3(w+0.08,0.1,d+0.08),_wood(look,"trim","8d6744"))
+	for x: float in [-w*0.25,w*0.25]:
+		s.box(root,Vector3(x,height*0.55,d/2+0.015),Vector3(w*0.44,height*0.7,0.03),_wood(look,"panel","7d573d"))
+		s.box(root,Vector3(x*0.25,height*0.55,d/2+0.035),Vector3(0.1,0.16,0.02),"c9a35e")
+	s.box(root,Vector3(0,height*0.12,d/2+0.015),Vector3(w*0.9,height*0.14,0.03),_wood(look,"panel","7d573d"))
+	if look.has("cloth"):
+		s.box(root,Vector3(w*0.1,height+0.18,0),Vector3(w*0.6,0.16,d*0.7),String(look["cloth"]))
+
+## 长凳 against a wall, for waiting customers or gamblers, a cushion on it (`cloth`).
+func _bench_seat(w: float, d: float, look: Dictionary) -> void:
+	var wood: String = _wood(look,"wood","6e4d37")
+	s.box(root,Vector3(0,0.46,0),Vector3(w,0.08,d),wood)
+	for x: float in [-w/2+0.1,w/2-0.1]:
+		s.box(root,Vector3(x,0.22,0),Vector3(0.08,0.44,d*0.8),wood)
+	if look.has("cloth"):
+		s.box(root,Vector3(0,0.52,0),Vector3(w*0.85,0.05,d*0.85),String(look["cloth"]))
+
+## Lived-in odds and ends in a little heap by a wall (`items`: jar, bowls, basket, books,
+## sandals, umbrella, broom, bucket, cups, bundle, gourd, abacus), low enough to walk round.
+func _clutter(w: float, d: float, look: Dictionary) -> void:
+	var items: Array = look.get("items",["jar","basket","bowls"])
+	for i: int in items.size():
+		var at := Vector3((float(i)/maxf(1,items.size()-1)-0.5)*w*0.7 if items.size()>1 else 0.0,0,sin(i*2.7)*d*0.25)
+		match String(items[i]):
+			"jar":
+				s.box(root,at+Vector3(0,0.2,0),Vector3(0.3,0.38,0.3),_pick(["6b4a35","7b5a3e","5d7f78","8b5440"]))
+				s.box(root,at+Vector3(0,0.42,0),Vector3(0.18,0.06,0.18),"b23a2b")
+			"bowls":
+				for b: int in 3:
+					s.box(root,at+Vector3(0,0.03+b*0.05,0),Vector3(0.2,0.045,0.2),"d8d2c2")
+			"basket":
+				s.box(root,at+Vector3(0,0.15,0),Vector3(0.36,0.28,0.36),"a68a55")
+				s.box(root,at+Vector3(0,0.3,0),Vector3(0.28,0.05,0.28),_pick(["d28a3a","6f9a4e","c9b98e"]))
+			"books":
+				for b: int in 3:
+					s.box(root,at+Vector3(0.02*b,0.04+b*0.07,0),Vector3(0.32,0.06,0.24),["4e6967","ad8055","c9b98e"][b])
+			"sandals":
+				for x: float in [-0.08,0.08]:
+					s.box(root,at+Vector3(x,0.02,0),Vector3(0.12,0.03,0.3),"b39a5c")
+			"umbrella":
+				s.tilted_box(root,at+Vector3(0,0.55,0),Vector3(0.14,1.1,0.14),"c9a24e",Vector3(0.2,0,0))
+			"broom":
+				s.tilted_box(root,at+Vector3(0,0.6,0),Vector3(0.04,1.2,0.04),"8a7044",Vector3(0.22,0,0))
+				s.box(root,at+Vector3(0,0.1,-0.12),Vector3(0.22,0.2,0.08),"c4ad72")
+			"bucket":
+				s.box(root,at+Vector3(0,0.17,0),Vector3(0.3,0.32,0.3),"8a6a45")
+				s.box(root,at+Vector3(0,0.32,0),Vector3(0.24,0.02,0.24),"3e5f63:gloss")
+				s.box(root,at+Vector3(0,0.42,0),Vector3(0.3,0.03,0.03),"5a4130")
+			"cups":
+				s.box(root,at+Vector3(0,0.02,0),Vector3(0.3,0.03,0.2),"6a4c33")
+				for c: int in 3:
+					s.box(root,at+Vector3(-0.09+c*0.09,0.07,0),Vector3(0.06,0.07,0.06),"e3d5b4")
+			"bundle":
+				s.shard(root,at+Vector3(0,0.13,0),Vector3(0.4,0.26,0.32),_pick(["6b5a4a","4a6f8f","8a3a3a"]),i)
+				s.box(root,at+Vector3(0,0.27,0),Vector3(0.06,0.04,0.34),"b09a6c")
+			"gourd":
+				s.box(root,at+Vector3(0,0.12,0),Vector3(0.2,0.22,0.2),"c9a24e")
+				s.box(root,at+Vector3(0,0.28,0),Vector3(0.13,0.13,0.13),"c9a24e")
+			"abacus":
+				s.box(root,at+Vector3(0,0.03,0),Vector3(0.44,0.05,0.24),"4b4031")
+				for bead: int in 6:
+					s.box(root,at+Vector3(-0.15+bead*0.06,0.07,0),Vector3(0.04,0.04,0.18),"b79c66")

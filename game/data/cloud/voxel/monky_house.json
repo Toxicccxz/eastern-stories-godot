@@ -1,0 +1,30 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 23,
+  "palette": {"wall": "c9b48a"},
+  "ground": {
+    "floor_yard": {"style": "paving", "stones": ["8a9a98", "95a3a0", "a0aca6", "86938f"], "worn": ["7d8a86", "89958f"], "bed": "646e69", "moss": "5d7a52", "moss_chance": 0.05}
+  },
+  "props": [
+    {"kind": "sign", "at": [40, -206], "size": [32, 16], "text": "善", "wall_mounted": true, "board": "262220", "letters": "e6c66e"},
+    {"kind": "incense_burner", "at": [-224, -192], "size": [32, 32], "elevation": 0.95},
+    {"kind": "candles", "at": [-176, -192], "count": 2, "elevation": 0.95},
+    {"kind": "wall_scroll", "at": [-224, -206], "size": [40, 8], "calligraphy": true, "wall_mounted": true},
+    {"kind": "straw_patch", "at": [96, 96], "size": [64, 64]},
+    {"kind": "straw_patch", "at": [-288, 176], "size": [48, 48]},
+    {"kind": "hanging_lantern", "at": [-176, 64], "flicker": 0.06, "paper": "e8e4d6:glow"},
+    {"kind": "hanging_lantern", "at": [96, -64], "flicker": 0.06, "paper": "e8e4d6:glow"},
+    {"kind": "window", "at": [-318, 64], "size": [72, 16], "rotation": 90},
+    {"kind": "bedroll", "at": [140, 150], "blanket": "6b5a4a"},
+    {"kind": "bedroll", "at": [-288, 120], "blanket": "5a4a3a"},
+    {"kind": "clutter", "at": [80, -176], "size": [64, 32], "items": ["bowls", "bowls", "bucket"], "rotation": 0},
+    {"kind": "clutter", "at": [-60, 176], "size": [64, 32], "items": ["bundle", "bowls"], "rotation": 0},
+    {"kind": "clutter", "at": [256, 40], "size": [64, 32], "items": ["broom", "bucket"], "rotation": 0}
+  ],
+  "actors": {
+    "default": {"coat": "7d7a62"},
+    "cloud.npc.monk": {"coat": "c9a86a"},
+    "snow.npc.beggar": {"coat": "6b6256"}
+  }
+}

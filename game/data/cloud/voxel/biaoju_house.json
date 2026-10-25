@@ -1,0 +1,32 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 24,
+  "palette": {"wall": "c6bfa9"},
+  "ground": {
+    "floor_yard": {"style": "paving", "stones": ["8a9a98", "95a3a0", "a0aca6", "86938f"], "worn": ["7d8a86", "89958f"], "bed": "646e69", "moss": "5d7a52", "moss_chance": 0.05}
+  },
+  "props": [
+    {"kind": "sign", "at": [-80, -238], "size": [40, 16], "text": "镖", "wall_mounted": true, "board": "262220", "letters": "e6c66e"},
+    {"kind": "sign", "at": [-224, -238], "size": [160, 16], "text": "振远镖局", "wall_mounted": true, "board": "2b2520", "letters": "efcd6c:glow", "height": 2.75, "tall": 0.55, "frame": "b89548"},
+    {"kind": "window", "at": [-382, -60], "size": [80, 16], "rotation": 90},
+    {"kind": "window", "at": [366, 40], "size": [80, 16], "rotation": -90},
+    {"kind": "hanging_lantern", "at": [-160, -40], "flicker": 0.06},
+    {"kind": "hanging_lantern", "at": [160, -40], "flicker": 0.06},
+    {"kind": "hanging_lantern", "at": [0, 140], "flicker": 0.06},
+    {"kind": "hanging_lantern", "at": [-200, 160], "flicker": 0.06},
+    {"kind": "straw_patch", "at": [-312, 0], "size": [64, 48]},
+    {"kind": "rug", "at": [144, 96], "size": [176, 112], "cloth": "6a3a2e", "border": "b89548", "motif": "c9a35e"},
+    {"kind": "stone_weights", "at": [-60, 176]},
+    {"kind": "clutter", "at": [-280, 96], "size": [64, 32], "items": ["bundle", "jar", "bowls"], "rotation": 0},
+    {"kind": "clutter", "at": [344, -176], "size": [32, 32], "items": ["umbrella", "broom"], "rotation": 0},
+    {"kind": "clutter", "at": [240, 216], "size": [64, 32], "items": ["bucket", "cups"], "rotation": 0},
+    {"kind": "clutter", "at": [-120, -200], "size": [64, 32], "items": ["bundle", "bundle"], "rotation": 0},
+    {"kind": "wall_scroll", "at": [-382, 160], "size": [40, 8], "calligraphy": true, "rotation": 90, "wall_mounted": true}
+  ],
+  "actors": {
+    "default": {"coat": "7d7a62"},
+    "cloud.npc.b_header": {"coat": "34495e"},
+    "cloud.npc.bfighter": {"coat": "5a4632", "hat": true}
+  }
+}

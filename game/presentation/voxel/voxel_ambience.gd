@@ -21,6 +21,7 @@ var _glow: StandardMaterial3D
 var _sprays: Array[Dictionary] = []
 var _bubbles: Array[Dictionary] = []
 var _swaying: Array[Dictionary] = []
+var _floating: Array[Dictionary] = []
 ## How far into night the view is (0 day .. 1 night), set by the view each frame:
 ## fireflies come out only in the dark.
 var night: float = 0.0
@@ -156,6 +157,11 @@ func bubbles(parent: Node3D, at: Vector3, radius: float, color: String = "c9d8c4
 func sway(node: Node3D, phase: float, amount: float = 0.08) -> void:
 	_swaying.append({"node":node,"phase":phase,"amount":amount})
 
+## A floating thing (a moored boat) riding the swell: it rises and falls by `height` units
+## and rolls by `roll` radians about where it was put.
+func bob(node: Node3D, phase: float, height: float = 0.08, roll: float = 0.05) -> void:
+	_floating.append({"node":node,"phase":phase,"height":height,"roll":roll,"base":node.position,"turn":node.rotation})
+
 ## Grey puffs rising from a fire's (local) point, swelling and thinning as they go.
 ## `size`: a puff's width at the start (a thread of incense smoke is thin).
 func smoke(parent: Node3D, at: Vector3, color: String = "8d877c", count: int = 6, size: float = 0.3) -> void:
@@ -270,6 +276,12 @@ func advance(delta: float) -> void:
 		node.visible = life < 0.8
 		node.position = bubble["base"]+Vector3(sin(life*12.0)*0.03,-0.35+life*0.42,0)
 		node.scale = Vector3.ONE*(0.5+life*0.8)
+	for boat: Dictionary in _floating:
+		var t: float = clock*1.4+float(boat["phase"])
+		var node: Node3D = boat["node"]
+		node.position = boat["base"]+Vector3(0,sin(t)*float(boat["height"]),0)
+		var turn: Vector3 = boat["turn"]
+		node.rotation = turn+Vector3(sin(t*0.7+0.6)*float(boat["roll"])*0.4,0,sin(t*0.83)*float(boat["roll"]))
 	for hanging: Dictionary in _swaying:
 		var t: float = clock*1.1+float(hanging["phase"])
 		(hanging["node"] as Node3D).rotation = Vector3(sin(t)*float(hanging["amount"]),0,sin(t*0.73+1.3)*float(hanging["amount"])*0.7)

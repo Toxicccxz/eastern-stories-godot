@@ -299,6 +299,13 @@ def extract_scene(text: str, relative: str, catalog: Catalog) -> None:
         if line.startswith("auto_translate_mode = 2"):
             disabled = True
             continue
+        if line.startswith("metadata/look = {"):
+            # A furnishing's words (a notice, a board, a cart's banner), drawn by the voxel view.
+            look = json.loads(line[len("metadata/look = "):])
+            for key in ("text", "flag"):
+                if isinstance(look.get(key), str):
+                    pending.append(look[key])
+            continue
         if not re.match(r'^[A-Za-z0-9_/]+ = "', line):
             continue
         # Join the following lines until the quoted value closes.
@@ -472,6 +479,13 @@ def build_catalog(repository: Path = REPOSITORY) -> Catalog:
         for entrance in config.get("entrances", {}).values():
             if isinstance(entrance.get("title"), str):
                 catalog.add(entrance["title"], source)
+        # A building's board over its door and the pennant hung out beside it.
+        for building in config.get("buildings", []):
+            for key in ("signboard", "hanging_flag"):
+                value = building.get(key)
+                text = value.get("text") if isinstance(value, dict) else value
+                if isinstance(text, str):
+                    catalog.add(text, source)
     return catalog
 
 

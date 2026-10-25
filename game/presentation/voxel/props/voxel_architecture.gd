@@ -8,6 +8,8 @@ var parent: Node3D
 var rng: RandomNumberGenerator
 var noise: FastNoiseLite
 var occluders: Array[Dictionary] = []
+## Chimney smoke and flags stirring on a facade (null where nothing moves).
+var ambience: VoxelAmbience
 
 func _node(at: Vector3, into: Node3D) -> Node3D:
 	var node := Node3D.new()
@@ -40,11 +42,18 @@ func build(center: Vector3, w: float, d: float, data: Dictionary, entrances: Arr
 			_walls(section,mw,md,mh,config,local_entries)
 			_roof(section,Vector3.ZERO,mw,md,mh,config)
 	if data.get("chimney",false):
-		var chimney_at := Vector3(-w*0.24,height+0.65,d*0.17)
+		var spot: Array = data.get("chimney_at",[-0.24,0.17])
+		var chimney_at := Vector3(w*float(spot[0]),height+0.65,d*float(spot[1]))
 		for course: int in 10:
 			shapes.box(body,chimney_at+Vector3(0,course*0.19,0),Vector3(0.77,0.175,0.79),["625e51","77705d","686659"][course%3])
 		shapes.box(body,chimney_at+Vector3(0,1.95,0),Vector3(0.94,0.2,0.95),"525649")
 		shapes.box(body,chimney_at+Vector3(0,2.06,0),Vector3(0.55,0.02,0.56),"303c36")
+		# 炊烟: smoke curling up from the kitchen fire.
+		if data.get("smoke",false) and ambience != null:
+			ambience.smoke(body,chimney_at+Vector3(0,2.2,0),String(data.get("smoke_color","9a978d")),5,0.26)
+	# 腰檐: a pent eave round a two-storey house between its floors (a tea house, a 春楼).
+	if data.has("skirt"):
+		_skirt(body,w,d,float(data["skirt"]),data)
 	for door: Vector3 in entrances:
 		_entrance(body,door,w,d,data)
 
@@ -190,17 +199,49 @@ func _roof(into: Node3D, at: Vector3, w: float, d: float, height: float, data: D
 		for bracket: int in ceili(wide/1.25):
 			shapes.box(root,Vector3(-wide/2+0.45+bracket*1.25,eave_y-0.24,side*(deep/2-0.13)),Vector3(0.14,0.23,0.45),timber)
 
+## A pent roof of tiles all round the walls at `at` units up, a short wall-hung eave.
+func _skirt(body: Node3D, w: float, d: float, at: float, data: Dictionary) -> void:
+	var tint := Color(String(data.get("roof","50626a")))
+	var timber: String = data.get("timber","79533d")
+	var depth: float = float(data.get("skirt_depth",0.85))
+	for side: int in 4:
+		var along_x: bool = side<2
+		var length: float = (w if along_x else d)+depth*2.0
+		var fixed: float = (d if along_x else w)/2*(1 if side%2 else -1)
+		var out := Vector3(0,0,signf(fixed)) if along_x else Vector3(signf(fixed),0,0)
+		var face: Node3D = _node(out*absf(fixed),body)
+		face.rotation.y = atan2(out.x,out.z)
+		shapes.box(face,Vector3(0,at-0.08,0.06),Vector3(length,0.16,0.14),timber)
+		for row: int in 3:
+			var z: float = 0.15+row*depth/3.0
+			var y: float = at+0.32-row*0.16
+			for col: int in ceili(length/0.37):
+				var x: float = -length/2+0.185+col*0.37
+				# A corner's tiles stop at the neighbouring face: no overlap at the hips.
+				if absf(x) > length/2-depth+z-0.2:
+					continue
+				var shade: int = clampi(roundi(noise.get_noise_2d((x+body.position.x+out.x*9)*27,(z+body.position.z)*27)*3)+2,0,4)
+				shapes.box(face,Vector3(x,y,z),Vector3(0.38,0.12,depth/3.0+0.04),tint.lightened(shade*0.025).to_html(false))
+		shapes.box(face,Vector3(0,at-0.06,depth+0.04),Vector3(length,0.1,0.1),timber)
+
 func _entrance(body: Node3D, door: Vector3, w: float, d: float, data: Dictionary) -> void:
 	var front: Node3D = _node(door,body)
 	var x_face: bool = absf(door.x)>w/2-1.7
 	front.rotation.y = signf(door.x)*PI/2 if x_face else (0.0 if door.z>0 else PI)
 	var timber: String = data.get("timber","79533d")
+	var posts: String = data.get("posts",timber)
 	for x: float in [-1.13,1.13]:
-		shapes.box(front,Vector3(x,1.3,0),Vector3(0.2,2.6,0.27),timber)
+		shapes.box(front,Vector3(x,1.3,0),Vector3(0.2,2.6,0.27),posts)
 		if data.get("lanterns",true):
-			shapes.lantern(front,Vector3(x*1.23,2.15,0.25))
+			shapes.lantern(front,Vector3(x*1.23,2.15,0.25),false,String(data.get("lantern","ffb858")))
 	shapes.box(front,Vector3(0,2.68,0),Vector3(2.55,0.25,0.38),timber)
 	shapes.box(front,Vector3(0,0.025,0),Vector3(2.2,0.07,1.0),String(data.get("step","b7b091")))
+	if data.has("gate"):
+		_gate_leaves(front,data)
+	if data.has("signboard"):
+		_signboard(front,data["signboard"])
+	if data.has("hanging_flag"):
+		_hanging_flag(front,data["hanging_flag"])
 	if data.get("doorway","")=="shut":
 		# A door nobody goes through stays shut: planks, a bar across.
 		shapes.box(front,Vector3(0,1.15,-0.05),Vector3(1.9,2.3,0.14),String(data.get("leaf","6b5038")))
@@ -224,6 +265,8 @@ func _entrance(body: Node3D, door: Vector3, w: float, d: float, data: Dictionary
 	var goods: String = data.get("goods","pots")
 	for side: float in [] if goods=="none" else [-1.0,1.0]:
 		var pos := Vector3(side*1.85,0,0.35)
+		if _trade_goods(front,pos,side,goods):
+			continue
 		if goods=="sacks":
 			for sack: int in 3:
 				shapes.shard(front,pos+Vector3(sack*0.22,0.28+sack%2*0.3,0),Vector3(0.65,0.55,0.55),["b09a69","bdaa7b","a78f5d"][sack],sack)
@@ -239,3 +282,151 @@ func _entrance(body: Node3D, door: Vector3, w: float, d: float, data: Dictionary
 	# Rain stains and climbing leaves stay on the facade and use its local reveal mask.
 	for leaf: int in 10 if goods=="pots" else (0 if goods=="none" else 3):
 		shapes.box(front,Vector3(-2.3+sin(leaf*1.6)*0.15,0.35+leaf*0.20,-0.12),Vector3(0.27,0.15,0.18),["507855","739351","91a962"][leaf%3])
+
+## The open leaves of a gateway, folded back against its posts: vermilion with rows of
+## gilt studs (`gate`: "red"), black lacquer ("black"), or a colour of its own.
+func _gate_leaves(front: Node3D, data: Dictionary) -> void:
+	var leaf: String = {"red":"9c3a2c","black":"2d2a28"}.get(String(data["gate"]),String(data["gate"]))
+	for side: float in [-1.0,1.0]:
+		var hinge: Node3D = _node(Vector3(side*0.95,0,-0.1),front)
+		hinge.rotation.y = side*1.25
+		shapes.box(hinge,Vector3(-side*0.48,1.2,0),Vector3(0.96,2.36,0.1),leaf)
+		for row: int in 5:
+			for col: int in 3:
+				shapes.box(hinge,Vector3(-side*(0.2+col*0.28),0.45+row*0.42,0.06),Vector3(0.07,0.07,0.04),"d6b25a")
+		shapes.box(hinge,Vector3(-side*0.8,1.2,0.07),Vector3(0.14,0.14,0.05),"b89548")
+	shapes.box(front,Vector3(0,0.09,-0.05),Vector3(1.9,0.18,0.16),String(data.get("sill","5c4433")))
+
+## 招牌/匾: a lacquered board over the doorway with the shop's name (`signboard`: {"text",
+## "board", "letters" (a ":glow" colour reads as gilt), "frame", "width", "height", "y"}).
+func _signboard(front: Node3D, sign_data: Variant) -> void:
+	var info: Dictionary = sign_data if sign_data is Dictionary else {"text":String(sign_data)}
+	var width: float = float(info.get("width",1.9))
+	var y: float = float(info.get("y",3.12))
+	var tall: float = float(info.get("height",0.62))
+	var letters: String = String(info.get("letters","e6c66e"))
+	shapes.box(front,Vector3(0,y,0.24),Vector3(width+0.16,tall+0.14,0.08),String(info.get("frame","8a6a3e")))
+	shapes.box(front,Vector3(0,y,0.29),Vector3(width,tall,0.06),String(info.get("board","2b2520")))
+	var title := Label3D.new()
+	title.text = TranslationServer.translate(String(info.get("text","")))
+	title.position = Vector3(0,y,0.33)
+	title.pixel_size = float(info.get("pixel_size",0.0075))
+	title.font_size = 56
+	title.outline_size = 0
+	title.modulate = Color(letters.get_slice(":",0))
+	front.add_child(title)
+	if letters.ends_with(":glow"):
+		# Gilt that flashes in the light (金字招牌十分晃眼): a glowing rim round the words.
+		for edge: float in [-1.0,1.0]:
+			shapes.box(front,Vector3(0,y+edge*(tall/2-0.04),0.33),Vector3(width-0.1,0.035,0.02),letters)
+		var shine := OmniLight3D.new()
+		shine.position = Vector3(0,y,0.9)
+		shine.light_color = Color(letters.get_slice(":",0))
+		shine.omni_range = 2.2
+		shine.set_meta("day_energy",0.35)
+		shine.set_meta("night_energy",0.6)
+		front.add_child(shine)
+
+## 挑幌: a pennant hung from a pole out over the street beside the door (`hanging_flag`:
+## {"text", "cloth", "trim", "letters", "side"}), stirring in the wind.
+func _hanging_flag(front: Node3D, flag_data: Dictionary) -> void:
+	var side: float = float(flag_data.get("side",1.0))
+	var pole: Node3D = _node(Vector3(side*1.45,3.35,0.1),front)
+	shapes.tilted_box(pole,Vector3(side*0.55,0.18,0.35),Vector3(0.08,0.08,1.6),"5b4433",Vector3(0.22,side*0.6,0))
+	var cloth: Node3D = _node(Vector3(side*0.95,0.1,0.75),pole)
+	shapes.box(cloth,Vector3(0,-0.75,0),Vector3(0.62,1.5,0.04),String(flag_data.get("cloth","b8412f")))
+	shapes.box(cloth,Vector3(0,-0.02,0),Vector3(0.7,0.1,0.06),String(flag_data.get("trim","2f2a24")))
+	for tail: int in 3:
+		shapes.box(cloth,Vector3(-0.2+tail*0.2,-1.58,0),Vector3(0.12,0.2,0.04),String(flag_data.get("trim","2f2a24")))
+	if flag_data.has("text"):
+		var title := Label3D.new()
+		title.text = TranslationServer.translate(String(flag_data["text"]))
+		title.position = Vector3(0,-0.72,0.03)
+		title.pixel_size = 0.009
+		title.font_size = 60
+		title.width = 60.0
+		title.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
+		title.outline_size = 0
+		title.modulate = Color(String(flag_data.get("letters","f1e3bd")))
+		cloth.add_child(title)
+	if ambience != null:
+		ambience.flutter(cloth,side*1.7+front.position.x)
+
+## What a shop sets out either side of its door, by trade (`goods`); false for the older kinds.
+func _trade_goods(front: Node3D, pos: Vector3, side: float, goods: String) -> bool:
+	match goods:
+		"cloth":
+			# Bolts of cloth stood in a rack, the bright ones outermost.
+			shapes.box(front,pos+Vector3(0,0.06,0),Vector3(0.8,0.12,0.55),"6a5039")
+			for bolt: int in 5:
+				shapes.tilted_box(front,pos+Vector3(-0.3+bolt*0.15,0.5,0),Vector3(0.13,0.8,0.13),["4a6f8f","b4473a","d6b862","5d8160","a77ba0"][(bolt+int(side>0)*2)%5],Vector3(0,0,0.18))
+		"herbs":
+			# Flat trays of drying roots and leaves on a low trestle.
+			shapes.box(front,pos+Vector3(0,0.35,0),Vector3(0.85,0.06,0.6),"8f7650")
+			for leg: float in [-0.35,0.35]:
+				shapes.box(front,pos+Vector3(leg,0.17,0),Vector3(0.06,0.34,0.5),"6c5439")
+			for tray: int in 2:
+				shapes.box(front,pos+Vector3(-0.2+tray*0.4,0.41,0),Vector3(0.36,0.05,0.5),["a3955c","7d8a52"][tray])
+				shapes.box(front,pos+Vector3(-0.2+tray*0.4,0.45,0.06),Vector3(0.2,0.03,0.22),["8a5a3a","b4a26a"][tray])
+		"coffins":
+			# Coffin boards leaning against the wall, and a finished lid on trestles.
+			for board: int in 3:
+				shapes.tilted_box(front,pos+Vector3(-0.25+board*0.22,0.75,-0.25),Vector3(0.2,1.5,0.08),["5a3b2c","4a3226","6b4a34"][board],Vector3(-0.22,0,0))
+			shapes.box(front,pos+Vector3(0,0.12,0.15),Vector3(0.7,0.24,0.4),"2f2621")
+		"weapons":
+			shapes.box(front,pos+Vector3(0,0.05,0),Vector3(0.75,0.1,0.4),"5b4433")
+			for i: int in 4:
+				shapes.box(front,pos+Vector3(-0.27+i*0.18,0.75,0),Vector3(0.05,1.4,0.05),"7a5a3e")
+				shapes.box(front,pos+Vector3(-0.27+i*0.18,1.48,0),Vector3(0.09,0.2,0.04),"b9c2bf")
+			shapes.box(front,pos+Vector3(0,0.9,-0.08),Vector3(0.8,0.06,0.06),"5b4433")
+		"books":
+			shapes.box(front,pos+Vector3(0,0.3,0),Vector3(0.8,0.6,0.45),"6a4f37")
+			for stack: int in 3:
+				for book: int in 2+stack%2:
+					shapes.box(front,pos+Vector3(-0.25+stack*0.25,0.65+book*0.07,0),Vector3(0.2,0.06,0.28),["c9b98e","4e6967","ad8055"][(stack+book)%3])
+		"baskets":
+			for basket: int in 3:
+				var at: Vector3 = pos+Vector3(-0.25+basket*0.25,0,(basket%2)*0.2)
+				shapes.box(front,at+Vector3(0,0.2,0),Vector3(0.3,0.36,0.3),["a68a55","b89a5e","947a4a"][basket])
+				shapes.box(front,at+Vector3(0,0.4,0),Vector3(0.24,0.06,0.24),["c94b37","e2c25c","6f9a4e"][basket])
+		"jars":
+			for jar: int in 3:
+				var at: Vector3 = pos+Vector3(-0.25+jar*0.26,0,(jar%2)*0.12)
+				shapes.box(front,at+Vector3(0,0.25,0),Vector3(0.32,0.46,0.32),["6b4a35","7b5a3e","5b3f2f"][jar])
+				shapes.box(front,at+Vector3(0,0.52,0),Vector3(0.2,0.08,0.2),"b23a2b")
+		"tea":
+			# Tea in deep baskets and a sealed jar by a tea house door.
+			for basket: int in 2:
+				shapes.box(front,pos+Vector3(-0.2+basket*0.4,0.3,0),Vector3(0.36,0.6,0.36),"a98d58")
+				shapes.box(front,pos+Vector3(-0.2+basket*0.4,0.62,0),Vector3(0.3,0.06,0.3),"55703c")
+			shapes.box(front,pos+Vector3(0,0.2,0.32),Vector3(0.26,0.36,0.26),"5d7f78")
+		"wedding":
+			# 红娘庄: red silk knotted on the posts over potted flowers.
+			shapes.box(front,pos+Vector3(-side*0.7,2.3,0.0),Vector3(0.3,0.5,0.16),"c0392b")
+			shapes.box(front,pos+Vector3(-side*0.7,2.0,0.05),Vector3(0.08,0.4,0.04),"c0392b")
+			shapes.pot(front,pos)
+		"dice":
+			# Gamblers' stools left outside, a bowl of dice on one.
+			shapes.box(front,pos+Vector3(0,0.25,0),Vector3(0.5,0.08,0.5),"6b4e36")
+			for leg: Vector2 in [Vector2(-0.18,-0.18),Vector2(0.18,-0.18),Vector2(-0.18,0.18),Vector2(0.18,0.18)]:
+				shapes.box(front,pos+Vector3(leg.x,0.11,leg.y),Vector3(0.06,0.22,0.06),"4f3a29")
+			shapes.box(front,pos+Vector3(0,0.35,0),Vector3(0.24,0.12,0.24),"2a2622")
+			shapes.box(front,pos+Vector3(0.06,0.43,0.02),Vector3(0.05,0.05,0.05),"efe8d6")
+		"escort":
+			# A 镖局's ironbound chest and a spear stood by the door.
+			shapes.box(front,pos+Vector3(0,0.28,0.1),Vector3(0.7,0.5,0.45),"5d4632")
+			for band: float in [-0.22,0.22]:
+				shapes.box(front,pos+Vector3(band,0.28,0.1),Vector3(0.05,0.52,0.47),"3d3d3a")
+			shapes.tilted_box(front,pos+Vector3(side*0.3,1.1,-0.2),Vector3(0.05,2.2,0.05),"6a4c33",Vector3(0,0,side*0.08))
+			shapes.box(front,pos+Vector3(side*0.38,2.2,-0.2),Vector3(0.08,0.24,0.04),"bfc6c2")
+			shapes.box(front,pos+Vector3(side*0.38,2.05,-0.2),Vector3(0.12,0.12,0.04),"b8412f")
+		"alms":
+			# 斋院: a great pot of gruel on its stand, bowls stacked by it.
+			shapes.box(front,pos+Vector3(0,0.2,0),Vector3(0.6,0.4,0.6),"5e5a52")
+			shapes.box(front,pos+Vector3(0,0.5,0),Vector3(0.72,0.24,0.72),"3a3632")
+			shapes.box(front,pos+Vector3(0,0.63,0),Vector3(0.6,0.02,0.6),"d9cfb4")
+			for bowl: int in 3:
+				shapes.box(front,pos+Vector3(-side*0.5,0.06+bowl*0.07,0.2),Vector3(0.2,0.06,0.2),"d8d2c2")
+		_:
+			return false
+	return true

@@ -1,0 +1,23 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 23,
+  "palette": {"wood": ["8d7555", "99815e", "a58c66"], "wall": "c7c4b0"},
+  "props": [
+    {"kind": "sign", "at": [32, -206], "size": [28, 16], "text": "衣", "wall_mounted": true, "board": "262220", "letters": "e6d6a0"},
+    {"kind": "window", "at": [-318, -64], "size": [72, 16], "rotation": 90},
+    {"kind": "hanging_lantern", "at": [-160, -60], "flicker": 0.06},
+    {"kind": "hanging_lantern", "at": [144, -60], "flicker": 0.06},
+    {"kind": "hanging_lantern", "at": [-16, 100], "flicker": 0.06},
+    {"kind": "rug", "at": [-16, 40], "size": [160, 192], "cloth": "7a5a8c", "border": "c8c0a0", "motif": "b8a4c8"},
+    {"kind": "slippers", "at": [-272, 140], "rotation": -6, "cloth": "8a3a3a"},
+    {"kind": "clutter", "at": [-260, -150], "size": [64, 32], "items": ["bundle", "basket"], "rotation": 0},
+    {"kind": "clutter", "at": [100, -150], "size": [64, 32], "items": ["bundle", "bundle"], "rotation": 0},
+    {"kind": "clutter", "at": [-130, 100], "size": [32, 32], "items": ["basket"], "rotation": 0},
+    {"kind": "clutter", "at": [-288, 176], "size": [64, 32], "items": ["sandals", "umbrella"], "rotation": 0}
+  ],
+  "actors": {
+    "default": {"coat": "7d7a62"},
+    "cloud.npc.tailor": {"coat": "4a6f8f"}
+  }
+}

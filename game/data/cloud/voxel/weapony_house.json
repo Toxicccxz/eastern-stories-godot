@@ -1,0 +1,21 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 23,
+  "palette": {"wood": ["7a6a58", "84735f", "6f6050"], "wall": "a9a293"},
+  "props": [
+    {"kind": "sign", "at": [-264, -206], "size": [80, 16], "text": "专卖各式兵器", "wall_mounted": true, "board": "262220", "letters": "d9dcd4", "wrap": true, "tall": 0.7, "pixel_size": 0.0045},
+    {"kind": "window", "at": [-318, -120], "size": [64, 16], "rotation": 90},
+    {"kind": "hanging_lantern", "at": [-96, -60], "flicker": 0.06},
+    {"kind": "hanging_lantern", "at": [144, 40], "flicker": 0.06},
+    {"kind": "hanging_lantern", "at": [-200, 100], "flicker": 0.06},
+    {"kind": "straw_patch", "at": [-200, -60], "size": [64, 48]},
+    {"kind": "stone_weights", "at": [-160, 120]},
+    {"kind": "clutter", "at": [80, 176], "size": [64, 32], "items": ["bundle", "jar"], "rotation": 0},
+    {"kind": "clutter", "at": [-260, -170], "size": [64, 32], "items": ["bucket"], "rotation": 0}
+  ],
+  "actors": {
+    "default": {"coat": "7d7a62"},
+    "cloud.npc.weaponor": {"coat": "5a5a52"}
+  }
+}

@@ -1,5 +1,7 @@
 [gd_scene format=3]
 
+[ext_resource type="Script" path="res://presentation/voxel/world_voxel_view.gd" id="map_view"]
+
 [ext_resource type="Script" path="res://runtime/world/world_map_controller.gd" id="map"]
 [ext_resource type="Script" path="res://runtime/world/world_spawn_marker_2d.gd" id="marker"]
 [ext_resource type="Script" path="res://runtime/world/world_character_body_2d.gd" id="body"]
@@ -135,3 +137,24 @@ position_smoothing_speed = 6.0
 
 [node name="Interactions" type="Node2D" parent="."]
 
+
+[node name="MapView" type="Node" parent="."]
+script = ExtResource("map_view")
+layout_path = "res://data/cloud/voxel/jiyuan_upstairs.json"
+
+[node name="Furnishings" type="Node2D" parent="."]
+
+[node name="Furnishing01" type="Node2D" parent="Furnishings"]
+position = Vector2(72, 64)
+metadata/look = {"kind": "tea_table", "cloth": "a8443a"}
+metadata/footprint = Vector2(48, 32)
+
+[node name="Furnishing02" type="Node2D" parent="Furnishings"]
+position = Vector2(192, 168)
+metadata/look = {"kind": "zither_table", "height": 0.6}
+metadata/footprint = Vector2(32, 48)
+
+[node name="Furnishing03" type="Node2D" parent="Furnishings"]
+position = Vector2(80, 184)
+metadata/look = {"kind": "folding_screen", "cloth": "a8443a"}
+metadata/footprint = Vector2(64, 16)

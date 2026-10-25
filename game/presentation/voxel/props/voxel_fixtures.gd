@@ -51,12 +51,12 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 					var motif := Vector3(-w/2+0.48+x*0.8,0.037,-d/2+0.48+z*0.8)
 					s.tilted_box(root,motif,Vector3(0.09,0.008,0.09),String(data.get("motif","b7845e")),Vector3(0,PI/4,0))
 		"lantern":
-			s.lantern(root,Vector3(0,1.5,0),true)
-			_set_lamp(root,0.5,1.1,4.0)
+			s.lantern(root,Vector3(0,1.5,0),true,String(data.get("paper","ffb858")))
+			_set_lamp(root,0.5,1.1,4.0,float(data.get("flicker",0.0)))
 		"hanging_lantern":
 			s.box(root,Vector3(0,3.85,0),Vector3(0.045,1.0,0.045),"594732")
-			s.lantern(root,Vector3(0,3.15,0))
-			_set_lamp(root,0.65,1.7,8.0)
+			s.lantern(root,Vector3(0,3.15,0),false,String(data.get("paper","ffb858")))
+			_set_lamp(root,0.65,1.7,8.0,float(data.get("flicker",0.0)))
 		"pot": s.pot(root,Vector3.ZERO)
 		"red_door":
 			s.box(root,Vector3(0,1.25,0),Vector3(1.8,2.5,0.2),"a34736")
@@ -135,15 +135,27 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 			for z: float in [-d*0.44,d*0.44]:
 				s.box(root,Vector3(0,0.036,z),Vector3(w,0.008,0.06),"bca270")
 		"sign":
-			s.box(root,Vector3(0,1.7,0),Vector3(w,0.9,0.12),"463b2d")
+			# A board with its words (`board`, `letters`, `height` above the floor, `tall`); long
+			# words wrap within the board (`wrap`: true).
+			var y: float = float(data.get("height",1.7))
+			var tall: float = float(data.get("tall",0.9))
+			s.box(root,Vector3(0,y,0),Vector3(w,tall,0.12),String(data.get("board","463b2d")))
+			if data.has("frame"):
+				s.box(root,Vector3(0,y,-0.02),Vector3(w+0.14,tall+0.14,0.1),String(data["frame"]))
 			var title := Label3D.new()
 			title.text = tr(String(data.get("text","")))
-			title.position = Vector3(0,1.7,0.075)
-			title.pixel_size = 0.006
+			title.position = Vector3(0,y,0.075)
+			title.pixel_size = float(data.get("pixel_size",0.006))
 			title.font_size = 40
-			title.modulate = Color("e3c38b")
+			title.modulate = Color(String(data.get("letters","e3c38b")).get_slice(":",0))
 			title.outline_size = 0
+			if data.get("wrap",false):
+				title.width = (w-0.1)/title.pixel_size
+				title.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
 			root.add_child(title)
+			if String(data.get("letters","")).ends_with(":glow"):
+				for edge: float in [-1.0,1.0]:
+					s.box(root,Vector3(0,y+edge*(tall/2-0.05),0.075),Vector3(w-0.12,0.035,0.02),String(data["letters"]))
 		"stone_lion":
 			# A crouching guardian on its plinth, facing +z.
 			s.box(root,Vector3(0,0.25,0),Vector3(0.9,0.5,0.9),"8f8f86")
@@ -186,6 +198,12 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 			s.box(root,Vector3(0,0.07,d*0.56),Vector3(w*0.12,0.1,d*0.08),dark)
 			for side: float in [-1.0,1.0]:
 				s.box(root,Vector3(side*w*0.08,0.19,d*0.42),Vector3(0.08,0.06,0.06),fur)
+		"stains":
+			# Dark wet patches on a floor (blood under a butcher's rack, spilt wine), flat.
+			var colors: Array = data.get("colors",["5e2a26","6e3430","4e2422"])
+			for i: int in int(data.get("count",6)):
+				var at := Vector3(sin(i*5.17)*w*0.42,0.013+i*0.0005,cos(i*3.91)*d*0.42)
+				s.tilted_box(root,at,Vector3(0.18+0.12*absf(sin(i*2.3)),0.006,0.12+0.1*absf(cos(i*1.7))),String(colors[i%colors.size()]),Vector3(0,i*0.9,0))
 		"silk_curtain":
 			# 亮晶晶的帘幕 (passage.c): very thin silk in hanging strips, shimmering and stirring
 			# in the draught from the water behind it.
@@ -203,10 +221,13 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 			return false
 	return true
 
-func _set_lamp(node: Node3D, day: float, night: float, radius: float) -> void:
+## A lamp's reach and its day and night strength; `flicker` makes its flame waver (灯火摇曳).
+func _set_lamp(node: Node3D, day: float, night: float, radius: float, flicker: float = 0.0) -> void:
 	for child: Node in node.get_children():
 		if child is OmniLight3D:
 			(child as OmniLight3D).omni_range = radius
 			child.set_meta("day_energy",day)
 			child.set_meta("night_energy",night)
+			if flicker > 0.0:
+				child.set_meta("flicker",flicker)
 

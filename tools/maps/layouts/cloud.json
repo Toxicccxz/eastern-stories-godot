@@ -6,7 +6,7 @@
       "draw": {
         "technique": "town",
         "base": "boundary",
-        "bounds": [-80, -80, 3488, 3280],
+        "bounds": [-80, -80, 3520, 3760],
         "ground": [["forest", 704, -80, 1344, 1104, "卧龙岗's wooded slopes"]],
         "zones": {
           "cloud.dragonhill.nroad": [864, 0, 1184, 288, "open", "grass", null],
@@ -52,20 +52,51 @@
           ["forest", 816, 960, 880, 1088],
           ["forest", 1152, 880, 1216, 1024],
           ["wall", 832, 1312, 960, 1360, "the gate: the town wall either side of it"],
-          ["blocked", 976, 1376, 1024, 1440, "market stalls along the street's edges"],
-          ["blocked", 976, 1600, 1024, 1664],
-          ["blocked", 1296, 1824, 1376, 1856],
-          ["blocked", 1504, 1824, 1568, 1856],
-          ["blocked", 1856, 1904, 1888, 1984],
-          ["forest", 1888, 2224, 1936, 2272, "the crossroad's 古槐 and its notice"],
-          ["blocked", 1664, 2224, 1696, 2240],
+          ["wall", 640, 1312, 832, 1360, "the wall runs on west of the gate and east up to 香茗坊 (voxel 美术)"],
+          ["wall", 1152, 1312, 1232, 1344],
+          ["blocked", 848, 1248, 896, 1264, "the government notice at the gate (entrance.c's sign)", {"look": {"kind": "notice_post", "text": "[启事] 由此入镇收取黄金一两", "paper": "e6dcbf"}}],
+          ["blocked", 1088, 1216, 1136, 1264, "a tea stall for travellers just inside the gate", {"look": {"kind": "tea_stall"}}],
+          ["blocked", 976, 1376, 1024, 1440, "market stalls along the street's edges: the butcher's by its door (腥膻)", {"look": {"kind": "stall", "goods": "meat", "rotation": 90, "awning": ["b8a27a", "7a4a3a"]}}],
+          ["blocked", 976, 1600, 1024, 1664, "tea by the tea house (茶香)", {"look": {"kind": "stall", "goods": "tea", "rotation": 90, "awning": ["c8bc94", "4f6f5a"]}}],
+          ["blocked", 1184, 1680, 1264, 1712, {"look": {"kind": "stall", "goods": "sweets", "awning": ["d8c49c", "a8442f"]}}],
+          ["blocked", 1296, 1824, 1376, 1856, {"look": {"kind": "stall", "goods": "greens", "rotation": 180, "awning": ["c8bc94", "5f7f8c"]}}],
+          ["blocked", 1504, 1824, 1568, 1856, {"look": {"kind": "stall", "goods": "pottery", "rotation": 180, "awning": ["b9ad86", "6a5a8c"]}}],
+          ["blocked", 1616, 1840, 1680, 1872, {"look": {"kind": "stall", "goods": "straw", "rotation": 180, "awning": ["d2c290", "8a6a3a"]}}],
+          ["blocked", 1856, 1904, 1888, 1984, {"look": {"kind": "stall", "goods": "fruit", "rotation": -90, "awning": ["e0cfa0", "b8542f"]}}],
+          ["blocked", 1856, 2080, 1888, 2160, {"look": {"kind": "stall", "goods": "toys", "rotation": -90, "awning": ["d8c49c", "3f6a8f"]}}],
+          ["blocked", 1888, 2224, 1936, 2272, "the crossroad's 古槐, as thick as two men can reach round (cross.c)", {"look": {"kind": "great_tree", "height": 5.6, "canopy": 4.6, "trunk": 0.62, "roots": 0.35, "occludes": true, "size": [48, 48], "bark": ["5a4a3a", "65533f", "4a3d30", "736049"], "needles": ["35603a", "467346", "5c8a50", "77a160"], "moss": "5e7a44", "cone": "a9b878", "blossoms": "eae6c8"}}],
+          ["blocked", 1840, 2240, 1888, 2256, "the notice under the 古槐, set up by the government", {"look": {"kind": "notice_post", "text": "告示", "paper": "e6dcbf"}}],
+          ["blocked", 1664, 2224, 1696, 2256, "a fire vat at the crossroads", {"look": {"kind": "water_vat", "lid": true}}],
           ["water", 2368, 2048, 2480, 2144, "张家花园: a pond"],
-          ["forest", 3008, 2208, 3360, 2224, "茶场: rows of tea bushes"],
-          ["forest", 3008, 2320, 3360, 2336],
-          ["forest", 3008, 2528, 3360, 2544],
-          ["water", 1600, 3072, 1744, 3200, "江北渡口: the river"],
-          ["shallow_water", 1744, 3072, 1856, 3200, "the ford into 泓水 (山烟寺 A)"],
-          ["water", 1856, 3072, 2000, 3200]
+          ["blocked", 2496, 1984, 2560, 2048, "the garden's pavilion", {"look": {"kind": "pavilion", "height": 2.4, "occludes": true}}],
+          ["blocked", 2304, 2192, 2352, 2240, "a rockery in the corner", {"look": {"kind": "rockery", "height": 2.3, "pine": true}}],
+          ["blocked", 2384, 1984, 2464, 2000, {"look": {"kind": "flower_bed", "flowers": ["e8a4b4", "d65a6a", "f1e3bd", "c47aa0"]}}],
+          ["blocked", 2352, 2032, 2368, 2048, "willows by the pond", {"look": {"kind": "tree", "species": "willow", "size": [16, 16], "occludes": true}}],
+          ["blocked", 2480, 2144, 2496, 2160, {"look": {"kind": "tree", "species": "willow", "variant": 3, "size": [16, 16], "occludes": true}}],
+          ["blocked", 2512, 2176, 2560, 2224, {"look": {"kind": "stone_table", "chess": true}}],
+          ["blocked", 2672, 2272, 2704, 2304, "张百万家's stone lions", {"look": {"kind": "stone_lion"}}],
+          ["blocked", 2800, 2272, 2832, 2304, {"look": {"kind": "stone_lion"}}],
+          ["blocked", 3008, 2144, 3360, 2160, "茶场: rows of tea bushes", {"look": {"kind": "tea_bushes"}}],
+          ["blocked", 3008, 2208, 3360, 2224, {"look": {"kind": "tea_bushes"}}],
+          ["blocked", 3008, 2320, 3360, 2336, {"look": {"kind": "tea_bushes"}}],
+          ["blocked", 3008, 2448, 3360, 2464, {"look": {"kind": "tea_bushes"}}],
+          ["blocked", 3008, 2528, 3360, 2544, {"look": {"kind": "tea_bushes"}}],
+          ["blocked", 3008, 2592, 3360, 2608, {"look": {"kind": "tea_bushes"}}],
+          ["blocked", 1632, 2896, 1696, 2912, "benches for those waiting on the ferry (过客甚多)", {"look": {"kind": "bench", "cups": true}}],
+          ["blocked", 1904, 2896, 1968, 2912, {"look": {"kind": "bench"}}],
+          ["blocked", 1936, 2960, 1984, 3008, "goods waiting for the ferry", {"look": {"kind": "cargo"}}],
+          ["water", 480, 3072, 1744, 3600, "江北渡口: 泓水, wide and never still (dukou.c)"],
+          ["bridge", 1744, 3072, 1856, 3200, "the jetty out to the ferry (the ford into 泓水, 山烟寺 A)"],
+          ["water", 1744, 3200, 1856, 3600],
+          ["water", 1856, 3072, 3200, 3600],
+          ["water", 480, 3024, 912, 3072, "the banks wander: a bay here, a spit of land there"],
+          ["boundary", 1184, 3072, 1456, 3104],
+          ["water", 2224, 3040, 2592, 3072],
+          ["boundary", 2720, 3072, 3008, 3120],
+          ["boundary", 592, 3536, 1216, 3600],
+          ["water", 1312, 3600, 1712, 3648],
+          ["boundary", 2032, 3552, 2528, 3600],
+          ["water", 2752, 3600, 3200, 3632]
         ],
         "gap_at": [],
         "reach_from": "SnowEntry",
@@ -299,6 +330,7 @@
         "style": "map",
         "root": "CloudOutdoor",
         "map": "cloud.outdoor",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/cloud/voxel/outdoor.json"},
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],
@@ -420,11 +452,13 @@
         },
         "roads": [],
         "props": [
-          ["blocked", 64, 112, 96, 144, "tea table, back row"],
-          ["blocked", 144, 112, 176, 144, "tea table, back row"],
-          ["blocked", 64, 176, 96, 208, "tea table, front row"],
-          ["blocked", 144, 176, 176, 208, "tea table, front row"],
-          ["blocked", 256, 192, 288, 224, "the chess board (里首摆着个棋盘)"]
+          ["blocked", 64, 112, 96, 144, "tea tables for the scholars (文人墨客常喜欢在此品茗作赋)", {"look": {"kind": "tea_table", "cloth": "617c86"}}],
+          ["blocked", 144, 112, 176, 144, {"look": {"kind": "tea_table", "cloth": "7b8461"}}],
+          ["blocked", 64, 176, 96, 208, {"look": {"kind": "tea_table", "cloth": "8f7065"}}],
+          ["blocked", 144, 176, 176, 208, {"look": {"kind": "tea_table", "cloth": "617c86"}}],
+          ["blocked", 256, 192, 288, 224, "the chess board (里首摆着个棋盘)", {"look": {"kind": "chess_table", "height": 0.6}}],
+          ["blocked", 96, 32, 192, 48, "a zither by the window (楼上丝竹之声)", {"look": {"kind": "zither_table", "height": 0.6}}],
+          ["blocked", 304, 224, 320, 256, {"look": {"kind": "flower_stand", "flower": "e8dcef", "size": [16, 32]}}]
         ],
         "reach_from": "Tearoom2StairsArrival",
         "markers_in_middle": [],
@@ -436,6 +470,7 @@
         "style": "map",
         "root": "CloudTearoomUpstairs",
         "map": "cloud.tearoom_upstairs",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/cloud/voxel/tearoom_upstairs.json"},
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "StairsShape": [48, 48]
@@ -492,9 +527,9 @@
         },
         "roads": [],
         "props": [
-          ["blocked", 48, 48, 96, 80, "the low wine table"],
-          ["blocked", 176, 144, 208, 192, "the zither table"],
-          ["blocked", 48, 176, 112, 192, "a painted screen"]
+          ["blocked", 48, 48, 96, 80, "the low wine table", {"look": {"kind": "tea_table", "cloth": "a8443a"}}],
+          ["blocked", 176, 144, 208, 192, "the zither table", {"look": {"kind": "zither_table", "height": 0.6}}],
+          ["blocked", 48, 176, 112, 192, "a painted screen", {"look": {"kind": "folding_screen", "cloth": "a8443a"}}]
         ],
         "reach_from": "Jiyuan2StairsArrival",
         "markers_in_middle": []
@@ -503,6 +538,7 @@
         "style": "map",
         "root": "CloudJiyuanUpstairs",
         "map": "cloud.jiyuan_upstairs",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/cloud/voxel/jiyuan_upstairs.json"},
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "StairsShape": [48, 48]
@@ -559,9 +595,9 @@
         },
         "roads": [],
         "props": [
-          ["blocked", 48, 48, 96, 80, "a gaming table"],
-          ["blocked", 144, 48, 192, 80, "a gaming table"],
-          ["blocked", 64, 128, 112, 160, "a gaming table"]
+          ["blocked", 48, 48, 112, 96, "gaming tables (很多人在围着几张桌子高声叫嚷)", {"look": {"kind": "gaming_table", "stools": 3}}],
+          ["blocked", 144, 48, 208, 96, {"look": {"kind": "gaming_table", "stools": 3, "felt": "3a2f4a"}}],
+          ["blocked", 48, 128, 112, 176, {"look": {"kind": "gaming_table", "stools": 3}}]
         ],
         "reach_from": "Duchang2StairsArrival",
         "markers_in_middle": []
@@ -570,6 +606,7 @@
         "style": "map",
         "root": "CloudDuchangUpstairs",
         "map": "cloud.duchang_upstairs",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/cloud/voxel/duchang_upstairs.json"},
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "StairsShape": [48, 48]
@@ -626,7 +663,20 @@
             "size": "hall"
           }
         },
-        "props": [],
+        "props": [
+          ["blocked", "cloud.biaoju", ["rel", 0.2131, 0.01719], 7.5294, 0.4705, "镖师们的兵器架 along the north wall", {"look": {"kind": "weapon_rack", "occludes": true}}],
+          ["blocked", "cloud.biaoju", ["rel", 0.72374, 0.01719], 4.7058, 0.4705, {"look": {"kind": "weapon_rack", "occludes": true}}],
+          ["blocked", "cloud.biaoju", ["rel", 0.92586, 0.03385], 1.4117, 0.9411, "the company's banner on its stand", {"look": {"kind": "banner", "text": "镖", "height": 3.0, "cloth": "b8412f", "trim": "e2c25c"}}],
+          ["blocked", "cloud.biaoju", ["rel", 0.91523, 0.36719], 1.8823, 2.8235, "总镖头's desk and chair", {"look": {"kind": "writing_desk", "rotation": -90, "cloth": "34495e"}}],
+          ["blocked", "cloud.biaoju", ["rel", 0.97906, 0.36719], 0.9411, 0.9411, {"look": {"kind": "chair", "rotation": -90, "wood": "5c3f2b", "cloth": "8a2f2a"}}],
+          ["blocked", "cloud.biaoju", ["rel", 0.09608, 0.28385], 2.3529, 4.2352, "a 镖车 loaded for the road", {"look": {"kind": "cart", "cargo": "crates", "covered": true, "flag": "镖", "cloth": "b8412f"}}],
+          ["blocked", "cloud.biaoju", ["rel", 0.06416, 0.78385], 1.8823, 1.4117, "goods under escort", {"look": {"kind": "strongbox"}}],
+          ["blocked", "cloud.biaoju", ["rel", 0.06416, 0.91719], 1.8823, 1.4117, {"look": {"kind": "strongbox"}}],
+          ["blocked", "cloud.biaoju", ["rel", 0.70246, 0.70052], 2.8235, 1.8823, "where clients sit to strike a bargain", {"look": {"kind": "table"}}],
+          ["blocked", "cloud.biaoju", ["rel", 0.95778, 0.83385], 0.9411, 0.9411, {"look": {"kind": "armor_stand"}}],
+          ["blocked", "cloud.biaoju", ["rel", 0.76629, 0.86719], 0.9411, 0.9411, "posts for the escorts to keep their hands in", {"look": {"kind": "training_post"}}],
+          ["blocked", "cloud.biaoju", ["rel", 0.24501, 0.91719], 2.3529, 1.4117, {"look": {"kind": "cargo"}}]
+        ],
         "placed": {},
         "doors": {
           "cloud.biaoju.north": "north"
@@ -637,6 +687,7 @@
         "style": "map",
         "root": "BiaojuHouse",
         "map": "cloud.biaoju_house",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/cloud/voxel/biaoju_house.json"},
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],
@@ -682,7 +733,16 @@
           }
         },
         "props": [
-          ["blocked", "cloud.bookstore", ["rel", 0.5, 0.95], 4.71, 0.5]
+          ["blocked", "cloud.bookstore", ["rel", 0.20553, 0.01983], 6.5882, 0.4705, "shelves of books", {"look": {"kind": "bookcase", "occludes": true}}],
+          ["blocked", "cloud.bookstore", ["rel", 0.78245, 0.01983], 7.0588, 0.4705, {"look": {"kind": "bookcase", "occludes": true}}],
+          ["blocked", "cloud.bookstore", ["rel", 0.01322, 0.42368], 0.4705, 5.647, {"look": {"kind": "bookcase", "rotation": 90, "occludes": true}}],
+          ["blocked", "cloud.bookstore", ["rel", 0.23117, 0.44291], 2.8235, 1.4117, "wroad1.c calls it a 私塾: desks for the pupils", {"look": {"kind": "writing_desk", "cloth": "4e6967"}}],
+          ["blocked", "cloud.bookstore", ["rel", 0.23117, 0.67368], 2.8235, 1.4117, {"look": {"kind": "writing_desk", "cloth": "4e6967"}}],
+          ["blocked", "cloud.bookstore", ["rel", 0.74399, 0.44291], 2.8235, 1.4117, {"look": {"kind": "writing_desk", "cloth": "6a5a8c"}}],
+          ["blocked", "cloud.bookstore", ["rel", 0.74399, 0.67368], 2.8235, 1.4117, {"look": {"kind": "writing_desk", "cloth": "6a5a8c"}}],
+          ["blocked", "cloud.bookstore", ["rel", 0.94912, 0.23137], 0.9411, 0.9411, {"look": {"kind": "flower_stand", "flower": "e8dcef"}}],
+          ["blocked", "cloud.bookstore", ["rel", 0.5004, 0.92368], 5.1764, 0.9411, "the counter", {"look": {"kind": "shop_counter", "goods": "books", "rotation": 180, "cloth": "4e6967"}}],
+          ["blocked", "cloud.bookstore", ["rel", 0.91066, 0.86599], 2.3529, 1.4117, {"look": {"kind": "tea_table", "cloth": "617c86"}}]
         ],
         "placed": {},
         "doors": {
@@ -694,6 +754,7 @@
         "style": "map",
         "root": "BookstoreHouse",
         "map": "cloud.bookstore_house",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/cloud/voxel/bookstore_house.json"},
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],
@@ -733,7 +794,11 @@
           }
         },
         "props": [
-          ["blocked", "cloud.butchery", ["rel", 0.042, 0.417], 0.5, 3.76, "shop counters at the back walls"]
+          ["blocked", "cloud.butchery", ["rel", 0.48385, 0.02344], 10.8235, 0.4705, "butchery.c: 肉架上挂满了血淋淋的生肉", {"look": {"kind": "meat_rack", "occludes": true}}],
+          ["blocked", "cloud.butchery", ["rel", 0.03385, 0.4098], 0.9411, 3.7647, "the counter at the back", {"look": {"kind": "shop_counter", "goods": "meat", "rotation": 90, "wood": "6a4a34", "cloth": "8a3530"}}],
+          ["blocked", "cloud.butchery", ["rel", 0.28385, 0.75071], 1.4117, 1.4117, {"look": {"kind": "chopping_block"}}],
+          ["blocked", "cloud.butchery", ["rel", 0.91719, 0.88707], 1.4117, 1.4117, {"look": {"kind": "water_vat"}}],
+          ["blocked", "cloud.butchery", ["rel", 0.05052, 0.86435], 1.4117, 1.8823, {"look": {"kind": "firewood", "layers": 4}}]
         ],
         "placed": {},
         "doors": {
@@ -745,6 +810,7 @@
         "style": "map",
         "root": "ButcheryHouse",
         "map": "cloud.butchery_house",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/cloud/voxel/butchery_house.json"},
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],
@@ -784,7 +850,13 @@
           }
         },
         "props": [
-          ["blocked", "cloud.drugstore", ["rel", 0.5, 0.15], 4.71, 0.5]
+          ["blocked", "cloud.drugstore", ["rel", 0.48758, 0.01983], 9.4117, 0.4705, "the medicine cabinet behind the counter", {"look": {"kind": "herb_cabinet", "occludes": true}}],
+          ["blocked", "cloud.drugstore", ["rel", 0.5004, 0.11599], 5.1764, 0.9411, "the counter", {"look": {"kind": "shop_counter", "goods": "herbs", "wood": "75503b", "cloth": "7d8861"}}],
+          ["blocked", "cloud.drugstore", ["rel", 0.09014, 0.38522], 1.4117, 0.9411, {"look": {"kind": "herb_mortar"}}],
+          ["blocked", "cloud.drugstore", ["rel", 0.92348, 0.23137], 2.8235, 0.9411, {"look": {"kind": "drying_rack", "colors": ["8a7a4a", "9a6a3a", "7d8a52", "a3955c"], "tiers": 3}}],
+          ["blocked", "cloud.drugstore", ["rel", 0.9363, 0.55829], 1.4117, 1.4117, "a pot of medicine simmering", {"look": {"kind": "tea_stove"}}],
+          ["blocked", "cloud.drugstore", ["rel", 0.10296, 0.76983], 2.8235, 0.9411, "a bench for those waiting", {"look": {"kind": "bench_seat", "cloth": "6f8a6a"}}],
+          ["blocked", "cloud.drugstore", ["rel", 0.01322, 0.23137], 0.4705, 2.8235, "books of remedies", {"look": {"kind": "bookcase", "rotation": 90, "occludes": true}}]
         ],
         "placed": {},
         "doors": {
@@ -796,6 +868,7 @@
         "style": "map",
         "root": "DrugstoreHouse",
         "map": "cloud.drugstore_house",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/cloud/voxel/drugstore_house.json"},
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],
@@ -834,7 +907,16 @@
             "size": "hall"
           }
         },
-        "props": [],
+        "props": [
+          ["blocked", "cloud.duchang", ["rel", 0.2131, 0.40052], 3.7647, 2.8235, "gaming tables: 大 and 小", {"look": {"kind": "gaming_table"}}],
+          ["blocked", "cloud.duchang", ["rel", 0.2131, 0.73385], 3.7647, 2.8235, {"look": {"kind": "gaming_table", "felt": "3a2f4a"}}],
+          ["blocked", "cloud.duchang", ["rel", 0.65991, 0.40052], 3.7647, 2.8235, {"look": {"kind": "gaming_table"}}],
+          ["blocked", "cloud.duchang", ["rel", 0.87267, 0.03385], 3.7647, 0.9411, "where the house changes silver", {"look": {"kind": "shop_counter", "goods": "coins", "wood": "4a3426", "cloth": "8a2f2a"}}],
+          ["blocked", "cloud.duchang", ["rel", 0.96842, 0.18385], 1.4117, 1.4117, {"look": {"kind": "strongbox"}}],
+          ["blocked", "cloud.duchang", ["rel", 0.02161, 0.23385], 0.9411, 3.7647, {"look": {"kind": "bench_seat", "rotation": 90, "cloth": "8a2f2a"}}],
+          ["blocked", "cloud.duchang", ["rel", 0.06416, 0.91719], 1.8823, 1.4117, {"look": {"kind": "wine_jars", "count": 4}}],
+          ["blocked", "cloud.duchang", ["rel", 0.12799, 0.01719], 3.7647, 0.4705, {"look": {"kind": "bench_seat", "cloth": "8a2f2a"}}]
+        ],
         "placed": {},
         "doors": {
           "cloud.duchang.north": "north"
@@ -845,6 +927,7 @@
         "style": "map",
         "root": "DuchangHouse",
         "map": "cloud.duchang_house",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/cloud/voxel/duchang_house.json"},
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],
@@ -908,9 +991,23 @@
           }
         },
         "props": [
-          ["blocked", "cloud.woodboxy", ["rel", 0.571, 0.964], 3.76, 0.5],
-          ["forest", "cloud.god1", ["rel", 0.2, 0.125], 1.88, 1.41, "场院's thorns and the old pavilion's posts"],
-          ["forest", "cloud.god1", ["rel", 0.8, 0.875], 1.88, 1.41]
+          ["blocked", "cloud.god1", ["rel", 0.12799, 0.14752], 3.7647, 3.7647, "god1.c: 亭子似乎也快要倒塌了", {"look": {"kind": "pavilion", "ruined": true, "height": 2.4, "occludes": true}}],
+          ["blocked", "cloud.god1", ["rel", 0.48969, 0.04458], 5.647, 1.4117, "荆棘丛生的荒草场", {"look": {"kind": "thorns"}}],
+          ["blocked", "cloud.god1", ["rel", 0.88331, 0.88281], 4.2352, 2.8235, {"look": {"kind": "thorns"}}],
+          ["blocked", "cloud.god1", ["rel", 0.08544, 0.89752], 2.8235, 2.3529, {"look": {"kind": "thorns"}}],
+          ["blocked", "cloud.god1", ["rel", 0.72374, 0.38281], 2.8235, 0.9411, "原来建有秋千架的草地", {"look": {"kind": "swing_frame", "broken": true, "height": 2.4}}],
+          ["blocked", "cloud.woodboxy", ["rel", 0.20052, 0.06889], 3.7647, 1.4117, "coffins for sale", {"look": {"kind": "coffin"}}],
+          ["blocked", "cloud.woodboxy", ["rel", 0.53385, 0.06889], 3.7647, 1.4117, {"look": {"kind": "coffin", "open": true, "lacquer": "4a2a22"}}],
+          ["blocked", "cloud.woodboxy", ["rel", 0.83385, 0.04616], 2.8235, 0.9411, "boards for the next", {"look": {"kind": "firewood", "layers": 6, "colors": ["8a6a45", "9a7a52", "7a5d3d"]}}],
+          ["blocked", "cloud.woodboxy", ["rel", 0.56719, 0.95526], 3.7647, 0.9411, "the workbench", {"look": {"kind": "counter"}}],
+          ["blocked", "cloud.woodboxy", ["rel", 0.03385, 0.88707], 0.9411, 2.3529, {"look": {"kind": "tool_rack", "rotation": 90}}],
+          ["blocked", "cloud.god2", ["rel", 0.48969, 0.50052], 2.8235, 2.8235, "god2.c: 黑漆镶金的八仙桌", {"look": {"kind": "square_table", "top": "1e1b1a", "legs": "1e1b1a", "trim": "c9a24e", "set": "tea", "teapot": "c9a24e"}}],
+          ["blocked", "cloud.god2", ["rel", 0.36203, 0.50052], 0.9411, 0.9411, "两只黝黑的太师椅", {"look": {"kind": "chair", "rotation": 90, "wood": "1e1b1a", "cloth": "3a2a2a"}}],
+          ["blocked", "cloud.god2", ["rel", 0.61735, 0.50052], 0.9411, 0.9411, {"look": {"kind": "chair", "rotation": -90, "wood": "1e1b1a", "cloth": "3a2a2a"}}],
+          ["blocked", "cloud.god2", ["rel", 0.48969, 0.03385], 2.8235, 0.9411, {"look": {"kind": "square_table", "top": "2a2420", "legs": "2a2420", "trim": "b89548", "set": "incense"}}],
+          ["blocked", "cloud.god2", ["rel", 0.04289, 0.06719], 0.9411, 0.9411, {"look": {"kind": "flower_stand", "wood": "1e1b1a"}}],
+          ["blocked", "cloud.god2", ["rel", 0.04289, 0.93385], 0.9411, 0.9411, {"look": {"kind": "flower_stand", "wood": "1e1b1a", "flower": "d65a6a"}}],
+          ["blocked", "cloud.god2", ["rel", 0.10672, 0.06719], 3.7647, 1.8823, {"look": {"kind": "couch", "wood": "1e1b1a", "cloth": "3a2a2a", "cushion": "8a2f2a", "panel": "2a2420"}}]
         ],
         "placed": {},
         "doors": {
@@ -922,6 +1019,7 @@
         "style": "map",
         "root": "YardHouse",
         "map": "cloud.yard_house",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/cloud/voxel/yard_house.json"},
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],
@@ -988,7 +1086,16 @@
             "size": "hall"
           }
         },
-        "props": [],
+        "props": [
+          ["blocked", "cloud.jiyuan", ["rel", 0.12799, 0.06719], 3.7647, 1.8823, "a couch for guests", {"look": {"kind": "couch", "cloth": "a8443a", "cushion": "c9a24e"}}],
+          ["blocked", "cloud.jiyuan", ["rel", 0.41523, 0.01719], 5.1764, 0.4705, "a painted screen", {"look": {"kind": "folding_screen", "cloth": "a8443a", "occludes": true}}],
+          ["blocked", "cloud.jiyuan", ["rel", 0.19182, 0.53385], 2.8235, 2.8235, {"look": {"kind": "square_table", "set": "wine", "stools": [[-0.38, 0], [0.38, 0]]}}],
+          ["blocked", "cloud.jiyuan", ["rel", 0.70246, 0.63385], 2.8235, 2.8235, {"look": {"kind": "square_table", "set": "tea", "stools": [[0, -0.38], [0, 0.38]]}}],
+          ["blocked", "cloud.jiyuan", ["rel", 0.02161, 0.73385], 0.9411, 0.9411, {"look": {"kind": "flower_stand", "flower": "e8a4b4"}}],
+          ["blocked", "cloud.jiyuan", ["rel", 0.97906, 0.86719], 0.9411, 0.9411, {"look": {"kind": "flower_stand", "flower": "f1e3bd"}}],
+          ["blocked", "cloud.jiyuan", ["rel", 0.91523, 0.70052], 2.8235, 1.8823, "the 鸨母's accounts", {"look": {"kind": "writing_desk", "rotation": -90, "cloth": "8a2f2a"}}],
+          ["blocked", "cloud.jiyuan", ["rel", 0.02161, 0.93385], 0.9411, 2.8235, "music for the guests", {"look": {"kind": "zither_table", "height": 0.7}}]
+        ],
         "placed": {},
         "doors": {
           "cloud.jiyuan.south": "south"
@@ -999,6 +1106,7 @@
         "style": "map",
         "root": "JiyuanHouse",
         "map": "cloud.jiyuan_house",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/cloud/voxel/jiyuan_house.json"},
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],
@@ -1056,7 +1164,30 @@
             "size": "large"
           }
         },
-        "props": [],
+        "props": [
+          ["blocked", "cloud.rich", ["rel", 0.48969, 0.61719], 4.7058, 0.4705, "影壁 just inside the gate", {"look": {"kind": "screen_wall", "text": "福", "height": 2.3}}],
+          ["blocked", "cloud.rich", ["rel", 0.0748, 0.11719], 1.4117, 1.4117, "太平缸 by the inner door", {"look": {"kind": "water_vat", "glaze": "5a4a3a", "lid": true}}],
+          ["blocked", "cloud.rich", ["rel", 0.92586, 0.11719], 1.4117, 1.4117, {"look": {"kind": "water_vat", "glaze": "5a4a3a", "lid": true}}],
+          ["blocked", "cloud.rich", ["rel", 0.12799, 0.46719], 3.7647, 1.8823, {"look": {"kind": "flower_bed", "flowers": ["e8a4b4", "d65a6a", "f1e3bd"]}}],
+          ["blocked", "cloud.rich", ["rel", 0.87267, 0.46719], 3.7647, 1.8823, {"look": {"kind": "flower_bed", "flowers": ["f1e3bd", "c47aa0", "e6c66e"]}}],
+          ["blocked", "cloud.rich", ["rel", 0.05352, 0.85052], 0.4705, 0.4705, {"look": {"kind": "tree", "species": "blossom", "size": [16, 16], "scale": 0.8}}],
+          ["blocked", "cloud.rich", ["rel", 0.94714, 0.85052], 0.4705, 0.4705, {"look": {"kind": "tree", "species": "locust", "size": [16, 16], "scale": 0.8}}],
+          ["blocked", "cloud.m_house", ["rel", 0.48758, 0.07752], 3.7647, 1.8823, "张百万's couch", {"look": {"kind": "couch", "cloth": "8a2f2a", "wood": "3d2a20", "panel": "6a4a34"}}],
+          ["blocked", "cloud.m_house", ["rel", 0.17989, 0.38522], 0.9411, 0.9411, {"look": {"kind": "chair", "rotation": 90, "wood": "3d2a20", "cloth": "8a2f2a"}}],
+          ["blocked", "cloud.m_house", ["rel", 0.17989, 0.57752], 0.9411, 0.9411, {"look": {"kind": "chair", "rotation": 90, "wood": "3d2a20", "cloth": "8a2f2a"}}],
+          ["blocked", "cloud.m_house", ["rel", 0.17989, 0.48137], 0.9411, 0.9411, {"look": {"kind": "square_table", "top": "3d2a20", "legs": "3d2a20", "set": "tea"}}],
+          ["blocked", "cloud.m_house", ["rel", 0.74399, 0.38522], 0.9411, 0.9411, {"look": {"kind": "chair", "rotation": -90, "wood": "3d2a20", "cloth": "8a2f2a"}}],
+          ["blocked", "cloud.m_house", ["rel", 0.74399, 0.57752], 0.9411, 0.9411, {"look": {"kind": "chair", "rotation": -90, "wood": "3d2a20", "cloth": "8a2f2a"}}],
+          ["blocked", "cloud.m_house", ["rel", 0.74399, 0.48137], 0.9411, 0.9411, {"look": {"kind": "square_table", "top": "3d2a20", "legs": "3d2a20", "set": "tea"}}],
+          ["blocked", "cloud.m_house", ["rel", 0.94912, 0.05829], 1.8823, 1.4117, "his strongbox", {"look": {"kind": "strongbox"}}],
+          ["blocked", "cloud.m_house", ["rel", 0.11579, 0.01983], 4.2352, 0.4705, {"look": {"kind": "folding_screen", "cloth": "b89548", "occludes": true}}],
+          ["blocked", "cloud.m_house", ["rel", 0.02604, 0.80829], 0.9411, 0.9411, {"look": {"kind": "flower_stand", "wood": "3d2a20", "flower": "f1e3bd"}}],
+          ["blocked", "cloud.m_house", ["rel", 0.8722, 0.80829], 2.8235, 1.8823, "the ledgers", {"look": {"kind": "writing_desk", "cloth": "8a2f2a"}}],
+          ["blocked", "cloud.rich", ["rel", 0.25565, 0.30052], 1.8823, 1.8823, {"look": {"kind": "stone_table", "chess": true}}],
+          ["blocked", "cloud.rich", ["rel", 0.36203, 0.06719], 0.9411, 0.9411, "stone lions at the inner door", {"look": {"kind": "stone_lion"}}],
+          ["blocked", "cloud.rich", ["rel", 0.5748, 0.06719], 0.9411, 0.9411, {"look": {"kind": "stone_lion"}}],
+          ["blocked", "cloud.m_house", ["rel", 0.02604, 0.30829], 0.9411, 2.8235, {"look": {"kind": "wardrobe", "rotation": 90, "wood": "3d2a20", "trim": "8d6744", "panel": "5a3a2a"}}]
+        ],
         "placed": {},
         "doors": {
           "cloud.rich.south": "south"
@@ -1067,6 +1198,7 @@
         "style": "map",
         "root": "RichHouse",
         "map": "cloud.rich_house",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/cloud/voxel/rich_house.json"},
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],
@@ -1105,7 +1237,15 @@
             "size": "large"
           }
         },
-        "props": [],
+        "props": [
+          ["blocked", "cloud.marry_room", ["rel", 0.48758, 0.05829], 3.7647, 1.4117, "marry_room.c: 缔结婚约 — the table where vows are made", {"look": {"kind": "ceremony_table"}}],
+          ["blocked", "cloud.marry_room", ["rel", 0.25681, 0.11599], 0.9411, 0.9411, {"look": {"kind": "chair", "wood": "6a3a2c", "cloth": "c0392b"}}],
+          ["blocked", "cloud.marry_room", ["rel", 0.66707, 0.11599], 0.9411, 0.9411, {"look": {"kind": "chair", "wood": "6a3a2c", "cloth": "c0392b"}}],
+          ["blocked", "cloud.marry_room", ["rel", 0.8722, 0.44291], 2.8235, 1.4117, "the register of matches", {"look": {"kind": "writing_desk", "rotation": -90, "cloth": "c0392b"}}],
+          ["blocked", "cloud.marry_room", ["rel", 0.07732, 0.78906], 1.8823, 1.4117, "betrothal gifts", {"look": {"kind": "travel_chest", "cloth": "c0392b"}}],
+          ["blocked", "cloud.marry_room", ["rel", 0.94912, 0.84675], 0.9411, 0.9411, {"look": {"kind": "flower_stand", "flower": "e8a4b4"}}],
+          ["blocked", "cloud.marry_room", ["rel", 0.23117, 0.73137], 2.8235, 2.8235, "where families sit to talk", {"look": {"kind": "square_table", "set": "tea", "stools": [[-0.38, 0], [0.38, 0]], "top": "8a3a2c"}}]
+        ],
         "placed": {},
         "doors": {
           "cloud.marry_room.south": "south"
@@ -1116,6 +1256,7 @@
         "style": "map",
         "root": "MarryHouse",
         "map": "cloud.marry_house",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/cloud/voxel/marry_house.json"},
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],
@@ -1154,7 +1295,15 @@
             "size": "large"
           }
         },
-        "props": [],
+        "props": [
+          ["blocked", "cloud.monky", ["rel", 0.8722, 0.09675], 2.8235, 2.3529, "the alms kitchen's great pot", {"look": {"kind": "cauldron"}}],
+          ["blocked", "cloud.monky", ["rel", 0.74399, 0.03906], 0.9411, 0.9411, {"look": {"kind": "firewood", "layers": 4}}],
+          ["blocked", "cloud.monky", ["rel", 0.23117, 0.5006], 4.7058, 1.8823, "long tables where the poor eat", {"look": {"kind": "table"}}],
+          ["blocked", "cloud.monky", ["rel", 0.23117, 0.80829], 4.7058, 1.8823, {"look": {"kind": "table"}}],
+          ["blocked", "cloud.monky", ["rel", 0.15425, 0.03906], 3.7647, 0.9411, "a small altar", {"look": {"kind": "altar_table"}}],
+          ["blocked", "cloud.monky", ["rel", 0.92348, 0.86599], 2.8235, 1.4117, {"look": {"kind": "grain_sacks", "cloth": "b29d69"}}],
+          ["blocked", "cloud.monky", ["rel", 0.96194, 0.32752], 1.4117, 1.4117, {"look": {"kind": "water_vat"}}]
+        ],
         "placed": {},
         "doors": {
           "cloud.monky.north": "north"
@@ -1165,6 +1314,7 @@
         "style": "map",
         "root": "MonkyHouse",
         "map": "cloud.monky_house",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/cloud/voxel/monky_house.json"},
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],
@@ -1204,7 +1354,14 @@
           }
         },
         "props": [
-          ["blocked", "cloud.tailory", ["rel", 0.5, 0.969], 3.76, 0.5]
+          ["blocked", "cloud.tailory", ["rel", 0.19271, 0.03906], 6.1176, 0.9411, "bolts of every colour", {"look": {"kind": "cloth_shelf", "occludes": true}}],
+          ["blocked", "cloud.tailory", ["rel", 0.76963, 0.03906], 6.5882, 0.9411, {"look": {"kind": "cloth_shelf", "occludes": true}}],
+          ["blocked", "cloud.tailory", ["rel", 0.25681, 0.5006], 3.7647, 1.8823, "the tailor's cutting table", {"look": {"kind": "cutting_table", "cloth": "3d5a7a"}}],
+          ["blocked", "cloud.tailory", ["rel", 0.8722, 0.46214], 2.8235, 0.9411, {"look": {"kind": "clothes_rack", "cloth": "8a3a3a", "occludes": true}}],
+          ["blocked", "cloud.tailory", ["rel", 0.8722, 0.69291], 2.8235, 0.9411, {"look": {"kind": "clothes_rack", "cloth": "3d5a7a", "occludes": true}}],
+          ["blocked", "cloud.tailory", ["rel", 0.07732, 0.71214], 1.8823, 1.4117, "a mirror for fittings", {"look": {"kind": "dressing_table", "rotation": 90, "cloth": "8a6a45"}}],
+          ["blocked", "cloud.tailory", ["rel", 0.94912, 0.86599], 1.8823, 0.4705, {"look": {"kind": "folding_screen", "cloth": "617c86"}}],
+          ["blocked", "cloud.tailory", ["rel", 0.48758, 0.96214], 3.7647, 0.9411, "the counter", {"look": {"kind": "shop_counter", "goods": "cloth", "rotation": 180, "cloth": "3d5a7a"}}]
         ],
         "placed": {},
         "doors": {
@@ -1216,6 +1373,7 @@
         "style": "map",
         "root": "TailoryHouse",
         "map": "cloud.tailory_house",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/cloud/voxel/tailory_house.json"},
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],
@@ -1259,7 +1417,23 @@
             "size": "room"
           }
         },
-        "props": [],
+        "props": [
+          ["blocked", "cloud.tearoom", ["rel", 0.20246, 0.03385], 7.0588, 0.9411, "jars of every tea the house sells", {"look": {"kind": "tea_shelf", "occludes": true}}],
+          ["blocked", "cloud.tearoom", ["rel", 0.19182, 0.21719], 5.647, 1.4117, "the tea counter", {"look": {"kind": "shop_counter", "goods": "tea", "rotation": 180, "wood": "6a4a34", "cloth": "4f6f5a"}}],
+          ["blocked", "cloud.tearoom", ["rel", 0.39395, 0.05052], 1.4117, 1.4117, "water always on the boil", {"look": {"kind": "tea_stove"}}],
+          ["blocked", "cloud.tearoom", ["rel", 0.19182, 0.76719], 2.8235, 2.8235, "tea tables (茶楼的生意出奇的好)", {"look": {"kind": "square_table", "set": "tea", "stools": [[-0.38, 0], [0.38, 0], [0, 0.38]]}}],
+          ["blocked", "cloud.tearoom", ["rel", 0.70246, 0.76719], 2.8235, 2.8235, {"look": {"kind": "square_table", "set": "tea", "stools": [[-0.38, 0], [0.38, 0], [0, 0.38]], "teapot": "8b5440"}}],
+          ["blocked", "cloud.tearoom", ["rel", 0.70246, 0.43385], 2.8235, 2.8235, {"look": {"kind": "square_table", "set": "tea", "stools": [[-0.38, 0], [0.38, 0], [0, -0.38]]}}],
+          ["blocked", "cloud.tearoom", ["rel", 0.34076, 0.40052], 2.8235, 2.8235, {"look": {"kind": "square_table", "set": "tea", "stools": [[-0.38, 0], [0, 0.38]], "teapot": "5d7f78"}}],
+          ["blocked", "cloud.tearoom", ["rel", 0.89395, 0.76719], 2.8235, 2.8235, {"look": {"kind": "square_table", "set": "tea", "stools": [[0, -0.38], [0, 0.38]]}}],
+          ["blocked", "cloud.tearoom", ["rel", 0.97906, 0.30052], 0.9411, 0.9411, {"look": {"kind": "flower_stand", "flower": "f1e3bd"}}],
+          ["blocked", "cloud.tearoom", ["rel", 0.17055, 0.96719], 3.7647, 0.9411, {"look": {"kind": "bench_seat", "cloth": "4f6f5a"}}],
+          ["blocked", "cloud.tea_corridor", ["rel", 0.26719, 0.09162], 5.647, 1.8823, "tea_corridor.c: 几个大竹箩，里面装满了茶叶", {"look": {"kind": "tea_baskets", "count": 3}}],
+          ["blocked", "cloud.tea_corridor", ["rel", 0.76719, 0.09162], 4.7058, 1.8823, {"look": {"kind": "tea_baskets", "count": 2}}],
+          ["blocked", "cloud.tea_corridor", ["rel", 0.03385, 0.56889], 0.9411, 4.2352, {"look": {"kind": "tea_shelf", "rotation": 90, "occludes": true}}],
+          ["blocked", "cloud.tea_corridor", ["rel", 0.93385, 0.75071], 1.8823, 2.3529, {"look": {"kind": "grain_sacks", "cloth": "a68a55"}}],
+          ["blocked", "cloud.tea_corridor", ["rel", 0.30052, 0.63707], 2.8235, 1.8823, {"look": {"kind": "tea_baskets", "count": 2, "leaves": ["3f4a2c", "4f5a32", "5c6b38"]}}]
+        ],
         "placed": {},
         "doors": {
           "cloud.tearoom.west": "west",
@@ -1271,6 +1445,7 @@
         "style": "map",
         "root": "TearoomHouse",
         "map": "cloud.tearoom_house",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/cloud/voxel/tearoom_house.json"},
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],
@@ -1352,7 +1527,14 @@
           }
         },
         "props": [
-          ["blocked", "cloud.weapony", ["rel", 0.95, 0.5], 0.5, 2.82]
+          ["blocked", "cloud.weapony", ["rel", 0.42348, 0.01983], 8.9411, 0.4705, "every kind of weapon (专卖各式兵器)", {"look": {"kind": "weapon_rack", "occludes": true}}],
+          ["blocked", "cloud.weapony", ["rel", 0.01322, 0.84675], 0.4705, 3.7647, {"look": {"kind": "weapon_rack", "rotation": 90, "occludes": true}}],
+          ["blocked", "cloud.weapony", ["rel", 0.79527, 0.03906], 0.9411, 0.9411, {"look": {"kind": "armor_stand"}}],
+          ["blocked", "cloud.weapony", ["rel", 0.8722, 0.03906], 0.9411, 0.9411, {"look": {"kind": "armor_stand", "scales": "7a6a5a", "shield": "5a4a3a"}}],
+          ["blocked", "cloud.weapony", ["rel", 0.94912, 0.5006], 0.9411, 2.8235, "the counter", {"look": {"kind": "shop_counter", "goods": "blades", "rotation": -90, "wood": "5a4433", "cloth": "5a5a52"}}],
+          ["blocked", "cloud.weapony", ["rel", 0.46194, 0.71214], 3.7647, 1.4117, "blades laid out to be tried", {"look": {"kind": "shop_counter", "goods": "blades", "wood": "6a4c33", "cloth": "6a3a2e"}}],
+          ["blocked", "cloud.weapony", ["rel", 0.97476, 0.88522], 0.9411, 2.8235, {"look": {"kind": "weapon_rack", "rotation": -90, "occludes": true}}],
+          ["blocked", "cloud.weapony", ["rel", 0.15425, 0.26983], 0.9411, 0.9411, "a post to try a blade on", {"look": {"kind": "training_post"}}]
         ],
         "placed": {},
         "doors": {
@@ -1364,6 +1546,7 @@
         "style": "map",
         "root": "WeaponyHouse",
         "map": "cloud.weapony_house",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/cloud/voxel/weapony_house.json"},
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],
@@ -1403,7 +1586,12 @@
           }
         },
         "props": [
-          ["blocked", "cloud.zaihuoy", ["rel", 0.333, 0.958], 3.76, 0.5]
+          ["blocked", "cloud.zaihuoy", ["rel", 0.19271, 0.03906], 6.1176, 0.9411, "shelves of everything", {"look": {"kind": "sundry_shelf", "occludes": true}}],
+          ["blocked", "cloud.zaihuoy", ["rel", 0.75681, 0.03906], 5.1764, 0.9411, {"look": {"kind": "sundry_shelf", "occludes": true}}],
+          ["blocked", "cloud.zaihuoy", ["rel", 0.02604, 0.42368], 0.9411, 5.647, {"look": {"kind": "sundry_shelf", "rotation": 90, "occludes": true}}],
+          ["blocked", "cloud.zaihuoy", ["rel", 0.30809, 0.92368], 3.7647, 0.9411, "the counter", {"look": {"kind": "shop_counter", "goods": "coins", "rotation": 180, "wood": "6a4a34", "cloth": "8a7044"}}],
+          ["blocked", "cloud.zaihuoy", ["rel", 0.76963, 0.86599], 3.7647, 1.4117, {"look": {"kind": "grain_sacks", "cloth": "bdaa7b"}}],
+          ["blocked", "cloud.zaihuoy", ["rel", 0.07732, 0.80829], 1.8823, 1.8823, {"look": {"kind": "wine_jars", "count": 4}}]
         ],
         "placed": {},
         "doors": {
@@ -1416,6 +1604,7 @@
         "style": "map",
         "root": "ZaihuoyHouse",
         "map": "cloud.zaihuoy_house",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/cloud/voxel/zaihuoy_house.json"},
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],

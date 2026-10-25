@@ -1,0 +1,21 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 16,
+  "palette": {"wood": ["6e5643", "775d48", "6a513f"], "wall": "b19a7c"},
+  "props": [
+    {"kind": "stairwell", "at": [192, 192], "size": [48, 48]},
+    {"kind": "hanging_lantern", "at": [80, 112], "flicker": 0.08, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [176, 112], "flicker": 0.08, "paper": "d8452f:glow"},
+    {"kind": "rug", "at": [128, 112], "size": [176, 128], "cloth": "6a2a24", "border": "b89548", "motif": "c9a35e"},
+    {"kind": "stains", "at": [160, 150], "size": [64, 48], "count": 3, "colors": ["5a3a2a", "6a4a2a"]},
+    {"kind": "window", "at": [128, 18], "size": [64, 16], "rotation": 0},
+    {"kind": "clutter", "at": [200, 140], "size": [48, 32], "items": ["jar", "cups"], "rotation": 0}
+  ],
+  "actors": {
+    "default": {"coat": "7d7a62"}
+  },
+  "entrances": {
+    "cloud.duchang2.down": {"title": "楼梯 · 下楼", "label_height": 1.5, "floor_guides": false}
+  }
+}

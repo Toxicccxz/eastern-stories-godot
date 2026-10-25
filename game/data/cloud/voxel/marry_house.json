@@ -1,0 +1,26 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 23,
+  "palette": {"wood": ["8a5a44", "93624a", "7d523e"], "wall": "d8cbb6"},
+  "props": [
+    {"kind": "sign", "at": [-16, -206], "size": [48, 16], "text": "囍", "wall_mounted": true, "board": "c0392b", "letters": "efcd6c:glow", "height": 2.3, "tall": 0.8},
+    {"kind": "sign", "at": [-240, -206], "size": [96, 16], "text": "缔结或解除婚约", "wall_mounted": true, "board": "262220", "letters": "e6c66e", "wrap": true, "tall": 0.7, "pixel_size": 0.0048},
+    {"kind": "prayer_cushion", "at": [-56, -112], "size": [32, 32], "cloth": "c0392b"},
+    {"kind": "prayer_cushion", "at": [24, -112], "size": [32, 32], "cloth": "c0392b"},
+    {"kind": "runner", "at": [-16, 40], "size": [320, 48], "rotation": 90},
+    {"kind": "hanging_lantern", "at": [-176, -60], "flicker": 0.06, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [144, -60], "flicker": 0.06, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [-16, 120], "flicker": 0.06, "paper": "d8452f:glow"},
+    {"kind": "pot", "at": [-288, -176]},
+    {"kind": "pot", "at": [272, -176]},
+    {"kind": "window", "at": [-318, -40], "size": [72, 16], "rotation": 90},
+    {"kind": "lantern_string", "at": [-320, -60], "points": [[-320, -60, 2.8], [304, -60, 2.8]], "sag": 0.25},
+    {"kind": "clutter", "at": [-280, 176], "size": [64, 32], "items": ["bundle", "bundle", "jar"], "rotation": 0},
+    {"kind": "clutter", "at": [200, 176], "size": [64, 32], "items": ["cups", "basket"], "rotation": 0}
+  ],
+  "actors": {
+    "default": {"coat": "7d7a62"},
+    "cloud.npc.mei_po": {"coat": "b0392b"}
+  }
+}
