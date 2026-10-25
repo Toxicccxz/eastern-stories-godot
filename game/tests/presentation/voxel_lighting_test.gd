@@ -110,7 +110,11 @@ func _check_profiles(tree: SceneTree) -> void:
 		and is_equal_approx(desktop.sun_shadow_distance,80.0) and desktop.lamp_shadow_limit<0 and is_equal_approx(desktop.foliage_density,1.0),"the desktop profile is the full look")
 	_check(VoxelRenderQuality.current().name=="desktop","a desktop build picks the desktop profile")
 	var mobile := VoxelRenderQuality.named("mobile")
-	_check(mobile.msaa==Viewport.MSAA_DISABLED and mobile.scale_3d<1.0 and mobile.sun_shadow_splits<4 and mobile.lamp_shadow_limit>0 and mobile.foliage_density<1.0,"the phone profile draws less")
+	_check(mobile.msaa==Viewport.MSAA_DISABLED and mobile.scale_3d<1.0 and mobile.sun_shadow_splits<4 and mobile.lamp_shadow_limit>=0 and mobile.lamp_light_limit>=0
+		and mobile.merged_batches and mobile.foliage_density<1.0,"the phone profile draws less")
+	# The limits' mechanics, whatever numbers the profile ships with.
+	mobile.lamp_shadow_limit = 2
+	mobile.lamp_light_limit = 4
 	var world := Node3D.new()
 	tree.root.add_child(world)
 	for i: int in 12:
@@ -125,22 +129,29 @@ func _check_profiles(tree: SceneTree) -> void:
 	lighting.set_night(true,true)
 	_check(lighting.sun.directional_shadow_mode==mobile.sun_shadow_mode() and is_equal_approx(lighting.sun.directional_shadow_max_distance,mobile.sun_shadow_distance),"the phone sun uses the profile's cascades")
 	var capped: bool = true
-	var lit: bool = true
+	var lit_capped: bool = true
 	var smooth: bool = true
+	var steady_light: bool = true
 	var previous: Dictionary[Light3D, float] = {}
+	var previous_energy: Dictionary[Light3D, float] = {}
 	for step: int in 120:
 		lighting.advance(1.0/30.0,Vector3(-4.0+step*0.1,0,2))
 		var shadowed: int = 0
+		var lit: int = 0
 		for lamp: Light3D in lighting.lamps:
 			shadowed += int(lamp.shadow_enabled)
-			lit = lit and lamp.visible and is_equal_approx(lamp.light_energy,2.0)
+			lit += int(lamp.visible)
 			var opacity: float = lamp.shadow_opacity if lamp.shadow_enabled else 0.0
 			smooth = smooth and absf(opacity-previous.get(lamp,opacity))<0.1
 			previous[lamp] = opacity
+			steady_light = steady_light and absf(lamp.light_energy-previous_energy.get(lamp,lamp.light_energy))<0.2
+			previous_energy[lamp] = lamp.light_energy
 		capped = capped and shadowed<=mobile.lamp_shadow_limit
+		lit_capped = lit_capped and lit<=mobile.lamp_light_limit
 	_check(capped,"on a phone only the profile's nearest lamps cast shadows")
-	_check(lit,"every lamp still lights at its authored brightness on a phone")
+	_check(lit_capped,"outdoors on a phone only the profile's nearest lamps light")
 	_check(smooth,"a phone lamp's shadow fades in and out instead of popping")
+	_check(steady_light,"a phone lamp's light fades in and out instead of popping")
 	for i: int in 30:
 		lighting.advance(0.05,Vector3(2,0,2))
 	var settled: int = 0
@@ -158,7 +169,27 @@ func _check_profiles(tree: SceneTree) -> void:
 		if near==null or lamp.position.distance_to(Vector3(2,2,2))<near.position.distance_to(Vector3(2,2,2)):
 			near = lamp
 	_check(near.shadow_enabled and is_equal_approx(near.shadow_opacity,1.0),"the lamp beside the player casts its full shadow on a phone")
+	_check(near.visible and is_equal_approx(near.light_energy,2.0),"the lamp beside the player lights at its authored brightness on a phone")
 	world.free()
+	var room := Node3D.new()
+	tree.root.add_child(room)
+	for i: int in 6:
+		var candle := OmniLight3D.new()
+		candle.position = Vector3(i*2.0,2.0,0)
+		candle.light_energy = 0.5
+		candle.set_meta("night_energy",2.0)
+		room.add_child(candle)
+	var inside := VoxelLighting.new()
+	inside.quality = mobile
+	inside.build(room,VoxelOcclusion.new(),true)
+	inside.set_night(true,true)
+	for i: int in 20:
+		inside.advance(0.05,Vector3.ZERO)
+	var every: bool = true
+	for lamp: Light3D in inside.lamps:
+		every = every and lamp.visible and is_equal_approx(lamp.light_energy,2.0)
+	_check(every,"indoors on a phone every lamp still lights")
+	room.free()
 	var foliage := VoxelFoliage.new()
 	foliage.density = 0.5
 	tree.root.add_child(foliage)
@@ -172,6 +203,52 @@ func _check_profiles(tree: SceneTree) -> void:
 			drawn += (child as MultiMeshInstance3D).multimesh.instance_count
 	_check(drawn==5 and foliage.roots.size()==10,"a half-density meadow draws every other tuft and keeps every root")
 	foliage.free()
+	_check_merged_batches(tree)
+
+## The phone profile's batching: plain colours share one batch with a colour per instance,
+## every caster's shadow is one shadow-only batch, special materials keep their own.
+func _check_merged_batches(tree: SceneTree) -> void:
+	var holder := Node3D.new()
+	tree.root.add_child(holder)
+	var shapes := Shapes.new()
+	shapes.merged = true
+	for i: int in 3:
+		shapes.box(holder,Vector3(i,0,0),Vector3.ONE,["91836a","4f6b47","c9a37a"][i])
+	shapes.box(holder,Vector3(0,1,0),Vector3.ONE,"527581:gloss")
+	shapes.window(holder,Vector3(1,1,0),Vector3(0.5,0.5,0.1))
+	var fixture := Node3D.new()
+	fixture.set_meta("light_fixture",true)
+	holder.add_child(fixture)
+	shapes.box(fixture,Vector3(2,1,0),Vector3.ONE,"993f35")
+	shapes.flush()
+	var tinted: Array[MultiMeshInstance3D] = []
+	var shadows: Array[MultiMeshInstance3D] = []
+	var own: Array[MultiMeshInstance3D] = []
+	for child: Node in holder.get_children():
+		var batch := child as MultiMeshInstance3D
+		if batch==null:
+			continue
+		if batch.cast_shadow==GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY:
+			shadows.append(batch)
+		elif batch.multimesh.use_colors:
+			tinted.append(batch)
+		else:
+			own.append(batch)
+	var colours: Array[Color] = []
+	if tinted.size()==1:
+		for i: int in tinted[0].multimesh.instance_count:
+			colours.append(tinted[0].multimesh.get_instance_color(i))
+	# The headless dummy renderer does not keep instance colours.
+	var coloured: bool = DisplayServer.get_name()=="headless" or colours.has(Color("4f6b47").srgb_to_linear())
+	_check(tinted.size()==1 and colours.size()==3 and coloured and (tinted[0].material_override as StandardMaterial3D).vertex_color_use_as_albedo
+		and tinted[0].cast_shadow==GeometryInstance3D.SHADOW_CASTING_SETTING_OFF,"three plain colours draw as one batch, each box in its own colour")
+	_check(own.size()==2 and own.all(func(b: MultiMeshInstance3D) -> bool: return b.cast_shadow==GeometryInstance3D.SHADOW_CASTING_SETTING_OFF),
+		"the glossy colour and the night window keep their own materials, their shadows drawn elsewhere")
+	_check(shadows.size()==1 and shadows[0].multimesh.instance_count==5,"every caster's shadow is one shadow-only batch, whatever its colour")
+	var lamp_batch := fixture.get_child(0) as MultiMeshInstance3D
+	_check(fixture.get_child_count()==1 and not lamp_batch.multimesh.use_colors and lamp_batch.cast_shadow==GeometryInstance3D.SHADOW_CASTING_SETTING_OFF,
+		"a lantern housing keeps its own unshadowed batch")
+	holder.free()
 
 func _check(ok: bool, label: String) -> void:
 	assertions += 1

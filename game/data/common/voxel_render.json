@@ -7,16 +7,20 @@
 		"sun_shadow_distance": 80,
 		"lamp_shadow_limit": -1,
 		"lamp_shadow_reach": 0,
+		"lamp_light_limit": -1,
+		"merged_batches": false,
 		"foliage_density": 1.0
 	},
 	"mobile": {
 		"msaa": 0,
 		"scale_3d": 0.67,
 		"upscale": "bilinear",
-		"sun_shadow_splits": 2,
+		"sun_shadow_splits": 1,
 		"sun_shadow_distance": 60,
-		"lamp_shadow_limit": 2,
+		"lamp_shadow_limit": 0,
 		"lamp_shadow_reach": 9,
+		"lamp_light_limit": 2,
+		"merged_batches": true,
 		"foliage_density": 0.5
 	}
 }

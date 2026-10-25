@@ -20,6 +20,11 @@ var sun_shadow_distance: float = 80.0
 ## the player within `lamp_shadow_reach` (world units).
 var lamp_shadow_limit: int = -1
 var lamp_shadow_reach: float = 0.0
+## Outdoor lamps that light at all: -1 every lamp; otherwise the N nearest the player.
+var lamp_light_limit: int = -1
+## Plain colours share batches (a colour per instance) and shadow casters share shadow-only
+## batches whatever their colour: far fewer draws for the same picture.
+var merged_batches: bool = false
 ## The share of meadow tufts drawn (1 every tuft).
 var foliage_density: float = 1.0
 
@@ -41,6 +46,8 @@ static func named(profile: String) -> VoxelRenderQuality:
 	quality.sun_shadow_distance = float(settings["sun_shadow_distance"])
 	quality.lamp_shadow_limit = int(settings["lamp_shadow_limit"])
 	quality.lamp_shadow_reach = float(settings["lamp_shadow_reach"])
+	quality.lamp_light_limit = int(settings["lamp_light_limit"])
+	quality.merged_batches = bool(settings["merged_batches"])
 	quality.foliage_density = float(settings["foliage_density"])
 	return quality
 

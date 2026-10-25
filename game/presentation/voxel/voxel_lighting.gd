@@ -4,7 +4,8 @@ extends RefCounted
 ## A presentation-only day/night blend. It never advances the authored game clock.
 const LAMP_FADE_BEGIN: float = 18.0
 const LAMP_FADE_END: float = 26.0
-## Seconds a lamp's shadow takes to fade in or out where only the nearest lamps cast one.
+## Seconds a lamp's light or shadow takes to fade in or out where only the nearest lamps
+## light or cast one.
 const LAMP_SHADOW_FADE: float = 0.4
 var environment: Environment
 var sun: DirectionalLight3D
@@ -90,6 +91,7 @@ func set_night(enabled: bool, immediate: bool = false) -> void:
 
 func advance(delta: float, player: Vector3) -> void:
 	_player = player
+	_limit_lamps(delta)
 	if carried != null:
 		carried.position = player+Vector3(0.3,1.9,0.3)
 	if not is_equal_approx(amount,target):
@@ -133,6 +135,30 @@ func _shade(lamp: Light3D, wanted: float, delta: float) -> void:
 	if lamp.shadow_enabled!=(opacity>0.0):
 		lamp.shadow_enabled = opacity>0.0
 
+## Outdoors, a profile with a lamp light limit (phones) lights only the nearest lamps: each
+## lamp's meta `presence` (0..1) scales its energy, and a light changing hands fades out
+## before the next fades in. Rooms keep every lamp.
+func _limit_lamps(delta: float) -> void:
+	if quality.lamp_light_limit<0 or indoor:
+		return
+	var order: Array[Light3D] = []
+	for lamp: Light3D in lamps:
+		if lamp!=carried:
+			order.append(lamp)
+	order.sort_custom(func(a: Light3D,b: Light3D) -> bool: return _planar_distance(a)<_planar_distance(b))
+	var near: Array[Light3D] = order.slice(0,quality.lamp_light_limit)
+	var lit: int = 0
+	for lamp: Light3D in order:
+		if not lamp in near:
+			lamp.set_meta("presence",move_toward(float(lamp.get_meta("presence",0.0)),0.0,delta/LAMP_SHADOW_FADE))
+		if float(lamp.get_meta("presence",0.0))>0.0:
+			lit += 1
+	for lamp: Light3D in near:
+		var presence: float = float(lamp.get_meta("presence",0.0))
+		if presence>0.0 or lit<quality.lamp_light_limit:
+			lit += int(is_zero_approx(presence))
+			lamp.set_meta("presence",move_toward(presence,1.0,delta/LAMP_SHADOW_FADE))
+
 func _planar_distance(lamp: Light3D) -> float:
 	var offset: Vector3 = lamp.global_position-_player
 	return Vector2(offset.x,offset.z).length()
@@ -143,7 +169,7 @@ func _apply_lamps(blend: float) -> void:
 		if not indoor:
 			var offset: Vector3 = lamp.global_position-_player
 			fade = 1.0-smoothstep(LAMP_FADE_BEGIN,LAMP_FADE_END,Vector2(offset.x,offset.z).length())
-		var energy: float = lerpf(float(lamp.get_meta("day_energy")),float(lamp.get_meta("night_energy")),blend)*fade
+		var energy: float = lerpf(float(lamp.get_meta("day_energy")),float(lamp.get_meta("night_energy")),blend)*fade*float(lamp.get_meta("presence",1.0))
 		if lamp.has_meta("flicker"):
 			var phase: float = lamp.global_position.x*3.1+lamp.global_position.z*1.7
 			energy *= 1.0+float(lamp.get_meta("flicker"))*(sin(_clock*13.0+phase)*0.5+sin(_clock*7.3+phase*2.0)*0.35+sin(_clock*29.0)*0.15)

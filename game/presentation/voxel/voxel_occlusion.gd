@@ -39,7 +39,8 @@ func register(root: Node3D) -> void:
 			continue
 		var mesh := node as GeometryInstance3D
 		var original := mesh.material_override as StandardMaterial3D
-		if original == null:
+		# A merged batch's shadow-only caster (VoxelShapes) keeps casting as it is.
+		if original == null or mesh.cast_shadow == GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY:
 			continue
 		var emission: Color = original.emission*original.emission_energy_multiplier if original.emission_enabled else Color.BLACK
 		var key: String = original.albedo_color.to_html()+str(original.vertex_color_use_as_albedo)+emission.to_html()+str(original.get_meta("night_only",false))
