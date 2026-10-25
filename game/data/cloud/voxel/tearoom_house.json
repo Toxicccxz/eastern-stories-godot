@@ -1,0 +1,32 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 24,
+  "palette": {"wood": ["7d5f45", "86684b", "8f7050"], "wall": "cbc4ac"},
+  "props": [
+    {"kind": "sign", "at": [192, -30], "size": [192, 16], "text": "香茗坊", "wall_mounted": true, "board": "2b2520", "letters": "efcd6c:glow", "height": 2.65, "tall": 0.75, "frame": "c9a24e", "pixel_size": 0.009},
+    {"kind": "sign", "at": [192, -30], "size": [96, 16], "text": "御赐亲笔", "wall_mounted": true, "board": "2b2520", "letters": "e6c66e", "height": 2.0, "tall": 0.3, "pixel_size": 0.004},
+    {"kind": "stairs", "at": [304, 24], "size": [64, 48], "rotation": -90},
+    {"kind": "hanging_lantern", "at": [-240, 200], "flicker": 0.06, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [144, 176], "flicker": 0.06, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [-16, 320], "flicker": 0.06, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [288, 336], "flicker": 0.06, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [-240, 360], "flicker": 0.06, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [-16, -280], "flicker": 0.08},
+    {"kind": "runner", "at": [-16, 220], "size": [400, 48], "rotation": 90},
+    {"kind": "pot", "at": [336, 416]},
+    {"kind": "pot", "at": [-352, 160]},
+    {"kind": "window", "at": [-382, 360], "size": [72, 16], "rotation": 90},
+    {"kind": "window", "at": [-382, 80], "size": [72, 16], "rotation": 90},
+    {"kind": "cobweb", "at": [200, -440], "size": [32, 16], "elevation": 2.6},
+    {"kind": "clutter", "at": [-60, 40], "size": [64, 32], "items": ["jar", "basket"], "rotation": 0},
+    {"kind": "clutter", "at": [-370, 260], "size": [32, 32], "items": ["umbrella", "umbrella"], "rotation": 0},
+    {"kind": "clutter", "at": [320, 220], "size": [64, 32], "items": ["cups", "jar"], "rotation": 0},
+    {"kind": "clutter", "at": [-120, -400], "size": [64, 32], "items": ["basket", "bucket", "broom"], "rotation": 0},
+    {"kind": "clutter", "at": [120, -300], "size": [64, 32], "items": ["jar", "jar"], "rotation": 0}
+  ],
+  "actors": {
+    "default": {"coat": "7d7a62"},
+    "cloud.npc.tea_waiter": {"coat": "5d7f78"}
+  }
+}

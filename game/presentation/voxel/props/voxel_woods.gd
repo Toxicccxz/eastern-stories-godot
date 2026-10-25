@@ -20,7 +20,7 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 	root = parent
 	data = look
 	match String(look["kind"]):
-		"great_pine": _great_pine()
+		"great_pine", "great_tree": _great_pine()
 		"pine_trunk": _pine_trunk()
 		"needle_pad": _needle_pad(w,d)
 		"mossy_rock": _mossy_rock(w,d)
@@ -71,7 +71,8 @@ func _mesh_node(mesh: Mesh, material: Material) -> MeshInstance3D:
 
 ## 巨松: the great pine in the clearing, 像平地上撑起一把大伞 — a trunk wide as a hut, roots
 ## gripping the ground, and limbs holding a broad, dark umbrella of needles over it all.
-## `height` to the canopy, `canopy` its radius (units).
+## `height` to the canopy, `canopy` its radius (units), `roots` how far its roots spread (a
+## factor); `great_tree` is the same form in other colours (a crossroad's old 槐).
 func _great_pine() -> void:
 	var height: float = float(data.get("height",9.0))
 	var radius: float = float(data.get("canopy",7.0))
@@ -80,7 +81,7 @@ func _great_pine() -> void:
 	_trunk_column(0.0,height*0.92,trunk,bark)
 	for i: int in 8:
 		var a: float = i*TAU/8.0+0.3
-		var reach: float = rng.randf_range(1.6,2.6)
+		var reach: float = rng.randf_range(1.6,2.6)*float(data.get("roots",1.0))
 		_beam(Vector3(cos(a)*trunk*0.6,0.5,sin(a)*trunk*0.6),Vector3(cos(a)*(trunk+reach),0.06,sin(a)*(trunk+reach)),0.42-i%2*0.1,_pick(bark))
 		s.shard(root,Vector3(cos(a)*(trunk+reach*0.7),0.12,sin(a)*(trunk+reach*0.7)),Vector3(0.5,0.12,0.4),String(data.get("moss","56713f")),i,a)
 	# The great limbs, then the canopy they hold up: a flattened dome with drooping edges.
@@ -105,6 +106,10 @@ func _great_pine() -> void:
 		crown.ellipsoid(edge,Vector3(radius*0.2,0.5,radius*0.19),greens,i+9)
 		var drop: Vector3 = edge+Vector3(rng.randf_range(-0.4,0.4),-0.6,rng.randf_range(-0.4,0.4))
 		s.box(root,drop,Vector3(0.16,0.26,0.16),String(data.get("cone","7a5232")))
+		if data.has("blossoms"):
+			# Hanging sprays of flowers under the rim (a 槐's white blossom).
+			for spray: int in 3:
+				s.box(root,drop+Vector3(rng.randf_range(-0.6,0.6),-0.15-spray*0.12,rng.randf_range(-0.6,0.6)),Vector3(0.12,0.3,0.12),String(data["blossoms"]))
 	_mesh_node(crown.mesh(),tree_shapes.material())
 	# Needles and cones fallen round its foot, roots and all.
 	for i: int in 26:

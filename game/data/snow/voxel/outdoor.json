@@ -12,6 +12,7 @@
     "blossom_trees": 0.38,
     "tree_types": ["pine", "broadleaf", "broadleaf", "slender", "shrub"],
     "areas": [
+      {"rect": [-320, 720, 320, 1240], "blossom_trees": 0.12, "tree_types": ["pine", "broadleaf", "broadleaf", "tall_pine", "slender"], "tree_chance": 0.4, "grass_density": 0.66, "ground": ["5f7a46", "68804a", "728750"], "note": "sroad1's south end: the town gives way to 卧龙岗's wooded slopes (u/cloud/dragonhill/nroad.c)"},
       {"rect": [1248, 760, 1640, 1200], "blossom_trees": 0.04, "tree_types": ["tall_pine", "pine", "old_pine", "tall_pine", "broadleaf"], "tree_chance": 0.5, "grass_density": 0.6, "ground": ["4f6a3e", "586f42", "617646"], "note": "eroad3's south end: the pines of 老松林 begin (npath1.c: 小路两旁长满了许多高耸的松树)"}
     ],
     "zones": {
@@ -19,7 +20,7 @@
       "snow.mstreet4": {"margin": 32, "blossom_trees": 0.08, "tree_types": ["slender", "shrub"], "grass_density": 0.55, "flower_threshold": 0.24, "ground": ["627d4c", "6c844e", "768b52"]}
     }
   },
-  "exit_trails": {"snow.eroad3.south": 8, "note": "the forest path runs on south into 老松林"},
+  "exit_trails": {"snow.eroad3.south": 8, "snow.sroad1.south": 10, "note": "the forest path runs on south into 老松林; the 黄土路 south over 卧龙岗 to 绮云镇"},
   "cliffs": {
     "low": 0.8,
     "high": 2.6,

@@ -1,0 +1,28 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 23,
+  "palette": {"wood": ["8d7555", "99815e", "a58c66"], "wall": "c9c6b2"},
+  "props": [
+    {"kind": "sign", "at": [32, -206], "size": [28, 16], "text": "书", "wall_mounted": true, "board": "262220", "letters": "e6d6a0"},
+    {"kind": "window", "at": [-318, 128], "size": [72, 16], "rotation": 90},
+    {"kind": "hanging_lantern", "at": [-176, -40], "flicker": 0.06},
+    {"kind": "hanging_lantern", "at": [144, -40], "flicker": 0.06},
+    {"kind": "hanging_lantern", "at": [-16, 96], "flicker": 0.06},
+    {"kind": "rug", "at": [-16, 40], "size": [128, 224], "cloth": "4f6f7a", "border": "c8c0a0", "motif": "a8b4a8"},
+    {"kind": "wall_scroll", "at": [-300, 120], "size": [40, 8], "calligraphy": true, "rotation": 90, "wall_mounted": true},
+    {"kind": "slippers", "at": [-176, 120], "rotation": 8, "cloth": "6a5a4a"},
+    {"kind": "pot", "at": [272, 40]},
+    {"kind": "clutter", "at": [-260, -170], "size": [64, 32], "items": ["books", "books", "cups"], "rotation": 0},
+    {"kind": "clutter", "at": [96, -170], "size": [64, 32], "items": ["books", "jar"], "rotation": 0},
+    {"kind": "clutter", "at": [-288, 160], "size": [64, 32], "items": ["books", "basket", "books"], "rotation": 0},
+    {"kind": "clutter", "at": [-176, 24], "size": [32, 16], "items": ["books"], "rotation": 0},
+    {"kind": "clutter", "at": [144, 24], "size": [32, 16], "items": ["cups"], "rotation": 0},
+    {"kind": "slippers", "at": [272, 176], "rotation": -10, "cloth": "4e6967"},
+    {"kind": "clutter", "at": [256, -40], "size": [32, 32], "items": ["umbrella"], "rotation": 0}
+  ],
+  "actors": {
+    "default": {"coat": "7d7a62"},
+    "cloud.npc.book_seller": {"coat": "4e6967"}
+  }
+}

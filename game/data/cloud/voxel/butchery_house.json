@@ -1,0 +1,28 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 21,
+  "palette": {"wood": ["7d6a52", "86725a", "74624c"], "wall": "b3a88f"},
+  "ground": {
+    "floor_yard": {"style": "paving", "stones": ["8a9a98", "95a3a0", "a0aca6", "86938f"], "worn": ["7d8a86", "89958f"], "bed": "646e69", "moss": "5d7a52", "moss_chance": 0.05}
+  },
+  "props": [
+    {"kind": "sign", "at": [208, -174], "size": [64, 16], "text": "本店即将收购死狗", "wall_mounted": true, "board": "d8ccaa", "letters": "4a3426", "wrap": true, "tall": 0.8, "height": 1.9, "pixel_size": 0.0045},
+    {"kind": "stains", "at": [0, -132], "size": [320, 48], "count": 9},
+    {"kind": "stains", "at": [-104, 96], "size": [96, 64], "count": 4},
+    {"kind": "steelyard", "at": [-200, 40], "height": 2.4},
+    {"kind": "window", "at": [-238, -120], "size": [64, 16], "rotation": 90},
+    {"kind": "hanging_lantern", "at": [0, -40], "flicker": 0.08},
+    {"kind": "hanging_lantern", "at": [120, 80], "flicker": 0.06},
+    {"kind": "bones", "at": [-200, 40], "size": [48, 32]},
+    {"kind": "clutter", "at": [-48, 120], "size": [64, 32], "items": ["bucket", "basket"], "rotation": 0},
+    {"kind": "clutter", "at": [150, -130], "size": [64, 32], "items": ["bucket"], "rotation": 0},
+    {"kind": "clutter", "at": [208, 60], "size": [32, 32], "items": ["broom"], "rotation": 0},
+    {"kind": "stains", "at": [-160, -40], "size": [96, 96], "count": 4}
+  ],
+  "actors": {
+    "default": {"coat": "7d7a62"},
+    "cloud.npc.butcher": {"coat": "7a3a30"},
+    "cloud.npc.fly": {"body": "flyer", "scale": 0.45, "wings": ["4a4a46", "6a6a62"], "hover": 1.5, "name_distance": 60, "name_font_size": 26, "name_alpha": 0.8}
+  }
+}

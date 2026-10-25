@@ -1,0 +1,36 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 24,
+  "palette": {"wood": ["7a5a40", "845f45", "8d684a"], "wall": "d8d4c6"},
+  "ground": {
+    "floor_yard": {"style": "paving", "stones": ["a8aca2", "b2b5aa", "9ea397", "bbbdb2"], "worn": ["999d92"], "bed": "6e726a"}
+  },
+  "props": [
+    {"kind": "rug", "at": [-16, -280], "size": [320, 224], "cloth": "6a2a24", "border": "c9a24e", "motif": "e0b070"},
+    {"kind": "wall_scroll", "at": [-120, -478], "size": [48, 8], "wall_mounted": true},
+    {"kind": "wall_scroll", "at": [120, -478], "size": [48, 8], "calligraphy": true, "wall_mounted": true},
+    {"kind": "hanging_lantern", "at": [-16, -360], "flicker": 0.06, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [-16, -160], "flicker": 0.06, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [-240, -400], "flicker": 0.06},
+    {"kind": "hanging_lantern", "at": [200, -400], "flicker": 0.06},
+    {"kind": "hanging_lantern", "at": [-200, 300], "flicker": 0.06, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [200, 300], "flicker": 0.06, "paper": "d8452f:glow"},
+    {"kind": "window", "at": [-318, -300], "size": [80, 16], "rotation": 90},
+    {"kind": "pot", "at": [-112, 440]},
+    {"kind": "pot", "at": [80, 440]},
+    {"kind": "pot", "at": [-352, 300]},
+    {"kind": "pot", "at": [336, 300]},
+    {"kind": "clutter", "at": [-240, -456], "size": [64, 32], "items": ["abacus", "books"], "rotation": 0},
+    {"kind": "clutter", "at": [240, -400], "size": [64, 32], "items": ["jar", "gourd"], "rotation": 0},
+    {"kind": "clutter", "at": [0, -150], "size": [32, 16], "items": ["cups"], "rotation": 0},
+    {"kind": "clutter", "at": [280, 440], "size": [64, 32], "items": ["broom", "bucket"], "rotation": 0},
+    {"kind": "pot", "at": [-200, 180]}
+  ],
+  "actors": {
+    "default": {"coat": "7d7a62"},
+    "cloud.npc.room_gua": {"coat": "4a4a52", "hat": true},
+    "cloud.npc.millinare": {"coat": "8a6a2a"},
+    "cloud.npc.jiading": {"coat": "5a5a52"}
+  }
+}

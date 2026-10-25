@@ -1053,7 +1053,7 @@ msgstr ""
 msgid "膳房"
 msgstr ""
 
-#: scenes/world/chuenyu/chuenyu_upstairs.tscn scenes/world/city/city_upstairs.tscn scenes/world/cloud/cloud_duchang_upstairs.tscn scenes/world/cloud/cloud_jiyuan_upstairs.tscn scenes/world/cloud/cloud_tearoom_upstairs.tscn scenes/world/latemoon/latemoon_upper.tscn scenes/world/snow/snow_inn_upstairs.tscn scenes/world/waterfog/waterfog_upstairs.tscn data/snow/voxel/inn_upstairs.json
+#: scenes/world/chuenyu/chuenyu_upstairs.tscn scenes/world/city/city_upstairs.tscn scenes/world/cloud/cloud_duchang_upstairs.tscn scenes/world/cloud/cloud_jiyuan_upstairs.tscn scenes/world/cloud/cloud_tearoom_upstairs.tscn scenes/world/latemoon/latemoon_upper.tscn scenes/world/snow/snow_inn_upstairs.tscn scenes/world/waterfog/waterfog_upstairs.tscn data/cloud/voxel/duchang_upstairs.json data/cloud/voxel/jiyuan_upstairs.json data/cloud/voxel/tearoom_upstairs.json data/snow/voxel/inn_upstairs.json
 msgid "楼梯 · 下楼"
 msgstr ""
 
@@ -1373,9 +1373,13 @@ msgstr ""
 msgid "镖局"
 msgstr ""
 
+#: scenes/world/cloud/biaoju_house.tscn data/cloud/voxel/biaoju_house.json data/cloud/voxel/outdoor.json
+msgid "镖"
+msgstr ""
+
 #. cloud.npc.book_seller inquiry topic
 #. es2:u/cloud/bookstore short
-#: scenes/world/cloud/bookstore_house.tscn data/cloud/npcs.json data/cloud/rooms.json
+#: scenes/world/cloud/bookstore_house.tscn data/cloud/npcs.json data/cloud/rooms.json data/cloud/voxel/outdoor.json
 msgid "书局"
 msgstr ""
 
@@ -1423,7 +1427,7 @@ msgstr ""
 #. cloud.wangyou_grass region
 #. es2:u/cloud/entrance short
 #. cloud name
-#: scenes/world/cloud/cloud_outdoor.tscn data/common/journal.json data/cloud/rooms.json data/cloud/world.json
+#: scenes/world/cloud/cloud_outdoor.tscn data/common/journal.json data/cloud/rooms.json data/cloud/world.json data/cloud/voxel/outdoor.json
 msgid "绮云镇"
 msgstr ""
 
@@ -1469,7 +1473,7 @@ msgid "茶场"
 msgstr ""
 
 #. es2:u/cloud/dukou short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json data/cloud/voxel/outdoor.json
 msgid "江北渡口"
 msgstr ""
 
@@ -1490,6 +1494,17 @@ msgstr ""
 msgid "北 · 雪亭镇"
 msgstr ""
 
+#: scenes/world/cloud/cloud_outdoor.tscn
+msgid "[启事] 由此入镇收取黄金一两"
+msgstr ""
+
+#. oldpine.outdoor.landmark.clearing_sign name
+#. city.northdoor.landmark.sign name
+#. city.southdoor.landmark.notice name
+#: scenes/world/cloud/cloud_outdoor.tscn data/oldpine/world.json data/city/world.json
+msgid "告示"
+msgstr ""
+
 #. es2:u/cloud/tearoom2 short
 #: scenes/world/cloud/cloud_tearoom_upstairs.tscn data/cloud/rooms.json
 msgid "香茗坊二楼"
@@ -1503,18 +1518,18 @@ msgstr ""
 
 #. cloud.npc.mother inquiry topic
 #. es2:u/cloud/jiyuan short
-#: scenes/world/cloud/jiyuan_house.tscn data/cloud/npcs.json data/cloud/rooms.json
+#: scenes/world/cloud/jiyuan_house.tscn data/cloud/npcs.json data/cloud/rooms.json data/cloud/voxel/jiyuan_house.json data/cloud/voxel/outdoor.json
 msgid "怡红院"
 msgstr ""
 
 #. cloud.npc.mei_po title
 #. es2:u/cloud/marry_room short
-#: scenes/world/cloud/marry_house.tscn data/cloud/npcs.json data/cloud/rooms.json
+#: scenes/world/cloud/marry_house.tscn data/cloud/npcs.json data/cloud/rooms.json data/cloud/voxel/outdoor.json
 msgid "红娘庄"
 msgstr ""
 
 #. es2:u/cloud/monky short
-#: scenes/world/cloud/monky_house.tscn data/cloud/rooms.json
+#: scenes/world/cloud/monky_house.tscn data/cloud/rooms.json data/cloud/voxel/outdoor.json
 msgid "斋院"
 msgstr ""
 
@@ -1524,9 +1539,13 @@ msgstr ""
 msgid "张百万家"
 msgstr ""
 
+#: scenes/world/cloud/rich_house.tscn
+msgid "福"
+msgstr ""
+
 #. cloud.npc.tailor title
 #. es2:u/cloud/tailory short
-#: scenes/world/cloud/tailory_house.tscn data/cloud/npcs.json data/cloud/rooms.json
+#: scenes/world/cloud/tailory_house.tscn data/cloud/npcs.json data/cloud/rooms.json data/cloud/voxel/outdoor.json
 msgid "布庄"
 msgstr ""
 
@@ -1535,7 +1554,7 @@ msgstr ""
 #. cloud.npc.box_boss inquiry topic
 #. cloud.npc.tailor inquiry topic
 #. es2:u/cloud/tearoom short
-#: scenes/world/cloud/tearoom_house.tscn data/cloud/npcs.json data/cloud/rooms.json
+#: scenes/world/cloud/tearoom_house.tscn data/cloud/npcs.json data/cloud/rooms.json data/cloud/voxel/outdoor.json data/cloud/voxel/tearoom_house.json
 msgid "香茗坊"
 msgstr ""
 
@@ -2266,6 +2285,10 @@ msgstr ""
 #. choyin.guyehill.landmark.vine name
 #: scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/world.json data/choyin/world.json
 msgid "藤蔓"
+msgstr ""
+
+#: scenes/world/oldpine/oldpine_outdoor.tscn
+msgid "官府告示：此处常有歹人出没。"
 msgstr ""
 
 #. es2:d/oldpine/stone short
@@ -6621,6 +6644,14 @@ msgstr ""
 
 #: presentation/layout/shared_gameplay_layout.gd
 msgid "返回"
+msgstr ""
+
+#: presentation/voxel/props/voxel_trade_props.gd
+msgid "大"
+msgstr ""
+
+#: presentation/voxel/props/voxel_trade_props.gd
+msgid "小"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
@@ -11374,7 +11405,7 @@ msgstr ""
 #. cloud.npc.bfighter family.name
 #. city.npc.chen family.name
 #. city.npc.chen inquiry topic
-#: data/common/families.json data/cloud/npcs.json data/city/npcs.json
+#: data/common/families.json data/cloud/npcs.json data/city/npcs.json data/cloud/voxel/biaoju_house.json data/cloud/voxel/outdoor.json
 msgid "振远镖局"
 msgstr ""
 
@@ -14354,7 +14385,7 @@ msgid "这类组织规模较小，加入也不甚容易，但是加入後往往�
 msgstr ""
 
 #. help.weapon title
-#: data/common/codex.json
+#: data/common/codex.json data/cloud/voxel/outdoor.json
 msgid "兵器"
 msgstr ""
 
@@ -16332,13 +16363,6 @@ msgstr ""
 #. oldpine.outdoor.landmark.cliffdown_cliff messages.use
 #: data/oldpine/world.json
 msgid "你一付认真的表情，开始小心翼翼地攀著石壁爬了上去。"
-msgstr ""
-
-#. oldpine.outdoor.landmark.clearing_sign name
-#. city.northdoor.landmark.sign name
-#. city.southdoor.landmark.notice name
-#: data/oldpine/world.json data/city/world.json
-msgid "告示"
 msgstr ""
 
 #. oldpine.outdoor.landmark.clearing_sign long
@@ -18707,7 +18731,7 @@ msgid ""
 msgstr ""
 
 #. cloud.npc.judge inquiry topic
-#: data/cloud/npcs.json
+#: data/cloud/npcs.json data/cloud/voxel/outdoor.json
 msgid "赌"
 msgstr ""
 
@@ -30188,7 +30212,7 @@ msgid ""
 msgstr ""
 
 #. city.shangshu.kefang.landmark.book name
-#: data/city/world.json
+#: data/city/world.json data/cloud/voxel/bookstore_house.json
 msgid "书"
 msgstr ""
 
@@ -31404,6 +31428,70 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "一个面色青白的中年人，目光扫过来便叫人背脊发凉。告示上说他一夜之间屠了邻县一户人家，官府悬了最重的赏。\n"
+msgstr ""
+
+#: data/cloud/voxel/butchery_house.json
+msgid "本店即将收购死狗"
+msgstr ""
+
+#: data/cloud/voxel/drugstore_house.json data/cloud/voxel/outdoor.json
+msgid "药"
+msgstr ""
+
+#: data/cloud/voxel/duchang_house.json
+msgid "赌，胜者赢双"
+msgstr ""
+
+#: data/cloud/voxel/marry_house.json
+msgid "囍"
+msgstr ""
+
+#: data/cloud/voxel/marry_house.json
+msgid "缔结或解除婚约"
+msgstr ""
+
+#: data/cloud/voxel/monky_house.json
+msgid "善"
+msgstr ""
+
+#: data/cloud/voxel/outdoor.json
+msgid "绮云"
+msgstr ""
+
+#: data/cloud/voxel/outdoor.json
+msgid "振远"
+msgstr ""
+
+#: data/cloud/voxel/outdoor.json data/cloud/voxel/yard_house.json
+msgid "棺"
+msgstr ""
+
+#: data/cloud/voxel/outdoor.json
+msgid "张府"
+msgstr ""
+
+#: data/cloud/voxel/outdoor.json
+msgid "茶"
+msgstr ""
+
+#: data/cloud/voxel/outdoor.json
+msgid "杂货"
+msgstr ""
+
+#: data/cloud/voxel/tailory_house.json
+msgid "衣"
+msgstr ""
+
+#: data/cloud/voxel/tearoom_house.json
+msgid "御赐亲笔"
+msgstr ""
+
+#: data/cloud/voxel/weapony_house.json
+msgid "专卖各式兵器"
+msgstr ""
+
+#: data/cloud/voxel/zaihuoy_house.json
+msgid "商"
 msgstr ""
 
 #: data/snow/voxel/herbshop_house.json

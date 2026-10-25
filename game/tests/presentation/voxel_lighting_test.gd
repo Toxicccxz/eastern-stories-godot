@@ -239,7 +239,7 @@ func _check_merged_batches(tree: SceneTree) -> void:
 	var holder := Node3D.new()
 	tree.root.add_child(holder)
 	var shapes := Shapes.new()
-	shapes.merged = true
+	shapes.merged_batches = true
 	for i: int in 3:
 		shapes.box(holder,Vector3(i,0,0),Vector3.ONE,["91836a","4f6b47","c9a37a"][i])
 	shapes.box(holder,Vector3(0,1,0),Vector3.ONE,"527581:gloss")
@@ -288,7 +288,7 @@ func _check_merged_batches(tree: SceneTree) -> void:
 	var row := Node3D.new()
 	tree.root.add_child(row)
 	var split := Shapes.new()
-	split.merged = true
+	split.merged_batches = true
 	var hexes: Array[String] = []
 	for i: int in 24:
 		hexes.append(["91836a","4f6b47","c9a37a"][i%3])

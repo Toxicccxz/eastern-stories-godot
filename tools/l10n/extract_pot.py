@@ -299,6 +299,16 @@ def extract_scene(text: str, relative: str, catalog: Catalog) -> None:
         if line.startswith("auto_translate_mode = 2"):
             disabled = True
             continue
+        if line.startswith("metadata/look = {"):
+            # A furnishing's words (a notice, a board, a cart's banner), drawn by the voxel view.
+            try:
+                look = json.loads(line[len("metadata/look = "):])
+            except json.JSONDecodeError as error:
+                raise ValueError(f"{relative}: a furnishing's look is not one line of JSON: {line[:60]!r}") from error
+            for key in ("text", "flag"):
+                if isinstance(look.get(key), str):
+                    pending.append(look[key])
+            continue
         if not re.match(r'^[A-Za-z0-9_/]+ = "', line):
             continue
         # Join the following lines until the quoted value closes.
@@ -467,11 +477,19 @@ def build_catalog(repository: Path = REPOSITORY) -> Catalog:
         config = json.loads(path.read_text(encoding="utf-8"))
         source = path.relative_to(root).as_posix()
         for prop in config.get("props", []):
-            if isinstance(prop.get("text"), str):
-                catalog.add(prop["text"], source)
+            for key in ("text", "flag"):
+                if isinstance(prop.get(key), str):
+                    catalog.add(prop[key], source)
         for entrance in config.get("entrances", {}).values():
             if isinstance(entrance.get("title"), str):
                 catalog.add(entrance["title"], source)
+        # A building's board over its door and the pennant hung out beside it.
+        for building in config.get("buildings", []):
+            for key in ("signboard", "hanging_flag"):
+                value = building.get(key)
+                text = value.get("text") if isinstance(value, dict) else value
+                if isinstance(text, str):
+                    catalog.add(text, source)
     return catalog
 
 

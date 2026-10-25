@@ -461,7 +461,7 @@ func _arrow(parent: Node3D, direction: Vector2) -> Node3D:
 	parent.add_child(arrow)
 	var s := Shapes.new()
 	# One glowing material and no shadow below: the phone profile's merged batches gain nothing.
-	s.merged = false
+	s.merged_batches = false
 	# Flat, so it reads the same from either fixed angle; the wide row trails, the tip leads.
 	for row: int in 5:
 		s.box(arrow,Vector3(0,0,-0.4+row*0.2),Vector3(0.95-row*0.21,0.12,0.2),"f2a43a")

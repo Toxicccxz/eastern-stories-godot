@@ -38,7 +38,9 @@ func wear(at: Vector3) -> float:
 		result = maxf(result, 1.0-delta.length()+noise.get_noise_2d(at.x*150,at.z*150)*0.22)
 	return result
 
-func paving(cell: Vector2i, cells: Dictionary[Vector2i,String], painted: Dictionary[Vector2i,bool]) -> void:
+## Flagstones of random running lengths. Layout `ground`: {"style": "paving", "stones": [...],
+## "worn": [...], "bed": hex, "moss": hex} gives a town its own stone (绮云镇's 青石).
+func paving(cell: Vector2i, cells: Dictionary[Vector2i,String], painted: Dictionary[Vector2i,bool], style: Dictionary = {}) -> void:
 	var p: Vector3 = _point(cell)
 	var width: int = rng.randi_range(1,3)
 	var depth: int = rng.randi_range(1,2)
@@ -57,21 +59,26 @@ func paving(cell: Vector2i, cells: Dictionary[Vector2i,String], painted: Diction
 		for x: int in width:
 			painted[cell+Vector2i(x,y)*16] = true
 	p += Vector3((width-1)*0.25,0,(depth-1)*0.25)
-	shapes.box(parent,p-Vector3(0,0.075,0),Vector3(width*0.5+0.01,0.12,depth*0.5+0.01),"787c66")
+	shapes.box(parent,p-Vector3(0,0.075,0),Vector3(width*0.5+0.01,0.12,depth*0.5+0.01),String(style.get("bed","787c66")))
 	var worn: float = wear(p)
 	if worn>0.25:
-		shapes.shard(parent,p+Vector3(0,0.002,0),Vector3(width*0.64,0.02,depth*0.64),"81775f",rng.randi())
+		shapes.shard(parent,p+Vector3(0,0.002,0),Vector3(width*0.64,0.02,depth*0.64),String(style.get("mud","81775f")),rng.randi())
 	if worn<0.43 or rng.randf()<0.20:
 		var size := Vector3(width*0.5-0.02,0.09,depth*0.5-0.02)
 		var yaw: float = rng.randf_range(-0.065,0.065)
 		p += Vector3(rng.randf_range(-0.025,0.025),rng.randf_range(-0.02,0.015),rng.randf_range(-0.025,0.025))
-		var tint: String = STONE[rng.randi_range(0,STONE.size()-1)]
+		var stones: Array = style.get("stones",STONE)
+		var tint: String = String(stones[rng.randi_range(0,stones.size()-1)])
 		if worn>0.15:
-			tint = ["7b8b83","89958b","939c8e"][rng.randi_range(0,2)]
+			var worn_stones: Array = style.get("worn",["7b8b83","89958b","939c8e"])
+			tint = String(worn_stones[rng.randi_range(0,worn_stones.size()-1)])
 		shapes.shard(parent,p,size,tint,rng.randi(),yaw)
 		# Selected broken corners and fissures, not a grid-wide noise overlay.
 		if rng.randf()<0.08:
-			shapes.tilted_box(parent,p+Vector3(size.x*0.26,0.047,0.04),Vector3(size.x*0.27,0.008,0.018),"707c72",Vector3(0,-0.35,0))
+			shapes.tilted_box(parent,p+Vector3(size.x*0.26,0.047,0.04),Vector3(size.x*0.27,0.008,0.018),String(style.get("crack","707c72")),Vector3(0,-0.35,0))
+		if style.has("moss") and rng.randf()<float(style.get("moss_chance",0.12)):
+			# Moss in the joints of old flags.
+			shapes.box(parent,p+Vector3(size.x*0.5,0.03,rng.randf_range(-0.2,0.2)*depth),Vector3(0.04,0.02,depth*0.4),String(style["moss"]))
 	if foliage != null and (rng.randf()<0.10 or worn>0.15 and rng.randf()<0.25):
 		foliage.plant(p+Vector3(-width*0.25+0.03,0.03,depth*0.19),0,rng.randf_range(0.19,0.40),rng.randf()*TAU)
 

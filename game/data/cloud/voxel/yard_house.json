@@ -1,0 +1,45 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 24,
+  "palette": {"wood": ["6a5644", "735e4a", "7c664f"], "wall": "c4bba3"},
+  "courtyard": true,
+  "surfaces": {},
+  "flora": {
+    "grass_density": 0.95,
+    "flower_threshold": 0.0,
+    "wind": 0.14,
+    "butterflies": 6,
+    "meadows": [{"rect": [-240, -272, 512, -48], "on": ["grass"], "scale": [1.2, 2.0], "density": 0.55, "tufts": 2, "note": "荒草场"}, {"rect": [-240, 48, 512, 272], "on": ["grass"], "scale": [1.1, 1.9], "density": 0.5, "tufts": 2}, {"rect": [-240, -48, 512, 48], "on": ["grass"], "scale": [0.5, 0.9], "density": 0.15, "tufts": 1, "note": "a way trodden through it, the coffin shop's door to the hall"}]
+  },
+  "props": [
+    {"kind": "rubble", "at": [-60, -150], "size": [48, 32]},
+    {"kind": "cobweb", "at": [-200, -250], "size": [32, 16], "elevation": 2.4},
+    {"kind": "sign", "at": [880, -174], "size": [32, 16], "text": "棺", "wall_mounted": true, "board": "262220", "letters": "e8e4d6"},
+    {"kind": "wall_scroll", "at": [-688, -238], "size": [56, 8], "wall_mounted": true},
+    {"kind": "rug", "at": [-688, 0], "size": [224, 224], "cloth": "5a2622", "border": "b89548", "motif": "c9a35e"},
+    {"kind": "hanging_lantern", "at": [-688, -120], "flicker": 0.06},
+    {"kind": "hanging_lantern", "at": [-880, 100], "flicker": 0.06},
+    {"kind": "hanging_lantern", "at": [-480, 100], "flicker": 0.06},
+    {"kind": "hanging_lantern", "at": [816, -20], "flicker": 0.06, "paper": "e8e4d6:glow"},
+    {"kind": "window", "at": [-900, -238], "size": [72, 16], "rotation": 0},
+    {"kind": "window", "at": [-480, -238], "size": [72, 16], "rotation": 0},
+    {"kind": "window", "at": [700, -174], "size": [64, 16], "rotation": 0},
+    {"kind": "hanging_lantern", "at": [700, 80], "paper": "e8e4d6:glow"},
+    {"kind": "clutter", "at": [-880, 200], "size": [64, 32], "items": ["jar", "gourd"], "rotation": 0},
+    {"kind": "clutter", "at": [-480, -200], "size": [64, 32], "items": ["cups", "books"], "rotation": 0},
+    {"kind": "clutter", "at": [1000, 120], "size": [64, 32], "items": ["bucket", "broom"], "rotation": 0},
+    {"kind": "clutter", "at": [620, 40], "size": [64, 32], "items": ["bundle", "bundle"], "rotation": 0},
+    {"kind": "incense_burner", "at": [-688, -224], "size": [32, 32], "elevation": 0.95}
+  ],
+  "actors": {
+    "default": {"coat": "7d7a62"},
+    "cloud.npc.god": {"coat": "7a3a5a"},
+    "cloud.npc.box_boss": {"coat": "3d3028"},
+    "cloud.npc.box_waiter": {"coat": "6b6256"}
+  },
+  "ambience": {
+    "fireflies": [{"rect": [-200, -240, 480, 240], "count": 12, "height": 1.0}],
+    "birds": [{"at": [100, 0], "radius": 180, "count": 2, "height": 7, "color": "4a3f36"}]
+  }
+}
