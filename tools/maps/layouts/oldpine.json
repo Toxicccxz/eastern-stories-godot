@@ -135,7 +135,7 @@
               ["water", 1200, -48, 1280, 64, "the waterfall, north of the bridge, falling from the cliff"],
               ["bridge", 1104, 272, 1376, 336, "小石桥: old, mossy, high over the gorge"],
               ["forest", 1328, 192, 1344, 272, "the vine hanging by the bridge"],
-              ["blocked", 512, 48, 528, 64, "the sign by the path to the bandits' slope (clearing.c: 往南的小路旁竖著一个牌子)"],
+              ["blocked", 512, 48, 528, 64, "the sign by the path to the bandits' slope (clearing.c: 往南的小路旁竖著一个牌子)", {"look": {"kind": "notice_post", "text": "官府告示：此处常有歹人出没。"}}],
               ["wall_wood", 1488, 112, 1520, 128, "the broken plank road along the mountain (no exit in ES2)"],
               ["wall_wood", 1504, 80, 1536, 96],
               ["wall_wood", 1520, 48, 1552, 64],
@@ -166,14 +166,14 @@
               ["floor_yard", 1296, 720, 1648, 1008, "keep2"],
               ["floor_yard", 1264, 832, 1296, 896, "the gate in the west wall"],
               ["floor_wood", 1648, 832, 1664, 896, "past the row of stakes"],
-              ["blocked", 1312, 736, 1360, 768, "sandbags and stone piles at the wall's strong points"],
-              ["blocked", 1568, 736, 1616, 768],
-              ["blocked", 1312, 960, 1360, 992],
-              ["blocked", 1568, 960, 1616, 992],
-              ["wall_wood", 1632, 736, 1648, 752, "the stakes"],
-              ["wall_wood", 1632, 784, 1648, 800],
-              ["wall_wood", 1632, 928, 1648, 944],
-              ["wall_wood", 1632, 976, 1648, 992],
+              ["blocked", 1312, 736, 1360, 768, "sandbags and stone piles at the wall's strong points (keep2.c: 许多险要的位置都放了不少沙包石堆)", {"look": {"kind": "sandbags"}}],
+              ["blocked", 1568, 736, 1616, 768, {"look": {"kind": "sandbags", "rows": 2}}],
+              ["blocked", 1312, 960, 1360, 992, {"look": {"kind": "sandbags", "rotation": 180}}],
+              ["blocked", 1568, 960, 1616, 992, {"look": {"kind": "sandbags", "rotation": 180, "rows": 2}}],
+              ["blocked", 1632, 736, 1648, 752, "the row of stakes before the hall (keep2.c: 东边越过一排木桩之后就是大厅)", {"look": {"kind": "stakes"}}],
+              ["blocked", 1632, 784, 1648, 800, {"look": {"kind": "stakes"}}],
+              ["blocked", 1632, 928, 1648, 944, {"look": {"kind": "stakes"}}],
+              ["blocked", 1632, 976, 1648, 992, {"look": {"kind": "stakes"}}],
               ["floor_yard", 1600, 832, 1632, 896, "the way into 聚义厅"]
             ]
           },
@@ -218,6 +218,7 @@
       "scene": {
         "style": "map",
         "root": "OldPineOutdoor",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/oldpine/voxel/outdoor.json"},
         "map": "oldpine.outdoor",
         "player_color": "Color(0.33333334, 0.6666667, 1, 1)",
         "shapes": {
@@ -547,10 +548,11 @@
             "op": "fill",
             "fills": [
               ["water", -64, 416, 64, 448, "the curtain: the waterfall seen from behind"],
-              ["blocked", -128, 224, -112, 240, "bronze candlesticks along the walls"],
-              ["blocked", 112, 224, 128, 240],
-              ["blocked", -112, 336, -96, 352],
-              ["blocked", 96, 336, 112, 352]
+              ["blocked", -128, 224, -112, 240, "bronze candlesticks along the walls (passage.c: 石壁上安置著许多铜铸的烛台)", {"look": {"kind": "candlestick"}}],
+              ["blocked", 112, 224, 128, 240, {"look": {"kind": "candlestick"}}],
+              ["blocked", -112, 336, -96, 352, {"look": {"kind": "candlestick", "height": 1.25}}],
+              ["blocked", 96, 336, 112, 352, {"look": {"kind": "candlestick", "height": 1.25}}],
+              ["blocked", -32, -448, 32, -416, "path3.c: 一块比人还高的钟乳石, 长满了青苔 (inside the blob above; its look only)", {"look": {"kind": "mossy_rock", "size": [104, 76], "tall": 1.45, "fern": false, "colors": ["4f5a4c", "5a6556", "465043", "626e5c"], "moss": ["3f6a34", "4a783a", "558442", "35592c"]}}]
             ]
           }
         ],
@@ -564,6 +566,7 @@
       "scene": {
         "style": "map",
         "root": "OldPineCavePassage",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/oldpine/voxel/cave.json"},
         "map": "oldpine.cave",
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
@@ -740,6 +743,7 @@
       "scene": {
         "style": "map",
         "root": "OldPineGorge",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/oldpine/voxel/gorge.json"},
         "map": "oldpine.gorge",
         "player_color": "Color(0.33333334, 0.6666667, 1, 1)",
         "shapes": {
@@ -927,6 +931,7 @@
       "scene": {
         "style": "map",
         "root": "OldPineTree",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/oldpine/voxel/tree.json"},
         "map": "oldpine.tree",
         "player_color": "Color(0.33333334, 0.6666667, 1, 1)",
         "shapes": {
@@ -1041,6 +1046,7 @@
       "scene": {
         "style": "map",
         "root": "OldPineCliff",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/oldpine/voxel/cliff.json"},
         "map": "oldpine.cliff",
         "player_color": "Color(0.33333334, 0.6666667, 1, 1)",
         "shapes": {
@@ -1138,6 +1144,7 @@
       "scene": {
         "style": "map",
         "root": "OldPineStone",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/oldpine/voxel/stone.json"},
         "map": "oldpine.stone",
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
@@ -1197,6 +1204,7 @@
       "scene": {
         "style": "map",
         "root": "OldPineCaves",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/oldpine/voxel/caves.json"},
         "map": "oldpine.caves",
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "limits": [-48, -48, 1104, 816],
@@ -1318,6 +1326,7 @@
       "scene": {
         "style": "map",
         "root": "OldPineCliff2",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/oldpine/voxel/cliff2.json"},
         "map": "oldpine.cliff2",
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
@@ -1383,10 +1392,20 @@
           }
         },
         "props": [
-          ["blocked", "oldpine.outdoor.keep_hall", ["rel", 0.026, 0.031], 0.5, 0.5, "braziers"],
-          ["blocked", "oldpine.outdoor.keep_hall", ["rel", 0.974, 0.031], 0.5, 0.5],
-          ["blocked", "oldpine.outdoor.keep_hall", ["rel", 0.026, 0.969], 0.5, 0.5],
-          ["blocked", "oldpine.outdoor.keep_hall", ["rel", 0.974, 0.969], 0.5, 0.5]
+          ["blocked", "oldpine.outdoor.keep_hall", ["rel", 0.026, 0.031], 0.5, 0.5, "braziers (keep3.c: 大厅四周散落著几个取暖用的火盆)", {"look": {"kind": "brazier"}}],
+          ["blocked", "oldpine.outdoor.keep_hall", ["rel", 0.974, 0.031], 0.5, 0.5, {"look": {"kind": "brazier"}}],
+          ["blocked", "oldpine.outdoor.keep_hall", ["rel", 0.026, 0.969], 0.5, 0.5, {"look": {"kind": "brazier"}}],
+          ["blocked", "oldpine.outdoor.keep_hall", ["rel", 0.974, 0.969], 0.5, 0.5, {"look": {"kind": "brazier"}}],
+          ["blocked", "oldpine.outdoor.keep_hall", ["rel", 0.5, 0.56], 2.5, 1.75, "the pit in the middle, skulls soaking in stinking yellow water (keep3.c: 中央掘了一个大坑)", {"look": {"kind": "skull_pit"}}],
+          ["blocked", "oldpine.outdoor.keep_hall", ["rel", 0.4, 0.04], 0.5, 0.5, "three chairs on the bear skin by the north wall (keep3.c)", {"look": {"kind": "chair", "rotation": 180, "wood": "5a3e2c"}}],
+          ["blocked", "oldpine.outdoor.keep_hall", ["rel", 0.5, 0.03], 0.75, 0.5, {"look": {"kind": "chair", "rotation": 180, "wood": "6b2f24"}}],
+          ["blocked", "oldpine.outdoor.keep_hall", ["rel", 0.6, 0.04], 0.5, 0.5, {"look": {"kind": "chair", "rotation": 180, "wood": "5a3e2c"}}],
+          ["blocked", "oldpine.outdoor.keep_hall", ["rel", 0.985, 0.42], 0.5, 0.75, "locked chests (keep3.c: 几个上了锁的木箱子)", {"look": {"kind": "travel_chest", "packed": false, "rotation": -90}}],
+          ["blocked", "oldpine.outdoor.keep_hall", ["rel", 0.985, 0.6], 0.5, 0.75, {"look": {"kind": "travel_chest", "packed": false, "rotation": -90}}],
+          ["blocked", "oldpine.outdoor.keep_hall", ["rel", 0.2, 0.985], 0.75, 0.5, {"look": {"kind": "travel_chest", "packed": false}}],
+          ["blocked", "oldpine.outdoor.keep_hall", ["rel", 0.12, 0.015], 0.75, 0.5, {"look": {"kind": "travel_chest", "packed": false, "rotation": 180}}],
+          ["blocked", "oldpine.outdoor.keep_hall", ["rel", 0.985, 0.18], 0.5, 1.25, "their weapons on a rack", {"look": {"kind": "weapon_rack", "rotation": -90}}],
+          ["blocked", "oldpine.outdoor.keep_hall", ["rel", 0.8, 0.985], 0.75, 0.5, "plunder: wine jars", {"look": {"kind": "wine_jars", "count": 4, "tipped": 2}}]
         ],
         "placed": {
           "oldpine.outdoor.keep_hall.keep3.bandit_leader.1": [
@@ -1414,6 +1433,7 @@
       "scene": {
         "style": "map",
         "root": "KeepHall",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/oldpine/voxel/keep_hall.json"},
         "map": "oldpine.keep_hall",
         "player_color": "Color(0.33333334, 0.6666667, 1, 1)",
         "shapes": {

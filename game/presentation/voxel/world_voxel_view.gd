@@ -5,6 +5,8 @@ extends Node
 ## grants items or changes a rule. Runtime bodies remain the single position authority.
 const Person = preload("res://presentation/voxel/actors/voxel_person.gd")
 const Crawler = preload("res://presentation/voxel/actors/voxel_crawler.gd")
+const Snake = preload("res://presentation/voxel/actors/voxel_snake.gd")
+const Flyer = preload("res://presentation/voxel/actors/voxel_flyer.gd")
 const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
 const VIEW_ROTATION_SECONDS: float = 0.6
 const VIEW_SIDE_ANGLE: float = PI/4.0
@@ -69,6 +71,7 @@ func _process(delta: float) -> void:
 	lighting.advance(delta,VoxelMapGeometry.point(map.player_body.global_position))
 	if geometry.foliage != null:
 		geometry.foliage.advance(delta, _plant_contacts())
+	geometry.ambience.night = lighting.amount
 	geometry.ambience.advance(delta)
 
 func _build() -> void:
@@ -227,7 +230,7 @@ func _sync_actors(delta: float) -> void:
 		var step: float = actor.position.distance_to(next)
 		actor.position = next
 		var model: Node3D = actor.get_child(0) as Node3D
-		if model is Person or model is Crawler:
+		if model is Person or model is Crawler or model is Snake or model is Flyer:
 			# Render frames may outnumber physics steps: a held direction must not flicker
 			# between the walk and idle poses on the intervening frames.
 			model.walking = (body.velocity.length_squared()>1.0 if body == map.player_body else step>0.003) and step<1.5
@@ -276,12 +279,28 @@ func _make_actor(body: WorldCharacterBody2D) -> void:
 		look = {"coat":"397c87"}
 	var model: Node3D
 	var size: float = float(look.get("scale",1.0))
-	var crawler: bool = look.get("body","")=="crawler"
-	if crawler:
+	var body_kind: String = String(look.get("body",""))
+	var crawler: bool = body_kind in ["crawler","snake","flyer"]
+	if body_kind=="crawler":
 		model = Crawler.new()
 		model.scale = Vector3.ONE*size
 		model.colors = look.get("colors",model.colors)
 		model.spots = String(look.get("spots",model.spots))
+		actor.add_child(model)
+	elif body_kind=="snake":
+		model = Snake.new()
+		model.scale = Vector3.ONE*size
+		model.colors = look.get("colors",model.colors)
+		model.belly = String(look.get("belly",model.belly))
+		model.bands = String(look.get("bands",""))
+		model.crest = String(look.get("crest",""))
+		model.rear = look.get("rear",false)
+		actor.add_child(model)
+	elif body_kind=="flyer":
+		model = Flyer.new()
+		model.scale = Vector3.ONE*size
+		model.wings = look.get("wings",model.wings)
+		model.hover = float(look.get("hover",model.hover))
 		actor.add_child(model)
 	elif look.get("animal",false):
 		model = Node3D.new()
@@ -303,7 +322,10 @@ func _make_actor(body: WorldCharacterBody2D) -> void:
 		model.hat = look.get("hat",false)
 		actor.add_child(model)
 	var low: bool = crawler or look.get("animal",false)
-	labels[body.character_id] = _label(actor,"",(0.55*size+0.35 if crawler else 0.4+0.9*size) if low else 2.2)
+	var label_height: float = (0.55*size+0.35 if crawler else 0.4+0.9*size) if low else 2.2
+	if body_kind=="flyer":
+		label_height = float(look.get("hover",1.1))*size+0.5
+	labels[body.character_id] = _label(actor,"",label_height)
 	var label: Label3D = labels[body.character_id]
 	label.font_size = int(look.get("name_font_size",36))
 	label.set_meta("name_alpha",float(look.get("name_alpha",1.0)))
@@ -336,7 +358,12 @@ func _object(id: StringName, at: Vector2, title: String, corpse: bool) -> void:
 		var node := Node3D.new()
 		world.add_child(node)
 		var s := Shapes.new()
-		s.box(node,Vector3(0,0.15,0),Vector3(0.75,0.3,1.45) if corpse else Vector3(0.4,0.3,0.35),"6b6860" if corpse else "b5a079")
+		# A floor item may have a look of its own (layout `items`: item definition -> look),
+		# drawn by the props files; it goes when the item goes (a buried skeleton).
+		var content: ItemContentDefinition = null if corpse else map.floor_items.floor_item_content(map.floor_items.floor_item_view(id))
+		var look: Dictionary = {} if content == null else layout.get("items",{}).get(String(content.item_definition_id),{})
+		if look.is_empty() or not geometry.draw_look(s,node,look):
+			s.box(node,Vector3(0,0.15,0),Vector3(0.75,0.3,1.45) if corpse else Vector3(0.4,0.3,0.35),"6b6860" if corpse else "b5a079")
 		s.flush()
 		_label(node,title,0.7).name = "Title"
 		objects[id] = node
@@ -466,7 +493,12 @@ func _make_shutters() -> void:
 		world.add_child(node)
 		var s := Shapes.new()
 		var size := Vector3(rect.size.x/VoxelMapGeometry.UNIT,2.2,rect.size.y/VoxelMapGeometry.UNIT)
-		if geometry.indoor:
+		var look: Dictionary = layout.get("door_looks",{}).get(String(id),{})
+		if not look.is_empty():
+			look = look.duplicate()
+			look["size"] = look.get("size",[rect.size.x,rect.size.y])
+			geometry.draw_look(s,node,look)
+		elif geometry.indoor:
 			_room_door(node,s,size)
 		else:
 			s.box(node,Vector3(0,1.1,0),size,"9d4d39")

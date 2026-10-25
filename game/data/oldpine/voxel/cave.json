@@ -1,0 +1,83 @@
+{
+  "indoor": false,
+  "camera_size": 20,
+  "edge": {
+    "minimum_margin": 24,
+    "maximum_margin": 56,
+    "depth": 2.8,
+    "top": "2a2c26",
+    "bottom": "181915",
+    "strata": ["3e423a", "343730", "2a2c26"]
+  },
+  "light": {
+    "sky": ["0f0d0b", "0a0908"],
+    "ambient": ["9b9282", "8a8a96"],
+    "ambient_energy": [0.95, 0.85],
+    "sun": ["b3a792", "9fa3b4"],
+    "sun_energy": [0.28, 0.22],
+    "carried": {"color": "ffd8a8", "range": 9.0, "day": 2.4, "night": 2.6, "attenuation": 0.9}
+  },
+  "cliffs": {
+    "low": 1.8,
+    "high": 3.8,
+    "rise": 90,
+    "step": 0.5,
+    "rough": 0.55,
+    "keep": 88,
+    "trim": ["cliff"],
+    "grooves": 0.18,
+    "strata": ["4a4a42", "55554b", "5f5f54", "68685c", "505048"],
+    "tops": ["3c4a32", "465638", "50603e"],
+    "areas": [{"rect": [-256, 80, 256, 460], "strata": ["4c4944", "57534d", "625d56", "6c665e", "524f49"], "tops": ["3f3d36", "48453d", "514d44"], "note": "the passage: dry grey rock, soot over the candles"}, {"rect": [-256, -200, 256, 80], "strata": ["3f4a36", "48553c", "526044", "5b6a4b", "44503a"], "tops": ["3a5230", "446036", "4f6e3e"], "grooves": 0.26, "note": "secrectpath1: 岩壁上生著厚厚的青苔"}, {"rect": [-256, -540, 256, -200], "strata": ["3a3d36", "43463e", "4c4f46", "55584e", "3f423a"], "tops": ["364430", "3e4e36", "47583c"], "note": "path3: 阴森森"}]
+  },
+  "water": {
+    "kinds": {"shallow_water": {"level": 0.04, "colors": ["b9d4d8", "9cbcc2", "86a8ae"], "foam": 0.6, "flow": [0.0, 1.0], "speed": 1.2, "clarity": 0.9}}
+  },
+  "ground": {
+    "cave_floor": {"style": "scree", "colors": ["443e36", "4d463d", "575045"], "gravel": 0.3, "stones": 0.05, "wet": true, "wet_chance": 0.3, "pebbles": ["4f483f", "5a5248", "463f37", "625a4e"], "sheen": "4a5a5e"},
+    "boundary": {"style": "scree", "colors": ["2f302b", "363731"], "gravel": 0.1}
+  },
+  "flora": {
+    "grass_density": 0.0,
+    "density": {"cave_floor": 0.04},
+    "grass_colors": ["2f3a2a", "3d4b33", "4f5f3e", "64754a"],
+    "tree_kinds": [],
+    "cliff_tufts": 0.08,
+    "cliff_flowers": 0.0,
+    "outcrop_colors": ["4a5444", "55604d", "404a3b"],
+    "wind": 0.0,
+    "butterflies": 0
+  },
+  "props": [
+    {"kind": "silk_curtain", "at": [0, 410], "size": [136, 8], "height": 2.7, "colors": ["dde8ec", "c8d8de", "eef4f6", "d2e0e6"], "note": "passage.c: 一片亮晶晶的帘幕，似乎是用一种极薄的丝绸织成的"},
+    {"kind": "waterfall", "at": [0, 438], "size": [136, 24], "rotation": 180, "top": 3.4, "bottom": -0.2, "puffs": 6, "speed": 3.4, "color": "cfe0e6", "shade": "7d9ca6", "opacity": 0.42, "note": "帘幕后面传来阵阵轰隆隆的水声: the falls seen from behind"},
+    {"kind": "glow", "at": [0, 424], "color": "d8ecf4", "day": 1.3, "night": 0.3, "range": 6.0, "height": 1.6, "note": "daylight through the falling water"},
+    {"kind": "drip", "at": [-150, 300], "height": 3.0},
+    {"kind": "drip", "at": [140, 250], "height": 3.0},
+    {"kind": "cobweb", "at": [-160, 168], "size": [40, 8], "rotation": 45, "height": 2.6},
+    {"kind": "cobweb", "at": [168, 176], "size": [36, 8], "rotation": -45, "height": 2.4},
+    {"kind": "drip", "at": [-48, 40], "height": 2.6},
+    {"kind": "drip", "at": [40, -80], "height": 2.8},
+    {"kind": "slime", "at": [10, -150], "size": [40, 32], "color": "5a4a32", "lobes": 3, "trails": 2, "note": "a beast's droppings (一股恶臭从北边传来)"},
+    {"kind": "bones", "at": [-20, -200], "size": [40, 32], "skull": false},
+    {"kind": "bones", "at": [90, -300], "size": [44, 32]},
+    {"kind": "bones", "at": [-110, -330], "size": [36, 28], "ribs": false, "skull": false},
+    {"kind": "rubble", "at": [-130, -280], "size": [56, 24], "count": 7},
+    {"kind": "light_shaft", "at": [50, -380], "size": [72, 72], "height": 5.0, "day": 1.3, "night": 0.35, "range": 6.5, "light": "e8e2c8", "floor": "5e6a4e", "note": "secrectpath1/passage: 往北似乎有亮光"},
+    {"kind": "glow", "at": [0, 290], "color": "ffb867", "day": 0.6, "night": 1.2, "range": 7.0, "height": 2.0},
+    {"kind": "stalagmites", "at": [-166, 200], "size": [36, 36], "on_cliff": true, "count": 3, "height": 1.3, "colors": ["5d6857", "6a7563", "78826f", "8a9480"]},
+    {"kind": "stalagmites", "at": [150, 184], "size": [36, 36], "on_cliff": true, "count": 3, "height": 1.3, "colors": ["5d6857", "6a7563", "78826f", "8a9480"]},
+    {"kind": "stalagmites", "at": [-108, 0], "size": [36, 36], "on_cliff": true, "count": 3, "height": 1.3, "colors": ["5d6857", "6a7563", "78826f", "8a9480"]},
+    {"kind": "stalagmites", "at": [106, -112], "size": [36, 36], "on_cliff": true, "count": 3, "height": 1.3, "colors": ["5d6857", "6a7563", "78826f", "8a9480"]},
+    {"kind": "stalagmites", "at": [-182, -380], "size": [36, 36], "on_cliff": true, "count": 3, "height": 1.3, "colors": ["5d6857", "6a7563", "78826f", "8a9480"]},
+    {"kind": "stalagmites", "at": [166, -436], "size": [36, 36], "on_cliff": true, "count": 3, "height": 1.3, "colors": ["5d6857", "6a7563", "78826f", "8a9480"]},
+    {"kind": "stalagmites", "at": [0, -498], "size": [36, 36], "on_cliff": true, "count": 3, "height": 1.3, "colors": ["5d6857", "6a7563", "78826f", "8a9480"]},
+    {"kind": "overhang", "at": [-120, 100], "size": [64, 40], "on_cliff": true, "perch": "highest", "height": 0.0, "count": 4, "colors": ["4e5a48", "5a6652", "66725c"]},
+    {"kind": "overhang", "at": [110, 60], "size": [64, 40], "on_cliff": true, "perch": "highest", "height": 0.0, "count": 4, "colors": ["4e5a48", "5a6652", "66725c"]},
+    {"kind": "overhang", "at": [-90, -60], "size": [64, 40], "on_cliff": true, "perch": "highest", "height": 0.0, "count": 4, "colors": ["4e5a48", "5a6652", "66725c"]},
+    {"kind": "overhang", "at": [120, -260], "size": [64, 40], "on_cliff": true, "perch": "highest", "height": 0.0, "count": 4, "colors": ["4e5a48", "5a6652", "66725c"]}
+  ],
+  "actors": {
+    "default": {"coat": "7d6a4e"}
+  }
+}

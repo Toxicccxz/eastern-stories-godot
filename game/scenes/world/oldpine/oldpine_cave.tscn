@@ -1,5 +1,7 @@
 [gd_scene format=3]
 
+[ext_resource type="Script" path="res://presentation/voxel/world_voxel_view.gd" id="map_view"]
+
 [ext_resource type="Script" path="res://runtime/world/world_map_controller.gd" id="map"]
 [ext_resource type="Script" path="res://runtime/world/world_spawn_marker_2d.gd" id="marker"]
 [ext_resource type="Script" path="res://runtime/world/world_character_body_2d.gd" id="body"]
@@ -185,3 +187,34 @@ landmark_id = &"oldpine.cave.landmark.passage_curtain"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/PassageCurtainInteraction"]
 shape = SubResource("Rect_128_32")
 
+
+[node name="MapView" type="Node" parent="."]
+script = ExtResource("map_view")
+layout_path = "res://data/oldpine/voxel/cave.json"
+
+[node name="Furnishings" type="Node2D" parent="."]
+
+[node name="Furnishing01" type="Node2D" parent="Furnishings"]
+position = Vector2(-120, 232)
+metadata/look = {"kind": "candlestick"}
+metadata/footprint = Vector2(16, 16)
+
+[node name="Furnishing02" type="Node2D" parent="Furnishings"]
+position = Vector2(120, 232)
+metadata/look = {"kind": "candlestick"}
+metadata/footprint = Vector2(16, 16)
+
+[node name="Furnishing03" type="Node2D" parent="Furnishings"]
+position = Vector2(-104, 344)
+metadata/look = {"kind": "candlestick", "height": 1.25}
+metadata/footprint = Vector2(16, 16)
+
+[node name="Furnishing04" type="Node2D" parent="Furnishings"]
+position = Vector2(104, 344)
+metadata/look = {"kind": "candlestick", "height": 1.25}
+metadata/footprint = Vector2(16, 16)
+
+[node name="Furnishing05" type="Node2D" parent="Furnishings"]
+position = Vector2(0, -432)
+metadata/look = {"kind": "mossy_rock", "size": [104, 76], "tall": 1.45, "fern": false, "colors": ["4f5a4c", "5a6556", "465043", "626e5c"], "moss": ["3f6a34", "4a783a", "558442", "35592c"]}
+metadata/footprint = Vector2(64, 32)

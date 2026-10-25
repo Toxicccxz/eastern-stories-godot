@@ -1,5 +1,7 @@
 [gd_scene format=3]
 
+[ext_resource type="Script" path="res://presentation/voxel/world_voxel_view.gd" id="map_view"]
+
 [ext_resource type="Script" path="res://runtime/world/world_map_controller.gd" id="map"]
 [ext_resource type="Script" path="res://runtime/world/world_spawn_marker_2d.gd" id="marker"]
 [ext_resource type="Script" path="res://runtime/world/world_character_body_2d.gd" id="body"]
@@ -151,3 +153,7 @@ landmark_id = &"oldpine.caves.landmark.wall"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/WallInteraction"]
 shape = SubResource("Rect_240_64")
 
+
+[node name="MapView" type="Node" parent="."]
+script = ExtResource("map_view")
+layout_path = "res://data/oldpine/voxel/caves.json"

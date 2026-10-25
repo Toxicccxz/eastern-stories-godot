@@ -624,12 +624,12 @@ func _physically_enter_south_exit(
 	await tree.physics_frame
 	await tree.process_frame
 	var before: OldPineMapHandoffResult = session.last_map_handoff_result()
-	Input.action_press(&"move_down")
 	for _frame: int in range(60):
+		MapRoute.press_action(cave.player_body, &"move_down")
 		await tree.physics_frame
 		if session.last_map_handoff_result() != before:
 			break
-	Input.action_release(&"move_down")
+	MapPlaces.release()
 	await tree.process_frame
 	await tree.process_frame
 	_assert_true(session.last_map_handoff_result() != before, "physical south movement into the SouthExit passage requests one handoff")

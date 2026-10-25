@@ -7,6 +7,9 @@ var cube := BoxMesh.new()
 var stones: Dictionary[int, ArrayMesh] = {}
 var spatial_batching: bool = false
 var spatial_cell_size: float = 12.0
+## Placed in front of every form drawn while set: many trees share one grove parent (and so
+## one batch per colour) yet each keeps its own position, turn and size.
+var frame := Transform3D.IDENTITY
 
 ## A colour key; "<hex>:gloss" is the same colour, wet and shiny (its own material).
 func color(hex: String) -> Color:
@@ -26,6 +29,7 @@ func shard(parent: Node3D, at: Vector3, size: Vector3, hex: String, variant: int
 	_instance(parent, Transform3D(Basis(Vector3.UP, yaw).scaled_local(size), at), hex, stones[variant])
 
 func _instance(parent: Node3D, transform: Transform3D, hex: String, mesh: Mesh) -> void:
+	transform = frame*transform
 	var key: String = str(parent.get_instance_id()) + hex + str(mesh.get_instance_id())
 	if spatial_batching:
 		# Mobile lighting chooses lights per instance. A map-wide ground instance
@@ -112,7 +116,9 @@ func _flush_batch(entry: Dictionary, transforms: Array, light_bounds: Array[AABB
 	var instance := MultiMeshInstance3D.new()
 	instance.multimesh = multi
 	instance.material_override = material(entry["color"])
-	if entry["color"] in ["ffd88a","ffb858"] or parent.get_meta("light_fixture",false):
+	# The ground's own boxes and stones lie flat: their shadows would fall on nothing, yet they
+	# would fill every shadow map pass (meta `flat` on the parent they are drawn into).
+	if entry["color"] in ["ffd88a","ffb858"] or parent.get_meta("light_fixture",false) or parent.get_meta("flat",false):
 		# Tiny opaque lantern caps otherwise project enormous square shadows from
 		# the point source inside them. The housing represents a diffuse emitter.
 		instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF

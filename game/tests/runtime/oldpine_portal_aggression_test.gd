@@ -267,10 +267,10 @@ func _test_climb_and_return_traversal(tree: SceneTree) -> void:
 	# reattached map's tile collision is rebuilt on the next frame, before any real input.
 	await tree.physics_frame
 	tree_map.player_body.position = Vector2(2160.0, 300.0)
-	Input.action_press("move_right")
+	MapRoute.press_action(tree_map.player_body, &"move_right")
 	for _step: int in range(30):
 		tree_map.player_body._physics_process(1.0 / 60.0)
-	Input.action_release("move_right")
+	MapPlaces.release()
 	_assert_true(tree_map.player_body.global_position.x <= 2240.0 - 17.0 + 0.1, "the bough's end blocks movement")
 	_assert_true(tree_map.player_body.global_position.x > 2160.0, "the body moved out along the bough")
 	_assert_true(tree_map.select_landmark(&"oldpine.tree.landmark.tree1_descent"), "tree1 descent target selects")
@@ -867,9 +867,9 @@ func _test_aggressive_death_and_fresh_scene_boundary(tree: SceneTree) -> void:
 	_assert_eq(controller.aggression_adapter().pending_count(), 0, "dead NPC Presence cannot retrigger aggression")
 	_assert_eq(controller.map_character_state().ordered_active_characters().size(), 13, "dead aggressor does not respawn (14 present in the forest since the remap)")
 	var before_move: Vector2 = controller.player_body.position
-	Input.action_press("move_right")
+	MapRoute.press_action(controller.player_body, &"move_right")
 	controller.player_body._physics_process(1.0 / 30.0)
-	Input.action_release("move_right")
+	MapPlaces.release()
 	_assert_true(controller.player_body.position != before_move, "map remains playable after aggressive death")
 	var old_adapter: NpcAggressionAdapter = controller.aggression_adapter()
 	var old_npc_random: NpcInitializationRandomSource = controller.npc_random_source()

@@ -303,6 +303,10 @@ func _reflow(metrics: SafeAreaMetrics) -> void:
 	var gap: int = 4 if metrics.touch_sized() else 8
 	button_size = Vector2(64, 64) if metrics.touch_sized() else Vector2(80, 38)
 	menu_button.custom_minimum_size = Vector2(64, 64) if metrics.touch_sized() else Vector2(72, 32)
+	# The voxel view's light and side buttons beside it: touch targets too.
+	for name: String in ["DayNight", "ViewSide"]:
+		var toggle := menu_button.get_parent().get_node(name) as Control
+		toggle.custom_minimum_size.y = 64.0 if metrics.touch_sized() else 38.0
 	contexts.add_theme_constant_override("h_separation", gap)
 	contexts.add_theme_constant_override("v_separation", gap)
 	for button: Node in contexts.get_children():

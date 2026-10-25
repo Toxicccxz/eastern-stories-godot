@@ -132,7 +132,8 @@ static func npc_bodies(map: WorldMapController) -> Array[Node2D]:
 	var result: Array[Node2D] = []
 	var player: Node2D = map.runtime_player_body()
 	for node: Node in map.find_children("*", "CharacterBody2D", true, false):
-		if node != player:
+		# An absent NPC's body (keep2's trap guards before they are called) is hidden and stops no one.
+		if node != player and (node as CanvasItem).is_visible_in_tree():
 			result.append(node as Node2D)
 	return result
 
