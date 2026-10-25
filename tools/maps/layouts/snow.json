@@ -6,86 +6,93 @@
       "draw": {
         "technique": "town",
         "base": "boundary",
-        "bounds": [-1856, -2720, 1696, 1216],
+        "bounds": [-1904, -2720, 1744, 1312],
         "ground": [
-          ["forest", -1344, 960, -736, 1184, "fields south of the highway"],
-          ["forest", 160, 848, 1216, 1184, "the woods south of the town (卧龙岗)"],
-          ["forest", -1344, 208, -960, 592, "fields west of the town"],
-          ["forest", -720, 912, -608, 1136],
-          ["forest", -240, 912, -144, 1184],
-          ["forest", 736, 848, 1216, 1184],
-          ["forest", -640, -2656, -368, -2272, "trees round the col"],
-          ["forest", 368, -2656, 640, -2272]
+          ["forest", -1392, 1056, -784, 1280, "fields south of the highway"],
+          ["forest", 208, 848, 1264, 1280, "the woods south of the town (卧龙岗)"],
+          ["forest", -1392, 208, -1008, 592, "fields west of the town"],
+          ["forest", -768, 1008, -656, 1232],
+          ["forest", -288, 1008, -192, 1280],
+          ["forest", 784, 848, 1264, 1280],
+          ["forest", -688, -2656, -416, -2272, "trees round the col"],
+          ["forest", 416, -2656, 688, -2272]
         ],
         "zones": {
-          "snow.square": [-416, -320, 416, 320, "open", "town_ground", null],
+          "snow.square": [-464, -320, 464, 320, "open", "town_ground", null],
           "snow.mstreet1": {
             "street": "main",
             "axis": "y",
             "centre": 0,
             "span": [-800, -320],
-            "ground": "street"
+            "ground": "street",
+            "width": 320
           },
           "snow.mstreet2": {
             "street": "main",
             "axis": "y",
             "centre": 0,
             "span": [-1280, -800],
-            "ground": "street"
+            "ground": "street",
+            "width": 320
           },
           "snow.mstreet3": {
             "street": "main",
             "axis": "y",
             "centre": 0,
             "span": [-1760, -1280],
-            "ground": "street"
+            "ground": "street",
+            "width": 320
           },
           "snow.mstreet4": {
             "street": "main",
             "axis": "y",
             "centre": 0,
             "span": [-2240, -1760],
-            "ground": "street"
+            "ground": "street",
+            "width": 320
           },
-          "snow.crossroad": [-320, -2656, 320, -2240, "open", "grass", null],
-          "snow.school1": [112, -736, 400, -384, "open", "town_ground", null],
+          "snow.crossroad": [-368, -2656, 368, -2240, "open", "grass", null],
+          "snow.school1": [160, -736, 448, -384, "open", "town_ground", null],
           "snow.sroad1": {
             "street": "main",
             "axis": "y",
             "centre": 0,
-            "span": [320, 880],
-            "ground": "street"
+            "span": [320, 976],
+            "ground": "street",
+            "width": 320
           },
           "snow.sroad2": {
             "street": "main",
             "axis": "x",
-            "centre": 752,
-            "span": [-736, -112],
-            "ground": "street"
+            "centre": 800,
+            "span": [-784, -160],
+            "ground": "street",
+            "width": 320
           },
           "snow.sroad3": {
             "street": "road",
             "axis": "x",
-            "centre": 752,
-            "span": [-1344, -736],
-            "ground": "street"
+            "centre": 800,
+            "span": [-1392, -784],
+            "ground": "street",
+            "width": 352
           },
-          "snow.sroad4": [-1792, 624, -1344, 944, "open", "street", null],
+          "snow.sroad4": [-1840, 624, -1392, 1040, "open", "street", null],
           "snow.sroad5": {
             "street": "road",
             "axis": "y",
-            "centre": -1600,
+            "centre": -1648,
             "span": [208, 624],
             "ground": "street"
           },
-          "snow.eroad1": [112, 544, 736, 800, "open", "grass", null],
-          "snow.eroad2": [736, 480, 1248, 800, "open", "grass", null],
-          "snow.eroad3": [1248, 192, 1632, 1152, "open", "grass", null]
+          "snow.eroad1": [160, 544, 784, 800, "open", "grass", null],
+          "snow.eroad2": [784, 480, 1296, 800, "open", "grass", null],
+          "snow.eroad3": [1296, 192, 1680, 1248, "open", "grass", null]
         },
         "buildings": [
           {
             "name": "饮风客栈",
-            "rect": [-880, -192, -416, 624],
+            "rect": [-928, -192, -464, 624],
             "street": "snow.square",
             "side": "west",
             "doors": ["snow.square.west"],
@@ -143,7 +150,7 @@
           },
           {
             "name": "淳风武馆",
-            "rect": [400, -1248, 1312, -352],
+            "rect": [448, -1248, 1360, -352],
             "street": "snow.school1",
             "side": "east",
             "wall": "wall",
@@ -152,7 +159,7 @@
           },
           {
             "name": "城隍庙",
-            "rect": [416, -96, 704, 544],
+            "rect": [464, -96, 752, 544],
             "street": "snow.square",
             "side": "east",
             "wall": "wall",
@@ -165,7 +172,7 @@
                 "portal": "snow.eroad1.north",
                 "street": "snow.eroad1",
                 "side": "north",
-                "at": 560
+                "at": 608
               }
             ]
           },
@@ -175,93 +182,93 @@
             "side": "south",
             "frontage": "shop",
             "depth": "deep",
-            "at": -416,
+            "at": -464,
             "doors": ["snow.sroad2.south"]
           },
           {
             "name": "民居",
-            "rect": [-368, 368, -160, 592]
+            "rect": [-416, 368, -208, 592]
           },
           {
             "name": "民居",
-            "rect": [128, -2208, 336, -2032]
+            "rect": [176, -2208, 384, -2032]
           },
           {
             "name": "民居",
-            "rect": [128, -1952, 336, -1776]
+            "rect": [176, -1952, 384, -1776]
           },
           {
             "name": "民居",
-            "rect": [-688, -896, -400, -656]
+            "rect": [-736, -896, -448, -656]
           },
           {
             "name": "民居",
-            "rect": [-688, -1424, -400, -1184]
+            "rect": [-736, -1424, -448, -1184]
           },
           {
             "name": "民居",
-            "rect": [736, -32, 960, 192]
+            "rect": [784, -32, 1008, 192]
           },
           {
             "name": "民居",
-            "rect": [736, 224, 960, 432]
+            "rect": [784, 224, 1008, 432]
           },
           {
             "name": "民居",
-            "rect": [1360, -1184, 1600, -928]
+            "rect": [1408, -1184, 1648, -928]
           }
         ],
         "roads": [
-          ["path", -32, -2656, 32, -2240, "山坳: the track north to 野羊山"],
-          ["path", 32, -2480, 320, -2416, "and the winding track east to 青石村"],
-          ["path", 112, 640, 736, 688, "黄土小径, winding east up the hill"],
-          ["path", 528, 544, 592, 640, "to the temple's back door"],
-          ["path", 736, 608, 1056, 656],
-          ["path", 1040, 560, 1248, 608],
-          ["path", 1408, 192, 1472, 1152, "山路 of mossy stones"],
-          ["path", -1344, 704, -736, 720, "the ruts the carts have worn into the highway"],
-          ["path", -1344, 784, -736, 800]
+          ["path", -48, -2656, 48, -2240, "山坳: the track north to 野羊山"],
+          ["path", 48, -2496, 368, -2400, "and the winding track east to 青石村"],
+          ["path", 160, 624, 784, 704, "黄土小径, winding east up the hill"],
+          ["path", 560, 544, 656, 640, "to the temple's back door"],
+          ["path", 784, 592, 1104, 672],
+          ["path", 1088, 544, 1296, 624],
+          ["path", 1440, 192, 1536, 1248, "山路 of mossy stones"],
+          ["path", -1392, 752, -784, 768, "the ruts the carts have worn into the highway"],
+          ["path", -1392, 832, -784, 848]
         ],
         "props": [
           ["blocked", -48, -96, 48, -48, "the square's old wooden frame", {"look": {"kind": "board"}}],
-          ["wall", -112, -2240, -96, -2224, "the old memorial arch (牌坊) at the town's north end"],
-          ["wall", 96, -2240, 112, -2224],
-          ["cliff", -320, -2656, -160, -2560, "the col's rocks"],
-          ["cliff", 160, -2656, 320, -2592],
-          ["blocked", -144, -2592, -112, -2560, "weathered rocks on the col: the town ends, the bare mountain begins", {"look": {"kind": "standing_rock", "height": 1.4, "colors": ["a18c63", "8f7b58", "b09a70"]}}],
-          ["blocked", 112, -2640, 144, -2608, {"look": {"kind": "standing_rock", "height": 1.8, "colors": ["958361", "84744f", "a49272"]}}],
-          ["blocked", -192, -2384, -160, -2352, {"look": {"kind": "boulder", "colors": ["8a8062", "9a8f70"]}}],
-          ["blocked", 128, -2384, 176, -2368, "the government notice about the 野羊山 bandits", {"look": {"kind": "board"}}],
-          ["blocked", -96, -2112, -80, -2064, "雪亭驿's bounty board on the street (native, A2 经验节奏)", {"look": {"kind": "board", "rotation": 90}}],
-          ["blocked", 160, -688, 192, -656, "the stone lions either side of the gate", {"look": {"kind": "stone_lion", "rotation": -90}}],
-          ["blocked", 160, -464, 192, -432, {"look": {"kind": "stone_lion", "rotation": -90}}],
-          ["blocked", 336, -704, 352, -688, "the flagpole: 「淳风武馆」", {"look": {"kind": "flagpole", "text": "淳风武馆"}}],
-          ["cliff", 1568, 192, 1632, 1152, "the mountain wall east of the road"],
-          ["forest", 1248, 192, 1312, 448, "the slope west of the road"],
-          ["forest", 1248, 864, 1312, 1152],
-          ["forest", 880, 480, 960, 544],
-          ["forest", 1120, 720, 1200, 800],
-          ["forest", -1616, 880, -1584, 912, "flowering trees along the highway"],
-          ["forest", -1520, 880, -1488, 912],
-          ["forest", -1760, 240, -1728, 272],
-          ["forest", -1760, 432, -1728, 464],
-          ["forest", -1504, 272, -1472, 304],
-          ["forest", -1504, 496, -1472, 528]
+          ["wall", -160, -2240, -144, -2224, "the old memorial arch (牌坊) at the town's north end"],
+          ["wall", 144, -2240, 160, -2224],
+          ["cliff", -368, -2656, -208, -2560, "the col's rocks"],
+          ["cliff", 208, -2656, 368, -2592],
+          ["blocked", -192, -2592, -160, -2560, "weathered rocks on the col: the town ends, the bare mountain begins", {"look": {"kind": "standing_rock", "height": 1.4, "colors": ["a18c63", "8f7b58", "b09a70"]}}],
+          ["blocked", 160, -2640, 192, -2608, {"look": {"kind": "standing_rock", "height": 1.8, "colors": ["958361", "84744f", "a49272"]}}],
+          ["blocked", -240, -2384, -208, -2352, {"look": {"kind": "boulder", "colors": ["8a8062", "9a8f70"]}}],
+          ["blocked", 176, -2384, 224, -2368, "the government notice about the 野羊山 bandits", {"look": {"kind": "board"}}],
+          ["blocked", -144, -2112, -128, -2064, "雪亭驿's bounty board on the street (native, A2 经验节奏)", {"look": {"kind": "board", "rotation": 90}}],
+          ["blocked", 208, -688, 240, -656, "the stone lions either side of the gate", {"look": {"kind": "stone_lion", "rotation": -90}}],
+          ["blocked", 208, -464, 240, -432, {"look": {"kind": "stone_lion", "rotation": -90}}],
+          ["blocked", 384, -704, 400, -688, "the flagpole: 「淳风武馆」", {"look": {"kind": "flagpole", "text": "淳风武馆"}}],
+          ["cliff", 1616, 192, 1680, 1248, "the mountain wall east of the road"],
+          ["forest", 1296, 192, 1360, 448, "the slope west of the road"],
+          ["forest", 1296, 960, 1360, 1248],
+          ["forest", 928, 480, 1008, 544],
+          ["forest", 1168, 720, 1248, 800],
+          ["forest", -1664, 976, -1632, 1008, "flowering trees along the highway"],
+          ["forest", -1568, 976, -1536, 1008],
+          ["forest", -1808, 240, -1776, 272],
+          ["forest", -1808, 432, -1776, 464],
+          ["forest", -1552, 272, -1520, 304],
+          ["forest", -1552, 496, -1520, 528]
         ],
         "reach_from": "SquareInnEntry",
         "markers_in_middle": [],
         "placed": {
-          "snow.square.trav_blade.1": [-224, -208],
-          "snow.square.trav_blade.2": [224, -176],
-          "snow.square.trav_blade.3": [192, 208],
-          "snow.eroad2.dog.1": [880, 720],
-          "snow.eroad2.dog.2": [1056, 528],
-          "snow.mstreet2.drunk.1": [-64, -960],
-          "snow.mstreet2.scavenger.1": [64, -1120],
-          "snow.school1.guard.1": [272, -464],
-          "snow.sroad2.farmer.1": [-608, 688],
-          "snow.sroad2.farmer.2": [-256, 816],
-          "snow.sroad4.crazy_dog.1": [-1568, 784]
+          "snow.square.trav_blade.1": [-272, -208],
+          "snow.square.trav_blade.2": [272, -176],
+          "snow.square.trav_blade.3": [240, 208],
+          "snow.eroad2.dog.1": [928, 720],
+          "snow.eroad2.dog.2": [1104, 528],
+          "snow.mstreet2.drunk.1": [-120, -880],
+          "snow.mstreet2.scavenger.1": [120, -1200],
+          "snow.school1.guard.1": [320, -464],
+          "snow.sroad2.farmer.1": [-656, 688],
+          "snow.sroad2.farmer.2": [-304, 920],
+          "snow.sroad4.crazy_dog.1": [-1600, 1016]
         }
       },
       "scene": {
@@ -272,7 +279,9 @@
         "player_color": "Color(0.68, 0.73, 0.8, 1)",
         "shapes": {
           "Rect_96_32": [96, 32],
-          "Rect_32_96": [32, 96]
+          "Rect_32_96": [32, 96],
+          "Rect_192_32": [192, 32],
+          "Rect_160_32": [160, 32]
         },
         "door_style": {
           "walls": "Terrain/DoorWalls",
@@ -287,35 +296,35 @@
           {
             "node": "caption",
             "name": "InnLabel",
-            "at": [-736, 200],
+            "at": [-784, 200],
             "text": "饮风客栈",
             "size": 16
           },
           {
             "node": "caption",
             "name": "BankLabel",
-            "at": [-288, -580],
+            "at": [-336, -580],
             "text": "安记钱庄",
             "size": 12
           },
           {
             "node": "caption",
             "name": "SmithyLabel",
-            "at": [-288, -1060],
+            "at": [-336, -1060],
             "text": "打铁铺子",
             "size": 12
           },
           {
             "node": "caption",
             "name": "HerbshopLabel",
-            "at": [-288, -1540],
+            "at": [-336, -1540],
             "text": "桑邻药铺",
             "size": 12
           },
           {
             "node": "caption",
             "name": "PostofficeLabel",
-            "at": [-288, -2020],
+            "at": [-336, -2020],
             "text": "雪亭驿",
             "size": 12
           },
@@ -329,35 +338,35 @@
           {
             "node": "caption",
             "name": "WorkplaceLabel",
-            "at": [128, -1060],
+            "at": [176, -1060],
             "text": "谷物加工厂",
             "size": 12
           },
           {
             "node": "caption",
             "name": "HockshopLabel",
-            "at": [128, -1540],
+            "at": [176, -1540],
             "text": "当",
             "size": 12
           },
           {
             "node": "caption",
             "name": "SchoolLabel",
-            "at": [720, -820],
+            "at": [768, -820],
             "text": "淳风武馆",
             "size": 16
           },
           {
             "node": "caption",
             "name": "TempleLabel",
-            "at": [512, 220],
+            "at": [560, 220],
             "text": "城隍庙",
             "size": 12
           },
           {
             "node": "caption",
             "name": "AcademyLabel",
-            "at": [-460, 1000],
+            "at": [-508, 1096],
             "text": "书院",
             "size": 12
           },
@@ -378,21 +387,21 @@
           {
             "node": "caption",
             "name": "NoticeLabel",
-            "at": [120, -2408],
+            "at": [168, -2408],
             "text": "告示牌",
             "size": 12
           },
           {
             "node": "caption",
             "name": "LionLabel",
-            "at": [200, -690],
+            "at": [248, -690],
             "text": "石狮",
             "size": 12
           },
           {
             "node": "caption",
             "name": "FlagLabel",
-            "at": [300, -730],
+            "at": [348, -730],
             "text": "旗杆",
             "size": 12
           },
@@ -406,42 +415,42 @@
           {
             "node": "caption",
             "name": "GreenSign",
-            "at": [160, -2510],
+            "at": [208, -2510],
             "text": "东 · 青石村",
             "size": 14
           },
           {
             "node": "caption",
             "name": "CloudSign",
-            "at": [24, 888],
+            "at": [24, 984],
             "text": "南 · 卧龙岗",
             "size": 14
           },
           {
             "node": "caption",
             "name": "OldPineSign",
-            "at": [1480, 1160],
+            "at": [1528, 1256],
             "text": "南 · 老松岭",
             "size": 14
           },
           {
             "node": "caption",
             "name": "StepsLabel",
-            "at": [1480, 200],
+            "at": [1528, 200],
             "text": "石阶 · 茅山",
             "size": 14
           },
           {
             "node": "caption",
             "name": "WaterfogSign",
-            "at": [-1720, 236],
+            "at": [-1768, 236],
             "text": "西 · 水烟阁",
             "size": 14
           },
           {
             "node": "caption",
             "name": "CanyonSign",
-            "at": [-1780, 952],
+            "at": [-1828, 1048],
             "text": "西南 · 黄石隘口",
             "size": 14
           },
@@ -449,49 +458,49 @@
             "node": "passage",
             "name": "OldPinePassage",
             "id": "snow.eroad3.south",
-            "at": [1440, 1136],
-            "shape": "Rect_96_32"
+            "at": [1488, 1232],
+            "shape": "Rect_160_32"
           },
           {
             "node": "passage",
             "name": "GoathillPassage",
             "id": "snow.crossroad.north",
             "at": [0, -2640],
-            "shape": "Rect_96_32"
+            "shape": "Rect_160_32"
           },
           {
             "node": "passage",
             "name": "GreenPassage",
             "id": "snow.crossroad.east",
-            "at": [304, -2448],
+            "at": [352, -2448],
             "shape": "Rect_32_96"
           },
           {
             "node": "passage",
             "name": "CloudPassage",
             "id": "snow.sroad1.south",
-            "at": [0, 864],
-            "shape": "Rect_96_32"
+            "at": [0, 960],
+            "shape": "Rect_192_32"
           },
           {
             "node": "passage",
             "name": "WaterfogPassage",
             "id": "snow.sroad5.west",
-            "at": [-1712, 416],
+            "at": [-1760, 416],
             "shape": "Rect_32_96"
           },
           {
             "node": "passage",
             "name": "CanyonPassage",
             "id": "snow.sroad4.southwest",
-            "at": [-1744, 928],
+            "at": [-1792, 1024],
             "shape": "Rect_96_32"
           },
           {
             "node": "passage",
             "name": "TemplePassage",
             "id": "snow.eroad3.east",
-            "at": [1440, 208],
+            "at": [1488, 208],
             "shape": "Rect_96_32"
           }
         ],
@@ -503,7 +512,7 @@
         "spawn_points": [
           {
             "name": "OldPineReturn",
-            "at": [1440, 1056],
+            "at": [1488, 1152],
             "id": "snow.eroad3.oldpine_return"
           },
           {
@@ -513,7 +522,7 @@
           },
           {
             "name": "GreenReturn",
-            "at": [224, -2448],
+            "at": [272, -2448],
             "id": "snow.crossroad.green_return"
           },
           {
@@ -523,17 +532,17 @@
           },
           {
             "name": "WaterfogReturn",
-            "at": [-1632, 416],
+            "at": [-1680, 416],
             "id": "snow.sroad5.waterfog_return"
           },
           {
             "name": "CanyonReturn",
-            "at": [-1712, 848],
+            "at": [-1760, 848],
             "id": "snow.sroad4.canyon_return"
           },
           {
             "name": "TempleReturn",
-            "at": [1440, 288],
+            "at": [1488, 288],
             "id": "snow.eroad3.temple_return"
           },
           {

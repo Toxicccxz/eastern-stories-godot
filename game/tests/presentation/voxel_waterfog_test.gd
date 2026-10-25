@@ -65,7 +65,7 @@ func _check_snow_seam() -> void:
 	var maples: bool = false
 	for area: Dictionary in snow.get("flora", {}).get("areas", []):
 		var r: Array = area["rect"]
-		maples = maples or Rect2(r[0], r[1], r[2] - r[0], r[3] - r[1]).has_point(Vector2(-1712, 416)) and "maple" in area.get("tree_types", [])
+		maples = maples or Rect2(r[0], r[1], r[2] - r[0], r[3] - r[1]).has_point(Vector2(-1760, 416)) and "maple" in area.get("tree_types", [])
 	_check(maples, "雪亭镇's west end has the first maples of 水烟阁's slopes")
 
 
