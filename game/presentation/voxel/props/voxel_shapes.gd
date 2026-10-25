@@ -21,7 +21,8 @@ var compact: Dictionary[Node3D, bool] = {}
 
 ## A colour key; "<hex>:gloss" is the same colour, wet and shiny (its own material);
 ## "<hex>:glow" gives off its own light (a red paper lantern, gilt letters catching the sun);
-## "<hex>:haze" is seen through, flat, as far hills in the mist (fainter by night).
+## "<hex>:haze" is seen through, flat, as far hills in the mist (fainter by night); "<hex>:mist"
+## is seen through but lit like the land (a cloud sea: white by day, dark blue by night).
 func color(hex: String) -> Color:
 	return Color.html(hex.get_slice(":",0))
 
@@ -136,7 +137,7 @@ func _flush_batch(entry: Dictionary, transforms: Array, light_bounds: Array[AABB
 	instance.material_override = material(entry["color"])
 	# The ground's own boxes and stones lie flat: their shadows would fall on nothing, yet they
 	# would fill every shadow map pass (meta `flat` on the parent they are drawn into).
-	if entry["color"] in ["ffd88a","ffb858"] or String(entry["color"]).ends_with(":glow") or String(entry["color"]).ends_with(":haze") or parent.get_meta("light_fixture",false) or parent.get_meta("flat",false):
+	if entry["color"] in ["ffd88a","ffb858"] or String(entry["color"]).ends_with(":glow") or String(entry["color"]).ends_with(":haze") or String(entry["color"]).ends_with(":mist") or parent.get_meta("light_fixture",false) or parent.get_meta("flat",false):
 		# Tiny opaque lantern caps otherwise project enormous square shadows from
 		# the point source inside them. The housing represents a diffuse emitter.
 		instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
@@ -155,6 +156,11 @@ func material(hex: String) -> StandardMaterial3D:
 			mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 			mat.albedo_color.a = 0.5
 			mat.set_meta("haze",[0.5,0.22])
+		if hex.ends_with(":mist"):
+			mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+			mat.roughness = 1.0
+			mat.albedo_color.a = 0.55
+			mat.set_meta("haze",[0.55,0.4])
 		if hex.ends_with(":glow"):
 			mat.emission_enabled = true
 			mat.emission = color(hex)

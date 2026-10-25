@@ -1,0 +1,60 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 21,
+  "palette": {"wood": ["8e3a2c", "96402f", "883628", "a04634"], "wall": "e9e5da"},
+  "surfaces": {
+    "waterfog.west_2f": "floor_shop",
+    "waterfog.forehall": "town_ground"
+  },
+  "ground": {
+    "floor_shop": {"colors": ["a8845a", "b08c60", "9e7c54", "b69466"], "note": "west_2f: a walkway of honey-coloured boards"},
+    "town_ground": {"style": "paving", "stones": ["4a5250", "525a58", "5a6260", "4e5654"], "worn": ["626a68"], "bed": "2e3432", "crack": "6a7270", "note": "聆啸厅: grey-green stone, like its five stones"},
+    "floor_yard": {"style": "paving", "stones": ["e6eae2", "dfe4dc", "eef1ea", "e2e7df"], "worn": ["d6dcd2"], "bed": "b8beb4", "note": "forehall.c: the terrace's white stone"}
+  },
+  "reshape": [
+    {"rect": [512, 400, 1024, 544], "from": ["town_ground", "blocked"], "to": "floor_yard", "note": "forehall.c: 南面是一个大露台"}
+  ],
+  "props": [
+    {"kind": "stairwell", "at": [192, 216], "size": [64, 64], "note": "west_2f.c: the stairs down"},
+    {"kind": "stairwell", "at": [1344, 216], "size": [64, 64]},
+    {"kind": "drop", "at": [288, 416], "size": [320, 64], "below": "e0ddd4", "rug": "6f8a96", "note": "west_2f.c: 侧厅是挑高建筑, the hall below with its white stone floor"},
+    {"kind": "drop", "at": [1248, 416], "size": [320, 64], "below": "8a5a3c", "rug": "7a3a30"},
+
+    {"kind": "window", "at": [320, 116], "size": [64, 16]},
+    {"kind": "hanging_lantern", "at": [336, 256], "flicker": 0.06},
+    {"kind": "wall_scroll", "at": [112, 300], "size": [40, 8], "rotation": 90, "wall_mounted": true},
+    {"kind": "runner", "at": [320, 288], "size": [224, 48], "note": "the walkway from the stairs to the door"},
+
+    {"kind": "window", "at": [1216, 116], "size": [64, 16]},
+    {"kind": "hanging_lantern", "at": [1200, 256], "flicker": 0.06, "paper": "d8452f:glow"},
+    {"kind": "wall_scroll", "at": [1424, 300], "size": [40, 8], "rotation": -90, "calligraphy": true, "wall_mounted": true},
+    {"kind": "runner", "at": [1216, 288], "size": [224, 48]},
+
+    {"kind": "closed_door", "at": [768, 104], "size": [96, 16], "wall_mounted": true, "note": "forehall.c: 往北则是水烟阁主所居的春秋水色斋 (no room: shut)"},
+    {"kind": "sign", "at": [768, 108], "size": [128, 16], "text": "春秋水色斋", "board": "1e3436", "letters": "efcd6c:glow", "frame": "b89548", "height": 3.0, "tall": 0.6, "wall_mounted": true},
+    {"kind": "window", "at": [608, 116], "size": [64, 16]},
+    {"kind": "window", "at": [928, 116], "size": [64, 16]},
+    {"kind": "wall_scroll", "at": [512, 220], "size": [48, 8], "rotation": 90, "calligraphy": true, "wall_mounted": true},
+    {"kind": "rug", "at": [768, 256], "size": [352, 160], "cloth": "2f5a5c", "border": "c9a24a", "motif": "6a9a96"},
+    {"kind": "hanging_lantern", "at": [656, 288], "flicker": 0.05},
+    {"kind": "hanging_lantern", "at": [880, 288], "flicker": 0.05},
+    {"kind": "balustrade", "at": [768, 560], "size": [512, 16], "jade": true, "note": "the terrace's railing (the hall's south wall, cut low)"},
+    {"kind": "pot", "at": [536, 520]},
+    {"kind": "pot", "at": [1000, 520]},
+    {"kind": "pot", "at": [720, 448]},
+    {"kind": "hanging_lantern", "at": [560, 432], "flicker": 0.08, "note": "lanterns hung over the terrace's corners"},
+    {"kind": "hanging_lantern", "at": [976, 432], "flicker": 0.08}
+  ],
+  "actors": {
+    "default": {"coat": "6a6a5a"},
+    "waterfog.npc.elite_guard": {"coat": "a8382c", "hat": true},
+    "waterfog.npc.elder5": {"coat": "e2ded2"},
+    "waterfog.npc.elder6": {"coat": "5a6a7a"},
+    "waterfog.npc.elder7": {"coat": "7a5a46"}
+  },
+  "entrances": {
+    "waterfog.west_2f.down": {"title": "楼梯 · 下楼", "label_height": 1.5, "floor_guides": false},
+    "waterfog.east_2f.down": {"title": "楼梯 · 下楼", "label_height": 1.5, "floor_guides": false}
+  }
+}

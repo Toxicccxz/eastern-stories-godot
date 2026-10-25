@@ -200,6 +200,10 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 		"wardrobe": _wardrobe(w,d,data)
 		"bench_seat": _bench_seat(w,d,data)
 		"clutter": _clutter(w,d,data)
+		"long_bed": _long_bed(w,d,data)
+		"kang": _kang(w,d,data)
+		"grand_chair": _grand_chair(w,d,data)
+		"saw_horse": _saw_horse(w,d)
 		_:
 			return false
 	return true
@@ -481,3 +485,73 @@ func _clutter(w: float, d: float, look: Dictionary) -> void:
 				s.box(root,at+Vector3(0,0.03,0),Vector3(0.44,0.05,0.24),"4b4031")
 				for bead: int in 6:
 					s.box(root,at+Vector3(-0.15+bead*0.06,0.07,0),Vector3(0.04,0.04,0.18),"b79c66")
+
+## 大通铺: a long raised sleeping platform for a household's servants, a row of folded quilts
+## (`quilts`) and pillows along it, a step board in front, shoes left under the edge.
+func _long_bed(w: float, d: float, look: Dictionary) -> void:
+	var wood: String = _wood(look,"wood","6e5038")
+	var along_x: bool = w>=d
+	var length: float = maxf(w,d)
+	var depth: float = minf(w,d)
+	var frame := Node3D.new()
+	frame.rotation.y = 0.0 if along_x else PI/2
+	root.add_child(frame)
+	if s.merged.has(root):
+		s.merge(frame,s.merged[root])
+	s.box(frame,Vector3(0,0.24,0),Vector3(length,0.48,depth),wood)
+	s.box(frame,Vector3(0,0.5,0),Vector3(length-0.08,0.06,depth-0.08),"b49a6c")
+	s.box(frame,Vector3(0,0.12,depth/2+0.12),Vector3(length*0.96,0.08,0.24),_wood(look,"step","7d5c3e"))
+	var quilts: Array = look.get("quilts",["5a6e86","8a5a48","6f7f5a","a08a5a"])
+	var places: int = maxi(2,floori(length/0.85))
+	for i: int in places:
+		var x: float = -length/2+(i+0.5)*length/places
+		s.box(frame,Vector3(x,0.6,-depth*0.12),Vector3(0.62,0.16,depth*0.42),String(quilts[i%quilts.size()]))
+		s.box(frame,Vector3(x,0.6,-depth*0.4),Vector3(0.36,0.12,0.18),"d8ccaa")
+		if i%3==1:
+			for side: float in [-0.09,0.09]:
+				s.box(frame,Vector3(x+side,0.05,depth/2+0.34),Vector3(0.12,0.06,0.24),"4a3a2c")
+
+## 炕: a brick sleeping platform warmed from beneath, its fire mouth at one end (cold: the
+## servants are home for the winter only on frosty nights), a reed mat and a quilt chest on it.
+func _kang(w: float, d: float, look: Dictionary) -> void:
+	var brick: Array = look.get("colors",["8a6a54","7d5e4a","96755c"])
+	for course: int in 4:
+		s.box(root,Vector3(0,0.08+course*0.15,0),Vector3(w,0.15,d),String(brick[course%brick.size()]))
+	s.box(root,Vector3(0,0.66,0),Vector3(w-0.06,0.05,d-0.06),"c2a876")
+	for strip: int in floori((w-0.1)/0.12):
+		s.box(root,Vector3(-w/2+0.1+strip*0.12,0.69,0),Vector3(0.02,0.012,d-0.1),"a88c5c")
+	s.box(root,Vector3(w/2+0.02,0.25,0),Vector3(0.06,0.3,0.36),"1e1a17")
+	s.box(root,Vector3(-w*0.25,0.86,-d*0.3),Vector3(w*0.38,0.3,d*0.3),"7a573c")
+	s.box(root,Vector3(-w*0.25,1.04,-d*0.3),Vector3(w*0.34,0.08,d*0.26),"6b5a8a")
+
+## 太师椅: a black lacquered armchair, its tall back with a carved panel, the arms stepped down,
+## a footrest in front; set on a low dais (`dais`) in a hall.
+func _grand_chair(w: float, d: float, look: Dictionary) -> void:
+	var lacquer: String = _wood(look,"wood","1f1b19")
+	var trim: String = _wood(look,"trim","b8923e")
+	if look.get("dais",true):
+		s.box(root,Vector3(0,0.08,0),Vector3(w,0.16,d),_wood(look,"dais","5c3f2b"))
+	var y: float = 0.16 if look.get("dais",true) else 0.0
+	s.box(root,Vector3(0,y+0.62,0),Vector3(w*0.72,0.12,d*0.62),lacquer)
+	for x: float in [-w*0.32,w*0.32]:
+		for z: float in [-d*0.26,d*0.26]:
+			s.box(root,Vector3(x,y+0.3,z),Vector3(0.11,0.6,0.11),lacquer)
+		s.box(root,Vector3(x,y+0.9,-d*0.02),Vector3(0.1,0.1,d*0.6),lacquer)
+		s.box(root,Vector3(x,y+0.78,d*0.24),Vector3(0.09,0.3,0.09),lacquer)
+	s.box(root,Vector3(0,y+1.25,-d*0.3),Vector3(w*0.72,1.15,0.12),lacquer)
+	s.box(root,Vector3(0,y+1.3,-d*0.23),Vector3(w*0.36,0.62,0.04),"3a2a22")
+	s.box(root,Vector3(0,y+1.3,-d*0.205),Vector3(w*0.2,0.3,0.02),trim)
+	s.box(root,Vector3(0,y+1.87,-d*0.3),Vector3(w*0.82,0.1,0.16),lacquer)
+	s.box(root,Vector3(0,y+0.7,0.02),Vector3(w*0.55,0.05,d*0.5),_wood(look,"cushion","7a2a24"))
+	s.box(root,Vector3(0,y+0.08,d*0.38),Vector3(w*0.6,0.1,d*0.18),lacquer)
+
+## 锯木架: a saw-horse with a log across it half cut through, the saw left in the cut, sawdust.
+func _saw_horse(w: float, d: float) -> void:
+	for x: float in [-w*0.3,w*0.3]:
+		for side: float in [-1.0,1.0]:
+			s.tilted_box(root,Vector3(x,0.32,side*0.12),Vector3(0.08,0.66,0.08),"7a5f43",Vector3(side*0.35,0,0))
+	s.box(root,Vector3(0,0.62,0),Vector3(w*0.8,0.08,0.1),"6a5039")
+	s.tilted_box(root,Vector3(0,0.78,0),Vector3(w*1.05,0.24,0.24),"8c6e4c",Vector3(0,0.2,0))
+	s.box(root,Vector3(w*0.1,0.92,0),Vector3(0.02,0.28,0.5),"9aa0a0")
+	s.box(root,Vector3(w*0.1,0.92,0.32),Vector3(0.05,0.08,0.18),"6a4c33")
+	s.box(root,Vector3(0,0.012,0.1),Vector3(w*0.6,0.02,d*0.5),"c9ad7c")

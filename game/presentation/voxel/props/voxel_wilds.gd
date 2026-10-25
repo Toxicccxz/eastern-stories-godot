@@ -2,7 +2,8 @@ extends RefCounted
 
 ## The wilds: mountain passes and caves (美术规划 groups C and F). Rocks, bones and dry
 ## stream beds, a bandit camp's fire, flag, stakes and plunder, the stone beam over a
-## canyon, cave mouths, dripstone, slime and pools. Sizes and colours come from the data;
+## canyon, cave mouths, dripstone, slime and pools; the cloud sea below a peak and far
+## peaks across the valleys. Sizes and colours come from the data;
 ## what stands on walkable ground is a blocked box in the map layout.
 const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
 var s: Shapes
@@ -38,6 +39,9 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"loot_crates": _loot_crates(w,d)
 		"bedroll": _bedroll(w,d)
 		"lost_pack": _lost_pack()
+		"cloud_sea": _cloud_sea(w,d)
+		"far_peak": _far_peak(w,d)
+		"stuck_swords": _stuck_swords(w,d)
 		"stalagmites": _stalagmites(w,d)
 		"overhang": _overhang(w,d)
 		"slime": _slime(w,d)
@@ -704,3 +708,87 @@ func _brazier(w: float) -> void:
 	root.add_child(light)
 	if ambience != null:
 		ambience.smoke(root,Vector3(0,1.2,0),"6f6a62",3)
+
+## 云海: a sea of cloud below a peak or along a gorge's depths (clifftop.c: 一片云雾之中突出几座
+## 山峰): billows of mist in see-through slabs (`colors`, ":haze") that drift slowly about where
+## they lie, the faint shimmer of water through it (`shimmer`: 好似水波的微光), and `peaks`
+## ([[x, z, height, radius], ...] units from its middle) of far rock standing out of it.
+func _cloud_sea(w: float, d: float) -> void:
+	var mist: Array = _colors("colors",["e6ecef","d6dfe4","f2f5f6"])
+	var drifting := Node3D.new()
+	root.add_child(drifting)
+	var count: int = int(data.get("count",maxi(8,floori(w*d/12.0))))
+	var thick: Array = data.get("thickness",[0.3,0.9])
+	var suffix: String = ":haze" if data.get("haze",false) else ":mist"
+	for i: int in count:
+		# A billow: a broad flat bank, a rounder heap on it, a small crown.
+		var at := Vector3(rng.randf_range(-0.5,0.5)*w,rng.randf_range(-0.3,0.3),rng.randf_range(-0.5,0.5)*d)
+		var size: float = rng.randf_range(1.8,4.4)*float(data.get("billow",1.0))
+		var tall: float = rng.randf_range(float(thick[0]),float(thick[1]))
+		s.box(drifting,at,Vector3(size*rng.randf_range(1.3,2.0),tall*0.5,size*1.1),_pick(mist)+suffix)
+		s.box(drifting,at+Vector3(rng.randf_range(-0.3,0.3)*size,tall*0.45,0),Vector3(size*0.95,tall*0.7,size*0.7),_pick(mist)+suffix)
+		if i%2==0:
+			s.box(drifting,at+Vector3(rng.randf_range(-0.2,0.2)*size,tall*0.95,0),Vector3(size*0.45,tall*0.45,size*0.4),String(mist[mist.size()-1])+suffix)
+	if ambience != null:
+		ambience.drift(drifting,root.position.x*0.37+root.position.z*0.11,float(data.get("drift",1.2)))
+	for i: int in int(data.get("shimmer",0)):
+		s.box(root,Vector3(rng.randf_range(-0.45,0.45)*w,-0.35,rng.randf_range(-0.45,0.45)*d),Vector3(rng.randf_range(1.0,2.4),0.015,0.05),String(data.get("shimmer_color","e4f0f2")))
+	var rock: Array = _colors("rock",["8e9aa2","9aa6ad","a7b2b8","84909a"])
+	for peak: Array in data.get("peaks",[]):
+		var base := Vector3(float(peak[0]),-1.0,float(peak[1]))
+		var top: float = float(peak[2])
+		var radius: float = float(peak[3])
+		var tiers: int = ceili(top/0.7)
+		for tier: int in tiers:
+			var t: float = float(tier)/tiers
+			var r: float = radius*(1.0-t*0.8)
+			s.box(root,base+Vector3(sin(tier*1.9)*r*0.15,tier*0.7+0.35,cos(tier*1.3)*r*0.12),Vector3(r*1.6,0.7,r*1.3),_pick(rock)+suffix)
+		if peak.size() > 4 and peak[4]:
+			# A pine bent on the summit, as far peaks are drawn.
+			s.box(root,base+Vector3(0,top+0.5,0),Vector3(0.9,0.6,0.7),"5a6a64"+suffix)
+
+## A far peak seen across the valleys (wpath4.c: 西面山顶上竖立在虹台中央的「擎天柱」): a main
+## summit and two shoulders of stepped rock in the blue of distance (`colors`; `haze`: seen
+## through), rising `height` units from below the ground, a white stone terrace on its top
+## (`platform`: 虹台) and a tall pillar in the terrace's middle (`pillar`: its height).
+func _far_peak(w: float, d: float) -> void:
+	var haze: String = ":haze" if data.get("haze",false) else ""
+	var slopes: Array = _colors("colors",["9fb1bb","a9bac3","b4c4cc","95a7b2"])
+	var height: float = float(data.get("height",9.0))
+	var radius: float = minf(w,d)/2
+	var summit: float = 0.0
+	for shoulder: Array in [[0.0,0.0,1.0],[-0.5,0.2,0.6],[0.48,-0.15,0.72]]:
+		var top: float = height*float(shoulder[2])
+		var r: float = radius*(0.5+0.5*float(shoulder[2]))
+		var tiers: int = ceili(top/0.8)
+		for tier: int in tiers:
+			var t: float = float(tier)/tiers
+			var rr: float = r*(1.0-t*0.84)
+			var at := Vector3(float(shoulder[0])*radius+sin(tier*1.7+top)*rr*0.12,-1.0+tier*0.8+0.4,float(shoulder[1])*radius+cos(tier*1.3)*rr*0.1)
+			s.box(root,at,Vector3(rr*1.5,0.8,rr*1.2),_pick(slopes)+haze)
+		if shoulder[2] == 1.0:
+			summit = -1.0+tiers*0.8
+	if data.get("platform",false):
+		var top: float = radius*0.36
+		s.box(root,Vector3(0,summit+0.15,0),Vector3(top*2.0,0.3,top*1.7),"dcd8cc"+haze)
+		for i: int in 10:
+			var a: float = i*TAU/10.0
+			s.box(root,Vector3(cos(a)*top,summit+0.5,sin(a)*top*0.85),Vector3(0.2,0.5,0.2),"e8e4d8"+haze)
+	if data.has("pillar"):
+		var tall: float = float(data["pillar"])
+		s.box(root,Vector3(0,summit+0.3+tall/2,0),Vector3(0.7,tall,0.7),"ece8dc"+haze)
+		s.box(root,Vector3(0,summit+0.35+tall,0),Vector3(1.0,0.3,1.0),"d8c48a"+haze)
+## 葬剑: swords driven point-down into the earth (`count`), leaning, the blades rusted, a faded
+## tassel on a hilt here and there.
+func _stuck_swords(w: float, d: float) -> void:
+	var steel: Array = _colors("colors",["8a8e8a","7d6a58","9a9e98","6e5a48"])
+	for i: int in int(data.get("count",5)):
+		var at := Vector3(rng.randf_range(-0.42,0.42)*w,-0.1,rng.randf_range(-0.42,0.42)*d)
+		s.frame = Transform3D(Basis.from_euler(Vector3(rng.randf_range(-0.3,0.3),rng.randf()*TAU,rng.randf_range(-0.3,0.3))),at)
+		s.box(root,Vector3(0,0.42,0),Vector3(0.07,0.84,0.025),_pick(steel))
+		s.box(root,Vector3(0,0.86,0),Vector3(0.26,0.05,0.07),"6a5a3a")
+		s.box(root,Vector3(0,1.0,0),Vector3(0.05,0.24,0.05),"3f2c22")
+		s.box(root,Vector3(0,1.14,0),Vector3(0.08,0.06,0.08),"8a7a4a")
+		if i%3==0:
+			s.box(root,Vector3(0.03,0.96,0.04),Vector3(0.04,0.22,0.03),String(data.get("tassel","8a3a30")))
+	s.frame = Transform3D.IDENTITY

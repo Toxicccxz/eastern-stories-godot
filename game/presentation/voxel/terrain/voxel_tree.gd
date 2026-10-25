@@ -5,7 +5,7 @@ extends RefCounted
 const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
 const PINES: Array[String] = ["pine","mountain_pine","old_pine","tall_pine","young_pine","stunted_pine"]
 ## Bark colours by species where they differ from the default brown.
-const BARKS: Dictionary = {"willow": ["6b5a46","5a4b3b"], "bamboo": ["6f8a44","7f9a50"], "locust": ["4f4234","5d4e3e"]}
+const BARKS: Dictionary = {"willow": ["6b5a46","5a4b3b"], "bamboo": ["6f8a44","7f9a50"], "locust": ["4f4234","5d4e3e"], "maple": ["5a4436","4a382c"]}
 var crowns: Dictionary[String, ArrayMesh] = {}
 var leaf_material: StandardMaterial3D
 ## Crown colours by species, dark to light (layout flora `crown_colors`); bark the same
@@ -56,7 +56,7 @@ func build(parent: Node3D, shapes: Shapes, species: String, variant: int, frame 
 			if species=="mountain_pine":
 				# Bent by the wind off the ridge: the trunk leans the way the crown streams.
 				lean = 0.28 if variant%2==0 else -0.24
-			shapes.tilted_box(parent,Vector3(0,height/2,0),Vector3(0.28,height,0.32),"65553e",Vector3(0,0,lean))
+			shapes.tilted_box(parent,Vector3(0,height/2,0),Vector3(0.28,height,0.32),_bark(species,0) if species=="maple" else "65553e",Vector3(0,0,lean))
 			if species=="locust":
 				height = 2.9
 			if not species in ["pine","shrub","scrub","mountain_pine"]:
@@ -165,6 +165,14 @@ func _crown(species: String, variant: int) -> ArrayMesh:
 			for lobe: int in 5:
 				var angle: float = lobe*1.4+variant
 				surface.ellipsoid(Vector3(cos(angle)*0.85,3.1+random.randf_range(-0.2,0.5),sin(angle)*0.8),Vector3(1.15,0.8,1.1),green,variant+lobe)
+		"maple":
+			# 枫: a spreading head of red leaves in layered lobes (sroad1.c's 茂密的枫树林), darker
+			# at its heart, flame-bright at the top.
+			green = _greens(species,["6e2420","9a2e26","c4462c","e27a3a"])
+			for lobe: int in 5:
+				var angle: float = lobe*1.3+variant*0.7
+				surface.ellipsoid(Vector3(cos(angle)*0.82,2.45+random.randf_range(-0.2,0.55),sin(angle)*0.76),Vector3(1.02,0.72,0.96),green,variant+lobe)
+			surface.ellipsoid(Vector3(0.1*sin(variant),3.2,0),Vector3(0.9,0.6,0.85),green,variant+7)
 		"bamboo":
 			# 竹: feathery tufts of leaves up a clump of slender culms.
 			surface.cell_size = 0.22

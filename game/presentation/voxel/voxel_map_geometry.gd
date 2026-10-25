@@ -124,7 +124,7 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 				low_walls.append(Rect2(Vector2(room.end.x-32,room.position.y),Vector2(32,room.size.y)))
 				left_low_walls.append(Rect2(room.position,Vector2(32,room.size.y)))
 	for prop: Dictionary in layout.get("props", []):
-		if prop.get("kind","")=="stairwell":
+		if prop.get("kind","") in ["stairwell","drop"]:
 			var at: Array = prop["at"]
 			var size: Array = prop["size"]
 			var extent := Vector2(size[0],size[1])
@@ -274,7 +274,8 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 			if area.has_point(Vector2(cell)) and (not entry.has("from") or cells[cell] in entry["from"]):
 				cells[cell] = String(entry["to"])
 	# Visual only: a road runs on past an exit to another map (layout `exit_trails`: portal id
-	# -> length in cells, three cells wide), the way its command points.
+	# -> length in cells, four cells of "path" wide; or {"cells", "kind", "width"}: a paved
+	# road its own width), the way its command points.
 	for node: Node in map.find_children("*","Area2D",true,false):
 		var passage := node as WorldPassageArea2D
 		if passage == null or not exit_trails.has(String(passage.portal_id)):
@@ -284,13 +285,17 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 		if toward == Vector2.ZERO:
 			continue
 		var across := Vector2(-toward.y,toward.x)
-		# One cell further each step on the long axis (a diagonal steps without gaps), four
-		# cells wide about the passage's middle, starting past its mouth.
+		var trail: Variant = exit_trails[String(passage.portal_id)]
+		var length: int = int(trail.get("cells",8)) if trail is Dictionary else int(trail)
+		var road: String = String(trail.get("kind","path")) if trail is Dictionary else "path"
+		var wide: int = int(trail.get("width",4)) if trail is Dictionary else 4
+		# One cell further each step on the long axis (a diagonal steps without gaps), `wide`
+		# cells about the passage's middle, starting past its mouth.
 		var stride: float = 16.0/maxf(absf(toward.x),absf(toward.y))
-		for step: int in range(1,int(exit_trails[String(passage.portal_id)])+1):
-			for width: float in [-1.5,-0.5,0.5,1.5]:
-				var at: Vector2 = passage.global_position+toward*step*stride+across*width*16
-				cells[Vector2i(floori(at.x/16)*16+8,floori(at.y/16)*16+8)] = "path"
+		for step: int in range(1,length+1):
+			for lane: int in wide:
+				var at: Vector2 = passage.global_position+toward*step*stride+across*(lane-(wide-1)/2.0)*16
+				cells[Vector2i(floori(at.x/16)*16+8,floori(at.y/16)*16+8)] = road
 	if cliffs != null:
 		cliffs.prepare(cells,BLOCKING)
 	if not indoor:
@@ -432,7 +437,8 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 				hidden = hidden or footprint.has_point(Vector2(edge_cell))
 			if not hidden:
 				ground.edge(edge_cell,cells)
-				if cells[edge_cell] in ["path","riverbank"]:
+				# Trodden dirt on paths and banks, unless the ground is kept clean (`clean`: a floor).
+				if cells[edge_cell] in ["path","riverbank"] and not ground_styles.get(cells[edge_cell],{}).get("clean",false):
 					ground.dirt(edge_cell)
 		ground.puddles()
 

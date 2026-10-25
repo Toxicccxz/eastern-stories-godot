@@ -70,6 +70,7 @@ func shape(cells: Dictionary[Vector2i, String]) -> void:
 	var step: float = float(config.get("step",0.5))
 	var rough: float = float(config.get("rough",0.6))
 	var lifts: Array = config.get("lifts",[])
+	var south_rise: float = float(config.get("south_rise",1.0))
 	var sinking: Array = sink.get("kinds",[])
 	var drop: float = float(sink.get("depth",8.0))
 	_present.clear()
@@ -81,7 +82,12 @@ func shape(cells: Dictionary[Vector2i, String]) -> void:
 			continue
 		if not cells[cell] in kinds:
 			continue
-		var t: float = smoothstep(0.0,rise,distances.get(cell,rise))
+		var near: float = distances.get(cell,rise)
+		# Rock south of the open ground stands between it and the camera (both views look from
+		# the south): it rises over a longer way (`south_rise`), so the way stays in view.
+		if south_rise != 1.0 and distances.get(cell-Vector2i(0,16),INF) < distances.get(cell+Vector2i(0,16),INF):
+			near /= south_rise
+		var t: float = smoothstep(0.0,rise,near)
 		var h: float = lerpf(low,high,t)+noise.get_noise_2d(cell.x,cell.y)*rough
 		for lift: Dictionary in lifts:
 			var r: Array = lift["rect"]

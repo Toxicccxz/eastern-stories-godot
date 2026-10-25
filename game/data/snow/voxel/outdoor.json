@@ -11,16 +11,18 @@
     "flower_threshold": 0.08,
     "blossom_trees": 0.38,
     "tree_types": ["pine", "broadleaf", "broadleaf", "slender", "shrub"],
+    "no_trees": [[-1904, 336, -1696, 496]],
     "areas": [
       {"rect": [-320, 720, 320, 1240], "blossom_trees": 0.12, "tree_types": ["pine", "broadleaf", "broadleaf", "tall_pine", "slender"], "tree_chance": 0.4, "grass_density": 0.66, "ground": ["5f7a46", "68804a", "728750"], "note": "sroad1's south end: the town gives way to 卧龙岗's wooded slopes (u/cloud/dragonhill/nroad.c)"},
-      {"rect": [1248, 760, 1640, 1200], "blossom_trees": 0.04, "tree_types": ["tall_pine", "pine", "old_pine", "tall_pine", "broadleaf"], "tree_chance": 0.5, "grass_density": 0.6, "ground": ["4f6a3e", "586f42", "617646"], "note": "eroad3's south end: the pines of 老松林 begin (npath1.c: 小路两旁长满了许多高耸的松树)"}
+      {"rect": [1248, 760, 1640, 1200], "blossom_trees": 0.04, "tree_types": ["tall_pine", "pine", "old_pine", "tall_pine", "broadleaf"], "tree_chance": 0.5, "grass_density": 0.6, "ground": ["4f6a3e", "586f42", "617646"], "note": "eroad3's south end: the pines of 老松林 begin (npath1.c: 小路两旁长满了许多高耸的松树)"},
+      {"rect": [-1888, 160, -1680, 680], "blossom_trees": 0.1, "tree_types": ["maple", "maple", "broadleaf", "slender"], "tree_chance": 0.5, "ground": ["5f7a44", "6a854a", "769152"], "note": "sroad5's west end: the maples of 水烟阁's slopes begin (waterfog/sroad1.c: 山上茂密的枫树林)"}
     ],
     "zones": {
       "snow.crossroad": {"margin": 96, "blossom_trees": 0, "tree_types": ["shrub", "scrub", "dead"], "grass_density": 0.42, "flower_threshold": 1.0, "ground": ["737a49", "7f824d", "8b8a52"], "note": "the col: the town's blossoms give out toward 野羊山's bare rock"},
       "snow.mstreet4": {"margin": 32, "blossom_trees": 0.08, "tree_types": ["slender", "shrub"], "grass_density": 0.55, "flower_threshold": 0.24, "ground": ["627d4c", "6c844e", "768b52"]}
     }
   },
-  "exit_trails": {"snow.eroad3.south": 8, "snow.sroad1.south": 10, "note": "the forest path runs on south into 老松林; the 黄土路 south over 卧龙岗 to 绮云镇"},
+  "exit_trails": {"snow.eroad3.south": 8, "snow.sroad1.south": 10, "snow.sroad5.west": {"cells": 10, "kind": "street", "width": 8}, "note": "the forest path runs on south into 老松林; the 黄土路 south over 卧龙岗 to 绮云镇; the 青石官道 west toward 水烟阁"},
   "cliffs": {
     "low": 0.8,
     "high": 2.6,
