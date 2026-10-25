@@ -1,7 +1,7 @@
 {
   "maps": {
     "mountain": {
-      "note": "水烟阁's mountain: the broad 青石官道 from Snow (east) bends west along the slope under the maple woods to the foot of the white stone stairs, where two guards stand (sroad3); the stairs climb north, turn east and north again to the white stone pavilion on the cliff's edge (clifftop: chasms east and north), then west and north up onto the platform before 水烟阁 (frontyard), whose gate leads into the pavilion. West of the platform the path passes a row of maples and the stone tablet of 虹谷, then climbs north against the cliff wall, the gorge to the east, to 葬剑亭 and its monolith.",
+      "note": "水烟阁's mountain: the broad 青石官道 from Snow (east) bends west along the slope under the maple woods to a forecourt at the foot of the white stone stairs, where two guards stand to either side (sroad3); the stairs climb north in straight railed flights, turn east and north again to the white stone pavilion on the cliff's edge (clifftop: chasms east and north), then west and north up onto the white platform before 水烟阁 (frontyard), whose gate leads into the pavilion; the building stands alone on its peak, chasm all round it but for the platform. West of the platform the path passes a row of maples and the stone tablet of 虹谷, then climbs north as railed stairs against the cliff wall, the gorge to the east, and turns west to 葬剑亭 and its monolith. Ways sized for the voxel view (DECISIONS「地图尺寸以体素视角为准」): the 官道 ~192 px, the stair flights 192 px with 160 between their rails, the hillside path 160 px.",
       "file": "waterfog_mountain.tscn",
       "draw": {
         "technique": "canvas",
@@ -26,9 +26,18 @@
           "waterfog.sroad1": [1472, 1952, 1792, 2176, "grass"]
         },
         "lines": {
-          "roads": [
-            [[1776, 2064, 36, 56, 56, 6, "sroad1: the broad 青石官道 from Snow"], [1640, 2056, 36, 72, 60, 10], [1520, 2024, 36, 64, 56, 10], [1400, 1984, 36, 60, 56, 8, "sroad2: the road bends west along the slope"], [1280, 1992, 36, 60, 60, 8], [1144, 2016, 36, 96, 96, 10, "sroad3: the foot of the stairs, where the two guards stand"], [1072, 1968, 28, 80, 80, 4], [1072, 1808, 28, 64, 64, 6, "stair1: white stone stairs up the mountainside"], [1072, 1600, 28, 64, 64, 6, "stair2"], [1104, 1552, 28, 64, 64, 6], [1328, 1552, 28, 64, 64, 6, "stair3"], [1328, 1328, 28, 64, 64, 6, "stair4"], [1328, 1200, 28, 72, 72, 6], [1248, 1104, 28, 72, 56, 8, "clifftop: the path passes the white stone pavilion"], [1120, 1088, 28, 64, 64, 6, "stair5 west"], [1056, 1040, 28, 64, 64, 6], [1040, 960, 32, 72, 72, 8, "stair5 north onto the platform"], [1024, 832, 40, 120, 120, 8, "frontyard"], [1024, 720, 40, 96, 96, 4, "the gate"]],
-            [[912, 880, 28, 48, 48, 6, "west from the platform"], [800, 896, 28, 48, 56, 8, "wpath1: the maples to the north"], [672, 904, 28, 56, 56, 8], [560, 896, 28, 64, 56, 10, "wpath2: the stone tablet beside the path"], [480, 856, 28, 56, 56, 8], [480, 752, 24, 64, 56, 4, "wpath3: stairs against the cliff wall, the gorge east"], [480, 560, 24, 64, 56, 4], [480, 400, 24, 64, 56, 4, "wpath4"], [472, 240, 24, 48, 40, 6, "wpath5: deep valleys east and north"], [400, 216, 28, 48, 48, 6], [224, 216, 28, 72, 72, 8, "swordtomb"]]
+          "road": [
+            [[1800, 2064, 72, 96, 96, 0, "sroad1: the broad 青石官道 from Snow, paved its whole width"], [1640, 2056, 72, 96, 96, 6], [1520, 2028, 72, 96, 96, 6], [1400, 1996, 72, 96, 96, 6, "sroad2: the road bends west along the slope"], [1280, 1996, 72, 96, 96, 6], [1160, 2016, 72, 104, 104, 4, "sroad3: a forecourt at the stairs' foot, the guards to either side"], [1072, 2008, 80, 104, 104, 0], [976, 2008, 72, 96, 96, 0]]
+          ],
+          "stairs": [
+            [[1072, 1936, 96, 96, 96, 0, "stair1-2: a straight flight north"], [1072, 1552, 96, 96, 96, 0, "the first landing"], [1328, 1552, 96, 96, 96, 0, "stair3: east, then stair4 north"], [1328, 1184, 96, 96, 96, 0]],
+            [[1264, 1104, 96, 96, 96, 0, "stair5: west from the pavilion's terrace"], [1072, 1104, 96, 96, 96, 0], [1072, 968, 96, 96, 96, 0, "and north onto the platform"]]
+          ],
+          "west_stairs": [
+            [[488, 800, 88, 88, 88, 0, "wpath3-4: white stairs against the cliff wall, the gorge east"], [488, 216, 88, 88, 88, 0, "wpath5"], [376, 216, 88, 88, 88, 0, "west into 葬剑亭"]]
+          ],
+          "paths": [
+            [[880, 896, 40, 80, 80, 6, "west from the platform"], [720, 900, 40, 80, 80, 8, "wpath1: the maples to the north"], [568, 900, 40, 80, 80, 8, "wpath2: the stone tablet beside the path"], [488, 884, 40, 80, 80, 4]]
           ]
         },
         "steps": [
@@ -39,38 +48,87 @@
             "amp": 0.18,
             "seed": [0.013, 0.007],
             "blobs": [
-              [1640, 1860, 200, 110, "north of the road from Snow"],
-              [1720, 2210, 160, 60],
-              [1360, 2190, 200, 70, "below the road"],
-              [1040, 2200, 220, 50],
-              [800, 2040, 90, 130, "west of the stairs' foot"],
-              [860, 1760, 90, 120],
-              [1540, 1660, 110, 160, "east of the stairs"],
-              [1560, 1440, 80, 120]
+              [1640, 1840, 200, 110, "north of the road from Snow"],
+              [1720, 2220, 160, 50],
+              [1360, 2200, 200, 60, "below the road"],
+              [1040, 2210, 220, 46],
+              [780, 2040, 90, 130, "west of the stairs' foot"],
+              [840, 1760, 80, 120],
+              [1560, 1660, 110, 160, "east of the stairs"],
+              [1580, 1440, 80, 120],
+              [840, 1460, 70, 110, "west of the first landing"]
             ]
           },
           {
             "op": "freeze"
           },
           {
+            "op": "fill",
+            "fills": [
+              ["rock", 1200, 1008, 1456, 1200, "clifftop: the bare top of the spur round the white stone pavilion"],
+              ["rock", 112, 128, 352, 320, "swordtomb: the bare shoulder round 葬剑亭, a way round it on every side"]
+            ]
+          },
+          {
             "op": "lines",
-            "group": "roads"
+            "group": "road",
+            "kind": "street"
+          },
+          {
+            "op": "lines",
+            "group": "stairs",
+            "kind": "floor_yard"
+          },
+          {
+            "op": "lines",
+            "group": "west_stairs",
+            "kind": "floor_yard"
+          },
+          {
+            "op": "lines",
+            "group": "paths"
           },
           {
             "op": "fill",
             "fills": [
-              ["street", 896, 720, 1152, 960, "the platform before 水烟阁: white stone paving"],
-              ["forest", 624, 800, 848, 816, "wpath1: a row of maples along the path's north side"],
-              ["blocked", 528, 832, 544, 848, "wpath2: the stone tablet of 虹谷 (look: stone)"],
-              ["floor_yard", 1280, 1008, 1440, 1120, "clifftop: the white stone pavilion, open to the path on its west"],
-              ["blocked", 1424, 1008, 1440, 1024],
-              ["blocked", 1424, 1104, 1440, 1120],
-              ["floor_yard", 160, 160, 288, 288, "葬剑亭"],
-              ["blocked", 160, 160, 176, 176],
-              ["blocked", 272, 160, 288, 176],
-              ["blocked", 160, 272, 176, 288],
-              ["blocked", 272, 272, 288, 288],
-              ["blocked", 208, 128, 240, 144, "the monolith before the pavilion (look: monolith)"]
+              ["floor_yard", 880, 704, 1168, 976, "the platform before 水烟阁: 白玉般的白石砖"],
+              ["blocked", 992, 832, 1056, 880, "a great bronze censer before the gate (学武之人的朝圣地)", {"look": {"kind": "censer"}}],
+              ["blocked", 912, 736, 928, 752, "stone lanterns either side of the gate", {"look": {"kind": "stone_lantern"}}],
+              ["blocked", 1120, 736, 1136, 752, {"look": {"kind": "stone_lantern"}}],
+              ["blocked", 1152, 720, 1168, 976, "the platform's railing over the chasm east", {"look": {"kind": "balustrade"}}],
+              ["blocked", 880, 720, 896, 816, "and west, where the path does not leave", {"look": {"kind": "balustrade"}}],
+              ["blocked", 976, 976, 992, 1200, "stair5's railings", {"look": {"kind": "balustrade"}}],
+              ["blocked", 1152, 976, 1168, 1008, {"look": {"kind": "balustrade"}}],
+              ["blocked", 976, 1184, 1232, 1200, {"look": {"kind": "balustrade"}}],
+              ["blocked", 1168, 1008, 1200, 1024, {"look": {"kind": "balustrade"}}],
+              ["blocked", 1200, 1008, 1312, 1024, "the terrace's railing over the cliff north", {"look": {"kind": "balustrade"}}],
+              ["blocked", 1440, 1136, 1456, 1200, "and east", {"look": {"kind": "balustrade"}}],
+              ["blocked", 1424, 1184, 1440, 1200, {"look": {"kind": "balustrade"}}],
+              ["floor_yard", 1312, 1008, 1456, 1136, "clifftop: the white stone pavilion, open south and west"],
+              ["blocked", 1312, 1008, 1328, 1024, {"look": {"kind": "pavilion_post", "column": "e2ded3", "band": "b8b4a8", "bracket": "cfcabd"}}],
+              ["blocked", 1440, 1008, 1456, 1024, {"look": {"kind": "pavilion_post", "column": "e2ded3", "band": "b8b4a8", "bracket": "cfcabd"}}],
+              ["blocked", 1312, 1120, 1328, 1136, {"look": {"kind": "pavilion_post", "column": "e2ded3", "band": "b8b4a8", "bracket": "cfcabd"}}],
+              ["blocked", 1440, 1120, 1456, 1136, {"look": {"kind": "pavilion_post", "column": "e2ded3", "band": "b8b4a8", "bracket": "cfcabd"}}],
+              ["blocked", 1328, 1008, 1440, 1024, "a rail seat on its cliff sides", {"look": {"kind": "balustrade", "seat": true}}],
+              ["blocked", 1440, 1024, 1456, 1120, {"look": {"kind": "balustrade", "seat": true}}],
+              ["blocked", 976, 1456, 992, 1920, "stair1-2's railings", {"look": {"kind": "balustrade"}}],
+              ["blocked", 1152, 1648, 1168, 1920, {"look": {"kind": "balustrade"}}],
+              ["blocked", 992, 1456, 1232, 1472, "the landing and stair3's railings", {"look": {"kind": "balustrade"}}],
+              ["blocked", 1168, 1632, 1424, 1648, {"look": {"kind": "balustrade"}}],
+              ["blocked", 1232, 1216, 1248, 1456, "stair4's railings", {"look": {"kind": "balustrade"}}],
+              ["blocked", 1408, 1216, 1424, 1632, {"look": {"kind": "balustrade"}}],
+              ["blocked", 560, 128, 576, 784, "the west stairs' railing over the gorge", {"look": {"kind": "balustrade"}}],
+              ["blocked", 352, 128, 560, 144, "and over the valleys north", {"look": {"kind": "balustrade"}}],
+              ["blocked", 352, 288, 400, 304, {"look": {"kind": "balustrade"}}],
+              ["forest", 624, 784, 848, 800, "wpath1: a row of maples along the path's north side"],
+              ["blocked", 528, 816, 560, 832, "wpath2: the stone tablet of 虹谷 beside the path", {"look": {"kind": "stele", "height": 2.4, "colors": ["8d8f86", "9c9d93", "7e8078"]}}],
+              ["floor_yard", 176, 176, 272, 272, "葬剑亭: open to the north, east and south"],
+              ["blocked", 176, 176, 192, 192, {"look": {"kind": "pavilion_post", "column": "6a6a62"}}],
+              ["blocked", 256, 176, 272, 192, {"look": {"kind": "pavilion_post", "column": "6a6a62"}}],
+              ["blocked", 176, 256, 192, 272, {"look": {"kind": "pavilion_post", "column": "6a6a62"}}],
+              ["blocked", 256, 256, 272, 272, {"look": {"kind": "pavilion_post", "column": "6a6a62"}}],
+              ["blocked", 176, 192, 192, 256, {"look": {"kind": "balustrade", "seat": true, "colors": ["b9b7ab", "a9a79b", "c8c6ba"]}}],
+              ["blocked", 192, 96, 256, 128, "the monolith before the pavilion, 两丈多高 (look: monolith)", {"look": {"kind": "stele", "height": 6.4, "turtle": true, "colors": ["6f726c", "7c7f78", "62655f"]}}]
             ]
           },
           {
@@ -89,31 +147,34 @@
               ["chasm", 592, 96, 848, 784, "the gorge between the west path and 水烟阁's peak"],
               ["chasm", 96, 0, 848, 96, "deep valleys north of 葬剑亭"],
               ["chasm", 0, 96, 96, 336],
-              ["chasm", 1184, 880, 1472, 976, "the cliff north of the pavilion"],
-              ["chasm", 1472, 880, 1792, 1312, "and east of it: 深不见底的悬崖"],
+              ["chasm", 96, 752, 304, 1040, "wpath2.c: 往西则是「水烟十景」之中最有名的虹谷断崖"],
+              ["chasm", 848, 0, 1856, 288, "水烟阁 alone on its peak (eaststair.c: 孤立于独峰之上): chasm north"],
+              ["chasm", 1200, 288, 1856, 880, "and east of it"],
+              ["chasm", 1184, 880, 1472, 992, "the cliff north of the pavilion"],
+              ["chasm", 1472, 880, 1856, 1328, "and east of it: 深不见底的悬崖"],
               ["wall", 864, 304, 1184, 704, "水烟阁: white stone, glazed roof (the pavilion is its own map)"],
               ["wall_wood", 896, 336, 1152, 688],
-              ["shutter", 992, 672, 1056, 704, "the gate"]
+              ["shutter", 976, 672, 1072, 704, "the gate"]
             ]
           }
         ],
         "reach_from": "SnowEntry",
         "caption_near": {
-          "waterfog.sroad1": [1600, 2120],
-          "waterfog.sroad2": [1300, 1920],
+          "waterfog.sroad1": [1600, 2140],
+          "waterfog.sroad2": [1300, 1900],
           "waterfog.sroad3": [900, 2090],
           "waterfog.stair1": [1120, 1800],
           "waterfog.stair2": [1000, 1500],
-          "waterfog.stair3": [1380, 1620],
-          "waterfog.stair4": [1380, 1260],
-          "waterfog.clifftop": [1200, 1180],
-          "waterfog.stair5": [960, 1180],
-          "waterfog.frontyard": [880, 920],
+          "waterfog.stair3": [1300, 1600],
+          "waterfog.stair4": [1300, 1260],
+          "waterfog.clifftop": [1220, 1160],
+          "waterfog.stair5": [1000, 1150],
+          "waterfog.frontyard": [900, 920],
           "waterfog.wpath1": [640, 960],
           "waterfog.wpath2": [340, 960],
-          "waterfog.wpath3": [400, 640],
-          "waterfog.wpath4": [400, 420],
-          "waterfog.wpath5": [440, 120],
+          "waterfog.wpath3": [420, 640],
+          "waterfog.wpath4": [420, 420],
+          "waterfog.wpath5": [420, 240],
           "waterfog.swordtomb": [110, 300]
         }
       },
@@ -122,9 +183,10 @@
         "root": "WaterfogMountain",
         "map": "waterfog.mountain",
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/waterfog/voxel/mountain.json"},
         "shapes": {
-          "Rect_32_64": [32, 64],
-          "Rect_64_32": [64, 32],
+          "Rect_32_160": [32, 160],
+          "Rect_96_32": [96, 32],
           "Rect_48_48": [48, 48],
           "Rect_64_48": [64, 48]
         },
@@ -135,7 +197,7 @@
           {
             "node": "caption",
             "name": "SnowLabel",
-            "at": [1680, 2010],
+            "at": [1680, 1940],
             "text": "东 · 雪亭镇",
             "size": 14
           },
@@ -158,14 +220,14 @@
             "name": "SnowPassage",
             "id": "waterfog.sroad1.east",
             "at": [1776, 2064],
-            "shape": "Rect_32_64"
+            "shape": "Rect_32_160"
           },
           {
             "node": "passage",
             "name": "GatePassage",
             "id": "waterfog.frontyard.north",
             "at": [1024, 720],
-            "shape": "Rect_64_32"
+            "shape": "Rect_96_32"
           }
         ],
         "zones": [
@@ -186,22 +248,22 @@
           },
           {
             "name": "Sroad3Guard1",
-            "at": [1016, 1992],
+            "at": [944, 1968],
             "id": "waterfog.sroad3.guard.1"
           },
           {
             "name": "Sroad3Guard2",
-            "at": [1128, 1984],
+            "at": [1192, 1944],
             "id": "waterfog.sroad3.guard.2"
           },
           {
             "name": "ClifftopWatcher1",
-            "at": [1376, 1040],
+            "at": [1360, 1064],
             "id": "waterfog.clifftop.watcher.1"
           },
           {
             "name": "ClifftopCelesTiger1",
-            "at": [1392, 1080],
+            "at": [1408, 1096],
             "id": "waterfog.clifftop.celes_tiger.1"
           }
         ],
@@ -222,7 +284,7 @@
       }
     },
     "pavilion": {
-      "note": "水烟阁's ground floor: the three-part gate hall (entrance) opens north into the main hall (guildhall) and west and east into the flower halls; north of each flower hall a side hall with the stairs up, then the woodshed and the servants' room (west) and the kitchen (east). Light wells separate the main hall from the side halls.",
+      "note": "水烟阁's ground floor, on one axis: the three-part gate hall of sandalwood (entrance), its three gateways one behind the other, opens north into the main hall (guildhall) and west and east into the flower halls, whose outer sides are white railings over beds of camellias; north of each flower hall a side hall with the white stone stairs up (west: a balcony over the valley; east: a railing over the chasm), then the woodshed and the servants' room (west) and the kitchen (east). Light wells separate the main hall from the side halls. Doorways 128 px, so a body standing in one can be passed.",
       "file": "waterfog_pavilion.tscn",
       "draw": {
         "technique": "town",
@@ -240,12 +302,113 @@
           "waterfog.entrance": [480, 1104, 1456, 1632, "enclosed", "floor_wood", "wall_wood"],
           "waterfog.easthall": [1456, 1104, 1840, 1488, "enclosed", "floor_yard", "wall"]
         },
+        "gap_at": [
+          ["waterfog.entrance", "waterfog.guildhall", 960, 128],
+          ["waterfog.entrance", "waterfog.westhall", 1296, 128],
+          ["waterfog.entrance", "waterfog.easthall", 1296, 128],
+          ["waterfog.westhall", "waterfog.weststair", 288, 128],
+          ["waterfog.easthall", "waterfog.eaststair", 1648, 128],
+          ["waterfog.weststair", "waterfog.storage", 288, 128],
+          ["waterfog.eaststair", "waterfog.kitchen", 1648, 128],
+          ["waterfog.storage", "waterfog.servroom", 320, 128]
+        ],
         "roads": [],
-        "props": [["blocked", 1104, 896, 1136, 928, "the black 太师椅 in the middle of the main hall"]],
+        "props": [
+          ["blocked", 96, 1136, 112, 1488, "westhall.c: 南边和西边围著一圈白玉栏杆，栏杆外种著许多茶花", {"look": {"kind": "camellia_bed", "flower": "e8a0b4"}}],
+          ["blocked", 112, 1136, 128, 1456, {"look": {"kind": "balustrade", "jade": true}}],
+          ["blocked", 96, 1472, 480, 1488, {"look": {"kind": "camellia_bed", "flower": "e8a0b4"}}],
+          ["blocked", 112, 1456, 448, 1472, {"look": {"kind": "balustrade", "jade": true}}],
+          ["blocked", 1824, 1136, 1840, 1488, "easthall.c: 东边和南边围著一圈白石栏杆，栏杆外种著许多茶花", {"look": {"kind": "camellia_bed", "flower": "c8342c"}}],
+          ["blocked", 1808, 1136, 1824, 1456, {"look": {"kind": "balustrade"}}],
+          ["blocked", 1456, 1472, 1840, 1488, {"look": {"kind": "camellia_bed", "flower": "c8342c"}}],
+          ["blocked", 1488, 1456, 1824, 1472, {"look": {"kind": "balustrade"}}],
+          ["blocked", 1808, 576, 1824, 1072, "eaststair.c: 东边隔著栏杆就是深不见底的深谷", {"look": {"kind": "balustrade"}}],
+          ["blocked", 1824, 576, 1840, 1072],
+          ["blocked", 112, 720, 128, 960, "weststair.c: 往西则是一个可以眺望山谷的阳台", {"look": {"kind": "balustrade"}}],
+          ["blocked", 96, 720, 112, 960],
+          ["blocked", 480, 544, 576, 1104, "the light wells either side of the main hall (grass, a rockery, bamboo)"],
+          ["blocked", 1360, 544, 1456, 1104],
+          ["blocked", 1168, 96, 1456, 544, "the kitchen court"],
+
+          ["blocked", 144, 128, 240, 176, "storage.c: 一捆一捆劈好的柴薪都整齐地堆放在柴房北侧", {"look": {"kind": "firewood", "layers": 6}}],
+          ["blocked", 256, 128, 352, 176, {"look": {"kind": "firewood", "layers": 6}}],
+          ["blocked", 368, 128, 448, 192, {"look": {"kind": "firewood", "layers": 6}}],
+          ["blocked", 128, 128, 144, 240, {"look": {"kind": "firewood"}}],
+          ["blocked", 160, 432, 192, 464, "a stump to split logs on, the axe in it", {"look": {"kind": "stump", "axe": true, "height": 0.55, "moss": "6b5746"}}],
+          ["blocked", 384, 432, 432, 480, "a saw-horse with a log on it", {"look": {"kind": "saw_horse"}}],
+
+          ["blocked", 608, 208, 976, 304, "servroom.c: 东西向一张大通铺最少可以睡二、三十人", {"look": {"kind": "long_bed", "quilts": ["5a6e86", "8a5a48", "6f7f5a", "a08a5a", "52605c", "7d5a6e"]}}],
+          ["blocked", 1024, 192, 1120, 304, "东首一张大炕(bed)是冬天才用的", {"look": {"kind": "kang"}}],
+          ["blocked", 544, 480, 640, 512, "南边则是摆放仆役私物的橱柜", {"look": {"kind": "wardrobe", "rotation": 180, "wood": "6b4e36"}}],
+          ["blocked", 672, 480, 736, 512, {"look": {"kind": "linen_cabinet", "rotation": 180}}],
+          ["blocked", 768, 480, 864, 512, {"look": {"kind": "wardrobe", "rotation": 180, "wood": "7a5a3c"}}],
+          ["blocked", 896, 480, 960, 512, {"look": {"kind": "travel_chest"}}],
+          ["blocked", 992, 480, 1104, 512, {"look": {"kind": "wardrobe", "rotation": 180, "wood": "5e4632"}}],
+
+          ["blocked", 1728, 208, 1808, 384, "kitchen.c: 东首一座大灶", {"look": {"kind": "cauldron", "rotation": 90}}],
+          ["blocked", 1744, 400, 1808, 464, "灶边堆著许多瓦瓮", {"look": {"kind": "wine_jars", "count": 7}}],
+          ["blocked", 1744, 144, 1808, 192, {"look": {"kind": "wine_jars", "count": 4}}],
+          ["blocked", 1584, 144, 1680, 208, "北边是一张方桌，桌上锅碗瓢盆一应俱全", {"look": {"kind": "square_table", "pots": true}}],
+          ["blocked", 1488, 224, 1520, 384, "西边则是一个橱柜", {"look": {"kind": "sundry_shelf", "rotation": 90, "goods": ["bowls", "jars", "bowls"]}}],
+          ["blocked", 1536, 448, 1584, 496, {"look": {"kind": "water_vat"}}],
+
+          ["blocked", 128, 672, 160, 704, "beside the white stone stairs: a stand of potted orchids", {"look": {"kind": "flower_stand", "flower": "e8dcef"}}],
+          ["blocked", 160, 816, 224, 864, "by the balcony: a tea table and two stools", {"look": {"kind": "tea_table", "cloth": "6f8a96"}}],
+          ["blocked", 400, 1008, 432, 1056, {"look": {"kind": "flower_stand", "flower": "f1d0d6"}}],
+
+          ["blocked", 944, 816, 992, 864, "guildhall.c: 一张黝黑的太师椅端坐在大厅中央", {"look": {"kind": "grand_chair"}}],
+          ["blocked", 704, 688, 720, 704, "four sandalwood columns", {"look": {"kind": "column"}}],
+          ["blocked", 1216, 688, 1232, 704, {"look": {"kind": "column"}}],
+          ["blocked", 704, 976, 720, 992, {"look": {"kind": "column"}}],
+          ["blocked", 1216, 976, 1232, 992, {"look": {"kind": "column"}}],
+          ["blocked", 640, 752, 672, 784, "the council's chairs either side (「武者」们议事的所在)", {"look": {"kind": "chair", "rotation": 90}}],
+          ["blocked", 640, 800, 672, 832, {"look": {"kind": "tea_table", "size": [32, 32]}}],
+          ["blocked", 640, 848, 672, 880, {"look": {"kind": "chair", "rotation": 90}}],
+          ["blocked", 640, 896, 672, 928, {"look": {"kind": "tea_table", "size": [32, 32]}}],
+          ["blocked", 640, 944, 672, 976, {"look": {"kind": "chair", "rotation": 90}}],
+          ["blocked", 1264, 752, 1296, 784, {"look": {"kind": "chair", "rotation": -90}}],
+          ["blocked", 1264, 800, 1296, 832, {"look": {"kind": "tea_table", "size": [32, 32]}}],
+          ["blocked", 1264, 848, 1296, 880, {"look": {"kind": "chair", "rotation": -90}}],
+          ["blocked", 1264, 896, 1296, 928, {"look": {"kind": "tea_table", "size": [32, 32]}}],
+          ["blocked", 1264, 944, 1296, 976, {"look": {"kind": "chair", "rotation": -90}}],
+          ["blocked", 608, 624, 672, 656, "weapon racks in the corners", {"look": {"kind": "weapon_rack"}}],
+          ["blocked", 1264, 624, 1328, 656, {"look": {"kind": "weapon_rack"}}],
+
+          ["blocked", 1520, 784, 1552, 880, "eaststair: a couch facing the chasm", {"look": {"kind": "couch", "rotation": 90}}],
+          ["blocked", 1504, 1008, 1536, 1040, {"look": {"kind": "flower_stand", "flower": "e8a4b4"}}],
+
+          ["blocked", 160, 1168, 256, 1200, "westhall: a zither by the jade railing", {"look": {"kind": "zither_table"}}],
+          ["blocked", 288, 1296, 352, 1360, {"look": {"kind": "chess_table"}}],
+          ["blocked", 384, 1152, 432, 1184, {"look": {"kind": "flower_stand", "flower": "f2c4d0"}}],
+          ["blocked", 1520, 1168, 1616, 1200, "easthall: a writing desk and the tea things", {"look": {"kind": "writing_desk"}}],
+          ["blocked", 1600, 1296, 1664, 1360, {"look": {"kind": "tea_table", "cloth": "8a4a3a"}}],
+          ["blocked", 1696, 1360, 1728, 1392, {"look": {"kind": "tea_stove"}}],
+
+          ["blocked", 784, 1520, 880, 1536, "entrance.c: 正门共分三进，全部都是上等的檀木雕成 (the outer gateway)", {"look": {"kind": "gate_frame", "lantern": true}}],
+          ["blocked", 1040, 1520, 1136, 1536, {"look": {"kind": "gate_frame", "rotation": 180, "lantern": true}}],
+          ["blocked", 784, 1392, 880, 1408, "the middle gateway", {"look": {"kind": "gate_frame", "colors": ["84503a", "9a6242", "643c2a"]}}],
+          ["blocked", 1040, 1392, 1136, 1408, {"look": {"kind": "gate_frame", "rotation": 180, "colors": ["84503a", "9a6242", "643c2a"]}}],
+          ["blocked", 784, 1248, 880, 1264, "the innermost gateway: 最里的门上悬著一块匾额，上面龙飞凤舞地写著几个大字，可是你全然看不出到底是什么字", {"look": {"kind": "gate_frame", "colors": ["8e5638", "a46a46", "6e4430"], "plaque": {"scrawl": true}}}],
+          ["blocked", 1040, 1248, 1136, 1264, {"look": {"kind": "gate_frame", "rotation": 180, "colors": ["8e5638", "a46a46", "6e4430"]}}],
+          ["blocked", 576, 1280, 608, 1312, "sandalwood burning in tall censers (一股沁人心脾的檀香)", {"look": {"kind": "incense_burner", "size": [32, 32], "tall": true, "lit": true}}],
+          ["blocked", 1312, 1280, 1344, 1312, {"look": {"kind": "incense_burner", "size": [32, 32], "tall": true, "lit": true}}],
+          ["blocked", 1184, 1152, 1264, 1184, "the guards' rack for the weapons visitors set down", {"look": {"kind": "weapon_rack"}}],
+          ["blocked", 528, 1440, 560, 1584, "benches for visitors along the walls", {"look": {"kind": "bench", "rotation": 90}}],
+          ["blocked", 1376, 1440, 1408, 1584, {"look": {"kind": "bench", "rotation": 90}}],
+          ["blocked", 640, 1152, 688, 1184, {"look": {"kind": "flower_stand", "flower": "e8dcef"}}],
+          ["blocked", 1312, 1504, 1344, 1536, {"look": {"kind": "flower_stand", "flower": "f4d47a"}}]
+        ],
         "reach_from": "YardArrival",
         "markers_in_middle": [],
-        "gap_at": [],
-        "placed": {},
+        "placed": {
+          "waterfog.entrance.guard.1": [856, 1168],
+          "waterfog.entrance.guard.2": [1064, 1168],
+          "waterfog.guildhall.champion.1": [1072, 792],
+          "waterfog.guildhall.master.1": [864, 792],
+          "waterfog.guildhall.executioner.1": [1152, 960],
+          "waterfog.storage.servant.1": [176, 288],
+          "waterfog.storage.servant.2": [400, 400]
+        },
         "buildings": []
       },
       "scene": {
@@ -253,8 +416,9 @@
         "root": "WaterfogPavilion",
         "map": "waterfog.pavilion",
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/waterfog/voxel/pavilion.json"},
         "shapes": {
-          "Rect_64_32": [64, 32],
+          "Rect_128_32": [128, 32],
           "Rect_96_32": [96, 32],
           "StairsShape": [48, 48]
         },
@@ -269,7 +433,7 @@
             "text": "白石梯 · 上楼",
             "marker": {
               "name": "WeststairStairsReturn",
-              "at": [272, 640],
+              "at": [272, 656],
               "id": "waterfog.weststair.stairs_return"
             }
           },
@@ -283,7 +447,7 @@
             "text": "阶梯 · 上楼",
             "marker": {
               "name": "EaststairStairsReturn",
-              "at": [1664, 640],
+              "at": [1664, 656],
               "id": "waterfog.eaststair.stairs_return"
             }
           }
@@ -303,8 +467,8 @@
             "node": "passage",
             "name": "YardPassage",
             "id": "waterfog.entrance.south",
-            "at": [1120, 1572],
-            "shape": "Rect_64_32"
+            "at": [960, 1572],
+            "shape": "Rect_128_32"
           },
           {
             "generated": "stairs"
@@ -321,7 +485,7 @@
           },
           {
             "name": "YardArrival",
-            "at": [1120, 1488],
+            "at": [960, 1480],
             "id": "waterfog.entrance.yard_arrival"
           },
           {
@@ -332,14 +496,14 @@
           {
             "name": "SignInteraction",
             "id": "waterfog.guildhall.landmark.sign",
-            "at": [1120, 640],
+            "at": [968, 640],
             "shape": "Rect_96_32"
           }
         ]
       }
     },
     "upstairs": {
-      "note": "水烟阁's upper floor: the walkways of the two side halls (west_2f, east_2f), each with its stairs down, and between them 聆啸厅 with the five grey-green stones on its southern terrace.",
+      "note": "水烟阁's upper floor: the walkways (176 px) of the two tall side halls (west_2f, east_2f), each with its stairs down, a railing along the drop into the hall below and two red-coated guards by the door to the middle; between them 聆啸厅, its hall under the roof, the five grey-green stones on its southern terrace and the shut door north to 春秋水色斋.",
       "file": "waterfog_upstairs.tscn",
       "draw": {
         "technique": "town",
@@ -351,18 +515,40 @@
           "waterfog.forehall": [480, 96, 1056, 576, "enclosed", "floor_wood", "wall_wood"],
           "waterfog.east_2f": [1056, 96, 1440, 480, "enclosed", "floor_wood", "wall_wood"]
         },
+        "gap_at": [
+          ["waterfog.west_2f", "waterfog.forehall", 240, 128],
+          ["waterfog.forehall", "waterfog.east_2f", 240, 128]
+        ],
         "roads": [],
         "props": [
-          ["blocked", 560, 448, 592, 480, "the five stones: west"],
-          ["blocked", 640, 480, 672, 512, "south-west"],
-          ["blocked", 752, 480, 784, 512, "south"],
-          ["blocked", 864, 480, 896, 512, "south-east"],
-          ["blocked", 944, 448, 976, 480, "east"]
+          ["blocked", 128, 320, 448, 448, "west_2f.c: 由于侧厅是挑高建筑，因此这里只有一条约七、八尺宽的走道 (the drop into the hall below; the walkway 176 px)"],
+          ["blocked", 128, 304, 448, 320, {"look": {"kind": "balustrade", "wooden": true}}],
+          ["blocked", 1088, 320, 1408, 448, "east_2f.c: the drop into the hall below"],
+          ["blocked", 1088, 304, 1408, 320, {"look": {"kind": "balustrade", "wooden": true}}],
+          ["blocked", 544, 448, 576, 496, "forehall.c: 按著西、西南、南、东南、东等方向立著五块灰绿色的怪石: west", {"look": {"kind": "strange_stone", "height": 2.2}}],
+          ["blocked", 640, 496, 672, 528, "south-west", {"look": {"kind": "strange_stone", "height": 1.7}}],
+          ["blocked", 752, 512, 784, 544, "south", {"look": {"kind": "strange_stone", "height": 2.5}}],
+          ["blocked", 864, 496, 896, 528, "south-east", {"look": {"kind": "strange_stone", "height": 1.9}}],
+          ["blocked", 960, 448, 992, 496, "east", {"look": {"kind": "strange_stone", "height": 2.1}}],
+          ["blocked", 560, 384, 576, 400, "the hall's front columns, the terrace beyond", {"look": {"kind": "column"}}],
+          ["blocked", 688, 384, 704, 400, {"look": {"kind": "column"}}],
+          ["blocked", 832, 384, 848, 400, {"look": {"kind": "column"}}],
+          ["blocked", 960, 384, 976, 400, {"look": {"kind": "column"}}],
+          ["blocked", 576, 128, 640, 160, "low tables and seats for the elders", {"look": {"kind": "tea_table", "cloth": "596f7a"}}],
+          ["blocked", 896, 128, 960, 160, {"look": {"kind": "tea_table", "cloth": "7a5f59"}}],
+          ["blocked", 720, 128, 816, 144, {"look": {"kind": "folding_screen"}}]
         ],
         "reach_from": "WestStairsArrival",
         "markers_in_middle": [],
-        "gap_at": [],
-        "placed": {},
+        "placed": {
+          "waterfog.west_2f.elite_guard.1": [424, 152],
+          "waterfog.west_2f.elite_guard.2": [360, 152],
+          "waterfog.east_2f.elite_guard.1": [1120, 152],
+          "waterfog.east_2f.elite_guard.2": [1184, 152],
+          "waterfog.forehall.elder5.1": [672, 192],
+          "waterfog.forehall.elder6.1": [768, 176],
+          "waterfog.forehall.elder7.1": [864, 192]
+        },
         "buildings": []
       },
       "scene": {
@@ -370,6 +556,7 @@
         "root": "WaterfogUpstairs",
         "map": "waterfog.upstairs",
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/waterfog/voxel/upstairs.json"},
         "shapes": {
           "StairsShape": [48, 48]
         },
@@ -384,7 +571,7 @@
             "text": "楼梯 · 下楼",
             "marker": {
               "name": "WestStairsArrival",
-              "at": [272, 224],
+              "at": [272, 240],
               "id": "waterfog.west_2f.stairs_arrival"
             }
           },
@@ -398,7 +585,7 @@
             "text": "楼梯 · 下楼",
             "marker": {
               "name": "EastStairsArrival",
-              "at": [1264, 224],
+              "at": [1264, 240],
               "id": "waterfog.east_2f.stairs_arrival"
             }
           }

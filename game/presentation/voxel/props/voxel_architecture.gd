@@ -97,7 +97,8 @@ func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, e
 			# Stone plinth courses have their own lengths, joints and water staining.
 			for course: int in maxi(1,ceili(foundation/0.22)):
 				var base_at := Vector3(at.x,0.10+course*0.21,at.z)+out*0.06
-				shapes.shard(body,base_at,Vector3(0.53,0.21,0.37) if along_x else Vector3(0.37,0.21,0.53),["848572","92907b","777d6c"][(i+course)%3],i+course,0.02*sin(i))
+				var plinth: Array = data.get("plinth",["848572","92907b","777d6c"])
+				shapes.shard(body,base_at,Vector3(0.53,0.21,0.37) if along_x else Vector3(0.37,0.21,0.53),String(plinth[(i+course)%plinth.size()]),i+course,0.02*sin(i))
 			if construction=="timber":
 				for board: int in ceili(height/0.21):
 					shapes.box(body,Vector3(at.x,board*0.21+0.1,at.z)+out*0.14,Vector3(0.495,0.19,0.035) if along_x else Vector3(0.035,0.19,0.495),["96744e","896747","a17c53"][(board+i/3)%3])
@@ -163,8 +164,14 @@ func _roof(into: Node3D, at: Vector3, w: float, d: float, height: float, data: D
 	var rise: float = data.get("rise",1.5)
 	var form: String = data.get("roof_form","gable")
 	var curve: float = data.get("eave_lift",0.10)
-	var tint := Color(String(data.get("roof","50626a")))
+	# A glazed roof ("<hex>:gloss", 琉璃瓦) keeps its shine on every tile.
+	var roof_color: String = String(data.get("roof","50626a"))
+	var tint := Color(roof_color.get_slice(":",0))
+	var glaze: String = "" if not roof_color.contains(":") else ":"+roof_color.get_slice(":",1)
 	var timber: String = data.get("timber","79533d")
+	if form=="terrace":
+		_terrace(root,wide,deep,height,data)
+		return
 	var cols: int = ceili(wide/0.37)
 	var rows: int = ceili(deep/0.37)
 	var spacing_x: float = wide/cols
@@ -190,7 +197,7 @@ func _roof(into: Node3D, at: Vector3, w: float, d: float, height: float, data: D
 			var sag: float = -0.10*sin((px/wide+0.5)*PI)*sin(t*PI)
 			var tile_at := Vector3(px+rng.randf_range(-0.018,0.018),height+0.10+top+lift+sag+rng.randf_range(-0.018,0.018),pz+rng.randf_range(-0.018,0.018))
 			var shade: int = clampi(roundi(noise.get_noise_2d((px+into.position.x)*27,(pz+into.position.z)*27)*3)+2,0,4)
-			var tile_color: String = tint.lightened(shade*0.025).to_html(false)
+			var tile_color: String = tint.lightened(shade*0.025).to_html(false)+glaze
 			shapes.box(root,tile_at,Vector3(spacing_x+0.018,0.14,spacing_z+0.035),tile_color)
 			# A few displaced/repaired tiles, and weathering concentrated on shaded eaves.
 			if (z<2 or z>rows-3) and rng.randf()<0.13:
@@ -203,7 +210,14 @@ func _roof(into: Node3D, at: Vector3, w: float, d: float, height: float, data: D
 		for cap: int in ceili(ridge_length/0.42):
 			var x: float = -ridge_length/2+(cap+0.5)*0.42
 			var up: float = pow(absf(x)/maxf(0.2,ridge_length/2),6)*curve
-			shapes.box(root,Vector3(x,height+rise+0.24+up,0),Vector3(0.43,0.24,0.29),tint.darkened(0.10).to_html(false))
+			shapes.box(root,Vector3(x,height+rise+0.24+up,0),Vector3(0.43,0.24,0.29),tint.darkened(0.10).to_html(false)+glaze)
+		# 鸱吻: the curled beasts at the ridge's ends (`ridge_ends`: their colour).
+		if data.has("ridge_ends"):
+			for end: float in [-1.0,1.0]:
+				var end_at := Vector3(end*ridge_length/2,height+rise+0.24+curve,0)
+				shapes.box(root,end_at+Vector3(0,0.3,0),Vector3(0.3,0.6,0.32),String(data["ridge_ends"]))
+				shapes.box(root,end_at+Vector3(-end*0.16,0.68,0),Vector3(0.24,0.26,0.26),String(data["ridge_ends"]))
+				shapes.box(root,end_at+Vector3(-end*0.3,0.86,0),Vector3(0.12,0.2,0.14),String(data["ridge_ends"]))
 	for side: float in [-1.0,1.0]:
 		var eave_y: float = height+curve
 		if form=="shed" and side>0:
@@ -211,10 +225,46 @@ func _roof(into: Node3D, at: Vector3, w: float, d: float, height: float, data: D
 		shapes.box(root,Vector3(0,eave_y-0.10,side*deep/2),Vector3(wide,0.19,0.16),timber)
 		for bracket: int in ceili(wide/1.25):
 			shapes.box(root,Vector3(-wide/2+0.45+bracket*1.25,eave_y-0.24,side*(deep/2-0.13)),Vector3(0.14,0.23,0.45),timber)
+		# 风铎: a bronze bell hung under each corner of the eaves, stirring in the wind.
+		if data.get("bells",false) and form!="shed":
+			for end: float in [-1.0,1.0]:
+				var bell: Node3D = _node(Vector3(end*wide/2,height+curve-0.05,side*deep/2),root,true)
+				shapes.box(bell,Vector3(0,-0.15,0),Vector3(0.03,0.26,0.03),"4a3a2a")
+				shapes.box(bell,Vector3(0,-0.36,0),Vector3(0.16,0.2,0.16),String(data.get("bell","b88a3a")))
+				if ambience != null:
+					ambience.sway(bell,end*1.7+side*0.9+parent.position.x,0.16)
+
+## A flat roof walked on (a hall's 露台 over the floor below): stone slabs, a balustrade round
+## its edge (`rail` colours: post, rail), stones set out on it (`rocks`: a count).
+func _terrace(root: Node3D, wide: float, deep: float, height: float, data: Dictionary) -> void:
+	var slab: String = String(data.get("terrace","d9d6cc"))
+	var rail: Array = data.get("rail",["d9d6cc","e8e5dc"])
+	shapes.box(root,Vector3(0,height+0.1,0),Vector3(wide,0.2,deep),slab)
+	shapes.box(root,Vector3(0,height+0.21,0),Vector3(wide-0.3,0.02,deep-0.3),Color(slab).darkened(0.06).to_html(false))
+	for side: int in 4:
+		var along_x: bool = side<2
+		var length: float = wide if along_x else deep
+		var fixed: float = (deep if along_x else wide)/2*(1 if side%2 else -1)
+		var posts: int = ceili(length/0.5)
+		for post: int in posts+1:
+			var along: float = -length/2+post*length/posts
+			var at := Vector3(along,height+0.6,fixed) if along_x else Vector3(fixed,height+0.6,along)
+			shapes.box(root,at,Vector3(0.12,0.8,0.12),String(rail[0]))
+		shapes.box(root,(Vector3(0,height+1.0,fixed) if along_x else Vector3(fixed,height+1.0,0)),Vector3(length,0.08,0.12) if along_x else Vector3(0.12,0.08,length),String(rail[1]))
+		shapes.box(root,(Vector3(0,height+0.5,fixed) if along_x else Vector3(fixed,height+0.5,0)),Vector3(length,0.3,0.05) if along_x else Vector3(0.05,0.3,length),String(rail[0]))
+	var stones: Array = data.get("rock_colors",["7a877d","8b978c","6a766d"])
+	var rocks: int = int(data.get("rocks",0))
+	for i: int in rocks:
+		var a: float = PI*(0.1+0.8*float(i)/maxf(1,rocks-1))
+		var at := Vector3(cos(a)*wide*0.36,height+0.2,sin(a)*deep*0.32)
+		for course: int in 3:
+			shapes.shard(root,at+Vector3(sin(i+course)*0.08,0.3+course*0.4,0),Vector3(0.5-course*0.08,0.5,0.4),String(stones[(i+course)%stones.size()]),i*3+course)
 
 ## A pent roof of tiles all round the walls at `at` units up, a short wall-hung eave.
 func _skirt(body: Node3D, w: float, d: float, at: float, data: Dictionary) -> void:
-	var tint := Color(String(data.get("roof","50626a")))
+	var roof_color: String = String(data.get("roof","50626a"))
+	var tint := Color(roof_color.get_slice(":",0))
+	var glaze: String = "" if not roof_color.contains(":") else ":"+roof_color.get_slice(":",1)
 	var timber: String = data.get("timber","79533d")
 	var depth: float = float(data.get("skirt_depth",0.85))
 	for side: int in 4:
@@ -234,7 +284,7 @@ func _skirt(body: Node3D, w: float, d: float, at: float, data: Dictionary) -> vo
 				if absf(x) > length/2-depth+z-0.2:
 					continue
 				var shade: int = clampi(roundi(noise.get_noise_2d((x+body.position.x+out.x*9)*27,(z+body.position.z)*27)*3)+2,0,4)
-				shapes.box(face,Vector3(x,y,z),Vector3(0.38,0.12,depth/3.0+0.04),tint.lightened(shade*0.025).to_html(false))
+				shapes.box(face,Vector3(x,y,z),Vector3(0.38,0.12,depth/3.0+0.04),tint.lightened(shade*0.025).to_html(false)+glaze)
 		shapes.box(face,Vector3(0,at-0.06,depth+0.04),Vector3(length,0.1,0.1),timber)
 
 func _entrance(body: Node3D, door: Vector3, w: float, d: float, data: Dictionary) -> void:

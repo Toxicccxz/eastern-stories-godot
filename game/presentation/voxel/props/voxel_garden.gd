@@ -1,8 +1,11 @@
 extends RefCounted
 
-## Gardens and yards (美术规划 group D): a pavilion (whole, or leaning and falling in), a
-## rockery of holed stones, lotus on a pond, a swing frame, thorny brambles, a stone table
-## with drum stools and a round gateway in a garden wall. Sizes and colours from the data.
+## Gardens, yards and temple grounds (美术规划 group D): a pavilion (whole, or leaning and
+## falling in), a rockery of holed stones, lotus on a pond, a swing frame, thorny brambles, a
+## stone table with drum stools and a round gateway in a garden wall; white stone balustrades
+## (with a rail seat), stair flights, a pavilion's posts and its glazed roof held up over open
+## ground, steles, a bronze censer, stone lanterns, camellia beds, single strange stones,
+## columns and the carved gateways of a hall. Sizes and colours from the data.
 const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
 var s: Shapes
 var root: Node3D
@@ -23,6 +26,17 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"stone_table": _stone_table(w)
 		"moon_gate": _moon_gate(w)
 		"screen_wall": _screen_wall(w,d)
+		"balustrade": _balustrade(w,d)
+		"stair_flight": _stair_flight(w,d)
+		"pavilion_post": _post(float(data.get("height",2.7)),String(data.get("column","9c3a2c")),true)
+		"column": _post(float(data.get("height",3.1)),String(data.get("column","7a4a32")),false)
+		"pavilion_roof": _pavilion_roof(w,d)
+		"stele": _stele(w,d)
+		"censer": _censer(w)
+		"stone_lantern": _stone_lantern()
+		"camellia_bed": _camellia_bed(w,d)
+		"strange_stone": _strange_stone(w,d)
+		"gate_frame": _gate_frame(w,d)
 		_:
 			return false
 	return true
@@ -223,3 +237,327 @@ func _screen_wall(w: float, d: float) -> void:
 		title.outline_size = 0
 		title.modulate = Color(String(data.get("letters","9b2f25")))
 		root.add_child(title)
+
+## A size laid along the box's long axis (x when `along_x`), else turned onto z.
+func _along(along_x: bool, length: float, height: float, depth: float) -> Vector3:
+	return Vector3(length,height,depth) if along_x else Vector3(depth,height,length)
+
+## A child of the prop's root turned by `turn`, batched with it when the root is.
+func _frame(turn: float) -> Node3D:
+	var frame := Node3D.new()
+	frame.rotation.y = turn
+	root.add_child(frame)
+	if s.merged.has(root):
+		s.merge(frame,s.merged[root])
+	return frame
+
+## 白石栏杆: a stone kerb, posts with bud caps every half unit, a top rail and carved panels
+## between, along the box's long side (a 16 px box at a way's edge). `jade`: the purest white
+## (白玉); `wooden`: red lacquered wood; `seat`: a plank along it at sitting height (美人靠).
+func _balustrade(w: float, d: float) -> void:
+	var along_x: bool = w>=d
+	var length: float = maxf(w,d)
+	var depth: float = minf(w,d)
+	var wooden: bool = data.get("wooden",false)
+	var fallback: Array = ["d9d6cc","e8e5dc","c4c0b4"]
+	if data.get("jade",false):
+		fallback = ["e8ebe6","f5f6f1","d2d8d2"]
+	elif wooden:
+		fallback = ["8e3a2c","a8483a","6b2e24"]
+	var colors: Array = _colors("colors",fallback)
+	var height: float = float(data.get("height",0.85))
+	s.box(root,Vector3(0,0.06,0),_along(along_x,length,0.12,depth*0.9),String(data.get("kerb","5c3f2b" if wooden else "b4b0a3")))
+	var count: int = maxi(1,roundi(length/0.5))
+	for i: int in count+1:
+		var t: float = -length/2+i*length/count
+		var at: Vector3 = Vector3(t,0,0) if along_x else Vector3(0,0,t)
+		s.box(root,at+Vector3(0,height/2+0.06,0),Vector3(0.13,height,0.13),String(colors[0]))
+		s.box(root,at+Vector3(0,height+0.14,0),Vector3(0.1,0.11,0.1),String(colors[1]))
+		if i<count:
+			var mid: Vector3 = at+(Vector3(length/count/2,0,0) if along_x else Vector3(0,0,length/count/2))
+			s.box(root,mid+Vector3(0,height*0.45+0.06,0),_along(along_x,length/count-0.17,height*0.5,0.06),String(colors[2]))
+			s.box(root,mid+Vector3(0,height*0.45+0.06,0),_along(along_x,0.1,0.1,0.08),String(colors[1]))
+	s.box(root,Vector3(0,height+0.05,0),_along(along_x,length,0.08,0.12),String(colors[1]))
+	s.box(root,Vector3(0,0.18,0),_along(along_x,length,0.06,0.09),String(colors[1]))
+	if data.get("seat",false):
+		s.box(root,Vector3(0,0.44,0),_along(along_x,length,0.07,depth*0.95),String(data.get("seat_color",colors[1])))
+
+## 白石阶: the treads of a stone stair drawn flat over the way (a stair is a 2D path; its rise is
+## not shown): a nosing every `step` units across the climb (up is local -z), the riser's shade
+## behind it, the middle worn paler where feet go.
+func _stair_flight(w: float, d: float) -> void:
+	var colors: Array = _colors("colors",["e2ded3","c9c4b6","f2efe8"])
+	var count: int = maxi(1,floori(d/float(data.get("step",0.5))))
+	for i: int in count:
+		var z: float = d/2-(i+0.5)*d/count
+		s.box(root,Vector3(0,0.055,z+d/count*0.3),Vector3(w,0.02,d/count*0.32),String(colors[1]))
+		s.box(root,Vector3(0,0.07,z+d/count*0.46),Vector3(w,0.03,0.05),String(colors[2]))
+	s.box(root,Vector3(0,0.05,0),Vector3(w*0.36,0.012,d),String(data.get("worn",colors[0])))
+
+## A column on its stone drum: a pavilion's (`outdoor`: a white drum, a bracket on top) or a
+## hall's (`column` its lacquer, `band` the gilt ring near its head).
+func _post(height: float, column: String, outdoor: bool) -> void:
+	var stone: String = String(data.get("base","d6d2c6" if outdoor else "a8a497"))
+	s.box(root,Vector3(0,0.12,0),Vector3(0.56,0.24,0.56),stone)
+	s.box(root,Vector3(0,0.3,0),Vector3(0.44,0.14,0.44),stone)
+	s.box(root,Vector3(0,0.37+height/2,0),Vector3(0.3,height,0.3),column)
+	s.box(root,Vector3(0,0.37+height*0.84,0),Vector3(0.33,0.06,0.33),String(data.get("band","c9a24a")))
+	if outdoor:
+		s.box(root,Vector3(0,0.37+height+0.08,0),Vector3(0.5,0.16,0.5),String(data.get("bracket","6e2a20")))
+
+## A pavilion's roof held up over open ground (its posts are blocked boxes of the layout, the
+## roof raised by `elevation` onto them): beams and a painted frieze round the eaves, glazed
+## tiles rising to a gilt finial (a point over a square plan, a ridge over a long one), the
+## corners swept up, a second eave below (`double`, 重檐), wind bells at the corners that stir.
+func _pavilion_roof(w: float, d: float) -> void:
+	var tint: String = String(data.get("roof","3c8a8a:gloss"))
+	var timber: String = String(data.get("timber","8e3a2c"))
+	var frieze: String = String(data.get("frieze","2f6a70"))
+	for side: float in [-1.0,1.0]:
+		s.box(root,Vector3(0,-0.04,side*d/2),Vector3(w+0.2,0.22,0.16),timber)
+		s.box(root,Vector3(side*w/2,-0.04,0),Vector3(0.16,0.22,d+0.2),timber)
+		s.box(root,Vector3(0,-0.24,side*d/2),Vector3(w,0.16,0.12),frieze)
+		s.box(root,Vector3(side*w/2,-0.24,0),Vector3(0.12,0.16,d),frieze)
+		for dot: int in maxi(1,floori(w/0.6)):
+			s.box(root,Vector3(-w/2+0.3+dot*0.6,-0.24,side*(d/2+0.065)),Vector3(0.1,0.06,0.02),"c9a24a")
+	var rise: float = float(data.get("rise",1.7))
+	var span := Vector2(w+float(data.get("overhang",0.9)),d+float(data.get("overhang",0.9)))
+	if data.get("double",false):
+		_tiles(Vector3(0,-0.7,0),span+Vector2(0.9,0.9),0.3,tint,0.75)
+	_tiles(Vector3.ZERO,span,rise,tint)
+	var finial: String = String(data.get("finial","c9a24a"))
+	var apex: float = 0.2+rise
+	if absf(span.x-span.y) > 0.3:
+		# A ridge along the longer side, its ends raised.
+		var length: float = absf(span.x-span.y)+0.4
+		var along_x: bool = span.x>span.y
+		s.box(root,Vector3(0,apex+0.12,0),_along(along_x,length,0.22,0.26),Color(tint.get_slice(":",0)).darkened(0.15).to_html(false))
+		for end: float in [-1.0,1.0]:
+			s.box(root,(Vector3(end*length/2,apex+0.3,0) if along_x else Vector3(0,apex+0.3,end*length/2)),Vector3(0.24,0.36,0.24),finial)
+	else:
+		for tier: int in 3:
+			s.box(root,Vector3(0,apex+0.12+tier*0.2,0),Vector3(0.34-tier*0.08,0.2,0.34-tier*0.08),finial)
+	if data.get("bells",true):
+		for corner: Vector2 in [Vector2(-1,-1),Vector2(1,-1),Vector2(1,1),Vector2(-1,1)]:
+			var bell := Node3D.new()
+			# Hung from the swept-up corner itself.
+			bell.position = Vector3(corner.x*span.x/2,0.82,corner.y*span.y/2)
+			root.add_child(bell)
+			s.box(bell,Vector3(0,-0.18,0),Vector3(0.03,0.3,0.03),"4a3a2a")
+			s.box(bell,Vector3(0,-0.4,0),Vector3(0.14,0.18,0.14),String(data.get("bell","b88a3a")))
+			if ambience != null:
+				ambience.sway(bell,corner.x*1.3+corner.y*0.7,0.14)
+
+## Glazed tiles over a plan (`span`, units) rising `rise` to its middle, the eaves' corners swept
+## up; with `ring`, only the outer band that wide (a lower eave). The colour's ":gloss" stays.
+func _tiles(at: Vector3, span: Vector2, rise: float, tint: String, ring: float = 0.0) -> void:
+	var base := Color(tint.get_slice(":",0))
+	var suffix: String = "" if not tint.contains(":") else ":"+tint.get_slice(":",1)
+	var cols: int = ceili(span.x/0.37)
+	var rows: int = ceili(span.y/0.37)
+	var half: float = minf(span.x,span.y)/2
+	for z: int in rows:
+		for x: int in cols:
+			var px: float = -span.x/2+(x+0.5)*span.x/cols
+			var pz: float = -span.y/2+(z+0.5)*span.y/rows
+			var edge_x: float = span.x/2-absf(px)
+			var edge_z: float = span.y/2-absf(pz)
+			var inset: float = minf(edge_x,edge_z)
+			if ring > 0.0 and inset > ring:
+				continue
+			var top: float = minf(1.0,inset/half)*rise
+			var corner: float = pow(1.0-clampf(maxf(edge_x,edge_z)/1.3,0.0,1.0),2)*0.55
+			var lift: float = pow(1.0-clampf(inset/0.6,0.0,1.0),3)*0.12
+			var shade: String = base.lightened(((x+z)%3)*0.035).to_html(false)+suffix
+			s.box(root,at+Vector3(px,0.15+top+corner+lift,pz),Vector3(span.x/cols+0.02,0.12,span.y/rows+0.02),shade)
+	# The hips: darker ridges from each corner up toward the middle.
+	if ring == 0.0:
+		for corner: Vector2 in [Vector2(-1,-1),Vector2(1,-1),Vector2(1,1),Vector2(-1,1)]:
+			for step: int in ceili(half/0.3):
+				var t: float = step*0.3/half
+				var px: float = corner.x*(span.x/2-t*half)
+				var pz: float = corner.y*(span.y/2-t*half)
+				var swept: float = pow(1.0-clampf(t*half/1.3,0.0,1.0),2)*0.55
+				s.box(root,at+Vector3(px,0.25+t*rise+swept,pz),Vector3(0.18,0.12,0.18),base.darkened(0.18).to_html(false)+suffix)
+
+## 石碑: an inscribed slab on its plinth, or borne on a stone tortoise (`turtle`, 赑屃), its top
+## carved round (螭首), the incised columns of its text on both faces; `height` units tall.
+func _stele(w: float, d: float) -> void:
+	var colors: Array = _colors("colors",["8a8c84","9a9c93","74766f"])
+	var height: float = float(data.get("height",2.4))
+	var along_x: bool = w>=d
+	var frame: Node3D = _frame(0.0 if along_x else PI/2)
+	var width: float = maxf(w,d)*0.82
+	var deep: float = minf(w,d)
+	var thick: float = clampf(deep*0.45,0.22,0.5)
+	var base: float = 0.35
+	if data.get("turtle",false):
+		# A long-necked tortoise, its shell in plates, four stubby feet, the slab on its back.
+		base = 0.62
+		s.box(frame,Vector3(0,0.26,0),Vector3(width*0.95,0.46,deep*0.95),String(colors[2]))
+		s.box(frame,Vector3(0,0.52,0),Vector3(width*0.78,0.14,deep*0.78),String(colors[0]))
+		for plate: int in 6:
+			s.box(frame,Vector3(-width*0.3+(plate%3)*width*0.3,0.6,(plate/3-0.5)*deep*0.4),Vector3(width*0.2,0.03,deep*0.3),String(colors[1]))
+		s.box(frame,Vector3(0,0.32,deep/2+0.12),Vector3(0.34,0.3,0.4),String(colors[2]))
+		s.box(frame,Vector3(0,0.4,deep/2+0.32),Vector3(0.26,0.22,0.16),String(colors[0]))
+		for foot: Vector2 in [Vector2(-1,-1),Vector2(1,-1),Vector2(1,1),Vector2(-1,1)]:
+			s.box(frame,Vector3(foot.x*width*0.42,0.09,foot.y*deep*0.4),Vector3(0.3,0.18,0.28),String(colors[2]))
+	else:
+		s.box(frame,Vector3(0,base/2,0),Vector3(width*1.15,base,deep*0.9),String(colors[2]))
+	s.box(frame,Vector3(0,base+height/2,0),Vector3(width,height,thick),String(colors[0]))
+	for tier: int in 3:
+		s.box(frame,Vector3(0,base+height+0.1+tier*0.18,0),Vector3(width*(0.92-tier*0.22),0.2,thick*1.05),String(colors[1] if tier%2==0 else colors[2]))
+	var cols: int = maxi(2,floori(width/0.2))
+	var lines: String = Color(String(colors[2])).darkened(0.3).to_html(false)
+	for face: float in [-1.0,1.0]:
+		s.box(frame,Vector3(0,base+height*0.5,face*(thick/2+0.005)),Vector3(width*0.86,height*0.86,0.012),String(colors[1]))
+		for col: int in cols:
+			var x: float = -width*0.38+col*width*0.76/maxf(1,cols-1)
+			for row: int in maxi(2,floori(height*0.75/0.17)):
+				if (col*7+row*3)%9==0:
+					continue
+				s.box(frame,Vector3(x,base+height*0.86-row*0.17,face*(thick/2+0.012)),Vector3(0.08,0.1,0.012),lines)
+
+## 大香炉: a great bronze censer on a stone base: a round belly on three legs, two ears, a lid
+## stepped up to a knob and pierced for the smoke, the embers glowing inside, incense smoke
+## curling up from it.
+func _censer(w: float) -> void:
+	var bronze: Array = _colors("colors",["5d5440","706549","4a4434"])
+	s.box(root,Vector3(0,0.12,0),Vector3(w*0.98,0.24,w*0.98),String(data.get("base","a8a598")))
+	for leg: int in 3:
+		var a: float = leg*TAU/3.0+PI/2
+		s.box(root,Vector3(cos(a)*w*0.28,0.46,sin(a)*w*0.28),Vector3(0.16,0.46,0.16),String(bronze[2]))
+	s.box(root,Vector3(0,0.98,0),Vector3(w*0.74,0.62,w*0.74),String(bronze[0]))
+	s.box(root,Vector3(0,0.92,0),Vector3(w*0.84,0.34,w*0.84),String(bronze[1]))
+	s.box(root,Vector3(0,1.3,0),Vector3(w*0.8,0.08,w*0.8),String(bronze[2]))
+	for side: float in [-1.0,1.0]:
+		s.box(root,Vector3(side*w*0.43,1.47,0),Vector3(0.08,0.34,0.24),String(bronze[1]))
+	for tier: int in 3:
+		s.box(root,Vector3(0,1.42+tier*0.13,0),Vector3(w*(0.62-tier*0.17),0.13,w*(0.62-tier*0.17)),String(bronze[tier%2]))
+	s.box(root,Vector3(0,1.85,0),Vector3(0.14,0.14,0.14),String(data.get("knob","c9a24a")))
+	for hole: int in 4:
+		var a: float = hole*TAU/4.0
+		s.box(root,Vector3(cos(a)*w*0.31,1.42,sin(a)*w*0.31),Vector3(0.1,0.07,0.1),"e8803a:glow")
+	if ambience != null:
+		ambience.smoke(root,Vector3(0,1.95,0),String(data.get("smoke","cfcac0")),6,0.16)
+
+## 石灯: a stone lantern: a square foot and shaft, the fire box with its windows lit at night, a
+## cap curling up at its corners, a jewel on top.
+func _stone_lantern() -> void:
+	var stone: Array = _colors("colors",["bdb9ad","aaa79a","cbc8bc"])
+	var height: float = float(data.get("height",1.6))
+	s.box(root,Vector3(0,0.09,0),Vector3(0.62,0.18,0.62),String(stone[1]))
+	s.box(root,Vector3(0,0.24,0),Vector3(0.44,0.12,0.44),String(stone[0]))
+	s.box(root,Vector3(0,0.3+height*0.2,0),Vector3(0.22,height*0.4,0.22),String(stone[0]))
+	s.box(root,Vector3(0,0.3+height*0.42,0),Vector3(0.5,0.08,0.5),String(stone[2]))
+	var box_y: float = 0.3+height*0.58
+	s.box(root,Vector3(0,box_y,0),Vector3(0.4,height*0.24,0.4),String(stone[0]))
+	for out: Vector3 in [Vector3(0,0,1),Vector3(0,0,-1),Vector3(1,0,0),Vector3(-1,0,0)]:
+		s.window(root,Vector3(0,box_y,0)+out*0.205,Vector3(0.2,height*0.15,0.02) if out.z != 0.0 else Vector3(0.02,height*0.15,0.2))
+	s.box(root,Vector3(0,box_y+height*0.16,0),Vector3(0.66,0.1,0.66),String(stone[2]))
+	s.box(root,Vector3(0,box_y+height*0.22,0),Vector3(0.44,0.1,0.44),String(stone[1]))
+	for corner: Vector2 in [Vector2(-1,-1),Vector2(1,-1),Vector2(1,1),Vector2(-1,1)]:
+		s.box(root,Vector3(corner.x*0.3,box_y+height*0.19,corner.y*0.3),Vector3(0.08,0.08,0.08),String(stone[2]))
+	s.box(root,Vector3(0,box_y+height*0.3,0),Vector3(0.12,0.14,0.12),String(stone[1]))
+	if data.get("lit",true):
+		var lamp := OmniLight3D.new()
+		lamp.position = Vector3(0,box_y,0)
+		lamp.light_color = Color("ffc884")
+		lamp.omni_range = float(data.get("range",4.5))
+		lamp.omni_attenuation = 1.3
+		lamp.set_meta("day_energy",0.0)
+		lamp.set_meta("night_energy",1.5)
+		lamp.set_meta("flicker",0.08)
+		root.add_child(lamp)
+
+## 茶花: a bed of camellia bushes along the box, dark glossy leaves, flowers (`flower`) with pale
+## hearts, a few petals fallen on the earth under them.
+func _camellia_bed(w: float, d: float) -> void:
+	var along_x: bool = w>=d
+	var length: float = maxf(w,d)
+	var depth: float = minf(w,d)
+	var bloom: String = String(data.get("flower","c8342c"))
+	s.box(root,Vector3(0,0.05,0),_along(along_x,length,0.1,depth),String(data.get("earth","4f3b2c")))
+	var count: int = maxi(1,floori(length/0.55))
+	for i: int in count:
+		var t: float = -length/2+(i+0.5)*length/count
+		var at: Vector3 = Vector3(t,0,0) if along_x else Vector3(0,0,t)
+		var h: float = rng.randf_range(0.55,0.95)
+		s.shard(root,at+Vector3(0,h*0.5,0),Vector3(0.6,h,0.55),_pick(["2c4a33","355a3b","3f6a42"]),i)
+		s.shard(root,at+Vector3(rng.randf_range(-0.1,0.1),h*0.95,0),Vector3(0.42,h*0.3,0.4),_pick(["3a5f3f","467048"]),i+3)
+		for flower: int in 3:
+			var spot := Vector3(rng.randf_range(-0.26,0.26),h*rng.randf_range(0.5,1.05),rng.randf_range(-0.24,0.24))
+			s.box(root,at+spot,Vector3(0.13,0.1,0.13),bloom)
+			s.box(root,at+spot+Vector3(0,0.05,0),Vector3(0.05,0.03,0.05),"f2dc8e")
+		s.box(root,at+Vector3(rng.randf_range(-0.3,0.3),0.11,rng.randf_range(-0.2,0.2)),Vector3(0.1,0.015,0.08),bloom)
+
+## 怪石: one tall stone stood alone (forehall.c's 灰绿色的怪石), leaning and pinched in the
+## middle, pocked with dark holes, moss in its hollows; `height` units.
+func _strange_stone(w: float, d: float) -> void:
+	var stone: Array = _colors("colors",["7a877d","8b978c","6a766d","9aa597"])
+	var height: float = float(data.get("height",2.0))
+	var size: float = minf(w,d)
+	var lean: float = rng.randf_range(-0.18,0.18)
+	s.shard(root,Vector3(0,0.08,0),Vector3(w*1.05,0.16,d*1.05),String(stone[2]),5)
+	var courses: int = 6
+	for i: int in courses:
+		var t: float = float(i)/courses
+		var girth: float = size*(0.72+0.32*sin(t*PI*1.4+0.4))
+		var at := Vector3(sin(lean)*t*height+rng.randf_range(-0.06,0.06),0.16+(t+0.5/courses)*height,rng.randf_range(-0.05,0.05))
+		s.shard(root,at,Vector3(girth*rng.randf_range(0.85,1.1),height/courses*1.25,girth*rng.randf_range(0.7,0.95)),_pick(stone),i*3+1,rng.randf()*TAU)
+		if i%2==1:
+			s.box(root,at+Vector3(girth*0.38,0,girth*0.25),Vector3(0.13,0.15,0.09),"3a423d")
+		if rng.randf()<0.4:
+			s.box(root,at+Vector3(-girth*0.3,height/courses*0.4,0),Vector3(0.16,0.04,0.14),_pick(["5d7a45","6c8a4c"]))
+
+## 檀木门: one side of a carved sandalwood gateway across a hall (entrance.c's 正门共分三进): its
+## post at the opening's edge (local +x), the panelled leaf folded back along the box, the lintel
+## reaching over half the opening (`opening` px), and over the middle a board (`plaque`:
+## {"text"}, or {"scrawl": true}: 龙飞凤舞, too wild to read) on the side that carries it.
+func _gate_frame(w: float, d: float) -> void:
+	var wood: Array = _colors("colors",["7a4a32","8e5a3a","5e3826"])
+	var height: float = float(data.get("height",3.0))
+	var half: float = float(data.get("opening",160))/32.0/2.0
+	var post_x: float = w/2-0.16
+	s.box(root,Vector3(post_x,0.1,0),Vector3(0.46,0.2,0.46),"a8a497")
+	s.box(root,Vector3(post_x,height/2,0),Vector3(0.32,height,0.32),String(wood[0]))
+	s.box(root,Vector3(-w/2+0.1,height/2,0),Vector3(0.2,height,0.24),String(wood[0]))
+	var leaf: float = w-0.5
+	var leaf_x: float = -0.05
+	s.box(root,Vector3(leaf_x,0.55,0),Vector3(leaf,0.9,d*0.4),String(wood[1]))
+	s.box(root,Vector3(leaf_x,0.55,d*0.21),Vector3(leaf-0.2,0.66,0.02),String(wood[2]))
+	s.box(root,Vector3(leaf_x,1.7,0),Vector3(leaf,1.3,d*0.25),String(wood[2]))
+	for bar: int in 5:
+		s.box(root,Vector3(leaf_x,1.15+bar*0.27,d*0.14),Vector3(leaf-0.1,0.05,0.04),String(wood[1]))
+	for bar: int in maxi(2,floori(leaf/0.3)):
+		s.box(root,Vector3(-leaf/2+leaf_x+0.15+bar*0.3,1.7,d*0.14),Vector3(0.05,1.25,0.04),String(wood[1]))
+	s.box(root,Vector3(leaf_x,2.45,0),Vector3(leaf,0.2,d*0.4),String(wood[1]))
+	# The lintel over its half of the opening, cloud brackets under it at the post.
+	var reach: float = w+half
+	s.box(root,Vector3(-w/2+reach/2,height+0.12,0),Vector3(reach,0.26,0.34),String(wood[0]))
+	s.box(root,Vector3(-w/2+reach/2,height-0.12,0),Vector3(reach,0.14,0.26),String(data.get("frieze","2f6a70")))
+	for side: float in [-1.0,1.0]:
+		s.tilted_box(root,Vector3(post_x+side*0.3,height-0.35,0),Vector3(0.12,0.5,0.2),String(wood[1]),Vector3(0,0,side*0.6))
+	if data.has("plaque"):
+		var plaque: Dictionary = data["plaque"]
+		var at := Vector3(w/2+half,height+0.72,0.1)
+		var width: float = minf(half*1.5,2.6)
+		s.box(root,at,Vector3(width+0.16,0.86,0.08),String(plaque.get("frame","c9a24a")))
+		s.box(root,at+Vector3(0,0,0.05),Vector3(width,0.7,0.04),String(plaque.get("board","2b2520")))
+		if plaque.get("scrawl",false):
+			# Brush strokes flung across the board, joined and looping: no character to be read.
+			for stroke: int in 9:
+				var x: float = -width*0.42+stroke*width*0.105
+				s.tilted_box(root,at+Vector3(x,sin(stroke*2.1)*0.12,0.08),Vector3(0.06,0.42+0.12*sin(stroke*1.3),0.02),"e6c66e",Vector3(0,0,0.9*sin(stroke*1.7)))
+				s.tilted_box(root,at+Vector3(x+0.05,0.16*cos(stroke*1.9),0.085),Vector3(0.2,0.05,0.02),"e6c66e",Vector3(0,0,0.6*cos(stroke*2.3)))
+		else:
+			var title := Label3D.new()
+			title.text = TranslationServer.translate(String(plaque.get("text","")))
+			title.position = at+Vector3(0,0,0.08)
+			title.pixel_size = 0.008
+			title.font_size = 56
+			title.outline_size = 0
+			title.modulate = Color("e6c66e")
+			root.add_child(title)
+	if data.get("lantern",false):
+		s.lantern(root,Vector3(post_x+0.55,height-0.75,0.0),false,"d8452f:glow")
