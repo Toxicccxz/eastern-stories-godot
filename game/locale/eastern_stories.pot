@@ -1053,7 +1053,7 @@ msgstr ""
 msgid "膳房"
 msgstr ""
 
-#: scenes/world/chuenyu/chuenyu_upstairs.tscn scenes/world/city/city_upstairs.tscn scenes/world/cloud/cloud_duchang_upstairs.tscn scenes/world/cloud/cloud_jiyuan_upstairs.tscn scenes/world/cloud/cloud_tearoom_upstairs.tscn scenes/world/latemoon/latemoon_upper.tscn scenes/world/snow/snow_inn_upstairs.tscn scenes/world/waterfog/waterfog_upstairs.tscn data/cloud/voxel/duchang_upstairs.json data/cloud/voxel/jiyuan_upstairs.json data/cloud/voxel/tearoom_upstairs.json data/snow/voxel/inn_upstairs.json
+#: scenes/world/chuenyu/chuenyu_upstairs.tscn scenes/world/city/city_upstairs.tscn scenes/world/cloud/cloud_duchang_upstairs.tscn scenes/world/cloud/cloud_jiyuan_upstairs.tscn scenes/world/cloud/cloud_tearoom_upstairs.tscn scenes/world/latemoon/latemoon_upper.tscn scenes/world/snow/snow_inn_upstairs.tscn scenes/world/waterfog/waterfog_upstairs.tscn data/cloud/voxel/duchang_upstairs.json data/cloud/voxel/jiyuan_upstairs.json data/cloud/voxel/tearoom_upstairs.json data/snow/voxel/inn_upstairs.json data/waterfog/voxel/upstairs.json
 msgid "楼梯 · 下楼"
 msgstr ""
 
@@ -2911,7 +2911,7 @@ msgid "山坡小径"
 msgstr ""
 
 #. es2:d/waterfog/frontyard short
-#: scenes/world/waterfog/waterfog_mountain.tscn data/waterfog/rooms.json
+#: scenes/world/waterfog/waterfog_mountain.tscn data/waterfog/rooms.json data/waterfog/voxel/pavilion.json
 msgid "水烟阁前"
 msgstr ""
 
@@ -2926,7 +2926,7 @@ msgstr ""
 
 #. common.npc.fighter.champion inquiry topic
 #. waterfog name
-#: scenes/world/waterfog/waterfog_mountain.tscn data/common/npcs.json data/waterfog/world.json
+#: scenes/world/waterfog/waterfog_mountain.tscn data/common/npcs.json data/waterfog/world.json data/waterfog/voxel/mountain.json
 msgid "水烟阁"
 msgstr ""
 
@@ -2981,11 +2981,11 @@ msgstr ""
 msgid "南 · 水烟阁前"
 msgstr ""
 
-#: scenes/world/waterfog/waterfog_pavilion.tscn
+#: scenes/world/waterfog/waterfog_pavilion.tscn data/waterfog/voxel/pavilion.json
 msgid "白石梯 · 上楼"
 msgstr ""
 
-#: scenes/world/waterfog/waterfog_pavilion.tscn
+#: scenes/world/waterfog/waterfog_pavilion.tscn data/waterfog/voxel/pavilion.json
 msgid "阶梯 · 上楼"
 msgstr ""
 
@@ -31512,4 +31512,28 @@ msgstr ""
 
 #: data/snow/voxel/workplace_house.json
 msgid "米厂"
+msgstr ""
+
+#: data/waterfog/voxel/mountain.json
+msgid "水烟"
+msgstr ""
+
+#: data/waterfog/voxel/mountain.json
+msgid "武林"
+msgstr ""
+
+#: data/waterfog/voxel/mountain.json
+msgid "水烟阁封地"
+msgstr ""
+
+#: data/waterfog/voxel/mountain.json
+msgid "禁兵督造"
+msgstr ""
+
+#: data/waterfog/voxel/pavilion.json
+msgid "武者同盟"
+msgstr ""
+
+#: data/waterfog/voxel/upstairs.json
+msgid "春秋水色斋"
 msgstr ""

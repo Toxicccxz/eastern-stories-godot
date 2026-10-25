@@ -6,7 +6,8 @@ each zone a room exit joins them to.
              "ground": [fill rows painted before the zones],
              "zones": {"<zone>": [x0, y0, x1, y1, "open" | "enclosed", ground, wall | null], ...},
              "roads": [fill rows], "props": [fill rows],     painted over the zones, in that order
-             "gap_at": [["<zone>", "<zone>", centre], ...],  a doorway not in the middle of the edge
+             "gap_at": [["<zone>", "<zone>", centre, width?], ...],  a doorway not in the middle of
+                                                             the edge, or wider than 64 px
              "reach_from": "<marker name>" | ["<marker name>", ...],
              "markers_in_middle": ["<zone>", ...],           open zones that are not streets
              "placed": {"<spawn point>": [x, y], ...}}       spawn points not packed into slots
@@ -87,6 +88,8 @@ class Town:
             if None not in ends and ends[0] != ends[1]:
                 self.jumped.add(tuple(sorted(ends)))
         self.gap_at = {(row[0], row[1]): row[2] for row in d.get('gap_at', [])}
+        # A doorway's width (default 64 px): a hall's opening wide enough to pass a body standing in it.
+        self.gap_width = {(row[0], row[1]): row[3] for row in d.get('gap_at', []) if len(row) > 3 and isinstance(row[3], int)}
         self.stairs = scene.get('stairs', [])
         # A door's passage (a building's door, the way out of town): nobody stands on it.
         self.passages = [tuple(n['at']) for n in scene.get('nodes', []) if n.get('node') == 'passage']
@@ -128,14 +131,21 @@ class Town:
     def gap(self, a, b):
         vertical, edge, lo, hi = self.shared_edge(a, b)
         centre = self.gap_at.get((a, b), self.gap_at.get((b, a), (lo + hi) // 2 // 16 * 16))
-        assert lo <= centre - 32 and centre + 32 <= hi, (a, b, centre, lo, hi)
+        half = self.half_width(a, b)
+        assert lo <= centre - half and centre + half <= hi, (a, b, centre, lo, hi)
         return vertical, edge, centre
+
+    def half_width(self, a, b):
+        width = self.gap_width.get((a, b), self.gap_width.get((b, a), 64))
+        assert width % 32 == 0, ('a doorway two whole tiles either side of its centre', a, b, width)
+        return width // 2
 
     def door_at(self, between):
         """A door across the doorway between two zones: (centre, shape, extent). Between two
         buildings it straddles the shared edge; from a street it fills the building's wall."""
         vertical, edge, centre = self.gap(*between)
-        w, h = (32, 64) if vertical else (64, 32)
+        span = 2 * self.half_width(*between)
+        w, h = (32, span) if vertical else (span, 32)
         across = edge
         open_side = [z for z in between if self.zones[z][4] == OPEN]
         assert len(open_side) < 2, ('a door between two open zones', between)
@@ -172,14 +182,15 @@ class Town:
             if self.shared_edge(a, b) is None:
                 continue
             vertical, edge, centre = self.gap(a, b)
+            half = self.half_width(a, b)
             for zone_id in (a, b):
                 x0, y0, x1, y1, mode, ground, _ = self.zones[zone_id]
                 if mode != ENCLOSED:
                     continue
                 if vertical:
-                    band = (edge - 32, centre - 32, edge, centre + 32) if x1 == edge else (edge, centre - 32, edge + 32, centre + 32)
+                    band = (edge - 32, centre - half, edge, centre + half) if x1 == edge else (edge, centre - half, edge + 32, centre + half)
                 else:
-                    band = (centre - 32, edge - 32, centre + 32, edge) if y1 == edge else (centre - 32, edge, centre + 32, edge + 32)
+                    band = (centre - half, edge - 32, centre + half, edge) if y1 == edge else (centre - half, edge, centre + half, edge + 32)
                 tiles.fill(ground, *band)
                 gaps.append(band)
         return gaps

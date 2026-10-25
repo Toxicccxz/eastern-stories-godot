@@ -434,6 +434,12 @@ func _stump(w: float) -> void:
 		var a: float = i*TAU/4.0+0.4
 		s.tilted_box(root,Vector3(cos(a)*w*0.42,0.08,sin(a)*w*0.42),Vector3(0.3,0.14,0.14),String(bark[1]),Vector3(0,-a,0.3))
 	s.shard(root,Vector3(w*0.3,0.03,w*0.2),Vector3(0.4,0.05,0.3),String(data.get("moss","58773d")),rng.randi())
+	if data.get("axe",false):
+		# A chopping stump: the axe left in it, chips about.
+		s.tilted_box(root,Vector3(0.05,tall+0.3,0),Vector3(0.06,0.7,0.06),"7a5a3e",Vector3(0,0,0.5))
+		s.tilted_box(root,Vector3(-0.08,tall+0.06,0),Vector3(0.22,0.14,0.04),"8a8e8a",Vector3(0,0,0.5))
+		for chip: int in 5:
+			s.box(root,Vector3(cos(chip*1.3)*w*0.6,0.02,sin(chip*1.9)*w*0.6),Vector3(0.12,0.03,0.06),"c9ad7c")
 
 ## One tree placed by hand (a ring round a clearing, a pine marked by knives): `species`,
 ## `scale`, `variant`; `marks` cuts pale slashes in its bark toward +z (epath1.c's 记号).

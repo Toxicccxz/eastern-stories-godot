@@ -87,12 +87,14 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 			for x: float in [-0.5,0,0.5]:
 				s.box(root,Vector3(x,1.5,0.1),Vector3(0.35,0.6,0.03),"e4d4aa")
 		"stairs":
+			# A flight up a floor (`colors`: steps, posts, rail; timber unless set, 白石梯 white).
+			var colors: Array = data.get("colors",["96724c","715239","936c45"])
 			for i: int in 6:
-				s.box(root,Vector3(0,0.07+i*0.10,d/2-i*d/6),Vector3(w,0.14+i*0.2,d/6),"96724c")
+				s.box(root,Vector3(0,0.07+i*0.10,d/2-i*d/6),Vector3(w,0.14+i*0.2,d/6),String(colors[0]))
 			for x: float in [-w*0.47,w*0.47]:
 				for i: int in 4:
-					s.box(root,Vector3(x,0.35+i*0.15,d*0.4-i*d*0.25),Vector3(0.10,0.7+i*0.3,0.10),"715239")
-				s.tilted_box(root,Vector3(x,0.95,0),Vector3(0.12,0.12,d*1.04),"936c45",Vector3(0.4,0,0))
+					s.box(root,Vector3(x,0.35+i*0.15,d*0.4-i*d*0.25),Vector3(0.10,0.7+i*0.3,0.10),String(colors[1]))
+				s.tilted_box(root,Vector3(x,0.95,0),Vector3(0.12,0.12,d*1.04),String(colors[2]),Vector3(0.4,0,0))
 		"window":
 			s.box(root,Vector3(0,2,0),Vector3(w,1.65,0.18),"745438")
 			s.box(root,Vector3(0,2,0.10),Vector3(w-0.18,1.46,0.04),"a4b7af")
@@ -130,6 +132,27 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 					s.tilted_box(root,Vector3(side*0.14,0.058,z),Vector3(0.09,0.035,0.39),"c4ab76",Vector3(0,side*PI/4,0))
 			s.lantern(root,Vector3(-w/2-0.28,1.55,-d/2+0.08),true)
 			_set_lamp(root,0.45,1.15,4.2)
+		"drop":
+			# 挑空: an upper floor's opening over a tall hall (west_2f.c: 侧厅是挑高建筑): the walls
+			# going down and, far below, the hall's own floor and a table in the lamplight.
+			var depth: float = float(data.get("depth",3.4))
+			s.box(root,Vector3(0,-depth,0),Vector3(w,0.12,d),String(data.get("below","7a5a3e")))
+			for board: int in floori(w/0.5):
+				s.box(root,Vector3(-w/2+0.25+board*0.5,-depth+0.065,0),Vector3(0.02,0.012,d),"5e4430")
+			for side: float in [-1.0,1.0]:
+				s.box(root,Vector3(0,-depth/2,side*d/2),Vector3(w,depth,0.08),"4a3628")
+				s.box(root,Vector3(side*w/2,-depth/2,0),Vector3(0.08,depth,d),"4a3628")
+			s.box(root,Vector3(-w*0.18,-depth+0.82,0),Vector3(1.2,0.08,0.7),"8a6040")
+			for x: float in [-w*0.18-0.5,-w*0.18+0.5]:
+				s.box(root,Vector3(x,-depth+0.42,0),Vector3(0.08,0.8,0.08),"5c4030")
+			s.box(root,Vector3(w*0.28,-depth+0.2,d*0.1),Vector3(0.9,0.06,0.9),String(data.get("rug","8a3a30")))
+			var glow := OmniLight3D.new()
+			glow.position = Vector3(0,-depth+1.4,0)
+			glow.light_color = Color("ffc27a")
+			glow.omni_range = 4.0
+			glow.set_meta("day_energy",0.6)
+			glow.set_meta("night_energy",1.2)
+			root.add_child(glow)
 		"runner":
 			s.box(root,Vector3(0,0.018,0),Vector3(w,0.028,d),"485f61")
 			for z: float in [-d*0.44,d*0.44]:
@@ -171,18 +194,27 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 			s.box(root,Vector3(0,0.12,0),Vector3(0.7,0.24,0.7),"8c8a7f")
 			s.box(root,Vector3(0,3.2,0),Vector3(0.16,6.4,0.16),"6e5038")
 			s.box(root,Vector3(0,6.45,0),Vector3(0.24,0.14,0.24),"c9a35e")
-			s.box(root,Vector3(0.62,5.2,0),Vector3(1.1,2.2,0.04),"b8432f")
 			s.box(root,Vector3(0.62,6.33,0),Vector3(1.2,0.07,0.07),"6e5038")
+			# `flutter`: the cloth on a node of its own that stirs in the wind about the pole.
+			var cloth: Node3D = root
+			if data.get("flutter",false):
+				cloth = Node3D.new()
+				cloth.position = Vector3(0.08,5.2,0)
+				root.add_child(cloth)
+				if ambience != null:
+					ambience.flutter(cloth,root.position.x*0.7)
+			var at: Vector3 = Vector3(0.54,0,0) if cloth != root else Vector3(0.62,5.2,0)
+			s.box(cloth,at,Vector3(1.1,2.2,0.04),String(data.get("cloth","b8432f")))
 			var title := Label3D.new()
 			title.text = tr(String(data.get("text","")))
-			title.position = Vector3(0.62,5.2,0.03)
+			title.position = at+Vector3(0,0,0.03)
 			title.pixel_size = 0.009
 			title.font_size = 52
 			title.width = 120.0
 			title.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
 			title.modulate = Color("f1d9a0")
 			title.outline_size = 0
-			root.add_child(title)
+			cloth.add_child(title)
 		"bear_skin":
 			# 熊皮 (keep3.c): a great bear's hide spread flat, head and paws at its corners.
 			var fur: String = String(data.get("fur","4a3426"))
