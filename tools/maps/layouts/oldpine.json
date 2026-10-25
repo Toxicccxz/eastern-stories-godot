@@ -1,12 +1,12 @@
 {
   "maps": {
     "outdoor": {
-      "note": "老松林: the forest path from Snow (npath1-3) winds south and east to the round clearing with the great pine in its middle (clearing); north of it the straight slope (spath1-4, a dead end); east the path to the mossy stone bridge over the gorge, the waterfall pouring into it north of the bridge, and the forest's edge beyond (epath1-3, the broken plank road along the mountain). South the pines close in: pine1-7 and cliffdown are one fixed maze of gaps between the trees (DECISIONS) with a loop, two dead ends and the way on to the cliff's edge in the west; from pine1 one way south to the cliffside, one east to the keep's hidden gate (keep1) and the stockade (keep2: sandbags and stone piles, the stakes; keep3: the bear skin and three chairs, braziers, locked chests, the pit).",
+      "note": "老松林, laid out as the rooms describe themselves and as their climbs land (DECISIONS「老松林按原文方位排布」): the forest path from Snow (npath1-3) runs south and turns east to the round clearing with the great pine in its middle (clearing); three ways leave it, east, west and south (clearing.c), the sign by the south one, where the straight slope runs down south, high in the north and low in the south (spath1-4, a dead end); east the path to the mossy stone bridge over the gorge that runs south from the waterfall north of the bridge, and the strip at the foot of the cliff beyond it (epath3) with the broken plank road up the cliff (epath3.c: 一条破旧的栈道沿著山壁通往山上). On the high ground east of the gorge the pines close in: pine1-7 and cliffdown are one fixed maze of gaps between the trees (DECISIONS) with a loop, two dead ends and the way on to cliffdown on its west edge, above epath3; from pine1, at the plank road's top, one way south to the cliffside on the same edge, above the gorge, one east to the keep's hidden gate (keep1) and the stockade (keep2: sandbags and stone piles, the stakes; keep3: the bear skin and three chairs, braziers, locked chests, the pit).",
       "file": "oldpine_outdoor.tscn",
       "draw": {
         "technique": "canvas",
         "base": "forest",
-        "bounds": [-1536, -544, 2080, 1440],
+        "bounds": [-768, -544, 3808, 1216],
         "names": {
           "oldpine.outdoor.north_approach": "NorthApproach",
           "oldpine.outdoor.central_clearing": "CentralClearing",
@@ -22,52 +22,52 @@
         },
         "zones": {
           "oldpine.outdoor.north_approach": [-700, -500, 0, 300, "forest_floor"],
-          "oldpine.outdoor.slope": [0, -500, 900, 0, "forest_floor"],
           "oldpine.outdoor.central_clearing": [0, 0, 900, 600, "grass"],
-          "oldpine.outdoor.east_bridge": [900, 0, 1500, 600, "forest_floor"],
-          "oldpine.outdoor.pine_entrance": [0, 600, 900, 1100, "forest_floor"],
-          "oldpine.outdoor.pine_deep": [-900, 600, 0, 1100, "forest_floor"],
-          "oldpine.outdoor.pine_cliff_edge": [-1500, 600, -900, 1100, "forest_floor"],
-          "oldpine.outdoor.cliffside": [300, 1100, 600, 1400, "grass"],
-          "oldpine.outdoor.keep_gate": [900, 704, 1264, 1024, "forest_floor"],
-          "oldpine.outdoor.keep_yard": [1264, 704, 1664, 1024, "floor_yard"]
+          "oldpine.outdoor.slope": [0, 600, 900, 1100, "forest_floor"],
+          "oldpine.outdoor.east_bridge": [900, 0, 1520, 600, "forest_floor"],
+          "oldpine.outdoor.pine_cliff_edge": [1520, -500, 2100, 260, "forest_floor"],
+          "oldpine.outdoor.pine_entrance": [1520, 260, 2596, 700, "forest_floor"],
+          "oldpine.outdoor.pine_deep": [2100, -500, 3300, 260, "forest_floor"],
+          "oldpine.outdoor.cliffside": [1520, 700, 1900, 1000, "grass"],
+          "oldpine.outdoor.keep_gate": [2596, 320, 2960, 640, "forest_floor"],
+          "oldpine.outdoor.keep_yard": [2960, 320, 3360, 640, "floor_yard"]
         },
         "lines": {
           "roads": [
             [[-352, -520, 22, 88, 88, 6, "npath1: from Snow's road into the tall pines"], [-352, -380, 22, 88, 88, 10], [-340, -240, 22, 88, 88, 12], [-312, -110, 22, 88, 88, 12, "npath2: birdsong in the pines"], [-250, 0, 22, 88, 88, 10], [-160, 110, 22, 88, 88, 10, "npath3: the pines grow short and thin"], [-40, 196, 22, 88, 88, 8], [100, 262, 22, 88, 88, 6], [270, 300, 20, 88, 88, 2, "into the clearing"]],
-            [[480, 80, 20, 96, 96, 2, "spath1: many footprints"], [470, -20, 22, 96, 96, 8], [454, -130, 24, 112, 112, 8], [450, -260, 24, 112, 112, 8, "spath2-4: a straight slope, high in the north"], [450, -360, 24, 100, 100, 8], [450, -420, 20, 72, 72, 6, "spath4: the end of the way"]],
+            [[480, 520, 20, 96, 96, 2, "spath1: many footprints"], [470, 620, 22, 96, 96, 8], [454, 730, 24, 112, 112, 8], [450, 860, 24, 112, 112, 8, "spath2-4: a straight slope, high in the north, low in the south"], [450, 960, 24, 100, 100, 8], [450, 1020, 20, 72, 72, 6, "spath4: the end of the way"]],
             [[850, 300, 20, 88, 88, 2, "out of the clearing east"], [960, 304, 22, 88, 88, 4, "epath1: knife marks on the pines"], [1060, 304, 24, 88, 88, 4], [1112, 304, 24, 72, 72, 0, "the bridge's west end"]],
-            [[1368, 304, 24, 72, 72, 0, "the bridge's east end"], [1430, 300, 22, 72, 72, 8, "epath3: wet footprints, the forest's edge east"], [1424, 200, 18, 72, 72, 8], [1430, 140, 18, 72, 72, 6]],
+            [[1368, 304, 24, 72, 72, 0, "the bridge's east end"], [1430, 300, 22, 72, 72, 8, "epath3: wet footprints, the forest's edge"], [1424, 200, 18, 72, 72, 8], [1430, 140, 18, 72, 72, 6]],
             [[1430, 300, 18, 72, 72, 8], [1426, 380, 18, 72, 72, 6], [1430, 420, 16, 72, 72, 4]],
-            [[450, 540, 18, 36, 36, 4, "the path south out of the clearing into the pines"], [444, 620, 12, 40, 40, 6]]
+            [[1430, 420, 16, 72, 72, 2, "the broken plank road up the cliff (epath3.c: 一条破旧的栈道沿著山壁通往山上)"], [1500, 452, 14, 64, 64, 0], [1576, 470, 14, 60, 60, 0]]
           ],
           "trails": [
-            [[444, 620, 0, 44, 44, 6, "pine1: no path, only gaps between the trees"], [440, 740, 0, 48, 48, 6]],
-            [[440, 740, 0, 72, 72, 6], [580, 790, 0, 72, 72, 6], [720, 850, 0, 72, 72, 6], [830, 864, 0, 72, 72, 6], [960, 864, 0, 72, 72, 6, "pine2 east: the keep's gate"], [1100, 864, 0, 72, 72, 6], [1256, 864, 0, 48, 48, 0]],
-            [[440, 740, 0, 72, 72, 6], [400, 860, 0, 72, 72, 6], [430, 980, 0, 72, 72, 6], [450, 1090, 0, 72, 72, 6], [450, 1170, 0, 72, 72, 6, "south to the cliffside"]],
-            [[440, 740, 0, 72, 72, 6], [300, 700, 0, 72, 72, 6], [150, 690, 0, 72, 72, 6], [0, 700, 0, 72, 72, 6], [-150, 690, 0, 72, 72, 6], [-300, 720, 0, 72, 72, 6, "the northern way west"]],
-            [[420, 970, 0, 72, 72, 6], [250, 1010, 0, 72, 72, 6], [100, 985, 0, 72, 72, 6], [-20, 1000, 0, 72, 72, 6], [-160, 1010, 0, 72, 72, 6], [-320, 990, 0, 72, 72, 6, "the southern way west"]],
-            [[-300, 720, 0, 72, 72, 6], [-420, 800, 0, 72, 72, 6], [-430, 900, 0, 72, 72, 6], [-320, 990, 0, 72, 72, 6, "joins the two: the loop round the thicket"]],
-            [[-300, 720, 0, 44, 44, 6], [-450, 664, 0, 44, 44, 6], [-596, 652, 0, 48, 48, 6, "a dead end"]],
-            [[-320, 990, 0, 72, 72, 6], [-500, 1012, 0, 72, 72, 6], [-650, 960, 0, 72, 72, 6]],
-            [[-650, 960, 0, 72, 72, 6], [-800, 1024, 0, 72, 72, 6], [-856, 1050, 0, 48, 48, 4, "another dead end"]],
-            [[-650, 960, 0, 80, 80, 6], [-700, 840, 0, 80, 80, 6], [-800, 760, 0, 80, 80, 6], [-920, 730, 0, 80, 80, 6, "pine7"], [-1040, 776, 0, 88, 88, 6], [-1180, 844, 0, 88, 88, 6], [-1300, 866, 0, 80, 80, 6, "cliffdown"]]
+            [[1576, 470, 0, 44, 44, 4, "pine1, at the plank road's top: no path, only gaps between the trees"], [1720, 480, 0, 48, 48, 6]],
+            [[1720, 480, 0, 72, 72, 6], [1860, 540, 0, 72, 72, 6], [2000, 560, 0, 72, 72, 6], [2200, 540, 0, 72, 72, 6], [2400, 510, 0, 72, 72, 6], [2560, 490, 0, 72, 72, 6], [2700, 480, 0, 72, 72, 6, "pine2 east: the keep's gate"], [2840, 480, 0, 72, 72, 6], [2952, 480, 0, 48, 48, 0]],
+            [[1720, 480, 0, 72, 72, 6], [1704, 580, 0, 72, 72, 6], [1690, 680, 0, 72, 72, 6], [1700, 780, 0, 72, 72, 6], [1700, 850, 0, 72, 72, 6, "south to the cliffside"]],
+            [[1720, 480, 0, 72, 72, 6], [1860, 420, 0, 72, 72, 6], [2040, 380, 0, 72, 72, 6], [2200, 340, 0, 72, 72, 6], [2240, 200, 0, 80, 80, 6], [2240, 60, 0, 80, 80, 6], [2240, -20, 0, 80, 80, 6, "the western way into the deep pines"]],
+            [[2560, 490, 0, 72, 72, 6], [2552, 340, 0, 88, 88, 6], [2560, 180, 0, 88, 88, 6], [2560, 60, 0, 80, 80, 6], [2560, -20, 0, 80, 80, 6, "the eastern way into the deep pines"]],
+            [[2240, -20, 0, 72, 72, 6], [2340, -24, 0, 72, 72, 6], [2460, -16, 0, 72, 72, 6], [2560, -20, 0, 72, 72, 6, "joins the two: the loop round the thicket"]],
+            [[2240, -20, 0, 44, 44, 6], [2236, -110, 0, 44, 44, 6], [2220, -200, 0, 48, 48, 6, "a dead end"]],
+            [[2560, -20, 0, 72, 72, 6], [2760, -60, 0, 72, 72, 6], [2900, -120, 0, 72, 72, 6]],
+            [[2900, -120, 0, 72, 72, 6], [3040, -60, 0, 72, 72, 6], [3120, 40, 0, 48, 48, 4, "another dead end"]],
+            [[2900, -120, 0, 80, 80, 6], [2830, -270, 0, 80, 80, 6], [2660, -380, 0, 80, 80, 6], [2440, -420, 0, 80, 80, 6], [2200, -416, 0, 88, 88, 6], [1960, -380, 0, 88, 88, 6, "pine7"], [1820, -220, 0, 88, 88, 6], [1720, -40, 0, 88, 88, 6], [1680, 80, 0, 80, 80, 6], [1650, 140, 0, 80, 80, 6, "cliffdown"]]
           ],
           "gorge_rim": [
-            [[1240, 60, 124, 124, 124, 0], [1240, 180, 132, 132, 132, 0], [1240, 300, 140, 140, 140, 0], [1244, 420, 132, 132, 132, 0], [1290, 520, 120, 120, 120, 0], [1400, 576, 110, 110, 110, 0], [1560, 600, 100, 100, 100, 0], [1800, 610, 90, 90, 90, 0], [2100, 610, 90, 90, 90, 0]]
+            [[1240, 60, 124, 124, 124, 0], [1240, 180, 132, 132, 132, 0], [1240, 300, 140, 140, 140, 0], [1244, 420, 132, 132, 132, 0], [1256, 560, 126, 126, 126, 0], [1272, 700, 122, 122, 122, 0], [1288, 860, 120, 120, 120, 0], [1296, 1020, 118, 118, 118, 0], [1300, 1180, 116, 116, 116, 0], [1300, 1260, 116, 116, 116, 0]]
           ],
           "gorge": [
-            [[1240, 60, 100, 100, 100, 0], [1240, 180, 110, 110, 110, 0], [1240, 300, 120, 120, 120, 0], [1244, 420, 110, 110, 110, 0], [1290, 520, 100, 100, 100, 0], [1400, 576, 90, 90, 90, 0], [1560, 600, 80, 80, 80, 0], [1800, 610, 70, 70, 70, 0], [2100, 610, 70, 70, 70, 0]]
+            [[1240, 60, 100, 100, 100, 0], [1240, 180, 110, 110, 110, 0], [1240, 300, 120, 120, 120, 0], [1244, 420, 110, 110, 110, 0], [1256, 560, 104, 104, 104, 0], [1272, 700, 100, 100, 100, 0], [1288, 860, 98, 98, 98, 0], [1296, 1020, 96, 96, 96, 0], [1300, 1180, 94, 94, 94, 0], [1300, 1260, 94, 94, 94, 0]]
           ]
         },
         "steps": [
           {
             "op": "blobs",
-            "note": "the mountain north and east of the gorge",
+            "note": "the mountain the falls pour from, north of the gorge",
             "kind": "cliff",
             "amp": 0.16,
             "seed": [0.011, 0.007],
-            "blobs": [[1780, -260, 420, 330], [1840, 220, 300, 260], [1240, -330, 330, 250], [1640, 120, 160, 160]]
+            "blobs": [[1240, -330, 330, 250]]
           },
           {
             "op": "freeze"
@@ -83,13 +83,13 @@
             "amp": 0.15,
             "seed": [0.013, 0.009],
             "blobs": [
-              [450, 1260, 120, 110, "cliffside"],
-              [-1350, 866, 130, 110, "cliffdown"],
-              [1090, 864, 150, 140, "before keep1's gate"],
+              [1700, 870, 120, 110, "cliffside"],
+              [1680, 140, 120, 100, "cliffdown"],
+              [2786, 480, 150, 140, "before keep1's gate"],
               [1440, 300, 56, 200, "epath3"],
-              [-604, 650, 50, 40, "the first dead end's hollow"],
-              [-1060, 700, 50, 40, "pine7's hollow"],
-              [540, 900, 104, 58, "a hollow by the way south"]
+              [2220, -230, 50, 40, "the first dead end's hollow"],
+              [1960, -450, 50, 40, "pine7's hollow"],
+              [1984, 632, 110, 48, "a hollow by the way to the keep"]
             ]
           },
           {
@@ -135,46 +135,34 @@
               ["water", 1200, -48, 1280, 64, "the waterfall, north of the bridge, falling from the cliff"],
               ["bridge", 1104, 240, 1376, 384, "小石桥: old, mossy, high over the gorge"],
               ["forest", 1328, 192, 1344, 240, "the vine hanging by the bridge"],
-              ["blocked", 512, 48, 528, 64, "the sign by the path to the bandits' slope (clearing.c: 往南的小路旁竖著一个牌子)", {"look": {"kind": "notice_post", "text": "官府告示：此处常有歹人出没。"}}],
-              ["wall_wood", 1488, 112, 1520, 128, "the broken plank road along the mountain (no exit in ES2)"],
-              ["wall_wood", 1504, 80, 1536, 96],
-              ["wall_wood", 1520, 48, 1552, 64],
-              ["wall_wood", 1552, 0, 1584, 16],
-              ["wall_wood", 1568, -32, 1600, -16]
+              ["blocked", 512, 528, 528, 544, "the sign by the south way, to the bandits' slope (clearing.c: 往南的小路旁竖著一个牌子)", {"look": {"kind": "notice_post", "text": "官府告示：此处常有歹人出没。"}}]
             ]
           },
           {
             "op": "blobs",
-            "note": "the drops west of the cliffside and of cliffdown",
+            "note": "the face of the high ground east of the gorge: the drop from cliffdown to epath3 and from the cliffside to the gorge",
             "kind": "cliff",
             "amp": 0.1,
             "seed": [0, 0.01],
-            "blobs": [[236, 1280, 96, 220], [-1560, 860, 104, 260]]
-          },
-          {
-            "op": "blobs",
-            "kind": "chasm",
-            "amp": 0.1,
-            "seed": [0, 0.01],
-            "blobs": [[196, 1280, 72, 210], [-1580, 860, 80, 250]]
+            "blobs": [[1548, 140, 52, 210], [1500, 860, 110, 200], [1546, 620, 40, 90]]
           },
           {
             "op": "fill",
             "fills": [
-              ["wall_wood", 1664, 704, 2032, 1024, "聚义厅 (its own map since the remap)"],
-              ["wall_wood", 1264, 688, 2048, 1040, "老松寨: a stockade of logs"],
-              ["floor_yard", 1296, 720, 1648, 1008, "keep2"],
-              ["floor_yard", 1264, 832, 1296, 896, "the gate in the west wall"],
-              ["floor_wood", 1648, 832, 1664, 896, "past the row of stakes"],
-              ["blocked", 1312, 736, 1360, 768, "sandbags and stone piles at the wall's strong points (keep2.c: 许多险要的位置都放了不少沙包石堆)", {"look": {"kind": "sandbags"}}],
-              ["blocked", 1568, 736, 1616, 768, {"look": {"kind": "sandbags", "rows": 2}}],
-              ["blocked", 1312, 960, 1360, 992, {"look": {"kind": "sandbags", "rotation": 180}}],
-              ["blocked", 1568, 960, 1616, 992, {"look": {"kind": "sandbags", "rotation": 180, "rows": 2}}],
-              ["blocked", 1632, 736, 1648, 752, "the row of stakes before the hall (keep2.c: 东边越过一排木桩之后就是大厅)", {"look": {"kind": "stakes"}}],
-              ["blocked", 1632, 784, 1648, 800, {"look": {"kind": "stakes"}}],
-              ["blocked", 1632, 928, 1648, 944, {"look": {"kind": "stakes"}}],
-              ["blocked", 1632, 976, 1648, 992, {"look": {"kind": "stakes"}}],
-              ["floor_yard", 1600, 832, 1632, 896, "the way into 聚义厅"]
+              ["wall_wood", 3360, 320, 3728, 640, "聚义厅 (its own map since the remap)"],
+              ["wall_wood", 2960, 304, 3744, 656, "老松寨: a stockade of logs"],
+              ["floor_yard", 2992, 336, 3344, 624, "keep2"],
+              ["floor_yard", 2960, 448, 2992, 512, "the gate in the west wall"],
+              ["floor_wood", 3344, 448, 3360, 512, "past the row of stakes"],
+              ["blocked", 3008, 352, 3056, 384, "sandbags and stone piles at the wall's strong points (keep2.c: 许多险要的位置都放了不少沙包石堆)", {"look": {"kind": "sandbags"}}],
+              ["blocked", 3264, 352, 3312, 384, {"look": {"kind": "sandbags", "rows": 2}}],
+              ["blocked", 3008, 576, 3056, 608, {"look": {"kind": "sandbags", "rotation": 180}}],
+              ["blocked", 3264, 576, 3312, 608, {"look": {"kind": "sandbags", "rotation": 180, "rows": 2}}],
+              ["blocked", 3328, 352, 3344, 368, "the row of stakes before the hall (keep2.c: 东边越过一排木桩之后就是大厅)", {"look": {"kind": "stakes"}}],
+              ["blocked", 3328, 400, 3344, 416, {"look": {"kind": "stakes"}}],
+              ["blocked", 3328, 544, 3344, 560, {"look": {"kind": "stakes"}}],
+              ["blocked", 3328, 592, 3344, 608, {"look": {"kind": "stakes"}}],
+              ["floor_yard", 3296, 448, 3328, 512, "the way into 聚义厅"]
             ]
           },
           {
@@ -189,9 +177,9 @@
               [-260, -190, 14, 14],
               [-420, -40, 14, 14],
               [-200, 190, 12, 12],
-              [360, -60, 14, 14],
-              [560, -320, 14, 14],
-              [350, -400, 14, 14],
+              [360, 660, 14, 14],
+              [560, 920, 14, 14],
+              [350, 1000, 14, 14],
               [1000, 214, 14, 14],
               [1010, 394, 12, 12]
             ]
@@ -204,15 +192,15 @@
         "reach_from": ["SnowEntry", "OutdoorKeepYardKeepHallReturn"],
         "caption_near": {
           "oldpine.outdoor.north_approach": [-250, -300],
-          "oldpine.outdoor.slope": [540, -440],
+          "oldpine.outdoor.slope": [540, 1040],
           "oldpine.outdoor.central_clearing": [300, 120],
           "oldpine.outdoor.east_bridge": [940, 200],
-          "oldpine.outdoor.pine_entrance": [600, 660],
-          "oldpine.outdoor.pine_deep": [-500, 760],
-          "oldpine.outdoor.pine_cliff_edge": [-1300, 760],
-          "oldpine.outdoor.cliffside": [380, 1170],
-          "oldpine.outdoor.keep_gate": [960, 730],
-          "oldpine.outdoor.keep_yard": [1420, 976]
+          "oldpine.outdoor.pine_entrance": [1840, 420],
+          "oldpine.outdoor.pine_deep": [2640, -140],
+          "oldpine.outdoor.pine_cliff_edge": [1760, -320],
+          "oldpine.outdoor.cliffside": [1640, 760],
+          "oldpine.outdoor.keep_gate": [2660, 350],
+          "oldpine.outdoor.keep_yard": [3120, 592]
         }
       },
       "scene": {
@@ -241,7 +229,7 @@
           {
             "name": "KeepGate",
             "id": "oldpine.keep.gate",
-            "at": [1280, 864],
+            "at": [2976, 480],
             "shape": "Rect_32_64"
           }
         ],
@@ -272,8 +260,15 @@
           },
           {
             "node": "caption",
+            "name": "PlankRoadLabel",
+            "at": [1470, 500],
+            "text": "栈道",
+            "size": 14
+          },
+          {
+            "node": "caption",
             "name": "CliffdownLabel",
-            "at": [-1470, 760],
+            "at": [1560, 40],
             "text": "悬崖",
             "size": 14
           },
@@ -300,7 +295,7 @@
             "node": "passage",
             "name": "OutdoorKeepyardEastPassage",
             "id": "oldpine.outdoor.keep_yard.east",
-            "at": [1648, 864],
+            "at": [3344, 480],
             "shape": "Rect_32_64"
           },
           {
@@ -320,17 +315,17 @@
           },
           {
             "name": "Spath1Bandit01",
-            "at": [396, -160],
+            "at": [396, 760],
             "id": "oldpine.outdoor.slope.spath1.bandit.1"
           },
           {
             "name": "Spath1Bandit02",
-            "at": [522, -306],
+            "at": [522, 900],
             "id": "oldpine.outdoor.slope.spath1.bandit.2"
           },
           {
             "name": "Spath1Bandit03",
-            "at": [404, -372],
+            "at": [410, 972],
             "id": "oldpine.outdoor.slope.spath1.bandit.3"
           },
           {
@@ -340,17 +335,17 @@
           },
           {
             "name": "Pine1TallBanditSpawn",
-            "at": [488, 884],
+            "at": [1944, 636],
             "id": "oldpine.outdoor.pine_entrance.pine1.tall_bandit.1"
           },
           {
             "name": "Pine1FatBanditSpawn",
-            "at": [598, 900],
+            "at": [2030, 640],
             "id": "oldpine.outdoor.pine_entrance.pine1.fat_bandit.1"
           },
           {
             "name": "CliffsideLanding",
-            "at": [435, 1300],
+            "at": [1690, 880],
             "id": "oldpine.outdoor.cliffside.landing"
           },
           {
@@ -360,62 +355,62 @@
           },
           {
             "name": "Keep1Guard01",
-            "at": [1040, 800],
+            "at": [2736, 416],
             "id": "oldpine.outdoor.keep_gate.keep1.bandit_guard.1"
           },
           {
             "name": "Keep1Guard02",
-            "at": [1120, 800],
+            "at": [2816, 416],
             "id": "oldpine.outdoor.keep_gate.keep1.bandit_guard.2"
           },
           {
             "name": "Keep1Guard03",
-            "at": [1040, 928],
+            "at": [2736, 544],
             "id": "oldpine.outdoor.keep_gate.keep1.bandit_guard.3"
           },
           {
             "name": "Keep1Guard04",
-            "at": [1120, 928],
+            "at": [2816, 544],
             "id": "oldpine.outdoor.keep_gate.keep1.bandit_guard.4"
           },
           {
             "name": "Keep2Guard01",
-            "at": [1520, 800],
+            "at": [3216, 416],
             "id": "oldpine.outdoor.keep_yard.keep2.bandit_guard.1"
           },
           {
             "name": "Keep2Guard02",
-            "at": [1520, 928],
+            "at": [3216, 544],
             "id": "oldpine.outdoor.keep_yard.keep2.bandit_guard.2"
           },
           {
             "name": "Keep2Leader",
-            "at": [1600, 864],
+            "at": [3296, 480],
             "id": "oldpine.outdoor.keep_yard.keep2.bandit_leader.1"
           },
           {
             "name": "Keep2TrapGuard01",
-            "at": [1328, 816],
+            "at": [3034, 432],
             "id": "oldpine.outdoor.keep_yard.keep2.trap_guard.1"
           },
           {
             "name": "Keep2TrapGuard02",
-            "at": [1328, 912],
+            "at": [3034, 528],
             "id": "oldpine.outdoor.keep_yard.keep2.trap_guard.2"
           },
           {
             "name": "Keep2TrapGuard03",
-            "at": [1392, 800],
+            "at": [3088, 416],
             "id": "oldpine.outdoor.keep_yard.keep2.trap_guard.3"
           },
           {
             "name": "Keep2TrapGuard04",
-            "at": [1392, 928],
+            "at": [3088, 544],
             "id": "oldpine.outdoor.keep_yard.keep2.trap_guard.4"
           },
           {
             "name": "Keep2TrapGuard05",
-            "at": [1392, 864],
+            "at": [3088, 480],
             "id": "oldpine.outdoor.keep_yard.keep2.trap_guard.5"
           },
           {
@@ -425,22 +420,22 @@
           },
           {
             "name": "Cliff2EastLanding",
-            "at": [1428, 404],
+            "at": [1428, 260],
             "id": "oldpine.outdoor.east_bridge.cliff2_landing"
           },
           {
             "name": "Pine7WolfDog",
-            "at": [-1060, 700],
+            "at": [1960, -446],
             "id": "oldpine.outdoor.pine_cliff_edge.pine7.wolf_dog.1"
           },
           {
             "name": "Cliff2Return",
-            "at": [-1376, 864],
+            "at": [1688, 140],
             "id": "oldpine.outdoor.pine_cliff_edge.cliff2_return"
           },
           {
             "name": "OutdoorKeepYardKeepHallReturn",
-            "at": [1584, 864],
+            "at": [3280, 480],
             "id": "oldpine.outdoor.keep_yard.keep_hall_return"
           }
         ],
@@ -460,13 +455,13 @@
           {
             "name": "CliffdownInteraction",
             "id": "oldpine.outdoor.landmark.cliffdown_cliff",
-            "at": [-1424, 864],
+            "at": [1640, 140],
             "shape": "Rect_96_160"
           },
           {
             "name": "ClearingSignInteraction",
             "id": "oldpine.outdoor.landmark.clearing_sign",
-            "at": [520, 56],
+            "at": [520, 536],
             "shape": "Rect_48_48"
           },
           {
@@ -484,7 +479,7 @@
           {
             "name": "CliffsideCliffInteraction",
             "id": "oldpine.outdoor.landmark.cliffside_cliff",
-            "at": [320, 1280],
+            "at": [1624, 870],
             "shape": "Rect_48_96"
           }
         ]
