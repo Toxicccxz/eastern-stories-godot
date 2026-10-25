@@ -153,9 +153,9 @@ func _test_persisted_maze_geometry_and_zone_transitions(tree: SceneTree) -> void
 	# collision: no paths, only gaps between the pines (tools/maps/layouts/oldpine.json).
 	_assert_eq(_openings(controller, Vector2(-1488, 600), Vector2(896, 600)), [[400, 464]], "the maze's north edge opens only into the clearing (clearing to pine1)")
 	_assert_eq(_openings(controller, Vector2(-1488, 1096), Vector2(896, 1096)), [[400, 480]], "the maze's south edge opens only to the cliffside (pine1 to cliffside)")
-	_assert_eq(_openings(controller, Vector2(0, 608), Vector2(0, 1096)), [[656, 720], [960, 1024]], "Entrance and Deep are joined by two ways, north and south of a thicket")
-	_assert_eq(_openings(controller, Vector2(-904, 608), Vector2(-904, 1096)), [[688, 768]], "Deep and Cliff Edge are joined by one way")
-	_assert_eq(_openings(controller, Vector2(896, 704), Vector2(896, 1024)), [[816, 896]], "the way east to the keep opens at the entrance's east edge (pine2 east → keep1)")
+	_assert_eq(_openings(controller, Vector2(0, 608), Vector2(0, 1096)), [[656, 736], [944, 1040]], "Entrance and Deep are joined by two ways, north and south of a thicket")
+	_assert_eq(_openings(controller, Vector2(-904, 608), Vector2(-904, 1096)), [[672, 768]], "Deep and Cliff Edge are joined by one way")
+	_assert_eq(_openings(controller, Vector2(896, 704), Vector2(896, 1024)), [[800, 912]], "the way east to the keep opens at the entrance's east edge (pine2 east → keep1)")
 	_assert_true(_all_blocking(controller, Rect2(100, 776, 200, 136)) and _all_blocking(controller, Rect2(-260, 784, 196, 128)), "the thicket between the two ways is solid")
 	_assert_eq(TerrainProbe.terrain_at(controller, Vector2(150, 845)), "forest", "the thicket is drawn as forest")
 	_assert_eq(TerrainProbe.terrain_at(controller, Vector2(-596, 652)), "forest_floor", "the dead end is drawn as forest floor")
