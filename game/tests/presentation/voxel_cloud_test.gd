@@ -256,6 +256,12 @@ func _check_access_and_saves(tree: SceneTree, session: WorldSessionController, m
 		if not at.is_finite() or MapRoute.path(map, start, at).is_empty():
 			cut_off.append(String(zone.zone_id))
 	_check(cut_off.is_empty(), "every room of %s can be walked to: cut off %s" % [map.map_id(), cut_off])
+	var blocked_ways: Array[String] = []
+	for node: Node in map.find_children("*", "Area2D", true, false):
+		var passage := node as WorldPassageArea2D
+		if passage != null and MapRoute.path(map, start, MapPlaces.passage_spot(map, passage.portal_id)).is_empty():
+			blocked_ways.append(String(passage.portal_id))
+	_check(blocked_ways.is_empty(), "every way out of %s can be walked to past the furniture: %s" % [map.map_id(), blocked_ways])
 	var out_of_reach: Array[String] = []
 	for npc: NpcRuntimeState in map.npc_runtimes():
 		var body: WorldCharacterBody2D = map.runtime_body_for_character(npc.character_id)

@@ -261,8 +261,6 @@ func _ox_head(data: Dictionary) -> void:
 		s.tilted_box(root,Vector3(side*0.62,y+0.14,0.12),Vector3(0.18,0.07,0.07),"b8ab88",Vector3(0,0,side*-1.2))
 		s.box(root,Vector3(side*0.34,y-0.26,0.08),Vector3(0.12,0.18,0.08),String(data.get("hide","6b4a33")))
 	s.box(root,Vector3(0,y-0.7,0.3),Vector3(0.12,0.12,0.04),"8a2f2a")
-	if ambience != null:
-		ambience.sway(root,root.position.x,0.02)
 
 ## 棺材: a coffin on two trestles, thick-ended and lacquered; `open` slides its lid aside.
 func _coffin(w: float, d: float, data: Dictionary) -> void:

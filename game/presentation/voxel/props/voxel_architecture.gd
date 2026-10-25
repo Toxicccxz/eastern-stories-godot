@@ -58,7 +58,12 @@ func build(center: Vector3, w: float, d: float, data: Dictionary, entrances: Arr
 		shapes.box(body,chimney_at+Vector3(0,2.06,0),Vector3(0.55,0.02,0.56),"303c36")
 		# 炊烟: smoke curling up from the kitchen fire.
 		if data.get("smoke",false) and ambience != null:
-			ambience.smoke(body,chimney_at+Vector3(0,2.2,0),String(data.get("smoke_color","9a978d")),5,0.26)
+			# On a node of its own beside the body: the body is an occluder, whose reveal
+			# material would turn the see-through puffs solid.
+			var smoke := Node3D.new()
+			smoke.position = center+chimney_at+Vector3(0,2.2,0)
+			parent.add_child(smoke)
+			ambience.smoke(smoke,Vector3.ZERO,String(data.get("smoke_color","9a978d")),5,0.26)
 	# 腰檐: a pent eave round a two-storey house between its floors (a tea house, a 春楼).
 	if data.has("skirt"):
 		_skirt(body,w,d,float(data["skirt"]),data)

@@ -140,13 +140,16 @@ func _swing_frame(w: float, d: float) -> void:
 	swing.position = Vector3(0,height,0)
 	root.add_child(swing)
 	var drop: float = height-0.6
-	s.box(swing,Vector3(-0.35,-drop/2,0),Vector3(0.03,drop,0.03),"b09a6c")
+	# The seat hangs inside the swaying node, so a broken one keeps its twist as it swings.
+	var seat := Node3D.new()
+	swing.add_child(seat)
+	s.box(seat,Vector3(-0.35,-drop/2,0),Vector3(0.03,drop,0.03),"b09a6c")
 	if broken:
-		swing.rotation = Vector3(0.3,0,0.35)
-		s.box(swing,Vector3(0.05,-drop*0.45,0.1),Vector3(0.03,drop*0.6,0.03),"b09a6c")
+		seat.rotation = Vector3(0.3,0,0.35)
+		s.box(seat,Vector3(0.05,-drop*0.45,0.1),Vector3(0.03,drop*0.6,0.03),"b09a6c")
 	else:
-		s.box(swing,Vector3(0.35,-drop/2,0),Vector3(0.03,drop,0.03),"b09a6c")
-	s.box(swing,Vector3(0,-drop,0),Vector3(0.85,0.06,0.3),"8a6a45")
+		s.box(seat,Vector3(0.35,-drop/2,0),Vector3(0.03,drop,0.03),"b09a6c")
+	s.box(seat,Vector3(0,-drop,0),Vector3(0.85,0.06,0.3),"8a6a45")
 	if ambience != null:
 		ambience.sway(swing,root.position.x,0.05 if broken else 0.08)
 

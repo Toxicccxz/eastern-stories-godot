@@ -301,7 +301,10 @@ def extract_scene(text: str, relative: str, catalog: Catalog) -> None:
             continue
         if line.startswith("metadata/look = {"):
             # A furnishing's words (a notice, a board, a cart's banner), drawn by the voxel view.
-            look = json.loads(line[len("metadata/look = "):])
+            try:
+                look = json.loads(line[len("metadata/look = "):])
+            except json.JSONDecodeError as error:
+                raise ValueError(f"{relative}: a furnishing's look is not one line of JSON: {line[:60]!r}") from error
             for key in ("text", "flag"):
                 if isinstance(look.get(key), str):
                     pending.append(look[key])
@@ -474,8 +477,9 @@ def build_catalog(repository: Path = REPOSITORY) -> Catalog:
         config = json.loads(path.read_text(encoding="utf-8"))
         source = path.relative_to(root).as_posix()
         for prop in config.get("props", []):
-            if isinstance(prop.get("text"), str):
-                catalog.add(prop["text"], source)
+            for key in ("text", "flag"):
+                if isinstance(prop.get(key), str):
+                    catalog.add(prop[key], source)
         for entrance in config.get("entrances", {}).values():
             if isinstance(entrance.get("title"), str):
                 catalog.add(entrance["title"], source)

@@ -1373,7 +1373,7 @@ msgstr ""
 msgid "镖局"
 msgstr ""
 
-#: scenes/world/cloud/biaoju_house.tscn data/cloud/voxel/biaoju_house.json
+#: scenes/world/cloud/biaoju_house.tscn data/cloud/voxel/biaoju_house.json data/cloud/voxel/outdoor.json
 msgid "镖"
 msgstr ""
 
