@@ -176,7 +176,9 @@
   straight above epath3 and the cliffside on the same edge over the gorge. The maze's native way
   in (B2's link, no ES2 exit) moves from the clearing's south side to the plank road up from
   epath3 into pine1; the clearing has only its three ways. The maze keeps its structure (a loop,
-  two dead ends, one way on to cliffdown), pine1's two bandits stand by the way to the keep.
+  two dead ends, one way on to cliffdown). pine1's two bandits, who in ES2 stand where every
+  way into the maze passes, stand in a hollow by the way to the keep: one can go round them to
+  the deep maze or the cliffside (owner, 2026-10-25).
   World revision SOURCE_ENTRY_OLDPINE_RELAYOUT_V1.
 
 ## 地图尺寸以体素视角为准 (owner, 2026-10-25)
