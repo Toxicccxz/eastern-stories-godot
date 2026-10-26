@@ -9,7 +9,7 @@ P1 `0e5ff6a5cbc8d4091102e280c66868ba8763b4bb` is OWNER APPROVED / CLOSED.
 The phase remains `phase/migration-tooling-v1`, based on green main
 `cd07808cb76147d0b8c0dad9b82d078b49fefe64`.
 The first P2 commit, `8108763d6a4ddb3ad2b110200666424f4042e296`, records locked D1–D9
-in [DECISIONS](DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary) and corrects
+in [DECISIONS](DECISIONS_HISTORY.md#migration-tooling-v1-p2--owner-locked-extraction-boundary) and corrects
 current Snow/Tooling status in STATUS/ROADMAP. It was committed and pushed before implementation.
 The [P1 analysis](MIGRATION_TOOLING_V1_P1_ANALYSIS.md) remains unchanged historical evidence.
 

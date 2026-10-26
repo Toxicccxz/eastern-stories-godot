@@ -14,7 +14,7 @@ no reset/restore/stash/clean, history rewrite or separate P2F27 was used.
 
 Exactly five tracked files are authorized: extractor, existing test module, this
 report, [STATUS](../production/STATUS.md), [ROADMAP](../production/ROADMAP.md).
-[D1–D9](DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary) stay
+[D1–D9](DECISIONS_HISTORY.md#migration-tooling-v1-p2--owner-locked-extraction-boundary) stay
 locked. P2F25 is CLOSED; the historical Final Re-Audit after P2F25 remains BLOCKED.
 This is implementation verification, not the next Final Re-Audit.
 

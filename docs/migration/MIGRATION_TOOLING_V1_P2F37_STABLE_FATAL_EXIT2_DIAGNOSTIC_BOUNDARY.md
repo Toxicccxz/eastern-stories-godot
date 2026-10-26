@@ -22,7 +22,7 @@ Python3.12.14 argparse._print_message catches AttributeError/OSError from file.w
 
 ## Implementation and D9 contract
 
-The [locked contract](DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary) remains:
+The [locked contract](DECISIONS_HISTORY.md#migration-tooling-v1-p2--owner-locked-extraction-boundary) remains:
 
 - exit0: complete tooling execution without genuine source quarantine;
 - exit1: complete scan/document containing genuine source quarantine;

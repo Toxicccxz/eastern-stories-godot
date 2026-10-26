@@ -15,7 +15,7 @@ The Final Re-Audit after P2F24 remains historically BLOCKED by FR24-01.
 
 Exactly five tracked files are authorized: the extractor, its existing test module,
 this report, [STATUS](../production/STATUS.md), and [ROADMAP](../production/ROADMAP.md).
-[DECISIONS](DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary)
+[DECISIONS](DECISIONS_HISTORY.md#migration-tooling-v1-p2--owner-locked-extraction-boundary)
 and D1-D9 remain locked. No lexer, CLI, source, game, workflow, schema or archive edits.
 
 ## FR24-01 root cause

@@ -23,7 +23,7 @@ fetch 后身份一致，仅有两份允许的 untracked 历史审计。没有 re
 
 Owner 复查发现一个 MEDIUM 完整性缺口：symbolic exclusion 缺 DAGGER/FORK/SURCOAT/WAIST/WRISTS/HANDS；
 literal denylist 缺少全部20个标准武器/防具路径。ROOM 混合继承因此可能仍输出静态 room facts。
-[D2](DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary) 已排除这些对象；本次落实既有决定，
+[D2](DECISIONS_HISTORY.md#migration-tooling-v1-p2--owner-locked-extraction-boundary) 已排除这些对象；本次落实既有决定，
 不改变 D1–D9 或扩大提取能力。两个历史 BLOCKED 审计不回写。
 
 ## 3. Hand-reviewed weapon authority

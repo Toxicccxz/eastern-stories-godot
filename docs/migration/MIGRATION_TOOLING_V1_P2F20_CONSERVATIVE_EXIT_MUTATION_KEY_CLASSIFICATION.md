@@ -84,7 +84,7 @@ mutation from another object's property call.
 Original [dbase](../../reference/es2/mudlib/feature/dbase.c) and
 [treemap](../../reference/es2/mudlib/feature/treemap.c) authority underlies the
 whole/subtree set/add/delete safety policy. The locked
-[D3/D6 boundary](DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary)
+[D3/D6 boundary](DECISIONS_HISTORY.md#migration-tooling-v1-p2--owner-locked-extraction-boundary)
 permits conservative refusal without evaluating keys. No gameplay mechanic or
 legacy source was changed.
 

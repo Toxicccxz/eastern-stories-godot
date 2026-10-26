@@ -5,7 +5,7 @@
 ## 1. Authorization / frozen baseline
 
 owner 仅授权第二次 BLOCKED 审计发现的 HIGH1 / MEDIUM1 修复、验证、文档和一个修复提交。
-P1/P2/P2F1 均 APPROVED / CLOSED；[D1–D9](DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary)
+P1/P2/P2F1 均 APPROVED / CLOSED；[D1–D9](DECISIONS_HISTORY.md#migration-tooling-v1-p2--owner-locked-extraction-boundary)
 保持 LOCKED，没有另行 Final Audit、PR、merge 或 P3 授权。
 
 | Identity | Verified value |

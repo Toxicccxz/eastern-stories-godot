@@ -54,7 +54,7 @@ Zero base-to-audit delta was verified for `reference/es2`, `tools/migration`
 No Migration Tooling P3 or Native generation is present.
 
 Reviewed authority/current records: root/docs AGENTS, README, STATUS, ROADMAP,
-[DECISIONS](DECISIONS.md#snow-martial-progression-ii--automated-functional-acceptance),
+[DECISIONS](DECISIONS_HISTORY.md#snow-martial-progression-ii--automated-functional-acceptance),
 [P1](PHASE_SNOW_MARTIAL_PROGRESSION_II_SOURCE_ANALYSIS.md),
 [P2 runtime](PHASE_SNOW_MARTIAL_PROGRESSION_II_RUNTIME.md),
 [P2R1](PHASE_SNOW_MARTIAL_PROGRESSION_II_P2R1_SOURCE_CLOTH_DEATH_FACTS.md),

@@ -9,7 +9,7 @@ Executable parent: `4ae432a9be43c7555612078be9710511787f477d`, subject
 `Suppress exit facts for preprocessing-uncertain mappings`.
 Main and merge-base: `cd07808cb76147d0b8c0dad9b82d078b49fefe64`.
 Fresh fetch, refs, clean tracked/index preflight and all-state phase PR search matched the prompt.
-The [locked contract](DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary)
+The [locked contract](DECISIONS_HISTORY.md#migration-tooling-v1-p2--owner-locked-extraction-boundary)
 remains unchanged. No PR, merge, remote CI, P3 or next Final Re-Audit is authorized.
 
 ## FR17-01 root cause

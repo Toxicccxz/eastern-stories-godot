@@ -27,7 +27,7 @@ tracked/index clean，全状态 phase PR 查询为空。没有重写历史或切
 [P2F30 implementation](MIGRATION_TOOLING_V1_P2F30_REACHED_HEADER_EOF_UNRESOLVED_DECLARATION_REFUSAL.md)、
 [P2F29 contract](MIGRATION_TOOLING_V1_P2F29_UNRESOLVED_DECLARATION_HEADER_REFUSAL.md)、
 [P2F22 keyword safety](MIGRATION_TOOLING_V1_P2F22_MACRO_SHADOWED_INHERIT_KEYWORD_SAFETY.md) 相关部分、
-[locked D1–D9](DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary) 及共享 scanner/helper/tests。
+[locked D1–D9](DECISIONS_HISTORY.md#migration-tooling-v1-p2--owner-locked-extraction-boundary) 及共享 scanner/helper/tests。
 原始只读依据为 [include](../../reference/es2/mudlib/doc/lpc/preprocessor/include)、
 [define](../../reference/es2/mudlib/doc/lpc/preprocessor/define)、
 [function](../../reference/es2/mudlib/doc/lpc/constructs/function)、

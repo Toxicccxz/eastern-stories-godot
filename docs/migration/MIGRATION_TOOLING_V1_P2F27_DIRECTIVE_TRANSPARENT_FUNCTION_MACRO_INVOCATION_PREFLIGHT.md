@@ -59,7 +59,7 @@ The local [preprocessor manual](../../reference/es2/mudlib/doc/concepts/preproce
 [define reference](../../reference/es2/mudlib/doc/lpc/preprocessor/define),
 [function syntax](../../reference/es2/mudlib/doc/lpc/constructs/function), and
 [dbase setter](../../reference/es2/mudlib/feature/dbase.c) were consulted.
-[Owner-locked D1–D9](DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary)
+[Owner-locked D1–D9](DECISIONS_HISTORY.md#migration-tooling-v1-p2--owner-locked-extraction-boundary)
 remain unchanged. Python 3.12 stdlib only; no game/save/runtime change or live-game
 acceptance criterion. Godot gameplay validation is not applicable to this parser repair.
 

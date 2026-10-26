@@ -228,7 +228,7 @@ or dangling finding reference is introduced; summaries are recomputed exactly.
 
 ## Source authority and immutable source
 
-Root/docs AGENTS, owner-locked [D1–D9](DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary),
+Root/docs AGENTS, owner-locked [D1–D9](DECISIONS_HISTORY.md#migration-tooling-v1-p2--owner-locked-extraction-boundary),
 the [preprocessor manual](../../reference/es2/mudlib/doc/concepts/preprocessor),
 [define](../../reference/es2/mudlib/doc/lpc/preprocessor/define),
 [include](../../reference/es2/mudlib/doc/lpc/preprocessor/include),

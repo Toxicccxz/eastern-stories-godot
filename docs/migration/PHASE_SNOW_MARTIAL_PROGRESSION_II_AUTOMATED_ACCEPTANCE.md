@@ -12,7 +12,7 @@ are owner-approved/closed. This delivery changes tests and documentation only.
 The retained Godot AI update is separate from P2R2 and remains for later branch-level
 Final Audit review. No production formula, resource rule, Save schema or plugin changes.
 
-The [owner acceptance decision](DECISIONS.md#snow-martial-progression-ii--automated-functional-acceptance)
+The [owner acceptance decision](DECISIONS_HISTORY.md#snow-martial-progression-ii--automated-functional-acceptance)
 replaces the previous live-input/grind protocol for P2 functional closure.
 Natural time-to-EXP6 is **BALANCE / PACING QUALIFICATION**, deferred to later
 human usability/playtesting. Physical traversal and process-restart persistence retain

@@ -1,5 +1,156 @@
 # Migration Decisions
 
+本文件记录对 ES2 的每处改动和全局规则，一条一项（AGENTS.md「Changing ES2」）。先是按系统归纳的现行规则，
+然后是现行条目原文，新的在前、无日期的旧条目在后；被后来条目取代或只有历史意义的条目移到
+[DECISIONS_HISTORY](DECISIONS_HISTORY.md)。引用写作 DECISIONS「条目名」。
+
+## 现行规则（按系统）
+
+每条写游戏现在怎么做，后面是出处条目；一条被后来的条目改过一部分时，两条都列出，以这里写的为准。
+
+**产品与流程**
+- 以 ES2 为底的现代武侠 RPG：会让今天的玩家却步的规则和节奏可以改，但每处改动在本文件记一条；改动走数据开关，开关留 ES2 原值作「经典模式」。「产品定位」
+- 第一版只发桌面端；画面不为手机帧率减配，Android / iOS 的 CI 作业只当构建门槛。「首发只做桌面」
+- PR 合并时 owner 没回答的问题按推荐方案生效、标「默认」，owner 随时可以否决。「积压问题的处理」
+- 重要或致命的选择先问，全用 ConfirmPrompt，焦点在「取消」；攻击和切磋一律先问并说明对方强弱，逃跑、投降、运功不问。「Ask before an important or deadly choice」「说话和交互」
+- 读来像 bug 的 ES2 行为修掉：拒收句不提「其他玩家」，拒收的东西退回，被偷时告诉玩家，蛇药说明还剩多少毒。「Modern fixes: ES2 behaviour that reads as a bug」
+- 简体中文是源语言，消息 ID 就是源文本；`tools/l10n/extract_pot.py` 是唯一的提取器；语言跟系统或设置。「Localization: the source text is the key」
+
+**全局驱动规则**
+- MudOS `random(n)` 在 n ≤ 0 时为 0 且不抽数；每个移植的 `random()` 都走 `legacy_random(n)`。「MudOS random(n <= 0) is 0, everywhere」
+- 命令失败时显示最后一次 `notify_fail()` 的句子。「MudOS notify_fail(): the last call wins」
+- 导入时：未知转义 `\X` 得 `X`，颜色宏去掉，没有 `set_weight()` 的东西重 0，LPC 字符串里的硬换行去掉。「Content importer and Snow's first NPCs」「Snow's inner rooms」「卧龙岗 + 绮云镇 3A」
+- 其余会让驱动报错的除零或非法值（战斗里 max_gin / max_kee 为 0、修炼百分比、智力 ≤ 0 的自学、请教的运行时错误）返回有类型的失败，不夹值、不崩溃，此前完成的改动保留。「Combat invalid random bounds become ordered typed failures」「Cultivation percentage division by zero」「Self-learning with non-positive intelligence」「Learn legacy runtime errors preserve completed mutations」
+- LPC 没定义的顺序换成稳定顺序：状态按 ID 升序更新，死亡和尸体里的物品按稳定实例 ID，致命关系按 CharacterId。「Condition update order」「Death and corpse inventory ordering uses stable instance IDs」「Combat lethal relationships use stable character identity」
+- 战斗中一回合 = 一次心跳（`combat_round_ms` 1000），战斗外心跳 2 秒（`heart_beat_ms`）。「One map runtime」「响应性」
+- 进行不下去的战斗以 ABORTED 结束，不冻结；开发版报错，测试失败。「A failed fight ends instead of freezing」
+- ES2 编译不过的文件可用 override 的 `source_fixes` 修（记为偏离）；NPC id 带区域子目录；Big5 丢的「□」按 `text_replacements.json` 定字。「晚月庄 A」「积压问题的处理」
+
+**地图与体素**
+- 所有地图用固定正交斜视体素表现；2D 地图仍是唯一依据（碰撞、站位、交互范围、存档）；左右 45° 两个视角，按钮切换、0.6 秒圆弧；家具只记在布局里。「固定俯视体素地图」
+- 地图尺寸以体素视角下好走为准：路能两人并排、绕过路中间的人；野外能在敌人察觉圈外绕过去，原文守路的除外。「地图尺寸以体素视角为准」
+- 每个能进的房间在所属建筑（或院落）自己的图上，由门口的一对通道进出；房间、出口、门锁和站位不变，所有地图常驻。「地图重构」
+- 一个高度一张图：攀爬、洞穴、跳落是换图；地形按瓦片碰撞，门和可开关的挡块是节点。「Old Pine: one map per height level, collision on tiles」
+- 区域按身体中心归属，只在相邻区域间走；ES2 没有的原生连接写成区域 `links`。「One map runtime」
+- 同一张图上相邻同名房间算一处，走进去不再显示描述；标 `distinct` 的照样显示。「Neighbouring rooms of one name are one place」
+- 老松林按原文方位排布：坡在空地南边，迷阵从 epath3 的栈道进 pine1；松林和山洞的随机出口各是一个固定迷宫。「老松林按原文方位排布」「Random Pine room exits become one fixed continuous maze」「Old Pine remainder A」
+- 地图由画家按房间文字画；ES2 只描述、没写房间的去处只画不通。「雪亭镇's maps drawn by the painter」「老松岭's maps drawn by the painter」
+- 尸体躺在倒下的地方，会碰墙时最多侧移 40 px。「Old Pine: one map per height level, collision on tiles」
+
+**移动与交互**
+- 走路 0.08 秒加到全速（220）、0.06 秒停；身体是直径 34 的圆；贴墙滑动，正面撞上棱角时往两侧最多看 12 px。「手感」
+- 走通道换图时淡出淡入，期间世界停住；到达后横幅写「区域 · 地点」；镜头立即对准玩家。「手感」「地图重构」
+- 只对够得着的东西给动作：NPC、尸体、地上的东西和地标约 96 px 内，门和服务按各自范围；点地图上的空处不选东西。「The HUD's actions for what is near」「说话和交互」
+- E / A 或点击作用于够得着的目标（最近的或面向的，Tab / Y、Q / LB / RB 换），只做一件事的直接做，其余打开两栏交互窗口；窗口开着时世界时间停，「确认」后在世界里发生。「说话和交互」
+- 搜刮尸体要站在尸体 96 px 内。「Corpse loot requires a near-corpse spatial range」
+- 给予一次可勾选多件；给出已装备的东西或一两黄金以上的钱先问（收赌注、布施的不问）。「说话和交互」「积压问题的处理」
+- 问候等玩家第一次走近（136 px）才开始；远处的闲聊不给玩家看；NPC 的话显示在头顶气泡并记入消息。「说话和交互」「手感」
+- 请教、练习、打坐、冥思、修行可以「连续」：每步 150 ms，规则和抽数不变，遇到拒绝或白费的一步之前停下并说明。「连续修炼」
+
+**战斗**
+- 战斗中世界停住；战斗速度（慢 / 标准 / 快）只改一回合用多少真实秒；句子 0.12 秒一句；结束定格 0.8 秒。「手感：战斗」
+- 战斗记录用 combatd.c 的原句，伤害数字跟在句末；闪避、招架的措辞不抽战斗随机流。「Battle narration in ES2's words」
+- 有人要杀玩家时显示 kill_ob() 的「看起来X想杀死你！」并钉在战斗记录上方。「How a fight opens」
+- 切磋走 fight.c 和 NPC 的 accept_fight；持兵刃的切磋会伤人，照 ES2；兽类不能切磋；凶手是最后一击的人（last_damage_from）。「切磋: fight.c, accept_fight and armed spars」
+- 进门一起上：玩家所在区块里见人就打的一伙，有一个够得着就整伙进同一场战斗；出手前提示一拍（500 ms）；打过的人等玩家离开区块再回来才重新察觉。「进门一起上」
+- 室内区块整间房就是察觉范围，户外按 NPC 的圈子。「室内察觉」
+- 玩家这边要杀的人倒下时停手，卡片上给「了结 / 放过」；放过不记仇；设置「击倒后」可选直接了结（ES2）。「了结 / 放过」
+- 逃跑：排队、忙时等，验证通过就成功，留在原地脱离，不耗资源、不抽随机数。「Active Semi-Auto V1 Flee is same-position disengagement」
+- 投降：杀你的对手还站着时被拒，否则停战、扣 50 综合评价。「绮云镇 3C」
+- 运功、perform、施法在战斗中排队，忙时等；加力立即生效。「Internal power in combat: enforce, exert, the force hit」「The player's perform」「青石村 D」
+- 副手兵器的属性也计入；锤、杖的 bash 可以把兵器打飞或打断。「野羊山」
+- 杀气狂暴和瞪眼照 ES2 掷骰，但不会落在自己师父身上；第一次到门槛时提示一次。「水烟阁 C」
+- 多个敌人的 NPC 每次攻击按 select_opponent() 挑；生死战里站着的谁都不再打谁时结束。「青石村 D」
+- 战斗中不能拾取；「运功疗伤」置灰。「积压问题的处理」
+
+**NPC 行为**
+- 打听列出 ES2 的话题（这里、名字、传闻和 NPC 自己的）；答复已经做了事就不再接「没听说过」。「NPCs talk and wander; rooms reset」「青石村 B」
+- 闲聊按 npc.c chat() 抽；昏迷的 NPC 不说话、不问候。「NPCs talk and wander; rooms reset」
+- 游走只在家和隔壁，可以穿门到下一张图；落脚点离门 48 px 以上，被玩家顶住会侧身让开。「NPCs talk and wander; rooms reset」「地图重构」「积压问题的处理」
+- 回应玩家的 call_out 最晚 0.4 秒到；伤人、动手、赶人的问候保留 ES2 的 1 秒。「响应性」
+- 买路钱强盗看见欠钱的玩家立即喊一声，2 秒后还在范围里才动手；走过去不记仇。「响应性」「Pacing knobs and 卧龙岗's second」
+- NPC 受伤会回复，昏迷后 random(100 − con) + 30 秒醒来。「切磋: fight.c, accept_fight and armed spars」
+- 一场战斗结束后 NPC 忘了玩家（召唤出的除外）；在战斗中 random_move 的 NPC 走出这场战斗；带 vendetta 标记的见人就打。「山烟寺 A」「了结 / 放过」「绮云镇 3C」
+- NPC 的记忆（对象变量）存档；重生的从 create() 重来。「乔阴 B」
+- 召唤物（天将等）的击杀算召唤者的，战斗结束就走。「青石村 D」「青石村 C」
+
+**成长、武学与门派**
+- 拜师分 requirements、oath、trial 三种；师父拒绝就结束这次请求；改投他派先问，背叛扣综合评价、betrayer + 1；杀自己的师父也算背叛。「水烟阁 B」「山烟寺 C」「绮云镇 3B」「绮云镇 3C」
+- 拜师页列出条件和玩家的数值；请教页写每门能学到几级、卡在哪里。「上限预览和拜师条件」
+- 激发在战斗外任何地方都行；练习、打坐、冥思、修行、自学、研读在武学页。「Offense/defense routes B」
+- 打坐、冥思、修行提高上限时立即重算最大精气神，继续游戏时也重算。「积压问题的处理」「Internal power in combat: enforce, exert, the force hit」
+- 经验：战斗涓流和回复 ×3、历练奖励、落后补偿、分档潜能上限、打坐 ×6、木人和悬赏榜（见下「节奏开关」）。「经验节奏」「Pacing knobs and 卧龙岗's second」
+- 朱鸿雪只派游戏里有的目标；时限 ×1.5、按游戏时间走、存档；任务奖励的潜能上限只止增。「绮云镇 3C」「Pacing knobs and 卧龙岗's second」
+- 重兵器和重防具按重量扣轻功，物品详情写明。「积压问题的处理」
+- 新角色 14 岁、八项天赋都是 30（不做 15 岁的重抽）；名字是 1–24 个 Unicode 字母；新游戏有「随机名字」。「New Player Delayed Gift Randomization」「Generalized Player display names」「手柄」
+
+**物品与经济**
+- 给予、丢下、放进、取出照 give.c / drop.c / put.c / get.c；被拒收的那部分留在玩家身上；丢在地上的东西连位置存档。「Give, drop and put; shops and teachers on their NPCs」
+- 商店和师父跟着 NPC 本人；昏迷的店主照卖，死了等重置；货无限，每次买都是新物品。「Give, drop and put; shops and teachers on their NPCs」「Snow waiter / dumpling supply loop (S4B only)」
+- 付钱按金、银、铜的顺序；钱庄兑换；当铺按价值八折收购（先银后铜，至少 1 文），不做典当和赎回。「Currency exchange / payment core (S3B only)」「Hockshop valuation / payout / sell lifecycle (H2)」
+- 飞刀、蛇药、桃符纸等是通用的组合物品；数量到 0 立即销毁。「Old Pine remainder B」
+- 一整堆拿不动时捡能拿的部分；赢的钱拿不动的落在脚边。「绮云镇 3D」
+- 吃完的肉留骨头，骨头可以喂狗（狗随后跟着走）；有的食物同时是兵器。「积压问题的处理」「黑松山 A」
+- 牛皮酒袋可灌清水；喝酒会醉，蒙汗药能下在酒里。「Fresh water supply loop (S6B only)」「青石村 B」
+- 新角色的食物和饮水开局是满的（400 / 400）。「Fresh Food / Water Initialization」
+- 赌场宝官照 ES2 八成赢；整堆押注赢了也只付两倍；没有婚姻。「绮云镇 3D」
+
+**世界时间与重置**
+- 菜单、交互窗口、战斗、换图时世界时间停住；菜单里玩家自己的忙碌照样倒数。「菜单窗口」「说话和交互」
+- 玩家离开的地图在回来、重置或有人进出前一次补算到现在，不抽会话随机流；离开超过 3600 秒的部分直接算满；游走补算最多 12 步，邻图的人会走过来。「别的地图时间补算」
+- 你不在时 NPC 最多回到 create() 造出时的数值。「别的地图时间补算」
+- 冲着玩家来的 call_out 在离开地图时丢弃，师父的拜师答复对空房间说；风泉剑灵的吟诵等玩家回来，并存档。「茅山 B」「乔阴 C」
+- 房间各按自己的时间表重置（`room_reset_seconds` 1800，MudOS 公式）：死的 NPC 重生，离家的回家，地上的东西没了才补。「NPCs talk and wander; rooms reset」
+- 状态（毒、醉）在心跳上发作，战斗中和玩家昏迷时不走；忙碌也在心跳上消退。「Old Pine remainder B」「Busy wears off on the heart beat」
+- 回复按 5 + random(10) 拍计数，关掉游戏的时间不算。「Player recovery / metabolism cadence (S5B only)」
+- 玩家昏迷：醒来的时间照 damage.c 抽，黑屏只躺 3 秒，其间世界时间加速走完。「积压问题的处理」
+
+**死亡与阴间**
+- 要杀玩家的敌人会补刀；死后有死亡惩罚，玩家变成鬼魂，在鬼门关走阴间回阳。「Player unconsciousness and death follow ES2」「鬼门关 A」
+- 尸体按世界时间腐烂（120 / 120 / 60 秒，最后东西散落），玩家自己的也一样。「尸体腐烂」
+- 鬼魂看不见，阴阳眼（茅山道术）能看见。「乔阴 B」「鬼门关 B」
+
+**存档**
+- 开发版存档不保证兼容：不支持的文件拒绝，不删除；内容变动升 world revision，需要新游戏。「Pre-Cutover Development Save Compatibility」
+- 战斗中、动作没做完、玩家昏迷或死亡途中、被押送时不能存档；忙碌照样存。「Native saves require a restart-stable gameplay boundary」「Busy is saved, not waited on」「Player unconsciousness and death follow ES2」「乔阴 D」
+- 玩家的 set_temp() 标记、NPC 的记忆、地上的东西都存档；门的开关和房间计数器不存。「Save: the player's set_temp() flags」「乔阴 B」「Give, drop and put; shops and teachers on their NPCs」「Snow's inner rooms」
+- 物品存完整状态（嵌套、堆叠、装备栏）；体重和负重上限是独立字段，继续时原样恢复。「Native item persistence preserves the complete represented domain state」「Player Body Facts and Native Continue」
+- 召唤出来的观想虫、僵尸不存档。「茅山 C」「茅山 D」
+
+**界面与设置**
+- 菜单窗口：角色、武学、背包、任务、声望、百科、系统；系统页是真正的暂停。「菜单窗口」
+- 手柄、键盘、鼠标、触屏并存，按键图标跟当前输入方式。「手柄」
+- 左上状态卡（名字、菜单、精气神、状态、等待）；左下 toast 显示游戏自己的消息，6–14 秒后淡出。「The HUD: a status card and toasts」「说话和交互」
+- 任务页「江湖见闻」只记已发生的事和 NPC 说过的话；百科只收见过的。「任务日志与百科」
+- 设置：战斗速度、受击闪红、击倒后（询问 / 直接了结）、界面缩放（地图上的字不缩放）、语言。「手感：战斗」「了结 / 放过」「说话和交互」「Localization: the source text is the key」
+
+**节奏开关（经典模式）**：`common/pacing.json`，不写就是 ES2 原值；套件按经典值跑（`Es2Pacing`、`TestFeel`、`TestAway`、`TestAlert`）
+- `player_exp_gain` 3、`player_recovery_gain` 3、`quest_time_percent` 150、`npc_thirst` 10（经典 1 / 1 / 100 / 1）。「Pacing knobs and 卧龙岗's second」
+- `player_wake_seconds` 3（经典 0）。「积压问题的处理」
+- `reaction_beat_ms` 400、`trial_blow_ms` 700、`dim_fade_ms` 400；强盗的 `toll_attack_delay_ms` 2000。「响应性」「Pacing knobs and 卧龙岗's second」
+- `hostile_alert_ms` 500（经典 0）。「进门一起上」
+- `away_catch_up_limit_seconds` 3600、`away_wander_moves` 12、`away_neighbour_pulse_seconds` 30（经典 0）。「别的地图时间补算」
+- `corpse_rot_seconds` / `corpse_bones_seconds` / `corpse_scatter_seconds` 120 / 120 / 60（就是 ES2）。「尸体腐烂」
+- `milestone_rewards`、`catch_up_max_percent` 100、`staged_potential_cap`、`player_exercise_gain` 6、`training_dummies`、`bounty_board`（经典关 / 0 / 1）。「经验节奏」
+- `room_reset_seconds` 1800、`combat_round_ms` 1000、`heart_beat_ms` 2000（就是 ES2）。「NPCs talk and wander; rooms reset」「One map runtime」「响应性」
+- `feel`：换图淡入淡出、走路、气泡、菜单、战斗演出、`training_step_ms`、`corner_slide_px`（不写 = 0，没有演出）。「手感」「手感：战斗」「连续修炼」
+- 还没有一键切回 ES2 的「经典模式」总设置。「产品定位」
+
+**各区域的修复与改动**（细节在各区域条目和 `*_CONTENT.md`）
+- 雪亭镇：密室不会把人关在下面；玩家邮件不做；武馆木人和悬赏榜是新内容。「Snow's inner rooms」「Snow's south road and shops」「经验节奏」
+- 老松岭：只看的描述做成地标；cliffside ↔ pine1 双向；寨门每关一次只补回少了的喽罗。「积压问题的处理」「Old Pine remainder A」
+- 卧龙岗、绮云镇：新来的人走得过强盗；陈剑秋拒收的东西退回；朱鸿雪的任务和赌场。「Pacing knobs and 卧龙岗's second」「Modern fixes: ES2 behaviour that reads as a bug」「绮云镇 3C」「绮云镇 3D」
+- 水烟阁：正厅的师父照 class 目录那份放；红衣武士的 accept_kill() 生效。「水烟阁 A」「乔阴 A」
+- 青石村：玉佩和蒙汗药按代码本意能走通；绝地可以「放弃」回客栈。「青石村 B」「青石村 A」
+- 晚月庄：sroad1.c 修好；第二密室的八卦图谁都能跳「西出阳关」出来。「晚月庄 A」
+- 山烟寺：前院的护寺武僧补上；船夫收两文钱渡江。「山烟寺 A」
+- 乔阴：县衙的抓捕修好；树王坟的洞能下去；鬼魂看不见。「乔阴 A」「乔阴 D」「乔阴 B」
+- 天驼关：竹林道修好；大队长的过路钱累计到 30 两。「天驼关 A」「天驼关 C」
+- 玉螺湖村：湖心能划船、潜水；还瓜钱要付 60 文，抓人的瓜农倒下就能走。「玉螺湖村 A」「玉螺湖村 B」
+- 京师：令牌照 ES2；地下密室的石阶从下面也能开。「京师 A」「京师 B」
+- 黑松山：进山的路修好；小娟只救一次。「黑松山 A」「黑松山 B」
+- 鬼门关：阴间要自己走回来；路的尽头补了原文缺的句子。「鬼门关 A」
+
 ## 老松林按原文方位排布 (owner, 2026-10-25)
 
 - **ES2:** clearing.c's exits send `north` to spath1, but its own text has three ways east, west
@@ -2828,15 +2979,6 @@ Package 4A, from the owner-approved Package 4 plan:
   items lying in rooms (the temple's paper seals and donation box) come with 4C.
 - World content revision `SOURCE_ENTRY_SNOW_NPCS_V1`: older development saves need a New Game.
 
-## Snow: walls on the tile grid, collision on tiles (2026-10-01)
-
-Owner decisions for Package 3B6:
-- **Snow collides through its tiles**, as Old Pine does since 3B5. The 24 px off-grid wall shapes
-  are gone; every wall, town boundary and shop wall is redrawn as one 32 px band (two tiles, the
-  Inn's thickness) on the 16 px grid, so a wall blocks exactly where it is drawn. Walkable widths
-  move by up to 8 px. Doors, the closed Old Pine exit (`SouthBlocker`), the counters and the teacher
-  stay nodes; doors and `SouthBlocker` fill their tile openings exactly.
-
 ## Old Pine: one map per height level, collision on tiles (2026-09-30)
 
 Owner decisions for Package 3B5:
@@ -2863,18 +3005,6 @@ Owner decisions for Package 3B5:
   footprint would overlap a wall, so a save always holds a position Continue accepts.
 - **Tile data stays inline.** Large maps keep their `tile_map_data` in the scene file (about 1 MB
   for Old Pine). Terrain layers move into a per-map sub-scene when real art arrives.
-
-## Terrain on TileMapLayer, collision unchanged (2026-09-30)
-
-Owner decisions for Package 3B4:
-- **Tiles are visuals only.** Terrain is drawn with 16 px tiles from one placeholder TileSet
-  ([TERRAIN_TILES](TERRAIN_TILES.md)). Collision stays in `StaticBody2D` shapes, so routes and
-  spawns are unchanged. The old geometry is off-grid, so a painted edge may sit up to 8 px from
-  its collision. Aligning collision to the grid (or moving it into a physics layer) waits for art.
-  (Collision superseded by「Old Pine: one map per height level, collision on tiles」, 2026-09-30:
-  static terrain collides through its tiles.)
-- **Tiles name terrain kinds, not zones.** About 20 kinds (grass, path, water, wall…) replace the
-  per-zone grey-box shades. Neighbouring Old Pine zones no longer differ in colour.
 
 ## One map runtime: zone ownership, Old Pine geometry and the combat round (2026-09-30)
 
@@ -2923,29 +3053,6 @@ Owner decision after playtest: a defeated player is no longer a terminal state.
   「鬼门关 A」, 2026-10-15, which replaces the revival at the temple; corpse decay by「尸体腐烂」,
   2026-10-23.)
 
-## Old Pine Lake — owner-revised engineering acceptance scope
-
-Owner decision (2026-09-26), after [P2C acceptance](PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2C_ACCEPTANCE.md):
-accept the recorded desktop fifth-target mouse input, manual complete-set Attack, five-alive
-and mixed death/corpse cross-process Save/Continue, exact durable state/three-RNG equality,
-non-resurrection on return, and complete `verify.py` PASS on
-`ef8b7d601983c80d817bf28a93e554f2472a49a6` (543.86s).
-
-**TOUCH DEVICE QUALIFICATION — PENDING — NON-BLOCKING FOR LAKE ENGINEERING INTEGRATION.**
-This defers missing device evidence only; it is not touch PASS, all-platform acceptance,
-or a blanket exemption for later milestones. Actual touch defects, if found, remain separately
-reportable. The [existing platform scope row](../production/PROJECT_SCOPE.md#presentation-platforms-tooling-and-release-boundaries)
-retains Lake touch movement, horizontal scrolling, fifth-target selection, Flee, and applicable
-safe-area, focus, Pause/Back/background/resume checks. Qualify the then-target devices before
-claiming verified Lake touch support or external long-term testing/formal release of the related
-mobile version. Later device qualification may be completed directly without reopening all Lake
-work or creating a prerequisite development phase, test platform or plugin upgrade.
-
-P2C's original PENDING conclusion and all P1/P2A/P2B reports retain their historical meaning.
-M/W/R and product behavior are unchanged. This decision authorized one bounded
-[Final Audit](PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_FINAL_AUDIT.md), not PR creation, merge,
-or the next milestone. Engineering acceptance under this revised scope does not mean integrated main.
-
 ## Old Pine Lake — owner-locked P2A foundations
 
 Owner authorization (2026-09-26), following [Lake P1](PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_SOURCE_ANALYSIS.md):
@@ -2972,117 +3079,6 @@ Owner authorization (2026-09-26), following [Lake P1](PHASE_OLDPINE_LAKE_SERPENT
 
 This locks M/W and authorizes P2A foundations only. P2B/P2C, Final Audit and integration require
 separate owner instructions; historical P1 alternatives remain historical.
-
-## Migration Tooling v1 P2 — owner-locked extraction boundary
-
-**OWNER APPROVED / LOCKED D1–D9.** P1 analysis is OWNER APPROVED / CLOSED at
-`0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. P2 is authorized on
-`phase/migration-tooling-v1`, based on green main `cd07808cb76147d0b8c0dad9b82d078b49fefe64`.
-The owner explicitly requested this tooling contract here; it is not a new gameplay substitution.
-The [P1 analysis](MIGRATION_TOOLING_V1_P1_ANALYSIS.md) remains historical analysis, not rewritten approval.
-
-- **D1 — Language/location:** Python 3.12 standard library only under `tools/migration/`.
-  No Godot runtime or third-party parser dependency.
-- **D2 — Objects:** Only `reference/es2/mudlib/d/**/*.c` reliably identified as direct
-  `inherit ROOM` in code after excluding comments, strings and multiline text. BANK, HOCKSHOP,
-  CLASS_GUILD, NPC, ITEM, weapons, armor, food, containers, daemons, commands, skills, vendors
-  and masters are OUT_OF_SCOPE for fact extraction; discovery/dependency findings may retain them.
-- **D3 — Facts:** Source identity/path, direct inherit declarations, literal short/name,
-  literal long as TEXT_ONLY, ordered static exit entries, and explicit static outdoors/indoors/
-  no_clean_up/no_fight values only. No runtime, reachability, door, population or callback semantics.
-- **D4 — IR:** Independent Migration IR schema version 1, deterministic UTF-8 JSON.
-  Ordered source declarations remain arrays. Player, item and Godot runtime schemas do not change.
-- **D5 — Provenance:** Each fact retains source-relative path, raw-byte SHA-256, function/top-level
-  scope, construct, raw source/expression, ordinal, zero-based byte start/end-exclusive,
-  1-based line/column, classification, and normalization rule/version when applicable.
-  Source hash and byte span are primary; CRLF is not normalized before indexing.
-- **D6 — Unsupported:** Explicit findings, never execution or guesses. Beyond literals only
-  narrow `__DIR__` plus literal-string exit normalization is approved. No arbitrary macro,
-  variable, function, closure, RNG, arithmetic, inherited-default or driver evaluation.
-- **D7 — Output:** Whole-corpus output is ephemeral under ignored `build/migration-tooling-v1/`.
-  Only small hand-reviewed fixtures/goldens may be committed; never generated output in `game/`.
-- **D8 — Tests:** Standard-library unittest; expected outputs independently hand-authored/reviewed,
-  never generated by the extractor under test. Real ES2 samples remain read-only; copied snippets
-  retain provenance. No whole-source copies or bulk generated goldens.
-- **D9 — Failure:** Exit0 means complete scan without quarantined syntax/encoding errors;
-  expected OUT_OF_SCOPE/semantic findings are allowed and never mean semantic PASS. Exit1 means
-  completed scan with object-level syntax/encoding quarantine and safe diagnostic output.
-  Exit2 means fatal argument/root/path/I/O/schema/internal/output failure. No silent skipping,
-  truncation, source repair or incomplete output masquerading as a complete manifest.
-
-All emitted records start UNREVIEWED. Extraction is not migration approval. Reference source is
-read-only; no LPC execution/emulation, NPC/item support, Native generation, gameplay/save changes,
-PR, merge or P3 is authorized. P2 implementation and local verification must stop for owner review.
-
-## Snow First Progression P2B-ZE1 — zero-EXP combat defense boundary
-
-(Superseded by「MudOS random(n <= 0) is 0, everywhere」, 2026-10-01: every non-positive `random()`
-bound rolls 0 and draws nothing.)
-
-**OWNER APPROVED — narrow Type B compatibility translation.** P2B analysis
-`affbe5030a5a2f03c2bff2ab14195f9f86c5f53c` is approved/closed. This decision authorizes
-only the existing combat defense-factor boundary on `phase/snow-first-progression-loop`.
-
-Source: `reference/es2/mudlib/adm/daemons/combatd.c:362–366`:
-`defense_factor = your["combat_exp"]`, then `while (random(defense_factor) > my["combat_exp"])`
-reduces damage by integer damage/3 and halves the factor. Repository evidence does not prove
-historical MudOS `random(0)` return/error behavior or RNG-state consumption.
-
-Only when execution actually reaches this stage, **original defender EXP == 0 and attacker EXP >= 0**
-means **zero experience-reduction iterations and zero RNG draws**. Continue normal requested damage,
-damage mutation, wound, progression, status, busy, relationship/post-action and chain completion.
-Do not move the gate before earlier source stages, roll back mutations, or promise later success.
-
-Positive defender EXP retains every existing draw, strict comparison, integer reduction/halving
-and ordering. Negative defender/attacker cases remain fail-closed, including attacker -1 with
-defender 1 that performs the existing iteration before factor becomes0 and fails at its old stage.
-No clamp0→1, fake draw, generator advance or new observation/API surface is required.
-
-This specifically supersedes the older combat invalid-bound decision for this one condition only.
-It is not Type A historical-driver evidence or a global `random(0)=0` rule. Generic Combat/World/NPC
-RNG adapters and all other nonpositive-bound policies remain unchanged, including wound, force,
-progression, riposte cps, perception, Vine and Learn. No EXP gift, initialization/enemy/skill tuning,
-source edit, new RNG stream or Save schema change is authorized. Apply equally to Player/NPC
-defenders and forward/QUICK/RIPOSTE ordinary attacks without ID-specific exceptions.
-
-Implementation and P2 real-input acceptance rerun are authorized; a new semantic blocker must be
-reported without another fix. Final Audit, PR, merge, P3 and Migration Tooling remain unauthorized.
-See [historical analysis](PHASE_SNOW_FIRST_PROGRESSION_COMBAT_ZERO_EXP_BLOCKER.md).
-
-## Snow First Progression P2 — owner-approved bounded teaching embodiment
-
-**Authority:** Owner approved/closed P1 `5780139b82fad932f6bc7786ea295c20602ae0a5`
-and authorized P2 A–F on `phase/snow-first-progression-loop` only.
-
-**Decision:** Embody school1 → school2 → schoolhall as three continuous Snow outdoor zones.
-The red gate supports physical Open/Close from both sides, defaults closed on cold start/Continue,
-and is transient. Its closed collision footprint remains save-invalid even while open; no relocation
-on load. Side routes, guard, fist trainer, trainees and the inner school remain deferred.
-
-Liu Chunfeng is a bounded teaching contact, not a combat/persistent NPC. Preserve his authored
-identity, all eleven skill levels and source teaching facts; expose only basic unarmed Learn.
-Use existing LearnService, F_MASTER, improvement and combat formulas. One request makes at most
-one gameplay draw from the existing saved world-interaction stream at the source progress point;
-presentation text consumes none. No gifted experience, balance changes or advanced skill UI.
-
-The public first-apprenticeship chain retains effective cor/cps ≥20, failed pending intent,
-Cancel/retry, and idempotent master acknowledgement. Pending is transient per Player. Cross-family,
-reverse recruitment and betrayal interfaces remain deferred. Correct active Session/map/zone,
-placement, proximity, active life, noncombat/nonbusy and input quarantine are approved Type B
-contact gates, not claims about LPC busy restrictions.
-
-First recruitment records the complete source family/master/generation14, distinct family title
-and privileges, swordsman class, actual UTC entry seconds, and source display title through a
-controlled recruitment seam. No skills or rewards are granted. Owner permits the smallest strict
-versioned relationship extension within root2; item3 and SOURCE_ENTRY_V1 remain unchanged.
-Historical absent fields remain absent; historical nonempty relationships without an entry time
-retain UNKNOWN/NOT_RECORDED, never load time. Old valid root2 saves must remain readable.
-
-**Compatibility impact:** Narrow physical/contact staging only; not full school or Liu NPC parity.
-Type C: none. Natural combat evidence may be BLOCKED; no gameplay correction is authorized to
-manufacture success. Sources: `d/snow/school1.c`, `school2.c`, `schoolhall.c`,
-`daemon/class/swordsman/master.c`, `cmds/std/{apprentice,recruit,learn}.c`,
-`feature/{apprentice,skill,attribute}.c`, relative to `reference/es2/mudlib/`.
 
 ## Hockshop valuation / payout / sell lifecycle (H2)
 
@@ -3152,56 +3148,6 @@ Sources: `reference/es2/mudlib/std/room/hockshop.c`, `feature/move.c`,
 `d/oldpine/obj/{short_sword,long_sword,leather}.c`, `obj/money/{coin,silver,gold}.c`.
 See [H1 archaeology](PHASE_SNOW_HOCKSHOP_LOOT_MONETIZATION_CONTRACT.md). Prior service
 failure policies, PlayerBodyFacts, economy, recovery and owner-local tooling remain unchanged.
-
-## Snow north public spine and Core Hub finish line (S7B)
-
-**OWNER APPROVED — S7B.** S7A is OWNER APPROVED / CLOSED at
-`04c77650ea72d48cae1173a422a78c3c0188abd5`. Record these decisions separately before
-production implementation. They approve the bounded S7A A–L recommendations, not a final
-Snow audit/PR/merge. Source semantics remain Type A; the observable staged omissions and
-physical embodiment below are **Type B milestone scope**, not authored source closures.
-
-- **A — extent:** Extend the existing `snow.outdoor` resident continuously from mstreet2
-  through distinct `snow.mstreet3`, `snow.mstreet4`, `snow.crossroad` zones. Preserve exact
-  reciprocal north/south source adjacency; no new map, ordinary-walking portal or shortcut.
-  Southwestern sroad2–5 and other optional branches remain deferred.
-- **B — external boundaries:** Crossroad itself is required. Its north Goathill and east
-  Green directions remain visible static closed content boundaries, with no destination
-  definition, travel action, portal, guard, key or invented authored lock.
-- **C — Hockshop:** Static east frontage only. No interior, NPC, appraisal, pawn/sell,
-  payout/destruction, custody/ticket/retrieve or persistence. Source doors do not authorize
-  generic door runtime. No failed-transfer cleanup decision is generalized to Hockshop.
-- **D — Herbshop:** Static west frontage only. No interior, herbalist/woodcutter, medicine,
-  inquiry, healing or poison cure. Frontage is not service parity.
-- **E — Postoffice:** Static west frontage on mstreet4 only. No interior, officer, mailbox,
-  mail fees, accounts, online/offline mail or fake local inbox.
-- **F — School:** Later progression; mstreet1 east remains closed. No teachers, training,
-  faction/apprenticeship or free weapon access.
-- **G — Smithy:** Later commerce/weapon content; mstreet2 west remains closed. No hammer,
-  repair or crafting.
-- **H — ordinary interiors:** Exposed source services receive honest facades/signs and
-  collision boundaries, not empty accessible interiors or unusable service buttons.
-  These closures are staging, not claims that ES2 permanently closes the shops. mstreet4
-  has no executable east exit: add no alley route, zone, interaction or future-region gate.
-- **I — secret/storage:** herbshop1, secret_storage, weapon-storage puzzle and unrelated
-  storerooms do not block this bounded milestone; no invented secret entrance.
-- **J — healing:** Accept existing eligible S5B slow effective-resource recovery as the
-  current healing finish line. Preserve cadence, food/water, condition freezes and lifecycle;
-  no new recovery Timer, combat recovery, poison scheduling or medicine.
-- **K — loot:** Excess-loot monetization remains an acknowledged high-value later commerce
-  gap, not a Snow Core blocker. Do not add selling/value projections in S7B.
-- **L — completion:** Source New Game, Work, Bank, dumpling, wineskin/water, eligible recovery,
-  Old Pine link, north spine, honest deferred frontages/regions and old/new-position Save/
-  Continue must work within existing authority. Keep root2/item3/SOURCE_ENTRY_V1; no new
-  mutable street/door/NPC state or gameplay RNG use. All38 rooms are not required. A distinct
-  Final Snow Audit is the next possible phase **only after S7B owner approval and separate
-  authorization**; implementation completion does not close the milestone or authorize PR.
-
-Sources: `reference/es2/mudlib/d/snow/mstreet2.c`, `mstreet3.c`, `mstreet4.c`, `crossroad.c`,
-`hockshop.c`, `herbshop.c`, `postoffice.c`, `d/green/path6.c`, `d/goathill/mroad1.c`.
-See [S7A analysis](PHASE_SNOW_TOWN_CORE_HUB_NORTH_STREET_CORE_SERVICES_REBASELINE.md).
-No Type C redesign is approved; existing PlayerBodyFacts, item authority, prior service
-failure policies and owner-local tooling remain unchanged.
 
 ## Fresh water supply loop (S6B only)
 
@@ -3550,70 +3496,6 @@ This is a **legacy initialization-order compatibility correction**.
 Continue, Restore, map transition, respawn/revive, load-failure recovery, returning from Old Pine,
 opening menus and general recovery MUST NOT invoke this birth refill. No recovery formula changes.
 
-## Legacy Native Save Preservation
-
-**Status: SUPERSEDED by Pre-Cutover Development Save Compatibility (NGE5A1).** The following
-records the previously approved old-save A decision, not the current branch policy.
-
-**Decision (NGE1 owner-approved A):** Legal native saves created before Snow cutover remain
-Legacy Native Technical-Demo Saves and restore their actual stored values. New Game revisions do
-not rewrite existing saves. This is a **save compatibility policy**.
-
-Do not relocate the player to Snow, reset attributes/experience, remove the starter weapon, grant
-cloth, replenish food/water, rerun birth, revive NPCs/rebuild tombstones, alter corpses, redraw RNG,
-or change allocator continuation. Existing native schema1 itself identifies the technical profile;
-never infer it from experience, inventory or timestamps. Its absent Player metadata is interpreted
-as the existing Player/age20 facts without recalculating saved gameplay values. This approves no
-schema2, world revision implementation, Snow geometry, shops or training work.
-
-## Active Semi-Auto V1 SPAR establishment is unarmed-only
-
-(Superseded by「切磋: fight.c, accept_fight and armed spars」, 2026-10-01: armed spars as in ES2.)
-
-**Decision:** CXR9 owner authorization restricts SPAR establishment to participants
-without a wielded primary weapon. A weapon yields typed `SPAR_WEAPON_NOT_ALLOWED`
-before Encounter activation/freezing. No automatic unwield, damage suppression,
-HP clamp, revive, lethal conversion or corpse is introduced. Existing
-`SPAR_MORTAL_WOUND` remains defense-in-depth for invalid/future states.
-
-**Reason:** `cmds/std/fight.c` establishes reciprocal friendly intent, but
-`adm/daemons/combatd.c::do_attack` allows wounds when either lethal intent OR a
-weapon is present, before positive friendly damage removes the relationships.
-`std/char.c` treats negative effective resources as mortal. That conflicts with
-the native non-corpse SPAR contract.
-
-**Compatibility impact:** Legacy armed friendly fights are deliberately unsupported
-in V1; future armed/practice-weapon spar needs a separate policy. The newly exposed
-unarmed zero-base-damage conflict is resolved by the separate owner authorization
-below, not by inventing a positive damage floor.
-
-## Unarmed zero base damage contributes zero without a random draw
-
-(Superseded by「MudOS random(n <= 0) is 0, everywhere」, 2026-10-01: every non-positive `random()`
-bound rolls 0 and draws nothing.)
-
-**Decision:** Following the reproduced CXR9 unarmed-SPAR blocker, the owner
-explicitly authorized only this exception: when the attacker has no primary
-weapon and projected base damage equals zero, its base random term is zero and
-consumes no RNG. Continue the unchanged source-ordered action/strength/armor
-calculation. Negative base damage and armed zero base damage still fail at
-`APPLY_DAMAGE_RANDOM_BOUND`; all other non-positive random-bound rules remain.
-
-**Reason:** `adm/daemons/combatd.c::do_attack` calculates
-`(damage + random(damage)) / 2` before adding strength. Human unarmed action and
-`chard.c::setup_char` do not establish a positive base damage; the native empty-hand
-projection is zero. Local `doc/efuns/random` does not establish historical driver
-semantics for zero. Rejecting that ordinary unarmed path prevented the approved
-unarmed-only SPAR from concluding.
-
-**Compatibility impact:** This is an explicit narrow substitution, not a claim
-that the old driver consumed no RNG for `random(0)`. It supersedes the earlier
-non-positive-bound decision only at this empty-primary-hand base-damage stage.
-It applies equally to unarmed LETHAL and SPAR; it does not grant damage, suppress
-wounds, alter skills, clamp HP, or generally redefine the random adapter.
-Sources: `reference/es2/mudlib/adm/daemons/combatd.c`, `adm/daemons/chard.c`,
-`adm/daemons/race/human.c`, `doc/efuns/random`.
-
 ## Active Semi-Auto V1 Flee is same-position disengagement
 
 **Decision:** The owner authorizes queued, busy-blocked Flee for LETHAL/SPAR,
@@ -3654,49 +3536,6 @@ event/frame preserves synchronous mutation ordering without adding a heartbeat o
 fields. It never clears combat/busy state to make a save possible. Once eligible, the complete represented
 world is captured all-or-nothing through the native repository; Load reconstructs fresh transient combat,
 Area, UI, and cadence state. This is a native process-restart safety policy, not an LPC quit emulation.
-
-## Inactive resident Old Pine maps freeze outside the SceneTree
-
-(Superseded by「别的地图时间补算」, 2026-10-23: a map the player left catches up to the present before
-it is next used; every map stays resident and the session is `WorldSessionController`.)
-
-**Decision:** Phase 9B3B1 retains instantiated Old Pine map Nodes for the lifetime of one
-`OldPineWorldSession`, but only the active map is attached to the SceneTree. An inactive resident map is
-detached without being freed and receives no physics, Area overlap, input, Camera, `_process()`,
-`_physics_process()`, OpportunityTimer, combat, recovery, condition, or aggression progression.
-
-**Reason:** The original MUD can continue processing objects outside the player's current room, but the
-native prototype has no proven off-screen scheduling contract. Keeping a detached map instance preserves
-NPC, corpse, loot, item, signal, and physical-view identity across a map round trip without prematurely
-building persistence or a global heartbeat simulator.
-
-**Compatibility impact:** Inactive Old Pine maps are frozen rather than globally simulated. They resume
-from their retained runtime state when reattached; no elapsed off-screen combat, recovery, condition, or
-NPC activity is synthesized. This is an in-memory session-lifetime rule, not save persistence.
-
-## Non-positive authored world random bounds become ordered typed ambiguities
-
-(Superseded by「MudOS random(n <= 0) is 0, everywhere」, 2026-10-01: every non-positive `random()`
-bound rolls 0 and draws nothing.)
-
-**S6B supersession:** The owner-approved SOURCE_ENTRY_V1 playable Vine exception above now selects
-Waterfall for effective dodge<=0 with zero draws. The original policy/evidence below is historical
-for that case and remains current for other revisions/interactions. Positive Vine behavior is unchanged.
-
-**Decision:** When a future authored world interaction reaches an LPC `random(bound)` call with
-`bound <= 0`, native code returns a typed legacy ambiguity/failure at that exact source position, consumes
-no RNG draw, applies no clamp, and selects no invented branch. Phase 9B3B1 records this boundary but does
-not yet implement or execute Vine randomness.
-
-**Reason:** `d/oldpine/epath2.c` calls `random(query_skill("dodge"))`, while the locally available MudOS
-documentation does not define zero or negative bounds. The existing Combat decision already uses ordered
-typed failures for the same missing driver evidence; authored world interactions require an explicit scope
-extension before the Vine path is implemented.
-
-**Compatibility impact:** Positive authored bounds will retain their exact range and source ordering.
-Non-positive states become diagnosable instead of crashing, clamping, or silently choosing waterfall or
-passage. Presentation and mutations completed before the random position remain observable. Sources:
-`reference/es2/mudlib/d/oldpine/epath2.c`, `reference/es2/mudlib/doc/efuns/random`.
 
 ## Cross-map ordinary exits use location availability reconciliation
 
@@ -3901,18 +3740,6 @@ partial mutation, not an atomic attack rollback. Sources:
 
 **Compatibility impact:** A player on the same continuous Godot map but farther than 96 pixels from the corpse cannot Open Loot or Take until approaching it. Once admitted, all item ownership, capacity, corpse-worn, stack merge, and fighting/busy results remain governed by the migrated source rules. Source: `reference/es2/mudlib/cmds/std/get.c`; native scene scale: `game/scenes/world/oldpine/oldpine_outdoor.tscn`.
 
-## Old Pine Outdoor directly connects to the Pine Maze
-
-(Superseded by「老松林按原文方位排布」, 2026-10-25: the native way in is epath3's plank road from the
-East Bridge into pine1. `pine2 → keep1` and `cliffdown → cliff2` are open since「Old Pine remainder A:
-the keep, the caves and cliff2」, 2026-10-04.)
-
-**Decision:** Phase 9B1 adds one bidirectional, continuously walkable physical threshold between the existing Old Pine Outdoor prototype and the native Pine Entrance zone. It is an RPG geography consolidation, not a `PortalDefinition` and not a claim that the LPC rooms have a direct exit.
-
-**Reason:** The LPC graph has no ordinary edge from the currently embodied Central/North Outdoor area to `pine1`. Its source route is `epath2` vine → `passage` or `waterfall` → River/Cliff → `cliffside` → `pine1`. Requiring that entire chain would block the low-dependency Pine content on conditional skill/RNG traversal, Cave/River authoring, and cross-scene state handoff. Native RPG geography may cluster legacy rooms into continuous maps while retaining their authored identities and meaningful boundaries.
-
-**Compatibility impact:** Players can enter Pine Entrance directly from the current Outdoor map earlier than the LPC topology permits. The Pine-side `pine2 → keep1` and `cliffdown → cliff2` boundaries remain represented but closed, all eight Phase 9B1 legacy room IDs remain traceable, and no new LPC exit is recorded. Sources: `reference/es2/mudlib/d/oldpine/epath2.c`, `passage.c`, `waterfall.c`, `riverbank1.c`, `cliff1.c`, `cliffside.c`, `pine1.c`.
-
 ## Random Pine room exits become one fixed continuous maze
 
 **Decision:** Phase 9B1 translates `pine1` through `pine7` and `cliffdown` into one fixed continuous spatial maze with repeated forks, occlusion, a traversable loop, a safe dead end, a reliable route to Pine Cliff Edge, and a reliable return route. There is no ROOM exit emulator, reset-time topology mutation, or navigation RNG.
@@ -3948,20 +3775,6 @@ Shared responsive/input/layout regressions are required; physical Android/iOS qu
 to the later owner-authorized Final Audit. No PR, merge, automatic Final Audit, P3 or Migration Tooling
 expansion is authorized. All other arts, practice/study, force/techniques, full school/faction systems,
 Phase5B4, Lake/serpent and Native generation remain deferred. Type C = 0.
-
-## Snow Martial Progression II — automated functional acceptance
-
-**Owner decision (2026-09-25):** P2 engineering closure uses deterministic automated
-production-path verification. This supersedes the live-grind/full-process acceptance
-method in D-SMP2-01/08 above, not the gameplay finish or source rules. Genuine prior
-[production combat](PHASE_SNOW_MARTIAL_PROGRESSION_II_CHANGED_PATH_LIVE_ACCEPTANCE.md)
-already observed EXP0→1; stochastic time-to-EXP6 is deferred to balance/pacing and
-usability qualification. Test fixtures may construct exact prerequisite checkpoints
-(EXP6/basic unarmed4); these are test-only and never naturally earned live evidence.
-No gameplay formula, EXP probability/rule, EXP6 Learn threshold, or unarmed4/liuh5
-finish changes. Public Save/Continue with fresh graph reconstruction closes the
-functional persistence loop; later human play/Final Audit smoke remains separate.
-See the [automated acceptance report](PHASE_SNOW_MARTIAL_PROGRESSION_II_AUTOMATED_ACCEPTANCE.md).
 
 ## Generalized Player display names
 

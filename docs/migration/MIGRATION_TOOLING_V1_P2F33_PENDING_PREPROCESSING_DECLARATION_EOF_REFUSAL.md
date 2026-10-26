@@ -26,7 +26,7 @@ main / origin main / merge-base 为 `cd07808cb76147d0b8c0dad9b82d078b49fefe64`�
 阅读全文 owner-local Final Re-Audit after P2F32，核验其 30,589 raw bytes、SHA-256
 `86fecf8853e11275f9bfe2beef13657ddeb80e3fe4c1f68f5e7b2cc3fb380499`、raw Git blob
 `870e655a896f4311a12651ea7f6f441abaae75b1`。
-遵守 root/docs AGENTS、[locked D1–D9](DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary)，
+遵守 root/docs AGENTS、[locked D1–D9](DECISIONS_HISTORY.md#migration-tooling-v1-p2--owner-locked-extraction-boundary)，
 对照 [P2F29](MIGRATION_TOOLING_V1_P2F29_UNRESOLVED_DECLARATION_HEADER_REFUSAL.md)、
 [P2F30](MIGRATION_TOOLING_V1_P2F30_REACHED_HEADER_EOF_UNRESOLVED_DECLARATION_REFUSAL.md)、
 [P2F31](MIGRATION_TOOLING_V1_P2F31_INVOKED_INHERIT_MACRO_DECLARATION_PREFLIGHT.md)、

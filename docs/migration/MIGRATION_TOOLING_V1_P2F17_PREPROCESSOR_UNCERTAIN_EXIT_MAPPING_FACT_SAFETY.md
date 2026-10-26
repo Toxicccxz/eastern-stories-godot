@@ -8,7 +8,7 @@ Only FR16-01 / HIGH / D3-D6 fact safety is repaired on `phase/migration-tooling-
 Parent/executable baseline: `4f4c5b4e691741932fd514e5979587714e4830b6`.
 Main: `cd07808cb76147d0b8c0dad9b82d078b49fefe64`.
 Fresh fetch/ref checks matched; all-state phase PR search returned no results.
-The [locked contract](DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary)
+The [locked contract](DECISIONS_HISTORY.md#migration-tooling-v1-p2--owner-locked-extraction-boundary)
 is unchanged. No PR, merge, remote CI, P3 or next Final Re-Audit is authorized by this slice.
 
 ## FR16-01 root cause
