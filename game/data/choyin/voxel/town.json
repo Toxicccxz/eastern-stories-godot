@@ -50,7 +50,7 @@
     "grit": "a8987a"
   },
   "water": {
-    "kinds": {"water": {"colors": ["7aa094", "5a8478", "3e6460"], "depth": 220, "flow": [0.05, 0.02], "speed": 0.12, "swell": 0.02, "swell_speed": 1.2, "foam": 0.0, "bank_foam": 0.08, "sky": 0.3, "bank": ["7a7a6a", "6a6a5a", "8a8a78"], "note": "hotel2.c: 碧波荡漾的翠柳湖; bridge1.c: 湖面飘著数不尽的浮萍"}}
+    "kinds": {"water": {"colors": ["7aa094", "5a8478", "3e6460"], "depth": 220, "flow": [0.05, 0.02], "speed": 0.12, "swell": 0.02, "swell_speed": 1.2, "foam": 0.0, "bank_foam": 0.08, "sky": 0.3, "bank": ["7a7a6a", "6a6a5a", "8a8a78"], "clear": true, "bed": ["3e5a4a", "4a6656", "36503e"], "stones": 0.12, "note": "hotel2.c: 碧波荡漾的翠柳湖; bridge1.c: 浮萍底下有不少艳红锦鲤 — clear, so the carp show under the duckweed"}}
   },
   "flora": {
     "grass_density": 0.7,
