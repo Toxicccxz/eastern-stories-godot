@@ -28,8 +28,13 @@ from .canvas import BODY
 from .region import explicit_markers
 from .tiles import ATLAS, T
 
-PRESETS = Path(__file__).resolve().parents[2] / 'game/data/common/room_life.json'
+REPOSITORY = Path(__file__).resolve().parents[2]
+PRESETS = REPOSITORY / 'game/data/common/room_life.json'
 COUNTERS = {'counter', 'shop_counter'}
+# Voxel config props that stand in a doorway (no piece within reach of them) or hang on a wall
+# (nothing tall leant in front of them); flat floor things (rugs, runners, straw) a piece may cover.
+DOORWAYS = {'closed_door', 'red_door', 'curtain', 'silk_curtain'}
+FLAT = {'rug', 'runner', 'straw_patch', 'stains', 'stairwell', 'drop', 'light_shaft', 'sun_flecks'}
 # Clear round what the player walks to or through (px beyond its box).
 CLEAR = 40
 
@@ -82,12 +87,22 @@ def _marker_points(entry: dict, drawn) -> list:
     return points
 
 
-def _keep(entry: dict, drawn, walk: set) -> tuple[set, list]:
-    """Cells no piece may cover, and the points a body must still reach."""
+def config_props(entry: dict) -> list:
+    """The props of the map's voxel config (scene.presentation's layout), [] without one."""
+    path = entry['scene'].get('presentation', {}).get('layout', '')
+    if not path.startswith('res://'):
+        return []
+    file = REPOSITORY / 'game' / path.removeprefix('res://')
+    return json.loads(file.read_text(encoding='utf-8')).get('props', []) if file.is_file() else []
+
+
+def _keep(entry: dict, drawn, walk: set) -> tuple[set, list, set]:
+    """Cells no piece may cover, the points a body must still reach, and the cells no leaning
+    piece may cover (in front of a sign or a window)."""
     scene, d = entry['scene'], entry['draw']
     shapes = {k: tuple(v) for k, v in scene.get('shapes', {}).items()}
     shapes.update(drawn.shapes)
-    keep, points = set(), []
+    keep, points, tall = set(), [], set()
 
     def around(x, y, w, h, by=CLEAR):
         keep.update(_box_cells(_grown((int(x - w / 2), int(y - h / 2), int(x + w / 2), int(y + h / 2)), by)))
@@ -120,7 +135,24 @@ def _keep(entry: dict, drawn, walk: set) -> tuple[set, list]:
     for row in rows:
         if isinstance(row, list) and row and isinstance(row[-1], dict) and 'look' in row[-1]:
             keep.update(_box_cells(_grown(tuple(row[1:5]), 3 * T if row[-1]['look'].get('kind') in COUNTERS else T)))
-    return keep, points
+    # A door drawn as a rect (the inn's 红木门) is no place for a heap either.
+    for item in scene.get('nodes', []):
+        if item.get('node') == 'rect' and 'rect' in item:
+            keep.update(_box_cells(_grown(tuple(item['rect']), 2 * T)))
+    # What the voxel config stands on the floor (lamps, pots) or hangs on the walls.
+    for prop in config_props(entry):
+        if prop.get('kind') in FLAT:
+            continue
+        x, y = prop['at']
+        w, h = prop.get('size', [32, 32])
+        box = (int(x - w / 2), int(y - h / 2), int(x + w / 2), int(y + h / 2))
+        if prop.get('kind') in DOORWAYS:
+            keep.update(_box_cells(_grown(box, 3 * T)))
+        elif prop.get('wall_mounted') or prop.get('kind') in ('window', 'sign', 'wall_scroll'):
+            tall.update(_box_cells(_grown(box, 2 * T)))
+        else:
+            keep.update(_box_cells(_grown(box, T)))
+    return keep, points, tall
 
 
 def _fits(walk: set) -> set:
@@ -169,8 +201,16 @@ def _slots(rect, walk: set, w: int, h: int):
     floor = {c for c in walk if x0 // T <= c[0] < x1 // T and y0 // T <= c[1] < y1 // T}
     if not floor:
         return []
-    fx0, fx1 = min(c[0] for c in floor) * T, (max(c[0] for c in floor) + 1) * T
-    fy0, fy1 = min(c[1] for c in floor) * T, (max(c[1] for c in floor) + 1) * T
+    # The floor's own extent: rows and columns at least half as full as the fullest, so a doorway's
+    # cells through the wall do not stretch it into the wall.
+    def extent(axis: int) -> tuple[int, int]:
+        counts: dict = {}
+        for c in floor:
+            counts[c[axis]] = counts.get(c[axis], 0) + 1
+        full = [k for k, n in counts.items() if n * 2 >= max(counts.values())]
+        return min(full) * T, (max(full) + 1) * T
+    fx0, fx1 = extent(0)
+    fy0, fy1 = extent(1)
     out = []
     for side in ('n', 's', 'w', 'e'):
         bw, bh = (w, h) if side in 'ns' else (h, w)
@@ -189,15 +229,16 @@ def _slots(rect, walk: set, w: int, h: int):
 ROTATION = {'n': 0, 's': 180, 'w': 90, 'e': -90}
 
 
-def dress(entry: dict, drawn, table: dict | None = None) -> list:
-    """The fill rows of the pieces for every room with a life, in the room's own seed order."""
+def dress(entry: dict, drawn, table: dict | None = None, notes: list | None = None) -> list:
+    """The fill rows of the pieces for every room with a life, in the room's own seed order; a
+    room that has no room for all its pieces is noted."""
     rooms = rooms_of(entry)
     if not rooms:
         return []
     table = table or presets()
     rects = _zone_rects(entry)
     walk = drawn.tiles.walkable_cells()
-    keep, points = _keep(entry, drawn, walk)
+    keep, points, tall = _keep(entry, drawn, walk)
     before = _reached(walk, points)
     rows = []
     for zone in sorted(rooms):
@@ -215,6 +256,7 @@ def dress(entry: dict, drawn, table: dict | None = None) -> list:
         for box in spec.get('keep_clear', []):
             clear |= _box_cells(tuple(box))
         pieces = use.get('pieces', [])
+        placed = 0
         for n in range(count if pieces else 0):
             piece = pieces[n % len(pieces)]
             w, h = piece['size']
@@ -225,7 +267,7 @@ def dress(entry: dict, drawn, table: dict | None = None) -> list:
             slots.sort(key=lambda s: s[0])
             for _, box, side in slots:
                 cells = _box_cells(box)
-                if not cells <= walk or cells & clear:
+                if not cells <= walk or cells & clear or piece.get('lean') and cells & tall:
                     continue
                 if _reached(walk - cells, points) != before:
                     continue
@@ -236,5 +278,8 @@ def dress(entry: dict, drawn, table: dict | None = None) -> list:
                 look['rotation'] = ROTATION[side]
                 look['seed'] = rng.randrange(1000)
                 rows.append(['blocked', *box, f'{zone}: {spec["use"]} {piece["kind"]}', {'look': look}])
+                placed += 1
                 break
+        if notes is not None and placed < count:
+            notes.append(f'{zone}: room for {placed} of its {count} {spec["use"]} pieces')
     return rows

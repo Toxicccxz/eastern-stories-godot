@@ -25,6 +25,7 @@ var _heat: Array[Vector2] = []
 var _blocked_props: Array[Dictionary] = []
 ## Wall things the voxel config already hangs (windows, signs, scrolls): kept clear of.
 var _mounted: Array[Vector2] = []
+var _outer_looks: Array[Dictionary] = []
 
 ## Reads the rooms' lives before the terrain is drawn: their walls' looks are added to the
 ## layout's own (`wall_looks`), which come first and so win where a map sets them itself.
@@ -56,10 +57,16 @@ func prepare(owner: VoxelMapGeometry, map: WorldMapController, layout: Dictionar
 		rooms[area.zone_id] = {"rect":area.global_rect(),"life":life,"rng":random}
 		var look: Dictionary = _wall_look(life,random)
 		if not look.is_empty():
-			# The room's own walls, from its outer edge (a fills map's zone is its floor only).
-			var r: Rect2 = area.global_rect().grow(32)
+			var r: Rect2 = area.global_rect()
 			look["rect"] = [r.position.x,r.position.y,r.end.x,r.end.y]
 			geometry.wall_looks.append(look)
+			# A fills map's zone is its floor only: its walls just outside, after every room's own
+			# (the first look that holds a wall wins, so no room paints its neighbour's walls).
+			var outer: Dictionary = look.duplicate()
+			r = r.grow(32)
+			outer["rect"] = [r.position.x,r.position.y,r.end.x,r.end.y]
+			_outer_looks.append(outer)
+	geometry.wall_looks.append_array(_outer_looks)
 	for prop: Dictionary in layout.get("props",[]):
 		if prop.get("wall_mounted",false) or prop.get("kind","") in ["window","wall_scroll","sign","curtain","closed_door","red_door","silk_curtain"]:
 			_mounted.append(Vector2(prop["at"][0],prop["at"][1]))
@@ -151,6 +158,9 @@ func _table_items(data: Dictionary) -> void:
 	node.rotation.y = deg_to_rad(float(data.get("rotation",0)))
 	geometry.shapes.merge(node,geometry._static_chunk(at))
 	var size: Array = data.get("size",[64,32])
+	# A square table draws its own tea, wine or incense (VoxelMapGeometry's furniture).
+	if data["kind"]=="square_table" and data["set"] in ["tea","wine","incense"]:
+		return
 	var top: float = 1.0 if data["kind"]=="table" else 0.945
 	household.table_set(geometry.shapes,node,top,float(size[0])/32.0*0.8,float(size[1])/32.0*0.7,String(data["set"]),hash(a))
 
@@ -375,7 +385,12 @@ func _hangings(room: Dictionary, floor: Dictionary[Vector2i,bool], cells: Dictio
 		return
 	var random: RandomNumberGenerator = room["rng"]
 	var faces: Array[Dictionary] = _faces(floor,cells).filter(func(f: Dictionary) -> bool: return (f["into"] as Vector2).y>=0.0)
-	faces.shuffle()
+	# Shuffled by the room's own seed (Array.shuffle would use the global RNG: another look each load).
+	for i: int in range(faces.size()-1,0,-1):
+		var j: int = random.randi_range(0,i)
+		var swap: Dictionary = faces[i]
+		faces[i] = faces[j]
+		faces[j] = swap
 	var placed: Array[Vector2] = _mounted.duplicate()
 	var wanted: int = maxi(1,roundi(faces.size()*0.5*float(life["hang"])))
 	var index: int = random.randi_range(0,kinds.size()-1)

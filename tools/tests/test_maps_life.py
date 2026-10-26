@@ -41,7 +41,7 @@ class MapsLifeTest(unittest.TestCase):
         # 打铁铺子: 「角落里堆满了各式铁器」.
         self.assertGreaterEqual(kinds.count('iron_goods'), 3, kinds)
         walk = drawn.tiles.walkable_cells()
-        keep, points = life._keep(entry, drawn, walk)
+        keep, points, _ = life._keep(entry, drawn, walk)
         taken = set()
         for row in rows:
             cells = life._box_cells(tuple(row[1:5]))
@@ -50,6 +50,24 @@ class MapsLifeTest(unittest.TestCase):
             self.assertFalse(cells & taken, row)
             taken |= cells
         self.assertEqual(life._reached(walk - taken, points), life._reached(walk, points))
+
+    def test_pieces_keep_off_what_the_voxel_config_stands_or_hangs(self) -> None:
+        # The inn's lamps, its 红木门 (a rect door and the red_door prop), signs over leaning tools.
+        for key in ('inn', 'cellar', 'academy', 'smithy', 'workplace', 'herbshop', 'temple'):
+            entry, drawn, rows = drawn_entry(key)
+            keep, _, tall = life._keep(entry, drawn, drawn.tiles.walkable_cells())
+            for row in rows:
+                cells = life._box_cells(tuple(row[1:5]))
+                self.assertFalse(cells & keep, (key, row))
+                if row[-1]['look'].get('kind') in ('lumber',) or row[-1]['look'].get('heap', 'tools') in ('tools', 'blades') and row[-1]['look']['kind'] == 'iron_goods':
+                    self.assertFalse(cells & tall, (key, row))
+            for prop in life.config_props(entry):
+                if prop['kind'] in life.FLAT or prop.get('wall_mounted') or prop['kind'] in ('window', 'sign', 'wall_scroll'):
+                    continue
+                x, y = prop['at']
+                for row in rows:
+                    x0, y0, x1, y1 = row[1:5]
+                    self.assertFalse(x0 - 16 < x < x1 + 16 and y0 - 16 < y < y1 + 16, (key, prop, row))
 
     def test_leaning_pieces_stand_at_the_north_wall(self) -> None:
         for key in ('smithy', 'workplace', 'school'):

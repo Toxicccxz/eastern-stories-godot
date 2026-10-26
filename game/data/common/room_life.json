@@ -1,5 +1,5 @@
 {
-	"note": "How lived-in a room looks, by what the room is used for (layout `life`: {\"use\", \"wealth\", \"seed\", \"tidy\"}). Read by the map painter (corner pieces that block, written into the scene's Furnishings) and by the voxel view (worn floors, old walls, soot, things on walls and tables, small floor things; presentation only). Nothing here changes a rule. The room's ES2 text wins over a preset: a room it calls clean is `tidy`, a thing it rules out is left out of its use.",
+	"note": "How lived-in a room looks, by what the room is used for (layout `life`: {\"use\", \"wealth\", \"seed\", \"tidy\"}). Read by the map painter (corner pieces that block, written into the scene's Furnishings) and by the voxel view (worn floors, old walls, soot, things on walls and tables, small floor things; presentation only). A use's `pieces` become blocked boxes (2D collision) in every room of that use when its region is repainted; the rest is presentation and changes no rule. The room's ES2 text wins over a preset: a room it calls clean is `tidy`, a thing it rules out is left out of its use.",
 	"wealth": {
 		"poor": {"grime": 0.3, "cobwebs": 0.5, "patches": 0.6, "scatter": 1.5, "pieces": 1.2},
 		"plain": {"grime": 0.0, "cobwebs": 0.12, "patches": 0.25, "scatter": 1.0, "pieces": 1.0},
@@ -74,10 +74,10 @@
 				{"kind": "iron_goods", "size": [32, 32], "heap": "pots"},
 				{"kind": "water_vat", "size": [32, 32]},
 				{"kind": "iron_goods", "size": [32, 32], "heap": "heads"},
-				{"kind": "iron_goods", "size": [48, 32], "heap": "blades", "lean": true},
-				{"kind": "lumber", "size": [48, 32], "lean": true}
+				{"kind": "sacks", "size": [48, 32], "cloth": "4a4640"},
+				{"kind": "iron_goods", "size": [48, 32], "heap": "blades", "lean": true}
 			],
-			"count": 7,
+			"count": 6,
 			"scatter": ["cinders", "scrap"], "spread": 0.12
 		},
 		"apothecary": {

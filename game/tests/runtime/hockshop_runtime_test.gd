@@ -67,7 +67,8 @@ func physical_tests(tree: SceneTree) -> void:
 	var at_counter: Vector2 = MapPlaces.service_spot(shop, &"snow.hockshop.counter")
 	var counter: Vector2 = MapPlaces.first_blocked(shop, ui.point.global_position, room.get_center())
 	check(counter.is_finite(), "the counter stands between its service point and the room")
-	for position: Vector2 in [room.get_center(), doorway + Vector2(56, 0), Vector2(room.position.x + 56, room.end.y - 56)]:
+	# The far south floor, clear of the corner, where the pawnshop's lived-in pieces stand (room_life.json).
+	for position: Vector2 in [room.get_center(), doorway + Vector2(56, 0), Vector2(room.position.x + 160, room.end.y - 56)]:
 		check(MapPlacementValidator.is_valid_character_position(shop, &"snow.hockshop", position), "valid interior " + str(position))
 	for position: Vector2 in [Vector2(room.get_center().x, room.position.y + 10), Vector2(room.get_center().x, room.end.y - 10), counter, Vector2(NAN,0)]:
 		check(not MapPlacementValidator.is_valid_character_position(shop, &"snow.hockshop", position), "reject wall/counter/void/nonfinite " + str(position))

@@ -98,7 +98,7 @@ def paint_map(region: Region, entry: dict, notes: list | None = None) -> str:
     drawn = TECHNIQUES[entry['draw']['technique']](region, entry)
     # Rooms with a life get their corner pieces, placed on the drawing, then drawn again with
     # them (life.py): every check the technique makes covers them too.
-    if pieces := life.dress(entry, drawn):
+    if pieces := life.dress(entry, drawn, notes=notes):
         entry['draw']['fills' if 'fills' in entry['draw'] else 'props'] += pieces
         drawn = TECHNIQUES[entry['draw']['technique']](region, entry)
     backdrop = None

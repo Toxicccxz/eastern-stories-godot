@@ -121,7 +121,8 @@ as richly as 饮风客栈's upper floor.** Long-term rules:
 
 * **One source per fact.** `tools/maps/layouts/<region>.json` is the map: tiles (walkable area,
   collision), zones, portals, doors, spawn points, and every piece that blocks — a blocked box with
-  its `{"look": {...}}` (kind, rotation, colours). `python -m tools.maps.paint` writes the scene,
+  its `{"look": {...}}` (kind, rotation, colours), or generated from the room's `life`
+  (`tools/maps/life.py`). `python -m tools.maps.paint` writes the scene,
   its `Furnishings` nodes included. The voxel view draws furniture only from those nodes; never
   copy a footprint or coordinate into a second file.
 * **Voxel config** per map: `game/data/<region>/voxel/<map>.json` (map id without the region,
