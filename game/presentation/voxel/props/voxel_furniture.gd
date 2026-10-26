@@ -72,7 +72,8 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 				for x: int in floori(w/0.62):
 					var jar := Vector3(-w/2+0.38+x*0.62,y+0.07,0)
 					var h: float = rng.randf_range(0.37,0.60)
-					var jar_tone: String = _pick(["9b6748","b88b5c","5b8178","7b8a72"])
+					# `curios`: a 多宝格 of porcelain, jade and bronze instead of the store's jars.
+					var jar_tone: String = _pick(["e8e6dc","4a6a9a","5a8a6a","a8823a","d8c8b0"] if data.get("curios",false) else ["9b6748","b88b5c","5b8178","7b8a72"])
 					s.box(root,jar+Vector3(0,h*0.47,0),Vector3(0.34,h*0.62,0.34),jar_tone)
 					s.box(root,jar+Vector3(0,h*0.12,0),Vector3(0.25,h*0.24,0.25),jar_tone)
 					s.box(root,jar+Vector3(0,h*0.84,0),Vector3(0.23,h*0.20,0.23),jar_tone)
@@ -94,6 +95,18 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 			for x: float in [-w/2+0.08,w/2-0.08]:
 				for z: float in [-d/2+0.08,d/2-0.08]:
 					s.box(root,Vector3(x,0.5,z),Vector3(0.16,1.0 if x<0 else 0.86,0.16),"5c3f2b")
+			if data.has("canopy"):
+				# 帐幔: four posts, a frame on top and gauze hung on the sides, open at the front.
+				var gauze: String = String(data["canopy"])
+				for x: float in [-w/2+0.08,w/2-0.08]:
+					for z: float in [-d/2+0.08,d/2-0.08]:
+						s.box(root,Vector3(x,1.25,z),Vector3(0.07,2.5,0.07),"5c3f2b")
+				s.box(root,Vector3(0,2.5,0),Vector3(w,0.08,d),"5c3f2b")
+				s.box(root,Vector3(0,1.6,-d/2+0.06),Vector3(w-0.2,1.7,0.03),gauze)
+				for x: float in [-w/2+0.06,w/2-0.06]:
+					s.box(root,Vector3(x,1.6,0),Vector3(0.03,1.7,d-0.2),gauze)
+				for x: float in [-w*0.35,w*0.35]:
+					s.box(root,Vector3(x,1.8,d/2-0.06),Vector3(w*0.22,1.3,0.03),gauze)
 		"writing_desk":
 			_table(w,d,1.12)
 			if data.has("cloth"):
@@ -107,6 +120,9 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 				s.box(root,Vector3(-w*0.27+i*0.13,1.274,-d*0.2),Vector3(0.025,0.012,0.19+0.06*(i%2)),"746a54")
 			_book(Vector3(w*0.30,1.24,-d*0.27),"4e6967")
 			_book(Vector3(w*0.29,1.35,-d*0.29),"ad8055")
+			if data.has("vase"):
+				# moroom.c: 案上一个土定瓶, 中供著数枝菊花.
+				_vase(Vector3(-w*0.36,1.25,-d*0.25),String(data["vase"]),data.get("flowers",["e8c84a"]))
 			s.box(root,Vector3(w*0.12,1.28,0.12),Vector3(0.29,0.075,0.21),"414745")
 			s.box(root,Vector3(w*0.12,1.32,0.12),Vector3(0.18,0.018,0.12),"242f31")
 			for x: float in [0.24,0.34]:
@@ -161,21 +177,28 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 			s.box(root,Vector3(0,1.36,0.12),Vector3(w*0.38,0.09,0.04),"545e57")
 			s.box(root,Vector3(0,2.10,0),Vector3(0.08,0.28,0.08),"b49b6c")
 		"folding_screen":
-			for i: int in 3:
+			# `panels` leaves of `panel` silk in a `wood` frame, `height` tall, a spray painted on
+			# each in `cloth`.
+			var leaves: int = int(data.get("panels",3))
+			var tall: float = float(data.get("height",2.0))
+			var frame: String = String(data.get("wood","71563e"))
+			for i: int in leaves:
 				var panel := Node3D.new()
-				panel.position.x = (i-1)*w*0.32
+				panel.position.x = (i-(leaves-1)/2.0)*w*0.96/leaves
 				panel.rotation.y = 0.14 if i%2==0 else -0.14
 				root.add_child(panel)
-				var pw: float = w*0.33
-				s.box(panel,Vector3(0,1.23,0),Vector3(pw,2.0,0.10),"71563e")
-				s.box(panel,Vector3(0,1.28,0.07),Vector3(pw-0.13,1.76,0.055),"c9c3a2")
+				if s.merged.has(root):
+					s.merge(panel,s.merged[root])
+				var pw: float = w*0.99/leaves
+				s.box(panel,Vector3(0,0.23+tall/2,0),Vector3(pw,tall,0.10),frame)
+				s.box(panel,Vector3(0,0.28+tall/2,0.07),Vector3(pw-0.13,tall*0.88,0.055),String(data.get("panel","c9c3a2")))
 				for side: float in [-1,1]:
-					s.box(panel,Vector3(side*pw*0.4,0.16,0),Vector3(0.09,0.32,0.19),"71563e")
+					s.box(panel,Vector3(side*pw*0.4,0.16,0),Vector3(0.09,0.32,0.19),frame)
 				for shoot: int in 2:
 					var stem: float = (shoot-0.5)*pw*0.35
-					s.box(panel,Vector3(stem,1.18,0.105),Vector3(0.035,1.21,0.02),tone)
+					s.box(panel,Vector3(stem,0.18+tall/2,0.105),Vector3(0.035,tall*0.6,0.02),tone)
 					for leaf: int in 3:
-						s.tilted_box(panel,Vector3(stem+0.08,0.8+leaf*0.35,0.115),Vector3(pw*0.28,0.055,0.02),tone,Vector3(0,0,-0.45))
+						s.tilted_box(panel,Vector3(stem+0.08,tall*0.4+leaf*tall*0.17,0.115),Vector3(pw*0.28,0.055,0.02),tone,Vector3(0,0,-0.45))
 		"wall_scroll":
 			s.box(root,Vector3(0,2.15,0.02),Vector3(w,1.7,0.04),"b29c75")
 			s.box(root,Vector3(0,2.17,0.05),Vector3(w*0.76,1.46,0.025),"ddd3af")
@@ -189,8 +212,18 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 				s.box(root,Vector3(0,2.18,0.084),Vector3(w*0.12,0.27,0.015),"d4c18e")
 				if data.has("beard"):
 					s.box(root,Vector3(0,2.24,0.086),Vector3(w*0.12,0.34,0.015),String(data["beard"]))
-			elif data.get("chart",false):
-				# 经脉穴道图: a figure in outline, the meridians in red and the points dotted along them.
+			elif data.get("steps",false):
+				# 舞步图 (latemoon8.c: 玄天玉女翩然起舞的美妙步法; uproom2.c: 各种基本步法): a dancer
+				# with flying sleeves, the footprints of the steps winding round her in ink.
+				var robe: String = String(data.get("robe","d87a9a"))
+				s.box(root,Vector3(0,2.45,0.073),Vector3(w*0.1,0.14,0.012),"d4ad83")
+				s.box(root,Vector3(0,2.12,0.073),Vector3(w*0.14,0.5,0.012),robe)
+				s.box(root,Vector3(w*0.04,1.8,0.073),Vector3(w*0.22,0.2,0.012),robe)
+				for side: float in [-1.0,1.0]:
+					s.tilted_box(root,Vector3(side*w*0.16,2.3,0.076),Vector3(w*0.24,0.05,0.01),"e8d8e0",Vector3(0,0,side*0.5))
+				for step: int in 8:
+					var a: float = step*0.8+0.4
+					s.box(root,Vector3(cos(a)*w*0.3,1.95+sin(a)*0.5,0.08),Vector3(0.05,0.08,0.01),"2a2420")
 				s.box(root,Vector3(0,2.5,0.073),Vector3(w*0.16,0.2,0.012),"8a7a64")
 				s.box(root,Vector3(0,2.08,0.073),Vector3(w*0.26,0.6,0.012),"8a7a64")
 				for side: float in [-1.0,1.0]:
@@ -234,6 +267,10 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 		"hearth": _hearth(w,d,data)
 		"stone_bed": _stone_bed(w,d,data)
 		"stone_seat": _stone_seat(w,d,data)
+		"round_table": _round_table(w,d,data)
+		"table_row": _table_row(w,d,data)
+		"chair_row": _chair_row(w,d,data)
+		"side_table": _side_table(w,d,data)
 		_:
 			return false
 	return true
@@ -288,6 +325,12 @@ func _square_table(w: float, d: float, look: Dictionary) -> void:
 	s.box(root,Vector3(0,0.86,0),Vector3(w,0.1,d),top)
 	s.box(root,Vector3(0,0.92,0),Vector3(w-0.06,0.025,d-0.06),trim)
 	s.box(root,Vector3(0,0.93,0),Vector3(w-0.16,0.026,d-0.16),top)
+	if look.has("cloth"):
+		# latemoon3.c: 一块大红镶金桌巾 — a cloth over the top, hanging down the front, gold-edged.
+		var cloth: String = String(look["cloth"])
+		s.box(root,Vector3(0,0.955,0),Vector3(w-0.02,0.02,d-0.02),cloth)
+		s.box(root,Vector3(0,0.78,d/2+0.01),Vector3(w*0.7,0.36,0.02),cloth)
+		s.box(root,Vector3(0,0.61,d/2+0.015),Vector3(w*0.7,0.04,0.02),String(look.get("border","c9a24a")))
 	for x: float in [-w/2+0.08,w/2-0.08]:
 		for z: float in [-d/2+0.08,d/2-0.08]:
 			s.box(root,Vector3(x,0.42,z),Vector3(0.11,0.84,0.11),legs)
@@ -452,12 +495,18 @@ func _ceremony_table(w: float, d: float, look: Dictionary) -> void:
 func _wardrobe(w: float, d: float, look: Dictionary) -> void:
 	var wood: String = _wood(look,"wood","6a4a34")
 	var height: float = float(look.get("height",2.3))
-	s.box(root,Vector3(0,height/2,0),Vector3(w,height,d),wood)
-	s.box(root,Vector3(0,height+0.05,0),Vector3(w+0.08,0.1,d+0.08),_wood(look,"trim","8d6744"))
-	for x: float in [-w*0.25,w*0.25]:
-		s.box(root,Vector3(x,height*0.55,d/2+0.015),Vector3(w*0.44,height*0.7,0.03),_wood(look,"panel","7d573d"))
-		s.box(root,Vector3(x*0.25,height*0.55,d/2+0.035),Vector3(0.1,0.16,0.02),"c9a35e")
-	s.box(root,Vector3(0,height*0.12,d/2+0.015),Vector3(w*0.9,height*0.14,0.03),_wood(look,"panel","7d573d"))
+	# `count` cupboards side by side along the box (a changing room's row of them).
+	var count: int = maxi(1,int(look.get("count",1)))
+	var each: float = w/count
+	for i: int in count:
+		var cx: float = -w/2+each*(i+0.5)
+		var cw: float = each-0.06
+		s.box(root,Vector3(cx,height/2,0),Vector3(cw,height-0.04*(i%2),d),wood)
+		s.box(root,Vector3(cx,height+0.05-0.04*(i%2),0),Vector3(cw+0.08,0.1,d+0.08),_wood(look,"trim","8d6744"))
+		for x: float in [-cw*0.25,cw*0.25]:
+			s.box(root,Vector3(cx+x,height*0.55,d/2+0.015),Vector3(cw*0.44,height*0.7,0.03),_wood(look,"panel","7d573d"))
+			s.box(root,Vector3(cx+x*0.25,height*0.55,d/2+0.035),Vector3(0.1,0.16,0.02),"c9a35e")
+		s.box(root,Vector3(cx,height*0.12,d/2+0.015),Vector3(cw*0.9,height*0.14,0.03),_wood(look,"panel","7d573d"))
 	if look.has("cloth"):
 		s.box(root,Vector3(w*0.1,height+0.18,0),Vector3(w*0.6,0.16,d*0.7),String(look["cloth"]))
 
@@ -662,3 +711,149 @@ func _stone_seat(w: float, d: float, look: Dictionary) -> void:
 	if look.get("back",true):
 		s.box(root,Vector3(0,0.92,-d*0.3),Vector3(w*0.8,0.9,0.14),String(stone[2]))
 		s.box(root,Vector3(0,1.39,-d*0.3),Vector3(w*0.9,0.08,0.18),String(stone[1]))
+
+## A vase with a spray of flowers standing at `at` (its foot): white jade (`vase`) holding peonies,
+## chrysanthemums or 琼花 (`flowers`, a few colours).
+func _vase(at: Vector3, vase: String, flowers: Array, tall: float = 0.42) -> void:
+	s.box(root,at+Vector3(0,tall*0.3,0),Vector3(0.2,tall*0.6,0.2),vase)
+	s.box(root,at+Vector3(0,tall*0.72,0),Vector3(0.12,tall*0.3,0.12),vase)
+	s.box(root,at+Vector3(0,tall*0.9,0),Vector3(0.16,0.04,0.16),vase)
+	for i: int in 5:
+		var a: float = i*TAU/5.0
+		var bloom := at+Vector3(cos(a)*0.14,tall+0.12+0.08*(i%2),sin(a)*0.12)
+		s.box(root,bloom-Vector3(0,0.08,0),Vector3(0.03,0.16,0.03),"5a7a3a")
+		s.box(root,bloom,Vector3(0.13,0.1,0.13),String(flowers[i%flowers.size()]))
+	s.box(root,at+Vector3(0,tall+0.26,0),Vector3(0.12,0.1,0.12),String(flowers[0]))
+
+## 大圆桌 (eat1.c, eat2.c): a round top of carved wood under its silk cloth (`cloth`, `border`),
+## `seats` chairs round it turned to the middle (cane seats: `cane`), and on it `set`: "feast"
+## (purple jade plates, porcelain bowls, gold chopsticks) or "meal" (bowls and a pot).
+func _round_table(w: float, d: float, look: Dictionary) -> void:
+	var wood: Array = look.get("colors",["8a5a3a","9a6640","7a4e32"])
+	var r: float = minf(w,d)*0.31
+	var top: float = 0.82
+	s.box(root,Vector3(0,top*0.5,0),Vector3(0.3,top,0.3),String(wood[2]))
+	s.box(root,Vector3(0,0.06,0),Vector3(r,0.12,r),String(wood[2]))
+	for turn: float in [0.0,PI/4]:
+		s.tilted_box(root,Vector3(0,top,0),Vector3(r*1.84,0.1,r*0.78),String(wood[0]),Vector3(0,turn,0))
+		s.tilted_box(root,Vector3(0,top,0),Vector3(r*0.78,0.1,r*1.84),String(wood[0]),Vector3(0,turn,0))
+	if look.has("cloth"):
+		var cloth: String = String(look["cloth"])
+		for turn: float in [0.0,PI/4]:
+			s.tilted_box(root,Vector3(0,top+0.065,0),Vector3(r*1.7,0.03,r*0.72),cloth,Vector3(0,turn,0))
+			s.tilted_box(root,Vector3(0,top+0.065,0),Vector3(r*0.72,0.03,r*1.7),cloth,Vector3(0,turn,0))
+		for i: int in 8:
+			var a: float = i*TAU/8.0+PI/8
+			s.tilted_box(root,Vector3(cos(a)*r*0.92,top-0.06,sin(a)*r*0.92),Vector3(0.05,0.2,r*0.72),String(look.get("border","c9a24a")),Vector3(0,-a,0))
+	var seats: int = int(look.get("seats",8))
+	for i: int in seats:
+		var a: float = i*TAU/seats
+		var seat := Node3D.new()
+		seat.position = Vector3(cos(a)*(r+0.42),0,sin(a)*(r+0.42))
+		seat.rotation.y = -a-PI/2
+		root.add_child(seat)
+		if s.merged.has(root):
+			s.merge(seat,s.merged[root])
+		s.box(seat,Vector3(0,0.45,0),Vector3(0.42,0.08,0.4),String(look.get("cane",wood[1])))
+		for x: float in [-0.16,0.16]:
+			s.box(seat,Vector3(x,0.22,0.12),Vector3(0.06,0.44,0.06),String(wood[2]))
+			s.box(seat,Vector3(x,0.62,-0.17),Vector3(0.06,0.82,0.06),String(wood[2]))
+		s.box(seat,Vector3(0,0.86,-0.17),Vector3(0.4,0.12,0.05),String(wood[1]))
+	var places: int = maxi(4,seats/2)
+	var feast: bool = String(look.get("set","meal"))=="feast"
+	for i: int in places:
+		var a: float = i*TAU/places
+		var at := Vector3(cos(a)*r*0.7,top+0.09,sin(a)*r*0.7)
+		if feast:
+			s.box(root,at,Vector3(0.24,0.025,0.24),"7a5a8a")
+			s.box(root,at+Vector3(0,0.05,0),Vector3(0.13,0.07,0.13),"eeece6")
+			s.tilted_box(root,at+Vector3(0.12,0.03,0),Vector3(0.02,0.015,0.24),"d8b04a",Vector3(0,a,0))
+		else:
+			s.box(root,at+Vector3(0,0.04,0),Vector3(0.14,0.08,0.14),"e2dccb")
+	if feast:
+		for i: int in 3:
+			var a: float = i*TAU/3.0
+			s.box(root,Vector3(cos(a)*r*0.28,top+0.12,sin(a)*r*0.28),Vector3(0.3,0.06,0.3),["eeece6","d8c8a8","c8d8d0"][i])
+			s.box(root,Vector3(cos(a)*r*0.28,top+0.17,sin(a)*r*0.28),Vector3(0.18,0.06,0.18),["c84a2a","8a6a3a","5a8a4a"][i])
+	else:
+		_teapot(Vector3(0,top+0.07,0),"6c8a80")
+
+## 紫檀雕案 in a row along a wall (latemoon1.c: 东西两面各设著七张): `count` carved tables,
+## each with a white jade vase of flowers (`vase`, `flowers`); dark wood (`colors`), gilt `trim`.
+func _table_row(w: float, d: float, look: Dictionary) -> void:
+	var wood: Array = look.get("colors",["5a2e24","6a3828","4e2820"])
+	var count: int = maxi(1,int(look.get("count",3)))
+	var step: float = w/count
+	for i: int in count:
+		var x: float = -w/2+step*(i+0.5)
+		var long: float = step-0.18
+		s.box(root,Vector3(x,0.9,0),Vector3(long,0.08,d*0.86),String(wood[0]))
+		s.box(root,Vector3(x,0.95,0),Vector3(long+0.06,0.04,d*0.92),String(wood[1]))
+		for side: float in [-1.0,1.0]:
+			s.box(root,Vector3(x+side*(long/2-0.06),0.45,0),Vector3(0.08,0.9,d*0.7),String(wood[2]))
+			s.box(root,Vector3(x+side*(long/2-0.06),0.74,0),Vector3(0.1,0.04,d*0.82),String(look.get("trim","b8923e")))
+		s.box(root,Vector3(x,0.78,d*0.4),Vector3(long-0.18,0.14,0.03),String(wood[1]))
+		s.box(root,Vector3(x,0.78,d*0.42),Vector3(long*0.4,0.05,0.01),String(look.get("trim","b8923e")))
+		_vase(Vector3(x,0.97,0),String(look.get("vase","eeece4")),look.get("flowers",["e8a0b4","f2c0cc"]))
+
+## Chairs in a row (`count`, facing local +z): lacquered (`colors`), a cushion on each
+## (`cushion`), a small tea table after every second chair (`tables`).
+func _chair_row(w: float, d: float, look: Dictionary) -> void:
+	var wood: Array = look.get("colors",["7a2a22","8a3226","6a241e"])
+	var count: int = maxi(1,int(look.get("count",2)))
+	var tables: bool = look.get("tables",false)
+	var slots: int = count+((count-1)/2 if tables else 0)
+	var step: float = w/slots
+	var slot: int = 0
+	for i: int in count:
+		var x: float = -w/2+step*(slot+0.5)
+		var seat: float = minf(step*0.85,0.72)
+		s.box(root,Vector3(x,0.5,0),Vector3(seat,0.08,d*0.7),String(wood[0]))
+		for side: float in [-1.0,1.0]:
+			s.box(root,Vector3(x+side*seat*0.4,0.25,d*0.25),Vector3(0.07,0.5,0.07),String(wood[2]))
+			s.box(root,Vector3(x+side*seat*0.4,0.62,-d*0.3),Vector3(0.07,1.24,0.07),String(wood[2]))
+			s.box(root,Vector3(x+side*seat*0.42,0.74,0),Vector3(0.06,0.06,d*0.6),String(wood[1]))
+		s.box(root,Vector3(x,1.2,-d*0.3),Vector3(seat,0.1,0.07),String(wood[1]))
+		s.box(root,Vector3(x,0.86,-d*0.31),Vector3(seat*0.5,0.6,0.04),String(wood[1]))
+		if look.has("cushion"):
+			s.box(root,Vector3(x,0.57,0.02),Vector3(seat*0.82,0.06,d*0.56),String(look["cushion"]))
+			s.box(root,Vector3(x,0.82,-d*0.26),Vector3(seat*0.6,0.4,0.05),String(look["cushion"]))
+		slot += 1
+		if tables and i%2==0 and i<count-1:
+			var tx: float = -w/2+step*(slot+0.5)
+			s.box(root,Vector3(tx,0.64,-d*0.05),Vector3(step*0.7,0.06,d*0.6),String(wood[1]))
+			for side: float in [-1.0,1.0]:
+				s.box(root,Vector3(tx+side*step*0.28,0.32,-d*0.05),Vector3(0.06,0.64,d*0.5),String(wood[2]))
+			s.box(root,Vector3(tx,0.72,-d*0.05),Vector3(0.1,0.1,0.1),"e2dccb")
+			slot += 1
+
+## 高几 / 小几: a small stand (`tall`: a high one) with what it holds (`holds`): "vase" (a vase of
+## `flowers`), "ding" (文王鼎, a spoon and an incense box) or "tea"; `plum`: a top shaped like a
+## plum blossom (梅花式), five round lobes.
+func _side_table(w: float, d: float, look: Dictionary) -> void:
+	var wood: Array = look.get("colors",["5a2e24","6a3828","4e2820"])
+	var h: float = 1.1 if look.get("tall",false) else 0.62
+	var top: float = minf(w,d)*0.8
+	if look.get("plum",false):
+		for i: int in 5:
+			var a: float = i*TAU/5.0
+			s.box(root,Vector3(cos(a)*top*0.22,h,sin(a)*top*0.22),Vector3(top*0.5,0.06,top*0.5),String(wood[0]))
+	else:
+		s.box(root,Vector3(0,h,0),Vector3(top,0.06,top),String(wood[0]))
+	s.box(root,Vector3(0,h-0.07,0),Vector3(top*0.86,0.08,top*0.86),String(wood[1]))
+	for x: float in [-top*0.36,top*0.36]:
+		for z: float in [-top*0.36,top*0.36]:
+			s.box(root,Vector3(x,h/2,z),Vector3(0.06,h,0.06),String(wood[2]))
+	match String(look.get("holds","vase")):
+		"ding":
+			s.box(root,Vector3(0,h+0.18,0),Vector3(0.26,0.22,0.26),"6a5a3a")
+			for i: int in 3:
+				var a: float = i*TAU/3.0
+				s.box(root,Vector3(cos(a)*0.09,h+0.06,sin(a)*0.09),Vector3(0.04,0.1,0.04),"5a4a30")
+			for side: float in [-1.0,1.0]:
+				s.box(root,Vector3(side*0.1,h+0.33,0),Vector3(0.03,0.1,0.08),"6a5a3a")
+			s.box(root,Vector3(0.2,h+0.06,0.12),Vector3(0.12,0.08,0.1),"8a3226")
+		"tea":
+			_teapot(Vector3(0,h+0.03,0),"6c8a80")
+		_:
+			_vase(Vector3(0,h+0.03,0),String(look.get("vase","eeece4")),look.get("flowers",["e8a0b4"]),0.5 if look.get("tall",false) else 0.36)

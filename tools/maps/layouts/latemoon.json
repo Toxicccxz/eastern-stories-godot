@@ -47,70 +47,292 @@
           "latemoon.room.bathroom": [2304, 3296, 3056, 3680, "enclosed", "floor_yard", "wall"]
         },
         "roads": [
-          ["path", 3392, 544, 3824, 640, "entrance: the cobbled path from 绮云镇 to the arch"],
-          ["street", 2400, 544, 3056, 640, "front_yard: the stone path round the rockery to the hall"],
+          ["path", 3392, 528, 3824, 688, "entrance: the cobbled path from 绮云镇 to the arch (路和空间: 160)"],
+          ["street", 2400, 528, 3056, 688, "front_yard: the stone path round the rockery to the hall"],
+          ["street", 2784, 688, 2944, 864, "front_yard: the way south to the 湘园"],
+          ["path", 1264, 336, 1392, 864, "latemoonc: stone paths crossing the plum courtyard"],
+          ["path", 1040, 528, 1616, 672],
           ["path", 1280, 3632, 1376, 3680, "flower1: the narrow way south into the secret rooms (one way)"]
         ],
         "props": [
-          ["blocked", 448, 64, 480, 96, "latemoon6: bare walls, a mat in the corner"],
-          ["blocked", 1136, 64, 1168, 96, "latemoon5: pillars of the long gallery"],
-          ["blocked", 1488, 64, 1520, 96],
-          ["blocked", 1136, 256, 1168, 288],
-          ["blocked", 1488, 256, 1520, 288],
-          ["blocked", 1744, 96, 1904, 128, "latemoon3: the table under its red and gold cloth"],
-          ["blocked", 2288, 64, 2336, 96, "the high-backed chairs against the east wall"],
-          ["blocked", 64, 384, 160, 416, "latebook: the old redwood desk, the incense burner, the books"],
-          ["blocked", 64, 704, 96, 800, "the bookcase along the west wall"],
-          ["blocked", 448, 384, 480, 416, "latemoon7: the gallery's pillars"],
-          ["blocked", 944, 384, 976, 416],
-          ["blocked", 448, 768, 480, 800],
-          ["forest", 1088, 384, 1168, 448, "latemoonc: plum trees"],
-          ["forest", 1488, 384, 1568, 448],
-          ["forest", 1088, 736, 1168, 816],
-          ["forest", 1488, 736, 1568, 816],
-          ["blocked", 1680, 384, 1776, 416, "latemoon1: rosewood tables, white jade vases, the scrolls between them"],
-          ["blocked", 2240, 384, 2336, 416],
-          ["blocked", 2032, 768, 2288, 800],
-          ["blocked", 2128, 672, 2192, 688, "the screen across the hall"],
-          ["forest", 2448, 384, 2528, 448, "front_yard: rare flowers"],
-          ["blocked", 2944, 400, 2992, 464, "the rockery"],
-          ["forest", 2448, 736, 2528, 816],
-          ["blocked", 2944, 736, 2992, 784, "rocks among the flowers"],
-          ["blocked", 3136, 384, 3168, 400, "gate: the two strings of lanterns"],
-          ["blocked", 3280, 384, 3312, 400],
+          ["blocked", 448, 64, 544, 96, "latemoon6.c: 四面都是单调的墙壁 — a worn mat to kneel on", {"look": {"kind": "bedding", "worn": true}}],
+          ["blocked", 944, 64, 976, 96, "a water jug and a bowl on the floor", {"look": {"kind": "crocks"}}],
+          ["blocked", 1136, 64, 1168, 96, "latemoon5.c: 你走在一条长廊上 — the gallery's painted columns (roofs: voxel config)", {"look": {"kind": "pavilion_post", "column": "a8382a", "band": "c9a24a", "bracket": "6e2a20", "height": 2.8}}],
+          ["blocked", 1488, 64, 1520, 96, {"look": {"kind": "pavilion_post", "column": "a8382a", "band": "c9a24a", "bracket": "6e2a20", "height": 2.8}}],
+          ["blocked", 1136, 256, 1168, 288, {"look": {"kind": "pavilion_post", "column": "a8382a", "band": "c9a24a", "bracket": "6e2a20", "height": 2.8}}],
+          ["blocked", 1488, 256, 1520, 288, {"look": {"kind": "pavilion_post", "column": "a8382a", "band": "c9a24a", "bracket": "6e2a20", "height": 2.8}}],
+          ["blocked", 1568, 64, 1600, 288, "latemoon5.c: 一边的尽头则是一幅大石壁画", {"look": {"kind": "screen_wall", "rotation": -90, "mural": true, "height": 2.9, "wall": "d8d4c8", "panel": "b8b2a2", "roof": "5a4a6a"}}],
+          ["blocked", 1744, 96, 1904, 144, "latemoon3.c: 一张桌几, 上面摆著一块大红镶金桌巾; 一精致的茶壶, 上等茗茶", {"look": {"kind": "square_table", "cloth": "b8282a", "border": "c9a24a", "set": "tea", "top": "5a2e24", "legs": "4e2820", "trim": "c9a24a"}}],
+          ["blocked", 2304, 64, 2336, 112, "latemoon3.c: 靠东壁面西设著半旧青缎靠背引枕, 两张太师椅座", {"look": {"kind": "grand_chair", "rotation": -90, "cushion": "3a6a6a", "wood": "4e2820", "trim": "c9a24a", "dais": false}}],
+          ["blocked", 2304, 176, 2336, 224, {"look": {"kind": "grand_chair", "rotation": -90, "cushion": "3a6a6a", "wood": "4e2820", "trim": "c9a24a", "dais": false}}],
+          ["blocked", 2304, 128, 2336, 160, "a small table between them", {"look": {"kind": "side_table", "holds": "tea", "colors": ["5a2e24", "6a3828", "4e2820"]}}],
+          ["blocked", 64, 384, 160, 432, "latebook.c: 一张古意盎然的红木书桌, 上面摆著一座小小的香炉, 几本善本书", {"look": {"kind": "writing_desk"}}],
+          ["blocked", 48, 704, 80, 800, "the bookcase along the west wall", {"look": {"kind": "bookcase", "rotation": 90}}],
+          ["blocked", 288, 768, 336, 816, {"look": {"kind": "flower_stand"}}],
+          ["blocked", 448, 384, 480, 416, "latemoon7.c: 长廊 — its columns", {"look": {"kind": "pavilion_post", "column": "a8382a", "band": "c9a24a", "bracket": "6e2a20", "height": 2.8}}],
+          ["blocked", 944, 384, 976, 416, {"look": {"kind": "pavilion_post", "column": "a8382a", "band": "c9a24a", "bracket": "6e2a20", "height": 2.8}}],
+          ["blocked", 448, 768, 480, 800, {"look": {"kind": "pavilion_post", "column": "a8382a", "band": "c9a24a", "bracket": "6e2a20", "height": 2.8}}],
+          ["blocked", 944, 768, 976, 800, {"look": {"kind": "pavilion_post", "column": "a8382a", "band": "c9a24a", "bracket": "6e2a20", "height": 2.8}}],
+          ["blocked", 1088, 384, 1168, 448, "latemoonc.c: 花木扶疏…竟种满了无数梅花", {"look": {"variant": 0, "scale": 1.1, "kind": "tree", "species": "plum"}}],
+          ["blocked", 1488, 384, 1568, 448, {"look": {"variant": 1, "kind": "tree", "species": "plum"}}],
+          ["blocked", 1088, 752, 1168, 816, {"look": {"variant": 2, "scale": 1.05, "kind": "tree", "species": "plum"}}],
+          ["blocked", 1488, 752, 1568, 816, {"look": {"variant": 3, "kind": "tree", "species": "plum"}}],
+          ["blocked", 1184, 432, 1232, 480, {"look": {"variant": 4, "scale": 0.8, "colors": ["f2e8ea", "e8d0d8", "fbf4f2", "d8b8c4"], "kind": "tree", "species": "plum"}}],
+          ["blocked", 1440, 704, 1488, 752, {"look": {"variant": 5, "scale": 0.85, "colors": ["f2e8ea", "e8d0d8", "fbf4f2", "d8b8c4"], "kind": "tree", "species": "plum"}}],
+          ["blocked", 1440, 432, 1488, 480, {"look": {"variant": 2, "scale": 0.75, "kind": "tree", "species": "plum"}}],
+          ["blocked", 1184, 704, 1232, 752, {"look": {"variant": 1, "scale": 0.8, "kind": "tree", "species": "plum"}}],
+          ["blocked", 1648, 384, 1680, 528, "latemoon1.c: 东西两面各设著七张紫檀雕案, 案上一色白玉羊脂花瓶, 瓶中插著粉红的处子牡丹", {"look": {"kind": "table_row", "count": 3, "rotation": 90, "colors": ["5a2e24", "6a3828", "4e2820"], "vase": "eeece4", "flowers": ["e8a0b4", "f2c0cc", "d87090"]}}],
+          ["blocked", 1648, 672, 1680, 832, {"look": {"kind": "table_row", "count": 4, "rotation": 90, "colors": ["5a2e24", "6a3828", "4e2820"], "vase": "eeece4", "flowers": ["e8a0b4", "f2c0cc", "d87090"]}}],
+          ["blocked", 2336, 384, 2368, 528, {"look": {"kind": "table_row", "count": 3, "rotation": -90, "colors": ["5a2e24", "6a3828", "4e2820"], "vase": "eeece4", "flowers": ["e8a0b4", "f2c0cc", "d87090"]}}],
+          ["blocked", 2336, 672, 2368, 832, {"look": {"kind": "table_row", "count": 4, "rotation": -90, "colors": ["5a2e24", "6a3828", "4e2820"], "vase": "eeece4", "flowers": ["e8a0b4", "f2c0cc", "d87090"]}}],
+          ["blocked", 1984, 400, 2032, 512, "latemoon1.c: 迎面…一面紫红绣金挂幔, 一面屏风将宽敞的大厅隔成两半", {"look": {"kind": "folding_screen", "rotation": 90, "panel": "7a2848", "cloth": "c9a24a", "wood": "4e2820", "panels": 4, "height": 2.3}}],
+          ["blocked", 1984, 368, 2032, 400, "屏风两旁的白石嵌云柱上工整地刻著一幅对联", {"look": {"kind": "column", "height": 3.2, "column": "e8e6dc", "base": "c8c4b8", "band": "c9a24a", "clouds": ["d8d4c8", "f2f0ea"]}}],
+          ["blocked", 1984, 512, 2032, 544, {"look": {"kind": "column", "height": 3.2, "column": "e8e6dc", "base": "c8c4b8", "band": "c9a24a", "clouds": ["d8d4c8", "f2f0ea"]}}],
+          ["blocked", 416, 1136, 512, 1232, "latemoon8.c: 地上铺著可以合地打坐的大理石床", {"look": {"kind": "stone_bed", "colors": ["e8e6dc", "f0eee6", "dcdad0"]}}],
+          ["blocked", 976, 960, 1008, 1088, "latemoon8.c: 四周挂了一些兵器", {"look": {"kind": "weapon_rack", "rotation": -90}}],
+          ["blocked", 976, 1136, 1008, 1232, {"look": {"kind": "weapon_rack", "rotation": -90}}],
+          ["blocked", 416, 928, 448, 1056, {"look": {"kind": "weapon_rack", "rotation": 90}}],
+          ["blocked", 1072, 928, 1104, 1232, "latemoon4.c: 西面立著一个粉油大影壁", {"look": {"kind": "screen_wall", "rotation": 90, "height": 3.0, "wall": "f2ece0", "panel": "e4d8c8", "roof": "5a4a6a"}}],
+          ["blocked", 1696, 912, 1904, 944, "latemoon2.c: 四面相对十二张雕漆椅, 都是一色灰鼠椅搭小褥", {"look": {"kind": "chair_row", "count": 4, "colors": ["7a2a22", "8a3226", "6a241e"], "cushion": "8a8a88", "tables": true}}],
+          ["blocked", 1696, 1232, 1904, 1264, {"look": {"kind": "chair_row", "count": 4, "rotation": 180, "colors": ["7a2a22", "8a3226", "6a241e"], "cushion": "8a8a88", "tables": true}}],
+          ["blocked", 2048, 912, 2208, 944, {"look": {"kind": "chair_row", "count": 2, "colors": ["7a2a22", "8a3226", "6a241e"], "cushion": "8a8a88", "tables": true}}],
+          ["blocked", 2048, 1232, 2208, 1264, {"look": {"kind": "chair_row", "count": 2, "rotation": 180, "colors": ["7a2a22", "8a3226", "6a241e"], "cushion": "8a8a88", "tables": true}}],
+          ["blocked", 1984, 1072, 2048, 1104, "latemoon2.c: 厅中摆了小屏风", {"look": {"kind": "folding_screen", "panel": "e8e0c8", "cloth": "5a7a5a", "wood": "7a2a22", "panels": 3, "height": 1.4}}],
+          ["blocked", 2336, 1152, 2368, 1248, "latemoon2.c: 一个木隔架", {"look": {"kind": "shelf", "rotation": -90, "curios": true}}],
+          ["blocked", 2272, 912, 2368, 976, "latemoon2.c: 旁边还有一碧纱橱(closet)", {"look": {"kind": "wardrobe", "panel": "7aa88a", "wood": "4e2820", "trim": "6a3828"}}],
+          ["blocked", 1232, 1360, 1264, 1392, "twoc.c: 仪门 — its two posts (the gate over them: voxel config)", {"look": {"kind": "pavilion_post", "column": "a8382a", "band": "c9a24a", "bracket": "6e2a20", "height": 3.0}}],
+          ["blocked", 1392, 1360, 1424, 1392, {"look": {"kind": "pavilion_post", "column": "a8382a", "band": "c9a24a", "bracket": "6e2a20", "height": 3.0}}],
+          ["blocked", 96, 1328, 112, 1344, "two1/two2.c: 纯金铸成的长灯架上挂了一排饰丽的宫灯", {"look": {"kind": "lamp_stand"}}],
+          ["blocked", 288, 1328, 304, 1344, {"look": {"kind": "lamp_stand"}}],
+          ["blocked", 576, 1328, 592, 1344, {"look": {"kind": "lamp_stand"}}],
+          ["blocked", 864, 1328, 880, 1344, {"look": {"kind": "lamp_stand"}}],
+          ["blocked", 2176, 1856, 2192, 1872, "lroad1.c", {"look": {"kind": "lamp_stand"}}],
+          ["blocked", 2176, 2048, 2192, 2064, {"look": {"kind": "lamp_stand"}}],
+          ["blocked", 2176, 2240, 2192, 2256, {"look": {"kind": "lamp_stand"}}],
+          ["blocked", 2176, 2432, 2192, 2448, {"look": {"kind": "lamp_stand"}}],
+          ["blocked", 672, 2160, 688, 2176, {"look": {"kind": "lamp_stand"}}],
+          ["blocked", 864, 2160, 880, 2176, {"look": {"kind": "lamp_stand"}}],
+          ["blocked", 496, 2624, 512, 2640, {"look": {"kind": "lamp_stand"}}],
+          ["blocked", 2176, 2624, 2192, 2640, {"look": {"kind": "lamp_stand"}}],
+          ["blocked", 496, 2816, 512, 2832, {"look": {"kind": "lamp_stand"}}],
+          ["blocked", 2176, 2816, 2192, 2832, {"look": {"kind": "lamp_stand"}}],
+          ["blocked", 2176, 2976, 2192, 2992, {"look": {"kind": "lamp_stand"}}],
+          ["blocked", 2176, 3232, 2192, 3248, {"look": {"kind": "lamp_stand"}}],
+          ["blocked", 672, 3264, 704, 3296, "wroad1/2.c: 一柱柱雕饰华丽的长柱, 刻画许多彩绘的图形", {"look": {"kind": "pavilion_post", "column": "8a3a2a", "band": "c9a24a", "bracket": "2f6a70", "height": 2.9, "painted": true}}],
+          ["blocked", 832, 3264, 864, 3296, {"look": {"kind": "pavilion_post", "column": "8a3a2a", "band": "c9a24a", "bracket": "2f6a70", "height": 2.9, "painted": true}}],
+          ["blocked", 992, 3264, 1024, 3296, {"look": {"kind": "pavilion_post", "column": "8a3a2a", "band": "c9a24a", "bracket": "2f6a70", "height": 2.9, "painted": true}}],
+          ["blocked", 1632, 1792, 1664, 1888, "eroad1.c: 走道两旁摆设了许多奇花异草, 各有各的特色与形态", {"look": {"kind": "camellia_bed", "flower": "e8a0b4"}}],
+          ["blocked", 1632, 2400, 1664, 2496, {"look": {"kind": "camellia_bed", "flower": "c8342c"}}],
+          ["blocked", 1632, 2576, 1664, 2672, {"look": {"kind": "camellia_bed", "flower": "f4d47a"}}],
+          ["blocked", 1632, 2752, 1664, 2848, {"look": {"kind": "camellia_bed", "flower": "b890d0"}}],
+          ["blocked", 2160, 2672, 2192, 2768, {"look": {"kind": "camellia_bed", "flower": "f2e6c8"}}],
+          ["blocked", 1712, 3248, 1808, 3280, {"look": {"kind": "camellia_bed", "flower": "e8a0b4"}}],
+          ["blocked", 1904, 3248, 2000, 3280, {"look": {"kind": "camellia_bed", "flower": "c8342c"}}],
+          ["blocked", 496, 2672, 528, 2768, {"look": {"kind": "camellia_bed", "flower": "f4d47a"}}],
+          ["blocked", 1008, 2560, 1040, 2656, {"look": {"kind": "camellia_bed", "flower": "b890d0"}}],
+          ["blocked", 1008, 2752, 1040, 2848, {"look": {"kind": "camellia_bed", "flower": "f2e6c8"}}],
+          ["blocked", 1008, 2944, 1040, 3024, {"look": {"kind": "camellia_bed", "flower": "e8a0b4"}}],
+          ["blocked", 144, 1328, 240, 1360, {"look": {"kind": "camellia_bed", "flower": "c8342c"}}],
+          ["blocked", 640, 1328, 800, 1360, {"look": {"kind": "camellia_bed", "flower": "f4d47a"}}],
+          ["blocked", 1088, 1712, 1200, 1744, {"look": {"kind": "camellia_bed", "flower": "b890d0"}}],
+          ["blocked", 1456, 1712, 1568, 1744, {"look": {"kind": "camellia_bed", "flower": "f2e6c8"}}],
+          ["blocked", 1936, 1440, 2080, 1584, "eat1.c: 一张杉木雕饰的大圆桌子在厅子中央, 铺著丝绸彩桌巾, 南湖紫玉盘, 湘陵的瓷玉碗, 银匙金筷", {"look": {"kind": "round_table", "seats": 10, "cloth": "c84a5a", "border": "c9a24a", "colors": ["8a5a3a", "9a6640", "7a4e32"], "set": "feast"}}],
+          ["blocked", 2496, 1360, 2640, 1488, "eat2.c: 中央摆了二张大圆桌, 周围三十二张雕饰木藤椅", {"look": {"kind": "round_table", "seats": 16, "colors": ["8a6a44", "9a764c", "7a5e3c"], "cane": "b89a62", "set": "meal"}}],
+          ["blocked", 2800, 1584, 2944, 1712, {"look": {"kind": "round_table", "seats": 16, "colors": ["8a6a44", "9a764c", "7a5e3c"], "cane": "b89a62", "set": "meal"}}],
+          ["blocked", 3264, 1376, 3328, 1472, "kitchen.c: 小蒸笼、大锅、平炊灶、烧饭炉", {"look": {"kind": "cauldron", "rotation": -90}}],
+          ["blocked", 3264, 1504, 3328, 1568, {"look": {"kind": "hearth", "rotation": -90}}],
+          ["blocked", 3104, 1648, 3200, 1696, "kitchen.c: 旁边的大仓储中, 更放满各式各样山珍美味", {"look": {"kind": "sundry_shelf", "rotation": 180}}],
+          ["blocked", 3104, 1360, 3168, 1392, "a chopping block, greens on it", {"look": {"kind": "chopping_block", "meat": "5a8a3a"}}],
+          ["blocked", 3200, 1600, 3248, 1648, "kitchen.c: 平炊灶、烧饭炉 — a small stove, a pot on it", {"look": {"kind": "hearth", "fire": "high", "pot": true}}],
+          ["blocked", 3296, 1616, 3344, 1664, "the kitchen's water vat", {"look": {"kind": "water_vat", "lid": true}}],
+          ["blocked", 48, 1808, 112, 1840, "guest2.c: 还有一个古琴放在平台上", {"look": {"kind": "zither_table"}}],
+          ["blocked", 288, 1808, 352, 1840, "guest2.c: 近窗边有一张桌子, 旁有书橱", {"look": {"kind": "writing_desk"}}],
+          ["blocked", 48, 1968, 80, 2096, {"look": {"kind": "bookcase", "rotation": 90}}],
+          ["blocked", 240, 2032, 352, 2112, "a bed for the guests from afar (远道而来的贵客休憩夜宿)", {"look": {"kind": "bed", "quilt": "6a8aa8", "canopy": "d8e4e0"}}],
+          ["blocked", 448, 1808, 512, 1840, "guest1.c: 两边摆了一对小茶几. 上面的彩绘瓶中插了一束琼花, 茶几旁两张雕漆椅", {"look": {"kind": "side_table", "vase": "e8e0d0", "flowers": ["f6f4ee", "e8ecdc"], "colors": ["7a2a22", "8a3226", "6a241e"]}}],
+          ["blocked", 912, 1808, 976, 1840, {"look": {"kind": "side_table", "vase": "e8e0d0", "flowers": ["f6f4ee", "e8ecdc"], "colors": ["7a2a22", "8a3226", "6a241e"]}}],
+          ["blocked", 528, 1808, 560, 1840, {"look": {"kind": "chair_row", "count": 1, "colors": ["7a2a22", "8a3226", "6a241e"]}}],
+          ["blocked", 864, 1808, 896, 1840, {"look": {"kind": "chair_row", "count": 1, "colors": ["7a2a22", "8a3226", "6a241e"]}}],
+          ["blocked", 864, 2016, 976, 2112, "guest1.c: 为晚月庄供外客留宿的一间厢房", {"look": {"kind": "bed", "quilt": "8a7a5a"}}],
+          ["blocked", 1088, 1808, 1120, 2224, "lcenter.c: 厅上摆了二十六张桧木交椅, 庄内对外展示舞步表演", {"look": {"kind": "chair_row", "count": 9, "rotation": 90, "colors": ["a07850", "b08860", "906c48"]}}],
+          ["blocked", 1536, 1808, 1568, 2048, {"look": {"kind": "chair_row", "count": 5, "rotation": -90, "colors": ["a07850", "b08860", "906c48"]}}],
+          ["blocked", 1536, 2240, 1568, 2480, {"look": {"kind": "chair_row", "count": 5, "rotation": -90, "colors": ["a07850", "b08860", "906c48"]}}],
+          ["blocked", 1088, 2400, 1120, 2464, {"look": {"kind": "chair_row", "count": 2, "rotation": 90, "colors": ["a07850", "b08860", "906c48"]}}],
+          ["blocked", 1200, 2464, 1264, 2480, {"look": {"kind": "chair_row", "count": 2, "rotation": 180, "colors": ["a07850", "b08860", "906c48"]}}],
+          ["blocked", 1392, 2464, 1456, 2480, {"look": {"kind": "chair_row", "count": 2, "rotation": 180, "colors": ["a07850", "b08860", "906c48"]}}],
+          ["blocked", 1440, 1792, 1520, 1824, "lcenter.c: 琴剑书画 — a qin by the wall for the music", {"look": {"kind": "zither_table"}}],
+          ["blocked", 160, 2192, 256, 2240, "room4.c: 近窗边有一张桌子", {"look": {"kind": "writing_desk"}}],
+          ["blocked", 384, 2176, 448, 2208, "room4.c: 还有一个古琴放在平台上", {"look": {"kind": "zither_table"}}],
+          ["blocked", 128, 2400, 160, 2496, "room4.c: 旁有书橱", {"look": {"kind": "bookcase", "rotation": 90}}],
+          ["blocked", 1168, 2576, 1264, 2624, "lstudio.c: 近窗边有一张桌子, 旁有书橱", {"look": {"kind": "writing_desk"}}],
+          ["blocked", 1424, 2576, 1552, 2608, {"look": {"kind": "bookcase"}}],
+          ["blocked", 1088, 2768, 1152, 2800, "lstudio.c: 还有一个古琴放在平台上", {"look": {"kind": "zither_table", "rotation": 90}}],
+          ["blocked", 160, 3008, 192, 3136, "westroom.c: 地下面西放著四张椅子, 都搭著银红撒花椅被", {"look": {"kind": "chair_row", "count": 4, "rotation": -90, "colors": ["7a2a22", "8a3226", "6a241e"], "cushion": "d8a0a0"}}],
+          ["blocked", 160, 2960, 192, 2992, "westroom.c: 右边几上文王鼎, 匙筋香盒", {"look": {"kind": "side_table", "colors": ["5a2e24", "6a3828", "4e2820"], "tall": true, "holds": "ding"}}],
+          ["blocked", 160, 3152, 192, 3184, "westroom.c: 左边几上汝窑美人瓶内插著花卉", {"look": {"kind": "side_table", "colors": ["5a2e24", "6a3828", "4e2820"], "tall": true, "vase": "c8d8d0", "flowers": ["e8a0b4", "f2e6c8", "c84a5a"]}}],
+          ["blocked", 1088, 2960, 1184, 2992, "corridor7.c: 左一架书", {"look": {"kind": "bookcase"}}],
+          ["blocked", 1488, 2960, 1568, 2992, "corridor7.c: 右一架屏", {"look": {"kind": "folding_screen", "panel": "e8e0c8", "cloth": "4a6a5a", "wood": "3a2420", "panels": 3}}],
+          ["blocked", 1328, 2960, 1376, 2992, "corridor7.c: 琴剑书画, 挂在墙上 — a sword on its stand", {"look": {"kind": "sword_stand"}}],
+          ["blocked", 2368, 2944, 2528, 3008, "eastroom.c: 正面设著大红金钱蟒靠背, 石青金钱蟒引枕, 秋香色金钱蟒大条褥", {"look": {"kind": "couch", "panel": "b8282a", "cushion": "3a6a7a", "wood": "7a2a22", "table": "c8a85a"}}],
+          ["blocked", 2304, 2960, 2352, 3008, "eastroom.c: 两边设一对梅花式红漆小几, 几上茗琬瓶花俱备", {"look": {"kind": "side_table", "plum": true, "colors": ["7a2a22", "8a3226", "6a241e"], "vase": "e8e4dc", "flowers": ["f2c0cc", "e8a0b4"]}}],
+          ["blocked", 2528, 2960, 2560, 3008, {"look": {"kind": "side_table", "plum": true, "colors": ["7a2a22", "8a3226", "6a241e"], "vase": "e8e4dc", "flowers": ["f2c0cc", "e8a0b4"]}}],
+          ["blocked", 1680, 3328, 1904, 3376, "bathroom1.c: 许多柜子, 衣架上挂了许多的衣服饰品", {"look": {"kind": "wardrobe", "count": 3, "wood": "8a5a3c", "panel": "9a6644", "trim": "7a5034"}}],
+          ["blocked", 1984, 3328, 2112, 3360, {"look": {"kind": "clothes_rack", "clothes": ["e8a0b4", "a0c0d8", "f2e6c8", "c8382a"]}}],
+          ["blocked", 1680, 3584, 1776, 3616, "a dressing table, its mirror", {"look": {"kind": "dressing_table"}}],
+          ["blocked", 2144, 3584, 2240, 3616, "baskets of fresh linen by the curtain", {"look": {"kind": "baskets"}}],
+          ["blocked", 2352, 3344, 2400, 3392, "bathroom.c: 池周围有许多奇花异草", {"look": {"kind": "camellia_bed", "flower": "e8a0b4"}}],
+          ["blocked", 2992, 3344, 3024, 3456, {"look": {"kind": "camellia_bed", "flower": "f2e6c8"}}],
+          ["blocked", 2992, 3520, 3024, 3632, {"look": {"kind": "camellia_bed", "flower": "c8342c"}}],
+          ["water", 2448, 3392, 2960, 3584, "bathroom: the flower pool"],
           ["forest", 3440, 432, 3824, 480, "entrance: the hedge along the path"],
           ["forest", 3440, 720, 3824, 768],
-          ["blocked", 448, 928, 512, 992, "latemoon8: the marble bed for sitting in meditation"],
-          ["blocked", 944, 1024, 976, 1216, "weapons hung on the walls, the great 『舞』 character"],
-          ["blocked", 1104, 928, 1136, 960, "latemoon4: the screen wall"],
-          ["blocked", 1680, 928, 1776, 960, "latemoon2: lacquered chairs, the small screen"],
-          ["blocked", 2272, 928, 2336, 992, "the green gauze closet"],
-          ["blocked", 2096, 1440, 2224, 1536, "eat1: the great carved round table"],
-          ["blocked", 2480, 1392, 2544, 1440, "eat2: two round tables"],
-          ["blocked", 2928, 1648, 2992, 1696],
-          ["blocked", 3264, 1376, 3328, 1472, "kitchen: stoves, steamers and the great pots"],
-          ["blocked", 3120, 1648, 3200, 1696, "the storeroom shelves"],
-          ["blocked", 64, 1824, 128, 1856, "guest2: the qin on its stand, the bookcase"],
-          ["blocked", 448, 1824, 512, 1856, "guest1: a pair of tea tables"],
-          ["blocked", 1152, 1856, 1216, 1888, "lcenter: rows of cypress chairs for the dances"],
-          ["blocked", 1440, 1856, 1504, 1888],
-          ["blocked", 1152, 2400, 1216, 2432],
-          ["blocked", 1440, 2400, 1504, 2432],
-          ["blocked", 160, 2208, 224, 2240, "room4: the desk by the window, the qin"],
-          ["blocked", 1168, 2592, 1264, 2624, "lstudio: the desk and the bookcases"],
-          ["blocked", 1456, 2592, 1552, 2624],
-          ["blocked", 160, 2976, 224, 3040, "westroom: the high tables, the 文王鼎 and the vase"],
-          ["blocked", 2464, 2976, 2528, 3040, "eastroom: the carpet, the cushions, the plum-shaped tables"],
-          ["blocked", 1152, 2976, 1216, 3008, "corridor7: the screens and the bookshelf"],
-          ["blocked", 1440, 2976, 1504, 3008],
-          ["blocked", 1712, 3360, 1856, 3392, "bathroom1: cupboards and clothes racks"],
-          ["water", 2448, 3392, 2960, 3584, "bathroom: the flower pool"]
+          ["blocked", 2448, 384, 2528, 448, "front_yard.c: 许多奇花异石错落其间", {"look": {"kind": "tree", "species": "crabapple", "variant": 1}}],
+          ["blocked", 2560, 384, 2624, 416, {"look": {"kind": "camellia_bed", "flower": "e8a0b4"}}],
+          ["blocked", 2448, 752, 2528, 816, {"look": {"kind": "tree", "species": "osmanthus", "variant": 2}}],
+          ["blocked", 2560, 784, 2672, 816, {"look": {"kind": "camellia_bed", "flower": "f4d47a"}}],
+          ["blocked", 2944, 384, 3008, 464, "front_yard.c: 一条石板小径沿著假山通往主屋", {"look": {"kind": "rockery", "height": 2.4, "pine": true}}],
+          ["blocked", 2992, 736, 3040, 800, "rocks among the flowers", {"look": {"kind": "strange_stone", "height": 1.6}}],
+          ["blocked", 2704, 384, 2752, 432, {"look": {"kind": "strange_stone", "height": 1.3}}],
+          ["blocked", 2736, 768, 2768, 816, {"look": {"kind": "tree", "species": "apricot", "variant": 3, "scale": 0.85}}],
+          ["blocked", 3104, 496, 3120, 512, "gate.c: 门口挂著两串灯笼(lantern), 上面写得有字", {"look": {"kind": "lantern_post", "count": 3}}],
+          ["blocked", 3104, 688, 3120, 704, {"look": {"kind": "lantern_post", "count": 3}}]
         ],
         "reach_from": "EntranceCloudEntry",
-        "markers_in_middle": ["latemoon.latemoonc", "latemoon.front_yard", "latemoon.room.twoc", "latemoon.entrance"],
-        "gap_at": [],
-        "placed": {},
-        "buildings": []
+        "markers_in_middle": ["latemoon.latemoonc", "latemoon.front_yard", "latemoon.room.twoc"],
+        "gap_at": [
+          ["latemoon.entrance", "latemoon.gate", 592, 128],
+          ["latemoon.front_yard", "latemoon.gate", 592, 128],
+          ["latemoon.front_yard", "latemoon.latemoon1", 592, 128],
+          ["latemoon.latebook", "latemoon.latemoon7", 592, 128],
+          ["latemoon.latemoon1", "latemoon.latemoon3", 2000, 128],
+          ["latemoon.latemoon1", "latemoon.latemoonc", 592, 128],
+          ["latemoon.latemoon2", "latemoon.latemoon4", 1088, 128],
+          ["latemoon.latemoon5", "latemoon.latemoon6", 160, 128],
+          ["latemoon.latemoon7", "latemoon.latemoon8", 704, 128],
+          ["latemoon.room.bathroom", "latemoon.room.bathroom1", 3488, 128],
+          ["latemoon.room.bathroom1", "latemoon.room.flower1", 3488, 128],
+          ["latemoon.room.corridor7", "latemoon.room.eroad1", 3104, 128],
+          ["latemoon.room.corridor7", "latemoon.room.flower1", 1328, 128],
+          ["latemoon.room.corridor7", "latemoon.room.wroad2", 3104, 128],
+          ["latemoon.room.eastroom", "latemoon.room.eroad1", 3104, 128],
+          ["latemoon.room.eat1", "latemoon.room.eat2", 1536, 128],
+          ["latemoon.room.eat1", "latemoon.room.twoc", 1536, 128],
+          ["latemoon.room.eat2", "latemoon.room.kitchen", 1536, 128],
+          ["latemoon.room.guest1", "latemoon.room.two1", 704, 128],
+          ["latemoon.room.guest2", "latemoon.room.two2", 192, 128],
+          ["latemoon.room.lcenter", "latemoon.room.lroad1", 2144, 128],
+          ["latemoon.room.lcenter", "latemoon.room.lroad3", 2336, 128],
+          ["latemoon.room.lcenter", "latemoon.room.lstudio", 1328, 128],
+          ["latemoon.room.lcenter", "latemoon.room.twoc", 1328, 128],
+          ["latemoon.room.lroad3", "latemoon.room.room4", 2336, 128],
+          ["latemoon.room.westroom", "latemoon.room.wroad2", 3104, 128]
+        ],
+        "placed": {
+          "latemoon.entrance.lm_guard.1": [3456, 512],
+          "latemoon.entrance.lm_guard.2": [3456, 696]
+        },
+        "buildings": [],
+        "life": {
+          "latemoon.latemoon6": {
+            "use": "confinement",
+            "wealth": "plain",
+            "seed": 6
+          },
+          "latemoon.latemoon3": {
+            "use": "hall",
+            "wealth": "rich",
+            "seed": 3
+          },
+          "latemoon.latebook": {
+            "use": "study",
+            "wealth": "rich",
+            "tidy": true,
+            "seed": 9
+          },
+          "latemoon.latemoon1": {
+            "use": "hall",
+            "wealth": "rich",
+            "tidy": true,
+            "seed": 1
+          },
+          "latemoon.latemoon8": {
+            "use": "training_hall",
+            "wealth": "rich",
+            "seed": 8
+          },
+          "latemoon.latemoon2": {
+            "use": "hall",
+            "wealth": "rich",
+            "seed": 2
+          },
+          "latemoon.room.eat1": {
+            "use": "dining",
+            "wealth": "rich",
+            "seed": 21
+          },
+          "latemoon.room.eat2": {
+            "use": "dining",
+            "wealth": "plain",
+            "seed": 22
+          },
+          "latemoon.room.kitchen": {
+            "use": "kitchen",
+            "wealth": "plain",
+            "seed": 23
+          },
+          "latemoon.room.guest2": {
+            "use": "guest_room",
+            "wealth": "rich",
+            "tidy": true,
+            "seed": 24
+          },
+          "latemoon.room.guest1": {
+            "use": "guest_room",
+            "wealth": "plain",
+            "tidy": true,
+            "seed": 25
+          },
+          "latemoon.room.lcenter": {
+            "use": "dance_hall",
+            "wealth": "rich",
+            "seed": 26
+          },
+          "latemoon.room.room4": {
+            "use": "study",
+            "wealth": "rich",
+            "seed": 27
+          },
+          "latemoon.room.lstudio": {
+            "use": "study",
+            "wealth": "rich",
+            "seed": 28
+          },
+          "latemoon.room.westroom": {
+            "use": "guest_room",
+            "wealth": "rich",
+            "seed": 29
+          },
+          "latemoon.room.corridor7": {
+            "use": "hall",
+            "wealth": "rich",
+            "seed": 30
+          },
+          "latemoon.room.eastroom": {
+            "use": "guest_room",
+            "wealth": "rich",
+            "seed": 31
+          },
+          "latemoon.room.flower1": {
+            "use": "corridor",
+            "wealth": "rich",
+            "seed": 32
+          },
+          "latemoon.room.bathroom1": {
+            "use": "dressing_room",
+            "wealth": "rich",
+            "seed": 33
+          }
+        }
       },
       "scene": {
         "style": "map",
@@ -122,7 +344,9 @@
           "Rect_64_32": [64, 32],
           "Rect_32_32": [32, 32],
           "Rect_48_48": [48, 48],
-          "StairsShape": [48, 48]
+          "StairsShape": [48, 48],
+          "Rect_32_128": [32, 128],
+          "Rect_128_32": [128, 32]
         },
         "door_style": {
           "walls": "Terrain/DoorWalls",
@@ -289,14 +513,14 @@
             "node": "service",
             "name": "BaguaFloor",
             "id": "latemoon.latemoon8.dance",
-            "at": [896, 1144],
+            "at": [712, 1088],
             "text": "八卦图 · 跳舞"
           },
           {
             "node": "service",
             "name": "MarbleBed",
             "id": "latemoon.latemoon8.bed",
-            "at": [444, 1120],
+            "at": [464, 1112],
             "text": "石床 · 翻找"
           },
           {
@@ -355,7 +579,7 @@
           {
             "name": "LanternInteraction",
             "id": "latemoon.gate.landmark.lantern",
-            "at": [3224, 416],
+            "at": [3136, 520],
             "shape": "Rect_48_48"
           },
           {
@@ -376,7 +600,11 @@
             "at": [264, 400],
             "shape": "Rect_48_48"
           }
-        ]
+        ],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/latemoon/voxel/manor.json"
+        }
       }
     },
     "secret": {
@@ -393,16 +621,33 @@
         },
         "roads": [],
         "props": [
-          ["blocked", 64, 64, 128, 96, "miroom2: a shelf of books, a screen; qins and swords on the walls"],
-          ["blocked", 448, 64, 512, 96],
-          ["blocked", 64, 736, 128, 800, "miroom: the marble bed"],
-          ["blocked", 480, 512, 512, 640, "weapons on the wall, the great 『舞』"]
+          ["blocked", 64, 64, 176, 96, "miroom2.c: 左一架书", {"look": {"kind": "bookcase"}}],
+          ["blocked", 400, 64, 512, 96, "miroom2.c: 右一架屏", {"look": {"kind": "folding_screen", "panel": "e8e0c8", "cloth": "4a6a5a", "wood": "3a2420", "panels": 4}}],
+          ["blocked", 256, 64, 320, 96, "miroom2.c: 琴剑书画, 挂在墙上 — the qin on its table", {"look": {"kind": "zither_table"}}],
+          ["blocked", 48, 768, 160, 832, "miroom.c: 地上铺著可以合地打坐的大理石床", {"look": {"kind": "stone_bed", "colors": ["e8e6dc", "f0eee6", "dcdad0"]}}],
+          ["blocked", 496, 512, 528, 640, "miroom.c: 四周挂了一些兵器", {"look": {"kind": "weapon_rack", "rotation": -90}}],
+          ["blocked", 48, 496, 80, 624, {"look": {"kind": "weapon_rack", "rotation": 90}}]
         ],
         "reach_from": "Miroom2FlowerArrival",
         "markers_in_middle": [],
-        "gap_at": [],
+        "gap_at": [
+          ["latemoon.miroom", "latemoon.miroom2", 288, 128]
+        ],
         "placed": {},
-        "buildings": []
+        "buildings": [],
+        "life": {
+          "latemoon.miroom2": {
+            "use": "hall",
+            "wealth": "rich",
+            "tidy": true,
+            "seed": 41
+          },
+          "latemoon.miroom": {
+            "use": "training_hall",
+            "wealth": "rich",
+            "seed": 42
+          }
+        }
       },
       "scene": {
         "style": "map",
@@ -410,7 +655,8 @@
         "map": "latemoon.secret",
         "player_color": "Color(0.84, 0.62, 0.72, 1)",
         "shapes": {
-          "Rect_64_32": [64, 32]
+          "Rect_64_32": [64, 32],
+          "Rect_128_32": [128, 32]
         },
         "door_style": {
           "walls": "Terrain/DoorWalls",
@@ -445,7 +691,7 @@
             "node": "service",
             "name": "BaguaFloor",
             "id": "latemoon.miroom.dance",
-            "at": [312, 672],
+            "at": [288, 656],
             "text": "八卦图 · 跳舞"
           },
           {
@@ -472,7 +718,11 @@
             "generated": "markers"
           }
         ],
-        "stairs": []
+        "stairs": [],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/latemoon/voxel/secret.json"
+        }
       }
     },
     "garden": {
@@ -502,55 +752,118 @@
           "latemoon.park.moondoor": [1248, 2400, 1680, 2736, "open", "grass", null]
         },
         "roads": [
-          ["street", 992, 0, 1088, 336, "yard1: the stone way from the front garden"],
-          ["path", 512, 672, 608, 1968, "moon2, moon5, moon3: the osmanthus garden's pebble paths"],
-          ["path", 608, 832, 816, 928],
-          ["path", 384, 1696, 512, 1792, "moon3: the way to 紫翎小轩"],
-          ["path", 608, 1968, 704, 2160],
-          ["bridge", 992, 1104, 1088, 1536, "bridge1: 沁芳桥 over the pond"],
-          ["bridge", 1408, 1104, 1504, 1536, "bridge3: 朱栏板桥"],
-          ["bridge", 992, 1536, 1088, 1664, "pavilion1: the bridges to the 沁芳亭"],
-          ["floor_yard", 912, 1664, 1152, 1856, "the pavilion on its island"],
-          ["bridge", 992, 1856, 1088, 1968],
-          ["bridge", 992, 1968, 1088, 2240, "bridge2: 翠嫣桥"],
-          ["bridge", 816, 2144, 1248, 2240],
-          ["path", 1248, 2144, 1504, 2240, "paroad1: the path between the bamboo"],
-          ["path", 1408, 1968, 1504, 2688]
+          ["street", 960, 0, 1120, 336, "yard1: the stone way from the front garden (路和空间: 160)"],
+          ["path", 960, 608, 1120, 672, "flower2: 其中微露羊肠小径 — the way through the rockery"],
+          ["path", 480, 672, 640, 1968, "moon2, moon5, moon3: the osmanthus garden's pebble paths (花石子路)"],
+          ["path", 640, 800, 816, 960],
+          ["path", 384, 1664, 480, 1824, "moon3: the way to 紫翎小轩"],
+          ["path", 576, 1968, 736, 2272, "paroad2: from the osmanthus garden to the bridge"],
+          ["path", 736, 2112, 816, 2272],
+          ["bridge", 960, 1104, 1120, 1536, "bridge1: 沁芳桥 over the pond"],
+          ["bridge", 1376, 1104, 1536, 1536, "bridge3: 朱栏板桥"],
+          ["bridge", 960, 1536, 1120, 1648, "pavilion1: the bridges to the 沁芳亭"],
+          ["floor_yard", 880, 1648, 1184, 1872, "the pavilion on its island"],
+          ["bridge", 960, 1872, 1120, 1968],
+          ["bridge", 960, 1968, 1120, 2112, "bridge2: 翠嫣桥"],
+          ["bridge", 816, 2112, 1248, 2272],
+          ["path", 1248, 2112, 1536, 2272, "paroad1: the path between the bamboo"],
+          ["path", 1376, 1968, 1536, 2688]
         ],
         "props": [
-          ["water", 864, 144, 960, 240, "yard1: the little rockery pool, its fish"],
-          ["blocked", 1152, 112, 1184, 176, "the rockery"],
-          ["forest", 864, 720, 928, 800, "moonc: willows"],
-          ["forest", 1120, 992, 1200, 1056],
-          ["blocked", 864, 960, 912, 1008, "the 西府海棠"],
-          ["blocked", 1312, 736, 1376, 800, "moon1: the rockery the tunnel is cut through"],
-          ["blocked", 1552, 768, 1616, 992],
-          ["forest", 1296, 960, 1376, 1056, "banana trees"],
-          ["forest", 416, 1152, 480, 1216, "moon5: osmanthus trees"],
-          ["forest", 704, 1152, 768, 1216],
-          ["forest", 416, 1408, 480, 1488],
-          ["forest", 704, 1408, 768, 1488],
-          ["wall", 416, 2016, 512, 2112, "paroad2: the thatched cottages behind their yellow mud wall"],
-          ["blocked", 704, 2288, 736, 2320, "the well and its stone tablet"],
-          ["forest", 448, 2256, 528, 2336, "the apricot trees"],
-          ["forest", 1280, 1984, 1376, 2080, "paroad1: green bamboo either side"],
-          ["forest", 1568, 1984, 1664, 2080],
-          ["forest", 1280, 2272, 1376, 2368],
-          ["forest", 1568, 2272, 1664, 2368],
-          ["forest", 1280, 2448, 1376, 2544, "moondoor: the last of the bamboo"],
-          ["wall", 1248, 2688, 1408, 2736, "the garden's south wall"],
-          ["wall", 1504, 2688, 1680, 2736],
-          ["shutter", 1408, 2688, 1504, 2736, "the wooden back gate"],
-          ["blocked", 64, 1600, 128, 1632, "moroom: the desk, the vase of chrysanthemums"],
-          ["blocked", 1360, 1600, 1424, 1632, "moon4: the little room's few plain things"]
+          ["water", 1136, 128, 1216, 256, "yard1.c: 东面一处假山小池…池中几尾小鱼自在的游来游去"],
+          ["blocked", 1152, 48, 1232, 112, "yard1.c: 其上植有藤萝、青芷, 异草芬芳", {"look": {"height": 2.2, "kind": "rockery", "colors": ["d8d4c8", "cfcabd", "e2ded4"]}}],
+          ["blocked", 848, 64, 896, 112, "yard1.c: 你看到几块山石", {"look": {"kind": "strange_stone", "height": 1.5}}],
+          ["blocked", 864, 224, 912, 272, {"look": {"kind": "strange_stone", "height": 1.1}}],
+          ["blocked", 848, 528, 944, 640, "flower2.c: 只见白石嶙峋, 或如鬼怪, 或如猛兽, 纵横拱立, 上边苔藓成斑, 藤萝掩映", {"look": {"height": 2.8, "kind": "rockery", "colors": ["d8d4c8", "cfcabd", "e2ded4"]}}],
+          ["blocked", 1104, 528, 1216, 640, {"look": {"height": 2.6, "kind": "rockery", "colors": ["d8d4c8", "cfcabd", "e2ded4"]}}],
+          ["blocked", 880, 464, 928, 512, {"look": {"kind": "strange_stone", "height": 1.8, "colors": ["d8d4c8", "cfcabd", "e2ded4"]}}],
+          ["blocked", 1104, 384, 1200, 432, "a bench by the wall", {"look": {"kind": "stone_table"}}],
+          ["blocked", 848, 704, 912, 768, "moonc.c: 粉墙环护, 绿柳周垂的翠嶂", {"look": {"variant": 1, "scale": 1.1, "kind": "tree", "species": "willow"}}],
+          ["blocked", 1152, 704, 1216, 768, {"look": {"variant": 3, "kind": "tree", "species": "willow"}}],
+          ["blocked", 1152, 992, 1216, 1056, {"look": {"variant": 4, "kind": "tree", "species": "willow"}}],
+          ["blocked", 864, 944, 928, 1008, "moonc.c: 一棵西府海棠(flower), 其势若伞, 丝垂翠缕, 葩吐丹砂", {"look": {"kind": "tree", "species": "crabapple", "scale": 1.2, "variant": 2}}],
+          ["blocked", 1248, 672, 1408, 736, "moon1.c: 这里是园内假山开凿的通道, 蜿蜒盘旋", {"look": {"height": 3.2, "kind": "rockery", "colors": ["d8d4c8", "cfcabd", "e2ded4"]}}],
+          ["blocked", 1408, 672, 1584, 736, {"look": {"height": 3.4, "kind": "rockery", "colors": ["d8d4c8", "cfcabd", "e2ded4"]}}],
+          ["blocked", 1584, 672, 1680, 832, {"look": {"height": 3.6, "kind": "rockery", "colors": ["d8d4c8", "cfcabd", "e2ded4"]}}],
+          ["blocked", 1584, 832, 1680, 976, {"look": {"height": 3.2, "kind": "rockery", "colors": ["d8d4c8", "cfcabd", "e2ded4"]}}],
+          ["blocked", 1584, 976, 1680, 1104, {"look": {"height": 2.8, "kind": "rockery", "colors": ["d8d4c8", "cfcabd", "e2ded4"]}}],
+          ["blocked", 1424, 800, 1520, 928, "the rock the way curls round", {"look": {"height": 3.0, "kind": "rockery", "colors": ["d8d4c8", "cfcabd", "e2ded4"]}}],
+          ["blocked", 1264, 992, 1312, 1040, "moon1.c: 种著芭蕉", {"look": {"kind": "tree", "species": "banana", "variant": 0}}],
+          ["blocked", 1312, 1040, 1360, 1088, {"look": {"kind": "tree", "species": "banana", "variant": 2}}],
+          ["blocked", 400, 704, 464, 768, "moon2.c / moon5.c: 桂花树…枝干苍劲, 枝叶茂盛, 树冠完整", {"look": {"variant": 0, "kind": "tree", "species": "osmanthus"}}],
+          ["blocked", 656, 704, 720, 768, {"look": {"variant": 1, "kind": "tree", "species": "osmanthus"}}],
+          ["blocked", 400, 992, 464, 1056, {"look": {"variant": 2, "kind": "tree", "species": "osmanthus"}}],
+          ["blocked", 720, 992, 784, 1056, {"look": {"variant": 3, "kind": "tree", "species": "osmanthus"}}],
+          ["blocked", 416, 1152, 480, 1216, "moon5.c: 这是一片桂花园, 园内种植桂花树十万多株", {"look": {"variant": 4, "kind": "tree", "species": "osmanthus"}}],
+          ["blocked", 704, 1152, 768, 1216, {"look": {"variant": 5, "kind": "tree", "species": "osmanthus"}}],
+          ["blocked", 416, 1408, 480, 1488, {"look": {"variant": 1, "kind": "tree", "species": "osmanthus"}}],
+          ["blocked", 704, 1408, 768, 1488, {"look": {"variant": 2, "kind": "tree", "species": "osmanthus"}}],
+          ["blocked", 400, 1296, 448, 1344, {"look": {"variant": 3, "scale": 0.85, "kind": "tree", "species": "osmanthus"}}],
+          ["blocked", 736, 1296, 800, 1344, {"look": {"variant": 0, "scale": 0.9, "kind": "tree", "species": "osmanthus"}}],
+          ["blocked", 656, 1584, 720, 1648, {"look": {"variant": 4, "kind": "tree", "species": "osmanthus"}}],
+          ["blocked", 720, 1856, 784, 1920, {"look": {"variant": 5, "scale": 0.9, "kind": "tree", "species": "osmanthus"}}],
+          ["blocked", 64, 1584, 160, 1632, "moroom.c: 案上一个土定瓶, 中供著数枝菊花, 旁边放了两本书、茶瓯茶杯而已", {"look": {"kind": "writing_desk", "vase": "d8ccb0", "flowers": ["e8c84a", "f2e6c8", "d88a3a"]}}],
+          ["blocked", 48, 1824, 160, 1920, "moroom.c: 床上只吊著青纱帐幔被褥, 也十分朴实", {"look": {"kind": "bed", "quilt": "a8b8b0", "canopy": "8ab0a8"}}],
+          ["blocked", 288, 1584, 352, 1616, "moroom.c: 那些奇草仙藤…都结了实, 似珊瑚豆子一般, 累垂可爱", {"look": {"kind": "flower_stand", "flower": "d8483a", "pot": "d8ccb0"}}],
+          ["blocked", 880, 1648, 912, 1680, "pavilion1.c: 亭柱周围以弧形座凳式栏板 — its four posts (the roof: voxel config)", {"look": {"kind": "pavilion_post", "column": "a8382a", "band": "c9a24a", "bracket": "6e2a20", "height": 2.6}}],
+          ["blocked", 1152, 1648, 1184, 1680, {"look": {"kind": "pavilion_post", "column": "a8382a", "band": "c9a24a", "bracket": "6e2a20", "height": 2.6}}],
+          ["blocked", 880, 1840, 912, 1872, {"look": {"kind": "pavilion_post", "column": "a8382a", "band": "c9a24a", "bracket": "6e2a20", "height": 2.6}}],
+          ["blocked", 1152, 1840, 1184, 1872, {"look": {"kind": "pavilion_post", "column": "a8382a", "band": "c9a24a", "bracket": "6e2a20", "height": 2.6}}],
+          ["blocked", 880, 1680, 896, 1840, "the curved bench railing between the posts", {"look": {"kind": "balustrade", "seat": true, "wooden": true, "seat_color": "8e3a2c"}}],
+          ["blocked", 1168, 1680, 1184, 1840, {"look": {"kind": "balustrade", "seat": true, "wooden": true, "seat_color": "8e3a2c"}}],
+          ["blocked", 912, 1648, 960, 1664, {"look": {"kind": "balustrade", "seat": true, "wooden": true, "seat_color": "8e3a2c"}}],
+          ["blocked", 1120, 1648, 1152, 1664, {"look": {"kind": "balustrade", "seat": true, "wooden": true, "seat_color": "8e3a2c"}}],
+          ["blocked", 912, 1856, 960, 1872, {"look": {"kind": "balustrade", "seat": true, "wooden": true, "seat_color": "8e3a2c"}}],
+          ["blocked", 1120, 1856, 1152, 1872, {"look": {"kind": "balustrade", "seat": true, "wooden": true, "seat_color": "8e3a2c"}}],
+          ["blocked", 1360, 1584, 1440, 1616, "moon4.c: 室小而精, 尚朴去华 — a low table, a qin", {"look": {"kind": "zither_table"}}],
+          ["blocked", 1584, 1584, 1632, 1632, "moon4.c: 古香袭人", {"look": {"kind": "incense_burner", "lit": true}}],
+          ["wall", 400, 1984, 560, 2096, "paroad2.c: 里面数楹茅屋 (drawn: voxel config buildings)"],
+          ["wall", 400, 2128, 512, 2224],
+          ["blocked", 560, 1984, 576, 2224, "paroad2.c: 黄泥筑就矮墙, 墙头用稻茎掩护", {"look": {"kind": "fence", "style": "wall", "wall": "b89a62", "roof": "c8b070", "height": 1.3}}],
+          ["blocked", 640, 2304, 688, 2352, "paroad2.c: 篱外有一土井", {"look": {"kind": "well", "colors": ["9a8a6a", "a8987a", "8a7a5a"]}}],
+          ["blocked", 704, 2288, 736, 2320, "paroad2.c: 旁有一石牌(sign)", {"look": {"kind": "stele", "height": 1.4, "colors": ["b8b4a8", "c8c4b8", "a8a498"]}}],
+          ["blocked", 432, 2272, 512, 2352, "paroad2.c: 有几百株杏花, 如喷火蒸霞一般", {"look": {"variant": 0, "kind": "tree", "species": "apricot"}}],
+          ["blocked", 528, 2320, 576, 2368, {"look": {"variant": 2, "scale": 0.85, "kind": "tree", "species": "apricot"}}],
+          ["blocked", 752, 2304, 800, 2352, {"look": {"variant": 4, "scale": 0.9, "kind": "tree", "species": "apricot"}}],
+          ["blocked", 400, 2240, 432, 2288, {"look": {"variant": 1, "scale": 0.8, "kind": "tree", "species": "apricot"}}],
+          ["blocked", 416, 2368, 512, 2384, "paroad2.c: 随其曲折编就两溜青篱", {"look": {"kind": "bush"}}],
+          ["blocked", 1280, 1984, 1360, 2080, "paroad1.c: 只见两边翠竹夹路", {"look": {"variant": 0, "kind": "tree", "species": "bamboo"}}],
+          ["blocked", 1568, 1984, 1648, 2080, {"look": {"variant": 1, "kind": "tree", "species": "bamboo"}}],
+          ["blocked", 1280, 2288, 1360, 2384, {"look": {"variant": 2, "kind": "tree", "species": "bamboo"}}],
+          ["blocked", 1568, 2288, 1648, 2384, {"look": {"variant": 3, "kind": "tree", "species": "bamboo"}}],
+          ["blocked", 1280, 2448, 1360, 2544, "moondoor: the last of the bamboo", {"look": {"variant": 4, "kind": "tree", "species": "bamboo"}}],
+          ["blocked", 1568, 2448, 1648, 2560, {"look": {"variant": 5, "kind": "tree", "species": "bamboo"}}],
+          ["wall", 1248, 2688, 1376, 2736, "the garden's south wall"],
+          ["wall", 1536, 2688, 1680, 2736],
+          ["shutter", 1376, 2688, 1536, 2736, "moondoor.c: 这有一个木制的小门"]
         ],
         "reach_from": "YardManorArrival",
         "markers_in_middle": ["latemoon.park.moon5", "latemoon.park.paroad2", "latemoon.park.pavilion1", "latemoon.park.moonc", "latemoon.park.paroad1"],
         "placed": {
-          "latemoon.park.pavilion1.shiren.1": [944, 1752]
+          "latemoon.park.pavilion1.shiren.1": [928, 1760]
         },
-        "gap_at": [],
-        "buildings": []
+        "gap_at": [
+          ["latemoon.park.flower2", "latemoon.park.yard1", 1040, 128],
+          ["latemoon.park.flower2", "latemoon.park.moonc", 1040, 128],
+          ["latemoon.park.bridge3", "latemoon.park.moon4", 1456, 128],
+          ["latemoon.park.moon3", "latemoon.park.moroom", 1744, 128],
+          ["latemoon.park.moon4", "latemoon.park.paroad1", 1456, 128]
+        ],
+        "buildings": [],
+        "life": {
+          "latemoon.park.moroom": {
+            "use": "study",
+            "wealth": "plain",
+            "tidy": true,
+            "seed": 61
+          },
+          "latemoon.park.moon4": {
+            "use": "study",
+            "wealth": "plain",
+            "tidy": true,
+            "seed": 62
+          }
+        }
       },
       "scene": {
         "style": "map",
@@ -559,7 +872,8 @@
         "player_color": "Color(0.84, 0.62, 0.72, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],
-          "Rect_48_48": [48, 48]
+          "Rect_48_48": [48, 48],
+          "Rect_128_32": [128, 32]
         },
         "nodes": [
           {
@@ -583,15 +897,15 @@
             "node": "passage",
             "name": "ManorPassage",
             "id": "latemoon.park.yard1.north",
-            "at": [1032, 24],
-            "shape": "Rect_64_32"
+            "at": [1040, 24],
+            "shape": "Rect_128_32"
           },
           {
             "node": "passage",
             "name": "HillsPassage",
             "id": "latemoon.park.moondoor.south",
-            "at": [1464, 2652],
-            "shape": "Rect_64_32"
+            "at": [1456, 2656],
+            "shape": "Rect_128_32"
           }
         ],
         "zones": [
@@ -602,17 +916,17 @@
         "spawn_points": [
           {
             "name": "YardManorArrival",
-            "at": [1032, 120],
+            "at": [1040, 120],
             "id": "latemoon.park.yard1.manor_arrival"
           },
           {
             "name": "YardJumpLanding",
-            "at": [1032, 264],
+            "at": [1040, 264],
             "id": "latemoon.park.yard1.jump_landing"
           },
           {
             "name": "MoondoorHillsReturn",
-            "at": [1464, 2560],
+            "at": [1456, 2560],
             "id": "latemoon.park.moondoor.hills_return"
           },
           {
@@ -629,11 +943,15 @@
           {
             "name": "SignInteraction",
             "id": "latemoon.park.paroad2.landmark.sign",
-            "at": [720, 2256],
+            "at": [720, 2272],
             "shape": "Rect_48_48"
           }
         ],
-        "stairs": []
+        "stairs": [],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/latemoon/voxel/garden.json"
+        }
       }
     },
     "upper": {
@@ -658,17 +976,61 @@
         },
         "roads": [],
         "props": [
-          ["blocked", 128, 736, 256, 784, "uproom: 区冥's statue, 天龙 and 凤凰 beside it"],
-          ["blocked", 64, 976, 96, 1040, "the glazed crane screens"],
-          ["blocked", 880, 64, 944, 96, "uproom2: the dance figures carved on the walls"],
-          ["blocked", 880, 1696, 944, 1728, "uproom3: the sandalwood censer"],
-          ["blocked", 1504, 736, 1536, 1024, "uplook: the railing over the forecourt"]
+          ["blocked", 144, 800, 240, 832, "uproom.c: 堂内供奉人灵「区冥」, 旁有雨神「天龙」、火神「凤凰」 — the altar before her", {"look": {"kind": "altar_table", "fresh": true}}],
+          ["blocked", 48, 720, 96, 768, "uproom.c: 雨神「天龙」", {"look": {"kind": "beast_statue", "beast": "dragon", "colors": ["3a6a8a", "4a7a9a", "c9a24a"]}}],
+          ["blocked", 288, 720, 336, 768, "uproom.c: 火神「凤凰」", {"look": {"kind": "beast_statue", "beast": "phoenix", "colors": ["c8382a", "e86a3a", "c9a24a"]}}],
+          ["blocked", 32, 960, 64, 1072, "uproom.c: 两翼有琉璃鹤照壁, 姿态生动", {"look": {"kind": "screen_wall", "rotation": 90, "height": 2.6, "wall": "3a7a7a", "panel": "e8f0ec", "roof": "5a3a7a", "cranes": true}}],
+          ["blocked", 320, 960, 352, 1072, {"look": {"kind": "screen_wall", "rotation": -90, "height": 2.6, "wall": "3a7a7a", "panel": "e8f0ec", "roof": "5a3a7a", "cranes": true}}],
+          ["blocked", 816, 192, 880, 224, {"look": {"kind": "writing_desk", "colors": ["5a2e24", "6a3828", "4e2820"]}}],
+          ["blocked", 880, 1680, 944, 1728, "uproom3.c: 简单的布置加上一座檀香炉", {"look": {"kind": "incense_burner", "lit": true, "tall": true}}],
+          ["blocked", 1504, 704, 1536, 1072, "uplook.c: the railing over the forecourt", {"look": {"kind": "balustrade", "rotation": 90, "jade": true, "colors": ["e8e6dc", "f0eee6", "dcdad0"]}}]
         ],
         "reach_from": "Upstar1StairsArrival",
         "markers_in_middle": ["latemoon.upstar.uplook"],
-        "gap_at": [],
-        "placed": {},
-        "buildings": []
+        "gap_at": [
+          ["latemoon.upstar.upcenter", "latemoon.upstar.uproom", 880, 128],
+          ["latemoon.upstar.upcenter", "latemoon.upstar.upstar1", 576, 128],
+          ["latemoon.upstar.upcenter", "latemoon.upstar.upstar2", 576, 128],
+          ["latemoon.upstar.uplook", "latemoon.upstar.upstarc", 880, 128],
+          ["latemoon.upstar.uproom2", "latemoon.upstar.upstar4", 960, 128],
+          ["latemoon.upstar.uproom3", "latemoon.upstar.upstar3", 960, 128],
+          ["latemoon.upstar.upstar3", "latemoon.upstar.upstarc", 960, 128],
+          ["latemoon.upstar.upstar4", "latemoon.upstar.upstarc", 960, 128]
+        ],
+        "placed": {
+          "latemoon.upstar.uproom.statue.1": [192, 744]
+        },
+        "buildings": [],
+        "life": {
+          "latemoon.upstar.uproom": {
+            "use": "temple",
+            "wealth": "rich",
+            "tidy": true,
+            "seed": 51
+          },
+          "latemoon.upstar.uproom2": {
+            "use": "dance_hall",
+            "wealth": "rich",
+            "seed": 52
+          },
+          "latemoon.upstar.uproom3": {
+            "use": "temple",
+            "wealth": "plain",
+            "tidy": true,
+            "seed": 53
+          },
+          "latemoon.upstar.upcenter": {
+            "use": "corridor",
+            "wealth": "rich",
+            "tidy": true,
+            "seed": 54
+          },
+          "latemoon.upstar.upstarc": {
+            "use": "hall",
+            "wealth": "rich",
+            "seed": 55
+          }
+        }
       },
       "scene": {
         "style": "map",
@@ -678,7 +1040,9 @@
         "shapes": {
           "Rect_32_64": [32, 64],
           "Rect_64_32": [64, 32],
-          "StairsShape": [48, 48]
+          "StairsShape": [48, 48],
+          "Rect_32_128": [32, 128],
+          "Rect_128_32": [128, 32]
         },
         "door_style": {
           "walls": "Terrain/DoorWalls",
@@ -788,7 +1152,11 @@
           {
             "generated": "markers"
           }
-        ]
+        ],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/latemoon/voxel/upper.json"
+        }
       }
     },
     "hills": {
@@ -799,7 +1167,7 @@
         "base": "forest",
         "bounds": [0, 0, 1664, 2368],
         "zones": {
-          "latemoon.sroad1": [64, 64, 384, 320, "grass"],
+          "latemoon.sroad1": [64, 64, 384, 384, "grass"],
           "latemoon.sroad2": [384, 192, 704, 448, "grass"],
           "latemoon.sroad3": [704, 192, 1024, 448, "grass"],
           "latemoon.sroad4": [1024, 192, 1344, 448, "grass"],
@@ -814,51 +1182,53 @@
           {
             "op": "fill",
             "fills": [
-              ["grass", 144, 96, 320, 288, "sroad1: tall grass either side of the path"],
-              ["path", 208, 64, 272, 288, "the path from the back gate"],
-              ["path", 208, 224, 384, 288],
-              ["grass", 384, 208, 704, 352, "sroad2: the path bends east under a cliff"],
-              ["path", 384, 224, 704, 288],
+              ["grass", 112, 96, 352, 384, "sroad1: 小径的两旁是半个人高的杂草 (路和空间: the path 160 wide)"],
+              ["path", 160, 64, 320, 368],
+              ["path", 160, 224, 384, 368],
+              ["grass", 384, 208, 704, 416, "sroad2: the path bends east under a cliff"],
+              ["path", 384, 224, 704, 368],
               ["cliff", 384, 192, 704, 208],
-              ["grass", 704, 208, 1024, 352, "sroad3: the cliff to the east, bamboo to the south"],
-              ["path", 704, 224, 1024, 288],
-              ["grass", 1024, 208, 1280, 400, "sroad4: green grass, the cool wind"],
-              ["path", 1024, 224, 1216, 288],
-              ["path", 1152, 224, 1216, 448],
-              ["grass", 1088, 448, 1280, 704, "sroad5: the slope to the east, the grove to the west"],
-              ["path", 1152, 448, 1216, 704],
-              ["path", 1216, 544, 1344, 608, "the way east into the tunnel to 山烟寺"],
-              ["cliff", 1312, 512, 1344, 544, "the tunnel's mouth in the slope"],
-              ["cliff", 1312, 608, 1344, 640],
-              ["forest_floor", 1072, 704, 1296, 992, "bamboo3: a clearing in the bamboo"],
-              ["forest_floor", 1024, 816, 1072, 880],
-              ["forest_floor", 1296, 816, 1344, 880],
-              ["forest_floor", 1152, 992, 1216, 1024],
+              ["grass", 704, 208, 1024, 416, "sroad3: bamboo to the south"],
+              ["path", 704, 224, 1024, 368],
+              ["cliff", 704, 192, 1024, 208],
+              ["grass", 1024, 208, 1312, 448, "sroad4: green grass, the cool wind"],
+              ["path", 1024, 224, 1264, 368],
+              ["path", 1120, 224, 1264, 448],
+              ["grass", 1072, 448, 1312, 704, "sroad5: the slope to the east, the grove to the west"],
+              ["path", 1120, 448, 1264, 720],
+              ["path", 1264, 512, 1344, 640, "the way east into the tunnel to 山烟寺"],
+              ["cliff", 1312, 448, 1344, 512, "the tunnel's mouth in the slope"],
+              ["cliff", 1312, 640, 1344, 704],
+              ["forest_floor", 1072, 720, 1296, 992, "bamboo3: a clearing in the bamboo"],
+              ["forest_floor", 1024, 784, 1072, 912],
+              ["forest_floor", 1296, 784, 1344, 912],
+              ["forest_floor", 1120, 992, 1248, 1024],
               ["forest_floor", 112, 1328, 336, 1552, "bamboo: a clearing, the same as every other"],
-              ["forest_floor", 64, 1408, 112, 1472],
-              ["forest_floor", 336, 1408, 384, 1472],
-              ["forest_floor", 192, 1280, 256, 1328],
-              ["forest_floor", 192, 1552, 256, 1600],
+              ["forest_floor", 64, 1376, 112, 1504],
+              ["forest_floor", 336, 1376, 384, 1504],
+              ["forest_floor", 160, 1280, 288, 1328],
+              ["forest_floor", 160, 1552, 288, 1600],
               ["forest_floor", 688, 1328, 912, 1552, "bamboo1"],
-              ["forest_floor", 640, 1408, 688, 1472],
-              ["forest_floor", 912, 1408, 960, 1472],
-              ["forest_floor", 768, 1280, 832, 1328],
-              ["forest_floor", 768, 1552, 832, 1600],
+              ["forest_floor", 640, 1376, 688, 1504],
+              ["forest_floor", 912, 1376, 960, 1504],
+              ["forest_floor", 736, 1280, 864, 1328],
+              ["forest_floor", 736, 1552, 864, 1600],
               ["forest_floor", 1264, 1328, 1488, 1552, "bamboo2"],
-              ["forest_floor", 1216, 1408, 1264, 1472],
-              ["forest_floor", 1488, 1408, 1536, 1472],
-              ["forest_floor", 1344, 1280, 1408, 1328],
-              ["forest_floor", 1344, 1552, 1408, 1600],
+              ["forest_floor", 1216, 1376, 1264, 1504],
+              ["forest_floor", 1488, 1376, 1536, 1504],
+              ["forest_floor", 1312, 1280, 1440, 1328],
+              ["forest_floor", 1312, 1552, 1440, 1600],
               ["forest_floor", 688, 1968, 912, 2192, "bamboo4"],
-              ["forest_floor", 640, 2048, 688, 2112],
-              ["forest_floor", 912, 2048, 960, 2112],
-              ["forest_floor", 768, 1920, 832, 1968],
-              ["forest_floor", 768, 2192, 832, 2240],
-              ["forest", 1120, 752, 1152, 784, "the bamboo standing in the clearings"],
-              ["forest", 160, 1488, 192, 1520],
-              ["forest", 864, 1360, 896, 1392],
-              ["forest", 1440, 1488, 1472, 1520],
-              ["forest", 704, 2144, 736, 2176]
+              ["forest_floor", 640, 2016, 688, 2144],
+              ["forest_floor", 912, 2016, 960, 2144],
+              ["forest_floor", 736, 1920, 864, 1968],
+              ["forest_floor", 736, 2192, 864, 2240],
+              ["blocked", 1120, 752, 1152, 784, "the bamboo standing in the clearings", {"look": {"kind": "tree", "species": "bamboo", "variant": 0}}],
+              ["blocked", 160, 1488, 192, 1520, {"look": {"kind": "tree", "species": "bamboo", "variant": 1}}],
+              ["blocked", 864, 1360, 896, 1392, {"look": {"kind": "tree", "species": "bamboo", "variant": 2}}],
+              ["blocked", 1440, 1488, 1472, 1520, {"look": {"kind": "tree", "species": "bamboo", "variant": 3}}],
+              ["blocked", 704, 2144, 736, 2176, {"look": {"kind": "tree", "species": "bamboo", "variant": 4}}],
+              ["blocked", 1280, 400, 1312, 432, "sroad4.c: a mossy stone by the way", {"look": {"kind": "mossy_rock"}}]
             ]
           },
           {
@@ -889,7 +1259,9 @@
         "player_color": "Color(0.84, 0.62, 0.72, 1)",
         "shapes": {
           "Rect_64_32": [64, 32],
-          "Rect_32_64": [32, 64]
+          "Rect_32_64": [32, 64],
+          "Rect_128_32": [128, 32],
+          "Rect_32_128": [32, 128]
         },
         "nodes": [
           {
@@ -914,147 +1286,147 @@
             "name": "GardenPassage",
             "id": "latemoon.sroad1.north",
             "at": [240, 80],
-            "shape": "Rect_64_32"
+            "shape": "Rect_128_32"
           },
           {
             "node": "passage",
             "name": "TunnelPassage",
             "id": "latemoon.sroad5.east",
             "at": [1320, 576],
-            "shape": "Rect_32_64"
+            "shape": "Rect_32_128"
           },
           {
             "node": "passage",
             "name": "Bamboo3WestPassage",
             "id": "latemoon.bamboo3.west",
             "at": [1040, 848],
-            "shape": "Rect_32_64"
+            "shape": "Rect_32_128"
           },
           {
             "node": "passage",
             "name": "Bamboo3EastPassage",
             "id": "latemoon.bamboo3.east",
             "at": [1328, 848],
-            "shape": "Rect_32_64"
+            "shape": "Rect_32_128"
           },
           {
             "node": "passage",
             "name": "Bamboo3SouthPassage",
             "id": "latemoon.bamboo3.south",
             "at": [1184, 1008],
-            "shape": "Rect_64_32"
+            "shape": "Rect_128_32"
           },
           {
             "node": "passage",
             "name": "BambooNorthPassage",
             "id": "latemoon.bamboo.north",
             "at": [224, 1296],
-            "shape": "Rect_64_32"
+            "shape": "Rect_128_32"
           },
           {
             "node": "passage",
             "name": "BambooSouthPassage",
             "id": "latemoon.bamboo.south",
             "at": [224, 1584],
-            "shape": "Rect_64_32"
+            "shape": "Rect_128_32"
           },
           {
             "node": "passage",
             "name": "BambooWestPassage",
             "id": "latemoon.bamboo.west",
             "at": [80, 1440],
-            "shape": "Rect_32_64"
+            "shape": "Rect_32_128"
           },
           {
             "node": "passage",
             "name": "BambooEastPassage",
             "id": "latemoon.bamboo.east",
             "at": [368, 1440],
-            "shape": "Rect_32_64"
+            "shape": "Rect_32_128"
           },
           {
             "node": "passage",
             "name": "Bamboo1NorthPassage",
             "id": "latemoon.bamboo1.north",
             "at": [800, 1296],
-            "shape": "Rect_64_32"
+            "shape": "Rect_128_32"
           },
           {
             "node": "passage",
             "name": "Bamboo1SouthPassage",
             "id": "latemoon.bamboo1.south",
             "at": [800, 1584],
-            "shape": "Rect_64_32"
+            "shape": "Rect_128_32"
           },
           {
             "node": "passage",
             "name": "Bamboo1WestPassage",
             "id": "latemoon.bamboo1.west",
             "at": [656, 1440],
-            "shape": "Rect_32_64"
+            "shape": "Rect_32_128"
           },
           {
             "node": "passage",
             "name": "Bamboo1EastPassage",
             "id": "latemoon.bamboo1.east",
             "at": [944, 1440],
-            "shape": "Rect_32_64"
+            "shape": "Rect_32_128"
           },
           {
             "node": "passage",
             "name": "Bamboo2NorthPassage",
             "id": "latemoon.bamboo2.north",
             "at": [1376, 1296],
-            "shape": "Rect_64_32"
+            "shape": "Rect_128_32"
           },
           {
             "node": "passage",
             "name": "Bamboo2SouthPassage",
             "id": "latemoon.bamboo2.south",
             "at": [1376, 1584],
-            "shape": "Rect_64_32"
+            "shape": "Rect_128_32"
           },
           {
             "node": "passage",
             "name": "Bamboo2WestPassage",
             "id": "latemoon.bamboo2.west",
             "at": [1232, 1440],
-            "shape": "Rect_32_64"
+            "shape": "Rect_32_128"
           },
           {
             "node": "passage",
             "name": "Bamboo2EastPassage",
             "id": "latemoon.bamboo2.east",
             "at": [1520, 1440],
-            "shape": "Rect_32_64"
+            "shape": "Rect_32_128"
           },
           {
             "node": "passage",
             "name": "Bamboo4NorthPassage",
             "id": "latemoon.bamboo4.north",
             "at": [800, 1936],
-            "shape": "Rect_64_32"
+            "shape": "Rect_128_32"
           },
           {
             "node": "passage",
             "name": "Bamboo4SouthPassage",
             "id": "latemoon.bamboo4.south",
             "at": [800, 2224],
-            "shape": "Rect_64_32"
+            "shape": "Rect_128_32"
           },
           {
             "node": "passage",
             "name": "Bamboo4WestPassage",
             "id": "latemoon.bamboo4.west",
             "at": [656, 2080],
-            "shape": "Rect_32_64"
+            "shape": "Rect_32_128"
           },
           {
             "node": "passage",
             "name": "Bamboo4EastPassage",
             "id": "latemoon.bamboo4.east",
             "at": [944, 2080],
-            "shape": "Rect_32_64"
+            "shape": "Rect_32_128"
           }
         ],
         "zones": [
@@ -1158,7 +1530,11 @@
             "at": [864, 2160],
             "id": "latemoon.bamboo4.bamboo.1"
           }
-        ]
+        ],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/latemoon/voxel/hills.json"
+        }
       }
     }
   }

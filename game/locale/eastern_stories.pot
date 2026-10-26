@@ -850,7 +850,7 @@ msgstr ""
 #. es2:d/latemoon/room/corridor7 short
 #. es2:d/latemoon/miroom2 short
 #. es2:d/choyin/yamen_iner short
-#: scenes/world/choyin/choyin_yamen.tscn scenes/world/latemoon/latemoon_manor.tscn scenes/world/latemoon/latemoon_secret.tscn data/latemoon/rooms.json data/choyin/rooms.json
+#: scenes/world/choyin/choyin_yamen.tscn scenes/world/latemoon/latemoon_manor.tscn scenes/world/latemoon/latemoon_secret.tscn data/latemoon/rooms.json data/choyin/rooms.json data/latemoon/voxel/manor.json
 msgid "内厅"
 msgstr ""
 
@@ -931,7 +931,7 @@ msgstr ""
 msgid "绳子 · 拉"
 msgstr ""
 
-#: scenes/world/chuenyu/castle.tscn scenes/world/city/jiulou_house.tscn scenes/world/cloud/duchang_house.tscn scenes/world/cloud/jiyuan_house.tscn scenes/world/cloud/tearoom_house.tscn scenes/world/latemoon/latemoon_manor.tscn scenes/world/snow/snow_inn.tscn
+#: scenes/world/chuenyu/castle.tscn scenes/world/city/jiulou_house.tscn scenes/world/cloud/duchang_house.tscn scenes/world/cloud/jiyuan_house.tscn scenes/world/cloud/tearoom_house.tscn scenes/world/latemoon/latemoon_manor.tscn scenes/world/snow/snow_inn.tscn data/latemoon/voxel/manor.json
 msgid "楼梯 · 上楼"
 msgstr ""
 
@@ -1053,7 +1053,7 @@ msgstr ""
 msgid "膳房"
 msgstr ""
 
-#: scenes/world/chuenyu/chuenyu_upstairs.tscn scenes/world/city/city_upstairs.tscn scenes/world/cloud/cloud_duchang_upstairs.tscn scenes/world/cloud/cloud_jiyuan_upstairs.tscn scenes/world/cloud/cloud_tearoom_upstairs.tscn scenes/world/latemoon/latemoon_upper.tscn scenes/world/snow/snow_inn_upstairs.tscn scenes/world/waterfog/waterfog_upstairs.tscn data/cloud/voxel/duchang_upstairs.json data/cloud/voxel/jiyuan_upstairs.json data/cloud/voxel/tearoom_upstairs.json data/snow/voxel/inn_upstairs.json data/waterfog/voxel/upstairs.json
+#: scenes/world/chuenyu/chuenyu_upstairs.tscn scenes/world/city/city_upstairs.tscn scenes/world/cloud/cloud_duchang_upstairs.tscn scenes/world/cloud/cloud_jiyuan_upstairs.tscn scenes/world/cloud/cloud_tearoom_upstairs.tscn scenes/world/latemoon/latemoon_upper.tscn scenes/world/snow/snow_inn_upstairs.tscn scenes/world/waterfog/waterfog_upstairs.tscn data/cloud/voxel/duchang_upstairs.json data/cloud/voxel/jiyuan_upstairs.json data/cloud/voxel/tearoom_upstairs.json data/latemoon/voxel/upper.json data/snow/voxel/inn_upstairs.json data/waterfog/voxel/upstairs.json
 msgid "楼梯 · 下楼"
 msgstr ""
 
@@ -1427,7 +1427,7 @@ msgstr ""
 #. cloud.wangyou_grass region
 #. es2:u/cloud/entrance short
 #. cloud name
-#: scenes/world/cloud/cloud_outdoor.tscn data/common/journal.json data/cloud/rooms.json data/cloud/world.json data/cloud/voxel/outdoor.json
+#: scenes/world/cloud/cloud_outdoor.tscn data/common/journal.json data/cloud/rooms.json data/cloud/world.json data/cloud/voxel/outdoor.json data/latemoon/voxel/manor.json
 msgid "绮云镇"
 msgstr ""
 
@@ -1674,7 +1674,7 @@ msgstr ""
 #. es2:d/latemoon/sroad1 short
 #. es2:d/sanyen/sroad1 short
 #. es2:d/sanyen/sroad2 short
-#: scenes/world/goathill/goathill_mountain.tscn scenes/world/green/green_mountain.tscn scenes/world/latemoon/latemoon_hills.tscn scenes/world/sanyen/sunhill_mountain.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json data/goathill/rooms.json data/green/rooms.json data/latemoon/rooms.json data/sanyen/rooms.json
+#: scenes/world/goathill/goathill_mountain.tscn scenes/world/green/green_mountain.tscn scenes/world/latemoon/latemoon_hills.tscn scenes/world/sanyen/sunhill_mountain.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json data/goathill/rooms.json data/green/rooms.json data/latemoon/rooms.json data/sanyen/rooms.json data/latemoon/voxel/garden.json
 msgid "山路"
 msgstr ""
 
@@ -1981,7 +1981,7 @@ msgid "翠嫣桥"
 msgstr ""
 
 #. es2:d/latemoon/park/moondoor short
-#: scenes/world/latemoon/latemoon_garden.tscn data/latemoon/rooms.json
+#: scenes/world/latemoon/latemoon_garden.tscn data/latemoon/rooms.json data/latemoon/voxel/hills.json
 msgid "晚月庄后门"
 msgstr ""
 
@@ -2459,7 +2459,7 @@ msgstr ""
 #. cloud.npc.monk inquiry topic
 #. cloud.npc.monk_guard inquiry topic
 #. sanyen name
-#: scenes/world/sanyen/sunhill_mountain.tscn data/common/families.json data/common/npcs.json data/cloud/npcs.json data/sanyen/world.json
+#: scenes/world/sanyen/sunhill_mountain.tscn data/common/families.json data/common/npcs.json data/cloud/npcs.json data/sanyen/world.json data/latemoon/voxel/hills.json
 msgid "山烟寺"
 msgstr ""
 
@@ -11501,7 +11501,7 @@ msgstr ""
 #. latemoon.npc.upstar.shinfun family.name
 #. latemoon.npc.upstar.huei family.name
 #. latemoon name
-#: data/common/families.json data/common/npcs.json data/common/journal.json data/cloud/npcs.json data/latemoon/npcs.json data/latemoon/world.json
+#: data/common/families.json data/common/npcs.json data/common/journal.json data/cloud/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/latemoon/voxel/manor.json
 msgid "晚月庄"
 msgstr ""
 
@@ -21356,7 +21356,7 @@ msgstr ""
 #. latemoon.npc.girl inquiry topic
 #. latemoon.npc.zauron inquiry topic
 #. latemoon.npc.shaowei inquiry topic
-#: data/latemoon/npcs.json
+#: data/latemoon/npcs.json data/latemoon/voxel/manor.json data/latemoon/voxel/secret.json
 msgid "舞"
 msgstr ""
 
@@ -31532,6 +31532,18 @@ msgstr ""
 
 #: data/green/voxel/stone_house.json
 msgid "非我弟子  莫入此门"
+msgstr ""
+
+#: data/latemoon/voxel/garden.json
+msgid "前庭"
+msgstr ""
+
+#: data/latemoon/voxel/manor.json
+msgid "湘园"
+msgstr ""
+
+#: data/latemoon/voxel/upper.json
+msgid "跳下前院"
 msgstr ""
 
 #: data/snow/voxel/herbshop_house.json

@@ -52,6 +52,8 @@ var edge_config: Dictionary = {}
 ## Indoor walls on the camera's near side, cut low (layout `low_walls`: pixel rects).
 var low_walls: Array[Rect2] = []
 var left_low_walls: Array[Rect2] = []
+## Near walls are cut low (indoors, or an outdoor map with low walls of its own).
+var cuts: bool = false
 var side_walls: Array[Node3D] = []
 var _side_high_walls: Array[Node3D] = []
 var mounted_props: Array[Dictionary] = []
@@ -152,7 +154,10 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	_walls = _node()
 	occluders.append({"node": _walls})
 	_low_walls = _node()
-	for side: int in 2 if indoor else 0:
+	# Outdoors too a room's near walls are cut low when the layout asks (湘园's little rooms
+	# among the trees: `cutaway_rooms` on an outdoor map).
+	cuts = indoor or not low_walls.is_empty()
+	for side: int in 2 if cuts else 0:
 		var group: Node3D = _node()
 		side_walls.append(group)
 		var high: Node3D = _node(Vector3.ZERO,group)
@@ -415,6 +420,8 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 			ground.bark(cell,p,palette,cells,style)
 		elif style.get("style","")=="slabs":
 			ground.slabs(cell,cells,painted,style)
+		elif style.get("style","")=="mosaic":
+			ground.mosaic(cell,style)
 		elif style.get("style","")=="paving" or road and not style.has("colors"):
 			ground.paving(cell,cells,painted,style)
 		else:
@@ -422,8 +429,8 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 			var tint: String = _pick(palette) if indoor or wall else String(palette[clampi(roundi((growth+0.5)*2),0,palette.size()-1)])
 			shapes.box(self,p-Vector3(0,0.06,0),size,tint)
 		if wall:
-			var right_low: bool = indoor and low_wall(pos)
-			var left_low: bool = indoor and low_wall(pos,true)
+			var right_low: bool = cuts and low_wall(pos)
+			var left_low: bool = cuts and low_wall(pos,true)
 			var horizontal: bool = cells.get(cell+Vector2i(16,0),"") in ["wall","wall_wood"] or cells.get(cell-Vector2i(16,0),"") in ["wall","wall_wood"]
 			if right_low==left_low:
 				_wall_cell(_low_walls if right_low else _walls,p,0.36 if right_low else 3.2,horizontal)
@@ -625,7 +632,8 @@ func _styled_wall_cell(into: Node3D, p: Vector3, height: float, look: Dictionary
 func _plinth(cells: Dictionary[Vector2i, String]) -> void:
 	var rows: Dictionary[int, Array] = {}
 	for cell: Vector2i in cells:
-		if _floor_opening(Vector2(cell)):
+		# A pool indoors (晚月庄's 小花池) sinks below the floor: no plinth over it.
+		if _floor_opening(Vector2(cell)) or water.levels.has(cell):
 			continue
 		if not rows.has(cell.y):
 			rows[cell.y] = []

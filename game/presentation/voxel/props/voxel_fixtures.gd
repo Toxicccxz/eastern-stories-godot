@@ -58,13 +58,16 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 			s.lantern(root,Vector3(0,3.15,0),false,String(data.get("paper","ffb858")))
 			_set_lamp(root,0.65,1.7,8.0,float(data.get("flicker",0.0)))
 		"pot": s.pot(root,Vector3.ZERO)
+		"lamp_stand": _lamp_stand(data)
+		"lantern_post": _lantern_post(data)
 		"red_door":
-			s.box(root,Vector3(0,1.25,0),Vector3(1.8,2.5,0.2),"a34736")
+			# `leaf`/`trim`: a door of another make (晚月庄's bronze door, its pale green arch door).
+			s.box(root,Vector3(0,1.25,0),Vector3(1.8,2.5,0.2),String(data.get("leaf","a34736")))
 			s.box(root,Vector3(0,2.58,0),Vector3(2,0.12,0.3),"d5b37b")
 			for x: float in [-0.79,0.79]:
-				s.box(root,Vector3(x,1.25,0.12),Vector3(0.13,2.5,0.12),"bf8853")
+				s.box(root,Vector3(x,1.25,0.12),Vector3(0.13,2.5,0.12),String(data.get("trim","bf8853")))
 			for y: float in [0.38,1.52,2.1]:
-				s.box(root,Vector3(0,y,0.13),Vector3(1.6,0.09,0.10),"c09563")
+				s.box(root,Vector3(0,y,0.13),Vector3(1.6,0.09,0.10),String(data.get("trim","c09563")))
 			s.box(root,Vector3(0,1.0,0.15),Vector3(0.035,2.0,0.04),"65432e")
 			for x: float in [-0.93,0.93]:
 				s.box(root,Vector3(x,1.3,0.13),Vector3(0.035,2.58,0.025),"e0eadb")
@@ -308,6 +311,57 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 	return true
 
 ## A lamp's reach and its day and night strength; `flicker` makes its flame waver (灯火摇曳).
+## 纯金铸成的长灯架上挂了一排饰丽的宫灯 (晚月庄's corridors): a gilded standard on a square foot,
+## its arm hung with two palace lanterns (lacquered frames, glowing paper sides, red tassels);
+## one light for the pair.
+func _lamp_stand(data: Dictionary) -> void:
+	var gold: String = String(data.get("gold","c9a24a"))
+	var dark: String = String(data.get("shade","a07a32"))
+	s.box(root,Vector3(0,0.08,0),Vector3(0.46,0.16,0.46),dark)
+	s.box(root,Vector3(0,0.2,0),Vector3(0.3,0.1,0.3),gold)
+	s.box(root,Vector3(0,1.55,0),Vector3(0.1,2.8,0.1),gold)
+	for y: float in [0.9,1.9]:
+		s.box(root,Vector3(0,y,0),Vector3(0.16,0.08,0.16),dark)
+	s.box(root,Vector3(0,2.92,0),Vector3(1.3,0.08,0.08),gold)
+	s.box(root,Vector3(0,3.0,0),Vector3(0.14,0.14,0.14),dark)
+	var paper: String = String(data.get("paper","f0c878:glow"))
+	for side: float in [-0.56,0.56]:
+		var at := Vector3(side,2.45,0)
+		s.box(root,at+Vector3(0,0.36,0),Vector3(0.03,0.2,0.03),gold)
+		s.box(root,at,Vector3(0.36,0.44,0.36),paper)
+		for y: float in [-0.25,0.25]:
+			s.box(root,at+Vector3(0,y,0),Vector3(0.46,0.06,0.46),"8a2a22")
+		for x: float in [-0.2,0.2]:
+			for z: float in [-0.2,0.2]:
+				s.box(root,at+Vector3(x,0,z),Vector3(0.05,0.5,0.05),"8a2a22")
+		s.box(root,at+Vector3(0,-0.42,0),Vector3(0.05,0.3,0.05),"c8382a")
+	var lamp := OmniLight3D.new()
+	lamp.position = Vector3(0,2.4,0)
+	lamp.light_color = Color("ffc878")
+	root.add_child(lamp)
+	_set_lamp(root,0.6,2.4,5.0,float(data.get("flicker",0.04)))
+
+## gate.c: 门口挂著两串灯笼 — a red post with a string of lanterns down from its bracket
+## (`count`), the lowest lit at night.
+func _lantern_post(data: Dictionary) -> void:
+	s.box(root,Vector3(0,0.1,0),Vector3(0.4,0.2,0.4),"6a6258")
+	s.box(root,Vector3(0,1.6,0),Vector3(0.14,3.2,0.14),"8a2a22")
+	s.box(root,Vector3(0.3,3.15,0),Vector3(0.7,0.1,0.1),"8a2a22")
+	var count: int = int(data.get("count",3))
+	for i: int in count:
+		var at := Vector3(0.55,2.75-i*0.52,0)
+		s.box(root,at+Vector3(0,0.28,0),Vector3(0.03,0.12,0.03),"594732")
+		s.box(root,at,Vector3(0.36,0.38,0.36),"d8452f:glow")
+		for y: float in [-0.2,0.2]:
+			s.box(root,at+Vector3(0,y,0),Vector3(0.3,0.05,0.3),"2a2420")
+		s.box(root,at+Vector3(0,0,0.185),Vector3(0.14,0.18,0.01),"f2d27a")
+	s.box(root,Vector3(0.55,2.75-count*0.52+0.2,0),Vector3(0.04,0.22,0.04),"c8382a")
+	var lamp := OmniLight3D.new()
+	lamp.position = Vector3(0.55,2.2,0)
+	lamp.light_color = Color("ff9a68")
+	root.add_child(lamp)
+	_set_lamp(root,0.5,2.0,4.5,0.05)
+
 func _set_lamp(node: Node3D, day: float, night: float, radius: float, flicker: float = 0.0) -> void:
 	for child: Node in node.get_children():
 		if child is OmniLight3D:

@@ -874,6 +874,16 @@ func _quarry_face(w: float, d: float) -> void:
 ## disc cut into the rock face, the paint long faded (`height` of its centre, `radius`).
 func _bagua() -> void:
 	var y: float = float(data.get("height",2.6))
+	if data.get("floor",false):
+		# latemoon8.c: 地板上隐约看到一幅先天八卦图 — the same disc laid flat in the floor, face up.
+		var disc := Node3D.new()
+		disc.position.y = 0.01
+		disc.rotation.x = -PI/2
+		root.add_child(disc)
+		if s.merged.has(root):
+			s.merge(disc,s.merged[root])
+		root = disc
+		y = 0.0
 	var r: float = float(data.get("radius",0.8))
 	var stone: String = String(data.get("stone","6d6c62"))
 	var paint: String = String(data.get("paint","b8a46a"))

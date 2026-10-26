@@ -318,13 +318,35 @@ func _make_actor(body: WorldCharacterBody2D) -> void:
 		if look.get("tail",false):
 			s.tilted_box(model,Vector3(0,0.34,-0.82),Vector3(0.08,0.08,0.78),fur[1],Vector3(-0.35,0,0))
 		s.flush()
+	elif body_kind=="statue":
+		# 神像 (an NPC that is a statue: 晚月庄's 区冥, its 火神凤凰): the figure in one stone or
+		# gilt (`stone`), never stirring, on a plinth (`plinth` high, `base`), wings spread
+		# behind it (`wings`: their colours).
+		var plinth: float = float(look.get("plinth",0.5))
+		model = Person.new()
+		model.stone = String(look.get("stone","e8e4d8"))
+		model.coat = model.stone
+		model.position.y = plinth
+		actor.add_child(model)
+		var s := Shapes.new()
+		s.box(actor,Vector3(0,plinth/2,0),Vector3(0.95,plinth,0.8),String(look.get("base","8a7a6a")))
+		s.box(actor,Vector3(0,plinth+0.03,0),Vector3(1.0,0.06,0.85),String(look.get("rim","c9a24a")))
+		var wings: Array = look.get("wings",[])
+		for i: int in wings.size()*3:
+			for side: float in [-1.0,1.0]:
+				var at := Vector3(side*(0.4+i*0.12),plinth+1.2+i*0.12,-0.25)
+				s.tilted_box(actor,at,Vector3(0.12,0.9-i*0.07,0.05),String(wings[i%wings.size()]),Vector3(0,0,-side*(0.4+i*0.12)))
+		if not wings.is_empty():
+			for t: int in 5:
+				s.tilted_box(actor,Vector3((t-2)*0.1,plinth+0.5,-0.45),Vector3(0.07,0.05,0.9),String(wings[t%wings.size()]),Vector3(0.9,0,0))
+		s.flush()
 	else:
 		model = Person.new()
 		model.coat = look.get("coat","817755")
 		model.hat = look.get("hat",false)
 		actor.add_child(model)
 	var low: bool = crawler or look.get("animal",false)
-	var label_height: float = (0.55*size+0.35 if crawler else 0.4+0.9*size) if low else 2.2
+	var label_height: float = (0.55*size+0.35 if crawler else 0.4+0.9*size) if low else 2.2+float(look.get("plinth",0.5) if body_kind=="statue" else 0.0)
 	if body_kind=="flyer":
 		label_height = float(look.get("hover",1.1))*size+0.5
 	labels[body.character_id] = _label(actor,"",label_height)

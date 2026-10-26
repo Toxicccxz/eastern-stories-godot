@@ -30,8 +30,8 @@ quarters and the rooms' own commands (done); C the secrets (竹蜻蜓 and 玛瑙
 | upstar/ (10 rooms) | 金丝雀 ×2 (uplook), 区冥 (uproom), 莫欣芳 (uproom2), 邢千慧 + 雪花糕 (uproom3) | upper map: the galleries, the 佛堂, 翠湘阁, 缀芳阁, the 前堂楼 and the 观景台 (jump: down to the 湘园's forecourt) |
 | sroad1–5, bamboo, bamboo1–4 | 蝴蝶 (sroad4, sroad5), 竹子 (bamboo4) | hills map: the path from the back gate (sroad1.c repaired), the tunnel east from sroad5 to 山烟寺 (#8); the grove's five clearings, each way out a passage |
 
-Five maps (latemoon.manor, secret, garden, upper, hills); none has a voxel view yet (no
-`game/data/latemoon/voxel/`).
+Five maps (latemoon.manor, secret, garden, upper, hills); each has its voxel view
+(`game/data/latemoon/voxel/`, 美术规划 §5).
 
 ## LPC → native (A)
 
