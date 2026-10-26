@@ -1,7 +1,7 @@
 extends RefCounted
-## The menu window (owner, 2026-10-15; ROADMAP "After the grey box" step 2): seven tabs in
+## The menu window (owner, 2026-10-15; DECISIONS「菜单窗口」): seven tabs in
 ## place of the HUD's panels; the keys C, K, I, J, Q, E and L; the menu's questions over it;
-## 系统 is the shell's pause and holds its buttons, the other tabs leave the world running.
+## 系统 is the shell's pause and holds its buttons; under the other tabs the tree runs and world time is held.
 
 const SHELL_SCENE: PackedScene = preload("res://scenes/application/application_shell.tscn")
 const ShellTests := preload("res://tests/application/application_shell_test.gd")

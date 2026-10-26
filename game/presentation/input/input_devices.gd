@@ -1,6 +1,6 @@
 class_name InputDevices
 extends RefCounted
-## Which input the player uses now (ROADMAP "After the grey box" step 2, gamepad support):
+## Which input the player uses now (DECISIONS「手柄」):
 ## the keyboard and mouse, a gamepad, or touch. The last input that clearly came from one
 ## of them decides; button hints (InputGlyphTexture, InputHintRow) follow it at once.
 ## PadSupport feeds every input event in; tests set the kind directly.

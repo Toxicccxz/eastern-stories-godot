@@ -249,8 +249,8 @@
 		"d/snow/npc/annihir.c": {
 			"set pursuer": "pursuing who flees is not modelled yet: later combat package",
 			"set env/wimpy": "NPC wimpy (fleeing a losing fight) is not modelled yet: later combat package",
-			"set atman_factor": "spells and magic are not modelled yet (ROADMAP)",
-			"set mana_factor": "spells and magic are not modelled yet (ROADMAP)",
+			"set atman_factor": "atman_factor is not modelled",
+			"set mana_factor": "mana_factor is not modelled",
 			"function accept_fight": "accept_fight rules (set snow.npc.annihir): the spar becomes his kill_ob; grin prints nothing"
 		},
 		"d/snow/npc/girl.c": {

@@ -1,6 +1,6 @@
 class_name GameMenu
 extends CanvasLayer
-## The menu window (owner, 2026-10-15; ROADMAP "After the grey box" step 2): one window
+## The menu window (owner, 2026-10-15; DECISIONS「菜单窗口」): one window
 ## with the tabs 角色, 武学, 背包, 任务, 声望, 百科 and 系统 in place of the HUD's separate
 ## panels. 系统 is the pause: the shell's pause state shows this window and lends it its
 ## pause buttons (继续, 存档, 设置, 返回主菜单) through a node of HOST_GROUP. Under the other
@@ -25,7 +25,7 @@ const HOST_GROUP: StringName = &"game_menu_hosts"
 const LAYER: int = 60
 ## The window's size where the screen allows it.
 const WINDOW_SIZE: Vector2 = Vector2(920, 600)
-# TRANSLATORS: the 声望 tab until reputation is built (ROADMAP step 6).
+# TRANSLATORS: the 声望 tab until reputation is built (ROADMAP "After the grey box": quest and reputation systems).
 const STANDING_PLACEHOLDER: String = "江湖上对你的看法，日后会记在这里。"
 # TRANSLATORS: the 系统 tab during a fight: the other tabs wait until it is over.
 const FIGHT_HINT: String = "战斗中只能使用系统功能。"

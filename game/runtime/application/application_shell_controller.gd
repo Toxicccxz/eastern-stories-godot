@@ -231,7 +231,7 @@ func _ready() -> void:
 	knockout_option.get_popup().window_input.connect(_popup_system_input.bind(knockout_option))
 	ui_scale_option.get_popup().window_input.connect(_popup_system_input.bind(ui_scale_option))
 	language_option.get_popup().window_input.connect(_popup_system_input.bind(language_option))
-	# Pad support (owner, ROADMAP "After the grey box" step 2): last, so it sees every
+	# Pad support (owner, DECISIONS「手柄」): last, so it sees every
 	# input event before the touch adapter takes touches.
 	add_child(PadSupport.new())
 	for back: Button in [setup_cancel_button, settings_cancel_button, recovery_cancel_button]:

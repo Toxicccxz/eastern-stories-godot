@@ -1,6 +1,6 @@
 class_name PadSupport
 extends Node
-## Gamepad support that is not any one panel's (owner, ROADMAP "After the grey box" step 2):
+## Gamepad support that is not any one panel's (owner, DECISIONS「手柄」):
 ## every input event tells InputDevices what the player uses; a focused number box
 ## (SpinBox, or a LineEdit marked STEP_META) steps with ←/→ (a pad has no keys to type
 ## with); the right stick or PgUp/PgDn scrolls the topmost long text (SCROLL_GROUP).

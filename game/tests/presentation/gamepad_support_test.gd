@@ -1,5 +1,5 @@
 extends RefCounted
-## Gamepad support (owner, ROADMAP "After the grey box" step 2, 界面重构 B): which input is
+## Gamepad support (owner, DECISIONS「手柄」, 界面重构 B): which input is
 ## in use and the glyphs that follow it, the walking HUD's list (Y / A in, B out), the
 ## menu's LB / RB and its focus, a panel's focus and its return, the battle's LB / RB, Y and
 ## B, number boxes stepped with ←/→. Pad input is sent as joypad events.
