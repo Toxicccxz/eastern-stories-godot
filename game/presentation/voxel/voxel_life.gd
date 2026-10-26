@@ -7,7 +7,7 @@ extends RefCounted
 ## hung on its walls, what is left on its tables, chairs pushed back, litter and cobwebs in its
 ## corners. Presentation only: it reads the map, never changes it, and draws nothing that blocks.
 const PRESETS: String = "res://data/common/room_life.json"
-const HEAT: Array[String] = ["forge","tea_stove","altar","cauldron","censer","incense_burner","candles","brazier","wall_lamp"]
+const HEAT: Array[String] = ["forge","tea_stove","altar","cauldron","censer","incense_burner","candles","brazier","wall_lamp","hearth"]
 const TABLES: Array[String] = ["table","square_table"]
 const WALKABLE_NOT: Array[String] = ["cliff","chasm","forest","boundary","wall","wall_wood","shutter","shop_front","blocked","water","deep_water"]
 ## Preset hanging names that are drawn by a kind of another name.

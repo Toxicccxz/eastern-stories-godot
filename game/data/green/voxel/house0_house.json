@@ -1,0 +1,17 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 21,
+  "note": "house0.c: 一间简陋的民宅，阴暗窄小的屋内散著一地的柴火和各式工具。屋角的石炉上闪著微弱的火光… Dark: one small window, the stove's weak fire.",
+  "palette": {"wood": ["5e4f3c", "6a5843", "735f48", "584a38"], "wall": "8a7a5e"},
+  "light": {"ambient": ["a39684", "5f6676"], "ambient_energy": [0.36, 0.28], "sun_energy": [0.22, 0.06]},
+  "props": [
+    {"kind": "window", "at": [90, -192], "size": [48, 16], "rotation": 0},
+    {"kind": "straw_patch", "at": [-150, 110], "size": [64, 40]},
+    {"kind": "firewood", "at": [60, 40], "size": [48, 24], "note": "散著一地的柴火"},
+    {"kind": "clutter", "items": ["bucket"], "at": [-120, -110], "size": [24, 24]},
+    {"kind": "clutter", "items": ["sandals"], "at": [-60, 150], "size": [24, 16]},
+    {"kind": "clutter", "items": ["bowls"], "at": [-150, -60], "size": [24, 24]}
+  ],
+  "actors": {"default": {"coat": "b3a98c"}, "green.npc.woman2": {"coat": "a89c7e"}}
+}

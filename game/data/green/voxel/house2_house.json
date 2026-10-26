@@ -1,0 +1,18 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 21,
+  "note": "house2.c: 一间简陋的民宅, 屋顶隐约还可以看到一些破洞. 墙角堆著些柴火, 墙壁上还可以看到烟熏的痕迹. 除了一些简陋的家具外屋内空空荡荡的. Daylight falls through the holes in the roof.",
+  "palette": {"wood": ["665640", "705e46", "5e503c", "786449"], "wall": "8c7c60"},
+  "light": {"ambient": ["a89c88", "5f6676"], "ambient_energy": [0.4, 0.28]},
+  "props": [
+    {"kind": "light_shaft", "at": [-70, -40], "size": [48, 48], "height": 3.2, "day": 1.2, "night": 0.15, "light": "f2e2b6", "range": 4.0, "note": "屋顶的破洞"},
+    {"kind": "light_shaft", "at": [130, 60], "size": [40, 40], "height": 3.2, "day": 1.0, "night": 0.1, "light": "f2e2b6", "range": 3.5},
+    {"kind": "light_shaft", "at": [-170, 110], "size": [32, 32], "height": 3.2, "day": 0.8, "night": 0.1, "light": "f2e2b6", "range": 3.0},
+    {"kind": "rubble", "at": [-60, -30], "size": [48, 40], "count": 6, "colors": ["8a7a58", "a49264", "6e5e44"], "note": "thatch and dirt fallen through"},
+    {"kind": "stains", "at": [130, 70], "size": [64, 48], "count": 4, "colors": ["4e4436", "5a4e3c"], "note": "rain comes in"},
+    {"kind": "window", "at": [170, -192], "size": [48, 16], "rotation": 0},
+    {"kind": "clutter", "items": ["bucket"], "at": [-200, 130], "size": [24, 24]}
+  ],
+  "actors": {"default": {"coat": "b3a98c"}}
+}

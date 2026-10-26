@@ -1,0 +1,100 @@
+{
+  "indoor": false,
+  "camera_size": 23,
+  "note": "North of 青石村: the hill's foot and the chained door of the haunted cave (cave0.c), the desolate road between the steep mossy wall east and the bottomless drop west (mpath0-2.c: 西面是深不见底的悬崖…仿佛下面有潺潺的流水声), the road's end walled on three sides with the 八卦 carved over the cave east and the mossy great stone door north (entrance.c), and the clear stream behind the stone rooms (water.c).",
+  "edge": {"minimum_margin": 40, "maximum_margin": 104, "depth": 3.0, "top": "4a5a3c", "bottom": "34382e", "strata": ["5e6156", "686b5f", "55584e"]},
+  "light": {
+    "carried": {"color": "dfe6f0", "range": 7.0, "attenuation": 1.2, "day": 0.0, "night": 1.1, "note": "no lamp on the mountain: the way shows round the player by moonlight"},
+    "sky": ["a2b6ac", "0d1622"], "ambient": ["b0bfae", "6880a8"], "ambient_energy": [0.4, 0.36]
+  },
+  "cliffs": {
+    "kinds": ["cliff", "chasm"],
+    "low": 1.0,
+    "high": 6.0,
+    "rise": 170,
+    "step": 0.5,
+    "rough": 0.6,
+    "keep": 200,
+    "trim": ["cliff"],
+    "south_rise": 2.0,
+    "grooves": 0.08,
+    "strata": ["666a5e", "71766a", "7b8073", "868a7c", "6d7266"],
+    "tops": ["44603a", "506c42", "5c784a"],
+    "moss": {"colors": ["4d6a3c", "5d7a45", "3f5a33", "6a8650"], "amount": 0.4, "hang": 1.6, "note": "README: 山壁上覆满青苔"},
+    "sink": {"kinds": ["chasm"], "depth": 14.0, "bed": "water", "bed_level": 0.3, "floor": ["263028", "2c362d"], "strata": ["5a5f56", "646960", "6e7268", "565b52", "60655c"], "gloom": 0.7, "note": "深不见底的悬崖, water far down"},
+    "lifts": [{"rect": [480, 512, 992, 832], "by": 2.5, "note": "entrance.c: 三面都是石壁"}, {"rect": [912, 800, 1064, 1660], "by": 1.5, "note": "mpath: 东面是陡峭的山壁"}]
+  },
+  "reshape": [
+    {"rect": [432, 800, 576, 1632], "from": ["cliff"], "to": "chasm", "note": "the drop west of the road is wide: the far side of the chasm is the slope beyond"}
+  ],
+  "exit_trails": {"green.cave0.south": {"cells": 6, "kind": "path", "width": 4}, "note": "the gravel path runs on south to the village"},
+  "water": {
+    "kinds": {"water": {"colors": ["8fb9ad", "6a9c92", "4e7d76"], "depth": 40, "flow": [0.0, 1.0], "speed": 0.35, "clear": true, "rock_foam": 0.5, "note": "water.c: 溪水很清澈，缓缓地向南流去"}}
+  },
+  "ground": {
+    "rock": {"style": "scree", "colors": ["6f7266", "7a7c70", "848679"], "gravel": 0.55, "stones": 0.07, "note": "the mountain road: 荒芜"},
+    "path": {"style": "scree", "colors": ["8e8064", "9a8a6a", "84775c"], "gravel": 0.6, "stones": 0.06, "note": "cave0.c: 一条小小的碎石路"},
+    "grass": {"colors": ["52703c", "5c7a42", "668348"]},
+    "forest": {"style": "litter", "colors": ["3a4430", "434c35", "4c553a"], "strew": 0.3, "cones": 0.0, "moss": 0.35, "moss_below": 0.05}
+  },
+  "ground_tints": {"bank": "41582f", "mud": "5a4e3e", "chips": ["7d7f72", "8a8c7e", "969688"], "dust": "7a6e58", "grit": "8a8a7c"},
+  "flora": {
+    "grass_density": 0.78,
+    "flower_threshold": 0.16,
+    "blossom_trees": 0.0,
+    "grass_colors": ["2f4a2c", "45623a", "5d7c47", "7a9658"],
+    "flower_colors": ["e8e2c8", "c8b8d8", "d8c060", "9cb8d0"],
+    "ground": ["52703c", "5c7a42", "668348"],
+    "petals": ["7e8e52", "6a7a46", "9a9460"],
+    "tree_types": ["shrub", "scrub", "slender"],
+    "crown_colors": {
+      "shrub": ["34502f", "45653a", "5a7c47", "719257"],
+      "scrub": ["4a5e36", "5a6f40", "6c814b", "7e9156"],
+      "slender": ["3c5a3a", "4f7048", "678a58", "83a266"],
+      "mountain_pine": ["223c33", "2f4d3f", "40624e", "577a5c"],
+      "broadleaf": ["2f4a2c", "3e5f36", "527445", "6c8a52"]
+    },
+    "tree_kinds": ["forest"],
+    "tree_chance": 0.6,
+    "tree_spacing": 48,
+    "bands": [{"within": 20, "types": []}, {"within": 120, "types": ["shrub", "scrub", "shrub"]}],
+    "south_reach": 2.0,
+    "cliff_tufts": 0.2,
+    "cliff_flowers": 0.05,
+    "cliff_trees": 0.012,
+    "cliff_tree_types": ["mountain_pine", "shrub", "scrub", "mountain_pine"],
+    "outcrop_colors": ["666a5e", "71766a", "5c6056"],
+    "wind": 0.14,
+    "butterflies": 3,
+    "meadows": [{"rect": [512, 2208, 960, 2496], "on": ["grass"], "scale": [1.2, 2.0], "density": 0.75, "note": "cave0.c: 两旁长满杂草"}, {"rect": [1056, 304, 1440, 640], "on": ["grass"], "scale": [0.9, 1.4], "density": 0.5}]
+  },
+  "door_looks": {
+    "green.cave.door": {"kind": "chained_door", "note": "cave0.c: 一道厚厚的木门, 上面用一条手臂粗的铁链拴著"},
+    "green.entrance.door": {"kind": "stone_door", "note": "entrance.c: 北面是一扇大石门，门上苔迹斑斑"},
+    "green.stoneroom.door": {"kind": "stone_door", "colors": ["666a5e", "71766a", "5c6056"], "moss": ["4d6a3c", "5d7a45"], "note": "the secret door: rock like the rock round it"}
+  },
+  "props": [
+    {"kind": "cave_mouth", "at": [976, 672], "size": [64, 96], "rotation": 270, "height": 2.4, "colors": ["5e6258", "686c60", "54584e"], "note": "entrance.c: 东面石壁上有一个洞口，洞内隐隐发出风雷之声"},
+    {"kind": "bagua", "at": [970, 672], "rotation": 270, "height": 3.1, "radius": 0.75, "stone": "6a6e62", "paint": "b8a46a", "note": "洞口上方似乎刻着一副图: 八卦阵图, 八卦古阵"},
+    {"kind": "cave_mouth", "at": [704, 1650], "size": [96, 48], "rotation": 180, "height": 2.2, "colors": ["5e6258", "686c60", "54584e"], "note": "mpath0.c: 山路的南边有一个山洞黑乎乎的看不清里面的景色"},
+    {"kind": "trail", "points": [[1176, 480], [1144, 472], [1112, 486], [1080, 480]], "color": "7a6e50", "note": "water.c: 西面灌木丛中隐隐的有条小路"},
+    {"kind": "reeds", "at": [1264, 420], "size": [24, 48], "count": 4, "colors": ["6e8a48", "5a7a3c", "86a058"]},
+    {"kind": "reeds", "at": [1360, 560], "size": [24, 48], "count": 4, "colors": ["6e8a48", "5a7a3c", "86a058"]},
+    {"kind": "glow", "at": [1312, 500], "color": "f4f0d8", "range": 1.6, "day": 0.6, "night": 0.8, "height": 0.05, "note": "water.c: 忽然水中有一道亮光闪过"},
+    {"kind": "ferns", "at": [1244, 600], "size": [32, 24], "count": 3},
+    {"kind": "ferns", "at": [560, 2300], "size": [32, 24], "count": 3},
+    {"kind": "ferns", "at": [924, 2400], "size": [32, 24], "count": 2},
+    {"kind": "rock_pile", "at": [790, 1180], "size": [40, 64], "count": 8, "colors": ["7a7c70", "848679", "6f7266"], "note": "stones fallen from the wall east"},
+    {"kind": "rock_pile", "at": [630, 920], "size": [32, 48], "count": 6, "colors": ["7a7c70", "848679", "6f7266"]}
+  ],
+  "ambience": {
+    "birds": [{"at": [520, 1200], "radius": 220, "count": 2, "height": 9.0, "color": "3a3029", "note": "swifts over the chasm"}],
+    "dust": [
+      {"rect": [640, 2228, 770, 2300], "count": 14, "color": "dfe6ea", "wind": [0.0, 0.5], "size": [0.28, 0.03, 0.18], "note": "cave0.c: 你仍可以感到一股寒气从里面透出来"},
+      {"rect": [790, 630, 964, 714], "count": 18, "color": "d8dcd8", "wind": [-2.2, 0.0], "size": [0.5, 0.03, 0.05], "note": "entrance.c: 洞内隐隐发出风雷之声 — wind gusting out of the cave"}
+    ],
+    "lightning": [{"rect": [954, 650, 970, 694], "every": 7.0, "height": 1.8, "range": 4.5, "energy": 1.6, "color": "dfe8ff", "note": "风雷: a flicker deep in the cave mouth"}],
+    "fall": [{"rect": [600, 800, 964, 1640], "count": 12, "height": 5.0, "colors": ["6f7a3e", "8a8a48"], "wind": [-0.5, 0.1], "note": "leaves off the little trees on the wall"}]
+  },
+  "actors": {"default": {"coat": "b3a98c"}, "green.npc.kid4": {"coat": "c2b89a"}}
+}

@@ -75,8 +75,8 @@ only they or nobody use; `d/npc` (wizard-saved characters).
   richness standard (AGENTS.md「Maps and art」); furniture is a blocked box with a `look` in the
   layout, decor is the map's `game/data/<region>/voxel/<map>.json`.
 * **Presentation**: the voxel maps (below), characters and animation, audio, consistent Chinese UI.
-* **Voxel maps** (owner, 2026-10-22): done for 雪亭镇, 老松岭, 野羊山, 卧龙岗 + 绮云镇 and 水烟阁 (46
-  maps). Next, region by region in the table's order — 青石村 first — each widened for the voxel view
+* **Voxel maps** (owner, 2026-10-22): done for 雪亭镇, 老松岭, 野羊山, 卧龙岗 + 绮云镇, 水烟阁 and 青石村
+  (58 maps). Next, region by region in the table's order — 茅山 灵心观 first — each widened for the voxel view
   first (DECISIONS「地图尺寸以体素视角为准」), every room dressed and lit; then 雪亭镇's facades in more
   detail. Desktop frame rate is the bar (DECISIONS「首发只做桌面」).
 

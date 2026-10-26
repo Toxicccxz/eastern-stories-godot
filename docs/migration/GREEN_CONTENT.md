@@ -8,8 +8,8 @@ arts and spells, joining, 法力); D the player's spells (遁, 困, 召天将).
 ## Placed (A)
 
 Twelve maps: green.village, green.mountain, green.maze (迷阵), green.cave, green.stone_house and an
-interior map for each of shop0, house0–4 and temple0. None has a voxel view yet (no
-`game/data/green/voxel/`).
+interior map for each of shop0, house0–4 and temple0. Each has its voxel view
+(`game/data/green/voxel/`, 美术规划 §5).
 
 | Room | LPC `set("objects")` | Native |
 |---|---|---|

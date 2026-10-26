@@ -13,6 +13,7 @@
     "tree_types": ["pine", "broadleaf", "broadleaf", "slender", "shrub"],
     "no_trees": [[-1952, 336, -1744, 496]],
     "areas": [
+      {"rect": [96, -2720, 640, -2200], "blossom_trees": 0, "tree_types": ["broadleaf", "shrub", "slender", "shrub"], "tree_chance": 0.4, "grass_density": 0.8, "flower_threshold": 0.2, "ground": ["56703e", "607a44", "6a834a"], "note": "the col's east end: the winding path toward 青石村 (crossroad.c: 一条蜿蜒的小径往东通往另一个邻近的小山村) takes its moss-greens"},
       {"rect": [-368, 720, 368, 1336], "blossom_trees": 0.12, "tree_types": ["pine", "broadleaf", "broadleaf", "tall_pine", "slender"], "tree_chance": 0.4, "grass_density": 0.66, "ground": ["5f7a46", "68804a", "728750"], "note": "sroad1's south end: the town gives way to 卧龙岗's wooded slopes (u/cloud/dragonhill/nroad.c)"},
       {"rect": [1296, 760, 1688, 1296], "blossom_trees": 0.04, "tree_types": ["tall_pine", "pine", "old_pine", "tall_pine", "broadleaf"], "tree_chance": 0.5, "grass_density": 0.6, "ground": ["4f6a3e", "586f42", "617646"], "note": "eroad3's south end: the pines of 老松林 begin (npath1.c: 小路两旁长满了许多高耸的松树)"},
       {"rect": [-1936, 160, -1728, 680], "blossom_trees": 0.1, "tree_types": ["maple", "maple", "broadleaf", "slender"], "tree_chance": 0.5, "ground": ["5f7a44", "6a854a", "769152"], "note": "sroad5's west end: the maples of 水烟阁's slopes begin (waterfog/sroad1.c: 山上茂密的枫树林)"},
@@ -23,7 +24,7 @@
       "snow.mstreet4": {"margin": 32, "blossom_trees": 0.08, "tree_types": ["slender", "shrub"], "grass_density": 0.55, "flower_threshold": 0.24, "ground": ["627d4c", "6c844e", "768b52"]}
     }
   },
-  "exit_trails": {"snow.eroad3.south": 8, "snow.sroad1.south": {"cells": 10, "kind": "path", "width": 8}, "snow.sroad5.west": {"cells": 10, "kind": "street", "width": 10}, "note": "the forest path runs on south into 老松林; the 黄土路 south over 卧龙岗 to 绮云镇; the 青石官道 west toward 水烟阁"},
+  "exit_trails": {"snow.crossroad.east": {"cells": 10, "kind": "path", "width": 5}, "snow.eroad3.south": 8, "snow.sroad1.south": {"cells": 10, "kind": "path", "width": 8}, "snow.sroad5.west": {"cells": 10, "kind": "street", "width": 10}, "note": "the forest path runs on south into 老松林; the 黄土路 south over 卧龙岗 to 绮云镇; the 青石官道 west toward 水烟阁"},
   "ground": {
     "town_ground": {"style": "slabs", "lengths": [2, 4], "depths": [1, 2], "cracks": 0.14, "broken": 0.1, "sunk": 0.03, "tufts": 0.12, "stones": ["98978a", "a4a090", "8c8e81", "aca693", "958f7e", "a09a88"], "worn": ["8a8775", "827f6c", "8f897a"], "bed": "57544a", "joint": 0.045, "mud": "877d63", "crack": "6e6a5a", "moss": "6d7f52", "moss_chance": 0.04, "note": "square.c: 地上整齐地铺著大石板, laid long ago: rows of big flags in random lengths, worn, a few cracked, broken or sunk"},
     "street": {"style": "slabs", "lengths": [2, 3], "depths": [1, 2], "cracks": 0.14, "broken": 0.1, "sunk": 0.03, "tufts": 0.14, "stones": ["98978a", "a4a090", "8c8e81", "aca693", "958f7e", "a09a88"], "worn": ["8a8775", "827f6c", "8f897a"], "bed": "57544a", "joint": 0.045, "mud": "877d63", "crack": "6e6a5a", "moss": "6d7f52", "moss_chance": 0.05, "note": "the town's streets: the square's stone, a size smaller"}
@@ -37,6 +38,7 @@
     "strata": ["7a7262", "8a8170", "958b77", "a39883", "857c6a"],
     "tops": ["6f7a50", "7a8256", "86895c"],
     "areas": [
+      {"rect": [150, -2720, 460, -2400], "strata": ["6a6e62", "757a6c", "7f8476", "8a8e80", "70756a"], "tops": ["4a6238", "566e40", "627a48"], "moss": {"colors": ["4d6a3c", "5d7a45", "3f5a33"], "amount": 0.45, "hang": 1.6}, "note": "the col's east rocks: 青石村's grey-green stone, mossed (green/README: 山壁上覆满青苔)"},
       {"rect": [-448, -2720, 448, -2400], "strata": ["7d6c55", "8c7a5e", "9a8766", "a6926d", "86745b"], "tops": ["6c6a42", "787449", "857e50"], "grooves": 0.06, "note": "the col's rocks already take 野羊山's colours"}
     ]
   },
@@ -76,7 +78,8 @@
     {"kind": "lantern", "at": [128, -880]},
     {"kind": "lantern", "at": [-128, -1350]},
     {"kind": "lantern", "at": [128, -1900]},
-    {"kind": "rock_pile", "at": [0, -2590], "size": [72, 120], "count": 16, "colors": ["b09a70", "9d8a66", "897b59"], "note": "scree where the col's 碎石路 starts north (last: the props before it keep their dressing)"}
+    {"kind": "rock_pile", "at": [0, -2590], "size": [72, 120], "count": 16, "colors": ["b09a70", "9d8a66", "897b59"], "note": "scree where the col's 碎石路 starts north (last: the props before it keep their dressing)"},
+    {"kind": "ferns", "at": [250, -2520], "size": [32, 24], "count": 2, "note": "toward 青石村: ferns by the path east (after the rest: the town's dressing stays as it was)"}
   ],
   "weather": [
     {"at": [-253, 88], "radius": [62, 36], "water": true},

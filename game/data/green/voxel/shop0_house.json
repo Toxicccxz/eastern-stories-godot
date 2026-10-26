@@ -1,0 +1,23 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 24,
+  "note": "沈记商行 (shop0.c): 青石村唯一的商店, 日常生活用品, 工具, 甚至于棺材; 屋内相当的拥挤, 到处都是箱子和杂物. An old wooden house: grey boards, a worn floor, goods to the rafters.",
+  "palette": {"wood": ["6e5c45", "7a6649", "84704f", "665540"], "wall": "8f8a74"},
+  "props": [
+    {"kind": "window", "at": [-200, -224], "size": [64, 16], "rotation": 0},
+    {"kind": "window", "at": [120, -224], "size": [48, 16], "rotation": 0},
+    {"kind": "hanging_lantern", "at": [-40, -40], "paper": "f0b060"},
+    {"kind": "hanging_lantern", "at": [180, 120], "paper": "e8a858", "flicker": 0.06},
+    {"kind": "straw_patch", "at": [-240, 40], "size": [64, 48]},
+    {"kind": "clutter", "items": ["jar"], "at": [-120, 150], "size": [24, 24]},
+    {"kind": "clutter", "items": ["basket"], "at": [-80, 160], "size": [24, 24]},
+    {"kind": "clutter", "items": ["bucket"], "at": [40, 180], "size": [24, 24]},
+    {"kind": "stains", "at": [-250, 0], "size": [96, 64], "count": 4, "colors": ["5a4a36", "4e4030", "62513b"], "note": "mud trodden in at the door"}
+  ],
+  "actors": {
+    "default": {"coat": "b3a98c"},
+    "green.npc.shen": {"coat": "8a7656", "hat": true},
+    "green.npc.woman1": {"coat": "a59b80"}
+  }
+}

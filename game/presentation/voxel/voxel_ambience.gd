@@ -23,6 +23,7 @@ var _bubbles: Array[Dictionary] = []
 var _swaying: Array[Dictionary] = []
 var _floating: Array[Dictionary] = []
 var _drifting: Array[Dictionary] = []
+var _bolts: Array[Dictionary] = []
 ## How far into night the view is (0 day .. 1 night), set by the view each frame:
 ## fireflies come out only in the dark.
 var night: float = 0.0
@@ -30,7 +31,10 @@ var night: float = 0.0
 ## `birds`: [{"at": [x, y] px, "radius": px, "count": n, "height": units, "color": hex}],
 ## `dust`: [{"rect": [x0, y0, x1, y1] px, "count": n, "color": hex, "wind": [x, z]}],
 ## `fall`: pine needles or leaves drifting down from the canopy, [{"rect", "count",
-## "colors", "height", "wind"}], `fireflies`: [{"rect", "count", "color", "height"}].
+## "colors", "height", "wind"}] (`up`: sparks rising from a fire instead, `glow`: lit by
+## themselves), `fireflies`: [{"rect", "count", "color", "height"}]; dust may have a `size`
+## (units: a long streak of mist on the wind). `lightning`: [{"rect", "every" seconds,
+## "color", "height", "range", "energy"}]: a bolt now and then somewhere over the rect, the land lit white.
 func configure(data: Dictionary) -> void:
 	var shapes := Shapes.new()
 	var index: int = 0
@@ -56,7 +60,8 @@ func configure(data: Dictionary) -> void:
 		for i: int in int(cloud.get("count",24)):
 			var mote := Node3D.new()
 			add_child(mote)
-			shapes.box(mote,Vector3.ZERO,Vector3(0.07,0.05,0.07),String(cloud.get("color","c8b48a")))
+			var grain: Array = cloud.get("size",[0.07,0.05,0.07])
+			shapes.box(mote,Vector3.ZERO,Vector3(float(grain[0]),float(grain[1]),float(grain[2])),String(cloud.get("color","c8b48a")))
 			var phase: float = i*12.9898
 			_motes.append({"node":mote,"x0":float(r[0])/32.0,"z0":float(r[1])/32.0,"w":(float(r[2])-float(r[0]))/32.0,"d":(float(r[3])-float(r[1]))/32.0,
 				"u":fposmod(sin(phase)*43758.5,1.0),"v":fposmod(sin(phase*1.7)*24634.6,1.0),"h":0.2+fposmod(sin(phase*2.3)*1531.2,1.0)*1.6,
@@ -66,13 +71,13 @@ func configure(data: Dictionary) -> void:
 		var colors: Array = drift.get("colors",["8a5a36","a8794a","6e8a47"])
 		var wind: Array = drift.get("wind",[0.4,0.2])
 		# One MultiMesh for the whole drift (a draw call, not one per needle).
-		var needles: MultiMesh = _swarm(Vector3(0.18,0.018,0.035),int(drift.get("count",20)),false)
+		var needles: MultiMesh = _swarm(Vector3(0.18,0.018,0.035) if not drift.get("up",false) else Vector3(0.06,0.06,0.06),int(drift.get("count",20)),false,drift.get("glow",false))
 		for i: int in needles.instance_count:
 			needles.set_instance_color(i,Color(String(colors[i%colors.size()])))
 			var phase: float = i*7.3121+index*3.1
 			_falling.append({"multi":needles,"index":i,"x0":float(r[0])/32.0,"z0":float(r[1])/32.0,"w":(float(r[2])-float(r[0]))/32.0,"d":(float(r[3])-float(r[1]))/32.0,
 				"u":fposmod(sin(phase)*43758.5,1.0),"v":fposmod(sin(phase*1.9)*24634.6,1.0),"t":fposmod(sin(phase*2.7)*9137.1,1.0),
-				"height":float(drift.get("height",5.0)),"wind":Vector2(float(wind[0]),float(wind[1])),"rate":0.09+fposmod(sin(phase*3.3)*512.9,1.0)*0.06})
+				"height":float(drift.get("height",5.0)),"wind":Vector2(float(wind[0]),float(wind[1])),"rate":0.09+fposmod(sin(phase*3.3)*512.9,1.0)*0.06,"up":drift.get("up",false)})
 		index += 1
 	for swarm: Dictionary in data.get("fireflies",[]):
 		var r: Array = swarm["rect"]
@@ -88,11 +93,49 @@ func configure(data: Dictionary) -> void:
 			_fireflies.append({"node":holder,"multi":flies,"index":i,"x0":float(r[0])/32.0,"z0":float(r[1])/32.0,"w":(float(r[2])-float(r[0]))/32.0,"d":(float(r[3])-float(r[1]))/32.0,
 				"u":fposmod(sin(phase)*43758.5,1.0),"v":fposmod(sin(phase*1.3)*24634.6,1.0),"h":float(swarm.get("height",1.0)),"phase":phase})
 		index += 1
+	for storm: Dictionary in data.get("lightning",[]):
+		_lightning(storm,index)
+		index += 1
 	shapes.flush()
+
+## A bolt (zigzag of white-hot boxes, lit by itself) and the light it throws, both hidden but
+## for a flash or two every `every` seconds; the light's energy is its own (VoxelLighting skips
+## it: meta `own_energy`).
+func _lightning(storm: Dictionary, index: int) -> void:
+	var r: Array = storm["rect"]
+	var bolt := Node3D.new()
+	add_child(bolt)
+	var glow := StandardMaterial3D.new()
+	glow.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	glow.albedo_color = Color(String(storm.get("color","e8f0ff")))
+	var top: float = float(storm.get("height",14.0))
+	var at := Vector3.ZERO
+	var cube := BoxMesh.new()
+	for step: int in 9:
+		var next := at+Vector3(sin(step*2.7)*0.9,-top/9.0,cos(step*1.9)*0.5)*Vector3(top/14.0,1,top/14.0)
+		var piece := MeshInstance3D.new()
+		piece.mesh = cube
+		piece.material_override = glow
+		piece.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		var along: Vector3 = next-at
+		piece.transform = Transform3D(Basis.looking_at(along.normalized(),Vector3.RIGHT).scaled_local(Vector3(0.12,0.12,along.length())),(at+next)/2.0+Vector3(0,top,0))
+		bolt.add_child(piece)
+		at = next
+	bolt.visible = false
+	var flash := OmniLight3D.new()
+	flash.light_color = Color(String(storm.get("color","e8f0ff")))
+	flash.omni_range = float(storm.get("range",34.0))
+	flash.omni_attenuation = 0.6
+	flash.light_energy = 0.0
+	flash.visible = false
+	flash.set_meta("own_energy",true)
+	add_child(flash)
+	_bolts.append({"bolt":bolt,"flash":flash,"x0":float(r[0])/32.0,"z0":float(r[1])/32.0,"w":(float(r[2])-float(r[0]))/32.0,"d":(float(r[3])-float(r[1]))/32.0,
+		"every":float(storm.get("every",6.0)),"phase":index*0.37,"strike":-1,"top":top,"energy":float(storm.get("energy",5.0))})
 
 ## Many small boxes moved together each frame: one MultiMesh (instance colours for needles,
 ## the shared glow for fireflies) under one instance.
-func _swarm(size: Vector3, count: int, glowing: bool) -> MultiMesh:
+func _swarm(size: Vector3, count: int, glowing: bool, lit: bool = false) -> MultiMesh:
 	var cube := BoxMesh.new()
 	cube.size = size
 	var multi := MultiMesh.new()
@@ -111,6 +154,8 @@ func _swarm(size: Vector3, count: int, glowing: bool) -> MultiMesh:
 		var needle := StandardMaterial3D.new()
 		needle.vertex_color_use_as_albedo = true
 		needle.roughness = 0.95
+		if lit:
+			needle.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 		instance.material_override = needle
 	add_child(instance)
 	return multi
@@ -255,7 +300,7 @@ func advance(delta: float) -> void:
 		var wind: Vector2 = needle["wind"]
 		var u: float = fposmod(float(needle["u"])+life*wind.x*0.08,1.0)
 		var v: float = fposmod(float(needle["v"])+life*wind.y*0.08,1.0)
-		var at := Vector3(float(needle["x0"])+u*float(needle["w"])+sin(clock*1.7+float(needle["t"])*9.0)*0.2,float(needle["height"])*(1.0-life),float(needle["z0"])+v*float(needle["d"]))
+		var at := Vector3(float(needle["x0"])+u*float(needle["w"])+sin(clock*1.7+float(needle["t"])*9.0)*0.2,float(needle["height"])*(life if needle["up"] else 1.0-life),float(needle["z0"])+v*float(needle["d"]))
 		var turn := Basis.from_euler(Vector3(sin(clock*2.1+float(needle["u"])*7.0)*0.6,clock*1.3+float(needle["v"])*6.0,0))
 		(needle["multi"] as MultiMesh).set_instance_transform(int(needle["index"]),Transform3D(turn,at))
 	var dark: float = clampf((night-0.35)/0.5,0.0,1.0)
@@ -291,6 +336,23 @@ func advance(delta: float) -> void:
 	for mist: Dictionary in _drifting:
 		var t: float = clock*0.06+float(mist["phase"])
 		(mist["node"] as Node3D).position = mist["base"]+Vector3(sin(t)*float(mist["reach"]),sin(t*0.7)*0.08,sin(t*0.53+1.1)*float(mist["reach"])*0.5)
+	for storm: Dictionary in _bolts:
+		var cycle: float = clock/float(storm["every"])+float(storm["phase"])
+		var strike: int = floori(cycle)
+		var t: float = (cycle-strike)*float(storm["every"])
+		# Two flashes a tenth of a second apart, then dark till the next.
+		var lit: bool = t < 0.09 or t > 0.17 and t < 0.24
+		var bolt: Node3D = storm["bolt"]
+		var flash: OmniLight3D = storm["flash"]
+		if strike != int(storm["strike"]):
+			storm["strike"] = strike
+			var spot := Vector3(float(storm["x0"])+fposmod(sin(strike*12.9898)*43758.5,1.0)*float(storm["w"]),0,float(storm["z0"])+fposmod(sin(strike*78.233)*24634.6,1.0)*float(storm["d"]))
+			bolt.position = spot
+			bolt.rotation.y = strike*1.3
+			flash.position = spot+Vector3(0,float(storm["top"])*0.6,0)
+		bolt.visible = lit
+		flash.visible = lit
+		flash.light_energy = float(storm["energy"]) if lit else 0.0
 	for hanging: Dictionary in _swaying:
 		var t: float = clock*1.1+float(hanging["phase"])
 		(hanging["node"] as Node3D).rotation = Vector3(sin(t)*float(hanging["amount"]),0,sin(t*0.73+1.3)*float(hanging["amount"])*0.7)

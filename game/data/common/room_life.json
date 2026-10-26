@@ -186,6 +186,49 @@
 			"count": 4,
 			"scatter": ["ash", "paper", "straw"], "spread": 0.08
 		},
+		"home": {
+			"walls": "earth", "grime": 0.55,
+			"hangings": ["straw_cape", "string_hang:garlic", "tool_hooks:sickles", "string_hang:chili", "clothes_peg", "calendar"], "hang": 0.2,
+			"tables": ["meal", "tea_used"],
+			"pieces": [
+				{"kind": "firewood", "size": [48, 32]},
+				{"kind": "baskets", "size": [32, 32]},
+				{"kind": "crocks", "size": [32, 32]},
+				{"kind": "clutter", "size": [32, 32], "items": ["broom", "bucket"]},
+				{"kind": "sacks", "size": [32, 32], "cloth": "a8946a"}
+			],
+			"count": 3,
+			"scatter": ["chips", "straw", "ash"], "spread": 0.08
+		},
+		"workshop": {
+			"walls": "boards", "grime": 0.5,
+			"hangings": ["tool_hooks:chisels", "tool_hooks:chisels", "straw_cape", "wall_lamp"], "hang": 0.24,
+			"tables": ["tools"],
+			"pieces": [
+				{"kind": "stone_slabs", "size": [48, 32]},
+				{"kind": "stone_slabs", "size": [48, 32], "lean": true},
+				{"kind": "clutter", "size": [32, 32], "items": ["bucket", "broom"]},
+				{"kind": "sacks", "size": [32, 32], "cloth": "8a8770"}
+			],
+			"count": 3,
+			"scatter": ["stone_chips", "dust"], "spread": 0.14
+		},
+		"general_store": {
+			"walls": "boards", "grime": 0.55,
+			"hangings": ["string_hang:garlic", "straw_cape", "tool_hooks:sickles", "wall_shelf", "calendar", "string_hang:chili"], "hang": 0.26,
+			"tables": ["ledger"],
+			"pieces": [
+				{"kind": "chest_stack", "size": [48, 32]},
+				{"kind": "sacks", "size": [48, 32], "cloth": "b09a69"},
+				{"kind": "crocks", "size": [32, 32]},
+				{"kind": "baskets", "size": [32, 32]},
+				{"kind": "chest_stack", "size": [32, 32]},
+				{"kind": "clutter", "size": [32, 32], "items": ["broom", "umbrella", "basket"]},
+				{"kind": "lumber", "size": [48, 32], "lean": true}
+			],
+			"count": 8,
+			"scatter": ["straw", "paper", "dust"], "spread": 0.08
+		},
 		"classroom": {
 			"walls": "plaster", "grime": 0.35,
 			"hangings": ["wall_scroll:calligraphy", "calendar", "wall_lamp"], "hang": 0.12,

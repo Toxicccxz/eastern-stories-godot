@@ -1,0 +1,128 @@
+{
+  "indoor": false,
+  "camera_size": 23,
+  "note": "青石村 (README: 三面环山, 产石材. 因山壁上覆满青苔而得名): grey-green stone everywhere — the slab road with its ruts, the square of great blocks, houses of dry-laid stone under stone-slab roofs, the cut cliff of the quarry — moss on every face and in every joint, earth-brown yards and wood, the hills close round on three sides. Colours 青灰, 苔绿, 土褐; nothing of 雪亭镇's blossom, 水烟阁's maples or 绮云镇's grey-blue tiles.",
+  "edge": {"minimum_margin": 48, "maximum_margin": 112, "depth": 2.6, "top": "4a5a3c", "bottom": "3a3f34", "strata": ["5e6156", "686b5f", "55584e"]},
+  "light": {"sky": ["a6bcae", "0f1a28"], "ambient": ["b6c4b0", "6e86aa"], "ambient_energy": [0.4, 0.3]},
+  "cliffs": {
+    "kinds": ["cliff"],
+    "low": 1.0,
+    "high": 5.6,
+    "rise": 150,
+    "step": 0.5,
+    "rough": 0.55,
+    "keep": 220,
+    "trim": ["cliff"],
+    "south_rise": 2.2,
+    "grooves": 0.05,
+    "strata": ["6a6e62", "757a6c", "7f8476", "8a8e80", "70756a"],
+    "tops": ["4a6238", "566e40", "627a48"],
+    "moss": {"colors": ["4d6a3c", "5d7a45", "3f5a33", "6a8650"], "amount": 0.46, "hang": 1.8, "note": "README: 山壁上覆满青苔"},
+    "areas": [
+      {"rect": [2112, 880, 2224, 1440], "strata": ["9a9b8c", "a5a596", "8e8f81", "b0ae9e", "969687"], "tops": ["5a6a44", "667650"], "grooves": 0.22, "moss": {"colors": ["5d7a45"], "amount": 0.12, "hang": 1.0}, "note": "the quarry: fresh-cut pale stone, chisel-scored, little moss yet"}
+    ],
+    "lifts": [{"rect": [2144, 860, 2224, 1460], "by": 3.0, "note": "field1.c: 高耸的石璧"}, {"rect": [1184, 480, 2224, 600], "by": 1.5, "note": "the hills behind the village"}]
+  },
+  "reshape": [
+    {"rect": [2112, 976, 2160, 1328], "from": ["cliff"], "to": "blocked", "note": "the quarry's cut benches stand here (the prop), the high face behind them"}
+  ],
+  "exit_trails": {"green.path6.west": {"cells": 10, "kind": "street", "width": 18}, "green.path0.north": {"cells": 6, "kind": "path", "width": 3}, "note": "the slab road runs on west, down to 山坳; the faint path north to the cave"},
+  "ground": {
+    "street": {"style": "slabs", "lengths": [2, 3], "depths": [1, 2], "cracks": 0.16, "broken": 0.1, "sunk": 0.04, "tufts": 0.16, "stones": ["8a9087", "959a8f", "7f857b", "9da295", "878c80", "a1a497"], "worn": ["7f8579", "878c80", "8e9286"], "bed": "4f5248", "joint": 0.045, "mud": "7a6e55", "crack": "626659", "moss": "5f7448", "moss_chance": 0.14, "note": "path5/6.c: 平整的石板路 — the village's own grey-green stone, worn, moss in the joints"},
+    "town_ground": {"style": "slabs", "lengths": [3, 5], "depths": [2, 3], "cracks": 0.12, "broken": 0.08, "sunk": 0.03, "tufts": 0.12, "stones": ["969a8c", "a2a597", "8c9083", "aaab9c", "92968a"], "worn": ["8a8e80", "9a9c8f"], "bed": "52554a", "joint": 0.05, "mud": "7d725a", "crack": "66695c", "moss": "5f7448", "moss_chance": 0.1, "note": "field0.c: 地上铺著切割整齐的大石块 — great blocks in rows, laid long ago"},
+    "path": {"style": "scree", "colors": ["9a8862", "a6936a", "8e7d5a"], "gravel": 0.55, "stones": 0.05, "note": "path2-4, path8: 碎石和黄土"},
+    "grass": {"colors": ["56703e", "607a44", "6a834a"]},
+    "forest": {"style": "litter", "colors": ["3e4430", "474c35", "50553a"], "strew": 0.3, "cones": 0.0, "moss": 0.3, "moss_below": 0.05}
+  },
+  "ground_tints": {"bank": "445a34", "mud": "5e5040", "chips": ["8e8f82", "9a9b8d", "a6a698"], "dust": "8a7c60", "grit": "9a9a8a"},
+  "flora": {
+    "grass_density": 0.8,
+    "flower_threshold": 0.14,
+    "blossom_trees": 0.0,
+    "grass_colors": ["2f4a2c", "45623a", "5d7c47", "7a9658"],
+    "flower_colors": ["e8e2c8", "c8b8d8", "d8c060", "9cb8d0"],
+    "ground": ["56703e", "607a44", "6a834a"],
+    "petals": ["7e8e52", "6a7a46", "9a9460"],
+    "tree_types": ["broadleaf", "broadleaf", "pine", "slender", "shrub"],
+    "crown_colors": {
+      "broadleaf": ["2f4a2c", "3e5f36", "527445", "6c8a52"],
+      "pine": ["1f3a2e", "2a4a37", "3a5d43", "4f7350"],
+      "slender": ["3c5a3a", "4f7048", "678a58", "83a266"],
+      "shrub": ["34502f", "45653a", "5a7c47", "719257"],
+      "scrub": ["4a5e36", "5a6f40", "6c814b", "7e9156"],
+      "mountain_pine": ["223c33", "2f4d3f", "40624e", "577a5c"],
+      "note": "苔绿 and 深绿: the village's own greens"
+    },
+    "tree_kinds": ["forest"],
+    "tree_chance": 0.45,
+    "tree_spacing": 64,
+    "bands": [{"within": 28, "types": []}, {"within": 64, "types": ["shrub", "scrub"]}, {"within": 120, "types": ["slender", "shrub", "broadleaf"]}],
+    "south_reach": 2.0,
+    "cliff_tufts": 0.3,
+    "cliff_flowers": 0.05,
+    "cliff_trees": 0.04,
+    "cliff_tree_types": ["mountain_pine", "shrub", "scrub"],
+    "outcrop_colors": ["6a6e62", "757a6c", "5f6358"],
+    "wind": 0.1,
+    "butterflies": 6,
+    "areas": [
+      {"rect": [80, 1904, 1696, 2064], "tree_types": ["shrub", "shrub", "scrub"], "tree_chance": 0.65, "bands": [{"within": 24, "types": []}, {"within": 200, "types": ["shrub", "scrub", "shrub"]}], "note": "path5/6.c: 南边看去是一片矮树丛"},
+      {"rect": [512, 80, 1184, 720], "tree_types": ["slender", "shrub", "scrub", "broadleaf"], "tree_chance": 0.5, "grass_density": 0.95, "note": "path0/1.c: 路的四周长满了杂草和小树之类的"},
+      {"rect": [992, 1664, 1664, 1984], "ground_styles": {"town_ground": {"style": "scree", "colors": ["7a6e58", "857860", "6e6450"], "gravel": 0.5, "stones": 0.06}}, "note": "station0: the work station's yard, packed earth and stone chips"},
+      {"rect": [1664, 1376, 2112, 1888], "ground_styles": {"town_ground": {"style": "scree", "colors": ["7d705a", "887a62", "72664f"], "gravel": 0.45, "stones": 0.06}}, "note": "station1"},
+      {"rect": [1664, 928, 2112, 1376], "ground_styles": {"path": {"style": "scree", "colors": ["b09a68", "bba572", "a48f60"], "gravel": 0.3, "stones": 0.05}}, "note": "field1.c: 这是一片黄土空地"},
+      {"rect": [80, 1700, 992, 1800], "ground_styles": {"path": {"colors": ["5e5546", "665c4b", "574f42"], "clean": true}}, "note": "the ruts: dark, wet grooves worn in the slabs"}
+    ],
+    "meadows": [{"rect": [672, 80, 992, 720], "on": ["grass"], "scale": [1.2, 2.0], "density": 0.7, "note": "path1.c: 两旁杂草丛生"}]
+  },
+  "buildings": [
+    {"rect": [992, 1248, 1184, 1552], "portals": ["green.path4.east"], "note": "沈记商行 (path4.c): 一栋木造建筑, 看来相当的破旧, 一片快要散掉似的木牌悬挂在门口", "construction": "timber", "wall": "8a7e66", "timber": "5a4834", "plinth": ["737769", "7e8173", "686c60"], "height": 3.0, "roof_form": "gable", "ridge": "z", "rise": 1.1, "eave_lift": 0.08, "roof": "6a7064", "roof_tiles": "slate", "slates": ["666c60", "71766a", "5d6358", "7a7e70"], "mossy": 0.32, "porch": "wood", "goods": "baskets", "lantern": "e8a858", "signboard": {"text": "沈记商行", "worn": true, "tilt": 9, "board": "8a8170", "letters": "3a342c", "width": 1.6}},
+    {"rect": [432, 992, 672, 1280], "portals": ["green.path3.west"], "note": "民宅 (path3.c): a house of dry-laid stone, its stove smoking", "construction": "rubble", "stones": ["6d7166", "7a7d70", "62675d", "858679"], "wall": "7a7d70", "timber": "5e4a36", "height": 2.6, "roof_form": "gable", "ridge": "z", "rise": 1.0, "roof": "62685c", "roof_tiles": "slate", "slates": ["5f665a", "6a7064", "575d52", "737868"], "mossy": 0.4, "chimney": true, "smoke": true, "porch": "wood", "goods": "none", "lanterns": false},
+    {"rect": [1024, 752, 1184, 992], "portals": ["green.path8.north"], "note": "工匠的家: a mason's stone house", "construction": "rubble", "stones": ["7a7d70", "858679", "6d7166", "8e8f80"], "wall": "858679", "timber": "5a4834", "height": 2.5, "roof_form": "gable", "ridge": "x", "rise": 0.9, "roof": "6a7064", "roof_tiles": "slate", "slates": ["666c60", "71766a", "5d6358"], "mossy": 0.25, "porch": "none", "goods": "tools", "lanterns": false},
+    {"rect": [1296, 640, 1552, 928], "portals": ["green.field0.north"], "note": "民宅 (house2.c): 屋顶隐约还可以看到一些破洞 — a poor wooden house, its thatch holed", "construction": "timber", "wall": "8a7a5e", "timber": "5a4632", "plinth": ["6d7166", "7a7d70"], "height": 2.6, "roof_form": "gable", "ridge": "x", "rise": 1.2, "eave_lift": 0.0, "roof": "8a7a50", "roof_tiles": "thatch", "straw": ["8a7a4c", "9a8858", "7a6c44", "a49260"], "holes": 0.16, "moss": "5a6a40", "porch": "none", "goods": "none", "lanterns": false},
+    {"rect": [1728, 640, 1984, 928], "portals": ["green.field1.north"], "note": "民宅 (house3.c): its owner long gone — moss thick on the slates, the door dark", "construction": "rubble", "stones": ["686c62", "74776b", "5e6359", "7f8174"], "wall": "74776b", "timber": "4e4234", "height": 2.6, "roof_form": "gable", "ridge": "x", "rise": 1.0, "roof": "5e6458", "roof_tiles": "slate", "slates": ["5a6054", "646a5e", "52584c", "6c7064"], "mossy": 0.7, "porch": "none", "goods": "none", "lanterns": false, "doorway": "dark"},
+    {"rect": [1296, 1376, 1552, 1632], "portals": ["green.field0.south"], "note": "村长的家 (field0.c: 正南边那栋木屋最为特别): dark red-brown timber, a hipped stone roof with beasts on its ridge, lattice windows, smoke from the great stove", "construction": "timber", "wall": "7a5a40", "timber": "4e3424", "plinth": ["7a7d70", "858679", "6d7166"], "foundation": 0.7, "height": 3.4, "roof_form": "hip", "rise": 1.5, "eave_lift": 0.28, "roof": "5e6458", "roof_tiles": "slate", "slates": ["5a6054", "666c60", "52584c", "707468"], "mossy": 0.22, "ridge_ends": "5a5e52", "lattice": true, "chimney": true, "smoke": true, "chimney_at": [0.0, 0.1], "porch": "wood", "goods": "none", "lantern": "f0b060"},
+    {"rect": [432, 752, 672, 928], "portals": ["green.path2.west"], "note": "土地庙 (path2.c: 西边有一间小小的土地庙): a little stone shrine, dark within", "construction": "rubble", "stones": ["5f665a", "6b7064", "566050", "747a6c"], "wall": "6b7064", "timber": "5a3a2a", "height": 2.4, "roof_form": "hip", "rise": 0.9, "eave_lift": 0.22, "roof": "5a6054", "roof_tiles": "slate", "slates": ["566050", "60665a", "4e564a"], "mossy": 0.5, "ridge_ends": "5a5e52", "porch": "none", "goods": "none", "lanterns": false, "doorway": "dark"},
+    {"rect": [1504, 1840, 1632, 1952], "portals": [], "doors": [[1504, 1896]], "note": "station0.c: 一栋小小的木屋立在东边 (path5.c calls it a 石屋): stone below, boards above", "construction": "rubble", "stones": ["6d7166", "7a7d70", "62675d"], "wall": "7a6a50", "timber": "5a4632", "foundation": 1.0, "height": 2.3, "roof_form": "shed", "ridge": "z", "rise": 0.8, "roof": "8a7a50", "roof_tiles": "thatch", "straw": ["8a7a4c", "9a8858", "7a6c44"], "porch": "none", "goods": "tools", "lanterns": false, "doorway": "shut"},
+    {"rect": [1824, 1792, 1984, 1888], "portals": [], "doors": [[1904, 1792]], "note": "station1.c: 靠南的山边有一间马房", "construction": "timber", "wall": "7a6a50", "timber": "54422e", "height": 2.4, "roof_form": "shed", "ridge": "x", "rise": 0.7, "roof": "8a7a50", "roof_tiles": "thatch", "straw": ["8a7a4c", "9a8858", "a49260", "7a6c44"], "porch": "none", "goods": "none", "lanterns": false, "doorway": "dark"},
+    {"rect": [2000, 1424, 2112, 1544], "portals": [], "doors": [[2000, 1484]], "note": "station1.c: 几间矮小的房舍延著山壁建造 — the tool store", "construction": "rubble", "stones": ["6d7166", "7a7d70", "62675d"], "wall": "7a7d70", "timber": "5a4632", "height": 2.2, "roof_form": "shed", "ridge": "z", "rise": 0.6, "roof": "62685c", "roof_tiles": "slate", "slates": ["5f665a", "6a7064", "575d52"], "mossy": 0.45, "porch": "none", "goods": "tools", "lanterns": false, "doorway": "shut"},
+    {"rect": [2000, 1544, 2112, 1664], "portals": [], "doors": [[2000, 1604]], "construction": "timber", "wall": "7a6a50", "timber": "54422e", "height": 2.1, "roof_form": "shed", "ridge": "z", "rise": 0.6, "roof": "8a7a50", "roof_tiles": "thatch", "straw": ["8a7a4c", "9a8858", "7a6c44"], "porch": "none", "goods": "sacks", "lanterns": false, "doorway": "dark"}
+  ],
+  "props": [
+    {"kind": "quarry_face", "at": [2136, 1152], "size": [352, 48], "rotation": 270, "steps": 3, "rise": 1.0, "note": "field1.c: 往东看去就是采石场 — the face cut back in benches, wedge holes for the next block"},
+    {"kind": "far_peak", "at": [1500, 60], "size": [640, 260], "height": 9.0, "elevation": -2.0, "haze": true, "colors": ["8a9a90", "94a398", "9eab9f"], "note": "README: 三面环山 — north"},
+    {"kind": "far_peak", "at": [900, 2560], "size": [760, 260], "height": 7.0, "elevation": -2.0, "haze": true, "colors": ["8a9a90", "94a398", "9eab9f"], "note": "south"},
+    {"kind": "mossy_rock", "at": [600, 1500], "size": [40, 40], "tall": 0.8, "fern": true},
+    {"kind": "mossy_rock", "at": [300, 1520], "size": [32, 32], "tall": 0.6, "fern": true},
+    {"kind": "mossy_rock", "at": [1120, 2024], "size": [40, 32], "tall": 0.7, "fern": false},
+    {"kind": "mossy_rock", "at": [560, 640], "size": [40, 40], "tall": 0.8, "fern": true},
+    {"kind": "mossy_rock", "at": [1100, 300], "size": [32, 32], "tall": 0.6, "fern": true},
+    {"kind": "ferns", "at": [640, 1540], "size": [32, 24], "count": 3},
+    {"kind": "ferns", "at": [1020, 420], "size": [32, 24], "count": 3},
+    {"kind": "ferns", "at": [540, 300], "size": [32, 24], "count": 2},
+    {"kind": "straw_patch", "at": [1960, 1760], "size": [96, 48], "note": "hay trodden about the stable"},
+    {"kind": "straw_patch", "at": [1760, 1840], "size": [64, 40]},
+    {"kind": "tracks", "points": [[1560, 1700], [1620, 1660], [1700, 1600], [1780, 1520]], "print": "hoof", "color": "5e5040", "note": "the carts' horses up the slope"},
+    {"kind": "tracks", "points": [[180, 1752], [500, 1748], [860, 1752], [1080, 1780], [1300, 1830]], "print": "boot", "color": "5e5040"},
+    {"kind": "stains", "at": [1288, 1850], "size": [64, 48], "count": 4, "colors": ["4e5a50", "56625a"], "note": "water slopped at the well"}
+  ],
+  "weather": [
+    {"at": [360, 1720], "radius": [70, 10], "water": true},
+    {"at": [760, 1784], "radius": [56, 10], "water": true},
+    {"at": [1300, 1720], "radius": [48, 30], "water": false},
+    {"at": [1880, 1180], "radius": [60, 40], "water": false}
+  ],
+  "ambience": {
+    "birds": [{"at": [1440, 1100], "radius": 200, "count": 3, "height": 8.0, "color": "4a4036", "note": "sparrows round the banyan"}, {"at": [2000, 900], "radius": 280, "count": 1, "height": 13.0, "color": "3a3029", "note": "a hawk over the quarry"}],
+    "dust": [{"rect": [1700, 950, 2100, 1350], "count": 26, "color": "c8c4b0", "wind": [-0.6, 0.2], "note": "stone dust off the quarry"}],
+    "fall": [{"rect": [1280, 940, 1600, 1260], "count": 24, "height": 6.0, "colors": ["6f7a3e", "8a8a48", "a58d4e"], "wind": [0.3, 0.2], "note": "leaves off the banyan"}],
+    "fireflies": [{"rect": [200, 1920, 1500, 2040], "count": 14, "height": 0.9, "note": "the shrubs south of the road at night"}, {"rect": [560, 200, 1100, 700], "count": 10, "height": 0.9}]
+  },
+  "actors": {
+    "default": {"coat": "b3a98c"},
+    "green.npc.worker2": {"coat": "9a9076", "hat": true, "note": "采石工: README a.k.a 绷带村, 因为每个 NPC 身上都有穿布衣"},
+    "green.npc.kid1": {"coat": "c2b89a"},
+    "green.npc.kid2": {"coat": "a8b0a0"},
+    "green.npc.kid3": {"coat": "c8bfa4"}
+  }
+}

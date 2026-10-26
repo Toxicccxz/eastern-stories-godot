@@ -17,9 +17,12 @@ var target: float = 0.0
 var indoor: bool = false
 ## Layout `light`: [day, night] pairs for "sky", "ambient", "ambient_energy", "sun",
 ## "sun_energy"; "carried": a soft light that goes with the player (a dark cave); "fog":
-## {"color": [day, night], "density": [day, night], "height", "height_density"}: haze that
-## thickens below `height` (the depths of a gorge, the ground far under a tree).
+## {"color": [day, night], "density": [day, night], "height", "height_density", "depth"}: haze that
+## thickens below `height` (the depths of a gorge, the ground far under a tree); "areas":
+## [{"rect": px, any of the keys above}]: parts of the map under skies of their own (迷阵's
+## illusions, each its own weather), the first holding the player winning over the map's.
 var profile: Dictionary = {}
+var _area: int = -1
 var carried: OmniLight3D
 var _player: Vector3 = Vector3.ZERO
 ## Fire and candle lights (meta `flicker`: how much their energy wavers).
@@ -60,6 +63,12 @@ func build(world: Node3D, reveal: VoxelOcclusion, interior: bool, settings: Dict
 		lamps.append(light)
 		if light.has_meta("flicker"):
 			flickering.append(light)
+	# A flash of lightning keeps its own energy (VoxelAmbience).
+	for light: Light3D in lamps.duplicate():
+		if light.has_meta("own_energy"):
+			light.shadow_enabled = false
+			lamps.erase(light)
+			flickering.erase(light)
 	var seen: Dictionary[int,bool] = {}
 	for node: Node in world.find_children("*","GeometryInstance3D",true,false):
 		var mat := (node as GeometryInstance3D).material_override as StandardMaterial3D
@@ -91,6 +100,10 @@ func set_night(enabled: bool, immediate: bool = false) -> void:
 
 func advance(delta: float, player: Vector3) -> void:
 	_player = player
+	var area: int = _area_at(player)
+	if area != _area:
+		_area = area
+		_apply()
 	if carried != null:
 		carried.position = player+Vector3(0.3,1.9,0.3)
 	if not is_equal_approx(amount,target):
@@ -132,8 +145,9 @@ func _apply() -> void:
 	for mat: StandardMaterial3D in hazes:
 		var opacity: Array = mat.get_meta("haze")
 		mat.albedo_color.a = lerpf(float(opacity[0]),float(opacity[1]),blend)
-	if profile.has("fog"):
-		var fog: Dictionary = profile["fog"]
+	var fog_source: Dictionary = _source("fog")
+	if fog_source.has("fog"):
+		var fog: Dictionary = fog_source["fog"]
 		environment.fog_enabled = true
 		var tint: Array = fog.get("color",["9fb0a8","1c2433"])
 		environment.fog_light_color = Color(String(tint[0])).lerp(Color(String(tint[1])),blend)
@@ -142,12 +156,40 @@ func _apply() -> void:
 		environment.fog_height = float(fog.get("height",-1.0))
 		environment.fog_height_density = float(fog.get("height_density",0.4))
 		environment.fog_sky_affect = 0.0
+		# `depth`: [begin, end] units from the camera — what lies far behind the place (another of
+		# the 迷阵's illusions on the same line of sight) fades out into the fog by `depth_density`.
+		if fog.has("depth"):
+			var depth: Array = fog["depth"]
+			environment.fog_mode = Environment.FOG_MODE_DEPTH
+			environment.fog_depth_begin = float(depth[0])
+			environment.fog_depth_end = float(depth[1])
+			environment.fog_density = float(fog.get("depth_density",1.0))
+		else:
+			environment.fog_mode = Environment.FOG_MODE_EXPONENTIAL
+	elif environment.fog_enabled:
+		environment.fog_enabled = false
 	occlusion.set_night(blend)
 
 func _color(key: String, fallback: Array, blend: float) -> Color:
-	var pair: Array = profile.get(key,fallback)
+	var pair: Array = _source(key).get(key,fallback)
 	return Color(String(pair[0])).lerp(Color(String(pair[1])),blend)
 
 func _amount(key: String, fallback: Array, blend: float) -> float:
-	var pair: Array = profile.get(key,fallback)
+	var pair: Array = _source(key).get(key,fallback)
 	return lerpf(float(pair[0]),float(pair[1]),blend)
+
+## Where a key's values come from: the player's area if it sets the key, else the map.
+func _source(key: String) -> Dictionary:
+	if _area >= 0:
+		var area: Dictionary = profile["areas"][_area]
+		if area.has(key):
+			return area
+	return profile
+
+func _area_at(at: Vector3) -> int:
+	var areas: Array = profile.get("areas",[])
+	for i: int in areas.size():
+		var r: Array = areas[i]["rect"]
+		if Rect2(r[0],r[1],r[2]-r[0],r[3]-r[1]).has_point(Vector2(at.x,at.z)*32.0):
+			return i
+	return -1

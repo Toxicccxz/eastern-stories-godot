@@ -1,0 +1,19 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 20,
+  "note": "土地庙 (temple0.c): 庙内相当的暗, 一股湿气混上焚烧冥纸的味道. Stone walls green with damp, a stone floor, candle stubs the only light.",
+  "palette": {"wood": ["5c5a50", "66635a", "54524a"], "wall": "7c7f72"},
+  "surfaces": {"green.temple0": "rock"},
+  "ground": {"rock": {"style": "slabs", "lengths": [1, 2], "depths": [1, 2], "cracks": 0.16, "broken": 0.08, "sunk": 0.04, "tufts": 0.05, "stones": ["6e7066", "787a6e", "64665c", "7f8074"], "worn": ["6a6c62"], "bed": "40423c", "joint": 0.05, "mud": "5e5c50", "crack": "4c4e46", "moss": "4e6040", "moss_chance": 0.2, "note": "一股湿气: moss in the joints"}},
+  "wall_looks": [{"rect": [-224, -176, 224, 160], "style": "rock", "colors": ["5f665a", "6b7064", "566050", "747a6c"], "seam": "3e463a"}],
+  "light": {"ambient": ["8e8c80", "4e5666"], "ambient_energy": [0.3, 0.24], "sun_energy": [0.15, 0.04]},
+  "props": [
+    {"kind": "candles", "at": [-120, -50], "count": 2, "elevation": 0.9, "note": "on the offering table"},
+    {"kind": "prayer_cushion", "at": [-40, -16], "size": [32, 32]},
+    {"kind": "paper_charms", "at": [-210, -100], "size": [40, 16], "count": 2, "height": 1.9, "rotation": 90, "wall_mounted": true},
+    {"kind": "stains", "at": [40, 40], "size": [180, 140], "count": 6, "colors": ["4a4e42", "52584a", "40463a"], "note": "一股湿气"},
+    {"kind": "stains", "at": [-60, 60], "size": [40, 30], "count": 3, "colors": ["2e2a26", "3a3530"], "note": "冥纸 burnt on the floor"}
+  ],
+  "actors": {"default": {"coat": "b3a98c"}}
+}

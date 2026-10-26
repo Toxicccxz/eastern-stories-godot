@@ -33,6 +33,9 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"fence": _fence(w,d)
 		"cargo": _cargo(w,d)
 		"tea_stall": _tea_stall(w,d)
+		"stone_blocks": _stone_blocks(w,d)
+		"haystack": _haystack(w,d)
+		"derrick": _derrick(w,d)
 		_:
 			return false
 	return true
@@ -154,6 +157,11 @@ func _cart(w: float, d: float) -> void:
 				s.box(root,at+Vector3(0,0.5,0),Vector3(0.26,0.06,0.26),"b23a2b")
 			"firewood":
 				s.tilted_box(root,at+Vector3(0,0.14,0),Vector3(0.12,0.12,0.9),_pick(["7a5f43","8c6e4c"]),Vector3(0,0.1*i,0))
+			"stone":
+				# Cut stone from the quarry: heavy blocks, the cart bed sagging under them.
+				s.shard(root,at+Vector3(0,0.2,0),Vector3(0.5,0.34,0.62),_pick(_colors("stones",["8a8c80","7d8074","969688","74786d"])),i,0.1*i)
+				if i%2==0:
+					s.shard(root,at+Vector3(0.05,0.52,0.05),Vector3(0.4,0.28,0.44),_pick(_colors("stones",["8a8c80","7d8074","969688"])),i+3,0.3)
 	if cargo in ["crates","sacks"] and data.get("covered",false):
 		s.box(root,Vector3(0,bed_y+0.55,0),Vector3(w*0.66,0.08,d*0.86),String(data.get("tarp","6f6a52")))
 	if data.has("flag"):
@@ -452,3 +460,71 @@ func _tea_stall(w: float, d: float) -> void:
 	s.box(root,brazier+Vector3(0,0.58,0),Vector3(0.3,0.26,0.3),"3a3632")
 	if ambience != null:
 		ambience.smoke(root,brazier+Vector3(0,0.8,0),"e8e6df",4,0.14)
+
+## 石料: blocks cut at the quarry, stacked in courses that do not quite line up (切割整齐 means
+## squared, not new: arrises chipped, some weathered and mossed from lying long), a few set
+## aside on edge, chips and dust round the foot (`rows` high, `colors`, `moss`).
+func _stone_blocks(w: float, d: float) -> void:
+	var stones: Array = _colors("colors",["8b8d80","96978a","7f8276","a19f90","888a7c"])
+	var moss: String = String(data.get("moss","5d7446"))
+	var rows: int = int(data.get("rows",2))
+	var block := Vector3(0.62,0.4,0.46)
+	var cols: int = maxi(1,floori(w/(block.x+0.04)))
+	var deep: int = maxi(1,floori(d/(block.z+0.04)))
+	for row: int in rows:
+		for z: int in deep:
+			for x: int in cols-(row%2 if cols > 1 else 0):
+				if row > 0 and rng.randf() < 0.18:
+					continue
+				var at := Vector3(-w/2+(x+0.5+(row%2)*0.5)*w/cols,0.2+row*0.41,-d/2+(z+0.5)*d/deep)+Vector3(rng.randf_range(-0.04,0.04),0,rng.randf_range(-0.04,0.04))
+				var size := Vector3(block.x*rng.randf_range(0.85,1.05),block.y*rng.randf_range(0.9,1.05),block.z*rng.randf_range(0.85,1.05))
+				var hex: String = _pick(stones)
+				s.tilted_box(root,at,size,hex,Vector3(0,rng.randf_range(-0.07,0.07),0))
+				# A chipped arris, a darker weathered face toward the weather.
+				s.box(root,at+Vector3(size.x*0.38,size.y*0.4,size.z*0.4),Vector3(0.14,0.1,0.1),Color(hex).darkened(0.18).to_html(false))
+				if row == rows-1 and rng.randf() < float(data.get("mossy",0.3)):
+					s.box(root,at+Vector3(rng.randf_range(-0.15,0.15),size.y/2+0.01,0),Vector3(size.x*0.5,0.02,size.z*0.6),moss)
+	for chip: int in int(data.get("chips",10)):
+		var a: float = rng.randf()*TAU
+		s.shard(root,Vector3(cos(a)*(w/2+rng.randf_range(0.05,0.4)),0.04,sin(a)*(d/2+rng.randf_range(0.05,0.3))),Vector3(0.12,0.07,0.1),_pick(stones),chip,a)
+
+## 乾草: hay heaped 像山一般 by a stable, its top slumped, loose stalks round it, a fork left in it.
+func _haystack(w: float, d: float) -> void:
+	var straw: Array = _colors("colors",["c2a865","b39858","cdb574","a88d4e"])
+	var tiers: int = int(data.get("tiers",5))
+	for tier: int in tiers:
+		var t: float = float(tier)/tiers
+		var shrink: float = 1.0-t*0.75
+		for lump: int in 3:
+			var off := Vector3(sin(tier*2.1+lump*2.4)*w*0.1,0,cos(tier*1.3+lump*1.9)*d*0.1)
+			s.shard(root,off+Vector3(0,0.25+tier*0.42,0),Vector3(w*shrink*rng.randf_range(0.7,0.9),0.5,d*shrink*rng.randf_range(0.7,0.9)),_pick(straw),tier*3+lump,lump*1.1)
+	for stalk: int in 18:
+		var a: float = rng.randf()*TAU
+		s.tilted_box(root,Vector3(cos(a)*(w/2+rng.randf_range(0.0,0.35)),0.02,sin(a)*(d/2+rng.randf_range(0.0,0.3))),Vector3(0.03,0.015,0.28),_pick(straw),Vector3(0,rng.randf()*TAU,0))
+	if data.get("fork",true):
+		s.tilted_box(root,Vector3(w*0.2,tiers*0.36,d*0.1),Vector3(0.05,1.6,0.05),"6e5236",Vector3(0.35,0,0.2))
+
+## 吊杆: a wooden hoist over the quarry's face, three legs lashed at the top, a pulley and rope,
+## a hook with a sling of stone hanging under it, a windlass at its foot.
+func _derrick(w: float, d: float) -> void:
+	var height: float = float(data.get("height",4.6))
+	var wood: Array = _colors("colors",["6e5236","7a5c3d","5f4630"])
+	var apex := Vector3(0,height,0)
+	for leg: int in 3:
+		var a: float = leg*TAU/3.0+0.5
+		var foot := Vector3(cos(a)*w*0.42,0,sin(a)*d*0.42)
+		var along: Vector3 = apex-foot
+		var up: Vector3 = along.normalized()
+		var side: Vector3 = up.cross(Vector3.FORWARD if absf(up.z)<0.9 else Vector3.RIGHT).normalized()
+		s._instance(root,Transform3D(Basis(side,up,side.cross(up)).scaled_local(Vector3(0.14,along.length(),0.14)),(apex+foot)/2.0),String(wood[leg%wood.size()]),s.cube)
+	s.box(root,apex+Vector3(0,0.05,0),Vector3(0.3,0.24,0.3),"5a4a36")
+	s.box(root,apex-Vector3(0,0.25,0),Vector3(0.22,0.22,0.08),"3e3a35")
+	var drop: float = height*0.55
+	s.box(root,apex-Vector3(0,0.3+drop/2,0),Vector3(0.04,drop,0.04),"8e7c55")
+	s.box(root,apex-Vector3(0,0.35+drop,0),Vector3(0.12,0.12,0.06),"3e3a35")
+	s.shard(root,apex-Vector3(0,0.65+drop,0),Vector3(0.6,0.36,0.44),"8b8d80",3,0.2)
+	var windlass := Vector3(w*0.3,0.45,-d*0.2)
+	for x: float in [-0.3,0.3]:
+		s.box(root,windlass+Vector3(x,0,0),Vector3(0.08,0.9,0.08),String(wood[1]))
+	s.box(root,windlass+Vector3(0,0.3,0),Vector3(0.7,0.18,0.18),String(wood[2]))
+	s.box(root,windlass+Vector3(0,0.3,0),Vector3(0.4,0.26,0.26),"8e7c55")

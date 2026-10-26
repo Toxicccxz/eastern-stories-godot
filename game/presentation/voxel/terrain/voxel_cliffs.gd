@@ -133,6 +133,12 @@ func build(parent: Node3D) -> void:
 			var strata: Array = look.get("strata",["7d6e58","8c7b60","9a876a","a48f6d","8f7d63"])
 			var tops: Array = look.get("tops",["8b8a5c","978f62","a0956a"])
 			var grooves: float = float(look.get("grooves",0.0))
+			# `moss`: {"colors", "amount" 0..1, "hang" units}: moss in patches over the faces,
+			# thickest under the top it hangs from (a cliff 覆满青苔); none where an area sets 0.
+			var moss: Dictionary = look.get("moss",{})
+			var moss_colors: Array = moss.get("colors",[])
+			var moss_amount: float = float(moss.get("amount",0.0))
+			var moss_hang: float = maxf(0.25,float(moss.get("hang",1.5)))
 			var h: float = heights[cell]
 			var x0: float = (cell.x-8)/32.0
 			var z0: float = (cell.y-8)/32.0
@@ -173,6 +179,11 @@ func build(parent: Node3D) -> void:
 						tint = Color(dark)
 					elif gouge:
 						tint = tint.darkened(0.32)
+					if moss_amount > 0.0 and not moss_colors.is_empty() and cells_kind(cell) != "chasm":
+						var patch: float = noise.get_noise_3d(cell.x*2.3+shift.x,next*37.0,cell.y*2.3+shift.y)*0.5+0.5
+						var under_top: float = 1.0-clampf((h-next)/moss_hang,0.0,1.0)
+						if patch+under_top*0.45 > 1.15-moss_amount:
+							tint = tint.lerp(Color(String(moss_colors[posmod(course+cell.x/16+cell.y/16,moss_colors.size())])),0.82)
 					_quad(surface,a+Vector3.UP*next,b+Vector3.UP*next,b+Vector3.UP*y,a+Vector3.UP*y,normal,tint)
 					y = next
 		var instance := MeshInstance3D.new()

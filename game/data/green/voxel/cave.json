@@ -1,0 +1,31 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 21,
+  "note": "黑暗山洞 (cave1.c, cave2.c): 山洞很矮，几乎站不直身子，脚下偶尔踩到石头或是些莫名其妙的东西，洞内奇寒澈骨。cave1: 南面是一扇木门，北面隐隐地有些亮光; cave2: 北面是一出口. Rock low overhead, cold blue-grey, a glimmer from the way out north.",
+  "palette": {"wood": ["4a4c48", "54564f", "42443f"], "wall": "5c5f5a"},
+  "ground": {"cave_floor": {"style": "scree", "colors": ["3e403c", "464843", "4e504a"], "gravel": 0.6, "stones": 0.1}},
+  "wall_looks": [{"rect": [-272, -416, 272, 416], "style": "rock", "colors": ["4e524c", "585c55", "474b45", "62655d"], "seam": "33362f"}],
+  "light": {
+    "carried": {"color": "c8d4e0", "range": 5.5, "attenuation": 1.3, "day": 0.8, "night": 1.0, "note": "the cave is as dark by day as by night"},
+    "sky": ["0c0f12", "07080a"], "ambient": ["5a6878", "3a4454"], "ambient_energy": [0.28, 0.24], "sun": ["b8c8d8", "8a9ab8"], "sun_energy": [0.08, 0.04]
+  },
+  "props": [
+    {"kind": "overhang", "at": [-200, -380], "size": [120, 40], "height": 2.2, "count": 6, "note": "很矮: rock hangs low along the walls"},
+    {"kind": "overhang", "at": [236, -200], "size": [40, 140], "height": 2.1, "count": 6},
+    {"kind": "overhang", "at": [-236, 120], "size": [40, 160], "height": 2.2, "count": 6},
+    {"kind": "overhang", "at": [150, 380], "size": [120, 40], "height": 2.3, "count": 5},
+    {"kind": "stalagmites", "at": [-220, -260], "size": [48, 48], "count": 4, "height": 0.9},
+    {"kind": "stalagmites", "at": [226, 260], "size": [40, 40], "count": 3, "height": 0.8},
+    {"kind": "bones", "at": [90, 210], "size": [64, 40], "count": 5, "ribs": false, "note": "些莫名其妙的东西"},
+    {"kind": "bones", "at": [-120, -120], "size": [48, 32], "count": 3, "ribs": true},
+    {"kind": "rubble", "at": [40, -250], "size": [64, 48], "count": 8, "colors": ["4e504a", "5a5c55", "44463f"]},
+    {"kind": "drip", "at": [-160, 60], "height": 2.2},
+    {"kind": "drip", "at": [130, -60], "height": 2.2},
+    {"kind": "pool", "at": [-60, 300], "size": [56, 40], "color": "2a343a", "drip": false},
+    {"kind": "light_shaft", "at": [0, -384], "size": [64, 48], "height": 2.6, "day": 1.4, "night": 0.3, "light": "dfe6ea", "range": 6.0, "note": "cave2: 北面是一出口 — daylight from the mountain road"},
+    {"kind": "closed_door", "at": [0, 400], "size": [64, 16], "rotation": 0, "note": "cave1: 南面是一扇木门"}
+  ],
+  "ambience": {"dust": [{"rect": [-240, -380, 240, 380], "count": 20, "color": "c8d4dc", "wind": [0.3, -0.8], "size": [0.05, 0.04, 0.05], "note": "奇寒澈骨: a breath of cold air moving north"}]},
+  "actors": {"default": {"coat": "b3a98c"}}
+}
