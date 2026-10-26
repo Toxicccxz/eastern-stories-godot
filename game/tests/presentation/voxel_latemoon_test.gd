@@ -21,7 +21,7 @@ const Existing := preload("res://tests/presentation/voxel_gameplay_test.gd")
 const TALL: Array[String] = ["lantern", "stone_lantern", "standing_rock", "boulder", "banner", "tree", "great_tree", "pavilion",
 	"rockery", "stele", "censer", "flagpole", "water_vat", "strange_stone", "stuck_swords", "boundary_stone", "torch", "bush",
 	"column", "pavilion_post", "compound_wall", "deity", "spirit_tablets", "training_post", "bookcase", "lamp_stand",
-	"lantern_post", "beast_statue", "screen_wall"]
+	"lantern_post", "beast_statue", "screen_wall", "flower_stand"]
 const SCENES: Array[String] = ["latemoon_manor", "latemoon_secret", "latemoon_upper", "latemoon_garden", "latemoon_hills"]
 const VIEWS: Array[String] = ["manor", "secret", "upper", "garden", "hills"]
 const MAPS: Array[StringName] = [&"latemoon.manor", &"latemoon.secret", &"latemoon.upper", &"latemoon.garden", &"latemoon.hills"]
@@ -34,6 +34,7 @@ const ENTRIES: Dictionary[StringName, Array] = {
 ## The ways a body may stand in: each stretch between neighbouring rooms can be walked round it.
 const MANOR_WAYS: Array = [
 	[&"latemoon.front_yard", &"latemoon.latemoon1", &"latemoon.latemoonc", &"latemoon.latemoon5"],
+	[&"latemoon.latemoon1", &"latemoon.latemoon3"],
 	[&"latemoon.latemoonc", &"latemoon.latemoon7", &"latemoon.latebook"],
 	[&"latemoon.latemoonc", &"latemoon.latemoon4", &"latemoon.room.twoc", &"latemoon.room.two1", &"latemoon.room.two2"],
 	[&"latemoon.room.twoc", &"latemoon.room.eat1", &"latemoon.room.eat2", &"latemoon.room.kitchen"],
@@ -43,7 +44,7 @@ const GARDEN_WAYS: Array = [
 	[&"latemoon.park.yard1", &"latemoon.park.flower2", &"latemoon.park.moonc", &"latemoon.park.bridge1", &"latemoon.park.pavilion1",
 		&"latemoon.park.bridge2", &"latemoon.park.paroad1", &"latemoon.park.moondoor"],
 	[&"latemoon.park.moonc", &"latemoon.park.moon2", &"latemoon.park.moon5", &"latemoon.park.moon3", &"latemoon.park.paroad2"],
-	[&"latemoon.park.moonc", &"latemoon.park.moon1", &"latemoon.park.bridge3"]]
+	[&"latemoon.park.moonc", &"latemoon.park.moon1", &"latemoon.park.bridge3", &"latemoon.park.moon4"]]
 const HILLS_WAYS: Array = [[&"latemoon.sroad1", &"latemoon.sroad2", &"latemoon.sroad3", &"latemoon.sroad4", &"latemoon.sroad5",
 	&"latemoon.bamboo3"]]
 const UPPER_WAYS: Array = [[&"latemoon.upstar.upstar1", &"latemoon.upstar.upstar4", &"latemoon.upstar.upstarc",
@@ -157,7 +158,7 @@ func _check_manor(map: WorldMapController) -> void:
 	for look: Dictionary in _looks(map):
 		if look["kind"] == "tree" and look.get("species", "") == "plum":
 			plums += 1
-			white = white or look.has("colors")
+			white = white or look.has("colors") and Color(String(look["colors"][2])).s < 0.15
 	_check(plums >= 6 and white, "latemoonc.c: 竟种满了无数梅花 — red and white plums")
 	_check(kinds.count("table_row") >= 4 and "folding_screen" in kinds and kinds.count("column") >= 2,
 		"latemoon1.c: 东西两面各设著七张紫檀雕案…一面屏风将宽敞的大厅隔成两半; 屏风两旁的白石嵌云柱")

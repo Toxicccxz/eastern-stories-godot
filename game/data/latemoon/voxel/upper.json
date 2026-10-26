@@ -27,6 +27,8 @@
     {"kind": "hanging_lantern", "at": [960, 504], "paper": "f0c878:glow", "flicker": 0.04},
     {"kind": "hanging_lantern", "at": [576, 1272], "paper": "f0c878:glow", "flicker": 0.04},
     {"kind": "hanging_lantern", "at": [960, 1272], "paper": "f0c878:glow", "flicker": 0.04},
+    {"kind": "stairwell", "at": [456, 408], "size": [48, 48], "note": "upstar1-2.c: the stairs down to the rear hall's lanes"},
+    {"kind": "stairwell", "at": [456, 1368], "size": [48, 48]},
     {"kind": "far_peak", "at": [2500, 700], "size": [480, 480], "height": 12.0, "note": "uplook.c: 瀚烟山美丽景色尽收眼里"},
     {"kind": "far_peak", "at": [2300, 200], "size": [360, 360], "height": 9.0, "tower": 1, "note": "远处山寺的钟声"},
     {"kind": "prayer_cushion", "at": [160, 880], "size": [32, 32]},

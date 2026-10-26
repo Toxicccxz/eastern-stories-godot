@@ -120,6 +120,10 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 				s.box(root,Vector3(-w*0.27+i*0.13,1.274,-d*0.2),Vector3(0.025,0.012,0.19+0.06*(i%2)),"746a54")
 			_book(Vector3(w*0.30,1.24,-d*0.27),"4e6967")
 			_book(Vector3(w*0.29,1.35,-d*0.29),"ad8055")
+			if data.get("incense",false):
+				# latebook.c: 上面摆著一座小小的香炉.
+				s.box(root,Vector3(-w*0.36,1.32,-d*0.25),Vector3(0.18,0.14,0.18),"7a6a46")
+				s.box(root,Vector3(-w*0.36,1.42,-d*0.25),Vector3(0.12,0.05,0.12),"8a7a52")
 			if data.has("vase"):
 				# moroom.c: 案上一个土定瓶, 中供著数枝菊花.
 				_vase(Vector3(-w*0.36,1.25,-d*0.25),String(data["vase"]),data.get("flowers",["e8c84a"]))
@@ -224,6 +228,16 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 				for step: int in 8:
 					var a: float = step*0.8+0.4
 					s.box(root,Vector3(cos(a)*w*0.3,1.95+sin(a)*0.5,0.08),Vector3(0.05,0.08,0.01),"2a2420")
+			elif data.get("birds",false):
+				# 翎毛丹青 (latemoon1.c: 各式鸟兽虫鱼): a flowering branch across the paper, a bird on it.
+				s.tilted_box(root,Vector3(0,2.0,0.073),Vector3(w*0.62,0.035,0.012),"5a4a3a",Vector3(0,0,0.5))
+				for bloom: int in 4:
+					s.box(root,Vector3((bloom-1.5)*w*0.14,1.86+bloom*0.09,0.078),Vector3(0.07,0.07,0.012),String(data.get("bloom","d8607a")))
+				s.box(root,Vector3(w*0.08,2.2,0.08),Vector3(w*0.18,0.1,0.012),String(data.get("bird","3a6a8a")))
+				s.box(root,Vector3(w*0.17,2.25,0.08),Vector3(w*0.07,0.07,0.012),String(data.get("bird","3a6a8a")))
+				s.box(root,Vector3(-w*0.03,2.17,0.08),Vector3(w*0.1,0.04,0.012),"e8c84a")
+			elif data.get("chart",false):
+				# 经脉穴道图: a figure in outline, the meridians in red and the points dotted along them.
 				s.box(root,Vector3(0,2.5,0.073),Vector3(w*0.16,0.2,0.012),"8a7a64")
 				s.box(root,Vector3(0,2.08,0.073),Vector3(w*0.26,0.6,0.012),"8a7a64")
 				for side: float in [-1.0,1.0]:
@@ -802,7 +816,8 @@ func _chair_row(w: float, d: float, look: Dictionary) -> void:
 	var wood: Array = look.get("colors",["7a2a22","8a3226","6a241e"])
 	var count: int = maxi(1,int(look.get("count",2)))
 	var tables: bool = look.get("tables",false)
-	var slots: int = count+((count-1)/2 if tables else 0)
+	# A table follows chairs 0, 2, 4… unless that chair is the last.
+	var slots: int = count+(count/2 if tables else 0)
 	var step: float = w/slots
 	var slot: int = 0
 	for i: int in count:

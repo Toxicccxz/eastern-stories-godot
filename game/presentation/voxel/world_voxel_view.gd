@@ -236,12 +236,14 @@ func _sync_actors(delta: float) -> void:
 			# Render frames may outnumber physics steps: a held direction must not flicker
 			# between the walk and idle poses on the intervening frames.
 			model.walking = (body.velocity.length_squared()>1.0 if body == map.player_body else step>0.003) and step<1.5
-		var direction: float = atan2(body.facing.x,body.facing.y)
-		model.rotation.y = lerp_angle(model.rotation.y,direction,minf(1.0,delta*17))
-		var npc: NpcRuntimeState = map.npcs.find_resident_npc(id) if body != map.player_body else null
-		var life: CharacterRuntimeLifeStatus.Value = map.player_runtime().life_status if body == map.player_body else (npc.life_status if npc != null else CharacterRuntimeLifeStatus.Value.ACTIVE)
-		var unconscious: bool = life == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS
-		model.rotation.z = PI/2 if unconscious else 0.0
+		# A statue (神像) never turns or falls: its plinth and wings stay with it.
+		if not (model is Person and not (model as Person).stone.is_empty()):
+			var direction: float = atan2(body.facing.x,body.facing.y)
+			model.rotation.y = lerp_angle(model.rotation.y,direction,minf(1.0,delta*17))
+			var npc: NpcRuntimeState = map.npcs.find_resident_npc(id) if body != map.player_body else null
+			var life: CharacterRuntimeLifeStatus.Value = map.player_runtime().life_status if body == map.player_body else (npc.life_status if npc != null else CharacterRuntimeLifeStatus.Value.ACTIVE)
+			var unconscious: bool = life == CharacterRuntimeLifeStatus.Value.UNCONSCIOUS
+			model.rotation.z = PI/2 if unconscious else 0.0
 		var name_label := body.get_node_or_null("NameLabel") as Label
 		if name_label != null:
 			var label: Label3D = labels[id]
