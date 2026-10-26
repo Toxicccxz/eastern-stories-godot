@@ -1,0 +1,73 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 26,
+  "wall_height": 6.8,
+  "note": "大雄宝殿 (temple.c): the eighteen-foot gilt Buddha on his three-foot lotus throne dazzling as you come in, incense rising from the burner before him; the whole hall of fine 桧木; the golden doors south standing open; the yellow curtain to his right over the way north; the sound of water from the garden west. Gilt hangings, the monks' board, cushions worn by the kneeling.",
+  "palette": {"wood": ["8e6a44", "9a744a", "845e3c"], "wall": "c49866"},
+  "surfaces": {"sanyen.temple": "rock"},
+  "ground": {
+    "rock": {"colors": ["8e8678", "988e80", "867e70", "a09686"], "note": "square floor tiles (方砖), warm grey"}
+  },
+  "wall_looks": [
+    {"rect": [-480, -360, 480, 344], "style": "boards", "colors": ["b8895a", "c49866", "aa7c50", "bc9060"], "grime": 0.12, "note": "这整座山烟寺都是由上好的桧木搭建而成"}
+  ],
+  "light": {
+    "ambient": ["e0d0b0", "6e6a80"],
+    "ambient_energy": [0.44, 0.3]
+  },
+  "props": [
+    {"kind": "silk_curtain", "at": [0, -320], "size": [112, 16], "height": 2.8, "colors": ["d8b040", "e8c860", "c8a038"], "note": "temple.c: 在佛像的右侧有道黄布幔, 布幔后似乎是条通道"},
+    {"kind": "runner", "at": [0, 150], "size": [96, 300], "elevation": 0.06, "cloth": "a8342a", "note": "a red runner in from the golden doors"},
+    {"kind": "prayer_cushion", "at": [-224, 104], "size": [32, 32]},
+    {"kind": "prayer_cushion", "at": [-176, 108], "size": [32, 32]},
+    {"kind": "prayer_cushion", "at": [-128, 104], "size": [32, 32]},
+    {"kind": "prayer_cushion", "at": [-80, 108], "size": [32, 32]},
+    {"kind": "prayer_cushion", "at": [-200, 160], "size": [32, 32]},
+    {"kind": "prayer_cushion", "at": [-104, 160], "size": [32, 32]},
+    {"kind": "stains", "at": [-150, 130], "size": [220, 70], "count": 6, "colors": ["a49a88", "aca290"], "note": "the tiles worn pale where they kneel"},
+    {"kind": "banner_cloth", "at": [-330, -326], "size": [48, 16], "wall_mounted": true, "cloth": "c8902a"},
+    {"kind": "banner_cloth", "at": [130, -326], "size": [48, 16], "wall_mounted": true, "cloth": "c8902a"},
+    {"kind": "banner_cloth", "at": [330, -326], "size": [48, 16], "wall_mounted": true, "cloth": "a8342a"},
+    {"kind": "couplet", "at": [-420, -326], "size": [64, 16], "wall_mounted": true},
+    {"kind": "notices", "at": [446, 120], "size": [96, 16], "rotation": -90, "wall_mounted": true, "note": "the monks' board (temple.c: call_other(\"/obj/board/bonze_b\"))"},
+    {"kind": "window", "at": [-462, -200], "size": [64, 16], "rotation": 90},
+    {"kind": "window", "at": [-462, 180], "size": [64, 16], "rotation": 90},
+    {"kind": "window", "at": [462, -200], "size": [64, 16], "rotation": -90},
+    {"kind": "hanging_lantern", "at": [-260, -60]},
+    {"kind": "hanging_lantern", "at": [0, -60]},
+    {"kind": "hanging_lantern", "at": [260, -60]},
+    {"kind": "hanging_lantern", "at": [-260, 200]},
+    {"kind": "hanging_lantern", "at": [260, 200]},
+    {"kind": "prayer_cushion", "at": [120, -20], "size": [32, 32], "note": "more cushions for the morning chant"},
+    {"kind": "prayer_cushion", "at": [180, -16], "size": [32, 32]},
+    {"kind": "prayer_cushion", "at": [240, -20], "size": [32, 32]},
+    {"kind": "prayer_cushion", "at": [120, 40], "size": [32, 32]},
+    {"kind": "prayer_cushion", "at": [180, 44], "size": [32, 32]},
+    {"kind": "prayer_cushion", "at": [240, 40], "size": [32, 32]},
+    {"kind": "rug", "at": [180, 12], "size": [200, 120], "elevation": 0.05, "cloth": "8a6a2a", "border": "c9a24a"},
+    {"kind": "banner_cloth", "at": [446, -200], "size": [48, 16], "rotation": -90, "wall_mounted": true},
+    {"kind": "banner_cloth", "at": [-446, 60], "size": [48, 16], "rotation": 90, "wall_mounted": true}
+  ],
+  "door_looks": {
+    "sanyen.road1.door": {"kind": "red_door", "leaf": "c9a24a", "trim": "e8c25a", "note": "金门"}
+  },
+  "actors": {
+    "default": {"coat": "8a7a5a"},
+    "sanyen.npc.greeting": {"coat": "b8862e", "note": "知客僧: a saffron robe"},
+    "sanyen.npc.monk": {"coat": "7a6a52"},
+    "sanyen.npc.bonze": {"coat": "8a7a62"},
+    "sanyen.npc.cripple": {"coat": "6a5e4e", "note": "跛僧: a patched old robe"},
+    "sanyen.npc.drug_bonze": {"coat": "6a7a5a", "note": "药僧"},
+    "sanyen.npc.cook_bonze": {"coat": "9a8a6a", "note": "烧饭僧: an apron over his robe"},
+    "sanyen.npc.little_bonze": {"coat": "b89a5a"},
+    "sanyen.npc.work_bonze": {"coat": "7a7060"},
+    "cloud.npc.monk_guard": {"coat": "8a4a2a", "note": "护寺武僧"},
+    "common.npc.bonze.master": {"coat": "a8342a", "note": "the abbot's red kasaya"}
+  },
+  "entrances": {
+    "sanyen.temple.north": {"title": "走廊"},
+    "sanyen.temple.west": {"title": "庭园"},
+    "sanyen.temple.south": {"title": "石板大道"}
+  }
+}

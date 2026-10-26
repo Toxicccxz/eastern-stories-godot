@@ -22,11 +22,36 @@
         },
         "lines": {
           "trail": [
-            [[1760, 1088, 24, 40, 40, 6, "江南渡口: the path up from the jetty"], [1760, 1264, 24, 56, 56, 8, "road1: the foot of the hill"], [1760, 1472, 24, 48, 48, 8, "road2: the path climbs, bends west"], [1600, 1472, 24, 48, 48, 8], [1440, 1472, 24, 48, 48, 8, "road3: south"], [1440, 1728, 24, 48, 48, 8, "road4: and south-west"], [1280, 1728, 24, 48, 48, 6], [1120, 1728, 28, 56, 56, 6, "sroad1: mossy stones under the cliff"], [800, 1728, 28, 56, 56, 6, "sroad2: the bend"], [800, 1472, 32, 64, 64, 4, "the 山门"], [800, 1376, 32, 48, 48, 2]],
-            [[1760, 1216, 24, 32, 32, 4, "road1: the road east to 乔阴县城"], [1888, 1216, 24, 32, 32, 4]]
+            [
+              [1760, 1088, 72, 100, 100, 6, "江南渡口: the path up from the jetty (路和空间: 144-160 wide)"],
+              [1760, 1264, 72, 104, 104, 8, "road1: the foot of the hill"],
+              [1760, 1472, 80, 108, 108, 8, "road2: the path climbs, bends west"],
+              [1600, 1472, 80, 108, 108, 8],
+              [1440, 1472, 80, 108, 108, 8, "road3: south"],
+              [1440, 1728, 80, 108, 108, 8, "road4: and south-west"],
+              [1264, 1728, 80, 100, 100, 6]
+            ],
+            [
+              [1760, 1216, 64, 88, 88, 4, "road1: the road east to 乔阴县城"],
+              [1904, 1216, 64, 88, 88, 4]
+            ]
+          ],
+          "stone": [
+            [
+              [1312, 1728, 80, 100, 100, 4, "sroad1.c: 一条铺著生满青苔大石的山路"],
+              [1120, 1728, 80, 100, 100, 4],
+              [800, 1728, 80, 108, 108, 4, "sroad2: the bend"],
+              [800, 1472, 80, 108, 108, 2, "the 山门"],
+              [800, 1376, 64, 96, 96, 0]
+            ]
           ],
           "tunnel": [
-            [[800, 1488, 24, 24, 24, 0, "the tunnel west from the gate"], [640, 1488, 24, 24, 24, 0], [384, 1488, 24, 24, 24, 0], [80, 1488, 24, 24, 24, 0]]
+            [
+              [800, 1488, 64, 64, 64, 0, "the tunnel west from the gate (路和空间: 128)"],
+              [640, 1488, 64, 64, 64, 0],
+              [384, 1488, 64, 64, 64, 0],
+              [80, 1488, 64, 64, 64, 0]
+            ]
           ]
         },
         "steps": [
@@ -36,10 +61,10 @@
               ["deep_water", 0, 0, 1984, 816, "泓水: wide, cold, the current turning at the narrows"],
               ["water", 0, 816, 1984, 864, "the shallows along the south shore"],
               ["cliff", 0, 1248, 720, 1680, "the cliff the tunnel is cut through"],
-              ["cliff", 960, 1856, 1280, 1888, "sroad1: the cliff carved 「山烟寺」"],
+              ["cliff", 976, 1584, 1264, 1632, "sroad1.c: 东面的山壁上刻著「山烟寺」几个大字 — the face north of the way, turned to the walker"],
               ["wall", 400, 896, 1216, 1344, "山烟寺's wall; inside, the temple is its own map"],
               ["wall_wood", 480, 960, 1136, 1280, "its golden roofs"],
-              ["shutter", 752, 1312, 848, 1344, "the 山门"]
+              ["shutter", 736, 1312, 864, 1344, "the 山门 (路和空间: 128)"]
             ]
           },
           {
@@ -50,12 +75,15 @@
             "fills": [
               ["cliff", 64, 1344, 384, 1600, "地道 (its own map since the remap)"],
               ["cliff", 384, 1344, 640, 1600, "地道 (its own map since the remap)"],
-              ["shallow_water", 1696, 64, 1824, 832, "the ford: chest-deep, the current pulling"],
+              ["shallow_water", 1664, 64, 1856, 832, "the ford: chest-deep, the current pulling (路和空间: 192)"],
               ["riverbank", 1616, 864, 1904, 1072, "江南渡口"],
-              ["bridge", 1712, 832, 1808, 912, "the jetty where the boat puts in"],
-              ["grass", 672, 1376, 928, 1584, "the clearing before the 山门"],
-              ["street", 736, 1376, 864, 1456, "flagstones before the gate"],
-              ["grass", 640, 1440, 736, 1504, "the way into 地道"]
+              ["bridge", 1696, 816, 1824, 912, "the jetty where the boat puts in"],
+              ["grass", 656, 1360, 944, 1584, "the clearing before the 山门"],
+              ["street", 720, 1360, 880, 1472, "flagstones before the gate"],
+              ["grass", 640, 1424, 736, 1552, "the way into 地道"],
+              ["blocked", 912, 1360, 944, 1392, "a stone lantern by the 山门", {"look": {"kind": "stone_lantern"}}],
+              ["blocked", 912, 1520, 944, 1568, "gate.c: 名气却是大得多了 — a tablet by the gate", {"look": {"kind": "stele", "height": 1.8, "turtle": true}}],
+              ["blocked", 1872, 912, 1904, 1008, "江南渡口: a net drying on its poles", {"look": {"kind": "fishing_net"}}]
             ]
           },
           {
@@ -64,8 +92,20 @@
           },
           {
             "op": "lines",
+            "group": "stone",
+            "kind": "street"
+          },
+          {
+            "op": "lines",
             "group": "tunnel",
             "kind": "cave_floor"
+          },
+          {
+            "op": "fill",
+            "fills": [
+              ["blocked", 1856, 1344, 1904, 1392, "road2: a boulder by the rough path", {"look": {"kind": "boulder", "colors": ["8a8068", "948a70", "7e7460"]}}],
+              ["blocked", 1312, 1584, 1360, 1616, {"look": {"kind": "boulder", "colors": ["8a8068", "948a70", "7e7460"]}}]
+            ]
           },
           {
             "op": "clip"
@@ -99,8 +139,9 @@
         "map": "sunhill.mountain",
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
-          "Rect_96_32": [96, 32],
-          "Rect_32_64": [32, 64]
+          "Rect_192_32": [192, 32],
+          "Rect_128_32": [128, 32],
+          "Rect_32_128": [32, 128]
         },
         "nodes": [
           {
@@ -139,28 +180,28 @@
             "name": "RiverPassage",
             "id": "sunhill.northriver.north",
             "at": [1760, 80],
-            "shape": "Rect_96_32"
+            "shape": "Rect_192_32"
           },
           {
             "node": "passage",
             "name": "ChoyinPassage",
             "id": "sunhill.road1.east",
             "at": [1888, 1216],
-            "shape": "Rect_32_64"
+            "shape": "Rect_32_128"
           },
           {
             "node": "passage",
             "name": "GatePassage",
             "id": "sanyen.gate.north",
             "at": [800, 1376],
-            "shape": "Rect_96_32"
+            "shape": "Rect_128_32"
           },
           {
             "node": "passage",
             "name": "GateWestPassage",
             "id": "sanyen.gate.west",
-            "at": [656, 1472],
-            "shape": "Rect_32_64"
+            "at": [656, 1488],
+            "shape": "Rect_32_128"
           }
         ],
         "zones": [
@@ -191,22 +232,26 @@
           },
           {
             "name": "GateGreeting1",
-            "at": [704, 1424],
+            "at": [688, 1392],
             "id": "sanyen.gate.greeting.1"
           },
           {
             "name": "GateGreeting2",
-            "at": [896, 1424],
+            "at": [912, 1440],
             "id": "sanyen.gate.greeting.2"
           },
           {
             "name": "GateTunneleReturn",
-            "at": [720, 1472],
+            "at": [736, 1488],
             "id": "sanyen.gate.tunnele_return"
           }
         ],
         "interactions": [],
-        "doors": []
+        "doors": [],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/sanyen/voxel/mountain.json"
+        }
       }
     },
     "temple": {
@@ -228,34 +273,72 @@
           "sanyen.door": [928, 1696, 1232, 1920, "enclosed", "street", "wall"],
           "sanyen.front_yard": [688, 1920, 1456, 2304, "open", "floor_yard", null]
         },
-        "roads": [],
-        "gap_at": [],
+        "roads": [
+          ["path", 512, 944, 576, 1120, "inner_yard: a stone path from 流云轩 to the arch into the hall"],
+          ["path", 512, 1088, 768, 1152],
+          ["path", 1232, 304, 1600, 368, "tower: flagstones before the pagodas"]
+        ],
+        "gap_at": [
+          ["sanyen.door", "sanyen.front_yard", 1088, 256],
+          ["sanyen.door", "sanyen.road1", 1088, 192]
+        ],
         "props": [
-          ["forest", 704, 1936, 752, 2288, "front_yard: white poplars round the yard"],
-          ["forest", 1408, 1936, 1440, 2288],
-          ["blocked", 784, 1952, 880, 2000, "the pile of bricks for training strength"],
-          ["forest", 944, 1344, 960, 1648, "road1: peonies either side"],
-          ["forest", 1184, 1344, 1216, 1440, "the gap east onto the small stone path"],
-          ["forest", 1184, 1552, 1216, 1648],
-          ["forest", 1248, 1632, 1600, 1648, "road2: peonies along the path"],
-          ["forest", 1264, 960, 1424, 1024, "drug_field: the plots, 当归 here, 枸杞 there"],
-          ["forest", 1504, 960, 1648, 1024],
-          ["forest", 1264, 1120, 1424, 1168],
-          ["forest", 1504, 1120, 1648, 1168],
-          ["water", 368, 1040, 512, 1152, "inner_yard: the stream under its little bridge"],
-          ["blocked", 640, 960, 704, 1024, "the rockery"],
-          ["blocked", 576, 1184, 656, 1264, "the pavilion"],
-          ["forest", 864, 640, 880, 896, "corridor: laurels either side"],
-          ["forest", 1120, 640, 1136, 896],
-          ["blocked", 1312, 208, 1376, 288, "塔林: 明心塔"],
-          ["blocked", 1456, 208, 1536, 288, "见性塔"]
+          ["blocked", 784, 1952, 880, 2000, "front_yard.c: 靠北边的地方放了一堆用来锻链膂力的砖头", {"look": {"kind": "stone_blocks", "rows": 3, "colors": ["8a5a48", "9a6a52", "7a4e3e"], "mossy": 0.0}}],
+          ["blocked", 704, 1952, 752, 2000, "front_yard.c: 空地四周种了一排白杨树", {"look": {"variant": 0, "kind": "tree", "species": "poplar"}}],
+          ["blocked", 1392, 1952, 1440, 2000, {"look": {"variant": 2, "kind": "tree", "species": "poplar"}}],
+          ["blocked", 704, 2048, 752, 2096, {"look": {"variant": 1, "kind": "tree", "species": "poplar"}}],
+          ["blocked", 1392, 2048, 1440, 2096, {"look": {"variant": 3, "kind": "tree", "species": "poplar"}}],
+          ["blocked", 704, 2144, 752, 2192, {"look": {"variant": 2, "kind": "tree", "species": "poplar"}}],
+          ["blocked", 1392, 2144, 1440, 2192, {"look": {"variant": 4, "kind": "tree", "species": "poplar"}}],
+          ["blocked", 704, 2240, 752, 2288, {"look": {"variant": 3, "kind": "tree", "species": "poplar"}}],
+          ["blocked", 1392, 2240, 1440, 2288, {"look": {"variant": 5, "kind": "tree", "species": "poplar"}}],
+          ["blocked", 800, 2256, 848, 2304, {"look": {"variant": 1, "scale": 0.9, "kind": "tree", "species": "poplar"}}],
+          ["blocked", 1296, 2256, 1344, 2304, {"look": {"variant": 2, "scale": 0.9, "kind": "tree", "species": "poplar"}}],
+          ["blocked", 1296, 1952, 1344, 1984, "the monks' stone locks for strength", {"look": {"kind": "stone_weights"}}],
+          ["blocked", 1328, 2016, 1360, 2048, "a wooden post for striking", {"look": {"kind": "training_post"}}],
+          ["blocked", 1344, 2176, 1376, 2256, "staves for the morning drill", {"look": {"kind": "weapon_rack", "rotation": -90}}],
+          ["blocked", 896, 1936, 944, 1984, "a stone lion either side of the gate hall", {"look": {"kind": "stone_lion"}}],
+          ["blocked", 1232, 1936, 1280, 1984, {"look": {"kind": "stone_lion", "mirror": true}}],
+          ["blocked", 1040, 1888, 1136, 1920, "door.c: 正中的大门正紧紧关闭著, 只有在迎接大人物时才会开启", {"look": {"kind": "red_door", "leaf": "a8342a", "trim": "c9a24a", "in_doorway": true}}],
+          ["blocked", 928, 1344, 960, 1648, "road1.c: 一条铺著青石板的大道, 两旁种植一排芍药", {"look": {"kind": "camellia_bed", "peony": true, "flowers": ["e8a0b4", "f2c0cc", "d8607a", "f4ece6"]}}],
+          ["blocked", 1200, 1344, 1232, 1424, {"look": {"kind": "camellia_bed", "peony": true, "flowers": ["e8a0b4", "f2c0cc", "d8607a", "f4ece6"]}}],
+          ["blocked", 1200, 1552, 1232, 1648, {"look": {"kind": "camellia_bed", "peony": true, "flowers": ["e8a0b4", "f2c0cc", "d8607a", "f4ece6"]}}],
+          ["blocked", 1248, 1648, 1600, 1680, "road2.c: 两旁种植著一排芍药", {"look": {"kind": "camellia_bed", "peony": true, "flowers": ["e8a0b4", "f2c0cc", "d8607a", "f4ece6"]}}],
+          ["blocked", 1248, 1328, 1376, 1360, {"look": {"kind": "camellia_bed", "peony": true, "flowers": ["e8a0b4", "f2c0cc", "d8607a", "f4ece6"]}}],
+          ["blocked", 1504, 1328, 1600, 1360, {"look": {"kind": "camellia_bed", "peony": true, "flowers": ["e8a0b4", "f2c0cc", "d8607a", "f4ece6"]}}],
+          ["blocked", 1264, 960, 1408, 1024, "drug_field.c: 一块一块的, 哪边种当归", {"look": {"kind": "herb_bed", "herb": "umbel"}}],
+          ["blocked", 1520, 960, 1664, 1024, "哪边种枸杞", {"look": {"kind": "herb_bed", "herb": "berry"}}],
+          ["blocked", 1264, 1088, 1408, 1152, {"look": {"kind": "herb_bed", "herb": "leafy"}}],
+          ["blocked", 1520, 1088, 1664, 1152, {"look": {"kind": "herb_bed", "herb": "umbel", "flowers": ["f4f0e2", "e8e4d0"]}}],
+          ["blocked", 1264, 1216, 1408, 1264, {"look": {"kind": "herb_bed", "herb": "berry"}}],
+          ["blocked", 1520, 1216, 1664, 1264, {"look": {"kind": "herb_bed", "herb": "leafy", "leaves": ["5a7a3a", "6a8a44", "4e6e34"]}}],
+          ["blocked", 1424, 928, 1504, 960, "corridor.c: 广场上正晒著一些不知名的药草", {"look": {"kind": "drying_rack", "tiers": 3, "colors": ["8a8a4a", "9a7a4a", "7a6a3a"]}}],
+          ["blocked", 1664, 1168, 1696, 1248, {"look": {"kind": "drying_rack", "tiers": 2, "rotation": 90, "colors": ["9a7a4a", "8a8a4a", "a08a52"]}}],
+          ["blocked", 864, 624, 912, 672, "corridor.c: 两旁种植著一排月桂树", {"look": {"variant": 0, "kind": "tree", "species": "osmanthus"}}],
+          ["blocked", 864, 720, 912, 768, {"look": {"variant": 1, "scale": 0.9, "kind": "tree", "species": "osmanthus"}}],
+          ["blocked", 864, 816, 912, 864, {"look": {"variant": 2, "kind": "tree", "species": "osmanthus"}}],
+          ["blocked", 1104, 528, 1152, 576, {"look": {"variant": 3, "kind": "tree", "species": "osmanthus"}}],
+          ["blocked", 1104, 624, 1152, 672, {"look": {"variant": 4, "scale": 0.95, "kind": "tree", "species": "osmanthus"}}],
+          ["blocked", 1104, 720, 1152, 768, {"look": {"variant": 5, "kind": "tree", "species": "osmanthus"}}],
+          ["water", 320, 1152, 624, 1232, "inner_yard.c: 小桥流水 — the brook under its little bridge"],
+          ["bridge", 432, 1136, 512, 1248, "the little stone bridge"],
+          ["blocked", 336, 960, 432, 1040, "inner_yard.c: 假山", {"look": {"kind": "rockery", "height": 2.6, "pine": true}}],
+          ["blocked", 320, 1056, 432, 1136, "inner_yard.c: 凉亭 — on the bank of the brook", {"look": {"kind": "pavilion", "roof": "a8802a", "posts": "a8382a", "finial": "c9a24a"}}],
+          ["blocked", 656, 1184, 752, 1280, "a second rockery where the brook comes in", {"look": {"kind": "rockery", "height": 2.2}}],
+          ["blocked", 656, 960, 704, 1008, {"look": {"kind": "strange_stone", "height": 1.4}}],
+          ["blocked", 320, 1264, 416, 1296, "flowers thick along the yard's south side", {"look": {"kind": "camellia_bed", "flower": "e8a0b4"}}],
+          ["blocked", 528, 1264, 624, 1296, {"look": {"kind": "camellia_bed", "flower": "f4d47a"}}],
+          ["blocked", 1296, 192, 1392, 288, "tower.c: 左边这一座名曰: 『明心塔』", {"look": {"kind": "pagoda", "text": "明心塔", "tiers": 7}}],
+          ["blocked", 1456, 192, 1552, 288, "tower.c: 右方名叫『见性塔』", {"look": {"kind": "pagoda", "text": "见性塔", "tiers": 7, "variant": 1}}],
+          ["blocked", 1408, 224, 1440, 256, "tower.c: 舍利子就存放在这两座塔里 — incense between them", {"look": {"kind": "incense_burner", "lit": true}}]
         ],
         "reach_from": ["GateArrival", "Corridor1KitchenReturn", "CorridorBackTempleReturn", "CorridorTempleReturn", "InnerYardHealRoomReturn", "InnerYardTempleReturn", "Road1TempleReturn", "TowerBackTempleReturn"],
         "markers_in_middle": ["sanyen.front_yard", "sanyen.inner_yard", "sanyen.drug_field", "sanyen.tower", "sanyen.road2"],
         "placed": {
-          "sanyen.road1.monk.1": [1000, 1480],
-          "sanyen.front_yard.monk_guard.1": [880, 2112],
-          "sanyen.front_yard.monk_guard.2": [1264, 2112]
+          "sanyen.road1.monk.1": [992, 1480],
+          "sanyen.road2.bonze.1": [1520, 1584],
+          "sanyen.front_yard.monk_guard.1": [896, 2096],
+          "sanyen.front_yard.monk_guard.2": [1264, 2096]
         },
         "buildings": [
           {
@@ -338,7 +421,8 @@
         "shapes": {
           "Rect_96_32": [96, 32],
           "Rect_32_32": [32, 32],
-          "Rect_64_32": [64, 32]
+          "Rect_64_32": [64, 32],
+          "Rect_128_32": [128, 32]
         },
         "door_style": {
           "walls": "Terrain/DoorWalls",
@@ -374,7 +458,7 @@
             "name": "GatePassage",
             "id": "sanyen.front_yard.south",
             "at": [1076, 2264],
-            "shape": "Rect_96_32"
+            "shape": "Rect_128_32"
           },
           {
             "generated": "doors"
@@ -395,7 +479,11 @@
             "generated": "markers"
           }
         ],
-        "stairs": []
+        "stairs": [],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/sanyen/voxel/grounds.json"
+        }
       }
     },
     "hall": {
@@ -408,12 +496,194 @@
           "sanyen.temple": {
             "floor": "floor_wood",
             "wall": "wall",
-            "size": "grand"
+            "size": "grand",
+            "life": {
+              "use": "temple",
+              "wealth": "rich",
+              "tidy": true,
+              "seed": 71
+            }
           }
         },
         "props": [
-          ["blocked", "sanyen.temple", ["rel", 0.5, 0.32], 2.82, 1.88, "the gilded Buddha on his lotus throne"],
-          ["blocked", "sanyen.temple", ["rel", 0.5, 0.6], 0.94, 0.94, "the censer, incense curling up"]
+          [
+            "blocked",
+            "sanyen.temple",
+            ["rel", 0.34, 0.3],
+            7,
+            4.6,
+            "temple.c: 一丈八尺的如来佛祖金身, 坐在一座三尺高的莲台上",
+            {
+              "look": {
+                "kind": "buddha",
+                "gilt": true,
+                "height": 6.6,
+                "halo": true,
+                "mudra": "earth"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.temple",
+            ["rel", 0.34, 0.6],
+            1.4,
+            1.4,
+            "temple.c: 前方的香炉里香烟缓缓飘上天",
+            {
+              "look": {
+                "kind": "censer"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.temple",
+            ["rel", 0.34, 0.5],
+            5,
+            1.1,
+            "the long altar before him",
+            {
+              "look": {
+                "kind": "altar_table",
+                "fresh": true,
+                "wood": "8a5a34",
+                "apron": "c9a24a"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.temple",
+            ["rel", 0.14, 0.24],
+            0.9,
+            0.9,
+            "temple.c: 这整座山烟寺都是由上好的桧木搭建而成 — its columns",
+            {
+              "look": {
+                "kind": "column",
+                "height": 2.9,
+                "column": "b8895a",
+                "band": "c9a24a"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.temple",
+            ["rel", 0.86, 0.24],
+            0.9,
+            0.9,
+            {
+              "look": {
+                "kind": "column",
+                "height": 2.9,
+                "column": "b8895a",
+                "band": "c9a24a"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.temple",
+            ["rel", 0.14, 0.76],
+            0.9,
+            0.9,
+            {
+              "look": {
+                "kind": "column",
+                "height": 2.9,
+                "column": "b8895a",
+                "band": "c9a24a"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.temple",
+            ["rel", 0.86, 0.76],
+            0.9,
+            0.9,
+            {
+              "look": {
+                "kind": "column",
+                "height": 2.9,
+                "column": "b8895a",
+                "band": "c9a24a"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.temple",
+            ["rel", 0.72, 0.18],
+            1.2,
+            1.2,
+            "a great bronze bell on its frame",
+            {
+              "look": {
+                "kind": "temple_bell"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.temple",
+            ["rel", 0.95, 0.5],
+            0.9,
+            4,
+            "the sutra cabinet along the east wall",
+            {
+              "look": {
+                "kind": "bookcase",
+                "rotation": -90
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.temple",
+            ["rel", 0.2, 0.5],
+            0.9,
+            0.9,
+            "a tall burner either side of the altar",
+            {
+              "look": {
+                "kind": "incense_burner",
+                "tall": true,
+                "lit": true
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.temple",
+            ["rel", 0.5, 0.5],
+            0.9,
+            0.9,
+            {
+              "look": {
+                "kind": "incense_burner",
+                "tall": true,
+                "lit": true
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.temple",
+            ["rel", 0.12, 0.08],
+            1.6,
+            0.8,
+            "the sutra table by the wall, the wooden fish on it",
+            {
+              "look": {
+                "kind": "scripture_table",
+                "cloth": "c8902a",
+                "fish": true
+              }
+            }
+          ]
         ],
         "placed": {},
         "doors": {
@@ -449,7 +719,11 @@
             "generated": "markers"
           }
         ],
-        "interactions": []
+        "interactions": [],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/sanyen/voxel/hall_house.json"
+        }
       }
     },
     "back_temple": {
@@ -462,11 +736,78 @@
           "sanyen.back_temple": {
             "floor": "floor_wood",
             "wall": "wall",
-            "size": "hall"
+            "size": "hall",
+            "life": {
+              "use": "temple",
+              "wealth": "rich",
+              "seed": 72
+            }
           }
         },
         "props": [
-          ["blocked", "sanyen.back_temple", ["rel", 0.5, 0.167], 2.82, 1.88, "后殿: 药师如来's gilded statue"]
+          [
+            "blocked",
+            "sanyen.back_temple",
+            ["rel", 0.5, 0.2],
+            5.4,
+            3.6,
+            "后殿: 正中有一尊药师如来的金身塑像",
+            {
+              "look": {
+                "kind": "buddha",
+                "gilt": true,
+                "height": 5.0,
+                "halo": true,
+                "mudra": "bowl",
+                "robe": "2f5a8a"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.back_temple",
+            ["rel", 0.5, 0.48],
+            4,
+            1,
+            "an altar before him",
+            {
+              "look": {
+                "kind": "altar_table",
+                "fresh": true,
+                "wood": "7a4a2e",
+                "apron": "c9a24a"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.back_temple",
+            ["rel", 0.3, 0.42],
+            0.9,
+            0.9,
+            "a tall burner beside the altar",
+            {
+              "look": {
+                "kind": "incense_burner",
+                "tall": true,
+                "lit": true
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.back_temple",
+            ["rel", 0.7, 0.42],
+            0.9,
+            0.9,
+            {
+              "look": {
+                "kind": "incense_burner",
+                "tall": true,
+                "lit": true
+              }
+            }
+          ]
         ],
         "placed": {},
         "doors": {
@@ -501,7 +842,11 @@
             "generated": "markers"
           }
         ],
-        "interactions": []
+        "interactions": [],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/sanyen/voxel/back_temple_house.json"
+        }
       }
     },
     "heal_room": {
@@ -514,11 +859,94 @@
           "sanyen.heal_room": {
             "floor": "floor_wood",
             "wall": "wall_wood",
-            "size": "large"
+            "size": "large",
+            "life": {
+              "use": "apothecary",
+              "wealth": "plain",
+              "seed": 73
+            }
           }
         },
         "props": [
-          ["blocked", "sanyen.heal_room", ["rel", 0.5, 0.083], 9.41, 0.94, "流云轩: drawers up to the roof"]
+          [
+            "blocked",
+            "sanyen.heal_room",
+            ["rel", 0.5, 0.083],
+            15,
+            1,
+            "流云轩: 与屋顶齐高的木柜, 画分成许多抽屉, 里面分别摆放著药材",
+            {
+              "look": {
+                "kind": "herb_cabinet"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.heal_room",
+            ["rel", 0.38, 0.45],
+            2.6,
+            1.3,
+            "heal_room.c: 是玄智方丈为人看病的地方 — his table, the pulse pillow",
+            {
+              "look": {
+                "kind": "writing_desk"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.heal_room",
+            ["rel", 0.82, 0.62],
+            2.2,
+            3.6,
+            "a cot for the sick",
+            {
+              "look": {
+                "kind": "bed",
+                "quilt": "c8c0a8"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.heal_room",
+            ["rel", 0.38, 0.6],
+            0.9,
+            0.9,
+            "the stool for the sick before the desk",
+            {
+              "look": {
+                "kind": "chair"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.heal_room",
+            ["rel", 0.15, 0.55],
+            1.2,
+            1.2,
+            "the herb grinder",
+            {
+              "look": {
+                "kind": "herb_mortar"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.heal_room",
+            ["rel", 0.15, 0.82],
+            1.6,
+            1.2,
+            "a little stove, the medicine pot on it",
+            {
+              "look": {
+                "kind": "tea_stove"
+              }
+            }
+          ]
         ],
         "placed": {},
         "doors": {
@@ -560,7 +988,11 @@
             "room": "sanyen.heal_room",
             "anchor": ["rel", 0.95, 0.583]
           }
-        ]
+        ],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/sanyen/voxel/heal_room_house.json"
+        }
       }
     },
     "kitchen": {
@@ -573,11 +1005,99 @@
           "sanyen.kitchen": {
             "floor": "floor_wood",
             "wall": "wall_wood",
-            "size": "large"
+            "size": "large",
+            "life": {
+              "use": "kitchen",
+              "wealth": "plain",
+              "tidy": true,
+              "seed": 74
+            }
           }
         },
         "props": [
-          ["blocked", "sanyen.kitchen", ["rel", 0.333, 0.125], 3.76, 1.41, "kitchen: the two stoves in the north-west corner"]
+          [
+            "blocked",
+            "sanyen.kitchen",
+            ["rel", 0.12, 0.13],
+            2.4,
+            1.6,
+            "kitchen.c: 西北边的角落里砌了两个大灶…一个大锅(pot)",
+            {
+              "look": {
+                "kind": "cauldron",
+                "brick": "8a5a48"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.kitchen",
+            ["rel", 0.32, 0.13],
+            2.4,
+            1.6,
+            "…及一个蒸笼(steampot)",
+            {
+              "look": {
+                "kind": "cauldron",
+                "brick": "8a5a48",
+                "steamer": true
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.kitchen",
+            ["rel", 0.88, 0.1],
+            2.6,
+            0.9,
+            "the shelves of the kitchen's stores",
+            {
+              "look": {
+                "kind": "sundry_shelf"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.kitchen",
+            ["rel", 0.6, 0.55],
+            2.6,
+            1.4,
+            "the table where the food is set out",
+            {
+              "look": {
+                "kind": "table"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.kitchen",
+            ["rel", 0.88, 0.75],
+            1.2,
+            1.2,
+            "the water vat",
+            {
+              "look": {
+                "kind": "water_vat",
+                "lid": true
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.kitchen",
+            ["rel", 0.62, 0.12],
+            1.2,
+            0.9,
+            "a chopping block, greens on it",
+            {
+              "look": {
+                "kind": "chopping_block",
+                "meat": "5a8a3a"
+              }
+            }
+          ]
         ],
         "placed": {},
         "doors": {
@@ -606,7 +1126,7 @@
             "id": "sanyen.kitchen.steampot",
             "text": "蒸笼 · 打开",
             "room": "sanyen.kitchen",
-            "anchor": ["rel", 0.5, 0.5]
+            "anchor": ["rel", 0.32, 0.36]
           }
         ],
         "zones": [
@@ -625,16 +1145,20 @@
             "id": "sanyen.kitchen.landmark.pot",
             "shape": "Rect_32_32",
             "room": "sanyen.kitchen",
-            "anchor": ["rel", 0.083, 0.333]
+            "anchor": ["rel", 0.12, 0.3]
           },
           {
             "name": "SteamerInteraction",
             "id": "sanyen.kitchen.landmark.steampot",
             "shape": "Rect_32_32",
             "room": "sanyen.kitchen",
-            "anchor": ["rel", 0.5, 0.333]
+            "anchor": ["rel", 0.32, 0.3]
           }
-        ]
+        ],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/sanyen/voxel/kitchen_house.json"
+        }
       }
     },
     "tunnels": {
@@ -655,7 +1179,233 @@
             "size": "room"
           }
         },
-        "props": [],
+        "props": [
+          [
+            "blocked",
+            "sanyen.tunnel",
+            ["rel", 0.12, 0.08],
+            3.4,
+            1.4,
+            "tunnel.c: 凿穿山壁开成的隧道 — the rock left standing either side",
+            {
+              "look": {
+                "kind": "rock_pile",
+                "count": 22,
+                "colors": ["6a6458", "75705f", "5e594f", "807a66"]
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.tunnel",
+            ["rel", 0.12, 0.93],
+            3.4,
+            1.2,
+            {
+              "look": {
+                "kind": "rock_pile",
+                "count": 22,
+                "colors": ["6a6458", "75705f", "5e594f", "807a66"]
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.tunnel",
+            ["rel", 0.38, 0.08],
+            3.4,
+            1.4,
+            {
+              "look": {
+                "kind": "rock_pile",
+                "count": 22,
+                "colors": ["6a6458", "75705f", "5e594f", "807a66"]
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.tunnel",
+            ["rel", 0.38, 0.93],
+            3.4,
+            1.2,
+            {
+              "look": {
+                "kind": "rock_pile",
+                "count": 22,
+                "colors": ["6a6458", "75705f", "5e594f", "807a66"]
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.tunnel",
+            ["rel", 0.62, 0.08],
+            3.4,
+            1.4,
+            {
+              "look": {
+                "kind": "rock_pile",
+                "count": 22,
+                "colors": ["6a6458", "75705f", "5e594f", "807a66"]
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.tunnel",
+            ["rel", 0.62, 0.93],
+            3.4,
+            1.2,
+            {
+              "look": {
+                "kind": "rock_pile",
+                "count": 22,
+                "colors": ["6a6458", "75705f", "5e594f", "807a66"]
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.tunnel",
+            ["rel", 0.88, 0.08],
+            3.4,
+            1.4,
+            {
+              "look": {
+                "kind": "rock_pile",
+                "count": 22,
+                "colors": ["6a6458", "75705f", "5e594f", "807a66"]
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.tunnel",
+            ["rel", 0.88, 0.93],
+            3.4,
+            1.2,
+            {
+              "look": {
+                "kind": "rock_pile",
+                "count": 22,
+                "colors": ["6a6458", "75705f", "5e594f", "807a66"]
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.tunnele",
+            ["rel", 0.12, 0.08],
+            3.4,
+            1.4,
+            {
+              "look": {
+                "kind": "rock_pile",
+                "count": 22,
+                "colors": ["6a6458", "75705f", "5e594f", "807a66"]
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.tunnele",
+            ["rel", 0.12, 0.93],
+            3.4,
+            1.2,
+            {
+              "look": {
+                "kind": "rock_pile",
+                "count": 22,
+                "colors": ["6a6458", "75705f", "5e594f", "807a66"]
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.tunnele",
+            ["rel", 0.38, 0.08],
+            3.4,
+            1.4,
+            {
+              "look": {
+                "kind": "rock_pile",
+                "count": 22,
+                "colors": ["6a6458", "75705f", "5e594f", "807a66"]
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.tunnele",
+            ["rel", 0.38, 0.93],
+            3.4,
+            1.2,
+            {
+              "look": {
+                "kind": "rock_pile",
+                "count": 22,
+                "colors": ["6a6458", "75705f", "5e594f", "807a66"]
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.tunnele",
+            ["rel", 0.62, 0.08],
+            3.4,
+            1.4,
+            {
+              "look": {
+                "kind": "rock_pile",
+                "count": 22,
+                "colors": ["6a6458", "75705f", "5e594f", "807a66"]
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.tunnele",
+            ["rel", 0.62, 0.93],
+            3.4,
+            1.2,
+            {
+              "look": {
+                "kind": "rock_pile",
+                "count": 22,
+                "colors": ["6a6458", "75705f", "5e594f", "807a66"]
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.tunnele",
+            ["rel", 0.88, 0.08],
+            3.4,
+            1.4,
+            {
+              "look": {
+                "kind": "rock_pile",
+                "count": 22,
+                "colors": ["6a6458", "75705f", "5e594f", "807a66"]
+              }
+            }
+          ],
+          [
+            "blocked",
+            "sanyen.tunnele",
+            ["rel", 0.88, 0.93],
+            3.4,
+            1.2,
+            {
+              "look": {
+                "kind": "rock_pile",
+                "count": 22,
+                "colors": ["6a6458", "75705f", "5e594f", "807a66"]
+              }
+            }
+          ]
+        ],
         "placed": {},
         "doors": {
           "sanyen.tunnele.east": "east",
@@ -694,7 +1444,11 @@
             "generated": "markers"
           }
         ],
-        "interactions": []
+        "interactions": [],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/sanyen/voxel/tunnels.json"
+        }
       }
     }
   }

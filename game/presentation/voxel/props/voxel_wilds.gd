@@ -57,6 +57,7 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"stakes": _stakes(w,d)
 		"skull_pit": _skull_pit(w,d)
 		"carved_wall": _carved_wall(w)
+		"vent": _vent(w,d)
 		"flames": _flames(w,d)
 		"quarry_face": _quarry_face(w,d)
 		"bagua": _bagua()
@@ -638,8 +639,39 @@ func _skull_pit(w: float, d: float) -> void:
 	if ambience != null:
 		ambience.smoke(root,Vector3(0,0.1,0),String(data.get("fumes","9a9a58")),4,0.25)
 
-## Words cut into a rock face with a sword (cave5.c's wall): rows of pale strokes.
+## A crack in the rock floor breathing sulphur (tunnel.c: 隧道中你可以闻到一股硫磺的味道, 想必左近
+## 便有温泉或是火山): the split edged with a yellow crust (`crust`), a few crystals, thin fumes
+## (`fumes`) curling up from it.
+func _vent(w: float, d: float) -> void:
+	var crust: Array = _colors("crust",["c8b44a","d8c45a","b8a440"])
+	s.box(root,Vector3(0,0.01,0),Vector3(w*0.8,0.02,0.08),"1e1a16")
+	for i: int in 9:
+		var t: float = (float(i)/8.0-0.5)*w*0.9
+		s.shard(root,Vector3(t,0.03,rng.randf_range(-d,d)*0.3),Vector3(rng.randf_range(0.1,0.22),0.05,rng.randf_range(0.08,0.16)),_pick(crust),i,rng.randf()*TAU)
+	for crystal: int in 3:
+		s.tilted_box(root,Vector3(rng.randf_range(-w,w)*0.3,0.06,rng.randf_range(-d,d)*0.2),Vector3(0.05,0.12,0.05),"e8d86a",Vector3(rng.randf_range(-0.4,0.4),0,rng.randf_range(-0.4,0.4)))
+	if ambience != null:
+		ambience.smoke(root,Vector3(0,0.05,0),String(data.get("fumes","d8d4a8")),4,0.18)
+
+## Words cut into a rock face with a sword (cave5.c's wall): rows of pale strokes. With `text`
+## (sroad1.c: 山壁上刻著「山烟寺」几个大字, 看起来岁月已经颇久了) great characters cut deep, the red
+## that once filled them faded, lichen in the strokes.
 func _carved_wall(w: float) -> void:
+	if data.has("text"):
+		var title := Label3D.new()
+		title.text = TranslationServer.translate(String(data["text"]))
+		title.position = Vector3(0,float(data.get("from",1.6)),0.03)
+		title.pixel_size = 0.012
+		title.font_size = 96
+		title.outline_size = 10
+		title.outline_modulate = Color(String(data.get("shade","4a4238")))
+		title.modulate = Color(String(data.get("color","9a5a48")))
+		# Cut in the stone: lit like the rock round it, dark at night.
+		title.shaded = true
+		root.add_child(title)
+		for patch: int in 6:
+			s.box(root,Vector3(rng.randf_range(-w,w)*0.4,title.position.y+rng.randf_range(-0.5,0.5),0.02),Vector3(rng.randf_range(0.1,0.3),rng.randf_range(0.06,0.16),0.02),_pick(["6a7a4a","7a8a52","5a6a42"]))
+		return
 	var low: float = float(data.get("from",0.9))
 	var rows: int = int(data.get("rows",5))
 	for row: int in rows:

@@ -33,6 +33,8 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"sword_stand": _sword_stand(w,d)
 		"scripture_table": _scripture_table(w,d)
 		"beast_statue": _beast_statue(w,d)
+		"pagoda": _pagoda(w,d)
+		"temple_bell": _temple_bell(w,d)
 		_:
 			return false
 	return true
@@ -293,6 +295,9 @@ func _paper_burner(w: float, d: float) -> void:
 ## lotus base, hands in its lap, the pearl on its crown glowing pale blue-white and lighting the
 ## hall day and night (`stone`: the figure's colours).
 func _buddha(w: float, d: float) -> void:
+	if data.get("gilt",false):
+		_gilt_buddha(w,d)
+		return
 	var stone: Array = data.get("stone",["8d8a7c","9a9789","807d70"])
 	var k: float = minf(w,d)*0.55
 	for petal: int in 10:
@@ -314,6 +319,165 @@ func _buddha(w: float, d: float) -> void:
 	light.set_meta("day_energy",1.2)
 	light.set_meta("night_energy",1.8)
 	root.add_child(light)
+
+## 金身 (temple.c: 一丈八尺的如来佛祖金身, 坐在一座三尺高的莲台上): a gilt Buddha seated cross-legged
+## on a lotus throne of two rings of petals over a stepped base, his robe (`robe`) falling over
+## one shoulder, blue curls and the knot on his crown, long ears; behind him a flame-edged
+## mandorla and a round halo (`halo`). `height` units from the floor to the mandorla's tip; his
+## hands (`mudra`): "earth" the right hand down over the knee, "bowl" both in his lap holding
+## the medicine bowl (药师如来), else folded in meditation. `gold` his gilt.
+func _gilt_buddha(w: float, d: float) -> void:
+	var gold: Array = data.get("gold",["c9a24a","dab45a","b08a3a"])
+	var robe: String = String(data.get("robe","b8862e"))
+	var height: float = float(data.get("height",4.0))
+	# The mandorla's flame tip stands 0.62+5k over the floor.
+	var k: float = maxf(0.2,(height-0.62)/5.0)
+	var deep: float = minf(d*0.8,w*0.62)
+	# The base and the throne: three stepped plinths, two rings of upturned petals.
+	s.box(root,Vector3(0,0.15,0),Vector3(w*0.92,0.3,deep),String(data.get("base","8a6a4a")))
+	s.box(root,Vector3(0,0.36,0),Vector3(w*0.8,0.12,deep*0.88),String(gold[2]))
+	s.box(root,Vector3(0,0.52,0),Vector3(w*0.7,0.2,deep*0.78),String(data.get("base","8a6a4a")))
+	var throne: float = 0.62+0.2*k
+	for ring: int in 2:
+		var radius: float = w*(0.34-ring*0.07)
+		for petal: int in 14-ring*3:
+			var a: float = petal*TAU/(14-ring*3)+ring*0.2
+			var tip := Vector3(cos(a)*radius,throne+ring*0.22*k,sin(a)*radius*deep/w)
+			s.tilted_box(root,tip,Vector3(0.36*k,0.28*k,0.16*k),String(["d8b078","c89a5a"][petal%2]) if ring==0 else String(gold[petal%2]),Vector3(0,-a,0.35))
+	s.box(root,Vector3(0,throne+0.2*k,0),Vector3(w*0.5,0.26*k,deep*0.56),String(gold[0]))
+	var seat: float = throne+0.33*k
+	# Crossed legs, the robe over them, the body, one shoulder bare.
+	s.box(root,Vector3(0,seat+0.22*k,0.05*k),Vector3(1.9*k,0.44*k,1.1*k),String(gold[1]))
+	s.box(root,Vector3(0,seat+0.3*k,0.48*k),Vector3(1.7*k,0.3*k,0.18*k),robe)
+	s.box(root,Vector3(0,seat+1.05*k,-0.05*k),Vector3(1.1*k,1.25*k,0.72*k),String(gold[0]))
+	s.tilted_box(root,Vector3(-0.18*k,seat+1.1*k,0.08*k),Vector3(0.4*k,1.28*k,0.62*k),robe,Vector3(0,0,0.3))
+	for side: float in [-1.0,1.0]:
+		s.box(root,Vector3(side*0.66*k,seat+1.2*k,-0.04*k),Vector3(0.3*k,0.9*k,0.42*k),String(gold[1]) if side>0 else robe)
+	match String(data.get("mudra","")):
+		"earth":
+			s.box(root,Vector3(0.62*k,seat+0.56*k,0.36*k),Vector3(0.22*k,0.48*k,0.24*k),String(gold[1]))
+			s.box(root,Vector3(-0.16*k,seat+0.5*k,0.42*k),Vector3(0.42*k,0.14*k,0.3*k),String(gold[1]))
+		"bowl":
+			s.box(root,Vector3(0,seat+0.52*k,0.4*k),Vector3(0.58*k,0.14*k,0.34*k),String(gold[1]))
+			s.box(root,Vector3(0,seat+0.68*k,0.42*k),Vector3(0.34*k,0.2*k,0.3*k),String(data.get("bowl","2f5a8a")))
+			s.box(root,Vector3(0,seat+0.8*k,0.42*k),Vector3(0.26*k,0.05*k,0.22*k),"3a6a9a")
+		_:
+			s.box(root,Vector3(0,seat+0.5*k,0.4*k),Vector3(0.62*k,0.14*k,0.34*k),String(gold[1]))
+	# The head: face, long ears, the blue curls and the knot on the crown.
+	var head: float = seat+2.0*k
+	s.box(root,Vector3(0,head-0.25*k,0),Vector3(0.36*k,0.2*k,0.36*k),String(gold[0]))
+	s.box(root,Vector3(0,head+0.08*k,0),Vector3(0.62*k,0.68*k,0.6*k),String(gold[1]))
+	for side: float in [-1.0,1.0]:
+		s.box(root,Vector3(side*0.34*k,head,0),Vector3(0.08*k,0.5*k,0.16*k),String(gold[0]))
+	s.box(root,Vector3(0,head+0.44*k,-0.02*k),Vector3(0.64*k,0.14*k,0.62*k),String(data.get("curls","2a3a5a")))
+	s.box(root,Vector3(0,head+0.6*k,-0.02*k),Vector3(0.34*k,0.22*k,0.34*k),String(data.get("curls","2a3a5a")))
+	s.box(root,Vector3(0,head+0.06*k,0.31*k),Vector3(0.06*k,0.06*k,0.02*k),"d84a3a")
+	for side: float in [-1.0,1.0]:
+		s.box(root,Vector3(side*0.13*k,head+0.12*k,0.31*k),Vector3(0.12*k,0.03*k,0.02*k),"6a4a22")
+	if data.get("halo",true):
+		var back: float = -deep*0.42
+		# The round halo behind his head: a disc of bars, a paler ring inside.
+		for bar: int in 7:
+			var t: float = (float(bar)-3.0)/3.5
+			var half: float = sqrt(maxf(0.0,1.0-t*t))
+			s.box(root,Vector3(0,head+0.1*k+t*0.68*k,back+0.12),Vector3(1.36*k*half,0.2*k,0.06),String(gold[2]))
+			s.box(root,Vector3(0,head+0.1*k+t*0.5*k,back+0.15),Vector3(1.0*k*half,0.15*k,0.04),"e8c86a")
+		# The mandorla: a tall flame-edged back, its rim in red flames.
+		for tier: int in 7:
+			var t: float = float(tier)/6.0
+			var span: float = 2.6*k*sin(lerpf(0.45,PI-0.15,t))
+			s.box(root,Vector3(0,seat+0.4*k+tier*0.5*k,back),Vector3(span,0.52*k,0.08),String(gold[tier%2]))
+			for side: float in [-1.0,1.0]:
+				s.tilted_box(root,Vector3(side*span/2,seat+0.55*k+tier*0.5*k,back+0.02),Vector3(0.22*k,0.4*k,0.06),"c8442a",Vector3(0,0,-side*0.5))
+		s.tilted_box(root,Vector3(0,seat+3.85*k,back),Vector3(0.36*k,0.6*k,0.08),"c8442a",Vector3(0,0,PI/4))
+	var light := OmniLight3D.new()
+	light.position = Vector3(0,head,deep*0.8)
+	light.light_color = Color("ffd9a0")
+	light.omni_range = float(data.get("range",7.0))
+	light.set_meta("day_energy",0.6)
+	light.set_meta("night_energy",1.0)
+	root.add_child(light)
+
+## 塔 (tower.c: 明心塔、见性塔, the ashes of the temple's great monks kept in them): a brick
+## pagoda of `tiers` storeys on a stone plinth, each storey a little smaller than the one
+## below, a tiled eave round each with a bell at its corners, a small arched door and its name
+## (`text`) on a stone over the door, a gilt spire of rings on top. `colors`: wall, eave,
+## spire; `height` units.
+func _pagoda(w: float, d: float) -> void:
+	var tones: Array = data.get("colors",["c8bca4","5e5a52","c9a24a"])
+	var tiers: int = int(data.get("tiers",7))
+	var height: float = float(data.get("height",8.0))
+	var span: float = minf(w,d)
+	var wall := Color(String(tones[0]).get_slice(":",0))
+	var variant: int = int(data.get("variant",0))
+	s.box(root,Vector3(0,0.2,0),Vector3(span,0.4,span),"9a978a")
+	s.box(root,Vector3(0,0.46,0),Vector3(span*0.9,0.12,span*0.9),"8a877c")
+	var story: float = (height-1.6)/(tiers+0.5)
+	var y: float = 0.52
+	for tier: int in tiers:
+		var t: float = float(tier)/maxf(1,tiers)
+		var side: float = span*lerpf(0.7,0.38,t)
+		var tall: float = story*(1.5 if tier==0 else lerpf(1.0,0.82,t))
+		var at := Vector3(0,y+tall/2,0)
+		s.box(root,at,Vector3(side,tall,side),wall.darkened(0.05*float((tier*7+variant)%3)).to_html(false))
+		# Bare brick where the plaster has fallen.
+		if (tier+variant)%3==1:
+			s.box(root,at+Vector3(side*0.2,-tall*0.15,side/2+0.005),Vector3(side*0.3,tall*0.3,0.02),"9a6a52")
+		# A blind arch on each face; the real door below, on the south.
+		for face: int in 4:
+			var a: float = face*PI/2
+			var door := Node3D.new()
+			door.position = at+Vector3(sin(a),0,cos(a))*(side/2+0.01)-Vector3(0,tall*(0.18 if tier==0 else 0.12),0)
+			door.rotation.y = a
+			root.add_child(door)
+			s.box(door,Vector3.ZERO,Vector3(side*0.26,tall*(0.58 if tier==0 else 0.5),0.03),"2e2a26" if tier==0 and face==0 else wall.darkened(0.3).to_html(false))
+		# The eave: a corbelled band, tiles stepping in, a bell under each corner.
+		var eave_y: float = y+tall
+		s.box(root,Vector3(0,eave_y+0.04,0),Vector3(side+0.24,0.08,side+0.24),wall.darkened(0.15).to_html(false))
+		var reach: float = side+0.7-t*0.2
+		for ring: int in 3:
+			s.box(root,Vector3(0,eave_y+0.14+ring*0.08,0),Vector3(reach-ring*0.22,0.08,reach-ring*0.22),String(tones[1]))
+		for cx: float in [-1.0,1.0]:
+			for cz: float in [-1.0,1.0]:
+				var corner := Vector3(cx*reach/2,eave_y+0.2,cz*reach/2)
+				s.box(root,corner,Vector3(0.14,0.12,0.14),String(tones[1]))
+				s.box(root,corner+Vector3(0,-0.16,0),Vector3(0.08,0.14,0.08),"8a6a32")
+		y = eave_y+0.36
+	if data.has("text"):
+		var plate := Label3D.new()
+		plate.text = TranslationServer.translate(String(data["text"]))
+		plate.position = Vector3(0,0.52+story*1.5*0.86,span*0.35+0.05)
+		plate.pixel_size = 0.006
+		plate.font_size = 40
+		plate.outline_size = 0
+		plate.modulate = Color("3a2a1e")
+		s.box(root,plate.position-Vector3(0,0,0.03),Vector3(span*0.32,0.3,0.03),"d8d2c0")
+		root.add_child(plate)
+	# The spire: a lotus, a stack of gilt rings, a pearl.
+	s.box(root,Vector3(0,y+0.1,0),Vector3(0.5,0.2,0.5),String(tones[1]))
+	for ring: int in 6:
+		s.box(root,Vector3(0,y+0.3+ring*0.16,0),Vector3(0.32-ring*0.03,0.1,0.32-ring*0.03),String(tones[2]))
+	s.box(root,Vector3(0,y+1.3,0),Vector3(0.16,0.2,0.16),String(tones[2])+":glow")
+
+## 铜钟: a great bronze bell hung from a beam on a red frame, the striking log on its ropes.
+func _temple_bell(w: float, d: float) -> void:
+	var frame: String = String(data.get("frame","8a3226"))
+	var bronze: Array = data.get("colors",["5a5a3a","6a6844","4a4a32"])
+	var bell: float = minf(w,1.4)
+	for x: float in [-w/2+0.12,w/2-0.12]:
+		s.box(root,Vector3(x,1.35,0),Vector3(0.18,2.7,0.18),frame)
+		s.box(root,Vector3(x,0.08,0),Vector3(0.34,0.16,minf(d,0.6)),"6a5a48")
+	s.box(root,Vector3(0,2.66,0),Vector3(w,0.18,0.24),frame)
+	s.box(root,Vector3(0,2.45,0),Vector3(0.12,0.3,0.12),"3a3530")
+	for band: int in 6:
+		var r: float = lerpf(0.34,0.52,float(band)/5.0)*bell
+		s.box(root,Vector3(0,2.24-band*0.24,0),Vector3(r,0.24,r),String(bronze[band%bronze.size()]))
+	s.box(root,Vector3(0,0.94,0),Vector3(bell*0.56,0.06,bell*0.56),String(bronze[2]))
+	for knob: int in 6:
+		s.box(root,Vector3(-0.15+(knob%3)*0.15,2.0-floorf(knob/3.0)*0.18,bell*0.21),Vector3(0.05,0.05,0.04),"7a7650")
+	s.tilted_box(root,Vector3(-w*0.05,1.6,bell*0.45),Vector3(0.9,0.14,0.14),"8a6a45",Vector3(0,0.1,0))
+	for x: float in [-0.3,0.2]:
+		s.box(root,Vector3(x,2.12,bell*0.45),Vector3(0.02,1.0,0.02),"b8a374")
 
 ## 鲜花素果 (temple1.c: 朱红色的大供桌, 上面排满了鲜花素果): a red cloth runner down the front,
 ## vases of fresh flowers at both ends, plates of fruit along it, red candles burning in pewter
@@ -531,6 +695,11 @@ func _scripture_table(w: float, d: float) -> void:
 			s.box(root,Vector3(x,0.92+book*0.07,0),Vector3(0.34,0.06,0.46),String(covers[(stack+book)%covers.size()]))
 			s.box(root,Vector3(x+0.172,0.92+book*0.07,0),Vector3(0.01,0.05,0.44),"e8e0c8")
 	_candles(Vector3(-w/2+0.2,0.88,-d*0.25),1)
+	# 木鱼 (`fish`): the wooden fish and its beater, for the chanting.
+	if data.get("fish",false):
+		s.box(root,Vector3(-w*0.18,0.98,d*0.22),Vector3(0.3,0.2,0.26),"a8442a")
+		s.box(root,Vector3(-w*0.18,1.06,d*0.22),Vector3(0.18,0.06,0.2),"b8562e")
+		s.tilted_box(root,Vector3(-w*0.05,0.92,d*0.3),Vector3(0.04,0.03,0.3),"7a5a3a",Vector3(0,0.6,0))
 	s.box(root,Vector3(w/2-0.2,0.94,-d*0.2),Vector3(0.16,0.12,0.16),"7a6040")
 	if ambience != null:
 		ambience.smoke(root,Vector3(w/2-0.2,1.02,-d*0.2),"d8d2c4",3,0.08)

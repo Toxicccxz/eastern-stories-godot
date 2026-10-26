@@ -76,7 +76,7 @@ only they or nobody use; `d/npc` (wizard-saved characters).
   layout, decor is the map's `game/data/<region>/voxel/<map>.json`.
 * **Presentation**: the voxel maps (below), characters and animation, audio, consistent Chinese UI.
 * **Voxel maps** (owner, 2026-10-22): done for 雪亭镇, 老松岭, 野羊山, 卧龙岗 + 绮云镇, 水烟阁, 青石村,
-  茅山 灵心观 and 晚月庄 (72 maps). Next, region by region in the table's order — 泓水南岸 + 山烟寺 first — each widened for the voxel view
+  茅山 灵心观, 晚月庄 and 泓水南岸 + 山烟寺 (79 maps). Next, region by region in the table's order — 乔阴县城 first — each widened for the voxel view
   first (DECISIONS「地图尺寸以体素视角为准」), every room dressed and lit; then 雪亭镇's facades in more
   detail. Desktop frame rate is the bar (DECISIONS「首发只做桌面」).
 

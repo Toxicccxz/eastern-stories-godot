@@ -1,0 +1,47 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 22,
+  "note": "隧道 (tunnel.c, tunnele.c): a tunnel cut through the cliff, seven or eight 丈 long, the west mouth in sight from the east; a smell of sulphur out of the rock (想必左近便有温泉或是火山) — yellow crust in the cracks, thin fumes. Daylight at both ends.",
+  "wall_looks": [
+    {"rect": [-560, -224, 560, 224], "style": "rock", "colors": ["6a6458", "75705f", "5e594f", "807a66"], "note": "凿穿山壁: the chisel marks in the rock"}
+  ],
+  "surfaces": {"sanyen.tunnel": "cave_floor", "sanyen.tunnele": "cave_floor"},
+  "ground": {
+    "cave_floor": {"style": "scree", "colors": ["625c50", "6a6458", "5a5448"], "gravel": 0.4, "stones": 0.06, "note": "chips of rock trodden into the floor"}
+  },
+  "light": {
+    "ambient": ["a8a090", "7a7a8a"],
+    "ambient_energy": [0.5, 0.42],
+    "sun": ["b3a792", "9fa3b4"],
+    "sun_energy": [0.28, 0.22],
+    "carried": {"color": "ffd8a8", "range": 7.0, "day": 1.6, "night": 2.0, "attenuation": 1.0}
+  },
+  "props": [
+    {"kind": "light_shaft", "at": [500, 0], "size": [64, 128], "note": "tunnele.c: 东边是隧道的出口"},
+    {"kind": "light_shaft", "at": [-500, 0], "size": [64, 128], "note": "tunnele.c: 往西不远处也可以从这里瞧见西边的出口"},
+    {"kind": "vent", "at": [-300, -70], "size": [48, 24], "note": "tunnel.c: 隧道中你可以闻到一股硫磺的味道"},
+    {"kind": "vent", "at": [200, 80], "size": [40, 24]},
+    {"kind": "vent", "at": [-120, 90], "size": [32, 20]},
+    {"kind": "stains", "at": [-260, -90], "size": [200, 40], "count": 6, "colors": ["c8b44a", "b8a440", "d8c45a"], "note": "tunnele.c: 一股硫磺的味道从隧道壁中传来"},
+    {"kind": "stains", "at": [240, 96], "size": [200, 40], "count": 5, "colors": ["c8b44a", "b8a440", "d8c45a"]},
+    {"kind": "tracks", "at": [0, 0], "size": [800, 60]}
+  ],
+  "actors": {
+    "default": {"coat": "8a7a5a"},
+    "sanyen.npc.greeting": {"coat": "b8862e", "note": "知客僧: a saffron robe"},
+    "sanyen.npc.monk": {"coat": "7a6a52"},
+    "sanyen.npc.bonze": {"coat": "8a7a62"},
+    "sanyen.npc.cripple": {"coat": "6a5e4e", "note": "跛僧: a patched old robe"},
+    "sanyen.npc.drug_bonze": {"coat": "6a7a5a", "note": "药僧"},
+    "sanyen.npc.cook_bonze": {"coat": "9a8a6a", "note": "烧饭僧: an apron over his robe"},
+    "sanyen.npc.little_bonze": {"coat": "b89a5a"},
+    "sanyen.npc.work_bonze": {"coat": "7a7060"},
+    "cloud.npc.monk_guard": {"coat": "8a4a2a", "note": "护寺武僧"},
+    "common.npc.bonze.master": {"coat": "a8342a", "note": "the abbot's red kasaya"}
+  },
+  "entrances": {
+    "sanyen.tunnel.west": {"title": "晚月庄"},
+    "sanyen.tunnele.east": {"title": "山烟寺山门"}
+  }
+}

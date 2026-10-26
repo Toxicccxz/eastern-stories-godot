@@ -1,0 +1,39 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 23,
+  "note": "香积厨 (kitchen.c): a kitchen kept clean, two great stoves built in the north-west corner, fires blazing in them, on one a big iron pot of millet gruel, on the other a bamboo steamer, both steaming and smelling good.",
+  "palette": {"wood": ["7a6a52", "84745a", "6e604a"], "wall": "d0c4a8"},
+  "surfaces": {"sanyen.kitchen": "rock"},
+  "ground": {
+    "rock": {"colors": ["8a7e6c", "948874", "807462"], "note": "a beaten earth floor, swept"}
+  },
+  "light": {
+    "ambient": ["dccab0", "6a6a82"],
+    "ambient_energy": [0.42, 0.3]
+  },
+  "props": [
+    {"kind": "firewood", "at": [-60, -196], "size": [64, 32], "note": "wood for the stoves"},
+    {"kind": "stains", "at": [-190, -110], "size": [200, 60], "count": 6, "colors": ["4a443c", "5a524a"], "note": "soot and ash before the stoves"},
+    {"kind": "string_hang", "at": [140, -206], "size": [32, 16], "wall_mounted": true, "note": "garlic and peppers"},
+    {"kind": "hanging_lantern", "at": [40, 0]},
+    {"kind": "sacks", "at": [-300, 150], "size": [40, 40], "note": "sacks of millet and rice"},
+    {"kind": "baskets", "at": [260, 160], "size": [32, 32], "note": "greens from the garden"}
+  ],
+  "actors": {
+    "default": {"coat": "8a7a5a"},
+    "sanyen.npc.greeting": {"coat": "b8862e", "note": "知客僧: a saffron robe"},
+    "sanyen.npc.monk": {"coat": "7a6a52"},
+    "sanyen.npc.bonze": {"coat": "8a7a62"},
+    "sanyen.npc.cripple": {"coat": "6a5e4e", "note": "跛僧: a patched old robe"},
+    "sanyen.npc.drug_bonze": {"coat": "6a7a5a", "note": "药僧"},
+    "sanyen.npc.cook_bonze": {"coat": "9a8a6a", "note": "烧饭僧: an apron over his robe"},
+    "sanyen.npc.little_bonze": {"coat": "b89a5a"},
+    "sanyen.npc.work_bonze": {"coat": "7a7060"},
+    "cloud.npc.monk_guard": {"coat": "8a4a2a", "note": "护寺武僧"},
+    "common.npc.bonze.master": {"coat": "a8342a", "note": "the abbot's red kasaya"}
+  },
+  "entrances": {
+    "sanyen.kitchen.east": {"title": "走廊"}
+  }
+}
