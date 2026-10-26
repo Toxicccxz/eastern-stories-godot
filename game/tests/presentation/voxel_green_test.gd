@@ -127,14 +127,17 @@ func _check_village(tree: SceneTree, session: WorldSessionController, map: World
 			"far_peak", "stone_seat", "rock_pile"]:
 		_check(kind in kinds, "the village has its %s" % kind)
 	var banyan: Dictionary = {}
+	var pillars: int = 0
 	var stone_carts: int = 0
 	for node: Node in map.get_node("Furnishings").get_children():
 		var look: Dictionary = node.get_meta("look")
 		if look["kind"] == "great_tree":
 			banyan = look
+		pillars += 1 if look["kind"] == "pillar_root" else 0
 		if look["kind"] == "cart" and look.get("cargo", "") == "stone":
 			stone_carts += 1
-	_check(int(banyan.get("aerial_roots", 0)) >= 10 and banyan.get("occludes", false), "the great banyan in the square, its roots let down like a pavilion's posts (field0.c)")
+	_check(int(banyan.get("aerial_roots", 0)) >= 10 and banyan.get("occludes", false) and pillars >= 4,
+		"the great banyan in the square, its roots grown into posts like a pavilion's, each on its own blocked cell (field0.c)")
 	_check(stone_carts == 2, "station0.c: 空地上停著几辆载满石料的车")
 	var stone_houses: int = 0
 	var slate: int = 0

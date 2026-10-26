@@ -647,7 +647,7 @@ layout_path = "res://data/green/voxel/village.json"
 
 [node name="Furnishing01" type="Node2D" parent="Furnishings"]
 position = Vector2(1448, 1096)
-metadata/look = {"kind": "great_tree", "height": 6.8, "canopy": 6.6, "trunk": 1.1, "roots": 0.9, "aerial_roots": 16, "pillars": [[-112, -32], [96, -80], [128, 32], [-80, 96], [32, 128]], "occludes": true, "needles": ["24402a", "2f5234", "3f6640", "557c4c"], "bark": ["6a5e4c", "7a6d58", "5a5042", "857762"], "strands": "7a6a50", "fallen": ["6f7a3e", "8a8a48", "a58d4e", "5c6a38"], "cones": false, "moss": "4f6a3a"}
+metadata/look = {"kind": "great_tree", "height": 6.8, "canopy": 6.6, "trunk": 1.1, "roots": 0.9, "aerial_roots": 16, "occludes": true, "needles": ["24402a", "2f5234", "3f6640", "557c4c"], "bark": ["6a5e4c", "7a6d58", "5a5042", "857762"], "strands": "7a6a50", "fallen": ["6f7a3e", "8a8a48", "a58d4e", "5c6a38"], "cones": false, "moss": "4f6a3a"}
 metadata/footprint = Vector2(80, 80)
 
 [node name="Furnishing02" type="Node2D" parent="Furnishings"]
@@ -711,26 +711,51 @@ metadata/look = {"kind": "stone_blocks", "rows": 2, "mossy": 0.4}
 metadata/footprint = Vector2(48, 64)
 
 [node name="Furnishing14" type="Node2D" parent="Furnishings"]
+position = Vector2(1336, 1064)
+metadata/look = {"kind": "pillar_root", "height": 6.4, "thick": 0.22, "seed": 0, "bark": ["6a5e4c", "7a6d58", "5a5042", "857762"]}
+metadata/footprint = Vector2(16, 16)
+
+[node name="Furnishing15" type="Node2D" parent="Furnishings"]
+position = Vector2(1544, 1016)
+metadata/look = {"kind": "pillar_root", "height": 6.1, "thick": 0.28, "seed": 1, "bark": ["6a5e4c", "7a6d58", "5a5042", "857762"]}
+metadata/footprint = Vector2(16, 16)
+
+[node name="Furnishing16" type="Node2D" parent="Furnishings"]
+position = Vector2(1576, 1128)
+metadata/look = {"kind": "pillar_root", "height": 5.8, "thick": 0.22, "seed": 2, "bark": ["6a5e4c", "7a6d58", "5a5042", "857762"]}
+metadata/footprint = Vector2(16, 16)
+
+[node name="Furnishing17" type="Node2D" parent="Furnishings"]
+position = Vector2(1368, 1192)
+metadata/look = {"kind": "pillar_root", "height": 6.4, "thick": 0.28, "seed": 3, "bark": ["6a5e4c", "7a6d58", "5a5042", "857762"]}
+metadata/footprint = Vector2(16, 16)
+
+[node name="Furnishing18" type="Node2D" parent="Furnishings"]
+position = Vector2(1480, 1224)
+metadata/look = {"kind": "pillar_root", "height": 6.1, "thick": 0.22, "seed": 4, "bark": ["6a5e4c", "7a6d58", "5a5042", "857762"]}
+metadata/footprint = Vector2(16, 16)
+
+[node name="Furnishing19" type="Node2D" parent="Furnishings"]
 position = Vector2(1528, 1232)
 metadata/look = {"kind": "stone_seat", "back": false}
 metadata/footprint = Vector2(48, 32)
 
-[node name="Furnishing15" type="Node2D" parent="Furnishings"]
+[node name="Furnishing20" type="Node2D" parent="Furnishings"]
 position = Vector2(1656, 1864)
 metadata/look = {"kind": "lantern"}
 metadata/footprint = Vector2(16, 16)
 
-[node name="Furnishing16" type="Node2D" parent="Furnishings"]
+[node name="Furnishing21" type="Node2D" parent="Furnishings"]
 position = Vector2(1240, 952)
 metadata/look = {"kind": "lantern"}
 metadata/footprint = Vector2(16, 16)
 
-[node name="Furnishing17" type="Node2D" parent="Furnishings"]
+[node name="Furnishing22" type="Node2D" parent="Furnishings"]
 position = Vector2(1640, 1352)
 metadata/look = {"kind": "lantern"}
 metadata/footprint = Vector2(16, 16)
 
-[node name="Furnishing18" type="Node2D" parent="Furnishings"]
+[node name="Furnishing23" type="Node2D" parent="Furnishings"]
 position = Vector2(984, 1608)
 metadata/look = {"kind": "lantern"}
 metadata/footprint = Vector2(16, 16)

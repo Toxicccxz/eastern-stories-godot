@@ -21,6 +21,7 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 	data = look
 	match String(look["kind"]):
 		"great_pine", "great_tree": _great_pine()
+		"pillar_root": _pillar_root()
 		"pine_trunk": _pine_trunk()
 		"needle_pad": _needle_pad(w,d)
 		"mossy_rock": _mossy_rock(w,d)
@@ -75,8 +76,8 @@ func _mesh_node(mesh: Mesh, material: Material) -> MeshInstance3D:
 ## factor); `great_tree` is the same form in other colours (a crossroad's old 槐). A banyan
 ## (`aerial_roots`: how many) lets roots down from its limbs, the longest grown into pillars
 ## that hold its boughs up (像一座凉亭); `fallen`: what lies round its foot (leaves, not
-## needles), `cones` false for none; `pillars`: where (px from the trunk) the pillar roots stand,
-## each on a blocked cell of the layout (the rest hang clear of the ground).
+## needles), `cones` false for none. The roots grown into pillars are layout pieces of their own
+## (`pillar_root`, each on its blocked cell); these hang clear of the ground.
 func _great_pine() -> void:
 	var height: float = float(data.get("height",9.0))
 	var radius: float = float(data.get("canopy",7.0))
@@ -130,15 +131,6 @@ func _great_pine() -> void:
 func _aerial_roots(height: float, radius: float, trunk: float, bark: Array) -> void:
 	var count: int = int(data.get("aerial_roots",0))
 	var strand: String = String(data.get("strands","7d6a4c"))
-	var pillars: Array = data.get("pillars",[])
-	for p: int in pillars.size():
-		# A pillar root: from the bough to the ground, its foot spread.
-		var foot := Vector3(float(pillars[p][0]),0,float(pillars[p][1]))/32.0
-		var top := foot+Vector3(0,height-0.4-0.3*(p%3),0)
-		_beam(top,foot,0.22+0.06*(p%2),_pick(bark))
-		for toe: int in 3:
-			var t: float = toe*TAU/3.0+p
-			_beam(foot+Vector3(0,0.5,0),foot+Vector3(cos(t)*0.22,0.04,sin(t)*0.22),0.12,_pick(bark))
 	for i: int in count:
 		var a: float = i*2.39996+0.4
 		var r: float = lerpf(trunk+1.0,radius*0.78,fposmod(i*0.618,1.0))
@@ -152,6 +144,19 @@ func _aerial_roots(height: float, radius: float, trunk: float, bark: Array) -> v
 		s.box(node,Vector3(0.05,-hang*0.6,0),Vector3(0.05,hang*0.5,0.05),strand)
 		if ambience != null:
 			ambience.sway(node,a*3.1,0.05)
+
+## A banyan's root grown into a pillar (field0.c's banyan, 像一座凉亭): a column from the ground up
+## to its bough (`height`), its foot spread into the ground, its top splayed where it joins the
+## bough; it stands on its own blocked cell under the tree's canopy.
+func _pillar_root() -> void:
+	var bark: Array = _colors("bark",["6a5e4c","7a6d58","5a5042","857762"])
+	var height: float = float(data.get("height",6.0))
+	var thick: float = float(data.get("thick",0.24))
+	_beam(Vector3(0,height,0),Vector3.ZERO,thick,_pick(bark))
+	for toe: int in 3:
+		var t: float = toe*TAU/3.0+float(data.get("seed",0))
+		_beam(Vector3(0,0.5,0),Vector3(cos(t)*0.22,0.04,sin(t)*0.22),0.12,_pick(bark))
+		_beam(Vector3(0,height-0.5,0),Vector3(cos(t+0.5)*0.3,height,sin(t+0.5)*0.3),0.1,_pick(bark))
 
 func _trunk_column(from: float, to: float, trunk: float, bark: Array) -> void:
 	var y: float = from
