@@ -1,0 +1,38 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 25,
+  "note": "灵心观大殿 (temple1.c): 真武大帝's golden statue on its altar, the vermilion table before it laid with fresh flowers and fruit, three or four prayer cushions before the table, round arches east and west, the red door south; white walls, vermilion columns, a floor of grey square tiles worn pale before the altar; the taoists' notice board on the wall (the hall loads their board).",
+  "palette": {"wood": ["5a3a2a", "64402e", "6e4632"], "wall": "e8e4d8"},
+  "surfaces": {"temple.temple1": "rock"},
+  "ground": {"rock": {"colors": ["8a8a82", "94948a", "80807a", "9a988e"], "note": "square grey floor tiles (方砖)"}},
+  "light": {"ambient": ["d8cfbe", "6e6a80"], "ambient_energy": [0.42, 0.3]},
+  "props": [
+    {"kind": "prayer_cushion", "at": [-72, -140], "size": [32, 32], "worn": false, "note": "temple1.c: 在桌子的前方则摆放著三四个蒲团"},
+    {"kind": "prayer_cushion", "at": [-24, -136], "size": [32, 32]},
+    {"kind": "prayer_cushion", "at": [24, -140], "size": [32, 32]},
+    {"kind": "prayer_cushion", "at": [72, -134], "size": [32, 32], "worn": false},
+    {"kind": "runner", "at": [0, 80], "size": [96, 400], "elevation": 0.06, "cloth": "8a2a22", "note": "a red runner from the door to the altar"},
+    {"kind": "stains", "at": [0, -120], "size": [200, 60], "count": 5, "colors": ["a8a69c", "b0aea4"], "note": "the tiles worn pale where they kneel"},
+    {"kind": "window", "at": [-460, -200], "size": [64, 16], "rotation": 90},
+    {"kind": "window", "at": [460, -200], "size": [64, 16], "rotation": -90},
+    {"kind": "window", "at": [-460, 200], "size": [64, 16], "rotation": 90},
+    {"kind": "window", "at": [460, 200], "size": [64, 16], "rotation": -90},
+    {"kind": "banner_cloth", "at": [-200, -332], "size": [48, 16], "wall_mounted": true, "cloth": "c8902a"},
+    {"kind": "banner_cloth", "at": [200, -332], "size": [48, 16], "wall_mounted": true, "cloth": "c8902a"},
+    {"kind": "couplet", "at": [-330, -332], "size": [64, 16], "wall_mounted": true},
+    {"kind": "couplet", "at": [330, -332], "size": [64, 16], "wall_mounted": true},
+    {"kind": "notices", "at": [460, 100], "size": [96, 16], "rotation": -90, "wall_mounted": true, "note": "the taoists' board (temple1.c: call_other(\"/obj/board/taoist_b\"))"},
+    {"kind": "hanging_lantern", "at": [-200, -40]},
+    {"kind": "hanging_lantern", "at": [200, -40]},
+    {"kind": "hanging_lantern", "at": [-200, 200]},
+    {"kind": "hanging_lantern", "at": [200, 200]}
+  ],
+  "door_looks": {"temple.square.door": {"kind": "red_door", "note": "square.c / temple1.c: 红漆木门"}},
+  "actors": {
+    "default": {"coat": "4a5a7a"},
+    "common.npc.taoist.taolord": {"coat": "2f3a5a", "hat": true},
+    "temple.npc.trainer": {"coat": "6a7a6a", "note": "僵尸侍者: pale grey-green"},
+    "temple.npc.tfighter": {"coat": "5a6a5a"}
+  }
+}

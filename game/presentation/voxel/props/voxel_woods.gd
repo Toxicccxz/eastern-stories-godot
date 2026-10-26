@@ -512,13 +512,23 @@ func _notice_post(w: float) -> void:
 		root.add_child(title)
 
 ## The ground far below (under a tree's crown, a ledge): a slab of forest floor and the
-## tops of the trees on it, set down by `elevation` into the haze, a lighter `clearing` patch.
+## tops of the trees on it, set down by `elevation` into the haze, a lighter `clearing` patch
+## (`roofs`: that many little houses in it, a town far below).
 func _far_ground(w: float, d: float) -> void:
 	var floor_colors: Array = _colors("colors",["3f4a2e","465233","4d5a37"])
 	s.box(root,Vector3(0,-0.2,0),Vector3(w,0.4,d),String(floor_colors[0]))
 	if data.has("clearing"):
 		var c: Array = data["clearing"]
 		s.box(root,Vector3(float(c[0]),0.01,float(c[1])),Vector3(float(c[2]),0.04,float(c[3])),String(data.get("clearing_color","5f7a3e")))
+	if data.has("clearing") and int(data.get("roofs",0)) > 0:
+		# A town seen far down in its clearing (ladder3.c: 雪亭镇就在西边不远的山下): little
+		# houses of pale walls under dark roofs, packed together.
+		var c: Array = data["clearing"]
+		for i: int in int(data["roofs"]):
+			var size := Vector2(rng.randf_range(0.7,1.4),rng.randf_range(0.6,1.0))
+			var at := Vector3(float(c[0])+rng.randf_range(-0.42,0.42)*float(c[2]),0,float(c[1])+rng.randf_range(-0.42,0.42)*float(c[3]))
+			s.box(root,at+Vector3(0,0.3,0),Vector3(size.x,0.6,size.y),_pick(_colors("walls",["c8c0ac","b8b09c","d0c8b4"])))
+			s.box(root,at+Vector3(0,0.68,0),Vector3(size.x+0.2,0.2,size.y+0.2),_pick(_colors("roof_colors",["4a4e50","3e4446","565a58"])))
 	var crowns: Array = _colors("crowns",["1f3a2c","2b4b35","264430","345a3b"])
 	for i: int in int(data.get("trees",40)):
 		var at := Vector3(rng.randf_range(-0.48,0.48)*w,0,rng.randf_range(-0.48,0.48)*d)

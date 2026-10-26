@@ -1,0 +1,18 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 18,
+  "note": "藏经楼 above (book_room2.c): up the ladder, 张天师's portrait on the far wall and under it the table covered in red cloth, 茅山's sacred books laid on it in order. The rafters low, the room kept clean.",
+  "palette": {"wood": ["6e5038", "785840", "644a34", "806046"], "wall": "b09c74"},
+  "light": {"ambient": ["d0c0a0", "5e5a70"], "ambient_energy": [0.38, 0.26], "sun_energy": [0.4, 0.08]},
+  "props": [
+    {"kind": "stairwell", "at": [352, 256], "size": [48, 48], "note": "the ladder down"},
+    {"kind": "window", "at": [64, 52], "size": [64, 16]},
+    {"kind": "window", "at": [384, 140], "size": [64, 16], "rotation": -90},
+    {"kind": "hanging_lantern", "at": [224, 200], "paper": "f0c878"},
+    {"kind": "rug", "at": [224, 200], "size": [128, 96], "cloth": "6e2a24", "border": "c8a24a"},
+    {"kind": "couplet", "at": [128, 52], "size": [40, 16], "wall_mounted": true},
+    {"kind": "couplet", "at": [320, 52], "size": [40, 16], "wall_mounted": true}
+  ],
+  "actors": {"default": {"coat": "4a5a7a"}}
+}

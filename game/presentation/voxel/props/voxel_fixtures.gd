@@ -103,6 +103,12 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 			for y: float in [1.32,1.78,2.24,2.70]:
 				s.box(root,Vector3(0,y,0.15),Vector3(w,0.06,0.06),"886744")
 			s.box(root,Vector3(0,1.16,0.20),Vector3(w+0.2,0.12,0.44),"a37c52")
+			if data.get("shut",false):
+				# 门窗都紧紧的关著: wooden shutters closed over it, a bar across; no light comes in.
+				for leaf: float in [-1.0,1.0]:
+					s.box(root,Vector3(leaf*(w/4-0.02),2,0.19),Vector3(w/2-0.06,1.5,0.05),"6e5038")
+				s.box(root,Vector3(0,2,0.23),Vector3(w-0.1,0.08,0.04),"4a3626")
+				return true
 			var light := SpotLight3D.new()
 			light.position = Vector3(0,2.4,0.40)
 			light.rotation_degrees = Vector3(-35,180,0)
@@ -154,7 +160,7 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 			glow.set_meta("night_energy",1.2)
 			root.add_child(glow)
 		"runner":
-			s.box(root,Vector3(0,0.018,0),Vector3(w,0.028,d),"485f61")
+			s.box(root,Vector3(0,0.018,0),Vector3(w,0.028,d),String(data.get("cloth","485f61")))
 			for z: float in [-d*0.44,d*0.44]:
 				s.box(root,Vector3(0,0.036,z),Vector3(w,0.008,0.06),"bca270")
 		"sign":
@@ -189,7 +195,8 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 			s.box(root,Vector3(0,1.40,0.37),Vector3(0.30,0.18,0.10),"8e8d82")
 			for x: float in [-0.17,0.17]:
 				s.box(root,Vector3(x,0.72,0.26),Vector3(0.18,0.38,0.22),"a9a89c")
-			s.box(root,Vector3(0.24,0.70,0.36),Vector3(0.24,0.20,0.24),"9a998d")
+			# The ball under one forepaw; `mirror`: the other paw (the pair either side of a door).
+			s.box(root,Vector3(-0.24 if data.get("mirror",false) else 0.24,0.70,0.36),Vector3(0.24,0.20,0.24),"9a998d")
 		"flagpole":
 			s.box(root,Vector3(0,0.12,0),Vector3(0.7,0.24,0.7),"8c8a7f")
 			s.box(root,Vector3(0,3.2,0),Vector3(0.16,6.4,0.16),"6e5038")

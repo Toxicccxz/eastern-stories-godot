@@ -518,6 +518,7 @@ func scatter(shapes: Shapes, parent: Node3D, at: Vector3, kind: String, variant:
 		"scrap": colors = ["4e5657","6f7879","5d6667"]; size = Vector2(0.09,0.03); count = 4
 		"husks": colors = ["c4ad72","b39a62","d8c48e"]; size = Vector2(0.05,0.03); count = 10
 		"ash": colors = ["8e8a84","a19c94","7a7670"]; size = Vector2(0.12,0.1); count = 3
+		"dust": colors = ["b8b0a0","a8a090","c4bcac"]; size = Vector2(0.1,0.08); count = 4
 		"stone_chips": colors = ["9a9a8c","a8a798","85877b"]; size = Vector2(0.07,0.05); count = 7
 		_: return
 	for i: int in count:

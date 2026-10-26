@@ -1,0 +1,28 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 22,
+  "note": "练功房 (trainroom.c): a wide room of boards where the disciples sit and train, 空气中弥漫著一股股汗臭味; meridian charts painted round the walls, wooden dummies stood against them; straw mats worn through where they sit.",
+  "palette": {"wood": ["8a6a48", "94724e", "7e6042", "9c7a54"], "wall": "b8a888"},
+  "light": {"ambient": ["d4c6a8", "6e6a80"], "ambient_energy": [0.44, 0.3]},
+  "props": [
+    {"kind": "wall_scroll", "at": [-192, -228], "size": [56, 16], "chart": true, "wall_mounted": true, "note": "trainroom.c: 四周的墙壁上画著一幅幅经脉穴道图"},
+    {"kind": "wall_scroll", "at": [-24, -228], "size": [56, 16], "chart": true, "wall_mounted": true},
+    {"kind": "wall_scroll", "at": [160, -228], "size": [56, 16], "chart": true, "wall_mounted": true},
+    {"kind": "wall_scroll", "at": [-340, -120], "size": [56, 16], "chart": true, "rotation": 90, "wall_mounted": true},
+    {"kind": "wall_scroll", "at": [-340, 90], "size": [56, 16], "chart": true, "rotation": 90, "wall_mounted": true},
+    {"kind": "wall_scroll", "at": [324, -120], "size": [56, 16], "chart": true, "rotation": -90, "wall_mounted": true},
+    {"kind": "wall_scroll", "at": [324, 90], "size": [56, 16], "chart": true, "rotation": -90, "wall_mounted": true},
+    {"kind": "straw_patch", "at": [-120, -40], "size": [56, 56], "note": "mats to sit on, worn through"},
+    {"kind": "straw_patch", "at": [-20, -40], "size": [56, 56]},
+    {"kind": "straw_patch", "at": [80, -40], "size": [56, 56]},
+    {"kind": "straw_patch", "at": [-70, 60], "size": [56, 56]},
+    {"kind": "straw_patch", "at": [30, 60], "size": [56, 56]},
+    {"kind": "stains", "at": [-20, 10], "size": [300, 180], "count": 9, "colors": ["6e5a40", "7a6448", "64523a"], "note": "sweat dark on the boards"},
+    {"kind": "hanging_lantern", "at": [-150, 0]},
+    {"kind": "hanging_lantern", "at": [150, 0]},
+    {"kind": "window", "at": [-200, 228], "size": [64, 16], "rotation": 180},
+    {"kind": "window", "at": [180, 228], "size": [64, 16], "rotation": 180}
+  ],
+  "actors": {"default": {"coat": "4a5a7a"}, "temple.npc.taoist": {"coat": "3e5a7a", "hat": true}, "temple.npc.taoist2": {"coat": "5a6a8a"}}
+}

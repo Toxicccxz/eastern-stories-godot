@@ -1,0 +1,16 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 20,
+  "note": "厢房 (restroom2.c): the other guest room, empty now, its bed made up and the tea things set out for whoever comes next; 淡淡的花香 from the courtyard. Boards, not plaster, unlike the room next door.",
+  "palette": {"wood": ["9a7a56", "a4825c", "8e7050"], "wall": "c8b493"},
+  "light": {"ambient": ["dccfb4", "6e6a80"], "ambient_energy": [0.44, 0.3]},
+  "props": [
+    {"kind": "window", "at": [100, -192], "size": [64, 16]},
+    {"kind": "window", "at": [252, 0], "size": [64, 16], "rotation": -90},
+    {"kind": "hanging_lantern", "at": [40, 20], "paper": "f4d8a0"},
+    {"kind": "runner", "at": [-120, 20], "size": [96, 64], "cloth": "7a6a4a"},
+    {"kind": "wall_scroll", "at": [-40, -192], "size": [48, 16], "calligraphy": true, "wall_mounted": true}
+  ],
+  "actors": {"default": {"coat": "4a5a7a"}}
+}

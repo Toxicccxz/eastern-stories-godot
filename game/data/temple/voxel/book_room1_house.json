@@ -1,0 +1,19 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 22,
+  "note": "藏经楼 below (book_room1.c): shelves all round piled full of books, some so old the paper has yellowed and would crumble at a touch, only common books of the Way; a small wooden ladder in the corner to the floor above. Doors and windows shut (road2.c): dim, dust in the air.",
+  "palette": {"wood": ["6e5038", "785840", "644a34", "806046"], "wall": "a8946e"},
+  "light": {"ambient": ["c8b898", "5e5a70"], "ambient_energy": [0.34, 0.26], "sun_energy": [0.35, 0.08]},
+  "props": [
+    {"kind": "stairs", "at": [-248, -104], "size": [48, 48], "rotation": 90, "note": "book_room1.c: 角落里有一座小小的木梯通往二楼"},
+    {"kind": "window", "at": [-200, 228], "size": [64, 16], "rotation": 180, "shut": true, "note": "road2.c: 屋子四周的门窗都紧紧的关著"},
+    {"kind": "window", "at": [-240, -228], "size": [64, 16], "shut": true},
+    {"kind": "hanging_lantern", "at": [-60, -60], "paper": "f0c878"},
+    {"kind": "hanging_lantern", "at": [120, 100], "paper": "f0c878"},
+    {"kind": "candles", "at": [40, -10], "count": 1, "elevation": 0.9, "note": "a candle on the reading table"},
+    {"kind": "stains", "at": [60, 40], "size": [360, 260], "count": 8, "colors": ["d8c898", "c8b888", "e0d4a8"], "note": "yellowed leaves fallen from the shelves"}
+  ],
+  "ambience": {"dust": [{"rect": [-300, -200, 280, 200], "count": 26, "color": "e8dcb8", "wind": [0.05, 0.02], "size": [0.04, 0.04, 0.04], "note": "dust hanging in the shut room"}]},
+  "actors": {"default": {"coat": "4a5a7a"}}
+}

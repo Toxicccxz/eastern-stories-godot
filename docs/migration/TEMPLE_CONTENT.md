@@ -10,8 +10,8 @@ player's 茅山道术 in a fight and its practice (观想虫; done); D the zombi
 
 Nine maps: temple.mountain, temple.grounds, temple.library and one each for the 大殿, 后殿,
 练功房, the two 厢房 and the 藏经楼's ground floor (temple1_house, temple2_house, trainroom_house,
-restroom1_house, restroom2_house, book_room1_house). None has a voxel view yet (no
-`game/data/temple/voxel/`).
+restroom1_house, restroom2_house, book_room1_house). Each has its voxel view
+(`game/data/temple/voxel/`, 美术规划 §5).
 
 | Room | LPC `set("objects")` | Native |
 |---|---|---|

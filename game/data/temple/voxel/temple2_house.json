@@ -1,0 +1,24 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 23,
+  "note": "后殿 (temple2.c): 张天师's portrait hung in the middle, under it the sword he used against demons, the masters' tablets either side; the red door shut. Dimmer than the great hall, lamps that never go out, incense.",
+  "palette": {"wood": ["5a3a2a", "64402e", "6e4632"], "wall": "e2ddd0"},
+  "surfaces": {"temple.temple2": "rock"},
+  "ground": {"rock": {"colors": ["7e7e78", "888880", "747470", "8e8c84"], "note": "square grey floor tiles (方砖)"}},
+  "light": {"ambient": ["c8bea8", "5e5a70"], "ambient_energy": [0.32, 0.24], "sun_energy": [0.4, 0.1]},
+  "props": [
+    {"kind": "wall_scroll", "at": [-16, -256], "size": [96, 16], "portrait": true, "robe": "3a4a7a", "hat": "1e2026", "beard": "e8e4dc", "wall_mounted": true, "note": "temple2.c: 正中央供奉著茅山派开山祖师张天师的画像"},
+    {"kind": "couplet", "at": [-104, -256], "size": [48, 16], "wall_mounted": true},
+    {"kind": "couplet", "at": [72, -256], "size": [48, 16], "wall_mounted": true},
+    {"kind": "prayer_cushion", "at": [-40, -72], "size": [32, 32]},
+    {"kind": "prayer_cushion", "at": [8, -68], "size": [32, 32], "worn": false},
+    {"kind": "runner", "at": [-16, 80], "size": [80, 288], "elevation": 0.06, "cloth": "6e2a24"},
+    {"kind": "hanging_lantern", "at": [-200, 40], "paper": "f0c878"},
+    {"kind": "hanging_lantern", "at": [180, 40], "paper": "f0c878"},
+    {"kind": "window", "at": [-396, -100], "size": [64, 16], "rotation": 90},
+    {"kind": "window", "at": [380, -100], "size": [64, 16], "rotation": -90}
+  ],
+  "door_looks": {"temple.corridor5.door": {"kind": "red_door", "note": "corridor5.c: 红漆木门, shut (DOOR_CLOSED)"}},
+  "actors": {"default": {"coat": "4a5a7a"}}
+}

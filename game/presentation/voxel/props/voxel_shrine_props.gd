@@ -1,8 +1,10 @@
 extends RefCounted
 
 ## Shrines and temples: niches and their gods, offering tables, incense burners, candles,
-## prayer cushions and the paper charms on the walls. Faces +z unless rotated; sizes and
-## colours from the data. What stands on the floor is a blocked box in the map layout.
+## prayer cushions and the paper charms on the walls; a hall's gilt god on his altar, the
+## masters' spirit tablets, a sword kept on its stand, the sacred books on their red-clothed
+## table. Faces +z unless rotated; sizes and colours from the data. What stands on the floor
+## is a blocked box in the map layout.
 const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
 var s: Shapes
 var root: Node3D
@@ -26,6 +28,10 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"post": _post()
 		"paper_burner": _paper_burner(w,d)
 		"buddha": _buddha(w,d)
+		"deity": _deity(w,d)
+		"spirit_tablets": _spirit_tablets(w,d)
+		"sword_stand": _sword_stand(w,d)
+		"scripture_table": _scripture_table(w,d)
 		_:
 			return false
 	return true
@@ -86,6 +92,9 @@ func _altar_table(w: float, d: float) -> void:
 	for x: float in [-w/2+0.1,w/2-0.1]:
 		for z: float in [-d/2+0.1,d/2-0.1]:
 			s.box(root,Vector3(x,0.4,z),Vector3(0.1,0.8,0.1),wood)
+	if data.get("fresh",false):
+		_offerings(w,d)
+		return
 	s.box(root,Vector3(0,0.98,0),Vector3(0.36,0.2,0.3),"6f6656")
 	s.box(root,Vector3(0,1.09,0),Vector3(0.3,0.03,0.24),"b4ab98")
 	# Burnt-out stubs of incense in cold ash: nobody tends it (似乎没有人照顾).
@@ -254,3 +263,223 @@ func _buddha(w: float, d: float) -> void:
 	light.set_meta("day_energy",1.2)
 	light.set_meta("night_energy",1.8)
 	root.add_child(light)
+
+## 鲜花素果 (temple1.c: 朱红色的大供桌, 上面排满了鲜花素果): a red cloth runner down the front,
+## vases of fresh flowers at both ends, plates of fruit along it, red candles burning in pewter
+## sticks, and a bronze censer in the middle with incense smoking.
+func _offerings(w: float, d: float) -> void:
+	var cloth: String = String(data.get("cloth","b23a2a"))
+	s.box(root,Vector3(0,0.885,0),Vector3(w*0.4,0.01,d+0.02),cloth)
+	s.box(root,Vector3(0,0.62,d/2+0.02),Vector3(w*0.4,0.5,0.015),cloth)
+	s.box(root,Vector3(0,0.42,d/2+0.03),Vector3(w*0.34,0.06,0.015),"d8b04a")
+	var flowers: Array = data.get("flowers",["e04a5a","f2d24a","f4f0e6","d86ab0"])
+	for end: float in [-1.0,1.0]:
+		var at := Vector3(end*(w/2-0.25),0.88,-d*0.15)
+		s.box(root,at+Vector3(0,0.14,0),Vector3(0.18,0.28,0.18),"3f6f8a")
+		s.box(root,at+Vector3(0,0.3,0),Vector3(0.12,0.06,0.12),"4f86a2")
+		for stem: int in 7:
+			var a: float = stem*TAU/7.0
+			var tip := at+Vector3(cos(a)*0.14,0.5+fposmod(stem*0.37,0.2),sin(a)*0.1)
+			s.box(root,tip-Vector3(0,0.12,0),Vector3(0.025,0.2,0.025),"4f7a3a")
+			s.box(root,tip,Vector3(0.11,0.09,0.11),String(flowers[(stem+int(end+1.0))%flowers.size()]))
+	var fruit: Array = data.get("fruit",["e8823a","f0a43a","d8503a","e8d06a"])
+	for plate: int in 4:
+		var x: float = -w*0.33+plate*w*0.22
+		var at := Vector3(x,0.89,d*0.18)
+		s.box(root,at,Vector3(0.36,0.03,0.36),"e8e2d2")
+		for i: int in 5:
+			var layer: int = 0 if i<4 else 1
+			s.box(root,at+Vector3(((i%2)-0.5)*0.12*(1-layer),0.07+layer*0.1,((i/2)%2-0.5)*0.12*(1-layer)),Vector3(0.12,0.11,0.12),String(fruit[(plate+i)%fruit.size()]))
+	for side: float in [-1.0,1.0]:
+		var at := Vector3(side*w*0.16,0.88,-d*0.25)
+		s.box(root,at+Vector3(0,0.04,0),Vector3(0.16,0.08,0.16),"9a968a")
+		s.box(root,at+Vector3(0,0.18,0),Vector3(0.05,0.22,0.05),"9a968a")
+		s.box(root,at+Vector3(0,0.38,0),Vector3(0.08,0.2,0.08),"c8382a")
+		var flame := Node3D.new()
+		flame.position = at+Vector3(0,0.5,0)
+		flame.set_meta("light_fixture",true)
+		root.add_child(flame)
+		s.box(flame,Vector3(0,0.05,0),Vector3(0.045,0.1,0.045),"ffd88a:glow")
+		if ambience != null:
+			ambience.flame(flame)
+	s.box(root,Vector3(0,1.0,-d*0.1),Vector3(0.42,0.24,0.36),String(data.get("bronze","8a6a3a")))
+	s.box(root,Vector3(0,1.13,-d*0.1),Vector3(0.48,0.04,0.42),"a8884e")
+	for stick: int in 5:
+		s.box(root,Vector3((stick-2)*0.06,1.27,-d*0.1),Vector3(0.02,0.26,0.02),"8a3a2a")
+		s.box(root,Vector3((stick-2)*0.06,1.41,-d*0.1),Vector3(0.03,0.03,0.03),"ff8a3a:glow")
+	if ambience != null:
+		ambience.smoke(root,Vector3(0,1.45,-d*0.1),String(data.get("smoke","dcd6c8")),6,0.12)
+	var light := OmniLight3D.new()
+	light.position = Vector3(0,1.5,d*0.4)
+	light.light_color = Color("ffbe78")
+	light.omni_range = float(data.get("range",4.5))
+	light.set_meta("day_energy",0.5)
+	light.set_meta("night_energy",1.4)
+	light.set_meta("flicker",0.08)
+	root.add_child(light)
+
+## A god in his hall (temple1.c: 一尊真武大帝的金身): a gilt figure seated on a throne on a
+## stepped altar, black hair loose on his shoulders, armour over his robe, a sword upright in his
+## right hand, his bare feet on a tortoise wound about by a snake (`tortoise`); a flame-shaped
+## nimbus behind his head and silk hangings either side (`hangings`). `height` of the figure
+## seated, `base` of the altar; colours from the data (`gold`, `robe`, `hair`, `face`, `altar`).
+func _deity(w: float, d: float) -> void:
+	var gold: Array = data.get("gold",["d4a23c","c38f2e","e2b856"])
+	var robe: String = String(data.get("robe","9a2a22"))
+	var hair: String = String(data.get("hair","1c1a1a"))
+	var face: String = String(data.get("face","e0b060"))
+	var stone: Array = data.get("altar",["8a3428","9a3c2c","7a2e24"])
+	var h: float = float(data.get("height",2.2))
+	var base: float = float(data.get("base",0.7))
+	# The stepped altar, vermilion lacquer edged in gold.
+	s.box(root,Vector3(0,base*0.3,0),Vector3(w,base*0.6,d),String(stone[0]))
+	s.box(root,Vector3(0,base*0.8,-d*0.08),Vector3(w*0.82,base*0.4,d*0.84),String(stone[1]))
+	s.box(root,Vector3(0,base*0.6,d/2),Vector3(w,0.05,0.04),String(gold[2]))
+	s.box(root,Vector3(0,base,d*0.34),Vector3(w*0.82,0.05,0.04),String(gold[2]))
+	var k: float = h/2.2
+	var seat: float = base
+	# The throne: a high back and arms in dark red and gold.
+	s.box(root,Vector3(0,seat+0.35*k,-d*0.3),Vector3(w*0.62,0.7*k,d*0.3),String(stone[2]))
+	s.box(root,Vector3(0,seat+1.3*k,-d*0.42),Vector3(w*0.56,1.9*k,0.12),String(stone[1]))
+	s.box(root,Vector3(0,seat+2.28*k,-d*0.42),Vector3(w*0.64,0.12,0.16),String(gold[0]))
+	# The nimbus: a ring of flame-tongues behind the head.
+	var crown := Vector3(0,seat+1.95*k,-d*0.36)
+	for tongue: int in 9:
+		var a: float = PI*0.1+tongue*PI*0.8/8.0
+		s.tilted_box(root,crown+Vector3(cos(a)*0.62*k,sin(a)*0.5*k,0),Vector3(0.12*k,0.34*k,0.04),"c8502a" if tongue%3==0 else String(gold[tongue%2]),Vector3(0,0,a-PI/2))
+	s.box(root,crown+Vector3(0,0,0.01),Vector3(0.9*k,0.9*k,0.03),"e8c868")
+	# The figure: lap and shins, armoured chest over the robe, broad shoulders, arms.
+	var front: float = d*0.05
+	s.box(root,Vector3(0,seat+0.42*k,front),Vector3(0.9*k,0.36*k,0.7*k),String(gold[1]))
+	for leg: float in [-1.0,1.0]:
+		s.box(root,Vector3(leg*0.22*k,seat+0.3*k,front+0.36*k),Vector3(0.28*k,0.42*k,0.24*k),String(gold[1]))
+		s.box(root,Vector3(leg*0.22*k,seat+0.06*k,front+0.46*k),Vector3(0.22*k,0.1*k,0.3*k),face)
+	s.box(root,Vector3(0,seat+0.5*k,front+0.36*k),Vector3(0.36*k,0.4*k,0.06),robe)
+	s.box(root,Vector3(0,seat+1.0*k,-d*0.1),Vector3(0.82*k,0.72*k,0.5*k),String(gold[0]))
+	s.box(root,Vector3(0,seat+1.0*k,-d*0.1+0.26*k),Vector3(0.5*k,0.5*k,0.02),String(gold[2]))
+	s.box(root,Vector3(0,seat+0.7*k,-d*0.1+0.27*k),Vector3(0.84*k,0.1*k,0.03),robe)
+	for shoulder: float in [-1.0,1.0]:
+		s.box(root,Vector3(shoulder*0.5*k,seat+1.28*k,-d*0.1),Vector3(0.3*k,0.2*k,0.42*k),String(gold[2]))
+		s.box(root,Vector3(shoulder*0.52*k,seat+0.96*k,-d*0.02),Vector3(0.2*k,0.5*k,0.24*k),String(gold[0]))
+	# Left hand resting on the knee, the right raising the sword.
+	s.box(root,Vector3(-0.36*k,seat+0.66*k,front+0.24*k),Vector3(0.16*k,0.14*k,0.18*k),face)
+	s.box(root,Vector3(0.44*k,seat+0.8*k,front+0.16*k),Vector3(0.16*k,0.16*k,0.18*k),face)
+	s.box(root,Vector3(0.44*k,seat+1.4*k,front+0.16*k),Vector3(0.06*k,1.1*k,0.03),"c8ccc8")
+	s.box(root,Vector3(0.44*k,seat+0.9*k,front+0.16*k),Vector3(0.24*k,0.05*k,0.08*k),String(gold[2]))
+	# Head, a full face, loose black hair falling to the shoulders, a small gold crown.
+	var head := Vector3(0,seat+1.62*k,-d*0.08)
+	s.box(root,head,Vector3(0.42*k,0.46*k,0.4*k),face)
+	s.box(root,head+Vector3(0,0.2*k,-0.04*k),Vector3(0.48*k,0.16*k,0.44*k),hair)
+	s.box(root,head+Vector3(0,-0.1*k,-0.12*k),Vector3(0.52*k,0.6*k,0.2*k),hair)
+	for side: float in [-1.0,1.0]:
+		s.box(root,head+Vector3(side*0.24*k,-0.28*k,-0.02*k),Vector3(0.08*k,0.5*k,0.2*k),hair)
+	s.box(root,head+Vector3(0,0.32*k,0),Vector3(0.22*k,0.1*k,0.2*k),String(gold[2]))
+	s.box(root,head+Vector3(0,-0.04*k,0.205*k),Vector3(0.22*k,0.03,0.01),"3a2a20")
+	s.box(root,head+Vector3(0,-0.2*k,0.205*k),Vector3(0.14*k,0.03,0.01),"7a3a2a")
+	if data.get("tortoise",true):
+		# On the lower step, in front of the upper tier.
+		var at := Vector3(0,base*0.6+0.08*k,d*0.42)
+		s.box(root,at,Vector3(0.6*k,0.16*k,0.4*k),"4a5a3a")
+		s.box(root,at+Vector3(0,0.1*k,0),Vector3(0.44*k,0.08*k,0.3*k),"5f6e48")
+		s.box(root,at+Vector3(0.36*k,0.02,0.04*k),Vector3(0.14*k,0.1*k,0.12*k),"4a5a3a")
+		for coil: int in 6:
+			var a: float = coil*TAU/6.0
+			s.box(root,at+Vector3(cos(a)*0.34*k,0.12*k+coil*0.012,sin(a)*0.24*k),Vector3(0.14*k,0.07*k,0.1*k),"2f3a2a")
+		s.box(root,at+Vector3(-0.38*k,0.24*k,0.12*k),Vector3(0.08*k,0.08*k,0.1*k),"2f3a2a")
+	if data.get("hangings",true):
+		var silk: Array = data.get("silk",["d8a83a","c8902a","b8382a"])
+		for side: float in [-1.0,1.0]:
+			var hang := Node3D.new()
+			hang.position = Vector3(side*w*0.46,seat+2.5*k,-d*0.2)
+			root.add_child(hang)
+			s.box(hang,Vector3(0,-0.9*k,0),Vector3(0.16,1.8*k,0.05),String(silk[0]))
+			s.box(hang,Vector3(0,-1.82*k,0),Vector3(0.18,0.1,0.06),String(silk[2]))
+			s.box(hang,Vector3(0,0.02,0),Vector3(0.24,0.08,0.08),String(silk[1]))
+			if ambience != null:
+				ambience.sway(hang,side*0.9,0.05)
+	var glow := OmniLight3D.new()
+	glow.position = Vector3(0,seat+1.4*k,d*0.9)
+	glow.light_color = Color("ffd290")
+	glow.omni_range = float(data.get("range",5.0))
+	glow.set_meta("day_energy",0.35)
+	glow.set_meta("night_energy",0.9)
+	root.add_child(glow)
+
+## 牌位 (temple2.c: 剑的两旁陪祀著历代掌门人的牌位): a lacquered stand of three steps, on each a
+## row of spirit tablets, red with gold edges and a gilt inscription, their heights uneven, a
+## lamp of everlasting oil before them.
+func _spirit_tablets(w: float, d: float) -> void:
+	var lacquer: Array = data.get("stand",["3a2420","4a2c24","2e1e1a"])
+	var tablet: Array = data.get("tablets",["8a2a22","9a3428","7a241e","5a2a22"])
+	var count: int = int(data.get("count",4))
+	for step: int in 3:
+		var y: float = 0.3+step*0.32
+		var z: float = d*0.3-step*d*0.28
+		s.box(root,Vector3(0,y/2,z),Vector3(w,y,d*0.3),String(lacquer[step%lacquer.size()]))
+		var row: int = count-step%2
+		for i: int in row:
+			var x: float = -w*0.4+(i+0.5)*w*0.8/row
+			var th: float = 0.46+fposmod(i*0.29+step*0.41,0.2)
+			s.box(root,Vector3(x,y+0.04,z),Vector3(0.18,0.08,0.12),"2a1c18")
+			s.box(root,Vector3(x,y+0.08+th/2,z),Vector3(0.14,th,0.04),String(tablet[(i+step)%tablet.size()]))
+			s.box(root,Vector3(x,y+0.1+th,z),Vector3(0.18,0.05,0.06),"c8a24a")
+			s.box(root,Vector3(x,y+0.08+th*0.5,z+0.022),Vector3(0.03,th*0.7,0.005),"d8b45a")
+	s.box(root,Vector3(0,0.34,d*0.4),Vector3(0.16,0.08,0.16),"8a7a5a")
+	var flame := Node3D.new()
+	flame.position = Vector3(0,0.42,d*0.4)
+	flame.set_meta("light_fixture",true)
+	root.add_child(flame)
+	s.box(flame,Vector3(0,0.03,0),Vector3(0.035,0.06,0.035),"ffcf7a:glow")
+	if ambience != null:
+		ambience.flame(flame)
+
+## 宝剑 (temple2.c: 当年张天师收妖伏魔时所用的宝剑): a narrow table under a yellow cloth, on
+## it a carved stand holding the sheathed sword level on its two rests, a red tassel hanging
+## from the hilt, the seven stars inlaid on the scabbard.
+func _sword_stand(w: float, d: float) -> void:
+	var wood: String = String(data.get("wood","3e2620"))
+	var cloth: String = String(data.get("cloth","d8b03a"))
+	s.box(root,Vector3(0,0.86,0),Vector3(w,0.1,d),wood)
+	for x: float in [-w/2+0.08,w/2-0.08]:
+		for z: float in [-d/2+0.08,d/2-0.08]:
+			s.box(root,Vector3(x,0.42,z),Vector3(0.09,0.84,0.09),wood)
+	s.box(root,Vector3(0,0.915,0),Vector3(w+0.02,0.01,d*0.8),cloth)
+	s.box(root,Vector3(0,0.7,d/2+0.01),Vector3(w*0.8,0.42,0.012),cloth)
+	s.box(root,Vector3(0,0.96,0),Vector3(w*0.7,0.08,0.3),"5a3428")
+	for rest: float in [-1.0,1.0]:
+		s.box(root,Vector3(rest*w*0.22,1.08,0),Vector3(0.08,0.2,0.16),"5a3428")
+		s.box(root,Vector3(rest*w*0.22,1.2,0),Vector3(0.1,0.06,0.2),"c8a24a")
+	var blade := Vector3(0,1.26,0)
+	s.box(root,blade,Vector3(w*0.62,0.07,0.08),"2a2a30")
+	s.box(root,blade+Vector3(w*0.33,0,0),Vector3(0.08,0.16,0.14),"c8a24a")
+	s.box(root,blade+Vector3(w*0.41,0,0),Vector3(0.18,0.06,0.06),"5a2a22")
+	s.box(root,blade-Vector3(w*0.31,0,0),Vector3(0.06,0.09,0.1),"c8a24a")
+	for star: int in 7:
+		s.box(root,blade+Vector3(-w*0.22+star*0.09,0.04,sin(star*1.9)*0.02),Vector3(0.025,0.01,0.025),"e8d07a")
+	var tassel := Node3D.new()
+	tassel.position = blade+Vector3(w*0.5,0,0)
+	root.add_child(tassel)
+	s.box(tassel,Vector3(0,-0.16,0),Vector3(0.05,0.3,0.05),"b8302a")
+	if ambience != null:
+		ambience.sway(tassel,0.7,0.06)
+
+## 经案 (book_room2.c: 一张覆著红布的桌子, 桌上整齐地放著茅山的镇教秘籍): a long table under a red
+## cloth hanging to the floor, the sacred books laid on it in neat stacks, bound in blue and
+## yellow, a brass lamp and a little incense burner beside them.
+func _scripture_table(w: float, d: float) -> void:
+	var cloth: String = String(data.get("cloth","a8302a"))
+	s.box(root,Vector3(0,0.42,0),Vector3(w,0.84,d),String(data.get("wood","4a2c22")))
+	s.box(root,Vector3(0,0.86,0),Vector3(w+0.04,0.04,d+0.04),cloth)
+	s.box(root,Vector3(0,0.44,d/2+0.03),Vector3(w+0.04,0.84,0.02),cloth)
+	s.box(root,Vector3(0,0.1,d/2+0.04),Vector3(w+0.04,0.06,0.02),"d8b04a")
+	var covers: Array = data.get("covers",["2f4a7a","c8a03a","3a5a8a","b89030"])
+	var stacks: int = maxi(2,floori(w/0.5))
+	for stack: int in stacks:
+		var x: float = -w*0.38+stack*w*0.76/maxf(1,stacks-1)
+		for book: int in 2+stack%3:
+			s.box(root,Vector3(x,0.92+book*0.07,0),Vector3(0.34,0.06,0.46),String(covers[(stack+book)%covers.size()]))
+			s.box(root,Vector3(x+0.172,0.92+book*0.07,0),Vector3(0.01,0.05,0.44),"e8e0c8")
+	_candles(Vector3(-w/2+0.2,0.88,-d*0.25),1)
+	s.box(root,Vector3(w/2-0.2,0.94,-d*0.2),Vector3(0.16,0.12,0.16),"7a6040")
+	if ambience != null:
+		ambience.smoke(root,Vector3(w/2-0.2,1.02,-d*0.2),"d8d2c4",3,0.08)
