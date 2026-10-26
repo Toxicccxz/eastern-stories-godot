@@ -2254,6 +2254,12 @@ msgstr ""
 msgid "小石桥"
 msgstr ""
 
+#. es2:d/oldpine/cliffdown short
+#. es2:d/oldpine/cliffside short
+#: scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/rooms.json
+msgid "林间....不....悬崖边"
+msgstr ""
+
 #. es2:d/oldpine/pine1 short
 #. es2:d/oldpine/pine2 short
 #. es2:d/oldpine/pine3 short
@@ -2263,12 +2269,6 @@ msgstr ""
 #. es2:d/oldpine/pine7 short
 #: scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/rooms.json
 msgid "松树林"
-msgstr ""
-
-#. es2:d/oldpine/cliffdown short
-#. es2:d/oldpine/cliffside short
-#: scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/rooms.json
-msgid "林间....不....悬崖边"
 msgstr ""
 
 #. es2:d/oldpine/keep1 short
@@ -2285,6 +2285,10 @@ msgstr ""
 #. choyin.guyehill.landmark.vine name
 #: scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/world.json data/choyin/world.json
 msgid "藤蔓"
+msgstr ""
+
+#: scenes/world/oldpine/oldpine_outdoor.tscn
+msgid "栈道"
 msgstr ""
 
 #: scenes/world/oldpine/oldpine_outdoor.tscn

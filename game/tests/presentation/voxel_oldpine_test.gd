@@ -156,7 +156,7 @@ func _check_pine(tree: SceneTree, session: WorldSessionController, outdoor: Worl
 	_check(session.active_map_id() == &"oldpine.outdoor" and outdoor.projected_view, "back down in the clearing, the forest's view again")
 
 
-## South through the pines to the hidden gate, into the stockade and on into the hall.
+## Up the plank road, through the pines to the hidden gate, into the stockade and on into the hall.
 func _check_keep(tree: SceneTree, session: WorldSessionController, outdoor: WorldMapController) -> void:
 	# TEST-ONLY: the keep's guards crowd its gate; out of the way (oldpine_keep_caves_test meets them).
 	for npc: NpcRuntimeState in outdoor.npc_runtimes():
@@ -165,7 +165,7 @@ func _check_keep(tree: SceneTree, session: WorldSessionController, outdoor: Worl
 	for zone: StringName in [&"oldpine.outdoor.pine_entrance", &"oldpine.outdoor.keep_gate", &"oldpine.outdoor.keep_yard"]:
 		_check(await MapPlaces.drive_to_zone(tree, outdoor, zone), "on through the pines into " + String(zone))
 	var grid: WorldNpcWalker.Grid = MapRoute.grid(outdoor, [])
-	_check(grid._astar.is_point_solid(grid.cell_of(Vector2(1336, 752))), "the yard's sandbags are blocked boxes")
+	_check(grid._astar.is_point_solid(grid.cell_of(Vector2(3032, 368))), "the yard's sandbags are blocked boxes")
 	_check(await MapPlaces.take_passage(tree, outdoor, &"oldpine.outdoor.keep_yard.east"), "east past the stakes into the hall by its door")
 	await _frames(tree, 6)
 	var map := session.active_map() as WorldMapController

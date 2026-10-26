@@ -267,10 +267,10 @@ func _test_trap(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(moved.succeeded(), "to the clearing")
 	await tree.physics_frame
 	# Zone by zone through the zone tracker's own rule (accept_zone_presence), in one frame.
-	for step: Array in [[Vector2(450, 850), &"oldpine.outdoor.pine_entrance"], [Vector2(1100, 864), &"oldpine.outdoor.keep_gate"], [Vector2(1480, 864), YARD]]:
+	for step: Array in [[Vector2(1430, 400), &"oldpine.outdoor.east_bridge"], [Vector2(1860, 540), &"oldpine.outdoor.pine_entrance"], [Vector2(2796, 480), &"oldpine.outdoor.keep_gate"], [Vector2(3176, 480), YARD]]:
 		outdoor.player_body.global_position = step[0]
 		outdoor.accept_zone_presence(outdoor.physical_zone(step[1]))
-	_check(session.player_runtime().world_location().zone_id == YARD, "pine2 east to keep1, through the open gate into keep2")
+	_check(session.player_runtime().world_location().zone_id == YARD, "over the bridge, up the plank road, pine2 east to keep1, through the open gate into keep2")
 	# TEST-ONLY: keep2's and keep3's own people out of the way (they fall on whoever walks in:
 	# keep2 is a complete_set room, keep3 indoors, 室内察觉).
 	for map: WorldMapController in [outdoor, hall]:

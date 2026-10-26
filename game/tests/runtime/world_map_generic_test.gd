@@ -23,8 +23,8 @@ func _test_corpse_beside_a_wall(tree: SceneTree) -> void:
 	var session: WorldSessionController = await _session(tree)
 	var forest: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	var slope: WorldLocationState = forest.location_for_zone(OldPineWorldDefinitions.SLOPE_ZONE_ID)
-	# Walk west from the slope's path at y -150 to the last spot a body still fits.
-	var fell_at: Vector2 = Vector2(450, -150)
+	# Walk west from the slope's path at y 750 to the last spot a body still fits.
+	var fell_at: Vector2 = Vector2(450, 750)
 	while MapPlacementValidator.is_valid_character_position(forest, slope.zone_id, fell_at - Vector2(1, 0)) and fell_at.x > 0:
 		fell_at.x -= 1.0
 	_assert_true(MapPlacementValidator.is_valid_character_position(forest, slope.zone_id, fell_at), "a body can stand against the slope's west forest")
@@ -32,7 +32,7 @@ func _test_corpse_beside_a_wall(tree: SceneTree) -> void:
 	var corpse_at: Vector2 = forest.corpses.corpse_position(fell_at, slope)
 	_assert_true(MapPlacementValidator.is_valid_corpse_position(forest, slope.zone_id, corpse_at), "the corpse is shifted to where Continue accepts it")
 	_assert_true(corpse_at.distance_to(fell_at) <= 40.0, "but stays where the body fell")
-	_assert_eq(forest.corpses.corpse_position(Vector2(450, -150), slope), Vector2(450, -150), "a corpse in the open lies exactly where the body fell")
+	_assert_eq(forest.corpses.corpse_position(Vector2(450, 750), slope), Vector2(450, 750), "a corpse in the open lies exactly where the body fell")
 	await _free(session, tree)
 
 
@@ -147,7 +147,8 @@ func _test_landmark_policies(tree: SceneTree) -> void:
 
 func _test_zone_links_and_waterfall_cliff(tree: SceneTree) -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
-	_assert_true(catalog.zones_adjacent(OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID), "recorded Pine threshold link")
+	_assert_true(catalog.zones_adjacent(OldPineWorldDefinitions.EAST_BRIDGE_ZONE_ID, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID), "recorded Pine threshold link: the plank road from epath3 up to pine1")
+	_assert_false(catalog.zones_adjacent(OldPineWorldDefinitions.CENTRAL_CLEARING_ZONE_ID, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID), "no way from the clearing into the pines (clearing.c: east, west and south only)")
 	_assert_true(catalog.zones_adjacent(OldPineWorldDefinitions.PINE_DEEP_ZONE_ID, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID), "fixed maze link works both ways")
 	_assert_false(catalog.zones_adjacent(OldPineWorldDefinitions.EAST_BRIDGE_ZONE_ID, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID), "no ES2 exit from the bridge down to the pool")
 	_assert_false(catalog.zones_adjacent(OldPineWorldDefinitions.SLOPE_ZONE_ID, OldPineWorldDefinitions.WATERFALL_BASIN_ZONE_ID), "no ES2 exit from the slope to the pool")

@@ -155,9 +155,11 @@ func _test_door_fits_opening(map: MapDefinition, scene: Node2D, door: WorldDoor)
 func _test_terrain_spot_checks() -> void:
 	var forest: Node2D = _scene("res://scenes/world/oldpine/oldpine_outdoor.tscn")
 	for row: Array in [
-		[Vector2(450, -250), "path", false], [Vector2(1200, 100), "chasm", true], [Vector2(1200, 300), "bridge", false],
-		[Vector2(150, 845), "forest", true], [Vector2(-820, 620), "forest", true], [Vector2(-1480, 850), "cliff", true],
-		[Vector2(880, 860), "forest_floor", false], [Vector2(325, 1250), "cliff", true], [Vector2(450, 616), "path", false],
+		# The slope south of the clearing, the gorge and the bridge, the maze's thicket, the drops
+		# from cliffdown and the cliffside, the way to the keep's gate (DECISIONS「老松林按原文方位排布」).
+		[Vector2(450, 850), "path", false], [Vector2(1200, 100), "chasm", true], [Vector2(1200, 300), "bridge", false],
+		[Vector2(150, 845), "forest", true], [Vector2(2400, 140), "forest", true], [Vector2(1548, 140), "cliff", true],
+		[Vector2(2580, 480), "forest_floor", false], [Vector2(1500, 860), "cliff", true], [Vector2(450, 616), "path", false],
 	]:
 		_spot(forest, "Old Pine forest", row)
 	forest.free()

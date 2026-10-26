@@ -59,8 +59,8 @@ func _test_live_fat_authority_and_stable_multi_aggression(tree: SceneTree) -> vo
 		"Fat spawn body is outside every Pine Entrance obstacle tile",
 	)
 	_assert_false(
-		_rect_clear_of_blocking_terrain(controller, Vector2(736, 752), MapPlacementValidator.CHARACTER_FOOTPRINT),
-		"the same probe detects the pines between pine1's gaps",
+		_rect_clear_of_blocking_terrain(controller, Vector2(1990, 696), MapPlacementValidator.CHARACTER_FOOTPRINT),
+		"the same probe detects the pines round pine1's hollow",
 	)
 	var tall_presence: Area2D = OldPineTestMap.body(controller, "TallBandit").get_node("AggressionPresence") as Area2D
 	var fat_presence: Area2D = OldPineTestMap.body(controller, "FatBandit").get_node("AggressionPresence") as Area2D

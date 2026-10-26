@@ -25,7 +25,7 @@
 				"point": "oldpine.outdoor.slope.spath1.bandit.1",
 				"position": [
 					396.0,
-					-160.0
+					760.0
 				],
 				"spawn": "oldpine.outdoor.spath1.bandits",
 				"state": {
@@ -201,7 +201,7 @@
 				"point": "oldpine.outdoor.slope.spath1.bandit.2",
 				"position": [
 					522.0,
-					-306.0
+					900.0
 				],
 				"spawn": "oldpine.outdoor.spath1.bandits",
 				"state": {
@@ -376,8 +376,8 @@
 				"maximum_encumbrance": 135000.0,
 				"point": "oldpine.outdoor.slope.spath1.bandit.3",
 				"position": [
-					404.0,
-					-372.0
+					410.0,
+					972.0
 				],
 				"spawn": "oldpine.outdoor.spath1.bandits",
 				"state": {
@@ -552,8 +552,8 @@
 				"maximum_encumbrance": 65000.0,
 				"point": "oldpine.outdoor.pine_entrance.pine1.tall_bandit.1",
 				"position": [
-					488.0,
-					884.0
+					1944.0,
+					636.0
 				],
 				"spawn": "oldpine.outdoor.pine1.tall_bandit",
 				"state": {
@@ -801,8 +801,8 @@
 				"maximum_encumbrance": 60000.0,
 				"point": "oldpine.outdoor.pine_entrance.pine1.fat_bandit.1",
 				"position": [
-					598.0,
-					900.0
+					2030.0,
+					640.0
 				],
 				"spawn": "oldpine.outdoor.pine1.fat_bandit",
 				"state": {
@@ -1200,8 +1200,8 @@
 				"maximum_encumbrance": 130000.0,
 				"point": "oldpine.outdoor.pine_cliff_edge.pine7.wolf_dog.1",
 				"position": [
-					-1060.0,
-					700.0
+					1960.0,
+					-446.0
 				],
 				"spawn": "oldpine.outdoor.pine7.wolf_dog",
 				"state": {
@@ -1359,8 +1359,8 @@
 				"maximum_encumbrance": 135000.0,
 				"point": "oldpine.outdoor.keep_gate.keep1.bandit_guard.1",
 				"position": [
-					1040.0,
-					800.0
+					2736.0,
+					416.0
 				],
 				"spawn": "oldpine.outdoor.keep1.bandit_guards",
 				"state": {
@@ -1535,8 +1535,8 @@
 				"maximum_encumbrance": 95000.0,
 				"point": "oldpine.outdoor.keep_gate.keep1.bandit_guard.2",
 				"position": [
-					1120.0,
-					800.0
+					2816.0,
+					416.0
 				],
 				"spawn": "oldpine.outdoor.keep1.bandit_guards",
 				"state": {
@@ -1711,8 +1711,8 @@
 				"maximum_encumbrance": 75000.0,
 				"point": "oldpine.outdoor.keep_gate.keep1.bandit_guard.3",
 				"position": [
-					1040.0,
-					928.0
+					2736.0,
+					544.0
 				],
 				"spawn": "oldpine.outdoor.keep1.bandit_guards",
 				"state": {
@@ -1887,8 +1887,8 @@
 				"maximum_encumbrance": 55000.0,
 				"point": "oldpine.outdoor.keep_gate.keep1.bandit_guard.4",
 				"position": [
-					1120.0,
-					928.0
+					2816.0,
+					544.0
 				],
 				"spawn": "oldpine.outdoor.keep1.bandit_guards",
 				"state": {
@@ -2063,8 +2063,8 @@
 				"maximum_encumbrance": 50000.0,
 				"point": "oldpine.outdoor.keep_yard.keep2.bandit_guard.1",
 				"position": [
-					1520.0,
-					800.0
+					3216.0,
+					416.0
 				],
 				"spawn": "oldpine.outdoor.keep2.bandit_guards",
 				"state": {
@@ -2239,8 +2239,8 @@
 				"maximum_encumbrance": 70000.0,
 				"point": "oldpine.outdoor.keep_yard.keep2.bandit_guard.2",
 				"position": [
-					1520.0,
-					928.0
+					3216.0,
+					544.0
 				],
 				"spawn": "oldpine.outdoor.keep2.bandit_guards",
 				"state": {
@@ -2488,8 +2488,8 @@
 				"maximum_encumbrance": 130000.0,
 				"point": "oldpine.outdoor.keep_yard.keep2.bandit_leader.1",
 				"position": [
-					1600.0,
-					864.0
+					3296.0,
+					480.0
 				],
 				"spawn": "oldpine.outdoor.keep2.bandit_leader",
 				"state": {
@@ -2664,8 +2664,8 @@
 				"maximum_encumbrance": 75000.0,
 				"point": "oldpine.outdoor.keep_yard.keep2.trap_guard.1",
 				"position": [
-					1328.0,
-					816.0
+					3034.0,
+					432.0
 				],
 				"spawn": "oldpine.outdoor.keep2.trap_guards",
 				"state": {
@@ -2840,8 +2840,8 @@
 				"maximum_encumbrance": 50000.0,
 				"point": "oldpine.outdoor.keep_yard.keep2.trap_guard.2",
 				"position": [
-					1328.0,
-					912.0
+					3034.0,
+					528.0
 				],
 				"spawn": "oldpine.outdoor.keep2.trap_guards",
 				"state": {
@@ -3016,8 +3016,8 @@
 				"maximum_encumbrance": 150000.0,
 				"point": "oldpine.outdoor.keep_yard.keep2.trap_guard.3",
 				"position": [
-					1392.0,
-					800.0
+					3088.0,
+					416.0
 				],
 				"spawn": "oldpine.outdoor.keep2.trap_guards",
 				"state": {
@@ -3192,8 +3192,8 @@
 				"maximum_encumbrance": 50000.0,
 				"point": "oldpine.outdoor.keep_yard.keep2.trap_guard.4",
 				"position": [
-					1392.0,
-					928.0
+					3088.0,
+					544.0
 				],
 				"spawn": "oldpine.outdoor.keep2.trap_guards",
 				"state": {
@@ -3368,8 +3368,8 @@
 				"maximum_encumbrance": 85000.0,
 				"point": "oldpine.outdoor.keep_yard.keep2.trap_guard.5",
 				"position": [
-					1392.0,
-					864.0
+					3088.0,
+					480.0
 				],
 				"spawn": "oldpine.outdoor.keep2.trap_guards",
 				"state": {
@@ -6674,7 +6674,7 @@
 				"point": "oldpine.outdoor.slope.spath1.bandit.1",
 				"position": [
 					396.0,
-					-160.0
+					760.0
 				],
 				"spawn": "oldpine.outdoor.spath1.bandits",
 				"state": {
@@ -6850,7 +6850,7 @@
 				"point": "oldpine.outdoor.slope.spath1.bandit.2",
 				"position": [
 					522.0,
-					-306.0
+					900.0
 				],
 				"spawn": "oldpine.outdoor.spath1.bandits",
 				"state": {
@@ -7025,8 +7025,8 @@
 				"maximum_encumbrance": 135000.0,
 				"point": "oldpine.outdoor.slope.spath1.bandit.3",
 				"position": [
-					404.0,
-					-372.0
+					410.0,
+					972.0
 				],
 				"spawn": "oldpine.outdoor.spath1.bandits",
 				"state": {
@@ -7201,8 +7201,8 @@
 				"maximum_encumbrance": 65000.0,
 				"point": "oldpine.outdoor.pine_entrance.pine1.tall_bandit.1",
 				"position": [
-					488.0,
-					884.0
+					1944.0,
+					636.0
 				],
 				"spawn": "oldpine.outdoor.pine1.tall_bandit",
 				"state": {
@@ -7450,8 +7450,8 @@
 				"maximum_encumbrance": 60000.0,
 				"point": "oldpine.outdoor.pine_entrance.pine1.fat_bandit.1",
 				"position": [
-					598.0,
-					900.0
+					2030.0,
+					640.0
 				],
 				"spawn": "oldpine.outdoor.pine1.fat_bandit",
 				"state": {
@@ -7849,8 +7849,8 @@
 				"maximum_encumbrance": 130000.0,
 				"point": "oldpine.outdoor.pine_cliff_edge.pine7.wolf_dog.1",
 				"position": [
-					-1060.0,
-					700.0
+					1960.0,
+					-446.0
 				],
 				"spawn": "oldpine.outdoor.pine7.wolf_dog",
 				"state": {
@@ -8008,8 +8008,8 @@
 				"maximum_encumbrance": 135000.0,
 				"point": "oldpine.outdoor.keep_gate.keep1.bandit_guard.1",
 				"position": [
-					1040.0,
-					800.0
+					2736.0,
+					416.0
 				],
 				"spawn": "oldpine.outdoor.keep1.bandit_guards",
 				"state": {
@@ -8184,8 +8184,8 @@
 				"maximum_encumbrance": 95000.0,
 				"point": "oldpine.outdoor.keep_gate.keep1.bandit_guard.2",
 				"position": [
-					1120.0,
-					800.0
+					2816.0,
+					416.0
 				],
 				"spawn": "oldpine.outdoor.keep1.bandit_guards",
 				"state": {
@@ -8360,8 +8360,8 @@
 				"maximum_encumbrance": 75000.0,
 				"point": "oldpine.outdoor.keep_gate.keep1.bandit_guard.3",
 				"position": [
-					1040.0,
-					928.0
+					2736.0,
+					544.0
 				],
 				"spawn": "oldpine.outdoor.keep1.bandit_guards",
 				"state": {
@@ -8536,8 +8536,8 @@
 				"maximum_encumbrance": 55000.0,
 				"point": "oldpine.outdoor.keep_gate.keep1.bandit_guard.4",
 				"position": [
-					1120.0,
-					928.0
+					2816.0,
+					544.0
 				],
 				"spawn": "oldpine.outdoor.keep1.bandit_guards",
 				"state": {
@@ -8712,8 +8712,8 @@
 				"maximum_encumbrance": 50000.0,
 				"point": "oldpine.outdoor.keep_yard.keep2.bandit_guard.1",
 				"position": [
-					1520.0,
-					800.0
+					3216.0,
+					416.0
 				],
 				"spawn": "oldpine.outdoor.keep2.bandit_guards",
 				"state": {
@@ -8888,8 +8888,8 @@
 				"maximum_encumbrance": 70000.0,
 				"point": "oldpine.outdoor.keep_yard.keep2.bandit_guard.2",
 				"position": [
-					1520.0,
-					928.0
+					3216.0,
+					544.0
 				],
 				"spawn": "oldpine.outdoor.keep2.bandit_guards",
 				"state": {
@@ -9137,8 +9137,8 @@
 				"maximum_encumbrance": 130000.0,
 				"point": "oldpine.outdoor.keep_yard.keep2.bandit_leader.1",
 				"position": [
-					1600.0,
-					864.0
+					3296.0,
+					480.0
 				],
 				"spawn": "oldpine.outdoor.keep2.bandit_leader",
 				"state": {
@@ -9313,8 +9313,8 @@
 				"maximum_encumbrance": 75000.0,
 				"point": "oldpine.outdoor.keep_yard.keep2.trap_guard.1",
 				"position": [
-					1328.0,
-					816.0
+					3034.0,
+					432.0
 				],
 				"spawn": "oldpine.outdoor.keep2.trap_guards",
 				"state": {
@@ -9489,8 +9489,8 @@
 				"maximum_encumbrance": 50000.0,
 				"point": "oldpine.outdoor.keep_yard.keep2.trap_guard.2",
 				"position": [
-					1328.0,
-					912.0
+					3034.0,
+					528.0
 				],
 				"spawn": "oldpine.outdoor.keep2.trap_guards",
 				"state": {
@@ -9665,8 +9665,8 @@
 				"maximum_encumbrance": 150000.0,
 				"point": "oldpine.outdoor.keep_yard.keep2.trap_guard.3",
 				"position": [
-					1392.0,
-					800.0
+					3088.0,
+					416.0
 				],
 				"spawn": "oldpine.outdoor.keep2.trap_guards",
 				"state": {
@@ -9841,8 +9841,8 @@
 				"maximum_encumbrance": 50000.0,
 				"point": "oldpine.outdoor.keep_yard.keep2.trap_guard.4",
 				"position": [
-					1392.0,
-					928.0
+					3088.0,
+					544.0
 				],
 				"spawn": "oldpine.outdoor.keep2.trap_guards",
 				"state": {
@@ -10017,8 +10017,8 @@
 				"maximum_encumbrance": 85000.0,
 				"point": "oldpine.outdoor.keep_yard.keep2.trap_guard.5",
 				"position": [
-					1392.0,
-					864.0
+					3088.0,
+					480.0
 				],
 				"spawn": "oldpine.outdoor.keep2.trap_guards",
 				"state": {
