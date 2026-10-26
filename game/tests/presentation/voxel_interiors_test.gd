@@ -28,6 +28,11 @@ func run_all(tree: SceneTree) -> Dictionary:
 	await _frames(tree,4)
 	var at: Vector2 = view.camera.unproject_position(view.actors[waiter.character_id].position+Vector3.UP)
 	_check(view.pick_at(at)==waiter.character_id,"left projection still picks the original waiter")
+	# The inn's life (room_life.json inn_hall): every table has something left on it, its walls
+	# something hung on them.
+	var tables: Array[Dictionary] = view.geometry.life._tables
+	_check(view.geometry.life.rooms.has(&"snow.inn.main_floor") and tables.size()==6 and tables.all(func(t: Dictionary) -> bool: return t.has("set")),"the inn's six tables are each left with a meal, wine or tea")
+	_check(view.geometry.mounted_props.size()>6,"the inn's walls have things hung on them: %d" % view.geometry.mounted_props.size())
 	var furnishings := Existing.new()
 	for zone_id: StringName in [&"snow.bank",&"snow.smithy",&"snow.herbshop",&"snow.postoffice",&"snow.workplace",&"snow.hockshop",&"snow.school2",&"snow.temple",&"snow.school",&"snow.secret_storage"]:
 		var def: MapDefinition = GameContent.catalog().map(MapPlaces.map_of(zone_id))
@@ -38,6 +43,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 		view = map.get_node("MapView") as WorldVoxelView
 		_check(map.projected_view and view.camera.current and view.left_view,"left view preference follows handoff to "+String(zone_id))
 		_check(view.geometry.unknown_kinds.is_empty(),"all furnishings render in %s: %s" % [zone_id,view.geometry.unknown_kinds])
+		_check(not view.geometry.life.rooms.is_empty(),"%s's rooms are lived in (RoomLife)" % zone_id)
 		if zone_id in [&"snow.school2",&"snow.herbshop"]:
 			_check(view.geometry.occluders.size()>3,"large new furnishings participate in local actor reveal")
 		_check(await MapPlaces.drive_to_zone(tree,map,zone_id),"walk from entry to the interior of "+String(zone_id))

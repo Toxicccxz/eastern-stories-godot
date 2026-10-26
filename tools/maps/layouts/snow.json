@@ -556,6 +556,9 @@
       "file": "snow_inn.tscn",
       "draw": {
         "technique": "town",
+        "life": {
+          "snow.inn.main_floor": {"use": "inn_hall", "seed": 1}
+        },
         "base": "boundary",
         "bounds": [-480, -352, 480, 352],
         "ground": [],
@@ -693,6 +696,12 @@
       "file": "snow_inn_upstairs.tscn",
       "draw": {
         "technique": "fills",
+        "life": {
+          "snow.inn_2f": {"use": "corridor", "seed": 1},
+          "snow.n_room": {"use": "guest_room", "tidy": true, "seed": 1},
+          "snow.e_room": {"use": "guest_room", "tidy": true, "seed": 2},
+          "snow.w_room": {"use": "guest_room", "tidy": true, "seed": 3}
+        },
         "fills": [
           ["wall_wood", -576, -480, 576, 256],
           ["void", -576, -480, -224, -128],
@@ -893,6 +902,9 @@
       "file": "snow_cellar.tscn",
       "draw": {
         "technique": "fills",
+        "life": {
+          "snow.secret_storage": {"use": "cellar", "wealth": "poor", "seed": 1}
+        },
         "fills": [
           ["wall", -192, -160, 192, 160],
           ["rock", -160, -128, 160, 128],
@@ -983,7 +995,8 @@
           "snow.bank": {
             "size": "large",
             "floor": "floor_shop",
-            "wall": "wall_wood"
+            "wall": "wall_wood",
+            "life": {"use": "bank", "tidy": true, "seed": 1}
           }
         },
         "props": [
@@ -1044,7 +1057,8 @@
           "snow.smithy": {
             "size": "room",
             "floor": "floor_shop",
-            "wall": "wall"
+            "wall": "wall",
+            "life": {"use": "smithy", "seed": 1}
           }
         },
         "props": [
@@ -1114,7 +1128,8 @@
           "snow.herbshop": {
             "size": "large",
             "floor": "floor_shop",
-            "wall": "wall_wood"
+            "wall": "wall_wood",
+            "life": {"use": "apothecary", "seed": 1}
           }
         },
         "props": [
@@ -1175,7 +1190,8 @@
           "snow.postoffice": {
             "size": "room",
             "floor": "floor_wood",
-            "wall": "wall_wood"
+            "wall": "wall_wood",
+            "life": {"use": "post", "wealth": "poor", "seed": 1}
           }
         },
         "props": [
@@ -1229,7 +1245,8 @@
           "snow.workplace": {
             "size": "large",
             "floor": "floor_shop",
-            "wall": "wall_wood"
+            "wall": "wall_wood",
+            "life": {"use": "mill", "seed": 1}
           }
         },
         "props": [
@@ -1289,12 +1306,14 @@
           "snow.hockshop": {
             "size": "room",
             "floor": "floor_shop",
-            "wall": "wall_wood"
+            "wall": "wall_wood",
+            "life": {"use": "pawnshop", "seed": 1}
           },
           "snow.hockshop2": {
             "size": "room",
             "floor": "floor_wood",
-            "wall": "wall_wood"
+            "wall": "wall_wood",
+            "life": {"use": "storeroom", "seed": 1}
           }
         },
         "props": [
@@ -1376,12 +1395,14 @@
           "snow.weapon_storage": {
             "size": "room",
             "floor": "floor_wood",
-            "wall": "wall_wood"
+            "wall": "wall_wood",
+            "life": {"use": "armory", "tidy": true, "seed": 1}
           },
           "snow.schoolhall": {
             "size": "hall",
             "floor": "floor_wood",
-            "wall": "wall_wood"
+            "wall": "wall_wood",
+            "life": {"use": "hall", "wealth": "rich", "seed": 1}
           },
           "snow.inneryard": {
             "size": "yard",
@@ -1391,12 +1412,14 @@
           "snow.nyard": {
             "size": "room",
             "floor": "floor_wood",
-            "wall": "wall_wood"
+            "wall": "wall_wood",
+            "life": {"use": "study", "wealth": "rich", "tidy": true, "seed": 1}
           },
           "snow.guestroom": {
             "size": "room",
             "floor": "floor_wood",
-            "wall": "wall_wood"
+            "wall": "wall_wood",
+            "life": {"use": "guest_room", "wealth": "rich", "seed": 1}
           },
           "snow.innerhall": {
             "size": "yard",
@@ -1581,7 +1604,8 @@
           "snow.temple": {
             "size": "hall",
             "floor": "floor_wood",
-            "wall": "wall"
+            "wall": "wall",
+            "life": {"use": "temple", "wealth": "poor", "seed": 1}
           }
         },
         "props": [
@@ -1650,7 +1674,8 @@
           "snow.school": {
             "size": "large",
             "floor": "floor_wood",
-            "wall": "wall_wood"
+            "wall": "wall_wood",
+            "life": {"use": "classroom", "tidy": true, "seed": 1}
           }
         },
         "props": [

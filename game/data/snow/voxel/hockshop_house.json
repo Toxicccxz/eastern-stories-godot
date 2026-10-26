@@ -10,7 +10,6 @@
     {"kind": "window", "at": [-400, -172], "size": [64, 16], "rotation": 0},
     {"kind": "window", "at": [400, -172], "size": [64, 16], "rotation": 0},
     {"kind": "hanging_lantern", "at": [-192, 16]},
-    {"kind": "hanging_lantern", "at": [192, 16]},
     {"kind": "hanging_lantern", "at": [432, 64]},
     {"kind": "curtain", "at": [0, 0], "size": [64, 8], "rotation": 90, "text": "非请莫入"},
     {"kind": "runner", "at": [-336, 0], "size": [256, 56]},

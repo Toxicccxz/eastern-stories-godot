@@ -13,7 +13,6 @@
     {"kind": "wall_scroll", "at": [232, -204], "size": [40, 8], "rotation": 0},
     {"kind": "hanging_lantern", "at": [-112, -48]},
     {"kind": "hanging_lantern", "at": [112, 64]},
-    {"kind": "pot", "at": [272, -128]},
     {"kind": "runner", "at": [-8, -96], "size": [176, 48]},
     {"kind": "sign", "at": [-8, 204], "size": [80, 16], "rotation": 180, "text": "书院", "wall_mounted": true}
   ],
