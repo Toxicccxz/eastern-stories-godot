@@ -62,4 +62,24 @@ func run_all(_tree: SceneTree) -> Dictionary:
 	if not closed or not base_winding:
 		failures.append("the irregular soil base must be closed and face outward, including its stepped corners")
 	holder.free()
-	return {"assertions":7,"failures":failures}
+	# 大石板: a 6×4-cell square in 3×2 stones, the second course shifted half a stone; the
+	# stones it would push past the edge are cut down to single cells.
+	var ground := VoxelGround.new()
+	ground.shapes = preload("res://presentation/voxel/props/voxel_shapes.gd").new()
+	ground.parent = Node3D.new()
+	ground.rng = RandomNumberGenerator.new()
+	ground.noise = FastNoiseLite.new()
+	var square: Dictionary[Vector2i,String] = {}
+	for y: int in 4:
+		for x: int in 6:
+			square[Vector2i(8+x*16,8+y*16)] = "town_ground"
+	var painted: Dictionary[Vector2i,bool] = {}
+	var stones: int = 0
+	for cell: Vector2i in [Vector2i(72,56),Vector2i(8,8)]+square.keys():
+		if not painted.has(cell):
+			ground.slabs(cell,square,painted,{"size":[3,2]})
+			stones += 1
+	if painted.size()!=24 or stones!=9:
+		failures.append("big slabs lie in shifted courses, whole where they fit and cut at the edge: %d cells, %d stones" % [painted.size(),stones])
+	ground.parent.free()
+	return {"assertions":8,"failures":failures}

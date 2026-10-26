@@ -82,6 +82,52 @@ func paving(cell: Vector2i, cells: Dictionary[Vector2i,String], painted: Diction
 	if foliage != null and (rng.randf()<0.10 or worn>0.15 and rng.randf()<0.25):
 		foliage.plant(p+Vector3(-width*0.25+0.03,0.03,depth*0.19),0,rng.randf_range(0.19,0.40),rng.randf()*TAU)
 
+## 大石板 laid in courses (layout `ground`: {"style": "slabs", "size": [cells across, cells
+## deep], "bond": share of a stone each course shifts, "stones": [...], "worn": [...], "bed":
+## the joints, "joint": their width, "cracks": chance}): big squared flags set flat with tight
+## joints (雪亭镇's square, 整齐地铺著大石板). A stone that would cross a doorway, a building
+## or other ground is cut down to the cells left.
+func slabs(cell: Vector2i, cells: Dictionary[Vector2i,String], painted: Dictionary[Vector2i,bool], style: Dictionary) -> void:
+	var size: Array = style.get("size",[3,2])
+	var across: int = int(size[0])
+	var deep: int = int(size[1])
+	var grid := Vector2i(floori(cell.x/16.0),floori(cell.y/16.0))
+	var course: int = floori(float(grid.y)/deep)
+	var shift: int = roundi(across*float(style.get("bond",0.5)))*posmod(course,2)
+	var corner: Vector2i = cell-Vector2i(posmod(grid.x+shift,across),posmod(grid.y,deep))*16
+	var whole: bool = true
+	for y: int in deep:
+		for x: int in across:
+			var next: Vector2i = corner+Vector2i(x,y)*16
+			whole = whole and cells.get(next,"")==cells[cell] and not painted.has(next) and not _covered(next)
+	if not whole:
+		corner = cell
+		across = 1
+		deep = 1
+	for y: int in deep:
+		for x: int in across:
+			painted[corner+Vector2i(x,y)*16] = true
+	var p: Vector3 = _point(corner)+Vector3((across-1)*0.25,0,(deep-1)*0.25)
+	var joint: float = float(style.get("joint",0.035))
+	shapes.box(parent,p-Vector3(0,0.075,0),Vector3(across*0.5+0.01,0.12,deep*0.5+0.01),String(style.get("bed","6f6c5e")))
+	var worn: float = wear(p)
+	var stones: Array = style.get("stones",STONE)
+	var tint: String = String(stones[rng.randi_range(0,stones.size()-1)])
+	if worn>0.15:
+		var worn_stones: Array = style.get("worn",stones)
+		tint = String(worn_stones[rng.randi_range(0,worn_stones.size()-1)])
+	var stone := Vector3(across*0.5-joint,0.09,deep*0.5-joint)
+	shapes.box(parent,p+Vector3(0,rng.randf_range(-0.012,0.006),0),stone,tint)
+	if worn>0.3:
+		shapes.shard(parent,p+Vector3(0,0.047,0),Vector3(stone.x*0.6,0.012,stone.z*0.6),String(style.get("mud","81775f")),rng.randi())
+	if rng.randf()<float(style.get("cracks",0.06)):
+		# A fissure across an old stone, not a grid-wide noise overlay.
+		shapes.tilted_box(parent,p+Vector3(rng.randf_range(-0.1,0.1)*across,0.046,0),Vector3(stone.x*0.55,0.008,0.02),String(style.get("crack","6a675a")),Vector3(0,rng.randf_range(-0.6,0.6),0))
+	if style.has("moss") and rng.randf()<float(style.get("moss_chance",0.08)):
+		shapes.box(parent,p+Vector3(stone.x*0.5,0.03,0),Vector3(0.04,0.02,stone.z*0.7),String(style["moss"]))
+	if foliage != null and rng.randf()<float(style.get("tufts",0.05)):
+		foliage.plant(p+Vector3(-stone.x*0.5,0.03,stone.z*0.5),0,rng.randf_range(0.19,0.34),rng.randf()*TAU)
+
 func edge(cell: Vector2i, cells: Dictionary[Vector2i,String]) -> void:
 	var kind: String = cells[cell]
 	if kind not in PAVING and kind not in ["path","riverbank"] or kind in loose:

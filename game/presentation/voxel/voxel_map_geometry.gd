@@ -24,6 +24,10 @@ var flora: Dictionary = {}
 ## flora `zones`: zone id -> overrides (grown by `margin` px) where a place shades into the
 ## next region (雪亭镇's north end thinning toward the bare mountain).
 var flora_regions: Array[Dictionary] = []
+## flora `areas` that lay their own ground (`ground_styles`: kind -> style, over the layout's
+## `ground` for that stretch only, whatever else covers it): 水烟阁's maple litter along the
+## 官道, 雪亭镇's 青石板 on the highway beyond the town's big slabs.
+var ground_areas: Array[Dictionary] = []
 var _walls: Node3D
 ## Cut-away walls are knee height and hide nothing, so they are not occluders.
 var _low_walls: Node3D
@@ -90,11 +94,14 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	tree_shapes.barks = flora.get("bark_colors",{})
 	# flora `areas`: [{"rect": px, overrides}] for a stretch inside a zone (npath3's starved
 	# pines); they come before the zones, so the smaller patch wins.
+	# An area may cover several stretches (`rects` instead of `rect`).
 	for area: Dictionary in flora.get("areas",[]):
-		var r: Array = area["rect"]
 		var merged: Dictionary = flora.duplicate()
 		merged.merge(area,true)
-		flora_regions.append({"rect":Rect2(r[0],r[1],r[2]-r[0],r[3]-r[1]),"style":merged})
+		for r: Array in area.get("rects",[area.get("rect")]):
+			flora_regions.append({"rect":Rect2(r[0],r[1],r[2]-r[0],r[3]-r[1]),"style":merged})
+			if area.has("ground_styles"):
+				ground_areas.append({"rect":Rect2(r[0],r[1],r[2]-r[0],r[3]-r[1]),"styles":area["ground_styles"]})
 	for node: Node in map.find_children("*","Area2D",true,false):
 		var zone := node as WorldPhysicalZoneArea2D
 		if zone != null and flora.get("zones",{}).has(String(zone.zone_id)):
@@ -350,7 +357,7 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 				break
 		if covered or cliffs != null and cliffs.heights.has(cell) or water.levels.has(cell):
 			continue
-		var style: Dictionary = ground_styles.get(kind,{})
+		var style: Dictionary = _ground_style(pos,kind)
 		if style.get("style","")=="void":
 			continue
 		var wood: bool = kind in ["floor_wood", "floor_shop", "blocked"] and indoor
@@ -389,6 +396,8 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 			ground.litter(cell,p,palette,growth,style)
 		elif style.get("style","")=="bark":
 			ground.bark(cell,p,palette,cells,style)
+		elif style.get("style","")=="slabs":
+			ground.slabs(cell,cells,painted,style)
 		elif style.get("style","")=="paving" or road and not style.has("colors"):
 			ground.paving(cell,cells,painted,style)
 		else:
@@ -590,8 +599,9 @@ func _dress_ground(cell: Vector2i, p: Vector3, kind: String, growth: float, cell
 		var at: Vector3 = p+Vector3(rng.randf_range(-0.24,0.24),0.015,rng.randf_range(-0.24,0.24))
 		shapes.box(self,at,Vector3(rng.randf_range(0.08,0.25),0.04,rng.randf_range(0.07,0.18)),_pick(["8b9672","7d8961","aaae8e"]))
 	if not grassy and growth>0.18 and rng.randf()<0.10:
-		# Small petals and moss in irregular clusters, leaving the main walking line clear.
-		shapes.box(self,p+Vector3(rng.randf_range(-0.2,0.2),0.025,rng.randf_range(-0.2,0.2)),Vector3(0.09,0.025,0.07),_pick(["d3a6ad","c98c9f","9d9f69"]))
+		# Small petals and moss in irregular clusters, leaving the main walking line clear
+		# (flora `petals`: the region's own, 雪亭镇's blossom by default).
+		shapes.box(self,p+Vector3(rng.randf_range(-0.2,0.2),0.025,rng.randf_range(-0.2,0.2)),Vector3(0.09,0.025,0.07),_pick(local.get("petals",["d3a6ad","c98c9f","9d9f69"])))
 
 func _meadow(at: Vector2, kind: String) -> Dictionary:
 	for entry: Dictionary in flora.get("meadows",[]):
@@ -715,6 +725,12 @@ func _static_chunk(at: Vector3) -> Node3D:
 	if not _static_chunks.has(chunk):
 		_static_chunks[chunk] = _node()
 	return _static_chunks[chunk]
+
+func _ground_style(at: Vector2, kind: String) -> Dictionary:
+	for entry: Dictionary in ground_areas:
+		if (entry["rect"] as Rect2).has_point(at) and (entry["styles"] as Dictionary).has(kind):
+			return entry["styles"][kind]
+	return ground_styles.get(kind,{})
 
 func _flora_at(at: Vector2) -> Dictionary:
 	for entry: Dictionary in flora_regions:
