@@ -173,9 +173,12 @@ func _test_gates(tree: SceneTree, session: WorldSessionController) -> void:
 		if npc.definition().definition_id == GUARD and npc.world_location().zone_id == &"city.southdoor":
 			guards.append(npc)
 			npc.set_life_status(CharacterRuntimeLifeStatus.Value.UNCONSCIOUS) # TEST-ONLY
+	var refused: int = hud.log_lines().count("这个方向没有出路。")
 	out.interact()
 	await tree.physics_frame
-	_check(guards.size() == 3 and hud.log_lines()[-1] == "这个方向没有出路。", "the guards down: 这个方向没有出路。 %s" % hud.log_lines()[-1])
+	# As above, the gate's room text may follow in the same frame.
+	_check(guards.size() == 3 and hud.log_lines().count("这个方向没有出路。") > refused and hud.log_lines().slice(-3).has("这个方向没有出路。"),
+		"the guards down: 这个方向没有出路。 %s" % [hud.log_lines().slice(-3)])
 	for npc: NpcRuntimeState in guards:
 		npc.set_life_status(CharacterRuntimeLifeStatus.Value.ACTIVE) # TEST-ONLY
 	_check(Array(GameContent.catalog().npc(GUARD).talk().answer("出城")) == ["你可以在京城里找一找，说不定可以找到一些出城的令牌。\n"], "出城: look for a token in the city")

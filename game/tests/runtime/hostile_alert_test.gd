@@ -210,10 +210,14 @@ func _test_beast(tree: SceneTree, session: WorldSessionController) -> void:
 	var cave: WorldMapController = MapPlaces.enter(session, &"village.lakebottom2", &"village.lakebottom2.valley_arrival") # TEST-ONLY: down from the valley
 	if not _check(cave != null, "TEST-ONLY: down into the dragons' cave"):
 		return
-	await tree.process_frame
-	await tree.physics_frame
-	await tree.process_frame
-	var lines: Array[String] = session.shared_ui().log_lines().slice(said)
+	# A loaded CI runner may need more than one physics step before the dragon looks round.
+	var lines: Array[String] = []
+	for frame: int in 30:
+		await tree.process_frame
+		await tree.physics_frame
+		lines = session.shared_ui().log_lines().slice(said)
+		if lines.has("白鳞冰龙发现了你！"):
+			break
 	_check(not coordinator.has_active_encounter() and lines.has("白鳞冰龙发现了你！"), "a dragon notices the player: %s" % [lines])
 	_check(not lines.any(func(line: String) -> bool: return line.contains("道：") or line.contains("大喝一声")), "no words from a beast: %s" % [lines])
 	_check(cave.npc_runtimes().any(func(npc: NpcRuntimeState) -> bool: return cave.runtime_body_for_character(npc.character_id) != null and cave.runtime_body_for_character(npc.character_id).alert_mark_shown()), "the ！ over it")

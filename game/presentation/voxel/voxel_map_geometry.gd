@@ -24,6 +24,12 @@ var flora: Dictionary = {}
 ## flora `zones`: zone id -> overrides (grown by `margin` px) where a place shades into the
 ## next region (雪亭镇's north end thinning toward the bare mountain).
 var flora_regions: Array[Dictionary] = []
+## flora `areas` that lay their own ground (`ground_styles`: kind -> style, over the layout's
+## `ground` for that stretch only, whatever else covers it): 水烟阁's maple litter along the
+## 官道, 雪亭镇's 青石板 on the highway beyond the town's big slabs.
+var ground_areas: Array[Dictionary] = []
+## Shapes the wandering seams between road surfaces (`_fray_seams`).
+var seam_noise := FastNoiseLite.new()
 var _walls: Node3D
 ## Cut-away walls are knee height and hide nothing, so they are not occluders.
 var _low_walls: Node3D
@@ -90,11 +96,14 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	tree_shapes.barks = flora.get("bark_colors",{})
 	# flora `areas`: [{"rect": px, overrides}] for a stretch inside a zone (npath3's starved
 	# pines); they come before the zones, so the smaller patch wins.
+	# An area may cover several stretches (`rects` instead of `rect`).
 	for area: Dictionary in flora.get("areas",[]):
-		var r: Array = area["rect"]
 		var merged: Dictionary = flora.duplicate()
 		merged.merge(area,true)
-		flora_regions.append({"rect":Rect2(r[0],r[1],r[2]-r[0],r[3]-r[1]),"style":merged})
+		for r: Array in area.get("rects",[area.get("rect")]):
+			flora_regions.append({"rect":Rect2(r[0],r[1],r[2]-r[0],r[3]-r[1]),"style":merged})
+			if area.has("ground_styles"):
+				ground_areas.append({"rect":Rect2(r[0],r[1],r[2]-r[0],r[3]-r[1]),"styles":area["ground_styles"]})
 	for node: Node in map.find_children("*","Area2D",true,false):
 		var zone := node as WorldPhysicalZoneArea2D
 		if zone != null and flora.get("zones",{}).has(String(zone.zone_id)):
@@ -130,6 +139,8 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 			var extent := Vector2(size[0],size[1])
 			floor_openings.append(Rect2(Vector2(at[0],at[1])-extent/2,extent))
 	meadow.seed = 8147
+	seam_noise.seed = 3511
+	seam_noise.frequency = 0.03
 	meadow.frequency = 0.009
 	meadow.fractal_octaves = 2
 	_walls = _node()
@@ -162,6 +173,7 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	ground.footprints = footprints
 	ground.weather = layout.get("weather",[])
 	ground.tints = layout.get("ground_tints",{})
+	ground.style_at = func(cell: Vector2i, kind: String) -> Dictionary: return _ground_style(Vector2(cell),kind)
 	for kind: String in ground_styles:
 		if ground_styles[kind].get("style","")=="scree":
 			ground.loose.append(kind)
@@ -307,6 +319,7 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 		landmass.build(cells,required,edge_config)
 		cells = landmass.terrain(cells)
 		_ground_under_blocks(cells)
+		_fray_seams(cells)
 	if cliffs != null:
 		cliffs.shape(cells)
 		cliffs.remember(cells)
@@ -350,7 +363,7 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 				break
 		if covered or cliffs != null and cliffs.heights.has(cell) or water.levels.has(cell):
 			continue
-		var style: Dictionary = ground_styles.get(kind,{})
+		var style: Dictionary = _ground_style(pos,kind)
 		if style.get("style","")=="void":
 			continue
 		var wood: bool = kind in ["floor_wood", "floor_shop", "blocked"] and indoor
@@ -389,6 +402,8 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 			ground.litter(cell,p,palette,growth,style)
 		elif style.get("style","")=="bark":
 			ground.bark(cell,p,palette,cells,style)
+		elif style.get("style","")=="slabs":
+			ground.slabs(cell,cells,painted,style)
 		elif style.get("style","")=="paving" or road and not style.has("colors"):
 			ground.paving(cell,cells,painted,style)
 		else:
@@ -461,6 +476,47 @@ func _ground_under_blocks(cells: Dictionary[Vector2i, String]) -> void:
 				break
 	for cell: Vector2i in under:
 		cells[cell] = under[cell]
+
+## Ground kinds a way is surfaced with: where two meet, their seam wanders (`_fray_seams`).
+const SURFACES: Array[String] = ["town_ground","street","floor_yard","rock","path","riverbank","gravel"]
+
+## Two road surfaces (青石 and 黄土, flags and scree) never meet along a ruled line: within two
+## cells of the seam a cell takes the other side's surface in clumps along a noise field, the
+## seam pushed into one side where the field is high and into the other where it is low, so the
+## two interlock. A strip one cell wide (a rut) keeps its line. The picture only: the 2D map
+## keeps its tiles and collision.
+func _fray_seams(cells: Dictionary[Vector2i, String]) -> void:
+	var near: Dictionary[Vector2i, bool] = {}
+	for cell: Vector2i in cells:
+		if cells[cell] in SURFACES:
+			for shift: Vector2i in [Vector2i(16,0),Vector2i(0,16)]:
+				var other: String = cells.get(cell+shift,"")
+				if other != cells[cell] and other in SURFACES and VoxelGround.broad(cells,cell) and VoxelGround.broad(cells,cell+shift):
+					for y: int in range(-2,3):
+						for x: int in range(-2,3):
+							near[cell+Vector2i(x,y)*16] = true
+							near[cell+shift+Vector2i(x,y)*16] = true
+	var frayed: Dictionary[Vector2i, String] = {}
+	for cell: Vector2i in near:
+		var kind: String = cells.get(cell,"")
+		if not kind in SURFACES or not VoxelGround.broad(cells,cell):
+			continue
+		var best: String = ""
+		var reach: int = 3
+		for y: int in range(-2,3):
+			for x: int in range(-2,3):
+				var other: String = cells.get(cell+Vector2i(x,y)*16,"")
+				var d: int = maxi(absi(x),absi(y))
+				if other != kind and other in SURFACES and d < reach and VoxelGround.broad(cells,cell+Vector2i(x,y)*16):
+					best = other
+					reach = d
+		if best.is_empty():
+			continue
+		var field: float = seam_noise.get_noise_2d(cell.x,cell.y)*(1.0 if kind < best else -1.0)
+		if field > (0.0 if reach == 1 else 0.32):
+			frayed[cell] = best
+	for cell: Vector2i in frayed:
+		cells[cell] = frayed[cell]
 
 func _floor_opening(at: Vector2) -> bool:
 	for rect: Rect2 in floor_openings:
@@ -590,8 +646,9 @@ func _dress_ground(cell: Vector2i, p: Vector3, kind: String, growth: float, cell
 		var at: Vector3 = p+Vector3(rng.randf_range(-0.24,0.24),0.015,rng.randf_range(-0.24,0.24))
 		shapes.box(self,at,Vector3(rng.randf_range(0.08,0.25),0.04,rng.randf_range(0.07,0.18)),_pick(["8b9672","7d8961","aaae8e"]))
 	if not grassy and growth>0.18 and rng.randf()<0.10:
-		# Small petals and moss in irregular clusters, leaving the main walking line clear.
-		shapes.box(self,p+Vector3(rng.randf_range(-0.2,0.2),0.025,rng.randf_range(-0.2,0.2)),Vector3(0.09,0.025,0.07),_pick(["d3a6ad","c98c9f","9d9f69"]))
+		# Small petals and moss in irregular clusters, leaving the main walking line clear
+		# (flora `petals`: the region's own, 雪亭镇's blossom by default).
+		shapes.box(self,p+Vector3(rng.randf_range(-0.2,0.2),0.025,rng.randf_range(-0.2,0.2)),Vector3(0.09,0.025,0.07),_pick(local.get("petals",["d3a6ad","c98c9f","9d9f69"])))
 
 func _meadow(at: Vector2, kind: String) -> Dictionary:
 	for entry: Dictionary in flora.get("meadows",[]):
@@ -715,6 +772,15 @@ func _static_chunk(at: Vector3) -> Node3D:
 	if not _static_chunks.has(chunk):
 		_static_chunks[chunk] = _node()
 	return _static_chunks[chunk]
+
+## The ground style at a spot; an area's edge wanders like a seam between kinds.
+func _ground_style(at: Vector2, kind: String) -> Dictionary:
+	if not ground_areas.is_empty():
+		at += Vector2(seam_noise.get_noise_2d(at.x,at.y),seam_noise.get_noise_2d(at.y+977.0,at.x))*40.0
+	for entry: Dictionary in ground_areas:
+		if (entry["rect"] as Rect2).has_point(at) and (entry["styles"] as Dictionary).has(kind):
+			return entry["styles"][kind]
+	return ground_styles.get(kind,{})
 
 func _flora_at(at: Vector2) -> Dictionary:
 	for entry: Dictionary in flora_regions:
