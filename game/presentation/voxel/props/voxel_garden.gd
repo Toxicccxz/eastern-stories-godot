@@ -439,16 +439,17 @@ func _overpass(w: float, d: float) -> void:
 	for beam: int in maxi(2,floori((w if along_x else d)/1.6)):
 		var t: float = -(w if along_x else d)/2+0.8+beam*1.6
 		s.box(root,_place(along_x,t,-0.42,0),_along(along_x,0.3,0.2,(d if along_x else w)+0.3),String(data.get("timber","5a3a28")))
-	var height: float = float(data.get("height",0.9))
+	# The rails along the long sides are balustrades of the deck's colours.
+	var deck: Node3D = root
+	var own: Dictionary = data
+	data = {"wooden": true, "colors": [rail, String(own.get("finial","c9a24a")), rail], "height": own.get("height",0.9)}
 	for side: float in [-1.0,1.0]:
-		var across: float = side*((d if along_x else w)/2-0.12)
-		var length: float = (w if along_x else d)
-		s.box(root,_place(along_x,0,height+0.05,across),_along(along_x,length,0.1,0.14),rail)
-		s.box(root,_place(along_x,0,0.12,across),_along(along_x,length,0.1,0.12),rail)
-		for post: int in maxi(2,roundi(length/0.6))+1:
-			var t: float = -length/2+post*length/maxi(1,roundi(length/0.6))
-			s.box(root,_place(along_x,t,height/2+0.05,across),Vector3(0.1,height,0.1),rail)
-			s.box(root,_place(along_x,t,height+0.16,across),Vector3(0.14,0.12,0.14),String(data.get("finial","c9a24a")))
+		root = Node3D.new()
+		root.position = _place(along_x,0,0.02,side*((d if along_x else w)/2-0.12))
+		deck.add_child(root)
+		_balustrade(w if along_x else 0.3,d if along_x else 0.3) if along_x else _balustrade(0.3,d)
+	root = deck
+	data = own
 
 ## A flight of stairs climbing along the box's long axis from its -x end (on the ground) to its
 ## +x end at `rise` units up (rotate the box to turn it), stone treads with worn nosings.
@@ -464,14 +465,16 @@ func _stair_run(w: float, d: float) -> void:
 	for side: float in [-1.0,1.0]:
 		var rail := Node3D.new()
 		rail.position = Vector3(0,rise/2+0.5,side*(d/2-0.06))
-		rail.rotation.z = -atan2(rise,w)
+		rail.rotation.z = atan2(rise,w)
 		root.add_child(rail)
 		s.box(rail,Vector3.ZERO,Vector3(sqrt(w*w+rise*rise),0.1,0.1),String(data.get("rail","a8382a")))
 
 ## 玉台 (platform.c: 一座精雕细琢的玉台, 放有一矮几; 几上立有玉瓶, 几株寒谷幽兰绽放其中): a dais of
 ## pale jade in three tiers, carved, a low table on it with a jade vase of orchids, a cool glow.
 func _jade_dais(w: float, d: float) -> void:
-	var jade: Array = _colors("colors",["d8e8dc","e8f2ea","c4d8cc","f2f8f4"])
+	var jade: Array = _colors("colors",["d8e8dc","e8f2ea","c4d8cc","f2f8f4"]).duplicate()
+	for missing: int in range(jade.size(),4):
+		jade.append(["d8e8dc","e8f2ea","c4d8cc","f2f8f4"][missing])
 	for tier: int in 3:
 		var shrink: float = 1.0-tier*0.14
 		s.box(root,Vector3(0,0.12+tier*0.24,0),Vector3(w*shrink,0.24,d*shrink),String(jade[tier%3]))

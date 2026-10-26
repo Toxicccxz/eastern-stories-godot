@@ -306,15 +306,30 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 ## 纯金铸成的长灯架上挂了一排饰丽的宫灯 (晚月庄's corridors): a gilded standard on a square foot,
 ## its arm hung with two palace lanterns (lacquered frames, glowing paper sides, red tassels);
 ## one light for the pair.
-## A crouching guardian on its plinth, facing +z (`colors`: plinth, body, light, dark — an
-## iron lion in blacks); `standing` (w_street1.c: 姿势是立著的, 而且大小要大得多): upright on its
-## four legs, head high, half again as tall; `mark`: the character cut in its forehead.
+## A crouching guardian on its plinth, facing +z, in its own greys; `colors` (plinth, body, light,
+## dark — an iron lion in blacks) recolours it; `standing` (w_street1.c: 姿势是立著的, 而且大小要
+## 大得多): upright on its four legs, head high, half again as tall; `mark`: the character cut in
+## its forehead.
 func _stone_lion(data: Dictionary) -> void:
-	var tones: Array = data.get("colors",["8f8f86","b1b0a4","b8b7ab","9d9c90"])
+	var tones: Array = data.get("colors",[]).duplicate()
+	for missing: int in range(tones.size(),4):
+		tones.append(["8f8f86","b1b0a4","b8b7ab","9d9c90"][missing])
 	var plinth: String = String(tones[0])
 	var body: String = String(tones[1])
 	var light: String = String(tones[2])
 	var dark: String = String(tones[3])
+	if not data.has("colors") and not data.get("standing",false):
+		# The lion every region has had: its eight shades as they were.
+		s.box(root,Vector3(0,0.25,0),Vector3(0.9,0.5,0.9),"8f8f86")
+		s.box(root,Vector3(0,0.53,0),Vector3(1.0,0.08,1.0),"a3a398")
+		s.box(root,Vector3(0,0.95,-0.12),Vector3(0.62,0.72,0.62),"b1b0a4")
+		s.box(root,Vector3(0,1.48,0.10),Vector3(0.58,0.52,0.50),"b8b7ab")
+		s.box(root,Vector3(0,1.62,0.05),Vector3(0.74,0.36,0.44),"9d9c90")
+		s.box(root,Vector3(0,1.40,0.37),Vector3(0.30,0.18,0.10),"8e8d82")
+		for x: float in [-0.17,0.17]:
+			s.box(root,Vector3(x,0.72,0.26),Vector3(0.18,0.38,0.22),"a9a89c")
+		s.box(root,Vector3(-0.24 if data.get("mirror",false) else 0.24,0.70,0.36),Vector3(0.24,0.20,0.24),"9a998d")
+		return
 	if data.get("standing",false):
 		s.box(root,Vector3(0,0.3,0),Vector3(1.1,0.6,1.5),plinth)
 		s.box(root,Vector3(0,0.64,0),Vector3(1.2,0.08,1.6),light)
@@ -335,7 +350,7 @@ func _stone_lion(data: Dictionary) -> void:
 		s.tilted_box(root,Vector3(0,2.3,-0.7),Vector3(0.14,0.7,0.14),dark,Vector3(-0.6,0,0))
 		if data.has("mark"):
 			var mark := Label3D.new()
-			mark.text = String(data["mark"])
+			mark.text = tr(String(data["mark"]))
 			mark.position = Vector3(0,2.62,0.92)
 			mark.pixel_size = 0.004
 			mark.font_size = 44

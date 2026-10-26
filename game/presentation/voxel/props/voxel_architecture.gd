@@ -33,8 +33,10 @@ func build(center: Vector3, w: float, d: float, data: Dictionary, entrances: Arr
 	var height: float = data.get("height",3.4)
 	var masses: Array = data.get("masses",[])
 	var enclosure: float = data.get("enclosure_height",height)
+	# `ruined` (spath.c: 路旁隐约可见房舍, 皆已破败): walls fallen to uneven heights, no roof.
+	var ruined: bool = data.get("ruined",false)
 	_walls(body,w,d,enclosure,data,entrances)
-	if data.get("ruined",false):
+	if ruined:
 		pass
 	elif masses.is_empty():
 		_roof(body,Vector3.ZERO,w,d,height,data)
@@ -74,8 +76,8 @@ func build(center: Vector3, w: float, d: float, data: Dictionary, entrances: Arr
 	# `skirts`: one pent eave per floor of a taller house (n_street2.c: 一家三层楼的酒馆).
 	for at: Variant in data.get("skirts",[]):
 		_skirt(body,w,d,float(at),data)
-	if data.get("ruined",false):
-		# spath.c: 路旁隐约可见房舍, 皆已破败 — the roof gone, rubble and weeds inside the walls.
+	if ruined:
+		# The roof gone, rubble and weeds inside the walls.
 		for i: int in 9:
 			shapes.shard(body,Vector3(rng.randf_range(-0.35,0.35)*w,0.1,rng.randf_range(-0.35,0.35)*d),Vector3(0.5,0.2,0.4),["8a8276","7a7268","948c80"][i%3],i)
 			shapes.box(body,Vector3(rng.randf_range(-0.4,0.4)*w,0.14,rng.randf_range(-0.4,0.4)*d),Vector3(0.12,0.28,0.12),"5f7a3a")
@@ -93,6 +95,7 @@ func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, e
 	var bay: int = int(data.get("bay",6))
 	var foundation: float = data.get("foundation",0.48)
 	var gap_half: float = float(data.get("doorway_width",2.3))/2.0
+	var ruined: bool = data.get("ruined",false)
 	for side: int in 4:
 		var along_x: bool = side<2
 		var length: float = w if along_x else d
@@ -108,7 +111,7 @@ func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, e
 			if gap:
 				continue
 			var weather: float = noise.get_noise_2d((body.position.x+at.x)*29,(body.position.z+at.z)*29)
-			if data.get("ruined",false):
+			if ruined:
 				# Walls fallen to uneven heights, a gap here and there.
 				if weather > 0.32:
 					continue
@@ -170,7 +173,7 @@ func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, e
 						shapes.box(body,window_at+out*0.1+Vector3(0,bar,0),Vector3(0.40,0.035,0.03) if along_x else Vector3(0.03,0.035,0.40),timber)
 				if construction=="timber" and i%bay==2:
 					shapes.box(body,window_at+out*0.13,Vector3(0.38,0.78,0.06) if along_x else Vector3(0.06,0.78,0.38),"796348")
-		if not data.get("ruined",false):
+		if not ruined:
 			shapes.box(body,Vector3(0,height-0.13,fixed) if along_x else Vector3(fixed,height-0.13,0),Vector3(w,0.18,0.33) if along_x else Vector3(0.33,0.18,d),timber)
 		if data.get("gallery",false):
 			var rail_at := Vector3(0,height-0.65,fixed) if along_x else Vector3(fixed,height-0.65,0)
