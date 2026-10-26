@@ -22,9 +22,9 @@ Liuh-Ken gameplay or P2R2. The separately approved desktop viewport restoration 
 final `project.godot` equal to the pre-phase main version.
 
 Current local-to-upstream source/manifest equivalence, release-manifest file count and
-release ZIP SHA-256 remain **unverified in this closeout**. No unmodified-upstream or
+release ZIP SHA-256 remain **unverified**. No unmodified-upstream or
 manifest-equality claim is made for the current 4.2.3 vendor tree. The older evidence below
-must not be reused as proof for this version. No plugin files are changed by this docs task.
+must not be reused as proof for this version.
 
 ### Historical 4.0.1 evidence
 
@@ -32,7 +32,7 @@ The earlier vendor verification recorded an unmodified upstream [v4.0.1 release]
 source commit `9b1f13aded0437da4974a2ccf11a9b94f0c15b29`. At that checkpoint, all 283 local
 files matched the SHA-256 entries in the official `godot-ai-v4-plugin.manifest.json`:
 no missing, differing, or extra files. That was an HTTPS release-manifest comparison,
-not an independent signature verification or a fresh comparison in this closeout.
+not an independent signature verification or a fresh comparison of the current tree.
 The release's `godot-ai-v4-plugin.zip` SHA-256 is
 `3de4e9844ec2511a5646347e10d280b4a6fcf94a05881bd0912cb58968873ec0`.
 The historical release required Godot 4.7+, compatible with the project's pinned 4.7.2 editor.
