@@ -1,0 +1,88 @@
+{
+  "indoor": true,
+  "courtyard": true,
+  "cutaway_rooms": true,
+  "camera_size": 24,
+  "note": "club.c, yard.c: 一间由白茅草搭成的草堂, 室内仅有一竹榻, 一矮几, 四把竹椅; 堂前一幅拓片装裱精致 — the hermit's hall of straw and bamboo, the rubbing on its wall, the books on the low table; the empty yard behind its wicket.",
+  "palette": {"wood": ["b8a060", "c0a868", "a89050"], "wall": "d8ccaa"},
+  "surfaces": {"choyin.yard": "floor_yard"},
+  "wall_looks": [
+    {"rect": [96, -240, 704, 240], "style": "earth", "colors": ["c8b888", "d0c090", "b8a878", "d8c898"], "note": "club.c: 白茅草搭成 — straw and daub"},
+    {"rect": [-720, -336, 160, 336], "style": "earth", "colors": ["a89a7a", "b0a282", "9a8c6c"], "note": "yard.c: the yard's wall"}
+  ],
+  "ground": {
+    "floor_yard": {"style": "slabs", "lengths": [1, 2], "depths": [1, 1], "cracks": 0.18, "broken": 0.1, "sunk": 0.1, "tufts": 0.3, "stones": ["8a8a80", "94948a", "7e7e74"], "worn": ["9a9a90"], "bed": "4e5448", "joint": 0.08, "mud": "6a6450", "crack": "5a5e54", "moss": "4f6e3a", "moss_chance": 0.4, "note": "yard.c: 什麽也没有的空房间 — old flags, grass in the joints"},
+    "boundary": {"colors": ["566a44", "5e7248", "667a4c"]}
+  },
+  "light": {
+    "ambient": ["dcd4bc", "6a7a90"],
+    "ambient_energy": [0.46, 0.32],
+    "sun": ["fff0d8", "a8bce8"],
+    "sun_energy": [0.6, 0.2],
+    "sky": ["b4c8d4", "0e1624"]
+  },
+  "flora": {
+    "grass_density": 0.5,
+    "grass_colors": ["3f5a33", "4f6c3c", "628048", "7a9450"],
+    "flower_colors": ["f2e6c8", "e8c84a", "f0c0cc", "e8e0f0"],
+    "flower_threshold": 0.2,
+    "tree_types": [],
+    "tree_chance": 0.0,
+    "butterflies": 2
+  },
+  "props": [
+    {"kind": "sign", "at": [400, -222], "size": [176, 16], "text": "书有未曾经我读 事无不可对人言", "wall_mounted": true, "board": "e8e0cc", "letters": "2a2622", "height": 2.2, "tall": 1.0, "wrap": true, "pixel_size": 0.005, "frame": "6a5a42", "note": "club.c: 堂前一幅拓片装裱精致, 上书: 书有未曾经我读 / 事无不可对人言"},
+    {"kind": "hanging_lantern", "at": [300, 0], "flicker": 0.05},
+    {"kind": "hanging_lantern", "at": [520, 60], "flicker": 0.05},
+    {"kind": "window", "at": [658, -100], "size": [72, 16], "rotation": -90},
+    {"kind": "window", "at": [300, 222], "size": [72, 16], "rotation": 180},
+    {"kind": "pot", "at": [640, 180]},
+    {"kind": "clutter", "at": [160, -180], "size": [64, 32], "items": ["books", "books"], "rotation": 0},
+    {"kind": "clutter", "at": [620, -190], "size": [48, 32], "items": ["jar", "cups"], "rotation": 0},
+    {"kind": "slippers", "at": [560, -80], "rotation": 10, "cloth": "6a6a5a"},
+    {"kind": "straw_patch", "at": [200, 160], "size": [48, 32]},
+    {"kind": "stains", "at": [300, 0], "size": [240, 200], "count": 5, "colors": ["a89a7a", "b0a282"], "note": "the floor worn to the table"},
+    {"kind": "stains", "at": [-280, 0], "size": [500, 400], "count": 8, "colors": ["747a70", "7e8478"], "note": "yard.c: bare, rain-stained"},
+    {"kind": "straw_patch", "at": [-560, 200], "size": [64, 32]},
+    {"kind": "cobweb", "at": [-660, -280], "size": [32, 16], "elevation": 2.6},
+    {"kind": "glow", "at": [-280, 0], "size": [16, 16], "color": "a8c0e8", "day": 0.0, "night": 1.0, "range": 10.0, "height": 5.0, "note": "moonlight on the yard"}
+  ],
+  "ambience": {
+    "fall": [{"rect": [-688, -304, 128, 304], "count": 8, "height": 4.0, "colors": ["b8b060", "a8a050"], "wind": [0.3, 0.1], "note": "bamboo leaves over the wall"}]
+  },
+  "actors": {
+    "default": {"coat": "7a7462"},
+    "choyin.npc.cityguard": {"coat": "8a3a30", "hat": true},
+    "common.npc.garrison": {"coat": "8a3a30", "hat": true},
+    "choyin.npc.cake_vendor": {"coat": "8a7a5a"},
+    "choyin.npc.dumpling_seller": {"coat": "a09070"},
+    "choyin.npc.cucurbit_seller": {"coat": "9a6a4a"},
+    "choyin.npc.judge_gu": {"coat": "2a2a30", "hat": true, "note": "衙役: black with a red sash"},
+    "choyin.npc.magistra": {"coat": "2f4a6a", "hat": true, "note": "带刀侍卫"},
+    "choyin.npc.yamen_po": {"coat": "3a3a44", "hat": true},
+    "choyin.npc.judgeman": {"coat": "3a6a5a", "hat": true, "note": "程不平: the magistrate's green robe"},
+    "choyin.npc.crone": {"coat": "5a5048"},
+    "choyin.npc.visitor": {"coat": "6a8a7a"},
+    "choyin.npc.scholar": {"coat": "8aa0b8", "note": "书生: a pale blue gown"},
+    "choyin.npc.girl": {"coat": "d88aa0", "note": "官家小姐"},
+    "choyin.npc.maid": {"coat": "7aa08a"},
+    "choyin.npc.lady": {"coat": "b05a6a"},
+    "choyin.npc.youngman": {"coat": "7a5a9a", "note": "贵公子"},
+    "choyin.npc.servant": {"coat": "5a5a52"},
+    "choyin.npc.guard": {"coat": "3a5a8a", "note": "hotel3.c: 一个身穿蓝布衣的人"},
+    "choyin.npc.boss": {"coat": "4a5a3a", "hat": true, "note": "汤掌柜"},
+    "choyin.npc.sergeant": {"coat": "7a4a30", "hat": true, "note": "武官"},
+    "choyin.npc.oldman": {"coat": "8a8a7a", "scale": 1.15},
+    "choyin.npc.lboy": {"coat": "6a3a8a", "scale": 0.8, "note": "紫衣童子"},
+    "choyin.npc.ghost": {"coat": "c8ccd4", "name_alpha": 0.6, "note": "孤魂野鬼: pale"},
+    "choyin.npc.shadow": {"coat": "2a2a30", "scale": 1.15, "note": "朦胧鬼影: 一个高大的身影"},
+    "common.npc.beggar.master": {"coat": "6a5a40"},
+    "common.npc.scholar.master": {"coat": "4a6a8a", "hat": true, "note": "骆云舟"},
+    "choyin.npc.serpent": {"body": "snake", "colors": ["1c1a18", "2c2824", "3a342e"], "belly": "5a5048", "crest": "4a3a3a", "scale": 1.6, "note": "serpent.c: 一只乌黑油亮的巨蟒, 头上生著一个大肉瘤"},
+    "choyin.npc.crane": {"body": "flyer", "wings": ["f4f4f0", "e8e8e4"], "hover": 0.5, "note": "crane.c: 白羽如雪"},
+    "choyin.npc.lion": {"body": "crawler", "colors": ["4a4034", "5a4c3c", "c83a2a"], "scale": 1.4, "note": "护草神兽"}
+  },
+  "entrances": {
+    "choyin.club.east": {"title": "竹林"}
+  }
+}

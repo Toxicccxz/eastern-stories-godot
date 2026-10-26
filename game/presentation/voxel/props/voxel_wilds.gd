@@ -63,6 +63,7 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"bagua": _bagua()
 		"candlestick": _candlestick()
 		"brazier": _brazier(w)
+		"vase_hollow": _vase_hollow(w,d)
 		_:
 			return false
 	return true
@@ -562,6 +563,22 @@ func _glow() -> void:
 	if data.has("flicker"):
 		light.set_meta("flicker",float(data["flicker"]))
 	root.add_child(light)
+
+## hollow3.c: 山壁天然行成一空穴(vase), 积满寒露 — a mass of rock with a vase-shaped hollow in its
+## face, dark within, cold dew pooled at its lip and beading down the stone.
+func _vase_hollow(w: float, d: float) -> void:
+	var rock: Array = _colors("colors",["6e7478","7a8084","62686c","868c90"])
+	var tall: float = float(data.get("height",2.2))
+	for i: int in 7:
+		var a: float = i*0.9
+		s.shard(root,Vector3(cos(a)*w*0.28,tall*0.5*(0.6+0.1*(i%3)),sin(a)*d*0.22-d*0.1),Vector3(w*0.5,tall*(0.7+0.1*(i%2)),d*0.5),_pick(rock),i,a)
+	# The hollow: a narrow neck under a round belly, black inside.
+	s.box(root,Vector3(0,tall*0.32,d*0.3),Vector3(w*0.36,tall*0.3,d*0.3),"0d0c0b")
+	s.box(root,Vector3(0,tall*0.58,d*0.3),Vector3(w*0.18,tall*0.22,d*0.3),"0d0c0b")
+	s.box(root,Vector3(0,tall*0.74,d*0.3),Vector3(w*0.28,tall*0.1,d*0.3),"0d0c0b")
+	s.box(root,Vector3(0,tall*0.18,d*0.44),Vector3(w*0.3,0.04,0.12),"b8d4e8:mist")
+	for drop: int in 5:
+		s.box(root,Vector3(-w*0.2+drop*w*0.1,tall*0.12-drop%2*0.06,d*0.5),Vector3(0.04,0.08,0.03),"cfe4f2")
 
 ## 老松寨's hidden gate (keep1.c): a frame of rough logs across the opening, four or five
 ## beasts' skulls and iron chains hung from the lintel, dry pine boughs laid over the top so

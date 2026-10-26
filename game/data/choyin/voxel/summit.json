@@ -1,0 +1,93 @@
+{
+  "indoor": false,
+  "camera_size": 20,
+  "note": "platform.c: 姑射之巅, 祥云朵朵, 瑞彩千条 — the summit of 姑射山 in auspicious cloud: the jade 云台 with its vase of orchids and the cloud banner beside it, the immortal's purple-robed boys. Rock all round, cloud below, the light rose and gold.",
+  "edge": {"minimum_margin": 16, "maximum_margin": 48, "depth": 6.0, "top": "8a8a80", "bottom": "5a5a60", "strata": ["8a8c90", "9a9ca0", "7a7c80"]},
+  "light": {
+    "sky": ["e0c8c0", "1a1e30"],
+    "ambient": ["e8d4c4", "8a7ca0"],
+    "ambient_energy": [0.46, 0.34],
+    "sun": ["fff0dc", "c0b0e8"],
+    "sun_energy": [0.9, 0.3],
+    "fog": {"color": ["e8cfc0", "2a2838"], "density": [0.0, 0.0], "depth": [40.0, 90.0], "depth_density": 0.5}
+  },
+  "cliffs": {
+    "kinds": ["cliff"],
+    "low": 0.6,
+    "high": 2.4,
+    "rise": 80,
+    "step": 0.5,
+    "rough": 0.4,
+    "grooves": 0.06,
+    "keep": 120,
+    "strata": ["8a8c90", "9a9ca0", "a8aab0", "7a7c80"],
+    "tops": ["8a8c90", "9a9ca0"],
+    "south_rise": 0.4,
+    "note": "the summit's rock, kept low toward the camera"
+  },
+  "ground": {
+    "floor_yard": {"style": "slabs", "lengths": [1, 2], "depths": [1, 2], "cracks": 0.06, "broken": 0.02, "sunk": 0.0, "tufts": 0.04, "stones": ["c8bca8", "d0c4b0", "bcb09c", "d8ccb8"], "worn": ["d8ccb8"], "bed": "7a7468", "joint": 0.05, "mud": "a89c88", "crack": "a8a098", "moss": "7a9a6a", "moss_chance": 0.04, "note": "platform.c: pale stone, warm in the cloud-light (never white: no snow)"},
+    "boundary": {"style": "void"}
+  },
+  "flora": {
+    "grass_density": 0.3,
+    "grass_colors": ["8a9a6a", "9aaa7a", "7a8a5a", "a0b088"],
+    "flower_colors": ["e8d0f0", "f8e0e8", "f4d47a", "f0f0f8"],
+    "flower_threshold": 0.05,
+    "tree_types": [],
+    "tree_chance": 0.0,
+    "butterflies": 6,
+    "wind": 0.1
+  },
+  "props": [
+    {"kind": "cloud_sea", "at": [192, 560], "size": [1100, 400], "elevation": -4.5, "count": 22, "billow": 1.2, "drift": 0.8, "colors": ["ecc8b4", "f0d4bc", "e4b8a4", "f2dcc8"], "thickness": [0.5, 1.2], "note": "platform.c: 祥云朵朵, 瑞彩千条 — rose and gold cloud below the summit, south"},
+    {"kind": "cloud_sea", "at": [192, -240], "size": [1100, 400], "elevation": -4.5, "count": 22, "billow": 1.2, "drift": 0.8, "colors": ["ecc8b4", "f0d4bc", "e4b8a4", "f2dcc8"], "thickness": [0.5, 1.2], "note": "and north"},
+    {"kind": "cloud_sea", "at": [-360, 160], "size": [400, 600], "elevation": -4.5, "count": 14, "billow": 1.2, "drift": 0.8, "colors": ["ecc8b4", "f0d4bc", "e4b8a4"], "thickness": [0.5, 1.2], "note": "west"},
+    {"kind": "cloud_sea", "at": [744, 160], "size": [400, 600], "elevation": -4.5, "count": 14, "billow": 1.2, "drift": 0.8, "colors": ["ecc8b4", "f0d4bc", "e4b8a4"], "thickness": [0.5, 1.2], "note": "east"},
+    {"kind": "glow", "at": [192, 136], "size": [16, 16], "color": "ffd8b0", "day": 0.6, "night": 1.6, "range": 10.0, "height": 4.0, "note": "瑞彩: a warm light over the 云台"},
+    {"kind": "glow", "at": [60, 60], "size": [16, 16], "color": "d8b8ff", "day": 0.4, "night": 1.2, "range": 7.0, "height": 3.0},
+    {"kind": "glow", "at": [330, 260], "size": [16, 16], "color": "b8e0ff", "day": 0.4, "night": 1.2, "range": 7.0, "height": 3.0},
+    {"kind": "stains", "at": [192, 160], "size": [240, 200], "count": 6, "colors": ["e6dece", "ece4d4"], "note": "the stone worn smooth"},
+    {"kind": "strange_stone", "at": [16, 48], "size": [24, 24], "height": 1.2, "on_cliff": true, "colors": ["a8aab0", "b8bac0", "9a9ca0"], "note": "on the rock rim round the 云台"},
+    {"kind": "strange_stone", "at": [368, 48], "size": [24, 24], "height": 1.0, "on_cliff": true, "colors": ["a8aab0", "b8bac0", "9a9ca0"]},
+    {"kind": "candles", "at": [230, 150], "size": [16, 16], "count": 3, "note": "candles before the 云台"}
+  ],
+  "ambience": {
+    "birds": [{"at": [192, 160], "radius": 320, "count": 3, "height": 7.0, "color": "f4f4f0", "note": "platform.c: 仙踪难觅 — cranes"}],
+    "fall": [{"rect": [0, 0, 384, 320], "count": 14, "height": 5.0, "colors": ["f8e0e8", "f4d47a", "e8d0f0"], "wind": [0.2, 0.1], "up": true, "glow": true, "note": "瑞彩千条 — motes of light"}]
+  },
+  "actors": {
+    "default": {"coat": "7a7462"},
+    "choyin.npc.cityguard": {"coat": "8a3a30", "hat": true},
+    "common.npc.garrison": {"coat": "8a3a30", "hat": true},
+    "choyin.npc.cake_vendor": {"coat": "8a7a5a"},
+    "choyin.npc.dumpling_seller": {"coat": "a09070"},
+    "choyin.npc.cucurbit_seller": {"coat": "9a6a4a"},
+    "choyin.npc.judge_gu": {"coat": "2a2a30", "hat": true, "note": "衙役: black with a red sash"},
+    "choyin.npc.magistra": {"coat": "2f4a6a", "hat": true, "note": "带刀侍卫"},
+    "choyin.npc.yamen_po": {"coat": "3a3a44", "hat": true},
+    "choyin.npc.judgeman": {"coat": "3a6a5a", "hat": true, "note": "程不平: the magistrate's green robe"},
+    "choyin.npc.crone": {"coat": "5a5048"},
+    "choyin.npc.visitor": {"coat": "6a8a7a"},
+    "choyin.npc.scholar": {"coat": "8aa0b8", "note": "书生: a pale blue gown"},
+    "choyin.npc.girl": {"coat": "d88aa0", "note": "官家小姐"},
+    "choyin.npc.maid": {"coat": "7aa08a"},
+    "choyin.npc.lady": {"coat": "b05a6a"},
+    "choyin.npc.youngman": {"coat": "7a5a9a", "note": "贵公子"},
+    "choyin.npc.servant": {"coat": "5a5a52"},
+    "choyin.npc.guard": {"coat": "3a5a8a", "note": "hotel3.c: 一个身穿蓝布衣的人"},
+    "choyin.npc.boss": {"coat": "4a5a3a", "hat": true, "note": "汤掌柜"},
+    "choyin.npc.sergeant": {"coat": "7a4a30", "hat": true, "note": "武官"},
+    "choyin.npc.oldman": {"coat": "8a8a7a", "scale": 1.15},
+    "choyin.npc.lboy": {"coat": "6a3a8a", "scale": 0.8, "note": "紫衣童子"},
+    "choyin.npc.ghost": {"coat": "c8ccd4", "name_alpha": 0.6, "note": "孤魂野鬼: pale"},
+    "choyin.npc.shadow": {"coat": "2a2a30", "scale": 1.15, "note": "朦胧鬼影: 一个高大的身影"},
+    "common.npc.beggar.master": {"coat": "6a5a40"},
+    "common.npc.scholar.master": {"coat": "4a6a8a", "hat": true, "note": "骆云舟"},
+    "choyin.npc.serpent": {"body": "snake", "colors": ["1c1a18", "2c2824", "3a342e"], "belly": "5a5048", "crest": "4a3a3a", "scale": 1.6, "note": "serpent.c: 一只乌黑油亮的巨蟒, 头上生著一个大肉瘤"},
+    "choyin.npc.crane": {"body": "flyer", "wings": ["f4f4f0", "e8e8e4"], "hover": 0.5, "note": "crane.c: 白羽如雪"},
+    "choyin.npc.lion": {"body": "crawler", "colors": ["4a4034", "5a4c3c", "c83a2a"], "scale": 1.4, "note": "护草神兽"}
+  },
+  "entrances": {
+  }
+}

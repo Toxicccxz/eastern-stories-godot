@@ -621,12 +621,12 @@ msgstr ""
 #. es2:d/latemoon/bamboo2 short
 #. es2:d/latemoon/bamboo4 short
 #. es2:d/choyin/fence short
-#: scenes/world/choyin/choyin_east.tscn scenes/world/latemoon/latemoon_hills.tscn data/latemoon/rooms.json data/choyin/rooms.json
+#: scenes/world/choyin/choyin_east.tscn scenes/world/latemoon/latemoon_hills.tscn data/latemoon/rooms.json data/choyin/rooms.json data/choyin/voxel/club_house.json
 msgid "竹林"
 msgstr ""
 
 #. es2:d/choyin/tongbhill short
-#: scenes/world/choyin/choyin_east.tscn data/choyin/rooms.json
+#: scenes/world/choyin/choyin_east.tscn data/choyin/rooms.json data/choyin/voxel/furnace.json
 msgid "桐柏山"
 msgstr ""
 
@@ -660,7 +660,7 @@ msgstr ""
 #. guye.mountain title
 #. guye.mountain region
 #. guye name
-#: scenes/world/choyin/choyin_guye.tscn data/common/journal.json data/choyin/world.json
+#: scenes/world/choyin/choyin_guye.tscn data/common/journal.json data/choyin/world.json data/choyin/voxel/town.json
 msgid "姑射山"
 msgstr ""
 
@@ -668,7 +668,7 @@ msgstr ""
 #. es2:d/choyin/hotel1 short
 #. es2:d/choyin/hotel2 short
 #. es2:d/choyin/hotel3 short
-#: scenes/world/choyin/choyin_hotel_2f.tscn scenes/world/choyin/choyin_hotel_3f.tscn scenes/world/choyin/hotel_house.tscn data/choyin/npcs.json data/choyin/rooms.json
+#: scenes/world/choyin/choyin_hotel_2f.tscn scenes/world/choyin/choyin_hotel_3f.tscn scenes/world/choyin/hotel_house.tscn data/choyin/npcs.json data/choyin/rooms.json data/choyin/voxel/hotel_house.json
 msgid "福林酒楼"
 msgstr ""
 
@@ -695,6 +695,10 @@ msgstr ""
 msgid "云台"
 msgstr ""
 
+#: scenes/world/choyin/choyin_summit.tscn
+msgid "云"
+msgstr ""
+
 #. es2:d/choyin/n_gate short
 #: scenes/world/choyin/choyin_town.tscn data/choyin/rooms.json
 msgid "乔阴县城北门"
@@ -705,7 +709,7 @@ msgstr ""
 #. es2:d/choyin/n_street3 short
 #. es2:d/choyin/s_street3 short
 #. es2:d/choyin/s_street2 short
-#: scenes/world/choyin/choyin_town.tscn data/choyin/rooms.json
+#: scenes/world/choyin/choyin_town.tscn data/choyin/rooms.json data/choyin/voxel/hotel_house.json
 msgid "福林大街"
 msgstr ""
 
@@ -734,7 +738,7 @@ msgid "东大街"
 msgstr ""
 
 #. es2:d/choyin/e_gate short
-#: scenes/world/choyin/choyin_town.tscn data/choyin/rooms.json
+#: scenes/world/choyin/choyin_town.tscn data/choyin/rooms.json data/choyin/voxel/east.json
 msgid "东城门"
 msgstr ""
 
@@ -788,7 +792,7 @@ msgstr ""
 #. choyin.taolin title
 #. es2:d/choyin/taolin short
 #. choyin.taolin.landmark.grove name
-#: scenes/world/choyin/choyin_town.tscn data/common/journal.json data/choyin/rooms.json data/choyin/world.json
+#: scenes/world/choyin/choyin_town.tscn data/common/journal.json data/choyin/rooms.json data/choyin/world.json data/choyin/voxel/town.json
 msgid "桃林"
 msgstr ""
 
@@ -869,7 +873,7 @@ msgid "南 · 衙门口"
 msgstr ""
 
 #. es2:d/choyin/club short
-#: scenes/world/choyin/club_house.tscn data/choyin/rooms.json
+#: scenes/world/choyin/club_house.tscn data/choyin/rooms.json data/choyin/voxel/east.json
 msgid "草堂"
 msgstr ""
 
@@ -31474,6 +31478,102 @@ msgid ""
 "一个面色青白的中年人，目光扫过来便叫人背脊发凉。告示上说他一夜之间屠了邻县一户人家，官府悬了最重的赏。\n"
 msgstr ""
 
+#: data/choyin/voxel/club_house.json
+msgid "书有未曾经我读 事无不可对人言"
+msgstr ""
+
+#: data/choyin/voxel/guye.json data/choyin/voxel/town.json
+msgid "南门"
+msgstr ""
+
+#: data/choyin/voxel/town.json
+msgid "北门"
+msgstr ""
+
+#: data/choyin/voxel/town.json
+msgid "西门"
+msgstr ""
+
+#: data/choyin/voxel/town.json
+msgid "东门"
+msgstr ""
+
+#: data/choyin/voxel/town.json
+msgid "泓水南岸"
+msgstr ""
+
+#: data/choyin/voxel/town.json
+msgid "城外土路"
+msgstr ""
+
+#: data/choyin/voxel/town.json
+msgid "福林楼"
+msgstr ""
+
+#: data/choyin/voxel/town.json
+msgid "桃林深处"
+msgstr ""
+
+#: data/choyin/voxel/town.json
+msgid "酒"
+msgstr ""
+
+#: data/choyin/voxel/town.json
+msgid "铁"
+msgstr ""
+
+#: data/choyin/voxel/town.json
+msgid "老姚布庄"
+msgstr ""
+
+#: data/choyin/voxel/town.json
+msgid "酒楼"
+msgstr ""
+
+#: data/choyin/voxel/town.json
+msgid "书肆"
+msgstr ""
+
+#: data/choyin/voxel/town.json
+msgid "染坊"
+msgstr ""
+
+#: data/choyin/voxel/town.json data/cloud/voxel/outdoor.json
+msgid "杂货"
+msgstr ""
+
+#: data/choyin/voxel/town.json
+msgid "米"
+msgstr ""
+
+#: data/choyin/voxel/town.json
+msgid "南北货"
+msgstr ""
+
+#: data/choyin/voxel/town.json
+msgid "陶"
+msgstr ""
+
+#: data/choyin/voxel/town.json
+msgid "乔阴县衙"
+msgstr ""
+
+#: data/choyin/voxel/yamen.json
+msgid "明镜高悬"
+msgstr ""
+
+#: data/choyin/voxel/yamen.json
+msgid "肃静"
+msgstr ""
+
+#: data/choyin/voxel/yamen.json
+msgid "回避"
+msgstr ""
+
+#: data/choyin/voxel/yamen.json
+msgid "衙门口"
+msgstr ""
+
 #: data/cloud/voxel/butchery_house.json
 msgid "本店即将收购死狗"
 msgstr ""
@@ -31516,10 +31616,6 @@ msgstr ""
 
 #: data/cloud/voxel/outdoor.json
 msgid "茶"
-msgstr ""
-
-#: data/cloud/voxel/outdoor.json
-msgid "杂货"
 msgstr ""
 
 #: data/cloud/voxel/tailory_house.json

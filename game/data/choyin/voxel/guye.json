@@ -1,0 +1,129 @@
+{
+  "indoor": false,
+  "camera_size": 24,
+  "note": "spath.c, rockroad.c, guyehill.c: the earth road south of the 南门 between ruined houses, the gravel road climbing to the broken stele 「姑射山」 under a mountain wrapped in cloud, the 绝壁 with its ten-thousand-year tree and tangled vines over the deep valley, the cave half way up the cliff with clouds drifting out of it.",
+  "edge": {"minimum_margin": 48, "maximum_margin": 112, "depth": 4.0, "top": "4e5a3c", "bottom": "3a3a2e", "strata": ["6a6458", "74706a", "5e5a50"]},
+  "light": {
+    "sky": ["b4c8d4", "0e1624"],
+    "ambient": ["d6d4c8", "6a7ca6"],
+    "ambient_energy": [0.46, 0.32],
+    "sun": ["fff0d0", "a0b8ec"],
+    "sun_energy": [0.92, 0.34],
+    "carried": {"color": "ffd9a0", "range": 5.0, "attenuation": 1.2, "day": 0.0, "night": 0.5},
+    "fog": {"color": ["c8d0d4", "1c2433"], "density": [0.0, 0.0], "depth": [22.0, 60.0], "depth_density": 0.7}
+  },
+  "cliffs": {
+    "kinds": ["cliff"],
+    "low": 2.0,
+    "high": 7.0,
+    "rise": 100,
+    "step": 0.5,
+    "rough": 0.4,
+    "grooves": 0.1,
+    "keep": 400,
+    "strata": ["6e7478", "7a8084", "868c90", "62686c", "5a6064"],
+    "tops": ["4e6a3a", "587444"],
+    "south_rise": 1.0,
+    "moss": {"colors": ["4d6a3c", "5d7a45"], "amount": 0.3},
+    "note": "guyehill.c: 南耸绝壁, 下临深谷"
+  },
+  "exit_trails": {
+    "choyin.spath.north": {"cells": 8, "kind": "path", "width": 10}
+  },
+  "ground": {
+    "path": {"colors": ["a8885a", "b29262", "9c7e52", "b89a6a"], "note": "n_gate.c: 一条黄土路; sw_road1.c: 乡村气息"},
+    "rock": {"style": "scree", "colors": ["8a8278", "948c82", "7e766c"], "gravel": 0.9, "stones": 0.06, "pebbles": ["a09890", "888078", "b0a8a0"], "note": "rockroad.c: 一条铺著砾石的上路, 险峻难行"},
+    "grass": {"colors": ["4e6e3a", "58783f", "628246"]},
+    "forest": {"style": "litter", "colors": ["4a5634", "525e38", "5a663c"], "needles": ["8a7a4a", "9a8a52", "7a8a4a"], "strew": 0.4, "moss": 0.3, "moss_colors": ["4d6a3c", "5d7a45"]}
+  },
+  "ground_tints": {
+    "bank": "5a6a50",
+    "mud": "7a7262",
+    "chips": ["9a9488", "a8a296", "8a8478"],
+    "dust": "b8a27a",
+    "grit": "a8987a"
+  },
+  "flora": {
+    "grass_density": 0.9,
+    "density": {"path": 0.12, "rock": 0.08},
+    "grass_colors": ["3f5a33", "4f6c3c", "628048", "7a9450"],
+    "flower_colors": ["f2e6c8", "b890d0", "e8e0f0", "e8c84a"],
+    "flower_threshold": 0.12,
+    "blossom_trees": 0.0,
+    "tree_types": ["broadleaf", "pine", "locust", "broadleaf"],
+    "tree_kinds": ["forest", "boundary"],
+    "tree_chance": 0.75,
+    "tree_spacing": 52,
+    "wind": 0.2,
+    "butterflies": 4,
+    "bands": [{"within": 32, "types": ["shrub"]}, {"within": 112, "types": ["shrub", "broadleaf", "shrub"]}],
+    "south_reach": 2.5,
+    "areas": [{"rect": [192, 680, 768, 960], "tree_types": ["broadleaf", "broadleaf", "pine"], "tree_chance": 0.9, "tree_spacing": 44, "note": "guyehill.c: 此地林木繁茂, 藤蔓错杂"}],
+    "meadows": [{"rect": [320, 64, 640, 384], "on": ["grass"], "scale": [1.0, 1.5], "density": 0.4}]
+  },
+  "buildings": [
+    {"rect": [336, 96, 400, 176], "note": "spath.c: 路旁隐约可见房舍, 皆已破败", "construction": "earth", "wall": "a89a7a", "bands": ["a68a5f", "9a7f57", "b0946a"], "timber": "6a5a42", "height": 2.4, "ruined": true, "porch": "none", "goods": "none", "lanterns": false, "bay": 3, "foundation": 0.3},
+    {"rect": [560, 208, 624, 288], "note": "and another", "construction": "earth", "wall": "a89a7a", "bands": ["a68a5f", "9a7f57", "b0946a"], "timber": "6a5a42", "height": 2.2, "ruined": true, "porch": "none", "goods": "none", "lanterns": false, "bay": 3, "foundation": 0.3}
+  ],
+  "props": [
+    {"kind": "cart_wheel", "at": [410, 200], "note": "left when the farms were abandoned"},
+    {"kind": "rubble", "at": [560, 300], "size": [48, 32]},
+    {"kind": "lumber", "at": [330, 190], "size": [48, 32]},
+    {"kind": "tracks", "at": [480, 240], "size": [120, 240]},
+    {"kind": "rock_pile", "at": [370, 560], "size": [48, 32]},
+    {"kind": "rock_pile", "at": [600, 640], "size": [48, 32]},
+    {"kind": "boulder", "at": [664, 450], "size": [48, 40]},
+    {"kind": "stains", "at": [480, 540], "size": [140, 300], "count": 6, "colors": ["9a9288", "a29a90"], "note": "rockroad.c: 险峻难行 — the gravel scuffed"},
+    {"kind": "far_peak", "at": [480, 1760], "size": [520, 320], "height": 11.0, "colors": ["7a8a98", "8a9aa6", "9aaab4", "6a7a88"], "note": "rockroad.c: 南面一座高山, 云雾缭绕险峻异常 — 姑射山's summit above the cliff"},
+    {"kind": "cloud_sea", "at": [480, 1500], "size": [900, 300], "elevation": -6.0, "count": 16, "billow": 1.2, "drift": 0.8, "colors": ["d6dfe4", "c8d4da", "e6ecef"], "thickness": [0.4, 0.9], "note": "rockroad.c: 云雾缭绕 — cloud in the valley far below the cliff (south and high would project over the way)"},
+    {"kind": "cave_mouth", "at": [560, 944], "size": [48, 32], "rotation": 180, "height": 1.6, "elevation": 2.6, "colors": ["5a6468", "667074", "4e585c"], "note": "guyehill.c: 半山腰处, 隐隐可见一洞 — on the cliff face, facing the 绝壁"},
+    {"kind": "cloud_sea", "at": [560, 916], "size": [64, 32], "elevation": 3.2, "count": 2, "billow": 0.3, "drift": 1.6, "colors": ["c4d0d8", "d6dfe4"], "thickness": [0.12, 0.24], "note": "guyehill.c: 流云出岫 — a wisp at the mouth, no more"},
+    {"kind": "vines", "at": [700, 944], "size": [96, 16], "height": 4.5, "count": 8, "length": [2.0, 4.0], "on_cliff": true, "elevation": 1.0},
+    {"kind": "vines", "at": [300, 944], "size": [96, 16], "height": 4.5, "count": 8, "length": [2.0, 4.0], "on_cliff": true, "elevation": 1.0},
+    {"kind": "ferns", "at": [240, 880], "size": [32, 24], "count": 3},
+    {"kind": "ferns", "at": [700, 880], "size": [32, 24], "count": 3},
+    {"kind": "mossy_rock", "at": [420, 900], "size": [40, 28]},
+    {"kind": "mushrooms", "at": [380, 860], "size": [40, 24]},
+    {"kind": "glow", "at": [480, 500], "size": [16, 16], "color": "a8c0e8", "day": 0.0, "night": 1.0, "range": 8.0, "height": 4.0},
+    {"kind": "glow", "at": [480, 840], "size": [16, 16], "color": "a8c0e8", "day": 0.0, "night": 1.0, "range": 8.0, "height": 4.0}
+  ],
+  "ambience": {
+    "birds": [{"at": [480, 900], "radius": 260, "count": 3, "height": 10.0, "color": "e8e4dc", "note": "guyehill.c: 有仙人乘鹤飞升 — cranes high over the cliff"}],
+    "fall": [{"rect": [192, 704, 768, 960], "count": 10, "height": 5.0, "colors": ["6f7a3e", "8a8a48"], "wind": [0.3, 0.1]}]
+  },
+  "actors": {
+    "default": {"coat": "7a7462"},
+    "choyin.npc.cityguard": {"coat": "8a3a30", "hat": true},
+    "common.npc.garrison": {"coat": "8a3a30", "hat": true},
+    "choyin.npc.cake_vendor": {"coat": "8a7a5a"},
+    "choyin.npc.dumpling_seller": {"coat": "a09070"},
+    "choyin.npc.cucurbit_seller": {"coat": "9a6a4a"},
+    "choyin.npc.judge_gu": {"coat": "2a2a30", "hat": true, "note": "衙役: black with a red sash"},
+    "choyin.npc.magistra": {"coat": "2f4a6a", "hat": true, "note": "带刀侍卫"},
+    "choyin.npc.yamen_po": {"coat": "3a3a44", "hat": true},
+    "choyin.npc.judgeman": {"coat": "3a6a5a", "hat": true, "note": "程不平: the magistrate's green robe"},
+    "choyin.npc.crone": {"coat": "5a5048"},
+    "choyin.npc.visitor": {"coat": "6a8a7a"},
+    "choyin.npc.scholar": {"coat": "8aa0b8", "note": "书生: a pale blue gown"},
+    "choyin.npc.girl": {"coat": "d88aa0", "note": "官家小姐"},
+    "choyin.npc.maid": {"coat": "7aa08a"},
+    "choyin.npc.lady": {"coat": "b05a6a"},
+    "choyin.npc.youngman": {"coat": "7a5a9a", "note": "贵公子"},
+    "choyin.npc.servant": {"coat": "5a5a52"},
+    "choyin.npc.guard": {"coat": "3a5a8a", "note": "hotel3.c: 一个身穿蓝布衣的人"},
+    "choyin.npc.boss": {"coat": "4a5a3a", "hat": true, "note": "汤掌柜"},
+    "choyin.npc.sergeant": {"coat": "7a4a30", "hat": true, "note": "武官"},
+    "choyin.npc.oldman": {"coat": "8a8a7a", "scale": 1.15},
+    "choyin.npc.lboy": {"coat": "6a3a8a", "scale": 0.8, "note": "紫衣童子"},
+    "choyin.npc.ghost": {"coat": "c8ccd4", "name_alpha": 0.6, "note": "孤魂野鬼: pale"},
+    "choyin.npc.shadow": {"coat": "2a2a30", "scale": 1.15, "note": "朦胧鬼影: 一个高大的身影"},
+    "common.npc.beggar.master": {"coat": "6a5a40"},
+    "common.npc.scholar.master": {"coat": "4a6a8a", "hat": true, "note": "骆云舟"},
+    "choyin.npc.serpent": {"body": "snake", "colors": ["1c1a18", "2c2824", "3a342e"], "belly": "5a5048", "crest": "4a3a3a", "scale": 1.6, "note": "serpent.c: 一只乌黑油亮的巨蟒, 头上生著一个大肉瘤"},
+    "choyin.npc.crane": {"body": "flyer", "wings": ["f4f4f0", "e8e8e4"], "hover": 0.5, "note": "crane.c: 白羽如雪"},
+    "choyin.npc.lion": {"body": "crawler", "colors": ["4a4034", "5a4c3c", "c83a2a"], "scale": 1.4, "note": "护草神兽"}
+  },
+  "entrances": {
+    "choyin.spath.north": {"title": "南门"}
+  }
+}

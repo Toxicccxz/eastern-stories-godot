@@ -1,0 +1,95 @@
+{
+  "indoor": false,
+  "camera_size": 22,
+  "note": "hollow-hollow3.c: 两面皆为峭壁, 光滑无物. 一阵寒谷幽香 — the cold valley under the cliff: sheer smooth walls either side, thin grass, a cold scent from nowhere; at its end the orchid by the vase-shaped hollow full of dew.",
+  "edge": {"minimum_margin": 16, "maximum_margin": 48, "depth": 3.0, "top": "6e7478", "bottom": "4a5054", "strata": ["6e7478", "7a8084", "62686c"]},
+  "light": {
+    "sky": ["8aa0b4", "0e1624"],
+    "ambient": ["8aa0b4", "3a4a66"],
+    "ambient_energy": [0.36, 0.3],
+    "sun": ["d8e4f0", "98acd8"],
+    "sun_energy": [0.45, 0.24],
+    "fog": {"color": ["98acbc", "1c2433"], "density": [0.0, 0.0], "depth": [44.0, 100.0], "depth_density": 0.35},
+    "carried": {"color": "d8e8ff", "range": 6.0, "attenuation": 1.2, "day": 0.0, "night": 0.9}
+  },
+  "cliffs": {
+    "kinds": ["cliff"],
+    "low": 3.0,
+    "high": 7.0,
+    "rise": 60,
+    "step": 0.5,
+    "rough": 0.08,
+    "grooves": 0.02,
+    "keep": 200,
+    "strata": ["5a6468", "667074", "727c80", "4e585c"],
+    "tops": ["4a5e52", "52685a"],
+    "south_rise": 0.6,
+    "note": "hollow.c: 两面皆为峭壁, 光滑无物 — smooth faces, kept lower toward the camera"
+  },
+  "ground": {
+    "grass": {"colors": ["4a6a5a", "527464", "5a7a6a", "44605a"], "note": "cold green"},
+    "boundary": {"style": "void"}
+  },
+  "flora": {
+    "grass_density": 0.6,
+    "grass_colors": ["3a5a4a", "4a6a5a", "5a7a6a", "6a8a7a"],
+    "flower_colors": ["d8c0ea", "e8e0f0", "c8d8f0", "e0d0f0"],
+    "flower_threshold": 0.06,
+    "tree_types": [],
+    "tree_chance": 0.0,
+    "butterflies": 2,
+    "wind": 0.05
+  },
+  "props": [
+    {"kind": "ferns", "at": [60, 300], "size": [32, 24], "count": 3, "colors": ["3e6a5a", "4a7a66"]},
+    {"kind": "ferns", "at": [700, 460], "size": [32, 24], "count": 3, "colors": ["3e6a5a", "4a7a66"]},
+    {"kind": "ferns", "at": [540, 60], "size": [32, 24], "count": 2, "colors": ["3e6a5a", "4a7a66"]},
+    {"kind": "mossy_rock", "at": [300, 480], "size": [32, 24]},
+    {"kind": "stains", "at": [400, 380], "size": [300, 160], "count": 6, "colors": ["44605a", "4a6660"], "note": "damp"},
+    {"kind": "drip", "at": [720, 60]},
+    {"kind": "glow", "at": [690, 80], "size": [16, 16], "color": "c8d8ff", "day": 0.4, "night": 1.2, "range": 5.0, "height": 1.5, "note": "hollow3.c: 暗香浮动 — a cold light at the valley's end"},
+    {"kind": "glow", "at": [128, 384], "size": [16, 16], "color": "a8c0e8", "day": 0.0, "night": 0.9, "range": 8.0, "height": 4.0, "note": "moonlight down the cleft"},
+    {"kind": "glow", "at": [500, 384], "size": [16, 16], "color": "a8c0e8", "day": 0.0, "night": 0.9, "range": 8.0, "height": 4.0},
+    {"kind": "bones", "at": [80, 440], "size": [48, 28], "note": "guyehill.c: 只听见一声杀猪般的惨叫 — those who fell"}
+  ],
+  "ambience": {
+    "dust": [{"rect": [0, 256, 768, 512], "count": 20, "color": "dfe6f0", "wind": [0.6, 0.0], "size": [0.3, 0.03, 0.12], "note": "the cold wind down the valley"}]
+  },
+  "actors": {
+    "default": {"coat": "7a7462"},
+    "choyin.npc.cityguard": {"coat": "8a3a30", "hat": true},
+    "common.npc.garrison": {"coat": "8a3a30", "hat": true},
+    "choyin.npc.cake_vendor": {"coat": "8a7a5a"},
+    "choyin.npc.dumpling_seller": {"coat": "a09070"},
+    "choyin.npc.cucurbit_seller": {"coat": "9a6a4a"},
+    "choyin.npc.judge_gu": {"coat": "2a2a30", "hat": true, "note": "衙役: black with a red sash"},
+    "choyin.npc.magistra": {"coat": "2f4a6a", "hat": true, "note": "带刀侍卫"},
+    "choyin.npc.yamen_po": {"coat": "3a3a44", "hat": true},
+    "choyin.npc.judgeman": {"coat": "3a6a5a", "hat": true, "note": "程不平: the magistrate's green robe"},
+    "choyin.npc.crone": {"coat": "5a5048"},
+    "choyin.npc.visitor": {"coat": "6a8a7a"},
+    "choyin.npc.scholar": {"coat": "8aa0b8", "note": "书生: a pale blue gown"},
+    "choyin.npc.girl": {"coat": "d88aa0", "note": "官家小姐"},
+    "choyin.npc.maid": {"coat": "7aa08a"},
+    "choyin.npc.lady": {"coat": "b05a6a"},
+    "choyin.npc.youngman": {"coat": "7a5a9a", "note": "贵公子"},
+    "choyin.npc.servant": {"coat": "5a5a52"},
+    "choyin.npc.guard": {"coat": "3a5a8a", "note": "hotel3.c: 一个身穿蓝布衣的人"},
+    "choyin.npc.boss": {"coat": "4a5a3a", "hat": true, "note": "汤掌柜"},
+    "choyin.npc.sergeant": {"coat": "7a4a30", "hat": true, "note": "武官"},
+    "choyin.npc.oldman": {"coat": "8a8a7a", "scale": 1.15},
+    "choyin.npc.lboy": {"coat": "6a3a8a", "scale": 0.8, "note": "紫衣童子"},
+    "choyin.npc.ghost": {"coat": "c8ccd4", "name_alpha": 0.6, "note": "孤魂野鬼: pale"},
+    "choyin.npc.shadow": {"coat": "2a2a30", "scale": 1.15, "note": "朦胧鬼影: 一个高大的身影"},
+    "common.npc.beggar.master": {"coat": "6a5a40"},
+    "common.npc.scholar.master": {"coat": "4a6a8a", "hat": true, "note": "骆云舟"},
+    "choyin.npc.serpent": {"body": "snake", "colors": ["1c1a18", "2c2824", "3a342e"], "belly": "5a5048", "crest": "4a3a3a", "scale": 1.6, "note": "serpent.c: 一只乌黑油亮的巨蟒, 头上生著一个大肉瘤"},
+    "choyin.npc.crane": {"body": "flyer", "wings": ["f4f4f0", "e8e8e4"], "hover": 0.5, "note": "crane.c: 白羽如雪"},
+    "choyin.npc.lion": {"body": "crawler", "colors": ["4a4034", "5a4c3c", "c83a2a"], "scale": 1.4, "note": "护草神兽"}
+  },
+  "items": {
+    "es2:d/choyin/obj/orchid": {"kind": "orchid", "note": "hollow3.c: 一株寒谷幽兰"}
+  },
+  "entrances": {
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 20,
+  "note": "halfhole.c: 这里就是半山腰处的山洞. 四壁空无一物, 极为荒凉 — a bare cave half way up the cliff, wind and cloud at its mouth, the 缚仙绳 on the floor.",
+  "palette": {"wood": ["6e7478", "7a8084", "62686c"], "wall": "6e7478"},
+  "surfaces": {"choyin.halfhole": "cave_floor"},
+  "wall_looks": [
+    {"rect": [-32, -32, 352, 288], "style": "rock", "colors": ["6e7478", "7a8084", "62686c", "868c90"]}
+  ],
+  "ground": {
+    "cave_floor": {"style": "scree", "colors": ["5e6468", "6a7074", "565c60"], "gravel": 0.5, "stones": 0.05}
+  },
+  "light": {
+    "ambient": ["b8c0c8", "4a5060"],
+    "ambient_energy": [0.4, 0.3],
+    "sun": ["f0f0f0", "a8b4d0"],
+    "sun_energy": [0.3, 0.1],
+    "carried": {"color": "e8f0ff", "range": 5.0, "day": 0.4, "night": 1.0, "attenuation": 1.2}
+  },
+  "props": [
+    {"kind": "light_shaft", "at": [48, 200], "size": [64, 48], "height": 3.0, "rays": 5, "light": "f0f4ff", "day": 2.0, "night": 0.4, "note": "halfhole.c: the mouth, cloud drifting past it"},
+    {"kind": "cloud_sea", "at": [20, 230], "size": [120, 60], "elevation": 0.3, "count": 4, "billow": 0.5, "drift": 1.5, "colors": ["e6ecef", "f2f5f6"], "thickness": [0.2, 0.4], "note": "guyehill.c: 流云出岫"},
+    {"kind": "drip", "at": [200, 60]},
+    {"kind": "drip", "at": [280, 180]},
+    {"kind": "stalagmites", "at": [260, 60], "size": [48, 40]},
+    {"kind": "rubble", "at": [120, 100], "size": [48, 32]},
+    {"kind": "stains", "at": [160, 128], "size": [200, 120], "count": 5, "colors": ["6a7074", "727a7e"], "note": "halfhole.c: 极为荒凉 — nothing but dust"},
+    {"kind": "tracks", "at": [100, 160], "size": [120, 80]}
+  ],
+  "ambience": {
+    "dust": [{"rect": [0, 160, 120, 256], "count": 14, "color": "e8ecf0", "wind": [1.2, 0.0], "size": [0.4, 0.03, 0.06], "note": "wind through the mouth"}]
+  },
+  "actors": {
+    "default": {"coat": "7a7462"},
+    "choyin.npc.cityguard": {"coat": "8a3a30", "hat": true},
+    "common.npc.garrison": {"coat": "8a3a30", "hat": true},
+    "choyin.npc.cake_vendor": {"coat": "8a7a5a"},
+    "choyin.npc.dumpling_seller": {"coat": "a09070"},
+    "choyin.npc.cucurbit_seller": {"coat": "9a6a4a"},
+    "choyin.npc.judge_gu": {"coat": "2a2a30", "hat": true, "note": "衙役: black with a red sash"},
+    "choyin.npc.magistra": {"coat": "2f4a6a", "hat": true, "note": "带刀侍卫"},
+    "choyin.npc.yamen_po": {"coat": "3a3a44", "hat": true},
+    "choyin.npc.judgeman": {"coat": "3a6a5a", "hat": true, "note": "程不平: the magistrate's green robe"},
+    "choyin.npc.crone": {"coat": "5a5048"},
+    "choyin.npc.visitor": {"coat": "6a8a7a"},
+    "choyin.npc.scholar": {"coat": "8aa0b8", "note": "书生: a pale blue gown"},
+    "choyin.npc.girl": {"coat": "d88aa0", "note": "官家小姐"},
+    "choyin.npc.maid": {"coat": "7aa08a"},
+    "choyin.npc.lady": {"coat": "b05a6a"},
+    "choyin.npc.youngman": {"coat": "7a5a9a", "note": "贵公子"},
+    "choyin.npc.servant": {"coat": "5a5a52"},
+    "choyin.npc.guard": {"coat": "3a5a8a", "note": "hotel3.c: 一个身穿蓝布衣的人"},
+    "choyin.npc.boss": {"coat": "4a5a3a", "hat": true, "note": "汤掌柜"},
+    "choyin.npc.sergeant": {"coat": "7a4a30", "hat": true, "note": "武官"},
+    "choyin.npc.oldman": {"coat": "8a8a7a", "scale": 1.15},
+    "choyin.npc.lboy": {"coat": "6a3a8a", "scale": 0.8, "note": "紫衣童子"},
+    "choyin.npc.ghost": {"coat": "c8ccd4", "name_alpha": 0.6, "note": "孤魂野鬼: pale"},
+    "choyin.npc.shadow": {"coat": "2a2a30", "scale": 1.15, "note": "朦胧鬼影: 一个高大的身影"},
+    "common.npc.beggar.master": {"coat": "6a5a40"},
+    "common.npc.scholar.master": {"coat": "4a6a8a", "hat": true, "note": "骆云舟"},
+    "choyin.npc.serpent": {"body": "snake", "colors": ["1c1a18", "2c2824", "3a342e"], "belly": "5a5048", "crest": "4a3a3a", "scale": 1.6, "note": "serpent.c: 一只乌黑油亮的巨蟒, 头上生著一个大肉瘤"},
+    "choyin.npc.crane": {"body": "flyer", "wings": ["f4f4f0", "e8e8e4"], "hover": 0.5, "note": "crane.c: 白羽如雪"},
+    "choyin.npc.lion": {"body": "crawler", "colors": ["4a4034", "5a4c3c", "c83a2a"], "scale": 1.4, "note": "护草神兽"}
+  },
+  "items": {
+    "es2:d/choyin/obj/goldenrope": {"kind": "rope_coil", "colors": ["d8b848", "c8a030", "e8c860"], "note": "halfhole.c: 缚仙绳"}
+  },
+  "entrances": {
+  }
+}

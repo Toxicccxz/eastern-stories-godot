@@ -35,6 +35,8 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"beast_statue": _beast_statue(w,d)
 		"pagoda": _pagoda(w,d)
 		"temple_bell": _temple_bell(w,d)
+		"brick_shrine": _brick_shrine(w,d)
+		"pill_furnace": _pill_furnace(w,d)
 		_:
 			return false
 	return true
@@ -66,6 +68,44 @@ func _beast_statue(w: float, d: float) -> void:
 				s.tilted_box(root,Vector3((t-2)*0.07,y+0.25-t*0.02,-0.32-t*0.04),Vector3(0.06,0.04,0.6),[body,light,gilt][t%3],Vector3(0.5,0,0))
 			for side: float in [-0.08,0.08]:
 				s.box(root,Vector3(side,y+0.1,0.04),Vector3(0.04,0.2,0.04),gilt)
+		"tiger", "leopard":
+			# altar.c: 虎豹熊鹰四位将军 — a big cat standing on the plinth, stripes or spots on it.
+			s.box(root,Vector3(0,y+0.5,0),Vector3(0.44,0.4,0.9),body)
+			for leg: float in [-0.14,0.14]:
+				for z: float in [-0.3,0.3]:
+					s.box(root,Vector3(leg,y+0.18,z),Vector3(0.12,0.36,0.14),body)
+			s.box(root,Vector3(0,y+0.78,0.46),Vector3(0.36,0.34,0.36),body)
+			s.box(root,Vector3(0,y+0.68,0.68),Vector3(0.24,0.16,0.14),light)
+			for ear: float in [-0.12,0.12]:
+				s.box(root,Vector3(ear,y+0.98,0.4),Vector3(0.08,0.08,0.06),light)
+			s.tilted_box(root,Vector3(0,y+0.6,-0.6),Vector3(0.08,0.08,0.5),body,Vector3(0.4,0,0))
+			for i: int in 7:
+				var z: float = -0.36+i*0.12
+				if String(data.get("beast","")) == "tiger":
+					s.box(root,Vector3(0,y+0.5,z),Vector3(0.46,0.42,0.04),gilt if i%2 else "2a2622")
+				else:
+					s.box(root,Vector3(0.12*(1 if i%2 else -1),y+0.6+0.1*(i%3),z),Vector3(0.07,0.07,0.07),"2a2622")
+		"bear":
+			# A bear sitting up on its haunches, dark, a pale muzzle.
+			s.box(root,Vector3(0,y+0.5,0),Vector3(0.62,0.9,0.5),body)
+			s.box(root,Vector3(0,y+0.2,0.2),Vector3(0.7,0.36,0.5),body)
+			s.box(root,Vector3(0,y+1.1,0.08),Vector3(0.42,0.38,0.4),body)
+			s.box(root,Vector3(0,y+1.0,0.3),Vector3(0.2,0.16,0.14),light)
+			for ear: float in [-0.16,0.16]:
+				s.box(root,Vector3(ear,y+1.3,0.02),Vector3(0.1,0.1,0.08),light)
+			for arm: float in [-0.34,0.34]:
+				s.tilted_box(root,Vector3(arm,y+0.6,0.22),Vector3(0.14,0.5,0.14),body,Vector3(-0.5,0,0))
+			s.box(root,Vector3(0,y+0.66,0.26),Vector3(0.3,0.3,0.04),gilt)
+		"eagle":
+			# An eagle perched, wings half spread, hooked beak gilt.
+			s.box(root,Vector3(0,y+0.2,0),Vector3(0.3,0.4,0.26),light)
+			s.box(root,Vector3(0,y+0.62,0.02),Vector3(0.3,0.5,0.34),body)
+			s.box(root,Vector3(0,y+0.98,0.1),Vector3(0.2,0.22,0.22),light)
+			s.box(root,Vector3(0,y+0.96,0.24),Vector3(0.08,0.08,0.1),gilt)
+			for side: float in [-1.0,1.0]:
+				for f: int in 3:
+					s.tilted_box(root,Vector3(side*(0.24+f*0.16),y+0.7+f*0.1,-0.04),Vector3(0.14,0.5-f*0.08,0.06),body if f%2 else light,Vector3(0,0,-side*(0.6+f*0.2)))
+			s.tilted_box(root,Vector3(0,y+0.3,-0.26),Vector3(0.22,0.06,0.4),body,Vector3(0.5,0,0))
 		"crane":
 			s.box(root,Vector3(0,y+0.62,0),Vector3(0.22,0.24,0.42),body)
 			s.box(root,Vector3(0,y+0.95,0.2),Vector3(0.06,0.5,0.06),body)
@@ -88,6 +128,90 @@ func _beast_statue(w: float, d: float) -> void:
 				s.tilted_box(root,head+Vector3(side*0.1,0.16,-0.08),Vector3(0.04,0.22,0.04),gilt,Vector3(-0.5,0,side*0.3))
 				s.tilted_box(root,head+Vector3(side*0.14,-0.08,0.26),Vector3(0.02,0.02,0.3),gilt,Vector3(0.3,side*0.4,0))
 			s.box(root,Vector3(0.3,y+0.2,0.3),Vector3(0.12,0.12,0.12),"e8e4d8")
+
+## 小庙 (tree_tomb.c: 一间砖砌的小庙, 庙里供奉的当然就是「树王公」, 神像左手残缺不全, 木刻的神像竟然
+## 有一条条白蚁的痕迹): a little brick temple on a step, a tiled gable roof, the front open on
+## the wooden 树王公 (brown, one hand missing, termite trails on him), cups and incense before him.
+func _brick_shrine(w: float, d: float) -> void:
+	var bricks: Array = data.get("bricks",["8a6a5a","9a7a66","7a5e4e","a08470"])
+	var height: float = float(data.get("height",1.9))
+	s.box(root,Vector3(0,0.08,0),Vector3(w+0.2,0.16,d+0.2),"8a8a7e")
+	for course: int in ceili((height-0.16)/0.2):
+		var y: float = 0.26+course*0.2
+		for side: int in 3:
+			var at: Vector3 = [Vector3(-w/2+0.08,y,0),Vector3(w/2-0.08,y,0),Vector3(0,y,-d/2+0.08)][side]
+			var size: Vector3 = Vector3(0.16,0.19,d) if side<2 else Vector3(w,0.19,0.16)
+			s.box(root,at+Vector3(0.0,0,0.02*(course%2)),size,String(bricks[(course+side)%bricks.size()]))
+	s.box(root,Vector3(0,height+0.04,0),Vector3(w+0.3,0.08,d+0.3),"5a4a3e")
+	var tint := Color(String(data.get("roof","4a4e50")))
+	for row: int in 3:
+		for side: float in [-1.0,1.0]:
+			s.tilted_box(root,Vector3(0,height+0.16+row*0.14,side*(d*0.3-row*0.1)),Vector3(w+0.36,0.08,d*0.36),tint.lightened(row*0.05).to_html(false),Vector3(side*0.4,0,0))
+	s.box(root,Vector3(0,height+0.62,0),Vector3(w+0.5,0.1,0.14),tint.darkened(0.15).to_html(false))
+	s.box(root,Vector3(0,height*0.55,-d*0.1),Vector3(w-0.36,height-0.3,d-0.3),"120f0d")
+	# 树王公: a wood-cut figure seated on a block, the left hand gone, pale termite trails.
+	var wood: String = String(data.get("wood","6a4a34"))
+	s.box(root,Vector3(0,0.46,-d*0.14),Vector3(0.36,0.36,0.3),wood)
+	s.box(root,Vector3(0,0.86,-d*0.16),Vector3(0.3,0.44,0.26),wood)
+	s.box(root,Vector3(0,1.2,-d*0.16),Vector3(0.22,0.24,0.22),"8a6a4a")
+	s.box(root,Vector3(0.18,0.78,-d*0.08),Vector3(0.08,0.3,0.08),wood)
+	for trail: int in 3:
+		s.box(root,Vector3(-0.1+trail*0.1,0.74+trail*0.12,-d*0.16+0.14),Vector3(0.02,0.16,0.01),"d8d0b8")
+	s.box(root,Vector3(0,0.3,d*0.22),Vector3(w-0.5,0.08,0.3),"5a4a3e")
+	for cup: int in 3:
+		s.box(root,Vector3(-0.2+cup*0.2,0.38,d*0.22),Vector3(0.08,0.07,0.08),"8a7a5a")
+	s.box(root,Vector3(0,0.42,d*0.38),Vector3(0.12,0.16,0.12),"5a4a3a")
+	for stick: int in 3:
+		s.box(root,Vector3(-0.03+stick*0.03,0.62,d*0.38),Vector3(0.012,0.3,0.012),"b8352a:glow" if stick==1 else "a08060")
+	if ambience != null:
+		ambience.smoke(root,Vector3(0,0.8,d*0.38),"a8a098",3,0.12)
+
+## 丹炉 (stove.c: 雷霆不断击向一粒粒仙丹, 仙丹慢慢由黑转为红色, 炉门好象开着): the immortal's
+## furnace — a bronze tripod with a round belly, a domed lid with a knob, the door open on +z and
+## the pills reddening inside, flames licking round them, smoke out of the lid.
+func _pill_furnace(w: float, d: float) -> void:
+	var bronze: Array = data.get("colors",["5d5440","706549","4a4434","8a7a52"])
+	var tall: float = float(data.get("height",2.6))
+	var r: float = minf(w,d)*0.42
+	for leg: int in 3:
+		var a: float = leg*TAU/3.0+PI/2
+		s.tilted_box(root,Vector3(cos(a)*r*0.7,0.35,sin(a)*r*0.7),Vector3(0.18,0.7,0.18),String(bronze[2]),Vector3(0,-a,0))
+		s.box(root,Vector3(cos(a)*r*0.8,0.06,sin(a)*r*0.8),Vector3(0.26,0.12,0.26),String(bronze[2]))
+	for i: int in 3:
+		var a: float = i*PI/3.0
+		s.tilted_box(root,Vector3(0,tall*0.42,0),Vector3(r*2,tall*0.44,r*2*0.82),String(bronze[i%2]),Vector3(0,a,0))
+	s.box(root,Vector3(0,tall*0.66,0),Vector3(r*1.5,0.1,r*1.5),String(bronze[3]))
+	for tier: int in 4:
+		s.box(root,Vector3(0,tall*0.68+tier*0.14,0),Vector3(r*(1.4-tier*0.28),0.16,r*(1.4-tier*0.28)),String(bronze[tier%2]))
+	s.box(root,Vector3(0,tall*0.68+0.68,0),Vector3(0.2,0.3,0.2),String(bronze[3]))
+	for ear: float in [-1.0,1.0]:
+		s.box(root,Vector3(ear*r*1.0,tall*0.6,0),Vector3(0.14,0.3,0.26),String(bronze[2]))
+	# The door open: black inside, the pills on a tray, flames.
+	s.box(root,Vector3(0,tall*0.36,r*0.8),Vector3(0.6,0.5,0.2),"0f0c0a")
+	s.tilted_box(root,Vector3(0.42,tall*0.36,r*0.78),Vector3(0.3,0.5,0.04),String(bronze[1]),Vector3(0,-0.9,0))
+	s.box(root,Vector3(0,tall*0.2,r*0.5),Vector3(0.7,0.04,0.5),String(bronze[2]))
+	for pill: int in 7:
+		var at := Vector3(-0.24+pill*0.08,tall*0.24,r*0.5+(pill%2)*0.1-0.05)
+		s.box(root,at,Vector3(0.06,0.06,0.06),["2a2422","6a2a22:glow","c8362a:glow"][pill%3])
+	for tongue: int in 4:
+		var flame := Node3D.new()
+		flame.position = Vector3(-0.2+tongue*0.13,tall*0.26,r*0.72-(tongue%2)*0.2)
+		flame.set_meta("light_fixture",true)
+		root.add_child(flame)
+		s.box(flame,Vector3(0,0.14,0),Vector3(0.14,0.28,0.12),"e8622f:glow")
+		s.box(flame,Vector3(0,0.3,0),Vector3(0.08,0.2,0.07),"ffd27a:glow")
+		if ambience != null:
+			ambience.flame(flame)
+	var light := OmniLight3D.new()
+	light.position = Vector3(0,tall*0.4,r*1.2)
+	light.light_color = Color("ff7a3a")
+	light.omni_range = float(data.get("range",7.0))
+	light.set_meta("day_energy",1.6)
+	light.set_meta("night_energy",2.4)
+	light.set_meta("flicker",0.25)
+	root.add_child(light)
+	if ambience != null:
+		ambience.smoke(root,Vector3(0,tall*0.68+0.9,0),"a09890",5,0.3)
 
 ## 神龛: a small roofed niche in a wall, its god inside and a faded cloth over the front.
 func _niche(w: float, d: float) -> void:
@@ -589,6 +713,17 @@ func _deity(w: float, d: float) -> void:
 	for side: float in [-1.0,1.0]:
 		s.box(root,head+Vector3(side*0.24*k,-0.28*k,-0.02*k),Vector3(0.08*k,0.5*k,0.2*k),hair)
 	s.box(root,head+Vector3(0,0.32*k,0),Vector3(0.22*k,0.1*k,0.2*k),String(gold[2]))
+	if data.get("armour",false):
+		# altar.c: 火龙将军高大威武的神像 — a general: a helmet with a red plume over the crown,
+		# plates of gilt scale over the chest and shoulders, a halberd in the raised hand.
+		s.box(root,head+Vector3(0,0.3*k,-0.02*k),Vector3(0.5*k,0.2*k,0.46*k),String(gold[0]))
+		s.box(root,head+Vector3(0,0.48*k,0),Vector3(0.12*k,0.3*k,0.12*k),String(gold[2]))
+		s.box(root,head+Vector3(0,0.7*k,0),Vector3(0.1*k,0.3*k,0.1*k),"c8382a")
+		for row: int in 4:
+			s.box(root,Vector3(0,seat+0.78*k+row*0.14*k,-d*0.1+0.27*k),Vector3(0.76*k,0.06*k,0.03),String(gold[2]) if row%2 else String(gold[1]))
+		for shoulder: float in [-1.0,1.0]:
+			s.box(root,Vector3(shoulder*0.56*k,seat+1.36*k,-d*0.1),Vector3(0.24*k,0.12*k,0.46*k),String(gold[2]))
+		s.box(root,Vector3(0.44*k,seat+1.9*k,front+0.16*k),Vector3(0.14*k,0.3*k,0.03),"c8ccc8")
 	s.box(root,head+Vector3(0,-0.04*k,0.205*k),Vector3(0.22*k,0.03,0.01),"3a2a20")
 	s.box(root,head+Vector3(0,-0.2*k,0.205*k),Vector3(0.14*k,0.03,0.01),"7a3a2a")
 	if data.get("tortoise",true):

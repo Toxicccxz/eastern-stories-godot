@@ -269,8 +269,11 @@ func _drying_rack(w: float, d: float) -> void:
 ## 镇口门楼: a timber gateway over the road, its plaque on the beam (`text`), a little tiled
 ## roof on top. Its posts stand at the ends of its width, on blocked boxes of the layout.
 func _gateway(w: float, d: float) -> void:
-	var timber: String = String(data.get("timber","5f4331"))
-	var posts: String = String(data.get("posts","8e3a2c"))
+	# `stone`: a 石牌楼 (n_gate.c: 一座高大的石牌楼上面刻著「北门」两个大字) — grey stone posts and
+	# lintels, a stone cap instead of tiles, the words cut in a panel, no lanterns.
+	var stone: bool = data.get("stone",false)
+	var timber: String = String(data.get("timber","8a8a80" if stone else "5f4331"))
+	var posts: String = String(data.get("posts","9a9a92" if stone else "8e3a2c"))
 	var height: float = float(data.get("height",4.2))
 	for x: float in [-w/2+0.2,w/2-0.2]:
 		s.box(root,Vector3(x,0.25,0),Vector3(0.6,0.5,0.6),"8a8a7e")
@@ -278,7 +281,7 @@ func _gateway(w: float, d: float) -> void:
 		s.tilted_box(root,Vector3(x+(0.3 if x<0 else -0.3),height-0.9,0),Vector3(0.12,0.9,0.12),timber,Vector3(0,0,0.7 if x<0 else -0.7))
 	s.box(root,Vector3(0,height-0.35,0),Vector3(w+0.3,0.22,0.36),timber)
 	s.box(root,Vector3(0,height+0.05,0),Vector3(w+0.5,0.18,0.42),timber)
-	var tint := Color(String(data.get("roof","4a5560")))
+	var tint := Color(String(data.get("roof","7a7a72" if stone else "4a5560")))
 	for row: int in 4:
 		var z: float = -0.75+row*0.5
 		for col: int in ceili((w+1.4)/0.37):
@@ -287,22 +290,27 @@ func _gateway(w: float, d: float) -> void:
 			s.box(root,Vector3(x,height+0.5-absf(z)*0.45+lift,z),Vector3(0.38,0.12,0.52),tint.lightened(((col+row)%3)*0.03).to_html(false))
 	s.box(root,Vector3(0,height+0.78,0),Vector3(w+0.9,0.2,0.24),tint.darkened(0.12).to_html(false))
 	if data.has("text"):
-		s.box(root,Vector3(0,height-0.85,0.2),Vector3(minf(w*0.55,2.6),0.62,0.08),String(data.get("board","2b2520")))
+		s.box(root,Vector3(0,height-0.85,0.2),Vector3(minf(w*0.55,2.6),0.62,0.08),String(data.get("board","6a6a62" if stone else "2b2520")))
 		var title := Label3D.new()
 		title.text = TranslationServer.translate(String(data["text"]))
 		title.position = Vector3(0,height-0.85,0.25)
 		title.pixel_size = 0.008
 		title.font_size = 56
 		title.outline_size = 0
-		title.modulate = Color(String(data.get("letters","e6c66e")))
+		title.modulate = Color(String(data.get("letters","ece6d6" if stone else "e6c66e")))
 		root.add_child(title)
 		var back := title.duplicate() as Label3D
 		back.position.z = -0.25
 		back.rotation.y = PI
 		root.add_child(back)
-	if data.get("lanterns",true):
+	if data.get("lanterns",not stone):
 		for x: float in [-w/2+0.2,w/2-0.2]:
 			s.lantern(root,Vector3(x,height-1.4,0.35),false,String(data.get("lantern","d8452f:glow")))
+	if stone:
+		# Carved cloud scrolls on the posts' heads, moss at their feet.
+		for x: float in [-w/2+0.2,w/2-0.2]:
+			s.box(root,Vector3(x,height-0.6,0),Vector3(0.44,0.16,0.44),String(data.get("carving","a8a89e")))
+			s.shard(root,Vector3(x+0.2,0.06,0.3),Vector3(0.5,0.1,0.4),"56713f",3)
 
 ## 界碑: a stone stood by the road where the town's land begins, its name cut in it.
 func _boundary_stone(w: float, d: float) -> void:
@@ -389,6 +397,12 @@ func _well(w: float) -> void:
 	s.box(root,Vector3(0,1.55,0),Vector3(0.3,0.22,0.22),"8a7044")
 	s.box(root,Vector3(0,1.1,0),Vector3(0.02,0.8,0.02),"b09a6c")
 	s.box(root,Vector3(w*0.3,0.82,w*0.25),Vector3(0.26,0.26,0.26),"7a5a3e")
+	if data.get("cups",false):
+		# s_street1.c: 井旁用绳索绑著几只杯子供人取水喝 — cups on cords from the crossbar.
+		for i: int in 3:
+			var x: float = -w*0.3+i*w*0.3
+			s.box(root,Vector3(x,1.25,0.1),Vector3(0.02,0.6,0.02),"b09a6c")
+			s.box(root,Vector3(x,0.9,0.1),Vector3(0.14,0.12,0.14),["8a6a4a","a08a66","7a5a3e"][i])
 
 ## 矮墙/篱笆: a low wall or a wattle fence where a yard meets the street (`style`: "wall",
 ## "wattle", "bamboo"), along the box's long side.

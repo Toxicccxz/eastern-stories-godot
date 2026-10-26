@@ -40,6 +40,8 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"tree": _lone_tree()
 		"notice_post": _notice_post(w)
 		"far_ground": _far_ground(w,d)
+		"great_stump": _great_stump(w,d)
+		"paper_slip": _paper_slip()
 		_:
 			return false
 	return true
@@ -480,6 +482,48 @@ func _stump(w: float) -> void:
 		s.tilted_box(root,Vector3(-0.08,tall+0.06,0),Vector3(0.22,0.14,0.04),"8a8e8a",Vector3(0,0,0.5))
 		for chip: int in 5:
 			s.box(root,Vector3(cos(chip*1.3)*w*0.6,0.02,sin(chip*1.9)*w*0.6),Vector3(0.12,0.03,0.06),"c9ad7c")
+
+## 树王坟 (tree_tomb.c: 一截巨大的树桩, 少说有三, 四十人合抱那么粗, 树桩中间有一个大洞): a stump as
+## wide as the box, its bark in deep ridges, the top broken off unevenly at `height`, the hole
+## black in its middle, roots spreading out over the stones, moss and bracket fungus on it.
+func _great_stump(w: float, d: float) -> void:
+	var bark: Array = _colors("colors",["5a4836","6a5642","4a3a2c","7a6450"])
+	var tall: float = float(data.get("height",1.4))
+	var r: float = minf(w,d)*0.46
+	var segments: int = 18
+	for i: int in segments:
+		var a: float = i*TAU/segments
+		var h: float = tall*(0.78+0.22*absf(sin(i*2.3)))
+		var wide: float = r*0.42
+		s.tilted_box(root,Vector3(cos(a)*r*0.86,h/2,sin(a)*r*0.86),Vector3(wide,h,wide*0.9),String(bark[i%bark.size()]),Vector3(0,-a,0))
+		if i%3==0:
+			s.tilted_box(root,Vector3(cos(a)*r*1.02,h*0.3,sin(a)*r*1.02),Vector3(wide*0.5,h*0.6,wide*0.5),String(bark[(i+2)%bark.size()]),Vector3(0,-a,0))
+	# The top: pale ring of wood, the black hole in the middle (a body can go down it).
+	s.box(root,Vector3(0,tall*0.7,0),Vector3(r*1.5,tall*0.2,r*1.5),String(data.get("rings","9a8460")))
+	s.box(root,Vector3(0,tall*0.8+0.01,0),Vector3(r*1.1,0.03,r*1.1),String(data.get("rings","9a8460")))
+	s.box(root,Vector3(0,tall*0.5,0),Vector3(r*0.7,tall*0.7,r*0.7),"0d0b0a")
+	# Roots over the stones, moss, fungus shelves.
+	for i: int in 10:
+		var a: float = i*TAU/10.0+0.3
+		_beam(Vector3(cos(a)*r*0.9,0.3,sin(a)*r*0.9),Vector3(cos(a)*(r+1.2+0.4*(i%3)),0.05,sin(a)*(r+1.2+0.4*(i%3))),0.3-0.06*(i%2),_pick(bark))
+		if i%2==0:
+			s.shard(root,Vector3(cos(a)*(r+0.6),0.1,sin(a)*(r+0.6)),Vector3(0.5,0.1,0.4),String(data.get("moss","56713f")),i,a)
+	for shelf: int in 5:
+		var a: float = shelf*1.9+0.4
+		s.box(root,Vector3(cos(a)*r*1.06,tall*(0.3+0.1*shelf),sin(a)*r*1.06),Vector3(0.22,0.05,0.18),["d8c8a0","c0a880"][shelf%2])
+
+## 字条 (taolin.c: 一些先行者在桃树枝上挂了些字条以指示道路): a paper slip on a string from a bough,
+## at `height`, turning in the wind.
+func _paper_slip() -> void:
+	var slip := Node3D.new()
+	slip.position = Vector3(0,float(data.get("height",2.3)),0)
+	root.add_child(slip)
+	s.box(slip,Vector3(0,0.15,0),Vector3(0.012,0.3,0.012),"8a7a5a")
+	s.box(slip,Vector3(0,-0.2,0),Vector3(0.16,0.4,0.012),String(data.get("paper","efe6cc")))
+	for mark: int in 4:
+		s.box(slip,Vector3(0,-0.06-mark*0.08,0.008),Vector3(0.07,0.03,0.004),"3a3430")
+	if ambience != null:
+		ambience.flutter(slip,root.position.x*0.3)
 
 ## One tree placed by hand (a ring round a clearing, a pine marked by knives): `species`,
 ## `scale`, `variant`; `marks` cuts pale slashes in its bark toward +z (epath1.c's 记号).
