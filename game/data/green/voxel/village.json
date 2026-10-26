@@ -94,7 +94,7 @@
     {"kind": "far_peak", "at": [900, 2560], "size": [760, 260], "height": 7.0, "elevation": -2.0, "haze": true, "colors": ["8a9a90", "94a398", "9eab9f"], "note": "south"},
     {"kind": "mossy_rock", "at": [600, 1500], "size": [40, 40], "tall": 0.8, "fern": true},
     {"kind": "mossy_rock", "at": [300, 1520], "size": [32, 32], "tall": 0.6, "fern": true},
-    {"kind": "mossy_rock", "at": [1120, 1960], "size": [40, 32], "tall": 0.7, "fern": false},
+    {"kind": "mossy_rock", "at": [1120, 2024], "size": [40, 32], "tall": 0.7, "fern": false},
     {"kind": "mossy_rock", "at": [560, 640], "size": [40, 40], "tall": 0.8, "fern": true},
     {"kind": "mossy_rock", "at": [1100, 300], "size": [32, 32], "tall": 0.6, "fern": true},
     {"kind": "ferns", "at": [640, 1540], "size": [32, 24], "count": 3},

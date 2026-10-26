@@ -16,7 +16,7 @@ const Existing := preload("res://tests/presentation/voxel_gameplay_test.gd")
 ## wall, a blocked box) or be raised clear of the floor (`elevation`).
 const TALL: Array[String] = ["lantern", "stone_lantern", "standing_rock", "boulder", "banner", "tree", "great_tree", "pavilion",
 	"rockery", "stele", "censer", "flagpole", "water_vat", "strange_stone", "stuck_swords", "boundary_stone", "torch", "bush",
-	"derrick", "haystack", "paper_burner"]
+	"derrick", "haystack", "paper_burner", "mossy_rock", "flames", "quarry_face"]
 const SCENES: Array[String] = ["green_village", "green_mountain", "green_maze", "shop0_house", "house0_house", "house1_house",
 	"house2_house", "house3_house", "house4_house", "temple0_house", "cave", "stone_house"]
 const MAPS: Array[StringName] = [&"green.village", &"green.mountain", &"green.maze", &"green.shop0_house", &"green.house0_house",
@@ -382,7 +382,7 @@ func _check_access_and_saves(tree: SceneTree, session: WorldSessionController, m
 	var cut_off: Array[String] = []
 	for zone: ZoneDefinition in GameContent.catalog().zones_for_map(map.map_id()):
 		var at: Vector2 = MapPlaces.zone_spot(map, zone.zone_id)
-		if not at.is_finite() or MapRoute.path(map, start, at).is_empty() and not _apart(map, zone.zone_id, start):
+		if not _walkable_to(map, start, at):
 			cut_off.append(String(zone.zone_id))
 	_check(cut_off.is_empty(), "every room of %s can be walked to: cut off %s" % [map.map_id(), cut_off])
 	var blocked_ways: Array[String] = []
@@ -412,15 +412,8 @@ func _check_access_and_saves(tree: SceneTree, session: WorldSessionController, m
 	session.set_process(true)
 
 
-## The 迷阵's clearings and the mountain's parts are joined by passages, not ground: a room the
-## ground does not reach from where the player stands is one a passage on the map leads to.
-func _apart(map: WorldMapController, zone_id: StringName, start: Vector2) -> bool:
-	return map.map_id() in [&"green.maze", &"green.mountain", &"green.stone_house"] and MapPlaces.zone_rect(map, zone_id).has_area() \
-		and not MapPlaces.zone_rect(map, zone_id).has_point(start)
-
-
 ## A way to `to` from where the player stands; on a map of parts that passages join (the 迷阵, the
-## mountain, the stone rooms), from the middle of any of its rooms.
+## mountain, the stone rooms), from where one of its ways in comes out.
 func _walkable_to(map: WorldMapController, start: Vector2, to: Vector2) -> bool:
 	if not to.is_finite():
 		return false
@@ -428,9 +421,9 @@ func _walkable_to(map: WorldMapController, start: Vector2, to: Vector2) -> bool:
 		return true
 	if not map.map_id() in [&"green.maze", &"green.mountain", &"green.stone_house"]:
 		return false
-	for zone: ZoneDefinition in GameContent.catalog().zones_for_map(map.map_id()):
-		var from: Vector2 = MapPlaces.zone_spot(map, zone.zone_id)
-		if from.is_finite() and not MapRoute.path(map, from, to).is_empty():
+	for node: Node in map.find_children("*", "Marker2D", true, false):
+		var from: Vector2 = (node as Node2D).global_position
+		if not MapRoute.path(map, from, to).is_empty():
 			return true
 	return false
 

@@ -72,16 +72,14 @@
     {"rect": [1408, -1184, 1648, -928], "portals": [], "roof": "7c6c55", "wall": "b59e7b", "height": 3.05, "construction": "brick", "roof_form": "gable", "ridge": "x", "rise": 1.3}
   ],
   "props": [
-    {"kind": "mossy_rock", "at": [300, -2392], "size": [32, 32], "tall": 0.55, "fern": true, "note": "toward 青石村: mossed stones by the path east"},
-    {"kind": "mossy_rock", "at": [336, -2528], "size": [40, 32], "tall": 0.6, "fern": true},
-    {"kind": "ferns", "at": [250, -2520], "size": [32, 24], "count": 2},
     {"kind": "lantern", "at": [-416, 240]},
     {"kind": "lantern", "at": [416, 240]},
     {"kind": "lantern", "at": [-128, -400]},
     {"kind": "lantern", "at": [128, -880]},
     {"kind": "lantern", "at": [-128, -1350]},
     {"kind": "lantern", "at": [128, -1900]},
-    {"kind": "rock_pile", "at": [0, -2590], "size": [72, 120], "count": 16, "colors": ["b09a70", "9d8a66", "897b59"], "note": "scree where the col's 碎石路 starts north (last: the props before it keep their dressing)"}
+    {"kind": "rock_pile", "at": [0, -2590], "size": [72, 120], "count": 16, "colors": ["b09a70", "9d8a66", "897b59"], "note": "scree where the col's 碎石路 starts north (last: the props before it keep their dressing)"},
+    {"kind": "ferns", "at": [250, -2520], "size": [32, 24], "count": 2, "note": "toward 青石村: ferns by the path east (after the rest: the town's dressing stays as it was)"}
   ],
   "weather": [
     {"at": [-253, 88], "radius": [62, 36], "water": true},

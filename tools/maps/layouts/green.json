@@ -39,7 +39,7 @@
           ["street", 1536, 1664, 1792, 1824, "the slab slope up to the quarry's station"]
         ],
         "props": [
-          ["blocked", 1408, 1056, 1488, 1136, "the great banyan in the square's middle, like a pavilion (field0.c: 像一座凉亭般地立在广场上)", {"look": {"kind": "great_tree", "height": 6.8, "canopy": 6.6, "trunk": 1.1, "roots": 0.9, "aerial_roots": 22, "occludes": true, "needles": ["24402a", "2f5234", "3f6640", "557c4c"], "bark": ["6a5e4c", "7a6d58", "5a5042", "857762"], "strands": "7a6a50", "fallen": ["6f7a3e", "8a8a48", "a58d4e", "5c6a38"], "cones": false, "moss": "4f6a3a"}}],
+          ["blocked", 1408, 1056, 1488, 1136, "the great banyan in the square's middle, like a pavilion (field0.c: 像一座凉亭般地立在广场上)", {"look": {"kind": "great_tree", "height": 6.8, "canopy": 6.6, "trunk": 1.1, "roots": 0.9, "aerial_roots": 16, "pillars": [[-112, -32], [96, -80], [128, 32], [-80, 96], [32, 128]], "occludes": true, "needles": ["24402a", "2f5234", "3f6640", "557c4c"], "bark": ["6a5e4c", "7a6d58", "5a5042", "857762"], "strands": "7a6a50", "fallen": ["6f7a3e", "8a8a48", "a58d4e", "5c6a38"], "cones": false, "moss": "4f6a3a"}}],
           ["blocked", 1728, 960, 1808, 992, "cut stone blocks piled about the yard", {"look": {"kind": "stone_blocks", "rows": 2}}],
           ["blocked", 1968, 1280, 2064, 1344, "rubble", {"look": {"kind": "rock_pile", "count": 16, "colors": ["9a9b8d", "8a8c80", "a8a798", "7f8276"]}}],
           ["wall_wood", 1504, 1840, 1632, 1952, "the small wooden hut at the station"],
@@ -55,6 +55,11 @@
           ["blocked", 1680, 1296, 1760, 1344, "field1.c: 四周堆著一些切割整齐的大石块和碎石", {"look": {"kind": "stone_blocks", "rows": 3}}],
           ["blocked", 2000, 976, 2080, 1024, {"look": {"kind": "stone_blocks", "rows": 2, "mossy": 0.6}}],
           ["blocked", 1440, 1872, 1488, 1936, "path5.c: 东边有一栋石屋，旁边的空地堆了一些石料", {"look": {"kind": "stone_blocks", "rows": 2, "mossy": 0.4}}],
+          ["blocked", 1328, 1056, 1344, 1072, "the banyan's pillar roots, each grown into the ground"],
+          ["blocked", 1536, 1008, 1552, 1024],
+          ["blocked", 1568, 1120, 1584, 1136],
+          ["blocked", 1360, 1184, 1376, 1200],
+          ["blocked", 1472, 1216, 1488, 1232],
           ["blocked", 1504, 1216, 1552, 1248, "a stone seat under the banyan", {"look": {"kind": "stone_seat", "back": false}}],
           ["blocked", 1648, 1856, 1664, 1872, "lamps for the dark: by the station's hut, at the square, where the gravel street meets the road", {"look": {"kind": "lantern"}}],
           ["blocked", 1232, 944, 1248, 960, {"look": {"kind": "lantern"}}],

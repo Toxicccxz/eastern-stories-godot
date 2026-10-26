@@ -34,7 +34,7 @@ var night: float = 0.0
 ## "colors", "height", "wind"}] (`up`: sparks rising from a fire instead, `glow`: lit by
 ## themselves), `fireflies`: [{"rect", "count", "color", "height"}]; dust may have a `size`
 ## (units: a long streak of mist on the wind). `lightning`: [{"rect", "every" seconds,
-## "color", "height"}]: a bolt now and then somewhere over the rect, the land lit white.
+## "color", "height", "range", "energy"}]: a bolt now and then somewhere over the rect, the land lit white.
 func configure(data: Dictionary) -> void:
 	var shapes := Shapes.new()
 	var index: int = 0
@@ -112,7 +112,7 @@ func _lightning(storm: Dictionary, index: int) -> void:
 	var at := Vector3.ZERO
 	var cube := BoxMesh.new()
 	for step: int in 9:
-		var next := at+Vector3(sin(step*2.7)*0.9,-top/9.0,cos(step*1.9)*0.5)
+		var next := at+Vector3(sin(step*2.7)*0.9,-top/9.0,cos(step*1.9)*0.5)*Vector3(top/14.0,1,top/14.0)
 		var piece := MeshInstance3D.new()
 		piece.mesh = cube
 		piece.material_override = glow
@@ -124,14 +124,14 @@ func _lightning(storm: Dictionary, index: int) -> void:
 	bolt.visible = false
 	var flash := OmniLight3D.new()
 	flash.light_color = Color(String(storm.get("color","e8f0ff")))
-	flash.omni_range = 34.0
+	flash.omni_range = float(storm.get("range",34.0))
 	flash.omni_attenuation = 0.6
 	flash.light_energy = 0.0
 	flash.visible = false
 	flash.set_meta("own_energy",true)
 	add_child(flash)
 	_bolts.append({"bolt":bolt,"flash":flash,"x0":float(r[0])/32.0,"z0":float(r[1])/32.0,"w":(float(r[2])-float(r[0]))/32.0,"d":(float(r[3])-float(r[1]))/32.0,
-		"every":float(storm.get("every",6.0)),"phase":index*0.37,"strike":-1,"top":top})
+		"every":float(storm.get("every",6.0)),"phase":index*0.37,"strike":-1,"top":top,"energy":float(storm.get("energy",5.0))})
 
 ## Many small boxes moved together each frame: one MultiMesh (instance colours for needles,
 ## the shared glow for fireflies) under one instance.
@@ -352,7 +352,7 @@ func advance(delta: float) -> void:
 			flash.position = spot+Vector3(0,float(storm["top"])*0.6,0)
 		bolt.visible = lit
 		flash.visible = lit
-		flash.light_energy = 5.0 if lit else 0.0
+		flash.light_energy = float(storm["energy"]) if lit else 0.0
 	for hanging: Dictionary in _swaying:
 		var t: float = clock*1.1+float(hanging["phase"])
 		(hanging["node"] as Node3D).rotation = Vector3(sin(t)*float(hanging["amount"]),0,sin(t*0.73+1.3)*float(hanging["amount"])*0.7)

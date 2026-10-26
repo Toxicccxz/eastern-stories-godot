@@ -81,12 +81,9 @@
     {"kind": "reeds", "at": [1264, 420], "size": [24, 48], "count": 4, "colors": ["6e8a48", "5a7a3c", "86a058"]},
     {"kind": "reeds", "at": [1360, 560], "size": [24, 48], "count": 4, "colors": ["6e8a48", "5a7a3c", "86a058"]},
     {"kind": "glow", "at": [1312, 500], "color": "f4f0d8", "range": 1.6, "day": 0.6, "night": 0.8, "height": 0.05, "note": "water.c: 忽然水中有一道亮光闪过"},
-    {"kind": "mossy_rock", "at": [1244, 340], "size": [32, 32], "tall": 0.6, "fern": true},
-    {"kind": "mossy_rock", "at": [1404, 620], "size": [40, 32], "tall": 0.7, "fern": true},
     {"kind": "ferns", "at": [1244, 600], "size": [32, 24], "count": 3},
     {"kind": "ferns", "at": [560, 2300], "size": [32, 24], "count": 3},
     {"kind": "ferns", "at": [924, 2400], "size": [32, 24], "count": 2},
-    {"kind": "mossy_rock", "at": [540, 2440], "size": [40, 40], "tall": 0.8, "fern": true},
     {"kind": "rock_pile", "at": [790, 1180], "size": [40, 64], "count": 8, "colors": ["7a7c70", "848679", "6f7266"], "note": "stones fallen from the wall east"},
     {"kind": "rock_pile", "at": [630, 920], "size": [32, 48], "count": 6, "colors": ["7a7c70", "848679", "6f7266"]}
   ],
@@ -96,7 +93,7 @@
       {"rect": [640, 2228, 770, 2300], "count": 14, "color": "dfe6ea", "wind": [0.0, 0.5], "size": [0.28, 0.03, 0.18], "note": "cave0.c: 你仍可以感到一股寒气从里面透出来"},
       {"rect": [790, 630, 964, 714], "count": 18, "color": "d8dcd8", "wind": [-2.2, 0.0], "size": [0.5, 0.03, 0.05], "note": "entrance.c: 洞内隐隐发出风雷之声 — wind gusting out of the cave"}
     ],
-    "lightning": [{"rect": [954, 650, 970, 694], "every": 7.0, "height": 1.8, "color": "dfe8ff", "note": "风雷: a flicker deep in the cave mouth"}],
+    "lightning": [{"rect": [954, 650, 970, 694], "every": 7.0, "height": 1.8, "range": 4.5, "energy": 1.6, "color": "dfe8ff", "note": "风雷: a flicker deep in the cave mouth"}],
     "fall": [{"rect": [600, 800, 964, 1640], "count": 12, "height": 5.0, "colors": ["6f7a3e", "8a8a48"], "wind": [-0.5, 0.1], "note": "leaves off the little trees on the wall"}]
   },
   "actors": {"default": {"coat": "b3a98c"}, "green.npc.kid4": {"coat": "c2b89a"}}

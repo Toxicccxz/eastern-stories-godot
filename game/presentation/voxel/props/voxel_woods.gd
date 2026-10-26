@@ -75,7 +75,8 @@ func _mesh_node(mesh: Mesh, material: Material) -> MeshInstance3D:
 ## factor); `great_tree` is the same form in other colours (a crossroad's old 槐). A banyan
 ## (`aerial_roots`: how many) lets roots down from its limbs, the longest grown into pillars
 ## that hold its boughs up (像一座凉亭); `fallen`: what lies round its foot (leaves, not
-## needles), `cones` false for none.
+## needles), `cones` false for none; `pillars`: where (px from the trunk) the pillar roots stand,
+## each on a blocked cell of the layout (the rest hang clear of the ground).
 func _great_pine() -> void:
 	var height: float = float(data.get("height",9.0))
 	var radius: float = float(data.get("canopy",7.0))
@@ -129,26 +130,28 @@ func _great_pine() -> void:
 func _aerial_roots(height: float, radius: float, trunk: float, bark: Array) -> void:
 	var count: int = int(data.get("aerial_roots",0))
 	var strand: String = String(data.get("strands","7d6a4c"))
+	var pillars: Array = data.get("pillars",[])
+	for p: int in pillars.size():
+		# A pillar root: from the bough to the ground, its foot spread.
+		var foot := Vector3(float(pillars[p][0]),0,float(pillars[p][1]))/32.0
+		var top := foot+Vector3(0,height-0.4-0.3*(p%3),0)
+		_beam(top,foot,0.22+0.06*(p%2),_pick(bark))
+		for toe: int in 3:
+			var t: float = toe*TAU/3.0+p
+			_beam(foot+Vector3(0,0.5,0),foot+Vector3(cos(t)*0.22,0.04,sin(t)*0.22),0.12,_pick(bark))
 	for i: int in count:
 		var a: float = i*2.39996+0.4
 		var r: float = lerpf(trunk+1.0,radius*0.78,fposmod(i*0.618,1.0))
 		var top := Vector3(cos(a)*r,height-0.4-0.3*(i%3),sin(a)*r)
-		if i%3==0:
-			# A pillar root: from the bough to the ground, its foot spread.
-			_beam(top,Vector3(top.x,0.0,top.z),0.22+0.06*(i%2),_pick(bark))
-			for toe: int in 3:
-				var t: float = toe*TAU/3.0+a
-				_beam(Vector3(top.x,0.5,top.z),Vector3(top.x+cos(t)*0.45,0.04,top.z+sin(t)*0.45),0.12,_pick(bark))
-		else:
-			# A hanging strand, swinging a little; it stops well above a walker's head.
-			var hang: float = rng.randf_range(1.2,height-3.4)
-			var node := Node3D.new()
-			node.position = top
-			root.add_child(node)
-			s._instance(node,Transform3D(Basis.from_scale(Vector3(0.06,hang,0.06)),Vector3(0,-hang/2.0,0)),strand,s.cube)
-			s.box(node,Vector3(0.05,-hang*0.6,0),Vector3(0.05,hang*0.5,0.05),strand)
-			if ambience != null:
-				ambience.sway(node,a*3.1,0.05)
+		# A hanging strand, swinging a little; it stops well above a walker's head.
+		var hang: float = rng.randf_range(1.2,height-3.4)
+		var node := Node3D.new()
+		node.position = top
+		root.add_child(node)
+		s._instance(node,Transform3D(Basis.from_scale(Vector3(0.06,hang,0.06)),Vector3(0,-hang/2.0,0)),strand,s.cube)
+		s.box(node,Vector3(0.05,-hang*0.6,0),Vector3(0.05,hang*0.5,0.05),strand)
+		if ambience != null:
+			ambience.sway(node,a*3.1,0.05)
 
 func _trunk_column(from: float, to: float, trunk: float, bark: Array) -> void:
 	var y: float = from
