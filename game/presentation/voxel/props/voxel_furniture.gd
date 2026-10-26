@@ -21,11 +21,24 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 			for x: float in [-w*0.4,w*0.4]:
 				for z: float in [-d*0.35,d*0.35]:
 					s.box(root,Vector3(x,0.43,z),Vector3(0.15,0.86,0.15),"765138")
-			# Tucked seats remain inside the authored table collision footprint.
+			# Tucked seats remain inside the authored table collision footprint; `askew` (a seed)
+			# leaves them pushed back and turned, as the last sitters left them.
 			for z: float in [-d*0.34,d*0.34]:
-				s.box(root,Vector3(0,0.42,z),Vector3(w*0.69,0.12,d*0.27),"987149")
+				var seat := Node3D.new()
+				seat.position = Vector3(0,0,z)
+				if data.has("askew"):
+					var turn: int = hash(int(data["askew"])+roundi(z*100))
+					seat.position += Vector3(float(turn%9-4)*0.03,0,signf(z)*0.06)
+					seat.rotation.y = float(turn%13-6)*0.035
+				root.add_child(seat)
+				if s.merged.has(root):
+					s.merge(seat,s.merged[root])
+				s.box(seat,Vector3(0,0.42,0),Vector3(w*0.69,0.12,d*0.27),"987149")
 				for x: float in [-w*0.26,w*0.26]:
-					s.box(root,Vector3(x,0.19,z),Vector3(0.13,0.38,0.17),"654933")
+					s.box(seat,Vector3(x,0.19,0),Vector3(0.13,0.38,0.17),"654933")
+			# `set`: what is on it instead (VoxelLife draws it); a plain setting otherwise.
+			if data.has("set"):
+				return true
 			s.box(root,Vector3(-0.4,1.01,0),Vector3(0.4,0.08,0.3),"d9d8b7")
 			s.box(root,Vector3(0.35,1.13,0),Vector3(0.22,0.28,0.22),"72998a")
 			s.box(root,Vector3(0.52,1.12,0),Vector3(0.15,0.08,0.07),"72998a")

@@ -1,0 +1,497 @@
+extends RefCounted
+
+## Household goods that make a room look lived in (game/data/common/room_life.json): heaps and
+## stacks stood against a wall (blocked boxes the map painter places), things hung on walls,
+## what is left on a table and small litter on the floor. Wall things stand on the wall's face
+## with +z into the room; `seed` varies a piece without changing where it stands.
+const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
+var s: Shapes
+var root: Node3D
+var data: Dictionary
+var rng := RandomNumberGenerator.new()
+## Lamp flames that flicker (null where nothing moves).
+var ambience: VoxelAmbience
+
+const WALL_KINDS: Array[String] = ["tool_hooks","string_hang","ledger_hook","new_year_print","couplet","clothes_peg",
+	"straw_cape","calendar","wall_lamp","wall_shelf","weapon_pegs","menu_boards","notices","banner_cloth"]
+
+func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) -> bool:
+	s = shapes
+	root = parent
+	data = look
+	rng.seed = hash(int(look.get("seed",0)))
+	match String(look["kind"]):
+		"sacks": _sacks(w,d)
+		"baskets": _baskets(w,d)
+		"crocks": _crocks(w,d)
+		"bedding": _bedding(w,d)
+		"chest_stack": _chest_stack(w,d)
+		"old_furniture": _old_furniture(w,d)
+		"iron_goods": _iron_goods(w,d)
+		"coal_heap": _coal_heap(w,d)
+		"lumber": _lumber(w,d)
+		"prayer_cushions": _prayer_cushions(w,d)
+		"tool_hooks": _tool_hooks(w)
+		"string_hang": _string_hang()
+		"ledger_hook": _ledger_hook()
+		"new_year_print": _new_year_print()
+		"couplet": _couplet()
+		"clothes_peg": _clothes_peg()
+		"straw_cape": _straw_cape()
+		"calendar": _calendar()
+		"wall_lamp": _wall_lamp()
+		"wall_shelf": _wall_shelf(w)
+		"weapon_pegs": _weapon_pegs(w)
+		"menu_boards": _boards(w,["e8dcc0","d9cba6","e8dcc0","c9b48a"],"3a3530")
+		"notices": _boards(w,["e3d6b0","d6c48f","efe6cc"],"55504a",true)
+		"banner_cloth": _banner_cloth()
+		_:
+			return false
+	return true
+
+func _pick(colors: Array) -> String:
+	return String(colors[rng.randi_range(0,colors.size()-1)])
+
+func _jitter(amount: float) -> float:
+	return rng.randf_range(-amount,amount)
+
+# --- Heaps and stacks against a wall (their back, -z, to the wall) ------------------------------
+
+## 麻袋: sacks of grain or charcoal, two or three on the floor and one slumped on top, tied at
+## the neck, some patched.
+func _sacks(w: float, d: float) -> void:
+	var cloth: String = String(data.get("cloth","a8946a"))
+	var shades: Array = [cloth,Color(cloth).darkened(0.12).to_html(false),Color(cloth).lightened(0.08).to_html(false)]
+	var count: int = maxi(1,floori(w/0.62))
+	for i: int in count:
+		var at := Vector3(-w/2+(i+0.5)*w/count+_jitter(0.05),0,_jitter(d*0.1))
+		var h: float = rng.randf_range(0.55,0.75)
+		s.shard(root,at+Vector3(0,h/2,0),Vector3(w/count*0.92,h,d*0.78),_pick(shades),rng.randi(),_jitter(0.3))
+		s.box(root,at+Vector3(0,h+0.05,0),Vector3(0.16,0.1,0.14),"79684a")
+		if rng.randf()<0.4:
+			s.box(root,at+Vector3(_jitter(0.1),h*0.5,d*0.39),Vector3(0.18,0.16,0.01),"7d6e4c")
+	if count>1:
+		s.tilted_box(root,Vector3(_jitter(0.15),0.95,-d*0.05),Vector3(w*0.55,0.36,d*0.62),_pick(shades),Vector3(0,_jitter(0.3),0.18))
+	if rng.randf()<0.5:
+		for grain: int in 6:
+			s.box(root,Vector3(_jitter(w*0.45),0.012,d*0.48+rng.randf()*0.15),Vector3(0.05,0.012,0.04),"d8c48e")
+
+## 竹筐: bamboo baskets stacked and one tipped, with what they hold (`sewing`: thread and cloth).
+func _baskets(w: float, d: float) -> void:
+	var cane: Array = ["a68a55","b39a62","98804e"]
+	var size: float = minf(w,d)*0.62
+	s.box(root,Vector3(-w*0.12,size*0.42,0),Vector3(size,size*0.84,size),_pick(cane))
+	s.box(root,Vector3(-w*0.12,size*0.86,0),Vector3(size*1.04,0.05,size*1.04),"8a7044")
+	s.box(root,Vector3(-w*0.12,size*1.1,0),Vector3(size*0.85,size*0.5,size*0.85),_pick(cane))
+	var tipped := Node3D.new()
+	tipped.position = Vector3(w*0.26,size*0.3,d*0.12)
+	tipped.rotation = Vector3(0,_jitter(0.6),1.2)
+	root.add_child(tipped)
+	s.box(tipped,Vector3.ZERO,Vector3(size*0.7,size*0.55,size*0.7),_pick(cane))
+	if data.get("sewing",false):
+		for spool: int in 3:
+			s.box(root,Vector3(-w*0.12+(spool-1)*0.1,size*1.38,0),Vector3(0.08,0.1,0.08),["b23a2b","4a6f8f","d6b862"][spool])
+		s.box(root,Vector3(-w*0.12,size*1.36,0.08),Vector3(size*0.6,0.04,0.2),"c9b98e")
+	else:
+		s.box(root,Vector3(-w*0.12,size*1.36,0),Vector3(size*0.7,0.06,size*0.7),_pick(["c9b98e","6f9a4e","d28a3a","b8a374"]))
+
+## 坛罐: big and small clay crocks, one with a cloth over its mouth (`scrolls`: a tall vase of
+## rolled paintings, as a study keeps them).
+func _crocks(w: float, d: float) -> void:
+	var clay: Array = ["6b4a35","7b5a3e","5d6b60","8b5440","9a8466"]
+	if data.get("scrolls",false):
+		s.box(root,Vector3(0,0.42,-d*0.08),Vector3(0.46,0.84,0.46),_pick(["5d7f78","9a8466","4f6a73"]))
+		s.box(root,Vector3(0,0.86,-d*0.08),Vector3(0.34,0.06,0.34),"3c3a33")
+		for roll: int in 5:
+			s.tilted_box(root,Vector3(_jitter(0.1),1.05,-d*0.08+_jitter(0.1)),Vector3(0.07,0.6,0.07),_pick(["d9cfb0","c8b48a","b29c75"]),Vector3(_jitter(0.25),0,_jitter(0.25)))
+		return
+	var big: float = minf(w,d)*0.72
+	s.box(root,Vector3(-w*0.15,big*0.45,-d*0.05),Vector3(big,big*0.82,big),_pick(clay))
+	s.box(root,Vector3(-w*0.15,big*0.12,-d*0.05),Vector3(big*0.78,big*0.24,big*0.78),_pick(clay))
+	s.box(root,Vector3(-w*0.15,big*0.9,-d*0.05),Vector3(big*0.6,0.08,big*0.6),"4a3a2c")
+	if rng.randf()<0.6:
+		s.box(root,Vector3(-w*0.15,big*0.96,-d*0.05),Vector3(big*0.72,0.04,big*0.72),_pick(["b23a2b","c9b98e","6b5a4a"]))
+	s.box(root,Vector3(w*0.28,0.18,d*0.18),Vector3(0.3,0.34,0.3),_pick(clay))
+	s.box(root,Vector3(w*0.28,0.37,d*0.18),Vector3(0.18,0.05,0.18),"4a3a2c")
+
+## 铺盖: bedding rolled and tied, a spare quilt folded on top.
+func _bedding(w: float, d: float) -> void:
+	for i: int in 2:
+		s.box(root,Vector3(0,0.16+i*0.3,_jitter(0.05)),Vector3(w*0.88,0.3,d*0.6),_pick(["6f8f86","8a6a5a","b8a374","5a6e86"]))
+		for x: float in [-w*0.25,w*0.25]:
+			s.box(root,Vector3(x,0.16+i*0.3,0),Vector3(0.05,0.32,d*0.62),"6a5a40")
+
+## 箱笼: a big chest with a smaller one and a bundle on it, brass corners.
+func _chest_stack(w: float, d: float) -> void:
+	var wood: Array = ["7a573c","6a4a34","8d6744","5c3f2b"]
+	var low: String = _pick(wood)
+	s.box(root,Vector3(0,0.3,0),Vector3(w*0.92,0.6,d*0.82),low)
+	s.box(root,Vector3(0,0.62,0),Vector3(w*0.95,0.06,d*0.85),Color(low).lightened(0.1).to_html(false))
+	s.box(root,Vector3(0,0.42,d*0.42),Vector3(0.12,0.14,0.03),"c2a666")
+	var top: String = _pick(wood)
+	s.box(root,Vector3(_jitter(0.1),0.85,-d*0.05),Vector3(w*0.6,0.42,d*0.6),top)
+	s.box(root,Vector3(0,0.9,d*0.26),Vector3(0.1,0.1,0.03),"c2a666")
+	if rng.randf()<0.6:
+		s.shard(root,Vector3(_jitter(0.12),1.15,0),Vector3(0.36,0.2,0.3),_pick(["6b5a4a","4a6f8f","8a3a3a","a08a5a"]),rng.randi())
+
+## 旧家具: a broken stool on its side, a chair with a split back, a cracked basin, dust.
+func _old_furniture(w: float, d: float) -> void:
+	var wood: String = _pick(["6e5a42","7a6248","5f4c38"])
+	var stool := Node3D.new()
+	stool.position = Vector3(-w*0.15,0.25,0)
+	stool.rotation = Vector3(0,_jitter(0.5),PI/2)
+	root.add_child(stool)
+	s.box(stool,Vector3(0,0.22,0),Vector3(0.44,0.08,0.44),wood)
+	for x: float in [-0.15,0.15]:
+		s.box(stool,Vector3(x,0,0.15),Vector3(0.07,0.42,0.07),wood)
+	s.box(stool,Vector3(-0.15,-0.06,-0.15),Vector3(0.07,0.3,0.07),wood)
+	s.box(root,Vector3(w*0.22,0.5,-d*0.2),Vector3(0.42,1.0,0.07),wood)
+	s.tilted_box(root,Vector3(w*0.22,1.0,-d*0.18),Vector3(0.2,0.3,0.05),wood,Vector3(0,0,0.5))
+	s.box(root,Vector3(w*0.22,0.06,d*0.15),Vector3(0.36,0.1,0.36),"8a8270")
+	s.box(root,Vector3(w*0.22,0.1,d*0.15),Vector3(0.26,0.02,0.26),"4a443a")
+
+## 铁器: hoes, spades and hammers leant on the wall, half-made heads on the floor
+## (`heap`: "heads" a low heap of heads only, "pots" iron pots and pans, "blades" blanks and choppers).
+func _iron_goods(w: float, d: float) -> void:
+	var iron: Array = ["4e5657","5d6667","6f7879","3f4647"]
+	var handle: Array = ["a58456","8f6f45","b29462"]
+	match String(data.get("heap","tools")):
+		"pots":
+			for i: int in 3:
+				var at := Vector3(_jitter(w*0.25),0.14+i*0.2,_jitter(d*0.15))
+				s.box(root,at,Vector3(0.5-i*0.08,0.2,0.5-i*0.08),_pick(iron))
+				s.box(root,at+Vector3(0,0.09,0),Vector3(0.38-i*0.08,0.02,0.38-i*0.08),"2a2e2f")
+			s.tilted_box(root,Vector3(w*0.3,0.3,-d*0.3),Vector3(0.45,0.45,0.04),_pick(iron),Vector3(0.3,0,0))
+		"heads":
+			# Finished and half-made heads in a low heap: hoe blades, hammer heads, spade plates.
+			for i: int in 10:
+				var at := Vector3(_jitter(w*0.38),0.04+(i%3)*0.06,_jitter(d*0.32))
+				var size: Vector3 = [Vector3(0.26,0.06,0.2),Vector3(0.16,0.12,0.12),Vector3(0.22,0.04,0.28)][i%3]
+				s.tilted_box(root,at,size,_pick(iron),Vector3(_jitter(0.2),rng.randf()*TAU,_jitter(0.2)))
+			s.tilted_box(root,Vector3(_jitter(w*0.2),0.2,0),Vector3(0.05,0.05,0.7),_pick(handle),Vector3(0,rng.randf()*TAU,0.15))
+		"blades":
+			for i: int in 5:
+				s.tilted_box(root,Vector3(-w*0.4+i*w*0.2,0.45,-d*0.32),Vector3(0.1,0.8,0.03),"8f9a9b",Vector3(0.2,0,_jitter(0.12)))
+				s.box(root,Vector3(-w*0.4+i*w*0.2,0.08,-d*0.2),Vector3(0.12,0.16,0.08),_pick(handle))
+			for i: int in 4:
+				s.box(root,Vector3(_jitter(w*0.35),0.03+i*0.035,d*0.12+_jitter(0.08)),Vector3(0.5,0.03,0.12),_pick(iron))
+		_:
+			for i: int in maxi(3,floori(w/0.3)):
+				var x: float = -w*0.42+i*w*0.84/maxf(1,maxi(3,floori(w/0.3))-1)
+				s.tilted_box(root,Vector3(x,0.62,-d*0.3),Vector3(0.06,1.2,0.06),_pick(handle),Vector3(0.22,0,_jitter(0.1)))
+				var head: int = rng.randi_range(0,2)
+				var size: Vector3 = [Vector3(0.24,0.08,0.18),Vector3(0.2,0.3,0.04),Vector3(0.16,0.14,0.14)][head]
+				s.box(root,Vector3(x,1.2,-d*0.42),size,_pick(iron))
+			for i: int in 4:
+				s.box(root,Vector3(_jitter(w*0.38),0.05+(i%2)*0.07,d*0.15+_jitter(0.1)),Vector3(0.22,0.07,0.16),_pick(iron))
+			s.box(root,Vector3(_jitter(w*0.2),0.04,d*0.3),Vector3(0.6,0.05,0.07),"6f7879")
+
+## 煤堆: a heap of coal against the wall, a shovel stuck in it, dust round its foot.
+func _coal_heap(w: float, d: float) -> void:
+	for i: int in 9:
+		var r: float = 1.0-i/9.0
+		s.shard(root,Vector3(_jitter(w*0.35*r),0.08+i*0.07,_jitter(d*0.3*r)-d*0.05),Vector3(w*0.5*r+0.18,0.18,d*0.45*r+0.15),_pick(["2a2826","34312d","1f1e1c"]),rng.randi(),rng.randf()*TAU)
+	s.tilted_box(root,Vector3(w*0.18,0.7,0),Vector3(0.05,1.0,0.05),"8f6f45",Vector3(0.1,0,0.5))
+	s.tilted_box(root,Vector3(w*0.02,0.32,0),Vector3(0.22,0.04,0.26),"4e5657",Vector3(0,0,0.5))
+	s.box(root,Vector3(0,0.006,d*0.35),Vector3(w*0.9,0.012,d*0.4),"3a3631")
+
+## 木料: planks and poles leant on the wall (`staves`: a bundle of practice staves).
+func _lumber(w: float, d: float) -> void:
+	var wood: Array = ["a3845d","8c6e4c","b2946a","7a5f43"]
+	var count: int = maxi(3,floori(w/0.22))
+	for i: int in count:
+		var x: float = -w*0.42+i*w*0.84/maxf(1,count-1)
+		var length: float = rng.randf_range(1.6,2.4)
+		if data.get("staves",false):
+			s.tilted_box(root,Vector3(x,length/2,-d*0.3),Vector3(0.06,length,0.06),_pick(["a58456","8f6f45"]),Vector3(0.16,0,_jitter(0.08)))
+		else:
+			s.tilted_box(root,Vector3(x,length/2,-d*0.28),Vector3(0.2,length,0.05),_pick(wood),Vector3(0.18,0,_jitter(0.06)))
+	s.box(root,Vector3(0,0.006,d*0.2),Vector3(w*0.7,0.012,d*0.4),"c9ad7c")
+
+## 蒲团: worn cushions stacked by the wall, one set down before it.
+func _prayer_cushions(w: float, d: float) -> void:
+	for i: int in 3:
+		var at := Vector3(-w*0.2,0.06+i*0.12,_jitter(0.04)) if i<2 else Vector3(w*0.24,0.06,d*0.1)
+		var size: float = minf(w,d)*0.7
+		s.box(root,at,Vector3(size,0.12,size*0.92),_pick(["8f7a4c","a28b58","7a6a44"]))
+		s.box(root,at+Vector3(0,0.065,0),Vector3(size*0.6,0.02,size*0.55),"6e5d3a")
+
+# --- On walls -----------------------------------------------------------------------------------
+
+## Pegs on a board with tools hung from them (`tools`: hammers and tongs, horseshoes, sickles).
+func _tool_hooks(w: float) -> void:
+	var width: float = minf(w,1.6)
+	s.box(root,Vector3(0,1.9,0.03),Vector3(width,0.12,0.05),"6a5039")
+	var kind: String = String(data.get("tools","hammers"))
+	for i: int in maxi(3,floori(width/0.3)):
+		var x: float = -width*0.4+i*width*0.8/maxf(1,maxi(3,floori(width/0.3))-1)
+		s.box(root,Vector3(x,1.9,0.09),Vector3(0.04,0.04,0.08),"3a3530")
+		match kind:
+			"horseshoes":
+				s.box(root,Vector3(x,1.72,0.09),Vector3(0.18,0.04,0.03),"5d6667")
+				for side: float in [-0.08,0.08]:
+					s.box(root,Vector3(x+side,1.66,0.09),Vector3(0.04,0.16,0.03),"5d6667")
+			"sickles":
+				s.box(root,Vector3(x,1.66,0.09),Vector3(0.05,0.42,0.04),"8f6f45")
+				s.tilted_box(root,Vector3(x+0.1,1.88,0.09),Vector3(0.28,0.04,0.02),"8f9a9b",Vector3(0,0,-0.6))
+			_:
+				var handle: float = rng.randf_range(0.4,0.6)
+				s.box(root,Vector3(x,1.88-handle/2,0.1),Vector3(0.05,handle,0.05),"a58456")
+				if i%2==0:
+					s.box(root,Vector3(x,1.88-handle-0.06,0.1),Vector3(0.18,0.12,0.1),"4e5657")
+				else:
+					s.tilted_box(root,Vector3(x+0.04,1.88-handle-0.1,0.1),Vector3(0.04,0.26,0.04),"4e5657",Vector3(0,0,0.25))
+
+## A string of chillies, garlic, maize cobs or herbs hung from a nail (`goods`).
+func _string_hang() -> void:
+	var goods: String = String(data.get("goods","chili"))
+	s.box(root,Vector3(0,2.3,0.04),Vector3(0.05,0.05,0.08),"3a3530")
+	s.box(root,Vector3(0,1.95,0.06),Vector3(0.02,0.7,0.02),"b8a46c")
+	for i: int in 8:
+		var at := Vector3(sin(i*2.1)*0.07,2.2-i*0.09,0.09+cos(i*1.7)*0.02)
+		match goods:
+			"garlic":
+				s.box(root,at,Vector3(0.12,0.1,0.12),_pick(["e8e0cc","dcd2b8","efe8d8"]))
+			"corn":
+				if i%2==0:
+					s.box(root,at+Vector3(0,-0.06,0),Vector3(0.1,0.24,0.1),_pick(["e0b040","d49a32","e8c45a"]))
+			"herbs":
+				s.tilted_box(root,at,Vector3(0.05,0.2,0.05),_pick(["6f7f4a","7d8a55","5e6b3e"]),Vector3(0,0,_jitter(0.4)))
+			_:
+				s.tilted_box(root,at,Vector3(0.05,0.16,0.05),_pick(["b8322a","c4402e","a52a22"]),Vector3(0,0,_jitter(0.5)))
+
+## Account books on a nail and an abacus hung beside them.
+func _ledger_hook() -> void:
+	s.box(root,Vector3(-0.15,2.2,0.04),Vector3(0.05,0.05,0.08),"3a3530")
+	for i: int in 3:
+		s.box(root,Vector3(-0.15+_jitter(0.02),1.95-i*0.03,0.06+i*0.02),Vector3(0.36,0.46,0.03),_pick(["c9b98e","b8a374","d8ccaa"]))
+		s.box(root,Vector3(-0.15,2.15-i*0.03,0.08+i*0.02),Vector3(0.36,0.04,0.012),"4e6967")
+	s.box(root,Vector3(0.28,1.85,0.04),Vector3(0.46,0.26,0.04),"4b4031")
+	for row: int in 3:
+		for bead: int in 5:
+			s.box(root,Vector3(0.12+bead*0.075,1.78+row*0.07,0.07),Vector3(0.05,0.045,0.04),"b79c66")
+
+## 年画: a new-year print, its red border faded, a door god or a fat child with a fish.
+func _new_year_print() -> void:
+	var faded: bool = rng.randf()<0.5
+	s.box(root,Vector3(0,1.95,0.025),Vector3(0.62,0.82,0.02),"b8564a" if faded else "c23a2e")
+	s.box(root,Vector3(0,1.95,0.04),Vector3(0.5,0.68,0.012),"e6d6b0" if faded else "efe2c0")
+	s.box(root,Vector3(0,1.86,0.05),Vector3(0.26,0.36,0.01),_pick(["c0392b","3f6f8f","d6a33a"]))
+	s.box(root,Vector3(0,2.12,0.05),Vector3(0.16,0.16,0.01),"e6c6a0")
+	s.box(root,Vector3(0.12,1.76,0.055),Vector3(0.18,0.08,0.01),"d4743a")
+	if rng.randf()<0.4:
+		s.tilted_box(root,Vector3(0.22,2.3,0.05),Vector3(0.14,0.1,0.01),"e6d6b0",Vector3(0,0,0.5))
+
+## 对联: two red strips with black writing either side of something (a door, an altar), a short
+## one across the top.
+func _couplet() -> void:
+	var red: String = "b8463a" if rng.randf()<0.5 else "c8342a"
+	for side: float in [-0.5,0.5]:
+		s.box(root,Vector3(side,1.75,0.025),Vector3(0.2,1.2,0.012),red)
+		for c: int in 5:
+			s.box(root,Vector3(side,2.22-c*0.22,0.035),Vector3(0.1,0.1,0.006),"2a2622")
+	s.box(root,Vector3(0,2.5,0.025),Vector3(0.7,0.18,0.012),red)
+
+## Clothes on wooden pegs: a coat, a hat, a cloth bag.
+func _clothes_peg() -> void:
+	s.box(root,Vector3(0,2.05,0.03),Vector3(1.0,0.1,0.05),"6a5039")
+	var coat: String = _pick(["5a6e86","6b5a4a","4a5a4a","8a5a48","7a7a6a"])
+	s.box(root,Vector3(-0.25,1.6,0.08),Vector3(0.42,0.8,0.08),coat)
+	s.box(root,Vector3(-0.25,1.95,0.1),Vector3(0.5,0.14,0.08),coat)
+	s.box(root,Vector3(-0.25,1.55,0.13),Vector3(0.06,0.6,0.01),Color(coat).darkened(0.25).to_html(false))
+	if rng.randf()<0.6:
+		s.box(root,Vector3(0.25,1.92,0.1),Vector3(0.34,0.12,0.18),_pick(["3a3530","6b5a4a","b8a374"]))
+	else:
+		s.box(root,Vector3(0.25,1.75,0.09),Vector3(0.26,0.32,0.08),_pick(["8a7a5a","6b5a4a"]))
+
+## 蓑衣斗笠: a straw rain cape and a bamboo hat on a nail.
+func _straw_cape() -> void:
+	s.box(root,Vector3(0,2.25,0.04),Vector3(0.05,0.05,0.08),"3a3530")
+	for row: int in 4:
+		s.box(root,Vector3(0,2.05-row*0.2,0.07+row*0.015),Vector3(0.42+row*0.1,0.22,0.06),_pick(["9a8a5a","a8986a","8a7a4c"]))
+	s.box(root,Vector3(0.36,1.7,0.08),Vector3(0.5,0.08,0.5),"c4ad72")
+	s.box(root,Vector3(0.36,1.76,0.08),Vector3(0.22,0.1,0.22),"b39a62")
+
+## 黄历: a small almanac hung on the wall, a few leaves torn off.
+func _calendar() -> void:
+	s.box(root,Vector3(0,1.95,0.025),Vector3(0.3,0.42,0.02),"e3d6b0")
+	s.box(root,Vector3(0,2.12,0.04),Vector3(0.3,0.08,0.01),"b23a2b")
+	s.box(root,Vector3(0,1.9,0.04),Vector3(0.14,0.14,0.006),"2a2622")
+	s.box(root,Vector3(0,2.18,0.03),Vector3(0.32,0.03,0.03),"6a5039")
+
+## A bracket oil lamp on the wall, lit day and night, its flame wavering and the wall above it
+## smoked (the room's soot comes from the life layer).
+func _wall_lamp() -> void:
+	s.box(root,Vector3(0,1.75,0.06),Vector3(0.08,0.36,0.1),"4a3a2c")
+	s.box(root,Vector3(0,1.6,0.16),Vector3(0.08,0.06,0.24),"4a3a2c")
+	s.box(root,Vector3(0,1.66,0.26),Vector3(0.18,0.08,0.18),"7a6a54")
+	s.box(root,Vector3(0,1.74,0.26),Vector3(0.04,0.08,0.04),"ffd88a")
+	var light := OmniLight3D.new()
+	light.position = Vector3(0,1.9,0.4)
+	light.light_color = Color("ffc27d")
+	light.omni_range = 4.5
+	light.set_meta("day_energy",0.35)
+	light.set_meta("night_energy",1.2)
+	light.set_meta("flicker",0.12)
+	root.add_child(light)
+
+## A shelf board on brackets with bowls, a jar and a bundle on it.
+func _wall_shelf(w: float) -> void:
+	var width: float = minf(w,1.4)
+	s.box(root,Vector3(0,1.7,0.18),Vector3(width,0.06,0.32),"7a5f43")
+	for x: float in [-width*0.35,width*0.35]:
+		s.tilted_box(root,Vector3(x,1.58,0.1),Vector3(0.05,0.24,0.05),"6a5039",Vector3(0.6,0,0))
+	var x: float = -width*0.4
+	while x < width*0.4:
+		match rng.randi_range(0,3):
+			0:
+				for b: int in 3:
+					s.box(root,Vector3(x+0.1,1.76+b*0.05,0.2),Vector3(0.2,0.045,0.2),"d8d2c2")
+				x += 0.26
+			1:
+				s.box(root,Vector3(x+0.1,1.88,0.2),Vector3(0.2,0.3,0.2),_pick(["6b4a35","5d7f78","8b5440"]))
+				x += 0.26
+			2:
+				s.box(root,Vector3(x+0.12,1.8,0.2),Vector3(0.26,0.14,0.22),_pick(["c9b98e","6b5a4a","a68a55"]))
+				x += 0.3
+			_:
+				x += 0.15
+
+## Swords and sabres on pegs, wiped bright (a weapon store).
+func _weapon_pegs(w: float) -> void:
+	var width: float = minf(w,1.6)
+	for y: float in [1.55,2.25]:
+		s.box(root,Vector3(0,y,0.03),Vector3(width,0.08,0.05),"6a5039")
+	for i: int in maxi(2,floori(width/0.4)):
+		var x: float = -width*0.38+i*width*0.76/maxf(1,maxi(2,floori(width/0.4))-1)
+		s.tilted_box(root,Vector3(x,1.9,0.09),Vector3(0.06,0.95,0.025),"c6cfcb",Vector3(0,0,0.04))
+		s.box(root,Vector3(x+0.02,2.42,0.09),Vector3(0.16,0.05,0.05),"b8923e")
+		s.box(root,Vector3(x+0.03,2.55,0.09),Vector3(0.06,0.2,0.06),_pick(["6b2a24","3a3530","5a4130"]))
+
+## Boards hung in a row: an inn's 水牌 of dishes, a post's notices pinned up (`loose`: some
+## askew, one corner curling).
+func _boards(w: float, papers: Array, ink: String, loose: bool = false) -> void:
+	var count: int = mini(5,maxi(2,floori(minf(w,2.0)/0.32)))
+	for i: int in count:
+		var board := Node3D.new()
+		board.position = Vector3(-(count-1)*0.16+i*0.32,2.0+(_jitter(0.1) if loose else 0.0),0.03)
+		board.rotation.z = _jitter(0.12) if loose else 0.0
+		root.add_child(board)
+		s.box(board,Vector3.ZERO,Vector3(0.24,0.62 if not loose else 0.4,0.02),_pick(papers))
+		for c: int in 4:
+			s.box(board,Vector3(0,0.2-c*0.13,0.012),Vector3(0.08,0.06,0.006),ink)
+	if not loose:
+		s.box(root,Vector3(0,2.35,0.03),Vector3(count*0.32+0.1,0.06,0.05),"6a5039")
+
+## A cloth banner hung on the wall, smoke-darkened at the top (a temple's 幡).
+func _banner_cloth() -> void:
+	s.box(root,Vector3(0,2.6,0.05),Vector3(0.5,0.05,0.05),"6a5039")
+	var cloth: String = _pick(["a8322a","c49a3a","8a3a2a"])
+	s.box(root,Vector3(0,2.0,0.06),Vector3(0.36,1.1,0.02),cloth)
+	s.box(root,Vector3(0,2.45,0.07),Vector3(0.36,0.2,0.012),Color(cloth).darkened(0.35).to_html(false))
+	for strip: int in 3:
+		s.box(root,Vector3(-0.12+strip*0.12,1.36,0.06),Vector3(0.08,0.2,0.02),cloth)
+
+# --- On tables ----------------------------------------------------------------------------------
+
+## What is left on a table top `top` high, `w` x `d` (a meal half eaten, wine, a ledger...). Its
+## own `variant` decides where things lie; the table drawn first, these above it.
+func table_set(shapes: Shapes, parent: Node3D, top: float, w: float, d: float, contents: String, variant: int) -> void:
+	s = shapes
+	root = parent
+	rng.seed = hash(variant)
+	match contents:
+		"meal":
+			for i: int in rng.randi_range(2,4):
+				var at := Vector3(_jitter(w*0.36),top,_jitter(d*0.32))
+				s.box(root,at+Vector3(0,0.04,0),Vector3(0.18,0.08,0.18),"d8d2c2")
+				if rng.randf()<0.6:
+					s.box(root,at+Vector3(0,0.085,0),Vector3(0.13,0.02,0.13),_pick(["efe8d8","c9a35e","8a4a2a"]))
+				s.tilted_box(root,at+Vector3(0.12,0.015,0.04),Vector3(0.025,0.02,0.26),"c9a35e",Vector3(0,_jitter(0.6),0))
+			s.box(root,Vector3(_jitter(w*0.15),top+0.03,_jitter(d*0.15)),Vector3(0.34,0.05,0.34),"d8d2c2")
+			s.box(root,Vector3(_jitter(w*0.15),top+0.065,_jitter(d*0.15)),Vector3(0.22,0.04,0.22),_pick(["b8743a","6f8a4a","9e3a32"]))
+		"wine":
+			var tipped := Node3D.new()
+			tipped.position = Vector3(_jitter(w*0.3),top+0.1,_jitter(d*0.25))
+			tipped.rotation = Vector3(0,rng.randf()*TAU,PI/2 if rng.randf()<0.5 else 0.0)
+			root.add_child(tipped)
+			s.box(tipped,Vector3(0,0.05,0),Vector3(0.2,0.3,0.2),"6b4a35")
+			s.box(tipped,Vector3(0,0.24,0),Vector3(0.1,0.08,0.1),"b23a2b")
+			for c: int in rng.randi_range(2,3):
+				s.box(root,Vector3(_jitter(w*0.38),top+0.035,_jitter(d*0.34)),Vector3(0.08,0.07,0.08),"d9cfb4")
+			s.box(root,Vector3(_jitter(w*0.2),top+0.005,_jitter(d*0.2)),Vector3(0.3,0.008,0.2),"6a3a2a")
+			s.box(root,Vector3(_jitter(w*0.3),top+0.02,_jitter(d*0.3)),Vector3(0.12,0.03,0.08),"e0c890")
+		"tea_used":
+			s.box(root,Vector3(_jitter(w*0.25),top+0.13,_jitter(d*0.2)),Vector3(0.26,0.24,0.26),_pick(["6c9690","a0835b","5d6b60"]))
+			for c: int in rng.randi_range(2,4):
+				var tilt: bool = rng.randf()<0.25
+				s.tilted_box(root,Vector3(_jitter(w*0.38),top+0.04,_jitter(d*0.34)),Vector3(0.09,0.08,0.09),"e3d5b4",Vector3(PI/2 if tilt else 0.0,0,0))
+			s.box(root,Vector3(_jitter(w*0.3),top+0.004,_jitter(d*0.3)),Vector3(0.22,0.006,0.16),"7a5a3a")
+		"ledger":
+			s.box(root,Vector3(-w*0.15,top+0.035,_jitter(0.05)),Vector3(0.5,0.06,0.36),"c9b98e")
+			s.box(root,Vector3(-w*0.15,top+0.07,0),Vector3(0.5,0.012,0.012),"4e6967")
+			s.box(root,Vector3(w*0.2,top+0.03,_jitter(0.05)),Vector3(0.46,0.05,0.24),"4b4031")
+			for bead: int in 6:
+				s.box(root,Vector3(w*0.2-0.17+bead*0.07,top+0.07,0),Vector3(0.05,0.04,0.18),"b79c66")
+			s.tilted_box(root,Vector3(_jitter(w*0.3),top+0.02,d*0.25),Vector3(0.03,0.03,0.3),"b99b68",Vector3(0,_jitter(0.8),0))
+		"sewing":
+			s.box(root,Vector3(_jitter(w*0.2),top+0.06,_jitter(d*0.15)),Vector3(0.4,0.1,0.32),"a68a55")
+			for spool: int in 3:
+				s.box(root,Vector3(_jitter(w*0.3),top+0.05,_jitter(d*0.3)),Vector3(0.07,0.09,0.07),["b23a2b","4a6f8f","d6b862"][spool])
+			s.tilted_box(root,Vector3(_jitter(w*0.25),top+0.01,_jitter(d*0.25)),Vector3(0.5,0.015,0.36),_pick(["486981","8a5a48","c9b98e"]),Vector3(0,_jitter(0.5),0))
+		"books":
+			for i: int in rng.randi_range(2,3):
+				s.box(root,Vector3(w*0.25+_jitter(0.03),top+0.04+i*0.07,_jitter(0.04)),Vector3(0.4,0.06,0.3),_pick(["4e6967","ad8055","c9b98e","65738a"]))
+			s.tilted_box(root,Vector3(-w*0.15,top+0.02,_jitter(0.08)),Vector3(0.5,0.02,0.36),"e4d8af",Vector3(0,_jitter(0.3),0))
+		"medicine":
+			for i: int in rng.randi_range(3,5):
+				s.box(root,Vector3(_jitter(w*0.38),top+0.04,_jitter(d*0.3)),Vector3(0.16,0.07,0.14),_pick(["cbbb8f","b8a374","d8ccaa"]))
+			s.box(root,Vector3(w*0.25,top+0.03,0),Vector3(0.06,0.05,0.4),"6a5039")
+			s.box(root,Vector3(w*0.25,top+0.1,-0.16),Vector3(0.14,0.02,0.14),"b8923e")
+		"tools":
+			s.tilted_box(root,Vector3(_jitter(w*0.25),top+0.05,_jitter(d*0.2)),Vector3(0.08,0.08,0.5),"a58456",Vector3(0,_jitter(0.8),0))
+			s.box(root,Vector3(_jitter(w*0.3),top+0.06,_jitter(d*0.25)),Vector3(0.2,0.12,0.12),"4e5657")
+			s.box(root,Vector3(_jitter(w*0.3),top+0.02,_jitter(d*0.25)),Vector3(0.4,0.03,0.1),"6f7879")
+		"offering":
+			for i: int in 3:
+				var at := Vector3((i-1)*w*0.28,top,_jitter(0.05))
+				s.box(root,at+Vector3(0,0.03,0),Vector3(0.24,0.05,0.24),"d8d2c2")
+				s.box(root,at+Vector3(0,0.09,0),Vector3(0.16,0.08,0.16),["d28a3a","e6d6b0","b8322a"][i])
+		"lamp":
+			s.box(root,Vector3(_jitter(w*0.25),top+0.08,_jitter(d*0.2)),Vector3(0.14,0.16,0.14),"7a6a54")
+			s.box(root,Vector3(0,top+0.2,0),Vector3(0.035,0.07,0.035),"ffd88a")
+			var light := OmniLight3D.new()
+			light.position = Vector3(0,top+0.5,0)
+			light.light_color = Color("ffc27d")
+			light.omni_range = 3.5
+			light.set_meta("day_energy",0.2)
+			light.set_meta("night_energy",0.9)
+			light.set_meta("flicker",0.1)
+			root.add_child(light)
+
+# --- On the floor -------------------------------------------------------------------------------
+
+## A little litter at `at` (floor level): food scraps, grains, chips, straw, paper, cinders,
+## iron scale, husks, ash. Flat; nothing to walk round.
+func scatter(shapes: Shapes, parent: Node3D, at: Vector3, kind: String, variant: int) -> void:
+	s = shapes
+	rng.seed = hash(variant)
+	var colors: Array
+	var size := Vector2(0.06,0.05)
+	var count: int = 4
+	match kind:
+		"shreds": colors = ["d8ccaa","8a6a3a","c9a35e","efe8d8"]
+		"grains": colors = ["e0d2a0","d8c48e","efe2b8"]; size = Vector2(0.035,0.03); count = 9
+		"chips": colors = ["c9ad7c","b2946a","d8be8c"]; size = Vector2(0.08,0.04)
+		"straw":
+			for i: int in 6:
+				s.tilted_box(parent,at+Vector3(_jitter(0.22),0.012,_jitter(0.22)),Vector3(0.03,0.012,rng.randf_range(0.15,0.3)),_pick(["a49667","b6aa7a","c4b484"]),Vector3(0,rng.randf()*TAU,0))
+			return
+		"paper": colors = ["e3d6b0","efe6cc","d6c48f"]; size = Vector2(0.14,0.1); count = 2
+		"cinders": colors = ["2a2826","3a3631","5a3a2a"]; size = Vector2(0.06,0.05); count = 7
+		"scrap": colors = ["4e5657","6f7879","5d6667"]; size = Vector2(0.09,0.03); count = 4
+		"husks": colors = ["c4ad72","b39a62","d8c48e"]; size = Vector2(0.05,0.03); count = 10
+		"ash": colors = ["8e8a84","a19c94","7a7670"]; size = Vector2(0.12,0.1); count = 3
+		_: return
+	for i: int in count:
+		s.tilted_box(parent,at+Vector3(_jitter(0.24),0.008+i*0.0004,_jitter(0.24)),Vector3(size.x*rng.randf_range(0.7,1.3),0.01,size.y*rng.randf_range(0.7,1.3)),_pick(colors),Vector3(0,rng.randf()*TAU,0))

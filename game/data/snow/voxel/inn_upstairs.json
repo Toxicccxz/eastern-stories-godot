@@ -37,9 +37,6 @@
     {"kind": "hanging_lantern", "at": [352, 24]},
     {"kind": "hanging_lantern", "at": [0, -32]},
     {"kind": "hanging_lantern", "at": [0, 112]},
-    {"kind": "pot", "at": [-168, -72]},
-    {"kind": "pot", "at": [168, -72]},
-    {"kind": "pot", "at": [-172, -150]},
     {"kind": "pot", "at": [520, 200]},
     {"kind": "pot", "at": [-512, 96]}
   ]

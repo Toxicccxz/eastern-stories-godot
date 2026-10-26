@@ -53,7 +53,8 @@ A layout's `maps` entry names its scene `file` under game/scenes/world/<region>/
 Positions and boxes are pixels; boxes are [x0, y0, x1, y1]. A `note` field, and a trailing string
 in a fill, gap_at, line point or blob row, is a comment. A fill row may end with
 {"look": {"kind": ..., ...}}: what stands on its blocked box, drawn by the map's voxel view from
-the scene's `Furnishings` nodes (furnishings()); `scene.presentation` names that view and its
+the scene's `Furnishings` nodes (furnishings()); a room's `life` adds lived-in corner pieces to
+them (life.py); `scene.presentation` names that view and its
 config, game/data/<region>/voxel/<map>.json (AGENTS.md「地图」). Captions, neighbours and auto-placed
 markers read game/data/<region>/ (rooms, world, spawns, item_spawns).
 """
@@ -61,11 +62,12 @@ markers read game/data/<region>/ (rooms, world, spawns, item_spawns).
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 import sys
 from pathlib import Path
 
-from . import canvas, cells, fills, standard, town
+from . import canvas, cells, fills, life, standard, town
 from . import scene as sc
 from .region import Region
 from .tiles import BACKDROP, T
@@ -90,10 +92,15 @@ def layout(region: str) -> dict:
 
 def paint_map(region: Region, entry: dict, notes: list | None = None) -> str:
     """The scene text of one layout entry."""
-    entry = PREPARE.get(entry['draw']['technique'], lambda _region, e: e)(region, entry)
+    entry = PREPARE.get(entry['draw']['technique'], lambda _region, e: copy.deepcopy(e))(region, entry)
     scene = entry['scene']
     style = scene['style']
     drawn = TECHNIQUES[entry['draw']['technique']](region, entry)
+    # Rooms with a life get their corner pieces, placed on the drawing, then drawn again with
+    # them (life.py): every check the technique makes covers them too.
+    if pieces := life.dress(entry, drawn, notes=notes):
+        entry['draw']['fills' if 'fills' in entry['draw'] else 'props'] += pieces
+        drawn = TECHNIQUES[entry['draw']['technique']](region, entry)
     backdrop = None
     if entry['draw'].get('base') in standard.STANDARD['trimmed_bases'] and scene['style'] == 'map':
         zones = [v[:4] for v in entry['draw'].get('zones', {}).values() if isinstance(v, list)]
@@ -160,6 +167,7 @@ def paint_map(region: Region, entry: dict, notes: list | None = None) -> str:
                  'script = ExtResource("map_view")\n'
                  'layout_path = "' + presentation['layout'] + '"\n')
     text += furnishings(entry['draw'])
+    text += life.scene_node(life.rooms_of(entry))
     return drawn.tiles.apply(text)
 
 

@@ -12,6 +12,7 @@ const Woods = preload("res://presentation/voxel/props/voxel_woods.gd")
 const Town = preload("res://presentation/voxel/props/voxel_town.gd")
 const Waterside = preload("res://presentation/voxel/props/voxel_waterside.gd")
 const Garden = preload("res://presentation/voxel/props/voxel_garden.gd")
+const Household = preload("res://presentation/voxel/props/voxel_household.gd")
 const UNIT: float = 32.0
 var shapes := Shapes.new()
 var rng := RandomNumberGenerator.new()
@@ -72,6 +73,11 @@ var woods := Woods.new()
 var town := Town.new()
 var waterside := Waterside.new()
 var garden := Garden.new()
+var household := Household.new()
+## How lived in the rooms look (the scene's RoomLife): worn floors, old walls, things on walls.
+var life := VoxelLife.new()
+## The ground as drawn: cell -> kind, a zone's `surfaces` applied.
+var terrain_cells: Dictionary[Vector2i, String] = {}
 ## Birds, dust, smoke and drips (layout `ambience`, and the props that make them).
 var ambience: VoxelAmbience
 
@@ -197,6 +203,8 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	waterside.ambience = ambience
 	garden.rng = rng
 	garden.ambience = ambience
+	household.ambience = ambience
+	life.prepare(self,map,layout)
 	_terrain(map, layout.get("reshape",[]), layout.get("exit_trails",{}))
 	for building: Dictionary in layout.get("buildings", []):
 		_building(map, building)
@@ -205,7 +213,10 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	var furnishings: Node = map.get_node_or_null("Furnishings")
 	if furnishings != null:
 		for node: Node in furnishings.get_children():
-			_prop(furnishing(node as Node2D))
+			var data: Dictionary = furnishing(node as Node2D)
+			life.dress(data)
+			_prop(data)
+	life.finish(map,terrain_cells)
 	_plant_groves()
 	# Split only batches exceeding Mobile's eight local omni lights. Making every
 	# street tile batch smaller needlessly multiplies draw calls away from doorways.
@@ -456,6 +467,7 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 				if cells[edge_cell] in ["path","riverbank"] and not ground_styles.get(cells[edge_cell],{}).get("clean",false):
 					ground.dirt(edge_cell)
 		ground.puddles()
+	terrain_cells = cells
 
 ## Outdoors a blocked box (a board, a stone lion) stands on the ground beside it, not on
 ## grass: each blocked cell takes the nearest open ground kind along the four axes.
@@ -541,9 +553,47 @@ func _wall_cell(into: Node3D, p: Vector3, height: float, horizontal: bool) -> vo
 	if indoor:
 		_interior_wall(into,p,height,horizontal)
 
-## A wall cell of rock (rough courses proud of each other) or rammed earth (bands).
+## A wall cell of rock (rough courses proud of each other) or rammed earth (bands); indoors also
+## plaster of a room's own colour, upright boards or 青砖 courses (a room's life, VoxelLife).
 func _styled_wall_cell(into: Node3D, p: Vector3, height: float, look: Dictionary, horizontal: bool = true) -> void:
 	var colors: Array = look.get("colors",["7c6e58","8b7c63","6e6250","978869"])
+	match String(look.get("style","rock")):
+		"plaster":
+			shapes.box(into,p+Vector3(0,height/2,0),Vector3(0.5,height,0.5),String(look["wall"]))
+			shapes.box(into,p+Vector3(0,height+0.05,0),Vector3(0.53,0.12,0.53),"78513b")
+			_interior_wall(into,p,height,horizontal)
+			return
+		"boards":
+			# Upright planks, two to a cell, of slightly different lengths and shades, a dark seam
+			# between; the skirting and top rail as on plaster.
+			shapes.box(into,p+Vector3(0,height/2,0),Vector3(0.48,height,0.48),"4a3a2c")
+			for plank: int in 2:
+				var offset: float = -0.125+plank*0.25
+				var at := p+(Vector3(offset,0,0) if horizontal else Vector3(0,0,offset))
+				shapes.box(into,at+Vector3(0,height/2,0),Vector3(0.235 if horizontal else 0.5,height,0.5 if horizontal else 0.235),_pick(colors))
+			shapes.box(into,p+Vector3(0,0.16,0),Vector3(0.54,0.30,0.54),"654b38")
+			shapes.box(into,p+Vector3(0,height+0.05,0),Vector3(0.53,0.12,0.53),"78513b")
+			if height>1.0:
+				shapes.box(into,p+Vector3(0,2.9,0),Vector3(0.55,0.09,0.55),"72503a")
+			return
+		"brick":
+			# 青砖 in running bond, the courses offset by half a brick, mortar showing between.
+			shapes.box(into,p+Vector3(0,height/2,0),Vector3(0.48,height,0.48),String(look.get("mortar","9a9888")))
+			var course: int = 0
+			var y: float = 0.0
+			while y < height-0.01:
+				var h: float = minf(0.17,height-y)
+				var shift: float = 0.125 if course%2 else 0.0
+				for brick: int in 2:
+					var offset: float = -0.125+brick*0.25+shift
+					if offset>0.25:
+						offset -= 0.5
+					var at := p+(Vector3(offset,0,0) if horizontal else Vector3(0,0,offset))
+					shapes.box(into,at+Vector3(0,y+h/2,0),Vector3(0.235 if horizontal else 0.5,h-0.02,0.5 if horizontal else 0.235),_pick(colors))
+				y += 0.17
+				course += 1
+			shapes.box(into,p+Vector3(0,height+0.05,0),Vector3(0.53,0.12,0.53),"5c5a52")
+			return
 	if look.get("style","rock")=="palisade":
 		# 老松寨's wall: logs stood side by side, sharpened, lashed at two heights.
 		for log_index: int in 2:
@@ -821,7 +871,7 @@ func draw_look(into: Shapes, parent: Node3D, data: Dictionary) -> bool:
 func _draw_kind(into: Shapes, root: Node3D, data: Dictionary, w: float, d: float) -> bool:
 	return furniture.draw(into,root,data,w,d) or fixtures.draw(into,root,data,w,d) or trade_props.draw(into,root,data,w,d) or wilds.draw(into,root,data,w,d) \
 		or shrine_props.draw(into,root,data,w,d) or woods.draw(into,root,data,w,d) or town.draw(into,root,data,w,d) \
-		or waterside.draw(into,root,data,w,d) or garden.draw(into,root,data,w,d)
+		or waterside.draw(into,root,data,w,d) or garden.draw(into,root,data,w,d) or household.draw(into,root,data,w,d)
 
 func _prop(data: Dictionary) -> void:
 	var a: Array = data.get("at",[0,0])
