@@ -1,0 +1,202 @@
+{
+	"note": "How lived-in a room looks, by what the room is used for (layout `life`: {\"use\", \"wealth\", \"seed\", \"tidy\"}). Read by the map painter (corner pieces that block, written into the scene's Furnishings) and by the voxel view (worn floors, old walls, soot, things on walls and tables, small floor things; presentation only). Nothing here changes a rule. The room's ES2 text wins over a preset: a room it calls clean is `tidy`, a thing it rules out is left out of its use.",
+	"wealth": {
+		"poor": {"grime": 0.3, "cobwebs": 0.5, "patches": 0.6, "scatter": 1.5, "pieces": 1.2},
+		"plain": {"grime": 0.0, "cobwebs": 0.12, "patches": 0.25, "scatter": 1.0, "pieces": 1.0},
+		"rich": {"grime": -0.3, "cobwebs": 0.0, "patches": 0.0, "scatter": 0.4, "pieces": 0.8}
+	},
+	"tidy": {"grime": 0.4, "cobwebs": 0.0, "patches": 0.4, "scatter": 0.25, "pieces": 0.7},
+	"uses": {
+		"inn_hall": {
+			"walls": "boards", "grime": 0.6,
+			"hangings": ["menu_boards", "wall_lamp", "string_hang:chili", "new_year_print", "string_hang:garlic", "wall_shelf"], "hang": 0.22,
+			"tables": ["meal", "wine", "meal", "tea_used", "wine"],
+			"pieces": [
+				{"kind": "wine_jars", "size": [48, 32]},
+				{"kind": "crocks", "size": [32, 32]},
+				{"kind": "clutter", "size": [48, 32], "items": ["broom", "bucket", "basket"]},
+				{"kind": "sacks", "size": [48, 32], "cloth": "a8946a"},
+				{"kind": "baskets", "size": [32, 32]}
+			],
+			"count": 7,
+			"scatter": ["shreds", "grains", "chips"], "spread": 0.05
+		},
+		"corridor": {
+			"walls": "boards", "grime": 0.35,
+			"hangings": ["wall_lamp", "calendar"], "hang": 0.1,
+			"pieces": [
+				{"kind": "clutter", "size": [32, 32], "items": ["bucket", "broom"]},
+				{"kind": "bedding", "size": [48, 32]}
+			],
+			"count": 2,
+			"scatter": ["shreds"], "spread": 0.02
+		},
+		"guest_room": {
+			"walls": "plaster", "grime": 0.35,
+			"hangings": ["clothes_peg", "straw_cape", "wall_lamp", "new_year_print"], "hang": 0.18,
+			"tables": ["tea_used", "lamp", "meal"],
+			"pieces": [
+				{"kind": "clutter", "size": [32, 32], "items": ["bundle", "sandals"]},
+				{"kind": "chest_stack", "size": [32, 32]}
+			],
+			"count": 1,
+			"scatter": ["shreds"], "spread": 0.02
+		},
+		"cellar": {
+			"walls": "earth", "grime": 0.75,
+			"hangings": [], "hang": 0.0,
+			"pieces": [
+				{"kind": "crocks", "size": [32, 32]},
+				{"kind": "old_furniture", "size": [32, 32]}
+			],
+			"count": 2,
+			"scatter": ["straw", "dust"], "spread": 0.1
+		},
+		"bank": {
+			"walls": "plaster", "grime": 0.3,
+			"hangings": ["ledger_hook", "couplet", "calendar", "wall_lamp"], "hang": 0.16,
+			"tables": ["ledger"],
+			"pieces": [
+				{"kind": "chest_stack", "size": [48, 32]},
+				{"kind": "crocks", "size": [32, 32]}
+			],
+			"count": 2,
+			"scatter": ["paper"], "spread": 0.02
+		},
+		"smithy": {
+			"walls": "brick", "grime": 0.85,
+			"hangings": ["tool_hooks", "tool_hooks:horseshoes", "tool_hooks"], "hang": 0.3,
+			"tables": ["tools"],
+			"pieces": [
+				{"kind": "iron_goods", "size": [48, 32], "lean": true},
+				{"kind": "iron_goods", "size": [48, 32], "heap": "heads"},
+				{"kind": "coal_heap", "size": [48, 32]},
+				{"kind": "iron_goods", "size": [32, 32], "heap": "pots"},
+				{"kind": "water_vat", "size": [32, 32]},
+				{"kind": "iron_goods", "size": [32, 32], "heap": "heads"},
+				{"kind": "iron_goods", "size": [48, 32], "heap": "blades", "lean": true},
+				{"kind": "lumber", "size": [48, 32], "lean": true}
+			],
+			"count": 7,
+			"scatter": ["cinders", "scrap"], "spread": 0.12
+		},
+		"apothecary": {
+			"walls": "boards", "grime": 0.35,
+			"hangings": ["calendar", "couplet", "wall_lamp", "wall_shelf"], "hang": 0.14,
+			"tables": ["medicine"],
+			"pieces": [
+				{"kind": "crocks", "size": [32, 32]},
+				{"kind": "baskets", "size": [32, 32]},
+				{"kind": "chest_stack", "size": [32, 32]},
+				{"kind": "censer", "size": [32, 32]}
+			],
+			"count": 5,
+			"scatter": ["paper", "dust"], "spread": 0.03
+		},
+		"post": {
+			"walls": "boards", "grime": 0.5,
+			"hangings": ["notices", "straw_cape", "calendar", "wall_lamp"], "hang": 0.2,
+			"tables": ["ledger"],
+			"pieces": [
+				{"kind": "sacks", "size": [48, 32], "cloth": "8a8770"},
+				{"kind": "old_furniture", "size": [32, 32]},
+				{"kind": "chest_stack", "size": [32, 32]}
+			],
+			"count": 4,
+			"scatter": ["paper", "dust"], "spread": 0.06
+		},
+		"mill": {
+			"walls": "boards", "grime": 0.6,
+			"hangings": ["string_hang:corn", "straw_cape", "tool_hooks:sickles", "string_hang:corn"], "hang": 0.22,
+			"pieces": [
+				{"kind": "sacks", "size": [48, 32], "cloth": "b8a374"},
+				{"kind": "baskets", "size": [32, 32]},
+				{"kind": "sacks", "size": [32, 32], "cloth": "a8946a"},
+				{"kind": "lumber", "size": [48, 32], "lean": true},
+				{"kind": "clutter", "size": [32, 32], "items": ["broom", "basket"]}
+			],
+			"count": 6,
+			"scatter": ["grains", "husks", "straw"], "spread": 0.16
+		},
+		"pawnshop": {
+			"walls": "boards", "grime": 0.55,
+			"hangings": ["ledger_hook", "clothes_peg", "calendar", "clothes_peg"], "hang": 0.2,
+			"tables": ["ledger"],
+			"pieces": [
+				{"kind": "chest_stack", "size": [32, 32]},
+				{"kind": "old_furniture", "size": [32, 32]},
+				{"kind": "crocks", "size": [32, 32]}
+			],
+			"count": 4,
+			"scatter": ["dust", "paper"], "spread": 0.05
+		},
+		"storeroom": {
+			"walls": "boards", "grime": 0.6,
+			"hangings": ["wall_lamp"], "hang": 0.06,
+			"pieces": [
+				{"kind": "chest_stack", "size": [48, 32]},
+				{"kind": "sacks", "size": [32, 32], "cloth": "8a8770"},
+				{"kind": "chest_stack", "size": [32, 32]}
+			],
+			"count": 3,
+			"scatter": ["dust"], "spread": 0.08
+		},
+		"armory": {
+			"walls": "boards", "grime": 0.3,
+			"hangings": ["weapon_pegs", "weapon_pegs", "wall_lamp"], "hang": 0.25,
+			"pieces": [
+				{"kind": "lumber", "size": [48, 32], "lean": true, "staves": true},
+				{"kind": "chest_stack", "size": [32, 32]}
+			],
+			"count": 2,
+			"scatter": [], "spread": 0.0
+		},
+		"hall": {
+			"walls": "plaster", "grime": 0.3,
+			"hangings": ["wall_scroll:calligraphy", "wall_scroll:landscape", "wall_scroll:calligraphy", "wall_lamp"], "hang": 0.14,
+			"tables": ["tea_used"],
+			"pieces": [
+				{"kind": "flower_stand", "size": [32, 32]},
+				{"kind": "crocks", "size": [32, 32], "scrolls": true}
+			],
+			"count": 2,
+			"scatter": [], "spread": 0.0
+		},
+		"study": {
+			"walls": "plaster", "grime": 0.2,
+			"hangings": ["wall_scroll:calligraphy", "clothes_peg", "wall_lamp"], "hang": 0.16,
+			"tables": ["sewing", "books"],
+			"pieces": [
+				{"kind": "crocks", "size": [32, 32], "scrolls": true},
+				{"kind": "baskets", "size": [32, 32], "sewing": true}
+			],
+			"count": 2,
+			"scatter": ["paper"], "spread": 0.02
+		},
+		"temple": {
+			"walls": "plaster", "grime": 0.7,
+			"hangings": ["talismans", "couplet", "talismans", "banner_cloth"], "hang": 0.2,
+			"tables": ["offering"],
+			"pieces": [
+				{"kind": "prayer_cushions", "size": [48, 32]},
+				{"kind": "crocks", "size": [32, 32]},
+				{"kind": "old_furniture", "size": [32, 32]},
+				{"kind": "clutter", "size": [32, 32], "items": ["broom", "bucket"]}
+			],
+			"count": 4,
+			"scatter": ["ash", "paper", "straw"], "spread": 0.08
+		},
+		"classroom": {
+			"walls": "plaster", "grime": 0.35,
+			"hangings": ["wall_scroll:calligraphy", "calendar", "wall_lamp"], "hang": 0.12,
+			"tables": ["books"],
+			"pieces": [
+				{"kind": "crocks", "size": [32, 32], "scrolls": true},
+				{"kind": "clutter", "size": [32, 32], "items": ["books", "umbrella"]},
+				{"kind": "baskets", "size": [32, 32]}
+			],
+			"count": 3,
+			"scatter": ["paper"], "spread": 0.03
+		}
+	}
+}

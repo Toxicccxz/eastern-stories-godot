@@ -31,7 +31,7 @@ and repainting re-scales every map drawn from it. Three things read it:
       "draw": {"technique": "interior", "building": "school" | "inn" | ...,
                "larger_than": ["<region>/<map key>", ...],
                "rooms": {"<zone>": {"size": "<room class>", "floor": "floor_wood", "wall": "wall_wood",
-                                    "at": [column, row]}, ...},
+                                    "at": [column, row], "life": {...} (life.py)}, ...},
                "props": [[kind, "<zone>", anchor, wide, deep, note?], ...],
                "placed": {"<spawn point>": ["<zone>", anchor]},
                "doors": {"<portal id>": "north" | "south" | "east" | "west"},
@@ -392,6 +392,8 @@ def prepare_interior(region, entry: dict) -> dict:
         'placed': placed, 'gap_at': d.get('gap_at', []),
         'interior': {'floor': floor_area, 'larger_than': d.get('larger_than', []), 'notes': size_notes(region, rooms)},
     }
+    if life := {z: spec['life'] for z, spec in rooms.items() if 'life' in spec}:
+        entry['draw']['life'] = life
     return entry
 
 
