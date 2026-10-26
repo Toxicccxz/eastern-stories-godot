@@ -91,11 +91,25 @@ func _check_mountain(tree: SceneTree, session: WorldSessionController, map: Worl
 	for mass: Dictionary in hall.get("masses", []):
 		terrace = terrace or mass.get("roof_form", "") == "terrace" and int(mass.get("rocks", 0)) == 5
 	_check(terrace, "聆啸厅's terrace over the gate with its five grey-green stones (forehall.c)")
-	var maples: int = 0
+	var row: int = 0
+	var stray: int = 0
 	for prop: Dictionary in view.layout.get("props", []):
 		if prop["kind"] == "tree" and prop.get("species", "") == "maple":
-			maples += 1
-	_check(maples >= 5 and "maple" in view.layout.get("flora", {}).get("tree_types", []), "the maple woods (sroad1.c) and wpath1's row of maples")
+			row += 1 if (prop["at"] as Array)[1] == 792 else 0
+			stray += 0 if (prop["at"] as Array)[1] == 792 else 1
+	_check(row >= 5 and stray == 0, "wpath1's row of maples (小径的北边整齐地种著一排枫树), no other maple props")
+	# 美术规划 §1: 枫红 only along the 官道; elsewhere the mountain's pines, and no blossom.
+	var flora: Dictionary = view.layout.get("flora", {})
+	var road_flora: Dictionary = view.geometry._flora_at(Vector2(1632, 2064))
+	var peak_flora: Dictionary = view.geometry._flora_at(Vector2(1024, 840))
+	_check("maple" in road_flora.get("tree_types", []) and view.geometry._ground_style(Vector2(1632, 2064), "forest").get("colors", [""])[0] == "6e4a30",
+		"the maple woods and their red leaves along the 官道 (sroad1.c: 山上茂密的枫树林)")
+	_check(not "maple" in peak_flora.get("tree_types", []) and not "maple" in flora.get("cliff_tree_types", []) and view.geometry._ground_style(Vector2(1024, 840), "forest").get("colors", [""])[0] != "6e4a30",
+		"no maples or red leaves over the rest of the mountain")
+	var blossom: bool = float(flora.get("blossom_trees", 0.35)) > 0.0 or "blossom" in flora.get("tree_types", [])
+	for area: Dictionary in flora.get("areas", []):
+		blossom = blossom or float(area.get("blossom_trees", flora.get("blossom_trees", 0.35))) > 0.0 or "blossom" in area.get("tree_types", [])
+	_check(not blossom, "no blossom trees on 水烟阁's mountain: 雪亭镇 keeps them")
 	_check(view.geometry.cliffs != null and view.geometry.cliffs.holes().size() > 300, "水烟阁 stands on its peak, deep chasms round it (eaststair.c: 孤立于独峰之上)")
 	_check(not view.geometry.cliffs.config.get("lifts", []).is_empty() and float(view.geometry.cliffs.config.get("south_rise", 1.0)) > 1.0,
 		"rock south of the ways rises slowly: the ways stay in view")

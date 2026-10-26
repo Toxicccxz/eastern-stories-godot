@@ -89,7 +89,7 @@
     {"kind": "rockery", "at": [528, 700], "size": [64, 96], "height": 2.2, "note": "the light wells"},
     {"kind": "tree", "at": [528, 940], "size": [16, 16], "species": "bamboo", "scale": 0.85},
     {"kind": "rockery", "at": [1408, 920], "size": [64, 96], "height": 1.9, "pine": true},
-    {"kind": "tree", "at": [1408, 660], "size": [16, 16], "species": "maple", "scale": 0.7},
+    {"kind": "tree", "at": [1408, 660], "size": [16, 16], "species": "mountain_pine", "scale": 0.6, "note": "a small pine by the rockery; maples belong to the 官道"},
 
     {"kind": "hanging_lantern", "at": [1648, 840], "flicker": 0.06},
     {"kind": "wall_scroll", "at": [1478, 760], "size": [40, 8], "rotation": 90, "wall_mounted": true},
