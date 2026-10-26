@@ -1,0 +1,24 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 25,
+  "note": "石室 (outdoor.c, cavehall.c, stoneroom.c): rooms cut in the mountain, walls of dressed grey stone, floors of fitted slabs. 石室: 透着一种说不清的神秘力量; 大厅: 室内设施古朴，但却一尘不染, the night pearl's pale light; 东石室: 南边有两个蒲团…此外别无他物.",
+  "palette": {"wood": ["7e7668", "887f70", "746d60"], "wall": "938a78"},
+  "ground": {"floor_yard": {"style": "slabs", "lengths": [2, 3], "depths": [1, 2], "cracks": 0.06, "broken": 0.02, "sunk": 0.0, "tufts": 0.0, "stones": ["9a917e", "a49a86", "8f8774", "ab9f8a"], "worn": ["9e9582", "a89e8a"], "bed": "5e584c", "joint": 0.035, "mud": "7c7c70", "crack": "626358", "moss": "5f6e4a", "moss_chance": 0.0, "clean": true}},
+  "wall_looks": [{"rect": [-752, -576, 752, 576], "style": "rock", "colors": ["857c6a", "908674", "7a7262", "9a8f7a", "6f7466"], "seam": "564f44", "note": "dressed stone, the courses true: warm old grey, a little moss where it is damp"}],
+  "light": {"ambient": ["c0b4a0", "6a7488"], "ambient_energy": [0.44, 0.34], "sun_energy": [0.25, 0.08]},
+  "props": [
+    {"kind": "sign", "at": [-400, -16], "size": [112, 16], "height": 2.75, "tall": 0.42, "text": "非我弟子  莫入此门", "board": "6c6f63", "letters": "2c2a24", "wall_mounted": true, "note": "outdoor.c: 墙上写了两行字…非我弟子，莫入此门"},
+    {"kind": "wall_sword", "at": [-60, -16], "size": [64, 16], "height": 1.7, "wall_mounted": true, "note": "outdoor.c: 东首墙上挂这一把木剑"},
+    {"kind": "glow", "at": [-300, 300], "color": "b8d0ff", "range": 5.0, "day": 0.35, "night": 0.6, "height": 1.6, "note": "一种说不清的神秘力量"},
+    {"kind": "incense_burner", "at": [-344, -400], "size": [32, 32], "note": "before the Buddha, its ash swept"},
+    {"kind": "straw_patch", "at": [-344, -300], "size": [96, 64], "note": "an old reed mat before the Buddha, swept"},
+    {"kind": "candles", "at": [-300, -420], "count": 2},
+    {"kind": "prayer_cushion", "at": [230, -110], "size": [32, 32], "note": "stoneroom.c: 南边有两个蒲团，似是用来打坐的"},
+    {"kind": "prayer_cushion", "at": [300, -110], "size": [32, 32]},
+    {"kind": "glow", "at": [110, -304], "color": "dfe8ff", "range": 4.5, "day": 0.5, "night": 0.7, "height": 1.4, "note": "大厅中有光线透出来"},
+    {"kind": "stone_door", "at": [-352, 560], "size": [64, 16], "rotation": 0, "note": "the great stone door seen from within"}
+  ],
+  "ambience": {"dust": [{"rect": [-720, 0, 32, 544], "count": 26, "color": "c8d8f0", "wind": [0.2, -0.3], "note": "motes that hang in the air: something unseen in the room"}]},
+  "actors": {"default": {"coat": "b3a98c"}, "common.npc.juechen.master": {"coat": "d8d2bc", "hat": true}}
+}

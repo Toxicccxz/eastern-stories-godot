@@ -45,6 +45,7 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"menu_boards": _boards(w,["e8dcc0","d9cba6","e8dcc0","c9b48a"],"3a3530")
 		"notices": _boards(w,["e3d6b0","d6c48f","efe6cc"],"55504a",true)
 		"banner_cloth": _banner_cloth()
+		"stone_slabs": _stone_slabs(w,d)
 		_:
 			return false
 	return true
@@ -195,6 +196,23 @@ func _coal_heap(w: float, d: float) -> void:
 	s.tilted_box(root,Vector3(w*0.02,0.32,0),Vector3(0.22,0.04,0.26),"4e5657",Vector3(0,0,0.5))
 	s.box(root,Vector3(0,0.006,d*0.35),Vector3(w*0.9,0.012,d*0.4),"3a3631")
 
+## 石板: slabs a mason has cut, stacked flat in neat piles of a few, or (`lean`) stood on edge in
+## a row against the wall, sizes and greys a little different, chips at their foot.
+func _stone_slabs(w: float, d: float) -> void:
+	var stones: Array = data.get("colors",["8f9084","9b9b8e","85877b","a3a294"])
+	if data.get("lean",false):
+		for slab: int in maxi(3,floori(w/0.16)):
+			var x: float = -w/2+0.1+slab*0.16
+			var tall: float = rng.randf_range(0.8,1.3)
+			s.tilted_box(root,Vector3(x,tall/2,-d*0.15),Vector3(0.07,tall,minf(d*0.7,0.9)),_pick(stones),Vector3(-0.18,0,0))
+	else:
+		for pile: int in maxi(1,floori(w/0.75)):
+			var x: float = -w/2+(pile+0.5)*w/maxi(1,floori(w/0.75))
+			for layer: int in rng.randi_range(3,6):
+				s.box(root,Vector3(x+_jitter(0.03),0.05+layer*0.085,_jitter(0.03)),Vector3(minf(0.68,w*0.9),0.075,d*0.78),_pick(stones))
+	for chip: int in 4:
+		s.box(root,Vector3(_jitter(w*0.45),0.01,d*0.4+_jitter(0.05)),Vector3(0.07,0.02,0.05),_pick(stones))
+
 ## 木料: planks and poles leant on the wall (`staves`: a bundle of practice staves).
 func _lumber(w: float, d: float) -> void:
 	var wood: Array = ["a3845d","8c6e4c","b2946a","7a5f43"]
@@ -234,6 +252,14 @@ func _tool_hooks(w: float) -> void:
 			"sickles":
 				s.box(root,Vector3(x,1.66,0.09),Vector3(0.05,0.42,0.04),"8f6f45")
 				s.tilted_box(root,Vector3(x+0.1,1.88,0.09),Vector3(0.28,0.04,0.02),"8f9a9b",Vector3(0,0,-0.6))
+			"chisels":
+				# A mason's: chisels, a point and a mallet on alternate pegs.
+				if i%3==2:
+					s.box(root,Vector3(x,1.7,0.1),Vector3(0.05,0.34,0.05),"a58456")
+					s.box(root,Vector3(x,1.52,0.1),Vector3(0.2,0.14,0.14),"8a6a45")
+				else:
+					s.box(root,Vector3(x,1.68,0.1),Vector3(0.04,0.4,0.04),"6f7879")
+					s.box(root,Vector3(x,1.47,0.1),Vector3(0.06,0.04,0.03),"9aa3a4")
 			_:
 				var handle: float = rng.randf_range(0.4,0.6)
 				s.box(root,Vector3(x,1.88-handle/2,0.1),Vector3(0.05,handle,0.05),"a58456")
@@ -492,6 +518,7 @@ func scatter(shapes: Shapes, parent: Node3D, at: Vector3, kind: String, variant:
 		"scrap": colors = ["4e5657","6f7879","5d6667"]; size = Vector2(0.09,0.03); count = 4
 		"husks": colors = ["c4ad72","b39a62","d8c48e"]; size = Vector2(0.05,0.03); count = 10
 		"ash": colors = ["8e8a84","a19c94","7a7670"]; size = Vector2(0.12,0.1); count = 3
+		"stone_chips": colors = ["9a9a8c","a8a798","85877b"]; size = Vector2(0.07,0.05); count = 7
 		_: return
 	for i: int in count:
 		s.tilted_box(parent,at+Vector3(_jitter(0.24),0.008+i*0.0004,_jitter(0.24)),Vector3(size.x*rng.randf_range(0.7,1.3),0.01,size.y*rng.randf_range(0.7,1.3)),_pick(colors),Vector3(0,rng.randf()*TAU,0))

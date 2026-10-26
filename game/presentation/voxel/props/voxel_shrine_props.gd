@@ -24,6 +24,8 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"cobweb": _cobweb(w)
 		"rubble": _rubble(w,d)
 		"post": _post()
+		"paper_burner": _paper_burner(w,d)
+		"buddha": _buddha(w,d)
 		_:
 			return false
 	return true
@@ -202,3 +204,53 @@ func _post() -> void:
 	s.box(root,Vector3(0,height/2,0),Vector3(0.3,height,0.3),wood)
 	for crack: int in 2:
 		s.box(root,Vector3(0.155,0.8+crack*0.9,0),Vector3(0.01,0.5,0.06),"3d2c20")
+
+## 金纸亭 (temple0.c: 庙外的小空地边有一个简陋的金纸亭): a little stove of bricks to burn paper money
+## in, a tiled cap on posts over it, its mouth black with soot, ash and charred scraps spilt out
+## before it, a curl of smoke.
+func _paper_burner(w: float, d: float) -> void:
+	var brick: Array = data.get("colors",["7d5a46","8a6450","70503e"])
+	for course: int in 6:
+		for side: int in 4:
+			var along_x: bool = side < 2
+			var fixed: float = (d if along_x else w)*0.32*(1 if side%2 else -1)
+			var at := Vector3(0,0.1+course*0.18,fixed) if along_x else Vector3(fixed,0.1+course*0.18,0)
+			s.box(root,at,Vector3(w*0.66,0.16,0.12) if along_x else Vector3(0.12,0.16,d*0.66),String(brick[(course+side)%brick.size()]))
+	s.box(root,Vector3(0,0.52,d*0.33),Vector3(w*0.3,0.36,0.14),"1c1815")
+	s.box(root,Vector3(0,1.18,0),Vector3(w*0.72,0.08,d*0.72),"5a4a3c")
+	for x: float in [-w*0.36,w*0.36]:
+		for z: float in [-d*0.36,d*0.36]:
+			s.box(root,Vector3(x,1.45,z),Vector3(0.08,0.55,0.08),"5e4434")
+	s.box(root,Vector3(0,1.78,0),Vector3(w*0.95,0.12,d*0.95),"4f4a40")
+	s.box(root,Vector3(0,1.9,0),Vector3(w*0.6,0.12,d*0.6),"5a554a")
+	s.box(root,Vector3(0,2.02,0),Vector3(0.14,0.2,0.14),"5a554a")
+	for scrap: int in 7:
+		s.box(root,Vector3(sin(scrap*2.3)*w*0.25,0.02,d*0.45+absf(cos(scrap*1.7))*0.3),Vector3(0.12,0.012,0.09),["3a3530","d2b25a","2a2622","8a857c"][scrap%4])
+	if ambience != null:
+		ambience.smoke(root,Vector3(0,2.1,0),"9a978d",4,0.2)
+
+## 佛像 with its 夜明珠 (cavehall.c: 佛像顶部有一颗夜明珠发出莹莹的光芒): a seated figure on a
+## lotus base, hands in its lap, the pearl on its crown glowing pale blue-white and lighting the
+## hall day and night (`stone`: the figure's colours).
+func _buddha(w: float, d: float) -> void:
+	var stone: Array = data.get("stone",["8d8a7c","9a9789","807d70"])
+	var k: float = minf(w,d)*0.55
+	for petal: int in 10:
+		var a: float = petal*TAU/10.0
+		s.tilted_box(root,Vector3(cos(a)*k*0.72,0.32,sin(a)*k*0.62),Vector3(k*0.42,0.2,k*0.3),String(stone[petal%2]),Vector3(0,-a,0.25))
+	s.box(root,Vector3(0,0.2,0),Vector3(k*1.5,0.4,k*1.3),String(stone[2]))
+	s.box(root,Vector3(0,0.62,0),Vector3(k*1.25,0.38,k*1.0),String(stone[0]))
+	s.box(root,Vector3(0,1.22,-k*0.05),Vector3(k*0.8,0.9,k*0.6),String(stone[1]))
+	s.box(root,Vector3(0,0.9,k*0.22),Vector3(k*0.5,0.12,k*0.3),String(stone[0]))
+	for side: float in [-1.0,1.0]:
+		s.box(root,Vector3(side*k*0.44,1.25,0),Vector3(k*0.18,0.7,k*0.3),String(stone[1]))
+	s.box(root,Vector3(0,1.86,-k*0.02),Vector3(k*0.46,0.46,k*0.42),String(stone[0]))
+	s.box(root,Vector3(0,2.16,-k*0.02),Vector3(k*0.36,0.18,k*0.34),String(stone[2]))
+	s.box(root,Vector3(0,2.38,0),Vector3(0.22,0.22,0.22),"e6f2ff:glow")
+	var light := OmniLight3D.new()
+	light.position = Vector3(0,2.5,0.6)
+	light.light_color = Color("cfe4ff")
+	light.omni_range = float(data.get("range",7.0))
+	light.set_meta("day_energy",1.2)
+	light.set_meta("night_energy",1.8)
+	root.add_child(light)

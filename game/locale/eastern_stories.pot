@@ -1729,6 +1729,38 @@ msgstr ""
 msgid "绝地"
 msgstr ""
 
+#: scenes/world/green/green_maze.tscn
+msgid "坤——"
+msgstr ""
+
+#: scenes/world/green/green_maze.tscn
+msgid "艮——"
+msgstr ""
+
+#: scenes/world/green/green_maze.tscn
+msgid "坎——"
+msgstr ""
+
+#: scenes/world/green/green_maze.tscn
+msgid "巽——"
+msgstr ""
+
+#: scenes/world/green/green_maze.tscn
+msgid "震——"
+msgstr ""
+
+#: scenes/world/green/green_maze.tscn
+msgid "离——"
+msgstr ""
+
+#: scenes/world/green/green_maze.tscn
+msgid "兑——"
+msgstr ""
+
+#: scenes/world/green/green_maze.tscn
+msgid "乾——"
+msgstr ""
+
 #. es2:d/green/cave0 short
 #: scenes/world/green/green_mountain.tscn data/green/rooms.json
 msgid "洞口"
@@ -1837,7 +1869,7 @@ msgid "村长的家"
 msgstr ""
 
 #. es2:d/green/shop0 short
-#: scenes/world/green/shop0_house.tscn data/green/rooms.json
+#: scenes/world/green/shop0_house.tscn data/green/rooms.json data/green/voxel/village.json
 msgid "沈记商行"
 msgstr ""
 
@@ -31496,6 +31528,10 @@ msgstr ""
 
 #: data/cloud/voxel/zaihuoy_house.json
 msgid "商"
+msgstr ""
+
+#: data/green/voxel/stone_house.json
+msgid "非我弟子  莫入此门"
 msgstr ""
 
 #: data/snow/voxel/herbshop_house.json

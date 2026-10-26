@@ -1,0 +1,105 @@
+{
+  "indoor": false,
+  "camera_size": 21,
+  "note": "八卦迷阵 (eight0-7.c, closed.c): eight illusions, each under a sky, a ground and a weather of its own after its text, all held in the same thin mist (神密的薄雾) that blurs the distance; the 路牌 in each names its 卦. 坤 green plain, 艮 mountains round, 坎 water and a little land, 巽 a freezing wind, 震 lead cloud and lightning, 离 fire, 兑 a great lake, 乾 clear sky over rich fields; 绝地 dead rock in thick fog. (美术规划 G 组: 幻境.)",
+  "edge": {"minimum_margin": 32, "maximum_margin": 72, "depth": 2.0, "top": "3e4438", "bottom": "2a2c26", "strata": ["4e5048", "585a50", "46483f"]},
+  "light": {
+    "sky": ["b8c4bc", "121a20"],
+    "areas": [
+      {"rect": [128, 32, 896, 736], "sky": ["c2d0c4", "17221f"], "ambient": ["bfccbe", "6a7e8e"], "ambient_energy": [0.46, 0.32], "sun": ["f4f0dc", "8aa0c8"], "sun_energy": [0.62, 0.24], "fog": {"color": ["c2d0c4", "17221f"], "density": [0.0, 0.0], "depth": [58, 76], "depth_density": 1.0}, "note": "坤: 一片无垠的绿野…罩着一层神密的薄雾"},
+      {"rect": [2160, 32, 2928, 736], "sky": ["b6bec2", "131820"], "ambient": ["bab8b0", "66768c"], "ambient_energy": [0.42, 0.3], "sun": ["f0e6d2", "8898c0"], "sun_energy": [0.7, 0.26], "fog": {"color": ["b6bec2", "131820"], "density": [0.0, 0.0], "depth": [58, 76], "depth_density": 1.0}, "note": "艮: 群山环绕，不知所处"},
+      {"rect": [4192, 32, 4960, 736], "sky": ["8c9ea8", "0b131e"], "ambient": ["98aab6", "4e6680"], "ambient_energy": [0.42, 0.3], "sun": ["d0dce4", "7088b0"], "sun_energy": [0.5, 0.2], "fog": {"color": ["8c9ea8", "0b131e"], "density": [0.0, 0.0], "depth": [58, 76], "depth_density": 1.0}, "note": "坎: 四面环水，只有脚下一点陆地"},
+      {"rect": [128, 1904, 896, 2608], "sky": ["b4c2cc", "182030"], "ambient": ["b8c6d4", "7a8ca8"], "ambient_energy": [0.48, 0.34], "sun": ["e8f0f8", "9ab0d8"], "sun_energy": [0.66, 0.28], "fog": {"color": ["d6e0e8", "182030"], "density": [0.0, 0.0], "depth": [58, 76], "depth_density": 1.0}, "note": "巽: 寒风阵阵，奇寒澈骨"},
+      {"rect": [2160, 1904, 2928, 2608], "sky": ["4e505c", "0b0b12"], "ambient": ["7a7c8e", "3a3e54"], "ambient_energy": [0.46, 0.32], "sun": ["a8a8b8", "5a6080"], "sun_energy": [0.32, 0.14], "fog": {"color": ["484a56", "0b0b12"], "density": [0.0, 0.0], "depth": [58, 76], "depth_density": 1.0}, "note": "震: 铅云低沉，忽然一道闪电，跟着一阵巨雷"},
+      {"rect": [4192, 1904, 4960, 2608], "sky": ["9a4424", "2e0f08"], "ambient": ["d88a5a", "8a3a28"], "ambient_energy": [0.5, 0.42], "sun": ["ffb070", "c8603a"], "sun_energy": [0.85, 0.5], "fog": {"color": ["9a4424", "2e0f08"], "density": [0.0, 0.0], "depth": [58, 76], "depth_density": 1.0}, "note": "离: 火光冲天，炽热难当"},
+      {"rect": [128, 3776, 896, 4480], "sky": ["d6b676", "2a1c18"], "ambient": ["c8b490", "6a5a6e"], "ambient_energy": [0.44, 0.32], "sun": ["ffd08a", "a07a70"], "sun_energy": [0.72, 0.28], "fog": {"color": ["d6b676", "2a1c18"], "density": [0.0, 0.0], "depth": [58, 76], "depth_density": 1.0}, "note": "兑: 身处一个大湖泊之中，脚下只有四尺见方的一块陆地"},
+      {"rect": [2160, 3776, 2928, 4480], "sky": ["86c0ea", "13213a"], "ambient": ["c8dcc0", "6e88b0"], "ambient_energy": [0.48, 0.3], "sun": ["fff6dc", "a0b4e0"], "sun_energy": [1.0, 0.34], "fog": {"color": ["86c0ea", "13213a"], "density": [0.0, 0.0], "depth": [58, 76], "depth_density": 1.0}, "note": "乾: 长天一碧，沃野千里…那层神密的薄雾又起"},
+      {"rect": [4192, 3776, 4960, 4480], "sky": ["5e605c", "0e0e0e"], "ambient": ["8a8a84", "3e4250"], "ambient_energy": [0.44, 0.3], "sun": ["b8b4a8", "6a7088"], "sun_energy": [0.28, 0.12], "fog": {"color": ["6e6e68", "141414"], "density": [0.0, 0.0], "depth": [34, 72], "depth_density": 0.9}, "note": "绝地: 四周没有任何出口"}
+    ]
+  },
+  "cliffs": {
+    "kinds": ["cliff"],
+    "low": 1.4,
+    "high": 3.2,
+    "rise": 64,
+    "step": 0.5,
+    "rough": 0.7,
+    "strata": ["7a6e5e", "86796a", "6e6456", "928474"],
+    "tops": ["6a6a50", "767458"]
+  },
+  "reshape": [
+    {"rect": [4352, 192, 4800, 576], "from": ["boundary"], "to": "water", "note": "坎: the water runs out to the mist"},
+    {"rect": [288, 3936, 736, 4320], "from": ["boundary"], "to": "deep_water", "note": "兑: the lake all round"}
+  ],
+  "water": {
+    "kinds": {
+      "water": {"colors": ["6a8494", "4e6878", "3a5262"], "depth": 48, "flow": [0.3, 0.2], "speed": 0.2, "note": "坎: cold steel water under grey mist"},
+      "deep_water": {"colors": ["3e6a5e", "2c5248", "1e3c36"], "depth": 80, "flow": [0.2, 0.1], "speed": 0.25, "swell": 0.07, "glint": "f0d8a0", "note": "兑: a deep jade lake in a golden light, waves running"}
+    }
+  },
+  "ground": {
+    "rock": {"style": "scree", "colors": ["7e7464", "8a7f6c", "756b5c"], "gravel": 0.6, "stones": 0.12},
+    "cave_floor": {"style": "scree", "colors": ["7a8690", "84909a", "6e7a84"], "gravel": 0.4, "stones": 0.05, "note": "巽: pale cold stone scoured by the wind"},
+    "floor_yard": {"style": "scree", "colors": ["3a2620", "4a2e24", "2e201c"], "gravel": 0.45, "stones": 0.05, "note": "离: scorched ground"},
+    "bridge": {"colors": ["7a6a50", "86765a", "6e5e46"]}
+  },
+  "flora": {
+    "grass_density": 0.85,
+    "flower_threshold": 0.12,
+    "blossom_trees": 0.0,
+    "grass_colors": ["2f4a2c", "45623a", "5d7c47", "7a9658"],
+    "flower_colors": ["e8e2c8", "c8b8d8", "d8c060", "9cb8d0"],
+    "petals": ["8a8a60", "6a7a46"],
+    "tree_kinds": [],
+    "butterflies": 5,
+    "areas": [
+      {"rect": [2208, 80, 2880, 688], "ground": ["6e6454", "7a6e5c", "857862"], "grass_density": 0.25, "note": "艮: bare brown slopes round the crags"},
+      {"rect": [176, 1952, 848, 2560], "ground": ["6a7680", "74808a", "606c76"], "grass_density": 0.2, "note": "巽: wind-scoured, pale"},
+      {"rect": [4240, 1952, 4912, 2560], "ground": ["2e201c", "3a2620", "24181a"], "grass_density": 0.05, "note": "离: burnt black round the fire"},
+      {"rect": [176, 80, 848, 688], "ground": ["4e6a4a", "587450", "627e56"], "grass_density": 0.95, "flower_threshold": 0.5, "note": "坤: blue-green, almost no flowers"},
+      {"rect": [4240, 80, 4912, 688], "ground": ["4a6248", "546c50", "5e7458"], "ground_styles": {"bridge": {"style": "slabs", "lengths": [1, 2], "depths": [1, 1], "cracks": 0.1, "broken": 0.1, "sunk": 0.05, "tufts": 0.0, "stones": ["4e5a5c", "586466", "46504f", "626c6a"], "worn": ["525e60"], "bed": "2a3234", "joint": 0.07, "mud": "3e4846", "crack": "343c3c", "moss": "3e5a44", "moss_chance": 0.3}}, "note": "坎: wet stepping stones, not planks"},
+      {"rect": [2208, 1952, 2880, 2560], "ground": ["3a3c44", "44464e", "4e5058"], "grass_density": 0.15, "ground_styles": {"rock": {"style": "scree", "colors": ["5e6270", "686c7a", "545866"], "gravel": 0.5, "stones": 0.08}}, "note": "震: dark slate"},
+      {"rect": [176, 3824, 848, 4432], "ground": ["5a6a40", "647448", "6e7e50"], "note": "兑: the little land"},
+      {"rect": [2208, 3824, 2880, 4432], "ground": ["7a9448", "86a050", "92aa58"], "grass_density": 1.0, "flower_threshold": -0.05, "note": "乾: 沃野千里 — bright yellow-green and full of flowers"},
+      {"rect": [4240, 3824, 4912, 4432], "ground": ["5a5852", "64625b", "6e6b62"], "grass_density": 0.1, "ground_styles": {"rock": {"style": "scree", "colors": ["6e6c66", "787670", "64625c"], "gravel": 0.3, "stones": 0.04}}, "note": "绝地: dead grey rock"}
+    ],
+    "meadows": [
+      {"rect": [352, 256, 672, 512], "on": ["grass"], "scale": [1.0, 1.6], "density": 0.6, "note": "坤: the plain's grass, rippling"},
+      {"rect": [2384, 4000, 2704, 4256], "on": ["grass"], "scale": [1.3, 2.2], "density": 0.8, "note": "乾: rich fields"}
+    ]
+  },
+  "props": [
+    {"kind": "far_peak", "at": [2544, -60], "size": [460, 260], "height": 12.0, "haze": true, "colors": ["8a8072", "968c7c", "7e7468"], "note": "艮: 群山环绕"},
+    {"kind": "far_peak", "at": [2544, 1392], "size": [480, 1364], "height": 10.0, "haze": true, "colors": ["8a8072", "968c7c", "7e7468"]},
+    {"kind": "far_peak", "at": [1584, 384], "size": [1268, 480], "height": 11.0, "haze": true, "colors": ["8a8072", "968c7c", "7e7468"]},
+    {"kind": "far_peak", "at": [3502, 384], "size": [1268, 480], "height": 13.0, "haze": true, "colors": ["8a8072", "968c7c", "7e7468"]},
+    {"kind": "standing_rock", "at": [2416, 288], "size": [32, 32], "on_cliff": true, "height": 1.6, "colors": ["7a6e5e", "86796a"]},
+    {"kind": "standing_rock", "at": [2672, 480], "size": [32, 32], "on_cliff": true, "height": 1.3, "colors": ["7a6e5e", "86796a"]},
+    {"kind": "reeds", "at": [4486, 320], "size": [24, 40], "count": 3, "colors": ["5a6e58", "6a7e62"]},
+    {"kind": "reeds", "at": [4666, 450], "size": [24, 40], "count": 3, "colors": ["5a6e58", "6a7e62"]},
+    {"kind": "rock_pile", "at": [2428, 2404], "size": [48, 40], "count": 8, "colors": ["4e5058", "585a62", "3e4048"]},
+    {"kind": "dead_log", "at": [2668, 2114], "size": [96, 32], "rotation": 20, "colors": ["2a2622", "3a3430", "1e1b18"], "note": "震: a trunk struck and blackened"},
+    {"kind": "flames", "at": [4388, 2104], "size": [48, 48], "height": 2.8},
+    {"kind": "flames", "at": [4766, 2104], "size": [48, 48], "height": 2.4},
+    {"kind": "flames", "at": [4388, 2404], "size": [48, 48], "height": 2.2},
+    {"kind": "flames", "at": [4766, 2404], "size": [48, 48], "height": 3.0},
+    {"kind": "flames", "at": [4456, 2064], "size": [64, 32], "height": 1.8},
+    {"kind": "flames", "at": [4696, 2444], "size": [64, 32], "height": 1.9},
+    {"kind": "crack", "at": [4516, 4108], "size": [96, 16], "rotation": 30},
+    {"kind": "crack", "at": [4456, 4218], "size": [64, 16], "rotation": -40},
+    {"kind": "bones", "at": [4736, 4238], "size": [48, 32], "count": 3, "ribs": true, "note": "绝地: you are not the first to be shut in here"},
+    {"kind": "cloud_sea", "at": [2544, 2004], "size": [700, 110], "count": 9, "elevation": 4.5, "billow": 0.65, "thickness": [0.3, 0.8], "haze": true, "colors": ["3e4048", "4a4c56", "34363e"], "note": "震: 铅云低沉"},
+    {"kind": "cloud_sea", "at": [2544, 2514], "size": [700, 110], "count": 9, "elevation": 4.0, "billow": 0.65, "thickness": [0.3, 0.8], "haze": true, "colors": ["3e4048", "4a4c56", "34363e"]},
+    {"kind": "cloud_sea", "at": [4576, 2256], "size": [520, 440], "count": 8, "billow": 0.65, "thickness": [0.3, 0.8], "haze": true, "drift": 0.8, "colors": ["8a5a46", "a06850", "6e4636"], "note": "离: smoke and heat-haze"}
+  ],
+  "ambience": {
+    "dust": [
+      {"rect": [300, 2084, 730, 2434], "count": 40, "color": "eef4f8", "wind": [3.0, 0.5], "size": [0.6, 0.03, 0.05], "note": "巽: the wind's streaks"},
+      {"rect": [4366, 3948, 4786, 4308], "count": 18, "color": "a8a8a2", "wind": [0.2, 0.1]}
+    ],
+    "lightning": [{"rect": [2384, 2128, 2704, 2384], "every": 4.6, "height": 14.0, "color": "e6ecff", "note": "震: 忽然一道闪电"}],
+    "fall": [{"rect": [4356, 2074, 4796, 2444], "count": 40, "height": 5.0, "colors": ["ff9a3a", "ffd070", "e8602a"], "wind": [0.2, 0.3], "up": true, "glow": true, "note": "离: sparks going up"}],
+    "birds": [{"at": [2544, 4128], "radius": 260, "count": 3, "height": 11.0, "color": "4a4036", "note": "乾: larks high in the clear sky"}]
+  },
+  "actors": {"default": {"coat": "b3a98c"}}
+}

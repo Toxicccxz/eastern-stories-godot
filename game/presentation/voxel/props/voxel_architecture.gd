@@ -182,48 +182,53 @@ func _roof(into: Node3D, at: Vector3, w: float, d: float, height: float, data: D
 			for tier: int in ceili(rise/0.18):
 				var t: float = tier*0.18/rise
 				shapes.box(root,Vector3(end*(wide/2-0.35),height+tier*0.18,0),Vector3(0.18,0.18,maxf(0.2,(deep-0.65)*(1-t))),data.get("wall","c8b999"))
-	for z: int in rows:
-		var pz: float = -deep/2+(z+0.5)*spacing_z
-		for x: int in cols:
-			var px: float = -wide/2+(x+0.5)*spacing_x
-			var inset: float = minf(deep/2-absf(pz),wide/2-absf(px))
-			var t: float = clampf(absf(pz)/(deep/2),0,1)
-			var top: float = (1-t)*rise
-			if form=="hip":
-				top = minf(rise,inset/(deep/2)*rise)
-			elif form=="shed":
-				top = (pz/deep+0.5)*rise
-			var lift: float = pow(t,5)*curve
-			var sag: float = -0.10*sin((px/wide+0.5)*PI)*sin(t*PI)
-			var tile_at := Vector3(px+rng.randf_range(-0.018,0.018),height+0.10+top+lift+sag+rng.randf_range(-0.018,0.018),pz+rng.randf_range(-0.018,0.018))
-			var shade: int = clampi(roundi(noise.get_noise_2d((px+into.position.x)*27,(pz+into.position.z)*27)*3)+2,0,4)
-			var tile_color: String = tint.lightened(shade*0.025).to_html(false)+glaze
-			shapes.box(root,tile_at,Vector3(spacing_x+0.018,0.14,spacing_z+0.035),tile_color)
-			# A few displaced/repaired tiles, and weathering concentrated on shaded eaves.
-			if (z<2 or z>rows-3) and rng.randf()<0.13:
-				shapes.box(root,tile_at+Vector3(0,0.077,0),Vector3(0.21,0.015,0.17),["748363","7e8d69","8c9775"][x%3])
-			elif rng.randf()<0.012:
-				shapes.tilted_box(root,tile_at+Vector3(0.04,0.09,0.04),Vector3(0.22,0.07,0.3),tint.darkened(0.13).to_html(false),Vector3(0,0.15,0))
-	# Segmented ridge with raised ends, not one ruler-straight bar.
-	if form!="shed":
-		var ridge_length: float = wide if form=="gable" else maxf(0.4,wide-deep+0.5)
-		for cap: int in ceili(ridge_length/0.42):
-			var x: float = -ridge_length/2+(cap+0.5)*0.42
-			var up: float = pow(absf(x)/maxf(0.2,ridge_length/2),6)*curve
-			shapes.box(root,Vector3(x,height+rise+0.24+up,0),Vector3(0.43,0.24,0.29),tint.darkened(0.10).to_html(false)+glaze)
-		# 鸱吻: the curled beasts at the ridge's ends (`ridge_ends`: their colour).
-		if data.has("ridge_ends"):
-			for end: float in [-1.0,1.0]:
-				var end_at := Vector3(end*ridge_length/2,height+rise+0.24+curve,0)
-				shapes.box(root,end_at+Vector3(0,0.3,0),Vector3(0.3,0.6,0.32),String(data["ridge_ends"]))
-				shapes.box(root,end_at+Vector3(-end*0.16,0.68,0),Vector3(0.24,0.26,0.26),String(data["ridge_ends"]))
-				shapes.box(root,end_at+Vector3(-end*0.3,0.86,0),Vector3(0.12,0.2,0.14),String(data["ridge_ends"]))
+	# `roof_tiles`: "slate" (石板: rough stone slabs, moss in their laps) or "thatch" (茅草).
+	var cover: String = String(data.get("roof_tiles","tiles"))
+	if cover in ["slate","thatch"]:
+		_rough_roof(root,wide,deep,height,rise,form,curve,tint,data,cover=="thatch")
+	else:
+		for z: int in rows:
+			var pz: float = -deep/2+(z+0.5)*spacing_z
+			for x: int in cols:
+				var px: float = -wide/2+(x+0.5)*spacing_x
+				var inset: float = minf(deep/2-absf(pz),wide/2-absf(px))
+				var t: float = clampf(absf(pz)/(deep/2),0,1)
+				var top: float = (1-t)*rise
+				if form=="hip":
+					top = minf(rise,inset/(deep/2)*rise)
+				elif form=="shed":
+					top = (pz/deep+0.5)*rise
+				var lift: float = pow(t,5)*curve
+				var sag: float = -0.10*sin((px/wide+0.5)*PI)*sin(t*PI)
+				var tile_at := Vector3(px+rng.randf_range(-0.018,0.018),height+0.10+top+lift+sag+rng.randf_range(-0.018,0.018),pz+rng.randf_range(-0.018,0.018))
+				var shade: int = clampi(roundi(noise.get_noise_2d((px+into.position.x)*27,(pz+into.position.z)*27)*3)+2,0,4)
+				var tile_color: String = tint.lightened(shade*0.025).to_html(false)+glaze
+				shapes.box(root,tile_at,Vector3(spacing_x+0.018,0.14,spacing_z+0.035),tile_color)
+				# A few displaced/repaired tiles, and weathering concentrated on shaded eaves.
+				if (z<2 or z>rows-3) and rng.randf()<0.13:
+					shapes.box(root,tile_at+Vector3(0,0.077,0),Vector3(0.21,0.015,0.17),["748363","7e8d69","8c9775"][x%3])
+				elif rng.randf()<0.012:
+					shapes.tilted_box(root,tile_at+Vector3(0.04,0.09,0.04),Vector3(0.22,0.07,0.3),tint.darkened(0.13).to_html(false),Vector3(0,0.15,0))
+		# Segmented ridge with raised ends, not one ruler-straight bar.
+		if form!="shed":
+			var ridge_length: float = wide if form=="gable" else maxf(0.4,wide-deep+0.5)
+			for cap: int in ceili(ridge_length/0.42):
+				var x: float = -ridge_length/2+(cap+0.5)*0.42
+				var up: float = pow(absf(x)/maxf(0.2,ridge_length/2),6)*curve
+				shapes.box(root,Vector3(x,height+rise+0.24+up,0),Vector3(0.43,0.24,0.29),tint.darkened(0.10).to_html(false)+glaze)
+			# 鸱吻: the curled beasts at the ridge's ends (`ridge_ends`: their colour).
+			if data.has("ridge_ends"):
+				for end: float in [-1.0,1.0]:
+					var end_at := Vector3(end*ridge_length/2,height+rise+0.24+curve,0)
+					shapes.box(root,end_at+Vector3(0,0.3,0),Vector3(0.3,0.6,0.32),String(data["ridge_ends"]))
+					shapes.box(root,end_at+Vector3(-end*0.16,0.68,0),Vector3(0.24,0.26,0.26),String(data["ridge_ends"]))
+					shapes.box(root,end_at+Vector3(-end*0.3,0.86,0),Vector3(0.12,0.2,0.14),String(data["ridge_ends"]))
 	for side: float in [-1.0,1.0]:
 		var eave_y: float = height+curve
 		if form=="shed" and side>0:
 			eave_y += rise
 		shapes.box(root,Vector3(0,eave_y-0.10,side*deep/2),Vector3(wide,0.19,0.16),timber)
-		for bracket: int in ceili(wide/1.25):
+		for bracket: int in 0 if cover=="thatch" else ceili(wide/1.25):
 			shapes.box(root,Vector3(-wide/2+0.45+bracket*1.25,eave_y-0.24,side*(deep/2-0.13)),Vector3(0.14,0.23,0.45),timber)
 		# 风铎: a bronze bell hung under each corner of the eaves, stirring in the wind.
 		if data.get("bells",false) and form!="shed":
@@ -233,6 +238,86 @@ func _roof(into: Node3D, at: Vector3, w: float, d: float, height: float, data: D
 				shapes.box(bell,Vector3(0,-0.36,0),Vector3(0.16,0.2,0.16),String(data.get("bell","b88a3a")))
 				if ambience != null:
 					ambience.sway(bell,end*1.7+side*0.9+parent.position.x,0.16)
+
+## The height of a roof's surface over a point (gable, hip or shed), as the tiles follow it.
+func _roof_top(px: float, pz: float, wide: float, deep: float, rise: float, form: String) -> float:
+	var t: float = clampf(absf(pz)/(deep/2),0,1)
+	if form=="hip":
+		return minf(rise,minf(deep/2-absf(pz),wide/2-absf(px))/(deep/2)*rise)
+	if form=="shed":
+		return (pz/deep+0.5)*rise
+	return (1-t)*rise
+
+## A roof of rough stuff instead of fired tiles. Slate: courses of split stone slabs, each its own
+## width, shade and tilt, laps staggered, moss (`moss`: colour, `mossy`: share) in the shaded laps,
+## a slab slipped here and there, a few stones laid on to hold the rest. Thatch: thick bundles of
+## straw in ragged courses (`straw` colours), darker where it has rotted, grass in it, a roll
+## along the ridge and poles tied over it. `holes`: the share of the roof fallen in (屋顶隐约还可以
+## 看到一些破洞), the rafters showing through.
+func _rough_roof(root: Node3D, wide: float, deep: float, height: float, rise: float, form: String, curve: float, tint: Color, data: Dictionary, thatch: bool) -> void:
+	var colors: Array = data.get("straw" if thatch else "slates",[])
+	var moss: String = String(data.get("moss","5f7444"))
+	var mossy: float = float(data.get("mossy",0.18))
+	var course: float = 0.34 if thatch else 0.42
+	var rows: int = ceili(deep/course)
+	var offset := Vector2(rng.randf()*400.0,rng.randf()*400.0)
+	var holes: float = float(data.get("holes",0.0))
+	var timber: String = String(data.get("timber","79533d"))
+	for z: int in rows:
+		var pz: float = -deep/2+(z+0.5)*deep/rows
+		var x: float = -wide/2-rng.randf_range(0.0,0.3)
+		while x < wide/2:
+			var piece: float = rng.randf_range(0.3,0.5) if thatch else rng.randf_range(0.42,0.82)
+			var px: float = clampf(x+piece/2,-wide/2+0.05,wide/2-0.05)
+			var span: float = minf(piece,wide/2-x)
+			x += piece
+			if span < 0.12:
+				continue
+			var top: float = _roof_top(px,pz,wide,deep,rise,form)
+			if top < 0.0:
+				continue
+			var t: float = clampf(absf(pz)/(deep/2),0,1)
+			var at := Vector3(px,height+0.12+top+pow(t,5)*curve*0.4,pz)
+			var shade: float = noise.get_noise_2d(px*21+offset.x,pz*21+offset.y)
+			var hex: String = String(colors[posmod(roundi((shade+0.5)*colors.size()*1.7)+z,colors.size())]) if not colors.is_empty() else tint.lightened((shade+0.5)*0.12).to_html(false)
+			var tilt := Vector3(rng.randf_range(-0.06,0.06),rng.randf_range(-0.05,0.05),rng.randf_range(-0.05,0.05))
+			if holes > 0.0 and z > 0 and z < rows-1 and noise.get_noise_2d(px*9+offset.y,pz*9+offset.x) > 0.62-holes:
+				# A hole: a rafter across it, the dark of the room below.
+				shapes.box(root,at-Vector3(0,0.14,0),Vector3(span,0.04,course),"1c1916")
+				shapes.box(root,at-Vector3(0,0.06,0),Vector3(0.08,0.08,course+0.1),timber)
+				continue
+			if thatch:
+				shapes.tilted_box(root,at+Vector3(0,0.06,0),Vector3(span+0.04,0.24,course+0.12),Color(hex).darkened(0.25 if shade < -0.3 else 0.0).to_html(false),tilt)
+				if rng.randf() < 0.12:
+					shapes.box(root,at+Vector3(rng.randf_range(-0.1,0.1),0.22,0),Vector3(0.12,0.12,0.1),moss)
+				# The eaves' straw hangs ragged.
+				if z==0 or z==rows-1:
+					shapes.box(root,at+Vector3(0,-0.08,signf(pz)*(course/2+0.06)),Vector3(span*rng.randf_range(0.6,1.0),0.16,0.1),hex)
+				continue
+			if rng.randf() < 0.025:
+				# A slipped slab: the dark lap under it shows, the slab askew below.
+				shapes.box(root,at-Vector3(0,0.03,0),Vector3(span,0.05,course),Color(hex).darkened(0.45).to_html(false))
+				shapes.tilted_box(root,at+Vector3(0.08,0.02,signf(pz)*0.12),Vector3(span*0.8,0.08,course*0.8),hex,tilt*3.0)
+				continue
+			shapes.tilted_box(root,at,Vector3(span+0.03,0.1,course+0.1),hex,tilt)
+			if shade > 0.42-mossy or rng.randf() < mossy*0.3:
+				shapes.box(root,at+Vector3(rng.randf_range(-span/4,span/4),0.055,-signf(pz)*course*0.25),Vector3(span*rng.randf_range(0.35,0.7),0.03,course*0.45),moss)
+			if rng.randf() < 0.012:
+				shapes.shard(root,at+Vector3(0,0.15,0),Vector3(0.24,0.18,0.22),"77786c",z,px)
+	if form=="shed":
+		return
+	var ridge_length: float = wide if form=="gable" else maxf(0.4,wide-deep+0.5)
+	if thatch:
+		shapes.box(root,Vector3(0,height+rise+0.28,0),Vector3(ridge_length+0.1,0.34,0.62),String(colors[0]) if not colors.is_empty() else "a88f5c")
+		for pole: float in [-0.32,0.32]:
+			shapes.box(root,Vector3(0,height+rise+0.18-absf(pole)*0.35,pole),Vector3(ridge_length+0.3,0.06,0.06),"6e5a3e")
+		return
+	# Saddle stones along the ridge, each laid over the one before.
+	var stone: float = -ridge_length/2
+	while stone < ridge_length/2:
+		var long: float = rng.randf_range(0.38,0.6)
+		shapes.tilted_box(root,Vector3(stone+long/2,height+rise+0.2,0),Vector3(long,0.14,0.46),tint.darkened(rng.randf_range(0.05,0.16)).to_html(false),Vector3(0,rng.randf_range(-0.08,0.08),rng.randf_range(-0.04,0.04)))
+		stone += long
 
 ## A flat roof walked on (a hall's 露台 over the floor below): stone slabs, a balustrade round
 ## its edge (`rail` colours: post, rail), stones set out on it (`rocks`: a count).
@@ -362,22 +447,44 @@ func _gate_leaves(front: Node3D, data: Dictionary) -> void:
 
 ## 招牌/匾: a lacquered board over the doorway with the shop's name (`signboard`: {"text",
 ## "board", "letters" (a ":glow" colour reads as gilt), "frame", "width", "height", "y"}).
+## `tilt` (degrees): it hangs askew from one cord; `worn`: weathered grey, split along the
+## grain, a corner gone, the words half rubbed away (一片快要散掉似的木牌).
 func _signboard(front: Node3D, sign_data: Variant) -> void:
 	var info: Dictionary = sign_data if sign_data is Dictionary else {"text":String(sign_data)}
 	var width: float = float(info.get("width",1.9))
 	var y: float = float(info.get("y",3.12))
 	var tall: float = float(info.get("height",0.62))
 	var letters: String = String(info.get("letters","e6c66e"))
-	shapes.box(front,Vector3(0,y,0.24),Vector3(width+0.16,tall+0.14,0.08),String(info.get("frame","8a6a3e")))
-	shapes.box(front,Vector3(0,y,0.29),Vector3(width,tall,0.06),String(info.get("board","2b2520")))
+	var hung := Node3D.new()
+	hung.position = Vector3(0,y,0)
+	hung.rotation.z = deg_to_rad(float(info.get("tilt",0.0)))
+	front.add_child(hung)
+	if _body != null:
+		shapes.merge(hung,_body)
+	var worn: bool = info.get("worn",false)
+	if not worn:
+		shapes.box(hung,Vector3(0,0,0.24),Vector3(width+0.16,tall+0.14,0.08),String(info.get("frame","8a6a3e")))
+		shapes.box(hung,Vector3(0,0,0.29),Vector3(width,tall,0.06),String(info.get("board","2b2520")))
+	else:
+		# Two boards with a gap between them, the lower one shorter: its end has broken off.
+		var board: String = String(info.get("board","8a8170"))
+		shapes.box(hung,Vector3(0,tall*0.26,0.28),Vector3(width,tall*0.46,0.06),board)
+		shapes.box(hung,Vector3(-width*0.1,-tall*0.26,0.28),Vector3(width*0.8,tall*0.44,0.06),Color(board).darkened(0.12).to_html(false))
+		shapes.box(hung,Vector3(width*0.18,tall*0.25,0.315),Vector3(width*0.34,0.03,0.02),Color(board).darkened(0.3).to_html(false))
+		for cord: float in [-1.0,1.0]:
+			if cord > 0.0 and absf(float(info.get("tilt",0.0))) > 0.0:
+				continue
+			shapes.box(hung,Vector3(cord*width*0.42,tall*0.5+0.18,0.27),Vector3(0.03,0.36,0.03),"5a4a36")
 	var title := Label3D.new()
 	title.text = TranslationServer.translate(String(info.get("text","")))
-	title.position = Vector3(0,y,0.33)
+	title.position = Vector3(0,0,0.33)
 	title.pixel_size = float(info.get("pixel_size",0.0075))
 	title.font_size = 56
 	title.outline_size = 0
 	title.modulate = Color(letters.get_slice(":",0))
-	front.add_child(title)
+	if worn:
+		title.modulate.a = 0.45
+	hung.add_child(title)
 	if letters.ends_with(":glow"):
 		# Gilt that flashes in the light (金字招牌十分晃眼): a glowing rim round the words.
 		for edge: float in [-1.0,1.0]:

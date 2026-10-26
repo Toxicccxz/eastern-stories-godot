@@ -57,6 +57,9 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"stakes": _stakes(w,d)
 		"skull_pit": _skull_pit(w,d)
 		"carved_wall": _carved_wall(w)
+		"flames": _flames(w,d)
+		"quarry_face": _quarry_face(w,d)
+		"bagua": _bagua()
 		"candlestick": _candlestick()
 		"brazier": _brazier(w)
 		_:
@@ -792,3 +795,94 @@ func _stuck_swords(w: float, d: float) -> void:
 		if i%3==0:
 			s.box(root,Vector3(0.03,0.96,0.04),Vector3(0.04,0.22,0.03),String(data.get("tassel","8a3a30")))
 	s.frame = Transform3D.IDENTITY
+
+## 火光冲天 (eight5.c): fire standing up out of scorched ground, tongues of several heights
+## jumping, embers glowing in the black, its light wavering over everything near (`height`
+## of the tallest tongue, `count` of tongues).
+func _flames(w: float, d: float) -> void:
+	s.box(root,Vector3(0,0.02,0),Vector3(w*0.9,0.04,d*0.9),"1f1a17")
+	for ember: int in 9:
+		s.box(root,Vector3(rng.randf_range(-0.4,0.4)*w,0.05,rng.randf_range(-0.4,0.4)*d),Vector3(0.16,0.05,0.12),_pick(["d4562c:glow","e8873a:glow","9e3a22:glow"]))
+	var tall: float = float(data.get("height",2.4))
+	for tongue: int in int(data.get("count",8)):
+		var flame := Node3D.new()
+		flame.position = Vector3(rng.randf_range(-0.35,0.35)*w,0.04,rng.randf_range(-0.35,0.35)*d)
+		flame.set_meta("light_fixture",true)
+		root.add_child(flame)
+		var h: float = tall*rng.randf_range(0.35,1.0)
+		s.box(flame,Vector3(0,h*0.3,0),Vector3(0.34,h*0.6,0.34),"e8622f:glow")
+		s.box(flame,Vector3(0,h*0.62,0),Vector3(0.22,h*0.5,0.22),"ffa24a:glow")
+		s.box(flame,Vector3(0,h*0.9,0),Vector3(0.1,h*0.28,0.1),"ffe09a:glow")
+		if ambience != null:
+			ambience.flame(flame)
+	var light := OmniLight3D.new()
+	light.position = Vector3(0,tall*0.6,0)
+	light.light_color = Color("ff8a3d")
+	light.omni_range = float(data.get("range",8.0))
+	light.set_meta("day_energy",float(data.get("day",1.8)))
+	light.set_meta("night_energy",3.2)
+	light.set_meta("flicker",0.22)
+	root.add_child(light)
+	if ambience != null:
+		ambience.smoke(root,Vector3(0,tall,0),"4a3a32",5,0.4)
+
+## 采石场的石壁 (field1.c: 经过多年的采挖已经看不出原来的模样): a face cut back in benches, each
+## bench's riser dressed flat and paler than the weathered rock, rows of wedge holes where the
+## next block will be split off, a block half split and left, chips heaped at the foot. It
+## stands against the cliff (`on_cliff`), its benches `steps` high, the cut face toward +z.
+func _quarry_face(w: float, d: float) -> void:
+	var fresh: Array = _colors("colors",["a3a493","adad9b","9a9b8b","b6b4a2"])
+	var steps: int = int(data.get("steps",3))
+	var rise: float = float(data.get("rise",0.9))
+	for step: int in steps:
+		var depth: float = d*(1.0-float(step)/steps)
+		var z: float = -d/2+depth/2
+		var y: float = step*rise
+		# The riser: courses of squared stone, joints showing, some blocks already gone.
+		for x: int in maxi(2,roundi(w/0.7)):
+			var px: float = -w/2+(x+0.5)*w/maxi(2,roundi(w/0.7))
+			if rng.randf() < 0.12:
+				continue
+			s.box(root,Vector3(px,y+rise/2,z+rng.randf_range(-0.04,0.04)),Vector3(w/maxi(2,roundi(w/0.7))-0.05,rise-0.04,depth),_pick(fresh))
+		# Wedge holes along the bench's edge.
+		for hole: int in maxi(3,floori(w/0.3)):
+			s.box(root,Vector3(-w/2+0.15+hole*0.3,y+rise-0.02,-d/2+depth-0.18),Vector3(0.06,0.05,0.06),"4e4b43")
+		# Chisel marks scored down the riser.
+		for mark: int in maxi(2,floori(w/0.5)):
+			s.tilted_box(root,Vector3(-w/2+0.25+mark*0.5,y+rise*0.5,-d/2+depth+0.01),Vector3(0.025,rise*0.7,0.02),"7c7b6e",Vector3(0,0,rng.randf_range(-0.25,0.25)))
+	# A block split half off and left where it fell.
+	s.tilted_box(root,Vector3(w*0.25,0.28,d/2+0.2),Vector3(0.9,0.5,0.6),_pick(fresh),Vector3(0,0.3,0.12))
+	for chip: int in 14:
+		s.shard(root,Vector3(rng.randf_range(-0.45,0.45)*w,0.06,d/2+rng.randf_range(0.0,0.45)),Vector3(0.16,0.1,0.13),_pick(fresh),chip,rng.randf()*TAU)
+
+## 八卦古阵 (entrance.c: 洞口上方似乎刻着一副图): the eight trigrams carved round a 太极 in a
+## disc cut into the rock face, the paint long faded (`height` of its centre, `radius`).
+func _bagua() -> void:
+	var y: float = float(data.get("height",2.6))
+	var r: float = float(data.get("radius",0.8))
+	var stone: String = String(data.get("stone","6d6c62"))
+	var paint: String = String(data.get("paint","b8a46a"))
+	s.box(root,Vector3(0,y,0),Vector3(r*2.1,r*2.1,0.06),stone)
+	for side: int in 8:
+		var a: float = side*TAU/8.0
+		var at := Vector3(cos(a)*r*0.78,y+sin(a)*r*0.78,0.05)
+		var bars := Node3D.new()
+		bars.position = at
+		bars.rotation.z = a+PI/2
+		root.add_child(bars)
+		if s.merged.has(root):
+			s.merge(bars,s.merged[root])
+		for line: int in 3:
+			# A trigram: three lines, broken (yin) or whole (yang) by the trigram's bits.
+			var whole: bool = (side >> line) & 1 == 1
+			var ly: float = (line-1)*0.1
+			if whole:
+				s.box(bars,Vector3(0,ly,0),Vector3(r*0.42,0.05,0.03),paint)
+			else:
+				for half: float in [-1.0,1.0]:
+					s.box(bars,Vector3(half*r*0.13,ly,0),Vector3(r*0.17,0.05,0.03),paint)
+	# 太极: a dark and a pale half, each with the other's eye.
+	s.box(root,Vector3(-r*0.13,y,0.05),Vector3(r*0.26,r*0.5,0.03),"2e2c28")
+	s.box(root,Vector3(r*0.13,y,0.05),Vector3(r*0.26,r*0.5,0.03),"d9cfb0")
+	s.box(root,Vector3(-r*0.13,y+r*0.12,0.07),Vector3(0.06,0.06,0.02),"d9cfb0")
+	s.box(root,Vector3(r*0.13,y-r*0.12,0.07),Vector3(0.06,0.06,0.02),"2e2c28")

@@ -1,0 +1,18 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 24,
+  "note": "村长的家 (house4.c): 屋子的中央有一个石制的炉子，上面生著一堆火，熊熊的火光把屋内照得像白天似的光亮。墙上挂著几幅字画… The 木屋 that stands out: dark red-brown boards, the fire lighting everything.",
+  "palette": {"wood": ["7a5e44", "86684a", "6e543c", "8e7050"], "wall": "9a8466"},
+  "light": {"ambient": ["d2bc9c", "8a7c70"], "ambient_energy": [0.5, 0.42]},
+  "props": [
+    {"kind": "window", "at": [-270, -224], "size": [64, 16], "rotation": 0},
+    {"kind": "window", "at": [240, -224], "size": [64, 16], "rotation": 0},
+    {"kind": "wall_scroll", "at": [-150, -224], "size": [40, 16], "rotation": 0, "note": "墙上挂著几幅字画"},
+    {"kind": "wall_scroll", "at": [110, -224], "size": [40, 16], "rotation": 0},
+    {"kind": "bear_skin", "at": [-40, 150], "size": [96, 64], "note": "a hide before the fire"},
+    {"kind": "clutter", "items": ["basket"], "at": [-200, 150], "size": [24, 24]},
+    {"kind": "clutter", "items": ["sandals"], "at": [-60, -150], "size": [24, 16]}
+  ],
+  "actors": {"default": {"coat": "b3a98c"}, "green.npc.oldman2": {"coat": "8a7e64", "hat": true}}
+}

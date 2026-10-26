@@ -217,6 +217,9 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 		"kang": _kang(w,d,data)
 		"grand_chair": _grand_chair(w,d,data)
 		"saw_horse": _saw_horse(w,d)
+		"hearth": _hearth(w,d,data)
+		"stone_bed": _stone_bed(w,d,data)
+		"stone_seat": _stone_seat(w,d,data)
 		_:
 			return false
 	return true
@@ -568,3 +571,80 @@ func _saw_horse(w: float, d: float) -> void:
 	s.box(root,Vector3(w*0.1,0.92,0),Vector3(0.02,0.28,0.5),"9aa0a0")
 	s.box(root,Vector3(w*0.1,0.92,0.32),Vector3(0.05,0.08,0.18),"6a4c33")
 	s.box(root,Vector3(0,0.012,0.1),Vector3(w*0.6,0.02,d*0.5),"c9ad7c")
+
+## 石炉: a hearth of stacked stones with the fire in it (`fire`: "low" a few embers and a weak
+## flame, "high" a blaze that lights the room 像白天似的, "none" cold ash and charred sticks), a
+## pot on it steaming (`pot`), ash and a few sticks by it.
+func _hearth(w: float, d: float, look: Dictionary) -> void:
+	var stone: Array = look.get("colors",["6f6a5e","7c766a","666257","88816f"])
+	var ring: int = maxi(8,roundi((w+d)*3.0))
+	for i: int in ring:
+		var a: float = i*TAU/ring
+		for course: int in 2:
+			s.shard(root,Vector3(cos(a)*w*0.4,0.14+course*0.24,sin(a)*d*0.4),Vector3(0.3,0.26,0.26),String(stone[(i+course)%stone.size()]),i+course,a)
+	s.box(root,Vector3(0,0.05,0),Vector3(w*0.62,0.08,d*0.62),"2e2925")
+	var high: bool = String(look.get("fire","low"))=="high"
+	var cold: bool = String(look.get("fire","low"))=="none"
+	for stick: int in 4:
+		s.tilted_box(root,Vector3(0,0.16,0),Vector3(0.09,0.09,w*0.5),"2a2420" if cold else "4a3626",Vector3(0.3,stick*PI/4,0))
+	if cold:
+		s.box(root,Vector3(0,0.1,0),Vector3(w*0.45,0.05,d*0.45),"8e8a84")
+		return
+	for ember: int in 7:
+		s.box(root,Vector3(sin(ember*2.3)*w*0.18,0.12,cos(ember*1.7)*d*0.18),Vector3(0.1,0.05,0.1),"e2703a:glow" if ember%2 else "b8452a:glow")
+	var flames := Node3D.new()
+	flames.position = Vector3(0,0.16,0)
+	root.add_child(flames)
+	for tongue: int in 7 if high else 3:
+		var a: float = tongue*1.7
+		var flame := Node3D.new()
+		flame.position = Vector3(cos(a)*0.12,0,sin(a)*0.12)
+		flames.add_child(flame)
+		var tall: float = (0.75-tongue*0.06) if high else (0.26-tongue*0.04)
+		s.box(flame,Vector3(0,tall/2,0),Vector3(0.14,tall,0.14),"ffb858:glow" if tongue%2 else "ffd88a:glow")
+		if ambience != null:
+			ambience.flame(flame)
+	var light := OmniLight3D.new()
+	light.position = Vector3(0,0.9,0)
+	light.light_color = Color("ffa860")
+	light.omni_range = 9.0 if high else 3.5
+	light.set_meta("day_energy",1.6 if high else 0.35)
+	light.set_meta("night_energy",3.0 if high else 0.9)
+	light.set_meta("flicker",0.16 if high else 0.25)
+	root.add_child(light)
+	if look.get("pot",false):
+		for leg: int in 3:
+			var a: float = leg*TAU/3.0
+			s.tilted_box(root,Vector3(cos(a)*w*0.34,0.55,sin(a)*d*0.34),Vector3(0.05,1.0,0.05),"3d3530",Vector3(-sin(a)*0.3,0,cos(a)*0.3))
+		s.box(root,Vector3(0,0.62,0),Vector3(0.46,0.34,0.46),"2f2b28")
+		s.box(root,Vector3(0,0.8,0),Vector3(0.5,0.04,0.5),"3a3632")
+		if ambience != null:
+			ambience.smoke(root,Vector3(0,0.9,0),"d8d4c8",4,0.18)
+	for ash: int in 3:
+		s.box(root,Vector3(w*0.45+ash*0.08,0.015,-d*0.2+ash*0.17),Vector3(0.16,0.02,0.12),"8a857c")
+	if ambience != null and high:
+		ambience.smoke(root,Vector3(0,1.4,0),"8d877c",5,0.26)
+
+## 石床: a platform of dressed stone, a mat of straw on it (`mat` false: bare and dusty).
+func _stone_bed(w: float, d: float, look: Dictionary) -> void:
+	var stone: Array = look.get("colors",["7a7668","857f70","6e6b5f"])
+	s.box(root,Vector3(0,0.24,0),Vector3(w,0.48,d),String(stone[0]))
+	for block: int in maxi(2,roundi(w/0.7)):
+		var x: float = -w/2+(block+0.5)*w/maxi(2,roundi(w/0.7))
+		s.box(root,Vector3(x,0.24,d/2+0.01),Vector3(w/maxi(2,roundi(w/0.7))-0.04,0.42,0.03),String(stone[1+block%2]))
+	s.box(root,Vector3(0,0.5,0),Vector3(w-0.06,0.05,d-0.06),String(stone[1]))
+	if look.get("mat",true):
+		s.box(root,Vector3(0,0.54,0),Vector3(w*0.84,0.04,d*0.8),"a4936a")
+		s.box(root,Vector3(-w*0.34,0.6,0),Vector3(w*0.14,0.1,d*0.6),"8a7a58")
+	else:
+		for i: int in 6:
+			s.box(root,Vector3(sin(i*2.1)*w*0.35,0.53,cos(i*1.3)*d*0.3),Vector3(0.2,0.012,0.14),"9a968a")
+
+## 石椅: a seat cut from one stone, a slab for its back (`back` false: a block to sit on).
+func _stone_seat(w: float, d: float, look: Dictionary) -> void:
+	var stone: Array = look.get("colors",["7d7a6c","878274","716e62"])
+	s.shard(root,Vector3(0,0.22,0),Vector3(w*0.82,0.44,d*0.72),String(stone[0]),int(look.get("seed",1)))
+	s.box(root,Vector3(0,0.46,0.02),Vector3(w*0.76,0.06,d*0.64),String(stone[1]))
+	if look.get("back",true):
+		s.box(root,Vector3(0,0.92,-d*0.3),Vector3(w*0.8,0.9,0.14),String(stone[2]))
+		s.box(root,Vector3(0,1.39,-d*0.3),Vector3(w*0.9,0.08,0.18),String(stone[1]))

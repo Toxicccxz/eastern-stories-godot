@@ -249,6 +249,53 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 				s.box(strip,Vector3(0,-height/2,0),Vector3(0.2,height,0.02),String(colors[i%colors.size()])+":gloss")
 				if ambience != null:
 					ambience.sway(strip,i*0.7,0.05)
+		"chained_door":
+			# cave0.c: 一道厚厚的木门, 上面用一条手臂粗的铁链拴著 — thick planks, iron bands, the
+			# chain hung across in links as thick as an arm, a padlock; frost at its foot.
+			var wood: Array = data.get("colors",["5a4634","64503c","4e3d2e"])
+			s.box(root,Vector3(0,1.2,0),Vector3(w,2.4,0.3),String(wood[2]))
+			for plank: int in maxi(3,roundi(w/0.32)):
+				var x: float = -w/2+(plank+0.5)*w/maxi(3,roundi(w/0.32))
+				s.box(root,Vector3(x,1.18+sin(plank*2.1)*0.03,0.16),Vector3(w/maxi(3,roundi(w/0.32))-0.03,2.3,0.06),String(wood[plank%2]))
+			for y: float in [0.45,1.95]:
+				s.box(root,Vector3(0,y,0.21),Vector3(w*0.96,0.12,0.04),"3b3936")
+			var links: int = maxi(5,roundi(w/0.22))
+			for link: int in links:
+				var t: float = float(link)/(links-1)
+				var at := Vector3(-w*0.46+t*w*0.92,1.25-sin(t*PI)*0.32,0.3)
+				s.tilted_box(root,at,Vector3(0.2,0.11,0.07) if link%2 else Vector3(0.2,0.07,0.11),"4a4744" if link%3 else "5a5450",Vector3(0,0,(t-0.5)*0.7))
+			s.box(root,Vector3(0,0.86,0.34),Vector3(0.22,0.26,0.1),"5d564c")
+			s.box(root,Vector3(0,1.02,0.34),Vector3(0.12,0.1,0.06),"3e3a35")
+			for x: float in [-w*0.46,w*0.46]:
+				s.box(root,Vector3(x,1.25,0.28),Vector3(0.1,0.18,0.1),"3b3936")
+			for i: int in 5:
+				s.box(root,Vector3(-w*0.4+i*w*0.2,0.03,0.42),Vector3(0.18,0.03,0.12),"c9d3d6")
+		"stone_door":
+			# entrance.c: 一扇大石门, 门上苔迹斑斑 — one slab in a frame of rough blocks, its
+			# face carved in panels, moss creeping up it, a crack across.
+			var stone: Array = data.get("colors",["6e7266","787b6e","646a5e"])
+			var moss: Array = data.get("moss",["4d6a3c","5d7a45","3f5a33"])
+			s.box(root,Vector3(0,1.3,0),Vector3(w,2.6,0.34),String(stone[0]))
+			for y: float in [0.75,1.85]:
+				s.box(root,Vector3(0,y,0.18),Vector3(w*0.78,0.78,0.04),String(stone[1]))
+			s.tilted_box(root,Vector3(w*0.1,1.4,0.2),Vector3(w*0.5,0.03,0.03),"3c3d36",Vector3(0,0,0.5))
+			for side: float in [-1.0,1.0]:
+				for course: int in 5:
+					s.shard(root,Vector3(side*(w/2+0.12),0.3+course*0.55,0),Vector3(0.36,0.55,0.5),String(stone[(course+int(side>0))%stone.size()]),course+int(side>0)*5)
+			s.box(root,Vector3(0,2.78,0),Vector3(w+0.6,0.36,0.52),String(stone[2]))
+			for i: int in 14:
+				var x: float = sin(i*7.7)*w*0.45
+				var y: float = absf(sin(i*3.1))*(1.4 if i%3 else 2.5)+0.05
+				s.box(root,Vector3(x,y,0.2),Vector3(0.16+0.1*(i%3),0.12+0.08*(i%2),0.04),String(moss[i%moss.size()]))
+		"wall_sword":
+			# outdoor.c: 东首墙上挂这一把木剑 — a plain wooden sword on two pegs.
+			var y: float = float(data.get("height",1.7))
+			for x: float in [-0.3,0.3]:
+				s.box(root,Vector3(x,y-0.02,0.06),Vector3(0.06,0.06,0.12),"5a4634")
+			s.box(root,Vector3(0.1,y+0.04,0.1),Vector3(1.05,0.07,0.035),String(data.get("blade","a47c4e")))
+			s.box(root,Vector3(-0.47,y+0.04,0.1),Vector3(0.05,0.22,0.06),"6b4a32")
+			s.box(root,Vector3(-0.6,y+0.04,0.1),Vector3(0.22,0.06,0.05),"7a5a3e")
+			s.box(root,Vector3(-0.74,y+0.04,0.1),Vector3(0.05,0.05,0.05),"b23a2b")
 		_:
 			return false
 	return true

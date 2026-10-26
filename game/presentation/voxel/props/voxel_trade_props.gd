@@ -184,6 +184,7 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 		"cauldron": _cauldron(w,data)
 		"training_post": _training_post(data)
 		"stone_weights": _stone_weights()
+		"stone_goods": _stone_goods(w,d,data)
 		_:
 			return false
 	return true
@@ -487,3 +488,38 @@ func _stone_weights() -> void:
 		s.box(root,at+Vector3(0,0.33,0),Vector3(0.2,0.08,0.06),"7c7b70")
 		for side: float in [-0.1,0.1]:
 			s.box(root,at+Vector3(side,0.31,0),Vector3(0.05,0.12,0.06),"7c7b70")
+
+## 石匠的成品及半成品 (house1.c: 石桌、石椅、墓碑等): a round stone table on its drum, a stool or two,
+## a tombstone dressed and lettered, another only roughed out, the mason's chips round them
+## (`items`: which, in order along the footprint's long side).
+func _stone_goods(w: float, d: float, look: Dictionary) -> void:
+	var stones: Array = look.get("colors",["8f9084","9b9b8e","85877b","a3a294"])
+	var items: Array = look.get("items",["tombstone","table","stool","rough"])
+	var long: float = maxf(w,d)
+	for i: int in items.size():
+		var t: float = -long/2+(i+0.5)*long/items.size()
+		var at := Vector3(t,0,0) if w >= d else Vector3(0,0,t)
+		var hex: String = String(stones[i%stones.size()])
+		match String(items[i]):
+			"tombstone":
+				s.box(root,at+Vector3(0,0.08,0),Vector3(0.6,0.16,0.36),Color(hex).darkened(0.1).to_html(false))
+				s.box(root,at+Vector3(0,0.66,0),Vector3(0.5,1.0,0.14),hex)
+				s.box(root,at+Vector3(0,1.2,0),Vector3(0.56,0.12,0.18),hex)
+				for line: int in 4:
+					s.box(root,at+Vector3(0,0.95-line*0.17,0.075),Vector3(0.05,0.1,0.01),"4a4840")
+			"rough":
+				s.shard(root,at+Vector3(0,0.45,0),Vector3(0.55,0.9,0.3),hex,i,0.1)
+				s.box(root,at+Vector3(0,0.75,0.12),Vector3(0.4,0.3,0.06),Color(hex).lightened(0.12).to_html(false))
+			"table":
+				s.box(root,at+Vector3(0,0.3,0),Vector3(0.34,0.6,0.34),hex)
+				s.box(root,at+Vector3(0,0.66,0),Vector3(0.8,0.12,0.8),hex)
+				s.box(root,at+Vector3(0,0.66,0),Vector3(0.62,0.13,0.95),hex)
+				s.box(root,at+Vector3(0,0.66,0),Vector3(0.95,0.13,0.62),hex)
+			"stool":
+				s.box(root,at+Vector3(0,0.2,0),Vector3(0.36,0.4,0.36),hex)
+				s.box(root,at+Vector3(0,0.42,0),Vector3(0.42,0.06,0.42),Color(hex).lightened(0.06).to_html(false))
+			"mortar":
+				s.box(root,at+Vector3(0,0.22,0),Vector3(0.5,0.44,0.5),hex)
+				s.box(root,at+Vector3(0,0.43,0),Vector3(0.32,0.03,0.32),"3e3c36")
+		for chip: int in 3:
+			s.box(root,at+Vector3(sin(i*3.1+chip)*0.3,0.01,cos(i*1.7+chip)*0.25),Vector3(0.07,0.02,0.05),"a8a798")

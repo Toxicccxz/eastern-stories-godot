@@ -72,7 +72,10 @@ func _mesh_node(mesh: Mesh, material: Material) -> MeshInstance3D:
 ## 巨松: the great pine in the clearing, 像平地上撑起一把大伞 — a trunk wide as a hut, roots
 ## gripping the ground, and limbs holding a broad, dark umbrella of needles over it all.
 ## `height` to the canopy, `canopy` its radius (units), `roots` how far its roots spread (a
-## factor); `great_tree` is the same form in other colours (a crossroad's old 槐).
+## factor); `great_tree` is the same form in other colours (a crossroad's old 槐). A banyan
+## (`aerial_roots`: how many) lets roots down from its limbs, the longest grown into pillars
+## that hold its boughs up (像一座凉亭); `fallen`: what lies round its foot (leaves, not
+## needles), `cones` false for none.
 func _great_pine() -> void:
 	var height: float = float(data.get("height",9.0))
 	var radius: float = float(data.get("canopy",7.0))
@@ -111,13 +114,41 @@ func _great_pine() -> void:
 			for spray: int in 3:
 				s.box(root,drop+Vector3(rng.randf_range(-0.6,0.6),-0.15-spray*0.12,rng.randf_range(-0.6,0.6)),Vector3(0.12,0.3,0.12),String(data["blossoms"]))
 	_mesh_node(crown.mesh(),tree_shapes.material())
+	_aerial_roots(height,radius,trunk,bark)
 	# Needles and cones fallen round its foot, roots and all.
+	var fallen: Array = _colors("fallen",["8a5a36","9c6a3e","7a4f31"])
 	for i: int in 26:
 		var a: float = rng.randf()*TAU
 		var r: float = rng.randf_range(trunk+0.4,radius*0.9)
-		s.tilted_box(root,Vector3(cos(a)*r,0.012,sin(a)*r),Vector3(0.2,0.014,0.03),_pick(["8a5a36","9c6a3e","7a4f31"]),Vector3(0,rng.randf()*TAU,0))
-		if i%5==0:
+		s.tilted_box(root,Vector3(cos(a)*r,0.012,sin(a)*r),Vector3(0.2,0.014,0.03) if not data.has("fallen") else Vector3(0.16,0.014,0.11),_pick(fallen),Vector3(0,rng.randf()*TAU,0))
+		if i%5==0 and data.get("cones",true):
 			s.box(root,Vector3(cos(a)*r,0.06,sin(a)*r),Vector3(0.12,0.12,0.18),String(data.get("cone","7a5232")))
+
+## A banyan's roots let down from its boughs: thin strands hanging in the air, and the old ones
+## that reached the ground grown thick as posts, flaring where they enter it.
+func _aerial_roots(height: float, radius: float, trunk: float, bark: Array) -> void:
+	var count: int = int(data.get("aerial_roots",0))
+	var strand: String = String(data.get("strands","7d6a4c"))
+	for i: int in count:
+		var a: float = i*2.39996+0.4
+		var r: float = lerpf(trunk+1.0,radius*0.78,fposmod(i*0.618,1.0))
+		var top := Vector3(cos(a)*r,height-0.4-0.3*(i%3),sin(a)*r)
+		if i%3==0:
+			# A pillar root: from the bough to the ground, its foot spread.
+			_beam(top,Vector3(top.x,0.0,top.z),0.22+0.06*(i%2),_pick(bark))
+			for toe: int in 3:
+				var t: float = toe*TAU/3.0+a
+				_beam(Vector3(top.x,0.5,top.z),Vector3(top.x+cos(t)*0.45,0.04,top.z+sin(t)*0.45),0.12,_pick(bark))
+		else:
+			# A hanging strand, swinging a little; it stops well above a walker's head.
+			var hang: float = rng.randf_range(1.2,height-3.4)
+			var node := Node3D.new()
+			node.position = top
+			root.add_child(node)
+			s._instance(node,Transform3D(Basis.from_scale(Vector3(0.06,hang,0.06)),Vector3(0,-hang/2.0,0)),strand,s.cube)
+			s.box(node,Vector3(0.05,-hang*0.6,0),Vector3(0.05,hang*0.5,0.05),strand)
+			if ambience != null:
+				ambience.sway(node,a*3.1,0.05)
 
 func _trunk_column(from: float, to: float, trunk: float, bark: Array) -> void:
 	var y: float = from
@@ -210,7 +241,8 @@ func _ferns(w: float, d: float) -> void:
 		_fern_at(Vector3(rng.randf_range(-0.35,0.35)*w,0,rng.randf_range(-0.35,0.35)*d),rng.randf_range(0.7,1.1)*float(data.get("scale",1.0)))
 
 func _fern_at(at: Vector3, size: float) -> void:
-	var greens: Array = _colors("fern",["3f6b3a","4f7d42","62914c"])
+	# `fern`: its greens, or (on a mossy rock) just whether it has one.
+	var greens: Array = data["fern"] if data.get("fern") is Array else ["3f6b3a","4f7d42","62914c"]
 	for frond: int in 7:
 		var a: float = frond*TAU/7.0+rng.randf()*0.4
 		for leaf: int in 3:
