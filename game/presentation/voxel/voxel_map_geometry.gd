@@ -62,6 +62,8 @@ var palette: Dictionary = {}
 ## Walls of another stuff inside rects (layout `wall_looks`): "rock" (a room built against
 ## the mountain) or "earth" (土墙), with their colours.
 var wall_looks: Array = []
+## How high the walls stand (`wall_height`, units): a great hall's taller than a room's 3.2.
+var wall_height: float = 3.2
 var surfaces: Dictionary = {}
 var floor_openings: Array[Rect2] = []
 ## Prop kinds no props file draws (layout looks and voxel configs); tests require none.
@@ -122,6 +124,7 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	palette = layout.get("palette", {})
 	surfaces = layout.get("surfaces", {})
 	wall_looks = layout.get("wall_looks", [])
+	wall_height = float(layout.get("wall_height", 3.2))
 	edge_config = layout.get("edge", {})
 	ground_styles = layout.get("ground", {})
 	water_config = layout.get("water", {})
@@ -433,10 +436,10 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 			var left_low: bool = cuts and low_wall(pos,true)
 			var horizontal: bool = cells.get(cell+Vector2i(16,0),"") in ["wall","wall_wood"] or cells.get(cell-Vector2i(16,0),"") in ["wall","wall_wood"]
 			if right_low==left_low:
-				_wall_cell(_low_walls if right_low else _walls,p,0.36 if right_low else 3.2,horizontal)
+				_wall_cell(_low_walls if right_low else _walls,p,0.36 if right_low else wall_height,horizontal)
 			else:
-				_wall_cell(side_walls[0] if right_low else _side_high_walls[0],p,0.36 if right_low else 3.2,horizontal)
-				_wall_cell(side_walls[1] if left_low else _side_high_walls[1],p,0.36 if left_low else 3.2,horizontal)
+				_wall_cell(side_walls[0] if right_low else _side_high_walls[0],p,0.36 if right_low else wall_height,horizontal)
+				_wall_cell(side_walls[1] if left_low else _side_high_walls[1],p,0.36 if left_low else wall_height,horizontal)
 		elif kind in flora.get("tree_kinds",["forest", "boundary"]) and not indoor:
 			var spacing: float = float(flora.get("tree_spacing",120))
 			var cluster := Vector2i(floori(pos.x/spacing),floori(pos.y/spacing))

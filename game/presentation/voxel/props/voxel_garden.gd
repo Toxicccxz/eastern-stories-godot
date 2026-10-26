@@ -39,6 +39,7 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"strange_stone": _strange_stone(w,d)
 		"gate_frame": _gate_frame(w,d)
 		"compound_wall": _compound_wall(w,d)
+		"herb_bed": _herb_bed(w,d)
 		_:
 			return false
 	return true
@@ -579,8 +580,12 @@ func _stone_lantern() -> void:
 		root.add_child(lamp)
 
 ## 茶花: a bed of camellia bushes along the box, dark glossy leaves, flowers (`flower`) with pale
-## hearts, a few petals fallen on the earth under them.
+## hearts, a few petals fallen on the earth under them. `peony` (芍药, road1.c): lower, lighter
+## leaves and big layered blooms, each its own colour from `flowers`.
 func _camellia_bed(w: float, d: float) -> void:
+	if data.get("peony",false):
+		_peony_bed(w,d)
+		return
 	var along_x: bool = w>=d
 	var length: float = maxf(w,d)
 	var depth: float = minf(w,d)
@@ -598,6 +603,71 @@ func _camellia_bed(w: float, d: float) -> void:
 			s.box(root,at+spot,Vector3(0.13,0.1,0.13),bloom)
 			s.box(root,at+spot+Vector3(0,0.05,0),Vector3(0.05,0.03,0.05),"f2dc8e")
 		s.box(root,at+Vector3(rng.randf_range(-0.3,0.3),0.11,rng.randf_range(-0.2,0.2)),Vector3(0.1,0.015,0.08),bloom)
+
+func _peony_bed(w: float, d: float) -> void:
+	var along_x: bool = w>=d
+	var length: float = maxf(w,d)
+	var depth: float = minf(w,d)
+	var blooms: Array = data.get("flowers",["e8a0b4","f2c0cc","d8607a"])
+	s.box(root,Vector3(0,0.06,0),_along(along_x,length,0.12,depth),String(data.get("earth","5a4030")))
+	# A kerb of old bricks round the bed, a few sunk or gone.
+	for side: float in [-1.0,1.0]:
+		s.box(root,(Vector3(0,0.1,side*(depth/2-0.04)) if along_x else Vector3(side*(depth/2-0.04),0.1,0)),_along(along_x,length,0.12,0.08),"8a7a6a")
+	var count: int = maxi(1,floori(length/0.45))
+	for i: int in count:
+		var t: float = -length/2+(i+0.5)*length/count
+		var at: Vector3 = (Vector3(t,0,0) if along_x else Vector3(0,0,t))+(Vector3(0,0,rng.randf_range(-0.12,0.12)) if along_x else Vector3(rng.randf_range(-0.12,0.12),0,0))
+		var h: float = rng.randf_range(0.42,0.66)
+		s.shard(root,at+Vector3(0,h*0.45,0),Vector3(0.5,h*0.8,0.48),_pick(["4f7a3e","5d8a46","6a964e"]),i)
+		for leaf: int in 3:
+			var a: float = leaf*2.1+i
+			s.tilted_box(root,at+Vector3(cos(a)*0.2,h*0.55,sin(a)*0.18),Vector3(0.22,0.04,0.12),_pick(["5d8a46","74a052"]),Vector3(0,-a,0.3))
+		for flower: int in 2:
+			var bloom: String = String(blooms[(i+flower)%blooms.size()])
+			var spot := at+Vector3(rng.randf_range(-0.16,0.16),h+rng.randf_range(-0.02,0.08),rng.randf_range(-0.14,0.14))
+			s.box(root,spot,Vector3(0.22,0.12,0.22),Color(bloom).darkened(0.08).to_html(false))
+			s.box(root,spot+Vector3(0,0.07,0),Vector3(0.16,0.08,0.16),bloom)
+			s.box(root,spot+Vector3(0,0.12,0),Vector3(0.07,0.04,0.07),"f2dc8e")
+		if rng.randf()<0.4:
+			s.box(root,at+Vector3(rng.randf_range(-0.2,0.2),0.13,rng.randf_range(-0.12,0.12)),Vector3(0.08,0.012,0.07),String(blooms[i%blooms.size()]))
+
+## 药圃 (drug_field.c: 一块一块的, 哪边种当归, 哪边种枸杞, 绝不会混在一起): a raised bed of dark
+## tilled earth in a kerb of boards, the herbs in straight rows, a wooden stake with its paper
+## label at one end, a few weeds pulled and left on the path. `herb`: "umbel" (当归: feathery
+## leaves under flat white flower heads, `flowers`), "berry" (枸杞: arching twigs hung with red
+## berries), "leafy" (low broad leaves); `leaves` their greens.
+func _herb_bed(w: float, d: float) -> void:
+	var leaves: Array = data.get("leaves",["4e7a3a","5e8a44","6e9a4e"])
+	var herb: String = String(data.get("herb","leafy"))
+	s.box(root,Vector3(0,0.1,0),Vector3(w-0.1,0.2,d-0.1),String(data.get("earth","4a3628")))
+	for z: float in [-1.0,1.0]:
+		s.box(root,Vector3(0,0.12,z*(d/2-0.05)),Vector3(w,0.24,0.08),"7a5e40")
+	for x: float in [-1.0,1.0]:
+		s.box(root,Vector3(x*(w/2-0.05),0.12,0),Vector3(0.08,0.24,d),"6e5438")
+	var rows: int = maxi(1,floori((d-0.3)/0.42))
+	var cols: int = maxi(1,floori((w-0.3)/0.36))
+	for row: int in rows:
+		var z: float = -(rows-1)*0.21+row*0.42
+		s.box(root,Vector3(0,0.205,z),Vector3(w-0.3,0.02,0.1),"3a2a20")
+		for col: int in cols:
+			var at := Vector3(-(cols-1)*0.18+col*0.36+rng.randf_range(-0.03,0.03),0.2,z)
+			match herb:
+				"umbel":
+					var h: float = rng.randf_range(0.42,0.62)
+					s.box(root,at+Vector3(0,h*0.4,0),Vector3(0.26,h*0.8,0.24),_pick(leaves))
+					s.box(root,at+Vector3(0,h,0),Vector3(0.02,0.24,0.02),"6a8a4a")
+					s.box(root,at+Vector3(0,h+0.13,0),Vector3(0.2,0.04,0.2),_pick(data.get("flowers",["f2eee2","e8e4d4"])))
+				"berry":
+					var h: float = rng.randf_range(0.5,0.75)
+					s.shard(root,at+Vector3(0,h*0.5,0),Vector3(0.32,h,0.3),_pick(leaves),row*cols+col)
+					for berry: int in 4:
+						s.box(root,at+Vector3(rng.randf_range(-0.14,0.14),rng.randf_range(0.2,h),rng.randf_range(-0.13,0.13)+0.05),Vector3(0.05,0.07,0.05),_pick(["d8342a","e8482e","b82a24"]))
+				_:
+					s.shard(root,at+Vector3(0,0.12,0),Vector3(0.3,0.22,0.28),_pick(leaves),row*cols+col)
+	s.box(root,Vector3(-w/2+0.2,0.5,d/2-0.05),Vector3(0.05,0.6,0.05),"8a6a45")
+	s.box(root,Vector3(-w/2+0.2,0.68,d/2-0.02),Vector3(0.16,0.2,0.02),"e8dcc0")
+	for weed: int in 2:
+		s.tilted_box(root,Vector3(rng.randf_range(-w,w)*0.4,0.02,d/2+0.12),Vector3(0.2,0.03,0.05),"7a8a4a",Vector3(0,rng.randf()*TAU,0))
 
 ## 怪石: one tall stone stood alone (forehall.c's 灰绿色的怪石), leaning and pinched in the
 ## middle, pocked with dark holes, moss in its hollows; `height` units.

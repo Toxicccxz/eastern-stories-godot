@@ -13,7 +13,7 @@ var rng := RandomNumberGenerator.new()
 var ambience: VoxelAmbience
 
 const WALL_KINDS: Array[String] = ["tool_hooks","string_hang","ledger_hook","new_year_print","couplet","clothes_peg",
-	"straw_cape","calendar","wall_lamp","wall_shelf","weapon_pegs","menu_boards","notices","banner_cloth"]
+	"straw_cape","calendar","wall_lamp","wall_shelf","weapon_pegs","menu_boards","notices","banner_cloth","plaques","mural"]
 
 func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) -> bool:
 	s = shapes
@@ -45,6 +45,8 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"menu_boards": _boards(w,["e8dcc0","d9cba6","e8dcc0","c9b48a"],"3a3530")
 		"notices": _boards(w,["e3d6b0","d6c48f","efe6cc"],"55504a",true)
 		"banner_cloth": _banner_cloth()
+		"plaques": _plaques(w)
+		"mural": _mural(w)
 		"stone_slabs": _stone_slabs(w,d)
 		_:
 			return false
@@ -408,6 +410,55 @@ func _boards(w: float, papers: Array, ink: String, loose: bool = false) -> void:
 			s.box(board,Vector3(0,0.2-c*0.13,0.012),Vector3(0.08,0.06,0.006),ink)
 	if not loose:
 		s.box(root,Vector3(0,2.35,0.03),Vector3(count*0.32+0.1,0.06,0.05),"6a5039")
+
+## 檀木匾额 (heal_room.c: 两侧的墙璧上挂了许许多多的檀木扁额): rows of dark sandalwood boards
+## given by the grateful, four gilt characters across each, the giver's name small in the corner;
+## a few hung a little askew. `rows` of them, as many across as the wall takes.
+func _plaques(w: float) -> void:
+	var across: int = maxi(1,floori(w/1.0))
+	for row: int in int(data.get("rows",2)):
+		for i: int in across:
+			var board := Node3D.new()
+			board.position = Vector3(-(across-1)*0.5+i*1.0,2.6-row*0.6,0.03)
+			board.rotation.z = _jitter(0.05)
+			root.add_child(board)
+			s.box(board,Vector3.ZERO,Vector3(0.86,0.42,0.04),_pick(["4a2c20","5a3424","3e2418"]))
+			s.box(board,Vector3(0,0,0.022),Vector3(0.78,0.34,0.01),_pick(["5e3a28","6a4430"]))
+			for c: int in 4:
+				s.box(board,Vector3(-0.27+c*0.18,0.03,0.03),Vector3(0.11,0.12,0.008),"d8b04a")
+			s.box(board,Vector3(0.28,-0.12,0.03),Vector3(0.12,0.03,0.006),"c8a048")
+
+## 壁画 (back_temple.c: 四周的墙上唯妙唯肖地彩绘著十八罗汉, 每个罗汉的旁边并写著他得道升天的过程;
+## corridor1.c: 观世音菩萨救苦救难的事迹): a long painted band on old plaster, figures in robes
+## (`robes`) with their halos, clouds between, a column of writing beside each; the paint faded
+## and flaked low down where hands and shoulders rub it. `figures` across, else one a unit.
+func _mural(w: float) -> void:
+	var robes: Array = data.get("robes",["a8483a","c88a3a","4a6a8a","6a8a5a","8a5a7a","c8b890"])
+	var count: int = int(data.get("figures",maxi(1,floori(w/1.0))))
+	var step: float = w/count
+	s.box(root,Vector3(0,1.85,0.02),Vector3(w,1.5,0.02),String(data.get("ground","d8ccb0")))
+	s.box(root,Vector3(0,2.64,0.03),Vector3(w,0.08,0.02),"8a3a2a")
+	s.box(root,Vector3(0,1.06,0.03),Vector3(w,0.08,0.02),"8a3a2a")
+	for i: int in count:
+		var x: float = -w/2+(i+0.5)*step
+		var robe: String = String(robes[(i+int(data.get("seed",0)))%robes.size()])
+		var lean: float = _jitter(0.15)
+		# A seated figure on a rock: the robe spread over his knees, arms, face and dark hair,
+		# the halo behind his head.
+		s.box(root,Vector3(x,1.36,0.032),Vector3(step*0.5,0.2,0.008),"8a8478")
+		s.box(root,Vector3(x,1.56,0.035),Vector3(step*0.46,0.22,0.01),robe)
+		s.box(root,Vector3(x+lean*0.2,1.9,0.035),Vector3(step*0.3,0.56,0.01),robe)
+		s.box(root,Vector3(x+lean*0.2,1.9,0.04),Vector3(step*0.06,0.5,0.006),Color(robe).darkened(0.3).to_html(false))
+		for arm: float in [-1.0,1.0]:
+			s.box(root,Vector3(x+arm*step*0.17,1.78,0.04),Vector3(step*0.07,0.3,0.006),Color(robe).darkened(0.15).to_html(false))
+		s.box(root,Vector3(x,2.33,0.036),Vector3(step*0.26,0.26,0.008),"e8c86a")
+		s.box(root,Vector3(x,2.3,0.04),Vector3(step*0.14,0.16,0.008),"d8b090")
+		s.box(root,Vector3(x,2.4,0.044),Vector3(step*0.15,0.05,0.006),"2a2622")
+		s.box(root,Vector3(x+step*0.3,1.9,0.036),Vector3(0.04,0.7,0.006),"3a3028")
+		if i%2==0:
+			s.box(root,Vector3(x+step*0.5,2.45,0.035),Vector3(step*0.3,0.1,0.006),"e8e4dc")
+	for flake: int in maxi(2,floori(w/0.8)):
+		s.box(root,Vector3(_jitter(w*0.45),rng.randf_range(1.15,1.5),0.04),Vector3(rng.randf_range(0.12,0.3),rng.randf_range(0.06,0.14),0.006),"b8ad96")
 
 ## A cloth banner hung on the wall, smoke-darkened at the top (a temple's 幡).
 func _banner_cloth() -> void:

@@ -236,6 +236,16 @@ func _roof(into: Node3D, at: Vector3, w: float, d: float, height: float, data: D
 		shapes.box(root,Vector3(0,eave_y-0.10,side*deep/2),Vector3(wide,0.19,0.16),timber)
 		for bracket: int in 0 if cover=="thatch" else ceili(wide/1.25):
 			shapes.box(root,Vector3(-wide/2+0.45+bracket*1.25,eave_y-0.24,side*(deep/2-0.13)),Vector3(0.14,0.23,0.45),timber)
+		# Gilt beasts on the corners (`corner_beasts`, road1.c: 屋檐的四个角落雕就著四只栩栩如的金龙):
+		# a dragon riding up each swept corner, its head reared out over the eave.
+		if data.has("corner_beasts") and form!="shed":
+			var gilt: String = String(data["corner_beasts"])
+			for end: float in [-1.0,1.0]:
+				var corner := Vector3(end*(wide/2-0.1),height+curve+0.16,side*(deep/2-0.1))
+				shapes.tilted_box(root,corner+Vector3(-end*0.22,0.06,-side*0.1),Vector3(0.5,0.14,0.16),gilt,Vector3(0,-end*side*0.6,end*0.35))
+				shapes.box(root,corner+Vector3(end*0.08,0.26,side*0.06),Vector3(0.18,0.2,0.2),gilt)
+				shapes.box(root,corner+Vector3(end*0.16,0.38,side*0.12),Vector3(0.08,0.14,0.06),gilt)
+				shapes.tilted_box(root,corner+Vector3(-end*0.46,0.2,-side*0.2),Vector3(0.24,0.06,0.08),gilt,Vector3(0,0,-end*0.8))
 		# 风铎: a bronze bell hung under each corner of the eaves, stirring in the wind.
 		if data.get("bells",false) and form!="shed":
 			for end: float in [-1.0,1.0]:

@@ -11,8 +11,8 @@ the player's 大乘佛法, 诵经, 流云杖法, 莲华心法 and its 疗伤他�
 
 Seven maps: sunhill.mountain (日照山, the river to the gate), sanyen.grounds (山烟寺's yards and
 paths), sanyen.tunnels, and one each for the 大雄宝殿, 后殿, 流云轩 and 香积厨 (hall_house,
-back_temple_house, heal_room_house, kitchen_house). None has a voxel view yet (no
-`game/data/sanyen/voxel/`).
+back_temple_house, heal_room_house, kitchen_house); each has its voxel view
+(`game/data/sanyen/voxel/`, 美术规划 §5).
 
 | Room | LPC `set("objects")` | Native |
 |---|---|---|

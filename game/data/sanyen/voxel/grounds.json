@@ -1,0 +1,124 @@
+{
+  "indoor": false,
+  "camera_size": 23,
+  "note": "Inside the 山门 (front_yard.c, door.c, road1/2.c, drug_field.c, temple.c from outside, inner_yard.c, corridor.c, corridor1.c, tower.c): the training ground ringed with white poplars, the pile of bricks on its north side; the gate hall under gilt tiles, its jade plaque, the great door shut and the side doors open; the flagstone road between peonies to the golden 大雄宝殿 (four gilt dragons on its corners, gold bells under its eaves); the small stone path east to the herb garden laid out bed by bed; the garden west of the hall with its brook, little bridge, rockery and pavilion, 流云轩 north of it; the laurel walk to the 后殿; the walkway along the painted walls to the 香积厨; the two pagodas of the 塔林. Rich (修整得金碧辉煌) but old and used: the paving worn, the gilt dulled, the walls stained.",
+  "edge": {"minimum_margin": 32, "maximum_margin": 72, "depth": 3.0, "top": "4e6a3c", "bottom": "3a4034", "strata": ["6d7466", "777e6f", "636a5d"]},
+  "light": {
+    "sky": ["b6cdd6", "0e1624"],
+    "ambient": ["d6d6c6", "6a7ca6"],
+    "ambient_energy": [0.46, 0.32],
+    "sun": ["fff0d0", "a0b8ec"],
+    "sun_energy": [0.95, 0.34],
+    "carried": {"color": "ffd9a0", "range": 5.5, "attenuation": 1.2, "day": 0.0, "night": 0.6}
+  },
+  "ground": {
+    "street": {"style": "slabs", "lengths": [1, 3], "depths": [1, 2], "cracks": 0.1, "broken": 0.05, "sunk": 0.03, "tufts": 0.08, "stones": ["8a9490", "949d98", "7f8a86", "9aa29c", "86908a"], "worn": ["a8aea8", "a0a6a0"], "bed": "4a5048", "joint": 0.05, "mud": "7a7460", "crack": "646c66", "moss": "5d7a45", "moss_chance": 0.12, "note": "road1.c: 一条铺著青石板的大道"},
+    "path": {"style": "slabs", "lengths": [1, 2], "depths": [1, 1], "cracks": 0.12, "broken": 0.06, "sunk": 0.04, "tufts": 0.16, "stones": ["849088", "8e9a90", "7a8680", "96a098"], "worn": ["a0a8a0", "9aa29a"], "bed": "3e4a3a", "joint": 0.05, "mud": "6a6a52", "crack": "5a6662", "moss": "4f6e3a", "moss_chance": 0.25, "note": "road2.c: 一条青石板铺造的小径"},
+    "floor_yard": {"style": "scree", "colors": ["a89070", "b09878", "9c8668"], "gravel": 0.45, "stones": 0.05, "note": "front_yard.c: 寺前的空地, beaten hard by the monks' training"},
+    "floor_wood": {"style": "slabs", "lengths": [1, 1], "depths": [1, 1], "cracks": 0.08, "broken": 0.04, "sunk": 0.0, "tufts": 0.02, "stones": ["8e8a82", "98948a", "84807a", "a09c92"], "worn": ["a8a498", "aeaa9e"], "bed": "5a5a54", "joint": 0.05, "mud": "8a8270", "crack": "6a6a62", "moss": "5d7a45", "moss_chance": 0.05, "note": "corridor.c, corridor1.c: the walks of square tiles, worn pale"},
+    "grass": {"colors": ["4e6e3a", "58783f", "628246"]},
+    "boundary": {"colors": ["4a6838", "52703c", "5a7840"]}
+  },
+  "ground_tints": {
+    "bank": "4a6a38",
+    "mud": "8a7a5a",
+    "chips": ["b8b4a8", "c8c4b8", "a8a498"],
+    "dust": "c4b894",
+    "grit": "c0b8a0"
+  },
+  "wall_looks": [
+    {"rect": [928, 1696, 1232, 1920], "style": "boards", "colors": ["b8895a", "c49866", "aa7c50", "bc9060"], "grime": 0.2, "note": "door.c: the gate hall, all of 桧木 (temple.c: 这整座山烟寺都是由上好的桧木搭建而成)"}
+  ],
+  "water": {
+    "kinds": {"water": {"colors": ["6f9a88", "557e70", "3f6458"], "depth": 48, "flow": [1.0, 0.0], "speed": 0.35, "swell": 0.0, "bank": ["9a988a", "8a887c", "a8a698"], "note": "inner_yard.c: 小桥流水 — clear water over pebbles"}}
+  },
+  "flora": {
+    "grass_density": 0.7,
+    "density": {"street": 0.02, "path": 0.08, "floor_yard": 0.03, "floor_wood": 0.0, "boundary": 0.4},
+    "grass_colors": ["2f4a2c", "45623a", "5d7c47", "789650"],
+    "flower_colors": ["f2efe6", "e8a0b4", "e8c84a", "f4f0e8"],
+    "flower_threshold": 0.12,
+    "blossom_trees": 0.0,
+    "tree_types": ["poplar", "pine", "poplar", "broadleaf"],
+    "crown_colors": {"pine": ["244a3a", "2f5e48", "467458", "688e66"], "broadleaf": ["2f5a38", "3e6f42", "548650", "72a060"], "note": "翡翠绿"},
+    "tree_kinds": ["forest", "boundary"],
+    "tree_chance": 0.6,
+    "tree_spacing": 56,
+    "wind": 0.14,
+    "butterflies": 6
+  },
+  "buildings": [
+    {"rect": [768, 928, 1200, 1312], "portals": ["sanyen.road1.north", "sanyen.corridor.south", "sanyen.inner_yard.east"], "note": "road1.c: 北方就是大雄宝殿, 一座上覆金瓦的雄伟建筑, 屋檐的四个角落雕就著四只栩栩如的金龙, 屋檐下还各挂著一串金风铃", "construction": "timber", "wall": "c49866", "timber": "8a5a34", "posts": "a8382a", "roof_form": "hip", "ridge": "x", "eave_lift": 0.6, "foundation": 0.7, "plinth": ["d8d4c8", "e4e0d5", "cbc7bb"], "lattice": true, "goods": "none", "lanterns": false, "ridge_ends": "c9a24a", "roof": "a8802a:gloss", "height": 4.6, "rise": 2.2, "overhang": 1.2, "porch": "tiled", "gate": "red", "bay": 5, "bells": true, "bell": "d8b04a", "corner_beasts": "d8b04a:gloss", "skirt": 2.6, "skirt_depth": 1.0, "signboard": {"text": "大雄宝殿", "width": 2.4, "letters": "e8c25a", "frame": "c9a24a", "board": "2a2a3a"}},
+    {"rect": [800, 192, 1232, 464], "portals": ["sanyen.tower.west", "sanyen.corridor.north"], "note": "back_temple.c: 一间宽大的后殿", "construction": "timber", "wall": "c49866", "timber": "8a5a34", "posts": "a8382a", "roof_form": "hip", "ridge": "x", "eave_lift": 0.6, "foundation": 0.7, "plinth": ["d8d4c8", "e4e0d5", "cbc7bb"], "lattice": true, "goods": "none", "lanterns": false, "ridge_ends": "c9a24a", "roof": "5e5a52", "height": 3.8, "rise": 1.8, "overhang": 1.0, "porch": "tiled", "gate": "red", "bay": 4, "bells": true, "bell": "b88a3a", "signboard": {"text": "药师殿", "width": 1.8, "letters": "e8c25a", "frame": "c9a24a", "board": "2a2a3a"}},
+    {"rect": [336, 640, 736, 928], "portals": ["sanyen.inner_yard.north"], "note": "heal_room.c: 流云轩, 玄智方丈为人看病的地方 (inner_yard.c: 北边有间雅房)", "construction": "timber", "wall": "d0b088", "timber": "7a5034", "posts": "8a5a34", "roof": "5a5a52", "height": 3.2, "roof_form": "gable", "rise": 1.3, "overhang": 0.7, "porch": "wood", "goods": "herbs", "lanterns": false, "bay": 4, "lattice": true, "signboard": {"text": "流云轩", "width": 1.6, "letters": "e8d8a8", "frame": "6a4a30", "board": "4a2c20"}},
+    {"rect": [112, 336, 384, 576], "portals": ["sanyen.corridor1.west"], "note": "kitchen.c: 香积厨, 一间相当大的房屋 (corridor1.c), smoke from the stoves", "construction": "timber", "wall": "c8a880", "timber": "6a4a32", "roof": "5a5850", "height": 3.2, "roof_form": "gable", "rise": 1.2, "overhang": 0.7, "porch": "none", "goods": "none", "lanterns": false, "bay": 3, "chimney_at": [0.3, 0.2], "signboard": {"text": "香积厨", "width": 1.4, "letters": "e8d8a8", "frame": "6a4a30", "board": "4a2c20"}}
+  ],
+  "props": [
+    {"kind": "pavilion_roof", "at": [1080, 1808], "size": [336, 256], "elevation": 3.24, "occludes": true, "roof": "a8802a:gloss", "timber": "8a5a34", "frieze": "2f6a5a", "rise": 1.1, "overhang": 0.6, "bells": true, "finial": "c9a24a", "note": "door.c: 上方覆著镶金的瓦片"},
+    {"kind": "sign", "at": [1088, 1932], "size": [112, 16], "text": "山烟寺", "board": "2f8a62:gloss", "frame": "c9a24a", "letters": "e8c25a", "height": 2.3, "tall": 0.56, "note": "door.c: 瓦片的下方挂著一方翡翠匾额, 上面写著『山烟寺』三个烫金大字"},
+    {"kind": "hanging_lantern", "at": [968, 1940], "elevation": -0.8, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [1208, 1940], "elevation": -0.8, "paper": "d8452f:glow"},
+    {"kind": "stone_lion", "at": [944, 1976], "size": [48, 48], "note": "a lion either side of the gate hall"},
+    {"kind": "stone_lion", "at": [1232, 1976], "size": [48, 48], "mirror": true},
+    {"kind": "trail", "points": [[1000, 1930], [1000, 1700]], "color": "b8ac8e", "note": "the side doors worn by the feet"},
+    {"kind": "trail", "points": [[1176, 1930], [1176, 1700]], "color": "b8ac8e"},
+    {"kind": "compound_wall", "at": [848, 2312], "size": [320, 16], "height": 3.0, "occludes": true, "wall": "e0d2b0"},
+    {"kind": "compound_wall", "at": [1296, 2312], "size": [320, 16], "height": 3.0, "occludes": true, "wall": "e0d2b0"},
+    {"kind": "compound_wall", "at": [680, 2112], "size": [16, 400], "height": 3.0, "wall": "e0d2b0", "windows": 1},
+    {"kind": "compound_wall", "at": [1464, 2112], "size": [16, 400], "height": 3.0, "wall": "e0d2b0", "windows": 1},
+    {"kind": "gateway", "at": [1072, 2312], "size": [128, 16], "timber": "8a5a34", "posts": "a8382a", "roof": "c9a24a", "board": "1e3a2c", "letters": "e8c25a", "text": "山烟寺", "lantern": "d8452f:glow", "height": 4.0, "occludes": true, "note": "the 山门 from inside"},
+    {"kind": "stains", "at": [1072, 2120], "size": [520, 260], "count": 14, "colors": ["9c8668", "8e7a5e", "a89070"], "note": "front_yard.c: 平日僧人们就在这里练武强身 — the ground scuffed bare"},
+    {"kind": "weapon_rack", "at": [1344, 2208], "size": [80, 24], "rotation": -90, "note": "staves for the morning drill"},
+    {"kind": "sacks", "at": [770, 2040], "size": [32, 32], "note": "a sack of sand for the fists"},
+    {"kind": "stone_lantern", "at": [944, 1632], "size": [24, 24], "note": "stone lanterns at the ends of the peony beds"},
+    {"kind": "stone_lantern", "at": [1216, 1632], "size": [24, 24]},
+    {"kind": "trail", "points": [[1080, 1690], [1080, 1340]], "color": "b0b6b0", "note": "the road worn smooth to the golden doors"},
+    {"kind": "drying_rack", "at": [1464, 1056], "size": [80, 40], "tiers": 3, "leaves": "8a8a4a", "note": "corridor.c: 广场上正晒著一些不知名的药草"},
+    {"kind": "drying_rack", "at": [1464, 1184], "size": [80, 40], "tiers": 2, "leaves": "9a7a4a"},
+    {"kind": "baskets", "at": [1272, 1290], "size": [32, 32], "note": "baskets of cut herbs"},
+    {"kind": "tea_basket", "at": [1672, 1180], "size": [24, 24]},
+    {"kind": "lotus", "at": [380, 1192], "size": [80, 60]},
+    {"kind": "lotus", "at": [570, 1200], "size": [60, 48]},
+    {"kind": "flower_bed", "at": [700, 1072], "size": [32, 96], "note": "inner_yard.c: 花草茂盛"},
+    {"kind": "ferns", "at": [440, 1060], "size": [32, 24], "count": 3},
+    {"kind": "compound_wall", "at": [592, 456], "size": [416, 16], "height": 3.2, "wall": "d8ccb0", "note": "corridor1.c: 两旁分别是流云轩及后殿的外墙"},
+    {"kind": "mural", "at": [592, 470], "size": [400, 16], "wall_mounted": true, "figures": 5, "robes": ["f2efe6", "e8e4dc", "6a8a7a", "d8c8a0"], "seed": 3, "note": "corridor1.c: 墙上画著大慈大悲观世音菩萨救苦救难的事迹"},
+    {"kind": "mural", "at": [1024, 478], "size": [352, 16], "wall_mounted": true, "figures": 4, "robes": ["f2efe6", "e8e4dc", "6a8a7a", "d8c8a0"], "seed": 1},
+    {"kind": "hanging_lantern", "at": [600, 540], "elevation": -0.6},
+    {"kind": "candles", "at": [1344, 300], "size": [24, 16], "count": 3},
+    {"kind": "candles", "at": [1504, 300], "size": [24, 16], "count": 3},
+    {"kind": "incense_burner", "at": [1424, 330], "size": [32, 32], "lit": true, "note": "tower.c: 高僧涅盘后…舍利子就存放在这两座塔里"},
+    {"kind": "baskets", "at": [1580, 420], "size": [24, 24], "note": "the sweeping monk's basket of leaves"},
+    {"kind": "stains", "at": [1424, 400], "size": [240, 80], "count": 6, "colors": ["8a8a5a", "9a9a62"], "note": "leaves swept into heaps"}
+  ],
+  "ambience": {
+    "birds": [{"at": [1080, 1500], "radius": 220, "count": 3, "height": 6.0, "color": "3a3029", "note": "sparrows over the road"}, {"at": [1424, 260], "radius": 160, "count": 3, "height": 10.0, "color": "2a2a30", "note": "swifts round the pagodas"}],
+    "fall": [{"rect": [688, 1920, 1456, 2304], "count": 18, "height": 5.0, "colors": ["b8c48a", "d8d0a0", "9aa86a"], "wind": [0.4, 0.1], "note": "poplar leaves over the yard"}, {"rect": [848, 464, 1152, 928], "count": 10, "height": 3.0, "colors": ["e8c84a", "f2dc7a"], "wind": [0.2, 0.1], "note": "laurel flowers on the walk"}]
+  },
+  "actors": {
+    "default": {"coat": "8a7a5a"},
+    "sanyen.npc.greeting": {"coat": "b8862e", "note": "知客僧: a saffron robe"},
+    "sanyen.npc.monk": {"coat": "7a6a52"},
+    "sanyen.npc.bonze": {"coat": "8a7a62"},
+    "sanyen.npc.cripple": {"coat": "6a5e4e", "note": "跛僧: a patched old robe"},
+    "sanyen.npc.drug_bonze": {"coat": "6a7a5a", "note": "药僧"},
+    "sanyen.npc.cook_bonze": {"coat": "9a8a6a", "note": "烧饭僧: an apron over his robe"},
+    "sanyen.npc.little_bonze": {"coat": "b89a5a"},
+    "sanyen.npc.work_bonze": {"coat": "7a7060"},
+    "cloud.npc.monk_guard": {"coat": "8a4a2a", "note": "护寺武僧"},
+    "common.npc.bonze.master": {"coat": "a8342a", "note": "the abbot's red kasaya"}
+  },
+  "door_looks": {
+    "sanyen.road1.door": {"kind": "red_door", "leaf": "c9a24a", "trim": "e8c25a", "note": "road1.c / temple.c: 两扇敞开的金门, 价值不菲"}
+  },
+  "entrances": {
+    "sanyen.front_yard.south": {"title": "山门"},
+    "sanyen.road1.north": {"title": "大雄宝殿"},
+    "sanyen.corridor.south": {"title": "大雄宝殿"},
+    "sanyen.inner_yard.east": {"title": "大雄宝殿"},
+    "sanyen.inner_yard.north": {"title": "流云轩"},
+    "sanyen.corridor1.west": {"title": "香积厨"},
+    "sanyen.corridor.north": {"title": "后殿"},
+    "sanyen.tower.west": {"title": "后殿"}
+  }
+}

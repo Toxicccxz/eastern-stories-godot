@@ -1473,7 +1473,7 @@ msgid "茶场"
 msgstr ""
 
 #. es2:u/cloud/dukou short
-#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json data/cloud/voxel/outdoor.json
+#: scenes/world/cloud/cloud_outdoor.tscn data/cloud/rooms.json data/cloud/voxel/outdoor.json data/sanyen/voxel/mountain.json
 msgid "江北渡口"
 msgstr ""
 
@@ -2341,22 +2341,22 @@ msgstr ""
 
 #. es2:d/temple/temple2 short
 #. es2:d/sanyen/back_temple short
-#: scenes/world/sanyen/back_temple_house.tscn scenes/world/temple/temple2_house.tscn data/temple/rooms.json data/sanyen/rooms.json
+#: scenes/world/sanyen/back_temple_house.tscn scenes/world/temple/temple2_house.tscn data/temple/rooms.json data/sanyen/rooms.json data/sanyen/voxel/grounds.json
 msgid "后殿"
 msgstr ""
 
 #. es2:d/sanyen/temple short
-#: scenes/world/sanyen/hall_house.tscn data/sanyen/rooms.json
+#: scenes/world/sanyen/hall_house.tscn data/sanyen/rooms.json data/sanyen/voxel/grounds.json
 msgid "大雄宝殿"
 msgstr ""
 
 #. es2:d/sanyen/heal_room short
-#: scenes/world/sanyen/heal_room_house.tscn data/sanyen/rooms.json
+#: scenes/world/sanyen/heal_room_house.tscn data/sanyen/rooms.json data/sanyen/voxel/grounds.json
 msgid "流云轩"
 msgstr ""
 
 #. es2:d/sanyen/kitchen short
-#: scenes/world/sanyen/kitchen_house.tscn data/sanyen/rooms.json
+#: scenes/world/sanyen/kitchen_house.tscn data/sanyen/rooms.json data/sanyen/voxel/grounds.json
 msgid "香积厨"
 msgstr ""
 
@@ -2365,18 +2365,18 @@ msgid "蒸笼 · 打开"
 msgstr ""
 
 #. es2:d/sanyen/tower short
-#: scenes/world/sanyen/sanyen_temple.tscn data/sanyen/rooms.json
+#: scenes/world/sanyen/sanyen_temple.tscn data/sanyen/rooms.json data/sanyen/voxel/back_temple_house.json
 msgid "塔林"
 msgstr ""
 
 #. es2:d/sanyen/corridor short
 #. es2:d/sanyen/corridor1 short
-#: scenes/world/sanyen/sanyen_temple.tscn data/sanyen/rooms.json
+#: scenes/world/sanyen/sanyen_temple.tscn data/sanyen/rooms.json data/sanyen/voxel/back_temple_house.json data/sanyen/voxel/hall_house.json data/sanyen/voxel/kitchen_house.json
 msgid "走廊"
 msgstr ""
 
 #. es2:d/sanyen/inner_yard short
-#: scenes/world/sanyen/sanyen_temple.tscn data/sanyen/rooms.json
+#: scenes/world/sanyen/sanyen_temple.tscn data/sanyen/rooms.json data/sanyen/voxel/hall_house.json data/sanyen/voxel/heal_room_house.json
 msgid "庭园"
 msgstr ""
 
@@ -2386,7 +2386,7 @@ msgid "药圃"
 msgstr ""
 
 #. es2:d/sanyen/road1 short
-#: scenes/world/sanyen/sanyen_temple.tscn data/sanyen/rooms.json
+#: scenes/world/sanyen/sanyen_temple.tscn data/sanyen/rooms.json data/sanyen/voxel/hall_house.json
 msgid "石板大道"
 msgstr ""
 
@@ -2407,6 +2407,14 @@ msgstr ""
 
 #: scenes/world/sanyen/sanyen_temple.tscn scenes/world/temple/temple_grounds.tscn
 msgid "南 · 山门"
+msgstr ""
+
+#: scenes/world/sanyen/sanyen_temple.tscn
+msgid "明心塔"
+msgstr ""
+
+#: scenes/world/sanyen/sanyen_temple.tscn
+msgid "见性塔"
 msgstr ""
 
 #. es2:u/cloud/sunhill/northriver short
@@ -2442,7 +2450,7 @@ msgid "盘山小径"
 msgstr ""
 
 #. es2:d/sanyen/gate short
-#: scenes/world/sanyen/sunhill_mountain.tscn data/sanyen/rooms.json
+#: scenes/world/sanyen/sunhill_mountain.tscn data/sanyen/rooms.json data/sanyen/voxel/tunnels.json
 msgid "山烟寺山门"
 msgstr ""
 
@@ -2459,12 +2467,12 @@ msgstr ""
 #. cloud.npc.monk inquiry topic
 #. cloud.npc.monk_guard inquiry topic
 #. sanyen name
-#: scenes/world/sanyen/sunhill_mountain.tscn data/common/families.json data/common/npcs.json data/cloud/npcs.json data/sanyen/world.json data/latemoon/voxel/hills.json
+#: scenes/world/sanyen/sunhill_mountain.tscn data/common/families.json data/common/npcs.json data/cloud/npcs.json data/sanyen/world.json data/latemoon/voxel/hills.json data/sanyen/voxel/grounds.json data/sanyen/voxel/mountain.json
 msgid "山烟寺"
 msgstr ""
 
 #. es2:d/sanyen/tunnel short
-#: scenes/world/sanyen/tunnels.tscn data/sanyen/rooms.json
+#: scenes/world/sanyen/tunnels.tscn data/sanyen/rooms.json data/sanyen/voxel/mountain.json
 msgid "隧道"
 msgstr ""
 
@@ -11501,7 +11509,7 @@ msgstr ""
 #. latemoon.npc.upstar.shinfun family.name
 #. latemoon.npc.upstar.huei family.name
 #. latemoon name
-#: data/common/families.json data/common/npcs.json data/common/journal.json data/cloud/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/latemoon/voxel/manor.json
+#: data/common/families.json data/common/npcs.json data/common/journal.json data/cloud/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/latemoon/voxel/manor.json data/sanyen/voxel/tunnels.json
 msgid "晚月庄"
 msgstr ""
 
@@ -13312,7 +13320,7 @@ msgstr ""
 #. choyin.windspring region
 #. choyin.taolin region
 #. choyin name
-#: data/common/journal.json data/choyin/world.json
+#: data/common/journal.json data/choyin/world.json data/sanyen/voxel/mountain.json
 msgid "乔阴县城"
 msgstr ""
 
@@ -31544,6 +31552,14 @@ msgstr ""
 
 #: data/latemoon/voxel/upper.json
 msgid "跳下前院"
+msgstr ""
+
+#: data/sanyen/voxel/grounds.json
+msgid "山门"
+msgstr ""
+
+#: data/sanyen/voxel/grounds.json
+msgid "药师殿"
 msgstr ""
 
 #: data/snow/voxel/herbshop_house.json

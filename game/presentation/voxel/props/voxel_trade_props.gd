@@ -456,6 +456,13 @@ func _cauldron(w: float, data: Dictionary) -> void:
 	s.box(root,Vector3(0,0.28,w*0.4+0.01),Vector3(0.4,0.3,0.02),"ff8a3a:glow")
 	s.box(root,Vector3(0,1.02,0),Vector3(w*0.62,0.22,w*0.58),"2f2c2a")
 	s.box(root,Vector3(0,1.14,0),Vector3(w*0.52,0.02,w*0.48),String(data.get("gruel","e2d8bc")))
+	# A bamboo steamer stacked on the pot (`steamer`: kitchen.c's 蒸笼), its lid on.
+	if data.get("steamer",false):
+		for ring: int in 3:
+			s.box(root,Vector3(0,1.24+ring*0.2,0),Vector3(w*0.54,0.18,w*0.5),["c8a868","b89858","c4a462"][ring])
+			s.box(root,Vector3(0,1.24+ring*0.2,w*0.25+0.005),Vector3(w*0.54,0.03,0.01),"8a6a3a")
+		s.box(root,Vector3(0,1.86,0),Vector3(w*0.5,0.08,w*0.46),"d4b878")
+		s.box(root,Vector3(0,1.92,0),Vector3(0.18,0.06,0.06),"8a6a3a")
 	s.tilted_box(root,Vector3(w*0.2,1.3,0),Vector3(0.05,0.6,0.05),"8a6a45",Vector3(0,0,0.5))
 	for bowl: int in 4:
 		s.box(root,Vector3(-w*0.35,0.98+bowl*0.06,w*0.25),Vector3(0.22,0.05,0.22),"d8d2c2")

@@ -7,7 +7,7 @@ const PINES: Array[String] = ["pine","mountain_pine","old_pine","tall_pine","you
 ## Bark colours by species where they differ from the default brown.
 const BARKS: Dictionary = {"willow": ["6b5a46","5a4b3b"], "bamboo": ["6f8a44","7f9a50"], "locust": ["4f4234","5d4e3e"], "maple": ["5a4436","4a382c"],
 	"plum": ["3a2a26","4a3630"], "crabapple": ["4e3a30","5c463a"], "apricot": ["4a3a32","5a463c"], "peach": ["4a3a32","5a463c"],
-	"osmanthus": ["5a4e40","6a5c4c"], "banana": ["6a8a48","7a9a52"]}
+	"osmanthus": ["5a4e40","6a5c4c"], "banana": ["6a8a48","7a9a52"], "poplar": ["d8d4c4","c8c4b2"]}
 var crowns: Dictionary[String, ArrayMesh] = {}
 var leaf_material: StandardMaterial3D
 ## Crown colours by species, dark to light (layout flora `crown_colors`); bark the same
@@ -48,6 +48,7 @@ func build(parent: Node3D, shapes: Shapes, species: String, variant: int, frame 
 		"bamboo": _bamboo_wood(parent,shapes,variant)
 		"plum", "crabapple", "osmanthus", "apricot", "peach": _blossom_wood(parent,shapes,species,variant)
 		"banana": _banana_wood(parent,shapes,variant)
+		"poplar": _poplar_wood(parent,shapes,variant)
 		"young_pine":
 			shapes.box(parent,Vector3(0,0.5,0),Vector3(0.14,1.0,0.15),_bark(species,0))
 		"stunted_pine":
@@ -220,6 +221,14 @@ func _crown(species: String, variant: int, colors: Array = []) -> ArrayMesh:
 			for lobe: int in 5:
 				var angle: float = lobe*1.5+variant*0.6
 				surface.ellipsoid(Vector3(cos(angle)*0.8,2.4+lobe*0.12,sin(angle)*0.7),Vector3(0.78,0.6,0.74),green,lobe+variant)
+		"poplar":
+			# 白杨 (front_yard.c: 空地四周种了一排白杨树): a tall narrow column of small leaves,
+			# silver-green, stirring; the pale trunk is drawn with the wood.
+			surface.cell_size = 0.22
+			green = _greens(species,["3e6a40","58844c","7aa262","a6c088"])
+			for tier: int in 5:
+				var span: float = 0.62-absf(tier-1.5)*0.09
+				surface.ellipsoid(Vector3(0.08*sin(tier*1.9+variant),2.2+tier*0.62,0.06*cos(tier+variant)),Vector3(span,0.52,span*0.92),green,variant+tier)
 		"banana":
 			# 芭蕉: the furled new leaf at the top (the broad leaves are drawn with the stem).
 			surface.cell_size = 0.2
@@ -388,6 +397,18 @@ func _willow_wood(parent: Node3D, shapes: Shapes, variant: int) -> void:
 		shapes.box(parent,Vector3(cos(a)*r,3.0-length/2,sin(a)*r),Vector3(0.07,length,0.07),strands[i%strands.size()])
 
 ## A clump of bamboo: green jointed culms leaning a little apart.
+## 白杨's trunk: tall, straight and pale, dark eye-shaped scars where old branches fell, a few
+## thin limbs held up close to the stem.
+func _poplar_wood(parent: Node3D, shapes: Shapes, variant: int) -> void:
+	shapes.box(parent,Vector3(0,2.2,0),Vector3(0.2,4.4,0.22),_bark("poplar",0))
+	for scar: int in 5:
+		var y: float = 0.6+scar*0.62+0.1*sin(variant+scar)
+		shapes.box(parent,Vector3(0.03*sin(scar*2.0),y,0.115),Vector3(0.1,0.05,0.01),"4a463e")
+		shapes.box(parent,Vector3(0.105,y+0.3,0.02*cos(scar)),Vector3(0.01,0.04,0.08),"5a564c")
+	for limb: int in 3:
+		var side: float = -1.0 if (limb+variant)%2 else 1.0
+		shapes.tilted_box(parent,Vector3(side*0.16,2.4+limb*0.7,0),Vector3(0.05,0.7,0.05),_bark("poplar",1),Vector3(0,0,-side*0.35))
+
 func _bamboo_wood(parent: Node3D, shapes: Shapes, variant: int) -> void:
 	for culm: int in 5:
 		var a: float = culm*1.3+variant

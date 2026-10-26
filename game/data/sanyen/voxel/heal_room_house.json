@@ -1,0 +1,38 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 23,
+  "note": "流云轩 (heal_room.c): a sharp smell of medicine as you come in; a wide room where the abbot sees the sick and keeps his herbs, the cabinet of drawers up to the roof along the back, the side walls hung with sandalwood plaques from the grateful.",
+  "palette": {"wood": ["7a5a3e", "845f42", "6e5038"], "wall": "d8c8a4"},
+  "light": {
+    "ambient": ["d8ccb0", "6a6a82"],
+    "ambient_energy": [0.42, 0.3]
+  },
+  "props": [
+    {"kind": "plaques", "at": [-318, 0], "size": [384, 16], "rotation": 90, "wall_mounted": true, "rows": 3, "note": "heal_room.c: 两侧的墙璧上挂了许许多多的檀木扁额(plaque)"},
+    {"kind": "plaques", "at": [302, 40], "size": [320, 16], "rotation": -90, "wall_mounted": true, "rows": 3},
+    {"kind": "string_hang", "at": [-200, -206], "size": [48, 16], "wall_mounted": true, "note": "herbs hung to dry"},
+    {"kind": "crocks", "at": [-300, 120], "size": [32, 32]},
+    {"kind": "baskets", "at": [260, -150], "size": [32, 32]},
+    {"kind": "chair", "at": [-96, 40], "size": [24, 24], "note": "the stool for the sick before the desk"},
+    {"kind": "stains", "at": [-60, 60], "size": [180, 80], "count": 5, "colors": ["6a5a40", "74644a"], "note": "the boards darkened where the sick wait"},
+    {"kind": "hanging_lantern", "at": [-120, -40]},
+    {"kind": "hanging_lantern", "at": [140, 80]}
+  ],
+  "actors": {
+    "default": {"coat": "8a7a5a"},
+    "sanyen.npc.greeting": {"coat": "b8862e", "note": "知客僧: a saffron robe"},
+    "sanyen.npc.monk": {"coat": "7a6a52"},
+    "sanyen.npc.bonze": {"coat": "8a7a62"},
+    "sanyen.npc.cripple": {"coat": "6a5e4e", "note": "跛僧: a patched old robe"},
+    "sanyen.npc.drug_bonze": {"coat": "6a7a5a", "note": "药僧"},
+    "sanyen.npc.cook_bonze": {"coat": "9a8a6a", "note": "烧饭僧: an apron over his robe"},
+    "sanyen.npc.little_bonze": {"coat": "b89a5a"},
+    "sanyen.npc.work_bonze": {"coat": "7a7060"},
+    "cloud.npc.monk_guard": {"coat": "8a4a2a", "note": "护寺武僧"},
+    "common.npc.bonze.master": {"coat": "a8342a", "note": "the abbot's red kasaya"}
+  },
+  "entrances": {
+    "sanyen.heal_room.south": {"title": "庭园"}
+  }
+}
