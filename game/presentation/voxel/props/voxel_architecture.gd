@@ -34,7 +34,9 @@ func build(center: Vector3, w: float, d: float, data: Dictionary, entrances: Arr
 	var masses: Array = data.get("masses",[])
 	var enclosure: float = data.get("enclosure_height",height)
 	_walls(body,w,d,enclosure,data,entrances)
-	if masses.is_empty():
+	if data.get("ruined",false):
+		pass
+	elif masses.is_empty():
 		_roof(body,Vector3.ZERO,w,d,height,data)
 	else:
 		for mass: Dictionary in masses:
@@ -69,6 +71,15 @@ func build(center: Vector3, w: float, d: float, data: Dictionary, entrances: Arr
 	# 腰檐: a pent eave round a two-storey house between its floors (a tea house, a 春楼).
 	if data.has("skirt"):
 		_skirt(body,w,d,float(data["skirt"]),data)
+	# `skirts`: one pent eave per floor of a taller house (n_street2.c: 一家三层楼的酒馆).
+	for at: Variant in data.get("skirts",[]):
+		_skirt(body,w,d,float(at),data)
+	if data.get("ruined",false):
+		# spath.c: 路旁隐约可见房舍, 皆已破败 — the roof gone, rubble and weeds inside the walls.
+		for i: int in 9:
+			shapes.shard(body,Vector3(rng.randf_range(-0.35,0.35)*w,0.1,rng.randf_range(-0.35,0.35)*d),Vector3(0.5,0.2,0.4),["8a8276","7a7268","948c80"][i%3],i)
+			shapes.box(body,Vector3(rng.randf_range(-0.4,0.4)*w,0.14,rng.randf_range(-0.4,0.4)*d),Vector3(0.12,0.28,0.12),"5f7a3a")
+		shapes.tilted_box(body,Vector3(0,0.5,0),Vector3(0.2,0.2,d*0.8),"5a4a3a",Vector3(0,0.3,0.2))
 	for door: Vector3 in entrances:
 		if door in arches:
 			_arch(body,door,w,d,data)
@@ -96,8 +107,16 @@ func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, e
 					gap = true
 			if gap:
 				continue
-			var panel := Vector3(0.50,height,0.24) if along_x else Vector3(0.24,height,0.50)
 			var weather: float = noise.get_noise_2d((body.position.x+at.x)*29,(body.position.z+at.z)*29)
+			if data.get("ruined",false):
+				# Walls fallen to uneven heights, a gap here and there.
+				if weather > 0.32:
+					continue
+				var left: float = height*(0.35+0.45*(weather+0.5))
+				at.y = left/2
+				shapes.box(body,at,Vector3(0.50,left,0.24) if along_x else Vector3(0.24,left,0.50),plaster.darkened(0.1).to_html(false))
+				continue
+			var panel := Vector3(0.50,height,0.24) if along_x else Vector3(0.24,height,0.50)
 			var tone: String = plaster.darkened(0.035*roundf((weather+0.5)*3)).to_html(false)
 			shapes.box(body,at,panel,tone)
 			# Stone plinth courses have their own lengths, joints and water staining.
@@ -151,7 +170,8 @@ func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, e
 						shapes.box(body,window_at+out*0.1+Vector3(0,bar,0),Vector3(0.40,0.035,0.03) if along_x else Vector3(0.03,0.035,0.40),timber)
 				if construction=="timber" and i%bay==2:
 					shapes.box(body,window_at+out*0.13,Vector3(0.38,0.78,0.06) if along_x else Vector3(0.06,0.78,0.38),"796348")
-		shapes.box(body,Vector3(0,height-0.13,fixed) if along_x else Vector3(fixed,height-0.13,0),Vector3(w,0.18,0.33) if along_x else Vector3(0.33,0.18,d),timber)
+		if not data.get("ruined",false):
+			shapes.box(body,Vector3(0,height-0.13,fixed) if along_x else Vector3(fixed,height-0.13,0),Vector3(w,0.18,0.33) if along_x else Vector3(0.33,0.18,d),timber)
 		if data.get("gallery",false):
 			var rail_at := Vector3(0,height-0.65,fixed) if along_x else Vector3(fixed,height-0.65,0)
 			shapes.box(body,rail_at+out*0.32,Vector3(w,0.13,0.12) if along_x else Vector3(0.12,0.13,d),timber)

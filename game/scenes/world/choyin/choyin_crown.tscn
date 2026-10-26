@@ -1,5 +1,7 @@
 [gd_scene format=3]
 
+[ext_resource type="Script" path="res://presentation/voxel/world_voxel_view.gd" id="map_view"]
+
 [ext_resource type="Script" path="res://runtime/world/world_map_controller.gd" id="map"]
 [ext_resource type="Script" path="res://runtime/world/world_spawn_marker_2d.gd" id="marker"]
 [ext_resource type="Script" path="res://runtime/world/world_character_body_2d.gd" id="body"]
@@ -159,3 +161,14 @@ position_smoothing_speed = 6.0
 
 [node name="Interactions" type="Node2D" parent="."]
 
+
+[node name="MapView" type="Node" parent="."]
+script = ExtResource("map_view")
+layout_path = "res://data/choyin/voxel/crown.json"
+
+[node name="Furnishings" type="Node2D" parent="."]
+
+[node name="Furnishing01" type="Node2D" parent="Furnishings"]
+position = Vector2(192, 144)
+metadata/look = {"kind": "stump", "height": 0.9, "colors": ["5d4b3c", "6b5746", "4f4034"], "rings": "b39a72"}
+metadata/footprint = Vector2(32, 32)

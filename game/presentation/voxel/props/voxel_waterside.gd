@@ -25,6 +25,7 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"fishing_net": _fishing_net(w,d)
 		"water_steps": _water_steps(w,d)
 		"far_shore": _far_shore(w,d)
+		"koi": _koi(w,d)
 		_:
 			return false
 	return true
@@ -34,6 +35,23 @@ func _colors(key: String, fallback: Array) -> Array:
 
 func _pick(colors: Array) -> String:
 	return String(colors[rng.randi_range(0,colors.size()-1)])
+
+## 锦鲤 (bridge1.c: 浮萍底下有不少艳红锦鲤穿梭来去): fish just under the surface at `level`,
+## `count` of them in reds and whites, turning slowly on the swell.
+func _koi(w: float, d: float) -> void:
+	var tones: Array = _colors("colors",["d8402a","e8702a","f0e0d0","c83a2a"])
+	var level: float = float(data.get("level",-0.14))
+	for i: int in int(data.get("count",8)):
+		var fish := Node3D.new()
+		fish.position = Vector3(rng.randf_range(-0.45,0.45)*w,level-0.06,rng.randf_range(-0.45,0.45)*d)
+		fish.rotation.y = rng.randf()*TAU
+		root.add_child(fish)
+		var tone: String = _pick(tones)
+		s.box(fish,Vector3.ZERO,Vector3(0.1,0.06,0.3),tone)
+		s.box(fish,Vector3(0,0,-0.2),Vector3(0.08,0.04,0.1),tone)
+		s.box(fish,Vector3(0,0.02,0.05),Vector3(0.05,0.03,0.12),"f4ece0" if tone != "f0e0d0" else "d8402a")
+		if ambience != null:
+			ambience.sway(fish,i*1.7,0.12)
 
 ## 木栈: planks laid across stringers on piles driven into the riverbed; the deck at `deck`
 ## units (just above the ground), the piles going down to `bed`; mooring posts at the end.

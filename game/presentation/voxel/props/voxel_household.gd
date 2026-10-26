@@ -23,6 +23,7 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 	match String(look["kind"]):
 		"sacks": _sacks(w,d)
 		"baskets": _baskets(w,d)
+		"rope_coil": _rope_coil(w,d)
 		"crocks": _crocks(w,d)
 		"bedding": _bedding(w,d)
 		"chest_stack": _chest_stack(w,d)
@@ -312,6 +313,17 @@ func _new_year_print() -> void:
 
 ## 对联: two red strips with black writing either side of something (a door, an altar), a short
 ## one across the top.
+## A rope coiled on the floor (halfhole.c's 缚仙绳: `colors` its strands, gold for that one).
+func _rope_coil(w: float, d: float) -> void:
+	var strands: Array = data.get("colors",["b89a5a","a88a4a"])
+	var r: float = minf(w,d)*0.4
+	for ring: int in 3:
+		for i: int in 10:
+			var a: float = i*TAU/10.0+ring*0.3
+			var rr: float = r*(0.5+ring*0.25)
+			s.tilted_box(root,Vector3(cos(a)*rr,0.03+ring*0.03,sin(a)*rr),Vector3(rr*0.62,0.05,0.06),String(strands[(i+ring)%strands.size()]),Vector3(0,-a+PI/2,0))
+	s.tilted_box(root,Vector3(r*0.6,0.04,r*0.9),Vector3(0.06,0.05,0.5),String(strands[0]),Vector3(0,0.6,0))
+
 func _couplet() -> void:
 	var red: String = "b8463a" if rng.randf()<0.5 else "c8342a"
 	for side: float in [-0.5,0.5]:

@@ -190,18 +190,8 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 			if String(data.get("letters","")).ends_with(":glow"):
 				for edge: float in [-1.0,1.0]:
 					s.box(root,Vector3(0,y+edge*(tall/2-0.05),0.075),Vector3(w-0.12,0.035,0.02),String(data["letters"]))
-		"stone_lion":
-			# A crouching guardian on its plinth, facing +z.
-			s.box(root,Vector3(0,0.25,0),Vector3(0.9,0.5,0.9),"8f8f86")
-			s.box(root,Vector3(0,0.53,0),Vector3(1.0,0.08,1.0),"a3a398")
-			s.box(root,Vector3(0,0.95,-0.12),Vector3(0.62,0.72,0.62),"b1b0a4")
-			s.box(root,Vector3(0,1.48,0.10),Vector3(0.58,0.52,0.50),"b8b7ab")
-			s.box(root,Vector3(0,1.62,0.05),Vector3(0.74,0.36,0.44),"9d9c90")
-			s.box(root,Vector3(0,1.40,0.37),Vector3(0.30,0.18,0.10),"8e8d82")
-			for x: float in [-0.17,0.17]:
-				s.box(root,Vector3(x,0.72,0.26),Vector3(0.18,0.38,0.22),"a9a89c")
-			# The ball under one forepaw; `mirror`: the other paw (the pair either side of a door).
-			s.box(root,Vector3(-0.24 if data.get("mirror",false) else 0.24,0.70,0.36),Vector3(0.24,0.20,0.24),"9a998d")
+		"stone_lion": _stone_lion(data)
+		"drum": _drum(w,d,data)
 		"flagpole":
 			s.box(root,Vector3(0,0.12,0),Vector3(0.7,0.24,0.7),"8c8a7f")
 			s.box(root,Vector3(0,3.2,0),Vector3(0.16,6.4,0.16),"6e5038")
@@ -316,6 +306,74 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 ## 纯金铸成的长灯架上挂了一排饰丽的宫灯 (晚月庄's corridors): a gilded standard on a square foot,
 ## its arm hung with two palace lanterns (lacquered frames, glowing paper sides, red tassels);
 ## one light for the pair.
+## A crouching guardian on its plinth, facing +z (`colors`: plinth, body, light, dark — an
+## iron lion in blacks); `standing` (w_street1.c: 姿势是立著的, 而且大小要大得多): upright on its
+## four legs, head high, half again as tall; `mark`: the character cut in its forehead.
+func _stone_lion(data: Dictionary) -> void:
+	var tones: Array = data.get("colors",["8f8f86","b1b0a4","b8b7ab","9d9c90"])
+	var plinth: String = String(tones[0])
+	var body: String = String(tones[1])
+	var light: String = String(tones[2])
+	var dark: String = String(tones[3])
+	if data.get("standing",false):
+		s.box(root,Vector3(0,0.3,0),Vector3(1.1,0.6,1.5),plinth)
+		s.box(root,Vector3(0,0.64,0),Vector3(1.2,0.08,1.6),light)
+		for x: float in [-0.26,0.26]:
+			for z: float in [-0.45,0.4]:
+				s.box(root,Vector3(x,1.08,z),Vector3(0.22,0.8,0.24),dark)
+		s.box(root,Vector3(0,1.72,-0.08),Vector3(0.78,0.74,1.3),body)
+		s.box(root,Vector3(0,2.0,0.0),Vector3(0.62,0.3,0.8),light)
+		# The mane in curls, the head raised, the jaw open, the tail curled over the back.
+		for curl: int in 8:
+			var a: float = curl*TAU/8.0
+			s.box(root,Vector3(cos(a)*0.4,2.2+sin(a)*0.34,0.5),Vector3(0.2,0.2,0.2),dark if curl%2 else light)
+		s.box(root,Vector3(0,2.32,0.66),Vector3(0.6,0.56,0.5),light)
+		s.box(root,Vector3(0,2.1,0.95),Vector3(0.34,0.2,0.16),dark)
+		s.box(root,Vector3(0,2.5,0.9),Vector3(0.44,0.2,0.1),body)
+		for x: float in [-0.16,0.16]:
+			s.box(root,Vector3(x,2.46,0.92),Vector3(0.08,0.08,0.04),"2a2622")
+		s.tilted_box(root,Vector3(0,2.3,-0.7),Vector3(0.14,0.7,0.14),dark,Vector3(-0.6,0,0))
+		if data.has("mark"):
+			var mark := Label3D.new()
+			mark.text = String(data["mark"])
+			mark.position = Vector3(0,2.62,0.92)
+			mark.pixel_size = 0.004
+			mark.font_size = 44
+			mark.outline_size = 0
+			mark.modulate = Color("3a3a36")
+			root.add_child(mark)
+		return
+	s.box(root,Vector3(0,0.25,0),Vector3(0.9,0.5,0.9),plinth)
+	s.box(root,Vector3(0,0.53,0),Vector3(1.0,0.08,1.0),light)
+	s.box(root,Vector3(0,0.95,-0.12),Vector3(0.62,0.72,0.62),body)
+	s.box(root,Vector3(0,1.48,0.10),Vector3(0.58,0.52,0.50),light)
+	s.box(root,Vector3(0,1.62,0.05),Vector3(0.74,0.36,0.44),dark)
+	s.box(root,Vector3(0,1.40,0.37),Vector3(0.30,0.18,0.10),dark)
+	for x: float in [-0.17,0.17]:
+		s.box(root,Vector3(x,0.72,0.26),Vector3(0.18,0.38,0.22),body)
+	# The ball under one forepaw; `mirror`: the other paw (the pair either side of a door).
+	s.box(root,Vector3(-0.24 if data.get("mirror",false) else 0.24,0.70,0.36),Vector3(0.24,0.20,0.24),dark)
+
+## 大皮鼓 (court1.c: 门口有一面大皮鼓, 让百姓击鼓申冤用的): a great drum on its stand, red body
+## with brass studs, the hide pale, a mallet leaning on the frame.
+func _drum(w: float, d: float, data: Dictionary) -> void:
+	var red: String = String(data.get("body","9a2e24"))
+	var frame: String = String(data.get("frame","5a3a28"))
+	var r: float = minf(w,d)*0.42
+	for x: float in [-w*0.4,w*0.4]:
+		s.box(root,Vector3(x,0.5,0),Vector3(0.12,1.0,0.5),frame)
+	s.box(root,Vector3(0,0.3,0),Vector3(w*0.9,0.1,0.14),frame)
+	for i: int in 3:
+		var a: float = i*PI/3.0
+		s.tilted_box(root,Vector3(0,1.0,0),Vector3(r*2,0.6,r*2*0.82),red,Vector3(PI/2,a,0))
+	s.tilted_box(root,Vector3(0,1.0,0.31),Vector3(r*1.7,r*1.7,0.03),String(data.get("hide","e8d8b0")),Vector3(0,0,PI/4))
+	s.tilted_box(root,Vector3(0,1.0,-0.31),Vector3(r*1.7,r*1.7,0.03),String(data.get("hide","e8d8b0")),Vector3(0,0,PI/4))
+	for stud: int in 10:
+		var a: float = stud*TAU/10.0
+		s.box(root,Vector3(cos(a)*r*0.95,1.0+sin(a)*r*0.95,0.3),Vector3(0.05,0.05,0.05),"d6b25a")
+	s.tilted_box(root,Vector3(w*0.4,0.7,0.3),Vector3(0.05,0.9,0.05),"c8a870",Vector3(0,0,0.5))
+	s.box(root,Vector3(w*0.4-0.2,1.1,0.3),Vector3(0.1,0.12,0.1),"8a2a22")
+
 func _lamp_stand(data: Dictionary) -> void:
 	var gold: String = String(data.get("gold","c9a24a"))
 	var dark: String = String(data.get("shade","a07a32"))

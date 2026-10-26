@@ -9,50 +9,49 @@
         "bounds": [416, 64, 4352, 2880],
         "ground": [
           ["water", 1536, 2112, 2752, 2816, "翠柳湖: lilies, duckweed, red carp"],
-          ["water", 1856, 2048, 1920, 2112],
           ["forest", 1344, 64, 1856, 128, "the pines north of the 北门: the road no longer goes through"],
-          ["wall_wood", 1360, 400, 1520, 880, "houses west of the 福林大街"],
-          ["wall_wood", 1872, 400, 2160, 624, "the three-storey tavern east of the street"],
-          ["wall_wood", 1872, 656, 2160, 880, "the alley's houses"],
+          ["wall_wood", 1360, 400, 1520, 624, "n_street1.c: 有做生意的, 有做粗活的 — workshops west of the street"],
+          ["wall_wood", 1872, 400, 2160, 624, "n_street2.c: 东边有一家三层楼的酒馆"],
+          ["wall_wood", 1872, 656, 2160, 880, "the alley's houses (n_street1.c: 往东边是一条小巷子)"],
           ["wall_wood", 912, 640, 1200, 880, "老姚布庄's back rooms"],
-          ["wall_wood", 1232, 640, 1520, 880],
-          ["wall_wood", 1872, 912, 2160, 1136, "stalls and houses on the ring's east side"],
-          ["wall_wood", 1872, 1152, 2480, 1200, "the 东大街's houses, north"],
-          ["wall_wood", 1872, 1488, 2480, 1712, "the 东大街's houses, south"],
-          ["wall_wood", 592, 912, 880, 1136, "houses along the lane north of the 西大街"],
-          ["wall_wood", 592, 1424, 880, 1600, "the bookshop (书肆) south of the 西大街"],
-          ["wall_wood", 912, 1424, 1200, 1600, "the dye works (染坊)"],
-          ["wall_wood", 1232, 1424, 1520, 1600],
-          ["wall", 448, 1376, 832, 1856, "the walls of the 县府衙门 (its courts are their own map)"],
-          ["wall_wood", 784, 1872, 1264, 2096, "shops north of the 承安街"],
-          ["wall_wood", 1296, 1616, 1520, 2032, "the market's houses west of the street"],
-          ["wall", 768, 2368, 1536, 2432, "the city wall south of the 承安街"],
-          ["wall", 416, 2368, 512, 2432],
+          ["wall_wood", 1232, 640, 1520, 880, "n_street2.c: 西边则是远近驰名的老姚布庄"],
+          ["wall_wood", 1984, 912, 2160, 1152, "houses east of the ring"],
+          ["wall_wood", 2176, 1024, 2480, 1184, "e_street1.c: 街道两边有许多的民宅 — north"],
+          ["wall_wood", 2000, 1504, 2480, 1712, "the 东大街's houses, south"],
+          ["wall_wood", 592, 912, 880, 1136, "w_street2.c: 北边是一家大酒楼; the lane north (w_street1.c: 往北有一条小巷)"],
+          ["wall", 448, 1472, 768, 1792, "the walls of the 县府衙门 (its courts are their own map)"],
+          ["wall_wood", 784, 1472, 1024, 1648, "w_street1.c: 南边则是一间书肆"],
+          ["wall_wood", 1040, 1472, 1216, 1648, "w_street2.c: 南边则有一间染坊"],
+          ["wall_wood", 1232, 1472, 1520, 1648, "w_street3.c: 街道两边有许多的商店"],
+          ["wall_wood", 800, 1872, 1264, 2064, "s_street4.c: 贩卖南北货, 日用品的商店 north of the 承安街"],
+          ["wall_wood", 1296, 1808, 1520, 2032, "the market's houses west of the street"],
+          ["wall", 800, 2384, 1536, 2432, "the city wall south of the 承安街 (s_street5.c: 从这里可以看到南边的城墙)"],
+          ["wall", 416, 2384, 480, 2432],
           ["forest", 2752, 1920, 4352, 2880, "桃林: the peach woods east of the 曼雩台, the grove deep in them"]
         ],
         "zones": {
           "choyin.n_gate": [1344, 128, 1856, 384, "open", "street", null],
           "choyin.n_street1": [1536, 384, 1856, 640, "open", "street", null],
           "choyin.n_street2": [1536, 640, 1856, 896, "open", "street", null],
-          "choyin.n_street3": [1536, 896, 1856, 1152, "open", "street", null],
+          "choyin.n_street3": [1536, 896, 1984, 1152, "open", "street", null],
           "choyin.nw_street": [1216, 896, 1536, 1152, "open", "floor_yard", null],
           "choyin.w_street4": [896, 896, 1216, 1152, "open", "street", null],
-          "choyin.w_street3": [1216, 1152, 1536, 1408, "open", "street", null],
-          "choyin.w_street2": [896, 1152, 1216, 1408, "open", "street", null],
-          "choyin.w_street1": [576, 1152, 896, 1408, "open", "street", null],
+          "choyin.w_street3": [1216, 1152, 1536, 1472, "open", "street", null],
+          "choyin.w_street2": [896, 1152, 1216, 1472, "open", "street", null],
+          "choyin.w_street1": [576, 1152, 896, 1472, "open", "street", null],
           "choyin.tree_tomb": [1536, 1152, 1856, 1536, "open", "floor_yard", null],
-          "choyin.e_street1": [1856, 1216, 2176, 1472, "open", "street", null],
-          "choyin.e_gate": [2176, 1216, 2496, 1472, "open", "street", null],
-          "choyin.s_street3": [1536, 1536, 1856, 1792, "open", "street", null],
+          "choyin.e_street1": [1856, 1184, 2176, 1504, "open", "street", null],
+          "choyin.e_gate": [2176, 1184, 2496, 1504, "open", "street", null],
+          "choyin.s_street3": [1392, 1536, 1984, 1792, "open", "street", null],
           "choyin.s_street2": [1536, 1792, 1856, 2048, "open", "street", null],
-          "choyin.s_street1": [1280, 2048, 1920, 2432, "open", "floor_yard", null],
-          "choyin.s_street4": [1024, 2112, 1280, 2368, "open", "street", null],
-          "choyin.s_street5": [768, 2112, 1024, 2368, "open", "street", null],
-          "choyin.crossroad": [512, 2112, 768, 2368, "open", "street", null],
-          "choyin.court1": [512, 1856, 768, 2112, "open", "floor_yard", null],
-          "choyin.s_gate": [512, 2368, 768, 2688, "open", "street", null],
-          "choyin.dragon_temple": [768, 2432, 1280, 2688, "enclosed", "floor_wood", "wall"],
-          "choyin.sw_road1": [1280, 2432, 1536, 2688, "open", "path", null],
+          "choyin.s_street1": [1312, 2048, 1920, 2432, "open", "floor_yard", null],
+          "choyin.s_street4": [1040, 2064, 1312, 2384, "open", "street", null],
+          "choyin.s_street5": [800, 2064, 1040, 2384, "open", "street", null],
+          "choyin.crossroad": [480, 2064, 800, 2384, "open", "street", null],
+          "choyin.court1": [480, 1792, 800, 2064, "open", "floor_yard", null],
+          "choyin.s_gate": [480, 2384, 800, 2720, "open", "street", null],
+          "choyin.dragon_temple": [800, 2432, 1312, 2688, "enclosed", "floor_wood", "wall"],
+          "choyin.sw_road1": [1312, 2432, 1568, 2688, "open", "path", null],
           "choyin.bridge1": [1664, 2432, 1920, 2688, "open", "water", null],
           "choyin.bridge2": [1920, 2432, 2176, 2688, "open", "water", null],
           "choyin.bridge3": [1920, 2176, 2176, 2432, "open", "water", null],
@@ -62,47 +61,95 @@
           "choyin.taolin": [3776, 2304, 4288, 2816, "open", "grass", null]
         },
         "roads": [
-          ["path", 1344, 256, 1536, 352, "n_gate: the yellow road west to the foot of the hill"],
-          ["bridge", 1712, 2432, 1872, 2624, "bridge1: the zigzag bridge over the lilies"],
-          ["bridge", 1712, 2512, 1920, 2624],
-          ["bridge", 1920, 2512, 2112, 2624, "bridge2"],
-          ["bridge", 1984, 2432, 2112, 2624],
-          ["bridge", 1984, 2240, 2112, 2432, "bridge3"],
-          ["bridge", 1984, 2240, 2176, 2368],
-          ["bridge", 2176, 2240, 2224, 2368, "bridge4"],
-          ["bridge", 2208, 2208, 2416, 2416, "the deck in the bridge's middle, where the young lady looks at the lilies"],
-          ["bridge", 2240, 2400, 2368, 2432],
-          ["bridge", 2240, 2432, 2368, 2624, "bridge5"],
-          ["bridge", 2240, 2496, 2432, 2624],
-          ["street", 768, 2512, 1280, 2608, "dragon_temple: the road runs through under the statue's terrace"]
+          ["path", 1344, 224, 1536, 384, "n_gate: the yellow road west to the foot of the hill (路和空间: 160)"],
+          ["bridge", 1712, 2432, 1872, 2640, "bridge1: the zigzag bridge over the lilies, south off the square"],
+          ["bridge", 1712, 2480, 1920, 2640, "and east"],
+          ["bridge", 1920, 2480, 2112, 2640, "bridge2"],
+          ["bridge", 1952, 2432, 2112, 2640, "north"],
+          ["bridge", 1952, 2176, 2112, 2432, "bridge3"],
+          ["bridge", 1952, 2208, 2176, 2368, "east"],
+          ["bridge", 2176, 2208, 2336, 2368, "bridge4"],
+          ["bridge", 2208, 2192, 2416, 2432, "the deck in the bridge's middle, where the young lady looks at the lilies"],
+          ["bridge", 2240, 2432, 2400, 2640, "bridge5"],
+          ["bridge", 2240, 2480, 2432, 2640, "east onto the 曼雩台"],
+          ["street", 800, 2496, 1312, 2624, "dragon_temple.c: 一条道路东西贯通庙的中央 (the whole hall floor is walkable; 路和空间)"]
         ],
-        "gap_at": [],
+        "gap_at": [
+          ["choyin.dragon_temple", "choyin.s_gate", 2560, 160],
+          ["choyin.dragon_temple", "choyin.sw_road1", 2560, 160]
+        ],
         "props": [
-          ["blocked", 1616, 128, 1648, 176, "the 北门's stone arch (「北门」), its two stone lions"],
-          ["blocked", 1744, 128, 1776, 176],
-          ["blocked", 2464, 1248, 2496, 1296, "the 东城门's arch (it says 「北门」) and its iron lion"],
-          ["blocked", 2464, 1392, 2496, 1440],
-          ["blocked", 576, 1168, 608, 1232, "the 西门's arch: the gate is shut"],
-          ["blocked", 576, 1328, 608, 1392],
-          ["blocked", 720, 1248, 752, 1312, "the standing stone lion in the middle of the 西大街"],
-          ["blocked", 1648, 1280, 1744, 1376, "树王坟: the great stump, thirty men round"],
-          ["blocked", 1664, 1456, 1728, 1504, "the little brick shrine of 树王公"],
-          ["blocked", 1568, 2208, 1632, 2272, "南门广场: the great well, cups tied to it on ropes"],
+          ["blocked", 1600, 128, 1632, 176, "n_gate.c: the 北门's stone arch, its east and west posts (the arch itself is drawn over them)", {"look": {"kind": "column", "height": 4.4, "column": "8e8e86", "base": "7a7a72", "band": "8e8e86"}}],
+          ["blocked", 1760, 128, 1792, 176, {"look": {"kind": "column", "height": 4.4, "column": "8e8e86", "base": "7a7a72", "band": "8e8e86"}}],
+          ["blocked", 1552, 144, 1584, 176, "n_gate.c: 石牌楼旁蹲著两只石狮", {"look": {"kind": "stone_lion", "mirror": true}}],
+          ["blocked", 1808, 144, 1840, 176, {"look": {"kind": "stone_lion"}}],
+          ["blocked", 1360, 144, 1408, 208, "a cart left by the road west", {"look": {"kind": "cart", "cargo": "straw", "rotation": 90}}],
+          ["blocked", 1552, 448, 1616, 480, "n_street1.c: 卖饼大叔 at his stall", {"look": {"kind": "stall", "goods": "sweets"}}],
+          ["blocked", 1808, 560, 1856, 624, "n_street1.c: 有做粗活的 — a cart of sacks", {"look": {"kind": "cart", "cargo": "sacks"}}],
+          ["blocked", 1536, 592, 1584, 624, {"look": {"kind": "firewood"}}],
+          ["blocked", 1808, 672, 1840, 704, "a water vat at the tavern door", {"look": {"kind": "water_vat"}}],
+          ["blocked", 1536, 752, 1568, 784, "a basket of bolts outside 老姚布庄", {"look": {"kind": "baskets"}}],
+          ["blocked", 1552, 960, 1616, 992, "n_street3.c: 卖包子的 — steamers on his stall", {"look": {"kind": "stall", "goods": "eggs"}}],
+          ["blocked", 1904, 944, 1968, 976, "n_street3.c: 许多小贩客商都聚集在这里交易买卖 — the ring east of the street", {"look": {"kind": "stall", "goods": "pottery"}}],
+          ["blocked", 1904, 1040, 1968, 1072, {"look": {"kind": "stall", "goods": "fruit"}}],
+          ["blocked", 1776, 1152, 1808, 1184, "n_street3.c: 石台前有块石碑, 上书「树王坟」三个大字", {"look": {"kind": "stele", "text": "树王坟", "height": 1.8, "colors": ["8e8e86", "9c9c94", "76766e"]}}],
+          ["blocked", 1248, 928, 1296, 944, "nw_street.c: 百姓散步休憩的地方 — a bench", {"look": {"kind": "bench", "cups": true}}],
+          ["blocked", 1456, 1104, 1488, 1136, "a stone table for the old men's chess", {"look": {"kind": "stone_table", "chess": true}}],
+          ["blocked", 1232, 1088, 1280, 1136, "a locust tree shading the flagstones", {"look": {"variant": 1, "kind": "tree", "species": "locust"}}],
+          ["blocked", 912, 912, 944, 944, "w_street4: a water vat at a door", {"look": {"kind": "water_vat"}}],
+          ["blocked", 1152, 1104, 1200, 1136, {"look": {"kind": "firewood"}}],
+          ["blocked", 1632, 1264, 1760, 1392, "tree_tomb.c: 一截巨大的树桩, 少说有三, 四十人合抱那么粗, 树桩中间有一个大洞(hole)", {"look": {"kind": "great_stump", "height": 1.4}}],
+          ["blocked", 1664, 1440, 1728, 1488, "tree_tomb.c: 一间砖砌的小庙, 庙里供奉的当然就是「树王公」 — his wooden image, its left hand gone, termite tracks in it", {"look": {"kind": "brick_shrine"}}],
+          ["blocked", 1680, 1488, 1712, 1520, "incense before the shrine", {"look": {"kind": "incense_burner", "lit": true}}],
+          ["blocked", 576, 1184, 608, 1232, "w_street1.c: 一座巨大的牌楼上刻著「西门」二字 — the gate's posts; the gate is shut", {"look": {"kind": "column", "height": 4.6, "column": "8e8e86", "base": "7a7a72", "band": "8e8e86"}}],
+          ["blocked", 576, 1376, 608, 1424, {"look": {"kind": "column", "height": 4.6, "column": "8e8e86", "base": "7a7a72", "band": "8e8e86"}}],
+          ["blocked", 576, 1248, 592, 1376, "the 西门's leaves, shut (no room beyond)", {"look": {"kind": "red_door", "rotation": 90, "leaf": "4a3a30", "trim": "6a5a4a"}}],
+          ["blocked", 720, 1280, 752, 1344, "w_street1.c: 街道中央立著一尊石狮, 而且是站著的, 将来往行人分为左右两道; 额头上刻著一个「□」字", {"look": {"kind": "stone_lion", "standing": true, "mark": "□"}}],
+          ["blocked", 848, 1424, 880, 1456, "books set out before the 书肆", {"look": {"kind": "baskets"}}],
+          ["blocked", 1072, 1424, 1120, 1456, "w_street2.c: 染坊 — dyed cloth hung to dry", {"look": {"kind": "drying_rack", "tiers": 2, "colors": ["3a5a8a", "6a3a5a", "8a6a2a"]}}],
+          ["blocked", 1168, 1424, 1200, 1456, "dye vats", {"look": {"kind": "water_vat"}}],
+          ["blocked", 2464, 1232, 2496, 1280, "e_gate.c: 一座高大的石牌楼 — the 东城门's posts", {"look": {"kind": "column", "height": 4.4, "column": "8e8e86", "base": "7a7a72", "band": "8e8e86"}}],
+          ["blocked", 2464, 1408, 2496, 1456, {"look": {"kind": "column", "height": 4.4, "column": "8e8e86", "base": "7a7a72", "band": "8e8e86"}}],
+          ["blocked", 2416, 1184, 2448, 1232, "e_gate.c: 石牌楼旁蹲著一只铁狮", {"look": {"kind": "stone_lion", "colors": ["3a3836", "46423e", "52504c", "2e2c2a"]}}],
+          ["blocked", 1872, 1200, 1920, 1232, "e_street1.c: 民宅 — firewood at a door", {"look": {"kind": "firewood"}}],
+          ["blocked", 2192, 1472, 2224, 1504, {"look": {"kind": "water_vat"}}],
+          ["blocked", 2416, 1456, 2448, 1504, "e_gate.c: 偶见几个采药, 砍柴之人由此出入 — a woodcutter cart by the gate", {"look": {"kind": "cart", "cargo": "straw", "rotation": 90}}],
+          ["blocked", 1408, 1568, 1472, 1600, "s_street3.c: 平常的市集便在此处 — stalls west of the street", {"look": {"kind": "stall", "goods": "greens"}}],
+          ["blocked", 1408, 1680, 1472, 1712, {"look": {"kind": "stall", "goods": "cloth"}}],
+          ["blocked", 1408, 1744, 1456, 1776, {"look": {"kind": "baskets"}}],
+          ["blocked", 1904, 1568, 1968, 1600, "and east of it", {"look": {"kind": "stall", "goods": "fish"}}],
+          ["blocked", 1904, 1680, 1968, 1712, {"look": {"kind": "stall", "goods": "jars"}}],
+          ["blocked", 1904, 1744, 1952, 1776, {"look": {"kind": "sacks"}}],
+          ["blocked", 1936, 1104, 1984, 1136, "the ring's east side: sacks by the stalls", {"look": {"kind": "sacks"}}],
+          ["blocked", 1552, 1824, 1600, 1888, "s_street2.c: 富商大贾常来此楼 — a cart unloading at 福林楼", {"look": {"kind": "cart", "cargo": "crates", "covered": true}}],
+          ["blocked", 1568, 2208, 1632, 2272, "s_street1.c: 广场中央有一口大井, 井旁用绳索绑著几只杯子", {"look": {"kind": "well", "cups": true}}],
+          ["blocked", 1360, 2096, 1424, 2128, "s_street1.c: 卖糖葫芦的", {"look": {"kind": "stall", "goods": "sweets"}}],
+          ["blocked", 1360, 2336, 1424, 2368, "s_street1.c: 卖包子的", {"look": {"kind": "stall", "goods": "eggs"}}],
+          ["blocked", 1808, 2096, 1856, 2128, "s_street1.c: 捏面人的", {"look": {"kind": "stall", "goods": "toys"}}],
+          ["blocked", 1456, 2352, 1520, 2384, "s_street1.c: 卖艺的 — the showman's rack of blades", {"look": {"kind": "weapon_rack"}}],
+          ["blocked", 1840, 2352, 1872, 2384, {"look": {"kind": "water_vat"}}],
           ["forest", 1888, 2112, 1920, 2432, "the willows along 翠柳湖"],
           ["forest", 1536, 2400, 1664, 2432],
-          ["blocked", 560, 1872, 592, 1904, "the 县府衙门's two great stone lions"],
-          ["blocked", 688, 1872, 720, 1904],
-          ["blocked", 736, 1936, 768, 1968, "the drum for grievances"],
-          ["blocked", 512, 2384, 544, 2416, "the 南门's arch, rebuilt"],
-          ["blocked", 736, 2384, 768, 2416],
-          ["blocked", 2448, 2448, 2464, 2464, "曼雩台's pillars, north and south, verses pasted on them"],
-          ["blocked", 2528, 2448, 2544, 2464],
-          ["blocked", 2608, 2448, 2624, 2464],
-          ["blocked", 2688, 2448, 2704, 2464],
-          ["blocked", 2448, 2656, 2464, 2672],
-          ["blocked", 2528, 2656, 2544, 2672],
-          ["blocked", 2608, 2656, 2624, 2672],
-          ["blocked", 2688, 2656, 2704, 2672],
+          ["blocked", 1072, 2096, 1136, 2128, "s_street4.c: 贩卖南北货 — grain by a shop door", {"look": {"kind": "stall", "goods": "sacks"}}],
+          ["blocked", 1200, 2336, 1248, 2384, "a cart on the 承安街", {"look": {"kind": "cart", "cargo": "sacks", "rotation": 90}}],
+          ["blocked", 832, 2336, 880, 2368, "s_street5.c: 南边则是一块空地 — wood stacked under the wall", {"look": {"kind": "firewood"}}],
+          ["blocked", 496, 2352, 528, 2384, {"look": {"kind": "water_vat"}}],
+          ["blocked", 528, 1792, 560, 1824, "court1.c: 两只巨大的石狮", {"look": {"kind": "stone_lion", "mirror": true}}],
+          ["blocked", 720, 1792, 752, 1824, {"look": {"kind": "stone_lion"}}],
+          ["blocked", 768, 1808, 800, 1840, "court1.c: 门口有一面大皮鼓(drum), 让百姓击鼓申冤用的", {"look": {"kind": "drum"}}],
+          ["blocked", 496, 2384, 528, 2432, "s_gate.c: the 南门's arch, rebuilt — its posts", {"look": {"kind": "column", "height": 4.6, "column": "9c9c94", "base": "7a7a72", "band": "8e8e86"}}],
+          ["blocked", 752, 2384, 784, 2432, {"look": {"kind": "column", "height": 4.6, "column": "9c9c94", "base": "7a7a72", "band": "8e8e86"}}],
+          ["blocked", 496, 2656, 544, 2704, "s_gate.c: 南门外住著许多…迁来的农民 — a farmer's cart by the gate", {"look": {"kind": "cart", "cargo": "straw"}}],
+          ["blocked", 1040, 2464, 1072, 2496, "dragon_temple.c: 火龙将军的神像立在横跨道路的一个高台上 — the columns under the terrace", {"look": {"kind": "column", "height": 3.3, "column": "a8382a", "band": "c9a24a"}}],
+          ["blocked", 1152, 2464, 1184, 2496, {"look": {"kind": "column", "height": 3.3, "column": "a8382a", "band": "c9a24a"}}],
+          ["blocked", 1040, 2624, 1072, 2656, {"look": {"kind": "column", "height": 3.3, "column": "a8382a", "band": "c9a24a"}}],
+          ["blocked", 1152, 2624, 1184, 2656, {"look": {"kind": "column", "height": 3.3, "column": "a8382a", "band": "c9a24a"}}],
+          ["blocked", 832, 2464, 864, 2496, "a tall burner either side of the way in", {"look": {"kind": "incense_burner", "tall": true, "lit": true}}],
+          ["blocked", 832, 2624, 864, 2656, {"look": {"kind": "incense_burner", "tall": true, "lit": true}}],
+          ["blocked", 1328, 2432, 1392, 2448, "sw_road1.c: 乡村气息 — a wattle fence", {"look": {"kind": "fence", "style": "wattle"}}],
+          ["blocked", 1520, 2640, 1568, 2688, "a haystack by the shore", {"look": {"kind": "haystack"}}],
+          ["blocked", 1328, 2656, 1360, 2688, {"look": {"kind": "water_vat"}}],
+          ["blocked", 2480, 2544, 2528, 2576, "a stone table where the scholars sit", {"look": {"kind": "stone_table"}}],
           ["forest", 3888, 2304, 3984, 2368, "桃林: peach trees between the clearing and its six paths (taolin.c: every way leads back into it)"],
           ["forest", 4080, 2304, 4288, 2448],
           ["forest", 3968, 2368, 3984, 2448],
@@ -115,45 +162,62 @@
           ["forest", 3776, 2672, 3984, 2816],
           ["forest", 4080, 2672, 4096, 2752],
           ["forest", 4080, 2752, 4176, 2816],
-          ["forest", 4016, 2544, 4048, 2576, "the peach tree the 字条 hangs on"],
+          ["blocked", 4016, 2544, 4048, 2576, "taolin.c: 一些先行者在桃树枝上挂了些字条以指示道路 — the peach tree the 字条 hangs on", {"look": {"kind": "tree", "species": "peach", "variant": 2}}],
           ["forest", 3936, 2640, 3968, 2672],
-          ["forest", 4112, 2448, 4144, 2480]
+          ["forest", 4112, 2448, 4144, 2480],
+          ["blocked", 2448, 2432, 2464, 2448, "entrance.c: 北边和南边各有数十根梁柱, 士人的作品贴在这里", {"look": {"kind": "column", "height": 3.0, "column": "8a5a3a", "band": "8a5a3a", "posted": true}}],
+          ["blocked", 2448, 2672, 2464, 2688, {"look": {"kind": "column", "height": 3.0, "column": "8a5a3a", "band": "8a5a3a", "posted": true}}],
+          ["blocked", 2496, 2432, 2512, 2448, {"look": {"kind": "column", "height": 3.0, "column": "8a5a3a", "band": "8a5a3a", "posted": true}}],
+          ["blocked", 2496, 2672, 2512, 2688, {"look": {"kind": "column", "height": 3.0, "column": "8a5a3a", "band": "8a5a3a", "posted": true}}],
+          ["blocked", 2544, 2432, 2560, 2448, {"look": {"kind": "column", "height": 3.0, "column": "8a5a3a", "band": "8a5a3a", "posted": true}}],
+          ["blocked", 2544, 2672, 2560, 2688, {"look": {"kind": "column", "height": 3.0, "column": "8a5a3a", "band": "8a5a3a", "posted": true}}],
+          ["blocked", 2592, 2432, 2608, 2448, {"look": {"kind": "column", "height": 3.0, "column": "8a5a3a", "band": "8a5a3a", "posted": true}}],
+          ["blocked", 2592, 2672, 2608, 2688, {"look": {"kind": "column", "height": 3.0, "column": "8a5a3a", "band": "8a5a3a", "posted": true}}],
+          ["blocked", 2640, 2432, 2656, 2448, {"look": {"kind": "column", "height": 3.0, "column": "8a5a3a", "band": "8a5a3a", "posted": true}}],
+          ["blocked", 2640, 2672, 2656, 2688, {"look": {"kind": "column", "height": 3.0, "column": "8a5a3a", "band": "8a5a3a", "posted": true}}],
+          ["blocked", 2688, 2432, 2704, 2448, {"look": {"kind": "column", "height": 3.0, "column": "8a5a3a", "band": "8a5a3a", "posted": true}}],
+          ["blocked", 2688, 2672, 2704, 2688, {"look": {"kind": "column", "height": 3.0, "column": "8a5a3a", "band": "8a5a3a", "posted": true}}]
         ],
         "reach_from": "NGateRoadArrival",
         "markers_in_middle": ["choyin.nw_street", "choyin.tree_tomb", "choyin.entrance", "choyin.taolin"],
         "placed": {
-          "choyin.n_gate.cityguard.1": [1632, 208],
-          "choyin.n_gate.cityguard.2": [1760, 208],
+          "choyin.n_gate.cityguard.1": [1568, 232],
+          "choyin.n_gate.cityguard.2": [1824, 232],
           "choyin.n_gate.garrison.1": [1584, 336],
           "choyin.n_gate.garrison.2": [1808, 336],
-          "choyin.e_gate.cityguard.1": [2400, 1256],
-          "choyin.e_gate.cityguard.2": [2400, 1432],
-          "choyin.s_gate.cityguard.1": [560, 2448],
-          "choyin.s_gate.cityguard.2": [720, 2448],
-          "choyin.court1.judge_gu.1": [560, 1936],
-          "choyin.court1.judge_gu.2": [720, 2008],
-          "choyin.court1.judge_gu.3": [560, 2008],
-          "choyin.court1.judge_gu.4": [680, 1936],
-          "choyin.court1.magistra.1": [616, 1936],
-          "choyin.court1.magistra.2": [664, 1984],
+          "choyin.n_street1.cake_vendor.1": [1596, 500],
+          "choyin.n_street3.dumpling_seller.1": [1596, 1020],
+          "choyin.e_gate.cityguard.1": [2368, 1232],
+          "choyin.e_gate.cityguard.2": [2368, 1456],
+          "choyin.s_gate.cityguard.1": [520, 2470],
+          "choyin.s_gate.cityguard.2": [760, 2470],
+          "choyin.court1.judge_gu.1": [504, 1900],
+          "choyin.court1.judge_gu.2": [776, 1900],
+          "choyin.court1.judge_gu.3": [504, 2010],
+          "choyin.court1.judge_gu.4": [776, 2010],
+          "choyin.court1.magistra.1": [584, 1860],
+          "choyin.court1.magistra.2": [696, 1860],
+          "choyin.s_street1.cucurbit_seller.1": [1400, 2150],
+          "choyin.s_street1.dumpling_seller.1": [1400, 2300],
+          "choyin.dragon_temple.crone.1": [880, 2600],
           "choyin.bridge1.visitor.1": [1732, 2464],
           "choyin.bridge1.visitor.2": [1852, 2464],
-          "choyin.bridge1.visitor.3": [1732, 2600],
-          "choyin.bridge1.visitor.4": [1852, 2496],
-          "choyin.bridge2.scholar.1": [1944, 2604],
-          "choyin.bridge2.scholar.2": [2092, 2604],
-          "choyin.bridge3.visitor.1": [2004, 2260],
-          "choyin.bridge3.visitor.2": [2092, 2260],
-          "choyin.bridge3.visitor.3": [2004, 2340],
-          "choyin.bridge3.visitor.4": [2004, 2400],
-          "choyin.bridge4.girl.1": [2388, 2312],
-          "choyin.bridge4.maid.1": [2388, 2248],
-          "choyin.bridge4.maid.2": [2388, 2376]
+          "choyin.bridge1.visitor.3": [1732, 2608],
+          "choyin.bridge1.visitor.4": [1900, 2500],
+          "choyin.bridge2.scholar.1": [1944, 2608],
+          "choyin.bridge2.scholar.2": [2092, 2608],
+          "choyin.bridge3.visitor.1": [1972, 2200],
+          "choyin.bridge3.visitor.2": [2092, 2200],
+          "choyin.bridge3.visitor.3": [1972, 2340],
+          "choyin.bridge3.visitor.4": [1972, 2410],
+          "choyin.bridge4.girl.1": [2392, 2300],
+          "choyin.bridge4.maid.1": [2392, 2232],
+          "choyin.bridge4.maid.2": [2392, 2368]
         },
         "buildings": [
           {
             "name": "客栈",
-            "rect": [1856, 1760, 2208, 2016],
+            "rect": [1856, 1792, 2208, 2048],
             "wall": "wall_wood",
             "doors": [
               {
@@ -164,7 +228,18 @@
               }
             ]
           }
-        ]
+        ],
+        "life": {
+          "choyin.dragon_temple": {
+            "use": "temple",
+            "wealth": "plain",
+            "seed": 81,
+            "keep_clear": [
+              [800, 2464, 864, 2656],
+              [1248, 2464, 1312, 2656]
+            ]
+          }
+        }
       },
       "scene": {
         "style": "map",
@@ -178,20 +253,23 @@
           "Rect_32_64": [32, 64],
           "Rect_96_32": [96, 32],
           "Rect_32_96": [32, 96],
-          "Rect_64_64": [64, 64]
+          "Rect_64_64": [64, 64],
+          "Rect_32_128": [32, 128],
+          "Rect_32_160": [32, 160],
+          "Rect_160_32": [160, 32]
         },
         "stairs": [
           {
             "zone": "choyin.dragon_temple",
             "name": "TempleStairsUp",
-            "at": [1184, 2480],
+            "at": [1248, 2488],
             "id": "choyin.dragon_temple.up",
             "shape": "StairsShape",
             "color": "Color(0.55, 0.38, 0.22, 1)",
             "text": "阶梯 · 上高台",
             "marker": {
               "name": "TempleStairsReturn",
-              "at": [1120, 2560],
+              "at": [1184, 2560],
               "id": "choyin.dragon_temple.stairs_return"
             }
           }
@@ -213,14 +291,14 @@
           {
             "node": "caption",
             "name": "EastLabel",
-            "at": [2400, 1192],
+            "at": [2400, 1160],
             "text": "东 · 城外",
             "size": 14
           },
           {
             "node": "caption",
             "name": "SouthLabel",
-            "at": [600, 2700],
+            "at": [600, 2740],
             "text": "南 · 姑射山",
             "size": 14
           },
@@ -243,21 +321,21 @@
             "name": "SunhillPassage",
             "id": "choyin.n_gate.west",
             "at": [1376, 304],
-            "shape": "Rect_32_64"
+            "shape": "Rect_32_160"
           },
           {
             "node": "passage",
             "name": "EastPassage",
             "id": "choyin.e_gate.east",
             "at": [2464, 1344],
-            "shape": "Rect_32_64"
+            "shape": "Rect_32_128"
           },
           {
             "node": "passage",
             "name": "SouthPassage",
             "id": "choyin.s_gate.south",
-            "at": [640, 2656],
-            "shape": "Rect_96_32"
+            "at": [640, 2704],
+            "shape": "Rect_160_32"
           },
           {
             "node": "caption",
@@ -348,17 +426,17 @@
           },
           {
             "name": "SGatePathReturn",
-            "at": [640, 2600],
+            "at": [640, 2660],
             "id": "choyin.s_gate.path_return"
           },
           {
             "name": "Court1YamenReturn",
-            "at": [640, 1960],
+            "at": [640, 1880],
             "id": "choyin.court1.yamen_return"
           },
           {
             "name": "TreeTombHoleReturn",
-            "at": [1696, 1424],
+            "at": [1696, 1416],
             "id": "choyin.tree_tomb.hole_return"
           },
           {
@@ -407,7 +485,7 @@
           {
             "name": "StatueInteraction",
             "id": "choyin.w_street1.landmark.statue",
-            "at": [736, 1280],
+            "at": [736, 1312],
             "shape": "Rect_32_64"
           },
           {
@@ -419,7 +497,7 @@
           {
             "name": "ShrineInteraction",
             "id": "choyin.tree_tomb.landmark.shrine",
-            "at": [1696, 1480],
+            "at": [1696, 1464],
             "shape": "Rect_64_32"
           },
           {
@@ -434,7 +512,11 @@
             "at": [3808, 2464],
             "shape": "Rect_32_64"
           }
-        ]
+        ],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/choyin/voxel/town.json"
+        }
       }
     },
     "yamen": {
@@ -450,29 +532,56 @@
           "choyin.yamen": [0, 320, 512, 704, "enclosed", "floor_wood", "wall"],
           "choyin.yamen_yard": [0, 704, 512, 1152, "open", "grass", null]
         },
-        "roads": [["street", 208, 704, 304, 1152, "the flagstone path through the garden"]],
+        "roads": [
+          ["street", 176, 704, 336, 1152, "the flagstone path through the garden (路和空间: 160)"]
+        ],
         "props": [
-          ["blocked", 192, 432, 320, 480, "the desk under the plaque: brush, ink, paper, inkstone, gavel"],
-          ["blocked", 64, 400, 96, 496, "the screens"],
-          ["blocked", 416, 400, 448, 496],
-          ["blocked", 64, 576, 160, 624, "the instruments of torture"],
-          ["blocked", 352, 576, 448, 624],
-          ["blocked", 80, 96, 144, 144, "the inner hall's tea table"],
-          ["forest", 32, 736, 128, 832, "the garden: trees and grass, pavilions"],
-          ["blocked", 384, 768, 448, 832, "a pavilion"],
+          ["blocked", 192, 432, 320, 480, "yamen.c: 匾下的书案上放着笔, 墨, 纸, 砚, 惊堂木等物", {"look": {"kind": "writing_desk", "wood": "5a3a2a", "gavel": true}}],
+          ["blocked", 64, 400, 96, 496, "yamen.c: 两旁各置屏风", {"look": {"kind": "folding_screen", "rotation": 90}}],
+          ["blocked", 416, 400, 448, 496, {"look": {"kind": "folding_screen", "rotation": -90}}],
+          ["blocked", 64, 576, 160, 624, "yamen.c: 堂下摆着各式刑具, 你从未见过", {"look": {"kind": "punishment_tools"}}],
+          ["blocked", 352, 576, 448, 624, {"look": {"kind": "punishment_tools", "variant": 1}}],
+          ["blocked", 80, 96, 144, 144, "yamen_iner.c: 叙话, 品茶 — the tea table", {"look": {"kind": "tea_table"}}],
+          ["blocked", 48, 96, 80, 128, {"look": {"kind": "chair", "rotation": 90}}],
+          ["blocked", 144, 96, 176, 128, {"look": {"kind": "chair", "rotation": -90}}],
+          ["blocked", 400, 32, 464, 64, "yamen_iner.c: 吟诗, 作画之所 — a zither on its table", {"look": {"kind": "zither_table"}}],
+          ["blocked", 272, 32, 368, 64, "yamen_iner.c: 作画 — the painting table, brushes and paper", {"look": {"kind": "writing_desk", "wood": "6a4a32"}}],
+          ["blocked", 32, 192, 80, 224, {"look": {"kind": "flower_stand"}}],
+          ["forest", 32, 736, 128, 832, "yamen_yard.c: 院内草木繁茂"],
+          ["water", 32, 864, 144, 928, "a little pond"],
+          ["blocked", 384, 768, 448, 832, "yamen_yard.c: 亭榭错落有致", {"look": {"kind": "pavilion", "roof": "4a5560", "posts": "8a3a2c"}}],
+          ["blocked", 400, 880, 464, 928, {"look": {"kind": "rockery", "height": 2.0, "pine": true}}],
           ["forest", 384, 960, 480, 1056],
-          ["blocked", 64, 992, 128, 1056, "a pavilion"]
+          ["blocked", 64, 992, 128, 1056, {"look": {"kind": "pavilion", "roof": "4a5560", "posts": "8a3a2c", "finial": "c9a24a"}}]
         ],
         "reach_from": "YamenHallEntry",
         "markers_in_middle": ["choyin.yamen_yard"],
         "placed": {
-          "choyin.yamen.judgeman.1": [256, 400],
+          "choyin.yamen.judgeman.1": [256, 410],
           "choyin.yamen.magistra.1": [160, 520],
           "choyin.yamen.magistra.2": [352, 520],
-          "choyin.yamen_yard.magistra.1": [160, 880],
+          "choyin.yamen_yard.magistra.1": [160, 760],
           "choyin.yamen_yard.magistra.2": [352, 880],
           "choyin.yamen_yard.magistra.3": [160, 1024],
           "choyin.yamen_yard.magistra.4": [352, 1024]
+        },
+        "gap_at": [
+          ["choyin.yamen", "choyin.yamen_yard", 256, 128],
+          ["choyin.yamen", "choyin.yamen_iner", 256, 128]
+        ],
+        "life": {
+          "choyin.yamen": {
+            "use": "hall",
+            "wealth": "rich",
+            "tidy": true,
+            "seed": 82
+          },
+          "choyin.yamen_iner": {
+            "use": "study",
+            "wealth": "rich",
+            "tidy": true,
+            "seed": 83
+          }
         }
       },
       "scene": {
@@ -483,7 +592,9 @@
         "shapes": {
           "Rect_96_32": [96, 32],
           "Rect_64_32": [64, 32],
-          "Rect_32_64": [32, 64]
+          "Rect_32_64": [32, 64],
+          "Rect_160_32": [160, 32],
+          "Rect_128_32": [128, 32]
         },
         "door_style": {
           "walls": "Terrain/DoorWalls",
@@ -527,7 +638,7 @@
             "name": "GatePassage",
             "id": "choyin.yamen_yard.south",
             "at": [256, 1120],
-            "shape": "Rect_96_32"
+            "shape": "Rect_160_32"
           },
           {
             "generated": "doors"
@@ -547,7 +658,11 @@
           {
             "generated": "markers"
           }
-        ]
+        ],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/choyin/voxel/yamen.json"
+        }
       }
     },
     "altar": {
@@ -563,13 +678,29 @@
         },
         "roads": [],
         "props": [
-          ["blocked", 208, 48, 304, 112, "火龙将军's tall statue"],
-          ["blocked", 96, 48, 144, 96, "the tiger and leopard generals"],
-          ["blocked", 368, 48, 416, 96, "the bear and eagle generals"]
+          ["blocked", 208, 48, 304, 112, "altar.c: 火龙将军高大威武的神像(statue)", {"look": {"kind": "deity", "height": 3.0, "robe": "a8382a", "gold": ["d4a23c", "c38f2e", "e2b856"], "armour": true}}],
+          ["blocked", 144, 48, 176, 80, "altar.c: 旁边还有火龙将军的部属虎豹熊鹰四位将军", {"look": {"kind": "beast_statue", "beast": "tiger"}}],
+          ["blocked", 176, 48, 208, 80, {"look": {"kind": "beast_statue", "beast": "leopard"}}],
+          ["blocked", 304, 48, 336, 80, {"look": {"kind": "beast_statue", "beast": "bear"}}],
+          ["blocked", 336, 48, 368, 80, {"look": {"kind": "beast_statue", "beast": "eagle"}}],
+          ["blocked", 224, 112, 288, 144, "the offerings before the general", {"look": {"kind": "altar_table", "fresh": true, "wood": "6a3a2a", "apron": "c9a24a"}}],
+          ["blocked", 192, 112, 224, 144, "a tall burner either side of the offerings", {"look": {"kind": "incense_burner", "tall": true, "lit": true}}],
+          ["blocked", 288, 112, 320, 144, {"look": {"kind": "incense_burner", "tall": true, "lit": true}}],
+          ["blocked", 0, 48, 32, 80, "candles for the faithful", {"look": {"kind": "candles", "count": 4}}],
+          ["blocked", 80, 144, 112, 176, "the posts that carry the roof over the general", {"look": {"kind": "pavilion_post", "height": 3.2, "column": "a8382a"}}],
+          ["blocked", 400, 144, 432, 176, {"look": {"kind": "pavilion_post", "height": 3.2, "column": "a8382a"}}],
+          ["blocked", 480, 48, 512, 80, {"look": {"kind": "candles", "count": 3}}]
         ],
         "reach_from": "AltarStairsArrival",
         "markers_in_middle": [],
-        "placed": {}
+        "placed": {},
+        "life": {
+          "choyin.altar": {
+            "use": "temple",
+            "wealth": "plain",
+            "seed": 84
+          }
+        }
       },
       "scene": {
         "style": "map",
@@ -586,14 +717,14 @@
           {
             "zone": "choyin.altar",
             "name": "AltarStairsDown",
-            "at": [256, 208],
+            "at": [256, 216],
             "id": "choyin.altar.down",
             "shape": "StairsShape",
             "color": "Color(0.55, 0.38, 0.22, 1)",
             "text": "阶梯 · 下楼",
             "marker": {
               "name": "AltarStairsArrival",
-              "at": [256, 160],
+              "at": [256, 168],
               "id": "choyin.altar.stairs_arrival"
             }
           }
@@ -619,7 +750,11 @@
             "generated": "markers"
           }
         ],
-        "interactions": []
+        "interactions": [],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/choyin/voxel/altar.json"
+        }
       }
     },
     "hotel_2f": {
@@ -635,14 +770,34 @@
         },
         "roads": [],
         "props": [
-          ["blocked", 64, 128, 112, 176, "雅座 tables"],
-          ["blocked", 176, 128, 224, 176],
-          ["blocked", 64, 224, 112, 272],
-          ["blocked", 176, 224, 224, 272]
+          ["blocked", 64, 128, 112, 176, "hotel2.c: 二楼雅座 — tables by the windows", {"look": {"kind": "square_table", "cloth": "8a2a22"}}],
+          ["blocked", 176, 128, 224, 176, {"look": {"kind": "square_table"}}],
+          ["blocked", 64, 224, 112, 272, {"look": {"kind": "square_table", "cloth": "2a4a6a"}}],
+          ["blocked", 176, 224, 224, 272, {"look": {"kind": "square_table"}}],
+          ["blocked", 32, 144, 48, 160, {"look": {"kind": "stool"}}],
+          ["blocked", 112, 144, 128, 160, {"look": {"kind": "stool"}}],
+          ["blocked", 160, 144, 176, 160, {"look": {"kind": "stool"}}],
+          ["blocked", 224, 144, 240, 160, {"look": {"kind": "stool"}}],
+          ["blocked", 32, 240, 48, 256, {"look": {"kind": "stool"}}],
+          ["blocked", 112, 240, 128, 256, {"look": {"kind": "stool"}}],
+          ["blocked", 160, 240, 176, 256, {"look": {"kind": "stool"}}],
+          ["blocked", 224, 240, 240, 256, {"look": {"kind": "stool"}}],
+          ["blocked", 32, 32, 112, 48, "a screen by the stairs", {"look": {"kind": "folding_screen"}}],
+          ["blocked", 176, 32, 240, 64, "hotel2.c: 秀才举人, 使你不知不觉跟著斯文起来 — a zither", {"look": {"kind": "zither_table"}}],
+          ["blocked", 352, 144, 368, 176, {"look": {"kind": "flower_stand"}}],
+          ["blocked", 32, 272, 80, 304, "wine for the gentry", {"look": {"kind": "wine_jars", "count": 3}}]
         ],
         "reach_from": "Hotel2StairsArrival",
         "markers_in_middle": [],
-        "placed": {}
+        "placed": {},
+        "life": {
+          "choyin.hotel2": {
+            "use": "inn_hall",
+            "wealth": "rich",
+            "tidy": true,
+            "seed": 85
+          }
+        }
       },
       "scene": {
         "style": "map",
@@ -706,7 +861,11 @@
             "generated": "markers"
           }
         ],
-        "interactions": []
+        "interactions": [],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/choyin/voxel/hotel_2f.json"
+        }
       }
     },
     "hotel_3f": {
@@ -721,10 +880,25 @@
           "choyin.hotel3": [0, 0, 384, 320, "enclosed", "floor_wood", "wall_wood"]
         },
         "roads": [],
-        "props": [["wall_wood", 32, 32, 192, 96, "the merchants' rooms"], ["wall_wood", 32, 224, 192, 288]],
+        "props": [
+          ["wall_wood", 32, 32, 192, 96, "the merchants' rooms"],
+          ["wall_wood", 32, 224, 192, 288],
+          ["blocked", 224, 32, 272, 48, "hotel3.c: 雇请了许多武师担任守卫 — the guards' bench", {"look": {"kind": "bench"}}],
+          ["blocked", 288, 32, 320, 96, "the guards' blades", {"look": {"kind": "weapon_rack", "rotation": 90}}],
+          ["blocked", 176, 256, 224, 288, "hotel3.c: 从外地来的富商大贾 — their luggage", {"look": {"kind": "travel_chest"}}],
+          ["blocked", 224, 256, 256, 288, {"look": {"kind": "travel_chest"}}],
+          ["blocked", 352, 112, 368, 144, {"look": {"kind": "flower_stand"}}]
+        ],
         "reach_from": "Hotel3StairsArrival",
         "markers_in_middle": [],
-        "placed": {}
+        "placed": {},
+        "life": {
+          "choyin.hotel3": {
+            "use": "corridor",
+            "wealth": "rich",
+            "seed": 86
+          }
+        }
       },
       "scene": {
         "style": "map",
@@ -774,7 +948,11 @@
             "generated": "markers"
           }
         ],
-        "interactions": []
+        "interactions": [],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/choyin/voxel/hotel_3f.json"
+        }
       }
     },
     "tree_hollow": {
@@ -791,7 +969,16 @@
           "choyin.tomb3": [256, 0, 512, 256, "enclosed", "forest_floor", "wall_wood"]
         },
         "roads": [],
-        "props": [["blocked", 48, 400, 112, 464, "a heap of dry grass someone slept on"]],
+        "props": [
+          ["blocked", 48, 400, 112, 464, "tomb2.c: 地面上铺著一堆乾草, 似乎有人睡过的样子", {"look": {"kind": "haystack", "tiers": 3, "colors": ["b0a070", "a09060", "c0b080", "908050"]}}],
+          ["blocked", 272, 272, 304, 304, "tomb1.c: 攀附粗糙的洞壁往上离开 — the roots", {"look": {"seed": 1, "kind": "pillar_root", "height": 2.4, "thick": 0.3, "bark": ["6a5040", "7a5e4c", "5a4436", "857060"]}}],
+          ["blocked", 448, 272, 480, 304, {"look": {"seed": 2, "kind": "pillar_root", "height": 2.4, "thick": 0.3, "bark": ["6a5040", "7a5e4c", "5a4436", "857060"]}}],
+          ["blocked", 16, 272, 48, 304, "tomb2.c: 北, 西, 南三面都是盘根错节的树根", {"look": {"seed": 3, "kind": "pillar_root", "height": 2.4, "thick": 0.3, "bark": ["6a5040", "7a5e4c", "5a4436", "857060"]}}],
+          ["blocked", 192, 448, 224, 480, {"look": {"seed": 4, "kind": "pillar_root", "height": 2.4, "thick": 0.3, "bark": ["6a5040", "7a5e4c", "5a4436", "857060"]}}],
+          ["blocked", 272, 16, 304, 48, {"look": {"seed": 5, "kind": "pillar_root", "height": 2.4, "thick": 0.3, "bark": ["6a5040", "7a5e4c", "5a4436", "857060"]}}],
+          ["blocked", 448, 192, 480, 224, {"look": {"seed": 6, "kind": "pillar_root", "height": 2.4, "thick": 0.3, "bark": ["6a5040", "7a5e4c", "5a4436", "857060"]}}],
+          ["blocked", 272, 192, 304, 224, {"look": {"seed": 7, "kind": "pillar_root", "height": 2.4, "thick": 0.3, "bark": ["6a5040", "7a5e4c", "5a4436", "857060"]}}]
+        ],
         "reach_from": "Tomb1HoleArrival",
         "markers_in_middle": [],
         "placed": {
@@ -844,7 +1031,11 @@
           {
             "generated": "markers"
           }
-        ]
+        ],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/choyin/voxel/tree_hollow.json"
+        }
       }
     },
     "lion_cave": {
@@ -859,7 +1050,11 @@
           "choyin.lionroom": [0, 0, 384, 320, "enclosed", "cave_floor", "rock"]
         },
         "roads": [],
-        "props": [["blocked", 304, 32, 352, 80, "the corner where two red eyes glow"]],
+        "props": [
+          ["blocked", 304, 32, 352, 80, "lionroom.c: 在一个角落里有两点红光闪烁 — the beast's corner", {"look": {"kind": "standing_rock", "height": 1.6, "colors": ["4a4642", "544f4a", "3e3a36", "5e5852"]}}],
+          ["blocked", 32, 32, 80, 64, {"look": {"kind": "rock_pile", "colors": ["4a4642", "544f4a", "3e3a36", "5e5852"]}}],
+          ["blocked", 336, 272, 368, 304, {"look": {"kind": "rock_pile", "colors": ["4a4642", "544f4a", "3e3a36", "5e5852"]}}]
+        ],
         "reach_from": "LionroomFallArrival",
         "markers_in_middle": [],
         "placed": {
@@ -918,7 +1113,11 @@
             "at": [192, 128],
             "shape": "Rect_64_32"
           }
-        ]
+        ],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/choyin/voxel/lion_cave.json"
+        }
       }
     },
     "east": {
@@ -939,10 +1138,34 @@
           "choyin.tongbhill": [640, 1984, 1024, 2368, "rock"]
         },
         "lines": {
-          "roads": [
-            [[656, 1024, 32, 48, 48, 6, "solidpath1: the yellow-earth road from the 东城门"], [768, 1024, 32, 56, 56, 6], [768, 896, 24, 48, 48, 8, "solidpath2: the wild path winds north"], [752, 768, 24, 48, 48, 8], [800, 704, 28, 48, 48, 6], [960, 704, 28, 40, 40, 6, "into the 云梦大泽's fog"], [1056, 704, 28, 40, 40, 4], [1056, 560, 28, 40, 40, 4]],
-            [[768, 1024, 28, 48, 48, 6], [768, 1152, 24, 40, 40, 6, "rockpath2: 桐柏山's blue stone, half lost in reeds"], [760, 1408, 24, 40, 40, 6, "rockpath1"], [768, 1664, 24, 40, 40, 6, "up to the 青石峪"], [832, 1792, 28, 64, 64, 6], [832, 1984, 24, 48, 48, 6, "south up 桐柏山"], [832, 2160, 32, 64, 64, 4]],
-            [[832, 1824, 24, 40, 40, 6, "west down into the bamboo"], [640, 1824, 24, 48, 48, 6], [512, 1824, 24, 48, 48, 4], [400, 1824, 24, 24, 24, 0, "the wicket gate"]]
+          "earth": [
+            [
+              [656, 1024, 80, 104, 104, 6, "solidpath1.c: 黄土铺就的小路 (路和空间: 160)"],
+              [768, 1024, 80, 104, 104, 6],
+              [768, 896, 72, 96, 96, 8, "solidpath2.c: 荒野中的小路, 依稀可变, 蜿蜒曲折"],
+              [752, 768, 72, 96, 96, 8],
+              [800, 704, 72, 96, 96, 6],
+              [960, 704, 72, 96, 96, 6, "into the 云梦大泽's fog"],
+              [1056, 704, 64, 88, 88, 4],
+              [1056, 560, 64, 88, 88, 4]
+            ],
+            [
+              [832, 1824, 72, 96, 96, 6, "rockyu.c: 西面即为隐士结庐修身之所 — west down into the bamboo"],
+              [640, 1824, 72, 100, 100, 6],
+              [512, 1824, 72, 100, 100, 6],
+              [400, 1824, 32, 32, 32, 0, "the wicket gate"]
+            ]
+          ],
+          "stone": [
+            [
+              [768, 1024, 80, 104, 104, 6],
+              [768, 1152, 72, 100, 100, 6, "rockpath2.c: 铺路的青石采自桐柏山, 已快被茅草遮没"],
+              [760, 1408, 72, 100, 100, 6, "rockpath1.c"],
+              [768, 1664, 72, 100, 100, 6, "up to the 青石峪"],
+              [832, 1792, 80, 110, 110, 6],
+              [832, 1984, 72, 100, 100, 6, "south up 桐柏山"],
+              [832, 2160, 80, 110, 110, 4]
+            ]
           ]
         },
         "steps": [
@@ -954,14 +1177,19 @@
             "kind": "shallow_water",
             "amp": 0.25,
             "seed": [0.013, 0.019],
-            "blobs": [[1280, 320, 300, 210, "云梦大泽: eight hundred li of marsh and fog"]]
+            "blobs": [
+              [1280, 320, 300, 210, "云梦大泽: eight hundred li of marsh and fog"]
+            ]
           },
           {
             "op": "blobs",
             "kind": "riverbank",
             "amp": 0.2,
             "seed": [0.017, 0.011],
-            "blobs": [[1120, 480, 160, 120, "the marsh's edge where the path ends"], [1400, 520, 200, 90]]
+            "blobs": [
+              [1120, 480, 160, 120, "the marsh's edge where the path ends"],
+              [1400, 520, 200, 90]
+            ]
           },
           {
             "op": "blobs",
@@ -975,8 +1203,13 @@
           },
           {
             "op": "lines",
-            "group": "roads",
+            "group": "earth",
             "kind": "path"
+          },
+          {
+            "op": "lines",
+            "group": "stone",
+            "kind": "street"
           },
           {
             "op": "fill",
@@ -997,8 +1230,20 @@
             "fills": [
               ["wall_wood", 128, 1728, 384, 1920, "会所 (its own map since the remap): the thatched hall"],
               ["wall", 64, 1920, 384, 2240, "its yard behind, walled"],
-              ["blocked", 864, 2112, 928, 2176, "the great rock, an old pine on it"],
-              ["cliff", 960, 2048, 1024, 2304, "the east cliff: the immortal's furnace burns inside"]
+              ["blocked", 864, 2112, 928, 2176, "tongbhill.c: 一株老松仍枝繁叶茂, 立于巨石(stone)之上 — the great rock (the pine stands on it)", {"look": {"kind": "boulder", "height": 1.5, "colors": ["5a5450", "66605a", "4e4844"]}}],
+              ["cliff", 960, 2048, 1024, 2304, "the east cliff: the immortal's furnace burns inside"],
+              ["blocked", 432, 1696, 464, 1728, "fence.c: 诺大的一片竹林, 密密匝匝", {"look": {"variant": 0, "kind": "tree", "species": "bamboo"}}],
+              ["blocked", 560, 1696, 592, 1728, {"look": {"variant": 1, "kind": "tree", "species": "bamboo"}}],
+              ["blocked", 432, 1936, 464, 1968, {"look": {"variant": 2, "kind": "tree", "species": "bamboo"}}],
+              ["blocked", 560, 1936, 592, 1968, {"look": {"variant": 3, "kind": "tree", "species": "bamboo"}}],
+              ["blocked", 592, 1680, 624, 1712, {"look": {"variant": 4, "kind": "tree", "species": "bamboo"}}],
+              ["blocked", 672, 1904, 704, 1936, "rockyu.c: 山坡尽是湘妃竹 — mottled bamboo", {"look": {"variant": 0, "colors": ["6a7a3a", "8a8a4a", "5a6a32"], "kind": "tree", "species": "bamboo"}}],
+              ["blocked", 672, 1696, 704, 1728, {"look": {"variant": 1, "colors": ["6a7a3a", "8a8a4a", "5a6a32"], "kind": "tree", "species": "bamboo"}}],
+              ["blocked", 960, 1696, 992, 1728, {"look": {"variant": 2, "colors": ["6a7a3a", "8a8a4a", "5a6a32"], "kind": "tree", "species": "bamboo"}}],
+              ["blocked", 976, 1872, 1008, 1904, {"look": {"variant": 3, "colors": ["6a7a3a", "8a8a4a", "5a6a32"], "kind": "tree", "species": "bamboo"}}],
+              ["blocked", 944, 1952, 976, 1984, {"look": {"variant": 4, "colors": ["6a7a3a", "8a8a4a", "5a6a32"], "kind": "tree", "species": "bamboo"}}],
+              ["blocked", 960, 1792, 1008, 1824, "rockyu.c: 隐士结庐修身之所 — his stone table on the slope", {"look": {"kind": "stone_table", "chess": true}}],
+              ["blocked", 1472, 640, 1520, 672, "cloudpool.c: 商旅绝行 — a rotted boat in the reeds", {"look": {"kind": "dead_log"}}]
             ]
           },
           {
@@ -1152,7 +1397,11 @@
             "at": [400, 1760],
             "shape": "Rect_32_32"
           }
-        ]
+        ],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/choyin/voxel/east.json"
+        }
       }
     },
     "furnace": {
@@ -1167,7 +1416,12 @@
           "choyin.stove": [0, 0, 384, 320, "enclosed", "cave_floor", "rock"]
         },
         "roads": [],
-        "props": [["blocked", 144, 80, 240, 176, "the furnace: thunder strikes the pills as they redden"]],
+        "props": [
+          ["blocked", 144, 80, 240, 176, "stove.c: 雷霆不断击向一粒粒仙丹, 仙丹慢慢由黑转为红色. 炉门好象开着", {"look": {"kind": "pill_furnace", "height": 2.6}}],
+          ["blocked", 32, 32, 96, 80, {"look": {"kind": "rock_pile", "colors": ["4a4642", "544f4a", "3e3a36", "5e5852"]}}],
+          ["blocked", 304, 240, 352, 288, {"look": {"kind": "rock_pile", "colors": ["4a4642", "544f4a", "3e3a36", "5e5852"]}}],
+          ["blocked", 320, 32, 352, 64, "bellows and tongs by the furnace", {"look": {"kind": "iron_goods"}}]
+        ],
         "reach_from": "StovePlatformArrival",
         "markers_in_middle": [],
         "placed": {}
@@ -1217,7 +1471,11 @@
             "generated": "markers"
           }
         ],
-        "interactions": []
+        "interactions": [],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/choyin/voxel/furnace.json"
+        }
       }
     },
     "guye": {
@@ -1229,12 +1487,24 @@
         "bounds": [0, 0, 960, 1088],
         "zones": {
           "choyin.spath": [320, 64, 640, 384, "grass"],
-          "choyin.rockroad": [320, 384, 640, 704, "rock"],
+          "choyin.rockroad": [320, 384, 640, 704, "grass"],
           "choyin.guyehill": [192, 704, 768, 960, "grass"]
         },
         "lines": {
-          "roads": [
-            [[480, 80, 32, 56, 56, 6, "spath: the earth road from the 南门"], [480, 240, 32, 64, 64, 8], [496, 384, 24, 48, 48, 8, "rockroad: gravel, steep"], [464, 544, 24, 40, 40, 8], [480, 704, 24, 48, 48, 6, "up onto the 绝壁"], [480, 816, 40, 96, 96, 4]]
+          "earth": [
+            [
+              [480, 80, 80, 110, 110, 6, "spath.c: 这是一条土路 (路和空间: 160)"],
+              [480, 240, 80, 110, 110, 8],
+              [480, 384, 80, 110, 110, 6]
+            ]
+          ],
+          "gravel": [
+            [
+              [480, 384, 72, 100, 100, 8, "rockroad.c: 一条铺著砾石的上路, 险峻难行"],
+              [464, 544, 72, 100, 100, 8],
+              [480, 704, 72, 100, 100, 6, "up onto the 绝壁"],
+              [480, 816, 80, 110, 110, 4]
+            ]
           ]
         },
         "steps": [
@@ -1246,12 +1516,19 @@
             "kind": "grass",
             "amp": 0.2,
             "seed": [0.021, 0.017],
-            "blobs": [[480, 832, 240, 100, "绝壁: trees and tangled vines under the cliff"]]
+            "blobs": [
+              [480, 832, 240, 100, "绝壁: trees and tangled vines under the cliff"]
+            ]
           },
           {
             "op": "lines",
-            "group": "roads",
+            "group": "earth",
             "kind": "path"
+          },
+          {
+            "op": "lines",
+            "group": "gravel",
+            "kind": "rock"
           },
           {
             "op": "clip"
@@ -1262,12 +1539,12 @@
           {
             "op": "fill",
             "fills": [
-              ["wall_wood", 336, 96, 400, 176, "ruined houses beside the road"],
+              ["wall_wood", 336, 96, 400, 176, "spath.c: 路旁隐约可见房舍, 皆已破败"],
               ["wall_wood", 560, 208, 624, 288],
-              ["blocked", 384, 448, 400, 480, "the broken stele: 「姑射山」"],
+              ["blocked", 368, 432, 400, 480, "rockroad.c: 山前断碑字迹依稀可辨——「姑射山』", {"look": {"kind": "stele", "text": "姑射山", "height": 2.0, "broken": true}}],
               ["cliff", 192, 928, 768, 960, "the sheer cliff south, the valley below"],
-              ["blocked", 288, 784, 336, 832, "the ten-thousand-year tree"],
-              ["blocked", 624, 784, 640, 864, "the vines down the cliff"]
+              ["blocked", 272, 768, 352, 848, "guyehill.c: 这是一株万年古树, 寻常人等休想爬得上去", {"look": {"kind": "great_tree", "height": 11.0, "canopy": 7.5, "trunk": 1.1, "needles": ["2f5a38", "3e6f42", "548650", "72a060"], "cones": false}}],
+              ["blocked", 624, 864, 640, 928, "guyehill.c: 藤蔓(vine)错杂 — the vine that hangs down the cliff", {"look": {"kind": "vines", "height": 3.6, "count": 6, "length": [2.6, 3.4]}}]
             ]
           },
           {
@@ -1331,12 +1608,12 @@
           },
           {
             "name": "GuyehillTreeReturn",
-            "at": [376, 840],
+            "at": [376, 876],
             "id": "choyin.guyehill.tree_return"
           },
           {
             "name": "GuyehillVineReturn",
-            "at": [584, 840],
+            "at": [584, 896],
             "id": "choyin.guyehill.vine_return"
           }
         ],
@@ -1350,10 +1627,14 @@
           {
             "name": "VineInteraction",
             "id": "choyin.guyehill.landmark.vine",
-            "at": [632, 824],
+            "at": [632, 896],
             "shape": "Rect_32_64"
           }
-        ]
+        ],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/choyin/voxel/guye.json"
+        }
       }
     },
     "crown": {
@@ -1368,7 +1649,9 @@
           "choyin.craneroom": [0, 0, 384, 320, "enclosed", "forest_floor", "forest"]
         },
         "roads": [],
-        "props": [["blocked", 176, 128, 208, 160, "the trunk's top, white mist rising"]],
+        "props": [
+          ["blocked", 176, 128, 208, 160, "craneroom.c: 树冠白雾升腾 — the trunk's top", {"look": {"kind": "stump", "height": 0.9, "colors": ["5d4b3c", "6b5746", "4f4034"], "rings": "b39a72"}}]
+        ],
         "reach_from": "CraneroomClimbArrival",
         "markers_in_middle": ["choyin.craneroom"],
         "placed": {}
@@ -1421,7 +1704,11 @@
             "generated": "markers"
           }
         ],
-        "interactions": []
+        "interactions": [],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/choyin/voxel/crown.json"
+        }
       }
     },
     "cliff_cave": {
@@ -1436,7 +1723,10 @@
           "choyin.halfhole": [0, 0, 320, 256, "enclosed", "cave_floor", "rock"]
         },
         "roads": [],
-        "props": [],
+        "props": [
+          ["blocked", 32, 32, 80, 64, "halfhole.c: 四壁空无一物, 极为荒凉", {"look": {"kind": "rock_pile", "colors": ["4a4642", "544f4a", "3e3a36", "5e5852"]}}],
+          ["blocked", 256, 192, 304, 240, {"look": {"kind": "rock_pile", "colors": ["4a4642", "544f4a", "3e3a36", "5e5852"]}}]
+        ],
         "reach_from": "HalfholeVineArrival",
         "markers_in_middle": [],
         "placed": {}
@@ -1489,7 +1779,11 @@
             "generated": "markers"
           }
         ],
-        "interactions": []
+        "interactions": [],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/choyin/voxel/cliff_cave.json"
+        }
       }
     },
     "summit": {
@@ -1505,8 +1799,8 @@
         },
         "roads": [],
         "props": [
-          ["blocked", 160, 112, 224, 160, "the jade platform, a low table, a jade vase of 寒谷幽兰"],
-          ["blocked", 256, 112, 272, 160, "the cloud banner"]
+          ["blocked", 160, 112, 224, 160, "platform.c: 一座精雕细琢的玉台, 放有一矮几; 几上立有玉瓶, 几株寒谷幽兰绽放其中", {"look": {"kind": "jade_dais"}}],
+          ["blocked", 256, 112, 272, 160, "platform.c: 台旁置一云幡(flag), 可是仙家宝物", {"look": {"kind": "banner", "height": 3.6, "cloth": "eef2f8", "trim": "7a9ac8", "text": "云"}}]
         ],
         "reach_from": "PlatformCraneArrival",
         "markers_in_middle": [],
@@ -1566,7 +1860,11 @@
             "at": [264, 136],
             "shape": "Rect_32_64"
           }
-        ]
+        ],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/choyin/voxel/summit.json"
+        }
       }
     },
     "valley": {
@@ -1584,10 +1882,20 @@
           "choyin.hollow3": [512, 0, 768, 256, "enclosed", "grass", "cliff"]
         },
         "roads": [],
-        "props": [["blocked", 672, 48, 720, 96, "the vase-shaped hollow, full of cold dew"]],
+        "props": [
+          ["blocked", 672, 48, 720, 96, "hollow3.c: 山壁天然行成一空穴(vase), 积满寒露", {"look": {"kind": "vase_hollow"}}],
+          ["blocked", 32, 272, 64, 304, "a stone fallen from the walls", {"look": {"kind": "mossy_rock"}}],
+          ["blocked", 592, 432, 640, 464, {"look": {"kind": "mossy_rock"}}]
+        ],
         "reach_from": "HollowFallArrival",
         "markers_in_middle": [],
-        "placed": {}
+        "placed": {},
+        "gap_at": [
+          ["choyin.hollow", "choyin.hollow1", 384, 128],
+          ["choyin.hollow1", "choyin.hollow2", 384, 128],
+          ["choyin.hollow2", "choyin.hollow3", 128, 128],
+          ["choyin.hollow3", "choyin.hollow1", 640, 128]
+        ]
       },
       "scene": {
         "style": "map",
@@ -1624,7 +1932,11 @@
             "at": [696, 120],
             "shape": "Rect_32_64"
           }
-        ]
+        ],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/choyin/voxel/valley.json"
+        }
       }
     },
     "hotel": {
@@ -1637,10 +1949,290 @@
           "choyin.hotel1": {
             "floor": "floor_wood",
             "wall": "wall_wood",
-            "size": "hall"
+            "size": "hall",
+            "life": {
+              "use": "inn_hall",
+              "wealth": "rich",
+              "seed": 87
+            }
           }
         },
-        "props": [],
+        "props": [
+          [
+            "blocked",
+            "choyin.hotel1",
+            ["rel", 0.62, 0.08],
+            4.0,
+            1.0,
+            "hotel1.c: 近百年老店, 传到现在的这位掌柜已经是第三代 — the counter",
+            {
+              "look": {
+                "kind": "counter"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "choyin.hotel1",
+            ["rel", 0.44, 0.08],
+            1.6,
+            1.0,
+            "wine behind the counter",
+            {
+              "look": {
+                "kind": "wine_jars",
+                "count": 4
+              }
+            }
+          ],
+          [
+            "blocked",
+            "choyin.hotel1",
+            ["rel", 0.2, 0.3],
+            1.4,
+            1.4,
+            "hotel1.c: 酒楼一楼多半是县城里熟客人 — the tables",
+            {
+              "look": {
+                "kind": "square_table"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "choyin.hotel1",
+            ["rel", 0.45, 0.3],
+            1.4,
+            1.4,
+            {
+              "look": {
+                "kind": "square_table",
+                "cloth": "8a2a22"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "choyin.hotel1",
+            ["rel", 0.72, 0.36],
+            1.4,
+            1.4,
+            {
+              "look": {
+                "kind": "square_table"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "choyin.hotel1",
+            ["rel", 0.2, 0.66],
+            1.4,
+            1.4,
+            {
+              "look": {
+                "kind": "square_table"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "choyin.hotel1",
+            ["rel", 0.45, 0.66],
+            1.4,
+            1.4,
+            {
+              "look": {
+                "kind": "square_table",
+                "cloth": "2a4a6a"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "choyin.hotel1",
+            ["rel", 0.72, 0.72],
+            1.4,
+            1.4,
+            {
+              "look": {
+                "kind": "square_table"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "choyin.hotel1",
+            ["rel", 0.13, 0.3],
+            0.6,
+            0.6,
+            {
+              "look": {
+                "kind": "stool"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "choyin.hotel1",
+            ["rel", 0.27, 0.3],
+            0.6,
+            0.6,
+            {
+              "look": {
+                "kind": "stool"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "choyin.hotel1",
+            ["rel", 0.38, 0.3],
+            0.6,
+            0.6,
+            {
+              "look": {
+                "kind": "stool"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "choyin.hotel1",
+            ["rel", 0.52, 0.3],
+            0.6,
+            0.6,
+            {
+              "look": {
+                "kind": "stool"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "choyin.hotel1",
+            ["rel", 0.65, 0.36],
+            0.6,
+            0.6,
+            {
+              "look": {
+                "kind": "stool"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "choyin.hotel1",
+            ["rel", 0.79, 0.36],
+            0.6,
+            0.6,
+            {
+              "look": {
+                "kind": "stool"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "choyin.hotel1",
+            ["rel", 0.13, 0.66],
+            0.6,
+            0.6,
+            {
+              "look": {
+                "kind": "stool"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "choyin.hotel1",
+            ["rel", 0.27, 0.66],
+            0.6,
+            0.6,
+            {
+              "look": {
+                "kind": "stool"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "choyin.hotel1",
+            ["rel", 0.38, 0.66],
+            0.6,
+            0.6,
+            {
+              "look": {
+                "kind": "stool"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "choyin.hotel1",
+            ["rel", 0.52, 0.66],
+            0.6,
+            0.6,
+            {
+              "look": {
+                "kind": "stool"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "choyin.hotel1",
+            ["rel", 0.65, 0.72],
+            0.6,
+            0.6,
+            {
+              "look": {
+                "kind": "stool"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "choyin.hotel1",
+            ["rel", 0.79, 0.72],
+            0.6,
+            0.6,
+            {
+              "look": {
+                "kind": "stool"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "choyin.hotel1",
+            ["rel", 0.92, 0.55],
+            0.6,
+            3.0,
+            "a screen before the kitchen door",
+            {
+              "look": {
+                "kind": "folding_screen",
+                "rotation": 90
+              }
+            }
+          ],
+          [
+            "blocked",
+            "choyin.hotel1",
+            ["rel", 0.08, 0.92],
+            1.4,
+            0.9,
+            "the big wine vat by the door",
+            {
+              "look": {
+                "kind": "wine_jars",
+                "count": 2
+              }
+            }
+          ]
+        ],
         "placed": {},
         "doors": {
           "choyin.hotel1.west": "west"
@@ -1691,7 +2283,11 @@
             "generated": "markers"
           }
         ],
-        "interactions": []
+        "interactions": [],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/choyin/voxel/hotel_house.json"
+        }
       }
     },
     "club": {
@@ -1704,7 +2300,13 @@
           "choyin.club": {
             "floor": "floor_wood",
             "wall": "wall_wood",
-            "size": "room"
+            "size": "room",
+            "life": {
+              "use": "study",
+              "wealth": "plain",
+              "tidy": true,
+              "seed": 88
+            }
           },
           "choyin.yard": {
             "floor": "floor_yard",
@@ -1713,7 +2315,104 @@
           }
         },
         "props": [
-          ["blocked", "choyin.club", ["rel", 0.333, 0.25], 1.88, 0.94, "the low table, scrolls and a vermilion brush"]
+          [
+            "blocked",
+            "choyin.club",
+            ["rel", 0.333, 0.25],
+            1.88,
+            0.94,
+            "club.c: 矮几上摊有书卷(books)放着一支朱砂笔, 一房歙砚, 另几张上好生宣",
+            {
+              "look": {
+                "kind": "tea_table",
+                "wood": "b8a060",
+                "books": true,
+                "brush": true
+              }
+            }
+          ],
+          [
+            "blocked",
+            "choyin.club",
+            ["rel", 0.75, 0.1],
+            3.0,
+            1.2,
+            "club.c: 一竹榻",
+            {
+              "look": {
+                "kind": "couch",
+                "wood": "b8a060",
+                "panel": "c8b070",
+                "table": "a8904e",
+                "cushion": "8a7a5a"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "choyin.club",
+            ["rel", 0.15, 0.55],
+            0.8,
+            0.8,
+            "club.c: 四把竹椅",
+            {
+              "look": {
+                "kind": "chair",
+                "wood": "b8a060",
+                "legs": "a8904e",
+                "top": "c8b070",
+                "trim": "d8c080"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "choyin.club",
+            ["rel", 0.5, 0.55],
+            0.8,
+            0.8,
+            {
+              "look": {
+                "kind": "chair",
+                "wood": "b8a060",
+                "legs": "a8904e",
+                "top": "c8b070",
+                "trim": "d8c080"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "choyin.club",
+            ["rel", 0.15, 0.85],
+            0.8,
+            0.8,
+            {
+              "look": {
+                "kind": "chair",
+                "wood": "b8a060",
+                "legs": "a8904e",
+                "top": "c8b070",
+                "trim": "d8c080"
+              }
+            }
+          ],
+          [
+            "blocked",
+            "choyin.club",
+            ["rel", 0.5, 0.85],
+            0.8,
+            0.8,
+            {
+              "look": {
+                "kind": "chair",
+                "wood": "b8a060",
+                "legs": "a8904e",
+                "top": "c8b070",
+                "trim": "d8c080"
+              }
+            }
+          ]
         ],
         "placed": {},
         "doors": {
@@ -1792,7 +2491,11 @@
             "room": "choyin.club",
             "anchor": ["rel", 0.333, 0.25]
           }
-        ]
+        ],
+        "presentation": {
+          "script": "res://presentation/voxel/world_voxel_view.gd",
+          "layout": "res://data/choyin/voxel/club_house.json"
+        }
       }
     }
   }

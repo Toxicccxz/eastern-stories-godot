@@ -40,6 +40,11 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"gate_frame": _gate_frame(w,d)
 		"compound_wall": _compound_wall(w,d)
 		"herb_bed": _herb_bed(w,d)
+		"overpass": _overpass(w,d)
+		"stair_run": _stair_run(w,d)
+		"jade_dais": _jade_dais(w,d)
+		"orchid": _orchid(w,d)
+		"city_wall": _city_wall(w,d)
 		_:
 			return false
 	return true
@@ -354,6 +359,15 @@ func _post(height: float, column: String, outdoor: bool) -> void:
 		s.box(root,Vector3(cos(head)*0.38,top+0.06,sin(head)*0.38),Vector3(0.1,0.1,0.1),String(scales[1 % scales.size()]))
 		s.box(root,Vector3(0,0.37+height+0.06,0),Vector3(0.52,0.12,0.52),String(scales[0]))
 		s.box(root,Vector3(0,0.37+height+0.2,0),Vector3(0.36,0.16,0.36),String(data.get("band","c9a24a")))
+	if data.get("posted",false):
+		# entrance.c: 常有许多落拓的士人将他们的作品贴在这里 — verses pasted on the column, old
+		# ones under new, their corners curling.
+		for sheet: int in 5:
+			var a: float = sheet*1.3
+			var y: float = 0.9+sheet*0.42
+			s.tilted_box(root,Vector3(cos(a)*0.17,y,sin(a)*0.17),Vector3(0.24,0.34,0.012),["efe6cc","e4d8b8","d8ccaa"][sheet%3],Vector3(0,-a+PI/2,0.03*(sheet%2)))
+			for line: int in 3:
+				s.tilted_box(root,Vector3(cos(a)*0.178,y+0.08-line*0.08,sin(a)*0.178),Vector3(0.12,0.03,0.004),"3a3430",Vector3(0,-a+PI/2,0))
 	if data.has("clouds"):
 		# 白石嵌云柱: scrolls of cloud set in the white shaft (`clouds` their colours), a capital.
 		var tones: Array = data["clouds"]
@@ -409,6 +423,124 @@ func _compound_wall(w: float, d: float) -> void:
 		for side: float in [-1.0,1.0]:
 			s.box(root,_place(along_x,t,height+0.08,side*thick*0.42),_along(along_x,0.38,0.12,thick*0.62),tint.lightened(((i*5)%3)*0.035).to_html(false))
 	s.box(root,_place(along_x,0,height+0.22,0),_along(along_x,length+0.36,0.14,0.18),tint.darkened(0.12).to_html(false))
+
+## 横跨道路的高台 (dragon_temple.c: 火龙将军的神像立在横跨道路的一个高台上, 往来的行人都从火龙将军
+## 的脚底走过): a stone deck the size of the box, raised by its `elevation` (set on the prop),
+## carried on beams, a balustrade along its long sides (`rail`: its colour), the underside dark.
+func _overpass(w: float, d: float) -> void:
+	var stone: Array = _colors("colors",["9a9a90","a8a89e","8a8a80"])
+	var rail: String = String(data.get("rail","a8382a"))
+	var along_x: bool = w>=d
+	s.box(root,Vector3(0,-0.16,0),Vector3(w,0.32,d),String(stone[2]))
+	s.box(root,Vector3(0,0.02,0),Vector3(w-0.1,0.06,d-0.1),String(stone[1]))
+	for i: int in maxi(2,floori((w if along_x else d)/0.8)):
+		var t: float = -(w if along_x else d)/2+0.4+i*0.8
+		s.box(root,_place(along_x,t,0.05,0),_along(along_x,0.76,0.03,(d if along_x else w)-0.2),String(stone[i%2]))
+	for beam: int in maxi(2,floori((w if along_x else d)/1.6)):
+		var t: float = -(w if along_x else d)/2+0.8+beam*1.6
+		s.box(root,_place(along_x,t,-0.42,0),_along(along_x,0.3,0.2,(d if along_x else w)+0.3),String(data.get("timber","5a3a28")))
+	var height: float = float(data.get("height",0.9))
+	for side: float in [-1.0,1.0]:
+		var across: float = side*((d if along_x else w)/2-0.12)
+		var length: float = (w if along_x else d)
+		s.box(root,_place(along_x,0,height+0.05,across),_along(along_x,length,0.1,0.14),rail)
+		s.box(root,_place(along_x,0,0.12,across),_along(along_x,length,0.1,0.12),rail)
+		for post: int in maxi(2,roundi(length/0.6))+1:
+			var t: float = -length/2+post*length/maxi(1,roundi(length/0.6))
+			s.box(root,_place(along_x,t,height/2+0.05,across),Vector3(0.1,height,0.1),rail)
+			s.box(root,_place(along_x,t,height+0.16,across),Vector3(0.14,0.12,0.14),String(data.get("finial","c9a24a")))
+
+## A flight of stairs climbing along the box's long axis from its -x end (on the ground) to its
+## +x end at `rise` units up (rotate the box to turn it), stone treads with worn nosings.
+func _stair_run(w: float, d: float) -> void:
+	var stone: Array = _colors("colors",["9a9a90","a8a89e","8a8a80"])
+	var rise: float = float(data.get("rise",3.2))
+	var steps: int = maxi(2,floori(w/0.4))
+	for i: int in steps:
+		var x: float = -w/2+(i+0.5)*w/steps
+		var y: float = (i+1)*rise/steps
+		s.box(root,Vector3(x,y/2,0),Vector3(w/steps+0.01,y,d),String(stone[i%2]))
+		s.box(root,Vector3(x+w/steps*0.3,y+0.015,0),Vector3(0.06,0.03,d-0.1),String(stone[1]))
+	for side: float in [-1.0,1.0]:
+		var rail := Node3D.new()
+		rail.position = Vector3(0,rise/2+0.5,side*(d/2-0.06))
+		rail.rotation.z = -atan2(rise,w)
+		root.add_child(rail)
+		s.box(rail,Vector3.ZERO,Vector3(sqrt(w*w+rise*rise),0.1,0.1),String(data.get("rail","a8382a")))
+
+## 玉台 (platform.c: 一座精雕细琢的玉台, 放有一矮几; 几上立有玉瓶, 几株寒谷幽兰绽放其中): a dais of
+## pale jade in three tiers, carved, a low table on it with a jade vase of orchids, a cool glow.
+func _jade_dais(w: float, d: float) -> void:
+	var jade: Array = _colors("colors",["d8e8dc","e8f2ea","c4d8cc","f2f8f4"])
+	for tier: int in 3:
+		var shrink: float = 1.0-tier*0.14
+		s.box(root,Vector3(0,0.12+tier*0.24,0),Vector3(w*shrink,0.24,d*shrink),String(jade[tier%3]))
+		for notch: int in maxi(2,floori(w*shrink/0.3)):
+			s.box(root,Vector3(-w*shrink/2+0.15+notch*0.3,0.12+tier*0.24,d*shrink/2+0.005),Vector3(0.12,0.1,0.01),String(jade[(tier+1)%3]))
+	var top: float = 0.72
+	s.box(root,Vector3(0,top+0.3,0),Vector3(w*0.5,0.06,d*0.4),String(jade[1]))
+	for x: float in [-w*0.2,w*0.2]:
+		for z: float in [-d*0.14,d*0.14]:
+			s.box(root,Vector3(x,top+0.14,z),Vector3(0.06,0.28,0.06),String(jade[2]))
+	s.box(root,Vector3(0,top+0.46,0),Vector3(0.14,0.26,0.14),String(jade[3]))
+	s.box(root,Vector3(0,top+0.62,0),Vector3(0.08,0.1,0.08),String(jade[3]))
+	for i: int in 5:
+		var a: float = i*1.26
+		s.tilted_box(root,Vector3(cos(a)*0.08,top+0.9,sin(a)*0.08),Vector3(0.03,0.5,0.03),"5a8a4a",Vector3(0.3*sin(a),0,0.3*cos(a)))
+		s.box(root,Vector3(cos(a)*0.16,top+1.12+0.04*i,sin(a)*0.16),Vector3(0.1,0.06,0.1),["c8a8e0","e8d0f0","b890d0"][i%3])
+	var light := OmniLight3D.new()
+	light.position = Vector3(0,top+1.0,0)
+	light.light_color = Color("d8e8ff")
+	light.omni_range = 4.5
+	light.set_meta("day_energy",0.3)
+	light.set_meta("night_energy",1.2)
+	root.add_child(light)
+
+## 寒谷幽兰 (hollow3.c: 一株寒谷幽兰, 暗香浮动): a clump of long leaves and a few pale purple blooms
+## on their stems, a faint cold light about it.
+func _orchid(w: float, d: float) -> void:
+	var leaves: Array = _colors("leaves",["4a7a3e","5a8a4a","3e6a36"])
+	for i: int in 9:
+		var a: float = i*0.7
+		s.tilted_box(root,Vector3(cos(a)*0.06,0.26,sin(a)*0.06),Vector3(0.05,0.55,0.03),String(leaves[i%leaves.size()]),Vector3(0.5*sin(a),a,0.45*cos(a)))
+	for bloom: int in 3:
+		var a: float = bloom*2.1+0.5
+		s.tilted_box(root,Vector3(cos(a)*0.05,0.42,sin(a)*0.05),Vector3(0.02,0.7,0.02),"6a8a5a",Vector3(0.25*sin(a),0,0.25*cos(a)))
+		var at := Vector3(cos(a)*0.2,0.78+bloom*0.06,sin(a)*0.2)
+		s.box(root,at,Vector3(0.1,0.05,0.1),String(data.get("bloom","d8c0ea")))
+		s.box(root,at+Vector3(0,0.04,0),Vector3(0.05,0.05,0.05),"f0e4f8")
+	var light := OmniLight3D.new()
+	light.position = Vector3(0,0.9,0)
+	light.light_color = Color("c8d8ff")
+	light.omni_range = 3.5
+	light.set_meta("day_energy",0.25)
+	light.set_meta("night_energy",1.0)
+	root.add_child(light)
+
+## 城墙 (s_street5.c: 从这里可以看到南边的城墙): a city wall of rammed earth faced with grey brick,
+## `height` units, battlements along the top, a walkway behind them, weeds in the joints.
+func _city_wall(w: float, d: float) -> void:
+	var bricks: Array = _colors("colors",["7a7a72","868680","6e6e66","8e8e86"])
+	var height: float = float(data.get("height",4.2))
+	var along_x: bool = w>=d
+	var length: float = maxf(w,d)
+	var thick: float = minf(w,d)
+	var bays: int = maxi(1,roundi(length/0.5))
+	for i: int in bays:
+		var t: float = -length/2+(i+0.5)*length/bays
+		var shade: String = String(bricks[(i*7)%bricks.size()])
+		s.box(root,_place(along_x,t,height/2,0),_along(along_x,length/bays+0.01,height,thick),shade)
+		for face: float in [-1.0,1.0]:
+			for course: int in floori(height/0.3):
+				if (i*3+course*5)%7==0:
+					s.box(root,_place(along_x,t+0.1,course*0.3+0.15,face*(thick/2+0.01)),_along(along_x,0.28,0.26,0.02),String(bricks[(i+course)%bricks.size()]))
+			if (i*5)%6==1:
+				s.box(root,_place(along_x,t,0.08,face*(thick/2+0.08)),_along(along_x,0.4,0.16,0.16),"56713f")
+	s.box(root,_place(along_x,0,height+0.05,0),_along(along_x,length+0.2,0.1,thick+0.2),String(bricks[1]))
+	for i: int in maxi(1,roundi(length/0.9)):
+		var t: float = -length/2+0.3+i*0.9
+		for face: float in [-1.0,1.0]:
+			s.box(root,_place(along_x,t,height+0.35,face*(thick/2-0.12)),_along(along_x,0.5,0.6,0.24),String(bricks[(i+1)%bricks.size()]))
 
 ## A point `t` along the long axis, `y` up, `across` off its middle.
 func _place(along_x: bool, t: float, y: float, across: float) -> Vector3:
@@ -513,8 +645,16 @@ func _stele(w: float, d: float) -> void:
 			s.box(frame,Vector3(foot.x*width*0.42,0.09,foot.y*deep*0.4),Vector3(0.3,0.18,0.28),String(colors[2]))
 	else:
 		s.box(frame,Vector3(0,base/2,0),Vector3(width*1.15,base,deep*0.9),String(colors[2]))
-	s.box(frame,Vector3(0,base+height/2,0),Vector3(width,height,thick),String(colors[0]))
-	for tier: int in 3:
+	if data.get("broken",false):
+		# rockroad.c: 山前断碑字迹依稀可辨 — snapped off two thirds up, the top lying in the grass.
+		height *= 0.62
+		s.box(frame,Vector3(0,base+height/2,0),Vector3(width,height,thick),String(colors[0]))
+		for tooth: int in 4:
+			s.tilted_box(frame,Vector3(-width*0.36+tooth*width*0.24,base+height+0.06,0),Vector3(width*0.22,0.14+0.08*(tooth%2),thick),String(colors[0]),Vector3(0,0,0.2*(tooth%2)-0.1))
+		s.tilted_box(frame,Vector3(width*0.9,0.12,deep*0.8),Vector3(width*0.8,thick,0.5),String(colors[1]),Vector3(0,0.6,0.1))
+	else:
+		s.box(frame,Vector3(0,base+height/2,0),Vector3(width,height,thick),String(colors[0]))
+	for tier: int in 0 if data.get("broken",false) else 3:
 		s.box(frame,Vector3(0,base+height+0.1+tier*0.18,0),Vector3(width*(0.92-tier*0.22),0.2,thick*1.05),String(colors[1] if tier%2==0 else colors[2]))
 	var cols: int = maxi(2,floori(width/0.2))
 	var lines: String = Color(String(colors[2])).darkened(0.3).to_html(false)

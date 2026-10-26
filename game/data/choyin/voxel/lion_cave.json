@@ -1,0 +1,67 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 22,
+  "note": "lionroom.c: 洞内黑漆漆的, 几乎什么都看不见, 只是在一个角落里有两点红光闪烁 — the beast's cave under the stone lion: nearly black, two red points in the corner, bones, dripping rock.",
+  "palette": {"wood": ["4a4642", "544f4a", "3e3a36"], "wall": "4a4642"},
+  "surfaces": {"choyin.lionroom": "cave_floor"},
+  "wall_looks": [
+    {"rect": [-32, -32, 416, 352], "style": "rock", "colors": ["4a4642", "544f4a", "3e3a36", "5e5852"]}
+  ],
+  "ground": {
+    "cave_floor": {"style": "scree", "colors": ["3e3a36", "46423e", "36322e"], "gravel": 0.4, "stones": 0.08}
+  },
+  "light": {
+    "ambient": ["4a4a50", "34343e"],
+    "ambient_energy": [0.19, 0.16],
+    "sun": ["6a6a70", "5a5a66"],
+    "sun_energy": [0.06, 0.04],
+    "carried": {"color": "ffc890", "range": 5.5, "day": 1.3, "night": 1.4, "attenuation": 1.3}
+  },
+  "props": [
+    {"kind": "glow", "at": [316, 52], "size": [16, 16], "color": "ff2a1a", "day": 1.4, "night": 1.4, "range": 1.6, "height": 1.0, "flicker": 0.3, "note": "lionroom.c: 两点红光闪烁 — the beast's eyes"},
+    {"kind": "glow", "at": [340, 52], "size": [16, 16], "color": "ff2a1a", "day": 1.4, "night": 1.4, "range": 1.6, "height": 1.0, "flicker": 0.3},
+    {"kind": "bones", "at": [250, 60], "size": [56, 32]},
+    {"kind": "bones", "at": [60, 280], "size": [40, 24]},
+    {"kind": "stalagmites", "at": [60, 120], "size": [48, 48]},
+    {"kind": "drip", "at": [200, 280]},
+    {"kind": "drip", "at": [120, 60]},
+    {"kind": "slime", "at": [180, 60], "size": [48, 32]},
+    {"kind": "tracks", "at": [200, 200], "size": [200, 120], "note": "the beast's tracks"},
+    {"kind": "light_shaft", "at": [60, 240], "size": [32, 32], "height": 2.6, "rays": 2, "day": 0.5, "night": 0.2, "floor_patch": false, "note": "w_street1.c: 漏出向下的洞穴 — a grey glimmer from the lion's stone above"}
+  ],
+  "actors": {
+    "default": {"coat": "7a7462"},
+    "choyin.npc.cityguard": {"coat": "8a3a30", "hat": true},
+    "common.npc.garrison": {"coat": "8a3a30", "hat": true},
+    "choyin.npc.cake_vendor": {"coat": "8a7a5a"},
+    "choyin.npc.dumpling_seller": {"coat": "a09070"},
+    "choyin.npc.cucurbit_seller": {"coat": "9a6a4a"},
+    "choyin.npc.judge_gu": {"coat": "2a2a30", "hat": true, "note": "衙役: black with a red sash"},
+    "choyin.npc.magistra": {"coat": "2f4a6a", "hat": true, "note": "带刀侍卫"},
+    "choyin.npc.yamen_po": {"coat": "3a3a44", "hat": true},
+    "choyin.npc.judgeman": {"coat": "3a6a5a", "hat": true, "note": "程不平: the magistrate's green robe"},
+    "choyin.npc.crone": {"coat": "5a5048"},
+    "choyin.npc.visitor": {"coat": "6a8a7a"},
+    "choyin.npc.scholar": {"coat": "8aa0b8", "note": "书生: a pale blue gown"},
+    "choyin.npc.girl": {"coat": "d88aa0", "note": "官家小姐"},
+    "choyin.npc.maid": {"coat": "7aa08a"},
+    "choyin.npc.lady": {"coat": "b05a6a"},
+    "choyin.npc.youngman": {"coat": "7a5a9a", "note": "贵公子"},
+    "choyin.npc.servant": {"coat": "5a5a52"},
+    "choyin.npc.guard": {"coat": "3a5a8a", "note": "hotel3.c: 一个身穿蓝布衣的人"},
+    "choyin.npc.boss": {"coat": "4a5a3a", "hat": true, "note": "汤掌柜"},
+    "choyin.npc.sergeant": {"coat": "7a4a30", "hat": true, "note": "武官"},
+    "choyin.npc.oldman": {"coat": "8a8a7a", "scale": 1.15},
+    "choyin.npc.lboy": {"coat": "6a3a8a", "scale": 0.8, "note": "紫衣童子"},
+    "choyin.npc.ghost": {"coat": "c8ccd4", "name_alpha": 0.6, "note": "孤魂野鬼: pale"},
+    "choyin.npc.shadow": {"coat": "2a2a30", "scale": 1.15, "note": "朦胧鬼影: 一个高大的身影"},
+    "common.npc.beggar.master": {"coat": "6a5a40"},
+    "common.npc.scholar.master": {"coat": "4a6a8a", "hat": true, "note": "骆云舟"},
+    "choyin.npc.serpent": {"body": "snake", "colors": ["1c1a18", "2c2824", "3a342e"], "belly": "5a5048", "crest": "4a3a3a", "scale": 1.6, "note": "serpent.c: 一只乌黑油亮的巨蟒, 头上生著一个大肉瘤"},
+    "choyin.npc.crane": {"body": "flyer", "wings": ["f4f4f0", "e8e8e4"], "hover": 0.5, "note": "crane.c: 白羽如雪"},
+    "choyin.npc.lion": {"body": "crawler", "colors": ["4a4034", "5a4c3c", "c83a2a"], "scale": 1.4, "note": "护草神兽"}
+  },
+  "entrances": {
+  }
+}

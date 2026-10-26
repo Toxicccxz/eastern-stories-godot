@@ -120,6 +120,9 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 				s.box(root,Vector3(-w*0.27+i*0.13,1.274,-d*0.2),Vector3(0.025,0.012,0.19+0.06*(i%2)),"746a54")
 			_book(Vector3(w*0.30,1.24,-d*0.27),"4e6967")
 			_book(Vector3(w*0.29,1.35,-d*0.29),"ad8055")
+			if data.get("gavel",false):
+				# yamen.c: 书案上放着…惊堂木 — the magistrate's gavel block.
+				s.box(root,Vector3(w*0.3,1.3,0.1),Vector3(0.26,0.07,0.1),"3a2a22")
 			if data.get("incense",false):
 				# latebook.c: 上面摆著一座小小的香炉.
 				s.box(root,Vector3(-w*0.36,1.32,-d*0.25),Vector3(0.18,0.14,0.18),"7a6a46")
@@ -137,7 +140,15 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 				s.box(root,Vector3(x,0.11,d*0.30),Vector3(0.70,0.20,0.66),tone)
 				s.box(root,Vector3(x,0.215,d*0.30),Vector3(0.57,0.025,0.53),"b2a884")
 			s.box(root,Vector3(0,0.75,-d*0.12),Vector3(1.22,0.07,0.70),"594934")
-			_teapot(Vector3(-0.22,0.80,-d*0.13),"6c9690")
+			if data.get("books",false):
+				# club.c: 矮几上摊有书卷放着一支朱砂笔, 一房歙砚, 另几张上好生宣.
+				_book(Vector3(-0.3,0.8,-d*0.12),"4e6967")
+				_book(Vector3(-0.1,0.8,-d*0.14),"7a6a5a")
+				s.box(root,Vector3(0.3,0.79,-d*0.1),Vector3(0.36,0.025,0.28),"e8dcbc")
+				s.box(root,Vector3(0.32,0.82,-d*0.2),Vector3(0.22,0.05,0.16),"2a2a2e")
+				s.tilted_box(root,Vector3(0.1,0.82,-d*0.02),Vector3(0.03,0.03,0.34),"b83a2a",Vector3(0,0.4,0))
+			else:
+				_teapot(Vector3(-0.22,0.80,-d*0.13),"6c9690")
 			for x: float in [-0.42,0.28,0.48]:
 				s.box(root,Vector3(x,0.85,0.05),Vector3(0.14,0.12,0.14),"e3d5b4")
 				s.box(root,Vector3(x,0.914,0.05),Vector3(0.085,0.012,0.085),"756248")
@@ -274,6 +285,7 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 		"wardrobe": _wardrobe(w,d,data)
 		"bench_seat": _bench_seat(w,d,data)
 		"clutter": _clutter(w,d,data)
+		"stool": _stool(Vector3.ZERO,minf(w,d)*0.85,_wood(data,"wood",tone))
 		"long_bed": _long_bed(w,d,data)
 		"kang": _kang(w,d,data)
 		"grand_chair": _grand_chair(w,d,data)

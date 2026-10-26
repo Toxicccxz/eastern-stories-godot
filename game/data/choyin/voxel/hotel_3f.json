@@ -1,0 +1,67 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 22,
+  "note": "hotel3.c: 客房 — a corridor between the merchants' rooms, their doors shut, 汤掌柜's hired swordsmen on watch with their blades, luggage waiting, the stairs down.",
+  "palette": {"wood": ["7a5a44", "845f45", "6e5038"], "wall": "c8bca8"},
+  "wall_looks": [
+    {"rect": [32, 32, 192, 96], "style": "boards", "colors": ["7a5a44", "845f45", "6e5038"], "grime": 0.2, "note": "the guest rooms' partitions"},
+    {"rect": [32, 224, 192, 288], "style": "boards", "colors": ["7a5a44", "845f45", "6e5038"], "grime": 0.2}
+  ],
+  "light": {
+    "ambient": ["d0c0a4", "5a5a72"],
+    "ambient_energy": [0.4, 0.3]
+  },
+  "props": [
+    {"kind": "stairs", "at": [336, 272], "size": [64, 48], "rotation": -90},
+    {"kind": "closed_door", "at": [112, 110], "size": [48, 16], "note": "hotel3.c: 住的都是一些从外地来的富商大贾 — their doors shut"},
+    {"kind": "closed_door", "at": [112, 210], "size": [48, 16], "rotation": 180},
+    {"kind": "closed_door", "at": [206, 64], "size": [48, 16], "rotation": -90},
+    {"kind": "closed_door", "at": [206, 256], "size": [48, 16], "rotation": -90},
+    {"kind": "runner", "at": [200, 160], "size": [320, 64], "elevation": 0.05, "cloth": "5a3a2a", "border": "8a6a3a"},
+    {"kind": "hanging_lantern", "at": [100, 160], "flicker": 0.06},
+    {"kind": "hanging_lantern", "at": [260, 160], "flicker": 0.06},
+    {"kind": "hanging_lantern", "at": [300, 60]},
+    {"kind": "window", "at": [398, 100], "size": [72, 16], "rotation": -90},
+    {"kind": "window", "at": [398, 200], "size": [72, 16], "rotation": -90},
+    {"kind": "weapon_pegs", "at": [280, 18], "size": [48, 16], "wall_mounted": true, "note": "the guards' spare blades on pegs"},
+    {"kind": "clutter", "at": [360, 60], "size": [32, 32], "items": ["jar", "cups"], "rotation": 0},
+    {"kind": "slippers", "at": [60, 112], "rotation": 90, "cloth": "6a4a3a"},
+    {"kind": "clutter", "at": [340, 230], "size": [32, 32], "items": ["bundle"], "rotation": 0},
+    {"kind": "stains", "at": [200, 160], "size": [280, 40], "count": 5, "colors": ["6a5040", "74583a"], "note": "the corridor worn by the guards' rounds"}
+  ],
+  "actors": {
+    "default": {"coat": "7a7462"},
+    "choyin.npc.cityguard": {"coat": "8a3a30", "hat": true},
+    "common.npc.garrison": {"coat": "8a3a30", "hat": true},
+    "choyin.npc.cake_vendor": {"coat": "8a7a5a"},
+    "choyin.npc.dumpling_seller": {"coat": "a09070"},
+    "choyin.npc.cucurbit_seller": {"coat": "9a6a4a"},
+    "choyin.npc.judge_gu": {"coat": "2a2a30", "hat": true, "note": "衙役: black with a red sash"},
+    "choyin.npc.magistra": {"coat": "2f4a6a", "hat": true, "note": "带刀侍卫"},
+    "choyin.npc.yamen_po": {"coat": "3a3a44", "hat": true},
+    "choyin.npc.judgeman": {"coat": "3a6a5a", "hat": true, "note": "程不平: the magistrate's green robe"},
+    "choyin.npc.crone": {"coat": "5a5048"},
+    "choyin.npc.visitor": {"coat": "6a8a7a"},
+    "choyin.npc.scholar": {"coat": "8aa0b8", "note": "书生: a pale blue gown"},
+    "choyin.npc.girl": {"coat": "d88aa0", "note": "官家小姐"},
+    "choyin.npc.maid": {"coat": "7aa08a"},
+    "choyin.npc.lady": {"coat": "b05a6a"},
+    "choyin.npc.youngman": {"coat": "7a5a9a", "note": "贵公子"},
+    "choyin.npc.servant": {"coat": "5a5a52"},
+    "choyin.npc.guard": {"coat": "3a5a8a", "note": "hotel3.c: 一个身穿蓝布衣的人"},
+    "choyin.npc.boss": {"coat": "4a5a3a", "hat": true, "note": "汤掌柜"},
+    "choyin.npc.sergeant": {"coat": "7a4a30", "hat": true, "note": "武官"},
+    "choyin.npc.oldman": {"coat": "8a8a7a", "scale": 1.15},
+    "choyin.npc.lboy": {"coat": "6a3a8a", "scale": 0.8, "note": "紫衣童子"},
+    "choyin.npc.ghost": {"coat": "c8ccd4", "name_alpha": 0.6, "note": "孤魂野鬼: pale"},
+    "choyin.npc.shadow": {"coat": "2a2a30", "scale": 1.15, "note": "朦胧鬼影: 一个高大的身影"},
+    "common.npc.beggar.master": {"coat": "6a5a40"},
+    "common.npc.scholar.master": {"coat": "4a6a8a", "hat": true, "note": "骆云舟"},
+    "choyin.npc.serpent": {"body": "snake", "colors": ["1c1a18", "2c2824", "3a342e"], "belly": "5a5048", "crest": "4a3a3a", "scale": 1.6, "note": "serpent.c: 一只乌黑油亮的巨蟒, 头上生著一个大肉瘤"},
+    "choyin.npc.crane": {"body": "flyer", "wings": ["f4f4f0", "e8e8e4"], "hover": 0.5, "note": "crane.c: 白羽如雪"},
+    "choyin.npc.lion": {"body": "crawler", "colors": ["4a4034", "5a4c3c", "c83a2a"], "scale": 1.4, "note": "护草神兽"}
+  },
+  "entrances": {
+  }
+}

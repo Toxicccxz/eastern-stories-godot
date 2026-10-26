@@ -129,6 +129,23 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 			for i: int in 8:
 				var a: float = i*TAU/8
 				s.box(root,Vector3(cos(a)*w*0.21,0.925,sin(a)*d*0.21),Vector3(0.10,0.02,0.08),"777961")
+		"punishment_tools":
+			# yamen.c: 堂下摆着各式刑具, 你从未见过 — a rack of rods, a cangue leaning on it, chains,
+			# a pair of leg-screws, a plank with its pegs (`variant` turns the set round).
+			var flip: float = -1.0 if int(data.get("variant",0))%2 else 1.0
+			s.box(root,Vector3(0,0.06,0),Vector3(w,0.12,d),"5a4a3a")
+			for x: float in [-w*0.44,w*0.44]:
+				s.box(root,Vector3(x,0.8,-d*0.3),Vector3(0.1,1.6,0.1),wood)
+			s.box(root,Vector3(0,1.5,-d*0.3),Vector3(w*0.92,0.08,0.08),wood)
+			for rod: int in 6:
+				s.tilted_box(root,Vector3(-w*0.36+rod*w*0.14,0.8,-d*0.3+0.06),Vector3(0.05,1.5,0.04),["a08a5a","8a7a4a"][rod%2],Vector3(0,0,0.05*(rod%3)))
+			s.tilted_box(root,Vector3(flip*w*0.1,0.5,d*0.1),Vector3(0.9,0.9,0.08),"8a7050",Vector3(0.5,0,0))
+			s.box(root,Vector3(flip*w*0.1,0.6,d*0.14),Vector3(0.28,0.3,0.03),"1a1816")
+			for link: int in 8:
+				s.box(root,Vector3(-flip*w*0.2+link*0.08*flip,0.16,d*0.3-link%2*0.05),Vector3(0.1,0.05,0.05),"3a3a3e")
+			for peg: int in 3:
+				s.tilted_box(root,Vector3(-flip*w*0.32,0.5,d*0.1+peg*0.1),Vector3(0.06,0.8,0.06),"6a5a3a",Vector3(0,0,0.12*peg-0.1))
+			s.box(root,Vector3(flip*w*0.34,0.25,d*0.3),Vector3(0.3,0.26,0.3),"4a4a4e")
 		"chair":
 			s.box(root,Vector3(0,0.63,0),Vector3(w*0.90,0.16,d*0.88),wood)
 			for x: float in [-w*0.36,w*0.36]:

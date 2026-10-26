@@ -1,0 +1,74 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 22,
+  "wall_height": 3.6,
+  "note": "tomb1-3.c: inside the stump, two men deep — rough root walls to climb back up, the earth showing on the east side, the dry grass someone slept on in the west end, the smell of sandalwood from nowhere in the north end, the 桃木箱. Dark but for the light down the hole.",
+  "palette": {"wood": ["5a4836", "6a5642", "4a3a2c"], "wall": "6a5642"},
+  "surfaces": {"choyin.tomb1": "forest_floor", "choyin.tomb2": "forest_floor", "choyin.tomb3": "forest_floor"},
+  "wall_looks": [
+    {"rect": [-32, -32, 544, 544], "style": "earth", "colors": ["5e4a38", "6a5642", "52402e", "74604a"], "note": "tomb1.c: 粗糙的洞壁 — root and earth"}
+  ],
+  "ground": {
+    "forest_floor": {"style": "litter", "colors": ["4a3e30", "544634", "3e3428"], "needles": ["7a6a4a", "8a7a52", "6a5a42"], "strew": 0.5, "moss": 0.1, "moss_colors": ["4d6a3c", "5d7a45"], "note": "the hollow's floor of rotted wood"}
+  },
+  "light": {
+    "ambient": ["8a8070", "3a3a48"],
+    "ambient_energy": [0.3, 0.2],
+    "sun": ["b3a792", "9fa3b4"],
+    "sun_energy": [0.1, 0.06],
+    "carried": {"color": "ffd8a8", "range": 6.0, "day": 1.4, "night": 1.6, "attenuation": 1.0}
+  },
+  "props": [
+    {"kind": "light_shaft", "at": [448, 440], "size": [64, 64], "height": 3.4, "rays": 5, "light": "e8e4d0", "day": 1.8, "night": 0.3, "note": "tomb1.c: the hole above"},
+    {"kind": "vines", "at": [500, 300], "size": [48, 16], "rotation": 90, "height": 3.4, "count": 4, "length": [1.5, 2.8], "colors": ["5a4a3a", "6a5a46"], "stem": "4a3a2a", "note": "roots hanging from the rim"},
+    {"kind": "vines", "at": [300, 500], "size": [48, 16], "height": 3.4, "count": 4, "length": [1.2, 2.4], "colors": ["5a4a3a", "6a5a46"], "stem": "4a3a2a"},
+    {"kind": "mushrooms", "at": [300, 460], "size": [40, 24]},
+    {"kind": "mushrooms", "at": [60, 300], "size": [40, 24]},
+    {"kind": "ferns", "at": [460, 60], "size": [32, 24], "count": 2},
+    {"kind": "cobweb", "at": [280, 280], "size": [32, 16], "elevation": 2.8},
+    {"kind": "cobweb", "at": [480, 40], "size": [32, 16], "elevation": 2.8},
+    {"kind": "tracks", "at": [384, 400], "size": [200, 120], "note": "tomb2.c: 似乎有人睡过的样子 — feet in the rot"},
+    {"kind": "stains", "at": [440, 300], "size": [100, 160], "count": 4, "colors": ["7a6a4a", "8a7a5a"], "note": "tomb1.c: 东边的树根比较少, 露出一些土层"},
+    {"kind": "glow", "at": [320, 60], "size": [16, 16], "color": "c8a070", "day": 0.5, "night": 0.6, "range": 4.0, "height": 1.0, "flicker": 0.1},
+    {"kind": "bones", "at": [100, 340], "size": [40, 24], "note": "what the 鬼影 left"},
+    {"kind": "straw_patch", "at": [120, 420], "size": [48, 32]}
+  ],
+  "actors": {
+    "default": {"coat": "7a7462"},
+    "choyin.npc.cityguard": {"coat": "8a3a30", "hat": true},
+    "common.npc.garrison": {"coat": "8a3a30", "hat": true},
+    "choyin.npc.cake_vendor": {"coat": "8a7a5a"},
+    "choyin.npc.dumpling_seller": {"coat": "a09070"},
+    "choyin.npc.cucurbit_seller": {"coat": "9a6a4a"},
+    "choyin.npc.judge_gu": {"coat": "2a2a30", "hat": true, "note": "衙役: black with a red sash"},
+    "choyin.npc.magistra": {"coat": "2f4a6a", "hat": true, "note": "带刀侍卫"},
+    "choyin.npc.yamen_po": {"coat": "3a3a44", "hat": true},
+    "choyin.npc.judgeman": {"coat": "3a6a5a", "hat": true, "note": "程不平: the magistrate's green robe"},
+    "choyin.npc.crone": {"coat": "5a5048"},
+    "choyin.npc.visitor": {"coat": "6a8a7a"},
+    "choyin.npc.scholar": {"coat": "8aa0b8", "note": "书生: a pale blue gown"},
+    "choyin.npc.girl": {"coat": "d88aa0", "note": "官家小姐"},
+    "choyin.npc.maid": {"coat": "7aa08a"},
+    "choyin.npc.lady": {"coat": "b05a6a"},
+    "choyin.npc.youngman": {"coat": "7a5a9a", "note": "贵公子"},
+    "choyin.npc.servant": {"coat": "5a5a52"},
+    "choyin.npc.guard": {"coat": "3a5a8a", "note": "hotel3.c: 一个身穿蓝布衣的人"},
+    "choyin.npc.boss": {"coat": "4a5a3a", "hat": true, "note": "汤掌柜"},
+    "choyin.npc.sergeant": {"coat": "7a4a30", "hat": true, "note": "武官"},
+    "choyin.npc.oldman": {"coat": "8a8a7a", "scale": 1.15},
+    "choyin.npc.lboy": {"coat": "6a3a8a", "scale": 0.8, "note": "紫衣童子"},
+    "choyin.npc.ghost": {"coat": "c8ccd4", "name_alpha": 0.6, "note": "孤魂野鬼: pale"},
+    "choyin.npc.shadow": {"coat": "2a2a30", "scale": 1.15, "note": "朦胧鬼影: 一个高大的身影"},
+    "common.npc.beggar.master": {"coat": "6a5a40"},
+    "common.npc.scholar.master": {"coat": "4a6a8a", "hat": true, "note": "骆云舟"},
+    "choyin.npc.serpent": {"body": "snake", "colors": ["1c1a18", "2c2824", "3a342e"], "belly": "5a5048", "crest": "4a3a3a", "scale": 1.6, "note": "serpent.c: 一只乌黑油亮的巨蟒, 头上生著一个大肉瘤"},
+    "choyin.npc.crane": {"body": "flyer", "wings": ["f4f4f0", "e8e8e4"], "hover": 0.5, "note": "crane.c: 白羽如雪"},
+    "choyin.npc.lion": {"body": "crawler", "colors": ["4a4034", "5a4c3c", "c83a2a"], "scale": 1.4, "note": "护草神兽"}
+  },
+  "items": {
+    "es2:d/choyin/obj/chest": {"kind": "travel_chest", "wood": "b88a7a", "packed": false, "note": "tomb3.c: 桃木箱"}
+  },
+  "entrances": {
+  }
+}
