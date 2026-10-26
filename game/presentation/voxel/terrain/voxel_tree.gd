@@ -96,11 +96,12 @@ func _crown(species: String, variant: int) -> ArrayMesh:
 	var green: Array[String] = ["315645","456b4a","668752","8ba264"]
 	match species:
 		"pine":
-			green = ["244a43","315e50","48775b","6b9068"]
+			green = _greens(species,["244a43","315e50","48775b","6b9068"])
 			for tier: int in 4:
 				var span: float = 1.4-tier*0.28
 				surface.ellipsoid(Vector3(0.13*sin(tier+variant),2.0+tier*0.76,0),Vector3(span,0.69,span*0.86),green,variant+tier)
 		"broadleaf":
+			green = _greens(species,green)
 			for lobe: int in 4:
 				var angle: float = lobe*2.2+variant
 				surface.ellipsoid(Vector3(cos(angle)*0.73,2.6+random.randf_range(-0.3,0.65),sin(angle)*0.67),Vector3(1.08,0.85,1.0),green,variant+lobe)
@@ -110,11 +111,11 @@ func _crown(species: String, variant: int) -> ArrayMesh:
 				var angle: float = lobe*2.0+variant*0.4
 				surface.ellipsoid(Vector3(cos(angle)*1.02,2.45+lobe*0.23,sin(angle)*0.73),Vector3(0.85+random.randf()*0.25,0.64,0.84),pink,lobe+variant)
 		"slender":
-			green = ["3d6549","60834e","89a25c","acb86f"]
+			green = _greens(species,["3d6549","60834e","89a25c","acb86f"])
 			for lobe: int in 3:
 				surface.ellipsoid(Vector3(0.16*sin(lobe*2.0),2.15+lobe*0.7,0.10*cos(lobe)),Vector3(0.73,1.1,0.70),green,lobe+variant)
 		"mountain_pine":
-			green = ["2c4135","3c5340","546845","6d7a4d"]
+			green = _greens(species,["2c4135","3c5340","546845","6d7a4d"])
 			for tier: int in 3:
 				var span: float = 1.25-tier*0.3
 				surface.ellipsoid(Vector3(0.35+tier*0.22,2.1+tier*0.7,0.1*sin(variant+tier)),Vector3(span*1.25,0.5,span*0.8),green,variant+tier)
@@ -151,6 +152,7 @@ func _crown(species: String, variant: int) -> ArrayMesh:
 				surface.ellipsoid(Vector3((lobe-1)*0.42,0.55+(lobe%2)*0.2,0.08*lobe),Vector3(0.58,0.5,0.55),green,lobe+variant)
 		"shrub":
 			surface.cell_size = 0.22
+			green = _greens(species,green)
 			for lobe: int in 3:
 				surface.ellipsoid(Vector3((lobe-1)*0.48,0.7+(lobe%2)*0.24,0),Vector3(0.66,0.63,0.62),green,lobe+variant)
 		"willow":

@@ -81,7 +81,7 @@ func _check_snow_seam() -> void:
 	_check(snow.get("exit_trails", {}).has("snow.sroad1.south"), "雪亭镇's south road runs on toward 卧龙岗 past its way out")
 	var toward_ridge: bool = false
 	for area: Dictionary in snow.get("flora", {}).get("areas", []):
-		var r: Array = area["rect"]
+		var r: Array = area.get("rect", area.get("rects", [[0, 0, 0, 0]])[0])
 		toward_ridge = toward_ridge or Rect2(r[0], r[1], r[2] - r[0], r[3] - r[1]).has_point(Vector2(0, 864))
 	_check(toward_ridge, "雪亭镇's trees turn toward 卧龙岗's woods at its south end")
 
@@ -103,6 +103,18 @@ func _check_town(tree: SceneTree, session: WorldSessionController, map: WorldMap
 	for text: String in ["香茗坊", "振远镖局", "赌", "怡红院", "张府", "红娘庄", "斋院", "药", "棺", "布庄", "兵器", "杂货", "书局"]:
 		_check(text in signs, "a shop front shows its board: %s" % text)
 	_check(two_storeys >= 2, "香茗坊 and 怡红院 stand two storeys over the street (nwroad1.c, nroad2.c)")
+	# 美术规划 §1: 灰青 roofs, none near black; 古槐, willows and bamboo, the blossom is 雪亭镇's.
+	var dark: Array[String] = []
+	for building: Dictionary in view.layout.get("buildings", []):
+		if Color(String(building.get("roof", "50626a"))).get_luminance() < 0.28:
+			dark.append(String(building["roof"]))
+	_check(dark.is_empty(), "绮云镇's roofs are 灰青, none near black: %s" % [dark])
+	var flora: Dictionary = view.layout.get("flora", {})
+	var blossom: bool = float(flora.get("blossom_trees", 0.35)) > 0.0 or "blossom" in flora.get("tree_types", [])
+	for area: Dictionary in flora.get("areas", []):
+		blossom = blossom or float(area.get("blossom_trees", flora.get("blossom_trees", 0.35))) > 0.0 or "blossom" in area.get("tree_types", [])
+	_check(not blossom and "locust" in flora.get("tree_types", []) and "willow" in flora.get("tree_types", []) and "bamboo" in flora.get("tree_types", []),
+		"no blossom trees in 绮云镇: its 古槐, willows and bamboo instead")
 	var tea_house: Dictionary = {}
 	for building: Dictionary in view.layout.get("buildings", []):
 		if "cloud.nwroad1.east" in building.get("portals", []):

@@ -42,7 +42,7 @@
     "path": {"colors": ["a8916a", "b39c73", "bca57a"], "note": "the hillside path, 黄土"},
     "rock": {"style": "scree", "colors": ["a29e91", "aca89b", "b6b2a5"], "gravel": 0.55, "stones": 0.06},
     "grass": {"colors": ["5f7a44", "6a854a", "769152"]},
-    "forest": {"style": "litter", "colors": ["6e4a30", "7a5434", "845d38"], "strew": 0.55, "cones": 0.0, "moss": 0.08, "moss_below": 0.0, "note": "red maple leaves under the woods"}
+    "forest": {"style": "litter", "colors": ["737466", "7d7e6f", "878777"], "needles": ["5f6b5a", "8a8870", "6c7563", "a19d84"], "strew": 0.45, "cones": 0.02, "cone": "5e5446", "cone_scales": "726652", "moss": 0.16, "moss_below": 0.0, "moss_colors": ["5b7354", "6a8160", "7b9070"], "note": "grey needle litter and moss under the pines; the 官道's flora area lays maple leaves"}
   },
   "ground_tints": {"bank": "6f7d4f", "mud": "9a8a68", "chips": ["b0ab9d", "bbb6a8", "c6c1b3"], "dust": "c4b894", "grit": "d0c8b0"},
   "flora": {
@@ -52,8 +52,9 @@
     "flower_colors": ["f2e6c8", "e0a43a", "c94a3a", "b49ad2"],
     "flower_threshold": 0.14,
     "blossom_trees": 0.0,
-    "tree_types": ["maple", "maple", "maple", "slender", "mountain_pine", "maple"],
-    "crown_colors": {"maple": ["6e2420", "9a2e26", "c4462c", "e27a3a"]},
+    "tree_types": ["mountain_pine", "mountain_pine", "pine", "slender", "mountain_pine", "broadleaf"],
+    "crown_colors": {"maple": ["6e2420", "9a2e26", "c4462c", "e27a3a"], "mountain_pine": ["243e3c", "30534f", "436f69", "5f8e87"], "pine": ["213c3d", "2c5352", "3e6c67", "5c8b84"], "slender": ["4a6a58", "66876f", "88a68a", "a9bfa6"], "broadleaf": ["2e5047", "406751", "5a8459", "7f9f66"], "note": "琉璃青: blue-green pines and silvered leaves against the white rock"},
+    "petals": ["e8e4d6", "c9c6b4", "8e9a72"],
     "bands": [{"within": 28, "types": []}, {"within": 72, "types": ["shrub", "shrub", "scrub"]}, {"within": 128, "types": ["shrub", "slender", "shrub"]}],
     "south_reach": 2.2,
     "tree_kinds": ["forest"],
@@ -62,12 +63,12 @@
     "cliff_tufts": 0.22,
     "cliff_flowers": 0.05,
     "cliff_trees": 0.015,
-    "cliff_tree_types": ["mountain_pine", "maple", "shrub"],
+    "cliff_tree_types": ["mountain_pine", "mountain_pine", "shrub"],
     "outcrop_colors": ["aaa699", "b6b2a5", "9e9a8d"],
     "wind": 0.16,
     "butterflies": 5,
     "no_trees": [[608, 772, 864, 808]],
-    "areas": [{"rect": [1600, 1760, 1856, 2240], "tree_types": ["broadleaf", "maple", "blossom", "slender", "maple"], "blossom_trees": 0.18, "note": "the east end: 雪亭镇's broadleaf and blossom give way to the maples"}]
+    "areas": [{"rects": [[0, 1830, 1856, 2240], [1216, 1600, 1856, 1830]], "tree_types": ["maple", "maple", "maple", "maple", "slender"], "bands": [{"within": 28, "types": []}, {"within": 72, "types": ["shrub", "shrub", "scrub"]}, {"within": 128, "types": ["maple", "shrub", "maple"]}], "petals": ["c4462c", "9a2e26", "e27a3a"], "ground_styles": {"forest": {"style": "litter", "colors": ["6e4a30", "7a5434", "845d38"], "strew": 0.55, "cones": 0.0, "moss": 0.08, "moss_below": 0.0}}, "note": "sroad1-3, the 官道, and the slope above sroad1-2: 映著山上茂密的枫树林 (sroad1.c), red leaves under them"}]
   },
   "ambience": {
     "birds": [{"at": [720, 420], "radius": 220, "count": 2, "height": 12, "color": "3a3029", "note": "hawks over the gorge"}, {"at": [1024, 520], "radius": 190, "count": 4, "height": 9.5, "color": "2a2a30", "note": "swallows round the eaves"}, {"at": [1500, 1820], "radius": 200, "count": 3, "height": 8, "color": "4a3f36"}, {"at": [1500, 900], "radius": 260, "count": 2, "height": 6, "color": "3d342c", "note": "over the cliff below the pavilion"}],
@@ -115,11 +116,11 @@
     {"kind": "tree", "at": [752, 792], "size": [16, 16], "species": "maple", "scale": 0.8, "variant": 3},
     {"kind": "tree", "at": [792, 792], "size": [16, 16], "species": "maple", "scale": 0.93, "variant": 4},
     {"kind": "tree", "at": [832, 792], "size": [16, 16], "species": "maple", "scale": 1.05, "variant": 5},
-    {"kind": "tree", "at": [944, 1180], "size": [16, 16], "species": "maple", "scale": 0.9, "variant": 3},
-    {"kind": "tree", "at": [360, 760], "size": [16, 16], "species": "maple", "scale": 0.95, "variant": 3},
-    {"kind": "tree", "at": [356, 840], "size": [16, 16], "species": "maple", "scale": 0.8, "variant": 0},
-    {"kind": "tree", "at": [1460, 1240], "size": [16, 16], "species": "maple", "scale": 0.8, "variant": 5},
-    {"kind": "tree", "at": [946, 1440], "size": [16, 16], "species": "maple", "scale": 0.85, "variant": 5},
+    {"kind": "tree", "at": [944, 1180], "size": [16, 16], "species": "mountain_pine", "scale": 0.9, "variant": 3},
+    {"kind": "tree", "at": [360, 760], "size": [16, 16], "species": "mountain_pine", "scale": 0.95, "variant": 3},
+    {"kind": "tree", "at": [356, 840], "size": [16, 16], "species": "slender", "scale": 0.8, "variant": 0},
+    {"kind": "tree", "at": [1460, 1240], "size": [16, 16], "species": "mountain_pine", "scale": 0.8, "variant": 5},
+    {"kind": "tree", "at": [946, 1440], "size": [16, 16], "species": "slender", "scale": 0.85, "variant": 5},
     {"kind": "tree", "at": [340, 400], "size": [16, 16], "species": "mountain_pine", "scale": 0.8, "variant": 3},
     {"kind": "tree", "at": [338, 640], "size": [16, 16], "species": "mountain_pine", "scale": 0.8, "variant": 0},
     {"kind": "tree", "at": [128, 330], "size": [16, 16], "species": "mountain_pine", "scale": 0.8, "variant": 4},
