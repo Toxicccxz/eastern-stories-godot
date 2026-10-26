@@ -2772,7 +2772,7 @@ msgstr ""
 msgid "灵心观广场"
 msgstr ""
 
-#: scenes/world/temple/temple_grounds.tscn
+#: scenes/world/temple/temple_grounds.tscn data/temple/voxel/grounds.json
 msgid "藏经楼"
 msgstr ""
 
@@ -2794,7 +2794,7 @@ msgstr ""
 msgid "灵心观前"
 msgstr ""
 
-#: scenes/world/temple/temple_mountain.tscn
+#: scenes/world/temple/temple_mountain.tscn data/temple/voxel/grounds.json data/temple/voxel/mountain.json
 msgid "灵心观"
 msgstr ""
 

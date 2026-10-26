@@ -1,0 +1,116 @@
+{
+  "indoor": false,
+  "camera_size": 23,
+  "note": "灵心观 inside its 山门: the square of white quartz with its lions, dragon pillars and great censer (square.c); the main hall with its red door and the round arches east and west (temple1.c, corridor1/2.c); the covered walkways of vermilion columns round the courtyard of flowers and trees with its well (inneryard.c, corridor5-7.c); the closed red door of the rear hall, the training hall, the guest rooms, the locked room west; the path of blue stones under the pines, moss creeping onto them (road1.c), round to the two-storey 藏经楼 under its blue glazed board, every door and window shut, and its tablet (road2.c). Old: the walls stained, moss in the joints, the paving worn where the feet go.",
+  "edge": {"minimum_margin": 32, "maximum_margin": 72, "depth": 3.0, "top": "4e6a3c", "bottom": "3a4034", "strata": ["6d7466", "777e6f", "636a5d"]},
+  "light": {
+    "carried": {"color": "ffd9a0", "range": 5.5, "attenuation": 1.2, "day": 0.0, "night": 0.6},
+    "sky": ["b6ccd2", "0e1624"],
+    "ambient": ["d2d8cc", "6a7ca6"],
+    "ambient_energy": [0.46, 0.32],
+    "sun": ["fff0d4", "a0b8ec"],
+    "sun_energy": [0.95, 0.34]
+  },
+  "ground": {
+    "street": {"style": "slabs", "lengths": [1, 3], "depths": [1, 2], "cracks": 0.1, "broken": 0.04, "sunk": 0.02, "tufts": 0.05, "stones": ["e6e3da", "dedbd1", "ece9e1", "d6d3c9", "e2dfd4"], "worn": ["d0ccc0", "c8c4b8", "d8d4c8"], "bed": "9a9a88", "joint": 0.045, "mud": "b0a88e", "crack": "b0ab9c", "moss": "6a8650", "moss_chance": 0.08, "note": "square.c: 一片用石英岩铺成的广场"},
+    "floor_wood": {"style": "slabs", "lengths": [1, 1], "depths": [1, 1], "cracks": 0.08, "broken": 0.04, "sunk": 0.0, "tufts": 0.0, "stones": ["8e8e86", "98988e", "84847c", "a09e94"], "worn": ["a4a298", "aaa89c"], "bed": "5a5a54", "joint": 0.05, "mud": "8a8270", "crack": "6a6a62", "moss": "5d7a45", "moss_chance": 0.04, "note": "the walkways: square grey tiles, worn pale along the middle"},
+    "path": {"style": "slabs", "lengths": [1, 2], "depths": [1, 2], "cracks": 0.14, "broken": 0.08, "sunk": 0.04, "tufts": 0.18, "stones": ["7d8d8f", "879697", "748486", "8a9796"], "worn": ["8f9b98", "86928f"], "bed": "3e4a3a", "joint": 0.05, "mud": "6a6a52", "crack": "5a6662", "moss": "4f6e3a", "moss_chance": 0.4, "note": "road1.c: 一条铺著青石板的小径…甚至还有些蔓延到石板上"},
+    "grass": {"colors": ["4e6e3a", "58783f", "628246"]},
+    "boundary": {"colors": ["4a6838", "52703c", "5a7840"]},
+    "forest": {"style": "litter", "colors": ["3e4a34", "465238", "4e5a3c"], "needles": ["6a5a3a", "8a7448", "5a6a44"], "strew": 0.45, "cones": 0.04, "cone": "5e5446", "cone_scales": "726652", "moss": 0.4, "moss_below": 0.05, "moss_colors": ["4d6a3c", "5d7a45", "6a8650"]}
+  },
+  "ground_tints": {"bank": "4a6a38", "mud": "8a7a5a", "chips": ["c8c4b8", "d6d3c9", "b8b4a8"], "dust": "c4b894", "grit": "d0ccc0"},
+  "flora": {
+    "grass_density": 0.78,
+    "density": {"street": 0.02, "floor_wood": 0.0, "path": 0.12, "boundary": 0.5},
+    "grass_colors": ["2f4a2c", "45623a", "5d7c47", "789650"],
+    "flower_colors": ["f2efe6", "c8382a", "e8c84a", "e8d8e8"],
+    "flower_threshold": 0.12,
+    "blossom_trees": 0.0,
+    "tree_types": ["tall_pine", "pine", "tall_pine"],
+    "crown_colors": {
+      "tall_pine": ["1f3a2c", "28472f", "33573a", "466c46"],
+      "pine": ["223e2e", "2c4c34", "3a5e3e", "4e744a"],
+      "mountain_pine": ["243e32", "305040", "40644c", "56785a"],
+      "broadleaf": ["2f4a2c", "3e5f36", "527445", "6c8a52"],
+      "slender": ["3c5a3a", "4f7048", "678a58", "83a266"],
+      "note": "山绿"
+    },
+    "petals": ["c8382a", "f2efe6", "e88a8a"],
+    "tree_kinds": ["forest"],
+    "tree_chance": 0.9,
+    "tree_spacing": 40,
+    "wind": 0.12,
+    "butterflies": 5
+  },
+  "buildings": [
+    {"rect": [560, 1760, 1040, 2128], "portals": ["temple.square.north"], "arches": ["temple.corridor2.east", "temple.corridor1.west"], "note": "temple1.c: the great hall of 真武大帝, its red door on the square, the round arches east and west to the walkways", "construction": "plaster", "wall": "ece8dd", "timber": "a8382a", "posts": "a8382a", "roof": "4e565a", "height": 4.4, "roof_form": "hip", "ridge": "x", "rise": 2.2, "eave_lift": 0.6, "overhang": 1.1, "foundation": 0.7, "plinth": ["d8d4c8", "e4e0d5", "cbc7bb"], "lattice": true, "porch": "tiled", "gate": "red", "goods": "none", "lantern": "d8452f:glow", "bay": 5, "bells": true, "ridge_ends": "3a4448", "step": "e2dfd4", "arch_rim": "d6d2c6"},
+    {"rect": [592, 720, 1008, 1008], "portals": ["temple.corridor5.north"], "note": "temple2.c: 后殿, where the masters' tablets are kept, its red door shut", "construction": "plaster", "wall": "e8e4d8", "timber": "9a3226", "posts": "9a3226", "roof": "4a5256", "height": 3.8, "roof_form": "hip", "ridge": "x", "rise": 1.8, "eave_lift": 0.5, "overhang": 1.0, "foundation": 0.6, "plinth": ["d8d4c8", "e4e0d5", "cbc7bb"], "lattice": true, "porch": "tiled", "gate": "red", "goods": "none", "lantern": "d8452f:glow", "bay": 4, "ridge_ends": "3a4448", "step": "e2dfd4"},
+    {"rect": [352, 720, 528, 1008], "portals": ["temple.corridor4.north"], "note": "trainroom.c: 一间宽阔的大房间 of boards, 里面传来阵阵叱喝的声音", "construction": "timber", "wall": "c8b999", "timber": "6e4a32", "roof": "565c5e", "height": 3.4, "roof_form": "gable", "rise": 1.4, "overhang": 0.7, "porch": "wood", "goods": "none", "lanterns": false, "bay": 3},
+    {"rect": [1280, 960, 1568, 1216], "portals": ["temple.corridor3.east"], "note": "restroom2.c: a guest room", "construction": "timber", "wall": "d8ccb0", "timber": "7a5a3e", "roof": "5a6062", "height": 3.0, "roof_form": "gable", "rise": 1.2, "overhang": 0.6, "porch": "none", "goods": "none", "lanterns": false, "bay": 3},
+    {"rect": [1280, 1280, 1568, 1536], "portals": ["temple.corridor7.east"], "note": "restroom1.c: the guest room where the old taoist stays", "construction": "plaster", "wall": "e2dccb", "timber": "6a4a34", "roof": "52585a", "height": 3.0, "roof_form": "gable", "rise": 1.2, "overhang": 0.6, "porch": "none", "goods": "pots", "lanterns": false, "bay": 4},
+    {"rect": [672, 112, 1008, 400], "portals": ["temple.road2.enter"], "note": "road2.c: 一栋木造两层高的屋子. 屋子四周的门窗都紧紧的关著, 门口上方挂著一方蓝色琉璃匾额, 上书『藏经楼』三个金字", "construction": "timber", "wall": "c8b999", "timber": "5e3e2a", "posts": "8a3226", "roof": "4a5256", "height": 6.6, "enclosure_height": 6.6, "roof_form": "hip", "ridge": "x", "rise": 1.9, "eave_lift": 0.55, "overhang": 1.0, "foundation": 0.6, "plinth": ["8a8a7e", "969688", "7e7e72"], "porch": "tiled", "doorway": "shut", "goods": "none", "lanterns": false, "bay": 3, "skirt": 3.3, "skirt_depth": 0.9, "ridge_ends": "3a4448", "signboard": {"text": "藏经楼", "width": 2.2, "letters": "e8c25a", "frame": "c9a24a", "board": "2f6a8a:gloss"}},
+    {"rect": [160, 1328, 320, 1648], "doors": [[312, 1488]], "note": "corridor6.c: 西边是一间上了锁的房间 — nobody goes in", "construction": "plaster", "wall": "d8d2c2", "timber": "5a4030", "roof": "4e5456", "height": 3.0, "roof_form": "gable", "rise": 1.1, "overhang": 0.5, "porch": "none", "doorway": "shut", "goods": "none", "lanterns": false, "bay": 4}
+  ],
+  "props": [
+    {"kind": "pavilion_roof", "at": [552, 1480], "size": [80, 528], "elevation": 3.24, "occludes": true, "roof": "565e60", "timber": "a8382a", "frieze": "2f6a70", "rise": 0.45, "overhang": 0.35, "bells": false, "finial": "4a5256", "note": "the walkways' eaves on their vermilion columns round the courtyard (corridor5-7.c: 回廊); narrow, so the walk itself stays in sight"},
+    {"kind": "pavilion_roof", "at": [1048, 1480], "size": [80, 528], "elevation": 3.24, "occludes": true, "roof": "565e60", "timber": "a8382a", "frieze": "2f6a70", "rise": 0.45, "overhang": 0.35, "bells": false, "finial": "4a5256"},
+    {"kind": "pavilion_roof", "at": [800, 1240], "size": [576, 80], "elevation": 3.24, "occludes": true, "roof": "565e60", "timber": "a8382a", "frieze": "2f6a70", "rise": 0.45, "overhang": 0.35, "bells": false, "finial": "4a5256"},
+    {"kind": "hanging_lantern", "at": [552, 1300], "elevation": -0.7},
+    {"kind": "hanging_lantern", "at": [552, 1650], "elevation": -0.7},
+    {"kind": "hanging_lantern", "at": [1048, 1300], "elevation": -0.7},
+    {"kind": "hanging_lantern", "at": [1048, 1650], "elevation": -0.7},
+    {"kind": "hanging_lantern", "at": [690, 1240], "elevation": -0.7},
+    {"kind": "hanging_lantern", "at": [910, 1240], "elevation": -0.7},
+    {"kind": "compound_wall", "at": [616, 392], "size": [112, 16], "height": 2.6, "note": "the wall round 灵心观, old plaster over stone, tiled on top (the stretch between the training hall and the rear hall stands on its own blocked cells: a layout piece)"},
+    {"kind": "compound_wall", "at": [1152, 392], "size": [288, 16], "height": 2.6, "windows": 1},
+    {"kind": "compound_wall", "at": [1288, 680], "size": [16, 560], "height": 2.8, "windows": 2},
+    {"kind": "compound_wall", "at": [1032, 848], "size": [16, 320], "height": 2.6, "note": "between the path and the rear hall's back"},
+    {"kind": "compound_wall", "at": [1288, 1248], "size": [16, 64], "height": 3.0},
+    {"kind": "compound_wall", "at": [1288, 1800], "size": [16, 528], "height": 3.0},
+    {"kind": "compound_wall", "at": [1168, 2056], "size": [256, 16], "height": 2.6, "occludes": true},
+    {"kind": "compound_wall", "at": [1128, 2336], "size": [16, 576], "height": 2.6, "windows": 2},
+    {"kind": "compound_wall", "at": [432, 2056], "size": [256, 16], "height": 2.6, "occludes": true},
+    {"kind": "compound_wall", "at": [472, 2336], "size": [16, 576], "height": 2.6, "windows": 2},
+    {"kind": "compound_wall", "at": [608, 2616], "size": [288, 16], "height": 2.2, "occludes": true},
+    {"kind": "compound_wall", "at": [992, 2616], "size": [288, 16], "height": 2.2, "occludes": true},
+    {"kind": "compound_wall", "at": [312, 1160], "size": [16, 336], "height": 3.0},
+    {"kind": "compound_wall", "at": [312, 1848], "size": [16, 400], "height": 3.0},
+    {"kind": "compound_wall", "at": [328, 1000], "size": [48, 16], "height": 3.0},
+    {"kind": "compound_wall", "at": [536, 1000], "size": [16, 16], "height": 3.0},
+    {"kind": "gateway", "at": [800, 2616], "size": [128, 16], "timber": "a8382a", "posts": "a8382a", "roof": "4e565a", "board": "1e2a2c", "letters": "e8c25a", "text": "灵心观", "lantern": "d8452f:glow", "height": 3.8, "occludes": true, "note": "the 山门 from inside"},
+    {"kind": "trail", "points": [[800, 2600], [800, 2440], [800, 2280], [800, 2140]], "color": "d0ccc0", "note": "the way from the gate to the hall worn smooth"},
+    {"kind": "stains", "at": [800, 2368], "size": [160, 120], "count": 8, "colors": ["a8a494", "b8b4a4", "9a9688"], "note": "incense ash spilt round the censer"},
+    {"kind": "prayer_cushion", "at": [800, 2448], "size": [32, 32]},
+    {"kind": "stains", "at": [800, 1128], "size": [440, 80], "count": 6, "colors": ["a4a298", "aaa89c"], "note": "worn where the feet go"},
+    {"kind": "rug", "at": [800, 2160], "size": [96, 32], "cloth": "8a2a22", "note": "a mat on the hall's step"},
+    {"kind": "ferns", "at": [1240, 760], "size": [32, 24], "count": 3},
+    {"kind": "ferns", "at": [1072, 880], "size": [32, 24], "count": 2},
+    {"kind": "mossy_rock", "at": [1232, 940], "size": [32, 24], "note": "road1.c: 树干上布满了青苔"},
+    {"kind": "mushrooms", "at": [1200, 840], "size": [24, 24], "count": 3},
+    {"kind": "ferns", "at": [600, 520], "size": [32, 24], "count": 3},
+    {"kind": "ferns", "at": [1240, 500], "size": [32, 24], "count": 2},
+    {"kind": "flower_bed", "at": [600, 1440], "size": [32, 96], "note": "inneryard.c: 花木扶苏"},
+    {"kind": "crocks", "at": [1008, 1520], "size": [32, 32]}
+  ],
+  "ambience": {
+    "birds": [{"at": [800, 1480], "radius": 200, "count": 3, "height": 6.0, "color": "3a3029", "note": "sparrows over the courtyard"}, {"at": [800, 300], "radius": 220, "count": 2, "height": 9.0, "color": "2a2a30"}],
+    "fall": [
+      {"rect": [1056, 560, 1280, 1000], "count": 18, "height": 5.0, "colors": ["7a6a3a", "8a7448", "6a5a34"], "wind": [-0.3, 0.1], "note": "road1.c: 偶有松针缓缓飘落"},
+      {"rect": [600, 1280, 1020, 1700], "count": 12, "height": 3.0, "colors": ["c8382a", "f2efe6", "e88a8a"], "wind": [0.2, 0.1], "note": "petals in the courtyard (restroom1.c: 从西边的天井中, 传来了阵阵的花香)"}
+    ]
+  },
+  "actors": {
+    "default": {"coat": "4a5a7a"},
+    "temple.npc.little_taoist2": {"coat": "4e6a8a", "hat": true},
+    "temple.npc.guard_taoist1": {"coat": "3a4a6a", "hat": true},
+    "temple.npc.guard_taoist2": {"coat": "3a4a6a", "hat": true},
+    "temple.npc.guard_taoist3": {"coat": "3a4a6a", "hat": true},
+    "temple.npc.taoist_guard1": {"coat": "2f3a52", "hat": true},
+    "temple.npc.taoist_guard2": {"coat": "2f3a52", "hat": true},
+    "temple.npc.taoist_guard3": {"coat": "2f3a52", "hat": true}
+  },
+  "entrances": {
+    "temple.road2.enter": {"title": "藏经楼"}
+  }
+}

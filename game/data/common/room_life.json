@@ -240,6 +240,30 @@
 			],
 			"count": 3,
 			"scatter": ["paper"], "spread": 0.03
+		},
+		"training_hall": {
+			"walls": "boards", "grime": 0.55,
+			"hangings": ["weapon_pegs", "clothes_peg", "wall_lamp", "notices"], "hang": 0.18,
+			"pieces": [
+				{"kind": "lumber", "size": [48, 32], "lean": true, "staves": true},
+				{"kind": "clutter", "size": [32, 32], "items": ["bucket", "broom"]},
+				{"kind": "crocks", "size": [32, 32]},
+				{"kind": "chest_stack", "size": [32, 32]}
+			],
+			"count": 3,
+			"scatter": ["straw", "dust"], "spread": 0.06
+		},
+		"library": {
+			"walls": "boards", "grime": 0.45,
+			"hangings": ["wall_scroll:calligraphy", "wall_lamp"], "hang": 0.1,
+			"tables": ["books"],
+			"pieces": [
+				{"kind": "crocks", "size": [32, 32], "scrolls": true},
+				{"kind": "chest_stack", "size": [32, 32]},
+				{"kind": "clutter", "size": [32, 32], "items": ["books"]}
+			],
+			"count": 3,
+			"scatter": ["paper", "dust"], "spread": 0.05
 		}
 	}
 }

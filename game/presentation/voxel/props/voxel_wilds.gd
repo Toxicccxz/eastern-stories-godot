@@ -753,7 +753,8 @@ func _cloud_sea(w: float, d: float) -> void:
 ## A far peak seen across the valleys (wpath4.c: 西面山顶上竖立在虹台中央的「擎天柱」): a main
 ## summit and two shoulders of stepped rock in the blue of distance (`colors`; `haze`: seen
 ## through), rising `height` units from below the ground, a white stone terrace on its top
-## (`platform`: 虹台) and a tall pillar in the terrace's middle (`pillar`: its height).
+## (`platform`: 虹台), a tall pillar in the terrace's middle (`pillar`: its height), or a white
+## tower of storeys on its summit (`tower`: ladder2.c 山顶上矗立著一座雄伟的白色楼阁).
 func _far_peak(w: float, d: float) -> void:
 	var haze: String = ":haze" if data.get("haze",false) else ""
 	var slopes: Array = _colors("colors",["9fb1bb","a9bac3","b4c4cc","95a7b2"])
@@ -781,6 +782,20 @@ func _far_peak(w: float, d: float) -> void:
 		var tall: float = float(data["pillar"])
 		s.box(root,Vector3(0,summit+0.3+tall/2,0),Vector3(0.7,tall,0.7),"ece8dc"+haze)
 		s.box(root,Vector3(0,summit+0.35+tall,0),Vector3(1.0,0.3,1.0),"d8c48a"+haze)
+	if data.has("tower"):
+		# A white tower of storeys on the summit (`tower`: storeys), each eave dark against
+		# the white walls, a gilt point on top: seen far off, above the clouds.
+		var storeys: int = int(data["tower"])
+		var span: float = radius*0.42
+		var y: float = summit+0.2
+		s.box(root,Vector3(0,y,0),Vector3(span*2.4,0.4,span*2.2),"d8d4c8"+haze)
+		for storey: int in storeys:
+			var side: float = span*(1.6-storey*0.28)
+			s.box(root,Vector3(0,y+0.2+0.75,0),Vector3(side,1.5,side*0.9),"f2efe6"+haze)
+			s.box(root,Vector3(0,y+0.2+1.0,side*0.46),Vector3(side*0.3,0.5,0.02),"8a6a4a"+haze)
+			s.box(root,Vector3(0,y+0.2+1.6,0),Vector3(side+0.7,0.22,side*0.9+0.7),String(data.get("eaves","4a5458"))+haze)
+			y += 1.8
+		s.box(root,Vector3(0,y+0.4,0),Vector3(0.22,0.8,0.22),"d8c48a"+haze)
 ## 葬剑: swords driven point-down into the earth (`count`), leaning, the blades rusted, a faded
 ## tassel on a hilt here and there.
 func _stuck_swords(w: float, d: float) -> void:

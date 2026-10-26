@@ -23,7 +23,9 @@ func _node(at: Vector3, into: Node3D, moves: bool = false) -> Node3D:
 		shapes.merge(node,_body)
 	return node
 
-func build(center: Vector3, w: float, d: float, data: Dictionary, entrances: Array[Vector3]) -> void:
+## `arches`: those of the entrances that are round openings in the wall (a hall's 圆形拱门), no
+## porch or door.
+func build(center: Vector3, w: float, d: float, data: Dictionary, entrances: Array[Vector3], arches: Array[Vector3] = []) -> void:
 	_body = null
 	var body: Node3D = _node(center,parent)
 	_body = body
@@ -68,7 +70,10 @@ func build(center: Vector3, w: float, d: float, data: Dictionary, entrances: Arr
 	if data.has("skirt"):
 		_skirt(body,w,d,float(data["skirt"]),data)
 	for door: Vector3 in entrances:
-		_entrance(body,door,w,d,data)
+		if door in arches:
+			_arch(body,door,w,d,data)
+		else:
+			_entrance(body,door,w,d,data)
 
 func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, entrances: Array[Vector3]) -> void:
 	var plaster := Color(String(data.get("wall","c8b999")))
@@ -371,6 +376,33 @@ func _skirt(body: Node3D, w: float, d: float, at: float, data: Dictionary) -> vo
 				var shade: int = clampi(roundi(noise.get_noise_2d((x+body.position.x+out.x*9)*27,(z+body.position.z)*27)*3)+2,0,4)
 				shapes.box(face,Vector3(x,y,z),Vector3(0.38,0.12,depth/3.0+0.04),tint.lightened(shade*0.025).to_html(false)+glaze)
 		shapes.box(face,Vector3(0,at-0.06,depth+0.04),Vector3(length,0.1,0.1),timber)
+
+## 圆形拱门: the wall's gap closed again above and round a circle (`arch_rim` its stone ring),
+## the circle's lower part open to walk through.
+func _arch(body: Node3D, door: Vector3, w: float, d: float, data: Dictionary) -> void:
+	var x_face: bool = absf(door.x)>w/2-1.7
+	# In the wall's own plane (the passage stands just outside it).
+	var front: Node3D = _node(Vector3(signf(door.x)*w/2,0,door.z) if x_face else Vector3(door.x,0,signf(door.z)*d/2),body)
+	front.rotation.y = signf(door.x)*PI/2 if x_face else (0.0 if door.z>0 else PI)
+	var plaster := Color(String(data.get("wall","c8b999")))
+	var height: float = data.get("enclosure_height",data.get("height",3.4))
+	var rim: String = String(data.get("arch_rim","cfcabd"))
+	var r: float = 1.05
+	var centre := Vector2(0,1.25)
+	for y: int in ceili(height/0.25):
+		for x: int in 9:
+			var at := Vector2(-1.0+x*0.25,0.125+y*0.25)
+			var gap: float = at.distance_to(centre)
+			if gap < r+0.12 or absf(at.x) < 0.8 and at.y < centre.y:
+				continue
+			shapes.box(front,Vector3(at.x,at.y,0),Vector3(0.26,0.26,0.24),plaster.darkened(0.02*((x+y)%3)).to_html(false))
+	for i: int in 26:
+		var a: float = i*TAU/26.0
+		var at: Vector2 = centre+Vector2(cos(a),sin(a))*(r+0.02)
+		if at.y < centre.y and absf(at.x) < 0.95:
+			continue
+		shapes.box(front,Vector3(at.x,at.y,0),Vector3(0.24,0.24,0.32),rim)
+	shapes.box(front,Vector3(0,0.03,0),Vector3(1.8,0.06,0.5),String(data.get("step","b7b091")))
 
 func _entrance(body: Node3D, door: Vector3, w: float, d: float, data: Dictionary) -> void:
 	var front: Node3D = _node(door,body)

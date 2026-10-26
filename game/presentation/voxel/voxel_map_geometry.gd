@@ -754,10 +754,13 @@ func _building(map: WorldMapController, data: Dictionary) -> void:
 	var w: float = rect.size.x/UNIT
 	var d: float = rect.size.y/UNIT
 	var entrances: Array[Vector3] = []
-	for portal_id: String in data.get("portals",[]):
+	var arches: Array[Vector3] = []
+	for portal_id: String in data.get("portals",[])+data.get("arches",[]):
 		for passage: Node in map.find_children("*","Area2D",true,false):
 			if passage is WorldPassageArea2D and String((passage as WorldPassageArea2D).portal_id) == portal_id:
 				entrances.append(point((passage as Node2D).global_position)-center)
+				if portal_id in data.get("arches",[]):
+					arches.append(entrances[-1])
 	# A door nobody goes through (no room behind it in the source): drawn, not entered.
 	for at: Array in data.get("doors",[]):
 		entrances.append(point(Vector2(at[0],at[1]))-center)
@@ -768,7 +771,7 @@ func _building(map: WorldMapController, data: Dictionary) -> void:
 	architecture.rng = rng
 	architecture.noise = meadow
 	architecture.ambience = ambience
-	architecture.build(center,w,d,data,entrances)
+	architecture.build(center,w,d,data,entrances,arches)
 	occluders.append_array(architecture.occluders)
 
 var _band_hit: bool = false

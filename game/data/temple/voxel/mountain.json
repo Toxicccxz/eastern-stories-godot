@@ -1,0 +1,114 @@
+{
+  "indoor": false,
+  "camera_size": 23,
+  "note": "茅山's climb: the broad 青石官道 from Snow's mountain road along the slope and on south down the hill (sroad.c), the white quartz stairs zigzagging up the mountain between rows of tall pines, 一条纯白色的巨龙 in the green (ladder5.c), worn by the years; 雪亭镇 far below to the west (ladder3/4.c); the white tower on the cloudy peak north-east (ladder2.c); the 山门 inscribed 「灵心观」 at the stairs' end, the roofs of the temple over its wall (entrance.c), the mountain wind cold up there (ladder1.c).",
+  "edge": {"minimum_margin": 40, "maximum_margin": 104, "depth": 3.4, "top": "4e6a3c", "bottom": "3a4034", "strata": ["6d7466", "777e6f", "636a5d"]},
+  "light": {
+    "carried": {"color": "ffd9a0", "range": 6.5, "attenuation": 1.2, "day": 0.0, "night": 1.0, "note": "the white stairs show round the player at night"},
+    "sky": ["b6ccd2", "0e1624"],
+    "ambient": ["cdd6cc", "6a7ca6"],
+    "ambient_energy": [0.44, 0.34],
+    "sun": ["fff0d4", "a0b8ec"],
+    "sun_energy": [0.95, 0.36],
+    "fog": {"color": ["d8e2e2", "121a28"], "density": [0.0, 0.0], "depth": [70.0, 150.0], "note": "the far peak and the town below fade into the sky"}
+  },
+  "cliffs": {
+    "kinds": ["cliff"],
+    "low": 1.0,
+    "high": 6.0,
+    "rise": 200,
+    "step": 0.5,
+    "rough": 0.5,
+    "keep": 200,
+    "trim": ["cliff", "forest"],
+    "grooves": 0.06,
+    "south_rise": 2.0,
+    "strata": ["7a8070", "848a79", "8e9482", "727868", "80867a", "6c7262"],
+    "tops": ["4a6a3a", "567642", "62824a", "6e8c52"],
+    "moss": {"colors": ["4d6a3c", "5d7a45", "6a8650", "45603a"], "amount": 0.25, "hang": 1.2, "note": "the green of the mountain over its grey rock (青翠的山色)"},
+    "areas": [{"rect": [1060, 420, 1700, 660], "strata": ["8a907e", "949a88", "80867a"], "note": "the shoulder behind the temple's wall"}]
+  },
+  "reshape": [
+    {"rect": [1088, 448, 1664, 576], "from": ["cliff"], "to": "rock", "note": "the ground under the temple's front range (its building drawn over it)"}
+  ],
+  "exit_trails": {"temple.sroad.west": {"cells": 12, "kind": "street", "width": 12}, "note": "the 青石官道 runs on west to 雪亭镇's mountain road"},
+  "ground": {
+    "floor_yard": {"style": "slabs", "lengths": [1, 3], "depths": [1, 2], "cracks": 0.12, "broken": 0.05, "sunk": 0.02, "tufts": 0.06, "stones": ["e6e3da", "dedbd1", "ece9e1", "d6d3c9", "e2dfd4"], "worn": ["d0ccc0", "c8c4b8", "d8d4c8"], "bed": "9a9a88", "joint": 0.045, "mud": "b0a88e", "crack": "b0ab9c", "moss": "6a8650", "moss_chance": 0.14, "note": "ladder5.c: 纯白色宽敞的石英岩阶梯 — white quartz, the years in its cracks and the moss in its joints"},
+    "street": {"style": "slabs", "lengths": [2, 3], "depths": [1, 2], "cracks": 0.12, "broken": 0.08, "sunk": 0.03, "tufts": 0.12, "stones": ["7d8d8f", "879697", "91a0a0", "788889", "8a9796"], "worn": ["8f9b98", "9aa5a1", "86928f"], "bed": "4f5a58", "joint": 0.045, "mud": "7a7c6c", "crack": "5e6866", "moss": "6f8a55", "moss_chance": 0.08, "note": "sroad.c: 一条宽敞坚实的青石大道"},
+    "rock": {"style": "scree", "colors": ["8a8c7e", "949688", "7e8274"], "gravel": 0.5, "stones": 0.06},
+    "grass": {"colors": ["4e6e3a", "58783f", "628246"]},
+    "forest": {"style": "litter", "colors": ["3e4a34", "465238", "4e5a3c"], "needles": ["6a5a3a", "8a7448", "5a6a44", "9a8458"], "strew": 0.45, "cones": 0.04, "cone": "5e5446", "cone_scales": "726652", "moss": 0.3, "moss_below": 0.05, "moss_colors": ["4d6a3c", "5d7a45", "6a8650"], "note": "needles and cones under the pines"}
+  },
+  "ground_tints": {"bank": "4a6a38", "mud": "8a7a5a", "chips": ["c8c4b8", "d6d3c9", "b8b4a8"], "dust": "c4b894", "grit": "d0ccc0"},
+  "flora": {
+    "grass_density": 0.82,
+    "density": {"rock": 0.1, "street": 0.03, "floor_yard": 0.02},
+    "grass_colors": ["2f4a2c", "45623a", "5d7c47", "789650"],
+    "flower_colors": ["f2efe6", "e8d8e8", "d84a3a", "e8c84a"],
+    "flower_threshold": 0.15,
+    "blossom_trees": 0.0,
+    "tree_types": ["tall_pine", "pine", "tall_pine", "mountain_pine", "pine"],
+    "crown_colors": {
+      "tall_pine": ["1f3a2c", "28472f", "33573a", "466c46"],
+      "pine": ["223e2e", "2c4c34", "3a5e3e", "4e744a"],
+      "mountain_pine": ["243e32", "305040", "40644c", "56785a"],
+      "shrub": ["34502f", "45653a", "5a7c47", "719257"],
+      "slender": ["3c5a3a", "4f7048", "678a58", "83a266"],
+      "note": "山绿: deep pine greens"
+    },
+    "petals": ["7a6a44", "8a7448", "5a6a44"],
+    "tree_kinds": ["forest"],
+    "tree_chance": 0.6,
+    "tree_spacing": 48,
+    "bands": [{"within": 10, "types": ["shrub", "scrub", "shrub"]}, {"within": 64, "types": ["tall_pine", "pine", "tall_pine", "pine"]}, {"within": 400, "types": ["pine", "mountain_pine", "shrub", "slender"]}],
+    "south_reach": 12.0,
+    "note_bands": "the stairs' pines (ladder2-5.c: 两侧种植著一排高耸的松树) tall on their far sides; on the near (south) side and the first row only shrubs, so the camera sees the white stairs",
+    "cliff_tufts": 0.22,
+    "cliff_flowers": 0.05,
+    "cliff_trees": 0.02,
+    "cliff_tree_types": ["mountain_pine", "mountain_pine", "shrub"],
+    "outcrop_colors": ["7a8070", "848a79", "6c7262"],
+    "wind": 0.16,
+    "butterflies": 4,
+    "no_trees": [[1232, 640, 1520, 1040]]
+  },
+  "buildings": [
+    {"rect": [1088, 448, 1664, 640], "portals": ["temple.entrance.north"], "note": "entrance.c: 一座古色古香的山门, 上面以龙飞凤舞的笔迹书写著「灵心观」三字; the white wall of the temple either side, its great hall's roof rising behind (ladder5.c: 虽然无情的岁月已经在它身上留下痕迹, 但仍不失其庄严神圣的气息)", "construction": "plaster", "wall": "ece8dd", "timber": "a8382a", "posts": "a8382a", "roof": "4a5458", "height": 2.6, "roof_form": "hip", "rise": 0.9, "eave_lift": 0.35, "overhang": 0.6, "foundation": 0.6, "plinth": ["d8d4c8", "e4e0d5", "cbc7bb"], "porch": "none", "gate": "red", "goods": "none", "lantern": "d8452f:glow", "bay": 6, "ridge_ends": "3a4448", "step": "e2dfd4", "signboard": {"text": "灵心观", "width": 2.4, "letters": "e8c25a:glow", "frame": "a8382a", "board": "1e2a2c", "note": "龙飞凤舞: 太阳神君杞庸亲笔所题"}, "masses": [
+      {"bounds": [0.2, 0.0, 0.8, 0.56], "height": 5.4, "roof_form": "hip", "ridge": "x", "rise": 2.1, "eave_lift": 0.55, "overhang": 1.0, "bells": true, "note": "the great hall over the wall"},
+      {"bounds": [0.38, 0.56, 0.62, 1.0], "height": 3.6, "roof_form": "hip", "ridge": "x", "rise": 1.4, "eave_lift": 0.5, "overhang": 0.9, "bay": 3, "note": "the 山门"},
+      {"bounds": [0.0, 0.6, 0.38, 1.0], "height": 2.6, "roof_form": "hip", "rise": 0.6, "overhang": 0.4, "note": "the wall west of the gate"},
+      {"bounds": [0.62, 0.6, 1.0, 1.0], "height": 2.6, "roof_form": "hip", "rise": 0.6, "overhang": 0.4, "note": "and east"}
+    ]}
+  ],
+  "props": [
+    {"kind": "stair_flight", "at": [552, 1824], "size": [160, 192], "rotation": -90, "colors": ["e6e3da", "dedbd1", "ece9e1"], "note": "sroad/ladder5: the stairs begin east of the road"},
+    {"kind": "stair_flight", "at": [736, 1664], "size": [160, 160], "colors": ["e6e3da", "dedbd1", "ece9e1"], "note": "ladder5-4: north up the mountain"},
+    {"kind": "stair_flight", "at": [896, 1504], "size": [160, 160], "rotation": -90, "colors": ["e6e3da", "dedbd1", "ece9e1"], "note": "ladder4-3: east"},
+    {"kind": "stair_flight", "at": [1056, 1344], "size": [160, 160], "colors": ["e6e3da", "dedbd1", "ece9e1"], "note": "ladder3-2: 阶梯从这里弯向北边"},
+    {"kind": "stair_flight", "at": [1216, 1184], "size": [160, 160], "rotation": -90, "colors": ["e6e3da", "dedbd1", "ece9e1"], "note": "ladder2-1: east toward the gate"},
+    {"kind": "stair_flight", "at": [1376, 1072], "size": [160, 64], "colors": ["e6e3da", "dedbd1", "ece9e1"], "note": "ladder1: 长长的阶梯也终将到了尽头"},
+    {"kind": "far_peak", "at": [1780, 220], "size": [300, 280], "height": 22.0, "elevation": -8.0, "tower": 3, "colors": ["9fb1bb", "a9bac3", "b4c4cc", "95a7b2"], "eaves": "4a5458", "note": "ladder2.c: 东北边那座高耸挺拔的山峰, 在云雾飘渺的山顶上, 矗立著一座雄伟的白色楼阁"},
+    {"kind": "far_peak", "at": [700, 120], "size": [420, 340], "height": 13.0, "colors": ["9fb1bb", "a9bac3", "95a7b2"], "note": "the range north behind the temple"},
+    {"kind": "far_ground", "at": [-520, 1560], "size": [760, 640], "elevation": -8.0, "clearing": [0.0, 1.0, 12.0, 9.0], "clearing_color": "6a7a4a", "roofs": 26, "trees": 46, "crowns": ["24402e", "2f4f36", "3a5c3e"], "note": "ladder3/4.c: 雪亭镇就在西边不远的山下"},
+    {"kind": "ferns", "at": [640, 1580], "size": [32, 24], "count": 3},
+    {"kind": "ferns", "at": [1140, 1430], "size": [32, 24], "count": 3},
+    {"kind": "ferns", "at": [990, 1270], "size": [32, 24], "count": 2},
+    {"kind": "mushrooms", "at": [828, 1590], "size": [24, 24], "count": 4},
+    {"kind": "ferns", "at": [1450, 1110], "size": [32, 24], "count": 2},
+    {"kind": "rock_pile", "at": [120, 1950], "size": [48, 40], "count": 6, "colors": ["8a8c7e", "949688", "7e8274"]},
+    {"kind": "stains", "at": [1376, 820], "size": [200, 280], "count": 6, "colors": ["c8c4b4", "bcb8a8", "d0ccbc"], "note": "the paving before the gate worn by pilgrims' feet"}
+  ],
+  "ambience": {
+    "birds": [{"at": [900, 1300], "radius": 260, "count": 3, "height": 10.0, "color": "3a3029", "note": "kites wheeling over the slope"}, {"at": [1380, 560], "radius": 160, "count": 4, "height": 7.5, "color": "2a2a30", "note": "swallows round the gate's eaves"}],
+    "fall": [{"rect": [560, 1120, 1520, 1940], "count": 26, "height": 5.0, "colors": ["7a6a3a", "8a7448", "6a5a34"], "wind": [-0.4, 0.15], "note": "pine needles drifting down on the stairs"}],
+    "dust": [{"rect": [1250, 660, 1500, 1040], "count": 16, "color": "e4ecee", "wind": [-1.4, 0.2], "size": [0.4, 0.02, 0.05], "note": "ladder1.c: 山风吹来带著丝丝的寒意"}]
+  },
+  "actors": {
+    "default": {"coat": "4a5a7a"},
+    "temple.npc.guest": {"coat": "9a7a5a", "note": "进香客: a pilgrim, not a taoist"},
+    "temple.npc.little_taoist1": {"coat": "4e6a8a", "hat": true}
+  },
+  "entrances": {
+    "temple.entrance.north": {"title": "灵心观", "label_height": 1.7}
+  }
+}

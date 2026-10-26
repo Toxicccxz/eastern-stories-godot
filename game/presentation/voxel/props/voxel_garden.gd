@@ -5,7 +5,8 @@ extends RefCounted
 ## stone table with drum stools and a round gateway in a garden wall; white stone balustrades
 ## (with a rail seat), stair flights, a pavilion's posts and its glazed roof held up over open
 ## ground, steles, a bronze censer, stone lanterns, camellia beds, single strange stones,
-## columns and the carved gateways of a hall. Sizes and colours from the data.
+## columns (one with a dragon coiling up it) and the carved gateways of a hall, the long
+## plastered wall round a compound. Sizes and colours from the data.
 const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
 var s: Shapes
 var root: Node3D
@@ -37,6 +38,7 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"camellia_bed": _camellia_bed(w,d)
 		"strange_stone": _strange_stone(w,d)
 		"gate_frame": _gate_frame(w,d)
+		"compound_wall": _compound_wall(w,d)
 		_:
 			return false
 	return true
@@ -304,6 +306,74 @@ func _post(height: float, column: String, outdoor: bool) -> void:
 	s.box(root,Vector3(0,0.37+height*0.84,0),Vector3(0.33,0.06,0.33),String(data.get("band","c9a24a")))
 	if outdoor:
 		s.box(root,Vector3(0,0.37+height+0.08,0),Vector3(0.5,0.16,0.5),String(data.get("bracket","6e2a20")))
+	if data.has("dragon"):
+		# 雕著龙纹: a dragon carved coiling up the shaft (`dragon` its colours, body to scales),
+		# its head and a pearl at the top, a capital of cloud scrolls.
+		var scales: Array = data["dragon"]
+		var turns: int = 16
+		for i: int in turns:
+			var a: float = i*TAU*2.2/turns
+			var y: float = 0.5+i*height*0.82/turns
+			s.box(root,Vector3(cos(a)*0.19,y,sin(a)*0.19),Vector3(0.16,0.2,0.16),String(scales[i%scales.size()]))
+			if i%3==0:
+				s.box(root,Vector3(cos(a)*0.27,y+0.04,sin(a)*0.27),Vector3(0.06,0.1,0.06),String(scales[(i+1)%scales.size()]))
+		var a: float = turns*TAU*2.2/turns
+		var top: float = 0.5+height*0.84
+		s.box(root,Vector3(cos(a)*0.24,top,sin(a)*0.24),Vector3(0.24,0.2,0.28),String(scales[0]))
+		s.box(root,Vector3(cos(a)*0.38,top+0.06,sin(a)*0.38),Vector3(0.1,0.1,0.1),String(scales[1 % scales.size()]))
+		s.box(root,Vector3(0,0.37+height+0.06,0),Vector3(0.52,0.12,0.52),String(scales[0]))
+		s.box(root,Vector3(0,0.37+height+0.2,0),Vector3(0.36,0.16,0.36),String(data.get("band","c9a24a")))
+
+## 院墙: a long wall round a compound (`height`), plaster over a course of rough stone, capped
+## with tiles (`roof`); old: the plaster stained and flaked in places to the brick (`wear`),
+## moss and weeds at its foot, here and there a lattice window (`windows`, 漏窗).
+func _compound_wall(w: float, d: float) -> void:
+	var plaster := Color(String(data.get("wall","e6e1d4")))
+	var height: float = float(data.get("height",2.4))
+	var along_x: bool = w>=d
+	var length: float = maxf(w,d)
+	var thick: float = clampf(minf(w,d),0.3,0.6)
+	var stone: Array = _colors("stone",["8a8a7c","7a7a6e","96958a"])
+	var bricks: Array = _colors("brick",["8a5a46","7a4e3e","946450"])
+	var moss: Array = _colors("moss",["4f6a3a","5d7a45","6a8650"])
+	var wear: float = float(data.get("wear",0.3))
+	var bays: int = maxi(1,roundi(length/0.5))
+	var bay: float = length/bays
+	for i: int in bays:
+		var t: float = -length/2+(i+0.5)*bay
+		var course: float = 0.42+fposmod(i*0.37,0.12)
+		s.box(root,_place(along_x,t,course/2,0),_along(along_x,bay+0.01,course,thick+0.08),String(stone[i%stone.size()]))
+		var shade: String = plaster.darkened(fposmod(i*0.173,0.06)).to_html(false)
+		s.box(root,_place(along_x,t,course+(height-course)/2,0),_along(along_x,bay+0.01,height-course,thick),shade)
+		var roll: float = fposmod(sin(i*12.9898)*43758.5453,1.0)
+		for face: float in [-1.0,1.0]:
+			if roll < wear:
+				# Plaster fallen away: the brick showing in a ragged patch.
+				var y: float = course+0.2+roll*(height-course-0.6)
+				s.box(root,_place(along_x,t,y,face*(thick/2+0.005)),_along(along_x,bay*0.7,0.36,0.01),String(bricks[i%bricks.size()]))
+			if fposmod(roll*7.0,1.0) < 0.45:
+				# Rain stains running down from the coping.
+				s.box(root,_place(along_x,t+bay*0.2,height-0.45,face*(thick/2+0.004)),_along(along_x,0.1,0.8,0.01),plaster.darkened(0.16).to_html(false))
+			if fposmod(roll*3.0,1.0) < 0.6:
+				s.box(root,_place(along_x,t,0.06,face*(thick/2+0.06)),_along(along_x,bay*0.8,0.12,0.12),String(moss[i%moss.size()]))
+	var windows: int = int(data.get("windows",0))
+	for i: int in windows:
+		var t: float = -length/2+(i+1)*length/(windows+1)
+		for face: float in [-1.0,1.0]:
+			s.box(root,_place(along_x,t,height*0.6,face*(thick/2+0.01)),_along(along_x,0.62,0.62,0.02),"6e6a60")
+			for bar: int in 3:
+				s.box(root,_place(along_x,t,height*0.6-0.2+bar*0.2,face*(thick/2+0.02)),_along(along_x,0.56,0.05,0.02),"8a8a80")
+				s.box(root,_place(along_x,t-0.2+bar*0.2,height*0.6,face*(thick/2+0.02)),_along(along_x,0.05,0.56,0.02),"8a8a80")
+	var tint := Color(String(data.get("roof","4a4e50")))
+	for i: int in ceili((length+0.3)/0.37):
+		var t: float = -(length+0.3)/2+0.185+i*0.37
+		for side: float in [-1.0,1.0]:
+			s.box(root,_place(along_x,t,height+0.08,side*thick*0.42),_along(along_x,0.38,0.12,thick*0.62),tint.lightened(((i*5)%3)*0.035).to_html(false))
+	s.box(root,_place(along_x,0,height+0.22,0),_along(along_x,length+0.36,0.14,0.18),tint.darkened(0.12).to_html(false))
+
+## A point `t` along the long axis, `y` up, `across` off its middle.
+func _place(along_x: bool, t: float, y: float, across: float) -> Vector3:
+	return Vector3(t,y,across) if along_x else Vector3(across,y,t)
 
 ## A pavilion's roof held up over open ground (its posts are blocked boxes of the layout, the
 ## roof raised by `elevation` onto them): beams and a painted frieze round the eaves, glazed

@@ -1,0 +1,16 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 20,
+  "note": "厢房 (restroom1.c): a guest room with a few plain pieces, where the old taoist stays; the scent of flowers comes in from the courtyard west. His things about: a gourd, books, his slippers.",
+  "palette": {"wood": ["7e5e42", "886448", "74563c"], "wall": "e2dccb"},
+  "light": {"ambient": ["dccfb4", "6e6a80"], "ambient_energy": [0.44, 0.3]},
+  "props": [
+    {"kind": "window", "at": [-252, -120], "size": [64, 16], "rotation": 90, "note": "the courtyard's flowers beyond"},
+    {"kind": "window", "at": [100, -192], "size": [64, 16]},
+    {"kind": "hanging_lantern", "at": [0, -20]},
+    {"kind": "slippers", "at": [104, -76], "size": [24, 24], "cloth": "4a4a52"},
+    {"kind": "rug", "at": [40, 0], "size": [128, 96], "cloth": "5f6e7a", "border": "a8946a"}
+  ],
+  "actors": {"default": {"coat": "4a5a7a"}, "temple.npc.old_taoist": {"coat": "6a6a6e", "hat": true, "note": "老道士"}}
+}

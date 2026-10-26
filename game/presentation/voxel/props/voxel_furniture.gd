@@ -182,10 +182,24 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 			for y: float in [1.27,3.03]:
 				s.box(root,Vector3(0,y,0.04),Vector3(w+0.16,0.07,0.09),"71563c")
 			if data.get("portrait",false):
-				s.box(root,Vector3(0,1.93,0.073),Vector3(w*0.40,0.70,0.015),"9b607a")
+				# `robe`, `hat` and a `beard` (an old master's long white one) from the data.
+				s.box(root,Vector3(0,1.93,0.073),Vector3(w*0.40,0.70,0.015),String(data.get("robe","9b607a")))
 				s.box(root,Vector3(0,2.47,0.073),Vector3(w*0.24,0.33,0.015),"d4ad83")
-				s.box(root,Vector3(0,2.66,0.074),Vector3(w*0.32,0.16,0.015),"393c3b")
+				s.box(root,Vector3(0,2.66,0.074),Vector3(w*0.32,0.16,0.015),String(data.get("hat","393c3b")))
 				s.box(root,Vector3(0,2.18,0.084),Vector3(w*0.12,0.27,0.015),"d4c18e")
+				if data.has("beard"):
+					s.box(root,Vector3(0,2.24,0.086),Vector3(w*0.12,0.34,0.015),String(data["beard"]))
+			elif data.get("chart",false):
+				# 经脉穴道图: a figure in outline, the meridians in red and the points dotted along them.
+				s.box(root,Vector3(0,2.5,0.073),Vector3(w*0.16,0.2,0.012),"8a7a64")
+				s.box(root,Vector3(0,2.08,0.073),Vector3(w*0.26,0.6,0.012),"8a7a64")
+				for side: float in [-1.0,1.0]:
+					s.box(root,Vector3(side*w*0.2,2.1,0.073),Vector3(w*0.06,0.5,0.012),"8a7a64")
+					s.box(root,Vector3(side*w*0.07,1.6,0.073),Vector3(w*0.08,0.42,0.012),"8a7a64")
+					s.box(root,Vector3(side*w*0.06,1.85,0.08),Vector3(0.02,1.1,0.01),"b8342a")
+				s.box(root,Vector3(0,2.1,0.08),Vector3(0.02,0.9,0.01),"2f4a8a")
+				for point: int in 9:
+					s.box(root,Vector3(((point%3)-1)*w*0.06,1.5+point*0.12,0.085),Vector3(0.03,0.03,0.01),"1e1a18")
 			elif data.get("calligraphy",false):
 				for col: int in 3:
 					for row: int in 4:
