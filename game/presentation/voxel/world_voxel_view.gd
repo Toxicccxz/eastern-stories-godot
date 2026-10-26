@@ -542,6 +542,11 @@ func _make_shutters() -> void:
 		if not look.is_empty():
 			look = look.duplicate()
 			look["size"] = look.get("size",[rect.size.x,rect.size.y])
+			# A look is drawn across its own x: a door in a north-south wall (its shape taller
+			# than wide) is turned a quarter, or it would lie across the doorway.
+			if rect.size.y > rect.size.x and not look.has("rotation"):
+				look["rotation"] = 90
+				look["size"] = [rect.size.y,rect.size.x]
 			geometry.draw_look(s,node,look)
 		elif geometry.indoor:
 			_room_door(node,s,size)

@@ -184,6 +184,10 @@ func _check_manor(map: WorldMapController) -> void:
 	for rect: Array in view.layout.get("low_walls", []):
 		gate_high = gate_high and not Rect2(rect[0], rect[1], rect[2] - rect[0], rect[3] - rect[1]).has_point(Vector2(3376, 600))
 	_check(gate_high, "the arch's wall stands full height, 「晚月庄」 under its eaves")
+	var bronze: Node3D = view.shutters.get(&"latemoon.latemoon5.door")
+	var rear: Node3D = view.shutters.get(&"latemoon.room.twoc.door")
+	_check(bronze != null and is_equal_approx(absf(bronze.rotation.y), PI / 2) and rear != null and is_zero_approx(rear.rotation.y),
+		"a door in a north-south wall (latemoon5.c: 西侧似有一铜门) stands in its doorway, not across it")
 	_check(view.geometry._ground_style(Vector2(3600, 600), "path").get("style", "") == "mosaic", "entrance.c: 这是条用鹅卵石铺成的小路")
 	_check(view.geometry._ground_style(Vector2(1328, 2144), "riverbank").get("stones", [""])[0] == "4e7a62", "lcenter.c: 连地上踏的砖, 皆是碧绿凿花")
 	_check(view.geometry.water.levels.size() > 100, "bathroom.c: the flower pool's water")

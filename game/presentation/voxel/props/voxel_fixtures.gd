@@ -62,16 +62,18 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 		"lantern_post": _lantern_post(data)
 		"red_door":
 			# `leaf`/`trim`: a door of another make (晚月庄's bronze door, its pale green arch door).
-			s.box(root,Vector3(0,1.25,0),Vector3(1.8,2.5,0.2),String(data.get("leaf","a34736")))
-			s.box(root,Vector3(0,2.58,0),Vector3(2,0.12,0.3),"d5b37b")
-			for x: float in [-0.79,0.79]:
+			# As wide as its doorway (a hall's 128 px one), never narrower than a 64 px one's.
+			var wide: float = maxf(1.8,w-0.2)
+			s.box(root,Vector3(0,1.25,0),Vector3(wide,2.5,0.2),String(data.get("leaf","a34736")))
+			s.box(root,Vector3(0,2.58,0),Vector3(wide+0.2,0.12,0.3),"d5b37b")
+			for x: float in [-wide/2+0.11,wide/2-0.11]:
 				s.box(root,Vector3(x,1.25,0.12),Vector3(0.13,2.5,0.12),String(data.get("trim","bf8853")))
 			for y: float in [0.38,1.52,2.1]:
-				s.box(root,Vector3(0,y,0.13),Vector3(1.6,0.09,0.10),String(data.get("trim","c09563")))
+				s.box(root,Vector3(0,y,0.13),Vector3(wide-0.2,0.09,0.10),String(data.get("trim","c09563")))
 			s.box(root,Vector3(0,1.0,0.15),Vector3(0.035,2.0,0.04),"65432e")
-			for x: float in [-0.93,0.93]:
+			for x: float in [-wide/2-0.03,wide/2+0.03]:
 				s.box(root,Vector3(x,1.3,0.13),Vector3(0.035,2.58,0.025),"e0eadb")
-			s.box(root,Vector3(0,2.62,0.13),Vector3(1.90,0.035,0.025),"e0eadb")
+			s.box(root,Vector3(0,2.62,0.13),Vector3(wide+0.1,0.035,0.025),"e0eadb")
 			var glow: StandardMaterial3D = s.material("e0eadb")
 			glow.emission_enabled = true
 			glow.emission = Color("dcebdc")

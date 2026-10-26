@@ -199,7 +199,7 @@
     {"kind": "hanging_lantern", "at": [1328, 3488], "paper": "f2a6b8:glow"},
     {"kind": "clothes_peg", "at": [2200, 3330], "size": [96, 16], "wall_mounted": true, "note": "bathroom1.c: 墙上的架上挂了一些丝巾"},
     {"kind": "window", "at": [1960, 3646], "rotation": 180, "size": [64, 16], "shut": true},
-    {"kind": "silk_curtain", "at": [2290, 3488], "size": [16, 128], "rotation": 90, "colors": ["5a8aa8", "7aa8c0", "e8f0f2"], "note": "bathroom1.c: 东侧一蓝青洒花软帘, 隔帘望去, 隐约可看到小花池"},
+    {"kind": "silk_curtain", "at": [2290, 3488], "size": [128, 16], "rotation": 90, "colors": ["5a8aa8", "7aa8c0", "e8f0f2"], "note": "bathroom1.c: 东侧一蓝青洒花软帘, 隔帘望去, 隐约可看到小花池"},
     {"kind": "hanging_lantern", "at": [1845, 3488], "paper": "f2a6b8:glow"},
     {"kind": "hanging_lantern", "at": [2075, 3488], "paper": "f2a6b8:glow"},
     {"kind": "stains", "at": [2700, 3488], "size": [480, 176], "count": 26, "colors": ["f2a6b8", "e87a9a", "fbe8ec", "f6c8d4"], "elevation": -0.08, "note": "bathroom.c: 缤纷的花瓣飘在池上"},
