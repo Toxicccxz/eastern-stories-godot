@@ -146,6 +146,11 @@ as richly as 饮风客栈's upper floor.** Long-term rules:
   - Light for day and night (windows, lamps, lanterns); outdoor maps get flora and ground detail.
   - Doors, exits, spawn points and NPC reach stay clear; added furniture is blocked in the layout
     and the walk-through tests still pass.
+  - **Old and lived-in, never modern-tidy** (owner, 2026-10-26, the house style for every map):
+    each region recognisable by its own colours and plants; paving in rows of uneven, worn,
+    cracked stones (`slabs`); no ruled line where two ground kinds meet (`_fray_seams`); rooms
+    worn, cluttered and used for their purpose (`room_life.json`); warm, saturated and layered,
+    never a flat grey. Details: [美术规划](docs/design/美术规划.md) §2 items 6–7.
 * **Assets.** Today all forms are code-built boxes. Imported art goes under `game/assets/<kind>/`
   (`models/`, `textures/`, `audio/`, `fonts/`), named by what it is, with its source in
   [LICENSE_PROVENANCE](docs/production/LICENSE_PROVENANCE.md). Scratch renders and archives stay
