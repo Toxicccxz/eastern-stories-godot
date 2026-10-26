@@ -8,18 +8,21 @@ side way west of the pass (黄石穿林路, the mirror, the 竹林道, the stone
 
 ## Placed
 
-25 of the 27 room files, on five maps: A's seventeen, and C's eight (owner, plan Q1: repaired);
+25 of the 27 room files, on six maps: A's seventeen, and C's eight (owner, plan Q1: repaired);
 dream/tmp.c and evil/tmp.c (整修中，请往回走:P) are not placed.
 
 | Map | Rooms | People | Ways |
 |---|---|---|---|
 | canyon.clifftop (碎石小路) | road | — | north-east to Snow's 青石官道 (sroad4); the chain down |
-| canyon.pass (黄石隘口, 天驼关) | canyon1–7, camp1–8, stone_forest1–3 | 小兵 ×2 at the gate, 小兵 ×4, 老兵, 小队长 ×2, 大队长, 老队长, 李信, 严廷殷, 赫造基 | the chain up; south of the valley nothing yet (玉螺湖村 is #11); east into the 将军营帐 only with marks/军营; west of 隘口小路 the 黄石穿林路 (C) |
+| canyon.pass (黄石隘口, 天驼关) | canyon1–7, stone_forest1–3 | — | the chain up; south of the valley to 玉螺湖村's road1; east of 隘口中道 into the camp; west of 隘口小路 the 黄石穿林路 (C) |
+| canyon.camp (军营, interior) | camp1–8 | 小兵 ×2 at the gate, 小兵 ×4, 老兵, 小队长 ×2, 大队长, 老队长, 李信, 严廷殷, 赫造基 | west out of 军营入口 onto 隘口中道; east into the 将军营帐 only with marks/军营 |
 | canyon.armory (兵器库) | blackmarket | 后备兵 | east out onto 隘口中道; the way in is the oath at its smooth wall (B) |
 | canyon.bamboo (梦幻迷境, 竹林道) | fantasy1, bamboo1–3 | — | back out through the mirror to the 黄石穿林路; the upper and lower ways drawn closed; the stone's gap into the stone room (C) |
 | canyon.stoneroom (洞内石室) | train | — | out to the 竹林道 by the stone |
 
 The chain is no walk, so the clifftop is a map of its own (Old Pine's one map per height).
+
+None of these maps has a voxel view yet (no `game/data/canyon/voxel/`).
 
 ## LPC → native (A)
 

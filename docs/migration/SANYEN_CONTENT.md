@@ -9,22 +9,27 @@ the player's 大乘佛法, 诵经, 流云杖法, 莲华心法 and its 疗伤他�
 
 ## Placed (A)
 
+Seven maps: sunhill.mountain (日照山, the river to the gate), sanyen.grounds (山烟寺's yards and
+paths), sanyen.tunnels, and one each for the 大雄宝殿, 后殿, 流云轩 and 香积厨 (hall_house,
+back_temple_house, heal_room_house, kitchen_house). None has a voxel view yet (no
+`game/data/sanyen/voxel/`).
+
 | Room | LPC `set("objects")` | Native |
 |---|---|---|
 | u/cloud/sunhill/northriver, midriver, southriver (泓水北侧, 江心, 泓水南侧) | — | mountain map (日照山): the ford across the river from 绮云镇's 江北渡口 (its south exit opens) |
 | sunhill/dukou (江南渡口) | — | the south bank and the jetty where the boat puts in |
-| sunhill/road1–4 (山脚小路, 盘山小径 ×3) | — | the yellow-earth path up the hill; road1's east to 乔阴县城's 北门 stays closed (#9) |
+| sunhill/road1–4 (山脚小路, 盘山小径 ×3) | — | the yellow-earth path up the hill; road1's east to 乔阴县城's 北门 |
 | d/sanyen/sroad1, sroad2 (山路) | — | the mossy stone road under the cliff carved 「山烟寺」 |
 | gate (山烟寺山门) | 知客僧 ×2 | the clearing before the gate; north into the temple (its own map) |
-| tunnele, tunnel (隧道口, 隧道) | — | the tunnel west through the cliff to 晚月庄's sroad5 (its east exit opens) |
-| front_yard (山烟寺前广场) | 护寺武僧 ×2 (front_yard.c repaired) | temple map (山烟寺): the yard ringed with poplars, the bricks |
+| tunnele, tunnel (隧道口, 隧道) | — | its own map, west of the gate: the tunnel through the cliff to 晚月庄's sroad5 (its east exit opens) |
+| front_yard (山烟寺前广场) | 护寺武僧 ×2 (front_yard.c repaired) | grounds map (山烟寺): the yard ringed with poplars, the bricks |
 | door (山烟寺寺门), road1 (石板大道) | —; 独眼头陀 | the gate house; the flagstones between peonies to the 金门 |
 | road2 (石板小径), drug_field (药圃) | 僧人; — | the small path east and the herb plots |
-| temple (大雄宝殿) | 玄智和尚 (daemon/class/bonze/master.c) | the hall: the Buddha on his lotus throne, the censer; the 金门 south |
-| inner_yard (庭园), heal_room (流云轩) | 跛僧人; 药僧 | the garden west of the hall, 流云轩 north of it (the plaques: look) |
+| temple (大雄宝殿) | 玄智和尚 (daemon/class/bonze/master.c) | the hall, its own map: the Buddha on his lotus throne, the censer; the 金门 south |
+| inner_yard (庭园), heal_room (流云轩) | 跛僧人; 药僧 | the garden west of the hall, 流云轩 (its own map) north of it (the plaques: look) |
 | corridor, corridor1 (走廊) | — | behind the yellow curtain north, and west along 流云轩's wall |
-| kitchen (香积厨) | 烧饭僧 | the stoves, the pot and the steamer |
-| back_temple (后殿), tower (塔林) | 小沙弥; 扫地僧 | 药师如来 and the eighteen arhats; the two pagodas |
+| kitchen (香积厨) | 烧饭僧 | its own map: the stoves, the pot and the steamer |
+| back_temple (后殿), tower (塔林) | 小沙弥; 扫地僧 | 药师如来 and the eighteen arhats (the 后殿 its own map); the two pagodas |
 
 ## LPC → native (A)
 

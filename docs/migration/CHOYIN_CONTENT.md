@@ -11,23 +11,27 @@ vines, the 缚仙绳, the 云台 and the 丹炉, the 寒谷's orchid, the hermit
 
 ## Placed (A)
 
-61 of the 62 room files, on fourteen maps (the 石室, stonehole.c, has no way in and is not drawn).
-Rooms that only a verb or a maze reaches are drawn now; their ways in come with B, C and D.
+61 of the 62 room files, on sixteen maps (the 石室, stonehole.c, has no way in and is not drawn).
+Rooms that only a verb or a maze reaches are drawn in A; their ways in are B's, C's and D's.
 
 | Map | Rooms | People (A) | Ways |
 |---|---|---|---|
-| choyin.town (乔阴县城) | n_gate, n_street1–3, nw_street, w_street1–4, tree_tomb, e_street1, e_gate, s_street1–5, crossroad, court1, s_gate, dragon_temple, sw_road1, bridge1–5, entrance, taolin | 守城官兵 ×6, 县城官兵 ×2, 卖饼大叔, 陆得财, 卖包子的 ×2, 汤掌柜, 武官, 卖糖葫芦的, 衙役 ×4, 带刀侍卫 ×2, 乾瘪老太婆, 游客 ×8, 书生 ×2, 官家小姐, 丫鬟 ×2, 骆云舟; 风泉剑灵 waits absent | west from the 北门 to 泓水南岸; the 东城门 and 南门 out; stairs up in the 福林楼 and the 火龙将军庙; east from the 曼雩台 into the 桃林 only with marks/书生 |
+| choyin.town (乔阴县城) | n_gate, n_street1–3, nw_street, w_street1–4, tree_tomb, e_street1, e_gate, s_street1–5, crossroad, court1, s_gate, dragon_temple, sw_road1, bridge1–5, entrance, taolin | 守城官兵 ×6, 县城官兵 ×2, 卖饼大叔, 陆得财, 卖包子的 ×2, 卖糖葫芦的, 衙役 ×4, 带刀侍卫 ×2, 乾瘪老太婆, 游客 ×8, 书生 ×2, 官家小姐, 丫鬟 ×2, 骆云舟; 风泉剑灵 waits absent | west from the 北门 to 泓水南岸; the 东城门 and 南门 out; east from 福林大街 into the 福林酒楼; stairs up in the 火龙将军庙; east from the 曼雩台 into the 桃林 only with marks/书生 |
 | choyin.yamen_compound (县府衙门) | yamen_yard, yamen, yamen_iner | 带刀侍卫 ×6, 程不平 | south out to the 衙门口 (court1.c has no way in: D) |
+| choyin.hotel_house (福林酒楼) | hotel1 | 汤掌柜, 武官 | west out to 福林大街; stairs up |
 | choyin.temple_altar, hotel_2f, hotel_3f | altar; hotel2; hotel3 | 妇人 (功德箱 on the floor); 贵公子, 家丁 ×3; 酒楼守卫 ×3 | stairs |
 | choyin.tree_hollow (树洞) | tomb1–3 | — (朦胧鬼影 and the 桃木箱: B) | up to the 树王坟 (the way down: B, plan Q2) |
 | choyin.lion_cave (神秘洞穴) | lionroom | — (护草神兽: B) | none (the lift and the 忘忧草: B) |
-| choyin.east (乔阴东郊) | solidpath1–2, cloudpool, rockpath1–2, rockyu, fence, club, yard, tongbhill | 黑冠巨蟒 ×4, 采药老者 | west to the 东城门; the 柴门 shut |
+| choyin.east (乔阴东郊) | solidpath1–2, cloudpool, rockpath1–2, rockyu, fence, tongbhill | 黑冠巨蟒 ×4, 采药老者 | west to the 东城门; west of the 竹林 into the 草堂 through its 柴门 (shut) |
+| choyin.club_house (草堂) | club, yard | — | east out to the 竹林; the 柴门 to the 庭院 shut |
 | choyin.furnace (丹炉) | stove | — (仙丹: B) | out to 桐柏山 (the way in from the 云台: B) |
 | choyin.guye (姑射山) | spath, rockroad, guyehill | — | north to the 南门 |
-| choyin.crown, cliff_cave, summit, valley | craneroom; halfhole; platform; hollow, hollow1–3 | 仙鹤 ×4; —; 紫衣童子 ×2; — | down to the 绝壁 (crown, cliff_cave); none yet (B) |
+| choyin.crown, cliff_cave, summit, valley | craneroom; halfhole; platform; hollow, hollow1–3 | 仙鹤 ×4; —; 紫衣童子 ×2; — | down to the 绝壁 (crown, cliff_cave); none walked (B's verbs) |
+
+None of these maps has a voxel view yet (no `game/data/choyin/voxel/`).
 
 Not placed in A: the 孤魂野鬼 and 朦胧鬼影 (unseen, plan Q3: B), the 护草神兽 (B), the 巡捕 (D:
-they draw their names, a placed NPC cannot yet, and patrol), 北冥大鹏 (roc.c: no room places it),
+they draw their names and patrol), 北冥大鹏 (roc.c: no room places it),
 d/jail/cityguard.c (a copy of the 守城官兵 no room places), daemon/class/beggar/wineskin.c.
 
 ## LPC → native (A)
@@ -166,10 +170,6 @@ People elsewhere: 武官 (the chest, the 白杨经), 官家小姐 (the 荷包), 
 | do_quit() | nothing to quit; Save waits while in custody (OldPineSaveEligibility: BUSY) |
 | judgeman.c settle_lawsuit() | `sentence` (NpcSentence): two seconds after the delivery (NpcAmbience kind `sentence`), its lines, NpcSentence.beat() by crime_lv, the crime cleared, out at the 衙门口; the knock-out after the move (heart_beat()) |
 | judgeman.c test_crime(), do_charge(); magistra.c's drum | not ported (owner Q1) |
-
-## Not done (and where it goes)
-
-- #12: 陈天星 takes 陈剑秋's letter (reminder test in choyin_secrets_test).
 
 ## Source anomalies
 

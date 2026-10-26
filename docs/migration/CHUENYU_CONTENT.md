@@ -7,13 +7,16 @@ answers and the defaults). Package A draws the road, the mountain and the castle
 
 ## Placed
 
-32 of 37 rooms on three maps: A's 23, B's nine (the 地牢).
+32 of 37 rooms on four maps: A's 23, B's nine (the 地牢).
 
 | Map | Rooms | People | Ways |
 |---|---|---|---|
-| chuenyu.main (黑松山) | croad1–2, sunnyroad, base_b_m, foot_b_mtn, high_b_mtn, rope_bridge, high_b_mtn2, gate_castle, east_castle, west_castle, trap_castle, west_garden, north_garden, west_blackge, storage, center, east_blackge, east_garden, south_garden | 卖花姑娘, 紫衣家丁 ×2, 园工, 蜜蜂 ×2, 小园工 ×4, 护院 ×2, 女佣人, 巨型犬 ×3 | east to 玉螺湖村's 黄土大道 (road1); the 城门 (shut) to the 夹道; 城墙 · 爬上去 between the clifftops and the gardens; 铁链 · 顺着走下去 from the bridge; the 储藏室's 木门 (shut); each hall's stairs up |
+| chuenyu.main (黑松山) | croad1–2, sunnyroad, base_b_m, foot_b_mtn, high_b_mtn, rope_bridge, high_b_mtn2, gate_castle, east_castle, west_castle, trap_castle | 卖花姑娘, 紫衣家丁 ×2 | east to 玉螺湖村's 黄土大道 (road1); the 城门 (shut) to the 夹道; 城墙 · 爬上去 from the clifftops into the gardens; 铁链 · 顺着走下去 from the bridge |
+| chuenyu.castle (黑松阁, interior) | west_garden, north_garden, west_blackge, storage, center, east_blackge, east_garden, south_garden | 园工, 蜜蜂 ×2, 小园工 ×4, 护院 ×2, 女佣人, 巨型犬 ×3 | 城墙 · 爬上去 from the 东/西花园 back to the clifftops; the 储藏室's 木门 (shut); each hall's stairs up |
 | chuenyu.upstairs (淳于's rooms) | bedroom, yiantai, kitchen | 信鸽 ×2, 厨子 | the two stairs down; the 玉帘门 (shut) to the 膳房 |
 | chuenyu.prison (地牢) | tunnel1–6, dungeon, tortureroom, tortureroom2 | 大老鼠 ×5, 淳于怀太, 小娟, 狱卒 ×4 | the maze's passages; the slab up to east_castle (pushed open) |
+
+None of these maps has a voxel view yet (no `game/data/chuenyu/voxel/`).
 
 Not placed: the copy of 刘家 (dustyroad3, home, littlegarden, smallstorage, smallyard, with a
 second 刘老农, 采花妞, 大老鼠 and smallyard's 蛐蛐, 蚂蚁 and 蝴蝶): ES2 cut it off (sunnyroad.c's

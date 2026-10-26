@@ -7,6 +7,10 @@ arts and spells, joining, 法力); D the player's spells (遁, 困, 召天将).
 
 ## Placed (A)
 
+Twelve maps: green.village, green.mountain, green.maze (迷阵), green.cave, green.stone_house and an
+interior map for each of shop0, house0–4 and temple0. None has a voxel view yet (no
+`game/data/green/voxel/`).
+
 | Room | LPC `set("objects")` | Native |
 |---|---|---|
 | path6, path5 (石板路) | — | village map: the stone road from 山坳, cart ruts, shrubs south |
@@ -16,12 +20,12 @@ arts and spells, joining, 法力); D the player's spells (遁, 困, 召天将).
 | path8 (小巷子) | 小孩 ×2 (kid3) | the lane east between 工匠的家 (north) and 沈记商行's back wall |
 | field0 (小广场) | — | the square with its great banyan; 民宅 north, 村长的家 south |
 | field1 (采石场的空地) | 工匠的小孩 | the quarry yard under the cut cliff; the empty 民宅 north |
-| house0–4, shop0, temple0 | 妇人 ×2, 工匠, 老公公 + 老婆婆, 村长, 沈万年 + 妇人 | buildings with their doors on the street their exit names |
+| house0–4, shop0, temple0 | 妇人 ×2, 工匠, 老公公 + 老婆婆, 村长, 沈万年 + 妇人 | each an interior map of its own, its door on the street its exit names |
 | house3 (民宅) | — (call_spider()) | the web: a look calls in one of three summoned spiders |
 | cave0 (洞口) | 小孩 ×2 (kid4) | mountain map: the hill's foot, the chained wooden door north |
-| cave1, cave2, mpath0–2 | — | the low, freezing cave; the road between the cliff and the chasm |
+| cave1, cave2, mpath0–2 | — | the low, freezing cave (green.cave); the road between the cliff and the chasm (mountain map) |
 | entrance (山路尽头) | — | the painting (look), the cave east into the 迷阵 (100000 combat_exp), the great stone door north |
-| outdoor, cavehall, stoneroom, water | 绝尘子 (cavehall) | the stone rooms (the hall sealed but to 绝尘子's apprentices), the stream and its search |
+| outdoor, cavehall, stoneroom, water | 绝尘子 (cavehall) | the stone rooms (green.stone_house; the hall sealed but to 绝尘子's apprentices), the stream (mountain map) and its search |
 | eight0–7, closed | — | 迷阵 map: eight clearings drawn after their texts, each 路牌 looked at; 绝地's stone and 放弃 |
 
 ## The 玉佩 and the 蒙汗药 (B)
