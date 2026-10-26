@@ -32,9 +32,60 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"spirit_tablets": _spirit_tablets(w,d)
 		"sword_stand": _sword_stand(w,d)
 		"scripture_table": _scripture_table(w,d)
+		"beast_statue": _beast_statue(w,d)
 		_:
 			return false
 	return true
+
+## A sacred beast in gilt and glaze on its plinth beside a god (uproom.c: 雨神「天龙」、火神
+## 「凤凰」): `beast` "dragon" (coiled, rearing, whiskered), "phoenix" (wings raised, a long
+## tail sweeping down) or "crane"; `colors` [body, highlight, gilt], `base` the plinth.
+func _beast_statue(w: float, d: float) -> void:
+	var tones: Array = data.get("colors",["3a6a8a","4a7a9a","c9a24a"])
+	var body: String = String(tones[0])
+	var light: String = String(tones[1])
+	var gilt: String = String(tones[2])
+	var base: String = String(data.get("base","8a7a6a"))
+	s.box(root,Vector3(0,0.3,0),Vector3(minf(w,1.2),0.6,minf(d,1.2)),base)
+	s.box(root,Vector3(0,0.63,0),Vector3(minf(w,1.2)+0.08,0.06,minf(d,1.2)+0.08),gilt)
+	var y: float = 0.66
+	match String(data.get("beast","dragon")):
+		"phoenix":
+			s.box(root,Vector3(0,y+0.45,0),Vector3(0.3,0.5,0.34),body)
+			s.box(root,Vector3(0,y+0.85,0.1),Vector3(0.12,0.4,0.12),body)
+			s.box(root,Vector3(0,y+1.08,0.16),Vector3(0.16,0.14,0.18),light)
+			s.box(root,Vector3(0,y+1.1,0.28),Vector3(0.05,0.05,0.1),gilt)
+			for i: int in 3:
+				s.box(root,Vector3(0,y+1.18+i*0.06,0.08-i*0.07),Vector3(0.03,0.1,0.03),gilt)
+			for side: float in [-1.0,1.0]:
+				for f: int in 4:
+					s.tilted_box(root,Vector3(side*(0.22+f*0.1),y+0.7+f*0.12,-0.02),Vector3(0.1,0.45-f*0.06,0.06),light if f%2 else body,Vector3(0,0,-side*(0.35+f*0.15)))
+			for t: int in 5:
+				s.tilted_box(root,Vector3((t-2)*0.07,y+0.25-t*0.02,-0.32-t*0.04),Vector3(0.06,0.04,0.6),[body,light,gilt][t%3],Vector3(0.5,0,0))
+			for side: float in [-0.08,0.08]:
+				s.box(root,Vector3(side,y+0.1,0.04),Vector3(0.04,0.2,0.04),gilt)
+		"crane":
+			s.box(root,Vector3(0,y+0.62,0),Vector3(0.22,0.24,0.42),body)
+			s.box(root,Vector3(0,y+0.95,0.2),Vector3(0.06,0.5,0.06),body)
+			s.box(root,Vector3(0,y+1.2,0.25),Vector3(0.08,0.08,0.14),light)
+			s.box(root,Vector3(0,y+1.26,0.24),Vector3(0.05,0.03,0.05),"c8382a")
+			for side: float in [-0.06,0.06]:
+				s.box(root,Vector3(side,y+0.25,0),Vector3(0.03,0.5,0.03),"2a2a2a")
+		_:
+			# A dragon rearing in a coil: scaled loops rising round the plinth, its head up.
+			for i: int in 12:
+				var a: float = i*TAU*1.6/12
+				var at := Vector3(cos(a)*0.28,y+0.1+i*0.08,sin(a)*0.22)
+				s.box(root,at,Vector3(0.2,0.18,0.2),body if i%2 else light)
+				if i%3==0:
+					s.box(root,at+Vector3(0,0.12,0),Vector3(0.06,0.1,0.06),gilt)
+			var head := Vector3(0.08,y+1.1,0.12)
+			s.box(root,head,Vector3(0.26,0.22,0.36),body)
+			s.box(root,head+Vector3(0,-0.06,0.2),Vector3(0.2,0.08,0.14),light)
+			for side: float in [-1.0,1.0]:
+				s.tilted_box(root,head+Vector3(side*0.1,0.16,-0.08),Vector3(0.04,0.22,0.04),gilt,Vector3(-0.5,0,side*0.3))
+				s.tilted_box(root,head+Vector3(side*0.14,-0.08,0.26),Vector3(0.02,0.02,0.3),gilt,Vector3(0.3,side*0.4,0))
+			s.box(root,Vector3(0.3,y+0.2,0.3),Vector3(0.12,0.12,0.12),"e8e4d8")
 
 ## 神龛: a small roofed niche in a wall, its god inside and a faded cloth over the front.
 func _niche(w: float, d: float) -> void:

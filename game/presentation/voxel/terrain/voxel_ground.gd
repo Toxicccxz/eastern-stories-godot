@@ -62,6 +62,61 @@ func wear(at: Vector3) -> float:
 		result = maxf(result, 1.0-delta.length()+noise.get_noise_2d(at.x*150,at.z*150)*0.22)
 	return result
 
+## 花石子路 (latemoon/park/moon2.c: 以不同颜色的细石砌成各种图案…但每幅图案又有独立的内容):
+## pebbles set on edge in panels `panel` cells square, a dark line round each; every panel its own
+## figure, picked by its place — a flower of four or six petals, a coin, a fish — in the accent
+## pebbles (`accents`: [petal, heart, line, leaf]) over the plain ones (`stones`). Worn pebbles
+## are missing here and there (`missing`), the bed showing.
+func mosaic(cell: Vector2i, style: Dictionary) -> void:
+	var p: Vector3 = _point(cell)
+	var size: int = int(style.get("panel",6))
+	var c := Vector2i(floori(cell.x/16.0),floori(cell.y/16.0))
+	var local := Vector2i(posmod(c.x,size),posmod(c.y,size))
+	var panel := Vector2i(floori(float(c.x)/size),floori(float(c.y)/size))
+	var figure: int = posmod(panel.x*7+panel.y*13+panel.x*panel.y,4)
+	var stones: Array = style.get("stones",["8e8c82","9a978c","84827a","a4a196"])
+	var accents: Array = style.get("accents",["ece6d6","b8452f","3e3c38","5e7a4a"])
+	shapes.box(parent,p-Vector3(0,0.075,0),Vector3(0.51,0.12,0.51),String(style.get("bed","6a6658")))
+	for sy: int in 2:
+		for sx: int in 2:
+			var f := Vector2(local.x*2+sx+0.5,local.y*2+sy+0.5)-Vector2(size,size)
+			var tint: String = String(stones[(c.x*3+c.y*5+sx+sy*2+posmod(c.x*c.y,3))%stones.size()])
+			if not style.get("figures",true):
+				# Plain cobbles (entrance.c: 用鹅卵石铺成的小路): no panels, no figures.
+				pass
+			elif local.x==0 and sx==0 or local.y==0 and sy==0:
+				tint = String(accents[2])
+			else:
+				var r: float = f.length()/size
+				var a: float = f.angle()
+				match figure:
+					0, 1:
+						var lobes: float = 4.0 if figure==0 else 6.0
+						if r<0.2:
+							tint = String(accents[1])
+						elif r<0.62 and cos(a*lobes)>0.1+r*0.3:
+							tint = String(accents[0])
+						elif r>0.66 and r<0.8 and cos(a*lobes+PI)>0.6:
+							tint = String(accents[3])
+					2:
+						if r>0.42 and r<0.68:
+							tint = String(accents[0])
+						elif absf(f.x)<0.9 and absf(f.y)<0.9:
+							tint = String(accents[2])
+					_:
+						# A fish swimming across the panel: a body, a tail and an eye.
+						var body: float = pow(f.x/(size*0.55),2)+pow(f.y/(size*0.28),2)
+						if body<1.0 and f.x>-size*0.4:
+							tint = String(accents[1] if body>0.55 else accents[0])
+						elif f.x<-size*0.4 and f.x>-size*0.75 and absf(f.y)<(-f.x-size*0.4)*0.9:
+							tint = String(accents[1])
+						if absf(f.x-size*0.28)<0.6 and absf(f.y+0.5)<0.6:
+							tint = String(accents[2])
+			if rng.randf()<float(style.get("missing",0.03)):
+				continue
+			var at: Vector3 = p+Vector3((sx-0.5)*0.25+rng.randf_range(-0.02,0.02),-0.01+rng.randf_range(-0.01,0.008),(sy-0.5)*0.25+rng.randf_range(-0.02,0.02))
+			shapes.box(parent,at,Vector3(0.21,0.07,0.21),tint)
+
 ## Flagstones of random running lengths. Layout `ground`: {"style": "paving", "stones": [...],
 ## "worn": [...], "bed": hex, "moss": hex} gives a town its own stone (绮云镇's 青石).
 func paving(cell: Vector2i, cells: Dictionary[Vector2i,String], painted: Dictionary[Vector2i,bool], style: Dictionary = {}) -> void:

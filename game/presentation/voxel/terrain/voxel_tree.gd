@@ -5,7 +5,9 @@ extends RefCounted
 const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
 const PINES: Array[String] = ["pine","mountain_pine","old_pine","tall_pine","young_pine","stunted_pine"]
 ## Bark colours by species where they differ from the default brown.
-const BARKS: Dictionary = {"willow": ["6b5a46","5a4b3b"], "bamboo": ["6f8a44","7f9a50"], "locust": ["4f4234","5d4e3e"], "maple": ["5a4436","4a382c"]}
+const BARKS: Dictionary = {"willow": ["6b5a46","5a4b3b"], "bamboo": ["6f8a44","7f9a50"], "locust": ["4f4234","5d4e3e"], "maple": ["5a4436","4a382c"],
+	"plum": ["3a2a26","4a3630"], "crabapple": ["4e3a30","5c463a"], "apricot": ["4a3a32","5a463c"], "peach": ["4a3a32","5a463c"],
+	"osmanthus": ["5a4e40","6a5c4c"], "banana": ["6a8a48","7a9a52"]}
 var crowns: Dictionary[String, ArrayMesh] = {}
 var leaf_material: StandardMaterial3D
 ## Crown colours by species, dark to light (layout flora `crown_colors`); bark the same
@@ -16,7 +18,8 @@ var barks: Dictionary = {}
 ## Draws one tree into `parent`. With `crowns` (mesh -> Array of transforms) the crown is
 ## collected for a grove's shared MultiMesh instead of getting its own instance, and every
 ## box is placed by `frame`, so a whole grove batches by colour under one parent.
-func build(parent: Node3D, shapes: Shapes, species: String, variant: int, frame := Transform3D.IDENTITY, collect: Variant = null) -> void:
+## `colors`: this planting's own crown colours, dark to light (a white plum among red ones).
+func build(parent: Node3D, shapes: Shapes, species: String, variant: int, frame := Transform3D.IDENTITY, collect: Variant = null, colors: Array = []) -> void:
 	parent.set_meta("species",species)
 	# The forest pines come in three shapes each: a forest of them batches into few crowns.
 	if species in ["old_pine","tall_pine","young_pine","stunted_pine"]:
@@ -26,7 +29,7 @@ func build(parent: Node3D, shapes: Shapes, species: String, variant: int, frame 
 		_dead(parent,shapes,variant)
 		shapes.frame = Transform3D.IDENTITY
 		return
-	var crown: ArrayMesh = _crown(species,variant)
+	var crown: ArrayMesh = _crown(species,variant,colors)
 	if collect is Dictionary:
 		var grove: Dictionary = collect
 		if not grove.has(crown):
@@ -43,6 +46,8 @@ func build(parent: Node3D, shapes: Shapes, species: String, variant: int, frame 
 		"tall_pine": _tall_pine_wood(parent,shapes,variant)
 		"willow": _willow_wood(parent,shapes,variant)
 		"bamboo": _bamboo_wood(parent,shapes,variant)
+		"plum", "crabapple", "osmanthus", "apricot", "peach": _blossom_wood(parent,shapes,species,variant)
+		"banana": _banana_wood(parent,shapes,variant)
 		"young_pine":
 			shapes.box(parent,Vector3(0,0.5,0),Vector3(0.14,1.0,0.15),_bark(species,0))
 		"stunted_pine":
@@ -86,10 +91,14 @@ func _greens(species: String, fallback: Array[String]) -> Array[String]:
 		result.append(String(hex))
 	return result
 
-func _crown(species: String, variant: int) -> ArrayMesh:
-	var key: String = species+str(variant)
+func _crown(species: String, variant: int, colors: Array = []) -> ArrayMesh:
+	var key: String = species+str(variant)+",".join(colors)
 	if crowns.has(key):
 		return crowns[key]
+	var own: Dictionary = palettes
+	if not colors.is_empty():
+		palettes = palettes.duplicate()
+		palettes[species] = colors
 	var surface := VoxelCellSurface.new()
 	var random := RandomNumberGenerator.new()
 	random.seed = 491+variant*73
@@ -182,8 +191,106 @@ func _crown(species: String, variant: int) -> ArrayMesh:
 			for tuft: int in 5:
 				var angle: float = tuft*1.3+variant
 				surface.ellipsoid(Vector3(cos(angle)*0.35,2.2+tuft*0.45,sin(angle)*0.3),Vector3(0.45,0.32,0.4),green,tuft+variant)
+		"plum":
+			# 梅: no leaves, only bloom — small clusters along crooked bare limbs.
+			surface.cell_size = 0.2
+			green = _greens(species,["7a2236","a83450","d0587a","f0a0b8"])
+			for spray: Array in _plum_sprays(variant):
+				surface.ellipsoid(spray[0],spray[1],green,variant+int(spray[0].y*9))
+		"crabapple":
+			# 西府海棠: 其势若伞, 丝垂翠缕, 葩吐丹砂 — a broad umbrella of green and red-pink bloom.
+			surface.cell_size = 0.22
+			green = _greens(species,["4f6e3a","c0485a","e07a8a","f6b4c0"])
+			for lobe: int in 6:
+				var angle: float = lobe*TAU/6.0+variant*0.5
+				surface.ellipsoid(Vector3(cos(angle)*1.05,2.75+0.12*sin(lobe*1.7),sin(angle)*0.95),Vector3(0.82,0.42,0.78),green,lobe+variant)
+			surface.ellipsoid(Vector3(0,3.05,0),Vector3(1.0,0.45,0.95),green,variant+9)
+		"osmanthus":
+			# 桂: a dense rounded evergreen head (its gold flecks of flower: `_blossom_wood`).
+			green = _greens(species,["24442c","2e5434","3c6a3e","4e7c48"])
+			for lobe: int in 5:
+				var angle: float = lobe*1.25+variant
+				surface.ellipsoid(Vector3(cos(angle)*0.6,2.05+random.randf_range(-0.15,0.4),sin(angle)*0.55),Vector3(0.95,0.85,0.9),green,variant+lobe)
+		"apricot", "peach":
+			# 杏 (pink-white, 如喷火蒸霞) and 桃 (deeper pink): a cloud of bloom on bare twigs.
+			var bloom: Array[String] = ["b07888","d8a2ae","efc8ce","fbecec"]
+			if species=="peach":
+				bloom.assign(["a84a6a","cc7090","e898b0","f6c4d2"])
+			green = _greens(species,bloom)
+			for lobe: int in 5:
+				var angle: float = lobe*1.5+variant*0.6
+				surface.ellipsoid(Vector3(cos(angle)*0.8,2.4+lobe*0.12,sin(angle)*0.7),Vector3(0.78,0.6,0.74),green,lobe+variant)
+		"banana":
+			# 芭蕉: the furled new leaf at the top (the broad leaves are drawn with the stem).
+			surface.cell_size = 0.2
+			green = _greens(species,["4f7a36","5f8c3e","78a24c","98b85e"])
+			surface.ellipsoid(Vector3(0,2.3,0),Vector3(0.22,0.5,0.22),green,variant)
 	crowns[key] = surface.mesh()
+	palettes = own
 	return crowns[key]
+
+## A 梅's sprays of bloom: at the ends and middles of its limbs (`_blossom_wood` draws them).
+static func _plum_sprays(variant: int) -> Array:
+	var sprays: Array = []
+	for limb: Array in _limbs("plum",variant):
+		var from: Vector3 = limb[0]
+		var tip: Vector3 = limb[1]
+		sprays.append([tip,Vector3(0.42,0.3,0.4)])
+		sprays.append([(from+tip)*0.5+Vector3(0,0.12,0),Vector3(0.3,0.22,0.3)])
+	return sprays
+
+## The limbs of a flowering tree, [from, to]: a 梅's few and crooked, the others spreading.
+static func _limbs(species: String, variant: int) -> Array:
+	var random := RandomNumberGenerator.new()
+	random.seed = 613+variant*41
+	var crooked: bool = species=="plum"
+	var count: int = 5 if crooked else 4
+	var fork := Vector3(0.18*sin(variant),1.3 if crooked else 1.7,0.1*cos(variant))
+	var limbs: Array = []
+	for i: int in count:
+		var a: float = i*TAU/count+variant*0.7+random.randf_range(-0.3,0.3)
+		var reach: float = random.randf_range(0.7,1.3) if crooked else random.randf_range(0.6,0.9)
+		var rise: float = random.randf_range(0.5,1.4) if crooked else random.randf_range(0.6,0.9)
+		limbs.append([fork,fork+Vector3(cos(a)*reach,rise,sin(a)*reach)])
+	return limbs
+
+## The trunk and limbs of a flowering tree: a 梅 old, dark and crooked; the others straighter.
+func _blossom_wood(parent: Node3D, shapes: Shapes, species: String, variant: int) -> void:
+	var crooked: bool = species=="plum"
+	var lean: float = (0.22 if variant%2==0 else -0.18) if crooked else (0.08 if variant%2==0 else -0.06)
+	var fork: float = 1.3 if crooked else 1.7
+	shapes.tilted_box(parent,Vector3(0,fork/2,0),Vector3(0.26,fork+0.1,0.28),_bark(species,0),Vector3(0,0,-lean*0.5))
+	for limb: Array in _limbs(species,variant):
+		var from: Vector3 = limb[0]
+		var along: Vector3 = (limb[1] as Vector3)-from
+		var axis: Vector3 = Vector3.UP.cross(along.normalized())
+		var tilt: Vector3 = Vector3.ZERO if axis.length()<0.001 else Basis(axis.normalized(),Vector3.UP.angle_to(along)).get_euler()
+		shapes.tilted_box(parent,from+along/2,Vector3(0.1,along.length(),0.1),_bark(species,1),tilt)
+	if species=="osmanthus":
+		# 碧海银花: tiny gold flowers in clusters over the dark leaves.
+		var random := RandomNumberGenerator.new()
+		random.seed = 977+variant*29
+		for i: int in 22:
+			var a: float = random.randf()*TAU
+			var up: float = random.randf_range(0.1,0.9)
+			var at := Vector3(cos(a)*sqrt(1.0-up*up),up,sin(a)*sqrt(1.0-up*up))*Vector3(1.25,0.95,1.15)+Vector3(0,2.25,0)
+			shapes.box(parent,at,Vector3(0.12,0.1,0.12),"e8c25a" if i%3 else "f2dc8a")
+	if species=="crabapple":
+		# 丝垂翠缕: short green threads hanging from the rim of the umbrella, a flower here and there.
+		for i: int in 16:
+			var a: float = i*TAU/16.0+variant*0.4
+			shapes.box(parent,Vector3(cos(a)*1.55,2.25,sin(a)*1.4),Vector3(0.05,0.7,0.05),"6f8f44" if i%3 else "e07a8a")
+
+## 芭蕉: a green stem and broad leaves arching out and down from its top.
+func _banana_wood(parent: Node3D, shapes: Shapes, variant: int) -> void:
+	shapes.box(parent,Vector3(0,0.9,0),Vector3(0.3,1.8,0.3),_bark("banana",0))
+	var leaves: Array[String] = _greens("banana_leaves",["5f8c3e","6f9a46","86ae54"])
+	for i: int in 6:
+		var a: float = i*TAU/6.0+variant*0.5
+		var out := Vector3(cos(a),0,sin(a))
+		var droop: float = 0.35+0.15*(i%2)
+		# Each leaf turned to point along `out` (yaw), its tip drooping (roll before the turn).
+		shapes.tilted_box(parent,Vector3(0,1.95,0)+out*0.75,Vector3(1.3,0.05,0.5),leaves[i%leaves.size()],Vector3(0,-a,-droop))
 
 ## An old pine's crooked trunk, its limbs and the needle pads at their ends, the same for
 ## every planting of a variant (the crown mesh is cached; the wood is drawn each time).

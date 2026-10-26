@@ -264,6 +264,66 @@
 			],
 			"count": 3,
 			"scatter": ["paper", "dust"], "spread": 0.05
+		},
+		"confinement": {
+			"walls": "plaster", "grime": 0.5,
+			"hangings": [], "hang": 0.0,
+			"pieces": [
+				{"kind": "clutter", "size": [32, 32], "items": ["bucket"]}
+			],
+			"count": 1,
+			"scatter": ["dust", "straw"], "spread": 0.06
+		},
+		"dining": {
+			"walls": "plaster", "grime": 0.3,
+			"hangings": ["wall_scroll:landscape", "wall_lamp", "couplet", "wall_scroll:calligraphy"], "hang": 0.14,
+			"tables": ["meal", "wine"],
+			"pieces": [
+				{"kind": "wine_jars", "size": [48, 32]},
+				{"kind": "crocks", "size": [32, 32]},
+				{"kind": "chest_stack", "size": [32, 32]}
+			],
+			"count": 2,
+			"scatter": ["grains", "shreds"], "spread": 0.03
+		},
+		"kitchen": {
+			"walls": "brick", "grime": 0.75,
+			"hangings": ["string_hang:garlic", "string_hang:chili", "tool_hooks", "wall_shelf", "string_hang:corn"], "hang": 0.3,
+			"tables": ["meal"],
+			"pieces": [
+				{"kind": "firewood", "size": [48, 32]},
+				{"kind": "crocks", "size": [32, 32]},
+				{"kind": "sacks", "size": [32, 32], "cloth": "a8946a"},
+				{"kind": "baskets", "size": [32, 32]},
+				{"kind": "clutter", "size": [32, 32], "items": ["bucket", "broom", "basket"]},
+				{"kind": "wine_jars", "size": [48, 32]}
+			],
+			"count": 5,
+			"scatter": ["husks", "ash", "grains", "chips"], "spread": 0.08
+		},
+		"dance_hall": {
+			"walls": "plaster", "grime": 0.25,
+			"hangings": ["wall_scroll:landscape", "wall_scroll:calligraphy", "banner_cloth", "wall_lamp"], "hang": 0.14,
+			"tables": ["tea_used"],
+			"pieces": [
+				{"kind": "crocks", "size": [32, 32], "scrolls": true},
+				{"kind": "clutter", "size": [32, 32], "items": ["cups", "bundle"]},
+				{"kind": "chest_stack", "size": [32, 32]}
+			],
+			"count": 2,
+			"scatter": ["shreds"], "spread": 0.03
+		},
+		"dressing_room": {
+			"walls": "boards", "grime": 0.3,
+			"hangings": ["clothes_peg", "clothes_peg", "wall_shelf", "wall_lamp"], "hang": 0.25,
+			"tables": ["sewing"],
+			"pieces": [
+				{"kind": "baskets", "size": [32, 32], "sewing": true},
+				{"kind": "clutter", "size": [32, 32], "items": ["bucket", "sandals", "bundle"]},
+				{"kind": "chest_stack", "size": [32, 32]}
+			],
+			"count": 3,
+			"scatter": ["shreds"], "spread": 0.04
 		}
 	}
 }

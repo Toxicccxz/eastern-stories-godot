@@ -227,7 +227,32 @@ func _screen_wall(w: float, d: float) -> void:
 			s.box(root,Vector3(t,height+0.1,side*0.18) if along_x else Vector3(side*0.18,height+0.1,t),Vector3(0.38,0.12,0.4) if along_x else Vector3(0.4,0.12,0.38),tint.lightened((i%3)*0.03).to_html(false))
 	s.box(root,Vector3(0,height+0.26,0),Vector3(length+0.5,0.16,0.2) if along_x else Vector3(0.2,0.16,length+0.5),tint.darkened(0.1).to_html(false))
 	var panel := Vector3(0,height*0.55,0.21) if along_x else Vector3(0.21,height*0.55,0)
-	s.box(root,panel,Vector3(minf(length*0.45,1.4),minf(height*0.5,1.2),0.04) if along_x else Vector3(0.04,minf(height*0.5,1.2),minf(length*0.45,1.4)),String(data.get("panel","8a8d82")))
+	var face := Vector2(minf(length*0.45,1.4),minf(height*0.5,1.2))
+	if data.get("mural",false) or data.get("cranes",false):
+		face = Vector2(length*0.84,height*0.68)
+	s.box(root,panel,Vector3(face.x,face.y,0.04) if along_x else Vector3(0.04,face.y,face.x),String(data.get("panel","8a8d82")))
+	var out := Vector3(0,0,1) if along_x else Vector3(1,0,0)
+	var across := Vector3(1,0,0) if along_x else Vector3(0,0,1)
+	if data.get("mural",false):
+		# latemoon5.c: 一幅大石壁画 — figures and hills carved in relief, standing proud of the face.
+		var tones: Array = _colors("relief",["c8c2b2","b0a998","d4cfc2","9e9888"])
+		for i: int in roundi(face.x*6):
+			var t: float = rng.randf_range(-0.45,0.45)*face.x
+			var y: float = panel.y+rng.randf_range(-0.42,0.38)*face.y
+			var size := Vector3(rng.randf_range(0.08,0.3),rng.randf_range(0.08,0.4),0.05)
+			s.box(root,panel+across*t+Vector3(0,y-panel.y,0)+out*0.04,Vector3(size.x,size.y,size.z) if along_x else Vector3(size.z,size.y,size.x),_pick(tones))
+	if data.get("cranes",false):
+		# uproom.c: 琉璃鹤照壁 — white cranes on the glazed face, red-crowned, a pine bough by them.
+		for i: int in 3:
+			var t: float = (i-1)*face.x*0.3
+			var y: float = panel.y+(0.1 if i%2 else -0.2)
+			var at: Vector3 = panel+across*t+Vector3(0,y-panel.y,0)+out*0.05
+			s.box(root,at,Vector3(0.36,0.2,0.04) if along_x else Vector3(0.04,0.2,0.36),"f4f2ec")
+			s.box(root,at+across*0.2+Vector3(0,0.2,0),Vector3(0.06,0.32,0.04) if along_x else Vector3(0.04,0.32,0.06),"f4f2ec")
+			s.box(root,at+across*0.22+Vector3(0,0.38,0),Vector3(0.08,0.06,0.04) if along_x else Vector3(0.04,0.06,0.08),"c8382a")
+			s.box(root,at-across*0.2,Vector3(0.14,0.12,0.04) if along_x else Vector3(0.04,0.12,0.14),"2a2a2a")
+			for leg: float in [-0.04,0.06]:
+				s.box(root,at+across*leg-Vector3(0,0.24,0),Vector3(0.025,0.3,0.03) if along_x else Vector3(0.03,0.3,0.025),"2a2a2a")
 	if data.has("text"):
 		var title := Label3D.new()
 		title.text = TranslationServer.translate(String(data["text"]))
@@ -275,6 +300,11 @@ func _balustrade(w: float, d: float) -> void:
 		var at: Vector3 = Vector3(t,0,0) if along_x else Vector3(0,0,t)
 		s.box(root,at+Vector3(0,height/2+0.06,0),Vector3(0.13,height,0.13),String(colors[0]))
 		s.box(root,at+Vector3(0,height+0.14,0),Vector3(0.1,0.11,0.1),String(colors[1]))
+		if data.get("peacocks",false):
+			# bridge2.c: 二十个望柱头上各有一小孔雀 — a little peacock on each post, its tail down.
+			s.box(root,at+Vector3(0,height+0.27,0),Vector3(0.08,0.12,0.12),"2f6a70")
+			s.box(root,at+Vector3(0,height+0.37,0.04),Vector3(0.04,0.08,0.04),"3a7a8a")
+			s.box(root,at+Vector3(0,height+0.2,-0.1),Vector3(0.1,0.04,0.14),"4a8a5a")
 		if i<count:
 			var mid: Vector3 = at+(Vector3(length/count/2,0,0) if along_x else Vector3(0,0,length/count/2))
 			s.box(root,mid+Vector3(0,height*0.45+0.06,0),_along(along_x,length/count-0.17,height*0.5,0.06),String(colors[2]))
@@ -323,6 +353,14 @@ func _post(height: float, column: String, outdoor: bool) -> void:
 		s.box(root,Vector3(cos(head)*0.38,top+0.06,sin(head)*0.38),Vector3(0.1,0.1,0.1),String(scales[1 % scales.size()]))
 		s.box(root,Vector3(0,0.37+height+0.06,0),Vector3(0.52,0.12,0.52),String(scales[0]))
 		s.box(root,Vector3(0,0.37+height+0.2,0),Vector3(0.36,0.16,0.36),String(data.get("band","c9a24a")))
+	if data.has("clouds"):
+		# 白石嵌云柱: scrolls of cloud set in the white shaft (`clouds` their colours), a capital.
+		var tones: Array = data["clouds"]
+		for i: int in 9:
+			var a: float = i*2.4
+			var y: float = 0.6+i*height*0.09
+			s.box(root,Vector3(cos(a)*0.16,y,sin(a)*0.16),Vector3(0.18,0.1,0.12) if i%2 else Vector3(0.12,0.1,0.18),String(tones[i%tones.size()]))
+		s.box(root,Vector3(0,0.37+height+0.05,0),Vector3(0.44,0.1,0.44),String(tones[0]))
 
 ## 院墙: a long wall round a compound (`height`), plaster over a course of rough stone, capped
 ## with tiles (`roof`); old: the plaster stained and flaked in places to the brick (`wear`),

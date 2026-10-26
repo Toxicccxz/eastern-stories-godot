@@ -1,0 +1,100 @@
+{
+  "indoor": false,
+  "camera_size": 24,
+  "note": "湘园 (latemoon/park): the forecourt by the rockery pool and its fish, the moon gate, the white rockery screen, willows and the 西府海棠, the rockery tunnel with its banana plants, the osmanthus garden and its pebble paths of many figures, 紫翎小轩 and 暖香榭, the pond with 沁芳桥, 朱栏板桥, 翠嫣桥 of white jade and its peacocks, 沁芳亭 under purple glaze, 稻香榭 of thatch and mud walls among the apricots, the path between bamboo to the back gate.",
+  "low_walls": [[816, 640, 1248, 672], [1216, 336, 1248, 672], [0, 1936, 384, 1968], [352, 1536, 384, 1968], [1248, 1936, 1680, 1968], [1648, 1536, 1680, 1968]],
+  "low_walls_left": [[816, 640, 1248, 672], [816, 336, 848, 672], [0, 1936, 384, 1968], [0, 1536, 32, 1968], [1248, 1936, 1680, 1968], [1248, 1536, 1280, 1968]],
+  "edge": {"minimum_margin": 32, "maximum_margin": 72, "depth": 3.0, "top": "4a6a3a", "bottom": "3a4034", "strata": ["6d7466", "777e6f", "636a5d"]},
+  "palette": {"wall": "ece8de"},
+  "wall_looks": [
+    {"rect": [816, 336, 1248, 672], "style": "plaster", "wall": "ece8de", "grime": 0.25, "note": "moonc.c: 粉墙"},
+    {"rect": [0, 1536, 384, 1968], "style": "plaster", "wall": "f2f0ea", "grime": 0.1, "note": "moroom.c: 房内雪洞一般"},
+    {"rect": [1648, 1536, 1680, 1968], "style": "rock", "colors": ["8a8676", "96927e", "7e7a6a", "a09a86"], "note": "moon4.c: 依岩为屋"},
+    {"rect": [1248, 2688, 1680, 2736], "style": "plaster", "wall": "e2ded2", "grime": 0.4, "note": "the garden's south wall"}
+  ],
+  "light": {
+    "sky": ["b8d0d6", "0e1624"],
+    "ambient": ["d4dccc", "6a7ca6"],
+    "ambient_energy": [0.46, 0.32],
+    "sun": ["fff0d4", "a0b8ec"],
+    "sun_energy": [0.92, 0.34]
+  },
+  "ground": {
+    "path": {"style": "mosaic", "panel": 6, "stones": ["8e8c82", "9a978c", "84827a", "a4a196"], "accents": ["ece6d6", "b8452f", "3e3c38", "5e7a4a"], "bed": "5a5850", "missing": 0.03, "note": "moon2.c: 湘园的桂花小径是以不同颜色的细石砌成各种图案…总计花石子路上约有二百幅"},
+    "street": {"style": "slabs", "lengths": [1, 2], "depths": [1, 1], "cracks": 0.08, "broken": 0.03, "sunk": 0.01, "tufts": 0.02, "stones": ["7e8a8c", "889496", "74807f", "8e9a98"], "worn": ["96a09c", "8c9894"], "bed": "4e5654", "joint": 0.04, "mud": "6e6a5a", "crack": "5e6866", "moss": "5a7a4a", "moss_chance": 0.06, "note": "yard1: the stone way from the front garden"},
+    "bridge": {"style": "slabs", "lengths": [1, 3], "depths": [1, 1], "cracks": 0.08, "broken": 0.03, "sunk": 0.01, "tufts": 0.02, "stones": ["6e7c80", "788688", "66747a", "7e8a8a"], "worn": ["96a09c", "8c9894"], "bed": "4e5654", "joint": 0.04, "mud": "6e6a5a", "crack": "5e6866", "moss": "5a7a4a", "moss_chance": 0.06, "note": "bridge2.c: 青石桥面"},
+    "floor_yard": {"style": "slabs", "lengths": [1, 2], "depths": [1, 1], "cracks": 0.05, "broken": 0.02, "sunk": 0.0, "tufts": 0.02, "stones": ["e6e4dc", "dcdad0", "eeece4"], "worn": ["d0cec4", "c8c6bc"], "bed": "a8a69c", "joint": 0.04, "mud": "b0aa98", "crack": "b8b4a8", "note": "the pavilion's white stone floor"},
+    "cave_floor": {"style": "scree", "colors": ["8e8a7c", "9a9686", "848072", "a6a290"], "note": "moon1.c: the floor of the rockery tunnel"},
+    "grass": {"colors": ["4a6a3a", "527444", "5c7e48"]},
+    "floor_wood": {"colors": ["8a6a48", "947250", "84643e", "9a7a56"], "note": "the little rooms boards"},
+    "boundary": {"colors": ["3e5a32", "466238", "4e6a3c"]},
+    "forest": {"style": "litter", "colors": ["4a5a36", "52623a", "5a6a40"], "needles": ["7a8a4a", "8a9a52", "6a7a42"], "strew": 0.35, "moss": 0.5, "moss_colors": ["4d6a3c", "5d7a45", "6a8650"]}
+  },
+  "water": {"kinds": {"water": {"colors": ["7aa8a4", "5a8e8c", "3e7072"], "depth": 96, "clear": true, "flow": [0.1, 0.2], "speed": 0.15, "sky": 0.3}}},
+  "flora": {
+    "grass_density": 0.9,
+    "grass_colors": ["3f5a33", "4f6c3c", "628048", "78924f"],
+    "flower_colors": ["e8a0b4", "f2e6c8", "c8342c", "f4d47a", "b890d0"],
+    "flower_threshold": 0.05,
+    "blossom_trees": 0.0,
+    "tree_types": ["bamboo", "willow", "broadleaf", "bamboo", "osmanthus"],
+    "tree_kinds": ["forest", "boundary"],
+    "tree_chance": 0.75,
+    "tree_spacing": 56,
+    "wind": 0.14,
+    "butterflies": 8,
+    "petals": ["f2a6b8", "fbe8ec", "f4d47a"],
+    "areas": [{"rect": [1232, 1952, 1700, 2760], "tree_types": ["bamboo"], "tree_chance": 0.95, "tree_spacing": 40, "note": "paroad1.c: 两边翠竹夹路, 土地下苍苔布满; 凤尾森森, 龙吟细细"}, {"rect": [360, 1952, 832, 2420], "tree_types": ["apricot", "broadleaf", "apricot"], "tree_chance": 0.8, "note": "paroad2.c: 有几百株杏花; 外面却是桑、榆、槿、杉各色树木新条"}, {"rect": [360, 650, 832, 1980], "tree_types": ["osmanthus"], "tree_chance": 0.9, "tree_spacing": 48, "note": "moon5.c: 园内种植桂花树十万多株"}]
+  },
+  "buildings": [
+    {"rect": [400, 1984, 560, 2096], "doors": [[544, 2040]], "note": "paroad2.c: 里面数楹茅屋", "construction": "plaster", "wall": "b8a07a", "timber": "6a5236", "height": 2.4, "roof_form": "gable", "ridge": "x", "rise": 1.2, "eave_lift": 0.0, "roof": "9a8a58", "roof_tiles": "thatch", "straw": ["b09a5a", "c0aa66", "a08c50", "c8b270"], "porch": "none", "doorway": "shut", "goods": "none", "lanterns": false},
+    {"rect": [400, 2128, 512, 2224], "doors": [[496, 2176]], "construction": "plaster", "wall": "b09870", "timber": "6a5236", "height": 2.2, "roof_form": "gable", "ridge": "y", "rise": 1.0, "eave_lift": 0.0, "roof": "9a8a58", "roof_tiles": "thatch", "straw": ["b09a5a", "c0aa66", "a08c50"], "porch": "none", "doorway": "shut", "goods": "none", "lanterns": false}
+  ],
+  "props": [
+    {"kind": "pavilion_roof", "at": [1040, 1760], "size": [272, 272], "elevation": 2.95, "occludes": true, "roof": "5a3a7a:gloss", "timber": "a8382a", "frieze": "2f6a70", "rise": 2.8, "overhang": 0.8, "bells": true, "finial": "c9a24a", "note": "pavilion1.c: 钻尖式紫琉璃瓦顶 — 沁芳亭 on its island"},
+    {"kind": "hanging_lantern", "at": [960, 1760], "elevation": -0.5, "paper": "d8452f:glow", "flicker": 0.05},
+    {"kind": "hanging_lantern", "at": [1104, 1760], "elevation": -0.5, "paper": "d8452f:glow", "flicker": 0.05},
+    {"kind": "balustrade", "at": [952, 1320], "size": [16, 432], "wooden": true, "colors": ["7a5a3a", "8a6a46", "6a4e32"], "kerb": "5a4a3a", "note": "bridge1.c: 扶著藤栏过去 — 沁芳桥"},
+    {"kind": "balustrade", "at": [952, 1592], "size": [16, 112], "wooden": true, "colors": ["7a5a3a", "8a6a46", "6a4e32"], "kerb": "5a4a3a"},
+    {"kind": "balustrade", "at": [952, 1920], "size": [16, 96], "wooden": true, "colors": ["7a5a3a", "8a6a46", "6a4e32"], "kerb": "5a4a3a"},
+    {"kind": "balustrade", "at": [1128, 1320], "size": [16, 432], "wooden": true, "colors": ["7a5a3a", "8a6a46", "6a4e32"], "kerb": "5a4a3a", "note": null},
+    {"kind": "balustrade", "at": [1128, 1592], "size": [16, 112], "wooden": true, "colors": ["7a5a3a", "8a6a46", "6a4e32"], "kerb": "5a4a3a"},
+    {"kind": "balustrade", "at": [1128, 1920], "size": [16, 96], "wooden": true, "colors": ["7a5a3a", "8a6a46", "6a4e32"], "kerb": "5a4a3a"},
+    {"kind": "balustrade", "at": [1368, 1320], "size": [16, 432], "wooden": true, "note": "bridge3.c: 朱红玉石为栏 — 朱栏板桥"},
+    {"kind": "balustrade", "at": [1544, 1320], "size": [16, 432], "wooden": true, "note": null},
+    {"kind": "balustrade", "at": [952, 2040], "size": [16, 144], "jade": true, "peacocks": true, "note": "bridge2.c: 汉白玉雕石栏杆, 二十个望柱头上各有一小孔雀 — 翠嫣桥"},
+    {"kind": "balustrade", "at": [1128, 2040], "size": [16, 144], "jade": true, "peacocks": true, "note": null},
+    {"kind": "balustrade", "at": [888, 2104], "size": [144, 16], "jade": true, "peacocks": true},
+    {"kind": "balustrade", "at": [1184, 2104], "size": [128, 16], "jade": true, "peacocks": true},
+    {"kind": "balustrade", "at": [1032, 2280], "size": [432, 16], "jade": true, "peacocks": true},
+    {"kind": "stains", "at": [1032, 1300], "size": [400, 400], "count": 30, "colors": ["f2a6b8", "fbe8ec", "e8a0b4", "f4d47a"], "elevation": -0.1},
+    {"kind": "stains", "at": [1176, 192], "size": [64, 112], "count": 5, "colors": ["e8742a", "f29a3a", "e8e4dc"], "elevation": -0.1, "note": "yard1.c: 池中几尾小鱼自在的游来游去"},
+    {"kind": "moon_gate", "at": [1040, 352], "size": [128, 16], "colors": ["e8e4da", "dcd8cc", "f0ece2"], "cap": "4e585c", "note": "moonc.c: 穿过一层竹篱、花嶂编的月洞门"},
+    {"kind": "fence", "at": [808, 168], "size": [16, 336], "note": "yard1.c: 假山外隔著围篱"},
+    {"kind": "fence", "at": [1256, 168], "size": [16, 336], "note": null},
+    {"kind": "closed_door", "at": [1456, 2712], "size": [160, 16], "note": "moondoor.c: 这有一个木制的小门"},
+    {"kind": "overhang", "at": [1330, 760], "size": [160, 64], "height": 2.6, "count": 5, "note": "moon1.c: 长廊曲洞, 蜿蜒盘旋"},
+    {"kind": "overhang", "at": [1550, 960], "size": [64, 160], "height": 2.5, "count": 5},
+    {"kind": "vines", "at": [240, 1570], "size": [96, 16], "count": 6, "height": 3.0, "wall_mounted": true, "note": "moroom.c: 那些奇草仙藤, 越冷越苍翠"},
+    {"kind": "window", "at": [34, 1744], "rotation": 90, "size": [64, 16]},
+    {"kind": "hanging_lantern", "at": [192, 1752]},
+    {"kind": "window", "at": [1282, 1744], "rotation": 90, "size": [64, 16], "note": "moon4.c: 往西面望去, 水底亭台, 历历可鉴"},
+    {"kind": "prayer_cushion", "at": [1400, 1680], "size": [32, 32]},
+    {"kind": "wall_scroll", "at": [1560, 1570], "size": [40, 8], "calligraphy": true},
+    {"kind": "hanging_lantern", "at": [1464, 1752], "flicker": 0.05},
+    {"kind": "hanging_lantern", "at": [1456, 2664], "elevation": -0.4, "flicker": 0.08}
+  ],
+  "ambience": {
+    "birds": [{"at": [1032, 1600], "radius": 300, "count": 4, "height": 7.0, "color": "3a3029", "note": "over the pond"}],
+    "fall": [{"rect": [400, 1980, 820, 2400], "count": 18, "height": 3.0, "colors": ["f2d2d6", "fbecec", "d8a2ae"], "wind": [0.2, 0.1], "note": "paroad2.c: 杏花如喷火蒸霞一般"}, {"rect": [380, 680, 820, 1960], "count": 16, "height": 2.8, "colors": ["d8b04a", "e8c860"], "wind": [0.15, 0.1], "note": "moon5.c: 碧海银花, 清香阵阵"}, {"rect": [830, 680, 1240, 1100], "count": 10, "height": 3.0, "colors": ["e07a8a", "f6b4c0"], "wind": [0.2, 0.05], "note": "the 西府海棠"}]
+  },
+  "actors": {
+    "default": {"coat": "b87a9a"},
+    "latemoon.npc.park.bird": {"body": "flyer", "scale": 0.5, "wings": ["e8c84a", "d8a83a"], "hover": 1.6},
+    "latemoon.npc.park.rabbit": {"animal": true, "fur": ["f2f0ea", "e8e4dc", "d8d2c8"], "scale": 0.45},
+    "latemoon.npc.park.dodo1": {"animal": true, "fur": ["d8b04a", "c8a03a", "b8902a"], "tail": true, "scale": 0.35},
+    "latemoon.npc.park.flwgirl": {"coat": "e8c860"},
+    "latemoon.npc.park.shiren": {"coat": "7aa8c0"}
+  },
+  "entrances": {"latemoon.park.yard1.north": {"title": "前庭"}, "latemoon.park.moondoor.south": {"title": "山路"}}
+}

@@ -1,0 +1,74 @@
+{
+  "indoor": false,
+  "camera_size": 24,
+  "note": "Outside the back gate (sroad1-5.c, bamboo*.c): the narrow path through waist-high grass, under the cliff, east along it and south past the slope with the tunnel to 山烟寺; then the bamboo grove of five clearings, each the same as every other.",
+  "edge": {"minimum_margin": 32, "maximum_margin": 80, "depth": 3.0, "top": "4a6a3a", "bottom": "3a4034", "strata": ["6d7466", "777e6f", "636a5d"]},
+  "light": {
+    "sky": ["b8d0d0", "0e1624"],
+    "ambient": ["d0dcc8", "6a7ca6"],
+    "ambient_energy": [0.46, 0.32],
+    "sun": ["fff2d8", "a0b8ec"],
+    "sun_energy": [0.92, 0.34],
+    "carried": {"color": "ffd9a0", "range": 5.0, "attenuation": 1.2, "day": 0.0, "night": 0.6}
+  },
+  "cliffs": {
+    "low": 1.2,
+    "high": 4.6,
+    "rise": 200,
+    "step": 0.5,
+    "rough": 0.45,
+    "keep": 160,
+    "trim": ["cliff"],
+    "grooves": 0.06,
+    "strata": ["6e6a5a", "7a7664", "86806c", "928c76", "6a6656"],
+    "tops": ["4e6a3a", "587444", "62804a"],
+    "moss": {"colors": ["4d6a3c", "5d7a45", "6a8650"], "amount": 0.35},
+    "note": "sroad2.c: 本来向北走的小径被一道峭壁挡住了; sroad5.c: 东面是一处陡坡"
+  },
+  "reshape": [
+    {"rect": [384, 96, 1040, 208], "from": ["forest", "grass"], "to": "cliff", "note": "sroad2.c: 本来向北走的小径被一道峭壁挡住了; sroad3.c"},
+    {"rect": [1344, 432, 1472, 720], "from": ["forest"], "to": "cliff", "note": "sroad5.c: 在你的东面是一处陡坡 — the tunnel in it"}
+  ],
+  "exit_trails": {"latemoon.sroad1.north": {"cells": 8, "kind": "path", "width": 9}, "note": "the path runs on north to the garden's back gate"},
+  "ground": {
+    "path": {"colors": ["8a7a5a", "94845e", "7e7052"], "note": "a beaten earth path"},
+    "grass": {"colors": ["4e6e3a", "58783f", "628246"]},
+    "forest": {"style": "litter", "colors": ["56603a", "5e6a3e", "667244"], "needles": ["9aa05a", "a8ac62", "8a9050"], "strew": 0.5, "moss": 0.3, "moss_colors": ["4d6a3c", "5d7a45"]},
+    "forest_floor": {"style": "litter", "colors": ["6a6a44", "727248", "7a7a4e"], "needles": ["a8a862", "b4b26a", "9a9a5a"], "strew": 0.6, "moss": 0.2, "moss_colors": ["5d7a45", "6a8650"], "note": "bamboo*.c: fallen bamboo leaves in the clearings"}
+  },
+  "flora": {
+    "grass_density": 0.95,
+    "grass_colors": ["3f5a33", "4f6c3c", "628048", "7a9450"],
+    "flower_colors": ["f2e6c8", "e8c84a", "b890d0", "e8a0b4"],
+    "flower_threshold": 0.12,
+    "blossom_trees": 0.0,
+    "tree_types": ["bamboo"],
+    "tree_kinds": ["forest"],
+    "tree_chance": 0.95,
+    "tree_spacing": 40,
+    "wind": 0.22,
+    "butterflies": 6,
+    "bands": [{"within": 32, "types": ["shrub"]}, {"within": 400, "types": ["bamboo"]}],
+    "south_reach": 3.0,
+    "areas": [{"rect": [0, 0, 1664, 720], "tree_types": ["broadleaf", "shrub", "bamboo", "locust", "shrub"], "tree_chance": 0.7, "tree_spacing": 64, "bands": [{"within": 24, "types": ["shrub"]}, {"within": 96, "types": ["shrub", "bamboo", "shrub"]}, {"within": 400, "types": ["broadleaf", "locust", "bamboo"]}], "south_reach": 4.0, "note": "sroad2.c: 在你的西边是一片杂草和几棵小树; low growth by the path so it shows"}],
+    "meadows": [{"rect": [64, 64, 1344, 720], "on": ["grass"], "scale": [1.5, 2.1], "density": 0.8, "note": "sroad1.c: 小径的两旁是半个人高的杂草"}]
+  },
+  "props": [
+    {"kind": "cave_mouth", "at": [1344, 576], "size": [64, 160], "rotation": -90, "height": 2.6, "note": "sroad5.c: the tunnel east into the slope, to 山烟寺"},
+    {"kind": "far_peak", "at": [2100, 300], "size": [420, 420], "height": 11.0, "note": "moondoor.c: 走出门外应是通往天山的小径"},
+    {"kind": "glow", "at": [240, 240], "size": [16, 16], "color": "a8c0e8", "day": 0.0, "night": 1.1, "range": 6.0, "height": 3.0, "note": "moonlight on the path"},
+    {"kind": "glow", "at": [800, 290], "size": [16, 16], "color": "a8c0e8", "day": 0.0, "night": 1.1, "range": 6.0, "height": 3.0},
+    {"kind": "glow", "at": [1192, 560], "size": [16, 16], "color": "a8c0e8", "day": 0.0, "night": 1.1, "range": 6.0, "height": 3.0},
+    {"kind": "glow", "at": [1184, 864], "size": [16, 16], "color": "a8c0e8", "day": 0.0, "night": 1.0, "range": 6.0, "height": 3.0, "note": "moonlight in the clearings"},
+    {"kind": "glow", "at": [224, 1440], "size": [16, 16], "color": "a8c0e8", "day": 0.0, "night": 1.0, "range": 6.0, "height": 3.0},
+    {"kind": "glow", "at": [800, 1440], "size": [16, 16], "color": "a8c0e8", "day": 0.0, "night": 1.0, "range": 6.0, "height": 3.0},
+    {"kind": "glow", "at": [1376, 1440], "size": [16, 16], "color": "a8c0e8", "day": 0.0, "night": 1.0, "range": 6.0, "height": 3.0},
+    {"kind": "glow", "at": [800, 2080], "size": [16, 16], "color": "a8c0e8", "day": 0.0, "night": 1.0, "range": 6.0, "height": 3.0}
+  ],
+  "ambience": {
+    "birds": [{"at": [700, 300], "radius": 300, "count": 3, "height": 7.0, "color": "3a3029"}],
+    "fall": [{"rect": [0, 720, 1664, 2368], "count": 30, "height": 4.0, "colors": ["a8a862", "8a9a52", "b4b26a"], "wind": [0.3, 0.1], "note": "bamboo leaves drifting down in the grove"}]
+  },
+  "actors": {"default": {"coat": "b87a9a"}, "latemoon.npc.butterfly": {"body": "flyer", "scale": 1.6, "hover": 0.9, "wings": ["f2e6c8", "e8a0b4"]}},
+  "entrances": {"latemoon.sroad1.north": {"title": "晚月庄后门"}, "latemoon.sroad5.east": {"title": "山烟寺"}}
+}

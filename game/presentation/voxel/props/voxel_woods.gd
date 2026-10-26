@@ -487,7 +487,7 @@ func _lone_tree() -> void:
 	var size: float = float(data.get("scale",1.0))
 	root.scale = Vector3.ONE*size
 	var variant: int = int(data.get("variant",rng.randi_range(0,5)))
-	tree_shapes.build(root,s,String(data.get("species","tall_pine")),variant)
+	tree_shapes.build(root,s,String(data.get("species","tall_pine")),variant,Transform3D.IDENTITY,null,data.get("colors",[]))
 	if data.get("marks",false):
 		for cut: int in 3:
 			s.tilted_box(root,Vector3(-0.06+cut*0.07,1.0+cut*0.18,0.2),Vector3(0.04,0.3,0.03),"d9c39a",Vector3(0,0,0.5-cut*0.4))
