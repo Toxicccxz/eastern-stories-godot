@@ -23,8 +23,6 @@
     {"kind": "couplet", "at": [-330, -332], "size": [64, 16], "wall_mounted": true},
     {"kind": "couplet", "at": [330, -332], "size": [64, 16], "wall_mounted": true},
     {"kind": "notices", "at": [460, 100], "size": [96, 16], "rotation": -90, "wall_mounted": true, "note": "the taoists' board (temple1.c: call_other(\"/obj/board/taoist_b\"))"},
-    {"kind": "moon_gate", "at": [-464, -16], "size": [64, 32], "rotation": 90, "colors": ["d6d2c6", "e2ded3", "cbc7bb"], "cap": "4e565a", "note": "temple1.c: 东西两侧的圆形拱门通往连接后殿的回廊"},
-    {"kind": "moon_gate", "at": [464, -16], "size": [64, 32], "rotation": -90, "colors": ["d6d2c6", "e2ded3", "cbc7bb"], "cap": "4e565a"},
     {"kind": "hanging_lantern", "at": [-200, -40]},
     {"kind": "hanging_lantern", "at": [200, -40]},
     {"kind": "hanging_lantern", "at": [-200, 200]},

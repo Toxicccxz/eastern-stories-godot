@@ -223,7 +223,6 @@ func _check_interior(map: WorldMapController) -> void:
 			_check("deity" in kinds and fresh and kinds.count("prayer_cushion") >= 3 and kinds.count("column") >= 4,
 				"temple1.c: 真武大帝的金身; 朱红色的大供桌, 上面排满了鲜花素果; 三四个蒲团")
 			_check("notices" in kinds, "the taoists' board in their hall")
-			_check(kinds.count("moon_gate") == 2, "temple1.c: 东西两侧的圆形拱门, seen from inside too")
 		&"temple.temple2_house":
 			var portrait: bool = false
 			for prop: Dictionary in _view_of(map).layout.get("props", []):
