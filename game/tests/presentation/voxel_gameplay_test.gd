@@ -117,6 +117,10 @@ func run_all(tree: SceneTree) -> Dictionary:
 	_check(session.player_runtime()==state and session.inventory_state()==inventory,"crossing keeps exact player and inventory identities")
 	var street_view := outdoor.get_node("MapView") as WorldVoxelView
 	_check(street_view.geometry.unknown_kinds.is_empty(),"every street prop kind is drawn: %s" % [street_view.geometry.unknown_kinds])
+	_check(street_view.geometry._ground_style(Vector2(0,0),"town_ground").get("style","")=="slabs" and street_view.geometry._ground_style(Vector2(0,-1000),"street").get("style","")=="slabs",
+		"the square and the streets are laid in big slabs (square.c: 整齐地铺著大石板)")
+	_check(street_view.geometry._ground_style(Vector2(-1100,800),"street").get("style","")=="paving","the 官道 west of town stays 青石板 (sroad3.c)")
+	_check("maple" in street_view.geometry._flora_at(Vector2(-1760,416)).get("tree_types",[]),"the 官道's stone leaves the first maples of 水烟阁's slopes by sroad5")
 	var land: VoxelLandmass = street_view.geometry.landmass
 	var supported: bool = land!=null
 	for node: Node in outdoor.find_children("*","Area2D",true,false):
