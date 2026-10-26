@@ -396,7 +396,6 @@ func _willow_wood(parent: Node3D, shapes: Shapes, variant: int) -> void:
 		var length: float = 1.4+0.6*sin(i*2.3+variant*1.1)
 		shapes.box(parent,Vector3(cos(a)*r,3.0-length/2,sin(a)*r),Vector3(0.07,length,0.07),strands[i%strands.size()])
 
-## A clump of bamboo: green jointed culms leaning a little apart.
 ## 白杨's trunk: tall, straight and pale, dark eye-shaped scars where old branches fell, a few
 ## thin limbs held up close to the stem.
 func _poplar_wood(parent: Node3D, shapes: Shapes, variant: int) -> void:
@@ -409,6 +408,7 @@ func _poplar_wood(parent: Node3D, shapes: Shapes, variant: int) -> void:
 		var side: float = -1.0 if (limb+variant)%2 else 1.0
 		shapes.tilted_box(parent,Vector3(side*0.16,2.4+limb*0.7,0),Vector3(0.05,0.7,0.05),_bark("poplar",1),Vector3(0,0,-side*0.35))
 
+## A clump of bamboo: green jointed culms leaning a little apart.
 func _bamboo_wood(parent: Node3D, shapes: Shapes, variant: int) -> void:
 	for culm: int in 5:
 		var a: float = culm*1.3+variant

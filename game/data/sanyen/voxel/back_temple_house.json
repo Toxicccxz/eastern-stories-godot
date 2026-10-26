@@ -2,7 +2,7 @@
   "indoor": true,
   "cutaway_rooms": true,
   "camera_size": 25,
-  "wall_height": 3.8,
+  "wall_height": 5.2,
   "note": "后殿 (back_temple.c): a wide hall, 药师如来's gilt statue in the middle, the eighteen arhats painted round the walls as if alive, beside each the story of how he won through.",
   "palette": {"wood": ["8e6a44", "9a744a", "845e3c"], "wall": "d8ccb0"},
   "surfaces": {"sanyen.back_temple": "rock"},
@@ -20,14 +20,12 @@
     {"kind": "mural", "at": [-382, 160], "size": [160, 16], "rotation": 90, "wall_mounted": true, "figures": 2, "seed": 5},
     {"kind": "mural", "at": [366, -150], "size": [192, 16], "rotation": -90, "wall_mounted": true, "figures": 3, "seed": 2},
     {"kind": "mural", "at": [366, 160], "size": [160, 16], "rotation": -90, "wall_mounted": true, "figures": 3, "seed": 4},
-    {"kind": "prayer_cushion", "at": [-60, -40], "size": [32, 32]},
-    {"kind": "prayer_cushion", "at": [-8, -36], "size": [32, 32]},
-    {"kind": "prayer_cushion", "at": [44, -40], "size": [32, 32]},
+    {"kind": "prayer_cushion", "at": [-60, 44], "size": [32, 32]},
+    {"kind": "prayer_cushion", "at": [-8, 48], "size": [32, 32]},
+    {"kind": "prayer_cushion", "at": [44, 44], "size": [32, 32]},
     {"kind": "runner", "at": [-8, 80], "size": [80, 200], "elevation": 0.06, "cloth": "8a6a2a"},
     {"kind": "hanging_lantern", "at": [-200, 0]},
-    {"kind": "hanging_lantern", "at": [180, 0]},
-    {"kind": "candles", "at": [-40, -100], "size": [24, 16], "count": 3},
-    {"kind": "candles", "at": [24, -100], "size": [24, 16], "count": 2}
+    {"kind": "hanging_lantern", "at": [180, 0]}
   ],
   "actors": {
     "default": {"coat": "8a7a5a"},

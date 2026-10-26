@@ -625,7 +625,7 @@ func _peony_bed(w: float, d: float) -> void:
 		for flower: int in 2:
 			var bloom: String = String(blooms[(i+flower)%blooms.size()])
 			var spot := at+Vector3(rng.randf_range(-0.16,0.16),h+rng.randf_range(-0.02,0.08),rng.randf_range(-0.14,0.14))
-			s.box(root,spot,Vector3(0.22,0.12,0.22),Color(bloom).darkened(0.08).to_html(false))
+			s.box(root,spot,Vector3(0.22,0.12,0.22),Color(bloom.get_slice(":",0)).darkened(0.08).to_html(false))
 			s.box(root,spot+Vector3(0,0.07,0),Vector3(0.16,0.08,0.16),bloom)
 			s.box(root,spot+Vector3(0,0.12,0),Vector3(0.07,0.04,0.07),"f2dc8e")
 		if rng.randf()<0.4:

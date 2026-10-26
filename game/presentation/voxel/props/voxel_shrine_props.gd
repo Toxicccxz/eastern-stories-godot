@@ -323,14 +323,15 @@ func _buddha(w: float, d: float) -> void:
 ## 金身 (temple.c: 一丈八尺的如来佛祖金身, 坐在一座三尺高的莲台上): a gilt Buddha seated cross-legged
 ## on a lotus throne of two rings of petals over a stepped base, his robe (`robe`) falling over
 ## one shoulder, blue curls and the knot on his crown, long ears; behind him a flame-edged
-## mandorla and a round halo (`halo`). `height` units in all, the throne a fifth of it; his
+## mandorla and a round halo (`halo`). `height` units from the floor to the mandorla's tip; his
 ## hands (`mudra`): "earth" the right hand down over the knee, "bowl" both in his lap holding
 ## the medicine bowl (药师如来), else folded in meditation. `gold` his gilt.
 func _gilt_buddha(w: float, d: float) -> void:
 	var gold: Array = data.get("gold",["c9a24a","dab45a","b08a3a"])
 	var robe: String = String(data.get("robe","b8862e"))
 	var height: float = float(data.get("height",4.0))
-	var k: float = height/4.6
+	# The mandorla's flame tip stands 0.62+5k over the floor.
+	var k: float = maxf(0.2,(height-0.62)/5.0)
 	var deep: float = minf(d*0.8,w*0.62)
 	# The base and the throne: three stepped plinths, two rings of upturned petals.
 	s.box(root,Vector3(0,0.15,0),Vector3(w*0.92,0.3,deep),String(data.get("base","8a6a4a")))
@@ -407,7 +408,7 @@ func _pagoda(w: float, d: float) -> void:
 	var tiers: int = int(data.get("tiers",7))
 	var height: float = float(data.get("height",8.0))
 	var span: float = minf(w,d)
-	var wall := Color(String(tones[0]))
+	var wall := Color(String(tones[0]).get_slice(":",0))
 	var variant: int = int(data.get("variant",0))
 	s.box(root,Vector3(0,0.2,0),Vector3(span,0.4,span),"9a978a")
 	s.box(root,Vector3(0,0.46,0),Vector3(span*0.9,0.12,span*0.9),"8a877c")
@@ -473,7 +474,7 @@ func _temple_bell(w: float, d: float) -> void:
 		s.box(root,Vector3(0,2.24-band*0.24,0),Vector3(r,0.24,r),String(bronze[band%bronze.size()]))
 	s.box(root,Vector3(0,0.94,0),Vector3(bell*0.56,0.06,bell*0.56),String(bronze[2]))
 	for knob: int in 6:
-		s.box(root,Vector3(-0.15+(knob%3)*0.15,2.0-(knob/3)*0.18,bell*0.21),Vector3(0.05,0.05,0.04),"7a7650")
+		s.box(root,Vector3(-0.15+(knob%3)*0.15,2.0-floorf(knob/3.0)*0.18,bell*0.21),Vector3(0.05,0.05,0.04),"7a7650")
 	s.tilted_box(root,Vector3(-w*0.05,1.6,bell*0.45),Vector3(0.9,0.14,0.14),"8a6a45",Vector3(0,0.1,0))
 	for x: float in [-0.3,0.2]:
 		s.box(root,Vector3(x,2.12,bell*0.45),Vector3(0.02,1.0,0.02),"b8a374")

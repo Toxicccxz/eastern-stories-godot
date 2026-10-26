@@ -448,9 +448,10 @@ func _mural(w: float) -> void:
 		s.box(root,Vector3(x,1.36,0.032),Vector3(step*0.5,0.2,0.008),"8a8478")
 		s.box(root,Vector3(x,1.56,0.035),Vector3(step*0.46,0.22,0.01),robe)
 		s.box(root,Vector3(x+lean*0.2,1.9,0.035),Vector3(step*0.3,0.56,0.01),robe)
-		s.box(root,Vector3(x+lean*0.2,1.9,0.04),Vector3(step*0.06,0.5,0.006),Color(robe).darkened(0.3).to_html(false))
+		var tone := Color(robe.get_slice(":",0))
+		s.box(root,Vector3(x+lean*0.2,1.9,0.04),Vector3(step*0.06,0.5,0.006),tone.darkened(0.3).to_html(false))
 		for arm: float in [-1.0,1.0]:
-			s.box(root,Vector3(x+arm*step*0.17,1.78,0.04),Vector3(step*0.07,0.3,0.006),Color(robe).darkened(0.15).to_html(false))
+			s.box(root,Vector3(x+arm*step*0.17,1.78,0.04),Vector3(step*0.07,0.3,0.006),tone.darkened(0.15).to_html(false))
 		s.box(root,Vector3(x,2.33,0.036),Vector3(step*0.26,0.26,0.008),"e8c86a")
 		s.box(root,Vector3(x,2.3,0.04),Vector3(step*0.14,0.16,0.008),"d8b090")
 		s.box(root,Vector3(x,2.4,0.044),Vector3(step*0.15,0.05,0.006),"2a2622")
@@ -460,10 +461,10 @@ func _mural(w: float) -> void:
 	for flake: int in maxi(2,floori(w/0.8)):
 		s.box(root,Vector3(_jitter(w*0.45),rng.randf_range(1.15,1.5),0.04),Vector3(rng.randf_range(0.12,0.3),rng.randf_range(0.06,0.14),0.006),"b8ad96")
 
-## A cloth banner hung on the wall, smoke-darkened at the top (a temple's 幡).
+## A cloth banner hung on the wall, smoke-darkened at the top (a temple's 幡; `cloth` its colour).
 func _banner_cloth() -> void:
 	s.box(root,Vector3(0,2.6,0.05),Vector3(0.5,0.05,0.05),"6a5039")
-	var cloth: String = _pick(["a8322a","c49a3a","8a3a2a"])
+	var cloth: String = String(data.get("cloth",_pick(["a8322a","c49a3a","8a3a2a"])))
 	s.box(root,Vector3(0,2.0,0.06),Vector3(0.36,1.1,0.02),cloth)
 	s.box(root,Vector3(0,2.45,0.07),Vector3(0.36,0.2,0.012),Color(cloth).darkened(0.35).to_html(false))
 	for strip: int in 3:

@@ -107,7 +107,6 @@
     {"kind": "mooring_post", "at": [1808, 900]},
     {"kind": "bank_stones", "at": [1520, 866], "points": [[1376, 866], [1648, 866]], "height": 0.5},
     {"kind": "bank_stones", "at": [1944, 866], "points": [[1888, 866], [1984, 866]], "height": 0.5},
-    {"kind": "fishing_net", "at": [1880, 960], "size": [32, 96]},
     {"kind": "reeds", "at": [700, 862], "size": [1300, 40], "count": 30, "height": 1.1, "colors": ["6f8a44", "7f9a50", "8faa5a", "a3b46a"], "elevation": -0.1},
     {"kind": "reeds", "at": [1640, 600], "size": [32, 300], "count": 8, "height": 1.0, "colors": ["6f8a44", "7f9a50", "8faa5a"], "elevation": -0.2},
     {"kind": "far_shore", "at": [992, -260], "size": [2400, 300], "peaks": [[-20, 6.0, 7.0], [10, 4.5, 6.0], [32, 5.0, 5.5]], "smoke": [10, 5.0], "trees": 40, "haze": true, "note": "midriver.c: across the river the north bank and 绮云镇's smoke"},

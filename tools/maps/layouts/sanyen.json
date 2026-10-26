@@ -82,7 +82,8 @@
               ["street", 720, 1360, 880, 1472, "flagstones before the gate"],
               ["grass", 640, 1424, 736, 1552, "the way into 地道"],
               ["blocked", 912, 1360, 944, 1392, "a stone lantern by the 山门", {"look": {"kind": "stone_lantern"}}],
-              ["blocked", 912, 1520, 944, 1568, "gate.c: 名气却是大得多了 — a tablet by the gate", {"look": {"kind": "stele", "height": 1.8, "turtle": true}}]
+              ["blocked", 912, 1520, 944, 1568, "gate.c: 名气却是大得多了 — a tablet by the gate", {"look": {"kind": "stele", "height": 1.8, "turtle": true}}],
+              ["blocked", 1872, 912, 1904, 1008, "江南渡口: a net drying on its poles", {"look": {"kind": "fishing_net"}}]
             ]
           },
           {
@@ -295,7 +296,10 @@
           ["blocked", 1296, 2256, 1344, 2304, {"look": {"variant": 2, "scale": 0.9, "kind": "tree", "species": "poplar"}}],
           ["blocked", 1296, 1952, 1344, 1984, "the monks' stone locks for strength", {"look": {"kind": "stone_weights"}}],
           ["blocked", 1328, 2016, 1360, 2048, "a wooden post for striking", {"look": {"kind": "training_post"}}],
-          ["blocked", 1040, 1888, 1136, 1920, "door.c: 正中的大门正紧紧关闭著, 只有在迎接大人物时才会开启", {"look": {"kind": "red_door", "leaf": "a8342a", "trim": "c9a24a"}}],
+          ["blocked", 1344, 2176, 1376, 2256, "staves for the morning drill", {"look": {"kind": "weapon_rack", "rotation": -90}}],
+          ["blocked", 896, 1936, 944, 1984, "a stone lion either side of the gate hall", {"look": {"kind": "stone_lion"}}],
+          ["blocked", 1232, 1936, 1280, 1984, {"look": {"kind": "stone_lion", "mirror": true}}],
+          ["blocked", 1040, 1888, 1136, 1920, "door.c: 正中的大门正紧紧关闭著, 只有在迎接大人物时才会开启", {"look": {"kind": "red_door", "leaf": "a8342a", "trim": "c9a24a", "in_doorway": true}}],
           ["blocked", 928, 1344, 960, 1648, "road1.c: 一条铺著青石板的大道, 两旁种植一排芍药", {"look": {"kind": "camellia_bed", "peony": true, "flowers": ["e8a0b4", "f2c0cc", "d8607a", "f4ece6"]}}],
           ["blocked", 1200, 1344, 1232, 1424, {"look": {"kind": "camellia_bed", "peony": true, "flowers": ["e8a0b4", "f2c0cc", "d8607a", "f4ece6"]}}],
           ["blocked", 1200, 1552, 1232, 1648, {"look": {"kind": "camellia_bed", "peony": true, "flowers": ["e8a0b4", "f2c0cc", "d8607a", "f4ece6"]}}],
@@ -308,6 +312,8 @@
           ["blocked", 1520, 1088, 1664, 1152, {"look": {"kind": "herb_bed", "herb": "umbel", "flowers": ["f4f0e2", "e8e4d0"]}}],
           ["blocked", 1264, 1216, 1408, 1264, {"look": {"kind": "herb_bed", "herb": "berry"}}],
           ["blocked", 1520, 1216, 1664, 1264, {"look": {"kind": "herb_bed", "herb": "leafy", "leaves": ["5a7a3a", "6a8a44", "4e6e34"]}}],
+          ["blocked", 1424, 928, 1504, 960, "corridor.c: 广场上正晒著一些不知名的药草", {"look": {"kind": "drying_rack", "tiers": 3, "colors": ["8a8a4a", "9a7a4a", "7a6a3a"]}}],
+          ["blocked", 1664, 1168, 1696, 1248, {"look": {"kind": "drying_rack", "tiers": 2, "rotation": 90, "colors": ["9a7a4a", "8a8a4a", "a08a52"]}}],
           ["blocked", 864, 624, 912, 672, "corridor.c: 两旁种植著一排月桂树", {"look": {"variant": 0, "kind": "tree", "species": "osmanthus"}}],
           ["blocked", 864, 720, 912, 768, {"look": {"variant": 1, "scale": 0.9, "kind": "tree", "species": "osmanthus"}}],
           ["blocked", 864, 816, 912, 864, {"look": {"variant": 2, "kind": "tree", "species": "osmanthus"}}],
@@ -323,12 +329,14 @@
           ["blocked", 320, 1264, 416, 1296, "flowers thick along the yard's south side", {"look": {"kind": "camellia_bed", "flower": "e8a0b4"}}],
           ["blocked", 528, 1264, 624, 1296, {"look": {"kind": "camellia_bed", "flower": "f4d47a"}}],
           ["blocked", 1296, 192, 1392, 288, "tower.c: 左边这一座名曰: 『明心塔』", {"look": {"kind": "pagoda", "text": "明心塔", "tiers": 7}}],
-          ["blocked", 1456, 192, 1552, 288, "tower.c: 右方名叫『见性塔』", {"look": {"kind": "pagoda", "text": "见性塔", "tiers": 7, "variant": 1}}]
+          ["blocked", 1456, 192, 1552, 288, "tower.c: 右方名叫『见性塔』", {"look": {"kind": "pagoda", "text": "见性塔", "tiers": 7, "variant": 1}}],
+          ["blocked", 1408, 224, 1440, 256, "tower.c: 舍利子就存放在这两座塔里 — incense between them", {"look": {"kind": "incense_burner", "lit": true}}]
         ],
         "reach_from": ["GateArrival", "Corridor1KitchenReturn", "CorridorBackTempleReturn", "CorridorTempleReturn", "InnerYardHealRoomReturn", "InnerYardTempleReturn", "Road1TempleReturn", "TowerBackTempleReturn"],
         "markers_in_middle": ["sanyen.front_yard", "sanyen.inner_yard", "sanyen.drug_field", "sanyen.tower", "sanyen.road2"],
         "placed": {
           "sanyen.road1.monk.1": [992, 1480],
+          "sanyen.road2.bonze.1": [1520, 1584],
           "sanyen.front_yard.monk_guard.1": [896, 2096],
           "sanyen.front_yard.monk_guard.2": [1264, 2096]
         },
@@ -509,7 +517,7 @@
               "look": {
                 "kind": "buddha",
                 "gilt": true,
-                "height": 6.4,
+                "height": 6.6,
                 "halo": true,
                 "mudra": "earth"
               }

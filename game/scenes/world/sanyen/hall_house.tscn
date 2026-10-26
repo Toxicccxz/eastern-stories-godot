@@ -201,7 +201,7 @@ layout_path = "res://data/sanyen/voxel/hall_house.json"
 
 [node name="Furnishing01" type="Node2D" parent="Furnishings"]
 position = Vector2(-152, -144)
-metadata/look = {"kind": "buddha", "gilt": true, "height": 6.4, "halo": true, "mudra": "earth"}
+metadata/look = {"kind": "buddha", "gilt": true, "height": 6.6, "halo": true, "mudra": "earth"}
 metadata/footprint = Vector2(240, 160)
 
 [node name="Furnishing02" type="Node2D" parent="Furnishings"]

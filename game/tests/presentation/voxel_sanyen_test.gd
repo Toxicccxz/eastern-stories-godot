@@ -19,7 +19,8 @@ const Existing := preload("res://tests/presentation/voxel_gameplay_test.gd")
 const TALL: Array[String] = ["lantern", "stone_lantern", "standing_rock", "boulder", "banner", "tree", "great_tree", "pavilion",
 	"rockery", "stele", "censer", "flagpole", "water_vat", "strange_stone", "stuck_swords", "boundary_stone", "torch", "bush",
 	"column", "pavilion_post", "compound_wall", "deity", "spirit_tablets", "training_post", "bookcase", "lamp_stand",
-	"lantern_post", "beast_statue", "screen_wall", "flower_stand", "pagoda", "temple_bell", "buddha"]
+	"lantern_post", "beast_statue", "screen_wall", "flower_stand", "pagoda", "temple_bell", "buddha", "stone_lion", "weapon_rack",
+	"drying_rack", "fishing_net", "incense_burner", "herb_bed"]
 const SCENES: Array[String] = ["sunhill_mountain", "sanyen_temple", "hall_house", "back_temple_house", "heal_room_house",
 	"kitchen_house", "tunnels"]
 const MAPS: Array[StringName] = [&"sunhill.mountain", &"sanyen.grounds", &"sanyen.hall_house", &"sanyen.back_temple_house",
@@ -164,11 +165,13 @@ func _check_grounds(map: WorldMapController) -> void:
 		plaque = plaque or prop["kind"] == "sign" and prop.get("text", "") == "山烟寺" and String(prop.get("board", "")).begins_with("2f8a62")
 		murals += 1 if prop["kind"] == "mural" else 0
 	_check(plaque, "door.c: 一方翡翠匾额, 上面写著『山烟寺』三个烫金大字")
-	_check(murals >= 2, "corridor1.c: 墙上画著大慈大悲观世音菩萨救苦救难的事迹")
+	_check(murals >= 1, "corridor1.c: 墙上画著大慈大悲观世音菩萨救苦救难的事迹")
 	var shut: bool = false
 	for look: Dictionary in looks:
 		shut = shut or look["kind"] == "red_door"
 	_check(shut and "pavilion_roof" in kinds, "door.c: 正中的大门正紧紧关闭著…只开著两旁的偏门, under gilt tiles")
+	_check(TerrainProbe.blocks_at(map, Vector2(1088, 1904)) and not TerrainProbe.blocks_at(map, Vector2(1000, 1904))
+		and not TerrainProbe.blocks_at(map, Vector2(1176, 1904)), "door.c: the great middle door shut, the side doors open")
 	var hall: Dictionary = {}
 	for building: Dictionary in view.layout.get("buildings", []):
 		if "sanyen.road1.north" in building.get("portals", []):

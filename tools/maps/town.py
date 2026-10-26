@@ -193,11 +193,16 @@ class Town:
                     band = (centre - half, edge - 32, centre + half, edge) if y1 == edge else (centre - half, edge, centre + half, edge + 32)
                 tiles.fill(ground, *band)
                 gaps.append(band)
-        # A blocked piece standing in a doorway (the shut middle leaf of a gate whose side doors
-        # stand open, d/sanyen/door.c) keeps its place over the opening.
+        # A blocked piece set in a doorway (`"in_doorway": true` in its look: the shut middle leaf of
+        # a gate whose side doors stand open, d/sanyen/door.c) keeps its place over the opening.
         for row in self.d.get('props', []):
-            if row[0] == 'blocked' and any(row[1] < g[2] and g[0] < row[3] and row[2] < g[3] and g[1] < row[4] for g in gaps):
-                tiles.fill(*fill_row(row))
+            look = row[-1].get('look', {}) if isinstance(row[-1], dict) else {}
+            if row[0] != 'blocked' or not look.get('in_doorway'):
+                continue
+            for g in gaps:
+                box = (max(row[1], g[0]), max(row[2], g[1]), min(row[3], g[2]), min(row[4], g[3]))
+                if box[0] < box[2] and box[1] < box[3]:
+                    tiles.fill('blocked', *box)
         return gaps
 
     def zone_of_point(self, x, y):
