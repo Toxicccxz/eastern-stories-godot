@@ -25,8 +25,8 @@
   },
   "exit_trails": {"snow.eroad3.south": 8, "snow.sroad1.south": {"cells": 10, "kind": "path", "width": 8}, "snow.sroad5.west": {"cells": 10, "kind": "street", "width": 10}, "note": "the forest path runs on south into 老松林; the 黄土路 south over 卧龙岗 to 绮云镇; the 青石官道 west toward 水烟阁"},
   "ground": {
-    "town_ground": {"style": "slabs", "size": [3, 2], "stones": ["98978a", "a4a090", "8c8e81", "aca693", "958f7e", "a09a88"], "worn": ["8a8775", "827f6c", "8f897a"], "bed": "57544a", "joint": 0.045, "mud": "877d63", "crack": "6e6a5a", "moss": "6d7f52", "moss_chance": 0.04, "note": "square.c: 地上整齐地铺著大石板"},
-    "street": {"style": "slabs", "size": [2, 2], "stones": ["98978a", "a4a090", "8c8e81", "aca693", "958f7e", "a09a88"], "worn": ["8a8775", "827f6c", "8f897a"], "bed": "57544a", "joint": 0.045, "mud": "877d63", "crack": "6e6a5a", "moss": "6d7f52", "moss_chance": 0.05, "note": "the town's streets: the square's stone, a size smaller"}
+    "town_ground": {"style": "slabs", "lengths": [2, 4], "depths": [1, 2], "cracks": 0.14, "broken": 0.1, "sunk": 0.03, "tufts": 0.12, "stones": ["98978a", "a4a090", "8c8e81", "aca693", "958f7e", "a09a88"], "worn": ["8a8775", "827f6c", "8f897a"], "bed": "57544a", "joint": 0.045, "mud": "877d63", "crack": "6e6a5a", "moss": "6d7f52", "moss_chance": 0.04, "note": "square.c: 地上整齐地铺著大石板, laid long ago: rows of big flags in random lengths, worn, a few cracked, broken or sunk"},
+    "street": {"style": "slabs", "lengths": [2, 3], "depths": [1, 2], "cracks": 0.14, "broken": 0.1, "sunk": 0.03, "tufts": 0.14, "stones": ["98978a", "a4a090", "8c8e81", "aca693", "958f7e", "a09a88"], "worn": ["8a8775", "827f6c", "8f897a"], "bed": "57544a", "joint": 0.045, "mud": "877d63", "crack": "6e6a5a", "moss": "6d7f52", "moss_chance": 0.05, "note": "the town's streets: the square's stone, a size smaller"}
   },
   "cliffs": {
     "low": 0.8,

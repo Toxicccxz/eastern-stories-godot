@@ -81,7 +81,7 @@ func _check_snow_seam() -> void:
 	_check(snow.get("exit_trails", {}).has("snow.sroad1.south"), "雪亭镇's south road runs on toward 卧龙岗 past its way out")
 	var toward_ridge: bool = false
 	for area: Dictionary in snow.get("flora", {}).get("areas", []):
-		var r: Array = area["rect"]
+		var r: Array = area.get("rect", area.get("rects", [[0, 0, 0, 0]])[0])
 		toward_ridge = toward_ridge or Rect2(r[0], r[1], r[2] - r[0], r[3] - r[1]).has_point(Vector2(0, 864))
 	_check(toward_ridge, "雪亭镇's trees turn toward 卧龙岗's woods at its south end")
 

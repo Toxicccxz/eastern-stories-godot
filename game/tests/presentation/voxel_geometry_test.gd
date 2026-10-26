@@ -62,24 +62,73 @@ func run_all(_tree: SceneTree) -> Dictionary:
 	if not closed or not base_winding:
 		failures.append("the irregular soil base must be closed and face outward, including its stepped corners")
 	holder.free()
-	# 大石板: a 6×4-cell square in 3×2 stones, the second course shifted half a stone; the
-	# stones it would push past the edge are cut down to single cells.
+	# 大石板: a whole 6×4-cell square is laid at once from any of its cells, every cell once,
+	# round a doorway's footprint; the stones are long (several cells), not cobbles.
 	var ground := VoxelGround.new()
 	ground.shapes = preload("res://presentation/voxel/props/voxel_shapes.gd").new()
 	ground.parent = Node3D.new()
 	ground.rng = RandomNumberGenerator.new()
+	ground.rng.seed = 3
 	ground.noise = FastNoiseLite.new()
+	ground.footprints = [Rect2(64,48,16,16)]
 	var square: Dictionary[Vector2i,String] = {}
 	for y: int in 4:
 		for x: int in 6:
 			square[Vector2i(8+x*16,8+y*16)] = "town_ground"
 	var painted: Dictionary[Vector2i,bool] = {}
-	var stones: int = 0
-	for cell: Vector2i in [Vector2i(72,56),Vector2i(8,8)]+square.keys():
-		if not painted.has(cell):
-			ground.slabs(cell,square,painted,{"size":[3,2]})
-			stones += 1
-	if painted.size()!=24 or stones!=9:
-		failures.append("big slabs lie in shifted courses, whole where they fit and cut at the edge: %d cells, %d stones" % [painted.size(),stones])
+	ground.slabs(Vector2i(40,40),square,painted,{"lengths":[2,3],"depths":[1,2],"sunk":0.0,"broken":0.0})
+	var beds: int = 0
+	for entry: Dictionary in ground.shapes.batches.values():
+		beds += (entry.get("transforms",[]) as Array).size() if String(entry.get("color","")) == "6f6c5e" else 0
+	if painted.size()!=23 or painted.has(Vector2i(72,56)) or beds<6 or beds>14:
+		failures.append("old slabs cover the stretch once, round the doorway, in long stones: %d cells, %d stones" % [painted.size(),beds])
+	# Where the slabs meet another style (the 官道's 青石板), neither runs its stones into the other.
+	var slab_style: Dictionary = {"style":"slabs","size":[3,2]}
+	var road_style: Dictionary = {"style":"paving"}
+	ground.style_at = func(cell: Vector2i, _kind: String) -> Dictionary: return slab_style if cell.x>=56 else road_style
+	ground.rng.seed = 7
+	var seam_ok: bool = true
+	for road_first: bool in [true,false]:
+		var laid: Dictionary[Vector2i,bool] = {}
+		for pass_road: bool in [road_first,not road_first]:
+			for cell: Vector2i in square.keys():
+				if laid.has(cell) or (cell.x<56)!=pass_road:
+					continue
+				var before: Array = laid.keys()
+				if pass_road:
+					ground.paving(cell,square,laid,road_style)
+				else:
+					ground.slabs(cell,square,laid,slab_style)
+				for done: Vector2i in laid:
+					if not done in before:
+						seam_ok = seam_ok and (done.x<56)==pass_road
+	if not seam_ok:
+		failures.append("slabs and other paving stop at the line between their styles")
 	ground.parent.free()
-	return {"assertions":8,"failures":failures}
+	# Seams between road surfaces wander within two cells either side; a one-cell rut keeps its line.
+	var geometry := VoxelMapGeometry.new()
+	geometry.seam_noise.seed = 3511
+	geometry.seam_noise.frequency = 0.03
+	var road: Dictionary[Vector2i,String] = {}
+	for y: int in 24:
+		for x: int in 24:
+			road[Vector2i(8+x*16,8+y*16)] = "street" if x < 12 else "path"
+	for y: int in 24:
+		road[Vector2i(8+4*16,8+y*16)] = "riverbank"
+	var original: Dictionary[Vector2i,String] = road.duplicate()
+	geometry._fray_seams(road)
+	var into_path: int = 0
+	var into_street: int = 0
+	var far: int = 0
+	var rut: int = 0
+	for cell: Vector2i in road:
+		var column: int = (cell.x-8)/16
+		if road[cell] != original[cell]:
+			into_path += 1 if original[cell] == "street" and column != 4 else 0
+			into_street += 1 if original[cell] == "path" else 0
+			far += 1 if column < 9 or column > 14 else 0
+			rut += 1 if column in [3,4,5] else 0
+	if into_path < 4 or into_street < 4 or far > 0 or rut > 0:
+		failures.append("the street/path seam interlocks within two cells (%d into the path, %d into the street, %d too far) and the rut stays (%d)" % [into_path,into_street,far,rut])
+	geometry.free()
+	return {"assertions":10,"failures":failures}
