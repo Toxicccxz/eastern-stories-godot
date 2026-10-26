@@ -24,7 +24,7 @@ main / origin main / merge-base 均冻结于 `cd07808cb76147d0b8c0dad9b82d078b49
 ## Authority and FR31-01 root cause
 
 已阅读全文 owner-local Final Re-Audit after P2F31，并对照 root/docs AGENTS、
-[locked D1–D9](DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary)、
+[locked D1–D9](DECISIONS_HISTORY.md#migration-tooling-v1-p2--owner-locked-extraction-boundary)、
 [P2F31](MIGRATION_TOOLING_V1_P2F31_INVOKED_INHERIT_MACRO_DECLARATION_PREFLIGHT.md)、
 [P2F30](MIGRATION_TOOLING_V1_P2F30_REACHED_HEADER_EOF_UNRESOLVED_DECLARATION_REFUSAL.md) 和
 [P2F29](MIGRATION_TOOLING_V1_P2F29_UNRESOLVED_DECLARATION_HEADER_REFUSAL.md) 的状态边界。

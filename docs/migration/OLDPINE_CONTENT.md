@@ -6,11 +6,17 @@ the data format in [CONTENT_DATA_FORMAT](CONTENT_DATA_FORMAT.md).
 
 ## Placed
 
+Nine maps (oldpine.outdoor, gorge, tree, cliff, cave, stone, caves, cliff2, keep_hall), all with the
+voxel view (`game/data/oldpine/voxel/`). The rooms are drawn where their texts put them (DECISIONS
+「老松林按原文方位排布」): the slope south of the clearing, which has only its three ways; the pine
+maze and the keep east of the gorge, entered by the plank road up from epath3 into pine1 (no ES2
+exit); pine1's two 土匪 stand by the keep way and can be gone round.
+
 | Room | LPC `set("objects")` / rule | Native |
 |---|---|---|
 | keep1 | 土匪喽罗 ×4 | outdoor map, east of pine2 |
 | keep2 | 土匪喽罗 ×2, 土匪首领; valid_leave() shuts the gate and new()s five 土匪喽罗; pipe_notify(), reset() open it | the gate is a rule's door; five summoned guards (`traps[]`) |
-| keep3 | 土匪首领 ×3, 常老大 (apply/defense 60, 竹管) | the hall |
+| keep3 | 土匪首领 ×3, 常老大 (apply/defense 60, 竹管) | the hall, its own interior map (oldpine.keep_hall) |
 | secrectpath1, path3 | — | cave map, north of the passage; path3 `climb up` the stone |
 | stone | 金银花蛇 (B) | its own map; `climb down` to cave1; hit_ob() poisons (snake_poison 20) |
 | cave1-4 | random exits | one fixed maze on the caves map |

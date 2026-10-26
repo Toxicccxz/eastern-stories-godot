@@ -27,7 +27,7 @@ This file is an evidence ledger, not legal advice or a commercial-clearance opin
   points to upstream commit `f58314d9473d11efef94dd68b523e1b52643d736`; this identifies
   the upstream release, not verified equality of the current local vendor tree.
 - Current local-to-upstream source/manifest equivalence, release-manifest file count and
-  ZIP SHA-256 have **not been independently verified** in this closeout. The old 4.0.1
+  ZIP SHA-256 have **not been independently verified**. The old 4.0.1
   hashes and 283-file comparison are historical only; see
   [vendor provenance](GODOT_AI_DEVELOPMENT.md#vendor-provenance).
 - The retained 4.0.4 -> 4.2.3 update received a bounded independent dependency review in
@@ -48,9 +48,14 @@ This file is an evidence ledger, not legal advice or a commercial-clearance opin
 
 ## Other current assets
 
-The only tracked non-code visual asset under `game/` at the Phase 10A baseline is `game/icon.svg`,
-the Godot project icon. No external authored art/audio pack was found in the current game tree. This
-inventory is not a guarantee about future content.
+Tracked image files under `game/` outside `addons/` are two, both project-made:
+
+- `game/icon.svg`, the Godot project icon;
+- `game/scenes/world/common/placeholder_terrain.png`, the flat-colour placeholder atlas of the 2D
+  terrain TileSet ([TERRAIN_TILES](../migration/TERRAIN_TILES.md)).
+
+No audio, font, model or external art/audio pack is tracked; UI text uses the system's fonts
+(`game/locale/languages.json`). This inventory is not a guarantee about future content.
 
 ## Voxel maps
 

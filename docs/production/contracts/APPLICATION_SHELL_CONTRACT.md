@@ -14,15 +14,18 @@ replaceable Session. Shell UI and settings survive Session replacement and menu 
 
 ## Shared gameplay presentation
 
-Each committed Session owns one SharedGameplayUI across Inn, Snow, Outdoor and Cave. Maps own
+Each committed Session owns one SharedGameplayUI across every map of every region. Maps own
 physical targets, range and business contexts; they do not own duplicate player/inventory HUDs.
 Shared UI projects the current Player and routes portable operations through Session composition
 and existing services. Existing business forms mount in one responsive frame with execution-time
 validation. Map changes and invalid contexts close that frame; combat yields to BattlePresentation.
 Large forms start closed, messages are bounded/nonpersistent, and UI state is not Save authority.
 Staged Sessions expose no interactive HUD. Replacement/menu teardown releases old UI with its
-Session. Item/details block underlying input, never simulation or Save eligibility; one cancel is
-consumed once, including the existing hockshop confirmation-before-close behavior.
+Session. Open panels block underlying input. The menu window and the interaction popup also hold
+world time (`WorldSessionController.hold_world_time()`, DECISIONS「菜单窗口」「说话和交互」): the
+world clock stops, the tree does not pause, and the hold is not saved. Neither changes Save
+eligibility; Save stays on the 系统 page, which is the Shell Pause below. One cancel is consumed
+once, including the existing hockshop confirmation-before-close behavior.
 This supersedes former Outdoor-only HUD ownership; Shell Pause/settings/lifecycle ownership remains.
 
 ## Navigation and lifecycle
@@ -71,10 +74,11 @@ recovered gameplay state canonical. Controls never receive file-operation author
 
 ## Independent application settings
 
-ApplicationSettingsSnapshot v4 owns the window mode (窗口 / 无边框全屏 / 全屏), the 界面缩放
-(100/125/150%), the language and the battle settings. ApplicationSettingsRepository validates
-ConfigFile data at `user://settings/application-v1.cfg`: the application section, integer schema_version,
-and exactly the keys of that version; versions 1–3 still read (their "fullscreen" was the borderless
+ApplicationSettingsSnapshot v5 owns the window mode (窗口 / 无边框全屏 / 全屏), the 界面缩放
+(100/125/150%), the language and the battle settings (战斗速度, 受击闪红, and 击倒后, added in v5).
+ApplicationSettingsRepository validates ConfigFile data at `user://settings/application-v1.cfg`: the
+application section, integer schema_version, and exactly the keys of that version; versions 1–4 still
+read (a missing setting reads as its default, 击倒后 as 询问; a pre-v4 "fullscreen" was the borderless
 kind and reads as 无边框全屏). A desktop window opens at the largest of 1920x1080 / 1600x900 / 1280x720
 within 85% of the screen. This is not GameSaveSnapshot, not a save-data profile, and not gameplay
 recovery. Settings and gameplay have independent schema, paths, failures, and authority.
@@ -110,5 +114,7 @@ and developer-local paths. Development debugging remains separate from shipping 
 Mobile presentation, touch, Android Back and lifecycle extensions are defined by the
 [Mobile Application contract](MOBILE_APPLICATION_CONTRACT.md); they feed semantic intents/capabilities
 without replacing Shell or Host authority. Autosave, physical-device qualification and store
-packaging/signing are not implied. In-game Load, multiple slots, dirty tracking, cloud saves,
-localization, remapping, and audio/quality settings are not provided.
+packaging/signing are not implied. The language setting (跟随系统 or a language from
+`game/locale/languages.json`, matched by `LanguageResolver`) is described in
+[LOCALIZATION](../LOCALIZATION.md); only Simplified Chinese ships. In-game Load, multiple slots,
+dirty tracking, cloud saves, remapping, and audio/quality settings are not provided.

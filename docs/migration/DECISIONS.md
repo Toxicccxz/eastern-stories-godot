@@ -1,5 +1,200 @@
 # Migration Decisions
 
+本文件记录对 ES2 的每处改动和全局规则，一条一项（AGENTS.md「Changing ES2」）。先是按系统归纳的现行规则，
+然后是现行条目原文，新的在前、无日期的旧条目在后；被后来条目取代或只有历史意义的条目移到
+[DECISIONS_HISTORY](DECISIONS_HISTORY.md)。引用写作 DECISIONS「条目名」。
+
+## 现行规则（按系统）
+
+每条写游戏现在怎么做，后面是出处条目；一条被后来的条目改过一部分时，两条都列出，以这里写的为准。
+
+**产品与流程**
+- 以 ES2 为底的现代武侠 RPG：会让今天的玩家却步的规则和节奏可以改，但每处改动在本文件记一条；改动走数据开关，开关留 ES2 原值作「经典模式」。「产品定位」
+- 第一版只发桌面端；画面不为手机帧率减配，Android / iOS 的 CI 作业只当构建门槛。「首发只做桌面」
+- PR 合并时 owner 没回答的问题按推荐方案生效、标「默认」，owner 随时可以否决。「积压问题的处理」
+- 重要或致命的选择先问，全用 ConfirmPrompt，焦点在「取消」；攻击和切磋一律先问并说明对方强弱，逃跑、投降、运功不问。「Ask before an important or deadly choice」「说话和交互」
+- 读来像 bug 的 ES2 行为修掉：拒收句不提「其他玩家」，拒收的东西退回，被偷时告诉玩家，蛇药说明还剩多少毒。「Modern fixes: ES2 behaviour that reads as a bug」
+- 简体中文是源语言，消息 ID 就是源文本；`tools/l10n/extract_pot.py` 是唯一的提取器；语言跟系统或设置。「Localization: the source text is the key」
+
+**全局驱动规则**
+- MudOS `random(n)` 在 n ≤ 0 时为 0 且不抽数；每个移植的 `random()` 都走 `legacy_random(n)`。「MudOS random(n <= 0) is 0, everywhere」
+- 命令失败时显示最后一次 `notify_fail()` 的句子。「MudOS notify_fail(): the last call wins」
+- 导入时：未知转义 `\X` 得 `X`，颜色宏去掉，没有 `set_weight()` 的东西重 0，LPC 字符串里的硬换行去掉。「Content importer and Snow's first NPCs」「Snow's inner rooms」「卧龙岗 + 绮云镇 3A」
+- 其余会让驱动报错的除零或非法值（战斗里 max_gin / max_kee 为 0、修炼百分比、智力 ≤ 0 的自学、请教的运行时错误）返回有类型的失败，不夹值、不崩溃，此前完成的改动保留。「Combat invalid random bounds become ordered typed failures」「Cultivation percentage division by zero」「Self-learning with non-positive intelligence」「Learn legacy runtime errors preserve completed mutations」
+- LPC 没定义的顺序换成稳定顺序：状态按 ID 升序更新，死亡和尸体里的物品按稳定实例 ID，致命关系按 CharacterId。「Condition update order」「Death and corpse inventory ordering uses stable instance IDs」「Combat lethal relationships use stable character identity」
+- 战斗中一回合 = 一次心跳（`combat_round_ms` 1000），战斗外心跳 2 秒（`heart_beat_ms`）。「One map runtime」「响应性」
+- 进行不下去的战斗以 ABORTED 结束，不冻结；开发版报错，测试失败。「A failed fight ends instead of freezing」
+- ES2 编译不过的文件可用 override 的 `source_fixes` 修（记为偏离）；NPC id 带区域子目录；Big5 丢的「□」按 `text_replacements.json` 定字。「晚月庄 A」「积压问题的处理」
+
+**地图与体素**
+- 所有地图用固定正交斜视体素表现；2D 地图仍是唯一依据（碰撞、站位、交互范围、存档）；左右 45° 两个视角，按钮切换、0.6 秒圆弧；家具只记在布局里。「固定俯视体素地图」
+- 地图尺寸以体素视角下好走为准：路能两人并排、绕过路中间的人；野外能在敌人察觉圈外绕过去，原文守路的除外。「地图尺寸以体素视角为准」
+- 每个能进的房间在所属建筑（或院落）自己的图上，由门口的一对通道进出；房间、出口、门锁和站位不变，所有地图常驻。「地图重构」
+- 一个高度一张图：攀爬、洞穴、跳落是换图；地形按瓦片碰撞，门和可开关的挡块是节点。「Old Pine: one map per height level, collision on tiles」
+- 区域按身体中心归属，只在相邻区域间走；ES2 没有的原生连接写成区域 `links`。「One map runtime」
+- 同一张图上相邻同名房间算一处，走进去不再显示描述；标 `distinct` 的照样显示。「Neighbouring rooms of one name are one place」
+- 老松林按原文方位排布：坡在空地南边，迷阵从 epath3 的栈道进 pine1；松林和山洞的随机出口各是一个固定迷宫。「老松林按原文方位排布」「Random Pine room exits become one fixed continuous maze」「Old Pine remainder A」
+- 地图由画家按房间文字画；ES2 只描述、没写房间的去处只画不通。「雪亭镇's maps drawn by the painter」「老松岭's maps drawn by the painter」
+- 尸体躺在倒下的地方，会碰墙时最多侧移 40 px。「Old Pine: one map per height level, collision on tiles」
+
+**移动与交互**
+- 走路 0.08 秒加到全速（220）、0.06 秒停；身体是直径 34 的圆；贴墙滑动，正面撞上棱角时往两侧最多看 12 px。「手感」
+- 走通道换图时淡出淡入，期间世界停住；到达后横幅写「区域 · 地点」；镜头立即对准玩家。「手感」「地图重构」
+- 只对够得着的东西给动作：NPC、尸体、地上的东西和地标约 96 px 内，门和服务按各自范围；点地图上的空处不选东西。「The HUD's actions for what is near」「说话和交互」
+- E / A 或点击作用于够得着的目标（最近的或面向的，Tab / Y、Q / LB / RB 换），只做一件事的直接做，其余打开两栏交互窗口；窗口开着时世界时间停，「确认」后在世界里发生。「说话和交互」
+- 搜刮尸体要站在尸体 96 px 内。「Corpse loot requires a near-corpse spatial range」
+- 给予一次可勾选多件；给出已装备的东西或一两黄金以上的钱先问（收赌注、布施的不问）。「说话和交互」「积压问题的处理」
+- 问候等玩家第一次走近（136 px）才开始；远处的闲聊不给玩家看；NPC 的话显示在头顶气泡并记入消息。「说话和交互」「手感」
+- 请教、练习、打坐、冥思、修行可以「连续」：每步 150 ms，规则和抽数不变，遇到拒绝或白费的一步之前停下并说明。「连续修炼」
+
+**战斗**
+- 战斗中世界停住；战斗速度（慢 / 标准 / 快）只改一回合用多少真实秒；句子 0.12 秒一句；结束定格 0.8 秒。「手感：战斗」
+- 战斗记录用 combatd.c 的原句，伤害数字跟在句末；闪避、招架的措辞不抽战斗随机流。「Battle narration in ES2's words」
+- 有人要杀玩家时显示 kill_ob() 的「看起来X想杀死你！」并钉在战斗记录上方。「How a fight opens」
+- 切磋走 fight.c 和 NPC 的 accept_fight；持兵刃的切磋会伤人，照 ES2；兽类不能切磋；凶手是最后一击的人（last_damage_from）。「切磋: fight.c, accept_fight and armed spars」
+- 进门一起上：玩家所在区块里见人就打的一伙，有一个够得着就整伙进同一场战斗；出手前提示一拍（500 ms）；打过的人等玩家离开区块再回来才重新察觉。「进门一起上」
+- 室内区块整间房就是察觉范围，户外按 NPC 的圈子。「室内察觉」
+- 玩家这边要杀的人倒下时停手，卡片上给「了结 / 放过」；放过不记仇；设置「击倒后」可选直接了结（ES2）。「了结 / 放过」
+- 逃跑：排队、忙时等，验证通过就成功，留在原地脱离，不耗资源、不抽随机数。「Active Semi-Auto V1 Flee is same-position disengagement」
+- 投降：杀你的对手还站着时被拒，否则停战、扣 50 综合评价。「绮云镇 3C」
+- 运功、perform、施法在战斗中排队，忙时等；加力立即生效。「Internal power in combat: enforce, exert, the force hit」「The player's perform」「青石村 D」
+- 副手兵器的属性也计入；锤、杖的 bash 可以把兵器打飞或打断。「野羊山」
+- 杀气狂暴和瞪眼照 ES2 掷骰，但不会落在自己师父身上；第一次到门槛时提示一次。「水烟阁 C」
+- 多个敌人的 NPC 每次攻击按 select_opponent() 挑；生死战里站着的谁都不再打谁时结束。「青石村 D」
+- 战斗中不能拾取；「运功疗伤」置灰。「积压问题的处理」
+
+**NPC 行为**
+- 打听列出 ES2 的话题（这里、名字、传闻和 NPC 自己的）；答复已经做了事就不再接「没听说过」。「NPCs talk and wander; rooms reset」「青石村 B」
+- 闲聊按 npc.c chat() 抽；昏迷的 NPC 不说话、不问候。「NPCs talk and wander; rooms reset」
+- 游走只在家和隔壁，可以穿门到下一张图；落脚点离门 48 px 以上，被玩家顶住会侧身让开。「NPCs talk and wander; rooms reset」「地图重构」「积压问题的处理」
+- 回应玩家的 call_out 最晚 0.4 秒到；伤人、动手、赶人的问候保留 ES2 的 1 秒。「响应性」
+- 买路钱强盗看见欠钱的玩家立即喊一声，2 秒后还在范围里才动手；走过去不记仇。「响应性」「Pacing knobs and 卧龙岗's second」
+- NPC 受伤会回复，昏迷后 random(100 − con) + 30 秒醒来。「切磋: fight.c, accept_fight and armed spars」
+- 一场战斗结束后 NPC 忘了玩家（召唤出的除外）；在战斗中 random_move 的 NPC 走出这场战斗；带 vendetta 标记的见人就打。「山烟寺 A」「了结 / 放过」「绮云镇 3C」
+- NPC 的记忆（对象变量）存档；重生的从 create() 重来。「乔阴 B」
+- 召唤物（天将等）的击杀算召唤者的，战斗结束就走。「青石村 D」「青石村 C」
+
+**成长、武学与门派**
+- 拜师分 requirements、oath、trial 三种；师父拒绝就结束这次请求；改投他派先问，背叛扣综合评价、betrayer + 1；杀自己的师父也算背叛。「水烟阁 B」「山烟寺 C」「绮云镇 3B」「绮云镇 3C」
+- 拜师页列出条件和玩家的数值；请教页写每门能学到几级、卡在哪里。「上限预览和拜师条件」
+- 激发在战斗外任何地方都行；练习、打坐、冥思、修行、自学、研读在武学页。「Offense/defense routes B」
+- 打坐、冥思、修行提高上限时立即重算最大精气神，继续游戏时也重算。「积压问题的处理」「Internal power in combat: enforce, exert, the force hit」
+- 经验：战斗涓流和回复 ×3、历练奖励、落后补偿、分档潜能上限、打坐 ×6、木人和悬赏榜（见下「节奏开关」）。「经验节奏」「Pacing knobs and 卧龙岗's second」
+- 朱鸿雪只派游戏里有的目标；时限 ×1.5、按游戏时间走、存档；任务奖励的潜能上限只止增。「绮云镇 3C」「Pacing knobs and 卧龙岗's second」
+- 重兵器和重防具按重量扣轻功，物品详情写明。「积压问题的处理」
+- 新角色 14 岁、八项天赋都是 30（不做 15 岁的重抽）；名字是 1–24 个 Unicode 字母；新游戏有「随机名字」。「New Player Delayed Gift Randomization」「Generalized Player display names」「手柄」
+
+**物品与经济**
+- 给予、丢下、放进、取出照 give.c / drop.c / put.c / get.c；被拒收的那部分留在玩家身上；丢在地上的东西连位置存档。「Give, drop and put; shops and teachers on their NPCs」
+- 商店和师父跟着 NPC 本人；昏迷的店主照卖，死了等重置；货无限，每次买都是新物品。「Give, drop and put; shops and teachers on their NPCs」「Snow waiter / dumpling supply loop (S4B only)」
+- 付钱按金、银、铜的顺序；钱庄兑换；当铺按价值八折收购（先银后铜，至少 1 文），不做典当和赎回。「Currency exchange / payment core (S3B only)」「Hockshop valuation / payout / sell lifecycle (H2)」
+- 飞刀、蛇药、桃符纸等是通用的组合物品；数量到 0 立即销毁。「Old Pine remainder B」
+- 一整堆拿不动时捡能拿的部分；赢的钱拿不动的落在脚边。「绮云镇 3D」
+- 吃完的肉留骨头，骨头可以喂狗（狗随后跟着走）；有的食物同时是兵器。「积压问题的处理」「黑松山 A」
+- 牛皮酒袋可灌清水；喝酒会醉，蒙汗药能下在酒里。「Fresh water supply loop (S6B only)」「青石村 B」
+- 新角色的食物和饮水开局是满的（400 / 400）。「Fresh Food / Water Initialization」
+- 赌场宝官照 ES2 八成赢；整堆押注赢了也只付两倍；没有婚姻。「绮云镇 3D」
+
+**世界时间与重置**
+- 菜单、交互窗口、战斗、换图时世界时间停住；菜单里玩家自己的忙碌照样倒数。「菜单窗口」「说话和交互」
+- 玩家离开的地图在回来、重置或有人进出前一次补算到现在，不抽会话随机流；离开超过 3600 秒的部分直接算满；游走补算最多 12 步，邻图的人会走过来。「别的地图时间补算」
+- 你不在时 NPC 最多回到 create() 造出时的数值。「别的地图时间补算」
+- 冲着玩家来的 call_out 在离开地图时丢弃，师父的拜师答复对空房间说；风泉剑灵的吟诵等玩家回来，并存档。「茅山 B」「乔阴 C」
+- 房间各按自己的时间表重置（`room_reset_seconds` 1800，MudOS 公式）：死的 NPC 重生，离家的回家，地上的东西没了才补。「NPCs talk and wander; rooms reset」
+- 状态（毒、醉）在心跳上发作，战斗中和玩家昏迷时不走；忙碌也在心跳上消退。「Old Pine remainder B」「Busy wears off on the heart beat」
+- 回复按 5 + random(10) 拍计数，关掉游戏的时间不算。「Player recovery / metabolism cadence (S5B only)」
+- 玩家昏迷：醒来的时间照 damage.c 抽，黑屏只躺 3 秒，其间世界时间加速走完。「积压问题的处理」
+
+**死亡与阴间**
+- 要杀玩家的敌人会补刀；死后有死亡惩罚，玩家变成鬼魂，在鬼门关走阴间回阳。「Player unconsciousness and death follow ES2」「鬼门关 A」
+- 尸体按世界时间腐烂（120 / 120 / 60 秒，最后东西散落），玩家自己的也一样。「尸体腐烂」
+- 鬼魂看不见，阴阳眼（茅山道术）能看见。「乔阴 B」「鬼门关 B」
+
+**存档**
+- 开发版存档不保证兼容：不支持的文件拒绝，不删除；内容变动升 world revision，需要新游戏。「Pre-Cutover Development Save Compatibility」
+- 战斗中、动作没做完、玩家昏迷或死亡途中、被押送时不能存档；忙碌照样存。「Native saves require a restart-stable gameplay boundary」「Busy is saved, not waited on」「Player unconsciousness and death follow ES2」「乔阴 D」
+- 玩家的 set_temp() 标记、NPC 的记忆、地上的东西都存档；门的开关和房间计数器不存。「Save: the player's set_temp() flags」「乔阴 B」「Give, drop and put; shops and teachers on their NPCs」「Snow's inner rooms」
+- 物品存完整状态（嵌套、堆叠、装备栏）；体重和负重上限是独立字段，继续时原样恢复。「Native item persistence preserves the complete represented domain state」「Player Body Facts and Native Continue」
+- 召唤出来的观想虫、僵尸不存档。「茅山 C」「茅山 D」
+
+**界面与设置**
+- 菜单窗口：角色、武学、背包、任务、声望、百科、系统；系统页是真正的暂停。「菜单窗口」
+- 手柄、键盘、鼠标、触屏并存，按键图标跟当前输入方式。「手柄」
+- 左上状态卡（名字、菜单、精气神、状态、等待）；左下 toast 显示游戏自己的消息，6–14 秒后淡出。「The HUD: a status card and toasts」「说话和交互」
+- 任务页「江湖见闻」只记已发生的事和 NPC 说过的话；百科只收见过的。「任务日志与百科」
+- 设置：战斗速度、受击闪红、击倒后（询问 / 直接了结）、界面缩放（地图上的字不缩放）、语言。「手感：战斗」「了结 / 放过」「说话和交互」「Localization: the source text is the key」
+
+**节奏开关（经典模式）**：`common/pacing.json`，不写就是 ES2 原值；套件按经典值跑（`Es2Pacing`、`TestFeel`、`TestAway`、`TestAlert`）
+- `player_exp_gain` 3、`player_recovery_gain` 3、`quest_time_percent` 150、`npc_thirst` 10（经典 1 / 1 / 100 / 1）。「Pacing knobs and 卧龙岗's second」
+- `player_wake_seconds` 3（经典 0）。「积压问题的处理」
+- `reaction_beat_ms` 400、`trial_blow_ms` 700、`dim_fade_ms` 400；强盗的 `toll_attack_delay_ms` 2000。「响应性」「Pacing knobs and 卧龙岗's second」
+- `hostile_alert_ms` 500（经典 0）。「进门一起上」
+- `away_catch_up_limit_seconds` 3600、`away_wander_moves` 12、`away_neighbour_pulse_seconds` 30（经典 0）。「别的地图时间补算」
+- `corpse_rot_seconds` / `corpse_bones_seconds` / `corpse_scatter_seconds` 120 / 120 / 60（就是 ES2）。「尸体腐烂」
+- `milestone_rewards`、`catch_up_max_percent` 100、`staged_potential_cap`、`player_exercise_gain` 6、`training_dummies`、`bounty_board`（经典关 / 0 / 1）。「经验节奏」
+- `room_reset_seconds` 1800、`combat_round_ms` 1000、`heart_beat_ms` 2000（就是 ES2）。「NPCs talk and wander; rooms reset」「One map runtime」「响应性」
+- `feel`：换图淡入淡出、走路、气泡、菜单、战斗演出、`training_step_ms`、`corner_slide_px`（不写 = 0，没有演出）。「手感」「手感：战斗」「连续修炼」
+- 还没有一键切回 ES2 的「经典模式」总设置。「产品定位」
+
+**各区域的修复与改动**（细节在各区域条目和 `*_CONTENT.md`）
+- 雪亭镇：密室不会把人关在下面；玩家邮件不做；武馆木人和悬赏榜是新内容。「Snow's inner rooms」「Snow's south road and shops」「经验节奏」
+- 老松岭：只看的描述做成地标；cliffside ↔ pine1 双向；寨门每关一次只补回少了的喽罗。「积压问题的处理」「Old Pine remainder A」
+- 卧龙岗、绮云镇：新来的人走得过强盗；陈剑秋拒收的东西退回；朱鸿雪的任务和赌场。「Pacing knobs and 卧龙岗's second」「Modern fixes: ES2 behaviour that reads as a bug」「绮云镇 3C」「绮云镇 3D」
+- 水烟阁：正厅的师父照 class 目录那份放；红衣武士的 accept_kill() 生效。「水烟阁 A」「乔阴 A」
+- 青石村：玉佩和蒙汗药按代码本意能走通；绝地可以「放弃」回客栈。「青石村 B」「青石村 A」
+- 晚月庄：sroad1.c 修好；第二密室的八卦图谁都能跳「西出阳关」出来。「晚月庄 A」
+- 山烟寺：前院的护寺武僧补上；船夫收两文钱渡江。「山烟寺 A」
+- 乔阴：县衙的抓捕修好；树王坟的洞能下去；鬼魂看不见。「乔阴 A」「乔阴 D」「乔阴 B」
+- 天驼关：竹林道修好；大队长的过路钱累计到 30 两。「天驼关 A」「天驼关 C」
+- 玉螺湖村：湖心能划船、潜水；还瓜钱要付 60 文，抓人的瓜农倒下就能走。「玉螺湖村 A」「玉螺湖村 B」
+- 京师：令牌照 ES2；地下密室的石阶从下面也能开。「京师 A」「京师 B」
+- 黑松山：进山的路修好；小娟只救一次。「黑松山 A」「黑松山 B」
+- 鬼门关：阴间要自己走回来；路的尽头补了原文缺的句子。「鬼门关 A」
+
+## 老松林按原文方位排布 (owner, 2026-10-25)
+
+- **ES2:** clearing.c's exits send `north` to spath1, but its own text has three ways east, west
+  and south with the sign by the south one, and spath1-4 describe a slope south of it, 北高南低;
+  cliffside and cliffdown each have a cliff to the west: the gorge's, climbed up from riverbank1
+  by cliff1 to the cliffside (it has no way down), and the one climbed down by cliff2 to epath3
+  below the bridge; epath3 has a broken plank road up the cliff. Drawn by the exits alone, the slope ran back north beside the way in, and the climbs
+  from the maze's far west edge landed on the other side of the map.
+- **We:** the exits are kept, the places are drawn where the rooms say they are: the slope south
+  of the clearing, the sign by its head; the gorge running south from the falls under the
+  bridge; the pine maze and 老松寨 on the high ground east of it, cliffdown on its west edge
+  straight above epath3 and the cliffside on the same edge over the gorge. The maze's native way
+  in (B2's link, no ES2 exit) moves from the clearing's south side to the plank road up from
+  epath3 into pine1; the clearing has only its three ways. The maze keeps its structure (a loop,
+  two dead ends, one way on to cliffdown). pine1's two bandits, who in ES2 stand where every
+  way into the maze passes, stand in a hollow by the way to the keep: one can go round them to
+  the deep maze or the cliffside (owner, 2026-10-25).
+  World revision SOURCE_ENTRY_OLDPINE_RELAYOUT_V1.
+
+## 地图尺寸以体素视角为准 (owner, 2026-10-25)
+
+- **以前:** 2D 地图的路、台阶、院子和门洞按俯视色块的比例画；画上体素的建筑、岩石、栏杆和人物之后，路被南边
+  的东西挡住，路上站一个人就过不去，野外绕不开敌人。
+- **我们:** 地图尺寸以体素视角下好走为准，不保留原 2D 比例。路至少能两人并排、路中间站着人也能从旁边绕过
+  且不碰到对方；野外山路要能在敌人的接触（有主动攻击的 NPC 时还有察觉）范围外绕过去；原文说窄的小径、窄巷
+  可以比大路窄，但仍要能绕过一个人。路和南边的建筑、岩石之间留空隙，南侧的东西压低（悬崖 `south_rise`、
+  树 `bands`/`south_reach`），仍挡的地方用剖开的矮墙。NPC 站位放在路边、院子边。加宽是布局改动：区域、
+  传送口和门保留，不打通原本不相连的地方，写死的坐标随新尺寸更新。规则全文在 `docs/design/美术规划.md`
+  §2「路和空间」。水烟阁（2026-10-25）是第一个照此放宽的区域；之前做完的雪亭镇、卧龙岗和绮云镇、老松林、
+  野羊山随后也放宽（`phase/road-widening`，两侧有房的街约 320 像素，整排房子往外挪）。原文守路的不必
+  绕得开：老松寨寨门和寨里的守卫、野羊山山路转角那伙强盗、迷阵里的狼狗、山坡死路上的三个强盗（老松林迷阵口
+  两人原也在内，owner 2026-10-25 改成绕得过，见「老松林按原文方位排布」）；其他主动攻击的（雪亭镇的疯狗）
+  站在路边，绕得过它的察觉圈（`map_road_room_test`）。
+
+## 首发只做桌面 (owner, 2026-10-24)
+
+- **之前：** 桌面和手机一起做；PR #161 为手机的帧率给体素视图加了一套手机画质档（低分辨率渲染、少阴影、
+  只点最近的灯、草丛减半），另有单遍遮挡物和同色合批。
+- **owner 决定：** 第一版只发桌面端。手机版等发售后看评价再决定要不要移植。
+- **所以：** 画面不为手机帧率减配，各区域的体素地图按桌面定丰富程度；不改画面的优化（合批、少画看不见的
+  东西）照常可做。PR #161 不合并，转成草稿封存；分支 `phase/mobile-voxel-perf` 保留，移植手机时从那里
+  接着做（先合入最新 main，再在手机上重新量帧率）。CI 照旧跑 Android 和 iOS 两个必需作业（AGENTS.md
+  「Git and CI」），只当构建门槛，手机帧率不再是区域的验收条件。
+
 ## 进门一起上 (A6, owner 批准 2026-10-24; Q1 整片区块, Q2 单个也给提示, Q3 通用喊话)
 
 - **ES2：** 玩家进房间时，房里每个 NPC 的 feature/attack.c `init()` 各判一次（hatred → vendetta →
@@ -162,149 +357,229 @@
 - 新增家具会缩小可走区域：属于地图布局改动，各房的门、出口和刷怪点保持可达（走查测试）。
 - 原 2D 色块地砖不再显示，只作布局与碰撞；`docs/design/美术规划.md` 的像素画法由体素规范取代。
 
-## 老松林按原文方位排布 (owner, 2026-10-25)
+## 了结 / 放过 (owner 批准, 2026-10-20)
 
-- **ES2:** clearing.c's exits send `north` to spath1, but its own text has three ways east, west
-  and south with the sign by the south one, and spath1-4 describe a slope south of it, 北高南低;
-  cliffside and cliffdown each have a cliff to the west: the gorge's, climbed up from riverbank1
-  by cliff1 to the cliffside (it has no way down), and the one climbed down by cliff2 to epath3
-  below the bridge; epath3 has a broken plank road up the cliff. Drawn by the exits alone, the slope ran back north beside the way in, and the climbs
-  from the maze's far west edge landed on the other side of the map.
-- **We:** the exits are kept, the places are drawn where the rooms say they are: the slope south
-  of the clearing, the sign by its head; the gorge running south from the falls under the
-  bridge; the pine maze and 老松寨 on the high ground east of it, cliffdown on its west edge
-  straight above epath3 and the cliffside on the same edge over the gorge. The maze's native way
-  in (B2's link, no ES2 exit) moves from the clearing's south side to the plank road up from
-  epath3 into pine1; the clearing has only its three ways. The maze keeps its structure (a loop,
-  two dead ends, one way on to cliffdown). pine1's two bandits, who in ES2 stand where every
-  way into the maze passes, stand in a hollow by the way to the keep: one can go round them to
-  the deep maze or the cliffside (owner, 2026-10-25).
-  World revision SOURCE_ENTRY_OLDPINE_RELAYOUT_V1.
+- **ES2:** after the player's 攻击 (kill.c: kill_ob() both ways), feature/attack.c remove_enemy()
+  keeps a killer's unconscious victim, combatd.c fight() always strikes one lying unconscious,
+  and std/char.c heart_beat() kills it on the next wound: about a second after the fall it is
+  dead, with no way to change one's mind (no halt command; surrender.c is refused while the
+  enemy kills the player). Only walking out of the room as it falls spares it. One the player
+  only fights back (fight_ob()) is let be when it falls (clean_up_enemy()), as here already.
+- **Ours (deviation, owner 批准):** a player today does not mean every won fight to end in a
+  death, and many NPCs refuse a 切磋. When one the player's side is killing falls — the player
+  (standing) or one they called (WorldMapNpcs.summoner_of(): the 天将, the 护法's 天将 or 阴鬼卒,
+  the zombie and its 追魂符) has its kill_ob() — those of them who kill it hold their blow
+  (remove_killer(), remembering where it stood among their kill marks and enemies) and its
+  battle card shows 了结 and 放过; the button is the choice, nothing asks again. The fight is not
+  paused: the others fight on, and while one waits the fight goes on.
+  - **了结:** the held kill_ob()s are back where they stood and the player turns on it: the next
+    blow kills, as ES2. Everything a death does is unchanged (MKS, 杀气, 朱鸿雪's task, the
+    vendetta mark, 弑师). The button reads 了结（任务目标） for 朱鸿雪's target, 了结（弑师） for the
+    player's own master.
+  - **放过:** the player's side no longer kills it. It lies where it fell and comes to on its own
+    time; with nobody else to fight, the fight is over (won). 你住了手，放了X一条生路。
+  - **Owner (2026-10-20): 放过 bears no grudge** (reverses the plan's Q1, ES2's attack.c
+    init() hatred): a fight's end forgets the player, as it does after a flight and for every NPC
+    but a conjured one. One that attacks anyone on sight (a robber, a garrison on a vendetta)
+    still does, by its own rule.
+  - **Owner (2026-10-20): the countdown runs.** NPCs' revive call_outs stand still in a fight
+    here (their heart beat runs outside fights), unlike ES2. A held one's runs on the fight's
+    clock (as the player's own waking in a fight), shown on its card (昏迷 · 约 N 秒后醒来); if it
+    comes to before the player chose, the held kill_ob()s are back and the fight goes on as ES2's
+    (X慢慢睁开眼睛，清醒了过来。). Others lying in a fight still wake after it.
+  - **Owner (Q2): the player's summons follow the choice.** Anyone else on any side — 老公公 come to
+    help, an NPC with its own kill_ob() — keeps to ES2.
+  - The player falls or dies while one is held: nobody can choose, the held kill_ob()s are back.
+    Only those standing hold: one of the player's called lying down keeps its mark (it strikes
+    nobody), and with nobody standing to strike nothing is asked.
+  - A won fight in which nobody of the other side died says 你赢了这场战斗。 without pointing at a
+    corpse to loot (after 放过, or when the player only fought back).
+  - Not saved: a held one lives only inside a fight, and Save is refused in a fight.
+- **Owner (Q3): the setting 击倒后 — 询问 / 直接了结**, 询问 by default; 直接了结 is ES2 throughout.
+  Settings schema 5 (`after_knockout`: ask / finish); an older file reads as 询问. The suites run
+  直接了结 (run_suite.gd, as TestFeel): the rules they pin are ES2's; `spare_or_finish_test`
+  turns on 询问.
 
-## 地图尺寸以体素视角为准 (owner, 2026-10-25)
+## 上限预览和拜师条件 (owner, 2026-10-19)
 
-- **以前:** 2D 地图的路、台阶、院子和门洞按俯视色块的比例画；画上体素的建筑、岩石、栏杆和人物之后，路被南边
-  的东西挡住，路上站一个人就过不去，野外绕不开敌人。
-- **我们:** 地图尺寸以体素视角下好走为准，不保留原 2D 比例。路至少能两人并排、路中间站着人也能从旁边绕过
-  且不碰到对方；野外山路要能在敌人的接触（有主动攻击的 NPC 时还有察觉）范围外绕过去；原文说窄的小径、窄巷
-  可以比大路窄，但仍要能绕过一个人。路和南边的建筑、岩石之间留空隙，南侧的东西压低（悬崖 `south_rise`、
-  树 `bands`/`south_reach`），仍挡的地方用剖开的矮墙。NPC 站位放在路边、院子边。加宽是布局改动：区域、
-  传送口和门保留，不打通原本不相连的地方，写死的坐标随新尺寸更新。规则全文在 `docs/design/美术规划.md`
-  §2「路和空间」。水烟阁（2026-10-25）是第一个照此放宽的区域；之前做完的雪亭镇、卧龙岗和绮云镇、老松林、
-  野羊山随后也放宽（`phase/road-widening`，两侧有房的街约 320 像素，整排房子往外挪）。原文守路的不必
-  绕得开：老松寨寨门和寨里的守卫、野羊山山路转角那伙强盗、老松林迷阵口两人、迷阵里的狼狗、山坡死路上的
-  三个强盗；其他主动攻击的（雪亭镇的疯狗）站在路边，绕得过它的察觉圈（`map_road_room_test`）。
+- **ES2:** learn.c says why a lesson fails only when it is asked, one reason at a time; how far
+  a teacher takes a skill (the teacher's level, master.c's 20 levels a betrayal and a third of
+  the level for one not his own, valid_learn(), level³/10 combat_exp) is never told. A master's
+  attempt_apprentice() says only the first check the student fails, when asked.
+- **Ours (deviation, owner):** the 请教 page says under each skill how far the player can learn
+  it there and what stops it (还能学到 22 级（22 级要再学，须实战经验 ≥ 1064）。), or why not at all
+  (学不了：你已学到柳淳风的 150 级。), and what stops a lesson now (潜能已经用完, 精不够). LearnQuote
+  walks learn.c's level-bound checks up from the player's level, nothing changed. The 武学 page
+  says how far 练习 takes a skill (the basic skill's level; progress only, or full, at it) and
+  how far 打坐 / 冥思 / 修行 raise their maximum (the bottleneck).
+- **拜师 (deviation, owner):** the popup's 拜师 page lists the master's checks with the player's
+  values, met or not (定力 ≥ 20（你 30） ✓), 查看 counts them. What a master asks without saying
+  it is told no more (owner Q3): 须通过考验 (三招, 三鞭), 拜师时另有要求 (the oath), 须另有机缘 (陈天星's
+  letter); 骆云舟's mark reads 另有条件 until he has said it (his refusal sets marks/书生), then his
+  own line.
 
-## 积压问题的处理（2026-10-08，owner 按现代游戏标准批准）
+## 连续修炼 (owner, 2026-10-19)
 
-Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（owner，2026-10-08）：**PR 合并时 owner 没有
-回答的问题，按 PR 里的推荐方案生效，在这里标「默认」；owner 随时可以否决**，否决后改回并更新记录。
-每项一句：来源 PR、ES2 原行为、我们的做法。实现放在括号里写的 PR；在那之前记作 STATUS 的已知问题。
-两项等 owner 完整试玩后再定，列在 [STATUS 的「待决定」](../production/STATUS.md#待决定)。
+- **ES2:** learn, practice, exercise, meditate and respirate do one step per command, set no busy
+  and take no count (exercise's number is the kee each sitting spends); the player types the
+  command again. feature/alias.c's MAX_REPEAT 30 throws out a player who sends one command 30
+  times running: a server's guard against bots, not ported (as the login daemons).
+- **Ours:** 请教 (the teacher panel) and 练习, 打坐, 冥思, 修行 (the 武学 page) also have 连续…: the
+  same command again and again through the same services, every rule and draw unchanged (a run
+  leaves the save, RNG included, as the single button pressed as often), a step every
+  `training_step_ms` (150; 0 all at once, as in the suites) with a count, a bar and 停止 (B / Esc).
+  World time stays held on those pages (owner Q1), so nobody comes in meanwhile; a step that
+  starts a fight (茅山道术's 观想虫) ends the run. A run stops on a refusal (the command's own
+  lines: potential, kee, force or sen short, the 70 % thresholds, the teacher tired …), a level
+  or a maximum up, a fall, a fight, the teacher out of reach, the page closed or left, 停止.
+- **Deviation — the log:** a run is told in one summary (你向柳淳风请教「基本剑法」3 次：基本剑法进度
+  +31，精 -66，潜能 -3。), the lines a level, a skill_improved() or a maximum gives, then why it
+  stopped; each step's own lines are not printed. The single buttons keep ES2's lines.
+- **Deviation — no step for nothing (owner Q2):** a run stops *before* a step that would spend
+  and gain nothing, and says why: learn with gin not above its cost (learn.c takes all the gin
+  left: 你今天太累了), learn of a martial skill whose level³/10 is above combat_exp (gin spent: 也许
+  是缺乏实战经验), practice in weak mode once this level's progress is past (L+1)² (improve_skill()
+  drops the rest at the level), a sitting that gains nothing (酸麻), a sitting at the bottleneck
+  that would take the power back to its maximum. The single buttons still do what ES2 does.
 
-**要做的**
-- **A1 装备按重量扣轻功**（#75；单独 PR，**已实现**）：ES2 std/equip.c 对重量 ≥ 3000 而自身没有 dodge 的武器
-  扣 重量/3000 轻功，11 个 std/armor 基类对重量 > 3000 的防具扣同样多并覆盖原值，我们只对布衣类做
-  了（长剑应 −2、玄苏剑 −5、黑铁杖 −23、盾 −2、天兵战甲 −16……）；做法：实现这两条规则，物品详情
-  显示「轻功 −N」，武学页的有效等级随之变。导入器记下 create() 调的是哪个 setup()（`weight_dodge`），
-  规则在加载时算，NPC 的装备一样计入战斗，松林的藤蔓（epath2.c 的 query_skill("dodge")）也算；没调
-  setup() 的（天师道袍等 EQUIP 护具）和自带 setup() 的 throwing.c（飞刀）不扣。新扣的有 26 种武器；
-  防具变了 8 种：两种牛皮盾、狼皮披风、蓑衣、水烟阁武士氅从 0 变负，牛皮靴 +1 → −1，天兵战甲
-  −20 → −16、重钢战甲 −30 → −23 反而轻了。**默认**（偏离）：equip.c 也给重兵器设 armor_prop/dodge，
-  wear.c 于是能把它当护具「穿」上、只得惩罚；不搬。**默认**：咒剑王禅（taoist/sword.c）在 setup()
-  之后、clonep() 分支之外设 weapon_prop/spirituality，复制品自己的 weapon_prop 只有这一项，盖住了
-  原型的伤害 44 和轻功 −2（dbase.c 只在复制品没有该键时才查原型）；我们照原型给全部数值。
-- **A3 弈者「下棋」**（#56/#63；润色 PR，**已实现**）：ES2 play_chess() 有五成机会把他整串棋子送给对方
-  （100 枚，嘴上却说「两枚」），我们没移植；做法：移植 play_chess()，结果写进日志：赢了他给 **两枚**
-  （**默认**：照他的话；ES2 给整串），他手里没了就只说「好棋技！佩服。」。数据是带 `chance` 和
-  `hands_over` 的打听规则。
-- **A4 老松岭只看的描述**（#70；润色 PR，**已实现**）：ES2 的 clearing 告示（官府告示：此处常有歹人出
-  没。）、epath3 的脚印、epath2 和 waterfall 的瀑布、cliffside 和 riverbank2 的山壁、passage 的水帘只
-  能 look，我们没有；做法：做成只看不用的地标（policy look），和葬剑亭的石碑一样，文字照 item_desc
-  原样；waterfall 的山壁（同一房间的 item_desc）一并做了，共 8 个。
-- **A5 游荡 NPC**（#71；润色 PR，**已实现**）：ES2 的 random_move 整个换房间，没有「站在门口」一说，我
-  们的游荡 NPC 会停在 64 px 的店门里、站着的 NPC 顶住玩家；做法：落脚点离相邻区域、传送口和门 48 px
-  以上（区域太小没有这样的点时照旧），不多抽随机数；玩家顶着站立的 NPC 超过 1 秒，NPC 在自己区域里侧
-  身让到旁边（确定性地选让开路、离得最近的空位），不换区域；卖东西、教武功、给任务的 NPC 站着不动，
-  免得被推出服务范围。
-- **A7 最大气**（#47；偏离；现代化修正 II，**已实现**）：ES2 只在登录时按 race/human.c 重算最大气
-  （含 max_force/4），打坐练上去后要「继续」一次才变；做法：打坐、冥思、修行练高上限的那一下立即重算
-  最大精气神（和「继续」同一个函数），「内力进战斗」条目里「只在继续时重算」那句由此作废。
-- **A9 玩家苏醒**（#28；偏离；现代化修正 II，**已实现**）：ES2 让昏迷的玩家真实等 30 秒–2 分钟；
-  做法：延时照 damage.c 抽（random(100 − con) + 30），玩家只在黑屏里躺 pacing.json 的
-  `player_wake_seconds`（3 秒，默认 0 = ES2 原样），这期间世界时间按延时倍速走（NPC 心跳和苏醒、
-  房间重置、call_out、朱鸿雪的任务时限）；正在打的战斗照常速。NPC 的苏醒不变。
-- **A10 持兵刃切磋**（#37/#64；现代化修正 II，**已实现**）：ES2 的 accept_fight 不看挑战者自己的
-  状态（带伤连续切磋刘安禄会送命），look.c 也没有强弱比较的一句，#64 已对持兵刃的切磋先问；做法：对方
-  持兵刃或明显强于玩家时用 ConfirmPrompt，目标详情加一句相对强弱（原生五档：远不如你、不如你、不相上
-  下、比你强、比你强得多，按 combat_exp）。**Owner（#79）**：「明显强于」= 至少 4 倍且多 500
-  （RelativeStrength）：新角色和武馆弟子切磋不问，和刘安禄、拜师后的李火狮切磋要问。
-- **A11 骨头**（#56；润色 PR；偏离）：ES2 finish_eat 让熟牛肉、狗肉、牛腿吃完留下 牛肋骨/狗骨头/
-  牛腿骨，别名只有 rib，而 d/snow/npc/dog.c 的 accept_object() 只认 id("bone")（name.c 的 id() 精确
-  比对别名），所以原版的狗拒收这三种骨头、从不跟着走，只有示例鸡腿的 bone 喂得进；我们吃完就没了。
-  做法：吃完留骨头，骨头可喂狗（修掉 rib/bone 的错配：三个肉文件显然想让狗吃骨头，原样搬过来读起来
-  是 bug，owner 批准的现代化修正），狗吃了在同一张图内跟随；「既是食物又是兵器」的牛腿等第二个这样
-  的物品再做。**已实现**（狗肉）：最后一口后狗肉变成狗骨头（物品的派生形态，250 g、不值钱、量词 根，
-  ES2 沿用肉的 斤），野狗收下骨头「高兴地汪汪叫了起来」，之后玩家在同一张图里换房间它就跟过去（go.c
-  的「走了过来。」；路被挡住，比如门在玩家身后关上，它就留在原地；跟着的狗走过去时仍保持选中）；跟随是对象变量，和 ES2 的 leader 一样「继续」后不记得，房间重置照 ES2 叫它回家。
-  熟牛肉（beef.c）ES2 里没人卖，没导入；牛腿骨等牛腿成食物。
-- **□ 字**（#36/#55；现代化修正 II，**已实现**）：ES2 文本在 Big5 转换中丢了字；游戏里实际有 7 处
-  数据、2 处战斗描写（mudlib 里共有 128 处、71 个文件，多数尚未导入，也有有意的标记），原样显示 □；做法：
-  `tools/migration/text_replacements.json` 逐个定字，导入器在区域 override 之前套用，套完还剩 □ 就是
-  未决项（新区域导入时自动提醒），手写的数据和战斗描写照同一张表改，工具测试守住游戏里不再有 □。
-  柳□主 = 柳馆主，□偻 = 佝偻，用力一□ = 砸，血肉□糊 = 模糊，全身□麻 = 酸麻；□伤 定不了：不是
-  砍伤或劈伤（weapond.c 自有这两类，走默认句），它和割伤共用「划破皮肉」那组句子，取 擦伤（owner，#79），玩家
-  看不到这个词本身。
-- **给予贵重物品**（#59；现代化修正 II，**已实现**）：ES2 的 NPC（陈剑秋等）不问就收下任何给他的东
-  西，包括兵器和钱；做法：给出已装备的物品或大额钱时 ConfirmPrompt，对所有 NPC 生效。**Owner（#79）**：大额 =
-  一次一两黄金（10000 文）以上；收押注或布施的 NPC（宝官、庙祝的功德箱、化缘和尚）给钱不问。
-- **润色 PR 顺手修的**（**已实现**）：玩家走出房间时，留在原房间的 NPC 不再保持选中（kill.c 的
-  present() 本来就会拒绝）；战斗记录补上 combatd.c announce() 的「X脚下一个不稳，跌在地上一动也不动
-  了。」「X死了。」（玩家自己的不写：昏倒时 unconcious() 挡住了玩家的消息，死时 ES2 会印「你死了。」，这里由生死
-  画面说）。合并多个房间的
-  区域按玩家所在房间显示描述：要给区域补子区域数据、改画图器和场景，不是小改动，留着。
-- **闲聊频道行**（#75；现代化修正 II，**已实现**）：ES2 的 command("chat ...") 走 channeld.c 全服
-  可见，我们显示成 【闲聊】绝尘子：…；做法：在房间里喊出来，「绝尘子大声喝道：…」，仍是 HIC。
-- **措辞和界面**（现代化修正 II，**已实现**）：
-  - 誓词日志改「你发誓恪守门规。」（#67；ES2 接受的誓词是 守门规，原来写 你发誓道：守门规）。
-  - 地标动作句改自然短语（#44）：五个原来走「{动作}：{地标}」的老松岭地标各有一句，clearing.c、
-    riverbank1.c、cliff1.c 的 climb 原话，下大松树一句原生；模板只留作兜底。
-  - 去掉「你的目标是X。」日志行（#38）；换目标的「你把目标转向X。」保留。
-  - 伤害数字一律紧跟句末、灰色（#38）：最近三行改用战斗记录的同一种写法。
-  - 战斗中「运功疗伤」置灰，悬停写 heal.c 的「战斗中运功疗伤？找死吗？」，按了不排队（#47）。
-  - 普通日志文字调浅灰（消息、提示、战斗记录同一个颜色），HIW 高亮可辨（#47）。
-  - 冥思/修行没学基本咒文/基本法术时，瓶颈句后加「需要先学会基本咒文，法力才能增长。」（修行说基本
-    法术、灵力），按钮悬停同句（#75）。
-  - 法术和运功按钮悬停说明，如「施法「遁」：脱离战斗，回到雪亭镇城隍庙（80 法力，可能失败）」，数字
-    取各文件的常量（#76）。
+## Busy is saved, not waited on (owner, 2026-10-17)
 
-**保持现状，记为已定**
-- A8 战斗中拾取（#43）：ES2 允许战斗中 get（busy 1），我们半自动战斗期间世界冻结；保持冻结。
-- #42 拒收的那部分钱留在身上（ES2 先拆再问，拒收的钱丢了）；杨掌柜的 heal_me 按打听者的伤势判断
-  （dbase.c 用他自己的）。
-- #41 昏迷的 NPC 不说话、不问候（char.c 昏迷时仍跑 chat()）。
-- #52 狼狗的气上限抬到 200（wolf_dog.c 写 200，4 岁兽类上限 50，ES2 允许当前值高于上限）；寨门每关
-  一次只把 5 个喽罗里死掉或不在场的补回（ES2 每次再加 5 个）。
-- #55 bash_weapon 先掷反击再掷 bash（combatd.c 反之，两次掷骰独立）；砸断的飞刀不和完好的合并
-  （ES2 按文件合并）。
-- #57 野羊山的石屋和北壁裂口只画出来，不能进、不能爬（LPC 里没有对应房间）。
-- #60 朱鸿雪的任务目标是 84 个名字、220 条（qlist 里注释掉的 33 条不算）。
-- #62 卧龙岗强盗的出手窗口 2 秒（ES2 1 秒，够打一条命令离开；原生走过要 1.2–1.5 秒）。
-- #63 「你拿出一两银子给宝官。」放在开骰之前（ES2 印在最后）。
-- #64 安惜迩那类切磋先问（推翻 #48）；菜单两个确认的焦点在「取消」。
-- #67 没门派的人接受师父的主动收徒算首次拜师，不算背叛（apprentice.c 判成背叛，recruit.c 修过同一
-  bug）；同门换师父先问。
-- #68 的三条 Ours：狂暴和瞪眼的战斗只有两个人；生死战里谁都不再打谁时战斗结束；狂暴的喝骂在房间描述
-  之后。
-- #33/#70 老松岭：cliffside ↔ pine1 双向（pine1.c 没有回去的出口，但 cliffside 是死路）；尸体最多侧
-  移 40 px 避开墙；大松树在空地中间偏北；树用侧视，其他俯视；caves 仍是 48 px 的方格迷宫。
-- #75 天将在战斗结束时离开（heaven_soldier.c 的 set_leader() 不移植）。
-- #76 施法忙乱时排队等（cast.c 直接拒绝）；遁等于逃跑，敌人停手；双方都站着的生死战写「双方都停了
-  手」；有两个以上敌人的 NPC 照 select_opponent() 随机挑对手。
-- #66 提示 6–14 秒后自己淡出。
-- #38 「厮杀」「等你空下来」等原创用语保留（只去掉「你的目标是X。」）。
-- #27 牛皮酒袋照原名显示，不另起短名。
-- 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
+- **What changed:** Save no longer refuses while the player or an NPC is busy (the
+  "Inactive resident maps" and Save-eligibility entries above blocked it). Both busy facts
+  (action.c's busy and interrupt) are saved with their character on every map and restored
+  exactly; a spent busy whose interrupt value stands stays so, as action.c leaves it.
+- **Why:** inactive maps freeze, so an NPC left busy there (the player's 遁 away from a fight)
+  kept Save refused until the player went back. A modern RPG saves the state instead of making
+  the player wait on something they cannot see. Busy's formulas and its wearing off on the
+  heart beat are unchanged; guarding, opponents and lethal intent still block.
+
+## 说话和交互 (owner, 2026-10-17)
+
+Before the unified playtest, NPC speech and interaction were rebuilt as presentation and entry
+points (owner's plan, Q1–Q3 as recommended). **Rules are unchanged**: who says what, when a fight
+starts, what each action does and refuses are ES2's; the feel's knobs (`pacing.json` `feel`)
+decide only where and when the player sees them, and the suites run with them off (as ES2).
+- **问候** (init()'s greeting call_out): ES2 starts it as the player comes into the room. Here it
+  waits until the player first comes near the NPC (within `speech_reach_px` 136, four body
+  widths, and on the screen) and starts then, once per visit to the room (Q1): its wait, and a
+  harmful greeting's second to step aside, count from that moment. A player who never comes near
+  is not greeted (nor hurt by a greeting that harms).
+- **闲聊** (npc.c chat()): the roll is ES2's; a line drawn while the player is far off is not shown
+  to them (not even in 消息). What the NPC does on a chat (walks, drinks, steals) happens as before.
+- **Where lines show**: what NPCs say (greetings, chat, stories, chants, the toll robber's 喝令)
+  shows over their heads and goes into 消息; the bottom left's toasts keep the game's own messages.
+  A room's title and description show in the top right for 4 s (+40 ms a character past 40,
+  `room_text_ms` / `room_text_char_ms`) and go into 消息 (Q3); 观察 shows them again.
+- **交互**: E (pad A) or a click / tap on a thing in reach goes to the target (the nearest, or a
+  near one the player faces; Tab / Y and Q / LB / RB step to the others), marked with a ring and
+  「E 交互」. A thing that does one thing (a door, an item on the floor, a room's service, a sign
+  only looked at) does it at once (Q2); the others open the interaction popup: the thing's name and
+  title, how it is (昏迷不醒，约 N 秒后醒来; 正等着你留下买路财), what it is to the player
+  (look.c's relation, the strength line), then every option it offers. One the rules refuse now
+  is greyed with ES2's own line where it has one (fight.c: 这里禁止战斗。 / %s已经无法战斗了。,
+  kill.c: 这里不准战斗。, apprentice.c: 你必须先把%s弄醒。), else a short native one (拾取:
+  离得太远，够不着。; 给予 to one lying unconscious: give.c's 这里没有这个人。 would contradict
+  what the player sees, so {npc}昏迷不醒，收不了东西。; owner, 2026-10-17). A landmark with an action (放弃,
+  抓住藤蔓) always opens the popup, never a stray click. A greeting still waiting when a fight
+  starts in the room is forgotten (ES2's had long been said). 拜师 and 给予 are on the popup;
+  the HUD's card keeps the name, 菜单, 精气神, conditions and waits only.
+- **The popup is one window, two columns, one size** (owner's playtest, 2026-10-17): it keeps
+  a fixed share of the screen (75 % × 70 %, never under 820 × 440, so a small or scaled
+  screen is nearly all popup), each column
+  scrolling itself. The options on the left (no 查看 row); on the right its 查看 — opening the
+  popup looks at the thing (look.c: name and title, description, relation, strength; the status
+  lines above; a corpse's or landmark's own look). Opening it therefore does what 查看 did, ES2's
+  look side effects included (look.c's berserk, a landmark's look function). B / Esc / 返回 (the
+  frame's 关闭 on a page) go back to 查看, then close; B on a question is its 取消.
+- **World time stands still while the popup shows, every page included; acts are confirmed
+  on the right, then done in the world** (owner, 2026-10-17, like Skyrim's menus): a row shows
+  what it is about and a 确认 on the right; 确认 closes the popup and the act happens with world
+  time running, so an NPC's answer (拜师's within the 0.4 s reaction beat, a story told line by
+  line, a 接话) comes in the world, in bubbles.
+  - **Deviation: 攻击 and 切磋 always ask** (ES2 and the HUD before: only when risky): the page
+    says how strong the NPC looks, then the risk's warning or a plain question. So do 疗伤他人,
+    驱尸, 还瓜钱 and a landmark's actions (抓住藤蔓, a dial's turn: each turn reopens the popup).
+  - **拜师** (and 发誓恪守门规, 接受测试, 取消拜师请求, which follow it and were the teacher panel's
+    own buttons): the master's name, family and what he teaches, the teacher panel's question
+    when one applies (betrayal, first master, change of master, a master who attacks a traitor),
+    确认. Whether he takes the player was not told before (owner Q1: ES2 tells only by asking);
+    since 2026-10-19 the page lists his conditions (「上限预览和拜师条件」).
+    请安 to one's own master is done at once. The teacher panel shown as 请教's page leaves these
+    to the popup's rows.
+  - **Deviation: 给予 gives several things at once** (ES2: one give per command): the page lists
+    what the player carries to tick (a stack's amount beside it); the 背包's questions (an
+    equipped thing, a large sum, a letter that recruits at once) show as warnings above
+    确认给予, which can be pressed once something is ticked. 确认 closes the popup, then give.c
+    runs for each ticked thing in the list's order while the NPC still takes gifts.
+  - **偷窃**: a thing chosen (or 随手摸一样) is confirmed with what is aimed at and the warning;
+    the theft's three seconds then pass in the world. **行贿**: the amount and its button are
+    the confirmation; taken, the popup closes.
+  - **Pages done on the spot stay**: 购买 / 请教 / any service's panel, 打听, 拾取 on a corpse
+    — their results come at once, world time stopped. An 打听 answer that starts something the
+    NPC goes on with (大队长's 黄石隘口 told line by line, an NPC's own call_out) closes the
+    popup for it to happen, the answer shown as toasts (owner Q2).
+- **系统 keeps the status card** (owner, 2026-10-17): the pause (系统) still pauses the tree; the
+  HUD's card stays behind the menu there, as behind its other tabs.
+- **界面缩放 and the map's own text** (#138, owner 2026-10-17): the 界面缩放 grows the interface
+  only; names over bodies, landmark and floor-item labels are drawn on the map and stay its size.
+
+## 室内察觉 (an aggressive NPC indoors notices the room)
+
+**Owner (2026-10-16, after 地图重构 R2):** ES2's aggressive NPCs act from init(), on whoever is
+in their room. The native stand-in was a presence circle (spawn `presence_radius`, 120 px);
+the remap grew rooms past it, so one could walk round a hall's 护院. Now a zone marked
+`indoors` (a building's room, a tent, a cave, a dungeon, from the remap survey's
+classification of the ES2 rooms) is the presence: an aggressive NPC there notices the player
+the moment both are in the room (the player's arrival or the NPC's, by any way), complete_set
+rooms and toll contact alike, and nobody in the next room. Streets and the wild keep the
+circle (owner: only rooms inside). The radius knobs of the 狮子 (400) and the 白鳞冰龙 (260)
+went with it: their rooms are indoors. 194 zones: the survey's inside rooms less two
+balconies whose LPC sets outdoors (阳台, 观景台). An NPC that only may go berserk (attack.c
+init()'s roll: 淳于怀太, the 福林楼 guards) rolls on the player's arrival in its room too.
+Once noticed, an NPC waits for the player to leave the room and come back (a flight stands
+where it was, as the circle's leaving and coming back); one that took no part in the fight
+that started meanwhile notices the player anew when it ends (the next 护院). Since「进门一起上」
+(2026-10-24) everyone there who attacks on sight comes at once, and outdoors too those who fought wait
+for the player to leave their zone.
+
+## 地图重构 (owner, 2026-10-16)
+
+ES2's rooms have no size; the first native maps drew a town's rooms side by side on one map, too
+small for a body and its NPCs. Now maps follow a scale standard in body widths
+(`tools/maps/standard.json`; owner: a building no smaller than its description says), and every
+enterable room is on its building's (or walled compound's: owner Q1) own map, entered by a passage
+pair on its door, the town keeping its facade. Rules and content are unchanged: rooms, exits
+(one-way ones stay one-way), doors and locks (a door on a passage is one door on both maps), exit
+rules, scripted moves and where each NPC stands. Owner Q2–Q4: towns scaled and buildings' maps
+laid from their exits; wild maps not rescaled, their buildings and caves moved out; every map
+stays resident. 晚月庄's and 水烟阁's compounds were already their own maps: grown ×1.5 as drawn,
+and the rooms their descriptions call large grown to that class (owner).
+What follows from it:
+- An NPC walks through a door onto the next map as it walks into the next room (wanderers, one
+  called over, one walking out of a fight, followers); a save counts one on its way out as through
+  the door.
+- Leaving a room by its door is leaving it (a trap on the way out); a master's 拜师 answer still
+  due is said to the empty room as the player leaves the map (茅山 B).
+- 茅山 B's rule stands (a map's world time stands still while the player is on another): NPCs act
+  only on the player's map, which since the remap is a building or its street (owner to judge at
+  the playtest). Superseded by「别的地图时间补算」(2026-10-23): a map catches up when the player comes back.
+- A door's fade is the shorter `door_fade_*` and names no place; world revisions
+  `SOURCE_ENTRY_REMAP_*` (development saves need a New Game).
+
+## 手感：战斗 (现代化修正 III B2, 2026-10-16)
+
+B 包的战斗部分（同一批准方案）。**规则和结果不变**：
+- **战斗速度（设置，不进存档）**：慢 / 标准 / 快。一场战斗有自己的时钟，一回合永远是 `combat_round_ms`
+  的规则时间：计时效果、按回合算的忙碌、规则时间都不变；速度只改这段时钟走多少真实秒——慢档一回合用 150%
+  的时间，快档 60%（`feel` 的 `battle_slow_percent` / `battle_fast_percent`；标准就是回合本身）。战斗中改设置，
+  从下一帧起生效。设置文件升到第 3 版（`battle_speed`、`hit_flash`），旧文件读作标准、闪红开。
+- **任务时限（owner Q2）**：朱鸿雪的任务时间在战斗中按这场战斗的时钟走：每回合耗 1 秒，三档一样；标准档
+  和以前完全一样。
+- **战斗演出**：一回合的句子 0.12 秒一句（`battle_line_ms`）；一回合讲不完时压缩间隔，保证在下一回合之前
+  讲完。角色卡等句子讲完再更新：气条 0.25 秒滑到新值（`bar_tween_ms`），掉气时闪红 0.15 秒（`hit_flash_ms`；
+  设置「受击闪红」可关）。战斗面板和菜单一样淡入。
+- **结束定格**：结果出来后，面板停在最后几句上 0.8 秒（`battle_end_hold_ms`），最后一击也显示在卡片上；
+  这段时间世界停住（停住原因 `battle_end`）、玩家不能走、面板不接受操作；之后才出胜负那句、恢复世界。
 
 ## 菜单窗口 (界面重构 A, 2026-10-15)
 
@@ -392,21 +667,6 @@ B2 战斗）。ES2 没有画面，这些都是新增的表现；**不改规则�
   喝令是红字。记录照旧全写。强盗喝之前先写岗上的描述，红字一定在描述后面。
 - **菜单**：0.12 秒淡入（`menu_fade_ms`），世界照旧从按下那一刻停住；关闭是立即的，玩家马上能走。
 - 套件默认关掉 feel（`TestFeel`：淡入淡出会让走通道的旧测试晚一拍换图）；`feel_test` 打开测。
-
-## 手感：战斗 (现代化修正 III B2, 2026-10-16)
-
-B 包的战斗部分（同一批准方案）。**规则和结果不变**：
-- **战斗速度（设置，不进存档）**：慢 / 标准 / 快。一场战斗有自己的时钟，一回合永远是 `combat_round_ms`
-  的规则时间：计时效果、按回合算的忙碌、规则时间都不变；速度只改这段时钟走多少真实秒——慢档一回合用 150%
-  的时间，快档 60%（`feel` 的 `battle_slow_percent` / `battle_fast_percent`；标准就是回合本身）。战斗中改设置，
-  从下一帧起生效。设置文件升到第 3 版（`battle_speed`、`hit_flash`），旧文件读作标准、闪红开。
-- **任务时限（owner Q2）**：朱鸿雪的任务时间在战斗中按这场战斗的时钟走：每回合耗 1 秒，三档一样；标准档
-  和以前完全一样。
-- **战斗演出**：一回合的句子 0.12 秒一句（`battle_line_ms`）；一回合讲不完时压缩间隔，保证在下一回合之前
-  讲完。角色卡等句子讲完再更新：气条 0.25 秒滑到新值（`bar_tween_ms`），掉气时闪红 0.15 秒（`hit_flash_ms`；
-  设置「受击闪红」可关）。战斗面板和菜单一样淡入。
-- **结束定格**：结果出来后，面板停在最后几句上 0.8 秒（`battle_end_hold_ms`），最后一击也显示在卡片上；
-  这段时间世界停住（停住原因 `battle_end`）、玩家不能走、面板不接受操作；之后才出胜负那句、恢复世界。
 
 ## 响应性 (现代化修正 III A「等待」, 2026-10-15)
 
@@ -541,6 +801,7 @@ in [CHUENYU_CONTENT](CHUENYU_CONTENT.md#lpc--native-b); it follows the LPC excep
   comes into the 刑房, at once; the 狱卒 attack whoever comes in (both of a 刑房's together:
   complete_set) and wander; the slab opens on the fifth push for five seconds and shuts on time,
   with the player above too (east_castle reads its fall); the 地牢 has no other way out.
+  (`complete_set` superseded by「进门一起上」, 2026-10-24: every zone gathers its gang, `combat_entry` is gone.)
 - **Global (data):** NPC `calls` (init()'s call_outs: `after` seconds, started anew by each arrival),
   `moods` (title, applies, flags and chat until the room resets), `die_marks_killer`,
   `attack_ask`/`attack_choice`, `follows_every_way`; spawn `once`; act condition `npc_in`, steps
@@ -748,6 +1009,8 @@ pick, the 瓜农's catch, 还瓜钱). What each LPC function became is in
   wall and stick have no text either.
 - **默认 (plan): all six 白鳞冰龙 fall on whoever enters their hall** (`complete_set`, presence 260):
   ES2's aggressive NPCs each attacked on entry.
+  (Presence 260 superseded by「室内察觉」, 2026-10-16: the hall is indoors, the room is the presence;
+  `complete_set` by「进门一起上」, 2026-10-24: every zone gathers its gang, `combat_entry` is gone.)
 - **默认 (plan): 刘老农's greeting comes a second after the player** (the LPC's call_out was 2).
 - **默认 (plan): the 渔夫's 桂花 answer is kept** (it names a real university: the author's joke).
 - **The 西瓜** (food.c's drink_func): each of its eight bites adds 20 food and 40 water, refused
@@ -1354,6 +1617,118 @@ What each room and LPC function became is in [LATEMOON_CONTENT](LATEMOON_CONTENT
 - **Save**: world content revision `SOURCE_ENTRY_LATEMOON_V1`; older development saves need a
   New Game.
 
+## 积压问题的处理（2026-10-08，owner 按现代游戏标准批准）
+
+Owner 一次处理了各 PR「待你决定」段里积压的问题。规则（owner，2026-10-08）：**PR 合并时 owner 没有
+回答的问题，按 PR 里的推荐方案生效，在这里标「默认」；owner 随时可以否决**，否决后改回并更新记录。
+每项一句：来源 PR、ES2 原行为、我们的做法。实现放在括号里写的 PR；在那之前记作 STATUS 的已知问题。
+两项等 owner 完整试玩后再定，列在 [STATUS 的「待决定」](../production/STATUS.md#待决定)。
+
+**要做的**
+- **A1 装备按重量扣轻功**（#75；单独 PR，**已实现**）：ES2 std/equip.c 对重量 ≥ 3000 而自身没有 dodge 的武器
+  扣 重量/3000 轻功，11 个 std/armor 基类对重量 > 3000 的防具扣同样多并覆盖原值，我们只对布衣类做
+  了（长剑应 −2、玄苏剑 −5、黑铁杖 −23、盾 −2、天兵战甲 −16……）；做法：实现这两条规则，物品详情
+  显示「轻功 −N」，武学页的有效等级随之变。导入器记下 create() 调的是哪个 setup()（`weight_dodge`），
+  规则在加载时算，NPC 的装备一样计入战斗，松林的藤蔓（epath2.c 的 query_skill("dodge")）也算；没调
+  setup() 的（天师道袍等 EQUIP 护具）和自带 setup() 的 throwing.c（飞刀）不扣。新扣的有 26 种武器；
+  防具变了 8 种：两种牛皮盾、狼皮披风、蓑衣、水烟阁武士氅从 0 变负，牛皮靴 +1 → −1，天兵战甲
+  −20 → −16、重钢战甲 −30 → −23 反而轻了。**默认**（偏离）：equip.c 也给重兵器设 armor_prop/dodge，
+  wear.c 于是能把它当护具「穿」上、只得惩罚；不搬。**默认**：咒剑王禅（taoist/sword.c）在 setup()
+  之后、clonep() 分支之外设 weapon_prop/spirituality，复制品自己的 weapon_prop 只有这一项，盖住了
+  原型的伤害 44 和轻功 −2（dbase.c 只在复制品没有该键时才查原型）；我们照原型给全部数值。
+- **A3 弈者「下棋」**（#56/#63；润色 PR，**已实现**）：ES2 play_chess() 有五成机会把他整串棋子送给对方
+  （100 枚，嘴上却说「两枚」），我们没移植；做法：移植 play_chess()，结果写进日志：赢了他给 **两枚**
+  （**默认**：照他的话；ES2 给整串），他手里没了就只说「好棋技！佩服。」。数据是带 `chance` 和
+  `hands_over` 的打听规则。
+- **A4 老松岭只看的描述**（#70；润色 PR，**已实现**）：ES2 的 clearing 告示（官府告示：此处常有歹人出
+  没。）、epath3 的脚印、epath2 和 waterfall 的瀑布、cliffside 和 riverbank2 的山壁、passage 的水帘只
+  能 look，我们没有；做法：做成只看不用的地标（policy look），和葬剑亭的石碑一样，文字照 item_desc
+  原样；waterfall 的山壁（同一房间的 item_desc）一并做了，共 8 个。
+- **A5 游荡 NPC**（#71；润色 PR，**已实现**）：ES2 的 random_move 整个换房间，没有「站在门口」一说，我
+  们的游荡 NPC 会停在 64 px 的店门里、站着的 NPC 顶住玩家；做法：落脚点离相邻区域、传送口和门 48 px
+  以上（区域太小没有这样的点时照旧），不多抽随机数；玩家顶着站立的 NPC 超过 1 秒，NPC 在自己区域里侧
+  身让到旁边（确定性地选让开路、离得最近的空位），不换区域；卖东西、教武功、给任务的 NPC 站着不动，
+  免得被推出服务范围。
+- **A7 最大气**（#47；偏离；现代化修正 II，**已实现**）：ES2 只在登录时按 race/human.c 重算最大气
+  （含 max_force/4），打坐练上去后要「继续」一次才变；做法：打坐、冥思、修行练高上限的那一下立即重算
+  最大精气神（和「继续」同一个函数），「内力进战斗」条目里「只在继续时重算」那句由此作废。
+- **A9 玩家苏醒**（#28；偏离；现代化修正 II，**已实现**）：ES2 让昏迷的玩家真实等 30 秒–2 分钟；
+  做法：延时照 damage.c 抽（random(100 − con) + 30），玩家只在黑屏里躺 pacing.json 的
+  `player_wake_seconds`（3 秒，默认 0 = ES2 原样），这期间世界时间按延时倍速走（NPC 心跳和苏醒、
+  房间重置、call_out、朱鸿雪的任务时限）；正在打的战斗照常速。NPC 的苏醒不变。
+- **A10 持兵刃切磋**（#37/#64；现代化修正 II，**已实现**）：ES2 的 accept_fight 不看挑战者自己的
+  状态（带伤连续切磋刘安禄会送命），look.c 也没有强弱比较的一句，#64 已对持兵刃的切磋先问；做法：对方
+  持兵刃或明显强于玩家时用 ConfirmPrompt，目标详情加一句相对强弱（原生五档：远不如你、不如你、不相上
+  下、比你强、比你强得多，按 combat_exp）。**Owner（#79）**：「明显强于」= 至少 4 倍且多 500
+  （RelativeStrength）：新角色和武馆弟子切磋不问，和刘安禄、拜师后的李火狮切磋要问。
+- **A11 骨头**（#56；润色 PR；偏离）：ES2 finish_eat 让熟牛肉、狗肉、牛腿吃完留下 牛肋骨/狗骨头/
+  牛腿骨，别名只有 rib，而 d/snow/npc/dog.c 的 accept_object() 只认 id("bone")（name.c 的 id() 精确
+  比对别名），所以原版的狗拒收这三种骨头、从不跟着走，只有示例鸡腿的 bone 喂得进；我们吃完就没了。
+  做法：吃完留骨头，骨头可喂狗（修掉 rib/bone 的错配：三个肉文件显然想让狗吃骨头，原样搬过来读起来
+  是 bug，owner 批准的现代化修正），狗吃了在同一张图内跟随；「既是食物又是兵器」的牛腿等第二个这样
+  的物品再做。**已实现**（狗肉）：最后一口后狗肉变成狗骨头（物品的派生形态，250 g、不值钱、量词 根，
+  ES2 沿用肉的 斤），野狗收下骨头「高兴地汪汪叫了起来」，之后玩家在同一张图里换房间它就跟过去（go.c
+  的「走了过来。」；路被挡住，比如门在玩家身后关上，它就留在原地；跟着的狗走过去时仍保持选中）；跟随是对象变量，和 ES2 的 leader 一样「继续」后不记得，房间重置照 ES2 叫它回家。
+  熟牛肉（beef.c）ES2 里没人卖，没导入；牛腿骨等牛腿成食物。
+- **□ 字**（#36/#55；现代化修正 II，**已实现**）：ES2 文本在 Big5 转换中丢了字；游戏里实际有 7 处
+  数据、2 处战斗描写（mudlib 里共有 128 处、71 个文件，多数尚未导入，也有有意的标记），原样显示 □；做法：
+  `tools/migration/text_replacements.json` 逐个定字，导入器在区域 override 之前套用，套完还剩 □ 就是
+  未决项（新区域导入时自动提醒），手写的数据和战斗描写照同一张表改，工具测试守住游戏里不再有 □。
+  柳□主 = 柳馆主，□偻 = 佝偻，用力一□ = 砸，血肉□糊 = 模糊，全身□麻 = 酸麻；□伤 定不了：不是
+  砍伤或劈伤（weapond.c 自有这两类，走默认句），它和割伤共用「划破皮肉」那组句子，取 擦伤（owner，#79），玩家
+  看不到这个词本身。
+- **给予贵重物品**（#59；现代化修正 II，**已实现**）：ES2 的 NPC（陈剑秋等）不问就收下任何给他的东
+  西，包括兵器和钱；做法：给出已装备的物品或大额钱时 ConfirmPrompt，对所有 NPC 生效。**Owner（#79）**：大额 =
+  一次一两黄金（10000 文）以上；收押注或布施的 NPC（宝官、庙祝的功德箱、化缘和尚）给钱不问。
+- **润色 PR 顺手修的**（**已实现**）：玩家走出房间时，留在原房间的 NPC 不再保持选中（kill.c 的
+  present() 本来就会拒绝）；战斗记录补上 combatd.c announce() 的「X脚下一个不稳，跌在地上一动也不动
+  了。」「X死了。」（玩家自己的不写：昏倒时 unconcious() 挡住了玩家的消息，死时 ES2 会印「你死了。」，这里由生死
+  画面说）。合并多个房间的
+  区域按玩家所在房间显示描述：要给区域补子区域数据、改画图器和场景，不是小改动，留着。
+- **闲聊频道行**（#75；现代化修正 II，**已实现**）：ES2 的 command("chat ...") 走 channeld.c 全服
+  可见，我们显示成 【闲聊】绝尘子：…；做法：在房间里喊出来，「绝尘子大声喝道：…」，仍是 HIC。
+- **措辞和界面**（现代化修正 II，**已实现**）：
+  - 誓词日志改「你发誓恪守门规。」（#67；ES2 接受的誓词是 守门规，原来写 你发誓道：守门规）。
+  - 地标动作句改自然短语（#44）：五个原来走「{动作}：{地标}」的老松岭地标各有一句，clearing.c、
+    riverbank1.c、cliff1.c 的 climb 原话，下大松树一句原生；模板只留作兜底。
+  - 去掉「你的目标是X。」日志行（#38）；换目标的「你把目标转向X。」保留。
+  - 伤害数字一律紧跟句末、灰色（#38）：最近三行改用战斗记录的同一种写法。
+  - 战斗中「运功疗伤」置灰，悬停写 heal.c 的「战斗中运功疗伤？找死吗？」，按了不排队（#47）。
+  - 普通日志文字调浅灰（消息、提示、战斗记录同一个颜色），HIW 高亮可辨（#47）。
+  - 冥思/修行没学基本咒文/基本法术时，瓶颈句后加「需要先学会基本咒文，法力才能增长。」（修行说基本
+    法术、灵力），按钮悬停同句（#75）。
+  - 法术和运功按钮悬停说明，如「施法「遁」：脱离战斗，回到雪亭镇城隍庙（80 法力，可能失败）」，数字
+    取各文件的常量（#76）。
+
+**保持现状，记为已定**
+- A8 战斗中拾取（#43）：ES2 允许战斗中 get（busy 1），我们半自动战斗期间世界冻结；保持冻结。
+- #42 拒收的那部分钱留在身上（ES2 先拆再问，拒收的钱丢了）；杨掌柜的 heal_me 按打听者的伤势判断
+  （dbase.c 用他自己的）。
+- #41 昏迷的 NPC 不说话、不问候（char.c 昏迷时仍跑 chat()）。
+- #52 狼狗的气上限抬到 200（wolf_dog.c 写 200，4 岁兽类上限 50，ES2 允许当前值高于上限）；寨门每关
+  一次只把 5 个喽罗里死掉或不在场的补回（ES2 每次再加 5 个）。
+- #55 bash_weapon 先掷反击再掷 bash（combatd.c 反之，两次掷骰独立）；砸断的飞刀不和完好的合并
+  （ES2 按文件合并）。
+- #57 野羊山的石屋和北壁裂口只画出来，不能进、不能爬（LPC 里没有对应房间）。
+- #60 朱鸿雪的任务目标是 84 个名字、220 条（qlist 里注释掉的 33 条不算）。
+- #62 卧龙岗强盗的出手窗口 2 秒（ES2 1 秒，够打一条命令离开；原生走过要 1.2–1.5 秒）。
+  （现行见「响应性」，2026-10-15：2 秒从强盗喊出第一句起算。）
+- #63 「你拿出一两银子给宝官。」放在开骰之前（ES2 印在最后）。
+- #64 安惜迩那类切磋先问（推翻 #48）；菜单两个确认的焦点在「取消」。
+- #67 没门派的人接受师父的主动收徒算首次拜师，不算背叛（apprentice.c 判成背叛，recruit.c 修过同一
+  bug）；同门换师父先问。
+- #68 的三条 Ours：狂暴和瞪眼的战斗只有两个人；生死战里谁都不再打谁时战斗结束；狂暴的喝骂在房间描述
+  之后。
+- #33/#70 老松岭：cliffside ↔ pine1 双向（pine1.c 没有回去的出口，但 cliffside 是死路）；尸体最多侧
+  移 40 px 避开墙；大松树在空地中间偏北；树用侧视，其他俯视；caves 仍是 48 px 的方格迷宫。
+- #75 天将在战斗结束时离开（heaven_soldier.c 的 set_leader() 不移植）。
+- #76 施法忙乱时排队等（cast.c 直接拒绝）；遁等于逃跑，敌人停手；双方都站着的生死战写「双方都停了
+  手」；有两个以上敌人的 NPC 照 select_opponent() 随机挑对手。
+- #66 提示 6–14 秒后自己淡出。
+- #38 「厮杀」「等你空下来」等原创用语保留（只去掉「你的目标是X。」）。
+- #27 牛皮酒袋照原名显示，不另起短名。
+- 小屏战斗面板（#38）和移动端应用名（#44）留到手机版阶段。
+
 ## 茅山 D: 驱尸 and the sheets (2026-10-08)
 
 What each LPC function became is in [TEMPLE_CONTENT](TEMPLE_CONTENT.md); it carries out
@@ -1687,6 +2062,9 @@ map's edge is closed ground, as on 野羊山); epath3's broken plank road (no ex
 by the path to the bandits' slope are drawn only — the sign's and the footprints' `item_desc`
 texts (clearing.c, epath3.c) are not ported yet. World content revision
 `SOURCE_ENTRY_OLDPINE_PAINTED_V1`: older development saves need a New Game.
+(Superseded in part: the sign's and the footprints' texts by「积压问题的处理」A4, 2026-10-08, ported as
+look-only landmarks; the Lake's `complete_set` by「进门一起上」, 2026-10-24, `combat_entry` is gone;
+the plank road by「老松林按原文方位排布」, 2026-10-25, now the maze's way in from epath3.)
 
 ## 绮云镇's upper floors: three maps (2026-10-06)
 
@@ -1933,6 +2311,8 @@ from 朱鸿雪, 14-25 s on foot plus the fight.
   has gone, so the robber attacks at once next time; here walking past makes no grudge, and the way
   back has the same time. A fight (stopping in reach, a refused toll, 攻击 or 切磋) still makes one
   until the robber is made anew.
+  (Superseded in part by「响应性」, 2026-10-15: the robber shouts on sight and the 2 s count from
+  that shout; and by「进门一起上」, 2026-10-24: everyone in the zone who attacks on sight joins.)
 
 ## Modern fixes: ES2 behaviour that reads as a bug (2026-10-06)
 
@@ -2027,6 +2407,8 @@ The region plan's #3; what is placed where is in [CLOUD_CONTENT](CLOUD_CONTENT.m
   怡红院, 赌场) are one map of three separate rooms, reached by their stairs. Diagonal exits become
   straight; 南坡 and the second 黄土路 both open onto the gate, as the three lead to each other;
   a cliff keeps 卧龙岗 from the second 黄土路. Closed: south across 泓水 (#8), west to 晚月庄 (#7).
+  (Upper floors superseded by「绮云镇's upper floors: three maps」, 2026-10-06; buildings by「地图重构」,
+  2026-10-16: every enterable room is on its building's own map.)
 - **Owner: the later packages' NPCs stand now** as ordinary NPCs (陈剑秋 and 趟子手, 3B; 朱鸿雪,
   3C; 宝官 and 媒婆, 3D; 船夫, #8). 朱鸿雪 and 化缘和尚 cannot be fought until their arts are
   ported; 春风快意刀 is, for the 家丁 (and so 陈剑秋 and 趟子手).
@@ -2053,6 +2435,7 @@ The region plan's #3; what is placed where is in [CLOUD_CONTENT](CLOUD_CONTENT.m
   u/cloud files and daemon/class/fighter/celestial are wrapped at 80 columns).
 - **For the owner**: 牛腿 (sold by the butcher) is a hammer only, since food that is also a weapon
   is not supported yet; food eaten up leaves no bones (finish_eat); 弈者's 下棋 is not ported.
+  (Bones and 下棋 superseded by「积压问题的处理」A11 and A3, 2026-10-08: both are ported.)
 - World content revision `SOURCE_ENTRY_CLOUD_V1`: older development saves need a New Game.
 
 ## 野羊山: the mountain road, the caverns, two hands, bash_weapon (2026-10-05)
@@ -2063,6 +2446,7 @@ The region plan's #2; what is placed where is in [GOATHILL_CONTENT](GOATHILL_CON
   in. Diagonal exits become straight ones (mroad2 northeast, cavern1 northeast and southeast);
   mroad5's northeast to mroad6 runs through slope1. mroad4's four bandits join one fight
   (`complete_set`).
+  (`complete_set` superseded by「进门一起上」, 2026-10-24: every zone gathers its gang, `combat_entry` is gone.)
 - **The second hand** (equip.c wield()): a second one-handed SECONDARY weapon goes to the other
   hand, for NPCs as for the player, and every wielded weapon's weapon_prop counts in apply/*,
   damage too (黄霸: 45 and 45); only the primary attacks (combatd.c). A player's second weapon
@@ -2226,6 +2610,8 @@ Owner-approved plan ("按你的建议"):
   current stay unless a maximum falls below them: our tracks keep current ≤ eff ≤ max, where
   ES2 leaves them above until they drop (no maximum shrinks in the game yet). A save made after
   max_force grew is therefore not restored bit for bit.
+  (Superseded in part by「积压问题的处理」A7, 2026-10-08: a sitting that raises a maximum recomputes
+  max gin, kee and sen at once, not only on Continue.)
 - **Owner (#46 review):** exercise pace, option B: the pacing knobs package adds a data
   multiplier for exercise gain or kee recovery, default ES2's; the value is set from playtest.
 
@@ -2363,8 +2749,12 @@ Package 4E, from the owner-approved plan:
   fonxansword and dodge to chaos-steps, whose actions are not ported, so every fight would abort.
   No 攻击/切磋 until the 封山剑法/乱七星步 package; 安惜迩's accept_fight (a spar becomes a kill)
   comes with it.
+  (Superseded by「Offense/defense routes A: … 柳淳风 and 安惜迩 fought」, 2026-10-03: both can be
+  fought, 安惜迩's accept_fight() answers with kill_ob().)
 - **Deferred:** the dog's bone (no chicken leg yet; following is not ported), the waiter's cake
   (say), vendor.c's and smith.c's purchase lines, betrayal (change of family), combat talk.
+  (Since done: combat talk by「Combat talk and NPC specials」, 2026-10-04; betrayal by「绮云镇 3B:
+  joining 振远镖局」, 2026-10-05; the dog's bone and following by「积压问题的处理」A11, 2026-10-08.)
 - World content revision `SOURCE_ENTRY_SNOW_SERVICES_V1`: older development saves need a New Game.
 
 ## MudOS notify_fail(): the last call wins (2026-10-02)
@@ -2428,6 +2818,9 @@ Package 4D, from the owner-approved plan:
   drop, 4E), the waiter's greeting and the shopkeepers' answers (with their bodies, 4E), the
   血手刘三 reveal, combat chat (`chat_msg_combat`), cross-map wandering, corpse decay (corpses of
   respawned NPCs stay), speech bubbles.
+  (Since done: combat chat by「Combat talk and NPC specials」, 2026-10-04; speech bubbles by「手感」B1,
+  2026-10-15; cross-map wandering by「地图重构」, 2026-10-16, through doors onto the next map, and off
+  the player's map by「别的地图时间补算」B, 2026-10-23; corpse decay by「尸体腐烂」, 2026-10-23.)
 
 ## Snow's inner rooms (2026-10-02)
 
@@ -2436,6 +2829,7 @@ Package 4C, from the owner-approved plan:
   is its own map up the Inn's stairs; the secret storage is its own map below the weapon storage
   (one map per height level, as Old Pine). The school's inner yard (天井), study, guest room,
   inner hall and weapon storage are zones of the outdoor map, walked into through their ES2 exits.
+  (Superseded by「地图重构」, 2026-10-16: every enterable room is on its building's own map.)
 - **Items lie on the floor.** A room's `set("objects")` naming an item becomes an item spawn:
   the item lies on its marker when the world is created and is picked up with 拾取, as
   `cmds/std/get.c` (busy, no_get 这个东西拿不起来。, move.c's 太重了). Its identity follows from the
@@ -2585,15 +2979,6 @@ Package 4A, from the owner-approved Package 4 plan:
   items lying in rooms (the temple's paper seals and donation box) come with 4C.
 - World content revision `SOURCE_ENTRY_SNOW_NPCS_V1`: older development saves need a New Game.
 
-## Snow: walls on the tile grid, collision on tiles (2026-10-01)
-
-Owner decisions for Package 3B6:
-- **Snow collides through its tiles**, as Old Pine does since 3B5. The 24 px off-grid wall shapes
-  are gone; every wall, town boundary and shop wall is redrawn as one 32 px band (two tiles, the
-  Inn's thickness) on the 16 px grid, so a wall blocks exactly where it is drawn. Walkable widths
-  move by up to 8 px. Doors, the closed Old Pine exit (`SouthBlocker`), the counters and the teacher
-  stay nodes; doors and `SouthBlocker` fill their tile openings exactly.
-
 ## Old Pine: one map per height level, collision on tiles (2026-09-30)
 
 Owner decisions for Package 3B5:
@@ -2621,16 +3006,6 @@ Owner decisions for Package 3B5:
 - **Tile data stays inline.** Large maps keep their `tile_map_data` in the scene file (about 1 MB
   for Old Pine). Terrain layers move into a per-map sub-scene when real art arrives.
 
-## Terrain on TileMapLayer, collision unchanged (2026-09-30)
-
-Owner decisions for Package 3B4:
-- **Tiles are visuals only.** Terrain is drawn with 16 px tiles from one placeholder TileSet
-  ([TERRAIN_TILES](TERRAIN_TILES.md)). Collision stays in `StaticBody2D` shapes, so routes and
-  spawns are unchanged. The old geometry is off-grid, so a painted edge may sit up to 8 px from
-  its collision. Aligning collision to the grid (or moving it into a physics layer) waits for art.
-- **Tiles name terrain kinds, not zones.** About 20 kinds (grass, path, water, wall…) replace the
-  per-zone grey-box shades. Neighbouring Old Pine zones no longer differ in colour.
-
 ## One map runtime: zone ownership, Old Pine geometry and the combat round (2026-09-30)
 
 Owner decisions for Package 3B2 (Old Pine on `WorldMapController`):
@@ -2638,16 +3013,23 @@ Owner decisions for Package 3B2 (Old Pine on `WorldMapController`):
   body's center, and the player only moves between neighbouring zones (an ES2 exit, or a `links`
   entry). Old Pine used to switch as soon as the body's edge touched a zone, in any direction.
   Only the player is tracked; NPCs do not walk between zones.
+  (NPCs superseded by「NPCs talk and wander; rooms reset」, 2026-10-02: they wander at home and next
+  door, and since「地图重构」, 2026-10-16, through doors onto the next map.)
 - **Recorded native connections become data.** Central Clearing ↔ Pine Entrance ("Old Pine Outdoor
   directly connects to the Pine Maze") and the fixed maze (Entrance ↔ Deep ↔ Cliff Edge, "Random Pine
   room exits become one fixed continuous maze") are zone `links`.
+  (The first link superseded by「老松林按原文方位排布」, 2026-10-25: East Bridge ↔ Pine Entrance, by
+  epath3's plank road into pine1; the clearing has only its three ways.)
 - **The waterfall pool is walled from above.** `waterfall.c` has only `south`; ES2 reaches it by the
   `epath2.c` vine, `passage.c` south or riverbank2 north. The scene let the player walk down from the
   East Bridge and the South Slope; both edges are now cliffs.
+  (Superseded by「Old Pine: one map per height level, collision on tiles」, 2026-09-30: the gorge is
+  its own map.)
 - **Global rule — one combat round per heart_beat.** Every living object ran on one driver
   heart_beat; the encounter scheduler's interval is `common/pacing.json` `combat_round_ms` (1000, the
   previous feel) on every map. It used to come from an unset Timer on Old Pine only (0 elsewhere).
 - The Lake's complete-set entry (P2A-M) is the zone's `combat_entry`, unchanged in behaviour.
+  (Superseded by「进门一起上」, 2026-10-24: every zone works so, `combat_entry` is gone.)
 
 ## Player unconsciousness and death follow ES2 (2026-09-30)
 
@@ -2666,29 +3048,10 @@ Owner decision after playtest: a defeated player is no longer a terminal state.
   unconscious victim cannot dodge, so killers finish within a few blows). The penalty applies when a
   lethal opponent is found, not from LPC `last_damage_from`. The death realm walk, corpse decay, NPC
   revival and healing while unconscious are not implemented yet.
-
-## Old Pine Lake — owner-revised engineering acceptance scope
-
-Owner decision (2026-09-26), after [P2C acceptance](PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2C_ACCEPTANCE.md):
-accept the recorded desktop fifth-target mouse input, manual complete-set Attack, five-alive
-and mixed death/corpse cross-process Save/Continue, exact durable state/three-RNG equality,
-non-resurrection on return, and complete `verify.py` PASS on
-`ef8b7d601983c80d817bf28a93e554f2472a49a6` (543.86s).
-
-**TOUCH DEVICE QUALIFICATION — PENDING — NON-BLOCKING FOR LAKE ENGINEERING INTEGRATION.**
-This defers missing device evidence only; it is not touch PASS, all-platform acceptance,
-or a blanket exemption for later milestones. Actual touch defects, if found, remain separately
-reportable. The [existing platform scope row](../production/PROJECT_SCOPE.md#presentation-platforms-tooling-and-release-boundaries)
-retains Lake touch movement, horizontal scrolling, fifth-target selection, Flee, and applicable
-safe-area, focus, Pause/Back/background/resume checks. Qualify the then-target devices before
-claiming verified Lake touch support or external long-term testing/formal release of the related
-mobile version. Later device qualification may be completed directly without reopening all Lake
-work or creating a prerequisite development phase, test platform or plugin upgrade.
-
-P2C's original PENDING conclusion and all P1/P2A/P2B reports retain their historical meaning.
-M/W/R and product behavior are unchanged. This decision authorized one bounded
-[Final Audit](PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_FINAL_AUDIT.md), not PR creation, merge,
-or the next milestone. Engineering acceptance under this revised scope does not mean integrated main.
+  (Superseded: the killer by「切磋: fight.c, accept_fight and armed spars」, 2026-10-01, now
+  `last_damage_from`, where NPCs also heal, unconscious too, and come to; the death realm walk by
+  「鬼门关 A」, 2026-10-15, which replaces the revival at the temple; corpse decay by「尸体腐烂」,
+  2026-10-23.)
 
 ## Old Pine Lake — owner-locked P2A foundations
 
@@ -2701,6 +3064,9 @@ Owner authorization (2026-09-26), following [Lake P1](PHASE_OLDPINE_LAKE_SERPENT
   retains its own target policy and also includes eligible aggressive contacts. Use stable ID
   ordering, one transaction, one existing encounter/scheduler and full relationship rollback.
   No signal-order selection, delay-to-collect, mid-combat joining, replacement or reinforcements.
+  (Superseded in part by「进门一起上」, 2026-10-24: the whole gang of the player's zone joins, near
+  or far, and the alert beat `hostile_alert_ms` (500) collects whoever is in the zone when it ends;
+  joining mid-fight still cannot happen, the world stands still.)
 - **W: bounded shore Fill.** Reuse direct-held wineskin, ACTIVE, busy/combat, location/distance
   and liquid-service checks. Lake geometry and UI hookup belong to P2B; no environmental Drink,
   general river water, poison or swimming.
@@ -2713,114 +3079,6 @@ Owner authorization (2026-09-26), following [Lake P1](PHASE_OLDPINE_LAKE_SERPENT
 
 This locks M/W and authorizes P2A foundations only. P2B/P2C, Final Audit and integration require
 separate owner instructions; historical P1 alternatives remain historical.
-
-## Migration Tooling v1 P2 — owner-locked extraction boundary
-
-**OWNER APPROVED / LOCKED D1–D9.** P1 analysis is OWNER APPROVED / CLOSED at
-`0e5ff6a5cbc8d4091102e280c66868ba8763b4bb`. P2 is authorized on
-`phase/migration-tooling-v1`, based on green main `cd07808cb76147d0b8c0dad9b82d078b49fefe64`.
-The owner explicitly requested this tooling contract here; it is not a new gameplay substitution.
-The [P1 analysis](MIGRATION_TOOLING_V1_P1_ANALYSIS.md) remains historical analysis, not rewritten approval.
-
-- **D1 — Language/location:** Python 3.12 standard library only under `tools/migration/`.
-  No Godot runtime or third-party parser dependency.
-- **D2 — Objects:** Only `reference/es2/mudlib/d/**/*.c` reliably identified as direct
-  `inherit ROOM` in code after excluding comments, strings and multiline text. BANK, HOCKSHOP,
-  CLASS_GUILD, NPC, ITEM, weapons, armor, food, containers, daemons, commands, skills, vendors
-  and masters are OUT_OF_SCOPE for fact extraction; discovery/dependency findings may retain them.
-- **D3 — Facts:** Source identity/path, direct inherit declarations, literal short/name,
-  literal long as TEXT_ONLY, ordered static exit entries, and explicit static outdoors/indoors/
-  no_clean_up/no_fight values only. No runtime, reachability, door, population or callback semantics.
-- **D4 — IR:** Independent Migration IR schema version 1, deterministic UTF-8 JSON.
-  Ordered source declarations remain arrays. Player, item and Godot runtime schemas do not change.
-- **D5 — Provenance:** Each fact retains source-relative path, raw-byte SHA-256, function/top-level
-  scope, construct, raw source/expression, ordinal, zero-based byte start/end-exclusive,
-  1-based line/column, classification, and normalization rule/version when applicable.
-  Source hash and byte span are primary; CRLF is not normalized before indexing.
-- **D6 — Unsupported:** Explicit findings, never execution or guesses. Beyond literals only
-  narrow `__DIR__` plus literal-string exit normalization is approved. No arbitrary macro,
-  variable, function, closure, RNG, arithmetic, inherited-default or driver evaluation.
-- **D7 — Output:** Whole-corpus output is ephemeral under ignored `build/migration-tooling-v1/`.
-  Only small hand-reviewed fixtures/goldens may be committed; never generated output in `game/`.
-- **D8 — Tests:** Standard-library unittest; expected outputs independently hand-authored/reviewed,
-  never generated by the extractor under test. Real ES2 samples remain read-only; copied snippets
-  retain provenance. No whole-source copies or bulk generated goldens.
-- **D9 — Failure:** Exit0 means complete scan without quarantined syntax/encoding errors;
-  expected OUT_OF_SCOPE/semantic findings are allowed and never mean semantic PASS. Exit1 means
-  completed scan with object-level syntax/encoding quarantine and safe diagnostic output.
-  Exit2 means fatal argument/root/path/I/O/schema/internal/output failure. No silent skipping,
-  truncation, source repair or incomplete output masquerading as a complete manifest.
-
-All emitted records start UNREVIEWED. Extraction is not migration approval. Reference source is
-read-only; no LPC execution/emulation, NPC/item support, Native generation, gameplay/save changes,
-PR, merge or P3 is authorized. P2 implementation and local verification must stop for owner review.
-
-## Snow First Progression P2B-ZE1 — zero-EXP combat defense boundary
-
-**OWNER APPROVED — narrow Type B compatibility translation.** P2B analysis
-`affbe5030a5a2f03c2bff2ab14195f9f86c5f53c` is approved/closed. This decision authorizes
-only the existing combat defense-factor boundary on `phase/snow-first-progression-loop`.
-
-Source: `reference/es2/mudlib/adm/daemons/combatd.c:362–366`:
-`defense_factor = your["combat_exp"]`, then `while (random(defense_factor) > my["combat_exp"])`
-reduces damage by integer damage/3 and halves the factor. Repository evidence does not prove
-historical MudOS `random(0)` return/error behavior or RNG-state consumption.
-
-Only when execution actually reaches this stage, **original defender EXP == 0 and attacker EXP >= 0**
-means **zero experience-reduction iterations and zero RNG draws**. Continue normal requested damage,
-damage mutation, wound, progression, status, busy, relationship/post-action and chain completion.
-Do not move the gate before earlier source stages, roll back mutations, or promise later success.
-
-Positive defender EXP retains every existing draw, strict comparison, integer reduction/halving
-and ordering. Negative defender/attacker cases remain fail-closed, including attacker -1 with
-defender 1 that performs the existing iteration before factor becomes0 and fails at its old stage.
-No clamp0→1, fake draw, generator advance or new observation/API surface is required.
-
-This specifically supersedes the older combat invalid-bound decision for this one condition only.
-It is not Type A historical-driver evidence or a global `random(0)=0` rule. Generic Combat/World/NPC
-RNG adapters and all other nonpositive-bound policies remain unchanged, including wound, force,
-progression, riposte cps, perception, Vine and Learn. No EXP gift, initialization/enemy/skill tuning,
-source edit, new RNG stream or Save schema change is authorized. Apply equally to Player/NPC
-defenders and forward/QUICK/RIPOSTE ordinary attacks without ID-specific exceptions.
-
-Implementation and P2 real-input acceptance rerun are authorized; a new semantic blocker must be
-reported without another fix. Final Audit, PR, merge, P3 and Migration Tooling remain unauthorized.
-See [historical analysis](PHASE_SNOW_FIRST_PROGRESSION_COMBAT_ZERO_EXP_BLOCKER.md).
-
-## Snow First Progression P2 — owner-approved bounded teaching embodiment
-
-**Authority:** Owner approved/closed P1 `5780139b82fad932f6bc7786ea295c20602ae0a5`
-and authorized P2 A–F on `phase/snow-first-progression-loop` only.
-
-**Decision:** Embody school1 → school2 → schoolhall as three continuous Snow outdoor zones.
-The red gate supports physical Open/Close from both sides, defaults closed on cold start/Continue,
-and is transient. Its closed collision footprint remains save-invalid even while open; no relocation
-on load. Side routes, guard, fist trainer, trainees and the inner school remain deferred.
-
-Liu Chunfeng is a bounded teaching contact, not a combat/persistent NPC. Preserve his authored
-identity, all eleven skill levels and source teaching facts; expose only basic unarmed Learn.
-Use existing LearnService, F_MASTER, improvement and combat formulas. One request makes at most
-one gameplay draw from the existing saved world-interaction stream at the source progress point;
-presentation text consumes none. No gifted experience, balance changes or advanced skill UI.
-
-The public first-apprenticeship chain retains effective cor/cps ≥20, failed pending intent,
-Cancel/retry, and idempotent master acknowledgement. Pending is transient per Player. Cross-family,
-reverse recruitment and betrayal interfaces remain deferred. Correct active Session/map/zone,
-placement, proximity, active life, noncombat/nonbusy and input quarantine are approved Type B
-contact gates, not claims about LPC busy restrictions.
-
-First recruitment records the complete source family/master/generation14, distinct family title
-and privileges, swordsman class, actual UTC entry seconds, and source display title through a
-controlled recruitment seam. No skills or rewards are granted. Owner permits the smallest strict
-versioned relationship extension within root2; item3 and SOURCE_ENTRY_V1 remain unchanged.
-Historical absent fields remain absent; historical nonempty relationships without an entry time
-retain UNKNOWN/NOT_RECORDED, never load time. Old valid root2 saves must remain readable.
-
-**Compatibility impact:** Narrow physical/contact staging only; not full school or Liu NPC parity.
-Type C: none. Natural combat evidence may be BLOCKED; no gameplay correction is authorized to
-manufacture success. Sources: `d/snow/school1.c`, `school2.c`, `schoolhall.c`,
-`daemon/class/swordsman/master.c`, `cmds/std/{apprentice,recruit,learn}.c`,
-`feature/{apprentice,skill,attribute}.c`, relative to `reference/es2/mudlib/`.
 
 ## Hockshop valuation / payout / sell lifecycle (H2)
 
@@ -2891,56 +3149,6 @@ Sources: `reference/es2/mudlib/std/room/hockshop.c`, `feature/move.c`,
 See [H1 archaeology](PHASE_SNOW_HOCKSHOP_LOOT_MONETIZATION_CONTRACT.md). Prior service
 failure policies, PlayerBodyFacts, economy, recovery and owner-local tooling remain unchanged.
 
-## Snow north public spine and Core Hub finish line (S7B)
-
-**OWNER APPROVED — S7B.** S7A is OWNER APPROVED / CLOSED at
-`04c77650ea72d48cae1173a422a78c3c0188abd5`. Record these decisions separately before
-production implementation. They approve the bounded S7A A–L recommendations, not a final
-Snow audit/PR/merge. Source semantics remain Type A; the observable staged omissions and
-physical embodiment below are **Type B milestone scope**, not authored source closures.
-
-- **A — extent:** Extend the existing `snow.outdoor` resident continuously from mstreet2
-  through distinct `snow.mstreet3`, `snow.mstreet4`, `snow.crossroad` zones. Preserve exact
-  reciprocal north/south source adjacency; no new map, ordinary-walking portal or shortcut.
-  Southwestern sroad2–5 and other optional branches remain deferred.
-- **B — external boundaries:** Crossroad itself is required. Its north Goathill and east
-  Green directions remain visible static closed content boundaries, with no destination
-  definition, travel action, portal, guard, key or invented authored lock.
-- **C — Hockshop:** Static east frontage only. No interior, NPC, appraisal, pawn/sell,
-  payout/destruction, custody/ticket/retrieve or persistence. Source doors do not authorize
-  generic door runtime. No failed-transfer cleanup decision is generalized to Hockshop.
-- **D — Herbshop:** Static west frontage only. No interior, herbalist/woodcutter, medicine,
-  inquiry, healing or poison cure. Frontage is not service parity.
-- **E — Postoffice:** Static west frontage on mstreet4 only. No interior, officer, mailbox,
-  mail fees, accounts, online/offline mail or fake local inbox.
-- **F — School:** Later progression; mstreet1 east remains closed. No teachers, training,
-  faction/apprenticeship or free weapon access.
-- **G — Smithy:** Later commerce/weapon content; mstreet2 west remains closed. No hammer,
-  repair or crafting.
-- **H — ordinary interiors:** Exposed source services receive honest facades/signs and
-  collision boundaries, not empty accessible interiors or unusable service buttons.
-  These closures are staging, not claims that ES2 permanently closes the shops. mstreet4
-  has no executable east exit: add no alley route, zone, interaction or future-region gate.
-- **I — secret/storage:** herbshop1, secret_storage, weapon-storage puzzle and unrelated
-  storerooms do not block this bounded milestone; no invented secret entrance.
-- **J — healing:** Accept existing eligible S5B slow effective-resource recovery as the
-  current healing finish line. Preserve cadence, food/water, condition freezes and lifecycle;
-  no new recovery Timer, combat recovery, poison scheduling or medicine.
-- **K — loot:** Excess-loot monetization remains an acknowledged high-value later commerce
-  gap, not a Snow Core blocker. Do not add selling/value projections in S7B.
-- **L — completion:** Source New Game, Work, Bank, dumpling, wineskin/water, eligible recovery,
-  Old Pine link, north spine, honest deferred frontages/regions and old/new-position Save/
-  Continue must work within existing authority. Keep root2/item3/SOURCE_ENTRY_V1; no new
-  mutable street/door/NPC state or gameplay RNG use. All38 rooms are not required. A distinct
-  Final Snow Audit is the next possible phase **only after S7B owner approval and separate
-  authorization**; implementation completion does not close the milestone or authorize PR.
-
-Sources: `reference/es2/mudlib/d/snow/mstreet2.c`, `mstreet3.c`, `mstreet4.c`, `crossroad.c`,
-`hockshop.c`, `herbshop.c`, `postoffice.c`, `d/green/path6.c`, `d/goathill/mroad1.c`.
-See [S7A analysis](PHASE_SNOW_TOWN_CORE_HUB_NORTH_STREET_CORE_SERVICES_REBASELINE.md).
-No Type C redesign is approved; existing PlayerBodyFacts, item authority, prior service
-failure policies and owner-local tooling remain unchanged.
-
 ## Fresh water supply loop (S6B only)
 
 **OWNER APPROVED — S6B.** S6A is OWNER APPROVED / CLOSED at
@@ -2956,6 +3164,8 @@ before implementation. They authorize no final Snow PR, alcohol runtime or next 
   Type A evidence. Positive bounds retain exactly one existing draw, range [0,bound), <5 Waterfall,
   otherwise Passage; invalid draws remain typed failure. Other revisions and authored random-bound
   policies retain their previous ambiguity behavior.
+  (Superseded by「MudOS random(n <= 0) is 0, everywhere」, 2026-10-01: zero dodge rolls 0 and falls
+  from the vine on every revision.)
 - **C — canonical content:** Waiter sells `es2:obj/example/wineskin` from `obj/example/wineskin.c`:
   牛皮酒袋, aliases wineskin/skin, unit个, weight700, value/price20, max15, fresh alcohol/红酒15,
   drunk_apply6. Ordinary ITEM+F_LIQUID, not combined/food/weapon/armor. Unlimited fresh-ID purchases.
@@ -3286,65 +3496,6 @@ This is a **legacy initialization-order compatibility correction**.
 Continue, Restore, map transition, respawn/revive, load-failure recovery, returning from Old Pine,
 opening menus and general recovery MUST NOT invoke this birth refill. No recovery formula changes.
 
-## Legacy Native Save Preservation
-
-**Status: SUPERSEDED by Pre-Cutover Development Save Compatibility (NGE5A1).** The following
-records the previously approved old-save A decision, not the current branch policy.
-
-**Decision (NGE1 owner-approved A):** Legal native saves created before Snow cutover remain
-Legacy Native Technical-Demo Saves and restore their actual stored values. New Game revisions do
-not rewrite existing saves. This is a **save compatibility policy**.
-
-Do not relocate the player to Snow, reset attributes/experience, remove the starter weapon, grant
-cloth, replenish food/water, rerun birth, revive NPCs/rebuild tombstones, alter corpses, redraw RNG,
-or change allocator continuation. Existing native schema1 itself identifies the technical profile;
-never infer it from experience, inventory or timestamps. Its absent Player metadata is interpreted
-as the existing Player/age20 facts without recalculating saved gameplay values. This approves no
-schema2, world revision implementation, Snow geometry, shops or training work.
-
-## Active Semi-Auto V1 SPAR establishment is unarmed-only
-
-**Decision:** CXR9 owner authorization restricts SPAR establishment to participants
-without a wielded primary weapon. A weapon yields typed `SPAR_WEAPON_NOT_ALLOWED`
-before Encounter activation/freezing. No automatic unwield, damage suppression,
-HP clamp, revive, lethal conversion or corpse is introduced. Existing
-`SPAR_MORTAL_WOUND` remains defense-in-depth for invalid/future states.
-
-**Reason:** `cmds/std/fight.c` establishes reciprocal friendly intent, but
-`adm/daemons/combatd.c::do_attack` allows wounds when either lethal intent OR a
-weapon is present, before positive friendly damage removes the relationships.
-`std/char.c` treats negative effective resources as mortal. That conflicts with
-the native non-corpse SPAR contract.
-
-**Compatibility impact:** Legacy armed friendly fights are deliberately unsupported
-in V1; future armed/practice-weapon spar needs a separate policy. The newly exposed
-unarmed zero-base-damage conflict is resolved by the separate owner authorization
-below, not by inventing a positive damage floor.
-
-## Unarmed zero base damage contributes zero without a random draw
-
-**Decision:** Following the reproduced CXR9 unarmed-SPAR blocker, the owner
-explicitly authorized only this exception: when the attacker has no primary
-weapon and projected base damage equals zero, its base random term is zero and
-consumes no RNG. Continue the unchanged source-ordered action/strength/armor
-calculation. Negative base damage and armed zero base damage still fail at
-`APPLY_DAMAGE_RANDOM_BOUND`; all other non-positive random-bound rules remain.
-
-**Reason:** `adm/daemons/combatd.c::do_attack` calculates
-`(damage + random(damage)) / 2` before adding strength. Human unarmed action and
-`chard.c::setup_char` do not establish a positive base damage; the native empty-hand
-projection is zero. Local `doc/efuns/random` does not establish historical driver
-semantics for zero. Rejecting that ordinary unarmed path prevented the approved
-unarmed-only SPAR from concluding.
-
-**Compatibility impact:** This is an explicit narrow substitution, not a claim
-that the old driver consumed no RNG for `random(0)`. It supersedes the earlier
-non-positive-bound decision only at this empty-primary-hand base-damage stage.
-It applies equally to unarmed LETHAL and SPAR; it does not grant damage, suppress
-wounds, alter skills, clamp HP, or generally redefine the random adapter.
-Sources: `reference/es2/mudlib/adm/daemons/combatd.c`, `adm/daemons/chard.c`,
-`adm/daemons/race/human.c`, `doc/efuns/random`.
-
 ## Active Semi-Auto V1 Flee is same-position disengagement
 
 **Decision:** The owner authorizes queued, busy-blocked Flee for LETHAL/SPAR,
@@ -3365,6 +3516,10 @@ progress are recorded in CXR9; this approved decision is not a validation PASS.
 
 ## Native saves require a restart-stable gameplay boundary
 
+(Superseded in part: unconscious and dead players block Save since「Player unconsciousness and death
+follow ES2」, 2026-09-30; busy and interrupt are saved, not blocking, since「Busy is saved, not waited
+on」, 2026-10-17.)
+
 **Decision:** A native Save is accepted only when every represented character and Old Pine runtime
 authority is restart-stable. Ordinary opponents, lethal intent, busy/interrupt state, guarding, pending
 aggression, active or committed-partial handoff, pending Cave exit, incomplete death lifecycle, active
@@ -3381,43 +3536,6 @@ event/frame preserves synchronous mutation ordering without adding a heartbeat o
 fields. It never clears combat/busy state to make a save possible. Once eligible, the complete represented
 world is captured all-or-nothing through the native repository; Load reconstructs fresh transient combat,
 Area, UI, and cadence state. This is a native process-restart safety policy, not an LPC quit emulation.
-
-## Inactive resident Old Pine maps freeze outside the SceneTree
-
-**Decision:** Phase 9B3B1 retains instantiated Old Pine map Nodes for the lifetime of one
-`OldPineWorldSession`, but only the active map is attached to the SceneTree. An inactive resident map is
-detached without being freed and receives no physics, Area overlap, input, Camera, `_process()`,
-`_physics_process()`, OpportunityTimer, combat, recovery, condition, or aggression progression.
-
-**Reason:** The original MUD can continue processing objects outside the player's current room, but the
-native prototype has no proven off-screen scheduling contract. Keeping a detached map instance preserves
-NPC, corpse, loot, item, signal, and physical-view identity across a map round trip without prematurely
-building persistence or a global heartbeat simulator.
-
-**Compatibility impact:** Inactive Old Pine maps are frozen rather than globally simulated. They resume
-from their retained runtime state when reattached; no elapsed off-screen combat, recovery, condition, or
-NPC activity is synthesized. This is an in-memory session-lifetime rule, not save persistence.
-
-## Non-positive authored world random bounds become ordered typed ambiguities
-
-**S6B supersession:** The owner-approved SOURCE_ENTRY_V1 playable Vine exception above now selects
-Waterfall for effective dodge<=0 with zero draws. The original policy/evidence below is historical
-for that case and remains current for other revisions/interactions. Positive Vine behavior is unchanged.
-
-**Decision:** When a future authored world interaction reaches an LPC `random(bound)` call with
-`bound <= 0`, native code returns a typed legacy ambiguity/failure at that exact source position, consumes
-no RNG draw, applies no clamp, and selects no invented branch. Phase 9B3B1 records this boundary but does
-not yet implement or execute Vine randomness.
-
-**Reason:** `d/oldpine/epath2.c` calls `random(query_skill("dodge"))`, while the locally available MudOS
-documentation does not define zero or negative bounds. The existing Combat decision already uses ordered
-typed failures for the same missing driver evidence; authored world interactions require an explicit scope
-extension before the Vine path is implemented.
-
-**Compatibility impact:** Positive authored bounds will retain their exact range and source ordering.
-Non-positive states become diagnosable instead of crashing, clamping, or silently choosing waterfall or
-passage. Presentation and mutations completed before the random position remain observable. Sources:
-`reference/es2/mudlib/d/oldpine/epath2.c`, `reference/es2/mudlib/doc/efuns/random`.
 
 ## Cross-map ordinary exits use location availability reconciliation
 
@@ -3437,6 +3555,9 @@ exact `go.c` move-return statement. Lethal intent is not erased merely by handof
 `reference/es2/mudlib/cmds/std/go.c`, `game/core/combat/relationship/combat_opponent_selection_service.gd`.
 
 ## Combat invalid random bounds become ordered typed failures
+
+(Superseded by「MudOS random(n <= 0) is 0, everywhere」, 2026-10-01: every non-positive `random()`
+bound rolls 0 and draws nothing.)
 
 **Decision:** Phase 5B2A returns a typed legacy-invalid result when ordinary attack resolution reaches
 `random()` with a non-positive apply-damage, defense-factor, or wound-damage bound. The failure occurs at
@@ -3619,14 +3740,6 @@ partial mutation, not an atomic attack rollback. Sources:
 
 **Compatibility impact:** A player on the same continuous Godot map but farther than 96 pixels from the corpse cannot Open Loot or Take until approaching it. Once admitted, all item ownership, capacity, corpse-worn, stack merge, and fighting/busy results remain governed by the migrated source rules. Source: `reference/es2/mudlib/cmds/std/get.c`; native scene scale: `game/scenes/world/oldpine/oldpine_outdoor.tscn`.
 
-## Old Pine Outdoor directly connects to the Pine Maze
-
-**Decision:** Phase 9B1 adds one bidirectional, continuously walkable physical threshold between the existing Old Pine Outdoor prototype and the native Pine Entrance zone. It is an RPG geography consolidation, not a `PortalDefinition` and not a claim that the LPC rooms have a direct exit.
-
-**Reason:** The LPC graph has no ordinary edge from the currently embodied Central/North Outdoor area to `pine1`. Its source route is `epath2` vine → `passage` or `waterfall` → River/Cliff → `cliffside` → `pine1`. Requiring that entire chain would block the low-dependency Pine content on conditional skill/RNG traversal, Cave/River authoring, and cross-scene state handoff. Native RPG geography may cluster legacy rooms into continuous maps while retaining their authored identities and meaningful boundaries.
-
-**Compatibility impact:** Players can enter Pine Entrance directly from the current Outdoor map earlier than the LPC topology permits. The Pine-side `pine2 → keep1` and `cliffdown → cliff2` boundaries remain represented but closed, all eight Phase 9B1 legacy room IDs remain traceable, and no new LPC exit is recorded. Sources: `reference/es2/mudlib/d/oldpine/epath2.c`, `passage.c`, `waterfall.c`, `riverbank1.c`, `cliff1.c`, `cliffside.c`, `pine1.c`.
-
 ## Random Pine room exits become one fixed continuous maze
 
 **Decision:** Phase 9B1 translates `pine1` through `pine7` and `cliffdown` into one fixed continuous spatial maze with repeated forks, occlusion, a traversable loop, a safe dead end, a reliable route to Pine Cliff Edge, and a reliable return route. There is no ROOM exit emulator, reset-time topology mutation, or navigation RNG.
@@ -3663,20 +3776,6 @@ to the later owner-authorized Final Audit. No PR, merge, automatic Final Audit, 
 expansion is authorized. All other arts, practice/study, force/techniques, full school/faction systems,
 Phase5B4, Lake/serpent and Native generation remain deferred. Type C = 0.
 
-## Snow Martial Progression II — automated functional acceptance
-
-**Owner decision (2026-09-25):** P2 engineering closure uses deterministic automated
-production-path verification. This supersedes the live-grind/full-process acceptance
-method in D-SMP2-01/08 above, not the gameplay finish or source rules. Genuine prior
-[production combat](PHASE_SNOW_MARTIAL_PROGRESSION_II_CHANGED_PATH_LIVE_ACCEPTANCE.md)
-already observed EXP0→1; stochastic time-to-EXP6 is deferred to balance/pacing and
-usability qualification. Test fixtures may construct exact prerequisite checkpoints
-(EXP6/basic unarmed4); these are test-only and never naturally earned live evidence.
-No gameplay formula, EXP probability/rule, EXP6 Learn threshold, or unarmed4/liuh5
-finish changes. Public Save/Continue with fresh graph reconstruction closes the
-functional persistence loop; later human play/Final Audit smoke remains separate.
-See the [automated acceptance report](PHASE_SNOW_MARTIAL_PROGRESSION_II_AUTOMATED_ACCEPTANCE.md).
-
 ## Generalized Player display names
 
 **Decision (Type B, owner-authorized P2R2):** Replace the historical Chinese-only
@@ -3688,212 +3787,3 @@ not multiplayer uniqueness, account naming or moderation. Source:
 [logind.c::check_legal_name](../../reference/es2/mudlib/adm/daemons/logind.c).
 The [policy report](PHASE_NEW_GAME_GENERALIZED_NAME_POLICY.md) records rules,
 configuration and verification. Birth, gameplay and Save schemas are unchanged.
-
-## 室内察觉 (an aggressive NPC indoors notices the room)
-
-**Owner (2026-10-16, after 地图重构 R2):** ES2's aggressive NPCs act from init(), on whoever is
-in their room. The native stand-in was a presence circle (spawn `presence_radius`, 120 px);
-the remap grew rooms past it, so one could walk round a hall's 护院. Now a zone marked
-`indoors` (a building's room, a tent, a cave, a dungeon, from the remap survey's
-classification of the ES2 rooms) is the presence: an aggressive NPC there notices the player
-the moment both are in the room (the player's arrival or the NPC's, by any way), complete_set
-rooms and toll contact alike, and nobody in the next room. Streets and the wild keep the
-circle (owner: only rooms inside). The radius knobs of the 狮子 (400) and the 白鳞冰龙 (260)
-went with it: their rooms are indoors. 194 zones: the survey's inside rooms less two
-balconies whose LPC sets outdoors (阳台, 观景台). An NPC that only may go berserk (attack.c
-init()'s roll: 淳于怀太, the 福林楼 guards) rolls on the player's arrival in its room too.
-Once noticed, an NPC waits for the player to leave the room and come back (a flight stands
-where it was, as the circle's leaving and coming back); one that took no part in the fight
-that started meanwhile notices the player anew when it ends (the next 护院). Since「进门一起上」
-(2026-10-24) everyone there who attacks on sight comes at once, and outdoors too those who fought wait
-for the player to leave their zone.
-
-## 地图重构 (owner, 2026-10-16)
-
-ES2's rooms have no size; the first native maps drew a town's rooms side by side on one map, too
-small for a body and its NPCs. Now maps follow a scale standard in body widths
-(`tools/maps/standard.json`; owner: a building no smaller than its description says), and every
-enterable room is on its building's (or walled compound's: owner Q1) own map, entered by a passage
-pair on its door, the town keeping its facade. Rules and content are unchanged: rooms, exits
-(one-way ones stay one-way), doors and locks (a door on a passage is one door on both maps), exit
-rules, scripted moves and where each NPC stands. Owner Q2–Q4: towns scaled and buildings' maps
-laid from their exits; wild maps not rescaled, their buildings and caves moved out; every map
-stays resident. 晚月庄's and 水烟阁's compounds were already their own maps: grown ×1.5 as drawn,
-and the rooms their descriptions call large grown to that class (owner).
-What follows from it:
-- An NPC walks through a door onto the next map as it walks into the next room (wanderers, one
-  called over, one walking out of a fight, followers); a save counts one on its way out as through
-  the door.
-- Leaving a room by its door is leaving it (a trap on the way out); a master's 拜师 answer still
-  due is said to the empty room as the player leaves the map (茅山 B).
-- 茅山 B's rule stands (a map's world time stands still while the player is on another): NPCs act
-  only on the player's map, which since the remap is a building or its street (owner to judge at
-  the playtest). Superseded by「别的地图时间补算」(2026-10-23): a map catches up when the player comes back.
-- A door's fade is the shorter `door_fade_*` and names no place; world revisions
-  `SOURCE_ENTRY_REMAP_*` (development saves need a New Game).
-
-## 说话和交互 (owner, 2026-10-17)
-
-Before the unified playtest, NPC speech and interaction were rebuilt as presentation and entry
-points (owner's plan, Q1–Q3 as recommended). **Rules are unchanged**: who says what, when a fight
-starts, what each action does and refuses are ES2's; the feel's knobs (`pacing.json` `feel`)
-decide only where and when the player sees them, and the suites run with them off (as ES2).
-- **问候** (init()'s greeting call_out): ES2 starts it as the player comes into the room. Here it
-  waits until the player first comes near the NPC (within `speech_reach_px` 136, four body
-  widths, and on the screen) and starts then, once per visit to the room (Q1): its wait, and a
-  harmful greeting's second to step aside, count from that moment. A player who never comes near
-  is not greeted (nor hurt by a greeting that harms).
-- **闲聊** (npc.c chat()): the roll is ES2's; a line drawn while the player is far off is not shown
-  to them (not even in 消息). What the NPC does on a chat (walks, drinks, steals) happens as before.
-- **Where lines show**: what NPCs say (greetings, chat, stories, chants, the toll robber's 喝令)
-  shows over their heads and goes into 消息; the bottom left's toasts keep the game's own messages.
-  A room's title and description show in the top right for 4 s (+40 ms a character past 40,
-  `room_text_ms` / `room_text_char_ms`) and go into 消息 (Q3); 观察 shows them again.
-- **交互**: E (pad A) or a click / tap on a thing in reach goes to the target (the nearest, or a
-  near one the player faces; Tab / Y and Q / LB / RB step to the others), marked with a ring and
-  「E 交互」. A thing that does one thing (a door, an item on the floor, a room's service, a sign
-  only looked at) does it at once (Q2); the others open the interaction popup: the thing's name and
-  title, how it is (昏迷不醒，约 N 秒后醒来; 正等着你留下买路财), what it is to the player
-  (look.c's relation, the strength line), then every option it offers. One the rules refuse now
-  is greyed with ES2's own line where it has one (fight.c: 这里禁止战斗。 / %s已经无法战斗了。,
-  kill.c: 这里不准战斗。, apprentice.c: 你必须先把%s弄醒。), else a short native one (拾取:
-  离得太远，够不着。; 给予 to one lying unconscious: give.c's 这里没有这个人。 would contradict
-  what the player sees, so {npc}昏迷不醒，收不了东西。; owner, 2026-10-17). A landmark with an action (放弃,
-  抓住藤蔓) always opens the popup, never a stray click. A greeting still waiting when a fight
-  starts in the room is forgotten (ES2's had long been said). 拜师 and 给予 are on the popup;
-  the HUD's card keeps the name, 菜单, 精气神, conditions and waits only.
-- **The popup is one window, two columns, one size** (owner's playtest, 2026-10-17): it keeps
-  a fixed share of the screen (75 % × 70 %, never under 820 × 440, so a small or scaled
-  screen is nearly all popup), each column
-  scrolling itself. The options on the left (no 查看 row); on the right its 查看 — opening the
-  popup looks at the thing (look.c: name and title, description, relation, strength; the status
-  lines above; a corpse's or landmark's own look). Opening it therefore does what 查看 did, ES2's
-  look side effects included (look.c's berserk, a landmark's look function). B / Esc / 返回 (the
-  frame's 关闭 on a page) go back to 查看, then close; B on a question is its 取消.
-- **World time stands still while the popup shows, every page included; acts are confirmed
-  on the right, then done in the world** (owner, 2026-10-17, like Skyrim's menus): a row shows
-  what it is about and a 确认 on the right; 确认 closes the popup and the act happens with world
-  time running, so an NPC's answer (拜师's within the 0.4 s reaction beat, a story told line by
-  line, a 接话) comes in the world, in bubbles.
-  - **Deviation: 攻击 and 切磋 always ask** (ES2 and the HUD before: only when risky): the page
-    says how strong the NPC looks, then the risk's warning or a plain question. So do 疗伤他人,
-    驱尸, 还瓜钱 and a landmark's actions (抓住藤蔓, a dial's turn: each turn reopens the popup).
-  - **拜师** (and 发誓恪守门规, 接受测试, 取消拜师请求, which follow it and were the teacher panel's
-    own buttons): the master's name, family and what he teaches, the teacher panel's question
-    when one applies (betrayal, first master, change of master, a master who attacks a traitor),
-    确认. Whether he takes the player was not told before (owner Q1: ES2 tells only by asking);
-    since 2026-10-19 the page lists his conditions (「上限预览和拜师条件」).
-    请安 to one's own master is done at once. The teacher panel shown as 请教's page leaves these
-    to the popup's rows.
-  - **Deviation: 给予 gives several things at once** (ES2: one give per command): the page lists
-    what the player carries to tick (a stack's amount beside it); the 背包's questions (an
-    equipped thing, a large sum, a letter that recruits at once) show as warnings above
-    确认给予, which can be pressed once something is ticked. 确认 closes the popup, then give.c
-    runs for each ticked thing in the list's order while the NPC still takes gifts.
-  - **偷窃**: a thing chosen (or 随手摸一样) is confirmed with what is aimed at and the warning;
-    the theft's three seconds then pass in the world. **行贿**: the amount and its button are
-    the confirmation; taken, the popup closes.
-  - **Pages done on the spot stay**: 购买 / 请教 / any service's panel, 打听, 拾取 on a corpse
-    — their results come at once, world time stopped. An 打听 answer that starts something the
-    NPC goes on with (大队长's 黄石隘口 told line by line, an NPC's own call_out) closes the
-    popup for it to happen, the answer shown as toasts (owner Q2).
-- **系统 keeps the status card** (owner, 2026-10-17): the pause (系统) still pauses the tree; the
-  HUD's card stays behind the menu there, as behind its other tabs.
-- **界面缩放 and the map's own text** (#138, owner 2026-10-17): the 界面缩放 grows the interface
-  only; names over bodies, landmark and floor-item labels are drawn on the map and stay its size.
-
-## Busy is saved, not waited on (owner, 2026-10-17)
-
-- **What changed:** Save no longer refuses while the player or an NPC is busy (the
-  "Inactive resident maps" and Save-eligibility entries above blocked it). Both busy facts
-  (action.c's busy and interrupt) are saved with their character on every map and restored
-  exactly; a spent busy whose interrupt value stands stays so, as action.c leaves it.
-- **Why:** inactive maps freeze, so an NPC left busy there (the player's 遁 away from a fight)
-  kept Save refused until the player went back. A modern RPG saves the state instead of making
-  the player wait on something they cannot see. Busy's formulas and its wearing off on the
-  heart beat are unchanged; guarding, opponents and lethal intent still block.
-
-## 连续修炼 (owner, 2026-10-19)
-
-- **ES2:** learn, practice, exercise, meditate and respirate do one step per command, set no busy
-  and take no count (exercise's number is the kee each sitting spends); the player types the
-  command again. feature/alias.c's MAX_REPEAT 30 throws out a player who sends one command 30
-  times running: a server's guard against bots, not ported (as the login daemons).
-- **Ours:** 请教 (the teacher panel) and 练习, 打坐, 冥思, 修行 (the 武学 page) also have 连续…: the
-  same command again and again through the same services, every rule and draw unchanged (a run
-  leaves the save, RNG included, as the single button pressed as often), a step every
-  `training_step_ms` (150; 0 all at once, as in the suites) with a count, a bar and 停止 (B / Esc).
-  World time stays held on those pages (owner Q1), so nobody comes in meanwhile; a step that
-  starts a fight (茅山道术's 观想虫) ends the run. A run stops on a refusal (the command's own
-  lines: potential, kee, force or sen short, the 70 % thresholds, the teacher tired …), a level
-  or a maximum up, a fall, a fight, the teacher out of reach, the page closed or left, 停止.
-- **Deviation — the log:** a run is told in one summary (你向柳淳风请教「基本剑法」3 次：基本剑法进度
-  +31，精 -66，潜能 -3。), the lines a level, a skill_improved() or a maximum gives, then why it
-  stopped; each step's own lines are not printed. The single buttons keep ES2's lines.
-- **Deviation — no step for nothing (owner Q2):** a run stops *before* a step that would spend
-  and gain nothing, and says why: learn with gin not above its cost (learn.c takes all the gin
-  left: 你今天太累了), learn of a martial skill whose level³/10 is above combat_exp (gin spent: 也许
-  是缺乏实战经验), practice in weak mode once this level's progress is past (L+1)² (improve_skill()
-  drops the rest at the level), a sitting that gains nothing (酸麻), a sitting at the bottleneck
-  that would take the power back to its maximum. The single buttons still do what ES2 does.
-
-## 上限预览和拜师条件 (owner, 2026-10-19)
-
-- **ES2:** learn.c says why a lesson fails only when it is asked, one reason at a time; how far
-  a teacher takes a skill (the teacher's level, master.c's 20 levels a betrayal and a third of
-  the level for one not his own, valid_learn(), level³/10 combat_exp) is never told. A master's
-  attempt_apprentice() says only the first check the student fails, when asked.
-- **Ours (deviation, owner):** the 请教 page says under each skill how far the player can learn
-  it there and what stops it (还能学到 22 级（22 级要再学，须实战经验 ≥ 1064）。), or why not at all
-  (学不了：你已学到柳淳风的 150 级。), and what stops a lesson now (潜能已经用完, 精不够). LearnQuote
-  walks learn.c's level-bound checks up from the player's level, nothing changed. The 武学 page
-  says how far 练习 takes a skill (the basic skill's level; progress only, or full, at it) and
-  how far 打坐 / 冥思 / 修行 raise their maximum (the bottleneck).
-- **拜师 (deviation, owner):** the popup's 拜师 page lists the master's checks with the player's
-  values, met or not (定力 ≥ 20（你 30） ✓), 查看 counts them. What a master asks without saying
-  it is told no more (owner Q3): 须通过考验 (三招, 三鞭), 拜师时另有要求 (the oath), 须另有机缘 (陈天星's
-  letter); 骆云舟's mark reads 另有条件 until he has said it (his refusal sets marks/书生), then his
-  own line.
-
-## 了结 / 放过 (owner 批准, 2026-10-20)
-
-- **ES2:** after the player's 攻击 (kill.c: kill_ob() both ways), feature/attack.c remove_enemy()
-  keeps a killer's unconscious victim, combatd.c fight() always strikes one lying unconscious,
-  and std/char.c heart_beat() kills it on the next wound: about a second after the fall it is
-  dead, with no way to change one's mind (no halt command; surrender.c is refused while the
-  enemy kills the player). Only walking out of the room as it falls spares it. One the player
-  only fights back (fight_ob()) is let be when it falls (clean_up_enemy()), as here already.
-- **Ours (deviation, owner 批准):** a player today does not mean every won fight to end in a
-  death, and many NPCs refuse a 切磋. When one the player's side is killing falls — the player
-  (standing) or one they called (WorldMapNpcs.summoner_of(): the 天将, the 护法's 天将 or 阴鬼卒,
-  the zombie and its 追魂符) has its kill_ob() — those of them who kill it hold their blow
-  (remove_killer(), remembering where it stood among their kill marks and enemies) and its
-  battle card shows 了结 and 放过; the button is the choice, nothing asks again. The fight is not
-  paused: the others fight on, and while one waits the fight goes on.
-  - **了结:** the held kill_ob()s are back where they stood and the player turns on it: the next
-    blow kills, as ES2. Everything a death does is unchanged (MKS, 杀气, 朱鸿雪's task, the
-    vendetta mark, 弑师). The button reads 了结（任务目标） for 朱鸿雪's target, 了结（弑师） for the
-    player's own master.
-  - **放过:** the player's side no longer kills it. It lies where it fell and comes to on its own
-    time; with nobody else to fight, the fight is over (won). 你住了手，放了X一条生路。
-  - **Owner (2026-10-20): 放过 bears no grudge** (reverses the plan's Q1, ES2's attack.c
-    init() hatred): a fight's end forgets the player, as it does after a flight and for every NPC
-    but a conjured one. One that attacks anyone on sight (a robber, a garrison on a vendetta)
-    still does, by its own rule.
-  - **Owner (2026-10-20): the countdown runs.** NPCs' revive call_outs stand still in a fight
-    here (their heart beat runs outside fights), unlike ES2. A held one's runs on the fight's
-    clock (as the player's own waking in a fight), shown on its card (昏迷 · 约 N 秒后醒来); if it
-    comes to before the player chose, the held kill_ob()s are back and the fight goes on as ES2's
-    (X慢慢睁开眼睛，清醒了过来。). Others lying in a fight still wake after it.
-  - **Owner (Q2): the player's summons follow the choice.** Anyone else on any side — 老公公 come to
-    help, an NPC with its own kill_ob() — keeps to ES2.
-  - The player falls or dies while one is held: nobody can choose, the held kill_ob()s are back.
-    Only those standing hold: one of the player's called lying down keeps its mark (it strikes
-    nobody), and with nobody standing to strike nothing is asked.
-  - A won fight in which nobody of the other side died says 你赢了这场战斗。 without pointing at a
-    corpse to loot (after 放过, or when the player only fought back).
-  - Not saved: a held one lives only inside a fight, and Save is refused in a fight.
-- **Owner (Q3): the setting 击倒后 — 询问 / 直接了结**, 询问 by default; 直接了结 is ES2 throughout.
-  Settings schema 5 (`after_knockout`: ask / finish); an older file reads as 询问. The suites run
-  直接了结 (run_suite.gd, as TestFeel): the rules they pin are ES2's; `spare_or_finish_test`
-  turns on 询问.

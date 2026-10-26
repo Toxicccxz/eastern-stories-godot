@@ -4,10 +4,14 @@ Supplements the root `AGENTS.md` for everything under `docs/`.
 
 * `docs/production/` holds current, long-lived documents: `STATUS.md` (one page, overwritten),
   `ROADMAP.md` (forward plan only), `BUILD.md`, `REPOSITORY_POLICY.md`, `GODOT_AI_DEVELOPMENT.md`,
-  `LICENSE_PROVENANCE.md`, `PROJECT_SCOPE.md` and `contracts/`.
+  `LICENSE_PROVENANCE.md`, `LOCALIZATION.md`, `WORLD_RELATIONS.md` (factions, people and story
+  chains in the game data) and `contracts/`. `PROJECT_SCOPE.md` is retired (a pointer to STATUS
+  and ROADMAP); do not revive it.
 * `docs/design/` holds the owner's design documents, e.g. `美术规划.md` (the voxel art standard
   per region, kept current with AGENTS.md「Maps and art」).
-* `docs/migration/` holds `DECISIONS.md` and, when useful, one short note per content package
+* `docs/migration/` holds `DECISIONS.md` (现行规则 by system, then the entries in force),
+  `DECISIONS_HISTORY.md` (entries a later decision replaced, verbatim) and, when useful, one short
+  note per content package
   (LPC→native mapping, source anomalies, deferred items). Name new notes by content, e.g.
   `SNOW_SHOPS.md`, not by phase code.
 * Existing `PHASE_*` and `MIGRATION_TOOLING_V1_*` files are historical records. Keep them; do not

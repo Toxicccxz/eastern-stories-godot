@@ -25,7 +25,7 @@ fresh fetch 后身份一致，tracked worktree/index clean，全状态 phase PR 
 
 本轮完整阅读 root/docs AGENTS、冻结 Final Re-Audit-after-P2F29、
 [P2F29 implementation](MIGRATION_TOOLING_V1_P2F29_UNRESOLVED_DECLARATION_HEADER_REFUSAL.md)、
-[locked D1–D9](DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary)，并检查相关实现、测试与晚期 include fallback。
+[locked D1–D9](DECISIONS_HISTORY.md#migration-tooling-v1-p2--owner-locked-extraction-boundary)，并检查相关实现、测试与晚期 include fallback。
 原始只读依据为 [include](../../reference/es2/mudlib/doc/lpc/preprocessor/include)、
 [define](../../reference/es2/mudlib/doc/lpc/preprocessor/define)、
 [function](../../reference/es2/mudlib/doc/lpc/constructs/function)、

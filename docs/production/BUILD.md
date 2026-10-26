@@ -120,10 +120,11 @@ lifecycle/termination autosave or promised background-time reservation. See the
 
 Typed application settings use `user://settings/application-v1.cfg`, independently of gameplay saves,
 profiles, schema, and recovery. Settings load before Menu and are available from Menu and Pause.
-Windowed/Fullscreen is editable only through the native desktop capability; embedded, headless, and
-platform-managed windows show no editable mode control. Unusable settings do not block Continue;
-failed preference persistence is reported separately from gameplay Save. Mobile adds no new
-preference or autosave setting; its lifecycle policy is defined by the separate mobile contract.
+The window mode (窗口 / 无边框全屏 / 全屏) is editable only through the native desktop capability;
+embedded, headless, and platform-managed windows show no editable mode control. Unusable settings
+do not block Continue; failed preference persistence is reported separately from gameplay Save.
+Mobile adds no new preference or autosave setting; its lifecycle policy is defined by the separate
+mobile contract.
 
 ## Unified builds
 
@@ -302,7 +303,11 @@ workspace.
 
 ## Mobile product boundary
 
-The shared mobile layer now provides responsive Shell/HUD/item panels, SafeArea, a fixed digital
+The first release is desktop only; a mobile port may follow after reviews, and visuals
+are not cut for phone frame rate ([DECISIONS「首发只做桌面」](../migration/DECISIONS.md)). The
+Android and iOS jobs stay required build gates, not release targets.
+
+The shared mobile layer provides responsive Shell/HUD/item panels, SafeArea, a fixed digital
 pad, Android Back and lifecycle freeze/explicit Resume, with manual saves only. It keeps one
 logical 1280x720 base, canvas_items/expand and both sensor-landscape directions. See the
 [Mobile Application contract](contracts/MOBILE_APPLICATION_CONTRACT.md) for supported boundaries.
@@ -311,4 +316,4 @@ Installed x86_64 Android emulator evidence does not qualify physical Android mul
 production Vulkan or general device compatibility. The shared iOS source/export path does not
 qualify iPhone/iPad simulator/device runtime; unsigned iOS Xcode compilation remains required in
 integration CI. Permanent identity/signing, hardware qualification and store-oriented release gates
-belong to Phase 10D or an explicitly planned later release phase, not a successful build alone.
+belong to a planned mobile port, not a successful build alone.

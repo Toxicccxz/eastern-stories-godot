@@ -8033,7 +8033,7 @@ msgstr ""
 msgid "系统"
 msgstr ""
 
-#. the 声望 tab until reputation is built (ROADMAP step 6).
+#. the 声望 tab until reputation is built (ROADMAP "After the grey box": quest and reputation systems).
 #: ui/world/game_menu.gd
 msgid "江湖上对你的看法，日后会记在这里。"
 msgstr ""

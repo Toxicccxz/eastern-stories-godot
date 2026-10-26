@@ -7,7 +7,7 @@ P2 implementation, P2R1 and P2R2 are OWNER APPROVED / CLOSED. Current starting f
 `96b92799b663adc76776be15f1f9f0e656a2d9c7`.
 **P2 IMPLEMENTATION + AUTOMATED FUNCTIONAL ACCEPTANCE COMPLETE
 — AWAIT OWNER FINAL-AUDIT AUTHORIZATION**, under the
-[new owner decision](DECISIONS.md#snow-martial-progression-ii--automated-functional-acceptance).
+[new owner decision](DECISIONS_HISTORY.md#snow-martial-progression-ii--automated-functional-acceptance).
 The [new acceptance report](PHASE_SNOW_MARTIAL_PROGRESSION_II_AUTOMATED_ACCEPTANCE.md)
 separates genuine historical live evidence from deterministic production-path tests.
 Natural EXP6 session duration is deferred pacing/usability qualification; the test-only

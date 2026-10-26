@@ -7,23 +7,27 @@ people; B the 瓜地 (the pick, the 瓜农's catch, 还瓜钱).
 
 ## Placed
 
-All 26 room files, on three maps.
+All 26 room files, on seven maps.
 
 | Map | Rooms | People | Ways |
 |---|---|---|---|
-| village.main (傅家坡) | road1–9, farmhouse1, fmhousback, littlegarden, home, smallstorage, melonfarm, melonguard, field, lordhouse1–3, lakeside, valley1–2 | 商人 ×2, 农妇, 采花妞 ×5, 刘老农, 大老鼠 ×6, 瓜农 ×3, 渔夫 ×3 | north to 天驼关谷地 (canyon7); the 三叉路口's way south to 京师 and the 黄土大道's spur west to 黑松山 drawn closed; the grass west of road6 into valley2 (five seconds), valley2 east back; valley1 east down into the ice cave; the boat to the lake's middle |
+| village.main (傅家坡) | road1–9, littlegarden, melonfarm, field, lakeside, valley1–2 | 商人 ×2, 采花妞 ×5, 渔夫 ×3 | north to 天驼关谷地 (canyon7); the 三叉路口's way south to 京师 (nroad2) and the 黄土大道's spur west to 黑松山 (croad1); a door into each house; the grass west of road6 into valley2 (five seconds), valley2 east back; valley1 east down into the ice cave; the boat to the lake's middle |
+| village.farmhouse_house (农舍) | farmhouse1, fmhousback | 农妇 | south out to road4 |
+| village.liu_house (刘家小房) | home, smallstorage | 刘老农, 大老鼠 ×6 | the 木门 south to the 花园 (shut) |
+| village.lord_house (财主家) | lordhouse1–3 | — | the 田老财家大门 west to road9 (shut) |
+| village.melonguard_house (瓜棚) | melonguard | 瓜农 ×3 | north to the 瓜地, north-west to road7 |
 | village.midlake (玉螺湖: the boat) | lake | — | the paddle back ashore; the dive into the ice cave |
 | village.icecave (水下岩洞) | lakebottom1–2 | 白鳞冰龙 ×6 | up west to valley1; 放弃 by the 玄冰 (the Inn) |
 
 The lake is no walk: its middle, which only the boat reaches, is a map of its own (as 乔阴's rooms
-only verbs reach).
+only verbs reach). None of these maps has a voxel view yet (no `game/data/village/voxel/`).
 
 ## LPC → native (A)
 
 | LPC | Native |
 |---|---|
 | road1.c north, canyon7.c south | portals `village.road1.north` / `canyon.canyon7.south` (天驼关's valley opens south) |
-| road2.c south (d/city/nroad2) | drawn closed (东南 · 京师（未开放）); village_test fails once 京师 is placed |
+| road2.c south (d/city/nroad2) | portals `village.road2.south` / `city.nroad2.north` |
 | road3.c, lakeside.c item_desc | look landmarks (小牌子: 傅家坡; 木船), word for word |
 | home.c / littlegarden.c, road9.c / lordhouse1.c create_door() | doors `village.home.door` (木门) and `village.lordhouse1.door` (田老财家大门), shut |
 | road6.c do_pushaside(), roadgone() | `hidden_passage` landmark `village.road6.landmark.grass` (茅草 · 拨开, every_push, one portal; pushed while standing against it, the player is through): exits/west for five seconds of world time, 你拨开茅草，发现了一条向西的路。 each push, the first call_out's 茅草晃了晃，又遮住了向西的路。 seen in road6 only; valley2.c's east is an exit, always open |
@@ -32,7 +36,7 @@ only verbs reach).
 | lakebottom1.c (the way in frozen over) | landmark `village.lakebottom1.landmark.ice` (玄冰 · 放弃: the Inn, as 绝地) |
 | lakebottom2.c objects | six 白鳞冰龙 (1,000,000 exp, aggressive): the hall is `complete_set` and they notice all of it (presence 260): whoever comes in fights all six |
 | lordhouse3.c | source_fixes: the stray } that ended do_takeout() goes, so the room loads (ES2 never compiled it); its shelf, take_out and push are not ported (no outcome, placeholder text) |
-| oldliu.c greeting() | 刘老农说道：“这位$RESPECT，可否见到小女娟儿？” a second after the player comes in; the thanks (marks/老刘) and revenge (marks/murder, killhim()) wait for 黑松山, whose 小娟 sets them |
+| oldliu.c greeting() | 刘老农说道：“这位$RESPECT，可否见到小女娟儿？” a second after the player comes in; the thanks (marks/老刘) and revenge (marks/murder, killhim()) are 黑松山 B's ([CHUENYU_CONTENT](CHUENYU_CONTENT.md)), whose 小娟 sets them |
 | oldliu.c accept_fight() | 老头子哪里是您的对手？, no spar |
 | meloner.c greeting(), vendor_goods | 这位$RESPECT要不要买个西瓜解解渴？ (no speaker, as say() wrote it); goods 西瓜 at 60 |
 | woman1.c wield_weapon(), converse_one() | the wield action (菜刀, then chat_chance_combat 10) and say_by_age (青石村 A) |

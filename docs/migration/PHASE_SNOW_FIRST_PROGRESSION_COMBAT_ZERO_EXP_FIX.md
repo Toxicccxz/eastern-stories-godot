@@ -28,7 +28,7 @@ on the abnormal negative-attacker path. No result/API/enum changes.
 Source consulted: `reference/es2/mudlib/adm/daemons/combatd.c`, particularly the ordered
 attack region and lines362–366: `defense_factor = your["combat_exp"]` followed by
 `while (random(defense_factor) > my["combat_exp"])`, integer damage reduction and halving.
-See the approved [DECISIONS entry](DECISIONS.md#snow-first-progression-p2b-ze1--zero-exp-combat-defense-boundary).
+See the approved [DECISIONS entry](DECISIONS_HISTORY.md#snow-first-progression-p2b-ze1--zero-exp-combat-defense-boundary).
 Historical MudOS `random(0)` return/error/state consumption remains unproven. This is an
 explicit compatibility translation, not a historical-driver claim or a global random rule.
 

@@ -7,6 +7,9 @@ three-blow test) and teaches its arts; C gives the player 天邪神功.
 
 ## Placed
 
+Three maps (waterfog.mountain, pavilion, upstairs), all with the voxel view
+(`game/data/waterfog/voxel/`).
+
 | Room | LPC `set("objects")` | Native |
 |---|---|---|
 | sroad1-3 (青石官道) | 水烟阁武士 ×2 (sroad3) | mountain map: the road from Snow's sroad5 west, bending west under the maples to the stairs' foot |

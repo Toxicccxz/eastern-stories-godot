@@ -2,484 +2,110 @@
 
 _One page, overwritten as work progresses. History lives in git and PRs._
 
-## Current work
+以代码、合并记录和 [DECISIONS](../migration/DECISIONS.md) 为准。旧文档（历史 `PHASE_*` 报告、区域笔记的
+LPC 对照）里写的「未做」「暂缓」不是任务：要做的只在本页「待制作」和 [ROADMAP](ROADMAP.md) 里。
 
-**A6 进门一起上**（owner 批准 2026-10-24，DECISIONS「进门一起上」）：两个 PR。A（#156，已合并）：
-同一区块里见人就打的人一起出手，全游戏一条规则（`combat_entry` 删除）；打过的人等玩家离开那块地方再回来。
-B（分支 `phase/gang-alert`）：出手前的提示一拍（红「！」、喊话、同伙转身，0.5 秒，经典 0），离开区块就躲开。
+## 已实现
 
-**A2 经验节奏**（owner 批准 2026-10-24，DECISIONS「经验节奏」）：两个 PR。A（#153，已合并）：一次性的
-「历练」奖励、落后补偿、潜能上限按阶段、打坐 ×6，模拟 `tests/sim/`。B（分支 `phase/exp-pacing-b`）：
-雪亭驿门外的悬赏榜（5 档恶人，放过也算）和淳风武馆教练场的五具木人。全是 pacing 开关，经典值等于 ES2。
+主场景 `res://scenes/application/application_shell.tscn`（菜单 → 新游戏 / 继续）。全部在 `main` 上。
 
-**别的地图时间补算**（owner，2026-10-23，DECISIONS 同名条目）：分三个 PR。A（#149，已合并）：玩家回到
-一张图、那里的房间重置、有 NPC 进出那张图之前，先把它离开期间的 NPC 心跳一次补算完，包括回复、状态、
-忙碌、计时效果和昏迷醒来，最多回到造出来时的样子；存档记录每张图欠下的时间。B（#150，已合并）：
-游走和巡街的人按自己的节拍换了位置；站在店外时，店里的游走 NPC 会从门口出来，反过来也一样。C（分支
-`phase/corpse-decay`，DECISIONS「尸体腐烂」）：尸体照 ES2 两分钟腐烂、四分钟变骸骨、五分钟吹散，里面的
-东西落在地上；时长是 pacing 开关。
+**区域**（细节见各区域笔记 `docs/migration/<区域>_CONTENT.md`；房间为 ES2 房间文件数）
 
-**体素地图**（owner，2026-10-22，DECISIONS「固定俯视体素地图」）：全部地图都将用固定斜视的体素表现，
-当前分支 `phase/oldpine-relayout`。雪亭镇全部可进入地图已接入：饮风客栈一、二楼、
-街道、钱庄、药铺、铁匠铺、驿站、米厂、当铺及库房、城隍庙、书院、武馆各房和地下密室。
-各屋按原文分别布置柜台账册、药抽屉、炉火铁器、邮包、石磨粮袋、神桌、书案、兵器架和花草天井；
-暗道地板跟随原机关开闭。原 2D 地图仍决定行走、碰撞、交互、门和存档；WASD 按屏幕方向移动。
-昼夜按钮旁可用 0.6 秒平滑旋转切换左、右 45° 固定视角，近侧墙随视角剖开；
-局部透明、昼夜和视角选择都只改画面。
-门灯保留稳定阴影，远处整盏光源渐隐；灯光过密的地面和墙面按需拆批，避免靠近时阴影硬切和抢灯。
-家具只记在布局阻挡格的 `look` 上，体素层读取场景 Furnishings。
-野羊山三张图也已接入：山路与峡谷（台阶状悬崖、碎石、及腰长草、石屋冈哨的营火与货箱、飞火崖与石梁、
-干涸山涧、洞口），岩洞（四洞各自配色，钟乳石、滴水、黏液、随身光），小土地庙（神龛里残破的土地公、
-供桌、香炉、纸符、黄霸的角落）；飞鸟、尘土、炊烟和烛火是小动画。所有出入口有上下晃动的三角箭头。
-老松林九张图也已接入（山林组 B 的样板）：松林按离路远近由灌木、幼松到老松、高松，林冠下针叶地、
-青苔石、倒木、蕨和蘑菇，空地中央撑开大伞的巨松（可爬上枝干，下面是雾里的空地），沉进深谷的山涧和
-长满青苔的拱石桥，白练瀑布与水雾，破栈道，挂兽骨铁链和枯松枝的寨门、木桩寨墙与沙包、聚义厅
-（熊皮、三张椅子、火盆、上锁木箱、头骨黄水坑），瀑布下的清水潭、山涧、发绿的无底潭与黄叶怪草，
-水帘后点着铜烛台的通道，迷宫洞和剑刻石壁，大青石与金银花蛇，两处崖壁窄穴；巨蟒和毒蛇用蛇身，
-蝴蝶会飞。松针飘落、萤火（只在夜里）、水流、瀑布水雾和潭底气泡是小动画；雪亭镇往老松林的一端
-松树渐多、路面延伸。owner 试玩后（2026-10-25，路看不清、太窄、出口不明显）：山路路肩至少 56 像素、迷阵
-小路两侧各宽半格（迷阵的通道数和连通不变），走得到的林下地画得
-更亮更暖、林地更暗，贴路不种树，夜里玩家身边有微光；所有体素地图的出口箭头加大加深色底，地面加发光框，
-900 像素内就显示。
-卧龙岗和绮云镇十八张图也已接入（城镇组 A 第二个城镇、水岸组 E 的样板）：卧龙岗的黄土路和两侧抬起的
-岩石山梁；镇口门楼、城墙和官府公告；青石路上的布棚摊子、货担、水缸、柴堆和串起的红灯笼；各店立面按
-行当（金字招牌、乌木招牌、朱红门柱、挑幌、门口货物），二层的香茗坊和怡红院有腰檐和回廊；十字路口的古槐
-和槐下告示；张府的黑漆大门和石狮；张家花园的月洞门、荷塘、亭子、假山和柳；东边茶场的茶垄、茶篓、
-晾茶架和采茶的茶工；江北渡口的木栈、渡船、渔船（夜里点渔火）、驳岸、晒网，宽阔起浪的泓水，雾里的
-对岸日照山和山顶炊烟。十四间室内和三间楼上各有主题：镖局的兵器架、镖车和镖旗，肉铺的肉架和血迹、
-苍蝇，药店的药柜和药炉，赌场的大小赌桌，棺材铺和荒草场院、塌了一半的亭子、黑漆镶金八仙桌，怡红院、
-张府、红娘庄的喜案、斋院的大锅、布庄、香茗坊的茶柜茶炉和茶窖竹箩、兵器屋、杂货铺。渡船和渔船随浪起伏、
-炊烟、旗子、灯火摇曳、飞鸟和萤火是小动画；雪亭镇南端的路面和树也向卧龙岗过渡。
-水烟阁三张图也已接入（园林寺观组 D 的样板）。先按体素视角放宽了路和空间（owner 2026-10-25，
-DECISIONS「地图尺寸以体素视角为准」）：青石官道约 192 像素宽、白石阶每段 192 像素（栏杆之间 160）、
-山坡小径 160，楼里门洞 128，护卫和司事都站到路边；葬剑亭四周留出绕行的平台。山上：枫林与枫叶飘落，
-五段带白石栏杆的白石阶与石灯，阶下的白石牌坊和封地界碑，云海里突出山峰的半山亭（琉璃瓦重檐、风铎），
-独峰上的水烟阁（白墙朱柱、琉璃瓦重檐、鸱吻、金字匾，门前白石台、铜香炉和石灯，正门上方聆啸厅露台的五块
-怪石），深谷里飘动的晨雾，远处的虹台擎天柱和东北群山，葬剑亭的赑屃石碑和插在土里的残剑。楼里：檀木三进
-大门（最里的匾龙飞凤舞认不出），正厅的黝黑太师椅、议事座椅、樟木匾和告示板，东西花厅各自的白玉/白石栏杆
-与粉红/大红茶花，西侧厅白石梯与望谷阳台、东侧厅栏杆外的深谷云海，柴房柴堆、仆役大通铺和大炕、厨房大灶
-瓦瓮，天井假山竹子；二楼聆啸厅的露台五石、春秋水色斋的门匾，两侧挑高走道下看得见楼下大厅。雪亭镇西口的
-官道也向水烟阁延伸、开始有枫树。
-之前做完的四个区域随后也照「路和空间」放宽（`phase/road-widening`）：雪亭镇的主街和往南的街 224 → 320 像素
-（两排店整排往外挪），青石官道往南加宽 96，疯狗挪到路口南边两棵花树之间，绕得过它的察觉圈；绮云镇的街
-208 → 约 300（整排店往外挪，药店、书局、布庄、兵器屋和张府北宅跟着变宽或变深），卧龙岗两侧林坡后退、
-黄土路 128，张家花园门洞 128，渡口栈桥 160，茶场小路 176；老松林的大路 152–176，去石桥的路和石桥 144，
-迷阵小路 144；野羊山山路最窄处 152（山沟和陡坡也绕得过一个人），
-洞窟通道 144–176。路尽头通往别处的出口放宽到和路相称，接口两边的路面延伸一样宽。原文守路的（老松寨
-寨门和寨里、野羊山山路转角那伙、迷阵里的狼狗、山坡死路上的强盗）照旧躲不开（#165）。
-老松林外景随后按原文方位重排（`phase/oldpine-relayout`，DECISIONS「老松林按原文方位排布」）：山坡改在空地
-南边、牌子立在南路口；山涧从瀑布经桥下一直往南；迷阵和老松寨搬到桥东的崖上，cliffdown 正在 epath3 上方、
-cliffside 在山涧东岸崖上（从山涧经 cliff1 爬上来就到）；从桥东 epath3 走破旧栈道上崖进迷阵口（原来的空地南口
-去掉）。原文连接、迷阵结构和强盗都不变；迷阵口两个强盗站在去老松寨路边的林间洼地，走栈道上来往迷阵深处或悬崖边绕得过他们。世界修订号 SOURCE_ENTRY_OLDPINE_RELAYOUT_V1，旧开发存档要 New Game。
-其他区域仍为 2D，往返恢复各自镜头。
-下一步：下一个区域（照「路和空间」规则先放宽）；雪亭镇建筑立面细化；野羊山、老松林、绮云镇、水烟阁和
-这次放宽的路待 owner 试玩；手机帧率见 PR #161。
+| 区域 | 入口 | 房间 | 地图 | 体素 |
+|---|---|---|---|---|
+| 雪亭镇 | 起点（饮风客栈） | 37/38 | 13 | 13 |
+| 老松岭 | 雪亭镇山路南 | 41/41 | 9 | 9 |
+| 野羊山 | 山坳北 | 15/16 | 3 | 3 |
+| 卧龙岗 + 绮云镇 | 雪亭镇街道南 | 43/43 | 18 | 18 |
+| 水烟阁 | 青石官道西 | 28/28 | 3 | 3 |
+| 青石村 | 山坳东 | 39/39 | 12 | — |
+| 茅山 | 山路东 | 25/27 | 9 | — |
+| 晚月庄 | 绮云镇西 | 74/74 | 5 | — |
+| 泓水南岸 + 山烟寺 | 绮云镇渡口；晚月庄隧道 | 26/26 | 7 | — |
+| 乔阴县城 | 泓水南岸东 | 61/62 | 16 | — |
+| 天驼关 | 青石官道西南 | 25/27 | 6 | — |
+| 玉螺湖村 | 天驼关南 | 26/26 | 7 | — |
+| 京师 | 玉螺湖村三叉路口南 | 55/55 | 12 | — |
+| 黑松山 | 黄土大道西岔 | 32/37 | 4 | — |
+| 鬼门关（阴间） | 死亡 | 9/12 | 3 | — |
 
-**地图重构** (owner, 2026-10-16; DECISIONS「地图重构」) is done: the scale standard
-(`tools/maps/standard.json`, in body widths) and its tools and runtime (#130, #131), and every
-enterable room on its building's own map, entered through its door from the street — 雪亭镇 (#132),
-R1 绮云镇/玉螺湖村/天驼关 (#133), R2 京师/乔阴/黑松山/鬼门关 (#134), R3 青石村/茅山/山烟寺/野羊山/
-老松岭 (#136) and R4 (#137), which grew 晚月庄's and 水烟阁's compound maps ×1.5 as they were drawn
-and the halls their descriptions call large (晚月庄大厅, the dining rooms, the 密室, 水烟阁正厅, the
-servants' room) to their class.
-With it, 室内察觉 (#135): indoors an aggressive NPC notices whoever comes into its room.
+ES2 覆盖：536/551 房间，239/286 种 NPC，9/9 可加入的门派，33/36 特殊武学和 22/26 基本武学，84/84
+任务目标（计法见 [ROADMAP](ROADMAP.md#region-plan)）。没放的房间和 NPC 是 ES2 里没有入口、整修中或没有
+房间放置的，原因记在 ROADMAP 区域表和区域笔记。
 
-Before the unified playtest (owner, 2026-10-17), one more interface round in two PRs: 1. the screen —
-logical 1280x720 everywhere, the desktop window at 1920x1080 / 1600x900 / 1280x720 (the largest within
-85% of the screen), 设置 with 窗口 / 无边框全屏 / 全屏 and 界面缩放 100/125/150%; 2. talking and
-interacting (DECISIONS「说话和交互」) — NPCs greet and chat to a player near them, in bubbles; a room's
-text in the top right; E / A (or a click) on the target in reach: a door or an item at once, a person
-or a corpse through the two-column interaction popup (one size; options left, greyed ones say why;
-查看 on the right, where 打听 / 购买 open and every act is confirmed — 拜师 with the master's family and
-teachings, 给予 several things at once — before the popup closes and it happens; world time held while
-it shows); the card keeps
-the player's name, 菜单, 精气神, conditions and waits, behind 系统 too. Then:
-ROADMAP "After the grey box" step 3, the playtest checklist and the owner's full playtest.
+**系统**
 
-修炼与拜师的提示 (owner, 2026-10-19, borrowing a menu RPG's presentation of the same MUD rules),
-two PRs: A 连续修炼 — 连续请教 / 练习 / 打坐 / 冥思 / 修行 told in one summary and stopped before a
-step that would gain nothing (DECISIONS「连续修炼」); B how far a teacher can take the player and
-why not further, and a master's conditions to 拜师 with the player's values (DECISIONS「上限预览和拜师条件」).
-Then 了结 / 放过 (item 4 of that list, DECISIONS「了结 / 放过」): one the player (or what they called)
-is killing who falls waits on the card's 了结 / 放过 while the fight goes on and their countdown runs;
-放过 bears no grudge; 设置「击倒后」 询问 / 直接了结 (ES2). Items 5–9 wait.
+* **地图**：全部 127 张图由 `tools/maps/layouts/<区域>.json` 经画图工具生成，按比例规范（`tools/maps/standard.json`）；
+  每栋可进的楼是自己的图，经门进出。体素视角（DECISIONS「固定俯视体素地图」）已覆盖 5 个区域 46 张图：
+  左右两个 45° 视角、昼夜、近侧墙剖开、出口箭头；路和空间按体素视角放宽（「地图尺寸以体素视角为准」）。
+  老松岭外景按原文方位排布（「老松林按原文方位排布」）。其余区域是 2D 平色地块，往返各用各的镜头。
+* **战斗**：半自动遭遇战（逃跑、投降），ES2 招式描写，武器、护甲、内力、特殊招式和法术；同一区块里见人就打的
+  一起出手，出手前有提示一拍（「进门一起上」）；楼里进房间就动手（「室内察觉」）；了结 / 放过（「了结 / 放过」）；
+  战斗速度 慢 / 标准 / 快。
+* **成长**：拜师和 9 个门派，请教 / 练习 / 打坐 / 冥思 / 修行可连续进行，学习上限和拜师条件可预览，内力
+  （打坐、加力、运功），历练奖励、落后补偿、分档潜能上限、悬赏榜和木人（「经验节奏」）。
+* **世界**：世界时间、房间重置、NPC 游走和对话气泡、回到别的地图时补算它的时间（「别的地图时间补算」）、尸体
+  腐烂（「尸体腐烂」）、死亡后的阴间和回阳路、状态（中毒、醉酒、蒙汗药等）、钱币和钱庄、商店、当铺、工作。
+* **界面**：带标签页的菜单窗口（角色、武学、背包、任务、声望、百科、系统；声望是占位），手柄，靠近才说话的
+  气泡，两栏交互弹窗（开着时世界时间停住，重要选择先确认），任务页的江湖见闻日志，逻辑分辨率 1280×720、窗口 / 无边框全屏 / 全屏、
+  界面缩放 100/125/150%、设置「击倒后」。只有简体中文（[LOCALIZATION](LOCALIZATION.md)）。
+* **存档**：手动存档 / 继续，原子写入，不支持的文件拒读；世界修订号 `SOURCE_ENTRY_OLDPINE_RELAYOUT_V1`，旧开发
+  存档要新游戏（[存档契约](contracts/NATIVE_SAVE_LOAD_CONTRACT.md)）。
+
+## 待试玩
+
+已经做完、等 owner 统一试玩（ROADMAP「After the grey box」第 1 步）的手感和节奏：
+
+* 体素地图：野羊山、老松岭（含路面加宽和按原文方位重排）、卧龙岗 + 绮云镇、水烟阁；雪亭镇、卧龙岗 + 绮云镇、
+  老松岭、野羊山放宽后的路（#165）。
+* 经验节奏：combat_exp 0 → 1001 在模拟路线上约 1.7–1.8 小时（`tests/sim/`）；打坐 max_force 0 → 50 在 con 30
+  约 24 分钟；朱鸿雪 60 秒的任务限时在要走路的地图上是否来得及。
+* 进门一起上的提示一拍（0.5 秒）、了结 / 放过、连续修炼的总结、尸体腐烂的时长、别的地图补算回来时的样子。
+
+## 待制作
+
+按 [ROADMAP](ROADMAP.md) 的顺序；下一个包是**青石村的体素地图**（先照「路和空间」放宽）。之后依次是其余九个
+区域的体素、雪亭镇建筑立面细化、ROADMAP「After the grey box」第 1 步的试玩清单和 owner 的完整试玩。
 
 ## 待决定
 
-一项等 owner 完整试玩后再定。规则（owner，2026-10-08）：PR 合并时 owner 没有回答的问题，按 PR 里的推荐
-方案生效，在 [DECISIONS](../migration/DECISIONS.md) 里标「默认」，owner 随时可以否决；已批准的积压决定
-也在那里（「积压问题的处理」）。
-
-* **A2 经验节奏**（#62）：三管齐下已做（DECISIONS「经验节奏」，A #153，B 悬赏和木人）；节奏留给统一
-  试玩核验。仍待试玩：60 秒的任务限时在要走路的地图上是否来得及。
-
-## Playable now
-
-Main scene: `res://scenes/application/application_shell.tscn` (Menu → New Game / Continue).
-
-* **Snow (雪亭镇)**: source-valid New Game in the Inn; the Inn's upper floor, square, streets,
-  temple, the south road toward 天驼关 and 水烟阁, the school (书院), the
-  west-side shops, 淳风武馆 with its inner rooms and weapon storage, and the secret storage below
-  (37 of 38 rooms; 药铺密室 has no entrance); items on the floor to pick up; Work income; physical coins/silver/gold and Bank exchange; Inn food/drink;
-  herbshop (金疮药, 蛇药) and smithy (铁锤) bought from their keepers; Hockshop value/sell and its
-  storage room; apprenticeship with 柳淳风 and learning basic unarmed, sword, parry, dodge and
-  force, Liuh-Ken (柳家拳), 封山派内功 and literate from 柳淳风, 李火狮 (封山剑派 students) and 魏无极
-  (after five taels of tuition), then 封山剑法 and 倒乱七星步法 at max_force 50; the character
-  panel's 武学 page: skills, enabled skills and effective levels, enable/disable anywhere outside a
-  fight, 打坐 (exercise), 练习 (practice), 自学, 研读 (the scavenger's 旧书), 加力 (enforce) and
-  运功 (exert: 疗伤, 恢复气, 恢复神, 恢复精, 天邪神功's three; in a fight from the battle panel),
-  杀气 and 定力; give, drop and put (the 功德箱 takes donations and gives them
-  back); thirty-three NPCs (20 types) to look at, ask (打听), fight or spar (切磋) with their ES2
-  gear and loot (the crazy dog on the west road attacks; a spar with 安惜迩 becomes his kill;
-  柳绘心 refuses); in a fight 刘安禄, the farmer, 柳绘心, 柳淳风 and 安惜迩 talk and use their
-  specials (「封」字诀, 安惜迩's spells and powerup), and the player uses 封山剑法's 「封」「逐」「缺」
-  from the battle panel; dogs, the scavenger, the woodcutter and the crazy dog talk
-  and wander next door while you are with them; the drunk drinks and begs for wine; the temple
-  keeper and the waiter greet you; three travellers with 飞刀 wander from the square; NPCs heal
-  between fights and come to after being knocked out; no fighting in the temple or the
-  workplace (`no_fight`).
-* **Old Pine (老松岭)**: all 41 rooms. Forest (paths, clearing, bandit slope, bridge, pine maze,
-  cliffside), the keep (土匪喽罗, 土匪首领, 常老大 and the gate trap), the gorge below the bridge
-  (waterfall pool, river, Lake with five serpents) reached by the vine, the cave or cliff2, the pine
-  top with six butterflies, both cliff niches, the secret passage, the stone and the caves (bury the
-  bones for 过招要旨, or fall to the waterfall); 疯老头子 on the east path, 狼狗 in the pine maze,
-  金银花蛇 (蛇毒) on the stone, 黑衣人 (飞刀, 化尸粉) in the pine.
-* **野羊山**: north of Snow's crossroad, all 15 rooms on three maps: the mountain road (土匪爪牙,
-  土匪首领 and 黄霸 in the small temple) and the caverns below the canyon (岩蛭, 肥岩蛭, 大岩蛭,
-  巨岩蛭).
-* **卧龙岗 + 绮云镇**: south of Snow's 雪亭镇街道, all 43 rooms on eighteen maps (the ridge and the town, each shop and house, and each upper floor on its own): 卧龙岗强盗 and their toll (walk straight past them; they attack
-whoever stops in their reach), six shops (书局, 肉铺, 药店, 杂货铺,
-  布庄, 兵器屋) with their keepers' greetings, 李师师's literate after a keepsake, the 飞贼's steal,
-  the 家丁's 春风快意刀, 化缘和尚 and Snow's two 乞丐 in the 斋院, 茶工 and 县城官兵 walking,
-  the 木雕门 and 木门; joining 振远镖局 (陈剑秋, cor 25; betrayal from 封山剑派 and back), learning
-  from 陈剑秋 and 趟子手, practising 春风快意刀 with a blade; 朱鸿雪's quests (41 of the 84
-  targets stand in the game so far), betting with the 宝官.
-* **水烟阁**: west of Snow's 青石官道 (sroad5), all 28 rooms on three maps: the road and the
-  white stone stairs up the mountain past the two 水烟阁武士 and 半山亭 (the 司事 and the 天邪虎),
-  the platform before the pavilion and the west path to 葬剑亭 (its monolith and 虹谷's stone
-  tablet to look at); inside, the 正门 (its guards stop anyone with a weapon in hand going north),
-  the 正厅 with 於兰天武, 萧辟尘 and 潘军禅 and its sign, the halls, kitchen, woodshed and servants'
-  room; upstairs the four 红衣武士 (on duty: no spar) and the three elders in 聆啸厅. They fight
-  with 天邪神掌, 六阴追魂剑法, 火蝠身法, powerup and 南危水's counterattack; 萧辟尘 wields his sword
-  against an armed enemy and puts it away against bare hands. Joining 天邪派: 萧辟尘 after an oath,
-  於兰天武 after his three blows (asked first; failing knocks the player out, a bad wound kills);
-  learning from both (於兰天武 teaches only his apprentices), practising 天邪神掌, 六阴追魂剑法, 火蝠身法
-  and 七宝天岚舞 (women, spi 20, costs sen); 天邪神功 is learnt with 杀气; the 正厅's sign makes the
-  player a 武者; the player's 天邪神功: 提升战斗力, 压制杀气 and 天邪虎啸, and 杀气 that boils over.
-* **青石村**: east of Snow's 山坳, all 39 rooms on twelve maps: the village (the work station's
-  well, the quarry yard, the square's banyan, 沈记商行, the 土地庙), its 采石工 (a hammer or a
-  rope), 工匠, the women (one draws her 菜刀 in a fight), the children (two wander, two peer at the
-  cave door), 老公公 and 老婆婆 (attack one and the other comes to kill you), 村长 and his 玉佩
-  story (he marks who asks; 接话 必有妖孽), 沈万年 (his list, the jade for the drunk's word, 蒙汗药
-  for 10 taels); looking at the empty house's web brings a spider down (three a reset). North: the cave,
-  the cliff road and 山路尽头; at 100000 combat_exp the cave east leads into the 迷阵, whose 路牌
-  tell the way: wrong ways loop back, turn back or drop the player in 绝地 (push the stone with
-  560 force, or 放弃 and wake in the Inn); 乾 south leads to the stone rooms behind, marked 八卦阵,
-  and the stream gives that mark a 追风剑. The rope's 上吊 kills (asked first). 绝尘子 in the
-  hall: joining 绝尘派 (spi 24, 100000 combat_exp; a family's member is attacked for asking, asked
-  first), his fourteen skills, his 遁 and the 天将 he calls in a fight; his apprentices cast 遁
-  (to Snow's 城隍庙), 困 and 召天将 (a 天将 on their side) from the battle panel.
-* **茅山**: east of Snow's mountain road (its steps north), 25 of 27 rooms on nine maps: the
-  青石官道 and the white quartz stairs up between the pines (进香客, 玄真 sweeping) to the 山门;
-  inside, the square, the hall with 林忌, 僵尸侍者 and 僵尸护法, the walkways round the courtyard
-  (玄和), the guest rooms (老道士), the training hall (清虚, 明心), the rear hall behind its shut
-  red door, the mossy path (random(kar) below 3 slips and knocks the player out) to the 藏经楼,
-  where two of 清灵/清平/清玄/清风/清音/清云 stand guard (drawn at each reset) by its slab, and only
-  茅山派 passes the invisible wall; its upper floor. The taoists call themselves 贫道; 老道士
-  never spars, 僵尸侍者 and 僵尸护法 only with 茅山派; in a fight they cast 紫光, 白光, 青光 and
-  召护法 (a 天将 or a 阴鬼卒 comes to their side). Joining 茅山派: 林忌 takes men only, answering
-  two seconds after 拜师 (不便收女徒 for a woman; 慢著，一个一个来 to one who withdrew and asked
-  again before it), as a 道士; he teaches his twelve skills, 僵尸侍者 and 僵尸护法 teach any
-  member; 谷衣心法 (max_mana five times its level; 运功灵神诀 turns force into mana, 疗伤),
-  天师正道 (杀气 100 at most), 天师剑法 (practised with a sword) and 茅山道术, whose 紫光, 白光,
-  青光 and 召护法 the player casts from the battle panel (召护法 asked first in a spar), and 阴阳眼
-  (30 mana, 5 sen; from the 武学 page or the battle panel) that shows ghosts for as many seconds
-  as the player's 基本咒文: 乔阴's 孤魂野鬼 can then be fought for the 布条 that teaches 基本咒文
-  to 40. Practising
-  茅山道术 costs 10 mana and 30 sen; a mind astray (random(sen) below 5) conjures a 观想虫 (or,
-  with more 基本咒文, a 观想兽) that attacks at once and stays until it dies, blocking practice;
-  killed by the player's own hand it teaches 基本咒文, killed by anyone else (the 天将 or 阴鬼卒
-  of 召护法, asked first) it knocks the player out. A save leaves it out. 驱尸 (50 mana, 30 sen)
-  raises a selected corpse as its victim's zombie, whose things fall where it lay: it follows the
-  player from room to room and map to map, and each heal_up takes 10 灵力 and 1 精 from them
-  (我...需...要...你...的...力...量...) until they are down to 10, when it falls apart into blood.
-  On a 桃符纸 (two lie in Snow's 城隍庙) the player draws a 僵尸追魂符 with the selected NPC's
-  name (20 mana, 40 sen and a drop of blood); put on the zombie, it goes after that one while the
-  player stands by or joins in with the battle panel's 攻击 (its kill is theirs), then falls
-  apart. Asked first: when the cost would knock the player out, and against their own master.
-* **晚月庄**: west of 绮云镇's west end, all 74 rooms on five maps: the cobbled path and the 拱门
-  (two 彩衣少女), the forecourt and its lanterns, the front garden; the hall (蓝止萍, 晚月庄主), the
-  reception room (雨梅, the teapot), the plum courtyard and its galleries, the punishment room
-  behind the 铜门 (芳绫), the study (昭仪, the 湘绣舞曲图 that names two dances), the 密室 behind
-  the 石门 with its 八卦图, the inner hall behind the 仪门 (昭蓉); the dining halls and kitchen, the
-  guest wing (芙云, 梦玉楼), the rear hall behind its great door, the studies (无名老妇 and the
-  蒙面杀手), the east and west wings (瑷伦, 安妮儿), behind the 垂花门 the women's passage, the
-  changing room (no_fight) and the flower pool (凤凰, the water), and one way south into two
-  secret rooms (蓝筱薇, the 丝罗巾); the 湘园 with its pond, bridges and pavilion, the osmanthus
-  garden, 稻香榭, 暖香榭 and the back gate; the front tower's upper floor (区冥's 佛堂, 翠湘阁,
-  缀芳阁, the 观景台 to jump down from); the path beyond the back gate and the bamboo grove's five
-  clearings (the tunnel east to 山烟寺 is closed). The fourteen doors start shut. Dancing on a
-  八卦图 (the dances one heard named: 雨梅's 学舞, 昭仪, the picture): 「有凤来仪」 to the second
-  密室, 「西出阳关」 out to the grove, anything else 不得要领; asked first when it would knock
-  the player out. They fight with 柔虹指, 寒雪鞭法 (whips with rigidity), 雪影剑法 and 心法, 七宝天岚舞
-  and 意寒功, whose blows can leave 意寒掌毒; 蓝止萍 stares (意寒睨) and poisons (火玫瑰毒), 龙韶吟's
-  touch poisons. 朱鸿雪 can be fought now. Behind the 垂花门 the women shut the door one came by;
-  a man is stared at (虞琼衣), powdered (龙韶吟), asked before the changing room and kicked out
-  of it by 阮欣郁 (rose_poison, a blow to gin, kee and sen), asked before bathing (poison) and
-  attacked to the death by 凤凰 at the pool; a woman bathes (sen back). 区冥 in the 佛堂 stares
-  at whoever is no dancer; 缀芳阁's 静修 calms bellicosity for 50 sen; the 碧纱橱 gives two 布裙
-  and the 西府海棠 two 小花蕊 (the cure for 火玫瑰毒) a reset; 雨梅 serves tea in a cup she
-  takes back; the skirts refuse a man. The secrets: 筱薇 (in the first secret room) makes a
-  竹子 from the grove into a 竹蜻蜓 in ten seconds (a second 竹子 goes back); 芳绫 trades it for
-  the secret, and the 碧纱橱's 翻找 then gives the 玛瑙手镯 (no_drop, worn on the wrist; 祈祷: 50
-  sen, to Snow's 城隍庙); 莫欣芳 asked about 舞曲谱 lets the 密室's 石床 give the 舞曲谱 (研读 音律
-  to 60; 跳「春宫怨」: 50 sen, to the hall from anywhere); the 丝罗巾 teaches 基本行动 to 50; the
-  杀手令牌 (the 蒙面杀手's or 梦玉楼's) buys 无名老妇's 寒雪鞭法 (a 晚月庄 member below 160 max_force
-  gets force instead); with a 火摺 (the kitchen, 曲馥琪) 芙云's 密函 shows its lines. Asked first
-  when 祈祷 or 春宫怨 would knock the player out. 晚月庄 the family: 蓝止萍 answers a 拜师 two
-  seconds later (慢著，一个一个来 meanwhile): a man is sent off (男人都不是好东西，滚开！), a woman
-  taken as 晚月庄第二代弟子 and a dancer (a young beauty's face stroked first); 瑷伦 in the east
-  wing sends anyone short of 100000 combat_exp to 芷萍, refuses men, takes a family's member for a
-  traitor (要叛师！！！ and a fight to the death, asked first), and tests a commoner with three real
-  lashes (asked first): stood, she takes the player as 晚月庄第一代弟子 (or offers, when not asked
-  first); 安妮儿 refuses everyone. Every member of the manor teaches a member; 蓝止萍 and 瑷伦
-  teach one not their own only what they know three times as well. The player's 柔虹指 (women,
-  empty hands; 30 sen then 10 force a practice), 寒雪鞭法 (max_force 150 and a whip), 七宝天岚舞,
-  and 意寒功 (learnt or used only): 运功意寒睨 on the battle panel stares at the current target
-  (else a random enemy) for 50 force and 20 sen, and the player's blows carry its cold
-  (iceshock).
-* **泓水南岸 + 山烟寺**: south of 绮云镇's 江北渡口 and east through 晚月庄's tunnel, all 26 rooms on
-  seven maps: the ford across 泓水 (泓水北侧, 江心, 泓水南侧; wade it either way, or give the 船夫 two
-  coins or more and his boat puts you in at 江南渡口: owner, Q1), the path up 日照山 (the road east
-  to 乔阴县城), the mossy 山路, the 山门 with two 知客僧, the tunnel west through
-  the cliff to 晚月庄's bamboo hills; inside the gate the yard where two 护寺武僧 train (front_yard.c
-  repaired: owner, Q2), the gate house, the flagstones (独眼头陀) to the 大雄宝殿 and its open 金门
-  (玄智和尚), the herb path (僧人) and plots, the garden (跛僧人), 流云轩 (药僧, its plaques to look
-  at), the walkways to the 香积厨 (烧饭僧: while he is there he stops the steamer's lid and the
-  馒头; without him five a reset), the 后殿 (小沙弥) and the 塔林 (扫地僧). The monks fight with
-  流云杖法 (the broom, 玄智's 菩提禅杖) and 莲华心法; most will not spar (each its own line, 玄智
-  and the 护寺武僧 otherwise to a monk); the 跛僧人 and the 独眼头陀 may walk out of a fight
-  (往X落荒而逃了。) and are found in the next room. 化缘和尚 in 绮云镇 can be fought now.
-  剃度: a man asking 玄智 about 剃度 or 出家 is asked to kneel; 跪下受戒 (on the 打听 panel, asked
-  first) shaves him, names him (one of 空明圆净虚悟方渡慧法 and the first character of his name)
-  and makes him a monk (a monk and a woman each hear their line instead). 山烟寺 the family:
-  玄智 answers a 拜师 two seconds later (慢著，一个一个来 meanwhile; a woman and one not ordained
-  hear their lines), takes a monk as 山烟寺第二十七代弟子 and teaches his own his twelve skills.
-  The player's 大乘佛法 (杀气 100 at most), 诵经, 流云杖法 (str + max_force / 10 at least 50;
-  practised with a staff, 60 kee), 莲华心法 (大乘佛法 at least its level; learnt or used only:
-  疗伤, and 疗伤他人 on the HUD for the selected NPC: 150 force above the maximum, neither side
-  fighting, the other's eff_kee at least a fifth) and 八识神通 (enabled as 法术), whose 神通
-  are used outside fights: 空识 (武学 page; 50 灵力 and 50 精: potential may rise or fall),
-  心识 (HUD, on the selected NPC lying unconscious; 50 灵力 and 30 神, always asked first: it
-  wakes them when random(max_atman) is above 100, else the player falls) and 游识 (武学 page;
-  75 灵力 and 30 精: the names of the NPCs the player has met, and it goes beside one of that
-  name, across maps; a strong 灵力 or a clumsy hand fails). A refused 拜师 is over: asking
-  again asks anew (every master).
-* **乔阴县城**: east from 泓水南岸's foot of the hill to the 北门 (its road north into the pines
-  goes nowhere, as ES2), 61 of 62 rooms on sixteen maps: the 福林大街 (卖饼大叔, 卖包子的, 陆得财
-  wandering) to the raised 树王坟 (the stump's hole and the little shrine to look at), the 西大街
-  to the standing stone lion, the 东大街 to the 东城门, the market street to the 福林楼 (汤掌柜, the
-  武官; upstairs 贵公子 and three 家丁; the guest rooms' three 酒楼守卫: none spars, and attack one
-  and the others join and the hotel calls the law: 守城官兵 and 县城官兵 attack you on sight after,
-  you are told so) and the 南门广场 (its well: 喝水 and 装水; 卖糖葫芦的, 卖包子的); the 承安街 to the
-  县府衙门's gate (four 衙役, two 带刀侍卫; its courts, 程不平 and six more 带刀侍卫, have no way
-  in yet), the 南门 (守城官兵), the 火龙将军庙 (the crone's 平安符 and 红龟; deaf to anything else she
-  is asked; the 妇人 on the terrace above, the 功德箱), the zigzag bridge over 翠柳湖 (游客, 书生
-  with their books, the 官家小姐 and her maids) to the 曼雩台 (骆云舟; the 桃林 behind him only
-  for those he sends); the vendors list their goods when asked about them. East of the town the
-  road to the 云梦大泽 (four 黑冠巨蟒, aggressive) and 桐柏山 past the 青石峪 (the 采药老者 gives
-  you a 山药蛋; attack him and he tells you of your death and is gone till his room resets; in a
-  spar he eats his nine pills and may flee), the bamboo and the hermit's 草堂; south of the 南门
-  the road to 姑射山's 绝壁 (its tree and vines to look at). The rooms only verbs reach (the 树冠's
-  cranes, the 山洞, the 云台's two 紫衣童子, the 寒谷, the 丹炉, the 神秘洞穴, the hollow under the
-  stump) are drawn. Kill 骆云舟 and 风泉剑灵 rises from his sword, chanting itself stronger
-  every two minutes (the chant waits while the player is on another map or out of the game, and
-  goes on after Continue where it stopped: owner); its sword is in its corpse. 水烟阁's 红衣武士 now defend each other and hold
-  a grudge when attacked (owner). The secrets: lift the 西大街's stone lion (举, more often the
-  weaker one is) and fall into the 神秘洞穴, where the 护草神兽 attacks; killed by the player it
-  leaves their own 忘忧草, whose smell blows them to 振远镖局 (放弃 instead wakes them in the
-  Inn), and 陈剑秋 writes a member a letter for 陈天星 (京师). Down the 树王坟's hole the hollow's
-  three 朦胧鬼影 are unseen (as the 孤魂野鬼 at the gates): they attack, and without 听风辨器之术
-  (perception) the player's turns pass (你看不见对手，无从下手。); a dead ghost leaves no corpse
-  and drops its blade; the 桃木箱 in the hollow's end buys the 武官's 白杨经, once. 姑射山's old
-  tree leads up to four cranes (fought now); its vine drops the clumsy into the 寒谷 (the vase at
-  its end floats them to 晚月庄's bamboo grove) and takes the others to the 山洞 and its 缚仙绳,
-  which carries one on a crane's back to the 云台 (50 sen); the 云幡 there opens the way down to
-  the 丹炉 and its five 仙丹 (5 gin, 30 kee, 5 sen each). The hermit's 草堂 lends a book (unarmed
-  or dodge to 80, studied there) and takes it back at the door; the 玛瑙手镯 and the dance book do
-  not work in it. The 官家小姐 sends 游晋 her 荷包; 咒剑王禅 burns ghosts. 步玄派 the family:
-  骆云舟 answers a 拜师 with 你还是先走一趟东边的桃林吧, which opens the path east off the 曼雩台
-  into the peach woods; the 桃林 there is a clearing with six paths (north, south, west, east,
-  northwest, southeast) that all lead back into it, and the 字条 on its middle tree (读) shows
-  one of eleven lines of verse with the direction left out (夜郎-- is west); its way brings the
-  way out a step nearer, any other three further, the note changes after every path, and three
-  right ones from the start lead out to the 曼雩台 (你走出了桃林); 放弃 wakes the player in the
-  Inn. Then 骆云舟 takes the player (asked first; a scholar, 步玄派第八代弟子) and the way east is
-  shut again; he teaches his thirteen skills (乐器 among them). The player's 步玄七诀 (步玄心法
-  enabled, 音律 half its level; practice 20 kee and 20 sen), 小步玄剑 (步玄心法 30, max_force 100,
-  a sword; 30 kee and 5 force) and 步玄心法 (learnt only); with 步玄七诀 enabled for 轻功 or 行动,
-  使出「玄羽乱舞」 on the battle panel (kee 70, force 70 above max_force; rounds of 10 kee and
-  10 force, busy 3). 花紫会 the family: 陆得财, wandering the 福林大街, looks a student over and
-  sends one who carries a silver's worth or more home (我们花紫会只收化子); anyone poorer he takes
-  as 花紫会第五代弟子, a beggar (叫化子), and teaches his eleven skills (偷窃 among them). The
-  player's 油流麻香手 (empty hands, max_force 80; practice 25 kee, 3 force; its blows break bones)
-  and 伏蛟功 (practised only where there is water: the well, the 云梦大泽, 晚月庄's teapot and pool,
-  Old Pine's waterfall, lake and now its stream; 30 kee, 10 force; the basic force's 恢复 exerts).
-  偷窃 on the selected NPC (steal.c): its list is what the NPC wears or wields, and 随手摸一样;
-  asked first from one clearly stronger; three seconds later 得手了！ (the thing is the player's),
-  unnoticed, or 失手了！ (it fights to the death, the player busy, and a thief: one mark forgotten
-  each reset, halved at death, 【 惯  窃 】 above ten). The 县衙: eight 巡捕 (each a drawn
-  surname) walk the main street from the 衙门口 to the 北门 and back; one meeting a marked thief
-  catches them seven times in ten (闹了半天原来你是个贼啊!) and leads them back along the street,
-  their own walking refused (嘿嘿, 还想往哪逃?!), into the 大堂; two seconds on 程不平 has them
-  beaten (十 boards a crime: gin, kee and sen less 10 − maximum / 100 each; left at 1 rather than
-  killed, and three at 1 knock them out), the crime cleared, and puts them out at the 衙门口.
-  On the way 行贿 on the 巡捕: ten gold or more frees them, less is refused (a crime more);
-  killing a 巡捕 is five crimes; no Save while led.
-* **天驼关**: south-west from Snow's 青石官道 (sroad4), 25 of 27 rooms on six maps: the gravel
-  path on the clifftop to the mound where the iron chain hangs down (爬下去: 20 gin, 30 kee, 10
-  sen; 爬上去 from below: 30, 40, 20; asked first when it would knock the player out), the
-  黄石隘口 winding south between its walls (the west wall of 隘口中道 strangely smooth), the
-  raised iron gate and its winch, the valley of 天驼关 (south to 玉螺湖村); east of the
-  path the garrison's camp behind its palisade: two 小兵 at the gate, the soldiers' tents (four
-  小兵 and the chatting 老兵), the camp fire and its well, the squad leaders' tents (two 小队长;
-  大队长 and 老队长), 李信's tent and 严廷殷's with his 军师 赫造基 (天邪派's arts for the two
-  generals, 茅山's spells for the 军师). 大队长 answers 允许 with 先给钱再说吧; what he is given adds
-  up, and thirty taels in all list the player (owner); asked about 黄石隘口 he tells of the late
-  emperor and the young one, a line every two seconds. 李信 throws anyone unlisted out to the camp
-  fire (大胆狂徒，竟私闯此地，给我滚出去); the 将军营帐 lets in only the listed. The 印鉴 chain:
-  赫造基 tells one who gives him eight taels the secret of the smooth wall of 隘口中道, and only
-  then is there an oath to swear there (发誓：我爱东方故事II), which takes them into the 兵器库;
-  the 后备兵 sells a fake 印鉴 for exactly three gold, once; 严廷殷 throws whoever offers it out to
-  the camp fire; the 后备兵 then gives the real one for the fake, once; 严廷殷 gives the 古剑 for it
-  (研读: sword to 50 from 2500 exp). West of 隘口小路 the 黄石穿林路 runs through tall grass to a
-  mirror; walking into it leads to a chamber where the middle way goes north up the 竹林道 to a
-  great yellow stone: with 560 force and max_force and 加力 40 it is pushed aside (20 gin, 60 kee,
-  20 sen), and the gap lets the player into the stone room, where the bookcase gives a 书匣 holding
-  the 悟疾风劲竹书 while none exists (taken out in the 背包; 研读: parry to 50 from 20000 exp).
-* **玉螺湖村**: south of 天驼关's valley, all 26 rooms on seven maps: the 黄土大道 (two 商人 who
-  walk out of a fight; its spur west to 黑松山; the 三叉路口's road south to 京师), the
-  青石小路 west through the village (its sign: 傅家坡): the farmhouse and its back yard (the 农妇
-  weeping for her son, her 菜刀 in a fight), 刘家's garden (five 采花妞 throwing 紫花瓣儿), behind
-  its shut 木门 the house (刘老农 asks after his daughter a second after one comes in; no spar) and
-  the kitchen's six rats; the melon field behind its ditch and the guards' shed (three 瓜农: a
-  greeting, 西瓜 at 60 coins: eight bites of food and water, then its rind, which Snow's dog takes);
-  down between the willows the lakeside (three 渔夫 muttering of the 水怪; 这么大的一片湖 for one who
-  walks into it), the rice field, 田老财's three rooms behind his shut black gate. The boats
-  paddle out to the lake's middle and back (stepping off the bow is refused); the dive is asked
-  first and breaks into the ice cave (放弃 there wakes the player in the Inn), whose hall holds six
-  白鳞冰龙 (1,000,000 exp) that fall on whoever comes in, all at once; the ice stair leads up to
-  the valley outside 忘情谷, and the tall grass at the path's end opens west for five seconds when
-  pushed aside (the way back east is always open). In the 瓜地 a melon may be picked (by kar);
-  with a 瓜农 watching in the shed he may notice and come over to fight the thief to the death
-  (asked first while he is clearly stronger): while he stands there both ways out are held (你的去
-  路被瓜农拦住了。), in the fight he demands his money, and 还瓜钱 (HUD and battle panel) pays him 60 文
-  and sends him home.
-* **黑松山**: west off 玉螺湖村's 黄土大道, 32 of 37 rooms on four maps: the road past a tea house to the
-  crossing, the 山脚乡田 (no fighting, no magic; the 卖花姑娘 sells six flowers), the mountain path up
-  the west side, the granite streets either side of the chasm and the 铁索桥 (two 紫衣家丁 stop one
-  whose looks they mistrust and hunt them after; its chain leads straight down), 黑松堡's gate (below
-  2000 combat_exp the castle's killing air turns one back) and the 夹道 behind its 城门 (arrows from
-  the walls fifteen seconds after one comes in, then every five). From the clifftops beside the gate
-  the vine-covered walls are climbed into the west garden (the 园工 黑松一剪 with 召护法, killer bees)
-  and the east garden (three 巨型犬); inside, the west hall's two 护院 attack whoever comes in, the
-  storeroom's five swords, the east hall's 女佣人, and up the stairs 淳于's bedroom, the balcony's
-  pigeons and the 膳房 (the cook, 烤山猪肉: food and a hammer; 竹叶青). The main hall's rope (asked
-  first) drops one into the 地牢: nine dark rooms whose ways do not agree, rats and four 狱卒, 淳于怀太
-  in the 刑房 (he attacks at once) beside 小娟, who cries for help and, once the player has stayed
-  twenty seconds, follows them every way (attacking her is asked first). Five pushes of the sunlit
-  地牢's slab open the way up to the east clifftop for five seconds. Brought home to 刘家, 刘老农
-  thanks the player (銮鱼衡冰, 过招要旨) and leaves with her for good; her killer meets his revenge
-  (悲愤欲绝, until his room resets), once.
-* **京师**: south of 玉螺湖村's 三叉路口, 40 of 55 rooms on twelve maps: the 北驿道 between two small
-  woods (桃X仙 picks up what is dropped there, puts it on and wields it), the 北门 in the north wall
-  and its three 守城兵, 大栅栏 to the 十字路口; 护国道 from the 西一门 to the 东一门 (旺金钱庄, no
-  fighting, 兑换; the 武器店's nine wares; 收破烂的); south past the 皇家祭坛, 神武门 and the walled
-  紫禁城 to 午门, the 校武场 and the 天桥's market (金疮药, 雪花糕, 包子); the 西街 (四喜绸缎庄, the
-  太白酒楼: 钱千万 is rude to everyone, the 店小二 sells 雪花糕, 西湖醋鱼 and 状元红 and lets only
-  one who tipped him ten taels upstairs; a smaller tip lands on the floor) and the 东街 (振远总局:
-  陈天星 takes 陈剑秋's letter, asked first, and the player's 拜师; 行人 who draw their own chat
-  and arts; 商人 with 密宗大手印 and 铁布衫); the south street (李记鞋店) to the 南门. The five
-  outer gates stay shut: their 守城兵 (vendetta authority; 反了！反了！ when attacked) turn everyone
-  back (城门 · 出城). 尚书府, 护国寺, 紫禁城, 监狱 and 刑场 are drawn shut.
-* **Across both**: the status card offers the actions of what is within reach, one group per
-  thing, nearest first (a click on the map selects nothing), and shows what the player waits for
-  (busy, a steal, a master's test, a told sequence with 继续, 朱鸿雪's time left, an NPC's wake, a
-  robber about to attack in red); each zone shows its ES2 room title and description (on arrival and via 观察);
-  rooms reset on world time (killed NPCs come back, wanderers go home, gone floor items return);
-  semi-automatic encounter combat with Flee and 投降, told in ES2's combat lines, death/corpse/loot, waking from
-  unconsciousness; death makes the player a ghost in 阴间 (鬼门关: 奈何桥 and its 阴鬼牙将, the white
-  and black gargoyles whose five lines bring one back to the Snow temple, 酆都城门 with no way back,
-  the 鬼门大道's little shop where one's double answers 回家 and its 黑店, the long road that turns on
-  itself); a ghost sees ghosts (as does the living under 阴阳眼), cannot eat or drink, may Save (Continue at 鬼门关) and dies again
-  without a corpse,
-  inventory/equipment with stacks (give, drop or put part of one), eating/drinking, using drugs,
-  recovery and conditions (蛇毒, 醉酒, 蒙汗药; a drug poured into a drink), the status card, toasts and panels, manual Save/Continue.
-* Combat: weapons and bare hands draw ES2's verbs, mapped martial arts their moves (柳家拳,
-  封山剑法, 天邪神掌, 六阴追魂剑法), dodges read the mapped dodge skill's lines (倒乱七星步法,
-  火蝠身法); armor, weapon and NPC
-  `apply/*` bonuses (a heavy weapon or armor's 轻功 cost too) and internal power count: force_factor on every landed blow, and a bare-handed
-  blow against stronger force is thrown back (std/force.c, told in the battle log).
-* Placeholder visuals: flat-colour terrain tiles; characters and objects are still coloured boxes.
-  No art or audio yet.
-
-Coverage of ES2 content ([region plan](ROADMAP.md#region-plan)): 536/551 rooms, 239/286 NPC
-types, 9/9 joinable families, 33/36 special and 22/26 basic martial arts, 84/84 quest targets.
+一项等 owner 完整试玩后再定：A2 的任务限时（见「待试玩」）。规则（owner，2026-10-08）：PR 合并时 owner 没有
+回答的问题，按 PR 里的推荐方案生效，在 DECISIONS 里标「默认」，owner 随时可以否决（「积压问题的处理」）。
 
 ## Known issues
 
-Code:
-
-* A failed attack chain ends the fight with 战斗出错，已中止。 (development builds log why); the
-  cause still has to be fixed in the content or rule that tripped it.
+* A failed attack chain ends the fight with 战斗出错，已中止。 (development builds log why); the cause
+  still has to be fixed in the content or rule that tripped it.
 * Beasts cannot be asked to spar (ES2's `fight` on a beast is a one-sided kill); attack them.
-* 刘安禄's 刘老三/血手刘三 are not listed until his reveal is ported.
-  NPCs never flee a losing fight (`wimpy`) and do not follow who flees (`pursuer`).
-  The dog takes no bone (no
-  chicken leg, no following); nothing can be put into a corpse.
-* An NPC talks only near the player; another map's heart beat (healing, conditions, waking) and
-  its wanderers' moves are caught up when the player comes back, and a wanderer two doors off
-  or nearer may come in through the door while the player stands there. On the player's own map
-  a wanderer still moves only where the player is (ES2's heart beat). New Game builds 127 maps (about 2.8 s in the editor, headless, measured before R4's
-  maps grew).
-* With the pacing knobs, 打坐 from max_force 0 to 50 takes about 24 minutes at con 30 (47 at con 20;
-  108 at the classic ×1); `tests/runtime/run_with_max_force.gd` gives a playtest 49. combat_exp 0 to
-  1001 takes some 1.7–1.8 hours on the simulated route (`tests/sim/`), from the one-time 历练, the
-  武馆's 木人 and 雪亭驿's bounties. Conditions do not tick
-  in a fight (owner) nor while the player lies unconscious.
-* A zone that merges several rooms shows only its first room's text.
-* 绮云镇: 牛腿 is a hammer only (food that is also a weapon is not supported), so it leaves no
-  牛腿骨; 熟牛肉 is not in the game (nobody sells it in ES2); a carried 布袋 is not opened.
-* 乔阴: only one 风泉剑灵 stands at a time (骆云舟 killed again while it stands keeps his
-  sword); the 采药老者's growth lasts only as long as he does (his save file is not ported).
-* Persistence classes keep `OldPine*` / `oldpine_*` names (20 classes, some 130 files) and the session
-  scene is still `scenes/world/oldpine/oldpine_world_session.tscn`, although they cover every map
-  (the Session itself is `WorldSessionController` since the map-controller split); pre-B2 Old Pine
-  regression suites drive combat through a test-only manual cadence
-  (`historical_world_combat_fixture.gd`).
-* The legacy technical fixture (`CombatSliceContentProfile` defaults, demo factory) keeps its own
-  copy of the long sword's facts.
-* Only Simplified Chinese exists. English and other languages without measure words will need
-  their own count phrases and number words, and ES2's combat lines person and pronoun rules
-  (你 punches / he punches); see [LOCALIZATION](LOCALIZATION.md). Log lines written before a
-  language switch stay in the old language, and so does a dead zombie's name on its corpse
-  (saved as shown) and the name labels made before the switch.
-* Room labels and NPC names overlap in places (grey-box layout). An NPC that walks away from the
-  player stays selected (its actions are refused, kill.c `present()`); one the player walks away
-  from does not.
+* 刘安禄's 刘老三/血手刘三 are not listed until his reveal is ported. NPCs never flee a losing fight
+  (`wimpy`) and do not follow who flees (`pursuer`). Nothing can be put into a corpse.
+* On the player's own map a wanderer moves only where the player is (ES2's heart beat); other maps are
+  caught up when the player comes back.
+* Conditions do not tick in a fight (owner) nor while the player lies unconscious.
+* There is no single 经典模式 switch yet: each knob keeps ES2's value as its classic value in the data
+  (DECISIONS「产品定位」).
+* A zone that merges several rooms (10 of them) shows only its first room's text.
+* 绮云镇: 熟牛肉 is not in the game (nobody sells it in ES2); a carried 布袋 is not opened.
+* 乔阴: only one 风泉剑灵 stands at a time (骆云舟 killed again while it stands keeps his sword); the
+  采药老者's growth lasts only as long as he does (his save file is not ported).
+* 22 classes keep `OldPine*` names (persistence, world runtime, the loot panel) and the session scene is still
+  `scenes/world/oldpine/oldpine_world_session.tscn`, although they cover every map; pre-B2 Old Pine
+  suites drive combat through a test-only cadence (`historical_world_combat_fixture.gd`). The legacy
+  technical fixture (`CombatSliceContentProfile`, demo factory) keeps its own copy of the long sword's facts.
+* Log lines written before a language switch stay in the old language, as do a dead zombie's name on
+  its corpse and name labels made before the switch.
+* Room labels and NPC names overlap in places on the 2D maps. An NPC that walks away from the player
+  stays selected (its actions are refused, kill.c `present()`); one the player walks away from does not.
 
-Platforms: Windows and Android release builds; iOS is an unsigned compile only. Real touch-device
-qualification for Lake and Shared UI is deferred. The provisional app ID
-`com.example.easternstoriesgodot` must be replaced before signing.
-
-Licensing: no root project license; ES2 rights are unresolved
-([LICENSE_PROVENANCE](LICENSE_PROVENANCE.md)). Settle before any public distribution.
+Platforms: the first release is desktop only (DECISIONS「首发只做桌面」); CI still builds Windows, Android
+and an unsigned iOS compile. The provisional app ID `com.example.easternstoriesgodot` must be replaced
+before signing. Licensing: no root project license; ES2 rights are unresolved
+([LICENSE_PROVENANCE](LICENSE_PROVENANCE.md)) — settle before any public distribution.
 
 ## How to verify
 
-See [BUILD](BUILD.md). Full gate: `python tools/ci/verify.py --godot <godot>` (~6 min locally; fails on a
-`SCRIPT ERROR` line, or when `python tools/l10n/extract_pot.py` was not run after a text change). Single suites: `<godot> --headless --path game --script res://tests/run_suite.gd
--- <suite paths>`. Every map is generated: edit `tools/maps/layouts/<region>.json`, then
-`python -m tools.maps.paint` (the tools tests fail on a hand-edited one; the painter checks the
-sizes of the maps it lays out itself against `tools/maps/standard.json`). A longer soak: `ES_SOAK_HOURS=8` before the `world_soak_test` suite (8 hours
-passed).
+See [BUILD](BUILD.md). Full gate: `python tools/ci/verify.py --godot <godot>` (~10 min locally; fails on a
+`SCRIPT ERROR` line, or when `python tools/l10n/extract_pot.py` was not run after a text change). Single
+suites: `<godot> --headless --path game --script res://tests/run_suite.gd -- <suite paths>`. Maps: edit
+`tools/maps/layouts/<region>.json`, then `python -m tools.maps.paint <region>` (the tools tests fail on a
+hand-edited scene). A longer soak: `ES_SOAK_HOURS=8` before the `world_soak_test` suite.

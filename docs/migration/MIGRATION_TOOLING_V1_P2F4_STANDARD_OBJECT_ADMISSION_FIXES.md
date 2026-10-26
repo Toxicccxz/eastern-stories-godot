@@ -24,7 +24,7 @@ fetch 后所有冻结身份一致。沿用原阶段分支，无 reset/rebase/mer
 
 Owner 的 globals standard-object 检查确认 BULLETIN_BOARD、CHARACTER、EQUIP、POWDER 尚未进入
 symbolic/literal 排除表。与 ROOM 混合继承时会误准入并提取 room facts。
-本次落实既有 [D2](DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary)，不改 D1–D9。
+本次落实既有 [D2](DECISIONS_HISTORY.md#migration-tooling-v1-p2--owner-locked-extraction-boundary)，不改 D1–D9。
 
 ## 3. Hand-reviewed globals authority
 

@@ -68,10 +68,11 @@ water/perimeter and the shared half-open River/Lake seam. No combat Save was add
 regression fixtures use the base repository and current catalog explicitly; they are not a retained
 five-human product world. Historical schema readers do not grant old public-world compatibility.
 See [P2B evidence](../../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2B_RUNTIME.md).
-Formal cold Continue acceptance remains P2C; ordinary Continue is not its substitute.
+Cold-process Continue (Lake five-alive and mixed death/corpse) was verified in
+[P2C](../../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2C_ACCEPTANCE.md).
 
 This policy does not rewrite the historical NGE/S6B approvals in DECISIONS. The
-[project roadmap](../ROADMAP.md) and [scope ledger](../PROJECT_SCOPE.md) distinguish current facts,
+[STATUS](../STATUS.md) and the [project roadmap](../ROADMAP.md) distinguish current facts,
 planned content and future authorization.
 
 ## Authority and identity

@@ -198,10 +198,15 @@ because they are nearby. When blocked on a real decision, ask the owner once wit
 
 Keep documentation small and current:
 
-* `docs/production/STATUS.md` — one page: what is playable, known issues, next package.
-  Overwrite it; don't append history (git and PRs hold history).
+* `docs/production/STATUS.md` — one page: 已实现 (what is built), 待试玩 (built, waiting for the
+  owner's playtest), 待制作 (next), 待决定, known issues. Overwrite it; don't append history (git
+  and PRs hold history). Update it from the code, the merged PRs and DECISIONS, not from older
+  notes: a "not yet" in a historical doc is not a task.
 * `docs/production/ROADMAP.md` — forward plan only.
-* `docs/migration/DECISIONS.md` — deviations and global rules, one short entry each.
+* `docs/migration/DECISIONS.md` — 现行规则 (the rules in force, by system) at the top, then the
+  deviations and global rules in force, one short entry each, newest first. When a decision
+  replaces an entry, update 现行规则 and move the old entry verbatim to `DECISIONS_HISTORY.md`
+  with a line naming its replacement; point code citations at the entry in force.
 * One short note per content package under `docs/migration/` only when it records something the
   code and PR don't: LPC→native mapping, source anomalies, deferred items.
 

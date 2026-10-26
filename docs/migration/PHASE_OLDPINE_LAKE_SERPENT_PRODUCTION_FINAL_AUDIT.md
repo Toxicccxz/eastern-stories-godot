@@ -10,7 +10,7 @@ Material correctness, safety-boundary or scope blockers found: **0**.
 
 The owner accepted the existing P2C desktop, two cross-process restores, representative
 combat death/corpse and complete local verification evidence. The
-[new acceptance decision](DECISIONS.md#old-pine-lake--owner-revised-engineering-acceptance-scope)
+[new acceptance decision](DECISIONS_HISTORY.md#old-pine-lake--owner-revised-engineering-acceptance-scope)
 classifies **TOUCH DEVICE QUALIFICATION — PENDING / DEFERRED — NON-BLOCKING FOR LAKE
 ENGINEERING INTEGRATION**. This is not touch PASS, all-platform certification, a blanket
 future exemption or permission to hide an actual input defect. No such defect was identified

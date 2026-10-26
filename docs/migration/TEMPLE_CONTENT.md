@@ -8,17 +8,22 @@ player's 茅山道术 in a fight and its practice (观想虫; done); D the zombi
 
 ## Placed (A)
 
+Nine maps: temple.mountain, temple.grounds, temple.library and one each for the 大殿, 后殿,
+练功房, the two 厢房 and the 藏经楼's ground floor (temple1_house, temple2_house, trainroom_house,
+restroom1_house, restroom2_house, book_room1_house). None has a voxel view yet (no
+`game/data/temple/voxel/`).
+
 | Room | LPC `set("objects")` | Native |
 |---|---|---|
 | sroad (青石官道) | — | mountain map: the broad road from Snow's mountain road (eroad3 east, its drawn steps north), running on south down the hill |
 | ladder5–1 (石英岩石阶) | 进香客 (ladder2), 玄真 (ladder1) | the white quartz stairs zigzagging up between rows of pines |
 | entrance (灵心观前) | — | the paving before the 山门 (「灵心观」); through the gate is the next map |
 | square (灵心观广场) | — | grounds map: the quartz square, the lions and dragon pillars, the censer; the red door north |
-| temple1 (大殿) | 林忌, 僵尸侍者, 僵尸护法 | 真武大帝's statue and the altar; round arches east and west |
+| temple1 (大殿) | 林忌, 僵尸侍者, 僵尸护法 | its own map: 真武大帝's statue and the altar; round arches east and west |
 | corridor1–7 (回廊), inneryard (天井) | 玄和 (inneryard) | the covered walkways round the courtyard (flowers, the well in its north-west corner) |
-| temple2 (后殿), trainroom (练功房), restroom1–2 (厢房) | 老道士 (restroom1), 清虚 + 明心 (trainroom) | the rear hall behind its shut red door, the training hall, two guest rooms, each behind its door |
+| temple2 (后殿), trainroom (练功房), restroom1–2 (厢房) | 老道士 (restroom1), 清虚 + 明心 (trainroom) | the rear hall behind its shut red door, the training hall, two guest rooms, each behind its door on a map of its own |
 | road1, road2 (青石小径) | road2: reset() draws its guards | the mossy path under the pines round behind the rear hall; the slab by the 藏经楼's door |
-| book_room1 (经楼) | — | the 藏经楼's ground floor on the path (bookshelves, the ladder) |
+| book_room1 (经楼) | — | the 藏经楼's ground floor, its own map, entered from the path (bookshelves, the ladder) |
 | book_room2 (经楼) | — | library map: the upper floor, 张天师's portrait and the table under its red cloth |
 
 ## LPC → native (A)
@@ -98,10 +103,10 @@ player's 茅山道术 in a fight and its practice (观想虫; done); D the zombi
   runs their chat_msg_combat: the 阴鬼卒 never says 孽障！随我赴阴司受审吧, the zombie never
   bites (do_bite()).
 - 林忌 has 天师剑法 100 but maps no sword skill: he fights with 基本剑法.
-- sword.c's hit_ob() acts only on a ghost (is_ghost()); tools/tests checks that no ghost NPC
-  is placed before it is ported.
+- sword.c's hit_ob() acts only on a ghost (is_ghost()): ported with the first ghosts (乔阴 B,
+  `ghost_bane`).
 - necromancy/astral_vision.c sets apply/astral_vision, which std/char.c visible() reads: the caster
-  sees ghosts. (This note once said nothing reads it; 鬼门关 B ports the spell.)
+  sees ghosts (鬼门关 B ports the spell).
 - earth-warp.c's sheet sets `attach_func`, which attach.c does not call (it knows only
   do_scribe_haunt); attach.c moves the sheet to /obj/void first, so the sheet is lost.
 - attach.c moves every sheet to /obj/void before do_scribe_haunt() runs: one that finds no
@@ -115,8 +120,8 @@ player's 茅山道术 in a fight and its practice (观想虫; done); D the zombi
   older copies nothing reaches: necromancy.c's cast_spell_file() and scribe_spell_file() name
   daemon/class/taoist/necromancy/.
 - zombie.c animate()'s `time` (spells × 3 + 30) is never read.
-- corpse.c decay()'s first case has no break: every rotten corpse would be 腐烂的尸体 (corpses
-  do not decay in the game yet).
+- corpse.c decay()'s first case has no break: every rotten corpse is 腐烂的尸体, never 男尸 or
+  女尸 (so here too).
 - old_taoist.c's long says 观心观 (the temple is 灵心观): kept as written.
 - trainroom.c's short 练功\房 and taoist.c's 运功\导气 are Big5 artifacts; MudOS reads `\房`
   as 房.

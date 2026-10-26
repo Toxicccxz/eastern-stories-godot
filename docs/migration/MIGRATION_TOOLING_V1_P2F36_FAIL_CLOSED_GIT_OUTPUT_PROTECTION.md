@@ -12,7 +12,7 @@
 - P2F35 OWNER APPROVED / CLOSED；FR34-01已有实现修复。Gate A PASS/FROZEN；AR-01 ACCEPTED/NON-BLOCKING。
 - Final Re-Audit after P2F35已执行且BLOCKED；Gate B仍BLOCKED/INCOMPLETE。FR35-01本次实现修复，等待owner review，不宣称里程碑审计PASS。
 
-依据：[P2F35](MIGRATION_TOOLING_V1_P2F35_DIRECTIVE_SEPARATED_PAIRING_UNCERTAINTY.md)、[D1–D9](DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary)、[root instructions](../../AGENTS.md)、[docs instructions](../AGENTS.md)。完整读取owner-local P2F35 Final Re-Audit；其文件未添加为tracked文档链接，也不入提交。
+依据：[P2F35](MIGRATION_TOOLING_V1_P2F35_DIRECTIVE_SEPARATED_PAIRING_UNCERTAINTY.md)、[D1–D9](DECISIONS_HISTORY.md#migration-tooling-v1-p2--owner-locked-extraction-boundary)、[root instructions](../../AGENTS.md)、[docs instructions](../AGENTS.md)。完整读取owner-local P2F35 Final Re-Audit；其文件未添加为tracked文档链接，也不入提交。
 
 ## Resume / Attempt 1 disposition
 

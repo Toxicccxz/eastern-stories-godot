@@ -29,7 +29,7 @@ SHA-256 为 `0760be6f9cdab6060863019b20e35d494c0d39128c4c76e4d5797be46a9744dd`�
 `function STORE` 中的未知 `function` 因而过早关闭名称位置；Attempt 1 又允许宏摘要 SET/CREATE 恢复该位置。
 宏可能代表类型、前缀或名字；摘要结果不是实际署名 token 的结构证明。
 
-本次阅读并遵守 root/docs AGENTS、[D1–D9](DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary)，
+本次阅读并遵守 root/docs AGENTS、[D1–D9](DECISIONS_HISTORY.md#migration-tooling-v1-p2--owner-locked-extraction-boundary)，
 对照 [ES2 function](../../reference/es2/mudlib/doc/lpc/constructs/function)、
 [preprocessor](../../reference/es2/mudlib/doc/concepts/preprocessor) 与
 [define](../../reference/es2/mudlib/doc/lpc/preprocessor/define)，以及冻结 FR28 和 Attempt-1 复现证据。

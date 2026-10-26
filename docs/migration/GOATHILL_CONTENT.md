@@ -5,12 +5,15 @@ does not. Decisions are in [DECISIONS](DECISIONS.md).
 
 ## Placed
 
+Three maps: goathill.mountain, goathill.caverns and goathill.temple_house (the 小土地庙); all three
+have the voxel view (`game/data/goathill/voxel/`).
+
 | Room | LPC `set("objects")` | Native |
 |---|---|---|
 | mroad1 | — | mountain map; south to Snow's crossroad |
 | mroad2, mroad3, mroad5, mroad6 | — | mountain map |
 | mroad4 (山路转角) | 土匪爪牙 ×3, 土匪首领 | aggressive, one fight together |
-| temple1 (小土地庙) | 黄霸 | two 大金槌, 熊皮短靴, 伏蛟功; friendly |
+| temple1 (小土地庙) | 黄霸 | its own map, west out to mroad3; two 大金槌, 熊皮短靴, 伏蛟功; friendly |
 | slope1, canyon1-3 | — | mountain map; canyon3 east into the caverns |
 | cavern1 | 岩蛭 ×2 | caverns map |
 | cavern2 | 肥岩蛭, 岩蛭 ×3 | |

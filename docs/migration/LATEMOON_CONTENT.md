@@ -28,7 +28,10 @@ quarters and the rooms' own commands (done); C the secrets (竹蜻蜓 and 玛瑙
 | miroom2 (内厅), miroom (密室) | 蓝筱薇; 丝罗巾 | secret map: one way in from flower1; the second 密室 behind its 垂花门, its 八卦图 (西出阳关 out) |
 | park/yard1 … moondoor (16 rooms) | 金丝雀 ×2 + 美珊 (moon4), 采花少女 ×4 (moon5), 上官钰翎 + 小金鼠 (moroom), 小白兔 ×2 (paroad2), 袭人 (pavilion1) | garden map: the pond with its bridges and pavilion, the osmanthus garden, 稻香榭 (the sign: look), 暖香榭, the back gate |
 | upstar/ (10 rooms) | 金丝雀 ×2 (uplook), 区冥 (uproom), 莫欣芳 (uproom2), 邢千慧 + 雪花糕 (uproom3) | upper map: the galleries, the 佛堂, 翠湘阁, 缀芳阁, the 前堂楼 and the 观景台 (jump: down to the 湘园's forecourt) |
-| sroad1–5, bamboo, bamboo1–4 | 蝴蝶 (sroad4, sroad5), 竹子 (bamboo4) | hills map: the path from the back gate (sroad1.c repaired), the closed tunnel east to 山烟寺 (#8); the grove's five clearings, each way out a passage |
+| sroad1–5, bamboo, bamboo1–4 | 蝴蝶 (sroad4, sroad5), 竹子 (bamboo4) | hills map: the path from the back gate (sroad1.c repaired), the tunnel east from sroad5 to 山烟寺 (#8); the grove's five clearings, each way out a passage |
+
+Five maps (latemoon.manor, secret, garden, upper, hills); none has a voxel view yet (no
+`game/data/latemoon/voxel/`).
 
 ## LPC → native (A)
 

@@ -6,17 +6,21 @@ the code does not, and what each NPC cost. The data format and the importer are 
 
 ## Placed (4A–4E)
 
+Thirteen maps: snow.outdoor, the inn and its upstairs, the cellar, the school compound (淳风武馆),
+the academy, and one for each of the bank, smithy, herbshop, post office, workplace, hockshop and
+temple. All thirteen have the voxel view (`game/data/snow/voxel/`).
+
 | Room | LPC `set("objects")` | Native |
 |---|---|---|
 | inn | 旅客 ×2, 店小二 | placed; the waiter sells from his body (4E) |
 | eroad2 | 野狗 ×2 | placed |
-| temple | 庙祝, 桃符纸 ×2, 功德箱 | keeper placed (takes donations, 4E); 功德箱 on the floor, a container (4E); 桃符纸 waits for combined items |
+| temple | 庙祝, 桃符纸 ×2, 功德箱 | keeper placed (takes donations, 4E); 功德箱 on the floor, a container (4E); 桃符纸 ×2 on the floor |
 | mstreet2 | 醉汉, 收破烂的 | placed; the drunk drinks and asks for wine, the scavenger takes anything (4E) |
-| bank | 安惜迩 | placed (4E), not fought yet; convert is the room's (bank.c) |
+| bank | 安惜迩 | placed (4E), fought (a spar turns to a kill); convert is the room's (bank.c) |
 | school1 | 刘安禄 | placed |
 | school2 | 武馆弟子 ×6, 李火狮 | placed; 李火狮 teaches 封山剑派 students (4E) |
-| schoolhall | 柳淳风 (`CLASS_D("swordsman")`) | placed (4E), `common.npc.swordsman.master`; takes apprentices and teaches; not fought yet |
-| square | 旅客 (飞刀) ×3 | waits for combined throwing weapons |
+| schoolhall | 柳淳风 (`CLASS_D("swordsman")`) | placed (4E), `common.npc.swordsman.master`; takes apprentices and teaches; fought |
+| square | 旅客 (飞刀) ×3 | placed, a hundred 飞刀 each (Old Pine remainder B) |
 | sroad2 | 农夫 ×2 | placed (4B) |
 | sroad4 | 疯狗 | placed, aggressive (4B) |
 | school | 魏无极 | placed; five taels of tuition, then literate (4E) |
@@ -192,10 +196,10 @@ data only once those rules existed (its review findings decided, one marker).
 | NPC | Tier | Fields from LPC | Overrides | Findings decided | Spawn markers | Needed first |
 |---|---|---|---|---|---|---|
 | 店小二 waiter | vendor + greeting | 10 | 1 | 3 | 1 | NPC-bound shops, greeting one_of |
-| 安惜迩 banker | not fought yet | 12 | 1 | 16 | 1 | fight_deferred |
+| 安惜迩 banker | not fought in 4E | 12 | 1 | 16 | 1 | fight_deferred |
 | 杨掌柜 herbalist | vendor | 12 | 1 | 5 | 1 | answers by eff_kee |
 | 王铁匠 smith | vendor | 9 | 0 | 2 | 1 | — |
-| 柳淳风 master | teacher, not fought yet | 16 | 2 | 7 | 1 | CLASS_D, teachers as data |
+| 柳淳风 master | teacher, not fought in 4E | 16 | 2 | 7 | 1 | CLASS_D, teachers as data |
 
 Time (4E, agent wall clock, about 2.5 hours from the branch to a full local test pass, after ~40 of
 reading and planning): the importer and the override data ~15, give/drop/put/get-from and their

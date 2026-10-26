@@ -3,9 +3,16 @@
 How 卧龙岗 and 绮云镇 come from `reference/es2/mudlib/u/cloud/` (and `u/cloud/dragonhill/`), and
 what the LPC says that the code does not. Decisions are in [DECISIONS](DECISIONS.md). Package
 3A (streets and shops) places every room and every NPC the rooms name; 3B makes 振远镖局
-joinable; 3C brings 朱鸿雪's quests, 3D the 宝官's betting; the ferry (region plan #8) comes later.
+joinable; 3C brings 朱鸿雪's quests, 3D the 宝官's betting; the ferry is region plan #8's
+([SANYEN_CONTENT](SANYEN_CONTENT.md)).
 
 ## Placed
+
+Eighteen maps: cloud.outdoor (卧龙岗 and the town's streets, one open road) and an interior map for
+each shop and house (yard_house holds woodboxy, god1 and god2; rich_house rich and m_house;
+tearoom_house tearoom and tea_corridor), with the 茶馆's, 妓院's and 赌场's upper floors on maps of
+their own (tearoom_upstairs, jiyuan_upstairs, duchang_upstairs). All eighteen have the voxel
+view (`game/data/cloud/voxel/`).
 
 | Room | LPC `set("objects")` | Native |
 |---|---|---|
@@ -13,10 +20,10 @@ joinable; 3C brings 朱鸿雪's quests, 3D the 宝官's betting; the ferry (regi
 | dragonhill/hummock (卧龙岗) | 卧龙岗强盗 ×2 | the toll (`attack_unless_mark` 强盗), one fight together |
 | entrance, cross, the markets and streets | 县城官兵 ×2 (nwroad3) | outdoor map: the gate, the market street and the main street, one open road |
 | butchery | 郑屠夫, 苍蝇 ×6 | vendor: 生牛肉, 牛腿, 牛尾, 熟杂碎, 狗肉 |
-| tearoom, tea_corridor (木雕门), tearoom2 | 茶博士; 弈者 (upstairs) | 香茗坊; its second floor on the upstairs map |
-| woodboxy, god1 (木门), god2 | 林三爷, 伙计 ×8; 朱鸿雪 | 3C: 朱鸿雪 gives quests (任务, god.c give_quest()); she refuses spars and is not fightable yet (her arts) |
+| tearoom, tea_corridor (木雕门), tearoom2 | 茶博士; 弈者 (upstairs) | 香茗坊; its second floor on its own map |
+| woodboxy, god1 (木门), god2 | 林三爷, 伙计 ×8; 朱鸿雪 | 3C: 朱鸿雪 gives quests (任务, god.c give_quest()); she refuses spars |
 | tailory, zaihuoy, drugstore, weapony, bookstore | 裁缝, 杂货贩, 药店伙计, 兵器贩子, 潘若秋 | vendors |
-| monky (斋院) | 化缘和尚, Snow's 乞丐 ×2, 包子 ×3 | the monk takes donations (keeper.c's formula); not fightable yet |
+| monky (斋院) | 化缘和尚, Snow's 乞丐 ×2, 包子 ×3 | the monk takes donations (keeper.c's formula); he refuses spars |
 | jiyuan, jiyuan2 | 鸨母; 李师师 (upstairs) | 李师师 teaches literate after a keepsake |
 | duchang, duchang2 | 宝官 | 3D: money given to him is a bet (押小: 20% pays double) |
 | marry_room | 媒婆 | 3D: no marriage (it needs a second player); she answers about 婚约 |
@@ -24,7 +31,7 @@ joinable; 3C brings 朱鸿雪's quests, 3D the 宝官's betting; the ferry (regi
 | biaoju | 陈剑秋, 趟子手 | 3B: 陈剑秋 takes apprentices with cor 25 (class guardman) and teaches his seven skills; 趟子手 teaches the family's members; 春风快意刀 is practised with a blade |
 | rich, m_house | 保镖 ×5; 张百万, 家丁 ×2 | |
 | eroad4 (茶场) | 茶工 ×6 | wander |
-| dukou (江北渡口) | 船夫 | the crossing waits for #8 |
+| dukou (江北渡口) | 船夫 | south across 泓水 to 日照山 (#8): his fare (过江, 摆渡) takes the player to 江南渡口; the river is waded too |
 
 ## Source anomalies
 
@@ -76,11 +83,6 @@ joinable; 3C brings 朱鸿雪's quests, 3D the 宝官's betting; the ferry (regi
 
 ## Deferred
 
-- 牛腿 is a hammer only: food that is also a weapon is not supported yet. Eaten food leaves no
-  bones (finish_eat). The mother's 极乐逍遥散 pours into a drink since 青石村 B.
-- 弈者's 下棋 (a coin flip that hands over his 棋子). A carried 布袋 is not opened (put works on
-  a container lying in reach).
-- The garrison's vendetta and pursuit, 趟子手's and the thief's wimpy.
-- 陈剑秋's letter (u/cloud/npc/obj/letter.c, master_id) for a 忘忧草 that is the giver's: with the
-  lion of 乔阴县城 (#9), which gives the grass its master_id; 陈天星 takes the letter in 京师 (#12).
-- The garrison's pursuit (garrison.c `pursuer`): following who flees. Its vendetta came with 3C.
+- 趟子手's and the thief's wimpy.
+- The garrison's pursuit (garrison.c `pursuer`): following who flees. Its vendetta is ported
+  (vendetta_mark authority).

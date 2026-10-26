@@ -5,7 +5,7 @@
 ## 1. 授权与冻结基线
 
 首次 Final Audit 为 BLOCKED，owner 确认 HIGH2 / MEDIUM3 并仅授权本修复切片。
-P1/P2 已 OWNER APPROVED / CLOSED；[D1–D9](DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary)
+P1/P2 已 OWNER APPROVED / CLOSED；[D1–D9](DECISIONS_HISTORY.md#migration-tooling-v1-p2--owner-locked-extraction-boundary)
 保持 LOCKED。本报告不作新的 Final Audit 判定。
 
 | 身份 | 值 |

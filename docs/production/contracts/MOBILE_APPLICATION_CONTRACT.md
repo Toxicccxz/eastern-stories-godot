@@ -4,6 +4,11 @@ This contract extends the [Application Shell contract](APPLICATION_SHELL_CONTRAC
 not its ownership model. The [Native Save/Load contract](NATIVE_SAVE_LOAD_CONTRACT.md)
 remains authoritative for eligibility, storage, recovery and restore transactions.
 
+**Scope today:** the first release is desktop only; a mobile port may follow after reviews, and
+visuals are not cut for phone frame rate ([DECISIONS「首发只做桌面」](../../migration/DECISIONS.md)).
+CI still builds Android and iOS as build gates, so the mobile layer below stays maintained and
+tested, but it is not a release target until that port is planned.
+
 ## Ownership
 
 - The canonical shared ApplicationShell owns one persistent Runtime Host; only the Host
@@ -40,7 +45,9 @@ wraps/scrolls and does not require hover. Modal barriers still cover the entire 
 One Session-owned SharedGameplayUI persists across every resident map, including Cave.
 Current-map context is cleared/rebound on handoff; generic player UI is never copied into maps.
 It shares SafeAreaPresenter and one responsive content frame; hidden/staged UI has no input ownership.
-Opening an item/detail panel blocks underlying input, not simulation or Save eligibility.
+Opening a panel blocks underlying input; the menu window and the interaction popup also hold
+world time, as the [Shell contract](APPLICATION_SHELL_CONTRACT.md#shared-gameplay-presentation)
+states. Neither changes Save eligibility.
 
 ## Touch and desktop coexistence
 
@@ -125,8 +132,8 @@ Continue restores the last completed manual Save, not later unsaved progress. No
 callback or reserved background time guarantees durability. BACKUP/TEMP remain explicit,
 re-read selections with no automatic fallback/promotion or additional slot.
 
-Application Settings remain separate at `user://settings/application-v1.cfg`. Windowed/
-Fullscreen is desktop-capability-only and hidden on platform-managed mobile. No mobile
+Application Settings remain separate at `user://settings/application-v1.cfg`. The window mode
+(窗口 / 无边框全屏 / 全屏) is desktop-capability-only and hidden on platform-managed mobile. No mobile
 sensitivity, orientation, audio/graphics placeholder or autosave preference is introduced.
 
 ## Release and qualification boundary
@@ -162,5 +169,5 @@ ENGINEERING INTEGRATION**. This is an independent bounded decision, not Lake's e
 touch PASS, all-platform completion or a waiver for future stages. Concrete product defects remain
 blocking. Complete representative shared input/navigation, panels/scrolling/cancel/focus, safe area
 and applicable Pause/Back/background/resume behavior before verified-touch claims or external
-long-term testing/formal release of related mobile versions. Track this in the existing
-[PROJECT_SCOPE mobile entry](../PROJECT_SCOPE.md#presentation-platforms-tooling-and-release-boundaries).
+long-term testing/formal release of related mobile versions. This belongs to the mobile port in
+[ROADMAP「Later — release readiness」](../ROADMAP.md#later--release-readiness).

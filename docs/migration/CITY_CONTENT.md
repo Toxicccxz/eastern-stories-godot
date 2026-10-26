@@ -7,15 +7,18 @@ and people; B 尚书府 and the city's secrets (the 院墙, the altar's 地下�
 
 ## Placed
 
-All 55 rooms, on four maps.
+All 55 rooms, on twelve maps.
 
 | Map | Rooms | People | Ways |
 |---|---|---|---|
-| city.main (京师) | nroad1–2, northdoor, street1–17, bank, weapon, biaoju, cloth, jiulou, boots, house1, feiyuan, jitan, shenwumen, wumen, jiaowu, bridge, eastdoor1–2, westdoor1–2, southdoor, xiangguo/gate | 桃X仙, 守城兵 ×18 (three at each gate), 黑你没商量, 万晓生, 收破烂的 ×4 (Snow's), 陈天星, 老板娘, 店小二, 钱掌柜, 行人 ×3, 商人, 李掌柜, 卖艺壮汉, 卖饼大叔, 卖包子的 | north to 玉螺湖村's 三叉路口 (road2); the 太白酒楼's stairs up; east to 尚书府 and 院墙 · 爬上去 (street3); the five outer gates shut |
+| city.main (京师) | nroad1–2, northdoor, street1–17, feiyuan, jitan, shenwumen, wumen, jiaowu, bridge, eastdoor1–2, westdoor1–2, southdoor, xiangguo/gate; shangshu/gate (B) | 桃X仙, 守城兵 ×18 (three at each gate), 收破烂的 ×4 (Snow's), 行人 ×3, 商人, 卖艺壮汉, 卖饼大叔, 卖包子的; 门房 (B) | north to 玉螺湖村's 三叉路口 (road2); a door into each shop; east from street3 to the 尚书府大门, and 院墙 · 爬上去 there; the five outer gates shut |
+| city.bank_house, weapon_house, biaoju_house, cloth_house, jiulou_house, boots_house, house1_house (interiors) | bank; weapon; biaoju; cloth; jiulou; boots; house1 | 黑你没商量; 万晓生; 陈天星; 老板娘; 店小二, 钱掌柜; 李掌柜; — | out onto the street; the 太白酒楼's stairs up |
 | city.upstairs (太白酒楼二楼) | jiulou_2 | — | the stairs down |
-| city.main (B: 尚书府) | shangshu/gate, yuan, keting, road1–4, kefang, xiaowu, chufang, huayuan, neizhai, feiwu | 门房, 庾子建, 护院 ×3 (two huyuan, one huyuan1), 丫鬟, 花匠, 庾清尘 | east from street3; doors 大铁门, 小木门, 木门, 帘子 (shut) |
+| city.shangshu (B: 尚书府, interior) | shangshu/yuan, keting, road1–4, kefang, xiaowu, chufang, huayuan, neizhai, feiwu | 庾子建, 护院 ×3 (two huyuan, one huyuan1), 丫鬟, 花匠, 庾清尘 | west out to the 尚书府大门; doors 大铁门, 小木门, 木门, 帘子 (shut) |
 | city.wall_top (院墙) | wall | — | 爬上去 from street3; 跳进去 to the 废屋, 跳回去 to street3 |
 | city.cellar (地下密室) | midao1 | — | the stairs up under the 祭坛 (open three seconds at a time) |
+
+None of these maps has a voxel view yet (no `game/data/city/voxel/`).
 
 Not placed: guardbak.c (a backup), trader2/3.c and u/cp's chater/drooler/teller are placed by no room. 护国寺, 紫禁城, 监狱
 and 刑场 are drawn as walled blocks: their exits are commented out and their rooms were never

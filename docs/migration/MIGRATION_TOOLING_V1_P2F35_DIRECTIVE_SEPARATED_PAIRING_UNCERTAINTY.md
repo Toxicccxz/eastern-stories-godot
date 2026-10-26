@@ -15,7 +15,7 @@ FR34-01 is semantic blocker 41. This is an implementation slice, not another Fin
 - Exactly five authorized files: room_extractor.py, test_migration_tooling.py, this report, STATUS and ROADMAP.
 - Extractor 1.0.35; schema 1; static-room-v1; canonical versions 1.0.0–1.0.35, 36 total.
 
-Root/docs instructions, [D1–D9](DECISIONS.md#migration-tooling-v1-p2--owner-locked-extraction-boundary),
+Root/docs instructions, [D1–D9](DECISIONS_HISTORY.md#migration-tooling-v1-p2--owner-locked-extraction-boundary),
 the complete stopped owner-local Final Re-Audit after P2F34, the
 [P2F27 contract](MIGRATION_TOOLING_V1_P2F27_DIRECTIVE_TRANSPARENT_FUNCTION_MACRO_INVOCATION_PREFLIGHT.md#refusal-barrier-and-direct-adjacent-behavior),
 [LPC preprocessor manual](../../reference/es2/mudlib/doc/concepts/preprocessor) and
