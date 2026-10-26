@@ -11,7 +11,7 @@ rules, pacing or presentation would put a modern player off we change them, keep
 more than speed.
 
 Progress is measured by playable content packages, not documents, commits or assertion counts.
-What is built now is in [STATUS](STATUS.md); [PROJECT_SCOPE](PROJECT_SCOPE.md) tracks per-package dispositions.
+What is built now, what waits for the owner's playtest and what is next is in [STATUS](STATUS.md).
 
 ## Region plan
 
@@ -118,4 +118,5 @@ spar record, a 江湖履历, 正邪 jobs).
 Systematic playtesting and balance, a formal player-save baseline, product IDs/signing, and
 resolving [license/provenance](LICENSE_PROVENANCE.md) — the ES2 rights question must be settled
 before any public distribution. The first release is desktop only; a mobile port (touch, iOS
-runtime, phone frame rate; draft PR #161) may follow (DECISIONS「首发只做桌面」).
+runtime, phone frame rate; draft PR #161) may follow (DECISIONS「首发只做桌面」). Large new
+expansions after the first release belong to a later version.

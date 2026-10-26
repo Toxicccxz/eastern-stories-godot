@@ -72,7 +72,7 @@ Cold-process Continue (Lake five-alive and mixed death/corpse) was verified in
 [P2C](../../migration/PHASE_OLDPINE_LAKE_SERPENT_PRODUCTION_P2C_ACCEPTANCE.md).
 
 This policy does not rewrite the historical NGE/S6B approvals in DECISIONS. The
-[project roadmap](../ROADMAP.md) and [scope ledger](../PROJECT_SCOPE.md) distinguish current facts,
+[STATUS](../STATUS.md) and the [project roadmap](../ROADMAP.md) distinguish current facts,
 planned content and future authorization.
 
 ## Authority and identity

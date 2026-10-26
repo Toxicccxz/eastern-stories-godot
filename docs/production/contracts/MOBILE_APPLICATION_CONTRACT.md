@@ -169,5 +169,5 @@ ENGINEERING INTEGRATION**. This is an independent bounded decision, not Lake's e
 touch PASS, all-platform completion or a waiver for future stages. Concrete product defects remain
 blocking. Complete representative shared input/navigation, panels/scrolling/cancel/focus, safe area
 and applicable Pause/Back/background/resume behavior before verified-touch claims or external
-long-term testing/formal release of related mobile versions. Track this in the existing
-[PROJECT_SCOPE mobile entry](../PROJECT_SCOPE.md#presentation-platforms-tooling-and-release-boundaries).
+long-term testing/formal release of related mobile versions. This belongs to the mobile port in
+[ROADMAP「Later — release readiness」](../ROADMAP.md#later--release-readiness).

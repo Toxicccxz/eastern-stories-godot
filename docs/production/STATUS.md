@@ -82,6 +82,8 @@ ES2 覆盖：536/551 房间，239/286 种 NPC，9/9 可加入的门派，33/36 �
 * On the player's own map a wanderer moves only where the player is (ES2's heart beat); other maps are
   caught up when the player comes back.
 * Conditions do not tick in a fight (owner) nor while the player lies unconscious.
+* There is no single 经典模式 switch yet: each knob keeps ES2's value as its classic value in the data
+  (DECISIONS「产品定位」).
 * A zone that merges several rooms (10 of them) shows only its first room's text.
 * 绮云镇: 熟牛肉 is not in the game (nobody sells it in ES2); a carried 布袋 is not opened.
 * 乔阴: only one 风泉剑灵 stands at a time (骆云舟 killed again while it stands keeps his sword); the
