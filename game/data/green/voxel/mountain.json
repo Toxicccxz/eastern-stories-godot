@@ -4,8 +4,8 @@
   "note": "North of 青石村: the hill's foot and the chained door of the haunted cave (cave0.c), the desolate road between the steep mossy wall east and the bottomless drop west (mpath0-2.c: 西面是深不见底的悬崖…仿佛下面有潺潺的流水声), the road's end walled on three sides with the 八卦 carved over the cave east and the mossy great stone door north (entrance.c), and the clear stream behind the stone rooms (water.c).",
   "edge": {"minimum_margin": 40, "maximum_margin": 104, "depth": 3.0, "top": "4a5a3c", "bottom": "34382e", "strata": ["5e6156", "686b5f", "55584e"]},
   "light": {
-    "sky": ["a2b6ac", "0d1622"], "ambient": ["b0bfae", "6880a8"], "ambient_energy": [0.4, 0.3],
-    "fog": {"color": ["7d8e88", "141c26"], "density": [0.0, 0.0], "height": -3.0, "height_density": 0.08}
+    "carried": {"color": "dfe6f0", "range": 7.0, "attenuation": 1.2, "day": 0.0, "night": 1.1, "note": "no lamp on the mountain: the way shows round the player by moonlight"},
+    "sky": ["a2b6ac", "0d1622"], "ambient": ["b0bfae", "6880a8"], "ambient_energy": [0.4, 0.36]
   },
   "cliffs": {
     "kinds": ["cliff", "chasm"],
