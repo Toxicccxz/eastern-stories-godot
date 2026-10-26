@@ -14,7 +14,6 @@
     {"kind": "string_hang", "at": [-200, -206], "size": [48, 16], "wall_mounted": true, "note": "herbs hung to dry"},
     {"kind": "crocks", "at": [-300, 120], "size": [32, 32]},
     {"kind": "baskets", "at": [260, -150], "size": [32, 32]},
-    {"kind": "chair", "at": [-96, 40], "size": [24, 24], "note": "the stool for the sick before the desk"},
     {"kind": "stains", "at": [-60, 60], "size": [180, 80], "count": 5, "colors": ["6a5a40", "74644a"], "note": "the boards darkened where the sick wait"},
     {"kind": "hanging_lantern", "at": [-120, -40]},
     {"kind": "hanging_lantern", "at": [140, 80]}
