@@ -110,6 +110,7 @@
     "temple.npc.taoist_guard2": {"coat": "2f3a52", "hat": true},
     "temple.npc.taoist_guard3": {"coat": "2f3a52", "hat": true}
   },
+  "door_looks": {"temple.square.door": {"kind": "red_door"}, "temple.corridor5.door": {"kind": "red_door", "note": "corridor5.c: 红漆木门 to the rear hall, shut"}},
   "entrances": {
     "temple.road2.enter": {"title": "藏经楼"}
   }

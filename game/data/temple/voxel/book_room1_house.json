@@ -7,8 +7,8 @@
   "light": {"ambient": ["c8b898", "5e5a70"], "ambient_energy": [0.34, 0.26], "sun_energy": [0.35, 0.08]},
   "props": [
     {"kind": "stairs", "at": [-248, -104], "size": [48, 48], "rotation": 90, "note": "book_room1.c: 角落里有一座小小的木梯通往二楼"},
-    {"kind": "window", "at": [-200, 228], "size": [64, 16], "rotation": 180, "note": "shut"},
-    {"kind": "window", "at": [200, -228], "size": [64, 16]},
+    {"kind": "window", "at": [-200, 228], "size": [64, 16], "rotation": 180, "shut": true, "note": "road2.c: 屋子四周的门窗都紧紧的关著"},
+    {"kind": "window", "at": [-240, -228], "size": [64, 16], "shut": true},
     {"kind": "hanging_lantern", "at": [-60, -60], "paper": "f0c878"},
     {"kind": "hanging_lantern", "at": [120, 100], "paper": "f0c878"},
     {"kind": "candles", "at": [40, -10], "count": 1, "elevation": 0.9, "note": "a candle on the reading table"},

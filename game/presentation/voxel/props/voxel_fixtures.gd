@@ -103,6 +103,12 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 			for y: float in [1.32,1.78,2.24,2.70]:
 				s.box(root,Vector3(0,y,0.15),Vector3(w,0.06,0.06),"886744")
 			s.box(root,Vector3(0,1.16,0.20),Vector3(w+0.2,0.12,0.44),"a37c52")
+			if data.get("shut",false):
+				# 门窗都紧紧的关著: wooden shutters closed over it, a bar across; no light comes in.
+				for leaf: float in [-1.0,1.0]:
+					s.box(root,Vector3(leaf*(w/4-0.02),2,0.19),Vector3(w/2-0.06,1.5,0.05),"6e5038")
+				s.box(root,Vector3(0,2,0.23),Vector3(w-0.1,0.08,0.04),"4a3626")
+				return true
 			var light := SpotLight3D.new()
 			light.position = Vector3(0,2.4,0.40)
 			light.rotation_degrees = Vector3(-35,180,0)

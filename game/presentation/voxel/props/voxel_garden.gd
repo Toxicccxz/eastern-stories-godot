@@ -317,10 +317,10 @@ func _post(height: float, column: String, outdoor: bool) -> void:
 			s.box(root,Vector3(cos(a)*0.19,y,sin(a)*0.19),Vector3(0.16,0.2,0.16),String(scales[i%scales.size()]))
 			if i%3==0:
 				s.box(root,Vector3(cos(a)*0.27,y+0.04,sin(a)*0.27),Vector3(0.06,0.1,0.06),String(scales[(i+1)%scales.size()]))
-		var a: float = turns*TAU*2.2/turns
+		var head: float = TAU*2.2
 		var top: float = 0.5+height*0.84
-		s.box(root,Vector3(cos(a)*0.24,top,sin(a)*0.24),Vector3(0.24,0.2,0.28),String(scales[0]))
-		s.box(root,Vector3(cos(a)*0.38,top+0.06,sin(a)*0.38),Vector3(0.1,0.1,0.1),String(scales[1 % scales.size()]))
+		s.box(root,Vector3(cos(head)*0.24,top,sin(head)*0.24),Vector3(0.24,0.2,0.28),String(scales[0]))
+		s.box(root,Vector3(cos(head)*0.38,top+0.06,sin(head)*0.38),Vector3(0.1,0.1,0.1),String(scales[1 % scales.size()]))
 		s.box(root,Vector3(0,0.37+height+0.06,0),Vector3(0.52,0.12,0.52),String(scales[0]))
 		s.box(root,Vector3(0,0.37+height+0.2,0),Vector3(0.36,0.16,0.36),String(data.get("band","c9a24a")))
 

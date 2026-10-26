@@ -73,7 +73,7 @@
     "no_trees": [[1232, 640, 1520, 1040]]
   },
   "buildings": [
-    {"rect": [1088, 448, 1664, 640], "portals": ["temple.entrance.north"], "note": "entrance.c: 一座古色古香的山门, 上面以龙飞凤舞的笔迹书写著「灵心观」三字; the white wall of the temple either side, its great hall's roof rising behind (ladder5.c: 虽然无情的岁月已经在它身上留下痕迹, 但仍不失其庄严神圣的气息)", "construction": "plaster", "wall": "ece8dd", "timber": "a8382a", "posts": "a8382a", "roof": "4a5458", "height": 2.6, "roof_form": "hip", "rise": 0.9, "eave_lift": 0.35, "overhang": 0.6, "foundation": 0.6, "plinth": ["d8d4c8", "e4e0d5", "cbc7bb"], "porch": "none", "gate": "red", "goods": "none", "lantern": "d8452f:glow", "bay": 6, "ridge_ends": "3a4448", "step": "e2dfd4", "signboard": {"text": "灵心观", "width": 2.4, "letters": "e8c25a:glow", "frame": "a8382a", "board": "1e2a2c", "note": "龙飞凤舞: 太阳神君杞庸亲笔所题"}, "masses": [
+    {"rect": [1088, 448, 1664, 640], "portals": ["temple.entrance.north"], "note": "entrance.c: 一座古色古香的山门, 上面以龙飞凤舞的笔迹书写著「灵心观」三字; the white wall of the temple either side, its great hall's roof rising behind (ladder5.c: 虽然无情的岁月已经在它身上留下痕迹, 但仍不失其庄严神圣的气息)", "construction": "plaster", "wall": "ece8dd", "timber": "a8382a", "posts": "a8382a", "roof": "4a5458", "height": 2.6, "roof_form": "hip", "rise": 0.9, "eave_lift": 0.35, "overhang": 0.6, "foundation": 0.6, "plinth": ["d8d4c8", "e4e0d5", "cbc7bb"], "porch": "none", "gate": "red", "doorway_width": 4.0, "goods": "none", "lantern": "d8452f:glow", "bay": 6, "ridge_ends": "3a4448", "step": "e2dfd4", "signboard": {"text": "灵心观", "width": 2.4, "letters": "e8c25a:glow", "frame": "a8382a", "board": "1e2a2c", "note": "龙飞凤舞: 太阳神君杞庸亲笔所题"}, "masses": [
       {"bounds": [0.2, 0.0, 0.8, 0.56], "height": 5.4, "roof_form": "hip", "ridge": "x", "rise": 2.1, "eave_lift": 0.55, "overhang": 1.0, "bells": true, "note": "the great hall over the wall"},
       {"bounds": [0.38, 0.56, 0.62, 1.0], "height": 3.6, "roof_form": "hip", "ridge": "x", "rise": 1.4, "eave_lift": 0.5, "overhang": 0.9, "bay": 3, "note": "the 山门"},
       {"bounds": [0.0, 0.6, 0.38, 1.0], "height": 2.6, "roof_form": "hip", "rise": 0.6, "overhang": 0.4, "note": "the wall west of the gate"},
@@ -101,7 +101,7 @@
   "ambience": {
     "birds": [{"at": [900, 1300], "radius": 260, "count": 3, "height": 10.0, "color": "3a3029", "note": "kites wheeling over the slope"}, {"at": [1380, 560], "radius": 160, "count": 4, "height": 7.5, "color": "2a2a30", "note": "swallows round the gate's eaves"}],
     "fall": [{"rect": [560, 1120, 1520, 1940], "count": 26, "height": 5.0, "colors": ["7a6a3a", "8a7448", "6a5a34"], "wind": [-0.4, 0.15], "note": "pine needles drifting down on the stairs"}],
-    "dust": [{"rect": [1250, 660, 1500, 1040], "count": 16, "color": "e4ecee", "wind": [-1.4, 0.2], "size": [0.4, 0.02, 0.05], "note": "ladder1.c: 山风吹来带著丝丝的寒意"}]
+    "dust": [{"rect": [1260, 1080, 1500, 1320], "count": 16, "color": "e4ecee", "wind": [-1.4, 0.2], "size": [0.4, 0.02, 0.05], "note": "ladder1.c: 山风吹来带著丝丝的寒意"}]
   },
   "actors": {
     "default": {"coat": "4a5a7a"},

@@ -81,6 +81,7 @@ func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, e
 	var construction: String = data.get("construction","plaster")
 	var bay: int = int(data.get("bay",6))
 	var foundation: float = data.get("foundation",0.48)
+	var gap_half: float = float(data.get("doorway_width",2.3))/2.0
 	for side: int in 4:
 		var along_x: bool = side<2
 		var length: float = w if along_x else d
@@ -91,7 +92,7 @@ func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, e
 			var at := Vector3(along,height/2,fixed) if along_x else Vector3(fixed,height/2,along)
 			var gap: bool = false
 			for door: Vector3 in entrances:
-				if absf((door.z if along_x else door.x)-fixed)<1.6 and absf((door.x if along_x else door.z)-along)<1.15:
+				if absf((door.z if along_x else door.x)-fixed)<1.6 and absf((door.x if along_x else door.z)-along)<gap_half:
 					gap = true
 			if gap:
 				continue
@@ -410,12 +411,14 @@ func _entrance(body: Node3D, door: Vector3, w: float, d: float, data: Dictionary
 	front.rotation.y = signf(door.x)*PI/2 if x_face else (0.0 if door.z>0 else PI)
 	var timber: String = data.get("timber","79533d")
 	var posts: String = data.get("posts",timber)
-	for x: float in [-1.13,1.13]:
+	# `doorway_width` (units): the opening as wide as the 2D gate's (a 山门's 128 px).
+	var half: float = float(data.get("doorway_width",2.3))/2.0
+	for x: float in [-half+0.02,half-0.02]:
 		shapes.box(front,Vector3(x,1.3,0),Vector3(0.2,2.6,0.27),posts)
 		if data.get("lanterns",true):
 			shapes.lantern(front,Vector3(x*1.23,2.15,0.25),false,String(data.get("lantern","ffb858")))
-	shapes.box(front,Vector3(0,2.68,0),Vector3(2.55,0.25,0.38),timber)
-	shapes.box(front,Vector3(0,0.025,0),Vector3(2.2,0.07,1.0),String(data.get("step","b7b091")))
+	shapes.box(front,Vector3(0,2.68,0),Vector3(half*2.0+0.25,0.25,0.38),timber)
+	shapes.box(front,Vector3(0,0.025,0),Vector3(half*2.0-0.1,0.07,1.0),String(data.get("step","b7b091")))
 	if data.has("gate"):
 		_gate_leaves(front,data)
 	if data.has("signboard"):
@@ -467,15 +470,17 @@ func _entrance(body: Node3D, door: Vector3, w: float, d: float, data: Dictionary
 ## gilt studs (`gate`: "red"), black lacquer ("black"), or a colour of its own.
 func _gate_leaves(front: Node3D, data: Dictionary) -> void:
 	var leaf: String = {"red":"9c3a2c","black":"2d2a28"}.get(String(data["gate"]),String(data["gate"]))
+	var half: float = float(data.get("doorway_width",2.3))/2.0
+	var span: float = half-0.19
 	for side: float in [-1.0,1.0]:
-		var hinge: Node3D = _node(Vector3(side*0.95,0,-0.1),front)
+		var hinge: Node3D = _node(Vector3(side*(half-0.2),0,-0.1),front)
 		hinge.rotation.y = side*1.25
-		shapes.box(hinge,Vector3(-side*0.48,1.2,0),Vector3(0.96,2.36,0.1),leaf)
+		shapes.box(hinge,Vector3(-side*span/2,1.2,0),Vector3(span,2.36,0.1),leaf)
 		for row: int in 5:
-			for col: int in 3:
+			for col: int in maxi(3,roundi(span/0.32)):
 				shapes.box(hinge,Vector3(-side*(0.2+col*0.28),0.45+row*0.42,0.06),Vector3(0.07,0.07,0.04),"d6b25a")
-		shapes.box(hinge,Vector3(-side*0.8,1.2,0.07),Vector3(0.14,0.14,0.05),"b89548")
-	shapes.box(front,Vector3(0,0.09,-0.05),Vector3(1.9,0.18,0.16),String(data.get("sill","5c4433")))
+		shapes.box(hinge,Vector3(-side*(span-0.16),1.2,0.07),Vector3(0.14,0.14,0.05),"b89548")
+	shapes.box(front,Vector3(0,0.09,-0.05),Vector3(half*2.0-0.4,0.18,0.16),String(data.get("sill","5c4433")))
 
 ## 招牌/匾: a lacquered board over the doorway with the shop's name (`signboard`: {"text",
 ## "board", "letters" (a ":glow" colour reads as gilt), "frame", "width", "height", "y"}).

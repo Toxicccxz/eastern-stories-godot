@@ -194,7 +194,10 @@ func _check_grounds(map: WorldMapController) -> void:
 		var sign: Dictionary = building.get("signboard", {})
 		library = library or sign.get("text", "") == "藏经楼" and String(sign.get("board", "")).begins_with("2f6a8a") and building.has("skirt") and building.get("doorway", "") == "shut"
 		locked = locked or not building.has("portals") and building.get("doorway", "") == "shut"
-	_check(arches, "temple1.c: 东西两侧的圆形拱门; 走过南边的红漆木门就是广场")
+	_check(arches and view.geometry.arches_built == 2, "temple1.c: 东西两侧的圆形拱门 (both drawn in the hall's walls); 走过南边的红漆木门就是广场")
+	var doors: Dictionary = view.layout.get("door_looks", {})
+	_check(doors.get("temple.square.door", {}).get("kind", "") == "red_door" and doors.get("temple.corridor5.door", {}).get("kind", "") == "red_door",
+		"square.c, corridor5.c: 红漆木门")
 	_check(library, "road2.c: 一栋木造两层高的屋子…门窗都紧紧的关著, 门口上方挂著一方蓝色琉璃匾额, 上书『藏经楼』三个金字")
 	_check(locked, "corridor6.c: 西边是一间上了锁的房间")
 	var path: Dictionary = view.geometry._ground_style(Vector2(1160, 800), "path")
@@ -220,12 +223,14 @@ func _check_interior(map: WorldMapController) -> void:
 			_check("deity" in kinds and fresh and kinds.count("prayer_cushion") >= 3 and kinds.count("column") >= 4,
 				"temple1.c: 真武大帝的金身; 朱红色的大供桌, 上面排满了鲜花素果; 三四个蒲团")
 			_check("notices" in kinds, "the taoists' board in their hall")
+			_check(kinds.count("moon_gate") == 2, "temple1.c: 东西两侧的圆形拱门, seen from inside too")
 		&"temple.temple2_house":
 			var portrait: bool = false
 			for prop: Dictionary in _view_of(map).layout.get("props", []):
 				portrait = portrait or prop["kind"] == "wall_scroll" and prop.get("portrait", false) and prop.has("beard")
 			_check(portrait and "sword_stand" in kinds and kinds.count("spirit_tablets") == 2,
 				"temple2.c: 张天师的画像; 宝剑; 剑的两旁陪祀著历代掌门人的牌位")
+			_check(_view_of(map).layout.get("door_looks", {}).get("temple.corridor5.door", {}).get("kind", "") == "red_door", "temple2.c: 走出南边的红漆木门")
 		&"temple.trainroom_house":
 			var charts: int = 0
 			for prop: Dictionary in _view_of(map).layout.get("props", []):
@@ -235,6 +240,10 @@ func _check_interior(map: WorldMapController) -> void:
 			_check("bed" in kinds and "window" in kinds, "%s: 屋子里只是简单地摆放著几件家俱" % map.map_id())
 		&"temple.book_room1_house":
 			_check(kinds.count("bookcase") >= 4 and "stairs" in kinds, "book_room1.c: 四周的书架上堆了满满的书; 角落里有一座小小的木梯")
+			var shut: bool = true
+			for prop: Dictionary in _view_of(map).layout.get("props", []):
+				shut = shut and (prop["kind"] != "window" or prop.get("shut", false))
+			_check(shut, "road2.c: 屋子四周的门窗都紧紧的关著")
 		&"temple.library":
 			var portrait: bool = false
 			for look: Dictionary in looks:

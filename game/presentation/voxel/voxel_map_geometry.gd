@@ -747,6 +747,9 @@ func _dress_cliffs() -> void:
 			tree.rotation.y = rng.randf()*TAU
 			tree_shapes.build(tree,shapes,String(choices[rng.randi_range(0,choices.size()-1)]),rng.randi_range(0,5))
 
+## Round arches drawn in buildings' walls (`arches`: those portal ids found on the map).
+var arches_built: int = 0
+
 func _building(map: WorldMapController, data: Dictionary) -> void:
 	var a: Array = data["rect"]
 	var rect := Rect2(Vector2(a[0],a[1]),Vector2(a[2]-a[0],a[3]-a[1]))
@@ -761,6 +764,7 @@ func _building(map: WorldMapController, data: Dictionary) -> void:
 				entrances.append(point((passage as Node2D).global_position)-center)
 				if portal_id in data.get("arches",[]):
 					arches.append(entrances[-1])
+	arches_built += arches.size()
 	# A door nobody goes through (no room behind it in the source): drawn, not entered.
 	for at: Array in data.get("doors",[]):
 		entrances.append(point(Vector2(at[0],at[1]))-center)

@@ -19,5 +19,6 @@
     {"kind": "window", "at": [-396, -100], "size": [64, 16], "rotation": 90},
     {"kind": "window", "at": [380, -100], "size": [64, 16], "rotation": -90}
   ],
+  "door_looks": {"temple.corridor5.door": {"kind": "red_door", "note": "corridor5.c: 红漆木门, shut (DOOR_CLOSED)"}},
   "actors": {"default": {"coat": "4a5a7a"}}
 }

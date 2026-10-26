@@ -352,8 +352,8 @@ func _deity(w: float, d: float) -> void:
 	var front: float = d*0.05
 	s.box(root,Vector3(0,seat+0.42*k,front),Vector3(0.9*k,0.36*k,0.7*k),String(gold[1]))
 	for leg: float in [-1.0,1.0]:
-		s.box(root,Vector3(leg*0.22*k,seat+0.16*k,front+0.36*k),Vector3(0.28*k,0.5*k,0.24*k),String(gold[1]))
-		s.box(root,Vector3(leg*0.22*k,seat-0.06*k,front+0.5*k),Vector3(0.22*k,0.1*k,0.3*k),face)
+		s.box(root,Vector3(leg*0.22*k,seat+0.3*k,front+0.36*k),Vector3(0.28*k,0.42*k,0.24*k),String(gold[1]))
+		s.box(root,Vector3(leg*0.22*k,seat+0.06*k,front+0.46*k),Vector3(0.22*k,0.1*k,0.3*k),face)
 	s.box(root,Vector3(0,seat+0.5*k,front+0.36*k),Vector3(0.36*k,0.4*k,0.06),robe)
 	s.box(root,Vector3(0,seat+1.0*k,-d*0.1),Vector3(0.82*k,0.72*k,0.5*k),String(gold[0]))
 	s.box(root,Vector3(0,seat+1.0*k,-d*0.1+0.26*k),Vector3(0.5*k,0.5*k,0.02),String(gold[2]))
@@ -377,7 +377,8 @@ func _deity(w: float, d: float) -> void:
 	s.box(root,head+Vector3(0,-0.04*k,0.205*k),Vector3(0.22*k,0.03,0.01),"3a2a20")
 	s.box(root,head+Vector3(0,-0.2*k,0.205*k),Vector3(0.14*k,0.03,0.01),"7a3a2a")
 	if data.get("tortoise",true):
-		var at := Vector3(0,seat-0.2*k,front+0.62*k)
+		# On the lower step, in front of the upper tier.
+		var at := Vector3(0,base*0.6+0.08*k,d*0.42)
 		s.box(root,at,Vector3(0.6*k,0.16*k,0.4*k),"4a5a3a")
 		s.box(root,at+Vector3(0,0.1*k,0),Vector3(0.44*k,0.08*k,0.3*k),"5f6e48")
 		s.box(root,at+Vector3(0.36*k,0.02,0.04*k),Vector3(0.14*k,0.1*k,0.12*k),"4a5a3a")
@@ -423,9 +424,9 @@ func _spirit_tablets(w: float, d: float) -> void:
 			s.box(root,Vector3(x,y+0.08+th/2,z),Vector3(0.14,th,0.04),String(tablet[(i+step)%tablet.size()]))
 			s.box(root,Vector3(x,y+0.1+th,z),Vector3(0.18,0.05,0.06),"c8a24a")
 			s.box(root,Vector3(x,y+0.08+th*0.5,z+0.022),Vector3(0.03,th*0.7,0.005),"d8b45a")
-	s.box(root,Vector3(0,0.66,d*0.48),Vector3(0.16,0.08,0.16),"8a7a5a")
+	s.box(root,Vector3(0,0.34,d*0.4),Vector3(0.16,0.08,0.16),"8a7a5a")
 	var flame := Node3D.new()
-	flame.position = Vector3(0,0.74,d*0.48)
+	flame.position = Vector3(0,0.42,d*0.4)
 	flame.set_meta("light_fixture",true)
 	root.add_child(flame)
 	s.box(flame,Vector3(0,0.03,0),Vector3(0.035,0.06,0.035),"ffcf7a:glow")
