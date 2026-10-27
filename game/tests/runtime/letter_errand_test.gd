@@ -83,7 +83,10 @@ func _test_errand(tree: SceneTree, session: WorldSessionController) -> void:
 	# The first arrival in 绮云镇 also ended the 新手链: only this chain's line is looked at.
 	var lines: Array[String] = _rewards(session).slice(rewards_before).filter(func(line: String) -> bool: return line.contains("雪亭驿的信"))
 	_check(state.journal.has("snow.letter/paid") and lines.size() == 1 and lines[0].begins_with("【历练】你了结了「雪亭驿的信」"), "the chain seen through, once: %s" % [lines])
-	_check(JournalLog.objective(state, GameContent.catalog().journal_chains()) != "回雪亭驿找杜宽拿脚钱。", "its next step is gone")
+	# Both guide chains are seen through (the 新手链 ended with the first arrival in 绮云镇): no 目标.
+	_check(JournalLog.objective(state, GameContent.catalog().journal_chains()) == "" and JournalLog.finished(state, _chain(&"snow.newcomer")), "no next step left: " + JournalLog.objective(state, GameContent.catalog().journal_chains()))
+	ui.refresh_exploration()
+	_check(not ui.player_objective.visible, "the 目标 row is gone")
 	map.select_npc(post.character_id)
 	said = map.ask_selected("送信")
 	_check(said.size() == 2 and said[1].contains("往后有信，还找你") and _carried(session, SILVER) == silver_before + 1, "asked again: no second payment: %s" % [said])
@@ -109,6 +112,13 @@ func _stand_at(tree: SceneTree, session: WorldSessionController, spawn_id: Strin
 	for frame: int in 4:
 		await tree.physics_frame
 	await tree.process_frame
+
+
+func _chain(chain_id: StringName) -> JournalChainDefinition:
+	for chain: JournalChainDefinition in GameContent.catalog().journal_chains():
+		if chain.chain_id == chain_id:
+			return chain
+	return null
 
 
 func _npc_of(session: WorldSessionController, definition_id: StringName) -> NpcRuntimeState:
