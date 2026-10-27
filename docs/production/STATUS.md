@@ -53,7 +53,7 @@ ES2 覆盖：536/551 房间，239/286 种 NPC，9/9 可加入的门派，33/36 �
   腐烂（「尸体腐烂」）、死亡后的阴间和回阳路、状态（中毒、醉酒、蒙汗药等）、钱币和钱庄、商店、当铺、工作。
 * **界面**：带标签页的菜单窗口（角色、武学、背包、任务、声望、百科、系统；声望是占位），手柄，靠近才说话的
   气泡，两栏交互弹窗（开着时世界时间停住，重要选择先确认），任务页的江湖见闻日志，新手链「雪亭镇的头几天」和「雪亭驿的信」和状态卡的「目标」行
-  （见闻和下一步的提示，设置「目标提示」可关），新游戏的开场卡片（ES2 主题故事），角色页的「历练」小节，逻辑分辨率 1280×720、
+  （见闻和下一步的提示，设置「目标提示」可关），新游戏的开场卡片（ES2 主题故事）和「节奏：现代 / 经典」（「经典模式总开关」），角色页的「历练」小节，逻辑分辨率 1280×720、
   窗口 / 无边框全屏 / 全屏、界面缩放 100/125/150%、设置「击倒后」。只有简体中文（[LOCALIZATION](LOCALIZATION.md)）。
 * **存档**：手动存档 / 继续，原子写入，不支持的文件拒读；世界修订号 `SOURCE_ENTRY_OLDPINE_RELAYOUT_V1`，旧开发
   存档要新游戏（[存档契约](contracts/NATIVE_SAVE_LOAD_CONTRACT.md)）。
@@ -76,6 +76,7 @@ ES2 覆盖：536/551 房间，239/286 种 NPC，9/9 可加入的门派，33/36 �
   信丢了链就停在那里，要不要让杜宽补一封。
 * 前两小时 D（「刘安禄的揭露」）：魏无极 → 柳淳风的线索链「门房的来历」读起来够不够像个钩子；20000 经验前问他只得「没听说过」；
   够了之后的确认框、一半装傻、变身和那一架（50000 经验、刀谱）。
+* 前两小时 E（「经典模式总开关」）：新游戏第一屏的「节奏」一行读起来清不清楚；选经典开一局，确认没有木人、悬赏榜和历练。
 * 雪亭镇室内的生活气息（磨损、旧墙、挂件、桌面、角落杂物；杂物多少和脏旧程度在 `room_life.json` 里调）。
 * 青石村体素地图（12 张）：石板路和车辙、石屋石板瓦、大榕树、采石场、三面环山；山路、锁链木门、八卦与大石门；
   迷阵八间各自的天色、地面和天气（雾浓淡、闪电、火光）；村里各屋的生活气息；雪亭镇山坳东端的过渡。
@@ -120,8 +121,6 @@ ES2 覆盖：536/551 房间，239/286 种 NPC，9/9 可加入的门派，33/36 �
 * On the player's own map a wanderer moves only where the player is (ES2's heart beat); other maps are
   caught up when the player comes back.
 * Conditions do not tick in a fight (owner) nor while the player lies unconscious.
-* There is no single 经典模式 switch yet: each knob keeps ES2's value as its classic value in the data
-  (DECISIONS「产品定位」).
 * A zone that merges several rooms (10 of them) shows only its first room's text.
 * 绮云镇: 熟牛肉 is not in the game (nobody sells it in ES2); a carried 布袋 is not opened.
 * 乔阴: only one 风泉剑灵 stands at a time (骆云舟 killed again while it stands keeps his sword); the

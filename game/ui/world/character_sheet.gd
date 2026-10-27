@@ -15,6 +15,8 @@ var progress: Label
 var potential_cap: Label
 var catch_up: Label
 var standing: Label
+## 前两小时 E: the pace the character plays at (现代 / 经典).
+var pace: Label
 var gifts: Label
 ## 前两小时 A: the one-time 历练 rewards given (CharacterState.milestones), newest first.
 var milestones: Label
@@ -47,6 +49,8 @@ func _init() -> void:
 	catch_up = _line(growth, "CatchUp")
 	catch_up.add_theme_color_override("font_color", SharedGameplayLayout.ACCENT_COLOR)
 	standing = _line(growth, "Standing")
+	pace = _line(growth, "Pace")
+	pace.add_theme_color_override("font_color", SharedGameplayLayout.MUTED_COLOR)
 	var nature: VBoxContainer = _block(bottom, "Nature", "天赋")
 	gifts = _line(nature, "Gifts")
 	# TRANSLATORS: the character sheet's heading over the 历练 rewards the player has earned (A2, 前两小时 A).
@@ -92,6 +96,8 @@ func refresh(player: WorldPlayerRuntimeState, session: WorldSessionController) -
 		"str": attr.strength, "cor": attr.courage, "int": attr.intelligence, "spi": attr.spirituality,
 		"cps": attr.composure, "per": attr.personality, "con": attr.constitution, "kar": attr.karma,
 	})
+	# TRANSLATORS: the character sheet: {pace} is 现代 or 经典 (DECISIONS「经典模式总开关」).
+	pace.text = tr("节奏：{pace}（开局选定）").format({"pace": PacePresets.shown_name(state.pace)})
 	milestones.text = milestone_text(state)
 	if session != null:
 		burden.text = tr("负重 {carried} / {capacity} · 体重 {weight}").format({

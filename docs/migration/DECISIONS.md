@@ -84,7 +84,7 @@
 - 经验：战斗涓流和回复 ×3、历练奖励、落后补偿、分档潜能上限、打坐 ×6、木人和悬赏榜（见下「节奏开关」）。「经验节奏」「Pacing knobs and 卧龙岗's second」
 - 朱鸿雪只派游戏里有的目标；时限 ×1.5、按游戏时间走、存档；任务奖励的潜能上限只止增。「绮云镇 3C」「Pacing knobs and 卧龙岗's second」
 - 重兵器和重防具按重量扣轻功，物品详情写明。「积压问题的处理」
-- 新角色 14 岁、八项天赋都是 30（不做 15 岁的重抽）；名字是 1–24 个 Unicode 字母；新游戏有「随机名字」。「New Player Delayed Gift Randomization」「Generalized Player display names」「手柄」
+- 新角色 14 岁、八项天赋都是 30（不做 15 岁的重抽）；名字是 1–24 个 Unicode 字母；新游戏有「随机名字」和「节奏：现代 / 经典」。「New Player Delayed Gift Randomization」「Generalized Player display names」「手柄」「经典模式总开关」
 
 **物品与经济**
 - 给予、丢下、放进、取出照 give.c / drop.c / put.c / get.c；被拒收的那部分留在玩家身上；丢在地上的东西连位置存档。「Give, drop and put; shops and teachers on their NPCs」
@@ -138,7 +138,7 @@
 - `milestone_rewards`、`catch_up_max_percent` 100、`staged_potential_cap`、`player_exercise_gain` 6、`training_dummies`、`bounty_board`（经典关 / 0 / 1）。「经验节奏」
 - `room_reset_seconds` 1800、`combat_round_ms` 1000、`heart_beat_ms` 2000（就是 ES2）。「NPCs talk and wander; rooms reset」「One map runtime」「响应性」
 - `feel`：换图淡入淡出、走路、气泡、菜单、战斗演出、`training_step_ms`、`corner_slide_px`（不写 = 0，没有演出）。「手感」「手感：战斗」「连续修炼」
-- 还没有一键切回 ES2 的「经典模式」总设置。「产品定位」
+- 新游戏面板的「节奏」：经典把 `milestone_rewards`、`catch_up_max_percent`、`staged_potential_cap`、`player_exercise_gain`、`bounty_board`、`training_dummies` 一起按回 ES2，存进存档，开局后不改。「经典模式总开关」
 
 **各区域的修复与改动**（细节在各区域条目和 `*_CONTENT.md`）
 - 雪亭镇：密室不会把人关在下面；玩家邮件不做；武馆木人和悬赏榜是新内容；店小二的老鼠差事和烤鸡腿、魏无极指向谷场的一句、杜宽托送到绮云镇的信是新内容。「Snow's inner rooms」「Snow's south road and shops」「经验节奏」「客栈的老鼠」「雪亭驿的信」
@@ -154,6 +154,16 @@
 - 京师：令牌照 ES2；地下密室的石阶从下面也能开。「京师 A」「京师 B」
 - 黑松山：进山的路修好；小娟只救一次。「黑松山 A」「黑松山 B」
 - 鬼门关：阴间要自己走回来；路的尽头补了原文缺的句子。「鬼门关 A」
+
+## 经典模式总开关 (前两小时 E, owner 批准 2026-10-26; Q6 现在做)
+
+- **ES2：** 没有难度或节奏的选择；本项目的每个节奏开关各自留着 ES2 原值作经典值，但没有一处能一起切（STATUS 的已知问题）。
+- **我们：** 新游戏面板性别下面一行「节奏：现代（推荐）/ 经典」。经典 = 把 A2 的六个进度开关一起按回 ES2：`milestone_rewards` 关、
+  `catch_up_max_percent` 0、`staged_potential_cap` 关、`player_exercise_gain` 1、`bounty_board` 关、`training_dummies` 关
+  （`PacePresets`，和套件用的 `Es2Pacing.use_without_progression()` 同一套）；手感类（淡入淡出、气泡、战斗速度、连续修炼）不动。
+  选择存进 `CharacterState.pace`（存档可选字段，旧存档读作现代，不升修订号）；会话建世界前先按它设好目录的 pacing（木人、悬赏榜
+  从第一张图起就对），会话结束时还原。开局后不能改：设置页没有这一项，角色页「修为」里写明「节奏：经典（开局选定）」。
+- **为什么：** 活侠传的教训——难度要在第一屏选；经典的玩家一开始就知道自己玩的是原来的数。中途切会让木人、榜、历练账本对不上。
 
 ## 刘安禄的揭露 (前两小时 D, owner 批准 2026-10-26; Q4 揭露照 ES2 留在 20000)
 

@@ -53,6 +53,10 @@ var _session_swap_suspended: bool = false
 var _session_swap_reparenting: bool = false
 var _source_name: String = ""
 var _source_gender: StringName = &""
+## The pace of this world (CharacterState.pace; PacePresets): the catalog's pacing is set
+## for it before the world is built and put back when the session goes.
+var _source_pace: StringName = CharacterState.PACE_MODERN
+var _pacing_before: PacingDefinition
 var _recovery_random: RecoveryCadenceRandomSource
 var _player_recovery_cadence: PlayerRecoveryCadence
 var _player_timed_remainder_ms: float = 0.0
@@ -625,6 +629,9 @@ func advance_player_recovery(delta: float, busy_only: bool = false) -> PlayerRec
 func _exit_tree() -> void:
 	if _session_swap_reparenting:
 		return
+	if _pacing_before != null:
+		PacePresets.restore(GameContent.catalog(), _pacing_before)
+		_pacing_before = null
 	for map_id: StringName in _resident_maps.keys():
 		var value: Variant = _resident_maps.get(map_id)
 		if not is_instance_valid(value):
@@ -656,6 +663,12 @@ func initialize_session() -> bool:
 		self,
 		_world_simulation_gate,
 	)
+	# The pace (前两小时 E): a Continue's is the save's, a New Game's the panel's; the 木人
+	# and the board follow it from the first map.
+	if _bootstrap_mode == BootstrapMode.RESTORE and _restore_preparation != null and _restore_preparation.player != null and _restore_preparation.player.state != null:
+		_source_pace = _restore_preparation.player.state.pace
+	if _pacing_before == null:
+		_pacing_before = PacePresets.apply(GameContent.catalog(), _source_pace)
 	for map_id: StringName in _world_map_ids():
 		if not _register_map(map_id):
 			return false
@@ -677,18 +690,24 @@ func initialize_session() -> bool:
 		_room_resets = WorldRoomResets.new(WorldRoomResets.resetting_rooms(), GameContent.catalog().pacing().room_reset_seconds, npc_ambience_random_source())
 		_player_resets = WorldRoomResets.new([PLAYER_RESET], GameContent.catalog().pacing().room_reset_seconds, npc_ambience_random_source())
 		if _bootstrap_mode == BootstrapMode.SOURCE_ENTRY:
+			if _player != null and _player.state != null:
+				_player.state.pace = _source_pace
 			progression_rewards().note_birthplace()
 	return ready
 
 
-## Public ApplicationShell/Host selects SOURCE_ENTRY before tree attachment.
-func configure_source_entry(display_name: String, gender: StringName) -> bool:
+## Public ApplicationShell/Host selects SOURCE_ENTRY before tree attachment. `pace` is the
+## New Game panel's 现代 / 经典 (CharacterState.PACE_*; DECISIONS「经典模式总开关」).
+func configure_source_entry(display_name: String, gender: StringName, pace: StringName = CharacterState.PACE_MODERN) -> bool:
 	if is_inside_tree() or _initialized or _bootstrap_mode != BootstrapMode.NEW_GAME:
 		return false
 	if display_name.strip_edges().is_empty() or gender not in [CharacterState.GENDER_MALE, CharacterState.GENDER_FEMALE]:
 		return false
+	if pace not in [CharacterState.PACE_MODERN, CharacterState.PACE_CLASSIC]:
+		return false
 	_source_name = display_name
 	_source_gender = gender
+	_source_pace = pace
 	_bootstrap_mode = BootstrapMode.SOURCE_ENTRY
 	_world_content_revision = WorldContentRevision.CURRENT_PUBLIC
 	return true

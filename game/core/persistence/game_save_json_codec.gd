@@ -142,6 +142,8 @@ func _encode_character(value: Values.CharacterStateSnapshot) -> Dictionary[Strin
 		for key: String in value.seen_npcs:
 			seen[key] = _i(value.seen_npcs[key])
 		result["seen_npcs"] = seen
+	if not value.pace.is_empty():
+		result["pace"] = String(value.pace)
 	# The 任务 page's entries and the items carried (百科), in order: written only when there are some.
 	for field: String in ["journal", "known_items", "milestones"]:
 		var counts: Dictionary[String, int] = value.journal if field == "journal" else value.known_items if field == "known_items" else value.milestones
@@ -411,7 +413,7 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 		fields.append("marks")
 	if value is Dictionary and value.has("timed_applies"):
 		fields.append("timed_applies")
-	for optional: String in ["quest", "vendetta", "applies", "seen_npcs", "journal", "known_items", "milestones", "bounty", "counters", "ghost"]:
+	for optional: String in ["quest", "vendetta", "applies", "seen_npcs", "journal", "known_items", "milestones", "bounty", "counters", "ghost", "pace"]:
 		if value is Dictionary and value.has(optional):
 			fields.append(optional)
 	var object: Dictionary = _obj(value, path, fields)
@@ -495,6 +497,12 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 	var milestones: Dictionary[String, int] = {}
 	if object.has("milestones"):
 		milestones = _decode_counts(object["milestones"], path + ".milestones")
+	var pace: StringName = &""
+	if object.has("pace"):
+		pace = StringName(_string(object["pace"], path + ".pace"))
+		if pace not in [CharacterState.PACE_MODERN, CharacterState.PACE_CLASSIC]:
+			_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path + ".pace", "expected modern or classic")
+			return null
 	var counters: Dictionary[String, int] = {}
 	if object.has("counters"):
 		counters = _decode_values(object["counters"], path + ".counters")
@@ -511,7 +519,7 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 	if object.has("bounty"):
 		bounty = _decode_bounty(object["bounty"], path + ".bounty")
 	if _error: return null
-	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen).with_journal(journal, known_items).with_counters(counters).with_ghost(ghost).with_milestones(milestones).with_bounty(bounty)
+	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen).with_journal(journal, known_items).with_counters(counters).with_ghost(ghost).with_milestones(milestones).with_bounty(bounty).with_pace(pace)
 
 
 ## A non-empty {name: integer} object (create()'s drawn apply/<key>, a room's counters).
