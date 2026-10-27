@@ -1,0 +1,5 @@
+{
+	"items": [
+		{ "id": "native:snow/letter_to_chen", "legacy_sources": ["native: 前两小时 C (owner, 2026-10-26; DECISIONS「雪亭驿的信」) — 杜宽's letter for 陈剑秋"], "name": "雪亭驿的书信", "aliases": ["letter", "mail"], "long": "一封封好的书信，信封上写着：绮云镇 振远镖局 陈剑秋 亲启。\n", "unit": "封", "material": "paper", "weight": 20, "value": 0 }
+	]
+}
