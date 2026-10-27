@@ -124,6 +124,19 @@ func with_pacing(knob: StringName) -> NpcSpawnDefinition:
 	return self
 
 
+## Native (前两小时 B; DECISIONS「客栈的老鼠」): the mark set on the player once none of
+## this spawn's NPCs stands any more (all down or dead); "" for a spawn nobody asks about.
+var _cleared_mark: String = ""
+var cleared_mark: String:
+	get:
+		return _cleared_mark
+
+
+func with_cleared_mark(mark: String) -> NpcSpawnDefinition:
+	_cleared_mark = mark
+	return self
+
+
 func with_once(value: bool) -> NpcSpawnDefinition:
 	_once = value
 	return self

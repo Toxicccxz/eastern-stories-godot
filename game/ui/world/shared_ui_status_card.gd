@@ -64,6 +64,7 @@ func refresh_exploration() -> void:
 	# TRANSLATORS: between two conditions on the HUD (蛇毒).
 	_ui.player_vitality_text.text = tr("、").join(_conditions.shown_names(state))
 	_ui.player_vitality_text.visible = not _ui.player_vitality_text.text.is_empty()
+	refresh_objective(state)
 	_ui.waits.refresh()
 	# What is in reach, one group each (owner, 2026-10-11); the selected thing's own
 	# buttons and the context button stay off the card.
@@ -72,6 +73,14 @@ func refresh_exploration() -> void:
 	_ui.message_log.describe_new_zone()
 	_ui.message_log.refresh_toasts()
 	_presentation_layout.fit_bar()
+
+
+## The 目标 row (前两小时 A): a guide chain's next step while 目标提示 is on, else nothing.
+func refresh_objective(state: CharacterState) -> void:
+	var objective: String = JournalLog.objective(state, GameContent.catalog().journal_chains()) if ObjectiveHints.shown else ""
+	# TRANSLATORS: the status card's objective row (前两小时 A): {next} a guide chain's next step.
+	_ui.player_objective.text = "" if objective.is_empty() else tr("目标：{next}").format({"next": tr(objective)})
+	_ui.player_objective.visible = not objective.is_empty()
 
 
 func current_zone() -> ZoneDefinition:

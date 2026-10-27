@@ -69,7 +69,7 @@ static func refused_offers(goods_key: String) -> Array[Array]:
 	var valueless: ContentCatalog = builder.build()
 	return [
 		[null, goods_key, GameContent.catalog()],
-		[TestContent.waiter(), "dagger", GameContent.catalog()],
+		[TestContent.waiter(), "hammer", GameContent.catalog()],
 		[TestContent.waiter(), goods_key, null],
 		[TestContent.waiter(), goods_key, ContentCatalog.new()],
 		[valueless.vendor(&"t.vendor"), "free", valueless],

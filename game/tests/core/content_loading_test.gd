@@ -35,7 +35,7 @@ func _test_shipped_content_loads() -> void:
 		spawn_ids.append(spawn.spawn_id)
 	_eq(spawn_ids, WorldCounts.ids("spawn_order"), "spawn order is the authored order (manifest, then file; world_counts.json)")
 	var waiter: VendorDefinition = catalog.vendor(&"snow.vendor.waiter")
-	_eq(waiter.goods_keys(), ["wineskin", "dumpling"], "waiter goods in vendor_goods order")
+	_eq(waiter.goods_keys(), ["dagger", "wineskin", "dumpling", "chicken leg"], "waiter goods in vendor_goods order (waiter.c's four; chicken_leg.c ported with 前两小时 B)")
 	# Imported Snow facts (tools/migration/content_importer.py).
 	var guard: NpcDefinition = catalog.npc(&"snow.npc.guard")
 	_eq([guard.title, guard.short_name(), guard.attitude], ["门房", "门房 刘安禄", NpcDefinition.Attitude.HEROISM], "set(\"title\") and heroism")
@@ -45,7 +45,7 @@ func _test_shipped_content_loads() -> void:
 	_eq([traveller.gender_roll() != null, traveller.age_roll().base, traveller.combat_experience_roll().base, traveller.score_roll().base], [true, 15, 600, 5], "create()-time draws are rules, not values")
 	_eq([catalog.zone_forbids_fighting(&"snow.temple"), catalog.zone_forbids_fighting(&"snow.workplace"), catalog.zone_forbids_fighting(&"snow.square")], [true, true, false], "no_fight rooms: temple and workplace")
 	_eq(waiter.item_definition_id("dumpling"), &"es2:obj/example/dumpling", "goods key resolves to its item")
-	_eq(waiter.item_definition_id("dagger"), &"", "unsold goods key is empty")
+	_eq(waiter.item_definition_id("hammer"), &"", "unsold goods key is empty")
 	# feature/vendor.c charges the item's value; smith.c's own buy_object() asks 300 for a hammer worth 3.
 	var herbalist: VendorDefinition = catalog.vendor(&"snow.vendor.herbalist")
 	var medicine: ItemContentDefinition = catalog.item(&"es2:obj/drug/hurt_drug")

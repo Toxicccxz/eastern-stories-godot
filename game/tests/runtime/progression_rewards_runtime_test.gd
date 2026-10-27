@@ -77,7 +77,9 @@ func _test_region_once(tree: SceneTree, session: WorldSessionController) -> void
 	_check(session.handoff_to(&"cloud.outdoor", &"cloud.dragonhill.nroad", &"cloud.dragonhill.nroad", &"cloud.dragonhill.nroad.snow_entry").succeeded(), "and to 卧龙岗 again")
 	await _settle(tree)
 	session.record_journal()
-	_check(_rewards(session).size() == before + 1, "coming back gives nothing more")
+	# The first arrival also ends the 新手链 (前两小时 A: its last entry is region/cloud), one look later.
+	lines = _rewards(session).slice(before)
+	_check(lines.size() == 2 and lines[1].begins_with("【历练】你了结了「雪亭镇的头几天」"), "coming back gives nothing more than the chain's end: %s" % [lines])
 
 
 func _test_notable(session: WorldSessionController) -> void:

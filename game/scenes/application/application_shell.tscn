@@ -422,6 +422,12 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(160, 48)
 layout_mode = 2
 
+[node name="ObjectiveHintsCheck" type="CheckButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/KnockoutRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "目标提示"
+
 [node name="SettingsStatusLabel" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 54)

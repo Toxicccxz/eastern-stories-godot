@@ -16,6 +16,7 @@ msgstr ""
 msgid "东方故事"
 msgstr ""
 
+#. snow.newcomer region
 #. snow.wei_wuji region
 #. snow.weapon_storage region
 #. native.bounty region
@@ -346,6 +347,10 @@ msgstr ""
 
 #: scenes/application/application_shell.tscn
 msgid "击倒后"
+msgstr ""
+
+#: scenes/application/application_shell.tscn
+msgid "目标提示"
 msgstr ""
 
 #: scenes/application/application_shell.tscn
@@ -3879,6 +3884,16 @@ msgstr ""
 msgid "清水"
 msgstr ""
 
+#. native (前两小时 A): the 任务 page recorded {text} (an entry's own line).
+#: core/journal/journal_log.gd
+msgid "【见闻】{text}"
+msgstr ""
+
+#. native (前两小时 A): under a guide chain's 【见闻】 line, {next} what to do next.
+#: core/journal/journal_log.gd
+msgid "下一步：{next}"
+msgstr ""
+
 #. learn.c: {npc} is the teacher, {skill} the skill asked about.
 #: core/learning/learn_lines.gd
 msgid "你向{npc}请教有关「{skill}」的疑问。"
@@ -4262,6 +4277,11 @@ msgstr ""
 #. native 历练 reward (A2): the player did the 雪亭驿 bounty on {name} (an outlaw).
 #: core/progression/milestone_rewards.gd
 msgid "你完成了官府悬赏「{name}」"
+msgstr ""
+
+#. native 历练 reward (前两小时 A): 打坐 brought the player's max_force to {name} (a number).
+#: core/progression/milestone_rewards.gd
+msgid "你的内力练到了 {name}"
 msgstr ""
 
 #. native 历练 reward (A2): the player's first time in {name} (a region or a named place).
@@ -6719,6 +6739,10 @@ msgid "战斗设置已生效，但未能保存。"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
+msgid "目标提示已生效，但未能保存。"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
 msgid "窗口模式已在本次运行中生效，但这项设置未能保存。"
 msgstr ""
 
@@ -6792,6 +6816,10 @@ msgstr ""
 
 #: runtime/application/application_shell_controller.gd
 msgid "打倒你要杀的人时：先问你了结还是放过，或者直接下杀手"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "状态卡上的「目标」一行和见闻提示里的「下一步」；关掉就只剩任务页"
 msgstr ""
 
 #: runtime/combat_encounter/combat_encounter_coordinator.gd runtime/world/map/world_map_hostilities.gd
@@ -7456,6 +7484,14 @@ msgstr ""
 msgid "你必须先把%s弄醒。"
 msgstr ""
 
+#. the 拜师 card (前两小时 A): {master} the master, {family} the family, {generation} the generation in words (十四).
+#: runtime/world/services/teacher_service.gd
+msgid ""
+"{master}收下了你。\n"
+"\n"
+"你成了{family}第{generation}代弟子。往后向师父请教，就能学他会的武功；请教页写着每门能学到几级，武学页能打坐练内力。"
+msgstr ""
+
 #: runtime/world/services/vendor_service.gd ui/world/shop_front_panel.gd
 msgid "购买"
 msgstr ""
@@ -7594,6 +7630,11 @@ msgstr ""
 #. a continuous run under way: {what} 连续请教「基本剑法」 …, {count} the times done so far.
 #: ui/common/training_progress.gd
 msgid "{what}：已做 {count} 次"
+msgstr ""
+
+#. a continuous 打坐 towards a maximum (前两小时 A): the maximum now {maximum}, the one aimed at {target}, and what is left {left}.
+#: ui/common/training_progress.gd
+msgid "，上限 {maximum} → {target}，还差 {left}"
 msgstr ""
 
 #: ui/food/held_food_panel.gd
@@ -7961,6 +8002,11 @@ msgstr ""
 msgid "天赋"
 msgstr ""
 
+#. the character sheet's heading over the 历练 rewards the player has earned (A2, 前两小时 A).
+#: ui/world/character_sheet.gd
+msgid "历练"
+msgstr ""
+
 #. the character sheet (score): name, gender and age.
 #: ui/world/character_sheet.gd
 msgid "{name} · {gender} · {age}岁"
@@ -8016,6 +8062,52 @@ msgstr ""
 #. the character sheet (A2 落后补偿): {region} recommends {recommended} combat experience; below it the player's gains are {percent}% larger.
 #: ui/world/character_sheet.gd
 msgid "落后补偿：{region}推荐实战经验 {recommended}，你在这里所得的经验和潜能 +{percent}%，赶上后恢复。"
+msgstr ""
+
+#. the character sheet's 历练 block before any reward.
+#: ui/world/character_sheet.gd
+msgid "还没有历练。切磋取胜、了结一段经历、第一次到一个地方，都算。"
+msgstr ""
+
+#. the character sheet's 历练 block: {count} more rewards than the lines shown.
+#: ui/world/character_sheet.gd
+msgid "……还有 {count} 项"
+msgstr ""
+
+#. the character sheet's 历练 block: the region {name} the player was born in (New Game).
+#: ui/world/character_sheet.gd
+msgid "生在{name}"
+msgstr ""
+
+#. a 历练 line on the character sheet: the first spar won against {name}.
+#: ui/world/character_sheet.gd
+msgid "切磋胜过{name}"
+msgstr ""
+
+#. a 历练 line: the first time {name} (someone of note) was beaten.
+#: ui/world/character_sheet.gd
+msgid "击败{name}"
+msgstr ""
+
+#. a 历练 line: the story {name} (a 任务 chain's title) seen through.
+#: ui/world/character_sheet.gd
+msgid "了结「{name}」"
+msgstr ""
+
+#. a 历练 line: {name} (a book) read through.
+#: ui/world/character_sheet.gd
+msgid "读通{name}"
+msgstr ""
+
+#. a 历练 line: the first time in {name} (a region).
+#. a 历练 line: the first time at {name} (a named place).
+#: ui/world/character_sheet.gd
+msgid "到过{name}"
+msgstr ""
+
+#. a 历练 line: max_force reached {name} (a number) by 打坐.
+#: ui/world/character_sheet.gd
+msgid "内力练到 {name}"
 msgstr ""
 
 #: ui/world/codex_page.gd
@@ -8258,6 +8350,21 @@ msgstr ""
 #. a continuous 打坐 / 冥思 / 修行 under way.
 #: ui/world/martial_arts_page.gd
 msgid "连续打坐"
+msgstr ""
+
+#. the 武学 page beside 连续打坐: how far it runs (前两小时 A); 不限 stops at the first raised maximum.
+#: ui/world/martial_arts_page.gd
+msgid "连续打坐练到这个内力上限再停；不限则上限每涨一点就停"
+msgstr ""
+
+#. 连续打坐's target: 不限 (stop at the first raise) or 练到 {target} (a max_force number).
+#: ui/world/martial_arts_page.gd
+msgid "不限"
+msgstr ""
+
+#. 连续打坐's target: 不限 (stop at the first raise) or 练到 {target} (a max_force number).
+#: ui/world/martial_arts_page.gd
+msgid "练到 {target}"
 msgstr ""
 
 #: ui/world/martial_arts_page.gd
@@ -9173,6 +9280,11 @@ msgstr ""
 msgid "当前 {current} / 有效 {effective} / 最大 {maximum}"
 msgstr ""
 
+#. the status card's objective row (前两小时 A): {next} a guide chain's next step.
+#: ui/world/shared_ui_status_card.gd
+msgid "目标：{next}"
+msgstr ""
+
 #. the HUD while the player is busy (their last action not done, char.c continue_action()): {n} seconds left, rounded up.
 #: ui/world/shared_ui_waits.gd
 msgid "忙碌：约 {n} 秒后空下来"
@@ -9427,6 +9539,42 @@ msgstr ""
 #. es2:d/green/obj/jade unit
 #: data/common/items.json data/snow/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/canyon/items.json data/village/items.json data/chuenyu/items.json data/green/items.json
 msgid "个"
+msgstr ""
+
+#. es2:obj/example/chicken_leg name
+#: data/common/items.json
+msgid "烤鸡腿"
+msgstr ""
+
+#. es2:obj/example/chicken_leg long
+#: data/common/items.json
+msgid ""
+"一枝烤得香喷喷鸡腿，你还犹豫什麽？准备胃液吧。\n"
+msgstr ""
+
+#. es2:obj/example/chicken_leg unit
+#. es2:obj/example/chicken_leg food.leaves.unit
+#. es2:d/oldpine/obj/bamboo_pipe unit
+#. es2:d/latemoon/obj/bamboo unit
+#. es2:d/latemoon/obj/needle combined.base_unit
+#. es2:d/latemoon/room/npc/obj/needle combined.base_unit
+#. es2:d/chuenyu/obj/pigmeat food.leaves.unit
+#. es2:u/cloud/obj/meat/hind food.leaves.unit
+#. es2:u/cloud/obj/meat/tail unit
+#. es2:u/cloud/obj/meat/dog_m food.leaves.unit
+#: data/common/items.json data/oldpine/items.json data/latemoon/items.json data/chuenyu/items.json data/cloud/items.json
+msgid "根"
+msgstr ""
+
+#. es2:obj/example/chicken_leg food.leaves.name
+#: data/common/items.json
+msgid "啃得精光的鸡腿骨头"
+msgstr ""
+
+#. es2:obj/example/chicken_leg food.leaves.long
+#: data/common/items.json
+msgid ""
+"一根啃得精光的鸡腿骨头。\n"
 msgstr ""
 
 #. es2:obj/example/wineskin name
@@ -13022,6 +13170,76 @@ msgstr ""
 msgid "邢千慧"
 msgstr ""
 
+#. snow.newcomer title
+#: data/common/journal.json
+msgid "雪亭镇的头几天"
+msgstr ""
+
+#. snow.newcomer/woke text
+#: data/common/journal.json
+msgid "你在饮风客栈醒来，店小二笑着招呼了你。"
+msgstr ""
+
+#. snow.newcomer/errand text
+#: data/common/journal.json
+msgid "店小二说楼上客房闹老鼠，请你上去收拾。"
+msgstr ""
+
+#. snow.newcomer/rats text
+#: data/common/journal.json
+msgid "楼上的老鼠都收拾干净了。"
+msgstr ""
+
+#. snow.newcomer/thanked text
+#: data/common/journal.json
+msgid "店小二谢了你一根烤鸡腿。"
+msgstr ""
+
+#. snow.newcomer/apprenticed text
+#: data/common/journal.json
+msgid "你拜入了封山剑派。"
+msgstr ""
+
+#. snow.newcomer/sword text
+#: data/common/journal.json
+msgid "你跟柳淳风学了基本剑法。"
+msgstr ""
+
+#. snow.newcomer/first_spar text
+#: data/common/journal.json
+msgid "你第一次在切磋中胜过了武馆弟子。"
+msgstr ""
+
+#. snow.newcomer/force_10 text
+#: data/common/journal.json
+msgid "你的内力练到了 10。"
+msgstr ""
+
+#. snow.newcomer/force_25 text
+#: data/common/journal.json
+msgid "你的内力练到了 25。"
+msgstr ""
+
+#. snow.newcomer/force_50 text
+#: data/common/journal.json
+msgid "你的内力练到了 50，够学封山剑法了。"
+msgstr ""
+
+#. snow.newcomer/fonxan_sword text
+#: data/common/journal.json
+msgid "你学会了封山剑法。"
+msgstr ""
+
+#. snow.newcomer/bounty text
+#: data/common/journal.json
+msgid "你揭了雪亭驿门外的一张悬赏。"
+msgstr ""
+
+#. snow.newcomer/cloud text
+#: data/common/journal.json
+msgid "你第一次来到绮云镇。雪亭镇的头几天到此为止，往后的路自己走。"
+msgstr ""
+
 #. snow.wei_wuji/asked_fee text
 #: data/common/journal.json
 msgid "你向雪亭镇书院的魏无极打听学费。"
@@ -14583,18 +14801,6 @@ msgid ""
 "一根约两寸多长的竹管，上面戳了三个小孔，也许可以用来吹奏？\n"
 msgstr ""
 
-#. es2:d/oldpine/obj/bamboo_pipe unit
-#. es2:d/latemoon/obj/bamboo unit
-#. es2:d/latemoon/obj/needle combined.base_unit
-#. es2:d/latemoon/room/npc/obj/needle combined.base_unit
-#. es2:d/chuenyu/obj/pigmeat food.leaves.unit
-#. es2:u/cloud/obj/meat/hind food.leaves.unit
-#. es2:u/cloud/obj/meat/tail unit
-#. es2:u/cloud/obj/meat/dog_m food.leaves.unit
-#: data/oldpine/items.json data/latemoon/items.json data/chuenyu/items.json data/cloud/items.json
-msgid "根"
-msgstr ""
-
 #. es2:d/oldpine/npc/obj/parrybook name
 #. es2:d/village/npc/obj/parrybook name
 #: data/oldpine/items.json data/village/items.json
@@ -15228,6 +15434,11 @@ msgstr ""
 msgid "只要五两银子。"
 msgstr ""
 
+#. snow.npc.teacher inquiry.学费
+#: data/snow/npcs.json
+msgid "手头紧？街东头的谷场正缺短工，干一回给一两。"
+msgstr ""
+
 #. snow.npc.teacher inquiry.读书识字
 #: data/snow/npcs.json
 msgid "对，读书识字。"
@@ -15316,6 +15527,7 @@ msgid "是啊... 这里就是雪亭驿，你要寄信吗？"
 msgstr ""
 
 #. snow.npc.rat name
+#. snow.npc.waiter inquiry topic
 #: data/snow/npcs.json
 msgid "老鼠"
 msgstr ""
@@ -15343,6 +15555,31 @@ msgstr ""
 #. city.npc.waiter rank_info.respect
 #: data/snow/npcs.json data/city/npcs.json
 msgid "小二哥"
+msgstr ""
+
+#. snow.npc.waiter inquiry.老鼠.rules.say
+#. snow.npc.waiter inquiry.老鼠.rules.lines.say
+#. snow.npc.waiter inquiry.楼上.rules.say
+#. snow.npc.waiter inquiry.楼上.rules.lines.say
+#: data/snow/npcs.json
+msgid "鸡腿骨头别扔，东街那两条野狗见了骨头就跟人走，怪得很。"
+msgstr ""
+
+#. snow.npc.waiter inquiry.老鼠.rules.lines.say
+#. snow.npc.waiter inquiry.楼上.rules.lines.say
+#: data/snow/npcs.json
+msgid "哟，可算清净了！来，刚烤好的鸡腿，小店的一点心意。"
+msgstr ""
+
+#. snow.npc.waiter inquiry.老鼠.rules.say
+#. snow.npc.waiter inquiry.楼上.rules.say
+#: data/snow/npcs.json
+msgid "唉，别提了。楼上几间客房闹老鼠，客人嫌吵，掌柜的又舍不得请人。这位$RESPECT要是肯上去收拾收拾，小店请您吃顿热的。"
+msgstr ""
+
+#. snow.npc.waiter inquiry topic
+#: data/snow/npcs.json
+msgid "楼上"
 msgstr ""
 
 #. snow.npc.waiter greeting.one_of.emote

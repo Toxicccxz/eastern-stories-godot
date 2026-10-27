@@ -77,7 +77,8 @@
 				"snow.inn_2f.rat.6"
 			],
 			"legacy_room": "d/snow/inn_2f.c",
-			"legacy_quantity": 6
+			"legacy_quantity": 6,
+			"cleared_mark": "客栈老鼠"
 		},
 		{
 			"id": "snow.inn.waiter",

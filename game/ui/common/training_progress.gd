@@ -154,6 +154,11 @@ func _show() -> void:
 		return
 	if training.skill_id.is_empty():
 		var power: CharacterInternalResourceState = _internal_power(state, training.kind)
+		if training.target_maximum > 0:
+			# TRANSLATORS: a continuous 打坐 towards a maximum (前两小时 A): the maximum now {maximum}, the one aimed at {target}, and what is left {left}.
+			status.text += tr("，上限 {maximum} → {target}，还差 {left}").format({
+				"maximum": power.maximum, "target": training.target_maximum, "left": maxi(0, training.target_maximum - power.maximum),
+			})
 		bar.max_value = maxi(1, power.maximum * 2)
 		bar.value = power.current
 	else:

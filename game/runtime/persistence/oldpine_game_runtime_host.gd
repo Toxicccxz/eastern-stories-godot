@@ -275,6 +275,11 @@ func _execute_load() -> void:
 	load_completed.emit(_last_load)
 
 
+## New Game opens on the theme story's card over the world (DECISIONS「开场卡片」); a suite that
+## drives the world from its first moment through the shell turns it off (PublicNewGameTestFixture).
+var opening_card: bool = true
+
+
 func _create_new_game(display_name: String, gender: StringName) -> OldPineRuntimeSaveLoadResult:
 	var session: WorldSessionController = _instantiate_new_game_session()
 	if session == null:
@@ -282,6 +287,8 @@ func _create_new_game(display_name: String, gender: StringName) -> OldPineRuntim
 	if not session.configure_source_entry(display_name, gender):
 		_discard_session(session)
 		return OldPineRuntimeSaveLoadResult.failure(OldPineRuntimeSaveLoadResult.Outcome.NEW_GAME_FAILED)
+	if opening_card:
+		session.request_opening_card()
 	return _attach_new_game_session(session)
 
 

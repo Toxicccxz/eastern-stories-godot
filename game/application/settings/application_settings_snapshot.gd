@@ -6,7 +6,8 @@ extends RefCounted
 ## Version 4 adds 无边框全屏 and the 界面缩放; an older "fullscreen" reads as 无边框全屏
 ## (what it showed), and the scale as 100%.
 ## Version 5 adds 击倒后 (DECISIONS「了结 / 放过」); an older file reads as 询问.
-const SCHEMA_VERSION: int = 5
+## Version 6 adds 目标提示 (DECISIONS「新手链与当前目标」); an older file reads as on.
+const SCHEMA_VERSION: int = 6
 
 var _version: int
 var _window_mode: int
@@ -15,6 +16,7 @@ var _battle_speed: int
 var _hit_flash: bool
 var _ui_scale: int
 var _after_knockout: int
+var _objective_hints: bool
 
 
 func _init(
@@ -25,6 +27,7 @@ func _init(
 	p_hit_flash: bool = true,
 	p_ui_scale: int = ApplicationUiScale.DEFAULT,
 	p_after_knockout: int = BattlePace.AfterKnockout.ASK,
+	p_objective_hints: bool = true,
 ) -> void:
 	_version = p_version
 	_window_mode = p_window_mode
@@ -33,6 +36,7 @@ func _init(
 	_hit_flash = p_hit_flash
 	_ui_scale = p_ui_scale
 	_after_knockout = p_after_knockout
+	_objective_hints = p_objective_hints
 
 
 func version() -> int:
@@ -67,20 +71,29 @@ func after_knockout() -> int:
 	return _after_knockout
 
 
+## 目标提示 (ObjectiveHints): the status card's 目标 row and the toasts' 下一步.
+func objective_hints() -> bool:
+	return _objective_hints
+
+
 func with_window_mode(mode: int) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout)
+	return ApplicationSettingsSnapshot.new(_version, mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints)
 
 
 func with_language(language: String) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, language, _battle_speed, _hit_flash, _ui_scale, _after_knockout)
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, _objective_hints)
 
 
 func with_battle(speed: int, flash: bool, after_knockout: int) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, speed, flash, _ui_scale, after_knockout)
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, speed, flash, _ui_scale, after_knockout, _objective_hints)
 
 
 func with_ui_scale(percent: int) -> ApplicationSettingsSnapshot:
-	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, percent, _after_knockout)
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, percent, _after_knockout, _objective_hints)
+
+
+func with_objective_hints(shown: bool) -> ApplicationSettingsSnapshot:
+	return ApplicationSettingsSnapshot.new(_version, _window_mode, _language, _battle_speed, _hit_flash, _ui_scale, _after_knockout, shown)
 
 
 func is_valid() -> bool:

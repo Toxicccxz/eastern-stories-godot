@@ -185,6 +185,10 @@ func _test_stops() -> void:
 	_check(TrainingRun.after_practice(practised) == TrainingRun.Stop.REFUSED, "too little force stops")
 	var sat := CultivationResult.new(CultivationResult.Action.EXERCISE, true, CultivationResult.FailureReason.NONE, CultivationResult.Completion.MAXIMUM_INCREASED)
 	_check(TrainingRun.after_cultivation(sat) == TrainingRun.Stop.MAXIMUM_UP, "a maximum up stops")
+	# 练到 N 再停 (前两小时 A): short of the target the run goes on; at it, it stops.
+	_check(TrainingRun.after_cultivation(sat, 50, 12) == TrainingRun.Stop.NONE, "a maximum up short of the target goes on")
+	_check(TrainingRun.after_cultivation(sat, 50, 50) == TrainingRun.Stop.MAXIMUM_UP, "the target reached stops")
+	_check(TrainingRun.after_cultivation(sat, 0, 12) == TrainingRun.Stop.MAXIMUM_UP, "no target: the first raise stops, as before")
 	sat = CultivationResult.new(CultivationResult.Action.EXERCISE, true, CultivationResult.FailureReason.NONE, CultivationResult.Completion.GAINED)
 	_check(TrainingRun.after_cultivation(sat) == TrainingRun.Stop.NONE, "a gain goes on")
 	sat = CultivationResult.new(CultivationResult.Action.EXERCISE, false, CultivationResult.FailureReason.INSUFFICIENT_VITALITY)

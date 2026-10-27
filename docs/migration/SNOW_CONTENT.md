@@ -46,10 +46,10 @@ temple. All thirteen have the voxel view (`game/data/snow/voxel/`).
 | 刘安禄 | inquiry 刘老三, 血手刘三 (`ask_me`) | not listed until the reveal is ported |
 | 李火狮 | inquiry here, name, 柳家拳法 | here/name behind 这里/名字 |
 | 疯狗 | chat 15: random_move | sroad3-5 |
-| 魏无极 | inquiry 学费, 读书识字, 刘安禄 | |
+| 魏无极 | inquiry 学费, 读书识字, 刘安禄 | 学费 ends with one native line pointing at the 谷场 (DECISIONS「客栈的老鼠」) |
 | 樵夫 | chat 15: three lines, random_move | the herbshop and mstreet3 |
 | 杜宽 | inquiry 驿站, 寄信, 收信 | 驿站 (mail omitted) |
-| 店小二 | init()/greeting(), one of three | greets one second after the player comes in (4E) |
+| 店小二 | init()/greeting(), one of three; vendor dagger, wineskin, dumpling, chicken leg | greets one second after the player comes in (4E); the four goods (chicken_leg.c ported with the 老鼠 errand); native topics 老鼠 / 楼上: the errand, the thanks with a 烤鸡腿 once the six rats are down (spawn `cleared_mark` 客栈老鼠), then the bone hint (DECISIONS「客栈的老鼠」) |
 | 杨掌柜 | inquiry 治伤, 疗伤, 开药 (heal_me) | by the asker's eff_kee (4E) |
 | 王铁匠 | inquiry name, here, 锄头, 铲子, 铁锤 | (4E) |
 | 安惜迩 | chat 15: exert powerfade | 收敛杀气 only with bellicosity left from a powerup |

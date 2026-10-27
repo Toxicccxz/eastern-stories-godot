@@ -48,6 +48,7 @@ signal interaction_changed
 @onready var battle_speed_option: OptionButton = %BattleSpeedOption
 @onready var hit_flash_check: CheckButton = %HitFlashCheck
 @onready var knockout_option: OptionButton = %KnockoutOption
+@onready var objective_hints_check: CheckButton = %ObjectiveHintsCheck
 @onready var settings_status_label: Label = %SettingsStatusLabel
 @onready var settings_apply_button: Button = %SettingsApplyButton
 @onready var settings_cancel_button: Button = %SettingsCancelButton
@@ -633,6 +634,11 @@ func apply_settings() -> bool:
 		if battle.outcome() == ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE:
 			settings_status_label.text = "战斗设置已生效，但未能保存。"
 			return false
+	if objective_hints_check.button_pressed != committed.objective_hints():
+		var hints: ApplicationSettingsServiceResult = _settings_service.apply_and_persist_objective_hints(objective_hints_check.button_pressed)
+		if hints.outcome() == ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE:
+			settings_status_label.text = "目标提示已生效，但未能保存。"
+			return false
 	if not _settings_service.can_edit_window_mode():
 		# The platform keeps the window; every other setting has applied above.
 		settings_status_label.text = ""
@@ -1106,6 +1112,7 @@ func _render_state(defer_focus: bool = true) -> void:
 	battle_speed_option.disabled = not settings_interactive
 	hit_flash_check.disabled = not settings_interactive
 	knockout_option.disabled = not settings_interactive
+	objective_hints_check.disabled = not settings_interactive
 	settings_apply_button.visible = window_mode_row.visible or ui_scale_row.visible or language_row.visible or battle_speed_row.visible
 	settings_apply_button.disabled = not settings_interactive
 	settings_cancel_button.disabled = not settings_interactive
@@ -1239,6 +1246,8 @@ func _configure_battle_options() -> void:
 	knockout_option.add_item("询问", BattlePace.AfterKnockout.ASK)
 	knockout_option.add_item("直接了结", BattlePace.AfterKnockout.FINISH)
 	knockout_option.tooltip_text = "打倒你要杀的人时：先问你了结还是放过，或者直接下杀手"
+	# 目标提示 (DECISIONS「新手链与当前目标」): off hides the status card's 目标 row and the toasts' 下一步.
+	objective_hints_check.tooltip_text = "状态卡上的「目标」一行和见闻提示里的「下一步」；关掉就只剩任务页"
 	_select_committed_battle()
 
 
@@ -1253,6 +1262,7 @@ func _select_committed_battle() -> void:
 	var knockout: int = knockout_option.get_item_index(committed.after_knockout())
 	if knockout >= 0:
 		knockout_option.select(knockout)
+	objective_hints_check.set_pressed_no_signal(committed.objective_hints())
 
 
 func _selected_language() -> String:
@@ -1297,6 +1307,7 @@ func _all_shell_focus_controls() -> Array[Control]:
 		battle_speed_option,
 		hit_flash_check,
 		knockout_option,
+		objective_hints_check,
 		settings_apply_button,
 		settings_cancel_button,
 		backup_recovery_button,
@@ -1336,7 +1347,7 @@ func _configure_active_focus_cycle(mode: int) -> void:
 			controls.append(ui_scale_option)
 			if language_row.visible:
 				controls.append(language_option)
-			controls.append_array([battle_speed_option, hit_flash_check, knockout_option])
+			controls.append_array([battle_speed_option, hit_flash_check, knockout_option, objective_hints_check])
 			if settings_apply_button.visible:
 				controls.append(settings_apply_button)
 			controls.append(settings_cancel_button)

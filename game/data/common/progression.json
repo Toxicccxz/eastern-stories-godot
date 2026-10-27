@@ -14,8 +14,10 @@
 			{ "min_exp": 100000, "unit": 5000, "potential_cap": 15000 },
 			{ "min_exp": 300000, "unit": 10000, "potential_cap": 30000 }
 		],
-		"rewards": { "spar": 100, "defeat": 300, "chain": 500, "book": 200, "region": 150, "place": 50, "bounty": 120 },
+		"rewards": { "spar": 100, "defeat": 300, "chain": 500, "book": 200, "region": 150, "place": 50, "bounty": 120, "force": 25 },
+		"force_milestones": [10, 25, 50],
 		"chain_percent": {
+			"snow.newcomer": 100,
 			"snow.wei_wuji": 200,
 			"snow.weapon_storage": 200,
 			"cloud.chess": 200,

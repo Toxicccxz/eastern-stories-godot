@@ -50,6 +50,29 @@
 			"food": { "remaining": 3, "supply": 60 }
 		},
 		{
+			"id": "es2:obj/example/chicken_leg",
+			"legacy_sources": ["obj/example/chicken_leg.c"],
+			"name": "烤鸡腿",
+			"aliases": ["chicken leg", "chicken", "leg"],
+			"long": "一枝烤得香喷喷鸡腿，你还犹豫什麽？准备胃液吧。\n",
+			"unit": "根",
+			"material": "bone",
+			"weight": 350,
+			"value": 30,
+			"weapon": { "skill": "hammer", "damage": 1, "weight_dodge": "equip" },
+			"food": {
+				"remaining": 4,
+				"supply": 40,
+				"leaves": {
+					"name": "啃得精光的鸡腿骨头",
+					"aliases": ["bone"],
+					"weight": 150,
+					"long": "一根啃得精光的鸡腿骨头。\n",
+					"unit": "根"
+				}
+			}
+		},
+		{
 			"id": "es2:obj/example/wineskin",
 			"legacy_sources": ["obj/example/wineskin.c"],
 			"name": "牛皮酒袋",

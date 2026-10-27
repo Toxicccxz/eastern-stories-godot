@@ -23,6 +23,8 @@ var player_vitality_value: Label
 var player_spirit: ProgressBar
 var player_spirit_text: Label
 var player_vitality_text: Label
+## The 目标 row (前两小时 A): a guide chain's next step.
+var player_objective: Label
 var selected_target_label: Label
 var target_vitality: ProgressBar
 var target_vitality_text: Label
@@ -238,6 +240,13 @@ func npc_says(speaker: NpcRuntimeState, lines: Array[ColoredLine], spoken: Array
 ## The session this HUD shows (null in a bare fixture).
 func session() -> WorldSessionController:
 	return _session
+
+
+## A card over the world with 继续 (PlayerLifeOverlay; 前两小时 A/B: 拜师, the opening):
+## world time held while it shows. Nothing without the overlay (a bare fixture).
+func show_card(text: String) -> void:
+	if is_instance_valid(life_overlay):
+		life_overlay.show_card(text)
 
 
 ## Where the status card is on the screen (what overlays keep clear of).

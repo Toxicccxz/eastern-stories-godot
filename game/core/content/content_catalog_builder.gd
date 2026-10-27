@@ -36,6 +36,7 @@ var _codex_topics: Array[CodexTopicDefinition] = []
 var _pacing: PacingDefinition
 var _progression: ProgressionRules
 var _bounties: BountyRules
+var _opening: OpeningDefinition
 var _origins: Dictionary[StringName, String] = {}
 
 
@@ -149,6 +150,11 @@ func add_document(document: Variant, origin: String) -> void:
 		if _bounties != null:
 			bounties.fail("", "bounty_board is already defined")
 		_bounties = BountyRules.from_record(bounties)
+	var opening: ContentRecordReader = reader.child("opening")
+	if opening != null:
+		if _opening != null:
+			opening.fail("", "opening is already defined")
+		_opening = OpeningDefinition.from_record(opening)
 	reader.finish()
 
 
@@ -200,6 +206,7 @@ func build() -> ContentCatalog:
 	catalog.set_journal(_journal_chains, _codex_topics)
 	catalog.set_progression(_progression)
 	catalog.set_bounties(_bounties)
+	catalog.set_opening(_opening)
 	# Backstop for role combinations the item rules cannot represent; saves
 	# validate against these projections.
 	if not catalog.native_item_projections().is_valid:
@@ -326,6 +333,15 @@ func _check_journal() -> void:
 					var npc: NpcDefinition = _npcs.get(StringName(entry.key))
 					if npc == null or not npc.talk().inquiry_topics().has(entry.topic):
 						_errors.append("%s.when.heard: '%s' has no topic '%s'" % [origin, entry.key, entry.topic])
+				JournalEntryDefinition.When.MILESTONE:
+					if not MilestoneRewards.KIND_NAMES.values().has(entry.key.get_slice("/", 0)) or entry.key.get_slice_count("/") < 2:
+						_errors.append("%s.when.milestone: expected '<kind>/<id>', got '%s'" % [origin, entry.key])
+				JournalEntryDefinition.When.SKILL_AT_LEAST:
+					if not _skills.has(StringName(entry.key)):
+						_errors.append("%s.when.skill_at_least: no skill '%s'" % [origin, entry.key])
+				JournalEntryDefinition.When.FAMILY:
+					if not _families.has(StringName(entry.key)):
+						_errors.append("%s.when.family: no family '%s'" % [origin, entry.key])
 			if not entry.quote_npc.is_empty():
 				var quoted: NpcDefinition = _npcs.get(entry.quote_npc)
 				if quoted == null or not quoted.talk().has_answer(entry.quote_topic) or quoted.talk().answer(entry.quote_topic).is_empty():

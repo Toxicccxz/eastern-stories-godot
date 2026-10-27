@@ -2018,9 +2018,40 @@ func record_journal() -> void:
 				held[base] = true
 			open.append(ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, item_id))
 	JournalLog.note_items(_player.state, held)
-	JournalLog.record(_player.state, _player.temp_marks, held, GameContent.catalog().journal_chains())
+	WorldSpawnClearings.note(self)
+	tell_journal(JournalLog.record_entries(_player.state, _player.temp_marks, held, GameContent.catalog().journal_chains()))
 	progression_rewards().look()
 	bounties().look()
+
+
+## Entries just recorded (JournalLog; 前两小时 A, DECISIONS「新手链与当前目标」) are told once
+## in 消息 and as a toast, a guide chain's with what to do next while 目标提示 is on.
+func tell_journal(fresh: Array[JournalLog.Fresh]) -> void:
+	var hud: SharedGameplayUI = shared_ui()
+	if hud == null or fresh.is_empty():
+		return
+	var lines: Array[ColoredLine] = []
+	for entry: JournalLog.Fresh in fresh:
+		lines.append_array(JournalLog.told_lines(entry, ObjectiveHints.shown))
+	hud.append_colored_lines(lines)
+
+
+## Native (前两小时 B; DECISIONS「开场卡片」): New Game begins with the theme story's card
+## (OpeningDefinition) over the world, world time held, until 继续. Asked for by the host
+## once (a save is never made under it, so it is not saved); the overlay takes it.
+var _opening_card_due: bool = false
+
+
+func request_opening_card() -> void:
+	_opening_card_due = _bootstrap_mode == BootstrapMode.SOURCE_ENTRY and GameContent.catalog().opening() != null
+
+
+func opening_card_due() -> bool:
+	return _opening_card_due
+
+
+func take_opening_card() -> void:
+	_opening_card_due = false
 
 
 ## 阴阳眼 began or ended (in a fight, on the 武学 page, on world time, from a save): the

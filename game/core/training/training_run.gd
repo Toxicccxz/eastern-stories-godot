@@ -86,6 +86,9 @@ var refused_lines: Array[ColoredLine] = []
 var cost: int = 0
 var have: int = 0
 var required: int = 0
+## Native (前两小时 A; DECISIONS「新手链与当前目标」): a cultivation run goes on past a raised
+## maximum until the maximum reaches this (练到 N 再停); 0 stops at the first raise, as before.
+var target_maximum: int = 0
 
 
 func _init(p_kind: Kind, p_skill_id: StringName, state: CharacterState) -> void:
@@ -166,8 +169,11 @@ func look_at_cultivation(preview: CultivationResult) -> Stop:
 	return Stop.NONE
 
 
-## A cultivation taken: Stop.NONE to go on.
-static func after_cultivation(result: CultivationResult) -> Stop:
+## A cultivation taken: Stop.NONE to go on. A raised maximum stops the run, unless it
+## is still short of `target_maximum` (`maximum_after`: the maximum now).
+static func after_cultivation(result: CultivationResult, target_maximum: int = 0, maximum_after: int = 0) -> Stop:
 	if result.failure_reason != CultivationResult.FailureReason.NONE:
 		return Stop.REFUSED
-	return Stop.MAXIMUM_UP if result.completion == CultivationResult.Completion.MAXIMUM_INCREASED else Stop.NONE
+	if result.completion != CultivationResult.Completion.MAXIMUM_INCREASED:
+		return Stop.NONE
+	return Stop.NONE if target_maximum > 0 and maximum_after < target_maximum else Stop.MAXIMUM_UP

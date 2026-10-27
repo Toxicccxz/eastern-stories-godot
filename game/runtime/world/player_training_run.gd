@@ -197,13 +197,24 @@ func _cultivation_step() -> void:
 	if result == null:
 		training.end(TrainingRun.Stop.INTERRUPTED)
 		return
-	var after: TrainingRun.Stop = TrainingRun.after_cultivation(result)
+	var after: TrainingRun.Stop = TrainingRun.after_cultivation(result, training.target_maximum, cultivated_maximum())
 	if after == TrainingRun.Stop.REFUSED:
 		training.refused(arts.last_lines)
 		return
 	# The maximum's line (你的内力增强了！), after the sitting down one.
 	var kept: Array[ColoredLine] = []
-	if after == TrainingRun.Stop.MAXIMUM_UP:
+	if result.completion == CultivationResult.Completion.MAXIMUM_INCREASED:
 		kept = arts.last_lines.slice(1)
 	training.took_step(_state(), kept)
 	training.end(after)
+
+
+## The maximum a cultivation run raises (内力, 法力 or 灵力), now.
+func cultivated_maximum() -> int:
+	var state: CharacterState = _state()
+	match training.kind:
+		TrainingRun.Kind.MEDITATE:
+			return state.recovery.mana.maximum
+		TrainingRun.Kind.RESPIRATE:
+			return state.recovery.atman.maximum
+	return state.recovery.inner_force.maximum
