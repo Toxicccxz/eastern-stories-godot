@@ -47,10 +47,8 @@ static func counted(content: ItemContentDefinition, amount: int) -> String:
 ## "一个牛皮酒袋", "一些钱", in the shown language: the 一%s%s of give.c, drop.c,
 ## put.c and get.c.
 static func one_unit(content: ItemContentDefinition) -> String:
-	# Money counts in its own unit (一两银子); the rest in their measure word.
-	var unit: String = content.base_unit if not content.money_id.is_empty() and not content.base_unit.is_empty() else content.unit
 	# TRANSLATORS: one of an item, e.g. 一个牛皮酒袋: {unit} is its measure word, {item} its name.
 	return TranslationServer.translate("一{unit}{item}").format({
-		"unit": TranslationServer.translate(unit),
+		"unit": TranslationServer.translate(content.unit),
 		"item": TranslationServer.translate(content.display_name),
 	})

@@ -34,7 +34,6 @@ func _test_data() -> void:
 			chain = candidate
 	_check(chain != null and chain.guide and chain.entries.size() == 3 and chain.entries[2].final, "the chain: three steps, a guide")
 	_check(catalog.progression().reward_exp(ProgressionRules.Kind.CHAIN, 0, &"snow.letter") == 15, "its 历练 is one unit (100%)")
-	_check(HeldItemFacts.one_unit(catalog.item(SILVER)) == "一两银子", "give.c's line counts money in its own unit: " + HeldItemFacts.one_unit(catalog.item(SILVER)))
 
 
 func _test_errand(tree: SceneTree, session: WorldSessionController) -> void:
@@ -76,7 +75,7 @@ func _test_errand(tree: SceneTree, session: WorldSessionController) -> void:
 	var rewards_before: int = _rewards(session).size()
 	map.select_npc(post.character_id)
 	said = map.ask_selected("送信")
-	_check(said.size() == 3 and said[1].contains("说好的脚钱") and said[2] == "杜宽给你一两银子。", "paid: %s" % [said])
+	_check(said.size() == 3 and said[1].contains("说好的脚钱") and said[2] == "杜宽给你一些银子。", "paid: %s" % [said])
 	_check(_carried(session, SILVER) == silver_before + 1 and state.marks.get("脚钱", 0) == 1, "one 两 of silver, marked")
 	session.record_journal()
 	session.record_journal()
