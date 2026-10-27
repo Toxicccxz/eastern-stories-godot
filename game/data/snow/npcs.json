@@ -143,7 +143,43 @@
 				"刘安禄说道：想我堂堂....呃....连我这个淳风武馆的小小的门房都可以收拾你！\n",
 				"刘安禄忽然挥出一刀，招数精奇，但是刀到中途忽然像是想起什么，急忙收招。\n",
 				"刘安禄说道：你快走吧，就算我输了你啦....\n"
-			]
+			],
+			"inquiry": {
+				"刘老三": {
+					"confirm": "刘安禄的来历不简单。当面问出这个名字，是把事情挑明——他未必肯善罢甘休。要问吗？",
+					"rules": [
+						{ "npc_flag": "mood/revealed", "attacks": true, "say": "老子就是血手刘三，血手刘三就是你老子！纳命来！" },
+						{ "asker_exp_at_least": 20000, "chance": { "below": 5, "of": 10 }, "say": "我...不知道！" },
+						{ "asker_exp_at_least": 20000, "mood": "revealed", "attacks": true, "mark_asker": "血手刘三", "lines": [{ "line": "刘安禄眼中突然放出异样的光芒，颤声说道：看来...你都知道了？" }, { "line": "刘安禄大喝一声，叫道：既然如此，老子今天豁出去了，纳命来！" }, { "line": "刘安禄使开单刀，招数精奇，沈猛狠辣，和刚才简直判若两人！" }] }
+					]
+				},
+				"血手刘三": {
+					"confirm": "刘安禄的来历不简单。当面问出这个名字，是把事情挑明——他未必肯善罢甘休。要问吗？",
+					"rules": [
+						{ "npc_flag": "mood/revealed", "attacks": true, "say": "老子就是血手刘三，血手刘三就是你老子！纳命来！" },
+						{ "asker_exp_at_least": 20000, "chance": { "below": 5, "of": 10 }, "say": "我...不知道！" },
+						{ "asker_exp_at_least": 20000, "mood": "revealed", "attacks": true, "mark_asker": "血手刘三", "lines": [{ "line": "刘安禄眼中突然放出异样的光芒，颤声说道：看来...你都知道了？" }, { "line": "刘安禄大喝一声，叫道：既然如此，老子今天豁出去了，纳命来！" }, { "line": "刘安禄使开单刀，招数精奇，沈猛狠辣，和刚才简直判若两人！" }] }
+					]
+				}
+			},
+			"moods": {
+				"revealed": {
+					"title": "野羊山寨二寨主",
+					"nickname": "血手刘三",
+					"applies": { "attack": 70, "dodge": 50, "parry": 60, "damage": 20, "combat_exp": 30000 },
+					"flags": ["aggressive", "hunts_player"],
+					"chat_chance": 15,
+					"chat_msg": [
+						{ "action": "random_move" }
+					],
+					"combat_chat_chance": 15,
+					"combat_chat_msg": [
+						{ "action": "random_move" }
+					],
+					"carry": ["es2:d/snow/obj/blade_book"],
+					"lasting": true
+				}
+			}
 		},
 		{
 			"id": "snow.npc.trainee",

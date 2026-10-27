@@ -103,6 +103,21 @@ func ask_answer_text() -> String:
 
 func _ask_topic(topic: String) -> void:
 	var map := _session.active_map() as WorldMapController
+	if map == null:
+		return
+	# An ask that turns the NPC on the player (guard.c's 刘老三) is confirmed first
+	# (DECISIONS「Ask before an important or deadly choice」).
+	var npc: NpcRuntimeState = map.selected_npc()
+	var confirm: String = "" if npc == null else npc.definition().talk().ask_confirm(topic)
+	if not confirm.is_empty():
+		# TRANSLATORS: the confirm's choice for asking an NPC a topic it may turn on the player for.
+		_ui.questions.ask_first(tr(confirm), tr("问"), _ask_now.bind(topic), map.can_ask_selected, Callable(), tr(topic))
+		return
+	_ask_now(topic)
+
+
+func _ask_now(topic: String) -> void:
+	var map := _session.active_map() as WorldMapController
 	if map != null:
 		var waiting: Dictionary[String, float] = map.npc_life.npc_ambience().snapshot()
 		var lines: Array[String] = map.ask_selected(topic)

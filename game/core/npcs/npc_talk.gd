@@ -28,6 +28,9 @@ var _kee_answers: Dictionary[String, Array] = {}
 var _answer_marks: Dictionary[String, Array] = {}
 ## Topics answered by a function that acts (NpcInquiryRule lists).
 var _inquiry_rules: Dictionary[String, Array] = {}
+## Native (DECISIONS「刘安禄的揭露」): topics the player confirms before asking (an important
+## choice: the ask turns the NPC on them), {topic: the question}.
+var _confirms: Dictionary[String, String] = {}
 ## relay_say(): what the NPC answers when the player says a line beside it.
 var _relay_say: Dictionary[String, Array] = {}
 var _relay_ask: Array[NpcLine] = []
@@ -113,6 +116,17 @@ func answer_marks(topic: String) -> Array[String]:
 	var marks: Array[String] = []
 	marks.assign(_answer_marks.get(topic, []))
 	return marks
+
+
+## The question asked before `topic` is asked, or "" for the rest.
+func ask_confirm(topic: String) -> String:
+	return _confirms.get(topic, "")
+
+
+## Called once by the loader.
+func with_confirms(confirms: Dictionary[String, String]) -> NpcTalk:
+	_confirms = confirms.duplicate()
+	return self
 
 
 ## The rules of a topic answered by a function that acts; empty for the others.

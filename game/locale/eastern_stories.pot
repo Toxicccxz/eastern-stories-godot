@@ -18,6 +18,7 @@ msgstr ""
 
 #. snow.newcomer region
 #. snow.letter region
+#. snow.liu_anlu region
 #. snow.wei_wuji region
 #. snow.weapon_storage region
 #. native.bounty region
@@ -8868,6 +8869,11 @@ msgstr ""
 msgid "打听 · %s"
 msgstr ""
 
+#. the confirm's choice for asking an NPC a topic it may turn on the player for.
+#: ui/world/shared_ui_ask_panel.gd
+msgid "问"
+msgstr ""
+
 #: ui/world/shared_ui_ask_panel.gd
 msgid "确定受戒"
 msgstr ""
@@ -9602,6 +9608,7 @@ msgid ""
 msgstr ""
 
 #. es2:obj/old_book unit
+#. es2:d/snow/obj/blade_book unit
 #. es2:d/latemoon/room/npc/obj/whip_book unit
 #. es2:d/choyin/obj/book unit
 #. es2:d/choyin/obj/magic_book unit
@@ -9611,7 +9618,7 @@ msgstr ""
 #. es2:u/cloud/obj/literate_book unit
 #. es2:d/temple/obj/magic_book unit
 #. es2:d/temple/obj/spells_book unit
-#: data/common/items.json data/latemoon/items.json data/choyin/items.json data/village/items.json data/cloud/items.json data/temple/items.json
+#: data/common/items.json data/snow/items.json data/latemoon/items.json data/choyin/items.json data/village/items.json data/cloud/items.json data/temple/items.json
 msgid "本"
 msgstr ""
 
@@ -13331,6 +13338,41 @@ msgstr ""
 msgid "杜宽付了你一两脚钱，说往后有信还找你。"
 msgstr ""
 
+#. snow.liu_anlu title
+#: data/common/journal.json
+msgid "门房的来历"
+msgstr ""
+
+#. snow.liu_anlu/wei text
+#: data/common/journal.json
+msgid "魏无极说淳风武馆的门房刘安禄是野羊山寨的二寨主，人称血手刘三。"
+msgstr ""
+
+#. snow.liu_anlu/wei next
+#: data/common/journal.json
+msgid "去淳风武馆问问柳淳风「刘安禄」。"
+msgstr ""
+
+#. snow.liu_anlu/liu text
+#: data/common/journal.json
+msgid "柳淳风只说刘兄弟在武馆管事五年了，过去之事不须再提。门房的来历，雪亭镇上只有他一个人清楚。"
+msgstr ""
+
+#. snow.liu_anlu/woodcutter text
+#: data/common/journal.json
+msgid "樵夫骂野羊山那群道士该千刀万剐，说他们施了妖法。"
+msgstr ""
+
+#. snow.liu_anlu/slip text
+#: data/common/journal.json
+msgid "刘安禄动起手来说漏了嘴：「想我堂堂……呃……连我这个小小的门房都可以收拾你！」"
+msgstr ""
+
+#. snow.liu_anlu/revealed text
+#: data/common/journal.json
+msgid "刘安禄亮出了血手刘三的身份：野羊山寨的二寨主，一手快刀判若两人。"
+msgstr ""
+
 #. snow.wei_wuji/asked_fee text
 #: data/common/journal.json
 msgid "你向雪亭镇书院的魏无极打听学费。"
@@ -15205,6 +15247,18 @@ msgstr ""
 msgid "绣花小鞋"
 msgstr ""
 
+#. es2:d/snow/obj/blade_book name
+#: data/snow/items.json
+msgid "残破刀谱"
+msgstr ""
+
+#. es2:d/snow/obj/blade_book long
+#: data/snow/items.json
+msgid ""
+"这似乎是一本什么刀谱的前几页，虽然并没有关于招式的详细解说，可是\n"
+"前面有关刀法的总纲与精义倒是不少。\n"
+msgstr ""
+
 #. snow.npc.traveller long
 #. snow.npc.trav_blade long
 #: data/snow/npcs.json
@@ -15386,6 +15440,57 @@ msgstr ""
 #: data/snow/npcs.json
 msgid ""
 "刘安禄说道：你快走吧，就算我输了你啦....\n"
+msgstr ""
+
+#. snow.npc.guard inquiry topic
+#: data/snow/npcs.json
+msgid "刘老三"
+msgstr ""
+
+#. snow.npc.guard inquiry.刘老三.rules.say
+#. snow.npc.guard inquiry.血手刘三.rules.say
+#: data/snow/npcs.json
+msgid "老子就是血手刘三，血手刘三就是你老子！纳命来！"
+msgstr ""
+
+#. snow.npc.guard inquiry.刘老三.rules.say
+#. snow.npc.guard inquiry.血手刘三.rules.say
+#: data/snow/npcs.json
+msgid "我...不知道！"
+msgstr ""
+
+#. snow.npc.guard inquiry.刘老三.rules.lines.line
+#. snow.npc.guard inquiry.血手刘三.rules.lines.line
+#: data/snow/npcs.json
+msgid "刘安禄眼中突然放出异样的光芒，颤声说道：看来...你都知道了？"
+msgstr ""
+
+#. snow.npc.guard inquiry.刘老三.rules.lines.line
+#. snow.npc.guard inquiry.血手刘三.rules.lines.line
+#: data/snow/npcs.json
+msgid "刘安禄大喝一声，叫道：既然如此，老子今天豁出去了，纳命来！"
+msgstr ""
+
+#. snow.npc.guard inquiry.刘老三.rules.lines.line
+#. snow.npc.guard inquiry.血手刘三.rules.lines.line
+#: data/snow/npcs.json
+msgid "刘安禄使开单刀，招数精奇，沈猛狠辣，和刚才简直判若两人！"
+msgstr ""
+
+#. snow.npc.guard inquiry topic
+#. snow.npc.guard moods.revealed.nickname
+#: data/snow/npcs.json
+msgid "血手刘三"
+msgstr ""
+
+#. snow.npc.guard moods.revealed.title
+#: data/snow/npcs.json
+msgid "野羊山寨二寨主"
+msgstr ""
+
+#. snow.npc.guard moods.revealed.combat_chat_msg.action
+#: data/snow/npcs.json
+msgid "random_move"
 msgstr ""
 
 #. snow.npc.trainee long

@@ -43,7 +43,7 @@ temple. All thirteen have the voxel view (`game/data/snow/voxel/`).
 | 庙祝 | init()/greeting() | greets one second after the player comes in |
 | 醉汉 | chat 10: do_drink | drinks, drops the empty wineskin, asks for wine (4E) |
 | 收破烂的 | chat 20: three lines, random_move | mstreet1-3, the smithy, the workplace |
-| 刘安禄 | inquiry 刘老三, 血手刘三 (`ask_me`) | not listed until the reveal is ported |
+| 刘安禄 | inquiry 刘老三, 血手刘三 (`ask_me`) | ported (前两小时 D, DECISIONS「刘安禄的揭露」): confirmed first; exp 20000, random(10) < 5 我...不知道！, else the `revealed` mood (title, nickname, applies, 游走 chats, 残破刀谱, lasting) and kill_ob; the clue chain 门房的来历 |
 | 李火狮 | inquiry here, name, 柳家拳法 | here/name behind 这里/名字 |
 | 疯狗 | chat 15: random_move | sroad3-5 |
 | 魏无极 | inquiry 学费, 读书识字, 刘安禄 | 学费 ends with one native line pointing at the 谷场 (DECISIONS「客栈的老鼠」) |

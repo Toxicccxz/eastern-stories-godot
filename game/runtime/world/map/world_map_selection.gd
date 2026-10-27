@@ -333,9 +333,9 @@ func ask_selected(topic: String) -> Array[String]:
 	var answer: NpcInquiry.Answer = NpcInquiry.answer(
 		target.definition(), target.character_state.gender, target.age,
 		target.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE,
-		NpcInquiry.Asker.new(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id, _kee_percent(_player.state), _player.state.marks),
+		NpcInquiry.Asker.new(_player.state.gender, _player.facts.age, _player.state.affiliation.class_id, _kee_percent(_player.state), _player.state.marks, _player.state.progression.combat_experience),
 		topic, "" if zone == null else zone.display_name, _world_interaction_random, _map.floor_items.violates_unique,
-		target.forgotten_topics(),
+		target.forgotten_topics(), target.flags(),
 	)
 	if answer.vendor_list:
 		_vendor_list(target, answer)
@@ -368,6 +368,17 @@ func ask_selected(topic: String) -> Array[String]:
 	_map.hud().append_colored_lines(answer.lines)
 	# What was recorded of the answer, after the answer itself.
 	session.tell_journal(heard)
+	# guard.c ask_me(): the NPC turns (its mood: title, nickname, applies, a blade book in
+	# hand) and kill_ob()s the asker.
+	if not answer.mood.is_empty():
+		var hooks: NpcHooks = target.definition().hooks()
+		if hooks != null and hooks.moods.has(answer.mood):
+			var mood: NpcMood = hooks.moods[answer.mood]
+			target.put_in_mood(mood)
+			for item_id: StringName in mood.carry:
+				_map.floor_items.give_new_item_to(target, item_id)
+	if answer.attacks:
+		_map.npc_kills_player(target)
 	if _map.hud().inventory_is_open():
 		_map.hud().show_inventory(session.player_inventory_rows())
 	return answer.texts()

@@ -74,6 +74,8 @@ ES2 覆盖：536/551 房间，239/286 种 NPC，9/9 可加入的门派，33/36 �
   打坐「练到 N 再停」和 10 / 25 / 50 的小额历练；拜师卡片。量法：第一架、第一次历练各在第几分钟，哪里超过 3 分钟没目标。
 * 前两小时 C（「雪亭驿的信」）：杜宽的送信差事把人推到绮云镇——路上的悬赏榜、卧龙岗的强人、陈剑秋收信、回来的一两脚钱；
   信丢了链就停在那里，要不要让杜宽补一封。
+* 前两小时 D（「刘安禄的揭露」）：魏无极 → 柳淳风的线索链「门房的来历」读起来够不够像个钩子；20000 经验前问他只得「没听说过」；
+  够了之后的确认框、一半装傻、变身和那一架（50000 经验、刀谱）。
 * 雪亭镇室内的生活气息（磨损、旧墙、挂件、桌面、角落杂物；杂物多少和脏旧程度在 `room_life.json` 里调）。
 * 青石村体素地图（12 张）：石板路和车辙、石屋石板瓦、大榕树、采石场、三面环山；山路、锁链木门、八卦与大石门；
   迷阵八间各自的天色、地面和天气（雾浓淡、闪电、火光）；村里各屋的生活气息；雪亭镇山坳东端的过渡。
@@ -114,8 +116,7 @@ ES2 覆盖：536/551 房间，239/286 种 NPC，9/9 可加入的门派，33/36 �
 * A failed attack chain ends the fight with 战斗出错，已中止。 (development builds log why); the cause
   still has to be fixed in the content or rule that tripped it.
 * Beasts cannot be asked to spar (ES2's `fight` on a beast is a one-sided kill); attack them.
-* 刘安禄's 刘老三/血手刘三 are not listed until his reveal is ported. NPCs never flee a losing fight
-  (`wimpy`) and do not follow who flees (`pursuer`). Nothing can be put into a corpse.
+* NPCs never flee a losing fight (`wimpy`) and do not follow who flees (`pursuer`). Nothing can be put into a corpse.
 * On the player's own map a wanderer moves only where the player is (ES2's heart beat); other maps are
   caught up when the player comes back.
 * Conditions do not tick in a fight (owner) nor while the player lies unconscious.

@@ -543,6 +543,11 @@ func advance_scheduler(delta_seconds: float) -> CombatSchedulerAdvanceResult:
 		steps += 1
 		cycles += advanced.cycles_processed
 		events.append_array(advanced.events())
+		# What an NPC said in the fight (chat_msg_combat), for the 任务 page (前两小时 D).
+		for event: CombatSchedulerEvent in advanced.events():
+			if event.kind == CombatSchedulerEvent.Kind.NPC_CHAT and event.chat != null and _session != null:
+				for line: VisionLine in event.chat.lines():
+					_session.chat_heard(_resident_npc(event.actor_id), line.template)
 		if _resolution == null or _resolution.failure != CombatEncounterResolution.Failure.NONE or _resolution.result != null:
 			break
 		if holding:

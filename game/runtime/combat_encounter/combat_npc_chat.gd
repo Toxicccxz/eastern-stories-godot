@@ -64,7 +64,7 @@ func beat(
 	var npc: NpcRuntimeState = _npc(actor.character_id)
 	if npc == null or npc.definition() == null:
 		return null
-	var talk: NpcTalk = npc.definition().talk()
+	var talk: NpcTalk = npc.combat_talk()
 	if talk == null or not talk.has_combat_chat():
 		return null
 	# woman1.c wield_weapon() sets its own chat_chance_combat lower for good.

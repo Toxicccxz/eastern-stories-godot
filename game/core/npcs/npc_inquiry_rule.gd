@@ -19,6 +19,15 @@ extends RefCounted
 ## the NPC deletes once it answered (d/choyin/npc/girl.c's delete("inquiry/游晋")).
 ## `make` is what the NPC tells over the next seconds (NpcMaking: d/canyon/npc/captain.c's
 ## tell_story(), call_out("make_stage", 2, who, 0)); it said nothing at once.
+## d/snow/npc/guard.c ask_me() (DECISIONS「刘安禄的揭露」): `asker_exp_at_least` is the
+## asker's combat_exp the function wants; `npc_flag` / `unless_npc_flag` an object variable
+## of the NPC (query("revealed")); `mood` the NpcMood (its hooks' `moods`) it puts itself in;
+## `attacks` kill_ob() on the asker.
+var asker_exp_at_least: int = 0
+var npc_flag: StringName = &""
+var unless_npc_flag: StringName = &""
+var mood: String = ""
+var attacks: bool = false
 var asker_marks: Array[String] = []
 var asker_class: StringName = &""
 var asker_gender: StringName = &""
@@ -40,8 +49,12 @@ var forgets: Array[String] = []
 var make: NpcMaking
 
 
-func matches(marks: Dictionary[String, int], class_id: StringName = &"", gender: StringName = &"") -> bool:
+func matches(marks: Dictionary[String, int], class_id: StringName = &"", gender: StringName = &"", combat_exp: int = 0, npc_flags: Dictionary[StringName, bool] = {}) -> bool:
 	if (not asker_class.is_empty() and class_id != asker_class) or (not asker_gender.is_empty() and gender != asker_gender):
+		return false
+	if combat_exp < asker_exp_at_least:
+		return false
+	if (not npc_flag.is_empty() and not npc_flags.get(npc_flag, false)) or (not unless_npc_flag.is_empty() and npc_flags.get(unless_npc_flag, false)):
 		return false
 	for mark: String in asker_marks:
 		if marks.get(mark, 0) == 0:
@@ -49,9 +62,9 @@ func matches(marks: Dictionary[String, int], class_id: StringName = &"", gender:
 	return true
 
 
-static func decide(rules: Array[NpcInquiryRule], marks: Dictionary[String, int], random: WorldInteractionRandomSource = null, class_id: StringName = &"", gender: StringName = &"") -> NpcInquiryRule:
+static func decide(rules: Array[NpcInquiryRule], marks: Dictionary[String, int], random: WorldInteractionRandomSource = null, class_id: StringName = &"", gender: StringName = &"", combat_exp: int = 0, npc_flags: Dictionary[StringName, bool] = {}) -> NpcInquiryRule:
 	for rule: NpcInquiryRule in rules:
-		if not rule.matches(marks, class_id, gender):
+		if not rule.matches(marks, class_id, gender, combat_exp, npc_flags):
 			continue
 		if rule.chance_of > 0 and (random == null or random.legacy_random(rule.chance_of) >= rule.chance_below):
 			continue
@@ -62,6 +75,11 @@ static func decide(rules: Array[NpcInquiryRule], marks: Dictionary[String, int],
 static func from_record(reader: ContentRecordReader) -> NpcInquiryRule:
 	var rule := NpcInquiryRule.new()
 	rule.asker_marks = reader.text_list("asker_marks")
+	rule.asker_exp_at_least = reader.integer("asker_exp_at_least", 0)
+	rule.npc_flag = StringName(reader.text("npc_flag"))
+	rule.unless_npc_flag = StringName(reader.text("unless_npc_flag"))
+	rule.mood = reader.text("mood")
+	rule.attacks = reader.boolean("attacks", false)
 	rule.asker_class = StringName(reader.text("asker_class"))
 	rule.asker_gender = StringName(reader.text("asker_gender"))
 	if not rule.asker_gender.is_empty() and not NpcTeaching.GENDERS.has(rule.asker_gender):
@@ -112,6 +130,6 @@ static func from_record(reader: ContentRecordReader) -> NpcInquiryRule:
 		if rule.gives.is_empty():
 			reader.fail("taken", "is said only instead of `gives`")
 	reader.finish()
-	if rule.lines.is_empty() and rule.gives.is_empty() and rule.hands_over.is_empty() and not rule.vendor_list and rule.make == null:
+	if rule.lines.is_empty() and rule.gives.is_empty() and rule.hands_over.is_empty() and not rule.vendor_list and rule.make == null and rule.mood.is_empty() and not rule.attacks:
 		reader.fail("", "says or gives something")
 	return rule

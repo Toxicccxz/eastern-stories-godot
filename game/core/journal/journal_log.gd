@@ -73,6 +73,24 @@ static func heard_entries(state: CharacterState, npc_id: StringName, topic: Stri
 	return recorded
 
 
+## The player heard `npc_id` say `text` (a chat line, in the world or in a fight): the
+## entries that wait for those words are recorded.
+static func chat_heard(state: CharacterState, npc_id: StringName, text: String, chains: Array[JournalChainDefinition]) -> Array[Fresh]:
+	var recorded: Array[Fresh] = []
+	if state == null or text.is_empty():
+		return recorded
+	for chain: JournalChainDefinition in chains:
+		for entry: JournalEntryDefinition in chain.entries:
+			var key: String = chain.key_of(entry)
+			if (
+				entry.when == JournalEntryDefinition.When.CHAT and not state.journal.has(key)
+				and StringName(entry.key) == npc_id and text.contains(entry.topic)
+			):
+				state.journal[key] = state.journal.size() + 1
+				recorded.append(Fresh.new(chain, entry))
+	return recorded
+
+
 ## The items carried join the 百科's list, each in the order first carried.
 static func note_items(state: CharacterState, held: Dictionary[StringName, bool]) -> bool:
 	if state == null:
@@ -106,7 +124,7 @@ static func holds(entry: JournalEntryDefinition, state: CharacterState, temps: D
 			return state.skills.raw_level(StringName(entry.key)) >= entry.amount
 		JournalEntryDefinition.When.FAMILY:
 			return state.family.family_id == StringName(entry.key)
-	# HEARD is recorded at the ask (heard()).
+	# HEARD is recorded at the ask (heard()), CHAT as the line is said (chat_heard()).
 	return false
 
 
