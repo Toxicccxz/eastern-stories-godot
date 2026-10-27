@@ -1,0 +1,26 @@
+{
+  "note": "晚月庄 (美术规划 §1, 美术提案): 墨绿 with 梅、海棠、桂、竹 (and the 杏 and 桃 the text names); 花梅红、海棠粉、桂金、紫. The region's default flora; a map's own `flora` overrides it key by key.",
+  "crown_colors": {
+    "broadleaf": ["2c4a30", "3c6040", "4e7a4c", "6a945a"],
+    "bamboo": ["3e6a3a", "528246", "6a9a52", "84b060"],
+    "willow": ["4e7a3a", "628e46", "7aa454", "94b862"],
+    "osmanthus": ["22402a", "2c5034", "3a6640", "4c7a48"],
+    "plum": ["7a2236", "a83450", "d0587a", "f0a0b8"],
+    "crabapple": ["4f6e3a", "c0485a", "e07a8a", "f6b4c0"],
+    "apricot": ["b07888", "d8a2ae", "efc8ce", "fbecec"],
+    "peach": ["a84a6a", "cc7090", "e898b0", "f6c4d2"],
+    "locust": ["3a6236", "4c7842", "628e4c", "7ea45a"],
+    "shrub": ["2e4e32", "3f6440", "547c4a", "6e965a"],
+    "slender": ["3a5e3c", "4c7a48", "648e52", "809e5c"],
+    "pine": ["24443a", "2e5644", "3e6c4e", "567e58"],
+    "banana": ["4f7a36", "5f8c3e", "78a24c", "98b85e"]
+  },
+  "bark_colors": {
+    "broadleaf": ["4a3a30", "5c4a3c"],
+    "shrub": ["4a3a30", "5c4a3c"],
+    "slender": ["4a3a30", "5c4a3c"],
+    "pine": ["4a3a30", "5c4a3c", "463428"]
+  },
+  "grass_colors": ["3f5a33", "4f6c3c", "628048", "78924f"],
+  "flower_colors": ["e8a0b4", "f2e6c8", "c8342c", "f4d47a", "b890d0"]
+}

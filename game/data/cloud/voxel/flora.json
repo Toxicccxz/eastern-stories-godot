@@ -1,0 +1,24 @@
+{
+  "note": "绮云镇 (美术规划 §1, 美术提案): 古槐、垂柳、竹, 偏黄绿; 草黄绿, 花米白、金黄、淡粉、淡紫. The region's default flora; a map's own `flora` overrides it key by key.",
+  "crown_colors": {
+    "locust": ["4a6e38", "5f8644", "7a9e52", "98b462"],
+    "willow": ["5e8238", "749648", "8cac56", "a8c066"],
+    "broadleaf": ["4e7238", "648a46", "7ea252", "9cb860"],
+    "bamboo": ["5a7e38", "6f9444", "86aa52", "a0be60"],
+    "pine": ["2c4c38", "3a6244", "4e7a52", "6a9462"],
+    "tall_pine": ["223e30", "2e5038", "3c6446", "527c54"],
+    "mountain_pine": ["2e4a36", "3e5e42", "526e4a", "6c8454"],
+    "slender": ["567c3c", "6e9448", "8aac56", "a6c068"],
+    "shrub": ["4a6a38", "5e8244", "769a50", "92b05e"],
+    "scrub": ["5a6436", "70783e", "8a8e48", "a6a456"],
+    "young_pine": ["2f5a3f", "3f6f48", "58884f", "74a05c"]
+  },
+  "bark_colors": {
+    "broadleaf": ["5a4a3a", "6c5a46"],
+    "slender": ["5a4a3a", "6c5a46"],
+    "shrub": ["5a4a3a", "6c5a46"],
+    "pine": ["5a4a3a", "6c5a46", "564636"]
+  },
+  "grass_colors": ["466a34", "5f8840", "7ea64c", "a2bc5c"],
+  "flower_colors": ["f2eac4", "e8c452", "f0c8d4", "d8d0ec"]
+}

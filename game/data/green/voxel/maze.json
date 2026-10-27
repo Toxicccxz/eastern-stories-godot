@@ -48,8 +48,6 @@
     "grass_density": 0.85,
     "flower_threshold": 0.12,
     "blossom_trees": 0.0,
-    "grass_colors": ["2f4a2c", "45623a", "5d7c47", "7a9658"],
-    "flower_colors": ["e8e2c8", "c8b8d8", "d8c060", "9cb8d0"],
     "petals": ["8a8a60", "6a7a46"],
     "tree_kinds": [],
     "butterflies": 5,

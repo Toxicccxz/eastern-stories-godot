@@ -186,16 +186,23 @@ func _cart(w: float, d: float) -> void:
 		if ambience != null:
 			ambience.flutter(cloth,root.position.x)
 
-## 水缸: a great glazed vat of water (for fire and for the kitchen), a ladle on its rim.
+## 水缸: a great glazed vat of water (for fire and for the kitchen), a ladle on its rim. By its
+## place taller or squatter, the glaze a shade off, a crack down one side on some, a plank lid
+## (`lid`, else now and then) on some, the ladle laid across it any old way.
 func _water_vat(w: float) -> void:
-	var glaze: String = String(data.get("glaze","4d5b55"))
-	s.box(root,Vector3(0,0.42,0),Vector3(w*0.82,0.8,w*0.82),glaze)
-	s.box(root,Vector3(0,0.12,0),Vector3(w*0.66,0.22,w*0.66),glaze)
-	s.box(root,Vector3(0,0.84,0),Vector3(w*0.92,0.08,w*0.92),"6b7a72")
-	s.box(root,Vector3(0,0.82,0),Vector3(w*0.7,0.02,w*0.7),"3e5f63:gloss")
-	s.tilted_box(root,Vector3(w*0.25,0.92,0),Vector3(0.05,0.05,0.6),"8a6a45",Vector3(0,0.4,0.3))
-	if data.get("lid",false):
-		s.tilted_box(root,Vector3(-w*0.12,0.9,0),Vector3(w*0.55,0.06,w*0.85),"8a6a45",Vector3(0,0,0.08))
+	var vary: RandomNumberGenerator = Shapes.spot_rng(root.position)
+	var glaze: String = Shapes.tinted(String(data.get("glaze","4d5b55")),vary,0.05)
+	var h: float = vary.randf_range(0.9,1.08)
+	s.box(root,Vector3(0,0.42*h,0),Vector3(w*0.82,0.8*h,w*0.82),glaze)
+	s.box(root,Vector3(0,0.12*h,0),Vector3(w*0.66,0.22*h,w*0.66),glaze)
+	s.box(root,Vector3(0,0.84*h,0),Vector3(w*0.92,0.08,w*0.92),"6b7a72")
+	s.box(root,Vector3(0,0.82*h,0),Vector3(w*0.7,0.02,w*0.7),"3e5f63:gloss")
+	if vary.randf()<0.4:
+		var a: float = vary.randf()*TAU
+		s.tilted_box(root,Vector3(cos(a)*w*0.41,0.5*h,sin(a)*w*0.41),Vector3(0.02,0.36*h,0.02),Color(glaze.get_slice(":",0)).darkened(0.35).to_html(false),Vector3(0,-a,vary.randf_range(-0.3,0.3)))
+	s.tilted_box(root,Vector3(w*0.25,0.92*h,0),Vector3(0.05,0.05,0.6),"8a6a45",Vector3(0,vary.randf()*TAU,0.3))
+	if data.get("lid",vary.randf()<0.3):
+		s.tilted_box(root,Vector3(-w*0.12,0.9*h,0),Vector3(w*0.55,0.06,w*0.85),"8a6a45",Vector3(0,0.4,0.08))
 
 ## 柴堆: split logs stacked crosswise against a wall, a bundle of kindling on top.
 func _firewood(w: float, d: float) -> void:
@@ -340,27 +347,31 @@ func _lantern_string() -> void:
 	for p: Array in points:
 		ends.append(Vector3(float(p[0])/32.0,float(p[2]) if p.size()>2 else 3.2,float(p[1])/32.0)-root.position)
 	var paper: String = String(data.get("paper","d8452f:glow"))
+	# Hung by hand, not by rule: by the string's place each span sags its own amount, the
+	# lanterns are not evenly spaced, one or two are missing, their paper not quite one red.
+	var vary: RandomNumberGenerator = Shapes.spot_rng(root.position)
 	var spacing: float = float(data.get("spacing",0.9))
 	for i: int in ends.size()-1:
 		var a: Vector3 = ends[i]
 		var b: Vector3 = ends[i+1]
 		var length: float = a.distance_to(b)
-		var count: int = maxi(1,floori(length/spacing))
+		var count: int = maxi(1,floori(length/(spacing*vary.randf_range(0.85,1.2))))
+		var sag: float = float(data.get("sag",0.35))*vary.randf_range(0.75,1.3)
 		for j: int in count+1:
-			var t: float = float(j)/count
-			var at: Vector3 = a.lerp(b,t)-Vector3(0,sin(t*PI)*float(data.get("sag",0.35)),0)
+			var t: float = clampf(float(j)/count+(vary.randf_range(-0.12,0.12)/count if j>0 and j<count else 0.0),0.0,1.0)
+			var at: Vector3 = a.lerp(b,t)-Vector3(0,sin(t*PI)*sag,0)
 			s.box(root,at,Vector3(0.04,0.04,0.04),"3d3530")
-			if j>0 and j<count:
+			if j>0 and j<count and vary.randf()>=0.1:
 				var hang := Node3D.new()
 				hang.set_meta("light_fixture",true)
 				hang.position = at-Vector3(0,0.24,0)
 				root.add_child(hang)
-				s.box(hang,Vector3.ZERO,Vector3(0.22,0.28,0.22),paper)
+				s.box(hang,Vector3.ZERO,Vector3(0.22,0.28,0.22)*vary.randf_range(0.92,1.08),Shapes.tinted(paper,vary,0.06))
 				s.box(hang,Vector3(0,0.16,0),Vector3(0.26,0.04,0.26),"3d3530")
 				s.box(hang,Vector3(0,-0.2,0),Vector3(0.04,0.1,0.04),"c8a24e")
 				if ambience != null:
 					ambience.sway(hang,at.x+at.z,0.06)
-		var middle: Vector3 = a.lerp(b,0.5)-Vector3(0,float(data.get("sag",0.35))+0.3,0)
+		var middle: Vector3 = a.lerp(b,0.5)-Vector3(0,sag+0.3,0)
 		var lamp := OmniLight3D.new()
 		lamp.position = middle
 		lamp.light_color = Color(paper.get_slice(":",0)).lerp(Color("ffbd72"),0.5)

@@ -1,0 +1,22 @@
+{
+  "note": "山烟寺 and 日照山 (美术规划 §1, 美术提案): 白杨银绿, 桧 and jade pines, 翡翠绿; 花白、淡粉、金. The region's default flora; a map's own `flora` overrides it key by key.",
+  "crown_colors": {
+    "poplar": ["4a7a4c", "66945a", "88ae74", "b0c89a"],
+    "pine": ["244a3a", "2f5e48", "467458", "688e66"],
+    "broadleaf": ["2f5a38", "3e6f42", "548650", "72a060"],
+    "locust": ["3f6a3a", "527d44", "6a9450", "86aa5e"],
+    "tall_pine": ["203e30", "2c5240", "3c6850", "568468"],
+    "shrub": ["335a3a", "447048", "588a54", "72a062"],
+    "slender": ["3c6440", "4e7c4a", "668e56", "82a464"],
+    "willow": ["5f7f3e", "729048", "88a456", "a3b866"],
+    "bamboo": ["3f6a3a", "568246", "6f9a52", "8db463"]
+  },
+  "bark_colors": {
+    "pine": ["6a4a3a", "7a5a46", "5e4232"],
+    "broadleaf": ["5a4a3a", "6c5a46"],
+    "slender": ["5a4a3a", "6c5a46"],
+    "shrub": ["5a4a3a", "6c5a46"]
+  },
+  "grass_colors": ["2f4a2c", "45623a", "5d7c47", "789650"],
+  "flower_colors": ["f2efe6", "e8a0b4", "e8c84a", "f4f0e8"]
+}

@@ -1,0 +1,25 @@
+{
+  "note": "乔阴 (美术规划 §1, 美术提案): 柳绿, the willows' bright green, the 古槐 and 湘妃竹; 花米白、金黄、淡粉、淡紫. The region's default flora; a map's own `flora` overrides it key by key.",
+  "crown_colors": {
+    "willow": ["5a8a3a", "6a9a44", "7aaa50", "9aba5e"],
+    "locust": ["3f6a3a", "527d44", "6a9450", "86aa5e"],
+    "broadleaf": ["3e6a42", "548650", "72a060", "90b86e"],
+    "pine": ["2a4e3a", "386446", "4c7c54", "688e62"],
+    "tall_pine": ["223e32", "2e5038", "3c6446", "527c56"],
+    "bamboo": ["6a8a3a", "7a9a44", "8aaa50", "9aba5a"],
+    "shrub": ["3e6440", "528048", "6a9854", "86ae62"],
+    "slender": ["4a7244", "5e8a4e", "78a25a", "96b868"],
+    "old_pine": ["1d362b", "294934", "3a5d3f", "52744b"],
+    "peach": ["a84a6a", "cc7090", "e898b0", "f6c4d2"],
+    "mountain_pine": ["2c4a3a", "3c6046", "4e7650", "688a5c"],
+    "scrub": ["4d4a2c", "646036", "7f7843", "9c9254"]
+  },
+  "bark_colors": {
+    "broadleaf": ["5a4a3a", "6c5a46"],
+    "slender": ["5a4a3a", "6c5a46"],
+    "shrub": ["5a4a3a", "6c5a46"],
+    "pine": ["5a4a3a", "6c5a46", "564636"]
+  },
+  "grass_colors": ["3f5a33", "4f6c3c", "628048", "7a9450"],
+  "flower_colors": ["f2e6c8", "e8c84a", "f0c0cc", "e8e0f0"]
+}

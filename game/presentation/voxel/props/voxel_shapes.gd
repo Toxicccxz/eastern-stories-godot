@@ -26,6 +26,30 @@ var compact: Dictionary[Node3D, bool] = {}
 func color(hex: String) -> Color:
 	return Color.html(hex.get_slice(":",0))
 
+## A seed from a place on the map, the same every build: what varies about a prop (a lantern
+## taller than its neighbour, a vat with a crack) follows where it stands, not what was drawn
+## before it, so one change elsewhere never reshuffles the whole map.
+static func place_seed(x: int, y: int, z: int = 0, salt: int = 0) -> int:
+	var h: int = (x*73856093) ^ (y*19349663) ^ (z*83492791) ^ (salt*2654435761)
+	h = (h ^ (h >> 13))*1274126177
+	return (h ^ (h >> 16)) & 0x7fffffff
+
+## A random source seeded by a spot (units) and a salt.
+static func spot_rng(at: Vector3, salt: int = 0) -> RandomNumberGenerator:
+	var random := RandomNumberGenerator.new()
+	random.seed = place_seed(roundi(at.x*8.0),roundi(at.y*8.0),roundi(at.z*8.0),salt)
+	return random
+
+## `hex` shifted a little in brightness and hue (within `amount`), its ":gloss"/":glow" kept:
+## paper lanterns of one string that are not quite one colour. The shifts are in coarse steps,
+## so a map's many lanterns fall into a few colours (each colour is a batch), not one each.
+static func tinted(hex: String, random: RandomNumberGenerator, amount: float = 0.05) -> String:
+	var tint: Color = Color.html(hex.get_slice(":",0))
+	tint.v = clampf(tint.v+snappedf(random.randf_range(-amount,amount),0.03),0.0,1.0)
+	tint.h = fposmod(tint.h+snappedf(random.randf_range(-amount*0.3,amount*0.3),0.01),1.0)
+	var suffix: String = hex.substr(hex.find(":")) if hex.contains(":") else ""
+	return tint.to_html(false)+suffix
+
 func box(parent: Node3D, at: Vector3, size: Vector3, hex: String) -> void:
 	_instance(parent, Transform3D(Basis.from_scale(size), at), hex, cube)
 
@@ -184,18 +208,20 @@ func solid(parent: Node3D, at: Vector3, size: Vector3) -> StaticBody3D:
 	return body
 
 ## A paper lantern with its light; `paper` another glowing colour ("d8452f:glow", a red one).
-func lantern(parent: Node3D, at: Vector3, standing: bool = false, paper: String = "ffb858") -> void:
+## A paper lantern at `at`: on its own post from the ground when `standing`, else hung;
+## `size` scales the lantern (not the post), a little bigger or smaller than its neighbours.
+func lantern(parent: Node3D, at: Vector3, standing: bool = false, paper: String = "ffb858", size: float = 1.0) -> void:
 	var housing := Node3D.new()
 	housing.set_meta("light_fixture",true)
 	parent.add_child(housing)
 	if standing:
-		box(housing,at+Vector3(0,-0.65,0),Vector3(0.12,1.3,0.12),"483b32")
-	box(housing,at,Vector3(0.34,0.45,0.34),paper)
+		box(housing,Vector3(at.x,at.y/2,at.z),Vector3(0.12,at.y,0.12),"483b32")
+	box(housing,at,Vector3(0.34,0.45,0.34)*size,paper)
 	for y: float in [-0.25,0.25]:
-		box(housing,at+Vector3(0,y,0),Vector3(0.44,0.07,0.44),"993f35")
+		box(housing,at+Vector3(0,y*size,0),Vector3(0.44,0.07,0.44)*size,"993f35")
 	for x: float in [-0.17,0.17]:
-		box(housing,at+Vector3(x,0,0.175),Vector3(0.045,0.44,0.04),"ba613c")
-	box(housing,at+Vector3(0,-0.36,0),Vector3(0.06,0.16,0.06),"b54135")
+		box(housing,at+Vector3(x,0,0.175)*size,Vector3(0.045,0.44,0.04)*size,"ba613c")
+	box(housing,at+Vector3(0,-0.36*size,0),Vector3(0.06,0.16,0.06)*size,"b54135")
 	var lamp := OmniLight3D.new()
 	lamp.position = at
 	lamp.light_color = color("ffbd72") if paper == "ffb858" else color(paper).lerp(color("ffbd72"),0.55)
@@ -213,14 +239,25 @@ func window(parent: Node3D, at: Vector3, size: Vector3) -> void:
 	mat.emission_energy_multiplier = 0.9
 	mat.set_meta("night_only",true)
 
+## A flower pot: by its place a little bigger or smaller, the glaze a shade off, and what
+## grows in it (when `green`) leafy, or in flower of one colour or another.
 func pot(parent: Node3D, at: Vector3, green: bool = true) -> void:
-	box(parent,at+Vector3(0,0.22,0),Vector3(0.44,0.42,0.44),"8b5440")
-	box(parent,at+Vector3(0,0.43,0),Vector3(0.5,0.08,0.5),"be8660")
-	box(parent,at+Vector3(0,0.48,0),Vector3(0.37,0.04,0.37),"473b2c")
+	var vary: RandomNumberGenerator = spot_rng(parent.position+at,3)
+	var size: float = vary.randf_range(0.88,1.1)
+	var clay: String = tinted("8b5440",vary,0.06)
+	box(parent,at+Vector3(0,0.22*size,0),Vector3(0.44,0.42,0.44)*size,clay)
+	box(parent,at+Vector3(0,0.43*size,0),Vector3(0.5,0.08,0.5)*size,tinted("be8660",vary,0.05))
+	box(parent,at+Vector3(0,0.48*size,0),Vector3(0.37,0.04,0.37)*size,"473b2c")
 	if green:
+		var turn: float = vary.randf()*TAU
 		for i: int in 7:
-			var a: float = i*TAU/7
-			box(parent,at+Vector3(cos(a)*0.19,0.65+float(i%3)*0.09,sin(a)*0.19),Vector3(0.18,0.4,0.16),["417653","689951","8eaa58"][i%3])
+			var a: float = i*TAU/7+turn
+			box(parent,at+Vector3(cos(a)*0.19,0.65+float(i%3)*0.09,sin(a)*0.19)*size,Vector3(0.18,0.4,0.16)*size,["417653","689951","8eaa58"][i%3])
+		if vary.randf()<0.4:
+			var bloom: String = ["d84a5a","e8a0b4","f2dc8e","b890d0","f0f0e8"][vary.randi_range(0,4)]
+			for i: int in 3:
+				var a: float = i*2.1+turn
+				box(parent,at+Vector3(cos(a)*0.12,0.84+(i%2)*0.06,sin(a)*0.12)*size,Vector3(0.1,0.07,0.1)*size,bloom)
 
 func table(parent: Node3D, at: Vector3) -> void:
 	box(parent,at+Vector3(0,0.72,0),Vector3(1.65,0.14,0.95),"ae7049")

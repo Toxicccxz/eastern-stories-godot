@@ -178,13 +178,19 @@ func _cairn() -> void:
 		var size: float = 0.42-i*0.06
 		s.shard(root,Vector3(sin(i*2.0)*0.03,0.1+i*0.17,0),Vector3(size,0.17,size*0.85),String(rock[i%rock.size()]),i,i*0.7)
 
+## A bush: its lobes turned and sized by its place, so no two along a path are alike.
 func _bush(w: float, d: float) -> void:
 	var leaf: Array = _colors("colors",["5d5a33","746e3c","8f8547"])
+	var vary: RandomNumberGenerator = Shapes.spot_rng(root.position)
+	var turn: float = vary.randf()*TAU
+	var lift: float = vary.randf_range(0.85,1.15)
 	for i: int in 7:
-		var a: float = i*TAU/7.0
-		s.box(root,Vector3(cos(a)*w*0.3,0.25+(i%3)*0.12,sin(a)*d*0.3),Vector3(w*0.4,0.35,d*0.4),String(leaf[i%leaf.size()]))
-	for twig: int in 3:
-		s.tilted_box(root,Vector3((twig-1)*w*0.2,0.5,0),Vector3(0.04,0.5,0.04),"6b5a42",Vector3(0,0,(twig-1)*0.5))
+		var a: float = i*TAU/7.0+turn
+		var size: float = vary.randf_range(0.85,1.15)
+		s.box(root,Vector3(cos(a)*w*0.3,(0.25+(i%3)*0.12)*lift,sin(a)*d*0.3),Vector3(w*0.4*size,0.35*lift,d*0.4*size),String(leaf[i%leaf.size()]))
+	for twig: int in vary.randi_range(2,4):
+		var side: float = (twig-1)*w*0.2
+		s.tilted_box(root,Vector3(side,0.5*lift,vary.randf_range(-0.1,0.1)*d),Vector3(0.04,0.5*lift,0.04),"6b5a42",Vector3(vary.randf_range(-0.2,0.2),0,(twig-1)*0.5+vary.randf_range(-0.15,0.15)))
 
 func _local(at: Array) -> Vector3:
 	return Vector3(float(at[0])/32.0,0,float(at[1])/32.0)-root.position

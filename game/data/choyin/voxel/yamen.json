@@ -27,7 +27,6 @@
   },
   "flora": {
     "grass_density": 0.8,
-    "grass_colors": ["3f5a33", "4f6c3c", "628048", "7a9450"],
     "flower_colors": ["e8a0b4", "f2e6c8", "f4d47a", "e8e0f0"],
     "flower_threshold": 0.08,
     "tree_types": ["locust", "broadleaf", "willow"],

@@ -214,19 +214,22 @@ func _mossy_rock(w: float, d: float) -> void:
 
 ## 倒木: a fallen pine, mossy along its top, shelf fungus on its flank, its root plate torn
 ## up at one end.
+## A fallen trunk: by its place thicker or thinner, lying at its own tilt, the moss, fungus
+## and stubs along it where they happen to be.
 func _mossy_log(w: float, d: float) -> void:
 	var bark: Array = _colors("colors",["5d4b3c","6b5746","4f4034"])
 	var moss: Array = _colors("moss",["4b6a36","58773d","6a8a46"])
-	var r: float = float(data.get("thick",0.5))
-	s.tilted_box(root,Vector3(0,r*0.5,0),Vector3(w,r,r*1.05),String(bark[0]),Vector3(0,0,0.03))
+	var vary: RandomNumberGenerator = Shapes.spot_rng(root.position)
+	var r: float = float(data.get("thick",0.5))*vary.randf_range(0.88,1.12)
+	s.tilted_box(root,Vector3(0,r*0.5,0),Vector3(w,r,r*1.05),String(bark[0]),Vector3(vary.randf_range(-0.04,0.04),0,vary.randf_range(-0.04,0.06)))
 	for i: int in ceili(w/0.4):
 		var x: float = -w/2+0.2+i*0.4
-		if rng.randf()<0.7:
-			s.box(root,Vector3(x,r+0.02,rng.randf_range(-0.08,0.08)),Vector3(0.38,0.07,r*0.8),_pick(moss))
-		if rng.randf()<0.3:
+		if vary.randf()<0.7:
+			s.box(root,Vector3(x,r+0.02,vary.randf_range(-0.08,0.08)),Vector3(0.38,0.07,r*0.8),String(moss[vary.randi_range(0,moss.size()-1)]))
+		if vary.randf()<0.3:
 			s.box(root,Vector3(x,r*0.5,r*0.55),Vector3(0.2,0.05,0.14),String(data.get("fungus","c9a46a")))
-		if rng.randf()<0.25:
-			s.tilted_box(root,Vector3(x,r*0.9,-r*0.3),Vector3(0.08,0.5,0.08),String(bark[1]),Vector3(-0.8,0,rng.randf_range(-0.4,0.4)))
+		if vary.randf()<0.25:
+			s.tilted_box(root,Vector3(x,r*0.9,-r*0.3),Vector3(0.08,0.5,0.08),String(bark[1]),Vector3(-0.8,0,vary.randf_range(-0.4,0.4)))
 	# The root plate: a disc of roots and earth stood on edge.
 	if data.get("roots",true):
 		var end := Vector3(w/2+0.08,0,0)
@@ -467,15 +470,19 @@ func _bubbles() -> void:
 		ambience.bubbles(root,Vector3(0,float(data.get("level",-0.22)),0),float(data.get("radius",1.5)),String(data.get("color","c9d8c4")),int(data.get("count",8)))
 
 ## A sawn or broken stump, rings on its top, moss at its foot.
+## A stump: by its place cut higher or lower, turned, its roots and moss its own.
 func _stump(w: float) -> void:
 	var bark: Array = _colors("colors",["5d4b3c","6b5746","4f4034"])
-	var tall: float = float(data.get("height",0.5))
-	s.box(root,Vector3(0,tall/2,0),Vector3(w*0.7,tall,w*0.7),String(bark[0]))
-	s.box(root,Vector3(0,tall+0.01,0),Vector3(w*0.6,0.03,w*0.6),String(data.get("rings","b39a72")))
-	for i: int in 4:
-		var a: float = i*TAU/4.0+0.4
-		s.tilted_box(root,Vector3(cos(a)*w*0.42,0.08,sin(a)*w*0.42),Vector3(0.3,0.14,0.14),String(bark[1]),Vector3(0,-a,0.3))
-	s.shard(root,Vector3(w*0.3,0.03,w*0.2),Vector3(0.4,0.05,0.3),String(data.get("moss","58773d")),rng.randi())
+	var vary: RandomNumberGenerator = Shapes.spot_rng(root.position)
+	var tall: float = float(data.get("height",0.5))*vary.randf_range(0.85,1.15)
+	var turn: float = vary.randf()*TAU
+	s.tilted_box(root,Vector3(0,tall/2,0),Vector3(w*0.7,tall,w*0.7),String(bark[0]),Vector3(0,turn,0))
+	s.tilted_box(root,Vector3(0,tall+0.01,0),Vector3(w*0.6,0.03,w*0.6),String(data.get("rings","b39a72")),Vector3(0,turn,0))
+	for i: int in vary.randi_range(3,5):
+		var a: float = i*TAU/4.0+0.4+turn+vary.randf_range(-0.3,0.3)
+		s.tilted_box(root,Vector3(cos(a)*w*0.42,0.08,sin(a)*w*0.42),Vector3(0.3*vary.randf_range(0.8,1.2),0.14,0.14),String(bark[1]),Vector3(0,-a,0.3))
+	var moss_at: float = vary.randf()*TAU
+	s.shard(root,Vector3(cos(moss_at)*w*0.3,0.03,sin(moss_at)*w*0.3),Vector3(0.4,0.05,0.3),String(data.get("moss","58773d")),vary.randi())
 	if data.get("axe",false):
 		# A chopping stump: the axe left in it, chips about.
 		s.tilted_box(root,Vector3(0.05,tall+0.3,0),Vector3(0.06,0.7,0.06),"7a5a3e",Vector3(0,0,0.5))

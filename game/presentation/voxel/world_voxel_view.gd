@@ -80,6 +80,7 @@ func _process(delta: float) -> void:
 
 func _build() -> void:
 	layout = JSON.parse_string(FileAccess.get_file_as_string(layout_path))
+	layout["flora"] = VoxelMapGeometry.merge_flora(_region_file("flora.json"),layout.get("flora",{}))
 	world = Node3D.new()
 	world.name = "VoxelWorld"
 	add_child(world)
@@ -109,16 +110,18 @@ func _build() -> void:
 	_sync_light(true)
 	_built = true
 
-## The region's default light (data/<region>/voxel/light.json, DECISIONS「昼夜」): its
-## "outdoor" or "indoor" section, under the layout's own `light`.
-func _region_light(indoor: bool) -> Dictionary:
-	var path: String = layout_path.get_base_dir().path_join("light.json")
+## A region-wide default beside the map's config (data/<region>/voxel/<name>); {} without one.
+func _region_file(name: String) -> Dictionary:
+	var path: String = layout_path.get_base_dir().path_join(name)
 	if not FileAccess.file_exists(path):
 		return {}
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
-	if not parsed is Dictionary:
-		return {}
-	var section: Variant = (parsed as Dictionary).get("indoor" if indoor else "outdoor",{})
+	return parsed if parsed is Dictionary else {}
+
+## The region's default light (data/<region>/voxel/light.json, DECISIONS「昼夜」): its
+## "outdoor" or "indoor" section, under the layout's own `light`.
+func _region_light(indoor: bool) -> Dictionary:
+	var section: Variant = _region_file("light.json").get("indoor" if indoor else "outdoor",{})
 	return section if section is Dictionary else {}
 
 ## Where the light comes from: a held frame, else the 昼夜 setting (一直白天 / 一直夜晚),

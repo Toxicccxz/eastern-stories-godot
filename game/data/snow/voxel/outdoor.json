@@ -82,6 +82,11 @@
     {"kind": "rock_pile", "at": [0, -2590], "size": [72, 120], "count": 16, "colors": ["b09a70", "9d8a66", "897b59"], "note": "scree where the col's 碎石路 starts north (last: the props before it keep their dressing)"},
     {"kind": "ferns", "at": [250, -2520], "size": [32, 24], "count": 2, "note": "toward 青石村: ferns by the path east (after the rest: the town's dressing stays as it was)"}
   ],
+  "ambience": {
+    "birds": [{"at": [0, -40], "radius": 260, "count": 4, "height": 8.0, "color": "3a3029", "note": "swallows over the square"}, {"at": [0, -1500], "radius": 220, "count": 3, "height": 9.0, "color": "4a3f36", "note": "sparrows over the main street"}, {"at": [-1100, 820], "radius": 300, "count": 2, "height": 12.0, "color": "3a3029", "note": "kites over the 官道 west of town"}],
+    "fall": [{"rect": [-464, -320, 464, 320], "count": 30, "height": 4.5, "colors": ["f2c4d0", "e8a8bc", "f8dce4"], "wind": [0.4, 0.15], "note": "cherry petals over the square (blossom trees stand round it)"}, {"rect": [-160, -2240, 160, -800], "count": 22, "height": 4.5, "colors": ["f2c4d0", "e8a8bc", "f8dce4"], "wind": [0.3, 0.2], "note": "along the main street"}, {"rect": [-900, 640, -140, 960], "count": 14, "height": 4.5, "colors": ["f2c4d0", "e8a8bc", "f8dce4"], "wind": [0.5, 0.1], "note": "sroad2"}, {"rect": [300, 500, 1000, 860], "count": 14, "height": 4.5, "colors": ["f2c4d0", "e8a8bc", "f8dce4"], "wind": [0.4, 0.2], "note": "eroad1-2"}],
+    "fireflies": [{"rect": [-368, 760, 368, 1336], "count": 14, "height": 1.0, "note": "the wooded slope south of town at night"}, {"rect": [1296, 800, 1688, 1296], "count": 12, "height": 1.0, "note": "the pines at eroad3's south end"}, {"rect": [-1936, 200, -1728, 680], "count": 8, "height": 1.0, "note": "the maples' edge west"}]
+  },
   "weather": [
     {"at": [-253, 88], "radius": [62, 36], "water": true},
     {"at": [278, -150], "radius": [48, 30], "water": false},

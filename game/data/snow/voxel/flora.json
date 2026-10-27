@@ -1,0 +1,23 @@
+{
+  "note": "雪亭镇 (美术规划 §1, 美术提案): 樱花和暖绿的杂树, 山上的松青; 草暖绿, 花樱粉、黄昏紫、米白. The region's default flora; a map's own `flora` overrides it key by key (crown and bark colours species by species).",
+  "crown_colors": {
+    "broadleaf": ["3a5e3a", "4f7a44", "6c9650", "8fb062"],
+    "slender": ["466a3e", "5f8648", "7ea256", "a0b868"],
+    "shrub": ["3f6040", "557a48", "6f9452", "8aa85e"],
+    "pine": ["2a4a3c", "386048", "4e7a56", "6a9466"],
+    "tall_pine": ["1f3a2c", "28472f", "33573a", "466c46"],
+    "old_pine": ["233d2f", "2e4e38", "3d6244", "56784e"],
+    "blossom": ["a0607e", "c67a98", "e39cb3", "f2bac8"],
+    "maple": ["6e2420", "9a2e26", "c4462c", "e27a3a"],
+    "scrub": ["5a5a34", "6f6c3c", "8a844a", "a49a58"]
+  },
+  "bark_colors": {
+    "broadleaf": ["6a5640", "7c664a"],
+    "slender": ["6a5640", "7c664a"],
+    "shrub": ["6a5640", "7c664a"],
+    "blossom": ["5a4436", "6a5442"],
+    "pine": ["5e4c3a", "6e5a44", "5a4a38"]
+  },
+  "grass_colors": ["3d6a3c", "5a884a", "82a85a", "aab86a"],
+  "flower_colors": ["f4d6dc", "f0b4c4", "f2e6c0", "b8a0d8"]
+}

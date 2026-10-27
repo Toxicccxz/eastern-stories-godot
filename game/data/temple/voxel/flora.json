@@ -1,0 +1,21 @@
+{
+  "note": "灵心观 (美术规划 §1, 美术提案): 山绿, deep pine greens on the white quartz climb; 花白、朱红、金. The region's default flora; a map's own `flora` overrides it key by key.",
+  "crown_colors": {
+    "tall_pine": ["1f3a2c", "28472f", "33573a", "466c46"],
+    "pine": ["223e2e", "2c4c34", "3a5e3e", "4e744a"],
+    "mountain_pine": ["243e32", "305040", "40644c", "56785a"],
+    "broadleaf": ["2f4a2c", "3e5f36", "527445", "6c8a52"],
+    "slender": ["3c5a3a", "4f7048", "678a58", "83a266"],
+    "shrub": ["34502f", "45653a", "5a7c47", "719257"],
+    "scrub": ["4a5e36", "5a6f40", "6c814b", "7e9156"]
+  },
+  "bark_colors": {
+    "pine": ["5a4a3a", "6a5a46", "56483a"],
+    "tall_pine": ["4e3e32", "5c4a3c", "443428", "6a5848"],
+    "broadleaf": ["5a4a3a", "6c5a46"],
+    "slender": ["5a4a3a", "6c5a46"],
+    "shrub": ["5a4a3a", "6c5a46"]
+  },
+  "grass_colors": ["2f4a2c", "45623a", "5d7c47", "789650"],
+  "flower_colors": ["f2efe6", "e8d8e8", "d84a3a", "e8c84a"]
+}

@@ -31,6 +31,9 @@ var flora_regions: Array[Dictionary] = []
 var ground_areas: Array[Dictionary] = []
 ## Shapes the wandering seams between road surfaces (`_fray_seams`).
 var seam_noise := FastNoiseLite.new()
+## Shades a wood's `tree_chance` slowly across the map (`_tree_sites`): thickets, thin
+## places and clearings instead of one even scatter.
+var grove_noise := FastNoiseLite.new()
 var _walls: Node3D
 ## Cut-away walls are knee height and hide nothing, so they are not occluders.
 var _low_walls: Node3D
@@ -95,6 +98,25 @@ static func compass(command: String) -> Vector2:
 static func point(at: Vector2, height: float = 0.0) -> Vector3:
 	return Vector3(at.x / UNIT, height, at.y / UNIT)
 
+func _init() -> void:
+	grove_noise.seed = 2741
+	grove_noise.frequency = 0.0035
+
+## A region's default flora (data/<region>/voxel/flora.json: its tree, bark, grass and flower
+## colours) under a map's own `flora`: the map's keys win, except `crown_colors` and
+## `bark_colors`, where the map overrides species one by one.
+static func merge_flora(region: Dictionary, own: Dictionary) -> Dictionary:
+	var result: Dictionary = region.duplicate(true)
+	for key: String in own:
+		var value: Variant = own[key]
+		if key in ["crown_colors","bark_colors"] and value is Dictionary and result.get(key) is Dictionary:
+			var species: Dictionary = (result[key] as Dictionary).duplicate()
+			species.merge(value,true)
+			result[key] = species
+		else:
+			result[key] = value.duplicate(true) if value is Dictionary or value is Array else value
+	return result
+
 func make(map: WorldMapController, layout: Dictionary) -> void:
 	rng.seed = 7819
 	furniture.rng = rng
@@ -105,11 +127,11 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 	tree_shapes.palettes = flora.get("crown_colors",{})
 	tree_shapes.barks = flora.get("bark_colors",{})
 	# flora `areas`: [{"rect": px, overrides}] for a stretch inside a zone (npath3's starved
-	# pines); they come before the zones, so the smaller patch wins.
+	# pines); they come before the zones, so the smaller patch wins. An area's or zone's
+	# `crown_colors` override the map's species by species (`merge_flora`).
 	# An area may cover several stretches (`rects` instead of `rect`).
 	for area: Dictionary in flora.get("areas",[]):
-		var merged: Dictionary = flora.duplicate()
-		merged.merge(area,true)
+		var merged: Dictionary = merge_flora(flora,area)
 		for r: Array in area.get("rects",[area.get("rect")]):
 			flora_regions.append({"rect":Rect2(r[0],r[1],r[2]-r[0],r[3]-r[1]),"style":merged})
 			if area.has("ground_styles"):
@@ -118,8 +140,7 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 		var zone := node as WorldPhysicalZoneArea2D
 		if zone != null and flora.get("zones",{}).has(String(zone.zone_id)):
 			var settings: Dictionary = flora["zones"][String(zone.zone_id)]
-			var merged: Dictionary = flora.duplicate()
-			merged.merge(settings,true)
+			var merged: Dictionary = merge_flora(flora,settings)
 			flora_regions.append({"rect":zone.global_rect().grow(float(settings.get("margin",0))),"style":merged})
 	palette = layout.get("palette", {})
 	surfaces = layout.get("surfaces", {})
@@ -361,7 +382,7 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 			if water.levels[cell] < -0.1 or water.looks[cell].get("clear",false):
 				holes[cell] = true
 		landmass.make_base(self,holes)
-	var trees: Dictionary[Vector2i, bool] = {}
+	var sites: Dictionary = {}
 	var painted: Dictionary[Vector2i, bool] = {}
 	# Merged paving and boards must also see the hole, not bridge over a skipped cell.
 	for cell: Vector2i in cells.keys():
@@ -440,23 +461,17 @@ func _terrain(map: WorldMapController, reshape: Array = [], exit_trails: Diction
 			else:
 				_wall_cell(side_walls[0] if right_low else _side_high_walls[0],p,0.36 if right_low else wall_height,horizontal)
 				_wall_cell(side_walls[1] if left_low else _side_high_walls[1],p,0.36 if left_low else wall_height,horizontal)
-		elif kind in flora.get("tree_kinds",["forest", "boundary"]) and not indoor:
-			var spacing: float = float(flora.get("tree_spacing",120))
-			var cluster := Vector2i(floori(pos.x/spacing),floori(pos.y/spacing))
-			if not trees.has(cluster) and not _treeless(pos) and rng.randf()<float(flora.get("tree_chance",0.15)) and landmass.supports(pos,64):
-				trees[cluster] = true
-				var local: Dictionary = _flora_at(pos)
-				# Close to a path only low growth (flora `bands`: [{"within": px of open ground,
-				# "types": [...]}], nearest first): a tall pine there would wall the way off
-				# from the camera. An empty band plants nothing.
-				var band: Array = _band(local,cell)
-				if _band_hit:
-					local = local.duplicate()
-					local["tree_types"] = band
-				if not local.get("tree_types",[0]).is_empty():
-					_tree(p, rng.randf()<float(local.get("blossom_trees",0.35)), local)
+		elif kind in flora.get("tree_kinds",["forest", "boundary"]) and not indoor and not _treeless(pos) and landmass.supports(pos,64):
+			# A cell a tree may stand on, grouped with its neighbours by `tree_spacing` (the
+			# area's or zone's own, else the map's); `_plant_trees` picks one per group.
+			var spacing: float = float(_flora_at(pos).get("tree_spacing",120))
+			var cluster := Vector3i(floori(pos.x/spacing),floori(pos.y/spacing),roundi(spacing))
+			if not sites.has(cluster):
+				sites[cluster] = []
+			(sites[cluster] as Array).append(cell)
 		if foliage != null and not wall and (not indoor or kind in ["grass","forest","forest_floor"]):
 			_dress_ground(cell, p, kind, growth, cells)
+	_plant_trees(sites)
 	# Indoor floors keep their cutaway plinth. Outdoors has only the finite,
 	# contoured landmass above, with no rectangle spanning its gaps or surroundings.
 	if indoor:
@@ -808,6 +823,47 @@ func _band(local: Dictionary, cell: Vector2i) -> Array:
 			return band.get("types",[])
 	return []
 
+## Trees stand in clumps with grass between them (owner: 树成丛、丛间留草地). The cells a
+## tree may stand on come grouped by `tree_spacing` (`sites`: cluster -> cells) and each
+## group gets at most one tree: a roll seeded by the group's place picks the cell, so a tree
+## is not always in the group's first row and the same map plants the same trees every time.
+## `tree_chance` is each cell's chance, so a group's is that of any of its cells passing (a
+## group cut by a path, with fewer cells, is emptier, as it always was); it is then shaded by a
+## slow noise (flora `grove_contrast`, 0 an even scatter .. 1 thickets and clearings) so a
+## wood has thick places, thin places and open ground. Returns cluster -> the tree's cell.
+func _tree_sites(sites: Dictionary) -> Dictionary:
+	var chosen: Dictionary = {}
+	for cluster: Vector3i in sites:
+		var random := RandomNumberGenerator.new()
+		random.seed = Shapes.place_seed(cluster.x,cluster.y,cluster.z)
+		var cells: Array = sites[cluster]
+		var cell: Vector2i = cells[random.randi_range(0,cells.size()-1)]
+		var local: Dictionary = _flora_at(Vector2(cell))
+		var any: float = 1.0-pow(1.0-float(local.get("tree_chance",0.15)),cells.size())
+		var middle := Vector2(cluster.x+0.5,cluster.y+0.5)*float(cluster.z)
+		var shade: float = clampf(1.0+grove_noise.get_noise_2d(middle.x,middle.y)*float(local.get("grove_contrast",0.8))*1.6,0.0,2.0)
+		if random.randf() < any*shade:
+			chosen[cluster] = cell
+	return chosen
+
+func _plant_trees(sites: Dictionary) -> void:
+	var chosen: Dictionary = _tree_sites(sites)
+	for cluster: Vector3i in chosen:
+		var cell: Vector2i = chosen[cluster]
+		var local: Dictionary = _flora_at(Vector2(cell))
+		# Close to a path only low growth (flora `bands`: [{"within": px of open ground,
+		# "types": [...]}], nearest first): a tall pine there would wall the way off
+		# from the camera. An empty band plants nothing.
+		var band: Array = _band(local,cell)
+		if _band_hit:
+			local = local.duplicate()
+			local["tree_types"] = band
+		if local.get("tree_types",[0]).is_empty():
+			continue
+		var random := RandomNumberGenerator.new()
+		random.seed = Shapes.place_seed(cluster.x,cluster.y,cluster.z,1)
+		_tree(point(Vector2(cell)), random.randf()<float(local.get("blossom_trees",0.35)), local, random)
+
 ## flora `no_trees`: rects (px) where no tree is planted (a landmark's own ground).
 func _treeless(at: Vector2) -> bool:
 	for r: Array in flora.get("no_trees",[]):
@@ -856,14 +912,19 @@ func _flora_at(at: Vector2) -> Dictionary:
 			return entry["style"]
 	return flora
 
-func _tree(at: Vector3, pink: bool, local: Dictionary = {}) -> void:
+## One tree at `at`, its species, size and turn drawn from `random` (the planting's own,
+## seeded by its place; the map's shared `rng` when none), its crown in the colours of the
+## flora it stands in (`crown_colors`: an area's own, else the map's).
+func _tree(at: Vector3, pink: bool, local: Dictionary = {}, random: RandomNumberGenerator = null) -> void:
 	if local.is_empty():
 		local = flora
+	if random == null:
+		random = rng
 	var choices: Array = local.get("tree_types",["pine","broadleaf","broadleaf","slender","shrub"])
-	var species: String = "blossom" if pink else String(choices[rng.randi_range(0,choices.size()-1)])
-	var size: float = rng.randf_range(0.82,1.32)
-	var scale := Vector3(size*rng.randf_range(0.86,1.18),size*rng.randf_range(0.90,1.23),size)
-	var frame := Transform3D(Basis(Vector3.UP,rng.randf()*TAU)*Basis.from_scale(scale),at)
+	var species: String = "blossom" if pink else String(choices[random.randi_range(0,choices.size()-1)])
+	var size: float = random.randf_range(0.82,1.32)
+	var scale := Vector3(size*random.randf_range(0.86,1.18),size*random.randf_range(0.90,1.23),size)
+	var frame := Transform3D(Basis(Vector3.UP,random.randf()*TAU)*Basis.from_scale(scale),at)
 	# Trees near each other share one grove node: one batch per colour and one crown
 	# MultiMesh per silhouette instead of a handful of draws for every tree.
 	var chunk := Vector2i(floori(at.x/GROVE),floori(at.z/GROVE))
@@ -871,11 +932,12 @@ func _tree(at: Vector3, pink: bool, local: Dictionary = {}) -> void:
 		var grove: Node3D = _node()
 		_groves[chunk] = {"node":grove,"crowns":{}}
 		occluders.append({"node":grove})
-	tree_shapes.build(_groves[chunk]["node"],shapes,species,rng.randi_range(0,5),frame,_groves[chunk]["crowns"])
+	var colors: Array = (local.get("crown_colors",{}) as Dictionary).get(species,[])
+	tree_shapes.build(_groves[chunk]["node"],shapes,species,random.randi_range(0,5),frame,_groves[chunk]["crowns"],colors)
 	if ground != null and species!="shrub":
 		ground.roots(at,size)
 	for petal: int in 10 if pink else 3:
-		var drop := Vector3(rng.randf_range(-1.8,1.8),0.032+petal*0.001,rng.randf_range(-1.8,1.8))
+		var drop := Vector3(random.randf_range(-1.8,1.8),0.032+petal*0.001,random.randf_range(-1.8,1.8))
 		if landmass == null or landmass.contains(Vector2(at.x+drop.x,at.z+drop.z)*UNIT):
 			shapes.box(self,at+drop,Vector3(0.1,0.025,0.08),"d095ae" if pink else "9c995e")
 

@@ -299,13 +299,18 @@ func _balustrade(w: float, d: float) -> void:
 		fallback = ["8e3a2c","a8483a","6b2e24"]
 	var colors: Array = _colors("colors",fallback)
 	var height: float = float(data.get("height",0.85))
+	# Old stone: by its place a post has lost its cap, a panel its corner.
+	var vary: RandomNumberGenerator = Shapes.spot_rng(root.position)
 	s.box(root,Vector3(0,0.06,0),_along(along_x,length,0.12,depth*0.9),String(data.get("kerb","5c3f2b" if wooden else "b4b0a3")))
 	var count: int = maxi(1,roundi(length/0.5))
 	for i: int in count+1:
 		var t: float = -length/2+i*length/count
 		var at: Vector3 = Vector3(t,0,0) if along_x else Vector3(0,0,t)
 		s.box(root,at+Vector3(0,height/2+0.06,0),Vector3(0.13,height,0.13),String(colors[0]))
-		s.box(root,at+Vector3(0,height+0.14,0),Vector3(0.1,0.11,0.1),String(colors[1]))
+		if vary.randf()<0.08 and not data.get("peacocks",false):
+			s.box(root,at+Vector3(0,height+0.1,0),Vector3(0.1,0.04,0.1),String(colors[2]))
+		else:
+			s.box(root,at+Vector3(0,height+0.14,0),Vector3(0.1,0.11,0.1),String(colors[1]))
 		if data.get("peacocks",false):
 			# bridge2.c: 二十个望柱头上各有一小孔雀 — a little peacock on each post, its tail down.
 			s.box(root,at+Vector3(0,height+0.27,0),Vector3(0.08,0.12,0.12),"2f6a70")
@@ -313,7 +318,13 @@ func _balustrade(w: float, d: float) -> void:
 			s.box(root,at+Vector3(0,height+0.2,-0.1),Vector3(0.1,0.04,0.14),"4a8a5a")
 		if i<count:
 			var mid: Vector3 = at+(Vector3(length/count/2,0,0) if along_x else Vector3(0,0,length/count/2))
-			s.box(root,mid+Vector3(0,height*0.45+0.06,0),_along(along_x,length/count-0.17,height*0.5,0.06),String(colors[2]))
+			if vary.randf()<0.07:
+				# A corner broken off the panel.
+				var side: float = 1.0 if vary.randf()<0.5 else -1.0
+				s.box(root,mid+Vector3(0,height*0.45+0.06,0)+(Vector3(side*0.06,0,0) if along_x else Vector3(0,0,side*0.06)),_along(along_x,length/count-0.29,height*0.5,0.06),String(colors[2]))
+				s.box(root,mid+Vector3(0,height*0.34+0.06,0)+(Vector3(-side*(length/count/2-0.14),0,0) if along_x else Vector3(0,0,-side*(length/count/2-0.14))),_along(along_x,0.12,height*0.28,0.06),String(colors[2]))
+			else:
+				s.box(root,mid+Vector3(0,height*0.45+0.06,0),_along(along_x,length/count-0.17,height*0.5,0.06),String(colors[2]))
 			s.box(root,mid+Vector3(0,height*0.45+0.06,0),_along(along_x,0.1,0.1,0.08),String(colors[1]))
 	s.box(root,Vector3(0,height+0.05,0),_along(along_x,length,0.08,0.12),String(colors[1]))
 	s.box(root,Vector3(0,0.18,0),_along(along_x,length,0.06,0.09),String(colors[1]))
@@ -389,7 +400,10 @@ func _compound_wall(w: float, d: float) -> void:
 	var stone: Array = _colors("stone",["8a8a7c","7a7a6e","96958a"])
 	var bricks: Array = _colors("brick",["8a5a46","7a4e3e","946450"])
 	var moss: Array = _colors("moss",["4f6a3a","5d7a45","6a8650"])
-	var wear: float = float(data.get("wear",0.3))
+	# How much plaster has fallen: `wear`, more on one stretch of wall than the next, and where
+	# along it, by the wall's place.
+	var vary: RandomNumberGenerator = Shapes.spot_rng(root.position)
+	var wear: float = float(data.get("wear",0.3))*vary.randf_range(0.6,1.4)
 	var bays: int = maxi(1,roundi(length/0.5))
 	var bay: float = length/bays
 	for i: int in bays:
@@ -398,7 +412,7 @@ func _compound_wall(w: float, d: float) -> void:
 		s.box(root,_place(along_x,t,course/2,0),_along(along_x,bay+0.01,course,thick+0.08),String(stone[i%stone.size()]))
 		var shade: String = plaster.darkened(fposmod(i*0.173,0.06)).to_html(false)
 		s.box(root,_place(along_x,t,course+(height-course)/2,0),_along(along_x,bay+0.01,height-course,thick),shade)
-		var roll: float = fposmod(sin(i*12.9898)*43758.5453,1.0)
+		var roll: float = vary.randf()
 		for face: float in [-1.0,1.0]:
 			if roll < wear:
 				# Plaster fallen away: the brick showing in a ragged patch.
@@ -694,13 +708,22 @@ func _censer(w: float) -> void:
 		ambience.smoke(root,Vector3(0,1.95,0),String(data.get("smoke","cfcac0")),6,0.16)
 
 ## 石灯: a stone lantern: a square foot and shaft, the fire box with its windows lit at night, a
-## cap curling up at its corners, a jewel on top.
+## cap curling up at its corners, a jewel on top. By its place each is a little taller or
+## shorter than the next, leans a touch, is mossed low down, and now and then one is unlit.
 func _stone_lantern() -> void:
 	var stone: Array = _colors("colors",["bdb9ad","aaa79a","cbc8bc"])
-	var height: float = float(data.get("height",1.6))
+	var vary: RandomNumberGenerator = Shapes.spot_rng(root.position)
+	var height: float = float(data.get("height",1.6))*vary.randf_range(0.9,1.1)
+	root.rotation.x += vary.randf_range(-0.03,0.03)
+	root.rotation.z += vary.randf_range(-0.03,0.03)
 	s.box(root,Vector3(0,0.09,0),Vector3(0.62,0.18,0.62),String(stone[1]))
 	s.box(root,Vector3(0,0.24,0),Vector3(0.44,0.12,0.44),String(stone[0]))
 	s.box(root,Vector3(0,0.3+height*0.2,0),Vector3(0.22,height*0.4,0.22),String(stone[0]))
+	for patch: int in vary.randi_range(0,3):
+		var a: float = vary.randf()*TAU
+		var low: bool = vary.randf()<0.6
+		var at := Vector3(cos(a)*(0.32 if low else 0.115),0.12+vary.randf()*0.08 if low else 0.34+vary.randf()*height*0.3,sin(a)*(0.32 if low else 0.115))
+		s.box(root,at,Vector3(0.1,0.08,0.1) if low else Vector3(0.06,0.14,0.06),["5a7a46","6a8a50","4e6c3e"][patch%3])
 	s.box(root,Vector3(0,0.3+height*0.42,0),Vector3(0.5,0.08,0.5),String(stone[2]))
 	var box_y: float = 0.3+height*0.58
 	s.box(root,Vector3(0,box_y,0),Vector3(0.4,height*0.24,0.4),String(stone[0]))
@@ -711,7 +734,7 @@ func _stone_lantern() -> void:
 	for corner: Vector2 in [Vector2(-1,-1),Vector2(1,-1),Vector2(1,1),Vector2(-1,1)]:
 		s.box(root,Vector3(corner.x*0.3,box_y+height*0.19,corner.y*0.3),Vector3(0.08,0.08,0.08),String(stone[2]))
 	s.box(root,Vector3(0,box_y+height*0.3,0),Vector3(0.12,0.14,0.12),String(stone[1]))
-	if data.get("lit",true):
+	if data.get("lit",true) and vary.randf()>=0.12:
 		var lamp := OmniLight3D.new()
 		lamp.position = Vector3(0,box_y,0)
 		lamp.light_color = Color("ffc884")

@@ -1,0 +1,19 @@
+{
+  "note": "青石村 (美术规划 §1): 青灰、苔绿、土褐 — 苔绿 and 深绿, the village's own greens; 花米白、淡紫、土黄、淡蓝. The region's default flora; a map's own `flora` overrides it key by key.",
+  "crown_colors": {
+    "broadleaf": ["2f4a2c", "3e5f36", "527445", "6c8a52"],
+    "pine": ["1f3a2e", "2a4a37", "3a5d43", "4f7350"],
+    "slender": ["3c5a3a", "4f7048", "678a58", "83a266"],
+    "shrub": ["34502f", "45653a", "5a7c47", "719257"],
+    "scrub": ["4a5e36", "5a6f40", "6c814b", "7e9156"],
+    "mountain_pine": ["223c33", "2f4d3f", "40624e", "577a5c"]
+  },
+  "bark_colors": {
+    "broadleaf": ["5a4a3a", "6c5a46"],
+    "slender": ["5a4a3a", "6c5a46"],
+    "shrub": ["5a4a3a", "6c5a46"],
+    "pine": ["5a4a3a", "6c5a46", "564636"]
+  },
+  "grass_colors": ["2f4a2c", "45623a", "5d7c47", "7a9658"],
+  "flower_colors": ["e8e2c8", "c8b8d8", "d8c060", "9cb8d0"]
+}

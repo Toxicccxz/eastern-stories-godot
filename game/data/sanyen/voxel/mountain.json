@@ -55,7 +55,6 @@
     "flower_threshold": 0.14,
     "blossom_trees": 0.0,
     "tree_types": ["pine", "broadleaf", "poplar", "locust", "pine"],
-    "crown_colors": {"pine": ["244a3a", "2f5e48", "467458", "688e66"], "broadleaf": ["2f5a38", "3e6f42", "548650", "72a060"], "locust": ["3f6a3a", "527d44", "6a9450", "86aa5e"], "note": "翡翠绿: the greens of 日照山 lean toward jade"},
     "tree_kinds": ["forest"],
     "tree_chance": 0.9,
     "tree_spacing": 48,
