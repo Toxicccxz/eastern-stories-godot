@@ -37,6 +37,8 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_school = map.service(SCHOOL) as TeacherService
 	_school.request_apprentice()
 	_check(_state.family.family_id == &"family.fonxan", "apprenticed to 柳淳风")
+	# The 拜师 card over the world (前两小时 A) would hold world time and take the focus until 继续.
+	_hud.life_overlay.go_on()
 	_test_learn_until_gin_would_be_wasted()
 	await _test_same_as_single_learns(tree)
 	_test_learn_stops()

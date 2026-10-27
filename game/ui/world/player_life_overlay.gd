@@ -163,10 +163,14 @@ func _show(value: String, can_continue: bool, blocking: bool) -> void:
 
 ## The game's own card: wider, with 继续, world time held while it is up.
 func _show_card(value: String) -> void:
-	_show(value, true, true)
+	# The focus goes to 继续 once, as the card comes up: the pause panel over it keeps its own.
+	var first: bool = not _card_held
+	_show(value, true, first)
+	_dim.color.a = 0.72
+	_dim.mouse_filter = Control.MOUSE_FILTER_STOP
 	_text.custom_minimum_size.x = CARD_WIDTH
 	_panel.custom_minimum_size.x = CARD_WIDTH + 20.0
-	if not _card_held:
+	if first:
 		_card_held = true
 		_session.hold_world_time(CARD_HOLD)
 

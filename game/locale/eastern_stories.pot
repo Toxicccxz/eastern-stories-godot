@@ -13180,9 +13180,19 @@ msgstr ""
 msgid "你在饮风客栈醒来，店小二笑着招呼了你。"
 msgstr ""
 
+#. snow.newcomer/woke next
+#: data/common/journal.json
+msgid "跟店小二打听「楼上」。"
+msgstr ""
+
 #. snow.newcomer/errand text
 #: data/common/journal.json
 msgid "店小二说楼上客房闹老鼠，请你上去收拾。"
+msgstr ""
+
+#. snow.newcomer/errand next
+#: data/common/journal.json
+msgid "上楼收拾老鼠。"
 msgstr ""
 
 #. snow.newcomer/rats text
@@ -13190,9 +13200,19 @@ msgstr ""
 msgid "楼上的老鼠都收拾干净了。"
 msgstr ""
 
+#. snow.newcomer/rats next
+#: data/common/journal.json
+msgid "下楼找店小二。"
+msgstr ""
+
 #. snow.newcomer/thanked text
 #: data/common/journal.json
 msgid "店小二谢了你一根烤鸡腿。"
+msgstr ""
+
+#. snow.newcomer/thanked next
+#: data/common/journal.json
+msgid "去淳风武馆拜柳淳风为师。"
 msgstr ""
 
 #. snow.newcomer/apprenticed text
@@ -13200,9 +13220,19 @@ msgstr ""
 msgid "你拜入了封山剑派。"
 msgstr ""
 
+#. snow.newcomer/apprenticed next
+#: data/common/journal.json
+msgid "向柳淳风请教基本剑法。"
+msgstr ""
+
 #. snow.newcomer/sword text
 #: data/common/journal.json
 msgid "你跟柳淳风学了基本剑法。"
+msgstr ""
+
+#. snow.newcomer/sword next
+#: data/common/journal.json
+msgid "去武馆和弟子切磋一场，胜了算。"
 msgstr ""
 
 #. snow.newcomer/first_spar text
@@ -13210,9 +13240,19 @@ msgstr ""
 msgid "你第一次在切磋中胜过了武馆弟子。"
 msgstr ""
 
+#. snow.newcomer/first_spar next
+#: data/common/journal.json
+msgid "到武学页打坐，把内力练到 10。"
+msgstr ""
+
 #. snow.newcomer/force_10 text
 #: data/common/journal.json
 msgid "你的内力练到了 10。"
+msgstr ""
+
+#. snow.newcomer/force_10 next
+#: data/common/journal.json
+msgid "再切磋，再打坐：内力练到 25。"
 msgstr ""
 
 #. snow.newcomer/force_25 text
@@ -13220,9 +13260,19 @@ msgstr ""
 msgid "你的内力练到了 25。"
 msgstr ""
 
+#. snow.newcomer/force_25 next
+#: data/common/journal.json
+msgid "向李教头讨教一场，然后打坐到内力 50。"
+msgstr ""
+
 #. snow.newcomer/force_50 text
 #: data/common/journal.json
 msgid "你的内力练到了 50，够学封山剑法了。"
+msgstr ""
+
+#. snow.newcomer/force_50 next
+#: data/common/journal.json
+msgid "向柳淳风请教封山剑法；教练场的木人也等着你。"
 msgstr ""
 
 #. snow.newcomer/fonxan_sword text
@@ -13230,9 +13280,19 @@ msgstr ""
 msgid "你学会了封山剑法。"
 msgstr ""
 
+#. snow.newcomer/fonxan_sword next
+#: data/common/journal.json
+msgid "去雪亭驿门外看看悬赏榜。"
+msgstr ""
+
 #. snow.newcomer/bounty text
 #: data/common/journal.json
 msgid "你揭了雪亭驿门外的一张悬赏。"
+msgstr ""
+
+#. snow.newcomer/bounty next
+#: data/common/journal.json
+msgid "出镇南行，过卧龙岗，去绮云镇看看。"
 msgstr ""
 
 #. snow.newcomer/cloud text

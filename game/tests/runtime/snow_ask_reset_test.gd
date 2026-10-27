@@ -39,7 +39,7 @@ func _test_data() -> void:
 	var trainer: NpcTalk = catalog.npc(&"snow.npc.fist_trainer").talk()
 	_check(trainer.inquiry_topics() == ["here", "name", "柳家拳法"] and not trainer.has_chat(), "李火狮: here, name, 柳家拳法")
 	var teacher: NpcTalk = catalog.npc(&"snow.npc.teacher").talk()
-	_check(teacher.answer("学费").size() == 5 and teacher.answer("刘安禄").size() == 3, "魏无极: ask.c says the strings, skips 0 and the function")
+	_check(teacher.answer("学费").size() == 6 and teacher.answer("刘安禄").size() == 3, "魏无极: ask.c says the strings, skips 0 and the function (学费 with its native sixth line, DECISIONS「客栈的老鼠」)")
 	_check(catalog.npc(&"snow.npc.post_officer").talk().inquiry_topics() == ["驿站"], "杜宽: 驿站 only (mail omitted)")
 	_check(catalog.npc(&"snow.npc.guard").talk().inquiry_topics().is_empty(), "刘安禄: no topics until the reveal is ported")
 	_check(catalog.npc(&"snow.npc.drunk").talk().chat_chance == 10 and catalog.npc(&"snow.npc.drunk").talk().chat_entries()[0] is NpcDrinkAction, "醉汉: do_drink at 10 (4E)")
@@ -71,7 +71,7 @@ func _test_inquiry_rule() -> void:
 		"魏无极对你作了一揖：这位小姑娘可真会开玩笑，怎么会突然问起在下的名字？",
 	], "a peaceful NPC's name (ask.c; the sigh emote prints nothing)")
 	_check(NpcInquiry.ask(teacher, &"男性", 47, true, asker, "这里", "书院", none)[1] == "魏无极对你说道：这里是书院，至于其它的，在下不便多说。", "这里 without an answer: the room's title")
-	_check(NpcInquiry.ask(teacher, &"男性", 47, true, asker, "学费", "", none).size() == 6, "学费: the question and five lines")
+	_check(NpcInquiry.ask(teacher, &"男性", 47, true, asker, "学费", "", none).size() == 7, "学费: the question and six lines")
 	_check(NpcInquiry.ask(teacher, &"男性", 47, true, asker, "传闻", "", ScriptedWorldInteractionRandomSource.new([1])) == [
 		"你向魏无极问道：这位壮士，不知最近有没有听说什麽消息？",
 		"魏无极睁大眼睛望著你，显然不知道你在说什麽。",
