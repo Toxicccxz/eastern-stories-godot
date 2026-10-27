@@ -40,6 +40,7 @@
     {"kind": "bones", "at": [-60, 120], "size": [36, 28], "skull": false, "count": 4, "ribs": false, "note": "gnawed bones from his meals"},
     {"kind": "glow", "at": [-226, -8], "color": "e8dcc0", "day": 0.9, "night": 0.05, "range": 4.5, "height": 1.6, "note": "daylight through the door"}
   ],
+  "life": {"goathill.temple1": {"walls": "boards"}},
   "actors": {
     "default": {"coat": "7d6a4e"},
     "goathill.npc.bandit_hwang": {"coat": "6b2f2a", "scale": 1.0}

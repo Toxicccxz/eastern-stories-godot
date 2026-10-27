@@ -1384,7 +1384,8 @@
           "oldpine.outdoor.keep_hall": {
             "floor": "floor_wood",
             "wall": "wall_wood",
-            "size": "hall"
+            "size": "hall",
+            "life": {"use": "bandit_hall", "wealth": "poor", "seed": 1}
           }
         },
         "props": [

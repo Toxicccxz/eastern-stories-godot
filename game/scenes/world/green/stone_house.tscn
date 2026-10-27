@@ -305,3 +305,6 @@ metadata/footprint = Vector2(48, 48)
 position = Vector2(-352, -504)
 metadata/look = {"kind": "buddha", "occludes": true}
 metadata/footprint = Vector2(96, 80)
+
+[node name="RoomLife" type="Node" parent="."]
+metadata/rooms = {"green.stoneroom": {"seed": 1, "use": "stone_chamber"}}
