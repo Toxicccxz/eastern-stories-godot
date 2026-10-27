@@ -148,6 +148,8 @@ var waits: SharedUiWaits = SharedUiWaits.new(self)
 
 func _ready() -> void:
 	_session = get_parent() as WorldSessionController
+	if _session != null:
+		_session.day_phase_began.connect(message_log.note_day_phase)
 	layer = 8
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	visible = false

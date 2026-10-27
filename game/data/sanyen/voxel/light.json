@@ -1,0 +1,11 @@
+{
+  "note": "山烟寺: the gilt tiles' glare by day; the gilt at its brightest at dusk; candlelight through the hall's windows and the pagoda's shadow at night.",
+  "outdoor": {
+    "sky": {"dawn": "c6ccc8", "day": "b6cdd6", "dusk": "e8a860", "night": "0e1624", "midnight": "0a1220"},
+    "ambient": {"dawn": "ccccc0", "day": "d6d6c6", "dusk": "dcbe90", "night": "6a7ca6", "midnight": "60729c"},
+    "ambient_energy": {"dawn": 0.44, "day": 0.46, "dusk": 0.48, "night": 0.32, "midnight": 0.3},
+    "sun": {"dawn": "ffdab4", "day": "fff0d0", "dusk": "ffb050", "night": "a0b8ec", "midnight": "98b4ec"},
+    "sun_energy": {"dawn": 0.58, "day": 0.95, "dusk": 0.86, "night": 0.34, "midnight": 0.32}
+  },
+  "indoor": {}
+}

@@ -5,6 +5,8 @@ const Recovery := preload("res://tests/runtime/player_recovery_cadence_test.gd")
 var failed: bool = false
 
 func _init() -> void:
+	# The day stands still, as under run_suite.gd (TestDay): the save read back must match exactly.
+	TestDay.turn_off()
 	call_deferred("_run")
 
 func _run() -> void:
@@ -45,7 +47,7 @@ func _run() -> void:
 			var after: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, loaded.snapshot.metadata.storage_profile, loaded.snapshot.metadata.saved_at_utc)
 			check(after.succeeded() and GameSaveJsonCodec.encode(after.snapshot).text == GameSaveJsonCodec.encode(loaded.snapshot).text, "ALL saved facts exact including location/items/allocator/RNG")
 			check(FileAccess.get_file_as_string(profile.canonical_path()) == bytes_before, "no save rewrite")
-			check(loaded.snapshot.metadata.schema_version == 2 and loaded.snapshot.items.schema_version == 3, "root2/item3")
+			check(loaded.snapshot.metadata.schema_version == GameSaveSnapshot.CURRENT_SCHEMA_VERSION and loaded.snapshot.items.schema_version == 3, "root2/item3")
 			var position: Vector2 = MapPlaces.zone_spot(session.active_map() as WorldMapController, zone)
 			check(session.player_runtime().world_location().zone_id == zone and session.active_map().runtime_player_body().position == position, "exact new zone and position")
 			paused = false

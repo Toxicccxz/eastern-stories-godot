@@ -4,11 +4,6 @@
   "note": "From the ford across 泓水 (northriver/midriver/southriver.c: chest-deep and cold, the current turning at the narrows where boats go down, a corner of 山烟寺 already in sight) to 江南渡口 and its jetty; up the rough yellow-earth path round the foot of 日照山 (road1-4.c), east to 乔阴; onto the mountain road of great mossy stones under the cliff carved 「山烟寺」 (sroad1.c), round the bend (sroad2.c) to the 山门 in the temple's golden-roofed wall (gate.c: 金碧辉煌) and west into the tunnel cut through the cliff, smelling of sulphur. Old: the stones worn, the path rutted, the gate's gilt dulled.",
   "edge": {"minimum_margin": 32, "maximum_margin": 80, "depth": 3.0, "top": "4e6a3c", "bottom": "3a4034", "strata": ["6d7466", "777e6f", "636a5d"]},
   "light": {
-    "sky": ["b6cdd6", "0e1624"],
-    "ambient": ["d6d6c6", "6a7ca6"],
-    "ambient_energy": [0.46, 0.32],
-    "sun": ["fff0d0", "a0b8ec"],
-    "sun_energy": [0.95, 0.34],
     "carried": {"color": "ffd9a0", "range": 5.5, "attenuation": 1.2, "day": 0.0, "night": 0.6}
   },
   "cliffs": {

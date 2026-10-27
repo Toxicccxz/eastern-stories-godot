@@ -3,7 +3,6 @@
   "camera_size": 23,
   "note": "青石村 (README: 三面环山, 产石材. 因山壁上覆满青苔而得名): grey-green stone everywhere — the slab road with its ruts, the square of great blocks, houses of dry-laid stone under stone-slab roofs, the cut cliff of the quarry — moss on every face and in every joint, earth-brown yards and wood, the hills close round on three sides. Colours 青灰, 苔绿, 土褐; nothing of 雪亭镇's blossom, 水烟阁's maples or 绮云镇's grey-blue tiles.",
   "edge": {"minimum_margin": 48, "maximum_margin": 112, "depth": 2.6, "top": "4a5a3c", "bottom": "3a3f34", "strata": ["5e6156", "686b5f", "55584e"]},
-  "light": {"sky": ["a6bcae", "0f1a28"], "ambient": ["b6c4b0", "6e86aa"], "ambient_energy": [0.4, 0.3]},
   "cliffs": {
     "kinds": ["cliff"],
     "low": 1.0,

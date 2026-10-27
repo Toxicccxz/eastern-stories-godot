@@ -5,11 +5,11 @@
     "none": true
   },
   "light": {
-    "sky": ["a9c4cf", "101a2a"],
-    "ambient": ["c5cfbe", "6f84ae"],
-    "ambient_energy": [0.5, 0.42],
-    "sun": ["fff0d0", "aac4f2"],
-    "sun_energy": [1.0, 0.45],
+    "sky": {"day": "a9c4cf", "night": "101a2a"},
+    "ambient": {"day": "c5cfbe", "night": "6f84ae"},
+    "ambient_energy": {"day": 0.5, "night": 0.42},
+    "sun": {"day": "fff0d0", "night": "aac4f2"},
+    "sun_energy": {"day": 1.0, "night": 0.45},
     "fog": {"color": ["8fa8a8", "121a26"], "density": [0.0, 0.0], "height": -3.0, "height_density": 0.035}
   },
   "ground": {

@@ -94,6 +94,8 @@ func _test_same_world(tree: SceneTree, snapshot: GameSaveSnapshot) -> void:
 		if not restored.succeeded() or not restored.candidate.activate_restore_candidate():
 			_check(false, "built")
 			return
+		# No world time between the two: the day (day_seconds) would go on by a frame's worth.
+		restored.candidate.set_process(false)
 		await tree.process_frame
 		texts.append(GameSaveJsonCodec.encode(Work.capture(restored.candidate)).text)
 		restored.candidate.free()

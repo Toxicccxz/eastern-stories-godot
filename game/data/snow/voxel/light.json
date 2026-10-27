@@ -1,0 +1,11 @@
+{
+  "note": "雪亭镇 (美术规划 §2 包 B): warm white daylight under a grey-green sky; a cherry-pink dusk shading to the owner's 黄昏紫; lamplight amber under a deep blue night; the small hours darker still.",
+  "outdoor": {
+    "sky": {"dawn": "c9b6b4", "day": "9cb5ac", "dusk": "c98aa8", "night": "111e35", "midnight": "0a1226"},
+    "ambient": {"dawn": "c0b8c4", "day": "b4c4c9", "dusk": "b89ab8", "night": "738db8", "midnight": "5a6e9c"},
+    "ambient_energy": {"dawn": 0.36, "day": 0.38, "dusk": 0.4, "night": 0.3, "midnight": 0.26},
+    "sun": {"dawn": "ffd2a8", "day": "fff0d6", "dusk": "ff9c6a", "night": "91b3ee", "midnight": "7a9ad8"},
+    "sun_energy": {"dawn": 0.55, "day": 0.85, "dusk": 0.7, "night": 0.32, "midnight": 0.24}
+  },
+  "indoor": {}
+}

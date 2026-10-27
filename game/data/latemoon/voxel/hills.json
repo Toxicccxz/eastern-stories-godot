@@ -4,11 +4,9 @@
   "note": "Outside the back gate (sroad1-5.c, bamboo*.c): the narrow path through waist-high grass, under the cliff, east along it and south past the slope with the tunnel to 山烟寺; then the bamboo grove of five clearings, each the same as every other.",
   "edge": {"minimum_margin": 32, "maximum_margin": 80, "depth": 3.0, "top": "4a6a3a", "bottom": "3a4034", "strata": ["6d7466", "777e6f", "636a5d"]},
   "light": {
-    "sky": ["b8d0d0", "0e1624"],
-    "ambient": ["d0dcc8", "6a7ca6"],
-    "ambient_energy": [0.46, 0.32],
-    "sun": ["fff2d8", "a0b8ec"],
-    "sun_energy": [0.92, 0.34],
+    "sky": {"day": "b8d0d0", "night": "0e1624"},
+    "ambient": {"day": "d0dcc8", "night": "6a7ca6"},
+    "sun": {"day": "fff2d8", "night": "a0b8ec"},
     "carried": {"color": "ffd9a0", "range": 5.0, "attenuation": 1.2, "day": 0.0, "night": 0.6}
   },
   "cliffs": {

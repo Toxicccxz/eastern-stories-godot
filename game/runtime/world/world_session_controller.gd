@@ -91,6 +91,10 @@ var _player_resets: WorldRoomResets
 var _maps_by_room: Dictionary[String, Array] = {}
 ## The world clock and each map's time without the player (DECISIONS「别的地图时间补算」).
 var _away: WorldAwayTimes = WorldAwayTimes.new()
+## The time of day (DECISIONS「昼夜」), going on with the world clock; saved as day_seconds.
+var _day: DayClock = DayClock.new()
+## A phase of the day began (DayClock.advance()): the outdoor player hears natured.c's line.
+signal day_phase_began(phase: DayPhaseDefinition)
 ## The player's corpses that scattered (obj/corpse.c decay(3)): what they held lies where they
 ## lay. Not saved (the death card that reads it cannot be saved on).
 var _scattered_corpses: Dictionary[StringName, bool] = {}
@@ -108,6 +112,7 @@ func _ready() -> void:
 	# Physics interpolation (DECISIONS「手感」) is for the player's walk and its camera only
 	# (WorldCharacterBody2D.bind_player()); everything else is drawn where it is.
 	physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
+	_day = DayClock.new(GameContent.catalog().day_phases())
 	if initialize_session():
 		shared_ui().configure(player_runtime())
 		shared_ui().initialize_supplies()
@@ -382,6 +387,9 @@ func advance_npc_heartbeat(delta: float) -> void:
 	if not npc_world_time_allowed():
 		return
 	_away.advance(delta)
+	var began: DayPhaseDefinition = _day.advance(delta, GameContent.catalog().pacing().day_length_minutes)
+	if began != null:
+		day_phase_began.emit(began)
 	var map: WorldMapController = active_map() as WorldMapController
 	if map != null and map.is_inside_tree() and map.can_process():
 		map.advance_npc_heartbeat(delta)
@@ -441,6 +449,11 @@ func corpse_scattered(corpse_id: StringName) -> bool:
 
 func away_times() -> WorldAwayTimes:
 	return _away
+
+
+## The time of day (DECISIONS「昼夜」): presentation and the outdoor rooms' line read it.
+func day_clock() -> DayClock:
+	return _day
 
 
 ## 别的地图时间补算 (DECISIONS): the world time `map` went without the player, caught up at
@@ -804,6 +817,8 @@ func activate_restore_candidate() -> bool:
 		return false
 	_restore_candidate_staged = false
 	_away.restore(restored_away_ms())
+	if _restore_preparation != null:
+		_day.set_day_seconds(_restore_preparation.day_seconds)
 	var world_map: WorldMapController = map as WorldMapController
 	if world_map != null:
 		world_map.npc_life.restored_zone_id = _player.world_location().zone_id

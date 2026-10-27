@@ -1,0 +1,11 @@
+{
+  "note": "灵心观: white walls, vermilion pillars and pine green by day; a pale gold dusk; moonlight on the white stone steps at night.",
+  "outdoor": {
+    "sky": {"dawn": "c8d0cc", "day": "b6ccd2", "dusk": "e0b880", "night": "0e1624", "midnight": "0a1220"},
+    "ambient": {"dawn": "ccd0c8", "day": "d2d8cc", "dusk": "d8c4a4", "night": "6a7ca6", "midnight": "6478a4"},
+    "ambient_energy": {"dawn": 0.44, "day": 0.46, "dusk": 0.46, "night": 0.32, "midnight": 0.32},
+    "sun": {"dawn": "ffdcb8", "day": "fff0d4", "dusk": "ffc078", "night": "a0b8ec", "midnight": "a4bcf4"},
+    "sun_energy": {"dawn": 0.58, "day": 0.95, "dusk": 0.78, "night": 0.34, "midnight": 0.38}
+  },
+  "indoor": {}
+}

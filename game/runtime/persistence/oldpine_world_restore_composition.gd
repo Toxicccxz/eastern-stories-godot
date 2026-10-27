@@ -201,6 +201,7 @@ static func _prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 		if not world_maps.has(map_id) or map_id == saved_player.world_location.map_id:
 			return Result.failure(Result.Outcome.INVALID_SNAPSHOT, "away_ms.%s" % String(map_id), "no such map away from the player")
 	preparation.away_ms = snapshot.away_ms
+	preparation.day_seconds = snapshot.day_seconds
 	if not preparation.is_valid():
 		return Result.failure(
 			Result.Outcome.RECONSTRUCTION_FAILED,

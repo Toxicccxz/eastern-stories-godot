@@ -21,7 +21,8 @@ var geometry: VoxelMapGeometry
 var occlusion := VoxelOcclusion.new()
 var layout: Dictionary
 var lighting := VoxelLighting.new()
-var night: bool = false
+## A frame held for a suite or a kit (set_frame()); "" follows the 昼夜 setting and the DayClock.
+var held_frame: String = ""
 var left_view: bool = false
 var actors: Dictionary[StringName, Node3D] = {}
 var labels: Dictionary[StringName, Label3D] = {}
@@ -70,6 +71,7 @@ func _process(delta: float) -> void:
 	_reveal_entrances()
 	_bob_arrows(delta)
 	_update_occlusion()
+	_sync_light()
 	lighting.advance(delta,VoxelMapGeometry.point(map.player_body.global_position))
 	if geometry.foliage != null:
 		geometry.foliage.advance(delta, _plant_contacts())
@@ -102,9 +104,36 @@ func _build() -> void:
 		occlusion.register(entry["node"])
 	for shutter: Node3D in shutters.values():
 		occlusion.register(shutter)
-	lighting.build(world,occlusion,layout.get("indoor",false),layout.get("light",{}))
-	lighting.set_night(night,true)
+	var indoor: bool = layout.get("indoor",false)
+	lighting.build(world,occlusion,indoor,VoxelLighting.merge_profile(_region_light(indoor),layout.get("light",{})))
+	_sync_light(true)
 	_built = true
+
+## The region's default light (data/<region>/voxel/light.json, DECISIONS「昼夜」): its
+## "outdoor" or "indoor" section, under the layout's own `light`.
+func _region_light(indoor: bool) -> Dictionary:
+	var path: String = layout_path.get_base_dir().path_join("light.json")
+	if not FileAccess.file_exists(path):
+		return {}
+	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+	if not parsed is Dictionary:
+		return {}
+	var section: Variant = (parsed as Dictionary).get("indoor" if indoor else "outdoor",{})
+	return section if section is Dictionary else {}
+
+## Where the light comes from: a held frame, else the 昼夜 setting (一直白天 / 一直夜晚),
+## else the session's DayClock.
+func _sync_light(immediate: bool = false) -> void:
+	if not held_frame.is_empty():
+		lighting.set_frame(held_frame,immediate)
+	elif DayNightPreference.mode == DayNightPreference.Value.DAY:
+		lighting.set_frame("day",immediate)
+	elif DayNightPreference.mode == DayNightPreference.Value.NIGHT:
+		lighting.set_frame("night",immediate)
+	elif map != null and map.session != null:
+		lighting.set_time(map.session.day_clock().day_minutes(),immediate)
+	else:
+		lighting.set_frame("day",immediate)
 
 func _activate() -> void:
 	_old_modulate = map.modulate
@@ -142,10 +171,16 @@ func _deactivate() -> void:
 		viewport.canvas_transform = Transform2D.IDENTITY
 		viewport.msaa_3d = _old_msaa
 
-func set_night(enabled: bool, immediate: bool = false) -> void:
-	night = enabled
+## Holds `frame` (DayPhaseDefinition.FRAMES) whatever the clock and setting say; "" lets go.
+## For suites and kits: the game's own light follows the 昼夜 setting.
+func set_frame(frame: String, immediate: bool = false) -> void:
+	held_frame = frame
 	if _built:
-		lighting.set_night(enabled,immediate)
+		_sync_light(immediate)
+
+## Day or night held (the older two-frame call).
+func set_night(enabled: bool, immediate: bool = false) -> void:
+	set_frame("night" if enabled else "day",immediate)
 
 ## Orbit between two fixed angles, sharing the same height and distance to the player.
 ## Nothing in the map, reach, collision or saved location rotates with the camera.

@@ -5,7 +5,7 @@
   "edge": {"minimum_margin": 40, "maximum_margin": 104, "depth": 3.0, "top": "4a5a3c", "bottom": "34382e", "strata": ["5e6156", "686b5f", "55584e"]},
   "light": {
     "carried": {"color": "dfe6f0", "range": 7.0, "attenuation": 1.2, "day": 0.0, "night": 1.1, "note": "no lamp on the mountain: the way shows round the player by moonlight"},
-    "sky": ["a2b6ac", "0d1622"], "ambient": ["b0bfae", "6880a8"], "ambient_energy": [0.4, 0.36]
+    "sky": {"day": "a2b6ac", "night": "0d1622"}, "ambient": {"day": "b0bfae", "night": "6880a8"}, "ambient_energy": {"day": 0.4, "night": 0.36}
   },
   "cliffs": {
     "kinds": ["cliff", "chasm"],

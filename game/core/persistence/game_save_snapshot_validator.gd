@@ -24,6 +24,8 @@ static func validate(snapshot: GameSaveSnapshot) -> GameSaveResult:
 		return _invalid("metadata.storage_profile", "unsupported storage profile")
 	if snapshot.session_kind != GameSaveSnapshot.SESSION_KIND_OLDPINE:
 		return _invalid("session_kind", "unsupported session kind")
+	if not DayClock.is_valid_day_seconds(snapshot.day_seconds):
+		return _invalid("day_seconds", "not a time of day")
 	if snapshot.item_id_allocator == null or snapshot.item_id_allocator.scope.is_empty():
 		return _invalid("item_id_allocator.scope", "empty allocator scope")
 	var player: Values.PlayerRuntimeSnapshot = snapshot.player

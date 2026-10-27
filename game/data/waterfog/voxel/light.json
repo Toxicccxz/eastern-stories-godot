@@ -1,0 +1,11 @@
+{
+  "note": "水烟阁: white stone bright by day; the maples' red dyed again by the dusk glow; a line of stone lamps and the moon on the cloud sea at night.",
+  "outdoor": {
+    "sky": {"dawn": "c8ccc8", "day": "b2c9d0", "dusk": "d48a6a", "night": "0f1626", "midnight": "0b1020"},
+    "ambient": {"dawn": "c8ccc8", "day": "cfd5cf", "dusk": "d0a690", "night": "6f7fab", "midnight": "6478a8"},
+    "ambient_energy": {"dawn": 0.42, "day": 0.44, "dusk": 0.44, "night": 0.33, "midnight": 0.32},
+    "sun": {"dawn": "ffd8b0", "day": "fff1d8", "dusk": "ff9856", "night": "9fb7ee", "midnight": "9ab8f0"},
+    "sun_energy": {"dawn": 0.55, "day": 0.95, "dusk": 0.76, "night": 0.36, "midnight": 0.34}
+  },
+  "indoor": {}
+}

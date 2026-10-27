@@ -1,6 +1,7 @@
 {
 	"files": [
 		"common/pacing.json",
+    "common/day_phases.json",
 		"common/items.json",
 		"common/skills.json",
 		"common/combat_actions.json",

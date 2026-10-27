@@ -160,7 +160,7 @@ func describe_new_zone() -> void:
 			and not previous.distinct and not zone.distinct and GameContent.catalog().zones_adjacent(previous.zone_id, zone.zone_id)):
 		return
 	var title: String = tr(zone.display_name)
-	var description: String = room_prose(tr(zone.description))
+	var description: String = room_prose(tr(zone.description)) + sky_line(zone)
 	# TRANSLATORS: a room's title and its description, as the log shows them on arrival.
 	var line: String = tr("【{title}】{description}").format({"title": title, "description": description})
 	var seconds: float = GameContent.catalog().pacing().feel.room_text_seconds(description)
@@ -173,6 +173,25 @@ func describe_new_zone() -> void:
 			_ui.view_overlay.show_room.call_deferred(title, description, seconds)
 		return
 	append_log_lines([line])
+
+
+## look.c: NATURE_D->outdoor_room_description() after an outdoor room's text (set("outdoors")),
+## the phase's desc_msg with its 。; nothing indoors (DECISIONS「昼夜」).
+func sky_line(zone: ZoneDefinition) -> String:
+	if zone == null or _session == null or not WorldMapController.zone_outdoors(zone.zone_id):
+		return ""
+	var phase: DayPhaseDefinition = _session.day_clock().phase()
+	# TRANSLATORS: natured.c's line on the sky after an outdoor room's text; {sky} is day_phases.json desc_msg.
+	return "" if phase == null else tr("{sky}。").format({"sky": tr(phase.desc_msg)})
+
+
+## natured.c update_day_phase(): message("outdoor:vision", time_msg) to whoever is outdoors as
+## a phase begins; one line, in the log and as a toast, nothing indoors.
+func note_day_phase(phase: DayPhaseDefinition) -> void:
+	var zone: ZoneDefinition = _ui.card.current_zone()
+	if zone == null or not WorldMapController.zone_outdoors(zone.zone_id):
+		return
+	_append(_colored([tr(phase.time_msg)]), true)
 
 
 ## Opens a panel that shows its own lines: toasts stay off while it is open.

@@ -437,6 +437,22 @@ custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 text = "目标提示"
 
+[node name="DayNightRow" type="HFlowContainer" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/DayNightRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "昼夜"
+vertical_alignment = 1
+
+[node name="DayNightOption" type="OptionButton" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox/DayNightRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 48)
+layout_mode = 2
+
 [node name="SettingsStatusLabel" type="Label" parent="ShellCanvas/SettingsPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 54)

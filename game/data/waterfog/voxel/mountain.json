@@ -11,11 +11,6 @@
   },
   "light": {
     "carried": {"color": "ffd9a0", "range": 6.5, "attenuation": 1.2, "day": 0.0, "night": 1.0, "note": "the white stairs and the path show round the player at night"},
-    "sky": ["b2c9d0", "0f1626"],
-    "ambient": ["cfd5cf", "6f7fab"],
-    "ambient_energy": [0.44, 0.33],
-    "sun": ["fff1d8", "9fb7ee"],
-    "sun_energy": [0.95, 0.36],
     "fog": {"color": ["d6e0e4", "141c2a"], "density": [0.0, 0.0], "height": -2.5, "height_density": 0.1, "note": "haze only in the depths of the gorge and the chasms; the ways stay clear"}
   },
   "cliffs": {

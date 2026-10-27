@@ -360,6 +360,10 @@ msgid "目标提示"
 msgstr ""
 
 #: scenes/application/application_shell.tscn
+msgid "昼夜"
+msgstr ""
+
+#: scenes/application/application_shell.tscn
 msgid "应用"
 msgstr ""
 
@@ -6759,6 +6763,10 @@ msgid "目标提示已生效，但未能保存。"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
+msgid "昼夜设置已生效，但未能保存。"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
 msgid "窗口模式已在本次运行中生效，但这项设置未能保存。"
 msgstr ""
 
@@ -6844,6 +6852,22 @@ msgstr ""
 
 #: runtime/application/application_shell_controller.gd
 msgid "状态卡上的「目标」一行和见闻提示里的「下一步」；关掉就只剩任务页"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "跟随游戏时间"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "一直白天"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "一直夜晚"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "地图的光照：跟着游戏里的一天走（黎明、白天、黄昏、夜、深夜），或者一直是白天、一直是夜晚"
 msgstr ""
 
 #: runtime/combat_encounter/combat_encounter_coordinator.gd runtime/world/map/world_map_hostilities.gd
@@ -9139,6 +9163,11 @@ msgstr ""
 msgid "【{title}】{description}"
 msgstr ""
 
+#. natured.c's line on the sky after an outdoor room's text; {sky} is day_phases.json desc_msg.
+#: ui/world/shared_ui_message_log.gd
+msgid "{sky}。"
+msgstr ""
+
 #. the prompt over a door or an item on the floor: {action} what E / A does (打开, 拾取), {thing} its name.
 #: ui/world/shared_ui_nearby.gd
 msgid "{action}{thing}"
@@ -9351,18 +9380,6 @@ msgstr ""
 msgid "负重过高。"
 msgstr ""
 
-#: ui/world/voxel_day_night_button.gd
-msgid "切换夜景"
-msgstr ""
-
-#: ui/world/voxel_day_night_button.gd
-msgid "切换白天与夜晚的光照"
-msgstr ""
-
-#: ui/world/voxel_day_night_button.gd
-msgid "切换白天"
-msgstr ""
-
 #: ui/world/voxel_view_side_button.gd
 msgid "切至左侧"
 msgstr ""
@@ -9406,6 +9423,126 @@ msgstr ""
 #. the banner on arriving on another map: {region} the region (绮云镇), {place} where the player stands (卧龙岗).
 #: ui/world/world_view_overlay.gd
 msgid "{region} · {place}"
+msgstr ""
+
+#. name
+#: data/common/day_phases.json
+msgid "微曦"
+msgstr ""
+
+#. time_msg
+#: data/common/day_phases.json
+msgid "东方的天空中开始出现一丝微曦。"
+msgstr ""
+
+#. desc_msg
+#: data/common/day_phases.json
+msgid "东方的天空已逐渐发白"
+msgstr ""
+
+#. name
+#: data/common/day_phases.json
+msgid "日出"
+msgstr ""
+
+#. time_msg
+#: data/common/day_phases.json
+msgid "太阳从东方的地平线升起了。"
+msgstr ""
+
+#. desc_msg
+#: data/common/day_phases.json
+msgid "太阳刚从东方的地平线升起"
+msgstr ""
+
+#. name
+#: data/common/day_phases.json
+msgid "上午"
+msgstr ""
+
+#. time_msg
+#: data/common/day_phases.json
+msgid "太阳已经高高地挂在东方的天空中。"
+msgstr ""
+
+#. desc_msg
+#: data/common/day_phases.json
+msgid "太阳正高挂在东方的天空中"
+msgstr ""
+
+#. name
+#: data/common/day_phases.json
+msgid "正午"
+msgstr ""
+
+#. time_msg
+#: data/common/day_phases.json
+msgid "已经是正午了，太阳从你正上方照耀著大地。"
+msgstr ""
+
+#. desc_msg
+#: data/common/day_phases.json
+msgid "现在是正午时分，太阳高挂在你的头顶正上方"
+msgstr ""
+
+#. name
+#: data/common/day_phases.json
+msgid "下午"
+msgstr ""
+
+#. time_msg
+#: data/common/day_phases.json
+msgid "太阳开始从西方的天空中慢慢西沉。"
+msgstr ""
+
+#. desc_msg
+#: data/common/day_phases.json
+msgid "太阳正高挂在西方的天空中"
+msgstr ""
+
+#. name
+#: data/common/day_phases.json
+msgid "傍晚"
+msgstr ""
+
+#. time_msg
+#: data/common/day_phases.json
+msgid "傍晚了，太阳的馀晖将西方的天空映成一片火红。"
+msgstr ""
+
+#. desc_msg
+#: data/common/day_phases.json
+msgid "一轮火红的夕阳正徘徊在西方的地平线上"
+msgstr ""
+
+#. name
+#: data/common/day_phases.json
+msgid "夜晚"
+msgstr ""
+
+#. time_msg
+#: data/common/day_phases.json
+msgid "夜晚降临了。"
+msgstr ""
+
+#. desc_msg
+#: data/common/day_phases.json
+msgid "夜幕笼罩著大地"
+msgstr ""
+
+#. name
+#: data/common/day_phases.json
+msgid "午夜"
+msgstr ""
+
+#. time_msg
+#: data/common/day_phases.json
+msgid "已经是午夜了。"
+msgstr ""
+
+#. desc_msg
+#: data/common/day_phases.json
+msgid "夜幕低垂，满天繁星"
 msgstr ""
 
 #. es2:obj/money/coin name

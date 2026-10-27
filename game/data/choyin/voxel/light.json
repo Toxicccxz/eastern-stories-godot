@@ -1,0 +1,11 @@
+{
+  "note": "乔阴县城: brick grey and willow green by day; the dusk glow on the lake; strings of warm lanterns at night.",
+  "outdoor": {
+    "sky": {"dawn": "c4c8cc", "day": "b4c8d4", "dusk": "d89470", "night": "0e1624", "midnight": "0a1220"},
+    "ambient": {"dawn": "c8c8c0", "day": "d6d4c8", "dusk": "d4b4a0", "night": "6a7ca6", "midnight": "6274a0"},
+    "ambient_energy": {"dawn": 0.44, "day": 0.46, "dusk": 0.46, "night": 0.32, "midnight": 0.3},
+    "sun": {"dawn": "ffd8b0", "day": "fff0d0", "dusk": "ffa060", "night": "a0b8ec", "midnight": "9ab4ec"},
+    "sun_energy": {"dawn": 0.55, "day": 0.92, "dusk": 0.76, "night": 0.34, "midnight": 0.3}
+  },
+  "indoor": {}
+}

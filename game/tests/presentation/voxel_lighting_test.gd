@@ -57,11 +57,58 @@ func run_all(tree: SceneTree) -> Dictionary:
 	indoor.advance(1.0,Vector3.ZERO)
 	_check(window.visible and window.shadow_enabled and is_equal_approx(window.light_energy,1.2),"interior windows retain stable authored lighting across a large compound")
 	interior.free()
+	_check_frames(tree)
 	# The headless dummy renderer returns identity for every MultiMesh transform.
 	# Check generated mesh bounds/volume in the native windowed rendering pass.
 	if DisplayServer.get_name()!="headless":
 		await _check_light_batches(tree)
 	return {"assertions":assertions,"failures":failures}
+
+## Five frames (DECISIONS「昼夜」): a frame map, the older [day, night] pair reading as before,
+## a missing frame interpolated, the time of day blending frames, the lamps up from dusk.
+func _check_frames(tree: SceneTree) -> void:
+	var world := Node3D.new()
+	tree.root.add_child(world)
+	var lamp := OmniLight3D.new()
+	lamp.light_energy = 0.5
+	lamp.set_meta("night_energy",2.0)
+	world.add_child(lamp)
+	var legacy := VoxelLighting.new()
+	legacy.build(world,VoxelOcclusion.new(),false,{"sky":["9cb5ac","111e35"],"ambient_energy":[0.38,0.30]})
+	legacy.set_night(true,true)
+	_check(legacy.environment.background_color.is_equal_approx(Color("111e35")) and is_equal_approx(legacy.environment.ambient_light_energy,0.30) and is_equal_approx(legacy.amount,1.0) and is_equal_approx(lamp.light_energy,2.0),"a [day, night] pair by night: as before")
+	legacy.set_night(false,true)
+	_check(legacy.environment.background_color.is_equal_approx(Color("9cb5ac")) and is_equal_approx(legacy.environment.ambient_light_energy,0.38) and is_zero_approx(legacy.amount) and is_equal_approx(lamp.light_energy,0.5),"by day: as before")
+	legacy.set_frame("midnight",true)
+	_check(legacy.environment.background_color.is_equal_approx(Color("111e35")) and is_equal_approx(lamp.light_energy,2.0),"a pair's midnight is its night")
+	legacy.set_frame("dusk",true)
+	_check(is_equal_approx(legacy.amount,0.45) and is_equal_approx(lamp.light_energy,lerpf(0.5,2.0,0.45)) and is_equal_approx(legacy.sun.rotation_degrees.y,24.0),"at dusk the lamps are coming up and the sun is low in the west")
+	legacy.set_frame("dawn",true)
+	_check(is_equal_approx(legacy.sun.rotation_degrees.y,-74.0) and is_equal_approx(legacy.sun.rotation_degrees.x,-36.0),"at dawn the sun is low in the east")
+	world.free()
+	var framed := Node3D.new()
+	tree.root.add_child(framed)
+	var five := VoxelLighting.new()
+	five.phases = GameContent.catalog().day_phases()
+	five.build(framed,VoxelOcclusion.new(),false,{"sky":{"dawn":"ff0000","day":"00ff00","dusk":"0000ff","night":"000000","midnight":"ffffff"},"sun_energy":{"day":1.0,"night":0.0}})
+	var colors: Dictionary = {"dawn":Color.RED,"day":Color.GREEN,"dusk":Color.BLUE,"night":Color.BLACK,"midnight":Color.WHITE}
+	var each: bool = true
+	for frame: String in VoxelLighting.FRAMES:
+		five.set_frame(frame,true)
+		each = each and five.environment.background_color.is_equal_approx(colors[frame])
+	_check(each,"each frame's own sky")
+	five.set_frame("dusk",true)
+	_check(is_equal_approx(five.sun.light_energy,1.0-360.0/510.0),"a missing frame is interpolated between its neighbours")
+	five.set_time(360.0,true)
+	_check(five.environment.background_color.is_equal_approx(Color(0.5,0.5,0.0)) and is_equal_approx(five.amount,0.25),"6:00 is half dawn, half day")
+	five.set_time(630.0,true)
+	five.set_time(990.0)
+	five.advance(0.3,Vector3.ZERO)
+	_check(five.environment.background_color.g>0.6 and five.environment.background_color.b>0.3 and five.environment.background_color.b<0.4,"a held frame blends over 0.9 s, not at once")
+	five.advance(1.0,Vector3.ZERO)
+	_check(five.environment.background_color.is_equal_approx(Color.BLUE),"and arrives")
+	framed.free()
+
 
 func _check_light_batches(tree: SceneTree) -> void:
 	var holder := Node3D.new()

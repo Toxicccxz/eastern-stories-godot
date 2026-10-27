@@ -158,7 +158,7 @@ func _story(tree: SceneTree) -> void:
 	await _frames(tree)
 	check(shell.last_result().succeeded(), "public Save succeeds")
 	var saved := GameSaveRepository.new(profile,files).load()
-	check(saved.succeeded() and saved.snapshot.metadata.schema_version == 2 and saved.snapshot.items.schema_version == 3, "unchanged root2/item3 Save schemas")
+	check(saved.succeeded() and saved.snapshot.metadata.schema_version == GameSaveSnapshot.CURRENT_SCHEMA_VERSION and saved.snapshot.items.schema_version == 3, "unchanged root2/item3 Save schemas")
 	check(saved.succeeded() and _durable_json(GameSaveJsonCodec.encode(saved.snapshot).text) == _durable_json(encoded.text), "public Save contains entire projected state")
 	shell.free()
 	session = null

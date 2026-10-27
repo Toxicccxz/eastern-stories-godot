@@ -4,11 +4,11 @@
   "note": "craneroom.c: 古树果非寻常之物, 树冠白雾升腾, 上接霄汉, 如仙境一般 — a floor of boughs and leaves in the crown of the ancient tree, white mist rising all round, the cranes standing in it.",
   "edge": {"minimum_margin": 16, "maximum_margin": 48, "depth": 6.0, "top": "5a4a3a", "bottom": "3a2a20", "strata": ["5a4836", "6a5642", "4a3a2c"], "note": "the trunk falls away below the crown"},
   "light": {
-    "sky": ["c8d8e4", "16202e"],
-    "ambient": ["d0d8d0", "7a8ca8"],
-    "ambient_energy": [0.46, 0.34],
-    "sun": ["fff4e0", "a8bce8"],
-    "sun_energy": [0.9, 0.3],
+    "sky": {"day": "c8d8e4", "night": "16202e"},
+    "ambient": {"day": "d0d8d0", "night": "7a8ca8"},
+    "ambient_energy": {"day": 0.46, "night": 0.34},
+    "sun": {"day": "fff4e0", "night": "a8bce8"},
+    "sun_energy": {"day": 0.9, "night": 0.3},
     "fog": {"color": ["dce6ea", "2a3240"], "density": [0.0, 0.0], "depth": [36.0, 90.0], "depth_density": 0.5}
   },
   "ground": {

@@ -49,7 +49,7 @@ long-lived operational policy, not a gameplay substitution or authorization to i
 ### Policy versus implementation snapshot
 
 The current public content is **SOURCE_ENTRY_OLDPINE_RELAYOUT_V1** (`WorldContentRevision.CURRENT_PUBLIC`)
-with root schema2 and item schema3: every region's maps, with one NPC record per authored spawn point
+with root schema3 and item schema3: every region's maps, with one NPC record per authored spawn point
 (see below). P2B first published this shape with SOURCE_ENTRY_LAKE_V1 and ten NPC slots; each
 later world publication added one revision. Placement validation, physical body binding and full
 current capture/restore are published together.
@@ -85,8 +85,9 @@ The following version-specific details are the current implementation snapshot d
   save model exists. Embedded v1 has no food/liquid; v2 includes food but no liquid; v3 requires both
   arrays. Each version has a strict key set. Legal v1/v2 decode into v3 without granting/refilling
   consumables; definition validation rejects a food/liquid item missing its required state. Liquid
-  records contain only stable item ID, typed content and remaining (empty0 is live). Root schema2 /
-  SOURCE_ENTRY_OLDPINE_RELAYOUT_V1 is the current public content marker; the root format is unchanged. See
+  records contain only stable item ID, typed content and remaining (empty0 is live). Root schema3 /
+  SOURCE_ENTRY_OLDPINE_RELAYOUT_V1 is the current public content marker; schema 3 (DECISIONS「昼夜」) adds the
+  root's required `day_seconds` and a schema 2 file is refused. See
   [S6B](../../migration/PHASE_SNOW_TOWN_CORE_HUB_FRESH_WATER_SUPPLY_LOOP.md).
 - `WorldItemInstanceIndex` is derived from restored Inventory and is never serialized as authority.
 - Semantic character, item, NPC, corpse, spawn, and world identities persist across Load. Runtime Godot
@@ -119,6 +120,9 @@ The following version-specific details are the current implementation snapshot d
   whose NPCs are all healed as made owes nothing, so New Game saves have none). Continue owes each the same and
   catches it up when the player comes onto it, drawing from no saved stream. Restore rejects a map
   outside the world or the player's own. A save without the key owes nothing; no revision change.
+- 昼夜 (owner, 2026-10-27): the root's required `day_seconds` (0–86399, a decimal int64) is the time of day
+  (DayClock) at the save, always written; Continue goes on from it. A time outside the day is rejected.
+  Schema 3; a schema 2 file (without it) is unsupported.
 - Transient combat, cadence, Area membership, UI, and presentation state are rebuilt fresh after Load;
   they are not serialized.
 

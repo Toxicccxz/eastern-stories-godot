@@ -47,7 +47,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	if capture.succeeded():
 		var encoded: GameSaveResult = GameSaveJsonCodec.encode(capture.snapshot)
 		var decoded: GameSaveResult = GameSaveJsonCodec.decode(encoded.text)
-		_check(decoded.succeeded() and decoded.snapshot.metadata.schema_version == 2, "technical schema2 roundtrip")
+		_check(decoded.succeeded() and decoded.snapshot.metadata.schema_version == GameSaveSnapshot.CURRENT_SCHEMA_VERSION, "technical schema2 roundtrip")
 		var restored: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(decoded.snapshot, tree.root)
 		_check(restored.succeeded(), "technical current save cold candidate")
 		if restored.succeeded():

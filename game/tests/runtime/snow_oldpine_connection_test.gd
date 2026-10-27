@@ -49,7 +49,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_check(snow._passages.size() == WorldCounts.number("snow_outdoor_passages") and _passages_to(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID), &"snow.outdoor") == 1, "Snow's outdoor passages: the Inn, Old Pine, 野羊山, 卧龙岗, 水烟阁 and the hidden way down")
 	_check(not snow.is_passage_current(south), "inactive/remote passage rejected")
 	var capture: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, &"development", "2026-09-11T00:00:00Z")
-	_check(capture.succeeded() and capture.snapshot.metadata.schema_version == 2, "source Session saves current schema2")
+	_check(capture.succeeded() and capture.snapshot.metadata.schema_version == GameSaveSnapshot.CURRENT_SCHEMA_VERSION, "source Session saves current schema2")
 	# Explicit boundary tests, separate from fresh physical acceptance below.
 	var source: WorldLocationState = player.world_location()
 	var invalids: Array[OldPineMapHandoffResult] = [

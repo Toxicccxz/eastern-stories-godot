@@ -13,9 +13,8 @@ func run_all(tree: SceneTree) -> Dictionary:
 	await _frames(tree,4)
 	var hud: SharedGameplayUI = session.shared_ui()
 	var button := hud.find_child("ViewSide",true,false) as VoxelViewSideButton
-	var day := hud.find_child("DayNight",true,false) as VoxelDayNightButton
 	_check(button!=null and button.is_visible_in_tree(),"the view button is shown in the voxel inn")
-	_check(button.get_global_rect().position.x>=day.get_global_rect().end.x,"view button sits beside day/night")
+	_check(hud.find_child("DayNight",true,false)==null,"the HUD has no day/night button: 昼夜 is a setting (DECISIONS「昼夜」)")
 	var inn := session.active_map() as WorldMapController
 	var view := inn.get_node("MapView") as WorldVoxelView
 	var before: Vector2 = inn.player_body.global_position
@@ -128,7 +127,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 	session.set_process(false)
 	var saved: String = GameSaveJsonCodec.encode(Work.capture(session)).text
 	_click(tree,button)
-	_click(tree,day)
+	view.set_night(true,true)
 	view._follow(0)
 	view._update_occlusion()
 	_check(GameSaveJsonCodec.encode(Work.capture(session)).text==saved,"view and night toggles change no saved values or RNG")
@@ -138,7 +137,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 	if fallback!=null:
 		var map := MapPlaces.enter(session,&"canyon.canyon1",fallback.entry_spawn_id)
 		await _frames(tree,3)
-		_check(map!=null and not map.projected_view and not button.visible and not day.visible,"unconverted regions keep their 2D presentation")
+		_check(map!=null and not map.projected_view and not button.visible,"unconverted regions keep their 2D presentation")
 		_check(tree.root.get_camera_3d()==null and tree.root.msaa_3d==initial_msaa,"2D handoff restores viewport camera and MSAA")
 	session.free()
 	await _frames(tree,2)

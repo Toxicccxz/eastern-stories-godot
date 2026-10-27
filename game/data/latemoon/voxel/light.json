@@ -1,0 +1,11 @@
+{
+  "note": "晚月庄: pink walls and pale cyan, a little cold, by day; the plum blossom against the dusk glow; strings of palace lanterns and the moon on the water at night.",
+  "outdoor": {
+    "sky": {"dawn": "c6ccd4", "day": "b8d0d6", "dusk": "d898a0", "night": "0e1624", "midnight": "0a1224"},
+    "ambient": {"dawn": "c8ccd0", "day": "d4dccc", "dusk": "d0b0b8", "night": "6a7ca6", "midnight": "6476a8"},
+    "ambient_energy": {"dawn": 0.44, "day": 0.46, "dusk": 0.46, "night": 0.32, "midnight": 0.32},
+    "sun": {"dawn": "ffd8b8", "day": "fff0d4", "dusk": "ff9e78", "night": "a0b8ec", "midnight": "a0bcf8"},
+    "sun_energy": {"dawn": 0.55, "day": 0.92, "dusk": 0.74, "night": 0.34, "midnight": 0.38}
+  },
+  "indoor": {}
+}

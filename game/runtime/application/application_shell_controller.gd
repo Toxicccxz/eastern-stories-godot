@@ -52,6 +52,7 @@ const PACE_IDS: Dictionary[int, StringName] = {0: CharacterState.PACE_MODERN, 1:
 @onready var hit_flash_check: CheckButton = %HitFlashCheck
 @onready var knockout_option: OptionButton = %KnockoutOption
 @onready var objective_hints_check: CheckButton = %ObjectiveHintsCheck
+@onready var day_night_option: OptionButton = %DayNightOption
 @onready var settings_status_label: Label = %SettingsStatusLabel
 @onready var settings_apply_button: Button = %SettingsApplyButton
 @onready var settings_cancel_button: Button = %SettingsCancelButton
@@ -389,7 +390,7 @@ func _handle_system_back() -> void:
 	if _state.mode() in [ApplicationShellState.Mode.BOOT, ApplicationShellState.Mode.STARTING_SESSION, ApplicationShellState.Mode.SAVING] or (_host != null and _host.request_pending()):
 		return
 	input_context_changing.emit()
-	for option: OptionButton in [window_mode_option, ui_scale_option, language_option, battle_speed_option, knockout_option, pace_option]:
+	for option: OptionButton in [window_mode_option, ui_scale_option, language_option, battle_speed_option, knockout_option, day_night_option, pace_option]:
 		if option.get_popup().visible:
 			option.get_popup().hide()
 			return
@@ -643,6 +644,11 @@ func apply_settings() -> bool:
 		var hints: ApplicationSettingsServiceResult = _settings_service.apply_and_persist_objective_hints(objective_hints_check.button_pressed)
 		if hints.outcome() == ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE:
 			settings_status_label.text = "目标提示已生效，但未能保存。"
+			return false
+	if day_night_option.get_selected_id() != committed.day_night():
+		var lit: ApplicationSettingsServiceResult = _settings_service.apply_and_persist_day_night(day_night_option.get_selected_id())
+		if lit.outcome() == ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE:
+			settings_status_label.text = "昼夜设置已生效，但未能保存。"
 			return false
 	if not _settings_service.can_edit_window_mode():
 		# The platform keeps the window; every other setting has applied above.
@@ -1138,6 +1144,7 @@ func _render_state(defer_focus: bool = true) -> void:
 	hit_flash_check.disabled = not settings_interactive
 	knockout_option.disabled = not settings_interactive
 	objective_hints_check.disabled = not settings_interactive
+	day_night_option.disabled = not settings_interactive
 	settings_apply_button.visible = window_mode_row.visible or ui_scale_row.visible or language_row.visible or battle_speed_row.visible
 	settings_apply_button.disabled = not settings_interactive
 	settings_cancel_button.disabled = not settings_interactive
@@ -1273,6 +1280,12 @@ func _configure_battle_options() -> void:
 	knockout_option.tooltip_text = "打倒你要杀的人时：先问你了结还是放过，或者直接下杀手"
 	# 目标提示 (DECISIONS「新手链与当前目标」): off hides the status card's 目标 row and the toasts' 下一步.
 	objective_hints_check.tooltip_text = "状态卡上的「目标」一行和见闻提示里的「下一步」；关掉就只剩任务页"
+	# 昼夜 (DECISIONS「昼夜」): the map's light follows the game's day, or holds day or night.
+	day_night_option.clear()
+	day_night_option.add_item("跟随游戏时间", DayNightPreference.Value.FOLLOW)
+	day_night_option.add_item("一直白天", DayNightPreference.Value.DAY)
+	day_night_option.add_item("一直夜晚", DayNightPreference.Value.NIGHT)
+	day_night_option.tooltip_text = "地图的光照：跟着游戏里的一天走（黎明、白天、黄昏、夜、深夜），或者一直是白天、一直是夜晚"
 	_select_committed_battle()
 
 
@@ -1288,6 +1301,9 @@ func _select_committed_battle() -> void:
 	if knockout >= 0:
 		knockout_option.select(knockout)
 	objective_hints_check.set_pressed_no_signal(committed.objective_hints())
+	var day_night: int = day_night_option.get_item_index(committed.day_night())
+	if day_night >= 0:
+		day_night_option.select(day_night)
 
 
 func _selected_language() -> String:
@@ -1333,6 +1349,7 @@ func _all_shell_focus_controls() -> Array[Control]:
 		hit_flash_check,
 		knockout_option,
 		objective_hints_check,
+		day_night_option,
 		settings_apply_button,
 		settings_cancel_button,
 		backup_recovery_button,
@@ -1372,7 +1389,7 @@ func _configure_active_focus_cycle(mode: int) -> void:
 			controls.append(ui_scale_option)
 			if language_row.visible:
 				controls.append(language_option)
-			controls.append_array([battle_speed_option, hit_flash_check, knockout_option, objective_hints_check])
+			controls.append_array([battle_speed_option, hit_flash_check, knockout_option, objective_hints_check, day_night_option])
 			if settings_apply_button.visible:
 				controls.append(settings_apply_button)
 			controls.append(settings_cancel_button)

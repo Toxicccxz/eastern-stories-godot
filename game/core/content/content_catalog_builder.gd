@@ -5,8 +5,8 @@ extends RefCounted
 ## JSON object with any of the `items`, `npcs`, `spawns`, `item_spawns`,
 ## `vendors`, `rooms`, `regions`, `maps`, `zones`, `portals`, `services`,
 ## `doors`, `landmarks`, `traps`, `exit_rules`, `skills`, `families`, `race_actions`, `weapon_actions`,
-## `quest_tiers`, `journal_chains`, `codex_topics` arrays, and at most one document has the
-## `pacing` object (and at most one the `progression` object).
+## `quest_tiers`, `journal_chains`, `codex_topics`, `day_phases` arrays, and at most one document
+## has the `pacing` object (and at most one the `progression` object).
 ## build() returns null when anything was reported; errors() says what.
 var _errors: Array[String] = []
 var _items: Dictionary[StringName, ItemContentDefinition] = {}
@@ -33,6 +33,7 @@ var _combat_actions: CombatActionTables = CombatActionTables.new()
 var _quest_tiers: Array[QuestTier] = []
 var _journal_chains: Array[JournalChainDefinition] = []
 var _codex_topics: Array[CodexTopicDefinition] = []
+var _day_phases: Array[DayPhaseDefinition] = []
 var _pacing: PacingDefinition
 var _progression: ProgressionRules
 var _bounties: BountyRules
@@ -135,6 +136,8 @@ func add_document(document: Variant, origin: String) -> void:
 		_journal_chains.append(JournalChainDefinition.from_record(record))
 	for record: ContentRecordReader in reader.children("codex_topics"):
 		_codex_topics.append(CodexTopicDefinition.from_record(record))
+	for record: ContentRecordReader in reader.children("day_phases"):
+		_day_phases.append(DayPhaseDefinition.from_record(record))
 	var pacing: ContentRecordReader = reader.child("pacing")
 	if pacing != null:
 		if _pacing != null:
@@ -188,6 +191,7 @@ func build() -> ContentCatalog:
 	_check_quest_tiers()
 	_check_journal()
 	_check_progression()
+	_check_day_phases()
 	if _pacing == null:
 		_errors.append("pacing: no document defines it")
 	if not _errors.is_empty():
@@ -204,6 +208,7 @@ func build() -> ContentCatalog:
 	catalog.set_combat_actions(_combat_actions)
 	catalog.set_quest_tiers(_quest_tiers)
 	catalog.set_journal(_journal_chains, _codex_topics)
+	catalog.set_day_phases(_day_phases)
 	catalog.set_progression(_progression)
 	catalog.set_bounties(_bounties)
 	catalog.set_opening(_opening)
@@ -357,6 +362,21 @@ func _check_journal() -> void:
 
 
 ## The progression table names NPCs, zones and chains the game has.
+## natured.c turns through the phases in order, the day being their lengths' sum (1440).
+func _check_day_phases() -> void:
+	if _day_phases.is_empty():
+		return
+	var total: int = 0
+	var seen: Dictionary[StringName, bool] = {}
+	for phase: DayPhaseDefinition in _day_phases:
+		total += phase.minutes
+		if seen.has(phase.phase_id):
+			_errors.append("day_phases: duplicate phase '%s'" % phase.phase_id)
+		seen[phase.phase_id] = true
+	if total != DayClock.DAY_MINUTES:
+		_errors.append("day_phases: the phases add up to %d minutes, not %d" % [total, DayClock.DAY_MINUTES])
+
+
 func _check_progression() -> void:
 	if _progression == null:
 		return

@@ -60,11 +60,18 @@ extends RefCounted
 ## - bounty_refresh_seconds: play time a bounty's slot stays empty once it is done or given up.
 ## - training_dummies: the 武馆 教练场's 木人 stand (native/spawns.json `pacing`). false (ES2):
 ##   none.
+##
+## The day (DECISIONS「昼夜」):
+## - day_length_minutes: real minutes one game day of natured.c's 1440 minutes takes, the
+##   voxel view's light and the outdoor rooms' line going round with it. ES2: 24 (one game
+##   minute a real second), also the default (owner Q3); 经典 is 24 too.
 const ES2_ROOM_RESET_SECONDS: int = 1800
 const ES2_GAIN: int = 1
 const ES2_QUEST_TIME_PERCENT: int = 100
 const ES2_WAKE_SECONDS: int = 0
 const ES2_HEART_BEAT_MS: int = 2000
+## natured.c: TIME_TICK is time()*60, one game minute a real second: 24 real minutes a day.
+const ES2_DAY_LENGTH_MINUTES: int = 24
 ## obj/corpse.c: call_out("decay", 120, 1), then 120, then 60.
 const ES2_CORPSE_DECAY_SECONDS: Array[int] = [120, 120, 60]
 
@@ -91,6 +98,7 @@ var _player_exercise_gain: int = ES2_GAIN
 var _bounty_board: bool = false
 var _bounty_refresh_seconds: int = 600
 var _training_dummies: bool = false
+var _day_length_minutes: int = ES2_DAY_LENGTH_MINUTES
 
 ## Seconds between two combat rounds of an encounter (the scheduler's opportunity interval).
 var combat_round_seconds: float:
@@ -186,6 +194,10 @@ var bounty_refresh_seconds: int:
 var training_dummies: bool:
 	get:
 		return _training_dummies
+## Real minutes a game day takes (24: ES2).
+var day_length_minutes: int:
+	get:
+		return _day_length_minutes
 ## The presentation's feel knobs (the record's `feel`; all 0 when left out).
 var feel: FeelDefinition = FeelDefinition.new()
 
@@ -216,8 +228,15 @@ func copy() -> PacingDefinition:
 	record.with_progression(_milestone_rewards, _catch_up_max_percent, _staged_potential_cap, _player_exercise_gain)
 	record.with_training(_bounty_board, _bounty_refresh_seconds, _training_dummies)
 	record.with_hostile_alert(_hostile_alert_ms)
+	record.with_day_length(_day_length_minutes)
 	record.feel = feel
 	return record
+
+
+## This record with the day's length set (real minutes; tests, and from_record()).
+func with_day_length(minutes: int) -> PacingDefinition:
+	_day_length_minutes = minutes
+	return self
 
 
 ## This record with the gang's alert beat set (milliseconds; tests, and from_record()).
@@ -309,7 +328,7 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.boolean("bounty_board", false),
 		reader.integer("bounty_refresh_seconds", 600),
 		reader.boolean("training_dummies", false),
-	).with_hostile_alert(reader.integer("hostile_alert_ms", 0))
+	).with_hostile_alert(reader.integer("hostile_alert_ms", 0)).with_day_length(reader.integer("day_length_minutes", ES2_DAY_LENGTH_MINUTES))
 	var feel: ContentRecordReader = reader.child("feel")
 	if feel != null:
 		definition.feel = FeelDefinition.from_record(feel)
@@ -353,4 +372,6 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.fail("player_exercise_gain", "must be at least 1")
 	if definition._bounty_refresh_seconds < 0:
 		reader.fail("bounty_refresh_seconds", "must not be negative")
+	if definition._day_length_minutes <= 0:
+		reader.fail("day_length_minutes", "must be positive")
 	return definition

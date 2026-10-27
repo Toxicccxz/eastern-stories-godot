@@ -176,7 +176,7 @@ func persistence_tests(tree: SceneTree) -> void:
 		fill(session, ids[i])
 		session.liquid_collection().state(ids[i]).remaining = [15,15,14,0][i] # Persistence boundary fixtures.
 	var snapshot: GameSaveSnapshot = Work.capture(session)
-	check(snapshot != null and snapshot.items.schema_version == 3 and snapshot.metadata.schema_version == 2, "independent item3/root2")
+	check(snapshot != null and snapshot.items.schema_version == 3 and snapshot.metadata.schema_version == GameSaveSnapshot.CURRENT_SCHEMA_VERSION, "independent item3/root2")
 	var encoded: GameSaveResult = GameSaveJsonCodec.encode(snapshot)
 	var decoded: GameSaveResult = GameSaveJsonCodec.decode(encoded.text)
 	check(decoded.succeeded(), "strict liquid codec")

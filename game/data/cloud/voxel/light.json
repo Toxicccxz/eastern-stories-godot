@@ -1,0 +1,11 @@
+{
+  "note": "卧龙岗 + 绮云镇 + 泓水: cyan-tinged river air by day; the river gold and red at dusk; the lanterns' warm red on the water at night.",
+  "outdoor": {
+    "sky": {"dawn": "bfc7c0", "day": "a7bcb8", "dusk": "d8a060", "night": "101a2c", "midnight": "0a1020"},
+    "ambient": {"dawn": "bcc2c0", "day": "bcc6c4", "dusk": "c8a888", "night": "7088b4", "midnight": "60729e"},
+    "ambient_energy": {"dawn": 0.38, "day": 0.4, "dusk": 0.42, "night": 0.32, "midnight": 0.28},
+    "sun": {"dawn": "ffd8b0", "day": "fff0d8", "dusk": "ffa050", "night": "9ab4ec", "midnight": "86a0dc"},
+    "sun_energy": {"dawn": 0.5, "day": 0.88, "dusk": 0.74, "night": 0.32, "midnight": 0.24}
+  },
+  "indoor": {}
+}

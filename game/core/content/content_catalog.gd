@@ -39,6 +39,7 @@ var _skills: Dictionary[StringName, SkillDefinition] = {}
 var _families: Dictionary[StringName, FamilyDefinition] = {}
 var _journal_chains: Array[JournalChainDefinition] = []
 var _codex_topics: Array[CodexTopicDefinition] = []
+var _day_phases: Array[DayPhaseDefinition] = []
 var _combat_actions: CombatActionTables = CombatActionTables.new()
 var _quest_tiers: Array[QuestTier] = []
 var _quest_targets: Dictionary[String, bool] = {}
@@ -185,6 +186,17 @@ func journal_chains() -> Array[JournalChainDefinition]:
 ## The 百科's 江湖常识 (codex.json), in authored order.
 func codex_topics() -> Array[CodexTopicDefinition]:
 	return _codex_topics
+
+
+## Called once by ContentCatalogBuilder.
+func set_day_phases(phases: Array[DayPhaseDefinition]) -> void:
+	_day_phases = phases.duplicate()
+
+
+## The day's phases (day_phases.json, natured.c's day_phase table) in order; empty when no
+## document has them (the day then has no phases and no light of its own).
+func day_phases() -> Array[DayPhaseDefinition]:
+	return _day_phases
 
 
 ## Called once by ContentCatalogBuilder.

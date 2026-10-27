@@ -4,11 +4,6 @@
   "note": "Inside the 山门 (front_yard.c, door.c, road1/2.c, drug_field.c, temple.c from outside, inner_yard.c, corridor.c, corridor1.c, tower.c): the training ground ringed with white poplars, the pile of bricks on its north side; the gate hall under gilt tiles, its jade plaque, the great door shut and the side doors open; the flagstone road between peonies to the golden 大雄宝殿 (four gilt dragons on its corners, gold bells under its eaves); the small stone path east to the herb garden laid out bed by bed; the garden west of the hall with its brook, little bridge, rockery and pavilion, 流云轩 north of it; the laurel walk to the 后殿; the walkway along the painted walls to the 香积厨; the two pagodas of the 塔林. Rich (修整得金碧辉煌) but old and used: the paving worn, the gilt dulled, the walls stained.",
   "edge": {"minimum_margin": 32, "maximum_margin": 72, "depth": 3.0, "top": "4e6a3c", "bottom": "3a4034", "strata": ["6d7466", "777e6f", "636a5d"]},
   "light": {
-    "sky": ["b6cdd6", "0e1624"],
-    "ambient": ["d6d6c6", "6a7ca6"],
-    "ambient_energy": [0.46, 0.32],
-    "sun": ["fff0d0", "a0b8ec"],
-    "sun_energy": [0.95, 0.34],
     "carried": {"color": "ffd9a0", "range": 5.5, "attenuation": 1.2, "day": 0.0, "night": 0.6}
   },
   "ground": {

@@ -29,7 +29,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		return {"assertions": _count, "failures": _failures}
 	var snapshot: GameSaveSnapshot = captured.snapshot
 	await _repository_and_host(tree, source, snapshot)
-	_check(snapshot.metadata.schema_version == 2 and snapshot.world_content_revision == WorldContentRevision.CURRENT_PUBLIC, "normal writer v2 explicit revision")
+	_check(snapshot.metadata.schema_version == GameSaveSnapshot.CURRENT_SCHEMA_VERSION and snapshot.world_content_revision == WorldContentRevision.CURRENT_PUBLIC, "normal writer v2 explicit revision")
 	var encoded: GameSaveResult = GameSaveJsonCodec.encode(snapshot)
 	_check(encoded.succeeded(), "v2 encode")
 	var raw: Dictionary = JSON.parse_string(encoded.text)
@@ -37,7 +37,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var unsupported: Dictionary = raw.duplicate(true)
 	unsupported.metadata.schema_version = 1
 	_check(GameSaveJsonCodec.decode(JSON.stringify(unsupported)).outcome == GameSaveResult.Outcome.UNSUPPORTED_GAME_SCHEMA, "schema1 rejects cleanly")
-	unsupported.metadata.schema_version = 3
+	unsupported.metadata.schema_version = 4
 	_check(GameSaveJsonCodec.decode(JSON.stringify(unsupported)).outcome == GameSaveResult.Outcome.UNSUPPORTED_GAME_SCHEMA, "unknown schema rejects cleanly")
 	_check(raw.player.has("identity") and raw.player.has("body_facts") and not raw.player.has("maximum_encumbrance"), "v2 strict shape and single capacity")
 	var decoded: GameSaveResult = GameSaveJsonCodec.decode(encoded.text)
@@ -222,7 +222,7 @@ func _repository_and_host(tree: SceneTree, source: WorldSessionController, snaps
 	_check(files.read_bytes(profile.canonical_path(), 16777216).bytes == primary, "technical Continue does not rewrite bytes")
 	legacy_host.request_save()
 	await tree.process_frame
-	_check(legacy_host.last_save_result().succeeded() and repository.load().snapshot.metadata.schema_version == 2 and repository.load().snapshot.world_content_revision == WorldContentRevision.Value.LEGACY_OLDPINE_V1, "technical resave remains schema2 technical profile")
+	_check(legacy_host.last_save_result().succeeded() and repository.load().snapshot.metadata.schema_version == GameSaveSnapshot.CURRENT_SCHEMA_VERSION and repository.load().snapshot.world_content_revision == WorldContentRevision.Value.LEGACY_OLDPINE_V1, "technical resave remains schema2 technical profile")
 	legacy_host.free()
 	await tree.process_frame
 
