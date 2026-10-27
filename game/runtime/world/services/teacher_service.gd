@@ -78,7 +78,21 @@ func request_apprentice() -> NpcApprenticeship.Outcome:
 		map.npc_kills_player(npc)
 		return outcome
 	_say_colored(lines)
+	if outcome == NpcApprenticeship.Outcome.RECRUITED:
+		_recruited_card(player)
 	return outcome
+
+
+## Native (前两小时 A; DECISIONS「新手链与当前目标」): the moment the master takes the player
+## gets a card over the world — what they became, and where learning goes on.
+func _recruited_card(player: WorldPlayerRuntimeState) -> void:
+	var family: FamilyDefinition = GameContent.catalog().family(player.state.family.family_id)
+	if family == null or map.hud() == null:
+		return
+	# TRANSLATORS: the 拜师 card (前两小时 A): {master} the master, {family} the family, {generation} the generation in words (十四).
+	map.hud().show_card(tr("{master}收下了你。\n\n你成了{family}第{generation}代弟子。往后向师父请教，就能学他会的武功；请教页写着每门能学到几级，武学页能打坐练内力。").format({
+		"master": tr(display_name()), "family": tr(family.display_name), "generation": ChineseNumber.of(player.state.family.generation),
+	}))
 
 
 ## taolord.c do_recruit(), when its call_out is due with the player before it
@@ -96,6 +110,8 @@ func answer_apprentice(awake: bool = true) -> NpcApprenticeship.Outcome:
 	_say(player.apprenticeship_request.lines)
 	if awake:
 		ui.show_answer()
+	if outcome == NpcApprenticeship.Outcome.RECRUITED:
+		_recruited_card(player)
 	return outcome
 
 

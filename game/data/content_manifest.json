@@ -10,6 +10,7 @@
 		"common/journal.json",
 		"common/progression.json",
 		"common/codex.json",
+		"common/opening.json",
 		"oldpine/items.json",
 		"oldpine/npcs.json",
 		"oldpine/spawns.json",

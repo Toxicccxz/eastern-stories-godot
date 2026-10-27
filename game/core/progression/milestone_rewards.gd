@@ -10,7 +10,7 @@ const KIND_NAMES: Dictionary[ProgressionRules.Kind, String] = {
 	ProgressionRules.Kind.SPAR: "spar", ProgressionRules.Kind.DEFEAT: "defeat",
 	ProgressionRules.Kind.CHAIN: "chain", ProgressionRules.Kind.BOOK: "book",
 	ProgressionRules.Kind.REGION: "region", ProgressionRules.Kind.PLACE: "place",
-	ProgressionRules.Kind.BOUNTY: "bounty",
+	ProgressionRules.Kind.BOUNTY: "bounty", ProgressionRules.Kind.FORCE: "force",
 }
 
 
@@ -113,6 +113,9 @@ static func lines(grant: Grant, name: String) -> Array[ColoredLine]:
 		ProgressionRules.Kind.BOUNTY:
 			# TRANSLATORS: native 历练 reward (A2): the player did the 雪亭驿 bounty on {name} (an outlaw).
 			done = _t("你完成了官府悬赏「{name}」")
+		ProgressionRules.Kind.FORCE:
+			# TRANSLATORS: native 历练 reward (前两小时 A): 打坐 brought the player's max_force to {name} (a number).
+			done = _t("你的内力练到了 {name}")
 		_:
 			# TRANSLATORS: native 历练 reward (A2): the player's first time in {name} (a region or a named place).
 			done = _t("你第一次来到{name}")

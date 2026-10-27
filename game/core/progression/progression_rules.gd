@@ -13,13 +13,16 @@ extends RefCounted
 ## - chain_percent: a chain whose reward is not the kind's own.
 ## - notable_npcs: NPC definitions whose defeat is the `defeat` kind, not `spar`.
 ## - places: zones whose first visit is the `place` kind (each region's first is `region`).
+## - force_milestones: the max_force numbers whose first reaching is the `force` kind
+##   (前两小时 A, owner Q5; DECISIONS「新手链与当前目标」).
 
 ## BOUNTY: a 雪亭驿 bounty done (repeatable: BountyBoard, no ledger key).
-enum Kind { SPAR, DEFEAT, CHAIN, BOOK, REGION, PLACE, BOUNTY }
+## FORCE: max_force first reached one of `force_milestones` (the id is the number).
+enum Kind { SPAR, DEFEAT, CHAIN, BOOK, REGION, PLACE, BOUNTY, FORCE }
 
 const KIND_KEYS: Dictionary[String, Kind] = {
 	"spar": Kind.SPAR, "defeat": Kind.DEFEAT, "chain": Kind.CHAIN, "book": Kind.BOOK,
-	"region": Kind.REGION, "place": Kind.PLACE, "bounty": Kind.BOUNTY,
+	"region": Kind.REGION, "place": Kind.PLACE, "bounty": Kind.BOUNTY, "force": Kind.FORCE,
 }
 ## combatd.c: potential grows while less than 100 of it is unspent.
 const ES2_POTENTIAL_CAP: int = 100
@@ -38,6 +41,8 @@ var potential_percent: int = 0
 var chain_percent: Dictionary[StringName, int] = {}
 var notable_npcs: Dictionary[StringName, bool] = {}
 var places: Dictionary[StringName, bool] = {}
+## Rising max_force numbers; empty when 打坐 earns no 历练.
+var force_milestones: Array[int] = []
 
 
 ## The stage `combat_exp` stands in (the first when there is none).
@@ -94,5 +99,10 @@ static func from_record(reader: ContentRecordReader) -> ProgressionRules:
 		rules.notable_npcs[StringName(npc_id)] = true
 	for zone_id: String in reader.text_list("places"):
 		rules.places[StringName(zone_id)] = true
+	rules.force_milestones = reader.integer_list("force_milestones")
+	for index: int in rules.force_milestones.size():
+		if rules.force_milestones[index] <= 0 or (index > 0 and rules.force_milestones[index] <= rules.force_milestones[index - 1]):
+			reader.fail("force_milestones", "expected rising positive numbers")
+			break
 	reader.finish()
 	return rules

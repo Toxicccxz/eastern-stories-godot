@@ -119,7 +119,9 @@ func _test_menu_pages(tree: SceneTree) -> void:
 	var ui: SharedGameplayUI = session.shared_ui()
 	var state: CharacterState = session.player_runtime().state
 	ui.menu.open(GameMenu.Tab.JOURNAL)
-	_check(ui.journal_stories.shown_text() == JournalStories.NOTHING_YET, "任务: nothing recorded yet")
+	# The 新手链 (前两小时 A) opens with the waiter met at New Game; nothing else has happened.
+	var opening: String = ui.journal_stories.shown_text()
+	_check(opening.begins_with("雪亭镇的头几天") and opening.contains("你在饮风客栈醒来") and not opening.contains("下一步"), "任务: the 新手链's first entry alone, no next step: " + opening.left(60))
 	var chain: JournalChainDefinition = null
 	for candidate: JournalChainDefinition in GameContent.catalog().journal_chains():
 		if candidate.entries[0].when == JournalEntryDefinition.When.MARK:

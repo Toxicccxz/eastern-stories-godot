@@ -36,6 +36,9 @@ var uses_box: VBoxContainer
 var exercise_amount: SpinBox
 var exercise_button: Button
 var exercise_run_button: Button
+## 练到 N 再停 (前两小时 A): the max_force a 连续打坐 runs on to; the id is the number, 0 不限.
+var exercise_target: OptionButton
+const EXERCISE_TARGETS: Array[int] = [0, 10, 25, 50, 100]
 var enforce_amount: SpinBox
 var enforce_button: Button
 var mana_text: Label
@@ -117,6 +120,15 @@ func _init() -> void:
 	# TRANSLATORS: the 武学 page's button that does 打坐 again and again until something stops it (DECISIONS「连续修炼」).
 	exercise_run_button = _button(exercise, "ExerciseRunButton", "连续打坐")
 	exercise_run_button.pressed.connect(_cultivate.bind(TrainingRun.Kind.EXERCISE))
+	exercise_target = OptionButton.new()
+	exercise_target.name = "ExerciseTarget"
+	exercise_target.custom_minimum_size = Vector2(120, 40)
+	# TRANSLATORS: the 武学 page beside 连续打坐: how far it runs (前两小时 A); 不限 stops at the first raised maximum.
+	exercise_target.tooltip_text = tr("连续打坐练到这个内力上限再停；不限则上限每涨一点就停")
+	for target: int in EXERCISE_TARGETS:
+		# TRANSLATORS: 连续打坐's target: 不限 (stop at the first raise) or 练到 {target} (a max_force number).
+		exercise_target.add_item(tr("不限") if target == 0 else tr("练到 {target}").format({"target": target}), target)
+	exercise.add_child(exercise_target)
 	_title("加力")
 	var enforce := HBoxContainer.new()
 	enforce.name = "Enforce"
@@ -255,6 +267,7 @@ func refresh() -> void:
 		button.disabled = running
 	for amount: SpinBox in [exercise_amount, enforce_amount, meditate_amount, respirate_amount]:
 		amount.editable = not running
+	exercise_target.disabled = running
 	feedback.text = "\n".join(ColoredLine.texts(_last_lines if _last_lines != null else arts.last_lines))
 
 
@@ -533,7 +546,10 @@ func _cultivate(kind: TrainingRun.Kind) -> void:
 	}
 	var row: Array = rows[kind]
 	var amount: SpinBox = row[0]
-	_start_run(PlayerTrainingRun.cultivate(_session, kind, int(amount.value)), tr(row[2]), row[1], amount.get_parent() as Control)
+	var run: PlayerTrainingRun = PlayerTrainingRun.cultivate(_session, kind, int(amount.value))
+	if kind == TrainingRun.Kind.EXERCISE:
+		run.training.target_maximum = exercise_target.get_selected_id()
+	_start_run(run, tr(row[2]), row[1], amount.get_parent() as Control)
 
 
 func _start_run(run: PlayerTrainingRun, what: String, button: Button, after: Control) -> void:

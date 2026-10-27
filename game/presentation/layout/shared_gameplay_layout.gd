@@ -129,6 +129,11 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	ui.player_vitality_text.add_theme_font_size_override("font_size", 13)
 	ui.player_vitality_text.add_theme_color_override("font_color", CONDITION_COLOR)
 	ui.player_vitality_text.hide()
+	# What to do next (前两小时 A, a guide chain's `next`; off with the 目标提示 setting).
+	ui.player_objective = _label(_bar_rows, "Objective")
+	ui.player_objective.add_theme_font_size_override("font_size", 13)
+	ui.player_objective.add_theme_color_override("font_color", ACCENT_COLOR)
+	ui.player_objective.hide()
 	waits = VBoxContainer.new()
 	waits.name = "Waits"
 	waits.add_theme_constant_override("separation", 6)

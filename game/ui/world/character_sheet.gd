@@ -16,7 +16,11 @@ var potential_cap: Label
 var catch_up: Label
 var standing: Label
 var gifts: Label
+## 前两小时 A: the one-time 历练 rewards given (CharacterState.milestones), newest first.
+var milestones: Label
 var burden: Label
+## How many 历练 lines the sheet shows; the rest is a count.
+const MILESTONES_SHOWN: int = 8
 
 
 func _init() -> void:
@@ -45,6 +49,9 @@ func _init() -> void:
 	standing = _line(growth, "Standing")
 	var nature: VBoxContainer = _block(bottom, "Nature", "天赋")
 	gifts = _line(nature, "Gifts")
+	# TRANSLATORS: the character sheet's heading over the 历练 rewards the player has earned (A2, 前两小时 A).
+	var deeds: VBoxContainer = _block(self, "Milestones", "历练")
+	milestones = _line(deeds, "MilestoneLines")
 	burden = _line(self, "Burden")
 	burden.add_theme_color_override("font_color", SharedGameplayLayout.MUTED_COLOR)
 
@@ -85,6 +92,7 @@ func refresh(player: WorldPlayerRuntimeState, session: WorldSessionController) -
 		"str": attr.strength, "cor": attr.courage, "int": attr.intelligence, "spi": attr.spirituality,
 		"cps": attr.composure, "per": attr.personality, "con": attr.constitution, "kar": attr.karma,
 	})
+	milestones.text = milestone_text(state)
 	if session != null:
 		burden.text = tr("负重 {carried} / {capacity} · 体重 {weight}").format({
 			"carried": session.inventory_state().contents_weight(ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, player.character_id)),
@@ -109,6 +117,66 @@ func _show_pacing(player: WorldPlayerRuntimeState) -> void:
 		catch_up.text = tr("落后补偿：{region}推荐实战经验 {recommended}，你在这里所得的经验和潜能 +{percent}%，赶上后恢复。").format({
 			"region": tr(region.display_name), "recommended": region.recommended_exp, "percent": percent,
 		})
+
+
+## The 历练 block (前两小时 A): each reward given, newest first, named as its toast named it.
+## The birthplace, written down first at New Game and never rewarded
+## (WorldProgressionRewards.note_birthplace()), reads as where the player was born.
+func milestone_text(state: CharacterState) -> String:
+	var keys: Array[String] = state.milestones.keys()
+	if keys.is_empty():
+		# TRANSLATORS: the character sheet's 历练 block before any reward.
+		return tr("还没有历练。切磋取胜、了结一段经历、第一次到一个地方，都算。")
+	keys.sort_custom(func(a: String, b: String) -> bool: return int(state.milestones[a]) > int(state.milestones[b]))
+	var lines: Array[String] = []
+	for key: String in keys.slice(0, MILESTONES_SHOWN):
+		lines.append(_milestone_line(key, int(state.milestones[key]) == 1 and key.begins_with("region/")))
+	if keys.size() > MILESTONES_SHOWN:
+		# TRANSLATORS: the character sheet's 历练 block: {count} more rewards than the lines shown.
+		lines.append(tr("……还有 {count} 项").format({"count": keys.size() - MILESTONES_SHOWN}))
+	return "\n".join(lines)
+
+
+func _milestone_line(key: String, birthplace: bool) -> String:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var kind: String = key.get_slice("/", 0)
+	var id := StringName(key.substr(kind.length() + 1))
+	if birthplace:
+		var home: RegionDefinition = catalog.region(id)
+		# TRANSLATORS: the character sheet's 历练 block: the region {name} the player was born in (New Game).
+		return tr("生在{name}").format({"name": tr(home.display_name) if home != null else String(id)})
+	match kind:
+		"spar":
+			var npc: NpcDefinition = catalog.npc(id)
+			# TRANSLATORS: a 历练 line on the character sheet: the first spar won against {name}.
+			return tr("切磋胜过{name}").format({"name": tr(npc.display_name) if npc != null else String(id)})
+		"defeat":
+			var npc: NpcDefinition = catalog.npc(id)
+			# TRANSLATORS: a 历练 line: the first time {name} (someone of note) was beaten.
+			return tr("击败{name}").format({"name": tr(npc.display_name) if npc != null else String(id)})
+		"chain":
+			var title: String = String(id)
+			for chain: JournalChainDefinition in catalog.journal_chains():
+				if chain.chain_id == id:
+					title = tr(chain.title)
+			# TRANSLATORS: a 历练 line: the story {name} (a 任务 chain's title) seen through.
+			return tr("了结「{name}」").format({"name": title})
+		"book":
+			var item: ItemContentDefinition = catalog.item(id)
+			# TRANSLATORS: a 历练 line: {name} (a book) read through.
+			return tr("读通{name}").format({"name": tr(item.display_name) if item != null else String(id)})
+		"region":
+			var region: RegionDefinition = catalog.region(id)
+			# TRANSLATORS: a 历练 line: the first time in {name} (a region).
+			return tr("到过{name}").format({"name": tr(region.display_name) if region != null else String(id)})
+		"place":
+			var zone: ZoneDefinition = catalog.zone(id)
+			# TRANSLATORS: a 历练 line: the first time at {name} (a named place).
+			return tr("到过{name}").format({"name": tr(zone.display_name) if zone != null else String(id)})
+		"force":
+			# TRANSLATORS: a 历练 line: max_force reached {name} (a number) by 打坐.
+			return tr("内力练到 {name}").format({"name": String(id)})
+	return key
 
 
 ## Everything the sheet shows, a line per label (tests and the log's checks).

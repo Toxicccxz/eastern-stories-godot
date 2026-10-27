@@ -344,8 +344,9 @@ func ask_selected(topic: String) -> Array[String]:
 	for mark: String in answer.marks:
 		_player.state.marks[mark] = 1
 	# What was said goes on the 任务 page (an NPC out cold, or one that does not know, says nothing).
+	var heard: Array[JournalLog.Fresh] = []
 	if answer.answered and target.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
-		JournalLog.heard(_player.state, target.definition().definition_id, NpcInquiry.asked_key(target.definition(), topic), GameContent.catalog().journal_chains())
+		heard = JournalLog.heard_entries(_player.state, target.definition().definition_id, NpcInquiry.asked_key(target.definition(), topic), GameContent.catalog().journal_chains())
 	for temp: String in answer.temps:
 		_player.temp_marks[temp] = 1
 	if not answer.hands_over.is_empty():
@@ -365,6 +366,8 @@ func ask_selected(topic: String) -> Array[String]:
 			if not answer.mark_on_give.is_empty():
 				_player.state.marks[answer.mark_on_give] = 1
 	_map.hud().append_colored_lines(answer.lines)
+	# What was recorded of the answer, after the answer itself.
+	session.tell_journal(heard)
 	if _map.hud().inventory_is_open():
 		_map.hud().show_inventory(session.player_inventory_rows())
 	return answer.texts()

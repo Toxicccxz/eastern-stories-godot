@@ -345,6 +345,7 @@ static func spawn_from_record(reader: ContentRecordReader) -> NpcSpawnDefinition
 		definition.with_draw_group(StringName(reader.required_text("draw")))
 	definition.with_once(reader.boolean("once", false))
 	definition.with_pacing(StringName(reader.text("pacing")))
+	definition.with_cleared_mark(reader.text("cleared_mark"))
 	reader.finish()
 	if not definition.pacing.is_empty() and not NpcSpawnDefinition.PACING_KNOBS.has(definition.pacing):
 		reader.fail("pacing", "expected one of %s" % [NpcSpawnDefinition.PACING_KNOBS])

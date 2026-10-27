@@ -255,6 +255,8 @@ func _learn(tree: SceneTree, hud: SharedGameplayUI, state: CharacterState) -> bo
 	hall.ui.confirm_button.pressed.emit()
 	if not check(state.family.family_id == &"family.fonxan" and state.apprenticeship.master_teacher_id == &"common.npc.swordsman.master", "apprenticed to 柳淳风"):
 		return false
+	# The 拜师 card over the world (前两小时 A) would hold world time until 继续.
+	hud.life_overlay.go_on()
 	var gin: int = state.essence.current
 	var spent: int = state.progression.potential_spent
 	hall.ui.learn_buttons[&"unarmed"].pressed.emit()

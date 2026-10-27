@@ -81,6 +81,10 @@ func look() -> void:
 		return
 	for chain: JournalChainDefinition in JournalLog.finished_chains(player.state, GameContent.catalog().journal_chains()):
 		_give(ProgressionRules.Kind.CHAIN, chain.chain_id, tr(chain.title), false)
+	# 打坐's steps (前两小时 A, owner Q5): each max_force number first reached, lowest first.
+	for threshold: int in _rules().force_milestones:
+		if player.state.recovery.inner_force.maximum >= threshold:
+			_give(ProgressionRules.Kind.FORCE, StringName(str(threshold)), str(threshold), false)
 	var location: WorldLocationState = player.world_location()
 	# A ghost's way through 阴间 is no journey of the living: dying is never rewarded.
 	if location == null or player.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE or player.state.ghost:

@@ -63,7 +63,7 @@ func _test_settings() -> void:
 	_check(old.succeeded() and old.snapshot().after_knockout() == BattlePace.AfterKnockout.ASK and old.snapshot().battle_speed() == BattlePace.Speed.FAST and old.snapshot().ui_scale() == 125, "a version 4 file: 询问, the rest kept")
 	var written: ApplicationSettingsResult = repository.write(old.snapshot().with_battle(BattlePace.Speed.FAST, false, BattlePace.AfterKnockout.FINISH))
 	var back: ApplicationSettingsResult = repository.load()
-	_check(written.succeeded() and back.succeeded() and back.snapshot().version() == 5 and back.snapshot().after_knockout() == BattlePace.AfterKnockout.FINISH, "written and read back: 直接了结")
+	_check(written.succeeded() and back.succeeded() and back.snapshot().version() == ApplicationSettingsSnapshot.SCHEMA_VERSION and back.snapshot().after_knockout() == BattlePace.AfterKnockout.FINISH, "written and read back: 直接了结")
 	_check(files.files[ApplicationSettingsRepository.SETTINGS_PATH].get_string_from_utf8().contains("after_knockout=\"finish\""), "stored as finish")
 	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = files.files[ApplicationSettingsRepository.SETTINGS_PATH].get_string_from_utf8().replace("\"finish\"", "\"spare\"").to_utf8_buffer()
 	_check(repository.load().outcome() == ApplicationSettingsResult.Outcome.INVALID_SETTINGS, "an unknown 击倒后 is refused")

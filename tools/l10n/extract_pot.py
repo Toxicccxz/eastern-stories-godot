@@ -46,11 +46,11 @@ TEXT_KEYS = frozenset({
     "damage_type", "done", "weapon_fail", "improved_line", "message", "line",
     "target", "quest_type", "ask_say", "again_say", "oath", "ask_tell", "success", "force_fail",
     "whisper", "commoners_only", "busy_say", "mana_fail", "sen_fail", "came", "caught", "standing",
-    "tell", "dissolve", "tired", "clumsy", "ask", "choice", "wear_refusal",
+    "tell", "dissolve", "tired", "clumsy", "ask", "choice", "wear_refusal", "closing",
     "water_fail", "catch_say", "escape_line", "deliver_say", "refused_line", "beat_line", "warn_line",
     "sorry_line", "label", "hint", "attack_ask", "attack_choice",
 })
-TEXT_LIST_KEYS = frozenset({"limbs", "name_pick", "killed_by_owner", "killed_by_other", "taken_lines", "faint_lines"})
+TEXT_LIST_KEYS = frozenset({"limbs", "name_pick", "killed_by_owner", "killed_by_other", "taken_lines", "faint_lines", "paragraphs"})
 # Inside lines and messages `action` names a chat function (random_move, drink, perform...), not a label.
 LINE_KEYS = (TEXT_KEYS - {"action"}) | frozenset({
     "open", "close", "push", "hold", "fall", "climb", "climb_observer", "fall_observer",
@@ -347,8 +347,10 @@ def _extract_journal(document: dict, relative: str, catalog: Catalog) -> None:
             if isinstance(chain.get(key), str):
                 catalog.add(chain[key], relative, note=f"{chain_id} {key}")
         for entry in chain.get("entries", []):
-            if isinstance(entry.get("text"), str):
-                catalog.add(entry["text"], relative, note=f"{chain_id}/{entry.get('id', '')} text")
+            # A guide chain's entry also says what comes next (the status card's 目标 row).
+            for key in ("text", "next"):
+                if isinstance(entry.get(key), str):
+                    catalog.add(entry[key], relative, note=f"{chain_id}/{entry.get('id', '')} {key}")
     for topic in document.get("codex_topics", []):
         topic_id = str(topic.get("id", ""))
         if isinstance(topic.get("title"), str):

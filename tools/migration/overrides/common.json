@@ -1,6 +1,12 @@
 {
 	"items": ["obj/money/coin.c", "obj/money/silver.c", "obj/money/gold.c", "obj/cloth.c", "obj/paper_seal.c"],
-	"npcs": ["obj/npc/heaven_soldier.c", "obj/npc/hell_guard.c", "obj/npc/mind_bug.c", "obj/npc/mind_beast.c", "obj/npc/zombie.c"],
+	"npcs": [
+		"obj/npc/heaven_soldier.c",
+		"obj/npc/hell_guard.c",
+		"obj/npc/mind_bug.c",
+		"obj/npc/mind_beast.c",
+		"obj/npc/zombie.c"
+	],
 	"set": {
 		"common.npc.heaven_soldier": {
 			"name": "天甲神兵",
@@ -13,7 +19,20 @@
 		},
 		"common.npc.hell_guard": {
 			"name": "子阴鬼卒",
-			"name_pick": ["子阴鬼卒", "丑阴鬼卒", "寅阴鬼卒", "卯阴鬼卒", "辰阴鬼卒", "巳阴鬼卒", "午阴鬼卒", "未阴鬼卒", "申阴鬼卒", "酉阴鬼卒", "戌阴鬼卒", "亥阴鬼卒"],
+			"name_pick": [
+				"子阴鬼卒",
+				"丑阴鬼卒",
+				"寅阴鬼卒",
+				"卯阴鬼卒",
+				"辰阴鬼卒",
+				"巳阴鬼卒",
+				"午阴鬼卒",
+				"未阴鬼卒",
+				"申阴鬼卒",
+				"酉阴鬼卒",
+				"戌阴鬼卒",
+				"亥阴鬼卒"
+			],
 			"summoned": {
 				"arrive": ["一道蓝光从地底升起，蓝光中出现一个手执钢叉、面目狰狞的鬼卒。", "$N说道：末将奉法主召唤，特来护法！"],
 				"leave": ["$N说道：末将奉法主召唤，现在已经完成护法任务，就此告辞！", "$N的身形发出幽暗的蓝光，沈入地下不见了。"],
@@ -22,14 +41,18 @@
 		},
 		"common.npc.mind_bug": {
 			"conjured": {
-				"skill": "spells", "combat_exp_per_level": 500, "spi_divisor": 2,
+				"skill": "spells",
+				"combat_exp_per_level": 500,
+				"spi_divisor": 2,
 				"killed_by_owner": ["你杀死了你的观想虫，并且从中悟到了一些咒术的道理。"],
 				"killed_by_other": ["你的观想虫被人杀死了！", "你觉得一阵天旋地转...."]
 			}
 		},
 		"common.npc.mind_beast": {
 			"conjured": {
-				"skill": "spells", "combat_exp_per_level": 2000, "spi_divisor": 1,
+				"skill": "spells",
+				"combat_exp_per_level": 2000,
+				"spi_divisor": 1,
 				"killed_by_owner": ["你杀死了你的观想兽，并且从中悟到了一些咒术的道理。"],
 				"killed_by_other": ["你的观想兽被人杀死了！", "你觉得一阵天旋地转...."]
 			}
@@ -43,8 +66,19 @@
 				"dissolve": "$N缓缓地倒了下来，化为一滩血水。"
 			}
 		},
-		"es2:obj/paper_seal": {
-			"scribe": true
+		"es2:obj/paper_seal": { "scribe": true },
+		"es2:obj/example/chicken_leg": {
+			"food": {
+				"remaining": 4,
+				"supply": 40,
+				"leaves": {
+					"name": "啃得精光的鸡腿骨头",
+					"aliases": ["bone"],
+					"weight": 150,
+					"long": "一根啃得精光的鸡腿骨头。\n",
+					"unit": "根"
+				}
+			}
 		}
 	},
 	"review": {
@@ -84,6 +118,12 @@
 		"obj/npc/obj/golden_sword.c": {
 			"set wield_msg": "wield/unwield messages are not shown yet",
 			"set unwield_msg": "wield/unwield messages are not shown yet"
+		},
+		"obj/example/chicken_leg.c": {
+			"set food_remaining": "set es2:obj/example/chicken_leg food (前两小时 B, DECISIONS「客栈的老鼠」: the waiter's fourth good, food that is also a hammer)",
+			"set food_supply": "set es2:obj/example/chicken_leg food",
+			"set wield_msg": "wield/unwield messages are not shown yet",
+			"function finish_eat": "set es2:obj/example/chicken_leg food.leaves: 啃得精光的鸡腿骨头 (bone for dog.c), still the hammer it was"
 		}
 	}
 }

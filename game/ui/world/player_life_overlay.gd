@@ -4,15 +4,23 @@ extends CanvasLayer
 ## Shows the player's unconsciousness and the death card. Reads the session's
 ## PlayerLifeFlow; the only thing it can do is go on from the card (继续: to 阴间). The
 ## return to life (d/death's reincarnate()) is told as a short notice.
+## Native (前两小时 A/B; DECISIONS「开场卡片」「新手链与当前目标」): the same card shows a
+## text the game puts up (show_card(): the opening's theme story, 拜师) with 继续, world
+## time held under it (hold_world_time) until the player goes on; a death takes its place.
 const REVIVED_NOTICE_SECONDS: float = 4.0
 ## Basic skill names follow cmds/std/enable.c valid_types.
 const SKILL_NAMES: Dictionary[StringName, String] = {
 	&"unarmed": "基本拳脚", &"sword": "基本剑法", &"parry": "基本招架",
 	&"dodge": "基本轻功", &"force": "基本内功", &"liuh-ken": "柳家拳",
 }
+const CARD_HOLD: StringName = &"card"
+## A card's text is wider than the death card's lines.
+const CARD_WIDTH: float = 700.0
+const DEATH_WIDTH: float = 300.0
 
 var _session: WorldSessionController
 var _dim: ColorRect
+var _panel: PanelContainer
 var _text: Label
 var _continue: Button
 var _last_phase: PlayerLifeFlow.Phase = PlayerLifeFlow.Phase.NONE
@@ -22,6 +30,9 @@ var _reincarnations_told: int = -1
 ## Real seconds since the player fell unconscious: the screen goes dark over pacing.json's
 ## dim_fade_ms (DECISIONS「响应性」), not at once.
 var _dark_for: float = 0.0
+## The cards waiting (show_card()), the one shown first.
+var _cards: Array[String] = []
+var _card_held: bool = false
 
 
 func configure(session: WorldSessionController) -> void:
@@ -39,28 +50,48 @@ func _ready() -> void:
 	var center: CenterContainer = CenterContainer.new()
 	center.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_dim.add_child(center)
-	var panel: PanelContainer = PanelContainer.new()
-	panel.custom_minimum_size = Vector2(320, 0)
-	center.add_child(panel)
+	_panel = PanelContainer.new()
+	_panel.custom_minimum_size = Vector2(320, 0)
+	# A dark backing under the text: a long card (the opening) reads over the scene.
+	var backing := StyleBoxFlat.new()
+	backing.bg_color = Color(0.07, 0.07, 0.06, 0.94)
+	backing.set_corner_radius_all(10)
+	backing.content_margin_left = 24.0
+	backing.content_margin_right = 24.0
+	backing.content_margin_top = 20.0
+	backing.content_margin_bottom = 20.0
+	_panel.add_theme_stylebox_override("panel", backing)
+	center.add_child(_panel)
 	var rows: VBoxContainer = VBoxContainer.new()
 	rows.add_theme_constant_override("separation", 12)
-	panel.add_child(rows)
+	_panel.add_child(rows)
 	_text = Label.new()
 	_text.name = "LifeText"
 	_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_text.custom_minimum_size = Vector2(300, 0)
+	_text.custom_minimum_size = Vector2(DEATH_WIDTH, 0)
 	rows.add_child(_text)
 	_continue = Button.new()
 	_continue.name = "Continue"
 	_continue.text = "继续"
 	_continue.custom_minimum_size = Vector2(0, 44)
-	_continue.pressed.connect(_on_continue)
+	_continue.pressed.connect(go_on)
 	rows.add_child(_continue)
 	visible = false
 
 
 func text() -> String:
 	return _text.text if visible else ""
+
+
+## Puts `card_text` up with 继续 once nothing else covers the world; several wait in turn.
+func show_card(card_text: String) -> void:
+	if not card_text.strip_edges().is_empty():
+		_cards.append(card_text)
+
+
+## A card of the game's own (not a death) is up.
+func card_shown() -> bool:
+	return _card_held
 
 
 func _process(delta: float) -> void:
@@ -83,6 +114,10 @@ func _process(delta: float) -> void:
 	_last_phase = flow.phase
 	var fade: float = GameContent.catalog().pacing().dim_fade_seconds
 	_dim.modulate.a = clampf(_dark_for / fade, 0.0, 1.0) if flow.phase == PlayerLifeFlow.Phase.UNCONSCIOUS and fade > 0.0 else 1.0
+	# A fall or a death puts the card away (its hold would stop nothing: world_time_held()
+	# ends with the player's ACTIVE status) and it comes back once the player is up.
+	if flow.phase != PlayerLifeFlow.Phase.NONE:
+		_release_card()
 	match flow.phase:
 		PlayerLifeFlow.Phase.UNCONSCIOUS:
 			var fighting: bool = _session.combat_encounter_coordinator() != null and _session.combat_encounter_coordinator().has_active_encounter()
@@ -97,6 +132,12 @@ func _process(delta: float) -> void:
 		PlayerLifeFlow.Phase.DEATH_SEQUENCE:
 			_show(_death_text(flow), true, true)
 		_:
+			if _session.opening_card_due():
+				_session.take_opening_card()
+				show_card(OpeningDefinition.card_text(GameContent.catalog().opening()))
+			if not _cards.is_empty():
+				_show_card(_cards[0])
+				return
 			_notice_remaining -= delta
 			if _notice_remaining > 0.0:
 				_show(_notice, false, false)
@@ -109,6 +150,8 @@ func _process(delta: float) -> void:
 func _show(value: String, can_continue: bool, blocking: bool) -> void:
 	visible = true
 	_text.text = value
+	_text.custom_minimum_size.x = DEATH_WIDTH
+	_panel.custom_minimum_size.x = DEATH_WIDTH + 20.0
 	_continue.visible = can_continue
 	# Keys and pad answer 继续 with Enter / A (owner, gamepad support): the controls under
 	# the dim are out of reach.
@@ -116,6 +159,26 @@ func _show(value: String, can_continue: bool, blocking: bool) -> void:
 		_continue.grab_focus()
 	_dim.color.a = 0.72 if blocking else 0.0
 	_dim.mouse_filter = Control.MOUSE_FILTER_STOP if blocking else Control.MOUSE_FILTER_IGNORE
+
+
+## The game's own card: wider, with 继续, world time held while it is up.
+func _show_card(value: String) -> void:
+	# The focus goes to 继续 once, as the card comes up: the pause panel over it keeps its own.
+	var first: bool = not _card_held
+	_show(value, true, first)
+	_dim.color.a = 0.72
+	_dim.mouse_filter = Control.MOUSE_FILTER_STOP
+	_text.custom_minimum_size.x = CARD_WIDTH
+	_panel.custom_minimum_size.x = CARD_WIDTH + 20.0
+	if first:
+		_card_held = true
+		_session.hold_world_time(CARD_HOLD)
+
+
+func _release_card() -> void:
+	if _card_held:
+		_card_held = false
+		_session.release_world_time(CARD_HOLD)
 
 
 ## Whether the dimmed screen covers the world (unconscious, dead).
@@ -163,6 +226,16 @@ func _death_text(flow: PlayerLifeFlow) -> String:
 	return "\n".join(lines).strip_edges()
 
 
-func _on_continue() -> void:
-	if _session != null:
-		_session.continue_after_death()
+## 继续: the card shown goes away (the next waits its turn), or the dead go on to 阴间.
+func go_on() -> void:
+	if _session == null:
+		return
+	# A card waiting (shown, or not yet: the frame after show_card()) goes first.
+	if not _cards.is_empty():
+		_cards.pop_front()
+		if _card_held:
+			_release_card()
+			if _cards.is_empty():
+				visible = false
+		return
+	_session.continue_after_death()

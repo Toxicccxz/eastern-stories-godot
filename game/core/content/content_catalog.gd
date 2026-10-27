@@ -29,6 +29,7 @@ var _exit_rules: Dictionary[StringName, ZoneExitRuleDefinition] = {}
 var _pacing: PacingDefinition = PacingDefinition.new()
 var _progression: ProgressionRules
 var _bounties: BountyRules
+var _opening: OpeningDefinition
 var _zone_of_room: Dictionary[StringName, StringName] = {}
 var _currency_items: Dictionary[CurrencyDenomination.Value, ItemContentDefinition] = {}
 var _native_item_projections: NativeItemDefinitionProjections
@@ -208,6 +209,15 @@ func set_bounties(value: BountyRules) -> void:
 
 func bounties() -> BountyRules:
 	return _bounties
+
+
+## New Game's opening card (opening.json; DECISIONS「开场卡片」), or null when no document has one.
+func set_opening(value: OpeningDefinition) -> void:
+	_opening = value
+
+
+func opening() -> OpeningDefinition:
+	return _opening
 
 
 func pacing() -> PacingDefinition:

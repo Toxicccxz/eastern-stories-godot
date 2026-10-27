@@ -6,6 +6,8 @@ extends RefCounted
 ## CharacterState.journal from then on, so a mark or temp mark later cleared, or an item
 ## given away, does not take back what happened. Only what has happened is shown (owner,
 ## 界面重构 Q3): a chain shows once one of its entries is recorded, and only those entries.
+## Native (前两小时 A; DECISIONS「新手链与当前目标」): recording an entry is told once as a
+## 【见闻】 line, and a guide chain's latest entry says what to do next (objective()).
 
 
 ## One chain as the page shows it: its recorded entries in the order they happened.
@@ -17,27 +19,48 @@ class Shown:
 	var latest: int = 0
 
 
+## An entry just recorded, with its chain.
+class Fresh:
+	extends RefCounted
+	var chain: JournalChainDefinition
+	var entry: JournalEntryDefinition
+
+	func _init(p_chain: JournalChainDefinition, p_entry: JournalEntryDefinition) -> void:
+		chain = p_chain
+		entry = p_entry
+
+
 ## Records every entry whose condition now holds. `temps` are the player's temp marks,
 ## `held` the item definitions the player carries. True when anything was recorded.
 static func record(state: CharacterState, temps: Dictionary[String, int], held: Dictionary[StringName, bool], chains: Array[JournalChainDefinition]) -> bool:
+	return not record_entries(state, temps, held, chains).is_empty()
+
+
+## record(), telling which entries it recorded, in the order it did.
+static func record_entries(state: CharacterState, temps: Dictionary[String, int], held: Dictionary[StringName, bool], chains: Array[JournalChainDefinition]) -> Array[Fresh]:
+	var recorded: Array[Fresh] = []
 	if state == null:
-		return false
-	var recorded: bool = false
+		return recorded
 	for chain: JournalChainDefinition in chains:
 		for entry: JournalEntryDefinition in chain.entries:
 			var key: String = chain.key_of(entry)
 			if not state.journal.has(key) and holds(entry, state, temps, held):
 				state.journal[key] = state.journal.size() + 1
-				recorded = true
+				recorded.append(Fresh.new(chain, entry))
 	return recorded
 
 
 ## The player asked `npc_id` about `topic` and was answered: the entries that wait for
 ## that answer are recorded.
 static func heard(state: CharacterState, npc_id: StringName, topic: String, chains: Array[JournalChainDefinition]) -> bool:
+	return not heard_entries(state, npc_id, topic, chains).is_empty()
+
+
+## heard(), telling which entries it recorded.
+static func heard_entries(state: CharacterState, npc_id: StringName, topic: String, chains: Array[JournalChainDefinition]) -> Array[Fresh]:
+	var recorded: Array[Fresh] = []
 	if state == null:
-		return false
-	var recorded: bool = false
+		return recorded
 	for chain: JournalChainDefinition in chains:
 		for entry: JournalEntryDefinition in chain.entries:
 			var key: String = chain.key_of(entry)
@@ -46,7 +69,7 @@ static func heard(state: CharacterState, npc_id: StringName, topic: String, chai
 				and StringName(entry.key) == npc_id and entry.topic == topic
 			):
 				state.journal[key] = state.journal.size() + 1
-				recorded = true
+				recorded.append(Fresh.new(chain, entry))
 	return recorded
 
 
@@ -73,6 +96,16 @@ static func holds(entry: JournalEntryDefinition, state: CharacterState, temps: D
 			return held.has(StringName(entry.key))
 		JournalEntryDefinition.When.SEEN:
 			return state.seen_npcs.has(entry.key)
+		JournalEntryDefinition.When.MILESTONE:
+			return state.milestones.has(entry.key)
+		JournalEntryDefinition.When.FORCE_AT_LEAST:
+			return state.recovery.inner_force.maximum >= entry.amount
+		JournalEntryDefinition.When.EXP_AT_LEAST:
+			return state.progression.combat_experience >= entry.amount
+		JournalEntryDefinition.When.SKILL_AT_LEAST:
+			return state.skills.raw_level(StringName(entry.key)) >= entry.amount
+		JournalEntryDefinition.When.FAMILY:
+			return state.family.family_id == StringName(entry.key)
 	# HEARD is recorded at the ask (heard()).
 	return false
 
@@ -83,11 +116,16 @@ static func finished_chains(state: CharacterState, chains: Array[JournalChainDef
 	if state == null:
 		return result
 	for chain: JournalChainDefinition in chains:
-		for entry: JournalEntryDefinition in chain.entries:
-			if entry.final and state.journal.has(chain.key_of(entry)):
-				result.append(chain)
-				break
+		if finished(state, chain):
+			result.append(chain)
 	return result
+
+
+static func finished(state: CharacterState, chain: JournalChainDefinition) -> bool:
+	for entry: JournalEntryDefinition in chain.entries:
+		if entry.final and state.journal.has(chain.key_of(entry)):
+			return true
+	return false
 
 
 ## The chains with something recorded, the one with the newest entry first.
@@ -111,6 +149,27 @@ static func shown(state: CharacterState, chains: Array[JournalChainDefinition]) 
 	return result
 
 
+## What to do next (the status card's 目标 row): the `next` of the newest recorded entry
+## among the guide chains not seen through; "" when no guide chain says anything.
+static func objective(state: CharacterState, chains: Array[JournalChainDefinition]) -> String:
+	for view: Shown in shown(state, chains):
+		if view.chain.guide and not finished(state, view.chain):
+			return view.entries[-1].next
+	return ""
+
+
+## The lines that tell an entry was recorded: 【见闻】 and its text, then (a guide chain's
+## entry, `with_next`) what to do next.
+static func told_lines(fresh: Fresh, with_next: bool) -> Array[ColoredLine]:
+	var lines: Array[ColoredLine] = []
+	# TRANSLATORS: native (前两小时 A): the 任务 page recorded {text} (an entry's own line).
+	lines.append(ColoredLine.new(_t("【见闻】{text}").format({"text": _t(fresh.entry.text)}), ColoredLine.HIG))
+	if with_next and fresh.chain.guide and not fresh.entry.next.is_empty():
+		# TRANSLATORS: native (前两小时 A): under a guide chain's 【见闻】 line, {next} what to do next.
+		lines.append(ColoredLine.new(_t("下一步：{next}").format({"next": _t(fresh.entry.next)}), ColoredLine.HIG))
+	return lines
+
+
 ## What `entry` quotes, as the ask showed it (NpcInquiry: translated, $RESPECT as the NPC
 ## addressed the player); empty when it quotes nothing.
 static func quote_lines(entry: JournalEntryDefinition, npc: NpcDefinition, asker_respect: String) -> Array[String]:
@@ -123,3 +182,7 @@ static func quote_lines(entry: JournalEntryDefinition, npc: NpcDefinition, asker
 			if not line.strip_edges().is_empty():
 				lines.append(line.strip_edges())
 	return lines
+
+
+static func _t(text: String) -> String:
+	return TranslationServer.translate(text)

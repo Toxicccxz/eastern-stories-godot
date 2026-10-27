@@ -18,6 +18,10 @@ static func confirm(shell: ApplicationShellController) -> bool:
 static func complete_setup(shell: ApplicationShellController) -> bool:
 	if shell.shell_state().mode() != ApplicationShellState.Mode.NEW_GAME_SETUP:
 		return true
+	# The opening card would hold world time and the focus until 继续 (DECISIONS「开场卡片」);
+	# these suites start acting at once. first_hours_test covers the card through the shell.
+	if shell.runtime_host() != null:
+		shell.runtime_host().opening_card = false
 	shell.player_name_edit.text = "凌雪"
 	shell.select_new_game_gender(CharacterState.GENDER_FEMALE)
 	return shell.submit_new_game_setup()
