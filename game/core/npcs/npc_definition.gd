@@ -551,18 +551,19 @@ func can_speak() -> bool:
 ## between them without a nickname). A family head without a title of its own shows the one
 ## feature/apprentice.c assign_apprentice() gives it (封山剑派第十三代掌门人).
 ## In the shown language; `title` (a mood's: 悲愤欲绝) instead of its own when given.
-func short_name(title: String = "") -> String:
+func short_name(title: String = "", nickname: String = "") -> String:
 	var name: String = TranslationServer.translate(display_name)
+	var shown_nickname: String = _nickname if nickname.is_empty() else nickname
 	# TRANSLATORS: name.c short(): a nickname before the name, 「风雨双侠」柳淳风.
-	var text: String = name if _nickname.is_empty() else TranslationServer.translate("「{nickname}」{name}").format({
-		"nickname": TranslationServer.translate(_nickname), "name": name,
+	var text: String = name if shown_nickname.is_empty() else TranslationServer.translate("「{nickname}」{name}").format({
+		"nickname": TranslationServer.translate(shown_nickname), "name": name,
 	})
 	var shown_title: String = TranslationServer.translate(_title if title.is_empty() else title)
 	if _title.is_empty() and title.is_empty() and _teaching != null and _teaching.has_family():
 		shown_title = NpcApprenticeship.shown_family_title(_teaching.family_name, _teaching.family_generation, _teaching.family_title)
 	if shown_title.is_empty():
 		return text
-	if not _nickname.is_empty():
+	if not shown_nickname.is_empty():
 		# TRANSLATORS: name.c short(): a title before a nicknamed name, 掌门人「风雨双侠」柳淳风.
 		return TranslationServer.translate("{title}{name}").format({"title": shown_title, "name": text})
 	# TRANSLATORS: name.c short(): a title before a name, with a space: 门房 刘安禄.

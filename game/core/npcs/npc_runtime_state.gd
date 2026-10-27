@@ -237,9 +237,10 @@ func put_in_mood(next: NpcMood) -> void:
 
 
 ## Its room's reset (owner, 黑松山 plan M7, 默认): the mood is over, what it added goes.
-func end_mood() -> void:
+## A lasting one (guard.c's revealed) stays through a reset (`on_reset`).
+func end_mood(on_reset: bool = false) -> void:
 	var current: NpcMood = mood()
-	if current == null:
+	if current == null or (on_reset and current.lasting):
 		return
 	clear_flag(current.flag())
 	for key: String in current.applies:
@@ -255,13 +256,19 @@ func end_mood() -> void:
 ## What the player reads of it: name.c short(), its mood's title instead of its own.
 func short_name() -> String:
 	var current: NpcMood = mood()
-	return _definition.short_name("" if current == null else current.title)
+	return _definition.short_name("" if current == null else current.title, "" if current == null else current.nickname)
 
 
 ## What npc.c chat() says now: its mood's chat, else its own.
 func chat_talk() -> NpcTalk:
 	var current: NpcMood = mood()
 	return _definition.talk() if current == null or current.talk == null else current.talk
+
+
+## What it says in a fight (chat_msg_combat): its mood's when the mood replaces it, else its own.
+func combat_talk() -> NpcTalk:
+	var current: NpcMood = mood()
+	return _definition.talk() if current == null or not current.has_combat_chat() else current.talk
 
 
 ## The inquiry topics this NPC deleted.

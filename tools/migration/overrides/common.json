@@ -1,5 +1,12 @@
 {
-	"items": ["obj/money/coin.c", "obj/money/silver.c", "obj/money/gold.c", "obj/cloth.c", "obj/paper_seal.c"],
+	"items": [
+		"obj/money/coin.c",
+		"obj/money/silver.c",
+		"obj/money/gold.c",
+		"obj/cloth.c",
+		"obj/paper_seal.c",
+		"d/snow/npc/obj/blade_book.c"
+	],
 	"npcs": [
 		"obj/npc/heaven_soldier.c",
 		"obj/npc/hell_guard.c",

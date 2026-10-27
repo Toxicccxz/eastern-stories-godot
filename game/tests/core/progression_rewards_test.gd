@@ -224,7 +224,7 @@ func _test_journal_finals() -> void:
 		for entry: JournalEntryDefinition in chain.entries:
 			if entry.final:
 				finals += 1
-	_assert_eq(finals, 25, "journal.json: 25 final entries over the chains that end (the 新手链 and 雪亭驿的信 among them)")
+	_assert_eq(finals, 26, "journal.json: 26 final entries over the chains that end (the 新手链, 雪亭驿的信 and 门房的来历 among them)")
 	var state := CharacterState.new()
 	state.journal["green.jade/jade"] = 1
 	var finished: Array[JournalChainDefinition] = JournalLog.finished_chains(state, GameContent.catalog().journal_chains())

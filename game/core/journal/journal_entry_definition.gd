@@ -28,12 +28,15 @@ enum When {
 	SKILL_AT_LEAST,
 	## Native: the player is of family `key` (FamilyState.family_id).
 	FAMILY,
+	## Native (前两小时 D): the player heard NPC `key` chat a line containing `topic` (in the
+	## world or in a fight; recorded as it is said).
+	CHAT,
 }
 
 const WHEN_KEYS: Dictionary[String, int] = {
 	"mark": When.MARK, "temp": When.TEMP, "item": When.ITEM, "seen": When.SEEN, "heard": When.HEARD,
 	"milestone": When.MILESTONE, "force_at_least": When.FORCE_AT_LEAST, "exp_at_least": When.EXP_AT_LEAST,
-	"skill_at_least": When.SKILL_AT_LEAST, "family": When.FAMILY,
+	"skill_at_least": When.SKILL_AT_LEAST, "family": When.FAMILY, "chat": When.CHAT,
 }
 
 var entry_id: StringName
@@ -41,7 +44,7 @@ var when: int = When.MARK
 ## The mark, temp mark, item, NPC definition, milestone, skill or family the condition
 ## names; for HEARD the NPC.
 var key: String = ""
-## HEARD: the inquiry topic.
+## HEARD: the inquiry topic; CHAT: the words the line contains.
 var topic: String = ""
 ## FORCE_AT_LEAST, EXP_AT_LEAST: the number reached; SKILL_AT_LEAST: the level.
 var amount: int = 0
@@ -80,6 +83,12 @@ static func from_record(reader: ContentRecordReader) -> JournalEntryDefinition:
 						definition.key = heard.required_text("npc")
 						definition.topic = heard.required_text("topic")
 						heard.finish()
+				When.CHAT:
+					var chat: ContentRecordReader = when.child("chat")
+					if chat != null:
+						definition.key = chat.required_text("npc")
+						definition.topic = chat.required_text("contains")
+						chat.finish()
 				When.FORCE_AT_LEAST, When.EXP_AT_LEAST:
 					definition.amount = when.required_integer(names[0])
 					if definition.amount <= 0:

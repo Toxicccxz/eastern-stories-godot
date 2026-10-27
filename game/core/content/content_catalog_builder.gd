@@ -333,6 +333,9 @@ func _check_journal() -> void:
 					var npc: NpcDefinition = _npcs.get(StringName(entry.key))
 					if npc == null or not npc.talk().inquiry_topics().has(entry.topic):
 						_errors.append("%s.when.heard: '%s' has no topic '%s'" % [origin, entry.key, entry.topic])
+				JournalEntryDefinition.When.CHAT:
+					if not _npcs.has(StringName(entry.key)):
+						_errors.append("%s.when.chat: no NPC '%s'" % [origin, entry.key])
 				JournalEntryDefinition.When.MILESTONE:
 					if not MilestoneRewards.KIND_NAMES.values().has(entry.key.get_slice("/", 0)) or entry.key.get_slice_count("/") < 2:
 						_errors.append("%s.when.milestone: expected '<kind>/<id>', got '%s'" % [origin, entry.key])

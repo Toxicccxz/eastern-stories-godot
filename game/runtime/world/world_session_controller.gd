@@ -2036,6 +2036,14 @@ func tell_journal(fresh: Array[JournalLog.Fresh]) -> void:
 	hud.append_colored_lines(lines)
 
 
+## The player heard `npc` say `text` (npc.c chat(), or chat_msg_combat in a fight): the 任务
+## page's entries that wait for those words (JournalEntryDefinition CHAT; 前两小时 D).
+func chat_heard(npc: NpcRuntimeState, text: String) -> void:
+	if _player == null or _player.state == null or npc == null:
+		return
+	tell_journal(JournalLog.chat_heard(_player.state, npc.definition().definition_id, text, GameContent.catalog().journal_chains()))
+
+
 ## Native (前两小时 B; DECISIONS「开场卡片」): New Game begins with the theme story's card
 ## (OpeningDefinition) over the world, world time held, until 继续. Asked for by the host
 ## once (a save is never made under it, so it is not saved); the overlay takes it.

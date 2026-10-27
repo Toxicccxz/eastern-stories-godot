@@ -520,7 +520,7 @@ func reset_room(legacy_room: String) -> void:
 				continue
 			# oldman.c reset(): set("pills", 9).
 			npc.pills_left = -1
-			npc.end_mood()
+			npc.end_mood(true)
 			# One following the player every way (小娟, owner F2) stays with them.
 			if npc.world_location().zone_id != spawn.zone_id and not _map.patrols.keeps_out(npc) and not _map.npc_life.follows_every_way(npc):
 				return_home(npc)

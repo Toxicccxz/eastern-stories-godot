@@ -150,6 +150,18 @@
 			"material": "iron",
 			"combined": { "base_unit": "把", "base_weight": 300, "amount": 100 },
 			"weapon": { "skill": "throwing", "damage": 20 }
+		},
+		{
+			"id": "es2:d/snow/obj/blade_book",
+			"legacy_sources": ["d/snow/obj/blade_book.c", "d/snow/npc/obj/blade_book.c"],
+			"name": "残破刀谱",
+			"aliases": ["book"],
+			"long": "这似乎是一本什么刀谱的前几页，虽然并没有关于招式的详细解说，可是\n前面有关刀法的总纲与精义倒是不少。\n",
+			"unit": "本",
+			"material": "paper",
+			"study": { "skill": "blade", "exp_required": 1000, "sen_cost": 30, "difficulty": 20, "max_skill": 40 },
+			"weight": 600,
+			"value": 260
 		}
 	]
 }

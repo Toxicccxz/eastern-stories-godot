@@ -1027,9 +1027,11 @@ func _act(npc: NpcRuntimeState, entry: Variant) -> void:
 	if entry is String:
 		if player_hears(npc) and player_near(npc):
 			_map.hud().npc_says(npc, [ColoredLine.new(NpcTalk.line(entry))], [NpcTalk.line(entry)])
+			_map.session.chat_heard(npc, NpcTalk.line(entry))
 	elif entry is ColoredLine:
 		if player_hears(npc) and player_near(npc):
 			_map.hud().npc_says(npc, [ColoredLine.new(NpcTalk.line(entry.text), entry.color)], [NpcTalk.line(entry.text)])
+			_map.session.chat_heard(npc, NpcTalk.line(entry.text))
 	elif entry is StringName and entry == NpcTalk.RANDOM_MOVE:
 		random_move(npc)
 	elif entry is StringName and entry == NpcTalk.PATROL:

@@ -115,6 +115,44 @@
 			]
 		},
 		{
+			"id": "snow.liu_anlu",
+			"title": "门房的来历",
+			"region": "雪亭镇",
+			"sources": ["d/snow/npc/teacher.c", "daemon/class/swordsman/master.c", "d/snow/npc/woodcutter.c", "d/snow/npc/guard.c (native guide chain over ES2's own clues: 前两小时 D, DECISIONS「刘安禄的揭露」)"],
+			"guide": true,
+			"entries": [
+				{
+					"id": "wei",
+					"when": { "heard": { "npc": "snow.npc.teacher", "topic": "刘安禄" } },
+					"text": "魏无极说淳风武馆的门房刘安禄是野羊山寨的二寨主，人称血手刘三。",
+					"quote": { "npc": "snow.npc.teacher", "topic": "刘安禄" },
+					"next": "去淳风武馆问问柳淳风「刘安禄」。"
+				},
+				{
+					"id": "liu",
+					"final": true,
+					"when": { "heard": { "npc": "common.npc.swordsman.master", "topic": "刘安禄" } },
+					"text": "柳淳风只说刘兄弟在武馆管事五年了，过去之事不须再提。门房的来历，雪亭镇上只有他一个人清楚。",
+					"quote": { "npc": "common.npc.swordsman.master", "topic": "刘安禄" }
+				},
+				{
+					"id": "woodcutter",
+					"when": { "chat": { "npc": "snow.npc.woodcutter", "contains": "臭道士" } },
+					"text": "樵夫骂野羊山那群道士该千刀万剐，说他们施了妖法。"
+				},
+				{
+					"id": "slip",
+					"when": { "chat": { "npc": "snow.npc.guard", "contains": "想我堂堂" } },
+					"text": "刘安禄动起手来说漏了嘴：「想我堂堂……呃……连我这个小小的门房都可以收拾你！」"
+				},
+				{
+					"id": "revealed",
+					"when": { "mark": "血手刘三" },
+					"text": "刘安禄亮出了血手刘三的身份：野羊山寨的二寨主，一手快刀判若两人。"
+				}
+			]
+		},
+		{
 			"id": "snow.wei_wuji",
 			"title": "魏无极",
 			"region": "雪亭镇",
