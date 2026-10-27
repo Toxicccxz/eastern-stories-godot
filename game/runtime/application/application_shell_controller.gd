@@ -24,6 +24,9 @@ signal interaction_changed
 @onready var male_button: Button = %MaleButton
 @onready var female_button: Button = %FemaleButton
 @onready var journey_start_button: Button = %JourneyStartButton
+## 节奏 (前两小时 E; DECISIONS「经典模式总开关」): 现代 (the game's pacing) or 经典 (ES2's progression).
+@onready var pace_option: OptionButton = %PaceOption
+const PACE_IDS: Dictionary[int, StringName] = {0: CharacterState.PACE_MODERN, 1: CharacterState.PACE_CLASSIC}
 @onready var setup_cancel_button: Button = %SetupCancelButton
 @onready var setup_message: Label = %SetupMessage
 @onready var continue_button: Button = %ContinueButton
@@ -227,6 +230,8 @@ func _ready() -> void:
 	_configure_ui_scale_options()
 	_configure_language_options()
 	_configure_battle_options()
+	_configure_pace_options()
+	pace_option.get_popup().window_input.connect(_popup_system_input.bind(pace_option))
 	window_mode_option.get_popup().window_input.connect(_popup_system_input.bind(window_mode_option))
 	battle_speed_option.get_popup().window_input.connect(_popup_system_input.bind(battle_speed_option))
 	knockout_option.get_popup().window_input.connect(_popup_system_input.bind(knockout_option))
@@ -384,7 +389,7 @@ func _handle_system_back() -> void:
 	if _state.mode() in [ApplicationShellState.Mode.BOOT, ApplicationShellState.Mode.STARTING_SESSION, ApplicationShellState.Mode.SAVING] or (_host != null and _host.request_pending()):
 		return
 	input_context_changing.emit()
-	for option: OptionButton in [window_mode_option, ui_scale_option, language_option, battle_speed_option, knockout_option]:
+	for option: OptionButton in [window_mode_option, ui_scale_option, language_option, battle_speed_option, knockout_option, pace_option]:
 		if option.get_popup().visible:
 			option.get_popup().hide()
 			return
@@ -866,13 +871,32 @@ func submit_new_game_setup() -> bool:
 	DisplayServer.virtual_keyboard_hide()
 	_last_result = null
 	_set_state(ApplicationShellState.starting(ApplicationShellState.Operation.NEW_GAME))
-	if _host != null and _host.request_new_game(display_name, _draft_gender):
+	if _host != null and _host.request_new_game(display_name, _draft_gender, selected_pace()):
 		return true
 	_show_request_failure(
 		ApplicationOperationResult.Operation.NEW_GAME,
 		ApplicationShellState.ResultOrigin.MAIN_MENU,
 	)
 	return false
+
+
+## The New Game panel's 节奏.
+func selected_pace() -> StringName:
+	return PACE_IDS.get(pace_option.get_selected_id(), CharacterState.PACE_MODERN)
+
+
+func select_new_game_pace(pace: StringName) -> void:
+	for id: int in PACE_IDS:
+		if PACE_IDS[id] == pace:
+			pace_option.select(pace_option.get_item_index(id))
+
+
+func _configure_pace_options() -> void:
+	pace_option.clear()
+	pace_option.add_item("现代（推荐）", 0)
+	pace_option.add_item("经典", 1)
+	pace_option.tooltip_text = "现代：历练、落后补偿、分档潜能、打坐六倍、悬赏榜和木人；经典：这些都按 ES2 原样。开局后不能改。"
+	pace_option.select(0)
 
 
 func _start_end_session() -> bool:
@@ -1073,6 +1097,7 @@ func _render_state(defer_focus: bool = true) -> void:
 	player_name_edit.editable = setup_interactive
 	for button: Button in [random_name_button, male_button, female_button, journey_start_button, setup_cancel_button]:
 		button.disabled = not setup_interactive
+	pace_option.disabled = not setup_interactive
 	busy_overlay.visible = mode in [
 		ApplicationShellState.Mode.BOOT,
 		ApplicationShellState.Mode.STARTING_SESSION,
@@ -1292,7 +1317,7 @@ func _select_committed_window_mode() -> void:
 
 func _all_shell_focus_controls() -> Array[Control]:
 	return [
-		player_name_edit, random_name_button, male_button, female_button, journey_start_button, setup_cancel_button,
+		player_name_edit, random_name_button, male_button, female_button, pace_option, journey_start_button, setup_cancel_button,
 		new_game_button,
 		continue_button,
 		recovery_button,
@@ -1331,7 +1356,7 @@ func _configure_active_focus_cycle(mode: int) -> void:
 	var controls: Array[Control] = []
 	match mode:
 		ApplicationShellState.Mode.NEW_GAME_SETUP:
-			controls = [player_name_edit, random_name_button, male_button, female_button, journey_start_button, setup_cancel_button]
+			controls = [player_name_edit, random_name_button, male_button, female_button, pace_option, journey_start_button, setup_cancel_button]
 		ApplicationShellState.Mode.MAIN_MENU:
 			controls = [new_game_button]
 			if not continue_button.disabled:

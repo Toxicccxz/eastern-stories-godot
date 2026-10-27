@@ -86,6 +86,12 @@ var known_items: Dictionary[String, int] = {}
 ## The one-time 历练 rewards given (MilestoneRewards, "<kind>/<id>"), each with the order
 ## it was given in. Native (A2). Saved; empty for NPCs.
 var milestones: Dictionary[String, int] = {}
+## Native (前两小时 E; DECISIONS「经典模式总开关」): the pace this character plays at, chosen
+## at New Game and never changed since: PACE_CLASSIC puts the progression knobs at ES2's
+## (PacePresets); "" or PACE_MODERN is the game's. Saved; empty for NPCs.
+const PACE_MODERN: StringName = &"modern"
+const PACE_CLASSIC: StringName = &"classic"
+var pace: StringName = &""
 ## The 雪亭驿 bounty board as this player sees it (BountyBoard). Native (A2). Saved while
 ## something was posted; empty for NPCs.
 var bounty := BountyState.new()

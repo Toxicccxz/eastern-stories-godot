@@ -151,12 +151,14 @@ func request_slot_inspection() -> bool:
 	return true
 
 
-func request_new_game(display_name: String, gender: StringName) -> bool:
+func request_new_game(display_name: String, gender: StringName, pace: StringName = CharacterState.PACE_MODERN) -> bool:
 	if not NamePolicy.is_valid(display_name) or gender not in [CharacterState.GENDER_MALE, CharacterState.GENDER_FEMALE]:
+		return false
+	if pace not in [CharacterState.PACE_MODERN, CharacterState.PACE_CLASSIC]:
 		return false
 	if not _empty_session_invariant_holds() or not _begin_request():
 		return false
-	call_deferred("_execute_new_game", display_name, gender)
+	call_deferred("_execute_new_game", display_name, gender, pace)
 	return true
 
 
@@ -205,8 +207,8 @@ func _execute_slot_inspection() -> void:
 	slot_inspection_completed.emit(result)
 
 
-func _execute_new_game(display_name: String, gender: StringName) -> void:
-	_last_new_game = _create_new_game(display_name, gender)
+func _execute_new_game(display_name: String, gender: StringName, pace: StringName) -> void:
+	_last_new_game = _create_new_game(display_name, gender, pace)
 	_request_pending = false
 	new_game_completed.emit(_last_new_game)
 
@@ -280,11 +282,11 @@ func _execute_load() -> void:
 var opening_card: bool = true
 
 
-func _create_new_game(display_name: String, gender: StringName) -> OldPineRuntimeSaveLoadResult:
+func _create_new_game(display_name: String, gender: StringName, pace: StringName = CharacterState.PACE_MODERN) -> OldPineRuntimeSaveLoadResult:
 	var session: WorldSessionController = _instantiate_new_game_session()
 	if session == null:
 		return OldPineRuntimeSaveLoadResult.failure(OldPineRuntimeSaveLoadResult.Outcome.NEW_GAME_FAILED)
-	if not session.configure_source_entry(display_name, gender):
+	if not session.configure_source_entry(display_name, gender, pace):
 		_discard_session(session)
 		return OldPineRuntimeSaveLoadResult.failure(OldPineRuntimeSaveLoadResult.Outcome.NEW_GAME_FAILED)
 	if opening_card:

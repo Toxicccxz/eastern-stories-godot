@@ -136,6 +136,7 @@ static func restore(
 	state.journal = snapshot.journal.duplicate()
 	state.known_items = snapshot.known_items.duplicate()
 	state.milestones = snapshot.milestones.duplicate()
+	state.pace = snapshot.pace
 	if not snapshot.bounty.is_valid():
 		return null
 	state.bounty = snapshot.bounty.duplicate_state()

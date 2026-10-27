@@ -206,6 +206,15 @@ size_flags_horizontal = 3
 toggle_mode = true
 text = "女性"
 
+[node name="PaceLabel" type="Label" parent="ShellCanvas/NewGameSetupPanel/Center/Panel/Margin/VBox"]
+layout_mode = 2
+text = "节奏"
+
+[node name="PaceOption" type="OptionButton" parent="ShellCanvas/NewGameSetupPanel/Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+
 [node name="SetupMessage" type="Label" parent="ShellCanvas/NewGameSetupPanel/Center/Panel/Margin/VBox"]
 unique_name_in_owner = true
 layout_mode = 2

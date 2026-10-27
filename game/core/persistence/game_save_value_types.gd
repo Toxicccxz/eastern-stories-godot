@@ -326,6 +326,8 @@ class CharacterStateSnapshot extends RefCounted:
 	var known_items: Dictionary[String, int] = {}
 	## CharacterState.milestones (A2 历练 rewards); empty for NPCs.
 	var milestones: Dictionary[String, int] = {}
+	## CharacterState.pace (现代 / 经典); empty for NPCs.
+	var pace: StringName = &""
 	## CharacterState.bounty (A2 雪亭驿 board); default for NPCs.
 	var bounty: BountyState = BountyState.new()
 	## CharacterState.counters (taolin_steps); empty for most characters.
@@ -357,10 +359,14 @@ class CharacterStateSnapshot extends RefCounted:
 		affiliation = CharacterAffiliationState.legacy(not family.family_id.is_empty() or not apprenticeship.master_teacher_id.is_empty()) if p_affiliation == null else p_affiliation.duplicate_snapshot()
 
 	func duplicate_snapshot() -> CharacterStateSnapshot:
-		return CharacterStateSnapshot.new(gender, attributes, gin, kee, sen, internal_resources, progression, skills, _conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed_applies).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen_npcs).with_journal(journal, known_items).with_counters(counters).with_ghost(ghost).with_milestones(milestones).with_bounty(bounty)
+		return CharacterStateSnapshot.new(gender, attributes, gin, kee, sen, internal_resources, progression, skills, _conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed_applies).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen_npcs).with_journal(journal, known_items).with_counters(counters).with_ghost(ghost).with_milestones(milestones).with_bounty(bounty).with_pace(pace)
 
 	func with_milestones(p_milestones: Dictionary[String, int]) -> CharacterStateSnapshot:
 		milestones = p_milestones.duplicate()
+		return self
+
+	func with_pace(p_pace: StringName) -> CharacterStateSnapshot:
+		pace = p_pace
 		return self
 
 	func with_bounty(p_bounty: BountyState) -> CharacterStateSnapshot:

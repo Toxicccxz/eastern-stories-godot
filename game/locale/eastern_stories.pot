@@ -300,6 +300,10 @@ msgid "女性"
 msgstr ""
 
 #: scenes/application/application_shell.tscn
+msgid "节奏"
+msgstr ""
+
+#: scenes/application/application_shell.tscn
 msgid "开始旅程"
 msgstr ""
 
@@ -3606,6 +3610,16 @@ msgstr ""
 msgid "断掉的{weapon}"
 msgstr ""
 
+#. the character sheet's pace line: 经典 is ES2's own numbers, 现代 the game's.
+#: core/content/pace_presets.gd runtime/application/application_shell_controller.gd
+msgid "经典"
+msgstr ""
+
+#. the character sheet's pace line: 经典 is ES2's own numbers, 现代 the game's.
+#: core/content/pace_presets.gd
+msgid "现代"
+msgstr ""
+
 #: core/death/player_killer_reward.gd
 msgid "恭喜你！你又完成了一项任务！"
 msgstr ""
@@ -6765,6 +6779,14 @@ msgid "请选择性别。"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
+msgid "现代（推荐）"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "现代：历练、落后补偿、分档潜能、打坐六倍、悬赏榜和木人；经典：这些都按 ES2 原样。开局后不能改。"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
 msgid "正在存档……"
 msgstr ""
 
@@ -8045,6 +8067,11 @@ msgstr ""
 msgid ""
 "膂力 {str} · 胆识 {cor} · 悟性 {int} · 灵性 {spi}\n"
 "定力 {cps} · 容貌 {per} · 根骨 {con} · 福缘 {kar}"
+msgstr ""
+
+#. the character sheet: {pace} is 现代 or 经典 (DECISIONS「经典模式总开关」).
+#: ui/world/character_sheet.gd
+msgid "节奏：{pace}（开局选定）"
 msgstr ""
 
 #: ui/world/character_sheet.gd
