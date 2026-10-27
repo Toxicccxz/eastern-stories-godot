@@ -23,8 +23,6 @@
   },
   "flora": {
     "grass_density": 0.5,
-    "grass_colors": ["3f5a33", "4f6c3c", "628048", "7a9450"],
-    "flower_colors": ["f2e6c8", "e8c84a", "f0c0cc", "e8e0f0"],
     "flower_threshold": 0.2,
     "tree_types": [],
     "tree_chance": 0.0,

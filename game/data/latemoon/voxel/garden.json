@@ -28,11 +28,9 @@
   "water": {"kinds": {"water": {"colors": ["7aa8a4", "5a8e8c", "3e7072"], "depth": 96, "clear": true, "flow": [0.1, 0.2], "speed": 0.15, "sky": 0.3}}},
   "flora": {
     "grass_density": 0.9,
-    "grass_colors": ["3f5a33", "4f6c3c", "628048", "78924f"],
-    "flower_colors": ["e8a0b4", "f2e6c8", "c8342c", "f4d47a", "b890d0"],
     "flower_threshold": 0.05,
     "blossom_trees": 0.0,
-    "tree_types": ["bamboo", "willow", "broadleaf", "bamboo", "osmanthus"],
+    "tree_types": ["bamboo", "plum", "crabapple", "bamboo", "osmanthus", "willow"],
     "tree_kinds": ["forest", "boundary"],
     "tree_chance": 0.75,
     "tree_spacing": 56,

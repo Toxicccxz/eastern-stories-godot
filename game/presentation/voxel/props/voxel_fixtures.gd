@@ -51,11 +51,16 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 					var motif := Vector3(-w/2+0.48+x*0.8,0.037,-d/2+0.48+z*0.8)
 					s.tilted_box(root,motif,Vector3(0.09,0.008,0.09),String(data.get("motif","b7845e")),Vector3(0,PI/4,0))
 		"lantern":
-			s.lantern(root,Vector3(0,1.5,0),true,String(data.get("paper","ffb858")))
+			# A street lantern on its post: by its place a little taller or shorter, its paper
+			# a shade off its neighbours'.
+			var vary: RandomNumberGenerator = Shapes.spot_rng(root.position)
+			s.lantern(root,Vector3(0,1.5*vary.randf_range(0.9,1.1),0),true,Shapes.tinted(String(data.get("paper","ffb858")),vary,0.05),vary.randf_range(0.94,1.06))
 			_set_lamp(root,0.5,1.1,4.0,float(data.get("flicker",0.0)))
 		"hanging_lantern":
+			var vary: RandomNumberGenerator = Shapes.spot_rng(root.position)
+			var size: float = vary.randf_range(0.9,1.1)
 			s.box(root,Vector3(0,3.85,0),Vector3(0.045,1.0,0.045),"594732")
-			s.lantern(root,Vector3(0,3.15,0),false,String(data.get("paper","ffb858")))
+			s.lantern(root,Vector3(0,3.15,0),false,Shapes.tinted(String(data.get("paper","ffb858")),vary,0.05),size)
 			_set_lamp(root,0.65,1.7,8.0,float(data.get("flicker",0.0)))
 		"pot": s.pot(root,Vector3.ZERO)
 		"lamp_stand": _lamp_stand(data)

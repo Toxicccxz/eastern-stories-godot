@@ -30,12 +30,9 @@
   "flora": {
     "grass_density": 0.7,
     "density": {"street": 0.02, "path": 0.08, "floor_yard": 0.03, "floor_wood": 0.0, "boundary": 0.4},
-    "grass_colors": ["2f4a2c", "45623a", "5d7c47", "789650"],
-    "flower_colors": ["f2efe6", "e8a0b4", "e8c84a", "f4f0e8"],
     "flower_threshold": 0.12,
     "blossom_trees": 0.0,
     "tree_types": ["poplar", "pine", "poplar", "broadleaf"],
-    "crown_colors": {"pine": ["244a3a", "2f5e48", "467458", "688e66"], "broadleaf": ["2f5a38", "3e6f42", "548650", "72a060"], "note": "翡翠绿"},
     "tree_kinds": ["forest", "boundary"],
     "tree_chance": 0.6,
     "tree_spacing": 56,

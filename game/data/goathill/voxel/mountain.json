@@ -63,8 +63,6 @@
   "flora": {
     "grass_density": 0.85,
     "density": {"rock": 0.14, "path": 0.05, "boundary": 0.22},
-    "grass_colors": ["58592f", "77753a", "9a9150", "bfae69"],
-    "flower_colors": ["ede1b4", "d9a441", "c46a45", "9c8ac2"],
     "flower_threshold": 0.18,
     "blossom_trees": 0.0,
     "tree_types": ["mountain_pine", "dead", "scrub", "scrub", "mountain_pine"],

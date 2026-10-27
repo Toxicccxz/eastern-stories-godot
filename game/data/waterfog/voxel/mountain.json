@@ -43,12 +43,9 @@
   "flora": {
     "grass_density": 0.8,
     "density": {"rock": 0.1, "path": 0.05, "street": 0.02, "floor_yard": 0.0},
-    "grass_colors": ["4e6a38", "5f7c42", "74904e", "8ea45c"],
-    "flower_colors": ["f2e6c8", "e0a43a", "c94a3a", "b49ad2"],
     "flower_threshold": 0.14,
     "blossom_trees": 0.0,
     "tree_types": ["mountain_pine", "mountain_pine", "pine", "slender", "mountain_pine", "broadleaf"],
-    "crown_colors": {"maple": ["6e2420", "9a2e26", "c4462c", "e27a3a"], "mountain_pine": ["243e3c", "30534f", "436f69", "5f8e87"], "pine": ["213c3d", "2c5352", "3e6c67", "5c8b84"], "slender": ["4a6a58", "66876f", "88a68a", "a9bfa6"], "broadleaf": ["2e5047", "406751", "5a8459", "7f9f66"], "note": "琉璃青: blue-green pines and silvered leaves against the white rock"},
     "petals": ["e8e4d6", "c9c6b4", "8e9a72"],
     "bands": [{"within": 28, "types": []}, {"within": 72, "types": ["shrub", "shrub", "scrub"]}, {"within": 128, "types": ["shrub", "slender", "shrub"]}],
     "south_reach": 2.2,

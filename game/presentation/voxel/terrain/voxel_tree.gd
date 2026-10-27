@@ -4,10 +4,13 @@ extends RefCounted
 ## Cached silhouettes, then varied in height, width and rotation at each planting.
 const Shapes = preload("res://presentation/voxel/props/voxel_shapes.gd")
 const PINES: Array[String] = ["pine","mountain_pine","old_pine","tall_pine","young_pine","stunted_pine"]
-## Bark colours by species where they differ from the default brown.
+## Bark colours by species where they differ from the default brown: trunk, limbs, (bark
+## plates and stubs).
 const BARKS: Dictionary = {"willow": ["6b5a46","5a4b3b"], "bamboo": ["6f8a44","7f9a50"], "locust": ["4f4234","5d4e3e"], "maple": ["5a4436","4a382c"],
 	"plum": ["3a2a26","4a3630"], "crabapple": ["4e3a30","5c463a"], "apricot": ["4a3a32","5a463c"], "peach": ["4a3a32","5a463c"],
-	"osmanthus": ["5a4e40","6a5c4c"], "banana": ["6a8a48","7a9a52"], "poplar": ["d8d4c4","c8c4b2"]}
+	"osmanthus": ["5a4e40","6a5c4c"], "banana": ["6a8a48","7a9a52"], "poplar": ["d8d4c4","c8c4b2"],
+	"broadleaf": ["65553e","776046"], "slender": ["65553e","776046"], "shrub": ["65553e","776046"], "scrub": ["65553e","776046"],
+	"pine": ["65553e","776046","61513c"], "mountain_pine": ["65553e","776046","61513c"]}
 var crowns: Dictionary[String, ArrayMesh] = {}
 var leaf_material: StandardMaterial3D
 ## Crown colours by species, dark to light (layout flora `crown_colors`); bark the same
@@ -62,15 +65,15 @@ func build(parent: Node3D, shapes: Shapes, species: String, variant: int, frame 
 			if species=="mountain_pine":
 				# Bent by the wind off the ridge: the trunk leans the way the crown streams.
 				lean = 0.28 if variant%2==0 else -0.24
-			shapes.tilted_box(parent,Vector3(0,height/2,0),Vector3(0.28,height,0.32),_bark(species,0) if species=="maple" else "65553e",Vector3(0,0,lean))
+			shapes.tilted_box(parent,Vector3(0,height/2,0),Vector3(0.28,height,0.32),_bark(species,0),Vector3(0,0,lean))
 			if species=="locust":
 				height = 2.9
 			if not species in ["pine","shrub","scrub","mountain_pine"]:
 				for side: float in [-1.0,1.0]:
-					shapes.tilted_box(parent,Vector3(side*0.48,height*0.77,0.07),Vector3(1.25,0.19,0.20),"776046",Vector3(0,side*0.2,side*0.50))
+					shapes.tilted_box(parent,Vector3(side*0.48,height*0.77,0.07),Vector3(1.25,0.19,0.20),_bark(species,1),Vector3(0,side*0.2,side*0.50))
 			if species in ["pine","mountain_pine"]:
 				for tier: int in 3:
-					shapes.box(parent,Vector3(0,1.8+tier*0.85,0),Vector3(1.8-tier*0.4,0.13,0.16),"61513c")
+					shapes.box(parent,Vector3(0,1.8+tier*0.85,0),Vector3(1.8-tier*0.4,0.13,0.16),_bark(species,2))
 	shapes.frame = Transform3D.IDENTITY
 
 func material() -> StandardMaterial3D:
@@ -81,10 +84,11 @@ func material() -> StandardMaterial3D:
 		leaf_material.metallic_specular = 0.08
 	return leaf_material
 
-## Two bark shades per species: each colour is one more batch in every grove.
+## A species' bark shades (flora `bark_colors`, else BARKS): each colour is one more batch in
+## every grove, so two or three per species.
 func _bark(species: String, shade: int) -> String:
 	var colors: Array = barks.get(species,BARKS.get(species,["5f4a3b","4e3d31"]))
-	return String(colors[shade%mini(2,colors.size())])
+	return String(colors[shade%colors.size()])
 
 func _greens(species: String, fallback: Array[String]) -> Array[String]:
 	var result: Array[String] = []
@@ -93,7 +97,9 @@ func _greens(species: String, fallback: Array[String]) -> Array[String]:
 	return result
 
 func _crown(species: String, variant: int, colors: Array = []) -> ArrayMesh:
-	var key: String = species+str(variant)+",".join(colors)
+	# The same colours by either way (given, or the map's palette) share one cached crown.
+	var shades: Array = colors if not colors.is_empty() else palettes.get(species,[])
+	var key: String = species+str(variant)+",".join(PackedStringArray(shades))
 	if crowns.has(key):
 		return crowns[key]
 	var own: Dictionary = palettes
@@ -116,7 +122,7 @@ func _crown(species: String, variant: int, colors: Array = []) -> ArrayMesh:
 				var angle: float = lobe*2.2+variant
 				surface.ellipsoid(Vector3(cos(angle)*0.73,2.6+random.randf_range(-0.3,0.65),sin(angle)*0.67),Vector3(1.08,0.85,1.0),green,variant+lobe)
 		"blossom":
-			var pink: Array[String] = ["995e7c","bf7696","df99b1","efb4c4"]
+			var pink: Array[String] = _greens(species,["995e7c","bf7696","df99b1","efb4c4"])
 			for lobe: int in 4:
 				var angle: float = lobe*2.0+variant*0.4
 				surface.ellipsoid(Vector3(cos(angle)*1.02,2.45+lobe*0.23,sin(angle)*0.73),Vector3(0.85+random.randf()*0.25,0.64,0.84),pink,lobe+variant)
@@ -157,7 +163,7 @@ func _crown(species: String, variant: int, colors: Array = []) -> ArrayMesh:
 				surface.ellipsoid(Vector3(sin(lean)*(1.4+tier*0.5)+0.18*sin(tier*2.0+variant),1.45+tier*0.5,0.15*cos(tier+variant)),Vector3(span,0.32,span*0.75),green,variant+tier)
 		"scrub":
 			surface.cell_size = 0.22
-			green = ["4d4a2c","646036","7f7843","9c9254"]
+			green = _greens(species,["4d4a2c","646036","7f7843","9c9254"])
 			for lobe: int in 3:
 				surface.ellipsoid(Vector3((lobe-1)*0.42,0.55+(lobe%2)*0.2,0.08*lobe),Vector3(0.58,0.5,0.55),green,lobe+variant)
 		"shrub":

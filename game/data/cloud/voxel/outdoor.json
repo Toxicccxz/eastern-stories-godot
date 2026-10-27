@@ -47,7 +47,7 @@
     "grass_density": 0.72,
     "flower_threshold": 0.1,
     "blossom_trees": 0.0,
-    "tree_types": ["locust", "locust", "willow", "broadleaf", "bamboo", "willow"],
+    "tree_types": ["locust", "locust", "willow", "bamboo", "willow", "locust"],
     "petals": ["eae6c8", "d9d6b0", "9d9f69"],
     "tree_chance": 0.32,
     "tree_spacing": 84,

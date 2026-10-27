@@ -1,0 +1,25 @@
+{
+  "note": "老松林 (美术规划 §1): 深松绿、岩灰、土褐 — the old pines' and tall pines' own greens, the other trees darkened to them; 花米白、土黄、紫、锈红. The region's default flora; a map's own `flora` overrides it key by key.",
+  "crown_colors": {
+    "old_pine": ["1d362b", "294934", "3a5d3f", "52744b"],
+    "tall_pine": ["1f3b31", "2b4d3b", "3c6146", "557a52"],
+    "young_pine": ["2f5a3f", "3f6f48", "58884f", "74a05c"],
+    "stunted_pine": ["3c4a2c", "4f5c35", "68703f", "858650"],
+    "pine": ["223f36", "2e5242", "406a4c", "587f56"],
+    "mountain_pine": ["26402f", "354f3a", "4a6442", "627648"],
+    "broadleaf": ["2e5236", "3e6a40", "54844a", "6e9c56"],
+    "slender": ["36583a", "4a7044", "628a50", "80a45e"],
+    "shrub": ["2e4e32", "40663e", "567e48", "709656"],
+    "scrub": ["4d4a2c", "646036", "7f7843", "9c9254"]
+  },
+  "bark_colors": {
+    "old_pine": ["4a3a2c", "5a4838", "3e3024", "665240"],
+    "tall_pine": ["4e3e32", "5c4a3c", "443428", "6a5848"],
+    "pine": ["5a4838", "6a5844", "4e3e30"],
+    "broadleaf": ["5a4a3a", "6c5a46"],
+    "slender": ["5a4a3a", "6c5a46"],
+    "shrub": ["5a4a3a", "6c5a46"]
+  },
+  "grass_colors": ["2c4529", "3e5e33", "577a42", "74924f"],
+  "flower_colors": ["ece4c6", "d9b84a", "9d7fc0", "c96a5a"]
+}

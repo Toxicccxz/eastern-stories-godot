@@ -41,19 +41,9 @@
   "flora": {
     "grass_density": 0.82,
     "density": {"rock": 0.1, "street": 0.03, "floor_yard": 0.02},
-    "grass_colors": ["2f4a2c", "45623a", "5d7c47", "789650"],
-    "flower_colors": ["f2efe6", "e8d8e8", "d84a3a", "e8c84a"],
     "flower_threshold": 0.15,
     "blossom_trees": 0.0,
     "tree_types": ["tall_pine", "pine", "tall_pine", "mountain_pine", "pine"],
-    "crown_colors": {
-      "tall_pine": ["1f3a2c", "28472f", "33573a", "466c46"],
-      "pine": ["223e2e", "2c4c34", "3a5e3e", "4e744a"],
-      "mountain_pine": ["243e32", "305040", "40644c", "56785a"],
-      "shrub": ["34502f", "45653a", "5a7c47", "719257"],
-      "slender": ["3c5a3a", "4f7048", "678a58", "83a266"],
-      "note": "山绿: deep pine greens"
-    },
     "petals": ["7a6a44", "8a7448", "5a6a44"],
     "tree_kinds": ["forest"],
     "tree_chance": 0.6,

@@ -1,0 +1,22 @@
+{
+  "note": "水烟阁 (美术规划 §1): 琉璃青 — blue-green pines and silvered leaves against the white rock, 枫红 along the 官道 only; 花米白、金、朱、紫. The region's default flora; a map's own `flora` overrides it key by key.",
+  "crown_colors": {
+    "maple": ["6e2420", "9a2e26", "c4462c", "e27a3a"],
+    "mountain_pine": ["243e3c", "30534f", "436f69", "5f8e87"],
+    "pine": ["213c3d", "2c5352", "3e6c67", "5c8b84"],
+    "slender": ["4a6a58", "66876f", "88a68a", "a9bfa6"],
+    "broadleaf": ["2e5047", "406751", "5a8459", "7f9f66"],
+    "shrub": ["2e4e44", "3e6452", "547c5e", "729a6a"],
+    "scrub": ["4a5a44", "5e6c4c", "748256", "8e9862"],
+    "bamboo": ["3e6a52", "52825e", "6a9a6a", "88b47c"]
+  },
+  "bark_colors": {
+    "pine": ["4e4a40", "5e584c", "46423a"],
+    "mountain_pine": ["4e4a40", "5e584c", "46423a"],
+    "broadleaf": ["564c40", "66584a"],
+    "slender": ["564c40", "66584a"],
+    "shrub": ["564c40", "66584a"]
+  },
+  "grass_colors": ["4e6a38", "5f7c42", "74904e", "8ea45c"],
+  "flower_colors": ["f2e6c8", "e0a43a", "c94a3a", "b49ad2"]
+}

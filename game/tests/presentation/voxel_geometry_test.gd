@@ -131,4 +131,82 @@ func run_all(_tree: SceneTree) -> Dictionary:
 	if into_path < 4 or into_street < 4 or far > 0 or rut > 0:
 		failures.append("the street/path seam interlocks within two cells (%d into the path, %d into the street, %d too far) and the rut stays (%d)" % [into_path,into_street,far,rut])
 	geometry.free()
-	return {"assertions":10,"failures":failures}
+	# Trees in clumps: of each spacing cluster's cells one is chosen by the cluster's place, the
+	# same every time and not always in its first row; the roll is shaded by a slow noise, so a
+	# wood of chance 1 still has clearings, and none once the shading is off.
+	var planter := VoxelMapGeometry.new()
+	planter.flora = {"tree_chance":1.0}
+	var sites: Dictionary = {}
+	for cy: int in 30:
+		for cx: int in 30:
+			var cluster := Vector3i(cx,cy,64)
+			sites[cluster] = []
+			for y: int in 4:
+				for x: int in 4:
+					(sites[cluster] as Array).append(Vector2i(cx*64+8+x*16,cy*64+8+y*16))
+	var first: Dictionary = planter._tree_sites(sites)
+	var again: Dictionary = planter._tree_sites(sites)
+	var top_row: int = 0
+	var same: bool = first.size()==again.size()
+	for cluster: Vector3i in first:
+		top_row += 1 if (first[cluster] as Vector2i).y == cluster.y*64+8 else 0
+		same = same and again.get(cluster)==first[cluster]
+	if not same or first.size() < 360 or first.size() > 870 or top_row == 0 or top_row*2 > first.size():
+		failures.append("tree sites repeat exactly, leave clearings (%d of 900 planted) and spread over the cluster's rows (%d in the first)" % [first.size(),top_row])
+	planter.flora = {"tree_chance":1.0,"grove_contrast":0.0}
+	if planter._tree_sites(sites).size() != 900:
+		failures.append("without grove contrast every cluster of a chance-1 wood gets its tree")
+	planter.free()
+	# Every region's outdoor maps have, under their region's flora.json, four or more grass and
+	# flower colours (the foliage indexes them) and crown colours for every species their tree
+	# lists name, so the code's own greens are only a fallback.
+	var thin: Array[String] = []
+	for region: String in DirAccess.get_directories_at("res://data"):
+		var dir: String = "res://data/%s/voxel" % region
+		if not DirAccess.dir_exists_absolute(dir):
+			continue
+		if not FileAccess.file_exists(dir+"/flora.json"):
+			thin.append(region+": no flora.json")
+			continue
+		var defaults: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(dir+"/flora.json"))
+		for file: String in DirAccess.get_files_at(dir):
+			if file in ["flora.json","light.json"]:
+				continue
+			var layout: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(dir+"/"+file))
+			if layout.get("indoor",false) and not layout.get("courtyard",false):
+				continue
+			var merged: Dictionary = VoxelMapGeometry.merge_flora(defaults,layout.get("flora",{}))
+			if merged.get("grass_colors",[]).size() < 4 or merged.get("flower_colors",[]).size() < 4:
+				thin.append("%s/%s: grass or flower colours" % [region,file])
+			var parts: Array = [merged]+merged.get("areas",[])+(merged.get("zones",{}) as Dictionary).values()
+			for part: Dictionary in parts:
+				var local: Dictionary = VoxelMapGeometry.merge_flora(merged,part)
+				var named: Array = part.get("tree_types",[])+part.get("cliff_tree_types",[])
+				for band: Dictionary in part.get("bands",[]):
+					named.append_array(band.get("types",[]))
+				for species: String in named:
+					if species != "dead" and not local.get("crown_colors",{}).has(species):
+						thin.append("%s/%s: no crown colours for %s" % [region,file,species])
+	if not thin.is_empty():
+		failures.append("every outdoor map has its region's full flora: %s" % [thin])
+	# A prop varies by where it stands, the same every build: two stone lanterns at one spot
+	# draw alike, at another spot not.
+	var garden: RefCounted = preload("res://presentation/voxel/props/voxel_garden.gd").new()
+	var forms: Array[String] = []
+	for spot: Vector3 in [Vector3(4,0,6),Vector3(4,0,6),Vector3(9,0,2)]:
+		var into: RefCounted = preload("res://presentation/voxel/props/voxel_shapes.gd").new()
+		garden.rng = RandomNumberGenerator.new()
+		garden.rng.seed = 5
+		var stand := Node3D.new()
+		stand.position = spot
+		garden.draw(into,stand,{"kind":"stone_lantern"},0.5,0.5)
+		var form: Array[String] = []
+		for entry: Dictionary in into.batches.values():
+			for transform: Transform3D in entry["transforms"]:
+				form.append(String(entry["color"])+str(transform))
+		form.sort()
+		forms.append(",".join(form)+str(stand.rotation))
+		stand.free()
+	if forms[0] != forms[1] or forms[1] == forms[2]:
+		failures.append("a stone lantern's variations follow its place: alike at one spot, unlike at another")
+	return {"assertions":14,"failures":failures}

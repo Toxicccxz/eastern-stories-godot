@@ -38,8 +38,6 @@
   "light": {"ambient": ["d6cebe", "76809a"], "ambient_energy": [0.5, 0.36], "sun": ["fff0d8", "a8bce8"], "sun_energy": [0.72, 0.22]},
   "flora": {
     "grass_density": 0.86,
-    "grass_colors": ["3f5a33", "4f6c3c", "628048", "78924f"],
-    "flower_colors": ["e8a0b4", "f2e6c8", "c8342c", "f4d47a", "b890d0"],
     "flower_threshold": 0.04,
     "butterflies": 6,
     "wind": 0.1

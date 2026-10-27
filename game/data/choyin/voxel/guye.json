@@ -41,7 +41,6 @@
   "flora": {
     "grass_density": 0.9,
     "density": {"path": 0.12, "rock": 0.08},
-    "grass_colors": ["3f5a33", "4f6c3c", "628048", "7a9450"],
     "flower_colors": ["f2e6c8", "b890d0", "e8e0f0", "e8c84a"],
     "flower_threshold": 0.12,
     "blossom_trees": 0.0,

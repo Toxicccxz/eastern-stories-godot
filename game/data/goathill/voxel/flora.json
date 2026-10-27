@@ -1,0 +1,18 @@
+{
+  "note": "野羊山 (美术规划 §1): 土黄、灰褐、暗橄榄绿 — wind-bent pines, dry scrub; 长草 straw-gold, 花米白、土黄、锈红、紫. The region's default flora; a map's own `flora` overrides it key by key.",
+  "crown_colors": {
+    "mountain_pine": ["2e3d2c", "414f34", "56633d", "6e7a48"],
+    "scrub": ["4d4a2c", "646036", "7f7843", "9c9254"],
+    "shrub": ["4a5230", "5e6638", "767c42", "92924e"],
+    "pine": ["2e4634", "3e5a3e", "546c46", "6e8050"],
+    "stunted_pine": ["3c4a2c", "4f5c35", "68703f", "858650"]
+  },
+  "bark_colors": {
+    "mountain_pine": ["5a4a3a", "6a5a46", "4e4034"],
+    "pine": ["5a4a3a", "6a5a46", "4e4034"],
+    "shrub": ["5a4a3a", "6c5a46"],
+    "scrub": ["5a4a3a", "6c5a46"]
+  },
+  "grass_colors": ["58592f", "77753a", "9a9150", "bfae69"],
+  "flower_colors": ["ede1b4", "d9a441", "c46a45", "9c8ac2"]
+}

@@ -50,8 +50,6 @@
   "flora": {
     "grass_density": 0.7,
     "density": {"street": 0.03, "floor_yard": 0.04, "path": 0.1, "bridge": 0.0, "floor_wood": 0.0, "boundary": 0.5},
-    "grass_colors": ["3f5a33", "4f6c3c", "628048", "7a9450"],
-    "flower_colors": ["f2e6c8", "e8c84a", "f0c0cc", "e8e0f0"],
     "flower_threshold": 0.12,
     "blossom_trees": 0.0,
     "tree_types": ["willow", "locust", "broadleaf", "willow"],
