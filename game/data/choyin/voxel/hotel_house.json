@@ -3,7 +3,7 @@
   "cutaway_rooms": true,
   "camera_size": 24,
   "note": "hotel1.c: 乔阴县驰名远近的福林酒楼, 一家近百年老店 — the ground floor: the counter and its wine, the regulars at their tables, the square stairs in the north-east corner, the door west onto the street. A hundred years of use on everything.",
-  "palette": {"wood": ["7d5f45", "86684b", "8f7050"], "wall": "cbc4ac"},
+  "palette": {"wood": ["7a6a58", "83725f", "8c7a66"], "wall": "cbc4ac"},
   "light": {
     "ambient": ["dccab0", "6a6a82"],
     "ambient_energy": [0.44, 0.32]

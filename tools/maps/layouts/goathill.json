@@ -433,7 +433,8 @@
           "goathill.temple1": {
             "floor": "floor_wood",
             "wall": "wall_wood",
-            "size": "room"
+            "size": "room",
+            "life": {"use": "temple", "wealth": "poor", "seed": 2}
           }
         },
         "props": [

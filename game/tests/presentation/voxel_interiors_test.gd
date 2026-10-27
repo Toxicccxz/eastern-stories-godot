@@ -64,6 +64,64 @@ func run_all(tree: SceneTree) -> Dictionary:
 			await _frames(tree,2)
 		if zone_id==&"snow.school2":
 			await _check_hidden_floor(tree,session,map,view)
+	# 室内生活气息 B + C: 绮云镇, 水烟阁, 老松寨's hall, the 土地庙 and 青石村's 石室. Every room
+	# with a life is worn where feet go and has something hung on its walls; every furnishing
+	# the painter placed stands on its blocked box; no prop kind is unknown.
+	# TEST-ONLY: the bandits of 老松寨's hall and the 土地庙 would notice the room and start a fight
+	# that holds the world; out of the way (oldpine_keep_caves_test and goathill_test meet them).
+	for other: WorldMapController in session.world_maps():
+		if other.map_id() in [&"oldpine.keep_hall",&"goathill.temple_house"]:
+			for npc: NpcRuntimeState in other.npc_runtimes():
+				other.npcs.vanish(npc)
+	for zone_id: StringName in [&"cloud.biaoju",&"cloud.bookstore",&"cloud.butchery",&"cloud.drugstore",&"cloud.duchang",&"cloud.duchang2",
+			&"cloud.woodboxy",&"cloud.jiyuan",&"cloud.jiyuan2",&"cloud.rich",&"cloud.marry_room",&"cloud.monky",&"cloud.tailory",&"cloud.tearoom",
+			&"cloud.tearoom2",&"cloud.weapony",&"cloud.zaihuoy",&"waterfog.entrance",&"waterfog.west_2f",&"oldpine.outdoor.keep_hall",
+			&"goathill.temple1",&"green.stoneroom"]:
+		var def: MapDefinition = GameContent.catalog().map(MapPlaces.map_of(zone_id))
+		furnishings._check_furnishings(load(def.scene_path) as PackedScene,String(def.map_id))
+		var map := MapPlaces.enter(session,zone_id,def.entry_spawn_id)
+		if map == null:
+			# A map entered in another of its rooms (the coffin shop behind the yard).
+			for other: ZoneDefinition in GameContent.catalog().zones_for_map(def.map_id):
+				map = MapPlaces.enter(session,other.zone_id,def.entry_spawn_id)
+				if map != null:
+					break
+		_check(map!=null,"enter "+String(zone_id))
+		if map == null:
+			continue
+		await _frames(tree,3)
+		view = map.get_node("MapView") as WorldVoxelView
+		_check(view.geometry.unknown_kinds.is_empty(),"all furnishings render in %s: %s" % [zone_id,view.geometry.unknown_kinds])
+		var specs: Dictionary = map.get_node("RoomLife").get_meta("rooms")
+		for room: String in specs:
+			var id := StringName(room)
+			_check(view.geometry.life.rooms.has(id),"%s is lived in (RoomLife)" % room)
+			_check(view.geometry.life.worn_cells.get(id,0)>0,"%s's floor is worn where people walk: %d cells" % [room,view.geometry.life.worn_cells.get(id,0)])
+			_check(view.geometry.life.hung.get(id,0)>0,"%s has things hung on its walls: %d" % [room,view.geometry.life.hung.get(id,0)])
+		if zone_id==&"cloud.tearoom":
+			_check(view.geometry.ambience._falling.size()>=8 and view.geometry.ambience._motes.size()>=4,"香茗坊: steam off the tea stove, moths round a lamp")
+		if zone_id==&"green.stoneroom":
+			_check(view.geometry.life.rooms.size()==1,"石室: only the room its text describes has a life (大厅 and 外室 keep theirs: 一尘不染, nothing else)")
+	# Every preset's pieces and hangings are kinds some props file draws (a misspelt kind would
+	# otherwise leave a silent gap in every room of that use). Drawn under the last view, out of
+	# sight, and freed with it: a piece's smoke or flame is the view's ambience's until then.
+	var presets: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(VoxelLife.PRESETS))
+	var holder := Node3D.new()
+	holder.visible = false
+	view.add_child(holder)
+	for use: String in presets["uses"]:
+		var spec: Dictionary = presets["uses"][use]
+		for piece: Dictionary in spec.get("pieces",[]):
+			var node := Node3D.new()
+			holder.add_child(node)
+			_check(view.geometry.draw_look(view.geometry.shapes,node,piece.duplicate(true)),"%s's %s is a known piece" % [use,piece["kind"]])
+		for name: String in spec.get("hangings",[]):
+			var prop: Dictionary = {"kind":name.get_slice(":",0),"size":[48,16],"wall_mounted":true,"seed":1}
+			if VoxelLife.HANGING_KINDS.has(prop["kind"]):
+				prop.merge(VoxelLife.HANGING_KINDS[prop["kind"]],true)
+			var node := Node3D.new()
+			holder.add_child(node)
+			_check(view.geometry.draw_look(view.geometry.shapes,node,prop),"%s's %s is a known hanging" % [use,name])
 	assertions += furnishings.assertions
 	failures.append_array(furnishings.failures)
 	# Both the saved state and gameplay RNG are unchanged by a camera or light toggle.

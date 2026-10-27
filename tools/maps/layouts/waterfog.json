@@ -288,6 +288,17 @@
       "file": "waterfog_pavilion.tscn",
       "draw": {
         "technique": "town",
+        "life": {
+          "waterfog.storage": {"use": "woodshed", "wealth": "poor", "tidy": true, "seed": 1},
+          "waterfog.servroom": {"use": "servants_room", "wealth": "poor", "seed": 1},
+          "waterfog.kitchen": {"use": "kitchen", "seed": 1},
+          "waterfog.weststair": {"use": "corridor", "wealth": "rich", "count": 1, "seed": 1},
+          "waterfog.guildhall": {"use": "hall", "wealth": "rich", "tidy": true, "seed": 1},
+          "waterfog.eaststair": {"use": "corridor", "wealth": "rich", "count": 1, "seed": 2},
+          "waterfog.westhall": {"use": "parlour", "wealth": "rich", "seed": 1},
+          "waterfog.entrance": {"use": "hall", "wealth": "rich", "tidy": true, "seed": 2},
+          "waterfog.easthall": {"use": "parlour", "wealth": "rich", "seed": 2}
+        },
         "base": "boundary",
         "bounds": [0, 0, 1936, 1728],
         "ground": [],
@@ -507,6 +518,11 @@
       "file": "waterfog_upstairs.tscn",
       "draw": {
         "technique": "town",
+        "life": {
+          "waterfog.west_2f": {"use": "corridor", "wealth": "rich", "tidy": true, "count": 1, "seed": 3},
+          "waterfog.forehall": {"use": "terrace_hall", "wealth": "rich", "seed": 1},
+          "waterfog.east_2f": {"use": "corridor", "wealth": "rich", "tidy": true, "count": 1, "seed": 4}
+        },
         "base": "boundary",
         "bounds": [0, 0, 1536, 672],
         "ground": [],

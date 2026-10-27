@@ -2,7 +2,7 @@
   "indoor": true,
   "cutaway_rooms": true,
   "camera_size": 21,
-  "palette": {"wood": ["8e3a2c", "96402f", "883628", "a04634"], "wall": "e9e5da"},
+  "palette": {"wood": ["80484a", "8a4e50", "76444a", "945456"], "wall": "e9e5da"},
   "surfaces": {
     "waterfog.west_2f": "floor_shop",
     "waterfog.forehall": "town_ground"
@@ -46,6 +46,8 @@
     {"kind": "hanging_lantern", "at": [560, 432], "flicker": 0.08, "note": "lanterns hung over the terrace's corners"},
     {"kind": "hanging_lantern", "at": [976, 432], "flicker": 0.08}
   ],
+  "life": {"waterfog.west_2f": {"walls": "plaster"}, "waterfog.east_2f": {"walls": "plaster"}},
+  "ambience": {"dust": [{"rect": [616, 248, 696, 328], "count": 4, "color": "d8d0b0", "wind": [0.9, 0.6], "size": [0.07, 0.03, 0.09], "height": [1.5, 2.3], "note": "moths round the lamp in 聆啸厅"}]},
   "actors": {
     "default": {"coat": "6a6a5a"},
     "waterfog.npc.elite_guard": {"coat": "a8382c", "hat": true},

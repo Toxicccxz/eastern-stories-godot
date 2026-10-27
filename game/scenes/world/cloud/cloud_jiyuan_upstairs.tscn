@@ -158,3 +158,6 @@ metadata/footprint = Vector2(32, 48)
 position = Vector2(80, 184)
 metadata/look = {"kind": "folding_screen", "cloth": "a8443a"}
 metadata/footprint = Vector2(64, 16)
+
+[node name="RoomLife" type="Node" parent="."]
+metadata/rooms = {"cloud.jiyuan2": {"seed": 2, "tidy": true, "use": "pleasure_house", "wealth": "rich"}}

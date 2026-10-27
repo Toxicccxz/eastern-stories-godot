@@ -1601,7 +1601,8 @@
             "floor": "floor_yard",
             "wall": "wall",
             "size": "large",
-            "at": [1, 0]
+            "at": [1, 0],
+            "life": {"use": "stone_chamber", "seed": 1}
           }
         },
         "props": [

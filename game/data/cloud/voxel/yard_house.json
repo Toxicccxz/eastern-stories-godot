@@ -39,6 +39,7 @@
     "cloud.npc.box_waiter": {"coat": "6b6256"}
   },
   "ambience": {
+    "dust": [{"rect": [-520, 60, -440, 140], "count": 4, "color": "d8d0b0", "wind": [0.9, 0.6], "size": [0.07, 0.03, 0.09], "height": [1.5, 2.3], "note": "moths round the lamp in the front hall"}],
     "fireflies": [{"rect": [-200, -240, 480, 240], "count": 12, "height": 1.0}],
     "birds": [{"at": [100, 0], "radius": 180, "count": 2, "height": 7, "color": "4a3f36"}]
   }

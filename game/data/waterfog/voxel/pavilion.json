@@ -3,7 +3,7 @@
   "cutaway_rooms": true,
   "courtyard": true,
   "camera_size": 24,
-  "palette": {"wood": ["8a5a3c", "925f40", "84563a", "7e5236"], "wall": "e9e5da"},
+  "palette": {"wood": ["7a4a44", "84504a", "704440", "8a5650"], "wall": "e9e5da"},
   "surfaces": {
     "waterfog.storage": "cave_floor",
     "waterfog.servroom": "floor_shop",
@@ -122,6 +122,8 @@
     {"kind": "pot", "at": [560, 1180]},
     {"kind": "pot", "at": [1376, 1180]}
   ],
+  "life": {"waterfog.weststair": {"walls": "plaster"}, "waterfog.eaststair": {"walls": "plaster"}},
+  "ambience": {"fall": [{"rect": [1752, 280, 1784, 312], "count": 10, "height": 3.2, "colors": ["8d877c", "a09a90", "7a756c"], "wind": [0.4, 0.2], "up": true, "note": "kitchen.c: 东首一座大灶, smoke off the stove"}, {"rect": [1698, 1362, 1726, 1390], "count": 8, "height": 2.4, "colors": ["eeece6", "e0e2de", "f4f4f0"], "wind": [0.3, 0.1], "up": true, "note": "easthall: steam off the tea stove"}], "dust": [{"rect": [760, 720, 840, 800], "count": 4, "color": "d8d0b0", "wind": [0.9, 0.6], "size": [0.07, 0.03, 0.09], "height": [1.5, 2.3], "note": "moths round the lamps in the hall"}]},
   "actors": {
     "default": {"coat": "7a7a6a"},
     "waterfog.npc.guard": {"coat": "4e6a8a"},

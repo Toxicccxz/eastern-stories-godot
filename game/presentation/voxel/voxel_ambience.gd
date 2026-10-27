@@ -29,7 +29,7 @@ var _bolts: Array[Dictionary] = []
 var night: float = 0.0
 
 ## `birds`: [{"at": [x, y] px, "radius": px, "count": n, "height": units, "color": hex}],
-## `dust`: [{"rect": [x0, y0, x1, y1] px, "count": n, "color": hex, "wind": [x, z]}],
+## `dust`: [{"rect": [x0, y0, x1, y1] px, "count": n, "color": hex, "wind": [x, z], "height": [low, high]}],
 ## `fall`: pine needles or leaves drifting down from the canopy, [{"rect", "count",
 ## "colors", "height", "wind"}] (`up`: sparks rising from a fire instead, `glow`: lit by
 ## themselves), `fireflies`: [{"rect", "count", "color", "height"}]; dust may have a `size`
@@ -63,8 +63,10 @@ func configure(data: Dictionary) -> void:
 			var grain: Array = cloud.get("size",[0.07,0.05,0.07])
 			shapes.box(mote,Vector3.ZERO,Vector3(float(grain[0]),float(grain[1]),float(grain[2])),String(cloud.get("color","c8b48a")))
 			var phase: float = i*12.9898
+			# `height`: [low, high] units the motes keep between (moths under a lamp hang high).
+			var band: Array = cloud.get("height",[0.2,1.8])
 			_motes.append({"node":mote,"x0":float(r[0])/32.0,"z0":float(r[1])/32.0,"w":(float(r[2])-float(r[0]))/32.0,"d":(float(r[3])-float(r[1]))/32.0,
-				"u":fposmod(sin(phase)*43758.5,1.0),"v":fposmod(sin(phase*1.7)*24634.6,1.0),"h":0.2+fposmod(sin(phase*2.3)*1531.2,1.0)*1.6,
+				"u":fposmod(sin(phase)*43758.5,1.0),"v":fposmod(sin(phase*1.7)*24634.6,1.0),"h":float(band[0])+fposmod(sin(phase*2.3)*1531.2,1.0)*(float(band[1])-float(band[0])),
 				"wind":Vector2(float(wind[0]),float(wind[1])),"speed":0.06+fposmod(sin(phase*3.1)*812.7,1.0)*0.08})
 	for drift: Dictionary in data.get("fall",[]):
 		var r: Array = drift["rect"]

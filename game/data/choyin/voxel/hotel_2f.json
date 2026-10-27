@@ -3,7 +3,7 @@
   "cutaway_rooms": true,
   "camera_size": 22,
   "note": "hotel2.c: 二楼雅座 — tables by the lattice windows that look over the town and the lake, the gentry and scholars at them, a zither, wine, the square stairs in the corner up and down. Rich, kept, a little worn.",
-  "palette": {"wood": ["8a5a44", "93624a", "7d523e"], "wall": "d4c8b4"},
+  "palette": {"wood": ["7f6e5c", "887764", "74655a"], "wall": "d4c8b4"},
   "light": {
     "ambient": ["dccab0", "6a6a82"],
     "ambient_energy": [0.46, 0.32]

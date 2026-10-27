@@ -3,7 +3,7 @@
   "cutaway_rooms": true,
   "camera_size": 23,
   "note": "后殿 (temple2.c): 张天师's portrait hung in the middle, under it the sword he used against demons, the masters' tablets either side; the red door shut. Dimmer than the great hall, lamps that never go out, incense.",
-  "palette": {"wood": ["5a3a2a", "64402e", "6e4632"], "wall": "e2ddd0"},
+  "palette": {"wood": ["8a3a2e", "933f31", "7e3429"], "wall": "e2ddd0"},
   "surfaces": {"temple.temple2": "rock"},
   "ground": {"rock": {"colors": ["7e7e78", "888880", "747470", "8e8c84"], "note": "square grey floor tiles (方砖)"}},
   "light": {"ambient": ["c8bea8", "5e5a70"], "ambient_energy": [0.32, 0.24], "sun_energy": [0.4, 0.1]},

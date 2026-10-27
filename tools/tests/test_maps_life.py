@@ -4,6 +4,7 @@ walks to, the same every time."""
 from __future__ import annotations
 
 import copy
+import json
 import sys
 import unittest
 from pathlib import Path
@@ -34,6 +35,22 @@ class MapsLifeTest(unittest.TestCase):
                 self.assertTrue(all(v % T == 0 for v in piece['size']), (use, piece))
             self.assertTrue(set(spec) <= {'walls', 'grime', 'hangings', 'hang', 'tables', 'pieces', 'count', 'scatter', 'spread'}, use)
         self.assertEqual(set(table['wealth']), {'poor', 'plain', 'rich'})
+
+    def test_every_layout_use_is_a_preset(self) -> None:
+        table = life.presets()
+        seen = set()
+        for path in sorted((REPOSITORY / 'tools/maps/layouts').glob('*.json')):
+            for key, entry in json.loads(path.read_text(encoding='utf-8'))['maps'].items():
+                for zone, spec in life.rooms_of(entry).items():
+                    self.assertIn(spec['use'], table['uses'], (path.name, key, zone))
+                    self.assertIn(spec.get('wealth', 'plain'), table['wealth'], (path.name, key, zone))
+                    # A room's spec may override its preset's fields (house2's own hangings).
+                    self.assertTrue(set(spec) <= {'use', 'wealth', 'seed', 'tidy', 'count', 'keep_clear'} | set(table['uses'][spec['use']]), (path.name, key, zone))
+                    seen.add(spec['use'])
+        # B + C: 绮云镇, 水烟阁, 聚义厅, 土地庙 and 石室 each use their own presets.
+        for use in ('escort_office', 'butcher', 'gaming_hall', 'pleasure_house', 'teahouse', 'coffin_shop',
+                    'parlour', 'woodshed', 'servants_room', 'terrace_hall', 'bandit_hall', 'stone_chamber'):
+            self.assertIn(use, seen)
 
     def test_smithy_corners_hold_iron_goods_clear_of_the_smith_and_the_door(self) -> None:
         entry, drawn, rows = drawn_entry('smithy')

@@ -20,6 +20,7 @@
     {"kind": "clutter", "at": [208, 60], "size": [32, 32], "items": ["broom"], "rotation": 0},
     {"kind": "stains", "at": [-160, -40], "size": [96, 96], "count": 4}
   ],
+  "ambience": {"dust": [{"rect": [80, 40, 160, 120], "count": 4, "color": "d8d0b0", "wind": [0.9, 0.6], "size": [0.07, 0.03, 0.09], "height": [1.5, 2.3], "note": "moths round the lamp"}]},
   "actors": {
     "default": {"coat": "7d7a62"},
     "cloud.npc.butcher": {"coat": "7a3a30"},

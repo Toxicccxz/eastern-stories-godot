@@ -13,7 +13,8 @@ var rng := RandomNumberGenerator.new()
 var ambience: VoxelAmbience
 
 const WALL_KINDS: Array[String] = ["tool_hooks","string_hang","ledger_hook","new_year_print","couplet","clothes_peg",
-	"straw_cape","calendar","wall_lamp","wall_shelf","weapon_pegs","menu_boards","notices","banner_cloth","plaques","mural"]
+	"straw_cape","calendar","wall_lamp","wall_shelf","weapon_pegs","menu_boards","notices","banner_cloth","plaques","mural",
+	"meat_hooks","double_happiness","animal_hide"]
 
 func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) -> bool:
 	s = shapes
@@ -49,6 +50,12 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"plaques": _plaques(w)
 		"mural": _mural(w)
 		"stone_slabs": _stone_slabs(w,d)
+		"cloth_bolts": _cloth_bolts(w,d)
+		"whetstone": _whetstone(w,d)
+		"paper_money": _paper_money(w,d)
+		"meat_hooks": _meat_hooks(w)
+		"double_happiness": _double_happiness()
+		"animal_hide": _animal_hide()
 		_:
 			return false
 	return true
@@ -229,6 +236,56 @@ func _lumber(w: float, d: float) -> void:
 			s.tilted_box(root,Vector3(x,length/2,-d*0.28),Vector3(0.2,length,0.05),_pick(wood),Vector3(0.18,0,_jitter(0.06)))
 	s.box(root,Vector3(0,0.006,d*0.2),Vector3(w*0.7,0.012,d*0.4),"c9ad7c")
 
+## 布卷 (a 布庄's stock): bolts of cloth stacked in a pyramid against the wall, one unrolled a
+## little on top (`colors` the cloths).
+func _cloth_bolts(w: float, d: float) -> void:
+	var cloths: Array = data.get("colors",["3d5a7a","8a3a3a","c9b98e","4a6f4a","7a5a8c","b8864a","e8e0cc","5a6e86"])
+	var length: float = d*0.9
+	var rows: int = 3 if w>=1.4 else 2
+	for row: int in rows:
+		var across: int = maxi(1,floori((w-row*0.22)/0.24))
+		for i: int in across:
+			var x: float = -(across-1)*0.12+i*0.24+_jitter(0.015)
+			s.tilted_box(root,Vector3(x,0.12+row*0.2,_jitter(0.03)),Vector3(0.2,0.2,length),_pick(cloths),Vector3(0,0,_jitter(0.05)))
+	# One bolt pulled out and left unrolled a little, its tail on the floor in front.
+	var loose: String = _pick(cloths)
+	s.tilted_box(root,Vector3(_jitter(w*0.2),0.12+rows*0.2,-d*0.1),Vector3(0.2,0.2,length*0.8),loose,Vector3(0,_jitter(0.2),0))
+	s.box(root,Vector3(_jitter(w*0.2),0.015,d*0.5+0.1),Vector3(0.22,0.03,0.3),loose)
+
+## 磨石 (a 兵器局's): a grey whetstone on a low trestle, a bucket of water beside it, a blade
+## left lying across the stone and the wet dark patch under it.
+func _whetstone(w: float, d: float) -> void:
+	s.box(root,Vector3(-w*0.12,0.18,0),Vector3(0.6,0.08,0.3),"6a5039")
+	for x: float in [-w*0.12-0.24,-w*0.12+0.24]:
+		for z: float in [-0.1,0.1]:
+			s.box(root,Vector3(x,0.07,z),Vector3(0.06,0.14,0.06),"6a5039")
+	s.box(root,Vector3(-w*0.12,0.3,0),Vector3(0.5,0.16,0.2),_pick(["7d7f78","8a8c85","6f716a"]))
+	s.box(root,Vector3(-w*0.12,0.39,0),Vector3(0.4,0.02,0.14),"5f615b")
+	s.tilted_box(root,Vector3(-w*0.12+0.05,0.42,0.02),Vector3(0.7,0.025,0.08),"c6cfcb",Vector3(0,_jitter(0.3),0))
+	s.box(root,Vector3(w*0.3,0.16,d*0.1),Vector3(0.28,0.32,0.28),"8a6a45")
+	s.box(root,Vector3(w*0.3,0.31,d*0.1),Vector3(0.22,0.02,0.22),"3e5f63:gloss")
+	s.box(root,Vector3(-w*0.1,0.008,0.05),Vector3(0.7,0.012,0.5),"4e4a44")
+	for fleck: int in 5:
+		s.box(root,Vector3(_jitter(w*0.4),0.015,_jitter(d*0.4)),Vector3(0.05,0.012,0.04),"8f9a9b")
+
+## 纸钱 (a 棺材铺's): stacks of yellow and white joss paper, round holes stamped through them,
+## a bundle tied with hemp and a few loose sheets on the floor.
+func _paper_money(w: float, d: float) -> void:
+	var papers: Array = ["e6d27a","efe6c8","d8c45a","f0ebd8"]
+	var stacks: int = maxi(1,floori(w/0.42))
+	for i: int in stacks:
+		var x: float = -(stacks-1)*0.21+i*0.42
+		var tall: float = rng.randf_range(0.2,0.45)
+		var tone: String = _pick(papers)
+		s.tilted_box(root,Vector3(x,tall/2,_jitter(0.04)),Vector3(0.34,tall,0.26),tone,Vector3(0,_jitter(0.15),0))
+		s.box(root,Vector3(x,tall+0.004,0),Vector3(0.3,0.008,0.22),Color(tone).darkened(0.08).to_html(false))
+		for hole: int in 3:
+			s.box(root,Vector3(x-0.08+hole*0.08,tall+0.006,0),Vector3(0.04,0.008,0.04),"5a4a34")
+		if i%2==1:
+			s.box(root,Vector3(x,tall*0.5,0),Vector3(0.36,0.03,0.28),"8a7a52")
+	for sheet: int in 3:
+		s.tilted_box(root,Vector3(_jitter(w*0.4),0.006+sheet*0.003,d*0.4+_jitter(0.1)),Vector3(0.16,0.006,0.12),_pick(papers),Vector3(0,rng.randf()*TAU,0))
+
 ## 蒲团: worn cushions stacked by the wall, one set down before it.
 func _prayer_cushions(w: float, d: float) -> void:
 	for i: int in 3:
@@ -263,6 +320,23 @@ func _tool_hooks(w: float) -> void:
 				else:
 					s.box(root,Vector3(x,1.68,0.1),Vector3(0.04,0.4,0.04),"6f7879")
 					s.box(root,Vector3(x,1.47,0.1),Vector3(0.06,0.04,0.03),"9aa3a4")
+			"cleavers":
+				# A butcher's: broad cleavers and a bone saw, their edges dark with use.
+				if i%3==2:
+					s.box(root,Vector3(x,1.66,0.09),Vector3(0.05,0.4,0.03),"8a6a45")
+					s.box(root,Vector3(x+0.08,1.4,0.09),Vector3(0.24,0.08,0.02),"8f9a9b")
+				else:
+					s.box(root,Vector3(x,1.72,0.09),Vector3(0.05,0.28,0.04),"6b4a35")
+					s.box(root,Vector3(x,1.42,0.09),Vector3(0.2,0.34,0.025),_pick(["8f9a9b","7d8889"]))
+					s.box(root,Vector3(x,1.26,0.1),Vector3(0.2,0.03,0.02),"5a3a30")
+			"axes":
+				# A woodshed's: felling axes and a hatchet, a billhook between.
+				s.box(root,Vector3(x,1.6,0.09),Vector3(0.05,0.56,0.05),"8f6f45")
+				if i%2==0:
+					s.box(root,Vector3(x+0.07,1.84,0.09),Vector3(0.22,0.14,0.04),"4e5657")
+					s.box(root,Vector3(x+0.17,1.84,0.09),Vector3(0.03,0.16,0.045),"9aa3a4")
+				else:
+					s.tilted_box(root,Vector3(x+0.08,1.86,0.09),Vector3(0.26,0.05,0.03),"6f7879",Vector3(0,0,0.5))
 			_:
 				var handle: float = rng.randf_range(0.4,0.6)
 				s.box(root,Vector3(x,1.88-handle/2,0.1),Vector3(0.05,handle,0.05),"a58456")
@@ -473,6 +547,75 @@ func _mural(w: float) -> void:
 	for flake: int in maxi(2,floori(w/0.8)):
 		s.box(root,Vector3(_jitter(w*0.45),rng.randf_range(1.15,1.5),0.04),Vector3(rng.randf_range(0.12,0.3),rng.randf_range(0.06,0.14),0.006),"b8ad96")
 
+## 肉钩 (butchery.c: 肉架上挂满了血淋淋的生肉): iron hooks on a beam with a side of meat, a string
+## of sausages and a hock hanging from them, drips dark on the wall below.
+func _meat_hooks(w: float) -> void:
+	var width: float = minf(w,1.5)
+	s.box(root,Vector3(0,2.3,0.08),Vector3(width,0.1,0.12),"4a3a2c")
+	var hooks: int = maxi(2,floori(width/0.4))
+	for i: int in hooks:
+		var x: float = -width*0.38+i*width*0.76/maxf(1,hooks-1)
+		s.box(root,Vector3(x,2.18,0.14),Vector3(0.03,0.16,0.03),"3a3530")
+		s.box(root,Vector3(x+0.03,2.1,0.14),Vector3(0.07,0.03,0.03),"3a3530")
+		match (i+int(data.get("seed",0)))%3:
+			0:
+				# A side of pork, pale fat over red meat.
+				s.shard(root,Vector3(x,1.76,0.16),Vector3(0.26,0.66,0.14),"b9403a",rng.randi())
+				s.box(root,Vector3(x,1.76,0.235),Vector3(0.22,0.6,0.012),"e8cfb8")
+				s.box(root,Vector3(x,1.5,0.17),Vector3(0.2,0.1,0.13),"8a2a28")
+			1:
+				# A string of sausages looped twice over the hook.
+				for k: int in 7:
+					s.tilted_box(root,Vector3(x+(k-3)*0.05,2.0-absf(k-3)*0.1-float(k%2)*0.04,0.16),Vector3(0.07,0.14,0.07),_pick(["8a3a30","9a4536","7a3028"]),Vector3(0,0,_jitter(0.3)))
+			_:
+				# A hock and a rack of ribs.
+				s.box(root,Vector3(x,1.9,0.16),Vector3(0.12,0.32,0.12),"c47a5a")
+				s.box(root,Vector3(x,1.64,0.16),Vector3(0.2,0.24,0.1),"b9403a")
+				for rib: int in 4:
+					s.box(root,Vector3(x-0.07+rib*0.047,1.64,0.215),Vector3(0.02,0.22,0.01),"e8dcc6")
+		for drip: int in 3:
+			s.box(root,Vector3(x+_jitter(0.1),1.2-drip*0.12,0.025),Vector3(0.03,0.1,0.01),"5a2320")
+	s.box(root,Vector3(0,0.012,0.2),Vector3(width*0.8,0.012,0.3),"5a2a26")
+
+## 囍 (a 红娘庄's): a red paper square hung as a diamond, the double-happiness character in gold
+## across it, a bit of red cord above; `faded` where it has hung since the last wedding.
+func _double_happiness() -> void:
+	var faded: bool = rng.randf()<0.4
+	var red: String = "b8463a" if faded else "c8342a"
+	var gold: String = "d8b04a" if faded else "e8c45a"
+	var paper := Node3D.new()
+	paper.position = Vector3(0,2.0,0.025)
+	paper.rotation.z = PI/4+_jitter(0.04)
+	root.add_child(paper)
+	s.box(paper,Vector3.ZERO,Vector3(0.62,0.62,0.015),red)
+	s.box(paper,Vector3.ZERO,Vector3(0.54,0.54,0.016),Color(red).lightened(0.06).to_html(false))
+	# The character: two 喜 side by side, each a stack of bars.
+	for side: float in [-0.12,0.12]:
+		for bar: int in 5:
+			var wide: float = [0.16,0.1,0.18,0.1,0.14][bar]
+			s.box(root,Vector3(side,2.2-bar*0.1,0.045),Vector3(wide,0.035,0.01),gold)
+		s.box(root,Vector3(side,2.0,0.045),Vector3(0.03,0.42,0.01),gold)
+	s.box(root,Vector3(0,2.48,0.03),Vector3(0.03,0.08,0.012),"c8342a")
+
+## 兽皮 (keep3.c's hall of bear skin and bones): a pelt stretched on the wall with pegs at its
+## four legs, the fur in two tones (`fur`), a bald patch where it has worn.
+func _animal_hide() -> void:
+	var furs: Array = data.get("fur",[["5a4332","4a3628"],["6b5a44","5a4a36"],["8a6a4a","7a5a3c"],["3a3028","4a3a30"]])
+	var fur: Array = furs[rng.randi_range(0,furs.size()-1)]
+	var spread := Node3D.new()
+	spread.position = Vector3(0,1.9,0.04)
+	spread.rotation.z = _jitter(0.08)
+	root.add_child(spread)
+	s.box(spread,Vector3.ZERO,Vector3(0.9,0.74,0.03),String(fur[0]))
+	s.box(spread,Vector3(-0.06,0.06,0.016),Vector3(0.64,0.44,0.02),String(fur[1]))
+	s.box(spread,Vector3(0.14,-0.1,0.03),Vector3(0.2,0.14,0.012),Color(String(fur[1])).lightened(0.3).to_html(false))
+	for leg: Vector2 in [Vector2(-0.52,0.38),Vector2(0.52,0.38),Vector2(-0.52,-0.36),Vector2(0.52,-0.36)]:
+		s.tilted_box(spread,Vector3(leg.x,leg.y,0.0),Vector3(0.14,0.3,0.03),String(fur[0]),Vector3(0,0,-leg.x*0.5))
+		s.box(spread,Vector3(leg.x*1.1,leg.y*1.3,0.02),Vector3(0.04,0.04,0.05),"3a3530")
+	# The head end, a little lower, its dark muzzle.
+	s.box(spread,Vector3(0,-0.47,0.01),Vector3(0.3,0.2,0.04),String(fur[0]))
+	s.box(spread,Vector3(0,-0.54,0.035),Vector3(0.12,0.06,0.02),"2a2420")
+
 ## A cloth banner hung on the wall, smoke-darkened at the top (a temple's 幡; `cloth` its colour).
 func _banner_cloth() -> void:
 	s.box(root,Vector3(0,2.6,0.05),Vector3(0.5,0.05,0.05),"6a5039")
@@ -547,6 +690,80 @@ func table_set(shapes: Shapes, parent: Node3D, top: float, w: float, d: float, c
 				var at := Vector3((i-1)*w*0.28,top,_jitter(0.05))
 				s.box(root,at+Vector3(0,0.03,0),Vector3(0.24,0.05,0.24),"d8d2c2")
 				s.box(root,at+Vector3(0,0.09,0),Vector3(0.16,0.08,0.16),["d28a3a","e6d6b0","b8322a"][i])
+		"dice":
+			# 骰盅 (duchang.c): the dice cup upturned, dice spilt, loose silver and copper, a wine
+			# pot and cups, a bet slip.
+			s.box(root,Vector3(_jitter(w*0.2),top+0.1,_jitter(d*0.15)),Vector3(0.18,0.2,0.18),"3a3028")
+			s.box(root,Vector3(_jitter(w*0.2),top+0.21,_jitter(d*0.15)),Vector3(0.2,0.02,0.2),"5a4a3a")
+			for die: int in 3:
+				s.tilted_box(root,Vector3(_jitter(w*0.35),top+0.035,_jitter(d*0.3)),Vector3(0.06,0.06,0.06),"efe8d8",Vector3(0,rng.randf()*TAU,0))
+			for coin: int in rng.randi_range(4,7):
+				s.tilted_box(root,Vector3(_jitter(w*0.4),top+0.012,_jitter(d*0.35)),Vector3(0.07,0.02,0.06),_pick(["d9d4c4","c8c2b0","b08a48"]),Vector3(0,rng.randf()*TAU,0))
+			s.shard(root,Vector3(_jitter(w*0.3),top+0.05,_jitter(d*0.3)),Vector3(0.12,0.08,0.1),"c8c2b0",rng.randi())
+			s.box(root,Vector3(_jitter(w*0.3),top+0.14,_jitter(d*0.3)),Vector3(0.16,0.26,0.16),"6b4a35")
+			for c: int in 2:
+				s.box(root,Vector3(_jitter(w*0.38),top+0.035,_jitter(d*0.34)),Vector3(0.08,0.07,0.08),"d9cfb4")
+			s.tilted_box(root,Vector3(_jitter(w*0.3),top+0.006,_jitter(d*0.3)),Vector3(0.16,0.006,0.1),"e3d6b0",Vector3(0,_jitter(0.6),0))
+		"rouge":
+			# 脂粉 (jiyuan.c): a bronze mirror on its stand, rouge and powder boxes, a comb, a
+			# hairpin and a cup of wine left beside them.
+			s.box(root,Vector3(-w*0.2,top+0.03,-d*0.1),Vector3(0.22,0.06,0.1),"6a4c33")
+			s.box(root,Vector3(-w*0.2,top+0.2,-d*0.1),Vector3(0.22,0.28,0.02),"b8923e")
+			s.box(root,Vector3(-w*0.2,top+0.2,-d*0.1+0.012),Vector3(0.17,0.22,0.008),"d9d4c4")
+			for i: int in 3:
+				var at := Vector3(_jitter(w*0.3),top+0.03,_jitter(d*0.3))
+				s.box(root,at,Vector3(0.1,0.06,0.1),_pick(["c0392b","8a3a5a","e8c0c4","3f6f8f"]))
+				s.box(root,at+Vector3(0.04,0.04,0.03),Vector3(0.09,0.012,0.09),_pick(["e6b0a0","f0e6d8"]))
+			s.tilted_box(root,Vector3(_jitter(w*0.3),top+0.015,_jitter(d*0.3)),Vector3(0.16,0.02,0.05),"4b4031",Vector3(0,_jitter(0.8),0))
+			s.tilted_box(root,Vector3(_jitter(w*0.3),top+0.01,_jitter(d*0.3)),Vector3(0.18,0.012,0.012),"d8b04a",Vector3(0,_jitter(0.8),0))
+			s.box(root,Vector3(w*0.28,top+0.035,d*0.2),Vector3(0.08,0.07,0.08),"d9cfb4")
+			for fleck: int in 4:
+				s.box(root,Vector3(_jitter(w*0.35),top+0.006,_jitter(d*0.3)),Vector3(0.04,0.004,0.03),"efd6d0")
+		"betrothal":
+			# 礼单 (marry_room.c): the gift list on red paper, a brush and ink, two red candles in
+			# brass holders, tea cups for the two families.
+			s.box(root,Vector3(-w*0.12,top+0.006,_jitter(0.05)),Vector3(0.5,0.008,0.36),"c8342a")
+			for line: int in 4:
+				s.box(root,Vector3(-w*0.12-0.16+line*0.1,top+0.012,_jitter(0.02)),Vector3(0.03,0.004,0.26),"2a2622")
+			s.tilted_box(root,Vector3(_jitter(w*0.3),top+0.02,d*0.25),Vector3(0.03,0.03,0.3),"b99b68",Vector3(0,_jitter(0.8),0))
+			s.box(root,Vector3(w*0.2,top+0.02,-d*0.2),Vector3(0.12,0.04,0.12),"2a2622")
+			for x: float in [w*0.3,-w*0.32]:
+				s.box(root,Vector3(x,top+0.03,-d*0.25),Vector3(0.1,0.06,0.1),"b8923e")
+				s.box(root,Vector3(x,top+0.22,-d*0.25),Vector3(0.05,0.32,0.05),"c8342a")
+				s.box(root,Vector3(x,top+0.4,-d*0.25),Vector3(0.03,0.05,0.03),"ffd88a")
+			for c: int in 2:
+				s.box(root,Vector3(_jitter(w*0.35),top+0.035,d*0.3+_jitter(0.05)),Vector3(0.08,0.07,0.08),"e3d5b4")
+		"tailoring":
+			# 剪刀、尺 (tailory.c): big iron shears, a bamboo rule, chalk marks on a cloth laid
+			# out, pins in a cushion, thread ends.
+			var cloth: String = _pick(["486981","8a5a48","c9b98e","3d5a7a","7a5a8c"])
+			s.tilted_box(root,Vector3(_jitter(w*0.15),top+0.012,_jitter(d*0.15)),Vector3(w*0.8,0.015,d*0.75),cloth,Vector3(0,_jitter(0.2),0))
+			for mark: int in 3:
+				s.box(root,Vector3(_jitter(w*0.3),top+0.022,_jitter(d*0.3)),Vector3(rng.randf_range(0.1,0.3),0.004,0.012),"efe8d8")
+			var shears := Node3D.new()
+			shears.position = Vector3(_jitter(w*0.3),top+0.03,_jitter(d*0.3))
+			shears.rotation.y = rng.randf()*TAU
+			root.add_child(shears)
+			for blade: float in [-0.03,0.03]:
+				s.tilted_box(shears,Vector3(blade*2,0,0.1),Vector3(0.035,0.02,0.3),"8f9a9b",Vector3(0,blade*2,0))
+				s.tilted_box(shears,Vector3(blade*3,0.01,-0.12),Vector3(0.05,0.03,0.14),"3a3530",Vector3(0,blade*3,0))
+			s.tilted_box(root,Vector3(_jitter(w*0.3),top+0.025,_jitter(d*0.3)),Vector3(0.6,0.02,0.04),"c4ad72",Vector3(0,_jitter(0.5),0))
+			s.box(root,Vector3(w*0.25,top+0.045,-d*0.2),Vector3(0.12,0.06,0.12),"8a3a3a")
+			for pin: int in 4:
+				s.box(root,Vector3(w*0.25+_jitter(0.04),top+0.09,-d*0.2+_jitter(0.04)),Vector3(0.008,0.05,0.008),"c6cfcb")
+			for thread: int in 4:
+				s.tilted_box(root,Vector3(_jitter(w*0.4),top+0.02,_jitter(d*0.35)),Vector3(0.12,0.006,0.008),_pick(["b23a2b","4a6f8f","d6b862","efe8d8"]),Vector3(0,rng.randf()*TAU,0))
+		"vegetarian":
+			# 素斋 (monky.c): bowls of rice and greens, chopsticks, a pot of plain tea, no wine.
+			for i: int in rng.randi_range(2,3):
+				var at := Vector3(_jitter(w*0.36),top,_jitter(d*0.32))
+				s.box(root,at+Vector3(0,0.04,0),Vector3(0.18,0.08,0.18),"d8d2c2")
+				s.box(root,at+Vector3(0,0.085,0),Vector3(0.13,0.02,0.13),_pick(["efe8d8","6f8a4a","8aa05a"]))
+				s.tilted_box(root,at+Vector3(0.12,0.015,0.04),Vector3(0.025,0.02,0.26),"c9a35e",Vector3(0,_jitter(0.6),0))
+			s.box(root,Vector3(_jitter(w*0.15),top+0.03,_jitter(d*0.15)),Vector3(0.3,0.05,0.3),"d8d2c2")
+			s.box(root,Vector3(_jitter(w*0.15),top+0.065,_jitter(d*0.15)),Vector3(0.2,0.04,0.2),"6f8a4a")
+			s.box(root,Vector3(w*0.28,top+0.11,-d*0.2),Vector3(0.2,0.2,0.2),_pick(["5d6b60","9a8466"]))
+			s.box(root,Vector3(w*0.1,top+0.035,-d*0.28),Vector3(0.08,0.07,0.08),"e3d5b4")
 		"lamp":
 			s.box(root,Vector3(_jitter(w*0.25),top+0.08,_jitter(d*0.2)),Vector3(0.14,0.16,0.14),"7a6a54")
 			s.box(root,Vector3(0,top+0.2,0),Vector3(0.035,0.07,0.035),"ffd88a")
@@ -584,6 +801,19 @@ func scatter(shapes: Shapes, parent: Node3D, at: Vector3, kind: String, variant:
 		"ash": colors = ["8e8a84","a19c94","7a7670"]; size = Vector2(0.12,0.1); count = 3
 		"dust": colors = ["b8b0a0","a8a090","c4bcac"]; size = Vector2(0.1,0.08); count = 4
 		"stone_chips": colors = ["9a9a8c","a8a798","85877b"]; size = Vector2(0.07,0.05); count = 7
+		"blood":
+			# Dried dark drops and a smear on a butcher's floor.
+			colors = ["5a2320","6a2a26","4a1c1a"]; size = Vector2(0.09,0.07); count = 5
+		"threads":
+			# Thread ends and snippets of cloth under a tailor's table.
+			for i: int in 5:
+				s.tilted_box(parent,at+Vector3(_jitter(0.22),0.012,_jitter(0.22)),Vector3(0.012,0.008,rng.randf_range(0.1,0.22)),_pick(["b23a2b","4a6f8f","d6b862","efe8d8","3d5a7a"]),Vector3(0,rng.randf()*TAU,0))
+			colors = ["486981","8a5a48","c9b98e"]; size = Vector2(0.06,0.05); count = 2
+		"shavings":
+			# 刨花: pale curls of wood off a coffin maker's plane.
+			for i: int in 6:
+				s.tilted_box(parent,at+Vector3(_jitter(0.22),0.02,_jitter(0.22)),Vector3(0.05,0.035,0.1),_pick(["e0c89a","d4b888","ead4a8"]),Vector3(rng.randf_range(-0.5,0.5),rng.randf()*TAU,rng.randf_range(-0.5,0.5)))
+			colors = ["d4b888","c9ad7c"]; size = Vector2(0.08,0.04); count = 2
 		_: return
 	for i: int in count:
 		s.tilted_box(parent,at+Vector3(_jitter(0.24),0.008+i*0.0004,_jitter(0.24)),Vector3(size.x*rng.randf_range(0.7,1.3),0.01,size.y*rng.randf_range(0.7,1.3)),_pick(colors),Vector3(0,rng.randf()*TAU,0))

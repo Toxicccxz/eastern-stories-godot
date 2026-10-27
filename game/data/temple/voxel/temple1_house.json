@@ -3,7 +3,7 @@
   "cutaway_rooms": true,
   "camera_size": 25,
   "note": "灵心观大殿 (temple1.c): 真武大帝's golden statue on its altar, the vermilion table before it laid with fresh flowers and fruit, three or four prayer cushions before the table, round arches east and west, the red door south; white walls, vermilion columns, a floor of grey square tiles worn pale before the altar; the taoists' notice board on the wall (the hall loads their board).",
-  "palette": {"wood": ["5a3a2a", "64402e", "6e4632"], "wall": "e8e4d8"},
+  "palette": {"wood": ["8a3a2e", "933f31", "7e3429"], "wall": "e8e4d8"},
   "surfaces": {"temple.temple1": "rock"},
   "ground": {"rock": {"colors": ["8a8a82", "94948a", "80807a", "9a988e"], "note": "square grey floor tiles (方砖)"}},
   "light": {"ambient": ["d8cfbe", "6e6a80"], "ambient_energy": [0.42, 0.3]},

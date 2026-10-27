@@ -12,7 +12,8 @@ const TABLES: Array[String] = ["table","square_table"]
 const WALKABLE_NOT: Array[String] = ["cliff","chasm","forest","boundary","wall","wall_wood","shutter","shop_front","blocked","water","deep_water"]
 ## Preset hanging names that are drawn by a kind of another name.
 const HANGING_KINDS: Dictionary = {"talismans":{"kind":"paper_charms","size":[40,16],"count":3,"height":1.9},
-	"wall_scroll":{"kind":"wall_scroll","size":[40,16]}}
+	"wall_scroll":{"kind":"wall_scroll","size":[40,16]},
+	"cobweb":{"kind":"cobweb","size":[40,40],"height":2.55}}
 
 var geometry: VoxelMapGeometry
 ## The household goods drawer (the geometry's, so pieces and hangings batch alike).
@@ -21,6 +22,9 @@ var presets: Dictionary = {}
 ## Zone id -> {"rect", "life" (the room's spec merged with its use and wealth), "rng"}.
 var rooms: Dictionary = {}
 var _tables: Array[Dictionary] = []
+## What each room got, for the tests: zone id -> floor cells worn by feet, things hung on its walls.
+var worn_cells: Dictionary[StringName,int] = {}
+var hung: Dictionary[StringName,int] = {}
 var _heat: Array[Vector2] = []
 var _blocked_props: Array[Dictionary] = []
 ## Wall things the voxel config already hangs (windows, signs, scrolls): kept clear of.
@@ -139,10 +143,11 @@ func finish(map: WorldMapController, cells: Dictionary[Vector2i,String]) -> void
 				floor[cell] = true
 		if floor.is_empty():
 			continue
-		var worn: Dictionary[Vector2i,float] = _wear(room,floor,doors,markers)
+		var worn: Dictionary[Vector2i,float] = _wear(room,floor,cells,doors,markers)
+		worn_cells[zone_id] = worn.size()
 		_floor(room,floor,cells,worn,doors)
 		# Hung lamps smoke the wall above them too: hang first.
-		_hangings(room,floor,cells,doors)
+		hung[zone_id] = _hangings(room,floor,cells,doors)
 		_walls(room,floor,cells)
 
 func _room_at(at: Vector2) -> Dictionary:
@@ -164,14 +169,16 @@ func _table_items(data: Dictionary) -> void:
 	var top: float = 1.0 if data["kind"]=="table" else 0.945
 	household.table_set(geometry.shapes,node,top,float(size[0])/32.0*0.8,float(size[1])/32.0*0.7,String(data["set"]),hash(a))
 
-## How worn each floor cell is, 0..1: the shortest walks from each way in to each place people
-## stand (markers, counters' fronts, tables), spread a little either side.
-func _wear(room: Dictionary, floor: Dictionary[Vector2i,bool], doors: Array[Vector2], markers: Array[Vector2]) -> Dictionary[Vector2i,float]:
+## How worn each floor cell is, 0..1: the shortest walks from each way in (a passage, a door,
+## an open doorway to the next room) to each place people stand (markers, counters' fronts,
+## tables), spread a little either side.
+func _wear(room: Dictionary, floor: Dictionary[Vector2i,bool], cells: Dictionary[Vector2i,String], doors: Array[Vector2], markers: Array[Vector2]) -> Dictionary[Vector2i,float]:
 	var rect: Rect2 = (room["rect"] as Rect2).grow(16)
 	var starts: Array[Vector2i] = []
 	for door: Vector2 in doors:
 		if rect.has_point(door):
 			starts.append(_nearest(floor,door))
+	starts.append_array(_openings(room,floor,cells))
 	var goals: Array[Vector2i] = []
 	for marker: Vector2 in markers:
 		if rect.has_point(marker):
@@ -181,6 +188,9 @@ func _wear(room: Dictionary, floor: Dictionary[Vector2i,bool], doors: Array[Vect
 		if rect.has_point(at) and data["kind"] in ["counter","shop_counter","table","square_table","altar","forge","anvil"]:
 			var front := Vector2(0,float(data["size"][1])/2.0+24).rotated(-deg_to_rad(float(data.get("rotation",0))))
 			goals.append(_nearest(floor,at+front))
+	# A room where nobody stands and nothing is served (a bare 石室): people walk in to its middle.
+	if goals.is_empty() and not starts.is_empty():
+		goals.append(_nearest(floor,(room["rect"] as Rect2).get_center()))
 	var visits: Dictionary[Vector2i,float] = {}
 	for start: Vector2i in starts:
 		var from: Dictionary[Vector2i,Vector2i] = _paths(floor,start)
@@ -206,6 +216,41 @@ func _wear(room: Dictionary, floor: Dictionary[Vector2i,bool], doors: Array[Vect
 					var fall: float = strength*maxf(0.0,1.0-Vector2(dx,dy).length()/2.6)
 					worn[near] = maxf(worn.get(near,0.0),fall)
 	return worn
+
+## The room's open doorways: floor at its edge that goes on as floor beyond the room (the gap
+## in the wall to the next room, a hall's way into its side rooms), one cell per gap.
+func _openings(room: Dictionary, floor: Dictionary[Vector2i,bool], cells: Dictionary[Vector2i,String]) -> Array[Vector2i]:
+	var rect: Rect2 = room["rect"]
+	var gaps: Array[Vector2i] = []
+	for cell: Vector2i in floor:
+		for step: Vector2i in [Vector2i(16,0),Vector2i(-16,0),Vector2i(0,16),Vector2i(0,-16)]:
+			var beyond: Vector2i = cell+step*2
+			if not rect.has_point(Vector2(beyond)) and cells.has(beyond) and not cells[beyond] in WALKABLE_NOT and not floor.has(beyond):
+				gaps.append(cell)
+				break
+	# One way in per gap: cells of the same gap lie within a doorway's width of each other.
+	var groups: Array[Array] = []
+	for cell: Vector2i in gaps:
+		var joined: bool = false
+		for group: Array in groups:
+			if group.any(func(g: Vector2i) -> bool: return Vector2(g).distance_to(Vector2(cell))<=48):
+				group.append(cell)
+				joined = true
+				break
+		if not joined:
+			groups.append([cell])
+	var out: Array[Vector2i] = []
+	for group: Array in groups:
+		var centre := Vector2.ZERO
+		for cell: Vector2i in group:
+			centre += Vector2(cell)
+		centre /= group.size()
+		var best: Vector2i = group[0]
+		for cell: Vector2i in group:
+			if Vector2(cell).distance_squared_to(centre)<Vector2(best).distance_squared_to(centre):
+				best = cell
+		out.append(best)
+	return out
 
 func _nearest(floor: Dictionary[Vector2i,bool], at: Vector2) -> Vector2i:
 	var best: Vector2i = floor.keys()[0]
@@ -377,12 +422,13 @@ func _room_wall(room: Dictionary) -> String:
 	return String(geometry.palette.get("wall","c9b997"))
 
 ## The room's things hung along its walls where nothing stands before them: no window, sign or
-## scroll, no door, nothing tall in front.
-func _hangings(room: Dictionary, floor: Dictionary[Vector2i,bool], cells: Dictionary[Vector2i,String], doors: Array[Vector2]) -> void:
+## scroll, no door, nothing tall in front. How many were hung.
+func _hangings(room: Dictionary, floor: Dictionary[Vector2i,bool], cells: Dictionary[Vector2i,String], doors: Array[Vector2]) -> int:
 	var life: Dictionary = room["life"]
 	var kinds: Array = life.get("hangings",[])
 	if kinds.is_empty() or float(life.get("hang",0.0))<=0.0:
-		return
+		return 0
+	var count: int = 0
 	var random: RandomNumberGenerator = room["rng"]
 	var faces: Array[Dictionary] = _faces(floor,cells).filter(func(f: Dictionary) -> bool: return (f["into"] as Vector2).y>=0.0)
 	# Shuffled by the room's own seed (Array.shuffle would use the global RNG: another look each load).
@@ -420,6 +466,10 @@ func _hangings(room: Dictionary, floor: Dictionary[Vector2i,bool], cells: Dictio
 		match prop["kind"]:
 			"string_hang": prop["goods"] = variant
 			"tool_hooks": prop["tools"] = variant
+			"banner_cloth":
+				# `banner_cloth:<hex>`: the cloth's colour (a 镖局's red, a 棺材铺's white).
+				if not variant.is_empty():
+					prop["cloth"] = variant
 			"wall_scroll":
 				if variant=="calligraphy":
 					prop["calligraphy"] = true
@@ -431,3 +481,5 @@ func _hangings(room: Dictionary, floor: Dictionary[Vector2i,bool], cells: Dictio
 			_heat.append(at)
 		placed.append(at)
 		wanted -= 1
+		count += 1
+	return count

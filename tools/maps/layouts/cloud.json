@@ -445,6 +445,9 @@
       "file": "cloud_tearoom_upstairs.tscn",
       "draw": {
         "technique": "town",
+        "life": {
+          "cloud.tearoom2": {"use": "teahouse", "tidy": true, "seed": 2}
+        },
         "base": "boundary",
         "bounds": [-32, -32, 384, 320],
         "ground": [],
@@ -520,6 +523,9 @@
       "file": "cloud_jiyuan_upstairs.tscn",
       "draw": {
         "technique": "town",
+        "life": {
+          "cloud.jiyuan2": {"use": "pleasure_house", "wealth": "rich", "tidy": true, "seed": 2}
+        },
         "base": "boundary",
         "bounds": [-32, -32, 288, 288],
         "ground": [],
@@ -588,6 +594,9 @@
       "file": "cloud_duchang_upstairs.tscn",
       "draw": {
         "technique": "town",
+        "life": {
+          "cloud.duchang2": {"use": "gaming_hall", "seed": 2}
+        },
         "base": "boundary",
         "bounds": [-32, -32, 288, 288],
         "ground": [],
@@ -661,7 +670,8 @@
           "cloud.biaoju": {
             "floor": "floor_yard",
             "wall": "wall",
-            "size": "hall"
+            "size": "hall",
+            "life": {"use": "escort_office", "seed": 1}
           }
         },
         "props": [
@@ -730,7 +740,8 @@
           "cloud.bookstore": {
             "floor": "floor_shop",
             "wall": "wall_wood",
-            "size": "large"
+            "size": "large",
+            "life": {"use": "bookshop", "seed": 1}
           }
         },
         "props": [
@@ -791,7 +802,8 @@
           "cloud.butchery": {
             "floor": "floor_shop",
             "wall": "wall_wood",
-            "size": "room"
+            "size": "room",
+            "life": {"use": "butcher", "seed": 1}
           }
         },
         "props": [
@@ -847,7 +859,8 @@
           "cloud.drugstore": {
             "floor": "floor_shop",
             "wall": "wall_wood",
-            "size": "large"
+            "size": "large",
+            "life": {"use": "apothecary", "seed": 2}
           }
         },
         "props": [
@@ -906,7 +919,8 @@
           "cloud.duchang": {
             "floor": "floor_wood",
             "wall": "wall_wood",
-            "size": "hall"
+            "size": "hall",
+            "life": {"use": "gaming_hall", "seed": 1}
           }
         },
         "props": [
@@ -979,17 +993,20 @@
           "cloud.god1": {
             "floor": "grass",
             "wall": "wall",
-            "size": "yard"
+            "size": "yard",
+            "life": {"use": "training_yard", "wealth": "poor", "seed": 1}
           },
           "cloud.god2": {
             "floor": "floor_wood",
             "wall": "wall_wood",
-            "size": "hall"
+            "size": "hall",
+            "life": {"use": "hall", "wealth": "rich", "tidy": true, "seed": 2}
           },
           "cloud.woodboxy": {
             "floor": "floor_shop",
             "wall": "wall_wood",
-            "size": "room"
+            "size": "room",
+            "life": {"use": "coffin_shop", "seed": 1}
           }
         },
         "props": [
@@ -1085,7 +1102,8 @@
           "cloud.jiyuan": {
             "floor": "floor_wood",
             "wall": "wall_wood",
-            "size": "hall"
+            "size": "hall",
+            "life": {"use": "pleasure_house", "seed": 1}
           }
         },
         "props": [
@@ -1158,12 +1176,14 @@
           "cloud.rich": {
             "floor": "floor_yard",
             "wall": "wall",
-            "size": "hall"
+            "size": "hall",
+            "life": {"use": "hall", "wealth": "rich", "seed": 3}
           },
           "cloud.m_house": {
             "floor": "floor_wood",
             "wall": "wall_wood",
-            "size": "large"
+            "size": "large",
+            "life": {"use": "hall", "wealth": "rich", "seed": 4}
           }
         },
         "props": [
@@ -1236,7 +1256,8 @@
           "cloud.marry_room": {
             "floor": "floor_wood",
             "wall": "wall_wood",
-            "size": "large"
+            "size": "large",
+            "life": {"use": "matchmaker", "seed": 1}
           }
         },
         "props": [
@@ -1294,7 +1315,8 @@
           "cloud.monky": {
             "floor": "floor_yard",
             "wall": "wall",
-            "size": "large"
+            "size": "large",
+            "life": {"use": "fast_hall", "wealth": "poor", "seed": 1}
           }
         },
         "props": [
@@ -1352,7 +1374,8 @@
           "cloud.tailory": {
             "floor": "floor_shop",
             "wall": "wall_wood",
-            "size": "large"
+            "size": "large",
+            "life": {"use": "tailor", "seed": 1}
           }
         },
         "props": [
@@ -1412,12 +1435,14 @@
           "cloud.tearoom": {
             "floor": "floor_wood",
             "wall": "wall_wood",
-            "size": "hall"
+            "size": "hall",
+            "life": {"use": "teahouse", "seed": 1}
           },
           "cloud.tea_corridor": {
             "floor": "floor_wood",
             "wall": "wall_wood",
-            "size": "room"
+            "size": "room",
+            "life": {"use": "storeroom", "seed": 2}
           }
         },
         "props": [
@@ -1526,7 +1551,8 @@
           "cloud.weapony": {
             "floor": "floor_shop",
             "wall": "wall_wood",
-            "size": "large"
+            "size": "large",
+            "life": {"use": "weapon_shop", "seed": 1}
           }
         },
         "props": [
@@ -1586,7 +1612,8 @@
           "cloud.zaihuoy": {
             "floor": "floor_shop",
             "wall": "wall_wood",
-            "size": "large"
+            "size": "large",
+            "life": {"use": "general_store", "seed": 2}
           }
         },
         "props": [
