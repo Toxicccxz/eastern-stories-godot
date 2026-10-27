@@ -48,7 +48,7 @@ temple. All thirteen have the voxel view (`game/data/snow/voxel/`).
 | 疯狗 | chat 15: random_move | sroad3-5 |
 | 魏无极 | inquiry 学费, 读书识字, 刘安禄 | 学费 ends with one native line pointing at the 谷场 (DECISIONS「客栈的老鼠」) |
 | 樵夫 | chat 15: three lines, random_move | the herbshop and mstreet3 |
-| 杜宽 | inquiry 驿站, 寄信, 收信 | 驿站 (mail omitted) |
+| 杜宽 | inquiry 驿站, 寄信, 收信 | 驿站 (mail omitted) with one native line after it; native 送信 (the letter for 陈剑秋, one 两 of 脚钱 once it is delivered) and 悬赏 (DECISIONS「雪亭驿的信」) |
 | 店小二 | init()/greeting(), one of three; vendor dagger, wineskin, dumpling, chicken leg | greets one second after the player comes in (4E); the four goods (chicken_leg.c ported with the 老鼠 errand); native topics 老鼠 / 楼上: the errand, the thanks with a 烤鸡腿 once the six rats are down (spawn `cleared_mark` 客栈老鼠), then the bone hint (DECISIONS「客栈的老鼠」) |
 | 杨掌柜 | inquiry 治伤, 疗伤, 开药 (heal_me) | by the asker's eff_kee (4E) |
 | 王铁匠 | inquiry name, here, 锄头, 铲子, 铁锤 | (4E) |

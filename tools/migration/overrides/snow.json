@@ -149,7 +149,21 @@
 				"class": "swordsman"
 			}
 		},
-		"snow.inn_upstairs.inn_2f.rats": { "cleared_mark": "客栈老鼠" }
+		"snow.inn_upstairs.inn_2f.rats": { "cleared_mark": "客栈老鼠" },
+		"snow.npc.post_officer": {
+			"inquiry": {
+				"驿站": ["是啊... 这里就是雪亭驿，你要寄信吗？", "官府的信差都改走飞鸢栈道了，咱这儿如今只剩百姓的信。"],
+				"送信": {
+					"rules": [
+						{ "asker_marks": ["脚钱"], "say": "往后有信，还找你。" },
+						{ "asker_marks": ["信送到了"], "gives": "es2:obj/money/silver", "mark_asker": "脚钱", "say": "送到了？好，说好的脚钱。往后有信，还找你。" },
+						{ "asker_marks": ["雪亭驿的信"], "say": "信送到了么？陈镖头的镖局就在绮云镇街上。" },
+						{ "gives": "native:snow/letter_to_chen", "mark_asker": "雪亭驿的信", "say": "正好有封信，要送到绮云镇振远镖局陈镖头手里。驿里就我一个走不开——你若肯跑这一趟，回来给你一两脚钱。出镇往南过卧龙岗，岗上有强人，别跟他们纠缠，走你的路就是。" }
+					]
+				},
+				"悬赏": ["门外那张榜是乔阴府发的悬赏。榜上的恶人要是教你拿住了，赏银照榜发——拿不住也别逞强。"]
+			}
+		}
 	},
 	"review": {
 		"d/snow/inn.c": {

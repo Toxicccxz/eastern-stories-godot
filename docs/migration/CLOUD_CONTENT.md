@@ -63,6 +63,7 @@ view (`game/data/cloud/voxel/`).
 - spring-blade.c's □伤 is the case label combatd.c also has (割伤's branch).
 - apprentice.c's help says a betrayer's skills are halved; neither apprentice.c nor recruit.c
   does it (only score 0 and betrayer + 1). An NPC master recruits through recruit.c.
+- Native (前两小时 C, DECISIONS「雪亭驿的信」): 陈剑秋's first accept_object rule takes 杜宽's letter (`native:snow/letter_to_chen`) and marks the giver 信送到了; the rest is as below.
 - b_header.c's accept_object() returns 1 in every branch, so give.c hands the thing over: 陈剑秋
   keeps whatever he is given (money is destructed). The port hands back what he refuses
   (DECISIONS, modern fixes). His 淳风武馆 answer is 柳淳风's, word for word.

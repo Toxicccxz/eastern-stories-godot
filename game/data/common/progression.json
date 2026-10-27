@@ -18,6 +18,7 @@
 		"force_milestones": [10, 25, 50],
 		"chain_percent": {
 			"snow.newcomer": 100,
+			"snow.letter": 100,
 			"snow.wei_wuji": 200,
 			"snow.weapon_storage": 200,
 			"cloud.chess": 200,

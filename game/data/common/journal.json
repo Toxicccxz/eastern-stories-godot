@@ -71,7 +71,7 @@
 					"id": "fonxan_sword",
 					"when": { "skill_at_least": { "skill": "fonxansword", "level": 1 } },
 					"text": "你学会了封山剑法。",
-					"next": "去雪亭驿门外看看悬赏榜。"
+					"next": "去雪亭驿找杜宽，问问「送信」；门外的悬赏榜也看一眼。"
 				},
 				{
 					"id": "bounty",
@@ -84,6 +84,33 @@
 					"final": true,
 					"when": { "milestone": "region/cloud" },
 					"text": "你第一次来到绮云镇。雪亭镇的头几天到此为止，往后的路自己走。"
+				}
+			]
+		},
+		{
+			"id": "snow.letter",
+			"title": "雪亭驿的信",
+			"region": "雪亭镇",
+			"sources": ["native: 前两小时 C (owner, 2026-10-26; DECISIONS「雪亭驿的信」) over d/snow/postoffice.c's text (the couriers' detour, the people's letters)"],
+			"guide": true,
+			"entries": [
+				{
+					"id": "taken",
+					"when": { "mark": "雪亭驿的信" },
+					"text": "杜宽托你把一封信送到绮云镇振远镖局陈剑秋手里，回来给一两脚钱。",
+					"next": "出镇往南过卧龙岗，到绮云镇的振远镖局把信交给陈剑秋。"
+				},
+				{
+					"id": "delivered",
+					"when": { "mark": "信送到了" },
+					"text": "你把信交给了陈剑秋。",
+					"next": "回雪亭驿找杜宽拿脚钱。"
+				},
+				{
+					"id": "paid",
+					"final": true,
+					"when": { "mark": "脚钱" },
+					"text": "杜宽付了你一两脚钱，说往后有信还找你。"
 				}
 			]
 		},

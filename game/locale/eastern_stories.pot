@@ -17,6 +17,7 @@ msgid "东方故事"
 msgstr ""
 
 #. snow.newcomer region
+#. snow.letter region
 #. snow.wei_wuji region
 #. snow.weapon_storage region
 #. native.bounty region
@@ -13282,7 +13283,7 @@ msgstr ""
 
 #. snow.newcomer/fonxan_sword next
 #: data/common/journal.json
-msgid "去雪亭驿门外看看悬赏榜。"
+msgid "去雪亭驿找杜宽，问问「送信」；门外的悬赏榜也看一眼。"
 msgstr ""
 
 #. snow.newcomer/bounty text
@@ -13298,6 +13299,36 @@ msgstr ""
 #. snow.newcomer/cloud text
 #: data/common/journal.json
 msgid "你第一次来到绮云镇。雪亭镇的头几天到此为止，往后的路自己走。"
+msgstr ""
+
+#. snow.letter title
+#: data/common/journal.json
+msgid "雪亭驿的信"
+msgstr ""
+
+#. snow.letter/taken text
+#: data/common/journal.json
+msgid "杜宽托你把一封信送到绮云镇振远镖局陈剑秋手里，回来给一两脚钱。"
+msgstr ""
+
+#. snow.letter/taken next
+#: data/common/journal.json
+msgid "出镇往南过卧龙岗，到绮云镇的振远镖局把信交给陈剑秋。"
+msgstr ""
+
+#. snow.letter/delivered text
+#: data/common/journal.json
+msgid "你把信交给了陈剑秋。"
+msgstr ""
+
+#. snow.letter/delivered next
+#: data/common/journal.json
+msgid "回雪亭驿找杜宽拿脚钱。"
+msgstr ""
+
+#. snow.letter/paid text
+#: data/common/journal.json
+msgid "杜宽付了你一两脚钱，说往后有信还找你。"
 msgstr ""
 
 #. snow.wei_wuji/asked_fee text
@@ -15586,6 +15617,46 @@ msgstr ""
 msgid "是啊... 这里就是雪亭驿，你要寄信吗？"
 msgstr ""
 
+#. snow.npc.post_officer inquiry.驿站
+#: data/snow/npcs.json
+msgid "官府的信差都改走飞鸢栈道了，咱这儿如今只剩百姓的信。"
+msgstr ""
+
+#. snow.npc.post_officer inquiry topic
+#: data/snow/npcs.json
+msgid "送信"
+msgstr ""
+
+#. snow.npc.post_officer inquiry.送信.rules.say
+#: data/snow/npcs.json
+msgid "往后有信，还找你。"
+msgstr ""
+
+#. snow.npc.post_officer inquiry.送信.rules.say
+#: data/snow/npcs.json
+msgid "送到了？好，说好的脚钱。往后有信，还找你。"
+msgstr ""
+
+#. snow.npc.post_officer inquiry.送信.rules.say
+#: data/snow/npcs.json
+msgid "信送到了么？陈镖头的镖局就在绮云镇街上。"
+msgstr ""
+
+#. snow.npc.post_officer inquiry.送信.rules.say
+#: data/snow/npcs.json
+msgid "正好有封信，要送到绮云镇振远镖局陈镖头手里。驿里就我一个走不开——你若肯跑这一趟，回来给你一两脚钱。出镇往南过卧龙岗，岗上有强人，别跟他们纠缠，走你的路就是。"
+msgstr ""
+
+#. snow.npc.post_officer inquiry topic
+#: data/snow/npcs.json
+msgid "悬赏"
+msgstr ""
+
+#. snow.npc.post_officer inquiry.悬赏
+#: data/snow/npcs.json
+msgid "门外那张榜是乔阴府发的悬赏。榜上的恶人要是教你拿住了，赏银照榜发——拿不住也别逞强。"
+msgstr ""
+
 #. snow.npc.rat name
 #. snow.npc.waiter inquiry topic
 #: data/snow/npcs.json
@@ -17093,7 +17164,8 @@ msgstr ""
 
 #. es2:d/latemoon/room/npc/obj/letter unit
 #. es2:u/cloud/npc/obj/letter unit
-#: data/latemoon/items.json data/cloud/items.json
+#. native:snow/letter_to_chen unit
+#: data/latemoon/items.json data/cloud/items.json data/native/items.json
 msgid "封"
 msgstr ""
 
@@ -19206,6 +19278,11 @@ msgstr ""
 #. cloud.npc.b_header apprentice.accept_say
 #: data/cloud/npcs.json
 msgid "很好，$RESPECT多加努力，本镖局不会亏待你的。"
+msgstr ""
+
+#. cloud.npc.b_header accept_object.say
+#: data/cloud/npcs.json
+msgid "哦，雪亭驿的信。有劳$RESPECT，替我谢谢杜驿长。"
 msgstr ""
 
 #. cloud.npc.b_header accept_object.lines.emote
@@ -31773,6 +31850,17 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "一个面色青白的中年人，目光扫过来便叫人背脊发凉。告示上说他一夜之间屠了邻县一户人家，官府悬了最重的赏。\n"
+msgstr ""
+
+#. native:snow/letter_to_chen name
+#: data/native/items.json
+msgid "雪亭驿的书信"
+msgstr ""
+
+#. native:snow/letter_to_chen long
+#: data/native/items.json
+msgid ""
+"一封封好的书信，信封上写着：绮云镇 振远镖局 陈剑秋 亲启。\n"
 msgstr ""
 
 #: data/choyin/voxel/club_house.json
