@@ -15433,7 +15433,7 @@ msgstr ""
 #. snow.npc.guard chat_msg_combat
 #: data/snow/npcs.json
 msgid ""
-"刘安录忽然挥出一刀，招数精奇，但是刀到中途忽然像是想起什么，急忙收招。\n"
+"刘安禄忽然挥出一刀，招数精奇，但是刀到中途忽然像是想起什么，急忙收招。\n"
 msgstr ""
 
 #. snow.npc.guard chat_msg_combat
