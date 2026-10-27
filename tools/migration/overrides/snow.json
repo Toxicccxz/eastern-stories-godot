@@ -1,16 +1,6 @@
 {
 	"vendors": ["d/snow/npc/waiter.c", "d/snow/npc/herbalist.c", "d/snow/npc/smith.c"],
-	"vendor_goods": {
-		"d/snow/npc/smith.c": {
-			"铁锤": { "item": "d/snow/npc/obj/hammer.c", "price": 300 }
-		}
-	},
-	"vendor_skip": {
-		"d/snow/npc/waiter.c": {
-			"dagger": "deferred weapon goods (DECISIONS: Snow waiter / dumpling supply loop, I)",
-			"chicken leg": "deferred weapon goods (DECISIONS: Snow waiter / dumpling supply loop, I)"
-		}
-	},
+	"vendor_goods": { "d/snow/npc/smith.c": { "铁锤": { "item": "d/snow/npc/obj/hammer.c", "price": 300 } } },
 	"set": {
 		"snow.npc.dog": {
 			"accept_object": [
@@ -74,7 +64,19 @@
 			"recognize_apprentice": [
 				{ "giver_mark": "魏无极", "accept": true },
 				{ "say": "咦？我不记得收过你这个学生啊....", "accept": false }
-			]
+			],
+			"inquiry": {
+				"学费": [
+					"嗯 ... 读书识字是做人的第一步。",
+					"学好了读书识字的本领，胜过于百万的家财。",
+					"所以说学问是金钱买不到的。",
+					"虽然学问是无价的，不过如果你有心的话 ...",
+					"只要五两银子。",
+					"手头紧？街东头的谷场正缺短工，干一回给一两。"
+				],
+				"读书识字": ["对，读书识字。"],
+				"刘安禄": ["哦 ... 你是说野羊山寨的二寨主，人称血手刘三的刘安禄吗？", "他又出来做恶了？", "你带我去见他，让我跟他说几句话。"]
+			}
 		},
 		"snow.npc.waiter": {
 			"greeting": {
@@ -83,13 +85,44 @@
 					{ "emote": "用脖子上的毛巾抹了抹手，说道：这位$RESPECT，请进请进。" },
 					{ "say": "这位$RESPECT，进来喝几盅小店的红酒吧，这几天才从窖子里开封的哟。" }
 				]
+			},
+			"inquiry": {
+				"老鼠": {
+					"rules": [
+						{ "asker_marks": ["店小二谢过"], "say": "鸡腿骨头别扔，东街那两条野狗见了骨头就跟人走，怪得很。" },
+						{ "asker_marks": ["客栈老鼠"], "gives": "es2:obj/example/chicken_leg", "mark_asker": "店小二谢过", "lines": [{ "say": "哟，可算清净了！来，刚烤好的鸡腿，小店的一点心意。" }, { "say": "鸡腿骨头别扔，东街那两条野狗见了骨头就跟人走，怪得很。" }] },
+						{ "say": "唉，别提了。楼上几间客房闹老鼠，客人嫌吵，掌柜的又舍不得请人。这位$RESPECT要是肯上去收拾收拾，小店请您吃顿热的。" }
+					]
+				},
+				"楼上": {
+					"rules": [
+						{ "asker_marks": ["店小二谢过"], "say": "鸡腿骨头别扔，东街那两条野狗见了骨头就跟人走，怪得很。" },
+						{ "asker_marks": ["客栈老鼠"], "gives": "es2:obj/example/chicken_leg", "mark_asker": "店小二谢过", "lines": [{ "say": "哟，可算清净了！来，刚烤好的鸡腿，小店的一点心意。" }, { "say": "鸡腿骨头别扔，东街那两条野狗见了骨头就跟人走，怪得很。" }] },
+						{ "say": "唉，别提了。楼上几间客房闹老鼠，客人嫌吵，掌柜的又舍不得请人。这位$RESPECT要是肯上去收拾收拾，小店请您吃顿热的。" }
+					]
+				}
 			}
 		},
 		"snow.npc.herbalist": {
 			"inquiry": {
-				"治伤": { "eff_kee_percent": [{ "at_least": 100, "say": "这位$RESPECT，您看起来气色很好啊，不像有受伤的样子。" }, { "at_least": 95, "say": "哦....我看看....只是些皮肉小伤，您买包金创药回去敷敷就没事了。" }] },
-				"疗伤": { "eff_kee_percent": [{ "at_least": 100, "say": "这位$RESPECT，您看起来气色很好啊，不像有受伤的样子。" }, { "at_least": 95, "say": "哦....我看看....只是些皮肉小伤，您买包金创药回去敷敷就没事了。" }] },
-				"开药": { "eff_kee_percent": [{ "at_least": 100, "say": "这位$RESPECT，您看起来气色很好啊，不像有受伤的样子。" }, { "at_least": 95, "say": "哦....我看看....只是些皮肉小伤，您买包金创药回去敷敷就没事了。" }] }
+				"治伤": {
+					"eff_kee_percent": [
+						{ "at_least": 100, "say": "这位$RESPECT，您看起来气色很好啊，不像有受伤的样子。" },
+						{ "at_least": 95, "say": "哦....我看看....只是些皮肉小伤，您买包金创药回去敷敷就没事了。" }
+					]
+				},
+				"疗伤": {
+					"eff_kee_percent": [
+						{ "at_least": 100, "say": "这位$RESPECT，您看起来气色很好啊，不像有受伤的样子。" },
+						{ "at_least": 95, "say": "哦....我看看....只是些皮肉小伤，您买包金创药回去敷敷就没事了。" }
+					]
+				},
+				"开药": {
+					"eff_kee_percent": [
+						{ "at_least": 100, "say": "这位$RESPECT，您看起来气色很好啊，不像有受伤的样子。" },
+						{ "at_least": 95, "say": "哦....我看看....只是些皮肉小伤，您买包金创药回去敷敷就没事了。" }
+					]
+				}
 			}
 		},
 		"snow.npc.guard": {
@@ -100,11 +133,7 @@
 				"刘安禄说道：你快走吧，就算我输了你啦....\n"
 			]
 		},
-		"snow.npc.annihir": {
-			"accept_fight": [
-				{ "say": "咦... 要打就真打吧，光是较量多没意思？", "accept": true, "kill": true }
-			]
-		},
+		"snow.npc.annihir": { "accept_fight": [{ "say": "咦... 要打就真打吧，光是较量多没意思？", "accept": true, "kill": true }] },
 		"snow.npc.girl": {
 			"accept_fight": [
 				{ "family": "family.fonxan", "gender": "女性", "say": "师姐！别整天想著练功嘛，我们去花园摘花儿玩嘛？", "accept": false },
@@ -119,7 +148,8 @@
 				"accept_say": "很好，$RESPECT多加努力，他日必定有成。",
 				"class": "swordsman"
 			}
-		}
+		},
+		"snow.inn_upstairs.inn_2f.rats": { "cleared_mark": "客栈老鼠" }
 	},
 	"review": {
 		"d/snow/inn.c": {
@@ -144,9 +174,7 @@
 			"function look_sign": "look targets are not data yet"
 		},
 		"d/snow/bank.c": { "set item_desc": "look targets are not data yet" },
-		"d/snow/schoolhall.c": {
-			"statement in create()": "bulletin board: multiplayer feature, omitted"
-		},
+		"d/snow/schoolhall.c": { "statement in create()": "bulletin board: multiplayer feature, omitted" },
 		"d/snow/npc/dog.c": {
 			"function accept_object": "set snow.npc.dog accept_object: id(\"bone\") (item_alias), its line, and it follows the giver on the map (follows_player; owner, polish A11)"
 		},
@@ -253,9 +281,7 @@
 			"set mana_factor": "mana_factor is not modelled",
 			"function accept_fight": "accept_fight rules (set snow.npc.annihir): the spar becomes his kill_ob; grin prints nothing"
 		},
-		"d/snow/npc/girl.c": {
-			"function accept_fight": "accept_fight rules (set snow.npc.girl): she refuses everyone"
-		},
+		"d/snow/npc/girl.c": { "function accept_fight": "accept_fight rules (set snow.npc.girl): she refuses everyone" },
 		"d/snow/obj/thin_sword.c": {
 			"set wield_msg": "wield/unwield messages are not shown yet",
 			"set unequip_msg": "wield/unwield messages are not shown yet"
