@@ -6,6 +6,8 @@ const Recovery := preload("res://tests/runtime/player_recovery_cadence_test.gd")
 var failed: bool = false
 
 func _init() -> void:
+	# The day stands still, as under run_suite.gd (TestDay): the save read back must match exactly.
+	TestDay.turn_off()
 	call_deferred("_run")
 
 func _run() -> void:
@@ -51,7 +53,7 @@ func _run() -> void:
 			var captured: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, loaded.snapshot.metadata.storage_profile, loaded.snapshot.metadata.saved_at_utc)
 			check(captured.succeeded() and GameSaveJsonCodec.encode(captured.snapshot).text == GameSaveJsonCodec.encode(loaded.snapshot).text, "ALL facts exact: Player/items/liquid/food/money/IDs/allocator/equipment/location/RNG")
 			check(FileAccess.get_file_as_string(profile.canonical_path()) == original_bytes, "Continue does not rewrite saved bytes")
-			check(loaded.snapshot.items.schema_version == 3 and loaded.snapshot.metadata.schema_version == 2, "root2/item3")
+			check(loaded.snapshot.items.schema_version == 3 and loaded.snapshot.metadata.schema_version == GameSaveSnapshot.CURRENT_SCHEMA_VERSION, "root2/item3")
 			if args[1] == "pre-v2":
 				check(JSON.parse_string(original_bytes).items.schema_version == 2 and session.liquid_collection().instance_ids().is_empty(), "exact archived pre-S6B item2 grants no liquids")
 				check(session.player_runtime().state.recovery.food == 459 and session.player_runtime().state.recovery.water == 399, "pre-S6B natural food/water exact")

@@ -122,7 +122,7 @@ func _test_settings() -> void:
 	_check(old.succeeded() and old.snapshot().objective_hints() and old.snapshot().after_knockout() == BattlePace.AfterKnockout.FINISH, "a version 5 file: 目标提示 on, the rest kept")
 	var written: ApplicationSettingsResult = repository.write(old.snapshot().with_objective_hints(false))
 	var back: ApplicationSettingsResult = repository.load()
-	_check(written.succeeded() and back.succeeded() and back.snapshot().version() == 6 and not back.snapshot().objective_hints(), "written and read back: off")
+	_check(written.succeeded() and back.succeeded() and back.snapshot().version() == ApplicationSettingsSnapshot.SCHEMA_VERSION and not back.snapshot().objective_hints(), "written and read back: off")
 	_check(files.files[ApplicationSettingsRepository.SETTINGS_PATH].get_string_from_utf8().contains("objective_hints=false"), "stored")
 	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = "[application]\nschema_version=6\nwindow_mode=\"windowed\"\nlanguage=\"\"\nbattle_speed=\"fast\"\nhit_flash=false\nui_scale=125\nafter_knockout=\"finish\"\n".to_utf8_buffer()
 	_check(repository.load().outcome() == ApplicationSettingsResult.Outcome.INVALID_SETTINGS, "a version 6 file without it is refused")

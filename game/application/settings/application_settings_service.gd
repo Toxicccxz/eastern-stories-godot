@@ -173,11 +173,34 @@ static func _apply_battle(settings: ApplicationSettingsSnapshot) -> void:
 	BattlePace.hit_flash = settings.hit_flash()
 	BattlePace.after_knockout = settings.after_knockout()
 	ObjectiveHints.shown = settings.objective_hints()
+	DayNightPreference.mode = settings.day_night()
 
 
 ## 目标提示 (ObjectiveHints; DECISIONS「新手链与当前目标」) at once, kept with the other settings.
 func apply_and_persist_objective_hints(shown: bool) -> ApplicationSettingsServiceResult:
 	_committed = _committed.with_objective_hints(shown)
+	_apply_battle(_committed)
+	var repository_result: ApplicationSettingsResult = _repository.write(_committed)
+	return ApplicationSettingsServiceResult.new(
+		(
+			ApplicationSettingsServiceResult.Outcome.SUCCESS
+			if repository_result.succeeded()
+			else ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE
+		),
+		repository_result.outcome(),
+		_committed,
+	)
+
+
+## 昼夜 (DayNightPreference; DECISIONS「昼夜」) at once, kept with the other settings.
+func apply_and_persist_day_night(mode: int) -> ApplicationSettingsServiceResult:
+	if not DayNightPreference.is_valid(mode):
+		return ApplicationSettingsServiceResult.new(
+			ApplicationSettingsServiceResult.Outcome.APPLY_FAILURE,
+			ApplicationSettingsResult.Outcome.INVALID_SETTINGS,
+			_committed,
+		)
+	_committed = _committed.with_day_night(mode)
 	_apply_battle(_committed)
 	var repository_result: ApplicationSettingsResult = _repository.write(_committed)
 	return ApplicationSettingsServiceResult.new(

@@ -4,11 +4,6 @@
   "note": "solidpath1-2.c, cloudpool.c, rockpath1-2.c, rockyu.c, fence.c, tongbhill.c: the yellow-earth road from the 东城门 (muddy in rain), the wild path north into the fog of the 云梦大泽 where the serpents are; the blue-stone path south half lost in reeds up to the 青石峪 and its slopes of mottled bamboo, the bamboo grove with its wicket gate and the hermit's thatched hall; 桐柏山 bare and scorched by the furnace in its east cliff, the old pine on the great rock.",
   "edge": {"minimum_margin": 48, "maximum_margin": 112, "depth": 3.0, "top": "4e5a3c", "bottom": "3a3a2e", "strata": ["6a5a44", "74634a", "5e5040"]},
   "light": {
-    "sky": ["b4c8d4", "0e1624"],
-    "ambient": ["d6d4c8", "6a7ca6"],
-    "ambient_energy": [0.46, 0.32],
-    "sun": ["fff0d0", "a0b8ec"],
-    "sun_energy": [0.92, 0.34],
     "carried": {"color": "ffd9a0", "range": 5.0, "attenuation": 1.2, "day": 0.0, "night": 0.5},
     "areas": [{"rect": [896, 64, 1664, 768], "fog": {"color": ["a8b4a8", "2a3038"], "density": [0.0, 0.0], "depth": [16.0, 64.0], "depth_density": 0.55}, "ambient": ["b8c0b4", "5a6880"], "ambient_energy": [0.46, 0.3], "sun_energy": [0.55, 0.2], "note": "cloudpool.c: 雾气沼沼 — the fog thick over the marsh"}]
   },

@@ -5,11 +5,9 @@
   "edge": {"minimum_margin": 40, "maximum_margin": 104, "depth": 3.4, "top": "4e6a3c", "bottom": "3a4034", "strata": ["6d7466", "777e6f", "636a5d"]},
   "light": {
     "carried": {"color": "ffd9a0", "range": 6.5, "attenuation": 1.2, "day": 0.0, "night": 1.0, "note": "the white stairs show round the player at night"},
-    "sky": ["b6ccd2", "0e1624"],
-    "ambient": ["cdd6cc", "6a7ca6"],
-    "ambient_energy": [0.44, 0.34],
-    "sun": ["fff0d4", "a0b8ec"],
-    "sun_energy": [0.95, 0.36],
+    "ambient": {"day": "cdd6cc", "night": "6a7ca6"},
+    "ambient_energy": {"day": 0.44, "night": 0.34},
+    "sun_energy": {"day": 0.95, "night": 0.36},
     "fog": {"color": ["d8e2e2", "121a28"], "density": [0.0, 0.0], "depth": [70.0, 150.0], "note": "the far peak and the town below fade into the sky"}
   },
   "cliffs": {

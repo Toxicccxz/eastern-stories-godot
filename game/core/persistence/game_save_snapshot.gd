@@ -3,7 +3,8 @@ extends RefCounted
 
 const ValueTypes := preload("res://core/persistence/game_save_value_types.gd")
 
-const CURRENT_SCHEMA_VERSION: int = 2
+## Schema 3 (DECISIONS「昼夜」) adds the root's `day_seconds`; a schema 2 file is refused.
+const CURRENT_SCHEMA_VERSION: int = 3
 const FORMAT_ID: String = "eastern-stories-native-save"
 const SESSION_KIND_OLDPINE: StringName = &"oldpine"
 const FIXED_SLOT_ID: StringName = &"default-v1"
@@ -26,6 +27,8 @@ var _maze_notes: Dictionary[StringName, int] = {}
 ## The world time each map but the player's was owed, in ms, by map ID (DECISIONS「别的地图
 ## 时间补算」). Only maps owed some are written.
 var _away_ms: Dictionary[StringName, int] = {}
+## The time of day (DayClock, DECISIONS「昼夜」): seconds since 0:00 of the game day.
+var _day_seconds: int = DayClock.NEW_GAME_SECONDS
 ## Something worked out from exactly this content (the runtime's restore preparation after
 ## a check): kept for one taker, moved to an exact copy, dropped when the content changes.
 var _derived: RefCounted
@@ -67,6 +70,9 @@ var maze_notes: Dictionary[StringName, int]:
 var away_ms: Dictionary[StringName, int]:
 	get:
 		return _away_ms.duplicate()
+var day_seconds: int:
+	get:
+		return _day_seconds
 ## Items lying on the floor away from their spawn markers (dropped).
 var floor_items: Array[ValueTypes.FloorItemSnapshot]:
 	get:
@@ -110,7 +116,7 @@ func _init(
 
 
 func duplicate_snapshot() -> GameSaveSnapshot:
-	var copy: GameSaveSnapshot = GameSaveSnapshot.new(_metadata, _session_kind, _item_id_allocator, _player, _npc_spawn_states, _corpses, _items, _combat_rng, _npc_initialization_rng, _world_interaction_rng, _world_content_revision).with_floor_items(_floor_items).with_maze_notes(_maze_notes).with_away_ms(_away_ms)
+	var copy: GameSaveSnapshot = GameSaveSnapshot.new(_metadata, _session_kind, _item_id_allocator, _player, _npc_spawn_states, _corpses, _items, _combat_rng, _npc_initialization_rng, _world_interaction_rng, _world_content_revision).with_floor_items(_floor_items).with_maze_notes(_maze_notes).with_away_ms(_away_ms).with_day_seconds(_day_seconds)
 	copy._derived = take_derived()
 	return copy
 
@@ -135,6 +141,12 @@ func with_maze_notes(notes: Dictionary[StringName, int]) -> GameSaveSnapshot:
 func with_away_ms(owed: Dictionary[StringName, int]) -> GameSaveSnapshot:
 	_derived = null
 	_away_ms = owed.duplicate()
+	return self
+
+
+func with_day_seconds(seconds: int) -> GameSaveSnapshot:
+	_derived = null
+	_day_seconds = seconds
 	return self
 
 

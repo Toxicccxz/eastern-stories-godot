@@ -5,6 +5,8 @@ const Recovery := preload("res://tests/runtime/player_recovery_cadence_test.gd")
 var failed: bool = false
 
 func _init() -> void:
+	# The day stands still, as under run_suite.gd (TestDay): the save read back must match exactly.
+	TestDay.turn_off()
 	call_deferred("_run")
 
 func _run() -> void:
@@ -46,7 +48,7 @@ func _run() -> void:
 			var after: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, loaded.snapshot.metadata.storage_profile, loaded.snapshot.metadata.saved_at_utc)
 			check(after.succeeded() and GameSaveJsonCodec.encode(after.snapshot).text == GameSaveJsonCodec.encode(loaded.snapshot).text, "exact complete state")
 			check(FileAccess.get_file_as_string(profile.canonical_path()) == bytes_before, "no rewrite on load")
-			check(loaded.snapshot.metadata.schema_version == 2 and loaded.snapshot.items.schema_version == 3 and session.world_content_revision() == WorldContentRevision.CURRENT_PUBLIC, "root2/item3/current public source")
+			check(loaded.snapshot.metadata.schema_version == GameSaveSnapshot.CURRENT_SCHEMA_VERSION and loaded.snapshot.items.schema_version == 3 and session.world_content_revision() == WorldContentRevision.CURRENT_PUBLIC, "root2/item3/current public source")
 			var map: WorldMapController = session.active_map() as WorldMapController
 			check(not map.door(&"snow.hockshop.door").is_open() and map.player_body.position == MapPlaces.service_spot(map, &"snow.hockshop.counter") and session.player_runtime().world_location().zone_id == &"snow.hockshop", "exact position / closed default")
 			paused = false

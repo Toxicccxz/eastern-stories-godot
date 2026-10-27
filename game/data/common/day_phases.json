@@ -1,0 +1,20 @@
+{
+	"day_phases": [
+		{"phase_id": "dawn", "name": "微曦", "minutes": 240, "frame": "dawn",
+		 "time_msg": "东方的天空中开始出现一丝微曦。", "desc_msg": "东方的天空已逐渐发白"},
+		{"phase_id": "sunrise", "name": "日出", "minutes": 120, "frame": "dawn",
+		 "time_msg": "太阳从东方的地平线升起了。", "desc_msg": "太阳刚从东方的地平线升起"},
+		{"phase_id": "morning", "name": "上午", "minutes": 180, "frame": "day",
+		 "time_msg": "太阳已经高高地挂在东方的天空中。", "desc_msg": "太阳正高挂在东方的天空中"},
+		{"phase_id": "noon", "name": "正午", "minutes": 180, "frame": "day",
+		 "time_msg": "已经是正午了，太阳从你正上方照耀著大地。", "desc_msg": "现在是正午时分，太阳高挂在你的头顶正上方"},
+		{"phase_id": "afternoon", "name": "下午", "minutes": 180, "frame": "day",
+		 "time_msg": "太阳开始从西方的天空中慢慢西沉。", "desc_msg": "太阳正高挂在西方的天空中"},
+		{"phase_id": "evening", "name": "傍晚", "minutes": 180, "frame": "dusk",
+		 "time_msg": "傍晚了，太阳的馀晖将西方的天空映成一片火红。", "desc_msg": "一轮火红的夕阳正徘徊在西方的地平线上"},
+		{"phase_id": "night", "name": "夜晚", "minutes": 120, "frame": "night",
+		 "time_msg": "夜晚降临了。", "desc_msg": "夜幕笼罩著大地"},
+		{"phase_id": "midnight", "name": "午夜", "minutes": 240, "frame": "midnight",
+		 "time_msg": "已经是午夜了。", "desc_msg": "夜幕低垂，满天繁星"}
+	]
+}

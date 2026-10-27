@@ -72,6 +72,8 @@ func _encode_root(snapshot: GameSaveSnapshot) -> Dictionary[String, Variant]:
 		for map_id: StringName in snapshot.away_ms:
 			owed[String(map_id)] = _i(snapshot.away_ms[map_id])
 		root["away_ms"] = owed
+	# The time of day (DECISIONS「昼夜」), always written.
+	root["day_seconds"] = _i(snapshot.day_seconds)
 	return root
 
 
@@ -347,7 +349,7 @@ func _decode_root(value: Variant) -> GameSaveSnapshot:
 	if format_id != GameSaveSnapshot.FORMAT_ID: _fail(GameSaveResult.Outcome.INVALID_FORMAT_ID, "metadata.format_id")
 	if schema != GameSaveSnapshot.CURRENT_SCHEMA_VERSION: _fail(GameSaveResult.Outcome.UNSUPPORTED_GAME_SCHEMA, "metadata.schema_version")
 	if _error: return null
-	var root_keys: Array[String] = ["metadata", "session_kind", "item_id_allocator", "player", "npc_spawn_states", "corpses", "items", "rng", "world_content_revision"]
+	var root_keys: Array[String] = ["metadata", "session_kind", "item_id_allocator", "player", "npc_spawn_states", "corpses", "items", "rng", "world_content_revision", "day_seconds"]
 	if root.has("floor_items"):
 		root_keys.append("floor_items")
 	if root.has("maze_notes"):
@@ -398,9 +400,11 @@ func _decode_root(value: Variant) -> GameSaveSnapshot:
 		var owed: Dictionary[String, int] = _decode_counts(root["away_ms"], "away_ms")
 		for key: String in owed:
 			away_ms[StringName(key)] = owed[key]
+	var day_seconds: int = _int64(root["day_seconds"], "day_seconds")
+	if _error == null and not DayClock.is_valid_day_seconds(day_seconds): _fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, "day_seconds", "expected seconds of a day")
 	var rng_object: Dictionary = _obj(root["rng"], "rng", ["combat", "npc_initialization", "world_interaction"])
 	if _error: return null
-	return GameSaveSnapshot.new(metadata, StringName(_string(root["session_kind"], "session_kind")), allocator, _decode_player(root["player"], "player"), npcs, corpses, _decode_items(root["items"], "items"), _decode_rng(rng_object["combat"], "rng.combat"), _decode_rng(rng_object["npc_initialization"], "rng.npc_initialization"), _decode_rng(rng_object["world_interaction"], "rng.world_interaction"), revision).with_floor_items(floor_items).with_maze_notes(maze_notes).with_away_ms(away_ms)
+	return GameSaveSnapshot.new(metadata, StringName(_string(root["session_kind"], "session_kind")), allocator, _decode_player(root["player"], "player"), npcs, corpses, _decode_items(root["items"], "items"), _decode_rng(rng_object["combat"], "rng.combat"), _decode_rng(rng_object["npc_initialization"], "rng.npc_initialization"), _decode_rng(rng_object["world_interaction"], "rng.world_interaction"), revision).with_floor_items(floor_items).with_maze_notes(maze_notes).with_away_ms(away_ms).with_day_seconds(day_seconds)
 
 
 func _decode_character(value: Variant, path: String) -> Values.CharacterStateSnapshot:

@@ -1,0 +1,11 @@
+{
+  "note": "老松岭: green and dim under the pines by day; a short amber dusk, soon night; a silver-blue moon night and midnight (the fireflies' hour, the moon flecks' night).",
+  "outdoor": {
+    "sky": {"dawn": "b5bfae", "day": "9db3a4", "dusk": "b88c74", "night": "0e1622", "midnight": "0a1020"},
+    "ambient": {"dawn": "a8b49c", "day": "b6c2a2", "dusk": "a89a88", "night": "6a80aa", "midnight": "5c72a4"},
+    "ambient_energy": {"dawn": 0.4, "day": 0.42, "dusk": 0.4, "night": 0.4, "midnight": 0.4},
+    "sun": {"dawn": "ffd8a8", "day": "ffe8c0", "dusk": "ff9e62", "night": "a6c0f0", "midnight": "a0bcf4"},
+    "sun_energy": {"dawn": 0.55, "day": 0.92, "dusk": 0.62, "night": 0.45, "midnight": 0.48}
+  },
+  "indoor": {}
+}

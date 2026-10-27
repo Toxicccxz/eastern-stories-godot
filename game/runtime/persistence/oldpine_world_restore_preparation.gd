@@ -18,6 +18,8 @@ var floor_items: Array[GameSaveValueTypes.FloorItemSnapshot] = []
 var maze_notes: Dictionary[StringName, int] = {}
 ## The world time each map was owed (GameSaveSnapshot.away_ms).
 var away_ms: Dictionary[StringName, int] = {}
+## The time of day (GameSaveSnapshot.day_seconds).
+var day_seconds: int = DayClock.NEW_GAME_SECONDS
 
 
 func _init(

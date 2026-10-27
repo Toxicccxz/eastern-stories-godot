@@ -4,11 +4,6 @@
   "note": "spath.c, rockroad.c, guyehill.c: the earth road south of the 南门 between ruined houses, the gravel road climbing to the broken stele 「姑射山」 under a mountain wrapped in cloud, the 绝壁 with its ten-thousand-year tree and tangled vines over the deep valley, the cave half way up the cliff with clouds drifting out of it.",
   "edge": {"minimum_margin": 48, "maximum_margin": 112, "depth": 4.0, "top": "4e5a3c", "bottom": "3a3a2e", "strata": ["6a6458", "74706a", "5e5a50"]},
   "light": {
-    "sky": ["b4c8d4", "0e1624"],
-    "ambient": ["d6d4c8", "6a7ca6"],
-    "ambient_energy": [0.46, 0.32],
-    "sun": ["fff0d0", "a0b8ec"],
-    "sun_energy": [0.92, 0.34],
     "carried": {"color": "ffd9a0", "range": 5.0, "attenuation": 1.2, "day": 0.0, "night": 0.5},
     "fog": {"color": ["c8d0d4", "1c2433"], "density": [0.0, 0.0], "depth": [22.0, 60.0], "depth_density": 0.7}
   },

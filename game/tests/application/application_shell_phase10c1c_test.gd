@@ -96,9 +96,9 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 func _test_snapshot_and_repository() -> void:
 	var defaults: ApplicationSettingsSnapshot = ApplicationSettingsSnapshot.defaults()
 	_assert_true(defaults.is_valid(), "default settings snapshot is valid")
-	_assert_eq(defaults.version(), 6, "settings schema is v6 (the language, the battle settings, borderless, the UI scale, 击倒后, 目标提示)")
+	_assert_eq(defaults.version(), 7, "settings schema is v7 (the language, the battle settings, borderless, the UI scale, 击倒后, 目标提示, 昼夜)")
 	_assert_eq(defaults.window_mode(), ApplicationWindowMode.Value.WINDOWED, "desktop-safe default is Windowed")
-	_assert_false(ApplicationSettingsSnapshot.new(7).is_valid(), "unsupported snapshot version rejects")
+	_assert_false(ApplicationSettingsSnapshot.new(8).is_valid(), "unsupported snapshot version rejects")
 	_assert_eq(defaults.ui_scale(), 100, "the UI scale starts at 100%")
 	_assert_false(defaults.with_ui_scale(110).is_valid(), "a UI scale off the list rejects")
 	_assert_false(ApplicationSettingsSnapshot.new(2, 99).is_valid(), "unknown window mode rejects")
@@ -117,7 +117,7 @@ func _test_snapshot_and_repository() -> void:
 
 	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = "not a cfg [".to_utf8_buffer()
 	_assert_eq(repository.load().outcome(), ApplicationSettingsResult.Outcome.INVALID_SETTINGS, "malformed ConfigFile rejects")
-	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = _config_bytes(7, "windowed")
+	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = _config_bytes(8, "windowed")
 	_assert_eq(repository.load().outcome(), ApplicationSettingsResult.Outcome.UNSUPPORTED_VERSION, "unknown schema rejects distinctly")
 	files.files[ApplicationSettingsRepository.SETTINGS_PATH] = _config_bytes(1, "maximized")
 	_assert_eq(repository.load().outcome(), ApplicationSettingsResult.Outcome.INVALID_SETTINGS, "unknown enum rejects")

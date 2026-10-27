@@ -4,11 +4,11 @@
   "note": "platform.c: 姑射之巅, 祥云朵朵, 瑞彩千条 — the summit of 姑射山 in auspicious cloud: the jade 云台 with its vase of orchids and the cloud banner beside it, the immortal's purple-robed boys. Rock all round, cloud below, the light rose and gold.",
   "edge": {"minimum_margin": 16, "maximum_margin": 48, "depth": 6.0, "top": "8a8a80", "bottom": "5a5a60", "strata": ["8a8c90", "9a9ca0", "7a7c80"]},
   "light": {
-    "sky": ["e0c8c0", "1a1e30"],
-    "ambient": ["e8d4c4", "8a7ca0"],
-    "ambient_energy": [0.46, 0.34],
-    "sun": ["fff0dc", "c0b0e8"],
-    "sun_energy": [0.9, 0.3],
+    "sky": {"day": "e0c8c0", "night": "1a1e30"},
+    "ambient": {"day": "e8d4c4", "night": "8a7ca0"},
+    "ambient_energy": {"day": 0.46, "night": 0.34},
+    "sun": {"day": "fff0dc", "night": "c0b0e8"},
+    "sun_energy": {"day": 0.9, "night": 0.3},
     "fog": {"color": ["e8cfc0", "2a2838"], "density": [0.0, 0.0], "depth": [40.0, 90.0], "depth_density": 0.5}
   },
   "cliffs": {

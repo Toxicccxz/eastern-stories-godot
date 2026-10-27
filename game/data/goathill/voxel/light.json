@@ -1,0 +1,11 @@
+{
+  "note": "野羊山: dry hot yellow by day; an ochre-red dusk; a cold starry night and midnight where the campfire is the brightest thing.",
+  "outdoor": {
+    "sky": {"dawn": "b8a898", "day": "7f8b8b", "dusk": "b4583a", "night": "111726", "midnight": "0a0f1e"},
+    "ambient": {"dawn": "c4b09a", "day": "c9b89c", "dusk": "c08a66", "night": "6d7ca6", "midnight": "5a6a98"},
+    "ambient_energy": {"dawn": 0.4, "day": 0.42, "dusk": 0.42, "night": 0.3, "midnight": 0.26},
+    "sun": {"dawn": "ffcf9a", "day": "ffe2b8", "dusk": "ff8a46", "night": "9db5ec", "midnight": "8aa6e0"},
+    "sun_energy": {"dawn": 0.55, "day": 0.95, "dusk": 0.72, "night": 0.34, "midnight": 0.24}
+  },
+  "indoor": {}
+}

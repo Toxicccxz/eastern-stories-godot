@@ -4,7 +4,7 @@
   "note": "八卦迷阵 (eight0-7.c, closed.c): eight illusions, each under a sky, a ground and a weather of its own after its text, all held in the same thin mist (神密的薄雾) that blurs the distance; the 路牌 in each names its 卦. 坤 green plain, 艮 mountains round, 坎 water and a little land, 巽 a freezing wind, 震 lead cloud and lightning, 离 fire, 兑 a great lake, 乾 clear sky over rich fields; 绝地 dead rock in thick fog. (美术规划 G 组: 幻境.)",
   "edge": {"minimum_margin": 32, "maximum_margin": 72, "depth": 2.0, "top": "3e4438", "bottom": "2a2c26", "strata": ["4e5048", "585a50", "46483f"]},
   "light": {
-    "sky": ["b8c4bc", "121a20"],
+    "sky": {"day": "b8c4bc", "night": "121a20"},
     "carried": {"color": "e6ecf2", "range": 7.0, "attenuation": 1.2, "day": 0.0, "night": 1.0, "note": "the illusions have no lamps: a soft light goes with the player at night"},
     "areas": [
       {"rect": [128, 32, 896, 736], "sky": ["c2d0c4", "17221f"], "ambient": ["bfccbe", "6a7e8e"], "ambient_energy": [0.46, 0.32], "sun": ["f4f0dc", "8aa0c8"], "sun_energy": [0.62, 0.24], "fog": {"color": ["c2d0c4", "17221f"], "density": [0.0, 0.0], "depth": [58, 76], "depth_density": 1.0}, "note": "坤: 一片无垠的绿野…罩着一层神密的薄雾"},

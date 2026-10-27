@@ -10,7 +10,8 @@ extends RefCounted
 static func use() -> PacingDefinition:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var production: PacingDefinition = catalog.pacing()
-	catalog.set_pacing(PacingDefinition.new(roundi(production.combat_round_seconds * 1000.0), production.room_reset_seconds))
+	# The day's length stays the runner's (TestDay: standing still), not a running ES2 day.
+	catalog.set_pacing(PacingDefinition.new(roundi(production.combat_round_seconds * 1000.0), production.room_reset_seconds).with_day_length(production.day_length_minutes))
 	return production
 
 
@@ -25,7 +26,7 @@ static func use_reactions() -> PacingDefinition:
 		production.player_recovery_gain, production.quest_time_percent, production.npc_thirst, production.player_wake_seconds,
 	).with_responsiveness(0, 0, roundi(production.heart_beat_seconds * 1000.0), 0).with_progression(
 		production.milestone_rewards, production.catch_up_max_percent, production.staged_potential_cap, production.player_exercise_gain,
-	).with_training(production.bounty_board, production.bounty_refresh_seconds, production.training_dummies))
+	).with_training(production.bounty_board, production.bounty_refresh_seconds, production.training_dummies).with_day_length(production.day_length_minutes))
 	return production
 
 
@@ -35,7 +36,7 @@ static func use_reactions() -> PacingDefinition:
 static func use_without_progression() -> PacingDefinition:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var production: PacingDefinition = catalog.pacing()
-	catalog.set_pacing(production.copy().with_progression(false, 0, false, 1).with_training(false, production.bounty_refresh_seconds, false))
+	catalog.set_pacing(production.copy().with_progression(false, 0, false, 1).with_training(false, production.bounty_refresh_seconds, false).with_day_length(production.day_length_minutes))
 	return production
 
 

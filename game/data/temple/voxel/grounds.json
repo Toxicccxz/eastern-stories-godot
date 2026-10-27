@@ -4,12 +4,7 @@
   "note": "灵心观 inside its 山门: the square of white quartz with its lions, dragon pillars and great censer (square.c); the main hall with its red door and the round arches east and west (temple1.c, corridor1/2.c); the covered walkways of vermilion columns round the courtyard of flowers and trees with its well (inneryard.c, corridor5-7.c); the closed red door of the rear hall, the training hall, the guest rooms, the locked room west; the path of blue stones under the pines, moss creeping onto them (road1.c), round to the two-storey 藏经楼 under its blue glazed board, every door and window shut, and its tablet (road2.c). Old: the walls stained, moss in the joints, the paving worn where the feet go.",
   "edge": {"minimum_margin": 32, "maximum_margin": 72, "depth": 3.0, "top": "4e6a3c", "bottom": "3a4034", "strata": ["6d7466", "777e6f", "636a5d"]},
   "light": {
-    "carried": {"color": "ffd9a0", "range": 5.5, "attenuation": 1.2, "day": 0.0, "night": 0.6},
-    "sky": ["b6ccd2", "0e1624"],
-    "ambient": ["d2d8cc", "6a7ca6"],
-    "ambient_energy": [0.46, 0.32],
-    "sun": ["fff0d4", "a0b8ec"],
-    "sun_energy": [0.95, 0.34]
+    "carried": {"color": "ffd9a0", "range": 5.5, "attenuation": 1.2, "day": 0.0, "night": 0.6}
   },
   "ground": {
     "street": {"style": "slabs", "lengths": [1, 3], "depths": [1, 2], "cracks": 0.1, "broken": 0.04, "sunk": 0.02, "tufts": 0.05, "stones": ["e6e3da", "dedbd1", "ece9e1", "d6d3c9", "e2dfd4"], "worn": ["d0ccc0", "c8c4b8", "d8d4c8"], "bed": "9a9a88", "joint": 0.045, "mud": "b0a88e", "crack": "b0ab9c", "moss": "6a8650", "moss_chance": 0.08, "note": "square.c: 一片用石英岩铺成的广场"},

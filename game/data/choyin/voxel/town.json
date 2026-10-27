@@ -5,11 +5,6 @@
   "note": "乔阴县城 (d/choyin): grey brick and grey tiles, 青石 flags, willows at the lake, vermilion on the gates and the bridge. The 福林大街 from the stone arch of the 北门 (two stone lions, the yellow road west, the pines north) past 老姚布庄 and the three-storey tavern to the ring of flagstones round the 树王坟 (the great stump and its hole, the little brick shrine, steps on four sides, the stele); the 西大街 to the standing lion and the shut 西门, the 东大街 to the 东门's arch and iron lion; the market, 福林楼 three storeys high, the square with its great well and the vendors, 翠柳湖 ringed with willows and the zigzag bridge over its lilies to the 曼雩台's pillars; the 承安街's shops, the 县府衙门's gate, drum and lions, the rebuilt 南门, the 火龙将军庙 with its terrace over the road, the lake road, the peach woods. Old and used: flags worn and cracked, plaster stained, lanterns faded.",
   "edge": {"minimum_margin": 48, "maximum_margin": 112, "depth": 2.4, "top": "4e5a3c", "bottom": "3a3a2e", "strata": ["6a5a44", "74634a", "5e5040"]},
   "light": {
-    "sky": ["b4c8d4", "0e1624"],
-    "ambient": ["d6d4c8", "6a7ca6"],
-    "ambient_energy": [0.46, 0.32],
-    "sun": ["fff0d0", "a0b8ec"],
-    "sun_energy": [0.92, 0.34],
     "carried": {"color": "ffd9a0", "range": 5.0, "attenuation": 1.2, "day": 0.0, "night": 0.5}
   },
   "reshape": [

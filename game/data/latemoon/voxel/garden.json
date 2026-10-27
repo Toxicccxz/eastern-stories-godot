@@ -13,11 +13,6 @@
     {"rect": [1248, 2688, 1680, 2736], "style": "plaster", "wall": "e2ded2", "grime": 0.4, "note": "the garden's south wall"}
   ],
   "light": {
-    "sky": ["b8d0d6", "0e1624"],
-    "ambient": ["d4dccc", "6a7ca6"],
-    "ambient_energy": [0.46, 0.32],
-    "sun": ["fff0d4", "a0b8ec"],
-    "sun_energy": [0.92, 0.34]
   },
   "ground": {
     "path": {"style": "mosaic", "panel": 6, "stones": ["8e8c82", "9a978c", "84827a", "a4a196"], "accents": ["ece6d6", "b8452f", "3e3c38", "5e7a4a"], "bed": "5a5850", "missing": 0.03, "note": "moon2.c: 湘园的桂花小径是以不同颜色的细石砌成各种图案…总计花石子路上约有二百幅"},

@@ -94,12 +94,6 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	ui.player_name.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	ui.player_name.add_theme_color_override("font_color", NAME_COLOR)
 	header.add_child(ui.player_name)
-	var day_night := VoxelDayNightButton.new()
-	day_night.name = "DayNight"
-	day_night.ui = ui
-	day_night.custom_minimum_size = Vector2(100,38)
-	day_night.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	header.add_child(day_night)
 	var view_side := VoxelViewSideButton.new()
 	view_side.name = "ViewSide"
 	view_side.ui = ui
@@ -308,10 +302,9 @@ func _reflow(metrics: SafeAreaMetrics) -> void:
 	var gap: int = 4 if metrics.touch_sized() else 8
 	button_size = Vector2(64, 64) if metrics.touch_sized() else Vector2(80, 38)
 	menu_button.custom_minimum_size = Vector2(64, 64) if metrics.touch_sized() else Vector2(72, 32)
-	# The voxel view's light and side buttons beside it: touch targets too.
-	for name: String in ["DayNight", "ViewSide"]:
-		var toggle := menu_button.get_parent().get_node(name) as Control
-		toggle.custom_minimum_size.y = 64.0 if metrics.touch_sized() else 38.0
+	# The voxel view's side button beside it: a touch target too.
+	var toggle := menu_button.get_parent().get_node("ViewSide") as Control
+	toggle.custom_minimum_size.y = 64.0 if metrics.touch_sized() else 38.0
 	contexts.add_theme_constant_override("h_separation", gap)
 	contexts.add_theme_constant_override("v_separation", gap)
 	for button: Node in contexts.get_children():

@@ -5,6 +5,8 @@ const Food := preload("res://tests/runtime/snow_dumpling_test.gd")
 var failed: bool = false
 
 func _init() -> void:
+	# The day stands still, as under run_suite.gd (TestDay): the save read back must match exactly.
+	TestDay.turn_off()
 	call_deferred("_run")
 
 func _run() -> void:

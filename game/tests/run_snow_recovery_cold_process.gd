@@ -6,6 +6,8 @@ const Food := preload("res://tests/runtime/snow_dumpling_test.gd")
 var failed: bool = false
 
 func _init() -> void:
+	# The day stands still, as under run_suite.gd (TestDay): the save read back must match exactly.
+	TestDay.turn_off()
 	call_deferred("_run")
 
 func _run() -> void:
@@ -48,7 +50,7 @@ func _run() -> void:
 			check(captured.succeeded() and GameSaveJsonCodec.encode(captured.snapshot).text == GameSaveJsonCodec.encode(loaded.snapshot).text, "ALL persisted gameplay facts equal (Player/items/food/money/allocator/position/RNG)")
 			var cadence: PlayerRecoveryCadence = session.player_recovery_cadence()
 			check(cadence != null and cadence.accumulated_seconds == 0.0 and cadence.source_tick >= 5 and cadence.source_tick <= 14, "fresh transient cadence0/new5..14")
-			check(loaded.snapshot.metadata.schema_version == 2 and loaded.snapshot.items.schema_version == 3 and loaded.snapshot.world_content_revision == WorldContentRevision.CURRENT_PUBLIC, "root2/item3/current public source")
+			check(loaded.snapshot.metadata.schema_version == GameSaveSnapshot.CURRENT_SCHEMA_VERSION and loaded.snapshot.items.schema_version == 3 and loaded.snapshot.world_content_revision == WorldContentRevision.CURRENT_PUBLIC, "root2/item3/current public source")
 			check(FileAccess.get_file_as_string(profile.canonical_path()) == before_bytes, "Continue never rewrites/migrates file")
 			check(not before_bytes.contains("cadence") and not before_bytes.contains("countdown") and not before_bytes.contains("accumulator"), "no cadence persisted")
 			if args[0] == "read": check(session.player_runtime().state.recovery.food == 459 and session.player_runtime().state.recovery.water == 399 and session.player_runtime().state.essence.current == 50, "natural recovered/consumed facts persist")

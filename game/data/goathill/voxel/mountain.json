@@ -10,11 +10,6 @@
     "strata": ["8a7559", "9a8464", "7a6650"]
   },
   "light": {
-    "sky": ["7f8b8b", "111726"],
-    "ambient": ["c9b89c", "6d7ca6"],
-    "ambient_energy": [0.42, 0.3],
-    "sun": ["ffe2b8", "9db5ec"],
-    "sun_energy": [0.95, 0.34]
   },
   "cliffs": {
     "low": 0.9,

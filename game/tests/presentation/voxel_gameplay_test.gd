@@ -38,22 +38,20 @@ func run_all(tree: SceneTree) -> Dictionary:
 	hud.dismiss_current_panel()
 	hud.dismiss_current_panel()
 	await _frames(tree,3)
-	var day_night := hud.find_child("DayNight",true,false) as VoxelDayNightButton
-	_check(day_night!=null and day_night.is_visible_in_tree(),"3D exploration shows the day/night button")
-	click.position = day_night.get_global_rect().get_center()
-	click.pressed = true
-	tree.root.push_input(click,true)
-	click.pressed = false
-	tree.root.push_input(click,true)
+	# 昼夜 (DECISIONS「昼夜」): the setting's 一直夜晚 holds the night frame at once, on every map.
+	_check(hud.find_child("DayNight",true,false)==null,"the HUD has no day/night button")
+	# 6:00: the last of the dawn frame giving way to day (half and half at the boundary).
+	_check(view.held_frame.is_empty() and view.lighting.amount<0.3 and view.lighting.weights["night"]<0.01 and view.lighting.weights["day"]>0.4,"a new game's morning lights the inn by the dawn turning to day: %s" % [view.lighting.weights])
+	DayNightPreference.mode = DayNightPreference.Value.NIGHT
 	await _frames(tree,65)
-	_check(day_night.night and view.night and is_equal_approx(view.lighting.amount,1.0),"a real HUD click completes the night lighting transition")
+	_check(is_equal_approx(view.lighting.amount,1.0) and is_equal_approx(view.lighting.weights["night"],1.0),"一直夜晚 completes the night lighting transition")
 	_check(view.camera.basis.is_equal_approx(basis),"talking never rotates the view")
 	_check(await MapPlaces.take_passage(tree,inn,&"snow.inn.up"),"the furnished inn still has a walkable route to its original stairs")
 	await _frames(tree,4)
 	var upstairs := session.active_map() as WorldMapController
 	var up_view := upstairs.get_node("MapView") as WorldVoxelView
 	_check(upstairs.map_id()==&"snow.inn_upstairs" and upstairs.projected_view and up_view.camera.current,"upstairs uses its own 3D presentation")
-	_check(up_view.camera.basis.is_equal_approx(basis) and up_view.night,"upstairs keeps the fixed angle and the chosen lighting")
+	_check(up_view.camera.basis.is_equal_approx(basis) and is_equal_approx(up_view.lighting.amount,1.0),"upstairs keeps the fixed angle and the chosen lighting")
 	var rats: int = 0
 	var quiet_names: int = 0
 	var rat_id: StringName = &""
@@ -108,7 +106,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 	_check(upstairs.close_door(north),"shut it again")
 	_check(await MapPlaces.take_passage(tree,upstairs,&"snow.inn_2f.down"),"stairs return to the same furnished inn")
 	await _frames(tree,4)
-	_check(inn.projected_view and view.night,"returning downstairs keeps the chosen lighting and original view")
+	_check(inn.projected_view and is_equal_approx(view.lighting.amount,1.0),"returning downstairs keeps the chosen lighting and original view")
 	_check(await MapPlaces.drive(tree,inn,Vector2(310,0)),"walk original collision path to east exit")
 	_check(await MapPlaces.take_passage(tree,inn,&"snow.inn.east"),"walking out uses the original portal")
 	await _frames(tree,4)
@@ -135,7 +133,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 				supported = supported and land.contains(Vector2(x,y))
 	_check(supported,"every live walkable zone and building remains on the finite landmass")
 	_check(not land.contains(outdoor.drawn_rect().end+Vector2(300,300)),"the map no longer fills the 640 pixel perimeter with scenery")
-	_check(street_view.night and is_equal_approx(street_view.lighting.amount,1.0),"night selection follows the player from inn to street")
+	_check(is_equal_approx(street_view.lighting.amount,1.0),"the 一直夜晚 setting follows the player from inn to street")
 	var before: Vector2 = outdoor.player_body.global_position
 	Input.action_press("move_right")
 	await _frames(tree,12)
@@ -184,20 +182,24 @@ func run_all(tree: SceneTree) -> Dictionary:
 	_check(await MapPlaces.take_passage(tree,outdoor,mill.portal_id),"the revealed mill entrance is physically usable")
 	await _frames(tree,4)
 	var mill_map := session.active_map() as WorldMapController
-	_check(day_night.visible and day_night.night,"the mill retains the session's lighting preference and switch")
 	_check(mill_map.map_id()==&"snow.workplace_house" and mill_map.projected_view,"the original mill entrance now activates its voxel interior")
 	var mill_view := mill_map.get_node("MapView") as WorldVoxelView
-	_check(mill_view.camera.current and mill_view.night,"the mill takes over the 3D camera in the chosen lighting")
+	_check(mill_view.camera.current and is_equal_approx(mill_view.lighting.amount,1.0),"the mill takes over the 3D camera in the chosen lighting")
 	_check(await MapPlaces.take_passage(tree,mill_map,&"snow.workplace.west"),"walk back to the street")
 	await _frames(tree,4)
 	_check(outdoor.projected_view and street_view.camera.current,"resident 3D street reactivates on return")
-	_check(street_view.night and day_night.visible,"returning from the mill restores the selected night view and switch")
+	_check(is_equal_approx(street_view.lighting.amount,1.0),"returning from the mill restores the night view")
 	# View state cannot alter saves or consume gameplay RNG. Freeze the world for the comparison.
 	session.set_process(false)
 	var saved: String = GameSaveJsonCodec.encode(Work.capture(session)).text
-	day_night.pressed.emit()
+	DayNightPreference.mode = DayNightPreference.Value.DAY
+	street_view._sync_light()
 	street_view.lighting.advance(1.0,VoxelMapGeometry.point(outdoor.player_body.global_position))
-	_check(not street_view.night and is_zero_approx(street_view.lighting.amount),"the same button switches back to daylight")
+	_check(is_zero_approx(street_view.lighting.amount),"一直白天 switches back to daylight at once")
+	DayNightPreference.mode = DayNightPreference.Value.FOLLOW
+	street_view._sync_light()
+	street_view.lighting.advance(1.0,VoxelMapGeometry.point(outdoor.player_body.global_position))
+	_check(street_view.lighting.amount<0.3 and street_view.lighting.weights["night"]<0.01 and street_view.lighting.weights["day"]>0.4,"跟随游戏时间 in a new game's morning: the dawn turning to day, no night: %s" % [street_view.lighting.weights])
 	street_view.camera.size += 2.0
 	street_view._follow(0.0)
 	street_view._update_occlusion()

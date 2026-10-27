@@ -10,11 +10,11 @@
     "strata": ["5a5c54", "4c4e47", "3e403a"]
   },
   "light": {
-    "sky": ["7f9590", "0c121c"],
-    "ambient": ["a7b4ac", "62769e"],
-    "ambient_energy": [0.66, 0.46],
-    "sun": ["f3e2bf", "a6c0f0"],
-    "sun_energy": [0.62, 0.4],
+    "sky": {"day": "7f9590", "night": "0c121c"},
+    "ambient": {"day": "a7b4ac", "night": "62769e"},
+    "ambient_energy": {"day": 0.66, "night": 0.46},
+    "sun": {"day": "f3e2bf", "night": "a6c0f0"},
+    "sun_energy": {"day": 0.62, "night": 0.4},
     "note": "deep in the gorge: softer sun, the walls in shade"
   },
   "cliffs": {
