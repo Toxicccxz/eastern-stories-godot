@@ -15557,6 +15557,21 @@ msgstr ""
 msgid "小二哥"
 msgstr ""
 
+#. snow.npc.waiter greeting.one_of.emote
+#: data/snow/npcs.json
+msgid "笑咪咪地说道：这位$RESPECT，进来喝杯茶，歇歇腿吧。"
+msgstr ""
+
+#. snow.npc.waiter greeting.one_of.emote
+#: data/snow/npcs.json
+msgid "用脖子上的毛巾抹了抹手，说道：这位$RESPECT，请进请进。"
+msgstr ""
+
+#. snow.npc.waiter greeting.one_of.say
+#: data/snow/npcs.json
+msgid "这位$RESPECT，进来喝几盅小店的红酒吧，这几天才从窖子里开封的哟。"
+msgstr ""
+
 #. snow.npc.waiter inquiry.老鼠.rules.say
 #. snow.npc.waiter inquiry.老鼠.rules.lines.say
 #. snow.npc.waiter inquiry.楼上.rules.say
@@ -15580,21 +15595,6 @@ msgstr ""
 #. snow.npc.waiter inquiry topic
 #: data/snow/npcs.json
 msgid "楼上"
-msgstr ""
-
-#. snow.npc.waiter greeting.one_of.emote
-#: data/snow/npcs.json
-msgid "笑咪咪地说道：这位$RESPECT，进来喝杯茶，歇歇腿吧。"
-msgstr ""
-
-#. snow.npc.waiter greeting.one_of.emote
-#: data/snow/npcs.json
-msgid "用脖子上的毛巾抹了抹手，说道：这位$RESPECT，请进请进。"
-msgstr ""
-
-#. snow.npc.waiter greeting.one_of.say
-#: data/snow/npcs.json
-msgid "这位$RESPECT，进来喝几盅小店的红酒吧，这几天才从窖子里开封的哟。"
 msgstr ""
 
 #. snow.npc.annihir title
