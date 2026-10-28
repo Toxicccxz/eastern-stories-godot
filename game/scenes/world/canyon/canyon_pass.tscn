@@ -451,6 +451,16 @@ metadata/look = {"kind": "mirror", "height": 3.2}
 metadata/footprint = Vector2(128, 32)
 
 [node name="Furnishing02" type="Node2D" parent="Furnishings"]
+position = Vector2(800, 1728)
+metadata/look = {"kind": "gate_pier", "height": 5.6, "colors": ["8a7a5a", "9a8864", "7a6a4e", "a89470"]}
+metadata/footprint = Vector2(32, 32)
+
+[node name="Furnishing03" type="Node2D" parent="Furnishings"]
+position = Vector2(992, 1728)
+metadata/look = {"kind": "gate_pier", "height": 5.6, "colors": ["8a7a5a", "9a8864", "7a6a4e", "a89470"]}
+metadata/footprint = Vector2(32, 32)
+
+[node name="Furnishing04" type="Node2D" parent="Furnishings"]
 position = Vector2(1000, 1824)
 metadata/look = {"kind": "winch", "rotation": 0}
 metadata/footprint = Vector2(48, 64)

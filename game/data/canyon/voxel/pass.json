@@ -144,7 +144,7 @@
     {"kind": "crocks", "at": [1660, 1400], "size": [32, 32]},
     {"kind": "bones", "at": [1600, 1400], "size": [40, 30], "skull": false, "count": 5, "ribs": false, "note": "camp2.c: 地上有些食物的残渣"},
     {"kind": "tiger_head", "at": [2336, 1344], "size": [32, 32], "elevation": 5.95, "height": 0.3, "note": "camp8.c: 虎头挂于营顶"},
-    {"kind": "iron_gate", "at": [896, 1728], "size": [224, 32], "raised": 2.8, "height": 5.6, "occludes": true, "posts": ["8a7a5a", "9a8864", "7a6a4e", "a89470"], "iron": ["3a3633", "48423d", "2f2b28", "5a4a3a"], "note": "canyon5.c: 两片诺大的铁门, 现在已经高高的抬起"},
+    {"kind": "iron_gate", "at": [896, 1728], "size": [224, 32], "raised": 2.8, "height": 5.6, "occludes": true, "iron": ["3a3633", "48423d", "2f2b28", "5a4a3a"], "note": "canyon5.c: 两片诺大的铁门, 现在已经高高的抬起 — the leaf only; its piers are the layout's blocked boxes (gate_pier)"},
     {"kind": "far_peak", "at": [400, 2000], "size": [260, 220], "height": 12.0, "haze": false, "colors": ["a08c62", "ac976a", "b8a372", "94805a"], "note": "canyon7.c: 形状很象骆驼的双峰 — the two humps, beyond the valley's walls"},
     {"kind": "far_peak", "at": [1400, 2000], "size": [280, 230], "height": 12.5, "haze": false, "colors": ["a08c62", "ac976a", "b8a372", "94805a"]},
     {"kind": "reeds", "at": [448, 664], "size": [512, 140], "count": 30, "height": 3.8, "colors": ["c9b44a", "b39a3a", "d8c86a", "9e8a34"], "note": "stone_forest1.c: 草高于三四十尺 — north of the path"},

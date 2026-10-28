@@ -118,9 +118,9 @@ func _check_clifftop(tree: SceneTree, map: WorldMapController) -> void:
 func _check_pass(tree: SceneTree, session: WorldSessionController, map: WorldMapController) -> void:
 	var view: WorldVoxelView = _view_of(map)
 	var kinds: Array[String] = _kinds(view)
-	for kind: String in ["iron_chain", "iron_gate", "winch", "iron_palisade", "far_peak", "mirror", "reeds", "light_shaft", "campfire", "tiger_head", "stone_door"]:
+	for kind: String in ["iron_chain", "iron_gate", "gate_pier", "winch", "iron_palisade", "far_peak", "mirror", "reeds", "light_shaft", "campfire", "tiger_head", "stone_door"]:
 		_check(kind in kinds, "the pass has its %s" % kind)
-	_check(kinds.count("far_peak") == 2 and kinds.count("iron_palisade") >= 4, "the camel's two humps (canyon7.c) and the palisade round the camp (canyon3.c)")
+	_check(kinds.count("far_peak") == 2 and kinds.count("iron_palisade") >= 4 and kinds.count("gate_pier") == 2, "the camel's two humps (canyon7.c), the palisade round the camp (canyon3.c), the gate's two piers on their blocked boxes (canyon5.c)")
 	var tents: int = 0
 	var bars: int = 0
 	for building: Dictionary in view.layout.get("buildings", []):

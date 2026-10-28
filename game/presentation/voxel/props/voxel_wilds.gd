@@ -65,6 +65,7 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"brazier": _brazier(w)
 		"vase_hollow": _vase_hollow(w,d)
 		"iron_gate": _iron_gate(w,d)
+		"gate_pier": _gate_pier(w,d)
 		"winch": _winch(w,d)
 		"iron_chain": _iron_chain(w,d)
 		"iron_palisade": _iron_palisade(w,d)
@@ -976,31 +977,23 @@ func _bagua() -> void:
 	s.box(root,Vector3(r*0.13,y-r*0.12,0.07),Vector3(0.06,0.06,0.02),"2e2c28")
 
 ## 铁门 (canyon5.c: 两片诺大的铁门, 它是上下开合的, 现在已经高高的抬起): the pass's great iron gate
-## raised over the way between two stone piers — a leaf of rusted plates and bars, spikes along
-## its foot, hauled up on chains over the piers' heads (`raised`: how high its foot hangs,
-## `height` of the piers; `posts` the stone's colours, `iron` the leaf's). Spans the box's width.
+## raised over the way — a leaf of rusted plates and bars, spikes along its foot, hauled up on
+## chains over the piers' heads (`raised`: how high its foot hangs, `height` of the piers; `iron`
+## the leaf's colours). Spans the box's width; blocks nothing. The stone piers it hangs between are
+## the layout's blocked boxes with a `gate_pier` look (`piers`: draw them here as well).
 func _iron_gate(w: float, d: float) -> void:
 	var iron: Array = _colors("iron",["3a3633","48423d","2f2b28","5a4a3a"])
-	var stone: Array = _colors("posts",["8a7a5a","9a8864","7a6a4e"])
 	var raised: float = float(data.get("raised",2.6))
 	var height: float = float(data.get("height",5.2))
 	var deep: float = maxf(d,0.8)
-	for side: float in [-1.0,1.0]:
-		var x: float = side*(w/2-0.35)
-		var y: float = 0.0
-		var course: int = 0
-		while y < height:
-			var h: float = minf(0.5,height-y)
-			s.shard(root,Vector3(x+sin(course*1.7)*0.03,y+h/2,0),Vector3(0.7,h,deep),String(stone[course%stone.size()]),course+int(side),0.0)
-			y += h
-			course += 1
-		s.box(root,Vector3(x,height+0.15,0),Vector3(0.9,0.3,deep+0.2),String(stone[0]))
-		for band: float in [1.2,2.8,4.2]:
-			if band < height:
-				s.box(root,Vector3(x,band,0),Vector3(0.78,0.12,deep+0.06),String(iron[0]))
-		# Rust streaks down the pier, grit at its foot.
-		s.box(root,Vector3(x+side*0.2,height*0.4,deep/2+0.01),Vector3(0.1,height*0.6,0.02),"6a4a30")
-		s.shard(root,Vector3(x-side*0.3,0.08,deep/2+0.3),Vector3(0.5,0.16,0.4),String(stone[1]),int(side)+5,0.3)
+	if data.get("piers",false):
+		for side: float in [-1.0,1.0]:
+			var pier := Node3D.new()
+			pier.position = Vector3(side*(w/2-0.35),0,0)
+			root.add_child(pier)
+			if s.merged.has(root):
+				s.merge(pier,s.merged[root])
+			_pier_at(pier,0.7,deep,height,_colors("posts",["8a7a5a","9a8864","7a6a4e"]),String(iron[0]),int(side))
 	var span: float = w-1.4
 	s.box(root,Vector3(0,height+0.3,0),Vector3(w,0.4,deep*0.9),String(iron[1]))
 	# The leaf: plates riveted in rows, bars across, spikes along its foot.
@@ -1025,6 +1018,27 @@ func _iron_gate(w: float, d: float) -> void:
 			var t: float = float(link)/12.0
 			var at := Vector3(side*(span/2-0.2+t*0.5),height-t*0.3,0.2+t*0.1)
 			s.box(root,at,Vector3(0.06,0.12,0.04) if link%2 else Vector3(0.05,0.08,0.07),"4a4642")
+
+## One of the gate's stone piers (canyon5.c: 两片诺大的铁门 hang between them): squared courses of
+## stone, iron-bound, a cap, rust streaked down its face, grit at its foot (`height`, `colors` the
+## stone's, `iron` the bands'). A blocked box in the layout; fills the box.
+func _gate_pier(w: float, d: float) -> void:
+	_pier_at(root,w,maxf(d,0.8),float(data.get("height",5.6)),_colors("colors",["8a7a5a","9a8864","7a6a4e","a89470"]),String(data.get("iron","3a3633")),int(root.position.x*3+root.position.z))
+
+func _pier_at(into: Node3D, w: float, deep: float, height: float, stone: Array, iron: String, salt: int) -> void:
+	var y: float = 0.0
+	var course: int = 0
+	while y < height:
+		var h: float = minf(0.5,height-y)
+		s.shard(into,Vector3(sin(course*1.7+salt)*0.03,y+h/2,0),Vector3(w,h,deep),String(stone[(course+salt)%stone.size()]),course+salt,0.0)
+		y += h
+		course += 1
+	s.box(into,Vector3(0,height+0.15,0),Vector3(w+0.2,0.3,deep+0.2),String(stone[0]))
+	for band: float in [1.2,2.8,4.2]:
+		if band < height:
+			s.box(into,Vector3(0,band,0),Vector3(w+0.08,0.12,deep+0.06),iron)
+	s.box(into,Vector3(w*0.25,height*0.4,deep/2+0.01),Vector3(0.1,height*0.6,0.02),"6a4a30")
+	s.shard(into,Vector3(-w*0.3,0.08,deep/2+0.3),Vector3(0.5,0.16,0.4),String(stone[1%stone.size()]),salt+5,0.3)
 
 ## 绞盘 (canyon6.c: 铁门的后面有个很大的机械装置, 这是个很大的绞盘): the windlass that raises
 ## the gate — a great drum on iron-bound timber uprights, bars through its axle to heave on,
