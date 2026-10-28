@@ -368,3 +368,13 @@ No gameplay formula, EXP probability/rule, EXP6 Learn threshold, or unarmed4/liu
 finish changes. Public Save/Continue with fresh graph reconstruction closes the
 functional persistence loop; later human play/Final Audit smoke remains separate.
 See the [automated acceptance report](PHASE_SNOW_MARTIAL_PROGRESSION_II_AUTOMATED_ACCEPTANCE.md).
+
+## Random Pine room exits become one fixed continuous maze
+
+(已被「老松林的林径与藏起来的寨门」取代，2026-10-28：崖上的松林不再是迷宫，是一条林径；老松寨的路藏在灌木后，跟着刀痕才开。)
+
+**Decision:** Phase 9B1 translates `pine1` through `pine7` and `cliffdown` into one fixed continuous spatial maze with repeated forks, occlusion, a traversable loop, a safe dead end, a reliable route to Pine Cliff Edge, and a reliable return route. There is no ROOM exit emulator, reset-time topology mutation, or navigation RNG.
+
+**Reason:** The Pine rooms use random exit targets to create disorientation within a text-room runtime. `pine1`, `pine2`, and `pine4` through `pine7` rebuild those exits during reset, while `pine3` selects them during create; several fixed links provide an authored skeleton: `pine1 west → pine4`, `pine4 north → pine5`, `pine5 north → pine6`, `pine6 west → pine7`, `pine7 southwest → cliffdown`, plus `pine2 east → keep1`. Reproducing mutable exit tables would port the LPC runtime representation instead of its maze intent and would make physical collision/navigation unstable.
+
+**Compatibility impact:** A given playthrough and scene reload use the same Pine geometry instead of source reset/load randomization. The native layout preserves getting-lost pressure through physical loops, similar branches, barriers, and dead ends while guaranteeing reachability and return. Pine navigation consumes no random source. Sources: `reference/es2/mudlib/d/oldpine/pine1.c`, `pine2.c`, `pine3.c`, `pine4.c`, `pine5.c`, `pine6.c`, `pine7.c`, `cliffdown.c`.

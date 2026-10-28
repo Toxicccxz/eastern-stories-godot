@@ -1,6 +1,7 @@
 extends RefCounted
 
 const HistoricalCombat := preload("res://tests/support/historical_world_combat_fixture.gd")
+const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 
 const SceneType := preload(
 	"res://scenes/world/oldpine/oldpine_world_session.tscn"
@@ -149,20 +150,27 @@ func _test_persisted_maze_geometry_and_zone_transitions(tree: SceneTree) -> void
 	_assert_eq(initial_npcs[3].world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "Tall starts logically in Pine Entrance before Area signals")
 	await tree.physics_frame
 	_assert_true(controller.find_children("ResetButton", "Button", true, false).is_empty(), "fixed Pine Maze hierarchy reflects Phase 10C1A Reset removal")
-	# The maze on the high ground east of the gorge is drawn with 16 px terrain tiles whose physics
-	# is the collision: no paths, only gaps between the pines (tools/maps/layouts/oldpine.json;
-	# DECISIONS「老松林按原文方位排布」).
+	# The high ground east of the gorge is drawn with 16 px terrain tiles whose physics is the
+	# collision: one trodden way between the pines with a deep branch, no maze any more
+	# (tools/maps/layouts/oldpine.json; DECISIONS「老松林的林径与藏起来的寨门」).
 	_assert_eq(_openings(controller, Vector2(1528, -496), Vector2(1528, 996)), [[400, 512]], "the high ground's west edge opens only where the plank road comes up from epath3 (pine1); the cliffs are closed")
-	_assert_eq(_openings(controller, Vector2(1524, 696), Vector2(2592, 696)), [[1620, 1764]], "the maze's south edge opens only to the cliffside (pine1 to cliffside)")
-	_assert_eq(_openings(controller, Vector2(2104, 264), Vector2(2592, 264)), [[2152, 2296], [2472, 2584]], "Entrance and Deep are joined by two ways, west and east of a thicket")
+	_assert_eq(_openings(controller, Vector2(1524, 696), Vector2(2592, 696)), [[1620, 1764]], "the south edge opens only to the cliffside (pine1 to cliffside)")
+	var north: Array = _openings(controller, Vector2(2104, 264), Vector2(2592, 264))
+	_assert_true(north.size() == 1 and north[0][0] >= 2140 and north[0][1] <= 2320, "Entrance and Deep are joined by one way, the trail north: %s" % [north])
 	_assert_eq(_openings(controller, Vector2(1524, 264), Vector2(2096, 264)), [], "Entrance and Cliff Edge do not meet")
-	_assert_eq(_openings(controller, Vector2(2096, -496), Vector2(2096, 256)), [[-496, -336]], "Deep and Cliff Edge are joined by one way")
-	_assert_eq(_openings(controller, Vector2(2660, 324), Vector2(2660, 636)), [[372, 548]], "the way east to the keep leaves the entrance (pine2 east → keep1)")
-	_assert_true(_all_blocking(controller, Rect2(2336, 96, 128, 300)), "the thicket between the two ways is solid")
-	_assert_eq(TerrainProbe.terrain_at(controller, Vector2(2400, 140)), "forest", "the thicket is drawn as forest")
-	_assert_eq(TerrainProbe.terrain_at(controller, Vector2(2220, -200)), "forest_floor", "the dead end is drawn as forest floor")
-	_assert_eq(TerrainProbe.terrain_at(controller, Vector2(2400, 510)), "forest_floor", "the way to the keep is drawn as forest floor")
+	var west: Array = _openings(controller, Vector2(2096, -496), Vector2(2096, 256))
+	_assert_true(west.size() == 1 and west[0][0] >= -460 and west[0][1] <= -120, "Deep and Cliff Edge are joined by one way, round to pine7: %s" % [west])
+	var keep_way: Array = _openings(controller, Vector2(2660, 324), Vector2(2660, 636))
+	_assert_true(keep_way.size() == 1, "one way leads east to the keep (pine2 east → keep1): %s" % [keep_way])
+	for gone: Vector2 in [Vector2(2560, 120), Vector2(2400, -20), Vector2(2900, -120), Vector2(3112, 48), Vector2(2440, -420)]:
+		_assert_eq(TerrainProbe.terrain_at(controller, gone), "forest", "the old loop and dead ends at %s are forest" % gone)
+	_assert_eq(TerrainProbe.terrain_at(controller, Vector2(2200, -170)), "forest_floor", "the deep branch is drawn as forest floor")
+	_assert_eq(TerrainProbe.terrain_at(controller, Vector2(2400, 510)), "forest_floor", "the way to the thicket is drawn as forest floor")
 	_assert_eq(TerrainProbe.terrain_at(controller, Vector2(1548, 140)), "cliff", "the cliff's edge west of cliffdown is drawn as cliff")
+	var thicket: WorldDoor = controller.door(&"oldpine.pine.thicket")
+	_assert_true(thicket != null and not thicket.is_open(), "the thicket across the way to keep1 stands shut at first")
+	var thicket_definition: DoorDefinition = GameContent.catalog().door(&"oldpine.pine.thicket")
+	_assert_true(thicket_definition != null and thicket_definition.found_by == "老松寨的小径" and not thicket_definition.operable, "the thicket is a way found by the knife marks' mark, worked by no hand")
 	for zone_name: String in ["PineEntranceZone", "PineDeepZone", "PineCliffEdgeZone"]:
 		var zone: Area2D = controller.get_node_or_null("Zones/%s" % zone_name) as Area2D
 		_assert_true(zone != null, "%s persists" % zone_name)
@@ -196,17 +204,16 @@ func _test_persisted_maze_geometry_and_zone_transitions(tree: SceneTree) -> void
 	# The ways through the pines, as the layout draws them (each point a gap's middle).
 	var up_the_plank_road: Array[Vector2] = [Vector2(1500, 452), Vector2(1576, 470), Vector2(1640, 474)]
 	var into_pines: Array[Vector2] = [Vector2(1720, 480)]
-	var western_way: Array[Vector2] = [Vector2(1860, 420), Vector2(2040, 380), Vector2(2200, 340), Vector2(2240, 200), Vector2(2240, 60), Vector2(2240, -20)]
-	var loop_link: Array[Vector2] = [Vector2(2340, -24), Vector2(2460, -16), Vector2(2560, -20)]
-	var eastern_way: Array[Vector2] = [Vector2(2560, 60), Vector2(2564, 180), Vector2(2560, 340), Vector2(2560, 490)]
-	var keep_way_west: Array[Vector2] = [Vector2(2400, 510), Vector2(2200, 540), Vector2(2000, 560), Vector2(1860, 540), Vector2(1720, 480)]
-	var to_cliffdown: Array[Vector2] = [Vector2(2760, -60), Vector2(2900, -120), Vector2(2830, -270), Vector2(2660, -380), Vector2(2440, -420), Vector2(2200, -416), Vector2(1960, -380), Vector2(1820, -220), Vector2(1720, -40), Vector2(1680, 80), Vector2(1650, 140)]
+	var north_way: Array[Vector2] = [Vector2(1860, 420), Vector2(2040, 380), Vector2(2200, 340), Vector2(2240, 200), Vector2(2240, 60), Vector2(2240, -20)]
+	var deep_way: Array[Vector2] = [Vector2(2200, -160), Vector2(2120, -290)]
+	var to_cliffdown: Array[Vector2] = [Vector2(1960, -380), Vector2(1820, -220), Vector2(1720, -40), Vector2(1680, 80), Vector2(1650, 140)]
+	var to_the_thicket: Array[Vector2] = [Vector2(1860, 540), Vector2(2000, 560), Vector2(2200, 540), Vector2(2400, 510), Vector2(2540, 492)]
 	_assert_true(await _walk_route(controller.player_body, up_the_plank_road), "the plank road from epath3 leads up into Pine Entrance")
 	await tree.physics_frame
 	await tree.physics_frame
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "physical threshold enters Pine Entrance")
 	_assert_true(await _walk_route(controller.player_body, into_pines), "Pine Entrance floor is traversable")
-	_assert_true(await _walk_route(controller.player_body, western_way.slice(0, 3) + [Vector2(2212, 300)]), "Pine Entrance reaches its northern opening")
+	_assert_true(await _walk_route(controller.player_body, north_way.slice(0, 3) + [Vector2(2212, 300)]), "Pine Entrance reaches its northern opening")
 	_assert_true(await _walk_route(controller.player_body, [Vector2(2234, 220)]), "physical Entrance-to-Deep seam is traversable")
 	await tree.physics_frame
 	await tree.physics_frame
@@ -215,12 +222,13 @@ func _test_persisted_maze_geometry_and_zone_transitions(tree: SceneTree) -> void
 	await tree.physics_frame
 	await tree.physics_frame
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "Deep-to-Entrance seam assigns Entrance deterministically")
-	_assert_true(await _walk_route(controller.player_body, western_way.slice(3) + loop_link), "the western way leads past the thicket to the loop")
-	_assert_true(await _walk_route(controller.player_body, to_cliffdown.slice(0, 7)), "the way on west leaves the loop for Pine Cliff Edge")
+	_assert_true(await _walk_route(controller.player_body, north_way.slice(3) + deep_way), "the trail north leads into the deep pines and round towards pine7")
+	_assert_true(controller.player_body.move_and_collide(Vector2(160, 0), true) != null, "no way east out of the deep pines: the old loop is forest")
+	_assert_true(await _walk_route(controller.player_body, to_cliffdown.slice(0, 1)), "the deep branch reaches pine7's hollow")
 	await tree.physics_frame
 	await tree.physics_frame
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_CLIFF_EDGE_ZONE_ID, "Deep-to-Cliff Edge seam assigns Cliff Edge without a gap")
-	_assert_true(await _walk_route(controller.player_body, to_cliffdown.slice(7)), "fixed route reaches the cliff's edge")
+	_assert_true(await _walk_route(controller.player_body, to_cliffdown.slice(1)), "the branch goes on down to the cliff's edge")
 	await tree.physics_frame
 	await tree.physics_frame
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_CLIFF_EDGE_ZONE_ID, "physical route enters Pine Cliff Edge")
@@ -230,12 +238,16 @@ func _test_persisted_maze_geometry_and_zone_transitions(tree: SceneTree) -> void
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_CLIFF_EDGE_ZONE_ID, "blocked cliff edge retains Pine Cliff Edge location")
 	var back: Array[Vector2] = to_cliffdown.duplicate()
 	back.reverse()
-	_assert_true(await _walk_route(controller.player_body, back.slice(1, 6)), "cliff edge route returns east")
+	_assert_true(await _walk_route(controller.player_body, back.slice(1)), "the way back climbs to pine7's hollow")
+	var back_deep: Array[Vector2] = deep_way.duplicate()
+	back_deep.reverse()
+	_assert_true(await _walk_route(controller.player_body, back_deep), "the way back re-enters the deep pines")
 	await tree.physics_frame
 	await tree.physics_frame
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_DEEP_ZONE_ID, "Cliff Edge-to-Deep seam assigns Deep deterministically")
-	_assert_true(await _walk_route(controller.player_body, back.slice(6) + [Vector2(2560, -20)] + eastern_way), "return route crosses Pine Deep by the eastern way")
-	_assert_true(await _walk_route(controller.player_body, keep_way_west + [Vector2(1640, 474), Vector2(1576, 470), Vector2(1500, 452), Vector2(1430, 400)]), "return route reaches the east bank")
+	var back_north: Array[Vector2] = north_way.duplicate()
+	back_north.reverse()
+	_assert_true(await _walk_route(controller.player_body, back_north + [Vector2(1720, 480), Vector2(1640, 474), Vector2(1576, 470), Vector2(1500, 452), Vector2(1430, 400)]), "the same trail leads back to the plank road and down to the east bank")
 	await tree.physics_frame
 	await tree.physics_frame
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.EAST_BRIDGE_ZONE_ID, "physical return restores existing Outdoor location")
@@ -260,23 +272,43 @@ func _test_persisted_maze_geometry_and_zone_transitions(tree: SceneTree) -> void
 	await tree.physics_frame
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "cliffside-to-pine1 walk restores Pine Entrance")
 
+	# East, the trail ends at the thicket: shut until the knife marks are followed, then the
+	# way to keep1 and open ever after (the mark is saved; a map bound for a player who holds it
+	# opens the door at once).
 	controller.player_body.global_position = Vector2(1720, 480)
-	_assert_true(await _walk_route(controller.player_body, [Vector2(1860, 540), Vector2(2000, 560), Vector2(2200, 540), Vector2(2400, 510), Vector2(2580, 488)]), "the east edge of Pine Entrance is reachable")
-	_assert_true(controller.player_body.move_and_collide(Vector2(60, 0), true) == null, "the way on east to the keep is open")
+	_assert_true(await _walk_route(controller.player_body, to_the_thicket), "the trail east reaches the thicket")
+	_assert_true(controller.player_body.move_and_collide(Vector2(60, 0), true) != null, "the thicket blocks the way on east while shut")
 	await tree.physics_frame
 	await tree.physics_frame
-	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "short of keep1 the player is still in Pine Entrance")
-
-	controller.player_body.global_position = Vector2(2240, -20)
-	_assert_true(await _walk_route(controller.player_body, [Vector2(2236, -110), Vector2(2220, -200)]), "safe dead-end way is traversable")
-	_assert_true(controller.player_body.move_and_collide(Vector2(-100, 0)) != null, "dead end is closed to the west")
-	_assert_true(controller.player_body.move_and_collide(Vector2(0, -100)) != null, "dead end is closed to the north")
-	_assert_true(controller.player_body.move_and_collide(Vector2(100, 0)) != null, "dead end is closed to the east")
-	_assert_true(await _walk_route(controller.player_body, [Vector2(2220, -200), Vector2(2236, -110), Vector2(2240, -20)]), "dead end is safely escapable")
-
-	controller.player_body.global_position = Vector2(2240, -20)
-	_assert_true(controller.player_body.test_move(Transform2D(0.0, Vector2(2400, 510)), Vector2(0, -300)), "the thicket physically blocks the direct way north between the two ways")
-	_assert_true(await _walk_route(controller.player_body, loop_link + eastern_way + keep_way_west + western_way), "physical route closes the loop round the thicket at its own junction without teleport")
+	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "before the thicket the player is still in Pine Entrance")
+	_assert_true(controller.select_landmark(&"oldpine.outdoor.landmark.pine_knife_marks"), "the knife marks by the thicket can be chosen")
+	var found: FindWayLandmarkPolicy.Result = controller.traverse_selected_portal() as FindWayLandmarkPolicy.Result
+	_assert_true(found != null and found.used and found.found, "following the knife marks finds the path")
+	_assert_eq(int(player_state.marks.get("老松寨的小径", 0)), 1, "the find gives its mark")
+	_assert_true(thicket.is_open(), "the thicket opens")
+	var hud_lines: Array[String] = controller.session.shared_ui().log_lines()
+	_assert_true(hud_lines.has("你顺着树上的刀痕往东找去，拨开那丛灌木，后面果然有一条踩得结实的小径，通往林子深处。"), "the find is told")
+	_assert_true(hud_lines.has("【见闻】你顺着松树上的刀痕，在崖上林径尽头的灌木后找到了一条小径，通往老松寨。"), "the journal records the knife marks: %s" % [hud_lines.slice(-4)])
+	var again: FindWayLandmarkPolicy.Result = controller.traverse_selected_portal() as FindWayLandmarkPolicy.Result
+	_assert_true(again != null and again.used and not again.found, "followed again, the marks only point at the path")
+	_assert_true(controller.session.shared_ui().log_lines().has("刀痕指的就是灌木后面那条小径。"), "the second use says so")
+	await tree.physics_frame
+	await tree.physics_frame
+	_assert_true(await _walk_route(controller.player_body, [Vector2(2640, 486), Vector2(2700, 480)]), "through the thicket the trail goes on to keep1")
+	await tree.physics_frame
+	await tree.physics_frame
+	_assert_eq(controller.player_runtime().world_location().zone_id, &"oldpine.outdoor.keep_gate", "past the thicket the player stands before keep1's gate")
+	_assert_true(await _walk_route(controller.player_body, [Vector2(2640, 486), Vector2(2540, 492)]), "and back west through it")
+	await tree.physics_frame
+	await tree.physics_frame
+	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, "back in Pine Entrance")
+	# A map bound again for a player who holds the mark (Continue) finds the thicket open.
+	thicket.set_open(false)
+	_assert_true(controller._bind_doors(), "the forest's doors bind again")
+	_assert_true(thicket.is_open(), "bound for a player who holds the mark, the thicket stands open")
+	player_state.marks.erase("老松寨的小径")
+	_assert_true(controller._bind_doors(), "the forest's doors bind again without the mark")
+	_assert_false(thicket.is_open(), "without the mark the thicket is shut")
 
 	controller.player_body.set_world_location(controller.resolve_location(
 		OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID,
@@ -290,8 +322,30 @@ func _test_persisted_maze_geometry_and_zone_transitions(tree: SceneTree) -> void
 		OldPineWorldDefinitions.PINE_CLIFF_EDGE_ZONE_ID, OldPineWorldDefinitions.PINE_CLIFF_EDGE_ZONE_ID,
 	))
 	_assert_eq(controller.player_runtime().world_location().zone_id, OldPineWorldDefinitions.PINE_CLIFF_EDGE_ZONE_ID, "Pine Cliff Edge has stable zone identity")
-	controller.queue_free()
+	# Continue: the mark is saved, and a session restored from the save binds the forest's doors
+	# for a player who holds it: the thicket stands open (DoorDefinition.found_by).
+	player_state.marks["老松寨的小径"] = 1
+	# Everyone on a valid spot for the capture: the two bandits back on their markers, the
+	# player on the trail before the thicket.
+	for name: String in ["TallBandit", "FatBandit"]:
+		OldPineTestMap.body(controller, name).global_position = controller.resolve_spawn_marker(OldPineTestMap.POINTS[name]).global_position
+	controller.player_body.global_position = MapPlaces.spot(controller, OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID, Vector2(2300, 520), 64.0)
+	controller.player_body.set_world_location(controller.location_for_zone(OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID))
+	await tree.physics_frame
+	await tree.physics_frame
+	var snapshot: GameSaveSnapshot = Work.capture(controller.session)
+	_assert_true(snapshot != null, "the forest session captures with the mark held")
+	controller.session.queue_free()
 	await tree.process_frame
+	await tree.process_frame
+	var restored: OldPineWorldRestoreResult = OldPineWorldRestoreService.build_candidate(snapshot, tree.root)
+	_assert_eq(restored.outcome, OldPineWorldRestoreResult.Outcome.SUCCESS, "the save restores (%s: %s)" % [restored.path, restored.detail])
+	if restored.candidate != null:
+		var forest: WorldMapController = restored.candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
+		var found_way: WorldDoor = null if forest == null else forest.door(&"oldpine.pine.thicket")
+		_assert_true(found_way != null and found_way.is_open(), "Continue finds the thicket open: a way once found stays found")
+		restored.candidate.queue_free()
+		await tree.process_frame
 
 
 func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
@@ -424,9 +478,9 @@ func _test_tall_bandit_runtime_aggression_death_loot_and_equip(
 	var expected_body_weight: int = tall.body_weight
 	var expected_capacity: int = tall.maximum_encumbrance
 	tall.character_state.attributes.strength = 30
-	# The eastern way past the thicket, inside Pine Deep.
-	controller.player_body.global_position = Vector2(2560, 120)
-	OldPineTestMap.body(controller, "TallBandit").global_position = Vector2(2560, 120)
+	# On the trail north, inside Pine Deep.
+	controller.player_body.global_position = Vector2(2240, 100)
+	OldPineTestMap.body(controller, "TallBandit").global_position = Vector2(2240, 100)
 	# NPCs never walk between zones; the fixture moves both authorities with the bodies.
 	controller.player_body.set_world_location(controller.location_for_zone(OldPineWorldDefinitions.PINE_DEEP_ZONE_ID))
 	OldPineTestMap.body(controller, "TallBandit").set_world_location(controller.location_for_zone(OldPineWorldDefinitions.PINE_DEEP_ZONE_ID))

@@ -64,7 +64,8 @@
 		{ "id": "oldpine.gorge.river.water", "kind": "water", "zone": "oldpine.gorge.river", "name": "泉水", "reach": 96, "legacy_source": "d/oldpine/riverbank1.c" }
 	],
 	"doors": [
-		{ "id": "oldpine.keep.gate", "name": "大门", "zones": ["oldpine.outdoor.keep_gate", "oldpine.outdoor.keep_yard"], "reach": 90, "open": true, "operable": false, "legacy_room": "es2:d/oldpine/keep2" }
+		{ "id": "oldpine.keep.gate", "name": "大门", "zones": ["oldpine.outdoor.keep_gate", "oldpine.outdoor.keep_yard"], "reach": 90, "open": true, "operable": false, "legacy_room": "es2:d/oldpine/keep2" },
+		{ "id": "oldpine.pine.thicket", "name": "灌木丛", "zones": ["oldpine.outdoor.pine_entrance", "oldpine.outdoor.keep_gate"], "reach": 90, "open": false, "operable": false, "found_by": "老松寨的小径", "legacy_room": "es2:d/oldpine/pine2" }
 	],
 	"traps": [
 		{ "id": "oldpine.keep2.gate_trap", "room": "es2:d/oldpine/keep2", "door": "oldpine.keep.gate", "from_zone": "oldpine.outdoor.keep_yard", "to_zone": "oldpine.outdoor.keep_hall", "summon": "oldpine.outdoor.keep2.trap_guards", "opens_on": "pipe", "messages": {"shout": "你听到你身后有几个声音大叫：把门关上！把门关上！一个也不许让他们溜走！", "shut": "接著「轰」地一声，通往外面的大门已经被一块大石堵死了。", "open": "你听到一阵轧轧的轮盘绞动声，堵住门口的大石慢慢地被移开了。"}, "legacy_source": "d/oldpine/keep2.c" }
@@ -86,6 +87,8 @@
 		{ "id": "oldpine.cliff2.landmark.up", "zone": "oldpine.cliff2.niche", "name": "向上的山壁", "action": "往上爬", "portals": ["oldpine.cliff2.climb_up"], "contact": true, "long": "从这个勉强容身的岩穴往上爬，还有一段不算短的距离。\n", "messages": {"use": "你试了试脚边的岩石稳不稳，开始小心翼翼地往上攀爬。"}, "legacy_source": "d/oldpine/cliff2.c" },
 		{ "id": "oldpine.cliff2.landmark.down", "zone": "oldpine.cliff2.niche", "name": "向下的山壁", "action": "往下爬", "portals": ["oldpine.cliff2.climb_down"], "contact": true, "long": "从这个勉强容身的岩穴往下爬，还有一段不算短的距离。\n", "messages": {"use": "你试了试脚边的岩石稳不稳，开始小心翼翼地往山涧中攀了下去。"}, "legacy_source": "d/oldpine/cliff2.c" },
 		{ "id": "oldpine.outdoor.landmark.clearing_sign", "zone": "oldpine.outdoor.central_clearing", "name": "告示", "policy": "look", "long": "「官府告示：此处常有歹人出没。」\n", "legacy_source": "d/oldpine/clearing.c" },
+		{ "id": "oldpine.outdoor.landmark.clearing_waypost", "zone": "oldpine.outdoor.central_clearing", "name": "路牌", "policy": "look", "long": "一块旧木牌，刻着三行字：\n「往西，雪亭镇。」\n「往东，小石桥。」\n「往南，下坡道。」\n", "legacy_source": "native: 老松林可读化 (owner, 2026-10-28; DECISIONS「老松林的林径与藏起来的寨门」), the clearing's three ways by clearing.c" },
+		{ "id": "oldpine.outdoor.landmark.pine_knife_marks", "zone": "oldpine.outdoor.pine_entrance", "name": "刀痕", "action": "顺着刀痕找", "policy": "find_way", "mark": "老松寨的小径", "long": "这几株松树的树干上都有刀划的记号，一道一道，深浅不一，像是有人怕走错了路，沿途留下的。记号一路往东，到那丛灌木跟前就断了。\n", "messages": {"found": "你顺着树上的刀痕往东找去，拨开那丛灌木，后面果然有一条踩得结实的小径，通往林子深处。", "again": "刀痕指的就是灌木后面那条小径。"}, "legacy_source": "native: 老松林可读化 (owner, 2026-10-28; DECISIONS「老松林的林径与藏起来的寨门」) over epath1.c's knife marks (树干上都有著一些奇怪的记号，像是被人用刀子划过) and keep1.c's 秘密入口" },
 		{ "id": "oldpine.outdoor.landmark.epath3_footprints", "zone": "oldpine.outdoor.east_bridge", "name": "脚印", "policy": "look", "long": "一些杂乱的脚印，不但有人的脚印，看起来还有不少马蹄印。\n", "legacy_source": "d/oldpine/epath3.c" },
 		{ "id": "oldpine.outdoor.landmark.epath2_waterfall", "zone": "oldpine.outdoor.east_bridge", "name": "瀑布", "policy": "look", "long": "这个瀑布从数百丈高的山壁上冲激而下，流入一个山涧底的小水潭\n，水潭两边的石壁垂下许多的藤蔓(vine)，你注意到瀑布后面似乎\n有什么东西在发著光。\n", "legacy_source": "d/oldpine/epath2.c" },
 		{ "id": "oldpine.outdoor.landmark.cliffside_cliff", "zone": "oldpine.outdoor.cliffside", "name": "悬崖", "policy": "look", "long": "你定下心神一看，其实这个悬崖没有想像中那么恐怖，也许还\n可以从这里爬下山涧，只是这世界上大概没有这种白痴愿意干\n这种傻事吧。\n", "legacy_source": "d/oldpine/cliffside.c" },

@@ -260,6 +260,20 @@
 			]
 		},
 		{
+			"id": "oldpine.knife_marks",
+			"title": "树上的刀痕",
+			"region": "老松岭",
+			"sources": ["native: 老松林可读化 (owner, 2026-10-28; DECISIONS「老松林的林径与藏起来的寨门」) over d/oldpine/epath1.c's knife marks and d/oldpine/keep1.c"],
+			"entries": [
+				{
+					"id": "found",
+					"final": true,
+					"when": { "mark": "老松寨的小径" },
+					"text": "你顺着松树上的刀痕，在崖上林径尽头的灌木后找到了一条小径，通往老松寨。"
+				}
+			]
+		},
+		{
 			"id": "cloud.toll",
 			"title": "买路钱",
 			"region": "绮云镇",

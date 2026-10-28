@@ -6,8 +6,8 @@ extends RefCounted
 ## anyone on the way through at once; a save keeps it there and a room reset brings it
 ## home. A door may stand on a portal (two maps, one door: shut on one, shut on both). A
 ## door's fade is the shorter door_fade_* and names no place. The world revision is
-## SOURCE_ENTRY_OLDPINE_RELAYOUT_V1 (老松林 laid out as its rooms describe themselves, after the
-## voxel regions' ways widened), read and written by its enum name.
+## SOURCE_ENTRY_OLDPINE_TRAIL_V1 (the pine maze one trail, 老松寨 behind the thicket the knife marks
+## find), read and written by its enum name.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const TRAVELLERS: StringName = &"snow.inn.travellers"
@@ -63,7 +63,7 @@ func _test_who_leaves_home() -> void:
 
 
 func _test_revision() -> void:
-	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_OLDPINE_RELAYOUT_V1, "the relaid forest's world revision is current")
+	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_OLDPINE_TRAIL_V1, "the forest trail's world revision is current")
 	var named: bool = true
 	for value: int in WorldContentRevision.Value.values():
 		var text: String = WorldContentRevision.serialized(value as WorldContentRevision.Value)

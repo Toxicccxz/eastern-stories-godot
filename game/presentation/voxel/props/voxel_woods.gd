@@ -39,6 +39,7 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"stump": _stump(w)
 		"tree": _lone_tree()
 		"notice_post": _notice_post(w)
+		"thicket": _thicket(w,d)
 		"far_ground": _far_ground(w,d)
 		"great_stump": _great_stump(w,d)
 		"paper_slip": _paper_slip()
@@ -542,6 +543,24 @@ func _lone_tree() -> void:
 	if data.get("marks",false):
 		for cut: int in 3:
 			s.tilted_box(root,Vector3(-0.06+cut*0.07,1.0+cut*0.18,0.2),Vector3(0.04,0.3,0.03),"d9c39a",Vector3(0,0,0.5-cut*0.4))
+
+## A thicket closing a way: a row of leafy clumps across the width, knee to chest high,
+## a few twigs out of them (a door's look: it goes when the way is found). `colors` the
+## leaves, `height` the tallest clump in metres.
+func _thicket(w: float, d: float) -> void:
+	var leaf: Array = _colors("colors",["3f5a2e","4b6a36","5a7a3f","6b8a46"])
+	var vary: RandomNumberGenerator = Shapes.spot_rng(root.position)
+	var tall: float = float(data.get("height",1.4))
+	var clumps: int = maxi(3,int(round(w/0.9)))
+	for i: int in clumps:
+		var x: float = (-w/2.0+w*(i+0.5)/clumps)
+		var size := Vector3(w/clumps*vary.randf_range(1.1,1.5),tall*vary.randf_range(0.6,1.0),d*vary.randf_range(0.9,1.3))
+		var at := Vector3(x,size.y*0.45,vary.randf_range(-0.08,0.08)*d)
+		s.box(root,at,size,_pick(leaf))
+		s.box(root,at+Vector3(vary.randf_range(-0.15,0.15),size.y*0.3,vary.randf_range(-0.1,0.1)),size*Vector3(0.6,0.5,0.7),_pick(leaf))
+		for twig: int in vary.randi_range(1,3):
+			s.tilted_box(root,Vector3(x+vary.randf_range(-0.3,0.3),size.y*0.85,vary.randf_range(-0.2,0.2)*d),Vector3(0.035,0.5,0.035),"5d4a33",Vector3(vary.randf_range(-0.35,0.35),0,vary.randf_range(-0.35,0.35)))
+
 
 ## A notice on a post by a path (clearing.c's 牌子: 官府告示), its words in `text`.
 func _notice_post(w: float) -> void:

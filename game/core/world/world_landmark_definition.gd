@@ -52,6 +52,9 @@ extends RefCounted
 ## them. A dial closes on time even on a player below (`close` here, `close_below` there):
 ## `dial_below` (owner Q2 (a)) is the thing below that `opens` the same way from there
 ## (`open_below`) for the same time.
+## `find_way` (native, DECISIONS「老松林的林径与藏起来的寨门」) is the clue that finds a hidden
+## way: its action gives the player its `mark` (`found`), and every door whose `found_by` is
+## that mark opens and stays open, on Continue too; used again it only says `again`.
 const POLICIES: Dictionary[StringName, Dictionary] = {
 	&"portal": {"portals": 1, "messages": [], "optional_messages": ["use"], "settings": [], "items": []},
 	&"vine": {"portals": 2, "messages": ["hold", "fall", "climb"], "optional_messages": ["fall_observer", "climb_observer"], "settings": [], "optional_settings": ["below"], "items": []},
@@ -67,6 +70,7 @@ const POLICIES: Dictionary[StringName, Dictionary] = {
 	&"note_maze": {"portals": 1, "messages": ["read", "out"], "settings": ["steps", "nearer", "further"], "items": [], "mark": true, "maze": true},
 	&"dial": {"portals": 2, "messages": ["open", "close", "open_below", "close_below"], "settings": ["open_seconds"], "items": [], "turns": true},
 	&"dial_below": {"portals": 0, "messages": [], "settings": [], "items": [], "opens": true},
+	&"find_way": {"portals": 0, "messages": ["found", "again"], "settings": [], "items": [], "mark": true},
 }
 ## The policies whose portals stay shut until the landmark opens them.
 const HIDDEN_POLICIES: Array[StringName] = [&"hidden_passage", &"dial"]
@@ -285,7 +289,7 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 	if definition.class_id.is_empty() == bool(rule.get("class", false)):
 		reader.fail("class", "only a join_class landmark names a class, and it must")
 	if definition.mark.is_empty() == bool(rule.get("mark", false)):
-		reader.fail("mark", "only a search or note_maze landmark names a mark, and it must")
+		reader.fail("mark", "only a search, note_maze or find_way landmark names a mark, and it must")
 	var maze: bool = rule.get("maze", false)
 	if definition._notes.is_empty() == maze or definition._counter.is_empty() == maze or definition._enter_portal_id.is_empty() == maze:
 		reader.fail("notes", "only a note_maze landmark has notes, a counter and an enter portal, and it must")

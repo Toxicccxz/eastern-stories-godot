@@ -169,7 +169,23 @@ func _check_keep(tree: SceneTree, session: WorldSessionController, outdoor: Worl
 	for npc: NpcRuntimeState in outdoor.npc_runtimes():
 		if npc.exists_in_map and npc.world_location().zone_id in [&"oldpine.outdoor.keep_gate", &"oldpine.outdoor.keep_yard"]:
 			outdoor.npcs.vanish(npc)
-	for zone: StringName in [&"oldpine.outdoor.pine_entrance", &"oldpine.outdoor.keep_gate", &"oldpine.outdoor.keep_yard"]:
+	_check(await MapPlaces.drive_to_zone(tree, outdoor, &"oldpine.outdoor.pine_entrance"), "up the plank road into the pines")
+	# The way to keep1 hides behind a thicket until the knife marks are followed (DECISIONS
+	# 「老松林的林径与藏起来的寨门」): the thicket is drawn as a door's shutter, no arrow over it.
+	var forest_view: WorldVoxelView = _view_of(outdoor)
+	var thicket: Node3D = forest_view.shutters.get(&"oldpine.pine.thicket")
+	_check(thicket != null and thicket.visible and thicket.get_child_count() > 1 and not outdoor.door(&"oldpine.pine.thicket").is_open(), "the thicket closes the way east: leafy clumps across it")
+	_check(await MapPlaces.drive(tree, outdoor, MapPlaces.spot(outdoor, &"oldpine.outdoor.pine_entrance", Vector2(2500, 500), 64.0)), "along the trail east to the thicket")
+	forest_view._process(0.0)
+	var thicket_arrow: Node3D = forest_view.arrows.get(&"oldpine.pine.thicket")
+	_check(thicket_arrow != null and not thicket_arrow.visible, "no bobbing arrow gives the shut thicket away")
+	_check(outdoor.select_landmark(&"oldpine.outdoor.landmark.pine_knife_marks"), "the knife marks on the pines can be chosen")
+	outdoor.traverse_selected_portal()
+	await _frames(tree, 3)
+	forest_view._process(0.0)
+	_check(outdoor.door(&"oldpine.pine.thicket").is_open() and not thicket.visible, "followed, the marks find the path: the thicket is gone")
+	_check(thicket_arrow != null and thicket_arrow.visible, "and the way on east has its arrow")
+	for zone: StringName in [&"oldpine.outdoor.keep_gate", &"oldpine.outdoor.keep_yard"]:
 		_check(await MapPlaces.drive_to_zone(tree, outdoor, zone), "on through the pines into " + String(zone))
 	var grid: WorldNpcWalker.Grid = MapRoute.grid(outdoor, [])
 	_check(grid._astar.is_point_solid(grid.cell_of(Vector2(3032, 368))), "the yard's sandbags are blocked boxes")
@@ -322,6 +338,14 @@ func _check_footing(map: WorldMapController, view: WorldVoxelView, place: String
 ## the view side and the animations leave the save (and gameplay RNG) as they were.
 func _check_access_and_saves(session: WorldSessionController, map: WorldMapController, view: WorldVoxelView) -> void:
 	var start: Vector2 = map.player_body.global_position
+	# A way found by a clue (DoorDefinition.found_by: 老松寨's thicket) is a way once found: its
+	# wall is lifted for the routing (the grid reads the shape's `disabled`), put back after.
+	var lifted: Array[CollisionShape2D] = []
+	for door: DoorDefinition in GameContent.catalog().doors_for_map(map.map_id()):
+		var node: WorldDoor = map.door(door.door_id)
+		if not door.found_by.is_empty() and node != null and not node.is_open():
+			node.wall_shape().disabled = true
+			lifted.append(node.wall_shape())
 	var cut_off: Array[String] = []
 	for zone: ZoneDefinition in GameContent.catalog().zones_for_map(map.map_id()):
 		var at: Vector2 = MapPlaces.zone_spot(map, zone.zone_id)
@@ -339,6 +363,8 @@ func _check_access_and_saves(session: WorldSessionController, map: WorldMapContr
 		if not at.is_finite() or at.distance_to(body.global_position) > reach or MapRoute.path(map, start, at).is_empty():
 			out_of_reach.append(String(npc.spawn_point_id))
 	_check(out_of_reach.is_empty(), "every NPC of %s can be walked up to within reach: %s" % [map.map_id(), out_of_reach])
+	for wall: CollisionShape2D in lifted:
+		wall.disabled = false
 	session.set_process(false)
 	var saved: String = GameSaveJsonCodec.encode(Work.capture(session)).text
 	for left: bool in [true, false]:

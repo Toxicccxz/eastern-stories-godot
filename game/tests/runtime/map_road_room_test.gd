@@ -67,6 +67,11 @@ func run_all(tree: SceneTree) -> Dictionary:
 		if map == null:
 			continue
 		await _frames(tree, 4)
+		# A way found by a clue (DoorDefinition.found_by: 老松寨's thicket) is a way once found.
+		for door: DoorDefinition in GameContent.catalog().doors_for_map(map_id):
+			if not door.found_by.is_empty():
+				map.set_door_open(door.door_id, true)
+		await _frames(tree, 2)
 		var ways: Array = []
 		for route: Array in ROUTES[map_id]:
 			for i: int in route.size() - 1:
