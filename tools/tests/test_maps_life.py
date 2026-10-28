@@ -33,7 +33,11 @@ class MapsLifeTest(unittest.TestCase):
             for piece in spec.get('pieces', []):
                 self.assertEqual(len(piece['size']), 2, use)
                 self.assertTrue(all(v % T == 0 for v in piece['size']), (use, piece))
-            self.assertTrue(set(spec) <= {'walls', 'grime', 'hangings', 'hang', 'tables', 'pieces', 'count', 'scatter', 'spread'}, use)
+            self.assertTrue(set(spec) <= {'walls', 'grime', 'hangings', 'hang', 'tables', 'pieces', 'count', 'scatter', 'spread', 'ambience'}, use)
+            # The voxel view's movements by use (VoxelLife.AMBIENCE_KINDS); every use has at least one.
+            self.assertTrue(spec.get('ambience'), use)
+            for entry in spec['ambience']:
+                self.assertIn(entry.get('kind'), {'moths', 'smoke', 'steam', 'incense', 'sparks', 'sunbeam', 'dust', 'flies'}, (use, entry))
         self.assertEqual(set(table['wealth']), {'poor', 'plain', 'rich'})
 
     def test_every_layout_use_is_a_preset(self) -> None:

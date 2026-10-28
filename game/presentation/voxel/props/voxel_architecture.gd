@@ -211,8 +211,9 @@ func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, e
 					body.add_child(light)
 				shapes.box(body,window_at+out*0.09,Vector3(0.045,0.76,0.03) if along_x else Vector3(0.03,0.76,0.045),timber)
 				if data.get("lattice",false):
-					for bar: float in [-0.20,0.04,0.26]:
-						shapes.box(body,window_at+out*0.1+Vector3(0,bar,0),Vector3(0.40,0.035,0.03) if along_x else Vector3(0.03,0.035,0.40),timber)
+					# `lattice`: true for the plain rails, or a pattern's name (a walkway's 漏窗 differ
+					# bay by bay: 直棂, 冰裂, 回纹, 万字).
+					lattice(shapes,body,window_at+out*0.1,Vector2(0.40,0.72),out,String(data["lattice"]) if data["lattice"] is String else "rails",timber)
 				if construction=="timber" and i%bay==2:
 					shapes.box(body,window_at+out*0.13,Vector3(0.38,0.78,0.06) if along_x else Vector3(0.06,0.78,0.38),"796348")
 		if construction in ["cloth","iron_bars"]:
@@ -228,6 +229,113 @@ func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, e
 			for post: int in ceili(length/0.55):
 				var along: float = -length/2+post*0.55
 				shapes.box(body,(Vector3(along,height-0.90,fixed) if along_x else Vector3(fixed,height-0.90,along))+out*0.32,Vector3(0.065,0.5,0.065),timber)
+
+## 窗棂 / 漏窗 patterns on a window's plane: `at` its centre, `span` its width and height, `out`
+## the wall's outward normal (±x or ±z), thin pieces in `color`. "rails": three bars across (the
+## old plain lattice); "grid": three bars each way (a garden wall's old 漏窗); "bars": 直棂,
+## upright bars with one rail; "ice": 冰裂纹, short pieces at odd angles like cracked ice;
+## "fret": 回纹, a border and a meander of nested squares; "wan": 万字纹, 卍 crosses in a grid;
+## "diamond": 菱花, bars leaning both ways; "coin": 古钱纹, square rings in a grid. The same
+## pattern draws the same every build (nothing random).
+static func lattice(shapes: Shapes, into: Node3D, at: Vector3, span: Vector2, out: Vector3, pattern: String, color: String, depth: float = 0.03) -> void:
+	var along_x: bool = absf(out.z) > 0.5
+	var piece := func(dx: float, dy: float, w: float, h: float, roll: float = 0.0) -> void:
+		var pos: Vector3 = at+(Vector3(dx,dy,0) if along_x else Vector3(0,dy,dx))
+		var size := Vector3(w,h,depth) if along_x else Vector3(depth,h,w)
+		if roll == 0.0:
+			shapes.box(into,pos,size,color)
+		else:
+			shapes.tilted_box(into,pos,size,color,Vector3(0,0,roll) if along_x else Vector3(roll,0,0))
+	var thin: float = 0.035
+	match pattern:
+		"grid":
+			for bar: int in 3:
+				piece.call(0.0,-span.y*0.32+bar*span.y*0.32,span.x*0.9,thin+0.015)
+				piece.call(-span.x*0.32+bar*span.x*0.32,0.0,thin+0.015,span.y*0.9)
+		"bars":
+			var count: int = maxi(3,roundi(span.x/0.11))
+			for bar: int in count:
+				piece.call(-span.x/2+(bar+0.5)*span.x/count,0.0,thin,span.y)
+			piece.call(0.0,span.y*0.18,span.x,thin)
+		"ice":
+			# Cracks radiating from a few points, each piece leaning its own way.
+			var seeds: Array = [Vector2(-0.3,0.25),Vector2(0.25,-0.3),Vector2(0.05,0.1),Vector2(-0.2,-0.3),Vector2(0.3,0.3)]
+			for i: int in 14:
+				var from: Vector2 = seeds[i%seeds.size()]*span
+				var roll: float = fposmod(i*2.399,PI)-PI/2
+				var length: float = span.length()*(0.22+fposmod(i*0.618,1.0)*0.16)
+				var mid: Vector2 = from+Vector2(cos(roll),sin(roll))*length*0.5
+				mid = mid.clamp(-span/2+Vector2(0.06,0.06),span/2-Vector2(0.06,0.06))
+				piece.call(mid.x,mid.y,length,thin,roll)
+			piece.call(0.0,span.y/2-thin/2,span.x,thin)
+			piece.call(0.0,-span.y/2+thin/2,span.x,thin)
+		"fret":
+			# A border and, inside it, a meander of hooked squares along the middle.
+			piece.call(0.0,span.y/2-0.03,span.x,thin)
+			piece.call(0.0,-span.y/2+0.03,span.x,thin)
+			piece.call(-span.x/2+0.03,0.0,thin,span.y)
+			piece.call(span.x/2-0.03,0.0,thin,span.y)
+			var cell: float = minf(span.x,span.y)*0.42
+			var across: int = maxi(1,floori(span.x/cell))
+			for i: int in across:
+				var cx: float = -span.x/2+(i+0.5)*span.x/across
+				var h: float = cell*0.5
+				piece.call(cx,h*0.9,cell*0.8,thin)
+				piece.call(cx-cell*0.4,0.0,thin,h*1.8)
+				piece.call(cx,-h*0.9,cell*0.8,thin)
+				piece.call(cx+cell*0.4,-h*0.3,thin,h*1.2)
+				piece.call(cx+cell*0.1,h*0.3,cell*0.6,thin)
+				piece.call(cx+cell*0.1,-h*0.3,thin,h*0.6)
+		"wan":
+			# 卍 in each cell: a cross with a hook at every arm's end.
+			var step: float = 0.2
+			var cols: int = maxi(1,floori(span.x/step))
+			var rows: int = maxi(1,floori(span.y/step))
+			for col: int in cols:
+				for row: int in rows:
+					var cx: float = -span.x/2+(col+0.5)*span.x/cols
+					var cy: float = -span.y/2+(row+0.5)*span.y/rows
+					var arm: float = step*0.42
+					piece.call(cx,cy,arm*2,thin)
+					piece.call(cx,cy,thin,arm*2)
+					piece.call(cx+arm,cy+arm*0.5,thin,arm)
+					piece.call(cx-arm,cy-arm*0.5,thin,arm)
+					piece.call(cx+arm*0.5,cy-arm,arm,thin)
+					piece.call(cx-arm*0.5,cy+arm,arm,thin)
+		"diamond":
+			# 菱花: short bars leaning both ways, cell by cell, meeting in diamonds.
+			var step: float = 0.18
+			var cols: int = maxi(1,floori(span.x/step))
+			var rows: int = maxi(1,floori(span.y/step))
+			for col: int in cols:
+				for row: int in rows:
+					var cx: float = -span.x/2+(col+0.5)*span.x/cols
+					var cy: float = -span.y/2+(row+0.5)*span.y/rows
+					var r: float = minf(span.x/cols,span.y/rows)*0.5
+					for corner: int in 4:
+						var sx: float = -1.0 if corner%2==0 else 1.0
+						var sy: float = -1.0 if corner<2 else 1.0
+						piece.call(cx+sx*r*0.5,cy+sy*r*0.5,thin,r*1.42,sx*sy*PI/4)
+			piece.call(0.0,span.y/2-thin/2,span.x,thin)
+			piece.call(0.0,-span.y/2+thin/2,span.x,thin)
+		"coin":
+			# 古钱纹: square rings with a square hole, in a grid.
+			var step: float = 0.19
+			var cols: int = maxi(1,floori(span.x/step))
+			var rows: int = maxi(1,floori(span.y/step))
+			for col: int in cols:
+				for row: int in rows:
+					var cx: float = -span.x/2+(col+0.5)*span.x/cols
+					var cy: float = -span.y/2+(row+0.5)*span.y/rows
+					var r: float = step*0.44
+					piece.call(cx,cy+r,r*2,thin)
+					piece.call(cx,cy-r,r*2,thin)
+					piece.call(cx+r,cy,thin,r*2)
+					piece.call(cx-r,cy,thin,r*2)
+					piece.call(cx,cy,r*0.7,r*0.7)
+		_:
+			for bar: float in [-0.20,0.04,0.26]:
+				piece.call(0.0,bar,span.x,thin)
 
 func _roof(into: Node3D, at: Vector3, w: float, d: float, height: float, data: Dictionary) -> void:
 	var direction: String = data.get("ridge", "z" if d>w else "x")

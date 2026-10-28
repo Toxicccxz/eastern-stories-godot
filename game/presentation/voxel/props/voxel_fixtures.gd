@@ -26,13 +26,43 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 				label.modulate = Color("d3c49c")
 				root.add_child(label)
 		"closed_door":
-			s.box(root,Vector3(0,1.35,0),Vector3(w,2.7,0.12),"6b4d38")
+			# `ajar`: the leaf swung part way in on its hinge, the room dark beyond.
+			var leaf: Node3D = root
+			if data.get("ajar",false):
+				s.box(root,Vector3(0,1.35,-0.04),Vector3(w,2.7,0.04),"1e1a16")
+				leaf = Node3D.new()
+				leaf.position = Vector3(-w/2,0,0)
+				leaf.rotation.y = -float(data.get("ajar_angle",0.6))
+				root.add_child(leaf)
+				leaf.translate_object_local(Vector3(w/2,0,0))
+			s.box(leaf,Vector3(0,1.35,0),Vector3(w,2.7,0.12),"6b4d38")
 			for i: int in 6:
-				s.box(root,Vector3(-w*0.42+i*w*0.168,1.35,0.08),Vector3(w*0.15,2.56,0.08),"906d49")
+				s.box(leaf,Vector3(-w*0.42+i*w*0.168,1.35,0.08),Vector3(w*0.15,2.56,0.08),"906d49")
 			for y: float in [0.4,2.2]:
-				s.box(root,Vector3(0,y,0.14),Vector3(w*0.94,0.13,0.06),"634b35")
+				s.box(leaf,Vector3(0,y,0.14),Vector3(w*0.94,0.13,0.06),"634b35")
 			for x: float in [-0.12,0.12]:
-				s.box(root,Vector3(x,1.2,0.17),Vector3(0.10,0.17,0.08),"ac9767")
+				s.box(leaf,Vector3(x,1.2,0.17),Vector3(0.10,0.17,0.08),"ac9767")
+		"seal_strip":
+			# 封条 (corridor6.c: 一间上了锁的房间): two paper strips crossed over a shut door, each
+			# with its column of ink and a red seal, yellowed and curling at the ends; a hasp and a
+			# big iron padlock below (`lock`, default on). `paper`, `text` (the ink's colour).
+			var paper: String = String(data.get("paper","e2d2a0"))
+			var ink: String = String(data.get("text","2a2622"))
+			for side: float in [-1.0,1.0]:
+				var strip := Node3D.new()
+				strip.position = Vector3(0,1.55,0.04)
+				strip.rotation.z = side*0.62
+				root.add_child(strip)
+				s.box(strip,Vector3.ZERO,Vector3(0.14,w*0.92,0.012),paper)
+				s.tilted_box(strip,Vector3(0,w*0.46,0.015),Vector3(0.14,0.08,0.012),paper,Vector3(0.5*side,0,0))
+				for c: int in 5:
+					s.box(strip,Vector3(0,-0.3+c*0.15,0.012),Vector3(0.06,0.09,0.006),ink)
+				s.box(strip,Vector3(0,0.42,0.012),Vector3(0.09,0.09,0.006),"b83a2a")
+			if data.get("lock",true):
+				s.box(root,Vector3(0,1.05,0.05),Vector3(0.32,0.06,0.04),"4a4642")
+				s.box(root,Vector3(0,0.93,0.07),Vector3(0.22,0.2,0.08),"3a3634")
+				s.box(root,Vector3(0,1.09,0.07),Vector3(0.16,0.14,0.03),"55514c")
+				s.box(root,Vector3(0,1.0,0.115),Vector3(0.04,0.06,0.01),"9a8a60")
 		"straw_patch":
 			for i: int in 32:
 				var x: float = sin(i*7.13)*w*0.43

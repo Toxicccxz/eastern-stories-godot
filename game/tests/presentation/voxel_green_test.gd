@@ -172,6 +172,16 @@ func _check_village(tree: SceneTree, session: WorldSessionController, map: World
 	_check(ambience._motes.size() >= 20, "stone dust blows off the quarry")
 	_check(ambience._puffs.size() >= 6, "smoke from the chimneys")
 	_check(view.lighting.lamps.size() >= 6, "lamps and lit windows for the night")
+	# 【美术提案】(owner: small animals only in the village and inn yards): three hens on the square,
+	# the headman's dog by his door; they keep to open ground and off the furniture.
+	await _frames(tree, 30)
+	var strays: Array[String] = []
+	for critter: Node3D in view.geometry.critters:
+		var at := Vector2(critter.position.x, critter.position.z) * 32.0
+		var cell := Vector2i(floori(at.x / 16) * 16 + 8, floori(at.y / 16) * 16 + 8)
+		if view.geometry.terrain_cells.get(cell, "boundary") in VoxelLife.WALKABLE_NOT:
+			strays.append("%s at %s" % [critter.get("kind"), at])
+	_check(view.geometry.critters.size() == 4 and strays.is_empty(), "three hens and the headman's dog keep to the square's open ground: %s" % [strays])
 
 
 ## The road in and up the street, the lane to the square, the quarry and back by the stations; into
@@ -291,11 +301,15 @@ func _check_interior(map: WorldMapController) -> void:
 			_check(kinds.count("stone_slabs") >= 2 and kinds.count("stone_goods") >= 2, "house1.c: 一排排的石板; 石桌、石椅、墓碑")
 		&"green.house2_house":
 			_check("firewood" in kinds and kinds.count("light_shaft") >= 2, "house2.c: 墙角堆著些柴火; 屋顶…一些破洞")
+			var dusty: Array = _view_of(map).geometry.life.rooms[&"green.house2"]["life"]["ambience"]
+			_check(dusty.size() == 1 and dusty[0]["kind"] == "dust", "house2.c: dust in the light through the roof's holes, no smoke from the cold hearth (the home preset overridden)")
 		&"green.house3_house":
 			var bare: bool = true
 			for look: Dictionary in looks:
 				bare = bare and look["kind"] == "stone_bed"
 			_check(bare and "cobweb" in kinds, "house3.c: 屋内除了一张石床外其他一无所有; 屋角有一个形状很奇怪的蜘蛛网")
+			var life: VoxelLife = _view_of(map).geometry.life
+			_check(life.ambience_made.get(&"green.house3", 0) == 1 and (life.rooms[&"green.house3"]["life"]["ambience"] as Array).size() == 1, "house3.c: 死气沉沉 — only dust turning in the grey light (the home preset's smoke and moths overridden)")
 		&"green.house4_house":
 			var blaze: bool = false
 			for look: Dictionary in looks:
