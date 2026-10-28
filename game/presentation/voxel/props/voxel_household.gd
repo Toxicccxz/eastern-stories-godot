@@ -56,6 +56,7 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"meat_hooks": _meat_hooks(w)
 		"double_happiness": _double_happiness()
 		"animal_hide": _animal_hide()
+		"instruments": _instruments(w,d)
 		_:
 			return false
 	return true
@@ -520,6 +521,26 @@ func _plaques(w: float) -> void:
 ## and flaked low down where hands and shoulders rub it. `figures` across, else one a unit.
 func _mural(w: float) -> void:
 	var robes: Array = data.get("robes",["a8483a","c88a3a","4a6a8a","6a8a5a","8a5a7a","c8b890"])
+	if data.get("dragons",false):
+		# 双龙吐珠图 (camp8.c): two gold dragons facing across a flaming pearl on a dark silk ground.
+		s.box(root,Vector3(0,1.85,0.02),Vector3(w,1.5,0.02),String(data.get("ground","2a2a34")))
+		s.box(root,Vector3(0,1.85,0.03),Vector3(w-0.08,1.42,0.01),String(data.get("ground","2a2a34")))
+		var gold: String = String(data.get("gold","c9a24a"))
+		for side: float in [-1.0,1.0]:
+			for seg: int in 9:
+				var t: float = float(seg)/8.0
+				var x: float = side*(w*0.42-t*w*0.3)
+				var y: float = 1.3+sin(t*PI*1.5)*0.45+t*0.2
+				s.box(root,Vector3(x,y,0.045),Vector3(0.14,0.12,0.02),gold if seg%2 else "e0c070")
+			s.box(root,Vector3(side*w*0.12,1.95,0.05),Vector3(0.2,0.16,0.03),gold)
+			s.box(root,Vector3(side*w*0.08,2.08,0.05),Vector3(0.06,0.1,0.02),"e8e0c0")
+		s.box(root,Vector3(0,2.0,0.05),Vector3(0.16,0.16,0.03),"f0e4b0:glow")
+		for flame: int in 4:
+			s.tilted_box(root,Vector3((flame-1.5)*0.08,2.14,0.05),Vector3(0.04,0.12,0.02),"e8a040",Vector3(0,0,(flame-1.5)*0.3))
+		for x: float in [-w/2,w/2]:
+			s.box(root,Vector3(x,1.85,0.03),Vector3(0.06,1.56,0.05),"5a3a28")
+		s.box(root,Vector3(0,2.63,0.03),Vector3(w+0.1,0.06,0.06),"5a3a28")
+		return
 	var count: int = int(data.get("figures",maxi(1,floori(w/1.0))))
 	var step: float = w/count
 	s.box(root,Vector3(0,1.85,0.02),Vector3(w,1.5,0.02),String(data.get("ground","d8ccb0")))
@@ -599,6 +620,41 @@ func _double_happiness() -> void:
 
 ## 兽皮 (keep3.c's hall of bear skin and bones): a pelt stretched on the wall with pegs at its
 ## four legs, the fur in two tones (`fur`), a bald patch where it has worn.
+## 一磬、一鼓、一笙、一笛、一萧 (camp8.c): the general's instruments — a stone chime hung in its
+## frame at the left, a drum on three legs in the middle, a 笙 stood in its bowl and the two
+## flutes laid on a low stand at the right (`frame`, `stone`, `drum` colours).
+func _instruments(w: float, d: float) -> void:
+	var frame: String = String(data.get("frame","5a3a28"))
+	var x0: float = -w/2+0.45
+	for x: float in [x0-0.3,x0+0.3]:
+		s.box(root,Vector3(x,0.7,0),Vector3(0.08,1.4,0.08),frame)
+	s.box(root,Vector3(x0,1.42,0),Vector3(0.8,0.08,0.1),frame)
+	s.box(root,Vector3(x0,0.06,0),Vector3(0.9,0.12,0.4),frame)
+	s.box(root,Vector3(x0,1.15,0),Vector3(0.02,0.3,0.02),"c9a24a")
+	s.tilted_box(root,Vector3(x0+0.05,0.85,0),Vector3(0.5,0.1,0.05),String(data.get("stone","6a7a7a")),Vector3(0,0,0.5))
+	s.tilted_box(root,Vector3(x0-0.12,0.72,0),Vector3(0.1,0.36,0.05),String(data.get("stone","6a7a7a")),Vector3(0,0,0.15))
+	for leg: int in 3:
+		var a: float = leg*TAU/3.0
+		s.tilted_box(root,Vector3(cos(a)*0.25,0.3,sin(a)*0.25),Vector3(0.06,0.6,0.06),frame,Vector3(-sin(a)*0.25,0,cos(a)*0.25))
+	s.box(root,Vector3(0,0.78,0),Vector3(0.62,0.4,0.62),String(data.get("drum","9a2e24")))
+	s.box(root,Vector3(0,0.99,0),Vector3(0.56,0.03,0.56),"e8d8b0")
+	for peg: int in 8:
+		var a: float = peg*TAU/8.0
+		s.box(root,Vector3(cos(a)*0.3,0.96,sin(a)*0.3),Vector3(0.04,0.04,0.04),"c9a24a")
+	s.tilted_box(root,Vector3(0.2,1.02,-0.1),Vector3(0.04,0.04,0.4),"a08060",Vector3(0,0.6,0))
+	var x1: float = w/2-0.45
+	s.box(root,Vector3(x1,0.3,0),Vector3(0.8,0.06,0.5),frame)
+	for leg: float in [-0.3,0.3]:
+		s.box(root,Vector3(x1+leg,0.14,0),Vector3(0.06,0.28,0.4),frame)
+	s.box(root,Vector3(x1-0.2,0.4,0.05),Vector3(0.22,0.14,0.22),"3a2a22")
+	for pipe: int in 7:
+		var a: float = pipe*0.9
+		s.box(root,Vector3(x1-0.2+cos(a)*0.07,0.55+(pipe%3)*0.08,0.05+sin(a)*0.07),Vector3(0.03,0.3+(pipe%3)*0.16,0.03),"c9b070")
+	s.tilted_box(root,Vector3(x1+0.15,0.35,-0.12),Vector3(0.04,0.04,0.46),"d8c8a0",Vector3(0,0.2,0))
+	s.tilted_box(root,Vector3(x1+0.25,0.35,0.1),Vector3(0.04,0.04,0.5),"8a6a48",Vector3(0,-0.15,0))
+	if d > 0.0:
+		s.box(root,Vector3(0,0.012,0),Vector3(w*0.95,0.02,d*0.9),String(data.get("mat","7a6a50")))
+
 func _animal_hide() -> void:
 	var furs: Array = data.get("fur",[["5a4332","4a3628"],["6b5a44","5a4a36"],["8a6a4a","7a5a3c"],["3a3028","4a3a30"]])
 	var fur: Array = furs[rng.randi_range(0,furs.size()-1)]
@@ -690,6 +746,24 @@ func table_set(shapes: Shapes, parent: Node3D, top: float, w: float, d: float, c
 				var at := Vector3((i-1)*w*0.28,top,_jitter(0.05))
 				s.box(root,at+Vector3(0,0.03,0),Vector3(0.24,0.05,0.24),"d8d2c2")
 				s.box(root,at+Vector3(0,0.09,0),Vector3(0.16,0.08,0.16),["d28a3a","e6d6b0","b8322a"][i])
+		"silver":
+			# 银器列于黑刚曜石桌上; 鼎、簋、爵、角、鉴, 样样俱全 (camp7.c, camp8.c): silver vessels — a
+			# lidded 鼎 on three feet, a wide 鉴, a footed 簋, an ewer, cups on their feet.
+			var silver: Array = ["c8ccd0","b8bcc2","d8dce0"]
+			s.box(root,Vector3(0,top+0.14,0),Vector3(0.3,0.28,0.3),_pick(silver))
+			s.box(root,Vector3(0,top+0.3,0),Vector3(0.24,0.06,0.24),"a8acb0")
+			for leg: int in 3:
+				var a: float = leg*TAU/3.0
+				s.box(root,Vector3(cos(a)*0.11,top+0.04,sin(a)*0.11),Vector3(0.04,0.08,0.04),"a8acb0")
+			s.box(root,Vector3(-w*0.3,top+0.05,_jitter(d*0.2)),Vector3(0.34,0.1,0.34),_pick(silver))
+			s.box(root,Vector3(-w*0.3,top+0.11,0),Vector3(0.28,0.02,0.28),"6a7a8a")
+			s.box(root,Vector3(w*0.3,top+0.12,-d*0.2),Vector3(0.14,0.24,0.14),_pick(silver))
+			s.box(root,Vector3(w*0.3,top+0.26,-d*0.2),Vector3(0.1,0.05,0.18),"d8dce0")
+			for cup: int in rng.randi_range(2,4):
+				var at := Vector3(_jitter(w*0.35),top+0.06,_jitter(d*0.3))
+				s.box(root,at,Vector3(0.1,0.12,0.1),_pick(silver))
+				s.box(root,at+Vector3(0,-0.05,0),Vector3(0.06,0.03,0.06),"a8acb0")
+			s.box(root,Vector3(w*0.25,top+0.07,d*0.25),Vector3(0.26,0.14,0.26),_pick(silver))
 		"dice":
 			# 骰盅 (duchang.c): the dice cup upturned, dice spilt, loose silver and copper, a wine
 			# pot and cups, a bet slip.

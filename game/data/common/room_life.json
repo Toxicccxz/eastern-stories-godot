@@ -481,6 +481,62 @@
 			"count": 5,
 			"scatter": ["shavings", "chips", "paper"], "spread": 0.14
 		},
+		"camp_yard": {
+			"walls": "earth", "grime": 0.6,
+			"hangings": ["weapon_pegs", "straw_cape", "tool_hooks", "notices"], "hang": 0.12,
+			"pieces": [
+				{"kind": "wine_jars", "size": [48, 32], "count": 4, "tipped": 1},
+				{"kind": "firewood", "size": [48, 32]},
+				{"kind": "sacks", "size": [48, 32], "cloth": "8a8770"},
+				{"kind": "crocks", "size": [32, 32]},
+				{"kind": "clutter", "size": [48, 32], "items": ["bucket", "basket", "bundle"]},
+				{"kind": "lumber", "size": [48, 32], "lean": true, "staves": true},
+				{"kind": "bones", "size": [32, 32], "skull": false, "count": 5}
+			],
+			"count": 6,
+			"scatter": ["ash", "chips", "straw", "shreds"], "spread": 0.1
+		},
+		"barracks": {
+			"walls": "cloth", "grime": 0.7,
+			"hangings": ["weapon_pegs", "straw_cape", "clothes_peg", "weapon_pegs", "tool_hooks"], "hang": 0.24,
+			"tables": ["dice", "wine", "meal"],
+			"pieces": [
+				{"kind": "bedding", "size": [48, 32], "cloth": "8a7a5c"},
+				{"kind": "wine_jars", "size": [32, 32], "count": 2, "tipped": 1},
+				{"kind": "sacks", "size": [32, 32], "cloth": "8a8770"},
+				{"kind": "clutter", "size": [32, 32], "items": ["bundle", "sandals"]},
+				{"kind": "bedding", "size": [48, 32], "cloth": "7a6a50"},
+				{"kind": "chest_stack", "size": [32, 32]},
+				{"kind": "lumber", "size": [48, 32], "lean": true, "staves": true}
+			],
+			"count": 5,
+			"scatter": ["straw", "shreds", "husks"], "spread": 0.12
+		},
+		"officer_tent": {
+			"walls": "cloth", "grime": 0.4,
+			"hangings": ["weapon_pegs", "banner_cloth:8a3a2a", "clothes_peg", "wall_lamp", "notices"], "hang": 0.18,
+			"tables": ["wine", "tea_used"],
+			"pieces": [
+				{"kind": "chest_stack", "size": [48, 32]},
+				{"kind": "wine_jars", "size": [32, 32], "count": 2},
+				{"kind": "bedding", "size": [48, 32], "cloth": "9a8a6a"},
+				{"kind": "clutter", "size": [32, 32], "items": ["bundle", "cups"]}
+			],
+			"count": 3,
+			"scatter": ["shreds", "straw"], "spread": 0.05
+		},
+		"general_tent": {
+			"walls": "cloth", "grime": 0.15,
+			"hangings": ["animal_hide", "weapon_pegs", "banner_cloth:8a2a24", "wall_scroll:calligraphy", "animal_hide", "wall_lamp"], "hang": 0.22,
+			"tables": ["wine", "books"],
+			"pieces": [
+				{"kind": "chest_stack", "size": [48, 32]},
+				{"kind": "crocks", "size": [32, 32], "scrolls": true},
+				{"kind": "wine_jars", "size": [32, 32], "count": 2}
+			],
+			"count": 2,
+			"scatter": [], "spread": 0.0
+		},
 		"training_yard": {
 			"walls": "plaster", "grime": 0.6,
 			"hangings": ["straw_cape", "tool_hooks:sickles", "weapon_pegs"], "hang": 0.1,

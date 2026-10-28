@@ -1,0 +1,57 @@
+{
+  "indoor": true,
+  "courtyard": true,
+  "cutaway_rooms": true,
+  "camera_size": 18,
+  "note": "洞内石室 (train.c): 飕飕的风不停地向你身上袭卷而来; four great holes in the walls, east, south, west and north, look out on bamboo bending in the gale; the stone bookcase on the north wall glows blue (正气的来源). The way out is the gap by the great yellow stone.",
+  "palette": {"wood": ["6b6a62", "75746c", "5f5e56"], "wall": "c4a060"},
+  "wall_height": 3.0,
+  "wall_looks": [
+    {"rect": [-32, -32, 352, 352], "style": "rock", "colors": ["c4a060", "cca868", "b89458", "d4b070", "a88a50"], "seam": "7a6a3a", "note": "黄石 inside the great stone"}
+  ],
+  "ground": {
+    "cave_floor": {"style": "scree", "colors": ["a89060", "b09868", "9c8458"], "gravel": 0.35, "stones": 0.06, "pebbles": ["c4a868", "b89858", "d0b878"], "note": "the stone floor, dust blown in"},
+    "forest": {"colors": ["5e7a3a", "6a8a42", "76964a"]},
+    "boundary": {"colors": ["5e7a3a", "6a8a42", "76964a"]}
+  },
+  "flora": {
+    "grass_density": 0.9,
+    "grass_colors": ["4a7a3a", "5e9048", "76a654", "92bc66"],
+    "flower_colors": ["e8e0b0", "d8c870", "c8d8a0", "e0e8c0"],
+    "flower_threshold": 0.3,
+    "tree_kinds": [],
+    "wind": 1.0,
+    "butterflies": 0
+  },
+  "light": {
+    "ambient": ["b8c0b0", "5a6a84"],
+    "ambient_energy": [0.46, 0.36],
+    "sun_energy": [0.35, 0.12]
+  },
+  "props": [
+    {"kind": "tree", "at": [160, -20], "size": [24, 24], "species": "bamboo", "scale": 1.3, "variant": 1, "note": "train.c: 向洞外望去亦是一遍遍的竹林 — bamboo outside each hole"},
+    {"kind": "tree", "at": [112, -20], "size": [24, 24], "species": "bamboo", "scale": 1.1, "variant": 3},
+    {"kind": "tree", "at": [208, -18], "size": [24, 24], "species": "bamboo", "scale": 1.2, "variant": 5},
+    {"kind": "tree", "at": [340, 160], "size": [24, 24], "species": "bamboo", "scale": 1.2, "variant": 2},
+    {"kind": "tree", "at": [338, 110], "size": [24, 24], "species": "bamboo", "scale": 1.0, "variant": 4},
+    {"kind": "tree", "at": [-20, 160], "size": [24, 24], "species": "bamboo", "scale": 1.25, "variant": 0},
+    {"kind": "tree", "at": [-18, 210], "size": [24, 24], "species": "bamboo", "scale": 1.05, "variant": 3},
+    {"kind": "tree", "at": [160, 340], "size": [24, 24], "species": "bamboo", "scale": 1.15, "variant": 1},
+    {"kind": "tree", "at": [112, 338], "size": [24, 24], "species": "bamboo", "scale": 0.95, "variant": 2},
+    {"kind": "light_shaft", "at": [160, 30], "size": [64, 32], "height": 2.6, "rays": 3, "slant": 0.4, "light": "e8f0d8", "day": 1.2, "night": 0.25, "floor": "b8a068", "note": "daylight and wind through the north hole"},
+    {"kind": "light_shaft", "at": [290, 160], "size": [64, 32], "rotation": -90, "height": 2.6, "rays": 3, "slant": 0.4, "light": "e8f0d8", "day": 1.2, "night": 0.25, "floor": "b8a068"},
+    {"kind": "light_shaft", "at": [30, 160], "size": [64, 32], "rotation": 90, "height": 2.6, "rays": 3, "slant": 0.4, "light": "e8f0d8", "day": 1.2, "night": 0.25, "floor": "b8a068"},
+    {"kind": "light_shaft", "at": [160, 290], "size": [64, 32], "rotation": 180, "height": 2.6, "rays": 3, "slant": 0.4, "light": "e8f0d8", "day": 1.2, "night": 0.25, "floor": "b8a068"},
+    {"kind": "glow", "at": [80, 60], "color": "6aa8ff", "day": 1.6, "night": 2.0, "range": 7.0, "height": 1.6, "flicker": 0.05, "note": "train.c: 石制书柜, 正散出阵阵的蓝光"},
+    {"kind": "stains", "at": [160, 160], "size": [200, 200], "count": 6, "colors": ["b8a068", "a89058"], "note": "dust blown in heaps by the holes"},
+    {"kind": "cobweb", "at": [300, 40], "size": [40, 8], "rotation": -45, "height": 2.6},
+    {"kind": "rubble", "at": [250, 300], "size": [56, 24], "count": 6, "colors": ["c4a060", "b89458", "a88a50"]}
+  ],
+  "ambience": {
+    "dust": [
+      {"rect": [0, 0, 320, 320], "count": 30, "color": "d8d0a8", "wind": [1.0, -0.3], "height": [0.3, 2.4], "note": "train.c: 飕飕的风不停地向你身上袭卷而来"},
+      {"rect": [0, 0, 320, 320], "count": 14, "color": "8ab060", "wind": [-0.8, 0.5], "height": [0.5, 2.2], "size": [0.1, 0.03, 0.14], "note": "bamboo leaves blown through the holes"}
+    ]
+  },
+  "actors": {"default": {"coat": "7a6a52"}}
+}

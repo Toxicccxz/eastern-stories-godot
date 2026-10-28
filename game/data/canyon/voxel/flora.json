@@ -1,0 +1,20 @@
+{
+  "note": "黄石隘口 (美术规划 §1): 沙黄、赭石、铁灰 — dry grass gone straw-white between the yellow stones, low thorn scrub, a few wind-broken mountain pines, dead trees; the 竹林道 is bamboo. The region's default flora; a map's own `flora` overrides it key by key.",
+  "crown_colors": {
+    "mountain_pine": ["3a4430", "4e5838", "66703f", "7e8648"],
+    "scrub": ["6a6238", "7e7440", "948a4a", "a89c58"],
+    "shrub": ["5e5a34", "74703e", "8a8448", "a09a56"],
+    "dead": ["6a5a44", "7a6a50", "8a7a5c", "9a8a68"],
+    "bamboo": ["4a7a3a", "5e9048", "76a654", "92bc66"],
+    "stunted_pine": ["44502e", "586436", "707a40", "88904c"]
+  },
+  "bark_colors": {
+    "mountain_pine": ["5a4634", "6a5640", "4e3c2e"],
+    "scrub": ["6a5a44", "7a6a50"],
+    "shrub": ["6a5a44", "7a6a50"],
+    "dead": ["7a6a54", "8a7a60"],
+    "bamboo": ["7a9048", "8aa054"]
+  },
+  "grass_colors": ["8a7a3e", "a89450", "c4ac60", "dcc878"],
+  "flower_colors": ["e8d8a0", "d8a040", "b85a3a", "9a7ab0"]
+}

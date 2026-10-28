@@ -77,7 +77,7 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 				for row: int in 2:
 					for col: int in maxi(2,floori(w/0.28)):
 						var p := Vector3(-w/2+0.21+col*0.28,0.27+row*height*0.49,0)
-						s.box(root,p+Vector3(0,0.34,0),Vector3(0.18,0.67-0.07*(col%3),d*0.82),["698079","ab8a5c","65738a","b7ac83"][col%4])
+						s.box(root,p+Vector3(0,0.34,0),Vector3(0.18,0.67-0.07*(col%3),d*0.82),(["5a7a9a:glow","6a8aaa","4a6a8a:glow","7a9aba"] if data.get("stone",false) else ["698079","ab8a5c","65738a","b7ac83"])[col%4])
 						s.box(root,p+Vector3(0,0.39,d*0.42),Vector3(0.13,0.05,0.012),"d0c1a2")
 			elif kind=="weapon_rack":
 				for i: int in maxi(2,floori(w/0.38)):

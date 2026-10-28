@@ -1,0 +1,176 @@
+{
+  "indoor": false,
+  "camera_size": 23,
+  "note": "黄石隘口 and 天驼关 (canyon1–7.c, stone_forest1–3.c): the yellow-earth path between barren mountains 高耸入云, from the chain foot under the north wall south past the garrison's camp behind its iron palisade, the smooth west wall, the raised iron gate and its winch, into the valley shaped like a camel's humps; west of 隘口小路 the 黄石穿林路 through grass 三四十尺 high in fog, to the sunlit clearing and the strange mirror. 沙黄、赭石、铁灰 (美术规划 §1).",
+  "edge": {
+    "minimum_margin": 32,
+    "maximum_margin": 80,
+    "depth": 2.8,
+    "top": "8a7446",
+    "bottom": "6a5636",
+    "strata": ["b08a52", "a07c48", "8c6a40"]
+  },
+  "wall_height": 6.0,
+  "wall_looks": [
+    {"rect": [696, 1272, 728, 1448], "style": "rock", "smooth": true, "colors": ["c8a868", "d0b070", "c0a060", "ccac6c"], "note": "canyon4.c: 在西边的山壁似乎过于平滑, 不太自然 — the smooth wall the 兵器库 hides behind"}
+  ],
+  "cliffs": {
+    "kinds": ["cliff"],
+    "low": 0.9,
+    "high": 5.8,
+    "rise": 230,
+    "step": 0.5,
+    "rough": 0.5,
+    "keep": 176,
+    "trim": ["cliff"],
+    "grooves": 0.08,
+    "strata": ["b08a52", "c09a5c", "a07a46", "d0a866", "9a7442", "b8925a"],
+    "tops": ["8a7a46", "9c8a4e", "a89656", "948450"],
+    "south_rise": 1.6,
+    "areas": [
+      {"rect": [600, 1728, 1200, 2304], "strata": ["9a7a52", "a8865a", "8a6a46", "b4906a", "7c6242", "a07c50"], "tops": ["7a6a42", "8a7848", "6e6040"], "grooves": 0.14, "note": "canyon6.c, canyon7.c: 高耸的悬崖立在天驼关两侧 — the valley's walls, ruddier and scored"},
+      {"rect": [600, 1216, 704, 1472], "strata": ["c8a868", "d0b070", "c0a060", "ccac6c"], "tops": ["a89656", "b4a05c"], "grooves": 0.0, "note": "the rock behind the smooth wall"},
+      {"rect": [1088, 880, 2624, 1800], "strata": ["b89860", "c4a468", "ac8c56", "d0b070", "a08050"], "tops": ["948450", "a09058", "8a7a48"], "grooves": 0.04, "note": "the slopes round the camp, sand-pale"}
+    ],
+    "lifts": [
+      {"rect": [1104, 384, 1328, 448], "by": 5.5, "note": "canyon1.c: 北缘为一山壁, 壁上有一长达十七、八丈的铁索 — the chain wall"},
+      {"rect": [960, 384, 1344, 448], "by": 2.0},
+      {"rect": [600, 704, 1200, 1216], "by": 1.5, "note": "canyon2.c: 两侧依旧是荒冷的山壁, 但似乎更为严峻"},
+      {"rect": [600, 1216, 704, 1472], "by": 3.0, "note": "the mass behind the smooth wall"},
+      {"rect": [600, 1728, 1200, 2304], "by": 2.5, "note": "the valley's cliffs"}
+    ]
+  },
+  "reshape": [
+    {"rect": [1088, 944, 2576, 1744], "from": ["cliff"], "to": "rock", "note": "the camp's ground between the tents: trodden flat inside the palisade (the 2D map keeps it closed; the camp is its own map)"}
+  ],
+  "exit_trails": {"canyon.canyon7.south": {"cells": 12, "kind": "path", "width": 8}, "note": "canyon7.c: 南下通往京师 — the path runs on south to 玉螺湖村"},
+  "ground": {
+    "path": {"style": "scree", "colors": ["c0a060", "cca86a", "b49458"], "gravel": 0.7, "stones": 0.1, "pebbles": ["d8b870", "b89850", "e0c880", "a08848"], "note": "canyon3.c: 黄土、黄石还是平铺于小路上"},
+    "rock": {"style": "scree", "colors": ["a89060", "b09868", "9c8458"], "gravel": 0.5, "stones": 0.03, "pebbles": ["c4a868", "b89858", "8a7a50"], "note": "the camp's trodden yard"},
+    "forest_floor": {"style": "scree", "colors": ["c8b070", "d4bc7a", "bca468"], "gravel": 0.6, "stones": 0.22, "pebbles": ["e8e0c8", "f0ead8", "d8c890", "c8b878"], "note": "stone_forest2.c: 黄石斑斑, 挟杂著白色的圆点"},
+    "grass": {"colors": ["8a8a4e", "989454", "a6a05a"]},
+    "boundary": {"style": "scree", "colors": ["b09060", "bc9c68", "a48456"], "gravel": 0.4, "stones": 0.04, "pebbles": ["c8a86a", "b89858", "d4b878"]}
+  },
+  "ground_tints": {"bank": "8a7a46", "mud": "9a845a", "chips": ["b8a478", "c4b088", "a89060"], "dust": "c8b080", "grit": "d4c090"},
+  "flora": {
+    "grass_density": 0.55,
+    "density": {"path": 0.04, "rock": 0.06, "forest_floor": 0.4, "grass": 0.9, "boundary": 0.3},
+    "flower_threshold": 0.26,
+    "blossom_trees": 0.0,
+    "tree_types": ["scrub", "dead", "scrub", "mountain_pine"],
+    "tree_kinds": ["forest", "boundary"],
+    "tree_chance": 0.3,
+    "tree_spacing": 80,
+    "grove_contrast": 0.7,
+    "cliff_tufts": 0.16,
+    "cliff_flowers": 0.04,
+    "cliff_trees": 0.012,
+    "cliff_tree_types": ["scrub", "dead", "mountain_pine", "scrub"],
+    "outcrop_colors": ["b08a52", "c09a5c", "9a7442"],
+    "wind": 0.55,
+    "butterflies": 1,
+    "bands": [{"within": 40, "types": ["scrub"]}],
+    "south_reach": 2.0,
+    "areas": [
+      {"rect": [-160, 640, 192, 960], "tree_types": [], "tree_chance": 0.0, "grass_density": 0.9, "flower_threshold": 0.1, "ground": ["8a8a4e", "989454", "a6a05a"], "note": "stone_forest3.c: 天光点著, 华光亮 — the sunlit clearing"},
+      {"rect": [-192, 576, 704, 1024], "tree_types": [], "tree_chance": 0.0, "grass_density": 0.8, "ground": ["a89a5a", "b4a662", "c0b26a"], "note": "stone_forest1.c: 四周是一大遍的林地, 草高于三四十尺 — no trees, only the giant grass (reeds and the meadow)"}
+    ],
+    "meadows": [
+      {"rect": [-192, 576, 704, 1024], "on": ["forest", "boundary"], "scale": [2.4, 3.4], "density": 1.0, "tufts": 4, "note": "草高于三四十尺: the fringes either side of the 黄石穿林路"}
+    ]
+  },
+  "light": {
+    "areas": [
+      {"rect": [-160, 640, 192, 960], "sun_energy": [1.25, 0.4], "ambient_energy": [0.52, 0.3], "note": "stone_forest3.c: 一束极大的光注猛然照射到你的身上"},
+      {"rect": [-192, 576, 704, 1024], "fog": {"color": ["d8d4c0", "3a3c44"], "density": [0.0, 0.0], "depth": [14.0, 60.0], "depth_density": 0.5}, "ambient": ["d8d4c0", "5a6a94"], "ambient_energy": [0.5, 0.3], "sun_energy": [0.7, 0.28], "note": "stone_forest1.c: 雾盲盲的景象 — the fog thick in the grass, the path kept clear"}
+    ]
+  },
+  "buildings": [
+    {"rect": [1088, 1248, 1376, 1440], "portals": ["canyon.canyon4.east"], "note": "camp1.c: 军营入口 — the gate yard in the iron palisade, two soldiers on duty",
+      "construction": "iron_bars", "iron": "3a3835", "rail": "46423e", "wall": "3a3835", "timber": "5a4a3a", "height": 2.6, "roof_form": "none", "foundation": 0.0, "bay": 7,
+      "porch": "none", "lanterns": false, "goods": "none", "doorway_width": 2.2, "step": "9a8a5e"},
+    {"rect": [1440, 1248, 1696, 1440], "portals": [], "note": "camp2.c: 营火区 — the fire yard inside the palisade",
+      "construction": "iron_bars", "iron": "3a3835", "rail": "46423e", "wall": "3a3835", "timber": "5a4a3a", "height": 2.4, "roof_form": "none", "foundation": 0.0, "bay": 7,
+      "porch": "none", "lanterns": false, "goods": "none"},
+    {"rect": [1120, 992, 1376, 1184], "portals": [], "note": "camp3.c: 小兵营帐 — rough cloth",
+      "construction": "cloth", "bands": ["7a6a4e", "847456", "6e5e44"], "patch": "5e4e38", "wall": "7a6a4e", "timber": "6a5038", "roof": "7a6a4e", "roof_tiles": "cloth", "roof_form": "hip", "ridge": "x", "rise": 1.4, "height": 2.2, "overhang": 0.35, "eave_lift": 0.0, "foundation": 0.0, "bay": 5,
+      "porch": "none", "lanterns": false, "goods": "none"},
+    {"rect": [1120, 1504, 1376, 1696], "portals": [], "note": "camp4.c: 小兵营帐 — the gamblers' tent",
+      "construction": "cloth", "bands": ["7e6e52", "8a7a5c", "72624a"], "patch": "5e4e38", "wall": "7e6e52", "timber": "6a5038", "roof": "7e6e52", "roof_tiles": "cloth", "roof_form": "hip", "ridge": "x", "rise": 1.3, "height": 2.2, "overhang": 0.35, "eave_lift": 0.0, "foundation": 0.0, "bay": 5,
+      "porch": "none", "lanterns": false, "goods": "none"},
+    {"rect": [1440, 992, 1696, 1184], "portals": [], "note": "camp5.c: 小队长营帐 — 布料倒是比小兵营帐好多了",
+      "construction": "cloth", "bands": ["a89070", "b09878", "9a8466"], "patch": "8a7458", "wall": "a89070", "timber": "6a5038", "roof": "a89070", "roof_tiles": "cloth", "roof_form": "hip", "ridge": "x", "rise": 1.6, "height": 2.4, "overhang": 0.4, "eave_lift": 0.0, "foundation": 0.0, "bay": 5,
+      "porch": "none", "lanterns": false, "goods": "none"},
+    {"rect": [1440, 1504, 1696, 1696], "portals": [], "note": "camp6.c: 小队长营帐",
+      "construction": "cloth", "bands": ["a08a6a", "aa9474", "948060"], "patch": "8a7458", "wall": "a08a6a", "timber": "6a5038", "roof": "a08a6a", "roof_tiles": "cloth", "roof_form": "hip", "ridge": "x", "rise": 1.6, "height": 2.4, "overhang": 0.4, "eave_lift": 0.0, "foundation": 0.0, "bay": 5,
+      "porch": "none", "lanterns": false, "goods": "none"},
+    {"rect": [1760, 1184, 2080, 1504], "portals": [], "note": "camp7.c: 副将营帐 — dark red cloth, 确实有副将营帐的味道",
+      "construction": "cloth", "bands": ["6a3a30", "74423a", "5e342a"], "patch": "4a2a24", "wall": "6a3a30", "timber": "4a3a2a", "roof": "6a3a30", "roof_tiles": "cloth", "roof_form": "hip", "ridge": "x", "rise": 2.0, "height": 3.0, "overhang": 0.5, "eave_lift": 0.0, "foundation": 0.0, "bay": 6,
+      "porch": "none", "lanterns": false, "goods": "none"},
+    {"rect": [2144, 1120, 2528, 1568], "portals": [], "note": "camp8.c: 将军营帐 — 虎头挂于营顶, 虎皮披于帐上, 严然有天子之势",
+      "construction": "cloth", "bands": ["7a2a24", "86322a", "6e2620"], "patch": "5a2a24", "wall": "7a2a24", "timber": "4a3a2a", "roof": "7a2a24", "roof_tiles": "cloth", "roof_form": "hip", "ridge": "x", "rise": 2.4, "height": 3.4, "overhang": 0.6, "eave_lift": 0.0, "foundation": 0.0, "bay": 6,
+      "porch": "none", "lanterns": false, "goods": "none"}
+  ],
+  "props": [
+    {"kind": "iron_chain", "at": [1216, 456], "size": [16, 16], "height": 6.6, "face": 0.1, "links": 36, "note": "canyon1.c: 壁上有一长达十七、八丈的铁索"},
+    {"kind": "standing_rock", "at": [990, 466], "size": [32, 30], "height": 2.6, "on_cliff": true, "colors": ["b08a52", "c09a5c", "9a7442", "d0a866"], "cap": "9a9452", "note": "the tail: 碎石黄土路, 两侧是高耸入云的荒山"},
+    {"kind": "rock_pile", "at": [1000, 560], "size": [40, 30], "on_cliff": true, "count": 7, "colors": ["b08a52", "c09a5c", "9a7442", "d0a866"]},
+    {"kind": "boulder", "at": [1312, 632], "size": [40, 36], "on_cliff": true, "tall": 0.9, "colors": ["c09a5c", "b08a52", "9a7442"], "lichen_color": "8a8a52"},
+    {"kind": "bush", "at": [1200, 690], "size": [30, 26], "on_cliff": true, "colors": ["6a6238", "7e7440", "948a4a"]},
+    {"kind": "cairn", "at": [1250, 650], "size": [16, 16], "on_cliff": true, "stones": 5, "colors": ["b08a52", "c09a5c", "9a7442"]},
+    {"kind": "bones", "at": [1100, 600], "size": [40, 30], "skull": false, "count": 4, "note": "someone who did not make the climb"},
+    {"kind": "trail", "points": [[1216, 560], [1150, 620], [1060, 690], [980, 760], [900, 830], [860, 900], [880, 980], [900, 1100], [900, 1200], [900, 1300], [900, 1400], [900, 1500], [900, 1600], [900, 1700]], "color": "b09050", "note": "canyon2.c: 来往这条道路的人必不多 — one worn line down the middle"},
+    {"kind": "boulder", "at": [740, 1010], "size": [40, 36], "on_cliff": true, "tall": 0.8, "colors": ["c09a5c", "b08a52", "9a7442"]},
+    {"kind": "rock_pile", "at": [732, 1070], "size": [36, 28], "on_cliff": true, "count": 6, "colors": ["b08a52", "c09a5c", "9a7442", "d0a866"]},
+    {"kind": "standing_rock", "at": [736, 1130], "size": [30, 28], "height": 2.2, "on_cliff": true, "colors": ["b08a52", "c09a5c", "9a7442", "d0a866"], "cap": "9a9452"},
+    {"kind": "boulder", "at": [740, 1490], "size": [40, 36], "on_cliff": true, "tall": 0.8, "colors": ["c09a5c", "b08a52", "9a7442"]},
+    {"kind": "bush", "at": [744, 1560], "size": [30, 26], "on_cliff": true, "colors": ["6a6238", "7e7440", "948a4a"]},
+    {"kind": "boulder", "at": [732, 1600], "size": [32, 28], "on_cliff": true, "tall": 0.7, "colors": ["c09a5c", "b08a52", "9a7442"]},
+    {"kind": "stone_door", "at": [712, 1344], "size": [64, 16], "rotation": 90, "colors": ["4a4642", "56524c", "3e3a36"], "moss": ["6a5a3a", "7a6a44"], "note": "the 兵器库's door in the smooth wall (blackmarket.c: east onto 隘口中道)"},
+    {"kind": "iron_palisade", "at": [1072, 1136], "size": [16, 352], "height": 2.6, "colors": ["3a3835", "46423e", "2e2c2a"], "note": "canyon3.c: 军营四周为铁栅所包围"},
+    {"kind": "iron_palisade", "at": [1072, 1568], "size": [16, 320], "height": 2.6, "colors": ["3a3835", "46423e", "2e2c2a"], "note": "canyon5.c: 往东侧看去, 铁栅的映满你整双眼眸"},
+    {"kind": "iron_palisade", "at": [1824, 976], "size": [1472, 16], "height": 2.6, "on_cliff": true, "colors": ["3a3835", "46423e", "2e2c2a"], "note": "the camp's north side"},
+    {"kind": "iron_palisade", "at": [2560, 1344], "size": [16, 752], "height": 2.6, "on_cliff": true, "colors": ["3a3835", "46423e", "2e2c2a"], "note": "its east side"},
+    {"kind": "iron_palisade", "at": [1824, 1712], "size": [1472, 16], "height": 2.6, "on_cliff": true, "colors": ["3a3835", "46423e", "2e2c2a"], "note": "its south side"},
+    {"kind": "torch", "at": [1072, 1300], "size": [16, 16], "height": 1.9, "note": "the camp's gate: a watch fire either side"},
+    {"kind": "torch", "at": [1072, 1424], "size": [16, 16], "height": 1.9},
+    {"kind": "banner", "at": [1120, 1230], "height": 4.0, "cloth": "8a2a24", "trim": "c9a24a", "note": "the garrison's flags"},
+    {"kind": "banner", "at": [2112, 1340], "height": 4.4, "cloth": "8a2a24", "trim": "c9a24a"},
+    {"kind": "banner", "at": [1400, 1100], "height": 3.6, "cloth": "7a2a24", "trim": "c9a24a"},
+    {"kind": "campfire", "at": [1568, 1344], "size": [40, 40], "pot": true, "range": 10.0, "note": "camp2.c: 中央地带则有一营火"},
+    {"kind": "well", "at": [1668, 1280], "size": [32, 32], "cups": true, "note": "camp2.c: 在边边则有一个水井"},
+    {"kind": "wine_jars", "at": [1480, 1400], "size": [48, 32], "count": 4, "tipped": 1},
+    {"kind": "firewood", "at": [1500, 1290], "size": [48, 32]},
+    {"kind": "crocks", "at": [1660, 1400], "size": [32, 32]},
+    {"kind": "bones", "at": [1600, 1400], "size": [40, 30], "skull": false, "count": 5, "ribs": false, "note": "camp2.c: 地上有些食物的残渣"},
+    {"kind": "tiger_head", "at": [2336, 1344], "size": [32, 32], "elevation": 5.95, "height": 0.3, "note": "camp8.c: 虎头挂于营顶"},
+    {"kind": "iron_gate", "at": [896, 1728], "size": [224, 32], "raised": 2.8, "height": 5.6, "occludes": true, "posts": ["8a7a5a", "9a8864", "7a6a4e", "a89470"], "iron": ["3a3633", "48423d", "2f2b28", "5a4a3a"], "note": "canyon5.c: 两片诺大的铁门, 现在已经高高的抬起"},
+    {"kind": "far_peak", "at": [400, 2000], "size": [260, 220], "height": 12.0, "haze": false, "colors": ["a08c62", "ac976a", "b8a372", "94805a"], "note": "canyon7.c: 形状很象骆驼的双峰 — the two humps, beyond the valley's walls"},
+    {"kind": "far_peak", "at": [1400, 2000], "size": [280, 230], "height": 12.5, "haze": false, "colors": ["a08c62", "ac976a", "b8a372", "94805a"]},
+    {"kind": "reeds", "at": [448, 664], "size": [512, 140], "count": 30, "height": 3.8, "colors": ["c9b44a", "b39a3a", "d8c86a", "9e8a34"], "note": "stone_forest1.c: 草高于三四十尺 — north of the path"},
+    {"kind": "reeds", "at": [448, 976], "size": [512, 96], "count": 24, "height": 3.6, "colors": ["c9b44a", "b39a3a", "d8c86a", "9e8a34"], "note": "and south of it"},
+    {"kind": "reeds", "at": [-128, 800], "size": [60, 300], "count": 10, "height": 3.4, "colors": ["c9b44a", "b39a3a", "d8c86a"]},
+    {"kind": "reeds", "at": [160, 700], "size": [56, 110], "count": 6, "height": 3.4, "colors": ["c9b44a", "b39a3a", "d8c86a"]},
+    {"kind": "glow", "at": [200, 848], "color": "f8f4e8", "day": 0.9, "night": 0.4, "range": 7.0, "height": 2.0, "note": "stone_forest2.c: 西侧亮光逐渐显明"},
+    {"kind": "light_shaft", "at": [16, 780], "size": [80, 56], "height": 3.4, "rays": 3, "slant": 0.9, "light": "fff0c0", "day": 2.2, "night": 0.3, "floor": "d8c890", "note": "stone_forest3.c: 一束极大的光注猛然照射到你的身上"},
+    {"kind": "glow", "at": [16, 704], "color": "fff4d0", "day": 1.6, "night": 0.5, "range": 8.0, "height": 2.4, "note": "the mirror's glare"}
+  ],
+  "ambience": {
+    "birds": [
+      {"at": [900, 1000], "radius": 260, "count": 2, "height": 12, "color": "3a3028", "note": "hawks over the pass"},
+      {"at": [1800, 1300], "radius": 200, "count": 3, "height": 8, "color": "2a2522", "note": "crows over the camp"}
+    ],
+    "dust": [
+      {"rect": [704, 1216, 1088, 1472], "count": 30, "color": "d8c088", "wind": [1.0, -0.2], "note": "canyon4.c: 风势比其他地方大了许多"},
+      {"rect": [704, 1728, 1088, 2240], "count": 24, "color": "c8b080", "wind": [0.3, 1.0]},
+      {"rect": [-192, 576, 704, 1024], "count": 26, "color": "e0dcc8", "wind": [0.2, 0.1], "height": [0.5, 3.0], "size": [0.6, 0.08, 0.3], "note": "stone_forest1.c: 雾盲盲 — mist drifting in the grass"}
+    ]
+  },
+  "actors": {
+    "default": {"coat": "8a7a5a"},
+    "canyon.npc.door_guard": {"coat": "6a5a48", "hat": true},
+    "canyon.npc.guard1": {"coat": "6a5a48", "hat": true},
+    "canyon.npc.guard2": {"coat": "5a4a3a", "hat": true},
+    "canyon.npc.seller": {"coat": "6a6a5a", "hat": true}
+  }
+}

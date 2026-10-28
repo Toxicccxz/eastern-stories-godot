@@ -1,0 +1,36 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 19,
+  "note": "兵器库 (blackmarket.c): a chamber cut into the rock behind 隘口中道's smooth west wall; 墙上挂满了各式各样的武器, a great 「武」 written on the north wall; the 后备兵 among the racks. Its one door opens east onto the pass.",
+  "palette": {"wood": ["5a4a3c", "645446", "4e3e32"], "wall": "b89458"},
+  "wall_height": 3.4,
+  "surfaces": {"canyon.blackmarket": "rock"},
+  "wall_looks": [
+    {"rect": [-32, -32, 416, 352], "style": "rock", "colors": ["b8945a", "c4a064", "a88450", "cca870", "9c7a48"], "seam": "6a5a3a", "note": "黄石: the yellow rock the room is cut in"}
+  ],
+  "ground": {
+    "rock": {"style": "slabs", "lengths": [1, 2], "depths": [1, 2], "cracks": 0.2, "broken": 0.08, "sunk": 0.04, "tufts": 0.0, "stones": ["a08a58", "aa9462", "968250", "b49c68"], "worn": ["b8a470", "b09c68"], "bed": "5a4a30", "joint": 0.05, "mud": "7a6a48", "crack": "5a4a30", "note": "the floor chiselled flat in the rock"}
+  },
+  "light": {
+    "ambient": ["c8b090", "6a6478"],
+    "ambient_energy": [0.44, 0.36],
+    "sun_energy": [0.3, 0.1]
+  },
+  "props": [
+    {"kind": "carved_wall", "at": [192, 46], "size": [160, 16], "text": "武", "from": 2.2, "color": "a8382a", "shade": "5a4630", "note": "blackmarket.c: 墙上写了个诺大的「武」字"},
+    {"kind": "weapon_pegs", "at": [96, 32], "size": [64, 16], "wall_mounted": true, "seed": 3, "height": 2.9, "note": "墙上挂满了各式各样的武器: above the racks too"},
+    {"kind": "weapon_pegs", "at": [288, 32], "size": [64, 16], "wall_mounted": true, "seed": 4, "height": 2.9},
+    {"kind": "weapon_pegs", "at": [32, 160], "size": [64, 16], "wall_mounted": true, "rotation": 90, "seed": 5, "height": 2.9},
+    {"kind": "weapon_pegs", "at": [176, 288], "size": [64, 16], "wall_mounted": true, "rotation": 180, "seed": 6, "height": 2.9},
+    {"kind": "wall_lamp", "at": [352, 80], "size": [32, 16], "wall_mounted": true, "rotation": -90},
+    {"kind": "wall_lamp", "at": [352, 240], "size": [32, 16], "wall_mounted": true, "rotation": -90},
+    {"kind": "stone_door", "at": [368, 160], "size": [64, 16], "rotation": -90, "colors": ["4a4642", "56524c", "3e3a36"], "moss": ["5a4a30", "6a5a3a"], "note": "the iron-dark door east onto 隘口中道 (seen from within)"},
+    {"kind": "glow", "at": [192, 160], "color": "ffc890", "day": 0.5, "night": 0.9, "range": 7.0, "height": 2.4, "flicker": 0.08},
+    {"kind": "stains", "at": [120, 120], "size": [180, 120], "count": 5, "colors": ["8a7a4e", "7a6a44"], "note": "the floor worn pale where the racks are gone over"}
+  ],
+  "actors": {
+    "default": {"coat": "7a6a52"},
+    "canyon.npc.seller": {"coat": "6a6a5a", "hat": true}
+  }
+}

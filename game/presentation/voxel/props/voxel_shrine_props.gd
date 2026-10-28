@@ -37,9 +37,31 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"temple_bell": _temple_bell(w,d)
 		"brick_shrine": _brick_shrine(w,d)
 		"pill_furnace": _pill_furnace(w,d)
+		"dragon_pillar": _dragon_pillar(w,d)
 		_:
 			return false
 	return true
+
+## 龙柱顶天 (camp8.c): a red pillar from floor to roof, a gilt dragon coiling up it, its head out
+## near the top over the pearl (`height`, `column`, `gilt`).
+func _dragon_pillar(w: float, d: float) -> void:
+	var height: float = float(data.get("height",3.2))
+	var column: String = String(data.get("column","8a2a24"))
+	var gilt: String = String(data.get("gilt","c9a24a"))
+	var r: float = minf(w,d)*0.5
+	s.box(root,Vector3(0,0.1,0),Vector3(r*2,0.2,r*2),"6a5a4a")
+	s.box(root,Vector3(0,height/2,0),Vector3(r*1.1,height,r*1.1),column)
+	s.box(root,Vector3(0,height-0.1,0),Vector3(r*1.5,0.2,r*1.5),gilt)
+	var turns: int = 18
+	for i: int in turns:
+		var a: float = i*TAU*2.4/turns
+		var y: float = 0.4+(height-1.0)*float(i)/turns
+		s.box(root,Vector3(cos(a)*r*0.65,y,sin(a)*r*0.65),Vector3(0.14,0.16,0.14),gilt if i%3 else "e8d890")
+	var last: float = TAU*2.4
+	var head := Vector3(cos(last)*r*0.75,height-0.5,sin(last)*r*0.75)
+	s.box(root,head,Vector3(0.24,0.2,0.3),gilt)
+	s.box(root,head+Vector3(0,0.14,0),Vector3(0.06,0.14,0.06),gilt)
+	s.box(root,head+Vector3(0,0.0,0.3),Vector3(0.12,0.12,0.12),"e8e0c0:glow")
 
 ## A sacred beast in gilt and glaze on its plinth beside a god (uproom.c: 雨神「天龙」、火神
 ## 「凤凰」): `beast` "dragon" (coiled, rearing, whiskered), "phoenix" (wings raised, a long

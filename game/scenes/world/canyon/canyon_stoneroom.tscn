@@ -1,5 +1,7 @@
 [gd_scene format=3]
 
+[ext_resource type="Script" path="res://presentation/voxel/world_voxel_view.gd" id="map_view"]
+
 [ext_resource type="Script" path="res://runtime/world/world_map_controller.gd" id="map"]
 [ext_resource type="Script" path="res://runtime/world/world_spawn_marker_2d.gd" id="marker"]
 [ext_resource type="Script" path="res://runtime/world/world_character_body_2d.gd" id="body"]
@@ -140,3 +142,17 @@ landmark_id = &"canyon.train.landmark.bookcase"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/BookcaseInteraction"]
 shape = SubResource("Rect_64_32")
 
+
+[node name="MapView" type="Node" parent="."]
+script = ExtResource("map_view")
+layout_path = "res://data/canyon/voxel/stoneroom.json"
+
+[node name="Furnishings" type="Node2D" parent="."]
+
+[node name="Furnishing01" type="Node2D" parent="Furnishings"]
+position = Vector2(80, 48)
+metadata/look = {"kind": "bookcase", "wood": "6b6a62", "stone": true}
+metadata/footprint = Vector2(64, 32)
+
+[node name="RoomLife" type="Node" parent="."]
+metadata/rooms = {"canyon.train": {"seed": 10, "use": "stone_chamber", "wealth": "plain"}}

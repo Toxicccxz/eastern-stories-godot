@@ -1,0 +1,16 @@
+{
+  "note": "黄石隘口: dry heat and yellow light by day, the rock going ruddy at dusk, cold nights thick with stars where the camp fire is the brightest thing; the 石林's fog is the pass map's own `areas`. Indoors (the tents, the 兵器库, the 石室) only what differs from outdoors.",
+  "outdoor": {
+    "sky": {"dawn": "d8c6a8", "day": "c4ccd4", "dusk": "d8884e", "night": "0c1220", "midnight": "080e1a"},
+    "ambient": {"dawn": "d8c8a8", "day": "e0d6bc", "dusk": "d8a070", "night": "5a6a94", "midnight": "506090"},
+    "ambient_energy": {"dawn": 0.42, "day": 0.48, "dusk": 0.46, "night": 0.3, "midnight": 0.28},
+    "sun": {"dawn": "ffd0a0", "day": "fff2c8", "dusk": "ff9050", "night": "a8bce8", "midnight": "9ab0e0"},
+    "sun_energy": {"dawn": 0.55, "day": 1.0, "dusk": 0.8, "night": 0.32, "midnight": 0.28}
+  },
+  "indoor": {
+    "ambient": {"dawn": "d0c0a0", "day": "d8ccb0", "dusk": "d0a888", "night": "6a6a84", "midnight": "606080"},
+    "ambient_energy": {"dawn": 0.42, "day": 0.44, "dusk": 0.44, "night": 0.34, "midnight": 0.32},
+    "sun": {"dawn": "ffd8b0", "day": "fff0d0", "dusk": "ffb080", "night": "a0b8ec", "midnight": "9ab4ec"},
+    "sun_energy": {"dawn": 0.3, "day": 0.45, "dusk": 0.35, "night": 0.12, "midnight": 0.1}
+  }
+}

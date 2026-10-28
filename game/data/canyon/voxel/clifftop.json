@@ -1,0 +1,69 @@
+{
+  "indoor": false,
+  "camera_size": 22,
+  "note": "碎石小路 (road.c): the barren clifftop where the 青石官道 from 雪亭镇 ends and a gravel path crosses to the half-round mound at the cliff's edge; the iron chain hangs from it down the rock face to the pass 十七、八丈 below. 荒凉的景色, 人烟稀少.",
+  "edge": {
+    "minimum_margin": 32,
+    "maximum_margin": 72,
+    "depth": 3.0,
+    "top": "8a7446",
+    "bottom": "6a5636",
+    "strata": ["b08a52", "a07c48", "8c6a40"]
+  },
+  "cliffs": {
+    "kinds": ["cliff"],
+    "low": 0.5,
+    "high": 1.0,
+    "rise": 60,
+    "step": 0.5,
+    "rough": 0.3,
+    "sink": {"kinds": ["cliff"], "depth": 9.0, "rough": 0.6, "floor": ["6a5a40", "76644a", "5e5038"], "strata": ["b08a52", "a07c48", "c49a5e", "8c6a40", "b89058", "9a7444"], "gloom": 0.5, "note": "the cliff's edge: the rock drops away to the 黄石隘口 far below"}
+  },
+  "reshape": [
+    {"rect": [416, 32, 512, 96], "from": ["path"], "to": "street", "note": "the last of the 青石官道 (road.c: 东北方是衔接至雪亭镇的青石官道)"}
+  ],
+  "exit_trails": {"canyon.road.northeast": {"cells": 10, "kind": "street", "width": 6}, "note": "the 青石官道 runs on north-east into 雪亭镇"},
+  "ground": {
+    "path": {"style": "scree", "colors": ["a8946a", "b4a076", "9c8860"], "gravel": 0.9, "stones": 0.12, "pebbles": ["c4b088", "b8a478", "a09060", "d0bc90"], "note": "碎石小路"},
+    "street": {"style": "slabs", "lengths": [2, 3], "depths": [1, 2], "cracks": 0.12, "broken": 0.08, "sunk": 0.03, "tufts": 0.1, "stones": ["7d8d8f", "879697", "91a0a0", "788889"], "worn": ["8f9b98", "9aa5a1", "86928f"], "bed": "5d6a68", "joint": 0.045, "mud": "8a7c5c", "crack": "6a6e6a", "note": "雪亭镇's 青石官道, as on its own map"},
+    "boundary": {"style": "scree", "colors": ["b09060", "bc9c68", "a48456"], "gravel": 0.4, "stones": 0.04, "pebbles": ["c8a86a", "b89858", "d4b878"]}
+  },
+  "ground_tints": {"bank": "8a7a46", "mud": "9a845a", "chips": ["b8a478", "c4b088", "a89060"], "dust": "c8b080", "grit": "d4c090"},
+  "flora": {
+    "grass_density": 0.5,
+    "density": {"path": 0.03, "boundary": 0.3, "street": 0.02},
+    "flower_threshold": 0.3,
+    "blossom_trees": 0.0,
+    "tree_types": ["scrub", "dead", "scrub", "mountain_pine"],
+    "tree_kinds": ["boundary"],
+    "tree_chance": 0.25,
+    "tree_spacing": 80,
+    "grove_contrast": 0.6,
+    "cliff_tufts": 0.1,
+    "cliff_flowers": 0.0,
+    "outcrop_colors": ["b08a52", "c09a5c", "9a7442"],
+    "wind": 0.4,
+    "butterflies": 0
+  },
+  "ambience": {
+    "birds": [{"at": [256, 120], "radius": 220, "count": 2, "height": 9, "color": "3a3028", "note": "hawks over the drop"}],
+    "dust": [{"rect": [0, 0, 512, 256], "count": 20, "color": "c8b080", "wind": [0.8, -0.2]}]
+  },
+  "props": [
+    {"kind": "iron_chain", "at": [256, 266], "size": [16, 16], "drop": 9.0, "face": -0.2, "links": 44, "note": "road.c: 其下有一铁索 — over the rim and down into the drop"},
+    {"kind": "standing_rock", "at": [16, 72], "size": [28, 28], "height": 2.2, "colors": ["b08a52", "c09a5c", "9a7442", "d0a866"], "cap": "9a9452", "note": "the barren slope west of the path"},
+    {"kind": "boulder", "at": [16, 150], "size": [30, 28], "tall": 0.8, "colors": ["c09a5c", "b08a52", "9a7442"], "lichen_color": "8a8a52"},
+    {"kind": "rock_pile", "at": [16, 220], "size": [28, 28], "count": 6, "colors": ["b08a52", "c09a5c", "9a7442", "d0a866"]},
+    {"kind": "bush", "at": [16, 110], "size": [28, 24], "colors": ["6a6238", "7e7440", "948a4a"]},
+    {"kind": "trail", "points": [[440, 72], [380, 96], [320, 128], [272, 160], [256, 184]], "color": "9c8a5e", "note": "the path worn from the 官道 to the mound"},
+    {"kind": "glow", "at": [256, 200], "color": "b8c8ff", "day": 0.0, "night": 0.9, "range": 9.0, "height": 3.0, "note": "moonlight on the mound and the chain's head"},
+    {"kind": "bones", "at": [380, 150], "size": [36, 28], "skull": false, "count": 3},
+    {"kind": "cairn", "at": [524, 200], "size": [16, 16], "stones": 5, "colors": ["b08a52", "c09a5c", "9a7442"], "note": "a stone pile at the edge: the way down"},
+    {"kind": "far_peak", "at": [-120, 520], "size": [260, 220], "height": 13.0, "elevation": -9.0, "haze": false, "colors": ["a08c62", "ac976a", "b8a372", "94805a"], "note": "canyon1.c: 两侧是高耸入云的荒山 — the barren mountains either side of the pass, seen from the clifftop"},
+    {"kind": "far_peak", "at": [660, 540], "size": [280, 220], "height": 14.0, "elevation": -9.0, "haze": false, "colors": ["a08c62", "ac976a", "b8a372", "94805a"]}
+  ],
+  "actors": {
+    "default": {"coat": "8a7a5a"},
+    "snow.npc.crazy_dog": {"animal": true}
+  }
+}
