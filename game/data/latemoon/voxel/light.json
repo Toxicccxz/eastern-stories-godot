@@ -1,6 +1,7 @@
 {
   "note": "晚月庄: pink walls and pale cyan, a little cold, by day; the plum blossom against the dusk glow; strings of palace lanterns and the moon on the water at night.",
   "outdoor": {
+    "overcast": {"sky": "908c9c", "ambient": "a09caa", "sun": "dad6e0", "note": "under cloud (DECISIONS「天气」): a lavender grey over the manor"},
     "sky": {"dawn": "c6ccd4", "day": "b8d0d6", "dusk": "d898a0", "night": "0e1624", "midnight": "0a1224"},
     "ambient": {"dawn": "c8ccd0", "day": "d4dccc", "dusk": "d0b0b8", "night": "6a7ca6", "midnight": "6476a8"},
     "ambient_energy": {"dawn": 0.44, "day": 0.46, "dusk": 0.46, "night": 0.32, "midnight": 0.32},

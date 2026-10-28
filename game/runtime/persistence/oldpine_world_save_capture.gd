@@ -260,7 +260,7 @@ func capture(
 		session.npc_random_source().capture_random_state(),
 		session.world_interaction_random_source().capture_random_state(),
 		session.world_content_revision(),
-	).with_floor_items(floor_snapshots).with_maze_notes(maze_notes).with_away_ms(session.away_owed_by_map()).with_day_seconds(session.day_clock().day_seconds())
+	).with_floor_items(floor_snapshots).with_maze_notes(maze_notes).with_away_ms(session.away_owed_by_map()).with_day_seconds(session.day_clock().day_seconds()).with_sky(session.sky_state().level(), session.sky_state().minutes_left())
 	var root_validation: GameSaveResult = GameSaveSnapshotValidator.validate(snapshot)
 	if not root_validation.succeeded():
 		return Result.failure(

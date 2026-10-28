@@ -58,6 +58,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 	_check(window.visible and window.shadow_enabled and is_equal_approx(window.light_energy,1.2),"interior windows retain stable authored lighting across a large compound")
 	interior.free()
 	_check_frames(tree)
+	_check_cloud(tree)
 	# The headless dummy renderer returns identity for every MultiMesh transform.
 	# Check generated mesh bounds/volume in the native windowed rendering pass.
 	if DisplayServer.get_name()!="headless":
@@ -109,6 +110,73 @@ func _check_frames(tree: SceneTree) -> void:
 	_check(five.environment.background_color.is_equal_approx(Color.BLUE),"and arrives")
 	framed.free()
 
+
+## The cloud (DECISIONS「天气」): each level greys and dims the day toward the region's
+## overcast (or the default), softens the shadow, blends over twenty seconds, passes over as
+## a drifting shadow at the 白云 levels, changes nothing indoors; a depth fog's density by frame.
+func _check_cloud(tree: SceneTree) -> void:
+	var world := Node3D.new()
+	tree.root.add_child(world)
+	var lighting := VoxelLighting.new()
+	lighting.phases = GameContent.catalog().day_phases()
+	lighting.build(world,VoxelOcclusion.new(),false,{"sky":{"day":"80c0a0","night":"102030"},"ambient_energy":{"day":0.4,"night":0.3},"sun_energy":{"day":1.0,"night":0.3},"overcast":{"sky":"8090a0","ambient":"90a0a8","sun":"e0e0e0"}})
+	lighting.set_frame("day",true)
+	var clear_sky: Color = lighting.environment.background_color
+	var clear_sun: float = lighting.sun.light_energy
+	var clear_ambient: float = lighting.environment.ambient_light_energy
+	_check(is_zero_approx(lighting.cloud) and is_equal_approx(clear_sun,1.0) and clear_sky.is_equal_approx(Color("80c0a0")),"clear by day: the day's own light")
+	lighting.set_cloud_level(4,true)
+	_check(is_equal_approx(lighting.cloud,1.0) and is_equal_approx(lighting.sun.light_energy,0.4) and lighting.environment.background_color.is_equal_approx(Color("80c0a0").lerp(Color("8090a0"),0.85)) and lighting.sun.light_color.is_equal_approx(Color("fff0d6").lerp(Color("e0e0e0"),0.6)),"乌云密布 by day: the sun at two fifths, the sky toward the region's overcast, the sun whitened: %s %s" % [lighting.sun.light_energy,lighting.environment.background_color])
+	_check(is_equal_approx(lighting.environment.ambient_light_energy,clear_ambient*1.12) and is_equal_approx(lighting.sun.shadow_blur,3.5),"the ambient up a little, the shadow soft")
+	lighting.set_cloud_level(2,true)
+	_check(is_equal_approx(lighting.cloud,0.42) and lighting.sun.light_energy<clear_sun*(1.0-0.6*0.42)+0.001 and lighting.sun.light_energy>clear_sun*(1.0-0.6*0.42)*(1.0-0.16)-0.001,"白云飘来飘去: the sun under its cloud and a passing shadow: %s" % lighting.sun.light_energy)
+	var here: float = lighting.cloud_shadow_at(Vector3.ZERO,0.0)
+	var there: float = lighting.cloud_shadow_at(Vector3(40,0,40),0.0)
+	var later: float = lighting.cloud_shadow_at(Vector3.ZERO,120.0)
+	_check(here>=0.0 and here<=1.0 and there>=0.0 and there<=1.0 and not is_equal_approx(here,there) and not is_equal_approx(here,later),"the shadow differs across the map and drifts with time: %s %s %s" % [here,there,later])
+	lighting.set_cloud_level(0,true)
+	_check(is_zero_approx(lighting.cloud) and is_equal_approx(lighting.sun.light_energy,clear_sun) and lighting.environment.background_color.is_equal_approx(clear_sky) and is_equal_approx(lighting.sun.shadow_blur,1.0),"clear again: as before")
+	lighting.set_cloud_level(4)
+	lighting.advance(1.0,Vector3.ZERO)
+	_check(is_equal_approx(lighting.cloud,0.05) and lighting.sun.light_energy<clear_sun and lighting.sun.light_energy>clear_sun*0.9,"a change blends over twenty seconds: %s" % lighting.cloud)
+	lighting.advance(30.0,Vector3.ZERO)
+	_check(is_equal_approx(lighting.cloud,1.0),"and arrives")
+	lighting.set_frame("night",true)
+	var night_sky: Color = lighting.environment.background_color
+	_check(night_sky.r<0.2 and night_sky.g<0.2 and night_sky.b<0.25 and is_equal_approx(lighting.sun.light_energy,0.12),"by night the cloud darkens the sky further and takes most of the moon: %s" % night_sky)
+	world.free()
+	var plain := Node3D.new()
+	tree.root.add_child(plain)
+	var bare := VoxelLighting.new()
+	bare.build(plain,VoxelOcclusion.new(),false,{"sky":["80c0a0","102030"]})
+	bare.set_frame("day",true)
+	bare.set_cloud_level(4,true)
+	_check(bare.environment.background_color.is_equal_approx(Color("80c0a0").lerp(Color(VoxelLighting.OVERCAST_DEFAULT["sky"]),0.85)),"without an overcast of its own a map greys to the default")
+	plain.free()
+	var interior := Node3D.new()
+	tree.root.add_child(interior)
+	var indoor := VoxelLighting.new()
+	indoor.build(interior,VoxelOcclusion.new(),true,{"sky":["c0b0a0","202030"]})
+	indoor.set_frame("day",true)
+	var inside_sun: float = indoor.sun.light_energy
+	indoor.set_cloud_level(4,true)
+	indoor.advance(30.0,Vector3.ZERO)
+	_check(is_zero_approx(indoor.cloud) and is_equal_approx(indoor.sun.light_energy,inside_sun) and indoor.environment.background_color.is_equal_approx(Color("c0b0a0")) and is_equal_approx(indoor.sun.shadow_blur,1.0),"indoors the cloud changes nothing")
+	interior.free()
+	var misty := Node3D.new()
+	tree.root.add_child(misty)
+	var fogged := VoxelLighting.new()
+	fogged.phases = GameContent.catalog().day_phases()
+	fogged.build(misty,VoxelOcclusion.new(),false,{"fog":{"color":{"dawn":"e6eef0","day":"d6e0e4","dusk":"d6dce0","night":"141c2a","midnight":"101828"},"depth":[44,84],"depth_density":{"dawn":0.6,"day":0.0,"dusk":0.0,"night":0.0,"midnight":0.0}}})
+	fogged.set_frame("dawn",true)
+	_check(fogged.environment.fog_enabled and fogged.environment.fog_mode==Environment.FOG_MODE_DEPTH and is_equal_approx(fogged.environment.fog_density,0.6) and is_equal_approx(fogged.environment.fog_depth_begin,44.0) and fogged.environment.fog_light_color.is_equal_approx(Color("e6eef0")),"the morning mist at dawn, past the player, cold white: %s" % fogged.environment.fog_density)
+	fogged.set_frame("day",true)
+	_check(is_zero_approx(fogged.environment.fog_density),"gone by day")
+	fogged.set_time(330.0,true)
+	_check(fogged.environment.fog_density>0.0 and fogged.environment.fog_density<0.6,"thinning as 日出 ends: %s" % fogged.environment.fog_density)
+	fogged.set_frame("night",true)
+	_check(is_zero_approx(fogged.environment.fog_density) and fogged.environment.fog_height<0.0,"none by night, and no height fog unless written")
+	misty.free()
 
 func _check_light_batches(tree: SceneTree) -> void:
 	var holder := Node3D.new()

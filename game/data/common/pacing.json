@@ -26,6 +26,7 @@
 		"bounty_refresh_seconds": 600,
 		"training_dummies": true,
 		"day_length_minutes": 24,
+		"sky_weather": true,
 		"feel": {
 			"map_fade_out_ms": 150,
 			"map_fade_in_ms": 200,

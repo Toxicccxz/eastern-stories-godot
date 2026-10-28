@@ -176,13 +176,22 @@ func describe_new_zone() -> void:
 
 
 ## look.c: NATURE_D->outdoor_room_description() after an outdoor room's text (set("outdoors")),
-## the phase's desc_msg with its 。; nothing indoors (DECISIONS「昼夜」).
+## the phase's desc_msg with its 。; nothing indoors (DECISIONS「昼夜」). Then the cloud's line
+## (natured.c's weather_msg, DECISIONS「天气」) with its own 。, while the pacing's sky_weather
+## is on and the catalog has the lines.
 func sky_line(zone: ZoneDefinition) -> String:
 	if zone == null or _session == null or not WorldMapController.zone_outdoors(zone.zone_id):
 		return ""
 	var phase: DayPhaseDefinition = _session.day_clock().phase()
-	# TRANSLATORS: natured.c's line on the sky after an outdoor room's text; {sky} is day_phases.json desc_msg.
-	return "" if phase == null else tr("{sky}。").format({"sky": tr(phase.desc_msg)})
+	if phase == null:
+		return ""
+	# TRANSLATORS: natured.c's line on the sky after an outdoor room's text; {sky} is day_phases.json desc_msg, then one of its sky_levels.
+	var line: String = tr("{sky}。").format({"sky": tr(phase.desc_msg)})
+	var levels: Array[String] = GameContent.catalog().sky_levels()
+	var level: int = _session.sky_level()
+	if GameContent.catalog().pacing().sky_weather and level >= 0 and level < levels.size():
+		line += tr("{sky}。").format({"sky": tr(levels[level])})
+	return line
 
 
 ## natured.c update_day_phase(): message("outdoor:vision", time_msg) to whoever is outdoors as

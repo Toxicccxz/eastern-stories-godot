@@ -3,8 +3,9 @@ extends RefCounted
 
 const ValueTypes := preload("res://core/persistence/game_save_value_types.gd")
 
-## Schema 3 (DECISIONS「昼夜」) adds the root's `day_seconds`; a schema 2 file is refused.
-const CURRENT_SCHEMA_VERSION: int = 3
+## Schema 3 (DECISIONS「昼夜」) adds the root's `day_seconds`; schema 4 (DECISIONS「天气」) the
+## root's `sky_level` and `sky_minutes_left`; an older file is refused.
+const CURRENT_SCHEMA_VERSION: int = 4
 const FORMAT_ID: String = "eastern-stories-native-save"
 const SESSION_KIND_OLDPINE: StringName = &"oldpine"
 const FIXED_SLOT_ID: StringName = &"default-v1"
@@ -29,6 +30,9 @@ var _maze_notes: Dictionary[StringName, int] = {}
 var _away_ms: Dictionary[StringName, int] = {}
 ## The time of day (DayClock, DECISIONS「昼夜」): seconds since 0:00 of the game day.
 var _day_seconds: int = DayClock.NEW_GAME_SECONDS
+## The cloud (SkyState, DECISIONS「天气」): its level and the game minutes to its next change.
+var _sky_level: int = SkyState.NEW_GAME_LEVEL
+var _sky_minutes_left: int = SkyState.NEW_GAME_MINUTES
 ## Something worked out from exactly this content (the runtime's restore preparation after
 ## a check): kept for one taker, moved to an exact copy, dropped when the content changes.
 var _derived: RefCounted
@@ -73,6 +77,12 @@ var away_ms: Dictionary[StringName, int]:
 var day_seconds: int:
 	get:
 		return _day_seconds
+var sky_level: int:
+	get:
+		return _sky_level
+var sky_minutes_left: int:
+	get:
+		return _sky_minutes_left
 ## Items lying on the floor away from their spawn markers (dropped).
 var floor_items: Array[ValueTypes.FloorItemSnapshot]:
 	get:
@@ -116,7 +126,7 @@ func _init(
 
 
 func duplicate_snapshot() -> GameSaveSnapshot:
-	var copy: GameSaveSnapshot = GameSaveSnapshot.new(_metadata, _session_kind, _item_id_allocator, _player, _npc_spawn_states, _corpses, _items, _combat_rng, _npc_initialization_rng, _world_interaction_rng, _world_content_revision).with_floor_items(_floor_items).with_maze_notes(_maze_notes).with_away_ms(_away_ms).with_day_seconds(_day_seconds)
+	var copy: GameSaveSnapshot = GameSaveSnapshot.new(_metadata, _session_kind, _item_id_allocator, _player, _npc_spawn_states, _corpses, _items, _combat_rng, _npc_initialization_rng, _world_interaction_rng, _world_content_revision).with_floor_items(_floor_items).with_maze_notes(_maze_notes).with_away_ms(_away_ms).with_day_seconds(_day_seconds).with_sky(_sky_level, _sky_minutes_left)
 	copy._derived = take_derived()
 	return copy
 
@@ -147,6 +157,13 @@ func with_away_ms(owed: Dictionary[StringName, int]) -> GameSaveSnapshot:
 func with_day_seconds(seconds: int) -> GameSaveSnapshot:
 	_derived = null
 	_day_seconds = seconds
+	return self
+
+
+func with_sky(level: int, minutes_left: int) -> GameSaveSnapshot:
+	_derived = null
+	_sky_level = level
+	_sky_minutes_left = minutes_left
 	return self
 
 

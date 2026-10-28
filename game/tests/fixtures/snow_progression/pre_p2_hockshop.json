@@ -1,7 +1,7 @@
 {
 	"metadata": {
 		"format_id": "eastern-stories-native-save",
-		"schema_version": 3,
+		"schema_version": 4,
 		"saved_at_utc": "2026-09-11T00:00:00Z",
 		"build_commit": null,
 		"storage_profile": "test",
@@ -9,6 +9,8 @@
 	},
 	"session_kind": "oldpine",
 	"day_seconds": "21600",
+	"sky_level": "1",
+	"sky_minutes_left": "180",
 	"item_id_allocator": {
 		"scope": "oldpine-session-ce4aae52d3335604c9b7660b72f508cc",
 		"next_dynamic_sequence": "1"

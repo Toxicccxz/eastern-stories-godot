@@ -50,7 +50,7 @@ TEXT_KEYS = frozenset({
     "water_fail", "catch_say", "escape_line", "deliver_say", "refused_line", "beat_line", "warn_line",
     "sorry_line", "label", "hint", "attack_ask", "attack_choice", "time_msg", "desc_msg",
 })
-TEXT_LIST_KEYS = frozenset({"limbs", "name_pick", "killed_by_owner", "killed_by_other", "taken_lines", "faint_lines", "paragraphs"})
+TEXT_LIST_KEYS = frozenset({"limbs", "name_pick", "killed_by_owner", "killed_by_other", "taken_lines", "faint_lines", "paragraphs", "sky_levels"})
 # Inside lines and messages `action` names a chat function (random_move, drink, perform...), not a label.
 LINE_KEYS = (TEXT_KEYS - {"action"}) | frozenset({
     "open", "close", "push", "hold", "fall", "climb", "climb_observer", "fall_observer",
@@ -335,6 +335,13 @@ def extract_content(document: object, relative: str, catalog: Catalog) -> None:
     if isinstance(document, dict) and ("journal_chains" in document or "codex_topics" in document):
         _extract_journal(document, relative, catalog)
         return
+    # A document's own list of lines (day_phases.json sky_levels: natured.c's weather_msg).
+    if isinstance(document, dict):
+        for key, value in document.items():
+            if key in TEXT_LIST_KEYS and isinstance(value, list):
+                for item in value:
+                    if isinstance(item, str):
+                        catalog.add(item, relative, note=key)
     for record in _records(document):
         _walk_json(record, relative, str(record.get("id", "")), catalog)
 

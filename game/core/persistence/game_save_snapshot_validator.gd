@@ -26,6 +26,10 @@ static func validate(snapshot: GameSaveSnapshot) -> GameSaveResult:
 		return _invalid("session_kind", "unsupported session kind")
 	if not DayClock.is_valid_day_seconds(snapshot.day_seconds):
 		return _invalid("day_seconds", "not a time of day")
+	if not SkyState.is_valid_level(snapshot.sky_level):
+		return _invalid("sky_level", "not a cloud level")
+	if not SkyState.is_valid_minutes_left(snapshot.sky_minutes_left):
+		return _invalid("sky_minutes_left", "not minutes to the next change")
 	if snapshot.item_id_allocator == null or snapshot.item_id_allocator.scope.is_empty():
 		return _invalid("item_id_allocator.scope", "empty allocator scope")
 	var player: Values.PlayerRuntimeSnapshot = snapshot.player

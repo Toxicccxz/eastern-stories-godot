@@ -65,6 +65,11 @@ extends RefCounted
 ## - day_length_minutes: real minutes one game day of natured.c's 1440 minutes takes, the
 ##   voxel view's light and the outdoor rooms' line going round with it. ES2: 24 (one game
 ##   minute a real second), also the default (owner Q3); 经典 is 24 too.
+##
+## The sky (DECISIONS「天气」):
+## - sky_weather: the cloud turns through natured.c's five weather_msg lines (SkyState), the
+##   outdoor room's text ending with the line and the voxel view greying by it. false (ES2:
+##   the lines are declared and never shown; the sky is always clear); 经典 is false too.
 const ES2_ROOM_RESET_SECONDS: int = 1800
 const ES2_GAIN: int = 1
 const ES2_QUEST_TIME_PERCENT: int = 100
@@ -99,6 +104,7 @@ var _bounty_board: bool = false
 var _bounty_refresh_seconds: int = 600
 var _training_dummies: bool = false
 var _day_length_minutes: int = ES2_DAY_LENGTH_MINUTES
+var _sky_weather: bool = false
 
 ## Seconds between two combat rounds of an encounter (the scheduler's opportunity interval).
 var combat_round_seconds: float:
@@ -198,6 +204,10 @@ var training_dummies: bool:
 var day_length_minutes: int:
 	get:
 		return _day_length_minutes
+## Whether the cloud turns and shows (false: ES2).
+var sky_weather: bool:
+	get:
+		return _sky_weather
 ## The presentation's feel knobs (the record's `feel`; all 0 when left out).
 var feel: FeelDefinition = FeelDefinition.new()
 
@@ -229,6 +239,7 @@ func copy() -> PacingDefinition:
 	record.with_training(_bounty_board, _bounty_refresh_seconds, _training_dummies)
 	record.with_hostile_alert(_hostile_alert_ms)
 	record.with_day_length(_day_length_minutes)
+	record.with_sky_weather(_sky_weather)
 	record.feel = feel
 	return record
 
@@ -236,6 +247,12 @@ func copy() -> PacingDefinition:
 ## This record with the day's length set (real minutes; tests, and from_record()).
 func with_day_length(minutes: int) -> PacingDefinition:
 	_day_length_minutes = minutes
+	return self
+
+
+## This record with the sky's weather on or off (tests, and from_record()).
+func with_sky_weather(enabled: bool) -> PacingDefinition:
+	_sky_weather = enabled
 	return self
 
 
@@ -328,7 +345,7 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.boolean("bounty_board", false),
 		reader.integer("bounty_refresh_seconds", 600),
 		reader.boolean("training_dummies", false),
-	).with_hostile_alert(reader.integer("hostile_alert_ms", 0)).with_day_length(reader.integer("day_length_minutes", ES2_DAY_LENGTH_MINUTES))
+	).with_hostile_alert(reader.integer("hostile_alert_ms", 0)).with_day_length(reader.integer("day_length_minutes", ES2_DAY_LENGTH_MINUTES)).with_sky_weather(reader.boolean("sky_weather", false))
 	var feel: ContentRecordReader = reader.child("feel")
 	if feel != null:
 		definition.feel = FeelDefinition.from_record(feel)

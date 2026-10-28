@@ -9163,7 +9163,7 @@ msgstr ""
 msgid "【{title}】{description}"
 msgstr ""
 
-#. natured.c's line on the sky after an outdoor room's text; {sky} is day_phases.json desc_msg.
+#. natured.c's line on the sky after an outdoor room's text; {sky} is day_phases.json desc_msg, then one of its sky_levels.
 #: ui/world/shared_ui_message_log.gd
 msgid "{sky}。"
 msgstr ""
@@ -9423,6 +9423,31 @@ msgstr ""
 #. the banner on arriving on another map: {region} the region (绮云镇), {place} where the player stands (卧龙岗).
 #: ui/world/world_view_overlay.gd
 msgid "{region} · {place}"
+msgstr ""
+
+#. sky_levels
+#: data/common/day_phases.json
+msgid "天空中万里无云"
+msgstr ""
+
+#. sky_levels
+#: data/common/day_phases.json
+msgid "几朵淡淡的云彩妆点著清朗的天空"
+msgstr ""
+
+#. sky_levels
+#: data/common/day_phases.json
+msgid "白云在天空中飘来飘去"
+msgstr ""
+
+#. sky_levels
+#: data/common/day_phases.json
+msgid "厚厚的云层堆积在天边"
+msgstr ""
+
+#. sky_levels
+#: data/common/day_phases.json
+msgid "天空中乌云密布"
 msgstr ""
 
 #. name

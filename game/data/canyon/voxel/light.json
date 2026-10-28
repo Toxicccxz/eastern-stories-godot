@@ -1,6 +1,7 @@
 {
   "note": "黄石隘口: dry heat and yellow light by day, the rock going ruddy at dusk, cold nights thick with stars where the camp fire is the brightest thing; the 石林's fog is the pass map's own `areas`. Indoors (the tents, the 兵器库, the 石室) only what differs from outdoors.",
   "outdoor": {
+    "overcast": {"sky": "a29c8c", "ambient": "aea698", "sun": "e2dac8", "note": "under cloud (DECISIONS「天气」): a dust-yellow grey over the pass"},
     "sky": {"dawn": "d8c6a8", "day": "c4ccd4", "dusk": "d8884e", "night": "0c1220", "midnight": "080e1a"},
     "ambient": {"dawn": "d8c8a8", "day": "e0d6bc", "dusk": "d8a070", "night": "5a6a94", "midnight": "506090"},
     "ambient_energy": {"dawn": 0.42, "day": 0.48, "dusk": 0.46, "night": 0.3, "midnight": 0.28},

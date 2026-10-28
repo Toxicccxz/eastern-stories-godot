@@ -23,6 +23,8 @@ var layout: Dictionary
 var lighting := VoxelLighting.new()
 ## A frame held for a suite or a kit (set_frame()); "" follows the 昼夜 setting and the DayClock.
 var held_frame: String = ""
+## A cloud level held for a kit (set_cloud()); -1 follows the session's SkyState.
+var held_cloud: int = -1
 var left_view: bool = false
 var actors: Dictionary[StringName, Node3D] = {}
 var labels: Dictionary[StringName, Label3D] = {}
@@ -163,6 +165,13 @@ func _sync_light(immediate: bool = false) -> void:
 		lighting.set_time(map.session.day_clock().day_minutes(),immediate)
 	else:
 		lighting.set_frame("day",immediate)
+	# The cloud (DECISIONS「天气」) is the world's whatever the setting holds the hour at.
+	if held_cloud >= 0:
+		lighting.set_cloud_level(held_cloud,immediate)
+	elif map != null and map.session != null:
+		lighting.set_cloud_level(map.session.sky_level(),immediate)
+	else:
+		lighting.set_cloud_level(0,immediate)
 
 func _activate() -> void:
 	_old_modulate = map.modulate
@@ -210,6 +219,13 @@ func set_frame(frame: String, immediate: bool = false) -> void:
 ## Day or night held (the older two-frame call).
 func set_night(enabled: bool, immediate: bool = false) -> void:
 	set_frame("night" if enabled else "day",immediate)
+
+## Holds the cloud at `level` (SkyState's 0 .. 4) whatever the session's sky says; -1 lets go.
+## For kits: the game's own cloud follows the session.
+func set_cloud(level: int, immediate: bool = false) -> void:
+	held_cloud = level
+	if _built:
+		_sync_light(immediate)
 
 ## Orbit between two fixed angles, sharing the same height and distance to the player.
 ## Nothing in the map, reach, collision or saved location rotates with the camera.

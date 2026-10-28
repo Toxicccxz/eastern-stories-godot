@@ -1,6 +1,7 @@
 {
   "note": "水烟阁: white stone bright by day; the maples' red dyed again by the dusk glow; a line of stone lamps and the moon on the cloud sea at night.",
   "outdoor": {
+    "overcast": {"sky": "a2aaac", "ambient": "aeb6b8", "sun": "e2e6e6", "note": "under cloud (DECISIONS「天气」): a pale white-grey, the cloud sea come up"},
     "sky": {"dawn": "c8ccc8", "day": "b2c9d0", "dusk": "d48a6a", "night": "0f1626", "midnight": "0b1020"},
     "ambient": {"dawn": "c8ccc8", "day": "cfd5cf", "dusk": "d0a690", "night": "6f7fab", "midnight": "6478a8"},
     "ambient_energy": {"dawn": 0.42, "day": 0.44, "dusk": 0.44, "night": 0.33, "midnight": 0.32},

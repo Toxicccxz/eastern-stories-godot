@@ -37,7 +37,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var unsupported: Dictionary = raw.duplicate(true)
 	unsupported.metadata.schema_version = 1
 	_check(GameSaveJsonCodec.decode(JSON.stringify(unsupported)).outcome == GameSaveResult.Outcome.UNSUPPORTED_GAME_SCHEMA, "schema1 rejects cleanly")
-	unsupported.metadata.schema_version = 4
+	unsupported.metadata.schema_version = GameSaveSnapshot.CURRENT_SCHEMA_VERSION + 1
 	_check(GameSaveJsonCodec.decode(JSON.stringify(unsupported)).outcome == GameSaveResult.Outcome.UNSUPPORTED_GAME_SCHEMA, "unknown schema rejects cleanly")
 	_check(raw.player.has("identity") and raw.player.has("body_facts") and not raw.player.has("maximum_encumbrance"), "v2 strict shape and single capacity")
 	var decoded: GameSaveResult = GameSaveJsonCodec.decode(encoded.text)
