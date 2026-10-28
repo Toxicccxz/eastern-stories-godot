@@ -209,4 +209,45 @@ func run_all(_tree: SceneTree) -> Dictionary:
 		stand.free()
 	if forms[0] != forms[1] or forms[1] == forms[2]:
 		failures.append("a stone lantern's variations follow its place: alike at one spot, unlike at another")
-	return {"assertions":14,"failures":failures}
+	# A building's facade keys (三镇立面分化): a house written without them draws as it did before
+	# they existed (its forms pinned); each of them adds or recolours forms, the same every build.
+	var house: Dictionary = {"wall":"c8c4b8","roof":"5c6468","timber":"6a4a38","construction":"plaster","height":3.2,"roof_form":"gable","rise":1.2,"porch":"tiled","goods":"none","lanterns":false,"bay":5}
+	var stage := Node3D.new()
+	_tree.root.add_child(stage)
+	var built: Callable = func(data: Dictionary) -> Array:
+		var into: RefCounted = preload("res://presentation/voxel/props/voxel_shapes.gd").new()
+		var architecture: RefCounted = preload("res://presentation/voxel/props/voxel_architecture.gd").new()
+		var site := Node3D.new()
+		stage.add_child(site)
+		architecture.shapes = into
+		architecture.parent = site
+		architecture.rng = RandomNumberGenerator.new()
+		architecture.rng.seed = 11
+		architecture.noise = FastNoiseLite.new()
+		architecture.build(Vector3(20,0,12),6.0,5.0,data,[Vector3(0,0,2.5)] as Array[Vector3])
+		var colours: Dictionary = {}
+		var count: int = 0
+		for entry: Dictionary in into.batches.values():
+			count += entry["transforms"].size()
+			colours[entry["color"]] = true
+		site.queue_free()
+		return [count,colours]
+	var plain: Array = built.call(house)
+	var twice: Array = built.call(house)
+	if plain[0] != 697 or twice[0] != plain[0]:
+		failures.append("a house written without the facade keys draws its %d forms as before" % plain[0])
+	var worn: Array = built.call(house.merged({"worn":0.3,"worn_colors":["8e9088","7a8a6a"]}))
+	if worn[0] != plain[0] or not worn[1].has("8e9088") or not worn[1].has("7a8a6a"):
+		failures.append("`worn` recolours a share of the tiles pale and mossy without adding forms")
+	var beasts: Array = built.call(house.merged({"ridge_beasts":{"count":3,"color":"3e3f3a"}}))
+	var xieshan: Array = built.call(house.merged({"roof_form":"xieshan"},true))
+	var peeled: Array = built.call(house.merged({"whitewash":0.5,"peel":["9a8a78"]}))
+	var dado: Array = built.call(house.merged({"wall_bands":{"color":"6b6e66","height":1.0}}))
+	if beasts[0] != plain[0]+12 or not beasts[1].has("3e3f3a"):
+		failures.append("`ridge_beasts` sits a file of three beasts at each end of the ridge (%d forms over %d)" % [beasts[0],plain[0]])
+	if xieshan[0] == plain[0] or not xieshan[1].has("6a4a38"):
+		failures.append("歇山: a gable over a hip, its 山花 walls set in from the ends (%d forms over %d)" % [xieshan[0],plain[0]])
+	if peeled[0] <= plain[0] or not peeled[1].has("9a8a78") or dado[0] <= plain[0] or not dado[1].has("6b6e66"):
+		failures.append("`whitewash` peels to the brick under it and `wall_bands` paints a dado along the foot of the wall")
+	stage.queue_free()
+	return {"assertions":18,"failures":failures}

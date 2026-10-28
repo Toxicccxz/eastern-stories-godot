@@ -279,12 +279,21 @@ func _gateway(w: float, d: float) -> void:
 	# `stone`: a 石牌楼 (n_gate.c: 一座高大的石牌楼上面刻著「北门」两个大字) — grey stone posts and
 	# lintels, a stone cap instead of tiles, the words cut in a panel, no lanterns.
 	var stone: bool = data.get("stone",false)
+	# `worn` (mstreet1.c: 一座牌坊, 年代久远, 上面的字迹早已看不出是什么字): the lacquer gone grey and
+	# flaked off the posts, moss at their feet, tiles missing from the cap, the board blank.
+	var worn: bool = data.get("worn",false)
 	var timber: String = String(data.get("timber","8a8a80" if stone else "5f4331"))
 	var posts: String = String(data.get("posts","9a9a92" if stone else "8e3a2c"))
 	var height: float = float(data.get("height",4.2))
+	var faded: String = String(data.get("faded","6e6a62"))
 	for x: float in [-w/2+0.2,w/2-0.2]:
 		s.box(root,Vector3(x,0.25,0),Vector3(0.6,0.5,0.6),"8a8a7e")
 		s.box(root,Vector3(x,height/2,0),Vector3(0.3,height,0.3),posts)
+		if worn:
+			s.box(root,Vector3(x,height*0.28,0),Vector3(0.32,height*0.56,0.32),faded)
+			for patch: int in 3:
+				s.box(root,Vector3(x+(0.17 if patch%2 else -0.17),height*(0.62+patch*0.11),0.08*(patch-1)),Vector3(0.03,0.22+patch*0.06,0.14),faded)
+			s.shard(root,Vector3(x-0.2,0.52,0.2),Vector3(0.36,0.08,0.3),"56713f",3 if x<0 else 5)
 		s.tilted_box(root,Vector3(x+(0.3 if x<0 else -0.3),height-0.9,0),Vector3(0.12,0.9,0.12),timber,Vector3(0,0,0.7 if x<0 else -0.7))
 	s.box(root,Vector3(0,height-0.35,0),Vector3(w+0.3,0.22,0.36),timber)
 	s.box(root,Vector3(0,height+0.05,0),Vector3(w+0.5,0.18,0.42),timber)
@@ -292,10 +301,19 @@ func _gateway(w: float, d: float) -> void:
 	for row: int in 4:
 		var z: float = -0.75+row*0.5
 		for col: int in ceili((w+1.4)/0.37):
+			if worn and (col*7+row*3)%11==0:
+				continue
 			var x: float = -(w+1.4)/2+0.185+col*0.37
 			var lift: float = pow(absf(x)/((w+1.4)/2),5)*0.3
 			s.box(root,Vector3(x,height+0.5-absf(z)*0.45+lift,z),Vector3(0.38,0.12,0.52),tint.lightened(((col+row)%3)*0.03).to_html(false))
 	s.box(root,Vector3(0,height+0.78,0),Vector3(w+0.9,0.2,0.24),tint.darkened(0.12).to_html(false))
+	if worn and not data.has("text"):
+		# The board still hangs, split, its words weathered to nothing.
+		var board: String = String(data.get("board","7a756a"))
+		s.box(root,Vector3(0,height-0.72,0.2),Vector3(minf(w*0.55,2.6),0.34,0.08),board)
+		s.box(root,Vector3(-0.1,height-1.0,0.2),Vector3(minf(w*0.55,2.6)*0.86,0.2,0.08),Color(board).darkened(0.12).to_html(false))
+		for scratch: int in 3:
+			s.box(root,Vector3(-0.6+scratch*0.55,height-0.74,0.25),Vector3(0.22,0.12,0.02),Color(board).darkened(0.25).to_html(false))
 	if data.has("text"):
 		s.box(root,Vector3(0,height-0.85,0.2),Vector3(minf(w*0.55,2.6),0.62,0.08),String(data.get("board","6a6a62" if stone else "2b2520")))
 		var title := Label3D.new()
