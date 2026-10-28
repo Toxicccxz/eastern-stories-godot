@@ -56,7 +56,7 @@ LINE_KEYS = (TEXT_KEYS - {"action"}) | frozenset({
     "open", "close", "push", "hold", "fall", "climb", "climb_observer", "fall_observer",
     "use", "bury", "book", "paper", "shout", "shut", "joined", "refused",
     "weak", "rolled", "search", "found", "nothing", "spawn", "list", "take", "empty",
-    "lift", "closed", "read", "out", "open_below", "close_below", "close_beyond",
+    "lift", "closed", "read", "out", "open_below", "close_below", "close_beyond", "again",
 })
 # Lists of identifiers inside walked text (an inquiry rule's marks), never shown.
 ID_LIST_KEYS = frozenset({"asker_marks", "unmark_giver"})

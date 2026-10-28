@@ -25,7 +25,8 @@
 			"cloud.chess": 200,
 			"latemoon.secret_letter": 200,
 			"canyon.camp": 200,
-			"city.shangshu": 200
+			"city.shangshu": 200,
+			"oldpine.knife_marks": 10
 		},
 		"notable_npcs": [
 			"snow.npc.fist_trainer", "snow.npc.guard", "snow.npc.girl", "snow.npc.annihir",

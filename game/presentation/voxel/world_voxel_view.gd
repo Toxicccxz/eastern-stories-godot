@@ -601,6 +601,10 @@ func _bob_arrows(delta: float) -> void:
 			var side: float = signf((wall.global_position-player).dot(across))
 			direction = across*(side if side != 0.0 else 1.0)
 			near = wall.global_position.distance_to(player) < 600.0
+			# A way found by a clue (DoorDefinition.found_by) shows no arrow until it is found.
+			var definition: DoorDefinition = GameContent.catalog().door(id)
+			if definition != null and not definition.found_by.is_empty() and not door.is_open():
+				near = false
 		else:
 			near = (arrow.get_parent() as Node3D).visible
 		arrow.visible = near

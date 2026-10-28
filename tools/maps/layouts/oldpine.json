@@ -1,7 +1,7 @@
 {
   "maps": {
     "outdoor": {
-      "note": "老松林, laid out as the rooms describe themselves and as their climbs land (DECISIONS「老松林按原文方位排布」): the forest path from Snow (npath1-3) runs south and turns east to the round clearing with the great pine in its middle (clearing); three ways leave it, east, west and south (clearing.c), the sign by the south one, where the straight slope runs down south, high in the north and low in the south (spath1-4, a dead end); east the path to the mossy stone bridge over the gorge that runs south from the waterfall north of the bridge, and the strip at the foot of the cliff beyond it (epath3) with the broken plank road up the cliff (epath3.c: 一条破旧的栈道沿著山壁通往山上). On the high ground east of the gorge the pines close in: pine1-7 and cliffdown are one fixed maze of gaps between the trees (DECISIONS) with a loop, two dead ends and the way on to cliffdown on its west edge, above epath3; from pine1, at the plank road's top, one way south to the cliffside on the same edge, above the gorge, one east to the keep's hidden gate (keep1) and the stockade (keep2: sandbags and stone piles, the stakes; keep3: the bear skin and three chairs, braziers, locked chests, the pit).",
+      "note": "老松林, laid out as the rooms describe themselves and as their climbs land (DECISIONS「老松林按原文方位排布」): the forest path from Snow (npath1-3) runs south and turns east to the round clearing with the great pine in its middle (clearing); three ways leave it, east, west and south (clearing.c), the sign by the south one, where the straight slope runs down south, high in the north and low in the south (spath1-4, a dead end); east the path to the mossy stone bridge over the gorge that runs south from the waterfall north of the bridge, and the strip at the foot of the cliff beyond it (epath3) with the broken plank road up the cliff (epath3.c: 一条破旧的栈道沿著山壁通往山上). On the high ground east of the gorge one trodden way runs between the pines (DECISIONS「老松林的林径与藏起来的寨门」: no maze): from pine1, at the plank road's top, south to the cliffside on the same edge, above the gorge; north into the deep pines (pine3-6), round to pine7's hollow and down to cliffdown on the west edge, above epath3; east to the thicket (the door oldpine.pine.thicket, found by the knife marks) and on to the keep's hidden gate (keep1) and the stockade (keep2: sandbags and stone piles, the stakes; keep3: the bear skin and three chairs, braziers, locked chests, the pit).",
       "file": "oldpine_outdoor.tscn",
       "draw": {
         "technique": "canvas",
@@ -27,7 +27,7 @@
           "oldpine.outdoor.east_bridge": [900, 0, 1520, 600, "forest_floor"],
           "oldpine.outdoor.pine_cliff_edge": [1520, -500, 2100, 260, "forest_floor"],
           "oldpine.outdoor.pine_entrance": [1520, 260, 2596, 700, "forest_floor"],
-          "oldpine.outdoor.pine_deep": [2100, -500, 3300, 260, "forest_floor"],
+          "oldpine.outdoor.pine_deep": [2100, -500, 2400, 260, "forest_floor"],
           "oldpine.outdoor.cliffside": [1520, 700, 1900, 1000, "grass"],
           "oldpine.outdoor.keep_gate": [2596, 320, 2960, 640, "forest_floor"],
           "oldpine.outdoor.keep_yard": [2960, 320, 3360, 640, "floor_yard"]
@@ -42,16 +42,10 @@
             [[1430, 420, 16, 72, 72, 2, "the broken plank road up the cliff (epath3.c: 一条破旧的栈道沿著山壁通往山上)"], [1500, 452, 14, 64, 64, 0], [1576, 470, 14, 60, 60, 0]]
           ],
           "trails": [
-            [[1576, 470, 0, 44, 44, 4, "pine1, at the plank road's top: no path, only gaps between the trees"], [1720, 480, 0, 48, 48, 6]],
-            [[1720, 480, 0, 72, 72, 6], [1860, 540, 0, 72, 72, 6], [2000, 560, 0, 72, 72, 6], [2200, 540, 0, 72, 72, 6], [2400, 510, 0, 72, 72, 6], [2560, 490, 0, 72, 72, 6], [2700, 480, 0, 72, 72, 6, "pine2 east: the keep's gate"], [2840, 480, 0, 72, 72, 6], [2952, 480, 0, 48, 48, 0]],
+            [[1576, 470, 0, 44, 44, 4, "pine1, at the plank road's top: a trodden way between the trees"], [1720, 480, 0, 48, 48, 6]],
+            [[1720, 480, 0, 72, 72, 6], [1860, 540, 0, 72, 72, 6], [2000, 560, 0, 72, 72, 6], [2200, 540, 0, 72, 72, 6], [2400, 510, 0, 72, 72, 6], [2560, 490, 0, 72, 72, 6, "the thicket (the door oldpine.pine.thicket): pine2 east, the way to keep1 the knife marks find"], [2700, 480, 0, 72, 72, 6], [2840, 480, 0, 72, 72, 6], [2952, 480, 0, 72, 72, 6]],
             [[1720, 480, 0, 72, 72, 6], [1704, 580, 0, 72, 72, 6], [1690, 680, 0, 72, 72, 6], [1700, 780, 0, 72, 72, 6], [1700, 850, 0, 72, 72, 6, "south to the cliffside"]],
-            [[1720, 480, 0, 72, 72, 6], [1860, 420, 0, 72, 72, 6], [2040, 380, 0, 72, 72, 6], [2200, 340, 0, 72, 72, 6], [2240, 200, 0, 80, 80, 6], [2240, 60, 0, 80, 80, 6], [2240, -20, 0, 80, 80, 6, "the western way into the deep pines"]],
-            [[2560, 490, 0, 72, 72, 6], [2552, 340, 0, 88, 88, 6], [2560, 180, 0, 88, 88, 6], [2560, 60, 0, 80, 80, 6], [2560, -20, 0, 80, 80, 6, "the eastern way into the deep pines"]],
-            [[2240, -20, 0, 72, 72, 6], [2340, -24, 0, 72, 72, 6], [2460, -16, 0, 72, 72, 6], [2560, -20, 0, 72, 72, 6, "joins the two: the loop round the thicket"]],
-            [[2240, -20, 0, 44, 44, 6], [2236, -110, 0, 44, 44, 6], [2220, -200, 0, 48, 48, 6, "a dead end"]],
-            [[2560, -20, 0, 72, 72, 6], [2760, -60, 0, 72, 72, 6], [2900, -120, 0, 72, 72, 6]],
-            [[2900, -120, 0, 72, 72, 6], [3040, -60, 0, 72, 72, 6], [3120, 40, 0, 48, 48, 4, "another dead end"]],
-            [[2900, -120, 0, 80, 80, 6], [2830, -270, 0, 80, 80, 6], [2660, -380, 0, 80, 80, 6], [2440, -420, 0, 80, 80, 6], [2200, -416, 0, 88, 88, 6], [1960, -380, 0, 88, 88, 6, "pine7"], [1820, -220, 0, 88, 88, 6], [1720, -40, 0, 88, 88, 6], [1680, 80, 0, 80, 80, 6], [1650, 140, 0, 80, 80, 6, "cliffdown"]]
+            [[1720, 480, 0, 72, 72, 6], [1860, 420, 0, 72, 72, 6], [2040, 380, 0, 72, 72, 6], [2200, 340, 0, 72, 72, 6], [2240, 200, 0, 80, 80, 6], [2240, 60, 0, 80, 80, 6], [2240, -20, 0, 96, 96, 6, "into the deep pines (pine3-6)"], [2200, -160, 0, 96, 96, 6], [2120, -290, 0, 96, 96, 6], [1960, -380, 0, 96, 96, 6, "pine7"], [1820, -220, 0, 88, 88, 6], [1720, -40, 0, 88, 88, 6], [1680, 80, 0, 80, 80, 6], [1650, 140, 0, 72, 72, 6, "cliffdown"]]
           ],
           "gorge_rim": [
             [[1240, 60, 124, 124, 124, 0], [1240, 180, 132, 132, 132, 0], [1240, 300, 140, 140, 140, 0], [1244, 420, 132, 132, 132, 0], [1256, 560, 126, 126, 126, 0], [1272, 700, 122, 122, 122, 0], [1288, 860, 120, 120, 120, 0], [1296, 1020, 118, 118, 118, 0], [1300, 1180, 116, 116, 116, 0], [1300, 1260, 116, 116, 116, 0]]
@@ -87,7 +81,6 @@
               [1680, 140, 120, 100, "cliffdown"],
               [2786, 480, 150, 140, "before keep1's gate"],
               [1440, 300, 56, 200, "epath3"],
-              [2220, -230, 50, 40, "the first dead end's hollow"],
               [1960, -450, 50, 40, "pine7's hollow"],
               [1984, 632, 110, 48, "a hollow by the way to the keep"]
             ]
@@ -135,7 +128,8 @@
               ["water", 1200, -48, 1280, 64, "the waterfall, north of the bridge, falling from the cliff"],
               ["bridge", 1104, 240, 1376, 384, "小石桥: old, mossy, high over the gorge"],
               ["forest", 1328, 192, 1344, 240, "the vine hanging by the bridge"],
-              ["blocked", 512, 528, 528, 544, "the sign by the south way, to the bandits' slope (clearing.c: 往南的小路旁竖著一个牌子)", {"look": {"kind": "notice_post", "text": "官府告示：此处常有歹人出没。"}}]
+              ["blocked", 512, 528, 528, 544, "the sign by the south way, to the bandits' slope (clearing.c: 往南的小路旁竖著一个牌子)", {"look": {"kind": "notice_post", "text": "官府告示：此处常有歹人出没。"}}],
+              ["blocked", 288, 224, 304, 240, "the waypost by the west way (native, 老松林可读化: the clearing's three ways)", {"look": {"kind": "notice_post", "text": "西·雪亭镇  东·小石桥  南·下坡道", "paper": "cbbb90"}}]
             ]
           },
           {
@@ -196,7 +190,7 @@
           "oldpine.outdoor.central_clearing": [300, 120],
           "oldpine.outdoor.east_bridge": [940, 200],
           "oldpine.outdoor.pine_entrance": [1840, 420],
-          "oldpine.outdoor.pine_deep": [2640, -140],
+          "oldpine.outdoor.pine_deep": [2300, 120],
           "oldpine.outdoor.pine_cliff_edge": [1760, -320],
           "oldpine.outdoor.cliffside": [1640, 760],
           "oldpine.outdoor.keep_gate": [2660, 350],
@@ -217,7 +211,9 @@
           "Rect_96_160": [96, 160],
           "Rect_32_64": [32, 64],
           "Rect_48_48": [48, 48],
-          "Rect_48_96": [48, 96]
+          "Rect_48_96": [48, 96],
+          "Rect_32_144": [32, 144],
+          "Rect_96_96": [96, 96]
         },
         "door_style": {
           "walls": "Terrain/GateWalls",
@@ -231,6 +227,13 @@
             "id": "oldpine.keep.gate",
             "at": [2976, 480],
             "shape": "Rect_32_64"
+          },
+          {
+            "name": "PineThicket",
+            "id": "oldpine.pine.thicket",
+            "at": [2592, 488],
+            "shape": "Rect_32_144",
+            "note": "the thicket across the way to keep1 (DECISIONS「老松林的林径与藏起来的寨门」): shut until the knife marks find it"
           }
         ],
         "nodes": [
@@ -481,6 +484,18 @@
             "id": "oldpine.outdoor.landmark.cliffside_cliff",
             "at": [1624, 870],
             "shape": "Rect_48_96"
+          },
+          {
+            "name": "ClearingWaypostInteraction",
+            "id": "oldpine.outdoor.landmark.clearing_waypost",
+            "at": [296, 252],
+            "shape": "Rect_48_48"
+          },
+          {
+            "name": "PineKnifeMarksInteraction",
+            "id": "oldpine.outdoor.landmark.pine_knife_marks",
+            "at": [2500, 440],
+            "shape": "Rect_96_96"
           }
         ]
       }

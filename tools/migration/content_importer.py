@@ -601,6 +601,8 @@ class Importer:
         used = set()
         for zone in world.get('zones', []):
             for room_id in zone['rooms']:
+                if not room_id.startswith('es2:'):
+                    continue  # a native room (game/data/native/rooms.json) has no LPC source
                 room_path = source_path(room_id.removeprefix('es2:'))
                 self.add(f'{region}/rooms.json', self.room(room_path))
                 objects = self.corpus.get(room_path).sets().get('objects', {})

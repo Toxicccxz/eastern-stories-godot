@@ -770,10 +770,20 @@ func _resolve_doors() -> void:
 					ids.append(zone.map_id)
 		if not _rooms.has(definition.legacy_room_id):
 			_errors.append("%s.legacy_room: unknown room '%s'" % [origin, definition.legacy_room_id])
+		if not definition.found_by.is_empty() and not _mark_found_by_landmark(definition.found_by):
+			_errors.append("%s.found_by: no find_way landmark gives the mark '%s'" % [origin, definition.found_by])
 		if maps.size() > 1 and not _portal_joins(definition.zone_ids()):
 			_errors.append("%s.zones: a door's zones share one map or a portal joins them" % origin)
 		elif not maps.is_empty():
 			_doors[door_id] = definition.with_maps(ids)
+
+
+## A find_way landmark gives `mark` (a door's found_by has a clue that finds it).
+func _mark_found_by_landmark(mark: String) -> bool:
+	for landmark: WorldLandmarkDefinition in _landmarks.values():
+		if landmark.policy == &"find_way" and landmark.mark == mark:
+			return true
+	return false
 
 
 ## A portal leads from one of the two zones into the other (a building's door).

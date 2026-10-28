@@ -30,15 +30,31 @@ def _source(room_id: str) -> str:
 
 
 def _rooms() -> list[dict]:
+    """The ES2 rooms; game/data/native/rooms.json holds the native ones (no LPC source)."""
     rooms: list[dict] = []
     for path in sorted(DATA.glob("*/rooms.json")):
+        if path.parent.name == "native":
+            continue
         rooms.extend(json.loads(path.read_text(encoding="utf-8"))["rooms"])
     return rooms
+
+
+def _native_rooms() -> list[dict]:
+    path = DATA / "native/rooms.json"
+    return json.loads(path.read_text(encoding="utf-8"))["rooms"] if path.exists() else []
 
 
 class RoomDataTest(unittest.TestCase):
     def test_rooms_exist(self) -> None:
         self.assertGreater(len(_rooms()), 0)
+
+    def test_native_rooms_are_marked_and_apart(self) -> None:
+        """A native room (DECISIONS「老松林的林径与藏起来的寨门」: 栈道顶) says so in its id and
+        never claims an ES2 source."""
+        for room in _native_rooms():
+            with self.subTest(room=room["id"]):
+                self.assertTrue(room["id"].startswith("native:"))
+                self.assertTrue(room["short"] and room["long"])
 
     def test_text_and_exits_match_the_lpc_source(self) -> None:
         for room in _rooms():

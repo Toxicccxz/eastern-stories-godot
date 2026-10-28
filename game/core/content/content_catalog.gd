@@ -504,6 +504,12 @@ func door(door_id: StringName) -> DoorDefinition:
 	return _doors.get(door_id)
 
 
+func doors() -> Array[DoorDefinition]:
+	var result: Array[DoorDefinition] = []
+	result.assign(_doors.values())
+	return result
+
+
 func doors_for_map(map_id: StringName) -> Array[DoorDefinition]:
 	var result: Array[DoorDefinition] = []
 	for definition: DoorDefinition in _doors.values():

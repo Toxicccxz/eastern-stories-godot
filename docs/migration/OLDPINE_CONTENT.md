@@ -8,9 +8,11 @@ the data format in [CONTENT_DATA_FORMAT](CONTENT_DATA_FORMAT.md).
 
 Nine maps (oldpine.outdoor, gorge, tree, cliff, cave, stone, caves, cliff2, keep_hall), all with the
 voxel view (`game/data/oldpine/voxel/`). The rooms are drawn where their texts put them (DECISIONS
-「老松林按原文方位排布」): the slope south of the clearing, which has only its three ways; the pine
-maze and the keep east of the gorge, entered by the plank road up from epath3 into pine1 (no ES2
-exit); pine1's two 土匪 stand by the keep way and can be gone round.
+「老松林按原文方位排布」): the slope south of the clearing, which has only its three ways; the pines and
+the keep east of the gorge, entered by the plank road up from epath3 into pine1 (no ES2 exit): one
+trail, east to the thicket that hides keep1's way (found by the knife marks, DECISIONS「老松林的林径与
+藏起来的寨门」), south to the cliffside, north round the deep pines to cliffdown; pine1's two 土匪
+stand by the thicket way and can be gone round.
 
 | Room | LPC `set("objects")` / rule | Native |
 |---|---|---|

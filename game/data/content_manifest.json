@@ -102,6 +102,7 @@
 		"native/npcs.json",
 		"native/items.json",
 		"native/spawns.json",
-		"native/bounties.json"
+		"native/bounties.json",
+		"native/rooms.json"
 	]
 }

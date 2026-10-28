@@ -190,8 +190,26 @@ func _bind_doors() -> bool:
 		if door.wall_shape() == null or not expected.erase(door.door_id):
 			return false
 		doors_by_id[door.door_id] = door
-		door.set_open(GameContent.catalog().door(door.door_id).starts_open)
+		var definition: DoorDefinition = GameContent.catalog().door(door.door_id)
+		door.set_open(definition.starts_open or _way_found(definition))
 	return expected.is_empty()
+
+
+## A door found by a mark (DoorDefinition.found_by) stands open for a player who holds it.
+func _way_found(definition: DoorDefinition) -> bool:
+	return not definition.found_by.is_empty() and _player != null and _player.state != null and int(_player.state.marks.get(definition.found_by, 0)) != 0
+
+
+## The player found the ways `mark` finds (a find_way landmark): every door whose found_by
+## is that mark opens, here and on any other map that places it.
+func open_found_ways(mark: String) -> void:
+	for definition: DoorDefinition in GameContent.catalog().doors():
+		if definition.found_by != mark or definition.map_ids().is_empty():
+			continue
+		# set_door_open() opens it on every map that places it (a door on a portal).
+		var placed: WorldMapController = self if definition.map_ids().has(map) else (null if session == null else session.world_map_of(definition.map_ids()[0]))
+		if placed != null:
+			placed.set_door_open(definition.door_id, true)
 
 
 func _bind_landmarks() -> bool:

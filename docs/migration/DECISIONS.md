@@ -38,7 +38,7 @@
 - 一个高度一张图：攀爬、洞穴、跳落是换图；地形按瓦片碰撞，门和可开关的挡块是节点。「Old Pine: one map per height level, collision on tiles」
 - 区域按身体中心归属，只在相邻区域间走；ES2 没有的原生连接写成区域 `links`。「One map runtime」
 - 同一张图上相邻同名房间算一处，走进去不再显示描述；标 `distinct` 的照样显示。「Neighbouring rooms of one name are one place」
-- 老松林按原文方位排布：坡在空地南边，迷阵从 epath3 的栈道进 pine1；松林和山洞的随机出口各是一个固定迷宫。「老松林按原文方位排布」「Random Pine room exits become one fixed continuous maze」「Old Pine remainder A」
+- 老松林按原文方位排布：坡在空地南边，栈道从 epath3 上崖。崖上是一条林径（东到灌木、南到悬崖边、北绕深林到 cliffdown），没有迷宫；老松寨的路藏在灌木后，跟着刀痕才开、开了就不关（印记存档）。山洞的随机出口是一个固定迷宫。「老松林按原文方位排布」「老松林的林径与藏起来的寨门」「Old Pine remainder A」
 - 地图由画家按房间文字画；ES2 只描述、没写房间的去处只画不通。「雪亭镇's maps drawn by the painter」「老松岭's maps drawn by the painter」
 - 尸体躺在倒下的地方，会碰墙时最多侧移 40 px。「Old Pine: one map per height level, collision on tiles」
 
@@ -161,6 +161,33 @@
 - 京师：令牌照 ES2；地下密室的石阶从下面也能开。「京师 A」「京师 B」
 - 黑松山：进山的路修好；小娟只救一次。「黑松山 A」「黑松山 B」
 - 鬼门关：阴间要自己走回来；路的尽头补了原文缺的句子。「鬼门关 A」
+
+## 老松林的林径与藏起来的寨门 (owner, 2026-10-28)
+
+- **ES2:** pine1–pine7 七间文字一样的「松树林」，出口每次 reset 随机换（pine1、2、4、5、6、7 在 reset() 里、
+  pine3 在 create() 里 `random(5)+2`），离开时写「你实在弄不清楚方向……就是这个方向吧」；几条写死的边是骨架
+  （pine1 west→pine4、pine4 north→pine5、pine5 north→pine6、pine6 west→pine7、pine7 southwest→cliffdown、
+  pine2 east→keep1）。9B1 把它译成一个固定迷宫（一个环、两条死路、一条绕远到 cliffdown）。keep1 叫「老松寨
+  秘密入口」，但 pine2 east 是一条普通出口，谁走到都进得去。
+- **Owner (2026-10-28):** 进了林间小路后这段太绕，新玩家被第一张悬赏送到老松林空地，很容易走进去迷路；随机出口是
+  ES2 在文字里把林子撑大的办法，是故弄玄虚；从现代游戏的角度，「藏在林子里」也不必用这种方式实现。
+- **We:** 崖上只有一条踩出来的林径：栈道顶往东到一丛灌木，往南到悬崖边（原文的死路，很短），往北进深林
+  （pine3–6），绕到 pine7 的狼狗，再下到 cliffdown，从那里爬 cliff2 回栈道脚。没有环、没有死路。pine2–6 的
+  房间 ID 仍挂在原来的三个区块上（pine_entrance / pine_deep / pine_cliff_edge）。栈道顶（pine_entrance）的文字是一条
+  原生房间「栈道顶」（`game/data/native/rooms.json`，id 前缀 `native:`，排在区块房间表的第一位；owner 2026-10-28：原文
+  「连方向都弄不清楚」和眼前清楚的三岔口对不上），pine1、pine2 跟在后面只作溯源；「松树林」原文在北边深林那段
+  （pine3）显示一次，狼狗在那里，「赶紧找路出去」读起来才对；「弄不清楚方向」那段离开提示不要。老松寨的路藏在灌木后：一扇门
+  `oldpine.pine.thicket`（`found_by`「老松寨的小径」，不能用手开，开前不画出口箭头）；旁边的地标「刀痕」
+  （`find_way`，用的是 epath1.c 原文里树干上的刀痕）用一次给玩家这枚印记、开门并记一条见闻「树上的刀痕」；印记
+  存档，之后再进这张图门就是开的，再用只说「刀痕指的就是灌木后面那条小径」。空地西口加一块原生路牌（西 雪亭镇 ·
+  东 小石桥 · 南 下坡道），原文的告示牌不动。pine1 的两个土匪照旧站在去灌木那条路边的洼地里，绕得开。
+- **Global (data):** 原生房间放 `game/data/native/rooms.json`（导入器跳过、画图工具合并、`test_room_data` 不比对 LPC）；门的 `found_by`（一枚印记；这样的门 `open` false、`operable` false，由持有印记的玩家进图
+  时打开）；地标策略 `find_way`（`mark`、`action`，消息 `found` / `again`）；体素门样 `thicket`。
+- **没有经典模式开关：** 地图只有一张，迷宫不能按开关保留。藏的是路不是景：俯视镜头里灌木后面的林地、keep1 门前的
+  四个喽罗照样看得见，门开之前走不过去、也没有出口箭头。见闻「树上的刀痕」按 `chain_percent` 10% 计历练（50，和
+  第一次到一处地方一样，不按整条故事链的 500）。
+- **Save:** world content revision `SOURCE_ENTRY_OLDPINE_TRAIL_V1`；旧开发存档要新游戏。
+- 取代「Random Pine room exits become one fixed continuous maze」（移入 DECISIONS_HISTORY）。
 
 ## 天气 (美术优化 G, owner 批准 2026-10-27; Q3 做云量和晨雾, 雨先不做)
 
@@ -3882,15 +3909,6 @@ partial mutation, not an atomic attack rollback. Sources:
 **Reason:** `cmds/std/get.c` and `present(arg, environment(me))` make source reachability depend on sharing one discrete room. The native map is continuous and the current player/corpse bodies are roughly 36 pixels wide, so a 96-pixel circle permits deliberate nearby interaction without extending across the 150-pixel spacing between authored bandit spawn centers. `Area2D` supplies the physical representation and enter/exit notifications; execution also checks current corpse/player positions so a corpse created while already overlapping the player cannot miss its initial range fact.
 
 **Compatibility impact:** A player on the same continuous Godot map but farther than 96 pixels from the corpse cannot Open Loot or Take until approaching it. Once admitted, all item ownership, capacity, corpse-worn, stack merge, and fighting/busy results remain governed by the migrated source rules. Source: `reference/es2/mudlib/cmds/std/get.c`; native scene scale: `game/scenes/world/oldpine/oldpine_outdoor.tscn`.
-
-## Random Pine room exits become one fixed continuous maze
-
-**Decision:** Phase 9B1 translates `pine1` through `pine7` and `cliffdown` into one fixed continuous spatial maze with repeated forks, occlusion, a traversable loop, a safe dead end, a reliable route to Pine Cliff Edge, and a reliable return route. There is no ROOM exit emulator, reset-time topology mutation, or navigation RNG.
-
-**Reason:** The Pine rooms use random exit targets to create disorientation within a text-room runtime. `pine1`, `pine2`, and `pine4` through `pine7` rebuild those exits during reset, while `pine3` selects them during create; several fixed links provide an authored skeleton: `pine1 west → pine4`, `pine4 north → pine5`, `pine5 north → pine6`, `pine6 west → pine7`, `pine7 southwest → cliffdown`, plus `pine2 east → keep1`. Reproducing mutable exit tables would port the LPC runtime representation instead of its maze intent and would make physical collision/navigation unstable.
-
-**Compatibility impact:** A given playthrough and scene reload use the same Pine geometry instead of source reset/load randomization. The native layout preserves getting-lost pressure through physical loops, similar branches, barriers, and dead ends while guaranteeing reachability and return. Pine navigation consumes no random source. Sources: `reference/es2/mudlib/d/oldpine/pine1.c`, `pine2.c`, `pine3.c`, `pine4.c`, `pine5.c`, `pine6.c`, `pine7.c`, `cliffdown.c`.
-
 
 ## Snow Martial Progression II — owner-locked P2 boundary
 

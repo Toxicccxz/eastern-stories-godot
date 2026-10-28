@@ -2311,6 +2311,11 @@ msgstr ""
 msgid "林间....不....悬崖边"
 msgstr ""
 
+#. native:oldpine/pine_top short
+#: scenes/world/oldpine/oldpine_outdoor.tscn data/native/rooms.json
+msgid "栈道顶"
+msgstr ""
+
 #. es2:d/oldpine/pine1 short
 #. es2:d/oldpine/pine2 short
 #. es2:d/oldpine/pine3 short
@@ -2344,6 +2349,10 @@ msgstr ""
 
 #: scenes/world/oldpine/oldpine_outdoor.tscn
 msgid "官府告示：此处常有歹人出没。"
+msgstr ""
+
+#: scenes/world/oldpine/oldpine_outdoor.tscn
+msgid "西·雪亭镇  东·小石桥  南·下坡道"
 msgstr ""
 
 #. es2:d/oldpine/stone short
@@ -13638,6 +13647,7 @@ msgid "山洞里的骸骨"
 msgstr ""
 
 #. oldpine.skeleton region
+#. oldpine.knife_marks region
 #. oldpine name
 #: data/common/journal.json data/oldpine/world.json
 msgid "老松岭"
@@ -13646,6 +13656,16 @@ msgstr ""
 #. oldpine.skeleton/buried text
 #: data/common/journal.json
 msgid "你在瀑布旁的山洞里埋好了那具骸骨，洞顶石壁「喀喇」一响，坠下一本过招要旨。"
+msgstr ""
+
+#. oldpine.knife_marks title
+#: data/common/journal.json
+msgid "树上的刀痕"
+msgstr ""
+
+#. oldpine.knife_marks/found text
+#: data/common/journal.json
+msgid "你顺着松树上的刀痕，在崖上林径尽头的灌木后找到了一条小径，通往老松寨。"
 msgstr ""
 
 #. cloud.toll title
@@ -16847,6 +16867,11 @@ msgstr ""
 msgid "大门"
 msgstr ""
 
+#. oldpine.pine.thicket name
+#: data/oldpine/world.json
+msgid "灌木丛"
+msgstr ""
+
 #. oldpine.keep2.gate_trap messages.shout
 #: data/oldpine/world.json
 msgid "你听到你身后有几个声音大叫：把门关上！把门关上！一个也不许让他们溜走！"
@@ -17079,6 +17104,54 @@ msgstr ""
 #: data/oldpine/world.json
 msgid ""
 "「官府告示：此处常有歹人出没。」\n"
+msgstr ""
+
+#. oldpine.outdoor.landmark.clearing_waypost name
+#. green.eight0.landmark.sign name
+#. green.eight1.landmark.sign name
+#. green.eight2.landmark.sign name
+#. green.eight3.landmark.sign name
+#. green.eight4.landmark.sign name
+#. green.eight5.landmark.sign name
+#. green.eight6.landmark.sign name
+#. green.eight7.landmark.sign name
+#: data/oldpine/world.json data/green/world.json
+msgid "路牌"
+msgstr ""
+
+#. oldpine.outdoor.landmark.clearing_waypost long
+#: data/oldpine/world.json
+msgid ""
+"一块旧木牌，刻着三行字：\n"
+"「往西，雪亭镇。」\n"
+"「往东，小石桥。」\n"
+"「往南，下坡道。」\n"
+msgstr ""
+
+#. oldpine.outdoor.landmark.pine_knife_marks name
+#: data/oldpine/world.json
+msgid "刀痕"
+msgstr ""
+
+#. oldpine.outdoor.landmark.pine_knife_marks action
+#: data/oldpine/world.json
+msgid "顺着刀痕找"
+msgstr ""
+
+#. oldpine.outdoor.landmark.pine_knife_marks long
+#: data/oldpine/world.json
+msgid ""
+"这几株松树的树干上都有刀划的记号，一道一道，深浅不一，像是有人怕走错了路，沿途留下的。记号一路往东，到那丛灌木跟前就断了。\n"
+msgstr ""
+
+#. oldpine.outdoor.landmark.pine_knife_marks messages.found
+#: data/oldpine/world.json
+msgid "你顺着树上的刀痕往东找去，拨开那丛灌木，后面果然有一条踩得结实的小径，通往林子深处。"
+msgstr ""
+
+#. oldpine.outdoor.landmark.pine_knife_marks messages.again
+#: data/oldpine/world.json
+msgid "刀痕指的就是灌木后面那条小径。"
 msgstr ""
 
 #. oldpine.outdoor.landmark.epath3_footprints name
@@ -21332,18 +21405,6 @@ msgstr ""
 #: data/green/world.json
 msgid ""
 "这是一副八卦阵图,图下面有一行模糊的小字：八卦古阵\n"
-msgstr ""
-
-#. green.eight0.landmark.sign name
-#. green.eight1.landmark.sign name
-#. green.eight2.landmark.sign name
-#. green.eight3.landmark.sign name
-#. green.eight4.landmark.sign name
-#. green.eight5.landmark.sign name
-#. green.eight6.landmark.sign name
-#. green.eight7.landmark.sign name
-#: data/green/world.json
-msgid "路牌"
 msgstr ""
 
 #. green.eight0.landmark.sign long
@@ -32155,6 +32216,14 @@ msgstr ""
 #: data/native/items.json
 msgid ""
 "一封封好的书信，信封上写着：绮云镇 振远镖局 陈剑秋 亲启。\n"
+msgstr ""
+
+#. native:oldpine/pine_top long
+#: data/native/rooms.json
+msgid ""
+"破旧的栈道到这里到了头。崖上的松树比下面密得多，树冠遮去了大半天光，\n"
+"地上一条踩出来的小径往东去，南边树隙间透着山涧的水声，北边的林子更深。\n"
+"小径旁好几株松树的树干上有刀划的记号。\n"
 msgstr ""
 
 #: data/choyin/voxel/club_house.json

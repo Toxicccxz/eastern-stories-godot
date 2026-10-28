@@ -251,6 +251,9 @@ func _close_door(npc: NpcRuntimeState, hears: bool) -> void:
 		var definition: DoorDefinition = GameContent.catalog().door(door.door_id)
 		if definition == null or not definition.zone_ids().has(zone_id):
 			continue
+		# A way found by a clue (found_by) is no door to shut: once found it stays open.
+		if not definition.found_by.is_empty():
+			continue
 		if definition.zone_ids().has(came_from):
 			chosen = definition
 			break
