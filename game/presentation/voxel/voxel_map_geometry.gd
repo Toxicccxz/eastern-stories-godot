@@ -619,6 +619,43 @@ func _styled_wall_cell(into: Node3D, p: Vector3, height: float, look: Dictionary
 				course += 1
 			shapes.box(into,p+Vector3(0,height+0.05,0),Vector3(0.53,0.12,0.53),"5c5a52")
 			return
+	if look.get("style","rock")=="cloth":
+		# 粗略的布料所搭成的营帐 (camp3.c): a tent's wall — coarse cloth between poles, sagging a
+		# little, a seam across it, a patch here and there, a rope along the top.
+		var cloth: String = String(colors[absi(int(p.x*2+p.z*2))%colors.size()])
+		var sag: float = 0.1*absf(sin(p.x*3.1+p.z*2.3))
+		shapes.box(into,p+Vector3(0,height/2-sag/2,0),Vector3(0.5,height-sag,0.3) if horizontal else Vector3(0.3,height-sag,0.5),cloth)
+		shapes.box(into,p+Vector3(0,height*0.55,0),Vector3(0.52,0.025,0.32) if horizontal else Vector3(0.32,0.025,0.52),String(look.get("seam","5a4a3a")))
+		var tag: int = absi(int(p.x*7+p.z*13))
+		if tag%4==1:
+			shapes.box(into,p+Vector3(0,0.5+float(tag%5)*0.3,0),Vector3(0.3,0.26,0.33) if horizontal else Vector3(0.33,0.26,0.3),String(look.get("patch","7a6a4e")))
+		if tag%3==0:
+			shapes.box(into,p+(Vector3(0.22,height/2,0) if horizontal else Vector3(0,height/2,0.22)),Vector3(0.1,height+0.1,0.1),String(look.get("poles","6a5038")))
+		shapes.box(into,p+Vector3(0,height+0.02,0),Vector3(0.54,0.06,0.34) if horizontal else Vector3(0.34,0.06,0.54),String(look.get("rope","a08e62")))
+		return
+	if look.get("style","rock")=="iron_bars":
+		# 铁栅 (canyon3.c): iron bars close set, spiked, rusting, on a stone sill, two rails through them.
+		shapes.box(into,p+Vector3(0,0.1,0),Vector3(0.5,0.2,0.5),String(look.get("sill","7d7262")))
+		for bar: int in 2:
+			var offset: float = -0.125+bar*0.25
+			var at := p+(Vector3(offset,0,0) if horizontal else Vector3(0,0,offset))
+			var tall: float = height*(0.94+0.05*float(absi(int(p.x*5+p.z*3+bar))%3))
+			var tone: String = String(colors[absi(int(p.x*3+p.z*7+bar))%colors.size()])
+			shapes.box(into,at+Vector3(0,0.2+tall/2,0),Vector3(0.1,tall,0.1),tone)
+			shapes.box(into,at+Vector3(0,0.3+tall,0),Vector3(0.06,0.2,0.06),String(look.get("tips","2e2c2a")))
+		for rail: float in [0.9,height-0.5]:
+			shapes.box(into,p+Vector3(0,rail,0),Vector3(0.52,0.08,0.14) if horizontal else Vector3(0.14,0.08,0.52),String(look.get("rail","46423e")))
+		return
+	if look.get("smooth",false):
+		# 光滑的山壁 (canyon4.c: 在西边的山壁似乎过于平滑, 不太自然): rock dressed flat, its courses true.
+		var level: float = 0.0
+		var row: int = 0
+		while level < height-0.01:
+			var h: float = minf(0.6,height-level)
+			shapes.box(into,p+Vector3(0,level+h/2,0),Vector3(0.5,h-0.01,0.5),String(colors[(row+absi(int(p.x*2)))%colors.size()]))
+			level += h
+			row += 1
+		return
 	if look.get("style","rock")=="palisade":
 		# 老松寨's wall: logs stood side by side, sharpened, lashed at two heights.
 		for log_index: int in 2:

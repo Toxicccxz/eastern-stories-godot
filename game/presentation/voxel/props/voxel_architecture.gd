@@ -38,7 +38,7 @@ func build(center: Vector3, w: float, d: float, data: Dictionary, entrances: Arr
 	_walls(body,w,d,enclosure,data,entrances)
 	if ruined:
 		pass
-	elif masses.is_empty():
+	elif masses.is_empty() and String(data.get("roof_form","gable"))!="none":
 		_roof(body,Vector3.ZERO,w,d,height,data)
 	else:
 		for mass: Dictionary in masses:
@@ -119,6 +119,30 @@ func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, e
 				at.y = left/2
 				shapes.box(body,at,Vector3(0.50,left,0.24) if along_x else Vector3(0.24,left,0.50),plaster.darkened(0.1).to_html(false))
 				continue
+			if construction=="cloth":
+				# 粗布营帐 (camp1–8.c): cloth panels between poles, sagging, patched, guyed to the ground.
+				var cloth: Array = data.get("bands",["8a7a5c","948466","7e6e52"])
+				var sag: float = 0.08*absf(sin(i*1.7+side))
+				shapes.box(body,at-Vector3(0,sag/2,0),Vector3(0.50,height-sag,0.16) if along_x else Vector3(0.16,height-sag,0.50),String(cloth[(i/2+side)%cloth.size()]))
+				if i%bay==0:
+					shapes.box(body,at+out*0.1,Vector3(0.1,height+0.15,0.1),timber)
+					var slope: float = atan2(1.0,height)
+					shapes.tilted_box(body,Vector3(at.x,height/2,at.z)+out*0.5,Vector3(0.03,sqrt(height*height+1.0),0.03),"a08e62",Vector3(-slope*out.z,0,0) if along_x else Vector3(0,0,slope*out.x))
+					shapes.box(body,Vector3(at.x,0.08,at.z)+out*1.0,Vector3(0.08,0.16,0.08),"5a4a3a")
+				if weather>0.3:
+					shapes.box(body,Vector3(at.x,0.6+weather,at.z)+out*0.09,Vector3(0.3,0.25,0.03) if along_x else Vector3(0.03,0.25,0.3),String(data.get("patch","6e5e46")))
+				continue
+			if construction=="iron_bars":
+				# 铁栅 (canyon3.c): the palisade round the camp's yards — bars, spikes, rails, a stone sill.
+				shapes.box(body,Vector3(at.x,0.1,at.z),Vector3(0.5,0.2,0.3) if along_x else Vector3(0.3,0.2,0.5),"7d7262")
+				for bar: int in 2:
+					var offset: float = -0.125+bar*0.25
+					var bar_at := Vector3(at.x+offset,0,at.z) if along_x else Vector3(at.x,0,at.z+offset)
+					shapes.box(body,bar_at+Vector3(0,0.2+height/2,0),Vector3(0.1,height,0.1),String(data.get("iron","3a3835")))
+					shapes.box(body,bar_at+Vector3(0,0.3+height,0),Vector3(0.06,0.2,0.06),"2e2c2a")
+				for rail: float in [0.9,height-0.5]:
+					shapes.box(body,Vector3(at.x,rail,at.z),Vector3(0.52,0.08,0.14) if along_x else Vector3(0.14,0.08,0.52),String(data.get("rail","46423e")))
+				continue
 			var panel := Vector3(0.50,height,0.24) if along_x else Vector3(0.24,height,0.50)
 			var tone: String = plaster.darkened(0.035*roundf((weather+0.5)*3)).to_html(false)
 			shapes.box(body,at,panel,tone)
@@ -191,7 +215,11 @@ func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, e
 						shapes.box(body,window_at+out*0.1+Vector3(0,bar,0),Vector3(0.40,0.035,0.03) if along_x else Vector3(0.03,0.035,0.40),timber)
 				if construction=="timber" and i%bay==2:
 					shapes.box(body,window_at+out*0.13,Vector3(0.38,0.78,0.06) if along_x else Vector3(0.06,0.78,0.38),"796348")
-		if not ruined:
+		if construction in ["cloth","iron_bars"]:
+			# A rope along a tent's eave; nothing over a palisade.
+			if construction=="cloth":
+				shapes.box(body,Vector3(0,height+0.02,fixed) if along_x else Vector3(fixed,height+0.02,0),Vector3(w,0.07,0.07) if along_x else Vector3(0.07,0.07,d),"a08e62")
+		elif not ruined:
 			shapes.box(body,Vector3(0,height-0.13,fixed) if along_x else Vector3(fixed,height-0.13,0),Vector3(w,0.18,0.33) if along_x else Vector3(0.33,0.18,d),timber)
 		if data.get("gallery",false):
 			var rail_at := Vector3(0,height-0.65,fixed) if along_x else Vector3(fixed,height-0.65,0)
@@ -239,6 +267,9 @@ func _roof(into: Node3D, at: Vector3, w: float, d: float, height: float, data: D
 				shapes.box(root,Vector3(end*x,height+tier*0.18,0),Vector3(0.18,0.18,maxf(0.2,depth)),face)
 	# `roof_tiles`: "slate" (石板: rough stone slabs, moss in their laps) or "thatch" (茅草).
 	var cover: String = String(data.get("roof_tiles","tiles"))
+	if cover=="cloth":
+		_cloth_roof(root,wide,deep,height,rise,form,data)
+		return
 	if cover in ["slate","thatch"]:
 		_rough_roof(root,wide,deep,height,rise,form,curve,tint,data,cover=="thatch")
 	else:
@@ -369,6 +400,36 @@ func _ridge_beasts(root: Node3D, wide: float, deep: float, height: float, rise: 
 func _beast(root: Node3D, at: Vector3, color: String, yaw: float) -> void:
 	shapes.tilted_box(root,at+Vector3(0,0.08,0),Vector3(0.16,0.16,0.26),color,Vector3(0,yaw,0))
 	shapes.tilted_box(root,at+Vector3(sin(yaw)*0.12,0.24,cos(yaw)*0.12),Vector3(0.12,0.14,0.12),color,Vector3(0,yaw,0))
+
+## A tent's roof (camp1–8.c: 营帐; `roof_tiles`: "cloth"): cloth panels pulled over the ridge
+## pole, sagging between their seams, patched (`bands` the cloth's shades, `patch`), a rope
+## along the ridge, the ends' poles standing up through it, the eaves lashed.
+func _cloth_roof(root: Node3D, wide: float, deep: float, height: float, rise: float, form: String, data: Dictionary) -> void:
+	var cloth: Array = data.get("bands",["8a7a5c","948466","7e6e52"])
+	var cols: int = maxi(1,ceili(wide/0.5))
+	var rows: int = maxi(1,ceili(deep/0.5))
+	for z: int in rows:
+		var pz: float = -deep/2+(z+0.5)*deep/rows
+		for x: int in cols:
+			var px: float = -wide/2+(x+0.5)*wide/cols
+			var top: float = _roof_top(px,pz,wide,deep,rise,form)
+			var sag: float = -0.08*absf(sin(px*2.1)*sin(pz*2.7))
+			var tone: String = String(cloth[(x/3+z/2)%cloth.size()])
+			if noise.get_noise_2d(px*13+root.position.x,pz*13+root.position.z) > 0.42:
+				tone = String(data.get("patch","6e5e46"))
+			shapes.box(root,Vector3(px,height+0.08+top+sag,pz),Vector3(wide/cols+0.02,0.1,deep/rows+0.02),tone)
+	var seams: int = maxi(1,floori(wide/1.2))
+	for seam: int in seams:
+		var px: float = -wide/2+(seam+0.5)*wide/seams
+		for z: int in rows:
+			var pz: float = -deep/2+(z+0.5)*deep/rows
+			shapes.box(root,Vector3(px,height+0.14+_roof_top(px,pz,wide,deep,rise,form),pz),Vector3(0.03,0.02,deep/rows+0.02),"5a4a3a")
+	var ridge_length: float = _ridge_length(wide,deep,form)
+	shapes.box(root,Vector3(0,height+rise+0.16,0),Vector3(ridge_length+0.2,0.08,0.08),"a08e62")
+	for end: float in [-1.0,1.0]:
+		shapes.box(root,Vector3(end*ridge_length/2,height+rise+0.2,0),Vector3(0.14,0.5,0.14),String(data.get("timber","6a5038")))
+	for side: float in [-1.0,1.0]:
+		shapes.box(root,Vector3(0,height+0.02,side*deep/2),Vector3(wide,0.06,0.08),"a08e62")
 
 ## A roof of rough stuff instead of fired tiles. Slate: courses of split stone slabs, each its own
 ## width, shade and tilt, laps staggered, moss (`moss`: colour, `mossy`: share) in the shaded laps,

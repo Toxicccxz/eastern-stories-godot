@@ -92,6 +92,15 @@ func _wall_look(life: Dictionary, random: RandomNumberGenerator) -> Dictionary:
 			return {"style":"brick","colors":["6f716a","7b7c73","646660","85857a"],"mortar":"9a9888","grime":life["grime"]}
 		"earth":
 			return {"style":"earth","colors":["8d7a5c","98856a","806e53","a08c6c"]}
+		"cloth":
+			# A tent (camp3.c: 粗略的布料; camp5.c: 布料倒是比小兵营帐好多了): coarse cloth, a shade
+			# of its own per tent, darker the dirtier.
+			var tones: Array = []
+			for hex: String in life.get("cloth_colors",["8a7a5c","948466","7e6e52","a09070"]):
+				tones.append(Color(hex).darkened(float(life["grime"])*0.2+random.randf()*0.06).to_html(false))
+			return {"style":"cloth","colors":tones,"grime":life["grime"]}
+		"iron_bars":
+			return {"style":"iron_bars","colors":["3a3835","46423e","2e2c2a"]}
 		_:
 			var shade: float = random.randf_range(-0.06,0.06)
 			var wall: Color = base.darkened(shade) if shade>0 else base.lightened(-shade)

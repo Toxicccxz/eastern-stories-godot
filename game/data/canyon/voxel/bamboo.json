@@ -1,0 +1,75 @@
+{
+  "indoor": false,
+  "camera_size": 21,
+  "note": "梦幻迷境 and 竹林道 (fantasy1.c, bamboo1–3.c): inside the mirror a dark chamber where three ways part, the upper and lower ones sealed (dream/tmp.c, evil/tmp.c: 整修中), the middle one smelling of bamboo; north of it the 竹林道 between tall straight bamboo in a strange wind (风狂无形, 怪异的强风), 黄莺 singing, small animals about, to the great yellow stone that blocks the way, 洋洋洒洒的蓝光 seeping round it.",
+  "edge": {
+    "minimum_margin": 24,
+    "maximum_margin": 64,
+    "depth": 3.2,
+    "top": "4a5a38",
+    "bottom": "2a2a2e",
+    "strata": ["5a5a50", "4a4a44", "3a3a3c"]
+  },
+  "wall_looks": [
+    {"rect": [-32, 768, 416, 1056], "style": "rock", "colors": ["4a4e58", "565a64", "3e424c", "626670", "525660"], "seam": "2e3038", "note": "the mirror's inside: cold grey-blue rock, 不祥的空间"}
+  ],
+  "wall_height": 3.6,
+  "ground": {
+    "chasm": {"style": "scree", "colors": ["2a2e36", "30343c", "262a30"], "gravel": 0.3, "stones": 0.04, "note": "fantasy1.c: the upper and lower ways, their mouths sealed with planks (dream/tmp.c, evil/tmp.c: 整修中, 请往回走)"},
+    "cave_floor": {"style": "scree", "colors": ["3e424c", "484c56", "363a44"], "gravel": 0.4, "stones": 0.06, "wet": true, "wet_chance": 0.2, "pebbles": ["525660", "5c606a", "444852"], "sheen": "6a7a8a"},
+    "forest_floor": {"style": "scree", "colors": ["6a6a40", "767848", "5e6238"], "gravel": 0.25, "stones": 0.02, "pebbles": ["8a8a58", "7a7a4a", "9a9a60"], "note": "the path through the bamboo: fallen leaves over earth"},
+    "forest": {"colors": ["4e6a34", "587840", "62864a"]},
+    "boundary": {"colors": ["4e6a34", "587840", "62864a"]}
+  },
+  "flora": {
+    "grass_density": 0.9,
+    "density": {"forest_floor": 0.35},
+    "grass_colors": ["4a7a3a", "5e9048", "76a654", "92bc66"],
+    "flower_colors": ["e8e0b0", "d8c870", "f0e8d0", "c8d8a0"],
+    "flower_threshold": 0.2,
+    "blossom_trees": 0.0,
+    "tree_types": ["bamboo"],
+    "tree_kinds": ["forest"],
+    "tree_chance": 0.95,
+    "tree_spacing": 40,
+    "grove_contrast": 0.15,
+    "crown_colors": {"bamboo": ["3f6a3a", "568246", "6f9a52", "8db463"]},
+    "cliff_tufts": 0.0,
+    "wind": 0.95,
+    "butterflies": 3,
+    "no_trees": [[-32, 768, 416, 1056]]
+  },
+  "light": {
+    "areas": [
+      {"rect": [-32, 768, 416, 1056], "ambient": ["8a8a9a", "3a3a4a"], "ambient_energy": [0.4, 0.3], "sun_energy": [0.2, 0.1], "sky": ["2a2a34", "0a0a10"], "fog": {"color": ["6a6a7a", "1a1a24"], "density": [0.0, 0.0], "depth": [12.0, 40.0], "depth_density": 0.5}, "note": "fantasy1.c: 空气被抽丝剥茧, 呼吸也愈来愈困难"}
+    ]
+  },
+  "props": [
+    {"kind": "glow", "at": [150, 70], "color": "6aa8ff", "day": 1.6, "night": 2.2, "range": 7.0, "height": 1.2, "flicker": 0.06, "note": "bamboo3.c: 洋洋洒洒的蓝光从大黄石的四周漫漫而出"},
+    {"kind": "glow", "at": [234, 70], "color": "6aa8ff", "day": 1.6, "night": 2.2, "range": 7.0, "height": 1.2, "flicker": 0.06},
+    {"kind": "glow", "at": [192, 20], "color": "8ac0ff", "day": 1.0, "night": 1.6, "range": 5.0, "height": 2.6},
+    {"kind": "rock_pile", "at": [100, 30], "size": [40, 32], "on_cliff": false, "count": 5, "colors": ["c9a85a", "d6b86a", "b9975a"], "note": "yellow stone chips at the great stone's foot"},
+    {"kind": "rock_pile", "at": [290, 36], "size": [36, 28], "count": 4, "colors": ["c9a85a", "d6b86a", "b9975a"]},
+    {"kind": "tracks", "at": [192, 400], "size": [120, 160], "note": "bamboo2.c: 小动物在这四周跳来跳去"},
+    {"kind": "mushrooms", "at": [60, 440], "size": [32, 24]},
+    {"kind": "mushrooms", "at": [330, 620], "size": [32, 24]},
+    {"kind": "ferns", "at": [70, 300], "size": [48, 32]},
+    {"kind": "ferns", "at": [310, 540], "size": [48, 32]},
+    {"kind": "cave_mouth", "at": [64, 846], "size": [56, 24], "height": 2.4, "colors": ["4a4e58", "565a64", "3e424c"], "slime": "6a6a8a", "note": "fantasy1.c: 上道迷香之味不止 — the upper way, sealed"},
+    {"kind": "barricade", "at": [64, 857], "size": [56, 14], "note": "整修中: planks across the mouth"},
+    {"kind": "cave_mouth", "at": [320, 846], "size": [56, 24], "height": 2.4, "colors": ["4a4e58", "565a64", "3e424c"], "slime": "5a6a4a", "note": "下道呕味不停 — the lower way, sealed"},
+    {"kind": "barricade", "at": [320, 857], "size": [56, 14]},
+    {"kind": "rubble", "at": [64, 820], "size": [48, 20], "count": 5, "colors": ["4a4e58", "565a64", "3e424c"]},
+    {"kind": "rubble", "at": [320, 820], "size": [48, 20], "count": 5, "colors": ["4a4e58", "565a64", "3e424c"]},
+    {"kind": "glow", "at": [64, 860], "color": "c08ad0", "day": 0.7, "night": 0.9, "range": 4.0, "height": 1.4, "note": "迷香: a purple haze from the upper way"},
+    {"kind": "glow", "at": [320, 860], "color": "8ab060", "day": 0.6, "night": 0.8, "range": 4.0, "height": 1.0, "note": "呕味: a sick green from the lower"},
+    {"kind": "mirror", "at": [192, 1012], "size": [128, 16], "rotation": 180, "height": 3.0, "light": "e0e8ff", "day": 0.9, "night": 0.6, "range": 7.0, "note": "the mirror's inner face, the way back out"},
+    {"kind": "stains", "at": [192, 896], "size": [200, 140], "count": 6, "colors": ["2e3038", "363a44"]}
+  ],
+  "ambience": {
+    "birds": [{"at": [192, 400], "radius": 120, "count": 3, "height": 5.5, "color": "d8b84a", "note": "bamboo2.c: 黄莺唱吟"}],
+    "fall": [{"rect": [0, 0, 384, 768], "count": 30, "colors": ["6f9a52", "8db463", "a8b870"], "height": 6.0, "wind": [1.2, -0.3], "note": "leaves torn off in the gale"}],
+    "dust": [{"rect": [0, 768, 384, 1024], "count": 18, "color": "8a8aa0", "wind": [0.3, 0.2], "height": [0.4, 2.6], "note": "fantasy1.c: 不停变动的景象"}]
+  },
+  "actors": {"default": {"coat": "7a6a52"}}
+}

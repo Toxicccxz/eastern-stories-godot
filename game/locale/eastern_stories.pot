@@ -443,7 +443,7 @@ msgstr ""
 msgid "兵器库"
 msgstr ""
 
-#: scenes/world/canyon/canyon_armory.tscn
+#: scenes/world/canyon/canyon_armory.tscn data/canyon/voxel/armory.json
 msgid "武"
 msgstr ""
 

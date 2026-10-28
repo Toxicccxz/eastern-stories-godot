@@ -265,12 +265,26 @@ func bounties(count: int, walk_seconds: float, max_seconds: float) -> void:
 				map.runtime_player_body().global_position = spot
 				session.player_runtime().set_world_location(map.location_for_zone(posting.place.zone_id))
 			await _settle()
-		_look()
-		await _settle()
+		# The outlaw comes out only while no fight holds the place (WorldBounties.look()): on a
+		# slow machine (CI) more play time passes between frames, and one of the place's own
+		# aggressors may reach the player first. As a player would, fight that one out, rest,
+		# and look again, a few times.
 		var outlaw: NpcRuntimeState = null
-		for npc: NpcRuntimeState in session.world_npcs():
-			if npc.definition().definition_id == posting.tier.npc_id and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
-				outlaw = npc
+		for attempt: int in 6:
+			if session.combat_encounter_coordinator().has_active_encounter():
+				var paused: int = BattlePace.after_knockout
+				BattlePace.after_knockout = BattlePace.AfterKnockout.FINISH
+				_fight()
+				BattlePace.after_knockout = paused
+				_rest()
+				await _settle()
+			_look()
+			await _settle()
+			for npc: NpcRuntimeState in session.world_npcs():
+				if npc.definition().definition_id == posting.tier.npc_id and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
+					outlaw = npc
+			if outlaw != null or deaths > 0:
+				break
 		if outlaw == null:
 			push_error("sim: no outlaw came out at %s" % posting.place.zone_id)
 			board.give_up()

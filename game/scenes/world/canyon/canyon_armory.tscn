@@ -1,5 +1,7 @@
 [gd_scene format=3]
 
+[ext_resource type="Script" path="res://presentation/voxel/world_voxel_view.gd" id="map_view"]
+
 [ext_resource type="Script" path="res://runtime/world/world_map_controller.gd" id="map"]
 [ext_resource type="Script" path="res://runtime/world/world_spawn_marker_2d.gd" id="marker"]
 [ext_resource type="Script" path="res://runtime/world/world_character_body_2d.gd" id="body"]
@@ -127,3 +129,27 @@ position_smoothing_speed = 6.0
 
 [node name="Interactions" type="Node2D" parent="."]
 
+
+[node name="MapView" type="Node" parent="."]
+script = ExtResource("map_view")
+layout_path = "res://data/canyon/voxel/armory.json"
+
+[node name="Furnishings" type="Node2D" parent="."]
+
+[node name="Furnishing01" type="Node2D" parent="Furnishings"]
+position = Vector2(192, 40)
+metadata/look = {"kind": "weapon_rack", "wood": "5a4a3c"}
+metadata/footprint = Vector2(288, 16)
+
+[node name="Furnishing02" type="Node2D" parent="Furnishings"]
+position = Vector2(40, 160)
+metadata/look = {"kind": "weapon_rack", "rotation": 90, "wood": "5a4a3c"}
+metadata/footprint = Vector2(16, 192)
+
+[node name="Furnishing03" type="Node2D" parent="Furnishings"]
+position = Vector2(176, 280)
+metadata/look = {"kind": "weapon_rack", "rotation": 180, "wood": "5a4a3c"}
+metadata/footprint = Vector2(224, 16)
+
+[node name="RoomLife" type="Node" parent="."]
+metadata/rooms = {"canyon.blackmarket": {"seed": 9, "use": "armory", "wealth": "plain"}}

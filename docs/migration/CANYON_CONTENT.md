@@ -22,7 +22,16 @@ dream/tmp.c and evil/tmp.c (整修中，请往回走:P) are not placed.
 
 The chain is no walk, so the clifftop is a map of its own (Old Pine's one map per height).
 
-None of these maps has a voxel view yet (no `game/data/canyon/voxel/`).
+The voxel view of all six is `game/data/canyon/voxel/<map>.json` (`clifftop`, `pass`, `camp`, `armory`,
+`bamboo`, `stoneroom`; the region's `light.json` and `flora.json` beside them), the ways first widened for it
+(DECISIONS「地图尺寸以体素视角为准」: the tail's foot and its junction, the valley, the 黄石穿林路 and the 竹林道
+160–192 wide, the camp's doorways 128; the gate's 160 kept). What the source gives the view that the code does
+not: the camp's fence is iron (canyon3.c 铁栅, canyon5.c 铁栅), not timber; the clifftop's south is the
+seventeen-丈 drop, drawn as a sunken rim (`sink`), and on the pass the north wall is lifted to it; canyon6.c's
+`mechine` is the 绞盘 behind the gate; fantasy1.c's upper and lower ways (dream/tmp.c, evil/tmp.c, 整修中) are
+drawn as sealed mouths in the floor, not pits; stone_forest1.c's 草高于三四十尺 are reeds and a long meadow on the
+grass either side of the path, the path itself kept clear; canyon7.c's 骆驼的双峰 are two far peaks beyond the
+valley's walls.
 
 ## LPC → native (A)
 

@@ -649,6 +649,16 @@ func _grand_chair(w: float, d: float, look: Dictionary) -> void:
 	s.box(root,Vector3(0,y+1.87,-d*0.3),Vector3(w*0.82,0.1,0.16),lacquer)
 	s.box(root,Vector3(0,y+0.7,0.02),Vector3(w*0.55,0.05,d*0.5),_wood(look,"cushion","7a2a24"))
 	s.box(root,Vector3(0,y+0.08,d*0.38),Vector3(w*0.6,0.1,d*0.18),lacquer)
+	if String(look.get("hide",""))=="tiger":
+		# 虎皮披于军椅 (camp7.c): a tiger's skin thrown over the back and seat, its stripes, the
+		# tail hanging down beside the leg.
+		var fur: String = String(look.get("fur","c87a2a"))
+		s.box(root,Vector3(0,y+0.74,0.02),Vector3(w*0.6,0.06,d*0.56),fur)
+		s.box(root,Vector3(0,y+1.35,-d*0.2),Vector3(w*0.62,0.9,0.06),fur)
+		for stripe: int in 4:
+			s.box(root,Vector3(-w*0.22+stripe*w*0.15,y+0.775,0.0),Vector3(0.05,0.02,d*0.5),"1e1812")
+			s.box(root,Vector3(0,y+1.0+stripe*0.2,-d*0.2+0.035),Vector3(w*0.5,0.04,0.02),"1e1812")
+		s.tilted_box(root,Vector3(w*0.3,y+0.5,d*0.22),Vector3(0.06,0.5,0.06),fur,Vector3(0,0,0.3))
 
 ## 锯木架: a saw-horse with a log across it half cut through, the saw left in the cut, sawdust.
 func _saw_horse(w: float, d: float) -> void:

@@ -1,0 +1,92 @@
+{
+  "indoor": true,
+  "courtyard": true,
+  "cutaway_rooms": true,
+  "camera_size": 22,
+  "note": "军营 (camp1–8.c): the gate yard in the iron palisade and the fire yard with its well; the soldiers' tents of rough cloth either side of the gate, the squad leaders' better tents either side of the fire, the vice general's tent of dark red cloth (虎皮披于军椅, 银器列于黑刚曜石桌上) and the general's beyond it (虎头挂于营顶, 龙柱顶天, 金椅银桌). Tents have no roof in the cut-away view; their poles and cloth walls stand.",
+  "palette": {"wood": ["5a4a3c", "645446", "4e3e32"], "wall": "8a7a5c"},
+  "wall_height": 2.8,
+  "wall_looks": [
+    {"rect": [-1504, -304, -688, 304], "style": "iron_bars", "colors": ["3a3835", "46423e", "2e2c2a"], "note": "camp1.c: the gate yard, the palisade round it"},
+    {"rect": [-688, -304, 128, 304], "style": "iron_bars", "colors": ["3a3835", "46423e", "2e2c2a"], "note": "camp2.c: the fire yard"},
+    {"rect": [-1376, -720, -832, -304], "style": "cloth", "colors": ["7a6a4e", "847456", "6e5e44"], "patch": "5e4e38", "note": "camp3.c: 粗略的布料"},
+    {"rect": [-1376, 304, -832, 720], "style": "cloth", "colors": ["7e6e52", "8a7a5c", "72624a"], "patch": "5e4e38", "note": "camp4.c"},
+    {"rect": [-560, -720, -16, -304], "style": "cloth", "colors": ["a89070", "b09878", "9a8466"], "patch": "8a7458", "note": "camp5.c: 布料倒是比小兵营帐好多了"},
+    {"rect": [-560, 304, -16, 720], "style": "cloth", "colors": ["a08a6a", "aa9474", "948060"], "patch": "8a7458", "note": "camp6.c"},
+    {"rect": [128, -240, 816, 240], "style": "cloth", "colors": ["6a3a30", "74423a", "5e342a"], "patch": "4a2a24", "seam": "3a2420", "note": "camp7.c: 副将营帐"},
+    {"rect": [816, -240, 1504, 240], "style": "cloth", "colors": ["7a2a24", "86322a", "6e2620"], "patch": "5a2a24", "seam": "c9a24a", "note": "camp8.c: 将军营帐, gold seams"}
+  ],
+  "ground": {
+    "floor_yard": {"style": "scree", "colors": ["a89060", "b09868", "9c8458"], "gravel": 0.6, "stones": 0.05, "pebbles": ["c4a868", "b89858", "8a7a50", "6a6258"], "note": "the yards: trodden earth and gravel, ash about the fire"},
+    "town_ground": {"style": "scree", "colors": ["9c8a5e", "a69466", "927e54"], "gravel": 0.3, "stones": 0.02, "pebbles": ["b8a070", "a89060"], "note": "the tents' floors: bare earth"},
+    "boundary": {"style": "scree", "colors": ["b09060", "bc9c68", "a48456"], "gravel": 0.4, "stones": 0.04, "pebbles": ["c8a86a", "b89858", "d4b878"]}
+  },
+  "flora": {
+    "grass_density": 0.15,
+    "density": {"floor_yard": 0.05, "town_ground": 0.0, "boundary": 0.3},
+    "grass_colors": ["8a7a3e", "a89450", "c4ac60", "dcc878"],
+    "flower_threshold": 1.0,
+    "tree_kinds": [],
+    "wind": 0.3,
+    "butterflies": 0
+  },
+  "light": {
+    "areas": [
+      {"rect": [-1504, -304, 128, 304], "sky": ["c4ccd4", "0c1220"], "ambient": ["e0d6bc", "5a6a94"], "ambient_energy": [0.48, 0.3], "sun": ["fff2c8", "a8bce8"], "sun_energy": [0.95, 0.3], "note": "the yards lie open to the sky"}
+    ]
+  },
+  "props": [
+    {"kind": "torch", "at": [-1488, -120], "size": [16, 16], "height": 1.9, "note": "camp1.c: 在门口的两侧有两位小兵正在值勤 — a torch either side of the gate"},
+    {"kind": "torch", "at": [-1488, 120], "size": [16, 16], "height": 1.9},
+    {"kind": "banner", "at": [-1300, -288], "height": 3.6, "cloth": "8a2a24", "trim": "c9a24a", "note": "the garrison's flag on the palisade"},
+    {"kind": "banner", "at": [-80, 288], "height": 3.6, "cloth": "8a2a24", "trim": "c9a24a"},
+    {"kind": "stains", "at": [-288, 0], "size": [200, 150], "count": 7, "colors": ["5a5248", "6a6058", "4a4238"], "note": "camp2.c: ash and trodden scraps round the fire"},
+    {"kind": "bones", "at": [-200, 72], "size": [40, 30], "skull": false, "ribs": false, "count": 4, "note": "camp2.c: 地上有些食物的残渣"},
+    {"kind": "bones", "at": [-380, -60], "size": [36, 28], "skull": false, "ribs": false, "count": 3},
+    {"kind": "straw_patch", "at": [-520, -110], "size": [64, 48]},
+    {"kind": "straw_patch", "at": [-1300, -600], "size": [96, 64], "note": "camp3.c: where the soldiers sleep"},
+    {"kind": "bedroll", "at": [-1296, -600], "rotation": 90, "blanket": "6a5a4a"},
+    {"kind": "straw_patch", "at": [-1000, -420], "size": [96, 64]},
+    {"kind": "bedroll", "at": [-1000, -424], "blanket": "5a4a3a"},
+    {"kind": "hanging_lantern", "at": [-1104, -512], "paper": "ffc070", "note": "hung from the pole"},
+    {"kind": "cobweb", "at": [-1340, -690], "size": [40, 8], "rotation": 45, "height": 2.5},
+    {"kind": "straw_patch", "at": [-1300, 420], "size": [96, 64], "note": "camp4.c"},
+    {"kind": "bedroll", "at": [-1300, 424], "rotation": 90, "blanket": "6a5a4a"},
+    {"kind": "hanging_lantern", "at": [-1104, 512], "paper": "ffc070"},
+    {"kind": "stains", "at": [-900, 560], "size": [100, 80], "count": 4, "colors": ["6a4a30", "7a5a3a"], "note": "camp4.c: tea and wine spilt round the gamblers' table"},
+    {"kind": "rug", "at": [-288, -512], "size": [96, 64], "elevation": 0.05, "cloth": "8a6a4a", "border": "c9a24a", "note": "camp5.c: 小队长营帐"},
+    {"kind": "hanging_lantern", "at": [-288, -512], "paper": "ffd090"},
+    {"kind": "bedroll", "at": [-480, -400], "blanket": "7a6a50"},
+    {"kind": "rug", "at": [-288, 512], "size": [96, 64], "elevation": 0.05, "cloth": "8a6a4a", "border": "c9a24a", "note": "camp6.c"},
+    {"kind": "hanging_lantern", "at": [-288, 512], "paper": "ffd090"},
+    {"kind": "bedroll", "at": [-100, 560], "blanket": "7a6a50"},
+    {"kind": "rug", "at": [472, 40], "size": [360, 220], "elevation": 0.05, "cloth": "e8dcc0", "border": "c8b890", "motif": "d8c8a0", "note": "camp7.c: 地面上有羊毛软皮铺陈著"},
+    {"kind": "hanging_lantern", "at": [300, -60], "paper": "ffd090"},
+    {"kind": "hanging_lantern", "at": [650, 60], "paper": "ffd090"},
+    {"kind": "tiger_head", "at": [1000, -214], "size": [32, 16], "wall_mounted": true, "height": 2.5, "note": "camp8.c: 虎头挂于营顶"},
+    {"kind": "mural", "at": [1160, -214], "size": [192, 16], "wall_mounted": true, "dragons": true, "ground": "2a2a34", "note": "camp8.c: 双龙吐珠图挂于前"},
+    {"kind": "rug", "at": [1160, 20], "size": [400, 200], "elevation": 0.05, "cloth": "8a2a24", "border": "c9a24a", "motif": "e0c070", "note": "camp8.c: 严然有天子之势"},
+    {"kind": "bear_skin", "at": [1300, 130], "size": [96, 72], "fur": "c87a2a", "dark": "1e1812", "note": "camp8.c: 虎皮披于帐上 — one laid on the floor too"},
+    {"kind": "hanging_lantern", "at": [960, -100], "paper": "ffd090"},
+    {"kind": "hanging_lantern", "at": [1360, -100], "paper": "ffd090"},
+    {"kind": "hanging_lantern", "at": [1160, 140], "paper": "ffd090"}
+  ],
+  "ambience": {
+    "dust": [
+      {"rect": [-688, -304, 128, 304], "count": 14, "color": "ffb060", "wind": [0.0, 0.0], "size": [0.05, 0.05, 0.05], "height": [0.8, 3.0], "note": "sparks over the camp fire"},
+      {"rect": [-1504, -304, 128, 304], "count": 20, "color": "d8c088", "wind": [0.9, -0.2], "note": "canyon4.c: the wind through the gate"}
+    ]
+  },
+  "actors": {
+    "default": {"coat": "6a5a48", "hat": true},
+    "canyon.npc.door_guard": {"coat": "6a5a48", "hat": true},
+    "canyon.npc.guard1": {"coat": "6a5a48", "hat": true},
+    "canyon.npc.guard2": {"coat": "5a4a3a", "hat": true, "scale": 1.05, "note": "老兵"},
+    "canyon.npc.leader1": {"coat": "8a5a3a", "hat": true},
+    "canyon.npc.leader2": {"coat": "7a5030", "hat": true, "note": "老队长"},
+    "canyon.npc.captain": {"coat": "8a3a30", "hat": true},
+    "canyon.npc.vice_general": {"coat": "7a2a24", "hat": true, "scale": 1.08, "note": "李信, 副将"},
+    "canyon.npc.general": {"coat": "c9a24a", "hat": true, "scale": 1.1, "note": "严廷殷, the gold robe"},
+    "canyon.npc.adviser": {"coat": "3a4a6a", "hat": true, "note": "赫造基, 军师"}
+  }
+}

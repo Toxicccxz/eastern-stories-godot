@@ -64,6 +64,15 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"candlestick": _candlestick()
 		"brazier": _brazier(w)
 		"vase_hollow": _vase_hollow(w,d)
+		"iron_gate": _iron_gate(w,d)
+		"gate_pier": _gate_pier(w,d)
+		"winch": _winch(w,d)
+		"iron_chain": _iron_chain(w,d)
+		"iron_palisade": _iron_palisade(w,d)
+		"tent_pole": _tent_pole(w,d)
+		"mirror": _mirror(w,d)
+		"mound": _mound(w,d)
+		"tiger_head": _tiger_head(w,d)
 		_:
 			return false
 	return true
@@ -966,3 +975,226 @@ func _bagua() -> void:
 	s.box(root,Vector3(r*0.13,y,0.05),Vector3(r*0.26,r*0.5,0.03),"d9cfb0")
 	s.box(root,Vector3(-r*0.13,y+r*0.12,0.07),Vector3(0.06,0.06,0.02),"d9cfb0")
 	s.box(root,Vector3(r*0.13,y-r*0.12,0.07),Vector3(0.06,0.06,0.02),"2e2c28")
+
+## 铁门 (canyon5.c: 两片诺大的铁门, 它是上下开合的, 现在已经高高的抬起): the pass's great iron gate
+## raised over the way — a leaf of rusted plates and bars, spikes along its foot, hauled up on
+## chains over the piers' heads (`raised`: how high its foot hangs, `height` of the piers; `iron`
+## the leaf's colours). Spans the box's width; blocks nothing. The stone piers it hangs between are
+## the layout's blocked boxes with a `gate_pier` look (`piers`: draw them here as well).
+func _iron_gate(w: float, d: float) -> void:
+	var iron: Array = _colors("iron",["3a3633","48423d","2f2b28","5a4a3a"])
+	var raised: float = float(data.get("raised",2.6))
+	var height: float = float(data.get("height",5.2))
+	var deep: float = maxf(d,0.8)
+	if data.get("piers",false):
+		for side: float in [-1.0,1.0]:
+			var pier := Node3D.new()
+			pier.position = Vector3(side*(w/2-0.35),0,0)
+			root.add_child(pier)
+			if s.merged.has(root):
+				s.merge(pier,s.merged[root])
+			_pier_at(pier,0.7,deep,height,_colors("posts",["8a7a5a","9a8864","7a6a4e"]),String(iron[0]),int(side))
+	var span: float = w-1.4
+	s.box(root,Vector3(0,height+0.3,0),Vector3(w,0.4,deep*0.9),String(iron[1]))
+	# The leaf: plates riveted in rows, bars across, spikes along its foot.
+	var leaf_h: float = height-raised+0.2
+	var cols: int = maxi(2,ceili(span/0.6))
+	for row: int in ceili(leaf_h/0.5):
+		var y: float = minf(raised+row*0.5+0.25,height-0.05)
+		for col: int in cols:
+			var x: float = -span/2+(col+0.5)*span/cols
+			s.box(root,Vector3(x,y,0),Vector3(span/cols-0.03,0.47,0.12),String(iron[(row*3+col)%iron.size()]))
+			if (row+col)%2==0:
+				s.box(root,Vector3(x,y,0.08),Vector3(0.06,0.06,0.04),"6a5a48")
+	for bar: float in [0.3,0.55,0.8]:
+		s.box(root,Vector3(0,raised+leaf_h*bar,0.1),Vector3(span,0.14,0.08),String(iron[2]))
+	for spike: int in ceili(span/0.35):
+		var x: float = -span/2+0.17+spike*0.35
+		s.box(root,Vector3(x,raised-0.22,0),Vector3(0.08,0.44,0.08),String(iron[2]))
+		s.box(root,Vector3(x,raised-0.5,0),Vector3(0.05,0.14,0.05),"7a6a58")
+	# Chains from the leaf's top corners over the piers' heads.
+	for side: float in [-1.0,1.0]:
+		for link: int in 12:
+			var t: float = float(link)/12.0
+			var at := Vector3(side*(span/2-0.2+t*0.5),height-t*0.3,0.2+t*0.1)
+			s.box(root,at,Vector3(0.06,0.12,0.04) if link%2 else Vector3(0.05,0.08,0.07),"4a4642")
+
+## One of the gate's stone piers (canyon5.c: 两片诺大的铁门 hang between them): squared courses of
+## stone, iron-bound, a cap, rust streaked down its face, grit at its foot (`height`, `colors` the
+## stone's, `iron` the bands'). A blocked box in the layout; fills the box.
+func _gate_pier(w: float, d: float) -> void:
+	_pier_at(root,w,maxf(d,0.8),float(data.get("height",5.6)),_colors("colors",["8a7a5a","9a8864","7a6a4e","a89470"]),String(data.get("iron","3a3633")),int(root.position.x*3+root.position.z))
+
+func _pier_at(into: Node3D, w: float, deep: float, height: float, stone: Array, iron: String, salt: int) -> void:
+	var y: float = 0.0
+	var course: int = 0
+	while y < height:
+		var h: float = minf(0.5,height-y)
+		s.shard(into,Vector3(sin(course*1.7+salt)*0.03,y+h/2,0),Vector3(w,h,deep),String(stone[(course+salt)%stone.size()]),course+salt,0.0)
+		y += h
+		course += 1
+	s.box(into,Vector3(0,height+0.15,0),Vector3(w+0.2,0.3,deep+0.2),String(stone[0]))
+	for band: float in [1.2,2.8,4.2]:
+		if band < height:
+			s.box(into,Vector3(0,band,0),Vector3(w+0.08,0.12,deep+0.06),iron)
+	s.box(into,Vector3(w*0.25,height*0.4,deep/2+0.01),Vector3(0.1,height*0.6,0.02),"6a4a30")
+	s.shard(into,Vector3(-w*0.3,0.08,deep/2+0.3),Vector3(0.5,0.16,0.4),String(stone[1%stone.size()]),salt+5,0.3)
+
+## 绞盘 (canyon6.c: 铁门的后面有个很大的机械装置, 这是个很大的绞盘): the windlass that raises
+## the gate — a great drum on iron-bound timber uprights, bars through its axle to heave on,
+## the chain wound thick on it and running off up toward the gate (`chain_to`: [dx, dz]
+## units, `chain_rise` units it climbs).
+func _winch(w: float, d: float) -> void:
+	var wood: Array = _colors("colors",["5a4634","6a533d","4b3a2b"])
+	var iron: String = String(data.get("iron","3a3633"))
+	s.box(root,Vector3(0,0.1,0),Vector3(w,0.2,d),"7d7262")
+	for x: float in [-w/2+0.25,w/2-0.25]:
+		s.box(root,Vector3(x,0.8,0),Vector3(0.3,1.4,0.3),_pick(wood))
+		s.box(root,Vector3(x,0.8,0),Vector3(0.34,0.12,0.34),iron)
+	s.box(root,Vector3(0,1.3,0),Vector3(w-0.2,0.14,0.14),iron)
+	var drum := Node3D.new()
+	drum.position = Vector3(0,1.3,0)
+	root.add_child(drum)
+	if s.merged.has(root):
+		s.merge(drum,s.merged[root])
+	for stave: int in 10:
+		var a: float = stave*TAU/10.0
+		s.tilted_box(drum,Vector3(0,cos(a)*0.42,sin(a)*0.42),Vector3(w-0.9,0.16,0.28),String(wood[stave%wood.size()]),Vector3(a,0,0))
+	for hoop: float in [-0.3,0.3]:
+		s.box(drum,Vector3((w-0.9)*hoop,0,0),Vector3(0.1,1.0,1.0),iron)
+	for wind: int in 14:
+		var a: float = wind*0.9
+		s.tilted_box(drum,Vector3(-0.25+wind*0.04,cos(a)*0.5,sin(a)*0.5),Vector3(0.1,0.1,0.14),"4a4642",Vector3(a,0,0))
+	for bar: int in 4:
+		var a: float = bar*PI/2+0.4
+		s.tilted_box(drum,Vector3(w/2-0.55,cos(a)*0.6,sin(a)*0.6),Vector3(0.1,1.3,0.1),String(wood[0]),Vector3(a,0,0))
+	# A pawl so the gate hangs where it is; the chain off the drum up toward the gate.
+	s.box(root,Vector3(-w/2+0.25,1.75,0.3),Vector3(0.12,0.5,0.12),iron)
+	var to: Array = data.get("chain_to",[-0.3,-4.0])
+	var climb: float = float(data.get("chain_rise",3.6))
+	for link: int in 22:
+		var t: float = float(link)/22.0
+		s.box(root,Vector3(float(to[0])*t,1.8+climb*t,float(to[1])*t),Vector3(0.06,0.12,0.05) if link%2 else Vector3(0.05,0.08,0.08),"4a4642")
+	s.box(root,Vector3(0,0.015,d/2+0.2),Vector3(w*0.8,0.03,0.3),"5a4a3a")
+
+## 铁索 (road.c, canyon1.c: 一长条铁索缘山壁而下, 十七、八丈): the long iron chain on the rock
+## face, from a stake and ring at its top (`height` units above the prop's footing) down to
+## `drop` units below it, its links flat and edge-on by turns, rusted here and there, held to
+## the rock by pitons; `face` is how far (units, -z) the rock stands behind the prop.
+func _iron_chain(_w: float, _d: float) -> void:
+	var top: float = float(data.get("height",0.0))
+	var drop: float = float(data.get("drop",0.0))
+	var face: float = float(data.get("face",0.0))
+	var links: int = int(data.get("links",maxi(8,ceili((top+drop)/0.22))))
+	s.tilted_box(root,Vector3(0,top+0.25,face-0.1),Vector3(0.12,0.5,0.12),"4a4642",Vector3(0.3,0,0))
+	s.box(root,Vector3(0,top+0.45,face),Vector3(0.26,0.08,0.26),"3a3633")
+	for i: int in links:
+		var t: float = float(i)/links
+		var y: float = top-(top+drop)*t
+		var sway: float = sin(t*9.0)*0.12*(1.0-absf(t*2-1))
+		var at := Vector3(sway,y,face+0.08)
+		s.box(root,at,Vector3(0.07,0.22,0.04) if i%2 else Vector3(0.05,0.2,0.09),"3f3b37" if i%5 else "6a4a30")
+		if i%9==4:
+			s.box(root,Vector3(sway,y,face-0.06),Vector3(0.1,0.1,0.3),"2f2b28")
+
+## 铁栅 (canyon3.c: 军营四周为铁栅所包围; canyon5.c: 铁栅的映满你整双眼眸): the garrison's iron
+## palisade — close-set bars with spiked heads, rusting, two rails through them, a stone sill,
+## along the box's long side.
+func _iron_palisade(w: float, d: float) -> void:
+	var iron: Array = _colors("colors",["3a3835","46423e","2e2c2a"])
+	var height: float = float(data.get("height",2.6))
+	var long: bool = w >= d
+	var length: float = maxf(w,d)
+	var vary: RandomNumberGenerator = Shapes.spot_rng(root.position)
+	s.box(root,Vector3(0,0.12,0),Vector3(w,0.24,d),String(data.get("sill","7d7262")))
+	for i: int in maxi(2,ceili(length/0.3)):
+		var along: float = -length/2+0.15+i*0.3
+		var h: float = height*vary.randf_range(0.92,1.04)
+		var at := Vector3(along,0,0) if long else Vector3(0,0,along)
+		var tone: String = String(iron[i%iron.size()]) if vary.randf()>0.15 else "6a4a30"
+		s.box(root,at+Vector3(0,0.2+h/2,0),Vector3(0.09,h,0.09),tone)
+		s.box(root,at+Vector3(0,0.2+h+0.1,0),Vector3(0.05,0.2,0.05),String(iron[2]))
+	for rail: float in [0.8,height-0.4]:
+		s.box(root,Vector3(0,0.2+rail,0),Vector3(length,0.08,0.14) if long else Vector3(0.14,0.08,length),String(iron[1]))
+
+## A tent's centre pole (camp3.c: 由粗略的布料所搭成的小营帐): lashed at three heights, the
+## roof's cloth gathered round its head, a hook and a sword belt hung on it (`height`, `cloth`).
+func _tent_pole(_w: float, _d: float) -> void:
+	var height: float = float(data.get("height",3.1))
+	var cloth: String = String(data.get("cloth","8a7a5c"))
+	s.tilted_box(root,Vector3(0,height/2,0),Vector3(0.16,height,0.16),"6a5038",Vector3(0,0,0.02))
+	s.box(root,Vector3(0,0.06,0),Vector3(0.5,0.12,0.5),"5a4a3a")
+	for band: float in [0.9,2.1,height-0.35]:
+		s.box(root,Vector3(0,band,0),Vector3(0.22,0.1,0.22),"a08e62")
+	s.box(root,Vector3(0,height-0.1,0),Vector3(0.6,0.2,0.6),cloth)
+	s.box(root,Vector3(0,height+0.1,0),Vector3(0.3,0.26,0.3),"5a4a3a")
+	s.box(root,Vector3(0.14,1.7,0),Vector3(0.2,0.04,0.04),"4a4642")
+	s.box(root,Vector3(0.25,1.45,0),Vector3(0.05,0.5,0.08),String(data.get("belt","5a3a28")))
+
+## 镜子 (stone_forest3.c: 北侧奇特的镜子, 镜面反射日光, 强照黄石穿林路): a great oval mirror in a
+## bronze frame on a stone foot, its face a pale glare, its light thrown on the ground before
+## it and out over the path (`height`; `light`, `range`, `day`, `night`).
+func _mirror(w: float, d: float) -> void:
+	var height: float = float(data.get("height",3.2))
+	var bronze: Array = _colors("colors",["7a5a2a","8a6a34","5e4620"])
+	s.shard(root,Vector3(0,0.2,0),Vector3(w*0.6,0.4,d*1.2),"8a7a5a",3,0.1)
+	s.box(root,Vector3(0,0.55,0),Vector3(0.5,0.3,0.5),String(bronze[2]))
+	var rows: int = maxi(3,ceili((height-0.7)/0.3))
+	for row: int in rows:
+		var t: float = (row+0.5)/rows
+		var half: float = w*0.46*sin(t*PI)+0.1
+		var y: float = 0.7+row*0.3+0.15
+		s.box(root,Vector3(0,y,0),Vector3(half*2+0.2,0.31,0.14),String(bronze[row%bronze.size()]))
+		s.box(root,Vector3(0,y,0.05),Vector3(half*2,0.3,0.06),"e8f0f4:glow" if row%3 else "cfe0ea:glow")
+	s.shard(root,Vector3(0,0.012,d*0.8),Vector3(w*0.9,0.02,d*1.2),"e0d8b0",5,0.0)
+	var light := OmniLight3D.new()
+	light.position = Vector3(0,height*0.6,1.0)
+	light.light_color = Color(String(data.get("light","fff4d0")))
+	light.omni_range = float(data.get("range",9.0))
+	light.set_meta("day_energy",float(data.get("day",2.4)))
+	light.set_meta("night_energy",float(data.get("night",0.9)))
+	root.add_child(light)
+
+## 半圆形的土堆 (road.c): a half-round mound of earth at the path's end, dry tufts on it, stones in
+## its skirt, the chain's stake and ring driven into its top (`chain`).
+func _mound(w: float, d: float) -> void:
+	var soil: Array = _colors("colors",["9a7d52","a88a5c","8c7049"])
+	var tall: float = float(data.get("height",0.9))
+	for tier: int in 4:
+		var t: float = float(tier)/4.0
+		var span: float = 1.0-t*0.55
+		s.shard(root,Vector3(0,tall*t*0.9+tall*0.12,0),Vector3(w*span,tall*0.3,d*span),String(soil[tier%soil.size()]),tier,tier*0.5)
+	for i: int in 6:
+		var a: float = i*1.1
+		s.shard(root,Vector3(cos(a)*w*0.45,0.08,sin(a)*d*0.45),Vector3(0.22,0.14,0.18),"8a8470",i,a)
+	for tuft: int in 5:
+		var a: float = tuft*1.3+0.4
+		s.box(root,Vector3(cos(a)*w*0.25,tall*0.75,sin(a)*d*0.25),Vector3(0.12,0.3,0.1),String(data.get("grass","9a9452")))
+	if data.get("chain",false):
+		s.tilted_box(root,Vector3(0,tall+0.3,-d*0.1),Vector3(0.14,0.7,0.14),"4a4642",Vector3(-0.2,0,0))
+		s.box(root,Vector3(0,tall+0.62,-d*0.05),Vector3(0.3,0.08,0.3),"3a3633")
+
+## 虎头 (camp8.c: 虎头挂于营顶): a tiger's head mounted up high — orange, black-striped, the pale
+## muzzle, ears, the jaw open on its teeth, 王 on its brow; hung on a wall (`wall_mounted`,
+## facing +z) or set on a tent's roof (`elevation`); `height` lifts it on its mount.
+func _tiger_head(_w: float, _d: float) -> void:
+	var fur: String = String(data.get("fur","c87a2a"))
+	var y: float = float(data.get("height",0.0))
+	s.box(root,Vector3(0,y,0),Vector3(0.7,0.6,0.55),fur)
+	s.box(root,Vector3(0,y-0.08,0.3),Vector3(0.44,0.3,0.26),"efe6d8")
+	s.box(root,Vector3(0,y+0.04,0.42),Vector3(0.14,0.1,0.08),"3a2a24")
+	s.box(root,Vector3(0,y-0.2,0.32),Vector3(0.4,0.1,0.22),"8a2a24")
+	for side: float in [-1.0,1.0]:
+		s.box(root,Vector3(side*0.18,y+0.1,0.28),Vector3(0.1,0.08,0.04),"e8d060")
+		s.box(root,Vector3(side*0.12,y+0.1,0.29),Vector3(0.04,0.06,0.03),"1a1410")
+		s.box(root,Vector3(side*0.26,y+0.34,-0.05),Vector3(0.16,0.16,0.14),fur)
+		s.box(root,Vector3(side*0.26,y+0.35,0.02),Vector3(0.08,0.08,0.03),"3a2a24")
+		for tooth: int in 2:
+			s.box(root,Vector3(side*(0.08+tooth*0.1),y-0.26,0.4),Vector3(0.04,0.1,0.04),"f0ead8")
+	for stripe: int in 5:
+		var x: float = -0.28+stripe*0.14
+		s.box(root,Vector3(x,y+0.18+(stripe%2)*0.06,0.0),Vector3(0.05,0.2,0.56),"1e1812")
+		s.box(root,Vector3(x,y-0.1,-0.28),Vector3(0.05,0.3,0.03),"1e1812")
+	for bar: int in 3:
+		s.box(root,Vector3(0,y+0.26-bar*0.06,0.29),Vector3(0.18 if bar!=1 else 0.12,0.025,0.03),"1e1812")
+	s.box(root,Vector3(0,y+0.2,0.29),Vector3(0.025,0.16,0.03),"1e1812")

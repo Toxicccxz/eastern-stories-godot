@@ -1,5 +1,7 @@
 [gd_scene format=3]
 
+[ext_resource type="Script" path="res://presentation/voxel/world_voxel_view.gd" id="map_view"]
+
 [ext_resource type="Script" path="res://runtime/world/world_map_controller.gd" id="map"]
 [ext_resource type="Script" path="res://runtime/world/world_spawn_marker_2d.gd" id="marker"]
 [ext_resource type="Script" path="res://runtime/world/world_character_body_2d.gd" id="body"]
@@ -166,3 +168,29 @@ landmark_id = &"canyon.road.landmark.chain"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/RoadChainInteraction"]
 shape = SubResource("Rect_64_32")
 
+
+[node name="MapView" type="Node" parent="."]
+script = ExtResource("map_view")
+layout_path = "res://data/canyon/voxel/clifftop.json"
+
+[node name="Furnishings" type="Node2D" parent="."]
+
+[node name="Furnishing01" type="Node2D" parent="Furnishings"]
+position = Vector2(256, 232)
+metadata/look = {"kind": "mound", "colors": ["9a7d52", "a88a5c", "8c7049"], "chain": true}
+metadata/footprint = Vector2(64, 48)
+
+[node name="Furnishing02" type="Node2D" parent="Furnishings"]
+position = Vector2(48, 48)
+metadata/look = {"kind": "rock_pile", "count": 7, "colors": ["c9a85a", "d6b86a", "b9975a", "a08a58"]}
+metadata/footprint = Vector2(32, 32)
+
+[node name="Furnishing03" type="Node2D" parent="Furnishings"]
+position = Vector2(112, 192)
+metadata/look = {"kind": "boulder", "colors": ["b9975a", "c9a85a", "9c8050"], "tall": 0.8, "lichen_color": "8a8a52"}
+metadata/footprint = Vector2(32, 32)
+
+[node name="Furnishing04" type="Node2D" parent="Furnishings"]
+position = Vector2(432, 208)
+metadata/look = {"kind": "boulder", "colors": ["a88a5c", "b9975a", "8c7049"], "tall": 0.7}
+metadata/footprint = Vector2(32, 32)
