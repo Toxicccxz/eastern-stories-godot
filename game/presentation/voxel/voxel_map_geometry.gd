@@ -930,10 +930,17 @@ func _plant_groves() -> void:
 			grove.add_child(instance)
 
 ## `critters`: [{"kind": "chicken"|"dog", "rect": [x0, y0, x1, y1] px, "count", "colors", "speed",
-## "scale"}]: they wander the open ground within their rect (walkable cells no prop stands on),
-## presentation only (VoxelCritter).
+## "scale"}]: they wander the open ground within their rect (walkable cells no building or
+## furnishing stands on), presentation only (VoxelCritter).
 func _critters(layout: Dictionary) -> void:
 	var index: int = 0
+	# The terrain relabels a blocked box's cells as the ground around it (`_terrain`), so the
+	# furnishings' own boxes (every authored blocked prop) are kept out here.
+	var taken: Array[Rect2] = footprints.duplicate()
+	for data: Dictionary in life._blocked_props:
+		var size: Array = data.get("size",[32,32])
+		var box := Vector2(float(size[0]),float(size[1]))
+		taken.append(Rect2(Vector2(data["at"][0],data["at"][1])-box/2.0,box))
 	for spec: Dictionary in layout.get("critters",[]):
 		var a: Array = spec["rect"]
 		var rect := Rect2(a[0],a[1],a[2]-a[0],a[3]-a[1])
@@ -942,7 +949,7 @@ func _critters(layout: Dictionary) -> void:
 			if not rect.has_point(Vector2(cell)) or terrain_cells[cell] in VoxelLife.WALKABLE_NOT:
 				continue
 			var under: bool = false
-			for footprint: Rect2 in footprints:
+			for footprint: Rect2 in taken:
 				if footprint.grow(8).has_point(Vector2(cell)):
 					under = true
 					break

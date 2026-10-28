@@ -176,10 +176,16 @@ func _check_village(tree: SceneTree, session: WorldSessionController, map: World
 	# the headman's dog by his door; they keep to open ground and off the furniture.
 	await _frames(tree, 30)
 	var strays: Array[String] = []
+	var boxes: Array[Rect2] = []
+	for node: Node in map.get_node("Furnishings").get_children():
+		var box: Vector2 = node.get_meta("footprint")
+		boxes.append(Rect2((node as Node2D).global_position - box / 2.0, box))
 	for critter: Node3D in view.geometry.critters:
 		var at := Vector2(critter.position.x, critter.position.z) * 32.0
 		var cell := Vector2i(floori(at.x / 16) * 16 + 8, floori(at.y / 16) * 16 + 8)
-		if view.geometry.terrain_cells.get(cell, "boundary") in VoxelLife.WALKABLE_NOT:
+		# Off blocking ground, and off every furnishing's box (the banyan's roots, the seat): the
+		# terrain relabels those cells as the ground round them.
+		if view.geometry.terrain_cells.get(cell, "boundary") in VoxelLife.WALKABLE_NOT or boxes.any(func(b: Rect2) -> bool: return b.grow(4).has_point(at)):
 			strays.append("%s at %s" % [critter.get("kind"), at])
 	_check(view.geometry.critters.size() == 4 and strays.is_empty(), "three hens and the headman's dog keep to the square's open ground: %s" % [strays])
 
