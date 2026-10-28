@@ -115,6 +115,18 @@ func run_all(tree: SceneTree) -> Dictionary:
 	_check(session.player_runtime()==state and session.inventory_state()==inventory,"crossing keeps exact player and inventory identities")
 	var street_view := outdoor.get_node("MapView") as WorldVoxelView
 	_check(street_view.geometry.unknown_kinds.is_empty(),"every street prop kind is drawn: %s" % [street_view.geometry.unknown_kinds])
+	# 雪亭镇's fronts (三镇立面分化): every shop on the streets is known by its board or pennant,
+	# the 当铺 by the one word over its door (mstreet3.c), and the old 牌坊 stands worn at the
+	# north end (mstreet1.c: 年代久远, 上面的字迹早已看不出是什么字).
+	var fronts: Array[String] = []
+	for building: Dictionary in street_view.layout.get("buildings",[]):
+		if not building.get("portals",[]).is_empty() and (building.has("signboard") or building.has("hanging_flag")):
+			fronts.append(String(building.get("signboard",{}).get("text",building.get("hanging_flag",{}).get("text",""))))
+	_check(fronts.size()==10 and "当" in fronts and "饮风客栈" in fronts and "雪亭驿" in fronts,"every shop on the streets has its name over the door: %s" % [fronts])
+	var arch: bool = false
+	for prop: Dictionary in street_view.layout.get("props",[]):
+		arch = arch or String(prop["kind"])=="gateway" and prop.get("worn",false) and not prop.has("text")
+	_check(arch,"the 牌坊 at the north end stands worn, its words gone")
 	_check(street_view.geometry._ground_style(Vector2(0,0),"town_ground").get("style","")=="slabs" and street_view.geometry._ground_style(Vector2(0,-1000),"street").get("style","")=="slabs",
 		"the square and the streets are laid in big slabs (square.c: 整齐地铺著大石板)")
 	_check(street_view.geometry._ground_style(Vector2(-1100,800),"street").get("style","")=="paving","the 官道 west of town stays 青石板 (sroad3.c)")

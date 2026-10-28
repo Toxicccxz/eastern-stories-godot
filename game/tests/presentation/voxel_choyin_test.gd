@@ -165,11 +165,28 @@ func _check_own_colours() -> void:
 		peach_areas += 1 if "peach" in part.get("tree_types", []) else 0
 	_check(wrong.is_empty() and "willow" in flora.get("tree_types", []) and peach_areas == 1 and not "peach" in flora.get("tree_types", []),
 		"town: willows (柳绿) everywhere, peach blossom in the 桃林 only, no maples or plums (%s)" % [wrong])
-	var grey: int = 0
+	# 瓦灰 in three tiers (三镇立面分化): new tiles blue-grey, old tiles bleached pale, tiles gone
+	# green with moss; every house in one of them, each tier on several, and the walls brick
+	# grey, whitewashed or rammed earth.
+	var tiers: Dictionary = {"new": 0, "bleached": 0, "mossy": 0}
+	var walls: Dictionary = {}
+	var forms: Dictionary = {}
+	var heights: Dictionary = {}
 	for building: Dictionary in layout.get("buildings", []):
 		var roof := Color(String(building.get("roof", "000000")).get_slice(":", 0))
-		grey += 1 if absf(roof.r - roof.g) < 0.08 and roof.b >= roof.r and roof.r < 0.45 else 0
-	_check(grey >= 24, "town: 瓦灰 — grey tiles on the houses (%d of %d)" % [grey, layout.get("buildings", []).size()])
+		if roof.g > roof.r + 0.03 and roof.g > roof.b:
+			tiers["mossy"] += 1
+		elif absf(roof.r - roof.g) < 0.08 and roof.r >= 0.42:
+			tiers["bleached"] += 1
+		elif absf(roof.r - roof.g) < 0.08 and roof.b >= roof.r and roof.r < 0.45:
+			tiers["new"] += 1
+		walls["whitewash" if building.has("whitewash") else building.get("construction", "plaster")] = true
+		forms[building.get("roof_form", "gable")] = true
+		heights[snappedf(float(building.get("height", 0.0)), 0.1)] = true
+	_check(tiers["new"] + tiers["bleached"] + tiers["mossy"] == layout.get("buildings", []).size() and tiers["new"] >= 6 and tiers["bleached"] >= 6 and tiers["mossy"] >= 6,
+		"town: 瓦灰 in three tiers — new, bleached, mossy (%s)" % [tiers])
+	_check(walls.has("brick") and walls.has("whitewash") and walls.has("earth") and forms.has("xieshan") and forms.has("hip") and forms.has("shed") and heights.size() >= 8,
+		"town: brick, whitewash and earth walls; gable, hip, shed and 歇山 roofs; storeys of many heights (%s, %s, %d)" % [walls.keys(), forms.keys(), heights.size()])
 	var vermilion: int = 0
 	for prop: Dictionary in layout.get("props", []):
 		vermilion += 1 if String(prop.get("rail", "")) == "a8382a" or (prop["kind"] == "balustrade" and prop.get("wooden", false)) else 0

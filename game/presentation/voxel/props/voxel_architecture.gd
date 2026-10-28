@@ -151,6 +151,24 @@ func _walls(body: Node3D, w: float, d: float, height: float, data: Dictionary, e
 				# Small patches of lost plaster expose the underlying masonry near the base.
 				for chip: int in 3:
 					shapes.box(body,Vector3(at.x,foundation+0.13+chip*0.17,at.z)+out*0.135,Vector3(0.40-chip*0.09,0.15,0.025) if along_x else Vector3(0.025,0.15,0.40-chip*0.09),"a29171")
+			# 墙裙 (`wall_bands`: a colour, or {"color", "height"}): a dado along the foot of the wall
+			# in another colour, as the dark grey band under a whitewashed house.
+			if data.has("wall_bands"):
+				var band: Dictionary = data["wall_bands"] if data["wall_bands"] is Dictionary else {"color":String(data["wall_bands"])}
+				var band_h: float = float(band.get("height",1.0))
+				shapes.box(body,Vector3(at.x,foundation+band_h/2+0.02,at.z)+out*0.03,Vector3(0.50,band_h,0.26) if along_x else Vector3(0.26,band_h,0.50),String(band.get("color","6b6e66")))
+			# 刷白剥落 (`whitewash`: the share of panels whose lime has flaked): the brick or daub under
+			# it (`peel` colours) shows in ragged patches, the same patches every build.
+			var peel: float = float(data.get("whitewash",0.0))
+			if peel > 0.0:
+				var spot: Vector3 = body.global_transform*at
+				var h: int = Shapes.place_seed(roundi(spot.x*4),0,roundi(spot.z*4),11)
+				if float(h%997)/997.0 < peel:
+					var under: Array = data.get("peel",["9a8a78","8b7c6c","a39483"])
+					for chip: int in 1+(h/1000)%3:
+						var y: float = foundation+0.3+float((h/(7000*(chip+1)))%100)/100.0*maxf(0.2,height-foundation-0.9)
+						var span: float = 0.18+float((h/(300*(chip+1)))%100)/100.0*0.26
+						shapes.box(body,Vector3(at.x,y,at.z)+out*0.13,Vector3(span,0.12+chip*0.07,0.025) if along_x else Vector3(0.025,0.12+chip*0.07,span),String(under[(h/13+chip)%under.size()]))
 			if i%bay==0:
 				shapes.box(body,at+out*0.08,Vector3(0.18,height+0.08,0.31) if along_x else Vector3(0.31,height+0.08,0.18),timber)
 			elif i%bay in [2,3] and height>2.4:
@@ -205,12 +223,20 @@ func _roof(into: Node3D, at: Vector3, w: float, d: float, height: float, data: D
 	var rows: int = ceili(deep/0.37)
 	var spacing_x: float = wide/cols
 	var spacing_z: float = deep/rows
-	# Solid stepped gable ends under the roof, instead of floating open triangular gaps.
-	if form=="gable":
+	# Solid stepped gable ends under the roof, instead of floating open triangular gaps. A 歇山
+	# roof's 山花 stand set in from the ends, over the hip that runs all round below them.
+	if form in ["gable","xieshan"]:
+		var band: float = XIESHAN_BAND*deep/2 if form=="xieshan" else 0.0
 		for end: float in [-1.0,1.0]:
 			for tier: int in ceili(rise/0.18):
 				var t: float = tier*0.18/rise
-				shapes.box(root,Vector3(end*(wide/2-0.35),height+tier*0.18,0),Vector3(0.18,0.18,maxf(0.2,(deep-0.65)*(1-t))),data.get("wall","c8b999"))
+				if form=="xieshan" and t < XIESHAN_BAND-0.18/rise:
+					continue
+				var depth: float = deep*(1-t)-0.1 if form=="xieshan" else (deep-0.65)*(1-t)
+				var x: float = wide/2-band-0.09 if form=="xieshan" else wide/2-0.35
+				# A 歇山's 山花 is boarded (`gable`: its colour, the timber's by default), not plastered.
+				var face: String = String(data.get("gable",timber)) if form=="xieshan" else String(data.get("wall","c8b999"))
+				shapes.box(root,Vector3(end*x,height+tier*0.18,0),Vector3(0.18,0.18,maxf(0.2,depth)),face)
 	# `roof_tiles`: "slate" (石板: rough stone slabs, moss in their laps) or "thatch" (茅草).
 	var cover: String = String(data.get("roof_tiles","tiles"))
 	if cover in ["slate","thatch"]:
@@ -220,18 +246,13 @@ func _roof(into: Node3D, at: Vector3, w: float, d: float, height: float, data: D
 			var pz: float = -deep/2+(z+0.5)*spacing_z
 			for x: int in cols:
 				var px: float = -wide/2+(x+0.5)*spacing_x
-				var inset: float = minf(deep/2-absf(pz),wide/2-absf(px))
 				var t: float = clampf(absf(pz)/(deep/2),0,1)
-				var top: float = (1-t)*rise
-				if form=="hip":
-					top = minf(rise,inset/(deep/2)*rise)
-				elif form=="shed":
-					top = (pz/deep+0.5)*rise
+				var top: float = _roof_top(px,pz,wide,deep,rise,form)
 				var lift: float = pow(t,5)*curve
 				var sag: float = -0.10*sin((px/wide+0.5)*PI)*sin(t*PI)
 				var tile_at := Vector3(px+rng.randf_range(-0.018,0.018),height+0.10+top+lift+sag+rng.randf_range(-0.018,0.018),pz+rng.randf_range(-0.018,0.018))
 				var shade: int = clampi(roundi(noise.get_noise_2d((px+into.position.x)*27,(pz+into.position.z)*27)*3)+2,0,4)
-				var tile_color: String = tint.lightened(shade*0.025).to_html(false)+glaze
+				var tile_color: String = _tile_color(tint,shade,glaze,root,tile_at,data)
 				shapes.box(root,tile_at,Vector3(spacing_x+0.018,0.14,spacing_z+0.035),tile_color)
 				# A few displaced/repaired tiles, and weathering concentrated on shaded eaves.
 				if (z<2 or z>rows-3) and rng.randf()<0.13:
@@ -240,7 +261,7 @@ func _roof(into: Node3D, at: Vector3, w: float, d: float, height: float, data: D
 					shapes.tilted_box(root,tile_at+Vector3(0.04,0.09,0.04),Vector3(0.22,0.07,0.3),tint.darkened(0.13).to_html(false),Vector3(0,0.15,0))
 		# Segmented ridge with raised ends, not one ruler-straight bar.
 		if form!="shed":
-			var ridge_length: float = wide if form=="gable" else maxf(0.4,wide-deep+0.5)
+			var ridge_length: float = _ridge_length(wide,deep,form)
 			for cap: int in ceili(ridge_length/0.42):
 				var x: float = -ridge_length/2+(cap+0.5)*0.42
 				var up: float = pow(absf(x)/maxf(0.2,ridge_length/2),6)*curve
@@ -252,6 +273,8 @@ func _roof(into: Node3D, at: Vector3, w: float, d: float, height: float, data: D
 					shapes.box(root,end_at+Vector3(0,0.3,0),Vector3(0.3,0.6,0.32),String(data["ridge_ends"]))
 					shapes.box(root,end_at+Vector3(-end*0.16,0.68,0),Vector3(0.24,0.26,0.26),String(data["ridge_ends"]))
 					shapes.box(root,end_at+Vector3(-end*0.3,0.86,0),Vector3(0.12,0.2,0.14),String(data["ridge_ends"]))
+			if data.has("ridge_beasts"):
+				_ridge_beasts(root,wide,deep,height,rise,curve,ridge_length,form,data["ridge_beasts"])
 	for side: float in [-1.0,1.0]:
 		var eave_y: float = height+curve
 		if form=="shed" and side>0:
@@ -278,14 +301,74 @@ func _roof(into: Node3D, at: Vector3, w: float, d: float, height: float, data: D
 				if ambience != null:
 					ambience.sway(bell,end*1.7+side*0.9+parent.position.x,0.16)
 
-## The height of a roof's surface over a point (gable, hip or shed), as the tiles follow it.
+## How far in from the eaves, as a share of the roof's half depth, a 歇山 roof's hip runs
+## before the gable stands up out of it.
+const XIESHAN_BAND: float = 0.42
+
+## The height of a roof's surface over a point (gable, hip, shed or 歇山), as the tiles follow it.
 func _roof_top(px: float, pz: float, wide: float, deep: float, rise: float, form: String) -> float:
 	var t: float = clampf(absf(pz)/(deep/2),0,1)
 	if form=="hip":
 		return minf(rise,minf(deep/2-absf(pz),wide/2-absf(px))/(deep/2)*rise)
 	if form=="shed":
 		return (pz/deep+0.5)*rise
+	if form=="xieshan":
+		# 歇山: a hip all round the eaves, a gable (its 山花 set in from the ends) above it.
+		var inset: float = minf(deep/2-absf(pz),wide/2-absf(px))/(deep/2)
+		return inset*rise if inset < XIESHAN_BAND else (1-t)*rise
 	return (1-t)*rise
+
+## The length of the ridge along the top of a roof of `form`.
+func _ridge_length(wide: float, deep: float, form: String) -> float:
+	if form=="gable":
+		return wide
+	if form=="xieshan":
+		return maxf(0.4,wide-XIESHAN_BAND*deep)
+	return maxf(0.4,wide-deep+0.5)
+
+## A tile's colour: the roof's tint in its noise shade, or, for the share `worn` of the tiles,
+## one of the `worn_colors` (old tiles bleached pale, tiles gone green with moss), in patches
+## (the shaded side of a roof mosses first) and the same tiles every build, by where each lies.
+func _tile_color(tint: Color, shade: int, glaze: String, root: Node3D, at: Vector3, data: Dictionary) -> String:
+	var worn: float = float(data.get("worn",0.0))
+	if worn > 0.0:
+		var spot: Vector3 = root.global_transform*at
+		var h: int = Shapes.place_seed(roundi(spot.x*8),roundi(spot.y*8),roundi(spot.z*8),7)
+		var patch: float = noise.get_noise_2d(spot.x*9+400,spot.z*9)
+		if float(h%997)/997.0 < worn*clampf(1.0+patch*1.6,0.2,1.8):
+			var colors: Array = data.get("worn_colors",["8e9088","7a8a6a"])
+			return String(colors[(h/1000)%colors.size()])+glaze
+	return tint.lightened(shade*0.025).to_html(false)+glaze
+
+## 脊兽 (`ridge_beasts`: a count, or {"count", "color"}): a file of little beasts along the
+## ridge inside its ends and down each hip of a hip or 歇山 roof, for a temple, a yamen, a great
+## tavern or a rich man's house.
+func _ridge_beasts(root: Node3D, wide: float, deep: float, height: float, rise: float, curve: float, ridge_length: float, form: String, spec: Variant) -> void:
+	var info: Dictionary = spec if spec is Dictionary else {"count":int(spec)}
+	var count: int = int(info.get("count",3))
+	var color: String = String(info.get("color","3e3f3a"))
+	for end: float in [-1.0,1.0]:
+		for i: int in count:
+			var x: float = end*(ridge_length/2-0.6-i*0.38)
+			if absf(x) < 0.3:
+				break
+			_beast(root,Vector3(x,height+rise+0.36+pow(absf(x)/maxf(0.2,ridge_length/2),6)*curve,0),color,end*PI/2)
+	if form in ["hip","xieshan"]:
+		# Down the four hips, from under the ridge's ends (a 歇山's 山花 feet) to the swept corners.
+		var band: float = XIESHAN_BAND*deep/2 if form=="xieshan" else 0.0
+		for end: float in [-1.0,1.0]:
+			for side: float in [-1.0,1.0]:
+				var from := Vector3(end*(wide/2-band-0.2),height+(XIESHAN_BAND*rise if form=="xieshan" else rise)+0.12,side*(deep/2-band-0.2)) if form=="xieshan" else Vector3(end*ridge_length/2,height+rise+0.14,0)
+				var to := Vector3(end*(wide/2-0.4),height+curve+0.22,side*(deep/2-0.4))
+				var down: int = maxi(1,count-1)
+				for i: int in down:
+					var t: float = (i+1.0)/(down+1.0)
+					_beast(root,from.lerp(to,t),color,atan2(to.x-from.x,to.z-from.z))
+
+## One beast: a crouched body and a reared head, facing `yaw`.
+func _beast(root: Node3D, at: Vector3, color: String, yaw: float) -> void:
+	shapes.tilted_box(root,at+Vector3(0,0.08,0),Vector3(0.16,0.16,0.26),color,Vector3(0,yaw,0))
+	shapes.tilted_box(root,at+Vector3(sin(yaw)*0.12,0.24,cos(yaw)*0.12),Vector3(0.12,0.14,0.12),color,Vector3(0,yaw,0))
 
 ## A roof of rough stuff instead of fired tiles. Slate: courses of split stone slabs, each its own
 ## width, shade and tilt, laps staggered, moss (`moss`: colour, `mossy`: share) in the shaded laps,
@@ -408,7 +491,7 @@ func _skirt(body: Node3D, w: float, d: float, at: float, data: Dictionary) -> vo
 				if absf(x) > length/2-depth+z-0.2:
 					continue
 				var shade: int = clampi(roundi(noise.get_noise_2d((x+body.position.x+out.x*9)*27,(z+body.position.z)*27)*3)+2,0,4)
-				shapes.box(face,Vector3(x,y,z),Vector3(0.38,0.12,depth/3.0+0.04),tint.lightened(shade*0.025).to_html(false)+glaze)
+				shapes.box(face,Vector3(x,y,z),Vector3(0.38,0.12,depth/3.0+0.04),_tile_color(tint,shade,glaze,face,Vector3(x,y,z),data))
 		shapes.box(face,Vector3(0,at-0.06,depth+0.04),Vector3(length,0.1,0.1),timber)
 
 ## 圆形拱门: the wall's gap closed again above and round a circle (`arch_rim` its stone ring),
@@ -470,9 +553,13 @@ func _entrance(body: Node3D, door: Vector3, w: float, d: float, data: Dictionary
 		shapes.tilted_box(front,Vector3(-0.75,1.1,0.25),Vector3(0.75,2.1,0.08),String(data.get("leaf","6b5038")),Vector3(0,-0.9,0))
 	var porch: String = data.get("porch","tiled")
 	if porch=="cloth":
+		# `awning`: the cloth's two stripe colours (pale, dark).
+		var stripes: Array = data.get("awning",[])
+		if stripes.size() < 2:
+			stripes = ["c8bc94","7c8c64"]
 		for stripe: int in 10:
-			shapes.tilted_box(front,Vector3(-1.65+stripe*0.37,2.90,0.68),Vector3(0.375,0.07,1.65),"7c8c64" if stripe%2 else "c8bc94",Vector3(0.13,0,0))
-			shapes.box(front,Vector3(-1.65+stripe*0.37,2.67,1.49),Vector3(0.37,0.22,0.05),"7c8c64" if stripe%2 else "c8bc94")
+			shapes.tilted_box(front,Vector3(-1.65+stripe*0.37,2.90,0.68),Vector3(0.375,0.07,1.65),String(stripes[stripe%2]),Vector3(0.13,0,0))
+			shapes.box(front,Vector3(-1.65+stripe*0.37,2.67,1.49),Vector3(0.37,0.22,0.05),String(stripes[stripe%2]))
 	elif porch=="tiled":
 		_roof(front,Vector3(0,0,0.50),3.1,1.6,2.8,{"roof":data.get("roof","50626a"),"roof_form":"hip","ridge":"x","rise":0.55,"eave_lift":0.18,"timber":timber})
 	elif porch=="wood":
@@ -574,6 +661,16 @@ func _hanging_flag(front: Node3D, flag_data: Dictionary) -> void:
 	var pole: Node3D = _node(Vector3(side*1.45,3.35,0.1),front)
 	shapes.tilted_box(pole,Vector3(side*0.55,0.18,0.35),Vector3(0.08,0.08,1.6),"5b4433",Vector3(0.22,side*0.6,0))
 	var cloth: Node3D = _node(Vector3(side*0.95,0.1,0.75),pole,true)
+	if flag_data.get("gourd",false):
+		# 药葫芦: a physician's gourd hung from the pole on a red cord instead of a pennant.
+		shapes.box(cloth,Vector3(0,-0.16,0),Vector3(0.03,0.32,0.03),"b8412f")
+		shapes.box(cloth,Vector3(0,-0.46,0),Vector3(0.3,0.3,0.3),String(flag_data.get("gourd_color","c9a05a")))
+		shapes.box(cloth,Vector3(0,-0.64,0),Vector3(0.22,0.1,0.22),"8a6a3a")
+		shapes.box(cloth,Vector3(0,-0.9,0),Vector3(0.42,0.44,0.42),String(flag_data.get("gourd_color","c9a05a")))
+		shapes.box(cloth,Vector3(0,-0.3,0),Vector3(0.12,0.08,0.12),"b8412f")
+		if ambience != null:
+			ambience.flutter(cloth,side*1.7+front.position.x)
+		return
 	shapes.box(cloth,Vector3(0,-0.75,0),Vector3(0.62,1.5,0.04),String(flag_data.get("cloth","b8412f")))
 	shapes.box(cloth,Vector3(0,-0.02,0),Vector3(0.7,0.1,0.06),String(flag_data.get("trim","2f2a24")))
 	for tail: int in 3:
@@ -667,6 +764,81 @@ func _trade_goods(front: Node3D, pos: Vector3, side: float, goods: String) -> bo
 			shapes.box(front,pos+Vector3(0,0.63,0),Vector3(0.6,0.02,0.6),"d9cfb4")
 			for bowl: int in 3:
 				shapes.box(front,pos+Vector3(-side*0.5,0.06+bowl*0.07,0.2),Vector3(0.2,0.06,0.2),"d8d2c2")
+		"ironware":
+			# 打铁铺子: hoes, a sickle and hammers hung from a rail, an anvil on its block one side.
+			shapes.box(front,pos+Vector3(0,1.55,-0.15),Vector3(0.9,0.06,0.06),"5b4433")
+			for hung: int in 4:
+				var x: float = -0.33+hung*0.22
+				shapes.box(front,pos+Vector3(x,1.1,-0.12),Vector3(0.04,0.85,0.04),"6a5038")
+				shapes.box(front,pos+Vector3(x,0.72,-0.12),Vector3(0.2,0.08,0.05) if hung%2 else Vector3(0.1,0.16,0.05),["4e5254","5a5e60","474b4d","62666a"][hung])
+			if side > 0:
+				shapes.box(front,pos+Vector3(0,0.22,0.2),Vector3(0.44,0.44,0.44),"5a4a3a")
+				shapes.box(front,pos+Vector3(0,0.52,0.2),Vector3(0.56,0.16,0.26),"3e4244")
+				shapes.box(front,pos+Vector3(-0.3,0.58,0.2),Vector3(0.14,0.08,0.14),"3e4244")
+			else:
+				for i: int in 3:
+					shapes.tilted_box(front,pos+Vector3(-0.2+i*0.2,0.5,0.25),Vector3(0.05,1.0,0.05),"5d4d3b",Vector3(0.12,0,0.1*(i-1)))
+					shapes.box(front,pos+Vector3(-0.2+i*0.2,1.0,0.25),Vector3(0.2,0.14,0.06),"4e5254")
+		"post":
+			# 驿站: a hitching post with its ring and rope, the notice on a board on a stand.
+			if side > 0:
+				shapes.box(front,pos+Vector3(0,0.55,0.1),Vector3(0.18,1.1,0.18),"6a5a48")
+				shapes.box(front,pos+Vector3(0,1.14,0.1),Vector3(0.26,0.1,0.26),"7a6a56")
+				shapes.box(front,pos+Vector3(0,0.9,0.22),Vector3(0.14,0.14,0.04),"5a5a56")
+				shapes.tilted_box(front,pos+Vector3(0.1,0.65,0.28),Vector3(0.04,0.5,0.04),"b8a070",Vector3(0,0,0.5))
+			else:
+				for leg: float in [-0.3,0.3]:
+					shapes.box(front,pos+Vector3(leg,0.6,0),Vector3(0.08,1.2,0.08),"6a5a48")
+				shapes.box(front,pos+Vector3(0,1.25,0),Vector3(0.9,0.6,0.06),"7a6a56")
+				shapes.box(front,pos+Vector3(0,1.25,0.04),Vector3(0.7,0.46,0.02),"e9e2cc")
+				for line: int in 4:
+					shapes.box(front,pos+Vector3(-0.2+line*0.14,1.25,0.055),Vector3(0.03,0.36,0.01),"3a3630")
+		"grain":
+			# 谷物加工厂: grain spread on a mat to dry, a stone roller on its bed, a basket.
+			if side > 0:
+				shapes.box(front,pos+Vector3(0,0.03,0),Vector3(1.0,0.06,0.8),"b8a26a")
+				shapes.box(front,pos+Vector3(0,0.08,0),Vector3(0.82,0.05,0.62),"d9b55a")
+				shapes.box(front,pos+Vector3(0.2,0.3,0.25),Vector3(0.3,0.5,0.3),"a68a55")
+				shapes.box(front,pos+Vector3(0.2,0.58,0.25),Vector3(0.24,0.06,0.24),"d9b55a")
+			else:
+				shapes.box(front,pos+Vector3(0,0.12,0),Vector3(0.9,0.24,0.9),"8d8a80")
+				shapes.tilted_box(front,pos+Vector3(0,0.46,0),Vector3(0.44,0.44,0.7),"9a9789",Vector3(0,0,PI/2))
+				shapes.box(front,pos+Vector3(0,0.46,0),Vector3(0.9,0.06,0.06),"6a5a48")
+		"incense":
+			# 城隍庙: a bronze censer before the door, its ash and spent sticks, couplets on the posts.
+			if side > 0:
+				for leg: float in [-0.22,0.22]:
+					shapes.box(front,pos+Vector3(leg,0.18,0),Vector3(0.1,0.36,0.1),"5a5244")
+				shapes.box(front,pos+Vector3(0,0.56,0),Vector3(0.7,0.44,0.5),"5f6a5a")
+				shapes.box(front,pos+Vector3(0,0.8,0),Vector3(0.6,0.05,0.4),"8a847a")
+				for stick: int in 3:
+					shapes.box(front,pos+Vector3(-0.1+stick*0.1,0.95,0.04*(stick-1)),Vector3(0.025,0.3,0.025),"9a3a2a")
+				for ear: float in [-0.4,0.4]:
+					shapes.box(front,pos+Vector3(ear,0.72,0),Vector3(0.1,0.2,0.16),"5f6a5a")
+				# 对联 either side of the door, red boards with a column of gilt.
+				for post: float in [-1.0,1.0]:
+					shapes.box(front,Vector3(post*(absf(pos.x)-0.55),1.5,0.16),Vector3(0.28,1.9,0.04),"8a2a22")
+					shapes.box(front,Vector3(post*(absf(pos.x)-0.55),1.5,0.185),Vector3(0.05,1.5,0.01),"d6b25a")
+			else:
+				# A stone table with a pair of red candles and an offering bowl.
+				shapes.box(front,pos+Vector3(0,0.3,0),Vector3(0.6,0.08,0.4),"8a847a")
+				for leg: float in [-0.22,0.22]:
+					shapes.box(front,pos+Vector3(leg,0.13,0),Vector3(0.08,0.26,0.3),"7a746a")
+				for candle: float in [-0.18,0.18]:
+					shapes.box(front,pos+Vector3(candle,0.5,0),Vector3(0.06,0.32,0.06),"b8341f")
+					shapes.box(front,pos+Vector3(candle,0.68,0),Vector3(0.04,0.05,0.04),"ffb858:glow")
+				shapes.box(front,pos+Vector3(0,0.38,0.08),Vector3(0.18,0.08,0.18),"d8d2c2")
+		"dried":
+			# 南北货: strings of red peppers and garlic hung from a rail, dried fish, jars under.
+			shapes.box(front,pos+Vector3(0,1.6,-0.1),Vector3(0.9,0.06,0.06),"5b4433")
+			for cord: int in 4:
+				var x: float = -0.33+cord*0.22
+				var colour: String = ["b8341f","e8e0c8","b8341f","9a8a66"][cord]
+				for bead: int in 5:
+					shapes.box(front,pos+Vector3(x+sin(bead*2.1)*0.03,1.45-bead*0.17,-0.08),Vector3(0.09,0.14,0.09) if cord!=3 else Vector3(0.12,0.1,0.04),colour)
+			for jar: int in 2:
+				shapes.box(front,pos+Vector3(-0.2+jar*0.4,0.22,0.15),Vector3(0.32,0.44,0.32),["6b4a35","7b5a3e"][jar])
+				shapes.box(front,pos+Vector3(-0.2+jar*0.4,0.47,0.15),Vector3(0.2,0.06,0.2),"b23a2b")
 		_:
 			return false
 	return true

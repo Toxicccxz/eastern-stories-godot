@@ -2501,7 +2501,7 @@ msgid "隧道口"
 msgstr ""
 
 #. es2:d/snow/school short
-#: scenes/world/snow/snow_academy.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json data/snow/voxel/academy.json
+#: scenes/world/snow/snow_academy.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json data/snow/voxel/academy.json data/snow/voxel/outdoor.json
 msgid "书院"
 msgstr ""
 
@@ -2510,7 +2510,7 @@ msgid "山水画"
 msgstr ""
 
 #. es2:d/snow/bank short
-#: scenes/world/snow/snow_bank_house.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json
+#: scenes/world/snow/snow_bank_house.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json data/snow/voxel/outdoor.json
 msgid "安记钱庄"
 msgstr ""
 
@@ -2520,7 +2520,7 @@ msgstr ""
 
 #. snow.npc.herbalist title
 #. es2:d/snow/herbshop short
-#: scenes/world/snow/snow_herbshop_house.tscn scenes/world/snow/snow_outdoor.tscn data/snow/npcs.json data/snow/rooms.json
+#: scenes/world/snow/snow_herbshop_house.tscn scenes/world/snow/snow_outdoor.tscn data/snow/npcs.json data/snow/rooms.json data/snow/voxel/outdoor.json
 msgid "桑邻药铺"
 msgstr ""
 
@@ -2543,7 +2543,7 @@ msgid "布帘"
 msgstr ""
 
 #. es2:d/snow/inn short
-#: scenes/world/snow/snow_inn.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json data/snow/voxel/inn.json
+#: scenes/world/snow/snow_inn.tscn scenes/world/snow/snow_outdoor.tscn data/snow/rooms.json data/snow/voxel/inn.json data/snow/voxel/outdoor.json
 msgid "饮风客栈"
 msgstr ""
 
@@ -2609,12 +2609,12 @@ msgid "黄土小径"
 msgstr ""
 
 #. es2:d/snow/smithy short
-#: scenes/world/snow/snow_outdoor.tscn scenes/world/snow/snow_smithy_house.tscn data/snow/rooms.json
+#: scenes/world/snow/snow_outdoor.tscn scenes/world/snow/snow_smithy_house.tscn data/snow/rooms.json data/snow/voxel/outdoor.json
 msgid "打铁铺子"
 msgstr ""
 
 #. es2:d/snow/postoffice short
-#: scenes/world/snow/snow_outdoor.tscn scenes/world/snow/snow_postoffice_house.tscn data/snow/rooms.json
+#: scenes/world/snow/snow_outdoor.tscn scenes/world/snow/snow_postoffice_house.tscn data/snow/rooms.json data/snow/voxel/outdoor.json
 msgid "雪亭驿"
 msgstr ""
 
@@ -2623,22 +2623,22 @@ msgid "官府悬赏 · 靠近看榜"
 msgstr ""
 
 #. es2:d/snow/workplace short
-#: scenes/world/snow/snow_outdoor.tscn scenes/world/snow/snow_workplace_house.tscn data/snow/rooms.json
+#: scenes/world/snow/snow_outdoor.tscn scenes/world/snow/snow_workplace_house.tscn data/snow/rooms.json data/snow/voxel/outdoor.json
 msgid "谷物加工厂"
 msgstr ""
 
-#: scenes/world/snow/snow_outdoor.tscn
+#: scenes/world/snow/snow_outdoor.tscn data/snow/voxel/outdoor.json
 msgid "当"
 msgstr ""
 
 #. common.npc.swordsman.master inquiry topic
 #. cloud.npc.b_header inquiry topic
-#: scenes/world/snow/snow_outdoor.tscn data/common/npcs.json data/cloud/npcs.json
+#: scenes/world/snow/snow_outdoor.tscn data/common/npcs.json data/cloud/npcs.json data/snow/voxel/outdoor.json
 msgid "淳风武馆"
 msgstr ""
 
 #. es2:d/snow/temple short
-#: scenes/world/snow/snow_outdoor.tscn scenes/world/snow/snow_temple_house.tscn data/snow/rooms.json data/snow/voxel/temple_house.json
+#: scenes/world/snow/snow_outdoor.tscn scenes/world/snow/snow_temple_house.tscn data/snow/rooms.json data/snow/voxel/outdoor.json data/snow/voxel/temple_house.json
 msgid "城隍庙"
 msgstr ""
 
@@ -30903,7 +30903,7 @@ msgid ""
 msgstr ""
 
 #. city.shangshu.kefang.landmark.book name
-#: data/city/world.json data/cloud/voxel/bookstore_house.json
+#: data/city/world.json data/choyin/voxel/town.json data/cloud/voxel/bookstore_house.json
 msgid "书"
 msgstr ""
 
@@ -32168,7 +32168,7 @@ msgstr ""
 msgid "桃林深处"
 msgstr ""
 
-#: data/choyin/voxel/town.json
+#: data/choyin/voxel/town.json data/snow/voxel/outdoor.json
 msgid "酒"
 msgstr ""
 
