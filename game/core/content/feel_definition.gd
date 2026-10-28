@@ -34,6 +34,9 @@ extends RefCounted
 ## - corner_slide_px: the player's walk keeps its speed along a wall it runs into, and run
 ##   nearly head-on into an edge it looks this far to either side for an opening and slips
 ##   round it (0: move_and_slide alone; DECISIONS「手感」).
+## - voxel_worlds_kept: how many of the maps the player walked through keep their built
+##   voxel world (the most recent, the player's included); an older map's is freed and
+##   built again on coming back (0: every map keeps its world; DECISIONS「固定俯视体素地图」).
 
 ## A bubble of this many characters or fewer shows for speech_bubble_ms alone.
 const BUBBLE_SHORT_CHARACTERS: int = 24
@@ -62,6 +65,7 @@ var _hit_flash_ms: int = 0
 var _battle_end_hold_ms: int = 0
 var _training_step_ms: int = 0
 var _corner_slide_px: int = 0
+var _voxel_worlds_kept: int = 0
 
 var map_fade_out_seconds: float:
 	get:
@@ -117,6 +121,9 @@ var battle_end_hold_seconds: float:
 var training_step_seconds: float:
 	get:
 		return float(_training_step_ms) / 1000.0
+var voxel_worlds_kept: int:
+	get:
+		return _voxel_worlds_kept
 
 
 ## Seconds a bubble saying `line` stays up (0: no bubbles).
@@ -164,6 +171,7 @@ func with_values(values: Dictionary) -> FeelDefinition:
 	_battle_end_hold_ms = int(values.get("battle_end_hold_ms", _battle_end_hold_ms))
 	_training_step_ms = int(values.get("training_step_ms", _training_step_ms))
 	_corner_slide_px = int(values.get("corner_slide_px", _corner_slide_px))
+	_voxel_worlds_kept = int(values.get("voxel_worlds_kept", _voxel_worlds_kept))
 	return self
 
 
@@ -171,7 +179,7 @@ const KEYS: Array[String] = [
 	"map_fade_out_ms", "map_fade_in_ms", "map_banner_ms", "door_fade_out_ms", "door_fade_in_ms", "camera_follow_speed", "move_accel_ms",
 	"move_stop_ms", "speech_bubble_ms", "speech_bubble_char_ms", "speech_reach_px", "room_text_ms", "room_text_char_ms", "menu_fade_ms", "battle_slow_percent",
 	"battle_fast_percent", "battle_line_ms", "bar_tween_ms", "hit_flash_ms", "battle_end_hold_ms",
-	"training_step_ms", "corner_slide_px",
+	"training_step_ms", "corner_slide_px", "voxel_worlds_kept",
 ]
 
 
