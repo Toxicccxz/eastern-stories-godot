@@ -1,6 +1,7 @@
 {
   "note": "青石村: grey-green stone and moss by day; the quarry's earth-yellow turning warm at dusk; a starry midnight and the hearth fires.",
   "outdoor": {
+    "overcast": {"sky": "889490", "ambient": "98a4a0", "sun": "d2dad6", "note": "under cloud (DECISIONS「天气」): a mossy grey over the stone village"},
     "sky": {"dawn": "b8c0b4", "day": "a6bcae", "dusk": "c89c62", "night": "0f1a28", "midnight": "080e1c"},
     "ambient": {"dawn": "b4bcb0", "day": "b6c4b0", "dusk": "c0ac88", "night": "6e86aa", "midnight": "5a6c96"},
     "ambient_energy": {"dawn": 0.38, "day": 0.4, "dusk": 0.42, "night": 0.3, "midnight": 0.26},

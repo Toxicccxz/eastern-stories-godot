@@ -87,7 +87,8 @@ The following version-specific details are the current implementation snapshot d
   consumables; definition validation rejects a food/liquid item missing its required state. Liquid
   records contain only stable item ID, typed content and remaining (empty0 is live). Root schema3 /
   SOURCE_ENTRY_OLDPINE_RELAYOUT_V1 is the current public content marker; schema 3 (DECISIONS「昼夜」) adds the
-  root's required `day_seconds` and a schema 2 file is refused. See
+  root's required `day_seconds`, schema 4 (DECISIONS「天气」) the root's required `sky_level` and
+  `sky_minutes_left`; an older file is refused. See
   [S6B](../../migration/PHASE_SNOW_TOWN_CORE_HUB_FRESH_WATER_SUPPLY_LOOP.md).
 - `WorldItemInstanceIndex` is derived from restored Inventory and is never serialized as authority.
 - Semantic character, item, NPC, corpse, spawn, and world identities persist across Load. Runtime Godot
@@ -123,6 +124,10 @@ The following version-specific details are the current implementation snapshot d
 - 昼夜 (owner, 2026-10-27): the root's required `day_seconds` (0–86399, a decimal int64) is the time of day
   (DayClock) at the save, always written; Continue goes on from it. A time outside the day is rejected.
   Schema 3; a schema 2 file (without it) is unsupported.
+- 天气 (owner, 2026-10-27): the root's required `sky_level` (0–4) and `sky_minutes_left` (0–240, decimal
+  int64s) are the cloud (SkyState) at the save and the game minutes to its next change, always written;
+  Continue goes on from them (the next change's direction is drawn afresh). Schema 4; a schema 3 file
+  (without them) is unsupported.
 - Transient combat, cadence, Area membership, UI, and presentation state are rebuilt fresh after Load;
   they are not serialized.
 

@@ -34,6 +34,7 @@ var _quest_tiers: Array[QuestTier] = []
 var _journal_chains: Array[JournalChainDefinition] = []
 var _codex_topics: Array[CodexTopicDefinition] = []
 var _day_phases: Array[DayPhaseDefinition] = []
+var _sky_levels: Array[String] = []
 var _pacing: PacingDefinition
 var _progression: ProgressionRules
 var _bounties: BountyRules
@@ -138,6 +139,10 @@ func add_document(document: Variant, origin: String) -> void:
 		_codex_topics.append(CodexTopicDefinition.from_record(record))
 	for record: ContentRecordReader in reader.children("day_phases"):
 		_day_phases.append(DayPhaseDefinition.from_record(record))
+	if reader.has("sky_levels"):
+		if not _sky_levels.is_empty():
+			reader.fail("sky_levels", "sky_levels is already defined")
+		_sky_levels = reader.text_list("sky_levels")
 	var pacing: ContentRecordReader = reader.child("pacing")
 	if pacing != null:
 		if _pacing != null:
@@ -209,6 +214,7 @@ func build() -> ContentCatalog:
 	catalog.set_quest_tiers(_quest_tiers)
 	catalog.set_journal(_journal_chains, _codex_topics)
 	catalog.set_day_phases(_day_phases)
+	catalog.set_sky_levels(_sky_levels)
 	catalog.set_progression(_progression)
 	catalog.set_bounties(_bounties)
 	catalog.set_opening(_opening)
@@ -364,6 +370,9 @@ func _check_journal() -> void:
 ## The progression table names NPCs, zones and chains the game has.
 ## natured.c turns through the phases in order, the day being their lengths' sum (1440).
 func _check_day_phases() -> void:
+	# natured.c's weather_msg: one line a level, SkyState.LEVELS of them.
+	if not _sky_levels.is_empty() and _sky_levels.size() != SkyState.LEVELS:
+		_errors.append("sky_levels: %d lines, not %d" % [_sky_levels.size(), SkyState.LEVELS])
 	if _day_phases.is_empty():
 		return
 	var total: int = 0

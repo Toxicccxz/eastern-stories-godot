@@ -20,6 +20,7 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_journal_and_known_items()
 	_test_busy()
 	_test_day_seconds()
+	_test_sky()
 	return {"assertions": _assertion_count, "failures": _failures.duplicate()}
 
 
@@ -43,6 +44,37 @@ func _test_day_seconds() -> void:
 	root["metadata"]["schema_version"] = 2
 	_assert_eq(_decode_root(root).outcome, GameSaveResult.Outcome.UNSUPPORTED_GAME_SCHEMA, "a schema 2 save is refused (fail closed)")
 	_assert_false(GameSaveSnapshotValidator.validate(Fixture.substantial().with_day_seconds(90000)).succeeded(), "the validator refuses a time past the day")
+
+
+## The cloud (DECISIONS「天气」): schema 4's root `sky_level` and `sky_minutes_left`, always
+## written, a level and a wait; a schema 3 file (without them) is refused.
+func _test_sky() -> void:
+	var source: GameSaveSnapshot = Fixture.substantial()
+	_assert_true(source.sky_level == SkyState.NEW_GAME_LEVEL and source.sky_minutes_left == SkyState.NEW_GAME_MINUTES, "a snapshot starts with a few clouds")
+	var encoded: GameSaveResult = GameSaveJsonCodec.encode(source.with_sky(3, 77))
+	_assert_true(encoded.text.contains("\"sky_level\": \"3\"") and encoded.text.contains("\"sky_minutes_left\": \"77\""), "written as decimal ints")
+	var decoded: GameSaveResult = GameSaveJsonCodec.decode(encoded.text)
+	_assert_true(decoded.succeeded() and decoded.snapshot.sky_level == 3 and decoded.snapshot.sky_minutes_left == 77, "read back")
+	_assert_true(decoded.snapshot.duplicate_snapshot().sky_level == 3 and decoded.snapshot.duplicate_snapshot().sky_minutes_left == 77, "and copied")
+	var root: Dictionary = JSON.parse_string(encoded.text)
+	root.erase("sky_level")
+	_assert_eq(_decode_root(root).outcome, GameSaveResult.Outcome.MISSING_FIELD, "a save without the cloud is refused")
+	root = JSON.parse_string(encoded.text)
+	root["sky_level"] = "5"
+	_assert_false(_decode_root(root).succeeded(), "five levels: 5 is not one")
+	root = JSON.parse_string(encoded.text)
+	root["sky_minutes_left"] = "241"
+	_assert_false(_decode_root(root).succeeded(), "a wait is at most 240 minutes")
+	root = JSON.parse_string(encoded.text)
+	root["sky_minutes_left"] = "0"
+	_assert_true(_decode_root(root).succeeded(), "a wait of 0 (a change due) is read")
+	root = JSON.parse_string(encoded.text)
+	root.erase("sky_level")
+	root.erase("sky_minutes_left")
+	root["metadata"]["schema_version"] = 3
+	_assert_eq(_decode_root(root).outcome, GameSaveResult.Outcome.UNSUPPORTED_GAME_SCHEMA, "a schema 3 save is refused (fail closed)")
+	_assert_false(GameSaveSnapshotValidator.validate(Fixture.substantial().with_sky(7, 0)).succeeded(), "the validator refuses a level past the five")
+	_assert_false(GameSaveSnapshotValidator.validate(Fixture.substantial().with_sky(0, 300)).succeeded(), "and a wait past four hours")
 
 
 ## The player's set_temp() flags (owner): written only when there are some, read back exactly.
@@ -288,7 +320,7 @@ func _test_strict_shape_and_security_failures() -> void:
 	root["metadata"]["format_id"] = "another-format"
 	_assert_eq(_decode_root(root).outcome, GameSaveResult.Outcome.INVALID_FORMAT_ID, "wrong format ID rejects distinctly")
 	root = JSON.parse_string(GameSaveJsonCodec.encode(Fixture.substantial()).text)
-	root["metadata"]["schema_version"] = 4
+	root["metadata"]["schema_version"] = 5
 	_assert_eq(_decode_root(root).outcome, GameSaveResult.Outcome.UNSUPPORTED_GAME_SCHEMA, "unsupported game schema rejects distinctly")
 	root = JSON.parse_string(GameSaveJsonCodec.encode(Fixture.substantial()).text)
 	root["items"]["schema_version"] = 4

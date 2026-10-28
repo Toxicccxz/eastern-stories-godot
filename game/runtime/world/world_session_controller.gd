@@ -93,6 +93,11 @@ var _maps_by_room: Dictionary[String, Array] = {}
 var _away: WorldAwayTimes = WorldAwayTimes.new()
 ## The time of day (DECISIONS「昼夜」), going on with the world clock; saved as day_seconds.
 var _day: DayClock = DayClock.new()
+## The cloud (DECISIONS「天气」), going on with the world clock when the pacing's sky_weather
+## is on; saved as sky_level and sky_minutes_left. Its draws come from a stream of its own
+## (the world-interaction seed's), not saved: a Continue draws the next change afresh.
+var _sky: SkyState = SkyState.new()
+var _sky_random: WorldInteractionRandomSource
 ## A phase of the day began (DayClock.advance()): the outdoor player hears natured.c's line.
 signal day_phase_began(phase: DayPhaseDefinition)
 ## The player's corpses that scattered (obj/corpse.c decay(3)): what they held lies where they
@@ -391,9 +396,12 @@ func advance_npc_heartbeat(delta: float) -> void:
 	if not npc_world_time_allowed():
 		return
 	_away.advance(delta)
-	var began: DayPhaseDefinition = _day.advance(delta, GameContent.catalog().pacing().day_length_minutes)
+	var pacing: PacingDefinition = GameContent.catalog().pacing()
+	var began: DayPhaseDefinition = _day.advance(delta, pacing.day_length_minutes)
 	if began != null:
 		day_phase_began.emit(began)
+	if pacing.sky_weather:
+		_sky.advance(delta, pacing.day_length_minutes, sky_random_source())
 	var map: WorldMapController = active_map() as WorldMapController
 	if map != null and map.is_inside_tree() and map.can_process():
 		map.advance_npc_heartbeat(delta)
@@ -458,6 +466,33 @@ func away_times() -> WorldAwayTimes:
 ## The time of day (DECISIONS「昼夜」): presentation and the outdoor rooms' line read it.
 func day_clock() -> DayClock:
 	return _day
+
+
+## The cloud (DECISIONS「天气」): the save reads it whole; presentation and the outdoor
+## rooms' line read sky_level().
+func sky_state() -> SkyState:
+	return _sky
+
+
+## The cloud's level as the game shows it: 0 (clear, nothing said) while the pacing's
+## sky_weather is off (经典), else the SkyState's.
+func sky_level() -> int:
+	return _sky.level() if GameContent.catalog().pacing().sky_weather else 0
+
+
+## The sky's own stream (transient, not in Save): each change's direction and the wait to
+## the next. A suite injects its own (configure_sky_random_source()).
+func sky_random_source() -> WorldInteractionRandomSource:
+	if _sky_random == null:
+		_sky_random = GodotWorldInteractionRandomSource.new(world_interaction_seed + 2, deterministic_world_interaction_seed)
+	return _sky_random
+
+
+func configure_sky_random_source(value: WorldInteractionRandomSource) -> bool:
+	if value == null:
+		return false
+	_sky_random = value
+	return true
 
 
 ## 别的地图时间补算 (DECISIONS): the world time `map` went without the player, caught up at
@@ -709,6 +744,9 @@ func initialize_session() -> bool:
 		_source_pace = _restore_preparation.player.state.pace
 	if _pacing_before == null:
 		_pacing_before = PacePresets.apply(GameContent.catalog(), _source_pace)
+	# 经典 (DECISIONS「天气」): the sky stays clear from the first moment, and saves so.
+	if not GameContent.catalog().pacing().sky_weather:
+		_sky.set_state(0, SkyState.NEW_GAME_MINUTES)
 	for map_id: StringName in _world_map_ids():
 		if not _register_map(map_id):
 			return false
@@ -846,6 +884,7 @@ func activate_restore_candidate() -> bool:
 	_away.restore(restored_away_ms())
 	if _restore_preparation != null:
 		_day.set_day_seconds(_restore_preparation.day_seconds)
+		_sky.set_state(_restore_preparation.sky_level, _restore_preparation.sky_minutes_left)
 	var world_map: WorldMapController = map as WorldMapController
 	if world_map != null:
 		world_map.npc_life.restored_zone_id = _player.world_location().zone_id

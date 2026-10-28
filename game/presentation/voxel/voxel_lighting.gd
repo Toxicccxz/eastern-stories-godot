@@ -26,7 +26,20 @@ const FRAME_FADE_SECONDS: float = 0.9
 const LAMP_FADE_BEGIN: float = 18.0
 const LAMP_FADE_END: float = 26.0
 ## Keys that are not frame maps: merged whole (merge_profile()).
-const WHOLE_KEYS: Array[String] = ["carried", "areas", "note"]
+const WHOLE_KEYS: Array[String] = ["carried", "areas", "note", "overcast"]
+## The cloud (DECISIONS「天气」): how far each SkyState level greys the day (0 clear .. 1
+## 乌云密布), how long a change blends over in real seconds, and the cloud shadow: at the
+## levels where 白云在天空中飘来飘去, the sun dims and brightens as the clouds pass over,
+## by this much at most.
+const CLOUD_AMOUNTS: Array[float] = [0.0, 0.15, 0.42, 0.72, 1.0]
+const CLOUD_SHADOWS: Array[float] = [0.0, 0.0, 0.16, 0.22, 0.0]
+const CLOUD_FADE_SECONDS: float = 20.0
+## The cloud shadow's drift: the noise's scale over the map (units) and its speed.
+const CLOUD_SHADOW_SCALE: float = 0.05
+const CLOUD_SHADOW_SPEED: float = 0.045
+## What a map's light becomes under full cloud when its region writes no `overcast`: a
+## grey-teal sky and ambient, a white sun. A region's own keeps its tint (美术规划 §2).
+const OVERCAST_DEFAULT: Dictionary[String, String] = {"sky": "8e9aa0", "ambient": "9aa6ac", "sun": "d8dde0"}
 
 var environment: Environment
 var sun: DirectionalLight3D
@@ -39,15 +52,23 @@ var hazes: Array[StandardMaterial3D] = []
 ## How far into night the light is now (0 day .. 1 night): the frames' FRAME_NIGHT by weight.
 var amount: float = 0.0
 var indoor: bool = false
+## The cloud now (0 clear .. 1 overcast), where it goes and the shadow's reach (set_cloud_level()).
+var cloud: float = 0.0
+var _cloud_target: float = 0.0
+var _shadow: float = 0.0
+var _shadow_target: float = 0.0
+var _cloud_noise: FastNoiseLite = FastNoiseLite.new()
 ## The light profile (the region's light.json merged with the layout's `light`): each of
 ## "sky", "ambient", "ambient_energy", "sun", "sun_energy", "sun_angle" either a frame map
 ## {"dawn": .., "day": .., ..} (a frame left out is interpolated) or the older [day, night]
 ## pair (read as day and night, midnight as night); "carried": a soft light that goes with
 ## the player (a dark cave); "fog": {"color", "density" (frame maps or pairs), "height",
-## "height_density", "depth"}: haze that thickens below `height` (the depths of a gorge, the
-## ground far under a tree); "areas": [{"rect": px, any of the keys above}]: parts of the map
-## under skies of their own (迷阵's illusions, each its own weather), the first holding the
-## player winning over the map's.
+## "height_density", "depth", "depth_density" (a frame map or a number: the depth fog's
+## opacity, 水烟阁's dawn mist that is gone by day)}: haze that thickens below `height` (the
+## depths of a gorge, the ground far under a tree); "overcast": {"sky", "ambient", "sun"}: what
+## the light tends to under full cloud (OVERCAST_DEFAULT without); "areas": [{"rect": px, any
+## of the keys above}]: parts of the map under skies of their own (迷阵's illusions, each its
+## own weather), the first holding the player winning over the map's.
 var profile: Dictionary = {}
 ## The frames' weights now and where they go (set_time(), set_frame()).
 var weights: Dictionary[String, float] = {"dawn": 0.0, "day": 1.0, "dusk": 0.0, "night": 0.0, "midnight": 0.0}
@@ -68,6 +89,9 @@ func build(world: Node3D, reveal: VoxelOcclusion, interior: bool, settings: Dict
 	profile = settings
 	_resolved.clear()
 	occlusion = reveal
+	_cloud_noise.noise_type = FastNoiseLite.TYPE_SIMPLEX_SMOOTH
+	_cloud_noise.frequency = 1.0
+	_cloud_noise.seed = 7
 	if phases.is_empty():
 		phases = GameContent.catalog().day_phases()
 	var sky := WorldEnvironment.new()
@@ -157,6 +181,17 @@ func set_frame(frame: String, immediate: bool = false) -> void:
 func set_night(enabled: bool, immediate: bool = false) -> void:
 	set_frame("night" if enabled else "day", immediate)
 
+## The cloud's level (SkyState, 0 .. 4): the light greys and dims toward it over
+## CLOUD_FADE_SECONDS, at once when `immediate`. Indoors nothing changes.
+func set_cloud_level(level: int, immediate: bool = false) -> void:
+	var index: int = 0 if indoor else clampi(level, 0, CLOUD_AMOUNTS.size() - 1)
+	_cloud_target = CLOUD_AMOUNTS[index]
+	_shadow_target = CLOUD_SHADOWS[index]
+	if immediate:
+		cloud = _cloud_target
+		_shadow = _shadow_target
+		_apply()
+
 ## Follows the day: the light `minutes` into it (DayClock.day_minutes()). The first call
 ## after a build snaps; later ones move with the clock.
 func set_time(minutes: float, immediate: bool = false) -> void:
@@ -245,6 +280,17 @@ func advance(delta: float, player: Vector3) -> void:
 		if not is_equal_approx(weights[name],goal):
 			weights[name] = move_toward(weights[name],goal,step)
 			changed = true
+	if not indoor:
+		var cloud_step: float = delta/CLOUD_FADE_SECONDS
+		if not is_equal_approx(cloud,_cloud_target):
+			cloud = move_toward(cloud,_cloud_target,cloud_step)
+			changed = true
+		if not is_equal_approx(_shadow,_shadow_target):
+			_shadow = move_toward(_shadow,_shadow_target,cloud_step)
+			changed = true
+		# Clouds passing over: the sun's energy follows the drifting noise every frame.
+		if _shadow > 0.0:
+			changed = true
 	if changed:
 		_apply()
 	elif not indoor or not flickering.is_empty():
@@ -284,11 +330,35 @@ func _apply() -> void:
 	amount = 0.0
 	for name: String in FRAMES:
 		amount += shares[name]*FRAME_NIGHT[name]
-	environment.background_color = _color("sky",["9cb5ac","111e35"],shares)
-	environment.ambient_light_color = _color("ambient",["c7bdac","929bac"] if indoor else ["b4c4c9","738db8"],shares)
-	environment.ambient_light_energy = _amount("ambient_energy",[0.55,0.43] if indoor else [0.38,0.30],shares)
-	sun.light_color = _color("sun",["fff0d6","91b3ee"],shares)
-	sun.light_energy = _amount("sun_energy",[0.40,0.10] if indoor else [0.85,0.32],shares)
+	var sky_color: Color = _color("sky",["9cb5ac","111e35"],shares)
+	var ambient_color: Color = _color("ambient",["c7bdac","929bac"] if indoor else ["b4c4c9","738db8"],shares)
+	var ambient_energy: float = _amount("ambient_energy",[0.55,0.43] if indoor else [0.38,0.30],shares)
+	var sun_color: Color = _color("sun",["fff0d6","91b3ee"],shares)
+	var sun_energy: float = _amount("sun_energy",[0.40,0.10] if indoor else [0.85,0.32],shares)
+	var blur: float = 1.0
+	if not indoor and cloud > 0.0:
+		# Under cloud (DECISIONS「天气」): the sky and the ambient go toward the region's
+		# overcast tint (darkened as the night deepens: clouds hide the moon too), the sun
+		# whitens, weakens and casts a softer shadow; the ambient comes up a little so that
+		# 乌云密布 is the darkest day but the road still reads. The lamps follow the night alone.
+		var over: Dictionary = _source("overcast").get("overcast",{})
+		# Dawn and dusk keep most of their light; the night takes it.
+		var dark: float = lerpf(1.0,0.14,amount*amount)
+		sky_color = sky_color.lerp(Color(String(over.get("sky",OVERCAST_DEFAULT["sky"])))*dark,cloud*0.85)
+		ambient_color = ambient_color.lerp(Color(String(over.get("ambient",OVERCAST_DEFAULT["ambient"])))*dark,cloud*0.8)
+		ambient_energy *= 1.0+0.12*cloud
+		sun_color = sun_color.lerp(Color(String(over.get("sun",OVERCAST_DEFAULT["sun"]))),cloud*0.6)
+		sun_energy *= 1.0-0.6*cloud
+		blur = 1.0+2.5*cloud
+	if not indoor and _shadow > 0.0:
+		sun_energy *= 1.0-_shadow*cloud_shadow_at(_player,_clock)
+	environment.background_color = sky_color
+	environment.ambient_light_color = ambient_color
+	environment.ambient_light_energy = ambient_energy
+	sun.light_color = sun_color
+	sun.light_energy = sun_energy
+	if not is_equal_approx(sun.shadow_blur,blur):
+		sun.shadow_blur = blur
 	var angle := Vector3.ZERO
 	var angles: Dictionary = _frames("sun_angle",SUN_ANGLES)
 	for name: String in FRAMES:
@@ -318,7 +388,11 @@ func _apply() -> void:
 			var depth: Array = fog["depth"]
 			environment.fog_depth_begin = float(depth[0])
 			environment.fog_depth_end = float(depth[1])
-			environment.fog_density = float(fog.get("depth_density",1.0))
+			var depth_density: Variant = fog.get("depth_density",1.0)
+			if depth_density is Dictionary or depth_density is Array:
+				environment.fog_density = _blend_amount(_resolve("fog.depth_density.%d" % _area,depth_density),shares)
+			else:
+				environment.fog_density = float(depth_density)
 		else:
 			environment.fog_density = _blend_amount(_resolve("fog.density.%d" % _area,fog.get("density",[0.0,0.0])),shares)
 		environment.fog_height = float(fog.get("height",-1.0))
@@ -327,6 +401,14 @@ func _apply() -> void:
 	elif environment.fog_enabled:
 		environment.fog_enabled = false
 	occlusion.set_night(amount)
+
+## How much of the sun a passing cloud takes at `at` at `seconds` (0 none .. 1 all of the
+## shadow's reach): one low-frequency field drifting over the map, so the whole screen
+## darkens and brightens as a cloud goes over, never a hard edge.
+func cloud_shadow_at(at: Vector3, seconds: float) -> float:
+	var x: float = at.x*CLOUD_SHADOW_SCALE+seconds*CLOUD_SHADOW_SPEED
+	var z: float = at.z*CLOUD_SHADOW_SCALE+seconds*CLOUD_SHADOW_SPEED*0.6
+	return clampf(_cloud_noise.get_noise_2d(x,z)*0.5+0.5,0.0,1.0)
 
 func _color(key: String, fallback: Array, shares: Dictionary[String, float]) -> Color:
 	return _blend_color(_frames(key,fallback),shares)

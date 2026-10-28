@@ -40,6 +40,7 @@ var _families: Dictionary[StringName, FamilyDefinition] = {}
 var _journal_chains: Array[JournalChainDefinition] = []
 var _codex_topics: Array[CodexTopicDefinition] = []
 var _day_phases: Array[DayPhaseDefinition] = []
+var _sky_levels: Array[String] = []
 var _combat_actions: CombatActionTables = CombatActionTables.new()
 var _quest_tiers: Array[QuestTier] = []
 var _quest_targets: Dictionary[String, bool] = {}
@@ -197,6 +198,17 @@ func set_day_phases(phases: Array[DayPhaseDefinition]) -> void:
 ## document has them (the day then has no phases and no light of its own).
 func day_phases() -> Array[DayPhaseDefinition]:
 	return _day_phases
+
+
+## Called once by ContentCatalogBuilder.
+func set_sky_levels(lines: Array[String]) -> void:
+	_sky_levels = lines.duplicate()
+
+
+## natured.c's weather_msg (day_phases.json `sky_levels`, DECISIONS「天气」): the line on the
+## cloud for each SkyState level, 万里无云 to 乌云密布; empty when no document has them.
+func sky_levels() -> Array[String]:
+	return _sky_levels
 
 
 ## Called once by ContentCatalogBuilder.

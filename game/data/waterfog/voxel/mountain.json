@@ -11,7 +11,7 @@
   },
   "light": {
     "carried": {"color": "ffd9a0", "range": 6.5, "attenuation": 1.2, "day": 0.0, "night": 1.0, "note": "the white stairs and the path show round the player at night"},
-    "fog": {"color": ["d6e0e4", "141c2a"], "density": [0.0, 0.0], "height": -2.5, "height_density": 0.1, "note": "haze only in the depths of the gorge and the chasms; the ways stay clear"}
+    "fog": {"color": {"dawn": "e6eef0", "day": "d6e0e4", "dusk": "d6dce0", "night": "141c2a", "midnight": "101828"}, "depth": [44, 84], "depth_density": {"dawn": 0.6, "day": 0.0, "dusk": 0.0, "night": 0.0, "midnight": 0.0}, "height": -2.5, "height_density": 0.1, "note": "wpath3.c: 每当清晨山谷中的晨雾慢慢飘起 — a cold white depth mist at dawn (DECISIONS「天气」) that begins past the player and takes the far cliffs and the valley, gone by day; the haze in the depths of the gorge and the chasms stays; the ways stay clear"}
   },
   "cliffs": {
     "kinds": ["cliff", "chasm"],
