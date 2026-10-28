@@ -27,7 +27,7 @@
 - ES2 编译不过的文件可用 override 的 `source_fixes` 修（记为偏离）；NPC id 带区域子目录；Big5 丢的「□」按 `text_replacements.json` 定字。「晚月庄 A」「积压问题的处理」
 
 **地图与体素**
-- 所有地图用固定正交斜视体素表现；2D 地图仍是唯一依据（碰撞、站位、交互范围、存档）；左右 45° 两个视角，按钮切换、0.6 秒圆弧；家具只记在布局里。「固定俯视体素地图」
+- 所有地图用固定正交斜视体素表现；2D 地图仍是唯一依据（碰撞、站位、交互范围、存档）；左右 45° 两个视角，按钮切换、0.6 秒圆弧；家具只记在布局里。走过的地图只有最近 `voxel_worlds_kept`（3）张保留建好的体素世界，更早的在玩家离开后释放、回去时按原样重建；2D 地图照常全部常驻，释放不碰任何规则、NPC 或存档。「固定俯视体素地图」
 - 昼夜跟着游戏里的一天走：ES2 的八段（`day_phases.json`）、一天 24 真实分钟（`day_length_minutes`，经典也是 24），画面按五个关键帧（黎明、白天、黄昏、夜、深夜）在段内平滑过渡，每区一套光（`<区域>/voxel/light.json`），单图只覆盖写了的帧；室外房间的描述末尾接当段天色一句，段开始时室外的人看到一行；设置「昼夜」三档（跟随 / 一直白天 / 一直夜晚）代替 HUD 按钮；时刻存进存档（`day_seconds`）；NPC、门、刷怪、战斗都不看时刻。「昼夜」
 - 地图尺寸以体素视角下好走为准：路能两人并排、绕过路中间的人；野外能在敌人察觉圈外绕过去，原文守路的除外。「地图尺寸以体素视角为准」
 - 每个能进的房间在所属建筑（或院落）自己的图上，由门口的一对通道进出；房间、出口、门锁和站位不变，所有地图常驻。「地图重构」
@@ -138,7 +138,7 @@
 - `corpse_rot_seconds` / `corpse_bones_seconds` / `corpse_scatter_seconds` 120 / 120 / 60（就是 ES2）。「尸体腐烂」
 - `milestone_rewards`、`catch_up_max_percent` 100、`staged_potential_cap`、`player_exercise_gain` 6、`training_dummies`、`bounty_board`（经典关 / 0 / 1）。「经验节奏」
 - `room_reset_seconds` 1800、`combat_round_ms` 1000、`heart_beat_ms` 2000（就是 ES2）。「NPCs talk and wander; rooms reset」「One map runtime」「响应性」
-- `feel`：换图淡入淡出、走路、气泡、菜单、战斗演出、`training_step_ms`、`corner_slide_px`（不写 = 0，没有演出）。「手感」「手感：战斗」「连续修炼」
+- `feel`：换图淡入淡出、走路、气泡、菜单、战斗演出、`training_step_ms`、`corner_slide_px`（不写 = 0，没有演出）、`voxel_worlds_kept` 3（保留几张图的体素世界；0 = 全留）。「手感」「手感：战斗」「连续修炼」「固定俯视体素地图」
 - 新游戏面板的「节奏」：经典把 `milestone_rewards`、`catch_up_max_percent`、`staged_potential_cap`、`player_exercise_gain`、`bounty_board`、`training_dummies`、`day_length_minutes` 一起按回 ES2，存进存档，开局后不改。「经典模式总开关」「昼夜」
 - `day_length_minutes` 24（就是 ES2；owner Q3 默认也用 24）。「昼夜」
 
@@ -468,6 +468,10 @@
   花草拨动、风摆、蝶群、昼夜光照都是画面状态，不推进游戏时间、不写存档。
 - 新增家具会缩小可走区域：属于地图布局改动，各房的门、出口和刷怪点保持可达（走查测试）。
 - 原 2D 色块地砖不再显示，只作布局与碰撞；`docs/design/美术规划.md` 的像素画法由体素规范取代。
+- **保留几张图的体素世界**（2026-10-28）：所有地图常驻（「地图重构」「别的地图时间补算」），体素世界建好后原本也一直留着，
+  连走 18 张图静态内存从 611 MB 涨到 2029 MB（每张约 80 MB）。现在会话按最近进入的顺序只保留 `feel.voxel_worlds_kept`（3）
+  张图的体素世界，更早的在玩家离开后释放（3D 节点、遮挡材质、灯光全部放掉，视角、昼夜帧保留），回去时按首次的路径重建、
+  画面一致；0 = 全部保留（旋钮之前的行为）。只是画面层的事：2D 地图、NPC、物品、门、存档一概不变。
 
 ## 了结 / 放过 (owner 批准, 2026-10-20)
 

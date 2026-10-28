@@ -48,7 +48,8 @@
 			"hit_flash_ms": 150,
 			"battle_end_hold_ms": 800,
 			"training_step_ms": 150,
-			"corner_slide_px": 12
+			"corner_slide_px": 12,
+			"voxel_worlds_kept": 3
 		}
 	}
 }

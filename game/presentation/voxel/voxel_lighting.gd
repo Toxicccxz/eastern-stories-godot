@@ -129,6 +129,21 @@ func build(world: Node3D, reveal: VoxelOcclusion, interior: bool, settings: Dict
 		lamps.append(carried)
 	_apply()
 
+## Lets go of a freed world's nodes and materials (WorldVoxelView.release_world()); the
+## phases and the frame weights stay, so the next build() lights the same hour the same way.
+func release() -> void:
+	environment = null
+	sun = null
+	occlusion = null
+	carried = null
+	lamps.clear()
+	windows.clear()
+	hazes.clear()
+	flickering.clear()
+	profile = {}
+	_resolved.clear()
+	_area = -1
+
 ## Holds one frame: 一直白天 / 一直夜晚, or a test's night. Blends over FRAME_FADE_SECONDS
 ## unless `immediate`.
 func set_frame(frame: String, immediate: bool = false) -> void:

@@ -106,6 +106,10 @@ var _neighbour_pulse_index: int = 0
 var _neighbour_pulse_wait: float = 0.0
 ## The maps a door leads to from each map (_door_neighbours()), by map ID.
 var _neighbours_by_map: Dictionary[StringName, Array] = {}
+## The maps the player was on, the latest first: the first `voxel_worlds_kept` keep their
+## built voxel world, an older one's is freed (WorldVoxelView.release_world()). Presentation
+## only, not saved: a freed map's world is built again when the player comes back.
+var _recent_maps: Array[StringName] = []
 
 
 func _ready() -> void:
@@ -494,6 +498,29 @@ func _entering(destination: WorldResidentMapController) -> void:
 func _switched(source: WorldResidentMapController, destination: WorldResidentMapController) -> void:
 	_away.stamp(source.map_id())
 	_away.stamp(destination.map_id())
+	_note_recent_map(destination.map_id())
+
+
+## `map_id` is the player's map now: it moves to the front of the recent maps, and the maps
+## past the kept count (feel.voxel_worlds_kept; 0 keeps every one) let their voxel world go.
+## The 2D maps stay resident whatever happens here (DECISIONS「别的地图时间补算」).
+func _note_recent_map(map_id: StringName) -> void:
+	_recent_maps.erase(map_id)
+	_recent_maps.push_front(map_id)
+	var kept: int = GameContent.catalog().pacing().feel.voxel_worlds_kept
+	if kept <= 0:
+		return
+	while _recent_maps.size() > kept:
+		var old: StringName = _recent_maps.pop_back()
+		var map: WorldResidentMapController = resident_map(old)
+		var view: WorldVoxelView = null if map == null else map.get_node_or_null("MapView") as WorldVoxelView
+		if view != null:
+			view.release_world()
+
+
+## Which maps still hold a built voxel world's place, the player's first (tests, kits).
+func recent_maps() -> Array[StringName]:
+	return _recent_maps.duplicate()
 
 
 ## What each map but the player's is owed (the save's away_ms), leaving out those time
@@ -1320,6 +1347,7 @@ func _bind_residents_staged() -> bool:
 func _activate_first_map(map_id: StringName) -> bool:
 	var first: WorldResidentMapController = _resident_maps[map_id]
 	_active_map_id = map_id
+	_note_recent_map(map_id)
 	first.set_restore_staging(false)
 	active_map_slot.add_child(first)
 	if not first.complete_activation():
@@ -1406,6 +1434,7 @@ func _initialize_restore_residents() -> bool:
 		_restore_failure_outcome = OldPineWorldRestoreResult.Outcome.INVALID_WORLD_LOCATION
 		return false
 	_active_map_id = player_location.map_id
+	_note_recent_map(_active_map_id)
 	var active: WorldResidentMapController = _resident_maps[_active_map_id]
 	active_map_slot.add_child(active)
 	# Restore is exact placement, never a spawn lookup or an initial Inn activation.

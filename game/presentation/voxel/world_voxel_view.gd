@@ -110,6 +110,32 @@ func _build() -> void:
 	_sync_light(true)
 	_built = true
 
+## Frees the built world (the session keeps only the last `voxel_worlds_kept` maps' worlds,
+## DECISIONS「固定俯视体素地图」): every 3D node, the occlusion materials and the lights go;
+## the chosen side, the held frame and the camera's yaw stay. Nothing of the 2D map, its
+## bodies or the save changes. The next _process() on this map builds it again as at first.
+func release_world() -> void:
+	if not _built:
+		return
+	_deactivate()
+	actors.clear()
+	labels.clear()
+	alert_marks.clear()
+	objects.clear()
+	entrances.clear()
+	shutters.clear()
+	arrows.clear()
+	occlusion = VoxelOcclusion.new()
+	lighting.release()
+	geometry = null
+	camera = null
+	remove_child(world)
+	world.queue_free()
+	world = null
+	layout = {}
+	_last_player = Vector2.INF
+	_built = false
+
 ## A region-wide default beside the map's config (data/<region>/voxel/<name>); {} without one.
 func _region_file(name: String) -> Dictionary:
 	var path: String = layout_path.get_base_dir().path_join(name)
