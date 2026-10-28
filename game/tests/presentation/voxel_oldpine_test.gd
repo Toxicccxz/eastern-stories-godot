@@ -87,6 +87,13 @@ func _check_forest(tree: SceneTree, session: WorldSessionController, map: WorldM
 	for kind: String in ["great_pine", "stone_bridge", "waterfall", "plank_road", "vines", "bone_gate", "notice_post", "sandbags", "stakes", "mossy_log", "mossy_rock", "tracks", "sun_flecks"]:
 		_check(kind in kinds, "the forest has its %s" % kind)
 	_check(view.layout.get("light", {}).has("fog") and view.lighting.environment.fog_enabled, "haze settles into the gorge")
+	# Godot 4.7.2 resets `fog_density` to 1.0 whenever `fog_mode` is assigned: the map's own density
+	# (0 by day, the height fog alone) must survive the light being applied, or the forest is a
+	# flat silhouette of fog colour.
+	view.set_frame("day", true)
+	_check(view.lighting.environment.fog_mode == Environment.FOG_MODE_EXPONENTIAL and is_zero_approx(view.lighting.environment.fog_density), "the forest's fog by day is the map's height haze only, density %.2f" % view.lighting.environment.fog_density)
+	view.lighting._apply()
+	_check(is_zero_approx(view.lighting.environment.fog_density), "applying the light again keeps the density: %.2f" % view.lighting.environment.fog_density)
 	var arrow: Node3D = view.arrows.get(&"oldpine.npath1.north")
 	_check(arrow != null and arrow.get_meta("direction") == Vector2.UP, "the arrow at Snow's road points north out of the forest")
 	_check(view.arrows.has(&"oldpine.keep.gate") and view.arrows.has(&"oldpine.outdoor.keep_yard.east"), "the keep's gate and the hall's door have their arrows")

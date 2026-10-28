@@ -305,21 +305,25 @@ func _apply() -> void:
 	if fog_source.has("fog"):
 		var fog: Dictionary = fog_source["fog"]
 		environment.fog_enabled = true
-		environment.fog_light_color = _blend_color(_resolve("fog.color.%d" % _area,fog.get("color",["9fb0a8","1c2433"])),shares)
-		environment.fog_density = _blend_amount(_resolve("fog.density.%d" % _area,fog.get("density",[0.0,0.0])),shares)
-		environment.fog_height = float(fog.get("height",-1.0))
-		environment.fog_height_density = float(fog.get("height_density",0.4))
-		environment.fog_sky_affect = 0.0
 		# `depth`: [begin, end] units from the camera — what lies far behind the place (another of
 		# the 迷阵's illusions on the same line of sight) fades out into the fog by `depth_density`.
-		if fog.has("depth"):
+		# The mode goes first, and only when it changes: assigning `fog_mode` in Godot 4.7.2 resets
+		# `fog_density` to 1.0, which set after the density here fogged every outdoor map solid.
+		var depth_fog: bool = fog.has("depth")
+		var mode: Environment.FogMode = Environment.FOG_MODE_DEPTH if depth_fog else Environment.FOG_MODE_EXPONENTIAL
+		if environment.fog_mode != mode:
+			environment.fog_mode = mode
+		environment.fog_light_color = _blend_color(_resolve("fog.color.%d" % _area,fog.get("color",["9fb0a8","1c2433"])),shares)
+		if depth_fog:
 			var depth: Array = fog["depth"]
-			environment.fog_mode = Environment.FOG_MODE_DEPTH
 			environment.fog_depth_begin = float(depth[0])
 			environment.fog_depth_end = float(depth[1])
 			environment.fog_density = float(fog.get("depth_density",1.0))
 		else:
-			environment.fog_mode = Environment.FOG_MODE_EXPONENTIAL
+			environment.fog_density = _blend_amount(_resolve("fog.density.%d" % _area,fog.get("density",[0.0,0.0])),shares)
+		environment.fog_height = float(fog.get("height",-1.0))
+		environment.fog_height_density = float(fog.get("height_density",0.4))
+		environment.fog_sky_affect = 0.0
 	elif environment.fog_enabled:
 		environment.fog_enabled = false
 	occlusion.set_night(amount)
