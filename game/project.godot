@@ -205,6 +205,10 @@ locale/fallback="zh_CN"
 
 [rendering]
 
-rendering_device/driver.windows="d3d12"
+; Vulkan, not D3D12: Godot's D3D12 driver reserves at least 64 KB of GPU memory per buffer, and a
+; voxel map holds thousands of small MultiMesh buffers (乔阴县城 1.2 GB under D3D12, 0.1 GB under
+; Vulkan); visited maps stay built, so a long session ran the GPU out of memory (black or grey
+; screens, torn floors, low frame rates). build/leak/census.gd measures it.
+rendering_device/driver.windows="vulkan"
 renderer/rendering_method="mobile"
 textures/vram_compression/import_etc2_astc=true
