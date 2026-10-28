@@ -8,6 +8,7 @@
     "ambient": ["dccab0", "6a6a82"],
     "ambient_energy": [0.46, 0.32]
   },
+  "life": {"choyin.hotel2": {"ambience": [{"kind": "moths", "max": 2}, {"kind": "sunbeam", "max": 2}], "note": "雅座: no kitchen steam up here; moths at the lanterns, the afternoon in at the lake windows"}},
   "props": [
     {"kind": "stairs", "at": [336, 48], "size": [64, 48], "rotation": -90},
     {"kind": "stairs", "at": [336, 272], "size": [64, 48], "rotation": -90, "note": "hotel2.c: 到三楼的客房"},
@@ -29,7 +30,11 @@
     {"kind": "clutter", "at": [200, 248], "size": [32, 16], "items": ["wine", "cups"], "elevation": 0.94, "rotation": 0},
     {"kind": "pot", "at": [20, 300]},
     {"kind": "slippers", "at": [300, 236], "rotation": 20, "cloth": "4a4a6a"},
-    {"kind": "menu_boards", "at": [240, 18], "size": [48, 16], "wall_mounted": true}
+    {"kind": "menu_boards", "at": [240, 18], "size": [48, 16], "wall_mounted": true},
+    {"kind": "folding_screen", "at": [96, 26], "size": [64, 16], "note": "hotel2.c: 雅座 — a painted screen along the north wall"},
+    {"kind": "clutter", "at": [200, 152], "size": [32, 16], "items": ["cups", "books"], "elevation": 0.94, "rotation": 0, "note": "hotel2.c: 秀才举人 — a book left among the cups"},
+    {"kind": "clutter", "at": [64, 248], "size": [24, 16], "items": ["wine"], "elevation": 0.94, "rotation": 0},
+    {"kind": "slippers", "at": [40, 140], "rotation": -30, "cloth": "6a3a4a"}
   ],
   "actors": {
     "default": {"coat": "7a7462"},

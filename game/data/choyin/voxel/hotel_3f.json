@@ -28,7 +28,12 @@
     {"kind": "clutter", "at": [360, 60], "size": [32, 32], "items": ["jar", "cups"], "rotation": 0},
     {"kind": "slippers", "at": [60, 112], "rotation": 90, "cloth": "6a4a3a"},
     {"kind": "clutter", "at": [340, 230], "size": [32, 32], "items": ["bundle"], "rotation": 0},
-    {"kind": "stains", "at": [200, 160], "size": [280, 40], "count": 5, "colors": ["6a5040", "74583a"], "note": "the corridor worn by the guards' rounds"}
+    {"kind": "stains", "at": [200, 160], "size": [280, 40], "count": 5, "colors": ["6a5040", "74583a"], "note": "the corridor worn by the guards' rounds"},
+    {"kind": "clutter", "at": [150, 118], "size": [24, 24], "items": ["umbrella"], "note": "hotel3.c: 从外地来的富商大贾 — each door with its guest's own things left outside: an umbrella, a wine jar and bundle, books and a potted plant, sandals and a basin"},
+    {"kind": "clutter", "at": [80, 204], "size": [32, 24], "items": ["jar", "bundle"]},
+    {"kind": "clutter", "at": [226, 40], "size": [24, 24], "items": ["books"]},
+    {"kind": "pot", "at": [226, 90]},
+    {"kind": "clutter", "at": [226, 280], "size": [32, 24], "items": ["sandals", "bucket"]}
   ],
   "actors": {
     "default": {"coat": "7a7462"},

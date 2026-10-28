@@ -7,6 +7,7 @@
   "ground": {"floor_yard": {"style": "slabs", "lengths": [1, 3], "depths": [1, 2], "cracks": 0.2, "broken": 0.12, "sunk": 0.05, "tufts": 0.06, "stones": ["7e7e72", "88877a", "74746a", "8e8c7e"], "worn": ["7a7a6e"], "bed": "4a4a42", "joint": 0.05, "mud": "6e6a5c", "crack": "56564c", "moss": "5c6a48", "moss_chance": 0.1}},
   "wall_looks": [{"rect": [-272, -208, 272, 208], "style": "rock", "colors": ["686c62", "74776b", "5e6359", "7f8174"], "seam": "4a4e44"}],
   "light": {"ambient": ["9c9a90", "565e6e"], "ambient_energy": [0.32, 0.24], "sun_energy": [0.18, 0.04]},
+  "life": {"green.house3": {"ambience": [{"kind": "dust", "color": "8a8478", "count": 5, "height": [0.2, 1.0], "wind": [0.05, 0.03]}], "note": "house3.c: 死气沉沉 — none of a home's smoke or moths; only dust turning in the grey light"}},
   "props": [
     {"kind": "window", "at": [140, -192], "size": [48, 16], "rotation": 0},
     {"kind": "glow", "at": [140, -150], "color": "b8c4d8", "range": 3.5, "day": 0.3, "night": 0.45, "height": 1.8, "note": "the only light: grey through the one window"},

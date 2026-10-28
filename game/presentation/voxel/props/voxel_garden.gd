@@ -428,6 +428,11 @@ func _compound_wall(w: float, d: float) -> void:
 		var t: float = -length/2+(i+1)*length/(windows+1)
 		for face: float in [-1.0,1.0]:
 			s.box(root,_place(along_x,t,height*0.6,face*(thick/2+0.01)),_along(along_x,0.62,0.62,0.02),"6e6a60")
+			if data.has("pattern"):
+				# 漏窗 in a pattern of its own (`pattern`: VoxelArchitecture.lattice), so one stretch
+				# of wall is told from the next.
+				VoxelArchitecture.lattice(s,root,_place(along_x,t,height*0.6,face*(thick/2+0.02)),Vector2(0.56,0.56),Vector3(0,0,face) if along_x else Vector3(face,0,0),String(data["pattern"]),"8a8a80",0.02)
+				continue
 			for bar: int in 3:
 				s.box(root,_place(along_x,t,height*0.6-0.2+bar*0.2,face*(thick/2+0.02)),_along(along_x,0.56,0.05,0.02),"8a8a80")
 				s.box(root,_place(along_x,t-0.2+bar*0.2,height*0.6,face*(thick/2+0.02)),_along(along_x,0.05,0.56,0.02),"8a8a80")

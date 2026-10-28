@@ -24,6 +24,7 @@ var _swaying: Array[Dictionary] = []
 var _floating: Array[Dictionary] = []
 var _drifting: Array[Dictionary] = []
 var _bolts: Array[Dictionary] = []
+var _sunbeams: Array[Dictionary] = []
 ## How far into night the view is (0 day .. 1 night), set by the view each frame:
 ## fireflies come out only in the dark.
 var night: float = 0.0
@@ -33,9 +34,18 @@ var night: float = 0.0
 ## `fall`: pine needles or leaves drifting down from the canopy, [{"rect", "count",
 ## "colors", "height", "wind"}] (`up`: sparks rising from a fire instead, `glow`: lit by
 ## themselves), `fireflies`: [{"rect", "count", "color", "height"}]; dust may have a `size`
-## (units: a long streak of mist on the wind). `lightning`: [{"rect", "every" seconds,
-## "color", "height", "range", "energy"}]: a bolt now and then somewhere over the rect, the land lit white.
+## (units: a long streak of mist on the wind), `flit` (moths: quick darting about a lamp),
+## `day` (seen only while it is light: motes in a sunbeam), `beam` (a faint slanting shaft of
+## light from the rect's first edge down into the room, with the motes; day only).
+## `lightning`: [{"rect", "every" seconds, "color", "height", "range", "energy"}]: a bolt now
+## and then somewhere over the rect, the land lit white. `smoke`: [{"at": [x, y] px, "height"
+## units, "color", "count", "size"}]: puffs rising from a spot (a room's stove or lamp when no
+## prop of its own smokes there).
 func configure(data: Dictionary) -> void:
+	add(data)
+
+## More of the same after `configure` (a room's life adds what its use calls for: VoxelLife).
+func add(data: Dictionary) -> void:
 	var shapes := Shapes.new()
 	var index: int = 0
 	for flock: Dictionary in data.get("birds",[]):
@@ -57,17 +67,23 @@ func configure(data: Dictionary) -> void:
 	for cloud: Dictionary in data.get("dust",[]):
 		var r: Array = cloud["rect"]
 		var wind: Array = cloud.get("wind",[1.0,-0.4])
-		for i: int in int(cloud.get("count",24)):
-			var mote := Node3D.new()
-			add_child(mote)
-			var grain: Array = cloud.get("size",[0.07,0.05,0.07])
-			shapes.box(mote,Vector3.ZERO,Vector3(float(grain[0]),float(grain[1]),float(grain[2])),String(cloud.get("color","c8b48a")))
-			var phase: float = i*12.9898
+		var grain: Array = cloud.get("size",[0.07,0.05,0.07])
+		# One MultiMesh for the cloud (a draw call, not one per mote).
+		var motes: MultiMesh = _swarm(Vector3(float(grain[0]),float(grain[1]),float(grain[2])),int(cloud.get("count",24)),false)
+		var holder := get_child(get_child_count()-1) as MultiMeshInstance3D
+		var tone := Color(String(cloud.get("color","c8b48a")))
+		for i: int in motes.instance_count:
+			motes.set_instance_color(i,tone)
+			var phase: float = i*12.9898+index*3.7
 			# `height`: [low, high] units the motes keep between (moths under a lamp hang high).
 			var band: Array = cloud.get("height",[0.2,1.8])
-			_motes.append({"node":mote,"x0":float(r[0])/32.0,"z0":float(r[1])/32.0,"w":(float(r[2])-float(r[0]))/32.0,"d":(float(r[3])-float(r[1]))/32.0,
+			_motes.append({"multi":motes,"index":i,"holder":holder,"x0":float(r[0])/32.0,"z0":float(r[1])/32.0,"w":(float(r[2])-float(r[0]))/32.0,"d":(float(r[3])-float(r[1]))/32.0,
 				"u":fposmod(sin(phase)*43758.5,1.0),"v":fposmod(sin(phase*1.7)*24634.6,1.0),"h":float(band[0])+fposmod(sin(phase*2.3)*1531.2,1.0)*(float(band[1])-float(band[0])),
-				"wind":Vector2(float(wind[0]),float(wind[1])),"speed":0.06+fposmod(sin(phase*3.1)*812.7,1.0)*0.08})
+				"wind":Vector2(float(wind[0]),float(wind[1])),"speed":0.06+fposmod(sin(phase*3.1)*812.7,1.0)*0.08,
+				"flit":float(cloud.get("flit",0.0)),"day":cloud.get("day",false)})
+		if cloud.get("beam",false):
+			_beam(cloud,shapes)
+		index += 1
 	for drift: Dictionary in data.get("fall",[]):
 		var r: Array = drift["rect"]
 		var colors: Array = drift.get("colors",["8a5a36","a8794a","6e8a47"])
@@ -98,7 +114,39 @@ func configure(data: Dictionary) -> void:
 	for storm: Dictionary in data.get("lightning",[]):
 		_lightning(storm,index)
 		index += 1
+	for fire: Dictionary in data.get("smoke",[]):
+		var at: Array = fire["at"]
+		smoke(self,Vector3(float(at[0])/32.0,float(fire.get("height",1.2)),float(at[1])/32.0),String(fire.get("color","8d877c")),int(fire.get("count",5)),float(fire.get("size",0.26)))
 	shapes.flush()
+
+## A sunbeam: one faint slanting shaft from high on the rect's near (window) edge down to the
+## floor at its far edge, seen through, day only (`_sunbeams` fade with the night).
+func _beam(cloud: Dictionary, shapes: Shapes) -> void:
+	var r: Array = cloud["rect"]
+	var band: Array = cloud.get("height",[0.2,2.2])
+	# From the window (`beam_from`, px; else the middle of the rect's top edge), high, down to
+	# the floor at the rect's middle.
+	var side: Array = cloud.get("beam_from",[(float(r[0])+float(r[2]))/2.0,float(r[1])])
+	var from := Vector3(float(side[0])/32.0,float(band[1]),float(side[1])/32.0)
+	var to := Vector3((float(r[0])+float(r[2]))/64.0,float(band[0]),(float(r[1])+float(r[3]))/64.0)
+	var haze := StandardMaterial3D.new()
+	haze.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	haze.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	haze.albedo_color = Color(String(cloud.get("color","f0e6c8")),0.06)
+	haze.cull_mode = BaseMaterial3D.CULL_DISABLED
+	var along: Vector3 = to-from
+	if along.length()<0.1:
+		return
+	var width: float = minf(float(r[2])-float(r[0]),float(r[3])-float(r[1]))/32.0*0.7
+	var mesh := BoxMesh.new()
+	mesh.size = Vector3(width,0.08,along.length())
+	var shaft := MeshInstance3D.new()
+	shaft.mesh = mesh
+	shaft.material_override = haze
+	shaft.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	shaft.transform = Transform3D(Basis.looking_at(along.normalized(),Vector3.UP if absf(along.normalized().y)<0.99 else Vector3.RIGHT),(from+to)/2.0)
+	add_child(shaft)
+	_sunbeams.append({"node":shaft,"material":haze,"alpha":0.06})
 
 ## A bolt (zigzag of white-hot boxes, lit by itself) and the light it throws, both hidden but
 ## for a flash or two every `every` seconds; the light's energy is its own (VoxelLighting skips
@@ -281,12 +329,27 @@ func advance(delta: float) -> void:
 		var flap: float = sin(clock*9.0+float(bird["phase"]))*0.55 if fposmod(t,6.0)<2.2 else 0.12
 		(bird["wings"][0] as Node3D).rotation.z = flap
 		(bird["wings"][1] as Node3D).rotation.z = -flap
+	var daylight: bool = night < 0.5
 	for mote: Dictionary in _motes:
+		if mote["day"]:
+			(mote["holder"] as Node3D).visible = daylight
+			if not daylight:
+				continue
 		var travel: float = clock*float(mote["speed"])
 		var wind: Vector2 = mote["wind"]
 		var u: float = fposmod(float(mote["u"])+travel*wind.x,1.0)
 		var v: float = fposmod(float(mote["v"])+travel*wind.y,1.0)
-		(mote["node"] as Node3D).position = Vector3(float(mote["x0"])+u*float(mote["w"]),float(mote["h"])+sin(clock*1.3+float(mote["u"])*9.0)*0.15,float(mote["z0"])+v*float(mote["d"]))
+		var at := Vector3(float(mote["x0"])+u*float(mote["w"]),float(mote["h"])+sin(clock*1.3+float(mote["u"])*9.0)*0.15,float(mote["z0"])+v*float(mote["d"]))
+		var flit: float = mote["flit"]
+		if flit > 0.0:
+			# A moth: quick darts about its lamp, never far from it.
+			var t: float = clock*4.5+float(mote["v"])*20.0
+			at += Vector3(sin(t*1.9)*0.22,sin(t*3.1)*0.12,cos(t*2.3)*0.22)*flit
+		(mote["multi"] as MultiMesh).set_instance_transform(int(mote["index"]),Transform3D(Basis.IDENTITY,at))
+	for beam: Dictionary in _sunbeams:
+		var node: MeshInstance3D = beam["node"]
+		node.visible = daylight
+		(beam["material"] as StandardMaterial3D).albedo_color.a = float(beam["alpha"])*clampf(1.0-night*2.0,0.0,1.0)
 	for puff: Dictionary in _puffs:
 		var life: float = fposmod(clock*0.28+float(puff["phase"]),1.0)
 		var node: MeshInstance3D = puff["node"]

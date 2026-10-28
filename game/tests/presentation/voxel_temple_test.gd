@@ -207,6 +207,24 @@ func _check_grounds(map: WorldMapController) -> void:
 	_check(ambience._falling.size() >= 20, "road1.c: 偶有松针缓缓飘落; petals in the courtyard")
 	_check(ambience._puffs.size() >= 3, "square.c: 香炉里正冒著袅袅的香烟")
 	_check(view.lighting.lamps.size() >= 8, "lanterns for the night round the courtyard and at the doors")
+	# 美术优化 E: each of the seven walkways has things of its own and 漏窗 in a pattern of its own.
+	var patterns: Dictionary = {}
+	for building: Dictionary in view.layout.get("buildings", []):
+		if building.get("lattice", false) is String:
+			patterns[String(building["lattice"])] = true
+	var ajar: int = 0
+	for prop: Dictionary in view.layout.get("props", []):
+		if prop["kind"] == "compound_wall" and prop.has("pattern"):
+			patterns[String(prop["pattern"])] = true
+		ajar += 1 if prop["kind"] == "closed_door" and prop.get("ajar", false) else 0
+	_check(patterns.size() >= 5, "corridor1-7.c: the walkways' 漏窗 in patterns of their own (%s)" % [patterns.keys()])
+	_check(kinds.count("pot") == 3 and kinds.count("couplet") == 2, "corridor1.c: potted plants and couplets at the hall's east arch")
+	_check("paper_charms" in kinds and kinds.count("crocks") >= 2, "corridor2.c: 符 on the wall and water jars at the west arch")
+	_check(kinds.count("slippers") == 2 and "clothes_peg" in kinds, "corridor3.c, corridor7.c: 一排厢房 — shoes and a basin at the guest rooms' doors")
+	_check("weapon_pegs" in kinds and "glow" in kinds and "sacks" in kinds, "corridor4.c: 里面传来阵阵叱喝的声音 — light under the training hall's door, staves and a sandbag by it")
+	_check(kinds.count("flower_stand") == 2, "corridor5.c: 你也许可以走过去赏赏花 — flower stands along the rear hall")
+	_check("seal_strip" in kinds and kinds.count("cobweb") >= 2, "corridor6.c: 一间上了锁的房间 — seals and a padlock on its door, cobwebs")
+	_check(kinds.count("closed_door") == 2 and ajar == 1, "corridor7.c: 东边则是一排厢房 — the row's other doors, one ajar")
 
 
 ## What every hall and room shows inside, after its text.

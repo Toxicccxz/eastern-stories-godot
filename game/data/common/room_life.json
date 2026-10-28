@@ -1,5 +1,5 @@
 {
-	"note": "How lived-in a room looks, by what the room is used for (layout `life`: {\"use\", \"wealth\", \"seed\", \"tidy\"}). Read by the map painter (corner pieces that block, written into the scene's Furnishings) and by the voxel view (worn floors, old walls, soot, things on walls and tables, small floor things; presentation only). A use's `pieces` become blocked boxes (2D collision) in every room of that use when its region is repainted; the rest is presentation and changes no rule. The room's ES2 text wins over a preset: a room it calls clean is `tidy`, a thing it rules out is left out of its use.",
+	"note": "How lived-in a room looks, by what the room is used for (layout `life`: {\"use\", \"wealth\", \"seed\", \"tidy\"}). Read by the map painter (corner pieces that block, written into the scene's Furnishings) and by the voxel view (worn floors, old walls, soot, things on walls and tables, small floor things; presentation only). A use's `pieces` become blocked boxes (2D collision) in every room of that use when its region is repainted; the rest is presentation and changes no rule. The room's ES2 text wins over a preset: a room it calls clean is `tidy`, a thing it rules out is left out of its use. `ambience`: the small movements a use has (VoxelLife.AMBIENCE_KINDS: moths at its lamps, smoke/steam at a stove, incense at a censer, sparks at a forge, a sunbeam from a window by day, flies, dust), hung on the room's own things, loose in its middle when it has none; a room overrides it in its voxel config `life` (`\"ambience\": []` stills it).",
 	"wealth": {
 		"poor": {"grime": 0.3, "cobwebs": 0.5, "patches": 0.6, "scatter": 1.5, "pieces": 1.2},
 		"plain": {"grime": 0.0, "cobwebs": 0.12, "patches": 0.25, "scatter": 1.0, "pieces": 1.0},
@@ -19,7 +19,8 @@
 				{"kind": "baskets", "size": [32, 32]}
 			],
 			"count": 7,
-			"scatter": ["shreds", "grains", "chips"], "spread": 0.05
+			"scatter": ["shreds", "grains", "chips"], "spread": 0.05,
+			"ambience": [{"kind": "steam"}, {"kind": "moths"}]
 		},
 		"corridor": {
 			"walls": "boards", "grime": 0.35,
@@ -29,7 +30,8 @@
 				{"kind": "bedding", "size": [48, 32]}
 			],
 			"count": 2,
-			"scatter": ["shreds"], "spread": 0.02
+			"scatter": ["shreds"], "spread": 0.02,
+			"ambience": [{"kind": "moths", "max": 2}]
 		},
 		"guest_room": {
 			"walls": "plaster", "grime": 0.35,
@@ -40,7 +42,8 @@
 				{"kind": "chest_stack", "size": [32, 32]}
 			],
 			"count": 1,
-			"scatter": ["shreds"], "spread": 0.02
+			"scatter": ["shreds"], "spread": 0.02,
+			"ambience": [{"kind": "moths", "max": 1}]
 		},
 		"cellar": {
 			"walls": "earth", "grime": 0.75,
@@ -50,7 +53,8 @@
 				{"kind": "old_furniture", "size": [32, 32]}
 			],
 			"count": 2,
-			"scatter": ["straw", "dust"], "spread": 0.1
+			"scatter": ["straw", "dust"], "spread": 0.1,
+			"ambience": [{"kind": "dust", "color": "8a8478", "height": [0.2, 1.2], "count": 8}]
 		},
 		"bank": {
 			"walls": "plaster", "grime": 0.3,
@@ -61,7 +65,8 @@
 				{"kind": "crocks", "size": [32, 32]}
 			],
 			"count": 2,
-			"scatter": ["paper"], "spread": 0.02
+			"scatter": ["paper"], "spread": 0.02,
+			"ambience": [{"kind": "dust", "count": 8}]
 		},
 		"smithy": {
 			"walls": "brick", "grime": 0.85,
@@ -78,7 +83,8 @@
 				{"kind": "iron_goods", "size": [48, 32], "heap": "blades", "lean": true}
 			],
 			"count": 6,
-			"scatter": ["cinders", "scrap"], "spread": 0.12
+			"scatter": ["cinders", "scrap"], "spread": 0.12,
+			"ambience": [{"kind": "sparks"}]
 		},
 		"apothecary": {
 			"walls": "boards", "grime": 0.35,
@@ -91,7 +97,8 @@
 				{"kind": "censer", "size": [32, 32]}
 			],
 			"count": 5,
-			"scatter": ["paper", "dust"], "spread": 0.03
+			"scatter": ["paper", "dust"], "spread": 0.03,
+			"ambience": [{"kind": "incense"}, {"kind": "sunbeam", "max": 1}]
 		},
 		"post": {
 			"walls": "boards", "grime": 0.5,
@@ -103,7 +110,8 @@
 				{"kind": "chest_stack", "size": [32, 32]}
 			],
 			"count": 4,
-			"scatter": ["paper", "dust"], "spread": 0.06
+			"scatter": ["paper", "dust"], "spread": 0.06,
+			"ambience": [{"kind": "dust", "count": 8}]
 		},
 		"mill": {
 			"walls": "boards", "grime": 0.6,
@@ -116,7 +124,8 @@
 				{"kind": "clutter", "size": [32, 32], "items": ["broom", "basket"]}
 			],
 			"count": 6,
-			"scatter": ["grains", "husks", "straw"], "spread": 0.16
+			"scatter": ["grains", "husks", "straw"], "spread": 0.16,
+			"ambience": [{"kind": "dust", "color": "ece4cc", "count": 16, "height": [0.3, 2.2]}]
 		},
 		"pawnshop": {
 			"walls": "boards", "grime": 0.55,
@@ -128,7 +137,8 @@
 				{"kind": "crocks", "size": [32, 32]}
 			],
 			"count": 4,
-			"scatter": ["dust", "paper"], "spread": 0.05
+			"scatter": ["dust", "paper"], "spread": 0.05,
+			"ambience": [{"kind": "dust", "count": 10}]
 		},
 		"storeroom": {
 			"walls": "boards", "grime": 0.6,
@@ -139,7 +149,8 @@
 				{"kind": "chest_stack", "size": [32, 32]}
 			],
 			"count": 3,
-			"scatter": ["dust"], "spread": 0.08
+			"scatter": ["dust"], "spread": 0.08,
+			"ambience": [{"kind": "dust", "count": 8}]
 		},
 		"armory": {
 			"walls": "boards", "grime": 0.3,
@@ -149,7 +160,8 @@
 				{"kind": "chest_stack", "size": [32, 32]}
 			],
 			"count": 2,
-			"scatter": [], "spread": 0.0
+			"scatter": [], "spread": 0.0,
+			"ambience": [{"kind": "dust", "count": 6}]
 		},
 		"hall": {
 			"walls": "plaster", "grime": 0.3,
@@ -160,7 +172,8 @@
 				{"kind": "crocks", "size": [32, 32], "scrolls": true}
 			],
 			"count": 2,
-			"scatter": [], "spread": 0.0
+			"scatter": [], "spread": 0.0,
+			"ambience": [{"kind": "moths", "max": 2}]
 		},
 		"study": {
 			"walls": "plaster", "grime": 0.2,
@@ -171,7 +184,8 @@
 				{"kind": "baskets", "size": [32, 32], "sewing": true}
 			],
 			"count": 2,
-			"scatter": ["paper"], "spread": 0.02
+			"scatter": ["paper"], "spread": 0.02,
+			"ambience": [{"kind": "sunbeam", "max": 1}]
 		},
 		"temple": {
 			"walls": "plaster", "grime": 0.7,
@@ -184,7 +198,8 @@
 				{"kind": "clutter", "size": [32, 32], "items": ["broom", "bucket"]}
 			],
 			"count": 4,
-			"scatter": ["ash", "paper", "straw"], "spread": 0.08
+			"scatter": ["ash", "paper", "straw"], "spread": 0.08,
+			"ambience": [{"kind": "incense"}]
 		},
 		"home": {
 			"walls": "earth", "grime": 0.55,
@@ -198,7 +213,8 @@
 				{"kind": "sacks", "size": [32, 32], "cloth": "a8946a"}
 			],
 			"count": 3,
-			"scatter": ["chips", "straw", "ash"], "spread": 0.08
+			"scatter": ["chips", "straw", "ash"], "spread": 0.08,
+			"ambience": [{"kind": "smoke", "max": 1}, {"kind": "moths", "max": 1}]
 		},
 		"workshop": {
 			"walls": "boards", "grime": 0.5,
@@ -211,7 +227,8 @@
 				{"kind": "sacks", "size": [32, 32], "cloth": "8a8770"}
 			],
 			"count": 3,
-			"scatter": ["stone_chips", "dust"], "spread": 0.14
+			"scatter": ["stone_chips", "dust"], "spread": 0.14,
+			"ambience": [{"kind": "dust", "color": "d8d4c8", "count": 12, "height": [0.2, 1.4]}]
 		},
 		"general_store": {
 			"walls": "boards", "grime": 0.55,
@@ -227,7 +244,8 @@
 				{"kind": "lumber", "size": [48, 32], "lean": true}
 			],
 			"count": 8,
-			"scatter": ["straw", "paper", "dust"], "spread": 0.08
+			"scatter": ["straw", "paper", "dust"], "spread": 0.08,
+			"ambience": [{"kind": "moths", "max": 2}, {"kind": "dust", "count": 6}]
 		},
 		"classroom": {
 			"walls": "plaster", "grime": 0.35,
@@ -239,7 +257,8 @@
 				{"kind": "baskets", "size": [32, 32]}
 			],
 			"count": 3,
-			"scatter": ["paper"], "spread": 0.03
+			"scatter": ["paper"], "spread": 0.03,
+			"ambience": [{"kind": "sunbeam", "max": 2}]
 		},
 		"training_hall": {
 			"walls": "boards", "grime": 0.55,
@@ -251,7 +270,8 @@
 				{"kind": "chest_stack", "size": [32, 32]}
 			],
 			"count": 3,
-			"scatter": ["straw", "dust"], "spread": 0.06
+			"scatter": ["straw", "dust"], "spread": 0.06,
+			"ambience": [{"kind": "dust", "count": 10, "height": [0.2, 1.2]}]
 		},
 		"library": {
 			"walls": "boards", "grime": 0.45,
@@ -263,7 +283,8 @@
 				{"kind": "clutter", "size": [32, 32], "items": ["books"]}
 			],
 			"count": 3,
-			"scatter": ["paper", "dust"], "spread": 0.05
+			"scatter": ["paper", "dust"], "spread": 0.05,
+			"ambience": [{"kind": "sunbeam", "max": 2}]
 		},
 		"confinement": {
 			"walls": "plaster", "grime": 0.5,
@@ -272,7 +293,8 @@
 				{"kind": "clutter", "size": [32, 32], "items": ["bucket"]}
 			],
 			"count": 1,
-			"scatter": ["dust", "straw"], "spread": 0.06
+			"scatter": ["dust", "straw"], "spread": 0.06,
+			"ambience": [{"kind": "dust", "color": "8a8478", "count": 6}]
 		},
 		"dining": {
 			"walls": "plaster", "grime": 0.3,
@@ -284,7 +306,8 @@
 				{"kind": "chest_stack", "size": [32, 32]}
 			],
 			"count": 2,
-			"scatter": ["grains", "shreds"], "spread": 0.03
+			"scatter": ["grains", "shreds"], "spread": 0.03,
+			"ambience": [{"kind": "moths", "max": 2}]
 		},
 		"kitchen": {
 			"walls": "brick", "grime": 0.75,
@@ -299,7 +322,8 @@
 				{"kind": "wine_jars", "size": [48, 32]}
 			],
 			"count": 5,
-			"scatter": ["husks", "ash", "grains", "chips"], "spread": 0.08
+			"scatter": ["husks", "ash", "grains", "chips"], "spread": 0.08,
+			"ambience": [{"kind": "smoke"}]
 		},
 		"dance_hall": {
 			"walls": "plaster", "grime": 0.25,
@@ -311,7 +335,8 @@
 				{"kind": "chest_stack", "size": [32, 32]}
 			],
 			"count": 2,
-			"scatter": ["shreds"], "spread": 0.03
+			"scatter": ["shreds"], "spread": 0.03,
+			"ambience": [{"kind": "moths", "max": 2}]
 		},
 		"dressing_room": {
 			"walls": "boards", "grime": 0.3,
@@ -323,7 +348,8 @@
 				{"kind": "chest_stack", "size": [32, 32]}
 			],
 			"count": 3,
-			"scatter": ["shreds"], "spread": 0.04
+			"scatter": ["shreds"], "spread": 0.04,
+			"ambience": [{"kind": "dust", "color": "f0e0d8", "count": 8, "height": [0.8, 1.8]}]
 		},
 		"escort_office": {
 			"walls": "boards", "grime": 0.45,
@@ -338,7 +364,8 @@
 				{"kind": "baskets", "size": [32, 32]}
 			],
 			"count": 5,
-			"scatter": ["straw", "paper", "dust"], "spread": 0.05
+			"scatter": ["straw", "paper", "dust"], "spread": 0.05,
+			"ambience": [{"kind": "moths", "max": 2}]
 		},
 		"bookshop": {
 			"walls": "plaster", "grime": 0.3,
@@ -351,7 +378,8 @@
 				{"kind": "baskets", "size": [32, 32]}
 			],
 			"count": 4,
-			"scatter": ["paper", "dust"], "spread": 0.04
+			"scatter": ["paper", "dust"], "spread": 0.04,
+			"ambience": [{"kind": "sunbeam", "max": 1}, {"kind": "dust", "count": 6}]
 		},
 		"butcher": {
 			"walls": "brick", "grime": 0.8,
@@ -365,7 +393,8 @@
 				{"kind": "crocks", "size": [32, 32]}
 			],
 			"count": 4,
-			"scatter": ["blood", "straw", "shreds"], "spread": 0.12
+			"scatter": ["blood", "straw", "shreds"], "spread": 0.12,
+			"ambience": [{"kind": "flies"}]
 		},
 		"gaming_hall": {
 			"walls": "boards", "grime": 0.8,
@@ -380,7 +409,8 @@
 				{"kind": "wine_jars", "size": [32, 32], "count": 2}
 			],
 			"count": 5,
-			"scatter": ["husks", "shreds", "paper"], "spread": 0.1
+			"scatter": ["husks", "shreds", "paper"], "spread": 0.1,
+			"ambience": [{"kind": "moths"}]
 		},
 		"pleasure_house": {
 			"walls": "plaster", "grime": 0.3,
@@ -394,7 +424,8 @@
 				{"kind": "baskets", "size": [32, 32], "sewing": true}
 			],
 			"count": 3,
-			"scatter": ["shreds", "paper"], "spread": 0.04
+			"scatter": ["shreds", "paper"], "spread": 0.04,
+			"ambience": [{"kind": "incense", "max": 1}, {"kind": "moths", "max": 1}]
 		},
 		"matchmaker": {
 			"walls": "plaster", "grime": 0.3,
@@ -407,7 +438,8 @@
 				{"kind": "clutter", "size": [32, 32], "items": ["bundle", "bundle"]}
 			],
 			"count": 3,
-			"scatter": ["paper", "shreds"], "spread": 0.04
+			"scatter": ["paper", "shreds"], "spread": 0.04,
+			"ambience": [{"kind": "moths", "max": 2}]
 		},
 		"fast_hall": {
 			"walls": "plaster", "grime": 0.45,
@@ -421,7 +453,8 @@
 				{"kind": "sacks", "size": [32, 32], "cloth": "b8a374"}
 			],
 			"count": 4,
-			"scatter": ["grains", "paper", "straw"], "spread": 0.06
+			"scatter": ["grains", "paper", "straw"], "spread": 0.06,
+			"ambience": [{"kind": "incense", "max": 1}]
 		},
 		"tailor": {
 			"walls": "boards", "grime": 0.3,
@@ -435,7 +468,8 @@
 				{"kind": "clutter", "size": [32, 32], "items": ["bundle", "basket"]}
 			],
 			"count": 4,
-			"scatter": ["threads", "shreds"], "spread": 0.08
+			"scatter": ["threads", "shreds"], "spread": 0.08,
+			"ambience": [{"kind": "dust", "color": "e8e0d0", "count": 8, "height": [0.6, 1.6]}]
 		},
 		"teahouse": {
 			"walls": "boards", "grime": 0.55,
@@ -450,7 +484,8 @@
 				{"kind": "baskets", "size": [32, 32]}
 			],
 			"count": 5,
-			"scatter": ["husks", "shreds", "paper"], "spread": 0.08
+			"scatter": ["husks", "shreds", "paper"], "spread": 0.08,
+			"ambience": [{"kind": "steam"}, {"kind": "moths", "max": 2}]
 		},
 		"weapon_shop": {
 			"walls": "brick", "grime": 0.5,
@@ -465,7 +500,8 @@
 				{"kind": "lumber", "size": [48, 32], "lean": true, "staves": true}
 			],
 			"count": 5,
-			"scatter": ["scrap", "dust"], "spread": 0.06
+			"scatter": ["scrap", "dust"], "spread": 0.06,
+			"ambience": [{"kind": "dust", "color": "9a9488", "count": 8}]
 		},
 		"coffin_shop": {
 			"walls": "boards", "grime": 0.5,
@@ -479,7 +515,8 @@
 				{"kind": "paper_money", "size": [32, 32]}
 			],
 			"count": 5,
-			"scatter": ["shavings", "chips", "paper"], "spread": 0.14
+			"scatter": ["shavings", "chips", "paper"], "spread": 0.14,
+			"ambience": [{"kind": "dust", "color": "d8c8a0", "count": 10, "height": [0.2, 1.4]}]
 		},
 		"camp_yard": {
 			"walls": "earth", "grime": 0.6,
@@ -494,7 +531,8 @@
 				{"kind": "bones", "size": [32, 32], "skull": false, "count": 5}
 			],
 			"count": 6,
-			"scatter": ["ash", "chips", "straw", "shreds"], "spread": 0.1
+			"scatter": ["ash", "chips", "straw", "shreds"], "spread": 0.1,
+			"ambience": [{"kind": "smoke", "max": 2}]
 		},
 		"barracks": {
 			"walls": "cloth", "grime": 0.7,
@@ -510,7 +548,8 @@
 				{"kind": "lumber", "size": [48, 32], "lean": true, "staves": true}
 			],
 			"count": 5,
-			"scatter": ["straw", "shreds", "husks"], "spread": 0.12
+			"scatter": ["straw", "shreds", "husks"], "spread": 0.12,
+			"ambience": [{"kind": "smoke", "max": 1}, {"kind": "dust", "count": 6}]
 		},
 		"officer_tent": {
 			"walls": "cloth", "grime": 0.4,
@@ -523,7 +562,8 @@
 				{"kind": "clutter", "size": [32, 32], "items": ["bundle", "cups"]}
 			],
 			"count": 3,
-			"scatter": ["shreds", "straw"], "spread": 0.05
+			"scatter": ["shreds", "straw"], "spread": 0.05,
+			"ambience": [{"kind": "smoke", "max": 1}, {"kind": "moths", "max": 1}]
 		},
 		"general_tent": {
 			"walls": "cloth", "grime": 0.15,
@@ -535,7 +575,8 @@
 				{"kind": "wine_jars", "size": [32, 32], "count": 2}
 			],
 			"count": 2,
-			"scatter": [], "spread": 0.0
+			"scatter": [], "spread": 0.0,
+			"ambience": [{"kind": "moths", "max": 2}]
 		},
 		"training_yard": {
 			"walls": "plaster", "grime": 0.6,
@@ -547,7 +588,8 @@
 				{"kind": "sacks", "size": [32, 32], "cloth": "8a8770"}
 			],
 			"count": 3,
-			"scatter": ["straw", "chips", "dust"], "spread": 0.1
+			"scatter": ["straw", "chips", "dust"], "spread": 0.1,
+			"ambience": [{"kind": "dust", "count": 10, "height": [0.2, 1.2]}]
 		},
 		"parlour": {
 			"walls": "plaster", "grime": 0.2,
@@ -559,7 +601,8 @@
 				{"kind": "chest_stack", "size": [32, 32]}
 			],
 			"count": 2,
-			"scatter": ["shreds"], "spread": 0.01
+			"scatter": ["shreds"], "spread": 0.01,
+			"ambience": [{"kind": "incense", "max": 1}]
 		},
 		"woodshed": {
 			"walls": "earth", "grime": 0.7,
@@ -573,7 +616,8 @@
 				{"kind": "firewood", "size": [32, 32], "layers": 4}
 			],
 			"count": 4,
-			"scatter": ["chips", "straw", "dust"], "spread": 0.16
+			"scatter": ["chips", "straw", "dust"], "spread": 0.16,
+			"ambience": [{"kind": "dust", "color": "c8b890", "count": 8, "height": [0.2, 1.4]}]
 		},
 		"servants_room": {
 			"walls": "boards", "grime": 0.55,
@@ -587,7 +631,8 @@
 				{"kind": "clutter", "size": [32, 32], "items": ["bucket", "broom"]}
 			],
 			"count": 4,
-			"scatter": ["shreds", "straw"], "spread": 0.06
+			"scatter": ["shreds", "straw"], "spread": 0.06,
+			"ambience": [{"kind": "moths", "max": 1}]
 		},
 		"terrace_hall": {
 			"walls": "plaster", "grime": 0.2,
@@ -598,7 +643,8 @@
 				{"kind": "crocks", "size": [32, 32], "scrolls": true}
 			],
 			"count": 2,
-			"scatter": [], "spread": 0.0
+			"scatter": [], "spread": 0.0,
+			"ambience": [{"kind": "moths", "max": 2}]
 		},
 		"bandit_hall": {
 			"walls": "boards", "grime": 0.95,
@@ -615,14 +661,16 @@
 				{"kind": "chest_stack", "size": [32, 32]}
 			],
 			"count": 7,
-			"scatter": ["cinders", "straw", "shreds", "ash"], "spread": 0.16
+			"scatter": ["cinders", "straw", "shreds", "ash"], "spread": 0.16,
+			"ambience": [{"kind": "smoke", "max": 2}, {"kind": "moths", "max": 2}]
 		},
 		"stone_chamber": {
 			"walls": "plaster", "grime": 0.5,
 			"hangings": ["wall_lamp", "cobweb", "cobweb"], "hang": 0.1,
 			"pieces": [],
 			"count": 0,
-			"scatter": ["stone_chips", "dust"], "spread": 0.08
+			"scatter": ["stone_chips", "dust"], "spread": 0.08,
+			"ambience": [{"kind": "smoke", "anchor": "lamp", "max": 2}]
 		}
 	}
 }

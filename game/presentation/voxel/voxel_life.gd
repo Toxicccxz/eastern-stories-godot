@@ -14,6 +14,28 @@ const WALKABLE_NOT: Array[String] = ["cliff","chasm","forest","boundary","wall",
 const HANGING_KINDS: Dictionary = {"talismans":{"kind":"paper_charms","size":[40,16],"count":3,"height":1.9},
 	"wall_scroll":{"kind":"wall_scroll","size":[40,16]},
 	"cobweb":{"kind":"cobweb","size":[40,40],"height":2.55}}
+## The small movements a room's use calls for (preset `ambience`: [{"kind", "anchor", "count",
+## "color", "max"}]), each hung on the room's own things where it has them: moths at its lamps,
+## smoke or steam at a stove, incense at a censer, sparks at a forge, a sunbeam of dust from a
+## window by day, flies over a butcher's block; dust in the middle of a room that has none.
+const AMBIENCE_KINDS: Array[String] = ["moths","smoke","steam","incense","sparks","sunbeam","dust","flies"]
+## What each ambience kind hangs on, by prop kind.
+const ANCHORS: Dictionary = {
+	"lamp": ["hanging_lantern","wall_lamp","lamp_stand","candles","lantern","lantern_post","oil_lamp"],
+	"stove": ["hearth","tea_stove","cauldron","brazier","campfire","pill_furnace","forge"],
+	"censer": ["censer","incense_burner","altar","altar_table"],
+	"forge": ["forge"],
+	"window": ["window"],
+	"block": ["chopping_block","meat_rack","meat_hooks"]}
+const ANCHOR_OF: Dictionary = {"moths":"lamp","smoke":"stove","steam":"stove","incense":"censer","sparks":"forge","sunbeam":"window","flies":"block"}
+## How high each lamp kind holds its flame (units): its moths keep just under it.
+const LAMP_HEIGHT: Dictionary = {"hanging_lantern":3.0,"wall_lamp":2.1,"lamp_stand":1.7,"candles":1.1,"lantern":1.6,"lantern_post":2.6,"oil_lamp":1.1}
+## Props that smoke of themselves (their own `ambience.smoke`): no second plume over them.
+const SELF_SMOKING: Array[String] = ["hearth","tea_stove","cauldron","brazier","campfire","censer","incense_burner","pill_furnace"]
+## A plume's colour, puff count, puff size and height off the floor, by kind.
+const PLUMES: Dictionary = {"smoke":["8d877c",5,0.26,1.2],"steam":["eeece6",4,0.18,1.1],"incense":["d8d2c4",4,0.1,1.0]}
+## A loose haze's colour where a plume has nothing to rise from.
+const HAZE: Dictionary = {"smoke":"9a958c","steam":"e8e6e0","incense":"d8d2c4","sparks":"b8b0a0"}
 
 var geometry: VoxelMapGeometry
 ## The household goods drawer (the geometry's, so pieces and hangings batch alike).
@@ -30,6 +52,12 @@ var _blocked_props: Array[Dictionary] = []
 ## Wall things the voxel config already hangs (windows, signs, scrolls): kept clear of.
 var _mounted: Array[Vector2] = []
 var _outer_looks: Array[Dictionary] = []
+## The room things an ambience can hang on: {"kind", "at" (px), "into" (a wall thing's way into
+## the room, else ZERO), "elevation"}.
+var _anchors: Array[Dictionary] = []
+## What each room's use set moving, for the tests: zone id -> how many (its own things that
+## smoke count, a preset adds nothing over them).
+var ambience_made: Dictionary[StringName,int] = {}
 
 ## Reads the rooms' lives before the terrain is drawn: their walls' looks are added to the
 ## layout's own (`wall_looks`), which come first and so win where a map sets them itself.
@@ -76,6 +104,20 @@ func prepare(owner: VoxelMapGeometry, map: WorldMapController, layout: Dictionar
 			_mounted.append(Vector2(prop["at"][0],prop["at"][1]))
 		if prop.get("kind","") in HEAT or prop.get("kind","")=="hanging_lantern":
 			_heat.append(Vector2(prop["at"][0],prop["at"][1]))
+		_anchor(prop)
+
+## Remembers a prop an ambience can hang on (a lamp, a stove, a window).
+func _anchor(data: Dictionary) -> void:
+	var kind: String = String(data.get("kind",""))
+	if not data.has("at"):
+		return
+	for group: String in ANCHORS:
+		if kind in ANCHORS[group]:
+			var into := Vector2.ZERO
+			if data.get("wall_mounted",false) or kind=="window":
+				into = Vector2(0,1).rotated(-deg_to_rad(float(data.get("rotation",0))))
+			_anchors.append({"kind":kind,"at":Vector2(data["at"][0],data["at"][1]),"into":into,"elevation":float(data.get("elevation",0.0))})
+			return
 
 ## The look of a room's walls by its use (`walls`): plaster in the map's own wall colour, shaded a
 ## little per room so repeated rooms differ; boards, 青砖 or rammed earth.
@@ -116,6 +158,7 @@ func dress(data: Dictionary) -> void:
 	if data.get("kind","") in HEAT:
 		_heat.append(at)
 	_blocked_props.append(data)
+	_anchor(data)
 	if room.is_empty():
 		return
 	var life: Dictionary = room["life"]
@@ -158,6 +201,102 @@ func finish(map: WorldMapController, cells: Dictionary[Vector2i,String]) -> void
 		# Hung lamps smoke the wall above them too: hang first.
 		hung[zone_id] = _hangings(room,floor,cells,doors)
 		_walls(room,floor,cells)
+		_ambience(zone_id,room)
+
+## The room's small movements, from its use's `ambience` (overridable per room: `"ambience": []`
+## stills it), hung on its own anchors; the same every build (seeded by the room).
+func _ambience(zone_id: StringName, room: Dictionary) -> void:
+	var rect: Rect2 = room["rect"]
+	var within: Array[Dictionary] = []
+	for anchor: Dictionary in _anchors:
+		if rect.grow(16).has_point(anchor["at"]):
+			within.append(anchor)
+	var planned: Dictionary = plan_ambience(room["life"].get("ambience",[]),rect,within,hash(String(zone_id)+":ambience"))
+	ambience_made[zone_id] = int(planned["made"])
+	planned.erase("made")
+	geometry.ambience.add(planned)
+
+## What a room's ambience spec becomes, as VoxelAmbience data (`dust`, `fall`, `smoke`) plus
+## `made`, how many movements the room has (its self-smoking props counted). Pure: the same
+## spec, rect, anchors and seed give the same plan.
+static func plan_ambience(spec: Array, rect: Rect2, anchors: Array[Dictionary], seed: int) -> Dictionary:
+	var out: Dictionary = {"dust":[],"fall":[],"smoke":[],"made":0}
+	var random := RandomNumberGenerator.new()
+	random.seed = seed
+	var centre: Vector2 = rect.get_center()
+	var middle: Rect2 = rect.grow(-minf(24.0,rect.size.x*0.25))
+	var band: Array = [middle.position.x,middle.position.y,middle.end.x,middle.end.y]
+	for entry: Dictionary in spec:
+		var kind: String = String(entry.get("kind","dust"))
+		var count: int = int(entry.get("count",0))
+		var limit: int = int(entry.get("max",3))
+		var found: Array[Dictionary] = []
+		var group: String = String(entry.get("anchor",ANCHOR_OF.get(kind,"")))
+		if not group.is_empty():
+			for anchor: Dictionary in anchors:
+				if String(anchor["kind"]) in ANCHORS.get(group,[]):
+					found.append(anchor)
+		# The nearest to the room's middle first, so a long room's far lamps are the ones left out.
+		found.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return (a["at"] as Vector2).distance_squared_to(centre)<(b["at"] as Vector2).distance_squared_to(centre))
+		var used: int = 0
+		for anchor: Dictionary in found:
+			if used>=limit:
+				break
+			var at: Vector2 = anchor["at"]+(anchor["into"] as Vector2)*18.0
+			var head: String = String(anchor["kind"])
+			match kind:
+				"moths":
+					var top: float = float(LAMP_HEIGHT.get(head,2.0))+float(anchor["elevation"])
+					out["dust"].append({"rect":[at.x-26,at.y-26,at.x+26,at.y+26],"count":count if count>0 else 2+random.randi_range(0,1),"color":String(entry.get("color","e8dcc0")),
+						"size":[0.05,0.03,0.05],"height":[top-0.55,top+0.05],"wind":[0.6,0.5],"flit":1.0})
+				"smoke","steam","incense":
+					if head in SELF_SMOKING:
+						# Its own plume already rises; the room is not still.
+						out["made"] += 1
+						used += 1
+						continue
+					var look: Array = PLUMES[kind]
+					if LAMP_HEIGHT.has(head):
+						# An oil lamp's thread of soot from just over its flame.
+						look = ["6a665e",3,0.08,float(LAMP_HEIGHT[head])+0.1]
+					out["smoke"].append({"at":[at.x,at.y],"height":float(look[3])+float(anchor["elevation"]),"color":String(entry.get("color",look[0])),"count":count if count>0 else int(look[1]),"size":float(look[2])})
+				"sparks":
+					out["fall"].append({"rect":[at.x-22,at.y-22,at.x+22,at.y+22],"count":count if count>0 else 10,"up":true,"glow":true,"colors":["ffd890","ff9a40","ff6a2a"],"height":1.9,"wind":[0.2,0.1]})
+				"sunbeam":
+					# From the window into the room, the way its sill faces; the beam's far end a
+					# few steps in.
+					var into: Vector2 = anchor["into"]
+					if into == Vector2.ZERO:
+						into = (centre-anchor["at"]).normalized()
+					var inner: Vector2 = anchor["at"]+into*12.0
+					var far: Vector2 = anchor["at"]+into*88.0
+					var across: Vector2 = (into.orthogonal()*28.0).abs()
+					var lo: Vector2 = Vector2(minf(inner.x,far.x),minf(inner.y,far.y))-across
+					var hi: Vector2 = Vector2(maxf(inner.x,far.x),maxf(inner.y,far.y))+across
+					out["dust"].append({"rect":[lo.x,lo.y,hi.x,hi.y],"count":count if count>0 else 9,"color":String(entry.get("color","f0e6c8")),"size":[0.05,0.04,0.05],"height":[0.4,2.2],
+						"wind":[0.12,0.08],"day":true,"beam":true,"beam_from":[anchor["at"].x,anchor["at"].y]})
+				"flies":
+					out["dust"].append({"rect":[at.x-30,at.y-30,at.x+30,at.y+30],"count":count if count>0 else 5,"color":"3a342c","size":[0.04,0.03,0.04],"height":[0.9,1.6],"wind":[0.8,0.7],"flit":1.4})
+				_:
+					break
+			out["made"] += 1
+			used += 1
+		if used>0:
+			continue
+		# Nothing of that kind to hang on: the same movement, loose in the room's middle band.
+		match kind:
+			"moths":
+				out["dust"].append({"rect":band,"count":count if count>0 else 6,"color":String(entry.get("color","d8ccb0")),"size":[0.05,0.04,0.05],"height":[0.9,2.1],"wind":[0.5,0.4],"flit":0.6})
+			"smoke","steam","incense","sparks":
+				out["dust"].append({"rect":band,"count":count if count>0 else 6,"color":String(entry.get("color",HAZE[kind])),"size":[0.09,0.06,0.09],"height":[1.1,2.5],"wind":[0.3,0.2]})
+			"sunbeam":
+				out["dust"].append({"rect":band,"count":count if count>0 else 8,"color":String(entry.get("color","f0e6c8")),"size":[0.05,0.04,0.05],"height":[0.5,2.2],"wind":[0.12,0.08],"day":true})
+			"flies":
+				out["dust"].append({"rect":band,"count":count if count>0 else 5,"color":"3a342c","size":[0.04,0.03,0.04],"height":[0.9,1.6],"wind":[0.8,0.7],"flit":1.4})
+			_:
+				out["dust"].append({"rect":band,"count":count if count>0 else 10,"color":String(entry.get("color","c8bc9c")),"size":entry.get("size",[0.06,0.05,0.06]),"height":entry.get("height",[0.3,1.8]),"wind":entry.get("wind",[0.3,0.2])})
+		out["made"] += 1
+	return out
 
 func _room_at(at: Vector2) -> Dictionary:
 	for zone_id: StringName in rooms:
@@ -488,6 +627,7 @@ func _hangings(room: Dictionary, floor: Dictionary[Vector2i,bool], cells: Dictio
 		geometry._prop(prop)
 		if prop["kind"]=="wall_lamp":
 			_heat.append(at)
+			_anchors.append({"kind":"wall_lamp","at":at,"into":into,"elevation":0.0})
 		placed.append(at)
 		wanted -= 1
 		count += 1
