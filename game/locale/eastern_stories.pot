@@ -2311,6 +2311,11 @@ msgstr ""
 msgid "林间....不....悬崖边"
 msgstr ""
 
+#. native:oldpine/pine_top short
+#: scenes/world/oldpine/oldpine_outdoor.tscn data/native/rooms.json
+msgid "栈道顶"
+msgstr ""
+
 #. es2:d/oldpine/pine1 short
 #. es2:d/oldpine/pine2 short
 #. es2:d/oldpine/pine3 short
@@ -32211,6 +32216,14 @@ msgstr ""
 #: data/native/items.json
 msgid ""
 "一封封好的书信，信封上写着：绮云镇 振远镖局 陈剑秋 亲启。\n"
+msgstr ""
+
+#. native:oldpine/pine_top long
+#: data/native/rooms.json
+msgid ""
+"破旧的栈道到这里到了头。崖上的松树比下面密得多，树冠遮去了大半天光，\n"
+"地上一条踩出来的小径往东去，南边树隙间透着山涧的水声，北边的林子更深。\n"
+"小径旁好几株松树的树干上有刀划的记号。\n"
 msgstr ""
 
 #: data/choyin/voxel/club_house.json

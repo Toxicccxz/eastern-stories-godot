@@ -18,9 +18,18 @@ class Region:
     def _read(self, file: str) -> dict:
         return json.loads((self.data / file).read_text(encoding='utf-8'))
 
+    def rooms(self) -> list:
+        """The region's rooms (ES2, importer output) and the native ones a zone of the region
+        may name first (game/data/native/rooms.json, DECISIONS「老松林的林径与藏起来的寨门」)."""
+        rooms = list(self._read('rooms.json')['rooms'])
+        native = self.data.parent / 'native' / 'rooms.json'
+        if native.exists():
+            rooms.extend(json.loads(native.read_text(encoding='utf-8'))['rooms'])
+        return rooms
+
     def shorts(self) -> dict:
         """Zone id -> the short name of its first room (the caption)."""
-        rooms = {r['id']: r['short'] for r in self._read('rooms.json')['rooms']}
+        rooms = {r['id']: r['short'] for r in self.rooms()}
         return {z['id']: rooms[z['rooms'][0]] for z in self._read('world.json')['zones']}
 
     def neighbours(self, zones) -> set:
@@ -33,7 +42,7 @@ class Region:
                  if z['id'] in zones and other in zones}
         jumped = {(p['legacy_room'], p['legacy_command']) for p in self.portals().values()
                   if p['from_zone'] in zones and p['to_zone'] in zones}
-        for room in self._read('rooms.json')['rooms']:
+        for room in self.rooms():
             for command, target in room.get('exits', {}).items():
                 a, b = zone_of.get(room['id']), zone_of.get(target)
                 if a in zones and b in zones and a != b and (room['id'], command) not in jumped:
@@ -45,7 +54,7 @@ class Region:
         world = self._read('world.json')['zones']
         zone_of = {room: z['id'] for z in world for room in z['rooms']}
         out = {}
-        for room in self._read('rooms.json')['rooms']:
+        for room in self.rooms():
             a = zone_of.get(room['id'])
             for command, target in room.get('exits', {}).items():
                 b = zone_of.get(target)
@@ -55,7 +64,7 @@ class Region:
 
     def room_exits(self) -> dict:
         """Room id -> its exits (command -> room id)."""
-        return {r['id']: r.get('exits', {}) for r in self._read('rooms.json')['rooms']}
+        return {r['id']: r.get('exits', {}) for r in self.rooms()}
 
     def door_between(self, zone_a: str, zone_b: str) -> dict | None:
         """The door (world.json doors) between two zones, or None."""
@@ -70,7 +79,7 @@ class Region:
 
     def zone_longs(self) -> dict:
         """Zone id -> the description of its rooms, one after another."""
-        rooms = {r['id']: r.get('long', '') for r in self._read('rooms.json')['rooms']}
+        rooms = {r['id']: r.get('long', '') for r in self.rooms()}
         return {z['id']: ''.join(rooms.get(r, '') for r in z['rooms']) for z in self._read('world.json')['zones']}
 
     def portals(self) -> dict:

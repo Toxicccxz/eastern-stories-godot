@@ -140,7 +140,7 @@ offset_right = 1829
 offset_bottom = 441
 mouse_filter = 2
 theme_override_font_sizes/font_size = 14
-text = "松树林"
+text = "栈道顶"
 
 [node name="PineDeepLabel" type="Label" parent="Terrain"]
 offset_left = 2292

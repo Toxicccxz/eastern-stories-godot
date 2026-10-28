@@ -43,9 +43,12 @@ func _test_authored_definitions_and_fixed_zone_partition() -> void:
 		GameContent.catalog().zone(
 			OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID
 		).room_ids(),
-		[&"es2:d/oldpine/pine1", &"es2:d/oldpine/pine2"],
-		"Pine Entrance has exact source-room trace",
+		[&"native:oldpine/pine_top", &"es2:d/oldpine/pine1", &"es2:d/oldpine/pine2"],
+		"Pine Entrance has exact source-room trace: the native plank top first (its text), then pine1 and pine2",
 	)
+	_assert_eq(GameContent.catalog().zone(OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID).display_name, "栈道顶", "the plank top is named by its native room")
+	_assert_true(GameContent.catalog().zone(OldPineWorldDefinitions.PINE_ENTRANCE_ZONE_ID).description.contains("刀划的记号"), "the plank top's text names the knife marks")
+	_assert_eq(GameContent.catalog().zone(OldPineWorldDefinitions.PINE_DEEP_ZONE_ID).display_name, "松树林", "the deep pines keep ES2's 松树林 (pine3.c)")
 	_assert_eq(
 		GameContent.catalog().zone(
 			OldPineWorldDefinitions.PINE_DEEP_ZONE_ID
@@ -73,7 +76,7 @@ func _test_authored_definitions_and_fixed_zone_partition() -> void:
 		_assert_eq(zone.combat_location_id, zone_id, "Pine combat location is exact zone ID")
 		for source_path: StringName in zone.room_ids():
 			pine_room_counts[source_path] = pine_room_counts.get(source_path, 0) + 1
-	_assert_eq(pine_room_counts.size(), 8, "exactly eight Pine legacy rooms are represented")
+	_assert_eq(pine_room_counts.size(), 9, "exactly eight Pine legacy rooms and the native plank top are represented")
 	for source_path: StringName in pine_room_counts:
 		_assert_eq(pine_room_counts[source_path], 1, "%s occurs exactly once" % source_path)
 	for portal_id: StringName in [
