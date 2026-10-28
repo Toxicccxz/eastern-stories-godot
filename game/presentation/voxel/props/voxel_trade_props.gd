@@ -202,9 +202,42 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 		"training_post": _training_post(data)
 		"stone_weights": _stone_weights()
 		"stone_goods": _stone_goods(w,d,data)
+		"book_stall": _book_stall(w,d,data)
 		_:
 			return false
 	return true
+
+## 书摊 (w_street1.c: 南边则是一间书肆): a low board on two trestles before the shop, stacks of
+## stitched books in their blue and brown covers, a few scrolls in a crock at one end, one book
+## open on top, a brush and ink stone, a paperweight holding a sheet down. `covers`: the colours.
+func _book_stall(w: float, d: float, data: Dictionary) -> void:
+	var wood: String = String(data.get("wood","7a5a3e"))
+	var covers: Array = data.get("covers",["4e6a8a","3a4a6a","8a6a46","c9b98e","5a7a6a","6a4a3a"])
+	var top: float = 0.62
+	for x: float in [-w/2+0.18,w/2-0.18]:
+		s.box(root,Vector3(x,top/2,0),Vector3(0.08,top,d*0.7),wood)
+		s.box(root,Vector3(x,0.05,0),Vector3(0.12,0.1,d*0.86),wood)
+	s.box(root,Vector3(0,top,0),Vector3(w,0.06,d),String(data.get("board","a07a52")))
+	var seed: int = Shapes.place_seed(roundi(root.position.x*8),0,roundi(root.position.z*8),5)
+	var stacks: int = maxi(2,floori(w/0.36))
+	for i: int in stacks:
+		var x: float = -w/2+0.26+i*(w-0.52)/maxf(1,stacks-1)
+		var high: int = 2+(seed/(i+1))%4
+		for layer: int in high:
+			var tone: String = String(covers[(seed/7+i*3+layer)%covers.size()])
+			s.box(root,Vector3(x+((seed/(layer+3))%5-2)*0.012,top+0.03+0.045+layer*0.045,-d*0.18+((seed/(layer+5))%5-2)*0.012),Vector3(0.26,0.045,0.19),tone)
+			s.box(root,Vector3(x-0.1,top+0.03+0.045+layer*0.045,-d*0.18),Vector3(0.012,0.047,0.17),"e8dcc0")
+	# The open book, its pages pale, a brush and stone beside it; a paperweight on a loose sheet.
+	s.box(root,Vector3(-w*0.1,top+0.05,d*0.22),Vector3(0.34,0.03,0.22),"e8e0c8")
+	s.box(root,Vector3(-w*0.1,top+0.07,d*0.22),Vector3(0.012,0.02,0.2),"3a3430")
+	s.box(root,Vector3(w*0.16,top+0.045,d*0.24),Vector3(0.1,0.03,0.07),"2e2c2a")
+	s.tilted_box(root,Vector3(w*0.26,top+0.04,d*0.2),Vector3(0.012,0.012,0.22),"8a6a46",Vector3(0,0.4,0))
+	s.box(root,Vector3(w*0.34,top+0.035,-d*0.2),Vector3(0.22,0.006,0.16),"ece6d4")
+	s.box(root,Vector3(w*0.34,top+0.06,-d*0.22),Vector3(0.14,0.04,0.04),"6a6a62")
+	# Scrolls standing in a crock at the end.
+	s.box(root,Vector3(w/2-0.1,top+0.14,d*0.16),Vector3(0.16,0.22,0.16),"6b4a35")
+	for roll: int in 4:
+		s.tilted_box(root,Vector3(w/2-0.1+(roll%2-0.5)*0.06,top+0.36,d*0.16+(roll/2-0.5)*0.06),Vector3(0.03,0.42,0.03),["d8ccb0","c8b890"][roll%2],Vector3((roll-1.5)*0.05,0,(roll%2-0.5)*0.1))
 
 func _book(at: Vector3, tone: String) -> void:
 	s.box(root,at,Vector3(0.65,0.10,0.42),tone)

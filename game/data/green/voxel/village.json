@@ -76,6 +76,11 @@
     {"rect": [2000, 1424, 2112, 1544], "portals": [], "doors": [[2000, 1484]], "note": "station1.c: 几间矮小的房舍延著山壁建造 — the tool store", "construction": "rubble", "stones": ["6d7166", "7a7d70", "62675d"], "wall": "7a7d70", "timber": "5a4632", "height": 2.2, "roof_form": "shed", "ridge": "z", "rise": 0.6, "roof": "62685c", "roof_tiles": "slate", "slates": ["5f665a", "6a7064", "575d52"], "mossy": 0.45, "porch": "none", "goods": "tools", "lanterns": false, "doorway": "shut"},
     {"rect": [2000, 1544, 2112, 1664], "portals": [], "doors": [[2000, 1604]], "construction": "timber", "wall": "7a6a50", "timber": "54422e", "height": 2.1, "roof_form": "shed", "ridge": "z", "rise": 0.6, "roof": "8a7a50", "roof_tiles": "thatch", "straw": ["8a7a4c", "9a8858", "7a6c44"], "porch": "none", "goods": "sacks", "lanterns": false, "doorway": "dark"}
   ],
+  "critters": [
+    {"kind": "chicken", "rect": [1232, 960, 1400, 1360], "count": 2, "colors": ["e8dcc8", "c8b89a", "c83a2a"], "note": "【美术提案】hens scratching about the square (owner: small animals only in the village and inn yards)"},
+    {"kind": "chicken", "rect": [1500, 960, 1648, 1360], "count": 1, "colors": ["5a4a3a", "3a302a", "c83a2a"]},
+    {"kind": "dog", "rect": [1340, 1270, 1510, 1370], "count": 1, "colors": ["b89a6a", "7a6040"], "note": "【美术提案】the headman's dog by his door (house4.c: 村长的家)"}
+  ],
   "props": [
     {"kind": "quarry_face", "at": [2136, 1152], "size": [352, 48], "rotation": 270, "steps": 3, "rise": 1.0, "note": "field1.c: 往东看去就是采石场 — the face cut back in benches, wedge holes for the next block"},
     {"kind": "far_peak", "at": [1500, 60], "size": [640, 260], "height": 9.0, "elevation": -2.0, "haze": true, "colors": ["8a9a90", "94a398", "9eab9f"], "note": "README: 三面环山 — north"},

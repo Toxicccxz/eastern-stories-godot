@@ -20,7 +20,7 @@ const CALMED: Array[StringName] = [&"choyin.npc.shadow", &"choyin.npc.lion", &"c
 const TALL: Array[String] = ["lantern", "stone_lantern", "standing_rock", "boulder", "banner", "tree", "great_tree", "pavilion",
 	"rockery", "stele", "censer", "flagpole", "water_vat", "strange_stone", "boundary_stone", "torch", "bush", "column",
 	"pavilion_post", "compound_wall", "deity", "training_post", "bookcase", "lamp_stand", "lantern_post", "beast_statue",
-	"screen_wall", "flower_stand", "pagoda", "temple_bell", "buddha", "stone_lion", "weapon_rack", "drying_rack", "fishing_net",
+	"screen_wall", "flower_stand", "pagoda", "temple_bell", "buddha", "stone_lion", "weapon_rack", "drying_rack", "fishing_net", "tethered_horse",
 	"incense_burner", "herb_bed", "cart", "firewood", "haystack", "well", "drum", "great_stump", "brick_shrine", "city_wall",
 	"jade_dais", "vase_hollow", "pill_furnace", "stall", "bench", "stair_run", "pillar_root", "cave_mouth", "flames"]
 const SCENES: Array[String] = ["choyin_town", "choyin_yamen", "choyin_altar", "choyin_hotel_2f", "choyin_hotel_3f", "choyin_tree_hollow",
@@ -238,6 +238,13 @@ func _check_town(map: WorldMapController) -> void:
 	_check(drum, "court1.c: 门口有一面大皮鼓")
 	_check(well, "s_street1.c: 广场中央有一口大井, 井旁用绳索绑著几只杯子")
 	_check(stalls >= 8, "s_street1.c, s_street3.c, n_street3.c: 各色小贩穿梭来去 — stalls (%d)" % stalls)
+	# 美术优化 E: the street faces — a horse at 福林楼, the bookshop's stall, washing and fish drying
+	# on the square, dried goods and hides on 承安街, candle ends at the 树王坟 stele.
+	_check("tethered_horse" in kinds and kinds.count("carry_pole") >= 4, "s_street2.c: 福林楼前车马 — a horse tied at the post, porters' loads")
+	_check("book_stall" in kinds, "w_street1.c: 南边则是一间书肆 — its stall of books on the street")
+	_check(kinds.count("drying_rack") >= 3, "s_street1.c: the square — washing and fish hung to dry")
+	_check("animal_hide" in kinds and kinds.count("sacks") >= 3, "s_street4.c: 贩卖南北货 — hides and sacks of dried goods under the awnings")
+	_check("paper_money" in kinds and kinds.count("candles") >= 3, "n_street3.c: 石台前有块石碑 — candle ends and paper money before it")
 	_check("overpass" in kinds and stair_runs == 2 and general_up, "dragon_temple.c: 神像立在横跨道路的一个高台上, 从南北两边的阶梯爬上高台")
 	_check("koi" in kinds and lotus >= 6 and view.geometry.water.levels.size() > 1500, "bridge1.c: 翠柳湖 — 睡莲, 浮萍, 艳红锦鲤")
 	_check(kinds.count("balustrade") >= 14, "bridge1-5.c: 一座弯弯曲曲的曲桥 — its rails along every turn")
@@ -282,12 +289,16 @@ func _check_altar(map: WorldMapController) -> void:
 func _check_hotel_2f(map: WorldMapController) -> void:
 	var kinds: Array[String] = _kinds(_view_of(map))
 	_check(kinds.count("square_table") == 4 and kinds.count("window") >= 5 and "zither_table" in kinds, "hotel2.c: 二楼雅座, 从这里可以眺望乔阴县城的市景")
+	var view: WorldVoxelView = _view_of(map)
+	_check("folding_screen" in kinds and kinds.count("clutter") >= 4, "hotel2.c: 雅座 — a screen, wine and books among the cups")
+	_check(view.geometry.life.ambience_made.get(&"choyin.hotel2", 0) >= 2 and view.geometry.ambience._sunbeams.size() >= 1, "雅座: moths at the lanterns, the afternoon in at the windows (no kitchen steam: the preset overridden)")
 
 
 func _check_hotel_3f(map: WorldMapController) -> void:
 	var view: WorldVoxelView = _view_of(map)
 	var kinds: Array[String] = _kinds(view)
 	_check(kinds.count("closed_door") == 4 and "weapon_rack" in kinds and kinds.count("travel_chest") == 2, "hotel3.c: 客房, 富商大贾, 武师担任守卫")
+	_check(kinds.count("clutter") >= 7 and "pot" in kinds and view.geometry.life.ambience_made.get(&"choyin.hotel3", 0) >= 1, "hotel3.c: each guest's own things outside his door; moths at the corridor's lanterns")
 	_check(String(view.layout.get("actors", {}).get("choyin.npc.guard", {}).get("coat", "")) == "3a5a8a", "hotel3.c: 一个身穿蓝布衣的人")
 
 

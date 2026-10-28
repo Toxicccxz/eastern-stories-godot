@@ -43,6 +43,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 		_check(map.projected_view and view.camera.current and view.left_view,"left view preference follows handoff to "+String(zone_id))
 		_check(view.geometry.unknown_kinds.is_empty(),"all furnishings render in %s: %s" % [zone_id,view.geometry.unknown_kinds])
 		_check(not view.geometry.life.rooms.is_empty(),"%s's rooms are lived in (RoomLife)" % zone_id)
+		_check(view.geometry.life.ambience_made.values().any(func(n: int) -> bool: return n > 0),"%s has something moving by its use (室内动静): %s" % [zone_id,view.geometry.life.ambience_made])
 		if zone_id in [&"snow.school2",&"snow.herbshop"]:
 			_check(view.geometry.occluders.size()>3,"large new furnishings participate in local actor reveal")
 		_check(await MapPlaces.drive_to_zone(tree,map,zone_id),"walk from entry to the interior of "+String(zone_id))
@@ -75,7 +76,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 	for zone_id: StringName in [&"cloud.biaoju",&"cloud.bookstore",&"cloud.butchery",&"cloud.drugstore",&"cloud.duchang",&"cloud.duchang2",
 			&"cloud.woodboxy",&"cloud.jiyuan",&"cloud.jiyuan2",&"cloud.rich",&"cloud.marry_room",&"cloud.monky",&"cloud.tailory",&"cloud.tearoom",
 			&"cloud.tearoom2",&"cloud.weapony",&"cloud.zaihuoy",&"waterfog.entrance",&"waterfog.west_2f",&"oldpine.outdoor.keep_hall",
-			&"goathill.temple1",&"green.stoneroom"]:
+			&"goathill.temple1",&"green.stoneroom",&"green.house0",&"snow.smithy",&"snow.school"]:
 		var def: MapDefinition = GameContent.catalog().map(MapPlaces.map_of(zone_id))
 		furnishings._check_furnishings(load(def.scene_path) as PackedScene,String(def.map_id))
 		var map := MapPlaces.enter(session,zone_id,def.entry_spawn_id)
@@ -97,10 +98,18 @@ func run_all(tree: SceneTree) -> Dictionary:
 			_check(view.geometry.life.rooms.has(id),"%s is lived in (RoomLife)" % room)
 			_check(view.geometry.life.worn_cells.get(id,0)>0,"%s's floor is worn where people walk: %d cells" % [room,view.geometry.life.worn_cells.get(id,0)])
 			_check(view.geometry.life.hung.get(id,0)>0,"%s has things hung on its walls: %d" % [room,view.geometry.life.hung.get(id,0)])
+			# 美术优化 F: every room with a life has something moving by its use.
+			_check(view.geometry.life.ambience_made.get(id,0)>0,"%s has something moving by its use: %d" % [room,view.geometry.life.ambience_made.get(id,0)])
 		if zone_id==&"cloud.tearoom":
 			_check(view.geometry.ambience._falling.size()>=8 and view.geometry.ambience._motes.size()>=4,"香茗坊: steam off the tea stove, moths round a lamp")
 		if zone_id==&"green.stoneroom":
 			_check(view.geometry.life.rooms.size()==1,"石室: only the room its text describes has a life (大厅 and 外室 keep theirs: 一尘不染, nothing else)")
+		if zone_id==&"green.house0":
+			_check(view.geometry.life.ambience_made.get(&"green.house0",0)==2 and view.geometry.ambience._motes.size()>=6,"house0.c: the hearth's own smoke counts, moths loose in the middle of a room with no lamp")
+		if zone_id==&"snow.smithy":
+			_check(view.geometry.ambience._falling.size()>=10 and (view.geometry.ambience._falling[0] as Dictionary)["up"],"铁铺: sparks rise from the forge")
+		if zone_id==&"snow.school":
+			_check(view.geometry.ambience._sunbeams.size()>=1 and view.geometry.ambience._motes.any(func(m: Dictionary) -> bool: return m["day"]),"书院: sunbeams of dust from its windows by day")
 	# Every preset's pieces and hangings are kinds some props file draws (a misspelt kind would
 	# otherwise leave a silent gap in every room of that use). Drawn under the last view, out of
 	# sight, and freed with it: a piece's smoke or flame is the view's ambience's until then.
@@ -110,6 +119,9 @@ func run_all(tree: SceneTree) -> Dictionary:
 	view.add_child(holder)
 	for use: String in presets["uses"]:
 		var spec: Dictionary = presets["uses"][use]
+		_check(not (spec.get("ambience",[]) as Array).is_empty(),"%s has an ambience" % use)
+		for entry: Dictionary in spec.get("ambience",[]):
+			_check(String(entry.get("kind","")) in VoxelLife.AMBIENCE_KINDS,"%s's ambience kind %s is known" % [use,entry.get("kind","")])
 		for piece: Dictionary in spec.get("pieces",[]):
 			var node := Node3D.new()
 			holder.add_child(node)
@@ -121,6 +133,25 @@ func run_all(tree: SceneTree) -> Dictionary:
 			var node := Node3D.new()
 			holder.add_child(node)
 			_check(view.geometry.draw_look(view.geometry.shapes,node,prop),"%s's %s is a known hanging" % [use,name])
+	# The new kinds draw (漏窗 patterns, 封条, 书摊, a tethered horse, a door ajar).
+	for look: Dictionary in [{"kind":"seal_strip","size":[48,16],"wall_mounted":true},{"kind":"book_stall","size":[80,24]},{"kind":"tethered_horse","size":[32,48],"saddle":true},{"kind":"closed_door","size":[48,16],"ajar":true}]:
+		var node := Node3D.new()
+		holder.add_child(node)
+		_check(view.geometry.draw_look(view.geometry.shapes,node,look),"%s is a known kind" % look["kind"])
+	for pattern: String in ["rails","grid","bars","ice","fret","wan","diamond","coin"]:
+		var node := Node3D.new()
+		holder.add_child(node)
+		var pieces: int = _pieces(view.geometry.shapes)
+		VoxelArchitecture.lattice(view.geometry.shapes,node,Vector3.ZERO,Vector2(0.5,0.7),Vector3(0,0,1),pattern,"8a8a80")
+		_check(_pieces(view.geometry.shapes)>pieces+2,"漏窗 pattern %s draws" % pattern)
+	# A room's movements are planned the same every build, hung on what the room has.
+	var anchors: Array[Dictionary] = [{"kind":"hanging_lantern","at":Vector2(100,100),"into":Vector2.ZERO,"elevation":0.0},{"kind":"forge","at":Vector2(200,150),"into":Vector2.ZERO,"elevation":0.0}]
+	var spec: Array = [{"kind":"moths"},{"kind":"sparks"},{"kind":"incense"}]
+	var plan: Dictionary = VoxelLife.plan_ambience(spec,Rect2(0,0,320,256),anchors,7)
+	_check(plan==VoxelLife.plan_ambience(spec,Rect2(0,0,320,256),anchors,7),"the same room plans the same movements every build")
+	_check(plan["dust"].size()==2 and plan["fall"].size()==1 and plan["smoke"].is_empty() and plan["made"]==3,"moths at the lamp, sparks up from the forge, incense haze loose in the middle (no censer): %s" % [plan])
+	_check(float(plan["dust"][0].get("flit",0.0))>0.0 and absf(float(plan["dust"][0]["rect"][0])-74.0)<0.01 and plan["fall"][0]["up"],"the moths flit round the lamp's spot, the sparks rise")
+	_check(VoxelLife.plan_ambience([],Rect2(0,0,320,256),anchors,7)["made"]==0,"an empty ambience (a room's override) stills the room")
 	assertions += furnishings.assertions
 	failures.append_array(furnishings.failures)
 	# Both the saved state and gameplay RNG are unchanged by a camera or light toggle.
@@ -157,6 +188,12 @@ func _check_hidden_floor(tree: SceneTree, session: WorldSessionController, map: 
 	await _frames(tree,2)
 	_check(not (entry["node"] as Node3D).visible and (entry["cover"] as Node3D).visible,"expiry restores floor cover")
 	session.shared_ui().dismiss_current_panel()
+
+func _pieces(shapes) -> int:
+	var count: int = 0
+	for key: String in shapes.batches:
+		count += (shapes.batches[key]["transforms"] as Array).size()
+	return count
 
 func _click(tree: SceneTree, button: Button) -> void:
 	var click := InputEventMouseButton.new()

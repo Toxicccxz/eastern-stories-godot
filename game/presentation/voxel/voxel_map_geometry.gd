@@ -13,6 +13,7 @@ const Town = preload("res://presentation/voxel/props/voxel_town.gd")
 const Waterside = preload("res://presentation/voxel/props/voxel_waterside.gd")
 const Garden = preload("res://presentation/voxel/props/voxel_garden.gd")
 const Household = preload("res://presentation/voxel/props/voxel_household.gd")
+const Critter = preload("res://presentation/voxel/actors/voxel_critter.gd")
 const UNIT: float = 32.0
 var shapes := Shapes.new()
 var rng := RandomNumberGenerator.new()
@@ -87,6 +88,8 @@ var life := VoxelLife.new()
 var terrain_cells: Dictionary[Vector2i, String] = {}
 ## Birds, dust, smoke and drips (layout `ambience`, and the props that make them).
 var ambience: VoxelAmbience
+## Small animals loose on the map (layout `critters`), for the tests.
+var critters: Array[Node3D] = []
 
 ## An exit command's compass direction on the map (north is up); zero for any other verb.
 static func compass(command: String) -> Vector2:
@@ -246,6 +249,7 @@ func make(map: WorldMapController, layout: Dictionary) -> void:
 			life.dress(data)
 			_prop(data)
 	life.finish(map,terrain_cells)
+	_critters(layout)
 	_plant_groves()
 	# Split only batches exceeding Mobile's eight local omni lights. Making every
 	# street tile batch smaller needlessly multiplies draw calls away from doorways.
@@ -924,6 +928,47 @@ func _plant_groves() -> void:
 			instance.multimesh = multi
 			instance.material_override = tree_shapes.material()
 			grove.add_child(instance)
+
+## `critters`: [{"kind": "chicken"|"dog", "rect": [x0, y0, x1, y1] px, "count", "colors", "speed",
+## "scale"}]: they wander the open ground within their rect (walkable cells no building or
+## furnishing stands on), presentation only (VoxelCritter).
+func _critters(layout: Dictionary) -> void:
+	var index: int = 0
+	# The terrain relabels a blocked box's cells as the ground around it (`_terrain`), so the
+	# furnishings' own boxes (every authored blocked prop) are kept out here.
+	var taken: Array[Rect2] = footprints.duplicate()
+	for data: Dictionary in life._blocked_props:
+		var size: Array = data.get("size",[32,32])
+		var box := Vector2(float(size[0]),float(size[1]))
+		taken.append(Rect2(Vector2(data["at"][0],data["at"][1])-box/2.0,box))
+	for spec: Dictionary in layout.get("critters",[]):
+		var a: Array = spec["rect"]
+		var rect := Rect2(a[0],a[1],a[2]-a[0],a[3]-a[1])
+		var open: Array[Vector2] = []
+		for cell: Vector2i in terrain_cells:
+			if not rect.has_point(Vector2(cell)) or terrain_cells[cell] in VoxelLife.WALKABLE_NOT:
+				continue
+			var under: bool = false
+			for footprint: Rect2 in taken:
+				if footprint.grow(8).has_point(Vector2(cell)):
+					under = true
+					break
+			if not under:
+				open.append(Vector2(cell))
+		if open.is_empty():
+			continue
+		var kind: String = String(spec.get("kind","chicken"))
+		for i: int in int(spec.get("count",1)):
+			var critter := Critter.new()
+			critter.kind = kind
+			critter.colors = spec.get("colors",[])
+			critter.cells = open
+			critter.seed = Shapes.place_seed(int(a[0]),int(a[1]),index*31+i,9)
+			critter.speed = float(spec.get("speed",1.4 if kind=="dog" else 0.9))
+			critter.scale = Vector3.ONE*float(spec.get("scale",1.0))
+			add_child(critter)
+			critters.append(critter)
+		index += 1
 
 var _static_chunks: Dictionary[Vector2i, Node3D] = {}
 

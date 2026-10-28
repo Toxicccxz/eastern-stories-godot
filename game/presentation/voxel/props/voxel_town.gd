@@ -36,9 +36,67 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"stone_blocks": _stone_blocks(w,d)
 		"haystack": _haystack(w,d)
 		"derrick": _derrick(w,d)
+		"tethered_horse": _tethered_horse(w,d)
 		_:
 			return false
 	return true
+
+## 拴在门前的马 (s_street2.c: 福林楼前车马): a hitching post with its iron ring, and a horse tied
+## to it, standing along the box's long axis with its head at +z, one hind foot resting; its
+## tail stirs. `coat`, `mane`, `blaze` (a white stripe down the face), `saddle` (a cloth and
+## saddle on its back), `post` (false: tied to a ring in the wall instead), `post_side`.
+func _tethered_horse(w: float, d: float) -> void:
+	var coat: String = String(data.get("coat","6a4a34"))
+	var mane: String = String(data.get("mane","2a2420"))
+	var long: float = maxf(w,d)
+	var along_x: bool = w > d
+	var horse := Node3D.new()
+	horse.rotation.y = PI/2 if along_x else 0.0
+	root.add_child(horse)
+	var body_h: float = 1.05
+	s.box(horse,Vector3(0,body_h,-0.1),Vector3(0.5,0.52,long*0.62),coat)
+	s.box(horse,Vector3(0,body_h+0.08,-long*0.36),Vector3(0.44,0.4,0.2),coat)
+	s.box(horse,Vector3(0,body_h+0.24,0),Vector3(0.1,0.12,long*0.5),mane)
+	for i: int in 4:
+		var x: float = -0.16 if i%2==0 else 0.16
+		var z: float = long*0.22 if i<2 else -long*0.3
+		var lift: float = 0.08 if i==3 else 0.0
+		s.box(horse,Vector3(x,(body_h-0.26)/2+lift,z),Vector3(0.12,body_h-0.26,0.14),coat)
+		s.box(horse,Vector3(x,0.05+lift,z+0.02),Vector3(0.13,0.1,0.17),"2e2a26")
+	# Neck up and forward, the head down to the post.
+	s.tilted_box(horse,Vector3(0,body_h+0.4,long*0.36),Vector3(0.3,0.75,0.3),coat,Vector3(-0.55,0,0))
+	s.box(horse,Vector3(0,body_h+0.5,long*0.44),Vector3(0.1,0.5,0.08),mane)
+	var head := Node3D.new()
+	head.position = Vector3(0,body_h+0.62,long*0.56)
+	head.rotation.x = 0.35
+	horse.add_child(head)
+	s.box(head,Vector3(0,-0.18,0.1),Vector3(0.26,0.36,0.44),coat)
+	s.box(head,Vector3(0,-0.34,0.32),Vector3(0.22,0.18,0.14),Color(coat).darkened(0.25).to_html(false))
+	if data.get("blaze",true):
+		s.box(head,Vector3(0,-0.16,0.33),Vector3(0.06,0.3,0.01),"e8e2d8")
+	for side: float in [-1.0,1.0]:
+		s.tilted_box(head,Vector3(side*0.1,0.06,-0.08),Vector3(0.06,0.16,0.04),coat,Vector3(-0.3,0,side*0.3))
+		s.box(head,Vector3(side*0.13,-0.1,0.18),Vector3(0.02,0.04,0.04),"1a1816")
+	# A rope halter down to the post's ring; the post on the horse's `post_side` (-1: its left,
+	# against the wall it stands by).
+	var post_at := Vector3(0.45*float(data.get("post_side",-1.0)),0,long*0.62)
+	if data.get("post",true):
+		s.box(horse,post_at+Vector3(0,0.55,0),Vector3(0.16,1.1,0.16),String(data.get("timber","5a4a3a")))
+		s.box(horse,post_at+Vector3(0,1.12,0),Vector3(0.2,0.06,0.2),"4a3e32")
+		s.box(horse,post_at+Vector3(0,0.9,0.1),Vector3(0.1,0.1,0.02),"3a3835")
+	var rope_from := Vector3(0,body_h+0.3,long*0.62)
+	var rope_to := post_at+Vector3(0,0.9,0.1)
+	var span: Vector3 = rope_to-rope_from
+	s.tilted_box(horse,(rope_from+rope_to)/2,Vector3(0.025,0.025,span.length()),"a08e62",Vector3(-atan2(span.y,Vector2(span.x,span.z).length()),atan2(span.x,span.z),0))
+	if data.get("saddle",false):
+		s.box(horse,Vector3(0,body_h+0.28,-0.05),Vector3(0.56,0.06,0.5),String(data.get("cloth","8a3a2a")))
+		s.box(horse,Vector3(0,body_h+0.36,-0.05),Vector3(0.34,0.12,0.36),"5a3a28")
+	var tail := Node3D.new()
+	tail.position = Vector3(0,body_h+0.18,-long*0.46)
+	horse.add_child(tail)
+	s.tilted_box(tail,Vector3(0,-0.3,-0.06),Vector3(0.08,0.64,0.08),mane,Vector3(0.2,0,0))
+	if ambience != null:
+		ambience.sway(tail,float(Shapes.place_seed(roundi(root.position.x*8),0,roundi(root.position.z*8),3)%628)/100.0,0.25)
 
 func _colors(key: String, fallback: Array) -> Array:
 	return data.get(key,fallback)
