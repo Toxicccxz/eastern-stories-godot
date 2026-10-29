@@ -8,8 +8,8 @@ extends RefCounted
 ## judged only when the player comes onto the map (a handoff, the first map, a Continue),
 ## never in front of them: an NPC on the stage and absent appears on its marker, one off the
 ## stage and standing leaves for good (as an act's `leave`: not made anew); an item on the
-## stage and never made lies down on its marker, one off the stage and still lying there is
-## gone. What the player took, killed or was given stays as it is.
+## stage and never made lies down on its marker, one off the stage and still lying untouched
+## on its marker is gone (one the player took and dropped is theirs, wherever it lies). What the player took, killed or was given stays as it is.
 
 
 static func stage(session: WorldSessionController, map: WorldMapController) -> void:
@@ -40,7 +40,9 @@ static func stage(session: WorldSessionController, map: WorldMapController) -> v
 			if on and not made:
 				if not map.floor_items.place_floor_item(spawn, point_id):
 					push_error("the story could not lay %s on %s" % [spawn.item_definition_id, point_id])
-			elif not on and made and map.floor_items.item_views.has(item_id):
+			# Only the untouched one on its marker goes; one the player took and dropped is theirs
+			# (saved where they dropped it: the Save/Continue policy).
+			elif not on and made and map.floor_items.item_views.has(item_id) and not map.floor_items.dropped_item_ids().has(item_id):
 				map.floor_items.destroy_floor_item(item_id)
 
 
