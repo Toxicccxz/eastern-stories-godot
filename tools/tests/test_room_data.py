@@ -29,19 +29,21 @@ def _source(room_id: str) -> str:
     return source
 
 
-def _rooms() -> list[dict]:
-    """The ES2 rooms; game/data/native/rooms.json holds the native ones (no LPC source)."""
+def _all_rooms() -> list[dict]:
     rooms: list[dict] = []
     for path in sorted(DATA.glob("*/rooms.json")):
-        if path.parent.name == "native":
-            continue
         rooms.extend(json.loads(path.read_text(encoding="utf-8"))["rooms"])
     return rooms
 
 
+def _rooms() -> list[dict]:
+    """The ES2 rooms; the native ones (no LPC source) are game/data/native/rooms.json's and an
+    all-native region's (逆灵宫: DECISIONS「逆灵宫 A」), by their id."""
+    return [room for room in _all_rooms() if not room["id"].startswith("native:")]
+
+
 def _native_rooms() -> list[dict]:
-    path = DATA / "native/rooms.json"
-    return json.loads(path.read_text(encoding="utf-8"))["rooms"] if path.exists() else []
+    return [room for room in _all_rooms() if room["id"].startswith("native:")]
 
 
 class RoomDataTest(unittest.TestCase):
