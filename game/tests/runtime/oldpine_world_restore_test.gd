@@ -435,7 +435,7 @@ func _test_spawn_ledger_adversarial_cases(tree: SceneTree) -> void:
 	_assert_eq(empty_tombstone_result.outcome, OldPineWorldRestoreResult.Outcome.SUCCESS, "dead tombstone restores after every former loadout item is gone")
 	_assert_eq(empty_tombstone_result.candidate.world_npcs().size(), 37, "itemless dead tombstone remains in the 37-slot ledger")
 	_assert_eq(empty_tombstone_result.candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).corpse_states().size(), 0, "dead tombstone does not require a surviving corpse")
-	_assert_eq(empty_tombstone_result.candidate.inventory_state().registered_item_ids().size(), 53, "destroyed former loadout items are not recreated")
+	_assert_eq(empty_tombstone_result.candidate.inventory_state().registered_item_ids().size(), 55, "destroyed former loadout items are not recreated")
 	_assert_false(_body_for(empty_tombstone_result.candidate.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID), dead_fat.character_id).visible, "itemless tombstone never respawns its body")
 	_free_node(empty_tombstone_result.candidate)
 	await tree.process_frame

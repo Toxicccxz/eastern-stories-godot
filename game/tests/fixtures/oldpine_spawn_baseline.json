@@ -2691,7 +2691,7 @@
 				},
 				"body_weight": 50000.0,
 				"character_id": "oldpine.outdoor.keep_yard.keep2.trap_guard.1.character",
-				"definition": "oldpine.npc.bandit_guard",
+				"definition": "native.npc.keep_ambusher",
 				"loadout": [
 					[
 						"<scope>.oldpine.outdoor.keep_yard.keep2.trap_guard.1.character.loadout.0.0",
@@ -2726,7 +2726,7 @@
 						"master_teacher_id": ""
 					},
 					"attributes": {
-						"bellicosity": 0.0,
+						"bellicosity": 600.0,
 						"composure": 10.0,
 						"composure_modifier": 0.0,
 						"constitution": 25.0,
@@ -2870,7 +2870,7 @@
 				},
 				"body_weight": 40000.0,
 				"character_id": "oldpine.outdoor.keep_yard.keep2.trap_guard.2.character",
-				"definition": "oldpine.npc.bandit_guard",
+				"definition": "native.npc.keep_ambusher",
 				"loadout": [
 					[
 						"<scope>.oldpine.outdoor.keep_yard.keep2.trap_guard.2.character.loadout.0.0",
@@ -2905,7 +2905,7 @@
 						"master_teacher_id": ""
 					},
 					"attributes": {
-						"bellicosity": 0.0,
+						"bellicosity": 600.0,
 						"composure": 16.0,
 						"composure_modifier": 0.0,
 						"constitution": 14.0,
@@ -3049,7 +3049,7 @@
 				},
 				"body_weight": 80000.0,
 				"character_id": "oldpine.outdoor.keep_yard.keep2.trap_guard.3.character",
-				"definition": "oldpine.npc.bandit_guard",
+				"definition": "native.npc.keep_ambusher",
 				"loadout": [
 					[
 						"<scope>.oldpine.outdoor.keep_yard.keep2.trap_guard.3.character.loadout.0.0",
@@ -3084,7 +3084,7 @@
 						"master_teacher_id": ""
 					},
 					"attributes": {
-						"bellicosity": 0.0,
+						"bellicosity": 600.0,
 						"composure": 20.0,
 						"composure_modifier": 0.0,
 						"constitution": 22.0,
@@ -3228,7 +3228,7 @@
 				},
 				"body_weight": 40000.0,
 				"character_id": "oldpine.outdoor.keep_yard.keep2.trap_guard.4.character",
-				"definition": "oldpine.npc.bandit_guard",
+				"definition": "native.npc.keep_ambusher",
 				"loadout": [
 					[
 						"<scope>.oldpine.outdoor.keep_yard.keep2.trap_guard.4.character.loadout.0.0",
@@ -3263,7 +3263,7 @@
 						"master_teacher_id": ""
 					},
 					"attributes": {
-						"bellicosity": 0.0,
+						"bellicosity": 600.0,
 						"composure": 19.0,
 						"composure_modifier": 0.0,
 						"constitution": 30.0,
@@ -3407,7 +3407,7 @@
 				},
 				"body_weight": 54000.0,
 				"character_id": "oldpine.outdoor.keep_yard.keep2.trap_guard.5.character",
-				"definition": "oldpine.npc.bandit_guard",
+				"definition": "native.npc.keep_ambusher",
 				"loadout": [
 					[
 						"<scope>.oldpine.outdoor.keep_yard.keep2.trap_guard.5.character.loadout.0.0",
@@ -3442,7 +3442,7 @@
 						"master_teacher_id": ""
 					},
 					"attributes": {
-						"bellicosity": 0.0,
+						"bellicosity": 600.0,
 						"composure": 12.0,
 						"composure_modifier": 0.0,
 						"constitution": 26.0,
@@ -9698,7 +9698,7 @@
 				},
 				"body_weight": 50000.0,
 				"character_id": "oldpine.outdoor.keep_yard.keep2.trap_guard.1.character",
-				"definition": "oldpine.npc.bandit_guard",
+				"definition": "native.npc.keep_ambusher",
 				"loadout": [
 					[
 						"<scope>.oldpine.outdoor.keep_yard.keep2.trap_guard.1.character.loadout.0.0",
@@ -9733,7 +9733,7 @@
 						"master_teacher_id": ""
 					},
 					"attributes": {
-						"bellicosity": 0.0,
+						"bellicosity": 600.0,
 						"composure": 10.0,
 						"composure_modifier": 0.0,
 						"constitution": 25.0,
@@ -9877,7 +9877,7 @@
 				},
 				"body_weight": 40000.0,
 				"character_id": "oldpine.outdoor.keep_yard.keep2.trap_guard.2.character",
-				"definition": "oldpine.npc.bandit_guard",
+				"definition": "native.npc.keep_ambusher",
 				"loadout": [
 					[
 						"<scope>.oldpine.outdoor.keep_yard.keep2.trap_guard.2.character.loadout.0.0",
@@ -9912,7 +9912,7 @@
 						"master_teacher_id": ""
 					},
 					"attributes": {
-						"bellicosity": 0.0,
+						"bellicosity": 600.0,
 						"composure": 16.0,
 						"composure_modifier": 0.0,
 						"constitution": 14.0,
@@ -10056,7 +10056,7 @@
 				},
 				"body_weight": 80000.0,
 				"character_id": "oldpine.outdoor.keep_yard.keep2.trap_guard.3.character",
-				"definition": "oldpine.npc.bandit_guard",
+				"definition": "native.npc.keep_ambusher",
 				"loadout": [
 					[
 						"<scope>.oldpine.outdoor.keep_yard.keep2.trap_guard.3.character.loadout.0.0",
@@ -10091,7 +10091,7 @@
 						"master_teacher_id": ""
 					},
 					"attributes": {
-						"bellicosity": 0.0,
+						"bellicosity": 600.0,
 						"composure": 20.0,
 						"composure_modifier": 0.0,
 						"constitution": 22.0,
@@ -10235,7 +10235,7 @@
 				},
 				"body_weight": 40000.0,
 				"character_id": "oldpine.outdoor.keep_yard.keep2.trap_guard.4.character",
-				"definition": "oldpine.npc.bandit_guard",
+				"definition": "native.npc.keep_ambusher",
 				"loadout": [
 					[
 						"<scope>.oldpine.outdoor.keep_yard.keep2.trap_guard.4.character.loadout.0.0",
@@ -10270,7 +10270,7 @@
 						"master_teacher_id": ""
 					},
 					"attributes": {
-						"bellicosity": 0.0,
+						"bellicosity": 600.0,
 						"composure": 19.0,
 						"composure_modifier": 0.0,
 						"constitution": 30.0,
@@ -10414,7 +10414,7 @@
 				},
 				"body_weight": 54000.0,
 				"character_id": "oldpine.outdoor.keep_yard.keep2.trap_guard.5.character",
-				"definition": "oldpine.npc.bandit_guard",
+				"definition": "native.npc.keep_ambusher",
 				"loadout": [
 					[
 						"<scope>.oldpine.outdoor.keep_yard.keep2.trap_guard.5.character.loadout.0.0",
@@ -10449,7 +10449,7 @@
 						"master_teacher_id": ""
 					},
 					"attributes": {
-						"bellicosity": 0.0,
+						"bellicosity": 600.0,
 						"composure": 12.0,
 						"composure_modifier": 0.0,
 						"constitution": 26.0,

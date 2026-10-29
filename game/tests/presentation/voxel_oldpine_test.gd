@@ -34,9 +34,11 @@ func run_all(tree: SceneTree) -> Dictionary:
 	var kept: Dictionary = {}
 	for id: StringName in NPCS:
 		var npc: NpcDefinition = GameContent.catalog().npc(id)
-		kept[id] = [npc.attitude, npc._capability_ids.duplicate()]
+		kept[id] = [npc.attitude, npc._capability_ids.duplicate(), npc.dealings().attack_unless_marks.duplicate()]
 		npc.attitude = NpcDefinition.Attitude.PEACEFUL
 		npc._capability_ids.clear()
+		# The keep's toll (主线 A) is a fight on sight too.
+		npc.dealings().attack_unless_marks.clear()
 	var session: WorldSessionController = Work.create_session(tree)
 	session.configure_npc_ambience_random_source(Still.Still.new())
 	await _frames(tree, 4)
@@ -61,6 +63,7 @@ func run_all(tree: SceneTree) -> Dictionary:
 		var npc: NpcDefinition = GameContent.catalog().npc(id)
 		npc.attitude = kept[id][0]
 		npc._capability_ids.assign(kept[id][1])
+		npc.dealings().attack_unless_marks.assign(kept[id][2])
 	session.free()
 	await _frames(tree, 2)
 	return {"assertions": assertions, "failures": failures}
