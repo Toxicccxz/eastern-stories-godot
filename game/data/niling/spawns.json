@@ -1,0 +1,41 @@
+{
+	"spawns": [
+		{
+			"id": "niling.winch.winch_taoist",
+			"npc": "native.npc.niling_winch_taoist",
+			"map": "niling.slope",
+			"zone": "niling.winch",
+			"points": ["niling.winch.winch_taoist.1"],
+			"legacy_room": "native: 逆灵宫 A (the winch on the crack's top)",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "niling.gatehouse.gatekeeper",
+			"npc": "native.npc.niling_gatekeeper",
+			"map": "niling.gate",
+			"zone": "niling.gatehouse",
+			"points": ["niling.gatehouse.gatekeeper.1"],
+			"legacy_room": "native: 逆灵宫 A (the 黑砖山门's 门房)",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "niling.yard.gate_guards",
+			"npc": "native.npc.niling_gate_guard",
+			"map": "niling.gate",
+			"zone": "niling.yard",
+			"points": ["niling.yard.gate_guard.1", "niling.yard.gate_guard.2"],
+			"legacy_room": "native: 逆灵宫 A (the two 守门道士 inside the gate)",
+			"legacy_quantity": 2,
+			"cleared_mark": "山门的道士倒了"
+		},
+		{
+			"id": "niling.store.store_taoist",
+			"npc": "native.npc.niling_store_taoist",
+			"map": "niling.gate",
+			"zone": "niling.store",
+			"points": ["niling.store.store_taoist.1"],
+			"legacy_room": "native: 逆灵宫 A (the 货栈)",
+			"legacy_quantity": 1
+		}
+	]
+}

@@ -1,0 +1,74 @@
+{
+  "indoor": true,
+  "courtyard": true,
+  "cutaway_rooms": true,
+  "camera_size": 22,
+  "note": "黑砖山门、前院、货栈 (native:niling/gatehouse, yard, store; 逆灵宫 A): the gate tower in black brick, two red lanterns lit by day, the 门房's table and his ledger; the yard paved in black brick that gives no sound, the iron burner in its middle burning black grounds with a bitter smoke, black banners on poles at the four corners, the stone steps up to the shut hall door on the north (前殿, B); the low 货栈 east of the yard, crates branded 羊, some open on silk and salt meat, the sealed ones with charms in the corner. Old and used: ash round the burner, rope ends, the brick worn to grey where the carts come in.",
+  "palette": {"wood": ["2a2422", "342c28", "1e1a18"], "wall": "1c1a1a"},
+  "wall_height": 3.4,
+  "wall_looks": [
+    {"rect": [-512, 128, -64, 464], "style": "brick", "colors": ["1c1a1a", "262322", "141212", "2e2a28", "222020"], "seam": "3a3634", "note": "the gate tower (native:niling/gatehouse): black brick"},
+    {"rect": [-688, -480, 128, 128], "style": "brick", "colors": ["1c1a1a", "262322", "141212", "2e2a28", "222020"], "seam": "3a3634", "note": "the yard's compound wall"},
+    {"rect": [128, -480, 672, 128], "style": "brick", "colors": ["201e1c", "2a2624", "181616", "322e2a", "262220"], "seam": "3a3634", "note": "the 货栈's wing"}
+  ],
+  "surfaces": {"niling.yard": "street"},
+  "ground": {
+    "town_ground": {"style": "scree", "colors": ["3e3a36", "48443e", "363230"], "gravel": 0.3, "stones": 0.02, "pebbles": ["5a564e", "4e4a44"], "note": "the gate tower's and the 货栈's trodden floors, black dust"},
+    "floor_yard": {"style": "slabs", "lengths": [2, 3], "depths": [1, 2], "cracks": 0.16, "broken": 0.1, "sunk": 0.05, "tufts": 0.0, "stones": ["1e1c1c", "262424", "2e2a2a", "222020"], "worn": ["36322e", "3e3a34", "2e2a28"], "bed": "121010", "joint": 0.05, "mud": "3a3430", "crack": "0e0c0c", "note": "黑砖铺地, worn grey along the way from the gate to the hall and to the 货栈"},
+    "street": {"style": "slabs", "lengths": [2, 3], "depths": [1, 2], "cracks": 0.16, "broken": 0.1, "sunk": 0.05, "tufts": 0.0, "stones": ["1e1c1c", "262424", "2e2a2a", "222020"], "worn": ["36322e", "3e3a34", "2e2a28"], "bed": "121010", "joint": 0.05, "mud": "3a3430", "crack": "0e0c0c"},
+    "boundary": {"style": "scree", "colors": ["565248", "625e54", "4e4a42"], "gravel": 0.5, "stones": 0.06, "pebbles": ["6e6a60", "7a766c", "5e5a50"]}
+  },
+  "flora": {
+    "grass_density": 0.05,
+    "density": {"floor_yard": 0.01, "town_ground": 0.0, "boundary": 0.25},
+    "grass_colors": ["766c46", "8c8254", "a49a62", "b8ae74"],
+    "flower_threshold": 1.0,
+    "tree_kinds": [],
+    "wind": 0.3,
+    "butterflies": 0
+  },
+  "light": {
+    "areas": [
+      {"rect": [-688, -480, 128, 128], "sky": ["98a4b4", "070a14"], "ambient": ["b8c0cc", "3a4262"], "ambient_energy": [0.46, 0.26], "sun": ["e8ecf4", "8898c8"], "sun_energy": [0.75, 0.24], "note": "the yard lies open to the sky"}
+    ]
+  },
+  "life": {
+    "niling.gatehouse": {"walls": "brick"},
+    "niling.yard": {"walls": "brick"},
+    "niling.store": {"walls": "brick"}
+  },
+  "props": [
+    {"kind": "hanging_lantern", "at": [-352, 440], "paper": "8a1e1a", "height": 2.6, "note": "the two red lanterns of the gate (native:niling/gatehouse: 两侧各挑着一盏暗红的灯笼，白天也点着)"},
+    {"kind": "hanging_lantern", "at": [-224, 440], "paper": "8a1e1a", "height": 2.6},
+    {"kind": "hanging_lantern", "at": [-288, 160], "paper": "8a1e1a", "height": 2.8, "note": "one more over the way into the yard"},
+    {"kind": "candlestick", "at": [-200, 296], "size": [12, 12], "lit": true, "note": "the candle on the 门房's table"},
+    {"kind": "stains", "at": [-288, 296], "size": [300, 200], "count": 8, "colors": ["2a2826", "34302e", "1e1c1a"], "note": "the gate's floor, trodden black"},
+    {"kind": "straw_patch", "at": [-460, 180], "size": [64, 48], "note": "the 门房's bedding in the corner"},
+    {"kind": "bedroll", "at": [-460, 176], "blanket": "2a2622"},
+    {"kind": "cobweb", "at": [-488, 148], "size": [40, 8], "rotation": 45, "height": 2.8},
+    {"kind": "banner", "at": [-600, -340], "height": 4.0, "cloth": "141212", "trim": "7a1a1a", "note": "黑幡 on the four corner poles (the layout's posts)"},
+    {"kind": "banner", "at": [40, -340], "height": 4.0, "cloth": "141212", "trim": "7a1a1a"},
+    {"kind": "banner", "at": [-600, -10], "height": 4.0, "cloth": "141212", "trim": "7a1a1a"},
+    {"kind": "banner", "at": [40, -10], "height": 4.0, "cloth": "141212", "trim": "7a1a1a"},
+    {"kind": "glow", "at": [-280, -176], "color": "6a5a8a", "day": 0.25, "night": 0.9, "range": 6.0, "height": 1.6, "note": "the burner's faint blue-violet glow (it burns no incense)"},
+    {"kind": "stains", "at": [-280, -176], "size": [200, 160], "count": 10, "colors": ["0e0c0c", "1a1818", "262222"], "note": "ash and black grounds round the burner"},
+    {"kind": "stains", "at": [-280, 60], "size": [240, 100], "count": 6, "colors": ["3a3430", "46403a"], "note": "the brick worn grey from the gate to the burner"},
+    {"kind": "trail", "points": [[-288, 120], [-284, 40], [-280, -60]], "color": "3e3a34", "note": "the way trodden from the gate"},
+    {"kind": "trail", "points": [[-180, -176], [-40, -176], [128, -176]], "color": "3e3a34", "note": "and east to the 货栈"},
+    {"kind": "hanging_lantern", "at": [-500, -440], "paper": "8a1e1a", "height": 2.8, "note": "lanterns on the yard's north wall, either side of the hall's steps"},
+    {"kind": "hanging_lantern", "at": [-60, -440], "paper": "8a1e1a", "height": 2.8},
+    {"kind": "closed_door", "at": [-280, -478], "size": [96, 16], "color": "161414", "trim": "3a1a1a", "note": "the shut door of the 前殿 on the yard's north wall (殿门紧闭; B opens it)"},
+    {"kind": "wine_jars", "at": [100, 100], "size": [32, 32], "count": 2, "tipped": 0, "note": "jars by the 货栈's door"},
+    {"kind": "hanging_lantern", "at": [400, -176], "paper": "d8b070", "height": 2.6, "note": "an oil lantern in the 货栈"},
+    {"kind": "straw_patch", "at": [600, -100], "size": [96, 64], "note": "straw from the packing"},
+    {"kind": "stains", "at": [400, -300], "size": [300, 160], "count": 7, "colors": ["2a2826", "34302e", "5a1a1a"], "note": "a dark stain under the sealed boxes"},
+    {"kind": "paper_charms", "at": [604, -144], "size": [40, 40], "height": 0.9, "color": "8a1a1a", "note": "the charms in 朱砂 on the sealed boxes (native:niling/store)"},
+    {"kind": "cobweb", "at": [648, -456], "size": [40, 8], "rotation": -45, "height": 2.8}
+  ],
+  "actors": {
+    "default": {"coat": "1a1818", "hat": true},
+    "native.npc.niling_gatekeeper": {"coat": "1e1a1a", "hat": true},
+    "native.npc.niling_gate_guard": {"coat": "181616", "hat": true},
+    "native.npc.niling_store_taoist": {"coat": "1e1a1a", "hat": true}
+  }
+}

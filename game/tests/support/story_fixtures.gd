@@ -62,6 +62,18 @@ static func chapter2_done(session: WorldSessionController, kept: bool = true) ->
 				map.give_new_item_to_player(item_id)
 
 
+## 逆灵宫's entrance done after 旧案 (kept): 刘安禄 revealed, spared and asked (`liu`; else 黄霸
+## asked in the 土地庙), the turn seen, the crack looked at; the quest stands at its gate step
+## (主线 C; the tribute cart and its escort are on the turn's stage from the chapter's start).
+static func chapter3_entry_done(session: WorldSessionController, liu: bool = true) -> void:
+	chapter2_done(session, true)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in ["main.chapter3#started", "main.chapter3/lead/liu" if liu else "main.chapter3/lead/hwang", "main.chapter3/cart"]:
+		_write(state, key)
+	for mark: String in ["刘安禄说了大寨主" if liu else "黄霸说了纳供", "看过裂口"] + (["放过了刘安禄"] if liu else []):
+		state.marks[mark] = 1
+
+
 static func _write(state: CharacterState, key: String) -> void:
 	if not state.quests.has(key):
 		state.quests[key] = state.quests.size() + 1

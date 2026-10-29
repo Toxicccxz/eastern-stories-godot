@@ -1,0 +1,182 @@
+{
+	"npcs": [
+		{
+			"id": "native.npc.niling_winch_taoist",
+			"legacy_source": "native: 逆灵宫 A (the 道士 at the winch on the crack's top, who hauls 黄霸's tribute up; 剧情总纲 §3 第三章 ②; DECISIONS「逆灵宫 A」)",
+			"name": "绞盘道士",
+			"aliases": ["winch taoist", "taoist", "black taoist"],
+			"gender": "男性",
+			"age": 28,
+			"long": "一个黑衣黑冠的道士，两手把着绞盘的摇柄，肩膀一耸一耸。他看了你一眼，又低头去摇，像是什么也没看见——能上到这里来的，在他眼里都是宫里放上来的人。\n",
+			"attributes": { "str": 24, "cor": 22, "int": 18, "spi": 18, "cps": 20, "per": 12, "con": 24, "kar": 8 },
+			"combat_exp": 2500,
+			"score": 150,
+			"attitude": "peaceful",
+			"skills": { "unarmed": 20, "sword": 25, "dodge": 25, "parry": 25 },
+			"carry": [
+				{ "item": "es2:d/oldpine/npc/obj/black_cloth", "source": "d/oldpine/npc/obj/black_cloth.c", "equip": "wear" },
+				{ "item": "native:niling/black_crown", "source": "native: 逆灵宫 A", "equip": "wear" }
+			],
+			"chat_chance": 10,
+			"chat_msg": [
+				"绞盘道士咬着牙摇了一圈绞盘，绳子吱吱地响。\n",
+				"绞盘道士嘟囔道：今年的供比去年沉……\n",
+				"绞盘道士朝裂口里喊了一声：下面的，拴好了没有！\n"
+			],
+			"inquiry": {
+				"纳供": [
+					"绞盘道士头也不抬：供在那边堆着，管事叫你搬就搬。"
+				],
+				"逆灵宫": [
+					"绞盘道士道：宫里的事，问管事去，别问我。"
+				],
+				"霍铮": [
+					"绞盘道士摇绳的手顿了一顿：不认识。……你问这个做什么。"
+				],
+				"裂口": [
+					"绞盘道士道：底下是野羊山的山路。宫里的人不走山路，只走这根绳。"
+				]
+			},
+			"chat_chance_combat": 20,
+			"chat_msg_combat": [
+				"绞盘道士松了绞盘，尖声道：来人哪！有生人上来了！\n"
+			]
+		},
+		{
+			"id": "native.npc.niling_gatekeeper",
+			"legacy_source": "native: 逆灵宫 A (the 门房 of the 黑砖山门; 剧情总纲 §3 第三章 ②; DECISIONS「逆灵宫 A」)",
+			"name": "门房道士",
+			"aliases": ["gatekeeper", "taoist", "black taoist"],
+			"gender": "男性",
+			"age": 40,
+			"long": "一个黑衣黑冠的道士，坐在门房的桌后，面前摊着一本簿子，手里的笔却半天不动。他的眼睛不看簿子，看门洞——谁进来，他先看冠，再看脸。\n",
+			"attributes": { "str": 24, "cor": 24, "int": 22, "spi": 20, "cps": 24, "per": 14, "con": 24, "kar": 8 },
+			"combat_exp": 4000,
+			"score": 200,
+			"attitude": "aggressive",
+			"capabilities": ["aggressive_on_player_presence"],
+			"ignores_when": { "wearing": "native:niling/black_crown" },
+			"skills": { "unarmed": 25, "sword": 32, "dodge": 30, "parry": 30 },
+			"carry": [
+				{ "item": "es2:d/oldpine/obj/short_sword", "source": "d/oldpine/npc/obj/short_sword.c", "equip": "wield" },
+				{ "item": "es2:d/oldpine/npc/obj/black_cloth", "source": "d/oldpine/npc/obj/black_cloth.c", "equip": "wear" },
+				{ "item": "native:niling/black_crown", "source": "native: 逆灵宫 A", "equip": "wear" }
+			],
+			"calls": [
+				{
+					"after": 1,
+					"wears": "black crown",
+					"not_mark": "门房道士打过招呼",
+					"steps": [
+						{ "emote": "抬眼看了看你头上的黑冠，又低下头去。" },
+						{ "say": "新来的？进去别乱走。后殿不许去，地牢不许去，管事叫你干什么就干什么。" },
+						{ "mark": "门房道士打过招呼" }
+					]
+				}
+			],
+			"inquiry": {
+				"逆灵宫": [
+					"门房道士道：这里就是。进了这道门，就别再问这个名字。"
+				],
+				"纳供": [
+					"门房道士道：野羊寨的供今天到。东边货栈，搬完了再说话。"
+				],
+				"霍铮": [
+					"门房道士的笔停了一下：没这个人。……谁让你问的？"
+				],
+				"后殿": [
+					"门房道士道：后殿是宫主行法的地方。没有大弟子的话，谁都不许进。"
+				]
+			},
+			"chat_chance_combat": 25,
+			"chat_msg_combat": [
+				"门房道士厉声道：哪里来的野人，敢闯逆灵宫！\n",
+				"门房道士朝院里喊：有生人！拦住他！\n"
+			]
+		},
+		{
+			"id": "native.npc.niling_gate_guard",
+			"legacy_source": "native: 逆灵宫 A (the two 道士 who keep the 黑砖山门 inside the yard; 剧情总纲 §3 第三章 ②; DECISIONS「逆灵宫 A」)",
+			"name": "守门道士",
+			"aliases": ["gate guard", "guard", "taoist", "black taoist"],
+			"gender": "男性",
+			"age": 32,
+			"long": "一个黑衣黑冠的道士，背着手站在院子里，腰上一柄短剑。他站得笔直，眼睛半闭着，像在听什么——听见生人的脚步，眼睛就睁开了。\n",
+			"attributes": { "str": 26, "cor": 24, "int": 18, "spi": 20, "cps": 22, "per": 12, "con": 26, "kar": 8 },
+			"combat_exp": 5000,
+			"score": 220,
+			"attitude": "aggressive",
+			"capabilities": ["aggressive_on_player_presence"],
+			"ignores_when": { "wearing": "native:niling/black_crown" },
+			"skills": { "unarmed": 25, "sword": 36, "dodge": 32, "parry": 34 },
+			"carry": [
+				{ "item": "es2:d/oldpine/obj/short_sword", "source": "d/oldpine/npc/obj/short_sword.c", "equip": "wield" },
+				{ "item": "es2:d/oldpine/npc/obj/black_cloth", "source": "d/oldpine/npc/obj/black_cloth.c", "equip": "wear" },
+				{ "item": "native:niling/black_crown", "source": "native: 逆灵宫 A", "equip": "wear" }
+			],
+			"chat_chance": 6,
+			"chat_msg": [
+				"守门道士把腰上的短剑往上提了提。\n",
+				"守门道士低声念了一句什么，声音像蚊子哼。\n"
+			],
+			"inquiry": {
+				"逆灵宫": [
+					"守门道士道：少说话，多干活。"
+				],
+				"纳供": [
+					"守门道士朝东边一偏头：货栈。"
+				]
+			},
+			"chat_chance_combat": 25,
+			"chat_msg_combat": [
+				"守门道士喝道：生人闯宫，留下！\n",
+				"守门道士一剑劈空，剑风带起一股苦味。\n"
+			]
+		},
+		{
+			"id": "native.npc.niling_store_taoist",
+			"legacy_source": "native: 逆灵宫 A (the 道士 who keeps the 货栈 where the tribute is stowed; 剧情总纲 §3 第三章 ②④; DECISIONS「逆灵宫 A」)",
+			"name": "货栈道士",
+			"aliases": ["store taoist", "taoist", "black taoist"],
+			"gender": "男性",
+			"age": 36,
+			"long": "一个黑衣黑冠的道士，袖子挽着，正把一只箱子里的绸缎一匹匹抖开来数。他数得很慢，数到一半停下来，往那几只画着符的箱子那边瞟一眼，再从头数。\n",
+			"attributes": { "str": 24, "cor": 22, "int": 22, "spi": 20, "cps": 22, "per": 12, "con": 24, "kar": 8 },
+			"combat_exp": 3500,
+			"score": 180,
+			"attitude": "aggressive",
+			"capabilities": ["aggressive_on_player_presence"],
+			"ignores_when": { "wearing": "native:niling/black_crown" },
+			"skills": { "unarmed": 22, "sword": 30, "dodge": 28, "parry": 30 },
+			"carry": [
+				{ "item": "es2:d/oldpine/obj/short_sword", "source": "d/oldpine/npc/obj/short_sword.c", "equip": "wield" },
+				{ "item": "es2:d/oldpine/npc/obj/black_cloth", "source": "d/oldpine/npc/obj/black_cloth.c", "equip": "wear" },
+				{ "item": "native:niling/black_crown", "source": "native: 逆灵宫 A", "equip": "wear" }
+			],
+			"chat_chance": 8,
+			"chat_msg": [
+				"货栈道士数着绸缎：……十一、十二……\n",
+				"货栈道士踢了踢一只画着符的箱子，箱子里没有动静，他松了口气。\n"
+			],
+			"inquiry": {
+				"纳供": [
+					"货栈道士道：都是野羊寨的供。你是哪一房的？管事让你来搬？搬那边的，画着符的别碰。"
+				],
+				"箱子": [
+					"货栈道士压低声音：画符的那几只，是「祭」。等子时，大弟子来取。你没见过，我也没说过。"
+				],
+				"逆灵宫": [
+					"货栈道士道：干活。"
+				],
+				"霍铮": [
+					"货栈道士道：野羊寨的大寨主？半年前就进了地牢，还问。"
+				]
+			},
+			"chat_chance_combat": 25,
+			"chat_msg_combat": [
+				"货栈道士叫道：有贼！有贼偷供！\n",
+				"货栈道士一边招架一边往门口退。\n"
+			]
+		}
+	]
+}

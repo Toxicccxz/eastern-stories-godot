@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://runtime/world/world_landmark_area_2d.gd" id="landmark"]
 [ext_resource type="Script" path="res://runtime/world/world_passage_area_2d.gd" id="passage"]
 [ext_resource type="Script" path="res://runtime/world/world_physical_zone_area_2d.gd" id="zone"]
+[ext_resource type="Script" path="res://runtime/world/world_service_point.gd" id="service"]
 [ext_resource type="TileSet" path="res://scenes/world/common/placeholder_terrain_tileset.tres" id="terrain_tiles"]
 
 [sub_resource type="RectangleShape2D" id="Rect_64_32"]
@@ -88,10 +89,10 @@ theme_override_font_sizes/font_size = 14
 text = "山路"
 
 [node name="Mroad4Label" type="Label" parent="Terrain"]
-offset_left = 564
-offset_top = 1154
-offset_right = 565
-offset_bottom = 1177
+offset_left = 580
+offset_top = 1122
+offset_right = 581
+offset_bottom = 1145
 mouse_filter = 2
 theme_override_font_sizes/font_size = 14
 text = "山路转角"
@@ -188,6 +189,40 @@ portal_id = &"goathill.mroad3.east"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Mroad3EastPassage"]
 shape = SubResource("Rect_32_64")
+
+[node name="Mroad4TarpService" type="Marker2D" parent="."]
+position = Vector2(660, 1224)
+script = ExtResource("service")
+service_id = &"goathill.mroad4.tarp"
+
+[node name="Visual" type="Polygon2D" parent="Mroad4TarpService"]
+polygon = PackedVector2Array(0, -20, 16, 8, 0, 20, -16, 8)
+color = Color(0.5, 0.85, 1, 1)
+
+[node name="Label" type="Label" parent="Mroad4TarpService"]
+offset_left = -100.0
+offset_top = 26.0
+offset_right = 100.0
+mouse_filter = 2
+text = "油布 · 钻进车里"
+horizontal_alignment = 1
+
+[node name="Mroad4RopeService" type="Marker2D" parent="."]
+position = Vector2(600, 1196)
+script = ExtResource("service")
+service_id = &"goathill.mroad4.rope"
+
+[node name="Visual" type="Polygon2D" parent="Mroad4RopeService"]
+polygon = PackedVector2Array(0, -20, 16, 8, 0, 20, -16, 8)
+color = Color(0.5, 0.85, 1, 1)
+
+[node name="Label" type="Label" parent="Mroad4RopeService"]
+offset_left = -100.0
+offset_top = 26.0
+offset_right = 100.0
+mouse_filter = 2
+text = "绳索 · 攀绳上去"
+horizontal_alignment = 1
 
 [node name="Zones" type="Node2D" parent="."]
 
@@ -332,6 +367,11 @@ spawn_point_id = &"goathill.mroad4.tribute_taoist.1"
 position = Vector2(720, 1172)
 script = ExtResource("marker")
 spawn_point_id = &"goathill.mroad4.tribute_taoist.2"
+
+[node name="Mroad4RopeReturn" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(640, 1200)
+script = ExtResource("marker")
+spawn_point_id = &"goathill.mroad4.rope_return"
 
 [node name="Characters" type="Node2D" parent="."]
 

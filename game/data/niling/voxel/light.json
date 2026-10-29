@@ -1,0 +1,17 @@
+{
+  "note": "逆灵宫 (野羊山北麓): the north slope lies in the mountain's shadow — a cold grey-blue day, a bruised dusk, nights black and starless over the black brick; under cloud a flat slate grey. Indoors the black walls eat the light: the red lanterns and the altar's blue-purple flame are the brightest things. The 道观 keeps the lamps lit by day too.",
+  "outdoor": {
+    "overcast": {"sky": "7e8288", "ambient": "8a8e94", "sun": "b8bcc4", "note": "under cloud (DECISIONS「天气」): slate over the north slope"},
+    "sky": {"dawn": "9a8ea0", "day": "98a4b4", "dusk": "6e4a5a", "night": "070a14", "midnight": "05070f"},
+    "ambient": {"dawn": "a89ab0", "day": "b8c0cc", "dusk": "8a6a7a", "night": "3a4262", "midnight": "343a5a"},
+    "ambient_energy": {"dawn": 0.4, "day": 0.46, "dusk": 0.42, "night": 0.3, "midnight": 0.28},
+    "sun": {"dawn": "d8b8a8", "day": "e8ecf4", "dusk": "c07060", "night": "8898c8", "midnight": "7a8ac0"},
+    "sun_energy": {"dawn": 0.45, "day": 0.78, "dusk": 0.6, "night": 0.24, "midnight": 0.2}
+  },
+  "indoor": {
+    "ambient": {"dawn": "8a7a80", "day": "9a9098", "dusk": "8a6a70", "night": "4a4660", "midnight": "444060"},
+    "ambient_energy": {"dawn": 0.36, "day": 0.38, "dusk": 0.38, "night": 0.32, "midnight": 0.3},
+    "sun": {"dawn": "d0b8b0", "day": "d8d4dc", "dusk": "c08878", "night": "8898c8", "midnight": "7a8ac0"},
+    "sun_energy": {"dawn": 0.22, "day": 0.3, "dusk": 0.26, "night": 0.1, "midnight": 0.08}
+  }
+}

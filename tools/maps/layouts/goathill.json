@@ -202,6 +202,20 @@
             "id": "goathill.mroad3.east",
             "at": [720, 1480],
             "shape": "Rect_32_64"
+          },
+          {
+            "node": "service",
+            "name": "Mroad4TarpService",
+            "id": "goathill.mroad4.tarp",
+            "at": [660, 1224],
+            "text": "油布 · 钻进车里"
+          },
+          {
+            "node": "service",
+            "name": "Mroad4RopeService",
+            "id": "goathill.mroad4.rope",
+            "at": [600, 1196],
+            "text": "绳索 · 攀绳上去"
           }
         ],
         "zones": [
@@ -259,6 +273,11 @@
             "name": "TributeTaoist02",
             "at": [720, 1172],
             "id": "goathill.mroad4.tribute_taoist.2"
+          },
+          {
+            "name": "Mroad4RopeReturn",
+            "at": [640, 1200],
+            "id": "goathill.mroad4.rope_return"
           }
         ],
         "interactions": [

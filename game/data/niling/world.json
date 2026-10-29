@@ -1,0 +1,71 @@
+{
+	"regions": [
+		{ "id": "niling", "name": "逆灵宫", "recommended_exp": 30000 }
+	],
+	"maps": [
+		{ "id": "niling.slope", "region": "niling", "scene": "res://scenes/world/niling/niling_slope.tscn", "entry": "niling.winch.rope_arrival" },
+		{ "id": "niling.gate", "region": "niling", "scene": "res://scenes/world/niling/niling_gate.tscn", "entry": "niling.gatehouse.path_entry", "interior": true }
+	],
+	"zones": [
+		{ "id": "niling.winch", "map": "niling.slope", "rooms": ["native:niling/winch"] },
+		{ "id": "niling.goods_path", "map": "niling.slope", "rooms": ["native:niling/goods_path"] },
+		{ "id": "niling.side_door", "map": "niling.slope", "rooms": ["native:niling/side_door"] },
+		{ "id": "niling.gatehouse", "map": "niling.gate", "indoors": true, "rooms": ["native:niling/gatehouse"] },
+		{ "id": "niling.yard", "map": "niling.gate", "indoors": true, "rooms": ["native:niling/yard"] },
+		{ "id": "niling.store", "map": "niling.gate", "indoors": true, "rooms": ["native:niling/store"] }
+	],
+	"portals": [
+		{ "id": "niling.goods_path.north", "from_zone": "niling.goods_path", "to_zone": "niling.gatehouse", "to_spawn": "niling.gatehouse.path_entry", "legacy_room": "native:niling/goods_path", "legacy_command": "north" },
+		{ "id": "niling.gatehouse.south", "from_zone": "niling.gatehouse", "to_zone": "niling.goods_path", "to_spawn": "niling.goods_path.gate_return", "legacy_room": "native:niling/gatehouse", "legacy_command": "south" },
+		{ "id": "niling.side_door.north", "from_zone": "niling.side_door", "to_zone": "niling.store", "to_spawn": "niling.store.side_entry", "legacy_room": "native:niling/side_door", "legacy_command": "north" },
+		{ "id": "niling.store.south", "from_zone": "niling.store", "to_zone": "niling.side_door", "to_spawn": "niling.side_door.store_return", "legacy_room": "native:niling/store", "legacy_command": "south" }
+	],
+	"services": [
+		{
+			"id": "niling.winch.rope",
+			"kind": "act",
+			"zone": "niling.winch",
+			"name": "绳索",
+			"reach": 96,
+			"legacy_source": "native: 逆灵宫 A (the hoist's rope down the crack to d/goathill/mroad4.c's turn; DECISIONS「逆灵宫 A」)",
+			"act": {
+				"verb": "下到山路",
+				"acts": [
+					{
+						"steps": [
+							{ "line": "你抓住麻绳，顺着裂口里的岩壁一点点溜下去。绳子磨得手心发烫，脚下终于踩到了山路的石头。\n" },
+							{ "damage": { "kee": 10 } },
+							{ "move": "goathill.mroad4", "point": "goathill.mroad4.rope_return" }
+						]
+					}
+				]
+			}
+		}
+	],
+	"landmarks": [
+		{
+			"id": "niling.winch.landmark.crates",
+			"zone": "niling.winch",
+			"name": "箱子",
+			"policy": "look",
+			"long": "吊上来的箱子堆了一人高，每只箱板上都烙着一个「羊」字——野羊寨的记号。箱缝里露出绸缎的一角，另一只箱子底下渗出暗红的水渍，闻着是腌肉的咸味，也许不是。\n",
+			"legacy_source": "native: 逆灵宫 A (野羊寨's tribute hoisted up the crack; doc/help/plan:30–31 纳供大量金钱财帛)"
+		},
+		{
+			"id": "niling.yard.landmark.banners",
+			"zone": "niling.yard",
+			"name": "黑幡",
+			"policy": "look",
+			"long": "黑布的幡从一丈多高的杆子上垂到地，布面上用暗红的颜色写满了字，笔画横着走、竖着走，像是经文又像是符咒。风一过，字就一闪一闪地动，盯久了眼睛发酸。\n",
+			"legacy_source": "native: 逆灵宫 A (黑衣黑冠, doc/help/plan:29; the 逆灵天书 of doc/help/taoist:58 is what the banners quote)"
+		},
+		{
+			"id": "niling.yard.landmark.burner",
+			"zone": "niling.yard",
+			"name": "香炉",
+			"policy": "look",
+			"long": "一只齐腰高的黑铁香炉，炉口里烧着的不是香，是一把把黑色的碎末，冒着极淡的青烟，味道苦得呛人。炉身上铸着一圈无头的人形，手拉着手。\n",
+			"legacy_source": "native: 逆灵宫 A (the 道观 that prays to 劫, not to a god: 剧情总纲 §6; the headless figures are 侮天鬼's, doc/help/history:51–60)"
+		}
+	]
+}

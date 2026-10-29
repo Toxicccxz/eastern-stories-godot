@@ -1,0 +1,18 @@
+{
+	"items": [
+		{
+			"id": "native:niling/black_crown",
+			"legacy_sources": [
+				"native: 逆灵宫 A (剧情总纲 §3 第三章's third way in, 穿黑衣道士的衣服; the crown of doc/help/plan:29's 黑衣黑冠 — the 黑衣 is d/oldpine/npc/obj/black_cloth.c's 夜行衣; DECISIONS「逆灵宫 A」)"
+			],
+			"name": "黑冠",
+			"aliases": ["black crown", "crown", "hat"],
+			"long": "一顶黑绢裹的道冠，冠前镶一枚乌黑的铁片，铁片上錾着一个看不懂的字。逆灵宫的道士人人戴它——戴上它，他们也把你当自己人。\n",
+			"unit": "顶",
+			"material": "cloth",
+			"weight": 500,
+			"value": 300,
+			"armor": { "type": "head", "props": { "armor": 1 }, "weight_dodge": "armor" }
+		}
+	]
+}

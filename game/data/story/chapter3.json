@@ -6,7 +6,7 @@
 			"line": "main",
 			"region": "野羊山",
 			"sources": [
-				"native: 剧情总纲 §3 第三章「黑砖道观」, its entrance only (owner, 2026-10-29; DECISIONS「第三章入口」「刘安禄放过后开口」「黄霸改寨主」) over doc/help/plan:26–31 (the draft: 逆灵宫 on 野羊山's north slope, the 大寨主 and 二寨主 gone half a year, the 三寨主 paying tribute every year), d/snow/npc/guard.c (刘安禄, 野羊山寨二寨主 血手刘三), d/goathill/npc/bandit_hwang.c (黄霸), d/goathill/mroad4.c:11 (北边的山壁有一个裂口, 离地约有三到四丈) and d/snow/npc/woodcutter.c:15 (野羊山那群臭道士). 霍铮, the tribute cart and its escort are the outline's. 剧情总纲 §8 第 4 步 goes on from the last step; the ledger keys stay."
+				"native: 剧情总纲 §3 第三章「黑砖道观」, its entrance only (owner, 2026-10-29; DECISIONS「第三章入口」「刘安禄放过后开口」「黄霸改寨主」) over doc/help/plan:26–31 (the draft: 逆灵宫 on 野羊山's north slope, the 大寨主 and 二寨主 gone half a year, the 三寨主 paying tribute every year), d/snow/npc/guard.c (刘安禄, 野羊山寨二寨主 血手刘三), d/goathill/npc/bandit_hwang.c (黄霸), d/goathill/mroad4.c:11 (北边的山壁有一个裂口, 离地约有三到四丈) and d/snow/npc/woodcutter.c:15 (野羊山那群臭道士). 霍铮, the tribute cart and its escort are the outline's. 剧情总纲 §8 第 4 步 goes on from the last step; the ledger keys stay. 逆灵宫 A (DECISIONS「逆灵宫 A」) adds `way` (the three ways in: 跟车 / 强攻 / 穿衣, 剧情总纲 §3 第三章 ①) and `yard`, and stops at `hall` (the mark 进了前殿 that B writes); B and C go on from there."
 			],
 			"summary": "进野羊山北麓的黑道观，找到失踪的大寨主。",
 			"requires": ["main.chapter2"],
@@ -37,10 +37,49 @@
 				},
 				{
 					"id": "gate",
-					"objective": "逆灵宫就在裂口上头。找到失踪的大寨主霍铮。",
+					"objective": "逆灵宫就在裂口上头。找到失踪的大寨主霍铮。跟着纳供车上去、打倒押车道士攀绳，或者戴上黑衣道士的黑冠——黄霸那里有一顶。",
 					"done": { "mark": "进了逆灵宫" },
 					"text": "你进了逆灵宫。",
 					"target": { "map": "goathill.mountain", "zone": "goathill.mroad4" }
+				},
+				{
+					"id": "way",
+					"objective": "站稳脚跟，看看这是哪里。",
+					"target": { "map": "niling.slope", "zone": "niling.winch" },
+					"options": [
+						{
+							"id": "sneak",
+							"done": { "mark": "跟车进了逆灵宫" },
+							"text": "你缩在供品箱子中间，和纳供一起被吊上了裂口。绞盘旁的道士只当你是箱子。",
+							"reward": { "deed": "混在野羊寨的供品里进了逆灵宫" }
+						},
+						{
+							"id": "force",
+							"done": { "mark": "押车道士倒了" },
+							"text": "你打倒了押车道士，攀着他们的绳子上了裂口。",
+							"reward": { "deed": "打倒押车道士闯进了逆灵宫" }
+						},
+						{
+							"id": "robe",
+							"done": { "wearing": "native:niling/black_crown" },
+							"text": "你戴上黑冠，押车道士只当你是宫里的人，让你自己攀了上去。",
+							"reward": { "deed": "戴着黑冠走进了逆灵宫" }
+						}
+					]
+				},
+				{
+					"id": "yard",
+					"objective": "顺着货道往北，进黑砖山门，看看这座道观。戴着黑冠的，道士当你是自己人。",
+					"done": { "zone": "niling.yard" },
+					"text": "黑砖的前院：黑幡垂地，香炉里烧的不是香。前殿的门关着，东边的矮房是货栈。",
+					"target": { "map": "niling.gate", "zone": "niling.yard" }
+				},
+				{
+					"id": "hall",
+					"objective": "前殿的门关着。找路进前殿，找到霍铮。",
+					"done": { "mark": "进了前殿" },
+					"text": "你进了前殿。",
+					"target": { "map": "niling.gate", "zone": "niling.yard" }
 				}
 			],
 			"reward": { "milestone": true, "deed": "进了野羊山北麓的逆灵宫" }

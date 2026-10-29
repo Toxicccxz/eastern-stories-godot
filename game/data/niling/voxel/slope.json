@@ -1,0 +1,97 @@
+{
+  "indoor": false,
+  "camera_size": 24,
+  "note": "北麓货道 (native:niling/winch, goods_path, side_door; 逆灵宫 A): the crack's top on 野羊山's north slope — the winch platform at the rim where 黄霸's tribute comes up the rope, the boxes stacked a man high and branded 羊, the goods road north along the ridge between dry grass and black-grey weathered rock, the black-brick 道观 standing across the north end with its gate open and black banners inside, the nook under its east wall with the 货栈's low side door. The south edge is the drop into the crack (mroad4's turn far below). Cold, grey, lived-in: the road rutted by carts, the platform worn flat, lanterns red by day.",
+  "edge": {
+    "minimum_margin": 32,
+    "maximum_margin": 80,
+    "depth": 2.8,
+    "top": "4e4a46",
+    "bottom": "3a3634",
+    "strata": ["5e5854", "6a6460", "524c48"]
+  },
+  "cliffs": {
+    "kinds": ["cliff"],
+    "low": 0.8,
+    "high": 4.2,
+    "rise": 200,
+    "step": 0.5,
+    "rough": 0.5,
+    "grooves": 0.1,
+    "strata": ["565250", "646058", "6e6a62", "7a766c", "5c5852", "68645c"],
+    "tops": ["5e5c46", "6a6848", "76744e"],
+    "sink": {"kinds": ["cliff"], "depth": 8.0, "rough": 0.6, "floor": ["3a3634", "46423e", "2e2c2a"], "strata": ["5a5650", "66625a", "726e66", "4e4a46", "605c56", "6c6860"], "gloom": 0.6, "rect": [128, 1168, 1056, 1248], "note": "the south edge: the crack, the rope going down into it to mroad4's turn"},
+    "areas": [
+      {"rect": [128, 64, 1056, 400], "strata": ["3a3836", "46423e", "524e4a", "5e5a56", "403c38", "4a4642"], "tops": ["48463a", "54523e", "605c44"], "grooves": 0.14, "note": "the rock behind the 道观: darker, scored"}
+    ]
+  },
+  "exit_trails": {"note": "no exit trail: the road ends at the gate, the rope at the rim"},
+  "ground": {
+    "path": {"style": "scree", "colors": ["6e6658", "7a7262", "66604e"], "gravel": 0.7, "stones": 0.1, "pebbles": ["8a8270", "7a7260", "9a9280", "6a6250"], "ruts": true, "note": "the goods road, rutted by the carts"},
+    "rock": {"style": "scree", "colors": ["5e5a52", "6a665c", "56524a"], "gravel": 0.8, "stones": 0.14, "pebbles": ["7a766c", "6a665c", "8a867a", "4e4a44"], "note": "乱石遍布的荒山, grey on the north side"},
+    "boundary": {"style": "scree", "colors": ["565248", "625e54", "4e4a42"], "gravel": 0.5, "stones": 0.06, "pebbles": ["6e6a60", "7a766c", "5e5a50"]}
+  },
+  "ground_tints": {"bank": "4e4a40", "mud": "5a5448", "chips": ["7a766c", "8a867a", "6a665c"], "dust": "8a8678", "grit": "9a9688"},
+  "flora": {
+    "grass_density": 0.7,
+    "density": {"rock": 0.16, "path": 0.03, "boundary": 0.3},
+    "flower_threshold": 0.4,
+    "blossom_trees": 0.0,
+    "tree_types": ["mountain_pine", "dead", "scrub", "scrub", "dead"],
+    "tree_kinds": ["forest"],
+    "tree_chance": 0.45,
+    "tree_spacing": 72,
+    "cliff_tufts": 0.18,
+    "cliff_flowers": 0.0,
+    "cliff_trees": 0.02,
+    "cliff_tree_types": ["scrub", "dead", "stunted_pine"],
+    "outcrop_colors": ["5e5a52", "6a665c", "4e4a44"],
+    "wind": 0.5,
+    "butterflies": 0,
+    "meadows": [
+      {"rect": [320, 352, 704, 896], "on": ["rock"], "scale": [1.2, 1.8], "density": 0.55, "tufts": 2, "note": "枯黄的长草 either side of the goods road"}
+    ]
+  },
+  "ambience": {
+    "birds": [{"at": [512, 1100], "radius": 260, "count": 3, "height": 10, "color": "1a1816", "note": "crows over the crack"}],
+    "dust": [{"rect": [320, 352, 704, 1184], "count": 18, "color": "8a8678", "wind": [-0.6, -0.3]}]
+  },
+  "reshape": [],
+  "buildings": [
+    {"rect": [224, 96, 960, 352], "portals": ["niling.goods_path.north", "niling.side_door.north"], "note": "the black-brick 道观 (plan:28 全用黑砖砌成的大道观): a long black compound wall with the gate tower in its middle and the low 货栈 wing to the east; the gate stands open, red lanterns either side by day and night", "construction": "brick", "wall": "161414", "brick": ["161414", "1e1b1a", "100e0e", "262220"], "mortar": "2e2a28", "timber": "221c1a", "roof": "1a171c", "height": 3.6, "roof_form": "xieshan", "rise": 1.1, "eave_lift": 0.35, "foundation": 0.4, "porch": "none", "lanterns": true, "lantern_paper": "8a1e1a", "goods": "none", "doorway": "dark", "step": "2e2a28", "whitewash": 0.0, "worn": 0.15}
+  ],
+  "props": [
+    {"kind": "iron_chain", "at": [512, 1176], "size": [16, 16], "drop": 8.0, "face": -0.1, "links": 40, "rope": true, "color": "7a6a4a", "note": "the hoist's rope over the rim and down the crack (mroad4.c: the crack 离地约有三到四丈)"},
+    {"kind": "post", "at": [664, 1152], "size": [16, 16], "height": 1.4, "wood": "4a3a30", "note": "the rope's post at the rim (the layout's blocked box)"},
+    {"kind": "glow", "at": [512, 1160], "color": "9aa8d0", "day": 0.0, "night": 0.7, "range": 8.0, "height": 2.5, "note": "moonlight on the rim"},
+    {"kind": "stains", "at": [512, 1080], "size": [220, 120], "count": 9, "colors": ["4a4640", "56524a", "3e3a36"], "note": "the platform worn and stained by the boxes dragged over it"},
+    {"kind": "cart_wheel", "at": [372, 1140], "size": [20, 20], "rotation": 30, "note": "a broken cart wheel thrown by the rim"},
+    {"kind": "bones", "at": [630, 940], "size": [36, 28], "skull": false, "count": 3, "note": "gnawed bones by the winch: the 道士's meals"},
+    {"kind": "wine_jars", "at": [648, 1000], "size": [32, 32], "count": 2, "tipped": 1, "note": "the winch 道士's jars"},
+    {"kind": "torch", "at": [352, 1000], "size": [16, 16], "height": 1.9, "note": "a torch at the platform's west edge"},
+    {"kind": "torch", "at": [664, 1040], "size": [16, 16], "height": 1.9, "note": "and one by the winch, for the night hauls"},
+    {"kind": "hanging_lantern", "at": [480, 1120], "paper": "8a1e1a", "height": 2.2, "note": "a red lantern on the rope's frame over the rim"},
+    {"kind": "trail", "points": [[512, 1120], [500, 1000], [496, 900], [490, 800], [512, 680], [520, 560], [512, 440], [512, 384]], "color": "5e5648", "note": "the cart ruts up the goods road"},
+    {"kind": "trail", "points": [[560, 620], [680, 540], [800, 470], [832, 392]], "color": "5e5648"},
+    {"kind": "cairn", "at": [340, 700], "size": [16, 16], "stones": 5, "colors": ["5e5a52", "6a665c", "4e4a44"], "note": "a stone pile by the road"},
+    {"kind": "standing_rock", "at": [708, 760], "size": [36, 32], "height": 2.2, "colors": ["4e4a44", "5e5a52", "6a665c", "3e3a36"], "cap": "5e5c46", "note": "黑灰色的风化岩 by the road"},
+    {"kind": "boulder", "at": [330, 560], "size": [40, 34], "tall": 0.8, "colors": ["5e5a52", "6a665c", "4e4a44"], "lichen_color": "6a6a4a"},
+    {"kind": "boulder", "at": [690, 440], "size": [32, 28], "tall": 0.7, "colors": ["5e5a52", "6a665c", "4e4a44"]},
+    {"kind": "rock_pile", "at": [880, 540], "size": [30, 28], "count": 6, "colors": ["5e5a52", "6a665c", "4e4a44", "7a766c"]},
+    {"kind": "bush", "at": [372, 480], "size": [30, 24], "colors": ["5a5634", "6e683c", "848048"]},
+    {"kind": "bush", "at": [900, 480], "size": [28, 24], "colors": ["5a5634", "6e683c", "848048"]},
+    {"kind": "dead_log", "at": [660, 860], "size": [60, 20], "rotation": 20, "note": "a dead trunk dragged off the road"},
+    {"kind": "banner", "at": [448, 356], "height": 4.4, "cloth": "141212", "trim": "7a1a1a", "note": "the black banners either side of the gate (黑幡)"},
+    {"kind": "banner", "at": [576, 356], "height": 4.4, "cloth": "141212", "trim": "7a1a1a"},
+    {"kind": "lantern_post", "at": [456, 380], "height": 2.6, "paper": "8a1e1a", "note": "red lanterns by the gate, lit by day too (native:niling/gatehouse)"},
+    {"kind": "lantern_post", "at": [568, 380], "height": 2.6, "paper": "8a1e1a"},
+    {"kind": "stains", "at": [832, 440], "size": [140, 100], "count": 6, "colors": ["4a4640", "56524a", "3e3a36"], "note": "the cart ruts end at the side door"},
+    {"kind": "loot_crates", "at": [884, 400], "size": [40, 28], "note": "an empty crate left by the side door"},
+    {"kind": "far_peak", "at": [-140, 1300], "size": [280, 220], "height": 12.0, "elevation": -7.0, "haze": true, "colors": ["4e4a44", "5a564e", "666258", "423e38"], "note": "野羊山's ridges south of the crack, seen from the north slope"},
+    {"kind": "far_peak", "at": [1180, 1320], "size": [300, 240], "height": 13.0, "elevation": -7.0, "haze": true, "colors": ["4e4a44", "5a564e", "666258", "423e38"]}
+  ],
+  "actors": {
+    "default": {"coat": "1a1818", "hat": true},
+    "native.npc.niling_winch_taoist": {"coat": "1e1a1a", "hat": true}
+  }
+}
