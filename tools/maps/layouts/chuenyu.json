@@ -344,34 +344,39 @@
       }
     },
     "upstairs": {
-      "note": "淳于's rooms over 黑松阁: the great bedroom between the two stairs down to the west and east halls, the little balcony north of it over the mountain, the 膳房 south behind its jade curtain door.",
+      "note": "淳于's rooms over 黑松阁, sized by the standard like the halls below (the bedroom a `large` room, the 膳房 a `room`, the balcony small as its text says): the great bedroom between the two stairs down to the west and east halls, the little balcony north of it over the mountain, the 膳房 south behind its jade curtain door.",
       "file": "chuenyu_upstairs.tscn",
       "draw": {
         "technique": "town",
         "base": "boundary",
-        "bounds": [-32, -32, 416, 640],
+        "bounds": [-32, -32, 720, 1120],
         "ground": [],
         "zones": {
-          "chuenyu.yiantai": [64, 0, 320, 160, "open", "floor_wood", null],
-          "chuenyu.bedroom": [0, 160, 384, 416, "enclosed", "floor_wood", "wall_wood"],
-          "chuenyu.kitchen": [64, 416, 320, 608, "enclosed", "floor_wood", "wall"]
+          "chuenyu.yiantai": [96, 0, 592, 192, "open", "floor_wood", null],
+          "chuenyu.bedroom": [0, 192, 688, 672, "enclosed", "floor_wood", "wall_wood"],
+          "chuenyu.kitchen": [64, 672, 624, 1088, "enclosed", "floor_wood", "wall"]
         },
         "roads": [],
         "props": [
-          ["blocked", 64, 0, 320, 16, "the balcony's railing over the mountain"],
-          ["blocked", 240, 304, 336, 368, "淳于's great bed"],
-          ["blocked", 96, 544, 160, 576, "the stove, the roasting boar"]
+          ["blocked", 96, 0, 592, 16, "the balcony's railing over the mountain"],
+          ["blocked", 400, 512, 592, 640, "淳于's great bed against the south wall", {"look": {"kind": "bed", "size": [192, 128], "quilt": "6a2a24"}}],
+          ["blocked", 48, 592, 208, 640, "the 堡主's writing desk", {"look": {"kind": "writing_desk", "size": [160, 48]}}],
+          ["blocked", 48, 224, 96, 320, "a wardrobe by the balcony door", {"look": {"kind": "wardrobe", "size": [48, 96], "rotation": 90}}],
+          ["blocked", 608, 240, 656, 288, {"look": {"kind": "flower_stand"}}],
+          ["blocked", 128, 976, 256, 1040, "the stove, the roasting boar", {"look": {"kind": "hearth", "size": [128, 64]}}],
+          ["blocked", 432, 736, 560, 800, "the 堡主's table (用膳)", {"look": {"kind": "square_table", "size": [128, 64], "set": "wine"}}],
+          ["blocked", 96, 704, 192, 752, "jars of 竹叶青", {"look": {"kind": "wine_jars", "count": 4}}]
         ],
         "reach_from": "BedroomWestStairsArrival",
         "markers_in_middle": ["chuenyu.yiantai"],
         "placed": {
-          "chuenyu.kitchen.cook.1": [128, 480],
-          "chuenyu.kitchen.pigmeat.1": [200, 536],
-          "chuenyu.kitchen.pigmeat.2": [224, 536],
-          "chuenyu.kitchen.pigmeat.3": [248, 536],
-          "chuenyu.kitchen.qiwine.1": [232, 480],
-          "chuenyu.kitchen.qiwine.2": [256, 480],
-          "chuenyu.kitchen.qiwine.3": [256, 504]
+          "chuenyu.kitchen.cook.1": [200, 920],
+          "chuenyu.kitchen.pigmeat.1": [344, 1000],
+          "chuenyu.kitchen.pigmeat.2": [376, 1000],
+          "chuenyu.kitchen.pigmeat.3": [408, 1000],
+          "chuenyu.kitchen.qiwine.1": [256, 800],
+          "chuenyu.kitchen.qiwine.2": [288, 800],
+          "chuenyu.kitchen.qiwine.3": [288, 832]
         }
       },
       "scene": {
@@ -387,28 +392,28 @@
           {
             "zone": "chuenyu.bedroom",
             "name": "BedroomWestStairsDown",
-            "at": [48, 232],
+            "at": [56, 400],
             "id": "chuenyu.bedroom.westdown",
             "shape": "StairsShape",
             "color": "Color(0.55, 0.38, 0.22, 1)",
             "text": "楼梯 · 下楼",
             "marker": {
               "name": "BedroomWestStairsArrival",
-              "at": [112, 232],
+              "at": [120, 400],
               "id": "chuenyu.bedroom.west_stairs_arrival"
             }
           },
           {
             "zone": "chuenyu.bedroom",
             "name": "BedroomEastStairsDown",
-            "at": [336, 232],
+            "at": [632, 400],
             "id": "chuenyu.bedroom.eastdown",
             "shape": "StairsShape",
             "color": "Color(0.55, 0.38, 0.22, 1)",
             "text": "楼梯 · 下楼",
             "marker": {
               "name": "BedroomEastStairsArrival",
-              "at": [272, 232],
+              "at": [568, 400],
               "id": "chuenyu.bedroom.east_stairs_arrival"
             }
           }
@@ -437,7 +442,7 @@
           {
             "node": "caption",
             "name": "BedLabel",
-            "at": [248, 288],
+            "at": [496, 496],
             "text": "大床",
             "size": 12
           },

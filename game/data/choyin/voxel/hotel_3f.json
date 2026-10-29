@@ -1,39 +1,46 @@
 {
   "indoor": true,
   "cutaway_rooms": true,
-  "camera_size": 22,
+  "camera_size": 24,
   "note": "hotel3.c: 客房 — a corridor between the merchants' rooms, their doors shut, 汤掌柜's hired swordsmen on watch with their blades, luggage waiting, the stairs down.",
   "palette": {"wood": ["7a5a44", "845f45", "6e5038"], "wall": "c8bca8"},
   "wall_looks": [
-    {"rect": [32, 32, 192, 96], "style": "boards", "colors": ["7a5a44", "845f45", "6e5038"], "grime": 0.2, "note": "the guest rooms' partitions"},
-    {"rect": [32, 224, 192, 288], "style": "boards", "colors": ["7a5a44", "845f45", "6e5038"], "grime": 0.2}
+    {"rect": [-376, -240, 104, -96], "style": "boards", "colors": ["7a5a44", "845f45", "6e5038"], "grime": 0.2, "note": "the guest rooms' partitions, north row"},
+    {"rect": [-376, 128, 104, 240], "style": "boards", "colors": ["7a5a44", "845f45", "6e5038"], "grime": 0.2, "note": "south row"}
   ],
   "light": {
     "ambient": ["d0c0a4", "5a5a72"],
     "ambient_energy": [0.4, 0.3]
   },
   "props": [
-    {"kind": "stairs", "at": [336, 272], "size": [64, 48], "rotation": -90},
-    {"kind": "closed_door", "at": [112, 110], "size": [48, 16], "note": "hotel3.c: 住的都是一些从外地来的富商大贾 — their doors shut"},
-    {"kind": "closed_door", "at": [112, 210], "size": [48, 16], "rotation": 180},
-    {"kind": "closed_door", "at": [206, 64], "size": [48, 16], "rotation": -90},
-    {"kind": "closed_door", "at": [206, 256], "size": [48, 16], "rotation": -90},
-    {"kind": "runner", "at": [200, 160], "size": [320, 64], "elevation": 0.05, "cloth": "5a3a2a", "border": "8a6a3a"},
-    {"kind": "hanging_lantern", "at": [100, 160], "flicker": 0.06},
-    {"kind": "hanging_lantern", "at": [260, 160], "flicker": 0.06},
-    {"kind": "hanging_lantern", "at": [300, 60]},
-    {"kind": "window", "at": [398, 100], "size": [72, 16], "rotation": -90},
-    {"kind": "window", "at": [398, 200], "size": [72, 16], "rotation": -90},
-    {"kind": "weapon_pegs", "at": [280, 18], "size": [48, 16], "wall_mounted": true, "note": "the guards' spare blades on pegs"},
-    {"kind": "clutter", "at": [360, 60], "size": [32, 32], "items": ["jar", "cups"], "rotation": 0},
-    {"kind": "slippers", "at": [60, 112], "rotation": 90, "cloth": "6a4a3a"},
-    {"kind": "clutter", "at": [340, 230], "size": [32, 32], "items": ["bundle"], "rotation": 0},
-    {"kind": "stains", "at": [200, 160], "size": [280, 40], "count": 5, "colors": ["6a5040", "74583a"], "note": "the corridor worn by the guards' rounds"},
-    {"kind": "clutter", "at": [150, 118], "size": [24, 24], "items": ["umbrella"], "note": "hotel3.c: 从外地来的富商大贾 — each door with its guest's own things left outside: an umbrella, a wine jar and bundle, books and a potted plant, sandals and a basin"},
-    {"kind": "clutter", "at": [80, 204], "size": [32, 24], "items": ["jar", "bundle"]},
-    {"kind": "clutter", "at": [226, 40], "size": [24, 24], "items": ["books"]},
-    {"kind": "pot", "at": [226, 90]},
-    {"kind": "clutter", "at": [226, 280], "size": [32, 24], "items": ["sandals", "bucket"]}
+    {"kind": "stairs", "at": [328, 200], "size": [64, 48], "rotation": -90},
+    {"kind": "closed_door", "at": [-280, -82], "size": [48, 16], "note": "hotel3.c: 住的都是一些从外地来的富商大贾 — their doors shut"},
+    {"kind": "closed_door", "at": [-30, -82], "size": [48, 16]},
+    {"kind": "closed_door", "at": [118, -168], "size": [48, 16], "rotation": -90},
+    {"kind": "closed_door", "at": [-280, 114], "size": [48, 16], "rotation": 180},
+    {"kind": "closed_door", "at": [-30, 114], "size": [48, 16], "rotation": 180},
+    {"kind": "closed_door", "at": [118, 184], "size": [48, 16], "rotation": -90},
+    {"kind": "runner", "at": [-136, 16], "size": [480, 64], "elevation": 0.05, "cloth": "5a3a2a", "border": "8a6a3a"},
+    {"kind": "hanging_lantern", "at": [-280, 16], "flicker": 0.06},
+    {"kind": "hanging_lantern", "at": [-30, 16], "flicker": 0.06},
+    {"kind": "hanging_lantern", "at": [200, 0], "flicker": 0.06},
+    {"kind": "hanging_lantern", "at": [260, -160]},
+    {"kind": "window", "at": [430, -120], "size": [72, 16], "rotation": -90},
+    {"kind": "window", "at": [430, 60], "size": [72, 16], "rotation": -90},
+    {"kind": "window", "at": [240, -286], "size": [72, 16], "note": "north, over the 树王坟 side"},
+    {"kind": "weapon_pegs", "at": [160, -286], "size": [48, 16], "wall_mounted": true, "note": "the guards' spare blades on pegs"},
+    {"kind": "clutter", "at": [330, -150], "size": [32, 32], "items": ["jar", "cups"], "rotation": 0, "note": "the guards' wine"},
+    {"kind": "slippers", "at": [-330, -70], "rotation": 90, "cloth": "6a4a3a"},
+    {"kind": "clutter", "at": [280, 140], "size": [32, 32], "items": ["bundle"], "rotation": 0},
+    {"kind": "stains", "at": [-100, 16], "size": [520, 40], "count": 6, "colors": ["6a5040", "74583a"], "note": "the corridor worn by the guards' rounds"},
+    {"kind": "clutter", "at": [-240, -70], "size": [24, 24], "items": ["umbrella"], "note": "hotel3.c: 从外地来的富商大贾 — each door with its guest's own things left outside: an umbrella, a wine jar and bundle, books and a potted plant, sandals and a basin"},
+    {"kind": "clutter", "at": [-70, -70], "size": [32, 24], "items": ["jar", "bundle"]},
+    {"kind": "clutter", "at": [130, -210], "size": [24, 24], "items": ["books"]},
+    {"kind": "pot", "at": [130, -130]},
+    {"kind": "clutter", "at": [-240, 100], "size": [32, 24], "items": ["sandals", "bucket"]},
+    {"kind": "clutter", "at": [-70, 100], "size": [24, 24], "items": ["basket"]},
+    {"kind": "clutter", "at": [130, 210], "size": [32, 24], "items": ["bundle", "jar"]},
+    {"kind": "pot", "at": [340, 120]}
   ],
   "actors": {
     "default": {"coat": "7a7462"},
@@ -68,5 +75,6 @@
     "choyin.npc.lion": {"body": "crawler", "colors": ["4a4034", "5a4c3c", "c83a2a"], "scale": 1.4, "note": "护草神兽"}
   },
   "entrances": {
+    "choyin.hotel3.down": {"title": "方梯 · 下楼", "label_height": 1.5, "floor_guides": false}
   }
 }

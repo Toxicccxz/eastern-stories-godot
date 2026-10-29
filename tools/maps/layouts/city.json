@@ -496,25 +496,35 @@
       }
     },
     "upstairs": {
-      "note": "太白酒楼's upper floor over the hall (the same 256 x 256): the 雅座 by the windows over the 西街, the stairs in the corner down to the 茶座.",
+      "note": "太白酒楼's upper floor over the hall and the same hall size: the 雅座 for the gentry (大凡有来头的客人都到此饮酒作乐), tables behind screens, wine, and the stairs at the wall down to the 茶座 (墙边有一道楼梯通往一楼的茶座), where the ground floor's come up.",
       "file": "city_upstairs.tscn",
       "draw": {
-        "technique": "town",
-        "base": "boundary",
-        "bounds": [-32, -32, 288, 288],
-        "ground": [],
-        "zones": {
-          "city.jiulou_2": [0, 0, 256, 256, "enclosed", "floor_wood", "wall_wood"]
+        "technique": "interior",
+        "building": "shop",
+        "rooms": {
+          "city.jiulou_2": {
+            "floor": "floor_wood",
+            "wall": "wall_wood",
+            "size": "hall"
+          }
         },
-        "roads": [],
         "props": [
-          ["blocked", 144, 112, 192, 160, "雅座 tables"],
-          ["blocked", 64, 176, 112, 208],
-          ["blocked", 160, 192, 208, 224]
+          ["blocked", "city.jiulou_2", ["rel", 0.3, 0.3], 2.8235, 2.8235, "the 雅座's tables", {"look": {"kind": "square_table", "set": "wine", "stools": [[-0.38, 0], [0.38, 0], [0, -0.38]]}}],
+          ["blocked", "city.jiulou_2", ["rel", 0.55, 0.3], 2.8235, 2.8235, {"look": {"kind": "square_table", "set": "wine", "stools": [[-0.38, 0], [0.38, 0], [0, -0.38]]}}],
+          ["blocked", "city.jiulou_2", ["rel", 0.8, 0.3], 2.8235, 2.8235, {"look": {"kind": "square_table", "set": "wine", "stools": [[-0.38, 0], [0.38, 0], [0, -0.38]]}}],
+          ["blocked", "city.jiulou_2", ["rel", 0.3, 0.7], 2.8235, 2.8235, {"look": {"kind": "square_table", "set": "wine", "stools": [[-0.38, 0], [0.38, 0], [0, 0.38]]}}],
+          ["blocked", "city.jiulou_2", ["rel", 0.55, 0.7], 2.8235, 2.8235, {"look": {"kind": "square_table", "set": "wine", "stools": [[-0.38, 0], [0.38, 0], [0, 0.38]]}}],
+          ["blocked", "city.jiulou_2", ["rel", 0.8, 0.7], 2.8235, 2.8235, {"look": {"kind": "square_table", "set": "wine", "stools": [[-0.38, 0], [0.38, 0], [0, 0.38]]}}],
+          ["blocked", "city.jiulou_2", ["rel", 0.425, 0.5], 0.4705, 2.3529, "painted screens between the 雅座", {"look": {"kind": "folding_screen", "rotation": 90, "cloth": "8a2f2a", "occludes": true}}],
+          ["blocked", "city.jiulou_2", ["rel", 0.675, 0.5], 0.4705, 2.3529, {"look": {"kind": "folding_screen", "rotation": 90, "cloth": "2a4a6a", "occludes": true}}],
+          ["blocked", "city.jiulou_2", ["rel", 0.03, 0.6], 0.9411, 3.7647, "a bench along the west wall", {"look": {"kind": "bench_seat", "rotation": 90, "cloth": "8a2f2a"}}],
+          ["blocked", "city.jiulou_2", ["rel", 0.95, 0.05], 1.8823, 1.4117, "wine for the gentry", {"look": {"kind": "wine_jars", "count": 4}}],
+          ["blocked", "city.jiulou_2", ["rel", 0.97, 0.95], 0.9411, 0.9411, {"look": {"kind": "flower_stand", "flower": "f1e3bd"}}],
+          ["blocked", "city.jiulou_2", ["rel", 0.05, 0.95], 0.9411, 0.9411, {"look": {"kind": "flower_stand", "flower": "e8a0b0"}}]
         ],
-        "reach_from": "Jiulou2StairsArrival",
-        "markers_in_middle": [],
-        "placed": {}
+        "placed": {},
+        "doors": {},
+        "reach_from": "Jiulou2StairsArrival"
       },
       "scene": {
         "style": "map",
@@ -528,24 +538,20 @@
           {
             "zone": "city.jiulou_2",
             "name": "Jiulou2StairsDown",
-            "at": [56, 56],
             "id": "city.jiulou_2.down",
             "shape": "StairsShape",
             "color": "Color(0.55, 0.38, 0.22, 1)",
             "text": "楼梯 · 下楼",
             "marker": {
               "name": "Jiulou2StairsArrival",
-              "at": [120, 56],
               "id": "city.jiulou_2.stairs_arrival"
-            }
+            },
+            "anchor": ["rel", 0.125, 0.125]
           }
         ],
         "nodes": [
           {
             "generated": "captions"
-          },
-          {
-            "generated": "stairs"
           }
         ],
         "zones": [
@@ -554,9 +560,6 @@
           }
         ],
         "spawn_points": [
-          {
-            "generated": "stair_markers"
-          },
           {
             "generated": "markers"
           }

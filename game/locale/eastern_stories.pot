@@ -687,11 +687,11 @@ msgstr ""
 msgid "福林酒楼"
 msgstr ""
 
-#: scenes/world/choyin/choyin_hotel_2f.tscn scenes/world/choyin/choyin_hotel_3f.tscn
+#: scenes/world/choyin/choyin_hotel_2f.tscn scenes/world/choyin/choyin_hotel_3f.tscn data/choyin/voxel/hotel_2f.json data/choyin/voxel/hotel_3f.json
 msgid "方梯 · 下楼"
 msgstr ""
 
-#: scenes/world/choyin/choyin_hotel_2f.tscn scenes/world/choyin/hotel_house.tscn
+#: scenes/world/choyin/choyin_hotel_2f.tscn scenes/world/choyin/hotel_house.tscn data/choyin/voxel/hotel_2f.json
 msgid "方梯 · 上楼"
 msgstr ""
 
