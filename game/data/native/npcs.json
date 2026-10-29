@@ -317,10 +317,10 @@
 			"gender": "男性",
 			"age": 35,
 			"long": "一个黑衣黑冠的道士，瘦得颧骨突出，眼神鬼鬼祟祟的。他怀里紧紧抱着一只石匣。\n",
-			"attributes": { "str": 24, "cor": 26, "int": 22, "spi": 24, "cps": 24, "per": 14, "con": 24, "kar": 8 },
-			"combat_exp": 5000,
+			"attributes": { "str": 20, "cor": 24, "int": 22, "spi": 22, "cps": 22, "per": 14, "con": 22, "kar": 8 },
+			"combat_exp": 1500,
 			"attitude": "friendly",
-			"skills": { "unarmed": 25, "sword": 30, "dodge": 30, "parry": 25, "throwing": 15 },
+			"skills": { "unarmed": 15, "sword": 18, "dodge": 15, "parry": 15, "throwing": 10 },
 			"fight_deferred": "黑衣道士身形一晃，已经离你远了。",
 			"inquiry": {
 				"石匣": ["滚开！"]
@@ -334,12 +334,12 @@
 			"gender": "男性",
 			"age": 35,
 			"long": "一个黑衣黑冠的道士，瘦得颧骨突出，眼神鬼鬼祟祟的。他蹲在那具骸骨旁边，拿着石匣往骸骨的指骨上碰，碰一下，骂一声。\n",
-			"attributes": { "str": 24, "cor": 26, "int": 22, "spi": 24, "cps": 24, "per": 14, "con": 24, "kar": 8 },
-			"combat_exp": 5000,
-			"score": 400,
+			"attributes": { "str": 20, "cor": 24, "int": 22, "spi": 22, "cps": 22, "per": 14, "con": 22, "kar": 8 },
+			"combat_exp": 1500,
+			"score": 150,
 			"bellicosity": 2000,
 			"attitude": "aggressive",
-			"skills": { "unarmed": 25, "sword": 30, "dodge": 30, "parry": 25, "throwing": 15 },
+			"skills": { "unarmed": 15, "sword": 18, "dodge": 15, "parry": 15, "throwing": 10 },
 			"carry": [
 				{ "item": "es2:d/oldpine/obj/short_sword", "source": "d/oldpine/npc/obj/short_sword.c", "equip": "wield" },
 				{ "item": "es2:d/oldpine/npc/obj/black_cloth", "source": "d/oldpine/npc/obj/black_cloth.c", "equip": "wear" }
