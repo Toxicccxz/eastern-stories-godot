@@ -230,7 +230,7 @@ msgstr ""
 #. native.npc.song_pu gender
 #. native.npc.white_officer gender
 #. native.npc.courier gender
-#. native.npc.onlooker gender.then
+#. native.npc.onlooker gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/native/npcs.json
 msgid "男性"
 msgstr ""
@@ -301,8 +301,7 @@ msgstr ""
 #. chuenyu.npc.flower_seller gender
 #. chuenyu.npc.cleangirl gender
 #. chuenyu.npc.xiaojuan2 gender
-#. native.npc.onlooker gender.else
-#: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/native/npcs.json
+#: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json
 msgid "女性"
 msgstr ""
 
