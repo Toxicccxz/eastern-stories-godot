@@ -63,6 +63,12 @@ func book_read_through(item_definition_id: StringName) -> void:
 		_give(ProgressionRules.Kind.BOOK, item_definition_id, tr(item.display_name), true)
 
 
+## A quest ended whose reward is a 历练 (任务系统): given once, for the quest.
+func quest_done(quest: StoryQuestDefinition) -> void:
+	if quest != null:
+		_give(ProgressionRules.Kind.QUEST, quest.quest_id, tr(quest.title), false)
+
+
 ## New Game: the region the player is born in is no first arrival (written down, no reward).
 func note_birthplace() -> void:
 	var player: WorldPlayerRuntimeState = _session.player_runtime()

@@ -154,6 +154,100 @@
 			"attitude": "aggressive",
 			"capabilities": ["aggressive_on_player_presence"],
 			"skills": { "unarmed": 22, "dodge": 22, "parry": 16 }
+		},
+		{
+			"id": "native.npc.feng_ce",
+			"legacy_source": "native: 任务系统 寻剑令 (剧情总纲 §3 序章; one of doc/help/theme's two unnamed 老者, named by the outline; DECISIONS「任务系统」)",
+			"name": "冯策",
+			"aliases": ["feng ce", "feng"],
+			"title": "大内侍卫营总教头",
+			"gender": "男性",
+			"age": 58,
+			"long": "一个鬓发斑白的老者，一身素白的武官袍服，腰背挺得笔直，坐在广场中间的木凳上不动如山。四面探头探脑的武林人没有一个敢靠得太近。\n",
+			"attributes": { "str": 30, "cor": 30, "int": 28, "spi": 26, "cps": 30, "per": 22, "con": 30, "kar": 20 },
+			"combat_exp": 500000,
+			"attitude": "friendly",
+			"skills": { "unarmed": 150, "sword": 180, "dodge": 160, "parry": 160, "force": 150 },
+			"inquiry": {
+				"寻剑": {
+					"rules": [
+						{ "lines": [
+							{ "say": "大声点，让众位兄弟都听见了。" },
+							{ "line": "信使一怔，随即大声说道：「方位是在西南二十四里，黄石隘口。」" }
+						] }
+					]
+				},
+				"黄石隘口": ["那不是你该去的地方。"],
+				"旋芒": ["奉旨办差，闲人少问。"]
+			}
+		},
+		{
+			"id": "native.npc.song_pu",
+			"legacy_source": "native: 任务系统 寻剑令 (剧情总纲 §3 序章; doc/help/theme's other 老者, named by the outline; DECISIONS「任务系统」)",
+			"name": "宋朴",
+			"aliases": ["song pu", "song"],
+			"title": "大内侍卫营副教头",
+			"gender": "男性",
+			"age": 55,
+			"long": "一个瘦削的老者，白袍，坐在冯策身侧半步之后，眼睛半开半合，手里捏着一串核桃慢慢地转。\n",
+			"attributes": { "str": 28, "cor": 28, "int": 30, "spi": 28, "cps": 30, "per": 20, "con": 28, "kar": 22 },
+			"combat_exp": 300000,
+			"attitude": "friendly",
+			"skills": { "unarmed": 140, "sword": 150, "dodge": 160, "parry": 150, "force": 140 },
+			"inquiry": {
+				"寻剑": ["老夫只是陪冯总教头走一趟。寻剑的事，问他去。"],
+				"黄石隘口": ["方位信使已经报过了，还问老夫？"]
+			}
+		},
+		{
+			"id": "native.npc.white_officer",
+			"legacy_source": "native: 任务系统 寻剑令 (doc/help/theme: 一队身著白衣的朝廷武官; DECISIONS「任务系统」)",
+			"name": "白衣武官",
+			"aliases": ["white officer", "officer"],
+			"gender": "男性",
+			"age": 28,
+			"long": "一个身著白衣的朝廷武官，腰悬长剑，站得笔直，目不斜视。\n",
+			"attributes": { "str": 26, "cor": 26, "int": 20, "spi": 20, "cps": 24, "per": 20, "con": 26, "kar": 16 },
+			"combat_exp": 20000,
+			"attitude": "friendly",
+			"skills": { "unarmed": 60, "sword": 80, "dodge": 70, "parry": 70, "force": 60 },
+			"inquiry": {
+				"寻剑": ["奉旨办差，闲人少问。"]
+			}
+		},
+		{
+			"id": "native.npc.courier",
+			"legacy_source": "native: 任务系统 寻剑令 (doc/help/theme: 一匹快马冲进了广场，马上乘客一跃而下; DECISIONS「任务系统」)",
+			"name": "信使",
+			"aliases": ["courier", "messenger"],
+			"gender": "男性",
+			"age": 30,
+			"long": "一个风尘满面的信使，白袍下摆沾著泥点，刚从马上跳下来，气还没喘匀。\n",
+			"attributes": { "str": 24, "cor": 24, "int": 22, "spi": 20, "cps": 20, "per": 20, "con": 26, "kar": 16 },
+			"combat_exp": 3000,
+			"attitude": "friendly",
+			"skills": { "unarmed": 30, "dodge": 40, "parry": 30 },
+			"inquiry": {
+				"寻剑": ["下官只管传话。方位将军叫我当众报了，你也听见了。"],
+				"白道长": ["白道长命下官回禀，说时辰已到。道长自己在何处，下官不敢说。"]
+			}
+		},
+		{
+			"id": "native.npc.onlooker",
+			"legacy_source": "native: 任务系统 寻剑令 (doc/help/theme: 有不少显然是武林中人，正探头探脑地向著广场张望; DECISIONS「任务系统」)",
+			"name": "江湖客",
+			"aliases": ["onlooker", "wanderer"],
+			"gender": "男性",
+			"age": 34,
+			"long": "一个风尘仆仆的江湖人，背著个长条布包，缩在广场边上探头探脑地往官队那边张望。\n",
+			"attributes": { "str": 24, "cor": 24, "int": 22, "spi": 20, "cps": 18, "per": 18, "con": 24, "kar": 16 },
+			"combat_exp": 3000,
+			"attitude": "friendly",
+			"skills": { "unarmed": 30, "dodge": 40, "parry": 30 },
+			"inquiry": {
+				"黄石隘口": ["小兄弟也听见了？西南二十四里，黄石隘口。大内的人要去那儿找一把剑，咱们这些人……也想去瞧瞧。"],
+				"寻剑": ["听说是奉了皇上的旨，去岚城找什麽旋芒宝剑。岚城？谁知道在哪儿。"]
+			}
 		}
 	]
 }

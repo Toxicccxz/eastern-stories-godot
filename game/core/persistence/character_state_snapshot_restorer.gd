@@ -136,6 +136,11 @@ static func restore(
 	state.journal = snapshot.journal.duplicate()
 	state.known_items = snapshot.known_items.duplicate()
 	state.milestones = snapshot.milestones.duplicate()
+	state.quests = snapshot.quests.duplicate()
+	for deed: DeedLog.Deed in snapshot.deeds:
+		if not deed.is_valid():
+			return null
+		state.deeds.append(deed.duplicate_deed())
 	state.pace = snapshot.pace
 	if not snapshot.bounty.is_valid():
 		return null

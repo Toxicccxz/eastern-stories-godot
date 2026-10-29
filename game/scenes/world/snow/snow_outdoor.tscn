@@ -1001,6 +1001,41 @@ position = Vector2(240, 208)
 script = ExtResource("marker")
 spawn_point_id = &"snow.square.trav_blade.3"
 
+[node name="SquareFengCe" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-112, -16)
+script = ExtResource("marker")
+spawn_point_id = &"snow.square.feng_ce"
+
+[node name="SquareSongPu" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(112, -16)
+script = ExtResource("marker")
+spawn_point_id = &"snow.square.song_pu"
+
+[node name="SquareWhiteOfficer1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-208, 64)
+script = ExtResource("marker")
+spawn_point_id = &"snow.square.white_officer.1"
+
+[node name="SquareWhiteOfficer2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(0, 80)
+script = ExtResource("marker")
+spawn_point_id = &"snow.square.white_officer.2"
+
+[node name="SquareWhiteOfficer3" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(208, 64)
+script = ExtResource("marker")
+spawn_point_id = &"snow.square.white_officer.3"
+
+[node name="SquareCourier" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(0, -160)
+script = ExtResource("marker")
+spawn_point_id = &"snow.square.courier"
+
+[node name="SquareOnlooker" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-256, 128)
+script = ExtResource("marker")
+spawn_point_id = &"snow.square.onlooker"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

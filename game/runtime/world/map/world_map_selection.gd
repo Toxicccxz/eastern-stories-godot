@@ -345,8 +345,10 @@ func ask_selected(topic: String) -> Array[String]:
 		_player.state.marks[mark] = 1
 	# What was said goes on the 任务 page (an NPC out cold, or one that does not know, says nothing).
 	var heard: Array[JournalLog.Fresh] = []
+	var quests_heard: Array[StoryQuestLog.Fresh] = []
 	if answer.answered and target.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
 		heard = JournalLog.heard_entries(_player.state, target.definition().definition_id, NpcInquiry.asked_key(target.definition(), topic), GameContent.catalog().journal_chains())
+		quests_heard = StoryQuestLog.heard(_player.state, target.definition().definition_id, NpcInquiry.asked_key(target.definition(), topic), GameContent.catalog().story_quests())
 	for temp: String in answer.temps:
 		_player.temp_marks[temp] = 1
 	if not answer.hands_over.is_empty():
@@ -368,6 +370,7 @@ func ask_selected(topic: String) -> Array[String]:
 	_map.hud().append_colored_lines(answer.lines)
 	# What was recorded of the answer, after the answer itself.
 	session.tell_journal(heard)
+	session.tell_quests(quests_heard)
 	# guard.c ask_me(): the NPC turns (its mood: title, nickname, applies, a blade book in
 	# hand) and kill_ob()s the asker.
 	if not answer.mood.is_empty():

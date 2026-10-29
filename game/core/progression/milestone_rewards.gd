@@ -11,6 +11,7 @@ const KIND_NAMES: Dictionary[ProgressionRules.Kind, String] = {
 	ProgressionRules.Kind.CHAIN: "chain", ProgressionRules.Kind.BOOK: "book",
 	ProgressionRules.Kind.REGION: "region", ProgressionRules.Kind.PLACE: "place",
 	ProgressionRules.Kind.BOUNTY: "bounty", ProgressionRules.Kind.FORCE: "force",
+	ProgressionRules.Kind.QUEST: "quest",
 }
 
 
@@ -55,7 +56,7 @@ static func grant(
 	var key: String = key_of(kind, id)
 	if state.milestones.has(key):
 		return null
-	var grant: Grant = award(state, rules, kind, catch_up, staged, id if kind == ProgressionRules.Kind.CHAIN else &"")
+	var grant: Grant = award(state, rules, kind, catch_up, staged, id if kind in [ProgressionRules.Kind.CHAIN, ProgressionRules.Kind.QUEST] else &"")
 	if grant == null:
 		return null
 	state.milestones[key] = state.milestones.size() + 1
@@ -116,6 +117,9 @@ static func lines(grant: Grant, name: String) -> Array[ColoredLine]:
 		ProgressionRules.Kind.FORCE:
 			# TRANSLATORS: native 历练 reward (前两小时 A): 打坐 brought the player's max_force to {name} (a number).
 			done = _t("你的内力练到了 {name}")
+		ProgressionRules.Kind.QUEST:
+			# TRANSLATORS: native 历练 reward (任务系统): the player did the quest {name} (its title).
+			done = _t("你办成了「{name}」")
 		_:
 			# TRANSLATORS: native 历练 reward (A2): the player's first time in {name} (a region or a named place).
 			done = _t("你第一次来到{name}")

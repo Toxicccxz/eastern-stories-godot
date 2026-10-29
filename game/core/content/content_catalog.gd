@@ -44,6 +44,8 @@ var _sky_levels: Array[String] = []
 var _combat_actions: CombatActionTables = CombatActionTables.new()
 var _quest_tiers: Array[QuestTier] = []
 var _quest_targets: Dictionary[String, bool] = {}
+var _story_quests: Array[StoryQuestDefinition] = []
+var _story_quests_by_id: Dictionary[StringName, StoryQuestDefinition] = {}
 
 
 func _init(
@@ -182,6 +184,23 @@ func set_journal(chains: Array[JournalChainDefinition], topics: Array[CodexTopic
 ## The 任务 page's story chains (journal.json), in authored order.
 func journal_chains() -> Array[JournalChainDefinition]:
 	return _journal_chains
+
+
+## Called once by ContentCatalogBuilder.
+func set_story_quests(quests: Array[StoryQuestDefinition]) -> void:
+	_story_quests = quests.duplicate()
+	_story_quests_by_id.clear()
+	for quest: StoryQuestDefinition in _story_quests:
+		_story_quests_by_id[quest.quest_id] = quest
+
+
+## The quests (任务系统: data/story and the regions' quests.json), in authored order.
+func story_quests() -> Array[StoryQuestDefinition]:
+	return _story_quests
+
+
+func story_quest(quest_id: StringName) -> StoryQuestDefinition:
+	return _story_quests_by_id.get(quest_id)
 
 
 ## The 百科's 江湖常识 (codex.json), in authored order.

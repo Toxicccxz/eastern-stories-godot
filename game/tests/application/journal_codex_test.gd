@@ -119,9 +119,10 @@ func _test_menu_pages(tree: SceneTree) -> void:
 	var ui: SharedGameplayUI = session.shared_ui()
 	var state: CharacterState = session.player_runtime().state
 	ui.menu.open(GameMenu.Tab.JOURNAL)
-	# The 新手链 (前两小时 A) opens with the waiter met at New Game; nothing else has happened.
-	var opening: String = ui.journal_stories.shown_text()
-	_check(opening.begins_with("雪亭镇的头几天") and opening.contains("你在饮风客栈醒来") and not opening.contains("下一步"), "任务: the 新手链's first entry alone, no next step: " + opening.left(60))
+	# The 新手链 (前两小时 A) opens with the waiter met at New Game, under 差事 (任务系统); the main
+	# quest 寻剑令 begins with him too, under 主线 with its next step; a chain never says one.
+	var opening: String = ui.quest_page.shown_text()
+	_check(opening.begins_with("主线\n寻剑令 · 雪亭镇") and opening.contains("差事\n雪亭镇的头几天 · 雪亭镇\n· 你在饮风客栈醒来") and not opening.contains("下一步：跟店小二打听「楼上」"), "任务: 寻剑令 under 主线, the 新手链's first entry alone under 差事: " + opening.left(120))
 	var chain: JournalChainDefinition = null
 	for candidate: JournalChainDefinition in GameContent.catalog().journal_chains():
 		if candidate.entries[0].when == JournalEntryDefinition.When.MARK:
@@ -130,11 +131,11 @@ func _test_menu_pages(tree: SceneTree) -> void:
 	if chain != null:
 		state.marks[chain.entries[0].key] = 1
 		ui.menu.show_tab(GameMenu.Tab.JOURNAL)
-		var text: String = ui.journal_stories.shown_text()
-		_check(text.begins_with(chain.title) and text.contains(chain.entries[0].text) and not text.contains(JournalStories.NOTHING_YET), "the chain shows once its first entry happened: " + text.left(80))
+		var text: String = ui.quest_page.shown_text()
+		_check(text.contains(chain.title) and text.contains(chain.entries[0].text) and not text.contains(QuestPage.NOTHING_YET), "the chain shows once its first entry happened: " + text.left(80))
 		state.marks.erase(chain.entries[0].key)
 		ui.menu.show_tab(GameMenu.Tab.JOURNAL)
-		_check(ui.journal_stories.shown_text() == text, "and stays when its mark is gone")
+		_check(ui.quest_page.shown_text() == text, "and stays when its mark is gone")
 	# Carried items: a master form counts as the item, a book inside a carried case too.
 	var floor: WorldMapFloorItems = (session.active_map() as WorldMapController).floor_items
 	_check(not floor.give_new_item_to_player(&"es2:u/cloud/npc/obj/letter#master").is_empty() and not floor.give_new_item_to_player(&"es2:d/canyon/bamboo/obj/slipcase").is_empty(), "the letter and the case are carried")

@@ -31,12 +31,15 @@ enum When {
 	## Native (前两小时 D): the player heard NPC `key` chat a line containing `topic` (in the
 	## world or in a fight; recorded as it is said).
 	CHAT,
+	## Native (任务系统; DECISIONS「任务系统」): the player stands in zone `key` (the runtime
+	## passes where they are; a quest's arrival step).
+	ZONE,
 }
 
 const WHEN_KEYS: Dictionary[String, int] = {
 	"mark": When.MARK, "temp": When.TEMP, "item": When.ITEM, "seen": When.SEEN, "heard": When.HEARD,
 	"milestone": When.MILESTONE, "force_at_least": When.FORCE_AT_LEAST, "exp_at_least": When.EXP_AT_LEAST,
-	"skill_at_least": When.SKILL_AT_LEAST, "family": When.FAMILY, "chat": When.CHAT,
+	"skill_at_least": When.SKILL_AT_LEAST, "family": When.FAMILY, "chat": When.CHAT, "zone": When.ZONE,
 }
 
 var entry_id: StringName
@@ -67,43 +70,7 @@ static func from_record(reader: ContentRecordReader) -> JournalEntryDefinition:
 	definition.text = reader.required_text("text")
 	definition.final = reader.boolean("final", false)
 	definition.next = reader.text("next")
-	var when: ContentRecordReader = reader.child("when")
-	if when == null:
-		reader.fail("when", "expected an object")
-	else:
-		var names: Array[String] = when.keys()
-		if names.size() != 1 or not WHEN_KEYS.has(names[0]):
-			when.fail("", "expected one of %s" % [WHEN_KEYS.keys()])
-		else:
-			definition.when = WHEN_KEYS[names[0]]
-			match definition.when:
-				When.HEARD:
-					var heard: ContentRecordReader = when.child("heard")
-					if heard != null:
-						definition.key = heard.required_text("npc")
-						definition.topic = heard.required_text("topic")
-						heard.finish()
-				When.CHAT:
-					var chat: ContentRecordReader = when.child("chat")
-					if chat != null:
-						definition.key = chat.required_text("npc")
-						definition.topic = chat.required_text("contains")
-						chat.finish()
-				When.FORCE_AT_LEAST, When.EXP_AT_LEAST:
-					definition.amount = when.required_integer(names[0])
-					if definition.amount <= 0:
-						when.fail(names[0], "must be positive")
-				When.SKILL_AT_LEAST:
-					var skill: ContentRecordReader = when.child("skill_at_least")
-					if skill != null:
-						definition.key = skill.required_text("skill")
-						definition.amount = skill.required_integer("level")
-						if definition.amount <= 0:
-							skill.fail("level", "must be positive")
-						skill.finish()
-				_:
-					definition.key = when.required_text(names[0])
-		when.finish()
+	read_when(reader, definition)
 	var quote: ContentRecordReader = reader.child("quote") if reader.has("quote") else null
 	if quote != null:
 		definition.quote_npc = StringName(quote.required_text("npc"))
@@ -111,3 +78,45 @@ static func from_record(reader: ContentRecordReader) -> JournalEntryDefinition:
 		quote.finish()
 	reader.finish()
 	return definition
+
+
+## Reads `reader`'s `when` object into `definition` (its when, key, topic and amount): one
+## condition of the WHEN_KEYS. A quest's steps (StoryQuestDefinition) read theirs the same way.
+static func read_when(reader: ContentRecordReader, definition: JournalEntryDefinition, field: String = "when") -> void:
+	var when: ContentRecordReader = reader.child(field)
+	if when == null:
+		reader.fail(field, "expected an object")
+		return
+	var names: Array[String] = when.keys()
+	if names.size() != 1 or not WHEN_KEYS.has(names[0]):
+		when.fail("", "expected one of %s" % [WHEN_KEYS.keys()])
+	else:
+		definition.when = WHEN_KEYS[names[0]]
+		match definition.when:
+			When.HEARD:
+				var heard: ContentRecordReader = when.child("heard")
+				if heard != null:
+					definition.key = heard.required_text("npc")
+					definition.topic = heard.required_text("topic")
+					heard.finish()
+			When.CHAT:
+				var chat: ContentRecordReader = when.child("chat")
+				if chat != null:
+					definition.key = chat.required_text("npc")
+					definition.topic = chat.required_text("contains")
+					chat.finish()
+			When.FORCE_AT_LEAST, When.EXP_AT_LEAST:
+				definition.amount = when.required_integer(names[0])
+				if definition.amount <= 0:
+					when.fail(names[0], "must be positive")
+			When.SKILL_AT_LEAST:
+				var skill: ContentRecordReader = when.child("skill_at_least")
+				if skill != null:
+					definition.key = skill.required_text("skill")
+					definition.amount = skill.required_integer("level")
+					if definition.amount <= 0:
+						skill.fail("level", "must be positive")
+					skill.finish()
+			_:
+				definition.key = when.required_text(names[0])
+	when.finish()

@@ -148,9 +148,10 @@ func _encode_character(value: Values.CharacterStateSnapshot) -> Dictionary[Strin
 		result["seen_npcs"] = seen
 	if not value.pace.is_empty():
 		result["pace"] = String(value.pace)
-	# The 任务 page's entries and the items carried (百科), in order: written only when there are some.
-	for field: String in ["journal", "known_items", "milestones"]:
-		var counts: Dictionary[String, int] = value.journal if field == "journal" else value.known_items if field == "known_items" else value.milestones
+	# The 任务 page's entries, the items carried (百科), the 历练 ledger and the quests, in
+	# order: written only when there are some.
+	for field: String in ["journal", "known_items", "milestones", "quests"]:
+		var counts: Dictionary[String, int] = value.journal if field == "journal" else value.known_items if field == "known_items" else value.milestones if field == "milestones" else value.quests
 		if not counts.is_empty():
 			var written: Dictionary[String, Variant] = {}
 			for key: String in counts:
@@ -162,6 +163,20 @@ func _encode_character(value: Values.CharacterStateSnapshot) -> Dictionary[Strin
 		for key: String in value.counters:
 			counters[key] = _i(value.counters[key])
 		result["counters"] = counters
+	# The deeds (DeedLog), in the order they happened: written only when there are some.
+	if not value.deeds.is_empty():
+		var deeds: Array[Variant] = []
+		for deed: DeedLog.Deed in value.deeds:
+			var seen: Array[Variant] = []
+			for npc_id: StringName in deed.seen_by:
+				seen.append(String(npc_id))
+			var written: Dictionary[String, Variant] = {"did": deed.did}
+			if not deed.where.is_empty():
+				written["where"] = String(deed.where)
+			if not seen.is_empty():
+				written["seen_by"] = seen
+			deeds.append(written)
+		result["deeds"] = deeds
 	# damage.c ghost: written only for a ghost.
 	if value.ghost:
 		result["ghost"] = true
@@ -423,7 +438,7 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 		fields.append("marks")
 	if value is Dictionary and value.has("timed_applies"):
 		fields.append("timed_applies")
-	for optional: String in ["quest", "vendetta", "applies", "seen_npcs", "journal", "known_items", "milestones", "bounty", "counters", "ghost", "pace"]:
+	for optional: String in ["quest", "vendetta", "applies", "seen_npcs", "journal", "known_items", "milestones", "quests", "deeds", "bounty", "counters", "ghost", "pace"]:
 		if value is Dictionary and value.has(optional):
 			fields.append(optional)
 	var object: Dictionary = _obj(value, path, fields)
@@ -507,6 +522,12 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 	var milestones: Dictionary[String, int] = {}
 	if object.has("milestones"):
 		milestones = _decode_counts(object["milestones"], path + ".milestones")
+	var quests: Dictionary[String, int] = {}
+	if object.has("quests"):
+		quests = _decode_counts(object["quests"], path + ".quests")
+	var deeds: Array[DeedLog.Deed] = []
+	if object.has("deeds"):
+		deeds = _decode_deeds(object["deeds"], path + ".deeds")
 	var pace: StringName = &""
 	if object.has("pace"):
 		pace = StringName(_string(object["pace"], path + ".pace"))
@@ -529,7 +550,43 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 	if object.has("bounty"):
 		bounty = _decode_bounty(object["bounty"], path + ".bounty")
 	if _error: return null
-	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen).with_journal(journal, known_items).with_counters(counters).with_ghost(ghost).with_milestones(milestones).with_bounty(bounty).with_pace(pace)
+	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen).with_journal(journal, known_items).with_counters(counters).with_ghost(ghost).with_milestones(milestones).with_bounty(bounty).with_pace(pace).with_quests(quests).with_deeds(deeds)
+
+
+## A non-empty list of deeds (DeedLog), each {did, where?, seen_by?}.
+func _decode_deeds(value: Variant, path: String) -> Array[DeedLog.Deed]:
+	var result: Array[DeedLog.Deed] = []
+	var entries: Array = _array(value, path)
+	if not _error and entries.is_empty():
+		_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, path, "expected a non-empty list")
+	for index: int in range(entries.size()):
+		var at: String = "%s[%d]" % [path, index]
+		var fields: Array[String] = ["did"]
+		for optional: String in ["where", "seen_by"]:
+			if entries[index] is Dictionary and (entries[index] as Dictionary).has(optional):
+				fields.append(optional)
+		var object: Dictionary = _obj(entries[index], at, fields)
+		if _error:
+			return result
+		var did: String = _string(object.get("did"), at + ".did")
+		if not _error and did.is_empty():
+			_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, at + ".did", "must not be empty")
+		var where: StringName = &""
+		if object.has("where"):
+			where = StringName(_string(object["where"], at + ".where"))
+			if not _error and where.is_empty():
+				_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, at + ".where", "never written empty")
+		var seen_by: Array[StringName] = []
+		if object.has("seen_by"):
+			var names: Array = _array(object["seen_by"], at + ".seen_by")
+			if not _error and names.is_empty():
+				_fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, at + ".seen_by", "never written empty")
+			for name_index: int in range(names.size()):
+				seen_by.append(StringName(_string(names[name_index], "%s.seen_by[%d]" % [at, name_index])))
+		if _error:
+			return result
+		result.append(DeedLog.Deed.new(did, where, seen_by))
+	return result
 
 
 ## A non-empty {name: integer} object (create()'s drawn apply/<key>, a room's counters).

@@ -164,6 +164,15 @@ func _coordinator() -> WorldResidentMapCoordinator:
 	return node as WorldResidentMapCoordinator
 
 
+## The scene's point for service `service_id` (a WorldServicePoint), or null.
+func service_point(service_id: StringName) -> WorldServicePoint:
+	for node: Node in find_children("*", "Marker2D", true, false):
+		var point: WorldServicePoint = node as WorldServicePoint
+		if point != null and point.service_id == service_id:
+			return point
+	return null
+
+
 func _bind_services() -> bool:
 	var expected: Dictionary[StringName, bool] = {}
 	for definition: ServiceDefinition in GameContent.catalog().services_for_map(map):

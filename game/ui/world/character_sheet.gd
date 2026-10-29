@@ -182,6 +182,10 @@ func _milestone_line(key: String, birthplace: bool) -> String:
 		"force":
 			# TRANSLATORS: a 历练 line: max_force reached {name} (a number) by 打坐.
 			return tr("内力练到 {name}").format({"name": String(id)})
+		"quest":
+			var quest: StoryQuestDefinition = catalog.story_quest(id)
+			# TRANSLATORS: a 历练 line: the quest {name} (its title) done.
+			return tr("办成「{name}」").format({"name": tr(quest.title) if quest != null else String(id)})
 	return key
 
 

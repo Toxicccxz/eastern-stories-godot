@@ -128,6 +128,11 @@ func build(owner_ui: SharedGameplayUI) -> void:
 	ui.player_objective.add_theme_font_size_override("font_size", 13)
 	ui.player_objective.add_theme_color_override("font_color", ACCENT_COLOR)
 	ui.player_objective.hide()
+	# A guide chain's next step while a quest holds the 目标 row (任务系统, owner Q1).
+	ui.player_advice = _label(_bar_rows, "Advice")
+	ui.player_advice.add_theme_font_size_override("font_size", 12)
+	ui.player_advice.add_theme_color_override("font_color", MUTED_COLOR)
+	ui.player_advice.hide()
 	waits = VBoxContainer.new()
 	waits.name = "Waits"
 	waits.add_theme_constant_override("separation", 6)

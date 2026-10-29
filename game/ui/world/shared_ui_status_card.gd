@@ -75,12 +75,21 @@ func refresh_exploration() -> void:
 	_presentation_layout.fit_bar()
 
 
-## The 目标 row (前两小时 A): a guide chain's next step while 目标提示 is on, else nothing.
+## The 目标 row (前两小时 A; 任务系统, owner Q1) while 目标提示 is on: the tracked quest's
+## current step, with a guide chain's next step as 建议 under it; without a quest the guide
+## chain's step is the 目标. Off, nothing.
 func refresh_objective(state: CharacterState) -> void:
-	var objective: String = JournalLog.objective(state, GameContent.catalog().journal_chains()) if ObjectiveHints.shown else ""
+	var catalog: ContentCatalog = GameContent.catalog()
+	var quest: String = StoryQuestLog.objective(state, catalog.story_quests()) if ObjectiveHints.shown else ""
+	var guide: String = JournalLog.objective(state, catalog.journal_chains()) if ObjectiveHints.shown else ""
+	var objective: String = quest if not quest.is_empty() else guide
+	var advice: String = guide if not quest.is_empty() else ""
 	# TRANSLATORS: the status card's objective row (前两小时 A): {next} a guide chain's next step.
 	_ui.player_objective.text = "" if objective.is_empty() else tr("目标：{next}").format({"next": tr(objective)})
 	_ui.player_objective.visible = not objective.is_empty()
+	# TRANSLATORS: the status card's advice row (任务系统): {next} a guide chain's next step while a quest holds 目标.
+	_ui.player_advice.text = "" if advice.is_empty() else tr("建议：{next}").format({"next": tr(advice)})
+	_ui.player_advice.visible = not advice.is_empty()
 
 
 func current_zone() -> ZoneDefinition:

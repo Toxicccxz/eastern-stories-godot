@@ -335,6 +335,9 @@ def extract_content(document: object, relative: str, catalog: Catalog) -> None:
     if isinstance(document, dict) and ("journal_chains" in document or "codex_topics" in document):
         _extract_journal(document, relative, catalog)
         return
+    if isinstance(document, dict) and "quests" in document:
+        _extract_quests(document, relative, catalog)
+        return
     # A document's own list of lines (day_phases.json sky_levels: natured.c's weather_msg).
     if isinstance(document, dict):
         for key, value in document.items():
@@ -344,6 +347,38 @@ def extract_content(document: object, relative: str, catalog: Catalog) -> None:
                         catalog.add(item, relative, note=key)
     for record in _records(document):
         _walk_json(record, relative, str(record.get("id", "")), catalog)
+
+
+def _extract_quests(document: dict, relative: str, catalog: Catalog) -> None:
+    """The quests (任务系统, StoryQuestDefinition): title, region, summary, each step's objective
+    and text, each option's text, and the deeds their rewards write; ids, lines and conditions
+    are never shown."""
+    for quest in document.get("quests", []):
+        if not isinstance(quest, dict):
+            continue
+        quest_id = str(quest.get("id", ""))
+        for key in ("title", "region", "summary"):
+            if isinstance(quest.get(key), str):
+                catalog.add(quest[key], relative, note=f"{quest_id} {key}")
+        reward = quest.get("reward")
+        if isinstance(reward, dict) and isinstance(reward.get("deed"), str):
+            catalog.add(reward["deed"], relative, note=f"{quest_id} reward.deed")
+        for step in quest.get("steps", []):
+            if not isinstance(step, dict):
+                continue
+            step_id = f"{quest_id}/{step.get('id', '')}"
+            for key in ("objective", "text"):
+                if isinstance(step.get(key), str) and step[key]:
+                    catalog.add(step[key], relative, note=f"{step_id} {key}")
+            for option in step.get("options", []):
+                if not isinstance(option, dict):
+                    continue
+                option_id = f"{step_id}/{option.get('id', '')}"
+                if isinstance(option.get("text"), str):
+                    catalog.add(option["text"], relative, note=f"{option_id} text")
+                option_reward = option.get("reward")
+                if isinstance(option_reward, dict) and isinstance(option_reward.get("deed"), str):
+                    catalog.add(option_reward["deed"], relative, note=f"{option_id} reward.deed")
 
 
 def _extract_journal(document: dict, relative: str, catalog: Catalog) -> None:
