@@ -85,7 +85,8 @@ func _test_tabs_and_keys(tree: SceneTree) -> void:
 	_check(ui.supplies_mount.is_visible_in_tree() and ui.panels._food.is_visible_in_tree(), "背包 holds 随身补给")
 	await _key(tree, KEY_J)
 	_check(menu.current_tab() == GameMenu.Tab.JOURNAL and not ui.inventory_is_open(), "J: 任务; the 背包 no longer counts as open")
-	_check(ui.quest_text.text == "你现在没有任何任务！" and ui.combat_log.is_visible_in_tree(), "任务: quest.c without a task, and the log")
+	# 任务系统: 朱鸿雪's lines stand under the 差事 column only while she gave a task.
+	_check(ui.quest_text.text.is_empty() and not ui.quest_text.visible and ui.combat_log.is_visible_in_tree(), "任务: no quest.c lines without a task, and the log")
 	await _key(tree, KEY_J)
 	_check(not menu.is_presented(), "the shown tab's key closes the menu")
 

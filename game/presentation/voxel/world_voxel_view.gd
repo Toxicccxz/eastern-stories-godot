@@ -136,6 +136,8 @@ func release_world() -> void:
 	entrances.clear()
 	shutters.clear()
 	arrows.clear()
+	if quest_marker != null:
+		quest_marker.queue_free()
 	quest_marker = null
 	_quest_key = ""
 	occlusion = VoxelOcclusion.new()
@@ -624,7 +626,9 @@ func _bob_arrows(delta: float) -> void:
 		arrow.position.y = (2.85 if arrow.get_meta("door",false) else 1.0)+sin(_arrow_clock*3.2)*0.2
 
 ## The quest marker follows the tracked quest (StoryQuestLog.target): placed anew when the
-## target or the ledger changes, bobbing with the exit arrows meanwhile.
+## target or the ledger changes, bobbing with the exit arrows meanwhile. It stands beside the
+## world (a child of the view, in the world's coordinates), not in it: the world is the map's
+## portrait and is rebuilt the same whether a quest is on or not.
 func _sync_quest_marker() -> void:
 	var player: WorldPlayerRuntimeState = map.player_runtime()
 	var state: CharacterState = null if player == null else player.state
@@ -654,7 +658,7 @@ func _place_quest_marker(target: StoryQuestDefinition.Target) -> void:
 		quest_marker.position = VoxelMapGeometry.point(zone.global_rect().get_center())
 		quest_marker.set_meta("height", 0.0)
 		quest_marker.set_meta("target_zone", target.zone_id)
-		world.add_child(quest_marker)
+		add_child(quest_marker)
 		var s := Shapes.new()
 		# A pillar of light up from the ground, thin, so it reads from across the map and hides nothing.
 		for step: int in 6:
@@ -684,7 +688,7 @@ func _place_quest_marker(target: StoryQuestDefinition.Target) -> void:
 	quest_marker.position = at + Vector3(0, 2.4, 0)
 	quest_marker.set_meta("height", 2.4)
 	quest_marker.set_meta("way", step.portal.portal_id if step.portal != null else step.service.service_id)
-	world.add_child(quest_marker)
+	add_child(quest_marker)
 	var arrow: Node3D = _arrow(quest_marker, direction)
 	arrow.scale = Vector3(1.6, 1.6, 1.6)
 	if direction == Vector2.ZERO:

@@ -30,6 +30,8 @@ func _init() -> void:
 		add_child(section)
 		var heading := _label(section, StoryQuestDefinition.LINE_TITLES[line], SharedGameplayLayout.ACCENT_COLOR)
 		heading.name = "Heading"
+		# The column's name is a message of its own (the POT knows it): translated as the page shows.
+		heading.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_INHERIT
 		heading.add_theme_font_size_override("font_size", 14)
 		if line == StoryQuestDefinition.LINE_ERRAND:
 			quest_text = _label(section, "", Color(0, 0, 0, 0))

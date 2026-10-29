@@ -444,7 +444,7 @@
 		"native.square.courier",
 		"native.square.onlooker"
 	],
-	"world_npcs": 464,
+	"world_npcs": 471,
 	"resident_maps": 127,
 	"new_game_items": 793,
 	"snow_outdoor_passages": 18,
@@ -579,7 +579,7 @@
 	},
 	"map_npcs": {
 		"snow.inn": 3,
-		"snow.outdoor": 11,
+		"snow.outdoor": 18,
 		"snow.inn_upstairs": 6,
 		"snow.cellar": 0,
 		"snow.bank_house": 1,
@@ -711,7 +711,7 @@
 	"technical_items": 56,
 	"snow_route": {
 		"inn_npcs": 3,
-		"outdoor_npcs": 11,
+		"outdoor_npcs": 18,
 		"items": 26,
 		"draws": 108
 	}
