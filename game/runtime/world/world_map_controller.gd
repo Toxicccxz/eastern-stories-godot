@@ -938,9 +938,24 @@ func player_waits() -> Array[WorldWait]:
 	return shown
 
 
+## Where the camera looks (DECISIONS「剧情演出」): the body a scene looks at, else the player.
+func view_anchor() -> Vector2:
+	var body: Node2D = npc_life.scene_focus_body()
+	return body.global_position if body != null else player_body.global_position
+
+
+func scene_running() -> bool:
+	return npc_life.scene_running()
+
+
 func _process(delta: float) -> void:
 	if not _initialized or not gameplay_open():
 		return
+	# The 2D view's camera looks where a scene looks (the voxel view follows view_anchor()).
+	if not projected_view and player_body != null:
+		var camera: Camera2D = player_body.get_node_or_null("Camera2D") as Camera2D
+		if camera != null:
+			camera.offset = view_anchor() - player_body.global_position if scene_running() else Vector2.ZERO
 	# World time held (the menu, a presentation beat): the toll's seconds and pending
 	# aggression wait too.
 	if session != null and (session.world_time_held() or session.presentation_frozen()):

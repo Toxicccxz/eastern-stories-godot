@@ -13,6 +13,7 @@
 		"common/codex.json",
 		"common/opening.json",
 		"story/prologue.json",
+		"story/chapter1.json",
 		"oldpine/items.json",
 		"oldpine/npcs.json",
 		"oldpine/spawns.json",
@@ -103,6 +104,7 @@
 		"native/npcs.json",
 		"native/items.json",
 		"native/spawns.json",
+		"native/item_spawns.json",
 		"native/bounties.json",
 		"native/rooms.json"
 	]

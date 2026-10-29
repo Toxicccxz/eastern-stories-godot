@@ -16,6 +16,7 @@ const MESSAGES: Dictionary[StringName, String] = {
 	&"new_game.confirm": "开始新游戏不会马上删除现有的存档，但之后存档成功时会覆盖它。",
 	&"save.success": "已存档。",
 	&"save.blocked.combat_or_action": "战斗中或动作还没完成时不能存档。",
+	&"save.blocked.scene": "这段戏还没演完，看完再存档。",
 	&"save.blocked.world_transition": "在两个地区之间移动时不能存档。",
 	&"save.blocked.lifecycle": "角色的生死状态还在变化，暂时不能存档。",
 	&"save.blocked.temporary_effect": "身上有无法保存的临时效果，暂时不能存档。",

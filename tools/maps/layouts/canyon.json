@@ -263,7 +263,15 @@
         ],
         "reach_from": "CanyonChainArrival",
         "markers_in_middle": [],
-        "placed": {},
+        "placed": {
+        "canyon.canyon1.feng_ce": [1150, 560],
+        "canyon.canyon1.song_pu": [1200, 600],
+        "canyon.canyon1.white_officer.1": [1090, 580],
+        "canyon.canyon1.white_officer.2": [1140, 620],
+        "canyon.canyon1.white_officer.3": [1262, 560],
+        "canyon.canyon1.bai_daozhang": [1060, 630],
+        "canyon.canyon1.black_taoist": [1010, 660]
+      },
         "gap_at": [],
         "buildings": [
           {

@@ -1,5 +1,8 @@
 {
 	"items": [
-		{ "id": "native:snow/letter_to_chen", "legacy_sources": ["native: 前两小时 C (owner, 2026-10-26; DECISIONS「雪亭驿的信」) — 杜宽's letter for 陈剑秋"], "name": "雪亭驿的书信", "aliases": ["letter", "mail"], "long": "一封封好的书信，信封上写着：绮云镇 振远镖局 陈剑秋 亲启。\n", "unit": "封", "material": "paper", "weight": 20, "value": 0 }
+		{ "id": "native:snow/letter_to_chen", "legacy_sources": ["native: 前两小时 C (owner, 2026-10-26; DECISIONS「雪亭驿的信」) — 杜宽's letter for 陈剑秋"], "name": "雪亭驿的书信", "aliases": ["letter", "mail"], "long": "一封封好的书信，信封上写着：绮云镇 振远镖局 陈剑秋 亲启。\n", "unit": "封", "material": "paper", "weight": 20, "value": 0 },
+		{ "id": "native:oldpine/cloth_strip", "legacy_sources": ["native: 主线 A 序章后半 (剧情总纲 §3 序章: the strip the 黑衣道士 drops at 黄石隘口; DECISIONS「剧情演出」)"], "name": "刻着记号的布条", "aliases": ["cloth strip", "strip", "cloth"], "long": "一截粗麻布条，像是从衣角撕下来的，上面用刀尖刻着一个歪歪扭扭的记号：一棵松、三道横。老松岭一带的人管这叫老松寨的记号。\n", "unit": "条", "material": "cloth", "weight": 5, "value": 0 },
+		{ "id": "native:waterfog/guild_token", "legacy_sources": ["native: 主线 A 第一章 (剧情总纲 §3 第一章: the 水烟阁 token beside cave5.c's bones; its 金乌 after d/waterfog/obj/red_suit.c:15)"], "name": "水烟阁武士腰牌", "aliases": ["guild token", "token", "tally"], "long": "一面黄铜腰牌，正面铸着一只展翅的金乌，背面刻着「水烟阁」三字和一个「岭」字。铜面发黑，边角磨得发亮，不知在谁身上挂了多少年。\n", "unit": "面", "material": "iron", "weight": 30, "value": 0 },
+		{ "id": "native:oldpine/stone_box", "legacy_sources": ["native: 主线 A 序章后半、第一章 (剧情总纲 §3: the 石匣 dug out at 黄石隘口 and left in cave5; opened only in 第十章)"], "name": "刻着风纹的石匣", "aliases": ["stone box", "box"], "long": "一只尺许长的青石匣子，匣面刻着一圈风纹，匣口严丝合缝，看不出锁眼在哪里。摇一摇，里面有极轻的一声响。\n", "unit": "只", "material": "iron", "weight": 1500, "value": 0 }
 	]
 }

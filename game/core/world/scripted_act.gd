@@ -55,11 +55,16 @@ extends RefCounted
 ## - `npc_wield` an item: carry_object(item)->wield(), a new one in the NPC's hand;
 ## - `leave`: the NPC leaves for good (oldliu.c destruct(): it is not made anew), or, naming
 ##   an NPC definition, the first of them standing by leaves with it (刘老农领着娟儿匆匆离去);
+## - `by` (an NPC definition; native, 主线 A, DECISIONS「剧情演出」): the first of them standing in
+##   the room is the act's NPC from then on (its lines in its bubble, its leave, its drop), as
+##   `comes` makes the comer so; one not there ends the act (its remaining steps are theirs);
+## - `drop` (an item; native): a new one lies down at the act's NPC's feet (at the player's
+##   for a room's act), as something let fall in a scene;
 ## - `reincarnate`: damage.c reincarnate() and ob->move(REVIVE_ROOM) (d/death/npc/wgargoyle.c
 ##   death_stage(), inn1.c do_stuff()): the ghost lives again at the Snow temple. It is the
 ##   act's last step; the session makes the move once the act's map has had its beat
 ##   (WorldSessionController.request_reincarnation()).
-enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM, COMES, NPC_FLAG, HURT, MARK, NPC_MOOD, NPC_WIELD, LEAVE, REINCARNATE }
+enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM, COMES, NPC_FLAG, HURT, MARK, NPC_MOOD, NPC_WIELD, LEAVE, REINCARNATE, BY, DROP }
 
 ## The resources receive_damage() and receive_heal() name.
 const RESOURCES: Array[String] = ["gin", "kee", "sen"]
@@ -366,7 +371,7 @@ static func _step(reader: ContentRecordReader) -> Step:
 	var kinds: Array[String] = []
 	if ["say", "emote", "line", "whisper"].any(func(key: String) -> bool: return reader.has(key)):
 		kinds.append("line")
-	for key: String in ["damage", "hurt", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "mark", "water", "set_room", "clear_room", "comes", "npc_flag", "npc_mood", "npc_wield", "leave", "reincarnate"]:
+	for key: String in ["damage", "hurt", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "mark", "water", "set_room", "clear_room", "comes", "npc_flag", "npc_mood", "npc_wield", "leave", "reincarnate", "by", "drop"]:
 		if reader.has(key):
 			kinds.append(key)
 	if kinds.size() != 1:
@@ -501,4 +506,10 @@ static func _step(reader: ContentRecordReader) -> Step:
 			step.value = reader.required_integer("water")
 			if step.value <= 0:
 				reader.fail("water", "must be positive")
+		"by":
+			step.kind = Kind.BY
+			step.npc_id = StringName(reader.required_text("by"))
+		"drop":
+			step.kind = Kind.DROP
+			step.item_id = StringName(reader.required_text("drop"))
 	return step

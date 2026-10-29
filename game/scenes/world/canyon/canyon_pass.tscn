@@ -374,6 +374,41 @@ position = Vector2(16, 768)
 script = ExtResource("marker")
 spawn_point_id = &"canyon.stone_forest3.mirror_return"
 
+[node name="Canyon1FengCe" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1150, 560)
+script = ExtResource("marker")
+spawn_point_id = &"canyon.canyon1.feng_ce"
+
+[node name="Canyon1SongPu" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1200, 600)
+script = ExtResource("marker")
+spawn_point_id = &"canyon.canyon1.song_pu"
+
+[node name="Canyon1WhiteOfficer1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1090, 580)
+script = ExtResource("marker")
+spawn_point_id = &"canyon.canyon1.white_officer.1"
+
+[node name="Canyon1WhiteOfficer2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1140, 620)
+script = ExtResource("marker")
+spawn_point_id = &"canyon.canyon1.white_officer.2"
+
+[node name="Canyon1WhiteOfficer3" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1262, 560)
+script = ExtResource("marker")
+spawn_point_id = &"canyon.canyon1.white_officer.3"
+
+[node name="Canyon1BaiDaozhang" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1060, 630)
+script = ExtResource("marker")
+spawn_point_id = &"canyon.canyon1.bai_daozhang"
+
+[node name="Canyon1BlackTaoist" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1010, 660)
+script = ExtResource("marker")
+spawn_point_id = &"canyon.canyon1.black_taoist"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

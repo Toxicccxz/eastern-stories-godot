@@ -63,6 +63,17 @@ var die_item_master: bool = false
 var die_marks_killer: String = ""
 var calls: Array[Call] = []
 var calls_hold: bool = false
+## Native (主线 A; DECISIONS「剧情演出」): `spared` {mood?, mark?}: 放过 as it lay puts it in
+## that mood of its own (lasting or not, as the mood says) and marks the player (刘安禄
+## spared: he talks; the 黑衣道士 spared: gone).
+var spared_mood: String = ""
+var spared_mark: String = ""
+## `spared.leave`: once the fight is over it is gone for good (fled), with `spared.line` told.
+var spared_leave: bool = false
+var spared_line: String = ""
+## Native (主线 A; DECISIONS「剧情演出」): the mark set on the player the moment its scene
+## begins (its scene calls' `not_mark`): a scene cut short is not played again.
+var scene_mark: String = ""
 var moods: Dictionary[String, NpcMood] = {}
 var attack_ask: String = ""
 var attack_choice: String = ""
@@ -78,6 +89,11 @@ class Call:
 	var reaction: bool = false
 	## A line of a told sequence: 继续 brings it now.
 	var hurry: bool = false
+	## Native (主线 A; DECISIONS「剧情演出」): one of the NPC's scene. Its conditions are
+	## judged once, when the player comes in and the scene begins; while any scene call is
+	## still to come the player stands and watches (WorldMapNpcLife: the camera on whoever
+	## speaks, E as 继续), and it comes whatever changed. A scene call is a told line (hurry).
+	var scene: bool = false
 
 
 class Stage:
@@ -241,6 +257,9 @@ static func from_record(reader: ContentRecordReader) -> NpcHooks:
 			record.fail("after", "must not be negative")
 		call.reaction = record.boolean("reaction", false)
 		call.hurry = record.boolean("hurry", false)
+		call.scene = record.boolean("scene", false)
+		if call.scene:
+			call.hurry = true
 		if call.reaction and call.hurry:
 			record.fail("hurry", "a reaction is no told line")
 		call.act = ScriptedAct.from_record(record)
@@ -264,4 +283,28 @@ static func from_record(reader: ContentRecordReader) -> NpcHooks:
 		hooks.follows_every_way = reader.boolean("follows_every_way", false)
 		if not hooks.follows_every_way:
 			reader.fail("follows_every_way", "only one that does says so")
+	var spared: ContentRecordReader = reader.child("spared")
+	if spared != null:
+		found = true
+		hooks.spared_mood = spared.text("mood")
+		hooks.spared_mark = spared.text("mark")
+		hooks.spared_leave = spared.boolean("leave", false)
+		hooks.spared_line = spared.text("line")
+		spared.finish()
+		if hooks.spared_mood.is_empty() and hooks.spared_mark.is_empty() and not hooks.spared_leave:
+			reader.fail("spared", "names a mood of the NPC's, a mark for the player or leave, or several")
+		if not hooks.spared_line.is_empty() and not hooks.spared_leave:
+			reader.fail("spared", "line goes with leave")
+		if not hooks.spared_mood.is_empty() and not hooks.moods.has(hooks.spared_mood):
+			reader.fail("spared", "mood '%s' is none of its moods" % hooks.spared_mood)
+	if reader.has("scene_mark"):
+		found = true
+		hooks.scene_mark = reader.required_text("scene_mark")
+		if not hooks.calls.any(func(call: Call) -> bool: return call.scene):
+			reader.fail("scene_mark", "only an NPC with a scene marks its beginning")
 	return hooks if found else null
+
+
+## Whether 放过 changes anything of it (`spared`).
+func has_spared() -> bool:
+	return not spared_mood.is_empty() or not spared_mark.is_empty() or spared_leave

@@ -1,0 +1,109 @@
+{
+	"quests": [
+		{
+			"id": "main.chapter1",
+			"title": "伪墓",
+			"line": "main",
+			"region": "老松岭",
+			"sources": [
+				"native: 剧情总纲 §3 第一章「伪墓」(owner, 2026-10-29; DECISIONS「老松寨的三条路」「安葬必得书」「剧情演出」) over d/oldpine/keep1-3.c (the keep, its gate trap and 常老大 bandit_commander.c), epath2.c's vine, cave5.c's bones and its wall text (which calls itself 南危水's grave while elder5.c stands alive in 水烟阁: the false tomb) and do_bury()'s 过招要旨. The 黑衣道士, the 腰牌 (red_suit.c:15's 金乌 badge) and the 石匣 are the outline's additions."
+			],
+			"summary": "追到黑衣道士，弄清老松寨和那口墓。",
+			"starts": { "item": "native:oldpine/cloth_strip" },
+			"requires": ["main.prologue"],
+			"steps": [
+				{
+					"id": "trail",
+					"objective": "顺着布条上的记号去老松岭，沿松树上的刀痕找老松寨。",
+					"done": { "mark": "老松寨的小径" },
+					"text": "松树上的刀痕指向灌木后的一条小径：老松寨藏在林子深处。",
+					"target": { "map": "oldpine.outdoor", "zone": "oldpine.outdoor.pine_entrance" }
+				},
+				{
+					"id": "gate",
+					"objective": "过老松寨的寨门：留下买路钱、叫阵，或者打进去。",
+					"target": { "map": "oldpine.outdoor", "zone": "oldpine.outdoor.keep_gate" },
+					"options": [
+						{
+							"id": "pay",
+							"done": { "mark": "老松寨的过路钱" },
+							"text": "你给了寨门的喽罗十两银子买路钱，寨里的人不再拦你。",
+							"reward": { "deed": "给老松寨的喽罗付了买路钱" }
+						},
+						{
+							"id": "challenge",
+							"done": { "mark": "叫阵老松寨" },
+							"text": "你在寨门外叫阵，喽罗放你进去：常老大在聚义厅等你。",
+							"reward": { "deed": "在老松寨的寨门外叫阵" }
+						},
+						{
+							"id": "force",
+							"done": { "mark": "打倒了寨门的喽罗" },
+							"text": "你打倒了寨门的喽罗，硬闯进了老松寨。",
+							"reward": { "deed": "硬闯了老松寨的寨门" }
+						}
+					]
+				},
+				{
+					"id": "boss",
+					"objective": "到聚义厅找常老大，问黑衣道士的去向。",
+					"target": { "map": "oldpine.keep_hall", "zone": "oldpine.outdoor.keep_hall" },
+					"options": [
+						{
+							"id": "talk",
+							"done": { "heard": { "npc": "oldpine.npc.bandit_commander", "topic": "黑衣道士" } },
+							"text": "常老大说那道士拿一块金牌买了路，往东边的瀑布去了。"
+						},
+						{
+							"id": "beat",
+							"done": { "mark": "打倒了常老大" },
+							"text": "你打倒了常老大。他跌坐在熊皮上骂道：那道士拿金牌买的路，往东边的瀑布去了，找他去！",
+							"reward": { "deed": "打倒了老松寨的常老大" }
+						}
+					]
+				},
+				{
+					"id": "cave",
+					"objective": "从瀑布后面进山洞，找黑衣道士。",
+					"done": { "zone": "oldpine.caves.mouth" },
+					"text": "瀑布后的山洞尽头有一具骸骨和一面刻字的石壁。",
+					"target": { "map": "oldpine.caves", "zone": "oldpine.caves.mouth" }
+				},
+				{
+					"id": "taoist",
+					"objective": "拦住黑衣道士。",
+					"done": { "mark": "黑衣道士倒了" },
+					"text": "黑衣道士落败，石匣还锁着，留在洞里。",
+					"target": { "map": "oldpine.caves", "zone": "oldpine.caves.mouth" }
+				},
+				{
+					"id": "wall",
+					"objective": "看看洞里的石壁和那具骸骨。",
+					"done": { "mark": "看过石壁" },
+					"text": "石壁上的字自称「南危水」，说埋骨于此——可骸骨身量矮小、骨龄不过三十，身边没有剑；字迹深浅如一，是活人慢慢刻的。这不是南危水的墓。",
+					"target": { "map": "oldpine.caves", "zone": "oldpine.caves.mouth" }
+				},
+				{
+					"id": "bones",
+					"objective": "处置那具骸骨：安葬他，或者带走他身边的腰牌。",
+					"target": { "map": "oldpine.caves", "zone": "oldpine.caves.mouth" },
+					"options": [
+						{
+							"id": "bury",
+							"done": { "mark": "安葬无名人" },
+							"text": "你把无名人安葬了，腰牌随他入土。洞顶落下一本《过招要旨》。",
+							"reward": { "deed": "安葬了瀑布山洞里的无名人" }
+						},
+						{
+							"id": "token",
+							"done": { "item": "native:waterfog/guild_token" },
+							"text": "你拿走了骸骨身边的水烟阁腰牌：金乌徽，背面一个「岭」字。",
+							"reward": { "deed": "拿走了瀑布山洞骸骨身边的腰牌", "marks": ["带走腰牌"] }
+						}
+					]
+				}
+			],
+			"reward": { "milestone": true, "deed": "查明了瀑布山洞里的墓是假的" }
+		}
+	]
+}

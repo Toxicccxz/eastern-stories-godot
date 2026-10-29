@@ -27,6 +27,8 @@
 		"training_dummies": true,
 		"day_length_minutes": 24,
 		"sky_weather": true,
+		"story_parley": true,
+		"bury_always_rewards": true,
 		"feel": {
 			"map_fade_out_ms": 150,
 			"map_fade_in_ms": 200,

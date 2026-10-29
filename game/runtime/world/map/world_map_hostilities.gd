@@ -142,8 +142,16 @@ func after_fight() -> void:
 		if encounter.participant_for(id) == null:
 			room_present.erase(id)
 	for participant: CombatParticipant in encounter.participants():
-		if _map.npcs.find_resident_npc(participant.participant_id) != null:
-			spent[participant.participant_id] = true
+		var npc: NpcRuntimeState = _map.npcs.find_resident_npc(participant.participant_id)
+		if npc == null:
+			continue
+		spent[participant.participant_id] = true
+		# One spared with `spared.leave` (NpcHooks) flees as the fight ends: gone for good.
+		if npc.has_flag(NpcDefinition.FLAG_LEAVES_WHEN_FREE) and npc.exists_in_map:
+			var hooks: NpcHooks = npc.definition().hooks()
+			if hooks != null and not hooks.spared_line.is_empty() and _map.hud() != null:
+				_map.hud().append_after_fight([ColoredLine.new(tr(hooks.spared_line), ColoredLine.PLAIN)])
+			_map.npcs.leave_for_good(npc)
 
 
 ## An NPC no longer on this map: it noticed nobody here.
@@ -217,7 +225,7 @@ func process_pending_aggression() -> Array[CombatSliceInitiationResult]:
 	if queued and _alert_zone.is_empty() and not session.combat_encounter_coordinator().has_active_encounter():
 		for decision: NpcAggressionDecision in _last_aggression_decisions:
 			var npc: NpcRuntimeState = _map.npcs.find_resident_npc(decision.npc_id)
-			if decision.outcome == NpcAggressionDecision.Outcome.READY and npc != null and not npc.definition().attacks_on_sight(npc.flags(), _player.state):
+			if decision.outcome == NpcAggressionDecision.Outcome.READY and npc != null and not npc.definition().attacks_on_sight(npc.flags(), _player.state, _parley()):
 				_go_berserk(npc)
 	return _last_aggression_initiations.duplicate()
 
@@ -251,7 +259,7 @@ func _gang_attacks(gang: Array[CombatSliceCharacterBinding], drawn: Dictionary[S
 ## and wait came before (DECISIONS「响应性」).
 func _alert_beat_for(noticer_id: StringName) -> float:
 	var noticer: NpcRuntimeState = _map.npcs.find_resident_npc(noticer_id)
-	if noticer == null or _player == null or noticer.definition().toll_attack_delay_ms(noticer.flags(), _player.state) > 0:
+	if noticer == null or _player == null or noticer.definition().toll_attack_delay_ms(noticer.flags(), _player.state, _parley()) > 0:
 		return 0.0
 	return GameContent.catalog().pacing().hostile_alert_seconds
 
@@ -405,8 +413,8 @@ func toll_pending(npc: NpcRuntimeState) -> bool:
 func _toll_applies(npc: NpcRuntimeState) -> bool:
 	return (
 		_player != null and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and not npc.relationship.is_fighting()
-		and npc.definition().attacks_on_sight(npc.flags(), _player.state)
-		and npc.definition().toll_attack_delay_ms(npc.flags(), _player.state) > 0
+		and npc.definition().attacks_on_sight(npc.flags(), _player.state, _parley())
+		and npc.definition().toll_attack_delay_ms(npc.flags(), _player.state, _parley()) > 0
 	)
 
 
@@ -429,8 +437,13 @@ func _shout_toll(npc: NpcRuntimeState) -> void:
 
 
 func _toll_due(npc: NpcRuntimeState) -> bool:
-	var delay_ms: int = npc.definition().toll_attack_delay_ms(npc.flags(), _player.state)
+	var delay_ms: int = npc.definition().toll_attack_delay_ms(npc.flags(), _player.state, _parley())
 	return delay_ms <= 0 or toll_contact_seconds.get(npc.character_id, 0.0) * 1000.0 >= delay_ms
+
+
+## Whether the story's parley holds (DECISIONS「老松寨的三条路」; 经典: off).
+static func _parley() -> bool:
+	return GameContent.catalog().pacing().story_parley
 
 
 ## gangster.c kill_passenger() sets attitude "aggressive", and attack.c's hatred
@@ -439,7 +452,7 @@ func _toll_due(npc: NpcRuntimeState) -> bool:
 ## until a reset makes it anew. An object variable, saved with the NPC's memory.
 func _note_toll_fights() -> void:
 	for npc: NpcRuntimeState in _map.npcs.residents:
-		if not npc.definition().dealings().attack_unless_mark.is_empty() and npc.relationship.is_fighting():
+		if npc.definition().dealings().takes_toll() and npc.relationship.is_fighting():
 			npc.set_flag(NpcDefinition.FLAG_FOUGHT_PLAYER, true)
 
 
@@ -659,7 +672,7 @@ func collect_complete_combat_entry(cause: int, requested_target: StringName = &"
 		var id: StringName = npc.character_id
 		var named: bool = manual and id == requested_target
 		var on_sight: bool = (
-			npc.definition().attacks_on_sight(npc.flags(), _player.state)
+			npc.definition().attacks_on_sight(npc.flags(), _player.state, _parley())
 			and aggression._evaluate(npc, _player, _combat_allowed(npc)).outcome == NpcAggressionDecision.Outcome.READY
 		)
 		if not on_sight and not named:

@@ -265,7 +265,7 @@ func _test_prologue_data() -> void:
 	if quest == null:
 		return
 	_check(quest.title == "寻剑令" and quest.line == "main" and quest.starts.when == JournalEntryDefinition.When.SEEN and quest.starts.key == "snow.npc.waiter", "the main line, from the waiter met")
-	_check(quest.steps.size() == 3 and quest.steps[0].condition.topic == "官爷" and quest.steps[1].options.size() == 2 and quest.steps[1].options[0].condition.key == "native.npc.feng_ce" and quest.steps[2].condition.when == JournalEntryDefinition.When.ZONE and quest.steps[2].target.map_id == &"canyon.pass", "店小二 → the square (官家 / 江湖人) → 黄石隘口")
+	_check(quest.steps.size() == 5 and quest.steps[0].condition.topic == "官爷" and quest.steps[1].options.size() == 2 and quest.steps[1].options[0].condition.key == "native.npc.feng_ce" and quest.steps[2].condition.when == JournalEntryDefinition.When.ZONE and quest.steps[2].target.map_id == &"canyon.pass", "店小二 → the square (官家 / 江湖人) → 黄石隘口 (then the scene and the strip: story_scene_test)")
 	_check(quest.reward.milestone and not quest.reward.deed.is_empty() and not quest.steps[1].options[0].reward.deed.is_empty() and not quest.steps[1].options[1].reward.deed.is_empty(), "a 历练 at the end, a deed for each way asked and the end")
 	var lines: Dictionary[String, int] = {}
 	for chain: JournalChainDefinition in catalog.journal_chains():

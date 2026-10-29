@@ -67,10 +67,33 @@ var draw_group: StringName:
 var drawn: bool:
 	get:
 		return _initial_spawn_policy == InitialSpawnPolicy.DRAWN
-## Absent when the world is made (SUMMONED or DRAWN).
+## Absent when the world is made (SUMMONED or DRAWN), or on the story's stage (`present`).
 var starts_absent: bool:
 	get:
-		return _initial_spawn_policy != InitialSpawnPolicy.INITIAL_ONLY
+		return _initial_spawn_policy != InitialSpawnPolicy.INITIAL_ONLY or staged
+
+
+## Native (主线 A; DECISIONS「剧情演出」): a spawn on the story's stage is there only while
+## `present` holds (a JournalEntryDefinition `when`: a quest ledger key, a mark …) and `until`
+## does not, judged when the player comes onto its map (WorldStoryPresence), never in front
+## of them; off the stage its NPCs leave for good. Null: no such condition.
+var _present: JournalEntryDefinition
+var _until: JournalEntryDefinition
+var present: JournalEntryDefinition:
+	get:
+		return _present
+var until: JournalEntryDefinition:
+	get:
+		return _until
+var staged: bool:
+	get:
+		return _present != null or _until != null
+
+
+func with_presence(p_present: JournalEntryDefinition, p_until: JournalEntryDefinition) -> NpcSpawnDefinition:
+	_present = p_present
+	_until = p_until
+	return self
 
 
 func _init(

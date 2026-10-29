@@ -106,8 +106,10 @@ what it finds is fixed in step 2. What waits for it is listed in [STATUS](STATUS
    reputation, titles and the ending grow from; per-faction standing (the menu's 声望 tab is its
    placeholder). Done so far (DECISIONS「任务系统」): the quest data and ledger, the 任务 page's four
    columns, the marker on the current map (the 总图 reads the same route), the thinnest deed record,
-   and 寻剑令's first half as the sample. Then the prologue to chapter two (and chapter three's entry) on the existing regions, then the new regions
-   in chapter order (逆灵宫 first, 皇城 and 岚城 last).
+   and 寻剑令's first half as the sample; then (DECISIONS「剧情演出」) the prologue's second half (the pass scene: the player stands,
+   the camera follows the speakers) and chapter one 伪墓 on 老松岭, with the stage (NPCs and items by quest state), the keep's parley
+   and the burial as mechanisms every later chapter reuses. Next: chapter two 旧案 (绮云镇 + 水烟阁) and chapter three's entry (主线 B, C) on the
+   existing regions, then the new regions in chapter order (逆灵宫 first, 皇城 and 岚城 last).
 5. **Characters and animation** after the voxel maps: bodies, faces, clothing by family and class;
    then audio.
 

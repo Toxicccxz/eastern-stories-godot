@@ -525,7 +525,7 @@ func reset_room(legacy_room: String) -> void:
 			if npc.world_location().zone_id != spawn.zone_id and not _map.patrols.keeps_out(npc) and not _map.npc_life.follows_every_way(npc):
 				return_home(npc)
 	for spawn: ItemSpawnDefinition in catalog.item_spawns_for_map(map):
-		if spawn.legacy_source_room_path != legacy_room:
+		if spawn.legacy_source_room_path != legacy_room or spawn.staged:
 			continue
 		for point_id: StringName in spawn.spawn_point_ids():
 			if not _inventory.is_registered(ItemSpawnDefinition.item_instance_id(_item_id_allocator.scope, point_id)):
@@ -652,6 +652,16 @@ func _npc_at_point(point_id: StringName) -> NpcRuntimeState:
 		if npc.spawn_point_id == point_id:
 			return npc
 	return null
+
+
+## The NPC made for spawn point `point_id` (absent, dead or standing), or null.
+func npc_at_point(point_id: StringName) -> NpcRuntimeState:
+	return _npc_at_point(point_id)
+
+
+## An absent NPC of a spawn on the story's stage comes onto its marker (WorldStoryPresence).
+func appear(npc: NpcRuntimeState, spawn: NpcSpawnDefinition) -> bool:
+	return _appear(npc, spawn)
 
 
 ## make_inventory() where an NPC died: a new one, its create() drawn afresh from

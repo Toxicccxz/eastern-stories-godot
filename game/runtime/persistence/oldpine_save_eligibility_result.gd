@@ -18,6 +18,9 @@ enum Outcome {
 	LIFE_EXISTENCE_CONTRADICTION,
 	UNREPRESENTED_ATTRIBUTE_MODIFIER,
 	ACTIVE_COMBAT_ENCOUNTER,
+	## A scene holds the player (DECISIONS「剧情演出」): its progress is not saved, so it is
+	## seen through first.
+	SCENE_RUNNING,
 }
 
 var outcome: int

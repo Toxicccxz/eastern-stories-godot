@@ -105,6 +105,12 @@ var _bounty_refresh_seconds: int = 600
 var _training_dummies: bool = false
 var _day_length_minutes: int = ES2_DAY_LENGTH_MINUTES
 var _sky_weather: bool = false
+## 主线 A (DECISIONS「老松寨的三条路」,「安葬必得书」): the story's parley with a toll-taker
+## marked `parley` (NpcDealings) and a trap's `unless_mark` hold; false (ES2): they are
+## plain aggressive and the trap always falls. And a burial always rewards (BuryRoll's BOOK);
+## false (ES2): random(kar + 10) decides.
+var _story_parley: bool = false
+var _bury_always_rewards: bool = false
 
 ## Seconds between two combat rounds of an encounter (the scheduler's opportunity interval).
 var combat_round_seconds: float:
@@ -208,6 +214,14 @@ var day_length_minutes: int:
 var sky_weather: bool:
 	get:
 		return _sky_weather
+## Whether the story's parley holds (false: ES2).
+var story_parley: bool:
+	get:
+		return _story_parley
+## Whether a burial always rewards (false: ES2).
+var bury_always_rewards: bool:
+	get:
+		return _bury_always_rewards
 ## The presentation's feel knobs (the record's `feel`; all 0 when left out).
 var feel: FeelDefinition = FeelDefinition.new()
 
@@ -240,8 +254,16 @@ func copy() -> PacingDefinition:
 	record.with_hostile_alert(_hostile_alert_ms)
 	record.with_day_length(_day_length_minutes)
 	record.with_sky_weather(_sky_weather)
+	record.with_story(_story_parley, _bury_always_rewards)
 	record.feel = feel
 	return record
+
+
+## This record with the story's knobs set (tests, and from_record()).
+func with_story(parley: bool, bury_rewards: bool) -> PacingDefinition:
+	_story_parley = parley
+	_bury_always_rewards = bury_rewards
+	return self
 
 
 ## This record with the day's length set (real minutes; tests, and from_record()).
@@ -345,7 +367,7 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.boolean("bounty_board", false),
 		reader.integer("bounty_refresh_seconds", 600),
 		reader.boolean("training_dummies", false),
-	).with_hostile_alert(reader.integer("hostile_alert_ms", 0)).with_day_length(reader.integer("day_length_minutes", ES2_DAY_LENGTH_MINUTES)).with_sky_weather(reader.boolean("sky_weather", false))
+	).with_hostile_alert(reader.integer("hostile_alert_ms", 0)).with_day_length(reader.integer("day_length_minutes", ES2_DAY_LENGTH_MINUTES)).with_sky_weather(reader.boolean("sky_weather", false)).with_story(reader.boolean("story_parley", false), reader.boolean("bury_always_rewards", false))
 	var feel: ContentRecordReader = reader.child("feel")
 	if feel != null:
 		definition.feel = FeelDefinition.from_record(feel)

@@ -59,7 +59,7 @@ const POLICIES: Dictionary[StringName, Dictionary] = {
 	&"portal": {"portals": 1, "messages": [], "optional_messages": ["use"], "settings": [], "items": []},
 	&"vine": {"portals": 2, "messages": ["hold", "fall", "climb"], "optional_messages": ["fall_observer", "climb_observer"], "settings": [], "optional_settings": ["below"], "items": []},
 	&"hidden_passage": {"portals": 1, "optional_portals": 1, "messages": ["open", "close"], "optional_messages": ["push", "close_beyond"], "settings": ["pushes", "open_seconds"], "optional_settings": ["every_push", "closes_on_time"], "items": []},
-	&"bury": {"portals": 1, "messages": ["bury", "book", "paper", "fall"], "settings": [], "items": ["buried", "reward"]},
+	&"bury": {"portals": 1, "messages": ["bury", "book", "paper", "fall"], "settings": [], "items": ["buried", "reward"], "optional_items": ["with"], "optional_mark": true},
 	&"look": {"portals": 0, "messages": [], "settings": [], "items": [], "no_action": true},
 	&"join_class": {"portals": 0, "messages": ["joined", "refused"], "settings": [], "items": [], "class": true},
 	&"push_stone": {"portals": 1, "messages": ["weak", "push", "rolled"], "settings": ["force", "max_force", "force_factor", "gin", "kee", "sen", "random"], "items": []},
@@ -288,15 +288,15 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 		reader.fail("action", "a '%s' landmark is only looked at" % definition.policy)
 	if definition.class_id.is_empty() == bool(rule.get("class", false)):
 		reader.fail("class", "only a join_class landmark names a class, and it must")
-	if definition.mark.is_empty() == bool(rule.get("mark", false)):
-		reader.fail("mark", "only a search, note_maze or find_way landmark names a mark, and it must")
+	if definition.mark.is_empty() == bool(rule.get("mark", false)) and not rule.get("optional_mark", false):
+		reader.fail("mark", "only a search, note_maze, find_way or bury landmark names a mark, and the first three must")
 	var maze: bool = rule.get("maze", false)
 	if definition._notes.is_empty() == maze or definition._counter.is_empty() == maze or definition._enter_portal_id.is_empty() == maze:
 		reader.fail("notes", "only a note_maze landmark has notes, a counter and an enter portal, and it must")
 	if definition.spawn_id.is_empty() == bool(rule.get("spawn", false)):
 		reader.fail("spawn", "only a look_spawn landmark names a spawn, and it must")
-	if not definition._teaches.is_empty() and definition.policy != &"look":
-		reader.fail("teaches", "only a look landmark teaches marks")
+	if not definition._teaches.is_empty() and definition.policy not in [&"look", &"bury"]:
+		reader.fail("teaches", "only a look or bury landmark teaches marks")
 	var dial: bool = rule.get("turns", false)
 	if definition._turns.is_empty() == dial or definition._combination.is_empty() == dial:
 		reader.fail("turns", "only a dial has turns and a combination, and it must")
@@ -325,6 +325,8 @@ static func from_record(reader: ContentRecordReader) -> WorldLandmarkDefinition:
 	if keys != expected:
 		reader.fail("messages", "policy '%s' needs exactly %s" % [definition.policy, expected])
 	var item_keys: Array = definition._items.keys()
+	for optional: String in rule.get("optional_items", []):
+		item_keys.erase(optional)
 	item_keys.sort()
 	var expected_items: Array = (rule["items"] as Array).duplicate()
 	expected_items.sort()

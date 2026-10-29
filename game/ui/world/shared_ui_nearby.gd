@@ -75,7 +75,11 @@ func press(display_name: String, label: String) -> bool:
 ## Called with the card's refresh: the selection follows reach, then the target.
 func refresh() -> void:
 	var map: WorldMapController = _map()
-	_things = [] if map == null else map.selection.nearby()
+	# Nothing is offered while a scene holds the player (DECISIONS「剧情演出」).
+	if map == null or (_session != null and _session.scene_held()):
+		_things.clear()
+	else:
+		_things = map.selection.nearby()
 	# A panel or the menu holds the selection (背包's 给 and 画符 act on it).
 	if map != null and not _presentation_layout.frame.visible and not _ui.menu.is_presented():
 		_follow_reach(map, _things)

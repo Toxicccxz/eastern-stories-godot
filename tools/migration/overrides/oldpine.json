@@ -6,6 +6,74 @@
 		"es2:d/oldpine/obj/bamboo_pipe": {
 			"play": "pipe"
 		},
+		"oldpine.outdoor.keep1.bandit_guards": { "cleared_mark": "打倒了寨门的喽罗" },
+		"oldpine.keep_hall.keep3.bandit_commander": { "cleared_mark": "打倒了常老大" },
+		"es2:d/oldpine/npc/skeleton": {
+			"long": "一具已经腐朽的骸骨，靠着石壁坐着，骨头上还挂着几片烂成灰褐色的衣料。身量矮小，牙齿齐全，骨龄不过三十；手边没有剑，也没有刀。石壁上的字自称南危水，说埋骨于此——可水烟阁的五长老南危水，是个高大的老人。\n"
+		},
+		"oldpine.npc.bandit_guard": {
+			"attitude": "heroism",
+			"bellicosity": 0,
+			"capabilities": [],
+			"attack_unless_marks": ["老松寨的过路钱", "叫阵老松寨"],
+			"parley": true,
+			"toll_attack_delay_ms": 8000,
+			"toll_shout": 0,
+			"chat_chance": 1,
+			"chat_msg": ["土匪喽罗横刀拦住去路，喝道：站住！要过老松寨，留下十两银子买路钱！\n"],
+			"inquiry": {
+				"买路钱": ["十两银子，一个子儿不能少。拿来！"],
+				"老松寨": ["老松寨是常老大的寨子，泼风刀王常老大，听过没有？想进去，先留下买路钱。"],
+				"黑衣道士": ["前些天是来过一个黑衣黑冠的道士，拿一块金牌买了路，往里头去了。你要问，问寨主去——先留下买路钱。"],
+				"叫阵": {
+					"confirm": "叫阵是跟常老大单打独斗——寨里的人不插手，但常老大的泼风刀下，没几个人站得住。要叫阵吗？",
+					"rules": [
+						{ "asker_marks": ["叫阵老松寨"], "say": "叫过了还叫？聚义厅在东头，常老大等着你。" },
+						{ "mark_asker": "叫阵老松寨", "lines": [
+							{ "say": "好大的口气！" },
+							{ "emote": "朝寨子里扯着嗓子喊：有人叫阵——！" },
+							{ "say": "进去吧，聚义厅在东头。常老大一个人等你，寨里的弟兄不插手。" }
+						] }
+					]
+				}
+			},
+			"accept_object": [
+				{ "giver_mark": "老松寨的过路钱", "say": "钱已经交过了，进去吧。", "accept": true },
+				{ "value_at_least": 1000, "mark_giver": "老松寨的过路钱", "line": "土匪喽罗掂了掂银子，咧嘴一笑：算你识相。进去吧，寨里的弟兄不会难为你。\n", "accept": true },
+				{ "line": "土匪喽罗往地上啐了一口：打发叫花子呢？十两银子，少一个子儿都不行！\n", "accept": false }
+			]
+		},
+		"oldpine.npc.bandit_leader": {
+			"attitude": "heroism",
+			"bellicosity": 0,
+			"capabilities": [],
+			"attack_unless_marks": ["老松寨的过路钱", "叫阵老松寨"],
+			"parley": true,
+			"inquiry": {
+				"黑衣道士": ["那道士的事，寨主自己会说。聚义厅在东头。"]
+			}
+		},
+		"oldpine.npc.bandit_commander": {
+			"attitude": "heroism",
+			"bellicosity": 0,
+			"capabilities": [],
+			"attack_unless_marks": ["老松寨的过路钱"],
+			"parley": true,
+			"inquiry": {
+				"黑衣道士": {
+					"rules": [
+						{ "asker_marks": ["老松寨的过路钱"], "lines": [
+							{ "say": "黑衣黑冠的道士？来过。拿一块金牌子买的路——金子打的，比你那十两银子值钱多了。" },
+							{ "say": "他问我瀑布后头的山洞怎么走。老子这寨子什么钱都收，收了钱就指路：往东过石桥，瀑布旁边有藤蔓，荡过去就是。" },
+							{ "say": "他抱着个石匣子，宝贝得很。你要找他，也往瀑布去吧，老子不拦你。" }
+						] },
+						{ "say": "你是什么东西，也敢问老子的事？" }
+					]
+				},
+				"石匣": ["石匣？那道士抱着的那个？老子没兴趣，老子只收钱。"],
+				"老松寨": ["老松寨是老子的寨子。进寨的规矩只有一条：什么钱都收。"]
+			}
+		},
 		"oldpine.npc.spy": {
 			"carry": [
 				{ "item": "es2:d/oldpine/obj/throwing_knife", "source": "d/oldpine/npc/obj/throwing_knife.c", "equip": "wield", "amount": 30 },

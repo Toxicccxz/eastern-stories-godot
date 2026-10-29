@@ -93,7 +93,8 @@
 				"oldpine.outdoor.keep_gate.keep1.bandit_guard.4"
 			],
 			"legacy_room": "d/oldpine/keep1.c",
-			"legacy_quantity": 4
+			"legacy_quantity": 4,
+			"cleared_mark": "打倒了寨门的喽罗"
 		},
 		{
 			"id": "oldpine.outdoor.keep2.bandit_guards",
@@ -154,7 +155,8 @@
 			"zone": "oldpine.outdoor.keep_hall",
 			"points": ["oldpine.outdoor.keep_hall.keep3.bandit_commander.1"],
 			"legacy_room": "d/oldpine/keep3.c",
-			"legacy_quantity": 1
+			"legacy_quantity": 1,
+			"cleared_mark": "打倒了常老大"
 		}
 	]
 }

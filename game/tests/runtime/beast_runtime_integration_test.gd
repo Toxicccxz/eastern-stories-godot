@@ -32,7 +32,7 @@ func _run_case(tree: SceneTree, wounded: bool) -> void:
 	var bootstrap_npcs: int = map.npc_runtimes().size()
 	var capture: OldPineWorldCaptureResult = OldPineWorldSaveCapture.new().capture(session, &"test", "2026-09-10T12:00:00Z")
 	_eq(capture.outcome, OldPineWorldCaptureResult.Outcome.SUCCESS, "normal capture remains valid")
-	_eq(capture.snapshot.items.item_records.size(), 56, "normal bootstrap stays 56 items")
+	_eq(capture.snapshot.items.item_records.size(), 58, "normal bootstrap stays 58 items")
 	var qa: Publication = Publication.new()
 	session.add_child(qa)
 	_eq(qa.publish(session, wounded), true, "publish real source factory NPC")
@@ -49,7 +49,7 @@ func _run_case(tree: SceneTree, wounded: bool) -> void:
 	_eq(npc.loadout_items().size(), 0, "no fabricated loadout")
 	_eq(map.register_npc_body(npc, qa.body, qa.body.get_node("AggressionPresence"), CombatSliceContentProfile.new()), false, "duplicate registration rejected")
 	_eq(OldPineWorldSaveCapture.new().capture(session, &"test", "2026-09-10T12:00:00Z").outcome != OldPineWorldCaptureResult.Outcome.SUCCESS, true, "QA extra slot cannot become normal Save")
-	_eq(_oldpine_spawns().size(), 15, "current authored spawn groups")
+	_eq(_oldpine_spawns().size(), 16, "current authored spawn groups")
 	# Removal/republication is precondition work, before the actual approach.
 	_eq(qa.remove_publication(), true, "controlled publication removable")
 	await tree.process_frame

@@ -257,9 +257,28 @@ func hold_presentation(owner: StringName, on: bool) -> void:
 	else:
 		release_world_time(owner)
 		_presentation_holds.erase(owner)
+	_sync_walk_pause()
+
+
+## Native (主线 A; DECISIONS「剧情演出」): a scene holds the player (WorldMapNpcLife): they
+## stand and watch, the HUD takes E as 继续 and nothing in reach is offered; world time
+## runs on (the scene's lines come on it). Not saved: a scene begins anew as they come in.
+var _scene_held: bool = false
+
+
+func hold_scene(on: bool) -> void:
+	_scene_held = on
+	_sync_walk_pause()
+
+
+func scene_held() -> bool:
+	return _scene_held
+
+
+func _sync_walk_pause() -> void:
 	var map: WorldMapController = active_map() as WorldMapController
 	if map != null and map.player_body != null:
-		map.player_body.walk_paused = not _presentation_holds.is_empty()
+		map.player_body.walk_paused = not _presentation_holds.is_empty() or _scene_held
 
 
 ## Only while the player can act: one who falls, dies or is drawn into a fight under the
@@ -528,6 +547,8 @@ func _away_seed(map_id: StringName, owed_ms: int) -> int:
 
 func _entering(destination: WorldResidentMapController) -> void:
 	catch_up_map(destination as WorldMapController)
+	# The story's stage on the map the player comes onto (DECISIONS「剧情演出」).
+	WorldStoryPresence.stage(self, destination as WorldMapController)
 
 
 func _switched(source: WorldResidentMapController, destination: WorldResidentMapController) -> void:
@@ -677,6 +698,27 @@ func room_traps() -> WorldRoomTraps:
 ## The rooms' own flags (bamboo3.c's exits/enter, train.c's got), not saved.
 func room_states() -> WorldRoomStates:
 	return _room_states
+
+
+## 放过 on `npc` as it lay (DECISIONS「剧情演出」; NpcHooks `spared`): it goes into the mood
+## its hooks name (with what the mood carries in hand), and the player is marked. Nothing
+## for an NPC without the hook (the fight's own 放过 stands as it is).
+func npc_spared(npc: NpcRuntimeState) -> void:
+	var hooks: NpcHooks = null if npc == null else npc.definition().hooks()
+	if hooks == null or not hooks.has_spared():
+		return
+	if not hooks.spared_mood.is_empty() and hooks.moods.has(hooks.spared_mood):
+		var mood: NpcMood = hooks.moods[hooks.spared_mood]
+		npc.put_in_mood(mood)
+		var map: WorldMapController = resident_map(npc.world_location().map_id) as WorldMapController
+		if map != null:
+			for item_id: StringName in mood.carry:
+				map.floor_items.give_new_item_to(npc, item_id)
+	if not hooks.spared_mark.is_empty() and _player != null and _player.state != null:
+		_player.state.marks[hooks.spared_mark] = 1
+	# Fled: gone for good once the fight is over (WorldMapHostilities.after_fight()).
+	if hooks.spared_leave:
+		npc.set_flag(NpcDefinition.FLAG_LEAVES_WHEN_FREE, true)
 
 
 ## A room's valid_leave() as the player walks out of `from_zone_id` (WorldRoomTraps).
@@ -868,6 +910,7 @@ func activate_restore_candidate() -> bool:
 		return false
 	process_mode = Node.PROCESS_MODE_INHERIT
 	map.set_restore_staging(false)
+	WorldStoryPresence.stage(self, map as WorldMapController)
 	if not map.complete_activation() or not _reconcile_active_residents():
 		map.prepare_for_deactivation()
 		map.set_restore_staging(true)
@@ -1389,6 +1432,7 @@ func _activate_first_map(map_id: StringName) -> bool:
 	_note_recent_map(map_id)
 	first.set_restore_staging(false)
 	active_map_slot.add_child(first)
+	WorldStoryPresence.stage(self, first as WorldMapController)
 	if not first.complete_activation():
 		return false
 	_initialized = true
@@ -2102,13 +2146,12 @@ func advance_journal(delta: float) -> void:
 	record_journal()
 
 
-## Looks for the entries and items now (tests; advance_journal()).
-func record_journal() -> void:
-	if not _initialized or _player == null or _player.state == null or _inventory == null or _item_index == null:
-		return
-	# What is carried, inside a carried container too (the 劲竹书 in its 书匣), by the item's
-	# own ID: a master, named, broken or eaten form counts as the item (the letter#master).
+## What the player carries, inside a carried container too (the 劲竹书 in its 书匣), by the
+## item's own ID: a master, named, broken or eaten form counts as the item (the letter#master).
+func player_held_item_ids() -> Dictionary[StringName, bool]:
 	var held: Dictionary[StringName, bool] = {}
+	if _player == null or _inventory == null or _item_index == null:
+		return held
 	var open: Array[ContainmentEndpoint] = [ContainmentEndpoint.new(ContainmentEndpoint.Kind.CHARACTER, _player.character_id)]
 	while not open.is_empty():
 		for item_id: StringName in _inventory.direct_children(open.pop_back()):
@@ -2119,6 +2162,14 @@ func record_journal() -> void:
 			if GameContent.catalog().item(base) != null:
 				held[base] = true
 			open.append(ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, item_id))
+	return held
+
+
+## Looks for the entries and items now (tests; advance_journal()).
+func record_journal() -> void:
+	if not _initialized or _player == null or _player.state == null or _inventory == null or _item_index == null:
+		return
+	var held: Dictionary[StringName, bool] = player_held_item_ids()
 	JournalLog.note_items(_player.state, held)
 	WorldSpawnClearings.note(self)
 	var location: WorldLocationState = _player.world_location()

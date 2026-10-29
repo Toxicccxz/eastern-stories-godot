@@ -659,6 +659,9 @@ const FLAG_HUNTS_PLAYER: StringName = &"hunts_player"
 ## attack.c init() attacks the player on sight from then on, past the player's death, until
 ## the NPC is made anew. An object variable, saved with its memory.
 const FLAG_AGGRESSIVE: StringName = &"aggressive"
+## Native (主线 A; NpcHooks `spared.leave`): spared as it lay, it goes for good once the
+## fight is over. An object variable, saved with the NPC's memory.
+const FLAG_LEAVES_WHEN_FREE: StringName = &"leaves_when_free"
 ## haunt.c do_haunt()'s set("end_tag", 1): a raised NPC a 僵尸追魂符 sent after someone;
 ## its first heal_up() out of a fight dispells it (zombie.c). An object variable.
 const FLAG_SENT: StringName = &"sent"
@@ -669,24 +672,30 @@ const FLAG_GONE: StringName = &"gone"
 
 ## Whether it starts a fight when the player comes into contact: its hatred, attitude
 ## "aggressive", or a toll-taker (`attack_unless_mark`) facing a player without the
-## mark, or one it has already fought.
-func attacks_on_sight(npc_flags: Dictionary[StringName, bool], player: CharacterState) -> bool:
+## mark, or one it has already fought. `parley`: whether the story's parley holds
+## (pacing's story_parley); off, a parleying toll-taker is plain aggressive (ES2).
+func attacks_on_sight(npc_flags: Dictionary[StringName, bool], player: CharacterState, parley: bool = true) -> bool:
 	if npc_flags.get(FLAG_HUNTS_PLAYER, false) or npc_flags.get(FLAG_AGGRESSIVE, false) or has_capability(CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE):
 		return true
 	# attack.c init(): start_vendetta() on whoever holds vendetta/<its mark>.
 	var vendetta_mark: String = dealings().vendetta_mark
 	if not vendetta_mark.is_empty() and player.vendetta.get(vendetta_mark, 0) != 0:
 		return true
-	var mark: String = dealings().attack_unless_mark
-	return not mark.is_empty() and (npc_flags.get(FLAG_FOUGHT_PLAYER, false) or player.marks.get(mark, 0) == 0)
+	if not dealings().takes_toll():
+		return false
+	if dealings().parley and not parley:
+		return true
+	return npc_flags.get(FLAG_FOUGHT_PLAYER, false) or not dealings().toll_paid(player.marks)
 
 
 ## How long after the player comes into reach it attacks: a toll-taker's greeting
 ## (gangster.c init(): call_out("greeting", 1)) waits `toll_attack_delay_ms`, and finds
 ## nobody if the player has walked on (no grudge then: DECISIONS, pacing knobs). Every
 ## other attack on sight starts at once (attack.c's hatred, aggressive, vendetta).
-func toll_attack_delay_ms(npc_flags: Dictionary[StringName, bool], player: CharacterState) -> int:
+func toll_attack_delay_ms(npc_flags: Dictionary[StringName, bool], player: CharacterState, parley: bool = true) -> int:
 	if npc_flags.get(FLAG_HUNTS_PLAYER, false) or npc_flags.get(FLAG_AGGRESSIVE, false) or has_capability(CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE):
+		return 0
+	if dealings().parley and not parley:
 		return 0
 	var vendetta_mark: String = dealings().vendetta_mark
 	if not vendetta_mark.is_empty() and player.vendetta.get(vendetta_mark, 0) != 0:

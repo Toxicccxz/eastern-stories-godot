@@ -101,7 +101,8 @@ func _test_data() -> void:
 	_check(catalog.spawn(TRAP_GUARDS).summoned and not catalog.spawn(&"oldpine.outdoor.keep2.bandit_guards").summoned, "only the trap's guards are summoned")
 	var boss: NpcDefinition = catalog.npc(&"oldpine.npc.bandit_commander")
 	_check(boss.authored_combat_facts().apply_value(&"defense") == 60 and boss.authored_combat_facts().apply_value(&"attack") == 100, "常老大: apply/attack 100, apply/defense 60")
-	_check(boss.short_name() == "老松寨寨主「泼风刀王」常老大" and boss.bellicosity() == 6000, "常老大's title, nickname and bellicosity: " + boss.short_name())
+	# bellicosity 6000 in ES2; 0 here so he never goes berserk now that he parleys (DECISIONS「老松寨的三条路」).
+	_check(boss.short_name() == "老松寨寨主「泼风刀王」常老大" and boss.bellicosity() == 0, "常老大's title, nickname and bellicosity: " + boss.short_name())
 	var maniac: NpcDefinition = catalog.npc(&"oldpine.npc.maniac")
 	_check(maniac.bellicosity() == 10000 and maniac.score == 8000 and Berserk.applies_to(maniac), "疯老头子: not aggressive, bellicosity 10000 over score 8000")
 	_check(not Berserk.applies_to(catalog.npc(&"oldpine.npc.bandit_guard")) and not Berserk.applies_to(catalog.npc(&"oldpine.npc.butterfly")), "aggressive guards and peaceful butterflies never go berserk")
@@ -395,6 +396,10 @@ func _test_bury(tree: SceneTree, session: WorldSessionController) -> void:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	var caves: WorldMapController = session.world_map_of(&"oldpine.caves")
 	var original: WorldInteractionRandomSource = session.world_interaction_random_source()
+	# ES2's roll (经典: bury_always_rewards off; DECISIONS「安葬必得书」); the game's knob is
+	# story_chapter1_test's.
+	var production: PacingDefinition = GameContent.catalog().pacing()
+	GameContent.catalog().set_pacing(production.copy().with_story(production.story_parley, false))
 	for case: Array in [[26, true, ""], [21, false, "你只看见山洞顶部纷纷扬扬飘下几张纸片来。"], [3, false, ""]]:
 		if session.active_map_id() == &"oldpine.caves":
 			_check(caves.relocate_player(&"oldpine.caves.maze", &"oldpine.caves.maze.cave1_landing"), "back to cave1")
@@ -432,6 +437,7 @@ func _test_bury(tree: SceneTree, session: WorldSessionController) -> void:
 			_check(case[2].is_empty() != said.has(case[2]), "the paper only above 20")
 	session.reset_room("d/oldpine/cave5.c")
 	_check(not caves.floor_item_of(SKELETON, &"oldpine.caves.mouth").is_empty(), "the room's reset lays the bones again")
+	GameContent.catalog().set_pacing(production)
 
 
 ## attack.c's berserk: 疯老头子 stares and attacks a player who comes near (bellicosity

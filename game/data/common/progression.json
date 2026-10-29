@@ -33,7 +33,7 @@
 			"cloud.npc.butcher", "cloud.npc.box_boss", "cloud.npc.thief", "cloud.npc.gangster", "cloud.npc.monk",
 			"cloud.npc.b_header", "cloud.npc.god",
 			"oldpine.npc.bandit_guard", "oldpine.npc.bandit_leader", "oldpine.npc.bandit_commander",
-			"oldpine.npc.maniac", "oldpine.npc.spy", "oldpine.npc.serpent", "oldpine.npc.venomsnake",
+			"oldpine.npc.maniac", "oldpine.npc.spy", "oldpine.npc.serpent", "oldpine.npc.venomsnake", "native.npc.black_taoist",
 			"goathill.npc.bandit_leader", "goathill.npc.bandit_hwang", "goathill.npc.huge_worm",
 			"green.npc.oldman2",
 			"temple.npc.old_taoist", "temple.npc.taoist", "temple.npc.tfighter",

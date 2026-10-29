@@ -65,7 +65,7 @@ func _free(session: WorldSessionController, tree: SceneTree) -> void:
 
 func _test_spawned_bodies(tree: SceneTree) -> void:
 	var session: WorldSessionController = await _session(tree)
-	_assert_eq(session.world_npcs().size(), 36, "every spawns.json point has one NPC")
+	_assert_eq(session.world_npcs().size(), 37, "every spawns.json point has one NPC")
 	# Each map spawns its own points: the forest the five bandits, the gorge the five serpents.
 	var outdoor: WorldMapController = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID)
 	_assert_eq(outdoor.npc_runtimes().size(), 19, "the forest spawns its 19 (five summoned, absent; the keep's hall is its own map since the remap)")

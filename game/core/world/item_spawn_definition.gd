@@ -30,6 +30,20 @@ var legacy_source_room_path: String:
 var legacy_quantity: int:
 	get:
 		return _legacy_quantity
+## Native (主线 A; DECISIONS「剧情演出」): an item on the story's stage lies there only once
+## `present` holds and until `until` does, judged when the player comes onto the map
+## (WorldStoryPresence); null: it lies there from the world's making, as ES2's do.
+var _present: JournalEntryDefinition
+var _until: JournalEntryDefinition
+var present: JournalEntryDefinition:
+	get:
+		return _present
+var until: JournalEntryDefinition:
+	get:
+		return _until
+var staged: bool:
+	get:
+		return _present != null or _until != null
 
 
 static func from_record(reader: ContentRecordReader) -> ItemSpawnDefinition:
@@ -44,6 +58,8 @@ static func from_record(reader: ContentRecordReader) -> ItemSpawnDefinition:
 	definition._spawn_point_ids = points
 	definition._legacy_source_room_path = reader.required_text("legacy_room")
 	definition._legacy_quantity = reader.required_integer("legacy_quantity")
+	definition._present = NpcContentRecords._presence(reader, "present")
+	definition._until = NpcContentRecords._presence(reader, "until")
 	reader.finish()
 	if not definition.is_valid():
 		reader.fail("", "is not a valid item spawn (points must be unique and match legacy_quantity)")

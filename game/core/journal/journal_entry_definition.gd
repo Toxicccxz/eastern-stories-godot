@@ -34,12 +34,18 @@ enum When {
 	## Native (任务系统; DECISIONS「任务系统」): the player stands in zone `key` (the runtime
 	## passes where they are; a quest's arrival step).
 	ZONE,
+	## Native (主线 A; DECISIONS「剧情演出」): the quest ledger (CharacterState.quests) holds the
+	## key `key` (`<quest>#started`, `<quest>/<step>`, `<quest>/<step>/<option>`, `<quest>#done`;
+	## a branch step's key holds once any of its options was taken): what a spawn's presence
+	## or a later quest asks of the story so far.
+	QUEST,
 }
 
 const WHEN_KEYS: Dictionary[String, int] = {
 	"mark": When.MARK, "temp": When.TEMP, "item": When.ITEM, "seen": When.SEEN, "heard": When.HEARD,
 	"milestone": When.MILESTONE, "force_at_least": When.FORCE_AT_LEAST, "exp_at_least": When.EXP_AT_LEAST,
 	"skill_at_least": When.SKILL_AT_LEAST, "family": When.FAMILY, "chat": When.CHAT, "zone": When.ZONE,
+	"quest": When.QUEST,
 }
 
 var entry_id: StringName

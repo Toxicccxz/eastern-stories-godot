@@ -15,6 +15,9 @@ var _from_zone_id: StringName
 var _to_zone_id: StringName
 var _summon_spawn_id: StringName
 var _opens_on: StringName
+## Native (主线 A; DECISIONS「老松寨的三条路」): the trap does not fall on a player holding
+## any of these marks (the toll paid, the challenge called) while pacing's story_parley is on.
+var _unless_marks: Array[String] = []
 var _messages: Dictionary[String, String] = {}
 var _legacy_source_path: String
 
@@ -40,6 +43,9 @@ var summon_spawn_id: StringName:
 var opens_on: StringName:
 	get:
 		return _opens_on
+var unless_marks: Array[String]:
+	get:
+		return _unless_marks.duplicate()
 var legacy_source_path: String:
 	get:
 		return _legacy_source_path
@@ -54,6 +60,7 @@ static func from_record(reader: ContentRecordReader) -> RoomTrapDefinition:
 	definition._to_zone_id = StringName(reader.required_text("to_zone"))
 	definition._summon_spawn_id = StringName(reader.text("summon"))
 	definition._opens_on = StringName(reader.text("opens_on"))
+	definition._unless_marks = reader.text_list("unless_marks")
 	var messages: ContentRecordReader = reader.child("messages")
 	if messages != null:
 		for key: String in messages.keys():

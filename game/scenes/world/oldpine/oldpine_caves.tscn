@@ -107,6 +107,21 @@ position = Vector2(880, 470)
 script = ExtResource("marker")
 spawn_point_id = &"oldpine.caves.mouth.cave5.skeleton.1"
 
+[node name="Cave5Token" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(918, 486)
+script = ExtResource("marker")
+spawn_point_id = &"oldpine.caves.mouth.cave5.token.1"
+
+[node name="Cave5StoneBox" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(842, 494)
+script = ExtResource("marker")
+spawn_point_id = &"oldpine.caves.mouth.cave5.stone_box.1"
+
+[node name="Cave5BlackTaoist" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(904, 432)
+script = ExtResource("marker")
+spawn_point_id = &"oldpine.caves.mouth.cave5.black_taoist.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]
