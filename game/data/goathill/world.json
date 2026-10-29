@@ -24,6 +24,9 @@
 		{ "id": "goathill.cavern3", "map": "goathill.caverns", "indoors": true, "rooms": ["es2:d/goathill/cavern3"] },
 		{ "id": "goathill.cavern4", "map": "goathill.caverns", "indoors": true, "rooms": ["es2:d/goathill/cavern4"], "distinct": true }
 	],
+	"landmarks": [
+		{ "id": "goathill.mroad4.landmark.crack", "zone": "goathill.mroad4", "name": "裂口", "policy": "look", "teaches": ["看过裂口"], "long": "北边的山壁上一道黑黝黝的裂口，离地约有三四丈，站在路上够不着。裂口边缘的岩石磨得发亮，像是常有东西从那里吊上吊下。\n", "legacy_source": "native: 主线 C 第三章入口 over d/goathill/mroad4.c:11 (北边的山壁有一个裂口(crack)，不过离地约有三到四丈; the LPC has no item_desc for it); the worn edge is the outline's (逆灵宫 above it)" }
+	],
 	"portals": [
 		{ "id": "goathill.mroad1.south", "from_zone": "goathill.mroad1", "to_zone": "snow.crossroad", "to_spawn": "snow.crossroad.goathill_return", "legacy_room": "es2:d/goathill/mroad1", "legacy_command": "south" },
 		{ "id": "goathill.canyon3.east", "from_zone": "goathill.canyon3", "to_zone": "goathill.cavern1", "to_spawn": "goathill.cavern1.canyon_entry", "legacy_room": "es2:d/goathill/canyon3", "legacy_command": "east" },

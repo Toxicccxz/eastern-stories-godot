@@ -109,8 +109,9 @@ what it finds is fixed in step 2. What waits for it is listed in [STATUS](STATUS
    and 寻剑令's first half as the sample; then (DECISIONS「剧情演出」) the prologue's second half (the pass scene: the player stands,
    the camera follows the speakers) and chapter one 伪墓 on 老松岭, with the stage (NPCs and items by quest state), the keep's parley
    and the burial as mechanisms every later chapter reuses; chapter two 旧案 (绮云镇 + 水烟阁: the letter, the 镖单, the two
-   inscriptions, 南危水, 潘军禅, the choice) on data alone. Next: chapter three's entry (主线 C) on the existing regions, then the new
-   regions in chapter order (逆灵宫 first, 皇城 and 岚城 last).
+   inscriptions, 南危水, 潘军禅, the choice) on data alone; chapter three's entrance (主线 C: 刘安禄 spared or 黄霸 telling of the
+   tribute, the cart and its escort under the crack at 野羊山's turn, the quest stopping at 「逆灵宫就在裂口上头」). Next: the new
+   regions in chapter order (逆灵宫 first, from that crack; 皇城 and 岚城 last).
 5. **Characters and animation** after the voxel maps: bodies, faces, clothing by family and class;
    then audio.
 

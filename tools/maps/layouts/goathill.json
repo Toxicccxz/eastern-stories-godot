@@ -244,9 +244,31 @@
             "name": "Mroad3Temple1Return",
             "at": [656, 1480],
             "id": "goathill.mroad3.temple1_return"
+          },
+          {
+            "name": "TributeCart",
+            "at": [684, 1200],
+            "id": "goathill.mroad4.tribute_cart.1"
+          },
+          {
+            "name": "TributeTaoist01",
+            "at": [612, 1236],
+            "id": "goathill.mroad4.tribute_taoist.1"
+          },
+          {
+            "name": "TributeTaoist02",
+            "at": [720, 1172],
+            "id": "goathill.mroad4.tribute_taoist.2"
           }
         ],
-        "interactions": [],
+        "interactions": [
+          {
+            "name": "CrackInteraction",
+            "id": "goathill.mroad4.landmark.crack",
+            "at": [600, 1172],
+            "shape": "Rect_96_32"
+          }
+        ],
         "doors": []
       }
     },

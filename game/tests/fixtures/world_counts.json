@@ -448,11 +448,12 @@
 		"native.pass.white_officers",
 		"native.pass.bai_daozhang",
 		"native.pass.black_taoist",
-		"native.caves.black_taoist"
+		"native.caves.black_taoist",
+		"native.mroad4.tribute_taoists"
 	],
-	"world_npcs": 479,
+	"world_npcs": 481,
 	"resident_maps": 127,
-	"new_game_items": 795,
+	"new_game_items": 799,
 	"snow_outdoor_passages": 18,
 	"map_zones": {
 		"snow.inn": 1,
@@ -606,7 +607,7 @@
 		"oldpine.caves": 1,
 		"oldpine.cliff2": 0,
 		"oldpine.keep_hall": 4,
-		"goathill.mountain": 4,
+		"goathill.mountain": 6,
 		"goathill.caverns": 13,
 		"goathill.temple_house": 1,
 		"cloud.outdoor": 12,

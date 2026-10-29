@@ -24,6 +24,8 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_chapter1_data()
 	_test_asker_lacks()
 	_test_chapter2_data()
+	_test_spared_only_in_mood()
+	_test_chapter3_data()
 	return {"assertions": _count, "failures": _failures.duplicate()}
 
 
@@ -296,6 +298,53 @@ func _test_chapter2_data() -> void:
 	var bait: NpcInquiryRule = NpcInquiryRule.decide(pan.talk().inquiry_rules("邪剑穿灵"), {}, null, &"", &"", 0, {}, ["pan letter"])
 	_check(bait.lines.size() == 4 and bait.mark_asker == "潘军禅说了鱼饵" and NpcInquiryRule.decide(pan.talk().inquiry_rules("邪剑穿灵"), {}).mark_asker.is_empty() and quest.steps[5].condition.key == "潘军禅说了鱼饵", "潘军禅 talks to the letter's bearer; the step is his mark, not the asking (a refusal is an answer too)")
 	_check(quest.steps[6].is_branch() and quest.steps[6].options[0].condition.key == "替南危水保密" and quest.steps[6].options[1].condition.key == "告发了南危水", "the choice")
+
+
+## 放过 changes an NPC only while it is in the mood the hook names (主线 C).
+func _test_spared_only_in_mood() -> void:
+	var errors: Array[String] = []
+	var hooks: NpcHooks = NpcHooks.from_record(ContentRecordReader.new({
+		"moods": {"revealed": {"title": "二寨主"}, "spared": {"title": "二寨主", "lasting": true}},
+		"spared": {"mood": "spared", "mark": "放过了", "only_in_mood": "revealed"},
+	}, "test", errors))
+	_check(errors.is_empty() and hooks.spared_only_in_mood == "revealed", "spared.only_in_mood reads: %s" % [errors])
+	NpcHooks.from_record(ContentRecordReader.new({"moods": {"spared": {"title": "x"}}, "spared": {"mood": "spared", "only_in_mood": "angry"}}, "test", errors))
+	_check(errors.size() == 1 and errors[0].contains("only_in_mood"), "a mood it has not is refused: %s" % [errors])
+
+
+## 逆灵宫's entrance as loaded (主线 C): after 旧案, two ways to the tribute (刘安禄 spared, or
+## 黄霸), the cart and its escort under the crack from the chapter's start, the crack itself,
+## and the last step that waits for 剧情总纲 §8 第 4 步.
+func _test_chapter3_data() -> void:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var quest: StoryQuestDefinition = catalog.story_quest(&"main.chapter3")
+	_check(quest != null and quest.title == "逆灵宫" and quest.requires == [&"main.chapter2"] and quest.starts == null, "逆灵宫 follows 旧案 at once")
+	if quest == null:
+		return
+	var ids: Array = quest.steps.map(func(step: StoryQuestDefinition.Step) -> String: return String(step.step_id))
+	_check(ids == ["lead", "cart", "gate"], "the steps: %s" % [ids])
+	_check(quest.steps[0].is_branch() and quest.steps[0].options[0].condition.key == "刘安禄说了大寨主" and quest.steps[0].options[1].condition.key == "黄霸说了纳供", "the lead: 刘安禄's mark or 黄霸's (what they said, not the asking)")
+	_check(quest.steps[1].condition.when == JournalEntryDefinition.When.ZONE and quest.steps[1].condition.key == "goathill.mroad4" and quest.steps[2].condition.key == "进了逆灵宫", "the cart at the turn; the gate waits for the next step of the plan")
+	var liu: NpcDefinition = catalog.npc(&"snow.npc.guard")
+	var hooks: NpcHooks = liu.hooks()
+	_check(hooks.spared_mood == "spared" and hooks.spared_mark == "放过了刘安禄" and hooks.spared_only_in_mood == "revealed", "刘安禄 spared once revealed: his own mood and the mark")
+	var spared: NpcMood = hooks.moods["spared"]
+	_check(spared.lasting and spared.title == "野羊山寨二寨主" and spared.nickname == "血手刘三" and spared.flags.is_empty() and spared.applies == hooks.moods["revealed"].applies, "the mood keeps who he is and his strength, and drops the hatred")
+	var talks: NpcInquiryRule = NpcInquiryRule.decide(liu.talk().inquiry_rules("大寨主"), {"潘军禅说了鱼饵": 1}, null, &"", &"", 0, {&"mood/spared": true})
+	_check(talks != null and talks.mark_asker == "刘安禄说了大寨主" and talks.lines.size() == 4, "spared, he tells of 霍铮, 逆灵宫, the tribute and the crack")
+	_check(NpcInquiryRule.decide(liu.talk().inquiry_rules("大寨主"), {}, null, &"", &"", 0, {&"mood/spared": true}).mark_asker.is_empty(), "but not before 潘军禅 spoke of the north slope (the mark would skip the lead step)")
+	_check(spared.has_combat_chat(), "spared, his combat chat is his own, not the 门房's")
+	_check(NpcInquiryRule.decide(liu.talk().inquiry_rules("大寨主"), {}).mark_asker.is_empty() and not NpcInquiryRule.decide(liu.talk().inquiry_rules("刘老三"), {}, null, &"", &"", 0, {&"mood/spared": true}).attacks, "the 门房 knows no 大寨主; spared, 刘老三 is no longer a fight")
+	var hwang: NpcDefinition = catalog.npc(&"goathill.npc.bandit_hwang")
+	_check(hwang.title == "野羊山三寨主（代寨主）" and hwang.description.contains("纳供"), "黄霸 is the acting chief who pays tribute")
+	var tribute: NpcInquiryRule = NpcInquiryRule.decide(hwang.talk().inquiry_rules("纳供"), {"潘军禅说了鱼饵": 1})
+	_check(tribute != null and tribute.mark_asker == "黄霸说了纳供" and tribute.lines.size() == 5 and NpcInquiryRule.decide(hwang.talk().inquiry_rules("纳供"), {"黄霸说了纳供": 1}).mark_asker.is_empty(), "黄霸 tells of the tribute once")
+	_check(NpcInquiryRule.decide(hwang.talk().inquiry_rules("纳供"), {}).mark_asker.is_empty(), "and not to one who never heard of the north slope")
+	var escort: NpcSpawnDefinition = catalog.spawn(&"native.mroad4.tribute_taoists")
+	_check(escort != null and escort.present.key == "main.chapter3#started" and escort.until == null and escort.spawn_point_ids().size() == 2 and not catalog.npc(&"native.npc.tribute_taoist").has_capability(NpcDefinition.CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE), "two escort taoists at the turn from the chapter's start, not on the attack")
+	var cart: ItemSpawnDefinition = catalog.item_spawn(&"native.mroad4.tribute_cart")
+	_check(cart != null and cart.present.key == "main.chapter3#started" and catalog.item(&"native:goathill/tribute_cart") != null and catalog.item(&"native:goathill/tribute_cart").no_get, "the cart with them, and it cannot be taken")
+	_check(catalog.landmark(&"goathill.mroad4.landmark.crack") != null and catalog.landmark(&"goathill.mroad4.landmark.crack").teaches == ["看过裂口"], "the crack can be looked at")
 
 
 func _facts(marks: Dictionary[String, int]) -> ScriptedAct.Facts:

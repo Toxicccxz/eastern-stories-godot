@@ -1,0 +1,49 @@
+{
+	"quests": [
+		{
+			"id": "main.chapter3",
+			"title": "逆灵宫",
+			"line": "main",
+			"region": "野羊山",
+			"sources": [
+				"native: 剧情总纲 §3 第三章「黑砖道观」, its entrance only (owner, 2026-10-29; DECISIONS「第三章入口」「刘安禄放过后开口」「黄霸改寨主」) over doc/help/plan:26–31 (the draft: 逆灵宫 on 野羊山's north slope, the 大寨主 and 二寨主 gone half a year, the 三寨主 paying tribute every year), d/snow/npc/guard.c (刘安禄, 野羊山寨二寨主 血手刘三), d/goathill/npc/bandit_hwang.c (黄霸), d/goathill/mroad4.c:11 (北边的山壁有一个裂口, 离地约有三到四丈) and d/snow/npc/woodcutter.c:15 (野羊山那群臭道士). 霍铮, the tribute cart and its escort are the outline's. 剧情总纲 §8 第 4 步 goes on from the last step; the ledger keys stay."
+			],
+			"summary": "进野羊山北麓的黑道观，找到失踪的大寨主。",
+			"requires": ["main.chapter2"],
+			"steps": [
+				{
+					"id": "lead",
+					"objective": "黑衣道士往野羊山北麓去了。去打听北麓的道观：野羊寨的黄霸在山路边的土地庙里；淳风武馆的门房刘安禄也知道——若他肯说。",
+					"target": { "map": "goathill.temple_house", "zone": "goathill.temple1" },
+					"options": [
+						{
+							"id": "liu",
+							"done": { "mark": "刘安禄说了大寨主" },
+							"text": "刘安禄说了：野羊寨的大寨主霍铮是他拜过把子的大哥，半年前被北麓黑砖道观的道士带走，再没回来；那伙人自称逆灵宫。三寨主黄霸接了寨子，每年给道观纳供；他不肯伺候那群道士，才下山做了门房。纳供的车这几天上山，到山路转角，道士从北边山壁的裂口把东西吊上去——道观就在裂口上头。"
+						},
+						{
+							"id": "hwang",
+							"done": { "mark": "黄霸说了纳供" },
+							"text": "黄霸说了：两年前北麓起了一座黑砖道观，自称逆灵宫，寨里折了一半弟兄；半年前大寨主霍铮、二寨主一前一后没了下落，寨子落到他手里。他打不过那些道士，每年纳供换野羊寨还在山上。今年的车已经上去了，这会儿该到了山路转角。"
+						}
+					]
+				},
+				{
+					"id": "cart",
+					"objective": "去野羊山的山路转角，看黄霸的纳供车。",
+					"done": { "zone": "goathill.mroad4" },
+					"text": "两个黑衣道士守着一辆盖着油布的车。车上的箱子一只只吊进北边山壁的裂口里——他们不走山路。",
+					"target": { "map": "goathill.mountain", "zone": "goathill.mroad4" }
+				},
+				{
+					"id": "gate",
+					"objective": "逆灵宫就在裂口上头。找到失踪的大寨主霍铮。",
+					"done": { "mark": "进了逆灵宫" },
+					"text": "你进了逆灵宫。",
+					"target": { "map": "goathill.mountain", "zone": "goathill.mroad4" }
+				}
+			],
+			"reward": { "milestone": true, "deed": "进了野羊山北麓的逆灵宫" }
+		}
+	]
+}

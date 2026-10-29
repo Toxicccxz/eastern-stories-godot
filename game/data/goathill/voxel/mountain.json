@@ -156,6 +156,9 @@
     {"kind": "slime", "at": [1384, 440], "size": [40, 36], "color": "8c8749", "lobes": 3},
     {"kind": "bones", "at": [1340, 462], "size": [40, 30]}
   ],
+  "items": {
+    "native:goathill/tribute_cart": {"kind": "cart", "size": [40, 64], "cargo": "crates", "covered": true, "tarp": "4a4640", "rotation": 90, "note": "主线 C: 黄霸's tribute cart under the crack, the boxes going up on a rope"}
+  },
   "actors": {
     "default": {"coat": "7d6a4e"},
     "goathill.npc.bandit": {"coat": "5b4a3a"},

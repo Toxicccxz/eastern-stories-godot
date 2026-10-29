@@ -707,6 +707,9 @@ func npc_spared(npc: NpcRuntimeState) -> void:
 	var hooks: NpcHooks = null if npc == null else npc.definition().hooks()
 	if hooks == null or not hooks.has_spared():
 		return
+	# Only while it is in the mood the hook names (刘安禄 revealed): otherwise 放过 leaves it as it was.
+	if not hooks.spared_only_in_mood.is_empty() and not npc.has_flag(StringName(NpcMood.FLAG_PREFIX + hooks.spared_only_in_mood)):
+		return
 	if not hooks.spared_mood.is_empty() and hooks.moods.has(hooks.spared_mood):
 		var mood: NpcMood = hooks.moods[hooks.spared_mood]
 		npc.put_in_mood(mood)
