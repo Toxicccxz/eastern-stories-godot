@@ -39,13 +39,20 @@ enum When {
 	## a branch step's key holds once any of its options was taken): what a spawn's presence
 	## or a later quest asks of the story so far.
 	QUEST,
+	## Native (逆灵宫 A; DECISIONS「逆灵宫 A」): the player wears an item of definition `key`
+	## (armor on them: the 黑冠 that makes them one of the 道士 to those who look).
+	WEARING,
+	## Native (逆灵宫 A): one of `parts` holds (`any`), or every one does (`all`). A part is a
+	## `when` object of its own; HEARD and CHAT are recorded as they happen and cannot be parts.
+	ANY,
+	ALL,
 }
 
 const WHEN_KEYS: Dictionary[String, int] = {
 	"mark": When.MARK, "temp": When.TEMP, "item": When.ITEM, "seen": When.SEEN, "heard": When.HEARD,
 	"milestone": When.MILESTONE, "force_at_least": When.FORCE_AT_LEAST, "exp_at_least": When.EXP_AT_LEAST,
 	"skill_at_least": When.SKILL_AT_LEAST, "family": When.FAMILY, "chat": When.CHAT, "zone": When.ZONE,
-	"quest": When.QUEST,
+	"quest": When.QUEST, "wearing": When.WEARING, "any": When.ANY, "all": When.ALL,
 }
 
 var entry_id: StringName
@@ -57,6 +64,8 @@ var key: String = ""
 var topic: String = ""
 ## FORCE_AT_LEAST, EXP_AT_LEAST: the number reached; SKILL_AT_LEAST: the level.
 var amount: int = 0
+## ANY, ALL: the conditions joined (each one a condition of its own, never HEARD or CHAT).
+var parts: Array[JournalEntryDefinition] = []
 ## Player text, as authored.
 var text: String = ""
 ## An NPC's inquiry answer shown under the text (quote_npc asked about quote_topic), or "".
@@ -93,6 +102,11 @@ static func read_when(reader: ContentRecordReader, definition: JournalEntryDefin
 	if when == null:
 		reader.fail(field, "expected an object")
 		return
+	_read_when_object(when, definition)
+
+
+## Reads `when`, the condition object itself (one of the WHEN_KEYS), into `definition`.
+static func _read_when_object(when: ContentRecordReader, definition: JournalEntryDefinition) -> void:
 	var names: Array[String] = when.keys()
 	if names.size() != 1 or not WHEN_KEYS.has(names[0]):
 		when.fail("", "expected one of %s" % [WHEN_KEYS.keys()])
@@ -123,6 +137,15 @@ static func read_when(reader: ContentRecordReader, definition: JournalEntryDefin
 					if definition.amount <= 0:
 						skill.fail("level", "must be positive")
 					skill.finish()
+			When.ANY, When.ALL:
+				for part_reader: ContentRecordReader in when.children(names[0]):
+					var part := JournalEntryDefinition.new()
+					_read_when_object(part_reader, part)
+					if part.when in [When.HEARD, When.CHAT]:
+						part_reader.fail("", "heard and chat are recorded as they happen: they cannot be joined")
+					definition.parts.append(part)
+				if definition.parts.is_empty():
+					when.fail(names[0], "joins at least one condition")
 			_:
 				definition.key = when.required_text(names[0])
 	when.finish()

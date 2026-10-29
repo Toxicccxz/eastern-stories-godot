@@ -148,10 +148,10 @@ static func can_start(state: CharacterState, quest: StoryQuestDefinition, quests
 
 ## Records what holds now: quests that begin, steps done, quests ended, in the order found.
 ## `temps` are the player's temp marks, `held` the item definitions carried, `zone_id` where
-## the player stands.
-static func record(state: CharacterState, temps: Dictionary[String, int], held: Dictionary[StringName, bool], zone_id: StringName, quests: Array[StoryQuestDefinition]) -> Array[Fresh]:
+## the player stands, `worn` the item definitions worn (WEARING).
+static func record(state: CharacterState, temps: Dictionary[String, int], held: Dictionary[StringName, bool], zone_id: StringName, quests: Array[StoryQuestDefinition], worn: Dictionary[StringName, bool] = {}) -> Array[Fresh]:
 	var test: Callable = func(condition: JournalEntryDefinition) -> bool:
-		return JournalLog.holds(condition, state, temps, held, zone_id)
+		return JournalLog.holds(condition, state, temps, held, zone_id, worn)
 	return _look(state, quests, test)
 
 

@@ -2168,17 +2168,34 @@ func player_held_item_ids() -> Dictionary[StringName, bool]:
 	return held
 
 
+## What the player wears (the armor on them), by the item's own ID (as player_held_item_ids();
+## 逆灵宫 A: a journal `wearing` condition, an act's `wears`, an NPC's `ignores_when`).
+func player_worn_item_ids() -> Dictionary[StringName, bool]:
+	var worn: Dictionary[StringName, bool] = {}
+	if _player == null or _player.armor == null:
+		return worn
+	for slot: StringName in _player.armor.occupied_slots():
+		var reference: EquippedArmorRef = _player.armor.equipped_ref_in_slot(slot)
+		if reference == null:
+			continue
+		var base := StringName(String(reference.item_definition_id).get_slice("#", 0))
+		if GameContent.catalog().item(base) != null:
+			worn[base] = true
+	return worn
+
+
 ## Looks for the entries and items now (tests; advance_journal()).
 func record_journal() -> void:
 	if not _initialized or _player == null or _player.state == null or _inventory == null or _item_index == null:
 		return
 	var held: Dictionary[StringName, bool] = player_held_item_ids()
+	var worn: Dictionary[StringName, bool] = player_worn_item_ids()
 	JournalLog.note_items(_player.state, held)
 	WorldSpawnClearings.note(self)
 	var location: WorldLocationState = _player.world_location()
 	var zone_id: StringName = &"" if location == null else location.zone_id
-	tell_journal(JournalLog.record_entries(_player.state, _player.temp_marks, held, GameContent.catalog().journal_chains(), zone_id))
-	tell_quests(StoryQuestLog.record(_player.state, _player.temp_marks, held, zone_id, GameContent.catalog().story_quests()))
+	tell_journal(JournalLog.record_entries(_player.state, _player.temp_marks, held, GameContent.catalog().journal_chains(), zone_id, worn))
+	tell_quests(StoryQuestLog.record(_player.state, _player.temp_marks, held, zone_id, GameContent.catalog().story_quests(), worn))
 	progression_rewards().look()
 	bounties().look()
 

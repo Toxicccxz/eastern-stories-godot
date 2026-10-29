@@ -32,6 +32,11 @@ var attack_unless_marks: Array[String] = []
 ## Native (主线 A; DECISIONS「老松寨的三条路」): the toll is the story's parley, held only
 ## while pacing's story_parley is on; off (经典), it is plain aggressive, as ES2's was.
 var parley: bool = false
+## Native (逆灵宫 A; DECISIONS「逆灵宫 A」): a journal `when` under which one that attacks on
+## sight takes the player for one of its own (the 黑冠 worn, 野羊寨's chief brought home) —
+## no shout, no wait, no gang with it; one the player fights still hunts them, and the
+## player's own 攻击 brings the room down on them as ever. Null for none.
+var ignores_when: JournalEntryDefinition = null
 var toll_attack_delay_ms: int = 0
 ## The index of the chat_msg line shouted at a passer-by coming into reach (-1: none).
 var toll_shout: int = -1
@@ -79,6 +84,9 @@ static func from_record(reader: ContentRecordReader) -> NpcDealings:
 	dealings.parley = reader.boolean("parley", false)
 	if dealings.parley and dealings.attack_unless_marks.is_empty():
 		reader.fail("parley", "only a toll-taker parleys")
+	if reader.has("ignores_when"):
+		dealings.ignores_when = JournalEntryDefinition.new()
+		JournalEntryDefinition.read_when(reader, dealings.ignores_when, "ignores_when")
 	dealings.toll_attack_delay_ms = reader.integer("toll_attack_delay_ms", 0)
 	if dealings.toll_attack_delay_ms < 0 or (dealings.toll_attack_delay_ms > 0 and dealings.attack_unless_marks.is_empty()):
 		reader.fail("toll_attack_delay_ms", "must not be negative, and needs attack_unless_mark")

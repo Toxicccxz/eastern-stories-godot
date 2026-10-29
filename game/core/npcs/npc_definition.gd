@@ -674,8 +674,14 @@ const FLAG_GONE: StringName = &"gone"
 ## "aggressive", or a toll-taker (`attack_unless_mark`) facing a player without the
 ## mark, or one it has already fought. `parley`: whether the story's parley holds
 ## (pacing's story_parley); off, a parleying toll-taker is plain aggressive (ES2).
-func attacks_on_sight(npc_flags: Dictionary[StringName, bool], player: CharacterState, parley: bool = true) -> bool:
-	if npc_flags.get(FLAG_HUNTS_PLAYER, false) or npc_flags.get(FLAG_AGGRESSIVE, false) or has_capability(CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE):
+## `ignored`: its dealings' `ignores_when` holds for the player (逆灵宫 A): then only one that
+## hunts them (its hatred from a fight) attacks.
+func attacks_on_sight(npc_flags: Dictionary[StringName, bool], player: CharacterState, parley: bool = true, ignored: bool = false) -> bool:
+	if npc_flags.get(FLAG_HUNTS_PLAYER, false):
+		return true
+	if ignored:
+		return false
+	if npc_flags.get(FLAG_AGGRESSIVE, false) or has_capability(CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE):
 		return true
 	# attack.c init(): start_vendetta() on whoever holds vendetta/<its mark>.
 	var vendetta_mark: String = dealings().vendetta_mark
