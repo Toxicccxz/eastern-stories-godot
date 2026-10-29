@@ -16397,6 +16397,11 @@ msgstr ""
 
 #. snow.npc.guard inquiry.大寨主.rules.say
 #: data/snow/npcs.json
+msgid "……大哥的事，等你知道野羊山北麓是个什么地方再说。"
+msgstr ""
+
+#. snow.npc.guard inquiry.大寨主.rules.say
+#: data/snow/npcs.json
 msgid "大寨主？我是淳风武馆的门房，哪来的什么大寨主。"
 msgstr ""
 
@@ -18043,6 +18048,11 @@ msgstr ""
 #. goathill.npc.bandit_hwang inquiry.纳供.rules.lines.say
 #: data/goathill/npcs.json
 msgid "今年的车今天就上去了，这会儿该到了山路转角。你要去，别说是老子说的。"
+msgstr ""
+
+#. goathill.npc.bandit_hwang inquiry.纳供.rules.say
+#: data/goathill/npcs.json
+msgid "寨里的事，外人少打听。"
 msgstr ""
 
 #. goathill.npc.bandit_hwang inquiry.逆灵宫

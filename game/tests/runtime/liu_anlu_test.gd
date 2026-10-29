@@ -27,7 +27,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 ## attack, the revealed NPC's own line.
 func _test_rules() -> void:
 	var guard: NpcDefinition = GameContent.catalog().npc(&"snow.npc.guard")
-	_check(guard.talk().inquiry_topics() == ["刘老三", "血手刘三"] and guard.talk().ask_confirm("血手刘三").begins_with("刘安禄的来历不简单"), "the two topics, confirmed first")
+	_check(guard.talk().inquiry_topics() == ["刘老三", "血手刘三", "大寨主"] and guard.talk().ask_confirm("血手刘三").begins_with("刘安禄的来历不简单"), "the two topics (and 主线 C's 大寨主), confirmed first")
 	var mood: NpcMood = guard.hooks().moods.get("revealed")
 	_check(mood != null and mood.lasting and mood.title == "野羊山寨二寨主" and mood.nickname == "血手刘三" and mood.applies.get("combat_exp", 0) == 30000 and mood.carry == [BLADE_BOOK] and mood.has_combat_chat(), "the revealed mood as guard.c sets it")
 	var none := ScriptedWorldInteractionRandomSource.new([])
