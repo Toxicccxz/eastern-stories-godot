@@ -1,40 +1,48 @@
 {
   "indoor": true,
   "cutaway_rooms": true,
-  "camera_size": 22,
+  "camera_size": 24,
   "note": "hotel2.c: 二楼雅座 — tables by the lattice windows that look over the town and the lake, the gentry and scholars at them, a zither, wine, the square stairs in the corner up and down. Rich, kept, a little worn.",
   "palette": {"wood": ["7f6e5c", "887764", "74655a"], "wall": "d4c8b4"},
   "light": {
     "ambient": ["dccab0", "6a6a82"],
     "ambient_energy": [0.46, 0.32]
   },
-  "life": {"choyin.hotel2": {"ambience": [{"kind": "moths", "max": 2}, {"kind": "sunbeam", "max": 2}], "note": "雅座: no kitchen steam up here; moths at the lanterns, the afternoon in at the lake windows"}},
+  "life": {
+    "choyin.hotel2": {"ambience": [{"kind": "moths", "max": 2}, {"kind": "sunbeam", "max": 2}], "note": "雅座: no kitchen steam up here; moths at the lanterns, the afternoon in at the lake windows"}
+  },
   "props": [
-    {"kind": "stairs", "at": [336, 48], "size": [64, 48], "rotation": -90},
-    {"kind": "stairs", "at": [336, 272], "size": [64, 48], "rotation": -90, "note": "hotel2.c: 到三楼的客房"},
-    {"kind": "window", "at": [-14, 100], "size": [72, 16], "rotation": 90, "note": "hotel2.c: 从这里可以眺望乔阴县城的市景"},
-    {"kind": "window", "at": [-14, 220], "size": [72, 16], "rotation": 90},
-    {"kind": "window", "at": [398, 160], "size": [72, 16], "rotation": -90, "note": "hotel2.c: 东边不远处隔著几栋建筑便是县府衙门"},
-    {"kind": "window", "at": [100, 334], "size": [72, 16], "rotation": 180, "note": "hotel2.c: 南边是碧波荡漾的翠柳湖"},
-    {"kind": "window", "at": [220, 334], "size": [72, 16], "rotation": 180},
-    {"kind": "window", "at": [200, -14], "size": [72, 16], "note": "hotel2.c: 北边可望见树王坟的石台"},
-    {"kind": "hanging_lantern", "at": [88, 100], "paper": "d8452f:glow", "flicker": 0.05},
-    {"kind": "hanging_lantern", "at": [200, 100], "paper": "d8452f:glow", "flicker": 0.05},
-    {"kind": "hanging_lantern", "at": [88, 300], "paper": "d8452f:glow", "flicker": 0.05},
-    {"kind": "hanging_lantern", "at": [200, 300], "paper": "d8452f:glow", "flicker": 0.05},
-    {"kind": "hanging_lantern", "at": [300, 160]},
-    {"kind": "rug", "at": [144, 200], "size": [224, 160], "elevation": 0.05, "cloth": "6a2a24", "border": "c9a24e", "motif": "e0b070"},
-    {"kind": "wall_scroll", "at": [280, 18], "size": [48, 8], "calligraphy": true, "wall_mounted": true, "note": "hotel2.c: 秀才举人 — verses left by the guests"},
-    {"kind": "wall_scroll", "at": [398, 260], "size": [48, 8], "rotation": -90, "wall_mounted": true},
-    {"kind": "clutter", "at": [88, 152], "size": [32, 16], "items": ["cups"], "elevation": 0.94, "rotation": 0},
-    {"kind": "clutter", "at": [200, 248], "size": [32, 16], "items": ["wine", "cups"], "elevation": 0.94, "rotation": 0},
-    {"kind": "pot", "at": [20, 300]},
-    {"kind": "slippers", "at": [300, 236], "rotation": 20, "cloth": "4a4a6a"},
-    {"kind": "menu_boards", "at": [240, 18], "size": [48, 16], "wall_mounted": true},
-    {"kind": "folding_screen", "at": [96, 26], "size": [64, 16], "note": "hotel2.c: 雅座 — a painted screen along the north wall"},
-    {"kind": "clutter", "at": [200, 152], "size": [32, 16], "items": ["cups", "books"], "elevation": 0.94, "rotation": 0, "note": "hotel2.c: 秀才举人 — a book left among the cups"},
-    {"kind": "clutter", "at": [64, 248], "size": [24, 16], "items": ["wine"], "elevation": 0.94, "rotation": 0},
-    {"kind": "slippers", "at": [40, 140], "rotation": -30, "cloth": "6a3a4a"}
+    {"kind": "stairs", "at": [328, -216], "size": [64, 48], "rotation": -90},
+    {"kind": "stairs", "at": [328, 200], "size": [64, 48], "rotation": -90, "note": "hotel2.c: 到三楼的客房"},
+    {"kind": "window", "at": [-430, -120], "size": [72, 16], "rotation": 90, "note": "hotel2.c: 从这里可以眺望乔阴县城的市景"},
+    {"kind": "window", "at": [-430, 120], "size": [72, 16], "rotation": 90},
+    {"kind": "window", "at": [430, 0], "size": [72, 16], "rotation": -90, "note": "hotel2.c: 东边不远处隔著几栋建筑便是县府衙门"},
+    {"kind": "window", "at": [-200, 286], "size": [72, 16], "rotation": 180, "note": "hotel2.c: 南边是碧波荡漾的翠柳湖"},
+    {"kind": "window", "at": [100, 286], "size": [72, 16], "rotation": 180},
+    {"kind": "window", "at": [-100, -286], "size": [72, 16], "note": "hotel2.c: 北边可望见树王坟的石台"},
+    {"kind": "window", "at": [180, -286], "size": [72, 16]},
+    {"kind": "hanging_lantern", "at": [-260, -100], "flicker": 0.05, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [-60, -100], "flicker": 0.05, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [140, -100], "flicker": 0.05, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [-260, 100], "flicker": 0.05, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [-60, 100], "flicker": 0.05, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [140, 100], "flicker": 0.05, "paper": "d8452f:glow"},
+    {"kind": "hanging_lantern", "at": [300, 0]},
+    {"kind": "rug", "at": [-60, 0], "size": [480, 288], "elevation": 0.05, "cloth": "6a2a24", "border": "c9a24e", "motif": "e0b070"},
+    {"kind": "wall_scroll", "at": [250, -286], "size": [48, 8], "calligraphy": true, "wall_mounted": true, "note": "hotel2.c: 秀才举人 — verses left by the guests"},
+    {"kind": "wall_scroll", "at": [430, 120], "size": [48, 8], "rotation": -90, "wall_mounted": true},
+    {"kind": "wall_scroll", "at": [-430, 0], "size": [48, 8], "rotation": 90, "wall_mounted": true},
+    {"kind": "menu_boards", "at": [-280, -286], "size": [48, 16], "wall_mounted": true},
+    {"kind": "clutter", "at": [-256, -96], "size": [32, 16], "items": ["cups"], "elevation": 0.94, "rotation": 0},
+    {"kind": "clutter", "at": [-60, 96], "size": [32, 16], "items": ["wine", "cups"], "elevation": 0.94, "rotation": 0},
+    {"kind": "clutter", "at": [136, -96], "size": [32, 16], "items": ["cups", "books"], "elevation": 0.94, "rotation": 0, "note": "hotel2.c: 秀才举人 — a book left among the cups"},
+    {"kind": "clutter", "at": [-256, 96], "size": [24, 16], "items": ["wine"], "elevation": 0.94, "rotation": 0},
+    {"kind": "clutter", "at": [136, 96], "size": [32, 16], "items": ["bowls", "cups"], "elevation": 0.94, "rotation": 0},
+    {"kind": "pot", "at": [-350, 210]},
+    {"kind": "pot", "at": [350, -60]},
+    {"kind": "slippers", "at": [220, 60], "rotation": 20, "cloth": "4a4a6a"},
+    {"kind": "slippers", "at": [-330, -40], "rotation": -30, "cloth": "6a3a4a"},
+    {"kind": "stains", "at": [-60, 0], "size": [400, 240], "count": 6, "colors": ["6a5040", "74583a"], "note": "spilt wine under the 雅座"}
   ],
   "actors": {
     "default": {"coat": "7a7462"},
@@ -69,5 +77,7 @@
     "choyin.npc.lion": {"body": "crawler", "colors": ["4a4034", "5a4c3c", "c83a2a"], "scale": 1.4, "note": "护草神兽"}
   },
   "entrances": {
+    "choyin.hotel2.down": {"title": "方梯 · 下楼", "label_height": 1.5, "floor_guides": false},
+    "choyin.hotel2.up": {"title": "方梯 · 上楼", "label_height": 1.5, "floor_guides": false}
   }
 }

@@ -288,7 +288,7 @@ func _check_altar(map: WorldMapController) -> void:
 
 func _check_hotel_2f(map: WorldMapController) -> void:
 	var kinds: Array[String] = _kinds(_view_of(map))
-	_check(kinds.count("square_table") == 4 and kinds.count("window") >= 5 and "zither_table" in kinds, "hotel2.c: 二楼雅座, 从这里可以眺望乔阴县城的市景")
+	_check(kinds.count("square_table") == 6 and kinds.count("window") >= 7 and "zither_table" in kinds, "hotel2.c: 二楼雅座, 从这里可以眺望乔阴县城的市景")
 	var view: WorldVoxelView = _view_of(map)
 	_check("folding_screen" in kinds and kinds.count("clutter") >= 4, "hotel2.c: 雅座 — a screen, wine and books among the cups")
 	_check(view.geometry.life.ambience_made.get(&"choyin.hotel2", 0) >= 2 and view.geometry.ambience._sunbeams.size() >= 1, "雅座: moths at the lanterns, the afternoon in at the windows (no kitchen steam: the preset overridden)")
@@ -297,7 +297,7 @@ func _check_hotel_2f(map: WorldMapController) -> void:
 func _check_hotel_3f(map: WorldMapController) -> void:
 	var view: WorldVoxelView = _view_of(map)
 	var kinds: Array[String] = _kinds(view)
-	_check(kinds.count("closed_door") == 4 and "weapon_rack" in kinds and kinds.count("travel_chest") == 2, "hotel3.c: 客房, 富商大贾, 武师担任守卫")
+	_check(kinds.count("closed_door") == 6 and "weapon_rack" in kinds and kinds.count("travel_chest") == 2, "hotel3.c: 客房, 富商大贾, 武师担任守卫")
 	_check(kinds.count("clutter") >= 7 and "pot" in kinds and view.geometry.life.ambience_made.get(&"choyin.hotel3", 0) >= 1, "hotel3.c: each guest's own things outside his door; moths at the corridor's lanterns")
 	_check(String(view.layout.get("actors", {}).get("choyin.npc.guard", {}).get("coat", "")) == "3a5a8a", "hotel3.c: 一个身穿蓝布衣的人")
 

@@ -758,90 +758,76 @@
       }
     },
     "hotel_2f": {
-      "note": "福林楼's second floor (over the ground floor, 384 x 320 as it): the 雅座's tables by the windows over the town and the lake, the square stairs in the corner down to the hall and up to the guest rooms.",
+      "note": "福林楼's second floor, over the ground floor and the same hall size: the 雅座's tables by the lattice windows that look over the town, the lake and the 衙门 (从这里可以眺望乔阴县城的市景), a zither for the 秀才举人, wine, and the square stairs in the east corners: north-east down to the hall (where the ground floor's come up), south-east up to the guest rooms.",
       "file": "choyin_hotel_2f.tscn",
       "draw": {
-        "technique": "town",
-        "base": "boundary",
-        "bounds": [-32, -32, 416, 352],
-        "ground": [],
-        "zones": {
-          "choyin.hotel2": [0, 0, 384, 320, "enclosed", "floor_wood", "wall_wood"]
-        },
-        "roads": [],
-        "props": [
-          ["blocked", 64, 128, 112, 176, "hotel2.c: 二楼雅座 — tables by the windows", {"look": {"kind": "square_table", "cloth": "8a2a22"}}],
-          ["blocked", 176, 128, 224, 176, {"look": {"kind": "square_table"}}],
-          ["blocked", 64, 224, 112, 272, {"look": {"kind": "square_table", "cloth": "2a4a6a"}}],
-          ["blocked", 176, 224, 224, 272, {"look": {"kind": "square_table"}}],
-          ["blocked", 112, 144, 128, 160, {"look": {"kind": "stool"}}],
-          ["blocked", 160, 144, 176, 160, {"look": {"kind": "stool"}}],
-          ["blocked", 224, 144, 240, 160, {"look": {"kind": "stool"}}],
-          ["blocked", 112, 240, 128, 256, {"look": {"kind": "stool"}}],
-          ["blocked", 160, 240, 176, 256, {"look": {"kind": "stool"}}],
-          ["blocked", 224, 240, 240, 256, {"look": {"kind": "stool"}}],
-          ["blocked", 176, 32, 240, 64, "hotel2.c: 秀才举人, 使你不知不觉跟著斯文起来 — a zither", {"look": {"kind": "zither_table"}}],
-          ["blocked", 32, 272, 80, 304, "wine for the gentry", {"look": {"kind": "wine_jars", "count": 3}}]
-        ],
-        "reach_from": "Hotel2StairsArrival",
-        "markers_in_middle": [],
-        "placed": {},
-        "life": {
+        "technique": "interior",
+        "building": "inn",
+        "rooms": {
           "choyin.hotel2": {
-            "use": "inn_hall",
-            "wealth": "rich",
-            "tidy": true,
-            "seed": 85
+            "floor": "floor_wood",
+            "wall": "wall_wood",
+            "size": "hall",
+            "life": {"use": "inn_hall", "wealth": "rich", "tidy": true, "seed": 85}
           }
-        }
+        },
+        "props": [
+          ["blocked", "choyin.hotel2", ["rel", 0.16, 0.3], 1.4, 1.4, "hotel2.c: 二楼雅座 — tables by the windows", {"look": {"kind": "square_table", "cloth": "8a2a22", "stools": [[-0.38, 0], [0.38, 0]]}}],
+          ["blocked", "choyin.hotel2", ["rel", 0.42, 0.3], 1.4, 1.4, {"look": {"kind": "square_table", "stools": [[-0.38, 0], [0.38, 0]]}}],
+          ["blocked", "choyin.hotel2", ["rel", 0.68, 0.3], 1.4, 1.4, {"look": {"kind": "square_table", "cloth": "2a4a6a", "stools": [[-0.38, 0], [0.38, 0]]}}],
+          ["blocked", "choyin.hotel2", ["rel", 0.16, 0.7], 1.4, 1.4, {"look": {"kind": "square_table", "stools": [[-0.38, 0], [0.38, 0]]}}],
+          ["blocked", "choyin.hotel2", ["rel", 0.42, 0.7], 1.4, 1.4, {"look": {"kind": "square_table", "cloth": "8a2a22", "stools": [[-0.38, 0], [0.38, 0]]}}],
+          ["blocked", "choyin.hotel2", ["rel", 0.68, 0.7], 1.4, 1.4, {"look": {"kind": "square_table", "stools": [[-0.38, 0], [0.38, 0]]}}],
+          ["blocked", "choyin.hotel2", ["rel", 0.5, 0.03], 2.8235, 1.4117, "hotel2.c: 秀才举人, 使你不知不觉跟著斯文起来 — a zither", {"look": {"kind": "zither_table"}}],
+          ["blocked", "choyin.hotel2", ["rel", 0.05, 0.95], 1.8823, 1.4117, "wine for the gentry", {"look": {"kind": "wine_jars", "count": 3}}],
+          ["blocked", "choyin.hotel2", ["rel", 0.25, 0.02], 2.3529, 0.4705, "hotel2.c: 雅座 — a painted screen along the north wall", {"look": {"kind": "folding_screen", "cloth": "8a2a22"}}],
+          ["blocked", "choyin.hotel2", ["rel", 0.97, 0.5], 0.9411, 0.9411, {"look": {"kind": "flower_stand", "flower": "f1e3bd"}}],
+          ["blocked", "choyin.hotel2", ["rel", 0.03, 0.52], 0.9411, 0.9411, {"look": {"kind": "flower_stand", "flower": "e8a0b0"}}]
+        ],
+        "placed": {},
+        "doors": {},
+        "reach_from": "Hotel2StairsArrival"
       },
       "scene": {
         "style": "map",
         "root": "ChoyinHotel2",
         "map": "choyin.hotel_2f",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/choyin/voxel/hotel_2f.json"},
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
-          "StairsShape": [48, 48],
-          "Rect_32_32": [32, 32],
-          "Rect_64_32": [64, 32],
-          "Rect_32_64": [32, 64]
+          "StairsShape": [48, 48]
         },
         "stairs": [
           {
             "zone": "choyin.hotel2",
             "name": "Hotel2StairsDown",
-            "at": [336, 48],
             "id": "choyin.hotel2.down",
             "shape": "StairsShape",
             "color": "Color(0.55, 0.38, 0.22, 1)",
             "text": "方梯 · 下楼",
             "marker": {
               "name": "Hotel2StairsArrival",
-              "at": [280, 56],
               "id": "choyin.hotel2.stairs_arrival"
-            }
+            },
+            "anchor": ["rel", 0.95, 0.062]
           },
           {
             "zone": "choyin.hotel2",
             "name": "Hotel2StairsUp",
-            "at": [336, 272],
             "id": "choyin.hotel2.up",
             "shape": "StairsShape",
             "color": "Color(0.55, 0.38, 0.22, 1)",
             "text": "方梯 · 上楼",
             "marker": {
               "name": "Hotel2UpstairsReturn",
-              "at": [280, 264],
               "id": "choyin.hotel2.upstairs_return"
-            }
+            },
+            "anchor": ["rel", 0.95, 0.938]
           }
         ],
         "nodes": [
           {
             "generated": "captions"
-          },
-          {
-            "generated": "stairs"
           }
         ],
         "zones": [
@@ -851,84 +837,66 @@
         ],
         "spawn_points": [
           {
-            "generated": "stair_markers"
-          },
-          {
             "generated": "markers"
           }
         ],
-        "interactions": [],
-        "presentation": {
-          "script": "res://presentation/voxel/world_voxel_view.gd",
-          "layout": "res://data/choyin/voxel/hotel_2f.json"
-        }
+        "interactions": []
       }
     },
     "hotel_3f": {
-      "note": "福林楼's guest rooms on the third floor, where the 汤掌柜's hired swordsmen keep watch; the stairs down.",
+      "note": "福林楼's guest rooms on the third floor, the same hall size as the floors below: the merchants' rooms (从外地来的富商大贾) in two closed rows north and south of a corridor, their doors shut and their things left outside; the 汤掌柜's hired swordsmen keep watch at the east end (雇请了许多武师担任守卫) by their bench and blades; the square stairs down in the south-east corner, where the second floor's come up.",
       "file": "choyin_hotel_3f.tscn",
       "draw": {
-        "technique": "town",
-        "base": "boundary",
-        "bounds": [-32, -32, 416, 352],
-        "ground": [],
-        "zones": {
-          "choyin.hotel3": [0, 0, 384, 320, "enclosed", "floor_wood", "wall_wood"]
-        },
-        "roads": [],
-        "props": [
-          ["wall_wood", 32, 32, 192, 96, "the merchants' rooms"],
-          ["wall_wood", 32, 224, 192, 288],
-          ["blocked", 224, 32, 272, 48, "hotel3.c: 雇请了许多武师担任守卫 — the guards' bench", {"look": {"kind": "bench"}}],
-          ["blocked", 288, 32, 320, 96, "the guards' blades", {"look": {"kind": "weapon_rack", "rotation": 90}}],
-          ["blocked", 176, 256, 224, 288, "hotel3.c: 从外地来的富商大贾 — their luggage", {"look": {"kind": "travel_chest"}}],
-          ["blocked", 224, 256, 256, 288, {"look": {"kind": "travel_chest"}}],
-          ["blocked", 352, 112, 368, 144, {"look": {"kind": "flower_stand"}}]
-        ],
-        "reach_from": "Hotel3StairsArrival",
-        "markers_in_middle": [],
-        "placed": {},
-        "life": {
+        "technique": "interior",
+        "building": "inn",
+        "rooms": {
           "choyin.hotel3": {
-            "use": "corridor",
-            "wealth": "rich",
-            "seed": 86
+            "floor": "floor_wood",
+            "wall": "wall_wood",
+            "size": "hall",
+            "life": {"use": "corridor", "wealth": "rich", "seed": 86}
           }
-        }
+        },
+        "props": [
+          ["wall_wood", "choyin.hotel3", ["nw", 0, 0], 14.1176, 4.2352, "the merchants' rooms, north row (their insides never written)"],
+          ["wall_wood", "choyin.hotel3", ["sw", 0, 0], 14.1176, 3.0, "the merchants' rooms, south row (shallower: the view looks in over it)"],
+          ["blocked", "choyin.hotel3", ["rel", 0.85, 0.06], 1.8823, 0.4705, "hotel3.c: 雇请了许多武师担任守卫 — the guards' bench", {"look": {"kind": "bench"}}],
+          ["blocked", "choyin.hotel3", ["rel", 0.97, 0.2], 0.9411, 1.8823, "the guards' blades", {"look": {"kind": "weapon_rack", "rotation": 90}}],
+          ["blocked", "choyin.hotel3", ["rel", 0.6, 0.92], 1.8823, 0.9411, "hotel3.c: 从外地来的富商大贾 — their luggage", {"look": {"kind": "travel_chest"}}],
+          ["blocked", "choyin.hotel3", ["rel", 0.71, 0.92], 0.9411, 0.9411, {"look": {"kind": "travel_chest"}}],
+          ["blocked", "choyin.hotel3", ["rel", 0.97, 0.5], 0.4705, 0.9411, {"look": {"kind": "flower_stand", "size": [16, 32]}}]
+        ],
+        "placed": {},
+        "doors": {},
+        "reach_from": "Hotel3StairsArrival"
       },
       "scene": {
         "style": "map",
         "root": "ChoyinHotel3",
         "map": "choyin.hotel_3f",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/choyin/voxel/hotel_3f.json"},
         "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
         "shapes": {
-          "StairsShape": [48, 48],
-          "Rect_32_32": [32, 32],
-          "Rect_64_32": [64, 32],
-          "Rect_32_64": [32, 64]
+          "StairsShape": [48, 48]
         },
         "stairs": [
           {
             "zone": "choyin.hotel3",
             "name": "Hotel3StairsDown",
-            "at": [336, 272],
             "id": "choyin.hotel3.down",
             "shape": "StairsShape",
             "color": "Color(0.55, 0.38, 0.22, 1)",
             "text": "方梯 · 下楼",
             "marker": {
               "name": "Hotel3StairsArrival",
-              "at": [280, 264],
               "id": "choyin.hotel3.stairs_arrival"
-            }
+            },
+            "anchor": ["rel", 0.95, 0.938]
           }
         ],
         "nodes": [
           {
             "generated": "captions"
-          },
-          {
-            "generated": "stairs"
           }
         ],
         "zones": [
@@ -938,17 +906,10 @@
         ],
         "spawn_points": [
           {
-            "generated": "stair_markers"
-          },
-          {
             "generated": "markers"
           }
         ],
-        "interactions": [],
-        "presentation": {
-          "script": "res://presentation/voxel/world_voxel_view.gd",
-          "layout": "res://data/choyin/voxel/hotel_3f.json"
-        }
+        "interactions": []
       }
     },
     "tree_hollow": {
