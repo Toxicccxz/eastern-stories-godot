@@ -96,17 +96,16 @@ what it finds is fixed in step 2. What waits for it is listed in [STATUS](STATUS
    owner works through it once.
 2. **Fixes and pacing from the playtest.** The defect list, 润色 2, and the decision left for the
    playtest: A2's quest deadlines ([STATUS](STATUS.md#待决定)).
-3. **The 游戏圣经.** First a one-page canon questionnaire for the owner (the dozen choices that
-   fix the story: the emperor and 水烟阁, what 东方神教 wants, who betrayed 南危水, whether the
-   prophecy is real, what 岚城 is …), then the bible: timeline, politics and geography, each
-   faction's origin, values, taboos, hierarchy and its own reading of the key events, key
-   characters and their secrets, rules of conduct that become reputation axes, open mysteries as
-   quest hooks, and a style guide. [WORLD_RELATIONS](WORLD_RELATIONS.md) is its inventory.
-4. **Quest and reputation systems.** Quest data with steps, conditions, triggers, rewards and
-   mutual exclusion; the journal; per-faction standing with a deed table; dialogue variants by
-   standing, deed, family and gender; a reputation page (the menu's 声望 tab is its placeholder).
-   Then the main story's first chapter and the first faction lines, in the sandbox with the
-   player's own character.
+3. **The 游戏圣经 → [剧情总纲](../design/剧情总纲.md).** The canon (three creative baselines, the
+   false tomb, timeline, politics, geography), the main story (prologue, ten chapters, finale), the
+   twelve faction lines, the five new regions and the style guide are that one document; its §9
+   holds the three questions the owner answers. [WORLD_RELATIONS](WORLD_RELATIONS.md) stays its
+   inventory.
+4. **Quest and reputation systems**, in the order 剧情总纲 §8 gives: quest data with steps,
+   conditions, branches, mutual exclusion and rewards; map markers (on the 总图); a deed record that
+   reputation, titles and the ending grow from; per-faction standing (the menu's 声望 tab is its
+   placeholder). Then the prologue to chapter two (and chapter three's entry) on the existing regions, then the new regions
+   in chapter order (逆灵宫 first, 皇城 and 岚城 last).
 5. **Characters and animation** after the voxel maps: bodies, faces, clothing by family and class;
    then audio.
 
