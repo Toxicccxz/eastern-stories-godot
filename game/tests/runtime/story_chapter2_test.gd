@@ -87,7 +87,8 @@ func _test_chapter(tree: SceneTree, session: WorldSessionController) -> void:
 	await _settle(tree)
 	_check(pavilion.select_npc(pan.character_id), "潘军禅 in reach")
 	said = pavilion.ask_selected("邪剑穿灵")
-	_check(said.any(func(line: String) -> bool: return line.contains("野羊山北麓")) and state.quests.has("main.chapter2/pan") and StoryQuestLog.objective(state, quests) == "替南危水保密，还是告诉七长老颜违？", "the bait, the taoist, the north slope: %s" % [said])
+	session.record_journal()
+	_check(said.any(func(line: String) -> bool: return line.contains("野羊山北麓")) and state.marks.get("潘军禅说了鱼饵", 0) == 1 and state.quests.has("main.chapter2/pan") and StoryQuestLog.objective(state, quests) == "替南危水保密，还是告诉七长老颜违？", "the bait, the taoist, the north slope: %s" % [said])
 	# The choice: tell 颜违. His seat; 南危水's cold greeting.
 	upstairs = MapPlaces.enter(session, &"waterfog.west_2f", &"waterfog.west_2f.stairs_arrival")
 	await _settle(tree)

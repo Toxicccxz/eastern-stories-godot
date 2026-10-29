@@ -12009,7 +12009,8 @@ msgid "掌门人"
 msgstr ""
 
 #. common.npc.swordsman.master inquiry.淳风武馆
-#: data/common/npcs.json
+#. cloud.npc.b_header inquiry.淳风武馆
+#: data/common/npcs.json data/cloud/npcs.json
 msgid "淳风武馆是先父所创，在下辱承其名，虽忝掌封山门户，不敢忘了先人遗志。"
 msgstr ""
 
@@ -12319,6 +12320,11 @@ msgstr ""
 #. common.npc.fighter.executioner inquiry.柳淳风
 #: data/common/npcs.json
 msgid "柳大哥？他是我的结拜义兄。你有他的信？拿来我看。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.邪剑穿灵.rules.say
+#: data/common/npcs.json
+msgid "阁里那把是假的，真剑不在这儿。要找去年那个道士，往野羊山北麓去。"
 msgstr ""
 
 #. common.npc.fighter.executioner inquiry.邪剑穿灵.rules.lines.emote
@@ -20232,11 +20238,6 @@ msgstr ""
 msgid "镖头"
 msgstr ""
 
-#. cloud.npc.b_header inquiry.淳风武馆
-#: data/cloud/npcs.json
-msgid "柳馆主是在下的旧识。他的封山剑，这一带没几个人接得住。"
-msgstr ""
-
 #. cloud.npc.b_header inquiry.name
 #: data/cloud/npcs.json
 msgid "在下姓陈，人称霹雳刀"
@@ -21263,7 +21264,7 @@ msgstr ""
 
 #. waterfog.npc.elder7 inquiry.五长老
 #: data/waterfog/npcs.json
-msgid "五长老？他就在楼上，有什么话你自己问他。"
+msgid "五长老？他就在这边，有什么话你自己问他。"
 msgstr ""
 
 #. waterfog.npc.elder7 inquiry topic

@@ -49,7 +49,7 @@
 				{
 					"id": "pan",
 					"objective": "拿着引荐信到前厅找执法使潘军禅，问「邪剑穿灵」。",
-					"done": { "heard": { "npc": "common.npc.fighter.executioner", "topic": "邪剑穿灵" } },
+					"done": { "mark": "潘军禅说了鱼饵" },
 					"text": "潘军禅说那把邪剑穿灵是仿剑、是鱼饵：去年一个黑衣道士来试过它，往野羊山北麓去了。",
 					"target": { "map": "waterfog.pavilion", "zone": "waterfog.guildhall" }
 				},

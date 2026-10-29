@@ -293,7 +293,8 @@ func _test_chapter2_data() -> void:
 	_check(tell != null and tell.mood == "acting" and tell.mark_asker == "告发了南危水" and yan.hooks().moods["acting"].title == "水烟阁代盟主" and yan.hooks().moods["acting"].lasting, "颜违 takes the seat, for good")
 	_check(NpcInquiryRule.decide(yan.talk().inquiry_rules("南危水的事"), {"南危水承认了": 1, "替南危水保密": 1}).mark_asker.is_empty(), "not after 保密")
 	var pan: NpcDefinition = catalog.npc(&"common.npc.fighter.executioner")
-	_check(NpcInquiryRule.decide(pan.talk().inquiry_rules("邪剑穿灵"), {}, null, &"", &"", 0, {}, ["pan letter"]).lines.size() == 4 and NpcInquiryRule.decide(pan.talk().inquiry_rules("邪剑穿灵"), {}).lines.size() == 1, "潘军禅 talks to the letter's bearer")
+	var bait: NpcInquiryRule = NpcInquiryRule.decide(pan.talk().inquiry_rules("邪剑穿灵"), {}, null, &"", &"", 0, {}, ["pan letter"])
+	_check(bait.lines.size() == 4 and bait.mark_asker == "潘军禅说了鱼饵" and NpcInquiryRule.decide(pan.talk().inquiry_rules("邪剑穿灵"), {}).mark_asker.is_empty() and quest.steps[5].condition.key == "潘军禅说了鱼饵", "潘军禅 talks to the letter's bearer; the step is his mark, not the asking (a refusal is an answer too)")
 	_check(quest.steps[6].is_branch() and quest.steps[6].options[0].condition.key == "替南危水保密" and quest.steps[6].options[1].condition.key == "告发了南危水", "the choice")
 
 
