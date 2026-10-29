@@ -108,8 +108,9 @@ what it finds is fixed in step 2. What waits for it is listed in [STATUS](STATUS
    columns, the marker on the current map (the 总图 reads the same route), the thinnest deed record,
    and 寻剑令's first half as the sample; then (DECISIONS「剧情演出」) the prologue's second half (the pass scene: the player stands,
    the camera follows the speakers) and chapter one 伪墓 on 老松岭, with the stage (NPCs and items by quest state), the keep's parley
-   and the burial as mechanisms every later chapter reuses. Next: chapter two 旧案 (绮云镇 + 水烟阁) and chapter three's entry (主线 B, C) on the
-   existing regions, then the new regions in chapter order (逆灵宫 first, 皇城 and 岚城 last).
+   and the burial as mechanisms every later chapter reuses; chapter two 旧案 (绮云镇 + 水烟阁: the letter, the 镖单, the two
+   inscriptions, 南危水, 潘军禅, the choice) on data alone. Next: chapter three's entry (主线 C) on the existing regions, then the new
+   regions in chapter order (逆灵宫 first, 皇城 and 岚城 last).
 5. **Characters and animation** after the voxel maps: bodies, faces, clothing by family and class;
    then audio.
 

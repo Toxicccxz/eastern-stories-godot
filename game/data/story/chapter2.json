@@ -1,0 +1,79 @@
+{
+	"quests": [
+		{
+			"id": "main.chapter2",
+			"title": "旧案",
+			"line": "main",
+			"region": "水烟阁",
+			"sources": [
+				"native: 剧情总纲 §3 第二章「旧案」(owner, 2026-10-29; DECISIONS「剧情演出」「第二章旧案」) over u/cloud/npc/b_header.c (振远镖局), d/waterfog/swordtomb.c:18 and wpath2.c:19 (the two inscriptions as written), d/waterfog/npc/elder5.c (南危水, alive in the forehall while cave5.c's wall calls itself his grave: the false tomb), elder7.c (颜违) and daemon/class/fighter/executioner.c (潘军禅, 柳淳风's sworn brother). The letter, the 镖单, 阿岭, 卫沧澜, the 邪剑穿灵 as bait and the choice are the outline's."
+			],
+			"summary": "去水烟阁，问清五长老的死。",
+			"requires": ["main.chapter1"],
+			"steps": [
+				{
+					"id": "liu",
+					"objective": "回雪亭镇淳风武馆，把山洞里的事告诉柳淳风。",
+					"done": { "heard": { "npc": "common.npc.swordsman.master", "topic": "水烟阁" } },
+					"text": "柳淳风写了一封引荐信，让你去水烟阁找他的结拜义弟、执法使潘军禅；他说二十年前失在老松岭的那趟镖是振远镖局押的。",
+					"target": { "map": "snow.school_compound", "zone": "snow.schoolhall" }
+				},
+				{
+					"id": "escort",
+					"objective": "去绮云镇振远镖局，问陈剑秋二十年前的失镖。",
+					"done": { "heard": { "npc": "cloud.npc.b_header", "topic": "失镖" } },
+					"text": "陈剑秋拿出二十年前的镖单：押的是水烟阁盟主印一方、密件一匣，失镖于老松岭，无一人生还。振远至今不提这桩丢人事。",
+					"target": { "map": "cloud.biaoju_house", "zone": "cloud.biaoju" }
+				},
+				{
+					"id": "tomb",
+					"objective": "上水烟阁的山，看葬剑亭里的碑。",
+					"done": { "mark": "看过葬剑亭碑" },
+					"text": "葬剑亭碑：第四代七长老以奸计害人，被众武者合力击杀，甲辰年立亭为后人殷鉴。",
+					"target": { "map": "waterfog.mountain", "zone": "waterfog.swordtomb" }
+				},
+				{
+					"id": "stone",
+					"objective": "看虹谷石台的碑。",
+					"done": { "mark": "看过石台碑" },
+					"text": "虹谷石台碑：乙丑年，第六代阁主关雨楼立——正是失镖那年。字是用手指在岩石上写的，和山洞石壁上的刻字是一个手法。",
+					"target": { "map": "waterfog.mountain", "zone": "waterfog.wpath2" }
+				},
+				{
+					"id": "nan",
+					"objective": "上楼找五长老南危水，拿证据问他山洞里的骸骨。",
+					"done": { "mark": "南危水承认了" },
+					"text": "南危水承认了：山洞里死的是他的随从阿岭，伏击的是白衣武官，盟主卫沧澜被带走。他装死二十年，是怕哥哥槐阳王知道朝廷伏击了自己的弟弟会反。",
+					"target": { "map": "waterfog.upstairs", "zone": "waterfog.forehall" }
+				},
+				{
+					"id": "pan",
+					"objective": "拿着引荐信到前厅找执法使潘军禅，问「邪剑穿灵」。",
+					"done": { "mark": "潘军禅说了鱼饵" },
+					"text": "潘军禅说那把邪剑穿灵是仿剑、是鱼饵：去年一个黑衣道士来试过它，往野羊山北麓去了。",
+					"target": { "map": "waterfog.pavilion", "zone": "waterfog.guildhall" }
+				},
+				{
+					"id": "choice",
+					"objective": "替南危水保密，还是告诉七长老颜违？",
+					"target": { "map": "waterfog.upstairs", "zone": "waterfog.forehall" },
+					"options": [
+						{
+							"id": "keep",
+							"done": { "mark": "替南危水保密" },
+							"text": "你替南危水保了密。他说，到了关北，他替你引见槐阳王。",
+							"reward": { "deed": "替水烟阁五长老南危水保住了二十年的秘密" }
+						},
+						{
+							"id": "tell",
+							"done": { "mark": "告发了南危水" },
+							"text": "你把南危水的事告诉了七长老颜违。颜违当日便以代盟主自居；南危水先你一步去了关北。",
+							"reward": { "deed": "把五长老南危水装死二十年的事告诉了七长老颜违" }
+						}
+					]
+				}
+			],
+			"reward": { "milestone": true, "deed": "查清了二十年前水烟阁五长老的旧案" }
+		}
+	]
+}

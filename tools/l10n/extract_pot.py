@@ -59,7 +59,7 @@ LINE_KEYS = (TEXT_KEYS - {"action"}) | frozenset({
     "lift", "closed", "read", "out", "open_below", "close_below", "close_beyond", "again",
 })
 # Lists of identifiers inside walked text (an inquiry rule's marks), never shown.
-ID_LIST_KEYS = frozenset({"asker_marks", "unmark_giver"})
+ID_LIST_KEYS = frozenset({"asker_marks", "asker_lacks", "unmark_giver"})
 HEADER = """\
 # Eastern Stories translation template.
 # Source language: Simplified Chinese (zh_CN); each message ID is the source text.
