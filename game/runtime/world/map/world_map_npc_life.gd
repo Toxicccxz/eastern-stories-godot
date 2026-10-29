@@ -24,6 +24,11 @@ var departures: Dictionary[StringName, Dictionary] = {}
 var arrival_zone_id: StringName = &""
 ## Where the player was before that arrival: the door they came in by (close.c's door).
 var came_from_zone_id: StringName = &""
+## Native (主线 A; DECISIONS「剧情演出」): the NPC whose scene (NpcHooks calls marked `scene`)
+## holds the player now, and the one the camera looks at (whoever spoke last); "" between
+## scenes. Not saved: a scene begins anew as the player comes in.
+var scene_npc_id: StringName = &""
+var scene_focus_id: StringName = &""
 ## The room Continue put the player back in, until its first arrival note: its people were
 ## met before the save, so a save right after Continue writes what was loaded.
 var restored_zone_id: StringName = &""
@@ -129,6 +134,7 @@ func _advance_ambience(delta: float) -> void:
 		_greet(_map.npcs.find_resident_npc(character_id))
 	for due: Array in ambience.due_own_calls(delta):
 		_own_call(_map.npcs.find_resident_npc(due[0]), due[1])
+	_advance_scene()
 	for character_id: StringName in ambience.due_calls(delta, NpcAmbience.STEAL):
 		_steal_step(_map.npcs.find_resident_npc(character_id))
 	for character_id: StringName in ambience.due_calls(delta, NpcAmbience.RECRUIT):
@@ -219,6 +225,8 @@ func npc_ambience() -> NpcAmbience:
 ## room now (DECISIONS 茅山 B). A deactivation that is rolled back (a failed handoff or
 ## Continue) keeps them.
 func player_left() -> void:
+	# A scene cannot follow the player off the map.
+	end_scene()
 	# make_stage() tells and hands to the giver wherever they are (tell_object(), move(who)):
 	# leaving, the player hears the rest at once and gets the thing (DECISIONS 晚月庄 C).
 	for character_id: StringName in makings.keys():
@@ -814,12 +822,26 @@ func _start_own_calls(npc: NpcRuntimeState) -> void:
 	var hooks: NpcHooks = npc.definition().hooks()
 	if hooks == null or not npc.exists_in_map or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD:
 		return
+	var facts: ScriptedAct.Facts = null
+	var staged: bool = false
 	for index: int in hooks.calls.size():
 		var call: NpcHooks.Call = hooks.calls[index]
+		if call.scene:
+			# A scene's calls are judged now, once (DECISIONS「剧情演出」): the ones for the
+			# player come whatever the earlier ones change (a `not_mark` marked by the first).
+			if facts == null:
+				facts = _map.acts.facts()
+				facts.draw = ambience.random().legacy_random
+				facts.npc_zone = npc.world_location().zone_id
+			if _player == null or not call.act.applies_to(_player.state.gender, _player.state.affiliation.class_id, facts):
+				continue
+			staged = true
 		if call.reaction:
 			npc_ambience().start_reaction(npc.character_id, call.after, NpcAmbience.own_call(index))
 		else:
 			npc_ambience().start_call(npc.character_id, call.after, NpcAmbience.own_call(index))
+	if staged:
+		_begin_scene(npc)
 
 
 ## One of them comes due: while the player is still there (present(ob)) and it is for them,
@@ -830,12 +852,76 @@ func _own_call(npc: NpcRuntimeState, index: int) -> void:
 	var hooks: NpcHooks = npc.definition().hooks()
 	if hooks == null or index < 0 or index >= hooks.calls.size():
 		return
+	var act: ScriptedAct = hooks.calls[index].act
+	# A scene's call was judged as the scene began.
+	if hooks.calls[index].scene:
+		_map.acts.run(act, npc, ambience.random().legacy_random)
+		return
 	var facts: ScriptedAct.Facts = _map.acts.facts()
 	facts.draw = ambience.random().legacy_random
 	facts.npc_zone = npc.world_location().zone_id
-	var act: ScriptedAct = hooks.calls[index].act
 	if act.applies_to(_player.state.gender, _player.state.affiliation.class_id, facts):
 		_map.acts.run(act, npc, ambience.random().legacy_random)
+
+
+# --- scenes (主线 A; DECISIONS「剧情演出」) ---
+
+## The player stands and watches while the NPC's scene calls are still to come: the
+## session holds their walking and the HUD takes E as 继续; the camera looks at the NPC.
+func _begin_scene(npc: NpcRuntimeState) -> void:
+	if not scene_npc_id.is_empty() or npc == null:
+		return
+	scene_npc_id = npc.character_id
+	scene_focus_id = npc.character_id
+	if session != null:
+		session.hold_scene(true)
+
+
+## Over once none of its scene calls is still to come (said, hurried or cancelled: the NPC
+## gone, the player off the map): the camera comes back to the player.
+func _advance_scene() -> void:
+	if scene_npc_id.is_empty():
+		return
+	var npc: NpcRuntimeState = _map.npcs.find_resident_npc(scene_npc_id)
+	if npc != null and npc.exists_in_map and ambience != null:
+		var hooks: NpcHooks = npc.definition().hooks()
+		if hooks != null:
+			for index: int in hooks.calls.size():
+				if hooks.calls[index].scene and ambience.has_call(npc.character_id, NpcAmbience.own_call(index)):
+					return
+	end_scene()
+
+
+func end_scene() -> void:
+	if scene_npc_id.is_empty():
+		return
+	scene_npc_id = &""
+	scene_focus_id = &""
+	if session != null:
+		session.hold_scene(false)
+
+
+func scene_running() -> bool:
+	return not scene_npc_id.is_empty()
+
+
+## The camera goes to `npc` while a scene runs (an act's lines, its `by`, its `drop`).
+func scene_look_at(npc: NpcRuntimeState) -> void:
+	if scene_running() and npc != null:
+		scene_focus_id = npc.character_id
+
+
+## The body the scene's camera looks at now, or null (no scene, or the one looked at is gone).
+func scene_focus_body() -> Node2D:
+	if not scene_running():
+		return null
+	var npc: NpcRuntimeState = _map.npcs.find_resident_npc(scene_focus_id)
+	if npc == null or not npc.exists_in_map:
+		npc = _map.npcs.find_resident_npc(scene_npc_id)
+	if npc == null or not npc.exists_in_map:
+		return null
+	var body: WorldCharacterBody2D = _map.npcs.runtime_body_for_character(npc.character_id)
+	return body if body != null and is_instance_valid(body) and body.is_inside_tree() else null
 
 
 ## interactive(ob) in the NPC's room: an unconscious player still counts.

@@ -46,7 +46,7 @@ func _test_data() -> void:
 		if zone == null or npc == null or zone.room_ids().size() < 2:
 			continue
 		var dealings: NpcDealings = npc.dealings()
-		if npc.has_capability(NpcDefinition.CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE) or not dealings.vendetta_mark.is_empty() or not dealings.attack_unless_mark.is_empty():
+		if npc.has_capability(NpcDefinition.CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE) or not dealings.vendetta_mark.is_empty() or dealings.takes_toll():
 			if not rooms.has(spawn.zone_id):
 				rooms[spawn.zone_id] = {}
 			rooms[spawn.zone_id][spawn.legacy_source_room_path] = true

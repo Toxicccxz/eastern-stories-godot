@@ -198,6 +198,24 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 				_show(said, hears, npc, spoken)
 				if _map.session != null:
 					_map.session.request_reincarnation()
+			ScriptedAct.Kind.BY:
+				# The lines so far are the last speaker's; from here they are this one's.
+				_show(said, hears, npc, spoken)
+				var speaker: NpcRuntimeState = _map.npcs.first_npc_in_zone(step.npc_id, room, true)
+				if speaker != null:
+					npc = speaker
+					npc_name = speaker.definition().display_name
+					_map.npc_life.scene_look_at(npc)
+			ScriptedAct.Kind.DROP:
+				_show(said, hears, npc, spoken)
+				var feet: Vector2 = Vector2.INF
+				var body: WorldCharacterBody2D = null if npc == null else _map.npcs.runtime_body_for_character(npc.character_id)
+				if body != null and npc.exists_in_map:
+					feet = body.global_position
+				if _map.floor_items.place_new_floor_item(step.item_id, feet).is_empty():
+					push_error("%s could not drop %s" % [npc_name, step.item_id])
+				if npc != null:
+					_map.npc_life.scene_look_at(npc)
 			ScriptedAct.Kind.SET_ROOM:
 				if _map.session != null:
 					_map.session.room_states().set_flag(room, step.flag)
@@ -236,6 +254,9 @@ func move_player(zone_id: StringName, point_id: StringName) -> bool:
 func _show(said: Array[ColoredLine], hears: bool, npc: NpcRuntimeState, spoken: Array[String]) -> void:
 	if hears and not said.is_empty() and _map.hud() != null:
 		_map.hud().npc_says(npc, said.duplicate(), spoken.duplicate())
+	# A scene's camera goes to whoever speaks (DECISIONS「剧情演出」).
+	if not said.is_empty() and npc != null:
+		_map.npc_life.scene_look_at(npc)
 	said.clear()
 	spoken.clear()
 

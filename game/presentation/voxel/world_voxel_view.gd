@@ -56,6 +56,8 @@ var _turn_from: float = VIEW_SIDE_ANGLE
 var _turn_elapsed: float = VIEW_ROTATION_SECONDS
 var _cutaway_left: bool = false
 var _last_player: Vector2 = Vector2.INF
+## A scene's camera pans (DECISIONS「剧情演出」) and pans back to the player after it.
+var _panning: bool = false
 var _context_names: bool = false
 
 func _ready() -> void:
@@ -269,9 +271,16 @@ func _advance_view_rotation(delta: float) -> void:
 
 func _follow(delta: float) -> void:
 	# Large changes are placements/arrivals; never pan across the whole map after restore.
-	var at: Vector2 = map.player_body.global_position
+	# A scene's camera pans to whoever speaks and back to the player once it is over.
+	var at: Vector2 = map.view_anchor()
 	var wanted: Vector3 = VoxelMapGeometry.point(at,0.7)
-	if not _last_player.is_finite() or at.distance_to(_last_player)>96:
+	if map.scene_running():
+		_panning = true
+	if _panning:
+		_target = _target.lerp(wanted,1.0-exp(-delta*5.0))
+		if not map.scene_running() and _target.distance_to(wanted)<0.3:
+			_panning = false
+	elif not _last_player.is_finite() or at.distance_to(_last_player)>96:
 		_target = wanted
 	else:
 		_target = _target.lerp(wanted,1.0-exp(-delta*8.0))

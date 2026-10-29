@@ -231,6 +231,9 @@ msgstr ""
 #. native.npc.white_officer gender
 #. native.npc.courier gender
 #. native.npc.onlooker gender
+#. native.npc.bai_daozhang gender
+#. native.npc.black_taoist_pass gender
+#. native.npc.black_taoist gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/native/npcs.json
 msgid "男性"
 msgstr ""
@@ -2232,9 +2235,13 @@ msgstr ""
 msgid "缀芳阁 · 静修"
 msgstr ""
 
+#. common.npc.swordsman.master inquiry topic
+#. oldpine.npc.bandit_guard inquiry topic
+#. oldpine.npc.bandit_commander inquiry topic
 #. es2:d/oldpine/keep2 short
 #. es2:d/oldpine/keep3 short
-#: scenes/world/oldpine/keep_hall.tscn scenes/world/oldpine/oldpine_outdoor.tscn data/oldpine/rooms.json
+#. native.npc.bai_daozhang inquiry topic
+#: scenes/world/oldpine/keep_hall.tscn scenes/world/oldpine/oldpine_outdoor.tscn data/common/npcs.json data/oldpine/npcs.json data/oldpine/rooms.json data/native/npcs.json
 msgid "老松寨"
 msgstr ""
 
@@ -10157,7 +10164,8 @@ msgstr ""
 #. es2:u/cloud/obj/npc/lm_guard/whip unit
 #. es2:u/cloud/obj/npc/monk/stick unit
 #. es2:d/waterfog/obj/iron_staff unit
-#: data/common/items.json data/latemoon/items.json data/choyin/items.json data/city/items.json data/chuenyu/items.json data/cloud/items.json data/waterfog/items.json
+#. native:oldpine/cloth_strip unit
+#: data/common/items.json data/latemoon/items.json data/choyin/items.json data/city/items.json data/chuenyu/items.json data/cloud/items.json data/waterfog/items.json data/native/items.json
 msgid "条"
 msgstr ""
 
@@ -10169,7 +10177,8 @@ msgstr ""
 
 #. es2:obj/weapon/shield unit
 #. es2:d/snow/obj/shield unit
-#: data/common/items.json data/snow/items.json
+#. native:waterfog/guild_token unit
+#: data/common/items.json data/snow/items.json data/native/items.json
 msgid "面"
 msgstr ""
 
@@ -12028,6 +12037,37 @@ msgstr ""
 msgid "这里便是淳风武馆。"
 msgstr ""
 
+#. common.npc.swordsman.master inquiry topic
+#: data/common/npcs.json
+msgid "隘口"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.隘口
+#: data/common/npcs.json
+msgid "听说大内的人在黄石隘口挖出了东西，又被人抢了去。抢东西的若是往老松岭去了，多半是投老松寨。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.老松寨
+#: data/common/npcs.json
+msgid "老松寨的常老大，人称泼风刀王，什么钱都收。要过他的寨门，带够银子；有本事的，就在寨门外叫阵——硬闯的人，没几个回来。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry topic
+#. oldpine.npc.bandit_guard inquiry topic
+#. oldpine.npc.bandit_leader inquiry topic
+#. oldpine.npc.bandit_commander inquiry topic
+#. native.npc.bai_daozhang inquiry topic
+#. native.npc.black_taoist_pass name
+#. native.npc.black_taoist name
+#: data/common/npcs.json data/oldpine/npcs.json data/native/npcs.json
+msgid "黑衣道士"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.黑衣道士
+#: data/common/npcs.json
+msgid "黑冠黑衣的道士？这一带没有道观。你若在老松岭遇上，小心些，那种人下手没有分寸。"
+msgstr ""
+
 #. common.npc.swordsman.master apprentice.refuse_say
 #: data/common/npcs.json
 msgid "学剑之人必须胆大心细，依我看$RESPECT的资质似乎不宜？"
@@ -13714,8 +13754,9 @@ msgstr ""
 
 #. oldpine.skeleton region
 #. oldpine.knife_marks region
+#. main.chapter1 region
 #. oldpine name
-#: data/common/journal.json data/oldpine/world.json
+#: data/common/journal.json data/story/chapter1.json data/oldpine/world.json
 msgid "老松岭"
 msgstr ""
 
@@ -13735,8 +13776,9 @@ msgid "你顺着松树上的刀痕，在崖上林径尽头的灌木后找到了�
 msgstr ""
 
 #. cloud.toll title
+#. oldpine.npc.bandit_guard inquiry topic
 #. cloud.npc.gangster inquiry topic
-#: data/common/journal.json data/cloud/npcs.json
+#: data/common/journal.json data/oldpine/npcs.json data/cloud/npcs.json
 msgid "买路钱"
 msgstr ""
 
@@ -15150,7 +15192,7 @@ msgstr ""
 
 #. main.prologue reward.deed
 #: data/story/prologue.json
-msgid "到黄石隘口看了官队找什么"
+msgid "在黄石隘口看着官队挖出石匣、又被黑衣道士抢走"
 msgstr ""
 
 #. main.prologue/waiter objective
@@ -15195,7 +15237,162 @@ msgstr ""
 
 #. main.prologue/pass text
 #: data/story/prologue.json
-msgid "你到了黄石隘口。"
+msgid "你到了黄石隘口。官队正在山壁下挖土，白道长守在坑边。"
+msgstr ""
+
+#. main.prologue/scene objective
+#: data/story/prologue.json
+msgid "看官队在山壁下挖什么。"
+msgstr ""
+
+#. main.prologue/scene text
+#: data/story/prologue.json
+msgid "官队挖出一只刻着风纹的石匣；一个黑衣黑冠的道士从崖上掠下，抢了匣子就逃，掉下一块布条。白道长说匣里是岚城的风铃。"
+msgstr ""
+
+#. main.prologue/strip objective
+#: data/story/prologue.json
+msgid "拾起黑衣道士掉下的布条。"
+msgstr ""
+
+#. main.prologue/strip text
+#: data/story/prologue.json
+msgid "布条上刻着老松寨的记号：黑衣道士往老松岭去了。"
+msgstr ""
+
+#. main.chapter1 title
+#: data/story/chapter1.json
+msgid "伪墓"
+msgstr ""
+
+#. main.chapter1 summary
+#: data/story/chapter1.json
+msgid "追到黑衣道士，弄清老松寨和那口墓。"
+msgstr ""
+
+#. main.chapter1 reward.deed
+#: data/story/chapter1.json
+msgid "查明了瀑布山洞里的墓是假的"
+msgstr ""
+
+#. main.chapter1/trail objective
+#: data/story/chapter1.json
+msgid "顺着布条上的记号去老松岭，沿松树上的刀痕找老松寨。"
+msgstr ""
+
+#. main.chapter1/trail text
+#: data/story/chapter1.json
+msgid "松树上的刀痕指向灌木后的一条小径：老松寨藏在林子深处。"
+msgstr ""
+
+#. main.chapter1/gate objective
+#: data/story/chapter1.json
+msgid "过老松寨的寨门：留下买路钱、叫阵，或者打进去。"
+msgstr ""
+
+#. main.chapter1/gate/pay text
+#: data/story/chapter1.json
+msgid "你给了寨门的喽罗十两银子买路钱，寨里的人不再拦你。"
+msgstr ""
+
+#. main.chapter1/gate/pay reward.deed
+#: data/story/chapter1.json
+msgid "给老松寨的喽罗付了买路钱"
+msgstr ""
+
+#. main.chapter1/gate/challenge text
+#: data/story/chapter1.json
+msgid "你在寨门外叫阵，喽罗放你进去：常老大在聚义厅等你。"
+msgstr ""
+
+#. main.chapter1/gate/challenge reward.deed
+#: data/story/chapter1.json
+msgid "在老松寨的寨门外叫阵"
+msgstr ""
+
+#. main.chapter1/gate/force text
+#: data/story/chapter1.json
+msgid "你打倒了寨门的喽罗，硬闯进了老松寨。"
+msgstr ""
+
+#. main.chapter1/gate/force reward.deed
+#: data/story/chapter1.json
+msgid "硬闯了老松寨的寨门"
+msgstr ""
+
+#. main.chapter1/boss objective
+#: data/story/chapter1.json
+msgid "到聚义厅找常老大，问黑衣道士的去向。"
+msgstr ""
+
+#. main.chapter1/boss/talk text
+#: data/story/chapter1.json
+msgid "常老大说那道士拿一块金牌买了路，往东边的瀑布去了。"
+msgstr ""
+
+#. main.chapter1/boss/beat text
+#: data/story/chapter1.json
+msgid "你打倒了常老大。他跌坐在熊皮上骂道：那道士拿金牌买的路，往东边的瀑布去了，找他去！"
+msgstr ""
+
+#. main.chapter1/boss/beat reward.deed
+#: data/story/chapter1.json
+msgid "打倒了老松寨的常老大"
+msgstr ""
+
+#. main.chapter1/cave objective
+#: data/story/chapter1.json
+msgid "从瀑布后面进山洞，找黑衣道士。"
+msgstr ""
+
+#. main.chapter1/cave text
+#: data/story/chapter1.json
+msgid "瀑布后的山洞尽头有一具骸骨和一面刻字的石壁。"
+msgstr ""
+
+#. main.chapter1/taoist objective
+#: data/story/chapter1.json
+msgid "拦住黑衣道士。"
+msgstr ""
+
+#. main.chapter1/taoist text
+#: data/story/chapter1.json
+msgid "黑衣道士落败，石匣还锁着，留在洞里。"
+msgstr ""
+
+#. main.chapter1/wall objective
+#: data/story/chapter1.json
+msgid "看看洞里的石壁和那具骸骨。"
+msgstr ""
+
+#. main.chapter1/wall text
+#: data/story/chapter1.json
+msgid "石壁上的字自称「南危水」，说埋骨于此——可骸骨身量矮小、骨龄不过三十，身边没有剑；字迹深浅如一，是活人慢慢刻的。这不是南危水的墓。"
+msgstr ""
+
+#. main.chapter1/bones objective
+#: data/story/chapter1.json
+msgid "处置那具骸骨：安葬他，或者带走他身边的腰牌。"
+msgstr ""
+
+#. main.chapter1/bones/bury text
+#: data/story/chapter1.json
+msgid "你把无名人安葬了，腰牌随他入土。洞顶落下一本《过招要旨》。"
+msgstr ""
+
+#. main.chapter1/bones/bury reward.deed
+#: data/story/chapter1.json
+msgid "安葬了瀑布山洞里的无名人"
+msgstr ""
+
+#. main.chapter1/bones/token text
+#: data/story/chapter1.json
+msgid "你拿走了骸骨身边的水烟阁腰牌：金乌徽，背面一个「岭」字。"
+msgstr ""
+
+#. main.chapter1/bones/token reward.deed
+#: data/story/chapter1.json
+msgid "拿走了瀑布山洞骸骨身边的腰牌"
 msgstr ""
 
 #. es2:d/oldpine/obj/long_sword long
@@ -15233,7 +15430,7 @@ msgstr ""
 #. es2:d/oldpine/npc/skeleton long
 #: data/oldpine/items.json
 msgid ""
-"一具已经腐朽的骸骨静静地不知躺了多久。\n"
+"一具已经腐朽的骸骨，靠着石壁坐着，骨头上还挂着几片烂成灰褐色的衣料。身量矮小，牙齿齐全，骨龄不过三十；手边没有剑，也没有刀。石壁上的字自称南危水，说埋骨于此——可水烟阁的五长老南危水，是个高大的老人。\n"
 msgstr ""
 
 #. es2:d/oldpine/npc/skeleton unit
@@ -15429,6 +15626,69 @@ msgid ""
 "这家伙满脸横肉，一付凶神恶煞的模样，令人望而生畏。\n"
 msgstr ""
 
+#. oldpine.npc.bandit_guard chat_msg
+#: data/oldpine/npcs.json
+msgid ""
+"土匪喽罗横刀拦住去路，喝道：站住！要过老松寨，留下十两银子买路钱！\n"
+msgstr ""
+
+#. oldpine.npc.bandit_guard inquiry.买路钱
+#: data/oldpine/npcs.json
+msgid "十两银子，一个子儿不能少。拿来！"
+msgstr ""
+
+#. oldpine.npc.bandit_guard inquiry.老松寨
+#: data/oldpine/npcs.json
+msgid "老松寨是常老大的寨子，泼风刀王常老大，听过没有？想进去，先留下买路钱。"
+msgstr ""
+
+#. oldpine.npc.bandit_guard inquiry.黑衣道士
+#: data/oldpine/npcs.json
+msgid "前些天是来过一个黑衣黑冠的道士，拿一块金牌买了路，往里头去了。你要问，问寨主去——先留下买路钱。"
+msgstr ""
+
+#. oldpine.npc.bandit_guard inquiry topic
+#: data/oldpine/npcs.json
+msgid "叫阵"
+msgstr ""
+
+#. oldpine.npc.bandit_guard inquiry.叫阵.rules.say
+#: data/oldpine/npcs.json
+msgid "叫过了还叫？聚义厅在东头，常老大等着你。"
+msgstr ""
+
+#. oldpine.npc.bandit_guard inquiry.叫阵.rules.lines.say
+#: data/oldpine/npcs.json
+msgid "好大的口气！"
+msgstr ""
+
+#. oldpine.npc.bandit_guard inquiry.叫阵.rules.lines.emote
+#: data/oldpine/npcs.json
+msgid "朝寨子里扯着嗓子喊：有人叫阵——！"
+msgstr ""
+
+#. oldpine.npc.bandit_guard inquiry.叫阵.rules.lines.say
+#: data/oldpine/npcs.json
+msgid "进去吧，聚义厅在东头。常老大一个人等你，寨里的弟兄不插手。"
+msgstr ""
+
+#. oldpine.npc.bandit_guard accept_object.say
+#: data/oldpine/npcs.json
+msgid "钱已经交过了，进去吧。"
+msgstr ""
+
+#. oldpine.npc.bandit_guard accept_object.line
+#: data/oldpine/npcs.json
+msgid ""
+"土匪喽罗掂了掂银子，咧嘴一笑：算你识相。进去吧，寨里的弟兄不会难为你。\n"
+msgstr ""
+
+#. oldpine.npc.bandit_guard accept_object.line
+#: data/oldpine/npcs.json
+msgid ""
+"土匪喽罗往地上啐了一口：打发叫花子呢？十两银子，少一个子儿都不行！\n"
+msgstr ""
+
 #. oldpine.npc.bandit_leader long
 #: data/oldpine/npcs.json
 msgid ""
@@ -15456,6 +15716,11 @@ msgid ""
 "土匪首领虎吼一声，欺身上前。\n"
 msgstr ""
 
+#. oldpine.npc.bandit_leader inquiry.黑衣道士
+#: data/oldpine/npcs.json
+msgid "那道士的事，寨主自己会说。聚义厅在东头。"
+msgstr ""
+
 #. oldpine.npc.bandit_commander nickname
 #: data/oldpine/npcs.json
 msgid "泼风刀王"
@@ -15464,6 +15729,43 @@ msgstr ""
 #. oldpine.npc.bandit_commander title
 #: data/oldpine/npcs.json
 msgid "老松寨寨主"
+msgstr ""
+
+#. oldpine.npc.bandit_commander inquiry.黑衣道士.rules.lines.say
+#: data/oldpine/npcs.json
+msgid "黑衣黑冠的道士？来过。拿一块金牌子买的路——金子打的，比你那十两银子值钱多了。"
+msgstr ""
+
+#. oldpine.npc.bandit_commander inquiry.黑衣道士.rules.lines.say
+#: data/oldpine/npcs.json
+msgid "他问我瀑布后头的山洞怎么走。老子这寨子什么钱都收，收了钱就指路：往东过石桥，瀑布旁边有藤蔓，荡过去就是。"
+msgstr ""
+
+#. oldpine.npc.bandit_commander inquiry.黑衣道士.rules.lines.say
+#: data/oldpine/npcs.json
+msgid "他抱着个石匣子，宝贝得很。你要找他，也往瀑布去吧，老子不拦你。"
+msgstr ""
+
+#. oldpine.npc.bandit_commander inquiry.黑衣道士.rules.say
+#: data/oldpine/npcs.json
+msgid "你是什么东西，也敢问老子的事？"
+msgstr ""
+
+#. oldpine.npc.bandit_commander inquiry topic
+#. native.npc.bai_daozhang inquiry topic
+#. native.npc.black_taoist_pass inquiry topic
+#: data/oldpine/npcs.json data/native/npcs.json
+msgid "石匣"
+msgstr ""
+
+#. oldpine.npc.bandit_commander inquiry.石匣
+#: data/oldpine/npcs.json
+msgid "石匣？那道士抱着的那个？老子没兴趣，老子只收钱。"
+msgstr ""
+
+#. oldpine.npc.bandit_commander inquiry.老松寨
+#: data/oldpine/npcs.json
+msgid "老松寨是老子的寨子。进寨的规矩只有一条：什么钱都收。"
 msgstr ""
 
 #. oldpine.npc.spy name
@@ -17735,7 +18037,8 @@ msgstr ""
 #. es2:d/latemoon/obj/food2 unit
 #. es2:d/latemoon/obj/food unit
 #. es2:u/cloud/obj/meat/hind unit
-#: data/latemoon/items.json data/cloud/items.json
+#. native:oldpine/stone_box unit
+#: data/latemoon/items.json data/cloud/items.json data/native/items.json
 msgid "只"
 msgstr ""
 
@@ -32372,6 +32675,7 @@ msgstr ""
 #. native.npc.white_officer inquiry topic
 #. native.npc.courier inquiry topic
 #. native.npc.onlooker inquiry topic
+#. native.npc.bai_daozhang inquiry topic
 #: data/native/npcs.json
 msgid "寻剑"
 msgstr ""
@@ -32456,6 +32760,7 @@ msgid "下官只管传话。方位将军叫我当众报了，你也听见了。"
 msgstr ""
 
 #. native.npc.courier inquiry topic
+#. native.npc.bai_daozhang name
 #: data/native/npcs.json
 msgid "白道长"
 msgstr ""
@@ -32486,6 +32791,136 @@ msgstr ""
 msgid "听说是奉了皇上的旨，去岚城找什麽旋芒宝剑。岚城？谁知道在哪儿。"
 msgstr ""
 
+#. native.npc.bai_daozhang title
+#: data/native/npcs.json
+msgid "太乙观观主"
+msgstr ""
+
+#. native.npc.bai_daozhang long
+#: data/native/npcs.json
+msgid ""
+"一个须眉皆白的老道士，道袍洗得发灰，一柄拂尘搭在臂弯上。他站在山壁下新挖开的土坑边，眼睛一直盯着坑里，官兵们挖一锹，他的眉头就皱一分。\n"
+msgstr ""
+
+#. native.npc.bai_daozhang inquiry.石匣
+#: data/native/npcs.json
+msgid "那不是什么宝剑，是岚城的风铃。寻风的人才用得上，旁人开了，只会招祸。"
+msgstr ""
+
+#. native.npc.bai_daozhang inquiry topic
+#: data/native/npcs.json
+msgid "风铃"
+msgstr ""
+
+#. native.npc.bai_daozhang inquiry.风铃
+#: data/native/npcs.json
+msgid "岚城的东西，岚城的风才送得到。老道只知道这些。"
+msgstr ""
+
+#. native.npc.bai_daozhang inquiry.黑衣道士
+#: data/native/npcs.json
+msgid "黑冠黑衣，一身邪气，这一带没有这样的道观。他往老松岭去了——拾起他掉的那块布条看看。"
+msgstr ""
+
+#. native.npc.bai_daozhang inquiry.寻剑
+#: data/native/npcs.json
+msgid "冯总教头奉旨寻的是旋芒宝剑。老道陪他走这一趟，是怕他们挖出不该挖的东西。"
+msgstr ""
+
+#. native.npc.bai_daozhang inquiry.老松寨
+#: data/native/npcs.json
+msgid "老松岭上的匪寨。那道士慌忙间掉了块布条，上头刻的就是老松寨的记号。"
+msgstr ""
+
+#. native.npc.bai_daozhang calls.steps.line
+#: data/native/npcs.json
+msgid "一名白衣武官从山壁下的土坑里捧出一只尺许长的石匣，匣面刻着一圈风纹。"
+msgstr ""
+
+#. native.npc.bai_daozhang calls.steps.say
+#: data/native/npcs.json
+msgid "总教头，挖出来了！"
+msgstr ""
+
+#. native.npc.bai_daozhang calls.steps.say
+#: data/native/npcs.json
+msgid "打开。"
+msgstr ""
+
+#. native.npc.bai_daozhang calls.steps.say
+#: data/native/npcs.json
+msgid "冯总教头，匣子开不得。这是岚城的风铃，寻风的人才用得上，旁人开了，只会招祸。"
+msgstr ""
+
+#. native.npc.bai_daozhang calls.steps.line
+#: data/native/npcs.json
+msgid "崖上忽然一道黑影掠下，一个黑衣黑冠的道士落在土坑边，一把抢过石匣，转身便往山壁上纵去！"
+msgstr ""
+
+#. native.npc.bai_daozhang calls.steps.say
+#: data/native/npcs.json
+msgid "多谢诸位代劳！"
+msgstr ""
+
+#. native.npc.bai_daozhang calls.steps.line
+#: data/native/npcs.json
+msgid "黑衣道士衣角一扯，一块布条飘落在地。他几个起落，已经翻上山壁，往北面的老松岭去了。"
+msgstr ""
+
+#. native.npc.bai_daozhang calls.steps.say
+#: data/native/npcs.json
+msgid "追！"
+msgstr ""
+
+#. native.npc.bai_daozhang calls.steps.emote
+#: data/native/npcs.json
+msgid "回过头来，目光落在你身上。"
+msgstr ""
+
+#. native.npc.bai_daozhang calls.steps.say
+#: data/native/npcs.json
+msgid "这不是你该来的地方。"
+msgstr ""
+
+#. native.npc.bai_daozhang calls.steps.say
+#: data/native/npcs.json
+msgid "小友，那道士往老松岭去了。他慌忙间掉了一块布条——你拾起来看看，那上头是老松寨的记号。"
+msgstr ""
+
+#. native.npc.black_taoist_pass long
+#: data/native/npcs.json
+msgid ""
+"一个黑衣黑冠的道士，瘦得颧骨突出，眼神鬼鬼祟祟的。他怀里紧紧抱着一只石匣。\n"
+msgstr ""
+
+#. native.npc.black_taoist_pass inquiry.石匣
+#: data/native/npcs.json
+msgid "滚开！"
+msgstr ""
+
+#. native.npc.black_taoist long
+#: data/native/npcs.json
+msgid ""
+"一个黑衣黑冠的道士，瘦得颧骨突出，眼神鬼鬼祟祟的。他蹲在那具骸骨旁边，拿着石匣往骸骨的指骨上碰，碰一下，骂一声。\n"
+msgstr ""
+
+#. native.npc.black_taoist greeting.say
+#: data/native/npcs.json
+msgid "你也是来寻风铃的？晚了！这骨头开不了匣子，你的骨头说不定行。"
+msgstr ""
+
+#. native.npc.black_taoist chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"黑衣道士尖声道：宫里的人很快就到，你跑不了！\n"
+msgstr ""
+
+#. native.npc.black_taoist chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"黑衣道士一边招架一边往洞口瞟。\n"
+msgstr ""
+
 #. native:snow/letter_to_chen name
 #: data/native/items.json
 msgid "雪亭驿的书信"
@@ -32495,6 +32930,39 @@ msgstr ""
 #: data/native/items.json
 msgid ""
 "一封封好的书信，信封上写着：绮云镇 振远镖局 陈剑秋 亲启。\n"
+msgstr ""
+
+#. native:oldpine/cloth_strip name
+#: data/native/items.json
+msgid "刻着记号的布条"
+msgstr ""
+
+#. native:oldpine/cloth_strip long
+#: data/native/items.json
+msgid ""
+"一截粗麻布条，像是从衣角撕下来的，上面用刀尖刻着一个歪歪扭扭的记号：一棵松、三道横。老松岭一带的人管这叫老松寨的记号。\n"
+msgstr ""
+
+#. native:waterfog/guild_token name
+#: data/native/items.json
+msgid "水烟阁武士腰牌"
+msgstr ""
+
+#. native:waterfog/guild_token long
+#: data/native/items.json
+msgid ""
+"一面黄铜腰牌，正面铸着一只展翅的金乌，背面刻着「水烟阁」三字和一个「岭」字。铜面发黑，边角磨得发亮，不知在谁身上挂了多少年。\n"
+msgstr ""
+
+#. native:oldpine/stone_box name
+#: data/native/items.json
+msgid "刻着风纹的石匣"
+msgstr ""
+
+#. native:oldpine/stone_box long
+#: data/native/items.json
+msgid ""
+"一只尺许长的青石匣子，匣面刻着一圈风纹，匣口严丝合缝，看不出锁眼在哪里。摇一摇，里面有极轻的一声响。\n"
 msgstr ""
 
 #. native:oldpine/pine_top long

@@ -248,6 +248,111 @@
 				"黄石隘口": ["小兄弟也听见了？西南二十四里，黄石隘口。大内的人要去那儿找一把剑，咱们这些人……也想去瞧瞧。"],
 				"寻剑": ["听说是奉了皇上的旨，去岚城找什麽旋芒宝剑。岚城？谁知道在哪儿。"]
 			}
+		},
+		{
+			"id": "native.npc.bai_daozhang",
+			"legacy_source": "native: 主线 A 序章后半 (剧情总纲 §3 序章: doc/help/theme:31's 太乙观观主白道长, named there and never placed; his lines are the outline's; DECISIONS「剧情演出」)",
+			"name": "白道长",
+			"aliases": ["bai daozhang", "taoist", "bai"],
+			"title": "太乙观观主",
+			"gender": "男性",
+			"age": 66,
+			"long": "一个须眉皆白的老道士，道袍洗得发灰，一柄拂尘搭在臂弯上。他站在山壁下新挖开的土坑边，眼睛一直盯着坑里，官兵们挖一锹，他的眉头就皱一分。\n",
+			"attributes": { "str": 24, "cor": 30, "int": 30, "spi": 30, "cps": 30, "per": 26, "con": 26, "kar": 30 },
+			"combat_exp": 400000,
+			"attitude": "friendly",
+			"skills": { "unarmed": 120, "dodge": 160, "parry": 140, "force": 170 },
+			"fight_deferred": "白道长只是看了你一眼，拂尘一摆，你的手脚便不听使唤了。",
+			"inquiry": {
+				"石匣": ["那不是什么宝剑，是岚城的风铃。寻风的人才用得上，旁人开了，只会招祸。"],
+				"风铃": ["岚城的东西，岚城的风才送得到。老道只知道这些。"],
+				"黑衣道士": ["黑冠黑衣，一身邪气，这一带没有这样的道观。他往老松岭去了——拾起他掉的那块布条看看。"],
+				"寻剑": ["冯总教头奉旨寻的是旋芒宝剑。老道陪他走这一趟，是怕他们挖出不该挖的东西。"],
+				"老松寨": ["老松岭上的匪寨。那道士慌忙间掉了块布条，上头刻的就是老松寨的记号。"]
+			},
+			"calls": [
+				{ "after": 1, "scene": true, "not_mark": "隘口的道士", "steps": [
+					{ "line": "一名白衣武官从山壁下的土坑里捧出一只尺许长的石匣，匣面刻着一圈风纹。" },
+					{ "by": "native.npc.white_officer" },
+					{ "say": "总教头，挖出来了！" }
+				] },
+				{ "after": 5, "scene": true, "not_mark": "隘口的道士", "steps": [
+					{ "by": "native.npc.feng_ce" },
+					{ "say": "打开。" }
+				] },
+				{ "after": 8, "scene": true, "not_mark": "隘口的道士", "steps": [
+					{ "say": "冯总教头，匣子开不得。这是岚城的风铃，寻风的人才用得上，旁人开了，只会招祸。" }
+				] },
+				{ "after": 12, "scene": true, "not_mark": "隘口的道士", "steps": [
+					{ "line": "崖上忽然一道黑影掠下，一个黑衣黑冠的道士落在土坑边，一把抢过石匣，转身便往山壁上纵去！" },
+					{ "by": "native.npc.black_taoist_pass" },
+					{ "say": "多谢诸位代劳！" },
+					{ "drop": "native:oldpine/cloth_strip" },
+					{ "line": "黑衣道士衣角一扯，一块布条飘落在地。他几个起落，已经翻上山壁，往北面的老松岭去了。" },
+					{ "leave": true }
+				] },
+				{ "after": 16, "scene": true, "not_mark": "隘口的道士", "steps": [
+					{ "by": "native.npc.white_officer" },
+					{ "say": "追！" },
+					{ "leave": true },
+					{ "by": "native.npc.white_officer" },
+					{ "leave": true }
+				] },
+				{ "after": 19, "scene": true, "not_mark": "隘口的道士", "steps": [
+					{ "by": "native.npc.feng_ce" },
+					{ "emote": "回过头来，目光落在你身上。" },
+					{ "say": "这不是你该来的地方。" }
+				] },
+				{ "after": 23, "scene": true, "not_mark": "隘口的道士", "steps": [
+					{ "say": "小友，那道士往老松岭去了。他慌忙间掉了一块布条——你拾起来看看，那上头是老松寨的记号。" },
+					{ "mark": "隘口的道士" }
+				] }
+			]
+		},
+		{
+			"id": "native.npc.black_taoist_pass",
+			"legacy_source": "native: 主线 A 序章后半 (剧情总纲 §3 序章: the 黑衣道士 who snatches the 石匣 at the pass; his look after d/oldpine/npc/spy.c's 鬼鬼祟祟, with a black crown; DECISIONS「剧情演出」)",
+			"name": "黑衣道士",
+			"aliases": ["black taoist", "taoist", "spy"],
+			"gender": "男性",
+			"age": 35,
+			"long": "一个黑衣黑冠的道士，瘦得颧骨突出，眼神鬼鬼祟祟的。他怀里紧紧抱着一只石匣。\n",
+			"attributes": { "str": 24, "cor": 26, "int": 22, "spi": 24, "cps": 24, "per": 14, "con": 24, "kar": 8 },
+			"combat_exp": 5000,
+			"attitude": "friendly",
+			"skills": { "unarmed": 25, "sword": 30, "dodge": 30, "parry": 25, "throwing": 15 },
+			"fight_deferred": "黑衣道士身形一晃，已经离你远了。",
+			"inquiry": {
+				"石匣": ["滚开！"]
+			}
+		},
+		{
+			"id": "native.npc.black_taoist",
+			"legacy_source": "native: 主线 A 第一章 (剧情总纲 §3 第一章: the same 黑衣道士 in cave5, trying the bones on the 石匣; his look after d/oldpine/npc/spy.c; DECISIONS「剧情演出」)",
+			"name": "黑衣道士",
+			"aliases": ["black taoist", "taoist", "spy"],
+			"gender": "男性",
+			"age": 35,
+			"long": "一个黑衣黑冠的道士，瘦得颧骨突出，眼神鬼鬼祟祟的。他蹲在那具骸骨旁边，拿着石匣往骸骨的指骨上碰，碰一下，骂一声。\n",
+			"attributes": { "str": 24, "cor": 26, "int": 22, "spi": 24, "cps": 24, "per": 14, "con": 24, "kar": 8 },
+			"combat_exp": 5000,
+			"score": 400,
+			"bellicosity": 2000,
+			"attitude": "aggressive",
+			"skills": { "unarmed": 25, "sword": 30, "dodge": 30, "parry": 25, "throwing": 15 },
+			"carry": [
+				{ "item": "es2:d/oldpine/obj/short_sword", "source": "d/oldpine/npc/obj/short_sword.c", "equip": "wield" },
+				{ "item": "es2:d/oldpine/npc/obj/black_cloth", "source": "d/oldpine/npc/obj/black_cloth.c", "equip": "wear" }
+			],
+			"capabilities": ["aggressive_on_player_presence"],
+			"greeting": { "say": "你也是来寻风铃的？晚了！这骨头开不了匣子，你的骨头说不定行。" },
+			"chat_chance_combat": 20,
+			"chat_msg_combat": [
+				"黑衣道士尖声道：宫里的人很快就到，你跑不了！\n",
+				"黑衣道士一边招架一边往洞口瞟。\n"
+			],
+			"spared": { "mark": "放过了黑衣道士" },
+			"die_marks_killer": "杀了黑衣道士"
 		}
 	]
 }

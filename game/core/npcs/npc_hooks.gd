@@ -63,6 +63,11 @@ var die_item_master: bool = false
 var die_marks_killer: String = ""
 var calls: Array[Call] = []
 var calls_hold: bool = false
+## Native (主线 A; DECISIONS「剧情演出」): `spared` {mood?, mark?}: 放过 as it lay puts it in
+## that mood of its own (lasting or not, as the mood says) and marks the player (刘安禄
+## spared: he talks; the 黑衣道士 spared: gone).
+var spared_mood: String = ""
+var spared_mark: String = ""
 var moods: Dictionary[String, NpcMood] = {}
 var attack_ask: String = ""
 var attack_choice: String = ""
@@ -78,6 +83,11 @@ class Call:
 	var reaction: bool = false
 	## A line of a told sequence: 继续 brings it now.
 	var hurry: bool = false
+	## Native (主线 A; DECISIONS「剧情演出」): one of the NPC's scene. Its conditions are
+	## judged once, when the player comes in and the scene begins; while any scene call is
+	## still to come the player stands and watches (WorldMapNpcLife: the camera on whoever
+	## speaks, E as 继续), and it comes whatever changed. A scene call is a told line (hurry).
+	var scene: bool = false
 
 
 class Stage:
@@ -241,6 +251,9 @@ static func from_record(reader: ContentRecordReader) -> NpcHooks:
 			record.fail("after", "must not be negative")
 		call.reaction = record.boolean("reaction", false)
 		call.hurry = record.boolean("hurry", false)
+		call.scene = record.boolean("scene", false)
+		if call.scene:
+			call.hurry = true
 		if call.reaction and call.hurry:
 			record.fail("hurry", "a reaction is no told line")
 		call.act = ScriptedAct.from_record(record)
@@ -264,4 +277,19 @@ static func from_record(reader: ContentRecordReader) -> NpcHooks:
 		hooks.follows_every_way = reader.boolean("follows_every_way", false)
 		if not hooks.follows_every_way:
 			reader.fail("follows_every_way", "only one that does says so")
+	var spared: ContentRecordReader = reader.child("spared")
+	if spared != null:
+		found = true
+		hooks.spared_mood = spared.text("mood")
+		hooks.spared_mark = spared.text("mark")
+		spared.finish()
+		if hooks.spared_mood.is_empty() and hooks.spared_mark.is_empty():
+			reader.fail("spared", "names a mood of the NPC's or a mark for the player, or both")
+		if not hooks.spared_mood.is_empty() and not hooks.moods.has(hooks.spared_mood):
+			reader.fail("spared", "mood '%s' is none of its moods" % hooks.spared_mood)
 	return hooks if found else null
+
+
+## Whether 放过 changes anything of it (`spared`).
+func has_spared() -> bool:
+	return not spared_mood.is_empty() or not spared_mark.is_empty()

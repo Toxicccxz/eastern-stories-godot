@@ -307,6 +307,12 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not visible or _presentation_layout.frame.visible or menu.is_presented() or event.is_echo() or not event.is_pressed():
 		return
 	var tab: int = GameMenu.tab_for_event(event)
+	# A scene (DECISIONS「剧情演出」): E / A is 继续; only the menu takes another key.
+	if _session != null and _session.scene_held() and not event.is_action_pressed(&"menu_open"):
+		get_viewport().set_input_as_handled()
+		if event.is_action_pressed(&"interact") or event.is_action_pressed("ui_accept"):
+			waits.hurry()
+		return
 	if event.is_action_pressed(&"interact") or event.is_action_pressed("ui_accept"):
 		var focused: Control = get_viewport().gui_get_focus_owner()
 		if focused != null and focused.is_visible_in_tree():
@@ -374,7 +380,7 @@ func interact() -> bool:
 
 ## A click or tap on the thing with `id`: it becomes the target and E / A goes to it.
 func interact_with(id: StringName) -> bool:
-	if not visible or _presentation_layout.frame.visible or menu.is_presented() or not nearby.choose(id):
+	if not visible or _presentation_layout.frame.visible or menu.is_presented() or (_session != null and _session.scene_held()) or not nearby.choose(id):
 		return false
 	return interact()
 

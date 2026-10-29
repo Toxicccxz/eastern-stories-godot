@@ -26,7 +26,12 @@ var vendor_id: StringName = &""
 var object_rules: Array[NpcObjectRule] = []
 var initial_flags: Array[StringName] = []
 var fight_deferred: String = ""
-var attack_unless_mark: String = ""
+## The marks of which any one spares the player its toll (`attack_unless_mark` one,
+## `attack_unless_marks` several: 主线 A, the keep's gate takes money or a challenge).
+var attack_unless_marks: Array[String] = []
+## Native (主线 A; DECISIONS「老松寨的三条路」): the toll is the story's parley, held only
+## while pacing's story_parley is on; off (经典), it is plain aggressive, as ES2's was.
+var parley: bool = false
 var toll_attack_delay_ms: int = 0
 ## The index of the chat_msg line shouted at a passer-by coming into reach (-1: none).
 var toll_shout: int = -1
@@ -45,6 +50,19 @@ func is_fight_deferred() -> bool:
 	return not fight_deferred.is_empty()
 
 
+## Whether it takes a toll at all.
+func takes_toll() -> bool:
+	return not attack_unless_marks.is_empty()
+
+
+## Whether the player holds a mark that spares them its toll.
+func toll_paid(marks: Dictionary[String, int]) -> bool:
+	for mark: String in attack_unless_marks:
+		if int(marks.get(mark, 0)) != 0:
+			return true
+	return false
+
+
 static func from_record(reader: ContentRecordReader) -> NpcDealings:
 	var dealings := NpcDealings.new()
 	dealings.vendor_id = StringName(reader.text("vendor"))
@@ -55,9 +73,14 @@ static func from_record(reader: ContentRecordReader) -> NpcDealings:
 			reader.fail("flags", "flags must be unique and not empty")
 		dealings.initial_flags.append(StringName(flag))
 	dealings.fight_deferred = reader.text("fight_deferred")
-	dealings.attack_unless_mark = reader.text("attack_unless_mark")
+	if reader.has("attack_unless_mark"):
+		dealings.attack_unless_marks.append(reader.required_text("attack_unless_mark"))
+	dealings.attack_unless_marks.append_array(reader.text_list("attack_unless_marks"))
+	dealings.parley = reader.boolean("parley", false)
+	if dealings.parley and dealings.attack_unless_marks.is_empty():
+		reader.fail("parley", "only a toll-taker parleys")
 	dealings.toll_attack_delay_ms = reader.integer("toll_attack_delay_ms", 0)
-	if dealings.toll_attack_delay_ms < 0 or (dealings.toll_attack_delay_ms > 0 and dealings.attack_unless_mark.is_empty()):
+	if dealings.toll_attack_delay_ms < 0 or (dealings.toll_attack_delay_ms > 0 and dealings.attack_unless_marks.is_empty()):
 		reader.fail("toll_attack_delay_ms", "must not be negative, and needs attack_unless_mark")
 	dealings.toll_shout = reader.integer("toll_shout", -1)
 	if dealings.toll_shout < -1 or (dealings.toll_shout >= 0 and dealings.toll_attack_delay_ms <= 0):

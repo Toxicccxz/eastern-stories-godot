@@ -128,6 +128,15 @@ static func holds(entry: JournalEntryDefinition, state: CharacterState, temps: D
 			return state.family.family_id == StringName(entry.key)
 		JournalEntryDefinition.When.ZONE:
 			return not zone_id.is_empty() and StringName(entry.key) == zone_id
+		JournalEntryDefinition.When.QUEST:
+			# A branch step's key stands for whichever of its options was taken.
+			if state.quests.has(entry.key):
+				return true
+			var prefix: String = entry.key + "/"
+			for key: String in state.quests:
+				if key.begins_with(prefix):
+					return true
+			return false
 	# HEARD is recorded at the ask (heard()), CHAT as the line is said (chat_heard()).
 	return false
 

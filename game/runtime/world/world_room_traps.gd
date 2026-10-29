@@ -24,6 +24,9 @@ func player_leaving(from_zone_id: StringName, to_zone_id: StringName) -> void:
 	for trap: RoomTrapDefinition in GameContent.catalog().traps():
 		if trap.from_zone_id != from_zone_id or trap.to_zone_id != to_zone_id or is_shut(trap.trap_id):
 			continue
+		# The story's parley (DECISIONS「老松寨的三条路」): one who paid or called is let through.
+		if GameContent.catalog().pacing().story_parley and trap.unless_marks.any(_player_has_mark):
+			continue
 		var map: WorldMapController = _map_of(trap)
 		if map == null:
 			continue
@@ -63,6 +66,11 @@ func _open(trap: RoomTrapDefinition) -> void:
 	var map: WorldMapController = _map_of(trap)
 	if map != null:
 		map.set_door_open(trap.door_id, true)
+
+
+func _player_has_mark(mark: String) -> bool:
+	var player: WorldPlayerRuntimeState = _session.player_runtime() as WorldPlayerRuntimeState
+	return player != null and player.state != null and int(player.state.marks.get(mark, 0)) != 0
 
 
 func _map_of(trap: RoomTrapDefinition) -> WorldMapController:

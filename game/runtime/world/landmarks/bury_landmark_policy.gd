@@ -5,7 +5,10 @@ extends WorldLandmarkPolicy
 ## 这里没有这样东西。). The bones are buried and gone (moved to /obj/void, back with
 ## the room's reset); then BuryRoll: the `reward` item falls at the player's feet,
 ## or the floor gives way and the player falls through the portal (after the
-## paper, when some flutters down).
+## paper, when some flutters down). Native (主线 A; DECISIONS「安葬必得书」): with pacing's
+## bury_always_rewards on, the book always falls and the floor holds; the landmark's `with`
+## item lying here (the 腰牌 beside the bones) is buried with him, and its `mark` is set on
+## the player (安葬无名人).
 class Result:
 	extends RefCounted
 	var buried: bool = false
@@ -39,7 +42,14 @@ func use(map: WorldMapController, landmark: WorldLandmarkDefinition) -> RefCount
 	if not map.destroy_floor_item(bones):
 		return result
 	result.buried = true
-	result.outcome = BuryRoll.roll(player.state.attributes.karma, random_source)
+	var with_item: StringName = landmark.item("with")
+	if not with_item.is_empty():
+		var beside: StringName = map.floor_item_of(with_item, landmark.zone_id)
+		if not beside.is_empty():
+			map.destroy_floor_item(beside)
+	if not landmark.mark.is_empty():
+		player.state.marks[landmark.mark] = 1
+	result.outcome = BuryRoll.Outcome.BOOK if GameContent.catalog().pacing().bury_always_rewards else BuryRoll.roll(player.state.attributes.karma, random_source)
 	if result.outcome == BuryRoll.Outcome.BOOK:
 		hud.append_log_lines([TranslationServer.translate(landmark.message("book"))])
 		result.reward_item_id = map.place_new_floor_item(landmark.item("reward"))

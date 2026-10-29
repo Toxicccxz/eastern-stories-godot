@@ -1278,6 +1278,21 @@
             "name": "Skeleton",
             "at": [880, 470],
             "id": "oldpine.caves.mouth.cave5.skeleton.1"
+          },
+          {
+            "name": "Cave5Token",
+            "at": [918, 486],
+            "id": "oldpine.caves.mouth.cave5.token.1"
+          },
+          {
+            "name": "Cave5StoneBox",
+            "at": [842, 494],
+            "id": "oldpine.caves.mouth.cave5.stone_box.1"
+          },
+          {
+            "name": "Cave5BlackTaoist",
+            "at": [904, 432],
+            "id": "oldpine.caves.mouth.cave5.black_taoist.1"
           }
         ],
         "interactions": [

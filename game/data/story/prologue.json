@@ -6,7 +6,8 @@
 			"line": "main",
 			"region": "雪亭镇",
 			"sources": [
-				"native: 剧情总纲 §3 序章「寻剑令」前半 (owner, 2026-10-29; DECISIONS「任务系统」) over doc/help/theme paragraphs 1–7 as written: the white-clad officials on the square, 「大声点，让众位兄弟都听见了」, 「西南二十四里，黄石隘口」, the waiter's 大内高手 and 白道长. 冯策 and 宋朴 are the outline's names for the two unnamed elders; the courier and the onlooker are the text's 快马乘客 and 探头探脑的武林中人."
+				"native: 剧情总纲 §3 序章「寻剑令」前半 (owner, 2026-10-29; DECISIONS「任务系统」) over doc/help/theme paragraphs 1–7 as written: the white-clad officials on the square, 「大声点，让众位兄弟都听见了」, 「西南二十四里，黄石隘口」, the waiter's 大内高手 and 白道长. 冯策 and 宋朴 are the outline's names for the two unnamed elders; the courier and the onlooker are the text's 快马乘客 and 探头探脑的武林中人.",
+				"native: 主线 A 序章后半 (owner, 2026-10-29; DECISIONS「剧情演出」): the dig at 黄石隘口, the 石匣, the 黑衣道士 and the 布条 are the outline's (§3 序章 15 分); 白道长 is doc/help/theme:31's 太乙观观主."
 			],
 			"summary": "大内高手在找一把剑。去西南二十四里的黄石隘口，看他们找什么。",
 			"starts": { "seen": "snow.npc.waiter" },
@@ -41,11 +42,25 @@
 					"id": "pass",
 					"objective": "去西南二十四里的黄石隘口，看他们找什么。",
 					"done": { "zone": "canyon.canyon1" },
-					"text": "你到了黄石隘口。",
+					"text": "你到了黄石隘口。官队正在山壁下挖土，白道长守在坑边。",
+					"target": { "map": "canyon.pass", "zone": "canyon.canyon1" }
+				},
+				{
+					"id": "scene",
+					"objective": "看官队在山壁下挖什么。",
+					"done": { "mark": "隘口的道士" },
+					"text": "官队挖出一只刻着风纹的石匣；一个黑衣黑冠的道士从崖上掠下，抢了匣子就逃，掉下一块布条。白道长说匣里是岚城的风铃。",
+					"target": { "map": "canyon.pass", "zone": "canyon.canyon1" }
+				},
+				{
+					"id": "strip",
+					"objective": "拾起黑衣道士掉下的布条。",
+					"done": { "item": "native:oldpine/cloth_strip" },
+					"text": "布条上刻着老松寨的记号：黑衣道士往老松岭去了。",
 					"target": { "map": "canyon.pass", "zone": "canyon.canyon1" }
 				}
 			],
-			"reward": { "milestone": true, "deed": "到黄石隘口看了官队找什么" }
+			"reward": { "milestone": true, "deed": "在黄石隘口看着官队挖出石匣、又被黑衣道士抢走" }
 		}
 	]
 }

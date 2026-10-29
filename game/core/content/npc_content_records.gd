@@ -328,6 +328,15 @@ static func chat_entries(reader: ContentRecordReader, key: String, in_fight: boo
 	return entries
 
 
+## A spawn's `present` / `until` condition (主线 A), read as a journal `when`; null without one.
+static func _presence(reader: ContentRecordReader, field: String) -> JournalEntryDefinition:
+	if not reader.has(field):
+		return null
+	var condition := JournalEntryDefinition.new()
+	JournalEntryDefinition.read_when(reader, condition, field)
+	return condition
+
+
 static func spawn_from_record(reader: ContentRecordReader) -> NpcSpawnDefinition:
 	var points: Array[StringName] = _string_names(reader.text_list("points"))
 	var definition: NpcSpawnDefinition = NpcSpawnDefinition.new(
@@ -349,6 +358,9 @@ static func spawn_from_record(reader: ContentRecordReader) -> NpcSpawnDefinition
 	definition.with_once(reader.boolean("once", false))
 	definition.with_pacing(StringName(reader.text("pacing")))
 	definition.with_cleared_mark(reader.text("cleared_mark"))
+	definition.with_presence(_presence(reader, "present"), _presence(reader, "until"))
+	if definition.staged and (reader.boolean("summoned", false) or reader.has("draw")):
+		reader.fail("present", "a spawn on the story's stage is neither summoned nor drawn")
 	reader.finish()
 	if not definition.pacing.is_empty() and not NpcSpawnDefinition.PACING_KNOBS.has(definition.pacing):
 		reader.fail("pacing", "expected one of %s" % [NpcSpawnDefinition.PACING_KNOBS])

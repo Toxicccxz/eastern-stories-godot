@@ -45,10 +45,18 @@ func _init(controller: WorldMapController) -> void:
 ## draws from a random source or the dynamic ID sequence.
 func spawn_floor_items() -> bool:
 	for spawn: ItemSpawnDefinition in GameContent.catalog().item_spawns_for_map(map):
+		# One on the story's stage lies down when the story says (WorldStoryPresence).
+		if spawn.staged:
+			continue
 		for point_id: StringName in spawn.spawn_point_ids():
 			if not place_floor_item(spawn, point_id):
 				return false
 	return true
+
+
+## The id of the item a spawn point's item has (ItemSpawnDefinition.item_instance_id()).
+func spawn_item_id(point_id: StringName) -> StringName:
+	return ItemSpawnDefinition.item_instance_id(_item_id_allocator.scope, point_id)
 
 
 func place_floor_item(spawn: ItemSpawnDefinition, point_id: StringName) -> bool:
@@ -245,7 +253,8 @@ func destroy_floor_item(item_id: StringName) -> bool:
 ## new(item)->move(room): a new item lying at the player's feet in their zone
 ## (cave5.c's book falling from the roof); kept in the save as a dropped one. An item whose
 ## create() draws its name (d/choyin/npc/obj/book1.c) is made as one of its named forms.
-func place_new_floor_item(item_definition_id: StringName) -> StringName:
+## It lies at the player's feet, or at `origin` (an NPC's feet in a scene's `drop`) in their room.
+func place_new_floor_item(item_definition_id: StringName, origin: Vector2 = Vector2.INF) -> StringName:
 	var content: ItemContentDefinition = GameContent.catalog().item(item_definition_id)
 	var location: WorldLocationState = null if _player == null else _player.world_location()
 	if content == null or location == null or location.map_id != map:
@@ -263,7 +272,7 @@ func place_new_floor_item(item_definition_id: StringName) -> StringName:
 		item.item_instance_id,
 		InventoryTransferDestination.new(floor_endpoint(location), true, true, _map.WORLD_CAPACITY),
 	)
-	if not placed.succeeded or not add_dropped_item_view(item.item_instance_id, location, at_feet(location, player_body.global_position)):
+	if not placed.succeeded or not add_dropped_item_view(item.item_instance_id, location, at_feet(location, origin if origin.is_finite() else player_body.global_position)):
 		return &""
 	return item.item_instance_id
 

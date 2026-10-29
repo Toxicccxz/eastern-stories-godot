@@ -35,14 +35,17 @@ class Asker:
 	var marks: Dictionary[String, int] = {}
 	## query("combat_exp") (guard.c ask_me()'s 20000).
 	var combat_exp: int = 0
+	## The ids of what the asker carries (NpcInquiryRule.asker_carries; ScriptedAct.Facts.carried).
+	var carried: Array[String] = []
 
-	func _init(p_gender: StringName = &"", p_age: int = 0, p_class_id: StringName = &"", p_kee_percent: int = 100, p_marks: Dictionary[String, int] = {}, p_combat_exp: int = 0) -> void:
+	func _init(p_gender: StringName = &"", p_age: int = 0, p_class_id: StringName = &"", p_kee_percent: int = 100, p_marks: Dictionary[String, int] = {}, p_combat_exp: int = 0, p_carried: Array[String] = []) -> void:
 		gender = p_gender
 		age = p_age
 		class_id = p_class_id
 		kee_percent = p_kee_percent
 		marks = p_marks
 		combat_exp = p_combat_exp
+		carried = p_carried
 
 
 ## What asking did: the lines the player reads (in their colours: a whisper is GRN),
@@ -175,7 +178,7 @@ static func answer(
 	# Deviation (青石村 B): once it has said or given something, ask.c's 没听说过 that
 	# followed its 0 does not follow; a function that does nothing (command("?")) still
 	# leaves ask.c to its own lines.
-	var rule: NpcInquiryRule = null if deleted else NpcInquiryRule.decide(talk.inquiry_rules(key), asker.marks, random, asker.class_id, asker.gender, asker.combat_exp, npc_flags)
+	var rule: NpcInquiryRule = null if deleted else NpcInquiryRule.decide(talk.inquiry_rules(key), asker.marks, random, asker.class_id, asker.gender, asker.combat_exp, npc_flags, asker.carried)
 	if rule != null:
 		_with(result, lines)
 		var asker_respect: String = RankWords.query_respect(asker.gender, asker.age, asker.class_id)
