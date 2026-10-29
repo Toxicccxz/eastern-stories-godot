@@ -3137,6 +3137,10 @@ msgid "战斗中或动作还没完成时不能存档。"
 msgstr ""
 
 #: application/application_message_catalog.gd
+msgid "这段戏还没演完，看完再存档。"
+msgstr ""
+
+#: application/application_message_catalog.gd
 msgid "在两个地区之间移动时不能存档。"
 msgstr ""
 
