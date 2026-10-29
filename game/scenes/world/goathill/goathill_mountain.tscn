@@ -88,9 +88,9 @@ theme_override_font_sizes/font_size = 14
 text = "山路"
 
 [node name="Mroad4Label" type="Label" parent="Terrain"]
-offset_left = 580
+offset_left = 564
 offset_top = 1154
-offset_right = 581
+offset_right = 565
 offset_bottom = 1177
 mouse_filter = 2
 theme_override_font_sizes/font_size = 14
@@ -318,6 +318,21 @@ position = Vector2(656, 1480)
 script = ExtResource("marker")
 spawn_point_id = &"goathill.mroad3.temple1_return"
 
+[node name="TributeCart" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(684, 1200)
+script = ExtResource("marker")
+spawn_point_id = &"goathill.mroad4.tribute_cart.1"
+
+[node name="TributeTaoist01" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(612, 1236)
+script = ExtResource("marker")
+spawn_point_id = &"goathill.mroad4.tribute_taoist.1"
+
+[node name="TributeTaoist02" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(720, 1172)
+script = ExtResource("marker")
+spawn_point_id = &"goathill.mroad4.tribute_taoist.2"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]
@@ -354,6 +369,15 @@ position_smoothing_speed = 6.0
 [node name="CorpseLayer" type="Node2D" parent="."]
 
 [node name="Interactions" type="Node2D" parent="."]
+
+[node name="CrackInteraction" type="Area2D" parent="Interactions"]
+position = Vector2(600, 1172)
+collision_layer = 2
+script = ExtResource("landmark")
+landmark_id = &"goathill.mroad4.landmark.crack"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/CrackInteraction"]
+shape = SubResource("Rect_96_32")
 
 
 [node name="MapView" type="Node" parent="."]

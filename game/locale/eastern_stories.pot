@@ -235,6 +235,7 @@ msgstr ""
 #. native.npc.bai_daozhang gender
 #. native.npc.black_taoist_pass gender
 #. native.npc.black_taoist gender
+#. native.npc.tribute_taoist gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/native/npcs.json
 msgid "男性"
 msgstr ""
@@ -15575,6 +15576,64 @@ msgstr ""
 msgid "把五长老南危水装死二十年的事告诉了七长老颜违"
 msgstr ""
 
+#. main.chapter3 title
+#. goathill.npc.bandit_hwang inquiry topic
+#. native.npc.tribute_taoist inquiry topic
+#: data/story/chapter3.json data/goathill/npcs.json data/native/npcs.json
+msgid "逆灵宫"
+msgstr ""
+
+#. main.chapter3 region
+#. goathill name
+#: data/story/chapter3.json data/goathill/world.json
+msgid "野羊山"
+msgstr ""
+
+#. main.chapter3 summary
+#: data/story/chapter3.json
+msgid "进野羊山北麓的黑道观，找到失踪的大寨主。"
+msgstr ""
+
+#. main.chapter3 reward.deed
+#: data/story/chapter3.json
+msgid "进了野羊山北麓的逆灵宫"
+msgstr ""
+
+#. main.chapter3/lead objective
+#: data/story/chapter3.json
+msgid "黑衣道士往野羊山北麓去了。去打听北麓的道观：野羊寨的黄霸在山路边的土地庙里；淳风武馆的门房刘安禄也知道——若他肯说。"
+msgstr ""
+
+#. main.chapter3/lead/liu text
+#: data/story/chapter3.json
+msgid "刘安禄说了：野羊寨的大寨主霍铮是他拜过把子的大哥，半年前被北麓黑砖道观的道士带走，再没回来；那伙人自称逆灵宫。三寨主黄霸接了寨子，每年给道观纳供；他不肯伺候那群道士，才下山做了门房。纳供的车这几天上山，到山路转角，道士从北边山壁的裂口把东西吊上去——道观就在裂口上头。"
+msgstr ""
+
+#. main.chapter3/lead/hwang text
+#: data/story/chapter3.json
+msgid "黄霸说了：两年前北麓起了一座黑砖道观，自称逆灵宫，寨里折了一半弟兄；半年前大寨主霍铮、二寨主一前一后没了下落，寨子落到他手里。他打不过那些道士，每年纳供换野羊寨还在山上。今年的车已经上去了，这会儿该到了山路转角。"
+msgstr ""
+
+#. main.chapter3/cart objective
+#: data/story/chapter3.json
+msgid "去野羊山的山路转角，看黄霸的纳供车。"
+msgstr ""
+
+#. main.chapter3/cart text
+#: data/story/chapter3.json
+msgid "两个黑衣道士守着一辆盖着油布的车。车上的箱子一只只吊进北边山壁的裂口里——他们不走山路。"
+msgstr ""
+
+#. main.chapter3/gate objective
+#: data/story/chapter3.json
+msgid "逆灵宫就在裂口上头。找到失踪的大寨主霍铮。"
+msgstr ""
+
+#. main.chapter3/gate text
+#: data/story/chapter3.json
+msgid "你进了逆灵宫。"
+msgstr ""
+
 #. es2:d/oldpine/obj/long_sword long
 #: data/oldpine/items.json
 msgid ""
@@ -16269,6 +16328,13 @@ msgstr ""
 #. snow.npc.guard inquiry.刘老三.rules.say
 #. snow.npc.guard inquiry.血手刘三.rules.say
 #: data/snow/npcs.json
+msgid "……老子认了，还问什么。你要问野羊寨的事，问大寨主。"
+msgstr ""
+
+#. snow.npc.guard inquiry.刘老三.rules.say
+#. snow.npc.guard inquiry.血手刘三.rules.say
+#. snow.npc.guard inquiry.大寨主.rules.say
+#: data/snow/npcs.json
 msgid "老子就是血手刘三，血手刘三就是你老子！纳命来！"
 msgstr ""
 
@@ -16297,14 +16363,53 @@ msgid "刘安禄使开单刀，招数精奇，沈猛狠辣，和刚才简直判�
 msgstr ""
 
 #. snow.npc.guard inquiry topic
+#. snow.npc.guard moods.spared.nickname
 #. snow.npc.guard moods.revealed.nickname
 #: data/snow/npcs.json
 msgid "血手刘三"
 msgstr ""
 
+#. snow.npc.guard inquiry topic
+#. goathill.npc.bandit_hwang inquiry topic
+#: data/snow/npcs.json data/goathill/npcs.json
+msgid "大寨主"
+msgstr ""
+
+#. snow.npc.guard inquiry.大寨主.rules.lines.line
+#: data/snow/npcs.json
+msgid "刘安禄沉默了半晌，低声道：野羊寨的大寨主霍铮，是我拜过把子的大哥。"
+msgstr ""
+
+#. snow.npc.guard inquiry.大寨主.rules.lines.say
+#: data/snow/npcs.json
+msgid "半年前，北麓那座黑砖道观的道士上山要人。大哥跟他们走了，再没回来。那伙人自称逆灵宫。"
+msgstr ""
+
+#. snow.npc.guard inquiry.大寨主.rules.lines.say
+#: data/snow/npcs.json
+msgid "黄霸——老三——把寨子接了过去，每年给道观纳供，金帛、牲口，要什么送什么。我不肯伺候那群臭道士，就下了山。"
+msgstr ""
+
+#. snow.npc.guard inquiry.大寨主.rules.lines.say
+#: data/snow/npcs.json
+msgid "纳供的车这几天就上山。到了山路转角，道士从北边山壁的裂口把东西吊上去——道观就在裂口上头。你要去，替我看一眼大哥。"
+msgstr ""
+
+#. snow.npc.guard inquiry.大寨主.rules.say
+#: data/snow/npcs.json
+msgid "大寨主？我是淳风武馆的门房，哪来的什么大寨主。"
+msgstr ""
+
+#. snow.npc.guard moods.spared.title
 #. snow.npc.guard moods.revealed.title
 #: data/snow/npcs.json
 msgid "野羊山寨二寨主"
+msgstr ""
+
+#. snow.npc.guard moods.spared.chat_msg
+#: data/snow/npcs.json
+msgid ""
+"刘安禄望着北边，低声道：大哥……\n"
 msgstr ""
 
 #. snow.npc.guard moods.revealed.combat_chat_msg.action
@@ -17892,7 +17997,7 @@ msgstr ""
 
 #. goathill.npc.bandit_hwang title
 #: data/goathill/npcs.json
-msgid "野羊山土匪头目"
+msgid "野羊山三寨主（代寨主）"
 msgstr ""
 
 #. goathill.npc.bandit_hwang long
@@ -17901,6 +18006,53 @@ msgid ""
 "黄霸原是关外一个山寨的寨主，后来因为逃避官府追捕而到也羊山\n"
 "避祸，他的成名武器是一对各重四十斤的大金槌，内功跟横练功夫\n"
 "也都有不错的造诣。\n"
+"大寨主、二寨主先后没了下落，如今野羊寨的事都是他说了算——只是每年得往北麓的道观纳供。\n"
+msgstr ""
+
+#. goathill.npc.bandit_hwang inquiry topic
+#. native.npc.tribute_taoist inquiry topic
+#: data/goathill/npcs.json data/native/npcs.json
+msgid "纳供"
+msgstr ""
+
+#. goathill.npc.bandit_hwang inquiry.纳供.rules.say
+#: data/goathill/npcs.json
+msgid "说过的话老子不说第二遍。车在山路转角，去不去随你。"
+msgstr ""
+
+#. goathill.npc.bandit_hwang inquiry.纳供.rules.lines.emote
+#: data/goathill/npcs.json
+msgid "哼了一声。"
+msgstr ""
+
+#. goathill.npc.bandit_hwang inquiry.纳供.rules.lines.say
+#: data/goathill/npcs.json
+msgid "你倒打听得清楚。两年前北麓来了那群黑衣黑冠的道士，一座黑砖道观说起就起，自称逆灵宫。寨里折了一半弟兄。"
+msgstr ""
+
+#. goathill.npc.bandit_hwang inquiry.纳供.rules.lines.say
+#: data/goathill/npcs.json
+msgid "半年前大寨主霍铮、二寨主一前一后没了下落，寨子就落到老子手里。老子打不过他们——每年纳供，金帛、牲口，他们要什么给什么，换这山上还有野羊寨。"
+msgstr ""
+
+#. goathill.npc.bandit_hwang inquiry.纳供.rules.lines.emote
+#: data/goathill/npcs.json
+msgid "把酒碗往桌上一顿。"
+msgstr ""
+
+#. goathill.npc.bandit_hwang inquiry.纳供.rules.lines.say
+#: data/goathill/npcs.json
+msgid "今年的车今天就上去了，这会儿该到了山路转角。你要去，别说是老子说的。"
+msgstr ""
+
+#. goathill.npc.bandit_hwang inquiry.逆灵宫
+#: data/goathill/npcs.json
+msgid "黄霸脸色一沉：北麓那座黑砖道观？少打听。要问，问纳供。"
+msgstr ""
+
+#. goathill.npc.bandit_hwang inquiry.大寨主
+#: data/goathill/npcs.json
+msgid "黄霸把酒碗一顿：霍铮？半年前让道观的人带走了。你问这个做什么。"
 msgstr ""
 
 #. goathill.npc.bandit long
@@ -18053,9 +18205,16 @@ msgid ""
 "物不知道士什么东西，闻起来竟一点味道也没有。\n"
 msgstr ""
 
-#. goathill name
+#. goathill.mroad4.landmark.crack name
+#. native.npc.tribute_taoist inquiry topic
+#: data/goathill/world.json data/native/npcs.json
+msgid "裂口"
+msgstr ""
+
+#. goathill.mroad4.landmark.crack long
 #: data/goathill/world.json
-msgid "野羊山"
+msgid ""
+"北边的山壁上一道黑黝黝的裂口，离地约有三四丈，站在路上够不着。裂口边缘的岩石磨得发亮，像是常有东西从那里吊上吊下。\n"
 msgstr ""
 
 #. es2:d/latemoon/obj/deer_boot name
@@ -33297,6 +33456,49 @@ msgstr ""
 msgid "黑衣道士捂着伤口翻身爬起，连滚带爬地逃出了山洞，往北边去了。"
 msgstr ""
 
+#. native.npc.tribute_taoist name
+#: data/native/npcs.json
+msgid "押车道士"
+msgstr ""
+
+#. native.npc.tribute_taoist long
+#: data/native/npcs.json
+msgid ""
+"一个黑衣黑冠的道士，袖子挽到肘上，手里攥着一根粗麻绳，绳子的另一头没进北边山壁的裂口里。他盯着车上的箱子，不看你。\n"
+msgstr ""
+
+#. native.npc.tribute_taoist greeting.say
+#: data/native/npcs.json
+msgid "此处无路，施主请回。"
+msgstr ""
+
+#. native.npc.tribute_taoist inquiry.纳供
+#: data/native/npcs.json
+msgid "道士头也不抬：野羊寨的供，与你何干。"
+msgstr ""
+
+#. native.npc.tribute_taoist inquiry.逆灵宫
+#: data/native/npcs.json
+msgid "道士拉绳的手停了一停：施主听谁说的这个名字？……回去吧。"
+msgstr ""
+
+#. native.npc.tribute_taoist inquiry.裂口
+#: data/native/npcs.json
+msgid "道士冷冷道：上头没有路，有也不是给你走的。"
+msgstr ""
+
+#. native.npc.tribute_taoist chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"押车道士厉声道：野羊寨的供都敢劫，不要命了！\n"
+msgstr ""
+
+#. native.npc.tribute_taoist chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"押车道士往裂口上头喊了一声，上面没有人应。\n"
+msgstr ""
+
 #. native:snow/letter_to_chen name
 #: data/native/items.json
 msgid "雪亭驿的书信"
@@ -33361,6 +33563,22 @@ msgstr ""
 #: data/native/items.json
 msgid ""
 "一只尺许长的青石匣子，匣面刻着一圈风纹，匣口严丝合缝，看不出锁眼在哪里。摇一摇，里面有极轻的一声响。\n"
+msgstr ""
+
+#. native:goathill/tribute_cart name
+#: data/native/items.json
+msgid "纳供车"
+msgstr ""
+
+#. native:goathill/tribute_cart long
+#: data/native/items.json
+msgid ""
+"一辆双轮板车，车上盖着油布，油布底下露出几只箱子的角。车辕上拴着一根粗麻绳，绳子绷得笔直，一头没进北边山壁的裂口里——上头有人在拉。车板上烙着一个「羊」字。\n"
+msgstr ""
+
+#. native:goathill/tribute_cart unit
+#: data/native/items.json
+msgid "辆"
 msgstr ""
 
 #. native:oldpine/pine_top long

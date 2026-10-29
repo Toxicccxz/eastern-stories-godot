@@ -71,6 +71,10 @@ var spared_mark: String = ""
 ## `spared.leave`: once the fight is over it is gone for good (fled), with `spared.line` told.
 var spared_leave: bool = false
 var spared_line: String = ""
+## Native (主线 C; DECISIONS「刘安禄放过后开口」): `spared.only_in_mood`: 放过 changes it only
+## while it is in that mood of its own (刘安禄 revealed as 血手刘三; the 门房 beaten for
+## nothing and spared stays the 门房).
+var spared_only_in_mood: String = ""
 ## Native (主线 A; DECISIONS「剧情演出」): the mark set on the player the moment its scene
 ## begins (its scene calls' `not_mark`): a scene cut short is not played again.
 var scene_mark: String = ""
@@ -290,6 +294,7 @@ static func from_record(reader: ContentRecordReader) -> NpcHooks:
 		hooks.spared_mark = spared.text("mark")
 		hooks.spared_leave = spared.boolean("leave", false)
 		hooks.spared_line = spared.text("line")
+		hooks.spared_only_in_mood = spared.text("only_in_mood")
 		spared.finish()
 		if hooks.spared_mood.is_empty() and hooks.spared_mark.is_empty() and not hooks.spared_leave:
 			reader.fail("spared", "names a mood of the NPC's, a mark for the player or leave, or several")
@@ -297,6 +302,8 @@ static func from_record(reader: ContentRecordReader) -> NpcHooks:
 			reader.fail("spared", "line goes with leave")
 		if not hooks.spared_mood.is_empty() and not hooks.moods.has(hooks.spared_mood):
 			reader.fail("spared", "mood '%s' is none of its moods" % hooks.spared_mood)
+		if not hooks.spared_only_in_mood.is_empty() and not hooks.moods.has(hooks.spared_only_in_mood):
+			reader.fail("spared", "only_in_mood '%s' is none of its moods" % hooks.spared_only_in_mood)
 	if reader.has("scene_mark"):
 		found = true
 		hooks.scene_mark = reader.required_text("scene_mark")

@@ -148,6 +148,7 @@
 				"刘老三": {
 					"confirm": "刘安禄的来历不简单。当面问出这个名字，是把事情挑明——他未必肯善罢甘休。要问吗？",
 					"rules": [
+						{ "npc_flag": "mood/spared", "say": "……老子认了，还问什么。你要问野羊寨的事，问大寨主。" },
 						{ "npc_flag": "mood/revealed", "attacks": true, "say": "老子就是血手刘三，血手刘三就是你老子！纳命来！" },
 						{ "asker_exp_at_least": 20000, "chance": { "below": 5, "of": 10 }, "say": "我...不知道！" },
 						{ "asker_exp_at_least": 20000, "mood": "revealed", "attacks": true, "mark_asker": "血手刘三", "lines": [{ "line": "刘安禄眼中突然放出异样的光芒，颤声说道：看来...你都知道了？" }, { "line": "刘安禄大喝一声，叫道：既然如此，老子今天豁出去了，纳命来！" }, { "line": "刘安禄使开单刀，招数精奇，沈猛狠辣，和刚才简直判若两人！" }] }
@@ -156,13 +157,30 @@
 				"血手刘三": {
 					"confirm": "刘安禄的来历不简单。当面问出这个名字，是把事情挑明——他未必肯善罢甘休。要问吗？",
 					"rules": [
+						{ "npc_flag": "mood/spared", "say": "……老子认了，还问什么。你要问野羊寨的事，问大寨主。" },
 						{ "npc_flag": "mood/revealed", "attacks": true, "say": "老子就是血手刘三，血手刘三就是你老子！纳命来！" },
 						{ "asker_exp_at_least": 20000, "chance": { "below": 5, "of": 10 }, "say": "我...不知道！" },
 						{ "asker_exp_at_least": 20000, "mood": "revealed", "attacks": true, "mark_asker": "血手刘三", "lines": [{ "line": "刘安禄眼中突然放出异样的光芒，颤声说道：看来...你都知道了？" }, { "line": "刘安禄大喝一声，叫道：既然如此，老子今天豁出去了，纳命来！" }, { "line": "刘安禄使开单刀，招数精奇，沈猛狠辣，和刚才简直判若两人！" }] }
 					]
+				},
+				"大寨主": {
+					"rules": [
+						{ "npc_flag": "mood/spared", "mark_asker": "刘安禄说了大寨主", "lines": [{ "line": "刘安禄沉默了半晌，低声道：野羊寨的大寨主霍铮，是我拜过把子的大哥。" }, { "say": "半年前，北麓那座黑砖道观的道士上山要人。大哥跟他们走了，再没回来。那伙人自称逆灵宫。" }, { "say": "黄霸——老三——把寨子接了过去，每年给道观纳供，金帛、牲口，要什么送什么。我不肯伺候那群臭道士，就下了山。" }, { "say": "纳供的车这几天就上山。到了山路转角，道士从北边山壁的裂口把东西吊上去——道观就在裂口上头。你要去，替我看一眼大哥。" }] },
+						{ "npc_flag": "mood/revealed", "attacks": true, "say": "老子就是血手刘三，血手刘三就是你老子！纳命来！" },
+						{ "say": "大寨主？我是淳风武馆的门房，哪来的什么大寨主。" }
+					]
 				}
 			},
+			"spared": { "mood": "spared", "mark": "放过了刘安禄", "only_in_mood": "revealed" },
 			"moods": {
+				"spared": {
+					"title": "野羊山寨二寨主",
+					"nickname": "血手刘三",
+					"applies": { "attack": 70, "dodge": 50, "parry": 60, "damage": 20, "combat_exp": 30000 },
+					"chat_chance": 10,
+					"chat_msg": ["刘安禄望着北边，低声道：大哥……\n"],
+					"lasting": true
+				},
 				"revealed": {
 					"title": "野羊山寨二寨主",
 					"nickname": "血手刘三",

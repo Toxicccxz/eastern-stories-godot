@@ -372,6 +372,35 @@
 			],
 			"spared": { "mark": "放过了黑衣道士", "leave": true, "line": "黑衣道士捂着伤口翻身爬起，连滚带爬地逃出了山洞，往北边去了。" },
 			"die_marks_killer": "杀了黑衣道士"
+		},
+		{
+			"id": "native.npc.tribute_taoist",
+			"legacy_source": "native: 主线 C 第三章入口 (剧情总纲 §3 第三章: the two 黑衣道士 who take 黄霸's tribute up the crack at mroad4.c's turn; black and black-crowned after doc/help/plan:29 and d/oldpine/npc/spy.c; DECISIONS「第三章入口」)",
+			"name": "押车道士",
+			"aliases": ["escort taoist", "taoist", "black taoist"],
+			"gender": "男性",
+			"age": 30,
+			"long": "一个黑衣黑冠的道士，袖子挽到肘上，手里攥着一根粗麻绳，绳子的另一头没进北边山壁的裂口里。他盯着车上的箱子，不看你。\n",
+			"attributes": { "str": 22, "cor": 24, "int": 20, "spi": 20, "cps": 22, "per": 14, "con": 22, "kar": 8 },
+			"combat_exp": 3000,
+			"score": 200,
+			"attitude": "peaceful",
+			"skills": { "unarmed": 20, "sword": 30, "dodge": 30, "parry": 30 },
+			"carry": [
+				{ "item": "es2:d/oldpine/obj/short_sword", "source": "d/oldpine/npc/obj/short_sword.c", "equip": "wield" },
+				{ "item": "es2:d/oldpine/npc/obj/black_cloth", "source": "d/oldpine/npc/obj/black_cloth.c", "equip": "wear" }
+			],
+			"greeting": { "say": "此处无路，施主请回。" },
+			"inquiry": {
+				"纳供": ["道士头也不抬：野羊寨的供，与你何干。"],
+				"逆灵宫": ["道士拉绳的手停了一停：施主听谁说的这个名字？……回去吧。"],
+				"裂口": ["道士冷冷道：上头没有路，有也不是给你走的。"]
+			},
+			"chat_chance_combat": 20,
+			"chat_msg_combat": [
+				"押车道士厉声道：野羊寨的供都敢劫，不要命了！\n",
+				"押车道士往裂口上头喊了一声，上面没有人应。\n"
+			]
 		}
 	]
 }

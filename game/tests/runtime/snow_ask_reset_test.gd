@@ -41,7 +41,7 @@ func _test_data() -> void:
 	var teacher: NpcTalk = catalog.npc(&"snow.npc.teacher").talk()
 	_check(teacher.answer("学费").size() == 6 and teacher.answer("刘安禄").size() == 3, "魏无极: ask.c says the strings, skips 0 and the function (学费 with its native sixth line, DECISIONS「客栈的老鼠」)")
 	_check(catalog.npc(&"snow.npc.post_officer").talk().inquiry_topics() == ["驿站", "悬赏", "送信"], "杜宽: 驿站 (mail omitted), then the native 悬赏 and 送信 (DECISIONS「雪亭驿的信」)")
-	_check(catalog.npc(&"snow.npc.guard").talk().inquiry_topics() == ["刘老三", "血手刘三"] and not catalog.npc(&"snow.npc.guard").talk().ask_confirm("刘老三").is_empty(), "刘安禄: 刘老三 and 血手刘三 (ask_me, confirmed first; DECISIONS「刘安禄的揭露」)")
+	_check(catalog.npc(&"snow.npc.guard").talk().inquiry_topics() == ["刘老三", "血手刘三", "大寨主"] and not catalog.npc(&"snow.npc.guard").talk().ask_confirm("刘老三").is_empty(), "刘安禄: 刘老三 and 血手刘三 (ask_me, confirmed first; DECISIONS「刘安禄的揭露」)")
 	_check(catalog.npc(&"snow.npc.drunk").talk().chat_chance == 10 and catalog.npc(&"snow.npc.drunk").talk().chat_entries()[0] is NpcDrinkAction, "醉汉: do_drink at 10 (4E)")
 	var traveller: NpcTalk = catalog.npc(&"snow.npc.traveller").talk()
 	_check(traveller.chat_chance == 40 and traveller.chat_entries() == [NpcTalk.RANDOM_MOVE], "旅客: random_move at 40")

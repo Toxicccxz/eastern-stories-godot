@@ -43,6 +43,25 @@ static func chapter1_done(session: WorldSessionController, buried: bool = true) 
 		map.give_new_item_to_player(&"native:waterfog/guild_token")
 
 
+## 旧案 done after 伪墓 (buried): the letter and the 镖单 in hand, both inscriptions read,
+## 南危水's confession, 潘军禅's bait, and the secret kept (`kept`) or told to 颜违.
+static func chapter2_done(session: WorldSessionController, kept: bool = true) -> void:
+	chapter1_done(session, true)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in [
+		"main.chapter2#started", "main.chapter2/liu", "main.chapter2/escort", "main.chapter2/tomb", "main.chapter2/stone",
+		"main.chapter2/nan", "main.chapter2/pan", "main.chapter2/choice/keep" if kept else "main.chapter2/choice/tell", "main.chapter2#done",
+	]:
+		_write(state, key)
+	for mark: String in ["柳淳风的引荐信", "看过镖单", "看过葬剑亭碑", "看过石台碑", "南危水承认了", "潘军禅说了鱼饵", "替南危水保密" if kept else "告发了南危水"]:
+		state.marks[mark] = 1
+	var map: WorldMapController = session.active_map() as WorldMapController
+	if map != null:
+		for item_id: StringName in [&"native:snow/letter_to_pan", &"native:cloud/escort_note"]:
+			if session.player_held_item_ids().get(item_id, false) == false:
+				map.give_new_item_to_player(item_id)
+
+
 static func _write(state: CharacterState, key: String) -> void:
 	if not state.quests.has(key):
 		state.quests[key] = state.quests.size() + 1
