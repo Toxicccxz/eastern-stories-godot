@@ -77,11 +77,19 @@ func _test_walk(tree: SceneTree, session: WorldSessionController) -> void:
 	for second: int in 3:
 		session.advance_npc_heartbeat(1.0)
 	_check(not session.combat_encounter_coordinator().has_active_encounter(), "the 货栈道士 lets one in the crown be")
-	_check(await MapPlaces.drive_to_zone(tree, gate, &"niling.yard") and await MapPlaces.drive_to_zone(tree, gate, &"niling.gatehouse"), "west into the yard and south into the gate tower")
+	_check(await MapPlaces.drive_to_zone(tree, gate, &"niling.yard"), "west into the yard")
 	for second: int in 3:
 		session.advance_npc_heartbeat(1.0)
-	_check(not session.combat_encounter_coordinator().has_active_encounter(), "the guards and the 门房 too")
-	_check(gate.select_landmark(&"niling.yard.landmark.burner") == false or true, "(the burner is the yard's)")
+	_check(not session.combat_encounter_coordinator().has_active_encounter(), "the guards too")
+	var ui: SharedGameplayUI = session.shared_ui()
+	_check(gate.select_landmark(&"niling.yard.landmark.burner") and gate.inspect_selected() and ui.inspection_text.text.contains("烧着的不是香"), "the burner in the yard's middle, looked at: %s" % ui.inspection_text.text.left(30))
+	ui.dismiss_current_panel()
+	await tree.physics_frame
+	_check(await MapPlaces.drive_to_zone(tree, gate, &"niling.gatehouse"), "south into the gate tower")
+	for second: int in 3:
+		session.advance_npc_heartbeat(1.0)
+	_check(not session.combat_encounter_coordinator().has_active_encounter(), "and the 门房")
+	_check(gate.select_landmark(&"niling.yard.landmark.burner") and not gate.landmark_available(GameContent.catalog().landmark(&"niling.yard.landmark.burner")), "the burner is the yard's: not to be used from the gate tower")
 	_check(await MapPlaces.take_passage(tree, gate, &"niling.gatehouse.south"), "out of the gate")
 	slope = session.active_map() as WorldMapController
 	await tree.physics_frame
