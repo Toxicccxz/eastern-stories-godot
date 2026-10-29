@@ -23,6 +23,8 @@ static func inspect(
 		return Result.block(Result.Outcome.RESTORE_STAGED)
 	if session.combat_encounter_coordinator().has_active_encounter() or not session.world_simulation_gate().is_open():
 		return Result.block(Result.Outcome.ACTIVE_COMBAT_ENCOUNTER)
+	if session.scene_held():
+		return Result.block(Result.Outcome.SCENE_RUNNING)
 	if session.is_session_swap_suspended():
 		return Result.block(Result.Outcome.SESSION_SWAP_ACTIVE)
 	# dun.c took the player away; the move to its room comes a frame after the fight.

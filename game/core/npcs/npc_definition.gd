@@ -659,6 +659,9 @@ const FLAG_HUNTS_PLAYER: StringName = &"hunts_player"
 ## attack.c init() attacks the player on sight from then on, past the player's death, until
 ## the NPC is made anew. An object variable, saved with its memory.
 const FLAG_AGGRESSIVE: StringName = &"aggressive"
+## Native (主线 A; NpcHooks `spared.leave`): spared as it lay, it goes for good once the
+## fight is over. An object variable, saved with the NPC's memory.
+const FLAG_LEAVES_WHEN_FREE: StringName = &"leaves_when_free"
 ## haunt.c do_haunt()'s set("end_tag", 1): a raised NPC a 僵尸追魂符 sent after someone;
 ## its first heal_up() out of a fight dispells it (zombie.c). An object variable.
 const FLAG_SENT: StringName = &"sent"

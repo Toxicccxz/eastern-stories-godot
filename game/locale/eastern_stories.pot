@@ -231,6 +231,7 @@ msgstr ""
 #. native.npc.white_officer gender
 #. native.npc.courier gender
 #. native.npc.onlooker gender
+#. native.npc.keep_ambusher gender
 #. native.npc.bai_daozhang gender
 #. native.npc.black_taoist_pass gender
 #. native.npc.black_taoist gender
@@ -15616,12 +15617,14 @@ msgid ""
 msgstr ""
 
 #. oldpine.npc.bandit_guard name
-#: data/oldpine/npcs.json
+#. native.npc.keep_ambusher name
+#: data/oldpine/npcs.json data/native/npcs.json
 msgid "土匪喽罗"
 msgstr ""
 
 #. oldpine.npc.bandit_guard long
-#: data/oldpine/npcs.json
+#. native.npc.keep_ambusher long
+#: data/oldpine/npcs.json data/native/npcs.json
 msgid ""
 "这家伙满脸横肉，一付凶神恶煞的模样，令人望而生畏。\n"
 msgstr ""
@@ -32901,7 +32904,7 @@ msgstr ""
 #. native.npc.black_taoist long
 #: data/native/npcs.json
 msgid ""
-"一个黑衣黑冠的道士，瘦得颧骨突出，眼神鬼鬼祟祟的。他蹲在那具骸骨旁边，拿着石匣往骸骨的指骨上碰，碰一下，骂一声。\n"
+"一个黑衣黑冠的道士，瘦得颧骨突出，眼神鬼鬼祟祟的。他蹲在那具骸骨旁边，石匣摆在脚边，正掰下一根指骨往匣口的缝里捅，捅一下，骂一声。\n"
 msgstr ""
 
 #. native.npc.black_taoist greeting.say
@@ -32919,6 +32922,11 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "黑衣道士一边招架一边往洞口瞟。\n"
+msgstr ""
+
+#. native.npc.black_taoist spared.line
+#: data/native/npcs.json
+msgid "黑衣道士捂着伤口翻身爬起，连滚带爬地逃出了山洞，往北边去了。"
 msgstr ""
 
 #. native:snow/letter_to_chen name

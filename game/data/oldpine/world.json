@@ -71,7 +71,7 @@
 		{ "id": "oldpine.keep2.gate_trap", "room": "es2:d/oldpine/keep2", "door": "oldpine.keep.gate", "from_zone": "oldpine.outdoor.keep_yard", "to_zone": "oldpine.outdoor.keep_hall", "summon": "oldpine.outdoor.keep2.trap_guards", "opens_on": "pipe", "unless_marks": ["老松寨的过路钱", "叫阵老松寨"], "messages": {"shout": "你听到你身后有几个声音大叫：把门关上！把门关上！一个也不许让他们溜走！", "shut": "接著「轰」地一声，通往外面的大门已经被一块大石堵死了。", "open": "你听到一阵轧轧的轮盘绞动声，堵住门口的大石慢慢地被移开了。"}, "legacy_source": "d/oldpine/keep2.c" }
 	],
 	"spawns": [
-		{ "id": "oldpine.outdoor.keep2.trap_guards", "npc": "oldpine.npc.bandit_guard", "map": "oldpine.outdoor", "zone": "oldpine.outdoor.keep_yard", "points": ["oldpine.outdoor.keep_yard.keep2.trap_guard.1", "oldpine.outdoor.keep_yard.keep2.trap_guard.2", "oldpine.outdoor.keep_yard.keep2.trap_guard.3", "oldpine.outdoor.keep_yard.keep2.trap_guard.4", "oldpine.outdoor.keep_yard.keep2.trap_guard.5"], "legacy_room": "d/oldpine/keep2.c", "legacy_quantity": 5, "summoned": true }
+		{ "id": "oldpine.outdoor.keep2.trap_guards", "npc": "native.npc.keep_ambusher", "map": "oldpine.outdoor", "zone": "oldpine.outdoor.keep_yard", "points": ["oldpine.outdoor.keep_yard.keep2.trap_guard.1", "oldpine.outdoor.keep_yard.keep2.trap_guard.2", "oldpine.outdoor.keep_yard.keep2.trap_guard.3", "oldpine.outdoor.keep_yard.keep2.trap_guard.4", "oldpine.outdoor.keep_yard.keep2.trap_guard.5"], "legacy_room": "d/oldpine/keep2.c", "legacy_quantity": 5, "summoned": true }
 	],
 	"landmarks": [
 		{ "id": "oldpine.outdoor.landmark.ancient_pine", "zone": "oldpine.outdoor.central_clearing", "name": "大松树", "action": "爬树", "portals": ["oldpine.outdoor.climb_pine"], "long": "一株又高又大的松树，当你抬头往上看的时候似乎有个人影\n在树梢之间移动，不过也许是风吹动所造成的错觉。\n", "messages": {"use": "你手脚并用，敏捷地爬上了空地中央的大松树。"}, "legacy_source": "d/oldpine/clearing.c" },

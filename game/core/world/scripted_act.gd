@@ -57,7 +57,7 @@ extends RefCounted
 ##   an NPC definition, the first of them standing by leaves with it (刘老农领着娟儿匆匆离去);
 ## - `by` (an NPC definition; native, 主线 A, DECISIONS「剧情演出」): the first of them standing in
 ##   the room is the act's NPC from then on (its lines in its bubble, its leave, its drop), as
-##   `comes` makes the comer so; one not there leaves the act's NPC as it was;
+##   `comes` makes the comer so; one not there ends the act (its remaining steps are theirs);
 ## - `drop` (an item; native): a new one lies down at the act's NPC's feet (at the player's
 ##   for a room's act), as something let fall in a scene;
 ## - `reincarnate`: damage.c reincarnate() and ob->move(REVIVE_ROOM) (d/death/npc/wgargoyle.c

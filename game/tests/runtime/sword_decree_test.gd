@@ -107,6 +107,8 @@ func _test_decree(tree: SceneTree, session: WorldSessionController) -> void:
 	ui.nearby.refresh()
 	_check(ui.waits.texts().any(func(line: String) -> bool: return line.begins_with("白道长：第 0 / 7 句")) and ui.waits.can_hurry(), "the status card: 白道长's seven lines, 继续: %s" % [ui.waits.texts()])
 	_check(ui.nearby.groups().is_empty() and not ui.interact(), "nothing in reach is offered while it runs")
+	_check(OldPineSaveEligibility.inspect(session).outcome == OldPineSaveEligibilityResult.Outcome.SCENE_RUNNING, "no save while it runs (its progress is not saved)")
+	_check(state.marks.get("隘口的道士", 0) == 1, "marked as seen the moment it began: cut short, it is not played again")
 	var log_before: int = ui.log_lines().size()
 	_check(ui.waits.hurry(), "继续 brings the first line now")
 	session.advance_npc_heartbeat(0.0)

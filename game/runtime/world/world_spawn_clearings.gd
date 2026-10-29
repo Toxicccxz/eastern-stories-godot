@@ -22,13 +22,14 @@ static func note(session: WorldSessionController) -> void:
 
 
 ## None of the spawn's NPCs on `map` stands (there is at least one, and each is down,
-## dead or gone from the map).
+## dead or gone for good). One alive but absent — on the story's stage and not yet come
+## (WorldStoryPresence), or summoned and not yet called — is still to be met.
 static func cleared(map: WorldMapController, spawn_id: StringName) -> bool:
 	var seen: bool = false
 	for npc: NpcRuntimeState in map.npc_runtimes():
 		if npc.spawn_id != spawn_id:
 			continue
 		seen = true
-		if npc.exists_in_map and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE:
+		if npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and not npc.has_flag(NpcDefinition.FLAG_GONE):
 			return false
 	return seen

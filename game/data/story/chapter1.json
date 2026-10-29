@@ -38,7 +38,7 @@
 						},
 						{
 							"id": "force",
-							"done": { "milestone": "defeat/oldpine.npc.bandit_guard" },
+							"done": { "mark": "打倒了寨门的喽罗" },
 							"text": "你打倒了寨门的喽罗，硬闯进了老松寨。",
 							"reward": { "deed": "硬闯了老松寨的寨门" }
 						}
@@ -56,7 +56,7 @@
 						},
 						{
 							"id": "beat",
-							"done": { "milestone": "defeat/oldpine.npc.bandit_commander" },
+							"done": { "mark": "打倒了常老大" },
 							"text": "你打倒了常老大。他跌坐在熊皮上骂道：那道士拿金牌买的路，往东边的瀑布去了，找他去！",
 							"reward": { "deed": "打倒了老松寨的常老大" }
 						}
@@ -72,7 +72,7 @@
 				{
 					"id": "taoist",
 					"objective": "拦住黑衣道士。",
-					"done": { "milestone": "defeat/native.npc.black_taoist" },
+					"done": { "mark": "黑衣道士倒了" },
 					"text": "黑衣道士落败，石匣还锁着，留在洞里。",
 					"target": { "map": "oldpine.caves", "zone": "oldpine.caves.mouth" }
 				},

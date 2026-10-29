@@ -202,10 +202,14 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 				# The lines so far are the last speaker's; from here they are this one's.
 				_show(said, hears, npc, spoken)
 				var speaker: NpcRuntimeState = _map.npcs.first_npc_in_zone(step.npc_id, room, true)
-				if speaker != null:
-					npc = speaker
-					npc_name = speaker.definition().display_name
-					_map.npc_life.scene_look_at(npc)
+				# Nobody of them here (a scene cut short and replayed): the rest of the act is
+				# theirs and does not happen.
+				if speaker == null:
+					moved_away = true
+					continue
+				npc = speaker
+				npc_name = speaker.definition().display_name
+				_map.npc_life.scene_look_at(npc)
 			ScriptedAct.Kind.DROP:
 				_show(said, hears, npc, spoken)
 				var feet: Vector2 = Vector2.INF

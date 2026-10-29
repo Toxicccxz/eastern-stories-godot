@@ -139,7 +139,8 @@ func _test_chapter(tree: SceneTree, session: WorldSessionController) -> void:
 	(session.get_node("BattlePresentationLayer/BattleSurface") as BattlePresentationController).refresh_projection()
 	session.record_journal()
 	_check(state.marks.get("放过了黑衣道士", 0) == 1, "spared: his hook's mark")
-	_check(state.milestones.has("defeat/native.npc.black_taoist") and state.quests.has("main.chapter1/taoist") and StoryQuestLog.objective(state, quests) == "看看洞里的石壁和那具骸骨。", "felled, one of note: the step; the wall is next: %s" % [state.quests])
+	_check(state.marks.get("黑衣道士倒了", 0) == 1 and state.quests.has("main.chapter1/taoist") and StoryQuestLog.objective(state, quests) == "看看洞里的石壁和那具骸骨。", "down: his spawn's mark does the step; the wall is next: %s" % [state.quests])
+	_check(not taoist.exists_in_map and taoist.has_flag(NpcDefinition.FLAG_GONE) and ui.log_lines().any(func(line: String) -> bool: return line.contains("连滚带爬地逃出了山洞")), "spared, he fled as the fight ended: %s" % [ui.log_lines().slice(-4)])
 	# The wall: 查看 teaches the clues; then the burial, the token with him, the book always.
 	_check(caves.select_landmark(WALL) and caves.inspect_selected(), "the wall looked at")
 	_check(state.marks.get("看过石壁", 0) == 1, "its clues taught")
@@ -169,7 +170,7 @@ func _test_chapter(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(outdoor_again != null, "out")
 	caves = MapPlaces.enter(session, &"oldpine.caves.maze", &"oldpine.caves.maze.cave1_landing")
 	await _settle(tree)
-	_check(caves != null and not taoist.exists_in_map and taoist.has_flag(NpcDefinition.FLAG_GONE), "the taoist is gone, not made anew")
+	_check(caves != null and not taoist.exists_in_map and taoist.has_flag(NpcDefinition.FLAG_GONE) and caves.floor_item_of(TOKEN, MOUTH).is_empty(), "the taoist is gone, not made anew; the buried 腰牌 does not come back")
 	# The save keeps it all.
 	var snapshot: GameSaveSnapshot = _capture(session)
 	var encoded: GameSaveResult = GameSaveJsonCodec.encode(snapshot)

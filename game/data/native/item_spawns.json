@@ -1,6 +1,6 @@
 {
 	"item_spawns": [
-		{ "id": "native.caves.cave5.guild_token", "item": "native:waterfog/guild_token", "map": "oldpine.caves", "zone": "oldpine.caves.mouth", "points": ["oldpine.caves.mouth.cave5.token.1"], "legacy_room": "native: 主线 A 第一章 (剧情总纲 §3: the 腰牌 beside cave5.c's bones; DECISIONS「剧情演出」)", "legacy_quantity": 1, "present": { "quest": "main.chapter1#started" } },
+		{ "id": "native.caves.cave5.guild_token", "item": "native:waterfog/guild_token", "map": "oldpine.caves", "zone": "oldpine.caves.mouth", "points": ["oldpine.caves.mouth.cave5.token.1"], "legacy_room": "native: 主线 A 第一章 (剧情总纲 §3: the 腰牌 beside cave5.c's bones; DECISIONS「剧情演出」)", "legacy_quantity": 1, "present": { "quest": "main.chapter1#started" }, "until": { "quest": "main.chapter1/bones" } },
 		{ "id": "native.caves.cave5.stone_box", "item": "native:oldpine/stone_box", "map": "oldpine.caves", "zone": "oldpine.caves.mouth", "points": ["oldpine.caves.mouth.cave5.stone_box.1"], "legacy_room": "native: 主线 A 第一章 (剧情总纲 §3: the 石匣 the 黑衣道士 leaves in cave5; DECISIONS「剧情演出」)", "legacy_quantity": 1, "present": { "quest": "main.chapter1#started" } }
 	]
 }

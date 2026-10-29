@@ -250,6 +250,25 @@
 			}
 		},
 		{
+			"id": "native.npc.keep_ambusher",
+			"legacy_source": "native: 主线 A (DECISIONS「老松寨的三条路」) over d/oldpine/npc/bandit_guard.c as it is: the five keep2.c valid_leave() calls in take no toll",
+			"name": "土匪喽罗",
+			"aliases": ["bandit", "guard"],
+			"gender": "男性",
+			"age": 33,
+			"long": "这家伙满脸横肉，一付凶神恶煞的模样，令人望而生畏。\n",
+			"combat_exp": 3600,
+			"score": 260,
+			"bellicosity": 600,
+			"attitude": "aggressive",
+			"skills": { "sword": 50, "parry": 40, "dodge": 40 },
+			"carry": [
+				{ "item": "es2:d/oldpine/obj/short_sword", "source": "d/oldpine/npc/obj/short_sword.c", "equip": "wield" },
+				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 5 }
+			],
+			"capabilities": ["aggressive_on_player_presence"]
+		},
+		{
 			"id": "native.npc.bai_daozhang",
 			"legacy_source": "native: 主线 A 序章后半 (剧情总纲 §3 序章: doc/help/theme:31's 太乙观观主白道长, named there and never placed; his lines are the outline's; DECISIONS「剧情演出」)",
 			"name": "白道长",
@@ -270,6 +289,7 @@
 				"寻剑": ["冯总教头奉旨寻的是旋芒宝剑。老道陪他走这一趟，是怕他们挖出不该挖的东西。"],
 				"老松寨": ["老松岭上的匪寨。那道士慌忙间掉了块布条，上头刻的就是老松寨的记号。"]
 			},
+			"scene_mark": "隘口的道士",
 			"calls": [
 				{ "after": 1, "scene": true, "not_mark": "隘口的道士", "steps": [
 					{ "line": "一名白衣武官从山壁下的土坑里捧出一只尺许长的石匣，匣面刻着一圈风纹。" },
@@ -304,8 +324,7 @@
 					{ "say": "这不是你该来的地方。" }
 				] },
 				{ "after": 23, "scene": true, "not_mark": "隘口的道士", "steps": [
-					{ "say": "小友，那道士往老松岭去了。他慌忙间掉了一块布条——你拾起来看看，那上头是老松寨的记号。" },
-					{ "mark": "隘口的道士" }
+					{ "say": "小友，那道士往老松岭去了。他慌忙间掉了一块布条——你拾起来看看，那上头是老松寨的记号。" }
 				] }
 			]
 		},
@@ -333,7 +352,7 @@
 			"aliases": ["black taoist", "taoist", "spy"],
 			"gender": "男性",
 			"age": 35,
-			"long": "一个黑衣黑冠的道士，瘦得颧骨突出，眼神鬼鬼祟祟的。他蹲在那具骸骨旁边，拿着石匣往骸骨的指骨上碰，碰一下，骂一声。\n",
+			"long": "一个黑衣黑冠的道士，瘦得颧骨突出，眼神鬼鬼祟祟的。他蹲在那具骸骨旁边，石匣摆在脚边，正掰下一根指骨往匣口的缝里捅，捅一下，骂一声。\n",
 			"attributes": { "str": 20, "cor": 24, "int": 22, "spi": 22, "cps": 22, "per": 14, "con": 22, "kar": 8 },
 			"combat_exp": 1500,
 			"score": 150,
@@ -351,7 +370,7 @@
 				"黑衣道士尖声道：宫里的人很快就到，你跑不了！\n",
 				"黑衣道士一边招架一边往洞口瞟。\n"
 			],
-			"spared": { "mark": "放过了黑衣道士" },
+			"spared": { "mark": "放过了黑衣道士", "leave": true, "line": "黑衣道士捂着伤口翻身爬起，连滚带爬地逃出了山洞，往北边去了。" },
 			"die_marks_killer": "杀了黑衣道士"
 		}
 	]

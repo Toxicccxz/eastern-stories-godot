@@ -142,8 +142,16 @@ func after_fight() -> void:
 		if encounter.participant_for(id) == null:
 			room_present.erase(id)
 	for participant: CombatParticipant in encounter.participants():
-		if _map.npcs.find_resident_npc(participant.participant_id) != null:
-			spent[participant.participant_id] = true
+		var npc: NpcRuntimeState = _map.npcs.find_resident_npc(participant.participant_id)
+		if npc == null:
+			continue
+		spent[participant.participant_id] = true
+		# One spared with `spared.leave` (NpcHooks) flees as the fight ends: gone for good.
+		if npc.has_flag(NpcDefinition.FLAG_LEAVES_WHEN_FREE) and npc.exists_in_map:
+			var hooks: NpcHooks = npc.definition().hooks()
+			if hooks != null and not hooks.spared_line.is_empty() and _map.hud() != null:
+				_map.hud().append_after_fight([ColoredLine.new(tr(hooks.spared_line), ColoredLine.PLAIN)])
+			_map.npcs.leave_for_good(npc)
 
 
 ## An NPC no longer on this map: it noticed nobody here.

@@ -873,6 +873,10 @@ func _begin_scene(npc: NpcRuntimeState) -> void:
 		return
 	scene_npc_id = npc.character_id
 	scene_focus_id = npc.character_id
+	# Seen once it began: a scene cut short (the player dead, a Continue) is not played again.
+	var hooks: NpcHooks = npc.definition().hooks()
+	if hooks != null and not hooks.scene_mark.is_empty() and _player != null:
+		_player.state.marks[hooks.scene_mark] = 1
 	if session != null:
 		session.hold_scene(true)
 

@@ -168,4 +168,7 @@ static func _save_blocked(
 		OldPineSaveEligibilityResult.Outcome.GUARDING:
 			outcome = ApplicationOperationResult.Outcome.SAVE_BLOCKED_COMBAT_OR_ACTION
 			message_key = &"save.blocked.combat_or_action"
+		OldPineSaveEligibilityResult.Outcome.SCENE_RUNNING:
+			outcome = ApplicationOperationResult.Outcome.SAVE_BLOCKED_COMBAT_OR_ACTION
+			message_key = &"save.blocked.scene"
 	return ApplicationOperationResult.new(operation, outcome, message_key)

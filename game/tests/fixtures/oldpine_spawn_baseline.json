@@ -5743,13 +5743,13 @@
 						}
 					}
 				},
-				"body_weight": 68000.0,
+				"body_weight": 60000.0,
 				"character_id": "oldpine.caves.mouth.cave5.black_taoist.1.character",
 				"definition": "native.npc.black_taoist",
 				"loadout": [
 					[
 						"<scope>.oldpine.caves.mouth.cave5.black_taoist.1.character.loadout.0.0",
-						"es2:d/oldpine/obj/throwing_knife"
+						"es2:d/oldpine/obj/short_sword"
 					],
 					[
 						"<scope>.oldpine.caves.mouth.cave5.black_taoist.1.character.loadout.1.0",
@@ -5757,7 +5757,7 @@
 					]
 				],
 				"map": "oldpine.caves",
-				"maximum_encumbrance": 120000.0,
+				"maximum_encumbrance": 100000.0,
 				"point": "oldpine.caves.mouth.cave5.black_taoist.1",
 				"position": [
 					904.0,
@@ -5781,11 +5781,11 @@
 					},
 					"attributes": {
 						"bellicosity": 2000.0,
-						"composure": 24.0,
+						"composure": 22.0,
 						"composure_modifier": 0.0,
-						"constitution": 24.0,
+						"constitution": 22.0,
 						"constitution_modifier": 0.0,
-						"courage": 26.0,
+						"courage": 24.0,
 						"courage_modifier": 0.0,
 						"force_factor": 0.0,
 						"intelligence": 22.0,
@@ -5794,9 +5794,9 @@
 						"karma_modifier": 0.0,
 						"personality": 14.0,
 						"personality_modifier": 0.0,
-						"spirituality": 24.0,
+						"spirituality": 22.0,
 						"spirituality_modifier": 0.0,
-						"strength": 24.0,
+						"strength": 20.0,
 						"strength_modifier": 0.0
 					},
 					"bounty": {
@@ -5813,18 +5813,18 @@
 					"deeds": [],
 					"equipment": {
 						"_primary_weapon": {
-							"_can_wield_as_secondary": false,
+							"_can_wield_as_secondary": true,
 							"_instance_id": "<scope>.oldpine.caves.mouth.cave5.black_taoist.1.character.loadout.0.0",
 							"_is_two_handed": false,
-							"_legacy_source_path": "d/oldpine/obj/throwing_knife.c",
-							"_skill_type": "throwing",
-							"_weapon_id": "es2:d/oldpine/obj/throwing_knife",
-							"can_wield_as_secondary": false,
+							"_legacy_source_path": "d/oldpine/obj/short_sword.c",
+							"_skill_type": "sword",
+							"_weapon_id": "es2:d/oldpine/obj/short_sword",
+							"can_wield_as_secondary": true,
 							"instance_id": "<scope>.oldpine.caves.mouth.cave5.black_taoist.1.character.loadout.0.0",
 							"is_two_handed": false,
-							"legacy_source_path": "d/oldpine/obj/throwing_knife.c",
-							"skill_type": "throwing",
-							"weapon_id": "es2:d/oldpine/obj/throwing_knife"
+							"legacy_source_path": "d/oldpine/obj/short_sword.c",
+							"skill_type": "sword",
+							"weapon_id": "es2:d/oldpine/obj/short_sword"
 						},
 						"_secondary_weapon": null
 					},
@@ -5849,7 +5849,7 @@
 					"pace": "",
 					"progression": {
 						"berserk_warned": false,
-						"combat_experience": 9000.0,
+						"combat_experience": 1500.0,
 						"gain_carry": 0.0,
 						"kills": 0.0,
 						"potential": 0.0,
@@ -5888,11 +5888,11 @@
 							"_enabled_skills": {}
 						},
 						"_raw_levels": {
-							"dodge": 45.0,
-							"parry": 30.0,
-							"sword": 35.0,
-							"throwing": 20.0,
-							"unarmed": 30.0
+							"dodge": 15.0,
+							"parry": 15.0,
+							"sword": 18.0,
+							"throwing": 10.0,
+							"unarmed": 15.0
 						}
 					},
 					"spirit": {
@@ -12750,13 +12750,13 @@
 						}
 					}
 				},
-				"body_weight": 68000.0,
+				"body_weight": 60000.0,
 				"character_id": "oldpine.caves.mouth.cave5.black_taoist.1.character",
 				"definition": "native.npc.black_taoist",
 				"loadout": [
 					[
 						"<scope>.oldpine.caves.mouth.cave5.black_taoist.1.character.loadout.0.0",
-						"es2:d/oldpine/obj/throwing_knife"
+						"es2:d/oldpine/obj/short_sword"
 					],
 					[
 						"<scope>.oldpine.caves.mouth.cave5.black_taoist.1.character.loadout.1.0",
@@ -12764,7 +12764,7 @@
 					]
 				],
 				"map": "oldpine.caves",
-				"maximum_encumbrance": 120000.0,
+				"maximum_encumbrance": 100000.0,
 				"point": "oldpine.caves.mouth.cave5.black_taoist.1",
 				"position": [
 					904.0,
@@ -12788,11 +12788,11 @@
 					},
 					"attributes": {
 						"bellicosity": 2000.0,
-						"composure": 24.0,
+						"composure": 22.0,
 						"composure_modifier": 0.0,
-						"constitution": 24.0,
+						"constitution": 22.0,
 						"constitution_modifier": 0.0,
-						"courage": 26.0,
+						"courage": 24.0,
 						"courage_modifier": 0.0,
 						"force_factor": 0.0,
 						"intelligence": 22.0,
@@ -12801,9 +12801,9 @@
 						"karma_modifier": 0.0,
 						"personality": 14.0,
 						"personality_modifier": 0.0,
-						"spirituality": 24.0,
+						"spirituality": 22.0,
 						"spirituality_modifier": 0.0,
-						"strength": 24.0,
+						"strength": 20.0,
 						"strength_modifier": 0.0
 					},
 					"bounty": {
@@ -12820,18 +12820,18 @@
 					"deeds": [],
 					"equipment": {
 						"_primary_weapon": {
-							"_can_wield_as_secondary": false,
+							"_can_wield_as_secondary": true,
 							"_instance_id": "<scope>.oldpine.caves.mouth.cave5.black_taoist.1.character.loadout.0.0",
 							"_is_two_handed": false,
-							"_legacy_source_path": "d/oldpine/obj/throwing_knife.c",
-							"_skill_type": "throwing",
-							"_weapon_id": "es2:d/oldpine/obj/throwing_knife",
-							"can_wield_as_secondary": false,
+							"_legacy_source_path": "d/oldpine/obj/short_sword.c",
+							"_skill_type": "sword",
+							"_weapon_id": "es2:d/oldpine/obj/short_sword",
+							"can_wield_as_secondary": true,
 							"instance_id": "<scope>.oldpine.caves.mouth.cave5.black_taoist.1.character.loadout.0.0",
 							"is_two_handed": false,
-							"legacy_source_path": "d/oldpine/obj/throwing_knife.c",
-							"skill_type": "throwing",
-							"weapon_id": "es2:d/oldpine/obj/throwing_knife"
+							"legacy_source_path": "d/oldpine/obj/short_sword.c",
+							"skill_type": "sword",
+							"weapon_id": "es2:d/oldpine/obj/short_sword"
 						},
 						"_secondary_weapon": null
 					},
@@ -12856,7 +12856,7 @@
 					"pace": "",
 					"progression": {
 						"berserk_warned": false,
-						"combat_experience": 9000.0,
+						"combat_experience": 1500.0,
 						"gain_carry": 0.0,
 						"kills": 0.0,
 						"potential": 0.0,
@@ -12895,11 +12895,11 @@
 							"_enabled_skills": {}
 						},
 						"_raw_levels": {
-							"dodge": 45.0,
-							"parry": 30.0,
-							"sword": 35.0,
-							"throwing": 20.0,
-							"unarmed": 30.0
+							"dodge": 15.0,
+							"parry": 15.0,
+							"sword": 18.0,
+							"throwing": 10.0,
+							"unarmed": 15.0
 						}
 					},
 					"spirit": {

@@ -716,6 +716,9 @@ func npc_spared(npc: NpcRuntimeState) -> void:
 				map.floor_items.give_new_item_to(npc, item_id)
 	if not hooks.spared_mark.is_empty() and _player != null and _player.state != null:
 		_player.state.marks[hooks.spared_mark] = 1
+	# Fled: gone for good once the fight is over (WorldMapHostilities.after_fight()).
+	if hooks.spared_leave:
+		npc.set_flag(NpcDefinition.FLAG_LEAVES_WHEN_FREE, true)
 
 
 ## A room's valid_leave() as the player walks out of `from_zone_id` (WorldRoomTraps).
