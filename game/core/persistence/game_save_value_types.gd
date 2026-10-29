@@ -326,6 +326,10 @@ class CharacterStateSnapshot extends RefCounted:
 	var known_items: Dictionary[String, int] = {}
 	## CharacterState.milestones (A2 历练 rewards); empty for NPCs.
 	var milestones: Dictionary[String, int] = {}
+	## CharacterState.quests (任务系统); empty for NPCs.
+	var quests: Dictionary[String, int] = {}
+	## CharacterState.deeds (DeedLog); empty for NPCs.
+	var deeds: Array[DeedLog.Deed] = []
 	## CharacterState.pace (现代 / 经典); empty for NPCs.
 	var pace: StringName = &""
 	## CharacterState.bounty (A2 雪亭驿 board); default for NPCs.
@@ -359,10 +363,21 @@ class CharacterStateSnapshot extends RefCounted:
 		affiliation = CharacterAffiliationState.legacy(not family.family_id.is_empty() or not apprenticeship.master_teacher_id.is_empty()) if p_affiliation == null else p_affiliation.duplicate_snapshot()
 
 	func duplicate_snapshot() -> CharacterStateSnapshot:
-		return CharacterStateSnapshot.new(gender, attributes, gin, kee, sen, internal_resources, progression, skills, _conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed_applies).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen_npcs).with_journal(journal, known_items).with_counters(counters).with_ghost(ghost).with_milestones(milestones).with_bounty(bounty).with_pace(pace)
+		return CharacterStateSnapshot.new(gender, attributes, gin, kee, sen, internal_resources, progression, skills, _conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed_applies).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen_npcs).with_journal(journal, known_items).with_counters(counters).with_ghost(ghost).with_milestones(milestones).with_bounty(bounty).with_pace(pace).with_quests(quests).with_deeds(deeds)
 
 	func with_milestones(p_milestones: Dictionary[String, int]) -> CharacterStateSnapshot:
 		milestones = p_milestones.duplicate()
+		return self
+
+	func with_quests(p_quests: Dictionary[String, int]) -> CharacterStateSnapshot:
+		quests = p_quests.duplicate()
+		return self
+
+	func with_deeds(p_deeds: Array[DeedLog.Deed]) -> CharacterStateSnapshot:
+		deeds.clear()
+		for deed: DeedLog.Deed in p_deeds:
+			if deed != null:
+				deeds.append(deed.duplicate_deed())
 		return self
 
 	func with_pace(p_pace: StringName) -> CharacterStateSnapshot:

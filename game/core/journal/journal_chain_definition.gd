@@ -16,6 +16,9 @@ var entries: Array[JournalEntryDefinition] = []
 ## `next`, shown on the status card's 目标 row while the chain is not seen through. The
 ## 任务 page shows a guide chain as any other: only what happened.
 var guide: bool = false
+## Native (任务系统; DECISIONS「任务系统」): the 任务 page's column the chain is listed under
+## (StoryQuestDefinition.LINES: main / faction / region / errand); "region" when unsaid.
+var line: String = StoryQuestDefinition.LINE_REGION
 
 
 ## The entry's saved key in CharacterState.journal.
@@ -30,6 +33,9 @@ static func from_record(reader: ContentRecordReader) -> JournalChainDefinition:
 	definition.region = reader.required_text("region")
 	definition.sources = reader.text_list("sources")
 	definition.guide = reader.boolean("guide", false)
+	definition.line = reader.text("line", StoryQuestDefinition.LINE_REGION)
+	if not StoryQuestDefinition.LINES.has(definition.line):
+		reader.fail("line", "expected one of %s" % [StoryQuestDefinition.LINES])
 	var seen: Dictionary[StringName, bool] = {}
 	for record: ContentRecordReader in reader.children("entries"):
 		var entry: JournalEntryDefinition = JournalEntryDefinition.from_record(record)

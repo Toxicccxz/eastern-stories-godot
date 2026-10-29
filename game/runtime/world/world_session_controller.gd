@@ -2121,7 +2121,10 @@ func record_journal() -> void:
 			open.append(ContainmentEndpoint.new(ContainmentEndpoint.Kind.ITEM, item_id))
 	JournalLog.note_items(_player.state, held)
 	WorldSpawnClearings.note(self)
-	tell_journal(JournalLog.record_entries(_player.state, _player.temp_marks, held, GameContent.catalog().journal_chains()))
+	var location: WorldLocationState = _player.world_location()
+	var zone_id: StringName = &"" if location == null else location.zone_id
+	tell_journal(JournalLog.record_entries(_player.state, _player.temp_marks, held, GameContent.catalog().journal_chains(), zone_id))
+	tell_quests(StoryQuestLog.record(_player.state, _player.temp_marks, held, zone_id, GameContent.catalog().story_quests()))
 	progression_rewards().look()
 	bounties().look()
 
@@ -2144,6 +2147,37 @@ func chat_heard(npc: NpcRuntimeState, text: String) -> void:
 	if _player == null or _player.state == null or npc == null:
 		return
 	tell_journal(JournalLog.chat_heard(_player.state, npc.definition().definition_id, text, GameContent.catalog().journal_chains()))
+	tell_quests(StoryQuestLog.chat_heard(_player.state, npc.definition().definition_id, text, GameContent.catalog().story_quests()))
+
+
+## What the quests just recorded (StoryQuestLog; 任务系统, DECISIONS「任务系统」) is told once
+## in 消息 and as a toast (a step done with what to do next while 目标提示 is on), and what
+## it gives is given: the 历练 reward (WorldProgressionRewards.quest_done) and the deed
+## (WorldDeeds.report), in the order recorded.
+func tell_quests(fresh: Array[StoryQuestLog.Fresh]) -> void:
+	if fresh.is_empty() or _player == null or _player.state == null:
+		return
+	var hud: SharedGameplayUI = shared_ui()
+	for entry: StoryQuestLog.Fresh in fresh:
+		if hud != null:
+			hud.append_colored_lines(StoryQuestLog.told_lines(entry, ObjectiveHints.shown, _player.state))
+		var reward: StoryQuestDefinition.Reward = entry.reward()
+		if reward == null:
+			continue
+		if reward.milestone and entry.kind == StoryQuestLog.Kind.DONE:
+			progression_rewards().quest_done(entry.quest)
+		if not reward.deed.is_empty():
+			deeds().report(reward.deed)
+
+
+var _deeds: WorldDeeds
+
+
+## Where the player's deeds are reported (任务系统).
+func deeds() -> WorldDeeds:
+	if _deeds == null:
+		_deeds = WorldDeeds.new(self)
+	return _deeds
 
 
 ## Native (前两小时 B; DECISIONS「开场卡片」): New Game begins with the theme story's card

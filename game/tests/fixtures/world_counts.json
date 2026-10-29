@@ -437,7 +437,12 @@
 		"native.school2.wooden_dummy.2",
 		"native.school2.wooden_dummy.3",
 		"native.school2.wooden_dummy.4",
-		"native.school2.wooden_dummy.5"
+		"native.school2.wooden_dummy.5",
+		"native.square.feng_ce",
+		"native.square.song_pu",
+		"native.square.white_officers",
+		"native.square.courier",
+		"native.square.onlooker"
 	],
 	"world_npcs": 464,
 	"resident_maps": 127,

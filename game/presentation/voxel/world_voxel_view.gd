@@ -37,6 +37,14 @@ var shutters: Dictionary[StringName, Node3D] = {}
 ## its room, a door's away from the side the player stands on.
 var arrows: Dictionary[StringName, Node3D] = {}
 var _arrow_clock: float = 0.0
+## The quest marker (任务系统; DECISIONS「任务系统」, owner Q3): a tall vermilion arrow with a
+## 「目标」 label over the way out that leads towards the tracked quest's target map
+## (WorldRoute), or, on that map, a pillar of light in the target zone. Presentation only: it
+## reads the quest state and the 2D map and changes nothing.
+const QUEST_GLOW: String = "d9452c"
+var quest_marker: Node3D
+## What the marker was placed for ("" none): the target and the quest ledger's size.
+var _quest_key: String = ""
 var _built: bool = false
 var _active: bool = false
 var _old_modulate: Color = Color.WHITE
@@ -72,6 +80,7 @@ func _process(delta: float) -> void:
 	geometry.sync_passages(map)
 	_reveal_entrances()
 	_bob_arrows(delta)
+	_sync_quest_marker()
 	_update_occlusion()
 	_sync_light()
 	lighting.advance(delta,VoxelMapGeometry.point(map.player_body.global_position))
@@ -127,6 +136,8 @@ func release_world() -> void:
 	entrances.clear()
 	shutters.clear()
 	arrows.clear()
+	quest_marker = null
+	_quest_key = ""
 	occlusion = VoxelOcclusion.new()
 	lighting.release()
 	geometry = null
@@ -611,6 +622,95 @@ func _bob_arrows(delta: float) -> void:
 		arrow.rotation.y = atan2(direction.x,direction.y)
 		# A door's floats over its lintel, clear of the shut leaf; a passage's over the floor.
 		arrow.position.y = (2.85 if arrow.get_meta("door",false) else 1.0)+sin(_arrow_clock*3.2)*0.2
+
+## The quest marker follows the tracked quest (StoryQuestLog.target): placed anew when the
+## target or the ledger changes, bobbing with the exit arrows meanwhile.
+func _sync_quest_marker() -> void:
+	var player: WorldPlayerRuntimeState = map.player_runtime()
+	var state: CharacterState = null if player == null else player.state
+	var target: StoryQuestDefinition.Target = null if state == null else StoryQuestLog.target(state, GameContent.catalog().story_quests())
+	var key: String = "" if target == null else "%s/%s/%d" % [target.map_id, target.zone_id, state.quests.size()]
+	if key != _quest_key:
+		_quest_key = key
+		_place_quest_marker(target)
+	if quest_marker != null:
+		quest_marker.position.y = float(quest_marker.get_meta("height", 0.0)) + sin(_arrow_clock * 3.2) * 0.25
+
+
+## The way out towards `target`'s map, or its zone on this map; nothing when there is no
+## target or no way.
+func _place_quest_marker(target: StoryQuestDefinition.Target) -> void:
+	if quest_marker != null:
+		quest_marker.queue_free()
+		quest_marker = null
+	if target == null or world == null:
+		return
+	if target.map_id == map.map_id():
+		var zone: WorldPhysicalZoneArea2D = map.physical_zone(target.zone_id)
+		if zone == null:
+			return
+		quest_marker = Node3D.new()
+		quest_marker.name = "QuestMarker"
+		quest_marker.position = VoxelMapGeometry.point(zone.global_rect().get_center())
+		quest_marker.set_meta("height", 0.0)
+		quest_marker.set_meta("target_zone", target.zone_id)
+		world.add_child(quest_marker)
+		var s := Shapes.new()
+		# A pillar of light up from the ground, thin, so it reads from across the map and hides nothing.
+		for step: int in 6:
+			s.box(quest_marker, Vector3(0, 0.5 + step * 1.0, 0), Vector3(0.5 - step * 0.05, 1.0, 0.5 - step * 0.05), QUEST_GLOW + ":glow")
+		s.flush()
+		_quest_label(quest_marker, 6.8)
+		return
+	var step: WorldRoute.Step = WorldRoute.next_step(GameContent.catalog(), map.map_id(), target.map_id)
+	if step == null:
+		return
+	var at: Vector3
+	var direction: Vector2 = Vector2.ZERO
+	if step.portal != null:
+		if not entrances.has(step.portal.portal_id):
+			return
+		var entrance: Dictionary = entrances[step.portal.portal_id]
+		at = (entrance["node"] as Node3D).position
+		direction = _outward(entrance["passage"], step.portal)
+	else:
+		# A room command that moves the player (the 铁索 down a cliff): over its service point.
+		var point: WorldServicePoint = map.service_point(step.service.service_id)
+		if point == null:
+			return
+		at = VoxelMapGeometry.point(point.global_position)
+	quest_marker = Node3D.new()
+	quest_marker.name = "QuestMarker"
+	quest_marker.position = at + Vector3(0, 2.4, 0)
+	quest_marker.set_meta("height", 2.4)
+	quest_marker.set_meta("way", step.portal.portal_id if step.portal != null else step.service.service_id)
+	world.add_child(quest_marker)
+	var arrow: Node3D = _arrow(quest_marker, direction)
+	arrow.scale = Vector3(1.6, 1.6, 1.6)
+	if direction == Vector2.ZERO:
+		# No way to point: the arrow points down at the spot.
+		arrow.rotation.x = PI / 2.0
+	else:
+		arrow.rotation.y = atan2(direction.x, direction.y)
+	var glow := StandardMaterial3D.new()
+	glow.albedo_color = Color(QUEST_GLOW)
+	glow.emission_enabled = true
+	glow.emission = Color(QUEST_GLOW)
+	glow.emission_energy_multiplier = 0.8
+	for mesh: Node in arrow.find_children("*", "GeometryInstance3D", true, false):
+		var instance := mesh as GeometryInstance3D
+		if instance.get_parent() == arrow:
+			instance.material_override = glow
+	_quest_label(quest_marker, 1.4)
+
+
+func _quest_label(parent: Node3D, height: float) -> void:
+	# TRANSLATORS: the quest marker's label in the voxel view (任务系统): where the tracked quest leads.
+	var label: Label3D = _label(parent, tr("目标"), height)
+	label.modulate = Color("ffd9c2")
+	label.outline_modulate = Color("5a1a10")
+	label.outline_size = 9
+
 
 func _make_shutters() -> void:
 	for id: StringName in map.doors_by_id:

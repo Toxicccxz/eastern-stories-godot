@@ -22,8 +22,9 @@ msgstr ""
 #. snow.wei_wuji region
 #. snow.weapon_storage region
 #. native.bounty region
+#. main.prologue region
 #. snow name
-#: scenes/application/application_shell.tscn data/common/journal.json data/snow/world.json
+#: scenes/application/application_shell.tscn data/common/journal.json data/story/prologue.json data/snow/world.json
 msgid "雪亭镇"
 msgstr ""
 
@@ -225,6 +226,11 @@ msgstr ""
 #. native.npc.outlaw.3 gender
 #. native.npc.outlaw.4 gender
 #. native.npc.outlaw.5 gender
+#. native.npc.feng_ce gender
+#. native.npc.song_pu gender
+#. native.npc.white_officer gender
+#. native.npc.courier gender
+#. native.npc.onlooker gender.then
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/native/npcs.json
 msgid "男性"
 msgstr ""
@@ -295,7 +301,8 @@ msgstr ""
 #. chuenyu.npc.flower_seller gender
 #. chuenyu.npc.cleangirl gender
 #. chuenyu.npc.xiaojuan2 gender
-#: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json
+#. native.npc.onlooker gender.else
+#: scenes/application/application_shell.tscn core/characters/character_state.gd core/death/death_inventory_service.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/snow/npcs.json data/cloud/npcs.json data/green/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/choyin/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/native/npcs.json
 msgid "女性"
 msgstr ""
 
@@ -3914,12 +3921,15 @@ msgid "清水"
 msgstr ""
 
 #. native (前两小时 A): the 任务 page recorded {text} (an entry's own line).
-#: core/journal/journal_log.gd
+#. native (任务系统): a quest step was done: {text} what the 任务 page records.
+#: core/journal/journal_log.gd core/quests/story_quest_log.gd
 msgid "【见闻】{text}"
 msgstr ""
 
 #. native (前两小时 A): under a guide chain's 【见闻】 line, {next} what to do next.
-#: core/journal/journal_log.gd
+#. native (任务系统): under a quest's 【见闻】 line, {next} what to do next.
+#. under a quest on the 任务 page: {next} what to do now.
+#: core/journal/journal_log.gd core/quests/story_quest_log.gd ui/world/quest_page.gd
 msgid "下一步：{next}"
 msgstr ""
 
@@ -4313,6 +4323,11 @@ msgstr ""
 msgid "你的内力练到了 {name}"
 msgstr ""
 
+#. native 历练 reward (任务系统): the player did the quest {name} (its title).
+#: core/progression/milestone_rewards.gd
+msgid "你办成了「{name}」"
+msgstr ""
+
 #. native 历练 reward (A2): the player's first time in {name} (a region or a named place).
 #: core/progression/milestone_rewards.gd
 msgid "你第一次来到{name}"
@@ -4336,6 +4351,29 @@ msgstr ""
 #. native (A2): potential is full ({cap} unspent at most); {cut} points were not kept.
 #: core/progression/milestone_rewards.gd
 msgid "潜能已满（最多 {cap} 点未用），多出的 {cut} 点没有记下。先去请教师父或研读书籍，用掉一些潜能吧。"
+msgstr ""
+
+#. native (任务系统): a deed was written down: {did} what the player did.
+#: core/quests/deed_log.gd
+msgid "【事迹】{did}"
+msgstr ""
+
+#. native (任务系统): after a deed: {place} where it happened, nobody saw.
+#: core/quests/deed_log.gd
+msgid "（在{place}，无人看见）"
+msgstr ""
+
+#. native (任务系统): after a deed: {place} where, {who} the people who saw it.
+#: core/quests/deed_log.gd
+msgid "（在{place}，{who}看见了）"
+msgstr ""
+
+#. native (任务系统): after a deed: {place} where, {who} the people who saw it.
+#. the 了结 button with what killing them means: {marks} is 任务目标 and/or 弑师.
+#. joins the skills a master teaches on his 拜师 page (基本拳脚、基本招架).
+#. between two conditions on the HUD (蛇毒).
+#: core/quests/deed_log.gd presentation/battle/battle_participant_card.gd presentation/codex/codex_content.gd ui/world/shared_ui_nearby.gd ui/world/shared_ui_status_card.gd
+msgid "、"
 msgstr ""
 
 #. quests.quest_type
@@ -4415,6 +4453,32 @@ msgstr ""
 #. time_period(): a number of seconds, {n} in Chinese numerals (零 too).
 #: core/quests/quest_status.gd
 msgid "{n}秒"
+msgstr ""
+
+#: core/quests/story_quest_definition.gd
+msgid "主线"
+msgstr ""
+
+#: core/quests/story_quest_definition.gd
+msgid "势力"
+msgstr ""
+
+#: core/quests/story_quest_definition.gd
+msgid "地区"
+msgstr ""
+
+#: core/quests/story_quest_definition.gd
+msgid "差事"
+msgstr ""
+
+#. native (任务系统): a quest began: {title} its name, {summary} its sentence on the 任务 page.
+#: core/quests/story_quest_log.gd
+msgid "【任务】{title}：{summary}"
+msgstr ""
+
+#. native (任务系统): a quest ended: {title} its name.
+#: core/quests/story_quest_log.gd
+msgid "【任务完成】{title}"
 msgstr ""
 
 #. a 拜师 condition: an attribute ({what}: 胆识, 定力, 灵性, 实战经验) at least {required}; the student has {have}.
@@ -6179,13 +6243,6 @@ msgstr ""
 msgid "了结（{marks}）"
 msgstr ""
 
-#. the 了结 button with what killing them means: {marks} is 任务目标 and/or 弑师.
-#. joins the skills a master teaches on his 拜师 page (基本拳脚、基本招架).
-#. between two conditions on the HUD (蛇毒).
-#: presentation/battle/battle_participant_card.gd presentation/codex/codex_content.gd ui/world/shared_ui_nearby.gd ui/world/shared_ui_status_card.gd
-msgid "、"
-msgstr ""
-
 #. hover on 了结: {name} lies unconscious; the next blow of the player's side (theirs or what they called) kills them.
 #: presentation/battle/battle_participant_card.gd
 msgid "了结{name}：下一招就会要了{name}的命。"
@@ -6704,7 +6761,8 @@ msgstr ""
 msgid "菜单"
 msgstr ""
 
-#: presentation/layout/shared_gameplay_layout.gd
+#. the quest marker's label in the voxel view (任务系统): where the tracked quest leads.
+#: presentation/layout/shared_gameplay_layout.gd presentation/voxel/world_voxel_view.gd
 msgid "目标"
 msgstr ""
 
@@ -8172,6 +8230,11 @@ msgstr ""
 msgid "内力练到 {name}"
 msgstr ""
 
+#. a 历练 line: the quest {name} (its title) done.
+#: ui/world/character_sheet.gd
+msgid "办成「{name}」"
+msgstr ""
+
 #: ui/world/codex_page.gd
 msgid "你还没有学会任何武学。"
 msgstr ""
@@ -8290,11 +8353,13 @@ msgid "卖断未执行，物品状态已变化；请重新选择。"
 msgstr ""
 
 #. the 任务 page before any story entry is recorded.
-#: ui/world/journal_stories.gd
+#. the 任务 page before any quest began or story entry was recorded.
+#: ui/world/journal_stories.gd ui/world/quest_page.gd
 msgid "你还没有记下什么江湖见闻。"
 msgstr ""
 
-#: ui/world/journal_stories.gd
+#. a quest on the 任务 page: {title} its name, {region} where it happens.
+#: ui/world/journal_stories.gd ui/world/quest_page.gd
 msgid "{title} · {region}"
 msgstr ""
 
@@ -8882,6 +8947,11 @@ msgstr ""
 msgid "你的尸体已经不在了。"
 msgstr ""
 
+#. a quest on the 任务 page once done: {title} its name, {region} where it happened.
+#: ui/world/quest_page.gd
+msgid "{title} · {region} · 已完成"
+msgstr ""
+
 #. asked before 攻击 on the player's own master: killing them is killing one's master (killer_reward(), betrayal's cost). {master} the NPC, {family} the player's family (封山剑派), {score} the player's 综合评价 now, {next} the betrayals counted after it.
 #: ui/world/shared_gameplay_ui.gd
 msgid ""
@@ -8894,14 +8964,6 @@ msgstr ""
 
 #: ui/world/shared_gameplay_ui.gd
 msgid "随身补给"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "朱鸿雪的任务"
-msgstr ""
-
-#: ui/world/shared_gameplay_ui.gd
-msgid "江湖见闻"
 msgstr ""
 
 #: ui/world/shared_gameplay_ui.gd
@@ -9355,6 +9417,11 @@ msgstr ""
 #. the status card's objective row (前两小时 A): {next} a guide chain's next step.
 #: ui/world/shared_ui_status_card.gd
 msgid "目标：{next}"
+msgstr ""
+
+#. the status card's advice row (任务系统): {next} a guide chain's next step while a quest holds 目标.
+#: ui/world/shared_ui_status_card.gd
+msgid "建议：{next}"
 msgstr ""
 
 #. the HUD while the player is busy (their last action not done, char.c continue_action()): {n} seconds left, rounded up.
@@ -15072,6 +15139,66 @@ msgstr ""
 msgid "草叶、布料、麻布、毛皮、木头、皮革；铁、钢、玄铁、丹金。"
 msgstr ""
 
+#. main.prologue title
+#: data/story/prologue.json
+msgid "寻剑令"
+msgstr ""
+
+#. main.prologue summary
+#: data/story/prologue.json
+msgid "大内高手在找一把剑。去西南二十四里的黄石隘口，看他们找什么。"
+msgstr ""
+
+#. main.prologue reward.deed
+#: data/story/prologue.json
+msgid "到黄石隘口看了官队找什么"
+msgstr ""
+
+#. main.prologue/waiter objective
+#: data/story/prologue.json
+msgid "跟店小二打听广场上的「官爷」。"
+msgstr ""
+
+#. main.prologue/waiter text
+#: data/story/prologue.json
+msgid "店小二说外头广场上来了大内的官爷，叫你去瞧瞧。"
+msgstr ""
+
+#. main.prologue/square objective
+#: data/story/prologue.json
+msgid "去镇前的广场，看看官爷们在做什么。"
+msgstr ""
+
+#. main.prologue/square/official text
+#: data/story/prologue.json
+msgid "冯策叫信使大声报了方位：西南二十四里，黄石隘口。"
+msgstr ""
+
+#. main.prologue/square/official reward.deed
+#: data/story/prologue.json
+msgid "在广场上当面向大内的总教头问了寻剑的事"
+msgstr ""
+
+#. main.prologue/square/crowd text
+#: data/story/prologue.json
+msgid "围观的江湖客悄悄告诉你：官爷们要去西南二十四里的黄石隘口。"
+msgstr ""
+
+#. main.prologue/square/crowd reward.deed
+#: data/story/prologue.json
+msgid "在广场上向围观的江湖人打听了官队的去处"
+msgstr ""
+
+#. main.prologue/pass objective
+#: data/story/prologue.json
+msgid "去西南二十四里的黄石隘口，看他们找什么。"
+msgstr ""
+
+#. main.prologue/pass text
+#: data/story/prologue.json
+msgid "你到了黄石隘口。"
+msgstr ""
+
 #. es2:d/oldpine/obj/long_sword long
 #: data/oldpine/items.json
 msgid ""
@@ -16040,6 +16167,21 @@ msgstr ""
 #. snow.npc.waiter inquiry topic
 #: data/snow/npcs.json
 msgid "楼上"
+msgstr ""
+
+#. snow.npc.waiter inquiry topic
+#: data/snow/npcs.json
+msgid "官爷"
+msgstr ""
+
+#. snow.npc.waiter inquiry.官爷
+#: data/snow/npcs.json
+msgid "外头广场上来了官爷，一队白衣的武官，还有两位老者坐着，说是大内来的高手。这位$RESPECT要是闲，去瞧瞧热闹也好。"
+msgstr ""
+
+#. snow.npc.waiter inquiry.官爷
+#: data/snow/npcs.json
+msgid "小哥您有所不知，这些个爷儿们是奉了咱们皇上的命令，要去岚城找一把叫做什麽『旋芒宝剑』的。他们等的白道长，便是咱们这附近有名的太乙观观主。"
 msgstr ""
 
 #. snow.npc.annihir title
@@ -25989,7 +26131,10 @@ msgstr ""
 #. canyon.npc.captain inquiry topic
 #. canyon.npc.leader2 inquiry topic
 #. canyon.npc.general inquiry topic
-#: data/canyon/npcs.json
+#. native.npc.feng_ce inquiry topic
+#. native.npc.song_pu inquiry topic
+#. native.npc.onlooker inquiry topic
+#: data/canyon/npcs.json data/native/npcs.json
 msgid "黄石隘口"
 msgstr ""
 
@@ -32205,6 +32350,141 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "一个面色青白的中年人，目光扫过来便叫人背脊发凉。告示上说他一夜之间屠了邻县一户人家，官府悬了最重的赏。\n"
+msgstr ""
+
+#. native.npc.feng_ce name
+#: data/native/npcs.json
+msgid "冯策"
+msgstr ""
+
+#. native.npc.feng_ce title
+#: data/native/npcs.json
+msgid "大内侍卫营总教头"
+msgstr ""
+
+#. native.npc.feng_ce long
+#: data/native/npcs.json
+msgid ""
+"一个鬓发斑白的老者，一身素白的武官袍服，腰背挺得笔直，坐在广场中间的木凳上不动如山。四面探头探脑的武林人没有一个敢靠得太近。\n"
+msgstr ""
+
+#. native.npc.feng_ce inquiry topic
+#. native.npc.song_pu inquiry topic
+#. native.npc.white_officer inquiry topic
+#. native.npc.courier inquiry topic
+#. native.npc.onlooker inquiry topic
+#: data/native/npcs.json
+msgid "寻剑"
+msgstr ""
+
+#. native.npc.feng_ce inquiry.寻剑.rules.lines.say
+#: data/native/npcs.json
+msgid "大声点，让众位兄弟都听见了。"
+msgstr ""
+
+#. native.npc.feng_ce inquiry.寻剑.rules.lines.line
+#: data/native/npcs.json
+msgid "信使一怔，随即大声说道：「方位是在西南二十四里，黄石隘口。」"
+msgstr ""
+
+#. native.npc.feng_ce inquiry.黄石隘口
+#: data/native/npcs.json
+msgid "那不是你该去的地方。"
+msgstr ""
+
+#. native.npc.feng_ce inquiry topic
+#: data/native/npcs.json
+msgid "旋芒"
+msgstr ""
+
+#. native.npc.feng_ce inquiry.旋芒
+#. native.npc.white_officer inquiry.寻剑
+#: data/native/npcs.json
+msgid "奉旨办差，闲人少问。"
+msgstr ""
+
+#. native.npc.song_pu name
+#: data/native/npcs.json
+msgid "宋朴"
+msgstr ""
+
+#. native.npc.song_pu title
+#: data/native/npcs.json
+msgid "大内侍卫营副教头"
+msgstr ""
+
+#. native.npc.song_pu long
+#: data/native/npcs.json
+msgid ""
+"一个瘦削的老者，白袍，坐在冯策身侧半步之后，眼睛半开半合，手里捏着一串核桃慢慢地转。\n"
+msgstr ""
+
+#. native.npc.song_pu inquiry.寻剑
+#: data/native/npcs.json
+msgid "老夫只是陪冯总教头走一趟。寻剑的事，问他去。"
+msgstr ""
+
+#. native.npc.song_pu inquiry.黄石隘口
+#: data/native/npcs.json
+msgid "方位信使已经报过了，还问老夫？"
+msgstr ""
+
+#. native.npc.white_officer name
+#: data/native/npcs.json
+msgid "白衣武官"
+msgstr ""
+
+#. native.npc.white_officer long
+#: data/native/npcs.json
+msgid ""
+"一个身著白衣的朝廷武官，腰悬长剑，站得笔直，目不斜视。\n"
+msgstr ""
+
+#. native.npc.courier name
+#: data/native/npcs.json
+msgid "信使"
+msgstr ""
+
+#. native.npc.courier long
+#: data/native/npcs.json
+msgid ""
+"一个风尘满面的信使，白袍下摆沾著泥点，刚从马上跳下来，气还没喘匀。\n"
+msgstr ""
+
+#. native.npc.courier inquiry.寻剑
+#: data/native/npcs.json
+msgid "下官只管传话。方位将军叫我当众报了，你也听见了。"
+msgstr ""
+
+#. native.npc.courier inquiry topic
+#: data/native/npcs.json
+msgid "白道长"
+msgstr ""
+
+#. native.npc.courier inquiry.白道长
+#: data/native/npcs.json
+msgid "白道长命下官回禀，说时辰已到。道长自己在何处，下官不敢说。"
+msgstr ""
+
+#. native.npc.onlooker name
+#: data/native/npcs.json
+msgid "江湖客"
+msgstr ""
+
+#. native.npc.onlooker long
+#: data/native/npcs.json
+msgid ""
+"一个风尘仆仆的江湖人，背著个长条布包，缩在广场边上探头探脑地往官队那边张望。\n"
+msgstr ""
+
+#. native.npc.onlooker inquiry.黄石隘口
+#: data/native/npcs.json
+msgid "小兄弟也听见了？西南二十四里，黄石隘口。大内的人要去那儿找一把剑，咱们这些人……也想去瞧瞧。"
+msgstr ""
+
+#. native.npc.onlooker inquiry.寻剑
+#: data/native/npcs.json
+msgid "听说是奉了皇上的旨，去岚城找什麽旋芒宝剑。岚城？谁知道在哪儿。"
 msgstr ""
 
 #. native:snow/letter_to_chen name

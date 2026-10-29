@@ -85,7 +85,8 @@ func _test_errand(tree: SceneTree, session: WorldSessionController) -> void:
 	# Both guide chains are seen through (the 新手链 ended with the first arrival in 绮云镇): no 目标.
 	_check(JournalLog.objective(state, GameContent.catalog().journal_chains()) == "" and JournalLog.finished(state, _chain(&"snow.newcomer")), "no next step left: " + JournalLog.objective(state, GameContent.catalog().journal_chains()))
 	ui.refresh_exploration()
-	_check(not ui.player_objective.visible, "the 目标 row is gone")
+	# 任务系统: the main quest 寻剑令 (begun with the waiter met, never followed here) still holds the row; no 建议 is left.
+	_check(ui.player_objective.text == "目标：跟店小二打听广场上的「官爷」。" and not ui.player_advice.visible, "the 目标 row is the main quest's alone: " + ui.player_objective.text)
 	map.select_npc(post.character_id)
 	said = map.ask_selected("送信")
 	_check(said.size() == 2 and said[1].contains("往后有信，还找你") and _carried(session, SILVER) == silver_before + 1, "asked again: no second payment: %s" % [said])

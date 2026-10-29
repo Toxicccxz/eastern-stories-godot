@@ -4,6 +4,7 @@
 			"id": "snow.newcomer",
 			"title": "雪亭镇的头几天",
 			"region": "雪亭镇",
+			"line": "errand",
 			"sources": ["native: 前两小时 A (owner, 2026-10-26; DECISIONS「新手链与当前目标」) — a guide chain over ES2's own 雪亭镇"],
 			"guide": true,
 			"entries": [
@@ -91,6 +92,7 @@
 			"id": "snow.letter",
 			"title": "雪亭驿的信",
 			"region": "雪亭镇",
+			"line": "errand",
 			"sources": ["native: 前两小时 C (owner, 2026-10-26; DECISIONS「雪亭驿的信」) over d/snow/postoffice.c's text (the couriers' detour, the people's letters)"],
 			"guide": true,
 			"entries": [
@@ -875,6 +877,7 @@
 			"id": "native.bounty",
 			"title": "官府悬赏",
 			"region": "雪亭镇",
+			"line": "errand",
 			"sources": ["native: A2 经验节奏 (雪亭驿的悬赏榜, DECISIONS「经验节奏」)"],
 			"entries": [
 				{

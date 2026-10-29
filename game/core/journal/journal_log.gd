@@ -31,20 +31,21 @@ class Fresh:
 
 
 ## Records every entry whose condition now holds. `temps` are the player's temp marks,
-## `held` the item definitions the player carries. True when anything was recorded.
-static func record(state: CharacterState, temps: Dictionary[String, int], held: Dictionary[StringName, bool], chains: Array[JournalChainDefinition]) -> bool:
-	return not record_entries(state, temps, held, chains).is_empty()
+## `held` the item definitions the player carries, `zone_id` where the player stands (ZONE;
+## "" when nowhere). True when anything was recorded.
+static func record(state: CharacterState, temps: Dictionary[String, int], held: Dictionary[StringName, bool], chains: Array[JournalChainDefinition], zone_id: StringName = &"") -> bool:
+	return not record_entries(state, temps, held, chains, zone_id).is_empty()
 
 
 ## record(), telling which entries it recorded, in the order it did.
-static func record_entries(state: CharacterState, temps: Dictionary[String, int], held: Dictionary[StringName, bool], chains: Array[JournalChainDefinition]) -> Array[Fresh]:
+static func record_entries(state: CharacterState, temps: Dictionary[String, int], held: Dictionary[StringName, bool], chains: Array[JournalChainDefinition], zone_id: StringName = &"") -> Array[Fresh]:
 	var recorded: Array[Fresh] = []
 	if state == null:
 		return recorded
 	for chain: JournalChainDefinition in chains:
 		for entry: JournalEntryDefinition in chain.entries:
 			var key: String = chain.key_of(entry)
-			if not state.journal.has(key) and holds(entry, state, temps, held):
+			if not state.journal.has(key) and holds(entry, state, temps, held, zone_id):
 				state.journal[key] = state.journal.size() + 1
 				recorded.append(Fresh.new(chain, entry))
 	return recorded
@@ -104,7 +105,8 @@ static func note_items(state: CharacterState, held: Dictionary[StringName, bool]
 	return noted
 
 
-static func holds(entry: JournalEntryDefinition, state: CharacterState, temps: Dictionary[String, int], held: Dictionary[StringName, bool]) -> bool:
+## Whether `entry`'s condition holds now; `zone_id` is where the player stands (ZONE).
+static func holds(entry: JournalEntryDefinition, state: CharacterState, temps: Dictionary[String, int], held: Dictionary[StringName, bool], zone_id: StringName = &"") -> bool:
 	match entry.when:
 		JournalEntryDefinition.When.MARK:
 			return int(state.marks.get(entry.key, 0)) != 0
@@ -124,6 +126,8 @@ static func holds(entry: JournalEntryDefinition, state: CharacterState, temps: D
 			return state.skills.raw_level(StringName(entry.key)) >= entry.amount
 		JournalEntryDefinition.When.FAMILY:
 			return state.family.family_id == StringName(entry.key)
+		JournalEntryDefinition.When.ZONE:
+			return not zone_id.is_empty() and StringName(entry.key) == zone_id
 	# HEARD is recorded at the ask (heard()), CHAT as the line is said (chat_heard()).
 	return false
 

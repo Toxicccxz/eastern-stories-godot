@@ -196,10 +196,11 @@ func _test_newcomer_and_errand(tree: SceneTree, session: WorldSessionController)
 	var log: Array[String] = ui.log_lines()
 	_check(log.has("【见闻】你在饮风客栈醒来，店小二笑着招呼了你。") and log.has("下一步：跟店小二打听「楼上」。"), "told once, with its next: %s" % [log.slice(maxi(0, log.size() - 4))])
 	ui.refresh_exploration()
-	_check(ui.player_objective.visible and ui.player_objective.text == "目标：跟店小二打听「楼上」。", "the 目标 row: " + ui.player_objective.text)
+	# 任务系统: the main quest 寻剑令 began with the waiter met and holds the 目标 row; the 新手链 is the 建议.
+	_check(ui.player_objective.visible and ui.player_objective.text == "目标：跟店小二打听广场上的「官爷」。" and ui.player_advice.visible and ui.player_advice.text == "建议：跟店小二打听「楼上」。", "the 目标 row and the 建议 row: %s / %s" % [ui.player_objective.text, ui.player_advice.text])
 	ObjectiveHints.shown = false
 	ui.refresh_exploration()
-	_check(not ui.player_objective.visible, "目标提示 off: no row")
+	_check(not ui.player_objective.visible and not ui.player_advice.visible, "目标提示 off: no row")
 	ObjectiveHints.shown = true
 	await _stand_at(tree, session, WAITER_SPAWN)
 	var map: WorldMapController = session.active_map() as WorldMapController
@@ -209,7 +210,7 @@ func _test_newcomer_and_errand(tree: SceneTree, session: WorldSessionController)
 	_check(said.size() == 2 and said[1].contains("楼上几间客房闹老鼠") and said[1].contains("这位小兄弟要是"), "the errand, $RESPECT as the waiter addresses the player: %s" % [said])
 	_check(state.journal.has("snow.newcomer/errand"), "recorded at the ask")
 	ui.refresh_exploration()
-	_check(ui.player_objective.text == "目标：上楼收拾老鼠。", "the next step: " + ui.player_objective.text)
+	_check(ui.player_advice.text == "建议：上楼收拾老鼠。", "the next step: " + ui.player_advice.text)
 	_check(not state.marks.has("客栈老鼠"), "the rats still stand")
 	var upstairs: WorldMapController = session.resident_map(&"snow.inn_upstairs") as WorldMapController
 	var rats: Array[NpcRuntimeState] = []
@@ -225,7 +226,7 @@ func _test_newcomer_and_errand(tree: SceneTree, session: WorldSessionController)
 	session.record_journal()
 	_check(state.marks.get("客栈老鼠", 0) == 1 and state.journal.has("snow.newcomer/rats"), "all six down: the mark, and the entry")
 	ui.refresh_exploration()
-	_check(ui.player_objective.text == "目标：下楼找店小二。", "back to the waiter: " + ui.player_objective.text)
+	_check(ui.player_advice.text == "建议：下楼找店小二。", "back to the waiter: " + ui.player_advice.text)
 	# The HUD's refresh let the selection go; the player clicks him again.
 	map.select_npc(waiter.character_id)
 	said = map.ask_selected("老鼠")
@@ -236,7 +237,7 @@ func _test_newcomer_and_errand(tree: SceneTree, session: WorldSessionController)
 	said = map.ask_selected("楼上")
 	_check(said.size() == 2 and said[1].contains("骨头别扔") and _carried(session, CHICKEN_LEG) == 1, "asked again: the hint alone, no second leg: %s" % [said])
 	ui.refresh_exploration()
-	_check(ui.player_objective.text == "目标：去淳风武馆拜柳淳风为师。", "on to the 武馆: " + ui.player_objective.text)
+	_check(ui.player_advice.text == "建议：去淳风武馆拜柳淳风为师。", "on to the 武馆: " + ui.player_advice.text)
 
 
 ## 打坐's steps (owner Q5): each max_force number first reached is a small 历练, once.

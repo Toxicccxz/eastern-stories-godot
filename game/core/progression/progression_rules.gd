@@ -18,11 +18,14 @@ extends RefCounted
 
 ## BOUNTY: a 雪亭驿 bounty done (repeatable: BountyBoard, no ledger key).
 ## FORCE: max_force first reached one of `force_milestones` (the id is the number).
-enum Kind { SPAR, DEFEAT, CHAIN, BOOK, REGION, PLACE, BOUNTY, FORCE }
+## QUEST: a quest (StoryQuestDefinition) done whose reward says `milestone` (任务系统;
+## `quest_percent` overrides the kind's percent for one quest, as chain_percent does).
+enum Kind { SPAR, DEFEAT, CHAIN, BOOK, REGION, PLACE, BOUNTY, FORCE, QUEST }
 
 const KIND_KEYS: Dictionary[String, Kind] = {
 	"spar": Kind.SPAR, "defeat": Kind.DEFEAT, "chain": Kind.CHAIN, "book": Kind.BOOK,
 	"region": Kind.REGION, "place": Kind.PLACE, "bounty": Kind.BOUNTY, "force": Kind.FORCE,
+	"quest": Kind.QUEST,
 }
 ## combatd.c: potential grows while less than 100 of it is unspent.
 const ES2_POTENTIAL_CAP: int = 100
@@ -39,6 +42,7 @@ var stages: Array[Stage] = []
 var percents: Dictionary[Kind, int] = {}
 var potential_percent: int = 0
 var chain_percent: Dictionary[StringName, int] = {}
+var quest_percent: Dictionary[StringName, int] = {}
 var notable_npcs: Dictionary[StringName, bool] = {}
 var places: Dictionary[StringName, bool] = {}
 ## Rising max_force numbers; empty when 打坐 earns no 历练.
@@ -54,7 +58,7 @@ func stage(combat_exp: int) -> Stage:
 	return found
 
 
-## The exp a reward of `kind` (or of chain `chain_id`) is worth at `combat_exp`.
+## The exp a reward of `kind` (or of chain or quest `chain_id`) is worth at `combat_exp`.
 @warning_ignore("integer_division")
 func reward_exp(kind: Kind, combat_exp: int, chain_id: StringName = &"") -> int:
 	var at: Stage = stage(combat_exp)
@@ -63,6 +67,8 @@ func reward_exp(kind: Kind, combat_exp: int, chain_id: StringName = &"") -> int:
 	var percent: int = int(percents.get(kind, 0))
 	if kind == Kind.CHAIN and chain_percent.has(chain_id):
 		percent = chain_percent[chain_id]
+	if kind == Kind.QUEST and quest_percent.has(chain_id):
+		percent = quest_percent[chain_id]
 	return at.unit * percent / 100
 
 
@@ -95,6 +101,9 @@ static func from_record(reader: ContentRecordReader) -> ProgressionRules:
 	var chains: Dictionary[String, int] = reader.integer_map("chain_percent")
 	for chain_id: String in chains:
 		rules.chain_percent[StringName(chain_id)] = chains[chain_id]
+	var quests: Dictionary[String, int] = reader.integer_map("quest_percent")
+	for quest_id: String in quests:
+		rules.quest_percent[StringName(quest_id)] = quests[quest_id]
 	for npc_id: String in reader.text_list("notable_npcs"):
 		rules.notable_npcs[StringName(npc_id)] = true
 	for zone_id: String in reader.text_list("places"):

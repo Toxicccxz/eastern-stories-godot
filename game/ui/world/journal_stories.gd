@@ -14,16 +14,22 @@ func _init() -> void:
 	add_theme_constant_override("separation", 6)
 
 
-## `respect`: how NPCs address the player ($RESPECT in quoted lines).
-func fill(state: CharacterState, respect: String) -> void:
+## `respect`: how NPCs address the player ($RESPECT in quoted lines); `column` the 任务 page
+## column whose chains to show ("" for every chain; 任务系统); `say_nothing` shows
+## NOTHING_YET when there is none.
+func fill(state: CharacterState, respect: String, column: String = "", say_nothing: bool = true) -> void:
 	for child: Node in get_children():
 		remove_child(child)
 		child.queue_free()
 	var catalog: ContentCatalog = GameContent.catalog()
-	var shown: Array[JournalLog.Shown] = JournalLog.shown(state, catalog.journal_chains())
+	var shown: Array[JournalLog.Shown] = []
+	for view: JournalLog.Shown in JournalLog.shown(state, catalog.journal_chains()):
+		if column.is_empty() or view.chain.line == column:
+			shown.append(view)
 	if shown.is_empty():
-		var nothing := _label(NOTHING_YET, SharedGameplayLayout.MUTED_COLOR)
-		nothing.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_INHERIT
+		if say_nothing:
+			var nothing := _label(NOTHING_YET, SharedGameplayLayout.MUTED_COLOR)
+			nothing.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_INHERIT
 		return
 	for view: JournalLog.Shown in shown:
 		_label(tr("{title} · {region}").format({"title": tr(view.chain.title), "region": tr(view.chain.region)}), SharedGameplayLayout.ACCENT_COLOR).name = "Chain"

@@ -23,8 +23,10 @@ var player_vitality_value: Label
 var player_spirit: ProgressBar
 var player_spirit_text: Label
 var player_vitality_text: Label
-## The 目标 row (前两小时 A): a guide chain's next step.
+## The 目标 row (前两小时 A): the tracked quest's step (任务系统), else a guide chain's next step.
 var player_objective: Label
+## The 建议 row under it (任务系统, owner Q1): the guide chain's next step while a quest holds 目标.
+var player_advice: Label
 var selected_target_label: Label
 var target_vitality: ProgressBar
 var target_vitality_text: Label
@@ -56,12 +58,12 @@ var arts_page: MartialArtsPage
 var inventory_page: VBoxContainer
 var supplies_mount: VBoxContainer
 var journal_page: VBoxContainer
-## 任务: quest.c's lines for 朱鸿雪's task.
+## 任务: quest.c's lines for 朱鸿雪's task (the 差事 column of quest_page).
 var quest_text: Label
-## 任务: the story chains recorded (JournalLog).
-var journal_stories: JournalStories
+## 任务: the four columns of quests and story chains (任务系统).
+var quest_page: QuestPage
 var codex_page: CodexPage
-## How many entries the 任务 page showed when it was filled last.
+## How many records (journal entries and quest keys) the 任务 page showed when it was filled last.
 var _journal_shown: int = -1
 var inspection_text: RichTextLabel
 var combat_log: RichTextLabel
@@ -591,16 +593,10 @@ func _build_menu() -> void:
 	journal_page = VBoxContainer.new()
 	journal_page.name = "JournalPage"
 	journal_page.add_theme_constant_override("separation", 10)
-	_heading(journal_page, "朱鸿雪的任务")
-	quest_text = Label.new()
-	quest_text.name = "Quest"
-	quest_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	quest_page = QuestPage.new()
+	journal_page.add_child(quest_page)
 	# quest.c's lines, already in the shown language.
-	quest_text.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
-	journal_page.add_child(quest_text)
-	_heading(journal_page, "江湖见闻")
-	journal_stories = JournalStories.new()
-	journal_page.add_child(journal_stories)
+	quest_text = quest_page.quest_text
 	_heading(journal_page, "消息记录")
 	_presentation_layout.messages.reparent(journal_page, false)
 	_presentation_layout.messages.show()
@@ -668,11 +664,10 @@ func menu_tab_shown(tab: int) -> void:
 			items.fill_shown_page()
 			panels.show_supplies()
 		GameMenu.Tab.JOURNAL:
-			quest_text.text = "" if _player == null else "\n".join(QuestStatus.lines(_player.state.quest))
 			if _session != null:
 				_session.record_journal()
-			journal_stories.fill(null if _player == null else _player.state, _player_respect())
-			_journal_shown = -1 if _player == null else _player.state.journal.size()
+			quest_page.fill(null if _player == null else _player.state, _player_respect(), _task_lines())
+			_journal_shown = -1 if _player == null else _records_shown()
 		GameMenu.Tab.CODEX:
 			if _session != null:
 				_session.record_journal()
@@ -689,9 +684,9 @@ func _refresh_menu_page() -> void:
 		GameMenu.Tab.CHARACTER, GameMenu.Tab.MARTIAL_ARTS:
 			panels.refresh_character()
 		GameMenu.Tab.JOURNAL:
-			# quest.c's time left changes; the stories only when something new was recorded.
-			quest_text.text = "" if _player == null else "\n".join(QuestStatus.lines(_player.state.quest))
-			if _player != null and _player.state.journal.size() != _journal_shown:
+			# quest.c's time left changes; the rest only when something new was recorded.
+			quest_text.text = _task_lines()
+			if _player != null and _records_shown() != _journal_shown:
 				menu_tab_shown(GameMenu.Tab.JOURNAL)
 	message_log.collect_feedback()
 
@@ -713,6 +708,19 @@ func _player_respect() -> String:
 func journal_quest_text() -> String:
 	menu_tab_shown(GameMenu.Tab.JOURNAL)
 	return quest_text.text
+
+
+## quest.c's lines for 朱鸿雪's task while one is set ("" without one: the 差事 column shows
+## the task only when 朱鸿雪 gave one).
+func _task_lines() -> String:
+	if _player == null or not _player.state.quest.has_task():
+		return ""
+	return "\n".join(QuestStatus.lines(_player.state.quest))
+
+
+## How many records the 任务 page has to show (its refresh looks for new ones).
+func _records_shown() -> int:
+	return _player.state.journal.size() + _player.state.quests.size()
 
 
 # --- forwarded to SharedUiMessageLog (message_log) ---

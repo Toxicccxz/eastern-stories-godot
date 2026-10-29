@@ -1,0 +1,51 @@
+{
+	"quests": [
+		{
+			"id": "main.prologue",
+			"title": "寻剑令",
+			"line": "main",
+			"region": "雪亭镇",
+			"sources": [
+				"native: 剧情总纲 §3 序章「寻剑令」前半 (owner, 2026-10-29; DECISIONS「任务系统」) over doc/help/theme paragraphs 1–7 as written: the white-clad officials on the square, 「大声点，让众位兄弟都听见了」, 「西南二十四里，黄石隘口」, the waiter's 大内高手 and 白道长. 冯策 and 宋朴 are the outline's names for the two unnamed elders; the courier and the onlooker are the text's 快马乘客 and 探头探脑的武林中人."
+			],
+			"summary": "大内高手在找一把剑。去西南二十四里的黄石隘口，看他们找什么。",
+			"starts": { "seen": "snow.npc.waiter" },
+			"steps": [
+				{
+					"id": "waiter",
+					"objective": "跟店小二打听广场上的「官爷」。",
+					"done": { "heard": { "npc": "snow.npc.waiter", "topic": "官爷" } },
+					"text": "店小二说外头广场上来了大内的官爷，叫你去瞧瞧。",
+					"target": { "map": "snow.inn", "zone": "snow.inn.main_floor" }
+				},
+				{
+					"id": "square",
+					"objective": "去镇前的广场，看看官爷们在做什么。",
+					"target": { "map": "snow.outdoor", "zone": "snow.square" },
+					"options": [
+						{
+							"id": "official",
+							"done": { "heard": { "npc": "native.npc.feng_ce", "topic": "寻剑" } },
+							"text": "冯策叫信使大声报了方位：西南二十四里，黄石隘口。",
+							"reward": { "deed": "在广场上当面向大内的总教头问了寻剑的事" }
+						},
+						{
+							"id": "crowd",
+							"done": { "heard": { "npc": "native.npc.onlooker", "topic": "黄石隘口" } },
+							"text": "围观的江湖客悄悄告诉你：官爷们要去西南二十四里的黄石隘口。",
+							"reward": { "deed": "在广场上向围观的江湖人打听了官队的去处" }
+						}
+					]
+				},
+				{
+					"id": "pass",
+					"objective": "去西南二十四里的黄石隘口，看他们找什么。",
+					"done": { "zone": "canyon.canyon1" },
+					"text": "你到了黄石隘口。",
+					"target": { "map": "canyon.pass", "zone": "canyon.canyon1" }
+				}
+			],
+			"reward": { "milestone": true, "deed": "到黄石隘口看了官队找什么" }
+		}
+	]
+}

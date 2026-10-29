@@ -5,7 +5,7 @@ extends RefCounted
 ## JSON object with any of the `items`, `npcs`, `spawns`, `item_spawns`,
 ## `vendors`, `rooms`, `regions`, `maps`, `zones`, `portals`, `services`,
 ## `doors`, `landmarks`, `traps`, `exit_rules`, `skills`, `families`, `race_actions`, `weapon_actions`,
-## `quest_tiers`, `journal_chains`, `codex_topics`, `day_phases` arrays, and at most one document
+## `quest_tiers`, `quests`, `journal_chains`, `codex_topics`, `day_phases` arrays, and at most one document
 ## has the `pacing` object (and at most one the `progression` object).
 ## build() returns null when anything was reported; errors() says what.
 var _errors: Array[String] = []
@@ -32,6 +32,7 @@ var _families: Dictionary[StringName, FamilyDefinition] = {}
 var _combat_actions: CombatActionTables = CombatActionTables.new()
 var _quest_tiers: Array[QuestTier] = []
 var _journal_chains: Array[JournalChainDefinition] = []
+var _story_quests: Array[StoryQuestDefinition] = []
 var _codex_topics: Array[CodexTopicDefinition] = []
 var _day_phases: Array[DayPhaseDefinition] = []
 var _sky_levels: Array[String] = []
@@ -135,6 +136,8 @@ func add_document(document: Variant, origin: String) -> void:
 		_quest_tiers.append(QuestTier.from_record(record))
 	for record: ContentRecordReader in reader.children("journal_chains"):
 		_journal_chains.append(JournalChainDefinition.from_record(record))
+	for record: ContentRecordReader in reader.children("quests"):
+		_story_quests.append(StoryQuestDefinition.from_record(record))
 	for record: ContentRecordReader in reader.children("codex_topics"):
 		_codex_topics.append(CodexTopicDefinition.from_record(record))
 	for record: ContentRecordReader in reader.children("day_phases"):
@@ -195,6 +198,7 @@ func build() -> ContentCatalog:
 	_check_combat_data()
 	_check_quest_tiers()
 	_check_journal()
+	_check_story_quests()
 	_check_progression()
 	_check_day_phases()
 	if _pacing == null:
@@ -213,6 +217,7 @@ func build() -> ContentCatalog:
 	catalog.set_combat_actions(_combat_actions)
 	catalog.set_quest_tiers(_quest_tiers)
 	catalog.set_journal(_journal_chains, _codex_topics)
+	catalog.set_story_quests(_story_quests)
 	catalog.set_day_phases(_day_phases)
 	catalog.set_sky_levels(_sky_levels)
 	catalog.set_progression(_progression)
@@ -333,29 +338,7 @@ func _check_journal() -> void:
 		chains[chain.chain_id] = true
 		for entry: JournalEntryDefinition in chain.entries:
 			var origin: String = "journal_chains.%s" % chain.key_of(entry)
-			match entry.when:
-				JournalEntryDefinition.When.ITEM:
-					if not _items.has(StringName(entry.key)):
-						_errors.append("%s.when.item: no item '%s'" % [origin, entry.key])
-				JournalEntryDefinition.When.SEEN:
-					if not _npcs.has(StringName(entry.key)):
-						_errors.append("%s.when.seen: no NPC '%s'" % [origin, entry.key])
-				JournalEntryDefinition.When.HEARD:
-					var npc: NpcDefinition = _npcs.get(StringName(entry.key))
-					if npc == null or not npc.talk().inquiry_topics().has(entry.topic):
-						_errors.append("%s.when.heard: '%s' has no topic '%s'" % [origin, entry.key, entry.topic])
-				JournalEntryDefinition.When.CHAT:
-					if not _npcs.has(StringName(entry.key)):
-						_errors.append("%s.when.chat: no NPC '%s'" % [origin, entry.key])
-				JournalEntryDefinition.When.MILESTONE:
-					if not MilestoneRewards.KIND_NAMES.values().has(entry.key.get_slice("/", 0)) or entry.key.get_slice_count("/") < 2:
-						_errors.append("%s.when.milestone: expected '<kind>/<id>', got '%s'" % [origin, entry.key])
-				JournalEntryDefinition.When.SKILL_AT_LEAST:
-					if not _skills.has(StringName(entry.key)):
-						_errors.append("%s.when.skill_at_least: no skill '%s'" % [origin, entry.key])
-				JournalEntryDefinition.When.FAMILY:
-					if not _families.has(StringName(entry.key)):
-						_errors.append("%s.when.family: no family '%s'" % [origin, entry.key])
+			_check_condition(origin + ".when", entry)
 			if not entry.quote_npc.is_empty():
 				var quoted: NpcDefinition = _npcs.get(entry.quote_npc)
 				if quoted == null or not quoted.talk().has_answer(entry.quote_topic) or quoted.talk().answer(entry.quote_topic).is_empty():
@@ -365,6 +348,70 @@ func _check_journal() -> void:
 		if topics.has(topic.topic_id):
 			_errors.append("codex_topics: duplicate topic '%s'" % topic.topic_id)
 		topics[topic.topic_id] = true
+
+
+## A condition (a journal entry's `when`, a quest's `starts` or a step's `done`) names an
+## item, NPC, topic, milestone kind, skill, family or zone the game has.
+func _check_condition(origin: String, entry: JournalEntryDefinition) -> void:
+	match entry.when:
+		JournalEntryDefinition.When.ITEM:
+			if not _items.has(StringName(entry.key)):
+				_errors.append("%s.item: no item '%s'" % [origin, entry.key])
+		JournalEntryDefinition.When.SEEN:
+			if not _npcs.has(StringName(entry.key)):
+				_errors.append("%s.seen: no NPC '%s'" % [origin, entry.key])
+		JournalEntryDefinition.When.HEARD:
+			var npc: NpcDefinition = _npcs.get(StringName(entry.key))
+			if npc == null or not npc.talk().inquiry_topics().has(entry.topic):
+				_errors.append("%s.heard: '%s' has no topic '%s'" % [origin, entry.key, entry.topic])
+		JournalEntryDefinition.When.CHAT:
+			if not _npcs.has(StringName(entry.key)):
+				_errors.append("%s.chat: no NPC '%s'" % [origin, entry.key])
+		JournalEntryDefinition.When.MILESTONE:
+			if not MilestoneRewards.KIND_NAMES.values().has(entry.key.get_slice("/", 0)) or entry.key.get_slice_count("/") < 2:
+				_errors.append("%s.milestone: expected '<kind>/<id>', got '%s'" % [origin, entry.key])
+		JournalEntryDefinition.When.SKILL_AT_LEAST:
+			if not _skills.has(StringName(entry.key)):
+				_errors.append("%s.skill_at_least: no skill '%s'" % [origin, entry.key])
+		JournalEntryDefinition.When.FAMILY:
+			if not _families.has(StringName(entry.key)):
+				_errors.append("%s.family: no family '%s'" % [origin, entry.key])
+		JournalEntryDefinition.When.ZONE:
+			if not _zones.has(StringName(entry.key)):
+				_errors.append("%s.zone: no zone '%s'" % [origin, entry.key])
+
+
+## The quests (任务系统) have unique IDs, name quests, zones and maps the game has, and
+## their conditions name what the game has.
+func _check_story_quests() -> void:
+	var quests: Dictionary[StringName, bool] = {}
+	for quest: StoryQuestDefinition in _story_quests:
+		if quests.has(quest.quest_id):
+			_errors.append("quests: duplicate quest '%s'" % quest.quest_id)
+		quests[quest.quest_id] = true
+	for quest: StoryQuestDefinition in _story_quests:
+		var origin: String = "quests.%s" % quest.quest_id
+		if quest.starts != null:
+			_check_condition(origin + ".starts", quest.starts)
+		for other: StringName in quest.requires + quest.excludes:
+			if other == quest.quest_id:
+				_errors.append("%s: names itself" % origin)
+			elif not quests.has(other):
+				_errors.append("%s: no quest '%s'" % [origin, other])
+		for step: StoryQuestDefinition.Step in quest.steps:
+			var at: String = "%s.%s" % [origin, step.step_id]
+			if step.condition != null:
+				_check_condition(at + ".done", step.condition)
+			for option: StoryQuestDefinition.Option in step.options:
+				_check_condition("%s.%s.done" % [at, option.option_id], option.condition)
+			if step.target != null:
+				var zone: ZoneDefinition = _zones.get(step.target.zone_id)
+				if not _maps.has(step.target.map_id):
+					_errors.append("%s.target: no map '%s'" % [at, step.target.map_id])
+				if zone == null:
+					_errors.append("%s.target: no zone '%s'" % [at, step.target.zone_id])
+				elif zone.map_id != step.target.map_id:
+					_errors.append("%s.target: zone '%s' is not on map '%s'" % [at, step.target.zone_id, step.target.map_id])
 
 
 ## The progression table names NPCs, zones and chains the game has.
@@ -401,6 +448,12 @@ func _check_progression() -> void:
 	for chain_id: StringName in _progression.chain_percent:
 		if not chains.has(chain_id):
 			_errors.append("progression.chain_percent: no chain '%s'" % chain_id)
+	var quests: Dictionary[StringName, bool] = {}
+	for quest: StoryQuestDefinition in _story_quests:
+		quests[quest.quest_id] = true
+	for quest_id: StringName in _progression.quest_percent:
+		if not quests.has(quest_id):
+			_errors.append("progression.quest_percent: no quest '%s'" % quest_id)
 	if _bounties == null:
 		return
 	for tier: BountyRules.Tier in _bounties.tiers:
