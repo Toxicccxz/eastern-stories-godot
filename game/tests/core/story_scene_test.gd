@@ -22,6 +22,8 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_bury_landmark()
 	_test_pacing_knobs()
 	_test_chapter1_data()
+	_test_asker_lacks()
+	_test_chapter2_data()
 	return {"assertions": _count, "failures": _failures.duplicate()}
 
 
@@ -247,6 +249,58 @@ func _test_chapter1_data() -> void:
 	var guard: NpcDefinition = catalog.npc(&"oldpine.npc.bandit_guard")
 	_check(guard.dealings().parley and guard.dealings().attack_unless_marks == ["老松寨的过路钱", "叫阵老松寨"] and not guard.has_capability(NpcDefinition.CAPABILITY_AGGRESSIVE_ON_PLAYER_PRESENCE) and not Berserk.applies_to(guard), "the keep's guards take a toll, and never go berserk")
 	_check(catalog.npc(&"oldpine.npc.bandit_commander").dealings().attack_unless_marks == ["老松寨的过路钱"], "常老大 fights a challenger and talks to one who paid")
+
+
+## A rule for one who has NOT taken the other side of a choice (主线 B).
+func _test_asker_lacks() -> void:
+	var errors: Array[String] = []
+	var rule: NpcInquiryRule = NpcInquiryRule.from_record(ContentRecordReader.new({"asker_marks": ["a"], "asker_lacks": ["b"], "say": "好。"}, "test", errors))
+	_check(errors.is_empty() and rule.asker_lacks == ["b"], "asker_lacks reads: %s" % [errors])
+	_check(rule.matches({"a": 1}) and not rule.matches({"a": 1, "b": 1}) and not rule.matches({}), "with a, without b")
+
+
+## 旧案 as loaded: after 伪墓, the letter, the 镖单, the two inscriptions, 南危水's three ways to
+## the truth, 潘军禅 with the letter in hand, and the choice with its consequences.
+func _test_chapter2_data() -> void:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var quest: StoryQuestDefinition = catalog.story_quest(&"main.chapter2")
+	_check(quest != null and quest.title == "旧案" and quest.requires == [&"main.chapter1"] and quest.starts == null, "旧案 follows 伪墓 at once")
+	if quest == null:
+		return
+	var ids: Array = quest.steps.map(func(step: StoryQuestDefinition.Step) -> String: return String(step.step_id))
+	_check(ids == ["liu", "escort", "tomb", "stone", "nan", "pan", "choice"], "the steps: %s" % [ids])
+	_check(catalog.story_quest(&"main.chapter1").reward.marks == ["查明伪墓"], "伪墓 done leaves the mark 柳淳风 reads")
+	var liu: NpcDefinition = catalog.npc(&"common.npc.swordsman.master")
+	var letter: NpcInquiryRule = NpcInquiryRule.decide(liu.talk().inquiry_rules("水烟阁"), {"查明伪墓": 1})
+	_check(letter != null and letter.gives == &"native:snow/letter_to_pan" and letter.mark_asker == "柳淳风的引荐信", "柳淳风 writes the letter for one who found the false tomb")
+	_check(NpcInquiryRule.decide(liu.talk().inquiry_rules("水烟阁"), {}).gives.is_empty(), "and not before")
+	var chen: NpcDefinition = catalog.npc(&"cloud.npc.b_header")
+	var note: NpcInquiryRule = NpcInquiryRule.decide(chen.talk().inquiry_rules("失镖"), {"柳淳风的引荐信": 1})
+	_check(note != null and note.gives == &"native:cloud/escort_note" and note.mark_asker == "看过镖单", "陈剑秋 hands over the 镖单 to 柳淳风's messenger")
+	_check(catalog.landmark(&"waterfog.swordtomb.landmark.monolith").teaches == ["看过葬剑亭碑"] and catalog.landmark(&"waterfog.wpath2.landmark.stone").teaches == ["看过石台碑"], "the two inscriptions teach their marks")
+	var nan: NpcDefinition = catalog.npc(&"waterfog.npc.elder5")
+	var by_token: NpcInquiryRule = NpcInquiryRule.decide(nan.talk().inquiry_rules("山洞的骸骨"), {}, null, &"", &"", 0, {}, ["guild token"])
+	var by_note: NpcInquiryRule = NpcInquiryRule.decide(nan.talk().inquiry_rules("山洞的骸骨"), {"看过石台碑": 1, "看过葬剑亭碑": 1}, null, &"", &"", 0, {}, ["escort note"])
+	var by_nothing: NpcInquiryRule = NpcInquiryRule.decide(nan.talk().inquiry_rules("山洞的骸骨"), {"看过石台碑": 1}, null, &"", &"", 0, {}, ["escort note"])
+	_check(by_token != null and by_token.mark_asker == "南危水承认了" and by_note != null and by_note.mark_asker == "南危水承认了" and by_nothing.mark_asker.is_empty(), "南危水 admits to the 腰牌, or to the 镖单 with both inscriptions seen; not to less")
+	var hooks: NpcHooks = nan.hooks()
+	_check(hooks != null and hooks.calls.size() == 1 and hooks.calls[0].act.mark == "安葬无名人" and hooks.calls[0].act.not_mark == "南危水承认了" and not hooks.calls[0].scene, "to one who buried 阿岭 he speaks first (a call, no scene)")
+	_check(nan.talk().has_greeting() and nan.talk().choose_greeting(&"男性", &"", Callable(), _facts({"替南危水保密": 1})) != null and nan.talk().choose_greeting(&"男性", &"", Callable(), _facts({})) == null, "his greeting: only for one who chose")
+	var keep: NpcInquiryRule = NpcInquiryRule.decide(nan.talk().inquiry_rules("保密"), {"南危水承认了": 1})
+	_check(keep != null and keep.mark_asker == "替南危水保密" and NpcInquiryRule.decide(nan.talk().inquiry_rules("保密"), {"南危水承认了": 1, "告发了南危水": 1}).mark_asker.is_empty(), "保密 only before telling")
+	var yan: NpcDefinition = catalog.npc(&"waterfog.npc.elder7")
+	var tell: NpcInquiryRule = NpcInquiryRule.decide(yan.talk().inquiry_rules("南危水的事"), {"南危水承认了": 1})
+	_check(tell != null and tell.mood == "acting" and tell.mark_asker == "告发了南危水" and yan.hooks().moods["acting"].title == "水烟阁代盟主" and yan.hooks().moods["acting"].lasting, "颜违 takes the seat, for good")
+	_check(NpcInquiryRule.decide(yan.talk().inquiry_rules("南危水的事"), {"南危水承认了": 1, "替南危水保密": 1}).mark_asker.is_empty(), "not after 保密")
+	var pan: NpcDefinition = catalog.npc(&"common.npc.fighter.executioner")
+	_check(NpcInquiryRule.decide(pan.talk().inquiry_rules("邪剑穿灵"), {}, null, &"", &"", 0, {}, ["pan letter"]).lines.size() == 4 and NpcInquiryRule.decide(pan.talk().inquiry_rules("邪剑穿灵"), {}).lines.size() == 1, "潘军禅 talks to the letter's bearer")
+	_check(quest.steps[6].is_branch() and quest.steps[6].options[0].condition.key == "替南危水保密" and quest.steps[6].options[1].condition.key == "告发了南危水", "the choice")
+
+
+func _facts(marks: Dictionary[String, int]) -> ScriptedAct.Facts:
+	var facts := ScriptedAct.Facts.new()
+	facts.marks = marks
+	return facts
 
 
 func _check(ok: bool, label: String) -> void:

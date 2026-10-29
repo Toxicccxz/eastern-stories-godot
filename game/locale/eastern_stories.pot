@@ -3010,9 +3010,11 @@ msgstr ""
 msgid "东 · 雪亭镇"
 msgstr ""
 
+#. common.npc.swordsman.master inquiry topic
 #. common.npc.fighter.champion inquiry topic
+#. main.chapter2 region
 #. waterfog name
-#: scenes/world/waterfog/waterfog_mountain.tscn data/common/npcs.json data/waterfog/world.json data/waterfog/voxel/mountain.json
+#: scenes/world/waterfog/waterfog_mountain.tscn data/common/npcs.json data/story/chapter2.json data/waterfog/world.json data/waterfog/voxel/mountain.json
 msgid "水烟阁"
 msgstr ""
 
@@ -10243,7 +10245,8 @@ msgid "吹雪残云巾"
 msgstr ""
 
 #. es2:daemon/class/fighter/soulimpaler name
-#: data/common/items.json
+#. common.npc.fighter.executioner inquiry topic
+#: data/common/items.json data/common/npcs.json
 msgid "邪剑穿灵"
 msgstr ""
 
@@ -10380,7 +10383,8 @@ msgid "叠"
 msgstr ""
 
 #. es2:obj/paper_seal combined.base_unit
-#: data/common/items.json
+#. native:cloud/escort_note unit
+#: data/common/items.json data/native/items.json
 msgid "张"
 msgstr ""
 
@@ -11976,6 +11980,7 @@ msgid "花紫会"
 msgstr ""
 
 #. common.npc.swordsman.master name
+#. common.npc.fighter.executioner inquiry topic
 #: data/common/npcs.json
 msgid "柳淳风"
 msgstr ""
@@ -12004,8 +12009,7 @@ msgid "掌门人"
 msgstr ""
 
 #. common.npc.swordsman.master inquiry.淳风武馆
-#. cloud.npc.b_header inquiry.淳风武馆
-#: data/common/npcs.json data/cloud/npcs.json
+#: data/common/npcs.json
 msgid "淳风武馆是先父所创，在下辱承其名，虽忝掌封山门户，不敢忘了先人遗志。"
 msgstr ""
 
@@ -12071,6 +12075,41 @@ msgstr ""
 #. common.npc.swordsman.master inquiry.黑衣道士
 #: data/common/npcs.json
 msgid "黑冠黑衣的道士？这一带没有道观。你若在老松岭遇上，小心些，那种人下手没有分寸。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.水烟阁.rules.say
+#: data/common/npcs.json
+msgid "信已经给你了。去水烟阁找潘军禅，他是我的结拜义弟，见信如见我。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.水烟阁.rules.lines.emote
+#: data/common/npcs.json
+msgid "听你说完山洞里的事，沉默了半晌。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.水烟阁.rules.lines.say
+#: data/common/npcs.json
+msgid "二十年前，振远镖局押一趟镖过老松岭，镖师随从一个都没回来。镖局丢了脸，陈剑秋到今天都不肯提。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.水烟阁.rules.lines.say
+#: data/common/npcs.json
+msgid "那具骸骨若真是水烟阁的人，这事就该问水烟阁。我写一封信，你拿去给执法使潘军禅，他是我的结拜义弟。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.水烟阁.rules.lines.emote
+#: data/common/npcs.json
+msgid "提笔写了一封信，封好了交给你。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.水烟阁.rules.lines.say
+#: data/common/npcs.json
+msgid "先去绮云镇问问陈剑秋，把镖单要来。上了山，别带着兵刃进阁。"
+msgstr ""
+
+#. common.npc.swordsman.master inquiry.水烟阁.rules.say
+#: data/common/npcs.json
+msgid "水烟阁在青石官道西头的山上，武者同盟的总坛。"
 msgstr ""
 
 #. common.npc.swordsman.master apprentice.refuse_say
@@ -12275,6 +12314,36 @@ msgid ""
 "水烟阁执法使的职位，著实是一位不简单的人物。潘军禅是封山剑派掌门\n"
 "柳淳风的结拜义弟，但是他为人其实十分风趣，又好交朋友，丝毫不会摆\n"
 "出武林执法者的架子。\n"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.柳淳风
+#: data/common/npcs.json
+msgid "柳大哥？他是我的结拜义兄。你有他的信？拿来我看。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.邪剑穿灵.rules.lines.emote
+#: data/common/npcs.json
+msgid "看了柳淳风的信，笑了。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.邪剑穿灵.rules.lines.say
+#: data/common/npcs.json
+msgid "柳大哥的朋友就是我的朋友。邪剑穿灵？阁里挂着的那把，是仿的。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.邪剑穿灵.rules.lines.say
+#: data/common/npcs.json
+msgid "真剑早就不在水烟阁了。挂一把假的，是鱼饵——钓那些冲着它来的人。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.邪剑穿灵.rules.lines.say
+#: data/common/npcs.json
+msgid "去年就钓上来一个：黑衣黑冠的道士，夜里来试剑，发觉是假的就走了。我的人跟到野羊山北麓，跟丢了。那边没有道观，只有一片黑砖。"
+msgstr ""
+
+#. common.npc.fighter.executioner inquiry.邪剑穿灵.rules.say
+#: data/common/npcs.json
+msgid "执法使的佩剑，也是你问得的？"
 msgstr ""
 
 #. common.npc.juechen.master name
@@ -15400,6 +15469,106 @@ msgstr ""
 msgid "拿走了瀑布山洞骸骨身边的腰牌"
 msgstr ""
 
+#. main.chapter2 title
+#: data/story/chapter2.json
+msgid "旧案"
+msgstr ""
+
+#. main.chapter2 summary
+#: data/story/chapter2.json
+msgid "去水烟阁，问清五长老的死。"
+msgstr ""
+
+#. main.chapter2 reward.deed
+#: data/story/chapter2.json
+msgid "查清了二十年前水烟阁五长老的旧案"
+msgstr ""
+
+#. main.chapter2/liu objective
+#: data/story/chapter2.json
+msgid "回雪亭镇淳风武馆，把山洞里的事告诉柳淳风。"
+msgstr ""
+
+#. main.chapter2/liu text
+#: data/story/chapter2.json
+msgid "柳淳风写了一封引荐信，让你去水烟阁找他的结拜义弟、执法使潘军禅；他说二十年前失在老松岭的那趟镖是振远镖局押的。"
+msgstr ""
+
+#. main.chapter2/escort objective
+#: data/story/chapter2.json
+msgid "去绮云镇振远镖局，问陈剑秋二十年前的失镖。"
+msgstr ""
+
+#. main.chapter2/escort text
+#: data/story/chapter2.json
+msgid "陈剑秋拿出二十年前的镖单：押的是水烟阁盟主印一方、密件一匣，失镖于老松岭，无一人生还。振远至今不提这桩丢人事。"
+msgstr ""
+
+#. main.chapter2/tomb objective
+#: data/story/chapter2.json
+msgid "上水烟阁的山，看葬剑亭里的碑。"
+msgstr ""
+
+#. main.chapter2/tomb text
+#: data/story/chapter2.json
+msgid "葬剑亭碑：第四代七长老以奸计害人，被众武者合力击杀，甲辰年立亭为后人殷鉴。"
+msgstr ""
+
+#. main.chapter2/stone objective
+#: data/story/chapter2.json
+msgid "看虹谷石台的碑。"
+msgstr ""
+
+#. main.chapter2/stone text
+#: data/story/chapter2.json
+msgid "虹谷石台碑：乙丑年，第六代阁主关雨楼立——正是失镖那年。字是用手指在岩石上写的，和山洞石壁上的刻字是一个手法。"
+msgstr ""
+
+#. main.chapter2/nan objective
+#: data/story/chapter2.json
+msgid "上楼找五长老南危水，拿证据问他山洞里的骸骨。"
+msgstr ""
+
+#. main.chapter2/nan text
+#: data/story/chapter2.json
+msgid "南危水承认了：山洞里死的是他的随从阿岭，伏击的是白衣武官，盟主卫沧澜被带走。他装死二十年，是怕哥哥槐阳王知道朝廷伏击了自己的弟弟会反。"
+msgstr ""
+
+#. main.chapter2/pan objective
+#: data/story/chapter2.json
+msgid "拿着引荐信到前厅找执法使潘军禅，问「邪剑穿灵」。"
+msgstr ""
+
+#. main.chapter2/pan text
+#: data/story/chapter2.json
+msgid "潘军禅说那把邪剑穿灵是仿剑、是鱼饵：去年一个黑衣道士来试过它，往野羊山北麓去了。"
+msgstr ""
+
+#. main.chapter2/choice objective
+#: data/story/chapter2.json
+msgid "替南危水保密，还是告诉七长老颜违？"
+msgstr ""
+
+#. main.chapter2/choice/keep text
+#: data/story/chapter2.json
+msgid "你替南危水保了密。他说，到了关北，他替你引见槐阳王。"
+msgstr ""
+
+#. main.chapter2/choice/keep reward.deed
+#: data/story/chapter2.json
+msgid "替水烟阁五长老南危水保住了二十年的秘密"
+msgstr ""
+
+#. main.chapter2/choice/tell text
+#: data/story/chapter2.json
+msgid "你把南危水的事告诉了七长老颜违。颜违当日便以代盟主自居；南危水先你一步去了关北。"
+msgstr ""
+
+#. main.chapter2/choice/tell reward.deed
+#: data/story/chapter2.json
+msgid "把五长老南危水装死二十年的事告诉了七长老颜违"
+msgstr ""
+
 #. es2:d/oldpine/obj/long_sword long
 #: data/oldpine/items.json
 msgid ""
@@ -17982,6 +18151,7 @@ msgstr ""
 #. es2:d/latemoon/room/npc/obj/letter unit
 #. es2:u/cloud/npc/obj/letter unit
 #. native:snow/letter_to_chen unit
+#. native:snow/letter_to_pan unit
 #: data/latemoon/items.json data/cloud/items.json data/native/items.json
 msgid "封"
 msgstr ""
@@ -20062,6 +20232,11 @@ msgstr ""
 msgid "镖头"
 msgstr ""
 
+#. cloud.npc.b_header inquiry.淳风武馆
+#: data/cloud/npcs.json
+msgid "柳馆主是在下的旧识。他的封山剑，这一带没几个人接得住。"
+msgstr ""
+
 #. cloud.npc.b_header inquiry.name
 #: data/cloud/npcs.json
 msgid "在下姓陈，人称霹雳刀"
@@ -20086,6 +20261,41 @@ msgstr ""
 #. cloud.npc.b_header inquiry.忘忧草
 #: data/cloud/npcs.json
 msgid "我在乔阴县城游玩时丢的，据说被藏在一个隐蔽的地方了。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry topic
+#: data/cloud/npcs.json
+msgid "失镖"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.失镖.rules.say
+#: data/cloud/npcs.json
+msgid "镖单你拿着。这事振远认了二十年，你要翻出来，别说是从我这儿翻的。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.失镖.rules.lines.emote
+#: data/cloud/npcs.json
+msgid "脸色一变，半晌才道："
+msgstr ""
+
+#. cloud.npc.b_header inquiry.失镖.rules.lines.say
+#: data/cloud/npcs.json
+msgid "柳馆主让你来问的？……二十年了。那趟镖是关北来的，押的是水烟阁的盟主印和一匣密件，走老松岭那条道，到瀑布一带就没了。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.失镖.rules.lines.say
+#: data/cloud/npcs.json
+msgid "镖师、趟子手、水烟阁派来押行的一个随从，一个都没回来。振远丢了这趟镖，从此不接水烟阁的生意。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.失镖.rules.lines.emote
+#: data/cloud/npcs.json
+msgid "从柜子最底下翻出一张发黄的镖单，递给你。"
+msgstr ""
+
+#. cloud.npc.b_header inquiry.失镖.rules.say
+#: data/cloud/npcs.json
+msgid "振远镖局没有失过镖。谁跟你说的？"
 msgstr ""
 
 #. cloud.npc.b_header apprentice.refuse_say
@@ -20896,6 +21106,119 @@ msgid ""
 "名剑中排名第一的杰作。\n"
 msgstr ""
 
+#. waterfog.npc.elder5 greeting.rules.steps.say
+#: data/waterfog/npcs.json
+msgid "你来了。老夫欠你一个人情，到了关北，老夫替你引见槐阳王。"
+msgstr ""
+
+#. waterfog.npc.elder5 greeting.rules.steps.emote
+#: data/waterfog/npcs.json
+msgid "看了你一眼，没有说话。"
+msgstr ""
+
+#. waterfog.npc.elder5 calls.steps.emote
+#: data/waterfog/npcs.json
+msgid "看着你，忽然开口。"
+msgstr ""
+
+#. waterfog.npc.elder5 calls.steps.say
+#: data/waterfog/npcs.json
+msgid "是你埋了阿岭。"
+msgstr ""
+
+#. waterfog.npc.elder5 calls.steps.say
+#: data/waterfog/npcs.json
+msgid "老松岭瀑布后头那个山洞——骸骨旁边本来有一面腰牌，背面一个「岭」字。你把他葬了，连腰牌也葬了。这二十年，没有人替他做过这件事。"
+msgstr ""
+
+#. waterfog.npc.elder5 calls.steps.say
+#. waterfog.npc.elder5 inquiry.山洞的骸骨.rules.lines.say
+#: data/waterfog/npcs.json
+msgid "他是老夫的随从。那年老夫押着盟主印和密件过老松岭，白衣武官在瀑布前伏击，阿岭替老夫挡了刀，盟主卫沧澜被他们带走了。老夫逃进山洞，在石壁上刻了那些字——让人以为南危水死在那里。"
+msgstr ""
+
+#. waterfog.npc.elder5 calls.steps.say
+#. waterfog.npc.elder5 inquiry.山洞的骸骨.rules.lines.say
+#: data/waterfog/npcs.json
+msgid "老夫的哥哥是槐阳王。他若知道朝廷伏击了自己的弟弟，关北立刻就反。老夫装死二十年，是为了这个。"
+msgstr ""
+
+#. waterfog.npc.elder5 inquiry topic
+#. waterfog.npc.elder7 inquiry topic
+#: data/waterfog/npcs.json
+msgid "五长老"
+msgstr ""
+
+#. waterfog.npc.elder5 inquiry.五长老
+#: data/waterfog/npcs.json
+msgid "老夫便是五长老。你想问什么？"
+msgstr ""
+
+#. waterfog.npc.elder5 inquiry topic
+#: data/waterfog/npcs.json
+msgid "山洞的骸骨"
+msgstr ""
+
+#. waterfog.npc.elder5 inquiry.山洞的骸骨.rules.say
+#: data/waterfog/npcs.json
+msgid "老夫都说了。阿岭的事，你知道就好。"
+msgstr ""
+
+#. waterfog.npc.elder5 inquiry.山洞的骸骨.rules.lines.emote
+#: data/waterfog/npcs.json
+msgid "盯着你手里的腰牌，脸色一点点白了。"
+msgstr ""
+
+#. waterfog.npc.elder5 inquiry.山洞的骸骨.rules.lines.say
+#: data/waterfog/npcs.json
+msgid "背面一个「岭」字……阿岭的腰牌。你从山洞里拿来的。"
+msgstr ""
+
+#. waterfog.npc.elder5 inquiry.山洞的骸骨.rules.lines.emote
+#: data/waterfog/npcs.json
+msgid "看了看镖单，又看了看你。"
+msgstr ""
+
+#. waterfog.npc.elder5 inquiry.山洞的骸骨.rules.lines.say
+#: data/waterfog/npcs.json
+msgid "乙丑年，关雨楼立的碑，字是用手指写的——山洞石壁上的字也是。你看出来了。"
+msgstr ""
+
+#. waterfog.npc.elder5 inquiry.山洞的骸骨.rules.lines.say
+#: data/waterfog/npcs.json
+msgid "死的是老夫的随从阿岭。那年老夫押着盟主印和密件过老松岭，白衣武官在瀑布前伏击，阿岭替老夫挡了刀，盟主卫沧澜被他们带走了。老夫逃进山洞，在石壁上刻了那些字——让人以为南危水死在那里。"
+msgstr ""
+
+#. waterfog.npc.elder5 inquiry.山洞的骸骨.rules.say
+#: data/waterfog/npcs.json
+msgid "老夫不知道你在说什么。"
+msgstr ""
+
+#. waterfog.npc.elder5 inquiry topic
+#: data/waterfog/npcs.json
+msgid "保密"
+msgstr ""
+
+#. waterfog.npc.elder5 inquiry.保密.rules.say
+#: data/waterfog/npcs.json
+msgid "多谢。到了关北，老夫替你引见槐阳王。"
+msgstr ""
+
+#. waterfog.npc.elder5 inquiry.保密.rules.lines.emote
+#: data/waterfog/npcs.json
+msgid "沉默了很久，向你抱了抱拳。"
+msgstr ""
+
+#. waterfog.npc.elder5 inquiry.保密.rules.lines.say
+#: data/waterfog/npcs.json
+msgid "老夫欠你一个人情。到了关北，老夫替你引见槐阳王。"
+msgstr ""
+
+#. waterfog.npc.elder5 inquiry.保密.rules.say
+#: data/waterfog/npcs.json
+msgid "保什么密？老夫没有什么要瞒的。"
+msgstr ""
+
 #. waterfog.npc.elder6 name
 #: data/waterfog/npcs.json
 msgid "陈坚石"
@@ -20931,6 +21254,46 @@ msgid ""
 "颜违是水烟阁七位长老中最年轻的，虽然他的武功跟其他六位长老\n"
 "相比仍略逊一筹，但是他办事十分精明干练，因此七长老每年都派\n"
 "他出外办理武林大会事宜。\n"
+msgstr ""
+
+#. waterfog.npc.elder7 moods.acting.title
+#: data/waterfog/npcs.json
+msgid "水烟阁代盟主"
+msgstr ""
+
+#. waterfog.npc.elder7 inquiry.五长老
+#: data/waterfog/npcs.json
+msgid "五长老？他就在楼上，有什么话你自己问他。"
+msgstr ""
+
+#. waterfog.npc.elder7 inquiry topic
+#: data/waterfog/npcs.json
+msgid "南危水的事"
+msgstr ""
+
+#. waterfog.npc.elder7 inquiry.南危水的事.rules.say
+#: data/waterfog/npcs.json
+msgid "五长老的事，本座已经知道了。盟主不在，水烟阁总要有人主事。"
+msgstr ""
+
+#. waterfog.npc.elder7 inquiry.南危水的事.rules.lines.emote
+#: data/waterfog/npcs.json
+msgid "听完，半晌没有说话，然后慢慢坐直了。"
+msgstr ""
+
+#. waterfog.npc.elder7 inquiry.南危水的事.rules.lines.say
+#: data/waterfog/npcs.json
+msgid "盟主二十年前就被朝廷带走了，五长老知情不报。这件事，水烟阁得有人主事。"
+msgstr ""
+
+#. waterfog.npc.elder7 inquiry.南危水的事.rules.lines.say
+#: data/waterfog/npcs.json
+msgid "从今日起，本座代行盟主之职。你的话，本座记下了。"
+msgstr ""
+
+#. waterfog.npc.elder7 inquiry.南危水的事.rules.say
+#: data/waterfog/npcs.json
+msgid "南危水？他是五长老，有什么事？"
 msgstr ""
 
 #. es2:d/waterfog/sroad1 long
@@ -32964,6 +33327,28 @@ msgstr ""
 #: data/native/items.json
 msgid ""
 "一面黄铜腰牌，正面铸着一只展翅的金乌，背面刻着「水烟阁」三字和一个「岭」字。铜面发黑，边角磨得发亮，不知在谁身上挂了多少年。\n"
+msgstr ""
+
+#. native:snow/letter_to_pan name
+#: data/native/items.json
+msgid "柳淳风的引荐信"
+msgstr ""
+
+#. native:snow/letter_to_pan long
+#: data/native/items.json
+msgid ""
+"一封封好的信，封皮上写着「水烟阁 潘军禅贤弟 亲启」，落款「柳淳风」。封口的火漆上印着一枝柳。\n"
+msgstr ""
+
+#. native:cloud/escort_note name
+#: data/native/items.json
+msgid "二十年前的镖单"
+msgstr ""
+
+#. native:cloud/escort_note long
+#: data/native/items.json
+msgid ""
+"一张发黄的镖单，振远镖局的印鉴已经模糊。所押之物写着：水烟阁盟主印一方，密件一匣。起运地关北，收件人水烟阁盟主卫沧澜。末尾一行小字：乙丑年失镖于老松岭瀑布一带，镖师随从无一人生还。\n"
 msgstr ""
 
 #. native:oldpine/stone_box name

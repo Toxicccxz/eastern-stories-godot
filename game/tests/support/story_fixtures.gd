@@ -35,7 +35,7 @@ static func chapter1_done(session: WorldSessionController, buried: bool = true) 
 		"main.chapter1/bones/bury" if buried else "main.chapter1/bones/token", "main.chapter1#done",
 	]:
 		_write(state, key)
-	for mark: String in ["老松寨的小径", "老松寨的过路钱", "放过了黑衣道士", "看过石壁", "安葬无名人" if buried else "带走腰牌"]:
+	for mark: String in ["老松寨的小径", "老松寨的过路钱", "放过了黑衣道士", "黑衣道士倒了", "看过石壁", "查明伪墓", "安葬无名人" if buried else "带走腰牌"]:
 		state.marks[mark] = 1
 	state.milestones["defeat/native.npc.black_taoist"] = true
 	var map: WorldMapController = session.active_map() as WorldMapController

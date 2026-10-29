@@ -103,7 +103,7 @@
 					]
 				}
 			],
-			"reward": { "milestone": true, "deed": "查明了瀑布山洞里的墓是假的" }
+			"reward": { "milestone": true, "deed": "查明了瀑布山洞里的墓是假的", "marks": ["查明伪墓"] }
 		}
 	]
 }
