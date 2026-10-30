@@ -322,9 +322,12 @@ func _test_chapter3_data() -> void:
 	if quest == null:
 		return
 	var ids: Array = quest.steps.map(func(step: StoryQuestDefinition.Step) -> String: return String(step.step_id))
-	_check(ids == ["lead", "cart", "gate", "way", "yard", "hall"], "the steps (逆灵宫 A adds way, yard and the open hall): %s" % [ids])
+	_check(ids == ["lead", "cart", "gate", "way", "yard", "hall", "ledger", "papers", "dungeon", "altar"], "the steps (逆灵宫 A adds way and yard; B hall, ledger, papers, dungeon and the open altar): %s" % [ids])
 	_check(quest.steps[3].is_branch() and quest.steps[3].options.size() == 3 and quest.steps[3].options[0].condition.key == "跟车进了逆灵宫" and quest.steps[3].options[1].condition.key == "押车道士倒了" and quest.steps[3].options[2].condition.when == JournalEntryDefinition.When.WEARING and quest.steps[3].options[2].condition.key == "native:niling/black_crown", "the way in: 跟车, 强攻 (the escort spawn's cleared mark) or the 黑冠 worn")
-	_check(catalog.spawn(&"native.mroad4.tribute_taoists").cleared_mark == "押车道士倒了" and quest.steps[5].condition.key == "进了前殿", "the escort cleared; the hall waits for B")
+	_check(catalog.spawn(&"native.mroad4.tribute_taoists").cleared_mark == "押车道士倒了" and quest.steps[5].condition.when == JournalEntryDefinition.When.ZONE and quest.steps[5].condition.key == "niling.front", "the escort cleared; the hall is the 前殿 entered")
+	_check(quest.steps[6].condition.key == "看过账册" and quest.steps[7].condition.key == "看过兵部文书" and quest.steps[8].condition.key == "niling.corridor" and quest.steps[9].condition.key == "见过唤首", "the ledger and the papers read (their acts' marks), the passage reached, the altar waits for C")
+	var cell: DoorDefinition = catalog.door(&"niling.cell_huo.door")
+	_check(cell != null and cell.key == &"native:niling/cell_key" and not cell.closable and cell.operable and not cell.starts_open and catalog.door(&"niling.front.door").key.is_empty(), "the cell doors want the 地牢钥匙 and stay open; the 殿门 is an ordinary door")
 	_check(quest.steps[0].is_branch() and quest.steps[0].options[0].condition.key == "刘安禄说了大寨主" and quest.steps[0].options[1].condition.key == "黄霸说了纳供", "the lead: 刘安禄's mark or 黄霸's (what they said, not the asking)")
 	_check(quest.steps[1].condition.when == JournalEntryDefinition.When.ZONE and quest.steps[1].condition.key == "goathill.mroad4" and quest.steps[2].condition.key == "进了逆灵宫", "the cart at the turn; the gate waits for the next step of the plan")
 	var liu: NpcDefinition = catalog.npc(&"snow.npc.guard")

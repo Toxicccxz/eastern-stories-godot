@@ -128,9 +128,11 @@
 		"death.inn1_house",
 		"death.inn2_house",
 		"niling.slope",
-		"niling.gate"
+		"niling.gate",
+		"niling.hall",
+		"niling.dungeon"
 	],
-	"rooms": 544,
+	"rooms": 551,
 	"snow_outdoor_portals": [
 		"snow.square.west",
 		"snow.eroad3.south",
@@ -439,6 +441,13 @@
 		"niling.gatehouse.gatekeeper",
 		"niling.yard.gate_guards",
 		"niling.store.store_taoist",
+		"niling.front.chanters",
+		"niling.front.lead_chanter",
+		"niling.counting.steward",
+		"niling.corridor.jailers",
+		"niling.cell_huo.huo_zheng",
+		"niling.cell_shitou.shitou",
+		"niling.cell_others.corvee",
 		"native.school2.wooden_dummy.1",
 		"native.school2.wooden_dummy.2",
 		"native.school2.wooden_dummy.3",
@@ -457,9 +466,9 @@
 		"native.caves.black_taoist",
 		"native.mroad4.tribute_taoists"
 	],
-	"world_npcs": 486,
-	"resident_maps": 129,
-	"new_game_items": 815,
+	"world_npcs": 498,
+	"resident_maps": 131,
+	"new_game_items": 841,
 	"snow_outdoor_passages": 18,
 	"map_zones": {
 		"snow.inn": 1,
@@ -590,7 +599,9 @@
 		"death.inn1_house": 1,
 		"death.inn2_house": 1,
 		"niling.slope": 3,
-		"niling.gate": 3
+		"niling.gate": 3,
+		"niling.hall": 3,
+		"niling.dungeon": 4
 	},
 	"map_npcs": {
 		"snow.inn": 3,
@@ -721,7 +732,9 @@
 		"death.inn1_house": 0,
 		"death.inn2_house": 0,
 		"niling.slope": 1,
-		"niling.gate": 4
+		"niling.gate": 4,
+		"niling.hall": 6,
+		"niling.dungeon": 6
 	},
 	"npc_draws_after_oldpine": 2550,
 	"technical_maps": 9,
