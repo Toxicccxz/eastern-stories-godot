@@ -42,9 +42,10 @@
 		{
 			"id": "native:niling/yard",
 			"short": "前院",
-			"long": "黑砖铺地的大院子，踩上去没有一点声响。院当中一只黑铁香炉，烧的不是香，是一股子苦味。四面黑幡垂地，风过时幡上的字一闪一闪，看不清写的什么。\n北边是前殿，殿门紧闭；东侧一排矮房是货栈。\n",
+			"long": "黑砖铺地的大院子，踩上去没有一点声响。院当中一只黑铁香炉，烧的不是香，是一股子苦味。四面黑幡垂地，风过时幡上的字一闪一闪，看不清写的什么。\n北边是前殿，殿门关着，推一推就开；东侧一排矮房是货栈。\n",
 			"exits": {
 				"south": "native:niling/gatehouse",
+				"north": "native:niling/front",
 				"east": "native:niling/store"
 			}
 		},
@@ -55,6 +56,68 @@
 			"exits": {
 				"west": "native:niling/yard",
 				"south": "native:niling/side_door"
+			}
+		},
+		{
+			"id": "native:niling/front",
+			"short": "前殿",
+			"long": "逆灵宫的前殿。殿里没有神像，正中一张乌黑的长案，案上供的是一卷摊开的黑皮经书。五个黑衣黑冠的道士面壁跪在蒲团上诵经，领诵的敲着木鱼，一下一下，谁进来都不抬头。诵的字句一个也听不懂，只觉得殿里比外头冷。\n西边一道门通丹房；北边的门紧闭着，门后隐约也有诵经声。\n",
+			"exits": {
+				"south": "native:niling/yard",
+				"west": "native:niling/alchemy"
+			}
+		},
+		{
+			"id": "native:niling/alchemy",
+			"short": "丹房",
+			"long": "一间烟气熏黑的屋子。正中一座三足的铜丹炉，炉火没有熄，炉口里的火苗是青的，不是红的。四壁的药架上摆满了罐子，罐子上贴的签子写的不是药名，是地名和日子。\n东门回前殿，北门进账房；西南角上一道石阶往下，黑得看不见底。\n",
+			"exits": {
+				"east": "native:niling/front",
+				"north": "native:niling/counting",
+				"down": "native:niling/corridor"
+			}
+		},
+		{
+			"id": "native:niling/counting",
+			"short": "账房",
+			"long": "逆灵宫的账房，比丹房还小。一张乌木大案占了半间屋，案上摊着一本账册，旁边一叠盖了朱印的文书，压着一方乌黑的镇纸。墙上挂着算盘，算珠磨得发亮。\n门在南边，通丹房。\n",
+			"exits": {
+				"south": "native:niling/alchemy"
+			}
+		},
+		{
+			"id": "native:niling/corridor",
+			"short": "地牢甬道",
+			"long": "丹房石阶底下的甬道，低得要弯腰。墙上一盏松油灯忽明忽暗，照着三扇铁栅门：西、北、东各一扇，锁都是新的。地上一层潮气，墙根有抓挠过的痕迹。\n石阶在南边，上去是丹房。\n",
+			"exits": {
+				"up": "native:niling/alchemy",
+				"west": "native:niling/cell_huo",
+				"north": "native:niling/cell_shitou",
+				"east": "native:niling/cell_others"
+			}
+		},
+		{
+			"id": "native:niling/cell_huo",
+			"short": "西牢房",
+			"long": "一间石头凿出来的牢房，只有一张草席、一只破碗。墙上用指甲刻了一排又一排的道道，数到一半刻不动了。\n",
+			"exits": {
+				"east": "native:niling/corridor"
+			}
+		},
+		{
+			"id": "native:niling/cell_shitou",
+			"short": "北牢房",
+			"long": "一间石头凿出来的牢房，比西边那间还小。草席上放着半块干饼，墙角摆着几颗排成一排的小石子，像是谁在玩。\n",
+			"exits": {
+				"south": "native:niling/corridor"
+			}
+		},
+		{
+			"id": "native:niling/cell_others",
+			"short": "东牢房",
+			"long": "一间石头凿出来的牢房，两张草席并排铺着。墙上用炭画了一条河，河边画着一排小人在挖土。\n",
+			"exits": {
+				"west": "native:niling/corridor"
 			}
 		}
 	]

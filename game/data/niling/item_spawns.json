@@ -1,0 +1,26 @@
+{
+	"item_spawns": [
+		{
+			"id": "niling.counting.ledger",
+			"item": "native:niling/tribute_ledger",
+			"map": "niling.hall",
+			"zone": "niling.counting",
+			"points": [
+				"niling.counting.ledger.1"
+			],
+			"legacy_room": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the ledger open on the 账房's table)",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "niling.counting.papers",
+			"item": "native:niling/war_ministry_papers",
+			"map": "niling.hall",
+			"zone": "niling.counting",
+			"points": [
+				"niling.counting.papers.1"
+			],
+			"legacy_room": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the stamped papers beside it)",
+			"legacy_quantity": 1
+		}
+	]
+}

@@ -6,7 +6,7 @@
 			"line": "main",
 			"region": "野羊山",
 			"sources": [
-				"native: 剧情总纲 §3 第三章「黑砖道观」, its entrance only (owner, 2026-10-29; DECISIONS「第三章入口」「刘安禄放过后开口」「黄霸改寨主」) over doc/help/plan:26–31 (the draft: 逆灵宫 on 野羊山's north slope, the 大寨主 and 二寨主 gone half a year, the 三寨主 paying tribute every year), d/snow/npc/guard.c (刘安禄, 野羊山寨二寨主 血手刘三), d/goathill/npc/bandit_hwang.c (黄霸), d/goathill/mroad4.c:11 (北边的山壁有一个裂口, 离地约有三到四丈) and d/snow/npc/woodcutter.c:15 (野羊山那群臭道士). 霍铮, the tribute cart and its escort are the outline's. 剧情总纲 §8 第 4 步 goes on from the last step; the ledger keys stay. 逆灵宫 A (DECISIONS「逆灵宫 A」) adds `way` (the three ways in: 跟车 / 强攻 / 穿衣, 剧情总纲 §3 第三章 ①) and `yard`, and stops at `hall` (the mark 进了前殿 that B writes); B and C go on from there."
+				"native: 剧情总纲 §3 第三章「黑砖道观」, its entrance only (owner, 2026-10-29; DECISIONS「第三章入口」「刘安禄放过后开口」「黄霸改寨主」) over doc/help/plan:26–31 (the draft: 逆灵宫 on 野羊山's north slope, the 大寨主 and 二寨主 gone half a year, the 三寨主 paying tribute every year), d/snow/npc/guard.c (刘安禄, 野羊山寨二寨主 血手刘三), d/goathill/npc/bandit_hwang.c (黄霸), d/goathill/mroad4.c:11 (北边的山壁有一个裂口, 离地约有三到四丈) and d/snow/npc/woodcutter.c:15 (野羊山那群臭道士). 霍铮, the tribute cart and its escort are the outline's. 剧情总纲 §8 第 4 步 goes on from the last step; the ledger keys stay. 逆灵宫 A (DECISIONS「逆灵宫 A」) adds `way` (the three ways in: 跟车 / 强攻 / 穿衣, 剧情总纲 §3 第三章 ①) and `yard`; 逆灵宫 B (DECISIONS「逆灵宫 B」) opens the hall door and adds `hall`, `ledger`, `papers` (the 账册 and the 兵部 papers read, 剧情总纲 §3 第三章 ④), `dungeon` (霍铮, 石头 and the 关北 men behind iron doors whose key is on 玄冥子's belt) and stops at `altar` (the mark 见过唤首 that C's 唤首 scene writes)."
 			],
 			"summary": "进野羊山北麓的黑道观，找到失踪的大寨主。",
 			"requires": ["main.chapter2"],
@@ -76,10 +76,63 @@
 				},
 				{
 					"id": "hall",
-					"objective": "前殿的门关着。找路进前殿，找到霍铮。",
-					"done": { "mark": "进了前殿" },
-					"text": "你进了前殿。",
-					"target": { "map": "niling.gate", "zone": "niling.yard" }
+					"objective": "前殿的门关着。推开殿门进前殿，找到霍铮。",
+					"done": {
+						"zone": "niling.front"
+					},
+					"text": "前殿里没有神像。五个黑冠道士面壁诵逆灵天书，领诵的敲着木鱼，谁进来都不抬头。殿西有门，殿北的门关着。",
+					"target": {
+						"map": "niling.gate",
+						"zone": "niling.yard"
+					}
+				},
+				{
+					"id": "ledger",
+					"objective": "殿西是丹房和账房。账房的案上摊着纳供的账册，翻一翻。",
+					"done": {
+						"mark": "看过账册"
+					},
+					"text": "纳供的不只是金帛，是人：野羊寨三名「入丹房」；关北民夫七名，三名入丹房、四名留用；傅家坡七岁的孩童一名，「留用，待子时」。",
+					"target": {
+						"map": "niling.hall",
+						"zone": "niling.counting"
+					}
+				},
+				{
+					"id": "papers",
+					"objective": "案上还有一叠盖着朱印的文书。",
+					"done": {
+						"mark": "看过兵部文书"
+					},
+					"text": "一叠盖着兵部大印的文书：「着逆灵宫代为收管」关北的河工、野羊山的「匪徒」。兵部的印，盖在一座黑道观的账上。",
+					"target": {
+						"map": "niling.hall",
+						"zone": "niling.counting"
+					}
+				},
+				{
+					"id": "dungeon",
+					"objective": "丹房西南角有石阶往下。下地牢，找霍铮。",
+					"done": {
+						"zone": "niling.corridor"
+					},
+					"text": "霍铮锁在西边的牢房里，瘦得脱了形，骂声还在；北边那间是傅家坡的石头，七岁，头上两个小抓揪；东边两个关北来的民夫。三扇铁栅门的钥匙在大弟子玄冥子腰上。",
+					"target": {
+						"map": "niling.hall",
+						"zone": "niling.alchemy"
+					}
+				},
+				{
+					"id": "altar",
+					"objective": "牢门开不了，钥匙在大弟子玄冥子腰上。前殿北门后的后殿有诵经声——钥匙该在那里。",
+					"done": {
+						"mark": "见过唤首"
+					},
+					"text": "你见了后殿里的事。",
+					"target": {
+						"map": "niling.hall",
+						"zone": "niling.front"
+					}
 				}
 			],
 			"reward": { "milestone": true, "deed": "进了野羊山北麓的逆灵宫" }

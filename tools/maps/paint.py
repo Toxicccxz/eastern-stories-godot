@@ -16,7 +16,8 @@ These maps are generated, never edited by hand:
              choyin_lion_cave, choyin_east, choyin_furnace, choyin_guye, choyin_crown, choyin_cliff_cave,
              choyin_summit, choyin_valley
     canyon:  canyon_clifftop, canyon_pass, canyon_armory, canyon_bamboo, canyon_stoneroom
-    niling:  niling_slope (北麓货道, the crack's top), niling_gate (黑砖山门, the yard and the 货栈)
+    niling:  niling_slope (北麓货道, the crack's top), niling_gate (黑砖山门, the yard and the 货栈), niling_hall (前殿, 丹房, 账房),
+             niling_dungeon (the cells under the 丹房)
     village: village_main, village_midlake (the boat), village_icecave
     city:    city_main, city_upstairs (太白酒楼's upper floor), city_wall_top (院墙), city_cellar (地下密室)
     chuenyu: chuenyu_main (the road, 黑松山 and the castle), chuenyu_upstairs (淳于's rooms)

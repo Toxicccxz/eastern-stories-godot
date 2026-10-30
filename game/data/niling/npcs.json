@@ -177,6 +177,501 @@
 				"货栈道士叫道：有贼！有贼偷供！\n",
 				"货栈道士一边招架一边往门口退。\n"
 			]
+		},
+		{
+			"id": "native.npc.niling_chanter",
+			"legacy_source": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the four 黑冠道士 chanting the 逆灵天书 in the 前殿, 剧情总纲 §3 第三章 ③)",
+			"name": "诵经道士",
+			"aliases": [
+				"chanter",
+				"taoist",
+				"black taoist"
+			],
+			"gender": "男性",
+			"age": 26,
+			"long": "一个黑衣黑冠的道士，跪在蒲团上，两手按着膝盖，嘴唇一开一合。他诵经的声音又低又快，像是怕慢一个字就要挨罚。他的眼睛是闭着的。\n",
+			"attributes": {
+				"str": 22,
+				"cor": 20,
+				"int": 20,
+				"spi": 22,
+				"cps": 22,
+				"per": 12,
+				"con": 22,
+				"kar": 8
+			},
+			"combat_exp": 3000,
+			"score": 160,
+			"attitude": "aggressive",
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"ignores_when": {
+				"wearing": "native:niling/black_crown"
+			},
+			"skills": {
+				"unarmed": 22,
+				"sword": 28,
+				"dodge": 26,
+				"parry": 26
+			},
+			"carry": [
+				{
+					"item": "es2:d/oldpine/obj/short_sword",
+					"source": "d/oldpine/npc/obj/short_sword.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:d/oldpine/npc/obj/black_cloth",
+					"source": "d/oldpine/npc/obj/black_cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "native:niling/black_crown",
+					"source": "native: 逆灵宫 A",
+					"equip": "wear"
+				}
+			],
+			"chat_chance": 12,
+			"chat_msg": [
+				"诵经道士低声念道：……灵不灵，逆之则生……\n",
+				"诵经道士的声音忽然高了一下，又压了下去。\n",
+				"诵经道士跪得久了，膝盖动了动，领诵的木鱼声一停，他立刻又跪直了。\n"
+			],
+			"inquiry": {
+				"逆灵宫": [
+					"诵经道士闭着眼睛：诵经的时候不说话。"
+				],
+				"经": [
+					"诵经道士压低声音：逆灵天书。你连这个都不知道？……不要问我，问领诵。"
+				],
+				"霍铮": [
+					"诵经道士的嘴唇停了一下，又接着念，像没听见。"
+				],
+				"后殿": [
+					"诵经道士道：宫主在后殿行法。子时开坛，没你的事。"
+				]
+			},
+			"chat_chance_combat": 25,
+			"chat_msg_combat": [
+				"诵经道士尖叫道：生人！前殿有生人！\n",
+				"诵经道士一边念经一边拔剑，念的和砍的一样快。\n"
+			]
+		},
+		{
+			"id": "native.npc.niling_lead_chanter",
+			"legacy_source": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the one who leads the chant and beats the 木鱼 without looking up)",
+			"name": "领诵道士",
+			"aliases": [
+				"lead chanter",
+				"chanter",
+				"taoist",
+				"black taoist"
+			],
+			"gender": "男性",
+			"age": 50,
+			"long": "一个黑衣黑冠的老道士，跪在最前头的蒲团上，面前一只乌黑的木鱼。他一下一下敲着，节拍一丝不乱，诵的字句比别人多一倍。进来什么人、出去什么人，他一次头也没抬过。\n",
+			"attributes": {
+				"str": 24,
+				"cor": 26,
+				"int": 26,
+				"spi": 28,
+				"cps": 26,
+				"per": 14,
+				"con": 24,
+				"kar": 6
+			},
+			"combat_exp": 7000,
+			"score": 300,
+			"attitude": "aggressive",
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"ignores_when": {
+				"wearing": "native:niling/black_crown"
+			},
+			"skills": {
+				"unarmed": 28,
+				"sword": 40,
+				"dodge": 36,
+				"parry": 38
+			},
+			"carry": [
+				{
+					"item": "es2:d/oldpine/obj/short_sword",
+					"source": "d/oldpine/npc/obj/short_sword.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:d/oldpine/npc/obj/black_cloth",
+					"source": "d/oldpine/npc/obj/black_cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "native:niling/black_crown",
+					"source": "native: 逆灵宫 A",
+					"equip": "wear"
+				}
+			],
+			"chat_chance": 10,
+			"chat_msg": [
+				"领诵道士的木鱼声一下紧似一下。\n",
+				"领诵道士念道：……以身为供，以劫为师……\n"
+			],
+			"inquiry": {
+				"逆灵宫": [
+					"领诵道士的木鱼没停：逆灵者，逆天地之灵而用之。这是第一句。你连第一句都要人教？"
+				],
+				"经": [
+					"领诵道士道：逆灵天书，宫主亲授。前殿只诵前三卷，后面的，没到你的分。"
+				],
+				"霍铮": [
+					"领诵道士的木鱼慢了一拍：野羊寨那个？在底下。子时便用他开坛。——你是哪一房的，问这个？"
+				],
+				"后殿": [
+					"领诵道士道：后殿是宫主的。大弟子不带，谁也不许过那道门。"
+				],
+				"宫主": [
+					"领诵道士道：宫主姓商。别的，不是你该问的。"
+				]
+			},
+			"chat_chance_combat": 25,
+			"chat_msg_combat": [
+				"领诵道士霍地站起，木鱼槌一指：拿下！\n",
+				"领诵道士喝道：殿前动手，坛上加供！\n"
+			]
+		},
+		{
+			"id": "native.npc.niling_steward",
+			"legacy_source": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the 管事 who keeps the tribute's ledger and the stamped papers in the 账房, 剧情总纲 §3 第三章 ④)",
+			"name": "管事道士",
+			"aliases": [
+				"steward",
+				"taoist",
+				"black taoist"
+			],
+			"gender": "男性",
+			"age": 44,
+			"long": "一个黑衣黑冠的道士，坐在账房的大案后面，手里一支笔，面前一本账。他的手指上全是墨，指甲缝里是黑的。他抬头看了你一眼，眼睛先落在你的冠上。\n",
+			"attributes": {
+				"str": 22,
+				"cor": 22,
+				"int": 26,
+				"spi": 22,
+				"cps": 24,
+				"per": 14,
+				"con": 22,
+				"kar": 8
+			},
+			"combat_exp": 5000,
+			"score": 240,
+			"attitude": "aggressive",
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"ignores_when": {
+				"wearing": "native:niling/black_crown"
+			},
+			"skills": {
+				"unarmed": 24,
+				"sword": 34,
+				"dodge": 32,
+				"parry": 34
+			},
+			"carry": [
+				{
+					"item": "es2:d/oldpine/obj/short_sword",
+					"source": "d/oldpine/npc/obj/short_sword.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:d/oldpine/npc/obj/black_cloth",
+					"source": "d/oldpine/npc/obj/black_cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "native:niling/black_crown",
+					"source": "native: 逆灵宫 A",
+					"equip": "wear"
+				}
+			],
+			"chat_chance": 10,
+			"chat_msg": [
+				"管事道士拨了两下算盘，皱起眉头，又拨回去。\n",
+				"管事道士对着账册自言自语：七个……还差三个。\n"
+			],
+			"inquiry": {
+				"纳供": [
+					"管事道士道：野羊寨的供今年足数。关北的车下月到。你是来领活的？货栈搬箱子去。"
+				],
+				"账册": [
+					"管事道士把手按在账册上：账是宫主要看的，不是给你看的。"
+				],
+				"文书": [
+					"管事道士道：兵部的公文，你认得字？……认得也当不认得。"
+				],
+				"霍铮": [
+					"管事道士道：野羊寨的大寨主，账上第三笔。子时开坛。你问这个做什么？"
+				],
+				"钥匙": [
+					"管事道士道：地牢的钥匙在大弟子腰上。我这里只有账，没有钥匙。"
+				],
+				"逆灵宫": [
+					"管事道士道：少废话。干活。"
+				]
+			},
+			"chat_chance_combat": 25,
+			"chat_msg_combat": [
+				"管事道士把账册往怀里一塞，叫道：有贼！护账！\n"
+			]
+		},
+		{
+			"id": "native.npc.niling_jailer",
+			"legacy_source": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the two jailers without a key — the key is on 玄冥子's belt until the 唤首 scene, C; `until` 见过唤首)",
+			"name": "狱卒道士",
+			"aliases": [
+				"jailer",
+				"taoist",
+				"black taoist"
+			],
+			"gender": "男性",
+			"age": 34,
+			"long": "一个黑衣黑冠的道士，靠着甬道的石壁站着，腰上没有钥匙，只有一柄短剑和一根鞭子。他听见脚步声就直起身来，先看冠，再看脸。\n",
+			"attributes": {
+				"str": 26,
+				"cor": 24,
+				"int": 18,
+				"spi": 20,
+				"cps": 22,
+				"per": 12,
+				"con": 26,
+				"kar": 8
+			},
+			"combat_exp": 4500,
+			"score": 220,
+			"attitude": "aggressive",
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"ignores_when": {
+				"wearing": "native:niling/black_crown"
+			},
+			"skills": {
+				"unarmed": 26,
+				"sword": 34,
+				"dodge": 30,
+				"parry": 32
+			},
+			"carry": [
+				{
+					"item": "es2:d/oldpine/obj/short_sword",
+					"source": "d/oldpine/npc/obj/short_sword.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:d/oldpine/npc/obj/black_cloth",
+					"source": "d/oldpine/npc/obj/black_cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "native:niling/black_crown",
+					"source": "native: 逆灵宫 A",
+					"equip": "wear"
+				}
+			],
+			"chat_chance": 10,
+			"chat_msg": [
+				"狱卒道士用鞭柄敲了敲铁栅：安静！\n",
+				"狱卒道士打了个哈欠，往西边那间牢房瞟了一眼。\n"
+			],
+			"inquiry": {
+				"钥匙": [
+					"狱卒道士道：钥匙？在大弟子玄冥子腰上。开坛的时候他才下来开门。我们只看人，不开门。"
+				],
+				"霍铮": [
+					"狱卒道士朝西边一偏头：西边那间。骂了半年了，嗓子还没哑。"
+				],
+				"孩子": [
+					"狱卒道士道：北边那间的小的？傅家坡抓来的。宫主说小孩子的供最干净。"
+				],
+				"民夫": [
+					"狱卒道士道：东边两个，关北挖河的。挖不动了，就送到这里来。"
+				],
+				"逆灵宫": [
+					"狱卒道士道：底下不许多话。"
+				]
+			},
+			"chat_chance_combat": 25,
+			"chat_msg_combat": [
+				"狱卒道士抽出鞭子，吼道：地牢有生人！\n"
+			]
+		},
+		{
+			"id": "native.npc.huo_zheng",
+			"legacy_source": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) — 野羊山寨's 大寨主, half a year 下落不明 (doc/help/plan:30), 刘安禄's 拜过把子的大哥 (DECISIONS「刘安禄放过后开口」); the name is 剧情总纲's",
+			"name": "霍铮",
+			"aliases": [
+				"huo zheng",
+				"huo",
+				"chief"
+			],
+			"title": "野羊山大寨主",
+			"gender": "男性",
+			"age": 46,
+			"long": "一个高大的汉子，瘦得脱了形，颧骨突出来，手腕上两道铁链磨出来的血痕。头发胡子乱成一团，眼睛却亮得吓人。他被锁在牢房里，看见你，先骂了一句，再看清你的脸，骂声停了。\n",
+			"attributes": {
+				"str": 30,
+				"cor": 30,
+				"int": 22,
+				"spi": 22,
+				"cps": 24,
+				"per": 18,
+				"con": 28,
+				"kar": 12
+			},
+			"combat_exp": 20000,
+			"score": 800,
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 50,
+				"dodge": 45,
+				"parry": 45,
+				"blade": 45
+			},
+			"chat_chance": 15,
+			"chat_msg": [
+				"霍铮朝铁栅外啐了一口：臭道士！有种把老子放出去打！\n",
+				"霍铮用铁链在墙上狠狠砸了一下。\n",
+				"霍铮喃喃道：黄霸……黄霸这个王八蛋……\n"
+			],
+			"inquiry": {
+				"逆灵宫": [
+					"霍铮咬着牙道：两年前他们上山，寨子折了一半弟兄。老子带人来烧他们的观，中了埋伏——老子和老二，一个也没回去。"
+				],
+				"石头": [
+					"霍铮朝北边一偏头：北边那间的娃娃，傅家坡抓来的，才七岁。半年了，哭都哭不出声了。你要是能开门，先开他的。"
+				],
+				"黄霸": [
+					"霍铮的眼睛红了：老三。老子前脚进来，他后脚纳供。纳的什么供？纳的是老子的弟兄！"
+				],
+				"钥匙": [
+					"霍铮道：钥匙在那个姓玄的腰上——他们叫他大弟子。他每天子时下来一趟，挑人。"
+				],
+				"野羊寨": [
+					"霍铮道：寨子还在吗？黄霸还在土地庙？……他要是还在，告诉他，老子没死。"
+				],
+				"刘安禄": [
+					"霍铮一愣：老刘？老刘没进来？好，好。他在哪？……他若肯回来，寨子还有救。"
+				],
+				"二寨主": [
+					"霍铮低声道：老二在丹房。他们说的「入丹房」，就是那个意思。别问了。"
+				]
+			},
+			"chat_chance_combat": 20,
+			"chat_msg_combat": [
+				"霍铮吼道：来！老子手上有链子也打得死你！\n"
+			]
+		},
+		{
+			"id": "native.npc.shitou",
+			"legacy_source": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) — the 农妇's son of d/village/npc/woman1.c:18,22 (头上梳着两个小抓揪，只有七岁; 听说黑松山总抓小孩子: it was 逆灵宫's cart under 黑松山's name), 剧情总纲 第八章 ①",
+			"name": "石头",
+			"aliases": [
+				"shitou",
+				"boy",
+				"child",
+				"孩子"
+			],
+			"gender": "男性",
+			"age": 7,
+			"long": "一个七岁的小孩子，头上梳着两个小抓揪，脸脏得看不出模样，衣服还是傅家坡的粗布。他缩在牢房的角落里，看见你，往墙上又缩了缩，没有哭。\n",
+			"attributes": {
+				"str": 8,
+				"cor": 12,
+				"int": 16,
+				"spi": 14,
+				"cps": 10,
+				"per": 20,
+				"con": 10,
+				"kar": 20
+			},
+			"combat_exp": 10,
+			"score": 1,
+			"attitude": "peaceful",
+			"skills": {
+				"dodge": 5
+			},
+			"chat_chance": 10,
+			"chat_msg": [
+				"石头把墙角的几颗小石子摆了又摆。\n",
+				"石头小声说：娘……\n"
+			],
+			"inquiry": {
+				"娘": [
+					"石头抬起头：娘在傅家坡。娘说别跟人走。……我没跟人走，是他们把我装进箱子里的。"
+				],
+				"傅家坡": [
+					"石头道：我家在湖边，门口有瓜地。娘每天到村口等我。"
+				],
+				"黑松山": [
+					"石头摇头：不是黑松山。是黑衣服的道士，他们说是黑松山的。"
+				],
+				"逆灵宫": [
+					"石头小声道：他们晚上来挑人。挑走的就不回来了。那个大胡子叔叔说，轮到我他就把门撞开。"
+				],
+				"霍铮": [
+					"石头道：西边的大胡子叔叔。他骂人的时候我就不怕了。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.guanbei_corvee",
+			"legacy_source": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) — 关北's river corvée, 剧情总纲 第六章 ⑤ (挖不动的人被逆灵宫的车接走): the foreshadowing in the third cell",
+			"name": "关北民夫",
+			"aliases": [
+				"corvee",
+				"labourer",
+				"民夫"
+			],
+			"gender": "男性",
+			"age": 38,
+			"long": "一个黑瘦的汉子，手掌全是老茧，肩膀上一道挑担磨出来的硬皮。他穿的是河工的短褂，上头印着一个「役」字。他靠着墙坐着，眼睛半闭，像是把力气都省着。\n",
+			"attributes": {
+				"str": 24,
+				"cor": 16,
+				"int": 14,
+				"spi": 14,
+				"cps": 14,
+				"per": 12,
+				"con": 24,
+				"kar": 14
+			},
+			"combat_exp": 300,
+			"score": 20,
+			"attitude": "peaceful",
+			"skills": {
+				"unarmed": 10,
+				"dodge": 10
+			},
+			"chat_chance": 8,
+			"chat_msg": [
+				"关北民夫揉着肩膀，叹了口气。\n",
+				"关北民夫低声道：……河挖不动了，人也挖不动了。\n"
+			],
+			"inquiry": {
+				"关北": [
+					"关北民夫道：俺们是关北挖河的。河工挖不动的，官府说送回家，车一拐就到了这里。"
+				],
+				"逆灵宫": [
+					"关北民夫道：这里的道士拿人当药材。俺亲眼看见的，不骗你。"
+				],
+				"文书": [
+					"关北民夫道：押车的说俺们是兵部批的。兵部？俺们挖河，关兵部什么事？"
+				],
+				"霍铮": [
+					"关北民夫道：西边那位是条汉子。有他骂着，俺们还敢喘气。"
+				]
+			}
 		}
 	]
 }

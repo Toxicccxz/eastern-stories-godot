@@ -42,6 +42,30 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 				s.box(leaf,Vector3(0,y,0.14),Vector3(w*0.94,0.13,0.06),"634b35")
 			for x: float in [-0.12,0.12]:
 				s.box(leaf,Vector3(x,1.2,0.17),Vector3(0.10,0.17,0.08),"ac9767")
+		"barred_door":
+			# 铁栅门 (native:niling/corridor: 三扇铁栅门, 锁都是新的): a square iron frame the width of
+			# the doorway, upright bars a hand apart, two cross-bands riveted over them and a hasp
+			# with a padlock at the latch side; `iron` (the frame and bands), `bars`, `lock` (default
+			# on), `height`. Drawn as a door's leaf (door_looks), so it shows only while the door is shut.
+			var iron: String = String(data.get("iron","2e2b28"))
+			var bar: String = String(data.get("bars","3a3733"))
+			var tall: float = float(data.get("height",2.3))
+			for x: float in [-w/2+0.06,w/2-0.06]:
+				s.box(root,Vector3(x,tall/2,0),Vector3(0.12,tall,0.12),iron)
+			for y: float in [0.06,tall-0.06]:
+				s.box(root,Vector3(0,y,0),Vector3(w,0.12,0.12),iron)
+			var bars: int = maxi(3,roundi((w-0.24)/0.22))
+			for i: int in bars:
+				var x: float = -w/2+0.12+(i+0.5)*(w-0.24)/bars
+				s.box(root,Vector3(x,tall/2,0),Vector3(0.05,tall-0.12,0.05),bar)
+			for y: float in [tall*0.33,tall*0.66]:
+				s.box(root,Vector3(0,y,0.05),Vector3(w-0.1,0.1,0.04),iron)
+				for r: int in 3:
+					s.box(root,Vector3(-w*0.3+r*w*0.3,y,0.075),Vector3(0.04,0.04,0.02),"55514c")
+			if data.get("lock",true):
+				s.box(root,Vector3(w/2-0.28,tall*0.5,0.08),Vector3(0.2,0.08,0.05),"4a4642")
+				s.box(root,Vector3(w/2-0.28,tall*0.5-0.14,0.09),Vector3(0.14,0.18,0.07),"3a3634")
+				s.box(root,Vector3(w/2-0.28,tall*0.5-0.04,0.13),Vector3(0.03,0.05,0.01),"9a8a60")
 		"seal_strip":
 			# 封条 (corridor6.c: 一间上了锁的房间): two paper strips crossed over a shut door, each
 			# with its column of ink and a red seal, yellowed and curling at the ends; a hasp and a

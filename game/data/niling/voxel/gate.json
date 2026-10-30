@@ -3,7 +3,7 @@
   "courtyard": true,
   "cutaway_rooms": true,
   "camera_size": 22,
-  "note": "黑砖山门、前院、货栈 (native:niling/gatehouse, yard, store; 逆灵宫 A): the gate tower in black brick, two red lanterns lit by day, the 门房's table and his ledger; the yard paved in black brick that gives no sound, the iron burner in its middle burning black grounds with a bitter smoke, black banners on poles at the four corners, the stone steps up to the shut hall door on the north (前殿, B); the low 货栈 east of the yard, crates branded 羊, some open on silk and salt meat, the sealed ones with charms in the corner. Old and used: ash round the burner, rope ends, the brick worn to grey where the carts come in.",
+  "note": "黑砖山门、前院、货栈 (native:niling/gatehouse, yard, store; 逆灵宫 A): the gate tower in black brick, two red lanterns lit by day, the 门房's table and his ledger; the yard paved in black brick that gives no sound, the iron burner in its middle burning black grounds with a bitter smoke, black banners on poles at the four corners, the stone steps either side of the hall door on the north (殿门, a WorldDoor into niling_hall); the low 货栈 east of the yard, crates branded 羊, some open on silk and salt meat, the sealed ones with charms in the corner. Old and used: ash round the burner, rope ends, the brick worn to grey where the carts come in.",
   "palette": {"wood": ["2a2422", "342c28", "1e1a18"], "wall": "1c1a1a"},
   "wall_height": 3.4,
   "wall_looks": [
@@ -12,6 +12,9 @@
     {"rect": [128, -480, 672, 128], "style": "brick", "colors": ["201e1c", "2a2624", "181616", "322e2a", "262220"], "seam": "3a3634", "note": "the 货栈's wing"}
   ],
   "surfaces": {"niling.yard": "street"},
+  "door_looks": {
+    "niling.front.door": {"kind": "closed_door", "note": "殿门: the hall's leaf, seen from the yard (hall.json draws the same from inside)"}
+  },
   "ground": {
     "town_ground": {"style": "scree", "colors": ["3e3a36", "48443e", "363230"], "gravel": 0.3, "stones": 0.02, "pebbles": ["5a564e", "4e4a44"], "note": "the gate tower's and the 货栈's trodden floors, black dust"},
     "floor_yard": {"style": "slabs", "lengths": [2, 3], "depths": [1, 2], "cracks": 0.16, "broken": 0.1, "sunk": 0.05, "tufts": 0.0, "stones": ["1e1c1c", "262424", "2e2a2a", "222020"], "worn": ["36322e", "3e3a34", "2e2a28"], "bed": "121010", "joint": 0.05, "mud": "3a3430", "crack": "0e0c0c", "note": "黑砖铺地, worn grey along the way from the gate to the hall and to the 货栈"},
@@ -57,7 +60,6 @@
     {"kind": "trail", "points": [[-180, -176], [-40, -176], [128, -176]], "color": "3e3a34", "note": "and east to the 货栈"},
     {"kind": "hanging_lantern", "at": [-500, -440], "paper": "8a1e1a", "height": 2.8, "note": "lanterns on the yard's north wall, either side of the hall's steps"},
     {"kind": "hanging_lantern", "at": [-60, -440], "paper": "8a1e1a", "height": 2.8},
-    {"kind": "closed_door", "at": [-280, -478], "size": [96, 16], "color": "161414", "trim": "3a1a1a", "note": "the shut door of the 前殿 on the yard's north wall (殿门紧闭; B opens it)"},
     {"kind": "wine_jars", "at": [100, 100], "size": [32, 32], "count": 2, "tipped": 0, "note": "jars by the 货栈's door"},
     {"kind": "hanging_lantern", "at": [400, -176], "paper": "d8b070", "height": 2.6, "note": "an oil lantern in the 货栈"},
     {"kind": "straw_patch", "at": [600, -100], "size": [96, 64], "note": "straw from the packing"},

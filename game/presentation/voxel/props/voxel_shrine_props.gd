@@ -215,18 +215,21 @@ func _pill_furnace(w: float, d: float) -> void:
 	for pill: int in 7:
 		var at := Vector3(-0.24+pill*0.08,tall*0.24,r*0.5+(pill%2)*0.1-0.05)
 		s.box(root,at,Vector3(0.06,0.06,0.06),["2a2422","6a2a22:glow","c8362a:glow"][pill%3])
+	# `flame` and `flame_tip`: the fire's colours (a 丹房 whose fire burns blue: 逆灵宫); the light below takes the flame's.
+	var flame_color: String = String(data.get("flame","e8622f"))
+	var flame_tip: String = String(data.get("flame_tip","ffd27a"))
 	for tongue: int in 4:
 		var flame := Node3D.new()
 		flame.position = Vector3(-0.2+tongue*0.13,tall*0.26,r*0.72-(tongue%2)*0.2)
 		flame.set_meta("light_fixture",true)
 		root.add_child(flame)
-		s.box(flame,Vector3(0,0.14,0),Vector3(0.14,0.28,0.12),"e8622f:glow")
-		s.box(flame,Vector3(0,0.3,0),Vector3(0.08,0.2,0.07),"ffd27a:glow")
+		s.box(flame,Vector3(0,0.14,0),Vector3(0.14,0.28,0.12),flame_color+":glow")
+		s.box(flame,Vector3(0,0.3,0),Vector3(0.08,0.2,0.07),flame_tip+":glow")
 		if ambience != null:
 			ambience.flame(flame)
 	var light := OmniLight3D.new()
 	light.position = Vector3(0,tall*0.4,r*1.2)
-	light.light_color = Color("ff7a3a")
+	light.light_color = Color("ff7a3a") if not data.has("flame") else Color(flame_color).lightened(0.2)
 	light.omni_range = float(data.get("range",7.0))
 	light.set_meta("day_energy",1.6)
 	light.set_meta("night_energy",2.4)

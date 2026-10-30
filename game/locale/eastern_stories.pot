@@ -220,6 +220,13 @@ msgstr ""
 #. native.npc.niling_gatekeeper gender
 #. native.npc.niling_gate_guard gender
 #. native.npc.niling_store_taoist gender
+#. native.npc.niling_chanter gender
+#. native.npc.niling_lead_chanter gender
+#. native.npc.niling_steward gender
+#. native.npc.niling_jailer gender
+#. native.npc.huo_zheng gender
+#. native.npc.shitou gender
+#. native.npc.guanbei_corvee gender
 #. native.npc.wooden_dummy.1 gender
 #. native.npc.wooden_dummy.2 gender
 #. native.npc.wooden_dummy.3 gender
@@ -665,7 +672,8 @@ msgid "西 · 乔阴县城"
 msgstr ""
 
 #. es2:d/choyin/stove short
-#: scenes/world/choyin/choyin_east.tscn scenes/world/choyin/choyin_furnace.tscn data/choyin/rooms.json
+#. niling.alchemy.landmark.furnace name
+#: scenes/world/choyin/choyin_east.tscn scenes/world/choyin/choyin_furnace.tscn data/choyin/rooms.json data/niling/world.json
 msgid "丹炉"
 msgstr ""
 
@@ -2250,6 +2258,30 @@ msgstr ""
 msgid "缀芳阁 · 静修"
 msgstr ""
 
+#. native:niling/corridor short
+#: scenes/world/niling/niling_dungeon.tscn data/niling/rooms.json
+msgid "地牢甬道"
+msgstr ""
+
+#. native:niling/cell_huo short
+#: scenes/world/niling/niling_dungeon.tscn data/niling/rooms.json
+msgid "西牢房"
+msgstr ""
+
+#. native:niling/cell_shitou short
+#: scenes/world/niling/niling_dungeon.tscn data/niling/rooms.json
+msgid "北牢房"
+msgstr ""
+
+#. native:niling/cell_others short
+#: scenes/world/niling/niling_dungeon.tscn data/niling/rooms.json
+msgid "东牢房"
+msgstr ""
+
+#: scenes/world/niling/niling_dungeon.tscn
+msgid "石阶 · 上丹房"
+msgstr ""
+
 #. native:niling/gatehouse short
 #: scenes/world/niling/niling_gate.tscn data/niling/rooms.json
 msgid "黑砖山门"
@@ -2258,6 +2290,25 @@ msgstr ""
 #. native:niling/store short
 #: scenes/world/niling/niling_gate.tscn data/niling/rooms.json
 msgid "货栈"
+msgstr ""
+
+#. native:niling/front short
+#: scenes/world/niling/niling_hall.tscn data/niling/rooms.json
+msgid "前殿"
+msgstr ""
+
+#. native:niling/alchemy short
+#: scenes/world/niling/niling_hall.tscn data/niling/rooms.json
+msgid "丹房"
+msgstr ""
+
+#. native:niling/counting short
+#: scenes/world/niling/niling_hall.tscn data/niling/rooms.json
+msgid "账房"
+msgstr ""
+
+#: scenes/world/niling/niling_hall.tscn
+msgid "石阶 · 下地牢"
 msgstr ""
 
 #. native:niling/winch short
@@ -2435,6 +2486,8 @@ msgstr ""
 #. es2:d/temple/temple2 short
 #. es2:d/sanyen/back_temple short
 #. native.npc.niling_gatekeeper inquiry topic
+#. native.npc.niling_chanter inquiry topic
+#. native.npc.niling_lead_chanter inquiry topic
 #: scenes/world/sanyen/back_temple_house.tscn scenes/world/temple/temple2_house.tscn data/temple/rooms.json data/sanyen/rooms.json data/niling/npcs.json data/sanyen/voxel/grounds.json
 msgid "后殿"
 msgstr ""
@@ -7734,6 +7787,11 @@ msgstr ""
 msgid "你来到%s。"
 msgstr ""
 
+#. a locked door tried without its key (DoorDefinition.key); the door's own `locked` line replaces it.
+#: runtime/world/world_map_controller.gd
+msgid "%s锁着。"
+msgstr ""
+
 #. native (A2): the fight's blows filled the player's potential ({cap} unspent at most).
 #: runtime/world/world_progression_rewards.gd
 msgid "潜能已满（最多 {cap} 点未用），再打下去潜能不会增长。先去请教师父或研读书籍，用掉一些潜能吧。"
@@ -9948,7 +10006,8 @@ msgstr ""
 #. es2:u/cloud/obj/literate_book unit
 #. es2:d/temple/obj/magic_book unit
 #. es2:d/temple/obj/spells_book unit
-#: data/common/items.json data/snow/items.json data/latemoon/items.json data/choyin/items.json data/village/items.json data/cloud/items.json data/temple/items.json
+#. native:niling/tribute_ledger unit
+#: data/common/items.json data/snow/items.json data/latemoon/items.json data/choyin/items.json data/village/items.json data/cloud/items.json data/temple/items.json data/niling/items.json
 msgid "本"
 msgstr ""
 
@@ -10050,7 +10109,8 @@ msgstr ""
 #. es2:d/green/obj/hammer unit
 #. es2:d/green/obj/windsword unit
 #. es2:d/temple/obj/broom unit
-#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/canyon/items.json data/village/items.json data/city/items.json data/chuenyu/items.json data/death/items.json data/cloud/items.json data/waterfog/items.json data/green/items.json data/temple/items.json
+#. native:niling/cell_key unit
+#: data/common/items.json data/oldpine/items.json data/snow/items.json data/goathill/items.json data/latemoon/items.json data/sanyen/items.json data/choyin/items.json data/canyon/items.json data/village/items.json data/city/items.json data/chuenyu/items.json data/death/items.json data/cloud/items.json data/waterfog/items.json data/green/items.json data/temple/items.json data/niling/items.json
 msgid "把"
 msgstr ""
 
@@ -10431,7 +10491,8 @@ msgid ""
 msgstr ""
 
 #. es2:obj/paper_seal unit
-#: data/common/items.json
+#. native:niling/war_ministry_papers unit
+#: data/common/items.json data/niling/items.json
 msgid "叠"
 msgstr ""
 
@@ -12081,7 +12142,8 @@ msgstr ""
 #. quests.target
 #. snow.npc.guard name
 #. snow.npc.teacher inquiry topic
-#: data/common/npcs.json data/common/quests.json data/snow/npcs.json
+#. native.npc.huo_zheng inquiry topic
+#: data/common/npcs.json data/common/quests.json data/snow/npcs.json data/niling/npcs.json
 msgid "刘安禄"
 msgstr ""
 
@@ -14319,7 +14381,8 @@ msgstr ""
 
 #. chuenyu.xiaojuan region
 #. chuenyu name
-#: data/common/journal.json data/chuenyu/world.json
+#. native.npc.shitou inquiry topic
+#: data/common/journal.json data/chuenyu/world.json data/niling/npcs.json
 msgid "黑松山"
 msgstr ""
 
@@ -15634,6 +15697,13 @@ msgstr ""
 #. native.npc.niling_gatekeeper inquiry topic
 #. native.npc.niling_gate_guard inquiry topic
 #. native.npc.niling_store_taoist inquiry topic
+#. native.npc.niling_chanter inquiry topic
+#. native.npc.niling_lead_chanter inquiry topic
+#. native.npc.niling_steward inquiry topic
+#. native.npc.niling_jailer inquiry topic
+#. native.npc.huo_zheng inquiry topic
+#. native.npc.shitou inquiry topic
+#. native.npc.guanbei_corvee inquiry topic
 #. niling name
 #. native.npc.tribute_taoist inquiry topic
 #: data/story/chapter3.json data/goathill/npcs.json data/niling/npcs.json data/niling/world.json data/native/npcs.json
@@ -15738,12 +15808,52 @@ msgstr ""
 
 #. main.chapter3/hall objective
 #: data/story/chapter3.json
-msgid "前殿的门关着。找路进前殿，找到霍铮。"
+msgid "前殿的门关着。推开殿门进前殿，找到霍铮。"
 msgstr ""
 
 #. main.chapter3/hall text
 #: data/story/chapter3.json
-msgid "你进了前殿。"
+msgid "前殿里没有神像。五个黑冠道士面壁诵逆灵天书，领诵的敲着木鱼，谁进来都不抬头。殿西有门，殿北的门关着。"
+msgstr ""
+
+#. main.chapter3/ledger objective
+#: data/story/chapter3.json
+msgid "殿西是丹房和账房。账房的案上摊着纳供的账册，翻一翻。"
+msgstr ""
+
+#. main.chapter3/ledger text
+#: data/story/chapter3.json
+msgid "纳供的不只是金帛，是人：野羊寨三名「入丹房」；关北民夫七名，三名入丹房、四名留用；傅家坡七岁的孩童一名，「留用，待子时」。"
+msgstr ""
+
+#. main.chapter3/papers objective
+#: data/story/chapter3.json
+msgid "案上还有一叠盖着朱印的文书。"
+msgstr ""
+
+#. main.chapter3/papers text
+#: data/story/chapter3.json
+msgid "一叠盖着兵部大印的文书：「着逆灵宫代为收管」关北的河工、野羊山的「匪徒」。兵部的印，盖在一座黑道观的账上。"
+msgstr ""
+
+#. main.chapter3/dungeon objective
+#: data/story/chapter3.json
+msgid "丹房西南角有石阶往下。下地牢，找霍铮。"
+msgstr ""
+
+#. main.chapter3/dungeon text
+#: data/story/chapter3.json
+msgid "霍铮锁在西边的牢房里，瘦得脱了形，骂声还在；北边那间是傅家坡的石头，七岁，头上两个小抓揪；东边两个关北来的民夫。三扇铁栅门的钥匙在大弟子玄冥子腰上。"
+msgstr ""
+
+#. main.chapter3/altar objective
+#: data/story/chapter3.json
+msgid "牢门开不了，钥匙在大弟子玄冥子腰上。前殿北门后的后殿有诵经声——钥匙该在那里。"
+msgstr ""
+
+#. main.chapter3/altar text
+#: data/story/chapter3.json
+msgid "你见了后殿里的事。"
 msgstr ""
 
 #. es2:d/oldpine/obj/long_sword long
@@ -18103,7 +18213,8 @@ msgid ""
 msgstr ""
 
 #. goathill.npc.bandit_hwang name
-#: data/goathill/npcs.json
+#. native.npc.huo_zheng inquiry topic
+#: data/goathill/npcs.json data/niling/npcs.json
 msgid "黄霸"
 msgstr ""
 
@@ -18131,6 +18242,7 @@ msgstr ""
 #. native.npc.niling_gatekeeper inquiry topic
 #. native.npc.niling_gate_guard inquiry topic
 #. native.npc.niling_store_taoist inquiry topic
+#. native.npc.niling_steward inquiry topic
 #. native.npc.tribute_taoist inquiry topic
 #: data/goathill/npcs.json data/niling/npcs.json data/native/npcs.json
 msgid "纳供"
@@ -33318,6 +33430,85 @@ msgid ""
 "一顶黑绢裹的道冠，冠前镶一枚乌黑的铁片，铁片上錾着一个看不懂的字。逆灵宫的道士人人戴它——戴上它，他们也把你当自己人。\n"
 msgstr ""
 
+#. native:niling/tribute_ledger name
+#. native.npc.niling_steward inquiry topic
+#: data/niling/items.json data/niling/npcs.json
+msgid "账册"
+msgstr ""
+
+#. native:niling/tribute_ledger long
+#: data/niling/items.json
+msgid ""
+"一本黑皮的账册，封皮上没有字。翻开是一笔笔纳供的账：金帛、腌肉、麻绳……每一页的末尾另起一行，记的不是东西。\n"
+msgstr ""
+
+#. native:niling/tribute_ledger act.verb
+#. native:niling/war_ministry_papers act.verb
+#: data/niling/items.json
+msgid "翻看"
+msgstr ""
+
+#. native:niling/tribute_ledger act.acts.steps.line
+#: data/niling/items.json
+msgid ""
+"你翻到最后几页。每一页末尾另起的那一行，记的是人：\n"
+msgstr ""
+
+#. native:niling/tribute_ledger act.acts.steps.line
+#: data/niling/items.json
+msgid ""
+"「野羊寨，三名，丁未年秋，入丹房。」\n"
+"「关北民夫，七名，戊申年冬，三名入丹房，四名留用。」\n"
+"「傅家坡，孩童一名，七岁，戊申年腊月，留用，待子时。」\n"
+msgstr ""
+
+#. native:niling/tribute_ledger act.acts.steps.line
+#: data/niling/items.json
+msgid ""
+"纳供的不只是金帛。你把账册合上，手心全是汗。\n"
+msgstr ""
+
+#. native:niling/war_ministry_papers name
+#: data/niling/items.json
+msgid "兵部文书"
+msgstr ""
+
+#. native:niling/war_ministry_papers long
+#: data/niling/items.json
+msgid ""
+"一叠公文纸，每张末尾盖着一方朱红的大印，印文是「兵部之印」。纸是新的，印泥还没干透。\n"
+msgstr ""
+
+#. native:niling/war_ministry_papers act.acts.steps.line
+#: data/niling/items.json
+msgid ""
+"文书的格式一板一眼，字是衙门里的楷书：\n"
+msgstr ""
+
+#. native:niling/war_ministry_papers act.acts.steps.line
+#: data/niling/items.json
+msgid ""
+"「着逆灵宫代为收管关北河工逃役若干名，解送之日另行知照。」\n"
+"「着逆灵宫代为收管野羊山匪徒若干名，毋庸解京。」\n"
+msgstr ""
+
+#. native:niling/war_ministry_papers act.acts.steps.line
+#: data/niling/items.json
+msgid ""
+"每一张的印都盖得端端正正。兵部的印，怎么会盖在一座黑道观的账上？\n"
+msgstr ""
+
+#. native:niling/cell_key name
+#: data/niling/items.json
+msgid "地牢钥匙"
+msgstr ""
+
+#. native:niling/cell_key long
+#: data/niling/items.json
+msgid ""
+"一把乌黑的铁钥匙，齿很深，柄上系着一截黑布。地牢三扇铁栅门用的都是它。\n"
+msgstr ""
+
 #. native.npc.niling_winch_taoist name
 #: data/niling/npcs.json
 msgid "绞盘道士"
@@ -33360,6 +33551,13 @@ msgstr ""
 #. native.npc.niling_winch_taoist inquiry topic
 #. native.npc.niling_gatekeeper inquiry topic
 #. native.npc.niling_store_taoist inquiry topic
+#. native.npc.niling_chanter inquiry topic
+#. native.npc.niling_lead_chanter inquiry topic
+#. native.npc.niling_steward inquiry topic
+#. native.npc.niling_jailer inquiry topic
+#. native.npc.huo_zheng name
+#. native.npc.shitou inquiry topic
+#. native.npc.guanbei_corvee inquiry topic
 #: data/niling/npcs.json
 msgid "霍铮"
 msgstr ""
@@ -33533,6 +33731,461 @@ msgid ""
 "货栈道士一边招架一边往门口退。\n"
 msgstr ""
 
+#. native.npc.niling_chanter name
+#: data/niling/npcs.json
+msgid "诵经道士"
+msgstr ""
+
+#. native.npc.niling_chanter long
+#: data/niling/npcs.json
+msgid ""
+"一个黑衣黑冠的道士，跪在蒲团上，两手按着膝盖，嘴唇一开一合。他诵经的声音又低又快，像是怕慢一个字就要挨罚。他的眼睛是闭着的。\n"
+msgstr ""
+
+#. native.npc.niling_chanter chat_msg
+#: data/niling/npcs.json
+msgid ""
+"诵经道士低声念道：……灵不灵，逆之则生……\n"
+msgstr ""
+
+#. native.npc.niling_chanter chat_msg
+#: data/niling/npcs.json
+msgid ""
+"诵经道士的声音忽然高了一下，又压了下去。\n"
+msgstr ""
+
+#. native.npc.niling_chanter chat_msg
+#: data/niling/npcs.json
+msgid ""
+"诵经道士跪得久了，膝盖动了动，领诵的木鱼声一停，他立刻又跪直了。\n"
+msgstr ""
+
+#. native.npc.niling_chanter inquiry.逆灵宫
+#: data/niling/npcs.json
+msgid "诵经道士闭着眼睛：诵经的时候不说话。"
+msgstr ""
+
+#. native.npc.niling_chanter inquiry topic
+#. native.npc.niling_lead_chanter inquiry topic
+#: data/niling/npcs.json
+msgid "经"
+msgstr ""
+
+#. native.npc.niling_chanter inquiry.经
+#: data/niling/npcs.json
+msgid "诵经道士压低声音：逆灵天书。你连这个都不知道？……不要问我，问领诵。"
+msgstr ""
+
+#. native.npc.niling_chanter inquiry.霍铮
+#: data/niling/npcs.json
+msgid "诵经道士的嘴唇停了一下，又接着念，像没听见。"
+msgstr ""
+
+#. native.npc.niling_chanter inquiry.后殿
+#: data/niling/npcs.json
+msgid "诵经道士道：宫主在后殿行法。子时开坛，没你的事。"
+msgstr ""
+
+#. native.npc.niling_chanter chat_msg_combat
+#: data/niling/npcs.json
+msgid ""
+"诵经道士尖叫道：生人！前殿有生人！\n"
+msgstr ""
+
+#. native.npc.niling_chanter chat_msg_combat
+#: data/niling/npcs.json
+msgid ""
+"诵经道士一边念经一边拔剑，念的和砍的一样快。\n"
+msgstr ""
+
+#. native.npc.niling_lead_chanter name
+#: data/niling/npcs.json
+msgid "领诵道士"
+msgstr ""
+
+#. native.npc.niling_lead_chanter long
+#: data/niling/npcs.json
+msgid ""
+"一个黑衣黑冠的老道士，跪在最前头的蒲团上，面前一只乌黑的木鱼。他一下一下敲着，节拍一丝不乱，诵的字句比别人多一倍。进来什么人、出去什么人，他一次头也没抬过。\n"
+msgstr ""
+
+#. native.npc.niling_lead_chanter chat_msg
+#: data/niling/npcs.json
+msgid ""
+"领诵道士的木鱼声一下紧似一下。\n"
+msgstr ""
+
+#. native.npc.niling_lead_chanter chat_msg
+#: data/niling/npcs.json
+msgid ""
+"领诵道士念道：……以身为供，以劫为师……\n"
+msgstr ""
+
+#. native.npc.niling_lead_chanter inquiry.逆灵宫
+#: data/niling/npcs.json
+msgid "领诵道士的木鱼没停：逆灵者，逆天地之灵而用之。这是第一句。你连第一句都要人教？"
+msgstr ""
+
+#. native.npc.niling_lead_chanter inquiry.经
+#: data/niling/npcs.json
+msgid "领诵道士道：逆灵天书，宫主亲授。前殿只诵前三卷，后面的，没到你的分。"
+msgstr ""
+
+#. native.npc.niling_lead_chanter inquiry.霍铮
+#: data/niling/npcs.json
+msgid "领诵道士的木鱼慢了一拍：野羊寨那个？在底下。子时便用他开坛。——你是哪一房的，问这个？"
+msgstr ""
+
+#. native.npc.niling_lead_chanter inquiry.后殿
+#: data/niling/npcs.json
+msgid "领诵道士道：后殿是宫主的。大弟子不带，谁也不许过那道门。"
+msgstr ""
+
+#. native.npc.niling_lead_chanter inquiry topic
+#: data/niling/npcs.json
+msgid "宫主"
+msgstr ""
+
+#. native.npc.niling_lead_chanter inquiry.宫主
+#: data/niling/npcs.json
+msgid "领诵道士道：宫主姓商。别的，不是你该问的。"
+msgstr ""
+
+#. native.npc.niling_lead_chanter chat_msg_combat
+#: data/niling/npcs.json
+msgid ""
+"领诵道士霍地站起，木鱼槌一指：拿下！\n"
+msgstr ""
+
+#. native.npc.niling_lead_chanter chat_msg_combat
+#: data/niling/npcs.json
+msgid ""
+"领诵道士喝道：殿前动手，坛上加供！\n"
+msgstr ""
+
+#. native.npc.niling_steward name
+#: data/niling/npcs.json
+msgid "管事道士"
+msgstr ""
+
+#. native.npc.niling_steward long
+#: data/niling/npcs.json
+msgid ""
+"一个黑衣黑冠的道士，坐在账房的大案后面，手里一支笔，面前一本账。他的手指上全是墨，指甲缝里是黑的。他抬头看了你一眼，眼睛先落在你的冠上。\n"
+msgstr ""
+
+#. native.npc.niling_steward chat_msg
+#: data/niling/npcs.json
+msgid ""
+"管事道士拨了两下算盘，皱起眉头，又拨回去。\n"
+msgstr ""
+
+#. native.npc.niling_steward chat_msg
+#: data/niling/npcs.json
+msgid ""
+"管事道士对着账册自言自语：七个……还差三个。\n"
+msgstr ""
+
+#. native.npc.niling_steward inquiry.纳供
+#: data/niling/npcs.json
+msgid "管事道士道：野羊寨的供今年足数。关北的车下月到。你是来领活的？货栈搬箱子去。"
+msgstr ""
+
+#. native.npc.niling_steward inquiry.账册
+#: data/niling/npcs.json
+msgid "管事道士把手按在账册上：账是宫主要看的，不是给你看的。"
+msgstr ""
+
+#. native.npc.niling_steward inquiry topic
+#. native.npc.guanbei_corvee inquiry topic
+#: data/niling/npcs.json
+msgid "文书"
+msgstr ""
+
+#. native.npc.niling_steward inquiry.文书
+#: data/niling/npcs.json
+msgid "管事道士道：兵部的公文，你认得字？……认得也当不认得。"
+msgstr ""
+
+#. native.npc.niling_steward inquiry.霍铮
+#: data/niling/npcs.json
+msgid "管事道士道：野羊寨的大寨主，账上第三笔。子时开坛。你问这个做什么？"
+msgstr ""
+
+#. native.npc.niling_steward inquiry topic
+#. native.npc.niling_jailer inquiry topic
+#. native.npc.huo_zheng inquiry topic
+#: data/niling/npcs.json
+msgid "钥匙"
+msgstr ""
+
+#. native.npc.niling_steward inquiry.钥匙
+#: data/niling/npcs.json
+msgid "管事道士道：地牢的钥匙在大弟子腰上。我这里只有账，没有钥匙。"
+msgstr ""
+
+#. native.npc.niling_steward inquiry.逆灵宫
+#: data/niling/npcs.json
+msgid "管事道士道：少废话。干活。"
+msgstr ""
+
+#. native.npc.niling_steward chat_msg_combat
+#: data/niling/npcs.json
+msgid ""
+"管事道士把账册往怀里一塞，叫道：有贼！护账！\n"
+msgstr ""
+
+#. native.npc.niling_jailer name
+#: data/niling/npcs.json
+msgid "狱卒道士"
+msgstr ""
+
+#. native.npc.niling_jailer long
+#: data/niling/npcs.json
+msgid ""
+"一个黑衣黑冠的道士，靠着甬道的石壁站着，腰上没有钥匙，只有一柄短剑和一根鞭子。他听见脚步声就直起身来，先看冠，再看脸。\n"
+msgstr ""
+
+#. native.npc.niling_jailer chat_msg
+#: data/niling/npcs.json
+msgid ""
+"狱卒道士用鞭柄敲了敲铁栅：安静！\n"
+msgstr ""
+
+#. native.npc.niling_jailer chat_msg
+#: data/niling/npcs.json
+msgid ""
+"狱卒道士打了个哈欠，往西边那间牢房瞟了一眼。\n"
+msgstr ""
+
+#. native.npc.niling_jailer inquiry.钥匙
+#: data/niling/npcs.json
+msgid "狱卒道士道：钥匙？在大弟子玄冥子腰上。开坛的时候他才下来开门。我们只看人，不开门。"
+msgstr ""
+
+#. native.npc.niling_jailer inquiry.霍铮
+#: data/niling/npcs.json
+msgid "狱卒道士朝西边一偏头：西边那间。骂了半年了，嗓子还没哑。"
+msgstr ""
+
+#. native.npc.niling_jailer inquiry topic
+#: data/niling/npcs.json
+msgid "孩子"
+msgstr ""
+
+#. native.npc.niling_jailer inquiry.孩子
+#: data/niling/npcs.json
+msgid "狱卒道士道：北边那间的小的？傅家坡抓来的。宫主说小孩子的供最干净。"
+msgstr ""
+
+#. native.npc.niling_jailer inquiry topic
+#: data/niling/npcs.json
+msgid "民夫"
+msgstr ""
+
+#. native.npc.niling_jailer inquiry.民夫
+#: data/niling/npcs.json
+msgid "狱卒道士道：东边两个，关北挖河的。挖不动了，就送到这里来。"
+msgstr ""
+
+#. native.npc.niling_jailer inquiry.逆灵宫
+#: data/niling/npcs.json
+msgid "狱卒道士道：底下不许多话。"
+msgstr ""
+
+#. native.npc.niling_jailer chat_msg_combat
+#: data/niling/npcs.json
+msgid ""
+"狱卒道士抽出鞭子，吼道：地牢有生人！\n"
+msgstr ""
+
+#. native.npc.huo_zheng title
+#: data/niling/npcs.json
+msgid "野羊山大寨主"
+msgstr ""
+
+#. native.npc.huo_zheng long
+#: data/niling/npcs.json
+msgid ""
+"一个高大的汉子，瘦得脱了形，颧骨突出来，手腕上两道铁链磨出来的血痕。头发胡子乱成一团，眼睛却亮得吓人。他被锁在牢房里，看见你，先骂了一句，再看清你的脸，骂声停了。\n"
+msgstr ""
+
+#. native.npc.huo_zheng chat_msg
+#: data/niling/npcs.json
+msgid ""
+"霍铮朝铁栅外啐了一口：臭道士！有种把老子放出去打！\n"
+msgstr ""
+
+#. native.npc.huo_zheng chat_msg
+#: data/niling/npcs.json
+msgid ""
+"霍铮用铁链在墙上狠狠砸了一下。\n"
+msgstr ""
+
+#. native.npc.huo_zheng chat_msg
+#: data/niling/npcs.json
+msgid ""
+"霍铮喃喃道：黄霸……黄霸这个王八蛋……\n"
+msgstr ""
+
+#. native.npc.huo_zheng inquiry.逆灵宫
+#: data/niling/npcs.json
+msgid "霍铮咬着牙道：两年前他们上山，寨子折了一半弟兄。老子带人来烧他们的观，中了埋伏——老子和老二，一个也没回去。"
+msgstr ""
+
+#. native.npc.huo_zheng inquiry topic
+#. native.npc.shitou name
+#: data/niling/npcs.json
+msgid "石头"
+msgstr ""
+
+#. native.npc.huo_zheng inquiry.石头
+#: data/niling/npcs.json
+msgid "霍铮朝北边一偏头：北边那间的娃娃，傅家坡抓来的，才七岁。半年了，哭都哭不出声了。你要是能开门，先开他的。"
+msgstr ""
+
+#. native.npc.huo_zheng inquiry.黄霸
+#: data/niling/npcs.json
+msgid "霍铮的眼睛红了：老三。老子前脚进来，他后脚纳供。纳的什么供？纳的是老子的弟兄！"
+msgstr ""
+
+#. native.npc.huo_zheng inquiry.钥匙
+#: data/niling/npcs.json
+msgid "霍铮道：钥匙在那个姓玄的腰上——他们叫他大弟子。他每天子时下来一趟，挑人。"
+msgstr ""
+
+#. native.npc.huo_zheng inquiry topic
+#: data/niling/npcs.json
+msgid "野羊寨"
+msgstr ""
+
+#. native.npc.huo_zheng inquiry.野羊寨
+#: data/niling/npcs.json
+msgid "霍铮道：寨子还在吗？黄霸还在土地庙？……他要是还在，告诉他，老子没死。"
+msgstr ""
+
+#. native.npc.huo_zheng inquiry.刘安禄
+#: data/niling/npcs.json
+msgid "霍铮一愣：老刘？老刘没进来？好，好。他在哪？……他若肯回来，寨子还有救。"
+msgstr ""
+
+#. native.npc.huo_zheng inquiry topic
+#: data/niling/npcs.json
+msgid "二寨主"
+msgstr ""
+
+#. native.npc.huo_zheng inquiry.二寨主
+#: data/niling/npcs.json
+msgid "霍铮低声道：老二在丹房。他们说的「入丹房」，就是那个意思。别问了。"
+msgstr ""
+
+#. native.npc.huo_zheng chat_msg_combat
+#: data/niling/npcs.json
+msgid ""
+"霍铮吼道：来！老子手上有链子也打得死你！\n"
+msgstr ""
+
+#. native.npc.shitou long
+#: data/niling/npcs.json
+msgid ""
+"一个七岁的小孩子，头上梳着两个小抓揪，脸脏得看不出模样，衣服还是傅家坡的粗布。他缩在牢房的角落里，看见你，往墙上又缩了缩，没有哭。\n"
+msgstr ""
+
+#. native.npc.shitou chat_msg
+#: data/niling/npcs.json
+msgid ""
+"石头把墙角的几颗小石子摆了又摆。\n"
+msgstr ""
+
+#. native.npc.shitou chat_msg
+#: data/niling/npcs.json
+msgid ""
+"石头小声说：娘……\n"
+msgstr ""
+
+#. native.npc.shitou inquiry topic
+#: data/niling/npcs.json
+msgid "娘"
+msgstr ""
+
+#. native.npc.shitou inquiry.娘
+#: data/niling/npcs.json
+msgid "石头抬起头：娘在傅家坡。娘说别跟人走。……我没跟人走，是他们把我装进箱子里的。"
+msgstr ""
+
+#. native.npc.shitou inquiry topic
+#: data/niling/npcs.json
+msgid "傅家坡"
+msgstr ""
+
+#. native.npc.shitou inquiry.傅家坡
+#: data/niling/npcs.json
+msgid "石头道：我家在湖边，门口有瓜地。娘每天到村口等我。"
+msgstr ""
+
+#. native.npc.shitou inquiry.黑松山
+#: data/niling/npcs.json
+msgid "石头摇头：不是黑松山。是黑衣服的道士，他们说是黑松山的。"
+msgstr ""
+
+#. native.npc.shitou inquiry.逆灵宫
+#: data/niling/npcs.json
+msgid "石头小声道：他们晚上来挑人。挑走的就不回来了。那个大胡子叔叔说，轮到我他就把门撞开。"
+msgstr ""
+
+#. native.npc.shitou inquiry.霍铮
+#: data/niling/npcs.json
+msgid "石头道：西边的大胡子叔叔。他骂人的时候我就不怕了。"
+msgstr ""
+
+#. native.npc.guanbei_corvee name
+#: data/niling/npcs.json
+msgid "关北民夫"
+msgstr ""
+
+#. native.npc.guanbei_corvee long
+#: data/niling/npcs.json
+msgid ""
+"一个黑瘦的汉子，手掌全是老茧，肩膀上一道挑担磨出来的硬皮。他穿的是河工的短褂，上头印着一个「役」字。他靠着墙坐着，眼睛半闭，像是把力气都省着。\n"
+msgstr ""
+
+#. native.npc.guanbei_corvee chat_msg
+#: data/niling/npcs.json
+msgid ""
+"关北民夫揉着肩膀，叹了口气。\n"
+msgstr ""
+
+#. native.npc.guanbei_corvee chat_msg
+#: data/niling/npcs.json
+msgid ""
+"关北民夫低声道：……河挖不动了，人也挖不动了。\n"
+msgstr ""
+
+#. native.npc.guanbei_corvee inquiry topic
+#: data/niling/npcs.json
+msgid "关北"
+msgstr ""
+
+#. native.npc.guanbei_corvee inquiry.关北
+#: data/niling/npcs.json
+msgid "关北民夫道：俺们是关北挖河的。河工挖不动的，官府说送回家，车一拐就到了这里。"
+msgstr ""
+
+#. native.npc.guanbei_corvee inquiry.逆灵宫
+#: data/niling/npcs.json
+msgid "关北民夫道：这里的道士拿人当药材。俺亲眼看见的，不骗你。"
+msgstr ""
+
+#. native.npc.guanbei_corvee inquiry.文书
+#: data/niling/npcs.json
+msgid "关北民夫道：押车的说俺们是兵部批的。兵部？俺们挖河，关兵部什么事？"
+msgstr ""
+
+#. native.npc.guanbei_corvee inquiry.霍铮
+#: data/niling/npcs.json
+msgid "关北民夫道：西边那位是条汉子。有他骂着，俺们还敢喘气。"
+msgstr ""
+
 #. native:niling/winch long
 #: data/niling/rooms.json
 msgid ""
@@ -33564,7 +34217,7 @@ msgstr ""
 #: data/niling/rooms.json
 msgid ""
 "黑砖铺地的大院子，踩上去没有一点声响。院当中一只黑铁香炉，烧的不是香，是一股子苦味。四面黑幡垂地，风过时幡上的字一闪一闪，看不清写的什么。\n"
-"北边是前殿，殿门紧闭；东侧一排矮房是货栈。\n"
+"北边是前殿，殿门关着，推一推就开；东侧一排矮房是货栈。\n"
 msgstr ""
 
 #. native:niling/store long
@@ -33572,6 +34225,72 @@ msgstr ""
 msgid ""
 "一间堆满箱笼的矮房，箱子上都烙着「羊」字，有的开着，露出金帛、腌肉和成捆的麻绳。角落里几只箱子钉得死紧，箱盖上用朱砂画着符。\n"
 "南墙的矮门通向墙外，西边的门进前院。\n"
+msgstr ""
+
+#. native:niling/front long
+#: data/niling/rooms.json
+msgid ""
+"逆灵宫的前殿。殿里没有神像，正中一张乌黑的长案，案上供的是一卷摊开的黑皮经书。五个黑衣黑冠的道士面壁跪在蒲团上诵经，领诵的敲着木鱼，一下一下，谁进来都不抬头。诵的字句一个也听不懂，只觉得殿里比外头冷。\n"
+"西边一道门通丹房；北边的门紧闭着，门后隐约也有诵经声。\n"
+msgstr ""
+
+#. native:niling/alchemy long
+#: data/niling/rooms.json
+msgid ""
+"一间烟气熏黑的屋子。正中一座三足的铜丹炉，炉火没有熄，炉口里的火苗是青的，不是红的。四壁的药架上摆满了罐子，罐子上贴的签子写的不是药名，是地名和日子。\n"
+"东门回前殿，北门进账房；西南角上一道石阶往下，黑得看不见底。\n"
+msgstr ""
+
+#. native:niling/counting long
+#: data/niling/rooms.json
+msgid ""
+"逆灵宫的账房，比丹房还小。一张乌木大案占了半间屋，案上摊着一本账册，旁边一叠盖了朱印的文书，压着一方乌黑的镇纸。墙上挂着算盘，算珠磨得发亮。\n"
+"门在南边，通丹房。\n"
+msgstr ""
+
+#. native:niling/corridor long
+#: data/niling/rooms.json
+msgid ""
+"丹房石阶底下的甬道，低得要弯腰。墙上一盏松油灯忽明忽暗，照着三扇铁栅门：西、北、东各一扇，锁都是新的。地上一层潮气，墙根有抓挠过的痕迹。\n"
+"石阶在南边，上去是丹房。\n"
+msgstr ""
+
+#. native:niling/cell_huo long
+#: data/niling/rooms.json
+msgid ""
+"一间石头凿出来的牢房，只有一张草席、一只破碗。墙上用指甲刻了一排又一排的道道，数到一半刻不动了。\n"
+msgstr ""
+
+#. native:niling/cell_shitou long
+#: data/niling/rooms.json
+msgid ""
+"一间石头凿出来的牢房，比西边那间还小。草席上放着半块干饼，墙角摆着几颗排成一排的小石子，像是谁在玩。\n"
+msgstr ""
+
+#. native:niling/cell_others long
+#: data/niling/rooms.json
+msgid ""
+"一间石头凿出来的牢房，两张草席并排铺着。墙上用炭画了一条河，河边画着一排小人在挖土。\n"
+msgstr ""
+
+#. niling.front.door name
+#: data/niling/world.json
+msgid "殿门"
+msgstr ""
+
+#. niling.cell_huo.door name
+#: data/niling/world.json
+msgid "西牢房的铁栅门"
+msgstr ""
+
+#. niling.cell_shitou.door name
+#: data/niling/world.json
+msgid "北牢房的铁栅门"
+msgstr ""
+
+#. niling.cell_others.door name
+#: data/niling/world.json
+msgid "东牢房的铁栅门"
 msgstr ""
 
 #. niling.winch.rope act.verb
@@ -33611,6 +34330,45 @@ msgstr ""
 #: data/niling/world.json
 msgid ""
 "一只齐腰高的黑铁香炉，炉口里烧着的不是香，是一把把黑色的碎末，冒着极淡的青烟，味道苦得呛人。炉身上铸着一圈无头的人形，手拉着手。\n"
+msgstr ""
+
+#. niling.front.landmark.scripture name
+#: data/niling/world.json
+msgid "经书"
+msgstr ""
+
+#. niling.front.landmark.scripture long
+#: data/niling/world.json
+msgid ""
+"乌黑的长案上摊着一卷黑皮的经书，字是暗红的，横着走竖着走，和黑幡上的一样。你盯着看了一会儿，字像是在动，赶紧移开了眼。案角摆着一只木鱼，鱼身上的漆被敲掉了一块。\n"
+msgstr ""
+
+#. niling.alchemy.landmark.furnace long
+#: data/niling/world.json
+msgid ""
+"一座三足铜丹炉，炉身熏得乌黑。炉口的火苗是青色的，没有一点热气。炉边的托盘上摆着几颗乌黑的丹丸，闻着是一股说不出的腥甜。你不想知道它们是什么炼的。\n"
+msgstr ""
+
+#. niling.alchemy.landmark.jars name
+#: data/niling/world.json
+msgid "药架"
+msgstr ""
+
+#. niling.alchemy.landmark.jars long
+#: data/niling/world.json
+msgid ""
+"药架上的罐子一只只封着口，签子上写的不是药名：「野羊 · 丁未秋」「关北 · 戊申冬」……有一只罐子的签子上写着「傅家坡 · 待」，罐子是空的。\n"
+msgstr ""
+
+#. niling.corridor.landmark.scratches name
+#: data/niling/world.json
+msgid "刻痕"
+msgstr ""
+
+#. niling.corridor.landmark.scratches long
+#: data/niling/world.json
+msgid ""
+"西边那扇铁栅门里的墙根上，一排排指甲刻出来的道道，五个一组，刻了一百多组。最后一组只有三道。\n"
 msgstr ""
 
 #. native.npc.wooden_dummy.1 name
