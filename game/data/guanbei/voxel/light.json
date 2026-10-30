@@ -1,0 +1,17 @@
+{
+  "note": "关北 (美术规划 §1 关北; 剧情总纲 §6 关北卡 塞外): a high, pale sky over open ground — whiter and brighter by day than 天驼关's gorge, the dusk a great red pressed flat on the horizon, nights wide and starry with the moon low; under cloud a dust-yellow grey, lighter than the pass's. Indoors (the 酒肆) the hearth and the lamps are warm against mud walls.",
+  "outdoor": {
+    "overcast": {"sky": "aea89a", "ambient": "bcb6a6", "sun": "e6e0d0", "note": "under cloud (DECISIONS「天气」): a bright dust-grey over the steppe"},
+    "sky": {"dawn": "e2d2b8", "day": "ccd6e0", "dusk": "e0784a", "night": "0a1022", "midnight": "070c1c"},
+    "ambient": {"dawn": "e0d0b0", "day": "ece4cc", "dusk": "dc9c6c", "night": "566690", "midnight": "4c5c8a"},
+    "ambient_energy": {"dawn": 0.44, "day": 0.52, "dusk": 0.48, "night": 0.3, "midnight": 0.28},
+    "sun": {"dawn": "ffd4a4", "day": "fff4d0", "dusk": "ff8a46", "night": "aac0ee", "midnight": "9ab2e6"},
+    "sun_energy": {"dawn": 0.6, "day": 1.05, "dusk": 0.85, "night": 0.34, "midnight": 0.3}
+  },
+  "indoor": {
+    "ambient": {"dawn": "d0c0a0", "day": "d8ccb0", "dusk": "d0a080", "night": "6a6478", "midnight": "605a74"},
+    "ambient_energy": {"dawn": 0.4, "day": 0.42, "dusk": 0.42, "night": 0.34, "midnight": 0.32},
+    "sun": {"dawn": "ffd8b0", "day": "fff0d0", "dusk": "ffb080", "night": "a0b8ec", "midnight": "9ab4ec"},
+    "sun_energy": {"dawn": 0.28, "day": 0.4, "dusk": 0.32, "night": 0.1, "midnight": 0.08}
+  }
+}

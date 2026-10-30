@@ -1,0 +1,13 @@
+{
+	"rooms": [
+		{ "id": "native:guanbei/gate_road", "short": "关外山道", "long": "出了关门，一条军道贴着骆驼东峰的脚往北折。路是碎石铺的，车辙压得很深，两边的山壁比谷地里的矮，颜色也黄得发白。风从北边来，带着土腥气。回头能看见关门的铁栅和门楼上那面黄旗。\n", "outdoors": true, "exits": { "south": "es2:d/canyon/canyon7", "north": "native:guanbei/dust_road" } },
+		{ "id": "native:guanbei/dust_road", "short": "风沙道", "long": "山壁到这里退开了，路面从碎石变成黄土，再往北黄土里就长出一丛丛枯黄的草来。风很大，沙子贴着地皮跑，打在腿上沙沙地响。远处的地平线是平的——你在天驼关的谷地里待久了，一时看不惯这么宽的天。\n", "outdoors": true, "exits": { "south": "native:guanbei/gate_road", "north": "native:guanbei/boundary" } },
+		{ "id": "native:guanbei/boundary", "short": "关北界碑", "long": "草原从这里开始。路边立着一方青石界碑，刻着「关北封国界」。草是灰绿的，高不过膝，风过去一浪一浪地倒。往北，一座土黄的城墙横在草地尽头，城门楼子上飘着一面旗——那是槐阳城。\n", "outdoors": true, "exits": { "south": "native:guanbei/dust_road", "north": "native:guanbei/gate" } },
+		{ "id": "native:guanbei/gate", "short": "槐阳城门", "long": "夯土的城墙，土黄色，墙头长草。城门洞不高，门楼上的朱漆褪成了砖红，梁上画着石青的卷草纹。门里是一片踩实了的黄土场子，驼队和马车在这儿卸货验货，驼铃叮当地响。守门的兵穿的不是朝廷的白衣，是王府的灰褐短袄。城门旁的木板上钉着一张告示。\n", "outdoors": true, "exits": { "south": "native:guanbei/boundary", "north": "native:guanbei/street" } },
+		{ "id": "native:guanbei/street", "short": "王府大街", "long": "槐阳城里唯一的一条正街，从城门直通北头王府的朱门。街面是黄土的，两边是矮矮的土坯房子：铁匠铺里叮叮当当打着马蹄铁，皮货铺门口挂着一张张晾着的羊皮，马具铺的鞍子一溜摆在门板上。街上走的人都带着风沙的颜色，说话直来直去。东边一条岔道通马市，马粪味就是从那边来的。\n", "outdoors": true, "exits": { "south": "native:guanbei/gate", "north": "native:guanbei/palace_front", "east": "native:guanbei/market" } },
+		{ "id": "native:guanbei/palace_front", "short": "王府门前", "long": "大街的北头是槐阳王府。朱漆的大门褪得发白，门钉倒是黑亮的；门前一对石鼓，鼓面让人摸得溜光。门楼不高，却宽，梁上的彩画是塞外的样子——石青和赭红，画的是马和鹰，不是龙凤。门前的场子扫得干净，这是全城唯一干净的地方。\n", "outdoors": true, "exits": { "south": "native:guanbei/street" } },
+		{ "id": "native:guanbei/market", "short": "马市", "long": "大街东边的一片空场，围着木栏的马栏占了一半，栏里十来匹关北矮脚马，栏外的木桩上拴着刚换了主的。靠南是驼栏，两峰骆驼卧着嚼草。马贩子的秤挂在木架上，地上是草料和马粪。北边一间土坯房子门口挑着一面酒旗，写着「酒」——塞外酒肆。马栏边坐着一个高鼻深目的异族人，面前铺一块布，布上放着一把短剑。\n", "outdoors": true, "exits": { "west": "native:guanbei/street", "north": "native:guanbei/inn_hall" } },
+		{ "id": "native:guanbei/inn_hall", "short": "塞外酒肆", "long": "一间土坯墙的酒肆，屋顶是椽子上铺的草泥，矮得伸手能摸到梁。屋子正中是一个火塘，吊着一口黑锅，羊肉的香味和羊粪火的烟味混在一起。几张矮桌，几条板凳，墙上挂着皮囊和马鞭。掌柜的是个女人，站在柜后剁肉。靠墙坐着几个等消息的人，不说话，一碗马奶酒喝半天。\n", "exits": { "south": "native:guanbei/market", "north": "native:guanbei/inn_back" } },
+		{ "id": "native:guanbei/inn_back", "short": "酒肆后屋", "long": "酒肆的后屋，堆着成捆的干草和几口大缸，缸里泡着马奶酒，酸味扑鼻。墙角挂着整扇的羊，房梁上吊着一串串风干的肉条。地上铺着一张破毡子，是掌柜的睡处。\n", "exits": { "south": "native:guanbei/inn_hall" } }
+	]
+}

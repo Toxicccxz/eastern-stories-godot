@@ -1,0 +1,98 @@
+{
+  "indoor": false,
+  "camera_size": 24,
+  "note": "关外山道、风沙道、关北界碑 (native:guanbei/gate_road, dust_road, boundary; 关北 A): the military road out of the valley's east gate — the gate's stone back with 严廷殷's yellow flag over it, pale low cliffs that fall away northward, cart ruts deep in the gravel, dust blowing low over the ground, the grass beginning in tufts and then as steppe, the boundary stone 关北封国界 by the road, and 槐阳城's rammed-earth wall across the north with the gate tower over the way in. Old and used: ruts, a broken cart by the gate, a cairn of travellers' stones, bones of a pack animal in the dust.",
+  "edge": {"minimum_margin": 32, "maximum_margin": 96, "depth": 2.4, "top": "a89a74", "bottom": "8a7c5a", "strata": ["c0b088", "b4a47c", "a8986e"]},
+  "cliffs": {
+    "kinds": ["cliff"],
+    "low": 0.8,
+    "high": 4.6,
+    "rise": 200,
+    "step": 0.5,
+    "rough": 0.45,
+    "keep": 160,
+    "trim": ["cliff"],
+    "grooves": 0.08,
+    "strata": ["c8b482", "d4c08c", "bca878", "dccc98", "b09c6c", "c4b080"],
+    "tops": ["a89c6a", "b4a874", "9c9060", "a8a070"],
+    "south_rise": 1.4,
+    "areas": [
+      {"rect": [128, 1152, 1056, 1664], "high": 5.2, "strata": ["b8a070", "c4ac7a", "ac9466", "d0b886", "a08a5e", "b89e70"], "tops": ["948658", "a09462", "888050"], "grooves": 0.12, "note": "the gorge behind the gate: the camel's east hump, higher and ruddier (canyon7.c: 两边是悬崖)"},
+      {"rect": [128, 576, 1056, 1152], "high": 2.6, "note": "the cliffs fall back along the dust road"},
+      {"rect": [128, 128, 1056, 576], "high": 1.2, "strata": ["b4a878", "c0b484", "a89c6e"], "tops": ["8a9458", "9a9c5c", "7c8a4e"], "grooves": 0.02, "note": "low banks at the steppe's edge, grass on top"}
+    ],
+    "lifts": [{"rect": [128, 1536, 1056, 1664], "by": 2.0, "note": "the rock the gate is set in"}]
+  },
+  "exit_trails": {
+    "guanbei.boundary.north": {"cells": 8, "kind": "path", "width": 8},
+    "guanbei.gate_road.south": {"cells": 6, "kind": "path", "width": 8},
+    "note": "the road runs on through the city gate, and back through the 关门"
+  },
+  "ground": {
+    "path": {"style": "scree", "colors": ["c4ac74", "d0b87c", "b89e68"], "gravel": 0.65, "stones": 0.08, "pebbles": ["dcc488", "b8a066", "e4d094", "a48c58"], "ruts": true, "note": "the military road, gravel rutted by the 兵部's carts"},
+    "rock": {"style": "scree", "colors": ["b8a46e", "c4b078", "ac9864"], "gravel": 0.5, "stones": 0.05, "pebbles": ["d4bc84", "c0a870", "9c8858"], "note": "dust and loose stone off the road (风沙道)"},
+    "grass": {"style": "scree", "colors": ["8c9058", "98985c", "7e8a50"], "gravel": 0.08, "stones": 0.01, "pebbles": ["a8a468", "8a8a52"], "note": "the steppe's edge: grey-green turf with bare patches"},
+    "boundary": {"style": "scree", "colors": ["b4a46e", "c0b078", "a89864"], "gravel": 0.5, "stones": 0.05, "pebbles": ["d4bc84", "c0a870", "9c8858"]}
+  },
+  "ground_tints": {"bank": "9a8c5e", "mud": "a8966a", "chips": ["d0bc88", "c4b07c", "b4a070"], "dust": "d8c898", "grit": "e0d0a0"},
+  "flora": {
+    "grass_density": 0.6,
+    "density": {"rock": 0.1, "path": 0.02, "grass": 0.95, "boundary": 0.2},
+    "flower_threshold": 0.3,
+    "blossom_trees": 0.0,
+    "tree_types": ["scrub", "dead", "shrub", "scrub"],
+    "tree_kinds": ["forest"],
+    "tree_chance": 0.25,
+    "tree_spacing": 88,
+    "cliff_tufts": 0.14,
+    "cliff_flowers": 0.02,
+    "cliff_trees": 0.01,
+    "cliff_tree_types": ["scrub", "dead"],
+    "outcrop_colors": ["b8a46e", "c4b078", "ac9864"],
+    "wind": 0.9,
+    "butterflies": 0,
+    "areas": [
+      {"rect": [128, 128, 1056, 576], "tree_types": ["poplar", "willow", "scrub"], "tree_chance": 0.3, "grass_density": 0.95, "note": "the steppe's edge: gold poplars and squat willows by the stone"}
+    ],
+    "meadows": [
+      {"rect": [256, 576, 800, 1152], "on": ["rock"], "scale": [1.0, 1.6], "density": 0.3, "tufts": 2, "note": "枯黄的草 in tufts along the dust road"},
+      {"rect": [288, 128, 768, 576], "on": ["grass"], "scale": [1.4, 2.0], "density": 0.7, "tufts": 3, "note": "the grass beginning in earnest"}
+    ]
+  },
+  "ambience": {
+    "birds": [{"at": [528, 400], "radius": 300, "count": 2, "height": 14, "color": "3a3028", "note": "a hawk over the steppe"}],
+    "dust": [{"rect": [256, 576, 800, 1152], "count": 36, "color": "e0cc98", "wind": [0.3, 1.0], "note": "风沙道: sand running low over the ground, from the north"}, {"rect": [320, 1152, 736, 1600], "count": 12, "color": "d8c490", "wind": [0.2, 0.8]}]
+  },
+  "reshape": [],
+  "buildings": [
+    {"rect": [336, 1600, 720, 1664], "portals": ["guanbei.gate_road.south"], "note": "the 关门's back: a stone gate in the valley's east wall (canyon_pass.tscn's building, seen from outside), the way through it back to canyon7; 严廷殷's yellow flag on the tower", "construction": "brick", "wall": "9a8a62", "brick": ["a09060", "ac9c6a", "948456", "b4a474"], "mortar": "7a6e50", "timber": "5a4a3a", "roof": "6a5a48", "height": 4.4, "roof_form": "hip", "ridge": "x", "rise": 0.9, "overhang": 0.4, "eave_lift": 0.1, "foundation": 0.2, "bay": 5, "porch": "none", "lanterns": false, "goods": "none", "doorway_width": 3.0, "step": "a89a74", "posts": "6a6058", "hanging_flag": {"text": "严", "cloth": "c8a040", "trim": "8a6a20", "letters": "2a2422", "side": 1.0}},
+    {"rect": [128, 64, 1056, 128], "portals": ["guanbei.boundary.north"], "note": "槐阳城's south wall seen from the steppe: rammed earth, the gate tower over the way in (the city is guanbei_town)", "construction": "earth", "wall": "b89a66", "timber": "7a4a3a", "roof": "8a4a3a", "height": 3.6, "roof_form": "hip", "ridge": "x", "rise": 0.8, "overhang": 0.5, "eave_lift": 0.15, "foundation": 0.0, "bay": 7, "porch": "none", "lanterns": true, "lantern": "ffb858", "goods": "none", "doorway_width": 3.0, "step": "a89a74", "posts": "8a4a3a", "masses": [{"bounds": [0.0, 0.0, 0.38, 1.0], "height": 3.6, "roof_form": "none"}, {"bounds": [0.38, 0.0, 0.62, 1.0], "height": 5.0, "roof_form": "hip", "roof": "8a4a3a", "rise": 1.0}, {"bounds": [0.62, 0.0, 1.0, 1.0], "height": 3.6, "roof_form": "none"}]}
+  ],
+  "props": [
+    {"kind": "trail", "points": [[528, 1584], [540, 1460], [520, 1320], [500, 1180], [520, 1020], [560, 880], [540, 740], [512, 610], [520, 480], [528, 340], [528, 210], [528, 144]], "color": "a89060", "note": "the 兵部's cart ruts the whole way"},
+    {"kind": "stains", "at": [528, 1500], "size": [200, 120], "count": 7, "colors": ["a89060", "b49c6a", "9a8458"], "note": "the ground churned inside the gate"},
+    {"kind": "cart_wheel", "at": [372, 1480], "size": [22, 22], "rotation": 40, "note": "the broken cart's other wheel"},
+    {"kind": "bones", "at": [680, 1380], "size": [40, 30], "skull": true, "count": 4, "note": "a pack animal that did not make it out of the gorge"},
+    {"kind": "standing_rock", "at": [330, 1230], "size": [40, 34], "height": 2.4, "colors": ["b8a070", "c4ac7a", "ac9466", "d0b886"], "cap": "948658", "note": "the east hump's foot"},
+    {"kind": "boulder", "at": [736, 1300], "size": [36, 30], "tall": 0.8, "colors": ["b8a070", "c4ac7a", "ac9466"], "lichen_color": "8a8a4a"},
+    {"kind": "rock_pile", "at": [300, 1080], "size": [30, 26], "count": 5, "colors": ["b8a46e", "c4b078", "ac9864", "d4bc84"]},
+    {"kind": "boulder", "at": [770, 1000], "size": [30, 26], "tall": 0.6, "colors": ["b8a46e", "c4b078", "ac9864"]},
+    {"kind": "dead_log", "at": [262, 700], "size": [56, 18], "rotation": 15, "note": "a dead poplar trunk the wind brought down"},
+    {"kind": "bush", "at": [790, 620], "size": [30, 24], "colors": ["7a7444", "8c864c", "9e9856"]},
+    {"kind": "bush", "at": [284, 640], "size": [26, 22], "colors": ["7a7444", "8c864c", "9e9856"]},
+    {"kind": "cairn", "at": [328, 768], "size": [16, 16], "stones": 7, "colors": ["b8a46e", "c4b078", "ac9864"], "note": "the travellers' cairn (the layout's blocked box)"},
+    {"kind": "stains", "at": [672, 330], "size": [60, 40], "count": 5, "colors": ["8a8c84", "9a9c93", "74766f"], "note": "stones left at the boundary stone's foot (native:guanbei/boundary: 碑脚堆着过路人放的石子)"},
+    {"kind": "paper_slip", "at": [700, 360], "size": [14, 18], "rotation": 30, "note": "a prayer slip blown off the cairn"},
+            {"kind": "glow", "at": [528, 1560], "color": "ffb070", "day": 0.0, "night": 0.6, "range": 7.0, "height": 2.6, "note": "a torch burning in the gate's back at night"},
+    {"kind": "torch", "at": [456, 1612], "size": [16, 16], "height": 2.0, "note": "torches either side of the gate's back, on its wall"},
+    {"kind": "torch", "at": [600, 1612], "size": [16, 16], "height": 2.0},
+    {"kind": "glow", "at": [528, 120], "color": "ffc080", "day": 0.0, "night": 0.7, "range": 9.0, "height": 3.4, "note": "the city gate's lanterns at night"},
+    {"kind": "far_peak", "at": [-120, 1700], "size": [320, 240], "height": 14.0, "elevation": -6.0, "colors": ["a89060", "b89c6c", "9a8458", "8a7850"], "note": "天驼关's camel humps behind the gate, south-west"},
+    {"kind": "far_peak", "at": [1180, 1740], "size": [340, 260], "height": 15.0, "elevation": -6.0, "colors": ["a89060", "b89c6c", "9a8458", "8a7850"], "note": "and south-east"},
+    {"kind": "far_ground", "at": [-300, 400], "size": [360, 900], "colors": ["8a9458", "96985c", "7e8a50"], "elevation": -0.4, "note": "the steppe running off west, flat to the sky"},
+    {"kind": "far_ground", "at": [1380, 400], "size": [360, 900], "colors": ["8a9458", "96985c", "7e8a50"], "elevation": -0.4, "note": "and east"}
+  ],
+  "actors": {
+    "default": {"coat": "8a7a5a"}
+  }
+}

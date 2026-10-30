@@ -1,0 +1,6 @@
+{
+	"vendors": [
+		{ "id": "guanbei.vendor.smith", "legacy_source": "native: 关北 A (DECISIONS「关北 A」) — 槐阳城's smith sells the 马刀 he forges", "goods": [ { "key": "saber", "item": "native:guanbei/saber" } ] },
+		{ "id": "guanbei.vendor.inn", "legacy_source": "native: 关北 A (DECISIONS「关北 A」) — the 塞外酒肆's drink and meat", "goods": [ { "key": "wine", "item": "native:guanbei/mares_milk_wine" }, { "key": "mutton", "item": "native:guanbei/mutton" } ] }
+	]
+}

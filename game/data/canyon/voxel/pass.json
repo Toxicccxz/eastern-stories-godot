@@ -43,7 +43,7 @@
   "reshape": [
     {"rect": [1088, 944, 2576, 1744], "from": ["cliff"], "to": "rock", "note": "the camp's ground between the tents: trodden flat inside the palisade (the 2D map keeps it closed; the camp is its own map)"}
   ],
-  "exit_trails": {"canyon.canyon7.south": {"cells": 12, "kind": "path", "width": 8}, "note": "canyon7.c: 南下通往京师 — the path runs on south to 玉螺湖村"},
+  "exit_trails": {"canyon.canyon7.south": {"cells": 12, "kind": "path", "width": 8}, "canyon.canyon7.east": {"cells": 6, "kind": "path", "width": 6}, "note": "canyon7.c: 南下通往京师 — the path runs on south to 玉螺湖村; east through the 关门 to 关北 (关北 A)"},
   "ground": {
     "path": {"style": "scree", "colors": ["c0a060", "cca86a", "b49458"], "gravel": 0.7, "stones": 0.1, "pebbles": ["d8b870", "b89850", "e0c880", "a08848"], "note": "canyon3.c: 黄土、黄石还是平铺于小路上"},
     "rock": {"style": "scree", "colors": ["a89060", "b09868", "9c8458"], "gravel": 0.5, "stones": 0.03, "pebbles": ["c4a868", "b89858", "8a7a50"], "note": "the camp's trodden yard"},
@@ -86,6 +86,7 @@
     ]
   },
   "buildings": [
+    {"rect": [1088, 2016, 1184, 2176], "portals": ["canyon.canyon7.east"], "note": "关北 A (DECISIONS「关北 A」): the 关门 in the valley's east wall — a stone gate tower set into the east hump, the way out to 关北 through it, 严廷殷's yellow 「严」 flag on the tower; canyon7.c has no way east (the outline's)", "construction": "brick", "wall": "9a8a62", "brick": ["a09060", "ac9c6a", "948456", "b4a474"], "mortar": "7a6e50", "timber": "5a4a3a", "posts": "6a6058", "roof": "6a5a48", "height": 4.4, "roof_form": "hip", "ridge": "z", "rise": 0.9, "overhang": 0.4, "eave_lift": 0.1, "foundation": 0.2, "bay": 5, "porch": "none", "lanterns": false, "goods": "none", "doorway_width": 3.0, "step": "a89a74", "hanging_flag": {"text": "严", "cloth": "c8a040", "trim": "8a6a20", "letters": "2a2422", "side": -1.0}},
     {"rect": [1088, 1248, 1376, 1440], "portals": ["canyon.canyon4.east"], "note": "camp1.c: 军营入口 — the gate yard in the iron palisade, two soldiers on duty",
       "construction": "iron_bars", "iron": "3a3835", "rail": "46423e", "wall": "3a3835", "timber": "5a4a3a", "height": 2.6, "roof_form": "none", "foundation": 0.0, "bay": 7,
       "porch": "none", "lanterns": false, "goods": "none", "doorway_width": 2.2, "step": "9a8a5e"},

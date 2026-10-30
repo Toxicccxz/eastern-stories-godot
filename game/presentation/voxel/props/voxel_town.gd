@@ -37,6 +37,8 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"haystack": _haystack(w,d)
 		"derrick": _derrick(w,d)
 		"tethered_horse": _tethered_horse(w,d)
+		"horse": _horse(w,d)
+		"camel": _camel(w,d)
 		_:
 			return false
 	return true
@@ -53,30 +55,7 @@ func _tethered_horse(w: float, d: float) -> void:
 	var horse := Node3D.new()
 	horse.rotation.y = PI/2 if along_x else 0.0
 	root.add_child(horse)
-	var body_h: float = 1.05
-	s.box(horse,Vector3(0,body_h,-0.1),Vector3(0.5,0.52,long*0.62),coat)
-	s.box(horse,Vector3(0,body_h+0.08,-long*0.36),Vector3(0.44,0.4,0.2),coat)
-	s.box(horse,Vector3(0,body_h+0.24,0),Vector3(0.1,0.12,long*0.5),mane)
-	for i: int in 4:
-		var x: float = -0.16 if i%2==0 else 0.16
-		var z: float = long*0.22 if i<2 else -long*0.3
-		var lift: float = 0.08 if i==3 else 0.0
-		s.box(horse,Vector3(x,(body_h-0.26)/2+lift,z),Vector3(0.12,body_h-0.26,0.14),coat)
-		s.box(horse,Vector3(x,0.05+lift,z+0.02),Vector3(0.13,0.1,0.17),"2e2a26")
-	# Neck up and forward, the head down to the post.
-	s.tilted_box(horse,Vector3(0,body_h+0.4,long*0.36),Vector3(0.3,0.75,0.3),coat,Vector3(-0.55,0,0))
-	s.box(horse,Vector3(0,body_h+0.5,long*0.44),Vector3(0.1,0.5,0.08),mane)
-	var head := Node3D.new()
-	head.position = Vector3(0,body_h+0.62,long*0.56)
-	head.rotation.x = 0.35
-	horse.add_child(head)
-	s.box(head,Vector3(0,-0.18,0.1),Vector3(0.26,0.36,0.44),coat)
-	s.box(head,Vector3(0,-0.34,0.32),Vector3(0.22,0.18,0.14),Color(coat).darkened(0.25).to_html(false))
-	if data.get("blaze",true):
-		s.box(head,Vector3(0,-0.16,0.33),Vector3(0.06,0.3,0.01),"e8e2d8")
-	for side: float in [-1.0,1.0]:
-		s.tilted_box(head,Vector3(side*0.1,0.06,-0.08),Vector3(0.06,0.16,0.04),coat,Vector3(-0.3,0,side*0.3))
-		s.box(head,Vector3(side*0.13,-0.1,0.18),Vector3(0.02,0.04,0.04),"1a1816")
+	var body_h: float = _horse_body(horse,long,coat,mane)
 	# A rope halter down to the post's ring; the post on the horse's `post_side` (-1: its left,
 	# against the wall it stands by).
 	var post_at := Vector3(0.45*float(data.get("post_side",-1.0)),0,long*0.62)
@@ -91,12 +70,116 @@ func _tethered_horse(w: float, d: float) -> void:
 	if data.get("saddle",false):
 		s.box(horse,Vector3(0,body_h+0.28,-0.05),Vector3(0.56,0.06,0.5),String(data.get("cloth","8a3a2a")))
 		s.box(horse,Vector3(0,body_h+0.36,-0.05),Vector3(0.34,0.12,0.36),"5a3a28")
+	_horse_tail(horse,body_h,long,mane)
+
+## A 关北 pony standing loose (the horse pen of the 马市, 剧情总纲 §3 第六章 ②): the tethered
+## horse's body without post or rope, along the box's long axis, head at +z; `coat`, `mane`,
+## `blaze`, `saddle` as the tethered one's, `grazing` (head down to the grass).
+func _horse(w: float, d: float) -> void:
+	var coat: String = String(data.get("coat",_pick(_colors("colors",["5a3a2a","6a4632","4a4a4e","2a2422","7a4a2a"]))))
+	var mane: String = String(data.get("mane","2a2420"))
+	var long: float = maxf(w,d)
+	var along_x: bool = w > d
+	var horse := Node3D.new()
+	horse.rotation.y = PI/2 if along_x else 0.0
+	root.add_child(horse)
+	var body_h: float = _horse_body(horse,long,coat,mane,data.get("grazing",false))
+	if data.get("saddle",false):
+		s.box(horse,Vector3(0,body_h+0.28,-0.05),Vector3(0.56,0.06,0.5),String(data.get("cloth","8a3a2a")))
+		s.box(horse,Vector3(0,body_h+0.36,-0.05),Vector3(0.34,0.12,0.36),"5a3a28")
+	_horse_tail(horse,body_h,long,mane)
+
+## The horse itself: barrel, chest, legs (one hind foot resting), neck and head with its blaze,
+## ears and eyes. Returns the barrel's height, for what goes on its back.
+func _horse_body(horse: Node3D, long: float, coat: String, mane: String, grazing: bool = false) -> float:
+	var body_h: float = 1.05
+	s.box(horse,Vector3(0,body_h,-0.1),Vector3(0.5,0.52,long*0.62),coat)
+	s.box(horse,Vector3(0,body_h+0.08,-long*0.36),Vector3(0.44,0.4,0.2),coat)
+	s.box(horse,Vector3(0,body_h+0.24,0),Vector3(0.1,0.12,long*0.5),mane)
+	for i: int in 4:
+		var x: float = -0.16 if i%2==0 else 0.16
+		var z: float = long*0.22 if i<2 else -long*0.3
+		var lift: float = 0.08 if i==3 else 0.0
+		s.box(horse,Vector3(x,(body_h-0.26)/2+lift,z),Vector3(0.12,body_h-0.26,0.14),coat)
+		s.box(horse,Vector3(x,0.05+lift,z+0.02),Vector3(0.13,0.1,0.17),"2e2a26")
+	# Neck up and forward, the head down to the post (or to the grass).
+	var tilt: float = -0.55 if not grazing else -1.05
+	var neck_y: float = body_h+0.4 if not grazing else body_h+0.1
+	s.tilted_box(horse,Vector3(0,neck_y,long*0.36),Vector3(0.3,0.75,0.3),coat,Vector3(tilt,0,0))
+	s.box(horse,Vector3(0,neck_y+0.1,long*0.44),Vector3(0.1,0.5,0.08),mane)
+	var head := Node3D.new()
+	head.position = Vector3(0,body_h+0.62 if not grazing else body_h-0.2,long*0.56)
+	head.rotation.x = 0.35 if not grazing else 0.9
+	horse.add_child(head)
+	s.box(head,Vector3(0,-0.18,0.1),Vector3(0.26,0.36,0.44),coat)
+	s.box(head,Vector3(0,-0.34,0.32),Vector3(0.22,0.18,0.14),Color(coat).darkened(0.25).to_html(false))
+	if data.get("blaze",true):
+		s.box(head,Vector3(0,-0.16,0.33),Vector3(0.06,0.3,0.01),"e8e2d8")
+	for side: float in [-1.0,1.0]:
+		s.tilted_box(head,Vector3(side*0.1,0.06,-0.08),Vector3(0.06,0.16,0.04),coat,Vector3(-0.3,0,side*0.3))
+		s.box(head,Vector3(side*0.13,-0.1,0.18),Vector3(0.02,0.04,0.04),"1a1816")
+	return body_h
+
+## Its tail, stirring.
+func _horse_tail(horse: Node3D, body_h: float, long: float, mane: String) -> void:
 	var tail := Node3D.new()
 	tail.position = Vector3(0,body_h+0.18,-long*0.46)
 	horse.add_child(tail)
 	s.tilted_box(tail,Vector3(0,-0.3,-0.06),Vector3(0.08,0.64,0.08),mane,Vector3(0.2,0,0))
 	if ambience != null:
 		ambience.sway(tail,float(Shapes.place_seed(roundi(root.position.x*8),0,roundi(root.position.z*8),3)%628)/100.0,0.25)
+
+## 骆驼 (关北 A: the caravans at 槐阳城's gate, the camel pen of the 马市): a two-humped camel along
+## the box's long axis, head at +z — standing, or `kneeling` (the default) with its legs folded
+## under it, chewing; `coat` (dun), `wool` (the darker shag on humps and neck), `load` (bales
+## roped between the humps).
+func _camel(w: float, d: float) -> void:
+	var coat: String = String(data.get("coat","a88a5e"))
+	var wool: String = String(data.get("wool","7a5e3e"))
+	var long: float = maxf(w,d)
+	var along_x: bool = w > d
+	var camel := Node3D.new()
+	camel.rotation.y = PI/2 if along_x else 0.0
+	root.add_child(camel)
+	var kneeling: bool = data.get("kneeling",true)
+	var body_h: float = 0.62 if kneeling else 1.35
+	s.box(camel,Vector3(0,body_h,-0.05),Vector3(0.6,0.62,long*0.6),coat)
+	for hump: float in [-0.18,0.2]:
+		s.box(camel,Vector3(0,body_h+0.46,hump*long),Vector3(0.42,0.34,long*0.2),wool)
+		s.box(camel,Vector3(0,body_h+0.66,hump*long),Vector3(0.26,0.12,long*0.12),wool)
+	if kneeling:
+		for i: int in 4:
+			var x: float = -0.22 if i%2==0 else 0.22
+			var z: float = long*0.26 if i<2 else -long*0.28
+			s.box(camel,Vector3(x,0.14,z),Vector3(0.16,0.28,0.44),coat)
+			s.box(camel,Vector3(x,0.06,z+(0.26 if i<2 else -0.26)),Vector3(0.18,0.12,0.2),"4a3e32")
+	else:
+		for i: int in 4:
+			var x: float = -0.2 if i%2==0 else 0.2
+			var z: float = long*0.24 if i<2 else -long*0.28
+			s.box(camel,Vector3(x,(body_h-0.3)/2,z),Vector3(0.14,body_h-0.3,0.16),coat)
+			s.box(camel,Vector3(x,0.06,z+0.03),Vector3(0.18,0.12,0.22),"4a3e32")
+	# The long neck curving up and forward, the head carried high, chewing.
+	var neck_base := Vector3(0,body_h+0.1,long*0.3)
+	s.tilted_box(camel,neck_base+Vector3(0,0.35,0.15),Vector3(0.26,0.9,0.28),wool,Vector3(-0.5,0,0))
+	s.tilted_box(camel,neck_base+Vector3(0,0.95,0.42),Vector3(0.24,0.6,0.26),coat,Vector3(0.25,0,0))
+	var head := Node3D.new()
+	head.position = neck_base+Vector3(0,1.22,0.5)
+	camel.add_child(head)
+	s.box(head,Vector3(0,0,0.14),Vector3(0.24,0.26,0.5),coat)
+	s.box(head,Vector3(0,-0.08,0.42),Vector3(0.18,0.16,0.14),Color(coat).darkened(0.3).to_html(false))
+	for side: float in [-1.0,1.0]:
+		s.box(head,Vector3(side*0.1,0.14,-0.08),Vector3(0.06,0.1,0.05),coat)
+		s.box(head,Vector3(side*0.12,0.04,0.2),Vector3(0.02,0.04,0.04),"1a1816")
+	if data.get("load",false):
+		s.box(camel,Vector3(0,body_h+0.5,0),Vector3(0.7,0.4,long*0.16),String(data.get("cloth","8a5a3a")))
+		s.box(camel,Vector3(0,body_h+0.66,0),Vector3(0.74,0.04,long*0.44),"a08e62")
+	var tail := Node3D.new()
+	tail.position = Vector3(0,body_h+0.1,-long*0.42)
+	camel.add_child(tail)
+	s.tilted_box(tail,Vector3(0,-0.2,-0.04),Vector3(0.06,0.44,0.06),wool,Vector3(0.25,0,0))
+	if ambience != null:
+		ambience.sway(head,float(Shapes.place_seed(roundi(root.position.x*8),0,roundi(root.position.z*8),5)%628)/100.0,0.12)
 
 func _colors(key: String, fallback: Array) -> Array:
 	return data.get(key,fallback)

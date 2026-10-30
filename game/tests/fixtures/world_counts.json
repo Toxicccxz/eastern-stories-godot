@@ -133,9 +133,13 @@
 		"niling.dungeon",
 		"niling.rear",
 		"niling.master_house",
-		"niling.backhill"
+		"niling.backhill",
+		"guanbei.gorge",
+		"guanbei.town",
+		"guanbei.horse_market",
+		"guanbei.inn"
 	],
-	"rooms": 555,
+	"rooms": 564,
 	"snow_outdoor_portals": [
 		"snow.square.west",
 		"snow.eroad3.south",
@@ -457,6 +461,16 @@
 		"niling.altar.hell_runners",
 		"niling.cliff_path.xuan_mingzi",
 		"niling.corridor.jailers_keyed",
+		"guanbei.gate.gate_guards",
+		"guanbei.gate.camel_drivers",
+		"guanbei.street.smith",
+		"guanbei.market.balang",
+		"guanbei.market.luca",
+		"guanbei.market.herdsmen",
+		"guanbei.inn_hall.hu_sanniang",
+		"guanbei.inn_hall.qin_popo",
+		"guanbei.inn_hall.qin_xiaoliu",
+		"guanbei.inn_hall.lao_qin",
 		"native.school2.wooden_dummy.1",
 		"native.school2.wooden_dummy.2",
 		"native.school2.wooden_dummy.3",
@@ -481,11 +495,12 @@
 		"native.s_street2.yu_steward",
 		"native.s_street2.yu_henchmen",
 		"native.tomb3.hell_runners",
-		"native.yamen_iner.chen_witness"
+		"native.yamen_iner.chen_witness",
+		"native.canyon7.gate_soldiers"
 	],
-	"world_npcs": 517,
-	"resident_maps": 134,
-	"new_game_items": 872,
+	"world_npcs": 532,
+	"resident_maps": 138,
+	"new_game_items": 891,
 	"snow_outdoor_passages": 18,
 	"map_zones": {
 		"snow.inn": 1,
@@ -621,7 +636,11 @@
 		"niling.dungeon": 4,
 		"niling.rear": 1,
 		"niling.master_house": 1,
-		"niling.backhill": 2
+		"niling.backhill": 2,
+		"guanbei.gorge": 3,
+		"guanbei.town": 3,
+		"guanbei.horse_market": 1,
+		"guanbei.inn": 2
 	},
 	"map_npcs": {
 		"snow.inn": 3,
@@ -720,7 +739,7 @@
 		"choyin.hotel_house": 2,
 		"choyin.club_house": 0,
 		"canyon.clifftop": 0,
-		"canyon.pass": 7,
+		"canyon.pass": 9,
 		"canyon.armory": 1,
 		"canyon.bamboo": 0,
 		"canyon.stoneroom": 0,
@@ -757,7 +776,11 @@
 		"niling.dungeon": 8,
 		"niling.rear": 5,
 		"niling.master_house": 0,
-		"niling.backhill": 1
+		"niling.backhill": 1,
+		"guanbei.gorge": 0,
+		"guanbei.town": 5,
+		"guanbei.horse_market": 4,
+		"guanbei.inn": 4
 	},
 	"npc_draws_after_oldpine": 2559,
 	"technical_maps": 9,
