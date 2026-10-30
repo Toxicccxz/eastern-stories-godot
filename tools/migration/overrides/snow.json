@@ -2,6 +2,7 @@
 	"vendors": ["d/snow/npc/waiter.c", "d/snow/npc/herbalist.c", "d/snow/npc/smith.c"],
 	"vendor_goods": { "d/snow/npc/smith.c": { "铁锤": { "item": "d/snow/npc/obj/hammer.c", "price": 300 } } },
 	"set": {
+		"snow.outdoor.school1.guard": { "until": { "all": [ { "mark": "放过了刘安禄" }, { "mark": "霍铮回了寨" } ] } },
 		"snow.npc.dog": {
 			"accept_object": [
 				{ "item_alias": "bone", "emote": "高兴地汪汪叫了起来。", "accept": true, "set_npc_flag": "follows_player" }

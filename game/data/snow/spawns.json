@@ -43,7 +43,8 @@
 			"zone": "snow.school1",
 			"points": ["snow.school1.guard.1"],
 			"legacy_room": "d/snow/school1.c",
-			"legacy_quantity": 1
+			"legacy_quantity": 1,
+			"until": { "all": [{ "mark": "放过了刘安禄" }, { "mark": "霍铮回了寨" }] }
 		},
 		{
 			"id": "snow.outdoor.sroad2.farmers",

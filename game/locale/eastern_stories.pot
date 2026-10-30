@@ -253,6 +253,7 @@ msgstr ""
 #. native.npc.black_taoist_pass gender
 #. native.npc.black_taoist gender
 #. native.npc.tribute_taoist gender
+#. native.npc.liu_anlu_home gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/native/npcs.json
 msgid "男性"
 msgstr ""
@@ -12174,7 +12175,8 @@ msgstr ""
 #. snow.npc.guard name
 #. snow.npc.teacher inquiry topic
 #. native.npc.huo_zheng inquiry topic
-#: data/common/npcs.json data/common/quests.json data/snow/npcs.json data/niling/npcs.json
+#. native.npc.liu_anlu_home name
+#: data/common/npcs.json data/common/quests.json data/snow/npcs.json data/niling/npcs.json data/native/npcs.json
 msgid "刘安禄"
 msgstr ""
 
@@ -15739,6 +15741,7 @@ msgstr ""
 #. native.npc.niling_jailer_keyed inquiry topic
 #. niling name
 #. native.npc.tribute_taoist inquiry topic
+#. native.npc.liu_anlu_home inquiry topic
 #: data/story/chapter3.json data/goathill/npcs.json data/niling/npcs.json data/niling/world.json data/native/npcs.json
 msgid "逆灵宫"
 msgstr ""
@@ -18304,7 +18307,8 @@ msgstr ""
 
 #. goathill.npc.bandit_hwang name
 #. native.npc.huo_zheng inquiry topic
-#: data/goathill/npcs.json data/niling/npcs.json
+#. native.npc.liu_anlu_home inquiry topic
+#: data/goathill/npcs.json data/niling/npcs.json data/native/npcs.json
 msgid "黄霸"
 msgstr ""
 
@@ -18378,9 +18382,40 @@ msgstr ""
 msgid "黄霸脸色一沉：北麓那座黑砖道观？少打听。要问，问纳供。"
 msgstr ""
 
-#. goathill.npc.bandit_hwang inquiry.大寨主
+#. goathill.npc.bandit_hwang inquiry.大寨主.rules.say
+#. goathill.npc.bandit_hwang inquiry.霍铮.rules.say
 #: data/goathill/npcs.json
-msgid "黄霸把酒碗一顿：霍铮？半年前让道观的人带走了。你问这个做什么。"
+msgid "大哥在里屋。要见他，自己进去。"
+msgstr ""
+
+#. goathill.npc.bandit_hwang inquiry.大寨主.rules.say
+#. goathill.npc.bandit_hwang inquiry.霍铮.rules.say
+#: data/goathill/npcs.json
+msgid "没了。野羊山现在姓黄。"
+msgstr ""
+
+#. goathill.npc.bandit_hwang inquiry.大寨主.rules.say
+#. goathill.npc.bandit_hwang inquiry.霍铮.rules.say
+#: data/goathill/npcs.json
+msgid "霍铮？半年前让道观的人带走了。你问这个做什么。"
+msgstr ""
+
+#. goathill.npc.bandit_hwang inquiry topic
+#. native.npc.niling_winch_taoist inquiry topic
+#. native.npc.niling_gatekeeper inquiry topic
+#. native.npc.niling_store_taoist inquiry topic
+#. native.npc.niling_chanter inquiry topic
+#. native.npc.niling_lead_chanter inquiry topic
+#. native.npc.niling_steward inquiry topic
+#. native.npc.niling_jailer inquiry topic
+#. native.npc.huo_zheng name
+#. native.npc.shitou inquiry topic
+#. native.npc.guanbei_corvee inquiry topic
+#. native.npc.shang_jue inquiry topic
+#. native.npc.niling_jailer_keyed inquiry topic
+#. native.npc.liu_anlu_home inquiry topic
+#: data/goathill/npcs.json data/niling/npcs.json data/native/npcs.json
+msgid "霍铮"
 msgstr ""
 
 #. goathill.npc.bandit_hwang inquiry topic
@@ -18423,6 +18458,23 @@ msgstr ""
 msgid "黑衣？老子穿的是布衣。少打听。"
 msgstr ""
 
+#. goathill.npc.bandit_hwang moods.grown.title
+#: data/goathill/npcs.json
+msgid "野羊山寨主"
+msgstr ""
+
+#. goathill.npc.bandit_hwang moods.grown.chat_msg
+#: data/goathill/npcs.json
+msgid ""
+"黄霸把酒碗往桌上一顿：野羊山，老子说了算。\n"
+msgstr ""
+
+#. goathill.npc.bandit_hwang moods.grown.chat_msg
+#: data/goathill/npcs.json
+msgid ""
+"黄霸嘟囔道：大寨主没了。没了就没了。\n"
+msgstr ""
+
 #. goathill.npc.bandit_hwang moods.yielded.title
 #: data/goathill/npcs.json
 msgid "野羊山三寨主"
@@ -18438,6 +18490,16 @@ msgstr ""
 #: data/goathill/npcs.json
 msgid ""
 "黄霸嘟囔道：大哥回来了。好，好。\n"
+msgstr ""
+
+#. goathill.npc.bandit_hwang calls.steps.emote
+#: data/goathill/npcs.json
+msgid "看了你一眼，又低头喝酒。"
+msgstr ""
+
+#. goathill.npc.bandit_hwang calls.steps.say
+#: data/goathill/npcs.json
+msgid "逆灵宫的事老子听说了。大寨主没了，寨子是老子的——你也别想拿这个压老子。"
 msgstr ""
 
 #. goathill.npc.bandit_hwang calls.steps.emote
@@ -28272,6 +28334,58 @@ msgid ""
 "我的儿前两天不见了，我和他爹到处找都找不到。听说黑松山总抓小孩子。\n"
 msgstr ""
 
+#. village.npc.woman1 moods.reunited.chat_msg
+#: data/village/npcs.json
+msgid ""
+"农妇把石头搂在怀里，不肯松手。\n"
+msgstr ""
+
+#. village.npc.woman1 moods.reunited.chat_msg
+#: data/village/npcs.json
+msgid ""
+"农妇道：以后不许一个人往村口跑了，听见没有。\n"
+msgstr ""
+
+#. village.npc.woman1 calls.steps.emote
+#: data/village/npcs.json
+msgid "一眼看见你身后的石头，手里的东西全掉在了地上。"
+msgstr ""
+
+#. village.npc.woman1 calls.steps.say
+#: data/village/npcs.json
+msgid "石头！我的儿！"
+msgstr ""
+
+#. village.npc.woman1 calls.steps.line
+#: data/village/npcs.json
+msgid "农妇扑过来一把抱住石头，哭得说不出话。石头的脸埋在她怀里，抓着你衣角的手慢慢松开了。"
+msgstr ""
+
+#. village.npc.woman1 calls.steps.say
+#: data/village/npcs.json
+msgid "恩公……恩公，你是哪里来的神仙？"
+msgstr ""
+
+#. village.npc.woman1 calls.steps.emote
+#: data/village/npcs.json
+msgid "拉着你的手，一个劲地往屋里让。"
+msgstr ""
+
+#. village.npc.woman1 calls.steps.emote
+#: data/village/npcs.json
+msgid "一眼认出了你，手里的东西放下，拉住你的袖子。"
+msgstr ""
+
+#. village.npc.woman1 calls.steps.say
+#: data/village/npcs.json
+msgid "恩公！野羊寨的两个弟兄把石头送回来的，他们说是恩公从那道观里救出来的。"
+msgstr ""
+
+#. village.npc.woman1 calls.steps.say
+#: data/village/npcs.json
+msgid "石头回来那天一句话都不说，到今天才肯开口。恩公，你有空，进来喝碗水。"
+msgstr ""
+
 #. village.npc.woman1 chat_msg_combat.younger
 #: data/village/npcs.json
 msgid "唉，我那可怜的儿啊，年龄比你还小。!"
@@ -33740,22 +33854,6 @@ msgstr ""
 msgid "绞盘道士道：宫里的事，问管事去，别问我。"
 msgstr ""
 
-#. native.npc.niling_winch_taoist inquiry topic
-#. native.npc.niling_gatekeeper inquiry topic
-#. native.npc.niling_store_taoist inquiry topic
-#. native.npc.niling_chanter inquiry topic
-#. native.npc.niling_lead_chanter inquiry topic
-#. native.npc.niling_steward inquiry topic
-#. native.npc.niling_jailer inquiry topic
-#. native.npc.huo_zheng name
-#. native.npc.shitou inquiry topic
-#. native.npc.guanbei_corvee inquiry topic
-#. native.npc.shang_jue inquiry topic
-#. native.npc.niling_jailer_keyed inquiry topic
-#: data/niling/npcs.json
-msgid "霍铮"
-msgstr ""
-
 #. native.npc.niling_winch_taoist inquiry.霍铮
 #: data/niling/npcs.json
 msgid "绞盘道士摇绳的手顿了一顿：不认识。……你问这个做什么。"
@@ -34559,9 +34657,34 @@ msgid ""
 "玄冥子的剑上带着一股阴风，剑过处连雾都裂开了。\n"
 msgstr ""
 
-#. native.npc.xuan_mingzi_cliff inquiry.商玦
+#. native.npc.xuan_mingzi_cliff inquiry.商玦.rules.say
+#: data/niling/npcs.json
+msgid "宫主下了崖。他不要我了，我也不要他了。"
+msgstr ""
+
+#. native.npc.xuan_mingzi_cliff inquiry.商玦.rules.say
 #: data/niling/npcs.json
 msgid "玄冥子冷冷道：宫主已经走了。你追不上。"
+msgstr ""
+
+#. native.npc.xuan_mingzi_cliff inquiry topic
+#: data/niling/npcs.json
+msgid "六阴剑"
+msgstr ""
+
+#. native.npc.xuan_mingzi_cliff inquiry.六阴剑.rules.say
+#: data/niling/npcs.json
+msgid "要练六阴剑，带着残卷来后山找我——不是现在。宫里的事还没完。你记住这条路。"
+msgstr ""
+
+#. native.npc.xuan_mingzi_cliff inquiry.六阴剑.rules.say
+#: data/niling/npcs.json
+msgid "残卷不在你身上，谈什么六阴剑。"
+msgstr ""
+
+#. native.npc.xuan_mingzi_cliff inquiry.六阴剑.rules.say
+#: data/niling/npcs.json
+msgid "玄冥子冷笑：你也配问？"
 msgstr ""
 
 #. native.npc.xuan_mingzi_cliff moods.owed.chat_msg
@@ -35374,6 +35497,64 @@ msgstr ""
 #: data/native/npcs.json
 msgid ""
 "押车道士往裂口上头喊了一声，上面没有人应。\n"
+msgstr ""
+
+#. native.npc.liu_anlu_home title
+#: data/native/npcs.json
+msgid "野羊山二寨主"
+msgstr ""
+
+#. native.npc.liu_anlu_home long
+#: data/native/npcs.json
+msgid ""
+"刘安禄脱了门房的青布衫，换回了一身短打，单刀挂在腰上。他靠着土地庙的柱子，像是回到了自己的地方——只是看人的眼神还带着当门房时的那股子躲闪。\n"
+msgstr ""
+
+#. native.npc.liu_anlu_home chat_msg
+#: data/native/npcs.json
+msgid ""
+"刘安禄擦着单刀，没有抬头。\n"
+msgstr ""
+
+#. native.npc.liu_anlu_home chat_msg
+#: data/native/npcs.json
+msgid ""
+"刘安禄朝里屋喊了一声：大哥，酒来了！\n"
+msgstr ""
+
+#. native.npc.liu_anlu_home inquiry topic
+#: data/native/npcs.json
+msgid "回寨"
+msgstr ""
+
+#. native.npc.liu_anlu_home inquiry.回寨
+#: data/native/npcs.json
+msgid "刘安禄道：大哥回来了，老子还在雪亭镇看什么门。淳风武馆的门房，让他们另找人吧。"
+msgstr ""
+
+#. native.npc.liu_anlu_home inquiry.霍铮
+#: data/native/npcs.json
+msgid "刘安禄道：大哥在里屋。他说你横着走，那就横着走。"
+msgstr ""
+
+#. native.npc.liu_anlu_home inquiry.逆灵宫
+#: data/native/npcs.json
+msgid "刘安禄啐了一口：那群牛鼻子的账，野羊寨记着。等大哥养好了身子。"
+msgstr ""
+
+#. native.npc.liu_anlu_home inquiry topic
+#: data/native/npcs.json
+msgid "血手"
+msgstr ""
+
+#. native.npc.liu_anlu_home inquiry.血手
+#: data/native/npcs.json
+msgid "刘安禄沉默了一会儿：血手刘三是老子。老子认。你放过我一回，野羊寨欠你两条命。"
+msgstr ""
+
+#. native.npc.liu_anlu_home inquiry.黄霸
+#: data/native/npcs.json
+msgid "刘安禄压低声音：老三纳供的事，大哥没追究。老子也不说。"
 msgstr ""
 
 #. native:snow/letter_to_chen name

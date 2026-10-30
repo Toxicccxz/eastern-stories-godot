@@ -34,7 +34,20 @@
 					]
 				},
 				"逆灵宫": ["黄霸脸色一沉：北麓那座黑砖道观？少打听。要问，问纳供。"],
-				"大寨主": ["黄霸把酒碗一顿：霍铮？半年前让道观的人带走了。你问这个做什么。"],
+				"大寨主": {
+					"rules": [
+						{ "asker_marks": ["霍铮回了寨"], "say": "大哥在里屋。要见他，自己进去。" },
+						{ "asker_marks": ["黄霸坐大了"], "say": "没了。野羊山现在姓黄。" },
+						{ "say": "霍铮？半年前让道观的人带走了。你问这个做什么。" }
+					]
+				},
+				"霍铮": {
+					"rules": [
+						{ "asker_marks": ["霍铮回了寨"], "say": "大哥在里屋。要见他，自己进去。" },
+						{ "asker_marks": ["黄霸坐大了"], "say": "没了。野羊山现在姓黄。" },
+						{ "say": "霍铮？半年前让道观的人带走了。你问这个做什么。" }
+					]
+				},
 				"黑衣": {
 					"rules": [
 						{ "asker_marks": ["黄霸给了黑冠"], "say": "就那一顶，老子又不开成衣铺。" },
@@ -45,6 +58,12 @@
 				}
 			},
 			"moods": {
+				"grown": {
+					"title": "野羊山寨主",
+					"lasting": true,
+					"chat_chance": 10,
+					"chat_msg": ["黄霸把酒碗往桌上一顿：野羊山，老子说了算。\n", "黄霸嘟囔道：大寨主没了。没了就没了。\n"]
+				},
 				"yielded": {
 					"title": "野羊山三寨主",
 					"lasting": true,
@@ -54,6 +73,7 @@
 			},
 			"scene_mark": "霍铮回了寨",
 			"calls": [
+				{ "after": 0, "reaction": true, "mark": "追出了后门", "not_mark": "黄霸坐大了", "steps": [{ "emote": "看了你一眼，又低头喝酒。" }, { "say": "逆灵宫的事老子听说了。大寨主没了，寨子是老子的——你也别想拿这个压老子。" }, { "npc_mood": "grown" }, { "mark": "黄霸坐大了" }] },
 				{ "after": 1, "scene": true, "mark": "救出了霍铮", "not_mark": "霍铮回了寨", "steps": [{ "emote": "手里的酒碗啪地掉在地上。" }, { "say": "大哥……大哥你还活着！" }] },
 				{ "after": 4, "scene": true, "mark": "救出了霍铮", "not_mark": "霍铮回了寨", "steps": [{ "by": "native.npc.huo_zheng" }, { "say": "活着。老三，寨子你管得不错——供也纳得不错。" }] },
 				{ "after": 8, "scene": true, "mark": "救出了霍铮", "not_mark": "霍铮回了寨", "steps": [{ "by": "goathill.npc.bandit_hwang" }, { "emote": "扑通一声跪下了。" }, { "say": "大哥，寨子是你的。老子从今天起还是三寨主，你要打要杀，老子不还手。" }, { "npc_mood": "yielded" }] },
@@ -77,7 +97,9 @@
 				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 10 }
 			],
 			"apply": { "attack": 40, "defense": 30 },
-			"capabilities": ["aggressive_on_player_presence"]
+			"capabilities": ["aggressive_on_player_presence"],
+			"ignores_when": { "mark": "霍铮回了寨" },
+			"ignores_with_parley": true
 		},
 		{
 			"id": "goathill.npc.bandit_leader",
@@ -96,7 +118,9 @@
 				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 10 }
 			],
 			"apply": { "attack": 60, "defense": 80 },
-			"capabilities": ["aggressive_on_player_presence"]
+			"capabilities": ["aggressive_on_player_presence"],
+			"ignores_when": { "mark": "霍铮回了寨" },
+			"ignores_with_parley": true
 		},
 		{
 			"id": "goathill.npc.worm",

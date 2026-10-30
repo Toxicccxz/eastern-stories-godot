@@ -122,6 +122,11 @@ position = Vector2(-360, -488)
 script = ExtResource("marker")
 spawn_point_id = &"village.fmhousback.woman1.1"
 
+[node name="FmhousbackShitou1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-320, -488)
+script = ExtResource("marker")
+spawn_point_id = &"village.fmhousback.shitou.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]
