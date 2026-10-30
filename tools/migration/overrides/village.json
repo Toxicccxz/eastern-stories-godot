@@ -15,6 +15,87 @@
 			]
 		},
 		"village.npc.woman1": {
+				"moods": {
+					"reunited": {
+						"lasting": true,
+						"chat_chance": 15,
+						"chat_msg": [
+							"农妇把石头搂在怀里，不肯松手。\n",
+							"农妇道：以后不许一个人往村口跑了，听见没有。\n"
+						]
+					}
+				},
+				"scene_mark": "农妇谢过",
+				"calls": [
+					{
+						"after": 1,
+						"scene": true,
+						"present": "native.npc.shitou",
+						"not_mark": "石头回家了",
+						"steps": [
+							{
+								"emote": "一眼看见你身后的石头，手里的东西全掉在了地上。"
+							},
+							{
+								"say": "石头！我的儿！"
+							},
+							{
+								"line": "农妇扑过来一把抱住石头，哭得说不出话。石头的脸埋在她怀里，抓着你衣角的手慢慢松开了。"
+							},
+							{
+								"leave": "native.npc.shitou"
+							},
+							{
+								"mark": "石头回家了"
+							},
+							{
+								"npc_mood": "reunited"
+							}
+						]
+					},
+					{
+						"after": 5,
+						"scene": true,
+						"present": "native.npc.shitou",
+						"not_mark": "石头回家了",
+						"steps": [
+							{
+								"say": "恩公……恩公，你是哪里来的神仙？"
+							},
+							{
+								"emote": "拉着你的手，一个劲地往屋里让。"
+							}
+						]
+					},
+					{
+						"after": 1,
+						"scene": true,
+						"mark": "石头回家了",
+						"not_mark": "农妇谢过",
+						"steps": [
+							{
+								"emote": "一眼认出了你，手里的东西放下，拉住你的袖子。"
+							},
+							{
+								"say": "恩公！野羊寨的两个弟兄把石头送回来的，他们说是恩公从那道观里救出来的。"
+							},
+							{
+								"npc_mood": "reunited"
+							}
+						]
+					},
+					{
+						"after": 5,
+						"scene": true,
+						"mark": "石头回家了",
+						"not_mark": "农妇谢过",
+						"steps": [
+							{
+								"say": "石头回来那天一句话都不说，到今天才肯开口。恩公，你有空，进来喝碗水。"
+							}
+						]
+					}
+				],
 			"apply": { "dodge": { "base": 10, "plus_random": 5 } },
 			"chat_chance_combat": 50,
 			"chat_msg_combat": [

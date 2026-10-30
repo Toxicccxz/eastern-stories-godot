@@ -96,6 +96,27 @@ static func chapter3_dungeon_done(session: WorldSessionController) -> void:
 		state.marks[mark] = 1
 
 
+## 逆灵宫 C done by the rescue (DECISIONS「逆灵宫 C」): the scene seen, the ghouls down, 霍铮 and
+## 石头 out and home, 黄霸 yielded; the chapter done. 刘安禄 was spared (chapter3_entry_done).
+static func chapter3_rescued(session: WorldSessionController) -> void:
+	chapter3_dungeon_done(session)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in ["main.chapter3/altar", "main.chapter3/ghosts", "main.chapter3/choice/rescue", "main.chapter3/home", "main.chapter3#done"]:
+		_write(state, key)
+	for mark: String in ["见过唤首", "祭坛的鬼卒倒了", "狱卒交了钥匙", "救出了霍铮", "救出了石头", "放了关北民夫", "石头回家了", "霍铮回了寨"]:
+		state.marks[mark] = 1
+
+
+## 逆灵宫 C done by the chase: the back door taken, 玄冥子 down (spared); the chapter done.
+static func chapter3_chased(session: WorldSessionController) -> void:
+	chapter3_dungeon_done(session)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in ["main.chapter3/altar", "main.chapter3/ghosts", "main.chapter3/choice/chase", "main.chapter3/duel", "main.chapter3#done"]:
+		_write(state, key)
+	for mark: String in ["见过唤首", "祭坛的鬼卒倒了", "追出了后门", "玄冥子倒了", "放过了玄冥子"]:
+		state.marks[mark] = 1
+
+
 static func _write(state: CharacterState, key: String) -> void:
 	if not state.quests.has(key):
 		state.quests[key] = state.quests.size() + 1

@@ -453,6 +453,9 @@ func _ignored(npc: NpcRuntimeState) -> bool:
 	var condition: JournalEntryDefinition = npc.definition().dealings().ignores_when
 	if condition == null or _player == null or session == null:
 		return false
+	# An ES2 NPC's story leniency (ignores_with_parley) is the modern pace's: 经典 keeps it ES2's.
+	if npc.definition().dealings().ignores_with_parley and not GameContent.catalog().pacing().story_parley:
+		return false
 	var location: WorldLocationState = _player.world_location()
 	return JournalLog.holds(condition, _player.state, _player.temp_marks, session.player_held_item_ids(), &"" if location == null else location.zone_id, session.player_worn_item_ids())
 

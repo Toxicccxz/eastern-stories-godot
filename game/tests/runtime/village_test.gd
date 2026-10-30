@@ -22,7 +22,7 @@ const LIU: StringName = &"village.npc.oldliu"
 ## Where each kind stands (the rooms' set("objects")).
 const PEOPLE: Dictionary = {
 	&"village.road2": {&"village.npc.trader1": 2},
-	&"village.fmhousback": {&"village.npc.woman1": 1},
+	&"village.fmhousback": {&"village.npc.woman1": 1, &"native.npc.shitou": 1},
 	&"village.littlegarden": {&"village.npc.flowergirl": 5},
 	&"village.home": {LIU: 1},
 	&"village.smallstorage": {&"village.npc.rat": 6},

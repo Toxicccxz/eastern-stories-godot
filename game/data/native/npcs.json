@@ -402,6 +402,68 @@
 				"押车道士厉声道：野羊寨的供都敢劫，不要命了！\n",
 				"押车道士往裂口上头喊了一声，上面没有人应。\n"
 			]
+		},
+		{
+			"id": "native.npc.liu_anlu_home",
+			"legacy_source": "native: 逆灵宫 D (剧情总纲 §3 第三章 ⑥⑦ 的后果, 第八章 ①; DECISIONS「逆灵宫 D」) — 刘安禄 (d/snow/npc/guard.c's 门房, 血手刘三) back at the stockade once spared and 霍铮 home: the 门房 of 淳风武馆 is gone then (his spawn's `until`); the name and the brotherhood are DECISIONS「刘安禄放过后开口」's",
+			"name": "刘安禄",
+			"aliases": [
+				"liu anlu",
+				"liu",
+				"second chief"
+			],
+			"title": "野羊山二寨主",
+			"gender": "男性",
+			"age": 40,
+			"long": "刘安禄脱了门房的青布衫，换回了一身短打，单刀挂在腰上。他靠着土地庙的柱子，像是回到了自己的地方——只是看人的眼神还带着当门房时的那股子躲闪。\n",
+			"attributes": {
+				"str": 28,
+				"cor": 28,
+				"int": 20,
+				"spi": 20,
+				"cps": 24,
+				"per": 14,
+				"con": 26,
+				"kar": 8
+			},
+			"combat_exp": 30000,
+			"score": 1200,
+			"attitude": "friendly",
+			"skills": {
+				"blade": 60,
+				"unarmed": 40,
+				"dodge": 50,
+				"parry": 55
+			},
+			"carry": [
+				{
+					"item": "es2:d/snow/obj/blade",
+					"source": "d/snow/obj/blade.c",
+					"equip": "wield"
+				}
+			],
+			"chat_chance": 8,
+			"chat_msg": [
+				"刘安禄擦着单刀，没有抬头。\n",
+				"刘安禄朝里屋喊了一声：大哥，酒来了！\n"
+			],
+			"inquiry": {
+				"回寨": [
+					"刘安禄道：大哥回来了，老子还在雪亭镇看什么门。淳风武馆的门房，让他们另找人吧。"
+				],
+				"霍铮": [
+					"刘安禄道：大哥在里屋。他说你横着走，那就横着走。"
+				],
+				"逆灵宫": [
+					"刘安禄啐了一口：那群牛鼻子的账，野羊寨记着。等大哥养好了身子。"
+				],
+				"血手": [
+					"刘安禄沉默了一会儿：血手刘三是老子。老子认。你放过我一回，野羊寨欠你两条命。"
+				],
+				"黄霸": [
+					"刘安禄压低声音：老三纳供的事，大哥没追究。老子也不说。"
+				]
+			}
 		}
 	]
 }
