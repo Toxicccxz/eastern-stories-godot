@@ -382,6 +382,9 @@ func _npc_options(map: WorldMapController, thing: WorldNearbyThing, player_avail
 				offered.append(InteractionOption.new("接受测试", _after(select, _trial.bind(teacher))))
 			if _player.apprenticeship_request.is_pending():
 				offered.append(InteractionOption.new("取消拜师请求", _after(select, _cancel_request.bind(teacher))))
+	# A test of the NPC's own outside any 拜师 (NpcTrial: 瑷伦's 三鞭 for the 宝衣), asked first.
+	for trial: NpcTrial in map.npc_life.story_trials_offered(npc):
+		offered.append(InteractionOption.new(trial.label, _after(select, _story_trial.bind(map, npc, trial))))
 	if here:
 		# TRANSLATORS: why 给予 is greyed: the NPC ({npc}) lies unconscious and takes nothing (give.c says 这里没有这个人。, which reads wrong beside him; DECISIONS「说话和交互」).
 		offered.append(InteractionOption.new("给予", _after(select, _give), "", false, "" if awake else tr("{npc}昏迷不醒，收不了东西。").format({"npc": name})))
@@ -496,6 +499,12 @@ func _oath(teacher: TeacherService) -> void:
 func _trial(teacher: TeacherService) -> void:
 	var question: Array[String] = teacher.ui.trial_question()
 	_ui.questions.ask_first(question[0], question[1], teacher.ui.take_trial_now, teacher.offers_trial, Callable(), _profile(teacher))
+
+
+## An NPC's own test outside any 拜师 (NpcTrial), on its confirm page: its blows are real.
+func _story_trial(map: WorldMapController, npc: NpcRuntimeState, trial: NpcTrial) -> void:
+	var still: Callable = func() -> bool: return map.npc_life.offers_story_trial(npc, trial)
+	_ui.questions.ask_first(tr(trial.confirm), trial.label, map.npc_life.take_story_trial.bind(npc, trial), still)
 
 
 ## Withdrawing a 拜师 request still waiting (apprentice.c's cancel), on its confirm page.

@@ -56,6 +56,9 @@ var liquid_type: StringName = &""
 var liquid_remaining_at_most: int = NO_BOUND
 var npc_flag: StringName = &""
 var giver_mark: String = ""
+## Native (主线 第四章; DECISIONS「第四章 宝衣」): a mark the giver must NOT have (the other side
+## of a choice already made: the 宝衣 once carried out of the manor is not taken back).
+var unless_giver_mark: String = ""
 var giver_gender: StringName = &""
 var giver_per_below: int = NO_BOUND
 ## obj->query("name") as authored.
@@ -96,6 +99,9 @@ var drops: bool = false
 var destroys: bool = false
 var recruit: bool = false
 var ask: String = ""
+## Native (主线 第四章): the mood (NpcMood, the NPC's own) it goes into as it takes the gift
+## (瑷伦 given the 宝衣 keeps it to the last day; 安妮儿 given it has found who she waited for).
+var mood: String = ""
 
 
 ## What give.c knows about the gift and the two sides when it asks.
@@ -144,6 +150,7 @@ func matches(offer: Offer) -> bool:
 		and (unless_npc_flag.is_empty() or not offer.npc_flags.get(unless_npc_flag, false))
 		and (not item_master or offer.item_mastered)
 		and (giver_mark.is_empty() or offer.giver_marks.get(giver_mark, 0) != 0)
+		and (unless_giver_mark.is_empty() or offer.giver_marks.get(unless_giver_mark, 0) == 0)
 		and (giver_gender.is_empty() or offer.giver_gender == giver_gender)
 		and (giver_per_below == NO_BOUND or offer.giver_per < giver_per_below)
 		and (item_name.is_empty() or offer.item_name == item_name)
@@ -192,6 +199,7 @@ static func from_record(reader: ContentRecordReader) -> NpcObjectRule:
 	rule.liquid_remaining_at_most = reader.integer("liquid_remaining_at_most", NO_BOUND)
 	rule.npc_flag = StringName(reader.text("npc_flag"))
 	rule.giver_mark = reader.text("giver_mark")
+	rule.unless_giver_mark = reader.text("unless_giver_mark")
 	rule.giver_gender = StringName(reader.text("giver_gender"))
 	rule.giver_per_below = reader.integer("giver_per_below", NO_BOUND)
 	rule.item_name = reader.text("item_name")
@@ -232,6 +240,9 @@ static func from_record(reader: ContentRecordReader) -> NpcObjectRule:
 		reader.fail("destroys", "goes with a gift that is taken and kept")
 	rule.recruit = reader.boolean("recruit", false)
 	rule.ask = reader.text("ask")
+	rule.mood = reader.text("mood")
+	if not rule.mood.is_empty() and not rule.accept:
+		reader.fail("mood", "goes with a gift that is taken")
 	if (rule.drops or rule.recruit or not rule.ask.is_empty()) and not rule.accept:
 		reader.fail("accept", "drops, recruit and ask go with a gift that is taken")
 	if rule.drops and (not rule.effect.is_empty() or not rule.gives.is_empty() or rule.make != null or not rule.move_zone_id.is_empty()):

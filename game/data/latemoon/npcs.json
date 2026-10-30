@@ -95,7 +95,21 @@
 				{ "item_name": "竹蜻蜓", "giver_temp": "moon/竹蜻蜓", "say": "谢谢!我已经告诉你秘密了呀!去找呀! ", "accept": true },
 				{ "item_name": "竹蜻蜓", "set_temps": ["moon/问题二", "moon/竹蜻蜓"], "accept": true, "lines": [{ "line": "芳绫很开心的拿起竹蜻蜓把玩!\n" }, { "line": "满怀感激的谢谢你! 她小声的在你耳边说：\n" }, { "line": "『 庄内前厅某处藏有一宝物手镯哦!』\n" }, { "line": "你可以找找看! (search bracelet) \n" }] },
 				{ "say": "这要送给我啊?! 怎么好意思!谢谢你。", "accept": true }
-			]
+			],
+			"inquiry": {
+				"替跳": {
+					"rules": [
+						{ "npc_flag": "mood/going", "say": "走呀走呀！密室在哪边？" },
+						{ "asker_marks": ["芳绫替你跳了"], "say": "我都替你跳过了！还要？" },
+						{ "asker_marks": ["接下了瑷伦三鞭"], "mood": "going", "mark_asker": "芳绫跟你去了", "lines": [{ "emote": "从地上跳起来。" }, { "say": "关着也闷死了！第二密室？带我去——蓝姐姐问起来，你替我扛着。" }] },
+						{ "say": "替什么跳？我在受罚呢。你先去问守衣人吧。" }
+					]
+				}
+			},
+			"moods": {
+				"going": { "flags": ["follows_player"], "chat_chance": 10, "chat_msg": ["芳绫踮着脚跟在你后面，一步一个花样。\n"] }
+			},
+			"follows_every_way": true
 		},
 		{
 			"id": "latemoon.npc.girl",
@@ -187,7 +201,8 @@
 				{ "item": "es2:obj/example/sword", "source": "obj/example/sword.c", "equip": "wield" },
 				{ "item": "es2:obj/example/dumpling", "source": "obj/example/dumpling.c" },
 				{ "item": "es2:d/latemoon/room/npc/obj/letter", "source": "d/latemoon/room/npc/obj/letter.c" }
-			]
+			],
+			"inquiry": { "宝衣": ["密函里写的就是它。师父要我在庄里住着，等——等有人把它拿出来。"] }
 		},
 		{
 			"id": "latemoon.npc.room.tguest",
@@ -207,7 +222,8 @@
 			"carry": [
 				{ "item": "es2:d/latemoon/room/npc/obj/token", "source": "d/latemoon/room/npc/obj/token.c" },
 				{ "item": "es2:d/latemoon/room/npc/obj/longsword", "source": "d/latemoon/room/npc/obj/longsword.c", "equip": "wield" }
-			]
+			],
+			"inquiry": { "宝衣": ["天山派也想要它。守衣的那个女人我打不过，等着看谁打得过。"] }
 		},
 		{
 			"id": "latemoon.npc.room.fochin",
@@ -301,11 +317,17 @@
 			"inquiry": {
 				"here": ["这里是书房，有些鞭法教材存放在这儿。"],
 				"心事": ["实不相瞒，这杀手是我的私生女，但已误入歧途 ...\n我一直舍不得亲手杀了她，你若能帮忙我会非常感谢。 \n只是要以令牌为证，唉 ..."],
-				"令牌": ["就在我儿身上 ...你拿到了就给我。"]
+				"令牌": ["就在我儿身上 ...你拿到了就给我。"],
+				"宝衣": ["衣在庄里几百年了。它在，庄就在；它走了，庄里的人就得自己守了。"]
 			},
 			"accept_object": [
 				{ "item_alias": "###token###", "giver_family": "family.latemoon", "giver_max_force_below": 160, "effect": "pass_force", "accept": true, "lines": [{ "say": "作为感谢，我传你一些内力。" }, { "line": "无名老妇手抵在你的后心，头上冒出丝丝白气。\n" }, { "line": "你感觉到一股热气传了过来。\n" }] },
 				{ "item_alias": "###token###", "say": "作为感谢，我给你一本寒雪鞭法密笈。", "gives": "es2:d/latemoon/room/npc/obj/whip_book", "accept": true }
+			],
+			"moods": { "broken": { "lasting": true, "chat_chance": 8, "chat_msg": ["无名老妇坐在书房里，手里的鞭子一直没举起来。\n"] } },
+			"calls": [
+				{ "after": 0, "reaction": true, "mark": "带走了宝衣", "not_mark": "老妇说了拦", "steps": [{ "say": "是她。我听见前厅的声音就知道是她。我没拦住——我一直没拦住。" }, { "npc_mood": "broken" }, { "mark": "老妇说了拦" }] },
+				{ "after": 0, "reaction": true, "mark": "宝衣给了安妮儿", "not_mark": "老妇说了拦", "steps": [{ "say": "是她。我听见前厅的声音就知道是她。我没拦住——我一直没拦住。" }, { "npc_mood": "broken" }, { "mark": "老妇说了拦" }] }
 			]
 		},
 		{
@@ -403,7 +425,7 @@
 			"class": "dancer",
 			"gender": "女性",
 			"age": 37,
-			"long": "",
+			"long": "她看上去三十七岁。庄里最老的仆妇说，她小时候见到的瑷伦也是这张脸。鞭子挂在腰上，手搭在鞭柄上，像搭在一个老朋友的肩上。\n",
 			"attributes": { "str": 21, "int": 28 },
 			"resources": { "force": 4000, "max_force": 3000 },
 			"combat_exp": 3000000,
@@ -431,7 +453,48 @@
 				{ "item": "es2:d/latemoon/obj/blue_dress", "source": "d/latemoon/obj/blue_dress.c", "equip": "wear" },
 				{ "item": "es2:obj/weapon/whip", "source": "obj/weapon/whip.c", "equip": "wield" }
 			],
-			"inquiry": { "拜师": ["哦....想拜老身为师，好...\n不过得先接受测试(accept test)，接下我三鞭。"] },
+			"inquiry": {
+				"宝衣": {
+					"rules": [
+						{ "asker_marks": ["瑷伦守到决战"], "say": "衣在我身上。决战那日，你来叫我。" },
+						{ "asker_marks": ["带走了宝衣"], "say": "衣出了庄。你带着它，就别再回头问我。" },
+						{ "asker_marks": ["宝衣给了安妮儿"], "say": "你把它给了西厢那个人。几百年的东西，一句话就换了主。" },
+						{ "asker_marks": ["瑷伦说了冰匣"], "say": "衣在第二密室的冰匣里，匣只认「有凤来仪」。我说过了。" },
+						{ "asker_marks": ["接下了瑷伦三鞭"], "say": "你接住了。再问你一句：你拿它去做什么？——斩鬼，交给别人，还是你自己也不知道。想好了告诉我。" },
+						{ "asker_marks": ["潘军禅说了宝衣"], "mark_asker": "瑷伦说了三鞭", "lines": [{ "emote": "看了你一会儿。" }, { "say": "潘军禅的嘴向来快。是，衣在庄里，我守着。守了几百年——你看我多大？" }, { "say": "宝衣不白给。接我三鞭，站着不倒，我们再谈。" }] },
+						{ "asker_marks": ["南危水说了宝衣"], "mark_asker": "瑷伦说了三鞭", "lines": [{ "emote": "看了你一会儿。" }, { "say": "南危水肯开口，是你的本事。是，衣在庄里，我守着。守了几百年——你看我多大？" }, { "say": "宝衣不白给。接我三鞭，站着不倒，我们再谈。" }] },
+						{ "say": "什么宝衣？老身只会教鞭。" }
+					]
+				},
+				"为了斩鬼": {
+					"confirm": "这是你给守衣人的答复，说出去就改不了。",
+					"rules": [
+						{ "asker_marks": ["接下了瑷伦三鞭"], "asker_lacks": ["瑷伦说了冰匣"], "asker_gender": "女性", "marks_asker": ["答瑷伦：斩鬼", "瑷伦说了冰匣", "dance_yu_fong"], "lines": [{ "emote": "点了点头。" }, { "say": "寒於留它，本来就是为这个。衣在第二密室的冰匣里，匣只认「有凤来仪」——那支舞你跳得成，我教你记住它的名字。" }, { "say": "开了匣，衣是你的。带走，还是留给我守到决战那日，你自己定。" }] },
+						{ "asker_marks": ["接下了瑷伦三鞭"], "asker_lacks": ["瑷伦说了冰匣"], "marks_asker": ["答瑷伦：斩鬼", "瑷伦说了冰匣"], "lines": [{ "emote": "点了点头。" }, { "say": "寒於留它，本来就是为这个。衣在第二密室的冰匣里，匣只认「有凤来仪」——那是玄天玉女的步法，男子跳不成。" }, { "say": "请庄里的姑娘替你跳：筱薇在内厅，或者禁闭房里那个贪玩的芳绫。开了匣，衣是你的。带走，还是留给我守到决战那日，你自己定。" }] },
+						{ "asker_marks": ["瑷伦说了冰匣"], "say": "你答过了。" },
+						{ "say": "先接我三鞭。" }
+					]
+				},
+				"交给安妮儿": {
+					"confirm": "这是你给守衣人的答复，说出去就改不了。",
+					"rules": [
+						{ "asker_marks": ["接下了瑷伦三鞭", "安妮儿说了等"], "asker_lacks": ["瑷伦说了冰匣"], "asker_gender": "女性", "marks_asker": ["答瑷伦：给安妮儿", "瑷伦说了冰匣", "dance_yu_fong"], "lines": [{ "emote": "脸冷了下来。" }, { "say": "西厢那个人等了三年，等的就是你这句话。我不拦——拿得走就拿。" }, { "say": "衣在第二密室的冰匣里，匣只认「有凤来仪」。你跳得成，记住它的名字。" }] },
+						{ "asker_marks": ["接下了瑷伦三鞭", "安妮儿说了等"], "asker_lacks": ["瑷伦说了冰匣"], "marks_asker": ["答瑷伦：给安妮儿", "瑷伦说了冰匣"], "lines": [{ "emote": "脸冷了下来。" }, { "say": "西厢那个人等了三年，等的就是你这句话。我不拦——拿得走就拿。" }, { "say": "衣在第二密室的冰匣里，匣只认「有凤来仪」，男子跳不成。请筱薇或者芳绫替你跳。" }] },
+						{ "asker_marks": ["瑷伦说了冰匣"], "say": "你答过了。" },
+						{ "asker_marks": ["接下了瑷伦三鞭"], "say": "安妮儿？你连她在等什么都没问过，就要替她拿衣？" },
+						{ "say": "先接我三鞭。" }
+					]
+				},
+				"不知道": {
+					"confirm": "这是你给守衣人的答复，说出去就改不了。",
+					"rules": [
+						{ "asker_marks": ["接下了瑷伦三鞭"], "asker_lacks": ["瑷伦说了冰匣"], "asker_gender": "女性", "marks_asker": ["答瑷伦：不知", "瑷伦说了冰匣", "dance_yu_fong"], "lines": [{ "say": "不知道，比胡说一个好。衣在第二密室的冰匣里，匣只认「有凤来仪」——你跳得成，记住它的名字。" }, { "say": "开了匣再想。带走，还是留给我守到决战那日。" }] },
+						{ "asker_marks": ["接下了瑷伦三鞭"], "asker_lacks": ["瑷伦说了冰匣"], "marks_asker": ["答瑷伦：不知", "瑷伦说了冰匣"], "lines": [{ "say": "不知道，比胡说一个好。衣在第二密室的冰匣里，匣只认「有凤来仪」，男子跳不成——请筱薇或者芳绫替你跳。" }, { "say": "开了匣再想。带走，还是留给我守到决战那日。" }] },
+						{ "asker_marks": ["瑷伦说了冰匣"], "say": "你答过了。" },
+						{ "say": "先接我三鞭。" }
+					]
+				}
+			},
 			"apprentice": {
 				"kind": "trial",
 				"requires": [
@@ -448,7 +511,31 @@
 				],
 				"success": "瑷伦露出慈祥的面容：看来我没看错人。",
 				"title": "晚月庄第一代弟子"
-			}
+			},
+			"trials": [
+				{ "label": "接她三鞭", "asker_marks": ["瑷伦说了三鞭"], "unless_mark": "接下了瑷伦三鞭", "confirm": "瑷伦的三鞭是真打：\n· 每一鞭都实打实地落在你身上，挨中了会受伤。\n· 哪一鞭接不住，就算没接下，你随后会昏倒。\n· 伤得太重会死。\n倒了可以歇好再来。\n确定接她三鞭吗？", "blows": [{ "say": "瑷伦说道：小心了，这是第一鞭..." }, { "say": "瑷伦面露微笑：好！第二鞭来了...", "fail": "瑷伦叹了口气道：看来还是不行啊..." }, { "say": "瑷伦鼓励道：很不错，看这最后一鞭...", "fail": "瑷伦叹了口气道：太可惜了！" }], "success": "瑷伦收起鞭子：站得住。那就再问你一句——你拿它去做什么？", "mark": "接下了瑷伦三鞭", "deed": "接下了守衣人瑷伦的三鞭" }
+			],
+			"accept_object": [
+				{ "item": "native:latemoon/cold_robe", "giver_mark": "带走了宝衣", "accept": false, "say": "出了庄门的衣，不是晚月庄的了。拿走吧。" },
+				{ "item": "native:latemoon/cold_robe", "accept": true, "mark_giver": "瑷伦守到决战", "mood": "keeping", "lines": [{ "emote": "接过宝衣，抖开，披在肩上。衣角落下去的时候，屋里凉了一截。" }, { "say": "我守到决战那日。到时候你来叫我，我跟你下湖底。" }] }
+			],
+			"moods": {
+				"keeping": {
+					"title": "守衣人",
+					"lasting": true,
+					"chat_chance": 8,
+					"chat_msg": ["瑷伦的手搭在腰间，那里多了一层月白的衣角。\n", "瑷伦说：决战那日，你来叫我。\n"]
+				},
+				"bereft": {
+					"lasting": true,
+					"chat_chance": 8,
+					"chat_msg": ["瑷伦望着东厢的窗，很久没动。\n", "瑷伦低声说：几百年……到我手里丢的。\n"]
+				}
+			},
+			"calls": [
+				{ "after": 0, "reaction": true, "mark": "带走了宝衣", "not_mark": "瑷伦叹过", "steps": [{ "emote": "看了你一眼，又看向你空着的手。" }, { "say": "衣出了庄，凤凰暗了。前厅的事你看见了——那是衣走了的价钱。" }, { "npc_mood": "bereft" }, { "mark": "瑷伦叹过" }] },
+				{ "after": 0, "reaction": true, "mark": "宝衣给了安妮儿", "not_mark": "瑷伦叹过", "steps": [{ "emote": "没有看你。" }, { "say": "你把它给了西厢那个人。凤凰暗了，前厅死了人——几百年的东西，一句话就换了主。" }, { "npc_mood": "bereft" }, { "mark": "瑷伦叹过" }] }
+			]
 		},
 		{
 			"id": "latemoon.npc.room.annihi",
@@ -486,7 +573,28 @@
 				{ "item": "es2:d/latemoon/obj/redbelt", "source": "d/latemoon/obj/redbelt.c", "equip": "wear" },
 				{ "item": "es2:d/latemoon/obj/sword", "source": "d/latemoon/obj/sword.c", "equip": "wield" }
 			],
-			"apprentice": { "kind": "refuses", "refuse_say": "拜师! 不敢当，我都老了!你去找「芷萍」好了，看她收不收你?" }
+			"apprentice": { "kind": "refuses", "refuse_say": "拜师! 不敢当，我都老了!你去找「芷萍」好了，看她收不收你?" },
+			"inquiry": {
+				"宝衣": {
+					"rules": [
+						{ "asker_marks": ["宝衣给了安妮儿"], "say": "它在我这里。你记得这一点就够了——东方神教也记得。" },
+						{ "asker_marks": ["带走了宝衣"], "say": "宝衣出了庄。你的名字，我记下了。" },
+						{ "asker_marks": ["接下了瑷伦三鞭"], "mark_asker": "安妮儿说了等", "say": "守衣人让你过了？那她看中了你。我在西厢住了三年，等一件东西，也等一个配得上它的人——衣交给我，不比交给一个几百年不出庄的人差。" },
+						{ "mark_asker": "安妮儿说了等", "say": "我在西厢住了三年，等一件东西，也等一个配得上它的人。你是哪一个？" }
+					]
+				}
+			},
+			"accept_object": [
+				{ "item": "native:latemoon/cold_robe", "giver_mark": "带走了宝衣", "accept": false, "say": "出了庄的衣，不必再拿来给我看。" },
+				{ "item": "native:latemoon/cold_robe", "accept": true, "mark_giver": "宝衣给了安妮儿", "mood": "worthy", "lines": [{ "emote": "接过宝衣，手指在衣料上停了一停。" }, { "say": "月神族守了几百年，守给我的。" }, { "say": "你配得上。东方神教记得你——这句话，以后有用。" }] }
+			],
+			"moods": {
+				"worthy": { "lasting": true, "chat_chance": 8, "chat_msg": ["安妮儿把一件月白的衣叠在膝上，谁也不看。\n"] },
+				"remembers": { "lasting": true, "chat_chance": 8, "chat_msg": ["安妮儿看了你一眼，像在数你的名字有几个字。\n"] }
+			},
+			"calls": [
+				{ "after": 0, "reaction": true, "mark": "带走了宝衣", "not_mark": "安妮儿记下了", "steps": [{ "say": "宝衣出了庄，没进我的门。你的名字，我记下了。" }, { "npc_mood": "remembers" }, { "mark": "安妮儿记下了" }] }
+			]
 		},
 		{
 			"id": "latemoon.npc.room.yuchoun",

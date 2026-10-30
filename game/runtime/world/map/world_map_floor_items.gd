@@ -706,6 +706,13 @@ func give_to_selected(item_id: StringName, amount: int = 0) -> ItemHandlingResul
 		var at_feet: String = "" if gift.is_empty() or gift_content == null else at_feet_line(gift, gift_content)
 		if not at_feet.is_empty():
 			result.lines.append(at_feet)
+	# 第四章: the gift taken puts the NPC in a mood of its own (瑷伦 the 守衣人 with the 宝衣 back).
+	if result.done() and result.rule != null and not result.rule.mood.is_empty():
+		var hooks: NpcHooks = npc.definition().hooks()
+		if hooks != null and hooks.moods.has(result.rule.mood):
+			npc.put_in_mood(hooks.moods[result.rule.mood])
+		else:
+			push_error("%s has no mood '%s' to take a gift in" % [npc.definition().definition_id, result.rule.mood])
 	# chen.c accept_object(): command("recruit " + id) before give.c's line: a request waiting on
 	# him is taken at once, else he offers (recruit.c).
 	if result.done() and result.rule != null and result.rule.recruit:

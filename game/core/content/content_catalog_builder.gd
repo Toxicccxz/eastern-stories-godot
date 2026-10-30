@@ -766,8 +766,11 @@ func _resolve_services() -> void:
 				_errors.append("%s.act.stronger: unknown NPC '%s' or zone '%s'" % [origin, stronger, definition.act.stronger_zone_id])
 		if definition.dance == null:
 			continue
-		# A dance moves the dancer through a portal leaving the dance floor's room.
+		# A dance moves the dancer through a portal leaving the dance floor's room, or acts
+		# where they stand (第四章: the 冰匣's dance).
 		for step: DanceDefinition.Step in definition.dance.steps:
+			if step.act != null:
+				continue
 			var portal: PortalDefinition = _portals.get(step.portal_id)
 			if portal == null:
 				_errors.append("%s.dance: unknown portal '%s'" % [origin, step.portal_id])

@@ -51,6 +51,7 @@ var _no_get: bool
 var _female_only: bool
 var _no_drop: bool
 var _no_drop_line: String
+var _give_to: Array[StringName] = []
 var _wear_refusal: String = ""
 var _max_encumbrance: int
 var _weapon_definition: WeaponDefinition
@@ -139,6 +140,10 @@ var no_drop: bool:
 ## drop.c's refusal when no_drop is a string ("" for 这样东西不能随意丢弃。).
 var no_drop_line: String:
 	get: return _no_drop_line
+## Native (主线 第四章; DECISIONS「第四章 宝衣」): the NPC definitions a no_drop item may still
+## be given to (the 寒於宝衣 to 瑷伦 or 安妮儿; give.c refuses everyone else, as no_drop does).
+var give_to: Array[StringName]:
+	get: return _give_to
 ## LPC set("rigidity"): weapond.c bash_weapon() adds it to the weapon's side; 0 unset.
 var weapon_rigidity: int:
 	get: return _weapon_rigidity
@@ -262,6 +267,10 @@ static func from_record(reader: ContentRecordReader) -> ItemContentDefinition:
 			definition._no_drop_line = reader.required_text("no_drop")
 		elif not reader.boolean("no_drop", false):
 			reader.fail("no_drop", "true or drop.c's line")
+	for npc_id: String in reader.text_list("give_to"):
+		definition._give_to.append(StringName(npc_id))
+	if not definition._give_to.is_empty() and not definition._no_drop:
+		reader.fail("give_to", "only a no_drop item names whom it may still be given to")
 	definition._play = StringName(reader.text("play"))
 	definition._hang = reader.boolean("hang", false)
 	definition._apply = StringName(reader.text("apply"))

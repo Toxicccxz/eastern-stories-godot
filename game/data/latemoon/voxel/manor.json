@@ -225,7 +225,7 @@
     "latemoon.npc.servant2": {"coat": "8a8a7a"},
     "latemoon.npc.room.servant": {"coat": "8a8a7a"},
     "latemoon.npc.room.fochin": {"coat": "c8b89a"},
-    "latemoon.npc.room.killer": {"coat": "2a2a30", "hat": true},
+    "latemoon.npc.room.killer": {"coat": "2a2a30", "hat": true}, "native.npc.cult_killer": {"coat": "2a2a30", "hat": true},
     "latemoon.npc.room.fireangel": {"body": "statue", "stone": "c8402a", "base": "d8d4c8", "rim": "c9a24a", "plinth": 0.6, "wings": ["c8382a", "e86a3a", "c9a24a"], "note": "fireangel.c: 护庄神像, 火神「凤凰」"},
     "common.npc.dancer.master": {"coat": "7aa8c0"}
   },

@@ -63,6 +63,12 @@ func dance(step: DanceDefinition.Step) -> DanceDefinition.Result:
 	last_result = definition.dance.dance(player.state, step)
 	var hud: SharedGameplayUI = map.session.shared_ui()
 	hud.append_log_lines(last_result.lines)
+	# A dance that acts where the dancer stands (第四章: the 冰匣 opens, the 宝衣 falls).
+	if last_result.act != null:
+		hud.dismiss_current_panel()
+		map.acts.run(last_result.act, null, map.world_interaction_random_source().legacy_random, definition.zone_id)
+		_fall_if_spent(map)
+		return last_result
 	if last_result.refused or last_result.portal_id.is_empty():
 		_fall_if_spent(map)
 		return last_result

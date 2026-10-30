@@ -6,6 +6,73 @@
 		{ "id": "native:snow/letter_to_pan", "legacy_sources": ["native: 主线 B 第二章 (剧情总纲 §3: 柳淳风's letter to his sworn brother 潘军禅, daemon/class/fighter/executioner.c)"], "name": "柳淳风的引荐信", "aliases": ["pan letter", "introduction"], "long": "一封封好的信，封皮上写着「水烟阁 潘军禅贤弟 亲启」，落款「柳淳风」。封口的火漆上印着一枝柳。\n", "unit": "封", "material": "paper", "weight": 20, "value": 0 },
 		{ "id": "native:cloud/escort_note", "legacy_sources": ["native: 主线 B 第二章 (剧情总纲 §3: 振远镖局's lost escort of twenty years ago, after u/cloud/npc/b_header.c)"], "name": "二十年前的镖单", "aliases": ["escort note", "note"], "long": "一张发黄的镖单，振远镖局的印鉴已经模糊。所押之物写着：水烟阁盟主印一方，密件一匣。起运地关北，收件人水烟阁盟主卫沧澜。末尾一行小字：乙丑年失镖于老松岭瀑布一带，镖师随从无一人生还。\n", "unit": "张", "material": "paper", "weight": 10, "value": 0 },
 		{ "id": "native:oldpine/stone_box", "legacy_sources": ["native: 主线 A 序章后半、第一章 (剧情总纲 §3: the 石匣 dug out at 黄石隘口 and left in cave5; opened only in 第十章)"], "name": "刻着风纹的石匣", "aliases": ["stone box", "box"], "long": "一只尺许长的青石匣子，匣面刻着一圈风纹，匣口严丝合缝，看不出锁眼在哪里。摇一摇，里面有极轻的一声响。\n", "unit": "只", "material": "iron", "weight": 1500, "value": 0 },
-		{ "id": "native:goathill/tribute_cart", "legacy_sources": ["native: 主线 C 第三章入口 (剧情总纲 §3 第三章, doc/help/plan:29–31: 野羊寨's yearly tribute to 逆灵宫; the cart waits at mroad4.c's turn under the crack)"], "name": "纳供车", "aliases": ["tribute cart", "cart"], "long": "一辆双轮板车，车上盖着油布，油布底下露出几只箱子的角。车辕上拴着一根粗麻绳，绳子绷得笔直，一头没进北边山壁的裂口里——上头有人在拉。车板上烙着一个「羊」字。\n", "unit": "辆", "material": "wood", "weight": 60000, "value": 0, "no_get": true }
+		{ "id": "native:goathill/tribute_cart", "legacy_sources": ["native: 主线 C 第三章入口 (剧情总纲 §3 第三章, doc/help/plan:29–31: 野羊寨's yearly tribute to 逆灵宫; the cart waits at mroad4.c's turn under the crack)"], "name": "纳供车", "aliases": ["tribute cart", "cart"], "long": "一辆双轮板车，车上盖着油布，油布底下露出几只箱子的角。车辕上拴着一根粗麻绳，绳子绷得笔直，一头没进北边山壁的裂口里——上头有人在拉。车板上烙着一个「羊」字。\n", "unit": "辆", "material": "wood", "weight": 60000, "value": 0, "no_get": true },
+		{
+			"id": "native:latemoon/cold_robe",
+			"legacy_sources": [
+				"native: 主线 第四章 宝衣 (剧情总纲 §3 第四章; 计划 build/plans/第四五章_计划.md A 包; DECISIONS「第四章 宝衣」) — 寒於宝衣, the second of the three things (doc/help/history's 归月神族保管; upstar/npc/statue.c: 勇士寒于的魂魄所化成的十三个精灵之一, 晚月庄 its heirs); the 终章 reads 宝衣挡黑焰, 第八章 the cold of the 玄冰"
+			],
+			"name": "寒於宝衣",
+			"aliases": [
+				"cold robe",
+				"robe",
+				"宝衣",
+				"treasure robe"
+			],
+			"long": "一件月白的衣，料子像结了霜的水，摸上去不冷，站在它旁边却觉得凉。衣襟里缝着一行小字：寒於留衣，月神守之，火不能近。守衣人瑷伦说，它挡得住黑焰——几百年没人试过。\n",
+			"unit": "件",
+			"material": "cloth",
+			"weight": 700,
+			"value": 0,
+			"no_drop": "这件衣不能随便丢。",
+			"give_to": [
+				"latemoon.npc.room.elon",
+				"latemoon.npc.room.annihi"
+			],
+			"armor": {
+				"type": "cloth",
+				"props": {
+					"armor": 30,
+					"dodge": 5
+				},
+				"weight_dodge": "armor"
+			}
+		},
+		{
+			"id": "native:latemoon/body_maid",
+			"legacy_sources": [
+				"native: 主线 第四章 宝衣 (剧情总纲 §3 第四章; 计划 build/plans/第四五章_计划.md A 包; DECISIONS「第四章 宝衣」) — the night the 宝衣 left the manor (剧情总纲 §3 第四章: 当夜东方神教杀手动手, 几名弟子死)"
+			],
+			"name": "婢女的尸首",
+			"aliases": [
+				"body",
+				"corpse",
+				"尸首"
+			],
+			"long": "一个婢女倒在前厅的地上，手里还攥着抹布。喉下一道细口，是极细的剑。\n",
+			"unit": "具",
+			"material": "bone",
+			"weight": 60000,
+			"value": 0,
+			"no_get": true
+		},
+		{
+			"id": "native:latemoon/body_zhaorong",
+			"legacy_sources": [
+				"native: 主线 第四章 宝衣 (剧情总纲 §3 第四章; 计划 build/plans/第四五章_计划.md A 包; DECISIONS「第四章 宝衣」) — 昭蓉 (d/latemoon/npc/zauron.c), one of the 弟子 the killer struck down the night the 宝衣 left"
+			],
+			"name": "昭蓉的尸首",
+			"aliases": [
+				"body",
+				"corpse",
+				"尸首"
+			],
+			"long": "昭蓉倒在内厅的门边，像是听见前厅的动静跑出来，没跑到。她的手还搭在门框上。\n",
+			"unit": "具",
+			"material": "bone",
+			"weight": 60000,
+			"value": 0,
+			"no_get": true
+		}
 	]
 }

@@ -28,6 +28,15 @@ class Step:
 	var portal_id: StringName
 	## message_vision(): $N dances.
 	var line: String
+	## Native (主线 第四章; DECISIONS「第四章 宝衣」): only a dancer of this gender dances it
+	## (the 玄天玉女's steps in the second 密室); anyone else is `clumsy`, their sen spent as
+	## for any dance they do not know. "" for anyone, as ES2's.
+	var gender: String = ""
+	## Native (第四章): not offered once the player holds this mark (the 冰匣 opened).
+	var unless_mark: String = ""
+	## Native (第四章): what the dance does where the player stands instead of moving them
+	## (the 冰匣's lid slides open, the 宝衣 falls at their feet); null for a dance with a portal.
+	var act: ScriptedAct = null
 
 
 ## What one dance did: refused (`tired`), the lines as the dancer reads them, the portal it
@@ -38,6 +47,8 @@ class Result:
 	var lines: Array[String] = []
 	var portal_id: StringName = &""
 	var sen_spent: int = 0
+	## The dance's own act to run where the dancer stands (null: none).
+	var act: ScriptedAct = null
 
 
 var costs: Array[Cost] = []
@@ -58,6 +69,8 @@ func cost_for(gender: String) -> Cost:
 func known_steps(marks: Dictionary[String, int]) -> Array[Step]:
 	var known: Array[Step] = []
 	for step: Step in steps:
+		if not step.unless_mark.is_empty() and marks.get(step.unless_mark, 0) != 0:
+			continue
 		if step.always or marks.get(step.mark, 0) != 0:
 			known.append(step)
 	return known
@@ -83,7 +96,8 @@ func dance(state: CharacterState, step: Step) -> Result:
 			return result
 		state.spirit.apply_damage(cost.sen)
 		result.sen_spent += cost.sen
-	if step == null:
+	# A dance of the other sex's steps is as unknown to the dancer (第四章: 不得要领).
+	if step == null or (not step.gender.is_empty() and String(state.gender) != step.gender):
 		result.lines.append(TranslationServer.translate(clumsy))
 		return result
 	# TRANSLATORS: message_vision(): the dancer ($N) as they read it.
@@ -92,11 +106,12 @@ func dance(state: CharacterState, step: Step) -> Result:
 		state.spirit.apply_damage(step.sen)
 		result.sen_spent += step.sen
 	result.portal_id = step.portal_id
+	result.act = step.act
 	return result
 
 
 ## `dance`: {costs: [{gender, at_least, sen}], tired, clumsy, steps: [{name, mark, sen?,
-## always?, portal, line}]}.
+## always?, gender?, unless_mark?, portal | act, line}]}.
 static func from_record(reader: ContentRecordReader) -> DanceDefinition:
 	var definition := DanceDefinition.new()
 	for entry: ContentRecordReader in reader.children("costs"):
@@ -114,7 +129,15 @@ static func from_record(reader: ContentRecordReader) -> DanceDefinition:
 		step.mark = entry.required_text("mark")
 		step.sen = entry.integer("sen")
 		step.always = entry.boolean("always", false)
-		step.portal_id = StringName(entry.required_text("portal"))
+		step.gender = entry.text("gender")
+		step.unless_mark = entry.text("unless_mark")
+		var act: ContentRecordReader = entry.child("act")
+		if act != null:
+			step.act = ScriptedAct.from_record(act)
+			if entry.has("portal"):
+				entry.fail("portal", "a dance moves the dancer or acts where they stand, not both")
+		else:
+			step.portal_id = StringName(entry.required_text("portal"))
 		step.line = entry.required_text("line")
 		entry.finish()
 		if step.sen < 0:

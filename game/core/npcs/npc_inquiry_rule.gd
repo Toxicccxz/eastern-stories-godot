@@ -38,6 +38,9 @@ var asker_class: StringName = &""
 var asker_gender: StringName = &""
 var lines: Array[NpcLine] = []
 var mark_asker: String = ""
+## Native (主线 第四章): more marks set on the asker at once (an answer that is both a choice
+## recorded and a thing told: 瑷伦's answer to 你拿它去做什么 and where the 冰匣 is).
+var marks_asker: Array[String] = []
 var temp_asker: String = ""
 var gives: StringName = &""
 var taken_lines: Array[NpcLine] = []
@@ -129,6 +132,7 @@ static func from_record(reader: ContentRecordReader) -> NpcInquiryRule:
 		reader.fail("hands_over", "amount, after and after_empty go with hands_over")
 	rule.vendor_list = reader.boolean("vendor_list", false)
 	rule.mark_asker = reader.text("mark_asker")
+	rule.marks_asker = reader.text_list("marks_asker")
 	rule.temp_asker = reader.text("temp_asker")
 	rule.gives = StringName(reader.text("gives"))
 	rule.forgets = reader.text_list("forgets")

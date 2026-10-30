@@ -464,6 +464,83 @@
 					"刘安禄压低声音：老三纳供的事，大哥没追究。老子也不说。"
 				]
 			}
+		},
+		{
+			"id": "native.npc.cult_killer",
+			"legacy_source": "native: 主线 第四章 宝衣 (剧情总纲 §3 第四章; 计划 build/plans/第四五章_计划.md A 包; DECISIONS「第四章 宝衣」) — d/latemoon/room/npc/killer.c's 蒙面杀手 (pink_cloth, thin_sword, the 令牌, 六阴剑 and 火蝠步, 为什么杀我) the night she struck; old.c: 这杀手是我的私生女, 已误入歧途; 剧情总纲 §4 第 11 条: an 东方神教 killer",
+			"name": "蒙面杀手",
+			"aliases": [
+				"killer",
+				"masked killer",
+				"杀手"
+			],
+			"title": "东方神教杀手",
+			"gender": "女性",
+			"age": 23,
+			"long": "蒙着面，眉眼看起来有些面熟——书房里那个老妇人的眉眼。衣襟上有血，不是她的。她站在前厅正中，像在等人。\n",
+			"attributes": {
+				"str": 27,
+				"cor": 26,
+				"cps": 15,
+				"per": 28
+			},
+			"combat_exp": 80000,
+			"score": 600,
+			"attitude": "aggressive",
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"skills": {
+				"unarmed": 80,
+				"sword": 80,
+				"parry": 80,
+				"dodge": 70,
+				"move": 60,
+				"six-chaos-sword": 70,
+				"pyrobat-steps": 60
+			},
+			"skill_map": {
+				"dodge": "pyrobat-steps",
+				"sword": "six-chaos-sword"
+			},
+			"carry": [
+				{
+					"item": "es2:d/snow/obj/pink_cloth",
+					"source": "d/snow/npc/obj/pink_cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "es2:d/snow/obj/thin_sword",
+					"source": "d/snow/npc/obj/thin_sword.c",
+					"equip": "wield"
+				}
+			],
+			"apply": {
+				"attack": 40
+			},
+			"chat_chance_combat": 10,
+			"chat_msg_combat": [
+				"蒙面杀手喝道：为什么杀我？\n",
+				"蒙面杀手叹道：你知道我心里有多痛苦吗？！\n",
+				"蒙面杀手说：衣不在了，这庄还守什么？\n"
+			],
+			"die_carries": {
+				"item": "es2:d/latemoon/room/npc/obj/token"
+			},
+			"spared": {
+				"mood": "seen",
+				"mark": "放过了神教杀手",
+				"drop": "es2:d/latemoon/room/npc/obj/token"
+			},
+			"moods": {
+				"seen": {
+					"lasting": true,
+					"chat_chance": 10,
+					"chat_msg": [
+						"蒙面杀手看着你，没再出手。面巾下的眼睛和书房里那个老妇人一样。\n"
+					]
+				}
+			}
 		}
 	]
 }

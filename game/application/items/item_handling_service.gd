@@ -61,7 +61,7 @@ static func give(
 	var content: ItemContentDefinition = _carried(result, authorities, id, amount)
 	if content == null:
 		return result
-	if content.no_drop:
+	if content.no_drop and not content.give_to.has(NpcDefinition.unnamed_id(npc.definition().definition_id)):
 		return _refused(result, ItemHandlingResult.Outcome.REFUSED, TranslationServer.translate("这样东西不能随便给人。"))
 	var name: String = npc.definition().display_name
 	var offer: NpcObjectRule.Offer = _offer(player, npc, id, amount, content, authorities)

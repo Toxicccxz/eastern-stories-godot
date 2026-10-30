@@ -118,13 +118,15 @@ class Region:
         return self._read('spawns.json')['spawns'] + items + self._read('world.json').get('spawns', []) + self.native_spawns()
 
     def native_spawns(self) -> list:
-        """Native content's NPC spawns (data/native/spawns.json, not ES2's: A2's 木人) on this
-        region's maps."""
-        native = self.data.parent / 'native' / 'spawns.json'
-        if not native.exists():
-            return []
+        """Native content's NPC spawns (data/native/spawns.json, not ES2's: A2's 木人) and item
+        spawns (data/native/item_spawns.json: 第四章's bodies in 晚月庄's 前厅) on this region's maps."""
         maps = {m['id'] for m in self._read('world.json').get('maps', [])}
-        return [s for s in json.loads(native.read_text(encoding='utf-8'))['spawns'] if s['map'] in maps]
+        found = []
+        for name, key in (('spawns.json', 'spawns'), ('item_spawns.json', 'item_spawns')):
+            native = self.data.parent / 'native' / name
+            if native.exists():
+                found.extend(s for s in json.loads(native.read_text(encoding='utf-8'))[key] if s['map'] in maps)
+        return found
 
     def marker_name(self, point: str) -> str:
         """cloud.nroad1.waiter.1 -> Nroad1Waiter1."""

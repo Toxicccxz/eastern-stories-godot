@@ -161,6 +161,19 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 					s.box(root,Vector3(x,1.145,0),Vector3(0.045,0.03,d*0.66),"c8b78e")
 				s.box(root,Vector3(w*0.27,0.98,0),Vector3(w*0.20,0.38,d*0.56),"b79b6c")
 				s.box(root,Vector3(w*0.27,1.18,0),Vector3(0.07,0.04,d*0.56),"66543c")
+		"ice_chest":
+			# 第四章: the 冰匣 of the second 密室 — a knee-high chest cut from dark ice, frost on
+			# its lid (`ice`, `frost`, `rim` colours), the one line cut into its face.
+			var ice: String = String(data.get("ice","9ab8c4"))
+			var frost: String = String(data.get("frost","e8f2f6"))
+			var rim: String = String(data.get("rim","6e8ea0"))
+			s.box(root,Vector3(0,0.30,0),Vector3(w,0.52,d),ice)
+			s.box(root,Vector3(0,0.58,0),Vector3(w+0.04,0.08,d+0.04),rim)
+			s.box(root,Vector3(0,0.635,0),Vector3(w*0.92,0.03,d*0.88),frost)
+			for x: float in [-w*0.3,w*0.3]:
+				s.box(root,Vector3(x,0.655,-d*0.1),Vector3(w*0.18,0.012,d*0.3),frost)
+			s.box(root,Vector3(0,0.42,d/2+0.012),Vector3(w*0.6,0.05,0.025),rim)
+			s.box(root,Vector3(0,0.12,0),Vector3(w*0.9,0.1,d*0.9),"5a7482")
 		"linen_cabinet":
 			_chest(w,d)
 			for i: int in 3:

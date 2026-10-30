@@ -631,6 +631,7 @@
           ["blocked", 256, 64, 320, 96, "miroom2.c: 琴剑书画, 挂在墙上 — the qin on its table", {"look": {"kind": "zither_table"}}],
           ["blocked", 48, 768, 160, 832, "miroom.c: 地上铺著可以合地打坐的大理石床", {"look": {"kind": "stone_bed", "colors": ["e8e6dc", "f0eee6", "dcdad0"]}}],
           ["blocked", 496, 512, 528, 640, "miroom.c: 四周挂了一些兵器", {"look": {"kind": "weapon_rack", "rotation": -90}}],
+          ["blocked", 384, 464, 480, 528, "第四章: 冰匣 (the chest of the 寒於宝衣, native)", {"look": {"kind": "ice_chest"}}],
           ["blocked", 48, 496, 80, 624, {"look": {"kind": "weapon_rack", "rotation": 90}}]
         ],
         "reach_from": "Miroom2FlowerArrival",
@@ -700,6 +701,13 @@
             "text": "八卦图 · 跳舞"
           },
           {
+            "node": "service",
+            "name": "ProxyDance",
+            "id": "latemoon.miroom.proxy_dance",
+            "at": [368, 656],
+            "text": "八卦图 · 请人替跳"
+          },
+          {
             "generated": "doors"
           }
         ],
@@ -721,6 +729,14 @@
           },
           {
             "generated": "markers"
+          }
+        ],
+        "interactions": [
+          {
+            "name": "IceChestInteraction",
+            "id": "latemoon.miroom.landmark.ice_chest",
+            "at": [432, 496],
+            "shape": "Rect_64_32"
           }
         ],
         "stairs": [],

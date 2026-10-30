@@ -175,6 +175,9 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 			ScriptedAct.Kind.NPC_FLAG:
 				if npc != null:
 					npc.set_flag(StringName(step.flag), true)
+			ScriptedAct.Kind.UNFOLLOW:
+				if npc != null:
+					npc.clear_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER)
 			ScriptedAct.Kind.SET_TEMP:
 				_player.temp_marks[step.flag] = 1
 			ScriptedAct.Kind.CLEAR_TEMP:

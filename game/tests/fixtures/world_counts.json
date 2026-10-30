@@ -476,11 +476,12 @@
 		"native.mroad4.tribute_taoists",
 		"native.temple1.huo_zheng",
 		"native.temple1.liu_anlu",
-		"native.fmhousback.shitou"
+		"native.fmhousback.shitou",
+		"native.latemoon1.cult_killer"
 	],
-	"world_npcs": 509,
+	"world_npcs": 510,
 	"resident_maps": 134,
-	"new_game_items": 858,
+	"new_game_items": 860,
 	"snow_outdoor_passages": 18,
 	"map_zones": {
 		"snow.inn": 1,
@@ -686,7 +687,7 @@
 		"temple.restroom1_house": 1,
 		"temple.restroom2_house": 0,
 		"temple.book_room1_house": 0,
-		"latemoon.manor": 27,
+		"latemoon.manor": 28,
 		"latemoon.secret": 1,
 		"latemoon.garden": 12,
 		"latemoon.upper": 5,
@@ -754,7 +755,7 @@
 		"niling.master_house": 0,
 		"niling.backhill": 1
 	},
-	"npc_draws_after_oldpine": 2550,
+	"npc_draws_after_oldpine": 2554,
 	"technical_maps": 9,
 	"technical_items": 58,
 	"snow_route": {
