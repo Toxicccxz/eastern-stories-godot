@@ -5,6 +5,7 @@ extends RefCounted
 ## the NPC's place, within its home zone and the zones next to it on its map
 ## (owner), the keeper's greeting one second after the player arrives.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
+const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 
 var _count: int = 0
 var _failures: Array[String] = []
@@ -23,6 +24,10 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	for room: String in session.room_resets().rooms():
 		_scheduled[room] = session.room_resets().remaining_ms(room)
 	await tree.process_frame
+	# Nobody chats or wanders until a test scripts its own draws (TEST-ONLY): the travellers would
+	# otherwise leave the Inn on some draws of the shared NPC stream, which every spawn in the
+	# world shifts, and _test_reset wants them there.
+	session.configure_npc_ambience_random_source(SouthRoad.Still.new())
 	await _to_square(tree, session)
 	await _test_wandering(tree, session)
 	await _test_greeting(tree, session)
