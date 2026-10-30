@@ -71,6 +71,14 @@ var spared_mark: String = ""
 ## `spared.leave`: once the fight is over it is gone for good (fled), with `spared.line` told.
 var spared_leave: bool = false
 var spared_line: String = ""
+## Native (逆灵宫 C; DECISIONS「逆灵宫 C」): `spared.drop`: an item (by definition) let fall where it
+## lies as it is spared (玄冥子's 残卷, the jailer's key) — the spared keep nothing from the player.
+var spared_drop: StringName = &""
+## Native (逆灵宫 C): `vanishes` {line?}: it leaves no corpse when it dies (chard.c make_corpse()
+## of a ghost: what it carried falls where it fell), the line told (鬼卒 散成黑烟). It is no ghost:
+## it is seen and fought as anyone.
+var vanishes: bool = false
+var vanish_line: String = ""
 ## Native (主线 C; DECISIONS「刘安禄放过后开口」): `spared.only_in_mood`: 放过 changes it only
 ## while it is in that mood of its own (刘安禄 revealed as 血手刘三; the 门房 beaten for
 ## nothing and spared stays the 门房).
@@ -295,15 +303,22 @@ static func from_record(reader: ContentRecordReader) -> NpcHooks:
 		hooks.spared_leave = spared.boolean("leave", false)
 		hooks.spared_line = spared.text("line")
 		hooks.spared_only_in_mood = spared.text("only_in_mood")
+		hooks.spared_drop = StringName(spared.text("drop"))
 		spared.finish()
-		if hooks.spared_mood.is_empty() and hooks.spared_mark.is_empty() and not hooks.spared_leave:
-			reader.fail("spared", "names a mood of the NPC's, a mark for the player or leave, or several")
+		if hooks.spared_mood.is_empty() and hooks.spared_mark.is_empty() and not hooks.spared_leave and hooks.spared_drop.is_empty():
+			reader.fail("spared", "names a mood of the NPC's, a mark for the player, leave or drop, or several")
 		if not hooks.spared_line.is_empty() and not hooks.spared_leave:
 			reader.fail("spared", "line goes with leave")
 		if not hooks.spared_mood.is_empty() and not hooks.moods.has(hooks.spared_mood):
 			reader.fail("spared", "mood '%s' is none of its moods" % hooks.spared_mood)
 		if not hooks.spared_only_in_mood.is_empty() and not hooks.moods.has(hooks.spared_only_in_mood):
 			reader.fail("spared", "only_in_mood '%s' is none of its moods" % hooks.spared_only_in_mood)
+	var vanishes: ContentRecordReader = reader.child("vanishes")
+	if vanishes != null:
+		found = true
+		hooks.vanishes = true
+		hooks.vanish_line = vanishes.text("line")
+		vanishes.finish()
 	if reader.has("scene_mark"):
 		found = true
 		hooks.scene_mark = reader.required_text("scene_mark")
@@ -314,4 +329,4 @@ static func from_record(reader: ContentRecordReader) -> NpcHooks:
 
 ## Whether 放过 changes anything of it (`spared`).
 func has_spared() -> bool:
-	return not spared_mood.is_empty() or not spared_mark.is_empty() or spared_leave
+	return not spared_mood.is_empty() or not spared_mark.is_empty() or spared_leave or not spared_drop.is_empty()

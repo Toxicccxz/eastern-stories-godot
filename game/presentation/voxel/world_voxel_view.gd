@@ -448,6 +448,7 @@ func _make_actor(body: WorldCharacterBody2D) -> void:
 		model = Person.new()
 		model.coat = look.get("coat","817755")
 		model.hat = look.get("hat",false)
+		model.headless = look.get("headless",false)
 		actor.add_child(model)
 	var low: bool = crawler or look.get("animal",false)
 	var label_height: float = (0.55*size+0.35 if crawler else 0.4+0.9*size) if low else 2.2+float(look.get("plinth",0.5) if body_kind=="statue" else 0.0)

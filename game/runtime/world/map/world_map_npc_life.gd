@@ -877,6 +877,7 @@ func _begin_scene(npc: NpcRuntimeState) -> void:
 	var hooks: NpcHooks = npc.definition().hooks()
 	if hooks != null and not hooks.scene_mark.is_empty() and _player != null:
 		_player.state.marks[hooks.scene_mark] = 1
+		_map.open_found_ways(hooks.scene_mark)
 	if session != null:
 		session.hold_scene(true)
 

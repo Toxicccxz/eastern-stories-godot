@@ -552,6 +552,10 @@ func _execute_lifecycle(victim: CombatSliceCharacterBinding, opportunity: Combat
 	var corpse: CorpseState = null if lifecycle.death_inventory_result == null else lifecycle.death_inventory_result.corpse_state
 	if corpse == null:
 		# chard.c make_corpse() of a ghost: no corpse, what it carried falls where it died.
+		var fallen: NpcRuntimeState = _map.npcs.find_resident_npc(victim.character_id)
+		var fallen_hooks: NpcHooks = null if fallen == null else fallen.definition().hooks()
+		if lifecycle.outcome == CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE and fallen_hooks != null and fallen_hooks.vanishes and not fallen_hooks.vanish_line.is_empty() and _map.hud() != null:
+			_map.hud().append_log_lines([tr(fallen_hooks.vanish_line)])
 		if lifecycle.outcome == CombatSliceLifecycleResult.Outcome.DEATH_COMPLETE and death_location != null and destination != null:
 			for item_id: StringName in carried:
 				if _inventory.is_direct_child(item_id, destination.endpoint) and not _map.floor_items.add_dropped_item_view(item_id, death_location, _map.floor_items.at_feet(death_location, death_position, true)):
@@ -582,7 +586,8 @@ func _death_context_for(victim: CombatSliceCharacterBinding, killer: CombatSlice
 	var body_weight: int = CharacterDerivedValues.human_weight(strength)
 	var maximum_encumbrance: int = CharacterDerivedValues.maximum_encumbrance(strength)
 	var npc: NpcRuntimeState = _map.npcs.find_resident_npc(victim.character_id)
-	var ghost: bool = npc != null and npc.definition().is_ghost()
+	# One that `vanishes` (NpcHooks: the 鬼卒 散成黑烟) leaves no corpse either.
+	var ghost: bool = npc != null and (npc.definition().is_ghost() or (npc.definition().hooks() != null and npc.definition().hooks().vanishes))
 	if npc != null:
 		display_name = npc.definition().display_name
 		age = npc.age

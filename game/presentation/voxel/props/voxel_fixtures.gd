@@ -42,6 +42,41 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 				s.box(leaf,Vector3(0,y,0.14),Vector3(w*0.94,0.13,0.06),"634b35")
 			for x: float in [-0.12,0.12]:
 				s.box(leaf,Vector3(x,1.2,0.17),Vector3(0.10,0.17,0.08),"ac9767")
+		"dark_altar":
+			# 黑石坛 (native:niling/altar, 逆灵宫 C): a two-tiered dais of black stone, worn bright on
+			# top, bone chips in its foot's cracks, and on it a black flame — tongues that give no
+			# light of their own but a cold violet, flickering (`flame`, `tip`, `glow`), with the
+			# dim light below it (`range`, `energy`).
+			var stone: Array = data.get("colors",["141212","1e1a1a","0e0c0c","2a2626"])
+			var flame_color: String = String(data.get("flame","1a0c24"))
+			var tip: String = String(data.get("tip","5a3a8a"))
+			s.box(root,Vector3(0,0.3,0),Vector3(w,0.6,d),String(stone[0]))
+			for i: int in 6:
+				s.box(root,Vector3(-w/2+0.1+i*w/6+w/12,0.3,d/2+0.01),Vector3(w/6-0.04,0.56,0.02),String(stone[(i%2)+1]))
+			s.box(root,Vector3(0,0.8,0),Vector3(w*0.76,0.4,d*0.76),String(stone[1]))
+			s.box(root,Vector3(0,1.02,0),Vector3(w*0.8,0.06,d*0.8),String(stone[3]))
+			s.box(root,Vector3(0,1.06,0),Vector3(w*0.6,0.03,d*0.6),"3a3634")
+			for chip: int in 7:
+				s.box(root,Vector3(sin(chip*2.3)*w*0.42,0.05+(chip%2)*0.03,cos(chip*1.7)*d*0.42),Vector3(0.1,0.05,0.07),"c8c0a8")
+			for tongue: int in 5:
+				var flame := Node3D.new()
+				flame.position = Vector3(sin(tongue*1.9)*w*0.18,1.08,cos(tongue*2.6)*d*0.18)
+				flame.set_meta("light_fixture",true)
+				root.add_child(flame)
+				var h: float = 0.9+(tongue%3)*0.35
+				s.box(flame,Vector3(0,h*0.3,0),Vector3(0.3,h*0.6,0.3),flame_color+":glow")
+				s.box(flame,Vector3(0,h*0.66,0),Vector3(0.18,h*0.5,0.18),tip+":glow")
+				s.box(flame,Vector3(0,h*0.95,0),Vector3(0.08,h*0.2,0.08),"8a6ab0:glow")
+				if ambience != null:
+					ambience.flame(flame)
+			var light := OmniLight3D.new()
+			light.position = Vector3(0,2.0,0)
+			light.light_color = Color(String(data.get("glow","6a4a9a")))
+			light.omni_range = float(data.get("range",7.0))
+			light.set_meta("day_energy",float(data.get("energy",1.1)))
+			light.set_meta("night_energy",1.6)
+			light.set_meta("flicker",0.3)
+			root.add_child(light)
 		"barred_door":
 			# 铁栅门 (native:niling/corridor: 三扇铁栅门, 锁都是新的): a square iron frame the width of
 			# the doorway, upright bars a hand apart, two cross-bands riveted over them and a hasp
