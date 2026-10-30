@@ -719,12 +719,16 @@ func npc_spared(npc: NpcRuntimeState) -> void:
 				map.floor_items.give_new_item_to(npc, item_id)
 	if not hooks.spared_mark.is_empty() and _player != null and _player.state != null:
 		_player.state.marks[hooks.spared_mark] = 1
-	# Let fall where it lies (玄冥子's 残卷): a new one on the floor at its feet.
-	if not hooks.spared_drop.is_empty():
+	# Let fall where it lies (玄冥子's 残卷): a new one on the floor at its feet, once — spared a
+	# second time it has nothing more to drop (FLAG_DROPPED_WHEN_SPARED, which its die_carries
+	# of the same item reads too).
+	if not hooks.spared_drop.is_empty() and not npc.has_flag(NpcDefinition.FLAG_DROPPED_WHEN_SPARED):
 		var lying: WorldMapController = resident_map(npc.world_location().map_id) as WorldMapController
 		var body: WorldCharacterBody2D = null if lying == null else lying.npcs.runtime_body_for_character(npc.character_id)
 		if lying == null or body == null or lying.floor_items.place_new_floor_item(hooks.spared_drop, body.global_position).is_empty():
 			push_error("%s could not drop %s as it was spared" % [npc.definition().definition_id, hooks.spared_drop])
+		else:
+			npc.set_flag(NpcDefinition.FLAG_DROPPED_WHEN_SPARED, true)
 	# Fled: gone for good once the fight is over (WorldMapHostilities.after_fight()).
 	if hooks.spared_leave:
 		npc.set_flag(NpcDefinition.FLAG_LEAVES_WHEN_FREE, true)

@@ -254,6 +254,9 @@ func _test_chase(tree: SceneTree, session: WorldSessionController) -> void:
 	var xuan: NpcRuntimeState = MapPlaces.npc_at(session, &"niling.cliff_path.xuan_mingzi.1")
 	session.npc_spared(xuan)
 	_check(xuan.has_flag(StringName(NpcMood.FLAG_PREFIX + "owed")) and state.marks.get("放过了玄冥子", 0) == 1 and not backhill.floor_item_of(SCROLL, &"niling.cliff_path").is_empty(), "spared: 欠你一命, the mark, the 残卷 dropped")
+	var scrolls_before: int = _floor_count(backhill, SCROLL)
+	session.npc_spared(xuan)
+	_check(xuan.has_flag(NpcDefinition.FLAG_DROPPED_WHEN_SPARED) and _floor_count(backhill, SCROLL) == scrolls_before and scrolls_before == 1, "spared again: no second 残卷 (one per 玄冥子)")
 	await _flee(tree, session)
 	backhill.npcs.leave_for_good(xuan)
 	session.record_journal()
@@ -298,6 +301,16 @@ func _where(session: WorldSessionController, definition_id: StringName) -> Array
 		for npc: NpcRuntimeState in map.npc_runtimes():
 			if npc.definition().definition_id == definition_id:
 				found.append([map.map_id(), npc.world_location().zone_id, npc.exists_in_map, npc.has_flag(NpcDefinition.FLAG_GONE), npc.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER)])
+	return found
+
+
+## How many floor items of `definition_id` lie on `map`.
+func _floor_count(map: WorldMapController, definition_id: StringName) -> int:
+	var found: int = 0
+	for item_id: StringName in map.floor_items.floor_item_ids():
+		var item: ItemInstance = map.item_instance_index().resolve(item_id)
+		if item != null and item.item_definition_id == definition_id:
+			found += 1
 	return found
 
 

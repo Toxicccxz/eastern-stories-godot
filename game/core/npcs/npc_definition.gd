@@ -668,6 +668,10 @@ const FLAG_SENT: StringName = &"sent"
 ## An act's `leave` (d/village/npc/oldliu.c destruct() after his thanks): gone for good, no
 ## room reset makes it anew (owner, 黑松山 plan Q2 (a)). An object variable, saved with it.
 const FLAG_GONE: StringName = &"gone"
+## NpcHooks `spared.drop` done (逆灵宫 C): the one thing it lets fall when spared is let fall once;
+## spared again, or killed later with `die_carries` of the same item, it gives no second. An
+## object variable, saved with it.
+const FLAG_DROPPED_WHEN_SPARED: StringName = &"dropped_when_spared"
 
 
 ## Whether it starts a fight when the player comes into contact: its hatred, attitude

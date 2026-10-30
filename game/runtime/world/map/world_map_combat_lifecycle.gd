@@ -380,6 +380,9 @@ func _die_carries(npc: NpcRuntimeState, killer: CombatSliceCharacterBinding) -> 
 	var hooks: NpcHooks = npc.definition().hooks()
 	if hooks == null or hooks.die_item_id.is_empty():
 		return
+	# One it already let fall when spared (spared.drop of the same item) it does not carry again.
+	if hooks.die_item_id == hooks.spared_drop and npc.has_flag(NpcDefinition.FLAG_DROPPED_WHEN_SPARED):
+		return
 	var item_id: StringName = hooks.die_item_id
 	if hooks.die_item_master and killer != null and _player != null and killer.character_id == _player.character_id:
 		item_id = ItemContentDefinition.master_id(item_id)
