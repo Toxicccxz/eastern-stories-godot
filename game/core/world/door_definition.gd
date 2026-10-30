@@ -19,6 +19,11 @@ var _operable: bool = true
 ## that stands shut until a `find_way` landmark gives the mark, and open ever after
 ## (DECISIONS「老松林的林径与藏起来的寨门」); "" for an ordinary door.
 var _found_by: String = ""
+## The item (by definition id) one must carry to open it: a locked cell's iron door
+## (DECISIONS「逆灵宫 B」). Opened, it stays open (`closable` false); "" for an ordinary door.
+var _key: StringName = &""
+## What the player reads trying the door without the key ("" for the default line).
+var _locked_line: String = ""
 var _legacy_room_id: StringName
 
 var door_id: StringName:
@@ -51,6 +56,12 @@ var operable: bool:
 var found_by: String:
 	get:
 		return _found_by
+var key: StringName:
+	get:
+		return _key
+var locked_line: String:
+	get:
+		return _locked_line
 
 
 func _init(
@@ -87,6 +98,8 @@ static func from_record(reader: ContentRecordReader) -> DoorDefinition:
 	definition._starts_open = reader.boolean("open", false)
 	definition._operable = reader.boolean("operable", true)
 	definition._found_by = reader.text("found_by")
+	definition._key = StringName(reader.text("key"))
+	definition._locked_line = reader.text("locked")
 	reader.finish()
 	if zones.size() != 2:
 		reader.fail("zones", "a door joins exactly two zones")
@@ -94,6 +107,10 @@ static func from_record(reader: ContentRecordReader) -> DoorDefinition:
 		reader.fail("reach", "must be positive")
 	if not definition._found_by.is_empty() and (definition._starts_open or definition._operable):
 		reader.fail("found_by", "a way found by a mark starts shut and is worked by no hand")
+	if not definition._key.is_empty() and (not definition._found_by.is_empty() or definition._starts_open or not definition._operable or definition._closable):
+		reader.fail("key", "a locked door starts shut, is opened by hand with its key and stays open (closable false)")
+	if not definition._locked_line.is_empty() and definition._key.is_empty():
+		reader.fail("locked", "only a door with a key has a locked line")
 	return definition
 
 
@@ -117,4 +134,6 @@ func with_maps(map_ids: Array[StringName]) -> DoorDefinition:
 	copy._starts_open = _starts_open
 	copy._operable = _operable
 	copy._found_by = _found_by
+	copy._key = _key
+	copy._locked_line = _locked_line
 	return copy

@@ -825,6 +825,8 @@ func _resolve_doors() -> void:
 			_errors.append("%s.legacy_room: unknown room '%s'" % [origin, definition.legacy_room_id])
 		if not definition.found_by.is_empty() and not _mark_found_by_landmark(definition.found_by):
 			_errors.append("%s.found_by: no find_way landmark gives the mark '%s'" % [origin, definition.found_by])
+		if not definition.key.is_empty() and not _items.has(definition.key):
+			_errors.append("%s.key: unknown item '%s'" % [origin, definition.key])
 		if maps.size() > 1 and not _portal_joins(definition.zone_ids()):
 			_errors.append("%s.zones: a door's zones share one map or a portal joins them" % origin)
 		elif not maps.is_empty():

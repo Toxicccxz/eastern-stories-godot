@@ -1142,8 +1142,23 @@ func can_operate_door(door_id: StringName) -> bool:
 func open_door(door_id: StringName) -> bool:
 	if not can_operate_door(door_id) or doors_by_id[door_id].is_open():
 		return false
+	if not door_unlocked(door_id):
+		var definition: DoorDefinition = GameContent.catalog().door(door_id)
+		if hud() != null:
+			# TRANSLATORS: a locked door tried without its key (DoorDefinition.key); the door's own `locked` line replaces it.
+			hud().append_log_lines([tr(definition.locked_line) if not definition.locked_line.is_empty() else tr("%s锁着。") % tr(definition.display_name)])
+		return false
 	set_door_open(door_id, true)
 	return true
+
+
+## A door with a key (DoorDefinition.key) opens only for one who carries it; every other
+## door is unlocked.
+func door_unlocked(door_id: StringName) -> bool:
+	var definition: DoorDefinition = GameContent.catalog().door(door_id)
+	if definition == null or definition.key.is_empty():
+		return true
+	return session != null and session.player_held_item_ids().has(definition.key)
 
 
 ## A room rule's door (DoorDefinition.operable false): no reach, no player. A door on
