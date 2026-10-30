@@ -1,0 +1,38 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 18,
+  "note": "宫主居所 (native:niling/master; 逆灵宫 C): 商玦's room behind the 黑门 — warm where the rest of the 道观 is cold (暖得不自然): a brazier, a lantern, a rug, the ebony desk with brush and ink in order, the emptied shelf with the dust-print of a row of books, the open black box on the desk's corner, his couch; the small door on the north wall onto the 后山崖径 (the act service). Lived in by one tidy man: no clutter, one cup, ink on the desk's edge.",
+  "palette": {"wood": ["1a1614", "2a2220", "121010"], "wall": "1c1a1a"},
+  "wall_height": 3.4,
+  "wall_looks": [
+    {"rect": [-272, -208, 272, 208], "style": "brick", "colors": ["1c1a1a", "262322", "141212", "2e2a28", "222020"], "seam": "3a3634", "note": "the same black brick, but hung and warmed"}
+  ],
+  "door_looks": {
+    "niling.master.door": {"kind": "closed_door", "color": "0a0808", "trim": "1a1416", "note": "the 黑门 from inside"}
+  },
+  "ground": {
+    "floor_wood": {"style": "planks", "colors": ["2a2220", "342a26", "221c1a"], "note": "dark boards, oiled"},
+    "boundary": {"style": "scree", "colors": ["565248", "625e54", "4e4a42"], "gravel": 0.5, "stones": 0.06, "pebbles": ["6e6a60", "7a766c", "5e5a50"]}
+  },
+  "flora": {"grass_density": 0.0, "density": {"floor_wood": 0.0, "boundary": 0.2}, "grass_colors": ["766c46", "8c8254"], "flower_threshold": 1.0, "tree_kinds": [], "wind": 0.0, "butterflies": 0},
+  "light": {"note": "warmer than the rest of the 道观 (native:niling/master: 暖得不自然)", "ambient": {"dawn": "9a8a80", "day": "a89a90", "dusk": "9a8078", "night": "6a5a60", "midnight": "605460"}, "ambient_energy": {"dawn": 0.4, "day": 0.42, "dusk": 0.42, "night": 0.36, "midnight": 0.34}},
+  "life": {
+    "niling.master": {"walls": "brick"}
+  },
+  "props": [
+    {"kind": "rug", "at": [0, 20], "size": [220, 160], "cloth": "3a1a1a", "border": "6a4a2a", "note": "a dark red rug, the one soft thing in the 道观"},
+    {"kind": "hanging_lantern", "at": [0, -40], "paper": "e0b070", "height": 2.6, "note": "his lantern, warm paper"},
+    {"kind": "glow", "at": [230, 150], "color": "e07040", "day": 0.7, "night": 1.0, "range": 6.0, "height": 1.2, "note": "the brazier's coals"},
+    {"kind": "candlestick", "at": [-150, -20], "size": [12, 12], "lit": true, "note": "a candle on the desk"},
+    {"kind": "stains", "at": [-110, 10], "size": [200, 100], "count": 5, "colors": ["0e0c0c", "161414"], "note": "ink on the desk's edge and the boards under it"},
+    {"kind": "paper_slip", "at": [-40, 60], "size": [16, 20], "rotation": 15, "note": "a page he left: the half-burnt one the shelf's landmark speaks of lies under the shelf"},
+    {"kind": "paper_slip", "at": [150, -150], "size": [16, 20], "rotation": -30, "note": "under the emptied shelf"},
+    {"kind": "wall_scroll", "at": [-200, -196], "size": [40, 10], "note": "a hanging scroll on the north wall, its characters the banners'"},
+    {"kind": "paper_charms", "at": [60, -200], "size": [40, 40], "height": 1.4, "color": "6a1414", "note": "charms over the small door"},
+    {"kind": "cobweb", "at": [-262, -198], "size": [36, 8], "rotation": 45, "height": 3.1}
+  ],
+  "actors": {
+    "default": {"coat": "1a1818", "hat": true}
+  }
+}

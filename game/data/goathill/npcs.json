@@ -43,7 +43,23 @@
 						{ "say": "黑衣？老子穿的是布衣。少打听。" }
 					]
 				}
-			}
+			},
+			"moods": {
+				"yielded": {
+					"title": "野羊山三寨主",
+					"lasting": true,
+					"chat_chance": 8,
+					"chat_msg": ["黄霸给里屋送了一碗酒进去，出来时抹了把脸。\n", "黄霸嘟囔道：大哥回来了。好，好。\n"]
+				}
+			},
+			"scene_mark": "霍铮回了寨",
+			"calls": [
+				{ "after": 1, "scene": true, "mark": "救出了霍铮", "not_mark": "霍铮回了寨", "steps": [{ "emote": "手里的酒碗啪地掉在地上。" }, { "say": "大哥……大哥你还活着！" }] },
+				{ "after": 4, "scene": true, "mark": "救出了霍铮", "not_mark": "霍铮回了寨", "steps": [{ "by": "native.npc.huo_zheng" }, { "say": "活着。老三，寨子你管得不错——供也纳得不错。" }] },
+				{ "after": 8, "scene": true, "mark": "救出了霍铮", "not_mark": "霍铮回了寨", "steps": [{ "by": "goathill.npc.bandit_hwang" }, { "emote": "扑通一声跪下了。" }, { "say": "大哥，寨子是你的。老子从今天起还是三寨主，你要打要杀，老子不还手。" }, { "npc_mood": "yielded" }] },
+				{ "after": 12, "scene": true, "mark": "救出了霍铮", "not_mark": "霍铮回了寨", "steps": [{ "by": "native.npc.huo_zheng" }, { "say": "起来。杀你不如杀道士。——这娃娃是傅家坡的，派两个弟兄送他回家，少一根头发老子找你。" }, { "leave": "native.npc.shitou" }, { "line": "两个寨兵领着石头出了庙门。石头回头看了你一眼，没有说话。" }, { "mark": "石头回家了" }] },
+				{ "after": 16, "scene": true, "mark": "救出了霍铮", "not_mark": "霍铮回了寨", "steps": [{ "by": "native.npc.huo_zheng" }, { "emote": "转过身来，看着你。" }, { "say": "兄弟，野羊寨欠你一条命。以后野羊山的路，你横着走。" }, { "mark": "霍铮回了寨" }, { "line": "霍铮骂骂咧咧地进了土地庙的里屋，叫黄霸拿酒来。" }, { "leave": true }] }
+			]
 		},
 		{
 			"id": "goathill.npc.bandit",

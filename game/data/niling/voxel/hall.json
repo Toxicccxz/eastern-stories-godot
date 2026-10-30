@@ -11,7 +11,8 @@
     {"rect": [-640, -448, -192, -112], "style": "brick", "colors": ["201e1c", "2a2624", "181616", "322e2a", "262220"], "seam": "3a3634", "note": "the 账房"}
   ],
   "door_looks": {
-    "niling.front.door": {"kind": "closed_door", "note": "殿门 from inside (gate.json draws it from the yard)"}
+    "niling.front.door": {"kind": "closed_door", "note": "殿门 from inside (gate.json draws it from the yard)"},
+    "niling.altar.door": {"kind": "closed_door", "color": "161414", "trim": "3a1a1a", "note": "北门 to the 后殿 (rear.json draws it from inside)"}
   },
   "ground": {
     "floor_yard": {"style": "slabs", "lengths": [2, 3], "depths": [1, 2], "cracks": 0.12, "broken": 0.06, "sunk": 0.04, "tufts": 0.0, "stones": ["1e1c1c", "262424", "2e2a2a", "222020"], "worn": ["36322e", "3e3a34", "2e2a28"], "bed": "121010", "joint": 0.05, "mud": "3a3430", "crack": "0e0c0c", "note": "the hall's black brick floor, worn grey where the 道士 kneel and walk"},
@@ -25,19 +26,20 @@
     "niling.counting": {"walls": "brick"}
   },
   "props": [
-    {"kind": "prayer_cushion", "at": [264, 112], "size": [30, 30], "note": "the five cushions the 道士 kneel on (the markers' spots), the leader's in front"},
-    {"kind": "prayer_cushion", "at": [128, 198], "size": [28, 28]},
-    {"kind": "prayer_cushion", "at": [218, 198], "size": [28, 28]},
-    {"kind": "prayer_cushion", "at": [309, 198], "size": [28, 28]},
-    {"kind": "prayer_cushion", "at": [399, 198], "size": [28, 28]},
-    {"kind": "drum", "at": [300, 100], "size": [16, 16], "note": "the 木鱼 by the leader's knee, its lacquer chipped (native:niling/front): a small drum stands for it"},
-    {"kind": "candlestick", "at": [210, -40], "size": [12, 12], "lit": true, "note": "candles either end of the scripture table"},
-    {"kind": "candlestick", "at": [318, -40], "size": [12, 12], "lit": true},
-    {"kind": "stains", "at": [264, -40], "size": [240, 40], "count": 6, "colors": ["2a2622", "3a3028", "1e1a18"], "note": "wax and soot on the table's end"},
-    {"kind": "glow", "at": [264, 24], "color": "6a5a8a", "day": 0.3, "night": 0.9, "range": 6.0, "height": 1.6, "note": "the burner's blue-violet glow (it burns the same black grounds as the yard's)"},
-    {"kind": "stains", "at": [264, 24], "size": [160, 120], "count": 8, "colors": ["0e0c0c", "1a1818", "262222"], "note": "ash before the burner"},
-    {"kind": "stains", "at": [264, 200], "size": [360, 90], "count": 8, "colors": ["36322e", "3e3a34"], "note": "the brick worn grey under the cushions"},
-    {"kind": "trail", "points": [[256, 340], [260, 280], [264, 230]], "color": "3e3a34", "note": "the way trodden from the door to the cushions"},
+    {"kind": "prayer_cushion", "at": [384, 112], "size": [30, 30], "note": "the five cushions the 道士 kneel on (the markers' spots), the leader's in front"},
+    {"kind": "prayer_cushion", "at": [249, 198], "size": [28, 28]},
+    {"kind": "prayer_cushion", "at": [339, 198], "size": [28, 28]},
+    {"kind": "prayer_cushion", "at": [429, 198], "size": [28, 28]},
+    {"kind": "prayer_cushion", "at": [520, 198], "size": [28, 28]},
+    {"kind": "drum", "at": [420, 100], "size": [16, 16], "note": "the 木鱼 by the leader's knee, its lacquer chipped (native:niling/front): a small drum stands for it"},
+    {"kind": "candlestick", "at": [330, -40], "size": [12, 12], "lit": true, "note": "candles either end of the scripture table"},
+    {"kind": "candlestick", "at": [438, -40], "size": [12, 12], "lit": true},
+    {"kind": "stains", "at": [384, -40], "size": [240, 40], "count": 6, "colors": ["2a2622", "3a3028", "1e1a18"], "note": "wax and soot on the table's end"},
+    {"kind": "glow", "at": [384, 24], "color": "6a5a8a", "day": 0.3, "night": 0.9, "range": 6.0, "height": 1.6, "note": "the burner's blue-violet glow (it burns the same black grounds as the yard's)"},
+    {"kind": "stains", "at": [384, 24], "size": [160, 120], "count": 8, "colors": ["0e0c0c", "1a1818", "262222"], "note": "ash before the burner"},
+    {"kind": "stains", "at": [384, 200], "size": [360, 90], "count": 8, "colors": ["36322e", "3e3a34"], "note": "the brick worn grey under the cushions"},
+    {"kind": "trail", "points": [[256, 340], [300, 280], [360, 230]], "color": "3e3a34", "note": "the way trodden from the door to the cushions"},
+    {"kind": "trail", "points": [[264, 160], [264, 40], [264, -60]], "color": "3e3a34", "note": "and straight on to the 北门"},
     {"kind": "trail", "points": [[-120, 160], [-20, 170], [100, 200]], "color": "3e3a34", "note": "and in from the 丹房"},
     {"kind": "hanging_lantern", "at": [-100, -60], "paper": "8a1e1a", "height": 3.0, "note": "red lanterns at the hall's four corners, lit by day"},
     {"kind": "hanging_lantern", "at": [628, -60], "paper": "8a1e1a", "height": 3.0},
@@ -47,8 +49,7 @@
     {"kind": "hanging_lantern", "at": [344, 396], "paper": "8a1e1a", "height": 2.8},
     {"kind": "banner", "at": [-120, 20], "height": 3.4, "cloth": "141212", "trim": "7a1a1a", "note": "黑幡 inside too, at the corners of the hall"},
     {"kind": "banner", "at": [648, 20], "height": 3.4, "cloth": "141212", "trim": "7a1a1a"},
-    {"kind": "closed_door", "at": [264, -110], "size": [96, 16], "color": "161414", "trim": "3a1a1a", "note": "the shut north door to the 后殿 (native:niling/front: 北边的门紧闭着; C opens it)"},
-    {"kind": "paper_charms", "at": [340, -108], "size": [40, 40], "height": 1.4, "color": "8a1a1a", "note": "charms pasted either side of that door"},
+    {"kind": "paper_charms", "at": [340, -108], "size": [40, 40], "height": 1.4, "color": "8a1a1a", "note": "charms pasted either side of the 北门"},
     {"kind": "paper_charms", "at": [188, -108], "size": [40, 40], "height": 1.4, "color": "8a1a1a"},
     {"kind": "cobweb", "at": [-130, -98], "size": [40, 8], "rotation": 45, "height": 3.2},
     {"kind": "cobweb", "at": [660, 420], "size": [40, 8], "rotation": -45, "height": 3.2},

@@ -492,6 +492,10 @@
           "goathill.temple1.bandit_hwang.1": [
             "goathill.temple1",
             ["rel", 0.75, 0.219]
+          ],
+          "goathill.temple1.huo_zheng.1": [
+            "goathill.temple1",
+            ["rel", 0.22, 0.3]
           ]
         },
         "doors": {

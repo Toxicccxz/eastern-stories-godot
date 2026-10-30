@@ -823,8 +823,8 @@ func _resolve_doors() -> void:
 					ids.append(zone.map_id)
 		if not _rooms.has(definition.legacy_room_id):
 			_errors.append("%s.legacy_room: unknown room '%s'" % [origin, definition.legacy_room_id])
-		if not definition.found_by.is_empty() and not _mark_found_by_landmark(definition.found_by):
-			_errors.append("%s.found_by: no find_way landmark gives the mark '%s'" % [origin, definition.found_by])
+		if not definition.found_by.is_empty() and not _mark_found_by_landmark(definition.found_by) and not _mark_of_a_scene(definition.found_by):
+			_errors.append("%s.found_by: no find_way landmark or scene gives the mark '%s'" % [origin, definition.found_by])
 		if not definition.key.is_empty() and not _items.has(definition.key):
 			_errors.append("%s.key: unknown item '%s'" % [origin, definition.key])
 		if maps.size() > 1 and not _portal_joins(definition.zone_ids()):
@@ -837,6 +837,16 @@ func _resolve_doors() -> void:
 func _mark_found_by_landmark(mark: String) -> bool:
 	for landmark: WorldLandmarkDefinition in _landmarks.values():
 		if landmark.policy == &"find_way" and landmark.mark == mark:
+			return true
+	return false
+
+
+## An NPC's scene writes `mark` as it begins (NpcHooks.scene_mark: the 黑门 behind the 唤首 scene,
+## 逆灵宫 C): a way such a mark finds opens with the scene.
+func _mark_of_a_scene(mark: String) -> bool:
+	for npc: NpcDefinition in _npcs.values():
+		var hooks: NpcHooks = npc.hooks()
+		if hooks != null and hooks.scene_mark == mark:
 			return true
 	return false
 

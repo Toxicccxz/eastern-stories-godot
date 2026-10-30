@@ -11,7 +11,7 @@ extends RefCounted
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const MapPlaces := preload("res://tests/support/map_places.gd")
-const MAPS: Dictionary = {&"niling.slope": 3, &"niling.gate": 3, &"niling.hall": 3, &"niling.dungeon": 4}
+const MAPS: Dictionary = {&"niling.slope": 3, &"niling.gate": 3, &"niling.hall": 3, &"niling.dungeon": 4, &"niling.rear": 1, &"niling.master_house": 1, &"niling.backhill": 2}
 const CROWN: StringName = &"native:niling/black_crown"
 ## Where each kind stands.
 const PEOPLE: Dictionary = {
@@ -21,7 +21,9 @@ const PEOPLE: Dictionary = {
 	&"niling.store": {&"native.npc.niling_store_taoist": 1},
 	&"niling.front": {&"native.npc.niling_chanter": 4, &"native.npc.niling_lead_chanter": 1},
 	&"niling.counting": {&"native.npc.niling_steward": 1},
-	&"niling.corridor": {&"native.npc.niling_jailer": 2},
+	&"niling.corridor": {&"native.npc.niling_jailer": 2, &"native.npc.niling_jailer_keyed": 2},
+	&"niling.altar": {&"native.npc.shang_jue": 1, &"native.npc.xuan_mingzi": 1, &"native.npc.headless_shade": 1, &"native.npc.hell_runner": 2},
+	&"niling.cliff_path": {&"native.npc.xuan_mingzi_cliff": 1},
 	&"niling.cell_huo": {&"native.npc.huo_zheng": 1},
 	&"niling.cell_shitou": {&"native.npc.shitou": 1},
 	&"niling.cell_others": {&"native.npc.guanbei_corvee": 2},
@@ -50,7 +52,7 @@ func _test_data() -> void:
 		if String(zone.zone_id).begins_with("niling."):
 			maps[zone.map_id] = maps.get(zone.map_id, 0) + 1
 			_check(zone.room_ids().size() == 1 and catalog.room(zone.room_ids()[0]) != null and String(zone.room_ids()[0]).begins_with("native:niling/"), "%s: one native room" % zone.zone_id)
-	_check(maps == MAPS, "thirteen native rooms on four maps: %s" % maps)
+	_check(maps == MAPS, "seventeen native rooms on seven maps: %s" % maps)
 	_check(catalog.region(&"niling").display_name == "逆灵宫", "the region is 逆灵宫")
 	_check(catalog.map(&"niling.gate").interior and catalog.map(&"niling.hall").interior and catalog.map(&"niling.dungeon").interior and not catalog.map(&"niling.slope").interior, "the gate, the hall and the dungeon are indoors, the slope is outdoors")
 	_check(catalog.portal(&"niling.yard.north").destination_zone_id == &"niling.front" and catalog.portal(&"niling.front.south").destination_zone_id == &"niling.yard" and catalog.door(&"niling.front.door").zone_ids() == [&"niling.yard", &"niling.front"] and catalog.door(&"niling.front.door").map_ids() == [&"niling.gate", &"niling.hall"], "the 殿门 on the way from the yard into the 前殿, placed by both maps")
@@ -63,7 +65,12 @@ func _test_data() -> void:
 	for peaceful: StringName in [&"native.npc.huo_zheng", &"native.npc.shitou", &"native.npc.guanbei_corvee"]:
 		_check(not catalog.npc(peaceful).attacks_on_sight({}, CharacterState.new(), true), "%s attacks nobody" % peaceful)
 	_check(catalog.npc(&"native.npc.huo_zheng").title == "野羊山大寨主" and catalog.npc(&"native.npc.shitou").age == 7, "霍铮 the 大寨主; 石头 seven")
-	_check(catalog.spawn(&"niling.corridor.jailers").until != null and catalog.spawn(&"niling.corridor.jailers").until.key == "见过唤首", "the keyless jailers stand until the 唤首 scene (C)")
+	_check(catalog.spawn(&"niling.corridor.jailers").until != null and catalog.spawn(&"niling.corridor.jailers").until.key == "见过唤首" and catalog.spawn(&"niling.corridor.jailers_keyed").present.key == "见过唤首", "the keyless jailers stand until the 唤首 scene, the keyed ones from it")
+	_check(catalog.door(&"niling.master.door").found_by == "见过唤首" and not catalog.door(&"niling.master.door").operable and catalog.npc(&"native.npc.shang_jue").hooks().scene_mark == "见过唤首", "the 黑门 is found by 商玦's scene")
+	_check(catalog.spawn(&"niling.altar.hell_runners").summoned and catalog.spawn(&"niling.altar.hell_runners").cleared_mark == "祭坛的鬼卒倒了" and catalog.spawn(&"niling.altar.shade").summoned, "the ghouls and the shade are summoned by the scene")
+	_check(catalog.spawn(&"niling.cliff_path.xuan_mingzi").until.key == "main.chapter3/choice/rescue" and catalog.spawn(&"niling.cell_huo.huo_zheng").until.key == "main.chapter3/choice/chase" and catalog.item_spawn(&"niling.cell_huo.body").present.key == "main.chapter3/choice/chase", "the two endings exclude each other on the stage")
+	_check(catalog.npc(&"native.npc.xuan_mingzi_cliff").hooks().spared_drop == &"native:niling/scroll_fragment" and catalog.npc(&"native.npc.hell_runner").hooks().vanishes and catalog.npc(&"native.npc.huo_zheng").hooks().follows_every_way, "玄冥子 drops the 残卷 when spared; a 鬼卒 leaves no corpse; 霍铮 follows every way")
+	_check(WorldRoute.moves_to(catalog, catalog.service(&"niling.master.back_door")) == &"niling.backhill" and catalog.portal(&"niling.cliff_path.south").destination_zone_id == &"niling.master", "the small door out onto the cliff path, and back")
 	_check(catalog.portal(&"niling.goods_path.north").destination_zone_id == &"niling.gatehouse" and catalog.portal(&"niling.gatehouse.south").destination_zone_id == &"niling.goods_path", "the goods road north into the gate, and back")
 	_check(catalog.portal(&"niling.side_door.north").destination_zone_id == &"niling.store" and catalog.portal(&"niling.store.south").destination_zone_id == &"niling.side_door", "the side door into the 货栈, and back")
 	_check(catalog.room(&"native:niling/goods_path").exits().get("east") == "native:niling/side_door" and catalog.room(&"native:niling/yard").exits().get("east") == "native:niling/store", "the branch east to the side door; the yard opens east into the 货栈")

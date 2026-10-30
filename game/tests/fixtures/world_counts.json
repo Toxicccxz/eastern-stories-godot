@@ -130,9 +130,12 @@
 		"niling.slope",
 		"niling.gate",
 		"niling.hall",
-		"niling.dungeon"
+		"niling.dungeon",
+		"niling.rear",
+		"niling.master_house",
+		"niling.backhill"
 	],
-	"rooms": 551,
+	"rooms": 555,
 	"snow_outdoor_portals": [
 		"snow.square.west",
 		"snow.eroad3.south",
@@ -448,6 +451,12 @@
 		"niling.cell_huo.huo_zheng",
 		"niling.cell_shitou.shitou",
 		"niling.cell_others.corvee",
+		"niling.altar.shang_jue",
+		"niling.altar.xuan_mingzi",
+		"niling.altar.shade",
+		"niling.altar.hell_runners",
+		"niling.cliff_path.xuan_mingzi",
+		"niling.corridor.jailers_keyed",
 		"native.school2.wooden_dummy.1",
 		"native.school2.wooden_dummy.2",
 		"native.school2.wooden_dummy.3",
@@ -464,11 +473,12 @@
 		"native.pass.bai_daozhang",
 		"native.pass.black_taoist",
 		"native.caves.black_taoist",
-		"native.mroad4.tribute_taoists"
+		"native.mroad4.tribute_taoists",
+		"native.temple1.huo_zheng"
 	],
-	"world_npcs": 498,
-	"resident_maps": 131,
-	"new_game_items": 841,
+	"world_npcs": 507,
+	"resident_maps": 134,
+	"new_game_items": 857,
 	"snow_outdoor_passages": 18,
 	"map_zones": {
 		"snow.inn": 1,
@@ -601,7 +611,10 @@
 		"niling.slope": 3,
 		"niling.gate": 3,
 		"niling.hall": 3,
-		"niling.dungeon": 4
+		"niling.dungeon": 4,
+		"niling.rear": 1,
+		"niling.master_house": 1,
+		"niling.backhill": 2
 	},
 	"map_npcs": {
 		"snow.inn": 3,
@@ -628,7 +641,7 @@
 		"oldpine.keep_hall": 4,
 		"goathill.mountain": 6,
 		"goathill.caverns": 13,
-		"goathill.temple_house": 1,
+		"goathill.temple_house": 2,
 		"cloud.outdoor": 12,
 		"cloud.tearoom_upstairs": 1,
 		"cloud.jiyuan_upstairs": 1,
@@ -734,7 +747,10 @@
 		"niling.slope": 1,
 		"niling.gate": 4,
 		"niling.hall": 6,
-		"niling.dungeon": 6
+		"niling.dungeon": 8,
+		"niling.rear": 5,
+		"niling.master_house": 0,
+		"niling.backhill": 1
 	},
 	"npc_draws_after_oldpine": 2550,
 	"technical_maps": 9,

@@ -21,6 +21,34 @@
 			],
 			"legacy_room": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the stamped papers beside it)",
 			"legacy_quantity": 1
+		},
+		{
+			"id": "niling.cell_huo.body",
+			"item": "native:niling/body_huo",
+			"map": "niling.dungeon",
+			"zone": "niling.cell_huo",
+			"points": [
+				"niling.cell_huo.body.1"
+			],
+			"legacy_room": "native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) (after the chase)",
+			"legacy_quantity": 1,
+			"present": {
+				"quest": "main.chapter3/choice/chase"
+			}
+		},
+		{
+			"id": "niling.cell_shitou.body",
+			"item": "native:niling/body_shitou",
+			"map": "niling.dungeon",
+			"zone": "niling.cell_shitou",
+			"points": [
+				"niling.cell_shitou.body.1"
+			],
+			"legacy_room": "native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) (after the chase)",
+			"legacy_quantity": 1,
+			"present": {
+				"quest": "main.chapter3/choice/chase"
+			}
 		}
 	]
 }

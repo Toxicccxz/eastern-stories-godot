@@ -183,6 +183,11 @@ func run(act: ScriptedAct, acting_npc: NpcRuntimeState, draw: Callable, room_zon
 				state.marks.erase(step.flag)
 			ScriptedAct.Kind.MARK:
 				state.marks[step.flag] = 1
+				_map.open_found_ways(step.flag)
+			ScriptedAct.Kind.SUMMON:
+				_show(said, hears, npc, spoken)
+				if _map.summon(step.spawn_id).is_empty():
+					push_error("%s could not summon %s" % [npc_name, step.spawn_id])
 			ScriptedAct.Kind.NPC_MOOD:
 				var hooks: NpcHooks = null if npc == null else npc.definition().hooks()
 				if hooks != null and hooks.moods.has(step.flag):

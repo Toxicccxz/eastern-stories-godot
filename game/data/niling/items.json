@@ -110,6 +110,59 @@
 			"material": "iron",
 			"weight": 100,
 			"value": 5
+		},
+		{
+			"id": "native:niling/scroll_fragment",
+			"legacy_sources": [
+				"native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) — the 逆灵天书 of doc/help/taoist:58 (禁书), half of it, what 玄冥子 drops; only a hook for the 魔道 line (owner Q3: 残卷只留钩子)"
+			],
+			"name": "逆灵天书残卷",
+			"aliases": [
+				"scroll",
+				"fragment",
+				"残卷"
+			],
+			"long": "半卷黑皮的经书，封皮上「逆灵天书」四个字只剩下三个。里面的字横着竖着走，看一眼就头晕。这是玄冥子的——他说过，要练六阴剑，拿着它来后山找他。\n",
+			"unit": "卷",
+			"material": "paper",
+			"weight": 300,
+			"value": 0
+		},
+		{
+			"id": "native:niling/body_huo",
+			"legacy_sources": [
+				"native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) — what the jailers did while the player chased 商玦 (剧情总纲 §3 第三章 ⑥: 等你再下地牢，狱卒已经动了手)"
+			],
+			"name": "霍铮的尸首",
+			"aliases": [
+				"body",
+				"corpse",
+				"尸首"
+			],
+			"long": "霍铮的尸首。铁链还在手腕上，拳头攥着，指缝里有血——不是他的。他到最后也没求饶。\n",
+			"unit": "具",
+			"material": "bone",
+			"weight": 60000,
+			"value": 0,
+			"no_get": true
+		},
+		{
+			"id": "native:niling/body_shitou",
+			"legacy_sources": [
+				"native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) — the same"
+			],
+			"name": "石头的尸首",
+			"aliases": [
+				"body",
+				"corpse",
+				"尸首"
+			],
+			"long": "一个小孩子的尸首，头上两个小抓揪。他蜷在墙角，手里还攥着一颗小石子。\n",
+			"unit": "具",
+			"material": "bone",
+			"weight": 20000,
+			"value": 0,
+			"no_get": true
 		}
 	]
 }

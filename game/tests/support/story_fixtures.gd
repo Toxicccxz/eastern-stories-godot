@@ -85,6 +85,17 @@ static func chapter3_yard_done(session: WorldSessionController) -> void:
 		state.marks[mark] = 1
 
 
+## 逆灵宫 B done (DECISIONS「逆灵宫 B」): the hall, the ledger and the papers read, the passage
+## reached; the chapter at `altar` (C plays the 唤首 scene from the 北门).
+static func chapter3_dungeon_done(session: WorldSessionController) -> void:
+	chapter3_yard_done(session)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in ["main.chapter3/hall", "main.chapter3/ledger", "main.chapter3/papers", "main.chapter3/dungeon"]:
+		_write(state, key)
+	for mark: String in ["看过账册", "看过兵部文书", "门房道士打过招呼"]:
+		state.marks[mark] = 1
+
+
 static func _write(state: CharacterState, key: String) -> void:
 	if not state.quests.has(key):
 		state.quests[key] = state.quests.size() + 1

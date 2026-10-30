@@ -64,7 +64,8 @@
 			"long": "逆灵宫的前殿。殿里没有神像，正中一张乌黑的长案，案上供的是一卷摊开的黑皮经书。五个黑衣黑冠的道士面壁跪在蒲团上诵经，领诵的敲着木鱼，一下一下，谁进来都不抬头。诵的字句一个也听不懂，只觉得殿里比外头冷。\n西边一道门通丹房；北边的门紧闭着，门后隐约也有诵经声。\n",
 			"exits": {
 				"south": "native:niling/yard",
-				"west": "native:niling/alchemy"
+				"west": "native:niling/alchemy",
+				"north": "native:niling/altar"
 			}
 		},
 		{
@@ -118,6 +119,43 @@
 			"long": "一间石头凿出来的牢房，两张草席并排铺着。墙上用炭画了一条河，河边画着一排小人在挖土。\n",
 			"exits": {
 				"west": "native:niling/corridor"
+			}
+		},
+		{
+			"id": "native:niling/altar",
+			"short": "后殿",
+			"long": "逆灵宫的后殿。殿里没有神像，正中一座黑石砌的坛，坛上一团黑焰无声地烧着，照不亮什么，只把坛边的影子拉得老长。四壁的黑幡比前殿的更高，幡上的字是暗红的，像血写的。\n南门回前殿。坛后有一道黑门，门上一个字也没有。\n",
+			"exits": {
+				"south": "native:niling/front",
+				"north": "native:niling/master"
+			}
+		},
+		{
+			"id": "native:niling/master",
+			"short": "宫主居所",
+			"long": "商玦的居所，比后殿暖，暖得不自然。一张乌木书案，案上笔墨整齐；靠墙一座书架，空了——架上的灰尘留着一排书脊的印子。案角一只黑匣，开着，里面什么也没有。\n南边的黑门回后殿；北墙一扇小门，门外是风声。\n",
+			"exits": {
+				"south": "native:niling/altar",
+				"north": "native:niling/cliff_path"
+			}
+		},
+		{
+			"id": "native:niling/cliff_path",
+			"short": "后山崖径",
+			"long": "逆灵宫后山的崖径，窄得只容一人，一边是黑砖的后墙，一边是深不见底的崖。风从崖底上来，带着雾。崖径往北走到头是断崖。\n南边的小门回宫主的居所。\n",
+			"outdoors": true,
+			"exits": {
+				"south": "native:niling/master",
+				"north": "native:niling/cliff"
+			}
+		},
+		{
+			"id": "native:niling/cliff",
+			"short": "断崖",
+			"long": "崖径的尽头。一根绳索拴在崖边的铁桩上，另一头垂进雾里——绳子在三尺外被割断了，断口新得发白。再往前一步就是空的。\n",
+			"outdoors": true,
+			"exits": {
+				"south": "native:niling/cliff_path"
 			}
 		}
 	]

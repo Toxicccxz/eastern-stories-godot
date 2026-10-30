@@ -6,7 +6,10 @@
 		{ "id": "niling.slope", "region": "niling", "scene": "res://scenes/world/niling/niling_slope.tscn", "entry": "niling.winch.rope_arrival" },
 		{ "id": "niling.gate", "region": "niling", "scene": "res://scenes/world/niling/niling_gate.tscn", "entry": "niling.gatehouse.path_entry", "interior": true },
 		{"id": "niling.hall", "region": "niling", "scene": "res://scenes/world/niling/niling_hall.tscn", "entry": "niling.front.yard_entry", "interior": true},
-		{"id": "niling.dungeon", "region": "niling", "scene": "res://scenes/world/niling/niling_dungeon.tscn", "entry": "niling.corridor.stairs_arrival", "interior": true}
+		{"id": "niling.dungeon", "region": "niling", "scene": "res://scenes/world/niling/niling_dungeon.tscn", "entry": "niling.corridor.stairs_arrival", "interior": true},
+		{"id": "niling.rear", "region": "niling", "scene": "res://scenes/world/niling/niling_rear.tscn", "entry": "niling.altar.front_entry", "interior": true},
+		{"id": "niling.master_house", "region": "niling", "scene": "res://scenes/world/niling/niling_master_house.tscn", "entry": "niling.master.altar_entry", "interior": true},
+		{"id": "niling.backhill", "region": "niling", "scene": "res://scenes/world/niling/niling_backhill.tscn", "entry": "niling.cliff_path.door_arrival"}
 	],
 	"zones": [
 		{ "id": "niling.winch", "map": "niling.slope", "rooms": ["native:niling/winch"] },
@@ -21,7 +24,11 @@
 		{"id": "niling.corridor", "map": "niling.dungeon", "indoors": true, "rooms": ["native:niling/corridor"]},
 		{"id": "niling.cell_huo", "map": "niling.dungeon", "indoors": true, "rooms": ["native:niling/cell_huo"]},
 		{"id": "niling.cell_shitou", "map": "niling.dungeon", "indoors": true, "rooms": ["native:niling/cell_shitou"]},
-		{"id": "niling.cell_others", "map": "niling.dungeon", "indoors": true, "rooms": ["native:niling/cell_others"]}
+		{"id": "niling.cell_others", "map": "niling.dungeon", "indoors": true, "rooms": ["native:niling/cell_others"]},
+		{"id": "niling.altar", "map": "niling.rear", "indoors": true, "rooms": ["native:niling/altar"]},
+		{"id": "niling.master", "map": "niling.master_house", "indoors": true, "rooms": ["native:niling/master"]},
+		{"id": "niling.cliff_path", "map": "niling.backhill", "rooms": ["native:niling/cliff_path"]},
+		{"id": "niling.cliff", "map": "niling.backhill", "rooms": ["native:niling/cliff"]}
 	],
 	"portals": [
 		{ "id": "niling.goods_path.north", "from_zone": "niling.goods_path", "to_zone": "niling.gatehouse", "to_spawn": "niling.gatehouse.path_entry", "legacy_room": "native:niling/goods_path", "legacy_command": "north" },
@@ -31,13 +38,20 @@
 		{"id": "niling.yard.north", "from_zone": "niling.yard", "to_zone": "niling.front", "to_spawn": "niling.front.yard_entry", "legacy_room": "native:niling/yard", "legacy_command": "north"},
 		{"id": "niling.front.south", "from_zone": "niling.front", "to_zone": "niling.yard", "to_spawn": "niling.yard.hall_return", "legacy_room": "native:niling/front", "legacy_command": "south"},
 		{"id": "niling.alchemy.down", "from_zone": "niling.alchemy", "to_zone": "niling.corridor", "to_spawn": "niling.corridor.stairs_arrival", "legacy_room": "native:niling/alchemy", "legacy_command": "down"},
-		{"id": "niling.corridor.up", "from_zone": "niling.corridor", "to_zone": "niling.alchemy", "to_spawn": "niling.alchemy.stairs_return", "legacy_room": "native:niling/corridor", "legacy_command": "up"}
+		{"id": "niling.corridor.up", "from_zone": "niling.corridor", "to_zone": "niling.alchemy", "to_spawn": "niling.alchemy.stairs_return", "legacy_room": "native:niling/corridor", "legacy_command": "up"},
+		{"id": "niling.front.north", "from_zone": "niling.front", "to_zone": "niling.altar", "to_spawn": "niling.altar.front_entry", "legacy_room": "native:niling/front", "legacy_command": "north"},
+		{"id": "niling.altar.south", "from_zone": "niling.altar", "to_zone": "niling.front", "to_spawn": "niling.front.altar_return", "legacy_room": "native:niling/altar", "legacy_command": "south"},
+		{"id": "niling.altar.north", "from_zone": "niling.altar", "to_zone": "niling.master", "to_spawn": "niling.master.altar_entry", "legacy_room": "native:niling/altar", "legacy_command": "north"},
+		{"id": "niling.master.south", "from_zone": "niling.master", "to_zone": "niling.altar", "to_spawn": "niling.altar.master_return", "legacy_room": "native:niling/master", "legacy_command": "south"},
+		{"id": "niling.cliff_path.south", "from_zone": "niling.cliff_path", "to_zone": "niling.master", "to_spawn": "niling.master.back_entry", "legacy_room": "native:niling/cliff_path", "legacy_command": "south"}
 	],
 	"doors": [
 		{"id": "niling.front.door", "name": "殿门", "zones": ["niling.yard", "niling.front"], "reach": 90, "legacy_room": "native:niling/front"},
 		{"id": "niling.cell_huo.door", "name": "西牢房的铁栅门", "zones": ["niling.corridor", "niling.cell_huo"], "reach": 90, "closable": false, "key": "native:niling/cell_key", "locked": "铁栅门锁着，锁是新的，摇一摇纹丝不动。钥匙不在这里。", "legacy_room": "native:niling/cell_huo"},
 		{"id": "niling.cell_shitou.door", "name": "北牢房的铁栅门", "zones": ["niling.corridor", "niling.cell_shitou"], "reach": 90, "closable": false, "key": "native:niling/cell_key", "locked": "铁栅门锁着。栅栏里的孩子往后缩了缩。", "legacy_room": "native:niling/cell_shitou"},
-		{"id": "niling.cell_others.door", "name": "东牢房的铁栅门", "zones": ["niling.corridor", "niling.cell_others"], "reach": 90, "closable": false, "key": "native:niling/cell_key", "locked": "铁栅门锁着。里面的人抬起头看了看你，又低下去。", "legacy_room": "native:niling/cell_others"}
+		{"id": "niling.cell_others.door", "name": "东牢房的铁栅门", "zones": ["niling.corridor", "niling.cell_others"], "reach": 90, "closable": false, "key": "native:niling/cell_key", "locked": "铁栅门锁着。里面的人抬起头看了看你，又低下去。", "legacy_room": "native:niling/cell_others"},
+		{"id": "niling.altar.door", "name": "北门", "zones": ["niling.front", "niling.altar"], "reach": 90, "legacy_room": "native:niling/altar"},
+		{"id": "niling.master.door", "name": "黑门", "zones": ["niling.altar", "niling.master"], "reach": 90, "operable": false, "found_by": "见过唤首", "legacy_room": "native:niling/master"}
 	],
 	"services": [
 		{
@@ -55,6 +69,60 @@
 							{ "line": "你抓住麻绳，顺着裂口里的岩壁一点点溜下去。绳子磨得手心发烫，脚下终于踩到了山路的石头。\n" },
 							{ "damage": { "kee": 10 } },
 							{ "move": "goathill.mroad4", "point": "goathill.mroad4.rope_return" }
+						]
+					}
+				]
+			}
+		}
+,
+		{
+			"id": "niling.master.back_door",
+			"kind": "act",
+			"zone": "niling.master",
+			"name": "小门",
+			"reach": 96,
+			"legacy_source": "native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) (the back door onto the 后山崖径: the chase, asked first — 救人和追宫主只来得及一件)",
+			"act": {
+				"verb": "追出去",
+				"acts": [
+					{
+						"mark": "救出了霍铮",
+						"steps": [
+							{
+								"line": "你推开小门，风裹着雾扑进来。崖径上空无一人。\n"
+							},
+							{
+								"move": "niling.cliff_path",
+								"point": "niling.cliff_path.door_arrival"
+							}
+						]
+					},
+					{
+						"mark": "追出了后门",
+						"steps": [
+							{
+								"line": "你推开小门，风裹着雾扑进来。\n"
+							},
+							{
+								"move": "niling.cliff_path",
+								"point": "niling.cliff_path.door_arrival"
+							}
+						]
+					},
+					{
+						"ask": "后门外是后山的崖径，商玦刚从这里出去。追出去，就赶不回地牢了——救人和追宫主，只来得及一件。",
+						"choice": "追出去",
+						"steps": [
+							{
+								"line": "你推开小门，风裹着雾扑进来。崖径上有脚步声，往北去了。\n"
+							},
+							{
+								"mark": "追出了后门"
+							},
+							{
+								"move": "niling.cliff_path",
+								"point": "niling.cliff_path.door_arrival"
+							}
 						]
 					}
 				]
@@ -117,6 +185,38 @@
 			"policy": "look",
 			"long": "西边那扇铁栅门里的墙根上，一排排指甲刻出来的道道，五个一组，刻了一百多组。最后一组只有三道。\n",
 			"legacy_source": "native: 逆灵宫 B (霍铮 counting the half year of doc/help/plan:30 on his cell's wall)"
+		},
+		{
+			"id": "niling.altar.landmark.altar",
+			"zone": "niling.altar",
+			"name": "黑石坛",
+			"policy": "look",
+			"long": "黑石砌成的坛，齐胸高，坛面磨得发亮。坛上烧着一团黑焰，没有温度，没有声音，凑近了看，焰心里像有东西在动。坛脚的石缝里塞着碎骨。\n",
+			"legacy_source": "native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) (the altar to 劫, not to a god; the shade in its flame is 侮天鬼's, doc/help/history:51–60)"
+		},
+		{
+			"id": "niling.master.landmark.shelf",
+			"zone": "niling.master",
+			"name": "书架",
+			"policy": "look",
+			"long": "空书架。灰尘上留着一排书脊的印子，最宽的那一道在正中。架子最底下掉着一页烧了一半的纸，只剩「逆灵」两个字。\n",
+			"legacy_source": "native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) (the 逆灵天书 gone with its master; doc/help/taoist:58)"
+		},
+		{
+			"id": "niling.master.landmark.box",
+			"zone": "niling.master",
+			"name": "黑匣",
+			"policy": "look",
+			"long": "一只黑漆木匣，开着。匣里垫着黑绒，绒上压出一个长条形的印子，像是放过一卷书——或者一把剑。\n",
+			"legacy_source": "native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) (what 商玦 took with him)"
+		},
+		{
+			"id": "niling.cliff.landmark.rope",
+			"zone": "niling.cliff",
+			"name": "绳索",
+			"policy": "look",
+			"long": "绳索被割断了，一头垂在雾里。断口整齐，是一剑。商玦就是从这里下去的，你没法跟。\n",
+			"legacy_source": "native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) (the way 商玦 went: a dead end for the player, 剧情总纲 §3 第三章 ⑦)"
 		}
 	]
 }
