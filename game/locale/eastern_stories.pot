@@ -12086,6 +12086,7 @@ msgstr ""
 #. latemoon.dances region
 #. latemoon.old_woman region
 #. latemoon.secret_letter region
+#. main.chapter4 region
 #. cloud.npc.lm_guard inquiry topic
 #. latemoon.npc.yumay family.name
 #. latemoon.npc.funlin family.name
@@ -12103,7 +12104,7 @@ msgstr ""
 #. latemoon.npc.upstar.shinfun family.name
 #. latemoon.npc.upstar.huei family.name
 #. latemoon name
-#: data/common/families.json data/common/npcs.json data/common/journal.json data/cloud/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/latemoon/voxel/manor.json data/sanyen/voxel/tunnels.json
+#: data/common/families.json data/common/npcs.json data/common/journal.json data/story/chapter4.json data/cloud/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/latemoon/voxel/manor.json data/sanyen/voxel/tunnels.json
 msgid "晚月庄"
 msgstr ""
 
@@ -12507,13 +12508,14 @@ msgid "执法使的佩剑，也是你问得的？"
 msgstr ""
 
 #. common.npc.fighter.executioner inquiry topic
+#. main.chapter4 title
 #. waterfog.npc.elder5 inquiry topic
 #. latemoon.npc.room.guest inquiry topic
 #. latemoon.npc.room.tguest inquiry topic
 #. latemoon.npc.room.old inquiry topic
 #. latemoon.npc.room.elon inquiry topic
 #. latemoon.npc.room.annihi inquiry topic
-#: data/common/npcs.json data/waterfog/npcs.json data/latemoon/npcs.json
+#: data/common/npcs.json data/story/chapter4.json data/waterfog/npcs.json data/latemoon/npcs.json
 msgid "宝衣"
 msgstr ""
 
@@ -15987,6 +15989,151 @@ msgstr ""
 #. main.chapter3/duel text
 #: data/story/chapter3.json
 msgid "商玦割断绳索下了崖。玄冥子断后，和你一战，倒在崖径上；逆灵天书的残卷落在他身边。"
+msgstr ""
+
+#. main.chapter4 summary
+#: data/story/chapter4.json
+msgid "寒於宝衣在晚月庄。守它的人不白给。"
+msgstr ""
+
+#. main.chapter4 reward.deed
+#: data/story/chapter4.json
+msgid "找到了寒於宝衣"
+msgstr ""
+
+#. main.chapter4/lead objective
+#: data/story/chapter4.json
+msgid "寒於的宝衣在哪？水烟阁的潘军禅、南危水知道旧事。"
+msgstr ""
+
+#. main.chapter4/lead/pan text
+#: data/story/chapter4.json
+msgid "潘军禅说了：当年三件东西各归一处，宝衣归月神族保管。月神族早没了，只剩晚月庄——她们自称人灵区冥的后人，庄里供着神像，池边立着凤凰护庄。守它的人不白给。"
+msgstr ""
+
+#. main.chapter4/lead/nan text
+#: data/story/chapter4.json
+msgid "南危水说了：寒於的宝衣当年归月神族保管，月神族的后人在晚月庄，供着人灵区冥的神像。守衣的人几百年没换过。"
+msgstr ""
+
+#. main.chapter4/manor objective
+#: data/story/chapter4.json
+msgid "去晚月庄。绮云镇西出镇的石板路尽头。"
+msgstr ""
+
+#. main.chapter4/manor text
+#: data/story/chapter4.json
+msgid "晚月庄的前厅。庄里来的都是找宝衣的人：逍遥派的芙云、天山派的梦玉楼、书房里的老妇和那个蒙面杀手，还有西厢的客人。"
+msgstr ""
+
+#. main.chapter4/annie objective
+#: data/story/chapter4.json
+msgid "西厢的客人安妮儿也在等宝衣。去问她。"
+msgstr ""
+
+#. main.chapter4/annie text
+#: data/story/chapter4.json
+msgid "安妮儿——东方神教的一代教主——在西厢住了三年。她说她等一件东西，也等一个配得上它的人。"
+msgstr ""
+
+#. main.chapter4/keeper objective
+#: data/story/chapter4.json
+msgid "东厢的瑷伦是守衣人。问她宝衣。"
+msgstr ""
+
+#. main.chapter4/keeper text
+#: data/story/chapter4.json
+msgid "瑷伦认了：衣在庄里，她守着，守了几百年——三十七岁的脸。宝衣不白给：接她三鞭，站着不倒，再谈。"
+msgstr ""
+
+#. main.chapter4/lashes objective
+#: data/story/chapter4.json
+msgid "接瑷伦三鞭。倒了可以歇好再来。"
+msgstr ""
+
+#. main.chapter4/lashes text
+#: data/story/chapter4.json
+msgid "你接下了瑷伦的三鞭。她收起鞭子，问你一句：你拿它去做什么。"
+msgstr ""
+
+#. main.chapter4/question objective
+#: data/story/chapter4.json
+msgid "瑷伦问：你拿它去做什么？——为了斩鬼、交给安妮儿，还是不知道。"
+msgstr ""
+
+#. main.chapter4/question/slay text
+#: data/story/chapter4.json
+msgid "你说：为了斩鬼。瑷伦点头：寒於留它，本来就是为这个。衣在第二密室的冰匣里，匣只认「有凤来仪」。"
+msgstr ""
+
+#. main.chapter4/question/slay reward.deed
+#: data/story/chapter4.json
+msgid "对守衣人说，要拿寒於宝衣去斩鬼"
+msgstr ""
+
+#. main.chapter4/question/for_annie text
+#: data/story/chapter4.json
+msgid "你说：交给安妮儿。瑷伦的脸冷了下来，却不拦：拿得走就拿。衣在第二密室的冰匣里，匣只认「有凤来仪」。"
+msgstr ""
+
+#. main.chapter4/question/for_annie reward.deed
+#: data/story/chapter4.json
+msgid "对守衣人说，要把寒於宝衣交给安妮儿"
+msgstr ""
+
+#. main.chapter4/question/unsure text
+#: data/story/chapter4.json
+msgid "你说：不知道。瑷伦说，不知道比胡说一个好。衣在第二密室的冰匣里，匣只认「有凤来仪」。"
+msgstr ""
+
+#. main.chapter4/question/unsure reward.deed
+#: data/story/chapter4.json
+msgid "对守衣人说，还不知道拿寒於宝衣做什么"
+msgstr ""
+
+#. main.chapter4/chest objective
+#: data/story/chapter4.json
+msgid "宝衣在第二密室的冰匣里，匣只认「有凤来仪」：女子自己跳，男子请内厅的筱薇或禁闭房的芳绫替跳。第二密室从内厅穿堂南边的花门进，或在第一密室跳「有凤来仪」。"
+msgstr ""
+
+#. main.chapter4/chest text
+#: data/story/chapter4.json
+msgid "冰匣开了。一件月白的衣落在地上，寒气扑面。"
+msgstr ""
+
+#. main.chapter4/choice objective
+#: data/story/chapter4.json
+msgid "宝衣到手。交回瑷伦守到决战，交给安妮儿，或者带着它走出晚月庄的大门。"
+msgstr ""
+
+#. main.chapter4/choice/to_annie text
+#: data/story/chapter4.json
+msgid "你把宝衣交给了安妮儿。她说：月神族守了几百年，守给我的。你配得上——东方神教记得你。"
+msgstr ""
+
+#. main.chapter4/choice/to_annie reward.deed
+#: data/story/chapter4.json
+msgid "把寒於宝衣交给了东方神教的安妮儿"
+msgstr ""
+
+#. main.chapter4/choice/keep text
+#: data/story/chapter4.json
+msgid "你把宝衣交回瑷伦。她披上它：我守到决战那日。到时候你来叫我，我跟你下湖底。"
+msgstr ""
+
+#. main.chapter4/choice/keep reward.deed
+#: data/story/chapter4.json
+msgid "把寒於宝衣留给了守衣人瑷伦"
+msgstr ""
+
+#. main.chapter4/choice/take text
+#: data/story/chapter4.json
+msgid "你带着宝衣走出了晚月庄的大门。庄失去了护佑。"
+msgstr ""
+
+#. main.chapter4/choice/take reward.deed
+#: data/story/chapter4.json
+msgid "带走了寒於宝衣"
 msgstr ""
 
 #. es2:d/oldpine/obj/long_sword long

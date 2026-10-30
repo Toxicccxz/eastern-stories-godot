@@ -622,15 +622,19 @@ func take_story_trial(npc: NpcRuntimeState, trial: NpcTrial) -> NpcApprenticeTri
 	var passed := func() -> NpcApprenticeship.Outcome:
 		player.state.marks[trial.mark] = 1
 		_map.open_found_ways(trial.mark)
-		if _map.session != null and not trial.deed.is_empty():
-			_map.session.deeds().report(trial.deed)
 		return NpcApprenticeship.Outcome.ACKNOWLEDGED
 	var result: NpcApprenticeTrial.Result = NpcApprenticeTrial.run(trial.as_rule(), NpcApprenticeship.new(), attack, stands, passed)
 	var spacing: float = GameContent.catalog().pacing().trial_blow_seconds
 	var hud: SharedGameplayUI = _map.hud()
+	# The deed is told once the last blow has been (the 【事迹】 line after her words, not before).
+	var deed := func() -> void:
+		if _map.session != null and not trial.deed.is_empty():
+			_map.session.deeds().report(trial.deed)
 	if spacing <= 0.0 or result.outcome != NpcApprenticeTrial.Outcome.PASSED or result.steps.size() < 2:
 		if hud != null:
 			hud.append_colored_lines(result.lines)
+		if result.outcome == NpcApprenticeTrial.Outcome.PASSED:
+			deed.call()
 		if player.state.life_threshold() != CharacterState.LifeThreshold.ACTIVE:
 			_map.player_fall_below_zero()
 		return result
@@ -639,6 +643,8 @@ func take_story_trial(npc: NpcRuntimeState, trial: NpcTrial) -> NpcApprenticeTri
 			var lines: Array[ColoredLine] = []
 			lines.assign(told.steps[index])
 			hud.append_colored_lines(lines)
+		if index == told.steps.size() - 1:
+			deed.call()
 	tell.call(result, 0)
 	start_trial(npc, tell, result, spacing)
 	return result
