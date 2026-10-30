@@ -341,11 +341,8 @@
 							"asker_marks": [
 								"陈显祖认了"
 							],
-							"asker_lacks": [
-								"看过寻剑令抄本"
-							],
 							"unless_npc_flag": "chest_found",
-							"say": "箱子还没回到我手里，抄本在箱底的夹层里——你自己翻翻看，或者把箱子还我。"
+							"say": "箱子还没回到我手里——你先把箱子还我。抄本在箱底的夹层里，你要就先翻出来。"
 						},
 						{
 							"asker_marks": [
@@ -377,6 +374,7 @@
 							"asker_marks": [
 								"陈显祖认了"
 							],
+							"npc_flag": "chest_found",
 							"marks_asker": [
 								"放走了陈显祖"
 							],

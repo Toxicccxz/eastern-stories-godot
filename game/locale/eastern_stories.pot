@@ -26895,7 +26895,7 @@ msgstr ""
 
 #. choyin.npc.sergeant inquiry.走吧.rules.say
 #: data/choyin/npcs.json
-msgid "箱子还没回到我手里，抄本在箱底的夹层里——你自己翻翻看，或者把箱子还我。"
+msgid "箱子还没回到我手里——你先把箱子还我。抄本在箱底的夹层里，你要就先翻出来。"
 msgstr ""
 
 #. choyin.npc.sergeant inquiry.走吧.rules.marks_asker

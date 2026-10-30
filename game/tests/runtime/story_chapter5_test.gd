@@ -177,6 +177,7 @@ func _test_escorted(tree: SceneTree, session: WorldSessionController) -> void:
 	await _settle(tree)
 	chen = await _beside(tree, session, hotel, &"choyin.hotel1.sergeant.1")
 	_check(_ask(hotel, chen, "抄本").any(func(line: String) -> bool: return line.contains("抄本你已经拿了")), "抄本 taken: 你已经拿了")
+	_check(_ask(hotel, chen, "走吧").any(func(line: String) -> bool: return line.contains("你先把箱子还我")) and _count_in(session, &"choyin.hotel1", SERGEANT) == 1 and state.marks.get("放走了陈显祖", 0) == 0, "走吧 with his chest still in the player's pack: refused, he stays (Codex review)")
 	said = _ask(hotel, chen, "作证")
 	_check(said.any(func(line: String) -> bool: return line.contains("我跟你去")) and chen.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER) and chen.has_flag(StringName(NpcMood.FLAG_PREFIX + "going")) and state.marks.get("陈显祖跟你走了", 0) == 1, "作证: he follows: %s" % [said])
 	_check(_ask(hotel, chen, "走吧").any(func(line: String) -> bool: return line.contains("已经答应跟你去了")), "走吧 now: he keeps his word")

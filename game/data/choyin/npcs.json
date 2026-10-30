@@ -128,9 +128,9 @@
 					"confirm": "放陈显祖带着箱子走：他交出抄本，一去不回——公堂上就没有人证了。\n确定吗？",
 					"rules": [
 						{ "npc_flag": "mood/going", "say": "我已经答应跟你去了。到了衙门再说走不走。" },
-						{ "asker_marks": ["陈显祖认了"], "asker_lacks": ["看过寻剑令抄本"], "unless_npc_flag": "chest_found", "say": "箱子还没回到我手里，抄本在箱底的夹层里——你自己翻翻看，或者把箱子还我。" },
+						{ "asker_marks": ["陈显祖认了"], "unless_npc_flag": "chest_found", "say": "箱子还没回到我手里——你先把箱子还我。抄本在箱底的夹层里，你要就先翻出来。" },
 						{ "asker_marks": ["陈显祖认了"], "asker_lacks": ["看过寻剑令抄本"], "npc_flag": "chest_found", "marks_asker": ["放走了陈显祖", "看过寻剑令抄本"], "gives": "native:choyin/decree_copy", "leaves": true, "lines": [{ "emote": "把桃木箱翻过来，抠开底板，取出一卷发黄的纸，递给你。" }, { "say": "多谢。这二十三个名字，往后替我记着。" }, { "emote": "抱起桃木箱，出了福林酒楼的门，再没有回头。" }] },
-						{ "asker_marks": ["陈显祖认了"], "marks_asker": ["放走了陈显祖"], "leaves": true, "lines": [{ "say": "多谢。抄本在你手上，就不用我这张嘴了。" }, { "emote": "抱起桃木箱，出了福林酒楼的门，再没有回头。" }] },
+						{ "asker_marks": ["陈显祖认了"], "npc_flag": "chest_found", "marks_asker": ["放走了陈显祖"], "leaves": true, "lines": [{ "say": "多谢。抄本在你手上，就不用我这张嘴了。" }, { "emote": "抱起桃木箱，出了福林酒楼的门，再没有回头。" }] },
 						{ "say": "走？在下的箱子还没找回来。" }
 					]
 				}
