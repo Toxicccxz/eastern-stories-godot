@@ -1,0 +1,53 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 22,
+  "note": "后殿 (native:niling/altar; 逆灵宫 C): no idol — the black stone altar in the middle, its black flame burning cold violet, bone urns either side, black banners taller than the hall's at the four corner poles, the 北门 south and the 黑门 north (found by the 唤首 scene). Darker than the hall: no red lanterns, two dim oil lamps by the doors, the flame the brightest thing. Old and used: ash and bone chips round the altar's foot, the brick worn in a ring where the 道士 circle it.",
+  "palette": {"wood": ["1e1a18", "2a2422", "161414"], "wall": "161414"},
+  "wall_height": 4.2,
+  "wall_looks": [
+    {"rect": [-344, -240, 344, 240], "style": "brick", "colors": ["161414", "201c1c", "100e0e", "2a2624", "1c1a1a"], "seam": "343030", "note": "the 后殿: the blackest brick of the 道观"}
+  ],
+  "door_looks": {
+    "niling.altar.door": {"kind": "closed_door", "color": "161414", "trim": "3a1a1a", "note": "北门 (hall.json draws the same from the 前殿)"},
+    "niling.master.door": {"kind": "closed_door", "color": "0a0808", "trim": "1a1416", "note": "the 黑门: no trim to speak of, no character on it (native:niling/altar)"}
+  },
+  "ground": {
+    "floor_yard": {"style": "slabs", "lengths": [2, 3], "depths": [1, 2], "cracks": 0.14, "broken": 0.08, "sunk": 0.05, "tufts": 0.0, "stones": ["1a1818", "222020", "2a2626", "1e1c1c"], "worn": ["302c28", "38342e", "2a2624"], "bed": "0e0c0c", "joint": 0.05, "mud": "302c28", "crack": "0a0808", "note": "black brick, worn in a ring round the altar"},
+    "boundary": {"style": "scree", "colors": ["565248", "625e54", "4e4a42"], "gravel": 0.5, "stones": 0.06, "pebbles": ["6e6a60", "7a766c", "5e5a50"]}
+  },
+  "flora": {"grass_density": 0.0, "density": {"floor_yard": 0.0, "boundary": 0.2}, "grass_colors": ["766c46", "8c8254"], "flower_threshold": 1.0, "tree_kinds": [], "wind": 0.0, "butterflies": 0},
+  "light": {"note": "the 后殿 keeps no lamps lit for the player: dimmer than the hall at every hour", "ambient_energy": {"dawn": 0.26, "day": 0.28, "dusk": 0.28, "night": 0.24, "midnight": 0.22}, "sun_energy": {"dawn": 0.12, "day": 0.16, "dusk": 0.14, "night": 0.06, "midnight": 0.05}},
+  "life": {
+    "niling.altar": {"walls": "brick"}
+  },
+  "props": [
+    {"kind": "glow", "at": [0, -60], "color": "5a3a8a", "day": 0.9, "night": 1.2, "range": 9.0, "height": 2.4, "note": "the black flame's cold violet (native:niling/altar: 照不亮什么)"},
+    {"kind": "stains", "at": [0, -60], "size": [320, 260], "count": 12, "colors": ["0a0808", "141212", "1e1a1a"], "note": "ash and black grounds round the altar"},
+    {"kind": "bones", "at": [-110, 20], "size": [40, 28], "skull": false, "count": 3, "note": "bone chips at the altar's foot (坛脚的石缝里塞着碎骨)"},
+    {"kind": "bones", "at": [120, -120], "size": [36, 26], "skull": true, "count": 2},
+    {"kind": "stains", "at": [0, 60], "size": [420, 120], "count": 8, "colors": ["2e2a26", "36322c"], "note": "the ring worn into the brick where the 道士 circle the altar"},
+    {"kind": "trail", "points": [[0, 230], [0, 160], [0, 100]], "color": "36322c", "note": "the way in from the 北门"},
+    {"kind": "trail", "points": [[0, -140], [0, -190], [0, -230]], "color": "36322c", "note": "and on to the 黑门"},
+    {"kind": "banner", "at": [-280, -160], "height": 4.0, "cloth": "100e0e", "trim": "6a1414", "note": "黑幡 on the four corner poles, taller than the hall's, the characters red"},
+    {"kind": "banner", "at": [280, -160], "height": 4.0, "cloth": "100e0e", "trim": "6a1414"},
+    {"kind": "banner", "at": [-280, 160], "height": 4.0, "cloth": "100e0e", "trim": "6a1414"},
+    {"kind": "banner", "at": [280, 160], "height": 4.0, "cloth": "100e0e", "trim": "6a1414"},
+    {"kind": "hanging_lantern", "at": [-90, 212], "paper": "9a7a50", "height": 2.6, "note": "two dim oil lamps by the 北门"},
+    {"kind": "hanging_lantern", "at": [90, 212], "paper": "9a7a50", "height": 2.6},
+    {"kind": "paper_charms", "at": [-70, -236], "size": [40, 40], "height": 1.5, "color": "6a1414", "note": "charms either side of the 黑门, older and blacker than the hall's"},
+    {"kind": "paper_charms", "at": [70, -236], "size": [40, 40], "height": 1.5, "color": "6a1414"},
+    {"kind": "candlestick", "at": [-150, -40], "size": [12, 12], "lit": true, "note": "candles on the urns"},
+    {"kind": "candlestick", "at": [150, -40], "size": [12, 12], "lit": true},
+    {"kind": "cobweb", "at": [-330, -226], "size": [40, 8], "rotation": 45, "height": 3.6},
+    {"kind": "cobweb", "at": [330, 226], "size": [40, 8], "rotation": -45, "height": 3.6},
+    {"kind": "drip", "at": [-200, 100], "size": [16, 16], "note": "the roof sweats"}
+  ],
+  "actors": {
+    "default": {"coat": "1a1818", "hat": true},
+    "native.npc.shang_jue": {"coat": "0e0c10", "hat": true},
+    "native.npc.xuan_mingzi": {"coat": "141214", "hat": true},
+    "native.npc.headless_shade": {"coat": "1a1020", "hat": false, "headless": true},
+    "native.npc.hell_runner": {"coat": "3a4a3a", "hat": false}
+  }
+}

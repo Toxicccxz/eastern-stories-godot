@@ -124,8 +124,8 @@
           "niling.counting": {"floor": "town_ground", "wall": "wall", "size": "small", "life": {"use": "study", "wealth": "plain", "seed": 23}}
         },
         "props": [
-          ["blocked", "niling.front", ["rel", 0.5, 0.1], 4.2, 1.1, "the long black table with the scripture open on it (no idol behind it)", {"look": {"kind": "scripture_table", "wood": "1a1614", "cloth": "3a1414", "covers": ["141212", "2a1a1a", "161414", "3a1a1a"]}}],
-          ["blocked", "niling.front", ["rel", 0.5, 0.24], 1.2, 1.2, "the iron burner before the table", {"look": {"kind": "incense_burner", "scale": 1.2, "colors": ["1a1818", "262220", "121010"]}}],
+          ["blocked", "niling.front", ["rel", 0.66, 0.1], 4.2, 1.1, "the long black table with the scripture open on it (no idol behind it)", {"look": {"kind": "scripture_table", "wood": "1a1614", "cloth": "3a1414", "covers": ["141212", "2a1a1a", "161414", "3a1a1a"]}}],
+          ["blocked", "niling.front", ["rel", 0.66, 0.24], 1.2, 1.2, "the iron burner before the table", {"look": {"kind": "incense_burner", "scale": 1.2, "colors": ["1a1818", "262220", "121010"]}}],
           ["blocked", "niling.front", ["rel", 0.08, 0.3], 0.9, 2.4, "scripture racks along the west wall", {"look": {"kind": "shelf", "rotation": 90, "wood": "1e1a18"}}],
           ["blocked", "niling.front", ["rel", 0.92, 0.3], 0.9, 2.4, {"look": {"kind": "shelf", "rotation": 90, "wood": "1e1a18"}}],
           ["blocked", "niling.front", ["rel", 0.08, 0.72], 0.9, 2.4, {"look": {"kind": "shelf", "rotation": 90, "wood": "1e1a18"}}],
@@ -140,16 +140,16 @@
           ["blocked", "niling.counting", ["rel", 0.9, 0.8], 0.9, 0.9, {"look": {"kind": "crocks", "scrolls": true}}]
         ],
         "placed": {
-          "niling.front.lead_chanter.1": ["niling.front", ["rel", 0.5, 0.4]],
-          "niling.front.chanter.1": ["niling.front", ["rel", 0.32, 0.58]],
-          "niling.front.chanter.2": ["niling.front", ["rel", 0.44, 0.58]],
-          "niling.front.chanter.3": ["niling.front", ["rel", 0.56, 0.58]],
-          "niling.front.chanter.4": ["niling.front", ["rel", 0.68, 0.58]],
+          "niling.front.lead_chanter.1": ["niling.front", ["rel", 0.66, 0.4]],
+          "niling.front.chanter.1": ["niling.front", ["rel", 0.48, 0.58]],
+          "niling.front.chanter.2": ["niling.front", ["rel", 0.6, 0.58]],
+          "niling.front.chanter.3": ["niling.front", ["rel", 0.72, 0.58]],
+          "niling.front.chanter.4": ["niling.front", ["rel", 0.84, 0.58]],
           "niling.counting.steward.1": ["niling.counting", ["rel", 0.5, 0.15]],
           "niling.counting.ledger.1": ["niling.counting", ["rel", 0.38, 0.7]],
           "niling.counting.papers.1": ["niling.counting", ["rel", 0.62, 0.7]]
         },
-        "doors": {"niling.front.south": "south"},
+        "doors": {"niling.front.south": "south", "niling.front.north": "north"},
         "reach_from": "FrontYardEntry"
       },
       "scene": {
@@ -181,7 +181,7 @@
           {"generated": "markers"}
         ],
         "interactions": [
-          {"name": "ScriptureInteraction", "id": "niling.front.landmark.scripture", "room": "niling.front", "anchor": ["n", 0, 1.9], "shape": "Rect_64_32"},
+          {"name": "ScriptureInteraction", "id": "niling.front.landmark.scripture", "room": "niling.front", "anchor": ["n", 3.8, 1.9], "shape": "Rect_64_32"},
           {"name": "FurnaceInteraction", "id": "niling.alchemy.landmark.furnace", "room": "niling.alchemy", "anchor": ["c", 0, 1.5], "shape": "Rect_64_32"},
           {"name": "JarsInteraction", "id": "niling.alchemy.landmark.jars", "room": "niling.alchemy", "anchor": ["w", 1.3, 0.2], "shape": "Rect_32_64"}
         ]
@@ -213,7 +213,11 @@
           "niling.cell_huo.huo_zheng.1": ["niling.cell_huo", ["rel", 0.5, 0.42]],
           "niling.cell_shitou.shitou.1": ["niling.cell_shitou", ["rel", 0.5, 0.6]],
           "niling.cell_others.corvee.1": ["niling.cell_others", ["rel", 0.3, 0.4]],
-          "niling.cell_others.corvee.2": ["niling.cell_others", ["rel", 0.7, 0.4]]
+          "niling.cell_others.corvee.2": ["niling.cell_others", ["rel", 0.7, 0.4]],
+          "niling.corridor.jailer_keyed.1": ["niling.corridor", ["rel", 0.26, 0.52]],
+          "niling.corridor.jailer_keyed.2": ["niling.corridor", ["rel", 0.74, 0.52]],
+          "niling.cell_huo.body.1": ["niling.cell_huo", ["rel", 0.5, 0.42]],
+          "niling.cell_shitou.body.1": ["niling.cell_shitou", ["rel", 0.5, 0.6]]
         },
         "doors": {},
         "reach_from": "CorridorStairsArrival"
@@ -259,6 +263,158 @@
         "interactions": [
           {"name": "ScratchesInteraction", "id": "niling.corridor.landmark.scratches", "room": "niling.corridor", "anchor": ["w", 1.0, -1.2], "shape": "Rect_32_64"}
         ]
+      }
+    },
+    "rear": {
+      "note": "逆灵宫 C: the 后殿 — no idol, the black stone altar in the middle with its black flame (the 唤首 scene plays here: 商玦 before it, 玄冥子 at its side, the headless shade on it, the two 鬼卒 out of its foot), black banners higher than the hall's, the 北门 south to the 前殿 and the 黑门 north to the master's room (found by the scene's mark).",
+      "file": "niling_rear.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "temple",
+        "rooms": {"niling.altar": {"floor": "floor_yard", "wall": "wall", "size": "large", "life": {"use": "temple", "wealth": "plain", "seed": 31, "tables": []}}},
+        "props": [
+          ["blocked", "niling.altar", ["rel", 0.5, 0.5], 2.6, 2.6, "the black stone altar, the flame on it", {"look": {"kind": "dark_altar"}}],
+          ["blocked", "niling.altar", ["rel", 0.1, 0.2], 0.5, 0.5, "banner poles at the corners", {"look": {"kind": "post", "height": 4.2, "wood": "1e1a18"}}],
+          ["blocked", "niling.altar", ["rel", 0.9, 0.2], 0.5, 0.5, {"look": {"kind": "post", "height": 4.2, "wood": "1e1a18"}}],
+          ["blocked", "niling.altar", ["rel", 0.1, 0.84], 0.5, 0.5, {"look": {"kind": "post", "height": 4.2, "wood": "1e1a18"}}],
+          ["blocked", "niling.altar", ["rel", 0.9, 0.84], 0.5, 0.5, {"look": {"kind": "post", "height": 4.2, "wood": "1e1a18"}}],
+          ["blocked", "niling.altar", ["rel", 0.22, 0.5], 0.9, 0.9, "bone urns either side of the altar", {"look": {"kind": "crocks"}}],
+          ["blocked", "niling.altar", ["rel", 0.78, 0.5], 0.9, 0.9, {"look": {"kind": "crocks"}}]
+        ],
+        "placed": {
+          "niling.altar.shang_jue.1": ["niling.altar", ["rel", 0.4, 0.76]],
+          "niling.altar.xuan_mingzi.1": ["niling.altar", ["rel", 0.64, 0.76]],
+          "niling.altar.shade.1": ["niling.altar", ["rel", 0.5, 0.66]],
+          "niling.altar.hell_runner.1": ["niling.altar", ["rel", 0.3, 0.66]],
+          "niling.altar.hell_runner.2": ["niling.altar", ["rel", 0.7, 0.64]]
+        },
+        "doors": {"niling.altar.south": "south", "niling.altar.north": "north"},
+        "reach_from": ["AltarFrontEntry", "AltarMasterReturn"]
+      },
+      "scene": {
+        "style": "map",
+        "root": "NilingRear",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/niling/voxel/rear.json"},
+        "map": "niling.rear",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {"Rect_64_32": [64, 32], "Rect_32_64": [32, 64]},
+        "nodes": [
+          {"generated": "captions"}
+        ],
+        "zones": [
+          {"generated": "zones"}
+        ],
+        "spawn_points": [
+          {"generated": "markers"}
+        ],
+        "interactions": [
+          {"name": "AltarInteraction", "id": "niling.altar.landmark.altar", "room": "niling.altar", "anchor": ["c", 0, 1.9], "shape": "Rect_64_32"}
+        ]
+      }
+    },
+    "master_house": {
+      "note": "逆灵宫 C: 商玦's room behind the 黑门 — the desk, the emptied scripture shelf, the open black box, the small back door onto the 后山崖径 (an act service that asks first: the chase).",
+      "file": "niling_master_house.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "house",
+        "rooms": {"niling.master": {"floor": "floor_wood", "wall": "wall", "size": "room", "life": {"use": "study", "wealth": "rich", "seed": 32}}},
+        "props": [
+          ["blocked", "niling.master", ["rel", 0.3, 0.42], 2.4, 1.1, "the ebony desk, brush and ink in order", {"look": {"kind": "writing_desk", "wood": "1a1614"}}],
+          ["blocked", "niling.master", ["rel", 0.78, 0.12], 2.6, 0.9, "the emptied shelf on the north wall", {"look": {"kind": "shelf", "wood": "1e1a18"}}],
+          ["blocked", "niling.master", ["rel", 0.08, 0.15], 0.9, 0.9, "the open black box on the desk's corner", {"look": {"kind": "travel_chest", "wood": "141212", "open": true}}],
+          ["blocked", "niling.master", ["rel", 0.92, 0.8], 0.9, 0.9, "a brazier", {"look": {"kind": "brazier"}}],
+          ["blocked", "niling.master", ["rel", 0.3, 0.86], 1.6, 0.8, "his couch", {"look": {"kind": "couch", "wood": "1e1a18"}}]
+        ],
+        "placed": {},
+        "doors": {"niling.master.south": "south"},
+        "reach_from": "MasterAltarEntry"
+      },
+      "scene": {
+        "style": "map",
+        "root": "NilingMasterHouse",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/niling/voxel/master_house.json"},
+        "map": "niling.master_house",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {"Rect_64_32": [64, 32], "Rect_32_64": [32, 64]},
+        "nodes": [
+          {"generated": "captions"},
+          {"node": "service", "name": "BackDoorService", "id": "niling.master.back_door", "text": "小门 · 追出去", "room": "niling.master", "anchor": ["n", 1.6, 0.5]}
+        ],
+        "zones": [
+          {"generated": "zones"}
+        ],
+        "spawn_points": [
+          {"generated": "markers"},
+          {"name": "MasterBackEntry", "id": "niling.master.back_entry", "room": "niling.master", "anchor": ["n", 1.6, 1.6]}
+        ],
+        "interactions": [
+          {"name": "ShelfInteraction", "id": "niling.master.landmark.shelf", "room": "niling.master", "anchor": ["n", 4.4, 1.0], "shape": "Rect_64_32"},
+          {"name": "BoxInteraction", "id": "niling.master.landmark.box", "room": "niling.master", "anchor": ["nw", 1.2, 1.3], "shape": "Rect_64_32"}
+        ]
+      }
+    },
+    "backhill": {
+      "note": "逆灵宫 C: the 后山崖径 — a path one man wide between the 道观's black back wall (west) and the drop (east), from the master's small door north to the 断崖 where the cut rope hangs into the mist. 玄冥子 stands on the path when the player comes out after 商玦 (present/until). A dead end: the way back is the small door.",
+      "file": "niling_backhill.tscn",
+      "draw": {
+        "technique": "canvas",
+        "base": "cliff",
+        "bounds": [128, 64, 640, 1024],
+        "zones": {"niling.cliff_path": [224, 448, 480, 928, "rock"], "niling.cliff": [224, 160, 480, 448, "rock"]},
+        "lines": {
+          "roads": [
+            [
+              [352, 900, 32, 136, 136, 4, "the path from the small door"],
+              [344, 760, 32, 136, 136, 8],
+              [352, 620, 32, 136, 136, 8],
+              [356, 480, 32, 136, 136, 8],
+              [352, 360, 32, 136, 136, 8, "to the cliff's edge"],
+              [352, 240, 32, 136, 136, 4]
+            ]
+          ]
+        },
+        "steps": [
+          {"op": "freeze"},
+          {"op": "lines", "group": "roads"},
+          {"op": "clip"},
+          {"op": "separate"},
+          {"op": "drop_pockets", "from": "CliffPathDoorArrival"},
+          {
+            "op": "fill",
+            "fills": [
+              ["wall", 128, 64, 224, 1024, "the 道观's black back wall, the whole west side"],
+              ["chasm", 480, 64, 640, 1024, "the drop, the whole east side"],
+              ["chasm", 224, 64, 480, 160, "and north of the 断崖"],
+              ["blocked", 336, 176, 368, 208, "the iron stake the rope is tied to", {"look": {"kind": "post", "height": 1.2, "wood": "3a3733"}}]
+            ]
+          }
+        ],
+        "reach_from": ["CliffPathDoorArrival"],
+        "caption_near": {"niling.cliff_path": [236, 460], "niling.cliff": [236, 170]}
+      },
+      "scene": {
+        "style": "map",
+        "root": "NilingBackhill",
+        "map": "niling.backhill",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {"Rect_64_32": [64, 32]},
+        "nodes": [
+          {"generated": "captions"},
+          {"node": "caption", "name": "DoorLabel", "at": [352, 944], "text": "南 · 宫主居所的小门", "size": 12},
+          {"node": "passage", "name": "DoorPassage", "id": "niling.cliff_path.south", "at": [352, 912], "shape": "Rect_64_32"}
+        ],
+        "zones": [
+          {"generated": "zones"}
+        ],
+        "spawn_points": [
+          {"name": "CliffPathDoorArrival", "at": [352, 864], "id": "niling.cliff_path.door_arrival"},
+          {"name": "CliffPathXuanMingzi1", "at": [352, 600], "id": "niling.cliff_path.xuan_mingzi.1"}
+        ],
+        "interactions": [
+          {"name": "RopeInteraction", "id": "niling.cliff.landmark.rope", "at": [352, 224], "shape": "Rect_64_32"}
+        ],
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/niling/voxel/backhill.json"}
       }
     }
   }

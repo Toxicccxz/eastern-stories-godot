@@ -570,6 +570,15 @@
 			"chat_chance_combat": 20,
 			"chat_msg_combat": [
 				"霍铮吼道：来！老子手上有链子也打得死你！\n"
+			],
+			"follows_every_way": true,
+			"calls": [
+				{ "after": 0, "reaction": true, "not_mark": "救出了霍铮", "steps": [
+					{ "emote": "挣了挣手上的铁链——链子早让他磨断了一半，一扯就开。" },
+					{ "say": "好兄弟。老子跟你走。北边那间还有个娃娃，一起带上。" },
+					{ "npc_flag": "follows_player" },
+					{ "mark": "救出了霍铮" }
+				] }
 			]
 		},
 		{
@@ -622,7 +631,16 @@
 				"霍铮": [
 					"石头道：西边的大胡子叔叔。他骂人的时候我就不怕了。"
 				]
-			}
+			},
+			"follows_every_way": true,
+			"calls": [
+				{ "after": 0, "reaction": true, "not_mark": "救出了石头", "steps": [
+					{ "emote": "愣了一下，爬起来抓住你的衣角。" },
+					{ "say": "……带我回家。" },
+					{ "npc_flag": "follows_player" },
+					{ "mark": "救出了石头" }
+				] }
+			]
 		},
 		{
 			"id": "native.npc.guanbei_corvee",
@@ -671,6 +689,504 @@
 				"霍铮": [
 					"关北民夫道：西边那位是条汉子。有他骂着，俺们还敢喘气。"
 				]
+			},
+			"calls": [
+				{ "after": 0, "reaction": true, "steps": [
+					{ "say": "俺们回关北！多谢恩公！" },
+					{ "mark": "放了关北民夫" },
+					{ "leave": true }
+				] }
+			]
+		},
+		{
+			"id": "native.npc.shang_jue",
+			"legacy_source": "native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) — 逆灵宫's 宫主 of doc/help/plan:26–31, whose sword doc/skill/six-chaos-sword calls 失传已久的六阴天殇剑; the name is 剧情总纲's (§2); he speaks like a chant (§10)",
+			"name": "商玦",
+			"aliases": [
+				"shang jue",
+				"shang",
+				"master"
+			],
+			"title": "逆灵宫宫主",
+			"gender": "男性",
+			"age": 52,
+			"long": "一个黑衣黑冠的道人，背对着你站在黑石坛前，双手拢在袖里。他的衣冠和别的道士一样，只是黑得更深，像是吸光的。他念经的声音不高，一句接一句没有停顿，像水从石缝里渗出来。\n",
+			"attributes": {
+				"str": 26,
+				"cor": 30,
+				"int": 30,
+				"spi": 30,
+				"cps": 30,
+				"per": 30,
+				"con": 26,
+				"kar": 4
+			},
+			"combat_exp": 500000,
+			"score": 5000,
+			"attitude": "friendly",
+			"skills": {
+				"sword": 120,
+				"six-chaos-sword": 120,
+				"dodge": 150,
+				"parry": 130,
+				"force": 160
+			},
+			"skill_map": {
+				"sword": "six-chaos-sword",
+				"parry": "six-chaos-sword"
+			},
+			"fight_deferred": "你的剑穿过商玦的袖子，像穿过一缕烟。他连头都没有回。",
+			"inquiry": {
+				"逆灵宫": [
+					"商玦没有回头：逆灵者，逆天地之灵而用之。你既走上坛来，便是明白人。"
+				],
+				"霍铮": [
+					"商玦的声音没有起伏：供品。子时。"
+				]
+			},
+			"scene_mark": "见过唤首",
+			"calls": [
+				{
+					"after": 1,
+					"scene": true,
+					"not_mark": "见过唤首",
+					"steps": [
+						{
+							"line": "后殿里没有神像。一座黑石坛立在正中，坛上一团黑焰无声地烧着，照不亮什么。商玦背对着你，念经的声音没有停。"
+						},
+						{
+							"say": "……以身为供，以劫为师。灵不灵，逆之则生。"
+						}
+					]
+				},
+				{
+					"after": 5,
+					"scene": true,
+					"not_mark": "见过唤首",
+					"steps": [
+						{
+							"by": "native.npc.xuan_mingzi"
+						},
+						{
+							"emote": "转过身来，目光在你的脸上停了一停。"
+						},
+						{
+							"say": "宫主，有生人。"
+						}
+					]
+				},
+				{
+					"after": 8,
+					"scene": true,
+					"not_mark": "见过唤首",
+					"steps": [
+						{
+							"by": "native.npc.shang_jue"
+						},
+						{
+							"say": "祭品自己走上坛来，是劫的意思。"
+						},
+						{
+							"line": "黑焰忽然向上一窜，焰心里现出一个人形——没有头。它站在坛上，两只手朝前摸索着，像在找什么。"
+						},
+						{
+							"summon": "niling.altar.shade"
+						}
+					]
+				},
+				{
+					"after": 12,
+					"scene": true,
+					"not_mark": "见过唤首",
+					"steps": [
+						{
+							"by": "native.npc.headless_shade"
+						},
+						{
+							"emote": "的手摸到了坛沿，停住了。整座后殿冷得像井底。"
+						},
+						{
+							"by": "native.npc.shang_jue"
+						},
+						{
+							"say": "它在找头。找了五千年。子时开坛，带祭品上来，它便安静一夜。"
+						}
+					]
+				},
+				{
+					"after": 16,
+					"scene": true,
+					"not_mark": "见过唤首",
+					"steps": [
+						{
+							"emote": "解下腰间一把乌黑的钥匙，看也不看，往后一抛。玄冥子接住了。"
+						},
+						{
+							"say": "去，告诉底下的人：子时。"
+						}
+					]
+				},
+				{
+					"after": 20,
+					"scene": true,
+					"not_mark": "见过唤首",
+					"steps": [
+						{
+							"by": "native.npc.xuan_mingzi"
+						},
+						{
+							"leave": "native.npc.headless_shade"
+						},
+						{
+							"line": "黑焰里的人形散成一股黑烟，坛上又只剩一团焰。"
+						},
+						{
+							"emote": "看了你一眼。"
+						},
+						{
+							"say": "你戴着我们的冠，却不是我们的人。等子时。"
+						},
+						{
+							"leave": true
+						}
+					]
+				},
+				{
+					"after": 24,
+					"scene": true,
+					"not_mark": "见过唤首",
+					"steps": [
+						{
+							"by": "native.npc.shang_jue"
+						},
+						{
+							"emote": "转身走向坛后的黑门。门开了，门里比殿里更黑。"
+						},
+						{
+							"say": "子时见。"
+						},
+						{
+							"line": "坛底的石缝里有什么东西在爬。两个鬼卒从坛底爬了出来——灰绿的皮，手里一柄钢叉，面目狰狞。"
+						},
+						{
+							"summon": "niling.altar.hell_runners"
+						},
+						{
+							"leave": true
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "native.npc.xuan_mingzi",
+			"legacy_source": "native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) — 逆灵宫's 大弟子 (剧情总纲 §3 第三章, §4 第 12 条: he would take 商玦's place), as he stands in the 后殿 before the scene; the fighter on the cliff is native.npc.xuan_mingzi_cliff",
+			"name": "玄冥子",
+			"aliases": [
+				"xuan mingzi",
+				"xuan",
+				"disciple"
+			],
+			"title": "逆灵宫大弟子",
+			"gender": "男性",
+			"age": 38,
+			"long": "一个黑衣黑冠的道士，比别的道士高出半个头，站在坛边，腰上挂着一柄长剑和一串钥匙。他的脸上没有表情，眼睛却一直在动——看坛、看门、看你。\n",
+			"attributes": {
+				"str": 28,
+				"cor": 30,
+				"int": 28,
+				"spi": 28,
+				"cps": 28,
+				"per": 24,
+				"con": 28,
+				"kar": 6
+			},
+			"combat_exp": 40000,
+			"score": 1500,
+			"attitude": "friendly",
+			"skills": {
+				"sword": 60,
+				"six-chaos-sword": 60,
+				"dodge": 55,
+				"parry": 55,
+				"force": 50
+			},
+			"skill_map": {
+				"sword": "six-chaos-sword",
+				"parry": "six-chaos-sword"
+			},
+			"fight_deferred": "玄冥子看也不看你，袖子一拂，你的剑便歪到了一边。",
+			"carry": [
+				{
+					"item": "es2:d/oldpine/obj/long_sword",
+					"source": "d/oldpine/obj/long_sword.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:d/oldpine/npc/obj/black_cloth",
+					"source": "d/oldpine/npc/obj/black_cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "native:niling/black_crown",
+					"source": "native: 逆灵宫 A",
+					"equip": "wear"
+				}
+			],
+			"inquiry": {
+				"钥匙": [
+					"玄冥子按住腰上的钥匙串：子时。"
+				]
+			}
+		},
+		{
+			"id": "native.npc.xuan_mingzi_cliff",
+			"legacy_source": "native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) — 玄冥子 on the 后山崖径, covering 商玦's way down: the chapter's one real fight (剧情总纲 §3 第三章 ⑦); he fights with ES2's six-chaos-sword moves for now, the 天殇 of doc/skill/six-chaos-sword by name only (owner Q3)",
+			"name": "玄冥子",
+			"aliases": [
+				"xuan mingzi",
+				"xuan",
+				"disciple"
+			],
+			"title": "逆灵宫大弟子",
+			"gender": "男性",
+			"age": 38,
+			"long": "玄冥子站在崖径当中，长剑已经出鞘。崖边的绳索断了，商玦不在。他挡在你和断崖之间，没有让的意思。\n",
+			"attributes": {
+				"str": 28,
+				"cor": 30,
+				"int": 28,
+				"spi": 28,
+				"cps": 28,
+				"per": 24,
+				"con": 28,
+				"kar": 6
+			},
+			"combat_exp": 40000,
+			"score": 1500,
+			"attitude": "aggressive",
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"skills": {
+				"sword": 60,
+				"six-chaos-sword": 60,
+				"dodge": 55,
+				"parry": 55,
+				"force": 50
+			},
+			"skill_map": {
+				"sword": "six-chaos-sword",
+				"parry": "six-chaos-sword"
+			},
+			"carry": [
+				{
+					"item": "es2:d/oldpine/obj/long_sword",
+					"source": "d/oldpine/obj/long_sword.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:d/oldpine/npc/obj/black_cloth",
+					"source": "d/oldpine/npc/obj/black_cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "native:niling/black_crown",
+					"source": "native: 逆灵宫 A",
+					"equip": "wear"
+				}
+			],
+			"chat_chance_combat": 25,
+			"chat_msg_combat": [
+				"玄冥子冷冷道：宫主先走。你，留下。\n",
+				"玄冥子的剑上带着一股阴风，剑过处连雾都裂开了。\n"
+			],
+			"inquiry": {
+				"商玦": [
+					"玄冥子冷冷道：宫主已经走了。你追不上。"
+				]
+			},
+			"moods": {
+				"owed": {
+					"title": "逆灵宫大弟子",
+					"lasting": true,
+					"chat_chance": 10,
+					"chat_msg": [
+						"玄冥子靠着后墙坐着，看着断崖，没有说话。\n"
+					]
+				}
+			},
+			"spared": {
+				"mood": "owed",
+				"mark": "放过了玄冥子",
+				"drop": "native:niling/scroll_fragment"
+			},
+			"die_carries": {
+				"item": "native:niling/scroll_fragment"
+			}
+		},
+		{
+			"id": "native.npc.headless_shade",
+			"legacy_source": "native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) — 侮天鬼's first showing (doc/help/history:51–60: 正在四处寻找他的头颅), in the altar's flame for the scene only; 妖魔不解释 (剧情总纲 §10)",
+			"name": "无头黑影",
+			"aliases": [
+				"shade",
+				"headless shade",
+				"黑影"
+			],
+			"gender": "男性",
+			"age": 5000,
+			"long": "一个人形的黑影，没有头。它的脖颈处是一片比夜更黑的空，两只手朝前伸着，一下一下地摸索。它不出声——它没有嘴。\n",
+			"attributes": {
+				"str": 40,
+				"cor": 40,
+				"int": 10,
+				"spi": 40,
+				"cps": 40,
+				"per": 10,
+				"con": 40,
+				"kar": 1
+			},
+			"combat_exp": 1000000,
+			"score": 1,
+			"attitude": "friendly",
+			"skills": {
+				"dodge": 200,
+				"parry": 200
+			},
+			"fight_deferred": "你的剑从黑影里穿了过去，什么也没碰到。"
+		},
+		{
+			"id": "native.npc.hell_runner",
+			"legacy_source": "native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) — after obj/npc/hell_guard.c's 子阴鬼卒 (灰绿皮、钢叉, 面目狰狞, 喝道：孽障！随我赴阴司受审吧), weaker for the third chapter and no corpse (散成黑烟)",
+			"name": "鬼卒",
+			"aliases": [
+				"hell runner",
+				"ghoul",
+				"guard"
+			],
+			"gender": "男性",
+			"age": 30,
+			"long": "一个灰绿皮肤、面目狰狞的鬼卒，手里一柄钢叉。它的眼眶里没有眼珠，只有两点青火。\n",
+			"attributes": {
+				"str": 32,
+				"cor": 28,
+				"int": 10,
+				"spi": 20,
+				"cps": 24,
+				"per": 10,
+				"con": 30,
+				"kar": 2
+			},
+			"combat_exp": 6000,
+			"score": 300,
+			"attitude": "aggressive",
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"skills": {
+				"fork": 45,
+				"parry": 40,
+				"dodge": 35,
+				"unarmed": 30
+			},
+			"carry": [
+				{
+					"item": "es2:obj/npc/obj/steel_fork",
+					"source": "obj/npc/obj/steel_fork.c",
+					"equip": "wield"
+				}
+			],
+			"chat_chance_combat": 25,
+			"chat_msg_combat": [
+				"鬼卒喝道：孽障！随我赴阴司受审吧。\n",
+				"鬼卒的钢叉带起一股腥风。\n"
+			],
+			"vanishes": {
+				"line": "鬼卒一声不响地散成一股黑烟，钢叉当啷掉在地上。"
+			}
+		},
+		{
+			"id": "native.npc.niling_jailer_keyed",
+			"legacy_source": "native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) — the jailers after the 唤首 scene, the 地牢钥匙 on their belts (商玦's word: 子时); B's keyless ones are native.npc.niling_jailer",
+			"name": "狱卒道士",
+			"aliases": [
+				"jailer",
+				"taoist",
+				"black taoist"
+			],
+			"gender": "男性",
+			"age": 34,
+			"long": "一个黑衣黑冠的道士，靠着甬道的石壁站着，腰上多了一把乌黑的钥匙，一只手一直按在上面。他听见脚步声就直起身来，先看冠，再看脸。\n",
+			"attributes": {
+				"str": 26,
+				"cor": 24,
+				"int": 18,
+				"spi": 20,
+				"cps": 22,
+				"per": 12,
+				"con": 26,
+				"kar": 8
+			},
+			"combat_exp": 4500,
+			"score": 220,
+			"attitude": "aggressive",
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"ignores_when": {
+				"wearing": "native:niling/black_crown"
+			},
+			"skills": {
+				"unarmed": 26,
+				"sword": 34,
+				"dodge": 30,
+				"parry": 32
+			},
+			"carry": [
+				{
+					"item": "es2:d/oldpine/obj/short_sword",
+					"source": "d/oldpine/npc/obj/short_sword.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:d/oldpine/npc/obj/black_cloth",
+					"source": "d/oldpine/npc/obj/black_cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "native:niling/black_crown",
+					"source": "native: 逆灵宫 A",
+					"equip": "wear"
+				},
+				{
+					"item": "native:niling/cell_key",
+					"source": "native: 逆灵宫 B"
+				}
+			],
+			"chat_chance": 10,
+			"chat_msg": [
+				"狱卒道士摸了摸腰上的钥匙，往西边那间牢房瞟了一眼。\n",
+				"狱卒道士低声道：子时……还有两个时辰。\n"
+			],
+			"inquiry": {
+				"钥匙": [
+					"狱卒道士按住腰上的钥匙：大弟子刚丢下来的。子时开坛，你等着。"
+				],
+				"霍铮": [
+					"狱卒道士朝西边一偏头：西边那间。子时第一个就是他。"
+				],
+				"逆灵宫": [
+					"狱卒道士道：底下不许多话。"
+				]
+			},
+			"chat_chance_combat": 25,
+			"chat_msg_combat": [
+				"狱卒道士抽出鞭子，吼道：地牢有生人！\n"
+			],
+			"spared": {
+				"drop": "native:niling/cell_key",
+				"mark": "狱卒交了钥匙"
 			}
 		}
 	]

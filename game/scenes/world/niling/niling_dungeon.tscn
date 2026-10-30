@@ -233,6 +233,26 @@ position = Vector2(446, 115)
 script = ExtResource("marker")
 spawn_point_id = &"niling.cell_others.corvee.2"
 
+[node name="CorridorJailerKeyed1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-92, 141)
+script = ExtResource("marker")
+spawn_point_id = &"niling.corridor.jailer_keyed.1"
+
+[node name="CorridorJailerKeyed2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(92, 141)
+script = ExtResource("marker")
+spawn_point_id = &"niling.corridor.jailer_keyed.2"
+
+[node name="CellHuoBody1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-392, 119)
+script = ExtResource("marker")
+spawn_point_id = &"niling.cell_huo.body.1"
+
+[node name="CellShitouBody1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-8, -147)
+script = ExtResource("marker")
+spawn_point_id = &"niling.cell_shitou.body.1"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

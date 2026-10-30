@@ -1,0 +1,74 @@
+{
+  "indoor": false,
+  "camera_size": 20,
+  "note": "后山崖径、断崖 (native:niling/cliff_path, cliff; 逆灵宫 C): a path one man wide along the 道观's black back wall (west), the drop into mist on the east and beyond the cliff's end, the cut rope hanging from an iron stake at the 断崖. Mist rising from the drop, a few dead scrubs on the ledge, the black wall above. 玄冥子 waits on the path after the 唤首 scene (until the rescue). Cold grey like the slope, colder: no road, no lanterns.",
+  "edge": {
+    "minimum_margin": 24,
+    "maximum_margin": 64,
+    "depth": 3.4,
+    "top": "46423e",
+    "bottom": "2e2a28",
+    "strata": ["565250", "625c58", "4a4642"]
+  },
+  "cliffs": {
+    "kinds": ["cliff"],
+    "low": 1.0,
+    "high": 4.0,
+    "rise": 120,
+    "step": 0.5,
+    "rough": 0.5,
+    "grooves": 0.12,
+    "strata": ["4e4a46", "5a5650", "666258", "726e66", "565250", "605c56"],
+    "tops": ["56543e", "626040", "6c6a46"],
+    "sink": {"kinds": ["cliff"], "depth": 9.0, "rough": 0.6, "floor": ["2a2826", "363230", "1e1c1a"], "strata": ["4e4a46", "5a5650", "666258", "3e3a36", "524e4a", "5e5a54"], "gloom": 0.7, "rect": [448, 64, 640, 1024], "note": "the drop east of the path, and north of the 断崖"},
+    "areas": [
+      {"rect": [128, 64, 256, 1024], "strata": ["1c1a1a", "262322", "141212", "2e2a28", "222020", "1a1818"], "tops": ["1e1c1c", "262424"], "grooves": 0.05, "note": "the 道观's black back wall, the whole west side (drawn as brick-black rock rising)"}
+    ]
+  },
+  "exit_trails": {"note": "no exit trail: the small door is the only way, and the path ends at the cliff"},
+  "ground": {
+    "rock": {"style": "scree", "colors": ["4e4a44", "5a564e", "46423c"], "gravel": 0.7, "stones": 0.1, "pebbles": ["6a665c", "5e5a52", "7a766c", "3e3a36"], "note": "the ledge: bare wet rock"},
+    "path": {"style": "scree", "colors": ["56524a", "625e54", "4e4a42"], "gravel": 0.6, "stones": 0.06, "pebbles": ["6e6a60", "7a766c", "5e5a50"]},
+    "boundary": {"style": "scree", "colors": ["3e3a36", "4a4642", "363230"], "gravel": 0.4, "stones": 0.04, "pebbles": ["5a564e", "4e4a44"]}
+  },
+  "ground_tints": {"bank": "3e3a36", "mud": "4a4440", "chips": ["6a665c", "7a766c", "5a564e"], "dust": "7a766c", "grit": "8a867a"},
+  "flora": {
+    "grass_density": 0.3,
+    "grass_colors": ["6a6440", "7e784a", "8c8454", "5a5438"],
+    "density": {"rock": 0.08, "path": 0.02, "boundary": 0.1},
+    "flower_threshold": 1.0,
+    "blossom_trees": 0.0,
+    "tree_types": ["dead", "scrub", "stunted_pine"],
+    "tree_kinds": ["forest"],
+    "tree_chance": 0.3,
+    "tree_spacing": 80,
+    "cliff_tufts": 0.12,
+    "cliff_flowers": 0.0,
+    "cliff_trees": 0.03,
+    "cliff_tree_types": ["scrub", "dead"],
+    "outcrop_colors": ["4e4a44", "5a564e", "3e3a36"],
+    "wind": 0.7,
+    "butterflies": 0
+  },
+  "ambience": {
+    "birds": [{"at": [520, 500], "radius": 220, "count": 2, "height": 9, "color": "1a1816", "note": "crows over the drop"}],
+    "dust": [{"rect": [256, 160, 640, 928], "count": 24, "color": "9a9a98", "wind": [-0.3, -0.6], "note": "mist rising from the drop"}]
+  },
+  "reshape": [],
+  "props": [
+    {"kind": "iron_chain", "at": [352, 192], "size": [16, 16], "drop": 9.0, "face": 0.0, "links": 30, "rope": true, "color": "7a6a4a", "note": "the cut rope from the stake down into the mist (native:niling/cliff: 绳子在三尺外被割断了)"},
+    {"kind": "glow", "at": [352, 200], "color": "9aa8d0", "day": 0.0, "night": 0.6, "range": 7.0, "height": 2.0, "note": "moonlight on the cliff's end"},
+    {"kind": "stains", "at": [352, 600], "size": [100, 400], "count": 10, "colors": ["3e3a36", "46423e", "36322e"], "note": "the path, wet and trodden"},
+    {"kind": "bush", "at": [300, 300], "size": [26, 22], "colors": ["4a4a30", "5a5a38", "6a6a40"]},
+    {"kind": "bush", "at": [410, 700], "size": [24, 20], "colors": ["4a4a30", "5a5a38", "6a6a40"]},
+    {"kind": "dead_log", "at": [410, 420], "size": [40, 16], "rotation": 70},
+    {"kind": "rock_pile", "at": [300, 820], "size": [26, 22], "count": 5, "colors": ["4e4a44", "5a564e", "3e3a36"]},
+    {"kind": "banner", "at": [262, 880], "height": 3.6, "cloth": "100e0e", "trim": "6a1414", "note": "one 黑幡 by the small door, torn"},
+    {"kind": "far_peak", "at": [820, 300], "size": [320, 240], "height": 11.0, "elevation": -9.0, "haze": true, "colors": ["4e4a44", "5a564e", "666258", "423e38"], "note": "野羊山's ridges across the drop"},
+    {"kind": "far_peak", "at": [760, 900], "size": [280, 220], "height": 10.0, "elevation": -9.0, "haze": true, "colors": ["4e4a44", "5a564e", "666258", "423e38"]}
+  ],
+  "actors": {
+    "default": {"coat": "1a1818", "hat": true},
+    "native.npc.xuan_mingzi_cliff": {"coat": "141214", "hat": true}
+  }
+}

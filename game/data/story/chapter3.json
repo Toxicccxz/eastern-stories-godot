@@ -6,7 +6,7 @@
 			"line": "main",
 			"region": "野羊山",
 			"sources": [
-				"native: 剧情总纲 §3 第三章「黑砖道观」, its entrance only (owner, 2026-10-29; DECISIONS「第三章入口」「刘安禄放过后开口」「黄霸改寨主」) over doc/help/plan:26–31 (the draft: 逆灵宫 on 野羊山's north slope, the 大寨主 and 二寨主 gone half a year, the 三寨主 paying tribute every year), d/snow/npc/guard.c (刘安禄, 野羊山寨二寨主 血手刘三), d/goathill/npc/bandit_hwang.c (黄霸), d/goathill/mroad4.c:11 (北边的山壁有一个裂口, 离地约有三到四丈) and d/snow/npc/woodcutter.c:15 (野羊山那群臭道士). 霍铮, the tribute cart and its escort are the outline's. 剧情总纲 §8 第 4 步 goes on from the last step; the ledger keys stay. 逆灵宫 A (DECISIONS「逆灵宫 A」) adds `way` (the three ways in: 跟车 / 强攻 / 穿衣, 剧情总纲 §3 第三章 ①) and `yard`; 逆灵宫 B (DECISIONS「逆灵宫 B」) opens the hall door and adds `hall`, `ledger`, `papers` (the 账册 and the 兵部 papers read, 剧情总纲 §3 第三章 ④), `dungeon` (霍铮, 石头 and the 关北 men behind iron doors whose key is on 玄冥子's belt) and stops at `altar` (the mark 见过唤首 that C's 唤首 scene writes)."
+				"native: 剧情总纲 §3 第三章「黑砖道观」, its entrance only (owner, 2026-10-29; DECISIONS「第三章入口」「刘安禄放过后开口」「黄霸改寨主」) over doc/help/plan:26–31 (the draft: 逆灵宫 on 野羊山's north slope, the 大寨主 and 二寨主 gone half a year, the 三寨主 paying tribute every year), d/snow/npc/guard.c (刘安禄, 野羊山寨二寨主 血手刘三), d/goathill/npc/bandit_hwang.c (黄霸), d/goathill/mroad4.c:11 (北边的山壁有一个裂口, 离地约有三到四丈) and d/snow/npc/woodcutter.c:15 (野羊山那群臭道士). 霍铮, the tribute cart and its escort are the outline's. 剧情总纲 §8 第 4 步 goes on from the last step; the ledger keys stay. 逆灵宫 A (DECISIONS「逆灵宫 A」) adds `way` (the three ways in: 跟车 / 强攻 / 穿衣, 剧情总纲 §3 第三章 ①) and `yard`; 逆灵宫 B (DECISIONS「逆灵宫 B」) opens the hall door and adds `hall`, `ledger`, `papers` (the 账册 and the 兵部 papers read, 剧情总纲 §3 第三章 ④), `dungeon` (霍铮, 石头 and the 关北 men behind iron doors whose key is on 玄冥子's belt) and `altar`; 逆灵宫 C (DECISIONS「逆灵宫 C」) plays the 唤首 scene (剧情总纲 §3 第三章 ⑤), summons the 鬼卒 (`ghosts`), sets the one-or-the-other `choice` (rescue: 霍铮's cell opened; chase: the back door asked and the 后山崖径 reached), and ends by `home` (黄霸's 让位 scene at the 土地庙) or `duel` (玄冥子 on the cliff, the 残卷)."
 			],
 			"summary": "进野羊山北麓的黑道观，找到失踪的大寨主。",
 			"requires": ["main.chapter2"],
@@ -128,14 +128,82 @@
 					"done": {
 						"mark": "见过唤首"
 					},
-					"text": "你见了后殿里的事。",
+					"text": "后殿没有神像，只有一座黑石坛。商玦行「唤首」：黑焰里现出一个无头的黑影，摸索着找什么。商玦把地牢钥匙丢给了玄冥子——「子时开坛，带祭品上来」——退进黑门，玄冥子跟着走了。坛底爬出两个鬼卒。",
 					"target": {
 						"map": "niling.hall",
 						"zone": "niling.front"
 					}
+				},
+				{
+					"id": "ghosts",
+					"objective": "坛底爬出来的鬼卒拦在你面前。打退它们。",
+					"done": {
+						"mark": "祭坛的鬼卒倒了"
+					},
+					"text": "鬼卒散成黑烟。坛后的黑门开着；地牢的钥匙在狱卒手里了。",
+					"target": {
+						"map": "niling.rear",
+						"zone": "niling.altar"
+					}
+				},
+				{
+					"id": "choice",
+					"objective": "两件事只来得及做一件：回地牢，狱卒手里有钥匙了，救霍铮和石头；或者穿过黑门追商玦。",
+					"target": {
+						"map": "niling.rear",
+						"zone": "niling.altar"
+					},
+					"options": [
+						{
+							"id": "rescue",
+							"done": {
+								"mark": "救出了霍铮"
+							},
+							"text": "你打开了牢门。霍铮和石头跟你走了，关北的民夫自己逃回关北。商玦带着逆灵天书从后山下了崖，玄冥子跟着走了。",
+							"reward": {
+								"deed": "从逆灵宫的地牢里救出了霍铮和石头"
+							}
+						},
+						{
+							"id": "chase",
+							"done": {
+								"zone": "niling.cliff_path"
+							},
+							"text": "你穿过黑门和宫主的居所，追到了后山的崖径。等你再下地牢，狱卒已经动了手。",
+							"reward": {
+								"deed": "穿过黑门追到了逆灵宫的后山"
+							}
+						}
+					]
+				},
+				{
+					"id": "home",
+					"only_after": "rescue",
+					"objective": "带霍铮回野羊山的土地庙。",
+					"done": {
+						"mark": "霍铮回了寨"
+					},
+					"text": "黄霸跪下让位，霍铮派弟兄送石头回傅家坡。野羊寨欠你一条命。",
+					"target": {
+						"map": "goathill.temple_house",
+						"zone": "goathill.temple1"
+					}
+				},
+				{
+					"id": "duel",
+					"only_after": "chase",
+					"objective": "追上商玦。",
+					"done": {
+						"mark": "玄冥子倒了"
+					},
+					"text": "商玦割断绳索下了崖。玄冥子断后，和你一战，倒在崖径上；逆灵天书的残卷落在他身边。",
+					"target": {
+						"map": "niling.backhill",
+						"zone": "niling.cliff_path"
+					}
 				}
 			],
-			"reward": { "milestone": true, "deed": "进了野羊山北麓的逆灵宫" }
+			"reward": { "milestone": true, "deed": "查清了逆灵宫纳供的真相", "marks": ["逆灵宫一章"] }
 		}
 	]
 }

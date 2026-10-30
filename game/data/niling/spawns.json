@@ -96,8 +96,9 @@
 			"points": [
 				"niling.cell_huo.huo_zheng.1"
 			],
-			"legacy_room": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the first cell)",
-			"legacy_quantity": 1
+			"legacy_room": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the first cell; dead if the player chased 商玦 instead: 逆灵宫 C)",
+			"legacy_quantity": 1,
+			"until": {"quest": "main.chapter3/choice/chase"}
 		},
 		{
 			"id": "niling.cell_shitou.shitou",
@@ -107,8 +108,9 @@
 			"points": [
 				"niling.cell_shitou.shitou.1"
 			],
-			"legacy_room": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the second cell)",
-			"legacy_quantity": 1
+			"legacy_room": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the second cell; dead after the chase: 逆灵宫 C)",
+			"legacy_quantity": 1,
+			"until": {"quest": "main.chapter3/choice/chase"}
 		},
 		{
 			"id": "niling.cell_others.corvee",
@@ -119,8 +121,96 @@
 				"niling.cell_others.corvee.1",
 				"niling.cell_others.corvee.2"
 			],
-			"legacy_room": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the third cell)",
-			"legacy_quantity": 2
+			"legacy_room": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the third cell; gone after the chase: 逆灵宫 C)",
+			"legacy_quantity": 2,
+			"until": {"quest": "main.chapter3/choice/chase"}
+		},
+		{
+			"id": "niling.altar.shang_jue",
+			"npc": "native.npc.shang_jue",
+			"map": "niling.rear",
+			"zone": "niling.altar",
+			"points": [
+				"niling.altar.shang_jue.1"
+			],
+			"legacy_room": "native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) (before the 唤首 scene)",
+			"legacy_quantity": 1,
+			"until": {
+				"mark": "见过唤首"
+			}
+		},
+		{
+			"id": "niling.altar.xuan_mingzi",
+			"npc": "native.npc.xuan_mingzi",
+			"map": "niling.rear",
+			"zone": "niling.altar",
+			"points": [
+				"niling.altar.xuan_mingzi.1"
+			],
+			"legacy_room": "native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) (before the scene; he leaves with it)",
+			"legacy_quantity": 1,
+			"until": {
+				"mark": "见过唤首"
+			}
+		},
+		{
+			"id": "niling.altar.shade",
+			"npc": "native.npc.headless_shade",
+			"map": "niling.rear",
+			"zone": "niling.altar",
+			"points": [
+				"niling.altar.shade.1"
+			],
+			"legacy_room": "native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) (summoned by the scene, gone with it)",
+			"legacy_quantity": 1,
+			"summoned": true
+		},
+		{
+			"id": "niling.altar.hell_runners",
+			"npc": "native.npc.hell_runner",
+			"map": "niling.rear",
+			"zone": "niling.altar",
+			"points": [
+				"niling.altar.hell_runner.1",
+				"niling.altar.hell_runner.2"
+			],
+			"legacy_room": "native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) (summoned at the scene's end)",
+			"legacy_quantity": 2,
+			"summoned": true,
+			"cleared_mark": "祭坛的鬼卒倒了"
+		},
+		{
+			"id": "niling.cliff_path.xuan_mingzi",
+			"npc": "native.npc.xuan_mingzi_cliff",
+			"map": "niling.backhill",
+			"zone": "niling.cliff_path",
+			"points": [
+				"niling.cliff_path.xuan_mingzi.1"
+			],
+			"legacy_room": "native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) (covering the way down; gone if the player chose the rescue)",
+			"legacy_quantity": 1,
+			"present": {
+				"mark": "见过唤首"
+			},
+			"until": {
+				"quest": "main.chapter3/choice/rescue"
+			},
+			"cleared_mark": "玄冥子倒了"
+		},
+		{
+			"id": "niling.corridor.jailers_keyed",
+			"npc": "native.npc.niling_jailer_keyed",
+			"map": "niling.dungeon",
+			"zone": "niling.corridor",
+			"points": [
+				"niling.corridor.jailer_keyed.1",
+				"niling.corridor.jailer_keyed.2"
+			],
+			"legacy_room": "native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) (the jailers with the key, after the scene)",
+			"legacy_quantity": 2,
+			"present": {
+				"mark": "见过唤首"
+			}
 		}
 	]
 }
