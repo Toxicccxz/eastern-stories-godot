@@ -38405,6 +38405,10 @@ msgid ""
 "小径旁好几株松树的树干上有刀划的记号。\n"
 msgstr ""
 
+#: data/canyon/voxel/pass.json data/guanbei/voxel/gorge.json
+msgid "严"
+msgstr ""
+
 #: data/choyin/voxel/club_house.json
 msgid "书有未曾经我读 事无不可对人言"
 msgstr ""
@@ -38559,10 +38563,6 @@ msgstr ""
 
 #: data/green/voxel/stone_house.json
 msgid "非我弟子  莫入此门"
-msgstr ""
-
-#: data/guanbei/voxel/gorge.json
-msgid "严"
 msgstr ""
 
 #: data/guanbei/voxel/town.json
