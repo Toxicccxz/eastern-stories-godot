@@ -11,13 +11,17 @@ extends RefCounted
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const MapPlaces := preload("res://tests/support/map_places.gd")
-const MAPS: Dictionary = {&"guanbei.gorge": 3, &"guanbei.town": 3, &"guanbei.horse_market": 1, &"guanbei.inn": 2}
+const MAPS: Dictionary = {&"guanbei.gorge": 3, &"guanbei.town": 3, &"guanbei.horse_market": 1, &"guanbei.inn": 2, &"guanbei.palace_court": 2, &"guanbei.palace": 2}
 ## Where each kind stands (the rescue ledger's 老秦 is story_chapter6_test's).
 const PEOPLE: Dictionary = {
 	&"guanbei.gate": {&"native.npc.huaiyang_gate_guard": 2, &"native.npc.camel_driver": 2},
 	&"guanbei.street": {&"native.npc.guanbei_smith": 1},
 	&"guanbei.market": {&"native.npc.balang": 1, &"native.npc.luca": 1, &"native.npc.herdsman": 2},
 	&"guanbei.inn_hall": {&"native.npc.hu_sanniang": 1, &"native.npc.qin_popo": 1, &"native.npc.qin_xiaoliu": 1},
+	&"guanbei.palace_front": {&"native.npc.palace_gate_guard": 2},
+	&"guanbei.palace_yard": {&"native.npc.palace_steward": 1},
+	&"guanbei.drill": {&"native.npc.guo_cheng": 1, &"native.npc.palace_soldier": 4},
+	&"guanbei.palace_hall": {&"native.npc.cheng_shuo": 1, &"native.npc.palace_guard": 2},
 }
 
 var _count: int = 0
@@ -43,9 +47,10 @@ func _test_data() -> void:
 		if String(zone.zone_id).begins_with("guanbei."):
 			maps[zone.map_id] = maps.get(zone.map_id, 0) + 1
 			_check(zone.room_ids().size() == 1 and catalog.room(zone.room_ids()[0]) != null and String(zone.room_ids()[0]).begins_with("native:guanbei/"), "%s: one native room" % zone.zone_id)
-	_check(maps == MAPS, "nine native rooms on four maps: %s" % maps)
+	_check(maps == MAPS, "thirteen native rooms on six maps: %s" % maps)
 	_check(catalog.region(&"guanbei").display_name == "关北", "the region is 关北")
-	_check(catalog.map(&"guanbei.inn").interior and not catalog.map(&"guanbei.gorge").interior and not catalog.map(&"guanbei.town").interior and not catalog.map(&"guanbei.horse_market").interior, "the inn is indoors, the road, the town and the market are outdoors")
+	_check(catalog.map(&"guanbei.inn").interior and catalog.map(&"guanbei.palace").interior and catalog.map(&"guanbei.palace_court").interior and not catalog.map(&"guanbei.gorge").interior and not catalog.map(&"guanbei.town").interior and not catalog.map(&"guanbei.horse_market").interior, "the inn and the 王府 are indoors, the road, the town and the market are outdoors")
+	_check(catalog.portal(&"guanbei.palace_front.north").destination_zone_id == &"guanbei.palace_yard" and catalog.portal(&"guanbei.palace_yard.north").destination_zone_id == &"guanbei.palace_hall" and catalog.door(&"guanbei.palace.gate").map_ids() == [&"guanbei.town", &"guanbei.palace_court"], "the 王府大门 off the street into the court (placed by both maps), the hall's door off the court")
 	var east: PortalDefinition = catalog.portal(&"canyon.canyon7.east")
 	_check(east != null and east.destination_zone_id == &"guanbei.gate_road" and east.set_mark == "到了关北" and catalog.portal(&"guanbei.gate_road.south").destination_zone_id == &"canyon.canyon7", "the valley's east gate into 关北 (marking 到了关北) and the way back")
 	var rule: ZoneExitRuleDefinition = null
@@ -81,7 +86,7 @@ func _test_data() -> void:
 	_check(soldiers != null and soldiers.quantity == 2 and soldiers.zone_id == &"canyon.canyon7" and soldiers.cleared_mark == "过了关门", "two of them at the gate; beaten, the way is open")
 	var lao_qin: NpcSpawnDefinition = catalog.spawn(&"guanbei.inn_hall.lao_qin")
 	_check(lao_qin != null and lao_qin.present != null, "老秦 sits in the 酒肆 only on the rescue ledger")
-	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_GUANBEI_A_V1, "关北 A's world revision is current")
+	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_GUANBEI_B_V1, "关北 B's world revision is current")
 
 
 ## From the valley: the gate refused, then (TEST-ONLY: the mark set) through it and north to the
@@ -119,6 +124,30 @@ func _test_walk(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(guard != null and await MapPlaces.drive(tree, town, town.runtime_body_for_character(guard.character_id).global_position + Vector2(0, -60)) and town.select_npc(guard.character_id), "beside a gate guard")
 	_check(town.ask_selected("告示").any(func(line: String) -> bool: return line.contains("先过我们这一关")), "he stands by the notice")
 	_check(await MapPlaces.drive_through(tree, town, [&"guanbei.street", &"guanbei.palace_front"]), "up the street to the 王府's front")
+	_check(not town.door(&"guanbei.palace.gate").is_open(), "the 王府大门 shut to one without the letter")
+	var knock: ActService = town.service(&"guanbei.palace_front.knock") as ActService
+	_check(knock != null and await MapPlaces.drive(tree, town, MapPlaces.service_spot(town, &"guanbei.palace_front.knock")) and knock.in_reach(), "王府大门 · 叩门")
+	knock.interact()
+	await _settle(tree)
+	_check(not state.marks.has("王府放行") and ui.log_lines().any(func(line: String) -> bool: return line.contains("有凭据再来")), "empty-handed: 王爷不见生人，有凭据再来")
+	town.give_new_item_to_player(&"native:choyin/magistrate_letter") # TEST-ONLY: 程不平's letter (story_chapter6_test earns it)
+	knock.interact()
+	await _settle(tree)
+	_check(state.marks.get("王府放行", 0) == 1 and town.door(&"guanbei.palace.gate").is_open(), "with the letter: 朱门开了")
+	var court: WorldMapController = await MapPlaces.go_to(tree, session, &"guanbei.palace_yard")
+	_check(court != null and court.map_id() == &"guanbei.palace_court", "through the 王府大门 into the court")
+	_check(await MapPlaces.drive_through(tree, court, [&"guanbei.drill", &"guanbei.palace_yard"]), "over to the drill yard and back")
+	_check(court.select_landmark(&"guanbei.drill.landmark.posts") and court.inspect_selected() and ui.inspection_text.text.contains("左肩"), "the posts looked at")
+	ui.dismiss_current_panel()
+	await _settle(tree)
+	var hall: WorldMapController = await MapPlaces.go_to(tree, session, &"guanbei.palace_hall")
+	_check(hall != null and hall.map_id() == &"guanbei.palace", "up the steps into the 正厅")
+	_check(await MapPlaces.drive_through(tree, hall, [&"guanbei.side_hall", &"guanbei.palace_hall"]), "into the side hall and back")
+	_check(hall.select_landmark(&"guanbei.side_hall.landmark.map") and hall.inspect_selected() and ui.inspection_text.text.contains("工地") and state.marks.get("看过王府的地图", 0) == 1, "the map read: the 工地 ringed in red")
+	ui.dismiss_current_panel()
+	await _settle(tree)
+	town = await MapPlaces.go_to(tree, session, &"guanbei.street")
+	_check(town != null and town.map_id() == &"guanbei.town", "back out to the street")
 	var smith: NpcRuntimeState = MapPlaces.npc_at(session, &"guanbei.street.smith.1")
 	_check(smith != null and await MapPlaces.drive(tree, town, town.runtime_body_for_character(smith.character_id).global_position + Vector2(0, 60)) and town.select_npc(smith.character_id), "beside the smith")
 	_check(town.ask_selected("马刀").any(func(line: String) -> bool: return line.contains("十五两")), "his 马刀 for fifteen taels")

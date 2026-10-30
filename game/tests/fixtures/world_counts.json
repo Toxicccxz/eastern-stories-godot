@@ -137,9 +137,11 @@
 		"guanbei.gorge",
 		"guanbei.town",
 		"guanbei.horse_market",
-		"guanbei.inn"
+		"guanbei.inn",
+		"guanbei.palace_court",
+		"guanbei.palace"
 	],
-	"rooms": 564,
+	"rooms": 568,
 	"snow_outdoor_portals": [
 		"snow.square.west",
 		"snow.eroad3.south",
@@ -471,6 +473,13 @@
 		"guanbei.inn_hall.qin_popo",
 		"guanbei.inn_hall.qin_xiaoliu",
 		"guanbei.inn_hall.lao_qin",
+		"guanbei.palace_front.gate_guards",
+		"guanbei.palace_yard.steward",
+		"guanbei.drill.guo_cheng",
+		"guanbei.drill.soldiers",
+		"guanbei.palace_hall.cheng_shuo",
+		"guanbei.palace_hall.guards",
+		"guanbei.palace_hall.nan_weishui",
 		"native.school2.wooden_dummy.1",
 		"native.school2.wooden_dummy.2",
 		"native.school2.wooden_dummy.3",
@@ -498,9 +507,9 @@
 		"native.yamen_iner.chen_witness",
 		"native.canyon7.gate_soldiers"
 	],
-	"world_npcs": 532,
-	"resident_maps": 138,
-	"new_game_items": 891,
+	"world_npcs": 544,
+	"resident_maps": 140,
+	"new_game_items": 914,
 	"snow_outdoor_passages": 18,
 	"map_zones": {
 		"snow.inn": 1,
@@ -640,7 +649,9 @@
 		"guanbei.gorge": 3,
 		"guanbei.town": 3,
 		"guanbei.horse_market": 1,
-		"guanbei.inn": 2
+		"guanbei.inn": 2,
+		"guanbei.palace_court": 2,
+		"guanbei.palace": 2
 	},
 	"map_npcs": {
 		"snow.inn": 3,
@@ -778,9 +789,11 @@
 		"niling.master_house": 0,
 		"niling.backhill": 1,
 		"guanbei.gorge": 0,
-		"guanbei.town": 5,
+		"guanbei.town": 7,
 		"guanbei.horse_market": 4,
-		"guanbei.inn": 4
+		"guanbei.inn": 4,
+		"guanbei.palace_court": 6,
+		"guanbei.palace": 4
 	},
 	"npc_draws_after_oldpine": 2559,
 	"technical_maps": 9,

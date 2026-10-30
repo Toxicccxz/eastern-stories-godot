@@ -189,6 +189,26 @@ static func _chapter5_things(session: WorldSessionController) -> void:
 		if session.player_held_item_ids().get(item_id, false) == false:
 			map.give_new_item_to_player(item_id)
 
+## 关北 A and B done after 人证 (escorted): the letter shown at the camp, the mould bought and compared,
+## the gate passed by the roll, the notice read, the door knocked open, the letter handed to 程朔 and
+## the road chosen — 借兵 (`raid`) with 郭承 following, or 潜入 (not raid).
+static func chapter6_planned(session: WorldSessionController, raid: bool = true) -> void:
+	chapter5_escorted(session)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in [
+		"main.chapter6#started", "main.chapter6/general", "main.chapter6/adviser", "main.chapter6/seal", "main.chapter6/gate",
+		"main.chapter6/guanbei", "main.chapter6/town", "main.chapter6/palace", "main.chapter6/plan/raid" if raid else "main.chapter6/plan/sneak",
+	]:
+		_write(state, key)
+	for mark: String in ["军营", "严廷殷看了信", "赫造基说了拓模", "学过印色", "过了关门", "到了关北", "看过王府告示", "王府放行", "见过重逢", "信递到了", "借了兵" if raid else "约好了潜入"]:
+		state.marks[mark] = 1
+	if raid:
+		state.marks["郭承跟上了"] = 1
+	var map: WorldMapController = session.active_map() as WorldMapController
+	if map != null and session.player_held_item_ids().get(&"native:canyon/seal_mould", false) == false:
+		map.give_new_item_to_player(&"native:canyon/seal_mould")
+
+
 static func _write(state: CharacterState, key: String) -> void:
 	if not state.quests.has(key):
 		state.quests[key] = state.quests.size() + 1

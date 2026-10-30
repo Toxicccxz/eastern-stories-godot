@@ -242,6 +242,13 @@ msgstr ""
 #. native.npc.herdsman gender
 #. native.npc.qin_xiaoliu gender
 #. native.npc.lao_qin gender
+#. native.npc.palace_gate_guard gender
+#. native.npc.cheng_shuo gender
+#. native.npc.guo_cheng gender
+#. native.npc.palace_guard gender
+#. native.npc.palace_steward gender
+#. native.npc.palace_soldier gender
+#. native.npc.nan_weishui_guest gender
 #. native.npc.wooden_dummy.1 gender
 #. native.npc.wooden_dummy.2 gender
 #. native.npc.wooden_dummy.3 gender
@@ -2043,6 +2050,26 @@ msgstr ""
 msgid "东门 · 关着"
 msgstr ""
 
+#. native:guanbei/palace_hall short
+#: scenes/world/guanbei/guanbei_palace.tscn data/guanbei/rooms.json
+msgid "王府正厅"
+msgstr ""
+
+#. native:guanbei/side_hall short
+#: scenes/world/guanbei/guanbei_palace.tscn data/guanbei/rooms.json
+msgid "王府偏厅"
+msgstr ""
+
+#. native:guanbei/palace_yard short
+#: scenes/world/guanbei/guanbei_palace_court.tscn data/guanbei/rooms.json
+msgid "王府前院"
+msgstr ""
+
+#. native:guanbei/drill short
+#: scenes/world/guanbei/guanbei_palace_court.tscn data/guanbei/rooms.json
+msgid "王府校场"
+msgstr ""
+
 #. native:guanbei/gate short
 #: scenes/world/guanbei/guanbei_town.tscn data/guanbei/rooms.json
 msgid "槐阳城门"
@@ -2067,12 +2094,20 @@ msgid "东 · 马市"
 msgstr ""
 
 #. native.npc.huaiyang_gate_guard title
+#. native.npc.palace_gate_guard title
+#. native.npc.palace_guard title
+#. native.npc.palace_steward title
+#. native.npc.palace_soldier title
 #: scenes/world/guanbei/guanbei_town.tscn data/guanbei/npcs.json
 msgid "槐阳王府"
 msgstr ""
 
 #: scenes/world/guanbei/guanbei_town.tscn
 msgid "告示 · 看"
+msgstr ""
+
+#: scenes/world/guanbei/guanbei_town.tscn
+msgid "王府大门 · 叩门"
 msgstr ""
 
 #: scenes/world/guanbei/guanbei_town.tscn
@@ -16374,7 +16409,7 @@ msgstr ""
 
 #. main.chapter6 summary
 #: data/story/chapter6.json
-msgid "假印和失踪的人都往关北去了。先在天驼关把印的事问清楚，再出关去槐阳城，把程不平的信递给槐阳王。"
+msgid "假印和失踪的人都往关北去了。先在天驼关把印的事问清楚，再出关去槐阳城，把程不平的信递给槐阳王；然后借兵踏平工地，或者带郭承夜里潜进去。"
 msgstr ""
 
 #. main.chapter6 reward.deed
@@ -16444,12 +16479,47 @@ msgstr ""
 
 #. main.chapter6/palace objective
 #: data/story/chapter6.json
-msgid "王府在大街北头。把程不平的信递给槐阳王程朔。"
+msgid "王府在大街北头。门军认程不平的信；把信递给槐阳王程朔。"
 msgstr ""
 
 #. main.chapter6/palace text
 #: data/story/chapter6.json
-msgid "信递到了槐阳王手里。"
+msgid "程朔读了信：兵部的印是真的，令不是先帝的——他早说了。失踪的人在草原东边兵部的工地上挖一座古冢，挖不动的让道士的车接走。两条路：借他的兵踏平，或者让郭承带你夜里进去。"
+msgstr ""
+
+#. main.chapter6/plan objective
+#: data/story/chapter6.json
+msgid "借槐阳王的兵踏平工地（问程朔「借兵」：救下所有人，但兵部会说关北反了），或带骁将郭承夜里潜入（在校场问郭承「潜入」：救一半，王府干净）。"
+msgstr ""
+
+#. main.chapter6/plan/raid text
+#: data/story/chapter6.json
+msgid "你借了槐阳王的兵。程朔：「踏平了，兵部的文书第二天就到京师：槐阳王反了。」郭承领六骑听你的。"
+msgstr ""
+
+#. main.chapter6/plan/raid reward.deed
+#: data/story/chapter6.json
+msgid "借了槐阳王的兵，要踏平兵部的工地"
+msgstr ""
+
+#. main.chapter6/plan/sneak text
+#: data/story/chapter6.json
+msgid "你和郭承约好了夜里潜入工地。「救得几个算几个，救不完的别回头。王府不知道这件事。」"
+msgstr ""
+
+#. main.chapter6/plan/sneak reward.deed
+#: data/story/chapter6.json
+msgid "和王府骁将郭承约好夜里潜入工地"
+msgstr ""
+
+#. main.chapter6/site objective
+#: data/story/chapter6.json
+msgid "去草原东边兵部的工地（出马市东门，过帐篷营地）。借了兵的，郭承的六骑在东门外等你；约好潜入的，天黑后在营地的篝火边等郭承。"
+msgstr ""
+
+#. main.chapter6/site text
+#: data/story/chapter6.json
+msgid "草原东边的工地。"
 msgstr ""
 
 #. es2:d/oldpine/obj/long_sword long
@@ -22352,12 +22422,15 @@ msgid "（水烟阁的红衣武士从此都把你当作敌人，见到你就会�
 msgstr ""
 
 #. waterfog.npc.elder5 name
-#: data/waterfog/npcs.json
+#. native.npc.cheng_shuo inquiry topic
+#. native.npc.nan_weishui_guest name
+#: data/waterfog/npcs.json data/guanbei/npcs.json
 msgid "南危水"
 msgstr ""
 
 #. waterfog.npc.elder5 title
-#: data/waterfog/npcs.json
+#. native.npc.nan_weishui_guest title
+#: data/waterfog/npcs.json data/guanbei/npcs.json
 msgid "水烟阁五长老"
 msgstr ""
 
@@ -22409,7 +22482,8 @@ msgstr ""
 
 #. waterfog.npc.elder5 inquiry topic
 #. waterfog.npc.elder7 inquiry topic
-#: data/waterfog/npcs.json
+#. native.npc.nan_weishui_guest inquiry topic
+#: data/waterfog/npcs.json data/guanbei/npcs.json
 msgid "五长老"
 msgstr ""
 
@@ -22419,7 +22493,8 @@ msgid "老夫便是五长老。你想问什么？"
 msgstr ""
 
 #. waterfog.npc.elder5 inquiry topic
-#: data/waterfog/npcs.json
+#. native.npc.nan_weishui_guest inquiry topic
+#: data/waterfog/npcs.json data/guanbei/npcs.json
 msgid "山洞的骸骨"
 msgstr ""
 
@@ -22459,7 +22534,8 @@ msgid "老夫不知道你在说什么。"
 msgstr ""
 
 #. waterfog.npc.elder5 inquiry topic
-#: data/waterfog/npcs.json
+#. native.npc.nan_weishui_guest inquiry topic
+#: data/waterfog/npcs.json data/guanbei/npcs.json
 msgid "保密"
 msgstr ""
 
@@ -26958,6 +27034,10 @@ msgstr ""
 
 #. choyin.npc.sergeant inquiry topic
 #. native.npc.huaiyang_gate_guard inquiry topic
+#. native.npc.palace_gate_guard inquiry topic
+#. native.npc.cheng_shuo inquiry topic
+#. native.npc.guo_cheng inquiry topic
+#. native.npc.palace_guard inquiry topic
 #: data/choyin/npcs.json data/guanbei/npcs.json
 msgid "兵部"
 msgstr ""
@@ -27352,7 +27432,8 @@ msgstr ""
 
 #. choyin.npc.judgeman name
 #. canyon.npc.general inquiry topic
-#: data/choyin/npcs.json data/canyon/npcs.json
+#. native.npc.cheng_shuo inquiry topic
+#: data/choyin/npcs.json data/canyon/npcs.json data/guanbei/npcs.json
 msgid "程不平"
 msgstr ""
 
@@ -27466,6 +27547,9 @@ msgstr ""
 
 #. choyin.npc.judgeman inquiry topic
 #. native.npc.huaiyang_gate_guard inquiry topic
+#. native.npc.cheng_shuo title
+#. native.npc.cheng_shuo moods.read.title
+#. native.npc.nan_weishui_guest inquiry topic
 #. native.npc.chen_witness inquiry topic
 #: data/choyin/npcs.json data/guanbei/npcs.json data/native/npcs.json
 msgid "槐阳王"
@@ -29232,6 +29316,7 @@ msgstr ""
 
 #. canyon.npc.general inquiry topic
 #. native.npc.pass_gate_soldier inquiry topic
+#. native.npc.palace_gate_guard inquiry topic
 #: data/canyon/npcs.json data/guanbei/npcs.json
 msgid "信"
 msgstr ""
@@ -35848,6 +35933,7 @@ msgstr ""
 #. native.npc.huaiyang_gate_guard inquiry topic
 #. native.npc.hu_sanniang inquiry topic
 #. native.npc.qin_popo inquiry topic
+#. native.npc.palace_steward inquiry topic
 #: data/niling/npcs.json data/guanbei/npcs.json
 msgid "民夫"
 msgstr ""
@@ -36682,6 +36768,7 @@ msgstr ""
 
 #. native:guanbei/saber name
 #. native.npc.guanbei_smith inquiry topic
+#. native.npc.guo_cheng inquiry topic
 #: data/guanbei/items.json data/guanbei/npcs.json
 msgid "马刀"
 msgstr ""
@@ -36967,6 +37054,10 @@ msgstr ""
 #. native.npc.qin_popo inquiry topic
 #. native.npc.qin_xiaoliu inquiry topic
 #. native.npc.lao_qin inquiry topic
+#. native.npc.cheng_shuo inquiry topic
+#. native.npc.guo_cheng inquiry topic
+#. native.npc.palace_soldier inquiry topic
+#. native.npc.nan_weishui_guest inquiry topic
 #: data/guanbei/npcs.json
 msgid "工地"
 msgstr ""
@@ -37350,6 +37441,9 @@ msgid "草原东边。别去，兵部的人见了生面孔就拿。我这儿的�
 msgstr ""
 
 #. native.npc.hu_sanniang inquiry topic
+#. native.npc.palace_gate_guard inquiry topic
+#. native.npc.palace_guard inquiry topic
+#. native.npc.palace_steward inquiry topic
 #: data/guanbei/npcs.json
 msgid "王爷"
 msgstr ""
@@ -37491,6 +37585,564 @@ msgstr ""
 msgid "铁栅门，黑得看不见手。隔壁关着一个汉子，骂了半年没停过——后来听说是野羊山的大寨主。"
 msgstr ""
 
+#. native.npc.palace_gate_guard name
+#: data/guanbei/npcs.json
+msgid "王府门军"
+msgstr ""
+
+#. native.npc.palace_gate_guard long
+#: data/guanbei/npcs.json
+msgid ""
+"一个穿灰褐短袄、外罩皮甲的门军，腰刀，手按在刀柄上。他看你的眼神不凶，只是不让。\n"
+msgstr ""
+
+#. native.npc.palace_gate_guard chat_msg
+#: data/guanbei/npcs.json
+msgid ""
+"王府门军往门里看了一眼，又站直了。\n"
+msgstr ""
+
+#. native.npc.palace_gate_guard inquiry.信.rules.say
+#: data/guanbei/npcs.json
+msgid "进去吧。正厅，王爷在。"
+msgstr ""
+
+#. native.npc.palace_gate_guard inquiry.信.rules.say
+#: data/guanbei/npcs.json
+msgid "信？拿着信去叩门。王爷等这封信等了半个月了。"
+msgstr ""
+
+#. native.npc.palace_gate_guard inquiry.信.rules.say
+#: data/guanbei/npcs.json
+msgid "什么信？没凭据，王爷不见生人。"
+msgstr ""
+
+#. native.npc.palace_gate_guard inquiry.王爷
+#: data/guanbei/npcs.json
+msgid "老王爷在正厅。有凭据的进，没凭据的回。"
+msgstr ""
+
+#. native.npc.palace_gate_guard inquiry topic
+#: data/guanbei/npcs.json
+msgid "凭据"
+msgstr ""
+
+#. native.npc.palace_gate_guard inquiry.凭据
+#: data/guanbei/npcs.json
+msgid "王府的令、县衙的信、王爷认识的人的话——有一样就行。空口无凭，回去吧。"
+msgstr ""
+
+#. native.npc.palace_gate_guard inquiry.兵部
+#: data/guanbei/npcs.json
+msgid "兵部的人来过一回，拿着文书要王爷交人。王爷把文书扔出了门。"
+msgstr ""
+
+#. native.npc.cheng_shuo name
+#: data/guanbei/npcs.json
+msgid "程朔"
+msgstr ""
+
+#. native.npc.cheng_shuo long
+#: data/guanbei/npcs.json
+msgid ""
+"六十六岁的老人，坐在交椅上背挺得笔直，头发全白了，眉毛也白了，眼睛却亮。一身灰布袍子，腰里一把刀，不是摆设。他说话直来直去，一句是一句，从不说「本王」。\n"
+msgstr ""
+
+#. native.npc.cheng_shuo chat_msg
+#: data/guanbei/npcs.json
+msgid ""
+"程朔把手里的文书往案上一放。\n"
+msgstr ""
+
+#. native.npc.cheng_shuo chat_msg
+#: data/guanbei/npcs.json
+msgid ""
+"程朔说道：关北的事，关北自己了。\n"
+msgstr ""
+
+#. native.npc.cheng_shuo moods.read.chat_msg
+#: data/guanbei/npcs.json
+msgid ""
+"程朔把那封信又看了一遍，折好收进袖子里。\n"
+msgstr ""
+
+#. native.npc.cheng_shuo moods.read.chat_msg
+#: data/guanbei/npcs.json
+msgid ""
+"程朔说道：不平这孩子，字还是那么瘦。\n"
+msgstr ""
+
+#. native.npc.cheng_shuo accept_object.lines.emote
+#: data/guanbei/npcs.json
+msgid "接过信，拆开，看了很久。"
+msgstr ""
+
+#. native.npc.cheng_shuo accept_object.lines.say
+#: data/guanbei/npcs.json
+msgid "不平的字。兵部的印是真的，令不是先帝的——我早说了，没人听。"
+msgstr ""
+
+#. native.npc.cheng_shuo accept_object.lines.say
+#: data/guanbei/npcs.json
+msgid "他说你从逆灵宫一路追过来，带着文书、抄本，还有人证。好。关北欠你一顿饭。"
+msgstr ""
+
+#. native.npc.cheng_shuo accept_object.lines.say
+#: data/guanbei/npcs.json
+msgid "你要找的人在草原东边：兵部圈了地，三千民夫在挖一座古冢，说是修官道。挖不动的人，一辆道士的车接走。我的告示贴了，人还是没了——他们拿的是兵部的印，我的兵拦不住朝廷的印。"
+msgstr ""
+
+#. native.npc.cheng_shuo accept_object.lines.say
+#: data/guanbei/npcs.json
+msgid "要动那块地，两条路：借我的兵踏平它，或者让郭承带你夜里进去。你自己想，想好了开口。"
+msgstr ""
+
+#. native.npc.cheng_shuo accept_object.say
+#: data/guanbei/npcs.json
+msgid "钱留着。关北不缺这个。"
+msgstr ""
+
+#. native.npc.cheng_shuo accept_object.say
+#: data/guanbei/npcs.json
+msgid "这是什么？"
+msgstr ""
+
+#. native.npc.cheng_shuo accept_object.say
+#: data/guanbei/npcs.json
+msgid "东西留着。信呢？"
+msgstr ""
+
+#. native.npc.cheng_shuo inquiry topic
+#. native.npc.guo_cheng inquiry topic
+#. native.npc.nan_weishui_guest inquiry topic
+#: data/guanbei/npcs.json
+msgid "借兵"
+msgstr ""
+
+#. native.npc.cheng_shuo inquiry.借兵.rules.say
+#: data/guanbei/npcs.json
+msgid "兵已经给你了。郭承在校场点人，六骑够了——多了反而是反。"
+msgstr ""
+
+#. native.npc.cheng_shuo inquiry.借兵.rules.say
+#: data/guanbei/npcs.json
+msgid "你和郭承说好了夜里去。那就夜里去——兵不动。两头都要，哪头都做不成。"
+msgstr ""
+
+#. native.npc.cheng_shuo inquiry.借兵.rules.lines.emote
+#: data/guanbei/npcs.json
+msgid "看了你很久，站起来，把刀从椅旁拿下来又放回去。"
+msgstr ""
+
+#. native.npc.cheng_shuo inquiry.借兵.rules.lines.say
+#: data/guanbei/npcs.json
+msgid "踏平了，工地上的人一个不少。可兵部的文书第二天就到京师：槐阳王反了。皇帝十六岁，先听到的是这句。"
+msgstr ""
+
+#. native.npc.cheng_shuo inquiry.借兵.rules.lines.say
+#: data/guanbei/npcs.json
+msgid "你想好了。那就借。郭承，六骑，听他的。——去校场找郭承。"
+msgstr ""
+
+#. native.npc.cheng_shuo inquiry.借兵.rules.say
+#: data/guanbei/npcs.json
+msgid "信还没到我手里，谈什么兵。"
+msgstr ""
+
+#. native.npc.cheng_shuo inquiry.南危水.rules.say
+#: data/guanbei/npcs.json
+msgid "二十年没见的弟弟。他昨天才到——说你在水烟阁替他守了口。关北欠你的，不止一顿饭。"
+msgstr ""
+
+#. native.npc.cheng_shuo inquiry.南危水.rules.say
+#: data/guanbei/npcs.json
+msgid "水烟阁来信，说我弟弟装死二十年的事让人告到长老会去了。……他不会来关北了。你不必说是谁告的，我不想知道。"
+msgstr ""
+
+#. native.npc.cheng_shuo inquiry.南危水.rules.say
+#: data/guanbei/npcs.json
+msgid "我弟弟？他随母姓，入了江湖，二十年没音信。不提。"
+msgstr ""
+
+#. native.npc.cheng_shuo inquiry.程不平
+#: data/guanbei/npcs.json
+msgid "我侄子。读书读得太多，当官当得太清。他写信来，是真急了。"
+msgstr ""
+
+#. native.npc.cheng_shuo inquiry.兵部
+#: data/guanbei/npcs.json
+msgid "兵部去年发令：征三千民夫修官道，寻剑。先帝的令只说寻剑，没说征人——我不接。他们就自己来人，拿着文书到关北拿人。我拦不住朝廷的印，只能贴告示。"
+msgstr ""
+
+#. native.npc.cheng_shuo inquiry.工地.rules.say
+#: data/guanbei/npcs.json
+msgid "草原东边，东门出去过了帐篷营地再往东。白衣的武官督着，一个姓吕的监工管账。挖的是一座古冢——老人说那是金乌的地方，不能动。"
+msgstr ""
+
+#. native.npc.cheng_shuo inquiry.工地.rules.say
+#: data/guanbei/npcs.json
+msgid "草原东边。你是外乡人，别去。"
+msgstr ""
+
+#. native.npc.cheng_shuo inquiry topic
+#: data/guanbei/npcs.json
+msgid "古冢"
+msgstr ""
+
+#. native.npc.cheng_shuo inquiry.古冢
+#: data/guanbei/npcs.json
+msgid "老人说那是金乌的地方，不能动。兵部那位尚书信商句遗书末两句指的是北边的旧地——挖得动他就挖，挖不动的人，他送给道士。"
+msgstr ""
+
+#. native.npc.cheng_shuo inquiry topic
+#: data/guanbei/npcs.json
+msgid "不奉诏"
+msgstr ""
+
+#. native.npc.cheng_shuo inquiry.不奉诏
+#: data/guanbei/npcs.json
+msgid "不奉诏？先帝的令只说寻剑。征人、拿人的令，我不接。扣什么帽子随他们——帽子扣不死人，民夫的枷才扣死人。"
+msgstr ""
+
+#. native.npc.cheng_shuo inquiry topic
+#. native.npc.guo_cheng inquiry topic
+#. native.npc.nan_weishui_guest inquiry topic
+#: data/guanbei/npcs.json
+msgid "潜入"
+msgstr ""
+
+#. native.npc.cheng_shuo inquiry.潜入.rules.say
+#: data/guanbei/npcs.json
+msgid "郭承的事郭承办。夜里的事王府不知道——你也记住这句。"
+msgstr ""
+
+#. native.npc.cheng_shuo inquiry.潜入.rules.say
+#: data/guanbei/npcs.json
+msgid "兵都借了，还潜什么。踏过去。"
+msgstr ""
+
+#. native.npc.cheng_shuo inquiry.潜入.rules.say
+#: data/guanbei/npcs.json
+msgid "郭承在校场。夜里的事找他说，别找我——王府不知道。"
+msgstr ""
+
+#. native.npc.cheng_shuo inquiry.潜入.rules.say
+#: data/guanbei/npcs.json
+msgid "你说什么？"
+msgstr ""
+
+#. native.npc.guo_cheng name
+#. native.npc.palace_soldier inquiry topic
+#: data/guanbei/npcs.json
+msgid "郭承"
+msgstr ""
+
+#. native.npc.guo_cheng title
+#. native.npc.guo_cheng moods.going.title
+#: data/guanbei/npcs.json
+msgid "王府骁将"
+msgstr ""
+
+#. native.npc.guo_cheng long
+#: data/guanbei/npcs.json
+msgid ""
+"一个高个子，皮甲，马刀，脸让风沙吹得黑红，左边眉毛上一道疤。他练刀的时候不说话，说话的时候不多说一个字。\n"
+msgstr ""
+
+#. native.npc.guo_cheng chat_msg
+#: data/guanbei/npcs.json
+msgid ""
+"郭承一刀劈在木人肩上，木屑飞起来。\n"
+msgstr ""
+
+#. native.npc.guo_cheng chat_msg
+#: data/guanbei/npcs.json
+msgid ""
+"郭承喝道：撩！不是砍！马上没有砍的工夫。\n"
+msgstr ""
+
+#. native.npc.guo_cheng chat_msg_combat
+#: data/guanbei/npcs.json
+msgid ""
+"郭承的马刀一撩一劈，不带花样。\n"
+msgstr ""
+
+#. native.npc.guo_cheng moods.going.chat_msg
+#: data/guanbei/npcs.json
+msgid ""
+"郭承跟在你身后，手一直按着刀柄。\n"
+msgstr ""
+
+#. native.npc.guo_cheng moods.going.chat_msg
+#: data/guanbei/npcs.json
+msgid ""
+"郭承说道：走。\n"
+msgstr ""
+
+#. native.npc.guo_cheng calls.steps.emote
+#: data/guanbei/npcs.json
+msgid "把刀插回鞘里，冲校场上的兵吼了一声，六个人应声出列。"
+msgstr ""
+
+#. native.npc.guo_cheng calls.steps.say
+#: data/guanbei/npcs.json
+msgid "王爷的话到了：六骑听你的。马在东门外的营地——我跟你走。到了工地，你一句话，我们就冲。"
+msgstr ""
+
+#. native.npc.guo_cheng inquiry.潜入.rules.say
+#: data/guanbei/npcs.json
+msgid "说好了，夜里。跟紧我，别出声。"
+msgstr ""
+
+#. native.npc.guo_cheng inquiry.潜入.rules.say
+#: data/guanbei/npcs.json
+msgid "王爷点了兵，那就白天踏过去。不用潜。"
+msgstr ""
+
+#. native.npc.guo_cheng inquiry.潜入.rules.lines.emote
+#: data/guanbei/npcs.json
+msgid "看了你一眼，点点头。"
+msgstr ""
+
+#. native.npc.guo_cheng inquiry.潜入.rules.lines.say
+#: data/guanbei/npcs.json
+msgid "夜里。兵部的人白天醒着，夜里只留两个守夜。东门外帐篷营地的篝火边等到天黑，我带你进去——救得几个算几个，救不完的别回头。"
+msgstr ""
+
+#. native.npc.guo_cheng inquiry.潜入.rules.lines.say
+#: data/guanbei/npcs.json
+msgid "王府不知道这件事。你也不知道。"
+msgstr ""
+
+#. native.npc.guo_cheng inquiry.潜入.rules.say
+#: data/guanbei/npcs.json
+msgid "你是谁？王爷还没见你。"
+msgstr ""
+
+#. native.npc.guo_cheng inquiry.借兵.rules.say
+#: data/guanbei/npcs.json
+msgid "六骑。马在东门外。"
+msgstr ""
+
+#. native.npc.guo_cheng inquiry.借兵.rules.say
+#: data/guanbei/npcs.json
+msgid "说好了潜，就不借兵。两头都要的人两头都空。"
+msgstr ""
+
+#. native.npc.guo_cheng inquiry.借兵.rules.say
+#: data/guanbei/npcs.json
+msgid "兵是王爷的，你去问王爷。"
+msgstr ""
+
+#. native.npc.guo_cheng inquiry.工地
+#: data/guanbei/npcs.json
+msgid "草原东边。栅栏、营帐、民夫棚、土方，最里头是古冢口。白衣武官六七个，一个队长，一个监工。白天别靠近。"
+msgstr ""
+
+#. native.npc.guo_cheng inquiry.兵部
+#: data/guanbei/npcs.json
+msgid "兵部的人在关北拿人，拿的是王爷的子民。王爷不让动手，我们就看着。看了半年了。"
+msgstr ""
+
+#. native.npc.guo_cheng inquiry.马刀
+#: data/guanbei/npcs.json
+msgid "关北的马刀，马上使的。撩，不是砍。等这事了了，我给你一册刀谱——现在没工夫。"
+msgstr ""
+
+#. native.npc.guo_cheng inquiry topic
+#: data/guanbei/npcs.json
+msgid "骁将"
+msgstr ""
+
+#. native.npc.guo_cheng inquiry.骁将
+#: data/guanbei/npcs.json
+msgid "王府的骁将有七个，去乔阴县衙帮不平公子的那几个也是。我管校场。"
+msgstr ""
+
+#. native.npc.palace_guard name
+#: data/guanbei/npcs.json
+msgid "侍卫"
+msgstr ""
+
+#. native.npc.palace_guard long
+#: data/guanbei/npcs.json
+msgid ""
+"一个王府的侍卫，皮甲，马刀，站在交椅一侧，眼睛看着门口。\n"
+msgstr ""
+
+#. native.npc.palace_guard chat_msg
+#: data/guanbei/npcs.json
+msgid ""
+"侍卫的手在刀柄上换了个位置。\n"
+msgstr ""
+
+#. native.npc.palace_guard inquiry.王爷
+#: data/guanbei/npcs.json
+msgid "王爷在上面。有话直说，王爷不爱绕。"
+msgstr ""
+
+#. native.npc.palace_guard inquiry.兵部
+#: data/guanbei/npcs.json
+msgid "兵部的人上回来，王爷把文书扔出了门。我们没动手——王爷不让。"
+msgstr ""
+
+#. native.npc.palace_steward name
+#: data/guanbei/npcs.json
+msgid "管家"
+msgstr ""
+
+#. native.npc.palace_steward long
+#: data/guanbei/npcs.json
+msgid ""
+"一个干瘦的老头，灰袍子，手里一本账，耳朵上夹着一支笔。他是王府唯一不带刀的人。\n"
+msgstr ""
+
+#. native.npc.palace_steward chat_msg
+#: data/guanbei/npcs.json
+msgid ""
+"管家在账上划了一笔，叹了口气。\n"
+msgstr ""
+
+#. native.npc.palace_steward chat_msg
+#: data/guanbei/npcs.json
+msgid ""
+"管家说道：又少了一村的壮丁，今年的马料谁割。\n"
+msgstr ""
+
+#. native.npc.palace_steward inquiry.王爷
+#: data/guanbei/npcs.json
+msgid "王爷在正厅。王爷不爱排场，你有话直说。"
+msgstr ""
+
+#. native.npc.palace_steward inquiry.民夫
+#: data/guanbei/npcs.json
+msgid "账上去年少了三百四十一个壮丁。三百四十一个，我一个个记的名字。"
+msgstr ""
+
+#. native.npc.palace_steward inquiry topic
+#: data/guanbei/npcs.json
+msgid "账"
+msgstr ""
+
+#. native.npc.palace_steward inquiry.账
+#: data/guanbei/npcs.json
+msgid "王府的账，马、草、人。人那一页最难记。"
+msgstr ""
+
+#. native.npc.palace_soldier name
+#: data/guanbei/npcs.json
+msgid "王府兵"
+msgstr ""
+
+#. native.npc.palace_soldier long
+#: data/guanbei/npcs.json
+msgid ""
+"一个王府的兵，光着膀子练刀，皮甲放在木人脚下。他的刀法只有两式：撩，劈。\n"
+msgstr ""
+
+#. native.npc.palace_soldier chat_msg
+#: data/guanbei/npcs.json
+msgid ""
+"王府兵一刀撩在木人肩上。\n"
+msgstr ""
+
+#. native.npc.palace_soldier chat_msg
+#: data/guanbei/npcs.json
+msgid ""
+"王府兵喘着气说道：郭将军，再来一遍？\n"
+msgstr ""
+
+#. native.npc.palace_soldier inquiry.郭承
+#: data/guanbei/npcs.json
+msgid "郭将军。刀最快的一个。他说马上没有砍的工夫，只有撩。"
+msgstr ""
+
+#. native.npc.palace_soldier inquiry.工地
+#: data/guanbei/npcs.json
+msgid "草原东边。我们想去，王爷不让。兵部的印，拿去了就是反。"
+msgstr ""
+
+#. native.npc.nan_weishui_guest long
+#: data/guanbei/npcs.json
+msgid ""
+"南危水是当世使剑的名家，也是槐阳王的弟弟，一身武学集天邪、封山\n"
+"两派之所长，在水烟阁七长老中武功仅次于二长老莫谦容。南危水手中\n"
+"的焦殇剑也是一把罕见的利器，传说这把剑是名铸剑师黄炎炎生平六把\n"
+"名剑中排名第一的杰作。\n"
+"他站在兄长的交椅旁，二十年没站过的地方。\n"
+msgstr ""
+
+#. native.npc.nan_weishui_guest chat_msg
+#: data/guanbei/npcs.json
+msgid ""
+"南危水看着厅外的天，没有说话。\n"
+msgstr ""
+
+#. native.npc.nan_weishui_guest calls.steps.emote
+#: data/guanbei/npcs.json
+msgid "从交椅上站起来，看着弟弟。"
+msgstr ""
+
+#. native.npc.nan_weishui_guest calls.steps.say
+#: data/guanbei/npcs.json
+msgid "危水。二十年。"
+msgstr ""
+
+#. native.npc.nan_weishui_guest calls.steps.say
+#: data/guanbei/npcs.json
+msgid "大哥。山洞里替我挡刀的那个人，我还没找到他家里人。"
+msgstr ""
+
+#. native.npc.nan_weishui_guest calls.steps.say
+#: data/guanbei/npcs.json
+msgid "找。关北帮你找。"
+msgstr ""
+
+#. native.npc.nan_weishui_guest calls.steps.emote
+#: data/guanbei/npcs.json
+msgid "转过头来看你。"
+msgstr ""
+
+#. native.npc.nan_weishui_guest calls.steps.say
+#: data/guanbei/npcs.json
+msgid "这位替你守了二十年的口。——坐下说话。"
+msgstr ""
+
+#. native.npc.nan_weishui_guest inquiry.五长老
+#: data/guanbei/npcs.json
+msgid "老夫便是五长老。在这儿，老夫只是程朔的弟弟。"
+msgstr ""
+
+#. native.npc.nan_weishui_guest inquiry.槐阳王
+#: data/guanbei/npcs.json
+msgid "我大哥。二十年没见，他白了头，脾气一点没改。"
+msgstr ""
+
+#. native.npc.nan_weishui_guest inquiry.山洞的骸骨
+#: data/guanbei/npcs.json
+msgid "老夫都说了。阿岭的家里人，大哥答应帮我找。"
+msgstr ""
+
+#. native.npc.nan_weishui_guest inquiry.保密
+#: data/guanbei/npcs.json
+msgid "多谢。老夫能站在这儿，是你的功劳——要不是你守着口，水烟阁的信先到，大哥就得先听到我死而复生的事。"
+msgstr ""
+
+#. native.npc.nan_weishui_guest inquiry.借兵
+#: data/guanbei/npcs.json
+msgid "大哥的兵一动，关北就是反。你想清楚再开口——想清楚了，老夫不拦你。"
+msgstr ""
+
+#. native.npc.nan_weishui_guest inquiry.潜入
+#: data/guanbei/npcs.json
+msgid "郭承是好手。夜里的事老夫不掺和——老夫的脸在兵部那儿是死人的脸，露不得。"
+msgstr ""
+
+#. native.npc.nan_weishui_guest inquiry.工地
+#: data/guanbei/npcs.json
+msgid "老夫路过时看了一眼。白衣武官——和二十年前老松岭瀑布前的是同一身衣裳。"
+msgstr ""
+
 #. native:guanbei/gate_road long
 #: data/guanbei/rooms.json
 msgid ""
@@ -37524,7 +38176,31 @@ msgstr ""
 #. native:guanbei/palace_front long
 #: data/guanbei/rooms.json
 msgid ""
-"大街的北头是槐阳王府。朱漆的大门褪得发白，门钉倒是黑亮的；门前一对石鼓，鼓面让人摸得溜光。门楼不高，却宽，梁上的彩画是塞外的样子——石青和赭红，画的是马和鹰，不是龙凤。门前的场子扫得干净，这是全城唯一干净的地方。\n"
+"大街的北头是槐阳王府。朱漆的大门褪得发白，门钉倒是黑亮的；门前一对石鼓，鼓面让人摸得溜光。门楼不高，却宽，梁上的彩画是塞外的样子——石青和赭红，画的是马和鹰，不是龙凤。门前的场子扫得干净，这是全城唯一干净的地方。两个门军守着门，王爷不见生人。\n"
+msgstr ""
+
+#. native:guanbei/palace_yard long
+#: data/guanbei/rooms.json
+msgid ""
+"进了朱门是一面土坯的影壁，影壁上没有画，只刷了一层白灰，灰上有刀划的道道。绕过影壁是一片夯实的前院，扫得一根草都没有。北边三级石阶上去是正厅，廊下两盏灯笼。东边传来刀劈木头的声音——那边是校场。管家站在影壁下，手里拿着一本账。\n"
+msgstr ""
+
+#. native:guanbei/drill long
+#: data/guanbei/rooms.json
+msgid ""
+"前院东边的校场，一排木人，几个箭靶，墙根一溜拴马的桩子。地上的土让马蹄和靴子踩得比石头还硬。王府的兵在这儿练刀——不是花架子，是马上一撩一劈的刀，木人的左肩都让劈去了一块。领着练的那个高个子是骁将郭承。\n"
+msgstr ""
+
+#. native:guanbei/palace_hall long
+#: data/guanbei/rooms.json
+msgid ""
+"槐阳王府的正厅，比乔阴县衙的大堂还朴素。上首一把旧的胡床交椅，椅背搭一张磨秃了的虎皮；椅旁一架兵器，刀在上剑在下。两边各站一个侍卫，不说话。地上铺的是砖，不是木板，踩上去有声音。梁上的彩画是石青和赭红的马和鹰。槐阳王程朔就坐在那把交椅上——六十六岁，背挺得笔直。\n"
+msgstr ""
+
+#. native:guanbei/side_hall long
+#: data/guanbei/rooms.json
+msgid ""
+"正厅东边的偏厅，王爷看文书的地方。一张书案，案上的文书摞得整整齐齐，最上面一封是兵部的，封皮上有刀划的叉。墙上钉着一张羊皮地图，草原东头用朱砂圈了一个圈。角落一个火盆，盆里的灰还温着。\n"
 msgstr ""
 
 #. native:guanbei/market long
@@ -37543,6 +38219,12 @@ msgstr ""
 #: data/guanbei/rooms.json
 msgid ""
 "酒肆的后屋，堆着成捆的干草和几口大缸，缸里泡着马奶酒，酸味扑鼻。墙角挂着整扇的羊，房梁上吊着一串串风干的肉条。地上铺着一张破毡子，是掌柜的睡处。\n"
+msgstr ""
+
+#. guanbei.palace.gate name
+#. guanbei.palace_front.knock name
+#: data/guanbei/world.json
+msgid "王府大门"
 msgstr ""
 
 #. guanbei.gate_road.landmark.gate long
@@ -37579,6 +38261,50 @@ msgid ""
 "木栏围着的马栏，栏里十来匹马，枣红的、青的、黑的，都是关北的矮脚马，耐跑。栏外的木桩上拴着两匹，是刚换了主的。马粪和草料的味道混在一起，风一吹满街都是。\n"
 msgstr ""
 
+#. guanbei.palace_front.landmark.drums name
+#: data/guanbei/world.json
+msgid "石鼓"
+msgstr ""
+
+#. guanbei.palace_front.landmark.drums long
+#: data/guanbei/world.json
+msgid ""
+"一对石鼓，鼓面让几十年的手摸得溜光，鼓身上刻的不是狮子，是两匹对着的马。鼓脚的石头裂了一道，用铁箍箍着。\n"
+msgstr ""
+
+#. guanbei.drill.landmark.posts name
+#: data/guanbei/world.json
+msgid "木人"
+msgstr ""
+
+#. guanbei.drill.landmark.posts long
+#: data/guanbei/world.json
+msgid ""
+"校场边一排木人，每个木人的左肩都让刀劈去了一块——王府的骁将练的是马上一撩的刀，撩的都是同一个地方。木人脚下的土踩得比石头还硬。\n"
+msgstr ""
+
+#. guanbei.palace_hall.landmark.chair name
+#: data/guanbei/world.json
+msgid "交椅"
+msgstr ""
+
+#. guanbei.palace_hall.landmark.chair long
+#: data/guanbei/world.json
+msgid ""
+"正厅上首不是龙椅，是一把旧的胡床交椅，椅背上搭一张虎皮，虎皮的毛磨秃了一半。椅子旁立着一架兵器，刀在上，剑在下，都不是摆设——刀口上有新磨的痕。\n"
+msgstr ""
+
+#. guanbei.side_hall.landmark.map name
+#: data/guanbei/world.json
+msgid "地图"
+msgstr ""
+
+#. guanbei.side_hall.landmark.map long
+#: data/guanbei/world.json
+msgid ""
+"偏厅的墙上钉着一张羊皮地图：槐阳城在中间，南边一道山是天驼关，东边一片草原画到纸边。草原东头用朱砂圈了一个圈，圈边写着三个小字：「兵部 · 工地」。圈旁边另一行墨字，笔迹不同：「古冢。勿动。」\n"
+msgstr ""
+
 #. guanbei.inn_hall.landmark.hearth name
 #: data/guanbei/world.json
 msgid "火塘"
@@ -37588,6 +38314,41 @@ msgstr ""
 #: data/guanbei/world.json
 msgid ""
 "屋子正中挖出来的火塘，四边砌着石头，塘里的羊粪火不旺，却一直不灭。火上吊着一口黑锅，锅里的羊肉咕嘟咕嘟地响。火塘边的地上磨得油亮，是多少年来人坐出来的。\n"
+msgstr ""
+
+#. guanbei.palace_front.knock act.verb
+#: data/guanbei/world.json
+msgid "叩门"
+msgstr ""
+
+#. guanbei.palace_front.knock act.acts.steps.line
+#: data/guanbei/world.json
+msgid ""
+"门军侧身让开：进去吧，王爷在正厅。\n"
+msgstr ""
+
+#. guanbei.palace_front.knock act.acts.steps.line
+#: data/guanbei/world.json
+msgid ""
+"你叩了叩门。门军接过信看了看封皮，又看了看你。\n"
+msgstr ""
+
+#. guanbei.palace_front.knock act.acts.steps.line
+#: data/guanbei/world.json
+msgid ""
+"门军说道：乔阴程县令的信——王爷等这封信等了半个月了。进去，正厅。\n"
+msgstr ""
+
+#. guanbei.palace_front.knock act.acts.steps.line
+#: data/guanbei/world.json
+msgid ""
+"朱门开了。\n"
+msgstr ""
+
+#. guanbei.palace_front.knock act.acts.steps.line
+#: data/guanbei/world.json
+msgid ""
+"你叩了叩门。门军没有动：王爷不见生人。有凭据再来。\n"
 msgstr ""
 
 #. guanbei.gate.notice act.verb

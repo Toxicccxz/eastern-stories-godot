@@ -1,0 +1,42 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 22,
+  "note": "王府正厅、王府偏厅 (native:guanbei/palace_hall, side_hall; 关北 B): a hall plainer than 乔阴's 大堂 — brick floor that rings underfoot, the old camp chair with its worn tiger skin on a low dais, the weapon rack beside it, benches along the walls for those who wait, two guards, lanterns under the 石青-and-赭红 beams (horses and eagles painted there, not dragons); the side hall east where the prince reads: the desk with the 兵部's letter slashed across, the sheepskin map with the 工地 ringed in red, chests of papers, a brazier with warm ash. Old and used: the dais worn, the benches polished by sitting, soot over the brazier.",
+  "palette": {"wood": ["5a4634", "6a5240", "4a3a2c"], "wall": "b4986a"},
+  "wall_height": 3.6,
+  "wall_looks": [
+    {"rect": [-1000, -1000, 1000, 1000], "style": "earth", "colors": ["b4986a", "c0a474", "a88c5e", "c8ac7c"], "note": "rammed earth, limewashed once and worn through"}
+  ],
+  "door_looks": {},
+  "ground": {
+    "floor_yard": {"style": "slabs", "lengths": [1, 2], "depths": [1, 1], "cracks": 0.1, "broken": 0.04, "sunk": 0.04, "tufts": 0.0, "stones": ["8a7a62", "948468", "80705a", "9a8a70"], "worn": ["a0906e", "a89876"], "bed": "6a5a48", "joint": 0.04, "mud": "7a6a52", "crack": "5a4a3a", "note": "the hall's brick floor (native:guanbei/palace_hall: 地上铺的是砖，踩上去有声音), worn pale from the door to the dais"},
+    "floor_wood": {"style": "boards", "colors": ["7a5a44", "8a6a50", "6a4e3a"], "note": "the side hall's boards"},
+    "boundary": {"style": "scree", "colors": ["b4a46e", "c0b078", "a89864"], "gravel": 0.5, "stones": 0.05, "pebbles": ["d4bc84", "c0a870", "9c8858"]}
+  },
+  "flora": {"grass_density": 0.0, "density": {"floor_yard": 0.0, "floor_wood": 0.0, "boundary": 0.2}, "grass_colors": ["9a8c52", "8a9458"], "flower_threshold": 1.0, "tree_kinds": [], "wind": 0.0, "butterflies": 0},
+  "life": {
+    "guanbei.palace_hall": {"walls": "earth"},
+    "guanbei.side_hall": {"walls": "boards"}
+  },
+  "props": [
+    {"kind": "hanging_lantern", "at": [-300, -180], "paper": "e0b060", "height": 3.0, "note": "lanterns at the hall's corners"},
+    {"kind": "hanging_lantern", "at": [300, -180], "paper": "e0b060", "height": 3.0},
+    {"kind": "hanging_lantern", "at": [-300, 200], "paper": "e0b060", "height": 3.0},
+    {"kind": "hanging_lantern", "at": [300, 200], "paper": "e0b060", "height": 3.0},
+    {"kind": "glow", "at": [0, -200], "color": "ffb070", "day": 0.2, "night": 0.9, "range": 7.0, "height": 1.2, "note": "the brazier's glow before the dais"},
+    {"kind": "stains", "at": [0, 0], "size": [200, 440], "count": 8, "colors": ["a0906e", "a89876"], "note": "the brick worn pale from the door to the dais"},
+    {"kind": "trail", "points": [[0, 230], [0, 100], [0, -60], [0, -180]], "color": "a89876"},
+    {"kind": "animal_hide", "at": [0, -236], "size": [64, 24], "height": 1.0, "wall_mounted": true, "note": "the worn tiger skin over the chair's back"},
+    {"kind": "wall_scroll", "at": [560, -140], "size": [72, 16], "height": 1.9, "wall_mounted": true, "note": "the sheepskin map on the side hall's wall (native:guanbei/side_hall)"},
+    {"kind": "hanging_lantern", "at": [560, 40], "paper": "d8b070", "height": 2.6, "note": "the side hall's lantern over the desk"},
+    {"kind": "candlestick", "at": [560, -40], "size": [12, 12], "lit": true},
+    {"kind": "paper_slip", "at": [500, 60], "size": [14, 18], "rotation": 25, "note": "a sheet of the 王府's accounts"}
+  ],
+  "actors": {
+    "default": {"coat": "6a5a48"},
+    "native.npc.cheng_shuo": {"coat": "6a6058"},
+    "native.npc.palace_guard": {"coat": "5a4a3a", "hat": true},
+    "native.npc.nan_weishui_guest": {"coat": "4a5a6a"}
+  }
+}

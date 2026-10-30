@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://runtime/world/world_landmark_area_2d.gd" id="landmark"]
 [ext_resource type="Script" path="res://runtime/world/world_passage_area_2d.gd" id="passage"]
 [ext_resource type="Script" path="res://runtime/world/world_physical_zone_area_2d.gd" id="zone"]
+[ext_resource type="Script" path="res://runtime/world/world_door.gd" id="door"]
 [ext_resource type="Script" path="res://runtime/world/world_service_point.gd" id="service"]
 [ext_resource type="TileSet" path="res://scenes/world/common/placeholder_terrain_tileset.tres" id="terrain_tiles"]
 
@@ -148,6 +149,49 @@ mouse_filter = 2
 text = "告示 · 看"
 horizontal_alignment = 1
 
+[node name="KnockService" type="Marker2D" parent="."]
+position = Vector2(704, 272)
+script = ExtResource("service")
+service_id = &"guanbei.palace_front.knock"
+
+[node name="Visual" type="Polygon2D" parent="KnockService"]
+polygon = PackedVector2Array(0, -20, 16, 8, 0, 20, -16, 8)
+color = Color(0.5, 0.85, 1, 1)
+
+[node name="Label" type="Label" parent="KnockService"]
+offset_left = -100.0
+offset_top = 26.0
+offset_right = 100.0
+mouse_filter = 2
+text = "王府大门 · 叩门"
+horizontal_alignment = 1
+
+[node name="DoorWalls" type="StaticBody2D" parent="Terrain"]
+
+[node name="Building3Door0DoorWall" type="CollisionShape2D" parent="Terrain/DoorWalls"]
+position = Vector2(704, 224)
+shape = SubResource("Rect_96_32")
+
+[node name="Building3Door0DoorShutter" type="Polygon2D" parent="Terrain"]
+polygon = PackedVector2Array(656, 208, 752, 208, 752, 240, 656, 240)
+color = Color(0.42, 0.3, 0.18, 1)
+
+[node name="Building3Door0Door" type="Node" parent="."]
+script = ExtResource("door")
+door_id = &"guanbei.palace.gate"
+wall = NodePath("../Terrain/DoorWalls/Building3Door0DoorWall")
+shutter = NodePath("../Terrain/Building3Door0DoorShutter")
+
+[node name="Building3Door0Passage" type="Area2D" parent="."]
+position = Vector2(704, 224)
+collision_layer = 0
+input_pickable = false
+script = ExtResource("passage")
+portal_id = &"guanbei.palace_front.north"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Building3Door0Passage"]
+shape = SubResource("Rect_96_32")
+
 [node name="Zones" type="Node2D" parent="."]
 
 [node name="GateZone" type="Area2D" parent="Zones"]
@@ -178,6 +222,11 @@ zone_id = &"guanbei.palace_front"
 shape = SubResource("Rect_448_256")
 
 [node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="PalaceFrontYardReturn" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(704, 291)
+script = ExtResource("marker")
+spawn_point_id = &"guanbei.palace_front.yard_return"
 
 [node name="GateGorgeArrival" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(704, 1456)
@@ -213,6 +262,16 @@ spawn_point_id = &"guanbei.gate.camel_driver.2"
 position = Vector2(584, 1072)
 script = ExtResource("marker")
 spawn_point_id = &"guanbei.street.smith.1"
+
+[node name="PalaceFrontGateGuard1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(616, 288)
+script = ExtResource("marker")
+spawn_point_id = &"guanbei.palace_front.gate_guard.1"
+
+[node name="PalaceFrontGateGuard2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(792, 288)
+script = ExtResource("marker")
+spawn_point_id = &"guanbei.palace_front.gate_guard.2"
 
 [node name="Characters" type="Node2D" parent="."]
 
@@ -258,6 +317,15 @@ script = ExtResource("landmark")
 landmark_id = &"guanbei.gate.landmark.wall"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/WallInteraction"]
+shape = SubResource("Rect_64_32")
+
+[node name="DrumsInteraction" type="Area2D" parent="Interactions"]
+position = Vector2(624, 256)
+collision_layer = 2
+script = ExtResource("landmark")
+landmark_id = &"guanbei.palace_front.landmark.drums"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactions/DrumsInteraction"]
 shape = SubResource("Rect_64_32")
 
 

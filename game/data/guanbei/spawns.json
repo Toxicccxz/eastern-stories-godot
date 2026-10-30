@@ -1,14 +1,212 @@
 {
 	"spawns": [
-		{ "id": "guanbei.gate.gate_guards", "npc": "native.npc.huaiyang_gate_guard", "map": "guanbei.town", "zone": "guanbei.gate", "points": ["guanbei.gate.gate_guard.1", "guanbei.gate.gate_guard.2"], "legacy_room": "native: 关北 A (剧情总纲 §3 第六章 ②③; DECISIONS「关北 A」) (the two gate guards of 槐阳城, the fief's men)", "legacy_quantity": 2 },
-		{ "id": "guanbei.gate.camel_drivers", "npc": "native.npc.camel_driver", "map": "guanbei.town", "zone": "guanbei.gate", "points": ["guanbei.gate.camel_driver.1", "guanbei.gate.camel_driver.2"], "legacy_room": "native: 关北 A (the caravan unloading inside the gate)", "legacy_quantity": 2 },
-		{ "id": "guanbei.street.smith", "npc": "native.npc.guanbei_smith", "map": "guanbei.town", "zone": "guanbei.street", "points": ["guanbei.street.smith.1"], "legacy_room": "native: 关北 A (the smith before his forge on the 王府大街)", "legacy_quantity": 1 },
-		{ "id": "guanbei.market.balang", "npc": "native.npc.balang", "map": "guanbei.horse_market", "zone": "guanbei.market", "points": ["guanbei.market.balang.1"], "legacy_room": "native: 关北 A (剧情总纲 §3 第六章 ②: the horse trader by his pen)", "legacy_quantity": 1 },
-		{ "id": "guanbei.market.luca", "npc": "native.npc.luca", "map": "guanbei.horse_market", "zone": "guanbei.market", "points": ["guanbei.market.luca.1"], "legacy_room": "native: 关北 A (剧情总纲 §3 第六章 ⑤: 卢卡 selling his sword by the pen)", "legacy_quantity": 1 },
-		{ "id": "guanbei.market.herdsmen", "npc": "native.npc.herdsman", "map": "guanbei.horse_market", "zone": "guanbei.market", "points": ["guanbei.market.herdsman.1", "guanbei.market.herdsman.2"], "legacy_room": "native: 关北 A (two herdsmen come to sell)", "legacy_quantity": 2 },
-		{ "id": "guanbei.inn_hall.hu_sanniang", "npc": "native.npc.hu_sanniang", "map": "guanbei.inn", "zone": "guanbei.inn_hall", "points": ["guanbei.inn_hall.hu_sanniang.1"], "legacy_room": "native: 关北 A (the keeper behind her counter)", "legacy_quantity": 1 },
-		{ "id": "guanbei.inn_hall.qin_popo", "npc": "native.npc.qin_popo", "map": "guanbei.inn", "zone": "guanbei.inn_hall", "points": ["guanbei.inn_hall.qin_popo.1"], "legacy_room": "native: 关北 A (剧情总纲 §3 第六章 ④: a wife waiting for a man the 兵部 took)", "legacy_quantity": 1 },
-		{ "id": "guanbei.inn_hall.qin_xiaoliu", "npc": "native.npc.qin_xiaoliu", "map": "guanbei.inn", "zone": "guanbei.inn_hall", "points": ["guanbei.inn_hall.qin_xiaoliu.1"], "legacy_room": "native: 关北 A (her son beside her)", "legacy_quantity": 1 },
-		{ "id": "guanbei.inn_hall.lao_qin", "npc": "native.npc.lao_qin", "map": "guanbei.inn", "zone": "guanbei.inn_hall", "points": ["guanbei.inn_hall.lao_qin.1"], "legacy_room": "native: 关北 A (剧情总纲 §3 第六章 ④; 逆灵宫 C's 关北民夫 let out of the dungeon: home in the corner on the rescue ledger, DECISIONS「逆灵宫 C」)", "legacy_quantity": 1, "present": { "quest": "main.chapter3/choice/rescue" } }
+		{
+			"id": "guanbei.gate.gate_guards",
+			"npc": "native.npc.huaiyang_gate_guard",
+			"map": "guanbei.town",
+			"zone": "guanbei.gate",
+			"points": [
+				"guanbei.gate.gate_guard.1",
+				"guanbei.gate.gate_guard.2"
+			],
+			"legacy_room": "native: 关北 A (剧情总纲 §3 第六章 ②③; DECISIONS「关北 A」) (the two gate guards of 槐阳城, the fief's men)",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "guanbei.gate.camel_drivers",
+			"npc": "native.npc.camel_driver",
+			"map": "guanbei.town",
+			"zone": "guanbei.gate",
+			"points": [
+				"guanbei.gate.camel_driver.1",
+				"guanbei.gate.camel_driver.2"
+			],
+			"legacy_room": "native: 关北 A (the caravan unloading inside the gate)",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "guanbei.street.smith",
+			"npc": "native.npc.guanbei_smith",
+			"map": "guanbei.town",
+			"zone": "guanbei.street",
+			"points": [
+				"guanbei.street.smith.1"
+			],
+			"legacy_room": "native: 关北 A (the smith before his forge on the 王府大街)",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "guanbei.market.balang",
+			"npc": "native.npc.balang",
+			"map": "guanbei.horse_market",
+			"zone": "guanbei.market",
+			"points": [
+				"guanbei.market.balang.1"
+			],
+			"legacy_room": "native: 关北 A (剧情总纲 §3 第六章 ②: the horse trader by his pen)",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "guanbei.market.luca",
+			"npc": "native.npc.luca",
+			"map": "guanbei.horse_market",
+			"zone": "guanbei.market",
+			"points": [
+				"guanbei.market.luca.1"
+			],
+			"legacy_room": "native: 关北 A (剧情总纲 §3 第六章 ⑤: 卢卡 selling his sword by the pen)",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "guanbei.market.herdsmen",
+			"npc": "native.npc.herdsman",
+			"map": "guanbei.horse_market",
+			"zone": "guanbei.market",
+			"points": [
+				"guanbei.market.herdsman.1",
+				"guanbei.market.herdsman.2"
+			],
+			"legacy_room": "native: 关北 A (two herdsmen come to sell)",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "guanbei.inn_hall.hu_sanniang",
+			"npc": "native.npc.hu_sanniang",
+			"map": "guanbei.inn",
+			"zone": "guanbei.inn_hall",
+			"points": [
+				"guanbei.inn_hall.hu_sanniang.1"
+			],
+			"legacy_room": "native: 关北 A (the keeper behind her counter)",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "guanbei.inn_hall.qin_popo",
+			"npc": "native.npc.qin_popo",
+			"map": "guanbei.inn",
+			"zone": "guanbei.inn_hall",
+			"points": [
+				"guanbei.inn_hall.qin_popo.1"
+			],
+			"legacy_room": "native: 关北 A (剧情总纲 §3 第六章 ④: a wife waiting for a man the 兵部 took)",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "guanbei.inn_hall.qin_xiaoliu",
+			"npc": "native.npc.qin_xiaoliu",
+			"map": "guanbei.inn",
+			"zone": "guanbei.inn_hall",
+			"points": [
+				"guanbei.inn_hall.qin_xiaoliu.1"
+			],
+			"legacy_room": "native: 关北 A (her son beside her)",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "guanbei.inn_hall.lao_qin",
+			"npc": "native.npc.lao_qin",
+			"map": "guanbei.inn",
+			"zone": "guanbei.inn_hall",
+			"points": [
+				"guanbei.inn_hall.lao_qin.1"
+			],
+			"legacy_room": "native: 关北 A (剧情总纲 §3 第六章 ④; 逆灵宫 C's 关北民夫 let out of the dungeon: home in the corner on the rescue ledger, DECISIONS「逆灵宫 C」)",
+			"legacy_quantity": 1,
+			"present": {
+				"quest": "main.chapter3/choice/rescue"
+			}
+		},
+		{
+			"id": "guanbei.palace_front.gate_guards",
+			"npc": "native.npc.palace_gate_guard",
+			"map": "guanbei.town",
+			"zone": "guanbei.palace_front",
+			"points": [
+				"guanbei.palace_front.gate_guard.1",
+				"guanbei.palace_front.gate_guard.2"
+			],
+			"legacy_room": "native: 关北 B (剧情总纲 §3 第六章 ③, §2「槐阳王 程朔」, §6 关北卡; 计划 build/plans/关北_计划.md B 包; DECISIONS「关北 B」) (the two door guards either side of the 王府's gate)",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "guanbei.palace_yard.steward",
+			"npc": "native.npc.palace_steward",
+			"map": "guanbei.palace_court",
+			"zone": "guanbei.palace_yard",
+			"points": [
+				"guanbei.palace_yard.steward.1"
+			],
+			"legacy_room": "native: 关北 B (剧情总纲 §3 第六章 ③, §2「槐阳王 程朔」, §6 关北卡; 计划 build/plans/关北_计划.md B 包; DECISIONS「关北 B」) (the steward under the screen wall)",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "guanbei.drill.guo_cheng",
+			"npc": "native.npc.guo_cheng",
+			"map": "guanbei.palace_court",
+			"zone": "guanbei.drill",
+			"points": [
+				"guanbei.drill.guo_cheng.1"
+			],
+			"legacy_room": "native: 关北 B (剧情总纲 §3 第六章 ③, §2「槐阳王 程朔」, §6 关北卡; 计划 build/plans/关北_计划.md B 包; DECISIONS「关北 B」) (郭承 drilling the men)",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "guanbei.drill.soldiers",
+			"npc": "native.npc.palace_soldier",
+			"map": "guanbei.palace_court",
+			"zone": "guanbei.drill",
+			"points": [
+				"guanbei.drill.soldier.1",
+				"guanbei.drill.soldier.2",
+				"guanbei.drill.soldier.3",
+				"guanbei.drill.soldier.4"
+			],
+			"legacy_room": "native: 关北 B (剧情总纲 §3 第六章 ③, §2「槐阳王 程朔」, §6 关北卡; 计划 build/plans/关北_计划.md B 包; DECISIONS「关北 B」) (four at the posts)",
+			"legacy_quantity": 4
+		},
+		{
+			"id": "guanbei.palace_hall.cheng_shuo",
+			"npc": "native.npc.cheng_shuo",
+			"map": "guanbei.palace",
+			"zone": "guanbei.palace_hall",
+			"points": [
+				"guanbei.palace_hall.cheng_shuo.1"
+			],
+			"legacy_room": "native: 关北 B (剧情总纲 §3 第六章 ③, §2「槐阳王 程朔」, §6 关北卡; 计划 build/plans/关北_计划.md B 包; DECISIONS「关北 B」) (槐阳王 on his chair)",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "guanbei.palace_hall.guards",
+			"npc": "native.npc.palace_guard",
+			"map": "guanbei.palace",
+			"zone": "guanbei.palace_hall",
+			"points": [
+				"guanbei.palace_hall.guard.1",
+				"guanbei.palace_hall.guard.2"
+			],
+			"legacy_room": "native: 关北 B (剧情总纲 §3 第六章 ③, §2「槐阳王 程朔」, §6 关北卡; 计划 build/plans/关北_计划.md B 包; DECISIONS「关北 B」) (either side of the chair)",
+			"legacy_quantity": 2
+		},
+		{
+			"id": "guanbei.palace_hall.nan_weishui",
+			"npc": "native.npc.nan_weishui_guest",
+			"map": "guanbei.palace",
+			"zone": "guanbei.palace_hall",
+			"points": [
+				"guanbei.palace_hall.nan_weishui.1"
+			],
+			"legacy_room": "native: 关北 B (剧情总纲 §3 第六章 ③, §2「槐阳王 程朔」, §6 关北卡; 计划 build/plans/关北_计划.md B 包; DECISIONS「关北 B」) (南危水 beside his brother from the sixth chapter on, on the 保密 ledger only: the 水烟阁's forehall spawn leaves the stage on the same condition, DECISIONS「第二章旧案」)",
+			"legacy_quantity": 1,
+			"present": {
+				"all": [
+					{
+						"quest": "main.chapter2/choice/keep"
+					},
+					{
+						"quest": "main.chapter6#started"
+					}
+				]
+			}
+		}
 	]
 }

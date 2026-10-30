@@ -30,8 +30,19 @@ layout opens a 96 px doorway in the cliff rows there, a stone gate as a `buildin
 | 塞外酒肆, 胡三娘, 秦婆子, 秦小六 | 剧情总纲 §3 第六章 ④ (the men taken to the 工地); the lived-in layer (美术规划 §2 第 6 条) |
 | 老秦 | 逆灵宫 B/C's two 关北民夫 in the dungeon's third cell (DECISIONS「逆灵宫 C」: 开门就走，「俺们回关北」) |
 
-## Deferred to B–D
+## Sources by thing (B)
 
-The 王府 (its door, 程朔, 郭承, the 保密线 reunion with 南危水, the 借兵／潜入 choice), the market's 东门, the
-camp, the steppe, the 工地 and the 古冢口, the notice's second text and the other consequences, the
-`chapter7.json` stub and 《马刀谱》 (the plan `build/plans/关北_计划.md` §6).
+| Thing | Continues |
+|---|---|
+| 程朔, the 王府, its hall and court | 剧情总纲 §2 槐阳王 (name the outline's), §6 关北卡; elder5.c, court1.c, magistra.c:22 (the three ES2 lines that make one family) |
+| the 王府大门 knocked open with the letter | DECISIONS「第五章 人证」's drum (空口无凭); a `found_by` door wants a landmark, a scene or an act behind its mark |
+| 郭承, the drill yard, the posts hacked on the left shoulder | magistra.c:22 骁将; 剧情总纲 §6 马上刀法 (the 《马刀谱》 is D's) |
+| 南危水 home in the hall (保密 ledger) | elder5.c 槐阳王的弟弟; DECISIONS「第二章旧案」's two marks; his 水烟阁 greeting 到了关北，老夫替你引见槐阳王 |
+| the side hall's map with the 工地 ringed | 剧情总纲 §3 第六章 ④ (where C's 工地 lies) |
+
+## Deferred to C–D
+
+The market's 东门, the camp, the steppe, the 工地 and the 古冢口 (the raid with the riders fighting beside the
+player — `fights_beside_player` moved from B to C, where the first such fight is — and the night's sneak), the
+notice's second text and the other consequences, the `chapter7.json` stub and 《马刀谱》 (the plan
+`build/plans/关北_计划.md` §6).

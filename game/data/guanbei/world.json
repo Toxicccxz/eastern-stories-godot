@@ -6,7 +6,9 @@
 		{ "id": "guanbei.gorge", "region": "guanbei", "scene": "res://scenes/world/guanbei/guanbei_gorge.tscn", "entry": "guanbei.gate_road.pass_arrival" },
 		{ "id": "guanbei.town", "region": "guanbei", "scene": "res://scenes/world/guanbei/guanbei_town.tscn", "entry": "guanbei.gate.gorge_arrival" },
 		{ "id": "guanbei.horse_market", "region": "guanbei", "scene": "res://scenes/world/guanbei/guanbei_market.tscn", "entry": "guanbei.market.street_arrival" },
-		{ "id": "guanbei.inn", "region": "guanbei", "scene": "res://scenes/world/guanbei/guanbei_inn.tscn", "entry": "guanbei.inn_hall.market_entry", "interior": true }
+		{ "id": "guanbei.inn", "region": "guanbei", "scene": "res://scenes/world/guanbei/guanbei_inn.tscn", "entry": "guanbei.inn_hall.market_entry", "interior": true },
+		{ "id": "guanbei.palace_court", "region": "guanbei", "scene": "res://scenes/world/guanbei/guanbei_palace_court.tscn", "entry": "guanbei.palace_yard.gate_arrival", "interior": true },
+		{ "id": "guanbei.palace", "region": "guanbei", "scene": "res://scenes/world/guanbei/guanbei_palace.tscn", "entry": "guanbei.palace_hall.yard_entry", "interior": true }
 	],
 	"zones": [
 		{ "id": "guanbei.gate_road", "map": "guanbei.gorge", "rooms": ["native:guanbei/gate_road"] },
@@ -17,7 +19,11 @@
 		{ "id": "guanbei.palace_front", "map": "guanbei.town", "rooms": ["native:guanbei/palace_front"] },
 		{ "id": "guanbei.market", "map": "guanbei.horse_market", "rooms": ["native:guanbei/market"] },
 		{ "id": "guanbei.inn_hall", "map": "guanbei.inn", "indoors": true, "rooms": ["native:guanbei/inn_hall"] },
-		{ "id": "guanbei.inn_back", "map": "guanbei.inn", "indoors": true, "rooms": ["native:guanbei/inn_back"] }
+		{ "id": "guanbei.inn_back", "map": "guanbei.inn", "indoors": true, "rooms": ["native:guanbei/inn_back"] },
+		{ "id": "guanbei.palace_yard", "map": "guanbei.palace_court", "indoors": true, "rooms": ["native:guanbei/palace_yard"] },
+		{ "id": "guanbei.drill", "map": "guanbei.palace_court", "indoors": true, "rooms": ["native:guanbei/drill"] },
+		{ "id": "guanbei.palace_hall", "map": "guanbei.palace", "indoors": true, "rooms": ["native:guanbei/palace_hall"] },
+		{ "id": "guanbei.side_hall", "map": "guanbei.palace", "indoors": true, "rooms": ["native:guanbei/side_hall"] }
 	],
 	"portals": [
 		{ "id": "guanbei.gate_road.south", "from_zone": "guanbei.gate_road", "to_zone": "canyon.canyon7", "to_spawn": "canyon.canyon7.gate_return", "legacy_room": "native:guanbei/gate_road", "legacy_command": "south" },
@@ -26,16 +32,28 @@
 		{ "id": "guanbei.street.east", "from_zone": "guanbei.street", "to_zone": "guanbei.market", "to_spawn": "guanbei.market.street_arrival", "legacy_room": "native:guanbei/street", "legacy_command": "east" },
 		{ "id": "guanbei.market.west", "from_zone": "guanbei.market", "to_zone": "guanbei.street", "to_spawn": "guanbei.street.market_return", "legacy_room": "native:guanbei/market", "legacy_command": "west" },
 		{ "id": "guanbei.market.north", "from_zone": "guanbei.market", "to_zone": "guanbei.inn_hall", "to_spawn": "guanbei.inn_hall.market_entry", "legacy_room": "native:guanbei/market", "legacy_command": "north" },
-		{ "id": "guanbei.inn_hall.south", "from_zone": "guanbei.inn_hall", "to_zone": "guanbei.market", "to_spawn": "guanbei.market.inn_return", "legacy_room": "native:guanbei/inn_hall", "legacy_command": "south" }
+		{ "id": "guanbei.inn_hall.south", "from_zone": "guanbei.inn_hall", "to_zone": "guanbei.market", "to_spawn": "guanbei.market.inn_return", "legacy_room": "native:guanbei/inn_hall", "legacy_command": "south" },
+		{ "id": "guanbei.palace_front.north", "from_zone": "guanbei.palace_front", "to_zone": "guanbei.palace_yard", "to_spawn": "guanbei.palace_yard.gate_arrival", "legacy_room": "native:guanbei/palace_front", "legacy_command": "north" },
+		{ "id": "guanbei.palace_yard.south", "from_zone": "guanbei.palace_yard", "to_zone": "guanbei.palace_front", "to_spawn": "guanbei.palace_front.yard_return", "legacy_room": "native:guanbei/palace_yard", "legacy_command": "south" },
+		{ "id": "guanbei.palace_yard.north", "from_zone": "guanbei.palace_yard", "to_zone": "guanbei.palace_hall", "to_spawn": "guanbei.palace_hall.yard_entry", "legacy_room": "native:guanbei/palace_yard", "legacy_command": "north" },
+		{ "id": "guanbei.palace_hall.south", "from_zone": "guanbei.palace_hall", "to_zone": "guanbei.palace_yard", "to_spawn": "guanbei.palace_yard.hall_return", "legacy_room": "native:guanbei/palace_hall", "legacy_command": "south" }
+	],
+	"doors": [
+		{ "id": "guanbei.palace.gate", "name": "王府大门", "zones": ["guanbei.palace_front", "guanbei.palace_yard"], "reach": 90, "operable": false, "closable": false, "found_by": "王府放行", "legacy_room": "native:guanbei/palace_yard" }
 	],
 	"landmarks": [
 		{ "id": "guanbei.gate_road.landmark.gate", "zone": "guanbei.gate_road", "name": "关门", "policy": "look", "long": "回头看，关门是一座石砌的门楼，门洞里嵌着铁栅，这会儿抬着。门楼上没有匾，只钉着一面褪了色的黄旗，旗上一个「严」字。门里是天驼关的谷地，门外就是关北了。\n", "legacy_source": "native: 关北 A (剧情总纲 §3 第六章 ①②, §6 关北卡; 计划 build/plans/关北_计划.md §1a; DECISIONS「关北 A」) — the gate in the valley's east wall, 续写 (canyon7.c has no way out but north and south); the 「严」 is 严廷殷's, d/canyon/npc/general.c" },
 		{ "id": "guanbei.boundary.landmark.stone", "zone": "guanbei.boundary", "name": "界碑", "policy": "look", "teaches": ["到了关北"], "long": "一方齐人高的青石碑，碑面朝南，刻着「关北封国界」五个大字，字口里的朱漆早褪成了褐色。碑脚堆着过路人放的石子，碑背面有人用刀刻了一行小字：「出了关，就是王法。」\n", "legacy_source": "native: 关北 A (剧情总纲 §2「槐阳王 程朔」, §6 关北卡「规矩是王法不是朝法」; doc/help/plan:19「关北是槐阳王的封国，关内则是王畿之地」) — the fief's boundary stone, 续写" },
 		{ "id": "guanbei.gate.landmark.wall", "zone": "guanbei.gate", "name": "城墙", "policy": "look", "long": "夯土的城墙，一层一层夯出来的横纹看得清清楚楚，墙根被风沙磨得发白，墙头长着一丛丛枯黄的草。门楼也是土的，木梁朱漆褪成了砖红，梁上画着石青的卷草。这不是京师的城，是塞外的城。\n", "legacy_source": "native: 关北 A (剧情总纲 §6 关北卡「塞外——风沙、草原、马市、帐篷」; 美术规划 §1 关北: 夯土黄褐、王府褪红与石青) — 续写" },
 		{ "id": "guanbei.market.landmark.pen", "zone": "guanbei.market", "name": "马栏", "policy": "look", "long": "木栏围着的马栏，栏里十来匹马，枣红的、青的、黑的，都是关北的矮脚马，耐跑。栏外的木桩上拴着两匹，是刚换了主的。马粪和草料的味道混在一起，风一吹满街都是。\n", "legacy_source": "native: 关北 A (剧情总纲 §3 第六章 ②「边城槐阳城、草原、马市、帐篷」) — 续写" },
+		{ "id": "guanbei.palace_front.landmark.drums", "zone": "guanbei.palace_front", "name": "石鼓", "policy": "look", "long": "一对石鼓，鼓面让几十年的手摸得溜光，鼓身上刻的不是狮子，是两匹对着的马。鼓脚的石头裂了一道，用铁箍箍着。\n", "legacy_source": "native: 关北 B (剧情总纲 §3 第六章 ③, §2「槐阳王 程朔」, §6 关北卡; 计划 build/plans/关北_计划.md B 包; DECISIONS「关北 B」) — 续写" },
+		{ "id": "guanbei.drill.landmark.posts", "zone": "guanbei.drill", "name": "木人", "policy": "look", "long": "校场边一排木人，每个木人的左肩都让刀劈去了一块——王府的骁将练的是马上一撩的刀，撩的都是同一个地方。木人脚下的土踩得比石头还硬。\n", "legacy_source": "native: 关北 B (剧情总纲 §3 第六章 ③, §2「槐阳王 程朔」, §6 关北卡; 计划 build/plans/关北_计划.md B 包; DECISIONS「关北 B」) (郭承 and the 马上刀法 of 剧情总纲 §6 关北卡) — 续写" },
+		{ "id": "guanbei.palace_hall.landmark.chair", "zone": "guanbei.palace_hall", "name": "交椅", "policy": "look", "long": "正厅上首不是龙椅，是一把旧的胡床交椅，椅背上搭一张虎皮，虎皮的毛磨秃了一半。椅子旁立着一架兵器，刀在上，剑在下，都不是摆设——刀口上有新磨的痕。\n", "legacy_source": "native: 关北 B (剧情总纲 §3 第六章 ③, §2「槐阳王 程朔」, §6 关北卡; 计划 build/plans/关北_计划.md B 包; DECISIONS「关北 B」) (程朔 直来直去，不说本王; 剧情总纲 §10) — 续写" },
+		{ "id": "guanbei.side_hall.landmark.map", "zone": "guanbei.side_hall", "name": "地图", "policy": "look", "teaches": ["看过王府的地图"], "long": "偏厅的墙上钉着一张羊皮地图：槐阳城在中间，南边一道山是天驼关，东边一片草原画到纸边。草原东头用朱砂圈了一个圈，圈边写着三个小字：「兵部 · 工地」。圈旁边另一行墨字，笔迹不同：「古冢。勿动。」\n", "legacy_source": "native: 关北 B (剧情总纲 §3 第六章 ③, §2「槐阳王 程朔」, §6 关北卡; 计划 build/plans/关北_计划.md B 包; DECISIONS「关北 B」) (剧情总纲 §3 第六章 ④: 草原上的工地, 庾子建信遗书末两句指的是北方的旧地) — 续写; where C's 工地 lies" },
 		{ "id": "guanbei.inn_hall.landmark.hearth", "zone": "guanbei.inn_hall", "name": "火塘", "policy": "look", "long": "屋子正中挖出来的火塘，四边砌着石头，塘里的羊粪火不旺，却一直不灭。火上吊着一口黑锅，锅里的羊肉咕嘟咕嘟地响。火塘边的地上磨得油亮，是多少年来人坐出来的。\n", "legacy_source": "native: 关北 A (剧情总纲 §6 关北卡「异域感：塞外」; 美术规划 §2 第 6 条 lived-in) — 续写" }
 	],
 	"services": [
+		{ "id": "guanbei.palace_front.knock", "kind": "act", "zone": "guanbei.palace_front", "name": "王府大门", "reach": 96, "legacy_source": "native: 关北 B (剧情总纲 §3 第六章 ③; 计划 build/plans/关北_计划.md B 包; DECISIONS「关北 B」) — knocking at the 王府's gate: 程不平's letter opens it (the mark 王府放行 finds the door), 空口无凭 keeps it shut, as the 衙门's drum (DECISIONS「第五章 人证」)", "act": { "verb": "叩门", "acts": [ { "mark": "王府放行", "steps": [ { "line": "门军侧身让开：进去吧，王爷在正厅。\n" } ] }, { "carries": "信", "steps": [ { "line": "你叩了叩门。门军接过信看了看封皮，又看了看你。\n" }, { "line": "门军说道：乔阴程县令的信——王爷等这封信等了半个月了。进去，正厅。\n" }, { "line": "朱门开了。\n" }, { "mark": "王府放行" } ] }, { "steps": [ { "line": "你叩了叩门。门军没有动：王爷不见生人。有凭据再来。\n" } ] } ] } },
 		{ "id": "guanbei.gate.notice", "kind": "act", "zone": "guanbei.gate", "name": "告示", "reach": 96, "legacy_source": "native: 关北 A (剧情总纲 §2「老王爷拒绝了兵部征民夫的令，被扣上『不奉诏』」, §3 第六章 ③; DECISIONS「第五章 人证」的带刀侍卫「老王爷拒了」; DECISIONS「关北 A」) — the refusal made visible on the city gate, 续写", "act": { "verb": "看", "acts": [ { "steps": [ { "line": "一张告示钉在城门旁的木板上，纸已经让风沙打得发毛，字是粗笔写的：\n" }, { "line": "「兵部征夫令，本府不奉。有持兵部文书到关北拿人者，以盗论。——槐阳王府」\n", "color": "HIW" }, { "line": "告示底下盖着一方大印，印色正红。你见过逆灵宫那叠文书上的印——这一方和那些不一样。\n" }, { "mark": "看过王府告示" } ] } ] } }
 	]
 }

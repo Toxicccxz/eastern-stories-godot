@@ -6,9 +6,9 @@
 			"line": "main",
 			"region": "关北",
 			"sources": [
-				"native: 主线 第六章 关北 (剧情总纲 §3 第六章, §6 关北卡; 计划 build/plans/关北_计划.md §3, owner 2026-10-30「按推荐批准」; DECISIONS「关北 A」) over d/canyon/npc/general.c (严廷殷「京师武功第一」, the 印鉴 he asks found), adviser.c (八两银子说出秘密: the mould is the outline's), seller.c (the two 印鉴, the real one's HIY: the 印色之差 made visible), d/canyon/README (收取过路费: the east gate's soldiers), canyon7.c (the valley: its east gate is the outline's), doc/help/plan:19 (关北是槐阳王的封国). The 槐阳城, the 王府, the 工地 and the choice are the outline's; A ends at the city's notice."
+				"native: 主线 第六章 关北 (剧情总纲 §3 第六章, §6 关北卡; 计划 build/plans/关北_计划.md §3, owner 2026-10-30「按推荐批准」; DECISIONS「关北 A」) over d/canyon/npc/general.c (严廷殷「京师武功第一」, the 印鉴 he asks found), adviser.c (八两银子说出秘密: the mould is the outline's), seller.c (the two 印鉴, the real one's HIY: the 印色之差 made visible), d/canyon/README (收取过路费: the east gate's soldiers), canyon7.c (the valley: its east gate is the outline's), doc/help/plan:19 (关北是槐阳王的封国). The 槐阳城, the 王府, the 工地 and the choice are the outline's; A ends at the city's notice; B adds the 王府 (程朔, 郭承, the reunion with 南危水 on the 保密 ledger) and the choice 借兵／潜入 (DECISIONS「关北 B」); the 工地 is C's."
 			],
-			"summary": "假印和失踪的人都往关北去了。先在天驼关把印的事问清楚，再出关去槐阳城，把程不平的信递给槐阳王。",
+			"summary": "假印和失踪的人都往关北去了。先在天驼关把印的事问清楚，再出关去槐阳城，把程不平的信递给槐阳王；然后借兵踏平工地，或者带郭承夜里潜进去。",
 			"requires": [
 				"main.chapter5"
 			],
@@ -87,14 +87,56 @@
 				},
 				{
 					"id": "palace",
-					"objective": "王府在大街北头。把程不平的信递给槐阳王程朔。",
+					"objective": "王府在大街北头。门军认程不平的信；把信递给槐阳王程朔。",
 					"done": {
 						"mark": "信递到了"
 					},
-					"text": "信递到了槐阳王手里。",
+					"text": "程朔读了信：兵部的印是真的，令不是先帝的——他早说了。失踪的人在草原东边兵部的工地上挖一座古冢，挖不动的让道士的车接走。两条路：借他的兵踏平，或者让郭承带你夜里进去。",
 					"target": {
-						"map": "guanbei.town",
-						"zone": "guanbei.palace_front"
+						"map": "guanbei.palace",
+						"zone": "guanbei.palace_hall"
+					}
+				},
+				{
+					"id": "plan",
+					"objective": "借槐阳王的兵踏平工地（问程朔「借兵」：救下所有人，但兵部会说关北反了），或带骁将郭承夜里潜入（在校场问郭承「潜入」：救一半，王府干净）。",
+					"target": {
+						"map": "guanbei.palace",
+						"zone": "guanbei.palace_hall"
+					},
+					"options": [
+						{
+							"id": "raid",
+							"done": {
+								"mark": "借了兵"
+							},
+							"text": "你借了槐阳王的兵。程朔：「踏平了，兵部的文书第二天就到京师：槐阳王反了。」郭承领六骑听你的。",
+							"reward": {
+								"deed": "借了槐阳王的兵，要踏平兵部的工地"
+							}
+						},
+						{
+							"id": "sneak",
+							"done": {
+								"mark": "约好了潜入"
+							},
+							"text": "你和郭承约好了夜里潜入工地。「救得几个算几个，救不完的别回头。王府不知道这件事。」",
+							"reward": {
+								"deed": "和王府骁将郭承约好夜里潜入工地"
+							}
+						}
+					]
+				},
+				{
+					"id": "site",
+					"objective": "去草原东边兵部的工地（出马市东门，过帐篷营地）。借了兵的，郭承的六骑在东门外等你；约好潜入的，天黑后在营地的篝火边等郭承。",
+					"done": {
+						"mark": "到了工地"
+					},
+					"text": "草原东边的工地。",
+					"target": {
+						"map": "guanbei.horse_market",
+						"zone": "guanbei.market"
 					}
 				}
 			],
