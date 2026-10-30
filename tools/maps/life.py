@@ -141,7 +141,8 @@ def _keep(entry: dict, drawn, walk: set) -> tuple[set, list, set]:
             keep.update(_box_cells(_grown(tuple(item['rect']), 2 * T)))
     # What the voxel config stands on the floor (lamps, pots) or hangs on the walls.
     for prop in config_props(entry):
-        if prop.get('kind') in FLAT:
+        # A trail is its points, a far peak is scenery: only what stands at a spot takes room.
+        if prop.get('kind') in FLAT or 'at' not in prop:
             continue
         x, y = prop['at']
         w, h = prop.get('size', [32, 32])

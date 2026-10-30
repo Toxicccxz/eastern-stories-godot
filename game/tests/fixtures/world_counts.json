@@ -126,9 +126,11 @@
 		"chuenyu.castle",
 		"death.realm",
 		"death.inn1_house",
-		"death.inn2_house"
+		"death.inn2_house",
+		"niling.slope",
+		"niling.gate"
 	],
-	"rooms": 538,
+	"rooms": 544,
 	"snow_outdoor_portals": [
 		"snow.square.west",
 		"snow.eroad3.south",
@@ -433,6 +435,10 @@
 		"death.realm.bridge.hell_guards",
 		"death.realm.gate.wgargoyle",
 		"death.realm.gateway.bgargoyle",
+		"niling.winch.winch_taoist",
+		"niling.gatehouse.gatekeeper",
+		"niling.yard.gate_guards",
+		"niling.store.store_taoist",
 		"native.school2.wooden_dummy.1",
 		"native.school2.wooden_dummy.2",
 		"native.school2.wooden_dummy.3",
@@ -451,9 +457,9 @@
 		"native.caves.black_taoist",
 		"native.mroad4.tribute_taoists"
 	],
-	"world_npcs": 481,
-	"resident_maps": 127,
-	"new_game_items": 799,
+	"world_npcs": 486,
+	"resident_maps": 129,
+	"new_game_items": 815,
 	"snow_outdoor_passages": 18,
 	"map_zones": {
 		"snow.inn": 1,
@@ -582,7 +588,9 @@
 		"chuenyu.castle": 8,
 		"death.realm": 7,
 		"death.inn1_house": 1,
-		"death.inn2_house": 1
+		"death.inn2_house": 1,
+		"niling.slope": 3,
+		"niling.gate": 3
 	},
 	"map_npcs": {
 		"snow.inn": 3,
@@ -711,7 +719,9 @@
 		"chuenyu.castle": 13,
 		"death.realm": 6,
 		"death.inn1_house": 0,
-		"death.inn2_house": 0
+		"death.inn2_house": 0,
+		"niling.slope": 1,
+		"niling.gate": 4
 	},
 	"npc_draws_after_oldpine": 2550,
 	"technical_maps": 9,

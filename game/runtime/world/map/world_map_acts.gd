@@ -50,6 +50,12 @@ func facts(room_zone_id: StringName = &"") -> ScriptedAct.Facts:
 		var content: ItemContentDefinition = null if item == null else GameContent.catalog().item(item.item_definition_id)
 		if content != null:
 			known.carried.append_array(content.aliases())
+	if _player.armor != null:
+		for slot: StringName in _player.armor.occupied_slots():
+			var reference: EquippedArmorRef = _player.armor.equipped_ref_in_slot(slot)
+			var content: ItemContentDefinition = null if reference == null else GameContent.catalog().item(reference.item_definition_id)
+			if content != null:
+				known.worn.append_array(content.aliases())
 	return known
 
 

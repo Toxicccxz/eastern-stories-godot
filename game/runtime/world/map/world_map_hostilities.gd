@@ -413,7 +413,7 @@ func toll_pending(npc: NpcRuntimeState) -> bool:
 func _toll_applies(npc: NpcRuntimeState) -> bool:
 	return (
 		_player != null and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE and not npc.relationship.is_fighting()
-		and npc.definition().attacks_on_sight(npc.flags(), _player.state, _parley())
+		and npc.definition().attacks_on_sight(npc.flags(), _player.state, _parley(), _ignored(npc))
 		and npc.definition().toll_attack_delay_ms(npc.flags(), _player.state, _parley()) > 0
 	)
 
@@ -444,6 +444,17 @@ func _toll_due(npc: NpcRuntimeState) -> bool:
 ## Whether the story's parley holds (DECISIONS「老松寨的三条路」; 经典: off).
 static func _parley() -> bool:
 	return GameContent.catalog().pacing().story_parley
+
+
+## Native (逆灵宫 A; DECISIONS「逆灵宫 A」): whether `npc` takes the player for one of its own now
+## (its dealings' `ignores_when`: the 黑冠 on their head, a mark they bear) and so does not
+## fall on them; read against the player's state, what they carry and wear, where they stand.
+func _ignored(npc: NpcRuntimeState) -> bool:
+	var condition: JournalEntryDefinition = npc.definition().dealings().ignores_when
+	if condition == null or _player == null or session == null:
+		return false
+	var location: WorldLocationState = _player.world_location()
+	return JournalLog.holds(condition, _player.state, _player.temp_marks, session.player_held_item_ids(), &"" if location == null else location.zone_id, session.player_worn_item_ids())
 
 
 ## gangster.c kill_passenger() sets attitude "aggressive", and attack.c's hatred
@@ -671,8 +682,9 @@ func collect_complete_combat_entry(cause: int, requested_target: StringName = &"
 	for npc: NpcRuntimeState in _map.npcs.residents:
 		var id: StringName = npc.character_id
 		var named: bool = manual and id == requested_target
+		# The player's own 攻击 brings the room down on them, whoever took them for one of their own.
 		var on_sight: bool = (
-			npc.definition().attacks_on_sight(npc.flags(), _player.state, _parley())
+			npc.definition().attacks_on_sight(npc.flags(), _player.state, _parley(), not manual and _ignored(npc))
 			and aggression._evaluate(npc, _player, _combat_allowed(npc)).outcome == NpcAggressionDecision.Outcome.READY
 		)
 		if not on_sight and not named:

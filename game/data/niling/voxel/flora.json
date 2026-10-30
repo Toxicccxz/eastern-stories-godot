@@ -1,0 +1,18 @@
+{
+  "note": "逆灵宫 (美术规划 §1 野羊山: 土黄、灰褐、暗橄榄; the north slope colder): straw-brown dry grass gone grey at the tips, low thorn scrub, wind-broken mountain pines nearly black, dead trees; no blossom, no butterflies. The region's default flora; a map's own `flora` overrides it key by key.",
+  "crown_colors": {
+    "mountain_pine": ["2a3228", "384232", "48523c", "5a6446"],
+    "scrub": ["5a5634", "6e683c", "848048", "9a9654"],
+    "shrub": ["4e4e34", "62623e", "787848", "8e8e54"],
+    "dead": ["5a5248", "6a6254", "7a7262", "8a8270"],
+    "stunted_pine": ["303a2a", "404a32", "525c3a", "646e44"]
+  },
+  "bark_colors": {
+    "mountain_pine": ["3e3630", "4a4038", "332c28"],
+    "scrub": ["5a5244", "6a6250"],
+    "shrub": ["5a5244", "6a6250"],
+    "dead": ["6a6256", "7a7264"]
+  },
+  "grass_colors": ["766c46", "8c8254", "a49a62", "b8ae74"],
+  "flower_colors": ["b8b0a0", "8a7a90", "a09078", "c0b8a8"]
+}

@@ -1,0 +1,61 @@
+{
+	"rooms": [
+		{
+			"id": "native:niling/winch",
+			"short": "裂口顶",
+			"long": "野羊山北麓的崖顶。脚下就是那道裂口，一根粗麻绳从绞盘上绕下去，没进黑黝黝的口子里——山路转角的纳供就是从这里吊上来的。\n吊上来的箱子在平台上堆了一人高，箱板上烙着「羊」字。北边一条货道沿着山脊往北麓去，尽头隐约是一片黑砖的屋脊。\n",
+			"outdoors": true,
+			"exits": {
+				"north": "native:niling/goods_path"
+			}
+		},
+		{
+			"id": "native:niling/goods_path",
+			"short": "北麓货道",
+			"long": "一条被车轮和脚印压实的货道，顺着北麓的山脊往北去。两旁是枯黄的长草和风化的黑灰色岩石，没有一棵像样的树。\n路北头立着一座全用黑砖砌成的大道观，山门敞着，门里黑幡垂地；靠东有一条岔路绕向道观的东墙根。\n",
+			"outdoors": true,
+			"exits": {
+				"south": "native:niling/winch",
+				"north": "native:niling/gatehouse",
+				"east": "native:niling/side_door"
+			}
+		},
+		{
+			"id": "native:niling/side_door",
+			"short": "货栈侧门",
+			"long": "道观东墙根下的一块空地，车辙到这里为止。黑砖墙上开着一扇矮门，门楣上没有字，门槛磨得发白——供品是从这里进去的。\n",
+			"outdoors": true,
+			"exits": {
+				"west": "native:niling/goods_path",
+				"north": "native:niling/store"
+			}
+		},
+		{
+			"id": "native:niling/gatehouse",
+			"short": "黑砖山门",
+			"long": "逆灵宫的山门。黑砖砌的门楼有两丈高，门扇敞着，门洞里凉得像井底。两侧各挑着一盏暗红的灯笼，白天也点着。\n门房的桌上摊着一本簿子，桌后坐着一个黑衣黑冠的道士。\n",
+			"exits": {
+				"south": "native:niling/goods_path",
+				"north": "native:niling/yard"
+			}
+		},
+		{
+			"id": "native:niling/yard",
+			"short": "前院",
+			"long": "黑砖铺地的大院子，踩上去没有一点声响。院当中一只黑铁香炉，烧的不是香，是一股子苦味。四面黑幡垂地，风过时幡上的字一闪一闪，看不清写的什么。\n北边是前殿，殿门紧闭；东侧一排矮房是货栈。\n",
+			"exits": {
+				"south": "native:niling/gatehouse",
+				"east": "native:niling/store"
+			}
+		},
+		{
+			"id": "native:niling/store",
+			"short": "货栈",
+			"long": "一间堆满箱笼的矮房，箱子上都烙着「羊」字，有的开着，露出金帛、腌肉和成捆的麻绳。角落里几只箱子钉得死紧，箱盖上用朱砂画着符。\n南墙的矮门通向墙外，西边的门进前院。\n",
+			"exits": {
+				"west": "native:niling/yard",
+				"south": "native:niling/side_door"
+			}
+		}
+	]
+}

@@ -18,10 +18,11 @@ static func stage(session: WorldSessionController, map: WorldMapController) -> v
 		return
 	var catalog: ContentCatalog = GameContent.catalog()
 	var held: Dictionary[StringName, bool] = session.player_held_item_ids()
+	var worn: Dictionary[StringName, bool] = session.player_worn_item_ids()
 	for spawn: NpcSpawnDefinition in catalog.spawns_for_map(map.map_id()):
 		if not spawn.staged:
 			continue
-		var on: bool = on_stage(spawn.present, spawn.until, player, held)
+		var on: bool = on_stage(spawn.present, spawn.until, player, held, worn)
 		for point_id: StringName in spawn.spawn_point_ids():
 			var npc: NpcRuntimeState = map.npcs.npc_at_point(point_id)
 			if npc == null or npc.life_status == CharacterRuntimeLifeStatus.Value.DEAD or npc.has_flag(NpcDefinition.FLAG_GONE):
@@ -33,7 +34,7 @@ static func stage(session: WorldSessionController, map: WorldMapController) -> v
 	for spawn: ItemSpawnDefinition in catalog.item_spawns_for_map(map.map_id()):
 		if not spawn.staged:
 			continue
-		var on: bool = on_stage(spawn.present, spawn.until, player, held)
+		var on: bool = on_stage(spawn.present, spawn.until, player, held, worn)
 		for point_id: StringName in spawn.spawn_point_ids():
 			var item_id: StringName = map.floor_items.spawn_item_id(point_id)
 			var made: bool = map.inventory_state().is_registered(item_id)
@@ -47,7 +48,7 @@ static func stage(session: WorldSessionController, map: WorldMapController) -> v
 
 
 ## Whether a spawn with these conditions is on the stage for this player.
-static func on_stage(present: JournalEntryDefinition, until: JournalEntryDefinition, player: WorldPlayerRuntimeState, held: Dictionary[StringName, bool]) -> bool:
-	if present != null and not JournalLog.holds(present, player.state, player.temp_marks, held):
+static func on_stage(present: JournalEntryDefinition, until: JournalEntryDefinition, player: WorldPlayerRuntimeState, held: Dictionary[StringName, bool], worn: Dictionary[StringName, bool] = {}) -> bool:
+	if present != null and not JournalLog.holds(present, player.state, player.temp_marks, held, &"", worn):
 		return false
-	return until == null or not JournalLog.holds(until, player.state, player.temp_marks, held)
+	return until == null or not JournalLog.holds(until, player.state, player.temp_marks, held, &"", worn)

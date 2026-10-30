@@ -216,6 +216,10 @@ msgstr ""
 #. chuenyu.npc.smallgardener gender
 #. chuenyu.npc.cook gender
 #. chuenyu.npc.chuenyu gender
+#. native.npc.niling_winch_taoist gender
+#. native.npc.niling_gatekeeper gender
+#. native.npc.niling_gate_guard gender
+#. native.npc.niling_store_taoist gender
 #. native.npc.wooden_dummy.1 gender
 #. native.npc.wooden_dummy.2 gender
 #. native.npc.wooden_dummy.3 gender
@@ -236,7 +240,7 @@ msgstr ""
 #. native.npc.black_taoist_pass gender
 #. native.npc.black_taoist gender
 #. native.npc.tribute_taoist gender
-#: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/native/npcs.json
+#: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/native/npcs.json
 msgid "男性"
 msgstr ""
 
@@ -1729,6 +1733,14 @@ msgstr ""
 msgid "南 · 雪亭镇"
 msgstr ""
 
+#: scenes/world/goathill/goathill_mountain.tscn
+msgid "油布 · 钻进车里"
+msgstr ""
+
+#: scenes/world/goathill/goathill_mountain.tscn
+msgid "绳索 · 攀绳上去"
+msgstr ""
+
 #. es2:d/goathill/temple1 short
 #: scenes/world/goathill/temple_house.tscn data/goathill/rooms.json
 msgid "小土地庙"
@@ -1940,7 +1952,8 @@ msgid "土地庙"
 msgstr ""
 
 #. es2:d/latemoon/park/yard1 short
-#: scenes/world/latemoon/latemoon_garden.tscn data/latemoon/rooms.json
+#. native:niling/yard short
+#: scenes/world/latemoon/latemoon_garden.tscn scenes/world/niling/niling_gate.tscn data/latemoon/rooms.json data/niling/rooms.json
 msgid "前院"
 msgstr ""
 
@@ -2237,6 +2250,43 @@ msgstr ""
 msgid "缀芳阁 · 静修"
 msgstr ""
 
+#. native:niling/gatehouse short
+#: scenes/world/niling/niling_gate.tscn data/niling/rooms.json
+msgid "黑砖山门"
+msgstr ""
+
+#. native:niling/store short
+#: scenes/world/niling/niling_gate.tscn data/niling/rooms.json
+msgid "货栈"
+msgstr ""
+
+#. native:niling/winch short
+#: scenes/world/niling/niling_slope.tscn data/niling/rooms.json
+msgid "裂口顶"
+msgstr ""
+
+#. native:niling/goods_path short
+#: scenes/world/niling/niling_slope.tscn data/niling/rooms.json
+msgid "北麓货道"
+msgstr ""
+
+#. native:niling/side_door short
+#: scenes/world/niling/niling_slope.tscn data/niling/rooms.json
+msgid "货栈侧门"
+msgstr ""
+
+#: scenes/world/niling/niling_slope.tscn
+msgid "北 · 逆灵宫山门"
+msgstr ""
+
+#: scenes/world/niling/niling_slope.tscn
+msgid "南 · 裂口 · 野羊山山路"
+msgstr ""
+
+#: scenes/world/niling/niling_slope.tscn
+msgid "绳索 · 下到山路"
+msgstr ""
+
 #. common.npc.swordsman.master inquiry topic
 #. oldpine.npc.bandit_guard inquiry topic
 #. oldpine.npc.bandit_commander inquiry topic
@@ -2384,7 +2434,8 @@ msgstr ""
 
 #. es2:d/temple/temple2 short
 #. es2:d/sanyen/back_temple short
-#: scenes/world/sanyen/back_temple_house.tscn scenes/world/temple/temple2_house.tscn data/temple/rooms.json data/sanyen/rooms.json data/sanyen/voxel/grounds.json
+#. native.npc.niling_gatekeeper inquiry topic
+#: scenes/world/sanyen/back_temple_house.tscn scenes/world/temple/temple2_house.tscn data/temple/rooms.json data/sanyen/rooms.json data/niling/npcs.json data/sanyen/voxel/grounds.json
 msgid "后殿"
 msgstr ""
 
@@ -10294,7 +10345,8 @@ msgstr ""
 #. es2:d/waterfog/obj/red_hat unit
 #. es2:d/temple/obj/hat unit
 #. es2:d/temple/npc/obj/jade_hat unit
-#: data/common/items.json data/choyin/items.json data/canyon/items.json data/waterfog/items.json data/temple/items.json
+#. native:niling/black_crown unit
+#: data/common/items.json data/choyin/items.json data/canyon/items.json data/waterfog/items.json data/temple/items.json data/niling/items.json
 msgid "顶"
 msgstr ""
 
@@ -15578,8 +15630,13 @@ msgstr ""
 
 #. main.chapter3 title
 #. goathill.npc.bandit_hwang inquiry topic
+#. native.npc.niling_winch_taoist inquiry topic
+#. native.npc.niling_gatekeeper inquiry topic
+#. native.npc.niling_gate_guard inquiry topic
+#. native.npc.niling_store_taoist inquiry topic
+#. niling name
 #. native.npc.tribute_taoist inquiry topic
-#: data/story/chapter3.json data/goathill/npcs.json data/native/npcs.json
+#: data/story/chapter3.json data/goathill/npcs.json data/niling/npcs.json data/niling/world.json data/native/npcs.json
 msgid "逆灵宫"
 msgstr ""
 
@@ -15626,12 +15683,67 @@ msgstr ""
 
 #. main.chapter3/gate objective
 #: data/story/chapter3.json
-msgid "逆灵宫就在裂口上头。找到失踪的大寨主霍铮。"
+msgid "逆灵宫就在裂口上头。找到失踪的大寨主霍铮。跟着纳供车上去、打倒押车道士攀绳，或者戴上黑衣道士的黑冠——黄霸那里有一顶。"
 msgstr ""
 
 #. main.chapter3/gate text
 #: data/story/chapter3.json
 msgid "你进了逆灵宫。"
+msgstr ""
+
+#. main.chapter3/way objective
+#: data/story/chapter3.json
+msgid "站稳脚跟，看看这是哪里。"
+msgstr ""
+
+#. main.chapter3/way/sneak text
+#: data/story/chapter3.json
+msgid "你缩在供品箱子中间，和纳供一起被吊上了裂口。绞盘旁的道士只当你是箱子。"
+msgstr ""
+
+#. main.chapter3/way/sneak reward.deed
+#: data/story/chapter3.json
+msgid "混在野羊寨的供品里进了逆灵宫"
+msgstr ""
+
+#. main.chapter3/way/force text
+#: data/story/chapter3.json
+msgid "你打倒了押车道士，攀着他们的绳子上了裂口。"
+msgstr ""
+
+#. main.chapter3/way/force reward.deed
+#: data/story/chapter3.json
+msgid "打倒押车道士闯进了逆灵宫"
+msgstr ""
+
+#. main.chapter3/way/robe text
+#: data/story/chapter3.json
+msgid "你戴上黑冠，押车道士只当你是宫里的人，让你自己攀了上去。"
+msgstr ""
+
+#. main.chapter3/way/robe reward.deed
+#: data/story/chapter3.json
+msgid "戴着黑冠走进了逆灵宫"
+msgstr ""
+
+#. main.chapter3/yard objective
+#: data/story/chapter3.json
+msgid "顺着货道往北，进黑砖山门，看看这座道观。戴着黑冠的，道士当你是自己人。"
+msgstr ""
+
+#. main.chapter3/yard text
+#: data/story/chapter3.json
+msgid "黑砖的前院：黑幡垂地，香炉里烧的不是香。前殿的门关着，东边的矮房是货栈。"
+msgstr ""
+
+#. main.chapter3/hall objective
+#: data/story/chapter3.json
+msgid "前殿的门关着。找路进前殿，找到霍铮。"
+msgstr ""
+
+#. main.chapter3/hall text
+#: data/story/chapter3.json
+msgid "你进了前殿。"
 msgstr ""
 
 #. es2:d/oldpine/obj/long_sword long
@@ -18015,8 +18127,12 @@ msgid ""
 msgstr ""
 
 #. goathill.npc.bandit_hwang inquiry topic
+#. native.npc.niling_winch_taoist inquiry topic
+#. native.npc.niling_gatekeeper inquiry topic
+#. native.npc.niling_gate_guard inquiry topic
+#. native.npc.niling_store_taoist inquiry topic
 #. native.npc.tribute_taoist inquiry topic
-#: data/goathill/npcs.json data/native/npcs.json
+#: data/goathill/npcs.json data/niling/npcs.json data/native/npcs.json
 msgid "纳供"
 msgstr ""
 
@@ -18063,6 +18179,46 @@ msgstr ""
 #. goathill.npc.bandit_hwang inquiry.大寨主
 #: data/goathill/npcs.json
 msgid "黄霸把酒碗一顿：霍铮？半年前让道观的人带走了。你问这个做什么。"
+msgstr ""
+
+#. goathill.npc.bandit_hwang inquiry topic
+#: data/goathill/npcs.json
+msgid "黑衣"
+msgstr ""
+
+#. goathill.npc.bandit_hwang inquiry.黑衣.rules.say
+#: data/goathill/npcs.json
+msgid "就那一顶，老子又不开成衣铺。"
+msgstr ""
+
+#. goathill.npc.bandit_hwang inquiry.黑衣.rules.lines.emote
+#: data/goathill/npcs.json
+msgid "从墙角的箱子里翻出一顶黑冠，往你怀里一扔。"
+msgstr ""
+
+#. goathill.npc.bandit_hwang inquiry.黑衣.rules.lines.say
+#: data/goathill/npcs.json
+msgid "去年抓过一个落单的道士，衣冠都在这儿，人早喂了岩蛭。黑衣你自己有，戴上这顶冠，那群牛鼻子分不出你是谁。"
+msgstr ""
+
+#. goathill.npc.bandit_hwang inquiry.黑衣.rules.lines.say
+#: data/goathill/npcs.json
+msgid "见了霍铮——要是他还活着——说一声，黄霸没忘了他。"
+msgstr ""
+
+#. goathill.npc.bandit_hwang inquiry.黑衣.rules.lines.emote
+#: data/goathill/npcs.json
+msgid "眯眼看了你一会儿，从墙角的箱子里翻出一顶黑冠，往你怀里一扔。"
+msgstr ""
+
+#. goathill.npc.bandit_hwang inquiry.黑衣.rules.lines.say
+#: data/goathill/npcs.json
+msgid "刘老三让你来的？去年抓过一个落单的道士，衣冠都在这儿。黑衣你自己有，戴上这顶冠，那群牛鼻子分不出你是谁。"
+msgstr ""
+
+#. goathill.npc.bandit_hwang inquiry.黑衣.rules.say
+#: data/goathill/npcs.json
+msgid "黑衣？老子穿的是布衣。少打听。"
 msgstr ""
 
 #. goathill.npc.bandit long
@@ -18216,8 +18372,9 @@ msgid ""
 msgstr ""
 
 #. goathill.mroad4.landmark.crack name
+#. native.npc.niling_winch_taoist inquiry topic
 #. native.npc.tribute_taoist inquiry topic
-#: data/goathill/world.json data/native/npcs.json
+#: data/goathill/world.json data/niling/npcs.json data/native/npcs.json
 msgid "裂口"
 msgstr ""
 
@@ -18225,6 +18382,79 @@ msgstr ""
 #: data/goathill/world.json
 msgid ""
 "北边的山壁上一道黑黝黝的裂口，离地约有三四丈，站在路上够不着。裂口边缘的岩石磨得发亮，像是常有东西从那里吊上吊下。\n"
+msgstr ""
+
+#. goathill.mroad4.tarp name
+#: data/goathill/world.json
+msgid "油布"
+msgstr ""
+
+#. goathill.mroad4.tarp act.verb
+#: data/goathill/world.json
+msgid "钻进车里"
+msgstr ""
+
+#. goathill.mroad4.tarp act.acts.ask
+#: data/goathill/world.json
+msgid "油布底下是供品的箱子。钻进去，就只能跟着箱子一起被吊上裂口，中途下不来。"
+msgstr ""
+
+#. goathill.mroad4.tarp act.acts.choice
+#: data/goathill/world.json
+msgid "钻进去"
+msgstr ""
+
+#. goathill.mroad4.tarp act.acts.steps.line
+#: data/goathill/world.json
+msgid ""
+"你掀开油布一角，缩进两只箱子中间。油布落下来，眼前一黑。\n"
+msgstr ""
+
+#. goathill.mroad4.tarp act.acts.steps.line
+#: data/goathill/world.json
+msgid ""
+"过了一会儿，车板一震，绳子绷紧了——你和箱子一起离了地，在半空里晃了半天，咚的一声落在硬地上。\n"
+msgstr ""
+
+#. goathill.mroad4.tarp act.acts.steps.line
+#: data/goathill/world.json
+msgid ""
+"车停在那里，油布底下空空的，绳子松着——没人拉绳，钻进去也上不去。\n"
+msgstr ""
+
+#. goathill.mroad4.rope name
+#. niling.winch.rope name
+#: data/goathill/world.json data/niling/world.json
+msgid "绳索"
+msgstr ""
+
+#. goathill.mroad4.rope act.verb
+#: data/goathill/world.json
+msgid "攀绳上去"
+msgstr ""
+
+#. goathill.mroad4.rope act.acts.steps.line
+#: data/goathill/world.json
+msgid ""
+"你抓住垂下的麻绳，手脚并用地攀上裂口。岩壁磨得发亮，上头有绞盘吱吱的响声。\n"
+msgstr ""
+
+#. goathill.mroad4.rope act.acts.steps.line
+#: data/goathill/world.json
+msgid ""
+"你戴着黑冠，押车的道士只当你是宫里的人，没人拦你。你抓住麻绳，手脚并用地攀上裂口。\n"
+msgstr ""
+
+#. goathill.mroad4.rope act.acts.steps.line
+#: data/goathill/world.json
+msgid ""
+"押车道士盯着你，手按在剑柄上：「此处无路，施主请回。」\n"
+msgstr ""
+
+#. goathill.mroad4.rope act.acts.steps.line
+#: data/goathill/world.json
+msgid ""
+"裂口离地三四丈，壁上光溜溜的，没有绳子上不去。\n"
 msgstr ""
 
 #. es2:d/latemoon/obj/deer_boot name
@@ -25342,7 +25572,9 @@ msgid "在下失落了一件重要物事，是装在一个桃木箱子里，不�
 msgstr ""
 
 #. choyin.npc.sergeant inquiry topic
-#: data/choyin/npcs.json
+#. native.npc.niling_store_taoist inquiry topic
+#. niling.winch.landmark.crates name
+#: data/choyin/npcs.json data/niling/npcs.json data/niling/world.json
 msgid "箱子"
 msgstr ""
 
@@ -33073,6 +33305,312 @@ msgstr ""
 #: data/death/world.json
 msgid ""
 "那人一句话也不说就往你这边撞过来, 你眼前一阵黑....\n"
+msgstr ""
+
+#. native:niling/black_crown name
+#: data/niling/items.json
+msgid "黑冠"
+msgstr ""
+
+#. native:niling/black_crown long
+#: data/niling/items.json
+msgid ""
+"一顶黑绢裹的道冠，冠前镶一枚乌黑的铁片，铁片上錾着一个看不懂的字。逆灵宫的道士人人戴它——戴上它，他们也把你当自己人。\n"
+msgstr ""
+
+#. native.npc.niling_winch_taoist name
+#: data/niling/npcs.json
+msgid "绞盘道士"
+msgstr ""
+
+#. native.npc.niling_winch_taoist long
+#: data/niling/npcs.json
+msgid ""
+"一个黑衣黑冠的道士，两手把着绞盘的摇柄，肩膀一耸一耸。他看了你一眼，又低头去摇，像是什么也没看见——能上到这里来的，在他眼里都是宫里放上来的人。\n"
+msgstr ""
+
+#. native.npc.niling_winch_taoist chat_msg
+#: data/niling/npcs.json
+msgid ""
+"绞盘道士咬着牙摇了一圈绞盘，绳子吱吱地响。\n"
+msgstr ""
+
+#. native.npc.niling_winch_taoist chat_msg
+#: data/niling/npcs.json
+msgid ""
+"绞盘道士嘟囔道：今年的供比去年沉……\n"
+msgstr ""
+
+#. native.npc.niling_winch_taoist chat_msg
+#: data/niling/npcs.json
+msgid ""
+"绞盘道士朝裂口里喊了一声：下面的，拴好了没有！\n"
+msgstr ""
+
+#. native.npc.niling_winch_taoist inquiry.纳供
+#: data/niling/npcs.json
+msgid "绞盘道士头也不抬：供在那边堆着，管事叫你搬就搬。"
+msgstr ""
+
+#. native.npc.niling_winch_taoist inquiry.逆灵宫
+#: data/niling/npcs.json
+msgid "绞盘道士道：宫里的事，问管事去，别问我。"
+msgstr ""
+
+#. native.npc.niling_winch_taoist inquiry topic
+#. native.npc.niling_gatekeeper inquiry topic
+#. native.npc.niling_store_taoist inquiry topic
+#: data/niling/npcs.json
+msgid "霍铮"
+msgstr ""
+
+#. native.npc.niling_winch_taoist inquiry.霍铮
+#: data/niling/npcs.json
+msgid "绞盘道士摇绳的手顿了一顿：不认识。……你问这个做什么。"
+msgstr ""
+
+#. native.npc.niling_winch_taoist inquiry.裂口
+#: data/niling/npcs.json
+msgid "绞盘道士道：底下是野羊山的山路。宫里的人不走山路，只走这根绳。"
+msgstr ""
+
+#. native.npc.niling_winch_taoist chat_msg_combat
+#: data/niling/npcs.json
+msgid ""
+"绞盘道士松了绞盘，尖声道：来人哪！有生人上来了！\n"
+msgstr ""
+
+#. native.npc.niling_gatekeeper name
+#: data/niling/npcs.json
+msgid "门房道士"
+msgstr ""
+
+#. native.npc.niling_gatekeeper long
+#: data/niling/npcs.json
+msgid ""
+"一个黑衣黑冠的道士，坐在门房的桌后，面前摊着一本簿子，手里的笔却半天不动。他的眼睛不看簿子，看门洞——谁进来，他先看冠，再看脸。\n"
+msgstr ""
+
+#. native.npc.niling_gatekeeper calls.steps.emote
+#: data/niling/npcs.json
+msgid "抬眼看了看你头上的黑冠，又低下头去。"
+msgstr ""
+
+#. native.npc.niling_gatekeeper calls.steps.say
+#: data/niling/npcs.json
+msgid "新来的？进去别乱走。后殿不许去，地牢不许去，管事叫你干什么就干什么。"
+msgstr ""
+
+#. native.npc.niling_gatekeeper inquiry.逆灵宫
+#: data/niling/npcs.json
+msgid "门房道士道：这里就是。进了这道门，就别再问这个名字。"
+msgstr ""
+
+#. native.npc.niling_gatekeeper inquiry.纳供
+#: data/niling/npcs.json
+msgid "门房道士道：野羊寨的供今天到。东边货栈，搬完了再说话。"
+msgstr ""
+
+#. native.npc.niling_gatekeeper inquiry.霍铮
+#: data/niling/npcs.json
+msgid "门房道士的笔停了一下：没这个人。……谁让你问的？"
+msgstr ""
+
+#. native.npc.niling_gatekeeper inquiry.后殿
+#: data/niling/npcs.json
+msgid "门房道士道：后殿是宫主行法的地方。没有大弟子的话，谁都不许进。"
+msgstr ""
+
+#. native.npc.niling_gatekeeper chat_msg_combat
+#: data/niling/npcs.json
+msgid ""
+"门房道士厉声道：哪里来的野人，敢闯逆灵宫！\n"
+msgstr ""
+
+#. native.npc.niling_gatekeeper chat_msg_combat
+#: data/niling/npcs.json
+msgid ""
+"门房道士朝院里喊：有生人！拦住他！\n"
+msgstr ""
+
+#. native.npc.niling_gate_guard name
+#: data/niling/npcs.json
+msgid "守门道士"
+msgstr ""
+
+#. native.npc.niling_gate_guard long
+#: data/niling/npcs.json
+msgid ""
+"一个黑衣黑冠的道士，背着手站在院子里，腰上一柄短剑。他站得笔直，眼睛半闭着，像在听什么——听见生人的脚步，眼睛就睁开了。\n"
+msgstr ""
+
+#. native.npc.niling_gate_guard chat_msg
+#: data/niling/npcs.json
+msgid ""
+"守门道士把腰上的短剑往上提了提。\n"
+msgstr ""
+
+#. native.npc.niling_gate_guard chat_msg
+#: data/niling/npcs.json
+msgid ""
+"守门道士低声念了一句什么，声音像蚊子哼。\n"
+msgstr ""
+
+#. native.npc.niling_gate_guard inquiry.逆灵宫
+#: data/niling/npcs.json
+msgid "守门道士道：少说话，多干活。"
+msgstr ""
+
+#. native.npc.niling_gate_guard inquiry.纳供
+#: data/niling/npcs.json
+msgid "守门道士朝东边一偏头：货栈。"
+msgstr ""
+
+#. native.npc.niling_gate_guard chat_msg_combat
+#: data/niling/npcs.json
+msgid ""
+"守门道士喝道：生人闯宫，留下！\n"
+msgstr ""
+
+#. native.npc.niling_gate_guard chat_msg_combat
+#: data/niling/npcs.json
+msgid ""
+"守门道士一剑劈空，剑风带起一股苦味。\n"
+msgstr ""
+
+#. native.npc.niling_store_taoist name
+#: data/niling/npcs.json
+msgid "货栈道士"
+msgstr ""
+
+#. native.npc.niling_store_taoist long
+#: data/niling/npcs.json
+msgid ""
+"一个黑衣黑冠的道士，袖子挽着，正把一只箱子里的绸缎一匹匹抖开来数。他数得很慢，数到一半停下来，往那几只画着符的箱子那边瞟一眼，再从头数。\n"
+msgstr ""
+
+#. native.npc.niling_store_taoist chat_msg
+#: data/niling/npcs.json
+msgid ""
+"货栈道士数着绸缎：……十一、十二……\n"
+msgstr ""
+
+#. native.npc.niling_store_taoist chat_msg
+#: data/niling/npcs.json
+msgid ""
+"货栈道士踢了踢一只画着符的箱子，箱子里没有动静，他松了口气。\n"
+msgstr ""
+
+#. native.npc.niling_store_taoist inquiry.纳供
+#: data/niling/npcs.json
+msgid "货栈道士道：都是野羊寨的供。你是哪一房的？管事让你来搬？搬那边的，画着符的别碰。"
+msgstr ""
+
+#. native.npc.niling_store_taoist inquiry.箱子
+#: data/niling/npcs.json
+msgid "货栈道士压低声音：画符的那几只，是「祭」。等子时，大弟子来取。你没见过，我也没说过。"
+msgstr ""
+
+#. native.npc.niling_store_taoist inquiry.逆灵宫
+#: data/niling/npcs.json
+msgid "货栈道士道：干活。"
+msgstr ""
+
+#. native.npc.niling_store_taoist inquiry.霍铮
+#: data/niling/npcs.json
+msgid "货栈道士道：野羊寨的大寨主？半年前就进了地牢，还问。"
+msgstr ""
+
+#. native.npc.niling_store_taoist chat_msg_combat
+#: data/niling/npcs.json
+msgid ""
+"货栈道士叫道：有贼！有贼偷供！\n"
+msgstr ""
+
+#. native.npc.niling_store_taoist chat_msg_combat
+#: data/niling/npcs.json
+msgid ""
+"货栈道士一边招架一边往门口退。\n"
+msgstr ""
+
+#. native:niling/winch long
+#: data/niling/rooms.json
+msgid ""
+"野羊山北麓的崖顶。脚下就是那道裂口，一根粗麻绳从绞盘上绕下去，没进黑黝黝的口子里——山路转角的纳供就是从这里吊上来的。\n"
+"吊上来的箱子在平台上堆了一人高，箱板上烙着「羊」字。北边一条货道沿着山脊往北麓去，尽头隐约是一片黑砖的屋脊。\n"
+msgstr ""
+
+#. native:niling/goods_path long
+#: data/niling/rooms.json
+msgid ""
+"一条被车轮和脚印压实的货道，顺着北麓的山脊往北去。两旁是枯黄的长草和风化的黑灰色岩石，没有一棵像样的树。\n"
+"路北头立着一座全用黑砖砌成的大道观，山门敞着，门里黑幡垂地；靠东有一条岔路绕向道观的东墙根。\n"
+msgstr ""
+
+#. native:niling/side_door long
+#: data/niling/rooms.json
+msgid ""
+"道观东墙根下的一块空地，车辙到这里为止。黑砖墙上开着一扇矮门，门楣上没有字，门槛磨得发白——供品是从这里进去的。\n"
+msgstr ""
+
+#. native:niling/gatehouse long
+#: data/niling/rooms.json
+msgid ""
+"逆灵宫的山门。黑砖砌的门楼有两丈高，门扇敞着，门洞里凉得像井底。两侧各挑着一盏暗红的灯笼，白天也点着。\n"
+"门房的桌上摊着一本簿子，桌后坐着一个黑衣黑冠的道士。\n"
+msgstr ""
+
+#. native:niling/yard long
+#: data/niling/rooms.json
+msgid ""
+"黑砖铺地的大院子，踩上去没有一点声响。院当中一只黑铁香炉，烧的不是香，是一股子苦味。四面黑幡垂地，风过时幡上的字一闪一闪，看不清写的什么。\n"
+"北边是前殿，殿门紧闭；东侧一排矮房是货栈。\n"
+msgstr ""
+
+#. native:niling/store long
+#: data/niling/rooms.json
+msgid ""
+"一间堆满箱笼的矮房，箱子上都烙着「羊」字，有的开着，露出金帛、腌肉和成捆的麻绳。角落里几只箱子钉得死紧，箱盖上用朱砂画着符。\n"
+"南墙的矮门通向墙外，西边的门进前院。\n"
+msgstr ""
+
+#. niling.winch.rope act.verb
+#: data/niling/world.json
+msgid "下到山路"
+msgstr ""
+
+#. niling.winch.rope act.acts.steps.line
+#: data/niling/world.json
+msgid ""
+"你抓住麻绳，顺着裂口里的岩壁一点点溜下去。绳子磨得手心发烫，脚下终于踩到了山路的石头。\n"
+msgstr ""
+
+#. niling.winch.landmark.crates long
+#: data/niling/world.json
+msgid ""
+"吊上来的箱子堆了一人高，每只箱板上都烙着一个「羊」字——野羊寨的记号。箱缝里露出绸缎的一角，另一只箱子底下渗出暗红的水渍，闻着是腌肉的咸味，也许不是。\n"
+msgstr ""
+
+#. niling.yard.landmark.banners name
+#: data/niling/world.json
+msgid "黑幡"
+msgstr ""
+
+#. niling.yard.landmark.banners long
+#: data/niling/world.json
+msgid ""
+"黑布的幡从一丈多高的杆子上垂到地，布面上用暗红的颜色写满了字，笔画横着走、竖着走，像是经文又像是符咒。风一过，字就一闪一闪地动，盯久了眼睛发酸。\n"
+msgstr ""
+
+#. niling.yard.landmark.burner name
+#: data/niling/world.json
+msgid "香炉"
+msgstr ""
+
+#. niling.yard.landmark.burner long
+#: data/niling/world.json
+msgid ""
+"一只齐腰高的黑铁香炉，炉口里烧着的不是香，是一把把黑色的碎末，冒着极淡的青烟，味道苦得呛人。炉身上铸着一圈无头的人形，手拉着手。\n"
 msgstr ""
 
 #. native.npc.wooden_dummy.1 name

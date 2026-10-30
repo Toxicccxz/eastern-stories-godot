@@ -79,6 +79,9 @@ var not_temp: String = ""
 var mark: String = ""
 var not_mark: String = ""
 var carries: String = ""
+## Native (逆灵宫 A; DECISIONS「逆灵宫 A」): an id something the player wears answers to (the
+## 黑冠 on their head), as `carries` for what they carry.
+var wears: String = ""
 ## An NPC definition present() in the room.
 var present: StringName = &""
 var thirsty: bool = false
@@ -114,6 +117,8 @@ class Facts:
 	var marks: Dictionary[String, int] = {}
 	var temps: Dictionary[String, int] = {}
 	var carried: Array[String] = []
+	## The ids of what they wear (`wears`).
+	var worn: Array[String] = []
 	var present_npcs: Array[StringName] = []
 	## query("water") below max_water_capacity().
 	var thirsty: bool = false
@@ -220,6 +225,7 @@ func applies_to(player_gender: StringName, class_id: StringName, facts: Facts = 
 		and (mark.is_empty() or known.marks.get(mark, 0) != 0)
 		and (not_mark.is_empty() or known.marks.get(not_mark, 0) == 0)
 		and (carries.is_empty() or known.carried.has(carries))
+		and (wears.is_empty() or known.worn.has(wears))
 		and (present.is_empty() or known.present_npcs.has(present))
 		and (not thirsty or known.thirsty)
 		and at_least.keys().all(func(key: String) -> bool: return known.numbers.get(key, 0) >= at_least[key])
@@ -291,7 +297,7 @@ static func resource_of(state: CharacterState, key: String) -> CharacterResource
 	return state.spirit
 
 
-## {gender?, not_gender?, not_class?, temp?, not_temp?, mark?, not_mark?, carries?, present?, thirsty?,
+## {gender?, not_gender?, not_class?, temp?, not_temp?, mark?, not_mark?, carries?, wears?, present?, thirsty?,
 ## at_least?: {force?, max_force?, force_factor?}, room?, not_room?, exists?, present_in?: {npc, zone},
 ## kar_above?: [n], kar_draw?, per_below?, npc_in?, ask?, choice?, steps: [step]}.
 static func from_record(reader: ContentRecordReader) -> ScriptedAct:
@@ -304,6 +310,7 @@ static func from_record(reader: ContentRecordReader) -> ScriptedAct:
 	act.mark = reader.text("mark")
 	act.not_mark = reader.text("not_mark")
 	act.carries = reader.text("carries")
+	act.wears = reader.text("wears")
 	act.present = StringName(reader.text("present"))
 	act.thirsty = reader.boolean("thirsty", false)
 	var numbers: ContentRecordReader = reader.child("at_least")

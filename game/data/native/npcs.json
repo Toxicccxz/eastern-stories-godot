@@ -388,7 +388,8 @@
 			"skills": { "unarmed": 20, "sword": 30, "dodge": 30, "parry": 30 },
 			"carry": [
 				{ "item": "es2:d/oldpine/obj/short_sword", "source": "d/oldpine/npc/obj/short_sword.c", "equip": "wield" },
-				{ "item": "es2:d/oldpine/npc/obj/black_cloth", "source": "d/oldpine/npc/obj/black_cloth.c", "equip": "wear" }
+				{ "item": "es2:d/oldpine/npc/obj/black_cloth", "source": "d/oldpine/npc/obj/black_cloth.c", "equip": "wear" },
+				{ "item": "native:niling/black_crown", "source": "native: 逆灵宫 A (the escort's 黑冠)", "equip": "wear" }
 			],
 			"greeting": { "say": "此处无路，施主请回。" },
 			"inquiry": {

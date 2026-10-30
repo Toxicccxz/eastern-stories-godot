@@ -33,5 +33,79 @@
 		{ "id": "goathill.cavern1.west", "from_zone": "goathill.cavern1", "to_zone": "goathill.canyon3", "to_spawn": "goathill.canyon3.cavern_return", "legacy_room": "es2:d/goathill/cavern1", "legacy_command": "west" },
 		{ "id": "goathill.mroad3.east", "from_zone": "goathill.mroad3", "to_zone": "goathill.temple1", "to_spawn": "goathill.temple1.mroad3_entry", "legacy_room": "es2:d/goathill/mroad3", "legacy_command": "east" },
 		{ "id": "goathill.temple1.west", "from_zone": "goathill.temple1", "to_zone": "goathill.mroad3", "to_spawn": "goathill.mroad3.temple1_return", "legacy_room": "es2:d/goathill/temple1", "legacy_command": "west" }
+	],
+	"services": [
+		{
+			"id": "goathill.mroad4.tarp",
+			"kind": "act",
+			"zone": "goathill.mroad4",
+			"name": "油布",
+			"reach": 96,
+			"legacy_source": "native: 逆灵宫 A (剧情总纲 §3 第三章 ① 跟车潜入: hidden under the tribute cart's oil-cloth, hoisted up the crack with the boxes while the escort stands by; DECISIONS「逆灵宫 A」)",
+			"act": {
+				"verb": "钻进车里",
+				"acts": [
+					{
+						"present": "native.npc.tribute_taoist",
+						"ask": "油布底下是供品的箱子。钻进去，就只能跟着箱子一起被吊上裂口，中途下不来。",
+						"choice": "钻进去",
+						"steps": [
+							{ "line": "你掀开油布一角，缩进两只箱子中间。油布落下来，眼前一黑。\n" },
+							{ "line": "过了一会儿，车板一震，绳子绷紧了——你和箱子一起离了地，在半空里晃了半天，咚的一声落在硬地上。\n" },
+							{ "mark": "进了逆灵宫" },
+							{ "mark": "跟车进了逆灵宫" },
+							{ "move": "niling.winch", "point": "niling.winch.crate_arrival" }
+						]
+					},
+					{
+						"steps": [
+							{ "line": "车停在那里，油布底下空空的，绳子松着——没人拉绳，钻进去也上不去。\n" }
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "goathill.mroad4.rope",
+			"kind": "act",
+			"zone": "goathill.mroad4",
+			"name": "绳索",
+			"reach": 96,
+			"legacy_source": "native: 逆灵宫 A (剧情总纲 §3 第三章 ① 强攻 or 穿黑衣道士的衣服: the hoist's rope up d/goathill/mroad4.c's crack, climbed once the escort is down or by one in the 黑冠; DECISIONS「逆灵宫 A」)",
+			"act": {
+				"verb": "攀绳上去",
+				"acts": [
+					{
+						"mark": "押车道士倒了",
+						"steps": [
+							{ "line": "你抓住垂下的麻绳，手脚并用地攀上裂口。岩壁磨得发亮，上头有绞盘吱吱的响声。\n" },
+							{ "damage": { "kee": 20 } },
+							{ "mark": "进了逆灵宫" },
+							{ "move": "niling.winch", "point": "niling.winch.rope_arrival" }
+						]
+					},
+					{
+						"wears": "black crown",
+						"steps": [
+							{ "line": "你戴着黑冠，押车的道士只当你是宫里的人，没人拦你。你抓住麻绳，手脚并用地攀上裂口。\n" },
+							{ "damage": { "kee": 20 } },
+							{ "mark": "进了逆灵宫" },
+							{ "move": "niling.winch", "point": "niling.winch.rope_arrival" }
+						]
+					},
+					{
+						"present": "native.npc.tribute_taoist",
+						"steps": [
+							{ "line": "押车道士盯着你，手按在剑柄上：「此处无路，施主请回。」\n" }
+						]
+					},
+					{
+						"steps": [
+							{ "line": "裂口离地三四丈，壁上光溜溜的，没有绳子上不去。\n" }
+						]
+					}
+				]
+			}
+		}
 	]
 }

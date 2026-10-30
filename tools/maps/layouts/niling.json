@@ -1,0 +1,115 @@
+{
+  "maps": {
+    "slope": {
+      "note": "逆灵宫 A (剧情总纲 §6 逆灵宫, doc/help/plan:26–31): the crack's top on 野羊山's north slope — the winch platform where 黄霸's tribute comes up the rope from mroad4's turn, the goods road north along the ridge between dry grass and black-grey rock to the black-brick 道观 (a map of its own), and the branch east to the nook under its east wall where the side door of the 货栈 is. The south edge is the drop into the crack; the rope service goes back down to the turn.",
+      "file": "niling_slope.tscn",
+      "draw": {
+        "technique": "canvas",
+        "base": "cliff",
+        "bounds": [128, 64, 1056, 1248],
+        "zones": {
+          "niling.winch": [352, 896, 672, 1184, "rock"],
+          "niling.goods_path": [320, 352, 704, 896, "rock"],
+          "niling.side_door": [704, 352, 928, 576, "rock"]
+        },
+        "lines": {
+          "roads": [
+            [[512, 1150, 32, 140, 140, 4, "the winch platform, worn flat"], [512, 1040, 32, 140, 140, 8], [500, 920, 32, 120, 120, 10, "up off the platform"], [488, 800, 32, 104, 104, 12], [512, 680, 32, 104, 104, 12, "the goods road along the ridge"], [520, 560, 32, 104, 104, 10], [512, 440, 32, 96, 96, 6], [512, 384, 32, 88, 88, 0, "to the gate"]],
+            [[560, 620, 24, 64, 64, 8, "the branch to the side door"], [680, 540, 24, 64, 64, 8], [800, 470, 24, 64, 64, 6], [832, 392, 24, 64, 64, 0]]
+          ]
+        },
+        "steps": [
+          {"op": "blobs", "note": "dry scrub on the slope either side of the ridge; bare rock above", "kind": "forest", "amp": 0.18, "seed": [0.011, 0.009], "blobs": [[200, 700, 110, 160, "the west slope"], [180, 1000, 90, 120], [960, 760, 90, 140, "the east slope below the side door"], [980, 1040, 80, 100]]},
+          {"op": "freeze"},
+          {"op": "lines", "group": "roads"},
+          {"op": "clip"},
+          {"op": "separate"},
+          {"op": "drop_pockets", "from": "WinchRopeArrival"},
+          {"op": "fill", "fills": [["wall", 224, 96, 960, 352, "the black-brick 道观 (its own map: niling_gate)"], ["chasm", 480, 1168, 544, 1184, "the crack's mouth: the rope goes down into it"]]},
+          {"op": "blobs", "note": "rocks on the verges, never on the road", "kind": "cliff", "only": ["rock"], "amp": 0.2, "seed": [0.01, 0], "blobs": [[360, 760, 16, 16], [660, 700, 18, 18], [380, 520, 16, 16], [690, 420, 14, 14], [880, 540, 16, 16], [372, 1040, 14, 14]]},
+          {"op": "fill", "note": "the hoist: the winch, the rope's post and the boxes it brought up (voxel: game/data/niling/voxel/slope.json)", "fills": [["blocked", 576, 1040, 640, 1104, "the winch, its drum wound with the rope", {"look": {"kind": "winch", "rotation": 90}}], ["blocked", 384, 1024, 464, 1104, "the hoisted boxes, 羊 branded on them", {"look": {"kind": "loot_crates", "rotation": 90}}], ["blocked", 400, 1120, 448, 1152, "more boxes by the drop", {"look": {"kind": "loot_crates"}}], ["blocked", 656, 1136, 672, 1168, "the rope's post at the rim", {"look": {"kind": "post", "height": 1.4}}]]}
+        ],
+        "reach_from": ["WinchRopeArrival", "WinchCrateArrival", "GoodsPathGateReturn", "SideDoorStoreReturn"],
+        "caption_near": {"niling.winch": [380, 940], "niling.goods_path": [340, 400], "niling.side_door": [730, 540]}
+      },
+      "scene": {
+        "style": "map",
+        "root": "NilingSlope",
+        "map": "niling.slope",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {"Rect_96_32": [96, 32], "Rect_64_32": [64, 32]},
+        "nodes": [
+          {"generated": "captions"},
+          {"node": "caption", "name": "GateLabel", "at": [512, 336], "text": "北 · 逆灵宫山门", "size": 14},
+          {"node": "caption", "name": "DropLabel", "at": [512, 1200], "text": "南 · 裂口 · 野羊山山路", "size": 12},
+          {"node": "passage", "name": "GatePassage", "id": "niling.goods_path.north", "at": [512, 368], "shape": "Rect_96_32"},
+          {"node": "passage", "name": "SidePassage", "id": "niling.side_door.north", "at": [832, 368], "shape": "Rect_64_32"},
+          {"node": "service", "name": "WinchRopeService", "id": "niling.winch.rope", "at": [512, 1136], "text": "绳索 · 下到山路"}
+        ],
+        "zones": [{"generated": "zones"}],
+        "spawn_points": [
+          {"name": "WinchRopeArrival", "at": [512, 1096], "id": "niling.winch.rope_arrival"},
+          {"name": "WinchCrateArrival", "at": [440, 968], "id": "niling.winch.crate_arrival"},
+          {"name": "GoodsPathGateReturn", "at": [512, 416], "id": "niling.goods_path.gate_return"},
+          {"name": "SideDoorStoreReturn", "at": [832, 416], "id": "niling.side_door.store_return"},
+          {"name": "WinchTaoist01", "at": [608, 992], "id": "niling.winch.winch_taoist.1"}
+        ],
+        "interactions": [
+          {"name": "CratesInteraction", "id": "niling.winch.landmark.crates", "at": [424, 1000], "shape": "Rect_64_32"}
+        ],
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/niling/voxel/slope.json"}
+      }
+    },
+    "gate": {
+      "note": "逆灵宫 A: the 黑砖山门 (the 门房's table, the two red lanterns), the black-brick yard behind it (the iron burner that burns no incense, the black banners) and the 货栈 east of the yard where the tribute is stowed (its side door onto the slope). 前殿 north of the yard comes with B.",
+      "file": "niling_gate.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "temple",
+        "rooms": {
+          "niling.gatehouse": {"floor": "town_ground", "wall": "wall", "size": "small", "life": {"use": "barracks", "wealth": "poor", "seed": 11}},
+          "niling.yard": {"floor": "floor_yard", "wall": "wall", "size": "yard", "life": {"use": "camp_yard", "wealth": "plain", "seed": 12}},
+          "niling.store": {"floor": "town_ground", "wall": "wall", "size": "room", "life": {"use": "storeroom", "wealth": "plain", "seed": 13}}
+        },
+        "props": [
+          ["blocked", "niling.gatehouse", ["rel", 0.78, 0.5], 1.88, 0.94, "the 门房's table, the ledger open on it", {"look": {"kind": "table", "set": "ledger", "wood": "2a2422"}}],
+          ["blocked", "niling.gatehouse", ["rel", 0.78, 0.8], 0.94, 0.94, "his stool", {"look": {"kind": "stool", "wood": "2a2422"}}],
+          ["blocked", "niling.yard", ["rel", 0.5, 0.5], 1.41, 1.41, "the black iron burner in the yard's middle", {"look": {"kind": "incense_burner", "scale": 1.5, "colors": ["1a1818", "262220", "121010"]}}],
+          ["blocked", "niling.yard", ["rel", 0.12, 0.22], 0.5, 0.5, "the banner poles at the yard's corners", {"look": {"kind": "post", "height": 4.0, "wood": "1e1a18"}}],
+          ["blocked", "niling.yard", ["rel", 0.88, 0.22], 0.5, 0.5, {"look": {"kind": "post", "height": 4.0, "wood": "1e1a18"}}],
+          ["blocked", "niling.yard", ["rel", 0.12, 0.78], 0.5, 0.5, {"look": {"kind": "post", "height": 4.0, "wood": "1e1a18"}}],
+          ["blocked", "niling.yard", ["rel", 0.88, 0.78], 0.5, 0.5, {"look": {"kind": "post", "height": 4.0, "wood": "1e1a18"}}],
+          ["blocked", "niling.yard", ["rel", 0.5, 0.08], 2.8, 0.6, "the stone steps up to the shut hall door (前殿, B)", {"look": {"kind": "stone_blocks", "colors": ["3a3634", "46403c", "2e2a28"]}}],
+          ["blocked", "niling.store", ["rel", 0.15, 0.18], 2.35, 1.41, "crates branded 羊, some open", {"look": {"kind": "loot_crates"}}],
+          ["blocked", "niling.store", ["rel", 0.85, 0.18], 2.35, 1.41, {"look": {"kind": "loot_crates", "rotation": 90}}],
+          ["blocked", "niling.store", ["rel", 0.5, 0.12], 1.88, 0.94, "a shelf of jars and coiled rope on the north wall", {"look": {"kind": "shelf", "wood": "2e2826"}}],
+          ["blocked", "niling.store", ["rel", 0.92, 0.62], 0.94, 0.94, "the sealed boxes with the charms", {"look": {"kind": "wine_jars", "count": 3}}]
+        ],
+        "placed": {
+          "niling.gatehouse.gatekeeper.1": ["niling.gatehouse", ["rel", 0.78, 0.22]],
+          "niling.yard.gate_guard.1": ["niling.yard", ["rel", 0.32, 0.86]],
+          "niling.yard.gate_guard.2": ["niling.yard", ["rel", 0.68, 0.86]],
+          "niling.store.store_taoist.1": ["niling.store", ["rel", 0.5, 0.55]]
+        },
+        "doors": {"niling.gatehouse.south": "south", "niling.store.south": "south"},
+        "reach_from": ["GatehousePathEntry", "StoreSideEntry"]
+      },
+      "scene": {
+        "style": "map",
+        "root": "NilingGate",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/niling/voxel/gate.json"},
+        "map": "niling.gate",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {"Rect_64_32": [64, 32], "Rect_32_64": [32, 64]},
+        "stairs": [],
+        "nodes": [{"generated": "captions"}],
+        "zones": [{"generated": "zones"}],
+        "spawn_points": [{"generated": "markers"}],
+        "interactions": [
+          {"name": "BannersInteraction", "id": "niling.yard.landmark.banners", "room": "niling.yard", "anchor": ["w", 1.2, 0], "shape": "Rect_32_64"},
+          {"name": "BurnerInteraction", "id": "niling.yard.landmark.burner", "room": "niling.yard", "anchor": ["c", 0, 1.3], "shape": "Rect_64_32"}
+        ]
+      }
+    }
+  }
+}
