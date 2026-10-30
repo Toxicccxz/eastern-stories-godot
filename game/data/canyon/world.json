@@ -45,10 +45,12 @@
 		{ "id": "canyon.fantasy1.back", "from_zone": "canyon.fantasy1", "to_zone": "canyon.stone_forest3", "to_spawn": "canyon.stone_forest3.mirror_return", "legacy_room": "es2:d/canyon/fantasy1", "legacy_command": "back" },
 		{ "id": "canyon.train.out", "from_zone": "canyon.train", "to_zone": "canyon.bamboo3", "to_spawn": "canyon.bamboo3.stoneroom_return", "legacy_room": "es2:d/canyon/bamboo/train", "legacy_command": "out" },
 		{ "id": "canyon.canyon4.east", "from_zone": "canyon.canyon4", "to_zone": "canyon.camp1", "to_spawn": "canyon.camp1.canyon4_entry", "legacy_room": "es2:d/canyon/canyon4", "legacy_command": "east" },
-		{ "id": "canyon.camp1.west", "from_zone": "canyon.camp1", "to_zone": "canyon.canyon4", "to_spawn": "canyon.canyon4.camp1_return", "legacy_room": "es2:d/canyon/camp1", "legacy_command": "west" }
+		{ "id": "canyon.camp1.west", "from_zone": "canyon.camp1", "to_zone": "canyon.canyon4", "to_spawn": "canyon.canyon4.camp1_return", "legacy_room": "es2:d/canyon/camp1", "legacy_command": "west" },
+		{ "id": "canyon.canyon7.east", "from_zone": "canyon.canyon7", "to_zone": "guanbei.gate_road", "to_spawn": "guanbei.gate_road.pass_arrival", "legacy_room": "es2:d/canyon/canyon7", "legacy_command": "east", "set_mark": "到了关北" }
 	],
 	"exit_rules": [
-		{ "id": "canyon.camp7.east", "room": "es2:d/canyon/camp7", "from_zone": "canyon.camp7", "to_zone": "canyon.camp8", "when": "no_mark", "mark": "军营", "lines": ["你还没被允许进入喔。"], "legacy_source": "d/canyon/camp7.c" }
+		{ "id": "canyon.camp7.east", "room": "es2:d/canyon/camp7", "from_zone": "canyon.camp7", "to_zone": "canyon.camp8", "when": "no_mark", "mark": "军营", "lines": ["你还没被允许进入喔。"], "legacy_source": "d/canyon/camp7.c" },
+		{ "id": "canyon.canyon7.east_gate", "room": "es2:d/canyon/canyon7", "from_zone": "canyon.canyon7", "to_zone": "guanbei.gate_road", "when": "no_mark", "mark": "过了关门", "lines": ["关门兵横过长枪，拦住你：出关的，留下过路钱——五两。有凭据的拿凭据来。"], "legacy_source": "native: 关北 A (d/canyon/README: 收取过路费; the four ways past the gate — 程不平's letter, the 大队长's roll, five taels or a fight — all write 过了关门; DECISIONS「关北 A」)" }
 	],
 	"landmarks": [
 		{ "id": "canyon.road.landmark.chain", "zone": "canyon.road", "name": "铁索", "policy": "look", "long": "    一长条铁索缘山壁而下，或许你可以试著攀爬(climb)。\n", "legacy_source": "d/canyon/road.c" },

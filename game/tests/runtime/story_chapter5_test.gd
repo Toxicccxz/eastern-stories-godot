@@ -49,7 +49,7 @@ func _test_data() -> void:
 	var quest: StoryQuestDefinition = catalog.story_quest(&"main.chapter5")
 	_check(quest != null and quest.requires == [&"main.chapter4"] and quest.steps.size() == 7 and quest.steps[5].options.size() == 2 and quest.steps[5].options[0].option_id == &"escort" and quest.steps[5].options[1].option_id == &"release", "the chapter: seven steps after the fourth, a two-way choice before the trial")
 	var stub: StoryQuestDefinition = catalog.story_quest(&"main.chapter6")
-	_check(stub != null and stub.requires == [&"main.chapter5"] and stub.steps.size() == 1 and stub.steps[0].objective.begins_with("带着程不平的信去天驼关"), "the sixth chapter's stub: one step, done by a mark nothing sets yet")
+	_check(stub != null and stub.requires == [&"main.chapter5"] and stub.steps.size() == 7 and stub.steps[0].objective.begins_with("带着程不平的信去天驼关军营"), "the sixth chapter follows the fifth, its first step at the camp (关北 A)")
 	var copy: ItemContentDefinition = catalog.item(COPY)
 	var letter: ItemContentDefinition = catalog.item(LETTER)
 	_check(copy != null and copy.no_drop and copy.aliases().has("抄本") and letter != null and letter.no_drop and letter.aliases().has("信"), "the 抄本 and the letter: no_drop, answering to 抄本 and 信")
@@ -71,7 +71,7 @@ func _test_data() -> void:
 	_check(ghouls != null and ghouls.quantity == 2 and ghouls.present != null and ghouls.zone_id == &"choyin.tomb3", "two 鬼卒 in the hollow's sandalwood end while the chapter runs")
 	var hotel: NpcSpawnDefinition = catalog.spawn(&"choyin.hotel_house.hotel1.sergeant")
 	_check(hotel != null and hotel.until != null and hotel.present == null, "the 武官's spawn leaves the stage once the choice is made")
-	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_STORY_CH5_V1, "第五章's world revision is current")
+	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_GUANBEI_A_V1, "关北 A's world revision is current")
 
 
 ## A woman from the kept robe: the drum, the magistrate, the deserter, the hollow, the escort, the trial.

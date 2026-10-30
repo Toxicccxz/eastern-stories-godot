@@ -187,6 +187,9 @@ func _build_row(row: PlayerInventoryRowProjection) -> BoxContainer:
 	label.text = _row_label(row)
 	label.tooltip_text = row.description.strip_edges()
 	label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	var colour: Color = name_color_of(row.item_definition_id)
+	if colour != Color.TRANSPARENT:
+		label.add_theme_color_override("font_color", colour)
 	container.add_child(label)
 	var inspect_button: Button = Button.new()
 	inspect_button.text = "观察"
@@ -343,6 +346,15 @@ static func held_label(held: Array) -> String:
 
 func _row_label(row: PlayerInventoryRowProjection) -> String:
 	return row_label(row)
+
+
+## The colour an item's name is written in (ItemContentDefinition.name_color: seal.c's HIY 印鉴),
+## as the log shows that colour; TRANSPARENT for a plain name (关北 A; DECISIONS「关北 A」).
+static func name_color_of(item_definition_id: StringName) -> Color:
+	var definition: ItemContentDefinition = GameContent.catalog().item(item_definition_id)
+	if definition == null or definition.name_color.is_empty():
+		return Color.TRANSPARENT
+	return SharedGameplayUI.ES2_COLORS.get(definition.name_color, Color.TRANSPARENT)
 
 
 ## A carried thing as its row names it: a stack with its amount, what is on with how.

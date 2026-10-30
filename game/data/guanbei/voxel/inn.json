@@ -1,0 +1,55 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 22,
+  "note": "塞外酒肆、酒肆后屋 (native:guanbei/inn_hall, inn_back; 关北 A): a mud-walled hall so low the beams can be touched, the hearth sunk in its middle with the black pot steaming over it, low tables and benches, the keeper's counter and chopping block along the east wall, skins and whips on the walls, the waiting on the bench by the west wall with their untouched bowls; the back room north with the fodder bales, the wine vats, a whole sheep hanging and the keeper's felt bed. Old and used: grease on the floor round the hearth, smoke-black on the beams, straw in the corners.",
+  "palette": {"wood": ["6a5240", "7a6048", "5a4634"], "wall": "a88c62"},
+  "wall_height": 2.9,
+  "wall_looks": [
+    {"rect": [-416, -112, 400, 432], "style": "earth", "colors": ["a88c62", "b4986c", "9a7e56", "bca478"], "note": "the hall: rammed earth, smoke-dark toward the beams"},
+    {"rect": [-240, -448, 208, -112], "style": "earth", "colors": ["a08458", "ac9064", "927650", "b49c70"], "note": "the back room"}
+  ],
+  "ground": {
+    "town_ground": {"style": "scree", "colors": ["8a7a58", "968660", "7e6e4e"], "gravel": 0.2, "stones": 0.01, "pebbles": ["a89468", "8a7a58"], "note": "beaten earth floors, greasy round the hearth"},
+    "boundary": {"style": "scree", "colors": ["b4a46e", "c0b078", "a89864"], "gravel": 0.5, "stones": 0.05, "pebbles": ["d4bc84", "c0a870", "9c8858"]}
+  },
+  "flora": {"grass_density": 0.0, "density": {"town_ground": 0.0, "boundary": 0.2}, "grass_colors": ["9a8c52", "8a9458"], "flower_threshold": 1.0, "tree_kinds": [], "wind": 0.0, "butterflies": 0},
+  "life": {
+    "guanbei.inn_hall": {"walls": "earth"},
+    "guanbei.inn_back": {"walls": "earth"}
+  },
+  "props": [
+    {"kind": "glow", "at": [-8, 160], "color": "ff9a50", "day": 0.5, "night": 1.0, "range": 8.0, "height": 1.4, "note": "the hearth's fire (native:guanbei/inn_hall: 羊粪火不旺，却一直不灭)"},
+    {"kind": "stains", "at": [-8, 160], "size": [260, 200], "count": 10, "colors": ["5a4a38", "6a5a44", "4a3c2c"], "note": "grease and ash round the hearth, the floor worn glossy"},
+    {"kind": "stains", "at": [-8, -80], "size": [700, 60], "count": 8, "colors": ["3a3028", "4a4034"], "note": "smoke-black along the north beam"},
+    {"kind": "hanging_lantern", "at": [-280, -60], "paper": "d8b070", "height": 2.4, "note": "oil lanterns on the beams"},
+    {"kind": "hanging_lantern", "at": [260, -60], "paper": "d8b070", "height": 2.4},
+    {"kind": "hanging_lantern", "at": [-280, 380], "paper": "d8b070", "height": 2.4},
+    {"kind": "hanging_lantern", "at": [260, 380], "paper": "d8b070", "height": 2.4},
+    {"kind": "candlestick", "at": [300, 40], "size": [12, 12], "lit": true, "note": "a candle on the counter"},
+    {"kind": "animal_hide", "at": [-404, 60], "size": [48, 16], "rotation": 90, "height": 1.6, "wall_mounted": true, "note": "skins nailed to the west wall (native:guanbei/inn_hall: 墙上挂着皮囊和马鞭)"},
+    {"kind": "animal_hide", "at": [-404, 260], "size": [48, 16], "rotation": 90, "height": 1.6, "wall_mounted": true},
+    {"kind": "tool_hooks", "at": [120, -100], "size": [64, 12], "height": 1.7, "wall_mounted": true, "note": "whips and halters hung by the north door"},
+    {"kind": "straw_patch", "at": [-360, 400], "size": [80, 40], "note": "straw blown into the corner"},
+    {"kind": "paper_slip", "at": [-300, 300], "size": [14, 18], "rotation": 20, "note": "a tally slip dropped by the waiting"},
+    {"kind": "stool", "at": [-240, 300], "size": [20, 20], "wood": "5a4634", "note": "a stool pulled up to the west table"},
+    {"kind": "stool", "at": [-240, 120], "size": [20, 20], "wood": "6a5240"},
+    {"kind": "stool", "at": [120, 60], "size": [20, 20], "wood": "6a5240", "note": "by the table near the north door"},
+    {"kind": "cobweb", "at": [-400, -100], "size": [40, 8], "rotation": 45, "height": 2.6},
+    {"kind": "cobweb", "at": [384, 420], "size": [40, 8], "rotation": -45, "height": 2.6},
+    {"kind": "window", "at": [-200, -108], "size": [64, 16], "note": "small windows high in the north wall"},
+    {"kind": "window", "at": [200, -108], "size": [64, 16]},
+    {"kind": "hanging_lantern", "at": [-16, -280], "paper": "d8b070", "height": 2.3, "note": "the back room's lantern"},
+    {"kind": "stains", "at": [-150, -350], "size": [120, 100], "count": 5, "colors": ["6a5a44", "7a6a50"], "note": "spilt wine round the vats, the sour smell"},
+    {"kind": "straw_patch", "at": [80, -330], "size": [110, 70], "note": "fodder spilt from the bales"},
+    {"kind": "meat_hooks", "at": [-16, -440], "size": [120, 12], "height": 2.2, "wall_mounted": true, "note": "strips of meat drying from the beam (native:guanbei/inn_back: 房梁上吊着一串串风干的肉条)"},
+    {"kind": "cobweb", "at": [-230, -440], "size": [36, 8], "rotation": 45, "height": 2.6}
+  ],
+  "actors": {
+    "default": {"coat": "8a7a5a"},
+    "native.npc.hu_sanniang": {"coat": "7a4a3a"},
+    "native.npc.qin_popo": {"coat": "6a6058", "hat": true},
+    "native.npc.qin_xiaoliu": {"coat": "8a7a5a"},
+    "native.npc.lao_qin": {"coat": "6a5a48"}
+  }
+}

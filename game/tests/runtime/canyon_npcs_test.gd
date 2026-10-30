@@ -79,7 +79,7 @@ func _test_people() -> void:
 	var veteran: NpcDefinition = catalog.npc(&"canyon.npc.guard2")
 	_check(veteran.talk().chat_chance == 15 and veteran.description.contains("这\n里的守军"), "老兵 chats (这里)")
 	_check(veteran.talk().inquiry_topics() == ["黄石隘口", "后备兵", "军火库"] and catalog.npc(&"canyon.npc.leader2").talk().inquiry_topics() == ["黄石隘口", "后备兵"], "老兵's and 老队长's topics")
-	_check(general.talk().inquiry_topics() == ["黄石隘口", "后备兵", "兵器库", "印鉴"] and catalog.npc(&"canyon.npc.adviser").talk().inquiry_topics() == ["兵器库"], "严廷殷 asks for his 印鉴 to be found; 赫造基 on the 兵器库")
+	_check(general.talk().inquiry_topics() == ["黄石隘口", "后备兵", "兵器库", "印鉴", "信", "程不平", "印鉴丢过", "关北"] and catalog.npc(&"canyon.npc.adviser").talk().inquiry_topics() == ["兵器库", "印鉴", "拓模"] and catalog.npc(&"canyon.npc.seller").talk().inquiry_topics() == ["印色"], "严廷殷 asks for his 印鉴 to be found, then 关北 A's letter topics after the LPC's four; 赫造基 on the 兵器库 and the mould; the 后备兵 on the 印色 (DECISIONS「关北 A」)")
 	_check(catalog.npc(&"canyon.npc.vice_general").talk().has_greeting(), "李信 greets (throws out) the unlisted")
 	var hat: ItemContentDefinition = catalog.item(&"es2:d/canyon/npc/obj/hat")
 	_check(hat.display_name == "迷幻经纶" and hat.armor_definition() != null, "迷幻经纶: worn on the head")

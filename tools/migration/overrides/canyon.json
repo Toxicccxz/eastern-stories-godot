@@ -38,8 +38,26 @@
 			] }
 		},
 		"canyon.npc.adviser": {
+			"inquiry": {
+				"兵器库": ["先看看你的诚意再说罗。\n"],
+				"印鉴": { "rules": [
+					{ "asker_marks": ["赫造基说了拓模"], "say": "模子给你了，别的我不知道。将军问起来，你没见过我。" },
+					{ "asker_marks": ["严廷殷看了信"], "say": "将军的印？丢过一回，又找回来了——这事我知道一点。八两银子，我告诉你一桩秘密。先看看你的诚意。" },
+					{ "say": "将军的印鉴？你去问将军。" }
+				] },
+				"拓模": { "rules": [
+					{ "asker_marks": ["赫造基说了拓模"], "say": "说过了。模子在你手里，印色也在上面——自己去比。" },
+					{ "say": "什么模子？我不懂你说什么。" }
+				] }
+			},
 			"accept_object": [
 				{ "value_at_most": 0, "say": "ㄟ....Ｔhank Ｙou!!!", "accept": true },
+				{ "giver_mark": "严廷殷看了信", "unless_giver_mark": "赫造基说了拓模", "value_at_least": 800, "lines": [
+					{ "say": "好极了，我就告诉你一项秘密吧。" },
+					{ "emote": "压低了声音。" },
+					{ "say": "将军的印丢的那几天，在后备兵手里。我借来看了一夜——拓了个模子。兵部来的人出了价，比你多，模子就卖了一份给他们。" },
+					{ "say": "这一份留着的你拿去。模子上的朱砂是真印的印色，拿它比一比你那叠文书上的印，就明白了。" }
+				], "gives": "native:canyon/seal_mould", "mark_giver": "赫造基说了拓模", "accept": true },
 				{ "giver_temp": "军营/swear", "say": "即然你那么有心，那我就勉强收起来了。", "accept": true },
 				{ "value_at_least": 800, "lines": [
 					{ "say": "好极了，我就告诉你一项秘密吧。" },
@@ -50,6 +68,34 @@
 			]
 		},
 		"canyon.npc.general": {
+			"inquiry": {
+				"黄石隘口": ["你眼睛脱窗啊，这里就是黄石隘口。\n"],
+				"后备兵": ["我不管这种事的，你别来烦我。\n"],
+				"兵器库": ["你找死啊！问这种问题，你想干麻啊。\n"],
+				"印鉴": ["你怎么知道的？帮我找找吧，找到了我送你礼物。\n"],
+				"信": { "rules": [
+					{ "asker_marks": ["严廷殷看了信"], "say": "信我看过了。关北的事去问老王爷，我守我的关。" },
+					{ "asker_carries": "信", "mark_asker": "严廷殷看了信", "lines": [
+						{ "emote": "接过信，扫了一眼，眉毛挑了挑。" },
+						{ "say": "程不平？老王爷那个读书的侄子。乔阴县的官管到我天驼关来了。" },
+						{ "say": "兵部的印是真的，令不是先帝的——这话他敢写，我不敢说。我的印丢过一回，找回来了。这事军师比我清楚，你去问他。" },
+						{ "say": "出关往北，谷地东壁有一道关门，我的兵守着。凭这封信，他们放你。关北是槐阳王的地界，到了那边，别提我。" }
+					] },
+					{ "say": "什么信？" }
+				] },
+				"程不平": { "rules": [
+					{ "asker_marks": ["严廷殷看了信"], "say": "老王爷的侄子，清贫廉正，榜中探花——书读多了的人才敢写那种信。" },
+					{ "say": "乔阴的县官？我不认识。" }
+				] },
+				"印鉴丢过": { "rules": [
+					{ "asker_marks": ["严廷殷看了信"], "say": "丢过一回，三天，找回来了。丢在谁手里、那三天有人拿它做过什么，我不想知道。军师知道。" },
+					{ "say": "你怎么知道的？帮我找找吧，找到了我送你礼物。\n" }
+				] },
+				"关北": { "rules": [
+					{ "asker_marks": ["严廷殷看了信"], "say": "槐阳王的封国。老王爷和我不对付——他嫌我收过路钱，我嫌他不奉诏。可他不是庾子建的人，我也不是。" },
+					{ "say": "关北是槐阳王的地界。问这个干什么。" }
+				] }
+			},
 			"accept_object": [
 				{ "item": "es2:d/canyon/npc/obj/seal", "lines": [
 					{ "say": "真是谢谢你了。" },
@@ -65,6 +111,12 @@
 			]
 		},
 		"canyon.npc.seller": {
+			"inquiry": {
+				"印色": { "rules": [
+					{ "asker_marks": ["严廷殷看了信"], "say": "你也问印色？假的那颗是黄铜浇的，没上过朱砂，盖出来发黑。真的那颗泛黄光，盖出来是正红——印泥一比就知道。军师那几天借过真印，别的你问他。" },
+					{ "say": "印色？我这儿只有印，没有色。" }
+				] }
+			},
 			"accept_object": [
 				{ "value_at_least": 30000, "value_at_most": 30000, "giver_temp": "Get_seal", "giver_carries": "es2:d/canyon/npc/obj/fake_seal", "lines": [
 					{ "say": "我已经给你了啊。" },
@@ -93,7 +145,7 @@
 				], "accept": false }
 			]
 		},
-		"es2:d/canyon/npc/obj/seal": { "name": "印鉴" },
+		"es2:d/canyon/npc/obj/seal": { "name": "印鉴", "name_color": "HIY" },
 		"es2:d/canyon/bamboo/obj/parry_book": { "unique": true },
 		"es2:d/canyon/bamboo/obj/slipcase": { "contains": ["es2:d/canyon/bamboo/obj/parry_book"] }
 	},

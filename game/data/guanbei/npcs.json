@@ -1,0 +1,366 @@
+{
+	"npcs": [
+		{
+			"id": "native.npc.pass_gate_soldier",
+			"legacy_source": "native: 关北 A (剧情总纲 §3 第六章 ②; 计划 build/plans/关北_计划.md §1a; DECISIONS「关北 A」) — 严廷殷's soldiers at the valley's east gate (d/canyon/README: 收取过路费; the look of d/canyon/npc/door_guard.c's 小兵). Four ways past them, one mark: 程不平's letter, the 大队长's roll (军营), five taels, or a fight. 续写",
+			"name": "关门兵",
+			"aliases": ["gate soldier", "soldier", "兵"],
+			"title": "天驼关守军",
+			"gender": "男性",
+			"age": 28,
+			"long": "一个穿铁灰号衣的兵，手里横着一杆长枪，枪头擦得雪亮。他眼睛盯着出关的人，不盯进关的——出关的要留钱。\n",
+			"attributes": { "str": 26, "cor": 24, "int": 18, "spi": 18, "cps": 24, "per": 16, "con": 26, "kar": 10 },
+			"combat_exp": 60000,
+			"score": 800,
+			"attitude": "peaceful",
+			"skills": { "blade": 60, "parry": 55, "dodge": 50, "unarmed": 40, "force": 30 },
+			"carry": [
+				{ "item": "es2:d/canyon/npc/obj/blade", "source": "d/canyon/npc/obj/blade.c", "equip": "wield" },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"chat_chance": 8,
+			"chat_msg": [
+				"关门兵把枪往地上一顿：出关的，过路钱。\n",
+				"关门兵眯着眼看了看北边的天：又要起风沙了。\n"
+			],
+			"chat_chance_combat": 20,
+			"chat_msg_combat": [
+				"关门兵喝道：闯关？你当这是你家后院！\n"
+			],
+			"calls": [
+				{ "after": 0, "reaction": true, "mark": "军营", "not_mark": "过了关门", "steps": [ { "emote": "翻了翻手里的名册，抬头看你。" }, { "say": "名册上有你。大队长列的——过。" }, { "mark": "过了关门" } ] }
+			],
+			"inquiry": {
+				"信": {
+					"rules": [
+						{ "asker_marks": ["过了关门"], "say": "说过了，过去吧。" },
+						{ "asker_carries": "信", "mark_asker": "过了关门", "lines": [ { "emote": "接过信，看了看封皮上的字，又还给你。" }, { "say": "乔阴程县令的信？老王爷的侄子……行。过去吧。关北的事，我们不管。" } ] },
+						{ "say": "什么信？没信就留钱。" }
+					]
+				},
+				"过路钱": {
+					"rules": [
+						{ "asker_marks": ["过了关门"], "say": "你的钱留过了。" },
+						{ "say": "五两。王法朝法都管不到这道门，这是大将军的规矩——出关的留五两，进关的不要钱。" }
+					]
+				},
+				"关北": ["出了这道门就是槐阳王的地界。那边是王法，不是朝法。那边的事，我们不管，也管不了。"],
+				"严廷殷": ["大将军的兵。门是大将军的，钱也是。你要是大将军的朋友——他可没朋友。"],
+				"关门": ["谷地东壁这道门是先帝年间开的，通关北的军道。以前一年走不了几个人，这一年多了——兵部的车，一辆一辆往北去。"]
+			},
+			"accept_object": [
+				{ "giver_mark": "过了关门", "value_at_least": 1, "say": "过了就过了，钱老子不嫌多。", "accept": true },
+				{ "value_at_least": 500, "lines": [ { "emote": "掂了掂，揣进怀里。" }, { "say": "五两，过路钱。过去吧——关北的事别回来找我们。" } ], "mark_giver": "过了关门", "accept": true },
+				{ "value_at_least": 1, "say": "五两。少一个子儿不开门。", "accept": false },
+				{ "say": "这是什么东西？拿回去。", "accept": false }
+			]
+		},
+		{
+			"id": "native.npc.huaiyang_gate_guard",
+			"legacy_source": "native: 关北 A (剧情总纲 §2「槐阳王 程朔」, §6 关北卡「规矩是王法不是朝法」; d/choyin/npc/magistra.c:22 the 槐阳王's own men; DECISIONS「关北 A」) — 槐阳城's gate guards, the fief's soldiers, not the court's. 续写",
+			"name": "城门兵",
+			"aliases": ["gate guard", "guard", "城门兵"],
+			"title": "槐阳王府",
+			"gender": "男性",
+			"age": 30,
+			"long": "一个穿灰褐短袄的兵，腰里一把弯刀，脸让风沙吹得黑红。他看人的眼神直来直去，不像朝廷的兵那样先看你的衣裳。\n",
+			"attributes": { "str": 27, "cor": 26, "int": 18, "spi": 20, "cps": 26, "per": 16, "con": 28, "kar": 12 },
+			"combat_exp": 80000,
+			"score": 1000,
+			"attitude": "peaceful",
+			"skills": { "blade": 65, "parry": 60, "dodge": 55, "unarmed": 45, "force": 35 },
+			"carry": [
+				{ "item": "es2:d/choyin/obj/blade", "source": "d/choyin/npc/obj/blade.c", "equip": "wield" },
+				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
+			],
+			"chat_chance": 8,
+			"chat_msg": [
+				"城门兵冲进城的驼队点了点头，没要钱。\n",
+				"城门兵朝告示那边努了努嘴：都看看，王爷的话。\n"
+			],
+			"inquiry": {
+				"告示": ["王爷贴的。兵部的人要是敢拿着文书来关北拿人，先过我们这一关。你是外乡人？看看就知道这儿的规矩了。"],
+				"民夫": ["去年到今年，关北没了几百个壮丁。王爷拒了兵部的令，可人还是一批一批没了——都是往草原东边去的。王爷查到今天。"],
+				"兵部": ["兵部的令，在关北不算数。王爷说的，我们照办。"],
+				"王府": ["大街北头，朱门就是。王爷不见生人——你有凭据，门军会放你。"],
+				"槐阳王": ["老王爷镇关北二十年。他说话不绕弯子，你也别绕。"]
+			}
+		},
+		{
+			"id": "native.npc.camel_driver",
+			"legacy_source": "native: 关北 A (剧情总纲 §6 关北卡「塞外」; the lived-in layer, 美术规划 §2 第 6 条; DECISIONS「关北 A」) — 续写",
+			"name": "驼夫",
+			"aliases": ["camel driver", "driver", "驼夫"],
+			"gender": "男性",
+			"age": 35,
+			"long": "一个裹着羊皮袄的驼夫，脸上一层沙，牙倒是很白。他的骆驼卧在城门里嚼草，鼻子里哼哼地出气。\n",
+			"attributes": { "str": 24, "cor": 20, "int": 16, "spi": 16, "cps": 20, "per": 14, "con": 26, "kar": 14 },
+			"combat_exp": 2000,
+			"attitude": "peaceful",
+			"skills": { "unarmed": 20, "dodge": 20 },
+			"carry": [ { "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" } ],
+			"chat_chance": 10,
+			"chat_msg": [
+				"驼夫拍了拍骆驼的脖子，骆驼不理他。\n",
+				"驼夫说道：关北的马，关里的茶，一进一出。\n"
+			],
+			"inquiry": {
+				"驼队": ["皮子、盐、砖茶，从西边来，到槐阳换马。关北的矮脚马耐跑，关里人抢着要。"],
+				"关北": ["关北好啊，没人查你的货。王爷只收一成，剩下的都是你的。"],
+				"工地": ["草原东边？别去。兵部的人圈了一大片地在挖什么，见了生面孔就拿去当民夫。我们的驼队都绕着走。"]
+			}
+		},
+		{
+			"id": "native.npc.guanbei_smith",
+			"legacy_source": "native: 关北 A (剧情总纲 §6 关北卡「马上刀法（一门）」: the 马刀 the smith forges; 美术规划 §2 第 6 条; DECISIONS「关北 A」) — 续写",
+			"name": "铁匠",
+			"aliases": ["smith", "blacksmith", "铁匠"],
+			"gender": "男性",
+			"age": 48,
+			"long": "一个光着膀子的铁匠，胸口的汗混着铁屑。砧子上一把弯刀刚出炉，还红着。他打的是马刀——关北的刀都带弯，马上好使。\n",
+			"attributes": { "str": 30, "cor": 24, "int": 18, "spi": 18, "cps": 22, "per": 14, "con": 30, "kar": 14 },
+			"combat_exp": 8000,
+			"attitude": "peaceful",
+			"skills": { "unarmed": 40, "hammer": 40, "dodge": 25 },
+			"carry": [ { "item": "es2:d/snow/obj/hammer", "source": "d/snow/obj/hammer.c", "equip": "wield" } ],
+			"vendor": "guanbei.vendor.smith",
+			"chat_chance": 10,
+			"chat_msg": [
+				"铁匠把一把弯刀按进水槽，嗤的一声白烟。\n",
+				"铁匠说道：关北的刀带弯，马上一撩就是一条口子。\n"
+			],
+			"inquiry": {
+				"马刀": ["关北的马刀，弯的，马上使的。十五两一把，不还价。你要是在平地上使，也凑合。"],
+				"铁": ["铁从关里来，炭是草原上的羊粪烧的。别笑，羊粪火稳。"],
+				"工地": ["兵部的人来买过铁镐，一买两百把。两百把铁镐，挖的不是官道。"]
+			}
+		},
+		{
+			"id": "native.npc.balang",
+			"legacy_source": "native: 关北 A (剧情总纲 §3 第六章 ②⑤「马市商人」, §6 关北卡; DECISIONS「关北 A」) — the horse trader of the 马市, 续写 (the name is a plain one of the steppe, no meaning carried: 剧情总纲 §10)",
+			"name": "巴朗",
+			"aliases": ["balang", "horse trader", "trader", "马贩"],
+			"title": "马贩",
+			"gender": "男性",
+			"age": 50,
+			"long": "一个矮壮的马贩子，脸上皱纹像刀刻的，腰里别着一根马鞭。他看马的眼光比看人准，看你的时候像在估你能驮多少。\n",
+			"attributes": { "str": 25, "cor": 22, "int": 24, "spi": 20, "cps": 22, "per": 18, "con": 26, "kar": 16 },
+			"combat_exp": 15000,
+			"attitude": "peaceful",
+			"skills": { "unarmed": 40, "dodge": 40, "whip": 50 },
+			"carry": [ { "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" } ],
+			"chat_chance": 10,
+			"chat_msg": [
+				"巴朗掰开一匹马的嘴看了看牙，摇摇头。\n",
+				"巴朗冲卢卡那边喊：高鼻子，今天卖出去了没有？\n"
+			],
+			"inquiry": {
+				"马": ["关北的矮脚马，不好看，耐跑。一天二百里，不吃精料。你要买，先学会骑——不会骑的人我不卖。"],
+				"卢卡": ["那个高鼻子？大秦来的，说是什么剑会的人。在我这儿坐了半个月，天天想卖他那把剑换路费——没人识货。他那把剑是好东西，我看得出，可关北人不使短剑。"],
+				"工地": ["兵部征马也征人。草原东边挖什么古坟，我的马卖过去二十匹，一匹没回来。人也是——那些民夫进去了就不出来。"],
+				"关北": ["关北是王爷的。王爷不奉兵部的令，兵部就自己来人。你看吧，早晚要出事。"],
+				"番坊": ["卢卡老说的那个地方？海边，很远。他说他们的人都在那儿。"]
+			}
+		},
+		{
+			"id": "native.npc.luca",
+			"legacy_source": "native: 关北 A (剧情总纲 §3 第六章 ⑤「马市上一个大秦剑手卢卡卖剑换路费」, 第七章 ①②, §6 关北卡「卢卡（过客）」; doc/help/theme:3「西方还在蛮荒时代」— an exile and a sword for hire, no envoy; DECISIONS「关北 A」) — 续写; his Chinese is short and clipped, never wrong (剧情总纲 §10)",
+			"name": "卢卡",
+			"aliases": ["luca", "swordsman", "大秦人", "剑手"],
+			"title": "大秦剑手",
+			"gender": "男性",
+			"age": 34,
+			"long": "一个高鼻深目的异族人，头发是褐色的，剪得很短，下巴上一层胡茬。他穿着关北人的羊皮袄，袄底下露出一截铁片缀成的甲。面前铺着一块布，布上放着一把短剑，剑身宽、直，和中原的剑都不一样。\n",
+			"attributes": { "str": 28, "cor": 28, "int": 24, "spi": 24, "cps": 28, "per": 20, "con": 28, "kar": 16 },
+			"combat_exp": 150000,
+			"score": 2000,
+			"attitude": "peaceful",
+			"skills": { "sword": 90, "parry": 85, "dodge": 80, "unarmed": 60, "force": 60 },
+			"carry": [ { "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" } ],
+			"chat_chance": 8,
+			"chat_msg": [
+				"卢卡用一块布擦着短剑，擦得很慢。\n",
+				"卢卡看着东边的天，说了一句你听不懂的话。\n"
+			],
+			"chat_chance_combat": 20,
+			"chat_msg_combat": [
+				"卢卡沉声道：你，不该动手。\n"
+			],
+			"inquiry": {
+				"剑": {
+					"rules": [
+						{ "asker_marks": ["买了卢卡的剑"], "say": "剑在你手里了。用它，别挂着。" },
+						{ "say": "剑。大秦的铁，好剑。二十两，换路费——我要去海边。你不买，看看也行。" }
+					]
+				},
+				"路费": ["去海边，番坊。远。马、吃的、过关的钱。二十两，够。"],
+				"鬼": {
+					"rules": [
+						{ "mark_asker": "卢卡说了鬼", "lines": [ { "emote": "放下布，看着你。" }, { "say": "我们那边的老兵，传一个故事：东方，有一个鬼，没有头。找自己的头，三百年。" }, { "say": "我以为是故事。到了东方，人人都在找一把剑——找剑的人说，剑钉着一个头。我就想，不是故事。" } ] }
+					]
+				},
+				"头": {
+					"rules": [
+						{ "asker_marks": ["卢卡说了鬼"], "say": "鬼的头在哪里，我不知道。会首知道。" },
+						{ "mark_asker": "卢卡说了鬼", "say": "头？我们那边的老兵说，东方有一个鬼找自己的头。三百年。你问这个——你也在找？" }
+					]
+				},
+				"会首": {
+					"rules": [
+						{ "asker_marks": ["卢卡说了鬼"], "mark_asker": "卢卡说了番坊", "lines": [ { "say": "会首安敦。铁盾会的会首，我们的头。他的祖上，三百年前，在这里当过兵，见过那个鬼的头——怎么封的。" }, { "say": "他在番坊，海边。你去，说卢卡让你去。他会见你。" } ] },
+						{ "say": "会首？我们的头。先问鬼。" }
+					]
+				},
+				"番坊": ["海边。大秦人、天竺僧、倭人，都在那里，各过各的。远——玉螺湖村往东，过山谷，走海崖道。"],
+				"大秦": ["很远。西边的西边。我们是逃出来的人，不是使臣。剑会收我们，给饭吃。"],
+				"安敦": {
+					"rules": [
+						{ "asker_marks": ["卢卡说了番坊"], "say": "会首。在番坊等我——等不到我，等到你也行。" },
+						{ "say": "我们的会首。先问鬼。" }
+					]
+				}
+			},
+			"accept_object": [
+				{ "giver_mark": "买了卢卡的剑", "value_at_least": 1, "say": "剑卖了。钱，够了。谢谢。", "accept": true },
+				{ "value_at_least": 2000, "lines": [ { "emote": "把钱数了一遍，点点头，把布上的短剑连鞘递给你。" }, { "say": "好剑。别挂着，用它。——路费够了。我去番坊。" } ], "gives": "native:guanbei/gladius", "mark_giver": "买了卢卡的剑", "accept": true },
+				{ "value_at_least": 1, "say": "二十两。少了，不卖。", "accept": false },
+				{ "say": "不要。", "accept": false }
+			]
+		},
+		{
+			"id": "native.npc.herdsman",
+			"legacy_source": "native: 关北 A (剧情总纲 §6 关北卡「塞外——草原、马市、帐篷」; the lived-in layer; DECISIONS「关北 A」) — 续写",
+			"name": "牧民",
+			"aliases": ["herdsman", "牧民"],
+			"gender": "男性",
+			"age": 25,
+			"long": "一个穿毡袍的牧民，腰里系一条红布带，脚上是软底的皮靴。他赶了两匹马来卖，自己坐在栏边啃干肉。\n",
+			"attributes": { "str": 24, "cor": 22, "int": 16, "spi": 18, "cps": 24, "per": 14, "con": 26, "kar": 16 },
+			"combat_exp": 3000,
+			"attitude": "peaceful",
+			"skills": { "unarmed": 25, "dodge": 30 },
+			"carry": [ { "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" } ],
+			"chat_chance": 10,
+			"chat_msg": [
+				"牧民啃了一口干肉，冲马栏里吹了声口哨。\n",
+				"牧民说道：草原上的风，今年早。\n"
+			],
+			"inquiry": {
+				"草原": ["出了东门就是。往东走一天，有我们的帐篷；再往东，就是兵部圈的地了，别去。"],
+				"帐篷": ["我们的帐篷在东门外。毡子做的，冬天暖，拆了就走。"],
+				"工地": ["兵部的人在草原东边挖一座古冢。我们的老人说，那是不能动的地方——金乌的地方。"]
+			}
+		},
+		{
+			"id": "native.npc.hu_sanniang",
+			"legacy_source": "native: 关北 A (剧情总纲 §6 关北卡; 美术规划 §2 第 6 条; DECISIONS「关北 A」) — the keeper of the 塞外酒肆, 续写",
+			"name": "胡三娘",
+			"aliases": ["hu sanniang", "keeper", "掌柜", "三娘"],
+			"title": "酒肆掌柜",
+			"gender": "女性",
+			"age": 45,
+			"long": "一个高大的女人，袖子挽到肘，手里一把剁肉的刀。她说话嗓门大，不笑，可谁的酒碗空了她都看得见。\n",
+			"attributes": { "str": 26, "cor": 24, "int": 22, "spi": 20, "cps": 22, "per": 18, "con": 28, "kar": 16 },
+			"combat_exp": 5000,
+			"attitude": "peaceful",
+			"skills": { "unarmed": 35, "blade": 30, "dodge": 30 },
+			"carry": [ { "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" } ],
+			"vendor": "guanbei.vendor.inn",
+			"chat_chance": 10,
+			"chat_msg": [
+				"胡三娘一刀剁下去，案板跳了一下。\n",
+				"胡三娘说道：马奶酒三十文一囊，羊肉四十文一份，要就坐下。\n"
+			],
+			"inquiry": {
+				"马奶酒": ["马奶发的酒，酸，后劲大。三十文一囊。关里人头一口都皱眉，第二口就不皱了。"],
+				"羊肉": ["手抓的，锅里现煮。四十文一份，管饱。"],
+				"民夫": ["墙根坐的那几个，都是等人的。等男人，等儿子。兵部的人押了壮丁去修官道——说是修官道。去了的一个没回来。"],
+				"工地": ["草原东边。别去，兵部的人见了生面孔就拿。我这儿的酒客去了两个，都没回来。"],
+				"王爷": ["王爷是好王爷，拒了兵部的令。可拒了令，人还是没了——王爷也只能在城门上贴张告示。"]
+			}
+		},
+		{
+			"id": "native.npc.qin_popo",
+			"legacy_source": "native: 关北 A (剧情总纲 §3 第六章 ④「挖不动的人被逆灵宫的车接走」; 逆灵宫 B's 关北民夫 in the dungeon, DECISIONS「逆灵宫 B」「逆灵宫 C」; DECISIONS「关北 A」) — a wife waiting in the 酒肆, 续写; her husband 老秦 is one of the two the player let out of 逆灵宫's dungeon (the rescue ledger) or never came back (the chase)",
+			"name": "秦婆子",
+			"aliases": ["qin popo", "old woman", "婆子", "秦婆子"],
+			"gender": "女性",
+			"age": 60,
+			"long": "一个瘦小的老妇人，裹着一件补了又补的毡袍，坐在墙根的板凳上，面前一碗马奶酒没动。她每过一会儿就看一眼门。\n",
+			"attributes": { "str": 14, "cor": 14, "int": 18, "spi": 16, "cps": 14, "per": 12, "con": 16, "kar": 18 },
+			"combat_exp": 500,
+			"attitude": "peaceful",
+			"skills": { "unarmed": 5, "dodge": 10 },
+			"carry": [ { "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" } ],
+			"chat_chance": 8,
+			"chat_msg": [
+				"秦婆子朝门口看了一眼，又低下头去。\n"
+			],
+			"inquiry": {
+				"老秦": {
+					"rules": [
+						{ "asker_marks": ["老秦认出你"], "say": "回来了。你看他坐在那儿，瘦得脱了形——是你开的牢门，他跟我说了一百遍。" },
+						{ "say": "我家老秦。去年腊月让人押走的，说是修官道。车是往东边去的……到今天没回来。听说挖不动的人会让道士的车接走——我家老秦，腰不好。" }
+					]
+				},
+				"工地": ["草原东边。我去过一回，栅栏外头站了一天，白衣的武官拿枪杆把我赶走了。"],
+				"民夫": ["关北的壮丁，一批一批。王爷拒了令，兵部就自己来人拿。"]
+			}
+		},
+		{
+			"id": "native.npc.qin_xiaoliu",
+			"legacy_source": "native: 关北 A (剧情总纲 §3 第六章 ④; DECISIONS「关北 A」) — 秦婆子's son, 续写",
+			"name": "秦小六",
+			"aliases": ["qin xiaoliu", "boy", "小六"],
+			"gender": "男性",
+			"age": 16,
+			"long": "一个半大的少年，瘦，眼睛很亮，手里攥着一根马鞭。他坐在老妇人身边，一会儿站起来一会儿坐下。\n",
+			"attributes": { "str": 18, "cor": 20, "int": 18, "spi": 16, "cps": 18, "per": 14, "con": 18, "kar": 16 },
+			"combat_exp": 800,
+			"attitude": "peaceful",
+			"skills": { "unarmed": 15, "dodge": 20 },
+			"carry": [ { "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" } ],
+			"chat_chance": 8,
+			"chat_msg": [
+				"秦小六站起来，又让他娘按着坐下了。\n"
+			],
+			"inquiry": {
+				"爹": {
+					"rules": [
+						{ "asker_marks": ["老秦认出你"], "say": "我爹回来了。他说是一个外乡人开的牢门——是你？" },
+						{ "say": "我爹让兵部的人押走了。我要去找他，我娘不让。" }
+					]
+				},
+				"工地": ["我去过一回，栅栏外头。白衣的武官不让近。里头在挖一个大坑，坑边上一排排的人戴着枷。"]
+			}
+		},
+		{
+			"id": "native.npc.lao_qin",
+			"legacy_source": "native: 关北 A (剧情总纲 §3 第六章 ④「挖不动的人被逆灵宫的车接走」; 逆灵宫 C: the two 关北民夫 let out of the third cell, 「俺们回关北」, DECISIONS「逆灵宫 C」; DECISIONS「关北 A」) — one of them, home in the 酒肆's corner on the rescue ledger; the chase ledger has only his wife waiting. 续写",
+			"name": "老秦",
+			"aliases": ["lao qin", "corvee", "老秦"],
+			"title": "逃回来的民夫",
+			"gender": "男性",
+			"age": 44,
+			"long": "一个瘦得脱了形的汉子，手腕上铁链磨出来的印子还没褪。他坐在酒肆的角落里，背靠着墙，看见生人进门就缩一下肩膀——然后看清是你，站了起来。\n",
+			"attributes": { "str": 20, "cor": 20, "int": 18, "spi": 16, "cps": 18, "per": 14, "con": 20, "kar": 16 },
+			"combat_exp": 300,
+			"attitude": "peaceful",
+			"skills": { "unarmed": 15, "dodge": 15 },
+			"carry": [ { "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" } ],
+			"chat_chance": 8,
+			"chat_msg": [
+				"老秦摸了摸手腕上的印子。\n"
+			],
+			"calls": [
+				{ "after": 0, "reaction": true, "not_mark": "老秦认出你", "steps": [ { "emote": "从墙角站起来，盯着你看了一会儿。" }, { "say": "是你！开牢门的是你！——婆子，是这位恩人开的牢门。" }, { "mark": "老秦认出你" } ] }
+			],
+			"inquiry": {
+				"逆灵宫": ["那地方……我们七个人从工地让车拉走，到了那儿，三个进了丹房再没出来，四个关进地牢。后来又提走两个。你开了牢门，我和老赵才活着回来——老赵回他家去了，在草原上。"],
+				"工地": ["草原东边。白衣的武官督着挖一座古冢，挖不动的人，就让道士的车接走。我腰不好，第三天就让接走了。"],
+				"车": ["黑布蒙着的车，两个黑衣黑冠的道士押着。一路往南，过天驼关，到野羊山北麓。车里的人谁也不说话。"],
+				"地牢": ["铁栅门，黑得看不见手。隔壁关着一个汉子，骂了半年没停过——后来听说是野羊山的大寨主。"]
+			}
+		}
+	]
+}

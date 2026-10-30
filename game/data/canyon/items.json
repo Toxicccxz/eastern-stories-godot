@@ -98,7 +98,8 @@
 			"aliases": ["seal"],
 			"long": "泛著黄光，上面刻著镇国大将军。\n",
 			"unit": "颗",
-			"weight": 0
+			"weight": 0,
+			"name_color": "HIY"
 		},
 		{
 			"id": "es2:d/canyon/npc/obj/old_sword",

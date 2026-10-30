@@ -36,6 +36,7 @@ view goes through the regions.
 | 12 | 京师 (`d/city`, `u/cp`) | 玉螺湖村 south | 55/55 | 21/27 | 振远镖局's head office | 20/20 | 0/0 | The six NPC files placed by no room; the five outer gates stay shut (as ES2). |
 | 12b | 黑松山 (`d/chuenyu`), repaired | 黄土大道's spur west (玉螺湖村) | 32/37 | 14/23 | — | 7/7 | 0/0 | The copy of 刘家 (ES2 cut it off; it lives in 玉螺湖村); npc/xiaojuan.c is a copy placed by no room. |
 | 13 | 鬼门关 (`d/death`) | dying | 9/12 | 3/3 | — | — | — | block.c and jail.c (wizard rooms), spath1.c (no way in). |
+| 14 | 关北 (native, 剧情总纲 §6) | the gate in 天驼关 valley's east wall | 9 native (A) | 11 (A) | — | — | — | A of four packages (`build/plans/关北_计划.md`): B 王府, C 草原与工地, D 后果 to come. |
 | | **Total** | | **536/551** | **239/286** | **9/9** | **33/36** special, **22/26** basic | **84/84** | |
 
 How the columns count (`reference/es2/mudlib`, 2026-10-04):
@@ -122,7 +123,10 @@ what it finds is fixed in step 2. What waits for it is listed in [STATUS](STATUS
    regions) has begun: chapter four 宝衣 on 晚月庄 is done (DECISIONS「第四章 宝衣」: 瑷伦's lashes for anyone, the 冰匣 danced open, the
    three-way end and the night after; the plan `build/plans/第四五章_计划.md`); chapter five 人证 on 乔阴 is done (DECISIONS「第五章 人证」:
    the drum opens the 衙门大门, 程不平 wants a witness, 陈显祖 the deserter escorted through 庾家's men or released, the trial either way
-   and his letter to 槐阳王; chapter six 关北 stands as a one-step stub); 第 4 步 goes on to 关北 in chapter order.
+   and his letter to 槐阳王). 第 4 步 goes on in 关北 (the plan `build/plans/关北_计划.md`, owner 2026-10-30): A done (DECISIONS「关北 A」: the
+   印鉴 chain read anew at 天驼关 — 严廷殷's letter, 赫造基's mould, the 后备兵 on the 印色, the mould compared with the 兵部 papers; the gate in
+   the valley's east wall with its four ways past the soldiers; the 关外山道, 槐阳城's gate, street and the 王府's front, the 马市 with 卢卡, the
+   塞外酒肆 with 老秦; the chapter waiting at the 王府's door); B 王府, C 草原与工地 and D 后果与钩子 follow.
 5. **Characters and animation** after the voxel maps: bodies, faces, clothing by family and class;
    then audio.
 

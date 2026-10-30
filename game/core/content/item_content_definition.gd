@@ -38,6 +38,10 @@ const WEAPON_APPLY_KEYS: Array[String] = [
 var _item_definition_id: StringName
 var _legacy_source_paths: Array[String] = []
 var _display_name: String
+## Native (关北 A; DECISIONS「关北 A」): the colour an ES2 object wrote into its name (include/ansi.h:
+## d/canyon/npc/obj/seal.c's HIY 印鉴), shown on the name wherever the player reads it; "" for
+## the plain names. Rules still tell items apart by id, never by colour.
+var _name_color: StringName = &""
 var _name_pick: Array[String] = []
 var _aliases: Array[String] = []
 var _description: String
@@ -104,6 +108,9 @@ var _ghost_bane: WeaponGhostBane
 
 var item_definition_id: StringName:
 	get: return _item_definition_id
+## The ANSI colour of the name (ColoredLine.COLORS), or "" for most items.
+var name_color: StringName:
+	get: return _name_color
 var display_name: String:
 	get:
 		if not _haunts.is_empty():
@@ -247,6 +254,9 @@ static func from_record(reader: ContentRecordReader) -> ItemContentDefinition:
 	if definition._legacy_source_paths.is_empty():
 		reader.fail("legacy_sources", "needs at least one LPC source path")
 	definition._display_name = reader.required_text("name")
+	definition._name_color = StringName(reader.text("name_color"))
+	if not definition._name_color.is_empty() and not ColoredLine.COLORS.has(definition._name_color):
+		reader.fail("name_color", "one of include/ansi.h's colours (HIY, HIR, ...)")
 	definition._name_pick = reader.text_list("name_pick")
 	if not definition._name_pick.is_empty() and not definition._name_pick.has(definition._display_name):
 		reader.fail("name_pick", "names the item's own name among them")

@@ -1,0 +1,21 @@
+{
+  "note": "关北 (美术规划 §1 关北: 夯土黄褐、毡白、草原灰绿到秋金): steppe grass from straw-yellow at the city's edge to grey-green out on the plain, low thorn scrub, a few wind-bent poplars (胡杨, gone gold) and squat willows where there is water, dead stumps; small white and purple steppe flowers. The region's default flora; a map's own `flora` overrides it key by key.",
+  "crown_colors": {
+    "poplar": ["b08a3a", "c49c44", "d4ae52", "a07e34"],
+    "willow": ["7a8a4a", "8c9a54", "9eaa60", "6e7e42"],
+    "locust": ["6a7a44", "7c8c4e", "8e9c58", "5e6e3c"],
+    "scrub": ["7a7444", "8c864c", "9e9856", "6e6a3e"],
+    "shrub": ["6e7446", "828850", "969a5a", "626840"],
+    "dead": ["7a6a54", "8a7a62", "9a8a70", "6a5c48"]
+  },
+  "bark_colors": {
+    "poplar": ["d8d4c4", "c8c4b2", "b8b4a2"],
+    "willow": ["6b5a46", "5a4b3b"],
+    "locust": ["4f4234", "5d4e3e"],
+    "scrub": ["6a5a44", "7a6a50"],
+    "shrub": ["6a5a44", "7a6a50"],
+    "dead": ["7a6a54", "8a7a60"]
+  },
+  "grass_colors": ["9a8c52", "8a9458", "a89e62", "b8aa6a", "7c8a4e"],
+  "flower_colors": ["e8e4d8", "b8a0c8", "d8c8a0", "c8b8e0"]
+}

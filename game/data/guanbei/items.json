@@ -1,0 +1,85 @@
+{
+	"items": [
+		{
+			"id": "native:canyon/seal_mould",
+			"legacy_sources": ["native: 关北 A (剧情总纲 §3 第六章 入口「严廷殷丢的真印被军师赫造基拓了模子卖出去」; d/canyon/npc/adviser.c's 八两银子说出秘密; DECISIONS「天驼关 B」「关北 A」) — the mould 赫造基 took of the real 印鉴 while it was lost; 比印 against the 兵部文书 is how the player learns the 印色之差 (剧情总纲 §3 第九章「印色对不上（第六章学过）」). 续写"],
+			"name": "印模",
+			"aliases": ["seal mould", "mould", "模子", "印模"],
+			"long": "一块巴掌大的泥模，拓的是镇国大将军印的印面，「镇国大将军」五个字反着。模子边上沾着一抹朱砂，正红的，拿到亮处看还泛一点黄光。赫造基拓它的时候，真印正丢在后备兵手里。\n",
+			"unit": "块",
+			"material": "stone",
+			"weight": 300,
+			"value": 0,
+			"no_drop": true,
+			"act": {
+				"verb": "比印",
+				"command": "compare",
+				"acts": [
+					{
+						"carries": "文书",
+						"steps": [
+							{ "line": "你把印模翻过来，按在兵部文书末尾那方大印旁边，对着光看。\n" },
+							{ "line": "模子上的朱砂是正红的，泛一点黄光——真印的颜色。文书上的印色暗红发黑，像是朱砂里掺了别的东西。\n", "color": "HIW" },
+							{ "line": "字口一模一样，一笔不差。只差一个颜色。\n", "color": "HIW" },
+							{ "line": "你记住了这个颜色。往后再见到兵部的印，一眼就能看出是哪一方盖的。\n" },
+							{ "mark": "学过印色" }
+						]
+					},
+					{
+						"steps": [
+							{ "line": "光拿着模子比不出什么。得有一张盖了印的文书，把印模按在印旁边看。\n" }
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "native:guanbei/saber",
+			"legacy_sources": ["native: 关北 A (剧情总纲 §6 关北卡「马上刀法（一门）」; DECISIONS「关北 A」) — the curved saber 关北's smith forges; 续写"],
+			"name": "马刀",
+			"aliases": ["saber", "blade", "刀", "马刀"],
+			"long": "一把关北的马刀，刀身带弯，刀背厚，刀柄缠着牛皮绳。马上一撩就是一条口子，平地上使也凑合。\n",
+			"unit": "把",
+			"material": "iron",
+			"weight": 3200,
+			"value": 1500,
+			"weapon": { "skill": "blade", "damage": 42, "weight_dodge": "equip" }
+		},
+		{
+			"id": "native:guanbei/gladius",
+			"legacy_sources": ["native: 关北 A (剧情总纲 §3 第六章 ⑤「卢卡卖剑换路费」, 第七章「学短剑加盾那一派招式树」的引子; DECISIONS「关北 A」) — 卢卡's own sword; 续写"],
+			"name": "大秦短剑",
+			"aliases": ["gladius", "short sword", "sword", "短剑"],
+			"long": "一把大秦的短剑，剑身宽而直，两面开刃，剑尖是一个三角。剑柄是一整块骨头雕的，握上去正合手。剑鞘是铁片缀的，上面錾着一只看不出是什么的鸟。卢卡说这是好剑，他没说错。\n",
+			"unit": "把",
+			"material": "iron",
+			"weight": 2200,
+			"value": 2000,
+			"weapon": { "skill": "sword", "damage": 55, "weight_dodge": "equip" }
+		},
+		{
+			"id": "native:guanbei/mares_milk_wine",
+			"legacy_sources": ["native: 关北 A (剧情总纲 §6 关北卡; the inn's own drink, as obj/example/wineskin.c is Snow's; DECISIONS「关北 A」) — 续写"],
+			"name": "马奶酒",
+			"aliases": ["mares milk wine", "wine", "skin", "酒", "皮囊"],
+			"long": "一只羊皮缝的酒囊，装着酸味冲鼻的马奶酒。关里人头一口皱眉，第二口就不皱了。\n",
+			"unit": "囊",
+			"material": "cloth",
+			"weight": 600,
+			"value": 30,
+			"liquid": { "max_liquid": 10, "type": "alcohol", "name": "马奶酒", "remaining": 10, "drunk_apply": 5 }
+		},
+		{
+			"id": "native:guanbei/mutton",
+			"legacy_sources": ["native: 关北 A (剧情总纲 §6 关北卡; the inn's own food, as obj/example/dumpling.c is Snow's; DECISIONS「关北 A」) — 续写"],
+			"name": "手抓羊肉",
+			"aliases": ["mutton", "meat", "羊肉"],
+			"long": "一大块带骨的羊肉，锅里现捞出来的，撒了一把盐。关北人不用筷子，用手抓。\n",
+			"unit": "份",
+			"material": "bone",
+			"weight": 500,
+			"value": 40,
+			"food": { "remaining": 4, "supply": 60, "leaves": { "name": "啃干净的羊骨头", "aliases": ["bone", "骨头"], "weight": 150, "long": "一根啃得干干净净的羊骨头。\n", "unit": "根" } }
+		}
+	]
+}

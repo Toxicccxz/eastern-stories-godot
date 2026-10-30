@@ -85,7 +85,7 @@ func _test_data() -> void:
 	_check(sword.display_name == "古 剑" and sword.weapon_skill_type == &"" and sword.study != null and sword.study.skill_id == &"sword" and sword.study.exp_required == 2500 and sword.study.max_skill == 50, "old_sword.c: sword to 50 from 2500 exp, no weapon")
 	var swear: ServiceDefinition = catalog.service(SWEAR)
 	_check(swear.kind == &"act" and swear.zone_id == &"canyon.canyon4" and swear.act.verb == "发誓：我爱东方故事II" and swear.act.acts.size() == 1 and swear.act.acts[0].temp == "军营/swear", "光滑的山壁 · 发誓：我爱东方故事II, only with 军营/swear (owner, Q3)")
-	_check(catalog.npc(ADVISER).dealings().object_rules.size() == 4 and catalog.npc(GENERAL).dealings().object_rules.size() == 4 and catalog.npc(SELLER).dealings().object_rules.size() == 7, "adviser.c, general.c, seller.c accept_object()")
+	_check(catalog.npc(ADVISER).dealings().object_rules.size() == 5 and catalog.npc(GENERAL).dealings().object_rules.size() == 4 and catalog.npc(SELLER).dealings().object_rules.size() == 7, "adviser.c, general.c, seller.c accept_object() (the adviser's mould rule of 关北 A before his own)")
 
 
 ## seller.c's value()==30000 is exact; general.c tells the two 印鉴 apart by their names, which
