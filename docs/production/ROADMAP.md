@@ -113,9 +113,10 @@ what it finds is fixed in step 2. What waits for it is listed in [STATUS](STATUS
    tribute, the cart and its escort under the crack at 野羊山's turn, the quest stopping at 「逆灵宫就在裂口上头」); then the new
    regions in chapter order (逆灵宫 first, from that crack; 皇城 and 岚城 last). 逆灵宫 (the plan `build/plans/逆灵宫_计划.md`, owner
    2026-10-29): A done (DECISIONS「逆灵宫 A」: the crack's top and the gate, the three ways up — under the oil-cloth, the escort beaten,
-   黄霸's 黑冠 — the 道士 taking the crowned player for their own); next B (前殿、丹房、账房、地牢: the ledger, the 兵部 papers,
-   霍铮 and 石头 in the cells, a door `key`), C (后殿: the 唤首 scene, 商玦 unkillable, 鬼卒, the rescue / chase choice, 玄冥子
-   and the 残卷), D (the consequences in 野羊山 and 傅家坡).
+   黄霸's 黑冠 — the 道士 taking the crowned player for their own); B done (DECISIONS「逆灵宫 B」: the 前殿, 丹房 and 账房, the ledger and
+   the 兵部 papers read, the dungeon with 霍铮, 石头 and the 关北 men behind iron doors that want a key, the chapter waiting at the
+   后殿); next C (后殿: the 唤首 scene, 商玦 unkillable, 鬼卒, the keyed jailer, the rescue / chase choice, 玄冥子 and the 残卷),
+   D (the consequences in 野羊山 and 傅家坡).
 5. **Characters and animation** after the voxel maps: bodies, faces, clothing by family and class;
    then audio.
 
