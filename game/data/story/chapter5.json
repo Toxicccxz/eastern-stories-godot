@@ -1,0 +1,128 @@
+{
+	"quests": [
+		{
+			"id": "main.chapter5",
+			"title": "人证",
+			"line": "main",
+			"region": "乔阴县城",
+			"sources": [
+				"native: 主线 第五章 人证 (剧情总纲 §3 第五章; 计划 build/plans/第四五章_计划.md B 包; DECISIONS「第五章 人证」) over d/choyin/court1.c's 大皮鼓, npc/magistra.c's greeting() and do_nod() (是你击鼓申冤吗？, 好吧，跟我来....), npc/judgeman.c (程不平, 槐阳王的侄子: court1.c), npc/sergeant.c (the 武官 陈显祖 who lost his 桃木箱; chest.c in tomb3.c), tomb1.c's 朦胧鬼影, yamen_yard.c (no way in: the 衙门大门 is the outline's), hotel1.c (福林酒楼). The deserter, the 抄本, the 兵部's refused order and 庾家's men are the outline's; owner 2026-10-30: Q3 the 福林大街 fight is two lines and a fight."
+			],
+			"summary": "兵部的印是真的，令不是先帝的。要动兵部的人，须有人在堂上说。",
+			"requires": [
+				"main.chapter4"
+			],
+			"steps": [
+				{
+					"id": "drum",
+					"objective": "带着逆灵宫那叠盖兵部印的文书去乔阴县衙，击门口的大皮鼓。没带文书，侍卫不开门——文书还躺在逆灵宫的账房。",
+					"done": {
+						"mark": "击了鼓"
+					},
+					"text": "带刀侍卫从内院出来：是你击鼓申冤吗？——衙门的大门开了。",
+					"target": {
+						"map": "choyin.town",
+						"zone": "choyin.court1"
+					}
+				},
+				{
+					"id": "hear",
+					"objective": "进大堂，把兵部文书给县官程不平看。",
+					"done": {
+						"mark": "程不平要人证"
+					},
+					"text": "程不平看得出文书是真的，可要动兵部的人，须有人证——印是谁盖的，人去了哪，得有人在堂上说。他指了一个人：福林酒楼里日日发呆、丢了箱子的武官，姓陈。",
+					"target": {
+						"map": "choyin.yamen_compound",
+						"zone": "choyin.yamen"
+					}
+				},
+				{
+					"id": "chen",
+					"objective": "福林酒楼里丢了箱子的武官姓陈。给他看兵部的印。",
+					"done": {
+						"mark": "陈显祖认了"
+					},
+					"text": "陈显祖见了兵部的印脸色就变：他是二十年前老松岭那队白衣武官里的逃兵。当年念给全队听的寻剑令抄本一直藏在他的桃木箱里——箱子丢在树王坟的树洞里。",
+					"target": {
+						"map": "choyin.hotel_house",
+						"zone": "choyin.hotel1"
+					}
+				},
+				{
+					"id": "copy",
+					"objective": "寻剑令的抄本在陈显祖的桃木箱里。箱子在树王坟的树洞里——洞里不干净。箱子已经还了他的，问他要抄本。",
+					"done": {
+						"item": "native:choyin/decree_copy"
+					},
+					"text": "寻剑令的抄本到手：「寻剑，不得扰民一户」，一句。底下是当年全队的名字。",
+					"target": {
+						"map": "choyin.tree_hollow",
+						"zone": "choyin.tomb3"
+					}
+				},
+				{
+					"id": "guard",
+					"objective": "县衙的带刀侍卫是槐阳王的人。问他兵部的令。",
+					"done": {
+						"mark": "侍卫说了拒令"
+					},
+					"text": "槐阳王也收到过兵部「征三千民夫修官道寻剑」的令。老王爷拒了。",
+					"target": {
+						"map": "choyin.town",
+						"zone": "choyin.court1"
+					}
+				},
+				{
+					"id": "choice",
+					"objective": "护送陈显祖进衙门作证（问他「作证」），或放他带箱子走（「走吧」）。",
+					"target": {
+						"map": "choyin.hotel_house",
+						"zone": "choyin.hotel1"
+					},
+					"options": [
+						{
+							"id": "escort",
+							"done": {
+								"mark": "陈显祖进了大堂"
+							},
+							"text": "你把陈显祖护送进了乔阴县衙。福林大街上庾家的人动了手——他活着站上了公堂。",
+							"reward": {
+								"deed": "护送陈显祖上了乔阴县的公堂"
+							}
+						},
+						{
+							"id": "release",
+							"done": {
+								"mark": "放走了陈显祖"
+							},
+							"text": "你放陈显祖带着箱子走了。抄本和文书留在你手里。",
+							"reward": {
+								"deed": "放陈显祖带着箱子走了"
+							}
+						}
+					]
+				},
+				{
+					"id": "trial",
+					"objective": "堂审。带着抄本和兵部文书回大堂见程不平。",
+					"done": {
+						"mark": "程不平写了信"
+					},
+					"text": "程不平录了供，写信给叔父槐阳王：假印和失踪的人都往关北去了。",
+					"target": {
+						"map": "choyin.yamen_compound",
+						"zone": "choyin.yamen"
+					}
+				}
+			],
+			"reward": {
+				"milestone": true,
+				"deed": "把寻剑令的真相递到了乔阴县的公堂上",
+				"marks": [
+					"人证一章"
+				]
+			}
+		}
+	]
+}

@@ -477,11 +477,15 @@
 		"native.temple1.huo_zheng",
 		"native.temple1.liu_anlu",
 		"native.fmhousback.shitou",
-		"native.latemoon1.cult_killer"
+		"native.latemoon1.cult_killer",
+		"native.s_street2.yu_steward",
+		"native.s_street2.yu_henchmen",
+		"native.tomb3.hell_runners",
+		"native.yamen_iner.chen_witness"
 	],
-	"world_npcs": 510,
+	"world_npcs": 517,
 	"resident_maps": 134,
-	"new_game_items": 860,
+	"new_game_items": 872,
 	"snow_outdoor_passages": 18,
 	"map_zones": {
 		"snow.inn": 1,
@@ -699,12 +703,12 @@
 		"sanyen.heal_room_house": 1,
 		"sanyen.kitchen_house": 1,
 		"sanyen.tunnels": 0,
-		"choyin.town": 45,
-		"choyin.yamen_compound": 7,
+		"choyin.town": 49,
+		"choyin.yamen_compound": 8,
 		"choyin.temple_altar": 1,
 		"choyin.hotel_2f": 4,
 		"choyin.hotel_3f": 3,
-		"choyin.tree_hollow": 3,
+		"choyin.tree_hollow": 5,
 		"choyin.lion_cave": 1,
 		"choyin.east": 5,
 		"choyin.furnace": 0,
@@ -755,7 +759,7 @@
 		"niling.master_house": 0,
 		"niling.backhill": 1
 	},
-	"npc_draws_after_oldpine": 2554,
+	"npc_draws_after_oldpine": 2559,
 	"technical_maps": 9,
 	"technical_items": 58,
 	"snow_route": {

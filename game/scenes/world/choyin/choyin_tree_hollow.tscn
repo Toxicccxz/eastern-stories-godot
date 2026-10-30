@@ -151,6 +151,16 @@ position = Vector2(328, 56)
 script = ExtResource("marker")
 spawn_point_id = &"choyin.tomb3.chest.1"
 
+[node name="Tomb3HellRunner1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(344, 112)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.tomb3.hell_runner.1"
+
+[node name="Tomb3HellRunner2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(440, 136)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.tomb3.hell_runner.2"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

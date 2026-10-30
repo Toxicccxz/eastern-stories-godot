@@ -254,6 +254,9 @@ msgstr ""
 #. native.npc.black_taoist gender
 #. native.npc.tribute_taoist gender
 #. native.npc.liu_anlu_home gender
+#. native.npc.yu_steward gender
+#. native.npc.yu_henchman gender
+#. native.npc.chen_witness gender
 #: scenes/application/application_shell.tscn core/characters/character_state.gd core/relationships/apprentice_conditions.gd data/common/npcs.json data/oldpine/npcs.json data/snow/npcs.json data/goathill/npcs.json data/cloud/npcs.json data/waterfog/npcs.json data/green/npcs.json data/temple/npcs.json data/latemoon/npcs.json data/latemoon/world.json data/sanyen/npcs.json data/choyin/npcs.json data/canyon/npcs.json data/village/npcs.json data/city/npcs.json data/chuenyu/npcs.json data/niling/npcs.json data/native/npcs.json
 msgid "男性"
 msgstr ""
@@ -845,6 +848,10 @@ msgstr ""
 
 #: scenes/world/choyin/choyin_town.tscn
 msgid "阶梯 · 上高台"
+msgstr ""
+
+#: scenes/world/choyin/choyin_town.tscn
+msgid "大皮鼓 · 击鼓"
 msgstr ""
 
 #: scenes/world/choyin/choyin_town.tscn
@@ -13695,6 +13702,7 @@ msgid "安惜迩"
 msgstr ""
 
 #. quests.target
+#. choyin.npc.boss inquiry topic
 #. choyin.npc.sergeant name
 #: data/common/quests.json data/choyin/npcs.json
 msgid "武官"
@@ -14263,8 +14271,9 @@ msgstr ""
 #. choyin.silk_bag region
 #. choyin.windspring region
 #. choyin.taolin region
+#. main.chapter5 region
 #. choyin name
-#: data/common/journal.json data/choyin/world.json data/sanyen/voxel/mountain.json
+#: data/common/journal.json data/story/chapter5.json data/choyin/world.json data/sanyen/voxel/mountain.json
 msgid "乔阴县城"
 msgstr ""
 
@@ -14346,8 +14355,9 @@ msgstr ""
 #. canyon.camp region
 #. canyon.seal region
 #. canyon.bamboo region
+#. main.chapter6 region
 #. canyon name
-#: data/common/journal.json data/canyon/world.json
+#: data/common/journal.json data/story/chapter6.json data/canyon/world.json
 msgid "天驼关"
 msgstr ""
 
@@ -15454,7 +15464,8 @@ msgid "草叶、布料、麻布、毛皮、木头、皮革；铁、钢、玄铁�
 msgstr ""
 
 #. main.prologue title
-#: data/story/prologue.json
+#. native.npc.chen_witness inquiry topic
+#: data/story/prologue.json data/native/npcs.json
 msgid "寻剑令"
 msgstr ""
 
@@ -16134,6 +16145,134 @@ msgstr ""
 #. main.chapter4/choice/take reward.deed
 #: data/story/chapter4.json
 msgid "带走了寒於宝衣"
+msgstr ""
+
+#. main.chapter5 title
+#. choyin.npc.judgeman inquiry topic
+#. native.npc.chen_witness title
+#: data/story/chapter5.json data/choyin/npcs.json data/native/npcs.json
+msgid "人证"
+msgstr ""
+
+#. main.chapter5 summary
+#: data/story/chapter5.json
+msgid "兵部的印是真的，令不是先帝的。要动兵部的人，须有人在堂上说。"
+msgstr ""
+
+#. main.chapter5 reward.deed
+#: data/story/chapter5.json
+msgid "把寻剑令的真相递到了乔阴县的公堂上"
+msgstr ""
+
+#. main.chapter5/drum objective
+#: data/story/chapter5.json
+msgid "带着逆灵宫那叠盖兵部印的文书去乔阴县衙，击门口的大皮鼓。没带文书，侍卫不开门——文书还躺在逆灵宫的账房。"
+msgstr ""
+
+#. main.chapter5/drum text
+#: data/story/chapter5.json
+msgid "带刀侍卫从内院出来：是你击鼓申冤吗？——衙门的大门开了。"
+msgstr ""
+
+#. main.chapter5/hear objective
+#: data/story/chapter5.json
+msgid "进大堂，把兵部文书给县官程不平看。"
+msgstr ""
+
+#. main.chapter5/hear text
+#: data/story/chapter5.json
+msgid "程不平看得出文书是真的，可要动兵部的人，须有人证——印是谁盖的，人去了哪，得有人在堂上说。他指了一个人：福林酒楼里日日发呆、丢了箱子的武官，姓陈。"
+msgstr ""
+
+#. main.chapter5/chen objective
+#: data/story/chapter5.json
+msgid "福林酒楼里丢了箱子的武官姓陈。给他看兵部的印。"
+msgstr ""
+
+#. main.chapter5/chen text
+#: data/story/chapter5.json
+msgid "陈显祖见了兵部的印脸色就变：他是二十年前老松岭那队白衣武官里的逃兵。当年念给全队听的寻剑令抄本一直藏在他的桃木箱里——箱子丢在树王坟的树洞里。"
+msgstr ""
+
+#. main.chapter5/copy objective
+#: data/story/chapter5.json
+msgid "寻剑令的抄本在陈显祖的桃木箱里。箱子在树王坟的树洞里——洞里不干净。箱子已经还了他的，问他要抄本。"
+msgstr ""
+
+#. main.chapter5/copy text
+#: data/story/chapter5.json
+msgid "寻剑令的抄本到手：「寻剑，不得扰民一户」，一句。底下是当年全队的名字。"
+msgstr ""
+
+#. main.chapter5/guard objective
+#: data/story/chapter5.json
+msgid "县衙的带刀侍卫是槐阳王的人。问他兵部的令。"
+msgstr ""
+
+#. main.chapter5/guard text
+#: data/story/chapter5.json
+msgid "槐阳王也收到过兵部「征三千民夫修官道寻剑」的令。老王爷拒了。"
+msgstr ""
+
+#. main.chapter5/choice objective
+#: data/story/chapter5.json
+msgid "护送陈显祖进衙门作证（问他「作证」），或放他带箱子走（「走吧」）。"
+msgstr ""
+
+#. main.chapter5/choice/escort text
+#: data/story/chapter5.json
+msgid "你把陈显祖护送进了乔阴县衙。福林大街上庾家的人动了手——他活着站上了公堂。"
+msgstr ""
+
+#. main.chapter5/choice/escort reward.deed
+#: data/story/chapter5.json
+msgid "护送陈显祖上了乔阴县的公堂"
+msgstr ""
+
+#. main.chapter5/choice/release text
+#: data/story/chapter5.json
+msgid "你放陈显祖带着箱子走了。抄本和文书留在你手里。"
+msgstr ""
+
+#. main.chapter5/choice/release reward.deed
+#: data/story/chapter5.json
+msgid "放陈显祖带着箱子走了"
+msgstr ""
+
+#. main.chapter5/trial objective
+#: data/story/chapter5.json
+msgid "堂审。带着抄本和兵部文书回大堂见程不平。"
+msgstr ""
+
+#. main.chapter5/trial text
+#: data/story/chapter5.json
+msgid "程不平录了供，写信给叔父槐阳王：假印和失踪的人都往关北去了。"
+msgstr ""
+
+#. main.chapter6 title
+#. native.npc.guanbei_corvee inquiry topic
+#: data/story/chapter6.json data/niling/npcs.json
+msgid "关北"
+msgstr ""
+
+#. main.chapter6 summary
+#: data/story/chapter6.json
+msgid "假印和失踪的人都往关北去了。程不平的信替你敲开军营的门。"
+msgstr ""
+
+#. main.chapter6 reward.deed
+#: data/story/chapter6.json
+msgid "去了关北"
+msgstr ""
+
+#. main.chapter6/guanbei objective
+#: data/story/chapter6.json
+msgid "带着程不平的信去天驼关——假印和失踪的人都往关北去了。"
+msgstr ""
+
+#. main.chapter6/guanbei text
+#: data/story/chapter6.json
+msgid "天驼关的军营。"
 msgstr ""
 
 #. es2:d/oldpine/obj/long_sword long
@@ -18540,7 +18679,8 @@ msgid "说过的话老子不说第二遍。车在山路转角，去不去随你�
 msgstr ""
 
 #. goathill.npc.bandit_hwang inquiry.纳供.rules.lines.emote
-#: data/goathill/npcs.json
+#. choyin.court1.drum act.acts.steps.emote
+#: data/goathill/npcs.json data/choyin/world.json
 msgid "哼了一声。"
 msgstr ""
 
@@ -19081,6 +19221,7 @@ msgstr ""
 #. es2:u/cloud/npc/obj/letter unit
 #. native:snow/letter_to_chen unit
 #. native:snow/letter_to_pan unit
+#. native:choyin/magistrate_letter unit
 #: data/latemoon/items.json data/cloud/items.json data/native/items.json
 msgid "封"
 msgstr ""
@@ -19269,7 +19410,8 @@ msgstr ""
 #. es2:d/latemoon/obj/hankie unit
 #. es2:d/latemoon/obj/book unit
 #. native:niling/scroll_fragment unit
-#: data/latemoon/items.json data/niling/items.json
+#. native:choyin/decree_copy unit
+#: data/latemoon/items.json data/niling/items.json data/native/items.json
 msgid "卷"
 msgstr ""
 
@@ -19732,6 +19874,25 @@ msgstr ""
 #: data/choyin/items.json
 msgid ""
 "一个刻工相刚精细的桃木箱，也许是用来装首饰用的。\n"
+msgstr ""
+
+#. es2:d/choyin/obj/chest act.verb
+#. native:niling/tribute_ledger act.verb
+#. native:niling/war_ministry_papers act.verb
+#: data/choyin/items.json data/niling/items.json
+msgid "翻看"
+msgstr ""
+
+#. es2:d/choyin/obj/chest act.acts.steps.line
+#: data/choyin/items.json
+msgid ""
+"箱底的夹层空了，抄本已经在你手里。\n"
+msgstr ""
+
+#. es2:d/choyin/obj/chest act.acts.steps.line
+#: data/choyin/items.json
+msgid ""
+"你翻看桃木箱：首饰早没了，底板却比箱壁厚得不像话。你抠开底板——夹层里是一卷发黄的纸。\n"
 msgstr ""
 
 #. es2:d/choyin/obj/tablet name
@@ -26540,6 +26701,26 @@ msgid ""
 "这里就是，客倌是第一次来吗？\n"
 msgstr ""
 
+#. choyin.npc.boss inquiry.武官.rules.say
+#: data/choyin/npcs.json
+msgid "陈武官？进了衙门就没再回来。听说在堂上说了什么，县太爷把人留下了。半年的账，他临走前倒是结清了。"
+msgstr ""
+
+#. choyin.npc.boss inquiry.武官.rules.say
+#: data/choyin/npcs.json
+msgid "那位陈武官抱着他的箱子走了，天没亮就走的。半年的账没结——罢了，他那个样子，谁忍心要。"
+msgstr ""
+
+#. choyin.npc.boss inquiry.武官.rules.say
+#: data/choyin/npcs.json
+msgid "陈武官跟你出去了？这半年他没出过这道门。"
+msgstr ""
+
+#. choyin.npc.boss inquiry.武官.rules.say
+#: data/choyin/npcs.json
+msgid "堂下那位武官姓陈，在小店住了半年，天天坐在那儿发呆，丢了个桃木箱子。客倌若见着，他会重谢。"
+msgstr ""
+
 #. choyin.npc.sergeant long
 #: data/choyin/npcs.json
 msgid ""
@@ -26565,7 +26746,8 @@ msgstr ""
 #. choyin.npc.sergeant inquiry topic
 #. native.npc.niling_store_taoist inquiry topic
 #. niling.winch.landmark.crates name
-#: data/choyin/npcs.json data/niling/npcs.json data/niling/world.json
+#. native.npc.chen_witness inquiry topic
+#: data/choyin/npcs.json data/niling/npcs.json data/niling/world.json data/native/npcs.json
 msgid "箱子"
 msgstr ""
 
@@ -26585,13 +26767,165 @@ msgid "如果你见著了，麻烦送还给我，在下定当重重报答。"
 msgstr ""
 
 #. choyin.npc.sergeant inquiry topic
-#: data/choyin/npcs.json
+#. native.npc.chen_witness name
+#: data/choyin/npcs.json data/native/npcs.json
 msgid "陈显祖"
 msgstr ""
 
 #. choyin.npc.sergeant inquiry.陈显祖
 #: data/choyin/npcs.json
 msgid "不敢，正是在下，不知阁下有何指教？"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry topic
+#: data/choyin/npcs.json
+msgid "兵部"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.兵部.rules.say
+#: data/choyin/npcs.json
+msgid "我认了。抄本在桃木箱的底板里，箱子在树王坟的树洞里——我不敢去取。"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.兵部.rules.lines.emote
+#: data/choyin/npcs.json
+msgid "看见文书末尾那方朱红的印，脸色一下变了，手按住了桌沿。"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.兵部.rules.lines.say
+#: data/choyin/npcs.json
+msgid "这印……二十年了，还是这方印。"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.兵部.rules.lines.say
+#: data/choyin/npcs.json
+msgid "在下不瞒阁下：二十年前老松岭那队白衣武官，我是其中一个——走到半路跑了的那个。原令只一句：寻剑，不得扰民一户。是我念给全队听的。念完第三天，领队拿着另一道令来了：征民夫，拿人。"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.兵部.rules.lines.say
+#: data/choyin/npcs.json
+msgid "我抄了一份原令，缝在桃木箱的底板里，怕了二十年。箱子……箱子丢在树王坟的树洞里了，洞里不干净，我不敢去取。"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.兵部.rules.say
+#: data/choyin/npcs.json
+msgid "兵部？在下一个外地人，不懂这些。"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry topic
+#: data/choyin/npcs.json
+msgid "抄本"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.抄本.rules.say
+#: data/choyin/npcs.json
+msgid "抄本你已经拿了。念给公堂听，还是烧了，都在你。"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.抄本.rules.marks_asker
+#. choyin.npc.sergeant inquiry.走吧.rules.marks_asker
+#: data/choyin/npcs.json
+msgid "看过寻剑令抄本"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.抄本.rules.lines.emote
+#: data/choyin/npcs.json
+msgid "把桃木箱翻过来，抠开底板，取出一卷发黄的纸。"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.抄本.rules.lines.say
+#: data/choyin/npcs.json
+msgid "就是它。二十三个名字，我一个一个点过——点到的都不在了。"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.抄本.rules.say
+#: data/choyin/npcs.json
+msgid "在箱子底板的夹层里。箱子在树王坟的树洞里——洞里那三个影子，我见过一回，再没敢下去。"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.抄本.rules.say
+#: data/choyin/npcs.json
+msgid "什么抄本？"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry topic
+#: data/choyin/npcs.json
+msgid "作证"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.作证.rules.say
+#: data/choyin/npcs.json
+msgid "我跟着你。到了衙门再说。"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.作证.rules.say
+#: data/choyin/npcs.json
+msgid "我已经在堂上说过了。"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.作证.rules.lines.emote
+#: data/choyin/npcs.json
+msgid "沉默了很久，手从桌沿上拿了下来。"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.作证.rules.lines.say
+#: data/choyin/npcs.json
+msgid "二十年，我天天想着这一天会不会来。来了就来了——我跟你去。箱子我带着，抄本你拿着。"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.作证.rules.lines.say
+#: data/choyin/npcs.json
+msgid "阁下走前头。庾家的人在这条街上有眼睛。"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.作证.rules.say
+#: data/choyin/npcs.json
+msgid "作什么证？在下只是个丢了箱子的过路人。"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry topic
+#: data/choyin/npcs.json
+msgid "走吧"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.走吧.rules.say
+#: data/choyin/npcs.json
+msgid "我已经答应跟你去了。到了衙门再说走不走。"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.走吧.rules.say
+#: data/choyin/npcs.json
+msgid "箱子还没回到我手里，抄本在箱底的夹层里——你自己翻翻看，或者把箱子还我。"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.走吧.rules.marks_asker
+#: data/choyin/npcs.json
+msgid "放走了陈显祖"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.走吧.rules.lines.emote
+#: data/choyin/npcs.json
+msgid "把桃木箱翻过来，抠开底板，取出一卷发黄的纸，递给你。"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.走吧.rules.lines.say
+#: data/choyin/npcs.json
+msgid "多谢。这二十三个名字，往后替我记着。"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.走吧.rules.lines.emote
+#: data/choyin/npcs.json
+msgid "抱起桃木箱，出了福林酒楼的门，再没有回头。"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.走吧.rules.lines.say
+#: data/choyin/npcs.json
+msgid "多谢。抄本在你手上，就不用我这张嘴了。"
+msgstr ""
+
+#. choyin.npc.sergeant inquiry.走吧.rules.say
+#: data/choyin/npcs.json
+msgid "走？在下的箱子还没找回来。"
 msgstr ""
 
 #. choyin.npc.sergeant accept_object.lines.say
@@ -26612,6 +26946,12 @@ msgstr ""
 #. choyin.npc.sergeant accept_object.lines.line
 #: data/choyin/npcs.json
 msgid "武官给你一本「白杨经」。"
+msgstr ""
+
+#. choyin.npc.sergeant moods.going.chat_msg
+#: data/choyin/npcs.json
+msgid ""
+"武官跟在你身后，一只手一直按在剑柄上。\n"
 msgstr ""
 
 #. choyin.npc.cucurbit_seller chat_msg
@@ -26664,6 +27004,36 @@ msgstr ""
 #: data/choyin/npcs.json
 msgid ""
 "带刀侍卫皆为槐阳王程老王爷麾下骁将,身负绝艺.\n"
+msgstr ""
+
+#. choyin.npc.magistra inquiry topic
+#: data/choyin/npcs.json
+msgid "老王爷"
+msgstr ""
+
+#. choyin.npc.magistra inquiry.老王爷
+#: data/choyin/npcs.json
+msgid "我们都是槐阳王程老王爷麾下的人。老王爷镇关北二十年，兵部的令到了他手里，不合先帝法度的，一概不接。"
+msgstr ""
+
+#. choyin.npc.magistra inquiry topic
+#: data/choyin/npcs.json
+msgid "兵部的令"
+msgstr ""
+
+#. choyin.npc.magistra inquiry.兵部的令.rules.say
+#: data/choyin/npcs.json
+msgid "老王爷拒了。我说过了。"
+msgstr ""
+
+#. choyin.npc.magistra inquiry.兵部的令.rules.lines.say
+#: data/choyin/npcs.json
+msgid "兵部去年也给关北发过一道令：征三千民夫修官道，寻剑。老王爷拒了——先帝的令只说寻剑，没说征人。"
+msgstr ""
+
+#. choyin.npc.magistra inquiry.兵部的令.rules.lines.say
+#: data/choyin/npcs.json
+msgid "拒了之后，关北的民夫还是一批一批地没了。往哪儿去的，老王爷查到今天。"
 msgstr ""
 
 #. choyin.npc.crone name
@@ -26850,6 +27220,190 @@ msgstr ""
 #. choyin.npc.judgeman sentence.sorry_line
 #: data/choyin/npcs.json
 msgid "真是对不起, 下人办事不周, 让您受委屈了."
+msgstr ""
+
+#. choyin.npc.judgeman inquiry topic
+#. native:niling/war_ministry_papers name
+#: data/choyin/npcs.json data/niling/items.json
+msgid "兵部文书"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.兵部文书.rules.say
+#: data/choyin/npcs.json
+msgid "文书本县看过了，信也写了。拿着信去天驼关——假印和失踪的人都往关北去了。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.兵部文书.rules.say
+#: data/choyin/npcs.json
+msgid "文书本县看过了。印是真的——所以才要人证。福林酒楼里那位姓陈的武官，去问他。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.兵部文书.rules.lines.emote
+#: data/choyin/npcs.json
+msgid "接过文书，一张一张看过去，看到末尾的印，看了很久。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.兵部文书.rules.lines.say
+#: data/choyin/npcs.json
+msgid "印是兵部的，不假。纸是新的，字也是新的——这不是先帝的令。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.兵部文书.rules.lines.say
+#: data/choyin/npcs.json
+msgid "可要动兵部的人，须有人证：印是谁盖的，人去了哪，得有人站在这堂上说。纸能证纸，不能证人。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.兵部文书.rules.lines.say
+#: data/choyin/npcs.json
+msgid "本县指你一个人。福林酒楼里有个武官，姓陈，日日坐在堂下发呆，丢了一个箱子——二十年前老松岭那队白衣武官，他在里头。你把这文书拿给他看。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.兵部文书.rules.say
+#: data/choyin/npcs.json
+msgid "什么文书？拿来本县看看。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.人证.rules.say
+#: data/choyin/npcs.json
+msgid "陈显祖在内厅。他说的本县都录下了——有了他，这案子才是案子。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.人证.rules.say
+#: data/choyin/npcs.json
+msgid "你放他走了。纸能证纸，不能证人——本县只能照纸写信。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.人证.rules.say
+#: data/choyin/npcs.json
+msgid "福林酒楼里那位姓陈的武官。他知道的比他说的多——看他的脸就知道。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.人证.rules.say
+#: data/choyin/npcs.json
+msgid "人证？你先把案子说给本县听。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry topic
+#. native.npc.chen_witness inquiry topic
+#: data/choyin/npcs.json data/native/npcs.json
+msgid "槐阳王"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.槐阳王
+#: data/choyin/npcs.json
+msgid "家叔。本县这个县官，是叔父保举的——所以乔阴县的衙门，不认兵部的私令。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry topic
+#. native.npc.chen_witness inquiry topic
+#: data/choyin/npcs.json data/native/npcs.json
+msgid "供词"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.供词.rules.say
+#: data/choyin/npcs.json
+msgid "陈显祖的供词有力：原令只一句，征民夫、拿人的不是先帝的令——人证、物证都在。叔父见了这封信，关北的兵不会再替人修官道。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.供词.rules.say
+#: data/choyin/npcs.json
+msgid "没有供词，只有纸。本县写信时迟疑了半晌——叔父信不信纸，本县不敢说。"
+msgstr ""
+
+#. choyin.npc.judgeman inquiry.供词.rules.say
+#: data/choyin/npcs.json
+msgid "还没有供词。"
+msgstr ""
+
+#. choyin.npc.judgeman calls.steps.emote
+#: data/choyin/npcs.json
+msgid "拿起惊堂木，没有拍下去，放回了书案上。"
+msgstr ""
+
+#. choyin.npc.judgeman calls.steps.say
+#: data/choyin/npcs.json
+msgid "堂下何人？"
+msgstr ""
+
+#. choyin.npc.judgeman calls.steps.emote
+#: data/choyin/npcs.json
+msgid "跪下了。"
+msgstr ""
+
+#. choyin.npc.judgeman calls.steps.say
+#: data/choyin/npcs.json
+msgid "罪人陈显祖。二十年前老松岭那队白衣武官，罪人在其中。原令只一句——寻剑，不得扰民一户。征民夫、拿人的，不是先帝的令，是后头来的。"
+msgstr ""
+
+#. choyin.npc.judgeman calls.steps.say
+#: data/choyin/npcs.json
+msgid "抄本呈上来。"
+msgstr ""
+
+#. choyin.npc.judgeman calls.steps.emote
+#: data/choyin/npcs.json
+msgid "接过抄本，对着文书上的印看了半晌，提笔录供。"
+msgstr ""
+
+#. choyin.npc.judgeman calls.steps.say
+#: data/choyin/npcs.json
+msgid "印是兵部的，令不是先帝的。录了。"
+msgstr ""
+
+#. choyin.npc.judgeman calls.steps.emote
+#: data/choyin/npcs.json
+msgid "另取一张纸，写了一封信，封好，压上县印。"
+msgstr ""
+
+#. choyin.npc.judgeman calls.steps.say
+#: data/choyin/npcs.json
+msgid "这封信给家叔槐阳王。假印和失踪的人都往关北去了——拿着它去天驼关，军营的门会开。"
+msgstr ""
+
+#. choyin.npc.judgeman calls.steps.say
+#: data/choyin/npcs.json
+msgid "陈显祖，你留在衙门里。庾家的人进不了这道门。"
+msgstr ""
+
+#. choyin.npc.judgeman calls.steps.line
+#: data/choyin/npcs.json
+msgid ""
+"两名带刀侍卫领着陈显祖进了内厅。\n"
+msgstr ""
+
+#. choyin.npc.judgeman calls.steps.emote
+#: data/choyin/npcs.json
+msgid "看了看堂下——只有你一个人。"
+msgstr ""
+
+#. choyin.npc.judgeman calls.steps.say
+#: data/choyin/npcs.json
+msgid "人证呢？"
+msgstr ""
+
+#. choyin.npc.judgeman calls.steps.emote
+#: data/choyin/npcs.json
+msgid "接过抄本，对着文书上的印看了半晌。"
+msgstr ""
+
+#. choyin.npc.judgeman calls.steps.say
+#: data/choyin/npcs.json
+msgid "纸能证纸，不能证人。你放他走了。"
+msgstr ""
+
+#. choyin.npc.judgeman calls.steps.emote
+#: data/choyin/npcs.json
+msgid "提笔，停了停，还是写了一封信，封好，压上县印。"
+msgstr ""
+
+#. choyin.npc.judgeman calls.steps.say
+#: data/choyin/npcs.json
+msgid "这封信给家叔槐阳王。本县只能照纸写——他信不信，本县不敢说。假印和失踪的人都往关北去了，拿着它去天驼关。"
+msgstr ""
+
+#. choyin.npc.judgeman calls.steps.say
+#: data/choyin/npcs.json
+msgid "退堂。"
 msgstr ""
 
 #. choyin.npc.lady long
@@ -27788,6 +28342,11 @@ msgstr ""
 msgid "也不知道隐士怎么弄的，你无法跳出专注的舞步。"
 msgstr ""
 
+#. choyin.court1.gate name
+#: data/choyin/world.json
+msgid "衙门大门"
+msgstr ""
+
 #. choyin.yamen.door name
 #: data/choyin/world.json
 msgid "铜钉大门"
@@ -28147,6 +28706,61 @@ msgstr ""
 #: data/choyin/world.json
 msgid ""
 "你身上没有忘忧草啊。\n"
+msgstr ""
+
+#. choyin.court1.drum name
+#: data/choyin/world.json
+msgid "大皮鼓"
+msgstr ""
+
+#. choyin.court1.drum act.verb
+#: data/choyin/world.json
+msgid "击鼓"
+msgstr ""
+
+#. choyin.court1.drum act.acts.steps.line
+#: data/choyin/world.json
+msgid ""
+"鼓已经击过了。衙门的大门开着，直走进去就是。\n"
+msgstr ""
+
+#. choyin.court1.drum act.acts.ask
+#: data/choyin/world.json
+msgid ""
+"你抡起鼓槌，「咚——咚——咚——」三声。\n"
+"带刀侍卫从衙门内院走了出来，看了看你，说道：是你击鼓申冤吗？"
+msgstr ""
+
+#. choyin.court1.drum act.acts.choice
+#: data/choyin/world.json
+msgid "是"
+msgstr ""
+
+#. choyin.court1.drum act.acts.steps.say
+#: data/choyin/world.json
+msgid "好吧，跟我来...."
+msgstr ""
+
+#. choyin.court1.drum act.acts.steps.line
+#: data/choyin/world.json
+msgid ""
+"衙门的大门「吱呀」一声开了。带刀侍卫转身进去，没有回头。\n"
+msgstr ""
+
+#. choyin.court1.drum act.acts.steps.line
+#: data/choyin/world.json
+msgid ""
+"你抡起鼓槌，「咚——咚——咚——」三声。\n"
+msgstr ""
+
+#. choyin.court1.drum act.acts.steps.emote
+#: data/choyin/world.json
+msgid "从衙门内院走了出来，看了看你两手空空。"
+msgstr ""
+
+#. choyin.court1.drum act.acts.steps.say
+#: data/choyin/world.json
+msgid "空口无凭，回去吧。"
 msgstr ""
 
 #. choyin.club.scratch act.verb
@@ -34373,12 +34987,6 @@ msgid ""
 "一本黑皮的账册，封皮上没有字。翻开是一笔笔纳供的账：金帛、腌肉、麻绳……每一页的末尾另起一行，记的不是东西。\n"
 msgstr ""
 
-#. native:niling/tribute_ledger act.verb
-#. native:niling/war_ministry_papers act.verb
-#: data/niling/items.json
-msgid "翻看"
-msgstr ""
-
 #. native:niling/tribute_ledger act.acts.steps.line
 #: data/niling/items.json
 msgid ""
@@ -34397,11 +35005,6 @@ msgstr ""
 #: data/niling/items.json
 msgid ""
 "纳供的不只是金帛。你把账册合上，手心全是汗。\n"
-msgstr ""
-
-#. native:niling/war_ministry_papers name
-#: data/niling/items.json
-msgid "兵部文书"
 msgstr ""
 
 #. native:niling/war_ministry_papers long
@@ -35134,11 +35737,6 @@ msgstr ""
 #: data/niling/npcs.json
 msgid ""
 "关北民夫低声道：……河挖不动了，人也挖不动了。\n"
-msgstr ""
-
-#. native.npc.guanbei_corvee inquiry topic
-#: data/niling/npcs.json
-msgid "关北"
 msgstr ""
 
 #. native.npc.guanbei_corvee inquiry.关北
@@ -36238,6 +36836,138 @@ msgid ""
 "蒙面杀手看着你，没再出手。面巾下的眼睛和书房里那个老妇人一样。\n"
 msgstr ""
 
+#. native.npc.yu_steward name
+#: data/native/npcs.json
+msgid "庾家管事"
+msgstr ""
+
+#. native.npc.yu_steward long
+#: data/native/npcs.json
+msgid ""
+"一个穿酱色便衣的中年人，腰里的刀用布裹着，手搭在上头。他不像是来喝酒的——眼睛在街上扫，扫到陈显祖就停了。\n"
+msgstr ""
+
+#. native.npc.yu_steward chat_msg
+#: data/native/npcs.json
+msgid ""
+"庾家管事的手在刀柄的布上摩挲了一下。\n"
+msgstr ""
+
+#. native.npc.yu_steward chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"庾家管事喝道：拿下！人要活的！\n"
+msgstr ""
+
+#. native.npc.yu_steward chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"庾家管事说道：兵部有令，拦的人一并拿！\n"
+msgstr ""
+
+#. native.npc.yu_steward calls.steps.emote
+#: data/native/npcs.json
+msgid "从酒楼对面的屋檐下走出来，拦在街心。身后三个便衣的汉子散开，手都按着刀柄。"
+msgstr ""
+
+#. native.npc.yu_steward calls.steps.say
+#: data/native/npcs.json
+msgid "陈显祖，兵部有令拿你。箱子留下，人跟我们走。"
+msgstr ""
+
+#. native.npc.yu_steward calls.steps.emote
+#: data/native/npcs.json
+msgid "站住了，手慢慢按到剑柄上。"
+msgstr ""
+
+#. native.npc.yu_steward calls.steps.say
+#: data/native/npcs.json
+msgid "二十年了，还是找来了。"
+msgstr ""
+
+#. native.npc.yu_steward calls.steps.say
+#: data/native/npcs.json
+msgid "动手。"
+msgstr ""
+
+#. native.npc.yu_steward calls.steps.line
+#: data/native/npcs.json
+msgid ""
+"三个汉子抽刀围了上来——冲的是你。\n"
+msgstr ""
+
+#. native.npc.yu_steward moods.fighting.chat_msg
+#: data/native/npcs.json
+msgid ""
+"庾家管事的刀出了布。\n"
+msgstr ""
+
+#. native.npc.yu_henchman name
+#: data/native/npcs.json
+msgid "庾家打手"
+msgstr ""
+
+#. native.npc.yu_henchman long
+#: data/native/npcs.json
+msgid ""
+"一个便衣的壮汉，刀已经出了鞘。酱色的短衣，和管事一个颜色。\n"
+msgstr ""
+
+#. native.npc.yu_henchman chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"庾家打手喝道：让开！我们拿的是逃兵，不是你！\n"
+msgstr ""
+
+#. native.npc.yu_henchman chat_msg_combat
+#: data/native/npcs.json
+msgid ""
+"庾家打手的刀横着扫过来。\n"
+msgstr ""
+
+#. native.npc.chen_witness long
+#: data/native/npcs.json
+msgid ""
+"一位相貌威武的武官，坐在内厅的茶桌旁，鬓角白了。他不再发呆了——二十年压在身上的东西，在堂上说出来之后，人反倒直了。\n"
+msgstr ""
+
+#. native.npc.chen_witness chat_msg
+#: data/native/npcs.json
+msgid ""
+"陈显祖端起茶，手不抖了。\n"
+msgstr ""
+
+#. native.npc.chen_witness chat_msg
+#: data/native/npcs.json
+msgid ""
+"陈显祖说道：二十三个名字，我一个一个念过。\n"
+msgstr ""
+
+#. native.npc.chen_witness inquiry.name
+#: data/native/npcs.json
+msgid "在下陈显祖。如今是乔阴县衙的人证——总算是个名目。"
+msgstr ""
+
+#. native.npc.chen_witness inquiry.供词
+#: data/native/npcs.json
+msgid "我说了：原令只一句，「寻剑，不得扰民一户」。征民夫、拿人的，不是先帝的令。程大人都录下了。"
+msgstr ""
+
+#. native.npc.chen_witness inquiry.寻剑令
+#: data/native/npcs.json
+msgid "二十年前念给全队听的那一卷，我抄了一份，藏到今天。该念给公堂听了。"
+msgstr ""
+
+#. native.npc.chen_witness inquiry.槐阳王
+#: data/native/npcs.json
+msgid "程大人的叔父。听说老王爷拒过兵部的令——有人肯拒，我这份供词就不算白说。"
+msgstr ""
+
+#. native.npc.chen_witness inquiry.箱子
+#: data/native/npcs.json
+msgid "箱子还给我了，书也给了你。里头最要紧的东西，如今在程大人的卷宗里。"
+msgstr ""
+
 #. native:snow/letter_to_chen name
 #: data/native/items.json
 msgid "雪亭驿的书信"
@@ -36353,6 +37083,28 @@ msgid ""
 "昭蓉倒在内厅的门边，像是听见前厅的动静跑出来，没跑到。她的手还搭在门框上。\n"
 msgstr ""
 
+#. native:choyin/decree_copy name
+#: data/native/items.json
+msgid "寻剑令抄本"
+msgstr ""
+
+#. native:choyin/decree_copy long
+#: data/native/items.json
+msgid ""
+"一卷发黄的纸，边角磨得起了毛，叠过又展开过许多回。抄的是二十年前兵部颁下的寻剑令，一句：「寻剑，不得扰民一户。」底下另起一行，密密地写着一队人的名字——二十三个，每个名字后头点了一个墨点，像在数人。最后一个名字是陈显祖，没有点。\n"
+msgstr ""
+
+#. native:choyin/magistrate_letter name
+#: data/native/items.json
+msgid "程不平的信"
+msgstr ""
+
+#. native:choyin/magistrate_letter long
+#: data/native/items.json
+msgid ""
+"一封封好的信，火漆上压着乔阴县印，封皮写着「叔父大人亲启」。程不平说：兵部的印是真的，令不是先帝的；假印和失踪的人都往关北去了——这封信替你敲开天驼关军营的门。\n"
+msgstr ""
+
 #. native:oldpine/pine_top long
 #: data/native/rooms.json
 msgid ""
@@ -36387,6 +37139,10 @@ msgstr ""
 
 #: data/choyin/voxel/town.json
 msgid "福林楼"
+msgstr ""
+
+#: data/choyin/voxel/town.json
+msgid "县衙"
 msgstr ""
 
 #: data/choyin/voxel/town.json

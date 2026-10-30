@@ -28,6 +28,9 @@ var npc_flag: StringName = &""
 var unless_npc_flag: StringName = &""
 var mood: String = ""
 var attacks: bool = false
+## Native (主线 第五章; DECISIONS「第五章 人证」): once it has answered, the NPC leaves for good
+## (an act's `leave`: 陈显祖 told 走吧 takes his box and is not seen again).
+var leaves: bool = false
 var asker_marks: Array[String] = []
 ## Native (主线 A; DECISIONS「剧情演出」): an id of something the asker carries (present(id, me),
 ## as ScriptedAct's `carries`): a letter of introduction shown, a token in hand.
@@ -95,6 +98,9 @@ static func from_record(reader: ContentRecordReader) -> NpcInquiryRule:
 	rule.unless_npc_flag = StringName(reader.text("unless_npc_flag"))
 	rule.mood = reader.text("mood")
 	rule.attacks = reader.boolean("attacks", false)
+	rule.leaves = reader.boolean("leaves", false)
+	if rule.leaves and rule.attacks:
+		reader.fail("leaves", "one that leaves does not attack")
 	rule.asker_class = StringName(reader.text("asker_class"))
 	rule.asker_gender = StringName(reader.text("asker_gender"))
 	if not rule.asker_gender.is_empty() and not NpcTeaching.GENDERS.has(rule.asker_gender):

@@ -78,6 +78,8 @@ class Answer:
 	## it then attacks the asker (kill_ob()).
 	var mood: String = ""
 	var attacks: bool = false
+	## Whether it leaves for good once it has answered (NpcInquiryRule.leaves; the caller does it).
+	var leaves: bool = false
 
 	func texts() -> Array[String]:
 		return ColoredLine.texts(lines)
@@ -197,6 +199,7 @@ static func answer(
 		result.gives = rule.gives
 		result.mood = rule.mood
 		result.attacks = rule.attacks
+		result.leaves = rule.leaves
 		result.vendor_list = rule.vendor_list
 		result.forgets = rule.forgets
 		result.make = rule.make

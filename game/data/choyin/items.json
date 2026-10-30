@@ -171,7 +171,15 @@
 			"unit": "个",
 			"material": "wood",
 			"weight": 1400,
-			"value": 300
+			"value": 300,
+			"act": {
+				"verb": "翻看",
+				"command": "search",
+				"acts": [
+					{ "mark": "看过寻剑令抄本", "steps": [{ "line": "箱底的夹层空了，抄本已经在你手里。\n" }] },
+					{ "steps": [{ "line": "你翻看桃木箱：首饰早没了，底板却比箱壁厚得不像话。你抠开底板——夹层里是一卷发黄的纸。\n" }, { "give": "native:choyin/decree_copy" }, { "mark": "看过寻剑令抄本" }] }
+				]
+			}
 		},
 		{
 			"id": "es2:d/choyin/obj/tablet",

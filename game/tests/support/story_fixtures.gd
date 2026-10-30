@@ -149,6 +149,46 @@ static func chapter4_taken(session: WorldSessionController) -> void:
 		map.give_new_item_to_player(&"native:latemoon/cold_robe")
 
 
+## 人证 done after 宝衣 kept (DECISIONS「第五章 人证」): the drum beaten with the 兵部文书, 程不平 asked,
+## 陈显祖 shown the seal, the hollow's 鬼卒 down and the 抄本 out of the chest, the 侍卫 asked, 陈显祖
+## escorted through 庾家's men to the 大堂 and kept in the 内厅; the letter, the 抄本 and the papers in hand.
+static func chapter5_escorted(session: WorldSessionController) -> void:
+	chapter4_kept(session)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in [
+		"main.chapter5#started", "main.chapter5/drum", "main.chapter5/hear", "main.chapter5/chen", "main.chapter5/copy",
+		"main.chapter5/guard", "main.chapter5/choice/escort", "main.chapter5/trial", "main.chapter5#done",
+	]:
+		_write(state, key)
+	for mark: String in ["击了鼓", "程不平要人证", "陈显祖认了", "树洞的鬼卒倒了", "看过寻剑令抄本", "侍卫说了拒令", "陈显祖跟你走了", "见过庾家拦路", "福林大街的庾家人倒了", "陈显祖进了大堂", "堂审过", "陈显祖作了证", "程不平写了信", "人证一章"]:
+		state.marks[mark] = 1
+	_chapter5_things(session)
+
+
+## 人证 done after 宝衣 taken: the chest returned first and the 抄本 from 陈显祖's hand, then 走吧 — he is
+## gone with his box; the trial without him (纸能证纸，不能证人), the letter all the same.
+static func chapter5_released(session: WorldSessionController) -> void:
+	chapter4_taken(session)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in [
+		"main.chapter5#started", "main.chapter5/drum", "main.chapter5/hear", "main.chapter5/chen", "main.chapter5/copy",
+		"main.chapter5/guard", "main.chapter5/choice/release", "main.chapter5/trial", "main.chapter5#done",
+	]:
+		_write(state, key)
+	for mark: String in ["击了鼓", "程不平要人证", "陈显祖认了", "树洞的鬼卒倒了", "看过寻剑令抄本", "侍卫说了拒令", "放走了陈显祖", "堂审过", "只留了文书", "程不平写了信", "人证一章"]:
+		state.marks[mark] = 1
+	_chapter5_things(session)
+
+
+## What the fifth chapter leaves in the player's hands: the 兵部文书, the 抄本 and 程不平's letter.
+static func _chapter5_things(session: WorldSessionController) -> void:
+	var map: WorldMapController = session.active_map() as WorldMapController
+	if map == null:
+		return
+	for item_id: StringName in [&"native:niling/war_ministry_papers", &"native:choyin/decree_copy", &"native:choyin/magistrate_letter"]:
+		if session.player_held_item_ids().get(item_id, false) == false:
+			map.give_new_item_to_player(item_id)
+
 static func _write(state: CharacterState, key: String) -> void:
 	if not state.quests.has(key):
 		state.quests[key] = state.quests.size() + 1
