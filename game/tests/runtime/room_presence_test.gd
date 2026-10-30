@@ -70,11 +70,18 @@ func _test_together(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(not coordinator.has_active_encounter() and player.world_location().zone_id == HALL, "fled, still in the hall")
 	await _frames(tree, coordinator)
 	_check(not coordinator.has_active_encounter(), "standing still after the flight: they let the player be")
-	_check(await MapPlaces.drive_to_zone(tree, map, GARDEN) and not coordinator.has_active_encounter(), "out into the garden")
+	# TEST-ONLY: the garden's 杀人蜂 (bellicosity 3000: attack.c's berserk dice on the player's
+	# arrival, drawn from the shared NPC stream) sent away: the garden is here for the 护院 only.
+	var bee: NpcRuntimeState = map.npcs.first_npc_in_zone(&"chuenyu.npc.bee", GARDEN)
+	while bee != null:
+		map.npcs.leave_for_good(bee)
+		bee = map.npcs.first_npc_in_zone(&"chuenyu.npc.bee", GARDEN)
+	var out: bool = await MapPlaces.drive_to_zone(tree, map, GARDEN)
+	_check(out and not coordinator.has_active_encounter(), "out into the garden: drove %s, fight %s, at %s" % [out, coordinator.has_active_encounter(), player.world_location().zone_id])
 	_check(await MapPlaces.drive_to_zone(tree, map, HALL) or coordinator.has_active_encounter(), "and back into the hall")
 	await _frames(tree, coordinator)
 	encounter = coordinator.active_encounter()
-	_check(encounter != null and fighting.all(func(npc: NpcRuntimeState) -> bool: return encounter.participant_for(npc.character_id) != null), "back in their room: both come on again")
+	_check(encounter != null and fighting.all(func(npc: NpcRuntimeState) -> bool: return encounter.participant_for(npc.character_id) != null), "back in their room: both come on again: %s" % [null if encounter == null else encounter.participants().size()])
 	_finish_fight(session)
 
 

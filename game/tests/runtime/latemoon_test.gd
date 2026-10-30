@@ -68,7 +68,7 @@ func _test_data() -> void:
 	var floor_8: DanceDefinition = catalog.service(&"latemoon.latemoon8.dance").dance
 	_check(floor_8.steps.size() == 2 and floor_8.cost_for("男性").at_least == 100 and floor_8.cost_for("女性").sen == 30 and floor_8.steps[0].sen == 50, "latemoon8.c: 男 100/50, 女 50/30; 有凤来仪 50 more")
 	var floor_mi: DanceDefinition = catalog.service(&"latemoon.miroom.dance").dance
-	_check(floor_mi.steps.size() == 1 and floor_mi.cost_for("男性").sen == 80 and floor_mi.cost_for("女性").sen == 50, "miroom.c: only 西出阳关; 男 100/80, 女 50/50")
+	_check(floor_mi.steps.size() == 2 and floor_mi.steps[1].name == "西出阳关" and floor_mi.steps[1].always and floor_mi.cost_for("男性").sen == 80 and floor_mi.cost_for("女性").sen == 50, "miroom.c: 西出阳关 (and 第四章's 有凤来仪 before it); 男 100/80, 女 50/50")
 	_check(catalog.service(&"latemoon.latemoon3.tea").kind == &"water" and catalog.service(&"latemoon.room.bathroom.pool").kind == &"water", "resource/water: the teapot, the pool")
 
 
@@ -128,8 +128,8 @@ func _test_dances(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(session.active_map_id() == &"latemoon.secret" and session.player_runtime().world_location().zone_id == &"latemoon.miroom" and state.spirit.current == 70, "「有凤来仪」: 30 + 50 sen, into the other 密室")
 	var secret: WorldMapController = session.active_map() as WorldMapController
 	var floor_mi: DanceService = secret.service(&"latemoon.miroom.dance") as DanceService
-	_check(await MapPlaces.drive(tree, secret, MapPlaces.service_spot(secret, &"latemoon.miroom.dance")) and floor_mi.known_steps().size() == 1, "its 八卦图: only 西出阳关")
-	floor_mi.choose(floor_mi.known_steps()[0])
+	_check(await MapPlaces.drive(tree, secret, MapPlaces.service_spot(secret, &"latemoon.miroom.dance")) and floor_mi.known_steps().size() == 2 and floor_mi.known_steps()[1].name == "西出阳关", "its 八卦图: 西出阳关 out (and 第四章's 有凤来仪 for one who heard it named)")
+	floor_mi.choose(floor_mi.known_steps()[1])
 	await tree.process_frame
 	_check(session.active_map_id() == &"latemoon.hills" and session.player_runtime().world_location().zone_id == &"latemoon.bamboo" and state.spirit.current == 20, "「西出阳关」: 50 sen, out into the bamboo grove")
 	_check(hud.log_lines().has(OUT_LINE), "its line")
@@ -195,7 +195,7 @@ func _test_secret_rooms(tree: SceneTree, session: WorldSessionController) -> voi
 	marks.erase("dance_out") # TEST-ONLY: never heard of 西出阳关
 	marks.erase("dance_yu_fong")
 	var floor_mi: DanceService = secret.service(&"latemoon.miroom.dance") as DanceService
-	_check(floor_mi.known_steps().size() == 1 and floor_mi.known_steps()[0].name == "西出阳关", "miroom's 八卦图 offers 西出阳关 to anyone")
+	_check(floor_mi.known_steps().size() == 1 and floor_mi.known_steps()[0].name == "西出阳关", "miroom's 八卦图 offers 西出阳关 to anyone (第四章's 有凤来仪 only to one who heard it named)")
 	var floor_8: DanceDefinition = GameContent.catalog().service(&"latemoon.latemoon8.dance").dance
 	_check(floor_8.known_steps(marks).is_empty(), "latemoon8's dances still need hearing of (it has its door)")
 

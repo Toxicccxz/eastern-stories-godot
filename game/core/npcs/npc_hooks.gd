@@ -87,6 +87,9 @@ var spared_only_in_mood: String = ""
 ## begins (its scene calls' `not_mark`): a scene cut short is not played again.
 var scene_mark: String = ""
 var moods: Dictionary[String, NpcMood] = {}
+## Native (主线 第四章; DECISIONS「第四章 宝衣」): `trials`, the tests it puts an asker through
+## outside any 拜师 (NpcTrial: 瑷伦's 三鞭 for the 宝衣), each a row on the interaction popup.
+var trials: Array[NpcTrial] = []
 var attack_ask: String = ""
 var attack_choice: String = ""
 var follows_every_way: bool = false
@@ -177,7 +180,7 @@ static func _color(reader: ContentRecordReader, key: String) -> StringName:
 ## `defeated_enemy` {line, color?} (each line as say() prints it, the NPC's name in it), `chant` {stages: [{after, say, line?, combat_exp?}],
 ## repeat_after}, `ghost` true, `die_carries` {item, master?}, `die_marks_killer` a mark, `calls`
 ## [{after, ...ScriptedAct}], `calls_hold` true, `moods` {name: NpcMood}, `attack_ask` with `attack_choice` and
-## `follows_every_way` true; null when it has none of them.
+## `follows_every_way` true, `trials` [NpcTrial]; null when it has none of them.
 static func from_record(reader: ContentRecordReader) -> NpcHooks:
 	var hooks := NpcHooks.new()
 	var found: bool = false
@@ -286,6 +289,9 @@ static func from_record(reader: ContentRecordReader) -> NpcHooks:
 		for mood_name: String in moods.keys():
 			hooks.moods[mood_name] = NpcMood.from_record(mood_name, moods.child(mood_name))
 		moods.finish()
+	for record: ContentRecordReader in reader.children("trials"):
+		found = true
+		hooks.trials.append(NpcTrial.from_record(record))
 	if reader.has("attack_ask") or reader.has("attack_choice"):
 		found = true
 		hooks.attack_ask = reader.required_text("attack_ask")

@@ -118,8 +118,10 @@ what it finds is fixed in step 2. What waits for it is listed in [STATUS](STATUS
    后殿); C done (DECISIONS「逆灵宫 C」: the 唤首 scene with the headless shade, the 鬼卒, the keyed jailer, the one-or-the-other
    choice — the rescue home to the 土地庙 and 黄霸's yield, or the chase to the cliff and 玄冥子's 残卷 — the chapter done either way);
    D done (DECISIONS「逆灵宫 D」: the turn's bandits let the rescuer be under the parley, 刘安禄 back to the stockade, the 农妇 with
-   her son, 黄霸 grown after the chase, 玄冥子's 六阴剑 hook) — the region is complete; 剧情总纲 §8 第 4 步 goes on to the next
-   region in chapter order.
+   her son, 黄霸 grown after the chase, 玄冥子's 六阴剑 hook) — the region is complete. 剧情总纲 §8 第 5 步 (the chapters in existing
+   regions) has begun: chapter four 宝衣 on 晚月庄 is done (DECISIONS「第四章 宝衣」: 瑷伦's lashes for anyone, the 冰匣 danced open, the
+   three-way end and the night after; the plan `build/plans/第四五章_计划.md`); chapter five 人证 on 乔阴 is next, then 第 4 步 goes on to
+   关北 in chapter order.
 5. **Characters and animation** after the voxel maps: bodies, faces, clothing by family and class;
    then audio.
 

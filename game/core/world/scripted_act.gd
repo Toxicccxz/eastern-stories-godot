@@ -63,11 +63,14 @@ extends RefCounted
 ## - `summon` (a spawn id; native, 逆灵宫 C): every absent NPC of that summoned spawn of this map
 ##   comes in on its marker (keep2.c's guards new()'d by a room rule, hell_guard.c's 鬼卒 risen
 ##   by an invocation), as a trap's `summon` does; an aggressive one falls on the player at once;
+## - `unfollow` (native, 主线 第四章): the act's NPC stops following the player (its
+##   follows_player flag cleared: 芳绫 after her dance in the 密室) and stays where it stands,
+##   to go home when its room resets, as any NPC away from home does;
 ## - `reincarnate`: damage.c reincarnate() and ob->move(REVIVE_ROOM) (d/death/npc/wgargoyle.c
 ##   death_stage(), inn1.c do_stuff()): the ghost lives again at the Snow temple. It is the
 ##   act's last step; the session makes the move once the act's map has had its beat
 ##   (WorldSessionController.request_reincarnation()).
-enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM, COMES, NPC_FLAG, HURT, MARK, NPC_MOOD, NPC_WIELD, LEAVE, REINCARNATE, BY, DROP, SUMMON }
+enum Kind { LINE, DAMAGE, HEAL, CONDITION, CALM, NPC_FORCE, CLOSE_DOOR, MOVE, KILL, GIVE, SET_TEMP, CLEAR_TEMP, UNMARK, WATER, SET_ROOM, CLEAR_ROOM, COMES, NPC_FLAG, HURT, MARK, NPC_MOOD, NPC_WIELD, LEAVE, REINCARNATE, BY, DROP, SUMMON, UNFOLLOW }
 
 ## The resources receive_damage() and receive_heal() name.
 const RESOURCES: Array[String] = ["gin", "kee", "sen"]
@@ -383,7 +386,7 @@ static func _step(reader: ContentRecordReader) -> Step:
 	var kinds: Array[String] = []
 	if ["say", "emote", "line", "whisper"].any(func(key: String) -> bool: return reader.has(key)):
 		kinds.append("line")
-	for key: String in ["damage", "hurt", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "mark", "water", "set_room", "clear_room", "comes", "npc_flag", "npc_mood", "npc_wield", "leave", "reincarnate", "by", "drop", "summon"]:
+	for key: String in ["damage", "hurt", "heal", "condition", "calm", "npc_force", "close_door", "move", "kill", "give", "give_one_of", "set_temp", "clear_temp", "unmark", "mark", "water", "set_room", "clear_room", "comes", "npc_flag", "npc_mood", "npc_wield", "leave", "reincarnate", "by", "drop", "summon", "unfollow"]:
 		if reader.has(key):
 			kinds.append(key)
 	if kinds.size() != 1:
@@ -527,4 +530,8 @@ static func _step(reader: ContentRecordReader) -> Step:
 		"drop":
 			step.kind = Kind.DROP
 			step.item_id = StringName(reader.required_text("drop"))
+		"unfollow":
+			step.kind = Kind.UNFOLLOW
+			if not reader.boolean("unfollow", false):
+				reader.fail("unfollow", "is true when present")
 	return step

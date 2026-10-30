@@ -179,7 +179,7 @@ func take_trial() -> NpcApprenticeTrial.Result:
 			map.player_fall_below_zero()
 		return result
 	tell_blow(result, 0)
-	map.npc_life.start_trial(npc, self, result, spacing)
+	map.npc_life.start_trial(npc, tell_blow, result, spacing)
 	return result
 
 

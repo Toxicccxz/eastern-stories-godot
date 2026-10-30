@@ -16,7 +16,8 @@
 			"zone": "latemoon.latemoon1",
 			"points": ["latemoon.latemoon1.servant.1", "latemoon.latemoon1.servant.2"],
 			"legacy_room": "d/latemoon/latemoon1.c",
-			"legacy_quantity": 2
+			"legacy_quantity": 2,
+			"until": { "any": [{ "quest": "main.chapter4/choice/take" }, { "quest": "main.chapter4/choice/to_annie" }] }
 		},
 		{
 			"id": "latemoon.manor.latemoon1.master",
@@ -61,7 +62,8 @@
 			"zone": "latemoon.latemoon2",
 			"points": ["latemoon.latemoon2.zauron.1"],
 			"legacy_room": "d/latemoon/latemoon2.c",
-			"legacy_quantity": 1
+			"legacy_quantity": 1,
+			"until": { "any": [{ "quest": "main.chapter4/choice/take" }, { "quest": "main.chapter4/choice/to_annie" }] }
 		},
 		{
 			"id": "latemoon.manor.guest1.guest",
@@ -70,7 +72,8 @@
 			"zone": "latemoon.room.guest1",
 			"points": ["latemoon.room.guest1.guest.1"],
 			"legacy_room": "d/latemoon/room/guest1.c",
-			"legacy_quantity": 1
+			"legacy_quantity": 1,
+			"until": { "any": [{ "quest": "main.chapter4/choice/take" }, { "quest": "main.chapter4/choice/to_annie" }] }
 		},
 		{
 			"id": "latemoon.manor.guest2.tguest",
@@ -79,7 +82,8 @@
 			"zone": "latemoon.room.guest2",
 			"points": ["latemoon.room.guest2.tguest.1"],
 			"legacy_room": "d/latemoon/room/guest2.c",
-			"legacy_quantity": 1
+			"legacy_quantity": 1,
+			"until": { "any": [{ "quest": "main.chapter4/choice/take" }, { "quest": "main.chapter4/choice/to_annie" }] }
 		},
 		{
 			"id": "latemoon.manor.kitchen.fochin",
@@ -124,7 +128,8 @@
 			"zone": "latemoon.room.lstudio",
 			"points": ["latemoon.room.lstudio.killer.1"],
 			"legacy_room": "d/latemoon/room/lstudio.c",
-			"legacy_quantity": 1
+			"legacy_quantity": 1,
+			"until": { "any": [{ "quest": "main.chapter4/choice/take" }, { "quest": "main.chapter4/choice/to_annie" }] }
 		},
 		{
 			"id": "latemoon.manor.room4.servant2",
@@ -214,7 +219,8 @@
 			"zone": "latemoon.room.bathroom",
 			"points": ["latemoon.room.bathroom.fireangel.1"],
 			"legacy_room": "d/latemoon/room/bathroom.c",
-			"legacy_quantity": 1
+			"legacy_quantity": 1,
+			"until": { "any": [{ "quest": "main.chapter4/choice/take" }, { "quest": "main.chapter4/choice/to_annie" }] }
 		},
 		{
 			"id": "latemoon.manor.bathroom.eton",

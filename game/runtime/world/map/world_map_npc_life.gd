@@ -538,9 +538,9 @@ func _told(npc: NpcRuntimeState, done: int, total: int, hurry: Callable) -> Worl
 
 
 ## A passed test (TeacherService.take_trial(), its first blow told) is told on, a blow
-## `spacing` seconds after the last.
-func start_trial(npc: NpcRuntimeState, service: TeacherService, result: NpcApprenticeTrial.Result, spacing: float) -> void:
-	trials[npc.character_id] = {"service": service, "result": result, "told": 1}
+## `spacing` seconds after the last; `tell` (result, index) tells one blow.
+func start_trial(npc: NpcRuntimeState, tell: Callable, result: NpcApprenticeTrial.Result, spacing: float) -> void:
+	trials[npc.character_id] = {"tell": tell, "result": result, "told": 1}
 	npc_ambience().start_call(npc.character_id, spacing, NpcAmbience.TRIAL)
 
 
@@ -554,19 +554,100 @@ func _trial_step(character_id: StringName) -> void:
 	var pending: Dictionary = trials.get(character_id, {})
 	if pending.is_empty():
 		return
-	if not is_instance_valid(pending["service"]):
+	var tell: Callable = pending["tell"]
+	if not tell.is_valid():
 		trials.erase(character_id)
 		return
-	var service: TeacherService = pending["service"]
 	var result: NpcApprenticeTrial.Result = pending["result"]
 	var told: int = pending["told"]
-	service.tell_blow(result, told)
+	tell.call(result, told)
 	told += 1
 	pending["told"] = told
 	if told >= result.steps.size():
 		trials.erase(character_id)
 	else:
 		npc_ambience().start_call(character_id, GameContent.catalog().pacing().trial_blow_seconds, NpcAmbience.TRIAL)
+
+
+## Native (主线 第四章; DECISIONS「第四章 宝衣」): the tests an NPC puts an asker through outside
+## any 拜师 (NpcHooks.trials: 瑷伦's 三鞭 for the 宝衣) that it offers the player now: it
+## stands awake and free to strike, the player holds the trial's marks and lacks its mark,
+## and no test of its is being told.
+func story_trials_offered(npc: NpcRuntimeState) -> Array[NpcTrial]:
+	var offered: Array[NpcTrial] = []
+	var hooks: NpcHooks = null if npc == null else npc.definition().hooks()
+	if hooks == null or hooks.trials.is_empty() or _player == null:
+		return offered
+	for trial: NpcTrial in hooks.trials:
+		if offers_story_trial(npc, trial):
+			offered.append(trial)
+	return offered
+
+
+func offers_story_trial(npc: NpcRuntimeState, trial: NpcTrial) -> bool:
+	return (
+		npc != null and trial != null and _player != null and npc.exists_in_map
+		and npc.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+		and npc.combat_available and not npc.relationship.is_fighting()
+		and _player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+		and _player.world_location().zone_id == npc.world_location().zone_id
+		and trial.offered_to(_player.state.marks) and not trial_running(npc)
+	)
+
+
+## The trial taken: its blows struck now as elon.c's do_accept() strikes them (each a
+## do_attack() outside any fight; the player falls on the heart beat that follows), told blow
+## by blow trial_blow_ms apart when passed (as a master's test, DECISIONS「响应性」), at once
+## with the fall when not. Passed, the player gets its mark and its deed.
+func take_story_trial(npc: NpcRuntimeState, trial: NpcTrial) -> NpcApprenticeTrial.Result:
+	if not offers_story_trial(npc, trial):
+		return NpcApprenticeTrial.Result.new()
+	var player: WorldPlayerRuntimeState = _player
+	var cast: BattlePresentationProjection = BattleProjectionBuilder.cast_of(_map.session, [npc.character_id])
+	var narrator := BattleNarrator.new()
+	var attack := func() -> Variant:
+		var seen: Array[ColoredLine] = []
+		var blow: CombatSliceOpportunityResult = _map.attack_player_outside_fight(npc)
+		if blow == null:
+			return null
+		for line: BattleNarrationLine in narrator.attack_chain(blow.forward_result, blow.chain_result, cast, blow.post_action_lines(), blow.reverse_post_action_lines()):
+			seen.append(ColoredLine.new(line.text, line.color))
+		return seen
+	var stands := func() -> bool:
+		var location: WorldLocationState = player.world_location()
+		return (
+			player.state.vitality.current >= 0 and player.life_status == CharacterRuntimeLifeStatus.Value.ACTIVE
+			and location != null and location.zone_id == npc.world_location().zone_id
+		)
+	var passed := func() -> NpcApprenticeship.Outcome:
+		player.state.marks[trial.mark] = 1
+		_map.open_found_ways(trial.mark)
+		return NpcApprenticeship.Outcome.ACKNOWLEDGED
+	var result: NpcApprenticeTrial.Result = NpcApprenticeTrial.run(trial.as_rule(), NpcApprenticeship.new(), attack, stands, passed)
+	var spacing: float = GameContent.catalog().pacing().trial_blow_seconds
+	var hud: SharedGameplayUI = _map.hud()
+	# The deed is told once the last blow has been (the 【事迹】 line after her words, not before).
+	var deed := func() -> void:
+		if _map.session != null and not trial.deed.is_empty():
+			_map.session.deeds().report(trial.deed)
+	if spacing <= 0.0 or result.outcome != NpcApprenticeTrial.Outcome.PASSED or result.steps.size() < 2:
+		if hud != null:
+			hud.append_colored_lines(result.lines)
+		if result.outcome == NpcApprenticeTrial.Outcome.PASSED:
+			deed.call()
+		if player.state.life_threshold() != CharacterState.LifeThreshold.ACTIVE:
+			_map.player_fall_below_zero()
+		return result
+	var tell := func(told: NpcApprenticeTrial.Result, index: int) -> void:
+		if hud != null and index >= 0 and index < told.steps.size():
+			var lines: Array[ColoredLine] = []
+			lines.assign(told.steps[index])
+			hud.append_colored_lines(lines)
+		if index == told.steps.size() - 1:
+			deed.call()
+	tell.call(result, 0)
+	start_trial(npc, tell, result, spacing)
+	return result
 
 
 ## sword_soul.c chant(): call_out("chant_sword", 20, 1), and on from there.

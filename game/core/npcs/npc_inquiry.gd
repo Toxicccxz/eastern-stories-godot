@@ -202,6 +202,7 @@ static func answer(
 		result.make = rule.make
 		if not rule.temp_asker.is_empty():
 			result.temps.append(rule.temp_asker)
+		result.marks.append_array(rule.marks_asker)
 		if rule.gives.is_empty() and not rule.mark_asker.is_empty():
 			result.marks.append(rule.mark_asker)
 		elif not rule.mark_asker.is_empty():

@@ -63,7 +63,7 @@ func _test_who_leaves_home() -> void:
 
 
 func _test_revision() -> void:
-	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_NILING_D_V1, "逆灵宫 D's world revision is current")
+	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_STORY_CH4_V1, "第四章's world revision is current")
 	var named: bool = true
 	for value: int in WorldContentRevision.Value.values():
 		var text: String = WorldContentRevision.serialized(value as WorldContentRevision.Value)

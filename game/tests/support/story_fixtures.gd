@@ -103,7 +103,7 @@ static func chapter3_rescued(session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
 	for key: String in ["main.chapter3/altar", "main.chapter3/ghosts", "main.chapter3/choice/rescue", "main.chapter3/home", "main.chapter3#done"]:
 		_write(state, key)
-	for mark: String in ["见过唤首", "祭坛的鬼卒倒了", "狱卒交了钥匙", "救出了霍铮", "救出了石头", "放了关北民夫", "石头回家了", "霍铮回了寨"]:
+	for mark: String in ["见过唤首", "祭坛的鬼卒倒了", "狱卒交了钥匙", "救出了霍铮", "救出了石头", "放了关北民夫", "石头回家了", "霍铮回了寨", "逆灵宫一章"]:
 		state.marks[mark] = 1
 
 
@@ -113,8 +113,40 @@ static func chapter3_chased(session: WorldSessionController) -> void:
 	var state: CharacterState = session.player_runtime().state
 	for key: String in ["main.chapter3/altar", "main.chapter3/ghosts", "main.chapter3/choice/chase", "main.chapter3/duel", "main.chapter3#done"]:
 		_write(state, key)
-	for mark: String in ["见过唤首", "祭坛的鬼卒倒了", "追出了后门", "玄冥子倒了", "放过了玄冥子"]:
+	for mark: String in ["见过唤首", "祭坛的鬼卒倒了", "追出了后门", "玄冥子倒了", "放过了玄冥子", "逆灵宫一章"]:
 		state.marks[mark] = 1
+
+
+## 宝衣 done after 逆灵宫 by the rescue (DECISIONS「第四章 宝衣」): 潘军禅 asked, 安妮儿 asked, 瑷伦's
+## three lashes stood, 斩鬼 answered, the 冰匣 danced open (a woman's own dance), the robe given
+## back to 瑷伦, who keeps it to the last day. The manor stands as it was.
+static func chapter4_kept(session: WorldSessionController) -> void:
+	chapter3_rescued(session)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in [
+		"main.chapter4#started", "main.chapter4/lead/pan", "main.chapter4/manor", "main.chapter4/annie", "main.chapter4/keeper",
+		"main.chapter4/lashes", "main.chapter4/question/slay", "main.chapter4/chest", "main.chapter4/choice/keep", "main.chapter4#done",
+	]:
+		_write(state, key)
+	for mark: String in ["潘军禅说了宝衣", "安妮儿说了等", "瑷伦说了三鞭", "接下了瑷伦三鞭", "答瑷伦：斩鬼", "瑷伦说了冰匣", "dance_yu_fong", "冰匣开了", "瑷伦守到决战", "宝衣一章"]:
+		state.marks[mark] = 1
+
+
+## 宝衣 done after 逆灵宫 by the chase: 南危水 asked, 不知道 answered, 芳绫 danced the 冰匣 open for a
+## man, the robe carried out of the gate (the night follows on the next visit to the manor).
+static func chapter4_taken(session: WorldSessionController) -> void:
+	chapter3_chased(session)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in [
+		"main.chapter4#started", "main.chapter4/lead/nan", "main.chapter4/manor", "main.chapter4/annie", "main.chapter4/keeper",
+		"main.chapter4/lashes", "main.chapter4/question/unsure", "main.chapter4/chest", "main.chapter4/choice/take", "main.chapter4#done",
+	]:
+		_write(state, key)
+	for mark: String in ["南危水说了宝衣", "安妮儿说了等", "瑷伦说了三鞭", "接下了瑷伦三鞭", "答瑷伦：不知", "瑷伦说了冰匣", "冰匣开了", "芳绫跟你去了", "芳绫替你跳了", "带走了宝衣", "宝衣一章"]:
+		state.marks[mark] = 1
+	var map: WorldMapController = session.active_map() as WorldMapController
+	if map != null and session.player_held_item_ids().get(&"native:latemoon/cold_robe", false) == false:
+		map.give_new_item_to_player(&"native:latemoon/cold_robe")
 
 
 static func _write(state: CharacterState, key: String) -> void:
