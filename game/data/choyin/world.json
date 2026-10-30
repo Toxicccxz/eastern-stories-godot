@@ -97,6 +97,7 @@
 		{ "id": "choyin.hotel2.down", "from_zone": "choyin.hotel2", "to_zone": "choyin.hotel1", "to_spawn": "choyin.hotel1.stairs_return", "legacy_room": "es2:d/choyin/hotel2", "legacy_command": "down" },
 		{ "id": "choyin.hotel2.up", "from_zone": "choyin.hotel2", "to_zone": "choyin.hotel3", "to_spawn": "choyin.hotel3.stairs_arrival", "legacy_room": "es2:d/choyin/hotel2", "legacy_command": "up" },
 		{ "id": "choyin.hotel3.down", "from_zone": "choyin.hotel3", "to_zone": "choyin.hotel2", "to_spawn": "choyin.hotel2.upstairs_return", "legacy_room": "es2:d/choyin/hotel3", "legacy_command": "down" },
+		{"id": "choyin.court1.north", "from_zone": "choyin.court1", "to_zone": "choyin.yamen_yard", "to_spawn": "choyin.yamen_yard.gate_arrival", "legacy_room": "es2:d/choyin/court1", "legacy_command": "north"},
 		{ "id": "choyin.yamen_yard.south", "from_zone": "choyin.yamen_yard", "to_zone": "choyin.court1", "to_spawn": "choyin.court1.yamen_return", "legacy_room": "es2:d/choyin/yamen_yard", "legacy_command": "south" },
 		{ "id": "choyin.tomb1.up", "from_zone": "choyin.tomb1", "to_zone": "choyin.tree_tomb", "to_spawn": "choyin.tree_tomb.hole_return", "legacy_room": "es2:d/choyin/tomb1", "legacy_command": "up" },
 		{ "id": "choyin.craneroom.down", "from_zone": "choyin.craneroom", "to_zone": "choyin.guyehill", "to_spawn": "choyin.guyehill.tree_return", "legacy_room": "es2:d/choyin/craneroom", "legacy_command": "down" },
@@ -125,6 +126,7 @@
 		{ "id": "choyin.club.east", "from_zone": "choyin.club", "to_zone": "choyin.fence", "to_spawn": "choyin.fence.club_return", "legacy_room": "es2:d/choyin/club", "legacy_command": "east" }
 	],
 	"doors": [
+		{"id": "choyin.court1.gate", "name": "衙门大门", "zones": ["choyin.court1", "choyin.yamen_yard"], "reach": 90, "closable": false, "operable": false, "found_by": "击了鼓", "legacy_room": "es2:d/choyin/court1"},
 		{ "id": "choyin.yamen.door", "name": "铜钉大门", "zones": ["choyin.yamen_yard", "choyin.yamen"], "reach": 90, "legacy_room": "es2:d/choyin/yamen" },
 		{ "id": "choyin.fence.door", "name": "柴门", "zones": ["choyin.fence", "choyin.club"], "reach": 90, "legacy_room": "es2:d/choyin/fence" },
 		{ "id": "choyin.club.door", "name": "柴门", "zones": ["choyin.club", "choyin.yard"], "reach": 90, "legacy_room": "es2:d/choyin/club" }
@@ -165,6 +167,7 @@
 		{ "id": "choyin.s_street1.drink", "kind": "act", "zone": "choyin.s_street1", "name": "大井", "reach": 96, "legacy_source": "d/choyin/s_street1.c", "act": {"verb": "喝水", "acts": [{"thirsty": true, "steps": [{"line": "你在井边用杯子舀起井水喝了几口。\n"}, {"water": 20}]}, {"steps": [{"line": "你已经再也喝不下一滴水了。\n"}]}]} },
 		{ "id": "choyin.cloudpool.water", "kind": "water", "zone": "choyin.cloudpool", "name": "大泽", "reach": 160, "legacy_source": "d/choyin/cloudpool.c" },
 		{ "id": "choyin.lionroom.smell", "kind": "act", "zone": "choyin.lionroom", "name": "洞穴", "reach": 400, "legacy_source": "d/choyin/lionroom.c", "act": {"verb": "闻忘忧草", "acts": [{"carries": "grass", "steps": [{"line": "一阵怪风骤然刮起，你仿佛腾云驾雾般。\n"}, {"move": "cloud.biaoju", "point": "cloud.biaoju.wind_arrival"}]}, {"steps": [{"line": "你身上没有忘忧草啊。\n"}]}]} },
+		{"id": "choyin.court1.drum", "kind": "act", "zone": "choyin.court1", "name": "大皮鼓", "reach": 96, "legacy_source": "d/choyin/court1.c (门口有一面大皮鼓, 让百姓击鼓申冤用的), d/choyin/npc/magistra.c greeting() and do_nod() (是你击鼓申冤吗？, 好吧，跟我来....); native: 主线 第五章 人证 (剧情总纲 §3 第五章; 计划 build/plans/第四五章_计划.md B 包; DECISIONS「第五章 人证」)", "act": {"verb": "击鼓", "acts": [{"mark": "击了鼓", "steps": [{"line": "鼓已经击过了。衙门的大门开着，直走进去就是。\n"}]}, {"carries": "文书", "ask": "你抡起鼓槌，「咚——咚——咚——」三声。\n带刀侍卫从衙门内院走了出来，看了看你，说道：是你击鼓申冤吗？", "choice": "是", "steps": [{"by": "choyin.npc.magistra"}, {"emote": "哼了一声。"}, {"say": "好吧，跟我来...."}, {"mark": "击了鼓"}, {"line": "衙门的大门「吱呀」一声开了。带刀侍卫转身进去，没有回头。\n"}]}, {"steps": [{"line": "你抡起鼓槌，「咚——咚——咚——」三声。\n"}, {"by": "choyin.npc.magistra"}, {"emote": "从衙门内院走了出来，看了看你两手空空。"}, {"say": "空口无凭，回去吧。"}]}]}},
 		{ "id": "choyin.club.scratch", "kind": "act", "zone": "choyin.club", "name": "书卷", "reach": 120, "legacy_source": "d/choyin/club.c", "act": {"verb": "拿书", "acts": [{"steps": [{"line": "你乘人不备，抓起一本书藏入怀中。\n"}, {"give_one_of": ["es2:d/choyin/npc/obj/book1", "es2:d/choyin/npc/obj/book1", "es2:d/choyin/npc/obj/book2"]}, {"set_temp": "choyin/书"}]}]} }
 	]
 }

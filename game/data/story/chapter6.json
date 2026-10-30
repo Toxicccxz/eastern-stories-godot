@@ -1,0 +1,38 @@
+{
+	"quests": [
+		{
+			"id": "main.chapter6",
+			"title": "关北",
+			"line": "main",
+			"region": "天驼关",
+			"sources": [
+				"native: 主线 第六章 关北 的桩 (剧情总纲 §3 第六章; 计划 build/plans/第四五章_计划.md: 第六章只做一步桩, its objective shows when the fifth chapter ends; DECISIONS「第五章 人证」). The 关北 package writes the mark 到了关北 that ends it."
+			],
+			"summary": "假印和失踪的人都往关北去了。程不平的信替你敲开军营的门。",
+			"requires": [
+				"main.chapter5"
+			],
+			"steps": [
+				{
+					"id": "guanbei",
+					"objective": "带着程不平的信去天驼关——假印和失踪的人都往关北去了。",
+					"done": {
+						"mark": "到了关北"
+					},
+					"text": "天驼关的军营。",
+					"target": {
+						"map": "canyon.camp",
+						"zone": "canyon.camp1"
+					}
+				}
+			],
+			"reward": {
+				"milestone": true,
+				"deed": "去了关北",
+				"marks": [
+					"关北一章"
+				]
+			}
+		}
+	]
+}

@@ -343,7 +343,13 @@
 			"zone": "choyin.hotel1",
 			"points": ["choyin.hotel1.sergeant.1"],
 			"legacy_room": "d/choyin/hotel1.c",
-			"legacy_quantity": 1
+			"legacy_quantity": 1,
+			"until": {
+				"any": [
+					{ "quest": "main.chapter5/choice/escort" },
+					{ "quest": "main.chapter5/choice/release" }
+				]
+			}
 		}
 	]
 }

@@ -826,8 +826,8 @@ func _resolve_doors() -> void:
 					ids.append(zone.map_id)
 		if not _rooms.has(definition.legacy_room_id):
 			_errors.append("%s.legacy_room: unknown room '%s'" % [origin, definition.legacy_room_id])
-		if not definition.found_by.is_empty() and not _mark_found_by_landmark(definition.found_by) and not _mark_of_a_scene(definition.found_by):
-			_errors.append("%s.found_by: no find_way landmark or scene gives the mark '%s'" % [origin, definition.found_by])
+		if not definition.found_by.is_empty() and not _mark_found_by_landmark(definition.found_by) and not _mark_of_a_scene(definition.found_by) and not _mark_of_an_act(definition.found_by):
+			_errors.append("%s.found_by: no find_way landmark, scene or act gives the mark '%s'" % [origin, definition.found_by])
 		if not definition.key.is_empty() and not _items.has(definition.key):
 			_errors.append("%s.key: unknown item '%s'" % [origin, definition.key])
 		if maps.size() > 1 and not _portal_joins(definition.zone_ids()):
@@ -851,6 +851,19 @@ func _mark_of_a_scene(mark: String) -> bool:
 		var hooks: NpcHooks = npc.hooks()
 		if hooks != null and hooks.scene_mark == mark:
 			return true
+	return false
+
+
+## An act service's step writes `mark` (ScriptedAct MARK: the 大皮鼓's 击了鼓 opening the 衙门大门,
+## 主线 第五章): a way such a mark finds opens as the act runs (WorldMapActs open_found_ways()).
+func _mark_of_an_act(mark: String) -> bool:
+	for service: ServiceDefinition in _services.values():
+		if service.act == null:
+			continue
+		for act: ScriptedAct in service.act.acts:
+			for step: ScriptedAct.Step in act.steps:
+				if step.kind == ScriptedAct.Kind.MARK and step.flag == mark:
+					return true
 	return false
 
 

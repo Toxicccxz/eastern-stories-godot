@@ -67,7 +67,15 @@
 				"name": ["在下姓汤单名一个业字。\n"],
 				"here": ["此处便是福林酒楼，客倌如要点菜，吩咐店里的小二一声便可。\n"],
 				"汤业": ["不敢，在下便是汤业，不知客倌有何吩咐？\n"],
-				"福林酒楼": ["这里就是，客倌是第一次来吗？\n"]
+				"福林酒楼": ["这里就是，客倌是第一次来吗？\n"],
+				"武官": {
+					"rules": [
+						{ "asker_marks": ["陈显祖作了证"], "say": "陈武官？进了衙门就没再回来。听说在堂上说了什么，县太爷把人留下了。半年的账，他临走前倒是结清了。" },
+						{ "asker_marks": ["放走了陈显祖"], "say": "那位陈武官抱着他的箱子走了，天没亮就走的。半年的账没结——罢了，他那个样子，谁忍心要。" },
+						{ "asker_marks": ["陈显祖跟你走了"], "say": "陈武官跟你出去了？这半年他没出过这道门。" },
+						{ "say": "堂下那位武官姓陈，在小店住了半年，天天坐在那儿发呆，丢了个桃木箱子。客倌若见着，他会重谢。" }
+					]
+				}
 			}
 		},
 		{
@@ -91,11 +99,49 @@
 				"rumors": ["在下失落了一件重要物事，是装在一个桃木箱子里，不知你有没有看见？"],
 				"箱子": ["对，是桃木做成的箱子。"],
 				"桃木箱子": ["如果你见著了，麻烦送还给我，在下定当重重报答。"],
-				"陈显祖": ["不敢，正是在下，不知阁下有何指教？"]
+				"陈显祖": ["不敢，正是在下，不知阁下有何指教？"],
+				"兵部": {
+					"rules": [
+						{ "asker_marks": ["陈显祖认了"], "say": "我认了。抄本在桃木箱的底板里，箱子在树王坟的树洞里——我不敢去取。" },
+						{ "asker_carries": "文书", "mark_asker": "陈显祖认了", "lines": [{ "emote": "看见文书末尾那方朱红的印，脸色一下变了，手按住了桌沿。" }, { "say": "这印……二十年了，还是这方印。" }, { "say": "在下不瞒阁下：二十年前老松岭那队白衣武官，我是其中一个——走到半路跑了的那个。原令只一句：寻剑，不得扰民一户。是我念给全队听的。念完第三天，领队拿着另一道令来了：征民夫，拿人。" }, { "say": "我抄了一份原令，缝在桃木箱的底板里，怕了二十年。箱子……箱子丢在树王坟的树洞里了，洞里不干净，我不敢去取。" }] },
+						{ "say": "兵部？在下一个外地人，不懂这些。" }
+					]
+				},
+				"抄本": {
+					"rules": [
+						{ "asker_marks": ["看过寻剑令抄本"], "say": "抄本你已经拿了。念给公堂听，还是烧了，都在你。" },
+						{ "asker_marks": ["陈显祖认了"], "npc_flag": "chest_found", "marks_asker": ["看过寻剑令抄本"], "gives": "native:choyin/decree_copy", "lines": [{ "emote": "把桃木箱翻过来，抠开底板，取出一卷发黄的纸。" }, { "say": "就是它。二十三个名字，我一个一个点过——点到的都不在了。" }] },
+						{ "asker_marks": ["陈显祖认了"], "say": "在箱子底板的夹层里。箱子在树王坟的树洞里——洞里那三个影子，我见过一回，再没敢下去。" },
+						{ "say": "什么抄本？" }
+					]
+				},
+				"作证": {
+					"confirm": "护送陈显祖进衙门作证：他会跟着你走，从福林酒楼到县衙。\n路上会有人拦。\n确定吗？",
+					"rules": [
+						{ "npc_flag": "mood/going", "say": "我跟着你。到了衙门再说。" },
+						{ "asker_marks": ["陈显祖进了大堂"], "say": "我已经在堂上说过了。" },
+						{ "asker_marks": ["陈显祖认了"], "mood": "going", "mark_asker": "陈显祖跟你走了", "lines": [{ "emote": "沉默了很久，手从桌沿上拿了下来。" }, { "say": "二十年，我天天想着这一天会不会来。来了就来了——我跟你去。箱子我带着，抄本你拿着。" }, { "say": "阁下走前头。庾家的人在这条街上有眼睛。" }] },
+						{ "say": "作什么证？在下只是个丢了箱子的过路人。" }
+					]
+				},
+				"走吧": {
+					"confirm": "放陈显祖带着箱子走：他交出抄本，一去不回——公堂上就没有人证了。\n确定吗？",
+					"rules": [
+						{ "npc_flag": "mood/going", "say": "我已经答应跟你去了。到了衙门再说走不走。" },
+						{ "asker_marks": ["陈显祖认了"], "unless_npc_flag": "chest_found", "say": "箱子还没回到我手里——你先把箱子还我。抄本在箱底的夹层里，你要就先翻出来。" },
+						{ "asker_marks": ["陈显祖认了"], "asker_lacks": ["看过寻剑令抄本"], "npc_flag": "chest_found", "marks_asker": ["放走了陈显祖", "看过寻剑令抄本"], "gives": "native:choyin/decree_copy", "leaves": true, "lines": [{ "emote": "把桃木箱翻过来，抠开底板，取出一卷发黄的纸，递给你。" }, { "say": "多谢。这二十三个名字，往后替我记着。" }, { "emote": "抱起桃木箱，出了福林酒楼的门，再没有回头。" }] },
+						{ "asker_marks": ["陈显祖认了"], "npc_flag": "chest_found", "marks_asker": ["放走了陈显祖"], "leaves": true, "lines": [{ "say": "多谢。抄本在你手上，就不用我这张嘴了。" }, { "emote": "抱起桃木箱，出了福林酒楼的门，再没有回头。" }] },
+						{ "say": "走？在下的箱子还没找回来。" }
+					]
+				}
 			},
 			"accept_object": [
 				{ "item_alias": "peach chest", "unless_npc_flag": "chest_found", "set_npc_flag": "chest_found", "accept": true, "lines": [{ "say": "太好了！就是这个箱子！" }, { "say": "在下出门在外，没有携带太多银两 ... " }, { "say": "如果您不嫌弃的话，这本古书便请笑纳。" }, { "line": "武官给你一本「白杨经」。" }], "gives": "es2:d/choyin/obj/magic_book", "forgets": ["rumors", "箱子", "桃木箱子"] }
-			]
+			],
+			"follows_every_way": true,
+			"moods": {
+				"going": { "flags": ["follows_player"], "chat_chance": 10, "chat_msg": ["武官跟在你身后，一只手一直按在剑柄上。\n"] }
+			}
 		},
 		{
 			"id": "choyin.npc.cucurbit_seller",
@@ -149,7 +195,16 @@
 				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 40 },
 				{ "item": "es2:d/choyin/obj/blade", "source": "d/choyin/npc/obj/blade.c", "equip": "wield" },
 				{ "item": "es2:obj/cloth", "source": "obj/cloth.c", "equip": "wear" }
-			]
+			],
+			"inquiry": {
+				"老王爷": ["我们都是槐阳王程老王爷麾下的人。老王爷镇关北二十年，兵部的令到了他手里，不合先帝法度的，一概不接。"],
+				"兵部的令": {
+					"rules": [
+						{ "asker_marks": ["侍卫说了拒令"], "say": "老王爷拒了。我说过了。" },
+						{ "mark_asker": "侍卫说了拒令", "lines": [{ "say": "兵部去年也给关北发过一道令：征三千民夫修官道，寻剑。老王爷拒了——先帝的令只说寻剑，没说征人。" }, { "say": "拒了之后，关北的民夫还是一批一批地没了。往哪儿去的，老王爷查到今天。" }] }
+					]
+				}
+			}
 		},
 		{
 			"id": "choyin.npc.crone",
@@ -291,7 +346,45 @@
 				"warn_line": "$N对$n说道: 再敢犯案, 定斩不饶!",
 				"sorry_line": "真是对不起, 下人办事不周, 让您受委屈了.",
 				"out": { "zone": "choyin.court1", "point": "choyin.court1.yamen_return" }
-			}
+			},
+			"inquiry": {
+				"兵部文书": {
+					"rules": [
+						{ "asker_marks": ["程不平写了信"], "say": "文书本县看过了，信也写了。拿着信去天驼关——假印和失踪的人都往关北去了。" },
+						{ "asker_marks": ["程不平要人证"], "say": "文书本县看过了。印是真的——所以才要人证。福林酒楼里那位姓陈的武官，去问他。" },
+						{ "asker_carries": "文书", "mark_asker": "程不平要人证", "lines": [{ "emote": "接过文书，一张一张看过去，看到末尾的印，看了很久。" }, { "say": "印是兵部的，不假。纸是新的，字也是新的——这不是先帝的令。" }, { "say": "可要动兵部的人，须有人证：印是谁盖的，人去了哪，得有人站在这堂上说。纸能证纸，不能证人。" }, { "say": "本县指你一个人。福林酒楼里有个武官，姓陈，日日坐在堂下发呆，丢了一个箱子——二十年前老松岭那队白衣武官，他在里头。你把这文书拿给他看。" }] },
+						{ "say": "什么文书？拿来本县看看。" }
+					]
+				},
+				"人证": {
+					"rules": [
+						{ "asker_marks": ["陈显祖作了证"], "say": "陈显祖在内厅。他说的本县都录下了——有了他，这案子才是案子。" },
+						{ "asker_marks": ["只留了文书"], "say": "你放他走了。纸能证纸，不能证人——本县只能照纸写信。" },
+						{ "asker_marks": ["程不平要人证"], "say": "福林酒楼里那位姓陈的武官。他知道的比他说的多——看他的脸就知道。" },
+						{ "say": "人证？你先把案子说给本县听。" }
+					]
+				},
+				"槐阳王": ["家叔。本县这个县官，是叔父保举的——所以乔阴县的衙门，不认兵部的私令。"],
+				"供词": {
+					"rules": [
+						{ "asker_marks": ["陈显祖作了证"], "say": "陈显祖的供词有力：原令只一句，征民夫、拿人的不是先帝的令——人证、物证都在。叔父见了这封信，关北的兵不会再替人修官道。" },
+						{ "asker_marks": ["只留了文书"], "say": "没有供词，只有纸。本县写信时迟疑了半晌——叔父信不信纸，本县不敢说。" },
+						{ "say": "还没有供词。" }
+					]
+				}
+			},
+			"scene_mark": "堂审过",
+			"calls": [
+				{ "after": 1, "scene": true, "not_mark": "堂审过", "carries": "抄本", "present": "choyin.npc.sergeant", "steps": [{ "mark": "陈显祖进了大堂" }, { "emote": "拿起惊堂木，没有拍下去，放回了书案上。" }, { "say": "堂下何人？" }] },
+				{ "after": 4, "scene": true, "not_mark": "堂审过", "carries": "抄本", "present": "choyin.npc.sergeant", "steps": [{ "by": "choyin.npc.sergeant" }, { "emote": "跪下了。" }, { "say": "罪人陈显祖。二十年前老松岭那队白衣武官，罪人在其中。原令只一句——寻剑，不得扰民一户。征民夫、拿人的，不是先帝的令，是后头来的。" }] },
+				{ "after": 8, "scene": true, "not_mark": "堂审过", "carries": "抄本", "present": "choyin.npc.sergeant", "steps": [{ "by": "choyin.npc.judgeman" }, { "say": "抄本呈上来。" }, { "emote": "接过抄本，对着文书上的印看了半晌，提笔录供。" }, { "say": "印是兵部的，令不是先帝的。录了。" }] },
+				{ "after": 12, "scene": true, "not_mark": "堂审过", "carries": "抄本", "present": "choyin.npc.sergeant", "steps": [{ "by": "choyin.npc.judgeman" }, { "emote": "另取一张纸，写了一封信，封好，压上县印。" }, { "say": "这封信给家叔槐阳王。假印和失踪的人都往关北去了——拿着它去天驼关，军营的门会开。" }, { "give": "native:choyin/magistrate_letter" }] },
+				{ "after": 16, "scene": true, "not_mark": "堂审过", "carries": "抄本", "present": "choyin.npc.sergeant", "steps": [{ "by": "choyin.npc.judgeman" }, { "say": "陈显祖，你留在衙门里。庾家的人进不了这道门。" }, { "leave": "choyin.npc.sergeant" }, { "line": "两名带刀侍卫领着陈显祖进了内厅。\n" }, { "mark": "陈显祖作了证" }, { "mark": "程不平写了信" }] },
+				{ "after": 1, "scene": true, "not_mark": "堂审过", "carries": "抄本", "mark": "放走了陈显祖", "steps": [{ "emote": "看了看堂下——只有你一个人。" }, { "say": "人证呢？" }] },
+				{ "after": 4, "scene": true, "not_mark": "堂审过", "carries": "抄本", "mark": "放走了陈显祖", "steps": [{ "by": "choyin.npc.judgeman" }, { "emote": "接过抄本，对着文书上的印看了半晌。" }, { "say": "纸能证纸，不能证人。你放他走了。" }] },
+				{ "after": 8, "scene": true, "not_mark": "堂审过", "carries": "抄本", "mark": "放走了陈显祖", "steps": [{ "by": "choyin.npc.judgeman" }, { "emote": "提笔，停了停，还是写了一封信，封好，压上县印。" }, { "say": "这封信给家叔槐阳王。本县只能照纸写——他信不信，本县不敢说。假印和失踪的人都往关北去了，拿着它去天驼关。" }, { "give": "native:choyin/magistrate_letter" }] },
+				{ "after": 12, "scene": true, "not_mark": "堂审过", "carries": "抄本", "mark": "放走了陈显祖", "steps": [{ "by": "choyin.npc.judgeman" }, { "say": "退堂。" }, { "mark": "只留了文书" }, { "mark": "程不平写了信" }] }
+			]
 		},
 		{
 			"id": "choyin.npc.lady",

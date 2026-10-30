@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://runtime/world/world_landmark_area_2d.gd" id="landmark"]
 [ext_resource type="Script" path="res://runtime/world/world_passage_area_2d.gd" id="passage"]
 [ext_resource type="Script" path="res://runtime/world/world_physical_zone_area_2d.gd" id="zone"]
+[ext_resource type="Script" path="res://runtime/world/world_door.gd" id="door"]
 [ext_resource type="Script" path="res://runtime/world/world_service_point.gd" id="service"]
 [ext_resource type="TileSet" path="res://scenes/world/common/placeholder_terrain_tileset.tres" id="terrain_tiles"]
 
@@ -392,6 +393,49 @@ offset_right = 44.0
 text = "阶梯 · 上高台"
 horizontal_alignment = 1
 mouse_filter = 2
+
+[node name="DoorWalls" type="StaticBody2D" parent="Terrain"]
+
+[node name="YamenGateWall" type="CollisionShape2D" parent="Terrain/DoorWalls"]
+position = Vector2(640, 1808)
+shape = SubResource("Rect_160_32")
+
+[node name="YamenGateShutter" type="Polygon2D" parent="Terrain"]
+polygon = PackedVector2Array(560, 1792, 720, 1792, 720, 1824, 560, 1824)
+color = Color(0.54, 0.16, 0.13, 1)
+
+[node name="YamenGate" type="Node" parent="."]
+script = ExtResource("door")
+door_id = &"choyin.court1.gate"
+wall = NodePath("../Terrain/DoorWalls/YamenGateWall")
+shutter = NodePath("../Terrain/YamenGateShutter")
+
+[node name="YamenGatePassage" type="Area2D" parent="."]
+position = Vector2(640, 1808)
+collision_layer = 0
+input_pickable = false
+script = ExtResource("passage")
+portal_id = &"choyin.court1.north"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="YamenGatePassage"]
+shape = SubResource("Rect_160_32")
+
+[node name="CourtDrum" type="Marker2D" parent="."]
+position = Vector2(784, 1864)
+script = ExtResource("service")
+service_id = &"choyin.court1.drum"
+
+[node name="Visual" type="Polygon2D" parent="CourtDrum"]
+polygon = PackedVector2Array(0, -20, 16, 8, 0, 20, -16, 8)
+color = Color(0.5, 0.85, 1, 1)
+
+[node name="Label" type="Label" parent="CourtDrum"]
+offset_left = -100.0
+offset_top = 26.0
+offset_right = 100.0
+mouse_filter = 2
+text = "大皮鼓 · 击鼓"
+horizontal_alignment = 1
 
 [node name="SunhillLabel" type="Label" parent="Terrain"]
 offset_left = 1356
@@ -1158,6 +1202,26 @@ spawn_point_id = &"choyin.n_street1.yamen_po.1"
 position = Vector2(1472, 160)
 script = ExtResource("marker")
 spawn_point_id = &"choyin.n_gate.yamen_po.1"
+
+[node name="SStreet2YuSteward1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1664, 1904)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.s_street2.yu_steward.1"
+
+[node name="SStreet2YuHenchman1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1608, 1976)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.s_street2.yu_henchman.1"
+
+[node name="SStreet2YuHenchman2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1720, 2000)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.s_street2.yu_henchman.2"
+
+[node name="SStreet2YuHenchman3" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1760, 1848)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.s_street2.yu_henchman.3"
 
 [node name="Characters" type="Node2D" parent="."]
 

@@ -120,8 +120,9 @@ what it finds is fixed in step 2. What waits for it is listed in [STATUS](STATUS
    D done (DECISIONS「逆灵宫 D」: the turn's bandits let the rescuer be under the parley, 刘安禄 back to the stockade, the 农妇 with
    her son, 黄霸 grown after the chase, 玄冥子's 六阴剑 hook) — the region is complete. 剧情总纲 §8 第 5 步 (the chapters in existing
    regions) has begun: chapter four 宝衣 on 晚月庄 is done (DECISIONS「第四章 宝衣」: 瑷伦's lashes for anyone, the 冰匣 danced open, the
-   three-way end and the night after; the plan `build/plans/第四五章_计划.md`); chapter five 人证 on 乔阴 is next, then 第 4 步 goes on to
-   关北 in chapter order.
+   three-way end and the night after; the plan `build/plans/第四五章_计划.md`); chapter five 人证 on 乔阴 is done (DECISIONS「第五章 人证」:
+   the drum opens the 衙门大门, 程不平 wants a witness, 陈显祖 the deserter escorted through 庾家's men or released, the trial either way
+   and his letter to 槐阳王; chapter six 关北 stands as a one-step stub); 第 4 步 goes on to 关北 in chapter order.
 5. **Characters and animation** after the voxel maps: bodies, faces, clothing by family and class;
    then audio.
 

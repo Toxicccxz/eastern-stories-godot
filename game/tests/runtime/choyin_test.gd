@@ -68,7 +68,8 @@ func _test_data() -> void:
 		if portal.source_zone_id == &"choyin.n_gate" and portal.legacy_command == "north":
 			north.append(portal)
 	_check(north.is_empty() and not catalog.room(&"es2:d/choyin/n_gate").exits().has("north"), "the 北门's road north goes nowhere (both ends commented out in ES2; owner: as ES2)")
-	_check(catalog.portal(&"choyin.yamen_yard.south").destination_zone_id == &"choyin.court1" and catalog.room(&"es2:d/choyin/court1").exits().keys() == ["south"], "the 衙门's courts lead out to its gate, none lead in (court1.c has no north)")
+	_check(catalog.portal(&"choyin.yamen_yard.south").destination_zone_id == &"choyin.court1" and catalog.room(&"es2:d/choyin/court1").exits().keys() == ["south"], "the 衙门's courts lead out to its gate (court1.c has no north)")
+	_check(catalog.portal(&"choyin.court1.north").destination_zone_id == &"choyin.yamen_yard" and catalog.door(&"choyin.court1.gate").found_by == "击了鼓", "and in through the 衙门大门 since 第五章, found by the drum (DECISIONS「第五章 人证」)")
 	_check(catalog.portal(&"choyin.tomb1.up").destination_zone_id == &"choyin.tree_tomb", "the hollow climbs back up to the 树王坟 (the way down is 乔阴 B)")
 	var rule: ZoneExitRuleDefinition = catalog.exit_rules_between(&"choyin.entrance", &"choyin.taolin")[0]
 	var stranger := ZoneExitRuleDefinition.Leaver.new()

@@ -197,6 +197,10 @@
           "choyin.court1.judge_gu.4": [776, 2010],
           "choyin.court1.magistra.1": [584, 1860],
           "choyin.court1.magistra.2": [696, 1860],
+          "choyin.s_street2.yu_steward.1": [1664, 1904],
+          "choyin.s_street2.yu_henchman.1": [1608, 1976],
+          "choyin.s_street2.yu_henchman.2": [1720, 2000],
+          "choyin.s_street2.yu_henchman.3": [1760, 1848],
           "choyin.s_street1.cucurbit_seller.1": [1400, 2150],
           "choyin.s_street1.dumpling_seller.1": [1400, 2300],
           "choyin.dragon_temple.crone.1": [880, 2600],
@@ -258,6 +262,22 @@
           "Rect_32_160": [32, 160],
           "Rect_160_32": [160, 32]
         },
+        "door_style": {
+          "walls": "Terrain/DoorWalls",
+          "wall_suffix": "Wall",
+          "shutters": "Terrain",
+          "color": "Color(0.42, 0.3, 0.18, 1)"
+        },
+        "doors": [
+          {
+            "name": "YamenGate",
+            "id": "choyin.court1.gate",
+            "at": [640, 1808],
+            "shape": "Rect_160_32",
+            "color": "Color(0.54, 0.16, 0.13, 1)",
+            "note": "第五章: the 衙门大门 (court1.c: 高大的大门), shut until the drum is beaten (found_by 击了鼓); it stands over the passage north into the 衙门's courts"
+          }
+        ],
         "stairs": [
           {
             "zone": "choyin.dragon_temple",
@@ -280,6 +300,35 @@
           },
           {
             "generated": "stairs"
+          },
+          {
+            "node": "group",
+            "name": "DoorWalls",
+            "type": "StaticBody2D",
+            "parent": "Terrain"
+          },
+          {
+            "generated": "door_walls"
+          },
+          {
+            "generated": "shutters"
+          },
+          {
+            "generated": "doors"
+          },
+          {
+            "node": "passage",
+            "name": "YamenGatePassage",
+            "id": "choyin.court1.north",
+            "at": [640, 1808],
+            "shape": "Rect_160_32"
+          },
+          {
+            "node": "service",
+            "name": "CourtDrum",
+            "id": "choyin.court1.drum",
+            "at": [784, 1864],
+            "text": "大皮鼓 · 击鼓"
           },
           {
             "node": "caption",
@@ -560,6 +609,7 @@
           "choyin.yamen.judgeman.1": [256, 410],
           "choyin.yamen.magistra.1": [160, 520],
           "choyin.yamen.magistra.2": [352, 520],
+          "choyin.yamen_iner.chen_witness.1": [240, 216],
           "choyin.yamen_yard.magistra.1": [160, 760],
           "choyin.yamen_yard.magistra.2": [352, 880],
           "choyin.yamen_yard.magistra.3": [160, 1024],
@@ -608,6 +658,14 @@
             "id": "choyin.yamen.door",
             "between": ["choyin.yamen_yard", "choyin.yamen"],
             "color": "Color(0.55, 0.36, 0.2, 1)"
+          },
+          {
+            "name": "YardGate",
+            "id": "choyin.court1.gate",
+            "at": [256, 1120],
+            "shape": "Rect_160_32",
+            "color": "Color(0.54, 0.16, 0.13, 1)",
+            "note": "第五章: the 衙门大门 from inside, over the passage out to the 衙门口 (the same door as the town's)"
           }
         ],
         "nodes": [
@@ -654,6 +712,11 @@
             "name": "YamenHallEntry",
             "at": [256, 600],
             "id": "choyin.yamen.hall_entry"
+          },
+          {
+            "name": "YamenYardGateArrival",
+            "at": [256, 1064],
+            "id": "choyin.yamen_yard.gate_arrival"
           },
           {
             "generated": "markers"
@@ -941,7 +1004,9 @@
         "placed": {
           "choyin.tomb1.shadow.1": [344, 408],
           "choyin.tomb1.shadow.2": [440, 384],
-          "choyin.tomb1.shadow.3": [376, 344]
+          "choyin.tomb1.shadow.3": [376, 344],
+          "choyin.tomb3.hell_runner.1": [344, 112],
+          "choyin.tomb3.hell_runner.2": [440, 136]
         }
       },
       "scene": {

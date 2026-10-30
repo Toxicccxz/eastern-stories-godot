@@ -541,6 +541,245 @@
 					]
 				}
 			}
+		},
+		{
+			"id": "native.npc.yu_steward",
+			"legacy_source": "native: 主线 第五章 人证 (剧情总纲 §3 第五章; 计划 build/plans/第四五章_计划.md B 包; DECISIONS「第五章 人证」) — 庾家 (庾子建, 剧情总纲 §3 第五章: 庾的人在福林大街动手) sends a steward and three men for 陈显祖 once he leaves the 福林酒楼 with the player; the steward speaks first (owner Q3: two lines, then the fight), then turns aggressive (his mood 动手)",
+			"name": "庾家管事",
+			"aliases": [
+				"steward",
+				"yu steward",
+				"管事"
+			],
+			"gender": "男性",
+			"age": 45,
+			"long": "一个穿酱色便衣的中年人，腰里的刀用布裹着，手搭在上头。他不像是来喝酒的——眼睛在街上扫，扫到陈显祖就停了。\n",
+			"attributes": {
+				"str": 27,
+				"cor": 27,
+				"int": 22,
+				"spi": 20,
+				"cps": 24,
+				"per": 16,
+				"con": 26,
+				"kar": 8
+			},
+			"combat_exp": 60000,
+			"score": 1200,
+			"attitude": "peaceful",
+			"skills": {
+				"blade": 70,
+				"parry": 65,
+				"dodge": 60,
+				"unarmed": 50
+			},
+			"carry": [
+				{
+					"item": "es2:d/choyin/obj/blade",
+					"source": "d/choyin/npc/obj/blade.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				}
+			],
+			"chat_chance": 10,
+			"chat_msg": [
+				"庾家管事的手在刀柄的布上摩挲了一下。\n"
+			],
+			"chat_chance_combat": 20,
+			"chat_msg_combat": [
+				"庾家管事喝道：拿下！人要活的！\n",
+				"庾家管事说道：兵部有令，拦的人一并拿！\n"
+			],
+			"scene_mark": "见过庾家拦路",
+			"calls": [
+				{
+					"after": 1,
+					"scene": true,
+					"not_mark": "见过庾家拦路",
+					"steps": [
+						{
+							"emote": "从酒楼对面的屋檐下走出来，拦在街心。身后三个便衣的汉子散开，手都按着刀柄。"
+						},
+						{
+							"say": "陈显祖，兵部有令拿你。箱子留下，人跟我们走。"
+						}
+					]
+				},
+				{
+					"after": 4,
+					"scene": true,
+					"not_mark": "见过庾家拦路",
+					"steps": [
+						{
+							"by": "choyin.npc.sergeant"
+						},
+						{
+							"emote": "站住了，手慢慢按到剑柄上。"
+						},
+						{
+							"say": "二十年了，还是找来了。"
+						}
+					]
+				},
+				{
+					"after": 7,
+					"scene": true,
+					"not_mark": "见过庾家拦路",
+					"steps": [
+						{
+							"by": "native.npc.yu_steward"
+						},
+						{
+							"say": "动手。"
+						},
+						{
+							"line": "三个汉子抽刀围了上来——冲的是你。\n",
+							"color": "HIR"
+						},
+						{
+							"summon": "native.s_street2.yu_henchmen"
+						},
+						{
+							"npc_mood": "fighting"
+						}
+					]
+				}
+			],
+			"moods": {
+				"fighting": {
+					"flags": [
+						"aggressive"
+					],
+					"lasting": true,
+					"chat_chance": 10,
+					"chat_msg": [
+						"庾家管事的刀出了布。\n"
+					]
+				}
+			}
+		},
+		{
+			"id": "native.npc.yu_henchman",
+			"legacy_source": "native: 主线 第五章 人证 (剧情总纲 §3 第五章; 计划 build/plans/第四五章_计划.md B 包; DECISIONS「第五章 人证」) — 庾家's three men on the 福林大街 (剧情总纲 §3 第五章), plain clothes and blades, summoned by the steward's word; they fight the player (an NPC does not fight a follower: 陈显祖 does not die in the street, plan default)",
+			"name": "庾家打手",
+			"aliases": [
+				"henchman",
+				"thug",
+				"打手"
+			],
+			"gender": "男性",
+			"age": 30,
+			"long": "一个便衣的壮汉，刀已经出了鞘。酱色的短衣，和管事一个颜色。\n",
+			"attributes": {
+				"str": 28,
+				"cor": 26,
+				"int": 16,
+				"spi": 18,
+				"cps": 24,
+				"per": 14,
+				"con": 28,
+				"kar": 6
+			},
+			"combat_exp": 60000,
+			"score": 1000,
+			"attitude": "aggressive",
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"skills": {
+				"blade": 65,
+				"parry": 60,
+				"dodge": 55,
+				"unarmed": 45
+			},
+			"carry": [
+				{
+					"item": "es2:d/choyin/obj/blade",
+					"source": "d/choyin/npc/obj/blade.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				}
+			],
+			"chat_chance_combat": 20,
+			"chat_msg_combat": [
+				"庾家打手喝道：让开！我们拿的是逃兵，不是你！\n",
+				"庾家打手的刀横着扫过来。\n"
+			]
+		},
+		{
+			"id": "native.npc.chen_witness",
+			"legacy_source": "native: 主线 第五章 人证 (剧情总纲 §3 第五章; 计划 build/plans/第四五章_计划.md B 包; DECISIONS「第五章 人证」) — 陈显祖 (d/choyin/npc/sergeant.c's 武官: 在下姓陈，名显祖) after his testimony, kept in the 衙门's 内厅 (yamen_iner.c) as the 人证; the 武官 at the 福林酒楼 is ES2's and stays as it is",
+			"name": "陈显祖",
+			"aliases": [
+				"chen xianzu",
+				"chen",
+				"witness",
+				"陈显祖"
+			],
+			"title": "人证",
+			"gender": "男性",
+			"age": 49,
+			"long": "一位相貌威武的武官，坐在内厅的茶桌旁，鬓角白了。他不再发呆了——二十年压在身上的东西，在堂上说出来之后，人反倒直了。\n",
+			"attributes": {
+				"str": 28,
+				"cor": 28,
+				"cps": 28
+			},
+			"combat_exp": 250000,
+			"attitude": "friendly",
+			"skills": {
+				"dodge": 70,
+				"unarmed": 60,
+				"parry": 70,
+				"sword": 75
+			},
+			"carry": [
+				{
+					"item": "es2:obj/cloth",
+					"source": "obj/cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "es2:obj/longsword",
+					"source": "obj/longsword.c",
+					"equip": "wield"
+				}
+			],
+			"apply": {
+				"attack": 60,
+				"defense": 60,
+				"damage": 30
+			},
+			"chat_chance": 8,
+			"chat_msg": [
+				"陈显祖端起茶，手不抖了。\n",
+				"陈显祖说道：二十三个名字，我一个一个念过。\n"
+			],
+			"inquiry": {
+				"name": [
+					"在下陈显祖。如今是乔阴县衙的人证——总算是个名目。"
+				],
+				"供词": [
+					"我说了：原令只一句，「寻剑，不得扰民一户」。征民夫、拿人的，不是先帝的令。程大人都录下了。"
+				],
+				"寻剑令": [
+					"二十年前念给全队听的那一卷，我抄了一份，藏到今天。该念给公堂听了。"
+				],
+				"槐阳王": [
+					"程大人的叔父。听说老王爷拒过兵部的令——有人肯拒，我这份供词就不算白说。"
+				],
+				"箱子": [
+					"箱子还给我了，书也给了你。里头最要紧的东西，如今在程大人的卷宗里。"
+				]
+			}
 		}
 	]
 }

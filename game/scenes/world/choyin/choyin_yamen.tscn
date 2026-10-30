@@ -102,9 +102,17 @@ text = "南 · 衙门口"
 position = Vector2(256, 688)
 shape = SubResource("Rect_128_32")
 
+[node name="YardGateWall" type="CollisionShape2D" parent="Terrain/DoorWalls"]
+position = Vector2(256, 1120)
+shape = SubResource("Rect_160_32")
+
 [node name="BrassDoorShutter" type="Polygon2D" parent="Terrain"]
 polygon = PackedVector2Array(192, 672, 320, 672, 320, 704, 192, 704)
 color = Color(0.55, 0.36, 0.2, 1)
+
+[node name="YardGateShutter" type="Polygon2D" parent="Terrain"]
+polygon = PackedVector2Array(176, 1104, 336, 1104, 336, 1136, 176, 1136)
+color = Color(0.54, 0.16, 0.13, 1)
 
 [node name="GatePassage" type="Area2D" parent="."]
 position = Vector2(256, 1120)
@@ -121,6 +129,12 @@ script = ExtResource("door")
 door_id = &"choyin.yamen.door"
 wall = NodePath("../Terrain/DoorWalls/BrassDoorWall")
 shutter = NodePath("../Terrain/BrassDoorShutter")
+
+[node name="YardGate" type="Node" parent="."]
+script = ExtResource("door")
+door_id = &"choyin.court1.gate"
+wall = NodePath("../Terrain/DoorWalls/YardGateWall")
+shutter = NodePath("../Terrain/YardGateShutter")
 
 [node name="Zones" type="Node2D" parent="."]
 
@@ -158,6 +172,11 @@ position = Vector2(256, 600)
 script = ExtResource("marker")
 spawn_point_id = &"choyin.yamen.hall_entry"
 
+[node name="YamenYardGateArrival" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(256, 1064)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.yamen_yard.gate_arrival"
+
 [node name="YamenYardMagistra1" type="Marker2D" parent="SpawnPoints"]
 position = Vector2(160, 760)
 script = ExtResource("marker")
@@ -192,6 +211,11 @@ spawn_point_id = &"choyin.yamen.magistra.1"
 position = Vector2(352, 520)
 script = ExtResource("marker")
 spawn_point_id = &"choyin.yamen.magistra.2"
+
+[node name="YamenInerChenWitness1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(240, 216)
+script = ExtResource("marker")
+spawn_point_id = &"choyin.yamen_iner.chen_witness.1"
 
 [node name="Characters" type="Node2D" parent="."]
 

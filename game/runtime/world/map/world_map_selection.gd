@@ -382,6 +382,9 @@ func ask_selected(topic: String) -> Array[String]:
 				_map.floor_items.give_new_item_to(target, item_id)
 	if answer.attacks:
 		_map.npc_kills_player(target)
+	# 主线 第五章: an answer that is a leave-taking (陈显祖's 走吧): gone for good, as an act's `leave`.
+	if answer.leaves:
+		_map.npcs.leave_for_good(target)
 	if _map.hud().inventory_is_open():
 		_map.hud().show_inventory(session.player_inventory_rows())
 	return answer.texts()
