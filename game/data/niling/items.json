@@ -13,6 +13,103 @@
 			"weight": 500,
 			"value": 300,
 			"armor": { "type": "head", "props": { "armor": 1 }, "weight_dodge": "armor" }
+		},
+		{
+			"id": "native:niling/tribute_ledger",
+			"legacy_sources": [
+				"native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) — 纳供的不只金帛，是人: the ledger 剧情总纲 §3 第三章 ④ names, used again in 第五章 (the 账册 and the 假印文书)"
+			],
+			"name": "账册",
+			"aliases": [
+				"ledger",
+				"book",
+				"账"
+			],
+			"long": "一本黑皮的账册，封皮上没有字。翻开是一笔笔纳供的账：金帛、腌肉、麻绳……每一页的末尾另起一行，记的不是东西。\n",
+			"unit": "本",
+			"material": "paper",
+			"weight": 400,
+			"value": 10,
+			"act": {
+				"verb": "翻看",
+				"command": "read",
+				"acts": [
+					{
+						"steps": [
+							{
+								"line": "你翻到最后几页。每一页末尾另起的那一行，记的是人：\n"
+							},
+							{
+								"line": "「野羊寨，三名，丁未年秋，入丹房。」\n「关北民夫，七名，戊申年冬，三名入丹房，四名留用。」\n「傅家坡，孩童一名，七岁，戊申年腊月，留用，待子时。」\n",
+								"color": "HIW"
+							},
+							{
+								"line": "纳供的不只是金帛。你把账册合上，手心全是汗。\n"
+							},
+							{
+								"mark": "看过账册"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "native:niling/war_ministry_papers",
+			"legacy_sources": [
+				"native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) — 假印第一次出现 (剧情总纲 §3 第三章 ④, 第五章入口「逆灵宫的账册和假印文书」)"
+			],
+			"name": "兵部文书",
+			"aliases": [
+				"papers",
+				"document",
+				"文书"
+			],
+			"long": "一叠公文纸，每张末尾盖着一方朱红的大印，印文是「兵部之印」。纸是新的，印泥还没干透。\n",
+			"unit": "叠",
+			"material": "paper",
+			"weight": 300,
+			"value": 10,
+			"act": {
+				"verb": "翻看",
+				"command": "read",
+				"acts": [
+					{
+						"steps": [
+							{
+								"line": "文书的格式一板一眼，字是衙门里的楷书：\n"
+							},
+							{
+								"line": "「着逆灵宫代为收管关北河工逃役若干名，解送之日另行知照。」\n「着逆灵宫代为收管野羊山匪徒若干名，毋庸解京。」\n",
+								"color": "HIW"
+							},
+							{
+								"line": "每一张的印都盖得端端正正。兵部的印，怎么会盖在一座黑道观的账上？\n"
+							},
+							{
+								"mark": "看过兵部文书"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": "native:niling/cell_key",
+			"legacy_sources": [
+				"native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) — the key of the dungeon's three iron doors (DoorDefinition.key); 玄冥子 carries it until the 唤首 scene hands it to the jailer (C)"
+			],
+			"name": "地牢钥匙",
+			"aliases": [
+				"key",
+				"cell key",
+				"钥匙"
+			],
+			"long": "一把乌黑的铁钥匙，齿很深，柄上系着一截黑布。地牢三扇铁栅门用的都是它。\n",
+			"unit": "把",
+			"material": "iron",
+			"weight": 100,
+			"value": 5
 		}
 	]
 }

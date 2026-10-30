@@ -124,7 +124,7 @@ func _test_ways(tree: SceneTree, session: WorldSessionController) -> void:
 		session.advance_npc_heartbeat(1.0)
 	_check(not session.combat_encounter_coordinator().has_active_encounter(), "nor do the guards")
 	session.record_journal()
-	_check(state.quests.has("main.chapter3/yard") and StoryQuestLog.objective(state, quests) == "前殿的门关着。找路进前殿，找到霍铮。" and not StoryQuestLog.is_done(state, quest), "the yard reached; the chapter waits at the hall (B)")
+	_check(state.quests.has("main.chapter3/yard") and StoryQuestLog.objective(state, quests) == "前殿的门关着。推开殿门进前殿，找到霍铮。" and not StoryQuestLog.is_done(state, quest), "the yard reached; the chapter waits at the hall (B)")
 	ui.menu_tab_shown(GameMenu.Tab.JOURNAL)
 	var page: String = ui.quest_page.shown_text()
 	_check(page.contains("你缩在供品箱子中间") and page.contains("黑砖的前院"), "the 任务 page tells the way in: " + page.left(300))

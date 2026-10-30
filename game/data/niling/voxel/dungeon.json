@@ -1,0 +1,66 @@
+{
+  "indoor": true,
+  "cutaway_rooms": true,
+  "camera_size": 20,
+  "note": "地牢 (native:niling/corridor, cell_huo, cell_shitou, cell_others; 逆灵宫 B): the low passage under the 丹房's stair — one pine-oil lamp, damp on the floor, the jailers' bench and their wine — and the three cells off it behind barred iron doors (door_looks: barred_door), 霍铮's to the west with the tally scratched on its wall, the boy's to the north with his row of pebbles, the two 关北 men's to the east with the river drawn in charcoal. No daylight: the lamp is the only light, the same by day and night.",
+  "palette": {"wood": ["2a2422", "342c28", "1e1a18"], "wall": "1a1918"},
+  "wall_height": 2.6,
+  "light": {"note": "underground: no sun at any hour, one flat ambient; the lamps' glows do the rest", "sun_energy": {"dawn": 0.0, "day": 0.0, "dusk": 0.0, "night": 0.0, "midnight": 0.0}, "ambient": {"dawn": "9a9488", "day": "9a9488", "dusk": "9a9488", "night": "9a9488", "midnight": "9a9488"}, "ambient_energy": {"dawn": 0.62, "day": 0.62, "dusk": 0.62, "night": 0.62, "midnight": 0.62}},
+  "wall_looks": [
+    {"rect": [-224, -32, 224, 304], "style": "brick", "colors": ["1a1a1a", "242220", "141414", "2a2826", "1e1e1c"], "seam": "343230", "note": "the passage: black brick sweating damp"},
+    {"rect": [-560, 0, -224, 272], "style": "brick", "colors": ["1c1c1a", "262422", "161614", "2c2a28"], "seam": "343230", "note": "霍铮's cell"},
+    {"rect": [-176, -304, 160, -32], "style": "brick", "colors": ["1c1c1a", "262422", "161614", "2c2a28"], "seam": "343230", "note": "石头's"},
+    {"rect": [224, 0, 560, 272], "style": "brick", "colors": ["1c1c1a", "262422", "161614", "2c2a28"], "seam": "343230", "note": "the 关北 men's"}
+  ],
+  "door_looks": {
+    "niling.cell_huo.door": {"kind": "barred_door", "iron": "2e2b28", "bars": "3a3733", "note": "the three iron doors (native:niling/corridor: 三扇铁栅门，锁都是新的); DoorDefinition.key"},
+    "niling.cell_shitou.door": {"kind": "barred_door", "iron": "2e2b28", "bars": "3a3733"},
+    "niling.cell_others.door": {"kind": "barred_door", "iron": "2e2b28", "bars": "3a3733"}
+  },
+  "ground": {
+    "cave_floor": {"style": "scree", "colors": ["26241f", "302c28", "1e1c1a"], "gravel": 0.4, "stones": 0.05, "pebbles": ["3e3a34", "34302c", "2a2824"], "note": "the floor hewn from the rock, wet"},
+    "boundary": {"style": "scree", "colors": ["1e1c1a", "262422", "161614"], "gravel": 0.3, "stones": 0.02, "pebbles": ["2e2a26"]}
+  },
+  "flora": {"grass_density": 0.0, "density": {"cave_floor": 0.0, "boundary": 0.0}, "flower_threshold": 1.0, "tree_kinds": [], "wind": 0.0, "butterflies": 0},
+  "life": {
+    "niling.corridor": {"walls": "brick"},
+    "niling.cell_huo": {"walls": "brick"},
+    "niling.cell_shitou": {"walls": "brick"},
+    "niling.cell_others": {"walls": "brick"}
+  },
+  "props": [
+    {"kind": "torch", "at": [-200, 40], "size": [16, 16], "height": 1.7, "note": "the pine-oil lamp on the passage's west wall (native:niling/corridor: 墙上一盏松油灯忽明忽暗)"},
+    {"kind": "glow", "at": [-180, 60], "color": "e8a050", "day": 1.2, "night": 1.2, "range": 10.0, "height": 1.7, "note": "its light, the only light down here"},
+    {"kind": "torch", "at": [200, 40], "size": [16, 16], "height": 1.7, "note": "a second lamp, east"},
+    {"kind": "glow", "at": [180, 60], "color": "e8a050", "day": 1.0, "night": 1.0, "range": 9.0, "height": 1.7},
+    {"kind": "glow", "at": [-392, 136], "color": "c89a60", "day": 0.5, "night": 0.5, "range": 7.0, "height": 1.5, "note": "what the lamp throws through the bars into each cell"},
+    {"kind": "glow", "at": [-8, -168], "color": "c89a60", "day": 0.5, "night": 0.5, "range": 7.0, "height": 1.5},
+    {"kind": "glow", "at": [392, 136], "color": "c89a60", "day": 0.5, "night": 0.5, "range": 7.0, "height": 1.5},
+    {"kind": "stains", "at": [0, 136], "size": [380, 280], "count": 12, "colors": ["1a1816", "22201c", "3a1414", "2a1010"], "note": "damp and old blood on the passage floor"},
+    {"kind": "stains", "at": [-120, 60], "size": [120, 60], "count": 5, "colors": ["2a1010", "3a1414"], "note": "a darker patch under the west door"},
+    {"kind": "bones", "at": [160, 270], "size": [30, 24], "skull": false, "count": 2, "note": "the jailers' meal, thrown down"},
+    {"kind": "straw_patch", "at": [-392, 190], "size": [80, 48], "note": "霍铮's straw"},
+    {"kind": "crocks", "at": [-470, 230], "size": [12, 12], "note": "his broken bowl"},
+    {"kind": "iron_chain", "at": [-540, 60], "size": [8, 8], "drop": 1.2, "face": 0.0, "links": 10, "color": "3a3733", "note": "the chain from the wall ring to his wrists"},
+    {"kind": "stains", "at": [-392, 136], "size": [260, 200], "count": 8, "colors": ["1e1c1a", "2a1010", "262422"], "note": "his cell's floor"},
+    {"kind": "straw_patch", "at": [-8, -240], "size": [72, 40], "note": "the boy's mat"},
+    {"kind": "crocks", "at": [40, -230], "size": [10, 10], "note": "the half cake on it (native:niling/cell_shitou)"},
+    {"kind": "rock_pile", "at": [-120, -100], "size": [16, 12], "count": 5, "colors": ["5a564e", "6a665c", "4e4a44"], "note": "his row of pebbles in the corner, the game he plays"},
+    {"kind": "straw_patch", "at": [392, 190], "size": [120, 48], "note": "the two men's mats"},
+    {"kind": "crocks", "at": [320, 150], "size": [12, 12]},
+    {"kind": "crocks", "at": [470, 150], "size": [12, 12]},
+    {"kind": "stains", "at": [392, 136], "size": [260, 200], "count": 6, "colors": ["1e1c1a", "262422"]},
+    {"kind": "cobweb", "at": [-540, 16], "size": [36, 8], "rotation": 45, "height": 2.3},
+    {"kind": "cobweb", "at": [540, 16], "size": [36, 8], "rotation": -45, "height": 2.3},
+    {"kind": "cobweb", "at": [-160, -290], "size": [36, 8], "rotation": 45, "height": 2.3},
+    {"kind": "drip", "at": [60, 200], "size": [16, 16], "note": "water dripping from the passage's roof"},
+    {"kind": "drip", "at": [-300, 100], "size": [16, 16]}
+  ],
+  "actors": {
+    "default": {"coat": "1a1818", "hat": true},
+    "native.npc.niling_jailer": {"coat": "1e1a1a", "hat": true},
+    "native.npc.huo_zheng": {"coat": "4a4238", "hat": false},
+    "native.npc.shitou": {"coat": "5a5044", "hat": false, "scale": 0.72},
+    "native.npc.guanbei_corvee": {"coat": "5a5248", "hat": false}
+  }
+}

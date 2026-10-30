@@ -1,14 +1,17 @@
 extends RefCounted
 
-## 逆灵宫 A (DECISIONS「逆灵宫 A」): the region's first two maps — the crack's top with the winch
-## and the goods road north (niling.slope) and the 黑砖山门, the yard and the 货栈 (niling.gate)
-## — their six native rooms, the ways between them and back out, walked in the 黑冠 (the 道士
-## take the wearer for their own), the people at their posts, the landmarks' texts. Walks use
-## the move actions (MapPlaces). The story's three ways up the crack are story_chapter3_test.
+## 逆灵宫 A and B (DECISIONS「逆灵宫 A」「逆灵宫 B」): the region's four maps — the crack's top with
+## the winch and the goods road north (niling.slope), the 黑砖山门, the yard and the 货栈
+## (niling.gate), the 前殿, 丹房 and 账房 (niling.hall) and the dungeon under them
+## (niling.dungeon) — their thirteen native rooms, the ways between them and back out, walked in
+## the 黑冠 (the 道士 take the wearer for their own), the people at their posts, the doors (the
+## 殿门; the cells' iron doors with their key), the landmarks' texts. Walks use the move actions
+## (MapPlaces). The story's three ways up the crack are story_chapter3_test; the hall, the ledger
+## and the dungeon story_chapter3b_test.
 const Work := preload("res://tests/runtime/snow_work_income_test.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
 const MapPlaces := preload("res://tests/support/map_places.gd")
-const MAPS: Dictionary = {&"niling.slope": 3, &"niling.gate": 3}
+const MAPS: Dictionary = {&"niling.slope": 3, &"niling.gate": 3, &"niling.hall": 3, &"niling.dungeon": 4}
 const CROWN: StringName = &"native:niling/black_crown"
 ## Where each kind stands.
 const PEOPLE: Dictionary = {
@@ -16,6 +19,12 @@ const PEOPLE: Dictionary = {
 	&"niling.gatehouse": {&"native.npc.niling_gatekeeper": 1},
 	&"niling.yard": {&"native.npc.niling_gate_guard": 2},
 	&"niling.store": {&"native.npc.niling_store_taoist": 1},
+	&"niling.front": {&"native.npc.niling_chanter": 4, &"native.npc.niling_lead_chanter": 1},
+	&"niling.counting": {&"native.npc.niling_steward": 1},
+	&"niling.corridor": {&"native.npc.niling_jailer": 2},
+	&"niling.cell_huo": {&"native.npc.huo_zheng": 1},
+	&"niling.cell_shitou": {&"native.npc.shitou": 1},
+	&"niling.cell_others": {&"native.npc.guanbei_corvee": 2},
 }
 
 var _count: int = 0
@@ -41,9 +50,20 @@ func _test_data() -> void:
 		if String(zone.zone_id).begins_with("niling."):
 			maps[zone.map_id] = maps.get(zone.map_id, 0) + 1
 			_check(zone.room_ids().size() == 1 and catalog.room(zone.room_ids()[0]) != null and String(zone.room_ids()[0]).begins_with("native:niling/"), "%s: one native room" % zone.zone_id)
-	_check(maps == MAPS, "six native rooms on two maps: %s" % maps)
+	_check(maps == MAPS, "thirteen native rooms on four maps: %s" % maps)
 	_check(catalog.region(&"niling").display_name == "逆灵宫", "the region is 逆灵宫")
-	_check(catalog.map(&"niling.gate").interior and not catalog.map(&"niling.slope").interior, "the gate is a building, the slope is outdoors")
+	_check(catalog.map(&"niling.gate").interior and catalog.map(&"niling.hall").interior and catalog.map(&"niling.dungeon").interior and not catalog.map(&"niling.slope").interior, "the gate, the hall and the dungeon are indoors, the slope is outdoors")
+	_check(catalog.portal(&"niling.yard.north").destination_zone_id == &"niling.front" and catalog.portal(&"niling.front.south").destination_zone_id == &"niling.yard" and catalog.door(&"niling.front.door").zone_ids() == [&"niling.yard", &"niling.front"] and catalog.door(&"niling.front.door").map_ids() == [&"niling.gate", &"niling.hall"], "the 殿门 on the way from the yard into the 前殿, placed by both maps")
+	_check(catalog.portal(&"niling.alchemy.down").destination_zone_id == &"niling.corridor" and catalog.portal(&"niling.corridor.up").destination_zone_id == &"niling.alchemy", "the stair from the 丹房 down to the passage, and up")
+	for cell: StringName in [&"niling.cell_huo", &"niling.cell_shitou", &"niling.cell_others"]:
+		var iron: DoorDefinition = catalog.door(StringName(String(cell) + ".door"))
+		_check(iron != null and iron.key == &"native:niling/cell_key" and not iron.closable and not iron.locked_line.is_empty() and iron.zone_ids() == [&"niling.corridor", cell] and catalog.room(&"native:niling/corridor").exits().values().has(String(StringName("native:niling/" + String(cell).trim_prefix("niling.")))), "%s: an iron door off the passage, the 地牢钥匙 its key" % cell)
+	_check(catalog.item_spawn(&"niling.counting.ledger") != null and catalog.item_spawn(&"niling.counting.papers") != null and catalog.item(&"native:niling/tribute_ledger").act != null and catalog.item(&"native:niling/tribute_ledger").act.verb == "翻看" and catalog.item(&"native:niling/war_ministry_papers").act.verb == "翻看", "the ledger and the papers on the 账房's desk, each with 翻看")
+	_check(catalog.landmark(&"niling.front.landmark.scripture").description.contains("字像是在动") and catalog.landmark(&"niling.alchemy.landmark.jars").description.contains("傅家坡 · 待") and catalog.landmark(&"niling.corridor.landmark.scratches").description.contains("最后一组只有三道"), "the scripture, the jars and the tally can be looked at")
+	for peaceful: StringName in [&"native.npc.huo_zheng", &"native.npc.shitou", &"native.npc.guanbei_corvee"]:
+		_check(not catalog.npc(peaceful).attacks_on_sight({}, CharacterState.new(), true), "%s attacks nobody" % peaceful)
+	_check(catalog.npc(&"native.npc.huo_zheng").title == "野羊山大寨主" and catalog.npc(&"native.npc.shitou").age == 7, "霍铮 the 大寨主; 石头 seven")
+	_check(catalog.spawn(&"niling.corridor.jailers").until != null and catalog.spawn(&"niling.corridor.jailers").until.key == "见过唤首", "the keyless jailers stand until the 唤首 scene (C)")
 	_check(catalog.portal(&"niling.goods_path.north").destination_zone_id == &"niling.gatehouse" and catalog.portal(&"niling.gatehouse.south").destination_zone_id == &"niling.goods_path", "the goods road north into the gate, and back")
 	_check(catalog.portal(&"niling.side_door.north").destination_zone_id == &"niling.store" and catalog.portal(&"niling.store.south").destination_zone_id == &"niling.side_door", "the side door into the 货栈, and back")
 	_check(catalog.room(&"native:niling/goods_path").exits().get("east") == "native:niling/side_door" and catalog.room(&"native:niling/yard").exits().get("east") == "native:niling/store", "the branch east to the side door; the yard opens east into the 货栈")
@@ -51,7 +71,7 @@ func _test_data() -> void:
 	_check(catalog.landmark(&"niling.yard.landmark.burner").description.contains("烧着的不是香") and catalog.landmark(&"niling.yard.landmark.banners").description.contains("黑布的幡") and catalog.landmark(&"niling.winch.landmark.crates").description.contains("野羊寨的记号"), "the burner, the banners and the boxes can be looked at")
 	var crown: ItemContentDefinition = catalog.item(CROWN)
 	_check(crown != null and crown.armor_definition() != null and crown.armor_definition().armor_type == &"head", "the 黑冠 is worn on the head")
-	for definition_id: StringName in [&"native.npc.niling_gatekeeper", &"native.npc.niling_gate_guard", &"native.npc.niling_store_taoist"]:
+	for definition_id: StringName in [&"native.npc.niling_gatekeeper", &"native.npc.niling_gate_guard", &"native.npc.niling_store_taoist", &"native.npc.niling_chanter", &"native.npc.niling_lead_chanter", &"native.npc.niling_steward", &"native.npc.niling_jailer"]:
 		var npc: NpcDefinition = catalog.npc(definition_id)
 		_check(npc.dealings().ignores_when != null and npc.dealings().ignores_when.when == JournalEntryDefinition.When.WEARING and npc.dealings().ignores_when.key == String(CROWN), "%s takes one in the 黑冠 for its own" % definition_id)
 		_check(npc.attacks_on_sight({}, CharacterState.new(), true) and not npc.attacks_on_sight({}, CharacterState.new(), true, true), "%s attacks a stranger on sight, not one it ignores" % definition_id)
@@ -59,7 +79,8 @@ func _test_data() -> void:
 
 
 ## In at the rope's top, north along the goods road through the gate into the yard and the 货栈,
-## out of its side door and back down to the winch, in the 黑冠 (nobody falls on the player).
+## through the 殿门 into the 前殿 and back, out of the gate and down to the winch, in the 黑冠
+## (nobody falls on the player).
 func _test_walk(tree: SceneTree, session: WorldSessionController) -> void:
 	var player: WorldPlayerRuntimeState = session.player_runtime()
 	_check(session.handoff_to(&"niling.slope", &"niling.winch", &"niling.winch", &"niling.winch.rope_arrival").succeeded(), "at the rope's top")
@@ -85,6 +106,17 @@ func _test_walk(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(gate.select_landmark(&"niling.yard.landmark.burner") and gate.inspect_selected() and ui.inspection_text.text.contains("烧着的不是香"), "the burner in the yard's middle, looked at: %s" % ui.inspection_text.text.left(30))
 	ui.dismiss_current_panel()
 	await tree.physics_frame
+	_check(await MapPlaces.drive(tree, gate, MapPlaces.door_spot(gate, &"niling.front.door", &"niling.yard")) and gate.open_door(&"niling.front.door") and await MapPlaces.take_passage(tree, gate, &"niling.yard.north"), "the 殿门 opened and the 前殿 entered")
+	var hall: WorldMapController = session.active_map() as WorldMapController
+	await tree.physics_frame
+	_check(hall != null and hall.map_id() == &"niling.hall" and player.world_location().zone_id == &"niling.front", "in the 前殿: %s" % [player.world_location().zone_id])
+	for second: int in 3:
+		session.advance_npc_heartbeat(1.0)
+	_check(not session.combat_encounter_coordinator().has_active_encounter(), "the five at their cushions let one in the crown be")
+	_check(await MapPlaces.take_passage(tree, hall, &"niling.front.south"), "back out into the yard")
+	gate = session.active_map() as WorldMapController
+	await tree.physics_frame
+	_check(gate != null and gate.map_id() == &"niling.gate" and player.world_location().zone_id == &"niling.yard", "in the yard again: %s" % [player.world_location().zone_id])
 	_check(await MapPlaces.drive_to_zone(tree, gate, &"niling.gatehouse"), "south into the gate tower")
 	for second: int in 3:
 		session.advance_npc_heartbeat(1.0)

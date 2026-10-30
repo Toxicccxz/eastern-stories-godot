@@ -104,6 +104,7 @@
 		"death/rooms.json",
 		"death/world.json",
 		"niling/items.json",
+		"niling/item_spawns.json",
 		"niling/npcs.json",
 		"niling/spawns.json",
 		"niling/rooms.json",

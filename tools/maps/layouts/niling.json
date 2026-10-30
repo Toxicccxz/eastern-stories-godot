@@ -61,7 +61,7 @@
       }
     },
     "gate": {
-      "note": "逆灵宫 A: the 黑砖山门 (the 门房's table, the two red lanterns), the black-brick yard behind it (the iron burner that burns no incense, the black banners) and the 货栈 east of the yard where the tribute is stowed (its side door onto the slope). 前殿 north of the yard comes with B.",
+      "note": "逆灵宫 A: the 黑砖山门 (the 门房's table, the two red lanterns), the black-brick yard behind it (the iron burner that burns no incense, the black banners) and the 货栈 east of the yard where the tribute is stowed (its side door onto the slope). The hall door on the yard's north wall (a WorldDoor, 殿门) leads into niling_hall (B).",
       "file": "niling_gate.tscn",
       "draw": {
         "technique": "interior",
@@ -79,7 +79,8 @@
           ["blocked", "niling.yard", ["rel", 0.88, 0.22], 0.5, 0.5, {"look": {"kind": "post", "height": 4.0, "wood": "1e1a18"}}],
           ["blocked", "niling.yard", ["rel", 0.12, 0.78], 0.5, 0.5, {"look": {"kind": "post", "height": 4.0, "wood": "1e1a18"}}],
           ["blocked", "niling.yard", ["rel", 0.88, 0.78], 0.5, 0.5, {"look": {"kind": "post", "height": 4.0, "wood": "1e1a18"}}],
-          ["blocked", "niling.yard", ["rel", 0.5, 0.08], 2.8, 0.6, "the stone steps up to the shut hall door (前殿, B)", {"look": {"kind": "stone_blocks", "colors": ["3a3634", "46403c", "2e2a28"]}}],
+          ["blocked", "niling.yard", ["rel", 0.36, 0.08], 1.2, 0.6, "the stone steps either side of the hall door (前殿 behind it: niling_hall)", {"look": {"kind": "stone_blocks", "colors": ["3a3634", "46403c", "2e2a28"]}}],
+          ["blocked", "niling.yard", ["rel", 0.64, 0.08], 1.2, 0.6, {"look": {"kind": "stone_blocks", "colors": ["3a3634", "46403c", "2e2a28"]}}],
           ["blocked", "niling.store", ["rel", 0.15, 0.18], 2.35, 1.41, "crates branded 羊, some open", {"look": {"kind": "loot_crates"}}],
           ["blocked", "niling.store", ["rel", 0.85, 0.18], 2.35, 1.41, {"look": {"kind": "loot_crates", "rotation": 90}}],
           ["blocked", "niling.store", ["rel", 0.5, 0.12], 1.88, 0.94, "a shelf of jars and coiled rope on the north wall", {"look": {"kind": "shelf", "wood": "2e2826"}}],
@@ -91,7 +92,7 @@
           "niling.yard.gate_guard.2": ["niling.yard", ["rel", 0.68, 0.86]],
           "niling.store.store_taoist.1": ["niling.store", ["rel", 0.5, 0.55]]
         },
-        "doors": {"niling.gatehouse.south": "south", "niling.store.south": "south"},
+        "doors": {"niling.gatehouse.south": "south", "niling.store.south": "south", "niling.yard.north": "north"},
         "reach_from": ["GatehousePathEntry", "StoreSideEntry"]
       },
       "scene": {
@@ -108,6 +109,155 @@
         "interactions": [
           {"name": "BannersInteraction", "id": "niling.yard.landmark.banners", "room": "niling.yard", "anchor": ["w", 1.2, 0], "shape": "Rect_32_64"},
           {"name": "BurnerInteraction", "id": "niling.yard.landmark.burner", "room": "niling.yard", "anchor": ["c", 0, 1.3], "shape": "Rect_64_32"}
+        ]
+      }
+    },
+    "hall": {
+      "note": "逆灵宫 B: the 前殿 (no idol: the black table with the 逆灵天书 open on it, five 黑冠道士 on their cushions facing it, the 木鱼; the shut north door to the 后殿, C), the 丹房 west of it (the three-legged 丹炉 with its blue flame, jars labelled by where their contents came from, the stone stair down to the dungeon in the south-west corner) and the 账房 north of the 丹房 (the 管事's great desk, the ledger and the stamped papers).",
+      "file": "niling_hall.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "temple",
+        "rooms": {
+          "niling.front": {"floor": "floor_yard", "wall": "wall", "size": "hall", "life": {"use": "temple", "wealth": "plain", "seed": 21}},
+          "niling.alchemy": {"floor": "town_ground", "wall": "wall", "size": "room", "life": {"use": "apothecary", "wealth": "plain", "seed": 22}},
+          "niling.counting": {"floor": "town_ground", "wall": "wall", "size": "small", "life": {"use": "study", "wealth": "plain", "seed": 23}}
+        },
+        "props": [
+          ["blocked", "niling.front", ["rel", 0.5, 0.1], 4.2, 1.1, "the long black table with the scripture open on it (no idol behind it)", {"look": {"kind": "scripture_table", "wood": "1a1614", "cloth": "3a1414", "covers": ["141212", "2a1a1a", "161414", "3a1a1a"]}}],
+          ["blocked", "niling.front", ["rel", 0.5, 0.24], 1.2, 1.2, "the iron burner before the table", {"look": {"kind": "incense_burner", "scale": 1.2, "colors": ["1a1818", "262220", "121010"]}}],
+          ["blocked", "niling.front", ["rel", 0.08, 0.3], 0.9, 2.4, "scripture racks along the west wall", {"look": {"kind": "shelf", "rotation": 90, "wood": "1e1a18"}}],
+          ["blocked", "niling.front", ["rel", 0.92, 0.3], 0.9, 2.4, {"look": {"kind": "shelf", "rotation": 90, "wood": "1e1a18"}}],
+          ["blocked", "niling.front", ["rel", 0.08, 0.72], 0.9, 2.4, {"look": {"kind": "shelf", "rotation": 90, "wood": "1e1a18"}}],
+          ["blocked", "niling.front", ["rel", 0.92, 0.72], 0.9, 2.4, {"look": {"kind": "shelf", "rotation": 90, "wood": "1e1a18"}}],
+          ["blocked", "niling.alchemy", ["rel", 0.5, 0.5], 1.7, 1.7, "the three-legged bronze 丹炉, its fire blue", {"look": {"kind": "pill_furnace", "height": 2.8, "colors": ["2a2622", "3a342c", "1e1a18", "5a5040"], "flame": "4a78c8", "flame_tip": "a8c8f0"}}],
+          ["blocked", "niling.alchemy", ["rel", 0.08, 0.3], 0.9, 2.6, "the jar racks (labels of places and dates, not of herbs)", {"look": {"kind": "herb_cabinet", "rotation": 90}}],
+          ["blocked", "niling.alchemy", ["rel", 0.92, 0.18], 0.9, 1.8, {"look": {"kind": "herb_cabinet", "rotation": 90}}],
+          ["blocked", "niling.alchemy", ["rel", 0.92, 0.82], 0.9, 1.8, {"look": {"kind": "herb_cabinet", "rotation": 90}}],
+          ["blocked", "niling.alchemy", ["rel", 0.78, 0.5], 1.0, 1.0, "the mortar by the furnace", {"look": {"kind": "herb_mortar"}}],
+          ["blocked", "niling.counting", ["rel", 0.5, 0.4], 2.8, 1.2, "the 管事's great desk, the ledger and the papers on it", {"look": {"kind": "writing_desk", "wood": "1e1a18"}}],
+          ["blocked", "niling.counting", ["rel", 0.1, 0.8], 0.9, 0.9, "chests of old ledgers", {"look": {"kind": "chest_stack"}}],
+          ["blocked", "niling.counting", ["rel", 0.9, 0.8], 0.9, 0.9, {"look": {"kind": "crocks", "scrolls": true}}]
+        ],
+        "placed": {
+          "niling.front.lead_chanter.1": ["niling.front", ["rel", 0.5, 0.4]],
+          "niling.front.chanter.1": ["niling.front", ["rel", 0.32, 0.58]],
+          "niling.front.chanter.2": ["niling.front", ["rel", 0.44, 0.58]],
+          "niling.front.chanter.3": ["niling.front", ["rel", 0.56, 0.58]],
+          "niling.front.chanter.4": ["niling.front", ["rel", 0.68, 0.58]],
+          "niling.counting.steward.1": ["niling.counting", ["rel", 0.5, 0.15]],
+          "niling.counting.ledger.1": ["niling.counting", ["rel", 0.38, 0.7]],
+          "niling.counting.papers.1": ["niling.counting", ["rel", 0.62, 0.7]]
+        },
+        "doors": {"niling.front.south": "south"},
+        "reach_from": "FrontYardEntry"
+      },
+      "scene": {
+        "style": "map",
+        "root": "NilingHall",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/niling/voxel/hall.json"},
+        "map": "niling.hall",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {"StairsShape": [48, 48], "Rect_64_32": [64, 32], "Rect_32_64": [32, 64]},
+        "stairs": [
+          {
+            "zone": "niling.alchemy",
+            "name": "AlchemyStairsDown",
+            "id": "niling.alchemy.down",
+            "shape": "StairsShape",
+            "color": "Color(0.3, 0.28, 0.26, 1)",
+            "text": "石阶 · 下地牢",
+            "marker": {"name": "AlchemyStairsReturn", "id": "niling.alchemy.stairs_return"},
+            "anchor": ["s", -3.5, -0.5]
+          }
+        ],
+        "nodes": [
+          {"generated": "captions"}
+        ],
+        "zones": [
+          {"generated": "zones"}
+        ],
+        "spawn_points": [
+          {"generated": "markers"}
+        ],
+        "interactions": [
+          {"name": "ScriptureInteraction", "id": "niling.front.landmark.scripture", "room": "niling.front", "anchor": ["n", 0, 1.9], "shape": "Rect_64_32"},
+          {"name": "FurnaceInteraction", "id": "niling.alchemy.landmark.furnace", "room": "niling.alchemy", "anchor": ["c", 0, 1.5], "shape": "Rect_64_32"},
+          {"name": "JarsInteraction", "id": "niling.alchemy.landmark.jars", "room": "niling.alchemy", "anchor": ["w", 1.3, 0.2], "shape": "Rect_32_64"}
+        ]
+      }
+    },
+    "dungeon": {
+      "note": "逆灵宫 B: the dungeon under the 丹房 — the low passage at the foot of the stair (a pine-oil lamp, the two jailers) and the three cells off it behind iron doors (DoorDefinition.key: the 地牢钥匙 on 玄冥子's belt): 霍铮 west, 石头 north, the two 关北民夫 east.",
+      "file": "niling_dungeon.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "house",
+        "rooms": {
+          "niling.corridor": {"floor": "cave_floor", "wall": "wall", "size": "small", "life": {"use": "confinement", "wealth": "poor", "seed": 24}},
+          "niling.cell_huo": {"floor": "cave_floor", "wall": "wall", "size": "closet", "life": {"use": "confinement", "wealth": "poor", "seed": 25}},
+          "niling.cell_shitou": {"floor": "cave_floor", "wall": "wall", "size": "closet", "life": {"use": "confinement", "wealth": "poor", "seed": 26}},
+          "niling.cell_others": {"floor": "cave_floor", "wall": "wall", "size": "closet", "life": {"use": "confinement", "wealth": "poor", "seed": 27}}
+        },
+        "props": [
+          ["blocked", "niling.corridor", ["rel", 0.12, 0.85], 1.4, 0.8, "the jailers' bench by the stair", {"look": {"kind": "bench_seat", "wood": "2a2422"}}],
+          ["blocked", "niling.corridor", ["rel", 0.88, 0.85], 0.8, 0.8, "their wine", {"look": {"kind": "wine_jars", "count": 2, "tipped": 1}}],
+          ["blocked", "niling.cell_huo", ["rel", 0.5, 0.82], 1.6, 0.8, "霍铮's straw mat and his broken bowl", {"look": {"kind": "bedding", "cloth": "4a4238"}}],
+          ["blocked", "niling.cell_shitou", ["rel", 0.5, 0.2], 1.4, 0.7, "the boy's mat, the half cake on it", {"look": {"kind": "bedding", "cloth": "5a5044"}}],
+          ["blocked", "niling.cell_others", ["rel", 0.3, 0.8], 1.2, 0.7, "the two men's mats side by side", {"look": {"kind": "bedding", "cloth": "4a4238"}}],
+          ["blocked", "niling.cell_others", ["rel", 0.7, 0.8], 1.2, 0.7, {"look": {"kind": "bedding", "cloth": "524a3e"}}]
+        ],
+        "placed": {
+          "niling.corridor.jailer.1": ["niling.corridor", ["rel", 0.3, 0.36]],
+          "niling.corridor.jailer.2": ["niling.corridor", ["rel", 0.7, 0.36]],
+          "niling.cell_huo.huo_zheng.1": ["niling.cell_huo", ["rel", 0.5, 0.42]],
+          "niling.cell_shitou.shitou.1": ["niling.cell_shitou", ["rel", 0.5, 0.6]],
+          "niling.cell_others.corvee.1": ["niling.cell_others", ["rel", 0.3, 0.4]],
+          "niling.cell_others.corvee.2": ["niling.cell_others", ["rel", 0.7, 0.4]]
+        },
+        "doors": {},
+        "reach_from": "CorridorStairsArrival"
+      },
+      "scene": {
+        "style": "map",
+        "root": "NilingDungeon",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/niling/voxel/dungeon.json"},
+        "map": "niling.dungeon",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {"StairsShape": [48, 48], "Rect_64_32": [64, 32], "Rect_32_64": [32, 64]},
+        "door_style": {"walls": "Terrain/DoorWalls", "wall_suffix": "Wall", "shutters": "Terrain", "color": "Color(0.26, 0.25, 0.24, 1)"},
+        "stairs": [
+          {
+            "zone": "niling.corridor",
+            "name": "CorridorStairsUp",
+            "id": "niling.corridor.up",
+            "shape": "StairsShape",
+            "color": "Color(0.3, 0.28, 0.26, 1)",
+            "text": "石阶 · 上丹房",
+            "marker": {"name": "CorridorStairsArrival", "id": "niling.corridor.stairs_arrival"},
+            "anchor": ["s", 0, -0.2]
+          }
+        ],
+        "doors": [
+          {"name": "HuoCellDoor", "id": "niling.cell_huo.door", "note": "the west cell's iron door", "between": ["niling.corridor", "niling.cell_huo"]},
+          {"name": "ShitouCellDoor", "id": "niling.cell_shitou.door", "note": "the north cell's", "between": ["niling.corridor", "niling.cell_shitou"]},
+          {"name": "OthersCellDoor", "id": "niling.cell_others.door", "note": "the east cell's", "between": ["niling.corridor", "niling.cell_others"]}
+        ],
+        "nodes": [
+          {"generated": "captions"},
+          {"node": "group", "name": "DoorWalls", "type": "StaticBody2D", "parent": "Terrain"},
+          {"generated": "door_walls"},
+          {"generated": "shutters"},
+          {"generated": "doors"}
+        ],
+        "zones": [
+          {"generated": "zones"}
+        ],
+        "spawn_points": [
+          {"generated": "markers"}
+        ],
+        "interactions": [
+          {"name": "ScratchesInteraction", "id": "niling.corridor.landmark.scratches", "room": "niling.corridor", "anchor": ["w", 1.0, -1.2], "shape": "Rect_32_64"}
         ]
       }
     }

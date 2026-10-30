@@ -74,6 +74,17 @@ static func chapter3_entry_done(session: WorldSessionController, liu: bool = tru
 		state.marks[mark] = 1
 
 
+## 逆灵宫 A done (DECISIONS「逆灵宫 A」): in by the oil-cloth, the yard reached, the chapter at
+## `hall` (B goes on from the 殿门).
+static func chapter3_yard_done(session: WorldSessionController) -> void:
+	chapter3_entry_done(session, true)
+	var state: CharacterState = session.player_runtime().state
+	for key: String in ["main.chapter3/gate", "main.chapter3/way/sneak", "main.chapter3/yard"]:
+		_write(state, key)
+	for mark: String in ["进了逆灵宫", "跟车进了逆灵宫"]:
+		state.marks[mark] = 1
+
+
 static func _write(state: CharacterState, key: String) -> void:
 	if not state.quests.has(key):
 		state.quests[key] = state.quests.size() + 1

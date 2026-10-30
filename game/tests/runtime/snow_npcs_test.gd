@@ -71,7 +71,10 @@ func _test_authored_facts(session: WorldSessionController) -> void:
 
 
 func _test_temple_forbids_fighting(tree: SceneTree, session: WorldSessionController) -> void:
-	# Inn east door to the square, then the temple's west door (d/snow/temple.c).
+	# Inn east door to the square, then the temple's west door (d/snow/temple.c). Nobody chats or
+	# wanders on the way (TEST-ONLY): the travellers would otherwise leave the Inn for the square
+	# on some draws of the shared NPC stream, which every spawn in the world shifts.
+	session.configure_npc_ambience_random_source(SouthRoad.Still.new())
 	for _step: int in range(400):
 		MapRoute.press_toward(session.active_map().runtime_player_body(), Vector2.RIGHT)
 		await tree.physics_frame

@@ -4,7 +4,9 @@
 	],
 	"maps": [
 		{ "id": "niling.slope", "region": "niling", "scene": "res://scenes/world/niling/niling_slope.tscn", "entry": "niling.winch.rope_arrival" },
-		{ "id": "niling.gate", "region": "niling", "scene": "res://scenes/world/niling/niling_gate.tscn", "entry": "niling.gatehouse.path_entry", "interior": true }
+		{ "id": "niling.gate", "region": "niling", "scene": "res://scenes/world/niling/niling_gate.tscn", "entry": "niling.gatehouse.path_entry", "interior": true },
+		{"id": "niling.hall", "region": "niling", "scene": "res://scenes/world/niling/niling_hall.tscn", "entry": "niling.front.yard_entry", "interior": true},
+		{"id": "niling.dungeon", "region": "niling", "scene": "res://scenes/world/niling/niling_dungeon.tscn", "entry": "niling.corridor.stairs_arrival", "interior": true}
 	],
 	"zones": [
 		{ "id": "niling.winch", "map": "niling.slope", "rooms": ["native:niling/winch"] },
@@ -12,13 +14,30 @@
 		{ "id": "niling.side_door", "map": "niling.slope", "rooms": ["native:niling/side_door"] },
 		{ "id": "niling.gatehouse", "map": "niling.gate", "indoors": true, "rooms": ["native:niling/gatehouse"] },
 		{ "id": "niling.yard", "map": "niling.gate", "indoors": true, "rooms": ["native:niling/yard"] },
-		{ "id": "niling.store", "map": "niling.gate", "indoors": true, "rooms": ["native:niling/store"] }
+		{ "id": "niling.store", "map": "niling.gate", "indoors": true, "rooms": ["native:niling/store"] },
+		{"id": "niling.front", "map": "niling.hall", "indoors": true, "rooms": ["native:niling/front"]},
+		{"id": "niling.alchemy", "map": "niling.hall", "indoors": true, "rooms": ["native:niling/alchemy"]},
+		{"id": "niling.counting", "map": "niling.hall", "indoors": true, "rooms": ["native:niling/counting"]},
+		{"id": "niling.corridor", "map": "niling.dungeon", "indoors": true, "rooms": ["native:niling/corridor"]},
+		{"id": "niling.cell_huo", "map": "niling.dungeon", "indoors": true, "rooms": ["native:niling/cell_huo"]},
+		{"id": "niling.cell_shitou", "map": "niling.dungeon", "indoors": true, "rooms": ["native:niling/cell_shitou"]},
+		{"id": "niling.cell_others", "map": "niling.dungeon", "indoors": true, "rooms": ["native:niling/cell_others"]}
 	],
 	"portals": [
 		{ "id": "niling.goods_path.north", "from_zone": "niling.goods_path", "to_zone": "niling.gatehouse", "to_spawn": "niling.gatehouse.path_entry", "legacy_room": "native:niling/goods_path", "legacy_command": "north" },
 		{ "id": "niling.gatehouse.south", "from_zone": "niling.gatehouse", "to_zone": "niling.goods_path", "to_spawn": "niling.goods_path.gate_return", "legacy_room": "native:niling/gatehouse", "legacy_command": "south" },
 		{ "id": "niling.side_door.north", "from_zone": "niling.side_door", "to_zone": "niling.store", "to_spawn": "niling.store.side_entry", "legacy_room": "native:niling/side_door", "legacy_command": "north" },
-		{ "id": "niling.store.south", "from_zone": "niling.store", "to_zone": "niling.side_door", "to_spawn": "niling.side_door.store_return", "legacy_room": "native:niling/store", "legacy_command": "south" }
+		{ "id": "niling.store.south", "from_zone": "niling.store", "to_zone": "niling.side_door", "to_spawn": "niling.side_door.store_return", "legacy_room": "native:niling/store", "legacy_command": "south" },
+		{"id": "niling.yard.north", "from_zone": "niling.yard", "to_zone": "niling.front", "to_spawn": "niling.front.yard_entry", "legacy_room": "native:niling/yard", "legacy_command": "north"},
+		{"id": "niling.front.south", "from_zone": "niling.front", "to_zone": "niling.yard", "to_spawn": "niling.yard.hall_return", "legacy_room": "native:niling/front", "legacy_command": "south"},
+		{"id": "niling.alchemy.down", "from_zone": "niling.alchemy", "to_zone": "niling.corridor", "to_spawn": "niling.corridor.stairs_arrival", "legacy_room": "native:niling/alchemy", "legacy_command": "down"},
+		{"id": "niling.corridor.up", "from_zone": "niling.corridor", "to_zone": "niling.alchemy", "to_spawn": "niling.alchemy.stairs_return", "legacy_room": "native:niling/corridor", "legacy_command": "up"}
+	],
+	"doors": [
+		{"id": "niling.front.door", "name": "殿门", "zones": ["niling.yard", "niling.front"], "reach": 90, "legacy_room": "native:niling/front"},
+		{"id": "niling.cell_huo.door", "name": "西牢房的铁栅门", "zones": ["niling.corridor", "niling.cell_huo"], "reach": 90, "closable": false, "key": "native:niling/cell_key", "locked": "铁栅门锁着，锁是新的，摇一摇纹丝不动。钥匙不在这里。", "legacy_room": "native:niling/cell_huo"},
+		{"id": "niling.cell_shitou.door", "name": "北牢房的铁栅门", "zones": ["niling.corridor", "niling.cell_shitou"], "reach": 90, "closable": false, "key": "native:niling/cell_key", "locked": "铁栅门锁着。栅栏里的孩子往后缩了缩。", "legacy_room": "native:niling/cell_shitou"},
+		{"id": "niling.cell_others.door", "name": "东牢房的铁栅门", "zones": ["niling.corridor", "niling.cell_others"], "reach": 90, "closable": false, "key": "native:niling/cell_key", "locked": "铁栅门锁着。里面的人抬起头看了看你，又低下去。", "legacy_room": "native:niling/cell_others"}
 	],
 	"services": [
 		{
@@ -66,6 +85,38 @@
 			"policy": "look",
 			"long": "一只齐腰高的黑铁香炉，炉口里烧着的不是香，是一把把黑色的碎末，冒着极淡的青烟，味道苦得呛人。炉身上铸着一圈无头的人形，手拉着手。\n",
 			"legacy_source": "native: 逆灵宫 A (the 道观 that prays to 劫, not to a god: 剧情总纲 §6; the headless figures are 侮天鬼's, doc/help/history:51–60)"
+		},
+		{
+			"id": "niling.front.landmark.scripture",
+			"zone": "niling.front",
+			"name": "经书",
+			"policy": "look",
+			"long": "乌黑的长案上摊着一卷黑皮的经书，字是暗红的，横着走竖着走，和黑幡上的一样。你盯着看了一会儿，字像是在动，赶紧移开了眼。案角摆着一只木鱼，鱼身上的漆被敲掉了一块。\n",
+			"legacy_source": "native: 逆灵宫 B (the 逆灵天书 of doc/help/taoist:58, the forbidden book, open on the hall's table)"
+		},
+		{
+			"id": "niling.alchemy.landmark.furnace",
+			"zone": "niling.alchemy",
+			"name": "丹炉",
+			"policy": "look",
+			"long": "一座三足铜丹炉，炉身熏得乌黑。炉口的火苗是青色的，没有一点热气。炉边的托盘上摆着几颗乌黑的丹丸，闻着是一股说不出的腥甜。你不想知道它们是什么炼的。\n",
+			"legacy_source": "native: 逆灵宫 B (剧情总纲 §3 第三章 ④: 纳供的不只是金帛，是人; the furnace the ledger's 「入丹房」 means)"
+		},
+		{
+			"id": "niling.alchemy.landmark.jars",
+			"zone": "niling.alchemy",
+			"name": "药架",
+			"policy": "look",
+			"long": "药架上的罐子一只只封着口，签子上写的不是药名：「野羊 · 丁未秋」「关北 · 戊申冬」……有一只罐子的签子上写着「傅家坡 · 待」，罐子是空的。\n",
+			"legacy_source": "native: 逆灵宫 B (the jars labelled by where the tribute came from; 石头's is still empty)"
+		},
+		{
+			"id": "niling.corridor.landmark.scratches",
+			"zone": "niling.corridor",
+			"name": "刻痕",
+			"policy": "look",
+			"long": "西边那扇铁栅门里的墙根上，一排排指甲刻出来的道道，五个一组，刻了一百多组。最后一组只有三道。\n",
+			"legacy_source": "native: 逆灵宫 B (霍铮 counting the half year of doc/help/plan:30 on his cell's wall)"
 		}
 	]
 }

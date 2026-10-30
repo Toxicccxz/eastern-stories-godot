@@ -36,6 +36,91 @@
 			"points": ["niling.store.store_taoist.1"],
 			"legacy_room": "native: 逆灵宫 A (the 货栈)",
 			"legacy_quantity": 1
+		},
+		{
+			"id": "niling.front.chanters",
+			"npc": "native.npc.niling_chanter",
+			"map": "niling.hall",
+			"zone": "niling.front",
+			"points": [
+				"niling.front.chanter.1",
+				"niling.front.chanter.2",
+				"niling.front.chanter.3",
+				"niling.front.chanter.4"
+			],
+			"legacy_room": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the four chanting in the 前殿)",
+			"legacy_quantity": 4
+		},
+		{
+			"id": "niling.front.lead_chanter",
+			"npc": "native.npc.niling_lead_chanter",
+			"map": "niling.hall",
+			"zone": "niling.front",
+			"points": [
+				"niling.front.lead_chanter.1"
+			],
+			"legacy_room": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the one at the 木鱼)",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "niling.counting.steward",
+			"npc": "native.npc.niling_steward",
+			"map": "niling.hall",
+			"zone": "niling.counting",
+			"points": [
+				"niling.counting.steward.1"
+			],
+			"legacy_room": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the 账房)",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "niling.corridor.jailers",
+			"npc": "native.npc.niling_jailer",
+			"map": "niling.dungeon",
+			"zone": "niling.corridor",
+			"points": [
+				"niling.corridor.jailer.1",
+				"niling.corridor.jailer.2"
+			],
+			"legacy_room": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the two jailers before the 唤首 scene: no key)",
+			"legacy_quantity": 2,
+			"until": {
+				"mark": "见过唤首"
+			}
+		},
+		{
+			"id": "niling.cell_huo.huo_zheng",
+			"npc": "native.npc.huo_zheng",
+			"map": "niling.dungeon",
+			"zone": "niling.cell_huo",
+			"points": [
+				"niling.cell_huo.huo_zheng.1"
+			],
+			"legacy_room": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the first cell)",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "niling.cell_shitou.shitou",
+			"npc": "native.npc.shitou",
+			"map": "niling.dungeon",
+			"zone": "niling.cell_shitou",
+			"points": [
+				"niling.cell_shitou.shitou.1"
+			],
+			"legacy_room": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the second cell)",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "niling.cell_others.corvee",
+			"npc": "native.npc.guanbei_corvee",
+			"map": "niling.dungeon",
+			"zone": "niling.cell_others",
+			"points": [
+				"niling.cell_others.corvee.1",
+				"niling.cell_others.corvee.2"
+			],
+			"legacy_room": "native: 逆灵宫 B (剧情总纲 §3 第三章 ③④, §6 逆灵宫卡; DECISIONS「逆灵宫 B」) (the third cell)",
+			"legacy_quantity": 2
 		}
 	]
 }
