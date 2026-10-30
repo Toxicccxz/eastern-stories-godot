@@ -117,8 +117,9 @@ what it finds is fixed in step 2. What waits for it is listed in [STATUS](STATUS
    the 兵部 papers read, the dungeon with 霍铮, 石头 and the 关北 men behind iron doors that want a key, the chapter waiting at the
    后殿); C done (DECISIONS「逆灵宫 C」: the 唤首 scene with the headless shade, the 鬼卒, the keyed jailer, the one-or-the-other
    choice — the rescue home to the 土地庙 and 黄霸's yield, or the chase to the cliff and 玄冥子's 残卷 — the chapter done either way);
-   next D (the consequences in 野羊山 and 傅家坡: the turn's bandits, 刘安禄 back to the stockade, the 农妇 with her son, 黄霸 grown,
-   玄冥子's 六阴剑 topic).
+   D done (DECISIONS「逆灵宫 D」: the turn's bandits let the rescuer be under the parley, 刘安禄 back to the stockade, the 农妇 with
+   her son, 黄霸 grown after the chase, 玄冥子's 六阴剑 hook) — the region is complete; 剧情总纲 §8 第 4 步 goes on to the next
+   region in chapter order.
 5. **Characters and animation** after the voxel maps: bodies, faces, clothing by family and class;
    then audio.
 
