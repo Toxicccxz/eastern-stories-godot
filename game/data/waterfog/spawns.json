@@ -88,7 +88,8 @@
 			"zone": "waterfog.forehall",
 			"points": ["waterfog.forehall.elder5.1"],
 			"legacy_room": "d/waterfog/forehall.c",
-			"legacy_quantity": 1
+			"legacy_quantity": 1,
+			"until": { "all": [{ "quest": "main.chapter2/choice/keep" }, { "quest": "main.chapter6#started" }] }
 		},
 		{
 			"id": "waterfog.upstairs.forehall.elder6",

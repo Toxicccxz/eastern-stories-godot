@@ -1,0 +1,50 @@
+{
+  "indoor": true,
+  "courtyard": true,
+  "cutaway_rooms": true,
+  "camera_size": 23,
+  "note": "王府前院、王府校场 (native:guanbei/palace_yard, drill; 关北 B): the forecourt behind the faded red gate — the whitewashed screen wall scored with old knife marks, the yard swept bare (the one clean place in town), two flag poles with the 王府's banners, the lanterns under the hall's eave, three steps up to its door; the drill yard east of it — the posts with their left shoulders hacked away, the butts, the hitching rail with two ponies, chips and sand, 郭承 and his men. Old and plain: rammed-earth walls, faded red woodwork, the 石青 scrollwork on the beams.",
+  "palette": {"wood": ["7a4a3a", "8a5a48", "6a4030"], "wall": "b89a66"},
+  "wall_height": 3.2,
+  "wall_looks": [
+    {"rect": [-1000, -1000, 1000, 1000], "style": "earth", "colors": ["b89a66", "c4a670", "ac8e5c", "ccb07c"], "note": "rammed earth round both yards, pale at the foot"}
+  ],
+  "surfaces": {"guanbei.palace_yard": "floor_yard"},
+  "door_looks": {
+    "guanbei.palace.gate": {"kind": "closed_door", "color": "9c4a3c", "trim": "2a2422", "note": "王府大门 from inside (town.json draws it from the street)"}
+  },
+  "ground": {
+    "floor_yard": {"style": "slabs", "lengths": [2, 3], "depths": [1, 2], "cracks": 0.08, "broken": 0.03, "sunk": 0.03, "tufts": 0.0, "stones": ["b4a06c", "bca876", "ac9864", "c0ac7a"], "worn": ["a89460", "b09c68"], "bed": "9a8a5a", "joint": 0.05, "mud": "a89460", "crack": "8a7a4e", "note": "the forecourt paved in yellow stone, swept"},
+    "town_ground": {"style": "scree", "colors": ["a89060", "b49c6a", "9c8456"], "gravel": 0.3, "stones": 0.02, "pebbles": ["c4ac74", "b49c64"], "note": "the drill yard, trodden hard (native:guanbei/drill: 踩得比石头还硬)"},
+    "boundary": {"style": "scree", "colors": ["b4a46e", "c0b078", "a89864"], "gravel": 0.5, "stones": 0.05, "pebbles": ["d4bc84", "c0a870", "9c8858"]}
+  },
+  "flora": {"grass_density": 0.02, "density": {"floor_yard": 0.0, "town_ground": 0.01, "boundary": 0.3}, "grass_colors": ["9a8c52", "8a9458", "a89e62", "b8aa6a"], "flower_threshold": 1.0, "tree_kinds": [], "wind": 0.4, "butterflies": 0},
+  "light": {
+    "areas": [
+      {"rect": [-1000, -1000, 1000, 1000], "sky": ["ccd6e0", "0a1022"], "ambient": ["ece4cc", "566690"], "ambient_energy": [0.5, 0.3], "sun": ["fff4d0", "aac0ee"], "sun_energy": [1.0, 0.32], "note": "both yards lie open to the sky"}
+    ]
+  },
+  "life": {
+    "guanbei.palace_yard": {"walls": "earth"},
+    "guanbei.drill": {"walls": "earth"}
+  },
+  "props": [
+    {"kind": "banner", "at": [-672, -208], "size": [16, 16], "height": 4.6, "cloth": "8a4a3a", "trim": "d8b050", "note": "the 王府's banners on the two flag poles (the layout's posts)"},
+    {"kind": "banner", "at": [-32, -208], "size": [16, 16], "height": 4.6, "cloth": "8a4a3a", "trim": "d8b050"},
+    {"kind": "hanging_lantern", "at": [-120, -296], "paper": "e0b060", "height": 2.8, "note": "lanterns under the hall's eave, either side of its door (native:guanbei/palace_yard: 廊下两盏灯笼)"},
+    {"kind": "hanging_lantern", "at": [120, -296], "paper": "e0b060", "height": 2.8},
+    {"kind": "glow", "at": [0, -280], "color": "ffc080", "day": 0.0, "night": 0.8, "range": 8.0, "height": 2.6, "note": "the eave's light at night"},
+    {"kind": "stains", "at": [0, 0], "size": [300, 400], "count": 6, "colors": ["b09c68", "bca876"], "note": "the yard swept — only the trodden line from the gate round the screen wall to the steps"},
+    {"kind": "trail", "points": [[0, 240], [-120, 160], [-120, 0], [0, -120], [0, -240]], "color": "a89460", "note": "the way round the screen wall"},
+    {"kind": "torch", "at": [236, -224], "size": [16, 16], "height": 2.0, "note": "torches on the drill yard's north wall"},
+    {"kind": "torch", "at": [580, -224], "size": [16, 16], "height": 2.0},
+    {"kind": "stains", "at": [700, -100], "size": [400, 300], "count": 10, "colors": ["8a7a4e", "9a8858", "7a6a44"], "note": "the drill yard trodden hard, chips round the posts"},
+    {"kind": "straw_patch", "at": [560, 60], "size": [80, 40], "note": "straw by the hitching rail"}
+  ],
+  "actors": {
+    "default": {"coat": "6a5a48"},
+    "native.npc.palace_steward": {"coat": "7a7268", "hat": true},
+    "native.npc.guo_cheng": {"coat": "5a4a3a"},
+    "native.npc.palace_soldier": {"coat": "8a7a5a"}
+  }
+}

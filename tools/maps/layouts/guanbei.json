@@ -87,16 +87,16 @@
           ["blocked", 800, 1376, 880, 1424, {"look": {"kind": "camel", "rotation": 180}}],
           ["blocked", 896, 1296, 944, 1344, "their bales", {"look": {"kind": "loot_crates", "rotation": 90}}],
           ["blocked", 464, 1456, 512, 1504, "water jars by the gate", {"look": {"kind": "wine_jars", "count": 3}}],
-        ["blocked", 880, 1440, 944, 1488, "fodder for the caravan's beasts", {"look": {"kind": "haystack", "tiers": 4}}],
-        ["blocked", 912, 1360, 960, 1408, "sacks of grain", {"look": {"kind": "sacks", "cloth": "a08a58"}}],
-        ["blocked", 496, 1328, 560, 1424, "a trader's cart unloading", {"look": {"kind": "cart", "cargo": "sacks"}}],
+          ["blocked", 880, 1440, 944, 1488, "fodder for the caravan's beasts", {"look": {"kind": "haystack", "tiers": 4}}],
+          ["blocked", 912, 1360, 960, 1408, "sacks of grain", {"look": {"kind": "sacks", "cloth": "a08a58"}}],
+          ["blocked", 496, 1328, 560, 1424, "a trader's cart unloading", {"look": {"kind": "cart", "cargo": "sacks"}}],
           ["blocked", 608, 208, 640, 240, "the stone drums before the 王府's gate", {"look": {"kind": "stone_blocks", "colors": ["8a8278", "9a9288", "7a7268"]}}],
           ["blocked", 752, 208, 784, 240, {"look": {"kind": "stone_blocks", "colors": ["8a8278", "9a9288", "7a7268"]}}],
           ["blocked", 496, 400, 544, 432, "a hitching rail at the yard's edge", {"look": {"kind": "fence"}}],
           ["blocked", 864, 400, 912, 432, {"look": {"kind": "fence"}}],
           ["blocked", 560, 992, 592, 1024, "the smith's anvil before his door", {"look": {"kind": "whetstone"}}],
-        ["blocked", 560, 928, 608, 960, "the smith's charcoal (羊粪烧的炭)", {"look": {"kind": "firewood"}}],
-        ["blocked", 816, 944, 848, 992, "the saddler's trestle", {"look": {"kind": "saw_horse", "rotation": 90}}],
+          ["blocked", 560, 928, 608, 960, "the smith's charcoal (羊粪烧的炭)", {"look": {"kind": "firewood"}}],
+          ["blocked", 816, 944, 848, 992, "the saddler's trestle", {"look": {"kind": "saw_horse", "rotation": 90}}],
           ["blocked", 560, 560, 592, 624, "the furrier's hides on a rack", {"look": {"kind": "drying_rack", "rotation": 90}}],
           ["blocked", 816, 992, 848, 1056, "the saddler's saddles on a trestle", {"look": {"kind": "sacks", "rotation": 90}}]
         ],
@@ -105,10 +105,12 @@
         "placed": {
           "guanbei.gate.gate_guard.1": [600, 1472],
           "guanbei.gate.gate_guard.2": [808, 1472],
-          "guanbei.street.smith.1": [584, 1072]
+          "guanbei.street.smith.1": [584, 1072],
+          "guanbei.palace_front.gate_guard.1": [616, 288],
+          "guanbei.palace_front.gate_guard.2": [792, 288]
         },
         "gap_at": [],
-        "buildings": [{"name": "铁匠铺", "street": "guanbei.street", "side": "west", "frontage": "shop", "depth": "shop", "at": 1040, "wall": "wall", "roof": "shop_front"}, {"name": "皮货铺", "street": "guanbei.street", "side": "west", "frontage": "shop", "depth": "shop", "at": 640, "wall": "wall", "roof": "shop_front"}, {"name": "马具铺", "street": "guanbei.street", "side": "east", "frontage": "shop", "depth": "shop", "at": 1040, "wall": "wall", "roof": "shop_front"}, {"name": "槐阳王府", "rect": [448, 0, 960, 192], "wall": "wall", "roof": "shop_front", "note": "the 王府's front wall and gate tower; its door is 关北 B's"}]
+        "buildings": [{"name": "铁匠铺", "street": "guanbei.street", "side": "west", "frontage": "shop", "depth": "shop", "at": 1040, "wall": "wall", "roof": "shop_front"}, {"name": "皮货铺", "street": "guanbei.street", "side": "west", "frontage": "shop", "depth": "shop", "at": 640, "wall": "wall", "roof": "shop_front"}, {"name": "马具铺", "street": "guanbei.street", "side": "east", "frontage": "shop", "depth": "shop", "at": 1040, "wall": "wall", "roof": "shop_front"}, {"name": "槐阳王府", "rect": [448, 0, 960, 192], "street": "guanbei.palace_front", "side": "north", "wall": "wall", "roof": "shop_front", "doors": [{"portal": "guanbei.palace_front.north", "street": "guanbei.palace_front", "side": "north", "at": 704}], "note": "the 王府's front wall and gate tower; the 王府大门 (a WorldDoor found by 王府放行, 关北 B) stands in its doorway"}]
       },
       "scene": {
         "style": "map",
@@ -121,10 +123,10 @@
           "Rect_64_32": [64, 32],
           "Rect_32_64": [32, 64]
         },
-        "nodes": [{"generated": "captions"}, {"node": "caption", "name": "GorgeLabel", "at": [704, 1612], "text": "南 · 关外山道 · 天驼关", "size": 12}, {"node": "caption", "name": "MarketLabel", "at": [872, 656], "text": "东 · 马市", "size": 14}, {"node": "caption", "name": "PalaceLabel", "at": [704, 168], "text": "槐阳王府", "size": 14}, {"node": "passage", "name": "GorgePassage", "id": "guanbei.gate.south", "at": [704, 1520], "shape": "Rect_96_32"}, {"node": "passage", "name": "MarketPassage", "id": "guanbei.street.east", "at": [848, 704], "shape": "Rect_32_96"}, {"node": "service", "name": "NoticeService", "id": "guanbei.gate.notice", "at": [528, 1312], "text": "告示 · 看"}],
+        "nodes": [{"generated": "captions"}, {"node": "caption", "name": "GorgeLabel", "at": [704, 1612], "text": "南 · 关外山道 · 天驼关", "size": 12}, {"node": "caption", "name": "MarketLabel", "at": [872, 656], "text": "东 · 马市", "size": 14}, {"node": "caption", "name": "PalaceLabel", "at": [704, 168], "text": "槐阳王府", "size": 14}, {"node": "passage", "name": "GorgePassage", "id": "guanbei.gate.south", "at": [704, 1520], "shape": "Rect_96_32"}, {"node": "passage", "name": "MarketPassage", "id": "guanbei.street.east", "at": [848, 704], "shape": "Rect_32_96"}, {"node": "service", "name": "NoticeService", "id": "guanbei.gate.notice", "at": [528, 1312], "text": "告示 · 看"}, {"node": "service", "name": "KnockService", "id": "guanbei.palace_front.knock", "at": [704, 272], "text": "王府大门 · 叩门"}],
         "zones": [{"generated": "zones"}],
         "spawn_points": [{"name": "GateGorgeArrival", "at": [704, 1456], "id": "guanbei.gate.gorge_arrival"}, {"name": "StreetMarketReturn", "at": [776, 704], "id": "guanbei.street.market_return"}, {"generated": "markers"}],
-        "interactions": [{"name": "WallInteraction", "id": "guanbei.gate.landmark.wall", "at": [880, 1500], "shape": "Rect_64_32"}],
+        "interactions": [{"name": "WallInteraction", "id": "guanbei.gate.landmark.wall", "at": [880, 1500], "shape": "Rect_64_32"}, {"name": "DrumsInteraction", "id": "guanbei.palace_front.landmark.drums", "at": [624, 256], "shape": "Rect_64_32"}],
         "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/guanbei/voxel/town.json"}
       }
     },
@@ -135,7 +137,10 @@
         "technique": "town",
         "base": "boundary",
         "bounds": [288, 64, 1216, 992],
-        "ground": [["wall", 1120, 304, 1168, 912, "the market's east wall (the 东门 is 关北 C's)"], ["wall", 352, 896, 1168, 944, "and its south wall"]],
+        "ground": [
+          ["wall", 1120, 304, 1168, 912, "the market's east wall (the 东门 is 关北 C's)"],
+          ["wall", 352, 896, 1168, 944, "and its south wall"]
+        ],
         "zones": {
           "guanbei.market": [352, 320, 1120, 896, "open", "town_ground", null]
         },
@@ -156,8 +161,8 @@
           ["blocked", 512, 832, 592, 880, {"look": {"kind": "camel", "rotation": 180}}],
           ["blocked", 1072, 352, 1104, 384, "the trader's steelyard on its frame", {"look": {"kind": "steelyard"}}],
           ["blocked", 1072, 400, 1104, 448, "sacks of fodder", {"look": {"kind": "sacks"}}],
-        ["blocked", 960, 384, 1024, 432, "hay by the fodder sacks", {"look": {"kind": "haystack", "tiers": 5}}],
-        ["blocked", 400, 400, 464, 496, "an empty cart by the lane", {"look": {"kind": "cart", "cargo": "none"}}],
+          ["blocked", 960, 384, 1024, 432, "hay by the fodder sacks", {"look": {"kind": "haystack", "tiers": 5}}],
+          ["blocked", 400, 400, 464, 496, "an empty cart by the lane", {"look": {"kind": "cart", "cargo": "none"}}],
           ["blocked", 384, 352, 432, 384, "a water trough by the lane", {"look": {"kind": "stone_blocks", "colors": ["7a7268", "8a8278", "6a6258"]}}]
         ],
         "reach_from": ["MarketStreetArrival", "MarketInnReturn"],
@@ -209,151 +214,19 @@
           }
         },
         "props": [
-          [
-            "blocked",
-            "guanbei.inn_hall",
-            ["rel", 0.5, 0.5],
-            2.2,
-            2.2,
-            "the hearth sunk in the floor, the black pot over it",
-            {
-              "look": {
-                "kind": "cauldron",
-                "colors": ["2a2622", "3a3430"],
-                "fire": true
-              }
-            }
-          ],
-          [
-            "blocked",
-            "guanbei.inn_hall",
-            ["rel", 0.9, 0.45],
-            1.1,
-            3.6,
-            "the keeper's counter along the east wall",
-            {
-              "look": {"kind": "counter", "rotation": 90, "wood": "6a5240"}
-            }
-          ],
-          [
-            "blocked",
-            "guanbei.inn_hall",
-            ["rel", 0.9, 0.8],
-            1.2,
-            1.0,
-            "her chopping block",
-            {
-              "look": {"kind": "chopping_block"}
-            }
-          ],
-          [
-            "blocked",
-            "guanbei.inn_hall",
-            ["rel", 0.2, 0.25],
-            1.9,
-            1.0,
-            "a low table and its benches",
-            {
-              "look": {"kind": "table", "set": "wine", "wood": "6a5240"}
-            }
-          ],
-          [
-            "blocked",
-            "guanbei.inn_hall",
-            ["rel", 0.2, 0.42],
-            1.6,
-            0.6,
-            {
-              "look": {"kind": "bench_seat", "wood": "6a5240"}
-            }
-          ],
-          [
-            "blocked",
-            "guanbei.inn_hall",
-            ["rel", 0.2, 0.75],
-            1.9,
-            1.0,
-            "another by the west wall, where the waiting sit",
-            {
-              "look": {"kind": "table", "set": "tea_used", "wood": "5a4634"}
-            }
-          ],
-          [
-            "blocked",
-            "guanbei.inn_hall",
-            ["rel", 0.2, 0.92],
-            1.6,
-            0.6,
-            {
-              "look": {"kind": "bench_seat", "wood": "5a4634"}
-            }
-          ],
-          [
-            "blocked",
-            "guanbei.inn_hall",
-            ["rel", 0.68, 0.22],
-            1.9,
-            1.0,
-            "a table by the north door",
-            {
-              "look": {"kind": "table", "set": "meal", "wood": "6a5240"}
-            }
-          ],
-          [
-            "blocked",
-            "guanbei.inn_hall",
-            ["rel", 0.68, 0.85],
-            1.4,
-            0.8,
-            "wine skins and jars by the hearth",
-            {
-              "look": {"kind": "wine_jars", "count": 3, "tipped": 1}
-            }
-          ],
-          [
-            "blocked",
-            "guanbei.inn_back",
-            ["rel", 0.2, 0.3],
-            1.6,
-            1.6,
-            "the wine vats",
-            {
-              "look": {"kind": "crocks"}
-            }
-          ],
-          [
-            "blocked",
-            "guanbei.inn_back",
-            ["rel", 0.8, 0.3],
-            1.9,
-            0.9,
-            "fodder in bales",
-            {
-              "look": {"kind": "sacks", "cloth": "a08a58"}
-            }
-          ],
-          [
-            "blocked",
-            "guanbei.inn_back",
-            ["rel", 0.5, 0.82],
-            1.6,
-            0.8,
-            "the keeper's felt bed",
-            {
-              "look": {"kind": "bedding", "cloth": "7a6a58"}
-            }
-          ],
-          [
-            "blocked",
-            "guanbei.inn_back",
-            ["rel", 0.85, 0.75],
-            0.9,
-            1.4,
-            "a whole sheep hanging",
-            {
-              "look": {"kind": "meat_rack", "rotation": 90}
-            }
-          ]
+          ["blocked", "guanbei.inn_hall", ["rel", 0.5, 0.5], 2.2, 2.2, "the hearth sunk in the floor, the black pot over it", {"look": {"kind": "cauldron", "colors": ["2a2622", "3a3430"], "fire": true}}],
+          ["blocked", "guanbei.inn_hall", ["rel", 0.9, 0.45], 1.1, 3.6, "the keeper's counter along the east wall", {"look": {"kind": "counter", "rotation": 90, "wood": "6a5240"}}],
+          ["blocked", "guanbei.inn_hall", ["rel", 0.9, 0.8], 1.2, 1.0, "her chopping block", {"look": {"kind": "chopping_block"}}],
+          ["blocked", "guanbei.inn_hall", ["rel", 0.2, 0.25], 1.9, 1.0, "a low table and its benches", {"look": {"kind": "table", "set": "wine", "wood": "6a5240"}}],
+          ["blocked", "guanbei.inn_hall", ["rel", 0.2, 0.42], 1.6, 0.6, {"look": {"kind": "bench_seat", "wood": "6a5240"}}],
+          ["blocked", "guanbei.inn_hall", ["rel", 0.2, 0.75], 1.9, 1.0, "another by the west wall, where the waiting sit", {"look": {"kind": "table", "set": "tea_used", "wood": "5a4634"}}],
+          ["blocked", "guanbei.inn_hall", ["rel", 0.2, 0.92], 1.6, 0.6, {"look": {"kind": "bench_seat", "wood": "5a4634"}}],
+          ["blocked", "guanbei.inn_hall", ["rel", 0.68, 0.22], 1.9, 1.0, "a table by the north door", {"look": {"kind": "table", "set": "meal", "wood": "6a5240"}}],
+          ["blocked", "guanbei.inn_hall", ["rel", 0.68, 0.85], 1.4, 0.8, "wine skins and jars by the hearth", {"look": {"kind": "wine_jars", "count": 3, "tipped": 1}}],
+          ["blocked", "guanbei.inn_back", ["rel", 0.2, 0.3], 1.6, 1.6, "the wine vats", {"look": {"kind": "crocks"}}],
+          ["blocked", "guanbei.inn_back", ["rel", 0.8, 0.3], 1.9, 0.9, "fodder in bales", {"look": {"kind": "sacks", "cloth": "a08a58"}}],
+          ["blocked", "guanbei.inn_back", ["rel", 0.5, 0.82], 1.6, 0.8, "the keeper's felt bed", {"look": {"kind": "bedding", "cloth": "7a6a58"}}],
+          ["blocked", "guanbei.inn_back", ["rel", 0.85, 0.75], 0.9, 1.4, "a whole sheep hanging", {"look": {"kind": "meat_rack", "rotation": 90}}]
         ],
         "placed": {
           "guanbei.inn_hall.hu_sanniang.1": ["guanbei.inn_hall", ["rel", 0.8, 0.62]],
@@ -378,6 +251,124 @@
         "zones": [{"generated": "zones"}],
         "spawn_points": [{"generated": "markers"}],
         "interactions": [{"name": "HearthInteraction", "id": "guanbei.inn_hall.landmark.hearth", "room": "guanbei.inn_hall", "anchor": ["c", 0, 1.6], "shape": "Rect_64_32"}]
+      }
+    },
+    "palace_court": {
+      "note": "关北 B: 槐阳王府's forecourt behind the red gate — the whitewashed screen wall just inside, the swept yard (the one clean place in town), three steps up to the hall's door on the north; east of it the drill yard with its row of hacked wooden posts, the butts, the hitching rail, where 郭承 drills the men. The south door is the 王府大门 (a WorldDoor found by 王府放行).",
+      "file": "guanbei_palace_court.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "compound",
+        "rooms": {
+          "guanbei.palace_yard": {
+            "floor": "floor_yard",
+            "wall": "wall",
+            "size": "yard",
+            "life": {"use": "camp_yard", "wealth": "rich", "seed": 71, "tidy": true}
+          },
+          "guanbei.drill": {
+            "floor": "town_ground",
+            "wall": "wall",
+            "size": "large",
+            "life": {"use": "training_yard", "wealth": "plain", "seed": 72}
+          }
+        },
+        "props": [
+          ["blocked", "guanbei.palace_yard", ["rel", 0.5, 0.3], 3.6, 0.6, "the whitewashed screen wall inside the gate (影壁)", {"look": {"kind": "screen_wall", "colors": ["d8d0c0", "c8c0b0", "a89a84"], "height": 2.6}}],
+          ["blocked", "guanbei.palace_yard", ["rel", 0.36, 0.06], 1.2, 0.6, "the stone steps either side of the hall's door", {"look": {"kind": "stone_blocks", "colors": ["9a9288", "a8a098", "8a8278"]}}],
+          ["blocked", "guanbei.palace_yard", ["rel", 0.64, 0.06], 1.2, 0.6, {"look": {"kind": "stone_blocks", "colors": ["9a9288", "a8a098", "8a8278"]}}],
+          ["blocked", "guanbei.palace_yard", ["rel", 0.08, 0.12], 0.5, 0.5, "the flag poles at the yard's north corners", {"look": {"kind": "post", "height": 4.6, "wood": "6a4a3a"}}],
+          ["blocked", "guanbei.palace_yard", ["rel", 0.92, 0.12], 0.5, 0.5, {"look": {"kind": "post", "height": 4.6, "wood": "6a4a3a"}}],
+          ["blocked", "guanbei.palace_yard", ["rel", 0.08, 0.88], 1.0, 1.0, "water vats by the gate", {"look": {"kind": "water_vat"}}],
+          ["blocked", "guanbei.drill", ["rel", 0.2, 0.14], 0.9, 0.9, "the row of wooden posts, left shoulders hacked away", {"look": {"kind": "training_post"}}],
+          ["blocked", "guanbei.drill", ["rel", 0.42, 0.14], 0.9, 0.9, {"look": {"kind": "training_post"}}],
+          ["blocked", "guanbei.drill", ["rel", 0.64, 0.14], 0.9, 0.9, {"look": {"kind": "training_post"}}],
+          ["blocked", "guanbei.drill", ["rel", 0.92, 0.3], 0.9, 2.0, "the butts against the east wall", {"look": {"kind": "stakes", "rotation": 90}}],
+          ["blocked", "guanbei.drill", ["rel", 0.92, 0.7], 0.9, 1.8, "the weapon rack: sabers", {"look": {"kind": "weapon_rack", "rotation": 90}}],
+          ["blocked", "guanbei.drill", ["rel", 0.15, 0.9], 2.4, 0.5, "the hitching rail along the south wall", {"look": {"kind": "fence"}}]
+        ],
+        "placed": {
+          "guanbei.palace_yard.steward.1": ["guanbei.palace_yard", ["rel", 0.3, 0.42]],
+          "guanbei.drill.guo_cheng.1": ["guanbei.drill", ["rel", 0.42, 0.36]],
+          "guanbei.drill.soldier.1": ["guanbei.drill", ["rel", 0.2, 0.52]],
+          "guanbei.drill.soldier.2": ["guanbei.drill", ["rel", 0.42, 0.56]],
+          "guanbei.drill.soldier.3": ["guanbei.drill", ["rel", 0.64, 0.52]],
+          "guanbei.drill.soldier.4": ["guanbei.drill", ["rel", 0.5, 0.78]]
+        },
+        "doors": {"guanbei.palace_yard.south": "south", "guanbei.palace_yard.north": "north"},
+        "reach_from": ["PalaceYardGateArrival", "PalaceYardHallReturn"]
+      },
+      "scene": {
+        "style": "map",
+        "root": "GuanbeiPalaceCourt",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/guanbei/voxel/palace_court.json"},
+        "map": "guanbei.palace_court",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [64, 32],
+          "Rect_32_64": [32, 64]
+        },
+        "nodes": [{"generated": "captions"}],
+        "zones": [{"generated": "zones"}],
+        "spawn_points": [{"generated": "markers"}],
+        "interactions": [{"name": "PostsInteraction", "id": "guanbei.drill.landmark.posts", "room": "guanbei.drill", "anchor": ["n", 0, 1.6], "shape": "Rect_64_32"}]
+      }
+    },
+    "palace": {
+      "note": "关北 B: the 王府's hall — brick floor, the old camp chair with its worn tiger skin at the north end, the weapon rack beside it (saber above, sword below), the two guards, 程朔 on the chair and, on the 保密 ledger, 南危水 at his side; east of it the side hall where he reads: the desk with the 兵部's letter slashed across, the sheepskin map with the 工地 ringed in red, a brazier.",
+      "file": "guanbei_palace.tscn",
+      "draw": {
+        "technique": "interior",
+        "building": "temple",
+        "rooms": {
+          "guanbei.palace_hall": {
+            "floor": "floor_yard",
+            "wall": "wall",
+            "size": "hall",
+            "life": {"use": "hall", "wealth": "plain", "seed": 73, "tidy": true}
+          },
+          "guanbei.side_hall": {
+            "floor": "floor_wood",
+            "wall": "wall",
+            "size": "room",
+            "life": {"use": "study", "wealth": "rich", "seed": 74}
+          }
+        },
+        "props": [
+          ["blocked", "guanbei.palace_hall", ["rel", 0.5, 0.08], 1.4, 1.2, "the camp chair with its tiger skin, on a low dais", {"look": {"kind": "grand_chair", "cloth": "a8702a", "wood": "5a4634"}}],
+          ["blocked", "guanbei.palace_hall", ["rel", 0.66, 0.08], 1.9, 0.6, "the weapon rack: the saber above, the sword below", {"look": {"kind": "weapon_rack"}}],
+          ["blocked", "guanbei.palace_hall", ["rel", 0.08, 0.12], 0.9, 2.0, "benches along the west wall for those who wait", {"look": {"kind": "bench_seat", "rotation": 90, "wood": "5a4634"}}],
+          ["blocked", "guanbei.palace_hall", ["rel", 0.08, 0.5], 0.9, 2.0, {"look": {"kind": "bench_seat", "rotation": 90, "wood": "5a4634"}}],
+          ["blocked", "guanbei.palace_hall", ["rel", 0.92, 0.5], 0.9, 2.0, "and along the east", {"look": {"kind": "bench_seat", "rotation": 90, "wood": "5a4634"}}],
+          ["blocked", "guanbei.palace_hall", ["rel", 0.3, 0.3], 1.9, 0.9, "a tea table before the dais", {"look": {"kind": "table", "set": "tea_used", "wood": "5a4634"}}],
+          ["blocked", "guanbei.palace_hall", ["rel", 0.16, 0.9], 1.2, 1.2, "the brazier by the door", {"look": {"kind": "brazier"}}],
+          ["blocked", "guanbei.side_hall", ["rel", 0.5, 0.2], 2.6, 1.1, "the desk, the 兵部's letter on top with a knife-cut across it", {"look": {"kind": "writing_desk", "wood": "5a4634"}}],
+          ["blocked", "guanbei.side_hall", ["rel", 0.1, 0.8], 0.9, 0.9, "chests of the 王府's papers", {"look": {"kind": "chest_stack"}}],
+          ["blocked", "guanbei.side_hall", ["rel", 0.9, 0.8], 1.0, 1.0, "the brazier, its ash still warm", {"look": {"kind": "brazier"}}]
+        ],
+        "placed": {
+          "guanbei.palace_hall.cheng_shuo.1": ["guanbei.palace_hall", ["rel", 0.5, 0.26]],
+          "guanbei.palace_hall.guard.1": ["guanbei.palace_hall", ["rel", 0.3, 0.14]],
+          "guanbei.palace_hall.guard.2": ["guanbei.palace_hall", ["rel", 0.78, 0.26]],
+          "guanbei.palace_hall.nan_weishui.1": ["guanbei.palace_hall", ["rel", 0.64, 0.36]]
+        },
+        "doors": {"guanbei.palace_hall.south": "south"},
+        "reach_from": "PalaceHallYardEntry"
+      },
+      "scene": {
+        "style": "map",
+        "root": "GuanbeiPalace",
+        "presentation": {"script": "res://presentation/voxel/world_voxel_view.gd", "layout": "res://data/guanbei/voxel/palace.json"},
+        "map": "guanbei.palace",
+        "player_color": "Color(0.831373, 0.741176, 0.380392, 1)",
+        "shapes": {
+          "Rect_64_32": [64, 32],
+          "Rect_32_64": [32, 64]
+        },
+        "nodes": [{"generated": "captions"}],
+        "zones": [{"generated": "zones"}],
+        "spawn_points": [{"generated": "markers"}],
+        "interactions": [{"name": "ChairInteraction", "id": "guanbei.palace_hall.landmark.chair", "room": "guanbei.palace_hall", "anchor": ["n", -2.4, 1.6], "shape": "Rect_64_32"}, {"name": "MapInteraction", "id": "guanbei.side_hall.landmark.map", "room": "guanbei.side_hall", "anchor": ["e", 1.0, -1.0], "shape": "Rect_32_64"}]
       }
     }
   }

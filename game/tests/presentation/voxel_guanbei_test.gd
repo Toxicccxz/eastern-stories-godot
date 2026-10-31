@@ -14,8 +14,8 @@ const Existing := preload("res://tests/presentation/voxel_gameplay_test.gd")
 const TALL: Array[String] = ["standing_rock", "boulder", "banner", "torch", "cairn", "bush", "tree", "campfire", "well", "wine_jars", "firewood", "crocks",
 	"rock_pile", "dead_log", "stele", "cart", "haystack", "notice_post", "horse", "camel", "tethered_horse", "fence", "stone_lion", "drying_rack", "saw_horse",
 	"hearth", "counter", "cauldron", "meat_rack", "lantern_post", "post", "chest_stack", "sacks"]
-const SCENES: Array[String] = ["guanbei_gorge", "guanbei_town", "guanbei_market", "guanbei_inn"]
-const MAPS: Array[StringName] = [&"guanbei.gorge", &"guanbei.town", &"guanbei.horse_market", &"guanbei.inn"]
+const SCENES: Array[String] = ["guanbei_gorge", "guanbei_town", "guanbei_market", "guanbei_inn", "guanbei_palace_court", "guanbei_palace"]
+const MAPS: Array[StringName] = [&"guanbei.gorge", &"guanbei.town", &"guanbei.horse_market", &"guanbei.inn", &"guanbei.palace_court", &"guanbei.palace"]
 ## Maps that are no rooms: no lived-in life expected.
 const NO_ROOMS: Array[StringName] = [&"guanbei.gorge", &"guanbei.town", &"guanbei.horse_market"]
 ## Where a test may put the player on each map (TEST-ONLY).
@@ -23,7 +23,9 @@ const ENTRIES: Dictionary[StringName, Array] = {
 	&"guanbei.gorge": [&"guanbei.gate_road", &"guanbei.gate_road.pass_arrival"],
 	&"guanbei.town": [&"guanbei.gate", &"guanbei.gate.gorge_arrival"],
 	&"guanbei.horse_market": [&"guanbei.market", &"guanbei.market.street_arrival"],
-	&"guanbei.inn": [&"guanbei.inn_hall", &"guanbei.inn_hall.market_entry"]}
+	&"guanbei.inn": [&"guanbei.inn_hall", &"guanbei.inn_hall.market_entry"],
+	&"guanbei.palace_court": [&"guanbei.palace_yard", &"guanbei.palace_yard.gate_arrival"],
+	&"guanbei.palace": [&"guanbei.palace_hall", &"guanbei.palace_hall.yard_entry"]}
 var assertions: int = 0
 var failures: Array[String] = []
 var _seen: Dictionary[StringName, bool] = {}
@@ -52,11 +54,13 @@ func run_all(tree: SceneTree) -> Dictionary:
 			&"guanbei.town": await _check_town(tree, session, map)
 			&"guanbei.horse_market": await _check_market(tree, map)
 			&"guanbei.inn": await _check_inn(tree, map)
+			&"guanbei.palace_court": await _check_court(tree, map)
+			&"guanbei.palace": await _check_palace(tree, map)
 	var missing: Array[StringName] = []
 	for map_id: StringName in MAPS:
 		if not _seen.has(map_id):
 			missing.append(map_id)
-	_check(missing.is_empty(), "every map of 关北 A was seen in the voxel view: missing %s" % [missing])
+	_check(missing.is_empty(), "every map of 关北 A and B was seen in the voxel view: missing %s" % [missing])
 	session.free()
 	await _frames(tree, 2)
 	return {"assertions": assertions, "failures": failures}
@@ -125,15 +129,15 @@ func _check_town(tree: SceneTree, session: WorldSessionController, map: WorldMap
 	_check(kinds.count("camel") == 2 and kinds.count("banner") >= 4, "two camels kneeling in the yard, banners on the gate and the 王府")
 	var earth: int = 0
 	var thatch: int = 0
-	var shut: bool = false
+	var palace_door: bool = false
 	var signs: Array[String] = []
 	for building: Dictionary in view.layout.get("buildings", []):
 		earth += 1 if building.get("construction", "") == "earth" else 0
 		thatch += 1 if building.get("roof_tiles", "") == "thatch" else 0
-		shut = shut or building.get("doorway", "") == "shut"
+		palace_door = palace_door or "guanbei.palace_front.north" in building.get("portals", [])
 		if building.has("signboard"):
 			signs.append(String(building["signboard"]["text"]))
-	_check(earth >= 7 and thatch == 3 and shut and signs == ["铁", "皮货", "马具"], "walls and tower of rammed earth, three thatched shopfronts with their signs, the 王府's gate shut (关北 B opens it): %d %d %s" % [earth, thatch, signs])
+	_check(earth >= 7 and thatch == 3 and palace_door and signs == ["铁", "皮货", "马具"], "walls and tower of rammed earth, three thatched shopfronts with their signs, the 王府's gate with its way in (关北 B): %d %d %s" % [earth, thatch, signs])
 	_check(view.geometry.cliffs == null, "no cliffs in the town")
 	# The street 320 wide (two bodies abreast with room to spare) from the gate yard to the 王府.
 	var narrow: Array[String] = []
@@ -201,6 +205,38 @@ func _check_inn(tree: SceneTree, map: WorldMapController) -> void:
 		_check(await MapPlaces.drive(tree, map, near) and map.player_body.global_position.distance_to(keeper.global_position) < 96.0, "up to her past the hearth")
 
 
+## The 王府's court: the screen wall, the swept yard, the posts with their hacked shoulders.
+func _check_court(tree: SceneTree, map: WorldMapController) -> void:
+	var view: WorldVoxelView = _view_of(map)
+	var kinds: Array[String] = _kinds(view)
+	for kind: String in ["screen_wall", "training_post", "weapon_rack", "stakes", "water_vat", "post", "fence", "stone_blocks"]:
+		_check(kind in kinds, "the court has its %s" % kind)
+	_check(kinds.count("training_post") == 3 and kinds.count("post") >= 2, "three posts to hack, two flag poles")
+	var earth: int = 0
+	for look: Dictionary in view.geometry.wall_looks:
+		earth += 1 if look.get("style", "") == "earth" else 0
+	_check(earth >= 1, "rammed-earth walls round the yards")
+	_check(await MapPlaces.drive_through(tree, map, [&"guanbei.drill", &"guanbei.palace_yard"]), "walk from the gate round the screen wall to the drill yard and back")
+	_check(await MapPlaces.drive(tree, map, MapPlaces.passage_spot(map, &"guanbei.palace_yard.north") + Vector2(0, 60)), "and up to the hall's steps")
+
+
+## The 王府's hall: the chair and its skin, the rack, the benches; the side hall's desk and map.
+func _check_palace(tree: SceneTree, map: WorldMapController) -> void:
+	var view: WorldVoxelView = _view_of(map)
+	var kinds: Array[String] = _kinds(view)
+	for kind: String in ["grand_chair", "weapon_rack", "bench_seat", "table", "brazier", "writing_desk", "chest_stack"]:
+		_check(kind in kinds, "the 王府 has its %s" % kind)
+	_check(kinds.count("bench_seat") == 3 and kinds.count("brazier") == 2, "three benches for the waiting, a brazier in each room")
+	var life: VoxelLife = view.geometry.life
+	_check(life.worn_cells.get(&"guanbei.palace_hall", 0) > 0, "the hall's brick worn from the door to the dais")
+	_check(await MapPlaces.drive_through(tree, map, [&"guanbei.side_hall", &"guanbei.palace_hall"]), "walk into the side hall and back")
+	var prince: WorldCharacterBody2D = map.runtime_body_for_spawn_point(&"guanbei.palace_hall.cheng_shuo.1")
+	_check(prince != null, "程朔 sits on his chair")
+	if prince != null:
+		var near: Vector2 = MapPlaces.spot(map, &"guanbei.palace_hall", prince.global_position + Vector2(0, 60), 64.0)
+		_check(await MapPlaces.drive(tree, map, near) and map.player_body.global_position.distance_to(prince.global_position) < 96.0, "up to him before the dais")
+
+
 func _check_map(tree: SceneTree, session: WorldSessionController, map: WorldMapController, place: String) -> void:
 	_seen[map.map_id()] = true
 	var view: WorldVoxelView = _view_of(map)
@@ -215,6 +251,8 @@ func _check_map(tree: SceneTree, session: WorldSessionController, map: WorldMapC
 	var rooms: Dictionary = map.get_node("RoomLife").get_meta("rooms", {}) if map.has_node("RoomLife") else {}
 	_check(map.map_id() in NO_ROOMS or not rooms.is_empty(), "%s says what its rooms are used for (lived-in)" % place)
 	_check_footing(map, view, place)
+	for door_id: StringName in map.doors_by_id: # TEST-ONLY: the 王府大门 open for the walk
+		map.set_door_open(door_id, true)
 	await _check_access_and_saves(tree, session, map, view)
 
 
