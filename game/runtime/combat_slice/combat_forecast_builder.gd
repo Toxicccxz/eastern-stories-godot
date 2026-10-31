@@ -41,6 +41,26 @@ static func for_attack(map: WorldMapController, target: NpcRuntimeState) -> Comb
 	return CombatForecast.estimate(outgoing, incoming, kee, player.state.vitality.current, outgoing_chance, incoming_chance)
 
 
+## The player against `target` alone, whoever else would join (the battle card's word,
+## DECISIONS「战斗界面」); null when either cannot be bound or has no attack to read.
+static func for_one(map: WorldMapController, target: NpcRuntimeState) -> CombatForecast:
+	if map == null or target == null:
+		return null
+	var everyone: Array[CombatSliceCharacterBinding] = map.combat_lifecycle.build_participants()
+	var player: CombatSliceCharacterBinding = null
+	for binding: CombatSliceCharacterBinding in everyone:
+		if binding.is_user:
+			player = binding
+			break
+	var enemy: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(everyone, target.character_id)
+	if player == null or enemy == null:
+		return null
+	var out: CombatAttackInput = _attack(player, enemy)
+	if out == null:
+		return null
+	return CombatForecast.estimate([out], [_attack(enemy, player)], [enemy.state.vitality.current], player.state.vitality.current, [_chance(player, enemy)], [_chance(enemy, player)])
+
+
 ## fight()'s courage gate (CombatFightDecisionFacts) as a chance per round.
 static func _chance(attacker: CombatSliceCharacterBinding, victim: CombatSliceCharacterBinding) -> float:
 	var facts: CombatFightDecisionFacts = CombatSliceProjectionBuilder.build_fight_facts(attacker, victim)

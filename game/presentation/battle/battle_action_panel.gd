@@ -193,6 +193,60 @@ func present(projection: BattlePresentationProjection) -> void:
 		_queue.text += "\n" + tr("{action} · 目标：{target}").format({"action": catalog.label_for(queued.request.action_id), "target": tr(projection.display_name(queued.resolved_target_id))})
 	_queue.tooltip_text = _queue.text
 	_cancel.visible = queued != null
+	_wire_focus()
+
+
+## DECISIONS「战斗界面」: the hover of a move button — the move's own ES2 line as the player
+## would read it ($N 你, $n 对手, $l 要害, $w 兵刃), then what its tag does.
+static func move_tooltip(move: CombatActionDefinition) -> String:
+	var tag: String = CombatMoveTags.description(move.tag)
+	if move.legacy_action_text.is_empty():
+		return tag
+	# TRANSLATORS: the words standing for the one hit, the limb and the weapon in a move's hover line (no one is hit yet).
+	var line: String = (TranslationServer.translate("{action}！").format({"action": TranslationServer.translate(move.legacy_action_text)})
+		.replace("$N", TranslationServer.translate("你")).replace("$P", TranslationServer.translate("你"))
+		.replace("$n", TranslationServer.translate("对手")).replace("$p", TranslationServer.translate("对手"))
+		.replace("$l", TranslationServer.translate("要害")).replace("$w", TranslationServer.translate("兵刃")))
+	return "%s\n%s" % [line, tag]
+
+
+## The keys and the pad walk the two rows (DECISIONS「战斗界面」): left and right along the
+## decision row (the moves, the stances, the 自动 switch), down from any of them to the first
+## quick action, up from a quick action to the chosen move (or the first).
+func _wire_focus() -> void:
+	var row: Array[Button] = []
+	if _moves.visible:
+		for id: StringName in _shown_move_ids:
+			if move_buttons.has(id):
+				row.append(move_buttons[id])
+	for value: int in [CombatStance.Value.ATTACK, CombatStance.Value.GUARD, CombatStance.Value.EVADE]:
+		if stance_row.visible and stance_buttons[value].visible:
+			row.append(stance_buttons[value])
+	if stance_row.visible and manual_button.visible:
+		row.append(manual_button)
+	var below: Button = first_action_button() if _actions.visible else null
+	for index: int in row.size():
+		var button: Button = row[index]
+		button.focus_neighbor_left = button.get_path_to(row[index - 1]) if index > 0 else NodePath()
+		button.focus_neighbor_right = button.get_path_to(row[index + 1]) if index + 1 < row.size() else NodePath()
+		button.focus_neighbor_bottom = button.get_path_to(below) if below != null else NodePath()
+	var above: Button = first_move_button()
+	if above == null and not row.is_empty():
+		above = row[0]
+	for child: Node in _actions.get_children():
+		var button: Button = child as Button
+		if button != null:
+			button.focus_neighbor_top = button.get_path_to(above) if above != null else NodePath()
+
+
+## The move the player chose for this round, else the first move; null without moves.
+func first_move_button() -> Button:
+	if not _moves.visible or _shown_move_ids.is_empty():
+		return null
+	for id: StringName in _shown_move_ids:
+		if move_buttons.has(id) and move_buttons[id].button_pressed:
+			return move_buttons[id]
+	return move_buttons.get(_shown_move_ids[0])
 
 
 ## enforce.c's factor now (hp.c's +N) and the amount to set, from 0 to its limit;
@@ -239,7 +293,7 @@ func _present_moves(projection: BattlePresentationProjection) -> void:
 			var shown_name: String = move.display_name if not move.display_name.is_empty() else String(move.action_id).get_slice("/", String(move.action_id).get_slice_count("/") - 1)
 			# TRANSLATORS: a move button: {name} the move, {tag} its one-character tag (快 / 重 / 虚 / 守 / 平).
 			button.text = tr("{name} · {tag}").format({"name": tr(shown_name), "tag": CombatMoveTags.label(move.tag)})
-			button.tooltip_text = CombatMoveTags.description(move.tag)
+			button.tooltip_text = move_tooltip(move)
 			button.toggle_mode = true
 			button.custom_minimum_size = Vector2(64, 40)
 			button.pressed.connect(_move_pressed.bind(move.action_id))

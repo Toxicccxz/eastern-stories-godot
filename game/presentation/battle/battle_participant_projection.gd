@@ -70,6 +70,15 @@ var knockout: BattleKnockoutProjection:
 ## when none is known; the special it announced for its next beat, "" when none.
 var next_move_tag: StringName = &""
 var telegraph: String = ""
+## 战斗决策层 2 (DECISIONS「战斗界面」): the conditions on this one (ConditionIds, from
+## state.conditions), whether they have spells mapped (法力 / 灵力 shown on the player's card
+## only then or with a mana maximum), and the 战前预判 of the player against this one alone
+## (CombatForecast.Verdict, -1 when none: the player, an ally, the forecast off), with its
+## full line for the hover.
+var conditions: Array[StringName] = []
+var has_spells: bool = false
+var strength: int = -1
+var strength_line: String = ""
 
 
 func _init(

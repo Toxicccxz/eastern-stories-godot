@@ -259,6 +259,14 @@ static func experience_multiplier(input: CombatAttackInput) -> float:
 	return expected + alive * kept
 
 
+## TRANSLATORS: the fight forecast's one word, after an enemy's name on its battle card (DECISIONS「战斗界面」).
+const VERDICT_WORDS: Dictionary[Verdict, String] = {
+	Verdict.SURE_WIN: "稳赢",
+	Verdict.FAVOURED: "占优",
+	Verdict.EVEN: "五五开",
+	Verdict.UNFAVOURED: "吃亏",
+	Verdict.SURE_LOSS: "必败",
+}
 ## TRANSLATORS: the fight forecast before a fight (native): {pronoun} is 他/她/它.
 const VERDICT_LINES: Dictionary[Verdict, String] = {
 	Verdict.SURE_WIN: "稳赢：{pronoun}远不是你的对手。",
@@ -286,6 +294,11 @@ const SPAR_LINES: Dictionary[Verdict, String] = {
 	Verdict.UNFAVOURED: "切磋吃亏：{pronoun}多半先打中你。",
 	Verdict.SURE_LOSS: "切磋必输：{pronoun}的招式你接不住。",
 }
+
+
+## The one word of `verdict`, translated.
+static func verdict_word(verdict: int) -> String:
+	return TranslationServer.translate(VERDICT_WORDS.get(verdict, VERDICT_WORDS[Verdict.EVEN]))
 
 
 ## The line, untranslated, with {pronoun} and {count} left to the caller; `spar` reads a

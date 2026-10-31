@@ -2,7 +2,9 @@ class_name BattleProjectionBuilder
 extends RefCounted
 
 ## Sole read adapter. UI descendants receive values, never Session/Core references.
-static func build(session: WorldSessionController) -> BattlePresentationProjection:
+## `strengths`: character id -> BattleStrength, the 战前预判 the panel read once for each
+## enemy when the fight began (DECISIONS「战斗界面」); left out, no card shows one.
+static func build(session: WorldSessionController, strengths: Dictionary[StringName, BattleStrength] = {}) -> BattlePresentationProjection:
 	if session == null or not session.is_initialized():
 		return BattlePresentationProjection.new()
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
@@ -38,6 +40,12 @@ static func build(session: WorldSessionController) -> BattlePresentationProjecti
 			if binding.character_id != player_id:
 				shown.next_move_tag = coordinator.next_move_tag(binding.character_id)
 				shown.telegraph = coordinator.pending_special_label(binding.character_id)
+			shown.conditions = state.conditions.sorted_condition_ids()
+			shown.has_spells = not state.skills.mapped_skill(SkillIds.SPELLS).is_empty()
+			var strength: BattleStrength = strengths.get(binding.character_id)
+			if strength != null and shown.hostile_to_player:
+				shown.strength = strength.verdict
+				shown.strength_line = strength.line
 			participants.append(shown)
 			break
 	var scheduler: CombatEncounterScheduler = coordinator.active_scheduler()

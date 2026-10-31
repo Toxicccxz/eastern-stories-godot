@@ -4055,6 +4055,26 @@ msgid "游走：闪躲高，命中低。"
 msgstr ""
 
 #: core/combat/forecast/combat_forecast.gd
+msgid "稳赢"
+msgstr ""
+
+#: core/combat/forecast/combat_forecast.gd
+msgid "占优"
+msgstr ""
+
+#: core/combat/forecast/combat_forecast.gd
+msgid "五五开"
+msgstr ""
+
+#: core/combat/forecast/combat_forecast.gd
+msgid "吃亏"
+msgstr ""
+
+#: core/combat/forecast/combat_forecast.gd
+msgid "必败"
+msgstr ""
+
+#: core/combat/forecast/combat_forecast.gd
 msgid "稳赢：{pronoun}远不是你的对手。"
 msgstr ""
 
@@ -4268,8 +4288,9 @@ msgstr ""
 #. message_vision() in ES2 lines: $N the actor, $n the one who reads it (你).
 #. message_vision(): the dancer ($N) as they read it.
 #. message_vision(): the player, for $N/$n/$P/$p in the ES2 combat lines.
+#. the player's own battle card, after the name.
 #. message_vision(): the one kneeling, for the $N of a 剃度 line.
-#: core/internal_power/exert_context.gd core/internal_power/exert_function.gd core/relationships/npc_apprenticeship.gd core/world/dance_definition.gd presentation/battle/battle_narrator.gd presentation/battle/battle_participant_card.gd runtime/world/map/world_map_combat_lifecycle.gd runtime/world/map/world_map_corpses.gd runtime/world/map/world_map_hostilities.gd runtime/world/map/world_map_patrols.gd runtime/world/map/world_map_selection.gd runtime/world/map/world_map_spells.gd runtime/world/player_essence_magic.gd runtime/world/player_martial_arts.gd
+#: core/internal_power/exert_context.gd core/internal_power/exert_function.gd core/relationships/npc_apprenticeship.gd core/world/dance_definition.gd presentation/battle/battle_action_panel.gd presentation/battle/battle_narrator.gd presentation/battle/battle_participant_card.gd runtime/world/map/world_map_combat_lifecycle.gd runtime/world/map/world_map_corpses.gd runtime/world/map/world_map_hostilities.gd runtime/world/map/world_map_patrols.gd runtime/world/map/world_map_selection.gd runtime/world/map/world_map_spells.gd runtime/world/player_essence_magic.gd runtime/world/player_martial_arts.gd
 msgid "你"
 msgstr ""
 
@@ -6401,6 +6422,23 @@ msgstr ""
 msgid "{action} · 目标：{target}"
 msgstr ""
 
+#. the words standing for the one hit, the limb and the weapon in a move's hover line (no one is hit yet).
+#: presentation/battle/battle_action_panel.gd presentation/battle/battle_narrator.gd
+msgid "{action}！"
+msgstr ""
+
+#: presentation/battle/battle_action_panel.gd presentation/battle/battle_participant_card.gd
+msgid "对手"
+msgstr ""
+
+#: presentation/battle/battle_action_panel.gd
+msgid "要害"
+msgstr ""
+
+#: presentation/battle/battle_action_panel.gd
+msgid "兵刃"
+msgstr ""
+
 #. the battle panel: enforce.c's force_factor now, as hp.c shows it.
 #: presentation/battle/battle_action_panel.gd
 msgid "加力 +%d"
@@ -6548,6 +6586,54 @@ msgstr ""
 #. a battle button's hover: {action} its label (施法「遁」), {what} what it does.
 #: presentation/battle/battle_action_presentation_catalog.gd ui/world/shared_ui_nearby.gd
 msgid "{action}：{what}"
+msgstr ""
+
+#: presentation/battle/battle_condition_tags.gd
+msgid "毒"
+msgstr ""
+
+#: presentation/battle/battle_condition_tags.gd
+msgid "醉"
+msgstr ""
+
+#: presentation/battle/battle_condition_tags.gd
+msgid "迷药"
+msgstr ""
+
+#: presentation/battle/battle_condition_tags.gd
+msgid "冰"
+msgstr ""
+
+#: presentation/battle/battle_condition_tags.gd
+msgid "包扎"
+msgstr ""
+
+#: presentation/battle/battle_condition_tags.gd
+msgid "中毒：每次心跳掉气，一半成伤。"
+msgstr ""
+
+#: presentation/battle/battle_condition_tags.gd
+msgid "蛇毒：每次心跳伤气 10、掉神 10。"
+msgstr ""
+
+#: presentation/battle/battle_condition_tags.gd
+msgid "火玫瑰毒：每次心跳伤神 20、掉气 10。"
+msgstr ""
+
+#: presentation/battle/battle_condition_tags.gd
+msgid "醉了：越醉越站不稳，醉过头会昏倒。"
+msgstr ""
+
+#: presentation/battle/battle_condition_tags.gd
+msgid "蒙汗药：药力发作，撑不住就会昏倒。"
+msgstr ""
+
+#: presentation/battle/battle_condition_tags.gd
+msgid "意寒掌毒：每次心跳伤精、气、神各 25。"
+msgstr ""
+
+#: presentation/battle/battle_condition_tags.gd
+msgid "包扎着：每次心跳回气 3。"
 msgstr ""
 
 #: presentation/battle/battle_feedback_reader.gd
@@ -6747,18 +6833,34 @@ msgstr ""
 msgid "{line} [color=#8b959e][font_size=12]（-{damage}）[/font_size][/color]"
 msgstr ""
 
+#. the full battle line under its short form in the log: {line} and its damage.
+#: presentation/battle/battle_narration_line.gd
+msgid "{line}（-{damage}）"
+msgstr ""
+
 #. the player's turn passes: the one they fight is unseen (a ghost).
 #: presentation/battle/battle_narrator.gd
 msgid "你看不见对手，无从下手。"
 msgstr ""
 
-#: presentation/battle/battle_narrator.gd
-msgid "{action}！"
-msgstr ""
-
 #. combatd.c: how the one hit looks now ({status}, e.g. 受伤不轻，看起来状况并不太好。).
 #: presentation/battle/battle_narrator.gd
 msgid "( $N{status} )"
+msgstr ""
+
+#. a blow's short form: {who} used {move} on {whom}, who dodged.
+#: presentation/battle/battle_narrator.gd
+msgid "{who} · {move} → {whom} · 闪开了"
+msgstr ""
+
+#. a blow's short form: {whom} parried.
+#: presentation/battle/battle_narrator.gd
+msgid "{who} · {move} → {whom} · 挡开了"
+msgstr ""
+
+#. a blow's short form: it landed but took no 气.
+#: presentation/battle/battle_narrator.gd
+msgid "{who} · {move} → {whom} · 没伤到"
 msgstr ""
 
 #. the battle card of one who fell while the player was killing them: the button that kills them with the next blow.
@@ -6771,22 +6873,7 @@ msgstr ""
 msgid "放过"
 msgstr ""
 
-#: presentation/battle/battle_participant_card.gd
-msgid "选为目标：%s"
-msgstr ""
-
-#: presentation/battle/battle_participant_card.gd
-msgid "不能选为目标"
-msgstr ""
-
-#: presentation/battle/battle_participant_card.gd
-msgid "当前目标"
-msgstr ""
-
-#: presentation/battle/battle_participant_card.gd
-msgid "对手"
-msgstr ""
-
+#. the battle card of one fighting beside the player (a 天将, a follower).
 #: presentation/battle/battle_participant_card.gd
 msgid "参战"
 msgstr ""
@@ -6795,33 +6882,23 @@ msgstr ""
 msgid "当前／有效／上限"
 msgstr ""
 
-#. the player's card; (+{factor}) is enforce.c's force_factor, as hp.c shows it.
+#. the player's card; (+{factor}) is enforce.c's force_factor, as hp.c shows it; 法力 and 灵力 only with spells.
 #: presentation/battle/battle_participant_card.gd
 msgid "内力 {force}/{max_force} (+{factor}) · 法力 {mana}/{max_mana} · 灵力 {atman}/{max_atman}"
 msgstr ""
 
+#. the player's card without spells: 内力 alone; (+{factor}) is enforce.c's force_factor.
 #: presentation/battle/battle_participant_card.gd
-msgid "内力 {force}/{max_force} · 法力 {mana}/{max_mana} · 灵力 {atman}/{max_atman}"
+msgid "内力 {force}/{max_force} (+{factor})"
 msgstr ""
 
 #: presentation/battle/battle_participant_card.gd
 msgid "已排定目标"
 msgstr ""
 
+#. a battle card's tag: busy for %d more beats.
 #: presentation/battle/battle_participant_card.gd
-msgid "点选为目标"
-msgstr ""
-
-#: presentation/battle/battle_participant_card.gd
-msgid "可以行动"
-msgstr ""
-
-#: presentation/battle/battle_participant_card.gd
-msgid "无法行动"
-msgstr ""
-
-#: presentation/battle/battle_participant_card.gd
-msgid "忙碌 %d"
+msgid "忙 %d"
 msgstr ""
 
 #: presentation/battle/battle_participant_card.gd
@@ -6836,6 +6913,10 @@ msgstr ""
 msgid "约 {n} 秒后醒来"
 msgstr ""
 
+#: presentation/battle/battle_participant_card.gd
+msgid "无法行动"
+msgstr ""
+
 #. an enemy's card: the tag of the move it will use next (起手式): 快 / 重 / 虚 / 守.
 #: presentation/battle/battle_participant_card.gd
 msgid "起手：%s"
@@ -6844,6 +6925,10 @@ msgstr ""
 #. an enemy's card: the special it announced for its next move ({move} carries its own 「」 when it has one).
 #: presentation/battle/battle_participant_card.gd
 msgid "要出 {move}"
+msgstr ""
+
+#: presentation/battle/battle_participant_card.gd
+msgid "选为目标：%s"
 msgstr ""
 
 #. on the 了结 button: killing them does the task 朱鸿雪 gave.
@@ -6871,10 +6956,14 @@ msgstr ""
 msgid "放{name}一条生路：你这一方不再出手，{name}昏在原地，到时自己醒来。"
 msgstr ""
 
+#. a battle card's 气 line: current/effective/maximum.
 #: presentation/battle/battle_participant_card.gd
-msgid ""
-"气 %s\n"
-"精 %s · 神 %s"
+msgid "气 %s"
+msgstr ""
+
+#. the player's card: 精 and 神, each current/effective/maximum.
+#: presentation/battle/battle_participant_card.gd
+msgid "精 %s · 神 %s"
 msgstr ""
 
 #. asked before 天邪虎啸 (roar.c) in a fight: everyone here who does not withstand it turns on the player to the death.
@@ -6988,6 +7077,22 @@ msgstr ""
 
 #: presentation/battle/battle_presentation_controller.gd
 msgid "取消：%s"
+msgstr ""
+
+#: presentation/battle/battle_vitality_bar.gd
+msgid "无碍"
+msgstr ""
+
+#: presentation/battle/battle_vitality_bar.gd
+msgid "受伤不轻"
+msgstr ""
+
+#: presentation/battle/battle_vitality_bar.gd
+msgid "伤势沉重"
+msgstr ""
+
+#: presentation/battle/battle_vitality_bar.gd
+msgid "濒死"
 msgstr ""
 
 #: presentation/battle/es2_combat_messages.gd

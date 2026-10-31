@@ -236,7 +236,8 @@ func _target_ui(tree: SceneTree) -> void:
 	await _tap(tree, ui._cards[2].target_button)
 	var b: StringName = session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).npc_runtimes()[1].character_id
 	_check(ui.current_projection().current_target_id == b and ui.current_projection().queued_action().resolved_target_id == a, "touch current B vs queued A")
-	_check(ui._cards[2]._title.text.contains("当前目标") and ui._cards[1]._status.text.contains("已排定目标"), "visibly distinct labels")
+	# DECISIONS「战斗界面」: the current target is the gold border, the planned one a tag.
+	_check((ui._cards[2].get_theme_stylebox("panel") as StyleBoxFlat).border_color == BattleParticipantCard.GOLD and (ui._cards[1].get_theme_stylebox("panel") as StyleBoxFlat).border_color != BattleParticipantCard.GOLD and ui._cards[1]._status.text.contains("已排定目标"), "visibly distinct: gold border vs 已排定目标 tag")
 	_check(session.world_map_of(OldPineWorldDefinitions.OUTDOOR_MAP_ID).selected_interaction_target() == null and not touch._pad.visible, "target touch does not leak to world")
 	ui._cards[1].target_button.grab_focus()
 	await _key(tree, KEY_ENTER, true)

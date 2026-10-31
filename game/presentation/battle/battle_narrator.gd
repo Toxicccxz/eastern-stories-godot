@@ -130,12 +130,23 @@ func _attack(
 			damage = base.resource_mutation.requested_damage
 			outcome = Es2CombatMessages.damage_message(damage, String(action.damage_type))
 	var type: String = tr(Es2CombatMessages.damage_type_word(String(action.damage_type)))
+	var status: CombatStatusReportBoundaryResult = ordinary.status_report_result if damage > 0 else null
+	if status != null and status.outcome != CombatStatusReportBoundaryResult.Outcome.VALIDATED:
+		status = null
+	# DECISIONS「战斗界面」: the blow's line carries its short form (who · move → whom −N · wound).
+	# Without a report_status (the blow felled them: their state tells it), the band is read
+	# off the victim's 气 as the cast projects it now, when the cast has numbers.
+	var ratio: int = -1 if status == null else status.ratio
+	var struck: BattleParticipantProjection = cast.participant(victim)
+	if ratio < 0 and damage > 0 and struck != null and struck.vitality != null and struck.vitality.maximum > 0:
+		@warning_ignore("integer_division")
+		ratio = struck.vitality.current * 100 / struck.vitality.maximum
 	lines.append(BattleNarrationLine.new(
-		vision(_limb_and_weapon(tr(outcome).format({"type": type}), limb, weapon), me, victim, cast), damage if damage > 0 else -1))
+		vision(_limb_and_weapon(tr(outcome).format({"type": type}), limb, weapon), me, victim, cast), damage if damage > 0 else -1,
+		ColoredLine.PLAIN, summary(me, victim, action, base.outcome, damage, ratio, cast)))
 	if damage <= 0:
 		return
-	var status: CombatStatusReportBoundaryResult = ordinary.status_report_result
-	if status != null and status.outcome == CombatStatusReportBoundaryResult.Outcome.VALIDATED:
+	if status != null:
 		var words: String = (
 			Es2CombatMessages.effective_status_message(status.ratio)
 			if status.value_source == CombatStatusReportBoundaryResult.ValueSource.EFFECTIVE_VITALITY
@@ -146,6 +157,46 @@ func _attack(
 	if relationship != null and relationship.has_winner_presentation_index:
 		lines.append(BattleNarrationLine.new(vision(
 			tr(Es2CombatMessages.WINNER[relationship.winner_presentation_index]), me, victim, cast)))
+
+
+## The short form of one do_attack() (DECISIONS「战斗界面」): who, the move
+## (CombatActionDefinition.display_name), whom, then −damage and the status_msg() band's
+## word (`status_ratio`, -1 for none), or 闪开了 / 挡开了 / 没伤到.
+static func summary(
+	me: StringName, victim: StringName, action: CombatActionDefinition, outcome: int,
+	damage: int, status_ratio: int, cast: BattlePresentationProjection,
+) -> String:
+	var parts: Dictionary = {
+		"who": _t(cast.display_name(me)), "move": _t(move_name(action)),
+		"whom": _t(cast.display_name(victim)), "damage": damage,
+	}
+	match outcome:
+		CombatAttackResult.Outcome.DODGE:
+			# TRANSLATORS: a blow's short form: {who} used {move} on {whom}, who dodged.
+			return _t("{who} · {move} → {whom} · 闪开了").format(parts)
+		CombatAttackResult.Outcome.PARRY:
+			# TRANSLATORS: a blow's short form: {whom} parried.
+			return _t("{who} · {move} → {whom} · 挡开了").format(parts)
+	if damage <= 0:
+		# TRANSLATORS: a blow's short form: it landed but took no 气.
+		return _t("{who} · {move} → {whom} · 没伤到").format(parts)
+	if status_ratio < 0:
+		# TRANSLATORS: a blow's short form: it took {damage} 气 (no status line followed).
+		return _t("{who} · {move} → {whom} −{damage}").format(parts)
+	parts["wound"] = BattleVitalityBar.band_word(status_ratio)
+	# TRANSLATORS: a blow's short form: it took {damage} 气 and {whom} now reads {wound} (无碍 / 受伤不轻 / 伤势沉重 / 濒死).
+	return _t("{who} · {move} → {whom} −{damage} · {wound}").format(parts)
+
+
+## The move's name for the short form: the data's name (the 「」 in its text, 咬 / 抓 for a
+## beast), else the last part of its id.
+static func move_name(action: CombatActionDefinition) -> String:
+	if action == null:
+		return ""
+	if not action.display_name.is_empty():
+		return action.display_name
+	var id: String = String(action.action_id)
+	return id.get_slice("/", id.get_slice_count("/") - 1)
 
 
 ## A special file's lines with its attacks where it made them, each told as an
