@@ -195,6 +195,13 @@ func _test_courage_with_the_move() -> void:
 	var next: CombatSchedulerAdvanceResult = _advance(f, 1.0)
 	var attack: CombatSchedulerEvent = _enemy_event(next)
 	_check(attack != null and attack.resolution.forward_result != null and attack.resolution.fight_decision_result.courage_random_draw == 0, "and it attacks, on the draw taken early")
+	# The forecast counts the player's orders as sure attacks only while they give them.
+	BattlePace.manual_turns = true
+	var ordered_chance: float = CombatForecastBuilder._chance(f.bindings[0], f.bindings[1])
+	BattlePace.manual_turns = false
+	var auto_chance: float = CombatForecastBuilder._chance(f.bindings[0], f.bindings[1])
+	BattlePace.manual_turns = true
+	_check(is_equal_approx(ordered_chance, 1.0) and is_equal_approx(auto_chance, 1.0 / 3.0) and is_equal_approx(CombatForecastBuilder._chance(f.bindings[1], f.bindings[0]), 1.0 / 3.0), "the forecast: the player's orders always come (1.0); under 自动 cor 20 against cps 20 × 3 (1/3), as the enemy's")
 	# A draw taken for one victim is not spent on another (the bound or the victim differ).
 	var stale := CombatPredrawnCourage.new(&"someone", 60, 59, 20)
 	_check(not stale.matches(ENEMY, 60) and stale.matches(&"someone", 60) and not stale.attacks() and CombatPredrawnCourage.new(ENEMY, 0, 0, 20).attacks() and CombatPredrawnCourage.new(ENEMY, 60, 19, 20).attacks(), "matches() by victim and bound; attacks() under the threshold or with no bound")
