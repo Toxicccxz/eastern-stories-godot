@@ -21,6 +21,33 @@ var summary: String:
 	get: return _summary
 var has_summary: bool:
 	get: return not _summary.is_empty()
+## 战斗决策层 3 (DECISIONS「战斗演出」): the blow behind a blow's own line, for the cards'
+## show — who struck, whom, the move's name, how it ended (CombatAttackResult.Outcome, -1
+## for a line that is no blow), the band the one hit reads now (BattleVitalityBar.Band, -1
+## for none) — and, on the first line of a perform / spell / exert, its name for the
+## attacker's gold title. Set once by the narrator; read by the presentation only.
+var _actor_id: StringName = &""
+var actor_id: StringName:
+	get: return _actor_id
+var _target_id: StringName = &""
+var target_id: StringName:
+	get: return _target_id
+var _move: String = ""
+var move: String:
+	get: return _move
+var _outcome: int = -1
+var outcome: int:
+	get: return _outcome
+var _band: int = -1
+var band: int:
+	get: return _band
+var has_blow: bool:
+	get: return _outcome >= 0 and not _actor_id.is_empty()
+var _special_title: String = ""
+var special_title: String:
+	get: return _special_title
+var is_special: bool:
+	get: return not _special_title.is_empty()
 
 
 func _init(p_text: String = "", p_damage: int = -1, p_color: StringName = ColoredLine.PLAIN, p_summary: String = "") -> void:
@@ -28,6 +55,23 @@ func _init(p_text: String = "", p_damage: int = -1, p_color: StringName = Colore
 	_damage = p_damage
 	_color = p_color
 	_summary = p_summary
+
+
+## The blow this line reports (the narrator, once).
+func with_blow(p_actor_id: StringName, p_target_id: StringName, p_move: String, p_outcome: int, p_band: int) -> BattleNarrationLine:
+	_actor_id = p_actor_id
+	_target_id = p_target_id
+	_move = p_move
+	_outcome = p_outcome
+	_band = p_band
+	return self
+
+
+## The special this line opens (the narrator, once): `title` is its name as the player reads it.
+func with_special(p_actor_id: StringName, title: String) -> BattleNarrationLine:
+	_actor_id = p_actor_id
+	_special_title = title
+	return self
 
 
 ## The full line, coloured, with its damage small and grey.

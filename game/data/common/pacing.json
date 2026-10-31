@@ -70,7 +70,17 @@
 			"battle_end_hold_ms": 800,
 			"training_step_ms": 150,
 			"corner_slide_px": 12,
-			"voxel_worlds_kept": 3
+			"voxel_worlds_kept": 3,
+			"move_title_ms": 700,
+			"special_title_ms": 1100,
+			"damage_float_ms": 900,
+			"hit_shake_ms": 180,
+			"crack_flash_ms": 400,
+			"mend_ms": 1200,
+			"fall_ms": 350,
+			"end_stamp_ms": 600,
+			"turn_cue_ms": 220,
+			"intent_pulse_ms": 500
 		}
 	}
 }

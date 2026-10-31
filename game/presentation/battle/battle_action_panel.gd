@@ -33,6 +33,10 @@ var move_buttons: Dictionary[StringName, Button] = {}
 var stance_row: HBoxContainer
 var stance_buttons: Dictionary[int, Button] = {}
 var manual_button: Button
+## 战斗决策层 3 (DECISIONS「战斗演出」): the decision row dims to this while the round plays
+## (the buttons are disabled then anyway) and is bright while the fight waits for the player.
+const PLAYING_DIM: float = 0.55
+var _bounce: Tween
 ## 快捷操作, hidden while the decision row names the rows itself.
 var _heading: Label
 ## (action_id) -> PackedStringArray: [question, choice] when the action is asked
@@ -240,6 +244,21 @@ func _wire_focus() -> void:
 
 
 ## The move the player chose for this round, else the first move; null without moves.
+## The chosen (or first) move bounces over `seconds` when the fight comes back to waiting
+## (0: nothing).
+func bounce_chosen(seconds: float) -> void:
+	var button: Button = first_move_button()
+	if button == null or seconds <= 0.0:
+		return
+	if _bounce != null and _bounce.is_valid():
+		_bounce.kill()
+	button.pivot_offset = button.size * 0.5
+	button.scale = Vector2.ONE
+	_bounce = create_tween()
+	_bounce.tween_property(button, "scale", Vector2.ONE * 1.08, seconds * 0.4).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
+	_bounce.tween_property(button, "scale", Vector2.ONE, seconds * 0.6).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
+
+
 func first_move_button() -> Button:
 	if not _moves.visible or _shown_move_ids.is_empty():
 		return null
@@ -303,6 +322,10 @@ func _present_moves(projection: BattlePresentationProjection) -> void:
 		var button: Button = move_buttons[id]
 		button.set_pressed_no_signal(id == projection.chosen_action_id)
 		button.disabled = not (projection.waiting and projection.manual)
+	# The row dims while the round plays and lights when the fight waits for the player
+	# (a show, not a lock: the buttons' own disabled state is the rule's).
+	var dim: bool = projection.turns_offered and projection.manual and not projection.waiting
+	stance_row.modulate = Color(PLAYING_DIM, PLAYING_DIM, PLAYING_DIM) if dim else Color.WHITE
 	stance_row.visible = (projection.stances_offered or projection.turns_offered) and not is_asking()
 	_heading.visible = not stance_row.visible
 	(stance_row.get_node("StanceHeading") as Label).visible = projection.stances_offered

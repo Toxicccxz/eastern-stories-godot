@@ -30,6 +30,29 @@ var _shown_resources: Array[BattleResourceProjection] = []
 var _bar: Tween
 var _flash: Tween
 const HIT_COLOR: Color = Color(1.0, 0.45, 0.42)
+## 战斗决策层 3 (DECISIONS「战斗演出」): the show over the card (BattleCardStage), the
+## sideways shake by the band of the blow (px), the fall (the card sinks and tilts), the
+## 起手 / 要出 line's flash when it changes, the border's gold flash for a special.
+var stage: BattleCardStage
+const SHAKE_PX: Dictionary[int, float] = {
+	BattleVitalityBar.Band.UNHURT: 2.0, BattleVitalityBar.Band.LIGHT: 4.0,
+	BattleVitalityBar.Band.HEAVY: 6.0, BattleVitalityBar.Band.DYING: 8.0,
+}
+const FALL_SINK: float = 10.0
+const FALL_TILT_DEGREES: float = 3.0
+const INTENT_COLOR: Color = Color("f2d27a")
+const INTENT_FLASH: Color = Color("fff3c4")
+const TELEGRAPH_FLASH: Color = Color("ffffff")
+const SPECIAL_BORDER_SECONDS: float = 0.3
+var _shake: Tween
+var _fall: Tween
+var _intent_pulse: Tween
+var _border_flash: Tween
+var _special_border: StyleBoxFlat
+var _rest_x: float = 0.0
+## The 倒 / 亡 stamp on the card as last presented ("" while its fighter stands).
+var _fallen_text: String = ""
+var _shown_intent: String = ""
 ## 气 N/N/N; 精 · 神 (the player's card); 内力 (· 法力 · 灵力) (the player's card).
 var _primary: Label
 var _secondary: Label
@@ -56,6 +79,9 @@ func _ready() -> void:
 	_current_border = _ordinary_border.duplicate() as StyleBoxFlat
 	_current_border.border_color = GOLD
 	_current_border.set_border_width_all(3)
+	_special_border = _ordinary_border.duplicate() as StyleBoxFlat
+	_special_border.border_color = Color("fff3c4")
+	_special_border.set_border_width_all(3)
 	var content := VBoxContainer.new()
 	content.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	content.add_theme_constant_override("separation", 0)
@@ -81,6 +107,9 @@ func _ready() -> void:
 	finish_button.pressed.connect(func() -> void: finish_requested.emit(_participant_id))
 	spare_button = _choice_button("SpareButton")
 	spare_button.pressed.connect(func() -> void: spare_requested.emit(_participant_id))
+	stage = BattleCardStage.new()
+	stage.name = "Stage"
+	add_child(stage)
 	target_button = Button.new()
 	target_button.name = "SelectTarget"
 	target_button.custom_minimum_size = Vector2(64, 64)
@@ -100,6 +129,8 @@ func _ready() -> void:
 ## name with the forecast's word, its tags and its 起手 / 要出; the current target is the gold
 ## border, an enemy that cannot be picked is dimmed; the hover explains the tags.
 func present(value: BattleParticipantProjection, player_id: StringName, current_id: StringName, queued_id: StringName = &"", hold_resources: bool = false) -> void:
+	if value.participant_id != _shown_id:
+		_reset_show()
 	_participant_id = value.participant_id
 	var is_player: bool = value.participant_id == player_id
 	var knockout: BattleKnockoutProjection = value.knockout
@@ -117,7 +148,7 @@ func present(value: BattleParticipantProjection, player_id: StringName, current_
 	_title.text = "%s · %s" % [tr(value.display_name), role]
 	_title.tooltip_text = value.strength_line if not value.strength_line.is_empty() else _title.text
 	var border: StyleBoxFlat = _current_border if value.participant_id == current_id else _ordinary_border
-	if get_theme_stylebox("panel") != border:
+	if get_theme_stylebox("panel") != border and (_border_flash == null or not _border_flash.is_valid()):
 		add_theme_stylebox_override("panel", border)
 	modulate = DIM if value.hostile_to_player and not value.targetable and knockout == null else Color.WHITE
 	if not hold_resources or value.participant_id != _shown_id or _shown_resources.is_empty():
@@ -171,6 +202,18 @@ func present(value: BattleParticipantProjection, player_id: StringName, current_
 		intents.append(tr("要出 {move}").format({"move": value.telegraph}))
 	_intent.text = " · ".join(intents)
 	_intent.visible = value.hostile_to_player
+	if _intent.visible and _intent.text != _shown_intent:
+		_pulse_intent(not value.telegraph.is_empty())
+	_shown_intent = _intent.text if _intent.visible else ""
+	# The fall: 倒 for one unconscious (or held for the choice), 亡 for one dead; lifted when
+	# they are up again.
+	var fallen: String = ""
+	if dead:
+		fallen = tr(BattleCardStage.STAMP_DEAD)
+	elif unconscious or knockout != null:
+		fallen = tr(BattleCardStage.STAMP_UNCONSCIOUS)
+	if fallen != _fallen_text:
+		_show_fallen(fallen)
 	# The card's one hover (the target button covers it): what picking it does, the forecast,
 	# the tags' meanings.
 	var hover := PackedStringArray()
@@ -208,7 +251,8 @@ func _present_choice(value: BattleParticipantProjection, knockout: BattleKnockou
 	spare_button.tooltip_text = tr("放{name}一条生路：你这一方不再出手，{name}昏在原地，到时自己醒来。").format({"name": name})
 
 
-func _show_vitality(id: StringName, current: int) -> void:
+## `band`: the blow's band for the shake (-1: the band of the value shown).
+func _show_vitality(id: StringName, current: int, band: int = -1) -> void:
 	var same: bool = id == _shown_id
 	var lost: bool = same and current < _shown_vitality
 	var moved: bool = not same or current != _shown_vitality
@@ -224,12 +268,164 @@ func _show_vitality(id: StringName, current: int) -> void:
 		_bar.tween_property(_vitality, "value", float(current), feel.bar_tween_seconds)
 	else:
 		_vitality.value = current
-	if lost and BattlePace.hit_flash and feel.hit_flash_seconds > 0.0:
+	if not lost:
+		return
+	if BattlePace.hit_flash and feel.hit_flash_seconds > 0.0:
 		if _flash != null and _flash.is_valid():
 			_flash.kill()
 		self_modulate = HIT_COLOR
 		_flash = create_tween()
 		_flash.tween_property(self, "self_modulate", Color.WHITE, feel.hit_flash_seconds)
+	_shake_by(band if band >= 0 else BattleVitalityBar.band(current, roundi(_vitality.max_value)))
+
+
+## DECISIONS「战斗演出」: one line told, as it concerns this card — the attacker's: the
+## move's name (a special's in gold, larger); the one hit's: the bar stepping down by the
+## blow (a presentation estimate, settled to the projection once the round's lines are told),
+## the −N / 闪 / 挡 float, the flash and the shake by the band.
+func show_line(line: BattleNarrationLine) -> void:
+	var feel: FeelDefinition = GameContent.catalog().pacing().feel
+	if line.is_special and line.actor_id == _shown_id:
+		stage.show_title(line.special_title, true, feel.special_title_seconds)
+		_flash_border()
+	elif line.has_blow and line.actor_id == _shown_id and not line.move.is_empty():
+		stage.show_title(line.move, false, feel.move_title_seconds)
+	if not line.has_blow or line.target_id != _shown_id:
+		return
+	var from_y: float = _vitality.position.y + _vitality.size.y
+	match line.outcome:
+		CombatAttackResult.Outcome.DODGE:
+			stage.show_float(tr(BattleCardStage.FLOAT_DODGE), BattleCardStage.GREY, from_y, false, feel.damage_float_seconds)
+		CombatAttackResult.Outcome.PARRY:
+			stage.show_float(tr(BattleCardStage.FLOAT_PARRY), BattleCardStage.GREY, from_y, false, feel.damage_float_seconds)
+		CombatAttackResult.Outcome.HIT:
+			if not line.has_damage:
+				stage.show_float(tr(BattleCardStage.FLOAT_NOTHING), BattleCardStage.GREY, from_y, false, feel.damage_float_seconds)
+				return
+			var band: int = line.band if line.band >= 0 else BattleVitalityBar.band(maxi(0, _shown_vitality - line.damage), roundi(_vitality.max_value))
+			stage.show_float("−%d" % line.damage, BattleVitalityBar.BAND_COLORS[band], from_y, true, feel.damage_float_seconds)
+			preview_loss(line.damage, band)
+
+
+## The bar steps down by `damage` before the projection says so (the blow's line is told
+## now; the round's end settles the bar to the true value), with the flash and the shake.
+func preview_loss(damage: int, band: int) -> void:
+	if damage <= 0 or _shown_id.is_empty():
+		return
+	_show_vitality(_shown_id, maxi(0, _shown_vitality - damage), band)
+	if _shown_resources.size() == 3:
+		var shown: BattleResourceProjection = _shown_resources[0]
+		_shown_resources[0] = BattleResourceProjection.new(maxi(0, shown.current - damage), shown.effective, shown.maximum)
+		_primary.text = tr("气 %s") % _track(_shown_resources[0])
+
+
+## The sideways shake, SHAKE_PX[band] wide, over hit_shake_ms (with the flash: the setting
+## 受击闪红 turns both off).
+func _shake_by(band: int) -> void:
+	var feel: FeelDefinition = GameContent.catalog().pacing().feel
+	if not BattlePace.hit_flash or feel.hit_shake_seconds <= 0.0:
+		return
+	if _shake != null and _shake.is_valid():
+		_shake.kill()
+		position.x = _rest_x
+	_rest_x = position.x
+	var width: float = SHAKE_PX.get(band, SHAKE_PX[BattleVitalityBar.Band.UNHURT])
+	var steps: int = 4
+	_shake = create_tween()
+	for step: int in steps:
+		var way: float = 1.0 if step % 2 == 0 else -1.0
+		_shake.tween_property(self, "position:x", _rest_x + way * width * (1.0 - float(step) / float(steps)), feel.hit_shake_seconds / float(steps + 1))
+	_shake.tween_property(self, "position:x", _rest_x, feel.hit_shake_seconds / float(steps + 1))
+	_shake.tween_callback(_resort)
+
+
+## The card's container lays it out again after a shake or a fall (the tween's x and y were
+## only the show's).
+func _resort() -> void:
+	var parent := get_parent() as Container
+	if parent != null:
+		parent.queue_sort()
+
+
+## The fall: the card sinks FALL_SINK px, tilts FALL_TILT_DEGREES, and the stage veils it
+## under the 倒 / 亡 stamp over fall_ms; up again (empty): back at once.
+func _show_fallen(text: String) -> void:
+	_fallen_text = text
+	if _fall != null and _fall.is_valid():
+		_fall.kill()
+	var seconds: float = GameContent.catalog().pacing().feel.fall_seconds
+	pivot_offset = size * 0.5
+	if text.is_empty():
+		rotation = 0.0
+		stage.show_fallen("", 0.0)
+		_resort()
+		return
+	stage.show_fallen(text, seconds)
+	if seconds <= 0.0:
+		rotation = deg_to_rad(FALL_TILT_DEGREES)
+		return
+	_fall = create_tween().set_parallel(true)
+	_fall.tween_property(self, "rotation", deg_to_rad(FALL_TILT_DEGREES), seconds).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
+	_fall.tween_property(self, "position:y", position.y + FALL_SINK, seconds).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
+
+
+## The 起手 / 要出 line flashes (white for a 要出, pale gold for a 起手) and settles to its
+## gold over intent_pulse_ms.
+func _pulse_intent(telegraph: bool) -> void:
+	var seconds: float = GameContent.catalog().pacing().feel.intent_pulse_seconds
+	if _intent_pulse != null and _intent_pulse.is_valid():
+		_intent_pulse.kill()
+	if seconds <= 0.0:
+		_intent.add_theme_color_override("font_color", INTENT_COLOR)
+		return
+	var from: Color = TELEGRAPH_FLASH if telegraph else INTENT_FLASH
+	_intent.add_theme_color_override("font_color", from)
+	_intent_pulse = create_tween()
+	_intent_pulse.tween_method(func(color: Color) -> void: _intent.add_theme_color_override("font_color", color), from, INTENT_COLOR, seconds)
+
+
+## The border flashes pale gold for a special, then goes back to what present() shows.
+func _flash_border() -> void:
+	if GameContent.catalog().pacing().feel.special_title_seconds <= 0.0:
+		return
+	if _border_flash != null and _border_flash.is_valid():
+		_border_flash.kill()
+	var back: StyleBoxFlat = get_theme_stylebox("panel") as StyleBoxFlat
+	if back == _special_border:
+		back = _ordinary_border
+	add_theme_stylebox_override("panel", _special_border)
+	_border_flash = create_tween()
+	_border_flash.tween_interval(SPECIAL_BORDER_SECONDS)
+	_border_flash.tween_callback(func() -> void: add_theme_stylebox_override("panel", back))
+
+
+## Someone else on the card: no show carries over.
+func _reset_show() -> void:
+	for tween: Tween in [_shake, _fall, _intent_pulse, _border_flash]:
+		if tween != null and tween.is_valid():
+			tween.kill()
+	rotation = 0.0
+	_fallen_text = ""
+	_shown_intent = ""
+	_intent.add_theme_color_override("font_color", INTENT_COLOR)
+	stage.clear()
+	_resort()
+
+
+## A finished fight's last blow felled the one on the card (no refresh follows): the stamp.
+func show_final_fall(text: String) -> void:
+	if text != _fallen_text:
+		_show_fallen(text)
+
+
+## The 倒 / 亡 stamp as shown (tests).
+func fallen_text() -> String:
+	return _fallen_text
+
+
+## The 起手 / 要出 line's colour now (tests: the pulse).
+func intent_color() -> Color:
+	return _intent.get_theme_color("font_color")
 
 
 ## A finished fight's last blow on the card.

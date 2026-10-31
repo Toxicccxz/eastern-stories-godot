@@ -50,6 +50,16 @@ var _held_result: String = ""
 var _hold_shield: Control
 ## The cards take the finished fight's last 气 once its last lines are told.
 var _final_cards: bool = false
+## 战斗决策层 3 (DECISIONS「战斗演出」): whether the fight waited for the player on the last
+## refresh (the chosen move bounces when it comes back to waiting); the 胜 / 败 stamp over
+## the cards during the end hold.
+var _was_waiting: bool = false
+var end_stamp: Label
+var _stamp_tween: Tween
+# TRANSLATORS: the stamp over the battle cards when the fight is won.
+const STAMP_WON: String = "胜"
+# TRANSLATORS: the stamp over the battle cards when the fight is lost.
+const STAMP_LOST: String = "败"
 var _fade: Tween
 var _recent: VBoxContainer
 var _receipt: Label
@@ -119,6 +129,9 @@ func _end_hold() -> void:
 	_hold_left = 0.0
 	_final_cards = false
 	_hold_shield.visible = false
+	end_stamp.visible = false
+	if _stamp_tween != null and _stamp_tween.is_valid():
+		_stamp_tween.kill()
 	if _session != null:
 		_session.hold_presentation(END_HOLD, false)
 	if not _projection.active:
@@ -137,7 +150,9 @@ func _tell_lines(delta: float) -> void:
 	var spacing: float = _line_spacing
 	_line_wait -= delta
 	while not _line_queue.is_empty() and (spacing <= 0.0 or _line_wait <= 0.0):
-		_told.append(_line_queue.pop_front())
+		var line: BattleNarrationLine = _line_queue.pop_front()
+		_told.append(line)
+		_show_line(line)
 		if spacing > 0.0:
 			_line_wait += spacing
 	if _told.size() > BattleFeedbackReader.RECENT_LINES:
@@ -157,6 +172,76 @@ func _settle_final_cards() -> void:
 		var vitality: CharacterResourceState = _session.encounter_vitality(_shown_participants[index])
 		if vitality != null:
 			_cards[index].show_final_vitality(vitality)
+		_cards[index].show_final_fall(_final_fallen(_shown_participants[index]))
+	_show_end_stamp()
+
+
+## The 倒 / 亡 stamp for one as the finished fight left them (the fight's last blow felled
+## them after the cards' last refresh): "" standing.
+func _final_fallen(id: StringName) -> String:
+	var life: int = CharacterRuntimeLifeStatus.Value.ACTIVE
+	if id == _session.player_runtime().character_id:
+		life = _session.player_runtime().life_status
+	else:
+		var map := _session.active_map() as WorldMapController
+		var npc: NpcRuntimeState = null if map == null else map.find_resident_npc(id)
+		if npc != null:
+			life = npc.life_status
+	match life:
+		CharacterRuntimeLifeStatus.Value.DEAD:
+			return tr(BattleCardStage.STAMP_DEAD)
+		CharacterRuntimeLifeStatus.Value.UNCONSCIOUS:
+			return tr(BattleCardStage.STAMP_UNCONSCIOUS)
+	return ""
+
+
+## DECISIONS「战斗演出」: the line told now plays on the cards it concerns (the attacker's
+## title, the one hit's float, flash, shake and the bar stepping down).
+func _show_line(line: BattleNarrationLine) -> void:
+	if not line.has_blow and not line.is_special:
+		return
+	for card: BattleParticipantCard in _cards:
+		card.show_line(line)
+
+
+## The 胜 / 败 stamp over the cards once the finished fight's last lines are told (the end
+## hold): won when the other side fell, lost when the player did; nothing for a flight, a
+## surrender, a spar that stopped or a fight that just ended.
+func _show_end_stamp() -> void:
+	var seconds: float = GameContent.catalog().pacing().feel.end_stamp_seconds
+	var text: String = _end_stamp_text()
+	if seconds <= 0.0 or text.is_empty() or not _holding():
+		return
+	# The last lines may have taken the hold's time to drain: the hold keeps the stamp's own
+	# time from here (Codex, PR #209).
+	_hold_left = maxf(_hold_left, seconds)
+	end_stamp.text = text
+	end_stamp.visible = true
+	end_stamp.reset_size()
+	end_stamp.pivot_offset = end_stamp.size * 0.5
+	var area: Rect2 = _participants.get_parent().get_global_rect()
+	end_stamp.global_position = area.get_center() - end_stamp.size * 0.5
+	end_stamp.modulate = Color(1, 1, 1, 0)
+	end_stamp.scale = Vector2.ONE * BattleCardStage.SLAM_FROM
+	if _stamp_tween != null and _stamp_tween.is_valid():
+		_stamp_tween.kill()
+	_stamp_tween = create_tween().set_parallel(true)
+	_stamp_tween.tween_property(end_stamp, "modulate:a", 1.0, seconds * 0.4)
+	_stamp_tween.tween_property(end_stamp, "scale", Vector2.ONE, seconds).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+
+
+func _end_stamp_text() -> String:
+	if _session == null or not _session.is_initialized():
+		return ""
+	var receipt: CombatEncounterCompletionResult = _session.combat_encounter_coordinator().last_completion()
+	if receipt == null or not receipt.succeeded() or receipt.terminal_result == null:
+		return ""
+	match receipt.terminal_result.kind:
+		CombatEncounterResultKind.Value.VICTORY:
+			return "" if receipt.terminal_result.losing_side_ids().is_empty() else tr(STAMP_WON)
+		CombatEncounterResultKind.Value.DEFEAT:
+			return tr(STAMP_LOST)
+	return ""
 
 
 func _queue_lines(lines: Array[BattleNarrationLine]) -> void:
@@ -236,6 +321,11 @@ func refresh_projection() -> void:
 	others.erase(_projection.current_target_id)
 	target_hints.set_hints([[[&"battle_target_previous", &"battle_target_next"], tr("换目标")]] if not others.is_empty() else [])
 	action_panel.present(_projection)
+	# DECISIONS「战斗演出」: back to waiting for the player: the chosen move bounces.
+	var waiting: bool = _projection.waiting and _projection.manual
+	if waiting and not _was_waiting and not changed:
+		action_panel.bounce_chosen(GameContent.catalog().pacing().feel.turn_cue_seconds)
+	_was_waiting = waiting
 	if changed:
 		_focus_battle.call_deferred()
 	elif not log_panel.visible:
@@ -295,15 +385,16 @@ func _present_completed_result() -> void:
 	if hold <= 0.0 or not visible:
 		hud.show_combat_result(text)
 		return
-	# The panel stays on the fight's last lines, the world held, then the result.
+	# The panel stays on the fight's last lines, the world held, then the result (the hold
+	# is set before the lines: the cards settle and the stamp shows under it).
 	_final_cards = true
+	_held_result = text
+	_hold_left = hold
+	_hold_shield.visible = true
 	for entry: BattleFeedbackProjection in entries:
 		_queue_lines(entry.lines())
 	if _line_queue.is_empty():
 		_settle_final_cards()
-	_held_result = text
-	_hold_left = hold
-	_hold_shield.visible = true
 	var focused: Control = get_viewport().gui_get_focus_owner()
 	if focused != null and is_ancestor_of(focused):
 		focused.release_focus()
@@ -402,6 +493,16 @@ func _build() -> void:
 		line.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		line.add_theme_font_size_override("normal_font_size", 16)
 		row.add_child(line)
+	end_stamp = Label.new()
+	end_stamp.name = "EndStamp"
+	end_stamp.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	end_stamp.visible = false
+	end_stamp.rotation = deg_to_rad(-8.0)
+	end_stamp.add_theme_font_size_override("font_size", 96)
+	end_stamp.add_theme_color_override("font_color", BattleCardStage.STAMP_RED)
+	end_stamp.add_theme_color_override("font_outline_color", Color(0.05, 0.07, 0.08, 0.9))
+	end_stamp.add_theme_constant_override("outline_size", 8)
+	add_child(end_stamp)
 	log_panel = BattleLogPanel.new()
 	log_panel.name = "CombatLog"
 	log_panel.closed.connect(_focus_battle)
