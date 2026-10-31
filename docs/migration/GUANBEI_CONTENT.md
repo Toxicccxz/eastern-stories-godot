@@ -51,10 +51,18 @@ layout opens a 96 px doorway in the cliff rows there, a stone gate as a `buildin
 | the sneak: 等到天黑, the two dozing watchers, four 枷, 走！ | 剧情总纲 §3 第六章 选择「夜里潜入……救一半」; owner's 默认: a real night (`phase`, `until_phase`) |
 | the 古冢口: the lined pit, the stone door's three-legged bird, the covered cart | 剧情总纲 §2「金乌遗民」, §3 第六章 ④; red_suit.c:15's 金乌徽; the 第三章 escort's look for the taoists |
 
-## Deferred to D
+## Sources by thing (D)
 
-The notice's second text, 程朔's two moods, the freed 民夫 and their families at the camp, the steppe's
-「车路过」 scene on the sneak ledger, 吕隼's 「车」, 卢卡's 会首 into the `chapter7.json` stub, 《马刀谱》 and
-`guanbei-saber`, the lines of 老秦, the village's headman and 玄冥子 (the plan `build/plans/关北_计划.md` §6).
+| Thing | Continues |
+|---|---|
+| the notice's second text 兵部文书至：槐阳反 | 剧情总纲 §3 第九章「槐阳王反了」; 关北 A's notice |
+| 程朔's moods 反名／干净, the marks 关北的骑兵欠你一阵 (终章) and 王府干净 (第九章) | 剧情总纲 §3 第六章 选择的后果, 终章「关北出骑兵」 |
+| the 民夫 home at the camp, the families' words | 剧情总纲 §3 第六章 ④; 关北 A's 秦婆子 |
+| the cart passing once on the steppe | owner Q2 ②; 剧情总纲 §3 第六章 ④ 挖不动的人被逆灵宫的车接走 |
+| 《马刀谱》 and 关北马刀 | 剧情总纲 §6 关北卡「马上刀法（一门）」; d/canyon/npc/obj/old_sword.c's 研读 (`study`); daemon/skill/shortsong-blade.c's form |
+| the seventh chapter's stub | 剧情总纲 §3 第七章 ①; 关北 A's 卢卡 (会首安敦在番坊) |
+| 玄冥子's and 刘老农's word on 关北 | 逆灵宫 C's spared 玄冥子; 玉螺湖村 has no headman, so the farmer by the road speaks |
+
 Not made: the plan's `room_life` presets `work_camp` and `nomad_camp` — an outdoor canvas has no walls to hang
-things on, so the camp's and the 工地's clutter is written per map; the 工地名册 is a landmark, not an item.
+things on, so the camp's and the 工地's clutter is written per map; the 工地名册 is a landmark, not an item;
+the passing cart is told by its two taoists, not drawn.

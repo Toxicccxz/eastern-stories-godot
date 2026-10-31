@@ -473,6 +473,62 @@
 			"until": {
 				"mark": "踏平了工地"
 			}
+		},
+		{
+			"id": "guanbei.camp.freed",
+			"npc": "native.npc.freed_corvee",
+			"map": "guanbei.yurt_camp",
+			"zone": "guanbei.camp",
+			"points": [
+				"guanbei.camp.freed.1",
+				"guanbei.camp.freed.2",
+				"guanbei.camp.freed.3",
+				"guanbei.camp.freed.4",
+				"guanbei.camp.freed.5",
+				"guanbei.camp.freed.6",
+				"guanbei.camp.freed.7",
+				"guanbei.camp.freed.8"
+			],
+			"legacy_room": "native: 关北 D (剧情总纲 §3 第六章 ④ 选择的后果, 第七章 ① 入口, §6 关北卡 马上刀法; 计划 build/plans/关北_计划.md D 包; DECISIONS「关北 D」) (the eight home after the raid)",
+			"legacy_quantity": 8,
+			"present": {
+				"mark": "踏平了工地"
+			}
+		},
+		{
+			"id": "guanbei.camp.freed_half",
+			"npc": "native.npc.freed_corvee",
+			"map": "guanbei.yurt_camp",
+			"zone": "guanbei.camp",
+			"points": [
+				"guanbei.camp.freed_half.1",
+				"guanbei.camp.freed_half.2",
+				"guanbei.camp.freed_half.3",
+				"guanbei.camp.freed_half.4"
+			],
+			"legacy_room": "native: 关北 D (剧情总纲 §3 第六章 ④ 选择的后果, 第七章 ① 入口, §6 关北卡 马上刀法; 计划 build/plans/关北_计划.md D 包; DECISIONS「关北 D」) (the four home after the night)",
+			"legacy_quantity": 4,
+			"present": {
+				"mark": "救了一半"
+			}
+		},
+		{
+			"id": "guanbei.steppe_road.cart",
+			"npc": "native.npc.passing_taoist",
+			"map": "guanbei.steppe",
+			"zone": "guanbei.steppe_road",
+			"points": [
+				"guanbei.steppe_road.cart_taoist.1",
+				"guanbei.steppe_road.cart_taoist.2"
+			],
+			"legacy_room": "native: 关北 D (剧情总纲 §3 第六章 ④ 选择的后果, 第七章 ① 入口, §6 关北卡 马上刀法; 计划 build/plans/关北_计划.md D 包; DECISIONS「关北 D」) (the cart passing once on the road after the night (owner Q2 ②))",
+			"legacy_quantity": 2,
+			"present": {
+				"mark": "救了一半"
+			},
+			"until": {
+				"mark": "见过车路过"
+			}
 		}
 	]
 }

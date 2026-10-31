@@ -167,6 +167,16 @@ position = Vector2(1040, 560)
 script = ExtResource("marker")
 spawn_point_id = &"guanbei.steppe_road.shepherd.1"
 
+[node name="SteppeCartTaoist1" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1216, 432)
+script = ExtResource("marker")
+spawn_point_id = &"guanbei.steppe_road.cart_taoist.1"
+
+[node name="SteppeCartTaoist2" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(1280, 464)
+script = ExtResource("marker")
+spawn_point_id = &"guanbei.steppe_road.cart_taoist.2"
+
 [node name="Characters" type="Node2D" parent="."]
 
 [node name="Player" type="CharacterBody2D" parent="Characters"]

@@ -499,6 +499,9 @@
 		"guanbei.cart_stand.taoists",
 		"guanbei.cart_stand.spent",
 		"guanbei.stone_door.officers",
+		"guanbei.camp.freed",
+		"guanbei.camp.freed_half",
+		"guanbei.steppe_road.cart",
 		"native.school2.wooden_dummy.1",
 		"native.school2.wooden_dummy.2",
 		"native.school2.wooden_dummy.3",
@@ -526,9 +529,9 @@
 		"native.yamen_iner.chen_witness",
 		"native.canyon7.gate_soldiers"
 	],
-	"world_npcs": 593,
+	"world_npcs": 607,
 	"resident_maps": 144,
-	"new_game_items": 979,
+	"new_game_items": 997,
 	"snow_outdoor_passages": 18,
 	"map_zones": {
 		"snow.inn": 1,
@@ -817,8 +820,8 @@
 		"guanbei.inn": 4,
 		"guanbei.palace_court": 6,
 		"guanbei.palace": 4,
-		"guanbei.yurt_camp": 6,
-		"guanbei.steppe": 1,
+		"guanbei.yurt_camp": 18,
+		"guanbei.steppe": 3,
 		"guanbei.worksite": 36,
 		"guanbei.barrow": 6
 	},

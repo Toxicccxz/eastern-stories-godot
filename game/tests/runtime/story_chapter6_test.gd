@@ -25,6 +25,10 @@ extends RefCounted
 ##   (asked first) puts the clock to 夜晚, the other maps owing the time; the night's 工地 has only the
 ##   two dozing watchers; 郭承's whisper, four 枷 opened, the watch wakes and falls, 走！ (救了一半); by
 ##   day the four left and the officers back; the cart and its two gone from the 古冢口.
+## D (关北 D), in the same two sessions: after the raid the notice's second text, 程朔's 反名 mood and
+## his word on the riders, the eight home at the camp, 老秦's word, 郭承's 《马刀谱》 read toward 40, the
+## seventh chapter's stub open; after the night the cart passing once on the steppe, 吕隼's 少了四个,
+## 程朔's 干净 mood, the four home, the manual all the same.
 
 const MapPlaces := preload("res://tests/support/map_places.gd")
 const SouthRoad := preload("res://tests/runtime/snow_south_road_test.gd")
@@ -45,6 +49,9 @@ const LU_SUN: StringName = &"native.npc.lu_sun"
 const PEI_ZHAO: StringName = &"native.npc.pei_zhao"
 const TAOIST: StringName = &"native.npc.barrow_taoist"
 const SPENT: StringName = &"native.npc.spent_corvee"
+const FREED: StringName = &"native.npc.freed_corvee"
+const PASSING: StringName = &"native.npc.passing_taoist"
+const MANUAL: StringName = &"native:guanbei/saber_manual"
 
 var _count: int = 0
 var _failures: Array[String] = []
@@ -80,6 +87,15 @@ func _test_data() -> void:
 		ids.append(String(step.step_id))
 	_check(ids == ["general", "adviser", "seal", "gate", "guanbei", "town", "palace", "plan", "site", "raid", "sneak", "luca"], "the steps in order: %s" % [ids])
 	_check(quest.steps[9].only_after == &"raid" and quest.steps[9].condition.key == "踏平了工地" and quest.steps[10].only_after == &"sneak" and quest.steps[10].condition.key == "救了一半" and quest.steps[11].condition.key == "卢卡说了番坊" and quest.reward.marks == ["关北一章"], "raid after raid, sneak after sneak, 卢卡 after either; the chapter's mark")
+	var seventh: StoryQuestDefinition = catalog.story_quest(&"main.chapter7")
+	_check(seventh != null and seventh.requires == [&"main.chapter6"] and seventh.steps.size() == 1 and seventh.steps[0].condition.key == "到了番坊" and seventh.steps[0].target.zone_id == &"village.valley1", "the seventh chapter's stub: one step toward 番坊, done by the 番坊 package's mark")
+	var manual: ItemContentDefinition = catalog.item(MANUAL)
+	var saber_art: SkillDefinition = catalog.skill(&"guanbei-saber")
+	_check(manual != null and manual.no_drop and manual.study != null and manual.study.skill_id == &"guanbei-saber" and manual.study.max_skill == 40 and saber_art != null and saber_art.display_name == "关北马刀" and saber_art.action_set() != null and saber_art.action_set().size() == 7 and saber_art.valid_enabled_uses().has(&"blade"), "《马刀谱》 reads 关北马刀 to 40: seven strokes, a blade art")
+	var prince: NpcDefinition = catalog.npc(&"native.npc.cheng_shuo")
+	_check(prince.hooks().moods.has("rebel") and prince.hooks().moods.has("clean") and prince.hooks().calls.size() == 2, "程朔's two moods after the 工地, each reached as the player comes in")
+	_check(catalog.npc(&"native.npc.xuan_mingzi_cliff").talk().inquiry_topics().has("关北") and catalog.npc(&"village.npc.oldliu").talk().inquiry_topics().has("关北"), "玄冥子 and 刘老农 have a word on 关北")
+	_check(catalog.spawn(&"guanbei.camp.freed").present.key == "踏平了工地" and catalog.spawn(&"guanbei.camp.freed_half").present.key == "救了一半" and catalog.spawn(&"guanbei.steppe_road.cart").until.key == "见过车路过", "the camp's stage after either road; the cart on the steppe once")
 	var gate: DoorDefinition = catalog.door(&"guanbei.palace.gate")
 	_check(gate != null and gate.found_by == "王府放行" and not gate.operable and not gate.closable and gate.zone_ids() == [&"guanbei.palace_front", &"guanbei.palace_yard"], "the 王府大门: found by the knock, worked by no hand, open ever after")
 	var cheng: NpcDefinition = catalog.npc(&"native.npc.cheng_shuo")
@@ -98,7 +114,7 @@ func _test_data() -> void:
 	_check(catalog.npc(&"canyon.npc.seller").talk().inquiry_topics() == ["印色"], "the 后备兵 on the 印色")
 	var luca: NpcDefinition = catalog.npc(&"native.npc.luca")
 	_check(luca != null and luca.gender == &"男性" and luca.age == 34 and luca.dealings().object_rules[1].gives == GLADIUS and luca.dealings().object_rules[1].value_at_least == 2000, "卢卡: a man of 34, his sword for twenty taels")
-	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_GUANBEI_C_V1, "关北 C's world revision is current")
+	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_GUANBEI_D_V1, "关北 D's world revision is current")
 
 
 ## A woman from the escort: the camp, the mould, the 印色, the gate by the roll, the city, 卢卡, 老秦.
@@ -391,6 +407,48 @@ func _test_raid(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(_ask(market, luca, "会首").any(func(line: String) -> bool: return line.contains("番坊")) and state.marks.get("卢卡说了番坊", 0) == 1, "卢卡: 会首安敦在番坊")
 	session.record_journal()
 	_check(StoryQuestLog.is_done(state, GameContent.catalog().story_quest(&"main.chapter6")) and state.marks.get("关北一章", 0) == 1, "the chapter done: 关北一章")
+	_check(state.quests.has("main.chapter7#started") and StoryQuestLog.objective(state, quests).begins_with("去番坊找大秦人的会首安敦"), "the seventh chapter open: 去番坊: %s" % [StoryQuestLog.objective(state, quests)])
+	# D: the consequences of the raid.
+	var town: WorldMapController = await _go_with(tree, session, &"guanbei.gate")
+	var notice: ActService = null if town == null else town.service(&"guanbei.gate.notice") as ActService
+	_check(notice != null and await MapPlaces.drive(tree, town, MapPlaces.service_spot(town, &"guanbei.gate.notice")), "at the notice")
+	notice.interact()
+	await _settle(tree)
+	_check(state.marks.get("看过反名的告示", 0) == 1 and ui.log_lines().any(func(line: String) -> bool: return line.contains("槐阳反。随他们说")), "the notice's second text: 兵部文书至：槐阳反。随他们说。")
+	var hall: WorldMapController = await _go_with(tree, session, &"guanbei.palace_hall")
+	for second: int in 3:
+		session.advance_npc_heartbeat(1.0)
+		await _settle(tree)
+	var cheng: NpcRuntimeState = MapPlaces.npc_at(session, &"guanbei.palace_hall.cheng_shuo.1")
+	_check(hall != null and state.marks.get("程朔知道了", 0) == 1 and cheng != null and cheng.has_flag(StringName(NpcMood.FLAG_PREFIX + "rebel")) and ui.log_lines().any(func(line: String) -> bool: return line.contains("欠你一阵")), "程朔 in his 反名 mood: 关北的骑兵欠你一阵: %s" % [ui.log_lines().slice(-3)])
+	cheng = await _beside(tree, session, hall, &"guanbei.palace_hall.cheng_shuo.1")
+	_check(_ask(hall, cheng, "骑兵").any(func(line: String) -> bool: return line.contains("所有的马")) and state.marks.get("关北的骑兵欠你一阵", 0) == 1 and state.marks.get("关北背了反名", 0) == 1, "the riders owed (终章), the name of 反 carried (第九章)")
+	camp = await _go_with(tree, session, &"guanbei.camp")
+	_check(camp != null and _count_in(session, &"guanbei.camp", FREED) == 8, "the eight home at the camp")
+	var family: NpcRuntimeState = await _beside(tree, session, camp, &"guanbei.camp.family.1")
+	_check(_ask(camp, family, "民夫").any(func(line: String) -> bool: return line.contains("八个都回来了")), "the families: 八个都回来了")
+	# 郭承's 《马刀谱》, read toward 40.
+	await _wait_for_guo(tree, session, &"guanbei.camp")
+	var guo_here: NpcRuntimeState = null
+	for npc: NpcRuntimeState in camp.npc_runtimes():
+		if npc.definition().definition_id == GUO:
+			guo_here = npc
+	_check(guo_here != null and camp.select_npc(guo_here.character_id) and camp.ask_selected("刀谱").any(func(line: String) -> bool: return line.contains("马刀谱")) and state.marks.get("得了刀谱", 0) == 1, "郭承 hands over the 《马刀谱》")
+	var manual_id: StringName = _carried(session, MANUAL)
+	_check(not manual_id.is_empty() and _ask(camp, guo_here, "刀谱").any(func(line: String) -> bool: return line.contains("自己练")), "the manual in hand; asked again: 自己练")
+	state.skills.set_raw_level(SkillIds.LITERATE, 10) # TEST-ONLY
+	state.progression.combat_experience = 30000 # TEST-ONLY: 研读 wants it
+	state.spirit = CharacterResourceState.new(1000000, 1000000, 1000000) # TEST-ONLY: the 神 it costs
+	var first: StudyResult = session.martial_arts().study(manual_id)
+	_check(first.outcome == StudyResult.Outcome.STUDIED and first.skill_improvement != null and ui.log_lines()[-1].contains("关北马刀"), "研读 the manual: 关北马刀 begun: %s" % ui.log_lines()[-1])
+	state.skills.set_raw_level(&"guanbei-saber", 40) # TEST-ONLY: at what the book teaches
+	_check(session.martial_arts().study(manual_id).outcome == StudyResult.Outcome.STUDIED, "at 40 the book still has something to say")
+	state.skills.set_raw_level(&"guanbei-saber", 41) # TEST-ONLY: past it
+	_check(session.martial_arts().study(manual_id).outcome == StudyResult.Outcome.TOO_SHALLOW, "past 40 it is 太浅了 (owner Q3: the manual reads to 40)")
+	# 老秦 on the rescue ledger has heard.
+	var inn: WorldMapController = await _go_with(tree, session, &"guanbei.inn_hall")
+	var lao_qin: NpcRuntimeState = await _beside(tree, session, inn, &"guanbei.inn_hall.lao_qin.1")
+	_check(_ask(inn, lao_qin, "工地").any(func(line: String) -> bool: return line.contains("该踏平")), "老秦: 那地方该踏平")
 
 
 ## 潜入 (关北 C): the 工地 by day turns the player away; 等到天黑 at the fire; the night's four 枷, the watch,
@@ -497,6 +555,38 @@ func _test_sneak(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(ui.log_lines().any(func(line: String) -> bool: return line.contains("救不了第二回")), "the four left: 你救不了第二回")
 	var barrow: WorldMapController = await _go_with(tree, session, &"guanbei.barrow_mouth")
 	_check(barrow != null and _count_in(session, &"guanbei.cart_stand", TAOIST) == 0 and _count_in(session, &"guanbei.cart_stand", SPENT) == 0 and _count_in(session, &"guanbei.stone_door", OFFICER) == 2, "the cart and its two gone (夜里闹过之后，宫里的车把两个挖不动的接走了); the door still kept by day")
+	# D: 吕隼 counts his men; the cart passes once on the steppe; 程朔's 干净; the four home; the manual.
+	site = await _go_with(tree, session, &"guanbei.fence_gate")
+	for second: int in 3:
+		session.advance_npc_heartbeat(1.0)
+		await _settle(tree)
+	_check(state.marks.get("吕隼说了少了四个", 0) == 1 and ui.log_lines().any(func(line: String) -> bool: return line.contains("少了四个")), "吕隼: 少了四个，兵部要我补")
+	var lu_sun: NpcRuntimeState = await _beside(tree, session, site, &"guanbei.fence_gate.lu_sun.1")
+	_check(_ask(site, lu_sun, "车").any(func(line: String) -> bool: return line.contains("接走了")), "吕隼 on the cart: 把两个挖不动的接走了")
+	var steppe: WorldMapController = await _go_with(tree, session, &"guanbei.steppe_road")
+	_check(steppe != null and _count_in(session, &"guanbei.steppe_road", PASSING) == 2, "the cart on the road as the player comes back west")
+	for second: int in 10:
+		session.advance_npc_heartbeat(1.0)
+		await _settle(tree)
+		if state.marks.get("见过车路过", 0) == 1 and not steppe.scene_running():
+			break
+	_check(state.marks.get("见过车路过", 0) == 1 and not steppe.scene_running() and ui.log_lines().any(func(line: String) -> bool: return line.contains("宫里的车")) and ui.log_lines().any(func(line: String) -> bool: return line.contains("两个挖不动的今天就接走")) and _count_in(session, &"guanbei.steppe_road", PASSING) == 0, "the cart passes: 让开。宫里的车。／两个挖不动的今天就接走 — and is gone: %s" % [ui.log_lines().slice(-4)])
+	var camp2: WorldMapController = await _go_with(tree, session, &"guanbei.camp")
+	_check(camp2 != null and _count_in(session, &"guanbei.camp", FREED) == 4, "four home at the camp")
+	var family2: NpcRuntimeState = await _beside(tree, session, camp2, &"guanbei.camp.family.1")
+	_check(_ask(camp2, family2, "民夫").any(func(line: String) -> bool: return line.contains("没在里头")), "a family: 俺家的……没在里头")
+	await _wait_for_guo(tree, session, &"guanbei.camp")
+	var guo2: NpcRuntimeState = null
+	for npc: NpcRuntimeState in camp2.npc_runtimes():
+		if npc.definition().definition_id == GUO:
+			guo2 = npc
+	_check(guo2 != null and camp2.select_npc(guo2.character_id) and camp2.ask_selected("刀谱").any(func(line: String) -> bool: return line.contains("救了四个，也是救")) and not _carried(session, MANUAL).is_empty(), "郭承's manual on this road too: 救了四个，也是救")
+	var hall2: WorldMapController = await _go_with(tree, session, &"guanbei.palace_hall")
+	for second: int in 3:
+		session.advance_npc_heartbeat(1.0)
+		await _settle(tree)
+	var cheng2: NpcRuntimeState = MapPlaces.npc_at(session, &"guanbei.palace_hall.cheng_shuo.1")
+	_check(hall2 != null and state.marks.get("程朔知道了", 0) == 1 and state.marks.get("王府干净", 0) == 1 and cheng2 != null and cheng2.has_flag(StringName(NpcMood.FLAG_PREFIX + "clean")) and ui.log_lines().any(func(line: String) -> bool: return line.contains("王府不知道")), "程朔 in his 干净 mood: 夜里的事，王府不知道: %s" % [ui.log_lines().slice(-3)])
 
 
 ## TEST-ONLY: MapPlaces.go_to with 郭承 given time to walk after the player at each door (go.c follow_me():

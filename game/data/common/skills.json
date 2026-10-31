@@ -1,20 +1,33 @@
 {
 	"skills": [
 		{
-			"id": "unarmed", "name": "基本拳脚", "kind": "basic", "type": "martial",
+			"id": "unarmed",
+			"name": "基本拳脚",
+			"kind": "basic",
+			"type": "martial",
 			"legacy_source": "daemon/skill/unarmed.c",
-			"improved_line": "由於你勤练武艺，你的膂力提高了。", "improved_color": "HIW"
+			"improved_line": "由於你勤练武艺，你的膂力提高了。",
+			"improved_color": "HIW"
 		},
 		{
-			"id": "sword", "name": "基本剑法", "kind": "basic", "type": "martial",
+			"id": "sword",
+			"name": "基本剑法",
+			"kind": "basic",
+			"type": "martial",
 			"legacy_source": "daemon/skill/sword.c"
 		},
 		{
-			"id": "blade", "name": "基本刀法", "kind": "basic", "type": "martial",
+			"id": "blade",
+			"name": "基本刀法",
+			"kind": "basic",
+			"type": "martial",
 			"legacy_source": "daemon/skill/blade.c"
 		},
 		{
-			"id": "parry", "name": "基本招架", "kind": "basic", "type": "martial",
+			"id": "parry",
+			"name": "基本招架",
+			"kind": "basic",
+			"type": "martial",
 			"legacy_source": "daemon/skill/parry.c",
 			"parry_messages": {
 				"armed": [
@@ -30,7 +43,10 @@
 			}
 		},
 		{
-			"id": "dodge", "name": "基本轻功", "kind": "basic", "type": "martial",
+			"id": "dodge",
+			"name": "基本轻功",
+			"kind": "basic",
+			"type": "martial",
 			"legacy_source": "daemon/skill/dodge.c",
 			"dodge_messages": [
 				"但是和$p$l偏了几寸。",
@@ -41,76 +57,247 @@
 			]
 		},
 		{
-			"id": "force", "name": "基本内功", "kind": "basic", "type": "martial",
+			"id": "force",
+			"name": "基本内功",
+			"kind": "basic",
+			"type": "martial",
 			"legacy_source": "daemon/skill/force.c",
-			"exert": ["recover", "refresh", "regenerate"],
-			"improved_line": "由於你的内功修炼有成，你的体质改善了。", "improved_color": "HIW"
+			"exert": [
+				"recover",
+				"refresh",
+				"regenerate"
+			],
+			"improved_line": "由於你的内功修炼有成，你的体质改善了。",
+			"improved_color": "HIW"
 		},
 		{
-			"id": "liuh-ken", "name": "柳家拳", "kind": "specialized", "type": "martial", "enable": ["unarmed"],
+			"id": "liuh-ken",
+			"name": "柳家拳",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"unarmed"
+			],
 			"legacy_source": "daemon/skill/liuh-ken.c",
-			"practice": { "kee": 30, "fail": "你的体力不够了，休息一下再练吧。" },
-			"valid_learn": { "empty_hands": "练柳家拳法必须空手。" },
+			"practice": {
+				"kee": 30,
+				"fail": "你的体力不够了，休息一下再练吧。"
+			},
+			"valid_learn": {
+				"empty_hands": "练柳家拳法必须空手。"
+			},
 			"actions": [
-				{ "id": "gu-song-gua-yue", "action": "$N使一招「古松挂月」，对准$n的$l「呼」地一拳", "damage_type": "瘀伤" },
-				{ "id": "ao-xue-dong-mei", "action": "$N扬起拳头，一招「傲雪冬梅」便往$n的$l招呼过去", "damage_type": "瘀伤" },
-				{ "id": "gu-ya-ting-tao", "action": "$N左手虚晃，右拳「孤崖听涛」往$n的$l击出", "damage_type": "瘀伤" },
-				{ "id": "huang-shan-hu-yin", "action": "$N步履一沉，左拳拉开，右拳使出「荒山虎吟」击向$n$l", "damage_type": "瘀伤" }
+				{
+					"id": "gu-song-gua-yue",
+					"action": "$N使一招「古松挂月」，对准$n的$l「呼」地一拳",
+					"damage_type": "瘀伤"
+				},
+				{
+					"id": "ao-xue-dong-mei",
+					"action": "$N扬起拳头，一招「傲雪冬梅」便往$n的$l招呼过去",
+					"damage_type": "瘀伤"
+				},
+				{
+					"id": "gu-ya-ting-tao",
+					"action": "$N左手虚晃，右拳「孤崖听涛」往$n的$l击出",
+					"damage_type": "瘀伤"
+				},
+				{
+					"id": "huang-shan-hu-yin",
+					"action": "$N步履一沉，左拳拉开，右拳使出「荒山虎吟」击向$n$l",
+					"damage_type": "瘀伤"
+				}
 			]
 		},
 		{
-			"id": "fonxanforce", "name": "封山派内功", "kind": "specialized", "type": "martial", "enable": ["force"],
+			"id": "fonxanforce",
+			"name": "封山派内功",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"force"
+			],
 			"legacy_source": "daemon/skill/fonxanforce.c",
 			"standard_force_hit": true,
-			"exert": ["heal"],
-			"practice": { "refuses": true, "fail": "封山派内功只能用学的，或是从运用(exert)中增加熟练度。" }
+			"exert": [
+				"heal"
+			],
+			"practice": {
+				"refuses": true,
+				"fail": "封山派内功只能用学的，或是从运用(exert)中增加熟练度。"
+			}
 		},
 		{
-			"id": "serpentforce", "name": "伏蛟功", "kind": "specialized", "type": "martial", "enable": ["force"],
+			"id": "serpentforce",
+			"name": "伏蛟功",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"force"
+			],
 			"legacy_source": "daemon/skill/serpentforce.c",
 			"standard_force_hit": true,
-			"practice": { "water_fail": "伏蛟功只能在有水的地方练。", "kee": 30, "force": 10, "fail": "你的气不够。", "force_fail": "你的内力不够" }
+			"practice": {
+				"water_fail": "伏蛟功只能在有水的地方练。",
+				"kee": 30,
+				"force": 10,
+				"fail": "你的气不够。",
+				"force_fail": "你的内力不够"
+			}
 		},
 		{
-			"id": "spring-blade", "name": "春风快意刀", "kind": "specialized", "type": "martial", "enable": ["blade", "parry"],
+			"id": "spring-blade",
+			"name": "春风快意刀",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"blade",
+				"parry"
+			],
 			"legacy_source": "daemon/skill/spring-blade.c",
-			"practice": { "weapon": "blade", "weapon_fail": "你必须先找一把刀，才能练刀法。", "kee": 40, "fail": "你的体力不够练这门刀法，还是先休息休息吧。" },
+			"practice": {
+				"weapon": "blade",
+				"weapon_fail": "你必须先找一把刀，才能练刀法。",
+				"kee": 40,
+				"fail": "你的体力不够练这门刀法，还是先休息休息吧。"
+			},
 			"actions": [
-				{ "id": "chun-feng-fu-ren-zui", "action": "$N使一招「春风拂人醉」，手中$w轻飘飘地向$n的$l斩去！", "damage": 200, "damage_type": "割伤" },
-				{ "id": "yuan-shan-ban-ren-chi", "action": "$N金刃劈风，$w随著一招「远山伴人痴」由下而上撩往$n的$l", "damage": 40, "damage_type": "割伤" },
-				{ "id": "fei-hua-zhu-ren-xiang", "action": "$N身形一转，一招「飞花逐人香」$w刀光不定，斩向$n的$l", "damage": 20, "damage_type": "割伤" },
-				{ "id": "liu-ye-sui-ren-xiao", "action": "$N舞动$w，一招「柳叶随人笑」迅捷无伦地劈向$n的$l", "damage_type": "擦伤" },
-				{ "id": "qian-ying-re-ren-lian", "action": "$N手中$w一晃，一招「倩影惹人怜」往$n的$l斜斜砍出一刀", "damage": 40, "damage_type": "擦伤" },
-				{ "id": "lu-xue-sui-ren-ying", "action": "$N提刀过肩，蓄劲发力，一招「芦雪碎人影」直劈$n$l", "damage": 40, "damage_type": "擦伤" },
-				{ "id": "cai-die-zhuo-ren-yi", "action": "$N移步侧身，使一招「彩蝶灼人衣」刀光霍霍斩向$n的$l", "damage": 40, "damage_type": "擦伤" }
+				{
+					"id": "chun-feng-fu-ren-zui",
+					"action": "$N使一招「春风拂人醉」，手中$w轻飘飘地向$n的$l斩去！",
+					"damage": 200,
+					"damage_type": "割伤"
+				},
+				{
+					"id": "yuan-shan-ban-ren-chi",
+					"action": "$N金刃劈风，$w随著一招「远山伴人痴」由下而上撩往$n的$l",
+					"damage": 40,
+					"damage_type": "割伤"
+				},
+				{
+					"id": "fei-hua-zhu-ren-xiang",
+					"action": "$N身形一转，一招「飞花逐人香」$w刀光不定，斩向$n的$l",
+					"damage": 20,
+					"damage_type": "割伤"
+				},
+				{
+					"id": "liu-ye-sui-ren-xiao",
+					"action": "$N舞动$w，一招「柳叶随人笑」迅捷无伦地劈向$n的$l",
+					"damage_type": "擦伤"
+				},
+				{
+					"id": "qian-ying-re-ren-lian",
+					"action": "$N手中$w一晃，一招「倩影惹人怜」往$n的$l斜斜砍出一刀",
+					"damage": 40,
+					"damage_type": "擦伤"
+				},
+				{
+					"id": "lu-xue-sui-ren-ying",
+					"action": "$N提刀过肩，蓄劲发力，一招「芦雪碎人影」直劈$n$l",
+					"damage": 40,
+					"damage_type": "擦伤"
+				},
+				{
+					"id": "cai-die-zhuo-ren-yi",
+					"action": "$N移步侧身，使一招「彩蝶灼人衣」刀光霍霍斩向$n的$l",
+					"damage": 40,
+					"damage_type": "擦伤"
+				}
 			]
 		},
 		{
-			"id": "fonxansword", "name": "封山剑法", "kind": "specialized", "type": "martial", "enable": ["sword", "parry"],
+			"id": "fonxansword",
+			"name": "封山剑法",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"sword",
+				"parry"
+			],
 			"legacy_source": "daemon/skill/fonxansword.c",
-			"perform": ["counterattack", "swordjab", "fakefault"],
-			"practice": { "kee": 30, "force": 3, "done": "你按著所学练了一遍封山剑法。", "fail": "你的内力或气不够，没有办法练习封山剑法。" },
+			"perform": [
+				"counterattack",
+				"swordjab",
+				"fakefault"
+			],
+			"practice": {
+				"kee": 30,
+				"force": 3,
+				"done": "你按著所学练了一遍封山剑法。",
+				"fail": "你的内力或气不够，没有办法练习封山剑法。"
+			},
 			"valid_learn": {
 				"max_force": "你的内力不够，没有办法练封山剑法。",
 				"mapped": "封山剑法必须配合封山派内功才能练。",
 				"weapon": "你必须先找一把剑才能练剑法。"
 			},
 			"actions": [
-				{ "id": "feng-hui-lu-zhuan", "action": "$N使一招「峰回路转」，手中$w如一条银蛇般刺向$n的$l", "damage": 30, "damage_type": "刺伤" },
-				{ "id": "kong-shan-niao-yu", "action": "$N使出封山剑法中的「空山鸟语」，剑光霍霍斩向$n的$l", "damage": 30, "damage_type": "割伤" },
-				{ "id": "yu-feng-er-xing", "action": "$N一招「御风而行」，身形陡然滑出数尺，手中$w斩向$n的$l", "damage": 20, "damage_type": "割伤" },
-				{ "id": "xu-ri-dong-sheng", "action": "$N手中$w中宫直进，一式「旭日东升」对准$n的$l刺出一剑", "damage_type": "刺伤" },
-				{ "id": "jin-guang-xie-di", "action": "$N纵身一跃，手中$w一招「金光泻地」对准$n的$l斜斜刺出一剑", "damage_type": "刺伤" },
-				{ "id": "tong-zi-yin-lu", "action": "$N的$w凭空一指，一招「童子引路」刺向$n的$l", "damage": 40, "damage_type": "刺伤" },
-				{ "id": "liu-an-hua-ming", "action": "$N手中$w向外一分，使一招「柳暗花明」反手对准$n$l一剑刺去", "damage": 20, "damage_type": "刺伤" },
-				{ "id": "kong-gu-qiu-hong", "action": "$N横剑上前，身形一转手中$w使一招「空谷秋虹」画出一道光弧斩向$n的$l", "damage": 10, "damage_type": "割伤" }
+				{
+					"id": "feng-hui-lu-zhuan",
+					"action": "$N使一招「峰回路转」，手中$w如一条银蛇般刺向$n的$l",
+					"damage": 30,
+					"damage_type": "刺伤"
+				},
+				{
+					"id": "kong-shan-niao-yu",
+					"action": "$N使出封山剑法中的「空山鸟语」，剑光霍霍斩向$n的$l",
+					"damage": 30,
+					"damage_type": "割伤"
+				},
+				{
+					"id": "yu-feng-er-xing",
+					"action": "$N一招「御风而行」，身形陡然滑出数尺，手中$w斩向$n的$l",
+					"damage": 20,
+					"damage_type": "割伤"
+				},
+				{
+					"id": "xu-ri-dong-sheng",
+					"action": "$N手中$w中宫直进，一式「旭日东升」对准$n的$l刺出一剑",
+					"damage_type": "刺伤"
+				},
+				{
+					"id": "jin-guang-xie-di",
+					"action": "$N纵身一跃，手中$w一招「金光泻地」对准$n的$l斜斜刺出一剑",
+					"damage_type": "刺伤"
+				},
+				{
+					"id": "tong-zi-yin-lu",
+					"action": "$N的$w凭空一指，一招「童子引路」刺向$n的$l",
+					"damage": 40,
+					"damage_type": "刺伤"
+				},
+				{
+					"id": "liu-an-hua-ming",
+					"action": "$N手中$w向外一分，使一招「柳暗花明」反手对准$n$l一剑刺去",
+					"damage": 20,
+					"damage_type": "刺伤"
+				},
+				{
+					"id": "kong-gu-qiu-hong",
+					"action": "$N横剑上前，身形一转手中$w使一招「空谷秋虹」画出一道光弧斩向$n的$l",
+					"damage": 10,
+					"damage_type": "割伤"
+				}
 			]
 		},
 		{
-			"id": "chaos-steps", "name": "倒乱七星步法", "kind": "specialized", "type": "martial", "enable": ["dodge", "move"],
+			"id": "chaos-steps",
+			"name": "倒乱七星步法",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"dodge",
+				"move"
+			],
 			"legacy_source": "daemon/skill/chaos-steps.c",
-			"practice": { "kee": 30, "force": 3, "fail": "你的气或内力不够，不能练倒乱七星步法。" },
-			"valid_learn": { "max_force": "你的内力不够，没有办法练倒乱七星步。" },
+			"practice": {
+				"kee": 30,
+				"force": 3,
+				"fail": "你的气或内力不够，不能练倒乱七星步法。"
+			},
+			"valid_learn": {
+				"max_force": "你的内力不够，没有办法练倒乱七星步。"
+			},
 			"dodge_messages": [
 				"$n一招「天玑离枢」轻轻巧巧地避了开去。",
 				"只见$n身影一晃，一式「天璇乱步」早已避在七尺之外。",
@@ -122,135 +309,373 @@
 			]
 		},
 		{
-			"id": "celestial", "name": "天邪神功", "kind": "specialized", "type": "martial", "enable": ["force"],
+			"id": "celestial",
+			"name": "天邪神功",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"force"
+			],
 			"legacy_source": "daemon/skill/celestial.c",
 			"standard_force_hit": true,
-			"exert": ["powerup", "powerfade", "roar"],
-			"practice": { "refuses": true, "fail": "天邪神功只能用学的，或是从运用(exert)中增加熟练度。" },
-			"valid_learn": { "bellicosity": "你的杀气不够，无法领悟更高深的天邪神功。" },
-			"improved_line": "由於你苦练天邪神功，你的定力提高了", "improved_color": "HIW"
+			"exert": [
+				"powerup",
+				"powerfade",
+				"roar"
+			],
+			"practice": {
+				"refuses": true,
+				"fail": "天邪神功只能用学的，或是从运用(exert)中增加熟练度。"
+			},
+			"valid_learn": {
+				"bellicosity": "你的杀气不够，无法领悟更高深的天邪神功。"
+			},
+			"improved_line": "由於你苦练天邪神功，你的定力提高了",
+			"improved_color": "HIW"
 		},
 		{
-			"id": "necromancy", "name": "茅山道术", "kind": "specialized", "type": "knowledge", "enable": ["spells"],
+			"id": "necromancy",
+			"name": "茅山道术",
+			"kind": "specialized",
+			"type": "knowledge",
+			"enable": [
+				"spells"
+			],
 			"legacy_source": "daemon/skill/necromancy.c",
-			"valid_learn": { "effective_skill": "你的天师正道修为不够，无法领悟更高深的茅山道术。" },
+			"valid_learn": {
+				"effective_skill": "你的天师正道修为不够，无法领悟更高深的茅山道术。"
+			},
 			"practice": {
-				"mana": 10, "mana_fail": "你的法力不够。", "sen": 30, "sen_fail": "你的精神无法集中。",
+				"mana": 10,
+				"mana_fail": "你的法力不够。",
+				"sen": 30,
+				"sen_fail": "你的精神无法集中。",
 				"done": "你闭目凝神，神游物外，开始修习茅山道术中的法术....",
 				"conjure": {
-					"below": 5, "skill": "spells",
-					"npcs": [{ "npc": "common.npc.mind_bug", "below": 10 }, { "npc": "common.npc.mind_beast" }],
+					"below": 5,
+					"skill": "spells",
+					"npcs": [
+						{
+							"npc": "common.npc.mind_bug",
+							"below": 10
+						},
+						{
+							"npc": "common.npc.mind_beast"
+						}
+					],
 					"came": "可是你心思一乱，变出了一只面目狰狞的$N！",
 					"caught": "你的魂魄正被$N缠住，快把它除掉吧！",
 					"standing": "你的魂魄还没有全部收回，赶快杀死你的$N吧！"
 				}
 			},
-			"cast": ["drainerbolt", "feeblebolt", "netherbolt", "invocation", "animate", "astral_vision"],
-			"scribe": ["haunt"]
-		},
-		{
-			"id": "taoism", "name": "天师正道", "kind": "basic", "type": "knowledge",
-			"legacy_source": "daemon/skill/taoism.c",
-			"practice": { "refuses": true, "fail": "法术类技能必须用学的或是从实战中获取经验。" },
-			"valid_learn": { "max_bellicosity": "你的杀气太重，无法修炼天师正道。" }
-		},
-		{
-			"id": "gouyee", "name": "谷衣心法", "kind": "specialized", "type": "martial", "enable": ["force"],
-			"legacy_source": "daemon/skill/gouyee.c",
-			"standard_force_hit": true,
-			"exert": ["concentrate", "heal"],
-			"practice": { "refuses": true, "fail": "谷衣心法只能用学的，或是从运用(exert)中增加熟练度。" },
-			"valid_learn": { "max_mana": "你的魔力不够，无法提升谷衣心法的造诣。" }
-		},
-		{
-			"id": "scratching", "name": "天师剑法", "kind": "specialized", "type": "martial", "enable": ["sword", "parry"],
-			"legacy_source": "daemon/skill/scratching.c",
-			"practice": {
-				"weapon": "sword", "weapon_fail": "你必须先找一把剑才能练剑法。",
-				"kee": 30, "force": 5, "done": "你按著所学练了一遍天师剑法。", "fail": "你的内力或气不够，没有办法练习天师剑法。"
-			},
-			"valid_learn": { "max_force": "你的内力不够，没有办法练天师剑法。" },
-			"actions": [
-				{ "id": "san-qing-gui-zhen", "action": "$N一招「三清归真」，手中$w挽起几个剑花，刺向$n的$l", "damage": 40, "damage_type": "刺伤" },
-				{ "id": "zhong-shi-hu-you", "action": "$N身形一变，一招「众士护佑」，$w罩向$n的$l", "damage": 30, "damage_type": "刺伤" },
-				{ "id": "tian-ren-he-yi", "action": "$N挥动$w，一招「天人合一」挟著闪闪剑光袭向$n的$l", "damage": 50, "damage_type": "刺伤" },
-				{ "id": "qun-mo-pi-yi", "action": "$N手中$w一抡，使出「群魔辟易」往$n的$l恶狠狠的砍去", "damage": 40, "damage_type": "刺伤" },
-				{ "id": "xi-chu-zi-guan", "action": "$N一招「西出紫关」，$w一带，轻轻划向$n$l", "damage": 20, "damage_type": "刺伤" },
-				{ "id": "qian-kun-yi-zhi", "action": "$N身剑合一，幻化成一道光华，一招「乾坤一掷」扑向$n", "damage": 150, "damage_type": "刺伤" }
+			"cast": [
+				"drainerbolt",
+				"feeblebolt",
+				"netherbolt",
+				"invocation",
+				"animate",
+				"astral_vision"
+			],
+			"scribe": [
+				"haunt"
 			]
 		},
 		{
-			"id": "literate", "name": "读书识字", "kind": "basic", "type": "knowledge",
+			"id": "taoism",
+			"name": "天师正道",
+			"kind": "basic",
+			"type": "knowledge",
+			"legacy_source": "daemon/skill/taoism.c",
+			"practice": {
+				"refuses": true,
+				"fail": "法术类技能必须用学的或是从实战中获取经验。"
+			},
+			"valid_learn": {
+				"max_bellicosity": "你的杀气太重，无法修炼天师正道。"
+			}
+		},
+		{
+			"id": "gouyee",
+			"name": "谷衣心法",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"force"
+			],
+			"legacy_source": "daemon/skill/gouyee.c",
+			"standard_force_hit": true,
+			"exert": [
+				"concentrate",
+				"heal"
+			],
+			"practice": {
+				"refuses": true,
+				"fail": "谷衣心法只能用学的，或是从运用(exert)中增加熟练度。"
+			},
+			"valid_learn": {
+				"max_mana": "你的魔力不够，无法提升谷衣心法的造诣。"
+			}
+		},
+		{
+			"id": "scratching",
+			"name": "天师剑法",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"sword",
+				"parry"
+			],
+			"legacy_source": "daemon/skill/scratching.c",
+			"practice": {
+				"weapon": "sword",
+				"weapon_fail": "你必须先找一把剑才能练剑法。",
+				"kee": 30,
+				"force": 5,
+				"done": "你按著所学练了一遍天师剑法。",
+				"fail": "你的内力或气不够，没有办法练习天师剑法。"
+			},
+			"valid_learn": {
+				"max_force": "你的内力不够，没有办法练天师剑法。"
+			},
+			"actions": [
+				{
+					"id": "san-qing-gui-zhen",
+					"action": "$N一招「三清归真」，手中$w挽起几个剑花，刺向$n的$l",
+					"damage": 40,
+					"damage_type": "刺伤"
+				},
+				{
+					"id": "zhong-shi-hu-you",
+					"action": "$N身形一变，一招「众士护佑」，$w罩向$n的$l",
+					"damage": 30,
+					"damage_type": "刺伤"
+				},
+				{
+					"id": "tian-ren-he-yi",
+					"action": "$N挥动$w，一招「天人合一」挟著闪闪剑光袭向$n的$l",
+					"damage": 50,
+					"damage_type": "刺伤"
+				},
+				{
+					"id": "qun-mo-pi-yi",
+					"action": "$N手中$w一抡，使出「群魔辟易」往$n的$l恶狠狠的砍去",
+					"damage": 40,
+					"damage_type": "刺伤"
+				},
+				{
+					"id": "xi-chu-zi-guan",
+					"action": "$N一招「西出紫关」，$w一带，轻轻划向$n$l",
+					"damage": 20,
+					"damage_type": "刺伤"
+				},
+				{
+					"id": "qian-kun-yi-zhi",
+					"action": "$N身剑合一，幻化成一道光华，一招「乾坤一掷」扑向$n",
+					"damage": 150,
+					"damage_type": "刺伤"
+				}
+			]
+		},
+		{
+			"id": "literate",
+			"name": "读书识字",
+			"kind": "basic",
+			"type": "knowledge",
 			"legacy_source": "daemon/skill/literate.c",
-			"improved_line": "由於你的勤学苦读，你的悟性提高了。", "improved_color": "HIW"
+			"improved_line": "由於你的勤学苦读，你的悟性提高了。",
+			"improved_color": "HIW"
 		},
 		{
-			"id": "music", "name": "音律", "kind": "basic", "type": "knowledge",
+			"id": "music",
+			"name": "音律",
+			"kind": "basic",
+			"type": "knowledge",
 			"legacy_source": "daemon/skill/music.c",
-			"improved_line": "由於你学习音律之学有成，你的灵性提高了", "improved_color": "HIW"
+			"improved_line": "由於你学习音律之学有成，你的灵性提高了",
+			"improved_color": "HIW"
 		},
 		{
-			"id": "instruments", "name": "乐器", "kind": "basic", "type": "knowledge",
+			"id": "instruments",
+			"name": "乐器",
+			"kind": "basic",
+			"type": "knowledge",
 			"legacy_source": "daemon/skill/instruments.c"
 		},
 		{
-			"id": "move", "name": "基本行动", "kind": "basic", "type": "martial",
+			"id": "move",
+			"name": "基本行动",
+			"kind": "basic",
+			"type": "martial",
 			"legacy_source": "daemon/skill/move.c"
 		},
 		{
-			"id": "staff", "name": "基本杖法", "kind": "basic", "type": "martial",
+			"id": "staff",
+			"name": "基本杖法",
+			"kind": "basic",
+			"type": "martial",
 			"legacy_source": "daemon/skill/staff.c"
 		},
 		{
-			"id": "throwing", "name": "基本暗器", "kind": "basic", "type": "martial",
+			"id": "throwing",
+			"name": "基本暗器",
+			"kind": "basic",
+			"type": "martial",
 			"legacy_source": "daemon/skill/throwing.c"
 		},
 		{
-			"id": "perception", "name": "听风辨器之术", "kind": "basic", "type": "martial",
+			"id": "perception",
+			"name": "听风辨器之术",
+			"kind": "basic",
+			"type": "martial",
 			"legacy_source": "daemon/skill/perception.c"
 		},
 		{
-			"id": "stealing", "name": "偷窃", "kind": "basic", "type": "martial",
+			"id": "stealing",
+			"name": "偷窃",
+			"kind": "basic",
+			"type": "martial",
 			"legacy_source": "daemon/skill/stealing.c"
 		},
 		{
-			"id": "celestrike", "name": "天邪神掌", "kind": "specialized", "type": "martial", "enable": ["unarmed"],
+			"id": "celestrike",
+			"name": "天邪神掌",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"unarmed"
+			],
 			"legacy_source": "daemon/skill/celestrike.c",
-			"practice": { "kee": 30, "force": 5, "fail": "你的体力不够了，休息一下再练吧。", "force_fail": "你的内力不够了，休息一下再练吧。" },
+			"practice": {
+				"kee": 30,
+				"force": 5,
+				"fail": "你的体力不够了，休息一下再练吧。",
+				"force_fail": "你的内力不够了，休息一下再练吧。"
+			},
 			"valid_learn": {
 				"empty_hands": "练天邪神掌必须空手。",
 				"raw_skill": "你的天邪神功火候不足，无法练天邪掌法。",
 				"max_force": "你的内力太弱，无法练天邪掌法。"
 			},
 			"actions": [
-				{ "id": "da-tian-luo-shi-you", "action": "$N使出一招「大天罗式」，右掌穿出击向$n的$l", "force": 200, "damage_type": "瘀伤" },
-				{ "id": "da-tian-luo-shi-zuo", "action": "$N使出一招「大天罗式」，左掌化虚为实击向$n的$l", "force": 170, "damage_type": "瘀伤" },
-				{ "id": "xiao-tian-luo-shi", "action": "$N使出天邪掌法「小天罗式」，如鬼魅般欺至$n身前，一掌拍向$n的$l", "force": 150, "damage_type": "瘀伤" },
-				{ "id": "xue-yang-san-lian-yue", "action": "$N双掌一错，使出「雪阳三连月」，对准$n的$l连续拍出三掌", "force": 260, "damage_type": "瘀伤" },
-				{ "id": "ling-dong-wu-fang-gu", "action": "$N左掌画了个圈圈，右掌推出，一招「灵动五方鼓」击向$n$l", "force": 240, "damage_type": "瘀伤" },
-				{ "id": "feng-lei-qi-xing-duan", "action": "$N使出「风雷七星断」，身形散作七处同时向$n的$l出掌攻击", "force": 280, "damage_type": "瘀伤" },
-				{ "id": "qi-han-jiu-chong-tian", "action": "$N吐气扬声，一招「气撼九重天」双掌并力推出", "force": 320, "damage_type": "瘀伤" }
+				{
+					"id": "da-tian-luo-shi-you",
+					"action": "$N使出一招「大天罗式」，右掌穿出击向$n的$l",
+					"force": 200,
+					"damage_type": "瘀伤"
+				},
+				{
+					"id": "da-tian-luo-shi-zuo",
+					"action": "$N使出一招「大天罗式」，左掌化虚为实击向$n的$l",
+					"force": 170,
+					"damage_type": "瘀伤"
+				},
+				{
+					"id": "xiao-tian-luo-shi",
+					"action": "$N使出天邪掌法「小天罗式」，如鬼魅般欺至$n身前，一掌拍向$n的$l",
+					"force": 150,
+					"damage_type": "瘀伤"
+				},
+				{
+					"id": "xue-yang-san-lian-yue",
+					"action": "$N双掌一错，使出「雪阳三连月」，对准$n的$l连续拍出三掌",
+					"force": 260,
+					"damage_type": "瘀伤"
+				},
+				{
+					"id": "ling-dong-wu-fang-gu",
+					"action": "$N左掌画了个圈圈，右掌推出，一招「灵动五方鼓」击向$n$l",
+					"force": 240,
+					"damage_type": "瘀伤"
+				},
+				{
+					"id": "feng-lei-qi-xing-duan",
+					"action": "$N使出「风雷七星断」，身形散作七处同时向$n的$l出掌攻击",
+					"force": 280,
+					"damage_type": "瘀伤"
+				},
+				{
+					"id": "qi-han-jiu-chong-tian",
+					"action": "$N吐气扬声，一招「气撼九重天」双掌并力推出",
+					"force": 320,
+					"damage_type": "瘀伤"
+				}
 			]
 		},
 		{
-			"id": "six-chaos-sword", "name": "六阴追魂剑法", "kind": "specialized", "type": "martial", "enable": ["sword", "parry"],
+			"id": "six-chaos-sword",
+			"name": "六阴追魂剑法",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"sword",
+				"parry"
+			],
 			"legacy_source": "daemon/skill/six-chaos-sword.c",
-			"practice": { "kee": 30, "force": 5, "done": "你按著所学练了一遍六阴追魂剑法。", "fail": "你的内力或气不够，没有办法练习六阴追魂剑。" },
-			"valid_learn": { "max_force": "你的内力不够，没有办法练六阴追魂剑。", "weapon": "你必须先找一把剑才能练剑法。" },
-			"improved_line": "你突然觉得一股恶气冲上心头，只觉得想杀人....", "improved_color": "RED", "improved_every": 10,
+			"practice": {
+				"kee": 30,
+				"force": 5,
+				"done": "你按著所学练了一遍六阴追魂剑法。",
+				"fail": "你的内力或气不够，没有办法练习六阴追魂剑。"
+			},
+			"valid_learn": {
+				"max_force": "你的内力不够，没有办法练六阴追魂剑。",
+				"weapon": "你必须先找一把剑才能练剑法。"
+			},
+			"improved_line": "你突然觉得一股恶气冲上心头，只觉得想杀人....",
+			"improved_color": "RED",
+			"improved_every": 10,
 			"actions": [
-				{ "id": "qun-mo-luan-wu", "action": "$N使一招「群魔乱舞」，手中$w狂风骤雨般地向$n的$l连攻数剑", "damage": 170, "damage_type": "刺伤" },
-				{ "id": "li-gui-chan-shen", "action": "$N身形一转，一招「厉鬼缠身」$w斩向$n的$l", "damage": 60, "damage_type": "刺伤" },
-				{ "id": "bai-gui-ye-xing", "action": "$N舞动$w，一招「百鬼夜行」挟著闪闪剑光刺向$n的$l", "damage_type": "刺伤" },
-				{ "id": "e-gui-lan-lu", "action": "$N手中$w一抖，使出「饿鬼拦路」往$n的$l刺出一剑", "damage": 40, "damage_type": "刺伤" },
-				{ "id": "gui-ying-chuang-chuang", "action": "$N手中$w剑光暴长，一招「鬼影幢幢」往$n$l刺去", "damage": 120, "damage_type": "刺伤" },
-				{ "id": "qiu-fen-gui-chang", "action": "$N手中$w直指$n$l，一招「秋坟鬼唱」发出逼人剑气刺去", "damage": 50, "damage_type": "刺伤" }
+				{
+					"id": "qun-mo-luan-wu",
+					"action": "$N使一招「群魔乱舞」，手中$w狂风骤雨般地向$n的$l连攻数剑",
+					"damage": 170,
+					"damage_type": "刺伤"
+				},
+				{
+					"id": "li-gui-chan-shen",
+					"action": "$N身形一转，一招「厉鬼缠身」$w斩向$n的$l",
+					"damage": 60,
+					"damage_type": "刺伤"
+				},
+				{
+					"id": "bai-gui-ye-xing",
+					"action": "$N舞动$w，一招「百鬼夜行」挟著闪闪剑光刺向$n的$l",
+					"damage_type": "刺伤"
+				},
+				{
+					"id": "e-gui-lan-lu",
+					"action": "$N手中$w一抖，使出「饿鬼拦路」往$n的$l刺出一剑",
+					"damage": 40,
+					"damage_type": "刺伤"
+				},
+				{
+					"id": "gui-ying-chuang-chuang",
+					"action": "$N手中$w剑光暴长，一招「鬼影幢幢」往$n$l刺去",
+					"damage": 120,
+					"damage_type": "刺伤"
+				},
+				{
+					"id": "qiu-fen-gui-chang",
+					"action": "$N手中$w直指$n$l，一招「秋坟鬼唱」发出逼人剑气刺去",
+					"damage": 50,
+					"damage_type": "刺伤"
+				}
 			]
 		},
 		{
-			"id": "pyrobat-steps", "name": "火蝠身法", "kind": "specialized", "type": "martial", "enable": ["dodge", "move"],
+			"id": "pyrobat-steps",
+			"name": "火蝠身法",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"dodge",
+				"move"
+			],
 			"legacy_source": "daemon/skill/pyrobat-steps.c",
-			"practice": { "kee": 30, "fail": "你的体力太差了，不能练火蝠身法。" },
+			"practice": {
+				"kee": 30,
+				"fail": "你的体力太差了，不能练火蝠身法。"
+			},
 			"dodge_messages": [
 				"可是$p侧身一让，使出「寒蝠掠江」，$N这一招扑了个空。",
 				"$p身形微晃，使出「灵蝠轻逝」，有惊无险地避开了$N这一招。",
@@ -260,11 +685,24 @@
 			]
 		},
 		{
-			"id": "stormdance", "name": "七宝天岚舞", "kind": "specialized", "type": "martial", "enable": ["dodge"],
+			"id": "stormdance",
+			"name": "七宝天岚舞",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"dodge"
+			],
 			"legacy_source": "daemon/skill/stormdance.c",
-			"practice": { "sen": 30, "fail": "你的精神太差了，不能练七宝天岚舞。" },
-			"valid_learn": { "gender": "七宝天岚舞只有女性才能练。", "spi": "你的灵性不够，没有办法练七宝天岚舞。" },
-			"improved_line": "由於你勤练舞技，你的容貌提高了", "improved_color": "HIW",
+			"practice": {
+				"sen": 30,
+				"fail": "你的精神太差了，不能练七宝天岚舞。"
+			},
+			"valid_learn": {
+				"gender": "七宝天岚舞只有女性才能练。",
+				"spi": "你的灵性不够，没有办法练七宝天岚舞。"
+			},
+			"improved_line": "由於你勤练舞技，你的容貌提高了",
+			"improved_color": "HIW",
 			"dodge_messages": [
 				"但$n一式「蕙芳下凡」随著轻轻一叹，顺著$N的招式飘出六尺之外！",
 				"$n双脚微动翩然起舞，一招「双成献舞」，堪堪闪过$N的这招！",
@@ -274,149 +712,445 @@
 			]
 		},
 		{
-			"id": "magic", "name": "基本法术", "kind": "basic", "type": "knowledge",
+			"id": "magic",
+			"name": "基本法术",
+			"kind": "basic",
+			"type": "knowledge",
 			"legacy_source": "daemon/skill/magic.c"
 		},
 		{
-			"id": "spells", "name": "基本咒文", "kind": "basic", "type": "knowledge",
+			"id": "spells",
+			"name": "基本咒文",
+			"kind": "basic",
+			"type": "knowledge",
 			"legacy_source": "daemon/skill/spells.c"
 		},
 		{
-			"id": "tao-mystery", "name": "小天魔道", "kind": "basic", "type": "knowledge",
+			"id": "tao-mystery",
+			"name": "小天魔道",
+			"kind": "basic",
+			"type": "knowledge",
 			"legacy_source": "daemon/skill/tao-mystery.c"
 		},
 		{
-			"id": "magic-array", "name": "奇门遁甲", "kind": "specialized", "type": "knowledge", "enable": ["spells"],
+			"id": "magic-array",
+			"name": "奇门遁甲",
+			"kind": "specialized",
+			"type": "knowledge",
+			"enable": [
+				"spells"
+			],
 			"legacy_source": "daemon/skill/magic-array.c",
-			"practice": { "refuses": true, "fail": "法术类技能必须用学的或是从实战中获取经验。" },
-			"valid_learn": { "effective_skill": "你的小天魔道修为不够，无法领悟更高深的奇门遁甲之术。" },
-			"cast": ["dun", "saveme"]
+			"practice": {
+				"refuses": true,
+				"fail": "法术类技能必须用学的或是从实战中获取经验。"
+			},
+			"valid_learn": {
+				"effective_skill": "你的小天魔道修为不够，无法领悟更高深的奇门遁甲之术。"
+			},
+			"cast": [
+				"dun",
+				"saveme"
+			]
 		},
 		{
-			"id": "juechen-force", "name": "绝尘心法", "kind": "specialized", "type": "martial", "enable": ["force"],
+			"id": "juechen-force",
+			"name": "绝尘心法",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"force"
+			],
 			"legacy_source": "daemon/skill/juechen-force.c",
 			"standard_force_hit": true,
-			"practice": { "refuses": true, "fail": "绝尘心法只能用学的或是从运用(exert)中增加熟练度。" }
+			"practice": {
+				"refuses": true,
+				"fail": "绝尘心法只能用学的或是从运用(exert)中增加熟练度。"
+			}
 		},
 		{
-			"id": "jingang-staff", "name": "金刚杖法", "kind": "specialized", "type": "martial", "enable": ["staff", "parry"],
+			"id": "jingang-staff",
+			"name": "金刚杖法",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"staff",
+				"parry"
+			],
 			"legacy_source": "daemon/skill/jingang-staff.c",
 			"practice": {
-				"weapon": "staff", "weapon_fail": "你必须先找一根木杖或者是类似的武器，才能练杖法。",
-				"kee": 60, "fail": "你的体力不够练这门杖法，还是先休息休息吧。"
+				"weapon": "staff",
+				"weapon_fail": "你必须先找一根木杖或者是类似的武器，才能练杖法。",
+				"kee": 60,
+				"fail": "你的体力不够练这门杖法，还是先休息休息吧。"
 			},
-			"valid_learn": { "strength": "你的膂力还不够，也许该练一练内力来增强力量。" },
+			"valid_learn": {
+				"strength": "你的膂力还不够，也许该练一练内力来增强力量。"
+			},
 			"actions": [
-				{ "id": "tian-guang-zha-xian", "action": "$N使一招「天光乍现」，手中$w扫向$n下盘！", "damage": 40, "damage_type": "挫伤" },
-				{ "id": "yu-hou-chu-qing", "action": "$N挥起$w，一招「雨後初晴」攻向$n$l！", "damage": 40, "damage_type": "挫伤" },
-				{ "id": "fu-yun-xie-yi", "action": "$N横过手中$w，使出「浮云写意」击向$n$l！", "damage": 40, "damage_type": "挫伤" },
-				{ "id": "you-long-chuan-yun", "action": "$N使出一招「游龙穿云」，$w一挺撞向$n$l！", "damage": 40, "damage_type": "挫伤" }
+				{
+					"id": "tian-guang-zha-xian",
+					"action": "$N使一招「天光乍现」，手中$w扫向$n下盘！",
+					"damage": 40,
+					"damage_type": "挫伤"
+				},
+				{
+					"id": "yu-hou-chu-qing",
+					"action": "$N挥起$w，一招「雨後初晴」攻向$n$l！",
+					"damage": 40,
+					"damage_type": "挫伤"
+				},
+				{
+					"id": "fu-yun-xie-yi",
+					"action": "$N横过手中$w，使出「浮云写意」击向$n$l！",
+					"damage": 40,
+					"damage_type": "挫伤"
+				},
+				{
+					"id": "you-long-chuan-yun",
+					"action": "$N使出一招「游龙穿云」，$w一挺撞向$n$l！",
+					"damage": 40,
+					"damage_type": "挫伤"
+				}
 			]
 		},
 		{
-			"id": "cloudstaff", "name": "流云杖法", "kind": "specialized", "type": "martial", "enable": ["staff", "parry"],
+			"id": "cloudstaff",
+			"name": "流云杖法",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"staff",
+				"parry"
+			],
 			"legacy_source": "daemon/skill/cloudstaff.c",
 			"practice": {
-				"weapon": "staff", "weapon_fail": "你必须先找一根木杖或者是类似的武器，才能练杖法。",
-				"kee": 60, "fail": "你的体力不够练这门杖法，还是先休息休息吧。"
+				"weapon": "staff",
+				"weapon_fail": "你必须先找一根木杖或者是类似的武器，才能练杖法。",
+				"kee": 60,
+				"fail": "你的体力不够练这门杖法，还是先休息休息吧。"
 			},
-			"valid_learn": { "strength": "你的膂力还不够，也许该练一练内力来增强力量。" },
+			"valid_learn": {
+				"strength": "你的膂力还不够，也许该练一练内力来增强力量。"
+			},
 			"actions": [
-				{ "id": "tian-guang-zha-xian", "action": "$N使一招「天光乍现」，手中$w扫向$n下盘！", "damage": 40, "damage_type": "挫伤" },
-				{ "id": "yu-hou-chu-qing", "action": "$N挥起$w，一招「雨後初晴」攻向$n$l！", "damage": 40, "damage_type": "挫伤" },
-				{ "id": "fu-yun-xie-yi", "action": "$N横过手中$w，使出「浮云写意」击向$n$l！", "damage": 40, "damage_type": "挫伤" },
-				{ "id": "you-long-chuan-yun", "action": "$N使出一招「游龙穿云」，$w一挺撞向$n$l！", "damage": 40, "damage_type": "挫伤" }
+				{
+					"id": "tian-guang-zha-xian",
+					"action": "$N使一招「天光乍现」，手中$w扫向$n下盘！",
+					"damage": 40,
+					"damage_type": "挫伤"
+				},
+				{
+					"id": "yu-hou-chu-qing",
+					"action": "$N挥起$w，一招「雨後初晴」攻向$n$l！",
+					"damage": 40,
+					"damage_type": "挫伤"
+				},
+				{
+					"id": "fu-yun-xie-yi",
+					"action": "$N横过手中$w，使出「浮云写意」击向$n$l！",
+					"damage": 40,
+					"damage_type": "挫伤"
+				},
+				{
+					"id": "you-long-chuan-yun",
+					"action": "$N使出一招「游龙穿云」，$w一挺撞向$n$l！",
+					"damage": 40,
+					"damage_type": "挫伤"
+				}
 			]
 		},
 		{
-			"id": "lotusforce", "name": "莲华心法", "kind": "specialized", "type": "martial", "enable": ["force"],
+			"id": "lotusforce",
+			"name": "莲华心法",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"force"
+			],
 			"legacy_source": "daemon/skill/lotusforce.c",
 			"standard_force_hit": true,
-			"exert": ["heal", "lifeheal"],
-			"practice": { "refuses": true, "fail": "莲华心法只能用学的，或是从运用(exert)中增加熟练度。" },
-			"valid_learn": { "effective_skill": "你的大乘佛法修为不够，无法领会更高深的莲华心法。" }
+			"exert": [
+				"heal",
+				"lifeheal"
+			],
+			"practice": {
+				"refuses": true,
+				"fail": "莲华心法只能用学的，或是从运用(exert)中增加熟练度。"
+			},
+			"valid_learn": {
+				"effective_skill": "你的大乘佛法修为不够，无法领会更高深的莲华心法。"
+			}
 		},
 		{
-			"id": "buddhism", "name": "大乘佛法", "kind": "basic", "type": "knowledge",
+			"id": "buddhism",
+			"name": "大乘佛法",
+			"kind": "basic",
+			"type": "knowledge",
 			"legacy_source": "daemon/skill/buddhism.c",
-			"valid_learn": { "max_bellicosity": "你的杀气太重，无法修炼大乘佛法。" }
+			"valid_learn": {
+				"max_bellicosity": "你的杀气太重，无法修炼大乘佛法。"
+			}
 		},
 		{
-			"id": "chanting", "name": "诵经", "kind": "basic", "type": "knowledge",
+			"id": "chanting",
+			"name": "诵经",
+			"kind": "basic",
+			"type": "knowledge",
 			"legacy_source": "daemon/skill/chanting.c"
 		},
 		{
-			"id": "essencemagic", "name": "八识神通", "kind": "specialized", "type": "knowledge", "enable": ["magic"],
+			"id": "essencemagic",
+			"name": "八识神通",
+			"kind": "specialized",
+			"type": "knowledge",
+			"enable": [
+				"magic"
+			],
 			"legacy_source": "daemon/skill/essencemagic.c",
-			"valid_learn": { "effective_skill": "你的佛法修为还不够高深，无法学习八识神通。" },
-			"conjure": ["heart_sense", "drift_sense", "void_sense"]
+			"valid_learn": {
+				"effective_skill": "你的佛法修为还不够高深，无法学习八识神通。"
+			},
+			"conjure": [
+				"heart_sense",
+				"drift_sense",
+				"void_sense"
+			]
 		},
 		{
-			"id": "whip", "name": "基本鞭法", "kind": "basic", "type": "martial",
+			"id": "whip",
+			"name": "基本鞭法",
+			"kind": "basic",
+			"type": "martial",
 			"legacy_source": "daemon/skill/whip.c"
 		},
 		{
-			"id": "tenderzhi", "name": "柔虹指", "kind": "specialized", "type": "martial", "enable": ["unarmed"],
+			"id": "tenderzhi",
+			"name": "柔虹指",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"unarmed"
+			],
 			"legacy_source": "daemon/skill/tenderzhi.c",
-			"practice": { "force": 10, "sen": 30, "sen_first": true, "force_fail": "你的内力不够了。", "sen_fail": "你的精神无法集中了，休息一下再练吧。" },
-			"valid_learn": { "gender": "柔虹指是只有女子才能练的武功。", "empty_hands": "练柔虹指必须空手。" },
+			"practice": {
+				"force": 10,
+				"sen": 30,
+				"sen_first": true,
+				"force_fail": "你的内力不够了。",
+				"sen_fail": "你的精神无法集中了，休息一下再练吧。"
+			},
+			"valid_learn": {
+				"gender": "柔虹指是只有女子才能练的武功。",
+				"empty_hands": "练柔虹指必须空手。"
+			},
 			"actions": [
-				{ "id": "ju-lou-cai-yue", "action": "$N左手一挥，一招「菊楼采月」右手点向$n$l", "force": 80, "damage_type": "刺伤", "weapon": "右手食指" },
-				{ "id": "xue-qiao-jian-mei", "action": "$N使一招「雪桥翦梅」，身影忽前忽後，突然一转身左手往$n的$l点去", "force": 90, "damage_type": "刺伤", "weapon": "左手中指" },
-				{ "id": "liu-ting-zan-hua", "action": "$N身法稍顿，左手一扬使出「柳亭簪花」往$n的$l点去", "force": 140, "damage_type": "刺伤", "weapon": "左手中指" },
-				{ "id": "tao-fen-pu-die", "action": "只见$N纤腰一摆，陡然滑出数尺，右手顺著来势一招「桃坟扑蝶」往$n的$l点去", "force": 90, "damage_type": "刺伤", "weapon": "右手食指" }
+				{
+					"id": "ju-lou-cai-yue",
+					"action": "$N左手一挥，一招「菊楼采月」右手点向$n$l",
+					"force": 80,
+					"damage_type": "刺伤",
+					"weapon": "右手食指"
+				},
+				{
+					"id": "xue-qiao-jian-mei",
+					"action": "$N使一招「雪桥翦梅」，身影忽前忽後，突然一转身左手往$n的$l点去",
+					"force": 90,
+					"damage_type": "刺伤",
+					"weapon": "左手中指"
+				},
+				{
+					"id": "liu-ting-zan-hua",
+					"action": "$N身法稍顿，左手一扬使出「柳亭簪花」往$n的$l点去",
+					"force": 140,
+					"damage_type": "刺伤",
+					"weapon": "左手中指"
+				},
+				{
+					"id": "tao-fen-pu-die",
+					"action": "只见$N纤腰一摆，陡然滑出数尺，右手顺著来势一招「桃坟扑蝶」往$n的$l点去",
+					"force": 90,
+					"damage_type": "刺伤",
+					"weapon": "右手食指"
+				}
 			]
 		},
 		{
-			"id": "snowwhip", "name": "寒雪鞭法", "kind": "specialized", "type": "martial", "enable": ["whip"],
+			"id": "snowwhip",
+			"name": "寒雪鞭法",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"whip"
+			],
 			"legacy_source": "daemon/skill/snowwhip.c",
-			"practice": { "kee": 30, "force": 5, "done": "你按著所学练了一遍寒雪鞭法。", "fail": "你的内力或气不够，没有办法练习寒雪鞭法。" },
-			"valid_learn": { "max_force": "你的内力不够，没有办法练寒雪鞭法, 多练些内力再来吧。", "weapon": "你必须先找一条鞭子才能练鞭法。" },
+			"practice": {
+				"kee": 30,
+				"force": 5,
+				"done": "你按著所学练了一遍寒雪鞭法。",
+				"fail": "你的内力或气不够，没有办法练习寒雪鞭法。"
+			},
+			"valid_learn": {
+				"max_force": "你的内力不够，没有办法练寒雪鞭法, 多练些内力再来吧。",
+				"weapon": "你必须先找一条鞭子才能练鞭法。"
+			},
 			"actions": [
-				{ "id": "han-feng-qi-xi", "action": "$N使一招「寒风起兮」，手中$w抖得笔直向$n的$l连刺数鞭", "damage": 30, "damage_type": "刺伤" },
-				{ "id": "man-tian-fei-xue", "action": "$N身形一转，一招「漫天飞雪」$w幻出满天鞭影，虚虚实实地袭向$n的$l", "damage": 20, "damage_type": "瘀伤" },
-				{ "id": "xue-hua-pian-pian", "action": "$N力贯$w，一招「雪花翩翩」点点鞭影飘浮不定地点向$n的$l", "damage": 25, "damage_type": "刺伤" },
-				{ "id": "ji-xue-san-chi", "action": "$N手中$w一抖，一招「积雪三尺」以一个怪异的角度往$n下盘卷去", "damage": 30, "damage_type": "瘀伤" },
-				{ "id": "kuang-feng-zhou-xue", "action": "$N手中一紧，使招「狂风骤雪」，手里$w一鞭接著一鞭不停地抽向$n的$l", "damage": 100, "damage_type": "鞭伤" },
-				{ "id": "feng-xue-jiao-jia", "action": "$N一招「风雪交加」手中$w舞出一片鞭影扫向$n全身", "damage": 150, "damage_type": "瘀伤" }
+				{
+					"id": "han-feng-qi-xi",
+					"action": "$N使一招「寒风起兮」，手中$w抖得笔直向$n的$l连刺数鞭",
+					"damage": 30,
+					"damage_type": "刺伤"
+				},
+				{
+					"id": "man-tian-fei-xue",
+					"action": "$N身形一转，一招「漫天飞雪」$w幻出满天鞭影，虚虚实实地袭向$n的$l",
+					"damage": 20,
+					"damage_type": "瘀伤"
+				},
+				{
+					"id": "xue-hua-pian-pian",
+					"action": "$N力贯$w，一招「雪花翩翩」点点鞭影飘浮不定地点向$n的$l",
+					"damage": 25,
+					"damage_type": "刺伤"
+				},
+				{
+					"id": "ji-xue-san-chi",
+					"action": "$N手中$w一抖，一招「积雪三尺」以一个怪异的角度往$n下盘卷去",
+					"damage": 30,
+					"damage_type": "瘀伤"
+				},
+				{
+					"id": "kuang-feng-zhou-xue",
+					"action": "$N手中一紧，使招「狂风骤雪」，手里$w一鞭接著一鞭不停地抽向$n的$l",
+					"damage": 100,
+					"damage_type": "鞭伤"
+				},
+				{
+					"id": "feng-xue-jiao-jia",
+					"action": "$N一招「风雪交加」手中$w舞出一片鞭影扫向$n全身",
+					"damage": 150,
+					"damage_type": "瘀伤"
+				}
 			]
 		},
 		{
-			"id": "iceforce", "name": "意寒功", "kind": "specialized", "type": "martial", "enable": ["force"],
-			"legacy_source": "daemon/skill/iceforce.c", "standard_force_hit": true,
-			"force_hit_wound": { "condition": "iceshock", "factor_divisor": 3, "message": "$N的招式挟著一股阴寒无比的劲风使得$n不禁打了个寒噤。" },
-			"exert": ["chillgaze"],
-			"practice": { "refuses": true, "fail": "意寒功只能用学的，或是从运用(exert)中增加熟练度。" }
+			"id": "iceforce",
+			"name": "意寒功",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"force"
+			],
+			"legacy_source": "daemon/skill/iceforce.c",
+			"standard_force_hit": true,
+			"force_hit_wound": {
+				"condition": "iceshock",
+				"factor_divisor": 3,
+				"message": "$N的招式挟著一股阴寒无比的劲风使得$n不禁打了个寒噤。"
+			},
+			"exert": [
+				"chillgaze"
+			],
+			"practice": {
+				"refuses": true,
+				"fail": "意寒功只能用学的，或是从运用(exert)中增加熟练度。"
+			}
 		},
 		{
-			"id": "snowshade-force", "name": "雪影心法", "kind": "specialized", "type": "martial", "enable": ["force"],
-			"legacy_source": "daemon/skill/snowshade-force.c", "standard_force_hit": true,
-			"practice": { "refuses": true, "fail": "天山雪影心法只能用学的或是从运用(exert)中增加熟练度。" }
+			"id": "snowshade-force",
+			"name": "雪影心法",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"force"
+			],
+			"legacy_source": "daemon/skill/snowshade-force.c",
+			"standard_force_hit": true,
+			"practice": {
+				"refuses": true,
+				"fail": "天山雪影心法只能用学的或是从运用(exert)中增加熟练度。"
+			}
 		},
 		{
-			"id": "snowshade-sword", "name": "雪影剑法", "kind": "specialized", "type": "martial", "enable": ["sword", "parry"],
+			"id": "snowshade-sword",
+			"name": "雪影剑法",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"sword",
+				"parry"
+			],
 			"legacy_source": "daemon/skill/snowshade-sword.c",
-			"practice": { "kee": 30, "force": 3, "done": "你按著所学练了一遍雪影剑法。", "fail": "你的内力或气不够，没有办法练习雪影剑法。" },
+			"practice": {
+				"kee": 30,
+				"force": 3,
+				"done": "你按著所学练了一遍雪影剑法。",
+				"fail": "你的内力或气不够，没有办法练习雪影剑法。"
+			},
 			"valid_learn": {
 				"max_force": "你的内力不够，没有办法练雪影剑法。",
 				"mapped": "雪影剑法必须配合天山魔教的独门雪影心法才能练。",
 				"weapon": "你必须先找一把剑才能练剑法。"
 			},
 			"actions": [
-				{ "id": "hui-guang-huan-dian", "action": "$N使一招「回光幻电」，手中$w幻一条疾光刺向$n的$l", "damage": 30, "damage_type": "刺伤" },
-				{ "id": "feng-shuang-sui-ying", "action": "$N使出天山雪影剑中的「风霜碎影」，$w连挥剑光霍霍斩向$n的$l", "damage": 30, "damage_type": "割伤" },
-				{ "id": "can-yang-zhao-xue", "action": "$N一招「残阳照雪」，纵身飘开数尺，手中$w斩向$n的$l", "damage": 20, "damage_type": "割伤" },
-				{ "id": "bing-gu-chu-hong", "action": "$N手中$w中宫直进，一式「冰谷初虹」对准$n的$l刺出一剑", "damage_type": "刺伤" },
-				{ "id": "chang-kong-lei-yin", "action": "$N纵身一跃，手中$w一招「长空雷隐」对准$n的$l斜斜刺出一剑", "damage_type": "刺伤" },
-				{ "id": "duan-shi-lang-yan", "action": "$N的$w凭空一指，一招「断石狼烟」刺向$n的$l", "damage": 40, "damage_type": "刺伤" }
+				{
+					"id": "hui-guang-huan-dian",
+					"action": "$N使一招「回光幻电」，手中$w幻一条疾光刺向$n的$l",
+					"damage": 30,
+					"damage_type": "刺伤"
+				},
+				{
+					"id": "feng-shuang-sui-ying",
+					"action": "$N使出天山雪影剑中的「风霜碎影」，$w连挥剑光霍霍斩向$n的$l",
+					"damage": 30,
+					"damage_type": "割伤"
+				},
+				{
+					"id": "can-yang-zhao-xue",
+					"action": "$N一招「残阳照雪」，纵身飘开数尺，手中$w斩向$n的$l",
+					"damage": 20,
+					"damage_type": "割伤"
+				},
+				{
+					"id": "bing-gu-chu-hong",
+					"action": "$N手中$w中宫直进，一式「冰谷初虹」对准$n的$l刺出一剑",
+					"damage_type": "刺伤"
+				},
+				{
+					"id": "chang-kong-lei-yin",
+					"action": "$N纵身一跃，手中$w一招「长空雷隐」对准$n的$l斜斜刺出一剑",
+					"damage_type": "刺伤"
+				},
+				{
+					"id": "duan-shi-lang-yan",
+					"action": "$N的$w凭空一指，一招「断石狼烟」刺向$n的$l",
+					"damage": 40,
+					"damage_type": "刺伤"
+				}
 			]
 		},
 		{
-			"id": "mysterrier", "name": "步玄七诀", "kind": "specialized", "type": "martial", "enable": ["dodge", "move"],
+			"id": "mysterrier",
+			"name": "步玄七诀",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"dodge",
+				"move"
+			],
 			"legacy_source": "daemon/skill/mysterrier.c",
-			"perform": ["hasten"],
-			"practice": { "kee": 20, "sen": 20, "fail": "你的气或神不够，不能练步玄七诀。" },
-			"valid_learn": { "mapped": "步玄七诀必须配合步玄心法使用。", "effective_skill": "你的音律之学修为不够，无法领悟更高深的步玄七诀。" },
+			"perform": [
+				"hasten"
+			],
+			"practice": {
+				"kee": 20,
+				"sen": 20,
+				"fail": "你的气或神不够，不能练步玄七诀。"
+			},
+			"valid_learn": {
+				"mapped": "步玄七诀必须配合步玄心法使用。",
+				"effective_skill": "你的音律之学修为不够，无法领悟更高深的步玄七诀。"
+			},
 			"dodge_messages": [
 				"$n身影一转，轻易地避开了这一招。",
 				"$n身法飘忽，左一点，右一顿，早已闪在一旁。",
@@ -426,27 +1160,86 @@
 			]
 		},
 		{
-			"id": "mystforce", "name": "步玄心法", "kind": "specialized", "type": "martial", "enable": ["force"],
-			"legacy_source": "daemon/skill/mystforce.c", "standard_force_hit": true,
-			"practice": { "refuses": true, "fail": "步玄心法只能学，或是从运用(exert)中增加熟练度。" }
+			"id": "mystforce",
+			"name": "步玄心法",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"force"
+			],
+			"legacy_source": "daemon/skill/mystforce.c",
+			"standard_force_hit": true,
+			"practice": {
+				"refuses": true,
+				"fail": "步玄心法只能学，或是从运用(exert)中增加熟练度。"
+			}
 		},
 		{
-			"id": "mystsword", "name": "小步玄剑", "kind": "specialized", "type": "martial", "enable": ["sword", "parry"],
+			"id": "mystsword",
+			"name": "小步玄剑",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"sword",
+				"parry"
+			],
 			"legacy_source": "daemon/skill/mystsword.c",
-			"practice": { "kee": 30, "force": 5, "done": "你按著所学练了一遍小步玄剑。", "fail": "你的内力或气不够，没有办法练习小步玄剑。" },
-			"valid_learn": { "raw_skill": "你的步玄心法火候还不够。", "max_force": "你的内力不够，没有办法练小步玄剑。", "weapon": "你必须先找一把剑才能练剑法。" },
+			"practice": {
+				"kee": 30,
+				"force": 5,
+				"done": "你按著所学练了一遍小步玄剑。",
+				"fail": "你的内力或气不够，没有办法练习小步玄剑。"
+			},
+			"valid_learn": {
+				"raw_skill": "你的步玄心法火候还不够。",
+				"max_force": "你的内力不够，没有办法练小步玄剑。",
+				"weapon": "你必须先找一把剑才能练剑法。"
+			},
 			"actions": [
-				{ "id": "mu-xue-san-tan", "action": "$N使一招「暮雪三叹」，手中$w急如骤雨般地刺向$n$l", "damage": 60, "damage_type": "刺伤" },
-				{ "id": "chu-zi-nong-di", "action": "$N身形一晃，一招「处子弄笛」向$n$l刺出一剑", "damage": 80, "damage_type": "刺伤" },
-				{ "id": "yang-gu-bai-lian", "action": "$N舞动$w，一招「阳谷白练」挟著闪闪剑光刺向$n的$l", "damage_type": "刺伤" },
-				{ "id": "xun-rong-zhu-dian", "action": "$N手中$w一个圈转，使出「薰容逐电」中锋直进刺向$n的$l", "damage": 100, "damage_type": "刺伤" }
+				{
+					"id": "mu-xue-san-tan",
+					"action": "$N使一招「暮雪三叹」，手中$w急如骤雨般地刺向$n$l",
+					"damage": 60,
+					"damage_type": "刺伤"
+				},
+				{
+					"id": "chu-zi-nong-di",
+					"action": "$N身形一晃，一招「处子弄笛」向$n$l刺出一剑",
+					"damage": 80,
+					"damage_type": "刺伤"
+				},
+				{
+					"id": "yang-gu-bai-lian",
+					"action": "$N舞动$w，一招「阳谷白练」挟著闪闪剑光刺向$n的$l",
+					"damage_type": "刺伤"
+				},
+				{
+					"id": "xun-rong-zhu-dian",
+					"action": "$N手中$w一个圈转，使出「薰容逐电」中锋直进刺向$n的$l",
+					"damage": 100,
+					"damage_type": "刺伤"
+				}
 			]
 		},
 		{
-			"id": "spicyclaw", "name": "油流麻香手", "kind": "specialized", "type": "martial", "enable": ["unarmed"],
+			"id": "spicyclaw",
+			"name": "油流麻香手",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"unarmed"
+			],
 			"legacy_source": "daemon/skill/spicyclaw.c",
-			"practice": { "kee": 25, "force": 3, "fail": "你的体力不够了，休息一下再练吧。", "force_fail": "你的内力不够了，休息一下再练吧。" },
-			"valid_learn": { "empty_hands": "练油流麻香手必须空手。", "max_force": "你的内力太弱，无法练油流麻香手。" },
+			"practice": {
+				"kee": 25,
+				"force": 3,
+				"fail": "你的体力不够了，休息一下再练吧。",
+				"force_fail": "你的内力不够了，休息一下再练吧。"
+			},
+			"valid_learn": {
+				"empty_hands": "练油流麻香手必须空手。",
+				"max_force": "你的内力太弱，无法练油流麻香手。"
+			},
 			"hit_wound": {
 				"at_least": 100,
 				"messages": [
@@ -456,30 +1249,113 @@
 				]
 			},
 			"actions": [
-				{ "id": "du-long-pu-zhou", "action": "$N左掌微分，右手一长使出一招「毒龙扑舟」，抓向$n的$l", "force": 160, "damage_type": "抓伤" },
-				{ "id": "cuan-guo-shou", "action": "$N倏地一个转身，双手一翻「撺锅手」直掼$n$l", "force": 140, "damage_type": "瘀伤" },
-				{ "id": "cuo-hui-shou", "action": "$N身子微斜，随即跨出一步，左手忽掌忽爪使出「撮灰手」，拍向$n的$l", "force": 120, "damage_type": "瘀伤" },
-				{ "id": "qing-she-shi-duan-jin", "action": "$N使出「青蛇十段锦」，双手滑溜异常对准$n的$l抓去", "force": 140, "damage_type": "抓伤" },
-				{ "id": "liang-shang-jun-zi", "action": "$N左手虚晃，右掌飘飘，一招「梁上君子」击向$n$l", "force": 150, "damage_type": "瘀伤" },
-				{ "id": "bo-cao-xun-lv", "action": "$N使出「拨草寻履」，凌空跃起，冷不防在落地前对准$n$l踢出一脚", "force": 180, "damage_type": "瘀伤" },
-				{ "id": "sui-gun-shang-shen", "action": "$N右手在$n$l划过，随後一招「随棍上身」左爪又向同一方位抓到", "force": 100, "damage_type": "抓伤" }
+				{
+					"id": "du-long-pu-zhou",
+					"action": "$N左掌微分，右手一长使出一招「毒龙扑舟」，抓向$n的$l",
+					"force": 160,
+					"damage_type": "抓伤"
+				},
+				{
+					"id": "cuan-guo-shou",
+					"action": "$N倏地一个转身，双手一翻「撺锅手」直掼$n$l",
+					"force": 140,
+					"damage_type": "瘀伤"
+				},
+				{
+					"id": "cuo-hui-shou",
+					"action": "$N身子微斜，随即跨出一步，左手忽掌忽爪使出「撮灰手」，拍向$n的$l",
+					"force": 120,
+					"damage_type": "瘀伤"
+				},
+				{
+					"id": "qing-she-shi-duan-jin",
+					"action": "$N使出「青蛇十段锦」，双手滑溜异常对准$n的$l抓去",
+					"force": 140,
+					"damage_type": "抓伤"
+				},
+				{
+					"id": "liang-shang-jun-zi",
+					"action": "$N左手虚晃，右掌飘飘，一招「梁上君子」击向$n$l",
+					"force": 150,
+					"damage_type": "瘀伤"
+				},
+				{
+					"id": "bo-cao-xun-lv",
+					"action": "$N使出「拨草寻履」，凌空跃起，冷不防在落地前对准$n$l踢出一脚",
+					"force": 180,
+					"damage_type": "瘀伤"
+				},
+				{
+					"id": "sui-gun-shang-shen",
+					"action": "$N右手在$n$l划过，随後一招「随棍上身」左爪又向同一方位抓到",
+					"force": 100,
+					"damage_type": "抓伤"
+				}
 			]
 		},
 		{
-			"id": "shortsong-blade", "name": "短歌刀法", "kind": "specialized", "type": "martial", "enable": ["blade", "parry"],
+			"id": "shortsong-blade",
+			"name": "短歌刀法",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"blade",
+				"parry"
+			],
 			"legacy_source": "daemon/skill/shortsong-blade.c",
 			"actions": [
-				{ "id": "dui-jiu-dang-ge", "action": "$N使一招「对酒当歌」，手中$w风似地向$n的$l斩去！", "damage": 70, "damage_type": "割伤" },
-				{ "id": "ren-sheng-ji-he", "action": "$N弯刀似月，$w随著一招「人生几何」由下而上撩往$n的$l", "damage": 40, "damage_type": "割伤" },
-				{ "id": "pi-ru-zhao-lu", "action": "$N身形一转，一招「譬如朝露」$w如朝露闪烁，斩向$n的$l", "damage": 20, "damage_type": "割伤" },
-				{ "id": "qu-ri-ku-duo", "action": "$N舞动$w，一招「去日苦多」往$n的$l斜斜砍出一刀", "damage_type": "割伤" },
-				{ "id": "kai-dang-yi-kang", "action": "$N手中$w一晃，一招「慨当以慷」迅捷无伦地劈向$n的$l", "damage": 70, "damage_type": "割伤" },
-				{ "id": "you-si-nan-wang", "action": "$N提气丹田，身型咋展，一招「忧思难忘」直劈$n$l", "damage": 30, "damage_type": "割伤" },
-				{ "id": "he-yi-jie-you", "action": "$N移步侧身，使一招「何以解忧」刀光霍霍斩向$n的$l", "damage": 50, "damage_type": "割伤" }
+				{
+					"id": "dui-jiu-dang-ge",
+					"action": "$N使一招「对酒当歌」，手中$w风似地向$n的$l斩去！",
+					"damage": 70,
+					"damage_type": "割伤"
+				},
+				{
+					"id": "ren-sheng-ji-he",
+					"action": "$N弯刀似月，$w随著一招「人生几何」由下而上撩往$n的$l",
+					"damage": 40,
+					"damage_type": "割伤"
+				},
+				{
+					"id": "pi-ru-zhao-lu",
+					"action": "$N身形一转，一招「譬如朝露」$w如朝露闪烁，斩向$n的$l",
+					"damage": 20,
+					"damage_type": "割伤"
+				},
+				{
+					"id": "qu-ri-ku-duo",
+					"action": "$N舞动$w，一招「去日苦多」往$n的$l斜斜砍出一刀",
+					"damage_type": "割伤"
+				},
+				{
+					"id": "kai-dang-yi-kang",
+					"action": "$N手中$w一晃，一招「慨当以慷」迅捷无伦地劈向$n的$l",
+					"damage": 70,
+					"damage_type": "割伤"
+				},
+				{
+					"id": "you-si-nan-wang",
+					"action": "$N提气丹田，身型咋展，一招「忧思难忘」直劈$n$l",
+					"damage": 30,
+					"damage_type": "割伤"
+				},
+				{
+					"id": "he-yi-jie-you",
+					"action": "$N移步侧身，使一招「何以解忧」刀光霍霍斩向$n的$l",
+					"damage": 50,
+					"damage_type": "割伤"
+				}
 			]
 		},
 		{
-			"id": "fall-steps", "name": "秋风步", "kind": "specialized", "type": "martial", "enable": ["dodge", "move"],
+			"id": "fall-steps",
+			"name": "秋风步",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"dodge",
+				"move"
+			],
 			"legacy_source": "daemon/skill/fall-steps.c",
 			"dodge_messages": [
 				"$n一招「秋风起兮白云飞」轻轻巧巧地避了开去。",
@@ -494,29 +1370,140 @@
 			]
 		},
 		{
-			"id": "bloodystrike", "name": "密宗大手印", "kind": "specialized", "type": "martial", "enable": ["unarmed"],
+			"id": "bloodystrike",
+			"name": "密宗大手印",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"unarmed"
+			],
 			"legacy_source": "daemon/skill/bloodystrike.c",
-			"practice": { "kee": 30, "force": 5, "fail": "你的体力不够了，休息一下再练吧。", "force_fail": "你的内力不够了，休息一下再练吧。" },
-			"valid_learn": { "empty_hands": "练密宗大手印必须空手。" },
+			"practice": {
+				"kee": 30,
+				"force": 5,
+				"fail": "你的体力不够了，休息一下再练吧。",
+				"force_fail": "你的内力不够了，休息一下再练吧。"
+			},
+			"valid_learn": {
+				"empty_hands": "练密宗大手印必须空手。"
+			},
 			"actions": [
-				{ "id": "ku-hai-duan-wu-ya", "action": "$N使出一招「苦海端无涯」，左掌虚幌，右掌穿出击向$n的$l", "force": 50, "damage_type": "瘀伤" },
-				{ "id": "di-yu-si-you-men", "action": "$N使出一招「地狱似有门」，左掌化虚为实击向$n的$l", "force": 70, "damage_type": "瘀伤" },
-				{ "id": "tian-tang-que-wu-lu", "action": "$N使出密宗大手印中的「天堂却无路」，一掌拍向$n的$l", "force": 50, "damage_type": "瘀伤" },
-				{ "id": "mi-zong-wei-du-zun", "action": "$N双掌一错，使出「密宗为独尊」，对准$n的$l连续拍出", "force": 160, "damage_type": "瘀伤" },
-				{ "id": "wan-nian-jie-shi-kong", "action": "$N左掌立于胸前，右掌推出，一招「万念皆是空」击向$n$l", "force": 140, "damage_type": "瘀伤" },
-				{ "id": "fo-yun-yi-sha-zhi-sha", "action": "$N使出「佛云以杀止杀」，身形凌空飞起，从空中当头向$n的$l出掌攻击", "force": 280, "damage_type": "瘀伤" }
+				{
+					"id": "ku-hai-duan-wu-ya",
+					"action": "$N使出一招「苦海端无涯」，左掌虚幌，右掌穿出击向$n的$l",
+					"force": 50,
+					"damage_type": "瘀伤"
+				},
+				{
+					"id": "di-yu-si-you-men",
+					"action": "$N使出一招「地狱似有门」，左掌化虚为实击向$n的$l",
+					"force": 70,
+					"damage_type": "瘀伤"
+				},
+				{
+					"id": "tian-tang-que-wu-lu",
+					"action": "$N使出密宗大手印中的「天堂却无路」，一掌拍向$n的$l",
+					"force": 50,
+					"damage_type": "瘀伤"
+				},
+				{
+					"id": "mi-zong-wei-du-zun",
+					"action": "$N双掌一错，使出「密宗为独尊」，对准$n的$l连续拍出",
+					"force": 160,
+					"damage_type": "瘀伤"
+				},
+				{
+					"id": "wan-nian-jie-shi-kong",
+					"action": "$N左掌立于胸前，右掌推出，一招「万念皆是空」击向$n$l",
+					"force": 140,
+					"damage_type": "瘀伤"
+				},
+				{
+					"id": "fo-yun-yi-sha-zhi-sha",
+					"action": "$N使出「佛云以杀止杀」，身形凌空飞起，从空中当头向$n的$l出掌攻击",
+					"force": 280,
+					"damage_type": "瘀伤"
+				}
 			]
 		},
 		{
-			"id": "iron-cloth", "name": "铁布衫", "kind": "basic", "type": "martial",
+			"id": "iron-cloth",
+			"name": "铁布衫",
+			"kind": "basic",
+			"type": "martial",
 			"legacy_source": "daemon/skill/iron-cloth.c"
 		},
 		{
-			"id": "wu-shun", "name": "小无相功", "kind": "specialized", "type": "martial", "enable": ["force"],
+			"id": "wu-shun",
+			"name": "小无相功",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"force"
+			],
 			"legacy_source": "daemon/skill/wu-shun.c",
 			"standard_force_hit": true,
-			"practice": { "refuses": true, "fail": "小无相功只能用学的或是从运用(exert)中增加熟练度。" },
-			"valid_learn": { "effective_skill": "你的文学素养不够无法提升小无相功的造诣。" }
+			"practice": {
+				"refuses": true,
+				"fail": "小无相功只能用学的或是从运用(exert)中增加熟练度。"
+			},
+			"valid_learn": {
+				"effective_skill": "你的文学素养不够无法提升小无相功的造诣。"
+			}
+		},
+		{
+			"id": "guanbei-saber",
+			"name": "关北马刀",
+			"kind": "specialized",
+			"type": "martial",
+			"enable": [
+				"blade",
+				"parry"
+			],
+			"legacy_source": "native: 关北 D (剧情总纲 §3 第六章 ④ 选择的后果, 第七章 ① 入口, §6 关北卡 马上刀法; 计划 build/plans/关北_计划.md D 包; DECISIONS「关北 D」) — the 王府's 马上刀法 (剧情总纲 §6 关北卡), seven strokes after daemon/skill/shortsong-blade.c's form (伤害与割伤配比照春风快意刀/短歌刀法); 续写",
+			"actions": [
+				{
+					"id": "yang-bian",
+					"action": "$N手中$w一扬，一招「扬鞭」自下而上撩向$n的$l！",
+					"damage": 70,
+					"damage_type": "割伤"
+				},
+				{
+					"id": "hui-ma",
+					"action": "$N身子一拧，一招「回马」$w反手撩出，刀光从$n的$l掠过",
+					"damage": 40,
+					"damage_type": "割伤"
+				},
+				{
+					"id": "zhan-jiang",
+					"action": "$N矮身一刀，一招「斩缰」$w贴地撩向$n的$l",
+					"damage": 20,
+					"damage_type": "割伤"
+				},
+				{
+					"id": "juan-sha",
+					"action": "$N$w一抖，一招「卷沙」刀风卷起地上的沙土，斜斜撩往$n的$l",
+					"damage_type": "割伤"
+				},
+				{
+					"id": "ta-xue",
+					"action": "$N踏步欺进，一招「踏雪」$w由肩上撩落，直取$n的$l",
+					"damage": 70,
+					"damage_type": "割伤"
+				},
+				{
+					"id": "po-zhen",
+					"action": "$N大喝一声，一招「破阵」$w连撩三刀，刀刀奔$n的$l",
+					"damage": 30,
+					"damage_type": "割伤"
+				},
+				{
+					"id": "gui-qiao",
+					"action": "$N手腕一翻，一招「归鞘」$w收势时顺手一撩，刀背扫过$n的$l",
+					"damage": 50,
+					"damage_type": "割伤"
+				}
+			]
 		}
 	]
 }

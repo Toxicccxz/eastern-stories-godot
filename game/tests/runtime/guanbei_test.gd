@@ -70,7 +70,7 @@ func _test_data() -> void:
 	for id: StringName in [&"guanbei.gate_road.landmark.gate", &"guanbei.gate.landmark.wall", &"guanbei.market.landmark.pen", &"guanbei.inn_hall.landmark.hearth"]:
 		_check(catalog.landmark(id) != null, "landmark %s" % id)
 	var notice: ServiceDefinition = catalog.service(&"guanbei.gate.notice")
-	_check(notice != null and notice.act != null and notice.act.verb == "看" and notice.act.acts.size() == 1, "the 王府's notice: 看 (its mark 看过王府告示 is read on the walk)")
+	_check(notice != null and notice.act != null and notice.act.verb == "看" and notice.act.acts.size() == 2 and notice.act.acts[0].mark == "踏平了工地", "the 王府's notice: 看, its second text after the raid (its mark 看过王府告示 is read on the walk)")
 	_check(catalog.vendor(&"guanbei.vendor.inn").goods_keys().size() == 2 and catalog.vendor(&"guanbei.vendor.smith").goods_keys().size() == 1, "胡三娘 sells 马奶酒 and 手抓羊肉, the smith his 马刀")
 	var wine: ItemContentDefinition = catalog.item(&"native:guanbei/mares_milk_wine")
 	var mutton: ItemContentDefinition = catalog.item(&"native:guanbei/mutton")
@@ -103,7 +103,7 @@ func _test_data() -> void:
 	var shackles: ServiceDefinition = catalog.service(&"guanbei.sheds.shackles")
 	_check(shackles != null and shackles.act.verb == "打开枷锁" and shackles.act.acts.size() == 8 and shackles.act.acts[2].marks == ["借了兵", "工地的武官倒了", "裴照倒了", "吕隼倒了"] and shackles.act.acts[4].phase == [&"night", &"midnight"] and shackles.act.acts[4].present == &"native.npc.guo_cheng", "the 枷锁: the raid's branch wants the three spawns down, the night's wants 郭承 by after dark")
 	var lu_sun: NpcDefinition = catalog.npc(&"native.npc.lu_sun")
-	_check(lu_sun != null and lu_sun.hooks().scene_mark == "工地动过手" and lu_sun.hooks().calls.size() == 4 and lu_sun.hooks().calls[3].act.steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.SUMMON and step.spawn_id == &"guanbei.fence_gate.riders") and lu_sun.hooks().spared_mark == "吕隼招了", "吕隼: a three-beat scene that summons the riders and the officers; spared, he talks")
+	_check(lu_sun != null and lu_sun.hooks().scene_mark == "工地动过手" and lu_sun.hooks().calls.size() == 5 and lu_sun.hooks().calls[4].act.steps.any(func(step: ScriptedAct.Step) -> bool: return step.kind == ScriptedAct.Kind.SUMMON and step.spawn_id == &"guanbei.fence_gate.riders") and lu_sun.hooks().spared_mark == "吕隼招了", "吕隼: a three-beat scene that summons the riders and the officers; spared, he talks")
 	_check(catalog.npc(&"native.npc.huaiyang_rider").hooks().fights_beside_player and catalog.npc(&"native.npc.guo_cheng").hooks().fights_beside_player and catalog.npc(&"native.npc.pei_zhao").hooks().moods["fighting"].flags == [NpcDefinition.FLAG_AGGRESSIVE], "the riders and 郭承 fight beside the player; 裴照 draws in his mood")
 	_check(catalog.spawn(&"guanbei.fence_gate.riders").summoned and catalog.spawn(&"guanbei.fence_gate.officers_fighting").cleared_mark == "工地的武官倒了" and catalog.spawn(&"guanbei.sheds.night_watch_fighting").cleared_mark == "守夜的武官倒了" and catalog.spawn(&"guanbei.fence_gate.lu_sun").cleared_mark == "吕隼倒了", "the summoned spawns and what their 全倒 marks")
 	var watch: NpcSpawnDefinition = catalog.spawn(&"guanbei.sheds.night_watch")
@@ -113,7 +113,7 @@ func _test_data() -> void:
 	_check(door != null and door.teaches == ["见过古冢的金乌"] and catalog.landmark(&"guanbei.sheds.landmark.roll").teaches == ["看过工地名册"], "the stone door's bird and the sheds' roll teach their marks")
 	var quest: StoryQuestDefinition = catalog.story_quest(&"main.chapter6")
 	_check(quest.steps.size() == 12 and quest.steps[8].condition.when == JournalEntryDefinition.When.ZONE and quest.steps[9].only_after == &"raid" and quest.steps[10].only_after == &"sneak" and quest.steps[11].condition.key == "卢卡说了番坊", "the chapter: site (arrival) → raid or sneak → 卢卡")
-	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_GUANBEI_C_V1, "关北 C's world revision is current")
+	_check(WorldContentRevision.CURRENT_PUBLIC == WorldContentRevision.Value.SOURCE_ENTRY_GUANBEI_D_V1, "关北 D's world revision is current")
 
 
 ## From the valley: the gate refused, then (TEST-ONLY: the mark set) through it and north to the

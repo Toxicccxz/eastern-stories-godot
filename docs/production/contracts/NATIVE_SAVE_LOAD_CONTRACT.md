@@ -48,7 +48,7 @@ long-lived operational policy, not a gameplay substitution or authorization to i
 
 ### Policy versus implementation snapshot
 
-The current public content is **SOURCE_ENTRY_GUANBEI_C_V1** (`WorldContentRevision.CURRENT_PUBLIC`; every content package adds a revision and moves this marker — the enum in `world_content_revision.gd` is the list)
+The current public content is **SOURCE_ENTRY_GUANBEI_D_V1** (`WorldContentRevision.CURRENT_PUBLIC`; every content package adds a revision and moves this marker — the enum in `world_content_revision.gd` is the list)
 with root schema3 and item schema3: every region's maps, with one NPC record per authored spawn point
 (see below). P2B first published this shape with SOURCE_ENTRY_LAKE_V1 and ten NPC slots; each
 later world publication added one revision. Placement validation, physical body binding and full
@@ -86,7 +86,7 @@ The following version-specific details are the current implementation snapshot d
   arrays. Each version has a strict key set. Legal v1/v2 decode into v3 without granting/refilling
   consumables; definition validation rejects a food/liquid item missing its required state. Liquid
   records contain only stable item ID, typed content and remaining (empty0 is live). Root schema3 /
-  SOURCE_ENTRY_GUANBEI_C_V1 is the current public content marker (one per package since SOURCE_ENTRY_OLDPINE_TRAIL_V1); schema 3 (DECISIONS「昼夜」) adds the
+  SOURCE_ENTRY_GUANBEI_D_V1 is the current public content marker (one per package since SOURCE_ENTRY_OLDPINE_TRAIL_V1); schema 3 (DECISIONS「昼夜」) adds the
   root's required `day_seconds`, schema 4 (DECISIONS「天气」) the root's required `sky_level` and
   `sky_minutes_left`; an older file is refused. See
   [S6B](../../migration/PHASE_SNOW_TOWN_CORE_HUB_FRESH_WATER_SUPPLY_LOOP.md).

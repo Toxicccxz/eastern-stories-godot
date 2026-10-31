@@ -83,7 +83,7 @@ func register_active_legacy_policies() -> void:
 
 
 ## Complete known active daemon/skill inventory: the 45 explicit overrides
-## plus the 25 definitions that inherit std/skill.c's permissive default.
+## plus the 25 definitions that inherit std/skill.c's permissive default (and the native 关北马刀).
 ## Unknown IDs remain unregistered and are never guessed to be allowed.
 func register_known_legacy_policies() -> void:
 	register_active_legacy_policies()
@@ -117,6 +117,8 @@ func _register_inherited_default_policies() -> void:
 		SkillIdsType.UNARMED,
 		SkillIdsType.WHIP,
 		SkillIdsType.YIRONG,
+		# Native (关北 D): 关北马刀, read from 郭承's manual by anyone (owner Q3: no 拜师), std/skill.c's default.
+		SkillIdsType.GUANBEI_SABER,
 	]
 	for skill_id: StringName in skill_ids:
 		register_policy(DefaultPolicyType.new(skill_id))

@@ -73,6 +73,8 @@ const QIDAOFORCE: StringName = &"qidaoforce"
 const SCRATCHING: StringName = &"scratching"
 const SERPENTFORCE: StringName = &"serpentforce"
 const SHORTSONG_BLADE: StringName = &"shortsong-blade"
+## Native (关北 D): the 王府's 马上刀法, read from 郭承's 《马刀谱》.
+const GUANBEI_SABER: StringName = &"guanbei-saber"
 const SNOWSHADE_FORCE: StringName = &"snowshade-force"
 const SNOWSHADE_SWORD: StringName = &"snowshade-sword"
 const SNOWWHIP: StringName = &"snowwhip"

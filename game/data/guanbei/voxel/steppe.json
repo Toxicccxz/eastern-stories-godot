@@ -55,6 +55,7 @@
   "actors": {
     "default": {"coat": "8a7a5a"},
     "native.npc.shepherd": {"coat": "6a6a5a", "hat": true},
-    "native.npc.guo_cheng": {"coat": "5a4a3a"}
+    "native.npc.guo_cheng": {"coat": "5a4a3a"},
+    "native.npc.passing_taoist": {"coat": "2a2622", "hat": true}
   }
 }

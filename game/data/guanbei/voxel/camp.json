@@ -69,6 +69,7 @@
     "default": {"coat": "8a7a5a"},
     "native.npc.herdsman": {"coat": "6a6a5a", "hat": true},
     "native.npc.camp_family": {"coat": "7a5a5a"},
-    "native.npc.guo_cheng": {"coat": "5a4a3a"}
+    "native.npc.guo_cheng": {"coat": "5a4a3a"},
+    "native.npc.freed_corvee": {"coat": "6a5a48"}
   }
 }

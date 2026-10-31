@@ -3043,6 +3043,102 @@
               560
             ],
             "id": "guanbei.camp.family.3"
+          },
+          {
+            "name": "CampFreed1",
+            "at": [
+              440,
+              560
+            ],
+            "id": "guanbei.camp.freed.1"
+          },
+          {
+            "name": "CampFreed2",
+            "at": [
+              448,
+              640
+            ],
+            "id": "guanbei.camp.freed.2"
+          },
+          {
+            "name": "CampFreed3",
+            "at": [
+              760,
+              560
+            ],
+            "id": "guanbei.camp.freed.3"
+          },
+          {
+            "name": "CampFreed4",
+            "at": [
+              800,
+              620
+            ],
+            "id": "guanbei.camp.freed.4"
+          },
+          {
+            "name": "CampFreed5",
+            "at": [
+              880,
+              420
+            ],
+            "id": "guanbei.camp.freed.5"
+          },
+          {
+            "name": "CampFreed6",
+            "at": [
+              600,
+              360
+            ],
+            "id": "guanbei.camp.freed.6"
+          },
+          {
+            "name": "CampFreed7",
+            "at": [
+              320,
+              560
+            ],
+            "id": "guanbei.camp.freed.7"
+          },
+          {
+            "name": "CampFreed8",
+            "at": [
+              760,
+              720
+            ],
+            "id": "guanbei.camp.freed.8"
+          },
+          {
+            "name": "CampFreedHalf1",
+            "at": [
+              480,
+              520
+            ],
+            "id": "guanbei.camp.freed_half.1"
+          },
+          {
+            "name": "CampFreedHalf2",
+            "at": [
+              624,
+              520
+            ],
+            "id": "guanbei.camp.freed_half.2"
+          },
+          {
+            "name": "CampFreedHalf3",
+            "at": [
+              360,
+              600
+            ],
+            "id": "guanbei.camp.freed_half.3"
+          },
+          {
+            "name": "CampFreedHalf4",
+            "at": [
+              720,
+              500
+            ],
+            "id": "guanbei.camp.freed_half.4"
           }
         ],
         "interactions": [
@@ -3530,6 +3626,22 @@
               560
             ],
             "id": "guanbei.steppe_road.shepherd.1"
+          },
+          {
+            "name": "SteppeCartTaoist1",
+            "at": [
+              1216,
+              432
+            ],
+            "id": "guanbei.steppe_road.cart_taoist.1"
+          },
+          {
+            "name": "SteppeCartTaoist2",
+            "at": [
+              1280,
+              464
+            ],
+            "id": "guanbei.steppe_road.cart_taoist.2"
           }
         ],
         "interactions": [
