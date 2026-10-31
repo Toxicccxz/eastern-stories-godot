@@ -1,0 +1,84 @@
+{
+  "indoor": false,
+  "camera_size": 22,
+  "note": "古冢口 (native:guanbei/barrow_mouth, stone_door, cart_stand; 关北 C): the foot of the grassed barrow cut open — the pit stepped down in benches with its ladder and the stone-lined passage at the bottom, the timber frame and the windlass over it, spoil and broken pottery heaped round, the stone door at the passage's end under its carved three-legged bird with the two piers either side, the 逆灵宫's covered cart standing south with its mule and the two spent men against the wheel. Old and disturbed: fresh yellow spoil over old grey earth, a chisel left in the door's crack, the kneeling hollows before it.",
+  "edge": {"minimum_margin": 32, "maximum_margin": 96, "depth": 2.2, "top": "8a9458", "bottom": "7a6a4a", "strata": ["a89868", "9a8a5c", "8a7a50"]},
+  "cliffs": {
+    "kinds": ["boundary"],
+    "low": 0.0,
+    "high": 0.0,
+    "rise": 100,
+    "step": 0.5,
+    "rough": 0.3,
+    "keep": 100,
+    "trim": [],
+    "grooves": 0.0,
+    "strata": ["8a9458", "7e8a50"],
+    "tops": ["8a9458"],
+    "south_rise": 0.0,
+    "areas": [],
+    "lifts": []
+  },
+  "exit_trails": {
+    "guanbei.barrow_mouth.west": {"cells": 8, "kind": "path", "width": 8},
+    "note": "the cart road back to the diggings"
+  },
+  "ground": {
+    "rock": {"style": "scree", "colors": ["b8a46e", "c4b078", "ac9864"], "gravel": 0.5, "stones": 0.05, "pebbles": ["d4bc84", "c0a870", "9c8858"], "ruts": true, "note": "trodden yellow earth, churned"},
+    "path": {"style": "scree", "colors": ["b09860", "bca46a", "a48c58"], "gravel": 0.55, "stones": 0.06, "pebbles": ["d0b87c", "b8a066", "9c8858"], "ruts": true, "note": "the cart road, two ruts in the grass"},
+    "boundary": {"style": "scree", "colors": ["86905a", "929a5e", "7a8850"], "gravel": 0.06, "stones": 0.01, "pebbles": ["a0a466", "848a50"], "note": "the barrow's grassed slope all round"}
+  },
+  "ground_tints": {"bank": "9a8c5e", "mud": "a8966a", "chips": ["d0bc88", "c4b07c", "b4a070"], "dust": "d8c898", "grit": "e0d0a0"},
+  "flora": {
+    "grass_density": 0.3,
+    "density": {"rock": 0.05, "path": 0.0, "boundary": 0.9},
+    "flower_threshold": 0.5,
+    "blossom_trees": 0.0,
+    "tree_types": ["poplar", "dead", "willow", "poplar"],
+    "tree_kinds": ["boundary"],
+    "tree_chance": 0.04,
+    "tree_spacing": 160,
+    "wind": 0.7,
+    "butterflies": 0
+  },
+  "ambience": {
+    "birds": [{"at": [352, 416], "radius": 200, "count": 3, "height": 8, "color": "2a2622", "note": "crows"}],
+    "dust": [{"rect": [128, 160, 896, 864], "count": 20, "color": "d0b878", "wind": [0.1, -0.3], "height": [0.2, 3.0]}]
+  },
+  "reshape": [],
+  "buildings": [
+    {"rect": [816, 256, 896, 448], "portals": [], "note": "the stone door and the passage's end: fitted grey stone, the bird cut over the leaves (the carved_wall on its west face)", "construction": "rubble", "stones": ["8a8278", "9a9288", "7a7268", "a8a098"], "wall": "8a8278", "timber": "5a4a3a", "height": 3.6, "roof_form": "none", "foundation": 0.0, "bay": 3, "porch": "none", "lanterns": false, "goods": "none", "mossy": 0.3}
+  ],
+  "props": [
+    {"kind": "trail", "points": [[144, 416], [300, 420], [480, 400], [640, 360], [800, 352]], "color": "a08a58", "note": "the ruts to the pit"},
+    {"kind": "trail", "points": [[352, 540], [352, 700], [352, 790]], "color": "a08a58", "note": "and down to the cart"},
+    {"kind": "stains", "at": [320, 416], "size": [360, 420], "count": 14, "colors": ["b8a070", "c8b080", "a89060", "8a8278"], "note": "yellow spoil over grey old earth"},
+    {"kind": "stains", "at": [480, 744], "size": [200, 100], "count": 6, "colors": ["8a7a4e", "9a8858"], "note": "the mule's ground"},
+    {"kind": "stains", "at": [780, 352], "size": [60, 60], "count": 2, "colors": ["7a6a50", "8a7a5a"], "note": "the two hollows knelt into the ground before the door"},
+    {"kind": "carved_wall", "at": [814, 352], "size": [12, 160], "height": 3.2, "text": "", "colors": ["8a8278", "9a9288", "7a7268"], "note": "the stone door: two leaves shut, the three-legged bird cut over them (the look's 长 says it)", "rotation": 90, "wall_mounted": true},
+    {"kind": "gate_pier", "at": [806, 264], "size": [32, 32], "height": 3.2, "colors": ["8a8278", "9a9288"], "note": "the piers either side", "wall_mounted": true},
+    {"kind": "gate_pier", "at": [806, 440], "size": [32, 32], "height": 3.2, "colors": ["8a8278", "9a9288"], "wall_mounted": true},
+    {"kind": "rock_pile", "at": [288, 496], "size": [40, 30], "count": 6, "colors": ["8a8278", "9a9288", "7a7268", "a8a098"], "note": "cut stones from the passage's lining"},
+    {"kind": "bones", "at": [480, 220], "size": [40, 30], "skull": true, "count": 5, "note": "from the pit: old"},
+    {"kind": "cart_wheel", "at": [200, 560], "size": [22, 22], "rotation": 20, "note": "a spare wheel against the frame"},
+    {"kind": "rope_coil", "at": [520, 300], "size": [20, 20], "note": "the windlass rope"},
+    {"kind": "wine_jars", "at": [480, 744], "size": [26, 26], "count": 2, "tipped": 1, "note": "the taoists' water"},
+    {"kind": "bedroll", "at": [200, 690], "blanket": "2a2622", "note": "a taoist's black bedding by the cart"},
+    {"kind": "straw_patch", "at": [440, 790], "size": [80, 40], "note": "the mule's fodder"},
+    {"kind": "torch", "at": [822, 272], "size": [16, 16], "height": 2.2, "note": "torches in the piers", "wall_mounted": true},
+    {"kind": "torch", "at": [822, 432], "size": [16, 16], "height": 2.2, "wall_mounted": true},
+    {"kind": "glow", "at": [760, 352], "color": "ffb070", "day": 0.0, "night": 0.6, "range": 7.0, "height": 2.0, "note": "the torches at night"},
+    {"kind": "glow", "at": [480, 744], "color": "ffc080", "day": 0.0, "night": 0.5, "range": 6.0, "height": 1.6, "note": "the taoists' lamp on the cart"},
+    {"kind": "far_peak", "at": [1200, 352], "size": [600, 700], "height": 6.0, "elevation": -2.4, "colors": ["8a9458", "7e8a50", "a8a070", "96985c"], "note": "the barrow itself rising east over the door, grassed, long"},
+    {"kind": "far_peak", "at": [500, -200], "size": [800, 300], "height": 4.0, "elevation": -2.0, "colors": ["8a9458", "7e8a50", "a8a070"], "note": "its shoulder north"},
+    {"kind": "far_ground", "at": [-260, 500], "size": [400, 1000], "colors": ["8a9458", "96985c", "7e8a50"], "elevation": -0.4, "note": "the steppe west, back toward the 工地"},
+    {"kind": "far_ground", "at": [500, 1200], "size": [1200, 400], "colors": ["8a9458", "96985c", "7e8a50"], "elevation": -0.4, "note": "and south"}
+  ],
+  "actors": {
+    "default": {"coat": "8a7a5a"},
+    "native.npc.barrow_taoist": {"coat": "2a2622", "hat": true},
+    "native.npc.spent_corvee": {"coat": "6a5a48"},
+    "native.npc.site_officer": {"coat": "e0dcd4"},
+    "native.npc.guo_cheng": {"coat": "5a4a3a"}
+  }
+}

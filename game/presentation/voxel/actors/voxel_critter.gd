@@ -1,7 +1,8 @@
 extends Node3D
 
-## A small animal loose on the map (青石村's hens, the headman's dog): a chicken that struts,
-## stops to peck, and flaps off a few steps, or a dog that pads about, sits and wags its tail.
+## A small animal loose on the map (青石村's hens, the headman's dog; 关北 C's sheep): a chicken
+## that struts, stops to peck, and flaps off a few steps, a dog that pads about, sits and wags
+## its tail, or a sheep that drifts a few steps and grazes, head down, flicking its tail.
 ## It wanders on the open ground it was given (`cells`, px centres of walkable floor within its
 ## range) and never leaves it; presentation only — no 2D body, nothing saved, no gameplay random
 ## draws (its own seeded source).
@@ -32,6 +33,8 @@ func _ready() -> void:
 	match kind:
 		"dog":
 			_dog(s)
+		"sheep":
+			_sheep(s)
 		_:
 			_chicken(s)
 	s.flush()
@@ -93,6 +96,34 @@ func _dog(s: Shapes) -> void:
 	_body.add_child(_tail)
 	s.tilted_box(_tail,Vector3(0,0.12,-0.1),Vector3(0.05,0.3,0.05),dark,Vector3(0.7,0,0))
 
+## 羊 (关北 C, 剧情总纲 §6 关北卡「草原」): a fat-tailed steppe sheep — a deep woolly barrel on four
+## thin dark legs, a narrow dark face, ears out, the short tail; `colors`: fleece, face and legs.
+func _sheep(s: Shapes) -> void:
+	var fleece: String = String(colors[0]) if colors.size()>0 else "e4dccc"
+	var face: String = String(colors[1]) if colors.size()>1 else "3a302a"
+	var legs: String = String(colors[2]) if colors.size()>2 else "4a403a"
+	s.box(_body,Vector3(0,0.5,0),Vector3(0.46,0.42,0.74),fleece)
+	s.box(_body,Vector3(0,0.66,0.04),Vector3(0.38,0.16,0.6),Color(fleece).lightened(0.06).to_html(false))
+	s.box(_body,Vector3(0,0.42,-0.4),Vector3(0.3,0.26,0.14),fleece)
+	_head = Node3D.new()
+	_head.position = Vector3(0,0.6,0.4)
+	_body.add_child(_head)
+	s.box(_head,Vector3(0,0.0,0.06),Vector3(0.18,0.2,0.3),face)
+	s.box(_head,Vector3(0,0.1,-0.02),Vector3(0.24,0.14,0.2),fleece)
+	for side: float in [-1.0,1.0]:
+		s.tilted_box(_head,Vector3(side*0.15,0.06,-0.02),Vector3(0.12,0.05,0.06),face,Vector3(0,0,side*0.4))
+		s.box(_head,Vector3(side*0.07,0.04,0.2),Vector3(0.03,0.03,0.02),"1a1816")
+	for i: int in 4:
+		var leg := Node3D.new()
+		leg.position = Vector3(-0.14 if i%2==0 else 0.14,0.3,0.26 if i<2 else -0.26)
+		_body.add_child(leg)
+		_legs.append(leg)
+		s.box(leg,Vector3(0,-0.15,0),Vector3(0.07,0.3,0.08),legs)
+	_tail = Node3D.new()
+	_tail.position = Vector3(0,0.56,-0.4)
+	_body.add_child(_tail)
+	s.tilted_box(_tail,Vector3(0,-0.06,-0.04),Vector3(0.1,0.16,0.08),fleece,Vector3(0.4,0,0))
+
 func _process(delta: float) -> void:
 	_clock += delta
 	var flat: Vector3 = _target-position
@@ -106,7 +137,7 @@ func _process(delta: float) -> void:
 			var here := Vector2(position.x,position.z)*UNIT
 			for pick: int in 8:
 				var spot: Vector2 = cells[_rng.randi_range(0,cells.size()-1)]
-				if spot.distance_to(here) > (128.0 if kind=="dog" else 96.0) or not _clear(here,spot):
+				if spot.distance_to(here) > (128.0 if kind=="dog" else 64.0 if kind=="sheep" else 96.0) or not _clear(here,spot):
 					continue
 				_target = Vector3(spot.x/UNIT,0,spot.y/UNIT)
 				break
@@ -114,7 +145,7 @@ func _process(delta: float) -> void:
 		return
 	if flat.length() < 0.05:
 		position = Vector3(_target.x,0,_target.z)
-		_rest = _rng.randf_range(1.0,4.0) if kind=="chicken" else _rng.randf_range(2.0,6.0)
+		_rest = _rng.randf_range(1.0,4.0) if kind=="chicken" else _rng.randf_range(3.0,8.0) if kind=="sheep" else _rng.randf_range(2.0,6.0)
 		_sitting = kind=="dog" and _rng.randf() < 0.4
 		return
 	var step: Vector3 = flat.normalized()*minf(speed*delta,flat.length())
@@ -133,6 +164,15 @@ func _clear(from: Vector2, to: Vector2) -> bool:
 
 func _idle() -> void:
 	match kind:
+		"sheep":
+			# Grazing: the head goes down to the grass and stays, lifting now and then to look;
+			# the tail flicks.
+			var graze: float = fposmod(_clock,7.0)
+			_head.rotation.x = lerpf(_head.rotation.x,0.9 if graze < 5.0 else -0.1,0.08)
+			_head.rotation.y = sin(_clock*0.5)*0.3 if graze >= 5.0 else 0.0
+			_tail.rotation.y = sin(_clock*5.0)*0.5 if fposmod(_clock,3.0) < 0.6 else 0.0
+			for leg: Node3D in _legs:
+				leg.rotation.x = lerpf(leg.rotation.x,0.0,0.2)
 		"dog":
 			var sit: float = 1.0 if _sitting else 0.0
 			_body.rotation.x = lerpf(_body.rotation.x,-0.45*sit,0.1)
@@ -155,6 +195,11 @@ func _walk() -> void:
 	for i: int in _legs.size():
 		_legs[i].rotation.x = sin(t+i*PI)*0.6
 	match kind:
+		"sheep":
+			_head.rotation.x = lerpf(_head.rotation.x,0.1,0.2)
+			_head.rotation.y = 0.0
+			_body.position.y = absf(sin(t))*0.02
+			_tail.rotation.y = 0.0
 		"dog":
 			_body.rotation.x = 0.0
 			_body.position.y = absf(sin(t))*0.03

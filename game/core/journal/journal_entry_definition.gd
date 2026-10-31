@@ -46,13 +46,17 @@ enum When {
 	## `when` object of its own; HEARD and CHAT are recorded as they happen and cannot be parts.
 	ANY,
 	ALL,
+	## Native (关北 C; DECISIONS「关北 C」「昼夜」): the day's phase (DayClock, day_phases.json's
+	## phase_id) is one of `phases` — the night watch on the 工地, the 枷锁 opened after dark.
+	## A spawn's stage reads it as the player comes onto the map (never in front of them).
+	PHASE,
 }
 
 const WHEN_KEYS: Dictionary[String, int] = {
 	"mark": When.MARK, "temp": When.TEMP, "item": When.ITEM, "seen": When.SEEN, "heard": When.HEARD,
 	"milestone": When.MILESTONE, "force_at_least": When.FORCE_AT_LEAST, "exp_at_least": When.EXP_AT_LEAST,
 	"skill_at_least": When.SKILL_AT_LEAST, "family": When.FAMILY, "chat": When.CHAT, "zone": When.ZONE,
-	"quest": When.QUEST, "wearing": When.WEARING, "any": When.ANY, "all": When.ALL,
+	"quest": When.QUEST, "wearing": When.WEARING, "any": When.ANY, "all": When.ALL, "phase": When.PHASE,
 }
 
 var entry_id: StringName
@@ -66,6 +70,8 @@ var topic: String = ""
 var amount: int = 0
 ## ANY, ALL: the conditions joined (each one a condition of its own, never HEARD or CHAT).
 var parts: Array[JournalEntryDefinition] = []
+## PHASE: the day phases (phase_id) the condition holds in.
+var phases: Array[StringName] = []
 ## Player text, as authored.
 var text: String = ""
 ## An NPC's inquiry answer shown under the text (quote_npc asked about quote_topic), or "".
@@ -146,6 +152,11 @@ static func _read_when_object(when: ContentRecordReader, definition: JournalEntr
 					definition.parts.append(part)
 				if definition.parts.is_empty():
 					when.fail(names[0], "joins at least one condition")
+			When.PHASE:
+				for phase_id: String in when.text_list("phase"):
+					definition.phases.append(StringName(phase_id))
+				if definition.phases.is_empty():
+					when.fail("phase", "names at least one day phase")
 			_:
 				definition.key = when.required_text(names[0])
 	when.finish()
