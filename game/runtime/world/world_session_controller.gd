@@ -49,6 +49,8 @@ var _world_content_revision: WorldContentRevision.Value = WorldContentRevision.V
 var _restore_preparation: OldPineWorldRestorePreparation
 var _restore_failure_outcome: int = OldPineWorldRestoreResult.Outcome.SUCCESS
 var _restore_candidate_staged: bool = false
+## The process frame that activated a restored save (-1: none): that frame is not world time.
+var _activation_frame: int = -1
 var _session_swap_suspended: bool = false
 var _session_swap_reparenting: bool = false
 var _source_name: String = ""
@@ -155,6 +157,11 @@ func liquid_collection() -> LiquidCollection:
 
 
 func _process(delta: float) -> void:
+	# The frame that activates a restored save is not world time: its delta is the loading
+	# frame's, and the player has not seen the world yet (DECISIONS「别的地图时间补算」: the
+	# save's away_ms, day and recovery come back exactly; under load that delta reached them).
+	if Engine.get_process_frames() == _activation_frame:
+		return
 	if presentation_frozen():
 		_sync_ghost_sight()
 		advance_journal(delta)
@@ -991,6 +998,7 @@ func activate_restore_candidate() -> bool:
 		process_mode = Node.PROCESS_MODE_DISABLED
 		return false
 	_restore_candidate_staged = false
+	_activation_frame = Engine.get_process_frames()
 	_away.restore(restored_away_ms())
 	if _restore_preparation != null:
 		_day.set_day_seconds(_restore_preparation.day_seconds)
