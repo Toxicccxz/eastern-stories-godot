@@ -2,6 +2,16 @@
 	"vendors": ["d/snow/npc/waiter.c", "d/snow/npc/herbalist.c", "d/snow/npc/smith.c"],
 	"vendor_goods": { "d/snow/npc/smith.c": { "铁锤": { "item": "d/snow/npc/obj/hammer.c", "price": 300 } } },
 	"set": {
+		"snow.npc.rat": {
+			"skills": { "dodge": 15 },
+			"resources": { "kee": 15, "max_kee": 15 },
+			"classic": { "skills": { "dodge": 120 }, "without": ["resources"] }
+		},
+		"snow.npc.crazy_dog": {
+			"combat_exp": 150,
+			"apply": { "attack": 22, "damage": 8, "armor": 2 },
+			"classic": { "combat_exp": 100, "apply": { "attack": 15, "damage": 6, "armor": 2 } }
+		},
 		"snow.outdoor.school1.guard": { "until": { "all": [ { "mark": "放过了刘安禄" }, { "mark": "霍铮回了寨" } ] } },
 		"snow.npc.dog": {
 			"accept_object": [

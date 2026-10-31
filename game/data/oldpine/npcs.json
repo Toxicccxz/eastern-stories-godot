@@ -9,16 +9,16 @@
 			"age": 19,
 			"long": "这人满脸匪气，一付百无聊赖的模样，令人望而生厌。\n",
 			"combat_exp": 250,
-			"resources": { "kee": 120, "max_kee": 120 },
 			"score": 60,
 			"attitude": "aggressive",
 			"skills": { "sword": 10, "parry": 10, "dodge": 10 },
-			"classic": { "combat_exp": 600, "without": ["resources"] },
 			"carry": [
 				{ "item": "es2:d/oldpine/obj/short_sword", "source": "d/oldpine/npc/obj/short_sword.c", "equip": "wield" },
 				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 3 }
 			],
-			"capabilities": ["aggressive_on_player_presence"]
+			"capabilities": ["aggressive_on_player_presence"],
+			"resources": { "kee": 120, "max_kee": 120 },
+			"classic": { "combat_exp": 600, "without": ["resources"] }
 		},
 		{
 			"id": "oldpine.npc.tall_bandit",
@@ -29,16 +29,16 @@
 			"age": 27,
 			"long": "这家伙长得高高瘦瘦，脸色苍白，一付无精打采的样子。\n",
 			"combat_exp": 400,
-			"resources": { "kee": 160, "max_kee": 160 },
 			"score": 100,
 			"attitude": "aggressive",
 			"skills": { "sword": 15, "parry": 15, "dodge": 10 },
-			"classic": { "combat_exp": 900, "without": ["resources"] },
 			"carry": [
 				{ "item": "es2:d/oldpine/obj/long_sword", "source": "d/oldpine/npc/obj/long_sword.c", "equip": "wield" },
 				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 6 }
 			],
-			"capabilities": ["aggressive_on_player_presence"]
+			"capabilities": ["aggressive_on_player_presence"],
+			"resources": { "kee": 160, "max_kee": 160 },
+			"classic": { "combat_exp": 900, "without": ["resources"] }
 		},
 		{
 			"id": "oldpine.npc.fat_bandit",
@@ -49,17 +49,17 @@
 			"age": 36,
 			"long": "这家伙又矮又胖，圆滚滚的眼珠子在满脸肥肉中骨碌碌地转来转去。\n",
 			"combat_exp": 450,
-			"resources": { "kee": 180, "max_kee": 180 },
 			"score": 80,
 			"attitude": "aggressive",
 			"skills": { "sword": 20, "parry": 10, "dodge": 10 },
-			"classic": { "combat_exp": 500, "without": ["resources"] },
 			"carry": [
 				{ "item": "es2:d/oldpine/obj/short_sword", "source": "d/oldpine/npc/obj/short_sword.c", "equip": "wield" },
 				{ "item": "es2:d/oldpine/obj/leather", "source": "d/oldpine/npc/obj/leather.c", "equip": "wear" },
 				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 5 }
 			],
-			"capabilities": ["aggressive_on_player_presence"]
+			"capabilities": ["aggressive_on_player_presence"],
+			"resources": { "kee": 180, "max_kee": 180 },
+			"classic": { "combat_exp": 500, "without": ["resources"] }
 		},
 		{
 			"id": "oldpine.npc.serpent",
@@ -121,10 +121,14 @@
 			"limbs": ["头部", "身体", "前脚", "后脚", "尾巴"],
 			"verbs": ["bite", "claw"],
 			"apply": { "attack": 18, "damage": 15, "armor": 10 },
-			"classic": { "resources": { "kee": 200, "eff_kee": 200 }, "combat_exp": 10000, "apply": { "attack": 45, "damage": 40, "armor": 45 } },
 			"capabilities": ["aggressive_on_player_presence"],
 			"chat_chance": 15,
-			"chat_msg": ["狼狗用一只独眼恶狠狠地瞪著你。\n"]
+			"chat_msg": ["狼狗用一只独眼恶狠狠地瞪著你。\n"],
+			"classic": {
+				"resources": { "kee": 200, "eff_kee": 200 },
+				"combat_exp": 10000,
+				"apply": { "attack": 45, "damage": 40, "armor": 45 }
+			}
 		},
 		{
 			"id": "oldpine.npc.butterfly",

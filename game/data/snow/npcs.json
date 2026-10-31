@@ -277,12 +277,12 @@
 			"limbs": ["头部", "身体", "前脚", "后脚", "尾巴"],
 			"verbs": ["bite", "claw"],
 			"apply": { "attack": 22, "damage": 8, "armor": 2 },
-			"classic": { "combat_exp": 100, "apply": { "attack": 15, "damage": 6, "armor": 2 } },
 			"capabilities": ["aggressive_on_player_presence"],
 			"chat_chance": 15,
 			"chat_msg": [
 				{ "action": "random_move" }
-			]
+			],
+			"classic": { "combat_exp": 100, "apply": { "attack": 15, "damage": 6, "armor": 2 } }
 		},
 		{
 			"id": "snow.npc.teacher",
@@ -377,9 +377,9 @@
 			"age": 1,
 			"long": "一只贼头贼脑的大老鼠。\n",
 			"skills": { "dodge": 15 },
-			"resources": { "kee": 15, "max_kee": 15 },
 			"limbs": ["头部", "身体"],
 			"verbs": ["bite"],
+			"resources": { "kee": 15, "max_kee": 15 },
 			"classic": { "skills": { "dodge": 120 }, "without": ["resources"] }
 		},
 		{

@@ -1,5 +1,26 @@
 {
 	"set": {
+		"oldpine.npc.bandit": {
+			"combat_exp": 250,
+			"resources": { "kee": 120, "max_kee": 120 },
+			"classic": { "combat_exp": 600, "without": ["resources"] }
+		},
+		"oldpine.npc.tall_bandit": {
+			"combat_exp": 400,
+			"resources": { "kee": 160, "max_kee": 160 },
+			"classic": { "combat_exp": 900, "without": ["resources"] }
+		},
+		"oldpine.npc.fat_bandit": {
+			"combat_exp": 450,
+			"resources": { "kee": 180, "max_kee": 180 },
+			"classic": { "combat_exp": 500, "without": ["resources"] }
+		},
+		"oldpine.npc.wolf_dog": {
+			"resources": { "kee": 100, "eff_kee": 100, "max_kee": 100 },
+			"combat_exp": 1200,
+			"apply": { "attack": 18, "damage": 15, "armor": 10 },
+			"classic": { "resources": { "kee": 200, "eff_kee": 200 }, "combat_exp": 10000, "apply": { "attack": 45, "damage": 40, "armor": 45 } }
+		},
 		"oldpine.gorge.lake.serpents": {
 			"presence_radius": 210
 		},
