@@ -244,13 +244,15 @@ static func _target(event: CombatEncounterEvent, projection: BattlePresentationP
 ## with its file's lines and attacks.
 func _tactical(event: CombatTacticalEvent, projection: BattlePresentationProjection) -> Array[BattleNarrationLine]:
 	var lines: Array[BattleNarrationLine] = []
+	var label: String = catalog.label_for(event.action.request.action_id)
 	if event.kind == CombatTacticalEvent.Kind.RESOLVED and event.execution != null and event.execution.special != null and not event.execution.special.is_empty():
-		return _narrator.special(event.execution.special, projection)
+		return _narrator.special(event.execution.special, projection, label)
 	if event.kind == CombatTacticalEvent.Kind.RESOLVED and event.execution != null and not event.execution.lines().is_empty():
 		for line: ColoredLine in event.execution.lines():
 			lines.append(BattleNarrationLine.new(line.text, -1, line.color))
+		# DECISIONS「战斗演出」: the player's own special opens on their card.
+		lines[0].with_special(event.action.request.actor_id, label)
 		return lines
-	var label: String = catalog.label_for(event.action.request.action_id)
 	var text: String = ""
 	match event.kind:
 		CombatTacticalEvent.Kind.QUEUED:

@@ -414,7 +414,7 @@ msgid "战斗速度"
 msgstr ""
 
 #: scenes/application/application_shell.tscn
-msgid "受击闪红"
+msgid "受击闪红与震动"
 msgstr ""
 
 #: scenes/application/application_shell.tscn
@@ -3986,11 +3986,11 @@ msgstr ""
 msgid "{pronoun}看起来比你强得多。"
 msgstr ""
 
-#: core/combat/action/combat_action_definition.gd
+#: core/combat/action/combat_action_definition.gd presentation/battle/battle_narrator.gd
 msgid "「"
 msgstr ""
 
-#: core/combat/action/combat_action_definition.gd
+#: core/combat/action/combat_action_definition.gd presentation/battle/battle_narrator.gd
 msgid "」"
 msgstr ""
 
@@ -6588,6 +6588,26 @@ msgstr ""
 msgid "{action}：{what}"
 msgstr ""
 
+#: presentation/battle/battle_card_stage.gd
+msgid "倒"
+msgstr ""
+
+#: presentation/battle/battle_card_stage.gd
+msgid "亡"
+msgstr ""
+
+#: presentation/battle/battle_card_stage.gd
+msgid "闪"
+msgstr ""
+
+#: presentation/battle/battle_card_stage.gd
+msgid "挡"
+msgstr ""
+
+#: presentation/battle/battle_card_stage.gd
+msgid "无伤"
+msgstr ""
+
 #: presentation/battle/battle_condition_tags.gd
 msgid "毒"
 msgstr ""
@@ -6863,6 +6883,11 @@ msgstr ""
 msgid "{who} · {move} → {whom} · 没伤到"
 msgstr ""
 
+#. the title over the card of one who used a special move the game has no name for.
+#: presentation/battle/battle_narrator.gd
+msgid "绝招"
+msgstr ""
+
 #. the battle card of one who fell while the player was killing them: the button that kills them with the next blow.
 #: presentation/battle/battle_participant_card.gd
 msgid "了结"
@@ -6999,6 +7024,15 @@ msgstr ""
 msgid ""
 "来相助的护法会替你杀{npc}。{npc}不是你亲手杀的，你会昏倒，也悟不到咒术的道理。\n"
 "确定要召唤吗？"
+msgstr ""
+
+#. the stamp over the battle cards when the fight is won / lost.
+#: presentation/battle/battle_presentation_controller.gd
+msgid "胜"
+msgstr ""
+
+#: presentation/battle/battle_presentation_controller.gd
+msgid "败"
 msgstr ""
 
 #: presentation/battle/battle_presentation_controller.gd

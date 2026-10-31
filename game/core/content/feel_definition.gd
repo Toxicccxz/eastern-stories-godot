@@ -34,6 +34,16 @@ extends RefCounted
 ## - corner_slide_px: the player's walk keeps its speed along a wall it runs into, and run
 ##   nearly head-on into an edge it looks this far to either side for an opening and slips
 ##   round it (0: move_and_slide alone; DECISIONS「手感」).
+## - 战斗决策层 3 (DECISIONS「战斗演出」), each 0 = that piece of the show is not shown:
+##   move_title_ms the move's name slammed onto the attacker's card; special_title_ms the
+##   same, gold and larger, for a perform / spell / exert; damage_float_ms the −N (or 闪 / 挡)
+##   floating off the one hit's bar; hit_shake_ms the card's sideways shake (with the flash,
+##   under the setting 受击闪红); crack_flash_ms a new wound's stretch of the bar flaring
+##   before it settles into the crack; mend_ms the gold line over a healed stretch fading;
+##   fall_ms the card sinking and the 倒 / 亡 stamp when its fighter falls; end_stamp_ms the
+##   胜 / 败 stamp over the cards during the end hold; turn_cue_ms the chosen move's bounce
+##   when the fight comes back to waiting for the player; intent_pulse_ms the 起手 / 要出
+##   line's gold flash when it changes.
 ## - voxel_worlds_kept: how many of the maps the player walked through keep their built
 ##   voxel world (the most recent, the player's included); an older map's is freed and
 ##   built again on coming back (0: every map keeps its world; DECISIONS「固定俯视体素地图」).
@@ -66,6 +76,16 @@ var _battle_end_hold_ms: int = 0
 var _training_step_ms: int = 0
 var _corner_slide_px: int = 0
 var _voxel_worlds_kept: int = 0
+var _move_title_ms: int = 0
+var _special_title_ms: int = 0
+var _damage_float_ms: int = 0
+var _hit_shake_ms: int = 0
+var _crack_flash_ms: int = 0
+var _mend_ms: int = 0
+var _fall_ms: int = 0
+var _end_stamp_ms: int = 0
+var _turn_cue_ms: int = 0
+var _intent_pulse_ms: int = 0
 
 var map_fade_out_seconds: float:
 	get:
@@ -124,6 +144,36 @@ var training_step_seconds: float:
 var voxel_worlds_kept: int:
 	get:
 		return _voxel_worlds_kept
+var move_title_seconds: float:
+	get:
+		return float(_move_title_ms) / 1000.0
+var special_title_seconds: float:
+	get:
+		return float(_special_title_ms) / 1000.0
+var damage_float_seconds: float:
+	get:
+		return float(_damage_float_ms) / 1000.0
+var hit_shake_seconds: float:
+	get:
+		return float(_hit_shake_ms) / 1000.0
+var crack_flash_seconds: float:
+	get:
+		return float(_crack_flash_ms) / 1000.0
+var mend_seconds: float:
+	get:
+		return float(_mend_ms) / 1000.0
+var fall_seconds: float:
+	get:
+		return float(_fall_ms) / 1000.0
+var end_stamp_seconds: float:
+	get:
+		return float(_end_stamp_ms) / 1000.0
+var turn_cue_seconds: float:
+	get:
+		return float(_turn_cue_ms) / 1000.0
+var intent_pulse_seconds: float:
+	get:
+		return float(_intent_pulse_ms) / 1000.0
 
 
 ## Seconds a bubble saying `line` stays up (0: no bubbles).
@@ -172,6 +222,16 @@ func with_values(values: Dictionary) -> FeelDefinition:
 	_training_step_ms = int(values.get("training_step_ms", _training_step_ms))
 	_corner_slide_px = int(values.get("corner_slide_px", _corner_slide_px))
 	_voxel_worlds_kept = int(values.get("voxel_worlds_kept", _voxel_worlds_kept))
+	_move_title_ms = int(values.get("move_title_ms", _move_title_ms))
+	_special_title_ms = int(values.get("special_title_ms", _special_title_ms))
+	_damage_float_ms = int(values.get("damage_float_ms", _damage_float_ms))
+	_hit_shake_ms = int(values.get("hit_shake_ms", _hit_shake_ms))
+	_crack_flash_ms = int(values.get("crack_flash_ms", _crack_flash_ms))
+	_mend_ms = int(values.get("mend_ms", _mend_ms))
+	_fall_ms = int(values.get("fall_ms", _fall_ms))
+	_end_stamp_ms = int(values.get("end_stamp_ms", _end_stamp_ms))
+	_turn_cue_ms = int(values.get("turn_cue_ms", _turn_cue_ms))
+	_intent_pulse_ms = int(values.get("intent_pulse_ms", _intent_pulse_ms))
 	return self
 
 
@@ -180,6 +240,8 @@ const KEYS: Array[String] = [
 	"move_stop_ms", "speech_bubble_ms", "speech_bubble_char_ms", "speech_reach_px", "room_text_ms", "room_text_char_ms", "menu_fade_ms", "battle_slow_percent",
 	"battle_fast_percent", "battle_line_ms", "bar_tween_ms", "hit_flash_ms", "battle_end_hold_ms",
 	"training_step_ms", "corner_slide_px", "voxel_worlds_kept",
+	"move_title_ms", "special_title_ms", "damage_float_ms", "hit_shake_ms", "crack_flash_ms", "mend_ms", "fall_ms", "end_stamp_ms",
+	"turn_cue_ms", "intent_pulse_ms",
 ]
 
 

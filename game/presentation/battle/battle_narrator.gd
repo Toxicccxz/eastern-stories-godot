@@ -141,9 +141,11 @@ func _attack(
 	if ratio < 0 and damage > 0 and struck != null and struck.vitality != null and struck.vitality.maximum > 0:
 		@warning_ignore("integer_division")
 		ratio = struck.vitality.current * 100 / struck.vitality.maximum
+	# DECISIONS「战斗演出」: the same line carries the blow for the cards' show.
 	lines.append(BattleNarrationLine.new(
 		vision(_limb_and_weapon(tr(outcome).format({"type": type}), limb, weapon), me, victim, cast), damage if damage > 0 else -1,
-		ColoredLine.PLAIN, summary(me, victim, action, base.outcome, damage, ratio, cast)))
+		ColoredLine.PLAIN, summary(me, victim, action, base.outcome, damage, ratio, cast),
+	).with_blow(me, victim, _t(move_name(action)), base.outcome, BattleVitalityBar.band_of_ratio(ratio) if ratio >= 0 and damage > 0 else -1))
 	if damage <= 0:
 		return
 	if status != null:
@@ -200,8 +202,10 @@ static func move_name(action: CombatActionDefinition) -> String:
 
 
 ## A special file's lines with its attacks where it made them, each told as an
-## ordinary do_attack() is.
-func special(report: SpecialReport, cast: BattlePresentationProjection) -> Array[BattleNarrationLine]:
+## ordinary do_attack() is. DECISIONS「战斗演出」: its first line opens the special on the
+## attacker's card — named `label` (the player's own perform / spell / exert), else by the
+## 「」 in that line, else 绝招.
+func special(report: SpecialReport, cast: BattlePresentationProjection, label: String = "") -> Array[BattleNarrationLine]:
 	var lines: Array[BattleNarrationLine] = []
 	var said: Array[VisionLine] = report.lines()
 	var attacks: Array[SpecialAttack] = report.attacks()
@@ -217,7 +221,22 @@ func special(report: SpecialReport, cast: BattlePresentationProjection) -> Array
 			next += 1
 		if index < said.size():
 			lines.append_array(seen([said[index]], cast))
+	if not lines.is_empty():
+		lines[0].with_special(report.me_id, special_title(label, lines[0].text))
 	return lines
+
+
+## The name a special shows on the card: `label` when the caller knows it, else the first
+## 「」 in its opening line, else 绝招.
+static func special_title(label: String, first_line: String) -> String:
+	if not label.is_empty():
+		return label
+	var open: int = first_line.find("「")
+	var close: int = first_line.find("」", open + 1)
+	if open >= 0 and close > open + 1:
+		return first_line.substr(open, close - open + 1)
+	# TRANSLATORS: the title over the card of one who used a special move the game has no name for.
+	return _t("绝招")
 
 
 ## message_vision() lines (VisionLine) as the player sees them: a line said or a
