@@ -108,7 +108,7 @@ func inspect_selected() -> bool:
 	var gender: StringName = npc.character_state.gender
 	_map.hud().show_inspection(
 		npc.definition(), FamilyRelation.of_npc(_player.state, npc.definition(), gender), gender,
-		RelativeStrength.line(_player.state.progression.combat_experience, npc.character_state.progression.combat_experience),
+		_map.combat_outlook(npc).shown(TranslationServer.translate(Es2CombatMessages.pronoun(gender))),
 		"" if npc.mood() == null else npc.mood().title,
 	)
 	_map.hostilities.look_berserk(npc)

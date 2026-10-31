@@ -36,6 +36,8 @@ static func resolve(
 	var attacker: CombatAttackerSnapshot = input.attacker
 	var defender: CombatDefenderSnapshot = input.defender
 	var action: CombatActionDefinition = input.selected_action
+	# The combat power knobs (CombatPowerRules; DECISIONS「战斗数值」): at ES2's they change nothing.
+	var rules: CombatPowerRules = input.rules
 	var calculation: CombatAttackCalculation = CombatAttackCalculation.new()
 	var standard_force_result: StandardForceHitResult
 	var vitality_current_before: int = defender_vitality.current
@@ -137,7 +139,7 @@ static func resolve(
 		attacker.maximum_spirit,
 		attacker.current_spirit,
 	)
-	calculation._attack_power = CombatMath.skill_power(attack_power_input)
+	calculation._attack_power = CombatMath.skill_power(attack_power_input, rules)
 	if calculation._attack_power < 1:
 		calculation._attack_power = 1
 
@@ -149,7 +151,7 @@ static func resolve(
 		defender.maximum_spirit,
 		defender.current_spirit,
 	)
-	calculation._dodge_power = CombatMath.skill_power(dodge_power_input)
+	calculation._dodge_power = CombatMath.skill_power(dodge_power_input, rules, true)
 	if calculation._dodge_power < 1:
 		calculation._dodge_power = 1
 	if defender.busy:
@@ -188,14 +190,14 @@ static func resolve(
 	var parry_effective_level: int
 	if defender.has_primary_weapon:
 		parry_effective_level = defender.effective_parry_skill_level
-		calculation._parry_power = _defense_skill_power(defender, parry_effective_level)
+		calculation._parry_power = _defense_skill_power(defender, parry_effective_level, rules)
 		if weapon == null:
 			calculation._parry_power *= 2
 	elif weapon != null:
 		calculation._parry_power = 0
 	else:
 		parry_effective_level = defender.effective_unarmed_skill_level
-		calculation._parry_power = _defense_skill_power(defender, parry_effective_level)
+		calculation._parry_power = _defense_skill_power(defender, parry_effective_level, rules)
 	if defender.busy:
 		@warning_ignore("integer_division")
 		calculation._parry_power /= 3
@@ -450,6 +452,9 @@ static func resolve(
 	calculation._reached_stage = CombatAttackCalculation.ReachedStage.STRENGTH_DAMAGE_READY
 
 	var defense_factor: int = defender.combat_experience
+	# MODERN experience defense (CombatPowerRules): one bounded reduction, no draw, in the
+	# loop's place; the loop below is combatd.c's.
+	var modern_defense: bool = rules.experience_defense == CombatPowerRules.ExperienceDefense.MODERN
 	while true:
 		calculation._defense_factor_at_exit = defense_factor
 		# random(0) is 0, so `random(f) > exp` ends the loop for any exp >= 0.
@@ -469,6 +474,14 @@ static func resolve(
 				&"",
 				standard_force_result,
 			)
+		if modern_defense:
+			var percent: int = rules.experience_defense_percent(attacker.combat_experience, defender.combat_experience)
+			if percent > 0:
+				@warning_ignore("integer_division")
+				calculation._damage_value -= calculation._damage_value * percent / 100
+				calculation._defense_iterations = 1
+			calculation._defense_factor_at_exit = percent
+			break
 		var defense_roll: int = _draw(random_source, defense_factor, calculation)
 		if not _is_valid_draw(defense_roll, defense_factor):
 			return _invalid_draw_result(
@@ -562,6 +575,7 @@ static func resolve(
 static func _defense_skill_power(
 	defender: CombatDefenderSnapshot,
 	effective_level: int,
+	rules: CombatPowerRules = null,
 ) -> int:
 	return CombatMath.skill_power(
 		CombatSkillPowerInput.new(
@@ -571,7 +585,9 @@ static func _defense_skill_power(
 			defender.combat_experience,
 			defender.maximum_spirit,
 			defender.current_spirit,
-		)
+		),
+		rules,
+		true,
 	)
 
 

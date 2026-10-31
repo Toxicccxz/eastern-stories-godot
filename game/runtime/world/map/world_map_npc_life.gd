@@ -783,7 +783,11 @@ func _note_player_arrival() -> void:
 			_consider_stealing(npc)
 			_map.patrols.meet(npc)
 			here.append(npc)
-	_map.hostilities.player_init(here)
+	# Continue puts the player back where they stood: no init() there (as no greeting), so
+	# the berserk roll draws nothing and the restored world is the saved one, draw for draw
+	# (the main path's Save → Continue check; a player with 杀气 made it drift).
+	if not resumed:
+		_map.hostilities.player_init(here)
 
 
 ## go.c's all_inventory(env)->follow_me(me, dir), on this map (owner, polish, A11): who

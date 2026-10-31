@@ -31,12 +31,24 @@ static func use_reactions() -> PacingDefinition:
 
 
 ## The game's pacing with the A2 progression knobs at ES2's (no 历练, no catch-up, cap 100,
-## 打坐 ×1): for suites that pin a fight's or a sitting's numbers (combat_exp, its draw
-## bounds) while the rest of the pacing stays the game's.
+## 打坐 ×1) and the fight at ES2's numbers (DECISIONS「战斗数值」: the cubic curve, the
+## experience loop, the NPCs' `classic` values, no forecast): for suites that pin a fight's
+## or a sitting's numbers (combat_exp, its draw bounds) while the rest of the pacing stays
+## the game's.
 static func use_without_progression() -> PacingDefinition:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var production: PacingDefinition = catalog.pacing()
-	catalog.set_pacing(production.copy().with_progression(false, 0, false, 1).with_training(false, production.bounty_refresh_seconds, false).with_day_length(production.day_length_minutes))
+	catalog.set_pacing(production.copy().with_progression(false, 0, false, 1).with_training(false, production.bounty_refresh_seconds, false).with_day_length(production.day_length_minutes).with_combat(CombatPowerRules.classic(), false, true))
+	return production
+
+
+## The game's pacing with only the fight at ES2's numbers (DECISIONS「战斗数值」: the cubic
+## curve, the experience loop, the NPCs' `classic` values, no forecast): for suites that pin
+## a fight's course or an NPC's LPC numbers while the 木人, the board and the rest stay.
+static func use_combat() -> PacingDefinition:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var production: PacingDefinition = catalog.pacing()
+	catalog.set_pacing(production.copy().with_combat(CombatPowerRules.classic(), false, true))
 	return production
 
 

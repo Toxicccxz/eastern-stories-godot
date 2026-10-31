@@ -7,6 +7,8 @@ var _selected_action: CombatActionDefinition
 ## Optional composition authority, never a preselected next action. The resolver
 ## receives a fresh three-argument input containing only the committed selection.
 var _approved_actions: CombatActionSet
+## The combat power knobs this attack resolves under (CombatPowerRules); ES2's when none.
+var _rules: CombatPowerRules
 
 var attacker: CombatAttackerSnapshot:
 	get:
@@ -17,6 +19,9 @@ var defender: CombatDefenderSnapshot:
 var selected_action: CombatActionDefinition:
 	get:
 		return _selected_action.duplicate_snapshot() if _selected_action != null else null
+var rules: CombatPowerRules:
+	get:
+		return _rules.duplicate_snapshot()
 
 
 func _init(
@@ -24,8 +29,10 @@ func _init(
 	p_defender: CombatDefenderSnapshot = null,
 	p_selected_action: CombatActionDefinition = null,
 	p_approved_actions: CombatActionSet = null,
+	p_rules: CombatPowerRules = null,
 ) -> void:
 	_approved_actions = CombatActionSet.new(p_approved_actions.actions()) if p_approved_actions != null else null
+	_rules = p_rules.duplicate_snapshot() if p_rules != null else CombatPowerRules.classic()
 	_attacker = p_attacker.duplicate_snapshot() if p_attacker != null else null
 	_defender = p_defender.duplicate_snapshot() if p_defender != null else null
 	_selected_action = (

@@ -55,6 +55,9 @@
 
 **战斗**
 - 战斗中世界停住；战斗速度（慢 / 标准 / 快）只改一回合用多少真实秒；句子 0.12 秒一句；结束定格 0.8 秒。「手感：战斗」
+- 命中力按 Elo 式指数（100 × 2^(级/10) + 经验/4，`power_curve` modern）；守方闪躲、招架打五折；经验防御是一次最多 40% 的减伤；经典 = combatd.c 原式。「战斗数值」
+- 打之前有预判：目标详情、交互窗口和确认页上一行五档（稳赢 / 占优 / 五五开 / 吃亏 / 必败）+ 一句原因，整伙合计，切磋按谁先打中；经典显示按经验的「看起来比你强」。「战斗数值」
+- 前两小时的敌人按玩家四档定数值（老鼠闪躲 15、疯狗、土匪、狼狗）；改过的 NPC 带 `classic` 块，经典模式用 ES2 原值。「战斗数值」
 - 战斗记录用 combatd.c 的原句，伤害数字跟在句末；闪避、招架的措辞不抽战斗随机流。「Battle narration in ES2's words」
 - 有人要杀玩家时显示 kill_ob() 的「看起来X想杀死你！」并钉在战斗记录上方。「How a fight opens」
 - 切磋走 fight.c 和 NPC 的 accept_fight；持兵刃的切磋会伤人，照 ES2；兽类不能切磋；凶手是最后一击的人（last_damage_from）。「切磋: fight.c, accept_fight and armed spars」
@@ -168,8 +171,9 @@
 - `milestone_rewards`、`catch_up_max_percent` 100、`staged_potential_cap`、`player_exercise_gain` 6、`training_dummies`、`bounty_board`（经典关 / 0 / 1）。「经验节奏」
 - `room_reset_seconds` 1800、`combat_round_ms` 1000、`heart_beat_ms` 2000（就是 ES2）。「NPCs talk and wander; rooms reset」「One map runtime」「响应性」
 - `feel`：换图淡入淡出、走路、气泡、菜单、战斗演出、`training_step_ms`、`corner_slide_px`（不写 = 0，没有演出）、`voxel_worlds_kept` 3（保留几张图的体素世界；0 = 全留）。「手感」「手感：战斗」「连续修炼」「固定俯视体素地图」
-- 新游戏面板的「节奏」：经典把 `milestone_rewards`、`catch_up_max_percent`、`staged_potential_cap`、`player_exercise_gain`、`bounty_board`、`training_dummies`、`day_length_minutes`、`sky_weather` 一起按回 ES2，存进存档，开局后不改。「经典模式总开关」「昼夜」「天气」
+- 新游戏面板的「节奏」：经典把 `milestone_rewards`、`catch_up_max_percent`、`staged_potential_cap`、`player_exercise_gain`、`bounty_board`、`training_dummies`、`day_length_minutes`、`sky_weather`、战斗数值的十一个开关一起按回 ES2，存进存档，开局后不改。「经典模式总开关」「昼夜」「天气」「战斗数值」
 - `day_length_minutes` 24（就是 ES2；owner Q3 默认也用 24）。「昼夜」
+- `power_curve` modern、`power_base` 100、`power_doubling_levels` 10、`power_cap_levels` 150、`exp_power_divisor` 4、`defense_power_percent` 50、`experience_defense` modern、`exp_defense_max_percent` 40、`exp_defense_softness` 200、`combat_forecast`、`es2_npc_values` false（经典 classic / 1 / 100 / classic / 0 / 关 / true）。「战斗数值」
 - `sky_weather` 开（经典关：ES2 从不显示天色，永远晴）。「天气」
 - `story_parley` 开（经典关：老松寨见人就打，寨门机关必落）；`bury_always_rewards` 开（经典关：安葬按 random(kar + 10) 抽书，抽不中掉下瀑布）。「老松寨的三条路」「安葬必得书」
 
@@ -188,6 +192,46 @@
 - 京师：令牌照 ES2；地下密室的石阶从下面也能开。「京师 A」「京师 B」
 - 黑松山：进山的路修好；小娟只救一次。「黑松山 A」「黑松山 B」
 - 鬼门关：阴间要自己走回来；路的尽头补了原文缺的句子。「鬼门关 A」
+
+## 战斗数值 (战斗决策层 1A, owner 2026-10-31「让战斗合理：数值跟着成长走、没有悬崖、老鼠不荒唐、打之前能预判，数值可以大刀阔斧地改」; 计划 `build/plans/战斗决策层_计划.md` v2, Q1 五档文字 + 一句原因、Q2 现代 fixture 重录一次、Q3 1A / 1B 两个 PR 按推荐)
+
+- **ES2：** combatd.c 的三个根子让战斗不跟着成长走。① `skill_power()` 是技能的三次方（level³ / 3 + 经验；技能 0 时只剩经验 / 2）：
+  技能 0 → 1，10 → 333，老鼠的闪躲 120 → 576 000——新角色对野狗五五开，学到 10 之后 99.7%，对老鼠百万分之一。② 经验防御循环
+  `while random(对方经验) > 我的经验: 伤害 −1/3; 对方经验 /= 2`：经验 0 打经验 600 的探哨每一击只剩 3%，经验差压倒技能、招式、兵器。
+  ③ 两道门各五成（先闪躲再招架），势均力敌一招只有 25% 打中，十几回合才见分晓。探针（`build/combat/rounds_probe.gd`）：新角色打野狗 9 回合
+  输赢各半、疯狗 6 回合必输、三个探哨 5 回合必输、老鼠 110 回合必输；学了一轮（技能 10）就 4 回合碾压野狗和疯狗。
+- **我们（pacing.json 开关，经典值 = ES2；`PacePresets` 经典组一起按回；`Es2Pacing` 的套件用经典值）：**
+  - `power_curve` modern（经典 classic）：A/(A+B) 就是 Elo 的形式，所以强度按 Elo 式指数走：`power_base` 100 × 2^(level / `power_doubling_levels` 10)
+    + 经验 / `exp_power_divisor` 4（经典 1），精神比例照 combatd.c 乘；`power_cap_levels` 150 以上不再翻倍、改为线性（高手的 300 是 150 的两倍，上界不超出 random()）。每高 10 级赔率翻倍：10 级 67/33、20 级 80/20、30 级 89/11，从 0 到 100 每一步手感一样；
+    经验仍算数但不再压倒技能（刘安禄 blade 40、经验 20000 对技能 8 的玩家仍是 3%）。
+  - `defense_power_percent` 50（经典 100）：守方的闪躲力、招架力打五折再进 `random(攻 + 守)`，同档一招约五成打中。
+  - `experience_defense` modern（经典 classic）、`exp_defense_max_percent` 40、`exp_defense_softness` 200：循环换成一次有上限的减伤
+    （经验差 × 100 / (两人经验和 + 200)，最多 40%），不抽数。
+  - 命中、闪躲、招架的 `_draw` 和伤害式子一行不动：修正只进 `CombatMath.skill_power()` 的输入和循环所在的那一段；`CombatPowerRules` 由
+    `CombatAttackInput` 带着进 resolver，没有开关的记录（`PacingDefinition.new()`）就是 ES2 逐位（`combat_power_rules_test`，`combat_resolution_cutover_test` 按经典跑）。
+  - **战前预判** `combat_forecast` true（经典 false，显示 A10 按经验的「看起来比你强」）：`CombatForecast` 用同一套输入的期望值（不抽数）算两边每回合的期望伤害
+    → 各自几回合倒下 → 比值分五档「稳赢 / 占优 / 五五开 / 吃亏 / 必败」（≤ 0.5 / 0.8 / 1.25 / 2），整伙合计（`WorldMapHostilities.would_join()`：
+    进门一起上的整伙），加一句原因（人多、闪躲高、兵刃在手空手难近身、经验多、下手重、你有兵刃）；切磋按谁先打中算。显示在目标详情、交互窗口的一行、
+    攻击 / 切磋的确认页（`WorldMapController.combat_outlook()`、`CombatOutlook`）。守势、反击、绝招、内力和受伤不算：是预判，不是重演。
+  - **敌人分档** `es2_npc_values` false（经典 true）：前两小时能打的人按玩家四档重定（T0 新角色、T1 第一轮请教后 技能 8 经验 100、T2 一小时 技能 20 经验 400 持竹剑、
+    T3 两小时 技能 30 经验 1000）；每个改了的 NPC 记录带 `classic` 块（ES2 原值，`without` 列出要去掉的键），经典模式下 `ContentCatalog.npc()` 交出它：
+
+    | NPC | ES2 | 现在 | 档 |
+    |---|---|---|---|
+    | 老鼠 | 闪躲 120、气 50 | 闪躲 15、气 15 | T0：三回合内倒，不再是 110 回合 |
+    | 疯狗 | 攻 15、伤 6、经验 100 | 攻 22、伤 8、经验 150 | T1 同档，T0 吃亏 |
+    | 土匪探哨 ×3 | 经验 600、气 200 | 经验 250、气 120 | T2 持剑单个占优、三个一起吃亏；T3 三个占优 |
+    | 土匪（高） | 经验 900、气 220 | 经验 400、气 160 | T2–T3 |
+    | 土匪（胖） | 经验 500、气 220 | 经验 450、气 180 | T2–T3 |
+    | 狼狗 | 攻 45、伤 40、甲 45、经验 10000、气 200 | 攻 18、伤 15、甲 10、经验 1200、气 100 | T3 |
+
+    野狗、武馆弟子、醉汉、樵夫、乞丐和剧情人物（刘安禄、安惜迩、柳绘心、李火狮、土匪喽罗以上）不动。兵器三条规则不动（空手挡不住兵刃：对方持兵刃时你的招架 ×2 难、
+    你持兵刃时空手的对方招架 0），所以持剑的土匪是 T2 以后的对手，预判会说「他有兵刃在手，你空手难以近身」。
+- **为什么：** owner：没学就毫无胜算、学一点皮毛就碾压的悬崖不能有；老鼠那种荒唐不能有；打之前要知道这一仗是轻是重。Elo 的形状是成熟的（每差固定分赔率固定），
+  有上限的减伤是护甲公式的常例，同档 4–8 回合是回合制 RPG 杂兵战的常例。
+- **顺手修（存档契约）：** 读档回到原地不再做 attack.c init() 的杀气掷骰（和「继续」时不重复问候一样）：带杀气的玩家读档后世界随机流原本会偏一抽，
+  主线的 Save → Continue 逐字核对时挂时不挂；现代数值下玩家在主线里杀得到野狗，才露出来。
+- **测试：** `combat_power_rules_test`、`combat_forecast_test`、`npc_classic_values_test`；钉 LPC 数字的套件改走 `Es2Pacing`（没有 fixture 要重录）；探针的四档 × 前两小时敌人表在 PR 里。
 
 ## 关北 D (剧情总纲 §8 第 4 步第二区, §3 第六章 ④ 选择的后果、第七章 ① 入口, §6 关北卡 马上刀法; 计划 `build/plans/关北_计划.md` D 包, owner 2026-10-31「开工 D」; Q2 救一半的代价第二处（车路过）、Q3 马刀谱研读到 40)
 

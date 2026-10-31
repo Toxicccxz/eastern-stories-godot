@@ -110,6 +110,8 @@ static func complete(
 		projected_attacker,
 		attack_template.defender,
 		selected_action,
+		null,
+		attack_template.rules,
 	)
 	result._reached_stage = CombatAttackChainResult.ReachedStage.REVERSE_ORDINARY
 	var ordinary: CombatOrdinaryAttackResult = CombatAttackCompletionService.resolve(

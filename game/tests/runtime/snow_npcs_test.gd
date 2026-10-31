@@ -11,6 +11,9 @@ var _failures: Array[String] = []
 
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
+	# ES2's NPC numbers and combatd.c's own curve (DECISIONS「战斗数值」: the dog's kill is the
+	# LPC's); the 木人 and the rest of the pacing stay the game's (the population count).
+	var pacing_es2: PacingDefinition = Es2Pacing.use_combat()
 	var session: WorldSessionController = Work.create_session(tree)
 	await tree.process_frame
 	_test_population(session)
@@ -19,6 +22,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	session.free()
 	await tree.process_frame
 	await _test_dog_fight_ends(tree)
+	Es2Pacing.restore(pacing_es2)
 	return {"assertions": _count, "failures": _failures}
 
 

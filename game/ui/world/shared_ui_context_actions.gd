@@ -62,12 +62,13 @@ func confirm_in_popup(question: String, choice: String, act: Callable, still_val
 		act.call()
 
 
-## How strong `npc` looks to the player (RelativeStrength), for a confirm page.
-func _strength_of(npc: NpcRuntimeState) -> String:
-	if npc == null or _player == null:
+## What fighting `npc` would come to (CombatOutlook: the 战前预判, or RelativeStrength's
+## line), for a confirm page.
+func _strength_of(npc: NpcRuntimeState, spar: bool = false) -> String:
+	var map := _session.active_map() as WorldMapController
+	if npc == null or _player == null or map == null:
 		return ""
-	var line: String = RelativeStrength.line(_player.state.progression.combat_experience, npc.character_state.progression.combat_experience)
-	return "" if line.is_empty() else tr(line).format({"pronoun": tr(Es2CombatMessages.pronoun(npc.character_state.gender))})
+	return map.combat_outlook(npc, spar).shown(tr(Es2CombatMessages.pronoun(npc.character_state.gender)))
 
 
 ## The map's door or service at the player's spot, as the context button text.
@@ -260,7 +261,7 @@ func spar_context() -> void:
 		return
 	var risk: WorldMapController.SparRisk = map.selected_spar_risk()
 	var npc: NpcRuntimeState = map.selected_npc()
-	var about: String = _strength_of(npc) if _ui.interaction_open() else ""
+	var about: String = _strength_of(npc, true) if _ui.interaction_open() else ""
 	if risk == WorldMapController.SparRisk.NONE:
 		# TRANSLATORS: the interaction popup's confirm page before a 切磋 with no risk named (fight.c): {npc} the one asked.
 		confirm_in_popup(tr("切磋点到为止。确定要和{npc}切磋吗？").format({"npc": "" if npc == null else tr(npc.definition().display_name)}), "确定切磋", map.spar_selected, _ui.selection.spar_is_enabled, about)

@@ -350,8 +350,13 @@ func items() -> Array[ItemContentDefinition]:
 	return result
 
 
+## The NPC's definition; under es2_npc_values (DECISIONS「战斗数值」: 经典) the record's
+## `classic` block laid over it, where it has one.
 func npc(npc_definition_id: StringName) -> NpcDefinition:
-	return _npcs.get(npc_definition_id)
+	var definition: NpcDefinition = _npcs.get(npc_definition_id)
+	if definition != null and _pacing != null and _pacing.es2_npc_values and definition.es2_variant() != null:
+		return definition.es2_variant()
+	return definition
 
 
 func npcs() -> Array[NpcDefinition]:

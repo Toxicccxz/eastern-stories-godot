@@ -1490,6 +1490,18 @@ func kneel_selected() -> Array[String]:
 	return selection.kneel_selected()
 
 
+## What fighting `npc` would come to, for the HUD (CombatOutlook): the 战前预判 under
+## pacing.json's combat_forecast, else RelativeStrength's line by combat_exp.
+func combat_outlook(npc: NpcRuntimeState, spar: bool = false) -> CombatOutlook:
+	if npc == null or _player == null:
+		return CombatOutlook.new()
+	if GameContent.catalog().pacing().combat_forecast:
+		var forecast: CombatForecast = CombatForecastBuilder.for_attack(self, npc)
+		if forecast != null:
+			return CombatOutlook.new(forecast.line(spar), forecast.enemies, forecast)
+	return CombatOutlook.new(RelativeStrength.line(_player.state.progression.combat_experience, npc.character_state.progression.combat_experience))
+
+
 func interaction_title() -> String:
 	return selection.interaction_title()
 

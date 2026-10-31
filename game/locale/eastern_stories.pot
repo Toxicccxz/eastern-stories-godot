@@ -3986,6 +3986,70 @@ msgstr ""
 msgid "{pronoun}看起来比你强得多。"
 msgstr ""
 
+#: core/combat/forecast/combat_forecast.gd
+msgid "稳赢：{pronoun}远不是你的对手。"
+msgstr ""
+
+#: core/combat/forecast/combat_forecast.gd
+msgid "占优：你比{pronoun}强一些。"
+msgstr ""
+
+#: core/combat/forecast/combat_forecast.gd
+msgid "五五开：{pronoun}和你不相上下。"
+msgstr ""
+
+#: core/combat/forecast/combat_forecast.gd
+msgid "吃亏：{pronoun}比你强，打起来要吃亏。"
+msgstr ""
+
+#: core/combat/forecast/combat_forecast.gd
+msgid "必败：{pronoun}远比你强，别打。"
+msgstr ""
+
+#: core/combat/forecast/combat_forecast.gd
+msgid "{pronoun}这边有 {count} 个人一起上。"
+msgstr ""
+
+#: core/combat/forecast/combat_forecast.gd
+msgid "{pronoun}的闪躲比你高得多，你很难打中。"
+msgstr ""
+
+#: core/combat/forecast/combat_forecast.gd
+msgid "{pronoun}有兵刃在手，你空手难以近身。"
+msgstr ""
+
+#: core/combat/forecast/combat_forecast.gd
+msgid "{pronoun}的经验比你多得多，你的拳脚落不实。"
+msgstr ""
+
+#: core/combat/forecast/combat_forecast.gd
+msgid "{pronoun}下手太重，你撑不了几回合。"
+msgstr ""
+
+#: core/combat/forecast/combat_forecast.gd
+msgid "你有兵刃在手，{pronoun}空手挡不住。"
+msgstr ""
+
+#: core/combat/forecast/combat_forecast.gd
+msgid "切磋稳赢：{pronoun}的招式你一眼看穿。"
+msgstr ""
+
+#: core/combat/forecast/combat_forecast.gd
+msgid "切磋占优：你多半先打中{pronoun}。"
+msgstr ""
+
+#: core/combat/forecast/combat_forecast.gd
+msgid "切磋五五开：谁先打中谁赢。"
+msgstr ""
+
+#: core/combat/forecast/combat_forecast.gd
+msgid "切磋吃亏：{pronoun}多半先打中你。"
+msgstr ""
+
+#: core/combat/forecast/combat_forecast.gd
+msgid "切磋必输：{pronoun}的招式你接不住。"
+msgstr ""
+
 #: core/conditions/effects/drunk_condition_effect.gd
 msgid "{name}打了个隔，不过依然烂醉如泥。"
 msgstr ""
@@ -16880,6 +16944,14 @@ msgstr ""
 #: data/oldpine/npcs.json
 msgid ""
 "这人满脸匪气，一付百无聊赖的模样，令人望而生厌。\n"
+msgstr ""
+
+#. oldpine.npc.bandit classic.without
+#. oldpine.npc.tall_bandit classic.without
+#. oldpine.npc.fat_bandit classic.without
+#. snow.npc.rat classic.without
+#: data/oldpine/npcs.json data/snow/npcs.json
+msgid "resources"
 msgstr ""
 
 #. oldpine.npc.tall_bandit name

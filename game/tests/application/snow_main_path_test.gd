@@ -505,7 +505,8 @@ func _save_and_continue(tree: SceneTree, profile: GameSaveStorageProfile, files:
 		return
 	_session.set_process(false)
 	var after: GameSaveSnapshot = Work.capture(_session)
-	check(after != null and GameSaveJsonCodec.encode(after).text == encoded, "Continue restores the exact state")
+	var after_text: String = "" if after == null else GameSaveJsonCodec.encode(after).text
+	check(after != null and after_text == encoded, "Continue restores the exact state%s" % _first_difference(encoded, after_text))
 	var state: CharacterState = _session.player_runtime().state
 	check(state.family.family_id == &"family.fonxan" and state.apprenticeship.master_teacher_id == &"common.npc.swordsman.master", "still 柳淳风's apprentice")
 	check(_session.active_map_id() == &"snow.hockshop_house" and _zone() == &"snow.hockshop", "standing in the Hockshop")
@@ -604,3 +605,13 @@ func _beside(map: WorldMapController, zone_id: StringName, point_id: StringName)
 func _place(map: WorldMapController, zone_id: StringName, at: Vector2) -> bool:
 	map.runtime_player_body().global_position = at
 	return _session.player_runtime().set_world_location(map.location_for_zone(zone_id))
+
+
+## Where two save texts first differ, for the check's message ("" when equal).
+static func _first_difference(expected: String, actual: String) -> String:
+	if expected == actual:
+		return ""
+	var at: int = 0
+	while at < expected.length() and at < actual.length() and expected[at] == actual[at]:
+		at += 1
+	return ": first difference at %d (of %d / %d): expected …%s… got …%s…" % [at, expected.length(), actual.length(), expected.substr(maxi(0, at - 120), 240), actual.substr(maxi(0, at - 120), 240)]

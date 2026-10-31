@@ -728,6 +728,29 @@ func collect_complete_combat_entry(cause: int, requested_target: StringName = &"
 	return result
 
 
+## The NPCs the player's 攻击 on `target` would bring into the fight as the map stands:
+## the target, then every resident here that falls on the player on sight (the gang,
+## DECISIONS「进门一起上」; the toll-takers still waiting join too, as
+## collect_complete_combat_entry() takes them). A read for the 战前预判 (CombatForecast):
+## it draws nothing and marks nobody.
+func would_join(target: NpcRuntimeState) -> Array[NpcRuntimeState]:
+	var result: Array[NpcRuntimeState] = []
+	if target == null or _player == null:
+		return result
+	result.append(target)
+	for npc: NpcRuntimeState in _map.npcs.residents:
+		if npc == target or not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
+			continue
+		# The player's own 攻击 brings the room down on them, whoever took them for one of
+		# their own: ignored=false, as collect_complete_combat_entry() evaluates a manual start.
+		if not npc.definition().attacks_on_sight(npc.flags(), _player.state, _parley(), false):
+			continue
+		if aggression._evaluate(npc, _player, _combat_allowed(npc)).outcome != NpcAggressionDecision.Outcome.READY:
+			continue
+		result.append(npc)
+	return result
+
+
 ## Whether the gang's `id` only kills, the player fighting it back: one that hunts the
 ## player (combatd.c start_hatred()'s kill_ob(): attack.c is_killing()), unless it is the
 ## one the player's 攻击 names (then both kill, as kill.c).

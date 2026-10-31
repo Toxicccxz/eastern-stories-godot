@@ -7,6 +7,8 @@ var _assertions: int = 0
 var _failures: Array[String] = []
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
+	# ES2's NPC numbers and combatd.c's own curve (DECISIONS「战斗数值」: this suite pins the LPC).
+	var pacing_es2: PacingDefinition = Es2Pacing.use()
 	await _authored_and_restore(tree)
 	_feedback_failures()
 	for seed_value: int in [103, 211, 509]:
@@ -16,6 +18,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	var closure: Dictionary[String, Variant] = await preload("res://tests/runtime/combat_flee_test.gd").new().run_all(tree)
 	_assertions += closure["assertions"]
 	_failures.append_array(closure["failures"])
+	Es2Pacing.restore(pacing_es2)
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
 
 func _session(tree: SceneTree, seed_value: int) -> WorldSessionController:

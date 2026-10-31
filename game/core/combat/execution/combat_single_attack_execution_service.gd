@@ -114,6 +114,8 @@ static func execute(
 		projected_attacker,
 		projected_defender,
 		selected_action,
+		null,
+		attack_input_template.rules,
 	)
 	result._reached_stage = CombatSingleAttackExecutionResult.ReachedStage.ORDINARY_ATTACK
 	var ordinary: CombatOrdinaryAttackResult = CombatAttackCompletionService.resolve(

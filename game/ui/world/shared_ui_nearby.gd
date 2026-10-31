@@ -283,9 +283,9 @@ func about(thing: WorldNearbyThing) -> Array[Array]:
 				if not relation.is_empty():
 					# TRANSLATORS: look.c: {pronoun} is 他/她/它, {relation} what the NPC is to the player (师父, 同门师兄 …).
 					lines.append(tr("{pronoun}是你的{relation}。").format({"pronoun": pronoun, "relation": tr(relation)}))
-				var strength: String = RelativeStrength.line(_player.state.progression.combat_experience, npc.character_state.progression.combat_experience)
+				var strength: String = "" if map == null else map.combat_outlook(npc).shown(pronoun)
 				if not strength.is_empty():
-					lines.append(tr(strength).format({"pronoun": pronoun}))
+					lines.append(strength)
 		WorldNearbyThing.Kind.CORPSE:
 			var corpse: CorpseState = null if map == null else map.corpses.find_corpse(thing.id)
 			if corpse != null:

@@ -10,6 +10,8 @@ var _failures: Array[String] = []
 
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
+	# combatd.c's draws, scripted: ES2's numbers (DECISIONS「战斗数值」; the modern knobs have their own suites).
+	var pacing: PacingDefinition = Es2Pacing.use()
 	_test_godot_random_adapter()
 	_test_persisted_project_configuration()
 	await _test_scene_smoke_and_live_presentation(tree)
@@ -17,6 +19,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_stable_order_and_lifecycle_staging(tree)
 	await _test_player_threshold_waits_for_next_opportunity(tree)
 	await _test_reset_reloads_fresh_encounter(tree)
+	Es2Pacing.restore(pacing)
 	return {
 		"assertions": _assertion_count,
 		"failures": _failures.duplicate(),
