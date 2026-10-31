@@ -23,6 +23,8 @@ var _failures: Array[String] = []
 
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
+	# ES2's NPC numbers and combatd.c's own curve (DECISIONS「战斗数值」: this suite pins the LPC).
+	var pacing_es2: PacingDefinition = Es2Pacing.use()
 	var actual: Dictionary = {
 		"technical_new_game": await _capture(tree, false),
 		"source_entry": await _capture(tree, true),
@@ -39,6 +41,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 		var normalized: Dictionary = JSON.parse_string(JSON.stringify(actual))
 		for mode: String in normalized:
 			_assert_eq(JSON.stringify(normalized[mode], "", false), JSON.stringify(expected.get(mode), "", false), "%s spawns match the recorded baseline" % mode)
+	Es2Pacing.restore(pacing_es2)
 	return {"assertions": _assertion_count, "failures": _failures.duplicate()}
 
 

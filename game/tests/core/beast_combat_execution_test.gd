@@ -7,12 +7,15 @@ var _failures: Array[String] = []
 
 
 func run_all() -> Dictionary[String, Variant]:
+	# ES2's NPC numbers and combatd.c's own curve (DECISIONS「战斗数值」: this suite pins the LPC).
+	var pacing_es2: PacingDefinition = Es2Pacing.use()
 	_test_forward_branches()
 	_test_defender_wound_boundary()
 	_test_npc_progression()
 	_test_npc_parry_progression()
 	_test_live_riposte()
 	_test_reverse_hit_damage()
+	Es2Pacing.restore(pacing_es2)
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
 
 

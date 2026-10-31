@@ -42,5 +42,15 @@ static func use_without_progression() -> PacingDefinition:
 	return production
 
 
+## The game's pacing with only the fight at ES2's numbers (DECISIONS「战斗数值」: the cubic
+## curve, the experience loop, the NPCs' `classic` values, no forecast): for suites that pin
+## a fight's course or an NPC's LPC numbers while the 木人, the board and the rest stay.
+static func use_combat() -> PacingDefinition:
+	var catalog: ContentCatalog = GameContent.catalog()
+	var production: PacingDefinition = catalog.pacing()
+	catalog.set_pacing(production.copy().with_combat(CombatPowerRules.classic(), false, true))
+	return production
+
+
 static func restore(previous: PacingDefinition) -> void:
 	GameContent.catalog().set_pacing(previous)

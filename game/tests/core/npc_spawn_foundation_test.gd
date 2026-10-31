@@ -13,6 +13,8 @@ var _failures: Array[String] = []
 
 
 func run_all() -> Dictionary[String, Variant]:
+	# ES2's NPC numbers and combatd.c's own curve (DECISIONS「战斗数值」: this suite pins the LPC).
+	var pacing_es2: PacingDefinition = Es2Pacing.use()
 	_test_exact_bandit_definition()
 	_test_exact_tall_bandit_definition()
 	_test_human_rng_order_and_derived_state()
@@ -27,6 +29,7 @@ func run_all() -> Dictionary[String, Variant]:
 	_test_authored_npc_and_spawn_arrays_are_defensive()
 	_test_invalid_spawn_and_definition_shapes()
 	_test_loadout_content_lookup()
+	Es2Pacing.restore(pacing_es2)
 	return {
 		"assertions": _assertion_count,
 		"failures": _failures.duplicate(),

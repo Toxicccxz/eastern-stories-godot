@@ -25,6 +25,8 @@ var _tree: SceneTree
 
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
+	# ES2's NPC numbers and combatd.c's own curve (DECISIONS「战斗数值」: this suite pins the LPC).
+	var pacing_es2: PacingDefinition = Es2Pacing.use()
 	_tree = tree
 	await _open(tree)
 	_test_page()
@@ -42,6 +44,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_warning(tree)
 	_session.free()
 	await tree.process_frame
+	Es2Pacing.restore(pacing_es2)
 	return {"assertions": _count, "failures": _failures}
 
 
