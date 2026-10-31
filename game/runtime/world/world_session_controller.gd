@@ -94,6 +94,10 @@ var _player_resets: WorldRoomResets
 var _maps_by_room: Dictionary[String, Array] = {}
 ## The world clock and each map's time without the player (DECISIONS「别的地图时间补算」).
 var _away: WorldAwayTimes = WorldAwayTimes.new()
+## A moment the autosave may take (GameAutosave): a map change landed, or a fight is over and
+## its panel gone.
+signal autosave_moment
+var _fight_shown: bool = false
 ## Real seconds this character has been played, menus included (not the pause).
 var _played_seconds: float = 0.0
 ## The time of day (DECISIONS「昼夜」), going on with the world clock; saved as day_seconds.
@@ -127,6 +131,7 @@ func _ready() -> void:
 	# (WorldCharacterBody2D.bind_player()); everything else is drawn where it is.
 	physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 	_day = DayClock.new(GameContent.catalog().day_phases())
+	view_arriving.connect(_on_view_arrived)
 	if initialize_session():
 		shared_ui().configure(player_runtime())
 		shared_ui().initialize_supplies()
@@ -164,8 +169,21 @@ func played_seconds() -> int:
 	return int(_played_seconds)
 
 
+func _on_view_arrived(_map_id: StringName, arrived: bool, _door: bool) -> void:
+	if arrived:
+		autosave_moment.emit()
+
+
+func _note_fight_over() -> void:
+	var shown: bool = battle_panel_shown() or (_combat_encounter_coordinator != null and _combat_encounter_coordinator.has_active_encounter())
+	if _fight_shown and not shown:
+		autosave_moment.emit()
+	_fight_shown = shown
+
+
 func _process(delta: float) -> void:
 	_played_seconds += delta
+	_note_fight_over()
 	# The engine's _process of the frame that activated a restored save is not world time: its
 	# delta is the loading frame's, and the player has not seen the world yet (DECISIONS「别的
 	# 地图时间补算」: the save's away_ms, day and recovery come back exactly; under load that

@@ -44,6 +44,10 @@ msgstr ""
 msgid "恢复存档"
 msgstr ""
 
+#: scenes/application/application_shell.tscn runtime/application/application_shell_controller.gd
+msgid "读取存档"
+msgstr ""
+
 #: scenes/application/application_shell.tscn
 msgid "设置"
 msgstr ""
@@ -373,7 +377,7 @@ msgstr ""
 msgid "开始旅程"
 msgstr ""
 
-#: scenes/application/application_shell.tscn ui/common/confirm_prompt.gd ui/world/shared_ui_questions.gd
+#: scenes/application/application_shell.tscn runtime/application/application_shell_controller.gd ui/common/confirm_prompt.gd ui/world/shared_ui_questions.gd
 msgid "取消"
 msgstr ""
 
@@ -389,8 +393,12 @@ msgstr ""
 msgid "继续游戏"
 msgstr ""
 
-#: scenes/application/application_shell.tscn
+#: scenes/application/application_shell.tscn runtime/application/application_shell_controller.gd
 msgid "存档"
+msgstr ""
+
+#: scenes/application/application_shell.tscn
+msgid "读档"
 msgstr ""
 
 #: scenes/application/application_shell.tscn runtime/application/application_shell_controller.gd
@@ -423,6 +431,10 @@ msgstr ""
 
 #: scenes/application/application_shell.tscn
 msgid "目标提示"
+msgstr ""
+
+#: scenes/application/application_shell.tscn
+msgid "自动存档提示"
 msgstr ""
 
 #: scenes/application/application_shell.tscn
@@ -3538,7 +3550,19 @@ msgid "存档无法恢复。"
 msgstr ""
 
 #: application/application_message_catalog.gd
-msgid "开始新游戏不会马上删除现有的存档，但之后存档成功时会覆盖它。"
+msgid "手动存档不受影响；新角色第一次自动存档时会覆盖现在的自动存档。"
+msgstr ""
+
+#: application/application_message_catalog.gd
+msgid "覆盖这一位的存档？"
+msgstr ""
+
+#: application/application_message_catalog.gd
+msgid "读取这份存档？上次存档之后的进度会丢失。"
+msgstr ""
+
+#: application/application_message_catalog.gd
+msgid "回到上次自动存档？这之后的进度都会丢失。"
 msgstr ""
 
 #: application/application_message_catalog.gd
@@ -3583,6 +3607,65 @@ msgstr ""
 
 #: application/application_message_catalog.gd
 msgid "操作无法完成。"
+msgstr ""
+
+#: application/application_slot_text.gd
+msgid "自动存档"
+msgstr ""
+
+#. a manual save slot's name; %d its number, 1 to 3.
+#: application/application_slot_text.gd
+msgid "手动存档 %d"
+msgstr ""
+
+#. a slot row: {slot} the slot's name; the save is lost but a backup lies beside it.
+#: application/application_slot_text.gd
+msgid "{slot}（主存档丢失，可以恢复）"
+msgstr ""
+
+#. a slot row: {slot} the slot's name, nothing saved in it.
+#: application/application_slot_text.gd
+msgid "{slot}（空）"
+msgstr ""
+
+#. a slot row: {slot} the slot's name, its file cannot be read.
+#: application/application_slot_text.gd
+msgid "{slot}（无法读取）"
+msgstr ""
+
+#. a slot row: {slot} the slot's name, its save is from another version.
+#: application/application_slot_text.gd
+msgid "{slot}（来自不兼容的版本）"
+msgstr ""
+
+#. a slot row: {name} the character, saved as a ghost.
+#: application/application_slot_text.gd
+msgid "{name}（鬼魂）"
+msgstr ""
+
+#. a slot row: {place} where, {played} the time played, {saved} when it was saved.
+#: application/application_slot_text.gd
+msgid "{place}    时长 {played}    {saved}"
+msgstr ""
+
+#. a slot row: {next} the objective at the save.
+#. the status card's objective row (前两小时 A): {next} a guide chain's next step.
+#: application/application_slot_text.gd ui/world/shared_ui_status_card.gd
+msgid "目标：{next}"
+msgstr ""
+
+#: application/application_slot_text.gd
+msgid "不到一分钟前"
+msgstr ""
+
+#. how long ago a save was made; %d minutes.
+#: application/application_slot_text.gd
+msgid "%d 分钟前"
+msgstr ""
+
+#. how long ago a save was made; %d hours.
+#: application/application_slot_text.gd
+msgid "%d 小时前"
 msgstr ""
 
 #. a counted stack, e.g. 十文钱: {count} in words, {unit} its measure word, {item} its name.
@@ -7614,7 +7697,7 @@ msgstr ""
 msgid "行贿"
 msgstr ""
 
-#: presentation/layout/shared_gameplay_layout.gd
+#: presentation/layout/shared_gameplay_layout.gd ui/common/slot_list_panel.gd
 msgid "返回"
 msgstr ""
 
@@ -7647,6 +7730,10 @@ msgid "目标提示已生效，但未能保存。"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
+msgid "自动存档提示已生效，但未能保存。"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
 msgid "昼夜设置已生效，但未能保存。"
 msgstr ""
 
@@ -7656,6 +7743,10 @@ msgstr ""
 
 #: runtime/application/application_shell_controller.gd
 msgid "无法切换窗口模式。"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "上一份自动存档"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
@@ -7691,7 +7782,19 @@ msgid "正在恢复存档……"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
+msgid "正在读取存档……"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
 msgid "正在开始旅程……"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "覆盖"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "读取"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
@@ -7732,6 +7835,10 @@ msgstr ""
 
 #: runtime/application/application_shell_controller.gd
 msgid "状态卡上的「目标」一行和见闻提示里的「下一步」；关掉就只剩任务页"
+msgstr ""
+
+#: runtime/application/application_shell_controller.gd
+msgid "自动存档后左下角提示一行；关掉后照样自动存档，只是不提示"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
@@ -7885,6 +7992,14 @@ msgstr ""
 
 #: runtime/combat_slice/combat_slice_corpse_view.gd
 msgid "%s的尸体"
+msgstr ""
+
+#: runtime/persistence/oldpine_game_runtime_host.gd
+msgid "自动存档失败"
+msgstr ""
+
+#: runtime/persistence/oldpine_game_runtime_host.gd
+msgid "已自动存档"
 msgstr ""
 
 #. a landmark used to move on: {action} (爬树) and the landmark (大松树).
@@ -9710,11 +9825,11 @@ msgid "柳家拳"
 msgstr ""
 
 #: ui/world/player_life_overlay.gd
-msgid "慢慢地你终於又有了知觉...."
+msgid "回到上次自动存档"
 msgstr ""
 
 #: ui/world/player_life_overlay.gd
-msgid "一阵浓雾散去，你发现自己站在雪亭镇的城隍庙里。"
+msgid "慢慢地你终於又有了知觉...."
 msgstr ""
 
 #: ui/world/player_life_overlay.gd
@@ -9785,11 +9900,23 @@ msgid "你的尸体和随身物品留在：%s"
 msgstr ""
 
 #: ui/world/player_life_overlay.gd
+msgid "尸体不会腐烂，等你回去取。"
+msgstr ""
+
+#: ui/world/player_life_overlay.gd
 msgid "你的尸体已经化成骨灰，随身物品散落在：%s"
 msgstr ""
 
 #: ui/world/player_life_overlay.gd
 msgid "你的尸体已经不在了。"
+msgstr ""
+
+#: ui/world/player_life_overlay.gd
+msgid "一阵浓雾散去，你发现自己站在雪亭镇的城隍庙里。"
+msgstr ""
+
+#: ui/world/player_life_overlay.gd
+msgid "你的尸体和随身物品还在：%s"
 msgstr ""
 
 #. a quest on the 任务 page once done: {title} its name, {region} where it happened.
@@ -10256,11 +10383,6 @@ msgstr ""
 #. a resource bar's tooltip: current / effective / maximum.
 #: ui/world/shared_ui_status_card.gd
 msgid "当前 {current} / 有效 {effective} / 最大 {maximum}"
-msgstr ""
-
-#. the status card's objective row (前两小时 A): {next} a guide chain's next step.
-#: ui/world/shared_ui_status_card.gd
-msgid "目标：{next}"
 msgstr ""
 
 #. the status card's advice row (任务系统): {next} a guide chain's next step while a quest holds 目标.

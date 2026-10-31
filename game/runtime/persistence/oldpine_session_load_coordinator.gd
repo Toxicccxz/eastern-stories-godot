@@ -167,6 +167,9 @@ func _restore_loaded(
 			return Result.failure(Result.Outcome.ROLLBACK_FAILED)
 		return Result.failure(Result.Outcome.ACTIVATION_FAILED)
 	if current != null:
+		# Out of the slot now: one Session stands in it, and its pace leaves the catalog to the new one's.
+		if current.get_parent() != null:
+			current.get_parent().remove_child(current)
 		current.queue_free()
 	var success := Result.success(candidate)
 	success.repository = loaded

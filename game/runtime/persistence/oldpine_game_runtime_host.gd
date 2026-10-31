@@ -36,6 +36,9 @@ var _last_load: OldPineRuntimeSaveLoadResult
 var _last_new_game: OldPineRuntimeSaveLoadResult
 var _last_end_session: OldPineRuntimeSaveLoadResult
 var _configured: bool = false
+## 现代基线 A (DECISIONS「自动存档」): the autosave of whichever Session stands here.
+var _autosave: GameAutosave
+var _slots: Array[GameSaveSlotSummary] = []
 
 
 func configure_before_start(
@@ -73,6 +76,7 @@ func _ready() -> void:
 			if _startup_mode == StartupMode.MANUAL
 			else GameSaveRepository.new(_profile, _files)
 		)
+	_autosave = GameAutosave.new(_coordinator.repository_for(GameSaveSnapshot.AUTO_SLOT_ID))
 	if _startup_mode == StartupMode.MANUAL:
 		var manual_result: OldPineRuntimeSaveLoadResult = (
 			OldPineRuntimeSaveLoadResult.success(null)
@@ -96,6 +100,41 @@ func _ready() -> void:
 	# Explicit auto-start fixture mode. Public Shell always configures MANUAL.
 	var result: OldPineRuntimeSaveLoadResult = _attach_new_game_session(_instantiate_new_game_session())
 	startup_completed.emit(result)
+
+
+## A finished autosave is told once (已自动存档, unless turned off; a failure always).
+func _process(_delta: float) -> void:
+	var saved: GameSaveResult = null if _autosave == null else _autosave.take_finished()
+	if saved == null or _current_session == null or not is_instance_valid(_current_session):
+		return
+	if not saved.succeeded():
+		_current_session.shared_ui().toasts().push(tr("自动存档失败"))
+	elif AutosaveNotice.shown:
+		_current_session.shared_ui().toasts().push(tr("已自动存档"))
+
+
+func _exit_tree() -> void:
+	if _autosave != null:
+		_autosave.wait()
+
+
+func autosave() -> GameAutosave:
+	return _autosave
+
+
+## The Session in the slot from now on: the autosave follows it. A New Game's first moment
+## saves; a loaded one's interval starts with the load, its slots have nothing to add yet.
+func _session_began(session: WorldSessionController, loaded: bool) -> void:
+	session.autosave_moment.connect(_on_autosave_moment.bind(session), CONNECT_DEFERRED)
+	if loaded:
+		_autosave.restart_interval()
+	else:
+		_autosave.restart_interval(-1)
+
+
+func _on_autosave_moment(session: WorldSessionController) -> void:
+	if session == _current_session and not _request_pending:
+		_autosave.begin(session)
 
 
 func current_session() -> WorldSessionController:
@@ -151,6 +190,34 @@ func request_slot_inspection() -> bool:
 	return true
 
 
+## The slots' rows as the last inspection read them.
+func slots() -> Array[GameSaveSlotSummary]:
+	return _slots
+
+
+## The slots' rows now (once the autosave under way is done).
+func read_slots() -> Array[GameSaveSlotSummary]:
+	_autosave.wait()
+	_slots = _coordinator.slot_summaries()
+	return _slots
+
+
+## The autosave before the last one (its .bak), for the list's 上一份自动存档 row.
+func previous_autosave() -> GameSaveSlotSummary:
+	_autosave.wait()
+	return _coordinator.repository_for(GameSaveSnapshot.AUTO_SLOT_ID).read_backup_summary()
+
+
+## The autosave's row now.
+func autosave_row() -> GameSaveSlotSummary:
+	_autosave.wait()
+	return _coordinator.repository_for(GameSaveSnapshot.AUTO_SLOT_ID).read_summary()
+
+
+func selected_slot() -> StringName:
+	return _coordinator.selected_slot()
+
+
 func request_new_game(display_name: String, gender: StringName, pace: StringName = CharacterState.PACE_MODERN) -> bool:
 	if not NamePolicy.is_valid(display_name) or gender not in [CharacterState.GENDER_MALE, CharacterState.GENDER_FEMALE]:
 		return false
@@ -162,18 +229,27 @@ func request_new_game(display_name: String, gender: StringName, pace: StringName
 	return true
 
 
-func request_continue() -> bool:
-	if not _empty_session_invariant_holds() or not _begin_request():
+## Whether Save, Load or the recovery can go to `slot_id` (none: the slot selected).
+func _select_for_request(slot_id: StringName) -> bool:
+	if slot_id.is_empty() or _coordinator.select_slot(slot_id):
+		return true
+	_request_pending = false
+	return false
+
+
+func request_continue(slot_id: StringName = &"") -> bool:
+	if not _empty_session_invariant_holds() or not _begin_request() or not _select_for_request(slot_id):
 		return false
 	call_deferred("_execute_continue")
 	return true
 
 
-func request_recovery(source: int) -> bool:
+func request_recovery(source: int, slot_id: StringName = &"") -> bool:
 	if (
 		not GameSaveRecoverySource.is_valid(source)
 		or not _empty_session_invariant_holds()
 		or not _begin_request()
+		or not _select_for_request(slot_id)
 	):
 		return false
 	call_deferred("_execute_recovery", source)
@@ -187,21 +263,34 @@ func request_end_session() -> bool:
 	return true
 
 
-func request_save() -> bool:
-	if not _begin_request():
+func request_save(slot_id: StringName = &"") -> bool:
+	if not _begin_request() or not _select_for_request(slot_id):
 		return false
 	call_deferred("_execute_save")
 	return true
 
 
-func request_load() -> bool:
-	if not _begin_request():
+## A Load in play (DECISIONS「存档位」): the save replaces the Session standing here, which goes
+## on as it was if the save fails. `source` a recovery source, for the 上一份自动存档 row.
+func request_load(slot_id: StringName = &"", source: int = -1) -> bool:
+	if not _begin_request() or not _select_for_request(slot_id):
 		return false
-	call_deferred("_execute_load")
+	call_deferred("_execute_load", source)
 	return true
 
 
-func _execute_slot_inspection() -> void:
+## What the main menu says of `slot_id` instead of the newest (a row that does not load).
+func request_slot_inspection_of(slot_id: StringName) -> bool:
+	if not _empty_session_invariant_holds() or not _begin_request() or not _select_for_request(slot_id):
+		return false
+	call_deferred("_execute_slot_inspection", false)
+	return true
+
+
+func _execute_slot_inspection(newest: bool = true) -> void:
+	_slots = _coordinator.slot_summaries()
+	if newest:
+		_coordinator.select_slot(GameSaveSlotSummary.newest(_slots, _coordinator.selected_slot()))
 	var result: GameSaveSlotInspectionResult = _coordinator.inspect_slot()
 	_request_pending = false
 	slot_inspection_completed.emit(result)
@@ -222,6 +311,8 @@ func _execute_continue() -> void:
 			_last_load = OldPineRuntimeSaveLoadResult.failure(
 				OldPineRuntimeSaveLoadResult.Outcome.SESSION_INVARIANT_FAILED
 			)
+		else:
+			_session_began(_current_session, true)
 	_request_pending = false
 	continue_completed.emit(_last_load)
 
@@ -240,6 +331,8 @@ func _execute_recovery(source: int) -> void:
 			_last_load = OldPineRuntimeSaveLoadResult.failure(
 				OldPineRuntimeSaveLoadResult.Outcome.SESSION_INVARIANT_FAILED
 			)
+		else:
+			_session_began(_current_session, true)
 	_request_pending = false
 	recovery_completed.emit(_last_load)
 
@@ -265,14 +358,17 @@ func _execute_save() -> void:
 	save_completed.emit(_last_save)
 
 
-func _execute_load() -> void:
-	_last_load = _coordinator.load_replacing(
-		_current_session,
-		session_slot,
-		staging_slot,
+func _execute_load(source: int = -1) -> void:
+	# The shell's 正在读取存档…… is on the screen before the frames this takes (seconds).
+	await get_tree().process_frame
+	await get_tree().process_frame
+	_last_load = (
+		_coordinator.load_replacing(_current_session, session_slot, staging_slot) if source < 0
+		else _coordinator.load_recovery_replacing(source, _current_session, session_slot, staging_slot)
 	)
 	if _last_load.succeeded():
 		_current_session = _last_load.session
+		_session_began(_current_session, true)
 	_request_pending = false
 	load_completed.emit(_last_load)
 
@@ -319,6 +415,7 @@ func _attach_new_game_session(session: WorldSessionController) -> OldPineRuntime
 		return OldPineRuntimeSaveLoadResult.failure(
 			OldPineRuntimeSaveLoadResult.Outcome.SESSION_INVARIANT_FAILED
 		)
+	_session_began(session, false)
 	return OldPineRuntimeSaveLoadResult.success(session)
 
 
@@ -344,6 +441,9 @@ func _begin_request() -> bool:
 	if _request_pending or _coordinator == null:
 		return false
 	_request_pending = true
+	# Whatever this asks comes after the autosave under way.
+	if _autosave != null:
+		_autosave.wait()
 	return true
 
 

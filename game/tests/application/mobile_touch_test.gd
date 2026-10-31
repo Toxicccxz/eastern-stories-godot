@@ -289,6 +289,7 @@ func _test_viewport(tree: SceneTree) -> void:
 	await _tap(tree, touch.pause_button())
 	shell.runtime_host().save_completed.connect(func(_result: OldPineRuntimeSaveLoadResult) -> void: _save_completions += 1)
 	await _tap(tree, shell.save_button)
+	await _tap(tree, shell.slot_panel.buttons()[0])
 	_check(_save_completions == 1 and shell.result_visible(), "touch Save requests exactly one completion")
 	await _back(tree)
 	_check(shell.pause_visible() and tree.paused, "Back Save Result paused origin does not Resume")

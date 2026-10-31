@@ -174,11 +174,28 @@ static func _apply_battle(settings: ApplicationSettingsSnapshot) -> void:
 	BattlePace.after_knockout = settings.after_knockout()
 	ObjectiveHints.shown = settings.objective_hints()
 	DayNightPreference.mode = settings.day_night()
+	AutosaveNotice.shown = settings.autosave_notice()
 
 
 ## 目标提示 (ObjectiveHints; DECISIONS「新手链与当前目标」) at once, kept with the other settings.
 func apply_and_persist_objective_hints(shown: bool) -> ApplicationSettingsServiceResult:
 	_committed = _committed.with_objective_hints(shown)
+	_apply_battle(_committed)
+	var repository_result: ApplicationSettingsResult = _repository.write(_committed)
+	return ApplicationSettingsServiceResult.new(
+		(
+			ApplicationSettingsServiceResult.Outcome.SUCCESS
+			if repository_result.succeeded()
+			else ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE
+		),
+		repository_result.outcome(),
+		_committed,
+	)
+
+
+## 自动存档提示 (AutosaveNotice; DECISIONS「自动存档」) at once, kept with the other settings.
+func apply_and_persist_autosave_notice(shown: bool) -> ApplicationSettingsServiceResult:
+	_committed = _committed.with_autosave_notice(shown)
 	_apply_battle(_committed)
 	var repository_result: ApplicationSettingsResult = _repository.write(_committed)
 	return ApplicationSettingsServiceResult.new(

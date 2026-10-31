@@ -31,11 +31,13 @@ const PACE_IDS: Dictionary[int, StringName] = {0: CharacterState.PACE_MODERN, 1:
 @onready var setup_message: Label = %SetupMessage
 @onready var continue_button: Button = %ContinueButton
 @onready var recovery_button: Button = %RecoveryButton
+@onready var load_button: Button = %LoadButton
 @onready var menu_settings_button: Button = %MenuSettingsButton
 @onready var pause_panel: Control = %PausePanel
 @onready var lifecycle_info: Label = %LifecycleInfo
 @onready var resume_button: Button = %ResumeButton
 @onready var save_button: Button = %SaveButton
+@onready var pause_load_button: Button = %PauseLoadButton
 @onready var pause_settings_button: Button = %PauseSettingsButton
 @onready var return_button: Button = %ReturnButton
 @onready var settings_panel: Control = %SettingsPanel
@@ -52,6 +54,7 @@ const PACE_IDS: Dictionary[int, StringName] = {0: CharacterState.PACE_MODERN, 1:
 @onready var hit_flash_check: CheckButton = %HitFlashCheck
 @onready var knockout_option: OptionButton = %KnockoutOption
 @onready var objective_hints_check: CheckButton = %ObjectiveHintsCheck
+@onready var autosave_notice_check: CheckButton = %AutosaveNoticeCheck
 @onready var day_night_option: OptionButton = %DayNightOption
 @onready var settings_status_label: Label = %SettingsStatusLabel
 @onready var settings_apply_button: Button = %SettingsApplyButton
@@ -75,6 +78,22 @@ const PACE_IDS: Dictionary[int, StringName] = {0: CharacterState.PACE_MODERN, 1:
 ## the game menu's 系统 page while the pause shows the menu, home again otherwise.
 var _pause_actions: Control
 var _pause_home: Node
+
+## 现代基线 A (DECISIONS「存档位」): what the slot list is open for, where from, its rows (the
+## last may be the 上一份自动存档), and the Save or Load a question waits to run.
+enum SlotPurpose { SAVE, LOAD }
+var slot_panel: SlotListPanel
+var _slot_purpose: int = SlotPurpose.LOAD
+var _slot_origin: int = ApplicationShellState.SettingsOrigin.NONE
+var _slot_rows: Array[GameSaveSlotSummary] = []
+var _previous_autosave_row: int = -1
+var _pending_slot: StringName = &""
+var _pending_source: int = -1
+var _load_origin: int = ApplicationShellState.ResultOrigin.PAUSED
+## 取消 on a question from the list goes back to the list.
+var _back_to_slots: bool = false
+## Under the question: the save it is about.
+var _result_detail: String = ""
 
 ## Development runs keep their saves in the development slot; the release sanitizer
 ## drops this setting, so a release reads the release slot.
@@ -164,7 +183,7 @@ func _finish_mobile_reactivation(revision: int) -> void:
 
 
 func _starting_session_operation() -> bool:
-	return _state.operation() in [ApplicationShellState.Operation.NEW_GAME, ApplicationShellState.Operation.CONTINUE, ApplicationShellState.Operation.RECOVER]
+	return _state.operation() in [ApplicationShellState.Operation.NEW_GAME, ApplicationShellState.Operation.CONTINUE, ApplicationShellState.Operation.RECOVER, ApplicationShellState.Operation.LOAD]
 
 
 func _sync_application_pause() -> void:
@@ -172,7 +191,7 @@ func _sync_application_pause() -> void:
 		return
 	if _host_is_exactly_empty() and not _starting_session_operation():
 		_activity.clear_resume_gate()
-	var pause_context: bool = _state.mode() in [ApplicationShellState.Mode.PAUSED, ApplicationShellState.Mode.SAVING] or _state.settings_origin() == ApplicationShellState.SettingsOrigin.PAUSED or _state.result_origin() == ApplicationShellState.ResultOrigin.PAUSED or _state.operation() == ApplicationShellState.Operation.END_SESSION
+	var pause_context: bool = _state.mode() in [ApplicationShellState.Mode.PAUSED, ApplicationShellState.Mode.SAVING] or _state.settings_origin() == ApplicationShellState.SettingsOrigin.PAUSED or _state.result_origin() in [ApplicationShellState.ResultOrigin.PAUSED, ApplicationShellState.ResultOrigin.PLAYING] or _state.operation() in [ApplicationShellState.Operation.END_SESSION, ApplicationShellState.Operation.LOAD]
 	get_tree().paused = not interaction_allowed() or pause_context or _activity.resume_gate() == ApplicationActivity.ResumeGate.EXPLICIT_AFTER_LIFECYCLE
 
 
@@ -209,6 +228,11 @@ func _ready() -> void:
 	add_to_group(GameMenu.HOST_GROUP)
 	_pause_actions = resume_button.get_parent() as Control
 	_pause_home = _pause_actions.get_parent()
+	slot_panel = SlotListPanel.new()
+	shell_canvas.add_child(slot_panel)
+	shell_canvas.move_child(slot_panel, recovery_panel.get_index() + 1)
+	slot_panel.chosen.connect(choose_slot_row)
+	slot_panel.cancelled.connect(cancel_slots)
 	result_prompt.confirmed.connect(_on_result_confirmed)
 	result_prompt.cancelled.connect(_on_result_cancelled)
 	male_button.pressed.connect(func() -> void: select_new_game_gender(CharacterState.GENDER_MALE))
@@ -358,6 +382,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		ApplicationShellState.Mode.NEW_GAME_SETUP:
 			if cancel_pressed:
 				handled = cancel_new_game_setup()
+		ApplicationShellState.Mode.SLOT_LIST:
+			if cancel_pressed:
+				handled = cancel_slots()
 	if handled:
 		get_viewport().set_input_as_handled()
 
@@ -403,6 +430,8 @@ func _handle_system_back() -> void:
 			cancel_recovery_choice()
 		ApplicationShellState.Mode.NEW_GAME_SETUP:
 			cancel_new_game_setup()
+		ApplicationShellState.Mode.SLOT_LIST:
+			cancel_slots()
 		ApplicationShellState.Mode.PAUSED:
 			request_resume()
 		ApplicationShellState.Mode.PLAYING:
@@ -645,6 +674,11 @@ func apply_settings() -> bool:
 		if hints.outcome() == ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE:
 			settings_status_label.text = "目标提示已生效，但未能保存。"
 			return false
+	if autosave_notice_check.button_pressed != committed.autosave_notice():
+		var notice: ApplicationSettingsServiceResult = _settings_service.apply_and_persist_autosave_notice(autosave_notice_check.button_pressed)
+		if notice.outcome() == ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE:
+			settings_status_label.text = "自动存档提示已生效，但未能保存。"
+			return false
 	if day_night_option.get_selected_id() != committed.day_night():
 		var lit: ApplicationSettingsServiceResult = _settings_service.apply_and_persist_day_night(day_night_option.get_selected_id())
 		if lit.outcome() == ApplicationSettingsServiceResult.Outcome.PERSISTENCE_FAILURE:
@@ -752,6 +786,7 @@ func request_resume() -> bool:
 	return true
 
 
+## Saves to the slot selected, without the list.
 func request_save_from_pause() -> bool:
 	if not interaction_allowed():
 		return false
@@ -761,14 +796,168 @@ func request_save_from_pause() -> bool:
 		or _host == null
 	):
 		return false
+	return _save_to(&"")
+
+
+func _save_to(slot_id: StringName) -> bool:
 	_last_result = null
+	_result_detail = ""
 	_set_state(ApplicationShellState.saving())
-	if _host.request_save():
+	if _host.request_save(slot_id):
 		return true
 	_show_request_failure(
 		ApplicationOperationResult.Operation.SAVE,
 		ApplicationShellState.ResultOrigin.PAUSED,
 	)
+	return false
+
+
+## The slot list, to save in (系统's 存档).
+func request_save_slots() -> bool:
+	if not interaction_allowed() or _state.mode() != ApplicationShellState.Mode.PAUSED or not get_tree().paused:
+		return false
+	return _open_slots(SlotPurpose.SAVE, ApplicationShellState.SettingsOrigin.PAUSED)
+
+
+## The slot list, to load from (the main menu's 读取存档, 系统's 读档).
+func request_load_slots() -> bool:
+	if not interaction_allowed():
+		return false
+	match _state.mode():
+		ApplicationShellState.Mode.MAIN_MENU:
+			return _open_slots(SlotPurpose.LOAD, ApplicationShellState.SettingsOrigin.MAIN_MENU)
+		ApplicationShellState.Mode.PAUSED:
+			return get_tree().paused and _open_slots(SlotPurpose.LOAD, ApplicationShellState.SettingsOrigin.PAUSED)
+	return false
+
+
+func _open_slots(purpose: int, origin: int) -> bool:
+	if _host == null or _host.request_pending():
+		return false
+	_slot_purpose = purpose
+	_slot_origin = origin
+	_slot_rows = _host.read_slots().duplicate()
+	_previous_autosave_row = -1
+	if purpose == SlotPurpose.LOAD:
+		var previous: GameSaveSlotSummary = _host.previous_autosave()
+		if previous.state == GameSaveSlotSummary.State.READY:
+			_previous_autosave_row = _slot_rows.size()
+			_slot_rows.append(previous)
+	var rows: Array[Array] = []
+	for index: int in _slot_rows.size():
+		var row: GameSaveSlotSummary = _slot_rows[index]
+		var heading: String = tr("上一份自动存档") if index == _previous_autosave_row else ""
+		rows.append([ApplicationSlotText.row(row, heading), _row_enabled(row)])
+	slot_panel.present(tr("存档") if purpose == SlotPurpose.SAVE else tr("读取存档"), rows)
+	return _set_state(ApplicationShellState.slot_list(origin))
+
+
+func _row_enabled(row: GameSaveSlotSummary) -> bool:
+	if _slot_purpose == SlotPurpose.SAVE:
+		return row.slot_id != GameSaveSnapshot.AUTO_SLOT_ID
+	if row.state == GameSaveSlotSummary.State.READY:
+		return true
+	# A save that does not load is looked into from the main menu, where its recovery is.
+	return _slot_origin == ApplicationShellState.SettingsOrigin.MAIN_MENU and (row.state != GameSaveSlotSummary.State.EMPTY or row.recoverable)
+
+
+func cancel_slots() -> bool:
+	if not interaction_allowed() or _state.mode() != ApplicationShellState.Mode.SLOT_LIST:
+		return false
+	_set_state(ApplicationShellState.paused() if _slot_origin == ApplicationShellState.SettingsOrigin.PAUSED else ApplicationShellState.main_menu())
+	return true
+
+
+## The player picked row `index` of the list.
+func choose_slot_row(index: int) -> bool:
+	if not interaction_allowed() or _state.mode() != ApplicationShellState.Mode.SLOT_LIST or index < 0 or index >= _slot_rows.size():
+		return false
+	var row: GameSaveSlotSummary = _slot_rows[index]
+	if not _row_enabled(row):
+		return false
+	_pending_slot = row.slot_id
+	_pending_source = GameSaveRecoverySource.Value.BACKUP if index == _previous_autosave_row else -1
+	if _slot_purpose == SlotPurpose.SAVE:
+		if row.state == GameSaveSlotSummary.State.EMPTY and not row.recoverable:
+			return _save_to(row.slot_id)
+		return _ask_about_row(ApplicationOperationResult.Operation.SAVE, &"slot.overwrite_confirm", row)
+	if _slot_origin == ApplicationShellState.SettingsOrigin.PAUSED:
+		_load_origin = ApplicationShellState.ResultOrigin.PAUSED
+		return _ask_about_row(ApplicationOperationResult.Operation.LOAD, &"slot.load_confirm", row)
+	if _pending_source >= 0:
+		_set_state(ApplicationShellState.starting(ApplicationShellState.Operation.RECOVER))
+		if _host.request_recovery(_pending_source, row.slot_id):
+			return true
+		_show_request_failure(ApplicationOperationResult.Operation.RECOVER, ApplicationShellState.ResultOrigin.MAIN_MENU)
+		return false
+	if row.state != GameSaveSlotSummary.State.READY:
+		# What is wrong with it, and its recovery, on the main menu.
+		_slot_inspection = null
+		_set_state(ApplicationShellState.boot_inspecting())
+		if _host.request_slot_inspection_of(row.slot_id):
+			return true
+		_show_request_failure(ApplicationOperationResult.Operation.INSPECT_SLOT, ApplicationShellState.ResultOrigin.MAIN_MENU)
+		return false
+	_last_result = null
+	_set_state(ApplicationShellState.starting(ApplicationShellState.Operation.CONTINUE))
+	if _host.request_continue(row.slot_id):
+		return true
+	_show_request_failure(ApplicationOperationResult.Operation.CONTINUE, ApplicationShellState.ResultOrigin.MAIN_MENU)
+	return false
+
+
+func _ask_about_row(operation: int, message_key: StringName, row: GameSaveSlotSummary) -> bool:
+	_last_result = ApplicationOperationResult.new(operation, ApplicationOperationResult.Outcome.CONFIRMATION_REQUIRED, message_key)
+	_result_detail = ApplicationSlotText.row(row, tr("上一份自动存档") if _pending_source >= 0 else "")
+	_back_to_slots = true
+	_set_state(ApplicationShellState.result(
+		ApplicationShellState.ResultOrigin.PAUSED if _slot_origin == ApplicationShellState.SettingsOrigin.PAUSED else ApplicationShellState.ResultOrigin.MAIN_MENU
+	))
+	return true
+
+
+## The save the death card can go back to (DECISIONS「减轻死亡」): the autosave of this very
+## character, when the pace has one. A New Game's first steps may still find another's.
+func autosave_to_return_to() -> GameSaveSlotSummary:
+	var session: WorldSessionController = null if _host == null else _host.current_session()
+	if session == null or GameContent.catalog().pacing().autosave_min_seconds <= 0:
+		return null
+	var row: GameSaveSlotSummary = _host.autosave_row()
+	var mine: bool = row.state == GameSaveSlotSummary.State.READY and row.display_name == session.player_runtime().facts.display_name
+	return row if mine else null
+
+
+## 回到上次自动存档 on the death card: asks first.
+func request_return_to_autosave() -> bool:
+	if not interaction_allowed() or _state.mode() != ApplicationShellState.Mode.PLAYING or _host == null or _host.request_pending():
+		return false
+	var row: GameSaveSlotSummary = autosave_to_return_to()
+	if row == null:
+		return false
+	_pending_slot = GameSaveSnapshot.AUTO_SLOT_ID
+	_pending_source = -1
+	_load_origin = ApplicationShellState.ResultOrigin.PLAYING
+	_back_to_slots = false
+	_last_result = ApplicationOperationResult.new(ApplicationOperationResult.Operation.LOAD, ApplicationOperationResult.Outcome.CONFIRMATION_REQUIRED, &"slot.autosave_confirm")
+	_result_detail = "%s    %s" % [ApplicationSlotText.place(row.zone_id), ApplicationSlotText.ago(row.saved_at_utc)]
+	_set_state(ApplicationShellState.result(ApplicationShellState.ResultOrigin.PLAYING))
+	return true
+
+
+## Whether the world has the keys now: nothing of the shell's lies over it.
+func world_has_focus() -> bool:
+	return _state.mode() == ApplicationShellState.Mode.PLAYING
+
+
+func _start_load() -> bool:
+	var slot_id: StringName = _pending_slot
+	_last_result = null
+	_result_detail = ""
+	_back_to_slots = false
+	_set_state(ApplicationShellState.starting(ApplicationShellState.Operation.LOAD))
+	if _host.request_load(slot_id, _pending_source):
+		return true
+	_show_request_failure(ApplicationOperationResult.Operation.LOAD, _load_origin)
 	return false
 
 
@@ -800,6 +989,11 @@ func confirm_current_result() -> bool:
 			return _open_new_game_setup()
 		ApplicationOperationResult.Operation.END_SESSION:
 			return _start_end_session()
+		ApplicationOperationResult.Operation.SAVE:
+			_back_to_slots = false
+			return _save_to(_pending_slot)
+		ApplicationOperationResult.Operation.LOAD:
+			return _start_load()
 	return false
 
 
@@ -810,8 +1004,16 @@ func dismiss_current_result() -> bool:
 		return false
 	var origin: int = _state.result_origin()
 	_last_result = null
+	_result_detail = ""
+	if _back_to_slots:
+		_back_to_slots = false
+		_set_state(ApplicationShellState.slot_list(_slot_origin))
+		return true
 	if origin == ApplicationShellState.ResultOrigin.PAUSED:
 		_set_state(ApplicationShellState.paused())
+		return true
+	if origin == ApplicationShellState.ResultOrigin.PLAYING:
+		_set_state(ApplicationShellState.playing())
 		return true
 	_set_state(ApplicationShellState.main_menu())
 	return true
@@ -924,6 +1126,7 @@ func _connect_host(host: OldPineGameRuntimeHost) -> void:
 	host.new_game_completed.connect(_on_new_game_completed)
 	host.continue_completed.connect(_on_continue_completed)
 	host.recovery_completed.connect(_on_recovery_completed)
+	host.load_completed.connect(_on_load_completed)
 	host.save_completed.connect(_on_save_completed)
 	host.end_session_completed.connect(_on_end_session_completed)
 
@@ -1003,6 +1206,20 @@ func _handle_load_completion(
 		result,
 		ApplicationShellState.ResultOrigin.MAIN_MENU,
 	)
+
+
+## A Load in play: the old Session is gone, or goes on under the notice.
+func _on_load_completed(result: OldPineRuntimeSaveLoadResult) -> void:
+	if _state.operation() != ApplicationShellState.Operation.LOAD:
+		return
+	if result.succeeded() and not _host.session_invariant_holds():
+		_show_session_invariant_failure(ApplicationOperationResult.Operation.LOAD, _load_origin)
+		return
+	if result.succeeded():
+		_last_result = ApplicationProductResultMapper.runtime_result(ApplicationOperationResult.Operation.LOAD, result)
+		_present_committed_session()
+		return
+	_show_runtime_result(ApplicationOperationResult.Operation.LOAD, result, _load_origin)
 
 
 func _on_save_completed(result: OldPineRuntimeSaveLoadResult) -> void:
@@ -1098,6 +1315,7 @@ func _render_state(defer_focus: bool = true) -> void:
 	_render_pause_surface(mode)
 	settings_panel.visible = mode == ApplicationShellState.Mode.SETTINGS
 	recovery_panel.visible = mode == ApplicationShellState.Mode.RECOVERY_CHOICE
+	slot_panel.visible = mode == ApplicationShellState.Mode.SLOT_LIST
 	new_game_setup_panel.visible = mode == ApplicationShellState.Mode.NEW_GAME_SETUP
 	var setup_interactive: bool = mode == ApplicationShellState.Mode.NEW_GAME_SETUP and interaction_allowed()
 	player_name_edit.editable = setup_interactive
@@ -1123,9 +1341,11 @@ func _render_state(defer_focus: bool = true) -> void:
 		or _slot_inspection == null
 		or not _slot_inspection.recovery_available()
 	)
+	load_button.disabled = not menu_interactive or not _any_slot_used()
 	var pause_interactive: bool = mode == ApplicationShellState.Mode.PAUSED
 	resume_button.disabled = not pause_interactive
 	save_button.disabled = not pause_interactive
+	pause_load_button.disabled = not pause_interactive
 	pause_settings_button.disabled = not pause_interactive
 	return_button.disabled = not pause_interactive
 	var recovery_interactive: bool = mode == ApplicationShellState.Mode.RECOVERY_CHOICE
@@ -1144,6 +1364,7 @@ func _render_state(defer_focus: bool = true) -> void:
 	hit_flash_check.disabled = not settings_interactive
 	knockout_option.disabled = not settings_interactive
 	objective_hints_check.disabled = not settings_interactive
+	autosave_notice_check.disabled = not settings_interactive
 	day_night_option.disabled = not settings_interactive
 	settings_apply_button.visible = window_mode_row.visible or ui_scale_row.visible or language_row.visible or battle_speed_row.visible
 	settings_apply_button.disabled = not settings_interactive
@@ -1176,12 +1397,22 @@ func _render_state(defer_focus: bool = true) -> void:
 		_focus_current_surface()
 
 
+func _any_slot_used() -> bool:
+	if _host == null:
+		return false
+	for row: GameSaveSlotSummary in _host.slots():
+		if row.state != GameSaveSlotSummary.State.EMPTY or row.recoverable:
+			return true
+	return false
+
+
 func _focus_current_surface() -> void:
 	match _state.mode():
 		ApplicationShellState.Mode.NEW_GAME_SETUP: _focus_setup()
 		ApplicationShellState.Mode.RESULT: _focus_result_button()
 		ApplicationShellState.Mode.SETTINGS: _focus_settings_control()
 		ApplicationShellState.Mode.RECOVERY_CHOICE: _focus_recovery_button()
+		ApplicationShellState.Mode.SLOT_LIST: _focus_slot_row()
 		ApplicationShellState.Mode.PAUSED: _focus_pause_button()
 		ApplicationShellState.Mode.MAIN_MENU: _focus_first_menu_button()
 
@@ -1204,6 +1435,8 @@ func _busy_text() -> String:
 		return "正在返回主菜单……"
 	if _state.operation() == ApplicationShellState.Operation.RECOVER:
 		return "正在恢复存档……"
+	if _state.operation() == ApplicationShellState.Operation.LOAD:
+		return "正在读取存档……"
 	return "正在开始旅程……"
 
 
@@ -1220,6 +1453,10 @@ func _render_result() -> void:
 		result_prompt.tell(text)
 	elif _last_result.operation() == ApplicationOperationResult.Operation.END_SESSION:
 		result_prompt.ask(text, "返回主菜单")
+	elif _last_result.operation() == ApplicationOperationResult.Operation.SAVE:
+		result_prompt.ask(text, "覆盖", "取消", _result_detail)
+	elif _last_result.operation() == ApplicationOperationResult.Operation.LOAD:
+		result_prompt.ask(text, "读取", "取消", _result_detail)
 	else:
 		result_prompt.ask(text, "开始新游戏")
 
@@ -1280,6 +1517,8 @@ func _configure_battle_options() -> void:
 	knockout_option.tooltip_text = "打倒你要杀的人时：先问你了结还是放过，或者直接下杀手"
 	# 目标提示 (DECISIONS「新手链与当前目标」): off hides the status card's 目标 row and the toasts' 下一步.
 	objective_hints_check.tooltip_text = "状态卡上的「目标」一行和见闻提示里的「下一步」；关掉就只剩任务页"
+	# 自动存档提示 (DECISIONS「自动存档」): only the line; the autosave goes on.
+	autosave_notice_check.tooltip_text = "自动存档后左下角提示一行；关掉后照样自动存档，只是不提示"
 	# 昼夜 (DECISIONS「昼夜」): the map's light follows the game's day, or holds day or night.
 	day_night_option.clear()
 	day_night_option.add_item("跟随游戏时间", DayNightPreference.Value.FOLLOW)
@@ -1301,6 +1540,7 @@ func _select_committed_battle() -> void:
 	if knockout >= 0:
 		knockout_option.select(knockout)
 	objective_hints_check.set_pressed_no_signal(committed.objective_hints())
+	autosave_notice_check.set_pressed_no_signal(committed.autosave_notice())
 	var day_night: int = day_night_option.get_item_index(committed.day_night())
 	if day_night >= 0:
 		day_night_option.select(day_night)
@@ -1332,14 +1572,16 @@ func _select_committed_window_mode() -> void:
 
 
 func _all_shell_focus_controls() -> Array[Control]:
-	return [
+	var controls: Array[Control] = [
 		player_name_edit, random_name_button, male_button, female_button, pace_option, journey_start_button, setup_cancel_button,
 		new_game_button,
 		continue_button,
 		recovery_button,
+		load_button,
 		menu_settings_button,
 		resume_button,
 		save_button,
+		pause_load_button,
 		pause_settings_button,
 		return_button,
 		language_option,
@@ -1349,6 +1591,7 @@ func _all_shell_focus_controls() -> Array[Control]:
 		hit_flash_check,
 		knockout_option,
 		objective_hints_check,
+		autosave_notice_check,
 		day_night_option,
 		settings_apply_button,
 		settings_cancel_button,
@@ -1359,6 +1602,10 @@ func _all_shell_focus_controls() -> Array[Control]:
 		confirm_button,
 		cancel_button,
 	]
+	for button: Button in slot_panel.buttons():
+		controls.append(button)
+	controls.append(slot_panel.back_button())
+	return controls
 
 
 func _release_shell_focus() -> void:
@@ -1380,16 +1627,23 @@ func _configure_active_focus_cycle(mode: int) -> void:
 				controls.append(continue_button)
 			if not recovery_button.disabled:
 				controls.append(recovery_button)
+			if not load_button.disabled:
+				controls.append(load_button)
 			controls.append(menu_settings_button)
 		ApplicationShellState.Mode.PAUSED:
-			controls = [resume_button, save_button, pause_settings_button, return_button]
+			controls = [resume_button, save_button, pause_load_button, pause_settings_button, return_button]
+		ApplicationShellState.Mode.SLOT_LIST:
+			for button: Button in slot_panel.buttons():
+				if not button.disabled:
+					controls.append(button)
+			controls.append(slot_panel.back_button())
 		ApplicationShellState.Mode.SETTINGS:
 			if window_mode_row.visible:
 				controls.append(window_mode_option)
 			controls.append(ui_scale_option)
 			if language_row.visible:
 				controls.append(language_option)
-			controls.append_array([battle_speed_option, hit_flash_check, knockout_option, objective_hints_check, day_night_option])
+			controls.append_array([battle_speed_option, hit_flash_check, knockout_option, objective_hints_check, autosave_notice_check, day_night_option])
 			if settings_apply_button.visible:
 				controls.append(settings_apply_button)
 			controls.append(settings_cancel_button)
@@ -1478,6 +1732,16 @@ func _focus_recovery_button() -> void:
 		recovery_new_game_button.grab_focus()
 
 
+func _focus_slot_row() -> void:
+	if not interaction_allowed() or _state.mode() != ApplicationShellState.Mode.SLOT_LIST:
+		return
+	for button: Button in slot_panel.buttons():
+		if not button.disabled:
+			button.grab_focus()
+			return
+	slot_panel.back_button().grab_focus()
+
+
 func _focus_result_button() -> void:
 	if not interaction_allowed():
 		return
@@ -1507,7 +1771,11 @@ func _on_resume_button_pressed() -> void:
 
 
 func _on_save_button_pressed() -> void:
-	request_save_from_pause()
+	request_save_slots()
+
+
+func _on_load_button_pressed() -> void:
+	request_load_slots()
 
 
 func _on_pause_settings_button_pressed() -> void:

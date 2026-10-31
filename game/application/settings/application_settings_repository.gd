@@ -13,6 +13,7 @@ const UI_SCALE_KEY: String = "ui_scale"
 const AFTER_KNOCKOUT_KEY: String = "after_knockout"
 const OBJECTIVE_HINTS_KEY: String = "objective_hints"
 const DAY_NIGHT_KEY: String = "day_night"
+const AUTOSAVE_NOTICE_KEY: String = "autosave_notice"
 ## Version 1 had no language; it is read as following the system language.
 const VERSION_WITHOUT_LANGUAGE: int = 1
 ## Version 2 had no battle settings; it is read as 标准 with the flash on.
@@ -26,6 +27,8 @@ const VERSION_WITHOUT_KNOCKOUT: int = 4
 const VERSION_WITHOUT_OBJECTIVE: int = 5
 ## Version 6 had no 昼夜; it reads as 跟随游戏时间.
 const VERSION_WITHOUT_DAY_NIGHT: int = 6
+## Version 7 had no 自动存档提示; it reads as on.
+const VERSION_WITHOUT_AUTOSAVE_NOTICE: int = 7
 
 var _files: SaveFileOperations
 
@@ -54,7 +57,7 @@ func load() -> ApplicationSettingsResult:
 	if typeof(version_value) != TYPE_INT:
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.INVALID_SETTINGS)
 	var version: int = int(version_value)
-	if version not in [ApplicationSettingsSnapshot.SCHEMA_VERSION, VERSION_WITHOUT_LANGUAGE, VERSION_WITHOUT_BATTLE, VERSION_WITHOUT_UI_SCALE, VERSION_WITHOUT_KNOCKOUT, VERSION_WITHOUT_OBJECTIVE, VERSION_WITHOUT_DAY_NIGHT]:
+	if version not in [ApplicationSettingsSnapshot.SCHEMA_VERSION, VERSION_WITHOUT_LANGUAGE, VERSION_WITHOUT_BATTLE, VERSION_WITHOUT_UI_SCALE, VERSION_WITHOUT_KNOCKOUT, VERSION_WITHOUT_OBJECTIVE, VERSION_WITHOUT_DAY_NIGHT, VERSION_WITHOUT_AUTOSAVE_NOTICE]:
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.UNSUPPORTED_VERSION)
 	if not _has_exact_structure(config, version):
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.INVALID_SETTINGS)
@@ -93,9 +96,12 @@ func load() -> ApplicationSettingsResult:
 	var day_night: int = DayNightPreference.from_storage(String(day_night_value)) if typeof(day_night_value) == TYPE_STRING else -1
 	if not DayNightPreference.is_valid(day_night):
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.INVALID_SETTINGS)
+	var notice_value: Variant = config.get_value(SECTION, AUTOSAVE_NOTICE_KEY, true)
+	if typeof(notice_value) != TYPE_BOOL:
+		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.INVALID_SETTINGS)
 	return ApplicationSettingsResult.success(
 		ApplicationSettingsSnapshot.new(
-			ApplicationSettingsSnapshot.SCHEMA_VERSION, mode, language, speed, bool(flash_value), int(scale_value), knockout, bool(hints_value), day_night
+			ApplicationSettingsSnapshot.SCHEMA_VERSION, mode, language, speed, bool(flash_value), int(scale_value), knockout, bool(hints_value), day_night, bool(notice_value)
 		)
 	)
 
@@ -119,6 +125,7 @@ func write(snapshot: ApplicationSettingsSnapshot) -> ApplicationSettingsResult:
 	config.set_value(SECTION, AFTER_KNOCKOUT_KEY, BattlePace.knockout_storage_value(snapshot.after_knockout()))
 	config.set_value(SECTION, OBJECTIVE_HINTS_KEY, snapshot.objective_hints())
 	config.set_value(SECTION, DAY_NIGHT_KEY, DayNightPreference.storage_value(snapshot.day_night()))
+	config.set_value(SECTION, AUTOSAVE_NOTICE_KEY, snapshot.autosave_notice())
 	var error: int = _files.write_bytes(SETTINGS_PATH, config.encode_to_text().to_utf8_buffer())
 	if error != OK:
 		return ApplicationSettingsResult.failure(ApplicationSettingsResult.Outcome.WRITE_FAILURE)
@@ -141,8 +148,10 @@ func _has_exact_structure(config: ConfigFile, version: int) -> bool:
 		expected.append(AFTER_KNOCKOUT_KEY)
 	if version >= VERSION_WITHOUT_DAY_NIGHT:
 		expected.append(OBJECTIVE_HINTS_KEY)
-	if version == ApplicationSettingsSnapshot.SCHEMA_VERSION:
+	if version >= VERSION_WITHOUT_AUTOSAVE_NOTICE:
 		expected.append(DAY_NIGHT_KEY)
+	if version == ApplicationSettingsSnapshot.SCHEMA_VERSION:
+		expected.append(AUTOSAVE_NOTICE_KEY)
 	if keys.size() != expected.size():
 		return false
 	for key: String in expected:
