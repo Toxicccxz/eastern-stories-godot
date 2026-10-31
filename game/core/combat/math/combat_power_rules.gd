@@ -11,7 +11,9 @@ extends RefCounted
 ##   a cliff at the bottom (0 against 10 is 1 against 333). MODERN is Elo's shape:
 ##   power_base × 2^(level / power_doubling_levels), every `power_doubling_levels` levels
 ##   doubling the odds, so 10 levels is 67/33 wherever on the ladder, plus combat_exp
-##   / exp_power_divisor; both still scaled by sen / max_sen as combatd.c does.
+##   / exp_power_divisor; both still scaled by sen / max_sen as combatd.c does. Above
+##   power_cap_levels the doubling stops and the curve goes on linearly (a master's 300 is
+##   twice 150, not 2^15 times), keeping every bound within the driver's random().
 ## - defense_power_percent: the defender's dodge and parry power are this much of what
 ##   skill_power() gives before they go into random(ap + dp) and random(ap + pp), so an even
 ##   match lands about half its blows instead of a quarter (two gates at 50 %). 100: ES2.
@@ -29,6 +31,7 @@ const DEFENSES: Dictionary[String, ExperienceDefense] = {"classic": ExperienceDe
 var curve: PowerCurve = PowerCurve.CLASSIC
 var power_base: int = 100
 var power_doubling_levels: int = 10
+var power_cap_levels: int = 150
 var exp_power_divisor: int = 1
 var defense_power_percent: int = 100
 var experience_defense: ExperienceDefense = ExperienceDefense.CLASSIC
@@ -40,11 +43,12 @@ func _init(
 	p_curve: PowerCurve = PowerCurve.CLASSIC, p_power_base: int = 100, p_power_doubling_levels: int = 10,
 	p_exp_power_divisor: int = 1, p_defense_power_percent: int = 100,
 	p_experience_defense: ExperienceDefense = ExperienceDefense.CLASSIC,
-	p_exp_defense_max_percent: int = 0, p_exp_defense_softness: int = 200,
+	p_exp_defense_max_percent: int = 0, p_exp_defense_softness: int = 200, p_power_cap_levels: int = 150,
 ) -> void:
 	curve = p_curve
 	power_base = p_power_base
 	power_doubling_levels = p_power_doubling_levels
+	power_cap_levels = p_power_cap_levels
 	exp_power_divisor = p_exp_power_divisor
 	defense_power_percent = p_defense_power_percent
 	experience_defense = p_experience_defense
@@ -59,7 +63,7 @@ static func classic() -> CombatPowerRules:
 
 func is_valid() -> bool:
 	return (
-		power_base > 0 and power_doubling_levels > 0 and exp_power_divisor > 0
+		power_base > 0 and power_doubling_levels > 0 and power_cap_levels > 0 and exp_power_divisor > 0
 		and defense_power_percent > 0 and exp_defense_max_percent >= 0 and exp_defense_max_percent < 100
 		and exp_defense_softness >= 0
 	)
@@ -76,7 +80,7 @@ func is_classic() -> bool:
 func duplicate_snapshot() -> CombatPowerRules:
 	return CombatPowerRules.new(
 		curve, power_base, power_doubling_levels, exp_power_divisor, defense_power_percent,
-		experience_defense, exp_defense_max_percent, exp_defense_softness,
+		experience_defense, exp_defense_max_percent, exp_defense_softness, power_cap_levels,
 	)
 
 
@@ -107,6 +111,7 @@ static func from_record(reader: ContentRecordReader) -> CombatPowerRules:
 		CURVES[curve_text], reader.integer("power_base", 100), reader.integer("power_doubling_levels", 10),
 		reader.integer("exp_power_divisor", 1), reader.integer("defense_power_percent", 100),
 		DEFENSES[defense_text], reader.integer("exp_defense_max_percent", 0), reader.integer("exp_defense_softness", 200),
+		reader.integer("power_cap_levels", 150),
 	)
 	if not rules.is_valid():
 		reader.fail("power_curve", "the combat power knobs must be positive (exp_defense_max_percent below 100)")

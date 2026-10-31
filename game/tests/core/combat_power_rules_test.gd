@@ -46,6 +46,8 @@ func _test_modern_curve() -> void:
 	_assert_eq(_power(0, 150, 0, 0, rules), 137, "exp / 4 added")
 	_assert_eq(_power(10, 100, 50, 100, rules), 125, "sen / max_sen scales the curve, not the exp: 200 / 2 + 25")
 	_assert_eq(_power(10, 0, 0, 0, _modern(20, 50)), 71, "doubling levels and base are the knobs: 50 × 2^0.5")
+	_assert_eq([_power(150, 0, 0, 0, rules), _power(300, 0, 0, 0, rules), _power(225, 0, 0, 0, rules)], [3276800, 6553600, 4915200], "above power_cap_levels 150 the curve goes on linearly: 300 is twice 150")
+	_assert_true(_power(300, 20000000, 1000000, 1000000, rules) < 2147483647, "a master's bound stays within random()'s reach")
 	var odds: float = float(_power(10, 0, 0, 0, rules)) / float(_power(10, 0, 0, 0, rules) + _power(0, 0, 0, 0, rules))
 	_assert_true(absf(odds - 2.0 / 3.0) < 0.001, "10 levels up: 67 / 33 (%f)" % odds)
 	_assert_eq(_power(0, 0, 0, 0, rules, false), 100, "not living is 0, living level 0 is the base")
@@ -125,12 +127,12 @@ func _test_records_and_presets() -> void:
 	var bare: PacingDefinition = PacingDefinition.from_record(ContentRecordReader.new({"combat_round_ms": 1000}, "p", errors))
 	_assert_true(bare.combat_rules().is_classic() and not bare.combat_forecast and bare.es2_npc_values and errors.is_empty(), "a record without the knobs: ES2 throughout")
 	var read: PacingDefinition = PacingDefinition.from_record(ContentRecordReader.new({
-		"combat_round_ms": 1000, "power_curve": "modern", "power_base": 100, "power_doubling_levels": 10, "exp_power_divisor": 4,
+		"combat_round_ms": 1000, "power_curve": "modern", "power_base": 100, "power_doubling_levels": 10, "power_cap_levels": 150, "exp_power_divisor": 4,
 		"defense_power_percent": 50, "experience_defense": "modern", "exp_defense_max_percent": 40, "exp_defense_softness": 200,
 		"combat_forecast": true, "es2_npc_values": false,
 	}, "p", errors))
 	var rules: CombatPowerRules = read.combat_rules()
-	_assert_true(errors.is_empty() and rules.curve == CombatPowerRules.PowerCurve.MODERN and rules.exp_power_divisor == 4 and rules.defense_power_percent == 50 and rules.experience_defense == CombatPowerRules.ExperienceDefense.MODERN and rules.exp_defense_max_percent == 40 and read.combat_forecast and not read.es2_npc_values, "the knobs are read: %s" % [errors])
+	_assert_true(errors.is_empty() and rules.curve == CombatPowerRules.PowerCurve.MODERN and rules.power_cap_levels == 150 and rules.exp_power_divisor == 4 and rules.defense_power_percent == 50 and rules.experience_defense == CombatPowerRules.ExperienceDefense.MODERN and rules.exp_defense_max_percent == 40 and read.combat_forecast and not read.es2_npc_values, "the knobs are read: %s" % [errors])
 	var copied: PacingDefinition = read.copy()
 	_assert_true(copied.combat_rules().curve == CombatPowerRules.PowerCurve.MODERN and copied.combat_forecast and not copied.es2_npc_values, "copy() keeps them")
 	var classic: PacingDefinition = PacePresets.of(read, CharacterState.PACE_CLASSIC)

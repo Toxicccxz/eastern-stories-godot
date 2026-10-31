@@ -32,6 +32,7 @@
 		"power_curve": "modern",
 		"power_base": 100,
 		"power_doubling_levels": 10,
+		"power_cap_levels": 150,
 		"exp_power_divisor": 4,
 		"defense_power_percent": 50,
 		"experience_defense": "modern",

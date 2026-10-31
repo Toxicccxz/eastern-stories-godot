@@ -171,9 +171,9 @@
 - `milestone_rewards`、`catch_up_max_percent` 100、`staged_potential_cap`、`player_exercise_gain` 6、`training_dummies`、`bounty_board`（经典关 / 0 / 1）。「经验节奏」
 - `room_reset_seconds` 1800、`combat_round_ms` 1000、`heart_beat_ms` 2000（就是 ES2）。「NPCs talk and wander; rooms reset」「One map runtime」「响应性」
 - `feel`：换图淡入淡出、走路、气泡、菜单、战斗演出、`training_step_ms`、`corner_slide_px`（不写 = 0，没有演出）、`voxel_worlds_kept` 3（保留几张图的体素世界；0 = 全留）。「手感」「手感：战斗」「连续修炼」「固定俯视体素地图」
-- 新游戏面板的「节奏」：经典把 `milestone_rewards`、`catch_up_max_percent`、`staged_potential_cap`、`player_exercise_gain`、`bounty_board`、`training_dummies`、`day_length_minutes`、`sky_weather`、战斗数值的十个开关一起按回 ES2，存进存档，开局后不改。「经典模式总开关」「昼夜」「天气」「战斗数值」
+- 新游戏面板的「节奏」：经典把 `milestone_rewards`、`catch_up_max_percent`、`staged_potential_cap`、`player_exercise_gain`、`bounty_board`、`training_dummies`、`day_length_minutes`、`sky_weather`、战斗数值的十一个开关一起按回 ES2，存进存档，开局后不改。「经典模式总开关」「昼夜」「天气」「战斗数值」
 - `day_length_minutes` 24（就是 ES2；owner Q3 默认也用 24）。「昼夜」
-- `power_curve` modern、`power_base` 100、`power_doubling_levels` 10、`exp_power_divisor` 4、`defense_power_percent` 50、`experience_defense` modern、`exp_defense_max_percent` 40、`exp_defense_softness` 200、`combat_forecast`、`es2_npc_values` false（经典 classic / 1 / 100 / classic / 0 / 关 / true）。「战斗数值」
+- `power_curve` modern、`power_base` 100、`power_doubling_levels` 10、`power_cap_levels` 150、`exp_power_divisor` 4、`defense_power_percent` 50、`experience_defense` modern、`exp_defense_max_percent` 40、`exp_defense_softness` 200、`combat_forecast`、`es2_npc_values` false（经典 classic / 1 / 100 / classic / 0 / 关 / true）。「战斗数值」
 - `sky_weather` 开（经典关：ES2 从不显示天色，永远晴）。「天气」
 - `story_parley` 开（经典关：老松寨见人就打，寨门机关必落）；`bury_always_rewards` 开（经典关：安葬按 random(kar + 10) 抽书，抽不中掉下瀑布）。「老松寨的三条路」「安葬必得书」
 
@@ -202,7 +202,7 @@
   输赢各半、疯狗 6 回合必输、三个探哨 5 回合必输、老鼠 110 回合必输；学了一轮（技能 10）就 4 回合碾压野狗和疯狗。
 - **我们（pacing.json 开关，经典值 = ES2；`PacePresets` 经典组一起按回；`Es2Pacing` 的套件用经典值）：**
   - `power_curve` modern（经典 classic）：A/(A+B) 就是 Elo 的形式，所以强度按 Elo 式指数走：`power_base` 100 × 2^(level / `power_doubling_levels` 10)
-    + 经验 / `exp_power_divisor` 4（经典 1），精神比例照 combatd.c 乘。每高 10 级赔率翻倍：10 级 67/33、20 级 80/20、30 级 89/11，从 0 到 100 每一步手感一样；
+    + 经验 / `exp_power_divisor` 4（经典 1），精神比例照 combatd.c 乘；`power_cap_levels` 150 以上不再翻倍、改为线性（高手的 300 是 150 的两倍，上界不超出 random()）。每高 10 级赔率翻倍：10 级 67/33、20 级 80/20、30 级 89/11，从 0 到 100 每一步手感一样；
     经验仍算数但不再压倒技能（刘安禄 blade 40、经验 20000 对技能 8 的玩家仍是 3%）。
   - `defense_power_percent` 50（经典 100）：守方的闪躲力、招架力打五折再进 `random(攻 + 守)`，同档一招约五成打中。
   - `experience_defense` modern（经典 classic）、`exp_defense_max_percent` 40、`exp_defense_softness` 200：循环换成一次有上限的减伤

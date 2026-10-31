@@ -124,7 +124,8 @@ func run_all(tree: SceneTree) -> Dictionary:
 	check(not session.world_time_held(), "world time runs again")
 	# 攻击: its confirm page says how strong he looks; 取消 goes back, nothing begun.
 	check(hud.interact() and hud.interaction_panel.press("攻击") and layout.page() == hud.confirm_prompt and hud.is_asking(), "攻击: its confirm page in the popup")
-	check(hud.confirm_prompt.detail.visible and hud.confirm_prompt.detail.text.contains("看起来"), "it says how strong he looks: %s" % hud.confirm_prompt.detail.text)
+	# The 战前预判's verdict (DECISIONS「战斗数值」), or 看起来… with ES2's numbers.
+	check(hud.confirm_prompt.detail.visible and (hud.confirm_prompt.detail.text.contains("看起来") or hud.confirm_prompt.detail.text.contains("：")), "it says how strong he looks: %s" % hud.confirm_prompt.detail.text)
 	hud.confirm_prompt.cancel()
 	check(hud.interaction_open() and layout.page() == null and not session.combat_encounter_coordinator().has_active_encounter(), "取消: back to 查看, no fight")
 	# 偷窃: his list in the popup; a thing chosen asks on its page; 确认 closes the popup and

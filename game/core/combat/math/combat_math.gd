@@ -33,7 +33,11 @@ static func skill_power(input: CombatSkillPowerInput, rules: CombatPowerRules = 
 ## cube, plus combat_exp / exp_power_divisor (not scaled, as combatd.c adds it).
 static func _modern_power(input: CombatSkillPowerInput, rules: CombatPowerRules, defense: bool) -> int:
 	var level: int = input.effective_skill_level + input.usage_bonus
-	var power: int = roundi(float(rules.power_base) * pow(2.0, float(level) / float(rules.power_doubling_levels)))
+	var doubled: int = mini(level, rules.power_cap_levels)
+	var power: int = roundi(float(rules.power_base) * pow(2.0, float(doubled) / float(rules.power_doubling_levels)))
+	if level > rules.power_cap_levels:
+		@warning_ignore("integer_division")
+		power += power * (level - rules.power_cap_levels) / rules.power_cap_levels
 	if input.maximum_spirit > 0:
 		@warning_ignore("integer_division")
 		power = power * input.current_spirit / input.maximum_spirit
