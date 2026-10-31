@@ -67,7 +67,7 @@ func execute(context: CombatTacticalContext, random_source: CombatRandomSource) 
 	if actor == null:
 		return CombatTacticalExecutionResult.new(CombatTacticalExecutionResult.Outcome.FAILED, _function_id)
 	var special: SpecialContext = CombatSpecialAttackSource.context_for(
-		actor, bindings, random_source, context.effect_registry if context.effect_registry != null else _effects,
+		actor, bindings, random_source, context.effect_registry if context.effect_registry != null else _effects, context.modifiers,
 	)
 	special.target = null if context.target == null else special.other(context.target.participant_id)
 	var performed: bool = PerformService.perform(special, _function_id)

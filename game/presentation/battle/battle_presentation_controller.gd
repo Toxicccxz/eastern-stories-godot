@@ -348,6 +348,9 @@ func _build() -> void:
 	action_panel.action_requested.connect(_submit_action)
 	action_panel.cancel_requested.connect(_cancel_action)
 	action_panel.enforce_requested.connect(_enforce)
+	action_panel.move_requested.connect(_choose_move)
+	action_panel.stance_requested.connect(_set_stance)
+	action_panel.manual_toggled.connect(_set_manual)
 	_content.add_child(action_panel)
 	_receipt = Label.new()
 	_receipt.name = "IntentReceipt"
@@ -636,6 +639,35 @@ func _finish_downed(id: StringName) -> void:
 func _spare_downed(id: StringName) -> void:
 	if _intent != null and _projection.active:
 		_intent.spare_downed(id)
+
+
+## 战斗决策层 1B: the move for this round (the round runs on it).
+func _choose_move(action_id: StringName) -> void:
+	if not _projection.active or _session == null or not _session.is_initialized():
+		return
+	if _session.combat_encounter_coordinator().choose_attack(action_id):
+		refresh_projection()
+
+
+## The stance: set at once; enforce.c's lines (攻's 加力) join the battle log.
+func _set_stance(value: int) -> void:
+	if not _projection.active or _session == null or not _session.is_initialized():
+		return
+	var lines: Array[BattleNarrationLine] = []
+	for line: ColoredLine in _session.combat_encounter_coordinator().set_stance(value):
+		lines.append(BattleNarrationLine.new(line.text, -1, line.color))
+	if not lines.is_empty():
+		log_panel.append_entries([BattleFeedbackProjection.new(_reader.last_consumed_order, lines)])
+		_reader.note(lines)
+		_queue_lines(lines)
+	refresh_projection()
+
+
+func _set_manual(on: bool) -> void:
+	if _session == null or not _session.is_initialized():
+		return
+	_session.combat_encounter_coordinator().set_manual_turns(on)
+	refresh_projection()
 
 
 ## enforce.c in the fight: set now; its lines join the battle log.

@@ -24,6 +24,10 @@ var _hit_condition: NpcHitCondition
 var _force_hit_wound: ForceHitWound
 var _mapped_force_skill_level: int
 var _martial_hit_wound: MartialHitWound
+## 战斗决策层 1B (CombatRoundModifiers): the stance's and the tag's percents on the attack
+## power and the damage, applied at combatd.c's percent sites; 0 changes nothing.
+var attack_power_percent: int = 0
+var damage_percent_bonus: int = 0
 
 var character_id: StringName:
 	get:
@@ -183,6 +187,13 @@ func is_valid() -> bool:
 
 
 func duplicate_snapshot() -> CombatAttackerSnapshot:
+	var copy: CombatAttackerSnapshot = _copy()
+	copy.attack_power_percent = attack_power_percent
+	copy.damage_percent_bonus = damage_percent_bonus
+	return copy
+
+
+func _copy() -> CombatAttackerSnapshot:
 	return CombatAttackerSnapshot.new(
 		_character_id,
 		_living,

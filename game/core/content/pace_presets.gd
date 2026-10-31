@@ -17,7 +17,7 @@ extends RefCounted
 static func of(base: PacingDefinition, pace: StringName) -> PacingDefinition:
 	if pace != CharacterState.PACE_CLASSIC:
 		return base
-	return base.copy().with_progression(false, 0, false, 1).with_training(false, base.bounty_refresh_seconds, false).with_day_length(PacingDefinition.ES2_DAY_LENGTH_MINUTES).with_sky_weather(false).with_story(false, false).with_combat(CombatPowerRules.classic(), false, true)
+	return base.copy().with_progression(false, 0, false, 1).with_training(false, base.bounty_refresh_seconds, false).with_day_length(PacingDefinition.ES2_DAY_LENGTH_MINUTES).with_sky_weather(false).with_story(false, false).with_combat(CombatPowerRules.classic(), false, true).with_decisions(CombatDecisionRules.classic())
 
 
 ## Sets the catalog's pacing for `pace` and gives back what it was (restore() takes it).

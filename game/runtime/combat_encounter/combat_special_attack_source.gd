@@ -7,19 +7,22 @@ extends SpecialAttackSource
 var _bindings: Array[CombatSliceCharacterBinding] = []
 var _random: CombatRandomSource
 var _effects: SkillImprovementEffectRegistry
+## The round's standing modifiers (战斗决策层 1B), null outside the scheduler.
+var _modifiers: CombatRoundModifiers
 
 
-func _init(bindings: Array[CombatSliceCharacterBinding], random_source: CombatRandomSource, effects: SkillImprovementEffectRegistry) -> void:
+func _init(bindings: Array[CombatSliceCharacterBinding], random_source: CombatRandomSource, effects: SkillImprovementEffectRegistry, modifiers: CombatRoundModifiers = null) -> void:
 	_bindings = bindings
 	_random = random_source
 	_effects = effects
+	_modifiers = modifiers
 
 
 ## Null when either side cannot take part (not in the fight, not conscious).
 func attack(attacker_id: StringName, victim_id: StringName) -> SpecialAttack:
 	var actor: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(_bindings, attacker_id)
 	var victim: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(_bindings, victim_id)
-	var result: CombatSliceOpportunityResult = CombatSliceOpportunityExecutor.execute_direct_attack(actor, victim, _bindings, _random, _effects)
+	var result: CombatSliceOpportunityResult = CombatSliceOpportunityExecutor.execute_direct_attack(actor, victim, _bindings, _random, _effects, _modifiers)
 	if result.forward_result == null:
 		return null
 	var made := SpecialAttack.new(attacker_id, victim_id, result.forward_result, result.chain_result)
@@ -34,7 +37,7 @@ func fight(attacker_id: StringName, victim_id: StringName) -> SpecialAttack:
 	var actor: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(_bindings, attacker_id)
 	if actor == null:
 		return null
-	var result: CombatSliceOpportunityResult = CombatSliceOpportunityExecutor.execute_opportunity(actor, _bindings, _random, _effects, victim_id)
+	var result: CombatSliceOpportunityResult = CombatSliceOpportunityExecutor.execute_opportunity(actor, _bindings, _random, _effects, victim_id, &"", _modifiers)
 	if result.forward_result != null:
 		var made := SpecialAttack.new(attacker_id, victim_id, result.forward_result, result.chain_result)
 		made.told = result.post_action_lines()
@@ -83,6 +86,7 @@ static func context_for(
 	bindings: Array[CombatSliceCharacterBinding],
 	random_source: CombatRandomSource,
 	effects: SkillImprovementEffectRegistry,
+	modifiers: CombatRoundModifiers = null,
 ) -> SpecialContext:
 	var others: Array[SpecialSide] = []
 	for binding: CombatSliceCharacterBinding in bindings:
@@ -96,5 +100,5 @@ static func context_for(
 	var context := SpecialContext.new(
 		CombatNpcChat.side_of(actor, null), enemies, random_source.legacy_random, GameContent.catalog(), effects, others,
 	)
-	context.attack_source = CombatSpecialAttackSource.new(bindings, random_source, effects)
+	context.attack_source = CombatSpecialAttackSource.new(bindings, random_source, effects, modifiers)
 	return context

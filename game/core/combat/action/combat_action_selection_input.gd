@@ -8,6 +8,9 @@ var _mapped_action_set: CombatActionSet
 var _primary_weapon_present: bool
 var _primary_weapon_action_set: CombatActionSet
 var _default_action_set: CombatActionSet
+## 战斗决策层 1B: the move the player chose (or the NPC's move drawn a beat early): taken
+## from the set without a draw when it is in it; &"" draws as combatd.c reset_action().
+var _chosen_action_id: StringName
 
 var mapped_skill_present: bool:
 	get:
@@ -16,6 +19,9 @@ var mapped_skill_present: bool:
 var primary_weapon_present: bool:
 	get:
 		return _primary_weapon_present
+var chosen_action_id: StringName:
+	get:
+		return _chosen_action_id
 
 
 func _init(
@@ -24,7 +30,9 @@ func _init(
 	p_primary_weapon_present: bool = false,
 	p_primary_weapon_action_set: CombatActionSet = null,
 	p_default_action_set: CombatActionSet = null,
+	p_chosen_action_id: StringName = &"",
 ) -> void:
+	_chosen_action_id = p_chosen_action_id
 	_mapped_skill_present = p_mapped_skill_present
 	_mapped_action_set = _snapshot_set(p_mapped_action_set)
 	_primary_weapon_present = p_primary_weapon_present

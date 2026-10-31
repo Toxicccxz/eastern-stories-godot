@@ -13,6 +13,12 @@ var _next_request_sequence: int = 1
 ## Correlation tombstones, NOT pending actions. Includes rejected/replaced/executed IDs.
 var _seen_request_ids: Array[StringName] = []
 var _events: Array[CombatTacticalEvent] = []
+## 战斗决策层 1B (pacing perform_cooldown_rounds): rounds each perform waits before the
+## same one again, by action ID; 0 rounds: no cooldown (ES2).
+var _cooldown_rounds: int = 0
+var _cooldowns: Dictionary[StringName, int] = {}
+## The scheduler's round modifiers, handed to the policies' contexts (Codex on #207).
+var modifiers: CombatRoundModifiers
 
 
 func _init(
@@ -46,6 +52,24 @@ func events_after(progression_order: int) -> Array[CombatTacticalEvent]:
 	return result
 
 
+func set_cooldown_rounds(rounds: int) -> void:
+	_cooldown_rounds = maxi(0, rounds)
+
+
+## Rounds left before `action_id` may run again (0: now).
+func cooldown_left(action_id: StringName) -> int:
+	return _cooldowns.get(action_id, 0)
+
+
+## A round passed: every cooldown counts down.
+func note_round() -> void:
+	for action_id: StringName in _cooldowns.keys():
+		if _cooldowns[action_id] <= 1:
+			_cooldowns.erase(action_id)
+		else:
+			_cooldowns[action_id] -= 1
+
+
 func queue_status() -> int:
 	var action: CombatQueuedAction = _encounter.queued_player_action()
 	if action == null:
@@ -76,6 +100,8 @@ func submit(
 	_emit(Kind.REQUESTED, action)
 	var code: int = _base_validation(action, application_active, gate_owner, bindings)
 	var policy: CombatTacticalActionPolicy = _registry.find(request.action_id)
+	if code == Code.ACCEPTED and cooldown_left(request.action_id) > 0:
+		code = Code.COOLING_DOWN
 	if code == Code.ACCEPTED:
 		var target_id: StringName = request.target_id
 		match policy.target_rule:
@@ -161,6 +187,10 @@ func process_command_boundary(
 	var result: CombatTacticalExecutionResult = policy.execute(_context(action, effect_registry, bindings), random_source)
 	if result == null:
 		result = CombatTacticalExecutionResult.new(CombatTacticalExecutionResult.Outcome.FAILED)
+	# It runs at this round's boundary and the round itself counts down once: N + 1 keeps
+	# the N rounds after this one closed.
+	if _cooldown_rounds > 0 and result.outcome == CombatTacticalExecutionResult.Outcome.APPLIED and not CombatPerformTacticalPolicy.function_for(action.request.action_id).is_empty():
+		_cooldowns[action.request.action_id] = _cooldown_rounds + 1
 	_emit(Kind.RESOLVED, action, Code.ACCEPTED, result)
 	return result
 
@@ -259,13 +289,15 @@ func _context(
 	bindings: Array[CombatSliceCharacterBinding] = [],
 ) -> CombatTacticalContext:
 	var target: CombatParticipant = _encounter.participant_for(action.resolved_target_id)
-	return CombatTacticalContext.new(
+	var context := CombatTacticalContext.new(
 		_encounter.participant_for(action.request.actor_id).binding,
 		null if target == null else target.binding,
 		_encounter.mode,
 		effect_registry,
 		bindings,
 	)
+	context.modifiers = modifiers
+	return context
 
 
 func _find(bindings: Array[CombatSliceCharacterBinding], id: StringName) -> CombatSliceCharacterBinding:

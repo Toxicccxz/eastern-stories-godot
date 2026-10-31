@@ -140,6 +140,11 @@ static func resolve(
 		attacker.current_spirit,
 	)
 	calculation._attack_power = CombatMath.skill_power(attack_power_input, rules)
+	# 战斗决策层 1B: the stance's and the move tag's lean on the attack power (0: nothing).
+	var attack_percent: int = attacker.attack_power_percent + CombatMoveTags.attack_percent(action.tag, defender.move_tag, rules.action_tag_bonus_percent, rules.tag_counter_percent)
+	if attack_percent != 0:
+		@warning_ignore("integer_division")
+		calculation._attack_power += calculation._attack_power * attack_percent / 100
 	if calculation._attack_power < 1:
 		calculation._attack_power = 1
 
@@ -152,6 +157,9 @@ static func resolve(
 		defender.current_spirit,
 	)
 	calculation._dodge_power = CombatMath.skill_power(dodge_power_input, rules, true)
+	if defender.dodge_power_percent != 0:
+		@warning_ignore("integer_division")
+		calculation._dodge_power += calculation._dodge_power * defender.dodge_power_percent / 100
 	if calculation._dodge_power < 1:
 		calculation._dodge_power = 1
 	if defender.busy:
@@ -198,6 +206,10 @@ static func resolve(
 	else:
 		parry_effective_level = defender.effective_unarmed_skill_level
 		calculation._parry_power = _defense_skill_power(defender, parry_effective_level, rules)
+	var parry_percent: int = defender.parry_power_percent + CombatMoveTags.parry_percent(action.tag, rules.action_tag_bonus_percent)
+	if parry_percent != 0:
+		@warning_ignore("integer_division")
+		calculation._parry_power += calculation._parry_power * parry_percent / 100
 	if defender.busy:
 		@warning_ignore("integer_division")
 		calculation._parry_power /= 3
@@ -252,6 +264,10 @@ static func resolve(
 		calculation._damage_value += (
 			action.damage_percent * calculation._damage_value / 100
 		)
+	var damage_percent: int = attacker.damage_percent_bonus + CombatMoveTags.damage_percent(action.tag, defender.move_tag, rules.action_tag_bonus_percent, rules.tag_counter_percent)
+	if damage_percent != 0:
+		@warning_ignore("integer_division")
+		calculation._damage_value += damage_percent * calculation._damage_value / 100
 	calculation._reached_stage = CombatAttackCalculation.ReachedStage.ACTION_DAMAGE_READY
 
 	var strength_projection: CombatStrengthProjection = attacker.strength_projection

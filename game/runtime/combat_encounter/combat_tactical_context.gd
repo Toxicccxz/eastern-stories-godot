@@ -7,6 +7,9 @@ var _target: CombatEncounterAuthorityBinding
 var _mode: int
 var _effect_registry: SkillImprovementEffectRegistry
 var _bindings: Array[CombatSliceCharacterBinding] = []
+## 战斗决策层 1B: the round's standing modifiers (the stance), for a special's direct attacks;
+## null outside the scheduler.
+var modifiers: CombatRoundModifiers
 var mode: int:
 	get: return _mode
 ## The encounter's skill_improved() effects (null outside the scheduler).

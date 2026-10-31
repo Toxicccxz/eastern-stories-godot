@@ -169,17 +169,19 @@ func _process(delta: float) -> void:
 	# A fight's own clock (BattlePace, owner B Q2): its rounds cost the task their
 	# combat_round_ms whatever the 战斗速度.
 	var fighting: bool = _combat_encounter_coordinator != null and _combat_encounter_coordinator.has_active_encounter()
-	advance_quest_time(BattlePace.fight_seconds(delta) if fighting else world_delta)
-	advance_bounty_time(BattlePace.fight_seconds(delta) if fighting else world_delta)
+	# 战斗决策层 1B: while the fight's clock waits for the player's order, nothing on it moves.
+	var fight_delta: float = 0.0 if fighting and _combat_encounter_coordinator.waiting_for_player() else BattlePace.fight_seconds(delta)
+	advance_quest_time(fight_delta if fighting else world_delta)
+	advance_bounty_time(fight_delta if fighting else world_delta)
 	advance_npc_heartbeat(world_delta)
 	advance_hidden_passages(world_delta)
 	advance_room_hazards(world_delta)
 	advance_room_resets(world_delta)
 	if _initialized and _combat_encounter_coordinator != null:
-		_combat_encounter_coordinator.advance_scheduler(BattlePace.fight_seconds(delta))
+		_combat_encounter_coordinator.advance_scheduler(fight_delta)
 		advance_departure()
 	# One lying unconscious while the fight goes on wakes on its clock (BattlePace).
-	_advance_life_flow(BattlePace.fight_seconds(delta) if fighting else world_delta)
+	_advance_life_flow(fight_delta if fighting else world_delta)
 	_advance_reincarnation()
 	_sync_ghost_sight()
 	advance_journal(delta)
@@ -194,7 +196,7 @@ func _process_held(delta: float) -> void:
 	if _player != null and _player.busy.is_busy():
 		advance_player_recovery(delta, true)
 	if _initialized and _combat_encounter_coordinator != null:
-		_combat_encounter_coordinator.advance_scheduler(BattlePace.fight_seconds(delta))
+		_combat_encounter_coordinator.advance_scheduler(0.0 if _combat_encounter_coordinator.waiting_for_player() else BattlePace.fight_seconds(delta))
 		advance_departure()
 	_advance_reincarnation()
 	_sync_ghost_sight()

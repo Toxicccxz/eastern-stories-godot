@@ -30,6 +30,8 @@ const HIT_COLOR: Color = Color(1.0, 0.45, 0.42)
 var _primary: Label
 var _secondary: Label
 var _status: Label
+## 战斗决策层 1B: the enemy's 起手 (the tag of its next move) and the special it announced.
+var _intent: Label
 ## 了结 / 放过, shown while the one on the card waits on the player's choice.
 var choice_row: HBoxContainer
 var finish_button: Button
@@ -61,6 +63,10 @@ func _ready() -> void:
 	_primary = _label(content)
 	_secondary = _label(content)
 	_status = _label(content)
+	_intent = _label(content)
+	_intent.add_theme_color_override("font_color", Color("f2d27a"))
+	_intent.visible = false
+	# One line: the 起手 / 要出 words take the status line's place when there are any.
 	choice_row = HBoxContainer.new()
 	choice_row.name = "KnockoutChoice"
 	choice_row.add_theme_constant_override("separation", 8)
@@ -122,8 +128,18 @@ func present(value: BattleParticipantProjection, player_id: StringName, current_
 	var knockout: BattleKnockoutProjection = value.knockout
 	if knockout != null:
 		states.append(tr("约 {n} 秒后醒来").format({"n": knockout.revive_seconds}))
-	_status.text = " · ".join(states)
-	_status.tooltip_text = _status.text
+	var intents := PackedStringArray()
+	if not value.next_move_tag.is_empty():
+		# TRANSLATORS: an enemy's card: the tag of the move it will use next (起手式): 快 / 重 / 虚 / 守.
+		intents.append(tr("起手：%s") % CombatMoveTags.label(value.next_move_tag))
+	if not value.telegraph.is_empty():
+		# TRANSLATORS: an enemy's card: the special it announced for its next move ({move} carries its own 「」 when it has one).
+		intents.append(tr("要出 {move}").format({"move": value.telegraph}))
+	# The card stays one line: the states and the 起手 / 要出 words share the status line.
+	var intent_text: String = " · ".join(intents)
+	_status.text = " · ".join(states) if intent_text.is_empty() else "%s · %s" % [" · ".join(states), intent_text]
+	_status.tooltip_text = (CombatMoveTags.description(value.next_move_tag) + "\n" if not value.next_move_tag.is_empty() else "") + _status.text
+	_intent.visible = false
 	_present_choice(value, knockout)
 
 

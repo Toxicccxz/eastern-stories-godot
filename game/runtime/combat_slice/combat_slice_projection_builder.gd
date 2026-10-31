@@ -63,6 +63,7 @@ static func build_fight_facts(
 
 static func build_action_selection_input(
 	attacker: CombatSliceCharacterBinding,
+	chosen_action_id: StringName = &"",
 ) -> CombatActionSelectionInput:
 	if attacker == null or not attacker.is_valid():
 		return null
@@ -82,6 +83,7 @@ static func build_action_selection_input(
 		primary != null,
 		primary_set,
 		attacker.content.unarmed_action_set(),
+		chosen_action_id,
 	)
 
 
@@ -89,6 +91,7 @@ static func build_attack_input(
 	attacker: CombatSliceCharacterBinding,
 	defender: CombatSliceCharacterBinding,
 	selected_action: CombatActionDefinition,
+	modifiers: CombatRoundModifiers = null,
 ) -> CombatAttackInput:
 	if (
 		attacker == null or defender == null or selected_action == null
@@ -207,6 +210,15 @@ static func build_attack_input(
 	)
 	if defender.content != null and defender.content.is_ghost:
 		defender_snapshot.ghost_atman = defender.state.recovery.atman.current
+	# 战斗决策层 1B: the round's standing modifiers (stance, a 守 move, the move tag held).
+	if modifiers != null:
+		var mine: CombatRoundModifiers.Fighter = modifiers.read(attacker.character_id)
+		var theirs: CombatRoundModifiers.Fighter = modifiers.read(defender.character_id)
+		attacker_snapshot.attack_power_percent = mine.attack_percent
+		attacker_snapshot.damage_percent_bonus = mine.damage_percent
+		defender_snapshot.dodge_power_percent = theirs.dodge_percent
+		defender_snapshot.parry_power_percent = theirs.parry_percent
+		defender_snapshot.move_tag = theirs.move_tag
 	return CombatAttackInput.new(attacker_snapshot, defender_snapshot, selected_action, approved_actions, GameContent.catalog().pacing().combat_rules())
 
 
@@ -257,6 +269,7 @@ static func build_reverse_projection(
 	attacker: CombatSliceCharacterBinding,
 	defender: CombatSliceCharacterBinding,
 	request: CombatRiposteRequest,
+	modifiers: CombatRoundModifiers = null,
 ) -> CombatReverseAttackProjection:
 	if (
 		attacker == null
@@ -268,10 +281,12 @@ static func build_reverse_projection(
 		or request.victim_id != defender.character_id
 	):
 		return null
-	return build_live_projection(attacker, defender)
+	return build_live_projection(attacker, defender, &"", modifiers)
 
 
-static func build_live_projection(attacker: CombatSliceCharacterBinding, defender: CombatSliceCharacterBinding) -> CombatReverseAttackProjection:
+## `chosen_action_id`: the move the attacker takes without a draw (the player's pick, an
+## NPC's move drawn a beat early); `modifiers`: the round's standing modifiers.
+static func build_live_projection(attacker: CombatSliceCharacterBinding, defender: CombatSliceCharacterBinding, chosen_action_id: StringName = &"", modifiers: CombatRoundModifiers = null) -> CombatReverseAttackProjection:
 	if attacker == null or defender == null or not attacker.is_valid() or not defender.is_valid():
 		return null
 	var primary: EquippedWeaponRef = attacker.state.equipment.primary_weapon()
@@ -304,8 +319,8 @@ static func build_live_projection(attacker: CombatSliceCharacterBinding, defende
 	return CombatReverseAttackProjection.new(
 		CombatCharacterAuthority.new(attacker.character_id, attacker.state),
 		CombatCharacterAuthority.new(defender.character_id, defender.state),
-		build_action_selection_input(attacker),
-		build_attack_input(attacker, defender, template_action),
+		build_action_selection_input(attacker, chosen_action_id),
+		build_attack_input(attacker, defender, template_action, modifiers),
 		build_progression_facts(attacker),
 		build_progression_facts(defender),
 		build_busy_projection(defender),

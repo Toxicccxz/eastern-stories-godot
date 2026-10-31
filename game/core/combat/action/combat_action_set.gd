@@ -76,4 +76,6 @@ static func same_action(left: CombatActionDefinition, right: CombatActionDefinit
 		and left.legacy_action_text == right.legacy_action_text
 		and left.displayed_weapon_or_body_token == right.displayed_weapon_or_body_token
 		and left.post_action_policy_id == right.post_action_policy_id
+		and left.tag == right.tag
+		and left.display_name == right.display_name
 	)

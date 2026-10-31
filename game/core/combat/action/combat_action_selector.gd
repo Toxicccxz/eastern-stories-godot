@@ -46,6 +46,14 @@ static func select_action(
 			CombatActionSelectionResult.Outcome.INVALID_ACTION_SET,
 			source_kind,
 		)
+	# A chosen move in the set (the player's pick, an NPC's move drawn a beat early): no draw.
+	if not input.chosen_action_id.is_empty():
+		for index: int in action_set.size():
+			if action_set.action_at(index).action_id == input.chosen_action_id:
+				return CombatActionSelectionResult.new(
+					CombatActionSelectionResult.Outcome.SELECTED, source_kind, action_set.action_at(index), index,
+					false, false, action_set.size(), index,
+				)
 	if random_source == null:
 		return CombatActionSelectionResult.new(
 			CombatActionSelectionResult.Outcome.RANDOM_SOURCE_MISSING,

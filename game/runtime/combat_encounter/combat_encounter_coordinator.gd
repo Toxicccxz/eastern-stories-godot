@@ -309,10 +309,90 @@ func action_infos() -> Array[CombatTacticalActionInfo]:
 			continue
 		if not policy.offered_to(player):
 			continue
+		var reason: String = policy.unavailable_reason(player)
+		# 战斗决策层 1B: a perform in its cooldown is greyed with the rounds left.
+		var tactical: CombatTacticalRuntime = null if _active_scheduler == null else _active_scheduler.player_tactics()
+		if reason.is_empty() and tactical != null and tactical.cooldown_left(info.action_id) > 0:
+			# TRANSLATORS: the battle panel: a perform button greyed while it cools down; {rounds} rounds left.
+			reason = TranslationServer.translate("冷却中（还要 {rounds} 回合）").format({"rounds": tactical.cooldown_left(info.action_id)})
 		infos.append(CombatTacticalActionInfo.new(
-			info.action_id, info.category, info.target_rule, info.blocks_when_busy, policy.unavailable_reason(player),
+			info.action_id, info.category, info.target_rule, info.blocks_when_busy, reason,
 		))
 	return infos
+
+
+## 战斗决策层 1B (DECISIONS「战斗决策」): the fight's clock waits for the player's order.
+func waiting_for_player() -> bool:
+	if _active_scheduler == null or _active_encounter == null or _active_encounter.phase != CombatEncounterLifecycle.Value.ACTIVE:
+		return false
+	return _active_scheduler.waiting_for_player(_session.encounter_combat_bindings(_active_encounter))
+
+
+## The moves the player may choose from now.
+func player_moves() -> Array[CombatActionDefinition]:
+	if _active_scheduler == null or _active_encounter == null:
+		return []
+	return _active_scheduler.player_moves(_session.encounter_combat_bindings(_active_encounter))
+
+
+## The player's move for this round: taken without a draw, and the round runs.
+func choose_attack(action_id: StringName) -> bool:
+	if _active_scheduler == null or _active_encounter == null or not _fight_input_allowed():
+		return false
+	return _active_scheduler.choose_attack(action_id, _session.encounter_combat_bindings(_active_encounter))
+
+
+func player_choice() -> StringName:
+	return &"" if _active_scheduler == null else _active_scheduler.player_choice()
+
+
+## The 自动 switch: off, the clock rolls as ES2's; on, it waits for the player's order.
+func set_manual_turns(on: bool) -> void:
+	BattlePace.manual_turns = on
+	if not on and _active_scheduler != null:
+		_active_scheduler.open_round()
+
+
+func manual_turns() -> bool:
+	return _active_scheduler != null and _active_scheduler.manual()
+
+
+## Whether the pacing offers the 自动 switch and the stances at all.
+func decision_rules() -> CombatDecisionRules:
+	return GameContent.catalog().pacing().decision_rules() if _active_scheduler == null else _active_scheduler.decisions()
+
+
+## The player's stance (CombatStance): set at once; 攻 puts 加力 at stance_enforce_percent
+## of its limit, the others at 0 (enforce.c's lines come back for the log).
+func set_stance(value: int) -> Array[ColoredLine]:
+	if not CombatStance.is_valid(value):
+		return []
+	BattlePace.stance = value
+	var rules: CombatDecisionRules = decision_rules()
+	if not rules.has_stances() or _session == null or not _session.martial_arts().in_own_fight():
+		return []
+	if _session.player_runtime().state.skills.mapped_skill(EnforceService.BASIC_FORCE).is_empty():
+		return []
+	var limit: int = _session.martial_arts().enforce_limit()
+	@warning_ignore("integer_division")
+	var points: int = limit * rules.stance_enforce_percent / 100 if value == CombatStance.Value.ATTACK else 0
+	return _session.martial_arts().enforce(points)
+
+
+func stance() -> int:
+	return BattlePace.stance
+
+
+## The tag of the move `actor_id` will use next (npc_telegraph), &"" when none is known.
+func next_move_tag(actor_id: StringName) -> StringName:
+	if _active_scheduler == null or _active_encounter == null:
+		return &""
+	return _active_scheduler.next_move_tag(actor_id, _session.encounter_combat_bindings(_active_encounter))
+
+
+## The special `actor_id` announced for its next beat, "" when none.
+func pending_special_label(actor_id: StringName) -> String:
+	return "" if _active_scheduler == null else _active_scheduler.pending_special_label(actor_id)
 
 
 func change_player_target(request: CombatTargetRequest) -> CombatTargetResult:
@@ -393,10 +473,14 @@ func _target_input_allowed() -> bool:
 func submit_player_action(request: CombatTacticalRequest) -> CombatTacticalResult:
 	if _active_scheduler == null or _active_scheduler.player_tactics() == null:
 		return CombatTacticalResult.new()
-	return _active_scheduler.player_tactics().submit(
+	var result: CombatTacticalResult = _active_scheduler.player_tactics().submit(
 		request, _session.application_gameplay_allows_encounter_advance(),
 		_world_gate.freeze_owner_id(), _session.encounter_combat_bindings(_active_encounter),
 	)
+	# 战斗决策层 1B: an order queued is the player's turn: the round runs.
+	if result.accepted():
+		_active_scheduler.open_round()
+	return result
 
 
 func cancel_player_action(expected_request_id: StringName) -> CombatTacticalResult:
@@ -715,6 +799,7 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 			CombatEncounterStartResult.Outcome.SCHEDULER_PREPARATION_FAILED,
 			trigger,
 		)
+	scheduler.configure_decisions(GameContent.catalog().pacing().decision_rules())
 	## NPC-only scripted encounters retain CXR3 behavior, with no player queue API.
 	if encounter.participant_for(_session.player_runtime().character_id) != null:
 		scheduler.configure_player_tactics(_session.player_runtime().character_id, _tactical_registry)

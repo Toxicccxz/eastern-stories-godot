@@ -116,6 +116,9 @@ var _bury_always_rewards: bool = false
 ## line by combat_exp) and whether NPCs carry their ES2 numbers (es2_npc_values: the record's
 ## `classic` block; true left out, so a record without the knobs is ES2 throughout).
 var _combat_rules: CombatPowerRules = CombatPowerRules.classic()
+## 战斗决策层 1B (DECISIONS「战斗决策」): the decision layer's knobs (CombatDecisionRules), ES2's
+## auto-fight when left out.
+var _decision_rules: CombatDecisionRules = CombatDecisionRules.classic()
 var _combat_forecast: bool = false
 var _es2_npc_values: bool = true
 
@@ -269,8 +272,20 @@ func copy() -> PacingDefinition:
 	record.with_sky_weather(_sky_weather)
 	record.with_story(_story_parley, _bury_always_rewards)
 	record.with_combat(_combat_rules, _combat_forecast, _es2_npc_values)
+	record.with_decisions(_decision_rules)
 	record.feel = feel
 	return record
+
+
+## The decision layer's knobs (a snapshot; ES2's auto-fight when none were set).
+func decision_rules() -> CombatDecisionRules:
+	return _decision_rules.duplicate_snapshot()
+
+
+## This record with the decision knobs set (tests, PacePresets, and from_record()).
+func with_decisions(rules: CombatDecisionRules) -> PacingDefinition:
+	_decision_rules = rules.duplicate_snapshot() if rules != null else CombatDecisionRules.classic()
+	return self
 
 
 ## The combat power knobs this world fights under (a snapshot; ES2's when none were set).
@@ -396,6 +411,7 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.boolean("training_dummies", false),
 	).with_hostile_alert(reader.integer("hostile_alert_ms", 0)).with_day_length(reader.integer("day_length_minutes", ES2_DAY_LENGTH_MINUTES)).with_sky_weather(reader.boolean("sky_weather", false)).with_story(reader.boolean("story_parley", false), reader.boolean("bury_always_rewards", false))
 	definition.with_combat(CombatPowerRules.from_record(reader), reader.boolean("combat_forecast", false), reader.boolean("es2_npc_values", true))
+	definition.with_decisions(CombatDecisionRules.from_record(reader))
 	var feel: ContentRecordReader = reader.child("feel")
 	if feel != null:
 		definition.feel = FeelDefinition.from_record(feel)

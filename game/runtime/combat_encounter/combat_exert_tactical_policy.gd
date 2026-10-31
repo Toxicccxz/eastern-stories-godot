@@ -93,7 +93,7 @@ func execute(context: CombatTacticalContext, random_source: CombatRandomSource) 
 	if _aims:
 		var binding: CombatSliceCharacterBinding = CombatSliceProjectionBuilder.find_binding(context.bindings, actor.participant_id)
 		if binding != null:
-			special = CombatSpecialAttackSource.context_for(binding, context.bindings, random_source, _effects)
+			special = CombatSpecialAttackSource.context_for(binding, context.bindings, random_source, _effects, context.modifiers)
 			special.target = null if context.target == null else special.other(context.target.participant_id)
 			offensive = special.target_or_offensive
 	var result: ExertResult = ExertService.exert(

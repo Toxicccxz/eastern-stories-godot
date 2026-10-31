@@ -9,6 +9,8 @@ enum Outcome {
 	AUTHORITY_INVALID,
 	ADVANCED_NO_OPPORTUNITY,
 	ADVANCED,
+	## 战斗决策层 1B: the fight's clock waits for the player's order (no time passed).
+	WAITING_FOR_PLAYER,
 }
 
 var _outcome: int

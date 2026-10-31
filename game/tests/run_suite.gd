@@ -39,6 +39,8 @@ func _run() -> void:
 
 	# Suites build many worlds; parse each map scene once per process.
 	WorldSessionController.keep_map_scenes = true
+	# 战斗决策层 1B: the suites drive fights with advance_scheduler(); the clock rolls on (自动).
+	BattlePace.manual_turns = false
 	TestFeel.turn_off()
 	TestAway.turn_off()
 	TestAlert.turn_off()

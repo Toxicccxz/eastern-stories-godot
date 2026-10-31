@@ -20,6 +20,12 @@ static var speed: int = Speed.NORMAL
 ## The fighters' cards flash red when they lose 气.
 static var hit_flash: bool = true
 static var after_knockout: int = AfterKnockout.ASK
+## 战斗决策层 1B (DECISIONS「战斗决策」): under pacing player_turns the fight waits for the
+## player's order each round unless this is off (the panel's 自动 button); the suites run
+## auto (run_suite.gd). Not saved.
+static var manual_turns: bool = true
+## The player's stance (CombatStance), kept from fight to fight; 攻 at New Game.
+static var stance: int = CombatStance.Value.ATTACK
 
 
 ## Real time a round takes at `at`, in percent of the round (100: 标准).
