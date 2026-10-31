@@ -489,6 +489,15 @@ func note_corpse_scattered(corpse_id: StringName) -> void:
 	_scattered_corpses[corpse_id] = true
 
 
+## The player's corpse `corpse_id` still lies somewhere, waiting for them (WorldMapCorpses.holds_for_player()).
+func corpse_waits(corpse_id: StringName) -> bool:
+	for map: WorldMapController in world_maps():
+		var corpse: CorpseState = map.corpses.find_corpse(corpse_id)
+		if corpse != null:
+			return map.corpses.holds_for_player(corpse)
+	return false
+
+
 func corpse_scattered(corpse_id: StringName) -> bool:
 	return _scattered_corpses.has(corpse_id)
 
@@ -2007,7 +2016,7 @@ func on_player_lifecycle(lifecycle: CombatSliceLifecycleResult, has_killer: bool
 			_forgive_debts()
 			# A ghost leaves no corpse (chard.c make_corpse()): the card names none.
 			var place: String = "" if _player.state.ghost else place_name(location)
-			_life_flow.begin_death(PlayerDeathRules.die(_player.state, has_killer), place, lifecycle.corpse_item_instance_id)
+			_life_flow.begin_death(PlayerDeathRules.die(_player.state, has_killer, GameContent.catalog().pacing()), place, lifecycle.corpse_item_instance_id)
 
 
 ## The dead owe nothing (默认, DECISIONS 玉螺湖村 B): a catch's marks (meloner.c's

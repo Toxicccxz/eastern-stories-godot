@@ -13,6 +13,7 @@ var failures: Array[String] = []
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_death_rules()
 	_skill_death_penalty()
+	_modern_death()
 	_revive_delay()
 	_life_flow_timeline()
 	await _killers_finish_unconscious_player(tree)
@@ -47,6 +48,41 @@ func _death_rules() -> void:
 	accident.conditions.add_or_replace_duration(&"drunk", 5)
 	var no_killer: PlayerDeathResult = PlayerDeathRules.die(accident, false)
 	check(not no_killer.penalized and accident.progression.combat_experience == 500 and accident.conditions.size() == 0, "no killer: conditions cleared, no penalty")
+
+
+## DECISIONS「减轻死亡」: the record's knobs lighten killer_reward(); 经典 is ES2 to the digit.
+func _modern_death() -> void:
+	var modern: PacingDefinition = PacingDefinition.new(1000).with_death(3, true, true, true)
+	var state: CharacterState = _dying()
+	var result: PlayerDeathResult = PlayerDeathRules.die(state, true, modern)
+	check(result.penalized and result.combat_experience_lost == 37 and state.progression.combat_experience == 1197, "现代: 3% of combat_exp")
+	check(result.potential_lost == 0 and state.progression.potential == 100, "现代: unspent potential stays")
+	check(result.skill_changes.is_empty() and result.enabled_skills_cleared == 0 and state.skills.raw_level(&"unarmed") == 3 and state.skills.has_raw_level(&"liuh-ken") and state.skills.mapped_skill(&"unarmed") == &"liuh-ken", "现代: every skill and enable stays")
+	check(result.bellicosity_lost == 300 and state.attributes.bellicosity == 0, "现代: bellicosity still resets (a state, not a loss)")
+	check([state.vitality.current, state.vitality.effective] == [1, 1] and state.ghost, "现代: still a ghost at 1/1, 阴间 is walked")
+	var accident: CharacterState = _dying()
+	check(not PlayerDeathRules.die(accident, false, modern).penalized and accident.progression.combat_experience == 1234, "现代: no killer, no penalty")
+	var classic: PacingDefinition = PacePresets.of(PacingDefinition.new(1000).with_death(3, true, true, true).with_autosave(180), CharacterState.PACE_CLASSIC)
+	check(classic.death_exp_percent == 10 and not classic.death_keeps_potential and not classic.death_keeps_skills and not classic.player_corpse_stays and classic.autosave_min_seconds == 0, "经典 puts all of them back and has no autosave")
+	var with_knobs: CharacterState = _dying()
+	var plain: CharacterState = _dying()
+	var a: PlayerDeathResult = PlayerDeathRules.die(with_knobs, true, classic)
+	var b: PlayerDeathResult = PlayerDeathRules.die(plain, true)
+	check(a.combat_experience_lost == b.combat_experience_lost and a.potential_lost == b.potential_lost and a.skill_changes.size() == b.skill_changes.size() and a.enabled_skills_cleared == b.enabled_skills_cleared, "经典 costs what ES2 costs, item by item")
+	check(with_knobs.progression.combat_experience == 1111 and with_knobs.skills.raw_level(&"unarmed") == 2 and not with_knobs.skills.has_raw_level(&"liuh-ken") and with_knobs.skills.mapped_skill(&"unarmed") == &"", "经典: combat_exp / 10, every skill a level, enables gone")
+
+
+func _dying() -> CharacterState:
+	var state: CharacterState = CharacterState.new()
+	state.progression.combat_experience = 1234
+	state.progression.potential = 100
+	state.progression.potential_spent = 40
+	state.attributes.bellicosity = 300
+	state.vitality = CharacterResourceState.new(50, 80, 100)
+	state.skills.set_raw_level(&"unarmed", 3)
+	state.skills.set_raw_level(&"liuh-ken", 0)
+	state.skills.map_skill(&"unarmed", &"liuh-ken")
+	return state
 
 
 func _skill_death_penalty() -> void:

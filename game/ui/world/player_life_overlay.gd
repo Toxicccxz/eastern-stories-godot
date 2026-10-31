@@ -105,7 +105,7 @@ func _process(delta: float) -> void:
 	var reincarnated: bool = _session.reincarnations() != _reincarnations_told
 	_reincarnations_told = _session.reincarnations()
 	if woke or reincarnated:
-		_notice = tr("慢慢地你终於又有了知觉....") if woke else tr("一阵浓雾散去，你发现自己站在雪亭镇的城隍庙里。")
+		_notice = tr("慢慢地你终於又有了知觉....") if woke else _revived_notice(flow)
 		_notice_remaining = REVIVED_NOTICE_SECONDS
 		# The defeat heading no longer describes the player.
 		if _session.shared_ui() != null:
@@ -217,6 +217,8 @@ func _death_text(flow: PlayerLifeFlow) -> String:
 		var corpse: StringName = flow.corpse_item_instance_id
 		if corpse.is_empty() or _session.inventory_state().is_registered(corpse):
 			lines.append(tr("你的尸体和随身物品留在：%s") % flow.corpse_place)
+			if GameContent.catalog().pacing().player_corpse_stays:
+				lines.append(tr("尸体不会腐烂，等你回去取。"))
 		elif _session.corpse_scattered(corpse):
 			# The bones scattered (obj/corpse.c decay(3)): what it held lies there.
 			lines.append(tr("你的尸体已经化成骨灰，随身物品散落在：%s") % flow.corpse_place)
@@ -224,6 +226,14 @@ func _death_text(flow: PlayerLifeFlow) -> String:
 			# The corpse is gone (化尸粉); the dead do not see how.
 			lines.append(tr("你的尸体已经不在了。"))
 	return "\n".join(lines).strip_edges()
+
+
+## Back at the temple; where the corpse waits, if it does (DECISIONS「减轻死亡」).
+func _revived_notice(flow: PlayerLifeFlow) -> String:
+	var lines: Array[String] = [tr("一阵浓雾散去，你发现自己站在雪亭镇的城隍庙里。")]
+	if not flow.corpse_place.is_empty() and _session.corpse_waits(flow.corpse_item_instance_id):
+		lines.append(tr("你的尸体和随身物品还在：%s") % flow.corpse_place)
+	return "\n".join(lines)
 
 
 ## 继续: the card shown goes away (the next waits its turn), or the dead go on to 阴间.

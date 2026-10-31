@@ -45,6 +45,7 @@ func _run() -> void:
 	TestAway.turn_off()
 	TestAlert.turn_off()
 	TestDay.turn_off()
+	TestDeath.turn_off()
 	var assertions: int = 0
 	var failures: Array[String] = []
 	var script_errors := ScriptErrors.new()
