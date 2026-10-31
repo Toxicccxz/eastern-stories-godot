@@ -18,6 +18,13 @@ func race_action_set(race_id: StringName) -> CombatActionSet:
 	return _race_actions.get(race_id)
 
 
+## The weapon kinds whose verbs the data lists (sword, blade, ...), in the data's order.
+func weapon_skill_types() -> Array[StringName]:
+	var types: Array[StringName] = []
+	types.assign(_weapon_verbs.keys())
+	return types
+
+
 ## weapond.c query_action(): a verb of the weapon kind's `verbs`, drawn by the
 ## caller. A kind whose verbs are not in data attacks with `slash`.
 func weapon_action_set(skill_type: StringName) -> CombatActionSet:

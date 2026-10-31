@@ -105,6 +105,63 @@ static func _arts(state: CharacterState, catalog: ContentCatalog) -> Array[Entry
 			entry.add(_t("运功：{functions}").format({"functions": _t("、").join(functions)}))
 		entry.add(_t("你的等级：{level}").format({"level": state.skills.raw_level(skill.skill_id)}), Paragraph.Kind.NOTE)
 		result.append(entry)
+	result.append_array(_schools_seen(state, catalog))
+	return result
+
+
+## 见识录 (识招, DECISIONS「战斗内容」): one entry per school of moves the player has watched
+## (MoveRecognition) or learned, listing each move's tag once read (「？」until then), the
+## tag that beats it, and how many times it was watched. The race's and the weapons' moves
+## and the beasts' verbs count as schools here.
+static func _schools_seen(state: CharacterState, catalog: ContentCatalog) -> Array[Entry]:
+	var result: Array[Entry] = []
+	if state == null or catalog == null or catalog.pacing().decision_rules().recognise_after <= 0:
+		return result
+	var rules: CombatDecisionRules = catalog.pacing().decision_rules()
+	var schools: Array = []
+	for skill_id: StringName in catalog.skill_ids():
+		var skill: SkillDefinition = catalog.skill(skill_id)
+		if skill.action_set() != null:
+			schools.append(["moves/%s" % skill_id, skill.display_name, skill.action_set()])
+	schools.append(["moves/race/human", _t("拳脚"), catalog.combat_actions().race_action_set(NpcCharacterStateFactory.HUMAN_RACE_ID)])
+	for skill_type: StringName in catalog.combat_actions().weapon_skill_types():
+		var weapon: SkillDefinition = catalog.skill(skill_type)
+		schools.append(["moves/weapon/%s" % skill_type, weapon.display_name if weapon != null else String(skill_type), catalog.combat_actions().weapon_action_set(skill_type)])
+	var beast: Array[CombatActionDefinition] = []
+	for verb: StringName in [&"bite", &"claw", &"hoof", &"poke"]:
+		beast.append(BeastCombatActionDefinitions.action(verb))
+	schools.append(["moves/race/beast", _t("禽兽"), CombatActionSet.new(beast)])
+	for school: Array in schools:
+		var set: CombatActionSet = school[2]
+		if set == null or set.is_empty():
+			continue
+		var watched: bool = false
+		var lines: Array[String] = []
+		var known_all: bool = true
+		for action: CombatActionDefinition in set.actions():
+			var seen: int = MoveRecognition.times_seen(state, action.action_id)
+			watched = watched or seen > 0 or MoveRecognition.is_own(state, action, catalog)
+			var known: bool = MoveRecognition.recognised(state, action, rules, catalog)
+			known_all = known_all and known
+			var name: String = _t(action.display_name) if not action.display_name.is_empty() else String(action.action_id).get_slice("/", String(action.action_id).get_slice_count("/") - 1)
+			var parts: Array[String] = [name]
+			if known:
+				parts.append(CombatMoveTags.label(action.tag))
+				var weakness: StringName = MoveRecognition.weakness(action.tag)
+				if not weakness.is_empty():
+					parts.append(_t("破绽：{tag}").format({"tag": CombatMoveTags.label(weakness)}))
+			else:
+				parts.append(_t("？"))
+			if seen > 0:
+				parts.append(_t("见过 {n} 次").format({"n": seen}))
+			lines.append(_t(" · ").join(parts))
+		if not watched:
+			continue
+		var entry := Entry.new(school[0], _t("见识录 · {school}").format({"school": _t(school[1])}))
+		entry.add(_t("看熟一招（见过 {n} 次）就认得它的快、重、虚、守和破绽；自家门派的招一学就认得。").format({"n": rules.recognise_after}) if not known_all else _t("这一路的招你都认得。"))
+		for line: String in lines:
+			entry.add(line)
+		result.append(entry)
 	return result
 
 

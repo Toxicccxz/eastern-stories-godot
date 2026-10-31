@@ -14,6 +14,8 @@ var _special: SpecialReport
 ## now, run on the NPC's next beat unless interrupted.
 var _telegraph: NpcSpecialAction
 var _telegraph_label: String = ""
+## 战斗决策层 4: the name the special ran under, as announced (「封」字诀), for the card's title.
+var _special_label: String = ""
 
 
 func _init(p_lines: Array[VisionLine] = [], p_damaged: Array[StringName] = []) -> void:
@@ -51,6 +53,16 @@ func telegraph() -> NpcSpecialAction:
 
 func telegraph_label() -> String:
 	return _telegraph_label
+
+
+func with_special_label(label: String) -> CombatNpcChatResult:
+	_special_label = label
+	return self
+
+
+## The announced name of the special that ran this beat, "" when it had none.
+func special_label() -> String:
+	return _special_label
 
 
 ## random_move() in a fight: the NPC walked out to this zone (go.c's remove_all_enemy()).

@@ -56,13 +56,16 @@ func with_leaving(leave_for: Callable) -> CombatNpcChat:
 	return self
 
 
-## What the NPC's chat() did this beat, or null when it did nothing visible.
+## What the NPC's chat() did this beat, or null when it did nothing visible. `can_special`
+## false (DECISIONS「战斗内容」: its special rests, or its fight style has none): a special
+## drawn is neither announced nor run — the draw is taken as npc.c does, nothing shows.
 func beat(
 	actor: CombatSliceCharacterBinding,
 	enemies: Array[CombatSliceCharacterBinding],
 	others: Array[CombatSliceCharacterBinding],
 	random_source: CombatRandomSource,
 	effects: SkillImprovementEffectRegistry,
+	can_special: bool = true,
 ) -> CombatNpcChatResult:
 	var npc: NpcRuntimeState = _npc(actor.character_id)
 	if npc == null or npc.definition() == null:
@@ -98,6 +101,8 @@ func beat(
 	if not (entry is NpcSpecialAction):
 		return null
 	var action: NpcSpecialAction = entry
+	if not can_special and action.kind != NpcSpecialAction.Kind.SURRENDER:
+		return null
 	if telegraph and action.kind != NpcSpecialAction.Kind.SURRENDER:
 		var label: String = special_label(action, npc)
 		# TRANSLATORS: an NPC gathers itself for a special it will use next round: {npc} its name, {move} the special's name.

@@ -2,9 +2,13 @@ class_name CombatActionSelector
 extends RefCounted
 
 
+## `tag_weights` (DECISIONS「战斗内容」, an NPC's fight style): the draw weighs each move by
+## its tag's weight (1 when the tag has none, 平 under &""), one random(sum) instead of
+## random(n); empty or all 1: random(n) as combatd.c.
 static func select_action(
 	input: CombatActionSelectionInput,
 	random_source: CombatRandomSource,
+	tag_weights: Dictionary[StringName, int] = {},
 ) -> CombatActionSelectionResult:
 	if input == null:
 		return CombatActionSelectionResult.new()
@@ -65,7 +69,24 @@ static func select_action(
 			action_set.size(),
 		)
 
-	var selected_index: int = random_source.legacy_random(action_set.size())
+	var weights: Array[int] = _weights(action_set, tag_weights)
+	var selected_index: int = -1
+	var bound: int = action_set.size()
+	if weights.is_empty():
+		selected_index = random_source.legacy_random(bound)
+	else:
+		bound = 0
+		for weight: int in weights:
+			bound += weight
+		var draw: int = random_source.legacy_random(bound)
+		var passed: int = 0
+		for index: int in weights.size():
+			passed += weights[index]
+			if draw < passed:
+				selected_index = index
+				break
+		if selected_index < 0 and draw >= 0 and draw < bound:
+			selected_index = weights.size() - 1
 	if selected_index < 0 or selected_index >= action_set.size():
 		return CombatActionSelectionResult.new(
 			CombatActionSelectionResult.Outcome.RANDOM_DRAW_OUT_OF_RANGE,
@@ -74,7 +95,7 @@ static func select_action(
 			selected_index,
 			true,
 			true,
-			action_set.size(),
+			bound,
 			selected_index,
 		)
 	return CombatActionSelectionResult.new(
@@ -84,6 +105,24 @@ static func select_action(
 		selected_index,
 		true,
 		true,
-		action_set.size(),
+		bound,
 		selected_index,
 	)
+
+
+## The weight of each move of `action_set` under `tag_weights`; empty when every weight
+## is 1 (the plain draw) or the weights leave nothing to draw.
+static func _weights(action_set: CombatActionSet, tag_weights: Dictionary[StringName, int]) -> Array[int]:
+	var weights: Array[int] = []
+	if tag_weights.is_empty():
+		return weights
+	var plain: bool = true
+	var total: int = 0
+	for action: CombatActionDefinition in action_set.actions():
+		var weight: int = maxi(0, tag_weights.get(action.tag, 1))
+		plain = plain and weight == 1
+		total += weight
+		weights.append(weight)
+	if plain or total <= 0:
+		weights.clear()
+	return weights

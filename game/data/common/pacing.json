@@ -47,6 +47,8 @@
 		"stance_percent": 20,
 		"stance_enforce_percent": 50,
 		"perform_cooldown_rounds": 2,
+		"npc_special_cooldown_rounds": 3,
+		"recognise_after": 2,
 		"feel": {
 			"map_fade_out_ms": 150,
 			"map_fade_in_ms": 200,

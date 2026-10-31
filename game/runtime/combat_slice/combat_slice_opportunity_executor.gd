@@ -98,6 +98,8 @@ static func execute_opportunity(
 	required_target_id: StringName = &"",
 	chosen_action_id: StringName = &"",
 	modifiers: CombatRoundModifiers = null,
+	predrawn_courage: CombatPredrawnCourage = null,
+	ordered: bool = false,
 ) -> CombatSliceOpportunityResult:
 	var result: CombatSliceOpportunityResult = CombatSliceOpportunityResult.new()
 	if actor != null:
@@ -179,6 +181,8 @@ static func execute_opportunity(
 		actor.relationship,
 		victim.relationship,
 		random_source,
+		predrawn_courage,
+		ordered,
 	)
 	result._fight_decision_result = fight.duplicate_snapshot()
 	if fight.failure_stage != CombatFightDecisionResult.FailureStage.NONE:

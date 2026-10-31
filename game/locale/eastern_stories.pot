@@ -5333,7 +5333,7 @@ msgstr ""
 msgid "恭喜您成为{family}的第{generation}代弟子。"
 msgstr ""
 
-#: core/skills/skill_use_ids.gd
+#: core/skills/skill_use_ids.gd presentation/codex/codex_content.gd
 msgid "拳脚"
 msgstr ""
 
@@ -6947,9 +6947,34 @@ msgstr ""
 msgid "无法行动"
 msgstr ""
 
+#. an enemy's card: it will guard on its next beat (combatd.c fight()'s courage gate) instead of a move.
+#: presentation/battle/battle_participant_card.gd
+msgid "起手：守势"
+msgstr ""
+
+#. hover of 起手：守势: a guarding fighter ripostes when the other misses.
+#: presentation/battle/battle_participant_card.gd
+msgid "守势：它在等你打空，打空了就反击。"
+msgstr ""
+
+#. an enemy's card: its next move's tag is not read yet (识招: not watched enough).
+#: presentation/battle/battle_participant_card.gd
+msgid "起手：？"
+msgstr ""
+
+#. hover of 起手：？.
+#: presentation/battle/battle_participant_card.gd
+msgid "还没看熟这一招。"
+msgstr ""
+
 #. an enemy's card: the tag of the move it will use next (起手式): 快 / 重 / 虚 / 守.
 #: presentation/battle/battle_participant_card.gd
 msgid "起手：%s"
+msgstr ""
+
+#. hover of 起手：<tag>: the tag on the counter ring that beats it ({tag} 快 / 重 / 虚 / 守).
+#: presentation/battle/battle_participant_card.gd
+msgid "破绽：{tag}招可破。"
 msgstr ""
 
 #. an enemy's card: the special it announced for its next move ({move} carries its own 「」 when it has one).
@@ -7494,6 +7519,34 @@ msgstr ""
 
 #: presentation/codex/codex_content.gd
 msgid "你的等级：{level}"
+msgstr ""
+
+#: presentation/codex/codex_content.gd
+msgid "禽兽"
+msgstr ""
+
+#: presentation/codex/codex_content.gd
+msgid "破绽：{tag}"
+msgstr ""
+
+#: presentation/codex/codex_content.gd
+msgid "？"
+msgstr ""
+
+#: presentation/codex/codex_content.gd
+msgid "见过 {n} 次"
+msgstr ""
+
+#: presentation/codex/codex_content.gd
+msgid "见识录 · {school}"
+msgstr ""
+
+#: presentation/codex/codex_content.gd
+msgid "看熟一招（见过 {n} 次）就认得它的快、重、虚、守和破绽；自家门派的招一学就认得。"
+msgstr ""
+
+#: presentation/codex/codex_content.gd
+msgid "这一路的招你都认得。"
 msgstr ""
 
 #: presentation/codex/codex_content.gd
@@ -12784,6 +12837,26 @@ msgstr ""
 #. actions.action
 #: data/common/combat_actions.json
 msgid "$N手握$w，眼露凶光，猛地对准$n的$l挥了过去"
+msgstr ""
+
+#. steady name
+#: data/common/combat_styles.json
+msgid "稳健"
+msgstr ""
+
+#. burst name
+#: data/common/combat_styles.json
+msgid "爆发"
+msgstr ""
+
+#. guarded name
+#: data/common/combat_styles.json
+msgid "守势"
+msgstr ""
+
+#. beast name
+#: data/common/combat_styles.json
+msgid "兽"
 msgstr ""
 
 #. family.fonxan name

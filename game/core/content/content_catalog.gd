@@ -42,6 +42,7 @@ var _codex_topics: Array[CodexTopicDefinition] = []
 var _day_phases: Array[DayPhaseDefinition] = []
 var _sky_levels: Array[String] = []
 var _combat_actions: CombatActionTables = CombatActionTables.new()
+var _combat_styles: CombatStyleTable = CombatStyleTable.new()
 var _quest_tiers: Array[QuestTier] = []
 var _quest_targets: Dictionary[String, bool] = {}
 var _story_quests: Array[StoryQuestDefinition] = []
@@ -133,6 +134,16 @@ func set_combat_actions(tables: CombatActionTables) -> void:
 
 
 ## Called once by ContentCatalogBuilder.
+func set_combat_styles(table: CombatStyleTable) -> void:
+	_combat_styles = table
+
+
+## The NPCs' fight styles (combat_styles.json; DECISIONS「战斗内容」).
+func combat_styles() -> CombatStyleTable:
+	return _combat_styles
+
+
+## Called once by ContentCatalogBuilder.
 func set_quest_tiers(tiers: Array[QuestTier]) -> void:
 	_quest_tiers = tiers.duplicate()
 	_quest_targets.clear()
@@ -161,6 +172,13 @@ func combat_actions() -> CombatActionTables:
 ## A skill the game defines (skills.json); null for one it does not model yet.
 func skill(skill_id: StringName) -> SkillDefinition:
 	return _skills.get(skill_id)
+
+
+## Every skill the game defines, in the data's order.
+func skill_ids() -> Array[StringName]:
+	var ids: Array[StringName] = []
+	ids.assign(_skills.keys())
+	return ids
 
 
 func family(family_id: StringName) -> FamilyDefinition:

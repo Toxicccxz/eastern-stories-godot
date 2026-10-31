@@ -17,7 +17,7 @@
 				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 3 }
 			],
 			"capabilities": ["aggressive_on_player_presence"],
-			"resources": { "kee": 120, "max_kee": 120 },
+			"resources": { "kee": 100, "max_kee": 100 },
 			"classic": { "combat_exp": 600, "without": ["resources"] }
 		},
 		{
@@ -37,7 +37,8 @@
 				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 6 }
 			],
 			"capabilities": ["aggressive_on_player_presence"],
-			"resources": { "kee": 160, "max_kee": 160 },
+			"fight_style": "burst",
+			"resources": { "kee": 100, "max_kee": 100 },
 			"classic": { "combat_exp": 900, "without": ["resources"] }
 		},
 		{
@@ -58,7 +59,8 @@
 				{ "item": "es2:obj/money/silver", "source": "obj/money/silver.c", "amount": 5 }
 			],
 			"capabilities": ["aggressive_on_player_presence"],
-			"resources": { "kee": 180, "max_kee": 180 },
+			"fight_style": "guarded",
+			"resources": { "kee": 120, "max_kee": 120 },
 			"classic": { "combat_exp": 500, "without": ["resources"] }
 		},
 		{
@@ -104,7 +106,8 @@
 				{ "action": "cast", "function": "netherbolt" },
 				{ "action": "cast", "function": "feeblebolt" },
 				{ "action": "cast", "function": "drainerbolt" }
-			]
+			],
+			"fight_style": "burst"
 		},
 		{
 			"id": "oldpine.npc.wolf_dog",
@@ -115,12 +118,12 @@
 			"age": 4,
 			"long": "一只凶猛的狼狗，一只独眼正恶狠狠地瞪著你。\n",
 			"attributes": { "str": 26, "cor": 30 },
-			"resources": { "kee": 100, "eff_kee": 100, "max_kee": 100 },
+			"resources": { "kee": 80, "eff_kee": 80, "max_kee": 80 },
 			"combat_exp": 1200,
 			"attitude": "aggressive",
 			"limbs": ["头部", "身体", "前脚", "后脚", "尾巴"],
 			"verbs": ["bite", "claw"],
-			"apply": { "attack": 18, "damage": 15, "armor": 10 },
+			"apply": { "attack": 18, "damage": 15, "armor": 5 },
 			"capabilities": ["aggressive_on_player_presence"],
 			"chat_chance": 15,
 			"chat_msg": ["狼狗用一只独眼恶狠狠地瞪著你。\n"],

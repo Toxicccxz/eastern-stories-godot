@@ -591,6 +591,7 @@
 				"柳绘心秀眉微蹙，说道：喂！我哪里得罪你了？干嘛这样跟我拼死拼活？\n",
 				"柳绘心不住地望著窗外：你还是快走吧，我没空陪你练功夫！\n"
 			],
+			"fight_style": "guarded",
 			"accept_fight": [
 				{ "family": "family.fonxan", "gender": "女性", "say": "师姐！别整天想著练功嘛，我们去花园摘花儿玩嘛？", "accept": false },
 				{ "family": "family.fonxan", "say": "我才不要，你们去找李教头练吧！", "accept": false },

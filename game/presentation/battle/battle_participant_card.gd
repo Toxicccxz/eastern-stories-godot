@@ -193,10 +193,24 @@ func present(value: BattleParticipantProjection, player_id: StringName, current_
 	var explained := PackedStringArray(BattleConditionTags.descriptions(value.conditions))
 	_status.tooltip_text = "\n".join(explained)
 	var intents := PackedStringArray()
-	if not value.next_move_tag.is_empty():
+	if value.next_move_guard:
+		# TRANSLATORS: an enemy's card: it will guard on its next beat (combatd.c fight()'s courage gate) instead of a move.
+		intents.append(tr("起手：守势"))
+		# TRANSLATORS: hover of 起手：守势: a guarding fighter ripostes when the other misses.
+		explained.append(tr("守势：它在等你打空，打空了就反击。"))
+	elif not value.next_move_tag.is_empty() and not value.next_move_known:
+		# TRANSLATORS: an enemy's card: its next move's tag is not read yet (识招: not watched enough).
+		intents.append(tr("起手：？"))
+		# TRANSLATORS: hover of 起手：？.
+		explained.append(tr("还没看熟这一招。"))
+	elif not value.next_move_tag.is_empty():
 		# TRANSLATORS: an enemy's card: the tag of the move it will use next (起手式): 快 / 重 / 虚 / 守.
 		intents.append(tr("起手：%s") % CombatMoveTags.label(value.next_move_tag))
 		explained.append(CombatMoveTags.description(value.next_move_tag))
+		var weakness: StringName = MoveRecognition.weakness(value.next_move_tag)
+		if not weakness.is_empty():
+			# TRANSLATORS: hover of 起手：<tag>: the tag on the counter ring that beats it ({tag} 快 / 重 / 虚 / 守).
+			explained.append(tr("破绽：{tag}招可破。").format({"tag": CombatMoveTags.label(weakness)}))
 	if not value.telegraph.is_empty():
 		# TRANSLATORS: an enemy's card: the special it announced for its next move ({move} carries its own 「」 when it has one).
 		intents.append(tr("要出 {move}").format({"move": value.telegraph}))

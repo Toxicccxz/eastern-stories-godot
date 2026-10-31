@@ -161,7 +161,8 @@ func _test_menu_pages(tree: SceneTree) -> void:
 	await tree.process_frame
 	_check(codex.open_key().is_empty() and ui.menu.is_presented() and tree.root.gui_get_focus_owner() == codex.entry_buttons["help.theme"], "pad B too, the focus back on the entry")
 	codex.section_buttons[CodexContent.Section.ARTS].pressed.emit()
-	_check(codex.shown_text() == "你还没有学会任何武学。" or codex.entry_buttons.size() == state.skills.raw_skill_ids().size(), "武学: the skills learned: " + codex.shown_text().left(40))
+	var learned: int = codex.entry_buttons.keys().filter(func(key: String) -> bool: return not key.begins_with("moves/")).size()
+	_check(learned == state.skills.raw_skill_ids().size() and codex.entry_buttons.has("moves/race/human"), "武学: the skills learned (%d) and the 见识录 of one's own 拳脚: " % learned + codex.shown_text().left(40))
 	codex.section_buttons[CodexContent.Section.ITEMS].pressed.emit()
 	_check(not state.known_items.is_empty() and codex.entry_buttons.size() == state.known_items.size(), "物品: what was carried (%d)" % state.known_items.size())
 	codex.section_buttons[CodexContent.Section.PEOPLE].pressed.emit()

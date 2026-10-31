@@ -38,7 +38,10 @@ static func build(session: WorldSessionController, strengths: Dictionary[StringN
 				_knockout(session, binding.character_id) if held.has(binding.character_id) else null,
 			)
 			if binding.character_id != player_id:
-				shown.next_move_tag = coordinator.next_move_tag(binding.character_id)
+				var move: CombatActionDefinition = coordinator.next_move(binding.character_id)
+				shown.next_move_tag = &"" if move == null else move.tag
+				shown.next_move_guard = coordinator.next_move_guards(binding.character_id)
+				shown.next_move_known = MoveRecognition.recognised(session.player_runtime().state, move, GameContent.catalog().pacing().decision_rules(), GameContent.catalog())
 				shown.telegraph = coordinator.pending_special_label(binding.character_id)
 			shown.conditions = state.conditions.sorted_condition_ids()
 			shown.has_spells = not state.skills.mapped_skill(SkillIds.SPELLS).is_empty()
