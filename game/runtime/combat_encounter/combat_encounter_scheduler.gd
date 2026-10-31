@@ -489,8 +489,9 @@ func advance(
 				return CombatSchedulerAdvanceResult.new(
 					CombatSchedulerAdvanceResult.Outcome.ADVANCED, processed_cycles, emitted,
 				)
+			# After a beat the NPC acted on (not a busy one, as npc.c chat() runs then too).
 			var npc_actor: CombatSliceCharacterBinding = _find_binding(bindings, participant.participant_id)
-			if npc_actor != null and not npc_actor.is_user and event != null and event.kind == CombatSchedulerEvent.Kind.ORDINARY_OPPORTUNITY_RESOLVED:
+			if npc_actor != null and not npc_actor.is_user and event != null and event.kind == CombatSchedulerEvent.Kind.ORDINARY_OPPORTUNITY_RESOLVED and event.resolution != null and event.resolution.outcome in CHAT_AFTER:
 				# Its announced special runs now, after its attack and before its chat.
 				var pending: CombatSchedulerEvent = _run_pending_special(npc_actor, bindings, random_source, effect_registry)
 				if pending != null:
