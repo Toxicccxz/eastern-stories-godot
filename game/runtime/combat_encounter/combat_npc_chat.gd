@@ -101,7 +101,7 @@ func beat(
 	if telegraph and action.kind != NpcSpecialAction.Kind.SURRENDER:
 		var label: String = special_label(action, npc)
 		# TRANSLATORS: an NPC gathers itself for a special it will use next round: {npc} its name, {move} the special's name.
-		var line: String = TranslationServer.translate("{npc}蓄势待发，似乎要使出「{move}」！").format({
+		var line: String = TranslationServer.translate("{npc}蓄势待发，似乎要使出{move}！").format({
 			"npc": TranslationServer.translate(npc.definition().display_name), "move": label,
 		})
 		return CombatNpcChatResult.new([VisionLine.new(line, actor.character_id, &"", ColoredLine.HIY)]).with_telegraph(action, label)

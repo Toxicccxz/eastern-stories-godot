@@ -239,7 +239,7 @@ func _run_pending_special(
 	var result: CombatNpcChatResult = null
 	if _interrupted.get(actor.character_id, false):
 		# TRANSLATORS: an NPC's announced special is lost: {npc} its name, {move} the special's name.
-		var line: String = TranslationServer.translate("{npc}的「{move}」被打断了。").format({"npc": TranslationServer.translate(_shown_name(actor)), "move": label})
+		var line: String = TranslationServer.translate("{npc}的{move}被打断了。").format({"npc": TranslationServer.translate(_shown_name(actor)), "move": label})
 		result = CombatNpcChatResult.new([VisionLine.new(line, actor.character_id, &"", ColoredLine.HIC)])
 	elif actor.life_status == CombatSliceLifeStatus.Value.ACTIVE and actor.relationship.is_fighting() and not actor.busy.is_busy():
 		var sides: Array = _sides_of(actor, bindings)
@@ -430,8 +430,12 @@ func advance(
 	# A perform's attacks fell nobody yet: char.c heart_beat() does, here.
 	if boundary != null and not _inspect(boundary, bindings, null, tactical_result):
 		return CombatSchedulerAdvanceResult.new()
-	# 战斗决策层 1B: under player_turns the clock waits for the player's order.
+	# 战斗决策层 1B: under player_turns the clock waits for the player's order; the enemies'
+	# first moves are drawn now, so the first order is not made blind.
 	if waiting_for_player(bindings):
+		for binding: CombatSliceCharacterBinding in bindings:
+			if not binding.is_user and not _next_moves.has(binding.character_id) and binding.exists_in_encounter:
+				_draw_next_move(binding, random_source)
 		return CombatSchedulerAdvanceResult.new(CombatSchedulerAdvanceResult.Outcome.WAITING_FOR_PLAYER)
 	_accumulated_input_seconds += delta_seconds
 	var due_total: int = int(floor(

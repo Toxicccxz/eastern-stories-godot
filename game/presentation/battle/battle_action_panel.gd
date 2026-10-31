@@ -11,7 +11,7 @@ signal stance_requested(stance: int)
 signal manual_toggled(on: bool)
 
 var catalog: BattleActionPresentationCatalog = BattleActionPresentationCatalog.new()
-var _actions: HFlowContainer
+var _actions: HBoxContainer
 var _empty: Label
 var _queue: Label
 var _cancel: Button
@@ -44,25 +44,27 @@ var _asking_id: StringName = &""
 
 
 func _ready() -> void:
-	var content := HBoxContainer.new()
-	add_child(content)
-	var action_column := VBoxContainer.new()
-	action_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	content.add_child(action_column)
+	var column := VBoxContainer.new()
+	add_child(column)
 	# 战斗决策层 1B: one row for the round's choice — the moves, the stances, the 自动 switch —
-	# that scrolls sideways where it does not fit (包 2 lays the panel out anew).
+	# across the whole panel, scrolling sideways where it does not fit (包 2 lays the panel out anew).
 	var decision_scroll := ScrollContainer.new()
 	decision_scroll.name = "DecisionRow"
 	decision_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
 	decision_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	decision_scroll.custom_minimum_size.y = 40
 	decision_scroll.follow_focus = true
-	action_column.add_child(decision_scroll)
+	column.add_child(decision_scroll)
 	stance_row = HBoxContainer.new()
 	stance_row.name = "Decisions"
 	stance_row.add_theme_constant_override("separation", 8)
 	stance_row.visible = false
 	decision_scroll.add_child(stance_row)
+	var content := HBoxContainer.new()
+	column.add_child(content)
+	var action_column := VBoxContainer.new()
+	action_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	content.add_child(action_column)
 	moves_heading = Label.new()
 	moves_heading.name = "MovesHeading"
 	moves_heading.text = tr("出招")
@@ -100,9 +102,8 @@ func _ready() -> void:
 	_empty.text = "现在没有可用的操作。"
 	_empty.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	action_column.add_child(_empty)
-	_actions = HFlowContainer.new()
-	_actions.add_theme_constant_override("h_separation", 8)
-	_actions.add_theme_constant_override("v_separation", 8)
+	_actions = HBoxContainer.new()
+	_actions.add_theme_constant_override("separation", 8)
 	action_column.add_child(_actions)
 	prompt = ConfirmPrompt.new()
 	prompt.name = "ActionQuestion"
@@ -129,12 +130,14 @@ func _ready() -> void:
 	enforce_button.custom_minimum_size = Vector2(64, 64)
 	enforce_button.pressed.connect(_enforce_pressed)
 	enforce_row.add_child(enforce_button)
-	var queue_column := VBoxContainer.new()
+	var queue_column := HBoxContainer.new()
 	queue_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	queue_column.add_theme_constant_override("separation", 8)
 	content.add_child(queue_column)
 	_queue = Label.new()
 	_queue.clip_text = true
 	_queue.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	_queue.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_queue.add_theme_font_size_override("font_size", 16)
 	queue_column.add_child(_queue)
 	_cancel = Button.new()

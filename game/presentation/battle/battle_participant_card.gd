@@ -66,6 +66,7 @@ func _ready() -> void:
 	_intent = _label(content)
 	_intent.add_theme_color_override("font_color", Color("f2d27a"))
 	_intent.visible = false
+	# One line: the 起手 / 要出 words take the status line's place when there are any.
 	choice_row = HBoxContainer.new()
 	choice_row.name = "KnockoutChoice"
 	choice_row.add_theme_constant_override("separation", 8)
@@ -127,18 +128,19 @@ func present(value: BattleParticipantProjection, player_id: StringName, current_
 	var knockout: BattleKnockoutProjection = value.knockout
 	if knockout != null:
 		states.append(tr("约 {n} 秒后醒来").format({"n": knockout.revive_seconds}))
-	_status.text = " · ".join(states)
-	_status.tooltip_text = _status.text
 	var intents := PackedStringArray()
 	if not value.next_move_tag.is_empty():
 		# TRANSLATORS: an enemy's card: the tag of the move it will use next (起手式): 快 / 重 / 虚 / 守.
 		intents.append(tr("起手：%s") % CombatMoveTags.label(value.next_move_tag))
 	if not value.telegraph.is_empty():
-		# TRANSLATORS: an enemy's card: the special it announced for its next move.
-		intents.append(tr("要出「%s」") % value.telegraph)
-	_intent.text = " · ".join(intents)
-	_intent.tooltip_text = CombatMoveTags.description(value.next_move_tag) if not value.next_move_tag.is_empty() else _intent.text
-	_intent.visible = not intents.is_empty()
+		# TRANSLATORS: an enemy's card: the special it announced for its next move ({move} carries its own 「」 when it has one).
+		intents.append(tr("要出 {move}").format({"move": value.telegraph}))
+	# The card stays one line: the states and the 起手 / 要出 words share the status line.
+	var intent_text: String = " · ".join(intents)
+	_status.text = " · ".join(states) if intent_text.is_empty() else "%s · %s" % [" · ".join(states), intent_text]
+	_status.tooltip_text = (CombatMoveTags.description(value.next_move_tag) + "
+" if not value.next_move_tag.is_empty() else "") + _status.text
+	_intent.visible = false
 	_present_choice(value, knockout)
 
 
