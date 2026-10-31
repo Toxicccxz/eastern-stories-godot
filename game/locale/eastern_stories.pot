@@ -6588,22 +6588,27 @@ msgstr ""
 msgid "{action}：{what}"
 msgstr ""
 
+#. the stamp over the card of one who fell unconscious.
 #: presentation/battle/battle_card_stage.gd
 msgid "倒"
 msgstr ""
 
+#. the stamp over the card of one who died.
 #: presentation/battle/battle_card_stage.gd
 msgid "亡"
 msgstr ""
 
+#. the word floating off a card when its fighter dodged a blow.
 #: presentation/battle/battle_card_stage.gd
 msgid "闪"
 msgstr ""
 
+#. the word floating off a card when its fighter parried a blow.
 #: presentation/battle/battle_card_stage.gd
 msgid "挡"
 msgstr ""
 
+#. the word floating off a card when a blow landed but drew no 气.
 #: presentation/battle/battle_card_stage.gd
 msgid "无伤"
 msgstr ""
@@ -7026,11 +7031,12 @@ msgid ""
 "确定要召唤吗？"
 msgstr ""
 
-#. the stamp over the battle cards when the fight is won / lost.
+#. the stamp over the battle cards when the fight is won.
 #: presentation/battle/battle_presentation_controller.gd
 msgid "胜"
 msgstr ""
 
+#. the stamp over the battle cards when the fight is lost.
 #: presentation/battle/battle_presentation_controller.gd
 msgid "败"
 msgstr ""

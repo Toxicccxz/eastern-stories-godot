@@ -56,8 +56,9 @@ var _final_cards: bool = false
 var _was_waiting: bool = false
 var end_stamp: Label
 var _stamp_tween: Tween
-# TRANSLATORS: the stamp over the battle cards when the fight is won / lost.
+# TRANSLATORS: the stamp over the battle cards when the fight is won.
 const STAMP_WON: String = "胜"
+# TRANSLATORS: the stamp over the battle cards when the fight is lost.
 const STAMP_LOST: String = "败"
 var _fade: Tween
 var _recent: VBoxContainer

@@ -24,12 +24,15 @@ const FADE_SECONDS: float = 0.15
 ## The float rises this far (a hit) or slides this far sideways (a dodge, a parry).
 const FLOAT_RISE: float = 24.0
 const FLOAT_SLIDE: float = 18.0
-## TRANSLATORS: the stamp over the card of one who fell unconscious / who died.
+# TRANSLATORS: the stamp over the card of one who fell unconscious.
 const STAMP_UNCONSCIOUS: String = "倒"
+# TRANSLATORS: the stamp over the card of one who died.
 const STAMP_DEAD: String = "亡"
-## TRANSLATORS: the word floating off a card when its fighter dodged / parried / took a blow that drew no 气.
+# TRANSLATORS: the word floating off a card when its fighter dodged a blow.
 const FLOAT_DODGE: String = "闪"
+# TRANSLATORS: the word floating off a card when its fighter parried a blow.
 const FLOAT_PARRY: String = "挡"
+# TRANSLATORS: the word floating off a card when a blow landed but drew no 气.
 const FLOAT_NOTHING: String = "无伤"
 
 var title: Label
