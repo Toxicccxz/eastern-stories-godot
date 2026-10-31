@@ -77,6 +77,44 @@ func operation_in_progress() -> bool:
 	return _operation_in_progress
 
 
+## The slot whose files this repository reads and writes.
+func slot_id() -> StringName:
+	return &"" if _profile == null else _profile.slot_id
+
+
+func select_slot(p_slot_id: StringName) -> bool:
+	if _profile == null or _operation_in_progress or not GameSaveSnapshot.is_slot_id(p_slot_id):
+		return false
+	_profile = _profile.for_slot(p_slot_id)
+	return true
+
+
+## A repository of the same kind on `p_slot_id`'s files (the autosave writes through its own,
+## on another thread; the list reads each slot through one).
+func for_slot(p_slot_id: StringName) -> GameSaveRepository:
+	return (get_script() as GDScript).new(_profile.for_slot(p_slot_id), _files) as GameSaveRepository
+
+
+## What the slot's file says, for its row (GameSaveSlotSummary). Changes nothing.
+func read_summary() -> GameSaveSlotSummary:
+	var recoverable: bool = _files.file_exists(_profile.backup_path()) or _files.file_exists(_profile.temp_path())
+	return _summary_of(_profile.canonical_path(), recoverable)
+
+
+## What the slot's .bak says: the autosave's is the one before the last (DECISIONS「自动存档」).
+func read_backup_summary() -> GameSaveSlotSummary:
+	return _summary_of(_profile.backup_path(), false)
+
+
+func _summary_of(path: String, recoverable: bool) -> GameSaveSlotSummary:
+	if not _files.file_exists(path):
+		return GameSaveSlotSummary.new(_profile.slot_id, GameSaveSlotSummary.State.EMPTY, recoverable)
+	var read: SaveFileReadResult = _files.read_bytes(path, MAXIMUM_FILE_BYTES)
+	if read.error != OK or not _is_valid_utf8(read.bytes):
+		return GameSaveSlotSummary.new(_profile.slot_id, GameSaveSlotSummary.State.UNREADABLE, recoverable)
+	return GameSaveSlotSummary.of_text(_profile.slot_id, read.bytes.get_string_from_utf8(), _requires_current_public_contract(), recoverable)
+
+
 func storage_profile_id() -> StringName:
 	return &"" if _profile == null else _profile.profile_id
 

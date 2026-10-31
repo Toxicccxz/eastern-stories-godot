@@ -14,6 +14,14 @@ extends RefCounted
 ## puts the pacing back when it goes.
 
 
+## The sessions standing on the catalog now, by pace, in the order they came: a load in play
+## builds its session beside the one it replaces, and either may go first (the old one once
+## the new one stands, the new one when it fails). What they stand on, and what they set.
+static var _paces: Array[StringName] = []
+static var _base: PacingDefinition
+static var _applied: PacingDefinition
+
+
 ## The pacing `pace` makes of `base`.
 static func of(base: PacingDefinition, pace: StringName) -> PacingDefinition:
 	if pace != CharacterState.PACE_CLASSIC:
@@ -24,14 +32,28 @@ static func of(base: PacingDefinition, pace: StringName) -> PacingDefinition:
 ## Sets the catalog's pacing for `pace` and gives back what it was (restore() takes it).
 static func apply(catalog: ContentCatalog, pace: StringName) -> PacingDefinition:
 	var before: PacingDefinition = catalog.pacing()
-	if before != null:
-		catalog.set_pacing(of(before, pace))
-	return before
+	if before == null:
+		return null
+	if _paces.is_empty() or before != _applied:
+		_paces.clear()
+		_base = before
+	_paces.append(pace)
+	_applied = of(_base, pace)
+	catalog.set_pacing(_applied)
+	return _base
 
 
-static func restore(catalog: ContentCatalog, before: PacingDefinition) -> void:
-	if before != null:
+## The session of `pace` is gone: the catalog goes back to `before`, or to the pace of the
+## session still standing on it.
+static func restore(catalog: ContentCatalog, before: PacingDefinition, pace: StringName = CharacterState.PACE_MODERN) -> void:
+	if before == null:
+		return
+	_paces.erase(pace)
+	if _paces.is_empty():
 		catalog.set_pacing(before)
+		return
+	_applied = of(_base, _paces[-1])
+	catalog.set_pacing(_applied)
 
 
 ## The pace's name on the 角色 page.

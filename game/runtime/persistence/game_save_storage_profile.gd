@@ -3,7 +3,8 @@ extends RefCounted
 
 const SAVE_ROOT: String = "user://save-data"
 const TEST_ROOT: String = "user://save-data/tests"
-const FIXED_FILENAME: String = "default-v1.json"
+## A slot's file: slot-1-v1.json ... slot-3-v1.json, auto-v1.json; each has its own .bak and .tmp.
+const SLOT_FILE_SUFFIX: String = "-v1.json"
 
 const DEVELOPMENT: StringName = &"development"
 const RELEASE: StringName = &"release"
@@ -11,11 +12,19 @@ const TEST: StringName = &"test"
 
 var profile_id: StringName
 var directory_path: String
+var slot_id: StringName = GameSaveSnapshot.DEFAULT_SLOT_ID
 
 
 func _init(p_profile_id: StringName = &"", p_directory_path: String = "") -> void:
 	profile_id = p_profile_id
 	directory_path = p_directory_path
+
+
+## The same storage, on `p_slot_id`'s files.
+func for_slot(p_slot_id: StringName) -> GameSaveStorageProfile:
+	var profile := GameSaveStorageProfile.new(profile_id, directory_path)
+	profile.slot_id = p_slot_id
+	return profile
 
 
 static func development() -> GameSaveStorageProfile:
@@ -33,6 +42,8 @@ static func isolated_test(suite_run_id: String) -> GameSaveStorageProfile:
 
 
 func is_valid() -> bool:
+	if not GameSaveSnapshot.is_slot_id(slot_id):
+		return false
 	if profile_id == DEVELOPMENT:
 		return directory_path == SAVE_ROOT + "/development"
 	if profile_id == RELEASE:
@@ -50,7 +61,7 @@ func is_safe_test_directory() -> bool:
 
 
 func canonical_path() -> String:
-	return directory_path + "/" + FIXED_FILENAME
+	return directory_path + "/" + String(slot_id) + SLOT_FILE_SUFFIX
 
 
 func temp_path() -> String:

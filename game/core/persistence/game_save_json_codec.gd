@@ -76,6 +76,11 @@ func _encode_root(snapshot: GameSaveSnapshot) -> Dictionary[String, Variant]:
 	root["day_seconds"] = _i(snapshot.day_seconds)
 	root["sky_level"] = _i(snapshot.sky_level)
 	root["sky_minutes_left"] = _i(snapshot.sky_minutes_left)
+	# What the slot list shows (GameSaveSlotSummary): written only when there is one.
+	if snapshot.played_seconds > 0:
+		root["played_seconds"] = _i(snapshot.played_seconds)
+	if not snapshot.objective.is_empty():
+		root["objective"] = snapshot.objective
 	return root
 
 
@@ -373,6 +378,9 @@ func _decode_root(value: Variant) -> GameSaveSnapshot:
 		root_keys.append("maze_notes")
 	if root.has("away_ms"):
 		root_keys.append("away_ms")
+	for optional: String in ["played_seconds", "objective"]:
+		if root.has(optional):
+			root_keys.append(optional)
 	var revision: WorldContentRevision.Value = WorldContentRevision.Value.LEGACY_OLDPINE_V1
 	root = _obj(value, "root", root_keys)
 	if _error: return null
@@ -423,9 +431,12 @@ func _decode_root(value: Variant) -> GameSaveSnapshot:
 	if _error == null and not SkyState.is_valid_level(sky_level): _fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, "sky_level", "expected a cloud level")
 	var sky_minutes_left: int = _int64(root["sky_minutes_left"], "sky_minutes_left")
 	if _error == null and not SkyState.is_valid_minutes_left(sky_minutes_left): _fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, "sky_minutes_left", "expected minutes to the next change")
+	var played_seconds: int = _int64(root["played_seconds"], "played_seconds") if root.has("played_seconds") else 0
+	if _error == null and played_seconds < 0: _fail(GameSaveResult.Outcome.INVALID_FIELD_TYPE, "played_seconds", "expected seconds")
+	var objective: String = _string(root["objective"], "objective") if root.has("objective") else ""
 	var rng_object: Dictionary = _obj(root["rng"], "rng", ["combat", "npc_initialization", "world_interaction"])
 	if _error: return null
-	return GameSaveSnapshot.new(metadata, StringName(_string(root["session_kind"], "session_kind")), allocator, _decode_player(root["player"], "player"), npcs, corpses, _decode_items(root["items"], "items"), _decode_rng(rng_object["combat"], "rng.combat"), _decode_rng(rng_object["npc_initialization"], "rng.npc_initialization"), _decode_rng(rng_object["world_interaction"], "rng.world_interaction"), revision).with_floor_items(floor_items).with_maze_notes(maze_notes).with_away_ms(away_ms).with_day_seconds(day_seconds).with_sky(sky_level, sky_minutes_left)
+	return GameSaveSnapshot.new(metadata, StringName(_string(root["session_kind"], "session_kind")), allocator, _decode_player(root["player"], "player"), npcs, corpses, _decode_items(root["items"], "items"), _decode_rng(rng_object["combat"], "rng.combat"), _decode_rng(rng_object["npc_initialization"], "rng.npc_initialization"), _decode_rng(rng_object["world_interaction"], "rng.world_interaction"), revision).with_floor_items(floor_items).with_maze_notes(maze_notes).with_away_ms(away_ms).with_day_seconds(day_seconds).with_sky(sky_level, sky_minutes_left).with_summary(played_seconds, objective)
 
 
 func _decode_character(value: Variant, path: String) -> Values.CharacterStateSnapshot:

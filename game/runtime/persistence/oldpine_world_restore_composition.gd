@@ -202,6 +202,7 @@ static func _prepare(snapshot: GameSaveSnapshot) -> OldPineWorldRestoreResult:
 			return Result.failure(Result.Outcome.INVALID_SNAPSHOT, "away_ms.%s" % String(map_id), "no such map away from the player")
 	preparation.away_ms = snapshot.away_ms
 	preparation.day_seconds = snapshot.day_seconds
+	preparation.played_seconds = snapshot.played_seconds
 	preparation.sky_level = snapshot.sky_level
 	preparation.sky_minutes_left = snapshot.sky_minutes_left
 	if not preparation.is_valid():

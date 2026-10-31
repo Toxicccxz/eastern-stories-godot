@@ -46,7 +46,7 @@ static func substantial(profile_id: StringName = &"test", marker: int = 1) -> Ga
 	var npc := Values.NpcSpawnStateSnapshot.new(&"spawn:tall", &"point:tall", &"npc:tall-bandit", &"character:tall", false, &"dead", false, character, 31, 75000, 5000, location, Values.MapPositionSnapshot.new(40.0, -20.5), [&"weapon:sword"])
 	var corpse := Values.CorpseSnapshot.new(&"corpse:bandit", &"character:tall", "高個土匪", &"男性", 31, 2, 10000, [Values.CorpseWornItemSnapshot.new(&"armor", &"armor:leather")], location, Values.MapPositionSnapshot.new(41.0, -19.5))
 	return GameSaveSnapshot.new(
-		Values.GameSaveMetadata.new(GameSaveSnapshot.FORMAT_ID, GameSaveSnapshot.CURRENT_SCHEMA_VERSION, "2026-08-31T12:34:56Z", Values.OptionalText.some("deadbeef"), profile_id, GameSaveSnapshot.FIXED_SLOT_ID),
+		Values.GameSaveMetadata.new(GameSaveSnapshot.FORMAT_ID, GameSaveSnapshot.CURRENT_SCHEMA_VERSION, "2026-08-31T12:34:56Z", Values.OptionalText.some("deadbeef"), profile_id, GameSaveSnapshot.DEFAULT_SLOT_ID),
 		GameSaveSnapshot.SESSION_KIND_OLDPINE,
 		Values.ItemIdAllocatorSnapshot.new(&"scope:test", -9223372036854775807 - 1),
 		player,

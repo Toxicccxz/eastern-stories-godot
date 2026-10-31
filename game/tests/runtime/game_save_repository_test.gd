@@ -73,7 +73,7 @@ func _test_profiles_and_fixed_paths() -> void:
 	_assert_true(test.is_valid(), "isolated test profile is valid")
 	_assert_ne(development.canonical_path(), release.canonical_path(), "development and release paths differ")
 	_assert_true(test.canonical_path().begins_with("user://save-data/tests/"), "test path stays beneath test root")
-	_assert_true(test.canonical_path().ends_with("/default-v1.json"), "slot filename is fixed")
+	_assert_true(test.canonical_path().ends_with("/slot-1-v1.json"), "slot filename is fixed")
 	for unsafe: String in [
 		"..", "../", "..\\", "../release", "a/b", "a\\b", "/", "\\", ":",
 		"C:", "C:\\save", "\\\\server\\share", "a∕b", "a⁄b", "", ".",
@@ -137,7 +137,7 @@ func _test_temp_write_and_rotation_failures() -> void:
 	_assert_true(files.file_exists(profile.temp_path()), "stale backup removal failure preserves verified temp")
 	_assert_gate_released(repository, "stale backup removal failure releases operation gate")
 	files.fail_remove_suffix = ""
-	files.fail_rename_from_suffix = "default-v1.json"
+	files.fail_rename_from_suffix = "slot-1-v1.json"
 	_assert_eq(repository.save(Fixture.substantial(&"test", 3)).outcome, GameSaveResult.Outcome.REPLACE_FAILED, "canonical-to-backup failure is typed")
 	_assert_eq(files.files[profile.canonical_path()], canonical_before, "rotation failure leaves canonical exact")
 	_assert_gate_released(repository, "rotation failure releases operation gate")
@@ -155,7 +155,7 @@ func _test_replace_and_rollback_failures() -> void:
 	_assert_true(files.file_exists(profile.canonical_path()), "rollback restores canonical")
 	_assert_eq(GameSaveJsonCodec.decode(files.files[profile.canonical_path()].get_string_from_utf8()).snapshot.player.character.kee.current, 82, "rollback restores old bytes")
 	_assert_gate_released(repository, "final replacement failure releases operation gate")
-	files.fail_rename_to_suffix = "default-v1.json"
+	files.fail_rename_to_suffix = "slot-1-v1.json"
 	result = repository.save(Fixture.substantial(&"test", 3))
 	_assert_eq(result.outcome, GameSaveResult.Outcome.REPLACE_FAILED, "second final rename failure remains typed")
 	_assert_true(result.rollback_failed, "rollback failure is precise evidence")

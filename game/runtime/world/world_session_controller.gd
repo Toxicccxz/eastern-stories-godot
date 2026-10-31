@@ -94,6 +94,8 @@ var _player_resets: WorldRoomResets
 var _maps_by_room: Dictionary[String, Array] = {}
 ## The world clock and each map's time without the player (DECISIONS「别的地图时间补算」).
 var _away: WorldAwayTimes = WorldAwayTimes.new()
+## Real seconds this character has been played, menus included (not the pause).
+var _played_seconds: float = 0.0
 ## The time of day (DECISIONS「昼夜」), going on with the world clock; saved as day_seconds.
 var _day: DayClock = DayClock.new()
 ## The cloud (DECISIONS「天气」), going on with the world clock when the pacing's sky_weather
@@ -157,7 +159,13 @@ func liquid_collection() -> LiquidCollection:
 	return _liquids
 
 
+## Seconds played, in whole seconds (the slot list's 时长; saved as played_seconds).
+func played_seconds() -> int:
+	return int(_played_seconds)
+
+
 func _process(delta: float) -> void:
+	_played_seconds += delta
 	# The engine's _process of the frame that activated a restored save is not world time: its
 	# delta is the loading frame's, and the player has not seen the world yet (DECISIONS「别的
 	# 地图时间补算」: the save's away_ms, day and recovery come back exactly; under load that
@@ -836,7 +844,7 @@ func _exit_tree() -> void:
 	if _session_swap_reparenting:
 		return
 	if _pacing_before != null:
-		PacePresets.restore(GameContent.catalog(), _pacing_before)
+		PacePresets.restore(GameContent.catalog(), _pacing_before, _source_pace)
 		_pacing_before = null
 	for map_id: StringName in _resident_maps.keys():
 		var value: Variant = _resident_maps.get(map_id)
@@ -1017,6 +1025,7 @@ func activate_restore_candidate() -> bool:
 	_away.restore(restored_away_ms())
 	if _restore_preparation != null:
 		_day.set_day_seconds(_restore_preparation.day_seconds)
+		_played_seconds = float(_restore_preparation.played_seconds)
 		_sky.set_state(_restore_preparation.sky_level, _restore_preparation.sky_minutes_left)
 	var world_map: WorldMapController = map as WorldMapController
 	if world_map != null:

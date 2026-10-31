@@ -20,6 +20,8 @@ var maze_notes: Dictionary[StringName, int] = {}
 var away_ms: Dictionary[StringName, int] = {}
 ## The time of day (GameSaveSnapshot.day_seconds).
 var day_seconds: int = DayClock.NEW_GAME_SECONDS
+## Seconds played (GameSaveSnapshot.played_seconds).
+var played_seconds: int = 0
 ## The cloud (GameSaveSnapshot.sky_level, sky_minutes_left).
 var sky_level: int = SkyState.NEW_GAME_LEVEL
 var sky_minutes_left: int = SkyState.NEW_GAME_MINUTES
