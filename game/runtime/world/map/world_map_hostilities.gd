@@ -885,8 +885,9 @@ func announce_fight(lines: Array[String], first_id: StringName = &"", colored: A
 ## not yet in it — one the player's side summoned (the 王府's riders, summoners) or one following
 ## them (郭承) — kill_ob()s the player's living enemies and comes in on their side, as the 天将 do
 ## (heaven_soldier.c invocation(); CombatEncounterResolution's allies). Those enemies kill it back.
+## A spar is no fight of theirs: nobody draws into a 切磋 (it would turn lethal).
 func _allies_join(encounter: CombatEncounter) -> void:
-	if _player == null or encounter.participant_for(_player.character_id) == null:
+	if _player == null or encounter.participant_for(_player.character_id) == null or encounter.mode == CombatEncounterMode.Value.SPAR:
 		return
 	var here: WorldLocationState = _player.world_location()
 	var allies: Array[StringName] = []

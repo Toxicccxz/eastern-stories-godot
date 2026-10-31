@@ -409,6 +409,16 @@ func _test_sneak(tree: SceneTree, session: WorldSessionController) -> void:
 	_check(_ask(court, guo, "潜入").any(func(line: String) -> bool: return line.contains("夜里")) and state.marks.get("约好了潜入", 0) == 1 and guo.has_flag(NpcDefinition.FLAG_FOLLOWS_PLAYER), "潜入 agreed: 郭承 follows")
 	session.record_journal()
 	_check(state.quests.has("main.chapter6/plan/sneak") and StoryQuestLog.objective(state, quests).begins_with("去草原东边兵部的工地"), "the sneak chosen: %s" % [StoryQuestLog.objective(state, quests)])
+	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
+	# A spar with 郭承 beside: he keeps his sword in (no ally in a 切磋; Codex review of #204).
+	var soldier: NpcRuntimeState = MapPlaces.npc_at(session, &"guanbei.drill.soldier.1")
+	if soldier != null and court.select_npc(soldier.character_id) and court.spar_selected().outcome == CombatSliceInitiationResult.Outcome.COMPLETED:
+		var spar: CombatEncounter = coordinator.active_encounter()
+		_check(spar != null and spar.mode == CombatEncounterMode.Value.SPAR and spar.participant_for(guo.character_id) == null, "a spar at the drill yard stays a spar: 郭承 does not draw")
+		_fight_out(session)
+	else:
+		_check(false, "TEST-ONLY: the spar with a 王府兵 could not start: %s" % [ui.log_lines().slice(-2)])
+	await _settle(tree)
 	# The 工地 by day: turned away, the 枷 shut, the 古冢口 kept.
 	var site: WorldMapController = await _go_with(tree, session, &"guanbei.fence_gate")
 	_check(site != null and await _wait_for_guo(tree, session, &"guanbei.fence_gate") and session.day_phase_id() in [&"morning", &"noon", &"afternoon"], "at the 工地's gate by day with 郭承 (%s)" % session.day_phase_id())
@@ -450,7 +460,6 @@ func _test_sneak(tree: SceneTree, session: WorldSessionController) -> void:
 		await _settle(tree)
 	_check(ui.log_lines().any(func(line: String) -> bool: return line.contains("别出声")), "郭承's whisper: 开枷的工夫别出声")
 	_check(await MapPlaces.drive(tree, site, MapPlaces.service_spot(site, &"guanbei.sheds.shackles")), "at the posts")
-	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	shackles = site.service(&"guanbei.sheds.shackles") as ActService
 	shackles.interact()
 	await _settle(tree)
