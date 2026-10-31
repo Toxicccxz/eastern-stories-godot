@@ -3986,6 +3986,74 @@ msgstr ""
 msgid "{pronoun}看起来比你强得多。"
 msgstr ""
 
+#: core/combat/action/combat_action_definition.gd
+msgid "「"
+msgstr ""
+
+#: core/combat/action/combat_action_definition.gd
+msgid "」"
+msgstr ""
+
+#: core/combat/decision/combat_move_tags.gd runtime/application/application_shell_controller.gd
+msgid "快"
+msgstr ""
+
+#: core/combat/decision/combat_move_tags.gd
+msgid "重"
+msgstr ""
+
+#: core/combat/decision/combat_move_tags.gd
+msgid "虚"
+msgstr ""
+
+#: core/combat/decision/combat_move_tags.gd core/combat/decision/combat_stance.gd
+msgid "守"
+msgstr ""
+
+#: core/combat/decision/combat_move_tags.gd
+msgid "平"
+msgstr ""
+
+#: core/combat/decision/combat_move_tags.gd
+msgid "快：命中高、伤害低；克重招。"
+msgstr ""
+
+#: core/combat/decision/combat_move_tags.gd
+msgid "重：伤害高、命中低；克守招。"
+msgstr ""
+
+#: core/combat/decision/combat_move_tags.gd
+msgid "虚：对方难以招架、伤害低，打中就打断对方的蓄势；克快招。"
+msgstr ""
+
+#: core/combat/decision/combat_move_tags.gd
+msgid "守：这一回合自己更难被打中，伤害低；克虚招。"
+msgstr ""
+
+#: core/combat/decision/combat_move_tags.gd
+msgid "平：没有偏向。"
+msgstr ""
+
+#: core/combat/decision/combat_stance.gd
+msgid "攻"
+msgstr ""
+
+#: core/combat/decision/combat_stance.gd
+msgid "游走"
+msgstr ""
+
+#: core/combat/decision/combat_stance.gd
+msgid "攻：伤害高，闪躲、招架低；有内功时加力到上限的一半。"
+msgstr ""
+
+#: core/combat/decision/combat_stance.gd
+msgid "守：招架高，伤害低。"
+msgstr ""
+
+#: core/combat/decision/combat_stance.gd
+msgid "游走：闪躲高，命中低。"
+msgstr ""
+
 #: core/combat/forecast/combat_forecast.gd
 msgid "稳赢：{pronoun}远不是你的对手。"
 msgstr ""
@@ -6243,11 +6311,19 @@ msgid "$N用後腿往$n的$l用力一蹬"
 msgstr ""
 
 #: data/combat/beast_combat_action_definitions.gd
+msgid "蹬"
+msgstr ""
+
+#: data/combat/beast_combat_action_definitions.gd
 msgid "咬伤"
 msgstr ""
 
 #: data/combat/beast_combat_action_definitions.gd
 msgid "$N扑上来张嘴往$n的$l狠狠地一咬"
+msgstr ""
+
+#: data/combat/beast_combat_action_definitions.gd
+msgid "咬"
 msgstr ""
 
 #. spicyclaw actions.damage_type
@@ -6258,6 +6334,10 @@ msgstr ""
 
 #: data/combat/beast_combat_action_definitions.gd
 msgid "$N用爪子往$n的$l一抓"
+msgstr ""
+
+#: data/combat/beast_combat_action_definitions.gd
+msgid "抓"
 msgstr ""
 
 #. fonxansword actions.damage_type
@@ -6277,7 +6357,19 @@ msgid "$N用嘴往$n的$l一啄"
 msgstr ""
 
 #: data/combat/beast_combat_action_definitions.gd
+msgid "啄"
+msgstr ""
+
+#: data/combat/beast_combat_action_definitions.gd
 msgid "$N攻击$n的$l"
+msgstr ""
+
+#: presentation/battle/battle_action_panel.gd
+msgid "出招"
+msgstr ""
+
+#: presentation/battle/battle_action_panel.gd
+msgid "姿态"
 msgstr ""
 
 #: presentation/battle/battle_action_panel.gd
@@ -6300,6 +6392,11 @@ msgstr ""
 msgid "排定：%s"
 msgstr ""
 
+#. the battle panel's status while the fight's clock waits for the player's order (on 排定's line).
+#: presentation/battle/battle_action_panel.gd
+msgid "等你出招 · "
+msgstr ""
+
 #: presentation/battle/battle_action_panel.gd
 msgid "{action} · 目标：{target}"
 msgstr ""
@@ -6307,6 +6404,29 @@ msgstr ""
 #. the battle panel: enforce.c's force_factor now, as hp.c shows it.
 #: presentation/battle/battle_action_panel.gd
 msgid "加力 +%d"
+msgstr ""
+
+#. a move button: {name} the move, {tag} its one-character tag (快 / 重 / 虚 / 守 / 平).
+#: presentation/battle/battle_action_panel.gd
+msgid "{name} · {tag}"
+msgstr ""
+
+#. the battle panel's switch between the player's turns and ES2's auto-fight: the text names what pressing it does.
+#: presentation/battle/battle_action_panel.gd
+msgid "改为自动"
+msgstr ""
+
+#. the battle panel's switch between the player's turns and ES2's auto-fight: the text names what pressing it does.
+#: presentation/battle/battle_action_panel.gd
+msgid "改为手动"
+msgstr ""
+
+#: presentation/battle/battle_action_panel.gd
+msgid "现在：每回合等你出招；按下后战斗自己打，招式随机。"
+msgstr ""
+
+#: presentation/battle/battle_action_panel.gd
+msgid "现在：战斗自己打；按下后每回合等你出招。"
 msgstr ""
 
 #: presentation/battle/battle_action_panel.gd
@@ -6714,6 +6834,16 @@ msgstr ""
 
 #: presentation/battle/battle_participant_card.gd
 msgid "约 {n} 秒后醒来"
+msgstr ""
+
+#. an enemy's card: the tag of the move it will use next (起手式): 快 / 重 / 虚 / 守.
+#: presentation/battle/battle_participant_card.gd
+msgid "起手：%s"
+msgstr ""
+
+#. an enemy's card: the special it announced for its next move.
+#: presentation/battle/battle_participant_card.gd
+msgid "要出「%s」"
 msgstr ""
 
 #. on the 了结 button: killing them does the task 朱鸿雪 gave.
@@ -7391,10 +7521,6 @@ msgid "标准"
 msgstr ""
 
 #: runtime/application/application_shell_controller.gd
-msgid "快"
-msgstr ""
-
-#: runtime/application/application_shell_controller.gd
 msgid "询问"
 msgstr ""
 
@@ -7426,6 +7552,11 @@ msgstr ""
 msgid "地图的光照：跟着游戏里的一天走（黎明、白天、黄昏、夜、深夜），或者一直是白天、一直是夜晚"
 msgstr ""
 
+#. the battle panel: a perform button greyed while it cools down; {rounds} rounds left.
+#: runtime/combat_encounter/combat_encounter_coordinator.gd
+msgid "冷却中（还要 {rounds} 回合）"
+msgstr ""
+
 #: runtime/combat_encounter/combat_encounter_coordinator.gd runtime/world/map/world_map_hostilities.gd
 msgid "看起来%s想杀死你！"
 msgstr ""
@@ -7436,6 +7567,21 @@ msgstr ""
 
 #: runtime/combat_encounter/combat_encounter_coordinator.gd runtime/world/map/world_map_selection.gd
 msgid "你对著{npc}喝道：「{rude}！今日不是你死就是我活！」"
+msgstr ""
+
+#. an NPC's announced special is lost: {npc} its name, {move} the special's name.
+#: runtime/combat_encounter/combat_encounter_scheduler.gd
+msgid "{npc}的「{move}」被打断了。"
+msgstr ""
+
+#. an NPC gathers itself for a special it will use next round: {npc} its name, {move} the special's name.
+#: runtime/combat_encounter/combat_npc_chat.gd
+msgid "{npc}蓄势待发，似乎要使出「{move}」！"
+msgstr ""
+
+#. an NPC's exert function announced on its card when it has no name of its own.
+#: runtime/combat_encounter/combat_npc_chat.gd ui/world/martial_arts_page.gd
+msgid "运功"
 msgstr ""
 
 #. common.npc.mind_bug limbs
@@ -9014,10 +9160,6 @@ msgstr ""
 #. the 武学 page's button that does 修行 again and again until something stops it.
 #: ui/world/martial_arts_page.gd
 msgid "连续修行"
-msgstr ""
-
-#: ui/world/martial_arts_page.gd
-msgid "运功"
 msgstr ""
 
 #: ui/world/martial_arts_page.gd
@@ -12319,9 +12461,19 @@ msgstr ""
 msgid "$N手腕一翻，一招「归鞘」$w收势时顺手一撩，刀背扫过$n的$l"
 msgstr ""
 
+#. actions.name
+#: data/common/combat_actions.json
+msgid "挥拳"
+msgstr ""
+
 #. actions.action
 #: data/common/combat_actions.json
 msgid "$N挥拳攻击$n的$l"
+msgstr ""
+
+#. actions.name
+#: data/common/combat_actions.json
+msgid "一抓"
 msgstr ""
 
 #. actions.action
@@ -12329,9 +12481,19 @@ msgstr ""
 msgid "$N往$n的$l一抓"
 msgstr ""
 
+#. actions.name
+#: data/common/combat_actions.json
+msgid "踢腿"
+msgstr ""
+
 #. actions.action
 #: data/common/combat_actions.json
 msgid "$N往$n的$l狠狠地踢了一脚"
+msgstr ""
+
+#. actions.name
+#: data/common/combat_actions.json
+msgid "捶击"
 msgstr ""
 
 #. actions.action
@@ -12339,14 +12501,29 @@ msgstr ""
 msgid "$N提起拳头往$n的$l捶去"
 msgstr ""
 
+#. actions.name
+#: data/common/combat_actions.json
+msgid "横拳"
+msgstr ""
+
 #. actions.action
 #: data/common/combat_actions.json
 msgid "$N对准$n的$l用力挥出一拳"
 msgstr ""
 
+#. actions.name
+#: data/common/combat_actions.json
+msgid "斩"
+msgstr ""
+
 #. actions.action
 #: data/common/combat_actions.json
 msgid "$N挥动$w，斩向$n的$l"
+msgstr ""
+
+#. actions.name
+#: data/common/combat_actions.json
+msgid "砍"
 msgstr ""
 
 #. actions.action
@@ -12359,6 +12536,11 @@ msgstr ""
 msgid "砍伤"
 msgstr ""
 
+#. actions.name
+#: data/common/combat_actions.json
+msgid "劈"
+msgstr ""
+
 #. actions.action
 #: data/common/combat_actions.json
 msgid "$N的$w朝著$n的$l劈将过去"
@@ -12369,9 +12551,19 @@ msgstr ""
 msgid "劈伤"
 msgstr ""
 
+#. actions.name
+#: data/common/combat_actions.json
+msgid "乱砍"
+msgstr ""
+
 #. actions.action
 #: data/common/combat_actions.json
 msgid "$N挥舞$w，对准$n的$l一阵乱砍"
+msgstr ""
+
+#. actions.name
+#: data/common/combat_actions.json
+msgid "刺"
 msgstr ""
 
 #. actions.action
@@ -12379,9 +12571,19 @@ msgstr ""
 msgid "$N用$w往$n的$l刺去"
 msgstr ""
 
+#. actions.name
+#: data/common/combat_actions.json
+msgid "捅"
+msgstr ""
+
 #. actions.action
 #: data/common/combat_actions.json
 msgid "$N的$w往$n的$l狠狠地一捅"
+msgstr ""
+
+#. actions.name
+#: data/common/combat_actions.json
+msgid "抽"
 msgstr ""
 
 #. actions.action
@@ -12389,9 +12591,19 @@ msgstr ""
 msgid "$N将$w一扬，往$n的$l抽去"
 msgstr ""
 
+#. actions.name
+#: data/common/combat_actions.json
+msgid "戳"
+msgstr ""
+
 #. actions.action
 #: data/common/combat_actions.json
 msgid "$N用$w往$n的$l直戳过去"
+msgstr ""
+
+#. actions.name
+#: data/common/combat_actions.json
+msgid "射"
 msgstr ""
 
 #. actions.action
@@ -12399,14 +12611,29 @@ msgstr ""
 msgid "$N将$w对准$n的$l射了过去"
 msgstr ""
 
+#. actions.name
+#: data/common/combat_actions.json
+msgid "砸"
+msgstr ""
+
 #. actions.action
 #: data/common/combat_actions.json
 msgid "$N挥舞$w，往$n的$l用力一砸"
 msgstr ""
 
+#. actions.name
+#: data/common/combat_actions.json
+msgid "当头砸"
+msgstr ""
+
 #. actions.action
 #: data/common/combat_actions.json
 msgid "$N高高举起$w，往$n的$l当头砸下"
+msgstr ""
+
+#. actions.name
+#: data/common/combat_actions.json
+msgid "猛挥"
 msgstr ""
 
 #. actions.action

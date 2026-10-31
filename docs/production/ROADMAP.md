@@ -99,8 +99,9 @@ what it finds is fixed in step 2. What waits for it is listed in [STATUS](STATUS
    playtest: A2's quest deadlines ([STATUS](STATUS.md#待决定)).
    **战斗决策层** comes before 现代基线三件 (owner 2026-10-31; the plan `build/plans/战斗决策层_计划.md`): 1A 数值 is done
    (DECISIONS「战斗数值」: the Elo-shaped hit curve, the defender's discount, the bounded experience defense, the 战前预判, the first two
-   hours' enemies by tier); next 1B 决策 (the round that waits for the player, the move chosen with 快 / 重 / 虚 / 守 and their
-   counters, the enemy's next move shown, the three stances, specials telegraphed and cooled down), then 包 2 界面, 包 3 演出, 包 4 内容.
+   hours' enemies by tier); 1B 决策 is done (DECISIONS「战斗决策」: the round that waits for the player, the move chosen with 快 / 重 / 虚 /
+   守 and their counters, the enemy's next move shown, the three stances, specials telegraphed and cooled down); next the move tags
+   for the other schools, then 包 2 界面, 包 3 演出, 包 4 内容.
 3. **The 游戏圣经 → [剧情总纲](../design/剧情总纲.md).** The canon (three creative baselines, the
    false tomb, timeline, politics, geography), the main story (prologue, ten chapters, finale), the
    twelve faction lines, the five new regions and the style guide are that one document; its §9

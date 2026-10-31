@@ -58,6 +58,10 @@
 - 命中力按 Elo 式指数（100 × 2^(级/10) + 经验/4，`power_curve` modern）；守方闪躲、招架打五折；经验防御是一次最多 40% 的减伤；经典 = combatd.c 原式。「战斗数值」
 - 打之前有预判：目标详情、交互窗口和确认页上一行五档（稳赢 / 占优 / 五五开 / 吃亏 / 必败）+ 一句原因，整伙合计，切磋按谁先打中；经典显示按经验的「看起来比你强」。「战斗数值」
 - 前两小时的敌人按玩家四档定数值（老鼠闪躲 15、疯狗、土匪、狼狗）；改过的 NPC 带 `classic` 块，经典模式用 ES2 原值。「战斗数值」
+- 回合等玩家：没有指令时战斗时钟不走（任务时限也不走）；一道指令一回合；忙碌、昏迷、没对手时自动滚；面板「改为自动」回到 ES2 的自动打（经典永远自动）。「战斗决策」
+- 招式表是按钮，点哪招出哪招、不抽 random(n)；每招一个标签 快 / 重 / 虚 / 守（命中、伤害、对方招架的 ±15%），快克重、重克守、守克虚、虚克快再 +15%。「战斗决策」
+- NPC 的下一招早一拍抽好、卡片显示「起手：重」；绝招、法术、运功先蓄势一拍（「要出『封』」），被绝招或虚招打中就打断。「战斗决策」
+- 姿态 攻 / 守 / 游走 替换加力 SpinBox（攻顺手加力到上限一半）；玩家的绝招用后冷却 2 回合。「战斗决策」
 - 战斗记录用 combatd.c 的原句，伤害数字跟在句末；闪避、招架的措辞不抽战斗随机流。「Battle narration in ES2's words」
 - 有人要杀玩家时显示 kill_ob() 的「看起来X想杀死你！」并钉在战斗记录上方。「How a fight opens」
 - 切磋走 fight.c 和 NPC 的 accept_fight；持兵刃的切磋会伤人，照 ES2；兽类不能切磋；凶手是最后一击的人（last_damage_from）。「切磋: fight.c, accept_fight and armed spars」
@@ -171,9 +175,10 @@
 - `milestone_rewards`、`catch_up_max_percent` 100、`staged_potential_cap`、`player_exercise_gain` 6、`training_dummies`、`bounty_board`（经典关 / 0 / 1）。「经验节奏」
 - `room_reset_seconds` 1800、`combat_round_ms` 1000、`heart_beat_ms` 2000（就是 ES2）。「NPCs talk and wander; rooms reset」「One map runtime」「响应性」
 - `feel`：换图淡入淡出、走路、气泡、菜单、战斗演出、`training_step_ms`、`corner_slide_px`（不写 = 0，没有演出）、`voxel_worlds_kept` 3（保留几张图的体素世界；0 = 全留）。「手感」「手感：战斗」「连续修炼」「固定俯视体素地图」
-- 新游戏面板的「节奏」：经典把 `milestone_rewards`、`catch_up_max_percent`、`staged_potential_cap`、`player_exercise_gain`、`bounty_board`、`training_dummies`、`day_length_minutes`、`sky_weather`、战斗数值的十一个开关一起按回 ES2，存进存档，开局后不改。「经典模式总开关」「昼夜」「天气」「战斗数值」
+- 新游戏面板的「节奏」：经典把 `milestone_rewards`、`catch_up_max_percent`、`staged_potential_cap`、`player_exercise_gain`、`bounty_board`、`training_dummies`、`day_length_minutes`、`sky_weather`、战斗数值的十一个开关、战斗决策的七个开关一起按回 ES2，存进存档，开局后不改。「经典模式总开关」「昼夜」「天气」「战斗数值」
 - `day_length_minutes` 24（就是 ES2；owner Q3 默认也用 24）。「昼夜」
 - `power_curve` modern、`power_base` 100、`power_doubling_levels` 10、`power_cap_levels` 150、`exp_power_divisor` 4、`defense_power_percent` 50、`experience_defense` modern、`exp_defense_max_percent` 40、`exp_defense_softness` 200、`combat_forecast`、`es2_npc_values` false（经典 classic / 1 / 100 / classic / 0 / 关 / true）。「战斗数值」
+- `player_turns`、`npc_telegraph`、`action_tag_bonus_percent` 15、`tag_counter_percent` 15、`stance_percent` 20、`stance_enforce_percent` 50、`perform_cooldown_rounds` 2（经典 关 / 关 / 0 / 0 / 0 / 0 / 0）。「战斗决策」
 - `sky_weather` 开（经典关：ES2 从不显示天色，永远晴）。「天气」
 - `story_parley` 开（经典关：老松寨见人就打，寨门机关必落）；`bury_always_rewards` 开（经典关：安葬按 random(kar + 10) 抽书，抽不中掉下瀑布）。「老松寨的三条路」「安葬必得书」
 
@@ -192,6 +197,37 @@
 - 京师：令牌照 ES2；地下密室的石阶从下面也能开。「京师 A」「京师 B」
 - 黑松山：进山的路修好；小娟只救一次。「黑松山 A」「黑松山 B」
 - 鬼门关：阴间要自己走回来；路的尽头补了原文缺的句子。「鬼门关 A」
+
+## 战斗决策 (战斗决策层 1B, owner 2026-10-31「接着做 1B」; 计划 `build/plans/战斗决策层_计划.md` v2 §1B; 堆在 1A 上)
+
+- **ES2：** 下了 kill 之后每个参与者各自每秒一次心跳自动出手（combatd.c fight() / do_attack()），招式从本门招式表 random(n) 抽（reset_action()），
+  玩家只能插逃跑、投降、perform、exert 这些命令；npc.c chat() 在心跳里按 chat_chance_combat 抽到 perform / cast / exert 当拍就出；没有姿态，最近的是 enforce.c 的加力。
+- **我们（pacing.json 开关，经典值 = ES2；`PacePresets` 经典组一起按回；`Es2Pacing` 的套件用经典值）：**
+  - `player_turns` true（经典 false）：战斗时钟上一道闸（`CombatEncounterScheduler.waiting_for_player()`）：没有玩家的指令，时钟不走、不出回合，任务时限、悬赏、
+    倒地者的苏醒倒数都不走（`WorldSessionController` 等待时给战斗 0 秒）；一道指令——选一招、排定绝招 / 运功 / 施法 / 逃跑 / 投降——开一回合，照战斗速度走完
+    `combat_round_ms`，回合内的一切照 ES2 心跳序一行不动，再关上等。忙碌、昏迷、没有可打的对手时回合自动滚；替玩家打的 NPC、脚本战、玩家旁观的仆从战照旧。
+    面板「改为自动 / 改为手动」切 `BattlePace.manual_turns`（会话里的设置，不进存档；套件和模拟器默认自动）；经典没有这个按钮。
+  - **选招**：招式表就是按钮（`CombatActionDefinition.display_name`：招式文本里第一个「」，拳脚兵器动作在数据里起名），点哪招这回合就出哪招：
+    `CombatActionSelectionInput.chosen_action_id` 在表里就直接选中、不抽 random(n)（`combat_move_tags_test`）；没选（自动、排了别的动作、换了兵器）照旧抽。
+    NPC 和反击照旧抽。
+  - **标签与克制** `action_tag_bonus_percent` 15、`tag_counter_percent` 15（经典 0 / 0）：每招一个标签（数据 `tag`：快 quick / 重 heavy / 虚 feint / 守 guard；没写 = 平），
+    快 = 命中力 +p、伤害 −p；重 = 伤害 +p、命中力 −p；虚 = 对方招架力 −p、伤害 −p，命中就打断对方的蓄势；守 = 这一回合自己的闪躲、招架 +p、伤害 −p。
+    克制环 快克重、重克守、守克虚、虚克快：克到再 +p（命中力和伤害各加）。修正进 combatd.c 已有的百分比位置（`x += x * p / 100`，和 `action["damage"]` 同一种写法；
+    `CombatMoveTags`，resolver 读 `action.tag` 和守方快照的 `move_tag`），p = 0 逐位相同。包 1 标了人类五拳、兵器 12 个动作、兽的四个动作、柳家拳、封山剑法；其余门派等包 4。
+  - **普通招也预告** `npc_telegraph` true（经典 false）：NPC 这一拍出完招后，下一拍的招就抽好（`_draw_next_move`，用的还是本门招式表的 random(n)，只是早一拍），
+    卡片上显示它的标签「起手：重」；下一拍照这招出，不再抽。抽中 special（perform / cast / exert；投降不算）时先「蓄势」一拍：卡片「要出『封』」、记录
+    「X蓄势待发，似乎要使出「封」！」，下一拍出完普通招后才执行（`CombatNpcChat.run_special()`），然后照常抽这一拍的 chat；蓄势期间被玩家的绝招或虚招打中、
+    或它忙碌、倒下、没对手了——取消，记录「X的「封」被打断了。」。chat 的抽样本身一拍不差；延后的是执行。
+  - **姿态** `stance_percent` 20、`stance_enforce_percent` 50（经典 0 / 0）：攻 / 守 / 游走三钮替换加力 SpinBox（`CombatStance`；经典仍是 SpinBox）。攻 = 伤害 +p、
+    闪躲招架 −p，有启用的内功时加力到上限的一半（enforce.c 原公式扣内力）；守 = 招架 +p、伤害 −p、加力 0；游走 = 闪躲 +p、命中力 −p、加力 0。立即生效、不排队、
+    不耗回合，保持到再换（`BattlePace.stance`，新游戏从攻起）；修正和标签叠加（`CombatRoundModifiers` → 快照的输入）。
+  - **绝招冷却** `perform_cooldown_rounds` 2（经典 0）：玩家的 perform 执行后 N 回合按钮灰掉「冷却中（还要 N 回合）」（`CombatTacticalRuntime` 的冷却，
+    `COOLING_DOWN`）；运功、施法不冷却；NPC 不冷却（包 4 的原型管频率）。
+  - 面板只加了一行（出招、姿态、自动，装不下横向滚动）和卡片的起手 / 蓄势一行；卡片伤势段、图标、记录一行一条是包 2。
+- **为什么：** owner：每回合一个有意义的选择，敌人的意图看得见，不同敌人要不同打法。Slay the Spire 的敌人意图图标是成熟做法；克制环让选招不只是「选伤害最高的」。
+- **不改：** combatd.c 的命中 / 伤害 / 经验公式；各绝招的效果；了结 / 放过；进门一起上；战斗中世界停住；存档边界；逃跑 / 投降；NPC chat 的抽样；`combat_round_ms` 与三档速度。
+- **测试：** `combat_move_tags_test`、`combat_decision_test`（调度器的闸、选招无抽数、忙碌与自动、下一招提前抽、姿态修正、冷却、经典 = 自动；柳绘心的绝招蓄势一拍）。
+  现代节奏下 NPC 的下一招早一拍抽、标签改了命中和伤害：带战斗的 fixture 又动了一次（PR 列出）。
 
 ## 战斗数值 (战斗决策层 1A, owner 2026-10-31「让战斗合理：数值跟着成长走、没有悬崖、老鼠不荒唐、打之前能预判，数值可以大刀阔斧地改」; 计划 `build/plans/战斗决策层_计划.md` v2, Q1 五档文字 + 一句原因、Q2 现代 fixture 重录一次、Q3 1A / 1B 两个 PR 按推荐)
 
