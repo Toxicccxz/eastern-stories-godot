@@ -185,8 +185,10 @@ func process_command_boundary(
 	var result: CombatTacticalExecutionResult = policy.execute(_context(action, effect_registry, bindings), random_source)
 	if result == null:
 		result = CombatTacticalExecutionResult.new(CombatTacticalExecutionResult.Outcome.FAILED)
+	# It runs at this round's boundary and the round itself counts down once: N + 1 keeps
+	# the N rounds after this one closed.
 	if _cooldown_rounds > 0 and result.outcome == CombatTacticalExecutionResult.Outcome.APPLIED and not CombatPerformTacticalPolicy.function_for(action.request.action_id).is_empty():
-		_cooldowns[action.request.action_id] = _cooldown_rounds
+		_cooldowns[action.request.action_id] = _cooldown_rounds + 1
 	_emit(Kind.RESOLVED, action, Code.ACCEPTED, result)
 	return result
 
