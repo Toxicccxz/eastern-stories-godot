@@ -10,6 +10,10 @@ var _damaged: Array[StringName] = []
 var _joins: Array[CombatJoin] = []
 var _departure_zone_id: StringName = &""
 var _special: SpecialReport
+## 战斗决策层 1B: the special chat() drew but did not run yet (npc_telegraph): announced
+## now, run on the NPC's next beat unless interrupted.
+var _telegraph: NpcSpecialAction
+var _telegraph_label: String = ""
 
 
 func _init(p_lines: Array[VisionLine] = [], p_damaged: Array[StringName] = []) -> void:
@@ -32,6 +36,21 @@ func with_special(report: SpecialReport) -> CombatNpcChatResult:
 ## The special's report when it attacked, else null.
 func special() -> SpecialReport:
 	return _special
+
+
+func with_telegraph(action: NpcSpecialAction, label: String) -> CombatNpcChatResult:
+	_telegraph = action
+	_telegraph_label = label
+	return self
+
+
+## The special announced this beat (run next beat), or null.
+func telegraph() -> NpcSpecialAction:
+	return _telegraph
+
+
+func telegraph_label() -> String:
+	return _telegraph_label
 
 
 ## random_move() in a fight: the NPC walked out to this zone (go.c's remove_all_enemy()).

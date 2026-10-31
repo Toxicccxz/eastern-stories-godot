@@ -64,6 +64,7 @@ func start(seed: int, gender: StringName = CharacterState.GENDER_MALE) -> bool:
 	session.combat_seed = 7000 + seed
 	session.deterministic_npc_seed = true
 	session.deterministic_world_interaction_seed = true
+	BattlePace.manual_turns = false
 	tree.root.add_child(session)
 	for frame: int in 4:
 		await tree.process_frame

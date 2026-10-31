@@ -96,6 +96,8 @@ static func execute_opportunity(
 	random_source: CombatRandomSource,
 	effect_registry: SkillImprovementEffectRegistry,
 	required_target_id: StringName = &"",
+	chosen_action_id: StringName = &"",
+	modifiers: CombatRoundModifiers = null,
 ) -> CombatSliceOpportunityResult:
 	var result: CombatSliceOpportunityResult = CombatSliceOpportunityResult.new()
 	if actor != null:
@@ -186,7 +188,7 @@ static func execute_opportunity(
 	if not fight.has_attack_intent:
 		return _finish(result, CombatSliceOpportunityResult.Outcome.FIGHT_NO_ACTION)
 
-	return _attack(result, fight, actor, victim, participants, random_source, effect_registry)
+	return _attack(result, fight, actor, victim, participants, random_source, effect_registry, chosen_action_id, modifiers)
 
 
 ## combatd.c do_attack(actor, victim, actor's weapon) called straight by a special
@@ -201,6 +203,7 @@ static func execute_direct_attack(
 	participants: Array[CombatSliceCharacterBinding],
 	random_source: CombatRandomSource,
 	effect_registry: SkillImprovementEffectRegistry,
+	modifiers: CombatRoundModifiers = null,
 ) -> CombatSliceOpportunityResult:
 	var result: CombatSliceOpportunityResult = CombatSliceOpportunityResult.new()
 	if actor == null or not actor.is_valid():
@@ -223,7 +226,7 @@ static func execute_direct_attack(
 		or not _participants_are_coherent(actor, participants) or not participants.has(victim) or victim == actor
 	):
 		return _finish(result, CombatSliceOpportunityResult.Outcome.OPPONENT_SELECTION_FAILED)
-	return _attack(result, CombatFightDecisionResult.direct(actor.character_id, victim.character_id), actor, victim, participants, random_source, effect_registry)
+	return _attack(result, CombatFightDecisionResult.direct(actor.character_id, victim.character_id), actor, victim, participants, random_source, effect_registry, &"", modifiers)
 
 
 ## The decided attack of `actor` on `victim` and, when the victim answers, its
@@ -236,13 +239,15 @@ static func _attack(
 	participants: Array[CombatSliceCharacterBinding],
 	random_source: CombatRandomSource,
 	effect_registry: SkillImprovementEffectRegistry,
+	chosen_action_id: StringName = &"",
+	modifiers: CombatRoundModifiers = null,
 ) -> CombatSliceOpportunityResult:
 	result._reached_stage = CombatSliceOpportunityResult.ReachedStage.FORWARD_ATTACK
-	var live: CombatReverseAttackProjection = CombatSliceProjectionBuilder.build_live_projection(actor, victim)
+	var live: CombatReverseAttackProjection = CombatSliceProjectionBuilder.build_live_projection(actor, victim, chosen_action_id, modifiers)
 	var forward: CombatSingleAttackExecutionResult = (
 		CombatSingleAttackExecutionService.execute(
 			fight,
-			CombatSliceProjectionBuilder.build_action_selection_input(actor),
+			CombatSliceProjectionBuilder.build_action_selection_input(actor, chosen_action_id),
 			live.attack_input_template() if live != null else null,
 			actor.state,
 			victim.state,
@@ -284,6 +289,7 @@ static func _attack(
 				reverse_attacker,
 				reverse_defender,
 				request,
+				modifiers,
 			)
 			result._reverse_projection_built = reverse_projection != null
 

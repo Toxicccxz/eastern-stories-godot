@@ -14,6 +14,9 @@ var _age_for: Callable
 var _partner_for: Callable
 var _summon_for: Callable
 var _leave_for: Callable
+## 战斗决策层 1B (pacing npc_telegraph): a special chat() draws is announced and run on the
+## next beat (run_special()); off, it runs on the beat as npc.c does.
+var telegraph: bool = false
 
 
 ## `npc_for`: (character_id: StringName) -> NpcRuntimeState, null for the player.
@@ -94,6 +97,31 @@ func beat(
 		return CombatNpcChatResult.new([VisionLine.new(_says(npc, while_flag.say), actor.character_id)]) if npc.has_flag(while_flag.flag) else null
 	if not (entry is NpcSpecialAction):
 		return null
+	var action: NpcSpecialAction = entry
+	if telegraph and action.kind != NpcSpecialAction.Kind.SURRENDER:
+		var label: String = special_label(action, npc)
+		# TRANSLATORS: an NPC gathers itself for a special it will use next round: {npc} its name, {move} the special's name.
+		var line: String = TranslationServer.translate("{npc}蓄势待发，似乎要使出「{move}」！").format({
+			"npc": TranslationServer.translate(npc.definition().display_name), "move": label,
+		})
+		return CombatNpcChatResult.new([VisionLine.new(line, actor.character_id, &"", ColoredLine.HIY)]).with_telegraph(action, label)
+	return run_special(actor, action, enemies, others, random_source, effects)
+
+
+## The special `action` run against the fight as it is now (npc.c's perform_action() /
+## cast_spell() / exert_function()): its lines, whom it hurt, its attacks.
+func run_special(
+	actor: CombatSliceCharacterBinding,
+	action: NpcSpecialAction,
+	enemies: Array[CombatSliceCharacterBinding],
+	others: Array[CombatSliceCharacterBinding],
+	random_source: CombatRandomSource,
+	effects: SkillImprovementEffectRegistry,
+	modifiers: CombatRoundModifiers = null,
+) -> CombatNpcChatResult:
+	var npc: NpcRuntimeState = _npc(actor.character_id)
+	if npc == null:
+		return null
 	var other_sides: Array[SpecialSide] = []
 	for binding: CombatSliceCharacterBinding in others:
 		other_sides.append(side_of(binding, _npc(binding.character_id)))
@@ -108,13 +136,27 @@ func beat(
 	# A perform's own attacks (hasten.c's fight()s) run in the fight like the player's.
 	var everyone: Array[CombatSliceCharacterBinding] = [actor]
 	everyone.append_array(others)
-	context.attack_source = CombatSpecialAttackSource.new(everyone, random_source, effects)
-	NpcSpecials.run(entry, context)
+	context.attack_source = CombatSpecialAttackSource.new(everyone, random_source, effects, modifiers)
+	NpcSpecials.run(action, context)
 	var joins: Array[CombatJoin] = _summon(actor, context)
 	if context.lines.is_empty() and context.damaged.is_empty() and context.attacks.is_empty():
 		return null
 	var said := CombatNpcChatResult.new(context.lines, context.damaged).with_joins(joins)
 	return said.with_special(context.report()) if not context.attacks.is_empty() else said
+
+
+## The special's name as the player reads it: the perform's or spell's label, 运功 for an
+## exert function.
+static func special_label(action: NpcSpecialAction, _npc_state: NpcRuntimeState) -> String:
+	match action.kind:
+		NpcSpecialAction.Kind.PERFORM:
+			var perform: PerformFunction = SpecialFunctions.perform(action.function_id)
+			return TranslationServer.translate(perform.label) if perform != null and not perform.label.is_empty() else String(action.function_id)
+		NpcSpecialAction.Kind.CAST:
+			var spell: CastFunction = SpecialFunctions.cast(action.function_id)
+			return TranslationServer.translate(spell.label) if spell != null and not spell.label.is_empty() else String(action.function_id)
+	# TRANSLATORS: an NPC's exert function announced on its card when it has no name of its own.
+	return TranslationServer.translate("运功")
 
 
 ## oldman.c receive_damage(type, pts) after a blow took `damage` kee from `victim`
@@ -297,3 +339,9 @@ static func side_of(binding: CombatSliceCharacterBinding, npc: NpcRuntimeState) 
 
 func _npc(character_id: StringName) -> NpcRuntimeState:
 	return _npc_for.call(character_id) if _npc_for.is_valid() else null
+
+
+## An NPC's name as authored (untranslated), its ID when it is not an NPC here.
+func display_name_of(character_id: StringName) -> String:
+	var npc: NpcRuntimeState = _npc(character_id)
+	return String(character_id) if npc == null or npc.definition() == null else npc.definition().display_name

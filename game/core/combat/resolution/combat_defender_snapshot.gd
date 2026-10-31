@@ -21,6 +21,11 @@ var _armor_vs_force: int
 var _strength: int
 ## A ghost's query("atman") (is_ghost(): WeaponGhostBane reads it); -1 for anyone else.
 var ghost_atman: int = -1
+## 战斗决策层 1B (CombatRoundModifiers): the stance's and a 守 move's percents on the dodge
+## and parry power, and the tag of the move held this round (the counter ring reads it).
+var dodge_power_percent: int = 0
+var parry_power_percent: int = 0
+var move_tag: StringName = &""
 
 var character_id: StringName:
 	get:
@@ -125,6 +130,14 @@ func is_valid() -> bool:
 
 
 func duplicate_snapshot() -> CombatDefenderSnapshot:
+	var copy: CombatDefenderSnapshot = _copy()
+	copy.dodge_power_percent = dodge_power_percent
+	copy.parry_power_percent = parry_power_percent
+	copy.move_tag = move_tag
+	return copy
+
+
+func _copy() -> CombatDefenderSnapshot:
 	var copy := CombatDefenderSnapshot.new(
 		_character_id,
 		_living,

@@ -38,7 +38,7 @@ static func use_reactions() -> PacingDefinition:
 static func use_without_progression() -> PacingDefinition:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var production: PacingDefinition = catalog.pacing()
-	catalog.set_pacing(production.copy().with_progression(false, 0, false, 1).with_training(false, production.bounty_refresh_seconds, false).with_day_length(production.day_length_minutes).with_combat(CombatPowerRules.classic(), false, true))
+	catalog.set_pacing(production.copy().with_progression(false, 0, false, 1).with_training(false, production.bounty_refresh_seconds, false).with_day_length(production.day_length_minutes).with_combat(CombatPowerRules.classic(), false, true).with_decisions(CombatDecisionRules.classic()))
 	return production
 
 
@@ -48,7 +48,7 @@ static func use_without_progression() -> PacingDefinition:
 static func use_combat() -> PacingDefinition:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var production: PacingDefinition = catalog.pacing()
-	catalog.set_pacing(production.copy().with_combat(CombatPowerRules.classic(), false, true))
+	catalog.set_pacing(production.copy().with_combat(CombatPowerRules.classic(), false, true).with_decisions(CombatDecisionRules.classic()))
 	return production
 
 

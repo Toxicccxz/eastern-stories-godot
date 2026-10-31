@@ -37,6 +37,10 @@ var defense_power_percent: int = 100
 var experience_defense: ExperienceDefense = ExperienceDefense.CLASSIC
 var exp_defense_max_percent: int = 0
 var exp_defense_softness: int = 200
+## 战斗决策层 1B (CombatMoveTags): a move tag's lean and the counter ring's extra, in
+## percent at combatd.c's percent sites; 0 (ES2): tags are words only.
+var action_tag_bonus_percent: int = 0
+var tag_counter_percent: int = 0
 
 
 func _init(
@@ -44,7 +48,10 @@ func _init(
 	p_exp_power_divisor: int = 1, p_defense_power_percent: int = 100,
 	p_experience_defense: ExperienceDefense = ExperienceDefense.CLASSIC,
 	p_exp_defense_max_percent: int = 0, p_exp_defense_softness: int = 200, p_power_cap_levels: int = 150,
+	p_action_tag_bonus_percent: int = 0, p_tag_counter_percent: int = 0,
 ) -> void:
+	action_tag_bonus_percent = p_action_tag_bonus_percent
+	tag_counter_percent = p_tag_counter_percent
 	curve = p_curve
 	power_base = p_power_base
 	power_doubling_levels = p_power_doubling_levels
@@ -65,7 +72,7 @@ func is_valid() -> bool:
 	return (
 		power_base > 0 and power_doubling_levels > 0 and power_cap_levels > 0 and exp_power_divisor > 0
 		and defense_power_percent > 0 and exp_defense_max_percent >= 0 and exp_defense_max_percent < 100
-		and exp_defense_softness >= 0
+		and exp_defense_softness >= 0 and action_tag_bonus_percent >= 0 and tag_counter_percent >= 0
 	)
 
 
@@ -74,6 +81,7 @@ func is_classic() -> bool:
 	return (
 		curve == PowerCurve.CLASSIC and exp_power_divisor == 1 and defense_power_percent == 100
 		and experience_defense == ExperienceDefense.CLASSIC
+		and action_tag_bonus_percent == 0 and tag_counter_percent == 0
 	)
 
 
@@ -81,6 +89,7 @@ func duplicate_snapshot() -> CombatPowerRules:
 	return CombatPowerRules.new(
 		curve, power_base, power_doubling_levels, exp_power_divisor, defense_power_percent,
 		experience_defense, exp_defense_max_percent, exp_defense_softness, power_cap_levels,
+		action_tag_bonus_percent, tag_counter_percent,
 	)
 
 
@@ -112,6 +121,7 @@ static func from_record(reader: ContentRecordReader) -> CombatPowerRules:
 		reader.integer("exp_power_divisor", 1), reader.integer("defense_power_percent", 100),
 		DEFENSES[defense_text], reader.integer("exp_defense_max_percent", 0), reader.integer("exp_defense_softness", 200),
 		reader.integer("power_cap_levels", 150),
+		reader.integer("action_tag_bonus_percent", 0), reader.integer("tag_counter_percent", 0),
 	)
 	if not rules.is_valid():
 		reader.fail("power_curve", "the combat power knobs must be positive (exp_defense_max_percent below 100)")

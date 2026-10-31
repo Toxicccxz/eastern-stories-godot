@@ -40,6 +40,13 @@
 		"exp_defense_softness": 200,
 		"combat_forecast": true,
 		"es2_npc_values": false,
+		"action_tag_bonus_percent": 15,
+		"tag_counter_percent": 15,
+		"player_turns": true,
+		"npc_telegraph": true,
+		"stance_percent": 20,
+		"stance_enforce_percent": 50,
+		"perform_cooldown_rounds": 2,
 		"feel": {
 			"map_fade_out_ms": 150,
 			"map_fade_in_ms": 200,

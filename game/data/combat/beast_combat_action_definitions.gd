@@ -15,13 +15,13 @@ static func bite() -> CombatActionDefinition:
 static func action(verb: StringName) -> CombatActionDefinition:
 	match verb:
 		&"hoof":
-			return _entry(verb, 100, &"瘀伤", "$N用後腿往$n的$l用力一蹬")
+			return _entry(verb, 100, &"瘀伤", "$N用後腿往$n的$l用力一蹬", CombatMoveTags.HEAVY, "蹬")
 		&"bite":
-			return _entry(verb, 20, &"咬伤", "$N扑上来张嘴往$n的$l狠狠地一咬")
+			return _entry(verb, 20, &"咬伤", "$N扑上来张嘴往$n的$l狠狠地一咬", CombatMoveTags.QUICK, "咬")
 		&"claw":
-			return _entry(verb, 0, &"抓伤", "$N用爪子往$n的$l一抓")
+			return _entry(verb, 0, &"抓伤", "$N用爪子往$n的$l一抓", CombatMoveTags.HEAVY, "抓")
 		&"poke":
-			return _entry(verb, 30, &"刺伤", "$N用嘴往$n的$l一啄")
+			return _entry(verb, 30, &"刺伤", "$N用嘴往$n的$l一啄", CombatMoveTags.FEINT, "啄")
 	return null
 
 
@@ -33,8 +33,8 @@ static func default_action() -> CombatActionDefinition:
 	return _entry(&"default", 0, &"", "$N攻击$n的$l")
 
 
-static func _entry(verb: StringName, damage: int, damage_type: StringName, text: String) -> CombatActionDefinition:
+static func _entry(verb: StringName, damage: int, damage_type: StringName, text: String, tag: StringName = &"", name: String = "") -> CombatActionDefinition:
 	return CombatActionDefinition.new(
 		StringName("es2:adm/daemons/race/beast/%s" % verb), damage, 0, damage_type,
-		StringName("combat.beast.%s" % verb), text, "", &"",
+		StringName("combat.beast.%s" % verb), text, "", &"", tag, name,
 	)
