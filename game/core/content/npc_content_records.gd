@@ -15,6 +15,12 @@ const RACE_IDS: Array[StringName] = [
 
 
 static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
+	# `classic`: the ES2 numbers the modern record changed (skills, combat_exp, apply,
+	# resources), read as a whole record laid over this one (DECISIONS「战斗数值」).
+	var es2: NpcDefinition = null
+	var classic: ContentRecordReader = reader.overlay("classic")
+	if classic != null:
+		es2 = npc_from_record(classic)
 	var definition_id: String = reader.required_text("id")
 	var legacy_source: String = reader.required_text("legacy_source")
 	var display_name: String = reader.required_text("name")
@@ -162,7 +168,7 @@ static func npc_from_record(reader: ContentRecordReader) -> NpcDefinition:
 		capabilities,
 		description,
 		combat_facts,
-	).with_creation_facts(title, skill_map, gender_roll, age_roll, combat_experience_roll, score_roll).with_skill_roll(skill_roll).with_age_first(age_first).with_fight_rules(fight_rules).with_talk(talk).with_naming(nickname, rank_respect, class_id).with_dealings(dealings).with_teaching(teaching).with_internal_power(internal_power).with_bellicosity(bellicosity).with_combat_hooks(hit_condition, killed_enemy).with_rolls(apply_rolls, attitude_roll).with_summoning(name_pick, summoning).with_conjuring(conjuring).with_raising(raising).with_ordination(ordination).with_hooks(hooks).with_rank_self(rank_self).with_name_parts(name_parts).with_create_rolls(null if create_rolls.is_empty() else create_rolls).with_native_role(native_role)
+	).with_creation_facts(title, skill_map, gender_roll, age_roll, combat_experience_roll, score_roll).with_skill_roll(skill_roll).with_age_first(age_first).with_fight_rules(fight_rules).with_talk(talk).with_naming(nickname, rank_respect, class_id).with_dealings(dealings).with_teaching(teaching).with_internal_power(internal_power).with_bellicosity(bellicosity).with_combat_hooks(hit_condition, killed_enemy).with_rolls(apply_rolls, attitude_roll).with_summoning(name_pick, summoning).with_conjuring(conjuring).with_raising(raising).with_ordination(ordination).with_hooks(hooks).with_rank_self(rank_self).with_name_parts(name_parts).with_create_rolls(null if create_rolls.is_empty() else create_rolls).with_native_role(native_role).with_es2_variant(es2)
 	if summoning != null and conjuring != null:
 		reader.fail("conjured", "an NPC is either summoned to its caster's side or conjured against its owner")
 	if raising != null and (summoning != null or conjuring != null or not name_pick.is_empty()):

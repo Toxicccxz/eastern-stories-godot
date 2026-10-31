@@ -222,6 +222,29 @@ func strings_or_children(key: String) -> Array:
 
 
 ## Nested object, or null when the key is absent or not an object.
+## This record with the object under `key` laid over it (its keys replacing the record's,
+## those its `without` list names taken away) and `key` itself left out: an NPC's `classic`
+## block (DECISIONS「战斗数值」) read as a whole record of its own. Null when there is no
+## such object.
+func overlay(key: String) -> ContentRecordReader:
+	_consumed[key] = true
+	if not _record.has(key):
+		return null
+	var value: Variant = _record[key]
+	if not value is Dictionary:
+		fail(key, "expected an object")
+		return null
+	var merged: Dictionary = _record.duplicate(true)
+	merged.erase(key)
+	for inner: Variant in value:
+		if str(inner) == "without":
+			for gone: Variant in value[inner]:
+				merged.erase(gone)
+			continue
+		merged[inner] = value[inner]
+	return ContentRecordReader.new(merged, "%s.%s" % [_path, key], _errors)
+
+
 func child(key: String) -> ContentRecordReader:
 	_consumed[key] = true
 	if not _record.has(key):

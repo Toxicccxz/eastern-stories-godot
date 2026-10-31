@@ -84,6 +84,15 @@ func _test_cultivation_hint(session: WorldSessionController) -> void:
 
 ## 目标详情 says how strong the NPC looks; 切磋 with one clearly stronger is asked first.
 func _test_strength(session: WorldSessionController) -> void:
+	# A10's line by combat_exp is what the ES2 numbers show (DECISIONS「战斗数值」: the modern
+	# pacing shows the 战前预判, pinned by combat_forecast_test).
+	var production: PacingDefinition = GameContent.catalog().pacing()
+	GameContent.catalog().set_pacing(production.copy().with_combat(production.combat_rules(), false, production.es2_npc_values))
+	_test_strength_lines(session)
+	GameContent.catalog().set_pacing(production)
+
+
+func _test_strength_lines(session: WorldSessionController) -> void:
 	var hud: SharedGameplayUI = session.shared_ui()
 	var coordinator: CombatEncounterCoordinator = session.combat_encounter_coordinator()
 	var trainee: NpcRuntimeState = _find(session, TRAINEE)

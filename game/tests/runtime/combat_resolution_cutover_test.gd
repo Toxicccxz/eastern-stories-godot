@@ -38,6 +38,9 @@ class ReverseBoundary extends CombatOpportunityBoundary:
 		return false
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
+	# combatd.c's own numbers, draw for draw (DECISIONS「战斗数值」: the modern knobs are
+	# pinned by combat_power_rules_test; this suite is the ES2 ruler).
+	var pacing: PacingDefinition = Es2Pacing.use()
 	await _entry(tree)
 	await _multi_death(tree)
 	await _failure(tree)
@@ -46,6 +49,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_reverse_chain_boundary()
 	await _spar_mortal_wound(tree)
 	await _completion_return(tree)
+	Es2Pacing.restore(pacing)
 	return {"assertions": _assertions, "failures": _failures.duplicate()}
 
 func _completion_return(tree: SceneTree) -> void:

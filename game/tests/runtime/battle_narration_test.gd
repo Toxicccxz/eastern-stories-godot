@@ -218,7 +218,8 @@ func _spar_in_snow(tree: SceneTree) -> void:
 	check(lines.back() in winners, "the spar ends on winner_msg %s" % str(lines.slice(-4)))
 	var log_text: String = ui.log_panel._text.get_parsed_text()
 	check(log_text.contains(lines.back()) and log_text.contains("（-"), "the panel's log has the winner line and grey damage")
-	check(session.shared_ui().log_lines().back().begins_with("切磋结束。\n"), "the world log closes with 切磋结束。 and the last lines")
+	# The modern numbers let the player win the spar: the 历练 lines may follow 切磋结束。.
+	check(session.shared_ui().log_lines().slice(-3).any(func(line: String) -> bool: return line.begins_with("切磋结束。\n")), "the world log closes with 切磋结束。 and the last lines: %s" % [session.shared_ui().log_lines().slice(-3)])
 	session.free()
 	await tree.process_frame
 

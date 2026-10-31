@@ -218,6 +218,21 @@ func apply_rolls() -> Dictionary[StringName, NpcRandomInteger]:
 	return _apply_rolls.duplicate()
 
 
+## The record's `classic` block as a definition of its own (DECISIONS「战斗数值」): this NPC
+## with its ES2 numbers (skills, combat_exp, apply, resources) where the modern ones differ;
+## null when the record has none. ContentCatalog.npc() hands it out under es2_npc_values.
+var _es2_variant: NpcDefinition
+
+
+func with_es2_variant(variant: NpcDefinition) -> NpcDefinition:
+	_es2_variant = variant
+	return self
+
+
+func es2_variant() -> NpcDefinition:
+	return _es2_variant
+
+
 func attitude_roll() -> NpcRandomText:
 	return _attitude_roll
 

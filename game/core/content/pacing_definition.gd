@@ -111,6 +111,13 @@ var _sky_weather: bool = false
 ## false (ES2): random(kar + 10) decides.
 var _story_parley: bool = false
 var _bury_always_rewards: bool = false
+## 战斗决策层 1A (DECISIONS「战斗数值」): the combat power knobs (CombatPowerRules, ES2's when
+## left out), the fight forecast shown before one (combat_forecast; false: RelativeStrength's
+## line by combat_exp) and whether NPCs carry their ES2 numbers (es2_npc_values: the record's
+## `classic` block; true left out, so a record without the knobs is ES2 throughout).
+var _combat_rules: CombatPowerRules = CombatPowerRules.classic()
+var _combat_forecast: bool = false
+var _es2_npc_values: bool = true
 
 ## Seconds between two combat rounds of an encounter (the scheduler's opportunity interval).
 var combat_round_seconds: float:
@@ -222,6 +229,12 @@ var story_parley: bool:
 var bury_always_rewards: bool:
 	get:
 		return _bury_always_rewards
+var combat_forecast: bool:
+	get:
+		return _combat_forecast
+var es2_npc_values: bool:
+	get:
+		return _es2_npc_values
 ## The presentation's feel knobs (the record's `feel`; all 0 when left out).
 var feel: FeelDefinition = FeelDefinition.new()
 
@@ -255,8 +268,22 @@ func copy() -> PacingDefinition:
 	record.with_day_length(_day_length_minutes)
 	record.with_sky_weather(_sky_weather)
 	record.with_story(_story_parley, _bury_always_rewards)
+	record.with_combat(_combat_rules, _combat_forecast, _es2_npc_values)
 	record.feel = feel
 	return record
+
+
+## The combat power knobs this world fights under (a snapshot; ES2's when none were set).
+func combat_rules() -> CombatPowerRules:
+	return _combat_rules.duplicate_snapshot()
+
+
+## This record with the combat knobs set (tests, PacePresets, and from_record()).
+func with_combat(rules: CombatPowerRules, forecast: bool, es2_npc_values: bool) -> PacingDefinition:
+	_combat_rules = rules.duplicate_snapshot() if rules != null else CombatPowerRules.classic()
+	_combat_forecast = forecast
+	_es2_npc_values = es2_npc_values
+	return self
 
 
 ## This record with the story's knobs set (tests, and from_record()).
@@ -368,6 +395,7 @@ static func from_record(reader: ContentRecordReader) -> PacingDefinition:
 		reader.integer("bounty_refresh_seconds", 600),
 		reader.boolean("training_dummies", false),
 	).with_hostile_alert(reader.integer("hostile_alert_ms", 0)).with_day_length(reader.integer("day_length_minutes", ES2_DAY_LENGTH_MINUTES)).with_sky_weather(reader.boolean("sky_weather", false)).with_story(reader.boolean("story_parley", false), reader.boolean("bury_always_rewards", false))
+	definition.with_combat(CombatPowerRules.from_record(reader), reader.boolean("combat_forecast", false), reader.boolean("es2_npc_values", true))
 	var feel: ContentRecordReader = reader.child("feel")
 	if feel != null:
 		definition.feel = FeelDefinition.from_record(feel)

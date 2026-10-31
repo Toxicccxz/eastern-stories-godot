@@ -207,7 +207,7 @@ static func build_attack_input(
 	)
 	if defender.content != null and defender.content.is_ghost:
 		defender_snapshot.ghost_atman = defender.state.recovery.atman.current
-	return CombatAttackInput.new(attacker_snapshot, defender_snapshot, selected_action, approved_actions)
+	return CombatAttackInput.new(attacker_snapshot, defender_snapshot, selected_action, approved_actions, GameContent.catalog().pacing().combat_rules())
 
 
 static func build_progression_facts(

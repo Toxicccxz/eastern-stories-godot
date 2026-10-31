@@ -115,7 +115,7 @@ func set_selected_floor_item(display_name: String, in_range: bool, clear_inspect
 
 
 ## `relation` is look.c's word for what the NPC is to the player (FamilyRelation), "" for none;
-## `strength` the native line on how strong it looks (RelativeStrength.line()), "" for none.
+## `strength` the native line on how strong it looks (CombatOutlook, already shown), "" for none.
 ## `title`: the one its mood shows (悲愤欲绝) instead of its own.
 func show_inspection(definition: NpcDefinition, relation: String = "", gender: StringName = &"", strength: String = "", title: String = "") -> void:
 	_presentation_layout.open_panel("目标详情", _presentation_layout.details)
@@ -130,7 +130,7 @@ func show_inspection(definition: NpcDefinition, relation: String = "", gender: S
 		# TRANSLATORS: look.c: {pronoun} is 他/她/它, {relation} what the NPC is to the player (师父, 同门师兄 …).
 		_ui.inspection_text.text += "\n" + tr("{pronoun}是你的{relation}。").format({"pronoun": tr(Es2CombatMessages.pronoun(gender)), "relation": tr(relation)})
 	if not strength.is_empty():
-		_ui.inspection_text.text += "\n" + tr(strength).format({"pronoun": tr(Es2CombatMessages.pronoun(gender))})
+		_ui.inspection_text.text += "\n" + strength
 
 
 ## `text`: what looking at it shows now (the landmark policy's look()), as authored.
