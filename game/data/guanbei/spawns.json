@@ -207,6 +207,328 @@
 					}
 				]
 			}
+		},
+		{
+			"id": "guanbei.camp.herdsmen",
+			"npc": "native.npc.herdsman",
+			"map": "guanbei.yurt_camp",
+			"zone": "guanbei.camp",
+			"points": [
+				"guanbei.camp.herdsman.1",
+				"guanbei.camp.herdsman.2",
+				"guanbei.camp.herdsman.3"
+			],
+			"legacy_room": "native: 关北 C (剧情总纲 §3 第六章 ④ 与选择的后果, §6 关北卡; 计划 build/plans/关北_计划.md C 包; DECISIONS「关北 C」) (the herdsmen of the camp, at their yurts)",
+			"legacy_quantity": 3
+		},
+		{
+			"id": "guanbei.camp.family",
+			"npc": "native.npc.camp_family",
+			"map": "guanbei.yurt_camp",
+			"zone": "guanbei.camp",
+			"points": [
+				"guanbei.camp.family.1",
+				"guanbei.camp.family.2",
+				"guanbei.camp.family.3"
+			],
+			"legacy_room": "native: 关北 C (剧情总纲 §3 第六章 ④ 与选择的后果, §6 关北卡; 计划 build/plans/关北_计划.md C 包; DECISIONS「关北 C」) (the families waiting at the fire)",
+			"legacy_quantity": 3
+		},
+		{
+			"id": "guanbei.steppe_road.shepherd",
+			"npc": "native.npc.shepherd",
+			"map": "guanbei.steppe",
+			"zone": "guanbei.steppe_road",
+			"points": [
+				"guanbei.steppe_road.shepherd.1"
+			],
+			"legacy_room": "native: 关北 C (剧情总纲 §3 第六章 ④ 与选择的后果, §6 关北卡; 计划 build/plans/关北_计划.md C 包; DECISIONS「关北 C」) (the shepherd on his stone)",
+			"legacy_quantity": 1
+		},
+		{
+			"id": "guanbei.fence_gate.lu_sun",
+			"npc": "native.npc.lu_sun",
+			"map": "guanbei.worksite",
+			"zone": "guanbei.fence_gate",
+			"points": [
+				"guanbei.fence_gate.lu_sun.1"
+			],
+			"legacy_room": "native: 关北 C (剧情总纲 §3 第六章 ④ 与选择的后果, §6 关北卡; 计划 build/plans/关北_计划.md C 包; DECISIONS「关北 C」) (吕隼 with his roll at the gate by day; in his tent by night)",
+			"legacy_quantity": 1,
+			"until": {
+				"phase": [
+					"night",
+					"midnight"
+				]
+			},
+			"cleared_mark": "吕隼倒了"
+		},
+		{
+			"id": "guanbei.fence_gate.pei_zhao",
+			"npc": "native.npc.pei_zhao",
+			"map": "guanbei.worksite",
+			"zone": "guanbei.fence_gate",
+			"points": [
+				"guanbei.fence_gate.pei_zhao.1"
+			],
+			"legacy_room": "native: 关北 C (剧情总纲 §3 第六章 ④ 与选择的后果, §6 关北卡; 计划 build/plans/关北_计划.md C 包; DECISIONS「关北 C」) (裴照 at the gate by day)",
+			"legacy_quantity": 1,
+			"until": {
+				"phase": [
+					"night",
+					"midnight"
+				]
+			},
+			"cleared_mark": "裴照倒了"
+		},
+		{
+			"id": "guanbei.fence_gate.officers",
+			"npc": "native.npc.site_officer",
+			"map": "guanbei.worksite",
+			"zone": "guanbei.fence_gate",
+			"points": [
+				"guanbei.fence_gate.officer.1",
+				"guanbei.fence_gate.officer.2",
+				"guanbei.fence_gate.officer.3",
+				"guanbei.fence_gate.officer.4",
+				"guanbei.fence_gate.officer.5",
+				"guanbei.fence_gate.officer.6"
+			],
+			"legacy_room": "native: 关北 C (剧情总纲 §3 第六章 ④ 与选择的后果, §6 关北卡; 计划 build/plans/关北_计划.md C 包; DECISIONS「关北 C」) (the six 白衣武官 at the gate by day; the raid's scene sends them off and the fighting ones come)",
+			"legacy_quantity": 6,
+			"until": {
+				"phase": [
+					"night",
+					"midnight"
+				]
+			}
+		},
+		{
+			"id": "guanbei.fence_gate.officers_fighting",
+			"npc": "native.npc.site_officer_fighting",
+			"map": "guanbei.worksite",
+			"zone": "guanbei.fence_gate",
+			"points": [
+				"guanbei.fence_gate.officer_fighting.1",
+				"guanbei.fence_gate.officer_fighting.2",
+				"guanbei.fence_gate.officer_fighting.3",
+				"guanbei.fence_gate.officer_fighting.4",
+				"guanbei.fence_gate.officer_fighting.5",
+				"guanbei.fence_gate.officer_fighting.6"
+			],
+			"legacy_room": "native: 关北 C (剧情总纲 §3 第六章 ④ 与选择的后果, §6 关北卡; 计划 build/plans/关北_计划.md C 包; DECISIONS「关北 C」) (the same six with swords out, summoned by 吕隼's 拿下; all down marks 工地的武官倒了)",
+			"legacy_quantity": 6,
+			"summoned": true,
+			"cleared_mark": "工地的武官倒了"
+		},
+		{
+			"id": "guanbei.fence_gate.riders",
+			"npc": "native.npc.huaiyang_rider",
+			"map": "guanbei.worksite",
+			"zone": "guanbei.fence_gate",
+			"points": [
+				"guanbei.fence_gate.rider.1",
+				"guanbei.fence_gate.rider.2",
+				"guanbei.fence_gate.rider.3",
+				"guanbei.fence_gate.rider.4",
+				"guanbei.fence_gate.rider.5",
+				"guanbei.fence_gate.rider.6"
+			],
+			"legacy_room": "native: 关北 C (剧情总纲 §3 第六章 ④ 与选择的后果, §6 关北卡; 计划 build/plans/关北_计划.md C 包; DECISIONS「关北 C」) (the 王府's six riders, summoned by the raid's scene, fighting beside the player and gone as the fight ends)",
+			"legacy_quantity": 6,
+			"summoned": true
+		},
+		{
+			"id": "guanbei.sheds.night_watch",
+			"npc": "native.npc.night_watch",
+			"map": "guanbei.worksite",
+			"zone": "guanbei.sheds",
+			"points": [
+				"guanbei.sheds.night_watch.1",
+				"guanbei.sheds.night_watch.2"
+			],
+			"legacy_room": "native: 关北 C (剧情总纲 §3 第六章 ④ 与选择的后果, §6 关北卡; 计划 build/plans/关北_计划.md C 包; DECISIONS「关北 C」) (the two dozing at the sheds' fire by night)",
+			"legacy_quantity": 2,
+			"present": {
+				"phase": [
+					"night",
+					"midnight"
+				]
+			}
+		},
+		{
+			"id": "guanbei.sheds.night_watch_fighting",
+			"npc": "native.npc.night_watch_fighting",
+			"map": "guanbei.worksite",
+			"zone": "guanbei.sheds",
+			"points": [
+				"guanbei.sheds.night_watch_fighting.1",
+				"guanbei.sheds.night_watch_fighting.2"
+			],
+			"legacy_room": "native: 关北 C (剧情总纲 §3 第六章 ④ 与选择的后果, §6 关北卡; 计划 build/plans/关北_计划.md C 包; DECISIONS「关北 C」) (the same two awake, summoned by the fourth 枷; all down marks 守夜的武官倒了)",
+			"legacy_quantity": 2,
+			"summoned": true,
+			"cleared_mark": "守夜的武官倒了"
+		},
+		{
+			"id": "guanbei.sheds.corvee",
+			"npc": "native.npc.site_corvee",
+			"map": "guanbei.worksite",
+			"zone": "guanbei.sheds",
+			"points": [
+				"guanbei.sheds.corvee.1",
+				"guanbei.sheds.corvee.2",
+				"guanbei.sheds.corvee.3",
+				"guanbei.sheds.corvee.4",
+				"guanbei.sheds.corvee.5",
+				"guanbei.sheds.corvee.6",
+				"guanbei.sheds.corvee.7",
+				"guanbei.sheds.corvee.8"
+			],
+			"legacy_room": "native: 关北 C (剧情总纲 §3 第六章 ④ 与选择的后果, §6 关北卡; 计划 build/plans/关北_计划.md C 包; DECISIONS「关北 C」) (the eight in the 枷 until the raid frees them all or the night four (then the four left are another spawn))",
+			"legacy_quantity": 8,
+			"until": {
+				"any": [
+					{
+						"mark": "踏平了工地"
+					},
+					{
+						"mark": "救了一半"
+					}
+				]
+			}
+		},
+		{
+			"id": "guanbei.sheds.corvee_left",
+			"npc": "native.npc.site_corvee",
+			"map": "guanbei.worksite",
+			"zone": "guanbei.sheds",
+			"points": [
+				"guanbei.sheds.corvee_left.1",
+				"guanbei.sheds.corvee_left.2",
+				"guanbei.sheds.corvee_left.3",
+				"guanbei.sheds.corvee_left.4"
+			],
+			"legacy_room": "native: 关北 C (剧情总纲 §3 第六章 ④ 与选择的后果, §6 关北卡; 计划 build/plans/关北_计划.md C 包; DECISIONS「关北 C」) (老魏、周二牛、陈满仓、马三 left in the 枷 after the night (owner Q2: the cost seen by day))",
+			"legacy_quantity": 4,
+			"present": {
+				"mark": "救了一半"
+			}
+		},
+		{
+			"id": "guanbei.cart_stand.taoists",
+			"npc": "native.npc.barrow_taoist",
+			"map": "guanbei.barrow",
+			"zone": "guanbei.cart_stand",
+			"points": [
+				"guanbei.cart_stand.taoist.1",
+				"guanbei.cart_stand.taoist.2"
+			],
+			"legacy_room": "native: 关北 C (剧情总纲 §3 第六章 ④ 与选择的后果, §6 关北卡; 计划 build/plans/关北_计划.md C 包; DECISIONS「关北 C」) (the 逆灵宫's two at the cart; fled after the raid, gone with the cart after the night)",
+			"legacy_quantity": 2,
+			"until": {
+				"any": [
+					{
+						"mark": "踏平了工地"
+					},
+					{
+						"mark": "救了一半"
+					}
+				]
+			}
+		},
+		{
+			"id": "guanbei.cart_stand.spent",
+			"npc": "native.npc.spent_corvee",
+			"map": "guanbei.barrow",
+			"zone": "guanbei.cart_stand",
+			"points": [
+				"guanbei.cart_stand.spent.1",
+				"guanbei.cart_stand.spent.2"
+			],
+			"legacy_room": "native: 关北 C (剧情总纲 §3 第六章 ④ 与选择的后果, §6 关北卡; 计划 build/plans/关北_计划.md C 包; DECISIONS「关北 C」) (the two 挖不动的 by the cart)",
+			"legacy_quantity": 2,
+			"until": {
+				"any": [
+					{
+						"mark": "踏平了工地"
+					},
+					{
+						"mark": "救了一半"
+					}
+				]
+			}
+		},
+		{
+			"id": "guanbei.stone_door.officers",
+			"npc": "native.npc.site_officer",
+			"map": "guanbei.barrow",
+			"zone": "guanbei.stone_door",
+			"points": [
+				"guanbei.stone_door.officer.1",
+				"guanbei.stone_door.officer.2"
+			],
+			"legacy_room": "native: 关北 C (剧情总纲 §3 第六章 ④ 与选择的后果, §6 关北卡; 计划 build/plans/关北_计划.md C 包; DECISIONS「关北 C」) (two 白衣武官 before the stone door; gone after the raid)",
+			"legacy_quantity": 2,
+			"until": {
+				"mark": "踏平了工地"
+			}
+		},
+		{
+			"id": "guanbei.camp.freed",
+			"npc": "native.npc.freed_corvee",
+			"map": "guanbei.yurt_camp",
+			"zone": "guanbei.camp",
+			"points": [
+				"guanbei.camp.freed.1",
+				"guanbei.camp.freed.2",
+				"guanbei.camp.freed.3",
+				"guanbei.camp.freed.4",
+				"guanbei.camp.freed.5",
+				"guanbei.camp.freed.6",
+				"guanbei.camp.freed.7",
+				"guanbei.camp.freed.8"
+			],
+			"legacy_room": "native: 关北 D (剧情总纲 §3 第六章 ④ 选择的后果, 第七章 ① 入口, §6 关北卡 马上刀法; 计划 build/plans/关北_计划.md D 包; DECISIONS「关北 D」) (the eight home after the raid)",
+			"legacy_quantity": 8,
+			"present": {
+				"mark": "踏平了工地"
+			}
+		},
+		{
+			"id": "guanbei.camp.freed_half",
+			"npc": "native.npc.freed_corvee",
+			"map": "guanbei.yurt_camp",
+			"zone": "guanbei.camp",
+			"points": [
+				"guanbei.camp.freed_half.1",
+				"guanbei.camp.freed_half.2",
+				"guanbei.camp.freed_half.3",
+				"guanbei.camp.freed_half.4"
+			],
+			"legacy_room": "native: 关北 D (剧情总纲 §3 第六章 ④ 选择的后果, 第七章 ① 入口, §6 关北卡 马上刀法; 计划 build/plans/关北_计划.md D 包; DECISIONS「关北 D」) (the four home after the night)",
+			"legacy_quantity": 4,
+			"present": {
+				"mark": "救了一半"
+			}
+		},
+		{
+			"id": "guanbei.steppe_road.cart",
+			"npc": "native.npc.passing_taoist",
+			"map": "guanbei.steppe",
+			"zone": "guanbei.steppe_road",
+			"points": [
+				"guanbei.steppe_road.cart_taoist.1",
+				"guanbei.steppe_road.cart_taoist.2"
+			],
+			"legacy_room": "native: 关北 D (剧情总纲 §3 第六章 ④ 选择的后果, 第七章 ① 入口, §6 关北卡 马上刀法; 计划 build/plans/关北_计划.md D 包; DECISIONS「关北 D」) (the cart passing once on the road after the night (owner Q2 ②))",
+			"legacy_quantity": 2,
+			"present": {
+				"mark": "救了一半"
+			},
+			"until": {
+				"mark": "见过车路过"
+			}
 		}
 	]
 }

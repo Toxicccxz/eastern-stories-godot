@@ -1,0 +1,61 @@
+{
+  "indoor": false,
+  "camera_size": 26,
+  "note": "草原 (native:guanbei/steppe_road, cairn, rise; 关北 C): the cart road east over open grey-green grass under a wide sky — the 敖包 on its knoll with its branches and faded strips, the stones travellers left, the shepherd on his rock on the rise with his flock about him, the 工地's dust standing on the eastern horizon. Nothing built: wind, grass, sheep, a dead poplar, a few rocks.",
+  "edge": {"minimum_margin": 32, "maximum_margin": 96, "depth": 1.6, "top": "8a9458", "bottom": "7a6a4a", "strata": ["a89868", "9a8a5c", "8a7a50"]},
+  "exit_trails": {
+    "guanbei.steppe_road.west": {"cells": 8, "kind": "path", "width": 8},
+    "guanbei.steppe_road.east": {"cells": 8, "kind": "path", "width": 8},
+    "note": "the cart road runs on both ways"
+  },
+  "ground": {
+    "grass": {"style": "scree", "colors": ["8c9058", "98985c", "7e8a50"], "gravel": 0.08, "stones": 0.01, "pebbles": ["a8a468", "8a8a52"], "note": "steppe turf, grey-green with bare patches"},
+    "path": {"style": "scree", "colors": ["b09860", "bca46a", "a48c58"], "gravel": 0.55, "stones": 0.06, "pebbles": ["d0b87c", "b8a066", "9c8858"], "ruts": true, "note": "the cart road, two ruts in the grass"},
+    "boundary": {"style": "scree", "colors": ["86905a", "929a5e", "7a8850"], "gravel": 0.06, "stones": 0.01, "pebbles": ["a0a466", "848a50"], "note": "the steppe running off: the same turf, trimmed to the map's edge"}
+  },
+  "ground_tints": {"bank": "9a8c5e", "mud": "a8966a", "chips": ["d0bc88", "c4b07c", "b4a070"], "dust": "d8c898", "grit": "e0d0a0"},
+  "flora": {
+    "grass_density": 0.95,
+    "density": {"grass": 0.95, "path": 0.02, "boundary": 0.8},
+    "flower_threshold": 0.3,
+    "blossom_trees": 0.0,
+    "tree_types": ["poplar", "dead", "willow", "poplar"],
+    "tree_kinds": ["boundary"],
+    "tree_chance": 0.05,
+    "tree_spacing": 160,
+    "wind": 1.1,
+    "butterflies": 3,
+    "meadows": [{"rect": [128, 256, 1536, 640], "on": ["grass"], "scale": [1.4, 2.2], "density": 0.8, "tufts": 3, "note": "the grass in earnest"}, {"rect": [1152, 640, 1536, 800], "on": ["grass"], "scale": [0.8, 1.2], "density": 0.5, "tufts": 2, "note": "grazed short on the rise"}, {"rect": [576, 96, 960, 320], "on": ["grass"], "scale": [1.0, 1.6], "density": 0.6, "tufts": 2}]
+  },
+  "ambience": {
+    "birds": [{"at": [800, 448], "radius": 500, "count": 2, "height": 16, "color": "3a3028", "note": "a hawk over the steppe"}],
+    "dust": [{"rect": [1400, 300, 1700, 600], "count": 40, "color": "c8b078", "wind": [0.1, -0.6], "height": [0.5, 6.0], "size": [0.9, 0.12, 0.5], "note": "the 工地's dust standing on the eastern horizon"}, {"rect": [128, 256, 1536, 640], "count": 16, "color": "e0cc98", "wind": [0.6, 0.0]}]
+  },
+  "reshape": [],
+  "buildings": [],
+  "critters": [
+    {"kind": "sheep", "rect": [900, 470, 1200, 570], "count": 6, "colors": ["e4dccc", "3a302a", "4a403a"], "note": "the shepherd's flock along the road"},
+    {"kind": "sheep", "rect": [1180, 600, 1500, 740], "count": 5, "colors": ["d8d0c0", "2a2422", "3a302a"], "note": "and up the rise"}
+  ],
+  "props": [
+    {"kind": "trail", "points": [[144, 448], [400, 440], [700, 456], [1000, 440], [1300, 452], [1520, 448]], "color": "a89060", "note": "the ruts"},
+    {"kind": "trail", "points": [[768, 420], [768, 300], [768, 236]], "color": "9a9060", "note": "the way trodden up to the 敖包"},
+    {"kind": "stains", "at": [768, 200], "size": [90, 70], "count": 7, "colors": ["8a8c84", "9a9c93", "74766f"], "note": "the stones travellers left round the 敖包"},
+    {"kind": "paper_slip", "at": [740, 240], "size": [14, 18], "rotation": 40, "note": "a strip blown off the branches"},
+    {"kind": "paper_slip", "at": [820, 260], "size": [12, 16], "rotation": -30},
+    {"kind": "stains", "at": [1040, 528], "size": [300, 90], "count": 8, "colors": ["8a7a4e", "9a8858"], "note": "where the flock has been"},
+    {"kind": "bones", "at": [1240, 380], "size": [34, 26], "skull": true, "count": 3, "note": "a sheep the wolves had"},
+    {"kind": "far_ground", "at": [-260, 440], "size": [400, 1000], "colors": ["8a9458", "96985c", "7e8a50"], "elevation": -0.4, "note": "the steppe running off west"},
+    {"kind": "far_ground", "at": [1860, 440], "size": [500, 1000], "colors": ["8a9458", "96985c", "7e8a50"], "elevation": -0.4, "note": "and east, under the dust"},
+    {"kind": "far_ground", "at": [832, -260], "size": [1800, 500], "colors": ["8a9458", "96985c", "7e8a50"], "elevation": -0.4, "note": "and north to the sky"},
+    {"kind": "far_peak", "at": [700, 1200], "size": [800, 260], "height": 10.0, "elevation": -5.5, "colors": ["a89060", "b89c6c", "9a8458", "8a7850"], "note": "天驼关 far south"},
+    {"kind": "far_peak", "at": [1760, 520], "size": [360, 160], "height": 3.0, "elevation": -1.6, "colors": ["8a9458", "7e8a50", "a8a070"], "note": "the barrow's long back on the eastern horizon"},
+    {"kind": "glow", "at": [768, 236], "color": "ffc080", "day": 0.0, "night": 0.35, "range": 5.0, "height": 1.2, "note": "a butter lamp someone left burning at the 敖包"}
+  ],
+  "actors": {
+    "default": {"coat": "8a7a5a"},
+    "native.npc.shepherd": {"coat": "6a6a5a", "hat": true},
+    "native.npc.guo_cheng": {"coat": "5a4a3a"},
+    "native.npc.passing_taoist": {"coat": "2a2622", "hat": true}
+  }
+}

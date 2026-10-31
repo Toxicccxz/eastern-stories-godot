@@ -4,18 +4,44 @@
 			"id": "native.npc.niling_winch_taoist",
 			"legacy_source": "native: 逆灵宫 A (the 道士 at the winch on the crack's top, who hauls 黄霸's tribute up; 剧情总纲 §3 第三章 ②; DECISIONS「逆灵宫 A」)",
 			"name": "绞盘道士",
-			"aliases": ["winch taoist", "taoist", "black taoist"],
+			"aliases": [
+				"winch taoist",
+				"taoist",
+				"black taoist"
+			],
 			"gender": "男性",
 			"age": 28,
 			"long": "一个黑衣黑冠的道士，两手把着绞盘的摇柄，肩膀一耸一耸。他看了你一眼，又低头去摇，像是什么也没看见——能上到这里来的，在他眼里都是宫里放上来的人。\n",
-			"attributes": { "str": 24, "cor": 22, "int": 18, "spi": 18, "cps": 20, "per": 12, "con": 24, "kar": 8 },
+			"attributes": {
+				"str": 24,
+				"cor": 22,
+				"int": 18,
+				"spi": 18,
+				"cps": 20,
+				"per": 12,
+				"con": 24,
+				"kar": 8
+			},
 			"combat_exp": 2500,
 			"score": 150,
 			"attitude": "peaceful",
-			"skills": { "unarmed": 20, "sword": 25, "dodge": 25, "parry": 25 },
+			"skills": {
+				"unarmed": 20,
+				"sword": 25,
+				"dodge": 25,
+				"parry": 25
+			},
 			"carry": [
-				{ "item": "es2:d/oldpine/npc/obj/black_cloth", "source": "d/oldpine/npc/obj/black_cloth.c", "equip": "wear" },
-				{ "item": "native:niling/black_crown", "source": "native: 逆灵宫 A", "equip": "wear" }
+				{
+					"item": "es2:d/oldpine/npc/obj/black_cloth",
+					"source": "d/oldpine/npc/obj/black_cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "native:niling/black_crown",
+					"source": "native: 逆灵宫 A",
+					"equip": "wear"
+				}
 			],
 			"chat_chance": 10,
 			"chat_msg": [
@@ -46,21 +72,55 @@
 			"id": "native.npc.niling_gatekeeper",
 			"legacy_source": "native: 逆灵宫 A (the 门房 of the 黑砖山门; 剧情总纲 §3 第三章 ②; DECISIONS「逆灵宫 A」)",
 			"name": "门房道士",
-			"aliases": ["gatekeeper", "taoist", "black taoist"],
+			"aliases": [
+				"gatekeeper",
+				"taoist",
+				"black taoist"
+			],
 			"gender": "男性",
 			"age": 40,
 			"long": "一个黑衣黑冠的道士，坐在门房的桌后，面前摊着一本簿子，手里的笔却半天不动。他的眼睛不看簿子，看门洞——谁进来，他先看冠，再看脸。\n",
-			"attributes": { "str": 24, "cor": 24, "int": 22, "spi": 20, "cps": 24, "per": 14, "con": 24, "kar": 8 },
+			"attributes": {
+				"str": 24,
+				"cor": 24,
+				"int": 22,
+				"spi": 20,
+				"cps": 24,
+				"per": 14,
+				"con": 24,
+				"kar": 8
+			},
 			"combat_exp": 4000,
 			"score": 200,
 			"attitude": "aggressive",
-			"capabilities": ["aggressive_on_player_presence"],
-			"ignores_when": { "wearing": "native:niling/black_crown" },
-			"skills": { "unarmed": 25, "sword": 32, "dodge": 30, "parry": 30 },
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"ignores_when": {
+				"wearing": "native:niling/black_crown"
+			},
+			"skills": {
+				"unarmed": 25,
+				"sword": 32,
+				"dodge": 30,
+				"parry": 30
+			},
 			"carry": [
-				{ "item": "es2:d/oldpine/obj/short_sword", "source": "d/oldpine/npc/obj/short_sword.c", "equip": "wield" },
-				{ "item": "es2:d/oldpine/npc/obj/black_cloth", "source": "d/oldpine/npc/obj/black_cloth.c", "equip": "wear" },
-				{ "item": "native:niling/black_crown", "source": "native: 逆灵宫 A", "equip": "wear" }
+				{
+					"item": "es2:d/oldpine/obj/short_sword",
+					"source": "d/oldpine/npc/obj/short_sword.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:d/oldpine/npc/obj/black_cloth",
+					"source": "d/oldpine/npc/obj/black_cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "native:niling/black_crown",
+					"source": "native: 逆灵宫 A",
+					"equip": "wear"
+				}
 			],
 			"calls": [
 				{
@@ -68,9 +128,15 @@
 					"wears": "black crown",
 					"not_mark": "门房道士打过招呼",
 					"steps": [
-						{ "emote": "抬眼看了看你头上的黑冠，又低下头去。" },
-						{ "say": "新来的？进去别乱走。后殿不许去，地牢不许去，管事叫你干什么就干什么。" },
-						{ "mark": "门房道士打过招呼" }
+						{
+							"emote": "抬眼看了看你头上的黑冠，又低下头去。"
+						},
+						{
+							"say": "新来的？进去别乱走。后殿不许去，地牢不许去，管事叫你干什么就干什么。"
+						},
+						{
+							"mark": "门房道士打过招呼"
+						}
 					]
 				}
 			],
@@ -98,21 +164,56 @@
 			"id": "native.npc.niling_gate_guard",
 			"legacy_source": "native: 逆灵宫 A (the two 道士 who keep the 黑砖山门 inside the yard; 剧情总纲 §3 第三章 ②; DECISIONS「逆灵宫 A」)",
 			"name": "守门道士",
-			"aliases": ["gate guard", "guard", "taoist", "black taoist"],
+			"aliases": [
+				"gate guard",
+				"guard",
+				"taoist",
+				"black taoist"
+			],
 			"gender": "男性",
 			"age": 32,
 			"long": "一个黑衣黑冠的道士，背着手站在院子里，腰上一柄短剑。他站得笔直，眼睛半闭着，像在听什么——听见生人的脚步，眼睛就睁开了。\n",
-			"attributes": { "str": 26, "cor": 24, "int": 18, "spi": 20, "cps": 22, "per": 12, "con": 26, "kar": 8 },
+			"attributes": {
+				"str": 26,
+				"cor": 24,
+				"int": 18,
+				"spi": 20,
+				"cps": 22,
+				"per": 12,
+				"con": 26,
+				"kar": 8
+			},
 			"combat_exp": 5000,
 			"score": 220,
 			"attitude": "aggressive",
-			"capabilities": ["aggressive_on_player_presence"],
-			"ignores_when": { "wearing": "native:niling/black_crown" },
-			"skills": { "unarmed": 25, "sword": 36, "dodge": 32, "parry": 34 },
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"ignores_when": {
+				"wearing": "native:niling/black_crown"
+			},
+			"skills": {
+				"unarmed": 25,
+				"sword": 36,
+				"dodge": 32,
+				"parry": 34
+			},
 			"carry": [
-				{ "item": "es2:d/oldpine/obj/short_sword", "source": "d/oldpine/npc/obj/short_sword.c", "equip": "wield" },
-				{ "item": "es2:d/oldpine/npc/obj/black_cloth", "source": "d/oldpine/npc/obj/black_cloth.c", "equip": "wear" },
-				{ "item": "native:niling/black_crown", "source": "native: 逆灵宫 A", "equip": "wear" }
+				{
+					"item": "es2:d/oldpine/obj/short_sword",
+					"source": "d/oldpine/npc/obj/short_sword.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:d/oldpine/npc/obj/black_cloth",
+					"source": "d/oldpine/npc/obj/black_cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "native:niling/black_crown",
+					"source": "native: 逆灵宫 A",
+					"equip": "wear"
+				}
 			],
 			"chat_chance": 6,
 			"chat_msg": [
@@ -137,21 +238,55 @@
 			"id": "native.npc.niling_store_taoist",
 			"legacy_source": "native: 逆灵宫 A (the 道士 who keeps the 货栈 where the tribute is stowed; 剧情总纲 §3 第三章 ②④; DECISIONS「逆灵宫 A」)",
 			"name": "货栈道士",
-			"aliases": ["store taoist", "taoist", "black taoist"],
+			"aliases": [
+				"store taoist",
+				"taoist",
+				"black taoist"
+			],
 			"gender": "男性",
 			"age": 36,
 			"long": "一个黑衣黑冠的道士，袖子挽着，正把一只箱子里的绸缎一匹匹抖开来数。他数得很慢，数到一半停下来，往那几只画着符的箱子那边瞟一眼，再从头数。\n",
-			"attributes": { "str": 24, "cor": 22, "int": 22, "spi": 20, "cps": 22, "per": 12, "con": 24, "kar": 8 },
+			"attributes": {
+				"str": 24,
+				"cor": 22,
+				"int": 22,
+				"spi": 20,
+				"cps": 22,
+				"per": 12,
+				"con": 24,
+				"kar": 8
+			},
 			"combat_exp": 3500,
 			"score": 180,
 			"attitude": "aggressive",
-			"capabilities": ["aggressive_on_player_presence"],
-			"ignores_when": { "wearing": "native:niling/black_crown" },
-			"skills": { "unarmed": 22, "sword": 30, "dodge": 28, "parry": 30 },
+			"capabilities": [
+				"aggressive_on_player_presence"
+			],
+			"ignores_when": {
+				"wearing": "native:niling/black_crown"
+			},
+			"skills": {
+				"unarmed": 22,
+				"sword": 30,
+				"dodge": 28,
+				"parry": 30
+			},
 			"carry": [
-				{ "item": "es2:d/oldpine/obj/short_sword", "source": "d/oldpine/npc/obj/short_sword.c", "equip": "wield" },
-				{ "item": "es2:d/oldpine/npc/obj/black_cloth", "source": "d/oldpine/npc/obj/black_cloth.c", "equip": "wear" },
-				{ "item": "native:niling/black_crown", "source": "native: 逆灵宫 A", "equip": "wear" }
+				{
+					"item": "es2:d/oldpine/obj/short_sword",
+					"source": "d/oldpine/npc/obj/short_sword.c",
+					"equip": "wield"
+				},
+				{
+					"item": "es2:d/oldpine/npc/obj/black_cloth",
+					"source": "d/oldpine/npc/obj/black_cloth.c",
+					"equip": "wear"
+				},
+				{
+					"item": "native:niling/black_crown",
+					"source": "native: 逆灵宫 A",
+					"equip": "wear"
+				}
 			],
 			"chat_chance": 8,
 			"chat_msg": [
@@ -573,12 +708,25 @@
 			],
 			"follows_every_way": true,
 			"calls": [
-				{ "after": 0, "reaction": true, "not_mark": "救出了霍铮", "steps": [
-					{ "emote": "挣了挣手上的铁链——链子早让他磨断了一半，一扯就开。" },
-					{ "say": "好兄弟。老子跟你走。北边那间还有个娃娃，一起带上。" },
-					{ "npc_flag": "follows_player" },
-					{ "mark": "救出了霍铮" }
-				] }
+				{
+					"after": 0,
+					"reaction": true,
+					"not_mark": "救出了霍铮",
+					"steps": [
+						{
+							"emote": "挣了挣手上的铁链——链子早让他磨断了一半，一扯就开。"
+						},
+						{
+							"say": "好兄弟。老子跟你走。北边那间还有个娃娃，一起带上。"
+						},
+						{
+							"npc_flag": "follows_player"
+						},
+						{
+							"mark": "救出了霍铮"
+						}
+					]
+				}
 			]
 		},
 		{
@@ -634,12 +782,25 @@
 			},
 			"follows_every_way": true,
 			"calls": [
-				{ "after": 0, "reaction": true, "not_mark": "救出了石头", "steps": [
-					{ "emote": "愣了一下，爬起来抓住你的衣角。" },
-					{ "say": "……带我回家。" },
-					{ "npc_flag": "follows_player" },
-					{ "mark": "救出了石头" }
-				] }
+				{
+					"after": 0,
+					"reaction": true,
+					"not_mark": "救出了石头",
+					"steps": [
+						{
+							"emote": "愣了一下，爬起来抓住你的衣角。"
+						},
+						{
+							"say": "……带我回家。"
+						},
+						{
+							"npc_flag": "follows_player"
+						},
+						{
+							"mark": "救出了石头"
+						}
+					]
+				}
 			]
 		},
 		{
@@ -691,11 +852,21 @@
 				]
 			},
 			"calls": [
-				{ "after": 0, "reaction": true, "steps": [
-					{ "say": "俺们回关北！多谢恩公！" },
-					{ "mark": "放了关北民夫" },
-					{ "leave": true }
-				] }
+				{
+					"after": 0,
+					"reaction": true,
+					"steps": [
+						{
+							"say": "俺们回关北！多谢恩公！"
+						},
+						{
+							"mark": "放了关北民夫"
+						},
+						{
+							"leave": true
+						}
+					]
+				}
 			]
 		},
 		{
@@ -941,7 +1112,7 @@
 		},
 		{
 			"id": "native.npc.xuan_mingzi_cliff",
-			"legacy_source": "native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) — 玄冥子 on the 后山崖径, covering 商玦's way down: the chapter's one real fight (剧情总纲 §3 第三章 ⑦); he fights with ES2's six-chaos-sword moves for now, the 天殇 of doc/skill/six-chaos-sword by name only (owner Q3)",
+			"legacy_source": "native: 逆灵宫 C (剧情总纲 §3 第三章 ⑤–⑦, §6 逆灵宫卡; DECISIONS「逆灵宫 C」) — 玄冥子 on the 后山崖径, covering 商玦's way down: the chapter's one real fight (剧情总纲 §3 第三章 ⑦); he fights with ES2's six-chaos-sword moves for now, the 天殇 of doc/skill/six-chaos-sword by name only (owner Q3) 关北 D: his word on 关北 by the two endings.",
 			"name": "玄冥子",
 			"aliases": [
 				"xuan mingzi",
@@ -1004,15 +1175,48 @@
 			"inquiry": {
 				"商玦": {
 					"rules": [
-						{ "npc_flag": "mood/owed", "say": "宫主下了崖。他不要我了，我也不要他了。" },
-						{ "say": "玄冥子冷冷道：宫主已经走了。你追不上。" }
+						{
+							"npc_flag": "mood/owed",
+							"say": "宫主下了崖。他不要我了，我也不要他了。"
+						},
+						{
+							"say": "玄冥子冷冷道：宫主已经走了。你追不上。"
+						}
 					]
 				},
 				"六阴剑": {
 					"rules": [
-						{ "npc_flag": "mood/owed", "asker_carries": "残卷", "say": "要练六阴剑，带着残卷来后山找我——不是现在。宫里的事还没完。你记住这条路。" },
-						{ "npc_flag": "mood/owed", "say": "残卷不在你身上，谈什么六阴剑。" },
-						{ "say": "玄冥子冷笑：你也配问？" }
+						{
+							"npc_flag": "mood/owed",
+							"asker_carries": "残卷",
+							"say": "要练六阴剑，带着残卷来后山找我——不是现在。宫里的事还没完。你记住这条路。"
+						},
+						{
+							"npc_flag": "mood/owed",
+							"say": "残卷不在你身上，谈什么六阴剑。"
+						},
+						{
+							"say": "玄冥子冷笑：你也配问？"
+						}
+					]
+				},
+				"关北": {
+					"rules": [
+						{
+							"asker_marks": [
+								"踏平了工地"
+							],
+							"say": "关北的车不来了。宫主要的那扇门还在土里——你以为踏平一个工地，就断得了他的念头？"
+						},
+						{
+							"asker_marks": [
+								"救了一半"
+							],
+							"say": "关北的车还在走。你救了几个？四个？车上这个月少了两个人，宫主连眉毛都没动一下。"
+						},
+						{
+							"say": "关北？挖不动的人从那儿来。你问这个做什么。"
+						}
 					]
 				}
 			},

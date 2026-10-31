@@ -40,9 +40,29 @@ layout opens a 96 px doorway in the cliff rows there, a stone gate as a `buildin
 | 南危水 home in the hall (保密 ledger) | elder5.c 槐阳王的弟弟; DECISIONS「第二章旧案」's two marks; his 水烟阁 greeting 到了关北，老夫替你引见槐阳王 |
 | the side hall's map with the 工地 ringed | 剧情总纲 §3 第六章 ④ (where C's 工地 lies) |
 
-## Deferred to C–D
+## Sources by thing (C)
 
-The market's 东门, the camp, the steppe, the 工地 and the 古冢口 (the raid with the riders fighting beside the
-player — `fights_beside_player` moved from B to C, where the first such fight is — and the night's sneak), the
-notice's second text and the other consequences, the `chapter7.json` stub and 《马刀谱》 (the plan
-`build/plans/关北_计划.md` §6).
+| Thing | Continues |
+|---|---|
+| the camp's yurts, the fire where the families wait, the sheep | 剧情总纲 §6 关北卡「塞外——草原、马市、帐篷」; 关北 A's 秦婆子 waiting in the 酒肆 |
+| the 敖包's tally of carts, the shepherd | 剧情总纲 §3 第六章 ④「挖不动的人被逆灵宫的车接走」, seen from the steppe |
+| the 工地: 吕隼's roll, 裴照's white, the posts and the 枷 | 剧情总纲 §3 第六章 ④ 兵部的工地; 陈显祖's 抄本 (the 二十三 in white, their successors); 逆灵宫 B's ledger 「关北民夫七名」 |
+| the raid: 吕隼's three beats, the riders beside the player | 剧情总纲 §3 第六章 选择「借兵踏平」, 终章「关北出骑兵」; heaven_soldier.c's rule as `fights_beside_player` (DECISIONS「青石村 C」) |
+| the sneak: 等到天黑, the two dozing watchers, four 枷, 走！ | 剧情总纲 §3 第六章 选择「夜里潜入……救一半」; owner's 默认: a real night (`phase`, `until_phase`) |
+| the 古冢口: the lined pit, the stone door's three-legged bird, the covered cart | 剧情总纲 §2「金乌遗民」, §3 第六章 ④; red_suit.c:15's 金乌徽; the 第三章 escort's look for the taoists |
+
+## Sources by thing (D)
+
+| Thing | Continues |
+|---|---|
+| the notice's second text 兵部文书至：槐阳反 | 剧情总纲 §3 第九章「槐阳王反了」; 关北 A's notice |
+| 程朔's moods 反名／干净, the marks 关北的骑兵欠你一阵 (终章) and 王府干净 (第九章) | 剧情总纲 §3 第六章 选择的后果, 终章「关北出骑兵」 |
+| the 民夫 home at the camp, the families' words | 剧情总纲 §3 第六章 ④; 关北 A's 秦婆子 |
+| the cart passing once on the steppe | owner Q2 ②; 剧情总纲 §3 第六章 ④ 挖不动的人被逆灵宫的车接走 |
+| 《马刀谱》 and 关北马刀 | 剧情总纲 §6 关北卡「马上刀法（一门）」; d/canyon/npc/obj/old_sword.c's 研读 (`study`); daemon/skill/shortsong-blade.c's form |
+| the seventh chapter's stub | 剧情总纲 §3 第七章 ①; 关北 A's 卢卡 (会首安敦在番坊) |
+| 玄冥子's and 刘老农's word on 关北 | 逆灵宫 C's spared 玄冥子; 玉螺湖村 has no headman, so the farmer by the road speaks |
+
+Not made: the plan's `room_life` presets `work_camp` and `nomad_camp` — an outdoor canvas has no walls to hang
+things on, so the camp's and the 工地's clutter is written per map; the 工地名册 is a landmark, not an item;
+the passing cart is told by its two taoists, not drawn.

@@ -383,6 +383,26 @@ func draw(shapes: Shapes, parent: Node3D, data: Dictionary, w: float, d: float) 
 				var x: float = sin(i*7.7)*w*0.45
 				var y: float = absf(sin(i*3.1))*(1.4 if i%3 else 2.5)+0.05
 				s.box(root,Vector3(x,y,0.2),Vector3(0.16+0.1*(i%3),0.12+0.08*(i%2),0.04),String(moss[i%moss.size()]))
+		"shackle_post":
+			# 枷锁木桩 (关北 C, 剧情总纲 §3 第六章 ④): a squared post driven in the ground, iron rings
+			# through it, a chain hanging from the ring to a cangue lying open at its foot (the
+			# 民夫 are locked to it by night). `wood`, `iron`.
+			var wood: String = String(data.get("wood","6a5a44"))
+			var iron: String = String(data.get("iron","3a3835"))
+			s.box(root,Vector3(0,0.75,0),Vector3(0.26,1.5,0.26),wood)
+			s.box(root,Vector3(0,1.52,0),Vector3(0.3,0.06,0.3),Color(wood).darkened(0.25).to_html(false))
+			for y: float in [0.5,1.1]:
+				s.box(root,Vector3(0,y,0.16),Vector3(0.22,0.05,0.08),iron)
+				s.box(root,Vector3(0,y,0.22),Vector3(0.05,0.14,0.04),iron)
+			# the chain down to the ground, link by link
+			for link: int in 7:
+				var t: float = float(link)/6.0
+				s.box(root,Vector3(0.06+t*0.18,1.08-t*0.98,0.24+t*0.36),Vector3(0.04 if link%2 else 0.08,0.08 if link%2 else 0.04,0.09),iron)
+			# the cangue open on the ground, two boards and the neck hole between
+			s.box(root,Vector3(0.36,0.05,0.7),Vector3(0.62,0.08,0.26),"9a8a66")
+			s.box(root,Vector3(0.36,0.05,0.98),Vector3(0.62,0.08,0.22),"9a8a66")
+			s.box(root,Vector3(0.36,0.1,0.84),Vector3(0.18,0.02,0.18),"2a2422")
+			s.box(root,Vector3(0.1,0.1,0.72),Vector3(0.06,0.06,0.06),iron)
 		"wall_sword":
 			# outdoor.c: 东首墙上挂这一把木剑 — a plain wooden sword on two pegs.
 			var y: float = float(data.get("height",1.7))

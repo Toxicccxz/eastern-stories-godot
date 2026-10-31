@@ -65,6 +65,12 @@ func _clock() -> void:
 	_check(clock.day_seconds() == 86340, "set wraps")
 	var bare := DayClock.new()
 	_check(bare.phase() == null and bare.advance(5.0, 24) == null and bare.day_seconds() == 21900, "without phases the clock still goes, saying nothing")
+	# 等到天黑 (关北 C): how long until a phase begins.
+	clock.set_day_seconds(720 * 60)
+	_check(clock.seconds_until_phase([&"night"]) == 360 * 60 and clock.seconds_until_phase([&"night", &"midnight"]) == 360 * 60, "from noon, 夜晚 begins in six hours")
+	clock.set_day_seconds(1100 * 60)
+	_check(clock.seconds_until_phase([&"night", &"midnight"]) == 0 and clock.seconds_until_phase([&"dawn"]) == 340 * 60, "in the night already: nothing to wait; 微曦 round past midnight")
+	_check(clock.seconds_until_phase([&"nope"]) == -1 and bare.seconds_until_phase([&"night"]) == -1, "no such phase, or no phases: -1")
 
 
 func _day_length() -> void:

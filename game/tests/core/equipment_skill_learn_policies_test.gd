@@ -62,7 +62,7 @@ func _test_registry_inventory_and_isolation() -> void:
 	_assert_eq(active_registry.registered_count(), 45, "exact active valid_learn hook count")
 
 	var known_registry: RegistryScript = _registry()
-	_assert_eq(known_registry.registered_count(), 70, "exact known active skill count")
+	_assert_eq(known_registry.registered_count(), 71, "exact known active skill count (and the native 关北马刀)")
 	var equipment_skill_ids: Array[StringName] = [
 		SkillIdsScript.BLOODY_STRIKE,
 		SkillIdsScript.CELESTRIKE,
@@ -124,8 +124,9 @@ func _test_registry_inventory_and_isolation() -> void:
 		SkillIdsScript.UNARMED,
 		SkillIdsScript.WHIP,
 		SkillIdsScript.YIRONG,
+		SkillIdsScript.GUANBEI_SABER,
 	]
-	_assert_eq(inherited_default_ids.size(), 25, "exact inherited default count")
+	_assert_eq(inherited_default_ids.size(), 26, "exact inherited default count (and the native 关北马刀)")
 	for skill_id: StringName in inherited_default_ids:
 		_assert_true(
 			known_registry.policy_for(skill_id).get_script() == DefaultPolicyScript,

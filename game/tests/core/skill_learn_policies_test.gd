@@ -50,7 +50,7 @@ func _test_registry_inventory_and_always_allowed() -> void:
 	active_registry.register_active_legacy_policies()
 	_assert_eq(active_registry.registered_count(), 45, "all explicit valid_learn overrides registered")
 	var registry: RegistryScript = _registry()
-	_assert_eq(registry.registered_count(), 70, "all active skill definitions registered")
+	_assert_eq(registry.registered_count(), 71, "all active skill definitions registered (the native 关北马刀 among them)")
 	var always_allowed: Array[StringName] = [
 		SkillIdsScript.BOLOMIDUO,
 		SkillIdsScript.FONXAN_FORCE,

@@ -379,6 +379,10 @@ func _check_condition(origin: String, entry: JournalEntryDefinition) -> void:
 		JournalEntryDefinition.When.ZONE:
 			if not _zones.has(StringName(entry.key)):
 				_errors.append("%s.zone: no zone '%s'" % [origin, entry.key])
+		JournalEntryDefinition.When.PHASE:
+			for phase_id: StringName in entry.phases:
+				if not _day_phases.any(func(phase: DayPhaseDefinition) -> bool: return phase.phase_id == phase_id):
+					_errors.append("%s.phase: no day phase '%s'" % [origin, phase_id])
 
 
 ## The quests (任务系统) have unique IDs, name quests, zones and maps the game has, and
@@ -988,8 +992,13 @@ func _check_act(act: ScriptedAct, origin: String, by_npc: bool = false, drawn: b
 	var acting: bool = by_npc
 	for index: int in act.steps.size():
 		var step: ScriptedAct.Step = act.steps[index]
-		if not acting and step.kind in [ScriptedAct.Kind.CLOSE_DOOR, ScriptedAct.Kind.KILL, ScriptedAct.Kind.NPC_FORCE, ScriptedAct.Kind.NPC_FLAG, ScriptedAct.Kind.NPC_MOOD, ScriptedAct.Kind.NPC_WIELD, ScriptedAct.Kind.LEAVE]:
+		# A room's act may send off one of a definition standing in it (`leave` naming it: the
+		# 枷锁 opened, the 民夫 go), with no NPC of its own.
+		var needs_npc: bool = step.kind in [ScriptedAct.Kind.CLOSE_DOOR, ScriptedAct.Kind.KILL, ScriptedAct.Kind.NPC_FORCE, ScriptedAct.Kind.NPC_FLAG, ScriptedAct.Kind.NPC_MOOD, ScriptedAct.Kind.NPC_WIELD] or (step.kind == ScriptedAct.Kind.LEAVE and step.npc_id.is_empty())
+		if not acting and needs_npc:
 			_errors.append("%s: step %d needs the NPC of a greeting or one that came" % [origin, index])
+		if step.kind == ScriptedAct.Kind.BY:
+			acting = true
 		if step.kind == ScriptedAct.Kind.COMES:
 			acting = true
 			_called_over[step.npc_id] = true

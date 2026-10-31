@@ -1,0 +1,34 @@
+{
+	"quests": [
+		{
+			"id": "main.chapter7",
+			"title": "番坊",
+			"line": "main",
+			"region": "番坊",
+			"sources": [
+				"native: 主线 第七章 番坊 (剧情总纲 §3 第七章 ①, §6 番坊卡; 计划 build/plans/关北_计划.md §3「main.chapter7 桩」; DECISIONS「关北 D」): the one step 卢卡's 会首 opens; the rest is the 番坊 package's."
+			],
+			"summary": "卢卡说他的会首安敦在番坊，会首的祖上三百年前见过那个鬼的头是怎么封的。番坊在玉螺湖村东边，忘情谷外的小路上。",
+			"requires": [
+				"main.chapter6"
+			],
+			"steps": [
+				{
+					"id": "fanfang",
+					"objective": "去番坊找大秦人的会首安敦——卢卡说他们知道鬼的头在哪。番坊在玉螺湖村东，忘情谷外的小路。",
+					"done": {
+						"mark": "到了番坊"
+					},
+					"text": "番坊。",
+					"target": {
+						"map": "village.main",
+						"zone": "village.valley1"
+					}
+				}
+			],
+			"reward": {
+				"deed": "到了番坊"
+			}
+		}
+	]
+}

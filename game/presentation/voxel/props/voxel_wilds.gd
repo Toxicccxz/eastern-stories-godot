@@ -73,6 +73,8 @@ func draw(shapes: Shapes, parent: Node3D, look: Dictionary, w: float, d: float) 
 		"mirror": _mirror(w,d)
 		"mound": _mound(w,d)
 		"tiger_head": _tiger_head(w,d)
+		"yurt": _yurt(w,d)
+		"dig_pit": _dig_pit(w,d)
 		_:
 			return false
 	return true
@@ -1157,6 +1159,114 @@ func _mirror(w: float, d: float) -> void:
 
 ## 半圆形的土堆 (road.c): a half-round mound of earth at the path's end, dry tufts on it, stones in
 ## its skirt, the chain's stake and ring driven into its top (`chain`).
+## 毡帐 (关北 C, 剧情总纲 §6 关北卡「帐篷」): a round felt tent on a willow lattice — eight wall
+## panels under a low cone of felt panels, a smoke ring open at the top with its pole crossing,
+## the door flap on the +z side under a short lintel. `felt` the wall and roof, `band` the
+## coloured hair-rope that girdles it, `door` the flap, `pattern` (cloud, deer) stitched on the
+## flap, `patch` an old patch on the roof, `height` the wall's. Blocks (a layout box).
+func _yurt(w: float, d: float) -> void:
+	var felt: String = String(data.get("felt","e0dac8"))
+	var band: String = String(data.get("band","8a3a2a"))
+	var door: String = String(data.get("door","c8b890"))
+	var radius: float = minf(w,d)*0.5
+	var height: float = float(data.get("height",2.3))
+	var sides: int = 10
+	var panel: float = 2.0*radius*tan(PI/sides)
+	for i: int in sides:
+		var a: float = (i+0.5)*TAU/sides
+		var shade: String = felt if i%2==0 else Color(felt).darkened(0.06).to_html(false)
+		var at := Vector3(sin(a)*radius*0.96,height/2,cos(a)*radius*0.96)
+		s.tilted_box(root,at,Vector3(panel*1.04,height,0.14),shade,Vector3(0,a,0))
+		# the lattice showing through at the foot, and the hair rope round the middle
+		s.tilted_box(root,Vector3(sin(a)*radius*1.0,0.22,cos(a)*radius*1.0),Vector3(panel*1.02,0.16,0.06),"8a7a5a",Vector3(0,a,0))
+		s.tilted_box(root,Vector3(sin(a)*radius*1.0,height*0.62,cos(a)*radius*1.0),Vector3(panel*1.02,0.1,0.06),band,Vector3(0,a,0))
+	# the roof: felt gores from the wall head up to the smoke ring
+	var ring: float = radius*0.22
+	var rise: float = radius*0.7
+	for i: int in sides:
+		var a: float = (i+0.5)*TAU/sides
+		var mid: float = (radius+ring)/2.0
+		var length: float = sqrt(pow(radius-ring,2)+pow(rise,2))
+		var tilt: float = atan2(rise,radius-ring)
+		var shade: String = Color(felt).darkened(0.1 if i%2==0 else 0.16).to_html(false)
+		var gore := Node3D.new()
+		gore.position = Vector3(sin(a)*mid,height+rise/2,cos(a)*mid)
+		gore.rotation.y = a
+		root.add_child(gore)
+		s.tilted_box(gore,Vector3.ZERO,Vector3(panel*1.1*mid/radius+0.1,0.12,length*1.04),shade,Vector3(tilt,0,0))
+	s.box(root,Vector3(0,height+rise-0.02,0),Vector3(ring*2.4,0.14,ring*2.4),"8a7a5a")
+	s.box(root,Vector3(0,height+rise+0.04,0),Vector3(ring*2.0,0.06,0.1),"6a5a48")
+	s.box(root,Vector3(0,height+rise+0.04,0),Vector3(0.1,0.06,ring*2.0),"6a5a48")
+	if data.has("patch"):
+		s.tilted_box(root,Vector3(sin(2.1)*radius*0.6,height+rise*0.45,cos(2.1)*radius*0.6),Vector3(0.7,0.08,0.6),String(data["patch"]),Vector3(atan2(rise,radius-ring),2.1,0))
+	# the door on +z: a lintel, the flap hanging from it, the pattern stitched on
+	s.box(root,Vector3(0,height*0.78,radius*0.98),Vector3(1.0,0.14,0.2),"7a5a3a")
+	s.box(root,Vector3(0,height*0.38,radius*1.02),Vector3(0.84,height*0.72,0.08),door)
+	for side: float in [-1.0,1.0]:
+		s.box(root,Vector3(side*0.46,height*0.38,radius*0.99),Vector3(0.08,height*0.72,0.12),"7a5a3a")
+	match String(data.get("pattern","")):
+		"cloud":
+			for i: int in 3:
+				s.box(root,Vector3(-0.22+i*0.22,height*0.52+(i%2)*0.08,radius*1.07),Vector3(0.16,0.1,0.02),band)
+		"deer":
+			s.box(root,Vector3(0,height*0.5,radius*1.07),Vector3(0.26,0.14,0.02),band)
+			s.box(root,Vector3(0.16,height*0.6,radius*1.07),Vector3(0.08,0.12,0.02),band)
+			for x: float in [-0.08,0.08]:
+				s.box(root,Vector3(x,height*0.4,radius*1.07),Vector3(0.04,0.1,0.02),band)
+	# a felt mat at the door, worn
+	s.box(root,Vector3(0,0.03,radius*1.25),Vector3(1.0,0.05,0.5),Color(door).darkened(0.2).to_html(false))
+
+## 土方 (关北 C, 剧情总纲 §3 第六章 ④ 兵部的工地): a pit dug into the ground, read from above — the
+## dark hole in the middle, the spoil thrown up round it in a broken rim (`depth` sets how high it
+## stands), benches of earth inside the rim, a ladder leaning in, a basket and a pick left; `lined`
+## (the 古冢口): the hole's far side a face of fitted stone with the dark passage mouth in it, its
+## lintel above the spoil. Blocks (a layout box).
+func _dig_pit(w: float, d: float) -> void:
+	var depth: float = float(data.get("depth",1.5))
+	var rim: float = clampf(depth*0.55,0.5,1.3)
+	var earth: Array = _colors("colors",["7a6240","8a7050","6a5438","9a8060"])
+	var lined: bool = data.get("lined",false)
+	var hole_w: float = w*0.62
+	var hole_d: float = d*0.62
+	# the hole: dark, with a step of lighter earth round it inside the rim
+	s.box(root,Vector3(0,0.1,0),Vector3(w*0.84,0.2,d*0.84),String(earth[2]))
+	s.box(root,Vector3(0,0.21,0),Vector3(hole_w,0.04,hole_d),"2a2018" if not lined else "1a1614")
+	s.box(root,Vector3(0,0.19,0),Vector3(hole_w*0.8,0.06,hole_d*0.8),"201810")
+	# the rim of spoil, lumpy, broken where the ladder leans
+	for i: int in 14:
+		var a: float = i*TAU/14.0+0.15
+		if i == 10:
+			continue
+		var at := Vector3(cos(a)*w*0.46,rim*0.5,sin(a)*d*0.46)
+		var tall: float = rim*(0.7+0.3*absf(sin(i*2.3)))
+		s.shard(root,at,Vector3(w*0.26,tall,d*0.22),String(earth[i%earth.size()]),i,a)
+	for i: int in 10:
+		var a: float = i*TAU/10.0+0.6
+		s.shard(root,Vector3(cos(a)*(w/2+0.2),0.14,sin(a)*(d/2+0.2)),Vector3(0.6,0.3,0.5),String(earth[(i+1)%earth.size()]),i+20,a)
+	if lined:
+		# the far face: fitted stone, the passage mouth dark in it, a lintel over
+		var stone: Array = ["7a7268","8a8278","6a625a","9a9288"]
+		for course: int in 3:
+			for k: int in 5:
+				s.box(root,Vector3(hole_w*0.5-0.1,0.3+course*0.3,-hole_d*0.4+k*hole_d*0.2),Vector3(0.22,0.3,hole_d*0.19),String(stone[(course+k)%stone.size()]))
+		s.box(root,Vector3(hole_w*0.5-0.12,0.55,0),Vector3(0.2,0.7,0.7),"0a0806")
+		s.box(root,Vector3(hole_w*0.5-0.1,1.0,0),Vector3(0.3,0.16,1.0),"9a9288")
+	# the ladder leaning in over the broken rim, a basket and a pick left on the step
+	var ladder := Node3D.new()
+	var la: float = 10*TAU/14.0+0.15
+	ladder.position = Vector3(cos(la)*w*0.4,rim*0.6,sin(la)*d*0.4)
+	ladder.rotation.y = -la
+	ladder.rotation.x = 0.35
+	root.add_child(ladder)
+	for x: float in [-0.18,0.18]:
+		s.box(ladder,Vector3(x,0,0),Vector3(0.06,rim*1.6+0.8,0.06),"7a6248")
+	for rung: int in int(rim*4)+2:
+		s.box(ladder,Vector3(0,-rim*0.8-0.3+rung*0.4,0),Vector3(0.4,0.05,0.05),"8a7258")
+	s.box(root,Vector3(-hole_w*0.3,0.34,hole_d*0.32),Vector3(0.36,0.26,0.36),"a08a5a")
+	s.box(root,Vector3(-hole_w*0.3,0.48,hole_d*0.32),Vector3(0.3,0.04,0.3),"6a5438")
+	s.tilted_box(root,Vector3(hole_w*0.2,0.6,-hole_d*0.38),Vector3(0.05,1.0,0.05),"6a5038",Vector3(0.5,0,0.2))
+	s.box(root,Vector3(hole_w*0.2,1.06,-hole_d*0.5),Vector3(0.34,0.06,0.06),"4a4a4e")
+
 func _mound(w: float, d: float) -> void:
 	var soil: Array = _colors("colors",["9a7d52","a88a5c","8c7049"])
 	var tall: float = float(data.get("height",0.9))

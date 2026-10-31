@@ -1,170 +1,299 @@
 {
 	"source_fixes": {
 		"d/village/lordhouse3.c": [
-			{ "find": "\t    }\n\t}\n\n\treturn 1;", "replace": "\t    }\n\n\treturn 1;", "why": "a stray } ended do_takeout() before its return 1, so lordhouse3.c did not compile and ES2's players could never enter the 南房; the brace goes so the room loads (its take_out and push stay unported: DECISIONS 玉螺湖村 A, 默认)" }
+			{
+				"find": "\t    }\n\t}\n\n\treturn 1;",
+				"replace": "\t    }\n\n\treturn 1;",
+				"why": "a stray } ended do_takeout() before its return 1, so lordhouse3.c did not compile and ES2's players could never enter the 南房; the brace goes so the room loads (its take_out and push stay unported: DECISIONS 玉螺湖村 A, 默认)"
+			}
 		]
 	},
-	"vendors": ["d/village/npc/meloner.c"],
-	"items": ["d/village/npc/obj/hengbing.c"],
+	"vendors": [
+		"d/village/npc/meloner.c"
+	],
+	"items": [
+		"d/village/npc/obj/hengbing.c"
+	],
 	"set": {
 		"village.npc.trader1": {
 			"chat_chance_combat": 15,
 			"chat_msg_combat": [
 				"商人说道：杀人啦！你难道不怕官府缉拿吗？\n",
-				{ "action": "random_move" }
+				{
+					"action": "random_move"
+				}
 			]
 		},
 		"village.npc.woman1": {
-				"moods": {
-					"reunited": {
-						"lasting": true,
-						"chat_chance": 15,
-						"chat_msg": [
-							"农妇把石头搂在怀里，不肯松手。\n",
-							"农妇道：以后不许一个人往村口跑了，听见没有。\n"
-						]
-					}
+			"moods": {
+				"reunited": {
+					"lasting": true,
+					"chat_chance": 15,
+					"chat_msg": [
+						"农妇把石头搂在怀里，不肯松手。\n",
+						"农妇道：以后不许一个人往村口跑了，听见没有。\n"
+					]
+				}
+			},
+			"scene_mark": "农妇谢过",
+			"calls": [
+				{
+					"after": 1,
+					"scene": true,
+					"present": "native.npc.shitou",
+					"not_mark": "石头回家了",
+					"steps": [
+						{
+							"emote": "一眼看见你身后的石头，手里的东西全掉在了地上。"
+						},
+						{
+							"say": "石头！我的儿！"
+						},
+						{
+							"line": "农妇扑过来一把抱住石头，哭得说不出话。石头的脸埋在她怀里，抓着你衣角的手慢慢松开了。"
+						},
+						{
+							"leave": "native.npc.shitou"
+						},
+						{
+							"mark": "石头回家了"
+						},
+						{
+							"npc_mood": "reunited"
+						}
+					]
 				},
-				"scene_mark": "农妇谢过",
-				"calls": [
-					{
-						"after": 1,
-						"scene": true,
-						"present": "native.npc.shitou",
-						"not_mark": "石头回家了",
-						"steps": [
-							{
-								"emote": "一眼看见你身后的石头，手里的东西全掉在了地上。"
-							},
-							{
-								"say": "石头！我的儿！"
-							},
-							{
-								"line": "农妇扑过来一把抱住石头，哭得说不出话。石头的脸埋在她怀里，抓着你衣角的手慢慢松开了。"
-							},
-							{
-								"leave": "native.npc.shitou"
-							},
-							{
-								"mark": "石头回家了"
-							},
-							{
-								"npc_mood": "reunited"
-							}
-						]
-					},
-					{
-						"after": 5,
-						"scene": true,
-						"present": "native.npc.shitou",
-						"not_mark": "石头回家了",
-						"steps": [
-							{
-								"say": "恩公……恩公，你是哪里来的神仙？"
-							},
-							{
-								"emote": "拉着你的手，一个劲地往屋里让。"
-							}
-						]
-					},
-					{
-						"after": 1,
-						"scene": true,
-						"mark": "石头回家了",
-						"not_mark": "农妇谢过",
-						"steps": [
-							{
-								"emote": "一眼认出了你，手里的东西放下，拉住你的袖子。"
-							},
-							{
-								"say": "恩公！野羊寨的两个弟兄把石头送回来的，他们说是恩公从那道观里救出来的。"
-							},
-							{
-								"npc_mood": "reunited"
-							}
-						]
-					},
-					{
-						"after": 5,
-						"scene": true,
-						"mark": "石头回家了",
-						"not_mark": "农妇谢过",
-						"steps": [
-							{
-								"say": "石头回来那天一句话都不说，到今天才肯开口。恩公，你有空，进来喝碗水。"
-							}
-						]
-					}
-				],
-			"apply": { "dodge": { "base": 10, "plus_random": 5 } },
+				{
+					"after": 5,
+					"scene": true,
+					"present": "native.npc.shitou",
+					"not_mark": "石头回家了",
+					"steps": [
+						{
+							"say": "恩公……恩公，你是哪里来的神仙？"
+						},
+						{
+							"emote": "拉着你的手，一个劲地往屋里让。"
+						}
+					]
+				},
+				{
+					"after": 1,
+					"scene": true,
+					"mark": "石头回家了",
+					"not_mark": "农妇谢过",
+					"steps": [
+						{
+							"emote": "一眼认出了你，手里的东西放下，拉住你的袖子。"
+						},
+						{
+							"say": "恩公！野羊寨的两个弟兄把石头送回来的，他们说是恩公从那道观里救出来的。"
+						},
+						{
+							"npc_mood": "reunited"
+						}
+					]
+				},
+				{
+					"after": 5,
+					"scene": true,
+					"mark": "石头回家了",
+					"not_mark": "农妇谢过",
+					"steps": [
+						{
+							"say": "石头回来那天一句话都不说，到今天才肯开口。恩公，你有空，进来喝碗水。"
+						}
+					]
+				}
+			],
+			"apply": {
+				"dodge": {
+					"base": 10,
+					"plus_random": 5
+				}
+			},
 			"chat_chance_combat": 50,
 			"chat_msg_combat": [
-				{ "action": "wield", "item": "es2:d/village/npc/obj/knife", "say": "没见识过我的菜刀神功是吧, 接招!", "chat_chance_combat": 10 },
-				{ "action": "say_by_age", "younger": ["唉，我那可怜的儿啊，年龄比你还小。!"], "otherwise": ["以大欺小啊你..."] }
+				{
+					"action": "wield",
+					"item": "es2:d/village/npc/obj/knife",
+					"say": "没见识过我的菜刀神功是吧, 接招!",
+					"chat_chance_combat": 10
+				},
+				{
+					"action": "say_by_age",
+					"younger": [
+						"唉，我那可怜的儿啊，年龄比你还小。!"
+					],
+					"otherwise": [
+						"以大欺小啊你..."
+					]
+				}
 			]
 		},
 		"village.npc.oldliu": {
 			"accept_fight": [
-				{ "say": "老头子哪里是您的对手？", "accept": false }
+				{
+					"say": "老头子哪里是您的对手？",
+					"accept": false
+				}
 			],
-			"greeting": { "rules": [
-				{ "mark": "murder", "steps": [
-					{ "unmark": "murder" },
-					{ "unmark": "老刘" },
-					{ "mark": "老刘报仇" },
-					{ "npc_mood": "grief" },
-					{ "line": "刘老农悲愤欲绝的骂道：你．．你．．你们居然杀了我女儿，纳命来！\n" },
-					{ "npc_wield": "es2:d/village/npc/obj/hengbing" },
-					{ "kill": true }
-				] },
-				{ "mark": "老刘", "present": "chuenyu.npc.xiaojuan2", "steps": [
-					{ "line": "刘老农说道：“这位$RESPECT，多谢答救小女娟儿。” \n" },
-					{ "line": "刘老农说道：“这口剑，这本密笈赠于$RESPECT。” \n" },
-					{ "line": "刘老农说道：“这处非久留之地，我等去也。” \n" },
-					{ "line": "刘老农领着娟儿匆匆离去。\n" },
-					{ "unmark": "老刘" },
-					{ "give": "es2:d/village/npc/obj/hengbing" },
-					{ "give": "es2:d/village/npc/obj/parrybook" },
-					{ "leave": "chuenyu.npc.xiaojuan2" },
-					{ "leave": true }
-				] },
-				{ "not_mark": "老刘报仇", "steps": [
-					{ "line": "刘老农说道：“这位$RESPECT，可否见到小女娟儿？” \n" }
-				] }
-			] },
+			"greeting": {
+				"rules": [
+					{
+						"mark": "murder",
+						"steps": [
+							{
+								"unmark": "murder"
+							},
+							{
+								"unmark": "老刘"
+							},
+							{
+								"mark": "老刘报仇"
+							},
+							{
+								"npc_mood": "grief"
+							},
+							{
+								"line": "刘老农悲愤欲绝的骂道：你．．你．．你们居然杀了我女儿，纳命来！\n"
+							},
+							{
+								"npc_wield": "es2:d/village/npc/obj/hengbing"
+							},
+							{
+								"kill": true
+							}
+						]
+					},
+					{
+						"mark": "老刘",
+						"present": "chuenyu.npc.xiaojuan2",
+						"steps": [
+							{
+								"line": "刘老农说道：“这位$RESPECT，多谢答救小女娟儿。” \n"
+							},
+							{
+								"line": "刘老农说道：“这口剑，这本密笈赠于$RESPECT。” \n"
+							},
+							{
+								"line": "刘老农说道：“这处非久留之地，我等去也。” \n"
+							},
+							{
+								"line": "刘老农领着娟儿匆匆离去。\n"
+							},
+							{
+								"unmark": "老刘"
+							},
+							{
+								"give": "es2:d/village/npc/obj/hengbing"
+							},
+							{
+								"give": "es2:d/village/npc/obj/parrybook"
+							},
+							{
+								"leave": "chuenyu.npc.xiaojuan2"
+							},
+							{
+								"leave": true
+							}
+						]
+					},
+					{
+						"not_mark": "老刘报仇",
+						"steps": [
+							{
+								"line": "刘老农说道：“这位$RESPECT，可否见到小女娟儿？” \n"
+							}
+						]
+					}
+				]
+			},
 			"moods": {
 				"grief": {
 					"title": "悲愤欲绝",
-					"applies": { "force": 4000, "max_force": 2200, "force_factor": 30, "combat_exp": 1000000, "damage": 250 },
-					"flags": ["hunts_player"],
+					"applies": {
+						"force": 4000,
+						"max_force": 2200,
+						"force_factor": 30,
+						"combat_exp": 1000000,
+						"damage": 250
+					},
+					"flags": [
+						"hunts_player"
+					],
 					"chat_chance": 15,
 					"chat_msg": [
 						"刘老农悲愤欲绝的骂道：你．．你．．你们居然杀了我女儿，纳命来！",
-						{ "action": "random_move" }
+						{
+							"action": "random_move"
+						}
+					]
+				}
+			},
+			"inquiry": {
+				"关北": {
+					"rules": [
+						{
+							"asker_marks": [
+								"踏平了工地"
+							],
+							"say": "关北？去年兵部的车从我这田前的路上过，押的都是关北的汉子。听说王爷的兵把那工地踏平了——好。"
+						},
+						{
+							"asker_marks": [
+								"救了一半"
+							],
+							"say": "关北？去年兵部的车从我这田前的路上过，押的都是关北的汉子。听说夜里有人救出来几个——几个也是人。"
+						},
+						{
+							"say": "关北？去年兵部的车从我这田前的路上过，押的都是关北的汉子，一车一车的。往南去，去哪儿不知道。"
+						}
 					]
 				}
 			}
 		},
 		"village.npc.meloner": {
-			"greeting": { "rules": [
-				{ "steps": [
-					{ "line": "这位$RESPECT要不要买个西瓜解解渴？\n" }
-				] }
-			] },
+			"greeting": {
+				"rules": [
+					{
+						"steps": [
+							{
+								"line": "这位$RESPECT要不要买个西瓜解解渴？\n"
+							}
+						]
+					}
+				]
+			},
 			"chat_chance_combat": 50,
 			"chat_msg_combat": [
-				{ "action": "say_while_flag", "flag": "melon/catch_thief", "say": "你要不还我瓜钱，咱俩就没完！\n" }
+				{
+					"action": "say_while_flag",
+					"flag": "melon/catch_thief",
+					"say": "你要不还我瓜钱，咱俩就没完！\n"
+				}
 			],
 			"settle": {
-				"temp": "melon/catch_thief", "item": "es2:d/village/obj/melon",
-				"label": "还瓜钱", "hint": "付给瓜农一个西瓜的钱（六十文），他就不再拦你，回瓜棚去；钱不够就只能接着打。",
+				"temp": "melon/catch_thief",
+				"item": "es2:d/village/obj/melon",
+				"label": "还瓜钱",
+				"hint": "付给瓜农一个西瓜的钱（六十文），他就不再拦你，回瓜棚去；钱不够就只能接着打。",
 				"say": "好，咱俩的账就算结了。\n"
 			}
 		},
 		"es2:d/village/obj/melon": {
 			"food": {
-				"remaining": 8, "supply": 20, "water": 40,
-				"leaves": { "name": "西瓜皮", "aliases": ["bone"], "weight": 150, "long": "一块啃得精光的西瓜皮。\n" }
+				"remaining": 8,
+				"supply": 20,
+				"water": 40,
+				"leaves": {
+					"name": "西瓜皮",
+					"aliases": [
+						"bone"
+					],
+					"weight": 150,
+					"long": "一块啃得精光的西瓜皮。\n"
+				}
 			}
 		}
 	},

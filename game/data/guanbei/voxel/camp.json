@@ -1,0 +1,75 @@
+{
+  "indoor": false,
+  "camera_size": 24,
+  "note": "帐篷营地 (native:guanbei/camp, camp_east; 关北 C): five felt yurts in a loose ring on the grass outside 槐阳城's east wall — white and grey felt girdled with coloured hair rope, door flaps south with the families' stitched patterns, smoke from the crown holes; the fire in the middle where the families sit, dung and firewood stacked by it, felt mats and rugs at the doors, milk pails upturned on a rack, meat on the drying frame, saddles and halters on the ground, the sheep in their willow pen, the hitching rail and the stone trough at the east mouth where the cart road goes out over the steppe. Old and lived in: trodden grass round the fire, dung, a broken saddle, ash.",
+  "edge": {"minimum_margin": 32, "maximum_margin": 96, "depth": 1.6, "top": "8a9458", "bottom": "7a6a4a", "strata": ["a89868", "9a8a5c", "8a7a50"]},
+  "exit_trails": {
+    "guanbei.camp.west": {"cells": 6, "kind": "town_ground", "width": 8},
+    "guanbei.camp_east.east": {"cells": 8, "kind": "path", "width": 8},
+    "note": "the 东门 west, the cart road east"
+  },
+  "ground": {
+    "grass": {"style": "scree", "colors": ["8c9058", "98985c", "7e8a50"], "gravel": 0.08, "stones": 0.01, "pebbles": ["a8a468", "8a8a52"], "note": "steppe turf, grey-green with bare patches"},
+    "path": {"style": "scree", "colors": ["b09860", "bca46a", "a48c58"], "gravel": 0.55, "stones": 0.06, "pebbles": ["d0b87c", "b8a066", "9c8858"], "ruts": true, "note": "the cart road, two ruts in the grass"},
+    "town_ground": {"style": "scree", "colors": ["b8a46e", "c4b078", "ac9864"], "gravel": 0.5, "stones": 0.05, "pebbles": ["d4bc84", "c0a870", "9c8858"], "ruts": true, "note": "trodden yellow earth, churned"},
+    "boundary": {"style": "scree", "colors": ["86905a", "929a5e", "7a8850"], "gravel": 0.06, "stones": 0.01, "pebbles": ["a0a466", "848a50"], "note": "the steppe running off: the same turf, trimmed to the map's edge"}
+  },
+  "ground_tints": {"bank": "9a8c5e", "mud": "a8966a", "chips": ["d0bc88", "c4b07c", "b4a070"], "dust": "d8c898", "grit": "e0d0a0"},
+  "flora": {
+    "grass_density": 0.8,
+    "density": {"grass": 0.75, "path": 0.02, "boundary": 0.6},
+    "flower_threshold": 0.35,
+    "blossom_trees": 0.0,
+    "tree_types": ["poplar", "dead", "willow", "poplar"],
+    "tree_kinds": ["boundary"],
+    "tree_chance": 0.08,
+    "tree_spacing": 160,
+    "wind": 0.9,
+    "butterflies": 2,
+    "meadows": [{"rect": [192, 128, 1024, 832], "on": ["grass"], "scale": [1.2, 1.8], "density": 0.5, "tufts": 3, "note": "the camp's grass, grazed short near the pen"}]
+  },
+  "ambience": {
+    "birds": [{"at": [608, 480], "radius": 300, "count": 3, "height": 10, "color": "4a4440", "note": "sparrows at the drying frame"}],
+    "dust": [{"rect": [192, 128, 1216, 832], "count": 14, "color": "e0cc98", "wind": [0.5, 0.1], "note": "dust off the steppe"}]
+  },
+  "reshape": [],
+  "buildings": [
+    {"rect": [128, 64, 192, 896], "portals": ["guanbei.camp.west"], "note": "槐阳城's east wall behind the camp, the 东门 through it (the market is guanbei_market)", "construction": "earth", "wall": "b89a66", "timber": "7a4a3a", "roof": "8a4a3a", "height": 3.4, "roof_form": "none", "foundation": 0.0, "bay": 9, "porch": "none", "lanterns": true, "lantern": "ffb858", "goods": "none", "doorway_width": 3.0, "step": "a89a74", "posts": "8a4a3a"}
+  ],
+  "critters": [
+    {"kind": "sheep", "rect": [432, 688, 656, 752], "count": 5, "colors": ["e4dccc", "3a302a", "4a403a"], "note": "the flock in its pen"},
+    {"kind": "sheep", "rect": [432, 688, 656, 752], "count": 2, "colors": ["c8bca8", "2a2422", "3a302a"]},
+    {"kind": "dog", "rect": [640, 400, 880, 560], "count": 1, "colors": ["6a5a48", "3a302a"], "note": "the herdsmen's dog"}
+  ],
+  "props": [
+    {"kind": "trail", "points": [[208, 480], [400, 470], [620, 490], [840, 480], [1030, 480], [1200, 480]], "color": "a89060", "note": "the cart road's ruts through the camp"},
+    {"kind": "stains", "at": [616, 600], "size": [220, 160], "count": 9, "colors": ["5a5248", "6a6258", "4a4238"], "note": "ash and trodden ground round the fire"},
+    {"kind": "stains", "at": [544, 720], "size": [240, 70], "count": 8, "colors": ["8a7a4e", "9a8858"], "note": "the pen's ground"},
+    {"kind": "straw_patch", "at": [500, 700], "size": [60, 40]},
+    {"kind": "straw_patch", "at": [600, 720], "size": [50, 36]},
+    {"kind": "rug", "at": [304, 320], "size": [40, 28], "colors": ["8a3a2a", "c8a040", "3a4a6a"], "note": "rugs at the yurt doors"},
+    {"kind": "rug", "at": [528, 272], "size": [40, 28], "colors": ["3a4a6a", "c8a040", "8a3a2a"]},
+    {"kind": "rug", "at": [336, 752], "size": [44, 30], "colors": ["8a3a2a", "d8c8a0", "3a4a6a"]},
+    {"kind": "bedroll", "at": [864, 770], "blanket": "6a5a48", "note": "a herdsman's bedding aired at his door"},
+    {"kind": "rope_coil", "at": [1040, 440], "size": [20, 20], "note": "halters at the hitching rail"},
+    {"kind": "lost_pack", "at": [448, 376], "note": "a saddle on the grass"},
+    {"kind": "bones", "at": [960, 300], "size": [30, 22], "skull": true, "count": 3, "note": "a sheep's skull on a pole by the old yurt"},
+    {"kind": "glow", "at": [616, 600], "color": "ffa060", "day": 0.0, "night": 0.9, "range": 9.0, "height": 1.6, "note": "the fire at night"},
+    {"kind": "glow", "at": [304, 256], "color": "ffc080", "day": 0.0, "night": 0.5, "range": 5.0, "height": 1.4, "note": "lamplight through the felt"},
+    {"kind": "glow", "at": [528, 208], "color": "ffc080", "day": 0.0, "night": 0.5, "range": 5.0, "height": 1.4},
+    {"kind": "glow", "at": [784, 224], "color": "ffc080", "day": 0.0, "night": 0.4, "range": 5.0, "height": 1.4},
+    {"kind": "glow", "at": [336, 688], "color": "ffc080", "day": 0.0, "night": 0.5, "range": 5.0, "height": 1.4},
+    {"kind": "glow", "at": [864, 704], "color": "ffc080", "day": 0.0, "night": 0.4, "range": 5.0, "height": 1.4},
+    {"kind": "torch", "at": [1064, 408], "size": [16, 16], "height": 2.0, "note": "a torch on the hitching rail's post"},
+    {"kind": "far_peak", "at": [600, 1240], "size": [640, 260], "height": 11.0, "elevation": -5.0, "colors": ["a89060", "b89c6c", "9a8458", "8a7850"], "note": "天驼关's humps far to the south"},
+    {"kind": "far_ground", "at": [1480, 480], "size": [400, 1000], "colors": ["8a9458", "96985c", "7e8a50"], "elevation": -0.4, "note": "the steppe running off east"},
+    {"kind": "far_ground", "at": [700, -300], "size": [1400, 400], "colors": ["8a9458", "96985c", "7e8a50"], "elevation": -0.4, "note": "and north along the wall"}
+  ],
+  "actors": {
+    "default": {"coat": "8a7a5a"},
+    "native.npc.herdsman": {"coat": "6a6a5a", "hat": true},
+    "native.npc.camp_family": {"coat": "7a5a5a"},
+    "native.npc.guo_cheng": {"coat": "5a4a3a"},
+    "native.npc.freed_corvee": {"coat": "6a5a48"}
+  }
+}

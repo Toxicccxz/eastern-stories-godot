@@ -1,29 +1,15 @@
 {
   "indoor": false,
   "camera_size": 23,
-  "note": "马市 (native:guanbei/market; 关北 A): the open yard east of the street — the horse pen with its rails and a dozen steppe ponies, two tethered at the post just sold, the camel pen on the south side, the trader's steelyard on its frame, sacks of fodder, hay, dung and straw everywhere; 卢卡 on his cloth by the pen's south-east corner; the 塞外酒肆's low mud front on the north with its wine flag, the market's earth wall east (the 东门 shut: 关北 C) and south. Old and used: churned ground, dung, straw blown into the corners, a broken rail.",
+  "note": "马市 (native:guanbei/market; 关北 A): the open yard east of the street — the horse pen with its rails and a dozen steppe ponies, two tethered at the post just sold, the camel pen on the south side, the trader's steelyard on its frame, sacks of fodder, hay, dung and straw everywhere; 卢卡 on his cloth by the pen's south-east corner; the 塞外酒肆's low mud front on the north with its wine flag, the market's earth wall east with the 东门 in it (the camp beyond: 关北 C) and south. Old and used: churned ground, dung, straw blown into the corners, a broken rail.",
   "edge": {"minimum_margin": 32, "maximum_margin": 64, "depth": 1.6, "top": "b8a470", "bottom": "9a8858", "strata": ["c4b07a", "b8a470", "ac9866"]},
-  "exit_trails": {
-    "guanbei.market.west": {"cells": 6, "kind": "town_ground", "width": 8},
-    "note": "the lane west to the street"
-  },
+  "exit_trails": {"guanbei.market.west": {"cells": 6, "kind": "town_ground", "width": 8}, "note": "the lane west to the street; the 东门 east onto the camp's grass", "guanbei.market.east": {"cells": 6, "kind": "town_ground", "width": 8}},
   "ground": {
     "town_ground": {"style": "scree", "colors": ["b09a66", "bca670", "a4905e"], "gravel": 0.4, "stones": 0.03, "pebbles": ["ccb87e", "b4a068", "988454"], "ruts": true, "note": "the market's ground, churned, dung and straw in it"},
     "boundary": {"style": "scree", "colors": ["b4a46e", "c0b078", "a89864"], "gravel": 0.5, "stones": 0.05, "pebbles": ["d4bc84", "c0a870", "9c8858"]}
   },
   "ground_tints": {"bank": "9a8c5e", "mud": "a8966a", "chips": ["d0bc88", "c4b07c", "b4a070"], "dust": "d8c898", "grit": "e0d0a0"},
-  "flora": {
-    "grass_density": 0.25,
-    "density": {"town_ground": 0.05, "boundary": 0.35},
-    "flower_threshold": 0.6,
-    "blossom_trees": 0.0,
-    "tree_types": ["poplar", "scrub"],
-    "tree_kinds": ["boundary"],
-    "tree_chance": 0.2,
-    "tree_spacing": 96,
-    "wind": 0.7,
-    "butterflies": 0
-  },
+  "flora": {"grass_density": 0.25, "density": {"town_ground": 0.05, "boundary": 0.35}, "flower_threshold": 0.6, "blossom_trees": 0.0, "tree_types": ["poplar", "scrub"], "tree_kinds": ["boundary"], "tree_chance": 0.2, "tree_spacing": 96, "wind": 0.7, "butterflies": 0},
   "ambience": {
     "birds": [{"at": [736, 500], "radius": 260, "count": 4, "height": 8, "color": "4a4440", "note": "sparrows after the spilled grain"}],
     "dust": [{"rect": [352, 320, 1120, 896], "count": 22, "color": "d8c898", "wind": [0.4, -0.5]}]
@@ -31,11 +17,12 @@
   "reshape": [],
   "buildings": [
     {"rect": [480, 128, 800, 320], "portals": ["guanbei.market.north"], "note": "塞外酒肆 (native:guanbei/market: 一间土坯房子门口挑着一面酒旗): low mud walls, a grass-and-mud roof, the wine flag", "construction": "earth", "wall": "b49866", "timber": "6a5a48", "posts": "6a5a48", "roof": "9a8a62", "roof_tiles": "thatch", "roof_form": "gable", "ridge": "x", "rise": 1.0, "overhang": 0.6, "eave_lift": 0.0, "height": 2.9, "foundation": 0.1, "bay": 6, "porch": "none", "lanterns": true, "lantern": "ffb858", "goods": "none", "doorway_width": 2.2, "step": "a89a74", "chimney": true, "chimney_at": [0.3, 0.1], "smoke": true, "smoke_color": "8a8278", "hanging_flag": {"text": "酒", "cloth": "d8d0b8", "trim": "8a4a3a", "letters": "2a2422", "side": -1.0}},
-    {"rect": [1120, 304, 1168, 912], "portals": [], "note": "the market's east wall; the 东门 in it opens in 关北 C", "construction": "earth", "wall": "b89a66", "height": 3.2, "roof_form": "none", "foundation": 0.0, "bay": 7, "porch": "none", "lanterns": false, "goods": "none"},
-    {"rect": [352, 896, 1168, 944], "portals": [], "note": "and its south wall", "construction": "earth", "wall": "b89a66", "height": 3.2, "roof_form": "none", "foundation": 0.0, "bay": 7, "porch": "none", "lanterns": false, "goods": "none"}
+    {"rect": [352, 896, 1168, 944], "portals": [], "note": "and its south wall", "construction": "earth", "wall": "b89a66", "height": 3.2, "roof_form": "none", "foundation": 0.0, "bay": 7, "porch": "none", "lanterns": false, "goods": "none"},
+    {"rect": [1120, 304, 1168, 576], "portals": [], "note": "the market's east wall, north of the 东门", "construction": "earth", "wall": "b89a66", "height": 3.2, "roof_form": "none", "foundation": 0.0, "bay": 7, "porch": "none", "lanterns": false, "goods": "none"},
+    {"rect": [1120, 672, 1168, 912], "portals": [], "note": "and south of it", "construction": "earth", "wall": "b89a66", "height": 3.2, "roof_form": "none", "foundation": 0.0, "bay": 7, "porch": "none", "lanterns": false, "goods": "none"}
   ],
   "props": [
-    {"kind": "stains", "at": [936, 624], "size": [260, 240], "count": 12, "colors": ["8a7a4e", "9a8858", "7a6a44"], "note": "the pen's ground, dung and mud"},
+    {"kind": "stains", "at": [904, 624], "size": [200, 240], "count": 12, "colors": ["8a7a4e", "9a8858", "7a6a44"], "note": "the pen's ground, dung and mud"},
     {"kind": "straw_patch", "at": [860, 530], "size": [80, 50]},
     {"kind": "straw_patch", "at": [1000, 700], "size": [60, 50]},
     {"kind": "stains", "at": [620, 620], "size": [160, 200], "count": 6, "colors": ["8a7a4e", "9a8858"], "note": "under the tethered horses"},
@@ -53,8 +40,12 @@
     {"kind": "glow", "at": [640, 340], "color": "ffb070", "day": 0.0, "night": 0.8, "range": 8.0, "height": 2.4, "note": "the 酒肆's door at night"},
     {"kind": "torch", "at": [1144, 480], "size": [16, 16], "height": 2.0, "note": "a torch on the east wall"},
     {"kind": "torch", "at": [1144, 760], "size": [16, 16], "height": 2.0},
-    {"kind": "far_ground", "at": [1400, 600], "size": [400, 900], "colors": ["8a9458", "96985c", "7e8a50"], "elevation": -0.4, "note": "the steppe beyond the east wall (the camp and the grass are 关北 C)"},
-    {"kind": "far_peak", "at": [700, 1300], "size": [500, 240], "height": 10.0, "elevation": -5.0, "colors": ["a89060", "b89c6c", "9a8458", "8a7850"], "note": "天驼关's humps far south over the wall"}
+    {"kind": "far_peak", "at": [700, 1300], "size": [500, 240], "height": 10.0, "elevation": -5.0, "colors": ["a89060", "b89c6c", "9a8458", "8a7850"], "note": "天驼关's humps far south over the wall"},
+    {"kind": "gateway", "at": [1144, 624], "size": [48, 96], "height": 3.6, "colors": ["b89a66", "8a4a3a", "6a5a48"], "note": "the 东门: a plain earth gateway in the wall, its leaves open onto the grass"},
+    {"kind": "trail", "points": [[900, 820], [1000, 700], [1080, 640], [1144, 624]], "color": "a08a58", "note": "the way worn from the pen's corner to the 东门"},
+    {"kind": "hanging_lantern", "at": [1144, 560], "paper": "e0b060", "height": 2.8, "note": "a lantern over the 东门"},
+    {"kind": "glow", "at": [1144, 624], "color": "ffb070", "day": 0.0, "night": 0.6, "range": 7.0, "height": 2.6},
+    {"kind": "far_ground", "at": [1420, 600], "size": [420, 900], "colors": ["8a9458", "96985c", "7e8a50"], "elevation": -0.4, "note": "the steppe beyond the east wall, the camp's grass"}
   ],
   "actors": {
     "default": {"coat": "8a7a5a"},

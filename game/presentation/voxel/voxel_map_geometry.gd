@@ -929,7 +929,7 @@ func _plant_groves() -> void:
 			instance.material_override = tree_shapes.material()
 			grove.add_child(instance)
 
-## `critters`: [{"kind": "chicken"|"dog", "rect": [x0, y0, x1, y1] px, "count", "colors", "speed",
+## `critters`: [{"kind": "chicken"|"dog"|"sheep", "rect": [x0, y0, x1, y1] px, "count", "colors", "speed",
 ## "scale"}]: they wander the open ground within their rect (walkable cells no building or
 ## furnishing stands on), presentation only (VoxelCritter).
 func _critters(layout: Dictionary) -> void:
@@ -964,7 +964,7 @@ func _critters(layout: Dictionary) -> void:
 			critter.colors = spec.get("colors",[])
 			critter.cells = open
 			critter.seed = Shapes.place_seed(int(a[0]),int(a[1]),index*31+i,9)
-			critter.speed = float(spec.get("speed",1.4 if kind=="dog" else 0.9))
+			critter.speed = float(spec.get("speed",1.4 if kind=="dog" else 0.6 if kind=="sheep" else 0.9))
 			critter.scale = Vector3.ONE*float(spec.get("scale",1.0))
 			add_child(critter)
 			critters.append(critter)

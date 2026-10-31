@@ -64,6 +64,26 @@ func phase() -> DayPhaseDefinition:
 	return null if index < 0 else _phases[index]
 
 
+## Game seconds from now until the next start of a phase whose id is one of `phase_ids` (going
+## round the day); 0 while the day is in one of them, -1 when none of them is a phase.
+func seconds_until_phase(phase_ids: Array[StringName]) -> int:
+	var now: int = phase_index()
+	if now < 0 or _phases.is_empty():
+		return -1
+	if phase_ids.has(_phases[now].phase_id):
+		return 0
+	var start: int = 0
+	for before: int in now:
+		start += _phases[before].minutes * 60
+	var ahead: int = start + _phases[now].minutes * 60 - day_seconds()
+	for step: int in range(1, _phases.size()):
+		var index: int = (now + step) % _phases.size()
+		if phase_ids.has(_phases[index].phase_id):
+			return ahead
+		ahead += _phases[index].minutes * 60
+	return -1
+
+
 ## How far through the current phase (0 ..< 1).
 func phase_progress() -> float:
 	var index: int = phase_index()
