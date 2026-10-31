@@ -49,7 +49,8 @@ var _world_content_revision: WorldContentRevision.Value = WorldContentRevision.V
 var _restore_preparation: OldPineWorldRestorePreparation
 var _restore_failure_outcome: int = OldPineWorldRestoreResult.Outcome.SUCCESS
 var _restore_candidate_staged: bool = false
-## The process frame that activated a restored save (-1: none): that frame is not world time.
+## The process frame that activated a restored save (-1: none): the engine's own _process of
+## that frame is not world time. One-shot: the first _process call after activation decides.
 var _activation_frame: int = -1
 var _session_swap_suspended: bool = false
 var _session_swap_reparenting: bool = false
@@ -157,11 +158,16 @@ func liquid_collection() -> LiquidCollection:
 
 
 func _process(delta: float) -> void:
-	# The frame that activates a restored save is not world time: its delta is the loading
-	# frame's, and the player has not seen the world yet (DECISIONS「别的地图时间补算」: the
-	# save's away_ms, day and recovery come back exactly; under load that delta reached them).
-	if Engine.get_process_frames() == _activation_frame:
-		return
+	# The engine's _process of the frame that activated a restored save is not world time: its
+	# delta is the loading frame's, and the player has not seen the world yet (DECISIONS「别的
+	# 地图时间补算」: the save's away_ms, day and recovery come back exactly; under load that
+	# delta reached them). A call stepped by hand in that frame (the suites' _process(1.0))
+	# carries its own delta and runs.
+	if _activation_frame >= 0:
+		var engine_call: bool = Engine.get_process_frames() == _activation_frame and is_equal_approx(delta, get_process_delta_time())
+		_activation_frame = -1
+		if engine_call:
+			return
 	if presentation_frozen():
 		_sync_ghost_sight()
 		advance_journal(delta)
