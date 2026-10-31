@@ -138,8 +138,7 @@ func present(value: BattleParticipantProjection, player_id: StringName, current_
 	# The card stays one line: the states and the 起手 / 要出 words share the status line.
 	var intent_text: String = " · ".join(intents)
 	_status.text = " · ".join(states) if intent_text.is_empty() else "%s · %s" % [" · ".join(states), intent_text]
-	_status.tooltip_text = (CombatMoveTags.description(value.next_move_tag) + "
-" if not value.next_move_tag.is_empty() else "") + _status.text
+	_status.tooltip_text = (CombatMoveTags.description(value.next_move_tag) + "\n" if not value.next_move_tag.is_empty() else "") + _status.text
 	_intent.visible = false
 	_present_choice(value, knockout)
 

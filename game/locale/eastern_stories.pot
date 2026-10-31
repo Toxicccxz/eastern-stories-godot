@@ -6841,9 +6841,9 @@ msgstr ""
 msgid "起手：%s"
 msgstr ""
 
-#. an enemy's card: the special it announced for its next move.
+#. an enemy's card: the special it announced for its next move ({move} carries its own 「」 when it has one).
 #: presentation/battle/battle_participant_card.gd
-msgid "要出「%s」"
+msgid "要出 {move}"
 msgstr ""
 
 #. on the 了结 button: killing them does the task 朱鸿雪 gave.
@@ -7571,12 +7571,12 @@ msgstr ""
 
 #. an NPC's announced special is lost: {npc} its name, {move} the special's name.
 #: runtime/combat_encounter/combat_encounter_scheduler.gd
-msgid "{npc}的「{move}」被打断了。"
+msgid "{npc}的{move}被打断了。"
 msgstr ""
 
 #. an NPC gathers itself for a special it will use next round: {npc} its name, {move} the special's name.
 #: runtime/combat_encounter/combat_npc_chat.gd
-msgid "{npc}蓄势待发，似乎要使出「{move}」！"
+msgid "{npc}蓄势待发，似乎要使出{move}！"
 msgstr ""
 
 #. an NPC's exert function announced on its card when it has no name of its own.
