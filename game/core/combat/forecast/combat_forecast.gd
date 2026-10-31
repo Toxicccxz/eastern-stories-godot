@@ -31,6 +31,10 @@ var rounds_to_lose: float = INF
 ## first enemy's on the player.
 var land_chance: float = 0.0
 var enemy_land_chance: float = 0.0
+## The expected 气 a round takes from the first enemy and from the player (attacks, lands,
+## damage and ripostes all in), for the probe and the tests.
+var mine_per_round: float = 0.0
+var theirs_per_round: float = 0.0
 ## A 切磋 ends on the first blow that draws 气 (fight.c): its verdict is who lands first.
 var spar_verdict: Verdict = Verdict.EVEN
 
@@ -60,8 +64,13 @@ static func estimate(
 		var theirs_land: float = 0.0 if incoming[index] == null else land_chance_of(incoming[index])
 		var mine: float = damage_per_round(outgoing[index]) * (a + (1.0 - a) * b * (1.0 - theirs_land))
 		to_win = INF if mine <= 0.0 or to_win == INF else to_win + float(enemy_kee[index] + 1) / mine
+		var theirs: float = 0.0
 		if incoming[index] != null:
-			to_player += damage_per_round(incoming[index]) * (b + (1.0 - b) * a * (1.0 - mine_land))
+			theirs = damage_per_round(incoming[index]) * (b + (1.0 - b) * a * (1.0 - mine_land))
+			to_player += theirs
+		if index == 0:
+			result.mine_per_round = mine
+			result.theirs_per_round = theirs
 	result.rounds_to_win = to_win
 	result.rounds_to_lose = INF if to_player <= 0.0 else float(player_kee + 1) / to_player
 	result.land_chance = land_chance_of(outgoing[0])

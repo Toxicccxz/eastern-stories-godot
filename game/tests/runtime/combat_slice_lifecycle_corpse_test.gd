@@ -20,6 +20,8 @@ var _failures: Array[String] = []
 
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
+	# combatd.c's draws, scripted: ES2's numbers (DECISIONS「战斗数值」; the modern knobs have their own suites).
+	var pacing: PacingDefinition = Es2Pacing.use()
 	_test_relationship_clear_preserves_source_facts()
 	_test_unconscious_adapter_exact_transition()
 	_test_second_corpse_placement_failure_preserves_partial_transition()
@@ -31,6 +33,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	await _test_blocked_death_preserves_partial_state_and_is_not_retried(tree)
 	await _test_failed_death_is_not_retried(tree)
 	await _test_reset_clears_corpses_and_lifecycle_state(tree)
+	Es2Pacing.restore(pacing)
 	return {
 		"assertions": _assertion_count,
 		"failures": _failures.duplicate(),

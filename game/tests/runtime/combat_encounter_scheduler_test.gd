@@ -38,6 +38,8 @@ class EncounterAttackFavoringRandomSource extends CombatRandomSource:
 
 
 func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
+	# combatd.c's draws, scripted: ES2's numbers (DECISIONS「战斗数值」; the modern knobs have their own suites).
+	var pacing: PacingDefinition = Es2Pacing.use()
 	_test_scheduler_config_and_inert_boundaries()
 	_test_due_opportunity_uses_exact_authorities()
 	_test_existing_combat_mutates_exact_character_state()
@@ -48,6 +50,7 @@ func run_all(tree: SceneTree) -> Dictionary[String, Variant]:
 	_test_stale_target_and_invalid_authority_fail_closed()
 	_test_completed_encounter_is_inert()
 	await _test_real_session_scheduler_world_freeze(tree)
+	Es2Pacing.restore(pacing)
 	return {
 		"assertions": _assertion_count,
 		"failures": _failures.duplicate(),
