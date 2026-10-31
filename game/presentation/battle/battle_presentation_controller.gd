@@ -253,7 +253,7 @@ func _read_strengths() -> bool:
 		if not value.hostile_to_player or _strengths.has(value.participant_id):
 			continue
 		var npc: NpcRuntimeState = null if map == null else map.find_resident_npc(value.participant_id)
-		_strengths[value.participant_id] = BattleStrength.read(map, npc, tr(Es2CombatMessages.pronoun(value.gender)))
+		_strengths[value.participant_id] = BattleStrength.read(map, npc, tr(Es2CombatMessages.pronoun(value.gender)), _projection.mode == CombatEncounterMode.Value.SPAR)
 		read = true
 	return read
 

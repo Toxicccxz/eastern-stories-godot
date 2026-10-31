@@ -104,6 +104,15 @@ func _enemy_card(tree: SceneTree) -> void:
 	var bound: BattleParticipantProjection = _one(&"b", "弟子", true, false, true, 50, 50, 100)
 	card.present(bound, &"p", &"n")
 	check(card.status_text() == "无法行动", "no tag says why: 无法行动: " + card.status_text())
+	# The word and its line: the fight's verdict with its reason; in a 切磋 the spar's (who lands first).
+	var forecast := CombatForecast.new()
+	forecast.verdict = CombatForecast.Verdict.UNFAVOURED
+	forecast.reason = CombatForecast.Reason.WEAPON_PARRY
+	forecast.spar_verdict = CombatForecast.Verdict.FAVOURED
+	var fight: BattleStrength = BattleStrength.of(forecast, "他")
+	var spar: BattleStrength = BattleStrength.of(forecast, "他", true)
+	check(fight.verdict == CombatForecast.Verdict.UNFAVOURED and fight.word() == "吃亏" and fight.line == "吃亏：他比你强，打起来要吃亏。他有兵刃在手，你空手难以近身。", "a fight: the verdict, the reason: " + fight.line)
+	check(spar.verdict == CombatForecast.Verdict.FAVOURED and spar.word() == "占优" and spar.line == "切磋占优：你多半先打中他。", "a 切磋: the spar's verdict and line: " + spar.line)
 	card.present(bound, &"p", &"n", &"b")
 	check(card.status_text() == "已排定目标 · 无法行动", "the planned action's target reads a tag: " + card.status_text())
 	card.free()
