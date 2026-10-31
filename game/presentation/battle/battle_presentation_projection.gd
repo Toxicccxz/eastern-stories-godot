@@ -28,6 +28,16 @@ var _enforce_limit: int
 ## enforce.c's highest factor for the player, -1 without an enabled force.
 var enforce_limit: int:
 	get: return _enforce_limit
+## 战斗决策层 1B (DECISIONS「战斗决策」): the moves the player may choose, the one chosen for
+## this round, whether the clock waits for the player now, whether the 自动 switch is
+## offered (pacing player_turns) and on (manual), the stances offered and the one held.
+var moves: Array[CombatActionDefinition] = []
+var chosen_action_id: StringName = &""
+var waiting: bool = false
+var turns_offered: bool = false
+var manual: bool = false
+var stances_offered: bool = false
+var stance: int = CombatStance.Value.ATTACK
 
 
 func _init(

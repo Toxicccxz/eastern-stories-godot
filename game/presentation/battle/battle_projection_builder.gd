@@ -23,7 +23,7 @@ static func build(session: WorldSessionController) -> BattlePresentationProjecti
 			if binding.character_id != participant.participant_id:
 				continue
 			var state: CharacterState = binding.state
-			participants.append(BattleParticipantProjection.new(
+			var shown := BattleParticipantProjection.new(
 				binding.character_id, session.encounter_display_name(binding.character_id),
 				participant.side_id, encounter.is_hostile(player_id, binding.character_id),
 				encounter.current_target_for(binding.character_id),
@@ -34,7 +34,11 @@ static func build(session: WorldSessionController) -> BattlePresentationProjecti
 				coordinator.player_can_target(binding.character_id),
 				state.gender, state.skills.mapped_skill(&"dodge"), state.attributes.force_factor,
 				_knockout(session, binding.character_id) if held.has(binding.character_id) else null,
-			))
+			)
+			if binding.character_id != player_id:
+				shown.next_move_tag = coordinator.next_move_tag(binding.character_id)
+				shown.telegraph = coordinator.pending_special_label(binding.character_id)
+			participants.append(shown)
 			break
 	var scheduler: CombatEncounterScheduler = coordinator.active_scheduler()
 	var tactical: CombatTacticalRuntime = null if scheduler == null else scheduler.player_tactics()
@@ -49,7 +53,7 @@ static func build(session: WorldSessionController) -> BattlePresentationProjecti
 	var current: StringName = encounter.current_target_for(player_id)
 	if held.has(current):
 		current = &""
-	return BattlePresentationProjection.new(
+	var projection := BattlePresentationProjection.new(
 		encounter.encounter_id, encounter.mode, player_id, current,
 		participants, actions,
 		encounter.queued_player_action(),
@@ -57,6 +61,17 @@ static func build(session: WorldSessionController) -> BattlePresentationProjecti
 		-1 if coordinator.last_completion() == null else coordinator.last_completion().outcome,
 		enforce_limit,
 	)
+	# 战斗决策层 1B: the player's turn, moves and stance (only in the player's own fight).
+	if tactical != null:
+		var rules: CombatDecisionRules = coordinator.decision_rules()
+		projection.moves = coordinator.player_moves()
+		projection.chosen_action_id = coordinator.player_choice()
+		projection.waiting = coordinator.waiting_for_player()
+		projection.turns_offered = rules.player_turns
+		projection.manual = coordinator.manual_turns()
+		projection.stances_offered = rules.has_stances()
+		projection.stance = coordinator.stance()
+	return projection
 
 
 ## A finished encounter the panel never projected: who the player is, and the

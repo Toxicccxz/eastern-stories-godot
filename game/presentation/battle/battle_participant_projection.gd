@@ -66,6 +66,10 @@ var _knockout: BattleKnockoutProjection
 ## Fell while the player's side was killing them and waits on 了结 / 放过; null otherwise.
 var knockout: BattleKnockoutProjection:
 	get: return _knockout
+## 战斗决策层 1B (npc_telegraph): the tag of the move this one will use next (起手), &""
+## when none is known; the special it announced for its next beat, "" when none.
+var next_move_tag: StringName = &""
+var telegraph: String = ""
 
 
 func _init(

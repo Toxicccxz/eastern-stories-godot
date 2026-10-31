@@ -5,6 +5,10 @@ signal action_requested(action_id: StringName)
 signal cancel_requested(expected_request_id: StringName)
 ## enforce.c: set at once, not queued (it has no busy check).
 signal enforce_requested(points: int)
+## 战斗决策层 1B: the move chosen for this round, the stance, the 自动 switch.
+signal move_requested(action_id: StringName)
+signal stance_requested(stance: int)
+signal manual_toggled(on: bool)
 
 var catalog: BattleActionPresentationCatalog = BattleActionPresentationCatalog.new()
 var _actions: HFlowContainer
@@ -21,6 +25,16 @@ var enforce_amount: SpinBox
 var enforce_button: Button
 var _shown_factor: int = -1
 var _shown_encounter: StringName = &""
+## 战斗决策层 1B: the move buttons (by action ID), the stance buttons, the 自动 switch.
+var moves_heading: Label
+var _moves: HBoxContainer
+var _shown_move_ids: Array[StringName] = []
+var move_buttons: Dictionary[StringName, Button] = {}
+var stance_row: HBoxContainer
+var stance_buttons: Dictionary[int, Button] = {}
+var manual_button: Button
+## 快捷操作, hidden while the decision row names the rows itself.
+var _heading: Label
 ## (action_id) -> PackedStringArray: [question, choice] when the action is asked
 ## first (owner: 天邪虎啸, powerfade), empty otherwise.
 var confirm_text: Callable
@@ -35,9 +49,53 @@ func _ready() -> void:
 	var action_column := VBoxContainer.new()
 	action_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	content.add_child(action_column)
-	var heading := Label.new()
-	heading.text = "快捷操作"
-	action_column.add_child(heading)
+	# 战斗决策层 1B: one row for the round's choice — the moves, the stances, the 自动 switch —
+	# that scrolls sideways where it does not fit (包 2 lays the panel out anew).
+	var decision_scroll := ScrollContainer.new()
+	decision_scroll.name = "DecisionRow"
+	decision_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+	decision_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	decision_scroll.custom_minimum_size.y = 40
+	decision_scroll.follow_focus = true
+	action_column.add_child(decision_scroll)
+	stance_row = HBoxContainer.new()
+	stance_row.name = "Decisions"
+	stance_row.add_theme_constant_override("separation", 8)
+	stance_row.visible = false
+	decision_scroll.add_child(stance_row)
+	moves_heading = Label.new()
+	moves_heading.name = "MovesHeading"
+	moves_heading.text = tr("出招")
+	moves_heading.visible = false
+	stance_row.add_child(moves_heading)
+	_moves = HBoxContainer.new()
+	_moves.name = "Moves"
+	_moves.add_theme_constant_override("separation", 8)
+	_moves.visible = false
+	stance_row.add_child(_moves)
+	var stance_text := Label.new()
+	stance_text.name = "StanceHeading"
+	stance_text.text = tr("姿态")
+	stance_row.add_child(stance_text)
+	for value: int in [CombatStance.Value.ATTACK, CombatStance.Value.GUARD, CombatStance.Value.EVADE]:
+		var button := Button.new()
+		button.name = "Stance%s" % CombatStance.STORAGE[value].capitalize()
+		button.text = CombatStance.label(value)
+		button.tooltip_text = CombatStance.description(value)
+		button.toggle_mode = true
+		button.custom_minimum_size = Vector2(56, 40)
+		button.pressed.connect(_stance_pressed.bind(value))
+		stance_row.add_child(button)
+		stance_buttons[value] = button
+	manual_button = Button.new()
+	manual_button.name = "ManualTurns"
+	manual_button.custom_minimum_size = Vector2(96, 40)
+	manual_button.visible = false
+	manual_button.pressed.connect(_manual_pressed)
+	stance_row.add_child(manual_button)
+	_heading = Label.new()
+	_heading.text = "快捷操作"
+	action_column.add_child(_heading)
 	_empty = Label.new()
 	_empty.text = "现在没有可用的操作。"
 	_empty.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -82,7 +140,7 @@ func _ready() -> void:
 	_cancel = Button.new()
 	_cancel.name = "CancelQueue"
 	_cancel.text = "取消已排定的操作"
-	_cancel.custom_minimum_size = Vector2(64, 64)
+	_cancel.custom_minimum_size = Vector2(64, 52)
 	_cancel.pressed.connect(_cancel_pressed)
 	queue_column.add_child(_cancel)
 	InputGlyphs.decorate(_cancel, &"battle_back")
@@ -94,6 +152,7 @@ func present(projection: BattlePresentationProjection) -> void:
 	for info: CombatTacticalActionInfo in infos:
 		ids.append(info.action_id)
 	_present_enforce(projection)
+	_present_moves(projection)
 	if is_asking() and not ids.has(_asking_id):
 		# The action went away (the force it needs was disabled): the question goes too.
 		prompt.cancel()
@@ -124,6 +183,9 @@ func present(projection: BattlePresentationProjection) -> void:
 	var queued: CombatQueuedAction = projection.queued_action()
 	_displayed_request_id = &"" if queued == null else queued.request.request_id
 	_queue.text = tr("排定：%s") % _queue_status(projection.queue_status)
+	if projection.waiting:
+		# TRANSLATORS: the battle panel's status while the fight's clock waits for the player's order (on 排定's line).
+		_queue.text = tr("等你出招 · ") + _queue.text
 	if queued != null:
 		_queue.text += "\n" + tr("{action} · 目标：{target}").format({"action": catalog.label_for(queued.request.action_id), "target": tr(projection.display_name(queued.resolved_target_id))})
 	_queue.tooltip_text = _queue.text
@@ -150,6 +212,64 @@ func _present_enforce(projection: BattlePresentationProjection) -> void:
 
 func _enforce_pressed() -> void:
 	enforce_requested.emit(int(enforce_amount.value))
+
+
+## 战斗决策层 1B: the move buttons (name and tag; the chosen one pressed; all greyed while
+## the round plays or the clock rolls on 自动), the stances (in place of 加力 when offered)
+## and the 自动 switch.
+func _present_moves(projection: BattlePresentationProjection) -> void:
+	var ids: Array[StringName] = []
+	for move: CombatActionDefinition in projection.moves:
+		ids.append(move.action_id)
+	var offered: bool = projection.turns_offered and not ids.is_empty()
+	moves_heading.visible = offered and not is_asking()
+	_moves.visible = offered and not is_asking()
+	if ids != _shown_move_ids:
+		_shown_move_ids = ids
+		move_buttons.clear()
+		for child: Node in _moves.get_children():
+			_moves.remove_child(child)
+			child.queue_free()
+		for move: CombatActionDefinition in projection.moves:
+			var button := Button.new()
+			button.name = "Move%d" % _moves.get_child_count()
+			var shown_name: String = move.display_name if not move.display_name.is_empty() else String(move.action_id).get_slice("/", String(move.action_id).get_slice_count("/") - 1)
+			# TRANSLATORS: a move button: {name} the move, {tag} its one-character tag (快 / 重 / 虚 / 守 / 平).
+			button.text = tr("{name} · {tag}").format({"name": tr(shown_name), "tag": CombatMoveTags.label(move.tag)})
+			button.tooltip_text = CombatMoveTags.description(move.tag)
+			button.toggle_mode = true
+			button.custom_minimum_size = Vector2(64, 40)
+			button.pressed.connect(_move_pressed.bind(move.action_id))
+			_moves.add_child(button)
+			move_buttons[move.action_id] = button
+	for id: StringName in move_buttons:
+		var button: Button = move_buttons[id]
+		button.set_pressed_no_signal(id == projection.chosen_action_id)
+		button.disabled = not (projection.waiting and projection.manual)
+	stance_row.visible = (projection.stances_offered or projection.turns_offered) and not is_asking()
+	_heading.visible = not stance_row.visible
+	(stance_row.get_node("StanceHeading") as Label).visible = projection.stances_offered
+	for value: int in stance_buttons:
+		stance_buttons[value].visible = projection.stances_offered
+		stance_buttons[value].set_pressed_no_signal(value == projection.stance)
+	if projection.stances_offered:
+		enforce_row.visible = false
+	manual_button.visible = projection.turns_offered
+	# TRANSLATORS: the battle panel's switch between the player's turns and ES2's auto-fight: the text names what pressing it does.
+	manual_button.text = tr("改为自动") if projection.manual else tr("改为手动")
+	manual_button.tooltip_text = tr("现在：每回合等你出招；按下后战斗自己打，招式随机。") if projection.manual else tr("现在：战斗自己打；按下后每回合等你出招。")
+
+
+func _move_pressed(action_id: StringName) -> void:
+	move_requested.emit(action_id)
+
+
+func _stance_pressed(value: int) -> void:
+	stance_requested.emit(value)
+
+
+func _manual_pressed() -> void:
+	manual_toggled.emit(manual_button.text == tr("改为手动"))
 
 
 func _queue_status(status: int) -> String:
