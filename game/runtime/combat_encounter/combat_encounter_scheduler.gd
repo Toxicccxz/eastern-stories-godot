@@ -87,6 +87,7 @@ func configure_player_tactics(player_id: StringName, registry: CombatTacticalAct
 		return false
 	_tactical = CombatTacticalRuntime.new(_encounter, player_id, registry, _progression_order)
 	_tactical.set_cooldown_rounds(_decisions.perform_cooldown_rounds)
+	_tactical.modifiers = _modifiers
 	_player_id = player_id
 	return true
 
@@ -409,6 +410,9 @@ func advance(
 		return CombatSchedulerAdvanceResult.new()
 	var tactical_result: CombatTacticalExecutionResult = null
 	if _tactical != null:
+		# The round's modifiers as they stand (the stance) for a special run at the boundary.
+		if _encounter.queued_player_action() != null:
+			_fill_modifiers(bindings)
 		tactical_result = _tactical.process_command_boundary(bindings, random_source, effect_registry)
 		if tactical_result != null and tactical_result.outcome == CombatTacticalExecutionResult.Outcome.DISENGAGED:
 			if boundary != null:
@@ -448,6 +452,9 @@ func advance(
 		return CombatSchedulerAdvanceResult.new(
 			CombatSchedulerAdvanceResult.Outcome.ADVANCED_NO_OPPORTUNITY
 		)
+	# 战斗决策层 1B: one order is one round, whatever a frame hitch's delta (Codex on #207).
+	if manual():
+		due_cycles = 1
 	var emitted: Array[CombatSchedulerEvent] = []
 	var processed_cycles: int = 0
 	for _cycle_index: int in range(due_cycles):
@@ -489,9 +496,18 @@ func advance(
 				return CombatSchedulerAdvanceResult.new(
 					CombatSchedulerAdvanceResult.Outcome.ADVANCED, processed_cycles, emitted,
 				)
-			# After a beat the NPC acted on (not a busy one, as npc.c chat() runs then too).
+			# After a beat the NPC acted on (not a busy one, as npc.c chat() runs then too); a busy
+			# beat drops the special it announced (Codex on #207).
 			var npc_actor: CombatSliceCharacterBinding = _find_binding(bindings, participant.participant_id)
-			if npc_actor != null and not npc_actor.is_user and event != null and event.kind == CombatSchedulerEvent.Kind.ORDINARY_OPPORTUNITY_RESOLVED and event.resolution != null and event.resolution.outcome in CHAT_AFTER:
+			var npc_beat: bool = npc_actor != null and not npc_actor.is_user and event != null and event.kind == CombatSchedulerEvent.Kind.ORDINARY_OPPORTUNITY_RESOLVED and event.resolution != null
+			if npc_beat and event.resolution.outcome == CombatSliceOpportunityResult.Outcome.BUSY_ADVANCED and _pending_specials.has(npc_actor.character_id):
+				_interrupted[npc_actor.character_id] = true
+				var dropped: CombatSchedulerEvent = _run_pending_special(npc_actor, bindings, random_source, effect_registry)
+				if dropped != null:
+					_events.append(dropped)
+					emitted.append(dropped)
+					_next_event_sequence += 1
+			if npc_beat and event.resolution.outcome in CHAT_AFTER:
 				# Its announced special runs now, after its attack and before its chat.
 				var pending: CombatSchedulerEvent = _run_pending_special(npc_actor, bindings, random_source, effect_registry)
 				if pending != null:

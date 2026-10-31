@@ -17,6 +17,8 @@ var _events: Array[CombatTacticalEvent] = []
 ## same one again, by action ID; 0 rounds: no cooldown (ES2).
 var _cooldown_rounds: int = 0
 var _cooldowns: Dictionary[StringName, int] = {}
+## The scheduler's round modifiers, handed to the policies' contexts (Codex on #207).
+var modifiers: CombatRoundModifiers
 
 
 func _init(
@@ -287,13 +289,15 @@ func _context(
 	bindings: Array[CombatSliceCharacterBinding] = [],
 ) -> CombatTacticalContext:
 	var target: CombatParticipant = _encounter.participant_for(action.resolved_target_id)
-	return CombatTacticalContext.new(
+	var context := CombatTacticalContext.new(
 		_encounter.participant_for(action.request.actor_id).binding,
 		null if target == null else target.binding,
 		_encounter.mode,
 		effect_registry,
 		bindings,
 	)
+	context.modifiers = modifiers
+	return context
 
 
 func _find(bindings: Array[CombatSliceCharacterBinding], id: StringName) -> CombatSliceCharacterBinding:

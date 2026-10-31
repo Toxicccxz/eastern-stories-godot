@@ -75,6 +75,10 @@ func _test_turns_and_chosen_move() -> void:
 	_check(event != null and event.resolution.forward_result != null and event.resolution.forward_result.selected_action_id == chosen.action_id, "the chosen move struck")
 	_check(event != null and event.resolution.forward_result != null and not event.resolution.forward_result.action_selection_result.random_attempted, "and drew no random(n)")
 	_check(f.scheduler.waiting_for_player(f.bindings) and f.scheduler.player_choice().is_empty() and _advance(f, 3.0).outcome == CombatSchedulerAdvanceResult.Outcome.WAITING_FOR_PLAYER and f.scheduler.logical_cycle == 1, "then the clock waits again, the choice spent")
+	# A frame hitch: one order is still one round.
+	f.scheduler.choose_attack(chosen.action_id, f.bindings)
+	var hitch: CombatSchedulerAdvanceResult = _advance(f, 7.0)
+	_check(hitch.cycles_processed == 1 and f.scheduler.logical_cycle == 2 and f.scheduler.waiting_for_player(f.bindings), "seven seconds in one frame: one round, then waiting")
 	# A queued order (perform, flee) is the player's turn too.
 	var request := CombatTacticalRequest.new(&"flee-1", ID, PLAYER, &"qa.flee", CombatTacticalRequest.Category.FLEE)
 	_check(f.scheduler.player_tactics().submit(request, true, ID, f.bindings).accepted(), "flee queued")
@@ -156,6 +160,8 @@ func _test_special_telegraph(tree: SceneTree) -> void:
 		if not label.is_empty() and announced_at < 0:
 			announced_at = round
 			seen_label = label
+			# TEST-ONLY: she is busy on her next beat: the announced special is lost.
+			map.find_resident_npc(GIRL).busy.start_busy(2)
 			var ui: BattlePresentationController = session.get_node("BattlePresentationLayer/BattleSurface")
 			ui.refresh_projection()
 			var card: BattleParticipantProjection = ui.current_projection().participant(GIRL)
@@ -170,6 +176,7 @@ func _test_special_telegraph(tree: SceneTree) -> void:
 			for line: VisionLine in event.chat.lines():
 				lines.append(line.template)
 	_check(lines.any(func(line: String) -> bool: return line.contains("蓄势待发") and line.contains(seen_label)), "the log says 柳绘心蓄势待发，似乎要使出「%s」: %s" % [seen_label, lines.slice(0, 6)])
+	_check(lines.any(func(line: String) -> bool: return line.contains("被打断了") and line.contains(seen_label)), "busy on her next beat: 柳绘心的%s被打断了: %s" % [seen_label, lines.slice(0, 8)])
 	session.free()
 	await tree.process_frame
 
