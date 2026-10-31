@@ -154,11 +154,13 @@ func _test_end_hold(tree: SceneTree) -> void:
 	_check(_session.shared_ui().log_lines().size() == lines_before, "no result yet")
 	# DECISIONS「战斗演出」: once the last lines are told, the 胜 stamp over the cards and the
 	# 亡 on the trainee's card (killed by the last blow, after the cards' last refresh).
+	_ui._hold_left = 0.1 # TEST-ONLY: as if the last lines took most of the hold to drain
 	_ui._tell_lines(5.0)
 	var fallen: Array[String] = []
 	for card: BattleParticipantCard in _ui._cards:
 		fallen.append(card.fallen_text())
 	_check(_ui.end_stamp.visible and _ui.end_stamp.text == "胜" and fallen == ["", "亡"], "the end hold: 胜 over the cards, 亡 on the trainee's: %s '%s'" % [fallen, _ui.end_stamp.text])
+	_check(is_equal_approx(_ui._hold_left, 0.6), "the stamp keeps its 0.6 s of the hold when the lines drained most of it: %.2f" % _ui._hold_left)
 	_player.busy.start_busy(3) # TEST-ONLY: busy and a task running through the hold
 	_player.state.quest.assign(QuestDefinition.new("疯狗", QuestDefinition.KILL, 300, 20, 10, 5), 1)
 	var task: int = _player.state.quest.remaining_ms

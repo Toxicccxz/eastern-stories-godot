@@ -212,6 +212,9 @@ func _show_end_stamp() -> void:
 	var text: String = _end_stamp_text()
 	if seconds <= 0.0 or text.is_empty() or not _holding():
 		return
+	# The last lines may have taken the hold's time to drain: the hold keeps the stamp's own
+	# time from here (Codex, PR #209).
+	_hold_left = maxf(_hold_left, seconds)
 	end_stamp.text = text
 	end_stamp.visible = true
 	end_stamp.reset_size()
