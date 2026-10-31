@@ -83,6 +83,9 @@ var journal: Dictionary[String, int] = {}
 ## The item definitions the player has carried (百科's 物品), each with the order it was
 ## first carried in. Saved; empty for NPCs.
 var known_items: Dictionary[String, int] = {}
+## 识招 (MoveRecognition, DECISIONS「战斗内容」): the enemy moves the player has watched in
+## fights they were in, each with how many times. Native. Saved; empty for NPCs.
+var known_moves: Dictionary[String, int] = {}
 ## The one-time 历练 rewards given (MilestoneRewards, "<kind>/<id>"), each with the order
 ## it was given in. Native (A2). Saved; empty for NPCs.
 var milestones: Dictionary[String, int] = {}

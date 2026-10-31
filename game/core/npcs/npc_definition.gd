@@ -43,6 +43,8 @@ var _attitude: int
 var _skill_levels: Array[NpcSkillLevelDefinition] = []
 var _loadout_entries: Array[NpcLoadoutEntry] = []
 var _bellicosity: int = 0
+## 战斗决策层 4: the fight style named in the data (CombatStyleTable), &"" for the race's default.
+var _fight_style: StringName = &""
 var _hit_condition: NpcHitCondition
 var _killed_enemy: NpcKilledEnemy
 var _capability_ids: Array[StringName] = []
@@ -347,6 +349,17 @@ func with_bellicosity(value: int) -> NpcDefinition:
 
 func bellicosity() -> int:
 	return _bellicosity
+
+
+var fight_style: StringName:
+	get:
+		return _fight_style
+
+
+## `fight_style` (DECISIONS「战斗内容」). Called once by the loader.
+func with_fight_style(style_id: StringName) -> NpcDefinition:
+	_fight_style = style_id
+	return self
 
 
 ## The NPC's own hit_ob() and killed_enemy() (data, not scripts).

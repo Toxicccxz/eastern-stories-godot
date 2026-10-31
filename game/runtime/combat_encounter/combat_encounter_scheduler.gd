@@ -51,6 +51,12 @@ var _pending_specials: Dictionary[StringName, NpcSpecialAction] = {}
 var _pending_labels: Dictionary[StringName, String] = {}
 ## Whom the player's feint or perform struck this round: their pending special is off.
 var _interrupted: Dictionary[StringName, bool] = {}
+## 战斗决策层 4 (DECISIONS「战斗内容」): (character_id) -> CombatStyle, the NPC's fight style or
+## null; the cycle from which an NPC may use a special again (its rest after one); the
+## courage draw taken with its next move, by actor.
+var _style_for: Callable
+var _special_ready: Dictionary[StringName, int] = {}
+var _courage: Dictionary[StringName, CombatPredrawnCourage] = {}
 
 var logical_cycle: int:
 	get: return _logical_cycle
@@ -106,6 +112,43 @@ func configure_decisions(rules: CombatDecisionRules) -> bool:
 
 func decisions() -> CombatDecisionRules:
 	return _decisions
+
+
+## The NPCs' fight styles (CombatStyleTable.style_of() behind `style_for`), configured once.
+func configure_styles(style_for: Callable) -> bool:
+	if _accumulated_input_seconds != 0.0:
+		return false
+	_style_for = style_for
+	return true
+
+
+func _style_of(actor: CombatSliceCharacterBinding) -> CombatStyle:
+	if actor == null or actor.is_user or not _decisions.uses_styles() or not _style_for.is_valid():
+		return null
+	return _style_for.call(actor.character_id) as CombatStyle
+
+
+## status_msg()'s percent: kee x 100 / max_kee.
+static func _kee_percent(actor: CombatSliceCharacterBinding) -> int:
+	var maximum: int = actor.state.vitality.maximum
+	@warning_ignore("integer_division")
+	return 100 if maximum <= 0 else actor.state.vitality.current * 100 / maximum
+
+
+## Whether `actor` may announce or run a special now: not resting, and its style has them.
+func _can_special(actor: CombatSliceCharacterBinding) -> bool:
+	if _logical_cycle < _special_ready.get(actor.character_id, 0):
+		return false
+	var style: CombatStyle = _style_of(actor)
+	return style == null or style.specials
+
+
+## The special of `actor` ran this cycle: it rests the knob's rounds, or its style's.
+func _rest_special(actor: CombatSliceCharacterBinding) -> void:
+	var style: CombatStyle = _style_of(actor)
+	var rounds: int = _decisions.npc_special_cooldown_rounds if style == null else style.cooldown_at(_kee_percent(actor), _decisions.npc_special_cooldown_rounds)
+	if rounds > 0:
+		_special_ready[actor.character_id] = _logical_cycle + rounds + 1
 
 
 ## The fight waits for the player's order each round: pacing player_turns, the 自动
@@ -168,20 +211,33 @@ func player_choice() -> StringName:
 
 ## The tag of the move an NPC will use next (npc_telegraph), &"" when none is drawn yet.
 func next_move_tag(actor_id: StringName, bindings: Array[CombatSliceCharacterBinding]) -> StringName:
+	var action: CombatActionDefinition = next_move(actor_id, bindings)
+	return &"" if action == null else action.tag
+
+
+## The move an NPC will use next (npc_telegraph), null when none is drawn yet.
+func next_move(actor_id: StringName, bindings: Array[CombatSliceCharacterBinding]) -> CombatActionDefinition:
 	var action_id: StringName = _next_moves.get(actor_id, &"")
 	if action_id.is_empty():
-		return &""
+		return null
 	var actor: CombatSliceCharacterBinding = _find_binding(bindings, actor_id)
 	if actor == null:
-		return &""
+		return null
 	var input: CombatActionSelectionInput = CombatSliceProjectionBuilder.build_action_selection_input(actor)
 	var set: CombatActionSet = null if input == null else input.current_action_set()
 	if set == null:
-		return &""
+		return null
 	for action: CombatActionDefinition in set.actions():
 		if action.action_id == action_id:
-			return action.tag
-	return &""
+			return action
+	return null
+
+
+## Whether the NPC's courage draw, taken with its next move, fails fight()'s gate: it will
+## guard instead (and riposte on a miss), 「起手：守势」. False when none was taken.
+func next_move_guards(actor_id: StringName) -> bool:
+	var courage: CombatPredrawnCourage = _courage.get(actor_id)
+	return courage != null and not courage.attacks()
 
 
 ## The special an NPC announced for its next beat, "" when none.
@@ -202,6 +258,9 @@ func _fill_modifiers(bindings: Array[CombatSliceCharacterBinding]) -> void:
 		if _player_choice_tag == CombatMoveTags.GUARD:
 			mine.add(0, 0, bonus, bonus)
 	for actor_id: StringName in _next_moves:
+		# One who will guard holds no move this round (the ring reads nothing of it).
+		if next_move_guards(actor_id):
+			continue
 		var tag: StringName = next_move_tag(actor_id, bindings)
 		if tag.is_empty():
 			continue
@@ -213,14 +272,41 @@ func _fill_modifiers(bindings: Array[CombatSliceCharacterBinding]) -> void:
 
 ## npc_telegraph: the NPC's next ordinary move drawn now, one beat early, so its tag can
 ## be shown; taken without a draw on its next attack (CombatActionSelector).
-func _draw_next_move(actor: CombatSliceCharacterBinding, random_source: CombatRandomSource) -> void:
+## The fight style weighs the draw (CombatStyle.tag_weights); fight()'s courage draw against
+## its target comes with it (CombatPredrawnCourage), so the card can say it will guard.
+func _draw_next_move(actor: CombatSliceCharacterBinding, random_source: CombatRandomSource, bindings: Array[CombatSliceCharacterBinding] = []) -> void:
 	_next_moves.erase(actor.character_id)
+	_courage.erase(actor.character_id)
 	if not _decisions.npc_telegraph or actor.is_user or actor.life_status != CombatSliceLifeStatus.Value.ACTIVE or not actor.relationship.is_fighting():
 		return
 	var input: CombatActionSelectionInput = CombatSliceProjectionBuilder.build_action_selection_input(actor)
-	var selection: CombatActionSelectionResult = CombatActionSelector.select_action(input, random_source)
+	var style: CombatStyle = _style_of(actor)
+	var weights: Dictionary[StringName, int] = {}
+	if style != null:
+		weights = style.weights_at(_kee_percent(actor))
+	var selection: CombatActionSelectionResult = CombatActionSelector.select_action(input, random_source, weights)
 	if selection.succeeded:
 		_next_moves[actor.character_id] = selection.selected_action.action_id
+	_draw_courage(actor, random_source, bindings)
+
+
+## fight(): random(victim cps x 3) < cor + 杀气 / 50, drawn now for the target it has (or
+## would take); nothing when the victim is busy or down (fight() attacks then without it).
+func _draw_courage(actor: CombatSliceCharacterBinding, random_source: CombatRandomSource, bindings: Array[CombatSliceCharacterBinding]) -> void:
+	if bindings.is_empty():
+		return
+	var target_id: StringName = _encounter.current_target_for(actor.character_id)
+	if target_id.is_empty() or not _target_is_currently_eligible(actor, target_id, bindings):
+		target_id = _first_initial_target(actor, bindings)
+	var victim: CombatSliceCharacterBinding = _find_binding(bindings, target_id)
+	if victim == null or victim.busy.is_busy() or victim.life_status != CombatSliceLifeStatus.Value.ACTIVE:
+		return
+	var facts: CombatFightDecisionFacts = CombatSliceProjectionBuilder.build_fight_facts(actor, victim)
+	var bound: int = facts.victim_raw_composure * 3
+	var draw: int = random_source.legacy_random(bound)
+	@warning_ignore("integer_division")
+	var threshold: int = facts.attacker_raw_courage + facts.attacker_raw_bellicosity / 50
+	_courage[actor.character_id] = CombatPredrawnCourage.new(victim.character_id, bound, draw, threshold)
 
 
 ## The pending special of `actor`, run before its chat on this beat (or dropped with its
@@ -245,6 +331,9 @@ func _run_pending_special(
 	elif actor.life_status == CombatSliceLifeStatus.Value.ACTIVE and actor.relationship.is_fighting() and not actor.busy.is_busy():
 		var sides: Array = _sides_of(actor, bindings)
 		result = _npc_chat.run_special(actor, action, sides[0], sides[1], random_source, effect_registry, _modifiers)
+		_rest_special(actor)
+		if result != null:
+			result.with_special_label(label)
 	_interrupted.erase(actor.character_id)
 	if result == null:
 		return null
@@ -439,7 +528,7 @@ func advance(
 	if waiting_for_player(bindings):
 		for binding: CombatSliceCharacterBinding in bindings:
 			if not binding.is_user and not _next_moves.has(binding.character_id) and binding.exists_in_encounter:
-				_draw_next_move(binding, random_source)
+				_draw_next_move(binding, random_source, bindings)
 		return CombatSchedulerAdvanceResult.new(CombatSchedulerAdvanceResult.Outcome.WAITING_FOR_PLAYER)
 	_accumulated_input_seconds += delta_seconds
 	var due_total: int = int(floor(
@@ -491,6 +580,7 @@ func advance(
 						_note_interrupts(blows, _player_choice_tag == CombatMoveTags.FEINT)
 						_player_choice = &""
 						_player_choice_tag = &""
+					_note_moves_seen(event.resolution, bindings)
 					emitted.append_array(_hurts(blows, bindings, random_source, boundary))
 			if boundary != null and not _inspect(boundary, bindings, event):
 				return CombatSchedulerAdvanceResult.new(
@@ -524,7 +614,7 @@ func advance(
 							CombatSchedulerAdvanceResult.Outcome.ADVANCED, processed_cycles, emitted,
 						)
 				# Its next ordinary move, drawn one beat early (npc_telegraph).
-				_draw_next_move(npc_actor, random_source)
+				_draw_next_move(npc_actor, random_source, bindings)
 			var chat: CombatSchedulerEvent = _chat_after(event, bindings, random_source, effect_registry)
 			if chat == null:
 				continue
@@ -592,6 +682,10 @@ func _process_participant(
 	# The player's chosen move, or the NPC's move drawn a beat early: taken without a draw.
 	var chosen: StringName = _player_choice if actor.is_user else _next_moves.get(actor.character_id, &"")
 	_next_moves.erase(actor.character_id)
+	var courage: CombatPredrawnCourage = _courage.get(actor.character_id)
+	_courage.erase(actor.character_id)
+	# DECISIONS「战斗内容」: the player's order is carried out — no courage gate on a chosen move.
+	var ordered: bool = actor.is_user and not chosen.is_empty() and manual()
 	if actor.busy.is_busy():
 		return _resolved_event(
 			actor.character_id,
@@ -604,10 +698,12 @@ func _process_participant(
 				target_id,
 				chosen,
 				_modifiers,
+				courage,
+				ordered,
 			),
 		)
 	if not actor.is_user and _eligible_targets(actor, bindings) > 1:
-		return _select_opponent(actor, bindings, random_source, effect_registry)
+		return _select_opponent(actor, bindings, random_source, effect_registry, courage)
 	if target_id.is_empty() or not _target_is_currently_eligible(actor, target_id, bindings):
 		target_id = _first_initial_target(actor, bindings)
 		if target_id.is_empty():
@@ -631,8 +727,26 @@ func _process_participant(
 			target_id,
 			chosen,
 			_modifiers,
+			courage,
+			ordered,
 		),
 	)
+
+
+## 识招: the player, in this fight, watched the NPCs' moves this beat (the attack and, when
+## an NPC riposted, its riposte).
+func _note_moves_seen(resolution: CombatSliceOpportunityResult, bindings: Array[CombatSliceCharacterBinding]) -> void:
+	if _player_id.is_empty() or _decisions.recognise_after <= 0:
+		return
+	var player: CombatSliceCharacterBinding = _find_binding(bindings, _player_id)
+	if player == null or not player.exists_in_encounter:
+		return
+	var forward: CombatSingleAttackExecutionResult = resolution.forward_result
+	if forward != null and forward.attacker_id != _player_id and forward.action_selection_result != null and forward.action_selection_result.selected_action != null:
+		MoveRecognition.note(player.state, forward.action_selection_result.selected_action.action_id)
+	var chain: CombatAttackChainResult = resolution.chain_result
+	if chain != null and forward != null and forward.victim_id != _player_id and chain.reverse_action_selection_result != null and chain.reverse_action_selection_result.selected_action != null:
+		MoveRecognition.note(player.state, chain.reverse_action_selection_result.selected_action.action_id)
 
 
 ## call_out() runs on the driver's clock: a round of the fight is combat_round_ms of
@@ -778,7 +892,7 @@ func _chat_after(
 	for binding: CombatSliceCharacterBinding in bindings:
 		if binding != actor:
 			others.append(binding)
-	var result: CombatNpcChatResult = _npc_chat.beat(actor, enemies, others, random_source, effect_registry)
+	var result: CombatNpcChatResult = _npc_chat.beat(actor, enemies, others, random_source, effect_registry, _can_special(actor))
 	if result == null:
 		return null
 	return CombatSchedulerEvent.new(
@@ -804,11 +918,12 @@ func _select_opponent(
 	bindings: Array[CombatSliceCharacterBinding],
 	random_source: CombatRandomSource,
 	effect_registry: SkillImprovementEffectRegistry,
+	courage: CombatPredrawnCourage = null,
 ) -> CombatSchedulerEvent:
 	var chosen: StringName = _next_moves.get(actor.character_id, &"")
 	_next_moves.erase(actor.character_id)
 	var resolution: CombatSliceOpportunityResult = CombatSliceOpportunityExecutor.execute_opportunity(
-		actor, bindings, random_source, effect_registry, &"", chosen, _modifiers,
+		actor, bindings, random_source, effect_registry, &"", chosen, _modifiers, courage,
 	)
 	var selection: CombatOpponentSelectionResult = resolution.opponent_selection_result
 	var target_id: StringName = _encounter.current_target_for(actor.character_id)

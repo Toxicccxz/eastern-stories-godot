@@ -135,6 +135,7 @@ static func restore(
 	state.seen_npcs = snapshot.seen_npcs.duplicate()
 	state.journal = snapshot.journal.duplicate()
 	state.known_items = snapshot.known_items.duplicate()
+	state.known_moves = snapshot.known_moves.duplicate()
 	state.milestones = snapshot.milestones.duplicate()
 	state.quests = snapshot.quests.duplicate()
 	for deed: DeedLog.Deed in snapshot.deeds:

@@ -43,6 +43,29 @@ func _test_action_records() -> void:
 	var catalog: ContentCatalog = GameContent.catalog()
 	var liuh: SkillDefinition = catalog.skill(&"liuh-ken")
 	_assert_true(liuh != null and liuh.action_set().actions().size() == 4 and liuh.action_set().actions().all(func(action: CombatActionDefinition) -> bool: return action.tag != CombatMoveTags.NONE and not action.display_name.is_empty()), "柳家拳's four moves are tagged and named")
+	# 战斗决策层 4: every school's moves are tagged, each school with at least three tags.
+	var schools: int = 0
+	var untagged: Array[String] = []
+	var narrow: Array[String] = []
+	for skill_id: StringName in catalog.skill_ids():
+		var set: CombatActionSet = catalog.skill(skill_id).action_set()
+		if set == null:
+			continue
+		schools += 1
+		var kinds: Dictionary[StringName, bool] = {}
+		for action: CombatActionDefinition in set.actions():
+			if action.tag == CombatMoveTags.NONE:
+				untagged.append(String(action.action_id))
+			kinds[action.tag] = true
+		if kinds.size() < 3:
+			narrow.append(String(skill_id))
+	_assert_true(schools >= 16 and untagged.is_empty(), "every move of the %d schools carries a tag: %s" % [schools, untagged])
+	_assert_true(narrow.is_empty(), "each school uses at least three tags: %s" % [narrow])
+	for skill_type: StringName in catalog.combat_actions().weapon_skill_types():
+		for action: CombatActionDefinition in catalog.combat_actions().weapon_action_set(skill_type).actions():
+			if action.tag == CombatMoveTags.NONE:
+				untagged.append(String(action.action_id))
+	_assert_true(untagged.is_empty() and catalog.combat_actions().race_action_set(&"human").actions().all(func(action: CombatActionDefinition) -> bool: return action.tag != CombatMoveTags.NONE), "the weapons' verbs and the five fists too")
 
 
 func _test_chosen_move_draws_nothing() -> void:

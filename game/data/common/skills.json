@@ -168,41 +168,48 @@
 			"actions": [
 				{
 					"id": "chun-feng-fu-ren-zui",
+					"tag": "heavy",
 					"action": "$N使一招「春风拂人醉」，手中$w轻飘飘地向$n的$l斩去！",
 					"damage": 200,
 					"damage_type": "割伤"
 				},
 				{
 					"id": "yuan-shan-ban-ren-chi",
+					"tag": "quick",
 					"action": "$N金刃劈风，$w随著一招「远山伴人痴」由下而上撩往$n的$l",
 					"damage": 40,
 					"damage_type": "割伤"
 				},
 				{
 					"id": "fei-hua-zhu-ren-xiang",
+					"tag": "feint",
 					"action": "$N身形一转，一招「飞花逐人香」$w刀光不定，斩向$n的$l",
 					"damage": 20,
 					"damage_type": "割伤"
 				},
 				{
 					"id": "liu-ye-sui-ren-xiao",
+					"tag": "quick",
 					"action": "$N舞动$w，一招「柳叶随人笑」迅捷无伦地劈向$n的$l",
 					"damage_type": "擦伤"
 				},
 				{
 					"id": "qian-ying-re-ren-lian",
+					"tag": "feint",
 					"action": "$N手中$w一晃，一招「倩影惹人怜」往$n的$l斜斜砍出一刀",
 					"damage": 40,
 					"damage_type": "擦伤"
 				},
 				{
 					"id": "lu-xue-sui-ren-ying",
+					"tag": "heavy",
 					"action": "$N提刀过肩，蓄劲发力，一招「芦雪碎人影」直劈$n$l",
 					"damage": 40,
 					"damage_type": "擦伤"
 				},
 				{
 					"id": "cai-die-zhuo-ren-yi",
+					"tag": "guard",
 					"action": "$N移步侧身，使一招「彩蝶灼人衣」刀光霍霍斩向$n的$l",
 					"damage": 40,
 					"damage_type": "擦伤"
@@ -452,36 +459,42 @@
 			"actions": [
 				{
 					"id": "san-qing-gui-zhen",
+					"tag": "feint",
 					"action": "$N一招「三清归真」，手中$w挽起几个剑花，刺向$n的$l",
 					"damage": 40,
 					"damage_type": "刺伤"
 				},
 				{
 					"id": "zhong-shi-hu-you",
+					"tag": "guard",
 					"action": "$N身形一变，一招「众士护佑」，$w罩向$n的$l",
 					"damage": 30,
 					"damage_type": "刺伤"
 				},
 				{
 					"id": "tian-ren-he-yi",
+					"tag": "quick",
 					"action": "$N挥动$w，一招「天人合一」挟著闪闪剑光袭向$n的$l",
 					"damage": 50,
 					"damage_type": "刺伤"
 				},
 				{
 					"id": "qun-mo-pi-yi",
+					"tag": "heavy",
 					"action": "$N手中$w一抡，使出「群魔辟易」往$n的$l恶狠狠的砍去",
 					"damage": 40,
 					"damage_type": "刺伤"
 				},
 				{
 					"id": "xi-chu-zi-guan",
+					"tag": "quick",
 					"action": "$N一招「西出紫关」，$w一带，轻轻划向$n$l",
 					"damage": 20,
 					"damage_type": "刺伤"
 				},
 				{
 					"id": "qian-kun-yi-zhi",
+					"tag": "heavy",
 					"action": "$N身剑合一，幻化成一道光华，一招「乾坤一掷」扑向$n",
 					"damage": 150,
 					"damage_type": "刺伤"
@@ -571,42 +584,49 @@
 			"actions": [
 				{
 					"id": "da-tian-luo-shi-you",
+					"tag": "quick",
 					"action": "$N使出一招「大天罗式」，右掌穿出击向$n的$l",
 					"force": 200,
 					"damage_type": "瘀伤"
 				},
 				{
 					"id": "da-tian-luo-shi-zuo",
+					"tag": "feint",
 					"action": "$N使出一招「大天罗式」，左掌化虚为实击向$n的$l",
 					"force": 170,
 					"damage_type": "瘀伤"
 				},
 				{
 					"id": "xiao-tian-luo-shi",
+					"tag": "quick",
 					"action": "$N使出天邪掌法「小天罗式」，如鬼魅般欺至$n身前，一掌拍向$n的$l",
 					"force": 150,
 					"damage_type": "瘀伤"
 				},
 				{
 					"id": "xue-yang-san-lian-yue",
+					"tag": "heavy",
 					"action": "$N双掌一错，使出「雪阳三连月」，对准$n的$l连续拍出三掌",
 					"force": 260,
 					"damage_type": "瘀伤"
 				},
 				{
 					"id": "ling-dong-wu-fang-gu",
+					"tag": "guard",
 					"action": "$N左掌画了个圈圈，右掌推出，一招「灵动五方鼓」击向$n$l",
 					"force": 240,
 					"damage_type": "瘀伤"
 				},
 				{
 					"id": "feng-lei-qi-xing-duan",
+					"tag": "feint",
 					"action": "$N使出「风雷七星断」，身形散作七处同时向$n的$l出掌攻击",
 					"force": 280,
 					"damage_type": "瘀伤"
 				},
 				{
 					"id": "qi-han-jiu-chong-tian",
+					"tag": "heavy",
 					"action": "$N吐气扬声，一招「气撼九重天」双掌并力推出",
 					"force": 320,
 					"damage_type": "瘀伤"
@@ -639,35 +659,41 @@
 			"actions": [
 				{
 					"id": "qun-mo-luan-wu",
+					"tag": "heavy",
 					"action": "$N使一招「群魔乱舞」，手中$w狂风骤雨般地向$n的$l连攻数剑",
 					"damage": 170,
 					"damage_type": "刺伤"
 				},
 				{
 					"id": "li-gui-chan-shen",
+					"tag": "guard",
 					"action": "$N身形一转，一招「厉鬼缠身」$w斩向$n的$l",
 					"damage": 60,
 					"damage_type": "刺伤"
 				},
 				{
 					"id": "bai-gui-ye-xing",
+					"tag": "quick",
 					"action": "$N舞动$w，一招「百鬼夜行」挟著闪闪剑光刺向$n的$l",
 					"damage_type": "刺伤"
 				},
 				{
 					"id": "e-gui-lan-lu",
+					"tag": "guard",
 					"action": "$N手中$w一抖，使出「饿鬼拦路」往$n的$l刺出一剑",
 					"damage": 40,
 					"damage_type": "刺伤"
 				},
 				{
 					"id": "gui-ying-chuang-chuang",
+					"tag": "feint",
 					"action": "$N手中$w剑光暴长，一招「鬼影幢幢」往$n$l刺去",
 					"damage": 120,
 					"damage_type": "刺伤"
 				},
 				{
 					"id": "qiu-fen-gui-chang",
+					"tag": "quick",
 					"action": "$N手中$w直指$n$l，一招「秋坟鬼唱」发出逼人剑气刺去",
 					"damage": 50,
 					"damage_type": "刺伤"
@@ -802,24 +828,28 @@
 			"actions": [
 				{
 					"id": "tian-guang-zha-xian",
+					"tag": "quick",
 					"action": "$N使一招「天光乍现」，手中$w扫向$n下盘！",
 					"damage": 40,
 					"damage_type": "挫伤"
 				},
 				{
 					"id": "yu-hou-chu-qing",
+					"tag": "heavy",
 					"action": "$N挥起$w，一招「雨後初晴」攻向$n$l！",
 					"damage": 40,
 					"damage_type": "挫伤"
 				},
 				{
 					"id": "fu-yun-xie-yi",
+					"tag": "feint",
 					"action": "$N横过手中$w，使出「浮云写意」击向$n$l！",
 					"damage": 40,
 					"damage_type": "挫伤"
 				},
 				{
 					"id": "you-long-chuan-yun",
+					"tag": "guard",
 					"action": "$N使出一招「游龙穿云」，$w一挺撞向$n$l！",
 					"damage": 40,
 					"damage_type": "挫伤"
@@ -848,24 +878,28 @@
 			"actions": [
 				{
 					"id": "tian-guang-zha-xian",
+					"tag": "quick",
 					"action": "$N使一招「天光乍现」，手中$w扫向$n下盘！",
 					"damage": 40,
 					"damage_type": "挫伤"
 				},
 				{
 					"id": "yu-hou-chu-qing",
+					"tag": "heavy",
 					"action": "$N挥起$w，一招「雨後初晴」攻向$n$l！",
 					"damage": 40,
 					"damage_type": "挫伤"
 				},
 				{
 					"id": "fu-yun-xie-yi",
+					"tag": "feint",
 					"action": "$N横过手中$w，使出「浮云写意」击向$n$l！",
 					"damage": 40,
 					"damage_type": "挫伤"
 				},
 				{
 					"id": "you-long-chuan-yun",
+					"tag": "guard",
 					"action": "$N使出一招「游龙穿云」，$w一挺撞向$n$l！",
 					"damage": 40,
 					"damage_type": "挫伤"
@@ -959,6 +993,7 @@
 			"actions": [
 				{
 					"id": "ju-lou-cai-yue",
+					"tag": "quick",
 					"action": "$N左手一挥，一招「菊楼采月」右手点向$n$l",
 					"force": 80,
 					"damage_type": "刺伤",
@@ -966,6 +1001,7 @@
 				},
 				{
 					"id": "xue-qiao-jian-mei",
+					"tag": "feint",
 					"action": "$N使一招「雪桥翦梅」，身影忽前忽後，突然一转身左手往$n的$l点去",
 					"force": 90,
 					"damage_type": "刺伤",
@@ -973,6 +1009,7 @@
 				},
 				{
 					"id": "liu-ting-zan-hua",
+					"tag": "heavy",
 					"action": "$N身法稍顿，左手一扬使出「柳亭簪花」往$n的$l点去",
 					"force": 140,
 					"damage_type": "刺伤",
@@ -980,6 +1017,7 @@
 				},
 				{
 					"id": "tao-fen-pu-die",
+					"tag": "guard",
 					"action": "只见$N纤腰一摆，陡然滑出数尺，右手顺著来势一招「桃坟扑蝶」往$n的$l点去",
 					"force": 90,
 					"damage_type": "刺伤",
@@ -1009,36 +1047,42 @@
 			"actions": [
 				{
 					"id": "han-feng-qi-xi",
+					"tag": "quick",
 					"action": "$N使一招「寒风起兮」，手中$w抖得笔直向$n的$l连刺数鞭",
 					"damage": 30,
 					"damage_type": "刺伤"
 				},
 				{
 					"id": "man-tian-fei-xue",
+					"tag": "feint",
 					"action": "$N身形一转，一招「漫天飞雪」$w幻出满天鞭影，虚虚实实地袭向$n的$l",
 					"damage": 20,
 					"damage_type": "瘀伤"
 				},
 				{
 					"id": "xue-hua-pian-pian",
+					"tag": "feint",
 					"action": "$N力贯$w，一招「雪花翩翩」点点鞭影飘浮不定地点向$n的$l",
 					"damage": 25,
 					"damage_type": "刺伤"
 				},
 				{
 					"id": "ji-xue-san-chi",
+					"tag": "guard",
 					"action": "$N手中$w一抖，一招「积雪三尺」以一个怪异的角度往$n下盘卷去",
 					"damage": 30,
 					"damage_type": "瘀伤"
 				},
 				{
 					"id": "kuang-feng-zhou-xue",
+					"tag": "heavy",
 					"action": "$N手中一紧，使招「狂风骤雪」，手里$w一鞭接著一鞭不停地抽向$n的$l",
 					"damage": 100,
 					"damage_type": "鞭伤"
 				},
 				{
 					"id": "feng-xue-jiao-jia",
+					"tag": "heavy",
 					"action": "$N一招「风雪交加」手中$w舞出一片鞭影扫向$n全身",
 					"damage": 150,
 					"damage_type": "瘀伤"
@@ -1107,34 +1151,40 @@
 			"actions": [
 				{
 					"id": "hui-guang-huan-dian",
+					"tag": "quick",
 					"action": "$N使一招「回光幻电」，手中$w幻一条疾光刺向$n的$l",
 					"damage": 30,
 					"damage_type": "刺伤"
 				},
 				{
 					"id": "feng-shuang-sui-ying",
+					"tag": "heavy",
 					"action": "$N使出天山雪影剑中的「风霜碎影」，$w连挥剑光霍霍斩向$n的$l",
 					"damage": 30,
 					"damage_type": "割伤"
 				},
 				{
 					"id": "can-yang-zhao-xue",
+					"tag": "guard",
 					"action": "$N一招「残阳照雪」，纵身飘开数尺，手中$w斩向$n的$l",
 					"damage": 20,
 					"damage_type": "割伤"
 				},
 				{
 					"id": "bing-gu-chu-hong",
+					"tag": "quick",
 					"action": "$N手中$w中宫直进，一式「冰谷初虹」对准$n的$l刺出一剑",
 					"damage_type": "刺伤"
 				},
 				{
 					"id": "chang-kong-lei-yin",
+					"tag": "feint",
 					"action": "$N纵身一跃，手中$w一招「长空雷隐」对准$n的$l斜斜刺出一剑",
 					"damage_type": "刺伤"
 				},
 				{
 					"id": "duan-shi-lang-yan",
+					"tag": "heavy",
 					"action": "$N的$w凭空一指，一招「断石狼烟」刺向$n的$l",
 					"damage": 40,
 					"damage_type": "刺伤"
@@ -1210,23 +1260,27 @@
 			"actions": [
 				{
 					"id": "mu-xue-san-tan",
+					"tag": "quick",
 					"action": "$N使一招「暮雪三叹」，手中$w急如骤雨般地刺向$n$l",
 					"damage": 60,
 					"damage_type": "刺伤"
 				},
 				{
 					"id": "chu-zi-nong-di",
+					"tag": "feint",
 					"action": "$N身形一晃，一招「处子弄笛」向$n$l刺出一剑",
 					"damage": 80,
 					"damage_type": "刺伤"
 				},
 				{
 					"id": "yang-gu-bai-lian",
+					"tag": "guard",
 					"action": "$N舞动$w，一招「阳谷白练」挟著闪闪剑光刺向$n的$l",
 					"damage_type": "刺伤"
 				},
 				{
 					"id": "xun-rong-zhu-dian",
+					"tag": "heavy",
 					"action": "$N手中$w一个圈转，使出「薰容逐电」中锋直进刺向$n的$l",
 					"damage": 100,
 					"damage_type": "刺伤"
@@ -1263,42 +1317,49 @@
 			"actions": [
 				{
 					"id": "du-long-pu-zhou",
+					"tag": "quick",
 					"action": "$N左掌微分，右手一长使出一招「毒龙扑舟」，抓向$n的$l",
 					"force": 160,
 					"damage_type": "抓伤"
 				},
 				{
 					"id": "cuan-guo-shou",
+					"tag": "heavy",
 					"action": "$N倏地一个转身，双手一翻「撺锅手」直掼$n$l",
 					"force": 140,
 					"damage_type": "瘀伤"
 				},
 				{
 					"id": "cuo-hui-shou",
+					"tag": "feint",
 					"action": "$N身子微斜，随即跨出一步，左手忽掌忽爪使出「撮灰手」，拍向$n的$l",
 					"force": 120,
 					"damage_type": "瘀伤"
 				},
 				{
 					"id": "qing-she-shi-duan-jin",
+					"tag": "guard",
 					"action": "$N使出「青蛇十段锦」，双手滑溜异常对准$n的$l抓去",
 					"force": 140,
 					"damage_type": "抓伤"
 				},
 				{
 					"id": "liang-shang-jun-zi",
+					"tag": "feint",
 					"action": "$N左手虚晃，右掌飘飘，一招「梁上君子」击向$n$l",
 					"force": 150,
 					"damage_type": "瘀伤"
 				},
 				{
 					"id": "bo-cao-xun-lv",
+					"tag": "heavy",
 					"action": "$N使出「拨草寻履」，凌空跃起，冷不防在落地前对准$n$l踢出一脚",
 					"force": 180,
 					"damage_type": "瘀伤"
 				},
 				{
 					"id": "sui-gun-shang-shen",
+					"tag": "quick",
 					"action": "$N右手在$n$l划过，随後一招「随棍上身」左爪又向同一方位抓到",
 					"force": 100,
 					"damage_type": "抓伤"
@@ -1318,41 +1379,48 @@
 			"actions": [
 				{
 					"id": "dui-jiu-dang-ge",
+					"tag": "heavy",
 					"action": "$N使一招「对酒当歌」，手中$w风似地向$n的$l斩去！",
 					"damage": 70,
 					"damage_type": "割伤"
 				},
 				{
 					"id": "ren-sheng-ji-he",
+					"tag": "quick",
 					"action": "$N弯刀似月，$w随著一招「人生几何」由下而上撩往$n的$l",
 					"damage": 40,
 					"damage_type": "割伤"
 				},
 				{
 					"id": "pi-ru-zhao-lu",
+					"tag": "feint",
 					"action": "$N身形一转，一招「譬如朝露」$w如朝露闪烁，斩向$n的$l",
 					"damage": 20,
 					"damage_type": "割伤"
 				},
 				{
 					"id": "qu-ri-ku-duo",
+					"tag": "guard",
 					"action": "$N舞动$w，一招「去日苦多」往$n的$l斜斜砍出一刀",
 					"damage_type": "割伤"
 				},
 				{
 					"id": "kai-dang-yi-kang",
+					"tag": "quick",
 					"action": "$N手中$w一晃，一招「慨当以慷」迅捷无伦地劈向$n的$l",
 					"damage": 70,
 					"damage_type": "割伤"
 				},
 				{
 					"id": "you-si-nan-wang",
+					"tag": "heavy",
 					"action": "$N提气丹田，身型咋展，一招「忧思难忘」直劈$n$l",
 					"damage": 30,
 					"damage_type": "割伤"
 				},
 				{
 					"id": "he-yi-jie-you",
+					"tag": "guard",
 					"action": "$N移步侧身，使一招「何以解忧」刀光霍霍斩向$n的$l",
 					"damage": 50,
 					"damage_type": "割伤"
@@ -1402,36 +1470,42 @@
 			"actions": [
 				{
 					"id": "ku-hai-duan-wu-ya",
+					"tag": "feint",
 					"action": "$N使出一招「苦海端无涯」，左掌虚幌，右掌穿出击向$n的$l",
 					"force": 50,
 					"damage_type": "瘀伤"
 				},
 				{
 					"id": "di-yu-si-you-men",
+					"tag": "quick",
 					"action": "$N使出一招「地狱似有门」，左掌化虚为实击向$n的$l",
 					"force": 70,
 					"damage_type": "瘀伤"
 				},
 				{
 					"id": "tian-tang-que-wu-lu",
+					"tag": "guard",
 					"action": "$N使出密宗大手印中的「天堂却无路」，一掌拍向$n的$l",
 					"force": 50,
 					"damage_type": "瘀伤"
 				},
 				{
 					"id": "mi-zong-wei-du-zun",
+					"tag": "heavy",
 					"action": "$N双掌一错，使出「密宗为独尊」，对准$n的$l连续拍出",
 					"force": 160,
 					"damage_type": "瘀伤"
 				},
 				{
 					"id": "wan-nian-jie-shi-kong",
+					"tag": "guard",
 					"action": "$N左掌立于胸前，右掌推出，一招「万念皆是空」击向$n$l",
 					"force": 140,
 					"damage_type": "瘀伤"
 				},
 				{
 					"id": "fo-yun-yi-sha-zhi-sha",
+					"tag": "heavy",
 					"action": "$N使出「佛云以杀止杀」，身形凌空飞起，从空中当头向$n的$l出掌攻击",
 					"force": 280,
 					"damage_type": "瘀伤"
@@ -1476,41 +1550,48 @@
 			"actions": [
 				{
 					"id": "yang-bian",
+					"tag": "quick",
 					"action": "$N手中$w一扬，一招「扬鞭」自下而上撩向$n的$l！",
 					"damage": 70,
 					"damage_type": "割伤"
 				},
 				{
 					"id": "hui-ma",
+					"tag": "feint",
 					"action": "$N身子一拧，一招「回马」$w反手撩出，刀光从$n的$l掠过",
 					"damage": 40,
 					"damage_type": "割伤"
 				},
 				{
 					"id": "zhan-jiang",
+					"tag": "quick",
 					"action": "$N矮身一刀，一招「斩缰」$w贴地撩向$n的$l",
 					"damage": 20,
 					"damage_type": "割伤"
 				},
 				{
 					"id": "juan-sha",
+					"tag": "feint",
 					"action": "$N$w一抖，一招「卷沙」刀风卷起地上的沙土，斜斜撩往$n的$l",
 					"damage_type": "割伤"
 				},
 				{
 					"id": "ta-xue",
+					"tag": "heavy",
 					"action": "$N踏步欺进，一招「踏雪」$w由肩上撩落，直取$n的$l",
 					"damage": 70,
 					"damage_type": "割伤"
 				},
 				{
 					"id": "po-zhen",
+					"tag": "heavy",
 					"action": "$N大喝一声，一招「破阵」$w连撩三刀，刀刀奔$n的$l",
 					"damage": 30,
 					"damage_type": "割伤"
 				},
 				{
 					"id": "gui-qiao",
+					"tag": "guard",
 					"action": "$N手腕一翻，一招「归鞘」$w收势时顺手一撩，刀背扫过$n的$l",
 					"damage": 50,
 					"damage_type": "割伤"

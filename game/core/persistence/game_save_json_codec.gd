@@ -150,8 +150,8 @@ func _encode_character(value: Values.CharacterStateSnapshot) -> Dictionary[Strin
 		result["pace"] = String(value.pace)
 	# The 任务 page's entries, the items carried (百科), the 历练 ledger and the quests, in
 	# order: written only when there are some.
-	for field: String in ["journal", "known_items", "milestones", "quests"]:
-		var counts: Dictionary[String, int] = value.journal if field == "journal" else value.known_items if field == "known_items" else value.milestones if field == "milestones" else value.quests
+	for field: String in ["journal", "known_items", "known_moves", "milestones", "quests"]:
+		var counts: Dictionary[String, int] = value.journal if field == "journal" else value.known_items if field == "known_items" else value.known_moves if field == "known_moves" else value.milestones if field == "milestones" else value.quests
 		if not counts.is_empty():
 			var written: Dictionary[String, Variant] = {}
 			for key: String in counts:
@@ -438,7 +438,7 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 		fields.append("marks")
 	if value is Dictionary and value.has("timed_applies"):
 		fields.append("timed_applies")
-	for optional: String in ["quest", "vendetta", "applies", "seen_npcs", "journal", "known_items", "milestones", "quests", "deeds", "bounty", "counters", "ghost", "pace"]:
+	for optional: String in ["quest", "vendetta", "applies", "seen_npcs", "journal", "known_items", "known_moves", "milestones", "quests", "deeds", "bounty", "counters", "ghost", "pace"]:
 		if value is Dictionary and value.has(optional):
 			fields.append(optional)
 	var object: Dictionary = _obj(value, path, fields)
@@ -519,6 +519,9 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 	var known_items: Dictionary[String, int] = {}
 	if object.has("known_items"):
 		known_items = _decode_counts(object["known_items"], path + ".known_items")
+	var known_moves: Dictionary[String, int] = {}
+	if object.has("known_moves"):
+		known_moves = _decode_counts(object["known_moves"], path + ".known_moves")
 	var milestones: Dictionary[String, int] = {}
 	if object.has("milestones"):
 		milestones = _decode_counts(object["milestones"], path + ".milestones")
@@ -550,7 +553,7 @@ func _decode_character(value: Variant, path: String) -> Values.CharacterStateSna
 	if object.has("bounty"):
 		bounty = _decode_bounty(object["bounty"], path + ".bounty")
 	if _error: return null
-	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen).with_journal(journal, known_items).with_counters(counters).with_ghost(ghost).with_milestones(milestones).with_bounty(bounty).with_pace(pace).with_quests(quests).with_deeds(deeds)
+	return Values.CharacterStateSnapshot.new(StringName(_string(object["gender"], path + ".gender")), attributes, _decode_track(resources.get("gin"), path + ".resources.gin"), _decode_track(resources.get("kee"), path + ".resources.kee"), _decode_track(resources.get("sen"), path + ".resources.sen"), internal_resources, progression, skills, conditions, family, apprenticeship, affiliation).with_marks(marks).with_timed_applies(timed).with_quest(quest).with_vendetta(vendetta).with_applies(applies).with_seen_npcs(seen).with_journal(journal, known_items).with_known_moves(known_moves).with_counters(counters).with_ghost(ghost).with_milestones(milestones).with_bounty(bounty).with_pace(pace).with_quests(quests).with_deeds(deeds)
 
 
 ## A non-empty list of deeds (DeedLog), each {did, where?, seen_by?}.

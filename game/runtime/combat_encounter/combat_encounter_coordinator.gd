@@ -390,9 +390,30 @@ func next_move_tag(actor_id: StringName) -> StringName:
 	return _active_scheduler.next_move_tag(actor_id, _session.encounter_combat_bindings(_active_encounter))
 
 
+## The move `actor_id` will use next (npc_telegraph), null when none is known.
+func next_move(actor_id: StringName) -> CombatActionDefinition:
+	if _active_scheduler == null or _active_encounter == null:
+		return null
+	return _active_scheduler.next_move(actor_id, _session.encounter_combat_bindings(_active_encounter))
+
+
+## Whether `actor_id` will guard on its next beat instead (DECISIONS「战斗内容」: fight()'s
+## courage draw taken with the move).
+func next_move_guards(actor_id: StringName) -> bool:
+	return _active_scheduler != null and _active_scheduler.next_move_guards(actor_id)
+
+
 ## The special `actor_id` announced for its next beat, "" when none.
 func pending_special_label(actor_id: StringName) -> String:
 	return "" if _active_scheduler == null else _active_scheduler.pending_special_label(actor_id)
+
+
+## 战斗决策层 4: an NPC's fight style (its own, or its race's default), null for none.
+func _style_of_npc(character_id: StringName) -> CombatStyle:
+	var npc: NpcRuntimeState = _resident_npc(character_id)
+	if npc == null or npc.definition() == null:
+		return null
+	return GameContent.catalog().combat_styles().style_of(npc.definition())
 
 
 func change_player_target(request: CombatTargetRequest) -> CombatTargetResult:
@@ -800,6 +821,7 @@ func start(trigger: CombatTrigger) -> CombatEncounterStartResult:
 			trigger,
 		)
 	scheduler.configure_decisions(GameContent.catalog().pacing().decision_rules())
+	scheduler.configure_styles(_style_of_npc)
 	## NPC-only scripted encounters retain CXR3 behavior, with no player queue API.
 	if encounter.participant_for(_session.player_runtime().character_id) != null:
 		scheduler.configure_player_tactics(_session.player_runtime().character_id, _tactical_registry)

@@ -70,6 +70,10 @@ var knockout: BattleKnockoutProjection:
 ## when none is known; the special it announced for its next beat, "" when none.
 var next_move_tag: StringName = &""
 var telegraph: String = ""
+## 战斗决策层 4 (DECISIONS「战斗内容」): whether the player reads that move's tag (识招; false:
+## 「起手：？」), and whether this one will guard on its next beat instead (「起手：守势」).
+var next_move_known: bool = true
+var next_move_guard: bool = false
 ## 战斗决策层 2 (DECISIONS「战斗界面」): the conditions on this one (ConditionIds, from
 ## state.conditions), whether they have spells mapped (法力 / 灵力 shown on the player's card
 ## only then or with a mana maximum), and the 战前预判 of the player against this one alone

@@ -102,7 +102,9 @@ what it finds is fixed in step 2. What waits for it is listed in [STATUS](STATUS
    hours' enemies by tier); 1B 决策 is done (DECISIONS「战斗决策」: the round that waits for the player, the move chosen with 快 / 重 / 虚 /
    守 and their counters, the enemy's next move shown, the three stances, specials telegraphed and cooled down); 包 2 界面 and 包 3 演出
    are done (DECISIONS「战斗界面」「战斗演出」: the cards, the short lines, the move titles, floats, shakes, falls and the 胜 / 败 stamp);
-   next 包 4 内容 (the move tags for the other schools, the specials' frequency, the fights of the first two hours).
+   包 4 内容 is done (DECISIONS「战斗内容」: every school's moves tagged, the NPCs' fight styles and the specials' rest, 识招 and the
+   见识录, the courage draw shown as 守势, the first two hours' fights measured again). The decision layer is complete; what is left is
+   the owner's playtest (STATUS 待试玩).
 3. **The 游戏圣经 → [剧情总纲](../design/剧情总纲.md).** The canon (three creative baselines, the
    false tomb, timeline, politics, geography), the main story (prologue, ten chapters, finale), the
    twelve faction lines, the five new regions and the style guide are that one document; its §9

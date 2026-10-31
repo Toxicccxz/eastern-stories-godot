@@ -86,7 +86,18 @@ func _enemy_card(tree: SceneTree) -> void:
 	check(card.status_text() == "忙 2 · 毒 · 醉", "the tags: " + card.status_text())
 	check(card._intent.visible and card._intent.text == "起手：重 · 要出 「封」字诀", "起手 / 要出 on their own line: " + card._intent.text)
 	var hover: String = card.target_button.tooltip_text
-	check(hover.begins_with("选为目标：野狗\n占优：你比它强一些。") and hover.contains("蛇毒：") and hover.contains("醉了：") and hover.ends_with(CombatMoveTags.description(CombatMoveTags.HEAVY)), "the hover explains the word and every tag: " + hover)
+	check(hover.begins_with("选为目标：野狗\n占优：你比它强一些。") and hover.contains("蛇毒：") and hover.contains("醉了：") and hover.contains(CombatMoveTags.description(CombatMoveTags.HEAVY)) and hover.ends_with("破绽：快招可破。"), "the hover explains the word, every tag and the move's weakness: " + hover)
+	# 识招 (战斗决策层 4): a move not read yet is 「？」; one who will guard says 守势.
+	dog.next_move_known = false
+	card.present(dog, &"p", &"n")
+	check(card._intent.text == "起手：？ · 要出 「封」字诀" and card.target_button.tooltip_text.ends_with("还没看熟这一招。") and not card.target_button.tooltip_text.contains("破绽"), "not watched enough: 起手：？, no weakness told: " + card._intent.text)
+	dog.next_move_guard = true
+	card.present(dog, &"p", &"n")
+	check(card._intent.text == "起手：守势 · 要出 「封」字诀" and card.target_button.tooltip_text.contains("打空了就反击"), "fight()'s gate failed: 起手：守势, the riposte explained: " + card._intent.text)
+	dog.next_move_guard = false
+	dog.next_move_known = true
+	card.present(dog, &"p", &"n")
+	check(card._intent.text == "起手：重 · 要出 「封」字诀", "read again")
 	check(card._status.tooltip_text == "\n".join(BattleConditionTags.descriptions([ConditionIds.SNAKE_POISON, ConditionIds.DRUNK])), "the tags' own hover")
 	check((card.get_theme_stylebox("panel") as StyleBoxFlat).border_color == BattleParticipantCard.GOLD and card.modulate == Color.WHITE, "the current target: gold, not dimmed")
 	check(card._vitality.fill_color() == BattleVitalityBar.BAND_COLORS[BattleVitalityBar.Band.HEAVY] and is_equal_approx(card._vitality.crack_from(), 0.7), "40 of 100 fills orange, the crack from 70")

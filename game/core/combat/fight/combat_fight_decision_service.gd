@@ -4,11 +4,17 @@ extends RefCounted
 const GUARD_PRESENTATION_COUNT: int = 5
 
 
+## `predrawn` (DECISIONS「战斗内容」): the courage draw taken a beat early for this victim and
+## bound; spent here instead of a draw when it still matches, else ignored. `ordered`: the
+## player's own order for this round (a chosen move under player_turns) is carried out: no
+## courage draw, a REGULAR attack, as fight()'s attack branch (guarding off).
 static func decide(
 	facts: CombatFightDecisionFacts,
 	attacker_relationship: CombatRelationshipState,
 	victim_relationship: CombatRelationshipState,
 	random_source: CombatRandomSource,
+	predrawn: CombatPredrawnCourage = null,
+	ordered: bool = false,
 ) -> CombatFightDecisionResult:
 	var result: CombatFightDecisionResult = CombatFightDecisionResult.new()
 	if facts != null:
@@ -83,6 +89,14 @@ static func decide(
 			attacker_relationship,
 			victim_relationship,
 		)
+	if ordered:
+		result._reached_stage = CombatFightDecisionResult.ReachedStage.REGULAR_BRANCH
+		return _prepare_attack_intent(
+			result,
+			CombatAttackType.Value.REGULAR,
+			attacker_relationship,
+			victim_relationship,
+		)
 
 	result._courage_random_reached = true
 	result._reached_stage = CombatFightDecisionResult.ReachedStage.COURAGE_RANDOM
@@ -91,7 +105,14 @@ static func decide(
 		result._outcome = CombatFightDecisionResult.Outcome.RANDOM_SOURCE_MISSING
 		result._failure_stage = CombatFightDecisionResult.FailureStage.COURAGE_RANDOM
 		return result
-	var courage_draw: int = _draw(random_source, result._courage_random_bound, result)
+	var courage_draw: int
+	if predrawn != null and predrawn.matches(facts.victim_id, result._courage_random_bound):
+		courage_draw = predrawn.draw
+		if result._courage_random_bound > 0:
+			result._random_upper_bounds.append(result._courage_random_bound)
+			result._random_draws.append(courage_draw)
+	else:
+		courage_draw = _draw(random_source, result._courage_random_bound, result)
 	result._courage_random_attempted = result._courage_random_bound > 0
 	result._courage_random_draw = courage_draw
 	if not _valid_draw(courage_draw, result._courage_random_bound):

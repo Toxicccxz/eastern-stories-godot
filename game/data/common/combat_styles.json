@@ -1,0 +1,34 @@
+{
+	"combat_styles": [
+		{
+			"id": "steady",
+			"name": "稳健",
+			"default_for": ["human"]
+		},
+		{
+			"id": "burst",
+			"name": "爆发",
+			"weights": {"heavy": 2},
+			"cooldown": 2,
+			"hurt_below": 60,
+			"hurt_cooldown": 1
+		},
+		{
+			"id": "guarded",
+			"name": "守势",
+			"weights": {"guard": 2, "feint": 2},
+			"cooldown": 4,
+			"hurt_below": 60,
+			"hurt_weights": {"guard": 3, "feint": 2}
+		},
+		{
+			"id": "beast",
+			"name": "兽",
+			"weights": {"quick": 2},
+			"specials": false,
+			"hurt_below": 60,
+			"hurt_weights": {"heavy": 3},
+			"default_for": ["beast"]
+		}
+	]
+}

@@ -21,8 +21,13 @@ func opportunity(event: CombatSchedulerEvent, cast: BattlePresentationProjection
 	var lines: Array[BattleNarrationLine] = []
 	if event.kind == CombatSchedulerEvent.Kind.NPC_CHAT and event.chat != null:
 		if event.chat.special() != null:
-			return special(event.chat.special(), cast)
-		return seen(event.chat.lines(), cast)
+			return special(event.chat.special(), cast, event.chat.special_label())
+		lines = seen(event.chat.lines(), cast)
+		# A special that attacked nobody (柳绘心's 「封」字诀 seen through): still her special,
+		# titled on her card by the name she announced (DECISIONS「战斗内容」).
+		if not lines.is_empty() and not event.chat.special_label().is_empty():
+			lines[0].with_special(event.actor_id, event.chat.special_label())
+		return lines
 	if event.kind == CombatSchedulerEvent.Kind.SPECIAL_EFFECT_ENDED and event.special != null:
 		return special(event.special, cast)
 	if event.kind != CombatSchedulerEvent.Kind.ORDINARY_OPPORTUNITY_RESOLVED or event.resolution == null:

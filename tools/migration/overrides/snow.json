@@ -216,6 +216,7 @@
 		},
 		"snow.npc.annihir": { "accept_fight": [{ "say": "咦... 要打就真打吧，光是较量多没意思？", "accept": true, "kill": true }] },
 		"snow.npc.girl": {
+			"fight_style": "guarded",
 			"accept_fight": [
 				{ "family": "family.fonxan", "gender": "女性", "say": "师姐！别整天想著练功嘛，我们去花园摘花儿玩嘛？", "accept": false },
 				{ "family": "family.fonxan", "say": "我才不要，你们去找李教头练吧！", "accept": false },

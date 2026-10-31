@@ -61,7 +61,7 @@ func _test_turns_and_chosen_move() -> void:
 	var f: Fixtures.SchedulerFixture = _fixture()
 	_check(f.scheduler.waiting_for_player(f.bindings), "the clock waits before the first order")
 	var waited: CombatSchedulerAdvanceResult = _advance(f, 5.0)
-	_check(waited.outcome == CombatSchedulerAdvanceResult.Outcome.WAITING_FOR_PLAYER and waited.cycles_processed == 0 and f.scheduler.logical_cycle == 0 and f.random.call_count() == 1, "no order: no round, no time; the one draw is the enemy's first move (shown before the first order)")
+	_check(waited.outcome == CombatSchedulerAdvanceResult.Outcome.WAITING_FOR_PLAYER and waited.cycles_processed == 0 and f.scheduler.logical_cycle == 0 and f.random.call_count() == 2, "no order: no round, no time; the two draws are the enemy's first move and its courage (shown before the first order)")
 	var moves: Array[CombatActionDefinition] = f.scheduler.player_moves(f.bindings)
 	_check(moves.size() >= 2 and moves.all(func(move: CombatActionDefinition) -> bool: return move.tag != CombatMoveTags.NONE), "the player's moves (the sword's verbs), tagged: %d" % moves.size())
 	_check(not f.scheduler.choose_attack(&"not-a-move", f.bindings) and f.scheduler.waiting_for_player(f.bindings), "a move not in the set is refused")

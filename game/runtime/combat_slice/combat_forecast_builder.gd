@@ -61,8 +61,12 @@ static func for_one(map: WorldMapController, target: NpcRuntimeState) -> CombatF
 	return CombatForecast.estimate([out], [_attack(enemy, player)], [enemy.state.vitality.current], player.state.vitality.current, [_chance(player, enemy)], [_chance(enemy, player)])
 
 
-## fight()'s courage gate (CombatFightDecisionFacts) as a chance per round.
+## fight()'s courage gate (CombatFightDecisionFacts) as a chance per round. Under
+## player_turns with the 自动 switch off the player's orders carry (DECISIONS「战斗内容」):
+## their chance is 1; under 自动 the player fights as ES2, through the gate (Codex on #210).
 static func _chance(attacker: CombatSliceCharacterBinding, victim: CombatSliceCharacterBinding) -> float:
+	if attacker.is_user and GameContent.catalog().pacing().decision_rules().player_turns and BattlePace.manual_turns:
+		return 1.0
 	var facts: CombatFightDecisionFacts = CombatSliceProjectionBuilder.build_fight_facts(attacker, victim)
 	if facts == null:
 		return 1.0
