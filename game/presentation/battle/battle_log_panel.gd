@@ -51,7 +51,8 @@ func apply_metrics(metrics: SafeAreaMetrics) -> void:
 func append_entries(entries: Array[BattleFeedbackProjection]) -> void:
 	for entry: BattleFeedbackProjection in entries:
 		for line: BattleNarrationLine in entry.lines():
-			_text.append_text(line.rich_text() + "\n")
+			# DECISIONS「战斗界面」: a blow's short form first, ES2's line grey under it.
+			_text.append_text(line.log_rich_text() + "\n")
 
 
 func clear_entries() -> void:

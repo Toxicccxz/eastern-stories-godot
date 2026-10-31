@@ -10,6 +10,9 @@ signal spare_requested(participant_id: StringName)
 const FINISH_LABEL: String = "了结"
 # TRANSLATORS: the battle card of one who fell: the button that lets them live (the player's side strikes them no more).
 const SPARE_LABEL: String = "放过"
+## An enemy the player cannot pick now (DECISIONS「战斗界面」): the whole card dimmed.
+const DIM: Color = Color(0.55, 0.55, 0.55)
+const GOLD: Color = Color("efc77b")
 
 var target_button: Button
 var _participant_id: StringName
@@ -17,7 +20,7 @@ var _ordinary_border: StyleBoxFlat
 var _current_border: StyleBoxFlat
 
 var _title: Label
-var _vitality: ProgressBar
+var _vitality: BattleVitalityBar
 ## Who the card showed and their 气 then: the bar moves and the card flashes from it
 ## (DECISIONS「手感」: bar_tween_ms, hit_flash_ms, the setting 受击闪红).
 var _shown_id: StringName = &""
@@ -27,8 +30,12 @@ var _shown_resources: Array[BattleResourceProjection] = []
 var _bar: Tween
 var _flash: Tween
 const HIT_COLOR: Color = Color(1.0, 0.45, 0.42)
+## 气 N/N/N; 精 · 神 (the player's card); 内力 (· 法力 · 灵力) (the player's card).
 var _primary: Label
 var _secondary: Label
+var _powers: Label
+## 战斗决策层 2: the one-word tags — 忙 N, the conditions, 昏迷 / 死亡 — and nothing when
+## there is nothing to say.
 var _status: Label
 ## 战斗决策层 1B: the enemy's 起手 (the tag of its next move) and the special it announced.
 var _intent: Label
@@ -47,26 +54,24 @@ func _ready() -> void:
 	_ordinary_border.content_margin_left = 10
 	_ordinary_border.content_margin_right = 10
 	_current_border = _ordinary_border.duplicate() as StyleBoxFlat
-	_current_border.border_color = Color("efc77b")
+	_current_border.border_color = GOLD
 	_current_border.set_border_width_all(3)
 	var content := VBoxContainer.new()
 	content.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	content.add_theme_constant_override("separation", 0)
 	add_child(content)
 	_title = _label(content)
-	_title.add_theme_color_override("font_color", Color("efc77b"))
-	_vitality = ProgressBar.new()
-	_vitality.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_vitality.custom_minimum_size.y = 8
-	_vitality.show_percentage = false
+	_title.add_theme_color_override("font_color", GOLD)
+	_vitality = BattleVitalityBar.new()
+	_vitality.name = "Vitality"
 	content.add_child(_vitality)
 	_primary = _label(content)
 	_secondary = _label(content)
+	_powers = _label(content)
 	_status = _label(content)
 	_intent = _label(content)
 	_intent.add_theme_color_override("font_color", Color("f2d27a"))
 	_intent.visible = false
-	# One line: the 起手 / 要出 words take the status line's place when there are any.
 	choice_row = HBoxContainer.new()
 	choice_row.name = "KnockoutChoice"
 	choice_row.add_theme_constant_override("separation", 8)
@@ -91,55 +96,89 @@ func _ready() -> void:
 
 
 ## `hold_resources`: 气, 精 and 神 stay as shown (the blow's line is not told yet).
+## DECISIONS「战斗界面」: the player's card carries every track; an enemy's its 气 bar, its
+## name with the forecast's word, its tags and its 起手 / 要出; the current target is the gold
+## border, an enemy that cannot be picked is dimmed; the hover explains the tags.
 func present(value: BattleParticipantProjection, player_id: StringName, current_id: StringName, queued_id: StringName = &"", hold_resources: bool = false) -> void:
 	_participant_id = value.participant_id
+	var is_player: bool = value.participant_id == player_id
+	var knockout: BattleKnockoutProjection = value.knockout
 	target_button.disabled = not value.targetable
-	target_button.tooltip_text = tr("选为目标：%s") % tr(value.display_name) if value.targetable else tr("不能选为目标")
-	var role: String = tr("你") if value.participant_id == player_id else tr("当前目标") if value.participant_id == current_id else tr("对手") if value.hostile_to_player else tr("参战")
+	var role: String
+	if is_player:
+		# TRANSLATORS: the player's own battle card, after the name.
+		role = tr("你")
+	elif value.hostile_to_player:
+		# An enemy: the forecast's word (稳赢 … 必败) when the panel read one, else 对手.
+		role = CombatForecast.verdict_word(value.strength) if value.strength >= 0 else tr("对手")
+	else:
+		# TRANSLATORS: the battle card of one fighting beside the player (a 天将, a follower).
+		role = tr("参战")
 	_title.text = "%s · %s" % [tr(value.display_name), role]
-	_title.tooltip_text = _title.text
+	_title.tooltip_text = value.strength_line if not value.strength_line.is_empty() else _title.text
 	var border: StyleBoxFlat = _current_border if value.participant_id == current_id else _ordinary_border
 	if get_theme_stylebox("panel") != border:
 		add_theme_stylebox_override("panel", border)
+	modulate = DIM if value.hostile_to_player and not value.targetable and knockout == null else Color.WHITE
 	if not hold_resources or value.participant_id != _shown_id or _shown_resources.is_empty():
 		_show_resources(value.participant_id, [value.vitality, value.essence, value.spirit])
 	_primary.tooltip_text = "当前／有效／上限"
-	var powers: Dictionary = {
-		"force": value.force.current, "max_force": value.force.maximum, "factor": value.force_factor,
-		"mana": value.mana.current, "max_mana": value.mana.maximum,
-		"atman": value.atman.current, "max_atman": value.atman.maximum,
-	}
-	if value.participant_id == player_id:
-		# TRANSLATORS: the player's card; (+{factor}) is enforce.c's force_factor, as hp.c shows it.
-		_secondary.text = tr("内力 {force}/{max_force} (+{factor}) · 法力 {mana}/{max_mana} · 灵力 {atman}/{max_atman}").format(powers)
-	else:
-		_secondary.text = tr("内力 {force}/{max_force} · 法力 {mana}/{max_mana} · 灵力 {atman}/{max_atman}").format(powers)
-	_secondary.tooltip_text = _secondary.text
-	var states := PackedStringArray([
-		tr("已排定目标") if value.participant_id == queued_id else tr("点选为目标") if value.targetable else tr("不能选为目标"),
-		tr("可以行动") if value.available else tr("无法行动"),
-	])
+	_secondary.visible = is_player
+	_powers.visible = is_player
+	if is_player:
+		var powers: Dictionary = {
+			"force": value.force.current, "max_force": value.force.maximum, "factor": value.force_factor,
+			"mana": value.mana.current, "max_mana": value.mana.maximum,
+			"atman": value.atman.current, "max_atman": value.atman.maximum,
+		}
+		if value.has_spells or value.mana.maximum > 0:
+			# TRANSLATORS: the player's card; (+{factor}) is enforce.c's force_factor, as hp.c shows it; 法力 and 灵力 only with spells.
+			_powers.text = tr("内力 {force}/{max_force} (+{factor}) · 法力 {mana}/{max_mana} · 灵力 {atman}/{max_atman}").format(powers)
+		else:
+			# TRANSLATORS: the player's card without spells: 内力 alone; (+{factor}) is enforce.c's force_factor.
+			_powers.text = tr("内力 {force}/{max_force} (+{factor})").format(powers)
+		_powers.tooltip_text = _powers.text
+	# The tags: 忙 N, the conditions, then 昏迷 / 死亡 (and when they come to); 无法行动 only
+	# when none of those says why.
+	var states := PackedStringArray()
 	if value.busy_value != 0:
-		states.append(tr("忙碌 %d") % value.busy_value)
-	if value.life_status == CombatSliceLifeStatus.Value.DEAD or value.threshold == CharacterState.LifeThreshold.DEAD:
+		# TRANSLATORS: a battle card's tag: busy for %d more beats.
+		states.append(tr("忙 %d") % value.busy_value)
+	states.append_array(BattleConditionTags.labels(value.conditions))
+	var dead: bool = value.life_status == CombatSliceLifeStatus.Value.DEAD or value.threshold == CharacterState.LifeThreshold.DEAD
+	var unconscious: bool = value.life_status == CombatSliceLifeStatus.Value.UNCONSCIOUS or value.threshold == CharacterState.LifeThreshold.UNCONSCIOUS
+	if dead:
 		states.append(tr("死亡"))
-	elif value.life_status == CombatSliceLifeStatus.Value.UNCONSCIOUS or value.threshold == CharacterState.LifeThreshold.UNCONSCIOUS:
+	elif unconscious:
 		states.append(tr("昏迷"))
-	var knockout: BattleKnockoutProjection = value.knockout
 	if knockout != null:
 		states.append(tr("约 {n} 秒后醒来").format({"n": knockout.revive_seconds}))
+	if states.is_empty() and not value.available:
+		states.append(tr("无法行动"))
+	_status.text = " · ".join(states)
+	var explained := PackedStringArray(BattleConditionTags.descriptions(value.conditions))
+	_status.tooltip_text = "\n".join(explained)
 	var intents := PackedStringArray()
 	if not value.next_move_tag.is_empty():
 		# TRANSLATORS: an enemy's card: the tag of the move it will use next (起手式): 快 / 重 / 虚 / 守.
 		intents.append(tr("起手：%s") % CombatMoveTags.label(value.next_move_tag))
+		explained.append(CombatMoveTags.description(value.next_move_tag))
 	if not value.telegraph.is_empty():
 		# TRANSLATORS: an enemy's card: the special it announced for its next move ({move} carries its own 「」 when it has one).
 		intents.append(tr("要出 {move}").format({"move": value.telegraph}))
-	# The card stays one line: the states and the 起手 / 要出 words share the status line.
-	var intent_text: String = " · ".join(intents)
-	_status.text = " · ".join(states) if intent_text.is_empty() else "%s · %s" % [" · ".join(states), intent_text]
-	_status.tooltip_text = (CombatMoveTags.description(value.next_move_tag) + "\n" if not value.next_move_tag.is_empty() else "") + _status.text
-	_intent.visible = false
+	_intent.text = " · ".join(intents)
+	_intent.visible = value.hostile_to_player
+	# The card's one hover (the target button covers it): what picking it does, the forecast,
+	# the tags' meanings.
+	var hover := PackedStringArray()
+	if value.participant_id == queued_id:
+		hover.append(tr("已排定目标"))
+	if value.targetable:
+		hover.append(tr("选为目标：%s") % tr(value.display_name))
+	if not value.strength_line.is_empty():
+		hover.append(value.strength_line)
+	hover.append_array(explained)
+	target_button.tooltip_text = "\n".join(hover)
 	_present_choice(value, knockout)
 
 
@@ -200,14 +239,23 @@ func show_final_vitality(vitality: CharacterResourceState) -> void:
 
 func _show_resources(id: StringName, resources: Array[BattleResourceProjection]) -> void:
 	_vitality.max_value = maxf(1, resources[0].maximum) # Visual scale only; text retains exact values.
+	_vitality.effective = resources[0].effective
 	_show_vitality(id, resources[0].current)
 	_shown_resources = resources
-	_primary.text = tr("气 %s\n精 %s · 神 %s") % [_track(resources[0]), _track(resources[1]), _track(resources[2])]
+	# TRANSLATORS: a battle card's 气 line: current/effective/maximum.
+	_primary.text = tr("气 %s") % _track(resources[0])
+	# TRANSLATORS: the player's card: 精 and 神, each current/effective/maximum.
+	_secondary.text = tr("精 %s · 神 %s") % [_track(resources[1]), _track(resources[2])]
 
 
 ## The 气 bar's value now (the tween's, while it moves).
 func vitality_shown() -> float:
 	return _vitality.value
+
+
+## The tags line as shown (tests).
+func status_text() -> String:
+	return _status.text
 
 
 func _request_target() -> void:

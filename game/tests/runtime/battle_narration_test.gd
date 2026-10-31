@@ -217,7 +217,8 @@ func _spar_in_snow(tree: SceneTree) -> void:
 		winners.append(message.replace("$N", "武馆弟子").replace("$n", "你"))
 	check(lines.back() in winners, "the spar ends on winner_msg %s" % str(lines.slice(-4)))
 	var log_text: String = ui.log_panel._text.get_parsed_text()
-	check(log_text.contains(lines.back()) and log_text.contains("（-"), "the panel's log has the winner line and grey damage")
+	# DECISIONS「战斗界面」: a blow's short form (who · move → whom −N) first, ES2's line grey under it.
+	check(log_text.contains(lines.back()) and log_text.contains(" → ") and log_text.contains(" −"), "the panel's log has the winner line and the blows' short forms")
 	# The modern numbers let the player win the spar: the 历练 lines may follow 切磋结束。.
 	check(session.shared_ui().log_lines().slice(-3).any(func(line: String) -> bool: return line.begins_with("切磋结束。\n")), "the world log closes with 切磋结束。 and the last lines: %s" % [session.shared_ui().log_lines().slice(-3)])
 	session.free()

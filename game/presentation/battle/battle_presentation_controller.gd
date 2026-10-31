@@ -26,6 +26,9 @@ var _reader := BattleFeedbackReader.new()
 var _projection := BattlePresentationProjection.new()
 var _displayed_id: StringName = &""
 var _reported_completion_id: StringName = &""
+## DECISIONS「战斗界面」: each enemy's 战前预判, read once when it first stands in the fight
+## and kept until the fight ends (null: nothing could be read).
+var _strengths: Dictionary[StringName, BattleStrength] = {}
 var _safe: SafeAreaPresenter
 var _content: VBoxContainer
 var _participants: HBoxContainer
@@ -174,8 +177,12 @@ func feedback_reader() -> BattleFeedbackReader:
 
 func refresh_projection() -> void:
 	_present_completed_result()
-	_projection = BattleProjectionBuilder.build(_session)
+	_projection = BattleProjectionBuilder.build(_session, _strengths)
 	var changed: bool = _displayed_id != _projection.encounter_id
+	if changed:
+		_strengths.clear()
+	if _projection.active and _read_strengths():
+		_projection = BattleProjectionBuilder.build(_session, _strengths)
 	if changed:
 		_displayed_id = _projection.encounter_id
 		log_panel.close_log()
@@ -235,6 +242,20 @@ func refresh_projection() -> void:
 		var focused: Control = get_viewport().gui_get_focus_owner()
 		if focused == null or not focused.is_visible_in_tree():
 			_focus_battle()
+
+
+## The 战前预判 of each enemy not read yet (the fight's first frame, one who joined later):
+## the player against that one alone, as the map stands now. True when any was read.
+func _read_strengths() -> bool:
+	var map := _session.active_map() as WorldMapController
+	var read: bool = false
+	for value: BattleParticipantProjection in _projection.participants():
+		if not value.hostile_to_player or _strengths.has(value.participant_id):
+			continue
+		var npc: NpcRuntimeState = null if map == null else map.find_resident_npc(value.participant_id)
+		_strengths[value.participant_id] = BattleStrength.read(map, npc, tr(Es2CombatMessages.pronoun(value.gender)))
+		read = true
+	return read
 
 
 func _present_completed_result() -> void:
@@ -452,8 +473,14 @@ func _present_recent(lines: Array[BattleNarrationLine]) -> void:
 		var row: Node = _recent.get_child(index)
 		var line: BattleNarrationLine = lines[index] if index < lines.size() else null
 		var text: RichTextLabel = row.get_node("Text")
-		text.text = "" if line == null else _fitted(line, text, text.size.x).rich_text()
-		text.tooltip_text = "" if line == null else line.text
+		if line == null:
+			text.text = ""
+			text.tooltip_text = ""
+			continue
+		# DECISIONS「战斗界面」: a blow's short form in the strip, ES2's line on hover.
+		var shown: BattleNarrationLine = BattleNarrationLine.new(line.summary, -1, line.color) if line.has_summary else line
+		text.text = _fitted(shown, text, text.size.x).rich_text()
+		text.tooltip_text = line.text + ((" " + tr("（-%d）") % line.damage) if line.has_damage else "")
 
 
 ## The line cut short with an ellipsis so that it and its damage fit `width` (the row's
@@ -715,7 +742,9 @@ func _focus_battle() -> void:
 	if action_panel.is_asking():
 		action_panel.prompt.focus_default()
 		return
-	var first: Button = action_panel.first_action_button()
+	# 等你出招: the first move (DECISIONS「战斗界面」), else the first quick action.
+	var move: Button = action_panel.first_move_button() if _projection.waiting and _projection.manual else null
+	var first: Button = move if move != null else action_panel.first_action_button()
 	(first if first != null else log_button).grab_focus()
 
 
