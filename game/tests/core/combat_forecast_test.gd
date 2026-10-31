@@ -43,6 +43,11 @@ func _test_gates_and_damage() -> void:
 	var against_weapon: CombatAttackInput = _input(10, 10, 0, 0, 20, 20, false, true, 10)
 	_assert_true(absf(CombatForecast.parry_gate(against_weapon) - 200.0 / 400.0) < 0.001, "bare hands against a weapon: parry doubled (100 × 2)")
 	var gapped: CombatAttackInput = _input(10, 10, 0, 600)
+	var spring: CombatActionSet = CombatActionSet.new([
+		CombatActionDefinition.new(&"first", 200, 0, &"砍伤"), CombatActionDefinition.new(&"second", 0, 0, &"砍伤"), CombatActionDefinition.new(&"third", 40, 0, &"砍伤"),
+	])
+	var moves: CombatAttackInput = CombatAttackInput.new(even.attacker, even.defender, spring.action_at(0), spring, _rules)
+	_assert_true(absf(CombatForecast.expected_damage(moves) - (14.75 * (3.0 + 1.0 + 1.4) / 3.0 + 14.75)) < 0.001, "averaged over the selectable moves (+200, 0, +40 on the apply damage), not the first alone: %f" % CombatForecast.expected_damage(moves))
 	_assert_true(absf(CombatForecast.experience_multiplier(gapped) - 0.6) < 0.001, "0 against 600 under MODERN: 40 % off")
 
 

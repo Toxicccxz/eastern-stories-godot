@@ -741,7 +741,9 @@ func would_join(target: NpcRuntimeState) -> Array[NpcRuntimeState]:
 	for npc: NpcRuntimeState in _map.npcs.residents:
 		if npc == target or not npc.exists_in_map or npc.life_status != CharacterRuntimeLifeStatus.Value.ACTIVE:
 			continue
-		if not npc.definition().attacks_on_sight(npc.flags(), _player.state, _parley(), _ignored(npc)):
+		# The player's own 攻击 brings the room down on them, whoever took them for one of
+		# their own: ignored=false, as collect_complete_combat_entry() evaluates a manual start.
+		if not npc.definition().attacks_on_sight(npc.flags(), _player.state, _parley(), false):
 			continue
 		if aggression._evaluate(npc, _player, _combat_allowed(npc)).outcome != NpcAggressionDecision.Outcome.READY:
 			continue

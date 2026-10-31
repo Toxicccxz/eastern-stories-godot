@@ -199,19 +199,33 @@ static func _power(defender: CombatDefenderSnapshot, level: int, rules: CombatPo
 
 
 ## E[(d + random(d)) / 2] with the action's damage percent, plus E[(str + random(str)) / 2],
-## then the experience defense's expected share.
+## averaged over the actions the fight may select (the input's approved set: random(n) picks
+## any of them; Codex on #206), then the experience defense's expected share.
 static func expected_damage(input: CombatAttackInput) -> float:
 	var attacker: CombatAttackerSnapshot = input.attacker
+	var approved: CombatActionSet = input.approved_actions()
+	var actions: Array[CombatActionDefinition] = []
+	if approved != null and not approved.is_empty():
+		actions = approved.actions()
+	else:
+		actions.append(input.selected_action)
+	var total: float = 0.0
+	for action: CombatActionDefinition in actions:
+		total += _action_damage(attacker, action)
+	return maxf(0.0, total / float(actions.size()) * experience_multiplier(input))
+
+
+static func _action_damage(attacker: CombatAttackerSnapshot, action: CombatActionDefinition) -> float:
 	var damage: float = _half_with_draw(attacker.projected_apply_damage)
-	var action: CombatActionDefinition = input.selected_action
 	if action != null and action.damage_percent != 0:
 		damage += float(action.damage_percent) * damage / 100.0
 	var strength: int = CombatMath.effective_strength(attacker.strength_projection)
 	if action != null and action.force_percent != 0:
+		@warning_ignore("integer_division")
 		strength += action.force_percent * strength / 100
 	if strength > 0:
 		damage += _half_with_draw(strength)
-	return maxf(0.0, damage * experience_multiplier(input))
+	return damage
 
 
 ## E[(n + random(n)) / 2] = (n + (n - 1) / 2) / 2 for n > 0.
