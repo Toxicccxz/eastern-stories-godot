@@ -51,12 +51,14 @@ func summary_rich_text() -> String:
 	return escaped
 
 
-## What the battle log panel prints: the short form with the full line small and grey
-## under it when there is one, else the full line.
+## What the battle log panel prints: the short form with the full line (its damage at its
+## end, as everywhere) small and grey under it when there is one, else the full line.
 func log_rich_text() -> String:
 	if not has_summary:
 		return rich_text()
-	return "%s\n[color=#8b959e][font_size=12]%s[/font_size][/color]" % [summary_rich_text(), _escape(_text)]
+	# TRANSLATORS: the full battle line under its short form in the log: {line} and its damage.
+	var full: String = _escape(_text) if not has_damage else TranslationServer.translate("{line}（-{damage}）").format({"line": _escape(_text), "damage": _damage})
+	return "%s\n[color=#8b959e][font_size=12]%s[/font_size][/color]" % [summary_rich_text(), full]
 
 
 static func _escape(text: String) -> String:

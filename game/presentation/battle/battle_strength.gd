@@ -27,4 +27,8 @@ static func read(map: WorldMapController, npc: NpcRuntimeState, pronoun: String)
 	var forecast: CombatForecast = CombatForecastBuilder.for_one(map, npc)
 	if forecast == null:
 		return null
-	return BattleStrength.new(forecast.verdict, TranslationServer.translate(forecast.line()).format({"pronoun": pronoun, "count": 1}))
+	# The verdict and the reason are two messages: each translated on its own.
+	var text: String = TranslationServer.translate(CombatForecast.VERDICT_LINES[forecast.verdict])
+	if forecast.reason != CombatForecast.Reason.NONE:
+		text += TranslationServer.translate(CombatForecast.REASON_LINES[forecast.reason])
+	return BattleStrength.new(forecast.verdict, text.format({"pronoun": pronoun, "count": 1}))

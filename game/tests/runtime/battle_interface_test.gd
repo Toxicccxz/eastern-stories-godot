@@ -104,6 +104,8 @@ func _enemy_card(tree: SceneTree) -> void:
 	var bound: BattleParticipantProjection = _one(&"b", "弟子", true, false, true, 50, 50, 100)
 	card.present(bound, &"p", &"n")
 	check(card.status_text() == "无法行动", "no tag says why: 无法行动: " + card.status_text())
+	card.present(bound, &"p", &"n", &"b")
+	check(card.status_text() == "已排定目标 · 无法行动", "the planned action's target reads a tag: " + card.status_text())
 	card.free()
 
 
@@ -124,7 +126,7 @@ func _summaries() -> void:
 	var word: String = BattleVitalityBar.band_word(status.ratio)
 	check(lines.size() >= 2 and lines[1].summary == "学徒 · 荒山虎吟 → 对手 −%d · %s" % [damage, word], "the hit's short form: " + (lines[1].summary if lines.size() >= 2 else ""))
 	check(lines.size() >= 2 and lines[1].text == Es2CombatMessages.damage_message(damage, "瘀伤").replace("$N", "学徒").replace("$p", "她").replace("$n", "对手").replace("$l", "右脚") and lines[1].damage == damage, "ES2's line stays as it was")
-	check(lines.size() >= 2 and lines[1].log_rich_text().begins_with(lines[1].summary_rich_text() + "\n[color=#8b959e][font_size=12]") and lines[1].log_rich_text().contains(lines[1].text), "the log: the short form, then ES2's line grey under it")
+	check(lines.size() >= 2 and lines[1].log_rich_text().begins_with(lines[1].summary_rich_text() + "\n[color=#8b959e][font_size=12]") and lines[1].log_rich_text().contains(lines[1].text + "（-%d）" % damage), "the log: the short form, then ES2's line with its damage grey under it")
 	check(lines.size() >= 3 and not lines[0].has_summary and not lines[2].has_summary and lines[0].log_rich_text() == lines[0].rich_text(), "the action line and the status line have no short form")
 	var dodge := Martial.execute(Martial.binding(&"actor"), Martial.binding(&"target"), Draws.new([0, 0, 0]))
 	var dodged: Array[BattleNarrationLine] = BattleNarrator.new(Narration._seeded(1)).attack_chain(dodge, null, cast)

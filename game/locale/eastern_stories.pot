@@ -6833,6 +6833,11 @@ msgstr ""
 msgid "{line} [color=#8b959e][font_size=12]（-{damage}）[/font_size][/color]"
 msgstr ""
 
+#. the full battle line under its short form in the log: {line} and its damage.
+#: presentation/battle/battle_narration_line.gd
+msgid "{line}（-{damage}）"
+msgstr ""
+
 #. the player's turn passes: the one they fight is unseen (a ghost).
 #: presentation/battle/battle_narrator.gd
 msgid "你看不见对手，无从下手。"
@@ -6887,6 +6892,10 @@ msgstr ""
 msgid "内力 {force}/{max_force} (+{factor})"
 msgstr ""
 
+#: presentation/battle/battle_participant_card.gd
+msgid "已排定目标"
+msgstr ""
+
 #. a battle card's tag: busy for %d more beats.
 #: presentation/battle/battle_participant_card.gd
 msgid "忙 %d"
@@ -6916,10 +6925,6 @@ msgstr ""
 #. an enemy's card: the special it announced for its next move ({move} carries its own 「」 when it has one).
 #: presentation/battle/battle_participant_card.gd
 msgid "要出 {move}"
-msgstr ""
-
-#: presentation/battle/battle_participant_card.gd
-msgid "已排定目标"
 msgstr ""
 
 #: presentation/battle/battle_participant_card.gd

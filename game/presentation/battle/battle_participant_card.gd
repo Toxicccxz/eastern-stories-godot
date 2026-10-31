@@ -141,6 +141,9 @@ func present(value: BattleParticipantProjection, player_id: StringName, current_
 	# The tags: 忙 N, the conditions, then 昏迷 / 死亡 (and when they come to); 无法行动 only
 	# when none of those says why.
 	var states := PackedStringArray()
+	if value.participant_id == queued_id:
+		# The planned action's target when it is not the current one (the gold border).
+		states.append(tr("已排定目标"))
 	if value.busy_value != 0:
 		# TRANSLATORS: a battle card's tag: busy for %d more beats.
 		states.append(tr("忙 %d") % value.busy_value)
@@ -153,7 +156,7 @@ func present(value: BattleParticipantProjection, player_id: StringName, current_
 		states.append(tr("昏迷"))
 	if knockout != null:
 		states.append(tr("约 {n} 秒后醒来").format({"n": knockout.revive_seconds}))
-	if states.is_empty() and not value.available:
+	if not value.available and value.busy_value == 0 and not dead and not unconscious:
 		states.append(tr("无法行动"))
 	_status.text = " · ".join(states)
 	var explained := PackedStringArray(BattleConditionTags.descriptions(value.conditions))
@@ -171,8 +174,6 @@ func present(value: BattleParticipantProjection, player_id: StringName, current_
 	# The card's one hover (the target button covers it): what picking it does, the forecast,
 	# the tags' meanings.
 	var hover := PackedStringArray()
-	if value.participant_id == queued_id:
-		hover.append(tr("已排定目标"))
 	if value.targetable:
 		hover.append(tr("选为目标：%s") % tr(value.display_name))
 	if not value.strength_line.is_empty():
